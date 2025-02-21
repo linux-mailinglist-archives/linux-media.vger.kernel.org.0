@@ -1,129 +1,118 @@
-Return-Path: <linux-media+bounces-26571-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26573-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83EB3A3F378
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 12:55:26 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32A29A3F3BA
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 13:06:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2DA6A3BCCB6
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 11:55:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9AEAB424162
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 12:05:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46BA420A5D1;
-	Fri, 21 Feb 2025 11:55:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9399120ADCA;
+	Fri, 21 Feb 2025 12:04:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="PEwTXyFW"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="itZNQzEJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96196202C5D
-	for <linux-media@vger.kernel.org>; Fri, 21 Feb 2025 11:55:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 541711F3FE2;
+	Fri, 21 Feb 2025 12:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740138913; cv=none; b=bz1Kd9l/g3r+UMAiZf9ynlmX56RU/x10jd6eWj/XnGEZtc868n8sJup52Ht39TuORG0C+7rgQB/9yUYgDFFPSXBPdpliwWKg36tEwf+4FC4SfpshlvhhUrAitHy8y/apDiIzAH3vIfhA4mw8idRERtbPVgd3/HRuUfvnRlYmRPc=
+	t=1740139440; cv=none; b=AcbDyLXqNSrivrp1pAmfbynNPmv+9lkMZvzKSW4lZ+5F9NgUnpCBvYWiuDycuCn4N1IAtLGviKhS+UR4nBZa9OqFnfbsR23aSRm03Eru/l+jRhxUPnRJIEmzFYn6TD5cVVEHeosjmZekILIta05yzEPTaEaXrPcw4XbdKbSh6fA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740138913; c=relaxed/simple;
-	bh=o9hQaggU3Tdo3Rs75yT1Fva2Gn/BPjhpQH2KzuyJ2gg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=X1tmn3T+lqzg2Zlh6Z9FQ8fWdXQ/dGPw3TMXaoFRzlQp9ov/tjyFJeGV1PXfRiXsCJ5AZNVMQkRTykWxeWp/3BZ1SGglaVWNbO6UewuR3nDjOZS5waWWVMX/BnoJbhrSibCsQEytjx3sbOjFFgAU1+E/9ri3/IP2Y06xu/XzC2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk; spf=pass smtp.mailfrom=rasmusvillemoes.dk; dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b=PEwTXyFW; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rasmusvillemoes.dk
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-30797730cbdso19816181fa.3
-        for <linux-media@vger.kernel.org>; Fri, 21 Feb 2025 03:55:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rasmusvillemoes.dk; s=google; t=1740138909; x=1740743709; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3/iRbyF06sKBSuXAXawsdJPOX5Xxar4Ru2tRuKb6D2o=;
-        b=PEwTXyFWcoHXeYuZSt6B89z7njQlQ9r6soBg6Axpyt8IaMsdAiV4tja9DltEeEcY9N
-         6bCcWqagByNttbz+14oOH6YO4YRQgrCU+6/mtn6Ggk0nJeM0i/sj6zJaZEZQAd8PUTKP
-         OG6xYHq0atNlMJ8NfDdAWaDl9VVAkMXcF8MZ8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740138909; x=1740743709;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3/iRbyF06sKBSuXAXawsdJPOX5Xxar4Ru2tRuKb6D2o=;
-        b=OffVzQLbyFGufd8GqZwe3lKYymQ/gIoz3nqoQRuyF+aKCGYWnKfLndxsi3gWeK2eY0
-         ipbprkstC/WBtoDxBUlsl7Pbp0oKs1qwVs5P2/plHRXttU/aDWEycq5J8YqRqmVSwEbc
-         thxrz05Ud13oCrjkIHR22h9FNDKwY8ZVkeNJuT7vDzcIR/SUNOvysp7ju8dzY/CcKpWM
-         roSAo/RGDbnUh1EHp4UvEVSgu0fyRUZZcCnacGpRM8EQSx5082/CYq4avcnKlxVZJWcb
-         V8AuR/CffKF5uobzdcjCaGyfZHxJ5XmVrWsuH7tWKhLGNrPDTXnu4sMeqXJvSsHaCZn4
-         DSSg==
-X-Forwarded-Encrypted: i=1; AJvYcCWuzVNywZaQMwjp26M3G6rK2K5ROhz55tGB2gnD7ZDQrQtMN4G5Qv3YZ3Lhv40taV2glf3S+7txWsVw6A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx95IQEVKea/LjtDPf8RV4AURFnsJi59aHFmF53Og8IXm6UdBbL
-	N52UxcNAf8JpmyMCeTw+mkvGbJRelbfgdo1upTLrrk3wJ20510oyYShorApOf+jvySHP1p+12u7
-	I2ekJHeTivLRrvbHLO1yP/4DTfCF9JNeOs4voug==
-X-Gm-Gg: ASbGncvnT/JNjq/P6Cq8klAGIpNH4BPYOOuox+wbKWwlUAunFZD8ATj9oYriJXJjsv/
-	YH/gJ11t1EbTn6oPzRwo6CEtE8YOy/nJ3iBuZGnlpHfxMc/KwtFbjQ2TMhOULNkV3nDwa6kCCTY
-	saKvgv4d4=
-X-Google-Smtp-Source: AGHT+IGq/dIo+A2JknCfxBPtCWEXSb1e8s5WLFM0DZHAgz+xRkivavGxrBcVWQ1kfkiIjnKC8wn9G/O8JUziZ5NiZwc=
-X-Received: by 2002:a2e:9b97:0:b0:308:db61:34cf with SMTP id
- 38308e7fff4ca-30a59899cafmr8679651fa.14.1740138908700; Fri, 21 Feb 2025
- 03:55:08 -0800 (PST)
+	s=arc-20240116; t=1740139440; c=relaxed/simple;
+	bh=EWuGtEAVdo89vLGIJkk0lU+TxfWmCRisqmm9zC7355w=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=foOGcmeZAGx85yIFY23EYkPyXNQWGwkA8CviI4ODE+kzYeKAjefUp5fdCMm7rV9HveutIM+xWLHdhduD590XBNgTc6/7J02Dpr60VZsMgZAeB86C9i3I9V9KnEOH77pLi15zrqC2aEAyzvJp5t+qgPGzkrG8ZHtR+ilpsXI7igU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=itZNQzEJ; arc=none smtp.client-ip=198.47.19.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 51LC3iDC293312
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 21 Feb 2025 06:03:44 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1740139424;
+	bh=Bd1aWt5Tc3SPCkHKoWgLrJwWvXX7IDdI48En4MOA5HQ=;
+	h=From:To:CC:Subject:Date;
+	b=itZNQzEJZzcABo7Vi3NhWXgmwy0MCIJbMVBLlOQwWIslMrzBBvg5qYisfpJ2Aepes
+	 D2ZLQ3puapxxULFrIhSyy0VuGLKn6fp+akUgAa/kTSuvcAVQgJBM8wsxIy7tcAgeGJ
+	 PzMFmjsUNSe+GH3hClVnbEY8lvAvQds4pJAsKTM0=
+Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 51LC3iWI093977
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 21 Feb 2025 06:03:44 -0600
+Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 21
+ Feb 2025 06:03:44 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Fri, 21 Feb 2025 06:03:43 -0600
+Received: from abhilash-HP.dhcp.ti.com (abhilash-hp.dhcp.ti.com [172.24.227.115])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 51LC3d4n046967;
+	Fri, 21 Feb 2025 06:03:40 -0600
+From: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+To: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>
+CC: <mripard@kernel.org>, <mchehab@kernel.org>, <jai.luthra@linux.dev>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+        <devarsht@ti.com>, <vaishnav.a@ti.com>, <r-donadkar@ti.com>,
+        <u-kumar1@ti.com>, <y-abhilashchandra@ti.com>
+Subject: [PATCH v3 0/2] Enable support for error detection in CSI2RX
+Date: Fri, 21 Feb 2025 17:33:35 +0530
+Message-ID: <20250221120337.3920874-1-y-abhilashchandra@ti.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com> <98289BC4-D5E1-41B8-AC89-632DBD2C2789@live.com>
-In-Reply-To: <98289BC4-D5E1-41B8-AC89-632DBD2C2789@live.com>
-From: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Date: Fri, 21 Feb 2025 12:54:57 +0100
-X-Gm-Features: AWEUYZkag0YCbmK4501eSholWPOVfmEf5FjMGyae-nYt_GMpw1QMs3yS9iwYbxw
-Message-ID: <CAKwiHFi_nngthth0wZkaPviVeS+8SWDtTw6gJcDAHCqiwXAG2A@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] lib/vsprintf: Add support for generic FOURCCs by
- extending %p4cc
-To: Aditya Garg <gargaditya08@live.com>
-Cc: "pmladek@suse.com" <pmladek@suse.com>, Steven Rostedt <rostedt@goodmis.org>, 
-	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>, 
-	"senozhatsky@chromium.org" <senozhatsky@chromium.org>, Jonathan Corbet <corbet@lwn.net>, 
-	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>, 
-	"mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de" <tzimmermann@suse.de>, 
-	"airlied@gmail.com" <airlied@gmail.com>, "simona@ffwll.ch" <simona@ffwll.ch>, 
-	Andrew Morton <akpm@linux-foundation.org>, "apw@canonical.com" <apw@canonical.com>, 
-	"joe@perches.com" <joe@perches.com>, "dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>, 
-	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>, 
-	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>, 
-	"christian.koenig@amd.com" <christian.koenig@amd.com>, Kerem Karabay <kekrby@gmail.com>, 
-	Aun-Ali Zaidi <admin@kodeit.net>, Orlando Chamberlain <orlandoch.dev@gmail.com>, 
-	Atharva Tiwari <evepolonium@gmail.com>, 
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, 
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
-	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, Hector Martin <marcan@marcan.st>, 
-	"linux@armlinux.org.uk" <linux@armlinux.org.uk>, Asahi Linux Mailing List <asahi@lists.linux.dev>, 
-	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On Fri, 21 Feb 2025 at 12:37, Aditya Garg <gargaditya08@live.com> wrote:
->
-> From: Hector Martin <marcan@marcan.st>
->
-> %p4cc is designed for DRM/V4L2 FOURCCs with their specific quirks, but
-> it's useful to be able to print generic 4-character codes formatted as
-> an integer. Extend it to add format specifiers for printing generic
-> 32-bit FOURCCs with various endian semantics:
->
-> %p4ch   Host-endian
-> %p4cl   Little-endian
-> %p4cb   Big-endian
-> %p4cr   Reverse-endian
->
-> The endianness determines how bytes are interpreted as a u32, and the
-> FOURCC is then always printed MSByte-first (this is the opposite of
-> V4L/DRM FOURCCs). This covers most practical cases, e.g. %p4cr would
-> allow printing LSByte-first FOURCCs stored in host endian order
-> (other than the hex form being in character order, not the integer
-> value).
->
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> Signed-off-by: Aditya Garg <gargaditya08@live.com>
+This patch series enables the csi2rx_err_irq interrupt to record any errors
+that occur during streaming. It also adds support for the VIDIOC_LOG_STATUS
+ioctl, which outputs the current device status to the kernel log.
 
-Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+The IRQ handler records any errors encountered during streaming.
+Additionally, VIDIOC_LOG_STATUS can be invoked from user space to retrieve
+the latest status.
+
+Changelog:
+Changes in v3:
+- Address Krzysztof's review comment to drop minItems from the bindings.
+- Collect Acked-by from Krzysztof.
+- Address Jai's review comment to enable FIFO overflow bits in the mask 
+  only for the source pads that have an active remote.
+- Drop TI-specific interrupt and have support for only two interrupts 
+  that are common across all vendors.
+- Address Changhuang's review to use pdev directly to get the interrupt.
+- Set the interrupt mask register only if the interrupt is defined in the DT.
+
+V1: https://lore.kernel.org/all/20250217130013.2802293-1-y-abhilashchandra@ti.com/
+
+Logs with interrupt in DT: https://gist.github.com/Yemike-Abhilash-Chandra/5bd2dfb4219686ddf389e94d563a2ab1
+Logs without interrupt in DT: https://gist.github.com/Yemike-Abhilash-Chandra/31d8c840b5a4f677fde88373defed2cb 
+
+
+Yemike Abhilash Chandra (2):
+  dt-bindings: media: cdns,csi2rx.yaml: Add optional interrupts for
+    cdns-csi2rx
+  media: cadence: csi2rx: Enable csi2rx_err_irq interrupt and add
+    support for VIDIOC_LOG_STATUS
+
+ .../bindings/media/cdns,csi2rx.yaml           |   8 ++
+ drivers/media/platform/cadence/cdns-csi2rx.c  | 125 ++++++++++++++++++
+ 2 files changed, 133 insertions(+)
+
+-- 
+2.34.1
+
 
