@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-26578-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26579-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8A3A3F405
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 13:19:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C45DAA3F433
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 13:27:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8275D19C13E4
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 12:19:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9DD17176B82
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 12:27:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B513720AF85;
-	Fri, 21 Feb 2025 12:18:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1078320AF74;
+	Fri, 21 Feb 2025 12:27:22 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55C95155336;
-	Fri, 21 Feb 2025 12:18:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5AE5209F2E;
+	Fri, 21 Feb 2025 12:27:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740140286; cv=none; b=Pd/tvT1EAT45LXtvmABccn4Xox1iDoNSoy6GQORq1XGUMhkZLkfIGlUkb1bl0KQJ2QEfx0gCI6Cjk0GtaVU1aSABbiGRu7UNhjTMN10kewtknhyP9Y6iy9dMhFK8qi6o7Ws670ovKHd9OL3YfLCWynnVuAmlDoPDD/HgeK3K0uw=
+	t=1740140841; cv=none; b=dqBhHsbBvEtnhlBJ0k8Y+PQEDvw7HUujpxx0Qgyol9+oSAS9GerwZY+KiO9q4tIYWL2XIK2t+2foaKDx5DX71AnoOoXreOGxZuROjlTtxCRwDm7xBJ9qSCNRboafeNry25/bOLfUXxZhJpfLoeiuuOxSbFkUfrncDbGiX/TDGHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740140286; c=relaxed/simple;
-	bh=NLQWaa80tOvBh6IiKZSELjUKIjjvaf5SFJm3FYBVDC0=;
+	s=arc-20240116; t=1740140841; c=relaxed/simple;
+	bh=lZoHxOGcfy3q2OL6Eli0jg/KBp4T/ELGKhLw5xt4kgw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UEUXttPjFRblTojHbkmxfIL2IrUy+DTz9G9bJJGAAmfUI1RbvQv5Xh2V0GRw/rmja8YZHA6aXVJEkirEHG0dcXqhYDMOd8aWHLc15QBSDWsZs0zKuzq/CTx8L1urXtj3CUZ3M14iNy6j/myp9CuMZvFBjIOLT9gITADgqKbDiO8=
+	 In-Reply-To:Content-Type; b=WBVTHE6DwwKyT+7iyDCNBQ9dMy2RM+wCOvcb9YidcRp3FM09pHEP50rh4IwfCAwRn8EtstbEE+tTgLvGlnOdJnW9RcXPKcoq8Ba7JkIr15ovAh8nP5aIxGceNn8QQ6Gbni+JJrjS5vJ4VMn15DcplIywQ53xURRCv8TqT7kl4io=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FFE1C4CED6;
-	Fri, 21 Feb 2025 12:18:03 +0000 (UTC)
-Message-ID: <f2b80558-40bd-4823-a43f-96d46e036bd2@xs4all.nl>
-Date: Fri, 21 Feb 2025 13:18:02 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D893DC4CED6;
+	Fri, 21 Feb 2025 12:27:18 +0000 (UTC)
+Message-ID: <310e5f92-e4d9-4127-afff-9566ba8a075e@xs4all.nl>
+Date: Fri, 21 Feb 2025 13:27:17 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,7 +38,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 09/11] media: cx231xx: Replace s_ctrl with s_ext_ctrls
+Subject: Re: [PATCH v2 00/11] media: Remove vidioc_g/s_ctrl and
+ vidioc_queryctrl callbacks
 To: Ricardo Ribalda <ribalda@chromium.org>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Mike Isely <isely@pobox.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -49,7 +50,6 @@ To: Ricardo Ribalda <ribalda@chromium.org>,
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-staging@lists.linux.dev
 References: <20241210-queryctrl-v2-0-c0a33d69f416@chromium.org>
- <20241210-queryctrl-v2-9-c0a33d69f416@chromium.org>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -95,76 +95,64 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <20241210-queryctrl-v2-9-c0a33d69f416@chromium.org>
+In-Reply-To: <20241210-queryctrl-v2-0-c0a33d69f416@chromium.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 10/12/2024 10:28, Ricardo Ribalda wrote:
-> The v4l2 ioctl framework can provide support for s_ctrl. This the last
-> driver implementing s_ctrl.
+> Most of the drivers use the control framework or can use the superset
+> version of these callbacks: vidioc_g/s_ext_ctrl and
+> vidioc_query_ext_ctrl.
 > 
 > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
->  drivers/media/usb/cx231xx/cx231xx-417.c | 21 ++++++++++++++-------
->  1 file changed, 14 insertions(+), 7 deletions(-)
+> Changes in v2:
+> - v4l2_query_ext_ctrl_to_v4l2_queryctrl
+> - Fix conversion (Thanks Hans)
+> - Link to v1: https://lore.kernel.org/r/20241209-queryctrl-v1-0-deff7acfcdcb@chromium.org
 > 
-> diff --git a/drivers/media/usb/cx231xx/cx231xx-417.c b/drivers/media/usb/cx231xx/cx231xx-417.c
-> index a4a9781328c5..3c1941709ebf 100644
-> --- a/drivers/media/usb/cx231xx/cx231xx-417.c
-> +++ b/drivers/media/usb/cx231xx/cx231xx-417.c
-> @@ -1538,17 +1538,24 @@ static int vidioc_s_std(struct file *file, void *priv, v4l2_std_id id)
->  	return 0;
->  }
->  
-> -static int vidioc_s_ctrl(struct file *file, void *priv,
-> -				struct v4l2_control *ctl)
-> +static int cx231xx_s_ext_ctrls(struct file *file, void *priv,
-> +			       struct v4l2_ext_controls *ctls)
->  {
->  	struct cx231xx *dev = video_drvdata(file);
-> +	struct v4l2_control ctl;
->  	struct v4l2_subdev *sd;
-> +	unsigned int i;
->  
-> -	dprintk(3, "enter vidioc_s_ctrl()\n");
-> +	dprintk(3, "enter vidioc_s_ext_ctrl()\n");
->  	/* Update the A/V core */
-> -	v4l2_device_for_each_subdev(sd, &dev->v4l2_dev)
-> -		v4l2_s_ctrl(NULL, sd->ctrl_handler, ctl);
-> -	dprintk(3, "exit vidioc_s_ctrl()\n");
-> +	for (i = 0; i < ctls->count; i++) {
-> +		ctl.id = ctls->controls[i].id;
-> +		ctl.value = ctls->controls[i].value;
-> +		v4l2_device_for_each_subdev(sd, &dev->v4l2_dev)
-> +			v4l2_s_ctrl(NULL, sd->ctrl_handler, &ctl);
-> +		ctls->controls[i].value = ctl.value;
-> +	}
-> +	dprintk(3, "exit vidioc_s_ext_ctrl()\n");
->  	return 0;
->  }
->  
-> @@ -1627,7 +1634,7 @@ static const struct v4l2_ioctl_ops mpeg_ioctl_ops = {
->  	.vidioc_enum_input	 = cx231xx_enum_input,
->  	.vidioc_g_input		 = cx231xx_g_input,
->  	.vidioc_s_input		 = cx231xx_s_input,
-> -	.vidioc_s_ctrl		 = vidioc_s_ctrl,
-> +	.vidioc_s_ext_ctrls	 = cx231xx_s_ext_ctrls,
+> ---
+> Ricardo Ribalda (11):
+>       media: ioctl: Simulate v4l2_queryctrl with v4l2_query_ext_ctrl
+>       media: pvrusb2: Convert queryctrl to query_ext_ctrl
+>       media: pvrusb2: Remove g/s_ctrl callbacks
+>       media: uvcvideo: Remove vidioc_queryctrl
+>       media: atomisp: Replace queryctrl with query_ext_ctrl
+>       media: atomisp: Remove vidioc_g/s callback
+>       media: v4l2: Remove vidioc_queryctrl callback
+>       media: v4l2: Remove vidioc_g_ctrl callback
+>       media: cx231xx: Replace s_ctrl with s_ext_ctrls
+>       media: v4l2: Remove vidioc_s_ctrl callback
+>       media: v4l2-core: Introduce v4l2_query_ext_ctrl_to_v4l2_queryctrl
+> 
+>  drivers/media/usb/cx231xx/cx231xx-417.c           | 21 ++++++----
+>  drivers/media/usb/pvrusb2/pvrusb2-v4l2.c          | 40 ++++--------------
+>  drivers/media/usb/uvc/uvc_v4l2.c                  | 10 -----
+>  drivers/media/v4l2-core/v4l2-ctrls-api.c          | 51 +++++++++++++----------
+>  drivers/media/v4l2-core/v4l2-dev.c                |  6 +--
+>  drivers/media/v4l2-core/v4l2-ioctl.c              | 19 +++++----
+>  drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 35 ++++++++--------
+>  include/media/v4l2-ctrls.h                        | 12 ++++++
+>  include/media/v4l2-ioctl.h                        | 12 ------
+>  9 files changed, 97 insertions(+), 109 deletions(-)
+> ---
+> base-commit: 6c10d1adae82e1c8da16e7ebd2320e69f20b9d6f
+> change-id: 20241209-queryctrl-5c3632b7c857
+> 
+> Best regards,
 
-Actually, this is dead code. This driver has been converted to use the control
-framework in commit 88b6ffedd901 ("[media] cx231xx-417: convert to the control framework"),
-and it looks like that forgot to remove this function.
+$ git grep vidioc_s_ctrl
+drivers/media/radio/radio-wl1273.c:static int wl1273_fm_vidioc_s_ctrl(struct v4l2_ctrl *ctrl)
+drivers/media/radio/radio-wl1273.c:     .s_ctrl = wl1273_fm_vidioc_s_ctrl,
 
-It is never called, since the core sees that it uses the control framework and
-uses that instead.
+Now that s_ctrl is the callback of the control handler ops, but
+I think it is wise if you add a patch that renames wl1273_fm_vidioc_s_ctrl to wl1273_fm_s_ctrl.
+
+Just so the string 'vidioc_s_ctrl' no longer exists in the code base.
+Besides, it isn't the correct name of this function anyway. It's clearly a left-over
+from the past.
 
 Regards,
 
 	Hans
-
-
->  	.vidioc_g_pixelaspect	 = vidioc_g_pixelaspect,
->  	.vidioc_g_selection	 = vidioc_g_selection,
->  	.vidioc_querycap	 = cx231xx_querycap,
-> 
-
 
