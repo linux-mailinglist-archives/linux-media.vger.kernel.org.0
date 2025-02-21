@@ -1,68 +1,68 @@
-Return-Path: <linux-media+bounces-26641-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26642-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37AAFA400C6
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 21:26:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29E94A40143
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 21:42:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D00913BCE0C
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 20:26:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 05BD416FE0E
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 20:42:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95046253359;
-	Fri, 21 Feb 2025 20:26:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4217204581;
+	Fri, 21 Feb 2025 20:42:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W3qBOCb2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ONeIxLb+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C23625333A;
-	Fri, 21 Feb 2025 20:26:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 498411DC985;
+	Fri, 21 Feb 2025 20:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740169569; cv=none; b=frk39f2KqtB+/0/Pe5UU1cOFn0tyryUafU7HT8cOeE47nuan6ujD1fpkybp83hhSZ8qQWg1T0/VRI9Jt4S24Fq5ItAXeEwNVcbjW2sEKITK/GHx5ezqdNT7RrgTUTulxfVdDNHtbWYdY4yCLMpwzCQcXtzxrQLIWNl/oBQ7FBM4=
+	t=1740170569; cv=none; b=HolJ8G2OqIGFFddV/QYjvAPvHJJVx7f3RBlcgj1VX6PnkKevXtKOLncDsP2Q1mRR+jCA65mzkWvKGShQOAcwDAbw33+OgvVtZ3UtoQznIrlk5AZBjSFCHQWm7LoTwdUbB3UwzDfhC16Zx8EzjlDjFiIayM27Acy2aJgmpQD5tyc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740169569; c=relaxed/simple;
-	bh=7HlkPlv9RaA45j5wq1XrEU1jlnPDHZG/VbqOejfstqk=;
+	s=arc-20240116; t=1740170569; c=relaxed/simple;
+	bh=WDe+to5rRRq7lsLv9P59RikBY/hODwqoknD2e2l+CDo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rNNDDAluuK2T4BFM9XwLQDnCIJW0N8uVO5k8fOlZ0RoPTmAaW2rATdXgE+pRg7zpI+ikzU/r8e7/m9qK4Gx2Vk4WItqqhbxb8KJUSXzWU8P3kWIkN6VvTeGISrejUIwsYK1JAiGcs8WTxqTU+zkmJ2TqH5wAnKC/53bFCioWymo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W3qBOCb2; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=ArvN0S6tsm0mw1p5pfPCYXN1+UHMkgh/Kv6n5tQZnMj3LxNRsVYKjM/rttuwu7qB/PIoRhxONEQVK2qAzizaCdLIl3/sxMCedT3ITsI84RnARign2RmWkpmq0j1otDlFetnKB/VVzZHqdeYEvdj22SaLbloaiv+Tqig+W+GYfZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ONeIxLb+; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740169567; x=1771705567;
+  t=1740170567; x=1771706567;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:content-transfer-encoding:in-reply-to;
-  bh=7HlkPlv9RaA45j5wq1XrEU1jlnPDHZG/VbqOejfstqk=;
-  b=W3qBOCb2MIy9zECofuDzM+S7PsI42wzeU6BO0Q+jyvrYXct2GxcRg02d
-   0bZZuHhnlaeISr2eDqDyts6sNWzmZAilsa7TzsmsUzVSIk4VSiA4pOWSp
-   4kJUMx56cM5BmDnI/NP1iPvxMyc7byGu2h8kCsyJU4Omg93Hjb1jr8xyq
-   RqJFQQksHtyIFC57OSVI07Q/1LPOs9Qc7kszF9Lqy7L8zwna0kxWAWq/H
-   H5TaJ4OMFw8TCoqooYmukS2XTSTEyw3u3YI34e4IJYHbac18mOVNwl2QL
-   VwFT097CNYA3xekshIQrBtt/XVYgA8bEohrFBmRU9EZg+xaHTTWaTWa4K
-   w==;
-X-CSE-ConnectionGUID: O7OC7iedTH2yzDWhv1Gjpg==
-X-CSE-MsgGUID: 7yM2n2l2SJWfMLqlM+DVIw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="41264384"
+  bh=WDe+to5rRRq7lsLv9P59RikBY/hODwqoknD2e2l+CDo=;
+  b=ONeIxLb+QY68H/f+MVNnKKc1+ghZHbxI9aTiv4ql71iT3tacqrX371OI
+   c/DYt9B0utm5iF3Xgn4/RH3KPxBNiQKkdO6mkvFpZyIU9894tssztSLqJ
+   V0kyXq+T3+JGWIWfKq+eXOQxbBQWwuSqLMfpgG+O54Fmm5zIJ/mzGdEQA
+   wmRpztoXqlhLNoqBpOUJcqcDobKR87vf5sowUz3e+avIxfx1SGrItOUPP
+   mogNqScPpVEcGkfVNBoMkC1S32agJyfowFJtHVkTJP8B+zR4stWoA3vyB
+   rCGK+O+mRgaac9fdnhlGwTNp9+o5f/WATZ1E+EyTG1T+xrmri5D1Qum8J
+   g==;
+X-CSE-ConnectionGUID: BrKZ3BCATom6HTFo9aIJJA==
+X-CSE-MsgGUID: 41NCCJEMTYav/cZS10ks7w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="40922583"
 X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
-   d="scan'208";a="41264384"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 12:26:06 -0800
-X-CSE-ConnectionGUID: 8DTLyFp1Tb6qPxlmd/pqwA==
-X-CSE-MsgGUID: Kj59BScTSAaTFhqhmO42zA==
+   d="scan'208";a="40922583"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 12:42:47 -0800
+X-CSE-ConnectionGUID: zC+uNe1dTIO9JBrdJOTyTw==
+X-CSE-MsgGUID: swnSrLXlTzum+CJRrwvp1A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
-   d="scan'208";a="146309571"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="115308379"
 Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 12:25:59 -0800
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 12:42:39 -0800
 Received: from andy by smile.fi.intel.com with local (Exim 4.98)
 	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tlZar-0000000DjzO-2hnW;
-	Fri, 21 Feb 2025 22:25:53 +0200
-Date: Fri, 21 Feb 2025 22:25:53 +0200
+	id 1tlZr0-0000000DkDP-0Fwy;
+	Fri, 21 Feb 2025 22:42:34 +0200
+Date: Fri, 21 Feb 2025 22:42:33 +0200
 From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
 To: Aditya Garg <gargaditya08@live.com>
 Cc: "pmladek@suse.com" <pmladek@suse.com>,
@@ -94,12 +94,13 @@ Cc: "pmladek@suse.com" <pmladek@suse.com>,
 	"linux@armlinux.org.uk" <linux@armlinux.org.uk>,
 	Asahi Linux Mailing List <asahi@lists.linux.dev>,
 	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
-Subject: Re: [PATCH v3 1/3] drm/format-helper: Add conversion from XRGB8888
- to BGR888
-Message-ID: <Z7jhUb0J0yaM_ROI@smile.fi.intel.com>
+Subject: Re: [PATCH v3 3/3] drm/tiny: add driver for Apple Touch Bars in x86
+ Macs
+Message-ID: <Z7jlORk0MiMFTmp6@smile.fi.intel.com>
 References: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
- <Z7ig8Br4duEt2TUG@smile.fi.intel.com>
- <6623056D-2107-48FB-B18D-2DB90D8F78A2@live.com>
+ <8F522D41-5417-467E-B9D3-7D9FC24AE536@live.com>
+ <Z7igVXqvRYTVFpXU@smile.fi.intel.com>
+ <A373EDB5-528D-4ECF-8CF3-4F96DE6E3797@live.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -109,46 +110,151 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <6623056D-2107-48FB-B18D-2DB90D8F78A2@live.com>
+In-Reply-To: <A373EDB5-528D-4ECF-8CF3-4F96DE6E3797@live.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Fri, Feb 21, 2025 at 05:21:08PM +0000, Aditya Garg wrote:
-> > On 21 Feb 2025, at 9:21 PM, andriy.shevchenko@linux.intel.com wrote:
-> > On Fri, Feb 21, 2025 at 11:36:00AM +0000, Aditya Garg wrote:
+On Fri, Feb 21, 2025 at 07:13:06PM +0000, Aditya Garg wrote:
+> > On Fri, Feb 21, 2025 at 11:37:57AM +0000, Aditya Garg wrote:
 
 ...
 
-> >> + for (x = 0; x < pixels; x++) {
-> >> + pix = le32_to_cpu(sbuf32[x]);
-> >> + /* write red-green-blue to output in little endianness */
-> >> + *dbuf8++ = (pix & 0x00ff0000) >> 16;
-> >> + *dbuf8++ = (pix & 0x0000ff00) >> 8;
-> >> + *dbuf8++ = (pix & 0x000000ff) >> 0;
+> >> +} __packed;
 > > 
-> > put_unaligned_be24()
+> > Why __packed? Please explain and justify for all the data types that are marked
+> > with this attribute.
+> 
+> Just following the original Windows driver here (#pragma pack) :
+> 
+> https://github.com/imbushuo/DFRDisplayKm/blob/master/src/DFRDisplayKm/include/DFRHostIo.h
+> 
+> IMO these structures are used for communication with the Touch Bar over USB.
+> The hardware expects a very specific layout for the data it receives and
+> sends. If the compiler were to insert padding for alignment, it would break
+> the communication protocol because the fields would not be in the expected
+> positions.
 
-(1)
+What padding, please? Why TCP UAPI headers do not have these attributes?
+Think about it, and think about what actually __packed does and how it affects
+(badly) the code generation. Otherwise it looks like a cargo cult.
+
+> I tried removing __packed btw and driver no longer works.
+
+So, you need to find a justification why. But definitely not due to padding in
+many of them. They can go without __packed as they are naturally aligned.
+
+...
+
+> >> + if (response->msg == APPLETBDRM_MSG_SIGNAL_READINESS) {
+> >> + if (!readiness_signal_received) {
+> >> + readiness_signal_received = true;
+> >> + goto retry;
+> >> + }
+> >> +
+> >> + drm_err(drm, "Encountered unexpected readiness signal\n");
+> >> + return -EIO;
+> >> + }
+> >> +
+> >> + if (actual_size != size) {
+> >> + drm_err(drm, "Actual size (%d) doesn't match expected size (%lu)\n",
+> >> + actual_size, size);
+> >> + return -EIO;
+> >> + }
+> >> +
+> >> + if (response->msg != expected_response) {
+> >> + drm_err(drm, "Unexpected response from device (expected %p4ch found %p4ch)\n",
+> >> + &expected_response, &response->msg);
+> >> + return -EIO;
+> > 
+> > For three different cases the same error code, can it be adjusted more to the
+> > situation?
+> 
+> All these are I/O errors, you got any suggestion?
+
+Your email client mangled the code so badly that it's hard to read. But I would
+suggest to use -EINTR in the first case, and -EBADMSG. But also you may consider
+-EPROTO.
 
 > >> + }
 
 ...
 
-> >> + static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
-> >> + 3,
-> >> + };
+> >> + if (ret)
+> >> + return ret;
 > > 
-> > One line?
+> >> + else if (!new_plane_state->visible)
 > > 
-> > static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = { 3 };
+> > Why 'else'? It's redundant.
 > 
-> Wrt all the above respective changes, the formatting has been done exactly like what other emulation helps do in the upstream patch.
+> I’ve just followed what other drm drivers are doing here:
 > 
-> I doubt Thomas would want these changes to be done, or would want these changes to be done for the upstream emulation helpers as well.
+> https://elixir.bootlin.com/linux/v6.13.3/source/drivers/gpu/drm/tiny/bochs.c#L436
+> https://elixir.bootlin.com/linux/v6.13.3/source/drivers/gpu/drm/tiny/cirrus.c#L363
 > 
-> For reference: https://github.com/torvalds/linux/blob/master/drivers/gpu/drm/drm_format_helper.c
+> And plenty more
 
-I'm not sure how this is applicable to (1) above. Otherwise it's fine if there
-is a documented style or due to consistency with the existing style.
+A bad example is still a bad example. 'else' is simply redundant in this
+case and add a noisy to the code.
+
+> I won’t mind removing else. You want that?
+
+Sure.
+
+...
+
+> >> + request_size = ALIGN(sizeof(struct appletbdrm_fb_request) +
+> >> +        frames_size +
+> >> +        sizeof(struct appletbdrm_fb_request_footer), 16);
+> > 
+> > Missing header for ALIGN().
+> > 
+> > But have you checked overflow.h for the possibility of using some helper macros
+> > from there? This is what should be usually done for k*alloc() in the kernel.
+> 
+> I don’t really think we need a macro here.
+
+Hmm... is frames_size known to be in a guaranteed range to make sure no
+potential overflow happens?
+
+> >> + appletbdrm_state->request = kzalloc(request_size, GFP_KERNEL);
+> >> +
+> >> + if (!appletbdrm_state->request)
+> >> + return -ENOMEM;
+
+...
+
+> >> + request->msg_id = timestamp & 0xff;
+> > 
+> > Why ' & 0xff'?
+> 
+> https://github.com/imbushuo/DFRDisplayKm/blob/master/src/DFRDisplayKm/DfrDisplay.c#L147
+
+This is not an answer.
+Why do you need this here? Isn't the type of msg_id enough?
+
+...
+
+> >> + adev->mode = (struct drm_display_mode) {
+> > 
+> > Why do you need a compound literal here? Perhaps you want to have that to be
+> > done directly in DRM_MODE_INIT()?
+> 
+> I really don’t find this as an issue. You want me to declare another structure, basically this?:
+
+Nope, I'm asking if the DRM_MODE_INIT() is done in a way that it only can be
+used for the static data. Seems like the case. Have you tried to convert
+DRM_MODE_INIT() to be always a compound literal? Does it break things?
+
+> struct drm_display_mode mode = {
+> DRM_MODE_INIT(60, adev->height, adev->width,
+> DRM_MODE_RES_MM(adev->height, 218),
+> DRM_MODE_RES_MM(adev->width, 218))
+> };
+> adev->mode = mode;
+> 
+> >> + DRM_MODE_INIT(60, adev->height, adev->width,
+> >> +       DRM_MODE_RES_MM(adev->height, 218),
+> >> +       DRM_MODE_RES_MM(adev->width, 218))
+> >> + };
 
 -- 
 With Best Regards,
