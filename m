@@ -1,151 +1,167 @@
-Return-Path: <linux-media+bounces-26555-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26556-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD88AA3F080
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 10:37:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 378E2A3F215
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 11:30:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 96C064203B3
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 09:37:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 104F716FE9F
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 10:30:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F56C204691;
-	Fri, 21 Feb 2025 09:36:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BF78205E32;
+	Fri, 21 Feb 2025 10:29:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="av8yS7Af"
+	dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b="bAzDBYIr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85149202C30;
-	Fri, 21 Feb 2025 09:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A712054E9
+	for <linux-media@vger.kernel.org>; Fri, 21 Feb 2025 10:29:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740130599; cv=none; b=Lqe81y3zcBoU+eMlXAL/vNcmyyaHxBMhNAM6vR1nH1Q5RCQetuhtJHv6Gm8qqAC82271xILz5RNGvRrXpe7lW6ZKEQYAdHVpqa4ThhqKxYwIQejo1TefsJniGSXzTwhIVVWmQ+9qG2Fps72YGkZr6zRLfcz4v8qzDLkxBq+1t5I=
+	t=1740133785; cv=none; b=bLaKamZ73VHAPPhHE2McY7o9T+XMLHefxZvWesAywyDD45DUdQy1yTjfMwfMfhkSOGzkXbAPymeu71hzRe9n/r2bggpL1z2lt6r8xeefIZu9/8L9QChMbbwD1nk+qebxr1SojLFDDmpSudI0Nay5gnD+Qc7vvEkFbnfotGvS/CE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740130599; c=relaxed/simple;
-	bh=LcCshsTLz5TYNjtrU59EFDnTq5rwW6zHS0BJSQ45BL0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tPcP4578age+hceKWNgcD5qtISTbvOfQ7pLDSq4ARb5WDEYDchrF/InS+WPpBTFKJN+JlohZSplTHPtrYAT+TBF3fjlp3A2fqbOcxEQzY67dIdsGtz4XROV2w3MS+vuDSSjBhcQqhbJjrZYRcOeQfOFEySvB8prrlRuVFZfzc3Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=av8yS7Af; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AF03E89A;
-	Fri, 21 Feb 2025 10:35:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1740130511;
-	bh=LcCshsTLz5TYNjtrU59EFDnTq5rwW6zHS0BJSQ45BL0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=av8yS7AfwDcT0yDnyQPFUSLmz7TiJGA5aus/cQ6UCrmoCmclNHZF4UV4GtPu4SXUw
-	 YtHl3WhDeT2V/buLOLunudzpysZmbcKpFjAgMx5vyBjQYChDo3ZW+VDcsMkj6eBglp
-	 Vuztxo0iETOIo/GDCozZzl0pTVzMgL5qM32/Rgso=
-Date: Fri, 21 Feb 2025 10:36:32 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Subject: Re: [PATCH 3/3] media: i2c: imx219: Use subdev state to calculate
- binning and pixelrate
-Message-ID: <ikq3xkkto566jmxvmc352l4cnjy42bx47nwbihqu77hx76o7c5@jkn37hi4pfe2>
-References: <20250219-imx219_fixes_v2-v1-0-0e3f5dd9b024@ideasonboard.com>
- <20250219-imx219_fixes_v2-v1-3-0e3f5dd9b024@ideasonboard.com>
+	s=arc-20240116; t=1740133785; c=relaxed/simple;
+	bh=h3ApYvzKTccF1XnzB7gk+k2ClnVcJjmA56TFYSxYExU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=NznXzaYESMip2CkixzYHo2zTTXIGiG2zX/rTC2hW4GL49l/cPfDwf20APUQjtc20xr4+Eo9QN6m67alhVGDVRyLU+m550OY1HZVYpUyLYHWA5J5shAZbgtBHHItY2Kkndec00goZZtd/OsnN0OKqRh1FEdWvNv+yGf7u1PCNVz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk; spf=pass smtp.mailfrom=rasmusvillemoes.dk; dkim=pass (1024-bit key) header.d=rasmusvillemoes.dk header.i=@rasmusvillemoes.dk header.b=bAzDBYIr; arc=none smtp.client-ip=209.85.208.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rasmusvillemoes.dk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rasmusvillemoes.dk
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-3098088c630so17449761fa.1
+        for <linux-media@vger.kernel.org>; Fri, 21 Feb 2025 02:29:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rasmusvillemoes.dk; s=google; t=1740133781; x=1740738581; darn=vger.kernel.org;
+        h=mime-version:user-agent:message-id:date:references:in-reply-to
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XBgTd9yS8bHj2inA4KCI/wGm8uZFJ13xmrkCLQobpyg=;
+        b=bAzDBYIrwE92+mtrgAOBk90lUvMK5y7/VoRAed5bOuogGf3/t25VpidxhE+llYOKqa
+         mPOEZCovZuOAfqJrw+gvAdcwtVB7nwQ+6nODua6uxyErvnm1rzYefznV1RUgG9vUJcc3
+         ZcPHMRL5FGgsuyxGX6LBw3yXODh2wdn5n4WmY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740133781; x=1740738581;
+        h=mime-version:user-agent:message-id:date:references:in-reply-to
+         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XBgTd9yS8bHj2inA4KCI/wGm8uZFJ13xmrkCLQobpyg=;
+        b=fcMALA/C+ypwJFbRCoiq6zJV5LY7qmAbSksVKa12WGeqzqujugZBSV9wpGPygZl0l3
+         NQejyheYNDeRxj+PkQ63bAIYccmzU2U7YCvB07gRp7sCuY/Chyaa1CVQR9nnOtYcDwn6
+         gKnaI5l0MZa1sD4FnIhBw0j+Xk8ZuBfwVcHB3uxTmfAee19aFnFDV4D9JZZ0WmBHLYK+
+         0su1P7LG5gjc63jScEixKxRS1oEXebQt/i5rCFeJikNAo54rjaBv//bJ6h7sXSGE9Hfo
+         NSwvmzH6FdrBE7RJM6ARSiIbb+pcmsMS9Yrqmk1zIRdgLRmcUSX5U+8FtjRad475/xc9
+         mJ7A==
+X-Forwarded-Encrypted: i=1; AJvYcCX8fhDkTGEw6ftgEY9yW7xMndE12sbuww/Ug2eh0inD51i8faD+d2FL0FP2imlnCRfD8/KoLJLjoLLzpg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzdIsobo+hhOPLJUBTB5TvH3ngFu6bKAMyTUtlQvfWZC3XiHco6
+	jTxvBYjoxUWgj5NPX1pd4UKOzbreZw3kiv+O+NUdiHMz9pzUTeck6hgn8IZcHM0=
+X-Gm-Gg: ASbGncvSv/YIgC8Wmnc1pcJmaSWC22GEXZ4yazp6kPc2n1u3ov7ETMwE8yHmOOJu08e
+	rjVIBGPGnzgF4oeUTDALDQYzesnBqY7Kz8tVhvM4Xl136V2j2uwhHpuF9txRBldXelij5EqVsvX
+	MLm08pFzNzZ3bOFeWoshwL4xkE8eJ8I6+u6kgh17NyTfL2BiZJ3JRTC5c17wGr5s1Lwx7XYxHrH
+	lVKOD3/xiITrB2lvqoSFzRggbTMRvcRhtu+j5T+c93b7zF+3QGS3aN4+KAgmWr3bR5mumPnYhH2
+	1xqHKIwYaKiJ4VUrcvRxzwtpImE=
+X-Google-Smtp-Source: AGHT+IEUOdqdqFnuqPXA4cgWINcdgxUl8JQ3ygr09PQ43kzULiZT56Khi3z1J3sj7fkaU8oDV/YSHQ==
+X-Received: by 2002:a05:651c:2120:b0:309:1f98:2848 with SMTP id 38308e7fff4ca-30a598e2984mr10302661fa.19.1740133781115;
+        Fri, 21 Feb 2025 02:29:41 -0800 (PST)
+Received: from localhost ([81.216.59.226])
+        by smtp.gmail.com with UTF8SMTPSA id 38308e7fff4ca-30a449aa148sm8429891fa.109.2025.02.21.02.29.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Feb 2025 02:29:40 -0800 (PST)
+From: Rasmus Villemoes <linux@rasmusvillemoes.dk> 
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "pmladek@suse.com" <pmladek@suse.com>,  "rostedt@goodmis.org"
+ <rostedt@goodmis.org>,  "andriy.shevchenko@linux.intel.com"
+ <andriy.shevchenko@linux.intel.com>,  "senozhatsky@chromium.org"
+ <senozhatsky@chromium.org>,  "corbet@lwn.net" <corbet@lwn.net>,
+  "maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+  "mripard@kernel.org" <mripard@kernel.org>,  "tzimmermann@suse.de"
+ <tzimmermann@suse.de>,  "airlied@gmail.com" <airlied@gmail.com>,
+  "simona@ffwll.ch" <simona@ffwll.ch>,  "akpm@linux-foundation.org"
+ <akpm@linux-foundation.org>,  "apw@canonical.com" <apw@canonical.com>,
+  "joe@perches.com" <joe@perches.com>,  "dwaipayanray1@gmail.com"
+ <dwaipayanray1@gmail.com>,  "lukas.bulwahn@gmail.com"
+ <lukas.bulwahn@gmail.com>,  "sumit.semwal@linaro.org"
+ <sumit.semwal@linaro.org>,  "christian.koenig@amd.com"
+ <christian.koenig@amd.com>,  "kekrby@gmail.com" <kekrby@gmail.com>,
+  "admin@kodeit.net" <admin@kodeit.net>,  Orlando Chamberlain
+ <orlandoch.dev@gmail.com>,  "evepolonium@gmail.com"
+ <evepolonium@gmail.com>,  "linux-doc@vger.kernel.org"
+ <linux-doc@vger.kernel.org>,  "linux-kernel@vger.kernel.org"
+ <linux-kernel@vger.kernel.org>,  "dri-devel@lists.freedesktop.org"
+ <dri-devel@lists.freedesktop.org>,  "linux-media@vger.kernel.org"
+ <linux-media@vger.kernel.org>,  "linaro-mm-sig@lists.linaro.org"
+ <linaro-mm-sig@lists.linaro.org>,  Hector Martin <marcan@marcan.st>,
+  "linux@armlinux.org.uk" <linux@armlinux.org.uk>,  "asahi@lists.linux.dev"
+ <asahi@lists.linux.dev>,  Sven Peter <sven@svenpeter.dev>,  Janne Grunau
+ <j@jannau.net>
+Subject: Re: [PATCH v2 2/3] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
+In-Reply-To: <C66F35BB-2ECC-4DB8-8154-DEC5177967ED@live.com> (Aditya Garg's
+	message of "Thu, 20 Feb 2025 16:39:23 +0000")
+References: <716BCB0A-785B-463A-86C2-94BD66D5D22E@live.com>
+	<C66F35BB-2ECC-4DB8-8154-DEC5177967ED@live.com>
+Date: Fri, 21 Feb 2025 11:29:40 +0100
+Message-ID: <871pvrpp4b.fsf@prevas.dk>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250219-imx219_fixes_v2-v1-3-0e3f5dd9b024@ideasonboard.com>
+Content-Type: text/plain
 
-On Wed, Feb 19, 2025 at 05:16:45PM +0530, Jai Luthra wrote:
-> The pixel rate and binning calculations need the format and resolution
-> of the sensor, so pass the v4l2 subdev state directly instead of always
-> operating on the active state.
+On Thu, Feb 20 2025, Aditya Garg <gargaditya08@live.com> wrote:
 
-Yeah I think it's saner, as even if v4l2 ctrl do not support TRY
-state (and thus the pixel rate calculation can't be "tryed") we should
-use the format information from the state at hand.
+> v2 -> Add this patch
+>  Documentation/core-api/printk-formats.rst | 32 +++++++++++++++++++
+>  lib/test_printf.c                         | 39 +++++++++++++++++++----
+>  lib/vsprintf.c                            | 38 ++++++++++++++++++----
 
->
-> Suggested-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Link: https://lore.kernel.org/linux-media/sejl7xskif6rlpdsg3jhczjwe5gi6rs53ehbyka6omv2zeg7qq@4iis7i2lla5p/
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+Yay! Thanks for remembering to include test cases.
 
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-Thanks
-  j
-
-> ---
->  drivers/media/i2c/imx219.c | 15 +++++++--------
->  1 file changed, 7 insertions(+), 8 deletions(-)
->
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index f02732d8fa95de0a295f247d4f0b60017dbb2ed2..0adfe8e5775ba6661f7d06fedfd920d91c24cba5 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -400,10 +400,9 @@ static u32 imx219_get_format_bpp(const struct v4l2_mbus_framefmt *format)
->  	}
+>  
+> diff --git a/lib/test_printf.c b/lib/test_printf.c
+> index 59dbe4f9a..ee860327e 100644
+> --- a/lib/test_printf.c
+> +++ b/lib/test_printf.c
+> @@ -776,21 +776,46 @@ static void __init fwnode_pointer(void)
+>  	software_node_unregister_node_group(group);
 >  }
->
-> -static void imx219_get_binning(struct imx219 *imx219, u8 *bin_h, u8 *bin_v)
-> +static void imx219_get_binning(struct v4l2_subdev_state *state, u8 *bin_h,
-> +			       u8 *bin_v)
+>  
+> +struct fourcc_struct {
+> +	u32 code;
+> +	const char *str;
+> +};
+> +
+> +static void __init fourcc_pointer_test(const struct fourcc_struct *fc, size_t n,
+> +				       const char *fmt)
+> +{
+> +	size_t i;
+> +
+> +	for (i = 0; i < n; i++)
+> +		test(fc[i].str, fmt, &fc[i].code);
+> +}
+> +
+>  static void __init fourcc_pointer(void)
 >  {
-> -	struct v4l2_subdev_state *state =
-> -		v4l2_subdev_get_locked_active_state(&imx219->sd);
->  	const struct v4l2_mbus_framefmt *format =
->  		v4l2_subdev_state_get_format(state, 0);
->  	const struct v4l2_rect *crop = v4l2_subdev_state_get_crop(state, 0);
-> @@ -430,11 +429,11 @@ static void imx219_get_binning(struct imx219 *imx219, u8 *bin_h, u8 *bin_v)
->  		*bin_v = IMX219_BINNING_X2;
->  }
->
-> -static inline u32 imx219_get_rate_factor(struct imx219 *imx219)
-> +static inline u32 imx219_get_rate_factor(struct v4l2_subdev_state *state)
->  {
->  	u8 bin_h, bin_v;
->
-> -	imx219_get_binning(imx219, &bin_h, &bin_v);
-> +	imx219_get_binning(state, &bin_h, &bin_v);
->
->  	return (bin_h & bin_v) == IMX219_BINNING_X2_ANALOG ? 2 : 1;
->  }
-> @@ -455,7 +454,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
->
->  	state = v4l2_subdev_get_locked_active_state(&imx219->sd);
->  	format = v4l2_subdev_state_get_format(state, 0);
-> -	rate_factor = imx219_get_rate_factor(imx219);
-> +	rate_factor = imx219_get_rate_factor(state);
->
->  	if (ctrl->id == V4L2_CID_VBLANK) {
->  		int exposure_max, exposure_def;
-> @@ -689,7 +688,7 @@ static int imx219_set_framefmt(struct imx219 *imx219,
->  	cci_write(imx219->regmap, IMX219_REG_Y_ADD_END_A,
->  		  crop->top - IMX219_PIXEL_ARRAY_TOP + crop->height - 1, &ret);
->
-> -	imx219_get_binning(imx219, &bin_h, &bin_v);
-> +	imx219_get_binning(state, &bin_h, &bin_v);
->  	cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_H, bin_h, &ret);
->  	cci_write(imx219->regmap, IMX219_REG_BINNING_MODE_V, bin_v, &ret);
->
-> @@ -937,7 +936,7 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
->
->  		/* Scale the pixel rate based on the mode specific factor */
->  		pixel_rate = imx219_get_pixel_rate(imx219) *
-> -			     imx219_get_rate_factor(imx219);
-> +			     imx219_get_rate_factor(state);
->  		__v4l2_ctrl_modify_range(imx219->pixel_rate, pixel_rate,
->  					 pixel_rate, 1, pixel_rate);
->  	}
->
-> --
-> 2.48.1
->
+> -	struct {
+> -		u32 code;
+> -		char *str;
+> -	} const try[] = {
+> +	struct fourcc_struct const try_cc[] = {
+
+I know it matches the code it replaces, but kernel style seems to be
+"const struct foo" rather than "struct foo const" (at around 130:1) -
+just as you use in the new helper function.
+
+Also, please consider changing the array, and the newly added instances,
+to be static instead of automatic (our le32_to_cpu should be usable also
+for static initializers).
+
+This will conflict with the conversion-to-kunit which is in flight, but
+the conflict should be trivial to resolve.
+
+Rasmus
 
