@@ -1,140 +1,145 @@
-Return-Path: <linux-media+bounces-26590-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26591-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD605A3F963
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 16:50:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FE2CA3F994
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 16:56:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 01ED87A44EC
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 15:49:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4BC5886316B
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 15:51:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24AD11DF751;
-	Fri, 21 Feb 2025 15:50:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BB061DB958;
+	Fri, 21 Feb 2025 15:51:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="IspMnppi";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ewQWanvG"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eFS/44Zp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout-a1-smtp.messagingengine.com (fout-a1-smtp.messagingengine.com [103.168.172.144])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D411C1D86E8;
-	Fri, 21 Feb 2025 15:50:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.144
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A0441DB366;
+	Fri, 21 Feb 2025 15:51:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740153042; cv=none; b=OGcgkHWjj6xExoHcu+yxUNebdA9OwIrJkivaqRR59OUwwLn2LRCoMTPBao/KHRwugU5ueC0fEEV+b2GUqY1y3mYXmoc1oFAh1V3EF+laPy48welXyePFau7KOc8Iu/dx/AIX1P30C/VMIVk1QIp7UPX2cgMSHIm+UEZoViD3sRQ=
+	t=1740153086; cv=none; b=sWwTaeDPVncax5MQEO4RP1gqGYXwMWBYb0+S/Zc2iGkAXNMkt4RMqe9XNEAfs+Xjveqy2kQHR2BZul/TEHe6gN/+QRiS+p5jC9dx9PDgdPW3R+v9e0Vc/18JUhaapFI+89cNBtUkb0+5wBzoOTmhNJHtT3w7R6JpJv+oUIhfE8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740153042; c=relaxed/simple;
-	bh=EbARyPNb+jlyVzuG19efA0T9kXjZX+PQghb+2EgXcVY=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=Oji1VxF90Ig5BQGkKRXyJ0GJwnrP2BGsMQQ/YFz7O5L6mg8IuXk4R9a9tOom2dG4dc22ceB5UCXZlrByYyyGWmpTzsZy+7+XXpBVbYUuX0JvP+hWnbwSTa3w8KFoyURwgv8Zas6FkH1NctFOFd6humDR+nOpCMr/Dg2y1pCAt0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=IspMnppi; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ewQWanvG; arc=none smtp.client-ip=103.168.172.144
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
-	by mailfout.phl.internal (Postfix) with ESMTP id D1F6C13809B8;
-	Fri, 21 Feb 2025 10:50:39 -0500 (EST)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-11.internal (MEProxy); Fri, 21 Feb 2025 10:50:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1740153039;
-	 x=1740239439; bh=pnvUqHTDw+iCr+QQH2n3hqLIs/G3GQG6dM0EjN+vId4=; b=
-	IspMnppijkep1HHdVkGuB1JTz3YAWmrqb8sOlkcPogXhM9ib4MM92xHO8owlK97O
-	uFozDPfvPI0Z1BSt5Yri1N7WWv4VvFV/bVl/GsKJQB/IQvxxEvJM9CAkUCHMg43C
-	Nu4hV0NeTgzPslbFRULJQSPjfBoLmwr//FW5AWrZuujyYtvs+bs45PhSgjHFuLWB
-	5TX9JIEetrRwR95bUuIrZXdHc8pvFyBURLCD7lAuxy5tcuASIW/RKi9HBfEALar1
-	4i+v+2C8/c4FxzEj88HMlXKHiA4w0fRGEC2FOdNfEC+0BeXOOcOjkoFx4uXwqeqQ
-	8PdobZSqHb++AHikSi3qqg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1740153039; x=
-	1740239439; bh=pnvUqHTDw+iCr+QQH2n3hqLIs/G3GQG6dM0EjN+vId4=; b=e
-	wQWanvGIluQ8raiRow8D1Xq2O1kWnOpTZTxsdDwD11ScXfSufg9ow4HvrH9KVaH2
-	EckEDv2VUt357DCk4GzAsvDG/jIjsXbk1BKvP4UUKwgZzZ1WNbU9g2VEbynFTtbu
-	y2IDO8fgqHIk/7wea7j86B6V5aZ0gzyfagvIWWgW+xdgye0N4QS6nAL5Ms1Q3bFL
-	K3aPpL4rCQ9KWhcUdRxAGxxsFXMxeR6968OakMu3kKuSf5r9llVxozNFtCpDo6Ua
-	jjl8jE5c1ThK2+3jKXtK3IoSHG3wAyuhb/7IwOCe0RG8z0CFI7eARbzKnuXxf9+v
-	FupvcO9u3SuKgkrEu+WHQ==
-X-ME-Sender: <xms:z6C4Z1Fhp67b2D-TLXC4nwJ72apoCHSpnWj5KQ6Kdb6c2CAVepujqA>
-    <xme:z6C4Z6VRVfu6H7CMOl7h9Rrr0g1uBhx7Yp60LzwUuphqY-Ute72yz0Q0FUBeQJ4DB
-    XzvpDTHUNYynqngQ5A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdejtdegtdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpefoggffhffvvefkjghfufgtgfesthejredtredt
-    tdenucfhrhhomhepfdetrhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusg
-    druggvqeenucggtffrrghtthgvrhhnpefhtdfhvddtfeehudekteeggffghfejgeegteef
-    gffgvedugeduveelvdekhfdvieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
-    epmhgrihhlfhhrohhmpegrrhhnugesrghrnhgusgdruggvpdhnsggprhgtphhtthhopeeh
-    pdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegthhgvnhhsohhnghgpvddttddtse
-    dukeelrdgtnhdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
-    gtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhr
-    tghpthhtohephhhvvghrkhhuihhlqdgtihhstghoseigshegrghllhdrnhhl
-X-ME-Proxy: <xmx:z6C4Z3JZKvzjZsxdiP4uFzD42Q_CupIvIlfKE5_SuC5xcuJz_nxLWQ>
-    <xmx:z6C4Z7HtXwDqIkj7RhgO5_ZyBQn9G2g2v9ivek85wLPyFfMMnxaj1w>
-    <xmx:z6C4Z7X-1DGFmSG5bfB79qPDx6iruW14rQjlmJQlcZoCg_irSUJiMw>
-    <xmx:z6C4Z2OtSdr9I1VDDc2VQZQo6Jc6BkMcMQQOqUa61JDhyT_OTVx3Wg>
-    <xmx:z6C4ZxwuugXl---Whs_CETGVcTPyOwvcilyBtA9JyvafvoN6Jcdm9rnN>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 055F12220072; Fri, 21 Feb 2025 10:50:38 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1740153086; c=relaxed/simple;
+	bh=vPnGBuoiFN+rapBDrtIDIJGXal1oiR/Y9ccwXwbtNnc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=IGupb3bfVPh6ZtiX4q5i+auHdpehOHtk0tlPDRYpA9yKDsnXFvB2JyZYaOwVhZQMwSNJKMnOfb6Wr29UsHnOJ4n0eCOc38nSvvZkxKBowKqiLotE0Oi4VKTh5wgHKyvTsROltcAD76qO54C3/TKlQpmd/g2Fv5S8UbOtp/MCuRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eFS/44Zp; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740153085; x=1771689085;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vPnGBuoiFN+rapBDrtIDIJGXal1oiR/Y9ccwXwbtNnc=;
+  b=eFS/44Zpqw3oOcfzORjLqXHY37K3NbygPjv8Irrc0ti11PY/oViHKuEN
+   3cpynLX99/JL3gDI2T40VivyRyr+5PXKkgZosKj4K6wjvjbG6qSNulDKV
+   m2vSq6DjwnM7RhLCTIzvp4m3+5DMJuxs8VO5Fojxqau6Ju5mID5W5nSmj
+   HZXgp/JO7nPalB9eNW1t+DO6GH1j3IMJUo0OSSyI7fcHf7ivzC3XnWOOm
+   1gOzifUnu8f+dlbw3ltr8SDiP+J6TdXqscNCCj+gA7AuLCNFn24JkEAKJ
+   EWo220bMmtcbDJvH9tNc0LIjTC4z1q0ygQ/Obxks1nx4tFsdTVuL228p7
+   A==;
+X-CSE-ConnectionGUID: jtd2JGleSNeuoRRr7ggLtQ==
+X-CSE-MsgGUID: N1DNTarbQUmT3S22aMYddw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11352"; a="66340982"
+X-IronPort-AV: E=Sophos;i="6.13,305,1732608000"; 
+   d="scan'208";a="66340982"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 07:51:24 -0800
+X-CSE-ConnectionGUID: bP+ES1DSSYups3Xn+KJcoA==
+X-CSE-MsgGUID: CuNXA0VLQISSIv90x3lSew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="119525320"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Feb 2025 07:51:17 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tlVJ2-0000000DgNg-1aMo;
+	Fri, 21 Feb 2025 17:51:12 +0200
+Date: Fri, 21 Feb 2025 17:51:12 +0200
+From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "pmladek@suse.com" <pmladek@suse.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	"linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+	"mripard@kernel.org" <mripard@kernel.org>,
+	"tzimmermann@suse.de" <tzimmermann@suse.de>,
+	"airlied@gmail.com" <airlied@gmail.com>,
+	"simona@ffwll.ch" <simona@ffwll.ch>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"apw@canonical.com" <apw@canonical.com>,
+	"joe@perches.com" <joe@perches.com>,
+	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>,
+	Kerem Karabay <kekrby@gmail.com>, Aun-Ali Zaidi <admin@kodeit.net>,
+	Orlando Chamberlain <orlandoch.dev@gmail.com>,
+	Atharva Tiwari <evepolonium@gmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	Hector Martin <marcan@marcan.st>,
+	"linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+	Asahi Linux Mailing List <asahi@lists.linux.dev>,
+	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH v3 1/3] drm/format-helper: Add conversion from XRGB8888
+ to BGR888
+Message-ID: <Z7ig8Br4duEt2TUG@smile.fi.intel.com>
+References: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Fri, 21 Feb 2025 16:50:18 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
- "Song Chen" <chensong_2000@189.cn>,
- "Mauro Carvalho Chehab" <mchehab@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Message-Id: <5b300c49-74b2-45b2-8e2c-79476070c2c7@app.fastmail.com>
-In-Reply-To: <eaf46d30-71a4-4200-b1e1-6b657372f5ef@xs4all.nl>
-References: <20241203072742.191787-1-chensong_2000@189.cn>
- <9489561e-bc41-481d-b542-07fed1161a03@app.fastmail.com>
- <f552e0f5-6350-416f-89e5-e1a0e6aa2886@189.cn>
- <070175a7-1bea-4dbb-8b5b-9edee06fec79@app.fastmail.com>
- <eaf46d30-71a4-4200-b1e1-6b657372f5ef@xs4all.nl>
-Subject: Re: [PATCH] drivers/media/pci/sta2x11: replace legacy GPIO APIs
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DC5079B2-9D3D-4917-A50D-20D633071808@live.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, Feb 20, 2025, at 14:43, Hans Verkuil wrote:
-> Hi Arnd,
->
-> On 12/3/24 08:52, Arnd Bergmann wrote:
->> On Tue, Dec 3, 2024, at 08:48, Song Chen wrote:
->>> ok, then remove it.
->>>
->>> what about drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c,
->>> it has the same problem, are you going to remove it as well?
->> 
->> No, that one is likely to stay around for a while. I think it
->> was actually removed before and brought back because there are
->> users. That one is just the on-chip component on certain Atom
->> SoCs.
->> 
->> The sta2x11 platform was never that widely used and I think might
->> have not been completely upstreamed.
->
-> So I can drop this patch, and in the near future I guess we'll receive
-> a patch from you removing this driver? Is that correct?
+On Fri, Feb 21, 2025 at 11:36:00AM +0000, Aditya Garg wrote:
+> From: Kerem Karabay <kekrby@gmail.com>
+> 
+> Add XRGB8888 emulation helper for devices that only support BGR888.
 
-Yes, I have a patch that I am already planning to resend to
-drop the sta2x11 platform on x86 along with some more arm32
-and x86-32 platforms, followed by a series to remove all of
-the orphaned drivers from that round and previous drivers
-that got forgotten last time.
+...
 
-     Arnd
+> +	for (x = 0; x < pixels; x++) {
+> +		pix = le32_to_cpu(sbuf32[x]);
+> +		/* write red-green-blue to output in little endianness */
+> +		*dbuf8++ = (pix & 0x00ff0000) >> 16;
+> +		*dbuf8++ = (pix & 0x0000ff00) >> 8;
+> +		*dbuf8++ = (pix & 0x000000ff) >> 0;
+
+put_unaligned_be24()
+
+> +	}
+
+...
+
+> +	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = {
+> +		3,
+> +	};
+
+One line?
+
+	static const u8 dst_pixsize[DRM_FORMAT_MAX_PLANES] = { 3 };
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
