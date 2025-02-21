@@ -1,152 +1,225 @@
-Return-Path: <linux-media+bounces-26539-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26541-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D555A3ED1E
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 08:03:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B470A3EDA5
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 08:53:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 23D8C7AB013
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 07:02:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 023377A8902
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 07:52:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D4D11FECC2;
-	Fri, 21 Feb 2025 07:03:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 805071FF7C2;
+	Fri, 21 Feb 2025 07:53:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Sb3fOUjc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SeJ3lTbP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCD9B35979;
-	Fri, 21 Feb 2025 07:03:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E65D41FF1D1
+	for <linux-media@vger.kernel.org>; Fri, 21 Feb 2025 07:53:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740121399; cv=none; b=bKCg35Sf9tMeA65AxdyZTA42MWAeE16Ozj6G1YEYGedrcTt4VEIZLFzPllV5hKCk+V6kpQ/6IX2wRO8W88ZzvqOUD/5qXFuSkzG0pPmW37Zle394A6sAwNYhFqv5rtk9eexcNOCNa6BcDk4z4g0YRII19xRUbUAj+jkSlwsQrco=
+	t=1740124387; cv=none; b=U4E222fI3ONaA6VgkNH+C5KUKlGvk1YTk29Syn64V4q/D+jDFK46N1fze0KceNBN/EY+provUCJOhKaz9gztmHHBYhwLUtTF4+njhrE9PNiduQSuHlZDatQ5IZrPJpm3Xd/Gy8cDjTt3cub25Bs8r7qufZRcSakEpvl2AbYHoEk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740121399; c=relaxed/simple;
-	bh=fL3VFHc8Iw4UEcrhx6AYcJSOc4ybHtXWyyLl28Js0K0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GUtd7v0Ktsw49Te4BOmeje49/SYOL1zaUdblDvelFLeu6w/NS/EpKOdI1jNEWcJDcbbmj5eU9EHBrVgG/foIIJxN5x+uLNql5dv1S5XEmlmVgEiH0+4Swk+tgB682QTnJ2ObTJ79HAqZkQwLmkbR2ujbpPXLBcfvENzxPKy4IWo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Sb3fOUjc; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c30:4abb:6de5:9248:813e:8db3])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC9EC7E0;
-	Fri, 21 Feb 2025 08:01:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1740121311;
-	bh=fL3VFHc8Iw4UEcrhx6AYcJSOc4ybHtXWyyLl28Js0K0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Sb3fOUjc8Ww6ftO3DRierlIUIhRnugYs1k00i1XGt0yZ+HoWYADlDijVeegrVJlcn
-	 jwynw9W5+nZyU4C6VON2EQjEIxsdLJUPpzgBfFQL7zUSx7bFi4iS71qDov0AxWXBr+
-	 vxACfRy0BTvvxst9YPFGSgXqw6Gf9J4NbhRAX6y4=
-Date: Fri, 21 Feb 2025 12:33:09 +0530
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-To: Cosmin Tanislav <demonsingur@gmail.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/6] media: i2c: imx219: pass format's code to
- imx219_get_format_bpp()
-Message-ID: <73rzq5ja6gsjd3oatbnqvmqminiolgz4meelvxqnbieategxsf@zb23f36gm4nd>
-References: <20250220230818.275262-1-demonsingur@gmail.com>
- <20250220230818.275262-5-demonsingur@gmail.com>
+	s=arc-20240116; t=1740124387; c=relaxed/simple;
+	bh=BZjL444ik8YtlMRVfwNuOSOcfdIu09I41DjNePhWHAo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=q3cX/5eGF/ye8YHyF4I+payK1PD4WmHVRNwpSxNfiuS+wkCe1D52CSZihmQwUujskoI0yBWanOXX0E5JMwaoG4aHp91YGCoPqxXWpZIIL6BUW7KqrEy/3jzbmmIfAdVhtF9pjhIBtriPYCNo2MpSMi8fJWJLid75o+1MjMWXYgE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SeJ3lTbP; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740124386; x=1771660386;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=BZjL444ik8YtlMRVfwNuOSOcfdIu09I41DjNePhWHAo=;
+  b=SeJ3lTbPfbNhL8+SD0+M7vHkHnDaMFoJFl7G4TjjsfpBU02Q3uTHl9n9
+   neb4uWX8DN6R1EQwJR/YZypK6520yV1R4tG5qRoEFBBFWuKEud7Vs9z5W
+   OB6f3iV2zeCajz45Vs+N8CxlsFLwlOGGBjFRrdk+HE9+kC7vdNDV4DKhS
+   wjHGWfouJnFs2n/COlWbWpl5hmNdaFLBH85auUSTwWOTvGnd5VJIBVPAg
+   Y53Jlgm8TI/yaETs4FOGQTjoZvG/luMnLDYptfxrGeSYThDcYK4bagStA
+   C0/i0BHzAmlC5u4hQ9wXD1ePE+u/SY+TuLWpsKcxhX+uOUWPBwmmXbHdj
+   w==;
+X-CSE-ConnectionGUID: FScXcLW5Qw+VVoBInYlrCQ==
+X-CSE-MsgGUID: bgKWHoMuSDWAIZDNG4dy5A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11351"; a="51552508"
+X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; 
+   d="scan'208";a="51552508"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Feb 2025 23:52:58 -0800
+X-CSE-ConnectionGUID: rQeC0+37Rz6R4TPg7aNIfg==
+X-CSE-MsgGUID: pjr3E7ZUSZGIKXJBdjOFvA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,304,1732608000"; 
+   d="scan'208";a="115829624"
+Received: from vtg-chrome.bj.intel.com ([172.16.127.120])
+  by fmviesa010.fm.intel.com with ESMTP; 20 Feb 2025 23:52:53 -0800
+From: bingbu.cao@intel.com
+To: linux-media@vger.kernel.org,
+	sakari.ailus@linux.intel.com,
+	hdegoede@redhat.com
+Cc: hans@hansg.org,
+	stanislaw.gruszka@linux.intel.com,
+	jerry.w.hu@intel.com,
+	tian.shu.qiu@intel.com,
+	daxing.li@intel.com,
+	hao.yao@intel.com,
+	bingbu.cao@linux.intel.com,
+	bingbu.cao@intel.com
+Subject: [RFC PATCH 0/7] Intel IPU7 PCI and input system device drivers
+Date: Fri, 21 Feb 2025 15:52:45 +0800
+Message-Id: <20250221075252.3347582-1-bingbu.cao@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="qu3uozr2fidqrsfy"
-Content-Disposition: inline
-In-Reply-To: <20250220230818.275262-5-demonsingur@gmail.com>
+Content-Transfer-Encoding: 8bit
+
+From: Bingbu Cao <bingbu.cao@intel.com>
+
+This patch series adds a driver for Intel IPU7 input system.
+IPU7 is the seventh generation of Imaging Processing Unit, it is a
+PCI device which can be found in some Intel Client Platforms such as
+Intel Lunar Lake and Panther Lake, etc.
+User can use IPU7 to capture images from MIPI camera sensors, support
+both MIPI CSI DPHY and CPHY.
+
+IPU7 input system driver uses MC and V4L2 sub-device APIs besides V4L2.
+
+ - ipu7.c: the IPU7 PCI device driver probe, basic hardware
+   configuration and initialization
+ - ipu7-bus: Initialise and register the auxiliary device for IS
+ - ipu7-buttress: Hardware buttress interfaces to allow driver to
+   program to enable the power, firmware authentication and interrupt
+   handling.
+ - ipu7-mmu and ipu7-dma: IPU MMU table setup and IPU DMA mapping APIs
+ - ipu7-cpd and ipu7-boot: firmware format parse and firmware boot flow
+ - abi: a series of ABI headers used by driver and firmware
+ - ipu7-syscom: syscom communication interfaces used by driver to queue
+   commands to firmware
+ - ipu7-isys: main IPU7 input system driver, it registers CSI2 as v4l2
+   sub-devices and the capture as video devices.
 
 
---qu3uozr2fidqrsfy
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 4/6] media: i2c: imx219: pass format's code to
- imx219_get_format_bpp()
-MIME-Version: 1.0
+TODO list:
+ 1. ABI headers cleanup (currently a copy from firmware as it is
+    still in development and updating regularly, need cleanup to unifiy
+    the headers)
+ 2. add metadata capture support
+ 3. add multiple virtual-channels capture support
+ 4. remove unsecure mode code as secure mode is force to enabled in
+    product
 
-Hi Cosmin,
+Bingbu Cao (7):
+  media: Rename the IPU PCI device table header and add IPU7 PCI IDs
+  media: ipu7: add Intel IPU7 PCI device driver
+  media: ipu7: add IPU7 DMA APIs and MMU mapping
+  media: ipu7: add firmware parse, syscom interface and boot sequence
+  media: ipu7: add IPU7 firmware ABI headers
+  media: ipu7: add IPU7 input system device driver
+  media: ipu7: add Makefile and Kconfig for IPU7
 
-Thanks for the patch.
+ drivers/media/pci/intel/Kconfig               |    1 +
+ drivers/media/pci/intel/Makefile              |    1 +
+ drivers/media/pci/intel/ipu6/ipu6.c           |    2 +-
+ drivers/media/pci/intel/ipu7/Kconfig          |   18 +
+ drivers/media/pci/intel/ipu7/Makefile         |   23 +
+ .../pci/intel/ipu7/abi/ipu7_fw_boot_abi.h     |  164 +
+ .../pci/intel/ipu7/abi/ipu7_fw_common_abi.h   |  243 ++
+ .../pci/intel/ipu7/abi/ipu7_fw_config_abi.h   |   19 +
+ .../intel/ipu7/abi/ipu7_fw_insys_config_abi.h |   19 +
+ .../pci/intel/ipu7/abi/ipu7_fw_isys_abi.h     |  495 +++
+ .../pci/intel/ipu7/abi/ipu7_fw_msg_abi.h      |  509 +++
+ .../intel/ipu7/abi/ipu7_fw_psys_config_abi.h  |   22 +
+ .../pci/intel/ipu7/abi/ipu7_fw_syscom_abi.h   |   60 +
+ drivers/media/pci/intel/ipu7/ipu7-boot.c      |  434 +++
+ drivers/media/pci/intel/ipu7/ipu7-boot.h      |   21 +
+ drivers/media/pci/intel/ipu7/ipu7-bus.c       |  158 +
+ drivers/media/pci/intel/ipu7/ipu7-bus.h       |   69 +
+ .../media/pci/intel/ipu7/ipu7-buttress-regs.h |  465 +++
+ drivers/media/pci/intel/ipu7/ipu7-buttress.c  | 1187 +++++++
+ drivers/media/pci/intel/ipu7/ipu7-buttress.h  |   84 +
+ drivers/media/pci/intel/ipu7/ipu7-cpd.c       |  230 ++
+ drivers/media/pci/intel/ipu7/ipu7-cpd.h       |   62 +
+ drivers/media/pci/intel/ipu7/ipu7-dma.c       |  509 +++
+ drivers/media/pci/intel/ipu7/ipu7-dma.h       |   50 +
+ drivers/media/pci/intel/ipu7/ipu7-fw-isys.c   |  300 ++
+ drivers/media/pci/intel/ipu7/ipu7-fw-isys.h   |   39 +
+ .../media/pci/intel/ipu7/ipu7-isys-csi-phy.c  | 1051 +++++++
+ .../media/pci/intel/ipu7/ipu7-isys-csi-phy.h  |   16 +
+ .../pci/intel/ipu7/ipu7-isys-csi2-regs.h      | 1197 +++++++
+ drivers/media/pci/intel/ipu7/ipu7-isys-csi2.c |  565 ++++
+ drivers/media/pci/intel/ipu7/ipu7-isys-csi2.h |   73 +
+ .../media/pci/intel/ipu7/ipu7-isys-queue.c    |  836 +++++
+ .../media/pci/intel/ipu7/ipu7-isys-queue.h    |   79 +
+ .../media/pci/intel/ipu7/ipu7-isys-subdev.c   |  381 +++
+ .../media/pci/intel/ipu7/ipu7-isys-subdev.h   |   55 +
+ .../media/pci/intel/ipu7/ipu7-isys-video.c    | 1130 +++++++
+ .../media/pci/intel/ipu7/ipu7-isys-video.h    |  117 +
+ drivers/media/pci/intel/ipu7/ipu7-isys.c      | 1170 +++++++
+ drivers/media/pci/intel/ipu7/ipu7-isys.h      |  150 +
+ drivers/media/pci/intel/ipu7/ipu7-mmu.c       |  853 +++++
+ drivers/media/pci/intel/ipu7/ipu7-mmu.h       |  414 +++
+ .../media/pci/intel/ipu7/ipu7-platform-regs.h |  146 +
+ drivers/media/pci/intel/ipu7/ipu7-syscom.c    |   79 +
+ drivers/media/pci/intel/ipu7/ipu7-syscom.h    |   36 +
+ drivers/media/pci/intel/ipu7/ipu7.c           | 2791 +++++++++++++++++
+ drivers/media/pci/intel/ipu7/ipu7.h           |  244 ++
+ drivers/media/pci/intel/ivsc/mei_csi.c        |    2 +-
+ .../{ipu6-pci-table.h => ipu-pci-table.h}     |   14 +-
+ 48 files changed, 16578 insertions(+), 5 deletions(-)
+ create mode 100644 drivers/media/pci/intel/ipu7/Kconfig
+ create mode 100644 drivers/media/pci/intel/ipu7/Makefile
+ create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_boot_abi.h
+ create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_common_abi.h
+ create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_config_abi.h
+ create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_insys_config_abi.h
+ create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_isys_abi.h
+ create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_msg_abi.h
+ create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_psys_config_abi.h
+ create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_syscom_abi.h
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-boot.c
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-boot.h
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-bus.c
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-bus.h
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-buttress-regs.h
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-buttress.c
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-buttress.h
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-cpd.c
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-cpd.h
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-dma.c
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-dma.h
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-fw-isys.c
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-fw-isys.h
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-csi-phy.c
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-csi-phy.h
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-csi2-regs.h
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-csi2.c
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-csi2.h
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-queue.c
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-queue.h
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-subdev.c
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-subdev.h
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-video.c
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-video.h
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys.c
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys.h
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-mmu.c
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-mmu.h
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-platform-regs.h
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-syscom.c
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7-syscom.h
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7.c
+ create mode 100644 drivers/media/pci/intel/ipu7/ipu7.h
+ rename include/media/{ipu6-pci-table.h => ipu-pci-table.h} (68%)
 
-On Feb 21, 2025 at 01:08:12 +0200, Cosmin Tanislav wrote:
-> imx219_get_format_bpp() only uses the code of the format, pass it
-> instead of the whole format to allow usage when the whole format is not
-> available.
->=20
-> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+-- 
+2.34.1
 
-Reviewed-by: Jai Luthra <jai.luthra@ideasonboard.com>
-
-> ---
->  drivers/media/i2c/imx219.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index fcd98ee54768e..ad1965a91ae3c 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -387,9 +387,9 @@ static u32 imx219_get_format_code(struct imx219 *imx2=
-19, u32 code)
->  	return imx219_mbus_formats[i];
->  }
-> =20
-> -static u32 imx219_get_format_bpp(const struct v4l2_mbus_framefmt *format)
-> +static u32 imx219_get_format_bpp(u32 code)
->  {
-> -	switch (format->code) {
-> +	switch (code) {
->  	case MEDIA_BUS_FMT_SRGGB8_1X8:
->  	case MEDIA_BUS_FMT_SGRBG8_1X8:
->  	case MEDIA_BUS_FMT_SGBRG8_1X8:
-> @@ -680,7 +680,7 @@ static int imx219_set_framefmt(struct imx219 *imx219,
-> =20
->  	format =3D v4l2_subdev_state_get_format(state, 0);
->  	crop =3D v4l2_subdev_state_get_crop(state, 0);
-> -	bpp =3D imx219_get_format_bpp(format);
-> +	bpp =3D imx219_get_format_bpp(format->code);
-> =20
->  	cci_write(imx219->regmap, IMX219_REG_X_ADD_STA_A,
->  		  crop->left - IMX219_PIXEL_ARRAY_LEFT, &ret);
-> --=20
-> 2.48.1
->=20
-
---=20
-Thanks,
-Jai
-
---qu3uozr2fidqrsfy
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAme4JS0ACgkQQ96R+SSa
-cUUyoQ//XZ0w48A1jFQeb14U2B2VcdX6fhhBL2Dw7kfgnqm9mVIOrt3BxXZDo4yk
-dgi+CLC0RIDhrVtEnLN+m3L3f+Q+f5H6LV7QePfE2ZEYCAhXLgR8gRBx1NTIs9Ym
-RmH+tCQw1tPto+5X6U6nP13vbHGPaxM3403m7U7Xe/qu7KNcPcpznm5dGzClWlmD
-I0Foq0e2f5iRsjaIkvZf0cJ+XTX0G6i2BESibGX7Zrlk65bj0cr995UFYp3+IBEQ
-Cn86gTDm4eL67hVppoy45eUbowOxJ+zVER7P73zbxc/s70M8qlc+t+mmJ3EEXuVU
-j2mm451bRreIR9QoEo0D0y8P1a6QPGboTy2Gy7GDevQ+N3NsZlPEqtmGp/Mqlq4b
-vl0Mj4pX5Y49VHFXCZjyrPFIxwobW2u+1dC5iy31+b5xWIm4c//If8Je1Bg9LBlo
-vvvKcyP8pPy1rDFGn5014rgHlDIFrneiNln6/UQzG7bboI0kp0U0NbTFjkq2kdFi
-lpjGyNX19zBlRnWhRIpOcXYKFF+++Zme9uVEG1DG1KZJRG+0aiLkc3PgQwcURknE
-+AiBNpaW06e2mof17gRaftQwOR9P/vcNnjt4yXAQoKSxKIEzXdJcHNseXcE4JMhm
-sztXjWNiv31ooynp3ARdYAZzbGpcybCbtfVhGsJyHCSPAuYL23E=
-=qZw6
------END PGP SIGNATURE-----
-
---qu3uozr2fidqrsfy--
 
