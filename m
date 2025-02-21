@@ -1,79 +1,36 @@
-Return-Path: <linux-media+bounces-26550-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26551-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BD39A3EF3D
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 09:56:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3EAEA3EF8E
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 10:08:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E0671703423
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 08:55:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 368813AB726
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 09:06:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEB12202C2F;
-	Fri, 21 Feb 2025 08:55:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m9cGXNvV"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2DED62036F6;
+	Fri, 21 Feb 2025 09:04:15 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E15E20125F;
-	Fri, 21 Feb 2025 08:55:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAEC3200BBB;
+	Fri, 21 Feb 2025 09:04:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740128143; cv=none; b=VYyz38DnZsF58GZNDhhE/iKvPS8zLtfIQ29bJiNRnWKpfpKJKlPHHzBK2S9em4n/xn18BXF2XC5O1/1r5d//PZUPdtnE1upIOkCoCjBFEl/02i6wxQq1KYxky4tqL2TAu2cus5+tb7mvzw+9lY/EjPg+qgEP1sGlPOdlNe0nWS0=
+	t=1740128654; cv=none; b=nex3supTLiIdXCJVatnNW3NXIg13C651Zxfs7YcAxzUalckmwvpHr6S6Z1Uthx6MIimOymfNgBuhkZWeish5wL4a6hiVV4c2FUUNTyJLbtTBvw+yIJS6J8wsUEJw5Um1pRE1jxD3nHRPRGB7V2z2u7aGDRLg3c74Uo2GIPhxP0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740128143; c=relaxed/simple;
-	bh=/T0ySwxp4mZLQQcazkrub5eHoCD6jJrDkL2LKn29irI=;
+	s=arc-20240116; t=1740128654; c=relaxed/simple;
+	bh=UBNSNX42gssN5jlgAh0O8u9/2DQQYgVPWMtcqputxW8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B8T5fRKqh7jzF/Crvf8dxAW7wG9ZnYZl2b99bSVFQII2SBAdZRhVKr3TrwOsNDdIyQLCuz0ZGxtpOWrc7yntfcK/CDX4JN/7FlCeg67QzKiFcZnz4TQQuyRCQLAdK47qfjpyOUlResQG941HeyQSIb4LhBKoe+4aJ8rdm/nLa7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=m9cGXNvV; arc=none smtp.client-ip=209.85.208.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5ded51d31f1so3161869a12.3;
-        Fri, 21 Feb 2025 00:55:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740128138; x=1740732938; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=D3zIQr7oAH3qfopPECTGfwB1lTfHa8/ihWNr2XkHhkA=;
-        b=m9cGXNvV/Ez4/XI+Lnw7o3nUjo6JSSBHTjRMX4Byzej2EUOZ5qIEfeK3iY3XA3kpvn
-         CWTABCwpMHw03kjmdg6y0YmbmcNthxvn7DheNz7R1/XgxZjspc1Upp5J6UDaCUFugOx4
-         S8/bP83WdI5/gVRmdFpt+HnkH4iIdcLBE3j2bPFLDDtohKg1VFWhsnPj0xFcAaCfONzq
-         bSL16w7T8Qc2KdnVrc0M94XVyljF8iJGLqo2BvYLPyrKGt9URqz7nt88ShSgf+jFe0gQ
-         T7ZJKyGcav89W4Xbhek5FFsIL71CNk8tmaxQjN6M5dkOhFmhe2tqxFn/8qFJonvF6PRK
-         MpWA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740128138; x=1740732938;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=D3zIQr7oAH3qfopPECTGfwB1lTfHa8/ihWNr2XkHhkA=;
-        b=iKd9Ia9QfOFH0+MSbK9BTejoQQBkr7aM71vC7AByuTmDyTz7YygyIkC3TNJhChztCG
-         RbEGZ28pVqVSO1FiUd85trEaEK7TyemZGfHrT8aqOZXJJ908grFxf6altf1RfkI+DqZ1
-         yLtCKj51Pcf8YPxUTdKWzQJALCJlkNJ/eWZAgrY8cET1tjFTUFyBvlDx/ZL37w5Erqly
-         F2WP0hS582LCrwPwfBscVG3PB6vNBZVSxp4pF6ebVAI6B5AzCrNC2309luQ0kdD4n+wH
-         jZhKk0j1kQCEejrLTwkVMR/3BPfssSH7UeJ5GtbtpdPRR/7vvuS0kOAwRzbjNpZtc5nA
-         SZkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU4YwSaBo87U6oc5nqnUqrz+ssxG/B72SWej4RF9XqHtV1MqnMfhiVauSPBQccOdbxTYD9Y52PfIwBK@vger.kernel.org, AJvYcCULZD9IOFuf7RR3ea1hXisikjEK/fV4Hr2o/BIhbsPMthpb1XDlugbybXIOQ2TT1wNcC2cNteP14S0ZTs8=@vger.kernel.org, AJvYcCWEohds5lzy/bsuuXOVQ41GycoJyYxOizWBgb1AGLDSSQOK4Va3+Zs5BXpWHMAfQpQbuvNKnUDVlyXff52t@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+BoQJAOZI4r2pK2vEVvyMUjYwfIN2vQfiCyyxbL5QLzVGp4fq
-	+sCbVmM5507t1hvjlBkdZP2ZlBUTt1fuL3WR4/93vA/kfnbp634j
-X-Gm-Gg: ASbGncufSXo/m9GtG919BTcogkFC6GMYwmwUhS1XXqtpHvdTUjrrYtuFyX2GjYVc5do
-	0+pyGMWpMVSs73oXxzbTwUeavRqIpc7RQVAlIkhOXALIgMXJ8gyD9/FXiKekwG7Wt7C5U1gCjgJ
-	n2EdMFWcrCrzUGKoHLbpKOjAfsbb/R5mZ5bK1oOCVhDl9DE0ExnK2vJfVHj/Zp+isDK1Bo6qIr0
-	GDnodPYiQcQdU4Y3hS7+5rEZ8FJ6jkMUMNWIppXesQbU3VInfGT/ltTOwOZmg83pFyT/hMB5ipA
-	N9vO9fQCb9ileHqp8CSXyYuuqtgCL2C6
-X-Google-Smtp-Source: AGHT+IFmTTdAgUDzbiHX+T9rWqsmdcKpPchN5TpDb6Tvrcof3AwRJCep4kmOdcOa6E6Gwr6wzr7kuw==
-X-Received: by 2002:a05:6402:1d4e:b0:5e0:b542:fb32 with SMTP id 4fb4d7f45d1cf-5e0b70f002bmr1915674a12.19.1740128138254;
-        Fri, 21 Feb 2025 00:55:38 -0800 (PST)
-Received: from [192.168.0.100] ([188.27.130.21])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5dece1c58e2sm13515163a12.20.2025.02.21.00.55.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Feb 2025 00:55:37 -0800 (PST)
-Message-ID: <51294a91-afd1-4e62-b320-88ee233fbfc9@gmail.com>
-Date: Fri, 21 Feb 2025 10:55:33 +0200
+	 In-Reply-To:Content-Type; b=ew28i3ePnHdvc2oGT7/sZhKvVujAl8Zzy/Shrzl+3o2nL75lL5kd/f0HKl3PSJpLwiH9rO6R4OpHUzXqfdjslycY3U7JdN6HOunrfr8dbqZyvAHAyrNKx1gEeBECHlrtPRTVscWqV2NJjMHcySkAWyaAgQyS3vrfvcYe5S85qJY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33018C4CED6;
+	Fri, 21 Feb 2025 09:04:12 +0000 (UTC)
+Message-ID: <df5693d0-7747-4423-809e-ae081c9aae92@xs4all.nl>
+Date: Fri, 21 Feb 2025 10:04:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,126 +38,123 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/6] dt-bindings: media: video-interfaces: add support
- for Virtual Channel IDs
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20250220230818.275262-1-demonsingur@gmail.com>
- <20250220230818.275262-2-demonsingur@gmail.com>
- <Z7g7iCUlsUN2LBIW@kekkonen.localdomain>
-From: Cosmin Tanislav <demonsingur@gmail.com>
-Content-Language: en-US
-In-Reply-To: <Z7g7iCUlsUN2LBIW@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH 1/4] media: nuvoton: Fix reference handling of ece_pdev
+To: Ricardo Ribalda <ribalda@chromium.org>, Joseph Liu <kwliu@nuvoton.com>,
+ Marvin Lin <kflin@nuvoton.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Marvin Lin <milkfafa@gmail.com>, linux-media@vger.kernel.org,
+ openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org
+References: <20250121-nuvoton-v1-0-1ea4f0cdbda2@chromium.org>
+ <20250121-nuvoton-v1-1-1ea4f0cdbda2@chromium.org>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20250121-nuvoton-v1-1-1ea4f0cdbda2@chromium.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
+Hi Ricardo,
 
+On 21/01/2025 22:14, Ricardo Ribalda wrote:
+> When we obtain a reference to of a platform_device, we need to release
+> it via put_device.
+> 
+> Found by cocci:
+> ./platform/nuvoton/npcm-video.c:1677:3-9: ERROR: missing put_device; call of_find_device_by_node on line 1667, but without a corresponding object release within this function.
+> ./platform/nuvoton/npcm-video.c:1684:3-9: ERROR: missing put_device; call of_find_device_by_node on line 1667, but without a corresponding object release within this function.
+> ./platform/nuvoton/npcm-video.c:1690:3-9: ERROR: missing put_device; call of_find_device_by_node on line 1667, but without a corresponding object release within this function.
+> ./platform/nuvoton/npcm-video.c:1694:1-7: ERROR: missing put_device; call of_find_device_by_node on line 1667, but without a corresponding object release within this function.
 
-On 2/21/25 10:38 AM, Sakari Ailus wrote:
-> Hi Cosmin,
-> 
-> Thanks for the patches.
-> 
-> On Fri, Feb 21, 2025 at 01:08:09AM +0200, Cosmin Tanislav wrote:
->> Multi-camera systems often have issues with receiving video streams
->> from multiple cameras at the same time because the cameras use the same
->> Virtual Channel IDs.
->>
->> CSI bridges might not support remapping the Virtual Channel IDs, making
->> it impossible to receive the separate video streams at the same
->> time, while the CSI receiver is able to de-mux streams based on VC IDs.
->>
->> Cameras sometimes have support for changing the VC IDs they output
->> themselves.
->>
->> For a practical example, GMSL2 deserializer chips do not support VC ID
->> remapping in tunnel mode, and neither do the serializers. Allowing the
->> cameras to have their VC IDs configured would allow multi-camera setups
->> to use tunnel mode.
-> 
-> We've tried to avoid having virtual channels in firmware and in UAPI,
-> I'm not yet entirely convinced we need to depart from the established
-> practices. Let's see. Apart from that, please see my comments below.
-> 
+This driver uses this construct:
 
-Sadly there's no other way to handle multi-camera support for GMSL
-devices that don't support VC ID remapping. And upcomming GMSL3 devices
-only support tunnel mode which doesn't support any type of remapping.
+                struct device *ece_dev __free(put_device) = &ece_pdev->dev;
 
->>
->> Add support for specifying these Virtual Channel IDs in Video Interface
->> Endpoints. The supported values are 0 to 3, with a maximum of 4 values.
->> Although the CSI-2 specification allows for up to 32 virtual channels,
->> most hardware doesn't support more than 4. This can be extended later
->> if need be.
->>
->> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
->> ---
->>   .../devicetree/bindings/media/video-interfaces.yaml   | 11 +++++++++++
->>   1 file changed, 11 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/media/video-interfaces.yaml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
->> index 038e85b45befa..414b5fa8f3472 100644
->> --- a/Documentation/devicetree/bindings/media/video-interfaces.yaml
->> +++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
->> @@ -231,6 +231,17 @@ properties:
->>         shall be interpreted as 0 (ABC). This property is valid for CSI-2 C-PHY
->>         busses only.
->>   
->> +  vc-ids:
-> 
-> Other properties aren't using abbreviations, at least most of them. How
-> about "virtual-channels"?
-> 
+to automatically call put_device. So this patch would 'put' the device twice.
 
-That works for me.
+Does cocci understand constructs like this? If I hadn't looked closely at the
+code first, I would just have merged it.
 
->> +    $ref: /schemas/types.yaml#/definitions/uint32-array
->> +    minItems: 1
->> +    maxItems: 4
-> 
-> Shouldn't this be 32?
-> 
+Regards,
 
-For the moment I picked 4 VC IDs (2 bits per VC ID) because any more
-than that doesn't seem to be supported by CSI receivers, since most
-do not support extended VC IDs.
+	Hans
 
-Also, from the MIPI specification:
-
-The Data Identifier byte contains the Virtual Channel Identifier (VC) 
-value and the Data Type (DT) value as illustrated in Figure 32.
-
-The Virtual Channel Identifier is contained in the two MS bits of the
-Data Identifier Byte. The Data Type value is contained in the six LS
-bits of the Data Identifier Byte.
-
->> +    items:
->> +      maximum: 3
 > 
-> 31 here, too.
+> Cc: stable@vger.kernel.org
+> Fixes: 46c15a4ff1f4 ("media: nuvoton: Add driver for NPCM video capture and encoding engine")
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/platform/nuvoton/npcm-video.c | 3 +++
+>  1 file changed, 3 insertions(+)
 > 
->> +    description:
->> +      An array of Virtual Channel IDs. These are unsigned integers that specify
-> 
-> I'd leave out the explanation on the data type. It's redundant.
-> 
->> +      the VC IDs used by the device for its data streams. This property is valid
->> +      for MIPI CSI-2 only.
->> +
->>     strobe:
->>       $ref: /schemas/types.yaml#/definitions/uint32
->>       enum: [ 0, 1 ]
+> diff --git a/drivers/media/platform/nuvoton/npcm-video.c b/drivers/media/platform/nuvoton/npcm-video.c
+> index 024cd8ee1709..7b4c23dbe709 100644
+> --- a/drivers/media/platform/nuvoton/npcm-video.c
+> +++ b/drivers/media/platform/nuvoton/npcm-video.c
+> @@ -1673,6 +1673,7 @@ static int npcm_video_ece_init(struct npcm_video *video)
+>  
+>  		regs = devm_platform_ioremap_resource(ece_pdev, 0);
+>  		if (IS_ERR(regs)) {
+> +			put_device(&ece_pdev->dev);
+>  			dev_err(dev, "Failed to parse ECE reg in DTS\n");
+>  			return PTR_ERR(regs);
+>  		}
+> @@ -1680,11 +1681,13 @@ static int npcm_video_ece_init(struct npcm_video *video)
+>  		video->ece.regmap = devm_regmap_init_mmio(dev, regs,
+>  							  &npcm_video_ece_regmap_cfg);
+>  		if (IS_ERR(video->ece.regmap)) {
+> +			put_device(&ece_pdev->dev);
+>  			dev_err(dev, "Failed to initialize ECE regmap\n");
+>  			return PTR_ERR(video->ece.regmap);
+>  		}
+>  
+>  		video->ece.reset = devm_reset_control_get(&ece_pdev->dev, NULL);
+> +		put_device(&ece_pdev->dev);
+>  		if (IS_ERR(video->ece.reset)) {
+>  			dev_err(dev, "Failed to get ECE reset control in DTS\n");
+>  			return PTR_ERR(video->ece.reset);
 > 
 
 
