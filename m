@@ -1,280 +1,187 @@
-Return-Path: <linux-media+bounces-26533-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26535-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6332EA3EB18
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 04:10:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB71A3EB87
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 04:55:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0AB393B0A6B
-	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 03:10:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8AADC3B5838
+	for <lists+linux-media@lfdr.de>; Fri, 21 Feb 2025 03:55:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A2231C174A;
-	Fri, 21 Feb 2025 03:10:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E76A1F9F51;
+	Fri, 21 Feb 2025 03:55:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="EuMUJu88"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fq849w1t"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F8423A6;
-	Fri, 21 Feb 2025 03:10:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DCB1F1524
+	for <linux-media@vger.kernel.org>; Fri, 21 Feb 2025 03:55:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740107431; cv=none; b=FMsfPXRb33SbSdvtj85xRV11PIqfmuC3RrT1SXnvp8FTF2hCX/dk5iPU7RmplHqv3Ck/Urx2ds98lqLCy4S04jRCCBYOWAc4GvIR5xb6xliS3wExrTNjXZ7P6z18ff/7dFGWcBSLOU6zTywWAUbgzX16Cj+TyN46oqJvJ5XwyOc=
+	t=1740110147; cv=none; b=a4R7Y7izrnHjM+0aL96AxJD9dO3G3/VxPGZKSDWC4PjDG62HrP4h7gDPuuUpiVq8rsQAeP+FdNU3u2e63v+WgdOgzh7UfHwMXcAmAO9U1rlou3fqtEPtkp0AHbkujlS3/aeAwLz/uzeulnfKSR0fja9+YBq3vJ7MdQwSNEJ9iwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740107431; c=relaxed/simple;
-	bh=SJS7wAQSuNIoeZBnMgNIrS+blk6yQtEX9he7YeM8om0=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fu/BOx801LAbrPt3w5uA1V686idzGadoW02GB4YQTLqJysV/rNN3Aewkt7Tv42j1sZz41/fUqsOI9szK23otGGjnLfqreSj9oeN0rX7X9sU9dCmJVNwFgsUD5O3PA5gJ3QS9yKKjRk5efjVcp2ngHiNYKHWCKykduQgHLQQqIIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=EuMUJu88; arc=none smtp.client-ip=210.61.82.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 64a84ec6f00111ef8eb9c36241bbb6fb-20250221
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=4oXke/zgIEKNvBa0yjhhdFZGei+gmsGnkj4nzwpXAfg=;
-	b=EuMUJu88zVbSkt22cLpGVoIdTyOU9KZ9n09WBuN+uSb2ww2ls6Rbxc54lrUqKhoU5542XBG2SMOrDSmHl7Scjt0JTDVnGFSbbNoMTDhPRvPCdDeBr5hcFnAAtH0+4ozBXo0g4UrT0Vn5iDlcoHFYRHqHUW17qldnJ+/rCxubthg=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.46,REQID:8720ed96-252d-4c6c-bf2d-3da90929112e,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-25
-X-CID-META: VersionHash:60aa074,CLOUDID:039e1229-e0f8-414e-b8c3-b75c08217be8,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:nil,Content:0|50,EDM:-3
-	,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV
-	:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 64a84ec6f00111ef8eb9c36241bbb6fb-20250221
-Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by mailgw02.mediatek.com
-	(envelope-from <irui.wang@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1447793105; Fri, 21 Feb 2025 11:10:24 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Fri, 21 Feb 2025 11:10:23 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1258.28 via Frontend Transport; Fri, 21 Feb 2025 11:10:22 +0800
-From: Irui Wang <irui.wang@mediatek.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
-	<angelogioacchino.delregno@collabora.com>, <nicolas.dufresne@collabora.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>
-CC: <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	Longfei Wang <longfei.wang@mediatek.com>, Irui Wang <irui.wang@mediatek.com>
-Subject: [PATCH 2/2] media: mediatek: encoder: Add support for common driver encode process
-Date: Fri, 21 Feb 2025 11:10:04 +0800
-Message-ID: <20250221031004.9050-3-irui.wang@mediatek.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20250221031004.9050-1-irui.wang@mediatek.com>
-References: <20250221031004.9050-1-irui.wang@mediatek.com>
+	s=arc-20240116; t=1740110147; c=relaxed/simple;
+	bh=iG5MA668VIkZx6yw4F2E1Ql8r5D0wiJ2sdzgkM+jrnk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=o+4mEGeFgFz6rYjc5+9FhWZFJcXQQF84cJAd5VGVYxCKlA9YiO7jwl6wU6sbVOmx7yBFnWBh+BnAFm9sBKWZiYIXyfSB3RKJZa2abVGD+LBdSy2vrtIn3R4LnHBxxH36laaKKVbGEq3s5prsSUG8efuirfvEt3TNmMdAeMWATwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fq849w1t; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-aaf900cc7fbso257606166b.3
+        for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 19:55:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1740110143; x=1740714943; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Fw0vw5qDfG2Y5RQUA0J555gJarSraMWbJS4+ci/UW8k=;
+        b=fq849w1tRn6KQ2NiQkXaVfayy49AhKChFvpByNc+ag/eoXPeiIDYoJHQ0dcxtSNtxB
+         0seI5P6HuQcdCls6iTdmovYElyyniPSGoff1awx/1jvQEhYbIhMUJBZ8HsgW4eMl1Oqc
+         NjGS76JUq5Q5eHqfD+aOsFQ6wxyKgjMUZ6BUY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740110143; x=1740714943;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Fw0vw5qDfG2Y5RQUA0J555gJarSraMWbJS4+ci/UW8k=;
+        b=gTnW4HfcngQjVKLs/zNEJRLPf9UyJ/i0UKesPMhHikq65YHy+xQ1zMEeYvMXFyjFFL
+         77N8vtaaE25qUT/iMH5/ZsSiOiDYvMSixue9wEpcB/TPoS/3N4Xv0DLXCY75TjMATw7C
+         8RtBYTbV523ySxgz73qwjACILkKV2+7QwAsG4L8JqTeh+2jJFal2cFOiRuNOhwikfi+V
+         kU0biMwX6/sNoN/L3syaxHNp2MGdLsen55+s8iuDWB7EqQqAOeW3lsKsVd+mVRvV6FMn
+         na/0cmztB4VOs9Emk6ZWUrPU2tKQoeiyu16LmPGPTsjsRoUkKsPkYHoX5KaPQgIFYPOt
+         7lUg==
+X-Forwarded-Encrypted: i=1; AJvYcCX1Mfv0vt7wxiKcg5TfUH6n9UVCXyUT26zNFU3fx9Egbk4jRDTavUdqD/9Y5zE4S96UqIyRpaYid9C2gA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxx2XuuJJGvc3maa4XCLGEPz/uziRcqpfT2XiEaqWmR/c1Iu3wU
+	xUjPQi/o+4sKw/OzwEKIT3AsYAc+oftBGTX+uS/TBIXmUIj83nATEF6CHzJ5tzLSElB79b9R1pM
+	=
+X-Gm-Gg: ASbGncvnXTJlZlGiaEXEOVSbRicZuBEFlTiy3bphTKUD7jFQzHd6HLIC7IGsR737UDJ
+	Awr10gsW6iaz8OJ7rCTwYHfVAHsMOpThqz5c19/zW+Jy9nYi1CtwSmubyPhcqDcRh31t9FqrTYd
+	oGjajwqWe78QPOcv0zTMX5DxhhAvBhVwrtt4GjIYh2SC2mSEsFgJiFfOJ7pz2gUR//T28PHgfxo
+	rP8RmbBANFUWTI92IKynISqxxzo87alhIOvZhp9DpCXXIeZeMezhyyuMKKF7WF4/ndxsC2cma5x
+	kdH8xhveLYAtum5fsWv0YAiIj0jF8CNqKKsE4IH0yDKzXWAGDbPROEf7N1SOrA==
+X-Google-Smtp-Source: AGHT+IGZdclcwpBfsD2kpNXuwtM1Vk7Vspv6KnJqWyMT/FqVERwHjz59xYZV4TneZCbbTEYmH2abrw==
+X-Received: by 2002:a17:907:6d05:b0:aba:598b:dbde with SMTP id a640c23a62f3a-abc0d97e504mr113626066b.8.1740110143440;
+        Thu, 20 Feb 2025 19:55:43 -0800 (PST)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com. [209.85.208.51])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abbac60d938sm748968066b.147.2025.02.20.19.55.40
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 20 Feb 2025 19:55:41 -0800 (PST)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5e08001cff4so3517a12.1
+        for <linux-media@vger.kernel.org>; Thu, 20 Feb 2025 19:55:40 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUqh3YAWMkh3t7A3bIB/QIrRYr76pl6Gj9b9fo/pu3JrWY48x+wwfQGXar89yzMV+VQWqw202VPXc/VNQ==@vger.kernel.org
+X-Received: by 2002:aa7:d5cb:0:b0:5e0:815d:4e0a with SMTP id
+ 4fb4d7f45d1cf-5e0b871d417mr35634a12.5.1740110140496; Thu, 20 Feb 2025
+ 19:55:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+References: <20250207-venus_oob_2-v4-0-522da0b68b22@quicinc.com>
+ <20250207-venus_oob_2-v4-4-522da0b68b22@quicinc.com> <e794c047-ab0e-4589-a1d2-0f73b813eacc@xs4all.nl>
+ <b1721d46-ffbf-e21c-ce18-e96e3e8ee35f@quicinc.com>
+In-Reply-To: <b1721d46-ffbf-e21c-ce18-e96e3e8ee35f@quicinc.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Fri, 21 Feb 2025 12:55:23 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5ABR8BwG_9JVPzzp+HZv6O=B9r-ipjKQHku7DdTGASetQ@mail.gmail.com>
+X-Gm-Features: AWEUYZmeIjhMEJHyZ3B3-kUW6g12qVNZHewpqyjHWwiKCgJTNAXvvTwbb0Hd1Ik
+Message-ID: <CAAFQd5ABR8BwG_9JVPzzp+HZv6O=B9r-ipjKQHku7DdTGASetQ@mail.gmail.com>
+Subject: Re: [PATCH v4 4/4] media: venus: hfi: add a check to handle OOB in
+ sfr region
+To: Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Hans Verkuil <hans.verkuil@cisco.com>, Stanimir Varbanov <stanimir.varbanov@linaro.org>, 
+	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Define a boolean variable in the encoder compatible data structure, when
-it is set to true, initialize the new encoder dirver interface.
-Ensure backward compatibility, define new 'venc_ipi_msg' structure for
-communication between the encoder kernel driver and firmware.
+On Fri, Feb 21, 2025 at 12:56=E2=80=AFAM Vikash Garodia
+<quic_vgarodia@quicinc.com> wrote:
+>
+>
+> On 2/20/2025 8:53 PM, Hans Verkuil wrote:
+> > On 2/7/25 09:24, Vikash Garodia wrote:
+> >> sfr->buf_size is in shared memory and can be modified by malicious use=
+r.
+> >> OOB write is possible when the size is made higher than actual sfr dat=
+a
+> >> buffer. Cap the size to allocated size for such cases.
+> >>
+> >> Cc: stable@vger.kernel.org
+> >> Fixes: d96d3f30c0f2 ("[media] media: venus: hfi: add Venus HFI files")
+> >> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> >> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> >> ---
+> >>  drivers/media/platform/qcom/venus/hfi_venus.c | 9 +++++++--
+> >>  1 file changed, 7 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/m=
+edia/platform/qcom/venus/hfi_venus.c
+> >> index 6b615270c5dae470c6fad408c9b5bc037883e56e..c3113420d266e61fcab446=
+88580288d7408b50f4 100644
+> >> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
+> >> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
+> >> @@ -1041,18 +1041,23 @@ static void venus_sfr_print(struct venus_hfi_d=
+evice *hdev)
+> >>  {
+> >>      struct device *dev =3D hdev->core->dev;
+> >>      struct hfi_sfr *sfr =3D hdev->sfr.kva;
+> >> +    u32 size;
+> >>      void *p;
+> >>
+> >>      if (!sfr)
+> >>              return;
+> >>
+> >> -    p =3D memchr(sfr->data, '\0', sfr->buf_size);
+> >> +    size =3D sfr->buf_size;
+> >
+> > If this is ever 0...
+> >
+> >> +    if (size > ALIGNED_SFR_SIZE)
+> >> +            size =3D ALIGNED_SFR_SIZE;
+> >> +
+> >> +    p =3D memchr(sfr->data, '\0', size);
+> >>      /*
+> >>       * SFR isn't guaranteed to be NULL terminated since SYS_ERROR ind=
+icates
+> >>       * that Venus is in the process of crashing.
+> >>       */
+> >>      if (!p)
+> >> -            sfr->data[sfr->buf_size - 1] =3D '\0';
+> >> +            sfr->data[size - 1] =3D '\0';
+> >
+> > ...then this will overwrite memory. It probably can't be 0, but a check=
+ or perhaps
+> > just a comment might be good. It looks a bit scary.
+> Thats correct, it would not be 0 as its a prefixed one [1]. I can put up =
+a
+> comment here.
 
-Signed-off-by: Irui Wang <irui.wang@mediatek.com>
----
- .../vcodec/encoder/mtk_vcodec_enc_drv.h       |  3 ++
- .../mediatek/vcodec/encoder/venc_drv_if.c     |  3 +-
- .../mediatek/vcodec/encoder/venc_ipi_msg.h    | 26 +++++++++++++
- .../mediatek/vcodec/encoder/venc_vpu_if.c     | 37 ++++++++++++-------
- 4 files changed, 54 insertions(+), 15 deletions(-)
+Couldn't a bug (or vulnerability) in the firmware actually still cause
+it to write 0 there?
 
-diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h
-index 0bd85d0fb379..a005ebd48db5 100644
---- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h
-+++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h
-@@ -16,6 +16,7 @@
- 
- #define MTK_ENC_CTX_IS_EXT(ctx) ((ctx)->dev->venc_pdata->uses_ext)
- #define MTK_ENC_IOVA_IS_34BIT(ctx) ((ctx)->dev->venc_pdata->uses_34bit)
-+#define MTK_ENC_DRV_IS_COMM(ctx) (((ctx)->dev->venc_pdata->uses_comm))
- 
- /**
-  * struct mtk_vcodec_enc_pdata - compatible data for each IC
-@@ -29,6 +30,7 @@
-  * @num_output_formats: number of entries in output_formats
-  * @core_id: stand for h264 or vp8 encode index
-  * @uses_34bit: whether the encoder uses 34-bit iova
-+ * @uses_comm: whether the encoder uses common driver interface
-  */
- struct mtk_vcodec_enc_pdata {
- 	bool uses_ext;
-@@ -40,6 +42,7 @@ struct mtk_vcodec_enc_pdata {
- 	size_t num_output_formats;
- 	u8 core_id;
- 	bool uses_34bit;
-+	bool uses_comm;
- };
- 
- /*
-diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc_drv_if.c b/drivers/media/platform/mediatek/vcodec/encoder/venc_drv_if.c
-index e83747b8d69a..05db69306c5b 100644
---- a/drivers/media/platform/mediatek/vcodec/encoder/venc_drv_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/encoder/venc_drv_if.c
-@@ -19,13 +19,14 @@
- int venc_if_init(struct mtk_vcodec_enc_ctx *ctx, unsigned int fourcc)
- {
- 	int ret = 0;
-+	const bool is_comm = MTK_ENC_DRV_IS_COMM(ctx);
- 
- 	switch (fourcc) {
- 	case V4L2_PIX_FMT_VP8:
- 		ctx->enc_if = &venc_vp8_if;
- 		break;
- 	case V4L2_PIX_FMT_H264:
--		ctx->enc_if = &venc_h264_if;
-+		ctx->enc_if = is_comm ? &venc_if : &venc_h264_if;
- 		break;
- 	default:
- 		return -EINVAL;
-diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc_ipi_msg.h b/drivers/media/platform/mediatek/vcodec/encoder/venc_ipi_msg.h
-index bb16d96a7f57..ce3c2c8059fb 100644
---- a/drivers/media/platform/mediatek/vcodec/encoder/venc_ipi_msg.h
-+++ b/drivers/media/platform/mediatek/vcodec/encoder/venc_ipi_msg.h
-@@ -45,6 +45,20 @@ struct venc_ap_ipi_msg_init {
- 	uint64_t venc_inst;
- };
- 
-+/**
-+ * struct venc_ap_ipi_msg_init_comm - AP to VPU init cmd structure
-+ * @base: AP to VPU init cmd structure
-+ * @codec_type: encoder type
-+ * @reserved: reserved field
-+ * @shared_iova: shared iova
-+ */
-+struct venc_ap_ipi_msg_init_comm {
-+	struct venc_ap_ipi_msg_init base;
-+	u32 codec_type;
-+	u32 reserved;
-+	u64 shared_iova;
-+};
-+
- /**
-  * struct venc_ap_ipi_msg_set_param - AP to VPU set_param cmd structure
-  * @msg_id:	message id (AP_IPIMSG_XXX_ENC_SET_PARAM)
-@@ -175,6 +189,18 @@ struct venc_vpu_ipi_msg_init {
- 	uint32_t venc_abi_version;
- };
- 
-+/**
-+ * struct venc_vpu_ipi_msg_init_comm - VPU ack AP init cmd structure
-+ * @init_ack: AP init cmd structure
-+ * @vpu_vsi_addr: VSI address from VPU
-+ * @reserved: reserved field
-+ */
-+struct venc_vpu_ipi_msg_init_comm {
-+	struct venc_vpu_ipi_msg_init init_ack;
-+	u32 vpu_vsi_addr;
-+	u32 reserved;
-+};
-+
- /**
-  * struct venc_vpu_ipi_msg_set_param - VPU ack AP set_param cmd structure
-  * @msg_id:	message id (VPU_IPIMSG_XXX_ENC_SET_PARAM_DONE)
-diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c b/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
-index 51bb7ee141b9..537b9955932e 100644
---- a/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
-@@ -10,24 +10,25 @@
- 
- static void handle_enc_init_msg(struct venc_vpu_inst *vpu, const void *data)
- {
--	const struct venc_vpu_ipi_msg_init *msg = data;
-+	const struct venc_vpu_ipi_msg_init_comm *msg = data;
-+	struct mtk_vcodec_fw *fw = vpu->ctx->dev->fw_handler;
- 
--	vpu->inst_addr = msg->vpu_inst_addr;
--	vpu->vsi = mtk_vcodec_fw_map_dm_addr(vpu->ctx->dev->fw_handler,
--					     msg->vpu_inst_addr);
-+	vpu->inst_addr = msg->init_ack.vpu_inst_addr;
-+	vpu->vsi = mtk_vcodec_fw_map_dm_addr(fw, vpu->inst_addr);
- 
- 	/* Firmware version field value is unspecified on MT8173. */
--	if (mtk_vcodec_fw_get_type(vpu->ctx->dev->fw_handler) == VPU)
-+	if (mtk_vcodec_fw_get_type(fw) == VPU)
- 		return;
- 
- 	/* Check firmware version. */
--	mtk_venc_debug(vpu->ctx, "firmware version: 0x%x\n", msg->venc_abi_version);
--	switch (msg->venc_abi_version) {
-+	mtk_venc_debug(vpu->ctx, "firmware version: 0x%x\n",
-+		       msg->init_ack.venc_abi_version);
-+	switch (msg->init_ack.venc_abi_version) {
- 	case 1:
- 		break;
- 	default:
- 		mtk_venc_err(vpu->ctx, "unhandled firmware version 0x%x\n",
--			     msg->venc_abi_version);
-+			     msg->init_ack.venc_abi_version);
- 		vpu->failure = 1;
- 		break;
- 	}
-@@ -132,7 +133,8 @@ static int vpu_enc_send_msg(struct venc_vpu_inst *vpu, void *msg,
- int vpu_enc_init(struct venc_vpu_inst *vpu)
- {
- 	int status;
--	struct venc_ap_ipi_msg_init out;
-+	size_t msg_size;
-+	struct venc_ap_ipi_msg_init_comm out;
- 
- 	init_waitqueue_head(&vpu->wq_hd);
- 	vpu->signaled = 0;
-@@ -149,9 +151,16 @@ int vpu_enc_init(struct venc_vpu_inst *vpu)
- 	}
- 
- 	memset(&out, 0, sizeof(out));
--	out.msg_id = AP_IPIMSG_ENC_INIT;
--	out.venc_inst = (unsigned long)vpu;
--	if (vpu_enc_send_msg(vpu, &out, sizeof(out))) {
-+	out.base.msg_id = AP_IPIMSG_ENC_INIT;
-+	out.base.venc_inst = (unsigned long)vpu;
-+	if (MTK_ENC_DRV_IS_COMM(vpu->ctx)) {
-+		out.codec_type = vpu->ctx->q_data[MTK_Q_DATA_DST].fmt->fourcc;
-+		msg_size = sizeof(struct venc_ap_ipi_msg_init_comm);
-+	} else {
-+		msg_size = sizeof(struct venc_ap_ipi_msg_init);
-+	}
-+
-+	if (vpu_enc_send_msg(vpu, &out, msg_size)) {
- 		mtk_venc_err(vpu->ctx, "AP_IPIMSG_ENC_INIT fail");
- 		return -EINVAL;
- 	}
-@@ -260,7 +269,7 @@ static int vpu_enc_encode_32bits(struct venc_vpu_inst *vpu,
- 		sizeof(struct venc_ap_ipi_msg_enc);
- 	struct venc_ap_ipi_msg_enc_ext out;
- 
--	mtk_venc_debug(vpu->ctx, "bs_mode %d ->", bs_mode);
-+	mtk_venc_debug(vpu->ctx, "%s, bs_mode %d ->", __func__, bs_mode);
- 
- 	memset(&out, 0, sizeof(out));
- 	out.base.msg_id = AP_IPIMSG_ENC_ENCODE;
-@@ -305,7 +314,7 @@ static int vpu_enc_encode_34bits(struct venc_vpu_inst *vpu,
- 	struct venc_ap_ipi_msg_enc_ext_34 out;
- 	size_t msg_size = sizeof(struct venc_ap_ipi_msg_enc_ext_34);
- 
--	mtk_venc_debug(vpu->ctx, "bs_mode %d ->", bs_mode);
-+	mtk_venc_debug(vpu->ctx, "%s, bs_mode %d ->", __func__, bs_mode);
- 
- 	memset(&out, 0, sizeof(out));
- 	out.msg_id = AP_IPIMSG_ENC_ENCODE;
--- 
-2.46.0
-
+>
+> [1]
+> https://elixir.bootlin.com/linux/v6.14-rc3/source/drivers/media/platform/=
+qcom/venus/hfi_venus.c#L836
+> >
+> > Regards,
+> >
+> >       Hans
+> >
+> >>
+> >>      dev_err_ratelimited(dev, "SFR message from FW: %s\n", sfr->data);
+> >>  }
+> >>
+> Regards,
+> Vikash
 
