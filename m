@@ -1,168 +1,154 @@
-Return-Path: <linux-media+bounces-26740-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26741-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C99AA41174
-	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 21:04:27 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93F78A4118B
+	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 21:26:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 932F97A73BD
-	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 20:03:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 716E6189545C
+	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 20:26:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A7EB22ACF7;
-	Sun, 23 Feb 2025 20:04:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D7D523A9AA;
+	Sun, 23 Feb 2025 20:25:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KOE6epTp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LOwLQwd0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A74822A7F5;
-	Sun, 23 Feb 2025 20:04:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE615383;
+	Sun, 23 Feb 2025 20:25:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740341055; cv=none; b=IwB3Dw0SNHu31UkayMQvVno8swmEqzm2tHHltnQ6dpAB1KqZXpe9qqAvLo8xw1SPWS3OAYKWElT9Vpxalrfh8zmBH9cUcadwSlQDjBK6x/YEWM+7vFFk/X8+6146GeQwuPjiVbwKfLLE6Umcq/Q+FRXXx2/iau6j2xbyd0qlIGU=
+	t=1740342349; cv=none; b=CsZnXysJimq0Im4hj7scGdMUYV+Bapyup4UAQTfewh1BX6Yf/ipwMR/Ye0j5YQM9grqDXgIAy91cSC4vRLQ37qThiB/oI6Q0S6vxUFjZi2F4ir6ZmONU44vS6OHNIshElNF2aUca4iwofiTIcYsU2Nnaq1bvTI7aWfTP47ylOpI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740341055; c=relaxed/simple;
-	bh=zpf0tBdXTeMW1R4pys91UaViyq4y5LjGDKJOSlqcqDM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kYFeOX8FHkRRNkvYHIyJhkAu7XHLlbXLuyCanjYf4lfKWdYjeE4AgMdo2UafUuqsTHAsaMNJ/WTl7DZB0cx2bNvC3LPCE8zKfoZXyWPkgJ6WFAphOeQ3FeVfnfmdQy1NKn900WcizZsuA3lP1cnXutnyQ+ts2SCoLJHTKotwpe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KOE6epTp; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6BC8F496;
-	Sun, 23 Feb 2025 21:02:46 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1740340966;
-	bh=zpf0tBdXTeMW1R4pys91UaViyq4y5LjGDKJOSlqcqDM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KOE6epTph+3U666epEEZA+l0GCNUDslIgpZOVNV6oVJgGkUBPYHa9OgLA6bSO7YH1
-	 mhKdOEcXWe/y/RBd+uc8JQGxR9p65NBNksqHvsN7/ONw2z6BAfP3wJCWSDIDeojyTo
-	 avI7k9LT1xZiZK4tGKYnun2lNqm7zxFH0rOo+zp4=
-Date: Sun, 23 Feb 2025 22:03:55 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
-	linux-media@vger.kernel.org, biju.das.jz@bp.renesas.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 17/18] media: rzg2l-cru: Add function pointer to
- configure CSI
-Message-ID: <20250223200355.GD15344@pendragon.ideasonboard.com>
-References: <20250221155532.576759-1-tommaso.merciai.xr@bp.renesas.com>
- <20250221155532.576759-18-tommaso.merciai.xr@bp.renesas.com>
+	s=arc-20240116; t=1740342349; c=relaxed/simple;
+	bh=3yjKIYgRIOVvhYFiwNZ7Mv6DvekS5KCI6HkyIkBNqjw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QhN4QEcKdBlbi7g+pYMdRaB2VGCMXPGsuVMp3me5tKXOmjS3YBQCvb31XvxhZ3sgWV8R8vX3VDxNWiDsyPpmY1SN4zEzSg+lSjzaqZ+Rlr9xBf+KIeUo8PoibqpV6TfIv4rpEAtLKjVoN3XeN7lBMid62VMngiCdPLgtXv+5gEY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LOwLQwd0; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-abb8d63b447so476933466b.0;
+        Sun, 23 Feb 2025 12:25:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740342346; x=1740947146; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KO/NRoKuG8XetnuWE85hFK1fCgTrWENxYrVqAq/LSbo=;
+        b=LOwLQwd0M8LRhLR7CcdbRek0krkmzr4tJ2xMBNYOiJImX6w/9xk+SWXv2lSAOrwWdd
+         +oV8Ka9/OSvR/smJVHjO+p6LLiWnOxrcxobJGgqT/ER9HCHJCswk/NYshODNR3V2whqY
+         +8W0IGn1fNlSBzUyCXGrtj8lLxIti1Fii0qL5pgmgqzPqlqvh8iiDbyoTTfD4inQCUDE
+         diRinKyaElCu9NuYDudVMVYg5XriQOePiCdjbPcPxEgPsrPoxeiTeFx1cLG+5gnV+NGz
+         ZYiJ9LkTd5YWFNMt0jyy3BBCxbVxYA6Win+o6Z3ku9nt/VTaUo+l8OCfMa3MhPxj/fgn
+         HxSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740342346; x=1740947146;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=KO/NRoKuG8XetnuWE85hFK1fCgTrWENxYrVqAq/LSbo=;
+        b=FEcMpsoB/YjPSJL/M8nU33bxsFYnJ4L0Njc5eO3ovOCE95qUVI4Ps9B6XhHfSm9ud/
+         Mdy3UJiUmvmi7GWVn7daI7ZXqVt+6Me8lzoNMt6EWad+TPyykVpPmE2gxpjHyqqOT+Or
+         /0YRexageJZNdTa1TzoWIGJyYyu85H00mf65zdEWuQdzVztDz/T4TLvWkRXHltAIK95N
+         lwgBkwjDI9q+3UslhtrU92jgesR4oe5lmQxR2n+MISUF8ZXO4tvNpz3+981RMyRRpCsU
+         ATiRiWhULJF+k592zBZOidbtG620IK5vpqzqUsG62iqZpE3qZxk3zbe37IO3Y32p/gHj
+         cVEA==
+X-Forwarded-Encrypted: i=1; AJvYcCURD/9W5PNUNUfDY6kS5p+l6AJhLr6eOWdJq2md2Vd+xP++U3s0BO9uruUmugsv8dScpTk=@vger.kernel.org, AJvYcCUfsxJjD0AKVL4HewWtKJjpWJGjl7fR1JGDixrQzBNuSDH8RpoQXxYPkbvjK5pBNxnTzwh9PjEyjJ6tbJl1@vger.kernel.org, AJvYcCVNSWNYm8c3auuvf/MlifN1yRiDZA+sXjhLFyPlOnv5tqTC6+Bah8DqWL8qiVUC8CnPfUoUKn/A@vger.kernel.org, AJvYcCVWKRcXyzwQgUBY0ybWdJRZfRHY2pOmd+036ROFck6H/gUsWIwi1DWLkblOI7bWmhzCW6b74C/D/igXO+1GzFE=@vger.kernel.org, AJvYcCVXhQpKQJXjw5/Nm98L0v2S+r44NM/dOPxdhe9Gk5u6SC8qe63KgRaBbWRzHVSFLmFZcxlzs+3DI6RwdT8=@vger.kernel.org, AJvYcCWoiN1r0NC84EsXeCwSlXdpJA3cbW4m5zhznSUnqZx40tJuIaQr272adQ+mjH9ecb8dvQmm56MZRfbxYKs=@vger.kernel.org, AJvYcCXno489TQCns5mk3gcEqf4Di9Sryzgl6r5DxcMmMi1lASdDvz7+aMrg+3e3OfZiI2e4WGZPJRQVRltOS8MX@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEmtkMoYXyOxiVQDQ+wtAsYE2k2emxAprGVKGxhDcHurqhYhfi
+	gcEjXxykNuN3JjkYHFQ87qbR2yEvcz0btKApnZOD7UT22XEYlbCi
+X-Gm-Gg: ASbGncugjrP0Ab07AZ+biXLJg7mpalkI1oW6K4jW58XRfbzi8ip+GfkclXYgXQ0RlCF
+	zCV5gRPkyDQEbsZKSmY1+QP87APkECxPm+AHtPc0sGp96n2lt++TPZso1RJuXFezDBVvKW/55ZX
+	Hkors6FSNxjvQYp3ZEiEPkgoiUTHYBhq4geGOTnZwsVAu4bf9Ep4jBOhDemQaSjxy7jsq/XJNCd
+	6kOP+ww4S070622LbQd3/6b9GthnCvAGftvACbKHy1nkR26MxZlM1tUq5AM49vgzqcHeSOlI6Nl
+	39joOLi/kd4RcJb+0YZX1i8pISE=
+X-Google-Smtp-Source: AGHT+IEASkBZDUs2HV66FfbppKxrXfiPEOQdWl35/1TkX9MbOUwdnZRhQOYUiSPPWnjZ/EnkcBUtNQ==
+X-Received: by 2002:a17:907:1b26:b0:ab7:be81:8944 with SMTP id a640c23a62f3a-abc099b88ccmr1174431166b.6.1740342346244;
+        Sun, 23 Feb 2025 12:25:46 -0800 (PST)
+Received: from [192.168.1.100] ([46.248.82.114])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abbbe74100asm1142813766b.95.2025.02.23.12.25.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 23 Feb 2025 12:25:45 -0800 (PST)
+Message-ID: <602e03fd-ce4b-feef-5053-e95834ab35d7@gmail.com>
+Date: Sun, 23 Feb 2025 21:25:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250221155532.576759-18-tommaso.merciai.xr@bp.renesas.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH 00/17] Introduce and use generic parity32/64 helper
+To: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
+ mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
+ jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
+ andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ airlied@gmail.com, simona@ffwll.ch, dmitry.torokhov@gmail.com,
+ mchehab@kernel.org, awalls@md.metrocast.net, hverkuil@xs4all.nl,
+ miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+ louis.peens@corigine.com, andrew+netdev@lunn.ch, davem@davemloft.net,
+ edumazet@google.com, pabeni@redhat.com, parthiban.veerasooran@microchip.com,
+ arend.vanspriel@broadcom.com, johannes@sipsolutions.net,
+ gregkh@linuxfoundation.org, jirislaby@kernel.org, yury.norov@gmail.com,
+ akpm@linux-foundation.org
+Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
+ netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+ linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ Yu-Chun Lin <eleanor15x@gmail.com>
+References: <20250223164217.2139331-1-visitorckw@gmail.com>
+Content-Language: en-US
+From: Uros Bizjak <ubizjak@gmail.com>
+In-Reply-To: <20250223164217.2139331-1-visitorckw@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Tommaso,
 
-Thank you for the patch.
 
-On Fri, Feb 21, 2025 at 04:55:31PM +0100, Tommaso Merciai wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+On 23. 02. 25 17:42, Kuan-Wei Chiu wrote:
+> Several parts of the kernel contain redundant implementations of parity
+> calculations for 32-bit and 64-bit values. Introduces generic
+> parity32() and parity64() helpers in bitops.h, providing a standardized
+> and optimized implementation.
 > 
-> Add a `csi_setup` function pointer to the `rzg2l_cru_info` structure and
-> pass it as part of the OF data. On RZ/G3E and RZ/V2H(P) SoCs, additional
-> register configurations are required compared to the RZ/G2L SoC.
-> 
-> Modify `rzg2l_cru_csi2_setup()` to be referenced through this function
-> pointer and update the code to use it accordingly.
-> 
-> This change is in preparation for adding support for RZ/G3E and RZ/V2H(P)
-> SoCs.
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> Subsequent patches refactor various kernel components to replace
+> open-coded parity calculations with the new helpers, reducing code
+> duplication and improving maintainability.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Please note that GCC (and clang) provide __builtin_parity{,l,ll}() 
+family of builtin functions. Recently, I have tried to use this builtin 
+in a couple of places [1], [2], but I had to retract the patches, 
+because __builtin functions aren't strictly required to be inlined and 
+can generate a library call [3].
 
-> ---
->  drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c  | 1 +
->  drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h   | 6 ++++++
->  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 8 ++++----
->  3 files changed, 11 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> index e4fb3e12d6bf..3ae0cd83af16 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> @@ -363,6 +363,7 @@ static const struct rzg2l_cru_info rzgl2_cru_info = {
->  	.enable_interrupts = rzg2l_cru_enable_interrupts,
->  	.disable_interrupts = rzg2l_cru_disable_interrupts,
->  	.fifo_empty = rzg2l_fifo_empty,
-> +	.csi_setup = rzg2l_cru_csi2_setup,
->  };
->  
->  static const struct of_device_id rzg2l_cru_of_id_table[] = {
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> index 2e17bfef43ce..ccaba5220f1c 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> @@ -89,6 +89,9 @@ struct rzg2l_cru_info {
->  	void (*enable_interrupts)(struct rzg2l_cru_dev *cru);
->  	void (*disable_interrupts)(struct rzg2l_cru_dev *cru);
->  	bool (*fifo_empty)(struct rzg2l_cru_dev *cru);
-> +	void (*csi_setup)(struct rzg2l_cru_dev *cru,
-> +			  const struct rzg2l_cru_ip_format *ip_fmt,
-> +			  u8 csi_vc);
->  };
->  
->  /**
-> @@ -187,5 +190,8 @@ void rzg2l_cru_enable_interrupts(struct rzg2l_cru_dev *cru);
->  void rzg2l_cru_disable_interrupts(struct rzg2l_cru_dev *cru);
->  
->  bool rzg2l_fifo_empty(struct rzg2l_cru_dev *cru);
-> +void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru,
-> +			  const struct rzg2l_cru_ip_format *ip_fmt,
-> +			  u8 csi_vc);
->  
->  #endif
-> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> index 7cc83486ce03..637c9c9f9ba8 100644
-> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> @@ -196,9 +196,9 @@ static void rzg2l_cru_initialize_axi(struct rzg2l_cru_dev *cru)
->  	rzg2l_cru_write(cru, AMnAXIATTR, amnaxiattr);
->  }
->  
-> -static void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru,
-> -				 const struct rzg2l_cru_ip_format *ip_fmt,
-> -				 u8 csi_vc)
-> +void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru,
-> +			  const struct rzg2l_cru_ip_format *ip_fmt,
-> +			  u8 csi_vc)
->  {
->  	const struct rzg2l_cru_info *info = cru->info;
->  	u32 icnmc = ICnMC_INF(ip_fmt->datatype);
-> @@ -220,7 +220,7 @@ static int rzg2l_cru_initialize_image_conv(struct rzg2l_cru_dev *cru,
->  	const struct rzg2l_cru_ip_format *cru_ip_fmt;
->  
->  	cru_ip_fmt = rzg2l_cru_ip_code_to_fmt(ip_sd_fmt->code);
-> -	rzg2l_cru_csi2_setup(cru, cru_ip_fmt, csi_vc);
-> +	info->csi_setup(cru, cru_ip_fmt, csi_vc);
->  
->  	/* Output format */
->  	cru_video_fmt = rzg2l_cru_ip_format_to_fmt(cru->format.pixelformat);
+As explained in [2], the compilers are able to emit optimized 
+target-dependent code (also automatically using popcnt insn when 
+avaialble), so ideally the generic parity64() and parity32() would be 
+implemented using __builtin_parity(), where the generic library would 
+provide a fallback __paritydi2() and __paritysi2() functions, otherwise 
+provided by the compiler support library.
 
--- 
-Regards,
+For x86, we would like to exercise the hardware parity calculation or 
+optimized code sequences involving HW parity calculation, as shown in 
+[1] and [2].
 
-Laurent Pinchart
+[1] https://lore.kernel.org/lkml/20250129205746.10963-1-ubizjak@gmail.com/
+
+[2] https://lore.kernel.org/lkml/20250129154920.6773-2-ubizjak@gmail.com/
+
+[3] 
+https://lore.kernel.org/linux-mm/CAKbZUD0N7bkuw_Le3Pr9o1V2BjjcY_YiLm8a8DPceubTdZ00GQ@mail.gmail.com/
+
+Thanks,
+Uros.
 
