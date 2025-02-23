@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-26661-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26662-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4973A40E5E
-	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 12:34:13 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D4EAA40E62
+	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 12:35:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 88FAC3A5FC5
-	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 11:34:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 42FD27A195F
+	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 11:34:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 499C6205E0A;
-	Sun, 23 Feb 2025 11:34:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEF6F205E06;
+	Sun, 23 Feb 2025 11:35:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JHc07aI/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fmmNrSra"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C158433C4;
-	Sun, 23 Feb 2025 11:34:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1B442AA9;
+	Sun, 23 Feb 2025 11:35:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740310440; cv=none; b=plVs/4qIU3YsRG7VcmtLvjKYR1Oqyf8SSHVnmwl2zY/xOaYI/H9G0Qm1wODfoSQK5TE2lzyeTGq6M7xo1AJdnGQgEzm2E4LCUCjlFRO/0pE+JnyRznYS4qhkOkV0LstaGft/dQjkZtIW9TzDewGBW9q+orokaVvJ/RCo6dB4UG4=
+	t=1740310503; cv=none; b=uL9DlMT+6AYYpJwENlKQ2RjnA2K03ZGcaEsWd5c53/Unw3095tOQqNuZ0diESPU3cvLst0qajpVYSBh5UH7ssGKbyP+WPs3MGPJE0rhQ0dGO+VKtMBM5p31KsRDCDaWyCZGKBE65dWtquqlxcL3XGKk/JiuTWfIN2zIEqEy30m4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740310440; c=relaxed/simple;
-	bh=r3B2XKtHika1E6YlhyAhjpbDcp+3BKHZQcf8cFHxtx8=;
+	s=arc-20240116; t=1740310503; c=relaxed/simple;
+	bh=SIoCw3QNopW0wdw1Ltz/BztUJr/y8LR6kPoAGjKQVYg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OkATKUmCWN+UgnbOhY2t93xueMnyXv006ybOMNScDxsawvq5J677oxBcjoWgp16nPYq/jf0Y3wNmcZik9Ynk8lzgqvuhGNrKpK4KiF+gqVIFzW3Cf0Bhfbq9wtkRJJDwtp0h0VwVOhiwVao1+fUKbRctYYzwoENLn2HJrFuSwHU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JHc07aI/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 561A8C4CEDD;
-	Sun, 23 Feb 2025 11:33:59 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hr7VNNTgiYfHViSmceOTbuFPJxUvV/iDu5z/pxljPenb1+CAIYCqFuVBQ4cdPUf7rud8PNzC1D0k1a4kg/03h+Mkuz13+NIAbS4rhq+11cJmrqtYecES2F7bjI42xDwc8NKPeg7OoRmKCZ0YPZZzHnb4wmMXWz0IlcaRgxxwjzg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fmmNrSra; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F312FC4CEDD;
+	Sun, 23 Feb 2025 11:35:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740310440;
-	bh=r3B2XKtHika1E6YlhyAhjpbDcp+3BKHZQcf8cFHxtx8=;
+	s=k20201202; t=1740310502;
+	bh=SIoCw3QNopW0wdw1Ltz/BztUJr/y8LR6kPoAGjKQVYg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JHc07aI/cOs6xnSiH19djvhV4PFy8CAhy91dsyHjSEuIedINzBZJA5uJeQQCKG1gR
-	 jVmnPRxz/7eMTWxdy3QzZlU0lzVA4tNqxrZzheRkEovEpH6xgKR0bQS/pl4OhFOTYS
-	 6gjuWpDr7SVKpmnUkQgut4i00cBfo7n33l99qStjx8ZlyeyjgBsajTsp8gt56OvM8g
-	 sC6GstDJLYYGw4xXsxmRXmGCHZU07XAY9Mh04xlhz3suU5mW5lzDYN8+RXZ4+M89Xv
-	 uMF16iIYIMItKra3HXlfmmIIekLSLhJDNFeE07YbDkqIu487XxgRc4xUM3WB+rJ0PX
-	 hWIpJqLk9OAYg==
-Date: Sun, 23 Feb 2025 12:33:56 +0100
+	b=fmmNrSrasm5Sm4kd5CJknE2jyM6izFDAYUFNk2+a52T4XF+nqNiif1VRMnQtJ/EwT
+	 mYDP2fYxFGbS0PnBubBzits/RcKgJB4es/LcnyhAiQYTfBhXV0QE7Ze3+3MKql+QXD
+	 3GcvqtenvlYCz04kwKd8ToNijOgTxOlOFBAzvIh7zlKiqHKdVcLn6KUZPlmZSpdtSu
+	 9QwAjQhPoN5U5XPqws1FL4kUc54tAS1pfIPihsEprYiRlT7mr9hV1NCi/mLhxxPgL3
+	 hfUQQdc2a56irEnsXfZwF0PP+8/cgIL84le9SlDETFz2+ExQyvnWtk1X2srUv7UQ9h
+	 q51QuR9avbwAA==
+Date: Sun, 23 Feb 2025 12:34:59 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Vikram Sharma <quic_vikramsa@quicinc.com>
 Cc: rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org, 
@@ -49,11 +49,12 @@ Cc: rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org,
 	andersson@kernel.org, konradybcio@kernel.org, hverkuil-cisco@xs4all.nl, 
 	cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com, will@kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 1/2] media: dt-bindings: Add qcom,qcs8300-camss
-Message-ID: <20250223-observant-auspicious-basilisk-d78ba9@krzk-bin>
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Suresh Vankadara <quic_svankada@quicinc.com>
+Subject: Re: [PATCH v1 2/2] arm64: dts: qcom: qcs8300: Add support for camss
+Message-ID: <20250223-holistic-booby-of-persistence-e51b76@krzk-bin>
 References: <20250214094747.2483058-1-quic_vikramsa@quicinc.com>
- <20250214094747.2483058-2-quic_vikramsa@quicinc.com>
+ <20250214094747.2483058-3-quic_vikramsa@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -62,103 +63,23 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250214094747.2483058-2-quic_vikramsa@quicinc.com>
+In-Reply-To: <20250214094747.2483058-3-quic_vikramsa@quicinc.com>
 
-On Fri, Feb 14, 2025 at 03:17:46PM +0530, Vikram Sharma wrote:
-> +properties:
-> +  compatible:
-> +    const: qcom,qcs8300-camss
-> +
-> +  reg:
-> +    maxItems: 21
-> +
-> +  reg-names:
-> +    items:
-> +      - const: csid_wrapper
+On Fri, Feb 14, 2025 at 03:17:47PM +0530, Vikram Sharma wrote:
+> Add changes to support the camera subsystem on the QCS8300.
+> 
+> Co-developed-by: Suresh Vankadara <quic_svankada@quicinc.com>
+> Signed-off-by: Suresh Vankadara <quic_svankada@quicinc.com>
+> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+> ---
+>  arch/arm64/boot/dts/qcom/qcs8300.dtsi | 171 ++++++++++++++++++++++++++
 
-Why different order of entries than sm8550?
 
-> +      - const: csid0
-> +      - const: csid1
-> +      - const: csid_lite0
-> +      - const: csid_lite1
-> +      - const: csid_lite2
-> +      - const: csid_lite3
-> +      - const: csid_lite4
-> +      - const: csiphy0
-> +      - const: csiphy1
-> +      - const: csiphy2
-> +      - const: tpg0
-> +      - const: tpg1
-> +      - const: tpg2
-> +      - const: vfe0
-> +      - const: vfe1
-> +      - const: vfe_lite0
-> +      - const: vfe_lite1
-> +      - const: vfe_lite2
-> +      - const: vfe_lite3
-> +      - const: vfe_lite4
-> +
-> +  clocks:
-> +    maxItems: 26
-> +
-> +  clock-names:
-> +    items:
-> +      - const: camnoc_axi
-> +      - const: core_ahb
-> +      - const: cpas_ahb
-> +      - const: cpas_fast_ahb_clk
-> +      - const: cpas_ife_lite
-> +      - const: cpas_vfe0
-> +      - const: cpas_vfe1
-> +      - const: csid
-> +      - const: csiphy0
-> +      - const: csiphy0_timer
-> +      - const: csiphy1
-> +      - const: csiphy1_timer
-> +      - const: csiphy2
-> +      - const: csiphy2_timer
-> +      - const: csiphy_rx
-> +      - const: gcc_axi_hf
-> +      - const: gcc_axi_sf
-> +      - const: icp_ahb
-> +      - const: vfe0
-> +      - const: vfe0_fast_ahb
-> +      - const: vfe1
-> +      - const: vfe1_fast_ahb
-> +      - const: vfe_lite
-> +      - const: vfe_lite_ahb
-> +      - const: vfe_lite_cphy_rx
-> +      - const: vfe_lite_csid
-> +
-> +  interrupts:
-> +    maxItems: 20
-> +
-> +  interrupt-names:
-> +    items:
-> +      - const: csid0
-> +      - const: csid1
-> +      - const: csid-lite0
-> +      - const: csid-lite1
-> +      - const: csid-lite2
-> +      - const: csid-lite3
-> +      - const: csid-lite4
+I don't understand why DTS is combined here with media binding. There is
+no driver, so this canno work.
 
-Different naming than existing variants. Keep it consistent.
-
-> +      - const: csiphy0
-> +      - const: csiphy1
-> +      - const: csiphy2
-> +      - const: tpg0
-> +      - const: tpg1
-> +      - const: tpg2
-> +      - const: vfe0
-> +      - const: vfe1
-> +      - const: vfe-lite0
-> +      - const: vfe-lite1
-> +      - const: vfe-lite2
-> +      - const: vfe-lite3
-> +      - const: vfe-lite4
+The binding is no for arm-soc, but for media and it always goes with the
+driver.
 
 Best regards,
 Krzysztof
