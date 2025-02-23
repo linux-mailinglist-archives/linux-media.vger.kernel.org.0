@@ -1,199 +1,149 @@
-Return-Path: <linux-media+bounces-26718-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26719-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD1C6A410EE
-	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 19:34:59 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2839FA41125
+	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 20:01:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B9870171C65
-	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 18:34:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1B75B170F7A
+	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 19:01:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D85316F288;
-	Sun, 23 Feb 2025 18:34:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45875191F7A;
+	Sun, 23 Feb 2025 18:59:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PM844Lyd"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="f0XBVRoR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3D61A29A
-	for <linux-media@vger.kernel.org>; Sun, 23 Feb 2025 18:34:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D29E18DF7C
+	for <linux-media@vger.kernel.org>; Sun, 23 Feb 2025 18:59:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740335690; cv=none; b=fA6GHlffMVmfuXL3LWQXfSvTzPuIWkzpfEXgVjjEVNtWoGxTairmZS/IBDNp+wufRwyeknoxfgAWUjQkCDgdKVR7HEd67eH7PZI25LiWp5nHTeW8i+iZ4P8fJXi3+JCMcCuptgkyLffhxXzMeb84lfqaFYHO2yL0wY2VCTr0z1A=
+	t=1740337164; cv=none; b=jZRJeCw1Mx/Fuiy/UaGaf3XbARD8DL6UyXzSGvvf9bimN8QbF/+HIBFVadhE3iVctTysLF4KvfVvZ1ArzHIIt+m63UaVlp5GsY0xa63nxr1yUnJb4LuWXHJNJcmbiZUeD8B4AsnhUP5E9jE9tsY06ApGhjVfx7cQ6bcDJkCpbSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740335690; c=relaxed/simple;
-	bh=Q7f0bptqboJdMiPWFy2P5hU0sfFsmUIydK6IWF+KPlc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=TCZtkSi7BexbWZLedxTMuE7b+sCQJdGBLrSdxpR9FnqBu4Dag0T1Am4FU2tzM9NhUU6j3DDF2P/ZdjTbq1Z/o6T3BumSlhtKShT0FWokSqV+aMCmtDlVMDW/jdVUtPY3VPUYKUty8VDuEegLqqxFSZeyDlVx0BDIqj5z+G5fsfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PM844Lyd; arc=none smtp.client-ip=209.85.208.180
+	s=arc-20240116; t=1740337164; c=relaxed/simple;
+	bh=u4eeWPx9v9zXxQW6q1d08/EVNgYhQ9eDU6vhv1Eg1lQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=i6kKjR636dX4XldqnSrJ33Z730y1cW0/Z2PMja3e5d6D1NySby6zrD4dkfeVQ5DQeHf1wuVtsMCnrBKAL65Uq9uMsJ9Yp/20uJ+E/bY+qT4T1kaxW46d8N7SKNOZKOeV/efHhrwj1B6MASwC70wOKiyem+E476/ZKsRa8EzvLG8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=f0XBVRoR; arc=none smtp.client-ip=209.85.222.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-30795988ebeso37196351fa.3
-        for <linux-media@vger.kernel.org>; Sun, 23 Feb 2025 10:34:48 -0800 (PST)
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-7c08b14baa9so352208485a.3
+        for <linux-media@vger.kernel.org>; Sun, 23 Feb 2025 10:59:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1740335687; x=1740940487; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=U0C+iu1WeNs+zRFQEZ4WEKG2Hv7tO/tPX0DsKYx3e/U=;
-        b=PM844LydsEN3vjz45qnaH1aNouiSe0VKYfL+PndvzEn4kll7AvORMYbOdnJ1fw08ib
-         PcJUxexXtdVeC+6sHiAE92pfyr7pzNcWA/bgYhVJyLstlizLNKYCN3LSRDjXAirt53+0
-         mougoisSfYUxX8cY8f5Pi7rERVuQFiWX+g7ms=
+        d=chromium.org; s=google; t=1740337161; x=1740941961; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JKj5wtQrpuxHEw5Ir/rKIm4r91PW3GTX9YpL0smEXfU=;
+        b=f0XBVRoRyXGIdf728tMa9slrLIAK5Uuy8S2dpL+m8fySoJtnxxdBsBuJ+xIGpT61em
+         jdN90iOmd9W3lsj8NAz6uGTuWQtXfYGayXesPi0l/MsKjt2Vie3y17kMIiyQoVeVPjYw
+         MdxFPpWNhVlCZhTi7q6aFAi/vjzu4yDNXIJls=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740335687; x=1740940487;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1740337161; x=1740941961;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=U0C+iu1WeNs+zRFQEZ4WEKG2Hv7tO/tPX0DsKYx3e/U=;
-        b=IqHV4z0NOKbXFvSTLL1b+0DBFFl85j+mx1IZGRlV949G7i0/IxYJP4Vw/TQB/mfNau
-         TXQhuO31T+GBbjaziv285JC72Q56iNu1uXv8GbLFrRuxhLdfS4FWo/BC5B3136aCqUNp
-         dbkJVSTkuF2o+In8ODNq8HUOHRxstk3+VfeNzTYGUVUTQExEI9WT+A7skFwtamxSU1Q8
-         iNoWAyZZ/9xUrgG87gH6SCVkter13zi5gddxl0PdGPAj+NypGHdHPhYNvsUkT7GDpZpj
-         nDcz1IupD7thVtEvBDduj7IExIatiuLHu7MKZM8SJAjNOuSGspHldvrOwRNMuBhjC7wn
-         Wbzg==
-X-Forwarded-Encrypted: i=1; AJvYcCVLRKzsPcE/8bdrW2zJFUG4E5hR/XAoFt3jz1bA98W8ZI8McIbOCZnHKvEtm4K0FPGUvtEEwpeJOm9nTA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzWEKIr4LWTtZ2F5xm8dZwbisR3CQw1e6Kr1wSGRVUC8ayOFL2v
-	IBE8VFQu2An8kY5d1A8N9pl8gJfVBnVURyx9wOeABmKPNINnH5w71kK2z6CwFY4hscHuuEJvJlw
-	=
-X-Gm-Gg: ASbGnctWtmNsj9SXS3z2v5Ip59RH7x6o/hSKlRjzRDoszvaZAzMLGJu8b/aI3qtl6CH
-	hfUBi/N+bqUTbQIgkLZyhalceEK6axLRL6FvgfJpdGS7e/PIh5nOI1IeVm1LfERzlS7y5K/iPdb
-	+BW+dElLSwn6qVxjDw6E/HpjcEx9S5PhEv5/7YS3S7ivvtjF9EPmH0Dv7EbnAMhOAMO+6w7/uIf
-	SIZUUblZOsTCoPU3Mky7lEM/770npblyZOuQas22MDeZ3PD1nZ5PLmbB6FF48isznE7uYF9FECl
-	GFTqiCQel+SI2Zdg5uzNz3cC/P/bGwCFwwv/kknAet4NdB8Kuu1+8JBslmSW98IN8nLb
-X-Google-Smtp-Source: AGHT+IHcUlvQdWWFPwp7QjWZLoYEm6UROHvsrDtemJv/QGYFgeGc430WYzkP38Z/sG8+8Qw9gkNZSw==
-X-Received: by 2002:a2e:8941:0:b0:307:e031:15a8 with SMTP id 38308e7fff4ca-30a5986fdabmr34893621fa.8.1740335687043;
-        Sun, 23 Feb 2025 10:34:47 -0800 (PST)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30a598a2ec1sm8306191fa.39.2025.02.23.10.34.43
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Feb 2025 10:34:44 -0800 (PST)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-30762598511so33262581fa.0
-        for <linux-media@vger.kernel.org>; Sun, 23 Feb 2025 10:34:43 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXwMZIG+CYak9hN8+X3qOGzrLoahFBADQ0xcQ6MTGf6J1BiV1foesTFT8zoKxua/fRYfCq2qQe7USd4rg==@vger.kernel.org
-X-Received: by 2002:a2e:b614:0:b0:308:f84b:6b34 with SMTP id
- 38308e7fff4ca-30a5990b2ebmr35382051fa.20.1740335683340; Sun, 23 Feb 2025
- 10:34:43 -0800 (PST)
+        bh=JKj5wtQrpuxHEw5Ir/rKIm4r91PW3GTX9YpL0smEXfU=;
+        b=e68CPW+B1FFDXCbnKymd9XeyKaDjfK2UQYsBKvzk04Bp+O6o9E+pwDmLG742R5tmYW
+         9UuZMKSKBnfN4PwHSDTupULPjeyUcpnQiOUDYxBSRcyc1wiysd0mpfKO2uJtZmOEc9db
+         O5j4h9yPUZ4Z7Z19WLt4vuAEoLQoIDtxgtG7MtElJflxw3OipdjNWSYK93H0NXtY+MdD
+         mPqDUtBhB7mgJlS6TUVPwnCAmNqynct6IgEU/uKZ345AoXJ/yX7eOmU0DpFp2vaG+J1U
+         zJzgzRxGbWeiTUpHxrQe+1/+W/fEwwCvS9SSqbRB16CiKLHO4XFjVcIfWJXkDladnXvS
+         eFDQ==
+X-Gm-Message-State: AOJu0Yyb4tI/HckZg5MVdewTinOOecJapUTUZs1+6p4D7DxrNBzqgVQ6
+	GKXqrqsBjFY5RLiJryHzNsSytccrqA/epyxJeZD+FP0GlZ6QpauZ6GlXzT8ldg==
+X-Gm-Gg: ASbGncvSxifInY/ZgZgDKoahM5+xFLDOO69c/5AXPqwXen2mfWLvssn5QqLmtEiIHmg
+	UEimr5l4LHn69J+8J1pRXFd+F8o+Ce8pcPpJxQs8qklJqGOZASOL8gB32LNN/19/RAccWRWAE+V
+	tMStNSbz/X9r1QIOhoqevSz9SDGyZGfT+fvoKanNUkriT+0e/tYW5LEW9N8oDFPYW3FME/h+n3E
+	7MTKc0v5RtVY/EilofvsU1mSmISvVVhPG+kE365RC4Diwm70qEqhLadzOFtr3qg6ikNjKi1Coau
+	DcxQV81m9gQcACIUsHKazMDDCHfJfpz6s82psM1T00B1IHMMSoW0zxlk5Cf6+vcrIK/ry/511bw
+	07do=
+X-Google-Smtp-Source: AGHT+IEPBVXunXYvubmeu9Rykbfo5eGXhaOm0MVgZQfjAtv1MCc6N7GtK7qCLnbD3lNpZga5u+oDwg==
+X-Received: by 2002:a05:620a:2a0f:b0:7c0:c7c3:b877 with SMTP id af79cd13be357-7c0cef48cb1mr1777562685a.40.1740337161085;
+        Sun, 23 Feb 2025 10:59:21 -0800 (PST)
+Received: from denia.c.googlers.com (15.237.245.35.bc.googleusercontent.com. [35.245.237.15])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c09bf81253sm894052885a.47.2025.02.23.10.59.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 23 Feb 2025 10:59:19 -0800 (PST)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v3 00/12] media: Remove vidioc_g/s_ctrl and
+ vidioc_queryctrl callbacks
+Date: Sun, 23 Feb 2025 18:58:03 +0000
+Message-Id: <20250223-queryctrl-v3-0-4292911cab6b@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250121-nuvoton-v1-0-1ea4f0cdbda2@chromium.org>
- <20250121-nuvoton-v1-1-1ea4f0cdbda2@chromium.org> <df5693d0-7747-4423-809e-ae081c9aae92@xs4all.nl>
- <dffc8e0b-2603-4e7e-ba64-15691c11ff7e@xs4all.nl>
-In-Reply-To: <dffc8e0b-2603-4e7e-ba64-15691c11ff7e@xs4all.nl>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Sun, 23 Feb 2025 19:34:30 +0100
-X-Gmail-Original-Message-ID: <CANiDSCsMCSJMEsY3R=pnZ4XUTiEYuPz-N1kEX7y13yTzE6Dm5w@mail.gmail.com>
-X-Gm-Features: AWEUYZkxdyzd_jgZvmXlXPTuqCYemf2QEgvVhq5WasLvpB-Xk2V4c6RpmAx6ZOg
-Message-ID: <CANiDSCsMCSJMEsY3R=pnZ4XUTiEYuPz-N1kEX7y13yTzE6Dm5w@mail.gmail.com>
-Subject: Re: [PATCH 1/4] media: nuvoton: Fix reference handling of ece_pdev
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Marvin Lin <milkfafa@gmail.com>, linux-media@vger.kernel.org, openbmc@lists.ozlabs.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALtvu2cC/22Myw6CMBQFf4V0bU0fPMSV/2FclNsWmgjVW2gkh
+ H+3sCLG5ZycmYUEg84Ecs0Wgia64PyQQJ4yAp0aWkOdTkwEEzkXrKbvyeAMIz5pAbKUoqngUlQ
+ k/V9orPvsrfsjcefC6HHe05Fv679K5JRRbaytFFjQ0NygQ9+7qT97bMkWiuIgc3aURZKBKSl1W
+ duclz/yuq5ffPjOzeIAAAA=
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Mike Isely <isely@pobox.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Andy Shevchenko <andy@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev, Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.13.0
 
-On Fri, 21 Feb 2025 at 10:18, Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> On 21/02/2025 10:04, Hans Verkuil wrote:
-> > Hi Ricardo,
-> >
-> > On 21/01/2025 22:14, Ricardo Ribalda wrote:
-> >> When we obtain a reference to of a platform_device, we need to release
-> >> it via put_device.
-> >>
-> >> Found by cocci:
-> >> ./platform/nuvoton/npcm-video.c:1677:3-9: ERROR: missing put_device; call of_find_device_by_node on line 1667, but without a corresponding object release within this function.
-> >> ./platform/nuvoton/npcm-video.c:1684:3-9: ERROR: missing put_device; call of_find_device_by_node on line 1667, but without a corresponding object release within this function.
-> >> ./platform/nuvoton/npcm-video.c:1690:3-9: ERROR: missing put_device; call of_find_device_by_node on line 1667, but without a corresponding object release within this function.
-> >> ./platform/nuvoton/npcm-video.c:1694:1-7: ERROR: missing put_device; call of_find_device_by_node on line 1667, but without a corresponding object release within this function.
-> >
-> > This driver uses this construct:
-> >
-> >                 struct device *ece_dev __free(put_device) = &ece_pdev->dev;
-> >
-> > to automatically call put_device. So this patch would 'put' the device twice.
-> >
-> > Does cocci understand constructs like this? If I hadn't looked closely at the
-> > code first, I would just have merged it.
->
-> Oh wait, now that I am reading the following patches I see that it was those later
-> patches that add the __free code.
->
-> This is far too confusing. Please post a v2 that just combines the 'fix references'
-> and 'use cleanup.h macros' in a single patch. It makes no sense to have this two-phase
-> approach.
+Most of the drivers use the control framework or can use the superset
+version of these callbacks: vidioc_g/s_ext_ctrl and
+vidioc_query_ext_ctrl.
 
-I believe this is discouraged.
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Changes in v3:
+- Rename wl1273_fm_vidioc_s_ctrl
+- Remove dead code from cx231xx-417
+- Link to v2: https://lore.kernel.org/r/20241210-queryctrl-v2-0-c0a33d69f416@chromium.org
 
-cleanup.h macros does not exist in old kernel versions, so makes it
-impossible to backport the fix to them.
+Changes in v2:
+- v4l2_query_ext_ctrl_to_v4l2_queryctrl
+- Fix conversion (Thanks Hans)
+- Link to v1: https://lore.kernel.org/r/20241209-queryctrl-v1-0-deff7acfcdcb@chromium.org
 
-This is an example of other series following this policy:
-https://lore.kernel.org/lkml/173608125422.1253657.3732758016133408588.stgit@devnote2/
+---
+Ricardo Ribalda (12):
+      media: ioctl: Simulate v4l2_queryctrl with v4l2_query_ext_ctrl
+      media: pvrusb2: Convert queryctrl to query_ext_ctrl
+      media: pvrusb2: Remove g/s_ctrl callbacks
+      media: uvcvideo: Remove vidioc_queryctrl
+      media: atomisp: Replace queryctrl with query_ext_ctrl
+      media: atomisp: Remove vidioc_g/s callback
+      media: v4l2: Remove vidioc_queryctrl callback
+      media: v4l2: Remove vidioc_g_ctrl callback
+      media: cx231xx: Remove vidioc_s_ctrl callback
+      media: v4l2: Remove vidioc_s_ctrl callback
+      media: v4l2-core: Introduce v4l2_query_ext_ctrl_to_v4l2_queryctrl
+      media: radio-wl1273: Rename wl1273_fm_vidioc_s_ctrl
 
-They also mention the same here:
-https://hackerbikepacker.com/kernel-auto-cleanup-1 .... I am pretty
-sure that I read the policy in a more official location... but I
-cannot find it right now :)
+ drivers/media/radio/radio-wl1273.c                |  4 +-
+ drivers/media/usb/cx231xx/cx231xx-417.c           | 15 -------
+ drivers/media/usb/pvrusb2/pvrusb2-v4l2.c          | 40 ++++--------------
+ drivers/media/usb/uvc/uvc_v4l2.c                  | 10 -----
+ drivers/media/v4l2-core/v4l2-ctrls-api.c          | 51 +++++++++++++----------
+ drivers/media/v4l2-core/v4l2-dev.c                |  6 +--
+ drivers/media/v4l2-core/v4l2-ioctl.c              | 19 +++++----
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 35 ++++++++--------
+ include/media/v4l2-ctrls.h                        | 12 ++++++
+ include/media/v4l2-ioctl.h                        | 12 ------
+ 10 files changed, 85 insertions(+), 119 deletions(-)
+---
+base-commit: c2b96a6818159fba8a3bcc38262da9e77f9b3ec7
+change-id: 20241209-queryctrl-5c3632b7c857
 
-
->
-> Regards,
->
->         Hans
->
-> >
-> > Regards,
-> >
-> >       Hans
-> >
-> >>
-> >> Cc: stable@vger.kernel.org
-> >> Fixes: 46c15a4ff1f4 ("media: nuvoton: Add driver for NPCM video capture and encoding engine")
-> >> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> >> ---
-> >>  drivers/media/platform/nuvoton/npcm-video.c | 3 +++
-> >>  1 file changed, 3 insertions(+)
-> >>
-> >> diff --git a/drivers/media/platform/nuvoton/npcm-video.c b/drivers/media/platform/nuvoton/npcm-video.c
-> >> index 024cd8ee1709..7b4c23dbe709 100644
-> >> --- a/drivers/media/platform/nuvoton/npcm-video.c
-> >> +++ b/drivers/media/platform/nuvoton/npcm-video.c
-> >> @@ -1673,6 +1673,7 @@ static int npcm_video_ece_init(struct npcm_video *video)
-> >>
-> >>              regs = devm_platform_ioremap_resource(ece_pdev, 0);
-> >>              if (IS_ERR(regs)) {
-> >> +                    put_device(&ece_pdev->dev);
-> >>                      dev_err(dev, "Failed to parse ECE reg in DTS\n");
-> >>                      return PTR_ERR(regs);
-> >>              }
-> >> @@ -1680,11 +1681,13 @@ static int npcm_video_ece_init(struct npcm_video *video)
-> >>              video->ece.regmap = devm_regmap_init_mmio(dev, regs,
-> >>                                                        &npcm_video_ece_regmap_cfg);
-> >>              if (IS_ERR(video->ece.regmap)) {
-> >> +                    put_device(&ece_pdev->dev);
-> >>                      dev_err(dev, "Failed to initialize ECE regmap\n");
-> >>                      return PTR_ERR(video->ece.regmap);
-> >>              }
-> >>
-> >>              video->ece.reset = devm_reset_control_get(&ece_pdev->dev, NULL);
-> >> +            put_device(&ece_pdev->dev);
-> >>              if (IS_ERR(video->ece.reset)) {
-> >>                      dev_err(dev, "Failed to get ECE reset control in DTS\n");
-> >>                      return PTR_ERR(video->ece.reset);
-> >>
-> >
-> >
->
-
-
+Best regards,
 -- 
-Ricardo Ribalda
+Ricardo Ribalda <ribalda@chromium.org>
+
 
