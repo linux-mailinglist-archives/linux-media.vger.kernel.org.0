@@ -1,154 +1,620 @@
-Return-Path: <linux-media+bounces-26741-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26742-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93F78A4118B
-	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 21:26:23 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA944A411AD
+	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 21:33:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 716E6189545C
-	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 20:26:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7F45F3B5D56
+	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 20:33:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D7D523A9AA;
-	Sun, 23 Feb 2025 20:25:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5654023ED68;
+	Sun, 23 Feb 2025 20:32:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LOwLQwd0"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LQsOBojg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AE615383;
-	Sun, 23 Feb 2025 20:25:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D9123CEF0;
+	Sun, 23 Feb 2025 20:32:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740342349; cv=none; b=CsZnXysJimq0Im4hj7scGdMUYV+Bapyup4UAQTfewh1BX6Yf/ipwMR/Ye0j5YQM9grqDXgIAy91cSC4vRLQ37qThiB/oI6Q0S6vxUFjZi2F4ir6ZmONU44vS6OHNIshElNF2aUca4iwofiTIcYsU2Nnaq1bvTI7aWfTP47ylOpI=
+	t=1740342771; cv=none; b=eF6giDHMHgvF/C/BOabmAbTASFTbuyz63CQO0js09HwQyh4hnE254f7HLOzenxLWC2FVDRve+l+RuYRKzIEFAxRbLOvwzRbtRcCo9xyHetQlSt3bGdZdPKuinWi7Qwc9/BDLRDb3tuRLsW58tcC9QLc0chHCFjKSuoxYiEGILwk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740342349; c=relaxed/simple;
-	bh=3yjKIYgRIOVvhYFiwNZ7Mv6DvekS5KCI6HkyIkBNqjw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QhN4QEcKdBlbi7g+pYMdRaB2VGCMXPGsuVMp3me5tKXOmjS3YBQCvb31XvxhZ3sgWV8R8vX3VDxNWiDsyPpmY1SN4zEzSg+lSjzaqZ+Rlr9xBf+KIeUo8PoibqpV6TfIv4rpEAtLKjVoN3XeN7lBMid62VMngiCdPLgtXv+5gEY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LOwLQwd0; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-abb8d63b447so476933466b.0;
-        Sun, 23 Feb 2025 12:25:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740342346; x=1740947146; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KO/NRoKuG8XetnuWE85hFK1fCgTrWENxYrVqAq/LSbo=;
-        b=LOwLQwd0M8LRhLR7CcdbRek0krkmzr4tJ2xMBNYOiJImX6w/9xk+SWXv2lSAOrwWdd
-         +oV8Ka9/OSvR/smJVHjO+p6LLiWnOxrcxobJGgqT/ER9HCHJCswk/NYshODNR3V2whqY
-         +8W0IGn1fNlSBzUyCXGrtj8lLxIti1Fii0qL5pgmgqzPqlqvh8iiDbyoTTfD4inQCUDE
-         diRinKyaElCu9NuYDudVMVYg5XriQOePiCdjbPcPxEgPsrPoxeiTeFx1cLG+5gnV+NGz
-         ZYiJ9LkTd5YWFNMt0jyy3BBCxbVxYA6Win+o6Z3ku9nt/VTaUo+l8OCfMa3MhPxj/fgn
-         HxSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740342346; x=1740947146;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KO/NRoKuG8XetnuWE85hFK1fCgTrWENxYrVqAq/LSbo=;
-        b=FEcMpsoB/YjPSJL/M8nU33bxsFYnJ4L0Njc5eO3ovOCE95qUVI4Ps9B6XhHfSm9ud/
-         Mdy3UJiUmvmi7GWVn7daI7ZXqVt+6Me8lzoNMt6EWad+TPyykVpPmE2gxpjHyqqOT+Or
-         /0YRexageJZNdTa1TzoWIGJyYyu85H00mf65zdEWuQdzVztDz/T4TLvWkRXHltAIK95N
-         lwgBkwjDI9q+3UslhtrU92jgesR4oe5lmQxR2n+MISUF8ZXO4tvNpz3+981RMyRRpCsU
-         ATiRiWhULJF+k592zBZOidbtG620IK5vpqzqUsG62iqZpE3qZxk3zbe37IO3Y32p/gHj
-         cVEA==
-X-Forwarded-Encrypted: i=1; AJvYcCURD/9W5PNUNUfDY6kS5p+l6AJhLr6eOWdJq2md2Vd+xP++U3s0BO9uruUmugsv8dScpTk=@vger.kernel.org, AJvYcCUfsxJjD0AKVL4HewWtKJjpWJGjl7fR1JGDixrQzBNuSDH8RpoQXxYPkbvjK5pBNxnTzwh9PjEyjJ6tbJl1@vger.kernel.org, AJvYcCVNSWNYm8c3auuvf/MlifN1yRiDZA+sXjhLFyPlOnv5tqTC6+Bah8DqWL8qiVUC8CnPfUoUKn/A@vger.kernel.org, AJvYcCVWKRcXyzwQgUBY0ybWdJRZfRHY2pOmd+036ROFck6H/gUsWIwi1DWLkblOI7bWmhzCW6b74C/D/igXO+1GzFE=@vger.kernel.org, AJvYcCVXhQpKQJXjw5/Nm98L0v2S+r44NM/dOPxdhe9Gk5u6SC8qe63KgRaBbWRzHVSFLmFZcxlzs+3DI6RwdT8=@vger.kernel.org, AJvYcCWoiN1r0NC84EsXeCwSlXdpJA3cbW4m5zhznSUnqZx40tJuIaQr272adQ+mjH9ecb8dvQmm56MZRfbxYKs=@vger.kernel.org, AJvYcCXno489TQCns5mk3gcEqf4Di9Sryzgl6r5DxcMmMi1lASdDvz7+aMrg+3e3OfZiI2e4WGZPJRQVRltOS8MX@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEmtkMoYXyOxiVQDQ+wtAsYE2k2emxAprGVKGxhDcHurqhYhfi
-	gcEjXxykNuN3JjkYHFQ87qbR2yEvcz0btKApnZOD7UT22XEYlbCi
-X-Gm-Gg: ASbGncugjrP0Ab07AZ+biXLJg7mpalkI1oW6K4jW58XRfbzi8ip+GfkclXYgXQ0RlCF
-	zCV5gRPkyDQEbsZKSmY1+QP87APkECxPm+AHtPc0sGp96n2lt++TPZso1RJuXFezDBVvKW/55ZX
-	Hkors6FSNxjvQYp3ZEiEPkgoiUTHYBhq4geGOTnZwsVAu4bf9Ep4jBOhDemQaSjxy7jsq/XJNCd
-	6kOP+ww4S070622LbQd3/6b9GthnCvAGftvACbKHy1nkR26MxZlM1tUq5AM49vgzqcHeSOlI6Nl
-	39joOLi/kd4RcJb+0YZX1i8pISE=
-X-Google-Smtp-Source: AGHT+IEASkBZDUs2HV66FfbppKxrXfiPEOQdWl35/1TkX9MbOUwdnZRhQOYUiSPPWnjZ/EnkcBUtNQ==
-X-Received: by 2002:a17:907:1b26:b0:ab7:be81:8944 with SMTP id a640c23a62f3a-abc099b88ccmr1174431166b.6.1740342346244;
-        Sun, 23 Feb 2025 12:25:46 -0800 (PST)
-Received: from [192.168.1.100] ([46.248.82.114])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-abbbe74100asm1142813766b.95.2025.02.23.12.25.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Feb 2025 12:25:45 -0800 (PST)
-Message-ID: <602e03fd-ce4b-feef-5053-e95834ab35d7@gmail.com>
-Date: Sun, 23 Feb 2025 21:25:42 +0100
+	s=arc-20240116; t=1740342771; c=relaxed/simple;
+	bh=BXSUAum3jp2JvbfY54TSiIUxk8+kCWEO6KOY5w8h2PU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ue0LmgdaaO5craaIkhQo3CJowQMryv2v1HUKK2VPIZhAKOvimhD87dPHalqDhn8mwCwN24rQq8bfmeTugxSioYjKT/bJJVyT+U/ZPJH+tr0zbLhSCpta3xHYI61xmmihP+Q+fQjOr9yUugekqIaESeXDYJjHVSFYfS6viFX7O1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LQsOBojg; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B04F1496;
+	Sun, 23 Feb 2025 21:31:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1740342681;
+	bh=BXSUAum3jp2JvbfY54TSiIUxk8+kCWEO6KOY5w8h2PU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LQsOBojg1r4YkDBPCYkGF2uKrlz/HE+ses0R3li291NQ4KNm96L1rdcELuPlEm80z
+	 nhjzLxcjO8W8P1fE1M0AUg2xn0Y1W4i6kMpm3j4CvivhBCwrZ7khkSFqsmnX7hDp2i
+	 Mi/+U1SYdtSu/vBBinfn+9GQOu2LYbOxXonoyBcw=
+Date: Sun, 23 Feb 2025 22:32:30 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
+	linux-media@vger.kernel.org, biju.das.jz@bp.renesas.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 18/18] media: rzg2l-cru: Add support for RZ/G3E SoC
+Message-ID: <20250223203230.GE15344@pendragon.ideasonboard.com>
+References: <20250221155532.576759-1-tommaso.merciai.xr@bp.renesas.com>
+ <20250221155532.576759-19-tommaso.merciai.xr@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 00/17] Introduce and use generic parity32/64 helper
-To: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
- jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dmitry.torokhov@gmail.com,
- mchehab@kernel.org, awalls@md.metrocast.net, hverkuil@xs4all.nl,
- miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
- louis.peens@corigine.com, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@google.com, pabeni@redhat.com, parthiban.veerasooran@microchip.com,
- arend.vanspriel@broadcom.com, johannes@sipsolutions.net,
- gregkh@linuxfoundation.org, jirislaby@kernel.org, yury.norov@gmail.com,
- akpm@linux-foundation.org
-Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
- linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- linux-input@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
- linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
- Yu-Chun Lin <eleanor15x@gmail.com>
-References: <20250223164217.2139331-1-visitorckw@gmail.com>
-Content-Language: en-US
-From: Uros Bizjak <ubizjak@gmail.com>
-In-Reply-To: <20250223164217.2139331-1-visitorckw@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250221155532.576759-19-tommaso.merciai.xr@bp.renesas.com>
 
+Hi Tommaso,
 
+Thank you for the patch.
 
-On 23. 02. 25 17:42, Kuan-Wei Chiu wrote:
-> Several parts of the kernel contain redundant implementations of parity
-> calculations for 32-bit and 64-bit values. Introduces generic
-> parity32() and parity64() helpers in bitops.h, providing a standardized
-> and optimized implementation.
+On Fri, Feb 21, 2025 at 04:55:32PM +0100, Tommaso Merciai wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > 
-> Subsequent patches refactor various kernel components to replace
-> open-coded parity calculations with the new helpers, reducing code
-> duplication and improving maintainability.
+> The CRU block on the Renesas RZ/G3E SoC is similar to the one found on
+> the Renesas RZ/G2L SoC, with the following differences:
+> 
+> - Additional registers rzg3e_cru_regs.
+> - A different irq handler rzg3e_cru_irq.
+> - A different rzg3e_cru_csi2_setup.
+> - A different max input width.
+> 
+> Introduce rzg3e_cru_info struct to handle differences between RZ/G2L
+> and RZ/G3E and related RZ/G3E functions:
+> 
+>  - rzg3e_cru_enable_interrupts()
+>  - rzg3e_cru_enable_interrupts()
+>  - rz3e_fifo_empty()
+>  - rzg3e_cru_csi2_setup()
+>  - rzg3e_cru_get_current_slot()
+> 
+> Add then support for the RZ/G3E SoC CRU block with the new compatible
+> string "renesas,r9a09g047-cru".
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> ---
+>  .../platform/renesas/rzg2l-cru/rzg2l-core.c   |  63 +++++++
+>  .../renesas/rzg2l-cru/rzg2l-cru-regs.h        |  25 +++
+>  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  18 ++
+>  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 178 +++++++++++++++++-
+>  4 files changed, 282 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+> index 3ae0cd83af16..075a3aa8af29 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+> @@ -290,6 +290,13 @@ static int rzg2l_cru_probe(struct platform_device *pdev)
+>  		return ret;
+>  
+>  	cru->num_buf = RZG2L_CRU_HW_BUFFER_DEFAULT;
+> +	cru->mem_banks = devm_kmalloc_array(dev, cru->num_buf,
+> +					    sizeof(struct rzg2l_cru_mem_bank),
+> +					    GFP_KERNEL);
+> +	if (!cru->mem_banks)
+> +		return dev_err_probe(dev, -ENOMEM,
+> +				     "Failed to init mem banks\n");
+> +
+>  	pm_suspend_ignore_children(dev, true);
+>  	ret = devm_pm_runtime_enable(dev);
+>  	if (ret)
+> @@ -321,6 +328,58 @@ static void rzg2l_cru_remove(struct platform_device *pdev)
+>  	rzg2l_cru_dma_unregister(cru);
+>  }
+>  
+> +static const u16 rzg3e_cru_regs[] = {
+> +	[CRUnCTRL] = 0x0,
+> +	[CRUnIE] = 0x4,
+> +	[CRUnIE2] = 0x8,
+> +	[CRUnINTS] = 0xc,
+> +	[CRUnINTS2] = 0x10,
+> +	[CRUnRST] = 0x18,
+> +	[AMnMB1ADDRL] = 0x40,
+> +	[AMnMB1ADDRH] = 0x44,
+> +	[AMnMB2ADDRL] = 0x48,
+> +	[AMnMB2ADDRH] = 0x4c,
+> +	[AMnMB3ADDRL] = 0x50,
+> +	[AMnMB3ADDRH] = 0x54,
+> +	[AMnMB4ADDRL] = 0x58,
+> +	[AMnMB4ADDRH] = 0x5c,
+> +	[AMnMB5ADDRL] = 0x60,
+> +	[AMnMB5ADDRH] = 0x64,
+> +	[AMnMB6ADDRL] = 0x68,
+> +	[AMnMB6ADDRH] = 0x6c,
+> +	[AMnMB7ADDRL] = 0x70,
+> +	[AMnMB7ADDRH] = 0x74,
+> +	[AMnMB8ADDRL] = 0x78,
+> +	[AMnMB8ADDRH] = 0x7c,
+> +	[AMnMBVALID] = 0x88,
+> +	[AMnMADRSL] = 0x8c,
+> +	[AMnMADRSH] = 0x90,
+> +	[AMnAXIATTR] = 0xec,
+> +	[AMnFIFOPNTR] = 0xf8,
+> +	[AMnAXISTP] = 0x110,
+> +	[AMnAXISTPACK] = 0x114,
+> +	[AMnIS] = 0x128,
+> +	[ICnEN] = 0x1f0,
+> +	[ICnSVCNUM] = 0x1f8,
+> +	[ICnSVC] = 0x1fc,
+> +	[ICnIPMC_C0] = 0x200,
+> +	[ICnMS] = 0x2d8,
+> +	[ICnDMR] = 0x304,
+> +};
+> +
+> +static const struct rzg2l_cru_info rzg3e_cru_info = {
+> +	.max_width = 4095,
+> +	.max_height = 4095,
+> +	.image_conv = ICnIPMC_C0,
+> +	.stride = 128,
+> +	.regs = rzg3e_cru_regs,
+> +	.irq_handler = rzg3e_cru_irq,
+> +	.enable_interrupts = rzg3e_cru_enable_interrupts,
+> +	.disable_interrupts = rzg3e_cru_disable_interrupts,
+> +	.fifo_empty = rz3e_fifo_empty,
+> +	.csi_setup = rzg3e_cru_csi2_setup,
+> +};
+> +
+>  static const u16 rzg2l_cru_regs[] = {
+>  	[CRUnCTRL] = 0x0,
+>  	[CRUnIE] = 0x4,
+> @@ -367,6 +426,10 @@ static const struct rzg2l_cru_info rzgl2_cru_info = {
+>  };
+>  
+>  static const struct of_device_id rzg2l_cru_of_id_table[] = {
+> +	{
+> +		.compatible = "renesas,r9a09g047-cru",
+> +		.data = &rzg3e_cru_info,
+> +	},
+>  	{
+>  		.compatible = "renesas,rzg2l-cru",
+>  		.data = &rzgl2_cru_info,
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
+> index 82920db7134e..1646d1e2953c 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
+> @@ -14,8 +14,13 @@
+>  
+>  #define CRUnIE_EFE			BIT(17)
+>  
+> +#define CRUnIE2_FSxE(x)			BIT(((x) * 3))
+> +#define CRUnIE2_FExE(x)			BIT(((x) * 3) + 1)
+> +
+>  #define CRUnINTS_SFS			BIT(16)
+>  
+> +#define CRUnINTS2_FSxS(x)		BIT(((x) * 3))
+> +
+>  #define CRUnRST_VRESETN			BIT(0)
+>  
+>  /* Memory Bank Base Address (Lower) Register for CRU Image Data */
+> @@ -32,7 +37,14 @@
+>  #define AMnAXIATTR_AXILEN		(0xf)
+>  
+>  #define AMnFIFOPNTR_FIFOWPNTR		GENMASK(7, 0)
+> +#define AMnFIFOPNTR_FIFOWPNTR_B0	AMnFIFOPNTR_FIFOWPNTR
+> +#define AMnFIFOPNTR_FIFOWPNTR_B1	GENMASK(15, 8)
+>  #define AMnFIFOPNTR_FIFORPNTR_Y		GENMASK(23, 16)
+> +#define AMnFIFOPNTR_FIFORPNTR_B0	AMnFIFOPNTR_FIFORPNTR_Y
+> +#define AMnFIFOPNTR_FIFORPNTR_B1	GENMASK(31, 24)
+> +
+> +#define AMnIS_IS_MASK			GENMASK(14, 7)
+> +#define AMnIS_IS(x)			((x) << 7)
+>  
+>  #define AMnAXISTP_AXI_STOP		BIT(0)
+>  
+> @@ -40,6 +52,11 @@
+>  
+>  #define ICnEN_ICEN			BIT(0)
+>  
+> +#define ICnSVC_SVC0(x)			(x)
+> +#define ICnSVC_SVC1(x)			((x) << 4)
+> +#define ICnSVC_SVC2(x)			((x) << 8)
+> +#define ICnSVC_SVC3(x)			((x) << 12)
+> +
+>  #define ICnMC_CSCTHR			BIT(5)
+>  #define ICnMC_INF(x)			((x) << 16)
+>  #define ICnMC_VCSEL(x)			((x) << 22)
+> @@ -52,7 +69,9 @@
+>  enum rzg2l_cru_common_regs {
+>  	CRUnCTRL,	/* CRU Control */
+>  	CRUnIE,		/* CRU Interrupt Enable */
+> +	CRUnIE2,	/* CRU Interrupt Enable(2) */
+>  	CRUnINTS,	/* CRU Interrupt Status */
+> +	CRUnINTS2,	/* CRU Interrupt Status(2) */
+>  	CRUnRST, 	/* CRU Reset */
+>  	AMnMB1ADDRL,	/* Bank 1 Address (Lower) for CRU Image Data */
+>  	AMnMB1ADDRH,	/* Bank 1 Address (Higher) for CRU Image Data */
+> @@ -72,12 +91,18 @@ enum rzg2l_cru_common_regs {
+>  	AMnMB8ADDRH,    /* Bank 8 Address (Higher) for CRU Image Data */
+>  	AMnMBVALID,	/* Memory Bank Enable for CRU Image Data */
+>  	AMnMBS,		/* Memory Bank Status for CRU Image Data */
+> +	AMnMADRSL,	/* VD Memory Address Lower Status Register */
+> +	AMnMADRSH,	/* VD Memory Address Higher Status Register */
+>  	AMnAXIATTR,	/* AXI Master Transfer Setting Register for CRU Image Data */
+>  	AMnFIFOPNTR,	/* AXI Master FIFO Pointer for CRU Image Data */
+>  	AMnAXISTP,	/* AXI Master Transfer Stop for CRU Image Data */
+>  	AMnAXISTPACK,	/* AXI Master Transfer Stop Status for CRU Image Data */
+> +	AMnIS,		/* Image Stride Setting Register */
+>  	ICnEN,		/* CRU Image Processing Enable */
+> +	ICnSVCNUM,	/* CRU SVC Number Register */
+> +	ICnSVC,		/* CRU VC Select Register */
+>  	ICnMC,		/* CRU Image Processing Main Control */
+> +	ICnIPMC_C0,	/* CRU Image Converter Main Control 0 */
+>  	ICnMS,		/* CRU Module Status */
+>  	ICnDMR,		/* CRU Data Output Mode */
+>  };
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> index ccaba5220f1c..3301379c132c 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> @@ -84,6 +84,7 @@ struct rzg2l_cru_info {
+>  	unsigned int max_width;
+>  	unsigned int max_height;
+>  	u16 image_conv;
+> +	u16 stride;
+>  	const u16 *regs;
+>  	irqreturn_t (*irq_handler)(int irq, void *data);
+>  	void (*enable_interrupts)(struct rzg2l_cru_dev *cru);
+> @@ -94,6 +95,11 @@ struct rzg2l_cru_info {
+>  			  u8 csi_vc);
+>  };
+>  
+> +struct rzg2l_cru_mem_bank {
+> +	dma_addr_t addrl;
+> +	dma_addr_t addrh;
+> +};
+> +
+>  /**
+>   * struct rzg2l_cru_dev - Renesas CRU device structure
+>   * @dev:		(OF) device
+> @@ -108,6 +114,8 @@ struct rzg2l_cru_info {
+>   * @vdev:		V4L2 video device associated with CRU
+>   * @v4l2_dev:		V4L2 device
+>   * @num_buf:		Holds the current number of buffers enabled
+> + * @svc_channel:	SVC0/1/2/3 to use for RZ/G3E
+> + * @mem_banks:		Memory addresses where current video data is written.
+>   * @notifier:		V4L2 asynchronous subdevs notifier
+>   *
+>   * @ip:			Image processing subdev info
+> @@ -144,6 +152,9 @@ struct rzg2l_cru_dev {
+>  	struct v4l2_device v4l2_dev;
+>  	u8 num_buf;
+>  
+> +	u8 svc_channel;
+> +	struct rzg2l_cru_mem_bank *mem_banks;
+> +
+>  	struct v4l2_async_notifier notifier;
+>  
+>  	struct rzg2l_cru_ip ip;
+> @@ -175,6 +186,7 @@ void rzg2l_cru_dma_unregister(struct rzg2l_cru_dev *cru);
+>  int rzg2l_cru_video_register(struct rzg2l_cru_dev *cru);
+>  void rzg2l_cru_video_unregister(struct rzg2l_cru_dev *cru);
+>  irqreturn_t rzg2l_cru_irq(int irq, void *data);
+> +irqreturn_t rzg3e_cru_irq(int irq, void *data);
+>  
+>  const struct v4l2_format_info *rzg2l_cru_format_from_pixel(u32 format);
+>  
+> @@ -188,10 +200,16 @@ const struct rzg2l_cru_ip_format *rzg2l_cru_ip_index_to_fmt(u32 index);
+>  
+>  void rzg2l_cru_enable_interrupts(struct rzg2l_cru_dev *cru);
+>  void rzg2l_cru_disable_interrupts(struct rzg2l_cru_dev *cru);
+> +void rzg3e_cru_enable_interrupts(struct rzg2l_cru_dev *cru);
+> +void rzg3e_cru_disable_interrupts(struct rzg2l_cru_dev *cru);
+>  
+>  bool rzg2l_fifo_empty(struct rzg2l_cru_dev *cru);
+> +bool rz3e_fifo_empty(struct rzg2l_cru_dev *cru);
+>  void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru,
+>  			  const struct rzg2l_cru_ip_format *ip_fmt,
+>  			  u8 csi_vc);
+> +void rzg3e_cru_csi2_setup(struct rzg2l_cru_dev *cru,
+> +			  const struct rzg2l_cru_ip_format *ip_fmt,
+> +			  u8 csi_vc);
+>  
+>  #endif
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> index 637c9c9f9ba8..efd70c13704e 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> @@ -138,6 +138,9 @@ static void rzg2l_cru_set_slot_addr(struct rzg2l_cru_dev *cru,
+>  	/* Currently, we just use the buffer in 32 bits address */
 
-Please note that GCC (and clang) provide __builtin_parity{,l,ll}() 
-family of builtin functions. Recently, I have tried to use this builtin 
-in a couple of places [1], [2], but I had to retract the patches, 
-because __builtin functions aren't strictly required to be inlined and 
-can generate a library call [3].
+Should this be fixed ?
 
-As explained in [2], the compilers are able to emit optimized 
-target-dependent code (also automatically using popcnt insn when 
-avaialble), so ideally the generic parity64() and parity32() would be 
-implemented using __builtin_parity(), where the generic library would 
-provide a fallback __paritydi2() and __paritysi2() functions, otherwise 
-provided by the compiler support library.
+>  	rzg2l_cru_write(cru, AMnMBxADDRL(AMnMB1ADDRL, slot), addr);
+>  	rzg2l_cru_write(cru, AMnMBxADDRH(AMnMB1ADDRH, slot), 0);
+> +
+> +	cru->mem_banks[slot].addrl = lower_32_bits(addr);
+> +	cru->mem_banks[slot].addrh = upper_32_bits(addr);
 
-For x86, we would like to exercise the hardware parity calculation or 
-optimized code sequences involving HW parity calculation, as shown in 
-[1] and [2].
+Here you stplit the dma_addr_t in two fields, storing the low and high
+parts separately (but still in dma_addr_t variables), and below you
+recombine those two fields to recreate the full address. That doesn't
+seem needed.
 
-[1] https://lore.kernel.org/lkml/20250129205746.10963-1-ubizjak@gmail.com/
+>  }
+>  
+>  /*
+> @@ -176,7 +179,7 @@ static void rzg2l_cru_fill_hw_slot(struct rzg2l_cru_dev *cru, int slot)
+>  	rzg2l_cru_set_slot_addr(cru, slot, phys_addr);
+>  }
+>  
+> -static void rzg2l_cru_initialize_axi(struct rzg2l_cru_dev *cru)
+> +static int rzg2l_cru_initialize_axi(struct rzg2l_cru_dev *cru)
+>  {
+>  	unsigned int slot;
+>  	u32 amnaxiattr;
+> @@ -190,10 +193,45 @@ static void rzg2l_cru_initialize_axi(struct rzg2l_cru_dev *cru)
+>  	for (slot = 0; slot < cru->num_buf; slot++)
+>  		rzg2l_cru_fill_hw_slot(cru, slot);
+>  
+> +	if (cru->info->stride) {
 
-[2] https://lore.kernel.org/lkml/20250129154920.6773-2-ubizjak@gmail.com/
+I'd name this field stride_align or something similar.
 
-[3] 
-https://lore.kernel.org/linux-mm/CAKbZUD0N7bkuw_Le3Pr9o1V2BjjcY_YiLm8a8DPceubTdZ00GQ@mail.gmail.com/
+> +		u32 stride = cru->format.bytesperline;
+> +		u32 amnis;
+> +
+> +		if (stride % cru->info->stride) {
+> +			dev_err(cru->dev,
+> +				"Bytesperline must be multiple of %u bytes\n",
+> +				cru->info->stride);
+> +			return -EINVAL;
+> +		}
 
-Thanks,
-Uros.
+This needs to be caught at set format time, and the stride must be
+adjusted then.
+
+> +		stride = stride / cru->info->stride;
+
+		stride /= cru->info->stride;
+
+> +		amnis = rzg2l_cru_read(cru, AMnIS) & ~AMnIS_IS_MASK;
+> +		rzg2l_cru_write(cru, AMnIS, amnis | AMnIS_IS(stride));
+> +	}
+> +
+>  	/* Set AXI burst max length to recommended setting */
+>  	amnaxiattr = rzg2l_cru_read(cru, AMnAXIATTR) & ~AMnAXIATTR_AXILEN_MASK;
+>  	amnaxiattr |= AMnAXIATTR_AXILEN;
+>  	rzg2l_cru_write(cru, AMnAXIATTR, amnaxiattr);
+> +
+> +	return 0;
+> +}
+> +
+> +void rzg3e_cru_csi2_setup(struct rzg2l_cru_dev *cru,
+> +			  const struct rzg2l_cru_ip_format *ip_fmt,
+> +			  u8 csi_vc)
+> +{
+> +	const struct rzg2l_cru_info *info = cru->info;
+> +	u32 icnmc = ICnMC_INF(ip_fmt->datatype);
+> +
+> +	icnmc |= (rzg2l_cru_read(cru, info->image_conv) & ~ICnMC_INF_MASK);
+> +
+> +	/* Set virtual channel CSI2 */
+> +	icnmc |= ICnMC_VCSEL(csi_vc);
+> +
+> +	rzg2l_cru_write(cru, ICnSVCNUM, cru->svc_channel);
+
+As far as I can tell, csi_vc and cru->svc_channel hold the same value.
+You can drop ths svc_channel field.
+
+> +	rzg2l_cru_write(cru, ICnSVC, ICnSVC_SVC0(0) | ICnSVC_SVC1(1) |
+> +			ICnSVC_SVC2(2) | ICnSVC_SVC3(3));
+> +	rzg2l_cru_write(cru, info->image_conv, icnmc);
+>  }
+>  
+>  void rzg2l_cru_csi2_setup(struct rzg2l_cru_dev *cru,
+> @@ -244,6 +282,19 @@ static int rzg2l_cru_initialize_image_conv(struct rzg2l_cru_dev *cru,
+>  	return 0;
+>  }
+>  
+> +bool rz3e_fifo_empty(struct rzg2l_cru_dev *cru)
+> +{
+> +	u32 amnfifopntr = rzg2l_cru_read(cru, AMnFIFOPNTR);
+> +
+> +	if ((((amnfifopntr & AMnFIFOPNTR_FIFORPNTR_B1) >> 24) ==
+> +	     ((amnfifopntr & AMnFIFOPNTR_FIFOWPNTR_B1) >> 8)) &&
+> +	    (((amnfifopntr & AMnFIFOPNTR_FIFORPNTR_B0) >> 16) ==
+> +	     (amnfifopntr & AMnFIFOPNTR_FIFOWPNTR_B0)))
+> +		return true;
+> +
+> +	return false;
+> +}
+> +
+>  bool rzg2l_fifo_empty(struct rzg2l_cru_dev *cru)
+>  {
+>  	u32 amnfifopntr, amnfifopntr_w, amnfifopntr_r_y;
+> @@ -355,6 +406,20 @@ static int rzg2l_cru_get_virtual_channel(struct rzg2l_cru_dev *cru)
+>  	return fd.entry[0].bus.csi2.vc;
+>  }
+>  
+> +void rzg3e_cru_enable_interrupts(struct rzg2l_cru_dev *cru)
+> +{
+> +	rzg2l_cru_write(cru, CRUnIE2, CRUnIE2_FSxE(cru->svc_channel));
+> +	rzg2l_cru_write(cru, CRUnIE2, CRUnIE2_FExE(cru->svc_channel));
+> +}
+> +
+> +void rzg3e_cru_disable_interrupts(struct rzg2l_cru_dev *cru)
+> +{
+> +	rzg2l_cru_write(cru, CRUnIE, 0);
+> +	rzg2l_cru_write(cru, CRUnIE2, 0);
+> +	rzg2l_cru_write(cru, CRUnINTS, rzg2l_cru_read(cru, CRUnINTS));
+> +	rzg2l_cru_write(cru, CRUnINTS2, rzg2l_cru_read(cru, CRUnINTS2));
+> +}
+> +
+>  void rzg2l_cru_enable_interrupts(struct rzg2l_cru_dev *cru)
+>  {
+>  	rzg2l_cru_write(cru, CRUnIE, CRUnIE_EFE);
+> @@ -377,6 +442,7 @@ int rzg2l_cru_start_image_processing(struct rzg2l_cru_dev *cru)
+>  	if (ret < 0)
+>  		return ret;
+>  	csi_vc = ret;
+> +	cru->svc_channel = csi_vc;
+>  
+>  	spin_lock_irqsave(&cru->qlock, flags);
+>  
+> @@ -390,7 +456,11 @@ int rzg2l_cru_start_image_processing(struct rzg2l_cru_dev *cru)
+>  	cru->info->disable_interrupts(cru);
+>  
+>  	/* Initialize the AXI master */
+> -	rzg2l_cru_initialize_axi(cru);
+> +	ret = rzg2l_cru_initialize_axi(cru);
+> +	if (ret) {
+> +		spin_unlock_irqrestore(&cru->qlock, flags);
+> +		return ret;
+> +	}
+
+This will go away once you remove the error check from
+rzg2l_cru_initialize_axi(), which should then remain a void function.
+
+There's another function returning an error here,
+rzg2l_cru_initialize_image_conv(). I think it can also become void (in a
+separate patch).
+
+>  
+>  	/* Initialize image convert */
+>  	ret = rzg2l_cru_initialize_image_conv(cru, fmt, csi_vc);
+> @@ -555,6 +625,110 @@ irqreturn_t rzg2l_cru_irq(int irq, void *data)
+>  	return IRQ_RETVAL(handled);
+>  }
+>  
+> +static int rzg3e_cru_get_current_slot(struct rzg2l_cru_dev *cru)
+> +{
+> +	dma_addr_t amnmadrs;
+> +	unsigned int slot;
+> +
+> +	amnmadrs = rzg2l_cru_read(cru, AMnMADRSL);
+> +	amnmadrs |= ((dma_addr_t)rzg2l_cru_read(cru, AMnMADRSH) << 32);
+
+What if the two registers are read on a frame boundary ?
+
+> +
+> +	for (slot = 0; slot < cru->num_buf; slot++) {
+> +		dma_addr_t buf_addr;
+> +
+> +		buf_addr = cru->mem_banks[slot].addrh << 32 |
+> +			cru->mem_banks[slot].addrl;
+> +
+> +		/* Ensure amnmadrs is within this buffer range */
+> +		if (amnmadrs >= buf_addr &&
+> +		    amnmadrs < buf_addr + cru->format.sizeimage) {
+> +			return slot;
+> +		}
+> +	}
+> +
+> +	dev_err(cru->dev, "Invalid MB address 0x%llx (out of range)\n", amnmadrs);
+> +	return -EINVAL;
+> +}
+> +
+> +irqreturn_t rzg3e_cru_irq(int irq, void *data)
+> +{
+> +	struct rzg2l_cru_dev *cru = data;
+> +	unsigned int handled = 0;
+> +	unsigned long flags;
+> +	unsigned int slot;
+> +	u32 irq_status;
+> +
+> +	spin_lock_irqsave(&cru->qlock, flags);
+> +	irq_status = rzg2l_cru_read(cru, CRUnINTS2);
+> +	if (!(irq_status))
+> +		goto done;
+> +
+> +	dev_dbg(cru->dev, "CRUnINTS2 0x%x\n", irq_status);
+> +
+> +	handled = 1;
+> +
+> +	rzg2l_cru_write(cru, CRUnINTS2, rzg2l_cru_read(cru, CRUnINTS2));
+> +
+> +	/* Nothing to do if capture status is 'RZG2L_CRU_DMA_STOPPED' */
+> +	if (cru->state == RZG2L_CRU_DMA_STOPPED) {
+> +		dev_dbg(cru->dev, "IRQ while state stopped\n");
+> +		goto done;
+> +	}
+> +
+> +	if (cru->state == RZG2L_CRU_DMA_STOPPING) {
+> +		if (irq_status & CRUnINTS2_FSxS(0) ||
+> +		    irq_status & CRUnINTS2_FSxS(1) ||
+> +		    irq_status & CRUnINTS2_FSxS(2) ||
+> +		    irq_status & CRUnINTS2_FSxS(3))
+> +			dev_dbg(cru->dev, "IRQ while state stopping\n");
+> +		goto done;
+> +	}
+> +
+> +	slot = rzg3e_cru_get_current_slot(cru);
+> +	if (slot < 0)
+> +		goto done;
+> +
+> +	dev_dbg(cru->dev, "Current written slot: %d\n", slot);
+> +
+> +	cru->mem_banks[slot].addrl = 0;
+> +	cru->mem_banks[slot].addrh = 0;
+> +
+> +	/*
+> +	 * To hand buffers back in a known order to userspace start
+> +	 * to capture first from slot 0.
+> +	 */
+> +	if (cru->state == RZG2L_CRU_DMA_STARTING) {
+> +		if (slot != 0) {
+> +			dev_dbg(cru->dev, "Starting sync slot: %d\n", slot);
+> +			goto done;
+> +		}
+> +		dev_dbg(cru->dev, "Capture start synced!\n");
+> +		cru->state = RZG2L_CRU_DMA_RUNNING;
+> +	}
+> +
+> +	/* Capture frame */
+> +	if (cru->queue_buf[slot]) {
+> +		cru->queue_buf[slot]->field = cru->format.field;
+> +		cru->queue_buf[slot]->sequence = cru->sequence;
+> +		cru->queue_buf[slot]->vb2_buf.timestamp = ktime_get_ns();
+> +		vb2_buffer_done(&cru->queue_buf[slot]->vb2_buf,
+> +				VB2_BUF_STATE_DONE);
+> +		cru->queue_buf[slot] = NULL;
+> +	} else {
+> +		/* Scratch buffer was used, dropping frame. */
+> +		dev_dbg(cru->dev, "Dropping frame %u\n", cru->sequence);
+> +	}
+> +
+> +	cru->sequence++;
+> +
+> +	/* Prepare for next frame */
+> +	rzg2l_cru_fill_hw_slot(cru, slot);
+> +
+> +done:
+> +	spin_unlock_irqrestore(&cru->qlock, flags);
+> +	return IRQ_RETVAL(handled);
+> +}
+> +
+>  static int rzg2l_cru_start_streaming_vq(struct vb2_queue *vq, unsigned int count)
+>  {
+>  	struct rzg2l_cru_dev *cru = vb2_get_drv_priv(vq);
+
+-- 
+Regards,
+
+Laurent Pinchart
 
