@@ -1,187 +1,221 @@
-Return-Path: <linux-media+bounces-26690-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26691-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4156CA4104A
-	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 17:53:36 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 293F8A4104F
+	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 17:56:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 858A7177397
-	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 16:51:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7850C3B8F6C
+	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 16:56:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4C2C20E70D;
-	Sun, 23 Feb 2025 16:46:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6865D13B2A9;
+	Sun, 23 Feb 2025 16:56:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CjTBecVn"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FWBbLcyq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1F20137930;
-	Sun, 23 Feb 2025 16:45:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AE868C11;
+	Sun, 23 Feb 2025 16:56:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740329160; cv=none; b=bsaA2DGOgoZWFl0GAA02OUDLa92XdRTKy9YKSr3kJdBifcgy6RzLD8rjwOlvFFl8XlxcIqNLOGisY7/hekTukTsPQdc8W6AXlygjSf9G9I7fkXmfM8IFxv75tF4yc9OitDMQjRcyfGACt7KU1fYuB8rWXHetFxaj6Qo+LiXB7QA=
+	t=1740329770; cv=none; b=uLFgqEBsLmv8Q4B5XUBxA/1H2sK4IECeFwmuV/XH/42dSSU3IjWlFTf8ATC+Heb0Du8Jwqae09avaw72H3c4Rv+fz0TT3GZO76eE+5K9XJaV8KApVkb3sacFTbxTgf1BUlhboVu41QdAec0c0p9InI/dUZh8r7h3TgNemdprG80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740329160; c=relaxed/simple;
-	bh=VpxAbF0iBul4Uw/Lq+mofgkf8czO0+orTD3RsRZ9cYQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=CKoDvYpGlME5HH4x/3ueOzqJ47bNM+8hEBO8S63bZmigIQX9Ryud+HcLo0PoJtKwr1H+SHGh2A76u9n5wXIKUl0jk/qB307913/GuFTH1pjbGy2M5zNu3Y+e/ubtVn2PoGvDsce52aboTBRdRcl5E/erOHf4RtnCB86BEC6MXBM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CjTBecVn; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2fcff77ff9bso2745195a91.0;
-        Sun, 23 Feb 2025 08:45:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740329158; x=1740933958; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nzBrmzWckDIJwY51QBb0mQJ5Dqo6Ldx+jMH0V0Ck8/w=;
-        b=CjTBecVnq+JEtt0Olvb3Q88N6Dhx8qwCfRzSi8G3dBD9JUn6ZOwA4fAZOyC7XqFUwJ
-         Ai+//fykwUUGeVXRRlsC3AD5/b39+JAm/GArUx5PTB1uuF9y2bHJHUq5RUXw/ZOyRh2z
-         pVkg4ZsbmEMnONLEsBz+FNGLIAhgC/DomaPhiiVrWNv7M1P3ORHQr+c7u3ilTgyY0WUa
-         efrxFGT/b6Rrkw5RNDaDxjJKTLlR6C1Tqk5eIxxNIcuQqi7NDD37e9eB3teiAZpvemRc
-         oZsUQh8wKHCJ0DwWRbTJgvuUfIjPibil7GStEbQYCkOHHqUXjcuuNgfdfVs8ooEdBJ1+
-         UzFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740329158; x=1740933958;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nzBrmzWckDIJwY51QBb0mQJ5Dqo6Ldx+jMH0V0Ck8/w=;
-        b=q7H6ruRe6NXtMZHPIv4+CjOgHK3Yg78kmQEXKpdcxeGmGafyR5OxtQnrTCGKFzDaKu
-         ZAl+WzLvT1Tt8KoOFe++MRmm/QEt+Nn1BQNtAHWPmXYmCVGT9tTN0sd73yGfcNGYzv7o
-         kwg/eYFxawFBgrGG28lJY8xowH4cIutfwXejpjaIxkcGa625k5TvsNPRl502kGGKaPg8
-         M7ekY/CTLBQqlGYW6LTClBIKMx35pSfWDq9KPG0UKgywMsVF50Eq8O9+mhPyH3iUH6bG
-         jMOohZ86oGJn637NIacGcL+EAqLxK+zIQASq9rjYMHzrLr9RESNSK7wn/uufDkNM6lxx
-         MzJQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU4xHnIMVo3PaOhn5mHUx5Hbs9ss1mSPb8GiYUyo+Ql4AZifQKg3doNQe0PIo70YsblOc+S3mfc4g1Jx7XIucQ=@vger.kernel.org, AJvYcCUnlqV5jl2oc1Q8LAuJjQ4ti+/2GEBLdaagGHwQ/+ydKhncSC8wWacrSeuP5G1gxg/uR+ckitnkSTKMlGc=@vger.kernel.org, AJvYcCWe15N4jzuvZg0Y+TPEDD3fblWLlaUKl3H/3JSdDJDPZXOGiHJDjVD7oq+SElamb6cif1K+Px91@vger.kernel.org, AJvYcCWihHuNyULU/0Ky+ZXZkprpBD+UviUAZEiy39ANo96PsRVjh2GlSBnUPmSFuqUlTee143jHNRCEg1+JCwPl@vger.kernel.org, AJvYcCWsCYLjy77JWWM4+crkA2NAowTuP6ebceY/ozLOU7LELsVq+PnLrWFuQrtxnK+WJywS9iYp85E5YGCH3NmQ@vger.kernel.org, AJvYcCXXCAwKRHPbdeOaOoZRkIbIl5NEcTdpJMAM99icnvx6Aj8LIyDKLLinNM8zLwPMBvKuMrc/ev7pNm86Ol0=@vger.kernel.org, AJvYcCXgUuLF0d5YwCkuszlZIuEMFqSQ4RyHlQBjQeIlUZluoGibS+6q+9zg6rrCQyW2WSdvoIc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YypD5VxPgb2Aut9aRJE64Mg5TOP8NLJgCX9b/dxe/aemH16KfD6
-	govjoY8onB9KXlSYaddDq8n6GSjXErrDhcL2nFLJuzem1aweAMDZ
-X-Gm-Gg: ASbGncvf9SIYzpOy6HkwKz3qWAxzyQAQuEL9nxb9U4iJ18b5vOtfIj4qmjabMgLoyYp
-	xRR+YuPLQTOezJp65+OxmED2Zc32B/jL7bp7Ow968gs9mX2qLS8dPjt+FFR19JuOI334dNWlR8j
-	lb0SUKJsSGVjqDRhPVKDJY/+ZWnHGnu6IbdaKLfeX/6mK1HSEGMqsKoPQJNdvVdhKs8A9kcDePX
-	iGQQI4bxoB0LqvZ0CS4x74CoT1OsKbjvQ4WRFebN5jx+FTW7MOZRqqUFxETB4NZuJpCZwXKIUyo
-	4VoPpHWbgfuVHpyhzG3zNJbDLwnUIagV9fyfGRqoPP3QuxjzujRZKwSW
-X-Google-Smtp-Source: AGHT+IF16AG7QV3yDJH/B6gDeFm18hoNJMWrJMQH/o1eQGkDQfNTajRN2mVaQtR8BSlGLJjsCZspog==
-X-Received: by 2002:a17:90b:2e44:b0:2f5:63a:44f9 with SMTP id 98e67ed59e1d1-2fce7b0acaamr15082851a91.23.1740329158110;
-        Sun, 23 Feb 2025 08:45:58 -0800 (PST)
-Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fceb09f6e0sm4935080a91.44.2025.02.23.08.45.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Feb 2025 08:45:57 -0800 (PST)
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: tglx@linutronix.de,
-	mingo@redhat.com,
-	bp@alien8.de,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	jk@ozlabs.org,
-	joel@jms.id.au,
-	eajames@linux.ibm.com,
-	andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org,
-	rfoss@kernel.org,
-	maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org,
-	tzimmermann@suse.de,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	dmitry.torokhov@gmail.com,
-	mchehab@kernel.org,
-	awalls@md.metrocast.net,
-	hverkuil@xs4all.nl,
-	miquel.raynal@bootlin.com,
-	richard@nod.at,
-	vigneshr@ti.com,
-	louis.peens@corigine.com,
-	andrew+netdev@lunn.ch,
-	davem@davemloft.net,
-	edumazet@google.com,
-	pabeni@redhat.com,
-	parthiban.veerasooran@microchip.com,
-	arend.vanspriel@broadcom.com,
-	johannes@sipsolutions.net,
-	gregkh@linuxfoundation.org,
-	jirislaby@kernel.org,
-	yury.norov@gmail.com,
-	akpm@linux-foundation.org
-Cc: hpa@zytor.com,
-	alistair@popple.id.au,
-	linux@rasmusvillemoes.dk,
-	Laurent.pinchart@ideasonboard.com,
-	jonas@kwiboo.se,
-	jernej.skrabec@gmail.com,
-	kuba@kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-fsi@lists.ozlabs.org,
-	dri-devel@lists.freedesktop.org,
-	linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mtd@lists.infradead.org,
-	oss-drivers@corigine.com,
-	netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org,
-	brcm80211@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com,
-	linux-serial@vger.kernel.org,
-	bpf@vger.kernel.org,
-	jserv@ccns.ncku.edu.tw,
-	Kuan-Wei Chiu <visitorckw@gmail.com>,
-	Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: [PATCH 17/17] nfp: bpf: Replace open-coded parity calculation with parity64()
-Date: Mon, 24 Feb 2025 00:42:17 +0800
-Message-Id: <20250223164217.2139331-18-visitorckw@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250223164217.2139331-1-visitorckw@gmail.com>
-References: <20250223164217.2139331-1-visitorckw@gmail.com>
+	s=arc-20240116; t=1740329770; c=relaxed/simple;
+	bh=FA75n+VpqJkA0GeUzp3IUX+/lbRF3tts1VH+SPvvQJA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aSfgYXicTYYhROZb5PqBlNmNMbifF8pUowBsov7UVv/tTq/mwl/G60dZ6acQa4dkHG/t9Q7RW+ZZLYjYMEFBsirIGsw5fkMFpKX2A6W0OKBilHeD2euPgfPsJKClIQiM5P91ypg1WKQqkuzrYp2GMpSgSeGjNs/rI5WUC2WHGBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FWBbLcyq; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6CADD496;
+	Sun, 23 Feb 2025 17:54:38 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1740329678;
+	bh=FA75n+VpqJkA0GeUzp3IUX+/lbRF3tts1VH+SPvvQJA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FWBbLcyqypBTFgTxjgaBpiDRYK5FOfpTUOUuLLpqoY2qslpzEJ3eIzAY4bgRiM28g
+	 XPHfih3nDxCFMMlvjKqzSxTtVlcRQ/ftaMXGu04RDaQ+VyPl48G1ZgMQeULcD70H3x
+	 vCUYF0lDq+e7tPeLtgK7vy70VeqI1jmiYrZpH51M=
+Date: Sun, 23 Feb 2025 18:55:47 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+Subject: Re: [PATCH v3 4/6] media: uvcvideo: Increase/decrease the PM counter
+ per IOCTL
+Message-ID: <20250223165547.GE27463@pendragon.ideasonboard.com>
+References: <20250206-uvc-granpower-ng-v3-0-32d0d7b0c5d8@chromium.org>
+ <20250206-uvc-granpower-ng-v3-4-32d0d7b0c5d8@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250206-uvc-granpower-ng-v3-4-32d0d7b0c5d8@chromium.org>
 
-Refactor parity calculations to use the standard parity64() helper.
-This change eliminates redundant implementations and improves code
-efficiency.
+Hi Ricardo,
 
-Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
-Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
-Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
----
- drivers/net/ethernet/netronome/nfp/nfp_asm.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+Thank you for the patch.
 
-diff --git a/drivers/net/ethernet/netronome/nfp/nfp_asm.c b/drivers/net/ethernet/netronome/nfp/nfp_asm.c
-index 154399c5453f..3646f84a6e8c 100644
---- a/drivers/net/ethernet/netronome/nfp/nfp_asm.c
-+++ b/drivers/net/ethernet/netronome/nfp/nfp_asm.c
-@@ -295,11 +295,6 @@ static const u64 nfp_ustore_ecc_polynomials[NFP_USTORE_ECC_POLY_WORDS] = {
- 	0x0daf69a46910ULL,
- };
- 
--static bool parity(u64 value)
--{
--	return hweight64(value) & 1;
--}
--
- int nfp_ustore_check_valid_no_ecc(u64 insn)
- {
- 	if (insn & ~GENMASK_ULL(NFP_USTORE_OP_BITS, 0))
-@@ -314,7 +309,7 @@ u64 nfp_ustore_calc_ecc_insn(u64 insn)
- 	int i;
- 
- 	for (i = 0; i < NFP_USTORE_ECC_POLY_WORDS; i++)
--		ecc |= parity(nfp_ustore_ecc_polynomials[i] & insn) << i;
-+		ecc |= parity64(nfp_ustore_ecc_polynomials[i] & insn) << i;
- 
- 	return insn | (u64)ecc << NFP_USTORE_OP_BITS;
- }
+On Thu, Feb 06, 2025 at 07:47:03PM +0000, Ricardo Ribalda wrote:
+> Now we call uvc_status_get/put from the device open/close. This low
+> level of granularity might leave the camera powered on in situations
+> where it is not needed.
+> 
+> Increase the granularity by increasing and decreasing the Power
+> Management counter per ioctl. There are two special cases where the
+> power management outlives the ioctl: async controls and streamon. Handle
+> those cases as well.
+> 
+> In a future patch, we will remove the uvc_status_get/put from open/close.
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c | 13 +++++++++++--
+>  drivers/media/usb/uvc/uvc_v4l2.c | 26 +++++++++++++++++++++++---
+>  2 files changed, 34 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index 4e58476d305e..97c1141a45b3 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -1594,12 +1594,15 @@ static void uvc_ctrl_set_handle(struct uvc_fh *handle, struct uvc_control *ctrl,
+>  
+>  		if (ctrl->handle) {
+>  			WARN_ON(!ctrl->handle->pending_async_ctrls);
+> -			if (ctrl->handle->pending_async_ctrls)
+> +			if (ctrl->handle->pending_async_ctrls) {
+>  				ctrl->handle->pending_async_ctrls--;
+> +				uvc_status_put(handle->chain->dev);
+
+That's not the right API. uvc_status_* is about the status endpoint, not
+power management in general.
+
+> +			}
+>  		}
+>  
+>  		ctrl->handle = new_handle;
+>  		handle->pending_async_ctrls++;
+> +		uvc_status_get(handle->chain->dev);
+>  		return;
+>  	}
+>  
+> @@ -1611,6 +1614,7 @@ static void uvc_ctrl_set_handle(struct uvc_fh *handle, struct uvc_control *ctrl,
+>  	if (WARN_ON(!handle->pending_async_ctrls))
+>  		return;
+>  	handle->pending_async_ctrls--;
+> +	uvc_status_put(handle->chain->dev);
+>  }
+>  
+>  void uvc_ctrl_status_event(struct uvc_video_chain *chain,
+> @@ -2815,6 +2819,7 @@ int uvc_ctrl_init_device(struct uvc_device *dev)
+>  void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
+>  {
+>  	struct uvc_entity *entity;
+> +	int i;
+>  
+>  	guard(mutex)(&handle->chain->ctrl_mutex);
+>  
+> @@ -2829,7 +2834,11 @@ void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
+>  		}
+>  	}
+>  
+> -	WARN_ON(handle->pending_async_ctrls);
+> +	if (!WARN_ON(handle->pending_async_ctrls))
+> +		return;
+> +
+> +	for (i = 0; i < handle->pending_async_ctrls; i++)
+> +		uvc_status_put(handle->stream->dev);
+>  }
+>  
+>  /*
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index 5d4e967938af..63d1d06d3ff6 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -670,6 +670,9 @@ static int uvc_v4l2_release(struct file *file)
+>  	if (uvc_has_privileges(handle))
+>  		uvc_queue_release(&stream->queue);
+>  
+> +	if (handle->is_streaming)
+> +		uvc_status_put(stream->dev);
+> +
+>  	/* Release the file handle. */
+>  	uvc_dismiss_privileges(handle);
+>  	v4l2_fh_del(&handle->vfh);
+> @@ -832,8 +835,10 @@ static int uvc_ioctl_streamon(struct file *file, void *fh,
+>  		return 0;
+>  
+>  	ret = uvc_queue_streamon(&stream->queue, type);
+> -	if (!ret)
+> +	if (!ret) {
+>  		handle->is_streaming = true;
+> +		uvc_status_get(stream->dev);
+> +	}
+>  
+>  	return ret;
+>  
+> @@ -851,7 +856,10 @@ static int uvc_ioctl_streamoff(struct file *file, void *fh,
+>  	guard(mutex)(&stream->mutex);
+>  
+>  	uvc_queue_streamoff(&stream->queue, type);
+> -	handle->is_streaming = false;
+> +	if (handle->is_streaming) {
+> +		handle->is_streaming = false;
+> +		uvc_status_put(stream->dev);
+> +	}
+>  
+>  	return 0;
+>  }
+> @@ -1388,6 +1396,8 @@ static long uvc_v4l2_compat_ioctl32(struct file *file,
+>  	void __user *up = compat_ptr(arg);
+>  	long ret;
+>  
+> +	guard(uvc_status)(handle->stream->dev);
+> +
+>  	switch (cmd) {
+>  	case UVCIOC_CTRL_MAP32:
+>  		ret = uvc_v4l2_get_xu_mapping(&karg.xmap, up);
+> @@ -1422,6 +1432,16 @@ static long uvc_v4l2_compat_ioctl32(struct file *file,
+>  }
+>  #endif
+>  
+> +static long uvc_v4l2_video_ioctl2(struct file *file,
+> +				  unsigned int cmd, unsigned long arg)
+> +{
+> +	struct uvc_fh *handle = file->private_data;
+> +
+> +	guard(uvc_status)(handle->stream->dev);
+> +
+> +	return video_ioctl2(file, cmd, arg);
+> +}
+> +
+>  static ssize_t uvc_v4l2_read(struct file *file, char __user *data,
+>  		    size_t count, loff_t *ppos)
+>  {
+> @@ -1507,7 +1527,7 @@ const struct v4l2_file_operations uvc_fops = {
+>  	.owner		= THIS_MODULE,
+>  	.open		= uvc_v4l2_open,
+>  	.release	= uvc_v4l2_release,
+> -	.unlocked_ioctl	= video_ioctl2,
+> +	.unlocked_ioctl	= uvc_v4l2_video_ioctl2,
+>  #ifdef CONFIG_COMPAT
+>  	.compat_ioctl32	= uvc_v4l2_compat_ioctl32,
+>  #endif
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
 
