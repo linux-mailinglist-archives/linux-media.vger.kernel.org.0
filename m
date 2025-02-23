@@ -1,143 +1,173 @@
-Return-Path: <linux-media+bounces-26745-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26747-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9724AA411D4
-	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 22:12:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B946CA411D9
+	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 22:14:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 897B4173E21
-	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 21:12:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 133C51890C62
+	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 21:13:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DECF123FC6B;
-	Sun, 23 Feb 2025 21:12:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C183923F439;
+	Sun, 23 Feb 2025 21:13:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mfZwxSW5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bE5F2f0w"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
+Received: from mail-vk1-f180.google.com (mail-vk1-f180.google.com [209.85.221.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE8E118C039;
-	Sun, 23 Feb 2025 21:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0EDD1779AE;
+	Sun, 23 Feb 2025 21:13:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740345138; cv=none; b=nLLJniK9a+2iQ2B6/Y2S3YJFXU2NTBj4pRyBOREx02tFkzWPJoG/bCNovuULC0VjWuDoc5sC/eO8x2OkGQlvnDhltz4EaX0bIuFiLV7esThcQDpuiAKGCirm7K6kPoeHmOsPcWvZ9Yn2yzCDfQChuFTyc6BRx1kqww2ymA/4NBw=
+	t=1740345220; cv=none; b=tXiQmJeJLu2yQeBL1Ab863AOvtQvpvpJlCCbX2xlO6moswZQQhJnhsDF1BlGF8wkgNOdSBQTouoTfS+ni3zoouJig8mH5s5MwwC5CzcR0TX0yh5yUCWt+U6GE/uS66w4EUEOHoILpgGAusi4vhYptaOgkGiF5ctr8yqjSk4rW1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740345138; c=relaxed/simple;
-	bh=rNNIUkC9BUfduMrG/HNisV8iEBRixRXLZsMHW8mqSbs=;
+	s=arc-20240116; t=1740345220; c=relaxed/simple;
+	bh=t2ax8UCJSHBbBrK6Bhi1jvtf9DO+eaUf94fq1tvpzwg=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qQ19q0upm1ziDGbD83AqcqrrKMKiHw/M6PGkyMLRJcUM+tNekCHfQvWlpMHvey47GdvAgdTc8oZX3BIYYk1SDn3M5daMPAomGDY4cc2w/nQbaQi1Oq3z7aOlaRFOPDnIoUk3yketJatgeAGWQkCXmIejUqR5erJ95VjuNFK4PrI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mfZwxSW5; arc=none smtp.client-ip=209.85.221.182
+	 To:Cc:Content-Type; b=VDqFpYHZvNmIY+dO/SB6N+JhlhLPjQuYyuKotwjLCIsZPp7TfpPJQkGovg5OcCdbk9p8ulNzoX0QlIOvMelP6e2kRc67sVugE0Te7LPnJe5Hu2zjMPXc6OBGus/5VViIiFX9+HGTB0pl+0IROuMENDCzxNvMRr9gYNP1WTQcEI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bE5F2f0w; arc=none smtp.client-ip=209.85.221.180
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-520af4b872bso909182e0c.2;
-        Sun, 23 Feb 2025 13:12:14 -0800 (PST)
+Received: by mail-vk1-f180.google.com with SMTP id 71dfb90a1353d-520a48f37b4so2122969e0c.2;
+        Sun, 23 Feb 2025 13:13:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740345133; x=1740949933; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1740345217; x=1740950017; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bEkuOQC4KaUmGRayr/G0NKl4Sr1/JpDw8UFbys7bamg=;
-        b=mfZwxSW5LuokOjJ7BIZlOyX6r3XN3G7Fsst81MHXByeM8osF/6h2ERQrMHi6fq+x3v
-         6B9tfs5288KKu1AKnw56zWCGUj4U1UAqpo/1KdhZNIOPvvBdOtjURxDSc1il/zk1mXt8
-         TMUzmkhIs8DEpRH4qlA3YMNTJ1O4UTM5O6WYicF0lLrQ068PMTy4en6RR3RGQF0emJmY
-         W5hD33EymNfklVnqRxLlBplCVzVBw2uT/foJYnT+7P0QKOoqRBCfim831Kk9yipV7htU
-         taU7nrBXP49M4VWaMKAeztpDVV5PlSslR/1Ach6oOqBonjhBj2Q6bV2G25K2YzbIN4ke
-         EKYQ==
+        bh=+iedaQHLBD4XXfzSGe7haPi2kZ1YTY82HI9Qk9Wdqtg=;
+        b=bE5F2f0wyxCTrtDfjv5IWKljCOv6bcLdsNJqxMGCUv27yjioZthMGMpRYoT4jTN6au
+         ZzIC79tz6fdhYvjquksprYmjahKtES1Bzb2IE36jCN3lSs6qVtjLBSf3CzWIVwFLhKvY
+         e0Zl2/iPIf7UYesKArr6G7t6ezdDA8oerUyykECu8Yep3QpzYs7dsitye0YGgSPkhup1
+         M0OELuiOEKzeycJMaOd+IBTuJDZB2GG+KSx68Acx5SYHRcGYdPBNS3Tlwg3U/V7tF4/3
+         3+DjO3olLJ5WjhlSRPy8DoqLtnDGYy3u2Si+mRkouBHK8pMQEipLKfo/jEKb8PgfdBsG
+         RYZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740345133; x=1740949933;
+        d=1e100.net; s=20230601; t=1740345217; x=1740950017;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bEkuOQC4KaUmGRayr/G0NKl4Sr1/JpDw8UFbys7bamg=;
-        b=u7a5oHTqS9fJjZt+uxKCLVBbI1d6nZ+vwHlNFwDn3L8vzntn9UQ1W6YJJx/jr1P+ut
-         2iObG04JgIeY9gLaHu5gstHBXNOKVgk3/sEE02egvPMwxcjobtYa3DMFmBex30v5jdaE
-         drgwA7r98/a/9DltfAFVHGxQE7l83xvlvTqXHDHzcStF838nqPPvUpKURVTD+cyq6/Wq
-         gT0AksAfDzoMHWNi4zy4aOerjJTJ2mS8a/J1wCFuSZ+C2hws0VMjoB+8lQ43Afhjpwox
-         eZEhQOMzmSp28U/LD7khgYNPw4E0VbIDdtlca0c4q+l2PGDp7sm0f7+D2g68heiLZZXf
-         sC5A==
-X-Forwarded-Encrypted: i=1; AJvYcCUzrWOD34kZIfR0P8R0Symjpl5YNAAjzCghsjzJ4YiP6B95zoSqXXa79jJSyPvLAjtu71mkmVCM0Vz3@vger.kernel.org, AJvYcCVAfuBX/cakqEbmgfRgqtlRWlJGkJoCZePM1QryVFHTId3/5V2RVXdsNxovuUrexXpaaJPgyQy2hl0VHZaA@vger.kernel.org, AJvYcCVeeUWrgCZ9NIk2EoGUMoJrtM5EoG8MwYRT28bL6UVZ1Ohk5YeSxgM57LyFMyZRyGC6VDZV8rx6P5FhrTouZjd6UY0=@vger.kernel.org, AJvYcCW8cVgeoWVFIr9be1s3K5pAQUqL7f5TOU14IbTGj2xaAH1wz5bTz/yE8beuibXgVfXIFY2fDQabffGPj84=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyFlLejttdVcEy3QzqUKvLMcgGTqHuoGGACvhoWq3XDD0pPKFzE
-	SPFZHi3//M61+Pk9EqxkHBeuBKysXhMKY73yhq8AovkAqs/MnKpxqDEvEvO+Lit3nwAL5oejhEC
-	t/WjI/cmvbn3dRxW/Wfs/7Mdnb6k=
-X-Gm-Gg: ASbGncshza8mlhnT+RvTi5aG7xG8tVqCOhx3ZVqJWjIwRAlyLnlPIsXMeouhWblMCXU
-	2H7TTk6zOiY9WWLx5OqcKOzLYfORCU6oPT8+m8fqpOmAxntbT2jcsCiL9QgOCZ91/AIOzeodhYq
-	X5M0LSHg1APRcEQTJ3wNxr/2D483LNZ1ECo7uCFX4l
-X-Google-Smtp-Source: AGHT+IH/PaBFvaKmTFkJmjZxggUGCmcmIkH/7HQYfOldrkh2mI4nX9kTZfzuSEaxG9TJ6WYxovtUdxGk/U3wrLmh5wY=
-X-Received: by 2002:a05:6122:3903:b0:520:3465:7302 with SMTP id
- 71dfb90a1353d-521ee2a27c3mr5526233e0c.5.1740345133618; Sun, 23 Feb 2025
- 13:12:13 -0800 (PST)
+        bh=+iedaQHLBD4XXfzSGe7haPi2kZ1YTY82HI9Qk9Wdqtg=;
+        b=D4RQcb/HXvsZauReNTB7Se9iUbCHIFgSxB+2cahrqob4jRs4acCWMmLfeurV5ZCQuz
+         TVuy083LujPlT0DjnxMfuRlO1J8x9N5r9iFZLM1QGAmdb0yqh7561UzfHf7NgB+OuEtt
+         9pb8Qf2LzBoECNuzGjm82/Jb+vYubrQFYX6o+PD7gJgSf1MMr2JTvca5jQqZZLZwtSG0
+         VAV+abfJnuj0+5Ryn9naSUdcXvkWCmZhgzTDAL+tKJrKgRXOhqtNNc7tNr0rirq6r2Ff
+         ioqZNhEsZGpUB6PImBXkPFHovs6bI9kvNXrcWyfJWDAR3tGgAmDUXS5uKIwVhfhDp4lN
+         yckA==
+X-Forwarded-Encrypted: i=1; AJvYcCUcxdTPBKLsU7rPM436vdi1nGsAL81c8xJH7QaVtgLROxsIqhlbNWxwE7vq4NfUy9uM7kYahx5d6WXHTBdM@vger.kernel.org, AJvYcCVPaDAaPfYwIH0tFDVvjI+Rkpd4k385/PbOlQyUEG70BS+tU1ZN5ERlWSTJlWVInMDJLYnVRzMmgUkTL18Ut1JhQBI=@vger.kernel.org, AJvYcCW3V/QKUnrqjDTFpc7V3ItmRwScszYJF6vjvjAMPsFZN3HT090Gv3nZBJuDIwCsS9CAgSiMBH2RdqGR184=@vger.kernel.org, AJvYcCXU0PX3QhxJL5i8PV33EABJRD8wkFBVaPrE77SWNcyGoqjnl+MURkMmh52Wd1Cf8bJxKmTFl5Sy9atc@vger.kernel.org
+X-Gm-Message-State: AOJu0YzwDAVQvd1CJn/hYbcf9YEkrry95QVs+PHgn5KYvZcytVXo+GKA
+	nI7nDxiFDYNSsjDAhRbQsH7kpnnes9cwIq7ZlbaoyncgSWXokEiZwDqiMWPPHDp4bLMP/7/fxrh
+	hFksWQejYbI45Wd73IUh8fY/FR+RfEX2eUf4=
+X-Gm-Gg: ASbGncu19XWCNsOr3VhKop1eoTCoX5MjHapItJp5q+1pLJc5iXLkTDnlzJfohnOWT35
+	TMhBoUs57dl2i6Tam56s8soadXczb8gHUoIyesoinalvcTOSPzpj4oc/aP4Lgefp5T7zJ/wAa4r
+	gsKET7lGun8Gnt5hi/cvaxuTGjRsiEohRRfEE5Ow+f
+X-Google-Smtp-Source: AGHT+IHB3Ce8MjRqHhtiwx5o5M0oXoOYpkGLBpVBucfsJhVjAe0Qw6N6cQ4oWtTgk9FhGO3nyP2c6oRdpNb7yoY8j1w=
+X-Received: by 2002:a05:6122:6589:b0:520:64ea:c474 with SMTP id
+ 71dfb90a1353d-521efbb5975mr5320566e0c.5.1740345217540; Sun, 23 Feb 2025
+ 13:13:37 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250221155532.576759-1-tommaso.merciai.xr@bp.renesas.com> <20250221155532.576759-3-tommaso.merciai.xr@bp.renesas.com>
-In-Reply-To: <20250221155532.576759-3-tommaso.merciai.xr@bp.renesas.com>
+References: <20250221155532.576759-1-tommaso.merciai.xr@bp.renesas.com> <20250221155532.576759-6-tommaso.merciai.xr@bp.renesas.com>
+In-Reply-To: <20250221155532.576759-6-tommaso.merciai.xr@bp.renesas.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Sun, 23 Feb 2025 21:11:47 +0000
-X-Gm-Features: AWEUYZmCzrsfA0UfzLomEKReTQqdM-O3HHhbBv3dNv7PWwcF37b1E9mbFQiElx4
-Message-ID: <CA+V-a8vvPm8hGM9Um80ah_L_Rzogmt69UXuKW1T7dMjgYm76TA@mail.gmail.com>
-Subject: Re: [PATCH v2 02/18] media: dt-bindings: renesas,rzg2l-csi2: Document
- Renesas RZ/G3E CSI-2 block
+Date: Sun, 23 Feb 2025 21:13:11 +0000
+X-Gm-Features: AWEUYZmei4BJm6FCm1F9SVWWh34_vuw78FqYfU_WkHTsESS75iMW3IL44Ar9S5A
+Message-ID: <CA+V-a8uxOuf-9_3TLhFkz0TxNk50fmieJcGOCyxOFY3Mzedy2g@mail.gmail.com>
+Subject: Re: [PATCH v2 05/18] media: rzg2l-cru: csi2: Use devm_pm_runtime_enable()
 To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org, 
 	linux-media@vger.kernel.org, biju.das.jz@bp.renesas.com, 
 	prabhakar.mahadev-lad.rj@bp.renesas.com, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
 	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
 	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Tommaso,
-
-Thank you for the patch.
-
-On Fri, Feb 21, 2025 at 4:04=E2=80=AFPM Tommaso Merciai
+On Fri, Feb 21, 2025 at 4:05=E2=80=AFPM Tommaso Merciai
 <tommaso.merciai.xr@bp.renesas.com> wrote:
 >
-> Document the CSI-2 block which is part of CRU found in Renesas RZ/G3E
-> SoC.
+> Use newly added devm_pm_runtime_enable() into rzg2l_csi2_probe() and
+> drop error path accordingly. Drop also unnecessary pm_runtime_disable()
+> from rzg2l_csi2_remove().
 >
-> The CSI-2 block on the RZ/G3E SoC is identical to one found on the
-> RZ/V2H(P) SoC.
->
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
 > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 > ---
->  .../devicetree/bindings/media/renesas,rzg2l-csi2.yaml          | 3 +++
->  1 file changed, 3 insertions(+)
+> Changes since v1:
+>  - Collected tags
 >
-As pointed by Laurent, with below added to resets description,
-
-- description:
-      CRU_CMN_RSTB reset terminal (except for RZ/V2H(P) and RZ/G3E) or
-      D-PHY reset (for RZ/V2H(P) and RZ/G3E).
-
+>  drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c | 11 +++++------
+>  1 file changed, 5 insertions(+), 6 deletions(-)
+>
 Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
 Cheers,
 Prabhakar
 
-
-> diff --git a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.y=
-aml b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
-> index 1d7784e8af16..9b7ed86ef14b 100644
-> --- a/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,rzg2l-csi2.yaml
-> @@ -24,6 +24,9 @@ properties:
->                - renesas,r9a07g044-csi2 # RZ/G2{L,LC}
->                - renesas,r9a07g054-csi2 # RZ/V2L
->            - const: renesas,rzg2l-csi2
-> +      - items:
-> +          - const: renesas,r9a09g047-csi2 # RZ/G3E
-> +          - const: renesas,r9a09g057-csi2
->        - const: renesas,r9a09g057-csi2 # RZ/V2H(P)
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/driv=
+ers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> index 948f1917b830..4ccf7c5ea58b 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> @@ -805,11 +805,13 @@ static int rzg2l_csi2_probe(struct platform_device =
+*pdev)
+>         if (ret)
+>                 return ret;
 >
->    reg:
+> -       pm_runtime_enable(dev);
+> +       ret =3D devm_pm_runtime_enable(dev);
+> +       if (ret)
+> +               return ret;
+>
+>         ret =3D rzg2l_validate_csi2_lanes(csi2);
+>         if (ret)
+> -               goto error_pm;
+> +               return ret;
+>
+>         csi2->subdev.dev =3D dev;
+>         v4l2_subdev_init(&csi2->subdev, &rzg2l_csi2_subdev_ops);
+> @@ -834,7 +836,7 @@ static int rzg2l_csi2_probe(struct platform_device *p=
+dev)
+>         ret =3D media_entity_pads_init(&csi2->subdev.entity, ARRAY_SIZE(c=
+si2->pads),
+>                                      csi2->pads);
+>         if (ret)
+> -               goto error_pm;
+> +               return ret;
+>
+>         ret =3D v4l2_subdev_init_finalize(&csi2->subdev);
+>         if (ret < 0)
+> @@ -852,8 +854,6 @@ static int rzg2l_csi2_probe(struct platform_device *p=
+dev)
+>         v4l2_async_nf_unregister(&csi2->notifier);
+>         v4l2_async_nf_cleanup(&csi2->notifier);
+>         media_entity_cleanup(&csi2->subdev.entity);
+> -error_pm:
+> -       pm_runtime_disable(dev);
+>
+>         return ret;
+>  }
+> @@ -867,7 +867,6 @@ static void rzg2l_csi2_remove(struct platform_device =
+*pdev)
+>         v4l2_async_unregister_subdev(&csi2->subdev);
+>         v4l2_subdev_cleanup(&csi2->subdev);
+>         media_entity_cleanup(&csi2->subdev.entity);
+> -       pm_runtime_disable(&pdev->dev);
+>  }
+>
+>  static int rzg2l_csi2_pm_runtime_suspend(struct device *dev)
 > --
 > 2.34.1
 >
