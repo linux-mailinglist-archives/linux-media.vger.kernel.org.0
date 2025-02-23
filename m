@@ -1,242 +1,348 @@
-Return-Path: <linux-media+bounces-26734-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26735-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A520A41147
-	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 20:32:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 480FEA4115D
+	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 20:53:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5560B170E3B
-	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 19:32:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B700B164548
+	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 19:53:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2A5818DF7C;
-	Sun, 23 Feb 2025 19:32:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 746F11DA617;
+	Sun, 23 Feb 2025 19:52:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RBP76z27"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ojYrZgzS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8046B3FB3B
-	for <linux-media@vger.kernel.org>; Sun, 23 Feb 2025 19:32:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F17FE18E362;
+	Sun, 23 Feb 2025 19:52:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740339164; cv=none; b=Sx1gBtpDvDjeGTCarF7SBTYLpvJACVAe2UQLc4DMSX5AVk+9IQ+LTg5BlwesheWGkBgLbGdtNp4B11/DkAR2hrEfsXKIcfvE/dtlzWzxXkWGaAhKfmoCqSTw3Qeli10A2d0/O+qyUTIb0W0D7kxLGI821o0/xc1tfT775h2q0tw=
+	t=1740340372; cv=none; b=SPRpwwo8cZ4cUaWZhuDQBFT3tcKppOzzocZE0+v4ADNh8dKd0V4WOkmLH62H1wEgRRFYEtyy5nMfbtsojwbSburKQOI7gHNSyxPQ8xhBP3J0Pv+rdmM+0UnrKamAlfM/VmkYyfsYEuvK7IMy8ZvqLYZPEFQfaewe4TPJMsGWxqU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740339164; c=relaxed/simple;
-	bh=ZAUvJY754rggryTC2ahWK68Vo7OkVEGJzzBE/hxnpps=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j+YFtx41nKQTemciaE43uJPxrRQoP8P3aFkQfgxj++AAfFUjhjhmm9Jl9GyqgPM0MwWk0LG1tb/P/njP9bFEEHtJtVR8TTMHUsNKKg09NWDkLYj4W+SatQIoG2V5qk86AD4LkmjK1/MKE0/pePr5I176oe0FfUi7+XkpOLeQpd4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RBP76z27; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-54622e97753so3462433e87.0
-        for <linux-media@vger.kernel.org>; Sun, 23 Feb 2025 11:32:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1740339160; x=1740943960; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=7zznMgxYxrARWKQINL/Oo45oo2+34QKcLqU//MIFPe8=;
-        b=RBP76z27J5FfFcyONBiH0OqCFu00vePVAOup+GYnCvn9ALzWNZqJSBRI4jZ+EwlESk
-         FdbCLhAhMFplpRK4RWSSnpxcZqX+maojTeRwmWOP2giJY4tRRBPmk/lfSSxZHzqRfOhi
-         ExVICm58l0U0QsZJ0XNvl2N0g7Wqc9EjKalEo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740339160; x=1740943960;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7zznMgxYxrARWKQINL/Oo45oo2+34QKcLqU//MIFPe8=;
-        b=dyvhFiDmpJui6LCwBdeQHFyDFj/MYIpJb4TLJkqYRnWGL8l6YVsXmlZbzjJon+MU4t
-         TSe9OpIHcBv8+dcIXOYsjGnF4uPNR62r6nHi4vqeOiEGHLFFIP4A7iCf0xThR7haE5a2
-         Lox+97VQMXcOBMWu2btxS4d6ZGSSJRj1BugsPtzC0iPCB7J3WbLoL+mqJ4Tfu6xuwGY7
-         m8hVeaXVHEqUSvEFQY7MnyiHMdDOMEXaaNrDe3cnrLOZ6epGeY41gSLAUaEIg2f5sLju
-         BEKXaK5qdoHq784IaYv8G7GahX5HqWU63uAjRjgDjAnUGRmuqBtgIKIYrlR1j79/LiGr
-         nfHg==
-X-Forwarded-Encrypted: i=1; AJvYcCVYnsB7V4958zi0xll409gicC4p+GGX4asoeY42mspgfGTFphh/tuKsyVYgL7uO7osT574PEV8aiiieYQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxminaAyGtjF9QAwTdvjGBeNivJJQcFLLIV825rIkR/FMcBkrTc
-	Y78yIHmWz4j8a7gglFgEvvetJmpQouxrVsV432+0FSnmBbOy0T6xV2dAo/6Asd0m5/RGXpyeDlU
-	BQA==
-X-Gm-Gg: ASbGnctrXcUWJ/Jn5iCSSnPjcGjIQvHaajKqyC1vCGz7fDBRM8MJHQNek9EqT+sFp2T
-	1mwia5somsJoNYDgrdLhP41wlbtk06u6Q9hZHBNqfl6na6UgG8mg/b04Dul01IIZJqzyP2Y+tDg
-	BDVUOVvWf+mb7pdKBRVE8D312vfueMWd0pKos7H8tyxbwU03aEbQyMB7Ar+kmeSzUuoCPSluJQd
-	d4bjMP0pD1ysBfND0BO/WKWNO+C/wOTt3O5B1wRUWCoAinaB3qbK9nvt/I86AFwZCEyx42nb1JV
-	EZl5JeEQOpux0Rb4eQ8kOR0+JH9Oie+9nfch/zmGhn16ZABqD27VaLScAKVF1g/A
-X-Google-Smtp-Source: AGHT+IEhf+0JpWWlaemYooi0bseYfg9NlAHSfgCJLEsirkTeyP/qAb1rGibd77xSqF7MHabDnCCqwA==
-X-Received: by 2002:a05:6512:1090:b0:545:ec1:9fd3 with SMTP id 2adb3069b0e04-546e418d344mr5544991e87.9.1740339160398;
-        Sun, 23 Feb 2025 11:32:40 -0800 (PST)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com. [209.85.167.52])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54531d76843sm2548877e87.84.2025.02.23.11.32.38
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 23 Feb 2025 11:32:38 -0800 (PST)
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-54622e97753so3462418e87.0
-        for <linux-media@vger.kernel.org>; Sun, 23 Feb 2025 11:32:38 -0800 (PST)
-X-Forwarded-Encrypted: i=1; AJvYcCXa9pAPJ2waMSWFWC5QAmmyat9jMM3fODbXax6twZEgh8hbkQLDtGZZ1jv1OWVjFQEQY4/2Ue5dPL91fA==@vger.kernel.org
-X-Received: by 2002:a05:6512:138c:b0:545:2cb2:8b25 with SMTP id
- 2adb3069b0e04-54838c72c15mr3279598e87.14.1740339157875; Sun, 23 Feb 2025
- 11:32:37 -0800 (PST)
+	s=arc-20240116; t=1740340372; c=relaxed/simple;
+	bh=5w359TFKUHppBtewoOBQmlEO7muyTT9vA1okmFelfOo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nyhlYlRA0oPVUEdV0MwGqSGLYieSYTfA+F4autpP1QLaeqN6lDaAWODn/wcNcFwmEBi+FEIG4ojjRGgzMnrjGz0XGW38/ig2KXqhWXwhI4RggMVk6YQOJEc3FdMBEjKmnu9vwzn6srGS5/svK9XPzN+njzTMxUC79DZvNJTuozo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ojYrZgzS; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1BFDA4DC;
+	Sun, 23 Feb 2025 20:51:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1740340283;
+	bh=5w359TFKUHppBtewoOBQmlEO7muyTT9vA1okmFelfOo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ojYrZgzSYkYvpp1yi9+kcZhEhbca6Ou/CxjFhMGHLUz7t4T52khjp68JiVAN/PEDm
+	 Y7DxK2MtFpvj+aWNo7RSY/WCWFlQNh2I5btpDOxrwsqtah8iwXD6EgCo4uoPnF63Bm
+	 jlq8NBCR2K69/i7oriEJ+5VsDRYI7ABAwtYCPeas=
+Date: Sun, 23 Feb 2025 21:52:32 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
+	linux-media@vger.kernel.org, biju.das.jz@bp.renesas.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 11/18] media: rzg2l-cru: Add register mapping support
+Message-ID: <20250223195232.GF8330@pendragon.ideasonboard.com>
+References: <20250221155532.576759-1-tommaso.merciai.xr@bp.renesas.com>
+ <20250221155532.576759-12-tommaso.merciai.xr@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250129-uvc-eprobedefer-v1-1-643b2603c0d2@chromium.org> <20250223143617.GA27463@pendragon.ideasonboard.com>
-In-Reply-To: <20250223143617.GA27463@pendragon.ideasonboard.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Sun, 23 Feb 2025 20:32:24 +0100
-X-Gmail-Original-Message-ID: <CANiDSCupq4A=ctR=Kkp7VxB+gvw=Z8MdDZHDShVMMAzms0VUAg@mail.gmail.com>
-X-Gm-Features: AWEUYZk4BCUlhZfDAEyMq_DXEXIN0g964L9anV-yYjRBNI9yv9NV-k2f4kKSGpc
-Message-ID: <CANiDSCupq4A=ctR=Kkp7VxB+gvw=Z8MdDZHDShVMMAzms0VUAg@mail.gmail.com>
-Subject: Re: [PATCH] media: uvcvideo: Fix deferred probing error
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250221155532.576759-12-tommaso.merciai.xr@bp.renesas.com>
 
-On Sun, 23 Feb 2025 at 15:36, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Ricardo,
->
-> Thank you for the patch.
->
-> On Wed, Jan 29, 2025 at 12:39:46PM +0000, Ricardo Ribalda wrote:
-> > uvc_gpio_parse() can return -EPROBE_DEFER when the GPIOs it depends on
-> > have not yet been probed. This return code should be propagated to the
-> > caller of uvc_probe() to ensure that probing is retried when the required
-> > GPIOs become available.
-> >
-> > Currently, this error code is incorrectly converted to -ENODEV,
-> > causing some internal cameras to be ignored.
-> >
-> > This commit fixes this issue by propagating the -EPROBE_DEFER error.
-> >
-> > Cc: stable@vger.kernel.org
-> > Fixes: 2886477ff987 ("media: uvcvideo: Implement UVC_EXT_GPIO_UNIT")
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/media/usb/uvc/uvc_driver.c | 9 ++++++---
-> >  1 file changed, 6 insertions(+), 3 deletions(-)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > index a10d4f4d9f95..73a7f23b616c 100644
-> > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > @@ -2253,9 +2253,10 @@ static int uvc_probe(struct usb_interface *intf,
-> >       }
-> >
-> >       /* Parse the associated GPIOs. */
-> > -     if (uvc_gpio_parse(dev) < 0) {
-> > +     ret = uvc_gpio_parse(dev);
-> > +     if (ret < 0) {
-> >               uvc_dbg(dev, PROBE, "Unable to parse UVC GPIOs\n");
-> > -             goto error;
-> > +             goto error_retcode;
-> >       }
-> >
-> >       dev_info(&dev->udev->dev, "Found UVC %u.%02x device %s (%04x:%04x)\n",
-> > @@ -2328,9 +2329,11 @@ static int uvc_probe(struct usb_interface *intf,
-> >       return 0;
-> >
-> >  error:
-> > +     ret = -ENODEV;
-> > +error_retcode:
->
-> This isn't very nice. Could we instead also propagate error codes from
-> other locations in the uvc_probe() function ? If you want to minimize
-> changes, you can initialize ret to -ENODEV, and turn the (ret < 0) check
-> for uvc_gpio_parse() to a (ret) check.
+Hi Tommaso,
 
-Not very nice, but easy to backport to stables. What about a follow-up
-change like this:
+Thank you for the patch.
 
-index c93abe2367aa..8c67feca1688 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -2261,7 +2261,7 @@ static int uvc_probe(struct usb_interface *intf,
-        ret = uvc_gpio_parse(dev);
-        if (ret < 0) {
-                uvc_dbg(dev, PROBE, "Unable to parse UVC GPIOs\n");
--               goto error_retcode;
-+               goto error;
-        }
+On Fri, Feb 21, 2025 at 04:55:25PM +0100, Tommaso Merciai wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> Prepare for adding support for RZ/G3E and RZ/V2HP SoCs, which have a
+> CRU-IP that is mostly identical to RZ/G2L but with different register
+> offsets and additional registers. Introduce a flexible register mapping
+> mechanism to handle these variations.
+> 
+> Define the `rzg2l_cru_info` structure to store register mappings and
+> pass it as part of the OF match data. Update the read/write functions
+> to use indexed register offsets from `rzg2l_cru_info`, ensuring
+> compatibility across different SoC variants.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+> ---
+>  .../platform/renesas/rzg2l-cru/rzg2l-core.c   | 46 ++++++++++++-
+>  .../renesas/rzg2l-cru/rzg2l-cru-regs.h        | 65 ++++++++++---------
+>  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  4 ++
+>  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 12 ++--
+>  4 files changed, 92 insertions(+), 35 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+> index eed9d2bd0841..abc2a979833a 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+> @@ -22,6 +22,7 @@
+>  #include <media/v4l2-mc.h>
+>  
+>  #include "rzg2l-cru.h"
+> +#include "rzg2l-cru-regs.h"
+>  
+>  static inline struct rzg2l_cru_dev *notifier_to_cru(struct v4l2_async_notifier *n)
+>  {
+> @@ -269,6 +270,9 @@ static int rzg2l_cru_probe(struct platform_device *pdev)
+>  
+>  	cru->dev = dev;
+>  	cru->info = of_device_get_match_data(dev);
+> +	if (!cru->info)
+> +		return dev_err_probe(dev, -EINVAL,
+> +				     "Failed to get OF match data\n");
+>  
+>  	irq = platform_get_irq(pdev, 0);
+>  	if (irq < 0)
+> @@ -317,8 +321,48 @@ static void rzg2l_cru_remove(struct platform_device *pdev)
+>  	rzg2l_cru_dma_unregister(cru);
+>  }
+>  
+> +static const u16 rzg2l_cru_regs[] = {
+> +	[CRUnCTRL] = 0x0,
+> +	[CRUnIE] = 0x4,
+> +	[CRUnINTS] = 0x8,
+> +	[CRUnRST] = 0xc,
+> +	[AMnMB1ADDRL] = 0x100,
+> +	[AMnMB1ADDRH] = 0x104,
+> +	[AMnMB2ADDRL] = 0x108,
+> +	[AMnMB2ADDRH] = 0x10c,
+> +	[AMnMB3ADDRL] = 0x110,
+> +	[AMnMB3ADDRH] = 0x114,
+> +	[AMnMB4ADDRL] = 0x118,
+> +	[AMnMB4ADDRH] = 0x11c,
+> +	[AMnMB5ADDRL] = 0x120,
+> +	[AMnMB5ADDRH] = 0x124,
+> +	[AMnMB6ADDRL] = 0x128,
+> +	[AMnMB6ADDRH] = 0x12c,
+> +	[AMnMB7ADDRL] = 0x130,
+> +	[AMnMB7ADDRH] = 0x134,
+> +	[AMnMB8ADDRL] = 0x138,
+> +	[AMnMB8ADDRH] = 0x13c,
+> +	[AMnMBVALID] = 0x148,
+> +	[AMnMBS] = 0x14c,
+> +	[AMnAXIATTR] = 0x158,
+> +	[AMnFIFOPNTR] = 0x168,
+> +	[AMnAXISTP] = 0x174,
+> +	[AMnAXISTPACK] = 0x178,
+> +	[ICnEN] = 0x200,
+> +	[ICnMC] = 0x208,
+> +	[ICnMS] = 0x254,
+> +	[ICnDMR] = 0x26c,
+> +};
+> +
+> +static const struct rzg2l_cru_info rzgl2_cru_info = {
+> +	.regs = rzg2l_cru_regs,
+> +};
+> +
+>  static const struct of_device_id rzg2l_cru_of_id_table[] = {
+> -	{ .compatible = "renesas,rzg2l-cru", },
+> +	{
+> +		.compatible = "renesas,rzg2l-cru",
+> +		.data = &rzgl2_cru_info,
+> +	},
+>  	{ /* sentinel */ }
+>  };
+>  MODULE_DEVICE_TABLE(of, rzg2l_cru_of_id_table);
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
+> index 1c9f22118a5d..82920db7134e 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
+> @@ -10,71 +10,76 @@
+>  
+>  /* HW CRU Registers Definition */
+>  
+> -/* CRU Control Register */
+> -#define CRUnCTRL			0x0
+>  #define CRUnCTRL_VINSEL(x)		((x) << 0)
+>  
+> -/* CRU Interrupt Enable Register */
+> -#define CRUnIE				0x4
+>  #define CRUnIE_EFE			BIT(17)
+>  
+> -/* CRU Interrupt Status Register */
+> -#define CRUnINTS			0x8
+>  #define CRUnINTS_SFS			BIT(16)
+>  
+> -/* CRU Reset Register */
+> -#define CRUnRST				0xc
+>  #define CRUnRST_VRESETN			BIT(0)
+>  
+>  /* Memory Bank Base Address (Lower) Register for CRU Image Data */
+> -#define AMnMBxADDRL(x)			(0x100 + ((x) * 8))
+> +#define AMnMBxADDRL(base, x)		((base) + (x) * 2)
+>  
+>  /* Memory Bank Base Address (Higher) Register for CRU Image Data */
+> -#define AMnMBxADDRH(x)			(0x104 + ((x) * 8))
+> +#define AMnMBxADDRH(base, x)		AMnMBxADDRL(base, x)
+>  
+> -/* Memory Bank Enable Register for CRU Image Data */
+> -#define AMnMBVALID			0x148
+>  #define AMnMBVALID_MBVALID(x)		GENMASK(x, 0)
+>  
+> -/* Memory Bank Status Register for CRU Image Data */
+> -#define AMnMBS				0x14c
+>  #define AMnMBS_MBSTS			0x7
+>  
+> -/* AXI Master Transfer Setting Register for CRU Image Data */
+> -#define AMnAXIATTR			0x158
+>  #define AMnAXIATTR_AXILEN_MASK		GENMASK(3, 0)
+>  #define AMnAXIATTR_AXILEN		(0xf)
+>  
+> -/* AXI Master FIFO Pointer Register for CRU Image Data */
+> -#define AMnFIFOPNTR			0x168
+>  #define AMnFIFOPNTR_FIFOWPNTR		GENMASK(7, 0)
+>  #define AMnFIFOPNTR_FIFORPNTR_Y		GENMASK(23, 16)
+>  
+> -/* AXI Master Transfer Stop Register for CRU Image Data */
+> -#define AMnAXISTP			0x174
+>  #define AMnAXISTP_AXI_STOP		BIT(0)
+>  
+> -/* AXI Master Transfer Stop Status Register for CRU Image Data */
+> -#define AMnAXISTPACK			0x178
+>  #define AMnAXISTPACK_AXI_STOP_ACK	BIT(0)
+>  
+> -/* CRU Image Processing Enable Register */
+> -#define ICnEN				0x200
+>  #define ICnEN_ICEN			BIT(0)
+>  
+> -/* CRU Image Processing Main Control Register */
+> -#define ICnMC				0x208
+>  #define ICnMC_CSCTHR			BIT(5)
+>  #define ICnMC_INF(x)			((x) << 16)
+>  #define ICnMC_VCSEL(x)			((x) << 22)
+>  #define ICnMC_INF_MASK			GENMASK(21, 16)
+>  
+> -/* CRU Module Status Register */
+> -#define ICnMS				0x254
+>  #define ICnMS_IA			BIT(2)
+>  
+> -/* CRU Data Output Mode Register */
+> -#define ICnDMR				0x26c
+>  #define ICnDMR_YCMODE_UYVY		(1 << 4)
+>  
+> +enum rzg2l_cru_common_regs {
+> +	CRUnCTRL,	/* CRU Control */
+> +	CRUnIE,		/* CRU Interrupt Enable */
+> +	CRUnINTS,	/* CRU Interrupt Status */
+> +	CRUnRST, 	/* CRU Reset */
+> +	AMnMB1ADDRL,	/* Bank 1 Address (Lower) for CRU Image Data */
+> +	AMnMB1ADDRH,	/* Bank 1 Address (Higher) for CRU Image Data */
+> +	AMnMB2ADDRL,    /* Bank 2 Address (Lower) for CRU Image Data */
+> +	AMnMB2ADDRH,    /* Bank 2 Address (Higher) for CRU Image Data */
+> +	AMnMB3ADDRL,    /* Bank 3 Address (Lower) for CRU Image Data */
+> +	AMnMB3ADDRH,    /* Bank 3 Address (Higher) for CRU Image Data */
+> +	AMnMB4ADDRL,    /* Bank 4 Address (Lower) for CRU Image Data */
+> +	AMnMB4ADDRH,    /* Bank 4 Address (Higher) for CRU Image Data */
+> +	AMnMB5ADDRL,    /* Bank 5 Address (Lower) for CRU Image Data */
+> +	AMnMB5ADDRH,    /* Bank 5 Address (Higher) for CRU Image Data */
+> +	AMnMB6ADDRL,    /* Bank 6 Address (Lower) for CRU Image Data */
+> +	AMnMB6ADDRH,    /* Bank 6 Address (Higher) for CRU Image Data */
+> +	AMnMB7ADDRL,    /* Bank 7 Address (Lower) for CRU Image Data */
+> +	AMnMB7ADDRH,    /* Bank 7 Address (Higher) for CRU Image Data */
+> +	AMnMB8ADDRL,    /* Bank 8 Address (Lower) for CRU Image Data */
+> +	AMnMB8ADDRH,    /* Bank 8 Address (Higher) for CRU Image Data */
+> +	AMnMBVALID,	/* Memory Bank Enable for CRU Image Data */
+> +	AMnMBS,		/* Memory Bank Status for CRU Image Data */
+> +	AMnAXIATTR,	/* AXI Master Transfer Setting Register for CRU Image Data */
+> +	AMnFIFOPNTR,	/* AXI Master FIFO Pointer for CRU Image Data */
+> +	AMnAXISTP,	/* AXI Master Transfer Stop for CRU Image Data */
+> +	AMnAXISTPACK,	/* AXI Master Transfer Stop Status for CRU Image Data */
+> +	ICnEN,		/* CRU Image Processing Enable */
+> +	ICnMC,		/* CRU Image Processing Main Control */
+> +	ICnMS,		/* CRU Module Status */
+> +	ICnDMR,		/* CRU Data Output Mode */
+> +};
+> +
+>  #endif /* __RZG2L_CRU_REGS_H__ */
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> index 8b898ce05b84..00c3f7458e20 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
+> @@ -80,6 +80,10 @@ struct rzg2l_cru_ip_format {
+>  	bool yuv;
+>  };
+>  
+> +struct rzg2l_cru_info {
+> +	const u16 *regs;
+> +};
+> +
+>  /**
+>   * struct rzg2l_cru_dev - Renesas CRU device structure
+>   * @dev:		(OF) device
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> index cd69c8a686d3..f25fd9b35c55 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> @@ -44,12 +44,16 @@ struct rzg2l_cru_buffer {
+>   */
+>  static void rzg2l_cru_write(struct rzg2l_cru_dev *cru, u32 offset, u32 value)
+>  {
+> -	iowrite32(value, cru->base + offset);
+> +	const u16 *regs = cru->info->regs;
+> +
+> +	iowrite32(value, cru->base + regs[offset]);
 
-        dev_info(&dev->udev->dev, "Found UVC %u.%02x device %s (%04x:%04x)\n",
-@@ -2285,24 +2285,32 @@ static int uvc_probe(struct usb_interface *intf,
-        }
+Should out-of-bound accesses be checked ? Ideally that should be done at
+build time, but in some cases that may be hard. Maybe rzg2l_cru_write()
+and rzg2l_cru_read() could implement compile-time checks, and
+__rzg2l_cru_write() and __rzg2l_cru_read() could be used for the cases
+where checks are not possible at compile time (for AMnMBxADDRL and
+AMnMBxADDRH as far as I can see).
 
-        /* Register the V4L2 device. */
--       if (v4l2_device_register(&intf->dev, &dev->vdev) < 0)
-+       ret = v4l2_device_register(&intf->dev, &dev->vdev);
-+       if (ret < 0)
-                goto error;
+>  }
+>  
+>  static u32 rzg2l_cru_read(struct rzg2l_cru_dev *cru, u32 offset)
+>  {
+> -	return ioread32(cru->base + offset);
+> +	const u16 *regs = cru->info->regs;
+> +
+> +	return ioread32(cru->base + regs[offset]);
+>  }
+>  
+>  /* Need to hold qlock before calling */
+> @@ -132,8 +136,8 @@ static void rzg2l_cru_set_slot_addr(struct rzg2l_cru_dev *cru,
+>  		return;
+>  
+>  	/* Currently, we just use the buffer in 32 bits address */
+> -	rzg2l_cru_write(cru, AMnMBxADDRL(slot), addr);
+> -	rzg2l_cru_write(cru, AMnMBxADDRH(slot), 0);
+> +	rzg2l_cru_write(cru, AMnMBxADDRL(AMnMB1ADDRL, slot), addr);
+> +	rzg2l_cru_write(cru, AMnMBxADDRH(AMnMB1ADDRH, slot), 0);
 
-        /* Scan the device for video chains. */
--       if (uvc_scan_device(dev) < 0)
-+       if (uvc_scan_device(dev) < 0) {
-+               ret = -ENODEV;
-                goto error;
-+       }
+This seems fairly error-prone. The first argument doesn't seem to be
+needed.
 
-        /* Initialize controls. */
--       if (uvc_ctrl_init_device(dev) < 0)
-+       if (uvc_ctrl_init_device(dev) < 0) {
-+               ret = -ENODEV;
-                goto error;
-+       }
-
-        /* Register video device nodes. */
--       if (uvc_register_chains(dev) < 0)
-+       if (uvc_register_chains(dev) < 0) {
-+               ret = -ENODEV;
-                goto error;
-+       }
-
- #ifdef CONFIG_MEDIA_CONTROLLER
-        /* Register the media device node */
--       if (media_device_register(&dev->mdev) < 0)
-+       ret = media_device_register(&dev->mdev);
-+       if (ret < 0)
-                goto error;
- #endif
-        /* Save our data pointer in the interface data. */
-@@ -2334,8 +2342,6 @@ static int uvc_probe(struct usb_interface *intf,
-        return 0;
-
- error:
--       ret = -ENODEV;
--error_retcode:
-        uvc_unregister_video(dev);
-        kref_put(&dev->ref, uvc_delete);
-        return ret;
-
-
->
-> >       uvc_unregister_video(dev);
-> >       kref_put(&dev->ref, uvc_delete);
-> > -     return -ENODEV;
-> > +     return ret;
-> >  }
-> >
-> >  static void uvc_disconnect(struct usb_interface *intf)
-> >
-> > ---
-> > base-commit: c4b7779abc6633677e6edb79e2809f4f61fde157
-> > change-id: 20250129-uvc-eprobedefer-b5ebb4db63cc
->
-> --
-> Regards,
->
-> Laurent Pinchart
-
-Let me know what do you think so I can send a v2 with the change
-proposed by Doug.
-
-Regards!
+>  }
+>  
+>  /*
 
 -- 
-Ricardo Ribalda
+Regards,
+
+Laurent Pinchart
 
