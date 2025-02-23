@@ -1,117 +1,59 @@
-Return-Path: <linux-media+bounces-26660-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26661-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4315A40D8C
-	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 10:03:28 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4973A40E5E
+	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 12:34:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0A5A31898FED
-	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 09:03:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 88FAC3A5FC5
+	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 11:34:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 792081DF261;
-	Sun, 23 Feb 2025 09:03:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 499C6205E0A;
+	Sun, 23 Feb 2025 11:34:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b="UP91jSsr";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ozyeWCSV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JHc07aI/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from flow-a6-smtp.messagingengine.com (flow-a6-smtp.messagingengine.com [103.168.172.141])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD831D89F8;
-	Sun, 23 Feb 2025 09:03:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.141
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C158433C4;
+	Sun, 23 Feb 2025 11:34:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740301397; cv=none; b=O9I7yH9uKq2R1og6M9vt7EHo5REw6slKcsMcb6F9UZDsp/qN8Xc5PNDzBLuV5Lw3nY2HiXYR94DZp3jKr4uy/21PJuzmG6BvRgKmdOEyQmwN6KQruMY0ypIw7L8sOqnOpK8RR5CW275p6pXXgmQ15zv9VY1Lpaf10YVwz2sGhp0=
+	t=1740310440; cv=none; b=plVs/4qIU3YsRG7VcmtLvjKYR1Oqyf8SSHVnmwl2zY/xOaYI/H9G0Qm1wODfoSQK5TE2lzyeTGq6M7xo1AJdnGQgEzm2E4LCUCjlFRO/0pE+JnyRznYS4qhkOkV0LstaGft/dQjkZtIW9TzDewGBW9q+orokaVvJ/RCo6dB4UG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740301397; c=relaxed/simple;
-	bh=fCEcMc7RMUMnSFEpm2pdzeZjD2OWZZgNfbMOgPYCsEk=;
+	s=arc-20240116; t=1740310440; c=relaxed/simple;
+	bh=r3B2XKtHika1E6YlhyAhjpbDcp+3BKHZQcf8cFHxtx8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VpUGgSvLp4AN+1fzDvPncVsetqj0Y0RLLvZnMd8DdRC34K0GXuAbI5TGmKz2q4XOKST+VWBhin3MNANrfqBb5WHtESCHzjGXoHlQ38U7OCWPZz1C3mS9OYeOq7TdgWdFMFr682GkkAY7JshnQenfQ5gQnXbHjV8NUpXvJMSL0kE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net; spf=pass smtp.mailfrom=jannau.net; dkim=pass (2048-bit key) header.d=jannau.net header.i=@jannau.net header.b=UP91jSsr; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ozyeWCSV; arc=none smtp.client-ip=103.168.172.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jannau.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jannau.net
-Received: from phl-compute-13.internal (phl-compute-13.phl.internal [10.202.2.53])
-	by mailflow.phl.internal (Postfix) with ESMTP id 68ABD200D15;
-	Sun, 23 Feb 2025 04:03:13 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-13.internal (MEProxy); Sun, 23 Feb 2025 04:03:13 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jannau.net; h=cc
-	:cc:content-type:content-type:date:date:from:from:in-reply-to
-	:in-reply-to:message-id:mime-version:references:reply-to:subject
-	:subject:to:to; s=fm2; t=1740301393; x=1740308593; bh=rR0lG1HqwL
-	HdKmh1L1Q+3HA+XJIsSU89HsqNgZSMZYY=; b=UP91jSsrK21sGc1fKzC0Xubvi/
-	Px4QjbV6BgKX2of72GCoI1++xhm58Y90bUtAlQ8BbromQukfP7uRjf+QBosA4tKU
-	xjNVvZlyxAYwOg6qUGA14YxpESaNeXo++GKCMa4ZVkPxYgTiL/34P0HXI5P9QB5Q
-	hRNCaCh3kHcJt5kZceiqMlJhsarUcbc7BPUZVF6e/RFvumm1S/qyvuHBKOy0SQSL
-	cTxOZlG6l8J8AhLzPmZVZqGgE8p876szBPfQ6yJET1S3b/5J491YdjOBZHNefgIU
-	epYvEHMx9EdFtPqr6EZT/K0DkwavXSKyBQYMff8efUrsI6lzy4+seUPKdMlQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-type:content-type:date:date
-	:feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1740301393; x=1740308593; bh=rR0lG1HqwLHdKmh1L1Q+3HA+XJIsSU89Hsq
-	NgZSMZYY=; b=ozyeWCSVrq6ZeFCaCQrEBXXOybLROwbF7zB4axtI05UnC8bMek/
-	HplkY+Yvidoj+m8cI1r4lRSwj9ZTJ7TaZqHt3HMlT4PIflL+DlVGoN5K1oCG8aUz
-	p3F9I69j3MnwgJyvJzTSxQabyUBOzBhPMlK28TqnxjcRrKc30e93jAjx8kwUhAwD
-	3Zyj1O3z02AAVqY37WA7wMAFH4ZFwzdoXYjR+3riyStqb67uD6p9j0ByZkOcC+59
-	uBAaryvqNyaDSmPXMMRmkluf8DVrYM5VyyRDPL/eo6mY45RZdsFB8QX5Inuyrd9P
-	AG8VzmK4W5axKyqv2tT30XAg+H2GfBS0ylw==
-X-ME-Sender: <xms:T-S6Z2C_xYV3bNnptucocY4qCtKeewxrsC0NAgKeJtJHQOEnAvf_IA>
-    <xme:T-S6ZwjYmJMzaRjxL0LrFwxA-ln-OAx4dKP6-Z6hCSL2O4048xGhSw4v0UFmtDOeC
-    3B0MlGpmv5vJ4UGKGA>
-X-ME-Received: <xmr:T-S6Z5mD6zi27a04xfe7S4HaT139eF6aNHYgTPpzBta_8Oc-LAlDN2BGuz2sAmgbwgWzae5WkzIuim3CprI_Zam768WV9ky-65U>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdejheegtdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttdej
-    necuhfhrohhmpeflrghnnhgvucfirhhunhgruhcuoehjsehjrghnnhgruhdrnhgvtheqne
-    cuggftrfgrthhtvghrnhepudefhfehudetjeeutdfhvefhtdeltdfgheefkeefleegveev
-    tedtveelfffhiedtnecuffhomhgrihhnpehgihhthhhusgdrtghomhenucevlhhushhtvg
-    hrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehjsehjrghnnhgruhdrnhgv
-    thdpnhgspghrtghpthhtohepvddvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhope
-    hfnhhklhdrkhgvrhhnvghlsehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhvvghnsehs
-    vhgvnhhpvghtvghrrdguvghvpdhrtghpthhtoheprghlhihsshgrsehrohhsvghniiifvg
-    highdrihhopdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthho
-    pehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhnohhrodguth
-    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrhgtrghnsehmrghrtggrnhdrshht
-    pdhrtghpthhtohepuhhlfhdrhhgrnhhsshhonheslhhinhgrrhhordhorhhgpdhrtghpth
-    htohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:T-S6Z0zqcRiXeOlqKx8mmZ-1komXthg5pod44TaAINRYJcNV8t5iTw>
-    <xmx:T-S6Z7TOVONgPflH1HKdseNAh33d0XxwpGvUFdpRLFugHALGbaLAcQ>
-    <xmx:T-S6Z_ZWqCOWzXqX9ZYAAtiduWdDKEfNkz9cFA_BldrCFC1LmRChjA>
-    <xmx:T-S6Z0ScM17wGYjATkl3QKYgA9tAn_PeJErj30vEXjLZkqKlK1MzRw>
-    <xmx:UeS6Z1nV0QWUnynP-qzHUMWNgfwJNKMvjNTeFFlmE23wPF3FtzGIHOd8>
-Feedback-ID: i47b949f6:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
- 23 Feb 2025 04:03:11 -0500 (EST)
-Date: Sun, 23 Feb 2025 10:03:09 +0100
-From: Janne Grunau <j@jannau.net>
-To: Sasha Finkelstein <fnkl.kernel@gmail.com>
-Cc: Sven Peter <sven@svenpeter.dev>,
-	Alyssa Rosenzweig <alyssa@rosenzweig.io>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hector Martin <marcan@marcan.st>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, asahi@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-media@vger.kernel.org, imx@lists.linux.dev,
-	Eileen Yoon <eyn@gmx.com>, Asahi Lina <lina@asahilina.net>
-Subject: Re: [PATCH 4/5] media: apple: Add Apple ISP driver
-Message-ID: <20250223090309.GA430621@robin.jannau.net>
-References: <20250219-isp-v1-0-6d3e89b67c31@gmail.com>
- <20250219-isp-v1-4-6d3e89b67c31@gmail.com>
- <20250219113422.GA26386@robin.jannau.net>
- <CAMT+MTR4yPzC-NBLT6uLhveHFDWpwwn=hUzU6=WDc73+UVEMwQ@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=OkATKUmCWN+UgnbOhY2t93xueMnyXv006ybOMNScDxsawvq5J677oxBcjoWgp16nPYq/jf0Y3wNmcZik9Ynk8lzgqvuhGNrKpK4KiF+gqVIFzW3Cf0Bhfbq9wtkRJJDwtp0h0VwVOhiwVao1+fUKbRctYYzwoENLn2HJrFuSwHU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JHc07aI/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 561A8C4CEDD;
+	Sun, 23 Feb 2025 11:33:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740310440;
+	bh=r3B2XKtHika1E6YlhyAhjpbDcp+3BKHZQcf8cFHxtx8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JHc07aI/cOs6xnSiH19djvhV4PFy8CAhy91dsyHjSEuIedINzBZJA5uJeQQCKG1gR
+	 jVmnPRxz/7eMTWxdy3QzZlU0lzVA4tNqxrZzheRkEovEpH6xgKR0bQS/pl4OhFOTYS
+	 6gjuWpDr7SVKpmnUkQgut4i00cBfo7n33l99qStjx8ZlyeyjgBsajTsp8gt56OvM8g
+	 sC6GstDJLYYGw4xXsxmRXmGCHZU07XAY9Mh04xlhz3suU5mW5lzDYN8+RXZ4+M89Xv
+	 uMF16iIYIMItKra3HXlfmmIIekLSLhJDNFeE07YbDkqIu487XxgRc4xUM3WB+rJ0PX
+	 hWIpJqLk9OAYg==
+Date: Sun, 23 Feb 2025 12:33:56 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Vikram Sharma <quic_vikramsa@quicinc.com>
+Cc: rfoss@kernel.org, todor.too@gmail.com, bryan.odonoghue@linaro.org, 
+	mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	andersson@kernel.org, konradybcio@kernel.org, hverkuil-cisco@xs4all.nl, 
+	cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com, will@kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 1/2] media: dt-bindings: Add qcom,qcs8300-camss
+Message-ID: <20250223-observant-auspicious-basilisk-d78ba9@krzk-bin>
+References: <20250214094747.2483058-1-quic_vikramsa@quicinc.com>
+ <20250214094747.2483058-2-quic_vikramsa@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -120,28 +62,105 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAMT+MTR4yPzC-NBLT6uLhveHFDWpwwn=hUzU6=WDc73+UVEMwQ@mail.gmail.com>
+In-Reply-To: <20250214094747.2483058-2-quic_vikramsa@quicinc.com>
 
-On Sun, Feb 23, 2025 at 09:48:30AM +0100, Sasha Finkelstein wrote:
-> On Wed, 19 Feb 2025 at 12:34, Janne Grunau <j@jannau.net> wrote:
-> > > +     while (maps < end) {
-> > > +             maps++;
-> > > +             maps = of_translate_dma_region(dev->of_node, maps, &heap_base,
-> > > +                                            &heap_size);
-> > > +     }
-> >
-> > The hand-rolled reserved memory parsing looks like it can be replaced
-> > with of_iommu_get_resv_region();
-> 
-> I have looked into it, and `of_iommu_get_resv_region` does the wrong
-> thing. We fill out `reg`, and it grabs that instead of `iommu-addresses`.
+On Fri, Feb 14, 2025 at 03:17:46PM +0530, Vikram Sharma wrote:
+> +properties:
+> +  compatible:
+> +    const: qcom,qcs8300-camss
+> +
+> +  reg:
+> +    maxItems: 21
+> +
+> +  reg-names:
+> +    items:
+> +      - const: csid_wrapper
 
-Downstream commit 704ace01cd3c4 [0] ("iommu: Add IOMMU_RESV_TRANSLATED
-for non 1:1 mapped reserved regions") adds device virtual addresses to
-struct iommu_resv_region. Sorry for the added dependency but it is
-required anyway for the isp to work.
+Why different order of entries than sm8550?
 
-ciao Janne
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid_lite0
+> +      - const: csid_lite1
+> +      - const: csid_lite2
+> +      - const: csid_lite3
+> +      - const: csid_lite4
+> +      - const: csiphy0
+> +      - const: csiphy1
+> +      - const: csiphy2
+> +      - const: tpg0
+> +      - const: tpg1
+> +      - const: tpg2
+> +      - const: vfe0
+> +      - const: vfe1
+> +      - const: vfe_lite0
+> +      - const: vfe_lite1
+> +      - const: vfe_lite2
+> +      - const: vfe_lite3
+> +      - const: vfe_lite4
+> +
+> +  clocks:
+> +    maxItems: 26
+> +
+> +  clock-names:
+> +    items:
+> +      - const: camnoc_axi
+> +      - const: core_ahb
+> +      - const: cpas_ahb
+> +      - const: cpas_fast_ahb_clk
+> +      - const: cpas_ife_lite
+> +      - const: cpas_vfe0
+> +      - const: cpas_vfe1
+> +      - const: csid
+> +      - const: csiphy0
+> +      - const: csiphy0_timer
+> +      - const: csiphy1
+> +      - const: csiphy1_timer
+> +      - const: csiphy2
+> +      - const: csiphy2_timer
+> +      - const: csiphy_rx
+> +      - const: gcc_axi_hf
+> +      - const: gcc_axi_sf
+> +      - const: icp_ahb
+> +      - const: vfe0
+> +      - const: vfe0_fast_ahb
+> +      - const: vfe1
+> +      - const: vfe1_fast_ahb
+> +      - const: vfe_lite
+> +      - const: vfe_lite_ahb
+> +      - const: vfe_lite_cphy_rx
+> +      - const: vfe_lite_csid
+> +
+> +  interrupts:
+> +    maxItems: 20
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid-lite0
+> +      - const: csid-lite1
+> +      - const: csid-lite2
+> +      - const: csid-lite3
+> +      - const: csid-lite4
 
-[0] https://github.com/AsahiLinux/linux/commit/704ace01cd3c423b1e2492f0777d9c4c0f3404d8
+Different naming than existing variants. Keep it consistent.
+
+> +      - const: csiphy0
+> +      - const: csiphy1
+> +      - const: csiphy2
+> +      - const: tpg0
+> +      - const: tpg1
+> +      - const: tpg2
+> +      - const: vfe0
+> +      - const: vfe1
+> +      - const: vfe-lite0
+> +      - const: vfe-lite1
+> +      - const: vfe-lite2
+> +      - const: vfe-lite3
+> +      - const: vfe-lite4
+
+Best regards,
+Krzysztof
+
 
