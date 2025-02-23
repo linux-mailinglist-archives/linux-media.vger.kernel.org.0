@@ -1,139 +1,199 @@
-Return-Path: <linux-media+bounces-26715-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26718-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 010E6A410DD
-	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 19:30:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD1C6A410EE
+	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 19:34:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E4E35171E11
-	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 18:29:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B9870171C65
+	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 18:34:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 973A718A6D7;
-	Sun, 23 Feb 2025 18:29:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D85316F288;
+	Sun, 23 Feb 2025 18:34:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="PZjIDHxA"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="PM844Lyd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 624AA189B9D;
-	Sun, 23 Feb 2025 18:29:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740335349; cv=pass; b=isYC++zTKC9MtUvNBvHh4uKDyL3xBkPQm/N7o0BuUVpgRVMzwQSLNBx5CGg48AJbGeeQNeP2H7THeb3AZhjuG3Hn52R1DSQim/OfZuNEholFKlQ9usoBMi973B5owAAoOzaw4g8XjTtCLiTpoUPkaCkUktdwOu6XfwcRoW9m5Bo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740335349; c=relaxed/simple;
-	bh=9e1rDRhjtWx8RcwMZlExf40SAo2UlhVvfwW0sy8Zjso=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ptoYvl5kby8tCcJ5WUm+wkhRDhGDsIVGLvl4nSkVgiwpvzD2BmLl+aX96f6GfVQCUNifzaAhjOCglzfr3xfprU6LjXrGPE08FfGtaYXyCAnV6XybAI/7yan08eOoRTsFvu46Q+2YmcERgRMTKu7fAOSYonajSgrWdMjbi6xQuYg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=PZjIDHxA; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1740335306; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=cL4JaMAa7tvCMV2YcOmcOO/bK4Q+iWWEzNd+06z1PeUsT+/y7f3MRsL5nmrTudQfj4D0TzkVtUZMv9TaRimtwt8BXslYh3S4e96H2mGNoTcYFyQmraHB30uONdYx/NXZiU3gSAGr7gXtIgQcyY/n/NINvTCINK9PQGxOoCbnxVk=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1740335306; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=iIPCjPu2+AmsIf/cCFUaH7Ayf0dQa1TgmFz1djm75zk=; 
-	b=cyLBLlpJcwCpCrAKPtovB5xMsr2LvlGllseRb8K34VbStL40Pc6lD/YZWGYgmK1lF4TWNErJqq4qbmpLHAMa78mtnL9Fu0cD4owIE/qYKbypZEFcO1bXKiwrPdvdRp2Pa/rqz3mzFgTLoWtAVyL+Gi+O9KDWRTiH0U1B4zdrpvE=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
-	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740335306;
-	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=iIPCjPu2+AmsIf/cCFUaH7Ayf0dQa1TgmFz1djm75zk=;
-	b=PZjIDHxAT92MMwPJRiUP6uXYiE6ZiMCqUVMoVa1/BVvlnmspFZcgPMbjkFZVa254
-	Pv80bPZmtqpm7RtutAqd1nbnmsWHmTl3i8n9pABkEz80isEpwMXJN6ZQy0VTHldVnSm
-	X7wujA3St2Uo6fPydQC/MUT9hI/9uvPrMoC/Egkg=
-Received: by mx.zohomail.com with SMTPS id 1740335304668991.4732596987989;
-	Sun, 23 Feb 2025 10:28:24 -0800 (PST)
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: Shreeya Patel <shreeya.patel@collabora.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	jose.abreu@synopsys.com,
-	nelson.costa@synopsys.com,
-	shawn.wen@rock-chips.com,
-	nicolas.dufresne@collabora.com,
-	Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: kernel@collabora.com,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	Tim Surber <me@timsurber.de>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH v9 6/6] arm64: dts: rockchip: Enable HDMI receiver on rock-5b
-Date: Sun, 23 Feb 2025 21:27:10 +0300
-Message-ID: <20250223182710.314587-7-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250223182710.314587-1-dmitry.osipenko@collabora.com>
-References: <20250223182710.314587-1-dmitry.osipenko@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D3D61A29A
+	for <linux-media@vger.kernel.org>; Sun, 23 Feb 2025 18:34:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740335690; cv=none; b=fA6GHlffMVmfuXL3LWQXfSvTzPuIWkzpfEXgVjjEVNtWoGxTairmZS/IBDNp+wufRwyeknoxfgAWUjQkCDgdKVR7HEd67eH7PZI25LiWp5nHTeW8i+iZ4P8fJXi3+JCMcCuptgkyLffhxXzMeb84lfqaFYHO2yL0wY2VCTr0z1A=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740335690; c=relaxed/simple;
+	bh=Q7f0bptqboJdMiPWFy2P5hU0sfFsmUIydK6IWF+KPlc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TCZtkSi7BexbWZLedxTMuE7b+sCQJdGBLrSdxpR9FnqBu4Dag0T1Am4FU2tzM9NhUU6j3DDF2P/ZdjTbq1Z/o6T3BumSlhtKShT0FWokSqV+aMCmtDlVMDW/jdVUtPY3VPUYKUty8VDuEegLqqxFSZeyDlVx0BDIqj5z+G5fsfg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=PM844Lyd; arc=none smtp.client-ip=209.85.208.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-30795988ebeso37196351fa.3
+        for <linux-media@vger.kernel.org>; Sun, 23 Feb 2025 10:34:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1740335687; x=1740940487; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=U0C+iu1WeNs+zRFQEZ4WEKG2Hv7tO/tPX0DsKYx3e/U=;
+        b=PM844LydsEN3vjz45qnaH1aNouiSe0VKYfL+PndvzEn4kll7AvORMYbOdnJ1fw08ib
+         PcJUxexXtdVeC+6sHiAE92pfyr7pzNcWA/bgYhVJyLstlizLNKYCN3LSRDjXAirt53+0
+         mougoisSfYUxX8cY8f5Pi7rERVuQFiWX+g7ms=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740335687; x=1740940487;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=U0C+iu1WeNs+zRFQEZ4WEKG2Hv7tO/tPX0DsKYx3e/U=;
+        b=IqHV4z0NOKbXFvSTLL1b+0DBFFl85j+mx1IZGRlV949G7i0/IxYJP4Vw/TQB/mfNau
+         TXQhuO31T+GBbjaziv285JC72Q56iNu1uXv8GbLFrRuxhLdfS4FWo/BC5B3136aCqUNp
+         dbkJVSTkuF2o+In8ODNq8HUOHRxstk3+VfeNzTYGUVUTQExEI9WT+A7skFwtamxSU1Q8
+         iNoWAyZZ/9xUrgG87gH6SCVkter13zi5gddxl0PdGPAj+NypGHdHPhYNvsUkT7GDpZpj
+         nDcz1IupD7thVtEvBDduj7IExIatiuLHu7MKZM8SJAjNOuSGspHldvrOwRNMuBhjC7wn
+         Wbzg==
+X-Forwarded-Encrypted: i=1; AJvYcCVLRKzsPcE/8bdrW2zJFUG4E5hR/XAoFt3jz1bA98W8ZI8McIbOCZnHKvEtm4K0FPGUvtEEwpeJOm9nTA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzWEKIr4LWTtZ2F5xm8dZwbisR3CQw1e6Kr1wSGRVUC8ayOFL2v
+	IBE8VFQu2An8kY5d1A8N9pl8gJfVBnVURyx9wOeABmKPNINnH5w71kK2z6CwFY4hscHuuEJvJlw
+	=
+X-Gm-Gg: ASbGnctWtmNsj9SXS3z2v5Ip59RH7x6o/hSKlRjzRDoszvaZAzMLGJu8b/aI3qtl6CH
+	hfUBi/N+bqUTbQIgkLZyhalceEK6axLRL6FvgfJpdGS7e/PIh5nOI1IeVm1LfERzlS7y5K/iPdb
+	+BW+dElLSwn6qVxjDw6E/HpjcEx9S5PhEv5/7YS3S7ivvtjF9EPmH0Dv7EbnAMhOAMO+6w7/uIf
+	SIZUUblZOsTCoPU3Mky7lEM/770npblyZOuQas22MDeZ3PD1nZ5PLmbB6FF48isznE7uYF9FECl
+	GFTqiCQel+SI2Zdg5uzNz3cC/P/bGwCFwwv/kknAet4NdB8Kuu1+8JBslmSW98IN8nLb
+X-Google-Smtp-Source: AGHT+IHcUlvQdWWFPwp7QjWZLoYEm6UROHvsrDtemJv/QGYFgeGc430WYzkP38Z/sG8+8Qw9gkNZSw==
+X-Received: by 2002:a2e:8941:0:b0:307:e031:15a8 with SMTP id 38308e7fff4ca-30a5986fdabmr34893621fa.8.1740335687043;
+        Sun, 23 Feb 2025 10:34:47 -0800 (PST)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30a598a2ec1sm8306191fa.39.2025.02.23.10.34.43
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 23 Feb 2025 10:34:44 -0800 (PST)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-30762598511so33262581fa.0
+        for <linux-media@vger.kernel.org>; Sun, 23 Feb 2025 10:34:43 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCXwMZIG+CYak9hN8+X3qOGzrLoahFBADQ0xcQ6MTGf6J1BiV1foesTFT8zoKxua/fRYfCq2qQe7USd4rg==@vger.kernel.org
+X-Received: by 2002:a2e:b614:0:b0:308:f84b:6b34 with SMTP id
+ 38308e7fff4ca-30a5990b2ebmr35382051fa.20.1740335683340; Sun, 23 Feb 2025
+ 10:34:43 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+References: <20250121-nuvoton-v1-0-1ea4f0cdbda2@chromium.org>
+ <20250121-nuvoton-v1-1-1ea4f0cdbda2@chromium.org> <df5693d0-7747-4423-809e-ae081c9aae92@xs4all.nl>
+ <dffc8e0b-2603-4e7e-ba64-15691c11ff7e@xs4all.nl>
+In-Reply-To: <dffc8e0b-2603-4e7e-ba64-15691c11ff7e@xs4all.nl>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Sun, 23 Feb 2025 19:34:30 +0100
+X-Gmail-Original-Message-ID: <CANiDSCsMCSJMEsY3R=pnZ4XUTiEYuPz-N1kEX7y13yTzE6Dm5w@mail.gmail.com>
+X-Gm-Features: AWEUYZkxdyzd_jgZvmXlXPTuqCYemf2QEgvVhq5WasLvpB-Xk2V4c6RpmAx6ZOg
+Message-ID: <CANiDSCsMCSJMEsY3R=pnZ4XUTiEYuPz-N1kEX7y13yTzE6Dm5w@mail.gmail.com>
+Subject: Re: [PATCH 1/4] media: nuvoton: Fix reference handling of ece_pdev
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Joseph Liu <kwliu@nuvoton.com>, Marvin Lin <kflin@nuvoton.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
+	Marvin Lin <milkfafa@gmail.com>, linux-media@vger.kernel.org, openbmc@lists.ozlabs.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
+On Fri, 21 Feb 2025 at 10:18, Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+> On 21/02/2025 10:04, Hans Verkuil wrote:
+> > Hi Ricardo,
+> >
+> > On 21/01/2025 22:14, Ricardo Ribalda wrote:
+> >> When we obtain a reference to of a platform_device, we need to release
+> >> it via put_device.
+> >>
+> >> Found by cocci:
+> >> ./platform/nuvoton/npcm-video.c:1677:3-9: ERROR: missing put_device; call of_find_device_by_node on line 1667, but without a corresponding object release within this function.
+> >> ./platform/nuvoton/npcm-video.c:1684:3-9: ERROR: missing put_device; call of_find_device_by_node on line 1667, but without a corresponding object release within this function.
+> >> ./platform/nuvoton/npcm-video.c:1690:3-9: ERROR: missing put_device; call of_find_device_by_node on line 1667, but without a corresponding object release within this function.
+> >> ./platform/nuvoton/npcm-video.c:1694:1-7: ERROR: missing put_device; call of_find_device_by_node on line 1667, but without a corresponding object release within this function.
+> >
+> > This driver uses this construct:
+> >
+> >                 struct device *ece_dev __free(put_device) = &ece_pdev->dev;
+> >
+> > to automatically call put_device. So this patch would 'put' the device twice.
+> >
+> > Does cocci understand constructs like this? If I hadn't looked closely at the
+> > code first, I would just have merged it.
+>
+> Oh wait, now that I am reading the following patches I see that it was those later
+> patches that add the __free code.
+>
+> This is far too confusing. Please post a v2 that just combines the 'fix references'
+> and 'use cleanup.h macros' in a single patch. It makes no sense to have this two-phase
+> approach.
 
-The Rock 5B has a Micro HDMI port, which can be used for receiving
-HDMI data. This enables support for it.
+I believe this is discouraged.
 
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- .../arm64/boot/dts/rockchip/rk3588-rock-5b.dts | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+cleanup.h macros does not exist in old kernel versions, so makes it
+impossible to backport the fix to them.
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-index d597112f1d5b..377824e69e20 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-@@ -220,6 +220,18 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
-+&hdmi_receiver_cma {
-+	status = "okay";
-+};
-+
-+&hdmi_receiver {
-+	status = "okay";
-+	hpd-gpios = <&gpio1 RK_PC6 GPIO_ACTIVE_LOW>;
-+	pinctrl-0 = <&hdmim1_rx_cec &hdmim1_rx_hpdin &hdmim1_rx_scl &hdmim1_rx_sda &hdmirx_hpd>;
-+	pinctrl-names = "default";
-+	memory-region = <&hdmi_receiver_cma>;
-+};
-+
- &hdptxphy_hdmi0 {
- 	status = "okay";
- };
-@@ -377,6 +389,12 @@ &pcie3x4 {
- };
- 
- &pinctrl {
-+	hdmirx {
-+		hdmirx_hpd: hdmirx-5v-detection {
-+			rockchip,pins = <1 RK_PC6 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+	};
-+
- 	hym8563 {
- 		hym8563_int: hym8563-int {
- 			rockchip,pins = <0 RK_PB0 RK_FUNC_GPIO &pcfg_pull_none>;
+This is an example of other series following this policy:
+https://lore.kernel.org/lkml/173608125422.1253657.3732758016133408588.stgit@devnote2/
+
+They also mention the same here:
+https://hackerbikepacker.com/kernel-auto-cleanup-1 .... I am pretty
+sure that I read the policy in a more official location... but I
+cannot find it right now :)
+
+
+>
+> Regards,
+>
+>         Hans
+>
+> >
+> > Regards,
+> >
+> >       Hans
+> >
+> >>
+> >> Cc: stable@vger.kernel.org
+> >> Fixes: 46c15a4ff1f4 ("media: nuvoton: Add driver for NPCM video capture and encoding engine")
+> >> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> >> ---
+> >>  drivers/media/platform/nuvoton/npcm-video.c | 3 +++
+> >>  1 file changed, 3 insertions(+)
+> >>
+> >> diff --git a/drivers/media/platform/nuvoton/npcm-video.c b/drivers/media/platform/nuvoton/npcm-video.c
+> >> index 024cd8ee1709..7b4c23dbe709 100644
+> >> --- a/drivers/media/platform/nuvoton/npcm-video.c
+> >> +++ b/drivers/media/platform/nuvoton/npcm-video.c
+> >> @@ -1673,6 +1673,7 @@ static int npcm_video_ece_init(struct npcm_video *video)
+> >>
+> >>              regs = devm_platform_ioremap_resource(ece_pdev, 0);
+> >>              if (IS_ERR(regs)) {
+> >> +                    put_device(&ece_pdev->dev);
+> >>                      dev_err(dev, "Failed to parse ECE reg in DTS\n");
+> >>                      return PTR_ERR(regs);
+> >>              }
+> >> @@ -1680,11 +1681,13 @@ static int npcm_video_ece_init(struct npcm_video *video)
+> >>              video->ece.regmap = devm_regmap_init_mmio(dev, regs,
+> >>                                                        &npcm_video_ece_regmap_cfg);
+> >>              if (IS_ERR(video->ece.regmap)) {
+> >> +                    put_device(&ece_pdev->dev);
+> >>                      dev_err(dev, "Failed to initialize ECE regmap\n");
+> >>                      return PTR_ERR(video->ece.regmap);
+> >>              }
+> >>
+> >>              video->ece.reset = devm_reset_control_get(&ece_pdev->dev, NULL);
+> >> +            put_device(&ece_pdev->dev);
+> >>              if (IS_ERR(video->ece.reset)) {
+> >>                      dev_err(dev, "Failed to get ECE reset control in DTS\n");
+> >>                      return PTR_ERR(video->ece.reset);
+> >>
+> >
+> >
+>
+
+
 -- 
-2.48.1
-
+Ricardo Ribalda
 
