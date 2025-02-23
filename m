@@ -1,207 +1,132 @@
-Return-Path: <linux-media+bounces-26664-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26665-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C992A40F16
-	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 14:11:22 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BF971A40F4C
+	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 15:36:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6EE98170C68
-	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 13:11:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8F9653B3E1F
+	for <lists+linux-media@lfdr.de>; Sun, 23 Feb 2025 14:36:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 072AC206F38;
-	Sun, 23 Feb 2025 13:11:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 834EA209F52;
+	Sun, 23 Feb 2025 14:36:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aS8F7xqa"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LKlyMevr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B55841C860A
-	for <linux-media@vger.kernel.org>; Sun, 23 Feb 2025 13:11:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EF2C1DB548;
+	Sun, 23 Feb 2025 14:36:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740316275; cv=none; b=DjtDfrVu7vOCFYO/xDFl0slkv0RDGqje46R3KWuYcEMlZnhrz8MiQmQ9w3kdJdJKQQKXaGQkGgdxwULqAk6JHIgP72mxjSzmAAjw0uz/fGrCe2hcYXCa4MLmhLWFICYXAUlUBkPXzyzLhky1fYEgSNpCe0YJg4enhGwQgMgDPzk=
+	t=1740321404; cv=none; b=dU/OC44E2gosOuWKxbD1jsox2kGgM3+Uu+cZaFDzvCS2ntIDJyszf373Wl7AWsTylwWNDfL3K8rh4bfvu7j/DIvRhu3zRjs6meZe/iZr+MX0MZboDjYDq/1ZEGc1ghBdGjSJPxI9mEyfgvsArOFnbw/k8HWFUO7/00aSqmrKxXQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740316275; c=relaxed/simple;
-	bh=uuDaWLlcE6Beu3WziFLYRquETlYzfoFpFji8zHSb1i8=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=rywaxMyMvZG2NtCftnW3mOBTHWN5y4o2h0OpaH2NEA3M8iBg8H1+8Bv2yDwSXXHcdZJMFt6LWAexFjqWpvFKtZldZgs1AUAhPd9aLNlHluVANnMMptXSVT9TOGgjjfWDJrkOGqyNushtimIIu9Cy0LRegPgIl8ZrgDxO9POsbOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aS8F7xqa; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740316274; x=1771852274;
-  h=date:from:to:cc:subject:message-id;
-  bh=uuDaWLlcE6Beu3WziFLYRquETlYzfoFpFji8zHSb1i8=;
-  b=aS8F7xqaDOHgG8yLPp5inAZBReF6rTL9A7t6Kab5tArVpMs+0UmqguID
-   rbW9zx61LXf7dYsC9FLSPqydfNfsf6+K+5haR46C5dFkucNmeqdjP3ibI
-   G4TMp+f66Icd16PcSvtgik4Ux8MoS/dk2wjVntz11yNa4GABEvFZwO7IZ
-   BG+B0GkdjjT/rwrj6AkV91iC7q/11UN7nPR5fx2c6jUP0C2WuAG0ZSbi7
-   zArgBv5gr366Y+2fRvl9ta2V9D4dNa6iPwyLM7BLPVXJ81JFgbBcVNMyJ
-   LnbFktLyLt1tNYCGbSH8l94W8tjlCT140MtjwvrB1v1INKAFFa6NB3FuM
-   Q==;
-X-CSE-ConnectionGUID: WWJiQ95nQkGQQ7ihLXyWqg==
-X-CSE-MsgGUID: 7N8T+KhuRHirpcd+XCJYzQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="40317329"
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="40317329"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Feb 2025 05:11:13 -0800
-X-CSE-ConnectionGUID: ZmH464oAQ/KefTpaNRFrrA==
-X-CSE-MsgGUID: jWny7ipARxaK3Jc9N9UGXA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="116468451"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 23 Feb 2025 05:11:12 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tmBlG-0007LO-04;
-	Sun, 23 Feb 2025 13:11:10 +0000
-Date: Sun, 23 Feb 2025 21:10:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-pending:next] BUILD SUCCESS
- c2b96a6818159fba8a3bcc38262da9e77f9b3ec7
-Message-ID: <202502232122.IGrT1AoJ-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1740321404; c=relaxed/simple;
+	bh=2KgC6MCkhEmpH6nWjdCdSB0RNj3vB2gXxjeLT9L1Qrc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FHDFxwF+oUyDWMZWxVAJEOQkYPj0YyZ6e4tZvn8FU59sv/Fm/cLLW4i7BYsJkNk0DBJirxSMq7VlivAW/l9DjTNybVsYcwk3KMTcfOsH+zRCto8b0FO8sgrAikghro5876489ldRRlyJ52iH6AJTYd6kWMjwP7URwgZi67W8vqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LKlyMevr; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E27A7496;
+	Sun, 23 Feb 2025 15:35:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1740321308;
+	bh=2KgC6MCkhEmpH6nWjdCdSB0RNj3vB2gXxjeLT9L1Qrc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LKlyMevr/vwdDIMzahaxunZdjm20vY6ZsDLplhgn55UbpAQ6PS8QmrL8x1W2LkEad
+	 EayCHb2Geo4pQ3TGDpP+wH5OHfvQYFkV3qpFLgvA9fpkZJm5LZhM06HtzIWRAdpq1z
+	 IkIiZN7pPxz1ckKcjmBpMErn5Ru6Re6TGOTFLi38=
+Date: Sun, 23 Feb 2025 16:36:17 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Fix deferred probing error
+Message-ID: <20250223143617.GA27463@pendragon.ideasonboard.com>
+References: <20250129-uvc-eprobedefer-v1-1-643b2603c0d2@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250129-uvc-eprobedefer-v1-1-643b2603c0d2@chromium.org>
 
-tree/branch: https://git.linuxtv.org/media-ci/media-pending.git next
-branch HEAD: c2b96a6818159fba8a3bcc38262da9e77f9b3ec7  media: platform: allgro-dvt: unregister v4l2_device on the error path
+Hi Ricardo,
 
-elapsed time: 1447m
+Thank you for the patch.
 
-configs tested: 114
-configs skipped: 3
+On Wed, Jan 29, 2025 at 12:39:46PM +0000, Ricardo Ribalda wrote:
+> uvc_gpio_parse() can return -EPROBE_DEFER when the GPIOs it depends on
+> have not yet been probed. This return code should be propagated to the
+> caller of uvc_probe() to ensure that probing is retried when the required
+> GPIOs become available.
+> 
+> Currently, this error code is incorrectly converted to -ENODEV,
+> causing some internal cameras to be ignored.
+> 
+> This commit fixes this issue by propagating the -EPROBE_DEFER error.
+> 
+> Cc: stable@vger.kernel.org
+> Fixes: 2886477ff987 ("media: uvcvideo: Implement UVC_EXT_GPIO_UNIT")
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index a10d4f4d9f95..73a7f23b616c 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -2253,9 +2253,10 @@ static int uvc_probe(struct usb_interface *intf,
+>  	}
+>  
+>  	/* Parse the associated GPIOs. */
+> -	if (uvc_gpio_parse(dev) < 0) {
+> +	ret = uvc_gpio_parse(dev);
+> +	if (ret < 0) {
+>  		uvc_dbg(dev, PROBE, "Unable to parse UVC GPIOs\n");
+> -		goto error;
+> +		goto error_retcode;
+>  	}
+>  
+>  	dev_info(&dev->udev->dev, "Found UVC %u.%02x device %s (%04x:%04x)\n",
+> @@ -2328,9 +2329,11 @@ static int uvc_probe(struct usb_interface *intf,
+>  	return 0;
+>  
+>  error:
+> +	ret = -ENODEV;
+> +error_retcode:
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+This isn't very nice. Could we instead also propagate error codes from
+other locations in the uvc_probe() function ? If you want to minimize
+changes, you can initialize ret to -ENODEV, and turn the (ret < 0) check
+for uvc_gpio_parse() to a (ret) check.
 
-tested configs:
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    gcc-14.2.0
-arc                              alldefconfig    gcc-13.2.0
-arc                              allmodconfig    gcc-13.2.0
-arc                               allnoconfig    gcc-13.2.0
-arc                              allyesconfig    gcc-13.2.0
-arc                   randconfig-001-20250222    gcc-13.2.0
-arc                   randconfig-002-20250222    gcc-13.2.0
-arm                              allmodconfig    gcc-14.2.0
-arm                               allnoconfig    clang-17
-arm                              allyesconfig    gcc-14.2.0
-arm                     davinci_all_defconfig    clang-21
-arm                             pxa_defconfig    gcc-14.2.0
-arm                   randconfig-001-20250222    gcc-14.2.0
-arm                   randconfig-002-20250222    gcc-14.2.0
-arm                   randconfig-003-20250222    clang-16
-arm                   randconfig-004-20250222    gcc-14.2.0
-arm64                            allmodconfig    clang-18
-arm64                             allnoconfig    gcc-14.2.0
-arm64                 randconfig-001-20250222    gcc-14.2.0
-arm64                 randconfig-002-20250222    clang-21
-arm64                 randconfig-003-20250222    clang-18
-arm64                 randconfig-004-20250222    clang-21
-csky                              allnoconfig    gcc-14.2.0
-csky                  randconfig-001-20250222    gcc-14.2.0
-csky                  randconfig-002-20250222    gcc-14.2.0
-hexagon                          allmodconfig    clang-21
-hexagon                           allnoconfig    clang-21
-hexagon                          allyesconfig    clang-18
-hexagon               randconfig-001-20250222    clang-17
-hexagon               randconfig-002-20250222    clang-19
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250223    clang-19
-i386        buildonly-randconfig-002-20250223    gcc-11
-i386        buildonly-randconfig-003-20250223    gcc-12
-i386        buildonly-randconfig-004-20250223    clang-19
-i386        buildonly-randconfig-005-20250223    gcc-12
-i386        buildonly-randconfig-006-20250223    gcc-11
-i386                                defconfig    clang-19
-loongarch                        allmodconfig    gcc-14.2.0
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch             randconfig-001-20250222    gcc-14.2.0
-loongarch             randconfig-002-20250222    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-m68k                         apollo_defconfig    gcc-14.2.0
-m68k                        mvme147_defconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250222    gcc-14.2.0
-nios2                 randconfig-002-20250222    gcc-14.2.0
-openrisc                          allnoconfig    gcc-14.2.0
-openrisc                         allyesconfig    gcc-14.2.0
-parisc                           allmodconfig    gcc-14.2.0
-parisc                            allnoconfig    gcc-14.2.0
-parisc                           allyesconfig    gcc-14.2.0
-parisc                randconfig-001-20250222    gcc-14.2.0
-parisc                randconfig-002-20250222    gcc-14.2.0
-powerpc                          allmodconfig    gcc-14.2.0
-powerpc                           allnoconfig    gcc-14.2.0
-powerpc                   bluestone_defconfig    clang-21
-powerpc                      ep88xc_defconfig    gcc-14.2.0
-powerpc                    ge_imp3a_defconfig    gcc-14.2.0
-powerpc                   lite5200b_defconfig    clang-21
-powerpc                  mpc866_ads_defconfig    clang-21
-powerpc               randconfig-001-20250222    gcc-14.2.0
-powerpc               randconfig-002-20250222    gcc-14.2.0
-powerpc               randconfig-003-20250222    gcc-14.2.0
-powerpc                         wii_defconfig    gcc-14.2.0
-powerpc64             randconfig-001-20250222    gcc-14.2.0
-powerpc64             randconfig-002-20250222    clang-16
-powerpc64             randconfig-003-20250222    clang-18
-riscv                             allnoconfig    gcc-14.2.0
-riscv                 randconfig-001-20250222    clang-21
-riscv                 randconfig-002-20250222    gcc-14.2.0
-s390                             allmodconfig    clang-19
-s390                              allnoconfig    clang-15
-s390                             allyesconfig    gcc-14.2.0
-s390                  randconfig-001-20250222    gcc-14.2.0
-s390                  randconfig-002-20250222    clang-15
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                        apsh4ad0a_defconfig    gcc-14.2.0
-sh                    randconfig-001-20250222    gcc-14.2.0
-sh                    randconfig-002-20250222    gcc-14.2.0
-sh                   secureedge5410_defconfig    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc                             allnoconfig    gcc-14.2.0
-sparc                 randconfig-001-20250222    gcc-14.2.0
-sparc                 randconfig-002-20250222    gcc-14.2.0
-sparc64               randconfig-001-20250222    gcc-14.2.0
-sparc64               randconfig-002-20250222    gcc-14.2.0
-um                               allmodconfig    clang-21
-um                                allnoconfig    clang-18
-um                               allyesconfig    gcc-12
-um                    randconfig-001-20250222    gcc-12
-um                    randconfig-002-20250222    gcc-12
-x86_64                            allnoconfig    clang-19
-x86_64                           allyesconfig    clang-19
-x86_64      buildonly-randconfig-001-20250222    clang-19
-x86_64      buildonly-randconfig-002-20250222    gcc-12
-x86_64      buildonly-randconfig-003-20250222    gcc-12
-x86_64      buildonly-randconfig-004-20250222    clang-19
-x86_64      buildonly-randconfig-005-20250222    clang-19
-x86_64      buildonly-randconfig-006-20250222    gcc-12
-x86_64                              defconfig    gcc-11
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                randconfig-001-20250222    gcc-14.2.0
-xtensa                randconfig-002-20250222    gcc-14.2.0
-xtensa                         virt_defconfig    gcc-14.2.0
+>  	uvc_unregister_video(dev);
+>  	kref_put(&dev->ref, uvc_delete);
+> -	return -ENODEV;
+> +	return ret;
+>  }
+>  
+>  static void uvc_disconnect(struct usb_interface *intf)
+> 
+> ---
+> base-commit: c4b7779abc6633677e6edb79e2809f4f61fde157
+> change-id: 20250129-uvc-eprobedefer-b5ebb4db63cc
 
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+-- 
+Regards,
+
+Laurent Pinchart
 
