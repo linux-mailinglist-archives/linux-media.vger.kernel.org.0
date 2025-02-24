@@ -1,99 +1,82 @@
-Return-Path: <linux-media+bounces-26826-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26827-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5794A41F62
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 13:43:46 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 998D0A41F9E
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 13:52:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11DFA188515C
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 12:43:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 15DD87A9AC0
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 12:49:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBB9A233730;
-	Mon, 24 Feb 2025 12:43:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DE3823BCE8;
+	Mon, 24 Feb 2025 12:49:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XE0BJl0W"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aGXNQTYA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36CCF70830;
-	Mon, 24 Feb 2025 12:43:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF42A233737
+	for <linux-media@vger.kernel.org>; Mon, 24 Feb 2025 12:49:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740400991; cv=none; b=dpxH5j7kk/EeceXCXGuAnGbsNng99xYwsH3CfKF0ToZwLSbH25EjB8Zp95eTkrP6xPtwICshfesxMlVJFklHNourR3eHDq6gUMXATO5PGv/I68mnxwlWbpOwt+nyax21/yj6bEEPcK10fzEWauFuEI/QxCZaYWZ8pccNz9TKlfk=
+	t=1740401395; cv=none; b=MDzQHYwfuiMoFUxG71dpw9LiMPsh/x/zCEi8rv4SksfhCe5jhKJmpCmpaz68h2nv/hB/SPYmkmDnMqSSUW8RAAME0rOu3xC3COOxw/ZqrBbZ0rnbaL0237Q2rzlS633DZagqqNgQVgmQkQIScZXUaFvSQzMmhx5Ukvcpx+FCBUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740400991; c=relaxed/simple;
-	bh=5bE1sNTKCIcMIFatENWw4OlhtEJZGUhcXJTzBuK9DHE=;
+	s=arc-20240116; t=1740401395; c=relaxed/simple;
+	bh=/5FyNeSSLUyrh9MblxL7mjJ5IHR6hr3zGcS6Fv7+X00=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Vcc6MWEkgTDGcP0lR93c135qgmi+yv5SaDzayDoCFNYMeau+W3/6COd/6l7AuewuMbiGmIPRNc0BeZPCwinLeWMfc9+W7MKKDH3c1+r572WQR7P8F8tgdwzZqAJ101A45aXXC58nFDd54OfDfneTLTy1dyfQrEgnZsFjlR8PNMM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XE0BJl0W; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=mgbXkXuTul3EacSvp6TlF8meH9WMQvwzl2tQAqS7HhtmSJL81SAGLCRnV86j/1Xknkryv19xM92QoXVBkpRaNgcdrV3K673t8sMqUFIcJIhKExVLLCBD4EBsWZ++4jVif+APsWchUrhyL6C+24wQ6uc5nMiWkkGW9+l0EM8HP8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aGXNQTYA; arc=none smtp.client-ip=198.175.65.18
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740400989; x=1771936989;
+  t=1740401393; x=1771937393;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=5bE1sNTKCIcMIFatENWw4OlhtEJZGUhcXJTzBuK9DHE=;
-  b=XE0BJl0W7jAx9zSVUXRlER0+iYRtemOLyFt/82HIrKfAaGV2nek97NAW
-   whP6KAI3kPEpdV/h6mKyMyDewv3gH0JTuBTKujAR3BSQfrEKXs5/SO+wX
-   DE1GL+QMnT9KK1bIW3HDZOd1N3YGSeRpXUhq60CsOTguLEQJ/XjG71YdJ
-   OayZN6ES143wM5ka4dMb11kD6BgFX9E6abmsn6CoFemdsQp4TM623uUIi
-   4XIndeDxrlBlpD/pxElrfH/4Sx8E3hiODNQlXKe3Rl96OKLDcCw5ySx2t
-   maKuOL0zJIExbK6h3O4+lmUHLE2JbOmuVukdaVpRcOU6JwIYP6Hb9kWeX
+  bh=/5FyNeSSLUyrh9MblxL7mjJ5IHR6hr3zGcS6Fv7+X00=;
+  b=aGXNQTYAA3PmntqGwyAJjWyzhoRvzXPZC7ugQHQf8R5DFTp0Yrr/q+D8
+   ZsninGpqASOInYY6b6CfS3x0gq5YHfC9Dbfwn8uws9nDmPKAEmHGdtcPE
+   1eCB0C72RMnybsZO61q4HJYwMmYkJ/MRGetbA3Go+Nfk3a1bYkhoDQ1sH
+   JsUdeICN/LMAq7pkD80Dx0MVvCYnUfAHE8sp8pSuIkrJG/vpklG9My/vm
+   YPoJvfJqzZoDxptNtK3LrrTYPcTNDXah2RRXm0lHl89FZPDxuEXKwWPJI
+   ANEku/wiORITxoBWB8XXwZb52tGABGLqPujWZGEgDR0gf4K0GD399+LSY
    Q==;
-X-CSE-ConnectionGUID: 6Vfi9Uf5R0i2xDWbZWjegw==
-X-CSE-MsgGUID: xjmtmOirRceVahdASA/0wQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="43982314"
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="43982314"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 04:43:08 -0800
-X-CSE-ConnectionGUID: vjFgtAYERzqgYiHCoWu2XA==
-X-CSE-MsgGUID: aGhihvvHTNOeYhbEn9nRsQ==
+X-CSE-ConnectionGUID: 6qdFm3BITRKTt84YcqhJhg==
+X-CSE-MsgGUID: svhCYGFVS025XUM/cUJ05w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="41363797"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="41363797"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 04:49:52 -0800
+X-CSE-ConnectionGUID: VL8NWsMbQAqj8bbSjEJboA==
+X-CSE-MsgGUID: 3CeX8wKvQ/KnSv0oI23s+A==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="116677593"
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="116955007"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 04:43:02 -0800
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 04:49:51 -0800
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 8314111F944;
-	Mon, 24 Feb 2025 14:42:59 +0200 (EET)
-Date: Mon, 24 Feb 2025 12:42:59 +0000
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 2FE1A11F944;
+	Mon, 24 Feb 2025 14:49:48 +0200 (EET)
+Date: Mon, 24 Feb 2025 12:49:48 +0000
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Michael Riesch <michael.riesch@wolfvision.net>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Cc: Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
-	Gerald Loacker <gerald.loacker@wolfvision.net>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Kever Yang <kever.yang@rock-chips.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v4 03/11] media: dt-bindings: media: add bindings for
- rockchip rk3568 vicap
-Message-ID: <Z7xpU8yKNKBReage@kekkonen.localdomain>
-References: <20250219-v6-8-topic-rk3568-vicap-v4-0-e906600ae3b0@wolfvision.net>
- <20250219-v6-8-topic-rk3568-vicap-v4-3-e906600ae3b0@wolfvision.net>
- <Z7iJV1rOaqMmcjY7@kekkonen.localdomain>
- <0b19c544-f773-435e-9829-aaaa1c6daf7a@wolfvision.net>
+	dave.stevenson@raspberrypi.com, linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: imx219: Add support for 'clock-frequency'
+ parsing
+Message-ID: <Z7xq7EqpBFEvVRjR@kekkonen.localdomain>
+References: <20250220154909.152538-1-mehdi.djait@linux.intel.com>
+ <20250223230649.GD16159@pendragon.ideasonboard.com>
+ <picj7e6sohybmsyb63xuxdglyxk67pj3rfmej27lr2z2pyaqss@ahqmpyszie3a>
+ <Z7w-9DjMOIDtndti@kekkonen.localdomain>
+ <hs5odm7vni4va2wikso7htyqcgbaiqbfrjqzeofzofrrabn5d6@cportdepyasr>
+ <2462254c-bd3f-488b-94d9-e11e16108327@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -102,184 +85,95 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0b19c544-f773-435e-9829-aaaa1c6daf7a@wolfvision.net>
+In-Reply-To: <2462254c-bd3f-488b-94d9-e11e16108327@ideasonboard.com>
 
-Hi Michael,
+Moi,
 
-On Mon, Feb 24, 2025 at 11:21:41AM +0100, Michael Riesch wrote:
-> Hi Sakari,
+On Mon, Feb 24, 2025 at 02:24:29PM +0200, Tomi Valkeinen wrote:
+> Hi,
 > 
-> Thanks for the review.
-> 
-> On 2/21/25 15:10, Sakari Ailus wrote:
-> > Hi Michael,
+> On 24/02/2025 13:54, Mehdi Djait wrote:
+> > Hi Sakari,
 > > 
-> > Thanks for the update.
+> > On Mon, Feb 24, 2025 at 09:42:12AM +0000, Sakari Ailus wrote:
+> > > Hi Mehdi,
+> > > 
+> > > On Mon, Feb 24, 2025 at 08:59:34AM +0100, Mehdi Djait wrote:
+> > > > Hi Laurent,
+> > > > 
+> > > > On Mon, Feb 24, 2025 at 01:06:49AM +0200, Laurent Pinchart wrote:
+> > > > > Hi Mehdi,
+> > > > > 
+> > > > > Thank you for the patch.
+> > > > > 
+> > > > > On Thu, Feb 20, 2025 at 04:49:09PM +0100, Mehdi Djait wrote:
+> > > > > > Make the clock producer reference lookup optional
+> > > > > > 
+> > > > > > Add support for ACPI-based platforms by parsing the 'clock-frequency'
+> > > > > > property when no clock producer is available
+> > > > > > 
+> > > > > > Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+> > > > > > ---
+> > > > > >   drivers/media/i2c/imx219.c | 14 ++++++++++++--
+> > > > > >   1 file changed, 12 insertions(+), 2 deletions(-)
+> > > > > > 
+> > > > > > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> > > > > > index 2d54cea113e1..a876a6d80a47 100644
+> > > > > > --- a/drivers/media/i2c/imx219.c
+> > > > > > +++ b/drivers/media/i2c/imx219.c
+> > > > > > @@ -1103,12 +1103,22 @@ static int imx219_probe(struct i2c_client *client)
+> > > > > >   				     "failed to initialize CCI\n");
+> > > > > >   	/* Get system clock (xclk) */
+> > > > > > -	imx219->xclk = devm_clk_get(dev, NULL);
+> > > > > > +	imx219->xclk = devm_clk_get_optional(dev, NULL);
+> > > > > >   	if (IS_ERR(imx219->xclk))
+> > > > > >   		return dev_err_probe(dev, PTR_ERR(imx219->xclk),
+> > > > > >   				     "failed to get xclk\n");
+> > > > > > -	imx219->xclk_freq = clk_get_rate(imx219->xclk);
+> > > > > > +	if (imx219->xclk) {
+> > > > > > +		imx219->xclk_freq = clk_get_rate(imx219->xclk);
+> > > > > > +	} else {
+> > > > > > +		ret = fwnode_property_read_u32(dev_fwnode(dev),
+> > > > > > +					       "clock-frequency",
+> > > > > > +					       &imx219->xclk_freq);
+> > > > > > +		if (ret)
+> > > > > > +			return dev_err_probe(dev, ret,
+> > > > > > +					     "failed to get clock frequency");
+> > > > > > +	}
+> > > > > > +
+> > > > > 
+> > > > > This doesn't seem specific to the imx219 driver. Could you turn this
+> > > > > into a generic V4L2 sensor helper that would take a struct device and a
+> > > > > clock name, and return the frequency, either retrieved from the clock,
+> > > > > or from the clock-frequency property as a fallback ?
+> > > > > 
+> > > > > Some drivers will also need to control the clock, so the clock should
+> > > > > probably be returned too.
+> > > > > 
+> > > > 
+> > > > Yes, I saw that many sensor drivers have the same issue.
+> > > > 
+> > > > I will try to make it into a generic V4L2 helper and send the patches.
+> > > 
+> > > There are other such functions in drivers/media/v4l2-core/v4l2-common.c.
+> > > Perhaps this is where the new helper could be located as well?
+> > > 
 > > 
-> > On Wed, Feb 19, 2025 at 11:16:34AM +0100, Michael Riesch wrote:
-> >> Add documentation for the Rockchip RK3568 Video Capture (VICAP) unit.
-> >>
-> >> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
-> >> ---
-> >>  .../bindings/media/rockchip,rk3568-vicap.yaml      | 168 +++++++++++++++++++++
-> >>  MAINTAINERS                                        |   1 +
-> >>  2 files changed, 169 insertions(+)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/media/rockchip,rk3568-vicap.yaml b/Documentation/devicetree/bindings/media/rockchip,rk3568-vicap.yaml
-> >> new file mode 100644
-> >> index 000000000000..3dc15efeb32e
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/media/rockchip,rk3568-vicap.yaml
-> >> @@ -0,0 +1,168 @@
-> >> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> >> +%YAML 1.2
-> >> +---
-> >> +$id: http://devicetree.org/schemas/media/rockchip,rk3568-vicap.yaml#
-> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >> +
-> >> +title: Rockchip RK3568 Video Capture (VICAP)
-> >> +
-> >> +maintainers:
-> >> +  - Michael Riesch <michael.riesch@wolfvision.net>
-> >> +
-> >> +description:
-> >> +  The Rockchip RK3568 Video Capture (VICAP) block features a digital video
-> >> +  port (DVP, a parallel video interface) and a MIPI CSI-2 port. It receives
-> >> +  the data from camera sensors, video decoders, or other companion ICs and
-> >> +  transfers it into system main memory by AXI bus.
-> >> +
-> >> +properties:
-> >> +  compatible:
-> >> +    const: rockchip,rk3568-vicap
-> >> +
-> >> +  reg:
-> >> +    maxItems: 1
-> >> +
-> >> +  interrupts:
-> >> +    maxItems: 1
-> >> +
-> >> +  clocks:
-> >> +    items:
-> >> +      - description: ACLK
-> >> +      - description: HCLK
-> >> +      - description: DCLK
-> >> +      - description: ICLK
-> >> +
-> >> +  clock-names:
-> >> +    items:
-> >> +      - const: aclk
-> >> +      - const: hclk
-> >> +      - const: dclk
-> >> +      - const: iclk
-> >> +
-> >> +  rockchip,cif-clk-delaynum:
-> >> +    $ref: /schemas/types.yaml#/definitions/uint32
-> >> +    minimum: 0
-> >> +    maximum: 127
-> >> +    description:
-> >> +      Delay the DVP path clock input to align the sampling phase, only valid
-> >> +      in dual edge sampling mode.
-> > 
-> > I suppose there's further documentation on this somewhere else? A reference
-> > would be nice.
+> > I was thinking about drivers/media/v4l2-core/v4l2-fwnode.c but if
+> > v4l2-common.c is more appropriate we can go with that.
 > 
-> I like your optimism :-) No, I am afraid this single sentence is all the
-> the RK3568 TRM has to say about it. I can add a reference to the TRM
-> page, but everyone who actually follows this reference will be
-> disappointed...
+> I admit I have no clue about ACPI, but why is this v4l2 specific? Why
+> doesn't clock framework do this for us?
 
-:-(
-
-Is this something that needs to be set? Is there a default, for instance?
-
-If there's documentation available, it'd be nice to refer to that from
-somewhere, I'm not sure if the driver or DT bindings would be better.
-Probably the driver.
-
-> 
-> >> +
-> >> +  iommus:
-> >> +    maxItems: 1
-> >> +
-> >> +  resets:
-> >> +    items:
-> >> +      - description: ARST
-> >> +      - description: HRST
-> >> +      - description: DRST
-> >> +      - description: PRST
-> >> +      - description: IRST
-> >> +
-> >> +  reset-names:
-> >> +    items:
-> >> +      - const: arst
-> >> +      - const: hrst
-> >> +      - const: drst
-> >> +      - const: prst
-> >> +      - const: irst
-> >> +
-> >> +  rockchip,grf:
-> >> +    $ref: /schemas/types.yaml#/definitions/phandle
-> >> +    description:
-> >> +      Phandle to general register file used for video input block control.
-> >> +
-> >> +  power-domains:
-> >> +    maxItems: 1
-> >> +
-> >> +  ports:
-> >> +    $ref: /schemas/graph.yaml#/properties/ports
-> >> +
-> >> +    properties:
-> >> +      port@0:
-> >> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> >> +        unevaluatedProperties: false
-> >> +        description:
-> >> +          The digital video port (DVP, a parallel video interface).
-> >> +
-> >> +        properties:
-> >> +          endpoint:
-> >> +            $ref: video-interfaces.yaml#
-> >> +            unevaluatedProperties: false
-> >> +
-> >> +            properties:
-> >> +              bus-type:
-> >> +                enum: [5, 6]
-> >> +
-> >> +            required:
-> >> +              - bus-type
-> >> +
-> >> +      port@1:
-> >> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> >> +        unevaluatedProperties: false
-> >> +        description: The MIPI CSI-2 port.
-> >> +
-> >> +        properties:
-> >> +          endpoint:
-> >> +            $ref: video-interfaces.yaml#
-> >> +            unevaluatedProperties: false
-> > 
-> > Don't you need things like data-lanes here? Or is this a single lane
-> > receiver?
-> 
-> This may be a bit confusing, and I probably should extend the
-> description a bit. This port/endpoint faces the MIPI CSI Host, which has
-> its own driver provided in patch 6. The connection in between is a link
-> with some internal format. Hence, no properties required.
-> 
-> This is the same issue as the one discussed in the other thread, since
-> the other end of this connection is discussed there. I'll fix the issue
-> on both ends using Rob's suggestion.
-
-If this is some custom interface, you should not say it's MIPI CSI-2
-(even though MIPI CSI-2 data could be transported on top).
-
-> >> +                vicap_mipi: port@1 {
-> >> +                    reg = <1>;
-> > 
-> > Where is the endpoint?
-> 
-> I'll add the endpoint in the example.
-
-Thank you.
+The "clock-frequency" isn't really specific to ACPI but it's used on some
+boards with DT, too, that precede the current clock bindings. Clocks aren't
+generally available to OS in ACPI either but the sensor drivers still need
+them. DisCo for Imaging uses "mipi-img-clock-frequency" which DisCo for
+Imaging code deep down in the ACPI framework will offer to drivers as
+"clock-frequency". A lot of this is actually specific to cameras. On top of
+that, camera sensors tend to be devices that are used equally on both DT
+and ACPI systems, it's quite uncommon elsewhere. Therefore I do think the
+natural place for this code is actually the V4L2 framework.
 
 -- 
 Kind regards,
