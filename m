@@ -1,159 +1,100 @@
-Return-Path: <linux-media+bounces-26838-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26839-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D96A422E2
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 15:24:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77E84A4236C
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 15:42:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8AF481703A5
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 14:18:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5A8DB162DDE
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 14:33:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4016E1624FC;
-	Mon, 24 Feb 2025 14:17:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E808194A66;
+	Mon, 24 Feb 2025 14:29:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="ZmFz/uEh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P/UIet10"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9D92AD14;
-	Mon, 24 Feb 2025 14:17:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740406672; cv=pass; b=lxwaP5DFnoSy9CZ+ak4AWenF/Ar1H2CBreC717V5OP2FW7XKvGtk7kHaqt2kiBpV8hTgNIfslF61pkBTqvlYvVNeQOXFeWQvBEcTfgFeLcPr4XRcPdUkAUvdgasf1L3lDkmCVa3Za+gIu56iqUMNJGW0FV9KiLENrTkTYtIy0NI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740406672; c=relaxed/simple;
-	bh=XI++tVurN1XBa9ntDF4BUg/9Zw6NAVZ//VSvMvNTb3c=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1708A1714CF;
+	Mon, 24 Feb 2025 14:29:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740407379; cv=none; b=ehAYajX9cPuu6TQuHbjyud1LMV3cUvVueq0KmFOihy7xGzKWncwFDCRKIfsXisVhNUfH4xSJzVEInw5X+fAs4xlZkq7NqOxOywWkDstoRCdzbgg7f780LMzIz8cXvBtGAJLAPFfRdoKAzm6GN5zk6LRtBJXmkFWOhG2VNGNe5QI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740407379; c=relaxed/simple;
+	bh=dzZWpseyrev5OlunHDNaX/H3YV4k079RCauuuFOelKs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YlA1SCxvW7YtuClFuZogFBwewVUUEUfL06epe1uLycR2/pu3fiYHd8i3bfo1oZafjn6y+RGXuE26ZtmpT0aid86lHWGN/JsS20CySJtj2CsDn78SeegTWF0sE3MWcvzAJRXdiZE/uMFIAYb2ucFSil59jUsi1R7bJpz2K/KN5uE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=ZmFz/uEh; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1740406643; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=jh4G+fge5VpcjAQvBdSnRAzNFmDfBuNbnwANkTlPuMo4R32/1T5hKa5IFixFAXUtxBaITENB/2oVbSbzmXC5sU4qoOmLFi++ReaOhpn2XjVrwOOK0CwlTV4ZNJOdndnrOflbm9y5zo6GPNdBJtT3miYK42lSUkcUQ1ADdDRKWf8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1740406643; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=8y7RULCgtA+twMB2yoTCUBB2R8TtZLUOKexPHO9EEnY=; 
-	b=UM59J+AyUZGyT5ZELv/DWFRQl6CzSlHRC433YB5pMxBv7mHp8AhcCfjNwFaoLtqjstSEQjfj08bjw5iAHb7LQuilMZPt58xJfJ0DgREAqCERZW16dURYG5hALvUFPM4VvwZXfpgRKzrZxM7jcoFtykbimhY/QA5dMwoenaF6SEk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
-	dmarc=pass header.from=<sebastian.fricke@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740406643;
-	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=8y7RULCgtA+twMB2yoTCUBB2R8TtZLUOKexPHO9EEnY=;
-	b=ZmFz/uEhN425WoWrs4s1sezOV6J9789a3rllYJQU+DFg/XxZcrotZsP9G4pyx3HD
-	e4YKJT08UbPcbCPDBBIzj60wK2wH7KVP2u3UJbk93cJnXIf3MmFQrcFoMDk383jYLU8
-	BE/CaejoUqQQZ+TsgotKmNRWAzHlCRuIrHOwixl4=
-Received: by mx.zohomail.com with SMTPS id 1740406641336970.3444548054779;
-	Mon, 24 Feb 2025 06:17:21 -0800 (PST)
-Date: Mon, 24 Feb 2025 15:17:12 +0100
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Ming Qian <ming.qian@oss.nxp.com>
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl, nicolas@ndufresne.ca,
-	shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
-	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
-	xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
-	imx@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 2/2] media: amphion: Add a frame flush mode for decoder
-Message-ID: <20250224141712.soexl43hrimwf236@basti-XPS-13-9310>
-References: <20250117075720.4018076-1-ming.qian@oss.nxp.com>
- <20250117075720.4018076-2-ming.qian@oss.nxp.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZlwKUPetKJA+Sj4yHddYiLMSMjTpbNV1Ty7ED6Jnmv5XQJtn5JxGUuU+PO7EqrW6cYvg+ki8HXaMkjnIwMmhcdIvxzZBwxe30gnkz0X2qeExThnA7HlODGxlKXEW87PXKFpedxYUdEBN2poXu2S/uwQiJ+WandTLmMCBT2sFerU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P/UIet10; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740407378; x=1771943378;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dzZWpseyrev5OlunHDNaX/H3YV4k079RCauuuFOelKs=;
+  b=P/UIet10gFvil3cezh3xGVeq8gLVBYl69ieg/0vShY5c6L9gzZL1bQbP
+   /6eSe6kihsq9Q/pKC3eDTB9uAvLG8flbF/din4QKRlWPNsxoth72ycj/E
+   vtCAs7M0LAomPyJEgPeNnKVY1/Z42sHOo322C3ZnrwRbzs8alEHRGSKL5
+   EPzETr9WYWO1XcQlfHf3Pq8k7jhnSsRitIOdIXQmjhxl7hUSNRm8yLWHS
+   tUoS0cPEs1Lfu6uF+Ye0OdkhyRfvJBXgVhTwdUEigCtQ2a9RK0xLMOj5F
+   CYvVYkmqoGMHfeHnTdpJQ4CvkgJbbQQnD8s83HAD0VHvzy42ge6k4+kEX
+   g==;
+X-CSE-ConnectionGUID: Vi1ZG0tATFuM3h4I4baDuA==
+X-CSE-MsgGUID: wYKMN0rKTpmput2ibhHzWA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="41179717"
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="41179717"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 06:29:37 -0800
+X-CSE-ConnectionGUID: 1OsmfyM1ToGAN7Rk7KutlA==
+X-CSE-MsgGUID: nrHSlI1ESqCvxmEiS39VoQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="116557596"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 06:29:34 -0800
+Date: Mon, 24 Feb 2025 16:29:30 +0200
+From: Raag Jadav <raag.jadav@intel.com>
+To: Mark Brown <broonie@kernel.org>
+Cc: perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com, deller@gmx.de,
+	andriy.shevchenko@linux.intel.com, sre@kernel.org,
+	sakari.ailus@linux.intel.com, mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl, jdmason@kudzu.us, fancer.lancer@gmail.com,
+	linux-sound@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
+	ntb@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 00/13] Convert to use devm_kmemdup_array()
+Message-ID: <Z7yCStqIMZfuWcAJ@black.fi.intel.com>
+References: <20250221165333.2780888-1-raag.jadav@intel.com>
+ <31f8302b-96be-41f1-9e58-c9f8cb2a9524@sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250117075720.4018076-2-ming.qian@oss.nxp.com>
-X-ZohoMailClient: External
+In-Reply-To: <31f8302b-96be-41f1-9e58-c9f8cb2a9524@sirena.org.uk>
 
-Hey Ming,
+On Mon, Feb 24, 2025 at 01:46:29PM +0000, Mark Brown wrote:
+> On Fri, Feb 21, 2025 at 10:23:20PM +0530, Raag Jadav wrote:
+> > This series is the second wave of patches to add users of newly introduced
+> > devm_kmemdup_array() helper. Original series on [1].
+> > 
+> > This depends on changes available on immutable tag[2]. Feel free to pick
+> > your subsystem patches with it, or share your preferred way to route them.
+> 
+> Please don't combine patches for multiple subsystems into a single patch
+> series, it just makes everything more complex to deal with - it creates
+> cross tree issues that wouldn't otherwise exist.
 
-On 17.01.2025 16:57, Ming Qian wrote:
->The amphion decoder will pre-parse 3 frames before decoding the first
->frame. If we append a flush padding data after frame, the decoder
->will finish parsing and start to decode when the flush data is parsed.
->It can reduce the decoding latency.
->In the past, we only enable this mode when the display delay is set to
->0. But we still can enable this mode without changing the display order,
->so we add a frame_flush_mode parameter to enable it.
+Sure, will split v2 per subsystem.
 
-My recommendation:
-
-By default the amphion decoder will pre-parse 3 frames before starting
-to decode the first frame. Alternatively, a block of flush padding data
-can be appended to the frame, which will ensure that the decoder can
-start decoding immediately after parsing the flush padding data, thus
-potentially reducing decoding latency.
-This mode was previously only enabled, when the display delay was set to
-0. Allow the user to manually toggle the use of that mode via a module
-parameter called frame_flush_mode, which enables the mode without
-changing the display order.
-
-
-Which fixes a few grammatical issues and tries to be a bit more clear.
-But please confirm to me that I hit your intended meaning.
-
-More comments below ...
-
->
->Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
->---
-> drivers/media/platform/amphion/vpu_malone.c | 5 ++++-
-> 1 file changed, 4 insertions(+), 1 deletion(-)
->
->diff --git a/drivers/media/platform/amphion/vpu_malone.c b/drivers/media/platform/amphion/vpu_malone.c
->index 1d9e10d9bec1..f07660dc3b07 100644
->--- a/drivers/media/platform/amphion/vpu_malone.c
->+++ b/drivers/media/platform/amphion/vpu_malone.c
->@@ -25,6 +25,9 @@
-> #include "vpu_imx8q.h"
-> #include "vpu_malone.h"
->
->+static bool frame_flush_mode;
->+module_param(frame_flush_mode, bool, 0644);
-
-Could you add a comment here that makes clear to the reader briefly what
-the expected behavior of frame_flush_mode = 0 and frame_flush_mode = 1
-is?
-
->+
-> #define CMD_SIZE			25600
-> #define MSG_SIZE			25600
-> #define CODEC_SIZE			0x1000
->@@ -1579,7 +1582,7 @@ static int vpu_malone_input_frame_data(struct vpu_malone_str_buffer __iomem *str
->
-> 	vpu_malone_update_wptr(str_buf, wptr);
->
->-	if (disp_imm && !vpu_vb_is_codecconfig(vbuf)) {
->+	if ((disp_imm || frame_flush_mode) && !vpu_vb_is_codecconfig(vbuf)) {
-
-So you say that the mode was enabled with display delay set to 0,
-meaning (disp_imm = 1) == (display delay = 0), right? E.g. disp_imm
-means display_immediately I guess.
-
-I think this all deserves a lot better documentation, otherwise the code
-becomes quite cryptic. Could you add a comment before this line, which
-explains the entry conditions disp_imm & frame_flush_mode and the
-codeconfig thing and that explains briefly what kind of mode we are
-entering here?
-
-> 		ret = vpu_malone_add_scode(inst->core->iface,
-> 					   inst->id,
-> 					   &inst->stream_buffer,
->-- 
->2.43.0-rc1
->
->
-
-Regards,
-Sebastian Fricke
+Raag
 
