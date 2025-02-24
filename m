@@ -1,294 +1,136 @@
-Return-Path: <linux-media+bounces-26868-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26869-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F414A42CBF
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 20:27:35 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1464BA42D88
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 21:20:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E0A45189A2A1
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 19:27:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 99F8A3B19FB
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 20:19:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B627B205AD5;
-	Mon, 24 Feb 2025 19:27:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 525A4241C98;
+	Mon, 24 Feb 2025 20:20:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j4q+SHA7"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HN5Oh9ni"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 757591EDA0F;
-	Mon, 24 Feb 2025 19:27:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98EC118B464;
+	Mon, 24 Feb 2025 20:19:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740425229; cv=none; b=cclm2t5G++aynQHLJLWuhmPXQudPRbQpYBMYlxI0aCcMwSypjiVM5YLCv0A/LAdvoRuMuMXa9eSjl19OsZYifb+dtZS33lJMeGf3C8R2+c9hyw21JEl1KxmbLNpCm8smqWlhZaRpagbX/VH6qJtEo8lOP4qos79BmMQCFiRjJvs=
+	t=1740428401; cv=none; b=IjK9Gbgwmsn2HmX+KzCCD/zjxeM1JXnYTqt6/JCZ3Xg1tTIEaTsBnhgwk6CpucApgj212Y1F9051q989I4xTGtlzLAcyY51T8o/+FKx+IjQFHZLDzEng+KvW+jdgUwy5+SOC6+hz96fQY8cLZv9f78eCMKmNxaUi0llkvoX6Tks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740425229; c=relaxed/simple;
-	bh=zms8AwfScWDNRnCzKtbTRceK4ozgPM3XizahJfE+6tI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p7GhyiyUVnT1yRTNL9fMSdPDqtmE9zMWFrlg0KRKnm9PPQpJZhIHWjqiiX++MNWCV3jyhJ7jYg+G7UYOxbFpFrKrbHuj95Fbu+UW+mAa7vxz19h1b1JcVs0m9kSi1DXYKuTympQXLNUqXnr1Y/KeBZBQapdbt+ypynVFUv93Eag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j4q+SHA7; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-2fbfa8c73a6so9616717a91.2;
-        Mon, 24 Feb 2025 11:27:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740425227; x=1741030027; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=fNLdUwijT6W41ZsoblnFA+2AFZPup2ylwdIktRpNhS8=;
-        b=j4q+SHA7EXf0knh8DM6GL/5Og6eZo6oZM6cSRjq4gqADlhgYT4gukZ1QGPtCsBihtH
-         BLVVI/DwEe7J2F1a6rAtV5SfbhncGYtNJAlYgBx9h13EUPh1uJzqn5Dmffa80o/2fLBI
-         1tUd26LAmdyunCp4Eh1Oj5Yg8Tv8YfsmGn8HfqITk1P0UfX4NApKA4uo0q0m6FJBDPlN
-         3Rfzmw4XyjCFV1NkjafHGKrrjAVgbLOXxGNEOZZEXCTtFi2DUty88sIq7BWcT1xHmzmo
-         y5DirFpC3T4gSE3b4Q5z14px4GdYPctnLMkWXL0nuLeGmiUx+dzOamueqQC/UkyIM3ss
-         oKsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740425227; x=1741030027;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fNLdUwijT6W41ZsoblnFA+2AFZPup2ylwdIktRpNhS8=;
-        b=kgp8QZIxb98RP24ZmcHLLgN0vAPgBaP4qfG63wyVJ04U41fDbvOZ4K4KNEyCoIEMqp
-         nCmsjsc7/dOSzHPhuTl6CVXxea/2WMqYkozT4SgRYe/IG6s50IZ8muaARJrM38722MJD
-         +DBl+mQwfpndVY9fBFmqesHJ7LKaqRksWMUzm2Dr2EJeyvEquhXvZAdXzmKEkrn1qn33
-         lQVgcFUdL6Oku3Sd9oLyzQwHrO/bCx1Fhs3+Zvh5Kn4ba9FYOsgcoGkGfzFqn7pwc/n7
-         CJtAE1en4JL+sI0gGV8+gmJvZ5XI2ft0n/WLFPcbgswOvWK1JG4e3PvfIuc1pu6r0hkU
-         Fusg==
-X-Forwarded-Encrypted: i=1; AJvYcCVo+24H2n6s1NmNizHYw1Q3Q4YtGmWl4l8Eg1wlxo+WSR8Ri69zUjh7zvBViKkVG+7dmchvCwgQak0vZa0=@vger.kernel.org, AJvYcCVo6wzUwuk1Sa5Ghlc6klClWEcsEuJsj0ayuXvLaHwEd24vlVNswETrj9Gf7WcxtZv4usE=@vger.kernel.org, AJvYcCW/8tFvT2PEFpPLVjI8A1G7IVa0aFk5EUmUJ+Ynrx5jpC635ZpY3kg77SoZWa07zs/0E76WsIe5NJ7Iay3Ni30=@vger.kernel.org, AJvYcCW9uELGb6sfcagREh6YWsJyYOvlTb+/MXqU5B7X0vCyLda0XtPyR6+/t6mIU/+Ao44iO3/6a7NnPjDaHc4E@vger.kernel.org, AJvYcCWAJPTxxwInFlBgAS/ehVMhO2fT6Y07TpxBz4Twa09BsdwE16eXYY30kM5MD8fBNO/6hr7Xn0sllnf92eY=@vger.kernel.org, AJvYcCWlo1rtLxuGqu62bLDODjtj8ItqOTX2tn2CnGFwjGtGNAWi1O7yWcWR5fE4iwikr61j56i8UonCx7nshIew@vger.kernel.org, AJvYcCWpr2XrYzwJq/kf4Zu2ElH1yxXfaGA5jYPJrwCHT/CEe56zweEu1SHE4/h3nFq8xch/ybAAQZ53@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1z2cWOtNzHmZC1FeZL25CsRi53MqFEN7IfGOX7XQR0OLFvu9x
-	wBnDqX14OHOuyqqQQ6+HlHb87viLHqHQ1n5D/yYMeUDlbRj0zO2S
-X-Gm-Gg: ASbGncsGuZ7wjRMB2Gjp/GNDozuepRqQFwiZ2aYesZi0E9cJi931jagv+n+W71ZYH4l
-	7Dkkzi//rwVlwxEP5dDXt+yxLX4wVxrftANsfBqsOQIU6ZixJRh2AdOvhfNMSAP3Nf9wyAof58r
-	Uza6656YWI6MKHMV1uNwieo18izVgj/ZyL537+uEPwY6H0/Uo+DwH3p64cEDwdHRoFCnbpGMwUV
-	6/S3olmjAthWDxq9kZ7Ta6pqRZz3hIixcBKTsjd0UBBUMjx5Ghj0u5FMtn4S0i8BUu9hOf/KUf6
-	aUZaiZYgZ0UbxBaHPtkr64O/4Q6BouUOm6jIxZHdny/4brC+jA==
-X-Google-Smtp-Source: AGHT+IH68TTuhENvYMBVibjVTmGrUAIBmwlMSF4lzlrMkZQD90CN6i4oKdfqdXSCYQRlTI+LIK96VA==
-X-Received: by 2002:a17:90b:38ca:b0:2ee:e945:5355 with SMTP id 98e67ed59e1d1-2fce86cf118mr21465186a91.19.1740425226496;
-        Mon, 24 Feb 2025 11:27:06 -0800 (PST)
-Received: from localhost (maglev-oncall.nvidia.com. [216.228.125.128])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fe6a3da759sm31947a91.13.2025.02.24.11.27.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2025 11:27:05 -0800 (PST)
-Date: Mon, 24 Feb 2025 14:27:03 -0500
-From: Yury Norov <yury.norov@gmail.com>
-To: Kuan-Wei Chiu <visitorckw@gmail.com>
-Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
-	joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org, rfoss@kernel.org,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-	dmitry.torokhov@gmail.com, mchehab@kernel.org,
-	awalls@md.metrocast.net, hverkuil@xs4all.nl,
-	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-	louis.peens@corigine.com, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-	parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
-	johannes@sipsolutions.net, gregkh@linuxfoundation.org,
-	jirislaby@kernel.org, akpm@linux-foundation.org, hpa@zytor.com,
-	alistair@popple.id.au, linux@rasmusvillemoes.dk,
-	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-	jernej.skrabec@gmail.com, kuba@kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
-	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
-	oss-drivers@corigine.com, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
-	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
-	Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
-Message-ID: <Z7zIBwH4aUA7G9MY@thinkpad>
-References: <20250223164217.2139331-1-visitorckw@gmail.com>
- <20250223164217.2139331-3-visitorckw@gmail.com>
+	s=arc-20240116; t=1740428401; c=relaxed/simple;
+	bh=0bvGN1vsW4WkjJukPZmqOi/PtlqoDTpb4ZJhb215zHg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=NjWKbzzl5RX536h1BCvI/Watm+WntWBMN8GRLNhtYBIopydD+KSf9uqW3wb5XgPSi9HwWgEerTVhQrIeBpowPRZY6C295+s79+5Klq5ILddWSl4DFPsgQq5YRPlostoYhZVqdW/hGZfz9qM2wiqEsd0PQIg9lK4JgMkMUrE4DKM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HN5Oh9ni; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.1.103] (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9984C455;
+	Mon, 24 Feb 2025 21:18:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1740428311;
+	bh=0bvGN1vsW4WkjJukPZmqOi/PtlqoDTpb4ZJhb215zHg=;
+	h=From:Subject:Date:To:Cc:From;
+	b=HN5Oh9niUrcMPgOhkCCbqwQYXJa7qIhjK/yF/oyixPGnH6CeQaKPN/a9gwRWzw2eM
+	 6a1W2KFqRkjdkRwteKwAPqNC3jymPQ+JhwcQoMQ4OP8BTCITIH/JU56kcznmcDoYmd
+	 XWk9r5bJ6POqFwlgcwT0bARimzPfr7bgFIDoOgCw=
+From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Subject: [PATCH v2 0/6] media: renesas: vsp1: Add support for IIF
+Date: Mon, 24 Feb 2025 21:19:40 +0100
+Message-Id: <20250224-v4h-iif-v2-0-0305e3c1fe2d@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250223164217.2139331-3-visitorckw@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFzUvGcC/2XMMQ4CIRCF4atsphYDLGiw8h5mCxYGmUIwYIhmw
+ 93FbS3/l5dvg4qFsMJl2qBgo0o5jZCHCVy06Y6M/GiQXGou5MyaiowoMCu8tyfFndEexvtZMNB
+ 7l27L6Ej1lctnh5v4rf9GE4yz86pQS2PMbMKVPNqa05pt8UeXH7D03r9So9zhpQAAAA==
+X-Change-ID: 20250123-v4h-iif-a1dda640c95d
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, 
+ Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: b4 0.15-dev-1b0d6
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2170;
+ i=jacopo.mondi+renesas@ideasonboard.com; h=from:subject:message-id;
+ bh=0bvGN1vsW4WkjJukPZmqOi/PtlqoDTpb4ZJhb215zHg=;
+ b=owEBbQKS/ZANAwAIAXI0Bo8WoVY8AcsmYgBnvNRr9M4/pE+4J+w4FMek8S8dXsFWo+1EICKVD
+ p5GGHs+QCaJAjMEAAEIAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCZ7zUawAKCRByNAaPFqFW
+ PLLfD/9bZ/kyqI7YXEemxXGLMFi7wdckURrX14JB78mBa2eyOKmzyhfLbLndV/A01HdZ3RduCMh
+ o8+Ow5Zor/R8msYNWurXPnnba1M88zdX7/jDBis4t31yrsl/95wtzsRGxpHIthRgGP5PC3W+uzm
+ LKU+8YlYHZgC9wTzeeM89nlTQKhN21JbBu8DF5hSM1XYmQoaUR99UQaUYT6nITN/GKgookwQ1KY
+ apSvkqRhj3noXgHJne24J1mFG8BpFnjAfDU6NGhSurvk+IEGiYR4Bjf40U5m4sOWxajizqJWg+6
+ Lo266UCeEad0la9KXmIDrWtOA8B2KDLg5t8UDhs+pRvNqqnymSrLRbxIfbNeZPxKLUJZZwcBfY8
+ ST+f60udvTU7flF8OxDYNN/saaNr/Bx/tS74y8Ql17SeZIzjoHq6KDzvUql9Zci20XLaj4FzV1T
+ 4FQztSzapGyDMiGCsXUXPGiXc0CsAcHXUn0PPimSXwzBPir8+Xw+7Zh/CPrQsl0H3cKW3kFv+fH
+ +diBAzy0qNO1R5NV+c8wdyv08NPPfvJGTsuL8wzJd2WzaPoYRkL3Z8dME2HsBKemtAABidrNW6L
+ XnlsKFoVISBOX8IcadjkYyJJ86wqOUta0nN4u3AjEKkuwtQz0vjYt18iLt2pvXrHNGWVGz8xGU3
+ 8gPx8qW0C7JAHgQ==
+X-Developer-Key: i=jacopo.mondi+renesas@ideasonboard.com; a=openpgp;
+ fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-On Mon, Feb 24, 2025 at 12:42:02AM +0800, Kuan-Wei Chiu wrote:
-> Several parts of the kernel open-code parity calculations using
-> different methods. Add a generic parity64() helper implemented with the
-> same efficient approach as parity8().
+The IIF (ISP InterFace) is a VSP2 function that reads data from
+external memory using two RPF instances and feed it to the ISP.
 
-No reason to add parity32() and parity64() in separate patches
- 
-> Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
-> Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
-> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-> ---
->  include/linux/bitops.h | 22 ++++++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
-> diff --git a/include/linux/bitops.h b/include/linux/bitops.h
-> index fb13dedad7aa..67677057f5e2 100644
-> --- a/include/linux/bitops.h
-> +++ b/include/linux/bitops.h
-> @@ -281,6 +281,28 @@ static inline int parity32(u32 val)
->  	return (0x6996 >> (val & 0xf)) & 1;
->  }
->  
-> +/**
-> + * parity64 - get the parity of an u64 value
-> + * @value: the value to be examined
-> + *
-> + * Determine the parity of the u64 argument.
-> + *
-> + * Returns:
-> + * 0 for even parity, 1 for odd parity
-> + */
-> +static inline int parity64(u64 val)
-> +{
-> +	/*
-> +	 * One explanation of this algorithm:
-> +	 * https://funloop.org/codex/problem/parity/README.html
+The IIF support is modeled in the vsp1 driver as a new, simple,
+entity type.
 
-This is already referenced in sources. No need to spread it for more.
+IIF is part of VSPX, a version of the VSP2 IP specialized for ISP
+interfacing. To prepare to support VSPX, support IIF first by
+introducing a new entity and by adjusting the RPF/WPF drivers to
+operate correctly when an IIF is present.
 
-> +	 */
-> +	val ^= val >> 32;
-> +	val ^= val >> 16;
-> +	val ^= val >> 8;
-> +	val ^= val >> 4;
-> +	return (0x6996 >> (val & 0xf)) & 1;
-
-It's better to avoid duplicating the same logic again and again.
-
-> +}
-> +
-
-So maybe make it a macro?
-
-
-From f17a28ae3429f49825d65ebc0f7717c6a191a3e2 Mon Sep 17 00:00:00 2001
-From: Yury Norov <yury.norov@gmail.com>
-Date: Mon, 24 Feb 2025 14:14:27 -0500
-Subject: [PATCH] bitops: generalize parity8()
-
-The generic parity calculation approach may be easily generalized for
-other standard types. Do that and drop sub-optimal implementation of
-parity calculation in x86 code.
-
-Signed-off-by: Yury Norov [NVIDIA] <yury.norov@gmail.com>
+Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 ---
- arch/x86/kernel/bootflag.c | 14 +-----------
- include/linux/bitops.h     | 47 +++++++++++++++++++++++++++-----------
- 2 files changed, 35 insertions(+), 26 deletions(-)
+Changes in v2:
+- Collect tags
+- Address review comments from Laurent, a lot of tiny changes here and
+  there but no major redesign worth an entry in the patchset changelog
 
-diff --git a/arch/x86/kernel/bootflag.c b/arch/x86/kernel/bootflag.c
-index 3fed7ae58b60..4a85c69a28f8 100644
---- a/arch/x86/kernel/bootflag.c
-+++ b/arch/x86/kernel/bootflag.c
-@@ -2,6 +2,7 @@
- /*
-  *	Implement 'Simple Boot Flag Specification 2.0'
-  */
-+#include <linux/bitops.h>
- #include <linux/types.h>
- #include <linux/kernel.h>
- #include <linux/init.h>
-@@ -20,19 +21,6 @@
- 
- int sbf_port __initdata = -1;	/* set via acpi_boot_init() */
- 
--static int __init parity(u8 v)
--{
--	int x = 0;
--	int i;
--
--	for (i = 0; i < 8; i++) {
--		x ^= (v & 1);
--		v >>= 1;
--	}
--
--	return x;
--}
--
- static void __init sbf_write(u8 v)
- {
- 	unsigned long flags;
-diff --git a/include/linux/bitops.h b/include/linux/bitops.h
-index c1cb53cf2f0f..29601434f5f4 100644
---- a/include/linux/bitops.h
-+++ b/include/linux/bitops.h
-@@ -230,10 +230,10 @@ static inline int get_count_order_long(unsigned long l)
- }
- 
- /**
-- * parity8 - get the parity of an u8 value
-+ * parity - get the parity of a value
-  * @value: the value to be examined
-  *
-- * Determine the parity of the u8 argument.
-+ * Determine parity of the argument.
-  *
-  * Returns:
-  * 0 for even parity, 1 for odd parity
-@@ -241,24 +241,45 @@ static inline int get_count_order_long(unsigned long l)
-  * Note: This function informs you about the current parity. Example to bail
-  * out when parity is odd:
-  *
-- *	if (parity8(val) == 1)
-+ *	if (parity(val) == 1)
-  *		return -EBADMSG;
-  *
-  * If you need to calculate a parity bit, you need to draw the conclusion from
-  * this result yourself. Example to enforce odd parity, parity bit is bit 7:
-  *
-- *	if (parity8(val) == 0)
-+ *	if (parity(val) == 0)
-  *		val ^= BIT(7);
-+ *
-+ * One explanation of this algorithm:
-+ * https://funloop.org/codex/problem/parity/README.html
-  */
--static inline int parity8(u8 val)
--{
--	/*
--	 * One explanation of this algorithm:
--	 * https://funloop.org/codex/problem/parity/README.html
--	 */
--	val ^= val >> 4;
--	return (0x6996 >> (val & 0xf)) & 1;
--}
-+#define parity(val)					\
-+({							\
-+	u64 __v = (val);				\
-+	int __ret;					\
-+	switch (BITS_PER_TYPE(val)) {			\
-+	case 64:					\
-+		__v ^= __v >> 32;			\
-+		fallthrough;				\
-+	case 32:					\
-+		__v ^= __v >> 16;			\
-+		fallthrough;				\
-+	case 16:					\
-+		__v ^= __v >> 8;			\
-+		fallthrough;				\
-+	case 8:						\
-+		__v ^= __v >> 4;			\
-+		__ret =  (0x6996 >> (__v & 0xf)) & 1;	\
-+		break;					\
-+	default:					\
-+		BUILD_BUG();				\
-+	}						\
-+	__ret;						\
-+})
-+
-+#define parity8(val)	parity((u8)(val))
-+#define parity32(val)	parity((u32)(val))
-+#define parity64(val)	parity((u64)(val))
- 
- /**
-  * __ffs64 - find first set bit in a 64 bit word
+---
+Jacopo Mondi (6):
+      media: vsp1: Add support IIF ISP Interface
+      media: vsp1: Clean FRE interrupt status
+      media: vsp1: dl: Use singleshot DL for VSPX
+      media: vsp1: rwpf: Break out format handling
+      media: vsp1: rwpf: Support RAW Bayer and ISP config
+      media: vsp1: rwpf: Support operations with IIF
+
+ drivers/media/platform/renesas/vsp1/Makefile      |   2 +-
+ drivers/media/platform/renesas/vsp1/vsp1.h        |   3 +
+ drivers/media/platform/renesas/vsp1/vsp1_dl.c     |   7 +-
+ drivers/media/platform/renesas/vsp1/vsp1_drv.c    |  14 ++-
+ drivers/media/platform/renesas/vsp1/vsp1_entity.c |   8 ++
+ drivers/media/platform/renesas/vsp1/vsp1_entity.h |   1 +
+ drivers/media/platform/renesas/vsp1/vsp1_iif.c    | 133 ++++++++++++++++++++++
+ drivers/media/platform/renesas/vsp1/vsp1_iif.h    |  26 +++++
+ drivers/media/platform/renesas/vsp1/vsp1_pipe.c   |   1 +
+ drivers/media/platform/renesas/vsp1/vsp1_pipe.h   |   1 +
+ drivers/media/platform/renesas/vsp1/vsp1_regs.h   |   8 ++
+ drivers/media/platform/renesas/vsp1/vsp1_rpf.c    |  18 ++-
+ drivers/media/platform/renesas/vsp1/vsp1_rwpf.c   | 110 ++++++++++++++++--
+ drivers/media/platform/renesas/vsp1/vsp1_wpf.c    |  14 ++-
+ 14 files changed, 327 insertions(+), 19 deletions(-)
+---
+base-commit: b2c4bf0c102084e77ed1b12090d77a76469a6814
+change-id: 20250123-v4h-iif-a1dda640c95d
+
+Best regards,
 -- 
-2.43.0
+Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 
 
