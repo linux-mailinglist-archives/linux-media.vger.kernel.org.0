@@ -1,65 +1,36 @@
-Return-Path: <linux-media+bounces-26793-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26791-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D38D5A41AAE
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 11:19:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BD99A41A9E
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 11:18:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BEB2F1891209
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 10:19:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 66981188A5A3
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 10:18:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F01724BC11;
-	Mon, 24 Feb 2025 10:19:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="4oomikQy"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD4CB2512F1;
+	Mon, 24 Feb 2025 10:16:53 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC3A224A04A
-	for <linux-media@vger.kernel.org>; Mon, 24 Feb 2025 10:19:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7288B1A0BCD
+	for <linux-media@vger.kernel.org>; Mon, 24 Feb 2025 10:16:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740392354; cv=none; b=WOtUp1qRG7n8eUpX2qd1+zu6omoNQkUmU6/mQghqV2Dy2tjux+qePoArM8JpLkE6c8aHzGsyZO58KLZ2a+ScFWU3JyMubIlbySq3sB5rLQR/CKUSBemDYMuew6k+3iCSTEJxCkihU+f/Zwb31TrSBac9GTIOf6PdmWB/9TxJ0lg=
+	t=1740392213; cv=none; b=OXur/y9jwOdDybkr1kohgr/NC2TqQDMIS2tWpJz20vo67+XBieT3wPdocD6c6EIfV3C1qxQtNGx+g00Zf1LuW7l+HvQxDd1KLnjLGAkb8wcVUTX7cJXBFAG6bmjW2w8ckvwGSTKCi8U8EprNwiUNq0twpqlB0FN2wNzqaFW2WsU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740392354; c=relaxed/simple;
-	bh=2jOh4pJYdbTzoNRPiNIvr3w4ehDXkE58fmaK9/W94tQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=uOeM0mS7V3R6TsYFi3SqUCZMVCbVheCPY+7eBPD5+/pB4hmDnk8TNLVZQ1WFpqKCgn3hPDcg+bw2NRHl7O2jJjiSisuGRr+RR4yf9s+CdWeocpYuZ97mx1DVDGN3aZ7dYsKY4D9B4uykNzBH3zeCO5KYCDCRrHoTDLtgNrCHpFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=4oomikQy; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51O9JSgH026635;
-	Mon, 24 Feb 2025 11:18:35 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	+cOdB66XHjoSBhPkW1k9P2Sz47UfnWVCejVc4JRM38Q=; b=4oomikQyZJn8xt2R
-	tz9DM4jhVfEGTOZUaBPudol1QM9vqdc7n5pmCWhQPa9rThHgUyQEsUOvksl9a6ux
-	fDiR2oirdAcVuSu3JgHlr4/u4kjJ9FzbNGAmhoVfRWFfQCu8cP9hSeLhZm1mZ1FF
-	qZqJzMO9F6ipBEa2j2ySep5bXuM0OaHzxG2/KnpP8IjBD7v2TLLRVrp5s1Ocvm+g
-	sN9BKL8jRwqjcJGg7If3/5jPstoINQbMYZ2mTs82X5iXuYqRHTDcFiaDb/xPq3co
-	I9nk8gk2jw1T8ZhVldpkTm3WhdGsSOIW6VBckHICCptH3ayXVwgpisg3Z9pnaryb
-	HoZ6WA==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 44ys144gfh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 24 Feb 2025 11:18:35 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 7A5B24002D;
-	Mon, 24 Feb 2025 11:16:33 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 1922A4A53B7;
-	Mon, 24 Feb 2025 11:15:57 +0100 (CET)
-Received: from [10.130.73.167] (10.130.73.167) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 24 Feb
- 2025 11:15:56 +0100
-Message-ID: <fa780238-6222-41e5-af86-a1001fafe1cc@foss.st.com>
-Date: Mon, 24 Feb 2025 11:15:55 +0100
+	s=arc-20240116; t=1740392213; c=relaxed/simple;
+	bh=Dbm0UBZMNmxXeBrkCvLipkd/TbJ4jZPJ/pkHQB2RVk4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J2Loq6j/R3NpcnKpa124RoCO1WkHH3C9Nm1ocs9oh6JXuL2HJ4So7CfI+ILH02BEKLE0QhG9eoN5yub6WRYb5FEHTy3/DAZndEWQrjQYAiG6xtgBEPpmi6OXFSSGnXVkwg7Yo3RWN1nWqSWLvhs3p248bzSzIbhTKIiEe/j2jhE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36FE0C4CED6;
+	Mon, 24 Feb 2025 10:16:52 +0000 (UTC)
+Message-ID: <cad348e9-2d0e-44b9-b105-c55b9af1992a@xs4all.nl>
+Date: Mon, 24 Feb 2025 11:16:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,115 +38,109 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [ANN v2] Media Summit 2025: Nice in May or Amsterdam in August?
-To: Hans Verkuil <hverkuil@xs4all.nl>,
-        Linux Media Mailing List
-	<linux-media@vger.kernel.org>
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart
-	<laurent.pinchart@ideasonboard.com>,
-        Sean Young <sean@mess.org>,
-        Mauro
- Carvalho Chehab <mchehab@kernel.org>,
-        Sebastian Fricke
-	<sebastian.fricke@collabora.com>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Ricardo Ribalda
-	<ribalda@chromium.org>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?=
-	<niklas.soderlund@ragnatech.se>,
-        Tomi Valkeinen
-	<tomi.valkeinen@ideasonboard.com>,
-        Alain Volmat <alain.volmat@foss.st.com>,
-        "stanimir.k.varbanov@gmail.com" <stanimir.k.varbanov@gmail.com>,
-        Bryan
- O'Donoghue <bryan.odonoghue@linaro.org>,
-        Dave Stevenson
-	<dave.stevenson@raspberrypi.com>,
-        Daniel Almeida
-	<daniel.almeida@collabora.com>,
-        Michael Tretter <m.tretter@pengutronix.de>,
-        Tomasz Figa <tfiga@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>,
-        Steve
- Cho <stevecho@chromium.org>,
-        Kieran Bingham
-	<kieran.bingham@ideasonboard.com>,
-        Kevin Hilman <khilman@baylibre.com>
-References: <ab1fef54-d83f-46e2-a6c8-42b0761368fc@xs4all.nl>
-Content-Language: en-US
-From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-In-Reply-To: <ab1fef54-d83f-46e2-a6c8-42b0761368fc@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
+Subject: Re: [PATCH] MAINTAINERS: add 2nd media maintainer, fix patchwork link
+To: Sakari Ailus <sakari.ailus@iki.fi>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <e7a4c286-13ae-4025-b765-ee7055476cf1@xs4all.nl>
+ <Z7xDlG-2c_3SPqVg@valkosipuli.retiisi.eu>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
+ BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
+ yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
+ C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
+ BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
+ E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
+ YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
+ JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
+ 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
+ UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSFIYW5zIFZlcmt1
+ aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD7CwZUEEwEKAD8CGwMGCwkIBwMCBhUIAgkKCwQWAgMB
+ Ah4BAheAFiEEBSzee8IVBTtonxvKvS1hSGYUO0wFAmaU3GkFCRf7lXsACgkQvS1hSGYUO0wZ
+ cw//cLMiaV+p2rCyzdpDjWon2XD6M646THYvqXLb9eVWicFlVG78kNtHrHyEWKPhN3OdWWjn
+ kOzXseVR/nS6vZvqCaT3rwgh3ZMb0GvOQk1/7V8UbcIERy036AjQoZmKo5tEDIv48MSvqxjj
+ H6wbKXbCyvnIwpGICLyb0xAwvvpTaJkwZjvGqeo5EL0Z+cQ8fCelfKNO5CFFP3FNd3dH8wU6
+ CHRtdZE03iIVEWpgCTjsG2zwsX/CKfPx0EKcrQajW3Tc50Jm0uuRUEKCVphlYORAPtFAF1dj
+ Ly8zpN1bEXH+0FDXe/SHhzbvgS4sL0J4KQCCZ/GcbKh/vsDC1VLsGS5C7fKOhAtOkUPWRjF+
+ kOEEcTOROMMvSUVokO+gCdb9nA/e3WMgiTwWRumWy5eCEnCpM9+rfI2HzTeACrVgGEDkOTHW
+ eaGHEy8nS9a25ejQzsBhi+T7MW53ZTIjklR7dFl/uuK+EJ6DLbDpVbwyYo2oeiwP+sf8/Rgv
+ WfJv4wzfUo/JABwrsbfWfycVZwFWBzqq+TaKFkMPm017dkLdg4MzxvvTMP7nKfJxU1bQ2OOr
+ xkPk5KDcz+aRYBvTqEXgYZ6OZtnOUFKD+uPlbWf68vuz/1iFbQYnNJkTxwWhiIMN7BULK74d
+ Ek89MU7JlbYNSv0v21lRF+uDo0J6zyoTt0ZxSPzOwU0EVDzhbQEQANzLiI6gHkIhBQKeQaYs
+ p2SSqF9c++9LOy5x6nbQ4s0X3oTKaMGfBZuiKkkU6NnHCSa0Az5ScRWLaRGu1PzjgcVwzl5O
+ sDawR1BtOG/XoPRNB2351PRp++W8TWo2viYYY0uJHKFHML+ku9q0P+NkdTzFGJLP+hn7x0RT
+ DMbhKTHO3H2xJz5TXNE9zTJuIfGAz3ShDpijvzYieY330BzZYfpgvCllDVM5E4XgfF4F/N90
+ wWKu50fMA01ufwu+99GEwTFVG2az5T9SXd7vfSgRSkzXy7hcnxj4IhOfM6Ts85/BjMeIpeqy
+ TDdsuetBgX9DMMWxMWl7BLeiMzMGrfkJ4tvlof0sVjurXibTibZyfyGR2ricg8iTbHyFaAzX
+ 2uFVoZaPxrp7udDfQ96sfz0hesF9Zi8d7NnNnMYbUmUtaS083L/l2EDKvCIkhSjd48XF+aO8
+ VhrCfbXWpGRaLcY/gxi2TXRYG9xCa7PINgz9SyO34sL6TeFPSZn4bPQV5O1j85Dj4jBecB1k
+ z2arzwlWWKMZUbR04HTeAuuvYvCKEMnfW3ABzdonh70QdqJbpQGfAF2p4/iCETKWuqefiOYn
+ pR8PqoQA1DYv3t7y9DIN5Jw/8Oj5wOeEybw6vTMB0rrnx+JaXvxeHSlFzHiD6il/ChDDkJ9J
+ /ejCHUQIl40wLSDRABEBAAHCwXwEGAEKACYCGwwWIQQFLN57whUFO2ifG8q9LWFIZhQ7TAUC
+ ZpTcxwUJF/uV2gAKCRC9LWFIZhQ7TMlPD/9ppgrN4Z9gXta9IdS8a+0E7lj/dc0LnF9T6MMq
+ aUC+CFffTiOoNDnfXh8sfsqTjAT50TsVpdlH6YyPlbU5FR8bC8wntrJ6ZRWDdHJiCDLqNA/l
+ GVtIKP1YW8fA01thMcVUyQCdVUqnByMJiJQDzZYrX+E/YKUTh2RL5Ye0foAGE7SGzfZagI0D
+ OZN92w59e1Jg3zBhYXQIjzBbhGIy7usBfvE882GdUbP29bKfTpcOKkJIgO6K+w82D/1d5TON
+ SD146+UySmEnjYxHI8kBYaZJ4ubyYrDGgXT3jIBPq8i9iZP3JSeZ/0F9UIlX4KeMSG8ymgCR
+ SqL1y9pl9R2ewCepCahEkTT7IieGUzJZz7fGUaxrSyexPE1+qNosfrUIu3yhRA6AIjhwPisl
+ aSwDxLI6qWDEQeeWNQaYUSEIFQ5XkZxd/VN8JeMwGIAq17Hlym+JzjBkgkm1LV9LXw9D8MQL
+ e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
+ XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
+ LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
+In-Reply-To: <Z7xDlG-2c_3SPqVg@valkosipuli.retiisi.eu>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-24_04,2025-02-24_01,2024-11-22_01
 
-Hi Hans,
+On 24/02/2025 11:01, Sakari Ailus wrote:
+> Hi Mauro,
+> 
+> On Wed, Nov 27, 2024 at 12:55:59PM +0100, Hans Verkuil wrote:
+>> Add Hans Verkuil as second media subsystem maintainer.
+>>
+>> Fix the patchwork link: we use the patchwork instance at linuxtv.org.
+>>
+>> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+> 
+> This patch is not yet merged. Could you pick it?
 
-Thanks a lot for organizing this once again.
+I'm not a full maintainer yet, so that part is premature. But there was
+another patch that just fixed the patchwork link:
 
-On 2/20/25 11:24, Hans Verkuil wrote:
-> [Repost because I mixed up a Lyon and Nice, and to provide more info on the other
->  events that take place in Nice. Also added Kevin Hilman to the CC list.]
-> 
-> Hi all,
-> 
-> We want to organize a Media Summit this year as well to meet each other face-to-face.
-> We try to co-locate with an existing conference, and this year there are two options:
-> 
-> 1) Co-locate with the Embedded Recipes conference in Nice in France which is held on May 14-16:
-> 
->    https://embedded-recipes.org/2025/
-> 
->    So a media summit would probably take place on May 11 or 12.
-> 
->    This conference is a one room, one track format. But the room holds up to 200
->    people and the expectation is that it is not a problem to get tickets for it.
->    And we might be able to reserve some tickets for us as well.
-> 
->    There is a libcamera workshop on Friday, and AFAIK a pipewire workshop on the same day.
->    GStreamer plans an event during the weekend after ER.
-> 
-> 2) Co-locate with the Open Source Summit Europe in Amsterdam which is held on August 25-27.
-> 
->    https://events.linuxfoundation.org/open-source-summit-europe/
-> 
->    The Embedded Linux Conference Europe is part of that event. The summit would
->    probably be on August 24 or 28.
-> 
+https://patchwork.linuxtv.org/project/linux-media/patch/edb356f1ff58fe5938ffb275aa2574d127bed822.1733319659.git.mchehab+huawei@kernel.org/
 
-I just asked for my company approval to join these events. Nice would
-undoubtedly be easier for me to arrange.
-I'll keep you posted.
+Mauro, any objection if I pick that ^^^ one up? While it is originally part of the
+media committers model patch series, I think it can just be merged separately.
 
-> I know that getting permission to travel is still a problem for many, which is why we
-> try to co-locate with a larger event.
-> 
-> So: if you are a core media maintainer or an active media developer, and want to join
-> the Media Summit, which of these two options would work for you?
-> 
-> If possible, I would like to get an idea of what I can expect in about two weeks time.
-> I'll send out a reminder in about a week as well.
-> 
-> Feel free to forward this if you know other people who might be interested.
-> 
-> If you haven't been to one of these Media Summits before, then you can find the report
-> on last year's summit here:
-> 
-> https://lore.kernel.org/linux-media/45e4f5d4-f6c4-4f0b-96b5-f5e1125b0845@xs4all.nl/
-> 
-> That should give you an idea of what to expect.
-> 
-> Regards,
-> 
-> 	Hans
+The bad patchwork link in particular is rather annoying.
 
--- 
 Regards,
 
-Benjamin
+	Hans
+
+> 
+> Thanks.
+> 
+>> ---
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index aab0827938b6..c0491036448c 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -14353,10 +14353,11 @@ F:	drivers/media/platform/st/stm32/stm32-dcmipp/*
+>>
+>>  MEDIA INPUT INFRASTRUCTURE (V4L/DVB)
+>>  M:	Mauro Carvalho Chehab <mchehab@kernel.org>
+>> +M:	Hans Verkuil <hverkuil@xs4all.nl>
+>>  L:	linux-media@vger.kernel.org
+>>  S:	Maintained
+>>  W:	https://linuxtv.org
+>> -Q:	http://patchwork.kernel.org/project/linux-media/list/
+>> +Q:	https://patchwork.linuxtv.org/project/linux-media/list/
+>>  T:	git git://linuxtv.org/media.git
+>>  F:	Documentation/admin-guide/media/
+>>  F:	Documentation/devicetree/bindings/media/
+>>
+> 
+
 
