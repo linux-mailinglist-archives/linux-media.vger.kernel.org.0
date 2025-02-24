@@ -1,117 +1,124 @@
-Return-Path: <linux-media+bounces-26753-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26754-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B8F0A41478
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 05:20:14 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FBD8A414EE
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 06:52:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8AFAE1892B36
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 04:20:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 80B3E7A204D
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 05:51:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FBC71ACEBF;
-	Mon, 24 Feb 2025 04:20:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68B881C6FF7;
+	Mon, 24 Feb 2025 05:52:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="SIGYI9pD"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nFhfYlTh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14BA326AF3;
-	Mon, 24 Feb 2025 04:19:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740370801; cv=pass; b=qfMyVQsam6z3dRVHwdViWRMUABGsyF8ae0P95AQJ9LSF8OmZ7kuksxCOszbRhMSmQB9B9/kpBej4/yY5qGTXOgk+jwDmzbChXM0VcAL/x8zbBU4MmZjhoMA/W4GoR82CWqcIjLbzKLaSJut6FmBvpp5tMp9YYLInNdKtQGaD9jA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740370801; c=relaxed/simple;
-	bh=KvpBrS6TIBDeYs2gxcmcsV16S5YmNRzk55EH1IGQkhU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FB3Ip8l18T4vpJpM4TAlOBtpVqs9++dqd99NBIqWlZ7quEgNnf6Auepz/UqaodkS8gy2XG7Hr7ehLraLSB7BVMR53rGmA23ctpCDsLeDiTuI+6ThEHBzAx56GerNypOXj1Vcx6OCq1tQBhk++1bNM7ZavaVJnxG80MbCtpGeZ78=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=SIGYI9pD; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1740370749; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=UAjNen4dEW6JnpcOC6Mf+YxMzDXzamt+sZO0B9Iti4aVH1WNB5ZcTB44337CtWL2LIUtTFvLK5KZ0mDpO9BEa267QSFAiBXcpL6ncpNDypzxKZvdX//MKJTBi3v6FyNG7mxiAYdsG41iFK6zw7Ss1F6pLGmsUqbMD+EDpxoFGD0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1740370749; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=4ZkwbmlJtwopSPqeSfMDIV4RYNmzpFeckq4z8tSdpLw=; 
-	b=hUIrcAJnWTgpPTuMAdSRUkcITbI8xW5Ra1m0CC/9Zctelb8pi06iIdWoSSpKrV5P+lhK5AScmqWJAOYes1vceEOTuGz1t0HJ2gjm0ICKiM92bH7bxW6iam3u2Eh8VkBZpG9qlZljTH8GxRlk6TrtybUvF4IYOjIpEriRnkK59VI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
-	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740370749;
-	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=4ZkwbmlJtwopSPqeSfMDIV4RYNmzpFeckq4z8tSdpLw=;
-	b=SIGYI9pDbacW3G3kg7IVvLcHNtQD8eaLBfcZg1WT1AzVN22iYS5X+dtLvvt2rEOK
-	mFxj1Jz5DZIt+EWl61cHYwZLOMrBVCIgs/wC+1ZNjvGD6ewpmFpjc4Jhkc6xQebDUdj
-	h3tBMqnLfqV3vaYp2Ve7I3NNmJkoIkH4m7BHRFy4=
-Received: by mx.zohomail.com with SMTPS id 1740370748102832.3357248261832;
-	Sun, 23 Feb 2025 20:19:08 -0800 (PST)
-Message-ID: <d13f13ac-1501-4427-b6d3-ee161eeb932a@collabora.com>
-Date: Mon, 24 Feb 2025 07:19:01 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD4341448E3;
+	Mon, 24 Feb 2025 05:52:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740376337; cv=none; b=U81cF6A2X6/pFaIGIEbfTWT7I0eWEcmEWTKnjYecjMoyhrgl52zSnOdK8qyWw1DOJSpTJaz8HBDA97Vnsvu95w+aP5vSJMZ1IBi3O+qFL03v4l1yhjNKZMnf/sMQaW17QbmlBb0JGi6WiXiE0U6hj+YpAdOxZq5BZsvu3o8l5m0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740376337; c=relaxed/simple;
+	bh=53H9/x0j02AhPT7w+jFHCR4eR6p48BOhp4/DcjS/5+M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qvyYW/l5WNzj09lI+29IjljfOOJQHYggw3aSQK+fVNMW6aratY8hWG3NJbUQh7WKXicc/+GeqiflVAbFUA1pJUzpx3lZ5AzSpBpggdmDxqefcj9jbdFmtNhcKoqaIgs83bFUM1I8epnT2mS6hTBOE7usPvZa0VtsRdXnqf79nC8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nFhfYlTh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3EF5C4CED6;
+	Mon, 24 Feb 2025 05:52:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1740376336;
+	bh=53H9/x0j02AhPT7w+jFHCR4eR6p48BOhp4/DcjS/5+M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=nFhfYlTh/vn6++4NrrfuzW63KF6xlniD4USCI+6lyNK0LkAXyU6nIDl5SFg1zC3CY
+	 8fULK3IP96tqdq8wj0IN9ERcTVWyWI3H3V9uAAtBXOlUWhDjNvrfCCJ7Iv899ih7hL
+	 3+mhMk9Xko2hwR2SeMve8H0FOP832WEiYxQKehyY=
+Date: Mon, 24 Feb 2025 06:52:13 +0100
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Joseph Liu <kwliu@nuvoton.com>,
+	Marvin Lin <kflin@nuvoton.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Marvin Lin <milkfafa@gmail.com>, linux-media@vger.kernel.org,
+	openbmc@lists.ozlabs.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH 1/4] media: nuvoton: Fix reference handling of ece_pdev
+Message-ID: <2025022426-lilly-next-72e0@gregkh>
+References: <20250121-nuvoton-v1-0-1ea4f0cdbda2@chromium.org>
+ <20250121-nuvoton-v1-1-1ea4f0cdbda2@chromium.org>
+ <df5693d0-7747-4423-809e-ae081c9aae92@xs4all.nl>
+ <dffc8e0b-2603-4e7e-ba64-15691c11ff7e@xs4all.nl>
+ <CANiDSCsMCSJMEsY3R=pnZ4XUTiEYuPz-N1kEX7y13yTzE6Dm5w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 4/6] media: platform: synopsys: Add support for HDMI
- input driver
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Shreeya Patel <shreeya.patel@collabora.com>, Heiko Stuebner
- <heiko@sntech.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil@xs4all.nl>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, jose.abreu@synopsys.com, nelson.costa@synopsys.com,
- shawn.wen@rock-chips.com, nicolas.dufresne@collabora.com,
- Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: kernel@collabora.com, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, Tim Surber <me@timsurber.de>
-References: <20250223173019.303518-1-dmitry.osipenko@collabora.com>
- <20250223173019.303518-5-dmitry.osipenko@collabora.com>
- <88b02c37-6741-459b-b966-d6d58d1f9b6f@wanadoo.fr>
- <c30a291b-c81b-4da1-a0ae-270d323b28e3@collabora.com>
- <bc1f5334-b0fb-4e81-979d-feb17886ac40@wanadoo.fr>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Content-Language: en-US
-In-Reply-To: <bc1f5334-b0fb-4e81-979d-feb17886ac40@wanadoo.fr>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANiDSCsMCSJMEsY3R=pnZ4XUTiEYuPz-N1kEX7y13yTzE6Dm5w@mail.gmail.com>
 
-On 2/24/25 00:11, Christophe JAILLET wrote:
->>>
->>>> +    ret = cec_register_adapter(cec->adap, cec->dev);
->>>> +    if (ret < 0) {
->>>> +        dev_err(cec->dev, "cec register adapter failed\n");
->>>> +        cec_unregister_adapter(cec->adap);
->>>
->>> Is it needed to call cec_unregister_adapter() when
->>> cec_register_adapter() fails?
->>
->> Yes, it's confusing, but unregister is needed to free the adapter
->> properly, it's prepared to do it. Thanks for the review.
->>
+On Sun, Feb 23, 2025 at 07:34:30PM +0100, Ricardo Ribalda wrote:
+> On Fri, 21 Feb 2025 at 10:18, Hans Verkuil <hverkuil@xs4all.nl> wrote:
+> >
+> > On 21/02/2025 10:04, Hans Verkuil wrote:
+> > > Hi Ricardo,
+> > >
+> > > On 21/01/2025 22:14, Ricardo Ribalda wrote:
+> > >> When we obtain a reference to of a platform_device, we need to release
+> > >> it via put_device.
+> > >>
+> > >> Found by cocci:
+> > >> ./platform/nuvoton/npcm-video.c:1677:3-9: ERROR: missing put_device; call of_find_device_by_node on line 1667, but without a corresponding object release within this function.
+> > >> ./platform/nuvoton/npcm-video.c:1684:3-9: ERROR: missing put_device; call of_find_device_by_node on line 1667, but without a corresponding object release within this function.
+> > >> ./platform/nuvoton/npcm-video.c:1690:3-9: ERROR: missing put_device; call of_find_device_by_node on line 1667, but without a corresponding object release within this function.
+> > >> ./platform/nuvoton/npcm-video.c:1694:1-7: ERROR: missing put_device; call of_find_device_by_node on line 1667, but without a corresponding object release within this function.
+> > >
+> > > This driver uses this construct:
+> > >
+> > >                 struct device *ece_dev __free(put_device) = &ece_pdev->dev;
+> > >
+> > > to automatically call put_device. So this patch would 'put' the device twice.
+> > >
+> > > Does cocci understand constructs like this? If I hadn't looked closely at the
+> > > code first, I would just have merged it.
+> >
+> > Oh wait, now that I am reading the following patches I see that it was those later
+> > patches that add the __free code.
+> >
+> > This is far too confusing. Please post a v2 that just combines the 'fix references'
+> > and 'use cleanup.h macros' in a single patch. It makes no sense to have this two-phase
+> > approach.
 > 
-> I don't know this API, so you'll get the last word, but
-> cec_unregister_adapter() does not seem to do that many things in such a
-> case, unless I miss something. See [1].
+> I believe this is discouraged.
 > 
-> CJ
-> 
-> [1]: https://elixir.bootlin.com/linux/v6.14-rc3/source/drivers/media/
-> cec/core/cec-core.c#L370
+> cleanup.h macros does not exist in old kernel versions, so makes it
+> impossible to backport the fix to them.
 
-On a second look, apparently you're right and
-cec_notifier_cec_adap_unregister() should be used there.
+That's not a problem, fix things properly in the main tree and let the
+stable/lts kernels work it out on their own.
 
--- 
-Best regards,
-Dmitry
+> This is an example of other series following this policy:
+> https://lore.kernel.org/lkml/173608125422.1253657.3732758016133408588.stgit@devnote2/
+> 
+> They also mention the same here:
+> https://hackerbikepacker.com/kernel-auto-cleanup-1 .... I am pretty
+> sure that I read the policy in a more official location... but I
+> cannot find it right now :)
+
+No, it is NOT official policy at all.  Otherwise you would be saying
+that no one could use these new functions for 6 years just because of
+really old kernels still living around somewhere.  That's not how kernel
+development works, thankfully.
+
+thanks,
+
+greg k-h
 
