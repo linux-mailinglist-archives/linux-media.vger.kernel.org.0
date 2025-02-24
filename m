@@ -1,198 +1,179 @@
-Return-Path: <linux-media+bounces-26801-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26802-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2721CA41B38
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 11:35:47 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEC32A41B5A
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 11:41:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 72C6A3AA492
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 10:35:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1A8251891BC8
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 10:41:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36AAC256C69;
-	Mon, 24 Feb 2025 10:35:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CCD12566E2;
+	Mon, 24 Feb 2025 10:41:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RidrmXMN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lUtbff7j"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09ACE2566EA
-	for <linux-media@vger.kernel.org>; Mon, 24 Feb 2025 10:35:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC4512566C3;
+	Mon, 24 Feb 2025 10:41:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740393304; cv=none; b=Pzn2/4xiVUee0UbLE7Qyshc0mQFKBJirN/hmAknI6m2+xsHcGEdFETnwP7NqePm7zdKK4YLttA0VsUoRYwdU/rSnL6hPIbrWxL2pCjMufOVneWriNr1awJ/zM5bhG3BLI8gCpEauYiLFCZq9qYEOOtan/AsnceyyaChsl9TTrMA=
+	t=1740393670; cv=none; b=GDQwPmlPl1et6J/sfo5jJD1l/f2Lk9cJ7t64alKUAKWXN0U+90Xo+ZmwMv/t1dVYbIKlNojKwXkTeCLKgNw5PirTP8O9dLtsPHtJ1gygP6bNeuUWLCYwC4x7XFnxwKy7s8KNjKZlbZbTjpthndO8fUcfTNqbKlrxgnC4HUwMu58=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740393304; c=relaxed/simple;
-	bh=7Zc4E7dry8zMPgTaB9RNF65Q6kaOmoZo78utuFPUPWQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HmHoEcZNnkBFiqukANgWU8LuuNk4hhXGBCe2Umr6TqGs4eH6LVuDxT5ObDpuGKI/C3ycvZUHqouNLAkquwlkzSZ7qGBoNI0dsbdYjdD780crbw2HMc+ECnPmXP9IiNjlN780ARU0ZW10vxqOC4IJJQit3tOMYh+muEzSoLCxSww=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RidrmXMN; arc=none smtp.client-ip=209.85.222.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-7c0892e4b19so513416685a.3
-        for <linux-media@vger.kernel.org>; Mon, 24 Feb 2025 02:35:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1740393302; x=1740998102; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=kZ9HGsiAPNY2xJi5rKrAGJy/l6zBdXvq6ok3eL48e0k=;
-        b=RidrmXMNZkugO0STX+FCTnSp9ABOiW/MQQiIJS6iD3bBVi0UtiVPm8amkAPy+w/58H
-         zXSzqkAbJdVsWWnuy3+egF4XS3ks+bsCN2koSHz0kFDisFzlMFhYHok/ME+5Qb4L4xBX
-         4VKIxtH6hnIwKCNmG7wEbase4xhLI0qhjOV94=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740393302; x=1740998102;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kZ9HGsiAPNY2xJi5rKrAGJy/l6zBdXvq6ok3eL48e0k=;
-        b=lz6dApLa7BON94IL1u8guYywqXbjmCvXKtsyFAwzoAxF9ghuoQtPAFKGpsnRz16mF0
-         7BBksoOWIlY5bjUnxYb82O1na23UK3JaDSyKBLHQA8EVxT0MikhhEDg4MhKVqfAL3WmX
-         ipSTON5cXqrjq3hqUjexqjUvJuzD1lTbecKTr1gBwoif7A0nFuVwH+xWDVG5ZGZjgcPI
-         LtulLsxoiMkg1Kl5ttNnYwGp3ls7HT5SkZHAe5ckAE8It2Pp65pGNCoZnkguAF3dvP/9
-         r9ylMMiRcMLBFh8JSwFrpIObrLesekW21+I+XGDb8wkKUC/hIoEllqlJmBGv9ASTmLrT
-         6j/g==
-X-Gm-Message-State: AOJu0Yw5WJdBwx9+gPGDz/D18qiJ0PhGTR4+EJlPSbaZF+MNIttERf2G
-	9Ofez5Q4m0Ez8JW6pS40YYGNUW814pmetj2t3u9XC3oHpIQruFn5qdwA7NwWWg==
-X-Gm-Gg: ASbGnctZZvjeB34T2G5dYK7JDfyI2YOmrhdWlJe3ty0f7LkgP7RmPzSxaETztoQ24id
-	ZSG/Flg9PydgjOEd008GRr1r8XSEqQiXS6Db1VoJTUYRe18cFFbw4Y8rt9A4WcusqKElpDgJdzS
-	5SJRBA/OcAHvDi2szCQe3Sc1wu7MiDBxYlusdK7kjOiMxV+NoXGfCe6fmcDXBIw0TljofuET9wz
-	eidMCKAmtQKiBgmMRIalwgoh6uHTLRtydIKAY5gs84UVgph4n///MWIkK0KpOkfyTqFWzZUrJHO
-	e/gUdL4crhqPUHH1Lp0znzb3z+TO7PGMneu9nh3FO6u66PLqzsGHfWAVhwr7bDck5Q7FGkYKFZw
-	wm2Q=
-X-Google-Smtp-Source: AGHT+IF8qxeqV0BNuSDxSLm5NIehmKiln3cV1c7kK29Y3BIkgHEbetBmeVYcfmb/KpA7P6ZZzKbOWg==
-X-Received: by 2002:a05:620a:1787:b0:7c0:a28e:4964 with SMTP id af79cd13be357-7c0ceefd400mr1339463985a.14.1740393301918;
-        Mon, 24 Feb 2025 02:35:01 -0800 (PST)
-Received: from denia.c.googlers.com (15.237.245.35.bc.googleusercontent.com. [35.245.237.15])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c0b0b7f637sm787139985a.33.2025.02.24.02.34.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Feb 2025 02:35:00 -0800 (PST)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 24 Feb 2025 10:34:55 +0000
-Subject: [PATCH v2 3/3] media: uvcvideo: Rollback non processed entities on
- error
+	s=arc-20240116; t=1740393670; c=relaxed/simple;
+	bh=NeAGyiZOTYfejHkjFw04X6rdOVkivoeAsk4c/Mc/y2w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iHLZZrDHKaMnXMGxnvi9Cf42GtmQZX604qdgsVXkM3YDttvjQxD7QlXBIy5Ev+vjdcclUVF8aI+EKik5DuYPtfDrqr5zR4CbDcvSEVz5qLOIrQB3UwIpe3AnXMVkobF/Fr2tFqmWUwt76JEdwIvkjpL9Wu14K95UXVUdvAz4Nl4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lUtbff7j; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740393668; x=1771929668;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=NeAGyiZOTYfejHkjFw04X6rdOVkivoeAsk4c/Mc/y2w=;
+  b=lUtbff7jg62FH8P2+VBPUChMvf3LwXff0k7wSB+U0/qxb5ARNPS7Dqu8
+   5sOe+dl0Sh04BieJwDGUOnQf/9LobfyciOudHL6pOhn5JzPZJXjrLBk94
+   GO/N2Pcm09L7ZPcPkujtidqYrdyXA6bYwtY7CQPbLU/wL92dMukruRujp
+   IQ7+h3lKjMRU+b8QrroUbzb17NVETq6vg8u/Vpwe0ZKmdN2oy/popmf2o
+   HNZfq0XQP8+yuQBwaos/gDLRrvqDwO8KM97llalgBNiU3Uri6Vf83rDZQ
+   WfCVcg5cgBuAK5fwnNXZBeyjgTrvfXqv53NeAy+xw7QhovUiONHMZ2yvf
+   w==;
+X-CSE-ConnectionGUID: BOCiEdzGRLO1yZUUHWFMbw==
+X-CSE-MsgGUID: ZDvuUXGlQYe4I46TgJORcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11354"; a="51781404"
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="51781404"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 02:41:07 -0800
+X-CSE-ConnectionGUID: 6KaaqqqiSfyRszbE2a4Y5A==
+X-CSE-MsgGUID: Yabe8xd7SOilahRgO+AwGQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="121107100"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 02:41:01 -0800
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tmVtP-0000000EfTz-3Zey;
+	Mon, 24 Feb 2025 12:40:55 +0200
+Date: Mon, 24 Feb 2025 12:40:55 +0200
+From: "andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: "pmladek@suse.com" <pmladek@suse.com>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>,
+	"linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+	"senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+	"corbet@lwn.net" <corbet@lwn.net>,
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+	"mripard@kernel.org" <mripard@kernel.org>,
+	"tzimmermann@suse.de" <tzimmermann@suse.de>,
+	"airlied@gmail.com" <airlied@gmail.com>,
+	"simona@ffwll.ch" <simona@ffwll.ch>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"apw@canonical.com" <apw@canonical.com>,
+	"joe@perches.com" <joe@perches.com>,
+	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
+	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
+	"sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>,
+	"kekrby@gmail.com" <kekrby@gmail.com>,
+	"admin@kodeit.net" <admin@kodeit.net>,
+	Orlando Chamberlain <orlandoch.dev@gmail.com>,
+	"evepolonium@gmail.com" <evepolonium@gmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	Hector Martin <marcan@marcan.st>,
+	"linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+	"asahi@lists.linux.dev" <asahi@lists.linux.dev>,
+	Sven Peter <sven@svenpeter.dev>, Janne Grunau <j@jannau.net>
+Subject: Re: [PATCH v2 2/3] lib/vsprintf: Add support for generic FOURCCs by
+ extending %p4cc
+Message-ID: <Z7xMt2Kp1pFuMar2@smile.fi.intel.com>
+References: <716BCB0A-785B-463A-86C2-94BD66D5D22E@live.com>
+ <C66F35BB-2ECC-4DB8-8154-DEC5177967ED@live.com>
+ <6CB20172-906F-4D13-B5E4-100A9CF74F02@live.com>
+ <Z7xCr4iPmIkPoWGC@smile.fi.intel.com>
+ <PN3PR01MB9597CF2907CBBD6ED43D5E62B8C02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <Z7xIxFT-eB_OTGzm@smile.fi.intel.com>
+ <PN3PR01MB9597FA2077E6FD498E8CDDD9B8C02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250224-uvc-data-backup-v2-3-de993ed9823b@chromium.org>
-References: <20250224-uvc-data-backup-v2-0-de993ed9823b@chromium.org>
-In-Reply-To: <20250224-uvc-data-backup-v2-0-de993ed9823b@chromium.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Hans de Goede <hdegoede@redhat.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>, stable@kernel.org
-X-Mailer: b4 0.14.1
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <PN3PR01MB9597FA2077E6FD498E8CDDD9B8C02@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-If we wail to commit an entity, we need to restore the
-UVC_CTRL_DATA_BACKUP for the other uncommitted entities. Otherwise the
-control cache and the device would be out of sync.
+On Mon, Feb 24, 2025 at 10:32:27AM +0000, Aditya Garg wrote:
+> > On 24 Feb 2025, at 3:54 PM, andriy.shevchenko@linux.intel.com wrote:
+> > ﻿On Mon, Feb 24, 2025 at 10:18:48AM +0000, Aditya Garg wrote:
+> >>>> On 24 Feb 2025, at 3:28 PM, andriy.shevchenko@linux.intel.com wrote:
+> >>> ﻿On Sat, Feb 22, 2025 at 03:46:03PM +0000, Aditya Garg wrote:
+> >>>>>> On 20 Feb 2025, at 10:09 PM, Aditya Garg <gargaditya08@live.com> wrote:
 
-Cc: stable@kernel.org
-Fixes: b4012002f3a3 ("[media] uvcvideo: Add support for control events")
-Reported-by: Hans de Goede <hdegoede@redhat.com>
-Closes: https://lore.kernel.org/linux-media/fe845e04-9fde-46ee-9763-a6f00867929a@redhat.com/
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_ctrl.c | 32 ++++++++++++++++++++++----------
- 1 file changed, 22 insertions(+), 10 deletions(-)
+...
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 7d074686eef4..89b946151b16 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1864,7 +1864,7 @@ static int uvc_ctrl_commit_entity(struct uvc_device *dev,
- 	unsigned int processed_ctrls = 0;
- 	struct uvc_control *ctrl;
- 	unsigned int i;
--	int ret;
-+	int ret = 0;
- 
- 	if (entity == NULL)
- 		return 0;
-@@ -1893,8 +1893,6 @@ static int uvc_ctrl_commit_entity(struct uvc_device *dev,
- 				dev->intfnum, ctrl->info.selector,
- 				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
- 				ctrl->info.size);
--		else
--			ret = 0;
- 
- 		if (!ret)
- 			processed_ctrls++;
-@@ -1906,10 +1904,14 @@ static int uvc_ctrl_commit_entity(struct uvc_device *dev,
- 
- 		ctrl->dirty = 0;
- 
--		if (ret < 0) {
-+		if (ret < 0 && !rollback) {
- 			if (err_ctrl)
- 				*err_ctrl = ctrl;
--			return ret;
-+			/*
-+			 * If we fail to set a control, we need to rollback
-+			 * the next ones.
-+			 */
-+			rollback = 1;
- 		}
- 
- 		if (!rollback && handle &&
-@@ -1917,6 +1919,9 @@ static int uvc_ctrl_commit_entity(struct uvc_device *dev,
- 			uvc_ctrl_set_handle(handle, ctrl, handle);
- 	}
- 
-+	if (ret)
-+		return ret;
-+
- 	return processed_ctrls;
- }
- 
-@@ -1947,7 +1952,8 @@ int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
- 	struct uvc_video_chain *chain = handle->chain;
- 	struct uvc_control *err_ctrl;
- 	struct uvc_entity *entity;
--	int ret = 0;
-+	int ret_out = 0;
-+	int ret;
- 
- 	/* Find the control. */
- 	list_for_each_entry(entity, &chain->entities, chain) {
-@@ -1958,17 +1964,23 @@ int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
- 				ctrls->error_idx =
- 					uvc_ctrl_find_ctrl_idx(entity, ctrls,
- 							       err_ctrl);
--			goto done;
-+			/*
-+			 * When we fail to commit an entity, we need to
-+			 * restore the UVC_CTRL_DATA_BACKUP for all the
-+			 * controls in the other entities, otherwise our cache
-+			 * and the hardware will be out of sync.
-+			 */
-+			rollback = 1;
-+
-+			ret_out = ret;
- 		} else if (ret > 0 && !rollback) {
- 			uvc_ctrl_send_events(handle, entity,
- 					     ctrls->controls, ctrls->count);
- 		}
- 	}
- 
--	ret = 0;
--done:
- 	mutex_unlock(&chain->ctrl_mutex);
--	return ret;
-+	return ret_out;
- }
- 
- int uvc_ctrl_get(struct uvc_video_chain *chain,
+> >>>>> %p4cc is designed for DRM/V4L2 FOURCCs with their specific quirks, but
+> >>>>> it's useful to be able to print generic 4-character codes formatted as
+> >>>>> an integer. Extend it to add format specifiers for printing generic
+> >>>>> 32-bit FOURCCs with various endian semantics:
+> >>>>> 
+> >>>>> %p4ch   Host-endian
+> >>>>> %p4cl Little-endian
+> >>>>> %p4cb Big-endian
+> >>>>> %p4cr Reverse-endian
+> >>>>> 
+> >>>>> The endianness determines how bytes are interpreted as a u32, and the
+> >>>>> FOURCC is then always printed MSByte-first (this is the opposite of
+> >>>>> V4L/DRM FOURCCs). This covers most practical cases, e.g. %p4cr would
+> >>>>> allow printing LSByte-first FOURCCs stored in host endian order
+> >>>>> (other than the hex form being in character order, not the integer
+> >>>>> value).
+> >>> 
+> >>> ...
+> >>> 
+> >>>> BTW, after looking at the comments by Martin [1], its actually better to use
+> >>>> existing specifiers for the appletbdrm driver.  The driver needs the host
+> >>>> endian as proposed by this patch, so instead of that, we can use %.4s
+> >>> 
+> >>> Do you mean this patch will not be needed? If this a case, that would be the
+> >>> best solution.
+> >> 
+> >> I tested with %4pE, and the results are different from expected. So this
+> >> would be preferred. Kindly see my latest email with a proposed workaround for
+> >> the sparse warnings.
+> > 
+> > %.4s sounded okay, but %4pE is always about escaping and the result may occupy
+> > %4x memory (octal escaping of non-printable characters). Of course, you may vary
+> > the escaping classes, but IIRC the octal or hex escaping is unconditional.
+> 
+> %.4s is used for unsigned int iirc, here it's __le32.
+
+No, it's used to 'char *'. in case one may guarantee that it at least is
+four characters long.
+
+> >>>> [1]: https://lore.kernel.org/asahi/E753B391-D2CB-4213-AF82-678ADD5A7644@cutebit.org/
+> >>>> 
+> >>>> Alternatively we could add a host endian only. Other endians are not really
+> >>>> used by any driver AFAIK. The host endian is being used by appletbdrm and
+> >>>> Asahi Linux’ SMC driver only.
 
 -- 
-2.48.1.601.g30ceb7b040-goog
+With Best Regards,
+Andy Shevchenko
+
 
 
