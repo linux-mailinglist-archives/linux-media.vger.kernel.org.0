@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-26874-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26875-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B633A42D99
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 21:21:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43912A42D9C
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 21:21:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A1FAF1897327
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 20:21:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A03A33B2609
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 20:21:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BA54266569;
-	Mon, 24 Feb 2025 20:20:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FE90266B4C;
+	Mon, 24 Feb 2025 20:20:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="g1uwU+2F"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bmWbPwxQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 509D4264F9D;
-	Mon, 24 Feb 2025 20:20:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1067B266196;
+	Mon, 24 Feb 2025 20:20:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740428410; cv=none; b=g9eoYM5RNVs70wtAQSt/slWnhOe0BESLyoAVstCJPF+y4/5TYwljER4Cdlncw/fRlkb5REZ+Tb7LCnVZoFDLAsT1CyJ97Hw/zJhniGlj2xLMke80P2S3FezuyMxdnlzHOatZ9nhSKiYy+NfHZyznodAgZsmBAJ0V3vyD2OsIVLo=
+	t=1740428411; cv=none; b=p7UYe2EWLWy24W+bKPOFk6y3pS0/FGE/edmBt2vYiIvdycxsqWoTq7jdfZwlu7i0MeNZJuVYMMe7mQWl1ys2oRZz8x+HwdnvbWWpH9JMOEml9wTtHKbU/HQ8Tk995yuQxjhWjKJd+VNBeOQJ/UAqmpq9gEpSCez+B91VucexYzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740428410; c=relaxed/simple;
-	bh=uzFQyNFwu4bIhY1bncdEtv31cE46uVRuczhuiLdIcWE=;
+	s=arc-20240116; t=1740428411; c=relaxed/simple;
+	bh=WiLiBj0SJRFxfxK31XdalHPJfovGc7Rsw7QaWrP0nVU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gO6t8jgLVPTqOMvZZtbrgmF6o7TBwMUqF5eGWfBs2pfn9sSMvQjLT6Qcb6J5+x2ZRWtZ46mqhM7YrwtRitAtW50MeMIlWpwtAsBCVp1RyCPeW6Nj/GcTITiW9hvYJC5Z1BavHCGWM7PK2tfHNzXKS9aL4/VqdFnmFGbdCuAuvdA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=g1uwU+2F; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=oLsGtVaxpwvOuOVseSQ2pkmMexU4T0qnvHhgJzZ5ydK6yGSNzWgpZrIkEPwvbZsgRS/2jE+a4JDORFKAqIcPPrVJuNouVsPNCxbsLs0zMVCPn2dgvi7IXFPlPhNVAVC+d4dHDt3X9uEUXD8H4HCv5t5+Q5TAUhMTjoam6jQgjOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bmWbPwxQ; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.1.103] (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 91886E45;
-	Mon, 24 Feb 2025 21:18:33 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 20780E62;
+	Mon, 24 Feb 2025 21:18:34 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1740428313;
-	bh=uzFQyNFwu4bIhY1bncdEtv31cE46uVRuczhuiLdIcWE=;
+	s=mail; t=1740428314;
+	bh=WiLiBj0SJRFxfxK31XdalHPJfovGc7Rsw7QaWrP0nVU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=g1uwU+2F8vS27+7hR+aMo2UsYIHDb/mVW9ZPexgdZjpHAweU1xGQlRNDSz1W2lzuY
-	 ylAcL53KQRq/8dtiOU0hqMaXbuxX2HkXnw7vU5gbD6/9RkAnwVShPrv1y38p3lo+Jx
-	 HIIBLdWQatGZWl45pXDzupZQpgh/IihsKuEKGSgo=
+	b=bmWbPwxQHixWMcoOldCF4PIntnRHDcoVoHtEqZBqdN8XLcWZgjfnaHN5XSI73YuqO
+	 dg2A1feTHBzacGUlrO1XFKR+y6NhRd7atOFeETWmcqczIuY4XEmRZpZb8syYfPLxAu
+	 +GfzFDNnkDAiQ64/iiwkkQKxb4nAm1BdT4UKO1pY=
 From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Date: Mon, 24 Feb 2025 21:19:45 +0100
-Subject: [PATCH v2 5/6] media: vsp1: rwpf: Support RAW Bayer and ISP config
+Date: Mon, 24 Feb 2025 21:19:46 +0100
+Subject: [PATCH v2 6/6] media: vsp1: rwpf: Support operations with IIF
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250224-v4h-iif-v2-5-0305e3c1fe2d@ideasonboard.com>
+Message-Id: <20250224-v4h-iif-v2-6-0305e3c1fe2d@ideasonboard.com>
 References: <20250224-v4h-iif-v2-0-0305e3c1fe2d@ideasonboard.com>
 In-Reply-To: <20250224-v4h-iif-v2-0-0305e3c1fe2d@ideasonboard.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -62,181 +62,120 @@ Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linux-renesas-soc@vger.kernel.org, 
  Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 X-Mailer: b4 0.15-dev-1b0d6
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4904;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4208;
  i=jacopo.mondi+renesas@ideasonboard.com; h=from:subject:message-id;
- bh=uzFQyNFwu4bIhY1bncdEtv31cE46uVRuczhuiLdIcWE=;
- b=owEBbQKS/ZANAwAIAXI0Bo8WoVY8AcsmYgBnvNRsTDGfyIsCHkP3sCJaLhEUdH8/lff1vWrXD
- 2PeTXLos7aJAjMEAAEIAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCZ7zUbAAKCRByNAaPFqFW
- PMyvEAC4E1muK+IG03oWAolNrO1KSkJoalUQHClfQGx/nLptuexw6CpwsRIsxR/ozZLDz04Sy61
- TV5ZLZqZofq7smmpGBRlFjvofZ1hC78XaAPJoiE/F+F6YWlyMynIepMATv/6d1+hzGPQryVWuSy
- 37TJgyVqCvrjVhZ26waAEppXUfBUIqfH+/RaQXskhw4tgAqpf1A/nia7W/BwcsON5I9zHI3oyH6
- wObDlKqw3z9cs8mHbRZjbqSOvZMI6gVOM3awqhoSx0Eb4UZjsGjHVjKCeV0+yMmLEbpaA8Qu3QE
- 9ZPtnd8OXgF4Zze1+9Av7N8uH9WgUcmdupVi6TQx3YfFrBcGbvPH2E0+bhaoaR6byKu5nG/Ro+O
- 1qll5Fez1DGwAYAlbc263qpEbSdIZPyWK5h9DlnqHRBO5tdnd0GTrUv2ReXQLePWmelrf/G5dX3
- ZW819m0DYmH3qHeHR2aNo1h3v7PwpNtr5s6hR72BBbeDB+FSB/MhVTOVjWqxO05rG3tM97rMUQM
- cYBoKD1lgK5TmjX0EYhGH46VYWBHk2uunjCVuzOJfQnwdJvbfhMRty25UO6loPthhBBxc41MFNw
- eoATvCUb2c3ecCNrQQoEq+htcDW+uSqUnQFZz/KfdzLOKVMIjCS0dfQe9kSeJV1UNl3j+HoE+Rd
- 20DRG5+J7i7kx+Q==
+ bh=WiLiBj0SJRFxfxK31XdalHPJfovGc7Rsw7QaWrP0nVU=;
+ b=owEBbQKS/ZANAwAIAXI0Bo8WoVY8AcsmYgBnvNRsit80a6Z3tyW/pK842HRUMRIMrv3YdA6vJ
+ quy39XlfIeJAjMEAAEIAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCZ7zUbAAKCRByNAaPFqFW
+ PLorD/49Lh2mL+vg/uPNKWD/OcVw/XdyZfm2bG5clJDF1yVfzWUeH8Fif5OVEOsuznC3Fit3tfo
+ 5vidnyF/8ufolJInIj6aZSoQ5f32tXLjeGqJzZwyoWDj9G0r77xb2ntj+fxtijsTsrW7bOf8z1z
+ FM76ALLboU7EPobWE93jD1l7rVC8FaoRmcI5dVAR0qbi2OtIeM0HzKNHuwcaiCTiA7i+ItHwlhM
+ fXAoPs5DbrKJGrKp001wKyxiGHPVKZ6SJWEsHozSSsJXu0O9yn9EIP8xRFPh0dvkVlB6Rbtw6J/
+ T+CKzRAuE0iMgHGIVqlN3IGeMm5oNsREq7YRO/IG/P/ue/7nv4FhcMBjJ3Vd/opU5SSsr88Hlc1
+ BjWPWKss/fELlMwXpkU3UkLLsmU54dU+dVP9Mykm9r/UDb5ujq/GxO3+p0wnfUrazDByJa1fByA
+ t6AaM4aaGFhO4r72tiYbv79gQRSEHu8wcQ4hQ/dt1J2atxbGlXclaeJvOg5pPGU+UdZFql0W6wW
+ YKTkSEdsVjQbaUC0wG3zyvlU9YeFAgBVd8u5Bc47/9GEPZZJGnQFBCh93NXHU/gf6NP3nO8aAOr
+ +YeOzSwVu8MyKfiEnWCh4Vj+Kx6sk5c27HyWCEdDI50oD4M7y7NO9d92WY+oLeYmsOeBPYFHj+O
+ LDB20kPNd2l6kbg==
 X-Developer-Key: i=jacopo.mondi+renesas@ideasonboard.com; a=openpgp;
  fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-With the forthcoming support for VSPX the r/wpf unit will be used
-to perform memory access on the behalf of the ISP units.
+When the RPF/WPF units are used for ISP interfacing through
+the IIF, the set of accessible registers is limited compared to
+the regular VSPD operations.
 
-Prepare to support reading from external memory images in RAW Bayer
-format and ISP configuration parameters by expanding the list
-of supported media bus codes.
+Support ISP interfacing in the rpf and wpf drivers by checking if
+the pipe features an IIF instance and writing only the relevant
+registers.
 
 Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 ---
- drivers/media/platform/renesas/vsp1/vsp1_rwpf.c | 97 +++++++++++++++++++++++--
- 1 file changed, 92 insertions(+), 5 deletions(-)
+ drivers/media/platform/renesas/vsp1/vsp1_rpf.c | 11 +++++++++--
+ drivers/media/platform/renesas/vsp1/vsp1_wpf.c | 14 ++++++++++----
+ 2 files changed, 19 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-index 93b0ed5fd0da0c6a182dbbfe1e54eb8cfd66c493..aef7b3d53a2171cda028a272f587641b4a8f85dc 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-@@ -10,18 +10,102 @@
- #include <media/v4l2-subdev.h>
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+index e10ed836153633c4fe27224d0df39c77d4c8ab89..dae94129a105a646917353dba0181f9c93327132 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+@@ -84,7 +84,7 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
+ 	sink_format = v4l2_subdev_state_get_format(state, RWPF_PAD_SINK);
+ 	source_format = v4l2_subdev_state_get_format(state, RWPF_PAD_SOURCE);
  
- #include "vsp1.h"
-+#include "vsp1_pipe.h"
- #include "vsp1_rwpf.h"
- #include "vsp1_video.h"
+-	infmt = VI6_RPF_INFMT_CIPM
++	infmt = (pipe->iif ? 0 : VI6_RPF_INFMT_CIPM)
+ 	      | (fmtinfo->hwfmt << VI6_RPF_INFMT_RDFMT_SHIFT);
  
- #define RWPF_MIN_WIDTH				1
- #define RWPF_MIN_HEIGHT				1
+ 	if (fmtinfo->swap_yc)
+@@ -98,7 +98,7 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
+ 	vsp1_rpf_write(rpf, dlb, VI6_RPF_INFMT, infmt);
+ 	vsp1_rpf_write(rpf, dlb, VI6_RPF_DSWAP, fmtinfo->swap);
  
-+struct vsp1_rwpf_codes {
-+	const u32 *codes;
-+	unsigned int num_codes;
-+};
-+
- static const u32 rwpf_mbus_codes[] = {
- 	MEDIA_BUS_FMT_ARGB8888_1X32,
- 	MEDIA_BUS_FMT_AHSV8888_1X32,
- 	MEDIA_BUS_FMT_AYUV8_1X32,
- };
+-	if (entity->vsp1->info->gen == 4) {
++	if (entity->vsp1->info->gen == 4 && !pipe->iif) {
+ 		u32 ext_infmt0;
+ 		u32 ext_infmt1;
+ 		u32 ext_infmt2;
+@@ -174,6 +174,13 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
+ 		       (left << VI6_RPF_LOC_HCOORD_SHIFT) |
+ 		       (top << VI6_RPF_LOC_VCOORD_SHIFT));
  
-+static const struct vsp1_rwpf_codes rwpf_codes = {
-+	.codes = rwpf_mbus_codes,
-+	.num_codes = ARRAY_SIZE(rwpf_mbus_codes),
-+};
-+
-+static const u32 vspx_rpf0_mbus_codes[] = {
-+	MEDIA_BUS_FMT_SBGGR8_1X8,
-+	MEDIA_BUS_FMT_SGBRG8_1X8,
-+	MEDIA_BUS_FMT_SGRBG8_1X8,
-+	MEDIA_BUS_FMT_SRGGB8_1X8,
-+	MEDIA_BUS_FMT_SBGGR10_1X10,
-+	MEDIA_BUS_FMT_SGBRG10_1X10,
-+	MEDIA_BUS_FMT_SGRBG10_1X10,
-+	MEDIA_BUS_FMT_SRGGB10_1X10,
-+	MEDIA_BUS_FMT_SBGGR12_1X12,
-+	MEDIA_BUS_FMT_SGBRG12_1X12,
-+	MEDIA_BUS_FMT_SGRBG12_1X12,
-+	MEDIA_BUS_FMT_SRGGB12_1X12,
-+	MEDIA_BUS_FMT_SBGGR16_1X16,
-+	MEDIA_BUS_FMT_SGBRG16_1X16,
-+	MEDIA_BUS_FMT_SGRBG16_1X16,
-+	MEDIA_BUS_FMT_SRGGB16_1X16,
-+	MEDIA_BUS_FMT_METADATA_FIXED
-+};
-+
-+static const struct vsp1_rwpf_codes vspx_rpf0_codes = {
-+	.codes = vspx_rpf0_mbus_codes,
-+	.num_codes = ARRAY_SIZE(vspx_rpf0_mbus_codes),
-+};
-+
-+static const u32 vspx_rpf1_mbus_codes[] = {
-+	MEDIA_BUS_FMT_SBGGR8_1X8,
-+	MEDIA_BUS_FMT_SGBRG8_1X8,
-+	MEDIA_BUS_FMT_SGRBG8_1X8,
-+	MEDIA_BUS_FMT_SRGGB8_1X8,
-+	MEDIA_BUS_FMT_SBGGR10_1X10,
-+	MEDIA_BUS_FMT_SGBRG10_1X10,
-+	MEDIA_BUS_FMT_SGRBG10_1X10,
-+	MEDIA_BUS_FMT_SRGGB10_1X10,
-+	MEDIA_BUS_FMT_SBGGR12_1X12,
-+	MEDIA_BUS_FMT_SGBRG12_1X12,
-+	MEDIA_BUS_FMT_SGRBG12_1X12,
-+	MEDIA_BUS_FMT_SRGGB12_1X12,
-+	MEDIA_BUS_FMT_SBGGR16_1X16,
-+	MEDIA_BUS_FMT_SGBRG16_1X16,
-+	MEDIA_BUS_FMT_SGRBG16_1X16,
-+	MEDIA_BUS_FMT_SRGGB16_1X16,
-+};
-+
-+static const struct vsp1_rwpf_codes vspx_rpf1_codes = {
-+	.codes = vspx_rpf1_mbus_codes,
-+	.num_codes = ARRAY_SIZE(vspx_rpf1_mbus_codes),
-+};
-+
-+static const struct vsp1_rwpf_codes *vsp1_rwpf_codes(struct v4l2_subdev *sd)
-+{
-+	struct vsp1_rwpf *rwpf = to_rwpf(sd);
-+	struct vsp1_entity *ent = &rwpf->entity;
-+
-+	/* Only VSPX supports reading Bayer formats. */
-+	if (!vsp1_feature(ent->vsp1, VSP1_HAS_IIF))
-+		return &rwpf_codes;
-+
-+	if (ent->type == VSP1_ENTITY_RPF) {
-+		switch (ent->index) {
-+		case 0:
-+			/* VSPX RPF0 supports ISP config data too. */
-+			return &vspx_rpf0_codes;
-+		case 1:
-+			return &vspx_rpf1_codes;
-+		default:
-+			return &rwpf_codes;
-+		}
++	/* No further configuration for VSPX. */
++	if (pipe->iif) {
++		/* VSPX wants alpha_sel to be set to 0. */
++		vsp1_rpf_write(rpf, dlb, VI6_RPF_ALPH_SEL, 0);
++		return;
 +	}
 +
-+	return &rwpf_codes;
-+}
-+
- /* -----------------------------------------------------------------------------
-  * V4L2 Subdevice Operations
-  */
-@@ -30,10 +114,12 @@ static int vsp1_rwpf_enum_mbus_code(struct v4l2_subdev *subdev,
- 				    struct v4l2_subdev_state *sd_state,
- 				    struct v4l2_subdev_mbus_code_enum *code)
- {
--	if (code->index >= ARRAY_SIZE(rwpf_mbus_codes))
-+	const struct vsp1_rwpf_codes *codes = vsp1_rwpf_codes(subdev);
-+
-+	if (code->index >= codes->num_codes)
- 		return -EINVAL;
+ 	/*
+ 	 * On Gen2 use the alpha channel (extended to 8 bits) when available or
+ 	 * a fixed alpha value set through the V4L2_CID_ALPHA_COMPONENT control
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+index f176750ccd9847fdb8d51f7f51a6bd5092b70197..88db60596f0f2f459eddbbc2ea7247620d675dd8 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+@@ -247,8 +247,11 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
+ 	sink_format = v4l2_subdev_state_get_format(state, RWPF_PAD_SINK);
+ 	source_format = v4l2_subdev_state_get_format(state, RWPF_PAD_SOURCE);
  
--	code->code = rwpf_mbus_codes[code->index];
-+	code->code = codes->codes[code->index];
+-	/* Format */
+-	if (!pipe->lif || wpf->writeback) {
++	/*
++	 * Format configuration. Skip for IIF (VSPX) or if the pipe doesn't
++	 * write to memory.
++	 */
++	if (!pipe->iif && (!pipe->lif || wpf->writeback)) {
+ 		const struct v4l2_pix_format_mplane *format = &wpf->format;
+ 		const struct vsp1_format_info *fmtinfo = wpf->fmtinfo;
  
- 	return 0;
- }
-@@ -54,6 +140,7 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
- 				struct v4l2_subdev_state *sd_state,
- 				struct v4l2_subdev_format *fmt)
- {
-+	const struct vsp1_rwpf_codes *codes = vsp1_rwpf_codes(subdev);
- 	struct vsp1_rwpf *rwpf = to_rwpf(subdev);
- 	struct v4l2_subdev_state *state;
- 	struct v4l2_mbus_framefmt *format;
-@@ -69,11 +156,11 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
+@@ -291,7 +294,7 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
+ 	 * Sources. If the pipeline has a single input and BRx is not used,
+ 	 * configure it as the master layer. Otherwise configure all
+ 	 * inputs as sub-layers and select the virtual RPF as the master
+-	 * layer.
++	 * layer. For VSPX configure the enabled sources as masters.
+ 	 */
+ 	for (i = 0; i < vsp1->info->rpf_count; ++i) {
+ 		struct vsp1_rwpf *input = pipe->inputs[i];
+@@ -299,7 +302,7 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
+ 		if (!input)
+ 			continue;
+ 
+-		srcrpf |= (!pipe->brx && pipe->num_inputs == 1)
++		srcrpf |= (pipe->iif || (!pipe->brx && pipe->num_inputs == 1))
+ 			? VI6_WPF_SRCRPF_RPF_ACT_MST(input->entity.index)
+ 			: VI6_WPF_SRCRPF_RPF_ACT_SUB(input->entity.index);
  	}
+@@ -316,6 +319,9 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
+ 	vsp1_dl_body_write(dlb, VI6_WPF_IRQ_ENB(index),
+ 			   VI6_WPF_IRQ_ENB_DFEE);
  
- 	/* Default to YUV if the requested format is not supported. */
--	for (i = 0; i < ARRAY_SIZE(rwpf_mbus_codes); ++i) {
--		if (fmt->format.code == rwpf_mbus_codes[i])
-+	for (i = 0; i < codes->num_codes; ++i) {
-+		if (fmt->format.code == codes->codes[i])
- 			break;
- 	}
--	if (i == ARRAY_SIZE(rwpf_mbus_codes))
-+	if (i == codes->num_codes)
- 		fmt->format.code = MEDIA_BUS_FMT_AYUV8_1X32;
- 
- 	format = v4l2_subdev_state_get_format(state, fmt->pad);
++	if (pipe->iif)
++		return;
++
+ 	/*
+ 	 * Configure writeback for display pipelines (the wpf writeback flag is
+ 	 * never set for memory-to-memory pipelines). Start by adding a chained
 
 -- 
 2.48.1
