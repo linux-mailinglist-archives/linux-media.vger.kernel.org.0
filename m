@@ -1,86 +1,75 @@
-Return-Path: <linux-media+bounces-26824-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26825-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7283A41F17
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 13:32:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3330DA41F4D
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 13:40:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3B0CD18873CB
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 12:29:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3D0771890238
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 12:39:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6489233704;
-	Mon, 24 Feb 2025 12:28:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9425E233739;
+	Mon, 24 Feb 2025 12:39:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oGfXPRpo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bGbUDI3j"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9242C219313;
-	Mon, 24 Feb 2025 12:28:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249571DDE9;
+	Mon, 24 Feb 2025 12:39:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740400125; cv=none; b=RgnC3hAQ1nI2QgF4ZtRixyvNC2gBs0NQc7YANX9exNlsscDTNaCBWgvRlQ/Z+gHNgN80+GZ9rvOr8jMZAmLvpOSgUrAm/XzTmMWXIEVTE54NNSBNJNynMzeT/ovXPYz+Bl/bBmBKLsfML0MnpFW/F2EqQ8m5YvtKTNVNXQNB+xU=
+	t=1740400758; cv=none; b=b2HBVERB/xrS2e+sd7Y2dVTNHe71CY9t9BD04tGepin5tUUXDWqeYWmUZcVCSZSwbh+PH2lYE39AWTA8ZjIV80qxe1yvQXryxdHEwlHZHjxNBaeckPgrJ8bPouDAS6ybHbtZMelDd5nkhzxjH8hnhqIawySLSYcrz9J69Cn8SUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740400125; c=relaxed/simple;
-	bh=HY86v1D01B8de8bRnCwQfhrLaS7Uve8orhJi2zLc/AQ=;
+	s=arc-20240116; t=1740400758; c=relaxed/simple;
+	bh=I4zwzRfgVjDsqL3gEcvnfx+MpbnW+WUPLHL5AHyvtfs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HooZWejAdcqPSKjuOOuC3L/uYjb4EhgRdtvwvEcOhwT3yfVtWCZ2lBpeFnhtc1QK7jJuqa+tgWgySZTXrNwyLqIdk/QMZrWsj1odfHc+IO1Pd1lxK0QouOdqGXxAKg2vMAKeyXLosxS8ysq3nlrIq//8FE/uXsGstZa5Sxzf55U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=oGfXPRpo; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=o+ck0SEvXsQnet4VV/hqn1ubG0e/9TjPJUthNhbtwtHKWjOc/66s7+Z3FsP0+LyrZINYEChVg7qLHSPJlKcZOZsVOlMvvj0hk1XPlPsdxRhODiGigAuvbQ8y57yhjVwTyI8qP5PYAX8yEWax4IrYQufQmY+WkZaNZemw0ekCCWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bGbUDI3j; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740400124; x=1771936124;
+  t=1740400757; x=1771936757;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=HY86v1D01B8de8bRnCwQfhrLaS7Uve8orhJi2zLc/AQ=;
-  b=oGfXPRpoazB8Nz67eKcV+7uYQok9c9CXZp+D7vLhxuepnCgePkPabIUK
-   w9hDhHHZ0YA9dNLxueXxUoGd4iRFwmL5oAb/8S54kWhF7ozwPKO1fBsGG
-   6vvMzP8UTVjdyPL/+eVBzSC6rnIGV+A9oRf8Tru1dLIgrtPRLPL/0zfdn
-   5jblIw67GGj6e+mFBVMOSgBP+RGMCf8ydUm1BXLx6e+uBS1My8qLhY66s
-   ScASDymsf8Tvk2aIpFuRJ0LAgMiWihe2Wk/Hx7nD4TpJdsfhcxg0qvukR
-   tERcSe+bZoasfYsywGAGN1G7UxHU3LSMUN8e8ZT3TYIXrvEOn6y2bu2yo
-   Q==;
-X-CSE-ConnectionGUID: yCTWskYVRdS2N99KEKK4QQ==
-X-CSE-MsgGUID: SXdJp0OjTwOUZiEW/45Xtw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="52143200"
+  bh=I4zwzRfgVjDsqL3gEcvnfx+MpbnW+WUPLHL5AHyvtfs=;
+  b=bGbUDI3jU+8G0lMyD1MaN7WzggW3cGswR8plSEdS/kZ8yF9QiO1ZnmB7
+   iyyT2ga7XWIV3kEWS/Vkb0lUMmkyJhFIb2JrhRd5byH+otMfq5qWjZgXG
+   nb5lVB9Jz04qFA+0az7KgybuKoAQJEl+QbFxcz0SFpFhbAtfltyOOWTap
+   J/wQQ+IGnkHly0fgkmXjstjI/xdXO99yE4SNcerwDwnBn/ToCJ9LE/HzN
+   REzR33rcpPF71omBNrUSbrcTjzLoi9MGsv9S4E2En44+HIUd2Y0ZCjEwH
+   +fPZkeJZY3PPOOd6vyMK8yZucKxqrhrCy8p1i6fdW9T1Kw0gn5o8hHELx
+   w==;
+X-CSE-ConnectionGUID: xr1416diTaKv3HKJZr8+XA==
+X-CSE-MsgGUID: E/dN3DWHQ/O9NQ+c8Fs2eQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="44804206"
 X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="52143200"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 04:28:43 -0800
-X-CSE-ConnectionGUID: 5iuv9pjeSqGU3LIzJDbdHQ==
-X-CSE-MsgGUID: oR1SJYDNStqf2Ekl4VOMnQ==
+   d="scan'208";a="44804206"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 04:39:16 -0800
+X-CSE-ConnectionGUID: TOwLHXo3SgmVXIMwNmb0vQ==
+X-CSE-MsgGUID: z2UkMDxrQkWgeU8zvFf0YQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="116532987"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 04:28:39 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.98)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tmXZb-0000000Eh02-268V;
-	Mon, 24 Feb 2025 14:28:35 +0200
-Date: Mon, 24 Feb 2025 14:28:35 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: kernel test robot <lkp@intel.com>, perex@perex.cz, tiwai@suse.com,
-	broonie@kernel.org, lgirdwood@gmail.com, deller@gmx.de,
-	sre@kernel.org, sakari.ailus@linux.intel.com, mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl, jdmason@kudzu.us, fancer.lancer@gmail.com,
-	oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
-	linux-fbdev@vger.kernel.org, linux-pm@vger.kernel.org,
-	linux-media@vger.kernel.org, ntb@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 07/13] fbdev: pxafb: use devm_kmemdup_array()
-Message-ID: <Z7xl80RPM6YQgOTj@smile.fi.intel.com>
-References: <20250221165333.2780888-8-raag.jadav@intel.com>
- <202502220449.DvJuMgsL-lkp@intel.com>
- <Z7xQ2y-7U5-OhzhB@smile.fi.intel.com>
- <Z7xW2AIz6vUo6mu-@black.fi.intel.com>
- <Z7xa0cGZvGxsGCrI@smile.fi.intel.com>
- <Z7xkb9m_Qc54znOH@black.fi.intel.com>
+   d="scan'208";a="121321317"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 04:39:10 -0800
+Date: Mon, 24 Feb 2025 14:39:07 +0200
+From: Raag Jadav <raag.jadav@intel.com>
+To: perex@perex.cz, tiwai@suse.com, broonie@kernel.org, lgirdwood@gmail.com,
+	deller@gmx.de, andriy.shevchenko@linux.intel.com, sre@kernel.org,
+	sakari.ailus@linux.intel.com, mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl, jdmason@kudzu.us, fancer.lancer@gmail.com
+Cc: linux-sound@vger.kernel.org, linux-fbdev@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
+	ntb@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 00/13] Convert to use devm_kmemdup_array()
+Message-ID: <Z7xoa9FbuvIaTJFt@black.fi.intel.com>
+References: <20250221165333.2780888-1-raag.jadav@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -89,58 +78,25 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z7xkb9m_Qc54znOH@black.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20250221165333.2780888-1-raag.jadav@intel.com>
 
-On Mon, Feb 24, 2025 at 02:22:07PM +0200, Raag Jadav wrote:
-> On Mon, Feb 24, 2025 at 01:41:05PM +0200, Andy Shevchenko wrote:
-> > On Mon, Feb 24, 2025 at 01:24:08PM +0200, Raag Jadav wrote:
-> > > On Mon, Feb 24, 2025 at 12:58:35PM +0200, Andy Shevchenko wrote:
-> > > > On Sat, Feb 22, 2025 at 05:41:24AM +0800, kernel test robot wrote:
-> > > > > Hi Raag,
-> > > > > 
-> > > > > kernel test robot noticed the following build warnings:
-> > > > > 
-> > > > > [auto build test WARNING on b16e9f8547a328b19af59afc213ce323124d11e9]
-> > > > > 
-> > > > > url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/ASoC-Intel-avs-use-devm_kmemdup_array/20250222-010322
-> > > > > base:   b16e9f8547a328b19af59afc213ce323124d11e9
-> > > > > patch link:    https://lore.kernel.org/r/20250221165333.2780888-8-raag.jadav%40intel.com
-> > > > > patch subject: [PATCH v1 07/13] fbdev: pxafb: use devm_kmemdup_array()
-> > > > > config: arm-randconfig-004-20250222 (https://download.01.org/0day-ci/archive/20250222/202502220449.DvJuMgsL-lkp@intel.com/config)
-> > > > > compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
-> > > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502220449.DvJuMgsL-lkp@intel.com/reproduce)
-> > > > > 
-> > > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> > > > > the same patch/commit), kindly add following tags
-> > > > > | Reported-by: kernel test robot <lkp@intel.com>
-> > > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202502220449.DvJuMgsL-lkp@intel.com/
-> > > > > 
-> > > > > All warnings (new ones prefixed by >>):
-> > > > > 
-> > > > >    drivers/video/fbdev/pxafb.c: In function 'pxafb_probe':
-> > > > > >> drivers/video/fbdev/pxafb.c:2236:13: warning: unused variable 'i' [-Wunused-variable]
-> > > > >     2236 |         int i, irq, ret;
-> > > > >          |             ^
-> > > > 
-> > > > Ragg, please, fix this, and issue a v2 with the link to fixed PR:
-> > > > https://lore.kernel.org/r/Z7xGpz3Q4Zj6YHx7@black.fi.intel.com.
-> > > 
-> > > Sure, but perhaps wait a few days for review comments.
-> > 
-> > Then perhaps answering to the cover letter that the maintainers who want to
-> > apply should use the updated PR?
+On Fri, Feb 21, 2025 at 10:23:20PM +0530, Raag Jadav wrote:
+> This series is the second wave of patches to add users of newly introduced
+> devm_kmemdup_array() helper. Original series on [1].
 > 
-> Okay, but I'm not sure how this plays out for those who already pulled
-> the old PR, i.e. Sebastian.
+> This depends on changes available on immutable tag[2]. Feel free to pick
+> your subsystem patches with it, or share your preferred way to route them.
 > 
-> Anything to worry about here?
+> [1] https://lore.kernel.org/r/20250212062513.2254767-1-raag.jadav@intel.com
+> [2] https://lore.kernel.org/r/Z7cqCaME4LxTTBn6@black.fi.intel.com
 
-I already informed him and Stephen about a new PR I just sent a few hours ago.
+Update: Anyone wishing to pull from this series, please use the updated
+tag[3]. I'll wait for a few days for review comments and send out a v2
+with fbdev fix.
 
--- 
-With Best Regards,
-Andy Shevchenko
+[3] https://lore.kernel.org/r/Z7xGpz3Q4Zj6YHx7@black.fi.intel.com
 
+Apologies for the inconvenience.
 
+Raag
 
