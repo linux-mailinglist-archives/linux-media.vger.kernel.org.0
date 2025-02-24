@@ -1,180 +1,365 @@
-Return-Path: <linux-media+bounces-26759-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26760-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4604CA41601
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 08:11:10 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8848AA41611
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 08:15:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CC7D616A374
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 07:10:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DC4257A2140
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 07:14:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2860F241690;
-	Mon, 24 Feb 2025 07:09:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 782A31A5B8B;
+	Mon, 24 Feb 2025 07:15:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FFicEGbS"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="RCIbHxqB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-181.mta1.migadu.com (out-181.mta1.migadu.com [95.215.58.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C21B1DF963;
-	Mon, 24 Feb 2025 07:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE5874414
+	for <linux-media@vger.kernel.org>; Mon, 24 Feb 2025 07:15:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740380997; cv=none; b=OTISCSAYBlcavBnIiqFAE1BBitL0hfotO8UxlUC0LOOTXq/m5kKxd5aSmaXjOSkl9sabv3jjRsd4B6cy82EQhmdHfFjzKSESMHsy8U52jZX2gmNKwTkLYDMh/XV1jaXlfvndY/g5Blo3vyw298kNGxtUzPfScLgtWgGkI/bncHY=
+	t=1740381351; cv=none; b=URT8xL6A3USsk7zBa35BSvlw1R1xoejTb3ajiQUurcJPbT3/HrwqkN13AkzN8at1sRJIepNe2fxDF7dlPrnTAaW0iO00uEu6rv08XLaoTD8TKIrocpqn+6J2L1azrCniKVQj6TdUJVvaetHLTGHAjpFh5KB4UMoc0BFIFwKOTcg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740380997; c=relaxed/simple;
-	bh=fkASXmTFBo3Vl/klcz2dL1xKweKD4YSi26z5tvTK/J4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=vAFy4pOywzmnZCemICpHZIglVjKx/rcOjhnxAxq6d4JXNC4L5qYuhyVuZkmsXN0EuePfx7TBPGUuEI3W/Ox6o1KLlOUajXP8K9v0qxfo+HoovaviHZDnz9tTpiXalcOpWABSa9EghVfvb81iTRxEtaWe5VjggFPTqLcJwVu3PIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FFicEGbS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03944C4CED6;
-	Mon, 24 Feb 2025 07:09:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740380996;
-	bh=fkASXmTFBo3Vl/klcz2dL1xKweKD4YSi26z5tvTK/J4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FFicEGbSi56eSM0TXBdNGJZR6fyVj+36fd8Gmxf4LjhTEySCctA9GqzxpCjUDpfSL
-	 08Dx0KXfpmwPYGDHCDryGnRcCWDrE/aZF5kNI8zw1N4i9gU8E2AhbeTcQjT1TJqMNA
-	 7ykt4xwW+uATbSuqvLn2zrI+hZSeC+1/RAttYQTvRzkwbCUVR++Xv8GzLBF7nbG80w
-	 JZblYfa/c4q/ZdVDmLtzW/ix78wFgASzmTk9H/f+Z51ByZZhEvlKT9bGXwtBj1WjDq
-	 Pww4k4uxAbknRXPdJkgCEAFJpaVEcCST592dPPd9SJ3YLnKwsyg2B+yILZVl8zJg7A
-	 8hY8zjq85rorg==
-Message-ID: <bde62fee-4617-4db7-b92c-59fb958c4ca6@kernel.org>
-Date: Mon, 24 Feb 2025 08:09:43 +0100
+	s=arc-20240116; t=1740381351; c=relaxed/simple;
+	bh=CcIlasMlwGyRUnGlK2ln480ok4GS2N+woVsRBl1G40o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XMsVt2JzqAwZT2XP2YOWZ8OTfutOTB+40Ta2exmRq6shMb7OfETnnRD9nWENIfMIPcok24vsQnTsem50L3mzMJu/Rcrx/mp+svvOPlXSmqkbK69r11PpycAYcz5+RqMGc8gS0GsBvH/zUImtSXIyU6lY7OkgSuScP9qDAWPeZiA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=RCIbHxqB; arc=none smtp.client-ip=95.215.58.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Mon, 24 Feb 2025 12:44:52 +0530
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1740381345;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=yMCBsuCxywFQdUGguzwFOiAlKOVDXhCL8WkyMF7aUdc=;
+	b=RCIbHxqBBl+y9TRQSb1MoRxJCT1aBon2X4cxiEot8bbWUD0QNpZwhlarz5+K+JfQ6Y/W29
+	YK5DB/dPs2QXA+RqXShfDqfBAd8GHEHUqbB1Rnvt2YzKzvPWc7Wo/4Z2oe4yBSuZUMGZQn
+	G84CJLV86vAx4YN+yyPxI6YocRYexjw=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Jai Luthra <jai.luthra@linux.dev>
+To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, mripard@kernel.org, mchehab@kernel.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, devarsht@ti.com, vaishnav.a@ti.com, 
+	r-donadkar@ti.com, u-kumar1@ti.com
+Subject: Re: [PATCH v3 2/2] media: cadence: csi2rx: Enable csi2rx_err_irq
+ interrupt and add support for VIDIOC_LOG_STATUS
+Message-ID: <4ukas366gvkl7fljddneulgxwnzdvblkknantgv4iu427sfhor@d3rpvym4ynhn>
+X-PGP-Key: http://jailuthra.in/files/public-key.asc
+References: <20250221120337.3920874-1-y-abhilashchandra@ti.com>
+ <20250221120337.3920874-3-y-abhilashchandra@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
-To: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
- jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dmitry.torokhov@gmail.com,
- mchehab@kernel.org, awalls@md.metrocast.net, hverkuil@xs4all.nl,
- miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
- louis.peens@corigine.com, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@google.com, pabeni@redhat.com, parthiban.veerasooran@microchip.com,
- arend.vanspriel@broadcom.com, johannes@sipsolutions.net,
- gregkh@linuxfoundation.org, yury.norov@gmail.com, akpm@linux-foundation.org
-Cc: hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
- linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- linux-input@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
- linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
- Yu-Chun Lin <eleanor15x@gmail.com>
-References: <20250223164217.2139331-1-visitorckw@gmail.com>
- <20250223164217.2139331-3-visitorckw@gmail.com>
-Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <20250223164217.2139331-3-visitorckw@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="4aroo4gfbhv2sbc4"
+Content-Disposition: inline
+In-Reply-To: <20250221120337.3920874-3-y-abhilashchandra@ti.com>
+X-Migadu-Flow: FLOW_OUT
 
-On 23. 02. 25, 17:42, Kuan-Wei Chiu wrote:
-> Several parts of the kernel open-code parity calculations using
-> different methods. Add a generic parity64() helper implemented with the
-> same efficient approach as parity8().
-> 
-> Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
-> Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
-> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+
+--4aroo4gfbhv2sbc4
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 2/2] media: cadence: csi2rx: Enable csi2rx_err_irq
+ interrupt and add support for VIDIOC_LOG_STATUS
+MIME-Version: 1.0
+
+Hi Abhilash,
+
+Thanks for the patch.
+
+On Fri, Feb 21, 2025 at 05:33:37PM +0530, Yemike Abhilash Chandra wrote:
+> Enable the csi2rx_err_irq interrupt to record any errors during streaming
+> and also add support for VIDIOC_LOG_STATUS ioctl. The VIDIOC_LOG_STATUS
+> ioctl can be invoked from user space to retrieve the device status,
+> including details about any errors.
+>=20
+> Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
 > ---
->   include/linux/bitops.h | 22 ++++++++++++++++++++++
->   1 file changed, 22 insertions(+)
-> 
-> diff --git a/include/linux/bitops.h b/include/linux/bitops.h
-> index fb13dedad7aa..67677057f5e2 100644
-> --- a/include/linux/bitops.h
-> +++ b/include/linux/bitops.h
-> @@ -281,6 +281,28 @@ static inline int parity32(u32 val)
->   	return (0x6996 >> (val & 0xf)) & 1;
->   }
->   
-> +/**
-> + * parity64 - get the parity of an u64 value
-> + * @value: the value to be examined
-> + *
-> + * Determine the parity of the u64 argument.
-> + *
-> + * Returns:
-> + * 0 for even parity, 1 for odd parity
-> + */
-> +static inline int parity64(u64 val)
+>=20
+> Changes in v3:
+> - Address Jai's review comment to enable FIFO overflow bits in the mask
+>   only for the source pads that have an active remote.
+> - Drop TI-specific interrupt and have support for only two interrupts
+>   that are common across all vendors.
+> - Address Changhuang's review to use pdev directly to get the interrupt.
+> - Set the interrupt mask register only if the interrupt is defined in the=
+ DT.
+>=20
+>=20
+>  drivers/media/platform/cadence/cdns-csi2rx.c | 125 +++++++++++++++++++
+>  1 file changed, 125 insertions(+)
+>=20
+> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media=
+/platform/cadence/cdns-csi2rx.c
+> index cebcae196eec..81375f11a32f 100644
+> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
+> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
+> @@ -57,6 +57,25 @@
+>  #define CSI2RX_LANES_MAX	4
+>  #define CSI2RX_STREAMS_MAX	4
+> =20
+> +#define CSI2RX_ERROR_IRQS_REG			0x28
+> +#define CSI2RX_ERROR_IRQS_MASK_REG		0x2C
+> +
+> +#define CSI2RX_STREAM3_FIFO_OVERFLOW_IRQ	BIT(19)
+> +#define CSI2RX_STREAM2_FIFO_OVERFLOW_IRQ	BIT(18)
+> +#define CSI2RX_STREAM1_FIFO_OVERFLOW_IRQ	BIT(17)
+> +#define CSI2RX_STREAM0_FIFO_OVERFLOW_IRQ	BIT(16)
+> +#define CSI2RX_FRONT_TRUNC_HDR_IRQ		BIT(12)
+> +#define CSI2RX_PROT_TRUNCATED_PACKET_IRQ	BIT(11)
+> +#define CSI2RX_FRONT_LP_NO_PAYLOAD_IRQ		BIT(10)
+> +#define CSI2RX_SP_INVALID_RCVD_IRQ		BIT(9)
+> +#define CSI2RX_DATA_ID_IRQ			BIT(7)
+> +#define CSI2RX_HEADER_CORRECTED_ECC_IRQ	BIT(6)
+> +#define CSI2RX_HEADER_ECC_IRQ			BIT(5)
+> +#define CSI2RX_PAYLOAD_CRC_IRQ			BIT(4)
+> +
+> +#define CSI2RX_ECC_ERRORS		GENMASK(7, 4)
+> +#define CSI2RX_PACKET_ERRORS		GENMASK(12, 9)
+> +
+>  enum csi2rx_pads {
+>  	CSI2RX_PAD_SINK,
+>  	CSI2RX_PAD_SOURCE_STREAM0,
+> @@ -71,9 +90,32 @@ struct csi2rx_fmt {
+>  	u8				bpp;
+>  };
+> =20
+> +struct csi2rx_event {
+> +	u32 mask;
+> +	const char *name;
+> +};
+> +
+> +static const struct csi2rx_event csi2rx_events[] =3D {
+> +	{ CSI2RX_STREAM3_FIFO_OVERFLOW_IRQ, "Overflow of the Stream 3 FIFO dete=
+cted" },
+> +	{ CSI2RX_STREAM2_FIFO_OVERFLOW_IRQ, "Overflow of the Stream 2 FIFO dete=
+cted" },
+> +	{ CSI2RX_STREAM1_FIFO_OVERFLOW_IRQ, "Overflow of the Stream 1 FIFO dete=
+cted" },
+> +	{ CSI2RX_STREAM0_FIFO_OVERFLOW_IRQ, "Overflow of the Stream 0 FIFO dete=
+cted" },
+> +	{ CSI2RX_FRONT_TRUNC_HDR_IRQ, "A truncated header [short or long] has b=
+een received" },
+> +	{ CSI2RX_PROT_TRUNCATED_PACKET_IRQ, "A truncated long packet has been r=
+eceived" },
+> +	{ CSI2RX_FRONT_LP_NO_PAYLOAD_IRQ, "A truncated long packet has been rec=
+eived. No payload" },
+> +	{ CSI2RX_SP_INVALID_RCVD_IRQ, "A reserved or invalid short packet has b=
+een received" },
+> +	{ CSI2RX_DATA_ID_IRQ, "Data ID error in the header packet" },
+> +	{ CSI2RX_HEADER_CORRECTED_ECC_IRQ, "ECC error detected and corrected" },
+> +	{ CSI2RX_HEADER_ECC_IRQ, "Unrecoverable ECC error" },
+> +	{ CSI2RX_PAYLOAD_CRC_IRQ, "CRC error" },
+> +};
+> +
+> +#define CSI2RX_NUM_EVENTS		ARRAY_SIZE(csi2rx_events)
+> +
+>  struct csi2rx_priv {
+>  	struct device			*dev;
+>  	unsigned int			count;
+> +	int				error_irq;
+> =20
+>  	/*
+>  	 * Used to prevent race conditions between multiple,
+> @@ -95,6 +137,7 @@ struct csi2rx_priv {
+>  	u8				max_lanes;
+>  	u8				max_streams;
+>  	bool				has_internal_dphy;
+> +	u32				events[CSI2RX_NUM_EVENTS];
+> =20
+>  	struct v4l2_subdev		subdev;
+>  	struct v4l2_async_notifier	notifier;
+> @@ -124,6 +167,50 @@ static const struct csi2rx_fmt formats[] =3D {
+>  	{ .code	=3D MEDIA_BUS_FMT_BGR888_1X24,  .bpp =3D 24, },
+>  };
+> =20
+> +static void csi2rx_configure_error_irq_mask(void __iomem *base, struct c=
+si2rx_priv *csi2rx)
 > +{
+> +	u32 error_irq_mask =3D 0;
+> +
+> +	error_irq_mask |=3D CSI2RX_ECC_ERRORS;
+> +	error_irq_mask |=3D CSI2RX_PACKET_ERRORS;
+> +
 > +	/*
-> +	 * One explanation of this algorithm:
-> +	 * https://funloop.org/codex/problem/parity/README.html
+> +	 * iterate through all source pads and check if they are linked
+
+nit: s/iterate/Iterate
+
+> +	 * to an active remote pad. If an active remote pad is found,
+> +	 * calculate the corresponding bit position and set it in
+> +	 * mask, enabling the stream overflow error in the mask.
 > +	 */
-> +	val ^= val >> 32;
+> +
 
-Do we need all these implementations? Can't we simply use parity64() for 
-any 8, 16 and 32-bit values too? I.e. have one parity().
+nit: drop this extra whitespace
 
-> +	val ^= val >> 16;
-> +	val ^= val >> 8;
-> +	val ^= val >> 4;
-> +	return (0x6996 >> (val & 0xf)) & 1;
+> +	for (int i =3D CSI2RX_PAD_SOURCE_STREAM0; i < CSI2RX_PAD_MAX; i++) {
+> +		struct media_pad *remote_pad =3D media_pad_remote_pad_first(&csi2rx->p=
+ads[i]);
+> +
+> +		if (remote_pad) {
+> +			int bit_position =3D 16 + (i - CSI2RX_PAD_SOURCE_STREAM0);
+
+It would be cleaner to not use the magic number of 16 here, instead using t=
+he=20
+already defined macro:
+
+            error_irq_mask |=3D (CSI2RX_STREAM0_FIFO_OVERFLOW_IRQ
+					   << (i - CSI2RX_PAD_SOURCE_STREAM0));
+
+> +
+> +			error_irq_mask |=3D (1 << bit_position);
+> +		}
+> +	}
+> +
+> +	writel(error_irq_mask, base + CSI2RX_ERROR_IRQS_MASK_REG);
 > +}
 > +
->   /**
->    * __ffs64 - find first set bit in a 64 bit word
->    * @word: The 64 bit word
+> +static irqreturn_t csi2rx_irq_handler(int irq, void *dev_id)
+> +{
+> +	struct csi2rx_priv *csi2rx =3D dev_id;
+> +	int i;
+> +	u32 error_status;
+> +
+> +	error_status =3D readl(csi2rx->base + CSI2RX_ERROR_IRQS_REG);
+> +
+> +	for (i =3D 0; i < CSI2RX_NUM_EVENTS; i++)
+> +		if (error_status & csi2rx_events[i].mask)
+> +			csi2rx->events[i]++;
+> +
+> +	writel(error_status, csi2rx->base + CSI2RX_ERROR_IRQS_REG);
+> +
+> +	return IRQ_HANDLED;
+> +}
+> +
+>  static const struct csi2rx_fmt *csi2rx_get_fmt_by_code(u32 code)
+>  {
+>  	unsigned int i;
+> @@ -220,6 +307,9 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
+>  	reset_control_deassert(csi2rx->p_rst);
+>  	csi2rx_reset(csi2rx);
+> =20
+> +	if (csi2rx->error_irq >=3D 0)
+> +		csi2rx_configure_error_irq_mask(csi2rx->base, csi2rx);
+> +
+>  	reg =3D csi2rx->num_lanes << 8;
+>  	for (i =3D 0; i < csi2rx->num_lanes; i++) {
+>  		reg |=3D CSI2RX_STATIC_CFG_DLANE_MAP(i, csi2rx->lanes[i]);
+> @@ -332,6 +422,8 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
+>  	reset_control_assert(csi2rx->sys_rst);
+>  	clk_disable_unprepare(csi2rx->sys_clk);
+> =20
+> +	writel(0, csi2rx->base + CSI2RX_ERROR_IRQS_MASK_REG);
+> +
+>  	for (i =3D 0; i < csi2rx->max_streams; i++) {
+>  		writel(CSI2RX_STREAM_CTRL_STOP,
+>  		       csi2rx->base + CSI2RX_STREAM_CTRL_REG(i));
+> @@ -363,6 +455,21 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
+>  	}
+>  }
+> =20
+> +static int csi2rx_log_status(struct v4l2_subdev *sd)
+> +{
+> +	struct csi2rx_priv *csi2rx =3D v4l2_subdev_to_csi2rx(sd);
+> +	unsigned int i;
+> +
+> +	for (i =3D 0; i < CSI2RX_NUM_EVENTS; i++) {
+> +		if (csi2rx->events[i])
+> +			dev_info(csi2rx->dev, "%s events: %d\n",
+> +				 csi2rx_events[i].name,
+> +				 csi2rx->events[i]);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  static int csi2rx_s_stream(struct v4l2_subdev *subdev, int enable)
+>  {
+>  	struct csi2rx_priv *csi2rx =3D v4l2_subdev_to_csi2rx(subdev);
+> @@ -468,7 +575,12 @@ static const struct v4l2_subdev_video_ops csi2rx_vid=
+eo_ops =3D {
+>  	.s_stream	=3D csi2rx_s_stream,
+>  };
+> =20
+> +static const struct v4l2_subdev_core_ops csi2rx_core_ops =3D {
+> +	.log_status	=3D csi2rx_log_status,
+> +};
+> +
+>  static const struct v4l2_subdev_ops csi2rx_subdev_ops =3D {
+> +	.core		=3D &csi2rx_core_ops,
+>  	.video		=3D &csi2rx_video_ops,
+>  	.pad		=3D &csi2rx_pad_ops,
+>  };
+> @@ -705,6 +817,19 @@ static int csi2rx_probe(struct platform_device *pdev)
+>  	if (ret)
+>  		goto err_cleanup;
+> =20
+> +	csi2rx->error_irq =3D platform_get_irq_byname_optional(pdev, "error_irq=
+");
+> +
+> +	if (csi2rx->error_irq < 0) {
+> +		dev_dbg(csi2rx->dev, "Optional interrupt not defined, proceeding witho=
+ut it\n");
+> +	} else {
+> +		ret =3D devm_request_irq(csi2rx->dev, csi2rx->error_irq, csi2rx_irq_ha=
+ndler, 0,
+> +					"csi2rx-error-irq", csi2rx);
 
+Why "csi2rx-error-irq" is passed in the devname argument instead of the dev=
+ice=20
+name `dev_name(&pdev->dev)`? Also there is an alignment issue:
 
--- 
-js
-suse labs
+CHECK: Alignment should match open parenthesis
+#204: FILE: drivers/media/platform/cadence/cdns-csi2rx.c:824:
++               ret =3D devm_request_irq(csi2rx->dev, csi2rx->error_irq, cs=
+i2rx_irq_handler, 0,
++                                       "csi2rx-error-irq", csi2rx);
+
+> +		if (ret) {
+> +			dev_err(csi2rx->dev, "Unable to request interrupt: %d\n", ret);
+> +			return ret;
+> +		}
+> +	}
+> +
+>  	ret =3D v4l2_subdev_init_finalize(&csi2rx->subdev);
+>  	if (ret)
+>  		goto err_cleanup;
+> --=20
+> 2.34.1
+>=20
+
+--4aroo4gfbhv2sbc4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAme8HGsACgkQQ96R+SSa
+cUVZMw/+P+NfrNgRv9I3HrrgDUBcAquipWOLhPSiGrVVKB5NIHk6AHkSFQ8XAvqS
+jR1jRQsoCY97EXU3AXszc5UMAfNrAAnd7mXyRyrmOto6OobH36TFBXb5YCngP9rr
+Or+E+tQC9DY/urYiYmh/7N+xbQZ2kdgu6ZKnjaroWN7ePOw3ncBcfnIvD/4m3v52
+ofZj+nh/KT7CnEaxAx8avI4bavsJDTD8fKVyMUHA/3QjnGFVJZKv3wCx7GFof0Ac
+KwKG6A07IuM+fxLhltMhT7Ykrdhr6kyJIPXf6Rb6J9mHYpfBhuEeRezbwbutOgp9
+Ycn9hzM4DsfjFEo+r7l5rxcSYfiMBvUYkUfAvmTXHrxIf8fc+sfSSNt/I63hG926
+pAD22sJkct/fQVtvSR+Ijuy/dP/Gxh66tmFkkuxEqZ9g+Bexgx3kko5kUkyM8AqQ
+iwub+kXan5TD+LIWc7N5U7wW13HVn+qMnYKuiqlU7lE9bhLBiDUea6iO5pMJGhmu
+77Te3QIgL6t7eNukfL8Blv5G+6+y/1OKaQelkGjB+NnxvFxZpUHyD6Eve9fLMDBT
+VelQwKUJqwtrmlcvfoSzUgEUdjlS7ab6pT3X1uOnVfL1VTZjzlPGIGhcli4HJUDE
+VinnJJ7ZRaF5Bh9jfSNyecP/VUJW7bVUUaKjmsjGpR4u1kqAJ7s=
+=IBdl
+-----END PGP SIGNATURE-----
+
+--4aroo4gfbhv2sbc4--
 
