@@ -1,147 +1,159 @@
-Return-Path: <linux-media+bounces-26837-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26838-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C70CA422D5
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 15:22:16 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7D96A422E2
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 15:24:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5367B3A443D
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 14:12:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8AF481703A5
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 14:18:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D7E7144304;
-	Mon, 24 Feb 2025 14:12:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4016E1624FC;
+	Mon, 24 Feb 2025 14:17:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="ZmFz/uEh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C4471519A5;
-	Mon, 24 Feb 2025 14:12:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740406334; cv=none; b=cXUJhoKknuf/9M9yRnyoQjuDIMFDaP6qB2Cum5yF4RhjtK8jqlzdFd2DU7KMExfgoJY/QRNx4cvxyxll69feJlSk3NYlTqBspqmquxHg8DuYN0S6KcJK8ZuMmGm2ieO/NmmCCtyTwHwvt3o3qLmHTI9+AwQ2GhjBV+F0BTwUnEY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740406334; c=relaxed/simple;
-	bh=l2myhm4ovXQ6hVa9gcycwcpFHs4yyAu2aOc42alMsxI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XO5RveRGTuqxVbwAH7nLumyQWBK5pO73yAu1fK1QKkmrMdotMl7HjKoHracnx/RWmrnYyvMBgqu+YmKsOK+yeKU4Lqki7YbaQND8QQ1xp7Y4OAGLEoACZu8WpbMQ2VMxtwArM/3GNcGWTJNtibRW3/d3DtB9Ls97nb8Ab5SpCEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8C3DC4CED6;
-	Mon, 24 Feb 2025 14:12:12 +0000 (UTC)
-Message-ID: <99cc3844-54bd-44f5-88c5-9570fae709a7@xs4all.nl>
-Date: Mon, 24 Feb 2025 15:12:10 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA9D92AD14;
+	Mon, 24 Feb 2025 14:17:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740406672; cv=pass; b=lxwaP5DFnoSy9CZ+ak4AWenF/Ar1H2CBreC717V5OP2FW7XKvGtk7kHaqt2kiBpV8hTgNIfslF61pkBTqvlYvVNeQOXFeWQvBEcTfgFeLcPr4XRcPdUkAUvdgasf1L3lDkmCVa3Za+gIu56iqUMNJGW0FV9KiLENrTkTYtIy0NI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740406672; c=relaxed/simple;
+	bh=XI++tVurN1XBa9ntDF4BUg/9Zw6NAVZ//VSvMvNTb3c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YlA1SCxvW7YtuClFuZogFBwewVUUEUfL06epe1uLycR2/pu3fiYHd8i3bfo1oZafjn6y+RGXuE26ZtmpT0aid86lHWGN/JsS20CySJtj2CsDn78SeegTWF0sE3MWcvzAJRXdiZE/uMFIAYb2ucFSil59jUsi1R7bJpz2K/KN5uE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=ZmFz/uEh; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1740406643; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=jh4G+fge5VpcjAQvBdSnRAzNFmDfBuNbnwANkTlPuMo4R32/1T5hKa5IFixFAXUtxBaITENB/2oVbSbzmXC5sU4qoOmLFi++ReaOhpn2XjVrwOOK0CwlTV4ZNJOdndnrOflbm9y5zo6GPNdBJtT3miYK42lSUkcUQ1ADdDRKWf8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1740406643; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=8y7RULCgtA+twMB2yoTCUBB2R8TtZLUOKexPHO9EEnY=; 
+	b=UM59J+AyUZGyT5ZELv/DWFRQl6CzSlHRC433YB5pMxBv7mHp8AhcCfjNwFaoLtqjstSEQjfj08bjw5iAHb7LQuilMZPt58xJfJ0DgREAqCERZW16dURYG5hALvUFPM4VvwZXfpgRKzrZxM7jcoFtykbimhY/QA5dMwoenaF6SEk=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
+	dmarc=pass header.from=<sebastian.fricke@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740406643;
+	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=8y7RULCgtA+twMB2yoTCUBB2R8TtZLUOKexPHO9EEnY=;
+	b=ZmFz/uEhN425WoWrs4s1sezOV6J9789a3rllYJQU+DFg/XxZcrotZsP9G4pyx3HD
+	e4YKJT08UbPcbCPDBBIzj60wK2wH7KVP2u3UJbk93cJnXIf3MmFQrcFoMDk383jYLU8
+	BE/CaejoUqQQZ+TsgotKmNRWAzHlCRuIrHOwixl4=
+Received: by mx.zohomail.com with SMTPS id 1740406641336970.3444548054779;
+	Mon, 24 Feb 2025 06:17:21 -0800 (PST)
+Date: Mon, 24 Feb 2025 15:17:12 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Ming Qian <ming.qian@oss.nxp.com>
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl, nicolas@ndufresne.ca,
+	shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
+	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+	xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
+	imx@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 2/2] media: amphion: Add a frame flush mode for decoder
+Message-ID: <20250224141712.soexl43hrimwf236@basti-XPS-13-9310>
+References: <20250117075720.4018076-1-ming.qian@oss.nxp.com>
+ <20250117075720.4018076-2-ming.qian@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: Avermedia DVD EZMaker 7 video distortion on capture
-To: Randy Kimmett <linuxish@outlook.com>,
- "mchehab@kernel.org" <mchehab@kernel.org>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <PH8PR12MB71128FAC43D4FF7BC3D64050EAF92@PH8PR12MB7112.namprd12.prod.outlook.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <PH8PR12MB71128FAC43D4FF7BC3D64050EAF92@PH8PR12MB7112.namprd12.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20250117075720.4018076-2-ming.qian@oss.nxp.com>
+X-ZohoMailClient: External
 
-On 15/02/2025 17:18, Randy Kimmett wrote:
-> Avermedia DVD EZMaker 7
-> Model: C039
-> VID:07CA PID:C039
-> Module used: cx231xx
-> Distro: Manjaro
-> Kernel version: 6.13.0-1
-> Components used: Conexant CX23012-11Z (according to https://www.linuxtv.org/wiki/index.php/AVerMedia_DVD_EZMaker_7_(C039))
-> 
-> When capturing analog video from my old Hi8 video camera (NTSC M), the captured video has banding and is grainy, it doesn't matter if I capture from the S-Video or Composite, the results are the same.  On my windows PC the capture is perfect.
-> 
-> dmesg output:
-> 
-> [31173.105709] cx231xx 3-1:1.1: New device AVerMedia TECHNOLOGIES, Inc. AVerMedia C039 USB Pure Capture @ 480 Mbps (07ca:c039) with 7 interfaces
-> [31173.106062] cx231xx 3-1:1.1: can't change interface 4 alt no. to 3: Max. Pkt size = 0
-> [31173.106065] cx231xx 3-1:1.1: Identified as Conexant VIDEO GRABBER (card=5)
-> [31173.106649] i2c i2c-13: Added multiplexed i2c bus 15
-> [31173.106704] i2c i2c-13: Added multiplexed i2c bus 16
-> [31173.214440] cx25840 12-0044: cx23102 A/V decoder found @ 0x88 (cx231xx #0-0)
-> [31175.444434] cx25840 12-0044: loaded v4l-cx231xx-avcore-01.fw firmware (16382 bytes)
-> [31175.493936] cx231xx 3-1:1.1: v4l2 driver version 0.0.3
-> [31175.620281] cx231xx 3-1:1.1: Registered video device video2 [v4l2]
-> [31175.620318] cx231xx 3-1:1.1: Registered VBI device vbi0
-> [31175.620423] cx231xx 3-1:1.1: audio EndPoint Addr 0x83, Alternate settings: 3
-> [31175.620426] cx231xx 3-1:1.1: video EndPoint Addr 0x84, Alternate settings: 5
-> [31175.620429] cx231xx 3-1:1.1: VBI EndPoint Addr 0x85, Alternate settings: 2
-> [31175.620431] cx231xx 3-1:1.1: sliced CC EndPoint Addr 0x86, Alternate settings: 2
-> [31175.620433] cx231xx 3-1:1.1: TS EndPoint Addr 0x81, Alternate settings: 6
-> 
-> https://bugzilla.kernel.org/show_bug.cgi?id=219764 (also contains a sample video clip of the issue)
-> https://www.linuxtv.org/wiki/index.php/AVerMedia_DVD_EZMaker_7_(C039)
-> 
-> 
-> Any help and/or suggestions would be greatly appreciated. :)
+Hey Ming,
 
-I tested this today, and unfortunately for you it works fine for me.
+On 17.01.2025 16:57, Ming Qian wrote:
+>The amphion decoder will pre-parse 3 frames before decoding the first
+>frame. If we append a flush padding data after frame, the decoder
+>will finish parsing and start to decode when the flush data is parsed.
+>It can reduce the decoding latency.
+>In the past, we only enable this mode when the display delay is set to
+>0. But we still can enable this mode without changing the display order,
+>so we add a frame_flush_mode parameter to enable it.
 
-I do not have this specific model, but it falls back to card 5 (Conexant VIDEO GRABBER)
-and I happen to have the Conexant VIDEO GRABBER, so I tested with that, capturing NTSC
-on the S-Video input. And it is fine.
+My recommendation:
 
-Since you can test under Windows, check the .INF file that is provided for the
-Windows driver: that can sometimes contain useful information about how the
-card should be configured. You can mail it to me and I can take a look at it
-if this is not something you can do yourself.
+By default the amphion decoder will pre-parse 3 frames before starting
+to decode the first frame. Alternatively, a block of flush padding data
+can be appended to the frame, which will ensure that the decoder can
+start decoding immediately after parsing the flush padding data, thus
+potentially reducing decoding latency.
+This mode was previously only enabled, when the display delay was set to
+0. Allow the user to manually toggle the use of that mode via a module
+parameter called frame_flush_mode, which enables the mode without
+changing the display order.
 
-Don't hold your breath though.
+
+Which fixes a few grammatical issues and tries to be a bit more clear.
+But please confirm to me that I hit your intended meaning.
+
+More comments below ...
+
+>
+>Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
+>---
+> drivers/media/platform/amphion/vpu_malone.c | 5 ++++-
+> 1 file changed, 4 insertions(+), 1 deletion(-)
+>
+>diff --git a/drivers/media/platform/amphion/vpu_malone.c b/drivers/media/platform/amphion/vpu_malone.c
+>index 1d9e10d9bec1..f07660dc3b07 100644
+>--- a/drivers/media/platform/amphion/vpu_malone.c
+>+++ b/drivers/media/platform/amphion/vpu_malone.c
+>@@ -25,6 +25,9 @@
+> #include "vpu_imx8q.h"
+> #include "vpu_malone.h"
+>
+>+static bool frame_flush_mode;
+>+module_param(frame_flush_mode, bool, 0644);
+
+Could you add a comment here that makes clear to the reader briefly what
+the expected behavior of frame_flush_mode = 0 and frame_flush_mode = 1
+is?
+
+>+
+> #define CMD_SIZE			25600
+> #define MSG_SIZE			25600
+> #define CODEC_SIZE			0x1000
+>@@ -1579,7 +1582,7 @@ static int vpu_malone_input_frame_data(struct vpu_malone_str_buffer __iomem *str
+>
+> 	vpu_malone_update_wptr(str_buf, wptr);
+>
+>-	if (disp_imm && !vpu_vb_is_codecconfig(vbuf)) {
+>+	if ((disp_imm || frame_flush_mode) && !vpu_vb_is_codecconfig(vbuf)) {
+
+So you say that the mode was enabled with display delay set to 0,
+meaning (disp_imm = 1) == (display delay = 0), right? E.g. disp_imm
+means display_immediately I guess.
+
+I think this all deserves a lot better documentation, otherwise the code
+becomes quite cryptic. Could you add a comment before this line, which
+explains the entry conditions disp_imm & frame_flush_mode and the
+codeconfig thing and that explains briefly what kind of mode we are
+entering here?
+
+> 		ret = vpu_malone_add_scode(inst->core->iface,
+> 					   inst->id,
+> 					   &inst->stream_buffer,
+>-- 
+>2.43.0-rc1
+>
+>
 
 Regards,
-
-	Hans
+Sebastian Fricke
 
