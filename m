@@ -1,123 +1,160 @@
-Return-Path: <linux-media+bounces-26846-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26847-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B97E2A426ED
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 16:53:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E908A427B4
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 17:20:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 972FF168706
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 15:49:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 274693A875F
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 16:17:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28A3A261564;
-	Mon, 24 Feb 2025 15:49:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47C2B260A56;
+	Mon, 24 Feb 2025 16:17:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="l1FsVu/6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from exchange.fintech.ru (exchange.fintech.ru [195.54.195.159])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-SHA384 (256/256 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 510E1261383;
-	Mon, 24 Feb 2025 15:49:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.54.195.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90691553BC
+	for <linux-media@vger.kernel.org>; Mon, 24 Feb 2025 16:17:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740412174; cv=none; b=mIoEbE0sU0UeSSUAKM0mZibf1gzt2KnjS3ygOFGKHmcd9cGUHYWo3aMKtZR8mRAAeSLfYA3OgONUlhX56q5Zycvz7ZWj4qwgMs4epKUawS71GGCAWGUKj8i0s6xrDNqRDQqS4K88tHVqIeH6UZwead85kLm8WYBk89zwdX3dco8=
+	t=1740413827; cv=none; b=e9gO7vBZtbXMXJOcsQwZihoUJO4poXFUrzA63YvZKXytyceGdNiQMDKsGfIKH8DgdFlW41ilrHjPuSu41eaSRjWxOWWtc4CcxsaBgbbm/8xgy+oAWolHgaUN/hThOGO5LAzj74DcnXZfelqWt53Lcy2sSEAVuD+N2Y2nEwVU2vE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740412174; c=relaxed/simple;
-	bh=x4hmtsNoaZPvA2XK6XOAhEj0ABwOAUsGA+qnNVorA/A=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ap+9W3X3TxknHzSVQ2aLIheDc1VgifIAHFh1kAWQk/kjnjftsopRDeYPpdYJ2fgPbQb3sLbbDNymWuTvrpxDQEbWMaUshCoz0CCAWd/xcI7hbEaa7ZOd2GQ+ayvSUUKTARgVVxQCtWG2EKDKbQkhqr4oAv2MN/z/BsVTzt6onAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru; spf=pass smtp.mailfrom=fintech.ru; arc=none smtp.client-ip=195.54.195.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fintech.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fintech.ru
-Received: from Ex16-01.fintech.ru (10.0.10.18) by exchange.fintech.ru
- (195.54.195.169) with Microsoft SMTP Server (TLS) id 14.3.498.0; Mon, 24 Feb
- 2025 18:49:29 +0300
-Received: from localhost (10.0.253.138) by Ex16-01.fintech.ru (10.0.10.18)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2242.4; Mon, 24 Feb
- 2025 18:49:28 +0300
-From: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
-To: Shuah Khan <skhan@linuxfoundation.org>, Kieran Bingham
-	<kieran.bingham@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: Nikita Zhandarovich <n.zhandarovich@fintech.ru>,
-	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<syzbot+5bcd7c809d365e14c4df@syzkaller.appspotmail.com>,
-	<syzkaller-bugs@googlegroups.com>
-Subject: [PATCH] media: vimc: skip .s_stream() for stopped entities
-Date: Mon, 24 Feb 2025 18:49:26 +0300
-Message-ID: <20250224154928.1220074-1-n.zhandarovich@fintech.ru>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1740413827; c=relaxed/simple;
+	bh=MtLnMYI5IwuRpwi2yJjGSUyDIweVCUySro1/f+B8utY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DX9CaFC7kgYAvjSbnmRr62A1PuxHhDBBzqj81R+m0mYZMRH9VSB0XJbGoxAxEEwkvLLIddL05JWwzhBUWUfbtbcUCV/0wbFdWQFZERQbpURFSeBHJSxqtu5sP11ESeaH/FRnwAuN5OrssYUGV2igpNqvwsnYzSVKy8dWf8d55c8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=l1FsVu/6; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A5437220;
+	Mon, 24 Feb 2025 17:15:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1740413731;
+	bh=MtLnMYI5IwuRpwi2yJjGSUyDIweVCUySro1/f+B8utY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=l1FsVu/6/6C/5xabAPdSGKxBLNcgMaQLb8V5IZFSBvlc2FJSEkpAfDbfAknNPslRA
+	 yJb8uFHfy+1rg4usMSlDYO/TpbOMqoHJ9ImTxnuXgHKgGk8Hw3eIjmqckEtAUSvBhr
+	 hqS+Tj1Nnu5URIA4cXXVyQsqeHWYfD8rhKFmq2oA=
+Date: Mon, 24 Feb 2025 18:16:40 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	dave.stevenson@raspberrypi.com, linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: imx219: Add support for 'clock-frequency'
+ parsing
+Message-ID: <20250224161640.GA6778@pendragon.ideasonboard.com>
+References: <20250220154909.152538-1-mehdi.djait@linux.intel.com>
+ <20250223230649.GD16159@pendragon.ideasonboard.com>
+ <picj7e6sohybmsyb63xuxdglyxk67pj3rfmej27lr2z2pyaqss@ahqmpyszie3a>
+ <Z7w-9DjMOIDtndti@kekkonen.localdomain>
+ <hs5odm7vni4va2wikso7htyqcgbaiqbfrjqzeofzofrrabn5d6@cportdepyasr>
+ <2462254c-bd3f-488b-94d9-e11e16108327@ideasonboard.com>
+ <Z7xq7EqpBFEvVRjR@kekkonen.localdomain>
+ <20250224132536.GE25447@pendragon.ideasonboard.com>
+ <Z7yEa--OvfQU1BVJ@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: Ex16-02.fintech.ru (10.0.10.19) To Ex16-01.fintech.ru
- (10.0.10.18)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Z7yEa--OvfQU1BVJ@kekkonen.localdomain>
 
-Syzbot reported [1] a warning prompted by a check in call_s_stream()
-that checks whether .s_stream() operation is warranted for unstarted
-or stopped subdevs.
+On Mon, Feb 24, 2025 at 02:38:35PM +0000, Sakari Ailus wrote:
+> On Mon, Feb 24, 2025 at 03:25:36PM +0200, Laurent Pinchart wrote:
+> > On Mon, Feb 24, 2025 at 12:49:48PM +0000, Sakari Ailus wrote:
+> > > On Mon, Feb 24, 2025 at 02:24:29PM +0200, Tomi Valkeinen wrote:
+> > > > On 24/02/2025 13:54, Mehdi Djait wrote:
+> > > > > On Mon, Feb 24, 2025 at 09:42:12AM +0000, Sakari Ailus wrote:
+> > > > > > On Mon, Feb 24, 2025 at 08:59:34AM +0100, Mehdi Djait wrote:
+> > > > > > > On Mon, Feb 24, 2025 at 01:06:49AM +0200, Laurent Pinchart wrote:
+> > > > > > > > On Thu, Feb 20, 2025 at 04:49:09PM +0100, Mehdi Djait wrote:
+> > > > > > > > > Make the clock producer reference lookup optional
+> > > > > > > > > 
+> > > > > > > > > Add support for ACPI-based platforms by parsing the 'clock-frequency'
+> > > > > > > > > property when no clock producer is available
+> > > > > > > > > 
+> > > > > > > > > Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+> > > > > > > > > ---
+> > > > > > > > >   drivers/media/i2c/imx219.c | 14 ++++++++++++--
+> > > > > > > > >   1 file changed, 12 insertions(+), 2 deletions(-)
+> > > > > > > > > 
+> > > > > > > > > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> > > > > > > > > index 2d54cea113e1..a876a6d80a47 100644
+> > > > > > > > > --- a/drivers/media/i2c/imx219.c
+> > > > > > > > > +++ b/drivers/media/i2c/imx219.c
+> > > > > > > > > @@ -1103,12 +1103,22 @@ static int imx219_probe(struct i2c_client *client)
+> > > > > > > > >   				     "failed to initialize CCI\n");
+> > > > > > > > >   	/* Get system clock (xclk) */
+> > > > > > > > > -	imx219->xclk = devm_clk_get(dev, NULL);
+> > > > > > > > > +	imx219->xclk = devm_clk_get_optional(dev, NULL);
+> > > > > > > > >   	if (IS_ERR(imx219->xclk))
+> > > > > > > > >   		return dev_err_probe(dev, PTR_ERR(imx219->xclk),
+> > > > > > > > >   				     "failed to get xclk\n");
+> > > > > > > > > -	imx219->xclk_freq = clk_get_rate(imx219->xclk);
+> > > > > > > > > +	if (imx219->xclk) {
+> > > > > > > > > +		imx219->xclk_freq = clk_get_rate(imx219->xclk);
+> > > > > > > > > +	} else {
+> > > > > > > > > +		ret = fwnode_property_read_u32(dev_fwnode(dev),
+> > > > > > > > > +					       "clock-frequency",
+> > > > > > > > > +					       &imx219->xclk_freq);
+> > > > > > > > > +		if (ret)
+> > > > > > > > > +			return dev_err_probe(dev, ret,
+> > > > > > > > > +					     "failed to get clock frequency");
+> > > > > > > > > +	}
+> > > > > > > > > +
+> > > > > > > > 
+> > > > > > > > This doesn't seem specific to the imx219 driver. Could you turn this
+> > > > > > > > into a generic V4L2 sensor helper that would take a struct device and a
+> > > > > > > > clock name, and return the frequency, either retrieved from the clock,
+> > > > > > > > or from the clock-frequency property as a fallback ?
+> > > > > > > > 
+> > > > > > > > Some drivers will also need to control the clock, so the clock should
+> > > > > > > > probably be returned too.
+> > > > > > > > 
+> > > > > > > 
+> > > > > > > Yes, I saw that many sensor drivers have the same issue.
+> > > > > > > 
+> > > > > > > I will try to make it into a generic V4L2 helper and send the patches.
+> > > > > > 
+> > > > > > There are other such functions in drivers/media/v4l2-core/v4l2-common.c.
+> > > > > > Perhaps this is where the new helper could be located as well?
+> > > > > > 
+> > > > > 
+> > > > > I was thinking about drivers/media/v4l2-core/v4l2-fwnode.c but if
+> > > > > v4l2-common.c is more appropriate we can go with that.
+> > > > 
+> > > > I admit I have no clue about ACPI, but why is this v4l2 specific? Why
+> > > > doesn't clock framework do this for us?
+> > > 
+> > > The "clock-frequency" isn't really specific to ACPI but it's used on some
+> > > boards with DT, too, that precede the current clock bindings. Clocks aren't
+> > > generally available to OS in ACPI either but the sensor drivers still need
+> > > them. DisCo for Imaging uses "mipi-img-clock-frequency" which DisCo for
+> > > Imaging code deep down in the ACPI framework will offer to drivers as
+> > > "clock-frequency". A lot of this is actually specific to cameras. On top of
+> > > that, camera sensors tend to be devices that are used equally on both DT
+> > > and ACPI systems, it's quite uncommon elsewhere. Therefore I do think the
+> > > natural place for this code is actually the V4L2 framework.
+> > 
+> > Can ACPI devices support programmable sensor clock frequency ?
+> 
+> Do you mean sensor's external clock or PLL? And do you mean programmable
+> as configured in system firmware or at runtime?
 
-Add a simple fix in vimc_streamer_pipeline_terminate() ensuring that
-entities skip a call to .s_stream() unless they have been previously
-properly started.
+I mean external clock, and configurable at runtime.
 
-[1] Syzbot report:
-------------[ cut here ]------------
-WARNING: CPU: 0 PID: 5933 at drivers/media/v4l2-core/v4l2-subdev.c:460 call_s_stream+0x2df/0x350 drivers/media/v4l2-core/v4l2-subdev.c:460
-Modules linked in:
-CPU: 0 UID: 0 PID: 5933 Comm: syz-executor330 Not tainted 6.13.0-rc2-syzkaller-00362-g2d8308bf5b67 #0
-...
-Call Trace:
- <TASK>
- vimc_streamer_pipeline_terminate+0x218/0x320 drivers/media/test-drivers/vimc/vimc-streamer.c:62
- vimc_streamer_pipeline_init drivers/media/test-drivers/vimc/vimc-streamer.c:101 [inline]
- vimc_streamer_s_stream+0x650/0x9a0 drivers/media/test-drivers/vimc/vimc-streamer.c:203
- vimc_capture_start_streaming+0xa1/0x130 drivers/media/test-drivers/vimc/vimc-capture.c:256
- vb2_start_streaming+0x15f/0x5a0 drivers/media/common/videobuf2/videobuf2-core.c:1789
- vb2_core_streamon+0x2a7/0x450 drivers/media/common/videobuf2/videobuf2-core.c:2348
- vb2_streamon drivers/media/common/videobuf2/videobuf2-v4l2.c:875 [inline]
- vb2_ioctl_streamon+0xf4/0x170 drivers/media/common/videobuf2/videobuf2-v4l2.c:1118
- __video_do_ioctl+0xaf0/0xf00 drivers/media/v4l2-core/v4l2-ioctl.c:3122
- video_usercopy+0x4d2/0x1620 drivers/media/v4l2-core/v4l2-ioctl.c:3463
- v4l2_ioctl+0x1ba/0x250 drivers/media/v4l2-core/v4l2-dev.c:366
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:906 [inline]
- __se_sys_ioctl fs/ioctl.c:892 [inline]
- __x64_sys_ioctl+0x190/0x200 fs/ioctl.c:892
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f2b85c01b19
-...
+-- 
+Regards,
 
-Reported-by: syzbot+5bcd7c809d365e14c4df@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=5bcd7c809d365e14c4df
-Fixes: adc589d2a208 ("media: vimc: Add vimc-streamer for stream control")
-Cc: stable@vger.kernel.org
-Signed-off-by: Nikita Zhandarovich <n.zhandarovich@fintech.ru>
----
- drivers/media/test-drivers/vimc/vimc-streamer.c | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/drivers/media/test-drivers/vimc/vimc-streamer.c b/drivers/media/test-drivers/vimc/vimc-streamer.c
-index 807551a5143b..64dd7e0ea5ad 100644
---- a/drivers/media/test-drivers/vimc/vimc-streamer.c
-+++ b/drivers/media/test-drivers/vimc/vimc-streamer.c
-@@ -59,6 +59,12 @@ static void vimc_streamer_pipeline_terminate(struct vimc_stream *stream)
- 			continue;
- 
- 		sd = media_entity_to_v4l2_subdev(ved->ent);
-+		/*
-+		 * Do not call .s_stream() to stop an already
-+		 * stopped/unstarted subdev.
-+		 */
-+		if (!sd->s_stream_enabled)
-+			continue;
- 		v4l2_subdev_call(sd, video, s_stream, 0);
- 	}
- }
+Laurent Pinchart
 
