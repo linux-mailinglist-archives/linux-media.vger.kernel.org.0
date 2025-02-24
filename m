@@ -1,77 +1,84 @@
-Return-Path: <linux-media+bounces-26839-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26840-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77E84A4236C
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 15:42:26 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14698A423CF
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 15:49:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5A8DB162DDE
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 14:33:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 83ECE3B15EC
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 14:40:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E808194A66;
-	Mon, 24 Feb 2025 14:29:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09F43221F20;
+	Mon, 24 Feb 2025 14:38:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="P/UIet10"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RBnhj4+c"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1708A1714CF;
-	Mon, 24 Feb 2025 14:29:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC49A4A33
+	for <linux-media@vger.kernel.org>; Mon, 24 Feb 2025 14:38:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740407379; cv=none; b=ehAYajX9cPuu6TQuHbjyud1LMV3cUvVueq0KmFOihy7xGzKWncwFDCRKIfsXisVhNUfH4xSJzVEInw5X+fAs4xlZkq7NqOxOywWkDstoRCdzbgg7f780LMzIz8cXvBtGAJLAPFfRdoKAzm6GN5zk6LRtBJXmkFWOhG2VNGNe5QI=
+	t=1740407924; cv=none; b=R1cd+PTIQ4Fl+DjjuwcZMk61ufWURQ48VtqpqHVtYbJaeOmnXNeVRnwzM9AeEDVX4Z54ABVq/QysHqMkKTm7hOuwXVoZDm1T604bH01DBupHbwKTaxJmKkfJKFuGAYm+jzeAteGlDbnytMqhl08/wPH6byGnYKJKKU/vzhDxHOc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740407379; c=relaxed/simple;
-	bh=dzZWpseyrev5OlunHDNaX/H3YV4k079RCauuuFOelKs=;
+	s=arc-20240116; t=1740407924; c=relaxed/simple;
+	bh=9T9hARGO1IXs7GfmYuvbqjXlcPx880HJBq97Au4RxPo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZlwKUPetKJA+Sj4yHddYiLMSMjTpbNV1Ty7ED6Jnmv5XQJtn5JxGUuU+PO7EqrW6cYvg+ki8HXaMkjnIwMmhcdIvxzZBwxe30gnkz0X2qeExThnA7HlODGxlKXEW87PXKFpedxYUdEBN2poXu2S/uwQiJ+WandTLmMCBT2sFerU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=P/UIet10; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=skl/hdL67eQYrrI1zZMSzEtzoqVdjm0qWyq0YsiYIbUeGsfaiBmI23keLVMTGe8jTNUTT+PXyMRqxC+eWYSXfqIxgxqCURcI+CW/SEWHcLElHPvDOhjtkDqkK2hZq+MVsJN4IfrrrsBP9micfanKBQOWVTXVos971kTu6GNw+3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RBnhj4+c; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740407378; x=1771943378;
+  t=1740407923; x=1771943923;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=dzZWpseyrev5OlunHDNaX/H3YV4k079RCauuuFOelKs=;
-  b=P/UIet10gFvil3cezh3xGVeq8gLVBYl69ieg/0vShY5c6L9gzZL1bQbP
-   /6eSe6kihsq9Q/pKC3eDTB9uAvLG8flbF/din4QKRlWPNsxoth72ycj/E
-   vtCAs7M0LAomPyJEgPeNnKVY1/Z42sHOo322C3ZnrwRbzs8alEHRGSKL5
-   EPzETr9WYWO1XcQlfHf3Pq8k7jhnSsRitIOdIXQmjhxl7hUSNRm8yLWHS
-   tUoS0cPEs1Lfu6uF+Ye0OdkhyRfvJBXgVhTwdUEigCtQ2a9RK0xLMOj5F
-   CYvVYkmqoGMHfeHnTdpJQ4CvkgJbbQQnD8s83HAD0VHvzy42ge6k4+kEX
+  bh=9T9hARGO1IXs7GfmYuvbqjXlcPx880HJBq97Au4RxPo=;
+  b=RBnhj4+cYXkaylH3Eb2VUZ67Wh2ffAVs7hpJ4sEk21TRiqkVv530Om9F
+   Ept269TcX2r9OEk1ECi1IhbHEm1BabiYN9dbOeeqmltTdMsFAPQBZeNRx
+   J0EWrRej+yVoDuLsH6AoLo/z7wRw7Fmm3QWRjanda/fo296jMQvshLt9J
+   y9IfFNnNHf4s24YwV0u0KhnELbOZ5R39wU4OQLuZ/JH2TBmwNMk+sp6Ff
+   3QSW7+I5aWp9xUfhr4jA3tFB5IG8yYbLjEAfl9Y2umlZs+kOHGXHI0PEk
+   9e+AC/uKA0EbPVXl8LVRsHLK1XqkuHyiI/20eb0SW+FNF67SOjB5bB0In
    g==;
-X-CSE-ConnectionGUID: Vi1ZG0tATFuM3h4I4baDuA==
-X-CSE-MsgGUID: wYKMN0rKTpmput2ibhHzWA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="41179717"
+X-CSE-ConnectionGUID: uu3rklGOQVSz5JNIzlyIuQ==
+X-CSE-MsgGUID: aqvPFpLOTPSR8HaV19QIKQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="45071610"
 X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="41179717"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 06:29:37 -0800
-X-CSE-ConnectionGUID: 1OsmfyM1ToGAN7Rk7KutlA==
-X-CSE-MsgGUID: nrHSlI1ESqCvxmEiS39VoQ==
+   d="scan'208";a="45071610"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 06:38:40 -0800
+X-CSE-ConnectionGUID: dM8p1BALTYOU3dVHOMLzsA==
+X-CSE-MsgGUID: OCkXEH40QkiujcGN1JfmYg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="116557596"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 06:29:34 -0800
-Date: Mon, 24 Feb 2025 16:29:30 +0200
-From: Raag Jadav <raag.jadav@intel.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com, deller@gmx.de,
-	andriy.shevchenko@linux.intel.com, sre@kernel.org,
-	sakari.ailus@linux.intel.com, mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl, jdmason@kudzu.us, fancer.lancer@gmail.com,
-	linux-sound@vger.kernel.org, linux-fbdev@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-media@vger.kernel.org,
-	ntb@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 00/13] Convert to use devm_kmemdup_array()
-Message-ID: <Z7yCStqIMZfuWcAJ@black.fi.intel.com>
-References: <20250221165333.2780888-1-raag.jadav@intel.com>
- <31f8302b-96be-41f1-9e58-c9f8cb2a9524@sirena.org.uk>
+X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
+   d="scan'208";a="121170362"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 06:38:39 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 04D9611F7E8;
+	Mon, 24 Feb 2025 16:38:36 +0200 (EET)
+Date: Mon, 24 Feb 2025 14:38:35 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	dave.stevenson@raspberrypi.com, linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: i2c: imx219: Add support for 'clock-frequency'
+ parsing
+Message-ID: <Z7yEa--OvfQU1BVJ@kekkonen.localdomain>
+References: <20250220154909.152538-1-mehdi.djait@linux.intel.com>
+ <20250223230649.GD16159@pendragon.ideasonboard.com>
+ <picj7e6sohybmsyb63xuxdglyxk67pj3rfmej27lr2z2pyaqss@ahqmpyszie3a>
+ <Z7w-9DjMOIDtndti@kekkonen.localdomain>
+ <hs5odm7vni4va2wikso7htyqcgbaiqbfrjqzeofzofrrabn5d6@cportdepyasr>
+ <2462254c-bd3f-488b-94d9-e11e16108327@ideasonboard.com>
+ <Z7xq7EqpBFEvVRjR@kekkonen.localdomain>
+ <20250224132536.GE25447@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -80,21 +87,93 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <31f8302b-96be-41f1-9e58-c9f8cb2a9524@sirena.org.uk>
+In-Reply-To: <20250224132536.GE25447@pendragon.ideasonboard.com>
 
-On Mon, Feb 24, 2025 at 01:46:29PM +0000, Mark Brown wrote:
-> On Fri, Feb 21, 2025 at 10:23:20PM +0530, Raag Jadav wrote:
-> > This series is the second wave of patches to add users of newly introduced
-> > devm_kmemdup_array() helper. Original series on [1].
+Hi Laurent,
+
+On Mon, Feb 24, 2025 at 03:25:36PM +0200, Laurent Pinchart wrote:
+> On Mon, Feb 24, 2025 at 12:49:48PM +0000, Sakari Ailus wrote:
+> > On Mon, Feb 24, 2025 at 02:24:29PM +0200, Tomi Valkeinen wrote:
+> > > On 24/02/2025 13:54, Mehdi Djait wrote:
+> > > > On Mon, Feb 24, 2025 at 09:42:12AM +0000, Sakari Ailus wrote:
+> > > > > On Mon, Feb 24, 2025 at 08:59:34AM +0100, Mehdi Djait wrote:
+> > > > > > On Mon, Feb 24, 2025 at 01:06:49AM +0200, Laurent Pinchart wrote:
+> > > > > > > On Thu, Feb 20, 2025 at 04:49:09PM +0100, Mehdi Djait wrote:
+> > > > > > > > Make the clock producer reference lookup optional
+> > > > > > > > 
+> > > > > > > > Add support for ACPI-based platforms by parsing the 'clock-frequency'
+> > > > > > > > property when no clock producer is available
+> > > > > > > > 
+> > > > > > > > Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+> > > > > > > > ---
+> > > > > > > >   drivers/media/i2c/imx219.c | 14 ++++++++++++--
+> > > > > > > >   1 file changed, 12 insertions(+), 2 deletions(-)
+> > > > > > > > 
+> > > > > > > > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> > > > > > > > index 2d54cea113e1..a876a6d80a47 100644
+> > > > > > > > --- a/drivers/media/i2c/imx219.c
+> > > > > > > > +++ b/drivers/media/i2c/imx219.c
+> > > > > > > > @@ -1103,12 +1103,22 @@ static int imx219_probe(struct i2c_client *client)
+> > > > > > > >   				     "failed to initialize CCI\n");
+> > > > > > > >   	/* Get system clock (xclk) */
+> > > > > > > > -	imx219->xclk = devm_clk_get(dev, NULL);
+> > > > > > > > +	imx219->xclk = devm_clk_get_optional(dev, NULL);
+> > > > > > > >   	if (IS_ERR(imx219->xclk))
+> > > > > > > >   		return dev_err_probe(dev, PTR_ERR(imx219->xclk),
+> > > > > > > >   				     "failed to get xclk\n");
+> > > > > > > > -	imx219->xclk_freq = clk_get_rate(imx219->xclk);
+> > > > > > > > +	if (imx219->xclk) {
+> > > > > > > > +		imx219->xclk_freq = clk_get_rate(imx219->xclk);
+> > > > > > > > +	} else {
+> > > > > > > > +		ret = fwnode_property_read_u32(dev_fwnode(dev),
+> > > > > > > > +					       "clock-frequency",
+> > > > > > > > +					       &imx219->xclk_freq);
+> > > > > > > > +		if (ret)
+> > > > > > > > +			return dev_err_probe(dev, ret,
+> > > > > > > > +					     "failed to get clock frequency");
+> > > > > > > > +	}
+> > > > > > > > +
+> > > > > > > 
+> > > > > > > This doesn't seem specific to the imx219 driver. Could you turn this
+> > > > > > > into a generic V4L2 sensor helper that would take a struct device and a
+> > > > > > > clock name, and return the frequency, either retrieved from the clock,
+> > > > > > > or from the clock-frequency property as a fallback ?
+> > > > > > > 
+> > > > > > > Some drivers will also need to control the clock, so the clock should
+> > > > > > > probably be returned too.
+> > > > > > > 
+> > > > > > 
+> > > > > > Yes, I saw that many sensor drivers have the same issue.
+> > > > > > 
+> > > > > > I will try to make it into a generic V4L2 helper and send the patches.
+> > > > > 
+> > > > > There are other such functions in drivers/media/v4l2-core/v4l2-common.c.
+> > > > > Perhaps this is where the new helper could be located as well?
+> > > > > 
+> > > > 
+> > > > I was thinking about drivers/media/v4l2-core/v4l2-fwnode.c but if
+> > > > v4l2-common.c is more appropriate we can go with that.
+> > > 
+> > > I admit I have no clue about ACPI, but why is this v4l2 specific? Why
+> > > doesn't clock framework do this for us?
 > > 
-> > This depends on changes available on immutable tag[2]. Feel free to pick
-> > your subsystem patches with it, or share your preferred way to route them.
+> > The "clock-frequency" isn't really specific to ACPI but it's used on some
+> > boards with DT, too, that precede the current clock bindings. Clocks aren't
+> > generally available to OS in ACPI either but the sensor drivers still need
+> > them. DisCo for Imaging uses "mipi-img-clock-frequency" which DisCo for
+> > Imaging code deep down in the ACPI framework will offer to drivers as
+> > "clock-frequency". A lot of this is actually specific to cameras. On top of
+> > that, camera sensors tend to be devices that are used equally on both DT
+> > and ACPI systems, it's quite uncommon elsewhere. Therefore I do think the
+> > natural place for this code is actually the V4L2 framework.
 > 
-> Please don't combine patches for multiple subsystems into a single patch
-> series, it just makes everything more complex to deal with - it creates
-> cross tree issues that wouldn't otherwise exist.
+> Can ACPI devices support programmable sensor clock frequency ?
 
-Sure, will split v2 per subsystem.
+Do you mean sensor's external clock or PLL? And do you mean programmable
+as configured in system firmware or at runtime?
 
-Raag
+-- 
+Regards,
+
+Sakari Ailus
 
