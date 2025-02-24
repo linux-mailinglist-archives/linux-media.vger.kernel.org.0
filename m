@@ -1,170 +1,206 @@
-Return-Path: <linux-media+bounces-26850-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26851-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C088AA427FD
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 17:34:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4EAA428D6
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 18:06:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E48927A447A
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 16:33:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 579E53B0DD6
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 17:00:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 957FF261570;
-	Mon, 24 Feb 2025 16:34:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93EB2267B07;
+	Mon, 24 Feb 2025 16:56:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="apf3aMDe"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cEZhAAqz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E51DC254848
-	for <linux-media@vger.kernel.org>; Mon, 24 Feb 2025 16:34:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10711266599;
+	Mon, 24 Feb 2025 16:56:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740414884; cv=none; b=emC943Y7sFFByGQ3hF2rujodzXpK+f8xv0lBJCGoYyNoR6fyJQI5epUincCy0gWmj5iNA0IVhS0W5o1essqpzwk30vbkg5R5hZg0VXAExfHXuUH+J27dJRf9WtmMhBvDRFK3vtzcnLtV3cUpBcmrbVAjeoKWUIwL8ifKE0+C8l8=
+	t=1740416204; cv=none; b=DoUmvSGWWM3iYnbYAR9/EO1jLSJ0DIYvvQ9O9o7y4LpTo6mN05cMH5n86ufTjtTsFo73p53FKIeiRHmkQqHVg7uuPW+RS5ZGHao9uJqm1mrMoLYhJefKvCIqlJpWebd7n4oCfa2RaB+7Yuct/h679HdPR1O1KDL2dB69SJQG+L4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740414884; c=relaxed/simple;
-	bh=GGBVKbtB07j4WL/mX2QnYkyB0e72gCYTl3tmi6LXnws=;
+	s=arc-20240116; t=1740416204; c=relaxed/simple;
+	bh=5G5oGYh1CaRHc2d1pU1YAOARWQsm2s7Z+o+/b8xWRQE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gGGmaOoguycYBvwLesp0K0ixsKe2sFr10mzmDL6D+TYyl+WWzoB1FFY+Pzux5fgL+aBOPLCYVd+l2NSLwA5RbTvd58n5dxB6uVtPfrOMwATFoe2el9NUNxgRwFWgYM/PXgDF2BAscxDEaI5/Vq55CQiJH6v5voeg7QDNG1zWxy4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=apf3aMDe; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 51318220;
-	Mon, 24 Feb 2025 17:33:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1740414793;
-	bh=GGBVKbtB07j4WL/mX2QnYkyB0e72gCYTl3tmi6LXnws=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=apf3aMDejXOVTg2HNqngM8sXy4h93YnLK6LI5wBY/fVf+tpdhuWHPV1cbQGIC73X7
-	 aKV7mck4cpSHwSlqpeVcy6O+CxYqVP+9oNUufn+ZsF4O31m58XouodSBpojw0RYyRo
-	 lJ1Rw+t053DYYS9/gsfOeZ61EjQljg2FHsMaF37g=
-Date: Mon, 24 Feb 2025 18:34:21 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	dave.stevenson@raspberrypi.com, linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: i2c: imx219: Add support for 'clock-frequency'
- parsing
-Message-ID: <20250224163421.GB6778@pendragon.ideasonboard.com>
-References: <20250223230649.GD16159@pendragon.ideasonboard.com>
- <picj7e6sohybmsyb63xuxdglyxk67pj3rfmej27lr2z2pyaqss@ahqmpyszie3a>
- <Z7w-9DjMOIDtndti@kekkonen.localdomain>
- <hs5odm7vni4va2wikso7htyqcgbaiqbfrjqzeofzofrrabn5d6@cportdepyasr>
- <2462254c-bd3f-488b-94d9-e11e16108327@ideasonboard.com>
- <Z7xq7EqpBFEvVRjR@kekkonen.localdomain>
- <20250224132536.GE25447@pendragon.ideasonboard.com>
- <Z7yEa--OvfQU1BVJ@kekkonen.localdomain>
- <20250224161640.GA6778@pendragon.ideasonboard.com>
- <Z7yeP_sORqiVAh_Y@kekkonen.localdomain>
+	 Content-Type:Content-Disposition:In-Reply-To; b=cQbbtxpCnUwiFym8551S2GhQX4biMNstcQhnTeiQNkcLMDjOzhop9eZR8wupPaxtkz2/slpu8ZvKbZ9dMQqpuT1CcUF1neb/q47RL4WmHM1MpCRA8aG27TWLr7a7eujWPRuyYCqwMQGaEqAYAM4MSly4SUibo0iAXMfDBMXqEr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cEZhAAqz; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-221057b6ac4so89038365ad.2;
+        Mon, 24 Feb 2025 08:56:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740416202; x=1741021002; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uiOFRZn2H6lerxDkJoj1wxqiGhkAtJgTGIELTuQhums=;
+        b=cEZhAAqzCsAWehsy2m8SvMlKBj6e4Rf3fkqkxHM+Euy8xATo2R35GQ0bt9RwE/fcFh
+         y1uvBeeGvg0ujDplELvufLpbMYQwU/6n3mhQ8zPfGkDewFXyaD0l5IcoSZ1C2tfgLFk+
+         d5CRXcmqVXitlh58Fn7FOwh2agJ10BJiSH9Qb2ZyO/cM9I6Hy/KuVAA0i0Wt9hNLixf5
+         iZ4FjI8LjgsxGExu5FP5ZBJg9agTe0SElmgqHcM+rPKaYuEkfTyREygd4cMQ6CjO8dm6
+         v4kKEz/L1B2mgK0vivaUclcfl5nqBBmNc110t13DKAB1O0TCJyY+bWT3n+VJkh80zm6k
+         90vQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740416202; x=1741021002;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=uiOFRZn2H6lerxDkJoj1wxqiGhkAtJgTGIELTuQhums=;
+        b=l8f/NsfAuAR3PReXRRsuYVzQOHEv4/3KaZ5VT/jkV4SxrwPxHGcZpZyJRDV3kMHhZE
+         kbhNUvrPGziCrWQKRPvLsVOVbONTyAULPWmZmXxxtu2JRzOqOJFv45nj3xAkV+SV6uDX
+         TIJ3A5N63E219Q/djhRPDiugxyPbNMDMw6Kfx2uZIpY1ax6PxT04NnT2/IEJJZNIZyC4
+         T4TxHmiCKSabZqQXDRUSFGf28DtOEq8v75FltwjAh6PFqTyVpOi9QjfN9xBM/b5HB+Ko
+         gJP/O3xe7EZwjtPm71yQWTFka6+dJueoSX2fI/mWEeVv4SyyFXhBcgxrAruXxNWI3DN5
+         paMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUCgCbaBzq9fKe6FKJEYKAcFFTrnZx2udHzb0F0vYdJVmp1XYzhiuNM24084X/zy+rNSCKkmX8ywoe4lcU7@vger.kernel.org, AJvYcCUOVpPu6Lh3dBC5DqE79mqP3AhLLqDHhWoG/wcytDKp62p1pTpkIFHzHIn4hw6vfmuPw2L3vbR8MxkgK4IXIpQ=@vger.kernel.org, AJvYcCV6eaHqzGSYhiIyN9ZMKon+gXyFH/SV4278oVJcwgrEBHk38hhTaEQWWqJAb7DNAtb9545OWAKYkLIJ9LSi@vger.kernel.org, AJvYcCVIyEQUQD1rTXw+I4IgViyWIs0Wb0LLRTymfULJ13/d6lJsO6oWynO2v0CGiSEe0IEaaxM=@vger.kernel.org, AJvYcCVyt57IAKQv77uOT39maNHKVXX3xc34itm7bFrRG/zYsxVWoUfrI7nhoDdKBv43Qq7aQ7vmwDit38pVw+o=@vger.kernel.org, AJvYcCXeOGlUtvEujBwq+2eLJo6hRE396LATNA+O+tx4lN7LoJ8JEjV09KjJT55dqFjnCDOO1YcH/Mpf@vger.kernel.org, AJvYcCXfSi1yw1ly9s5TovwmcdXKdmtRSs+zzFvwOde9jNRkPd1UzflW8iBBDFMT9xu1cCD04HiF/gI7klADCLE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyK+XKClVqyfk/K9SEIcrKr77+7160Fj2D6o7Ap6NM3e1bASkue
+	aHFVkF+dC7ukofjnyCpCBHUQfvfLcEl+w7RWF5CDE2ja3IzsJaWl
+X-Gm-Gg: ASbGncsFufCa1KHv59coqIT4kIwy10FUKS6ZmnCe908AO0EJ37yK9zyRuEgAyySdz2T
+	h6Xt2mOn/5JulXy7WVF7CqJoatb9DLvgjyRp1zWko2TV0IWNakC2r3gjgDglk+vhJaiLlrUylVA
+	pRMhj1CSShhmtKyLG9zIZP+Xy+kaVyKukxZgSPvFRq+pkToykR2VaEResVv/JkyCLtSIV8+O4kB
+	LFP61iGnavhcC9Go/Iy4OiWV/btY/HY5eOl1UnwQxirKwmq8qKKl//0y7k18Nqd0Yv6E84s0c9o
+	IR4CmWWihJzkFYyd0n3bLBeabqw3
+X-Google-Smtp-Source: AGHT+IFVgQBLmZYFNL+ZV4HrxXg4lZgXZnXGnGr0U7DF5esCoQcIST0NuWk3m7oQnTUJjc9HIW9Ozw==
+X-Received: by 2002:a17:902:d492:b0:220:c63b:d93c with SMTP id d9443c01a7336-221a11b9493mr230835105ad.44.1740416201946;
+        Mon, 24 Feb 2025 08:56:41 -0800 (PST)
+Received: from eleanor-wkdl ([140.116.96.203])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-220d534afadsm185140065ad.26.2025.02.24.08.56.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Feb 2025 08:56:41 -0800 (PST)
+Date: Tue, 25 Feb 2025 00:56:29 +0800
+From: Yu-Chun Lin <eleanor15x@gmail.com>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Jiri Slaby <jirislaby@kernel.org>, Kuan-Wei Chiu <visitorckw@gmail.com>,
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
+	joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org, rfoss@kernel.org,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+	dmitry.torokhov@gmail.com, mchehab@kernel.org,
+	awalls@md.metrocast.net, hverkuil@xs4all.nl,
+	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+	louis.peens@corigine.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+	johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+	yury.norov@gmail.com, akpm@linux-foundation.org, hpa@zytor.com,
+	alistair@popple.id.au, linux@rasmusvillemoes.dk,
+	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+	jernej.skrabec@gmail.com, kuba@kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+	oss-drivers@corigine.com, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw
+Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
+Message-ID: <Z7ykvf1g03XDLXKc@eleanor-wkdl>
+References: <20250223164217.2139331-1-visitorckw@gmail.com>
+ <20250223164217.2139331-3-visitorckw@gmail.com>
+ <bde62fee-4617-4db7-b92c-59fb958c4ca6@kernel.org>
+ <20250224133431.2c38213f@pumpkin>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z7yeP_sORqiVAh_Y@kekkonen.localdomain>
+In-Reply-To: <20250224133431.2c38213f@pumpkin>
 
-On Mon, Feb 24, 2025 at 04:28:47PM +0000, Sakari Ailus wrote:
-> On Mon, Feb 24, 2025 at 06:16:40PM +0200, Laurent Pinchart wrote:
-> > On Mon, Feb 24, 2025 at 02:38:35PM +0000, Sakari Ailus wrote:
-> > > On Mon, Feb 24, 2025 at 03:25:36PM +0200, Laurent Pinchart wrote:
-> > > > On Mon, Feb 24, 2025 at 12:49:48PM +0000, Sakari Ailus wrote:
-> > > > > On Mon, Feb 24, 2025 at 02:24:29PM +0200, Tomi Valkeinen wrote:
-> > > > > > On 24/02/2025 13:54, Mehdi Djait wrote:
-> > > > > > > On Mon, Feb 24, 2025 at 09:42:12AM +0000, Sakari Ailus wrote:
-> > > > > > > > On Mon, Feb 24, 2025 at 08:59:34AM +0100, Mehdi Djait wrote:
-> > > > > > > > > On Mon, Feb 24, 2025 at 01:06:49AM +0200, Laurent Pinchart wrote:
-> > > > > > > > > > On Thu, Feb 20, 2025 at 04:49:09PM +0100, Mehdi Djait wrote:
-> > > > > > > > > > > Make the clock producer reference lookup optional
-> > > > > > > > > > > 
-> > > > > > > > > > > Add support for ACPI-based platforms by parsing the 'clock-frequency'
-> > > > > > > > > > > property when no clock producer is available
-> > > > > > > > > > > 
-> > > > > > > > > > > Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
-> > > > > > > > > > > ---
-> > > > > > > > > > >   drivers/media/i2c/imx219.c | 14 ++++++++++++--
-> > > > > > > > > > >   1 file changed, 12 insertions(+), 2 deletions(-)
-> > > > > > > > > > > 
-> > > > > > > > > > > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> > > > > > > > > > > index 2d54cea113e1..a876a6d80a47 100644
-> > > > > > > > > > > --- a/drivers/media/i2c/imx219.c
-> > > > > > > > > > > +++ b/drivers/media/i2c/imx219.c
-> > > > > > > > > > > @@ -1103,12 +1103,22 @@ static int imx219_probe(struct i2c_client *client)
-> > > > > > > > > > >   				     "failed to initialize CCI\n");
-> > > > > > > > > > >   	/* Get system clock (xclk) */
-> > > > > > > > > > > -	imx219->xclk = devm_clk_get(dev, NULL);
-> > > > > > > > > > > +	imx219->xclk = devm_clk_get_optional(dev, NULL);
-> > > > > > > > > > >   	if (IS_ERR(imx219->xclk))
-> > > > > > > > > > >   		return dev_err_probe(dev, PTR_ERR(imx219->xclk),
-> > > > > > > > > > >   				     "failed to get xclk\n");
-> > > > > > > > > > > -	imx219->xclk_freq = clk_get_rate(imx219->xclk);
-> > > > > > > > > > > +	if (imx219->xclk) {
-> > > > > > > > > > > +		imx219->xclk_freq = clk_get_rate(imx219->xclk);
-> > > > > > > > > > > +	} else {
-> > > > > > > > > > > +		ret = fwnode_property_read_u32(dev_fwnode(dev),
-> > > > > > > > > > > +					       "clock-frequency",
-> > > > > > > > > > > +					       &imx219->xclk_freq);
-> > > > > > > > > > > +		if (ret)
-> > > > > > > > > > > +			return dev_err_probe(dev, ret,
-> > > > > > > > > > > +					     "failed to get clock frequency");
-> > > > > > > > > > > +	}
-> > > > > > > > > > > +
-> > > > > > > > > > 
-> > > > > > > > > > This doesn't seem specific to the imx219 driver. Could you turn this
-> > > > > > > > > > into a generic V4L2 sensor helper that would take a struct device and a
-> > > > > > > > > > clock name, and return the frequency, either retrieved from the clock,
-> > > > > > > > > > or from the clock-frequency property as a fallback ?
-> > > > > > > > > > 
-> > > > > > > > > > Some drivers will also need to control the clock, so the clock should
-> > > > > > > > > > probably be returned too.
-> > > > > > > > > > 
-> > > > > > > > > 
-> > > > > > > > > Yes, I saw that many sensor drivers have the same issue.
-> > > > > > > > > 
-> > > > > > > > > I will try to make it into a generic V4L2 helper and send the patches.
-> > > > > > > > 
-> > > > > > > > There are other such functions in drivers/media/v4l2-core/v4l2-common.c.
-> > > > > > > > Perhaps this is where the new helper could be located as well?
-> > > > > > > > 
-> > > > > > > 
-> > > > > > > I was thinking about drivers/media/v4l2-core/v4l2-fwnode.c but if
-> > > > > > > v4l2-common.c is more appropriate we can go with that.
-> > > > > > 
-> > > > > > I admit I have no clue about ACPI, but why is this v4l2 specific? Why
-> > > > > > doesn't clock framework do this for us?
-> > > > > 
-> > > > > The "clock-frequency" isn't really specific to ACPI but it's used on some
-> > > > > boards with DT, too, that precede the current clock bindings. Clocks aren't
-> > > > > generally available to OS in ACPI either but the sensor drivers still need
-> > > > > them. DisCo for Imaging uses "mipi-img-clock-frequency" which DisCo for
-> > > > > Imaging code deep down in the ACPI framework will offer to drivers as
-> > > > > "clock-frequency". A lot of this is actually specific to cameras. On top of
-> > > > > that, camera sensors tend to be devices that are used equally on both DT
-> > > > > and ACPI systems, it's quite uncommon elsewhere. Therefore I do think the
-> > > > > natural place for this code is actually the V4L2 framework.
-> > > > 
-> > > > Can ACPI devices support programmable sensor clock frequency ?
-> > > 
-> > > Do you mean sensor's external clock or PLL? And do you mean programmable
-> > > as configured in system firmware or at runtime?
-> > 
-> > I mean external clock, and configurable at runtime.
+On Mon, Feb 24, 2025 at 01:34:31PM +0000, David Laight wrote:
+> On Mon, 24 Feb 2025 08:09:43 +0100
+> Jiri Slaby <jirislaby@kernel.org> wrote:
 > 
-> There's basically no standard API to change a clock's frequency at runtime
-> (as there is no API to handle clocks) -- which is why we have a property
-> instead of that presumed API.
+> > On 23. 02. 25, 17:42, Kuan-Wei Chiu wrote:
+> > > Several parts of the kernel open-code parity calculations using
+> > > different methods. Add a generic parity64() helper implemented with the
+> > > same efficient approach as parity8().
+> > > 
+> > > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> > > ---
+> > >   include/linux/bitops.h | 22 ++++++++++++++++++++++
+> > >   1 file changed, 22 insertions(+)
+> > > 
+> > > diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+> > > index fb13dedad7aa..67677057f5e2 100644
+> > > --- a/include/linux/bitops.h
+> > > +++ b/include/linux/bitops.h
+> > > @@ -281,6 +281,28 @@ static inline int parity32(u32 val)
+> > >   	return (0x6996 >> (val & 0xf)) & 1;
+> > >   }
+> > >   
+> > > +/**
+> > > + * parity64 - get the parity of an u64 value
+> > > + * @value: the value to be examined
+> > > + *
+> > > + * Determine the parity of the u64 argument.
+> > > + *
+> > > + * Returns:
+> > > + * 0 for even parity, 1 for odd parity
+> > > + */
+> > > +static inline int parity64(u64 val)
+> > > +{
+> > > +	/*
+> > > +	 * One explanation of this algorithm:
+> > > +	 * https://funloop.org/codex/problem/parity/README.html
+> > > +	 */
+> > > +	val ^= val >> 32;  
+> > 
+> > Do we need all these implementations? Can't we simply use parity64() for 
+> > any 8, 16 and 32-bit values too? I.e. have one parity().
+> 
+> I'm not sure you can guarantee that the compiler will optimise away
+> the unnecessary operations.
 
-I wonder, for ACPI devices that have a clock-frequency property, could
-we automatically register a fixed-frequency clock ?
+Hi Jiri and David,
 
--- 
-Regards,
+Unless we can be certain about the compiler's optimization behavior, we
+prefer to follow an approach similar to hweight, distinguishing
+implementations based on different bit sizes.
 
-Laurent Pinchart
+> 
+> But:
+> static inline int parity64(u64 val)
+> {
+> 	return parity32(val ^ (val >> 32))
+> }
+> 
+> should be ok.
+
+We will adopt this approach, as it is indeed more concise.
+
+Thank you all for your feedback.
+
+Best regards,
+
+Yu-Chun Lin
+
+> It will also work on x86-32 where parity32() can just check the parity flag.
+> Although you are unlikely to manage to use the the PF the xor sets.
+> 
+> 	David
+> 
+> > 
+> > > +	val ^= val >> 16;
+> > > +	val ^= val >> 8;
+> > > +	val ^= val >> 4;
+> > > +	return (0x6996 >> (val & 0xf)) & 1;
+> > > +}
+> > > +
+> > >   /**
+> > >    * __ffs64 - find first set bit in a 64 bit word
+> > >    * @word: The 64 bit word  
+> > 
+> > 
+> 
 
