@@ -1,82 +1,81 @@
-Return-Path: <linux-media+bounces-26819-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26820-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50B8DA41EDA
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 13:27:24 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 717FFA41EE3
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 13:27:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E7A063AEC2B
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 12:21:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E032419C1EFA
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 12:23:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 322EA219300;
-	Mon, 24 Feb 2025 12:19:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 543B1233732;
+	Mon, 24 Feb 2025 12:22:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="I3Fp8gjJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WgOB4+I0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2B771A3174;
-	Mon, 24 Feb 2025 12:19:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A9222192F9;
+	Mon, 24 Feb 2025 12:22:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740399595; cv=none; b=l9zTi87xNkxxwiUuBesRu7lwXzyj6bEK1ekWI0NDg8EXjNSlp4BmgRpXHwENH+t3CpzcFhjnODnbbKk6YbUj56V5cZCc1nkTRwYZdhCZQK2wlvIdx3TOSnFoinKPhz3Z71ViFSKgt6GTRA/HssUqg4beY2bJcb2fLEvFACIbKAk=
+	t=1740399738; cv=none; b=b3Q9ZzNiOst/i/Vpt+eTTmhiLQMnl3n7JBmjsl7w5j6j+/Zd/bL6gJq6KiYYYQv2uudDZfRYQEQQdFCUIXl0Fm78s4fxTK7Fo6dWaefj63Q4uEgVoVuAXaIQfR/Ag1OJ51VAWkzd3XVqgHWLHkQAaz5l/10Tzj+34eOYubGdHQc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740399595; c=relaxed/simple;
-	bh=6BmGyMMS27SVlVYPnXA5Rl27H1w216df0y02GFQxmHg=;
+	s=arc-20240116; t=1740399738; c=relaxed/simple;
+	bh=HFUefC/P5P0u1guY5j9N980bP23neVViId3YrVW8xJ4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UF4Wt7MO0n5dtePzadPTJT1UMQkAE3ncXjECZbHGruyQTHswah8AZRYex7gZUzsisWMDBxzfy+a3jhKeO692brCeh4YCGTlQgPrx/KP62RI2vnq9YS1XMyMZqs3iB3ZCqTswLEblj0HhLbLbl4Oxph1e7zgxu6XPswDyUeNIy+A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=I3Fp8gjJ; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=SMqFLvpPAX6/Sicm1H7MYwhSLelFXlvHPaLo9BExiY3/E4tgOU0opjv2Nnfuk1tPH5zzIssdMLOyzKDZF2uqmgTE43LfO8Wo88B015XWhWTwHjrA0enT85HKUuDGu8AthG3W25fZYqANWGogsC6Wb1P5qE5r1EkTRjIrgREujCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WgOB4+I0; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740399594; x=1771935594;
+  t=1740399736; x=1771935736;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=6BmGyMMS27SVlVYPnXA5Rl27H1w216df0y02GFQxmHg=;
-  b=I3Fp8gjJySrOhQFDCYJOEaY8xsqLHJA561YXy+HYKcK+I7Va4X8orfJQ
-   xz4cUQGNiei2qUOMnCTAgSqlY2TwyZJL/VXpp/pmMzicAsk3qFng1dr6T
-   e0xRrxuPVTPyWFvh2gG2dyLkNYqqKWXq9khioKyDIKFepm+dqHge2t3AV
-   WV7bvDByIFpvfU4upqzfjdO9BmKf9WthN4PvbVMKWF8HpPE8PtfBVwFlA
-   fTA/+/epI9oKILO2mdE+qO2OzrImhHfWmjHmfCYschwRZip2b/1G+bjSg
-   In6WonwAcj1pJ5ztkOZAmlfPNUAX/ifQUyZKl4hdW2TgPJPP6KvkRQa9o
-   g==;
-X-CSE-ConnectionGUID: NTVB2L39QyuoQkhqi0UObQ==
-X-CSE-MsgGUID: TL2nCt+0QnC/RhPhoeJjlQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="40338503"
+  bh=HFUefC/P5P0u1guY5j9N980bP23neVViId3YrVW8xJ4=;
+  b=WgOB4+I0DzWSlyqMzsmrTdq8bK6COP2BFnsR30cPKNz6l/3yIB4bCiaK
+   tcLmRrZ4xPvlmySdwxyXYaSf1vUJzM4zK8T8Mo0CrPkC+2UFJ8SWSwC9Q
+   B65A/sL1hBAwfkzLPJ3ogL886hTKCrfSdSFt2bZCTpq/OPvv2O1VXM4tL
+   UpGrAlZf7LLffpT58ZiPA+eOOdQF+ugppVdREpXdZQhlAjo+gN/cB2Sq0
+   Zea7KVYs/1+6LmZ549+r/lvD5t1ZELzfpIfhGAtHhexw6EQajYh9+tqHq
+   2m15rACDVR7YESYU+kZhZDxG2/Bq6taKJ1+SeVPLE1wvqnDffzBw98LaV
+   Q==;
+X-CSE-ConnectionGUID: I5OWSUiaQK+WCiEFKwui4A==
+X-CSE-MsgGUID: K3dDzPUQRY+gfIxaAP6rTQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="52552225"
 X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="40338503"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 04:19:53 -0800
-X-CSE-ConnectionGUID: WFFN2HW+SBuJndhyZd7bOg==
-X-CSE-MsgGUID: MR/s5Z0XSEas4p1OJ4fgNA==
+   d="scan'208";a="52552225"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 04:22:15 -0800
+X-CSE-ConnectionGUID: ZrQLmEUcTo+rS7YahFOsHQ==
+X-CSE-MsgGUID: a+u+R8KQQWaj7Y8awt/CjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,309,1732608000"; 
-   d="scan'208";a="120954994"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 04:19:52 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 45BB411F944;
-	Mon, 24 Feb 2025 14:19:48 +0200 (EET)
-Date: Mon, 24 Feb 2025 12:19:48 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Shravan.Chippa@microchip.com
-Cc: mchehab@kernel.org, kieran.bingham@ideasonboard.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Conor.Dooley@microchip.com, Valentina.FernandezAlanis@microchip.com,
-	Praveen.Kumar@microchip.com
-Subject: Re: [PATCH V4] media: i2c: imx334: Add support for 1280x720 &
- 640x480 resolutions
-Message-ID: <Z7xj5JJe27L39wCG@kekkonen.localdomain>
-References: <20250218093356.3608409-1-shravan.chippa@microchip.com>
- <Z7cr8x6i8NZbdjIQ@kekkonen.localdomain>
- <PH0PR11MB5611074F959638A90A7160E381C02@PH0PR11MB5611.namprd11.prod.outlook.com>
- <Z7xCY2c8AvdgFNfm@kekkonen.localdomain>
- <PH0PR11MB561150AEB8471B346304FBDF81C02@PH0PR11MB5611.namprd11.prod.outlook.com>
+   d="scan'208";a="116034465"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 04:22:10 -0800
+Date: Mon, 24 Feb 2025 14:22:07 +0200
+From: Raag Jadav <raag.jadav@intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: kernel test robot <lkp@intel.com>, perex@perex.cz, tiwai@suse.com,
+	broonie@kernel.org, lgirdwood@gmail.com, deller@gmx.de,
+	sre@kernel.org, sakari.ailus@linux.intel.com, mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl, jdmason@kudzu.us, fancer.lancer@gmail.com,
+	oe-kbuild-all@lists.linux.dev, linux-sound@vger.kernel.org,
+	linux-fbdev@vger.kernel.org, linux-pm@vger.kernel.org,
+	linux-media@vger.kernel.org, ntb@lists.linux.dev,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 07/13] fbdev: pxafb: use devm_kmemdup_array()
+Message-ID: <Z7xkb9m_Qc54znOH@black.fi.intel.com>
+References: <20250221165333.2780888-8-raag.jadav@intel.com>
+ <202502220449.DvJuMgsL-lkp@intel.com>
+ <Z7xQ2y-7U5-OhzhB@smile.fi.intel.com>
+ <Z7xW2AIz6vUo6mu-@black.fi.intel.com>
+ <Z7xa0cGZvGxsGCrI@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -85,28 +84,50 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <PH0PR11MB561150AEB8471B346304FBDF81C02@PH0PR11MB5611.namprd11.prod.outlook.com>
+In-Reply-To: <Z7xa0cGZvGxsGCrI@smile.fi.intel.com>
 
-Hi Shravan,
-
-On Mon, Feb 24, 2025 at 11:07:58AM +0000, Shravan.Chippa@microchip.com wrote:
-> > > > Please split this into two to make it more reviewable: splitting
-> > > > register lists into two and then to adding new modes.
-> > >
-> > > I will try to make one patch for common register values One more patch
-> > > for new modes of 640x480 and 1280x720
+On Mon, Feb 24, 2025 at 01:41:05PM +0200, Andy Shevchenko wrote:
+> On Mon, Feb 24, 2025 at 01:24:08PM +0200, Raag Jadav wrote:
+> > On Mon, Feb 24, 2025 at 12:58:35PM +0200, Andy Shevchenko wrote:
+> > > On Sat, Feb 22, 2025 at 05:41:24AM +0800, kernel test robot wrote:
+> > > > Hi Raag,
+> > > > 
+> > > > kernel test robot noticed the following build warnings:
+> > > > 
+> > > > [auto build test WARNING on b16e9f8547a328b19af59afc213ce323124d11e9]
+> > > > 
+> > > > url:    https://github.com/intel-lab-lkp/linux/commits/Raag-Jadav/ASoC-Intel-avs-use-devm_kmemdup_array/20250222-010322
+> > > > base:   b16e9f8547a328b19af59afc213ce323124d11e9
+> > > > patch link:    https://lore.kernel.org/r/20250221165333.2780888-8-raag.jadav%40intel.com
+> > > > patch subject: [PATCH v1 07/13] fbdev: pxafb: use devm_kmemdup_array()
+> > > > config: arm-randconfig-004-20250222 (https://download.01.org/0day-ci/archive/20250222/202502220449.DvJuMgsL-lkp@intel.com/config)
+> > > > compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+> > > > reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250222/202502220449.DvJuMgsL-lkp@intel.com/reproduce)
+> > > > 
+> > > > If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> > > > the same patch/commit), kindly add following tags
+> > > > | Reported-by: kernel test robot <lkp@intel.com>
+> > > > | Closes: https://lore.kernel.org/oe-kbuild-all/202502220449.DvJuMgsL-lkp@intel.com/
+> > > > 
+> > > > All warnings (new ones prefixed by >>):
+> > > > 
+> > > >    drivers/video/fbdev/pxafb.c: In function 'pxafb_probe':
+> > > > >> drivers/video/fbdev/pxafb.c:2236:13: warning: unused variable 'i' [-Wunused-variable]
+> > > >     2236 |         int i, irq, ret;
+> > > >          |             ^
+> > > 
+> > > Ragg, please, fix this, and issue a v2 with the link to fixed PR:
+> > > https://lore.kernel.org/r/Z7xGpz3Q4Zj6YHx7@black.fi.intel.com.
 > > 
-> > Please add one for the hblank changes and more if there are similar cases.
+> > Sure, but perhaps wait a few days for review comments.
 > 
-> Date sheet is not clear to me to understand the horizontal blank change value dynamically.
-> And do not have proper equipment (hardware) to measure horizontal blank values by change the register values.
+> Then perhaps answering to the cover letter that the maintainers who want to
+> apply should use the updated PR?
 
-Ok, fair enough. Maybe it'd be better to leave it as-is if there's no need
-to change it? Many Omnivision sensors use some other, non-line/pixel based
-unit for blankings indeed.
+Okay, but I'm not sure how this plays out for those who already pulled
+the old PR, i.e. Sebastian.
 
--- 
-Regards,
+Anything to worry about here?
 
-Sakari Ailus
+Raag
 
