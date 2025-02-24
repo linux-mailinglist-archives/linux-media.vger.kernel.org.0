@@ -1,131 +1,268 @@
-Return-Path: <linux-media+bounces-26781-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26782-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AC27A418F3
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 10:27:08 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20392A41917
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 10:30:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D366616D667
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 09:23:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 48F8216AC15
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 09:27:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68B1B24A042;
-	Mon, 24 Feb 2025 09:22:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F21724A05F;
+	Mon, 24 Feb 2025 09:26:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="aKCFL4+l"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FU7U9+Db"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02A98245004;
-	Mon, 24 Feb 2025 09:22:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6827F24291B
+	for <linux-media@vger.kernel.org>; Mon, 24 Feb 2025 09:26:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740388922; cv=none; b=nBMfHVOphBZEMCthlrhm9Tgq9iY0jB+iWpk+xqP6LBiWgDowIknnXrB0evPppDTGC3VhyC3gILrcCE+yboPJhchnsrduylvymChEIq6TPp8eibOWoUp0egsi8YAgbRJcujYtPkN9ktQRq0PwxvmqCpTXpJzECss6p/d6fAgO8qk=
+	t=1740389212; cv=none; b=Wfp6MD+CLlYkVOTEjateky96flxlTgrahNlGX+PH4lnF844pdH9PvQfxJvMDgbGFYr0m/WwMW0gpv9pnMcD6T+fjruwgJO2Mo9iq/H5RI32rvLe8EwNBJSFeV95Ne6L2j/dH5RAjJiUiEr6Kx9QD1kd+Uz/KsIwijpEMFjOeVhw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740388922; c=relaxed/simple;
-	bh=6s6mE6iWL2zLpUlwDFdCQx4XhtHfEW/hJy2iFvXQnHU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nXed0Mt6BEYWMyF50ppWcuqPIph2L3BmBbTfRUR+P+b0FVC+wHdM7mTSYy71HKcLf9lvQWvoR14LFkW4H0Tikp2MCUOrxBC54XmDPkry9sf4inJ5j7QGcP/GpMFXSSUWPT/ejISsK1vvdMIpFVclPA4ykwCvQCHFvU2wHmvofmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=aKCFL4+l; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0F42F55A;
-	Mon, 24 Feb 2025 10:20:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1740388832;
-	bh=6s6mE6iWL2zLpUlwDFdCQx4XhtHfEW/hJy2iFvXQnHU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aKCFL4+lUe+cwxys5YXBpNb6v6150ygxINtgje7a9KI1N2NgUWCmK2b+uqeP1ih+A
-	 BHtTxQ9tpd/5GI+SVum39bcOPKx4l/+FJN8vtRMQ204Ych1Xe1U8mnT0PEVe42k9yr
-	 Y7T8GDFdHJ6I8+/ngq/6RKYuF7C31YeZypBQg54c=
-Date: Mon, 24 Feb 2025 11:21:40 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>,
-	Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Michal Simek <michal.simek@amd.com>,
-	"Rob Herring (Arm)" <robh@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH next] media: xilinx-tpg: fix double put in xtpg_parse_of()
-Message-ID: <20250224092140.GA29646@pendragon.ideasonboard.com>
-References: <f41dfe97-6e6c-47b4-91bf-199c5938c6d0@stanley.mountain>
- <20241105165928.GJ14276@pendragon.ideasonboard.com>
- <71d343e7-ff9f-44e6-abfc-64425640c4f6@xs4all.nl>
+	s=arc-20240116; t=1740389212; c=relaxed/simple;
+	bh=/ryG12havO6GGoTrPBXBQA1dshzJ3F4G9J8CFEub8VQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QI1uoOIzxRKEkPLLVqOWMH+YVby2m2aD5IEq2sgYFJnJETQEHZafWAQxzirMsXqArJNmr1gpKI7JLZ5pnK+rhO5glLlAzN0AUp7CRiavUOh1hQSgcs1Cub5RH/wD/552rrsJuvLl7dR3/Mav07Ibxe+caB53rHu2X0BVGmKaaxk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FU7U9+Db; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-546210287c1so4329290e87.2
+        for <linux-media@vger.kernel.org>; Mon, 24 Feb 2025 01:26:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1740389208; x=1740994008; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=R9DwX5H0t5xZGrbvpWDysDlrDfS0kR6OfhPIwAFx6mo=;
+        b=FU7U9+DbyCbc2NRgWUoTn6VKRqYhotc95YGvfiFGWnmrFG84TF8tG+3CUR+OoqCKc0
+         Y7hqrE2S09t9pMQZdSZ5I17seSik/1T1+i6tYIuZ5ttU+FnmAj4mteawHttolRXLdfTY
+         aycB4JyNluMoiJeqyj1L+3NCNRskiJkSQrzeU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740389208; x=1740994008;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=R9DwX5H0t5xZGrbvpWDysDlrDfS0kR6OfhPIwAFx6mo=;
+        b=TVHafFgXwRG6UNlk5xYlNChxZ8jv4dIlv3Ti22asvmWwRi4e7U70AihueL+zoOPlcH
+         glA0PaswDDC3jLIueY0Bz44pQemEtVweDN1Yk1RCz+9p/DsK0hwdMDKgCichClnWKq7z
+         ZpXrl23F0Kjlbm/FRhkx/MXDFdnXqXR1tT4VeoDNxmn5ME7RLCm36wDuENq6L2cDnmeQ
+         qg57L2sNBZjIDvHeVesi2jPbZZlMS8Jwu/CM+32sozyw4UXlB4Hpswzlz/6UPf+WO+Ae
+         Ps8OL0oVe7pKVgSzVch3ntcq8an8W0MfAvbu/S7Lv6Ts9Sozu9F7HYC9VGBjUoxzU5Ix
+         KEIg==
+X-Forwarded-Encrypted: i=1; AJvYcCWB/FpbYqqQA+NEj/syq8ADjdajPYK2mAH/Nf5nTL5agxVNoI8Pb2jGOYb6TOIlDZRhksbW02kYszfrBw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzaMkzEov+1xyXlQONEpJ++5Pxak9sRHWU/1GEZa6e98JUz9VNv
+	sj6JHVa9lqBECsEYLPNevuS0pH4WgYeoyBh1PhZ8bdWbD7RSMulgKiXtv4Yp7Nw0FZ/9cGrW/sm
+	aDg==
+X-Gm-Gg: ASbGncu8lkbQWBXGTxdG8LDY1ip18fCeuRoklmuIAn8BJNhT3YqUXrp2QFEjsxbYPnx
+	vKUx9Fno7HVzfFA7kmENqZdFvyr59jAX0MY8KZN7RK64j8OGkg1LXCMcJs/w1yjHQF7a4+sYFEN
+	1tQISaTQGb9Oo6V1ffcKSArebidYee3IBY+O5Y+7P/SjeqIPkW5VLMlfTQo0TRRPPadCBvLNsJs
+	1qpt+cxioptvI1ZTyPPDByJo+3M2rLwnYp1Wgi8TkKraDtJaXXnxxoKphpdm9Tlul7JO61ABUfV
+	w/QaUC2P49Kc9AWi82p0lLXRkmQctasLRxLYKotWSgWPEeGValjeVrs+r3lQv0H18jTn
+X-Google-Smtp-Source: AGHT+IE00cK4bx0YpfbGLFWdScGfgjaiztoQNQ2ecwoytd/m7ZuLawNClObKxbp5+Jx0JHP0Qvlq2g==
+X-Received: by 2002:a05:6512:2256:b0:545:60b:f382 with SMTP id 2adb3069b0e04-5483913f99cmr5593457e87.17.1740389208043;
+        Mon, 24 Feb 2025 01:26:48 -0800 (PST)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com. [209.85.208.172])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5484d08c083sm138870e87.57.2025.02.24.01.26.47
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Feb 2025 01:26:47 -0800 (PST)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-30a303a656aso42497371fa.0
+        for <linux-media@vger.kernel.org>; Mon, 24 Feb 2025 01:26:47 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCX976M3RikOTISqxbsdvkW+yoSTB/p/RUmsZ48SFx2iIGZWVzHdADfUhNY4ww2imVY+CaTPRYFNKcjIAA==@vger.kernel.org
+X-Received: by 2002:a05:6512:3e14:b0:545:576:cbca with SMTP id
+ 2adb3069b0e04-5483912fcd7mr4198905e87.8.1740389206945; Mon, 24 Feb 2025
+ 01:26:46 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <71d343e7-ff9f-44e6-abfc-64425640c4f6@xs4all.nl>
+References: <20250111-uvc-eaccess-v4-1-c7759bfd1bd4@chromium.org> <20250223170319.GA2821@pendragon.ideasonboard.com>
+In-Reply-To: <20250223170319.GA2821@pendragon.ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 24 Feb 2025 10:26:34 +0100
+X-Gmail-Original-Message-ID: <CANiDSCv1HVu82D=PoJFu=XCQ97k_MM1dmYpufkUCiKpSgGRT9w@mail.gmail.com>
+X-Gm-Features: AWEUYZmvV4iGze7N3ugwoy0UYAWbTsMtuoDRa1uh5PWbgtlebItM-Je3dCsd9uI
+Message-ID: <CANiDSCv1HVu82D=PoJFu=XCQ97k_MM1dmYpufkUCiKpSgGRT9w@mail.gmail.com>
+Subject: Re: [PATCH v4] media: uvcvideo: Set V4L2_CTRL_FLAG_DISABLED during
+ queryctrl errors
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Hans de Goede <hdegoede@redhat.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Hans,
+On Sun, 23 Feb 2025 at 18:03, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Ricardo,
+>
+> Thank you for the patch.
+>
+> On Sat, Jan 11, 2025 at 09:57:21AM +0000, Ricardo Ribalda wrote:
+> > To implement VIDIOC_QUERYCTRL, we need to know the minimum, maximum,
+> > step and flags of the control. For some of the controls, this involves
+> > querying the actual hardware.
+> >
+> > Some non-compliant cameras produce errors when we query them. Right now,
+> > we populate that error to userspace. When an error happens, the v4l2
+> > framework does not copy the v4l2_queryctrl struct to userspace. Also,
+> > userspace apps are not ready to handle any other error than -EINVAL.
+> >
+> > One of the main usecases of VIDIOC_QUERYCTRL is enumerating the controls
+> > of a device. This is done using the V4L2_CTRL_FLAG_NEXT_CTRL flag. In
+> > that usecase, a non-compliant control will make it almost impossible to
+> > enumerate all controls of the device.
+> >
+> > A control with an invalid max/min/step/flags is better than non being
+> > able to enumerate the rest of the controls.
+> >
+> > This patch makes VIDIOC_QUERYCTRL return 0 in all the error cases
+> > different than -EINVAL, introduces a warning in dmesg so we can
+> > have a trace of what has happened and sets the V4L2_CTRL_FLAG_DISABLED.
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> > Hi 2*Hans and Laurent!
+> >
+> > I came around a device that was listing just a couple of controls when
+> > it should be listing much more.
+> >
+> > Some debugging latter I found that the device was returning -EIO when
+> > all the focal controls were read.
+> >
+> > Lots of good arguments in favor/against this patch in the v1. Please
+> > check!
+> >
+> > Without this patch:
+> > $ v4l2-ctl --list-ctrls
+> >                   auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
+> >          exposure_time_absolute 0x009a0902 (int)    : min=50 max=10000 step=1 default=166 value=166 flags=inactive
+> >      exposure_dynamic_framerate 0x009a0903 (bool)   : default=0 value=0
+> > region_of_interest_auto_control 0x009a1902 (bitmask): max=0x00000001 default=0x00000001 value=1
+> >
+> > With this patch:
+> > $ v4l2-ctl --list-ctrls
+> >                   auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
+> >          exposure_time_absolute 0x009a0902 (int)    : min=50 max=10000 step=1 default=166 value=166 flags=inactive
+> >      exposure_dynamic_framerate 0x009a0903 (bool)   : default=0 value=0
+> > error 5 getting ext_ctrl Focus, Absolute
+> > error 5 getting ext_ctrl Focus, Automatic Continuous
+> >    region_of_interest_rectangle 0x009a1901 (unknown): type=107 value=unsupported payload type flags=has-payload
+> > region_of_interest_auto_control 0x009a1902 (bitmask): max=0x00000001 default=0x00000001 value=1
+> > --
+> > ---
+> > Changes in v4:
+> > - Display control name (Thanks Hans)
+> > - Link to v3: https://lore.kernel.org/r/20250107-uvc-eaccess-v3-1-99f3335d5133@chromium.org
+> >
+> > Changes in v3:
+> > - Add a retry mechanism during error.
+>
+> This needs to be explained in the commit message, including when/why it
+> helps, and why the retry count is 2.
+>
+> > - Set V4L2_CTRL_FLAG_DISABLED flag.
+> > - Link to v2: https://lore.kernel.org/r/20241219-uvc-eaccess-v2-1-bf6520c8b86d@chromium.org
+> >
+> > Changes in v2:
+> > - Never return error, even if we are not enumerating the controls
+> > - Improve commit message.
+> > - Link to v1: https://lore.kernel.org/r/20241213-uvc-eaccess-v1-1-62e0b4fcc634@chromium.org
+> > ---
+> >  drivers/media/usb/uvc/uvc_ctrl.c | 43 ++++++++++++++++++++++++++++++++--------
+> >  1 file changed, 35 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> > index 4e58476d305e..9d7812e8572d 100644
+> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> > @@ -1280,6 +1280,8 @@ static u32 uvc_get_ctrl_bitmap(struct uvc_control *ctrl,
+> >       return ~0;
+> >  }
+> >
+> > +#define MAX_QUERY_RETRIES 2
+> > +
+> >  static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+> >       struct uvc_control *ctrl,
+> >       struct uvc_control_mapping *mapping,
+> > @@ -1305,19 +1307,44 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+> >               __uvc_find_control(ctrl->entity, mapping->master_id,
+> >                                  &master_map, &master_ctrl, 0);
+> >       if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
+> > +             unsigned int retries;
+> >               s32 val;
+> > -             int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
+> > -             if (ret < 0)
+> > -                     return ret;
+> > +             int ret;
+> >
+> > -             if (val != mapping->master_manual)
+> > -                             v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
+> > +             for (retries = 0; retries < MAX_QUERY_RETRIES; retries++) {
+> > +                     ret = __uvc_ctrl_get(chain, master_ctrl, master_map,
+> > +                                          &val);
+> > +                     if (ret >= 0)
+> > +                             break;
+> > +             }
+> > +
+> > +             if (ret < 0) {
+> > +                     dev_warn_ratelimited(&chain->dev->udev->dev,
+> > +                                          "UVC non compliance: Error %d querying master control %x (%s)\n",
+> > +                                           ret, master_map->id,
+> > +                                           uvc_map_get_name(master_map));
+> > +             } else if (val != mapping->master_manual) {
+> > +                     v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
+> > +             }
+> >       }
+> >
+> >       if (!ctrl->cached) {
+> > -             int ret = uvc_ctrl_populate_cache(chain, ctrl);
+> > -             if (ret < 0)
+> > -                     return ret;
+> > +             unsigned int retries;
+> > +             int ret;
+> > +
+> > +             for (retries = 0; retries < MAX_QUERY_RETRIES; retries++) {
+> > +                     ret = uvc_ctrl_populate_cache(chain, ctrl);
+> > +                     if (ret >= 0)
+> > +                             break;
+> > +             }
+> > +
+> > +             if (ret < 0) {
+> > +                     dev_warn_ratelimited(&chain->dev->udev->dev,
+> > +                                          "UVC non compliance: Error %d populating cache of control %x (%s)\n",
+> > +                                          ret, mapping->id,
+> > +                                          uvc_map_get_name(mapping));
+> > +                     v4l2_ctrl->flags |= V4L2_CTRL_FLAG_DISABLED;
+>
+> Can we make the control permanently disabled ?
 
-On Mon, Feb 24, 2025 at 09:49:47AM +0100, Hans Verkuil wrote:
-> On 05/11/2024 17:59, Laurent Pinchart wrote:
-> > Hi Dan,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Mon, Nov 04, 2024 at 08:16:19PM +0300, Dan Carpenter wrote:
-> >> This loop was recently converted to use for_each_of_graph_port() which
-> >> automatically does __cleanup__ on the "port" iterator variable.  Delete
-> >> the calls to of_node_put(port) to avoid a double put bug.
-> >>
-> >> Fixes: 393194cdf11e ("media: xilinx-tpg: use new of_graph functions")
-> >> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > 
-> > The offending commit wasn't merged through the media tree, so we can't
-> > easily merge the fix there either. I'm fine merging this fix through
-> > Rob's tree.
-> 
-> I don't see this patch merged anywhere. Should I just pick it up? I think
-> it got lost in the noise.
-> 
-> The commit 393194cdf11e is now available in our media tree, so it should
-> be fine, I think, if I pick it up. It needs a CC to stable as well, right?
-> I can add that.
+I'd rather not. In funky hardware the control might work with the
+right combination of other controls.
 
-Yes, I'd CC stable. Thank you for handling it.
+>
+> > +             }
+> >       }
+> >
+> >       if (ctrl->info.flags & UVC_CTRL_FLAG_GET_DEF) {
+> >
+> > ---
+> > base-commit: c5aa327e10b194884a9c9001a751f6e4703bc3e3
+> > change-id: 20241213-uvc-eaccess-755cc061a360
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
-> >> ---
-> >>  drivers/media/platform/xilinx/xilinx-tpg.c | 2 --
-> >>  1 file changed, 2 deletions(-)
-> >>
-> >> diff --git a/drivers/media/platform/xilinx/xilinx-tpg.c b/drivers/media/platform/xilinx/xilinx-tpg.c
-> >> index cb93711ea3e3..7deec6e37edc 100644
-> >> --- a/drivers/media/platform/xilinx/xilinx-tpg.c
-> >> +++ b/drivers/media/platform/xilinx/xilinx-tpg.c
-> >> @@ -722,7 +722,6 @@ static int xtpg_parse_of(struct xtpg_device *xtpg)
-> >>  		format = xvip_of_get_format(port);
-> >>  		if (IS_ERR(format)) {
-> >>  			dev_err(dev, "invalid format in DT");
-> >> -			of_node_put(port);
-> >>  			return PTR_ERR(format);
-> >>  		}
-> >>  
-> >> @@ -731,7 +730,6 @@ static int xtpg_parse_of(struct xtpg_device *xtpg)
-> >>  			xtpg->vip_format = format;
-> >>  		} else if (xtpg->vip_format != format) {
-> >>  			dev_err(dev, "in/out format mismatch in DT");
-> >> -			of_node_put(port);
-> >>  			return -EINVAL;
-> >>  		}
-> >>  
+
 
 -- 
-Regards,
-
-Laurent Pinchart
+Ricardo Ribalda
 
