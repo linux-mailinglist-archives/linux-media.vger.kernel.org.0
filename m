@@ -1,420 +1,116 @@
-Return-Path: <linux-media+bounces-26866-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26867-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51F2DA42BE4
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 19:45:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 872EFA42C8E
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 20:17:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C57947A5096
-	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 18:43:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 79B22174BEC
+	for <lists+linux-media@lfdr.de>; Mon, 24 Feb 2025 19:17:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28F09266567;
-	Mon, 24 Feb 2025 18:44:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5ED6D1FC7D1;
+	Mon, 24 Feb 2025 19:17:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AfgPu47N"
+	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="dTskuR9F"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.smtpout.orange.fr (smtp-22.smtpout.orange.fr [80.12.242.22])
+	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C37C11185;
-	Mon, 24 Feb 2025 18:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB879126F0A;
+	Mon, 24 Feb 2025 19:17:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740422678; cv=none; b=Vk2kGHkC8xXPxieHO1T6H4JQb+gbXdNuCRHnEyaoIjF0ag/QQkdaVUhwFQvZbKGHK/H1/z9vh0bi8q9hYL5sbT/R8ykGHM+439PpE5WTo3RwuTudJ+IF+MtBZW/rDq1AFL0sUm3TkDlucsjcNgMDSuH2uMnqiTIBXP1J+zxw3/E=
+	t=1740424666; cv=none; b=p11l7sG1p/O6Rmw6DjMi42MVLVaPbTWppvryEJV53vka7oX4OMqk20HCeWG7xsVGBKsIY8YN/eIdmjxDAeFvdUmaoaBmER7tIVpeuYIwOnb8kUv9IeJ6ZG/ZR96BJa6z6hpXFzKKFxLTGk1bLXMXISkmvaNDi9KKRKwlejCzDNA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740422678; c=relaxed/simple;
-	bh=1gO43EmCi+q/iP2MbCCRWJyfbepMUewhLQvCulPbowQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MH/8eSzDp4ASEsgxtC858AvXZk9aAg7OVbba6Xy+ORvhE3sucT6aF9lh/qjWQdtSrbz1mQWI5ZQySZ6AXpkoln9vkBklSJHuRvmPWsox2ZxuI6OTPPlIXj3ZlLw00JM503X6KJ45lRZdQWhjRB3Zv9c5EY/6Ke7mTCqoSKsjZRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AfgPu47N; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D5A3C455;
-	Mon, 24 Feb 2025 19:43:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1740422588;
-	bh=1gO43EmCi+q/iP2MbCCRWJyfbepMUewhLQvCulPbowQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AfgPu47Nvk5L3BadXL4c2i0Tg7Fz0PCjICI3vDVNaVFMiKKZfacYp0DsYfm6Exu8p
-	 jgwoMid59haDKMhbdqouXW8M9hFRieK1WWsm3NjptXpAlCaGzd0G3SNTM0ZVe1Dfqu
-	 AwPtX+tCX/KABQidspDYF8yCR8ABWWgiDkQ/v3fY=
-Date: Mon, 24 Feb 2025 20:44:16 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: tomm.merciai@gmail.com, linux-renesas-soc@vger.kernel.org,
-	linux-media@vger.kernel.org, biju.das.jz@bp.renesas.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 11/18] media: rzg2l-cru: Add register mapping support
-Message-ID: <20250224184416.GE6778@pendragon.ideasonboard.com>
-References: <20250221155532.576759-1-tommaso.merciai.xr@bp.renesas.com>
- <20250221155532.576759-12-tommaso.merciai.xr@bp.renesas.com>
- <20250223195232.GF8330@pendragon.ideasonboard.com>
- <Z7x4MDVQ_JxeNllA@tom-desktop>
+	s=arc-20240116; t=1740424666; c=relaxed/simple;
+	bh=PUeRntGvwXImYDS+7i7O0aN6qpNF8PoicxIEo5iasdk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ma47mx7HsOY1jFqr7rCtSEu2MJY7UxELfzMSlPmeNlZWy7fM7sWgWiksHKRzDCUBE8eEQNMXcezgcxyl5mR6OJ0gncPCpLt6niDEo/u9GAEUMih/VKl8Wsm72zIYa/sMkXBRRcVUzhszuqCIsZdorGRc17EcSBrepfdIhV9HddM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=dTskuR9F; arc=none smtp.client-ip=80.12.242.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+Received: from [192.168.1.37] ([90.11.132.44])
+	by smtp.orange.fr with ESMTPA
+	id mdwGt5kjyKyVdmdwJtBcWJ; Mon, 24 Feb 2025 20:16:32 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+	s=t20230301; t=1740424592;
+	bh=9VPOLtQg+zqSMxeSCbo0v5e5C1uKf8cqE57WkcwIzms=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From;
+	b=dTskuR9FK1/IIcaRaov8nY9R+bPoGTkJfSWtdVzr5DCQ8GSXiMe/Gv9j9AT7jhyh+
+	 eb9hTyQgiyd+gD6n71R/H4jdu4XUEgCIlAvIl9DJQacjP2ZKQkqDGjA/WaeqHI0cSm
+	 LYGu20syygD+cGHkgL1Rp1xzSxL0SoWRFTJyfj2Fpse7037OyX36ZSs4LjmvFLOHMZ
+	 va7D587KDqw4oLdn7xT+anZF5p2g309POA4ayVMIZhrBZVDkxZPHAicGKJ8M5kT1gO
+	 e4gesxROvoK73rdErzscHvUIhecucjaw4piH5UHPQTwNGQGtYT3IdYwcPjhB98Y5UP
+	 F+Q6bArp1jsMw==
+X-ME-Helo: [192.168.1.37]
+X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
+X-ME-Date: Mon, 24 Feb 2025 20:16:32 +0100
+X-ME-IP: 90.11.132.44
+Message-ID: <29687c3c-d983-4d1f-8cde-fde82df84e0e@wanadoo.fr>
+Date: Mon, 24 Feb 2025 20:16:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Z7x4MDVQ_JxeNllA@tom-desktop>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 4/6] media: platform: synopsys: Add support for HDMI
+ input driver
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Shreeya Patel <shreeya.patel@collabora.com>, Heiko Stuebner
+ <heiko@sntech.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil@xs4all.nl>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, jose.abreu@synopsys.com, nelson.costa@synopsys.com,
+ shawn.wen@rock-chips.com, nicolas.dufresne@collabora.com,
+ Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: kernel@collabora.com, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, Tim Surber <me@timsurber.de>
+References: <20250223173019.303518-1-dmitry.osipenko@collabora.com>
+ <20250223173019.303518-5-dmitry.osipenko@collabora.com>
+ <88b02c37-6741-459b-b966-d6d58d1f9b6f@wanadoo.fr>
+ <c30a291b-c81b-4da1-a0ae-270d323b28e3@collabora.com>
+ <bc1f5334-b0fb-4e81-979d-feb17886ac40@wanadoo.fr>
+ <d13f13ac-1501-4427-b6d3-ee161eeb932a@collabora.com>
+Content-Language: en-US, fr-FR
+From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <d13f13ac-1501-4427-b6d3-ee161eeb932a@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Feb 24, 2025 at 02:46:24PM +0100, Tommaso Merciai wrote:
-> On Sun, Feb 23, 2025 at 09:52:32PM +0200, Laurent Pinchart wrote:
-> > On Fri, Feb 21, 2025 at 04:55:25PM +0100, Tommaso Merciai wrote:
-> > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > 
-> > > Prepare for adding support for RZ/G3E and RZ/V2HP SoCs, which have a
-> > > CRU-IP that is mostly identical to RZ/G2L but with different register
-> > > offsets and additional registers. Introduce a flexible register mapping
-> > > mechanism to handle these variations.
-> > > 
-> > > Define the `rzg2l_cru_info` structure to store register mappings and
-> > > pass it as part of the OF match data. Update the read/write functions
-> > > to use indexed register offsets from `rzg2l_cru_info`, ensuring
-> > > compatibility across different SoC variants.
-> > > 
-> > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> > > ---
-> > >  .../platform/renesas/rzg2l-cru/rzg2l-core.c   | 46 ++++++++++++-
-> > >  .../renesas/rzg2l-cru/rzg2l-cru-regs.h        | 65 ++++++++++---------
-> > >  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  4 ++
-> > >  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 12 ++--
-> > >  4 files changed, 92 insertions(+), 35 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> > > index eed9d2bd0841..abc2a979833a 100644
-> > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> > > @@ -22,6 +22,7 @@
-> > >  #include <media/v4l2-mc.h>
-> > >  
-> > >  #include "rzg2l-cru.h"
-> > > +#include "rzg2l-cru-regs.h"
-> > >  
-> > >  static inline struct rzg2l_cru_dev *notifier_to_cru(struct v4l2_async_notifier *n)
-> > >  {
-> > > @@ -269,6 +270,9 @@ static int rzg2l_cru_probe(struct platform_device *pdev)
-> > >  
-> > >  	cru->dev = dev;
-> > >  	cru->info = of_device_get_match_data(dev);
-> > > +	if (!cru->info)
-> > > +		return dev_err_probe(dev, -EINVAL,
-> > > +				     "Failed to get OF match data\n");
-> > >  
-> > >  	irq = platform_get_irq(pdev, 0);
-> > >  	if (irq < 0)
-> > > @@ -317,8 +321,48 @@ static void rzg2l_cru_remove(struct platform_device *pdev)
-> > >  	rzg2l_cru_dma_unregister(cru);
-> > >  }
-> > >  
-> > > +static const u16 rzg2l_cru_regs[] = {
-> > > +	[CRUnCTRL] = 0x0,
-> > > +	[CRUnIE] = 0x4,
-> > > +	[CRUnINTS] = 0x8,
-> > > +	[CRUnRST] = 0xc,
-> > > +	[AMnMB1ADDRL] = 0x100,
-> > > +	[AMnMB1ADDRH] = 0x104,
-> > > +	[AMnMB2ADDRL] = 0x108,
-> > > +	[AMnMB2ADDRH] = 0x10c,
-> > > +	[AMnMB3ADDRL] = 0x110,
-> > > +	[AMnMB3ADDRH] = 0x114,
-> > > +	[AMnMB4ADDRL] = 0x118,
-> > > +	[AMnMB4ADDRH] = 0x11c,
-> > > +	[AMnMB5ADDRL] = 0x120,
-> > > +	[AMnMB5ADDRH] = 0x124,
-> > > +	[AMnMB6ADDRL] = 0x128,
-> > > +	[AMnMB6ADDRH] = 0x12c,
-> > > +	[AMnMB7ADDRL] = 0x130,
-> > > +	[AMnMB7ADDRH] = 0x134,
-> > > +	[AMnMB8ADDRL] = 0x138,
-> > > +	[AMnMB8ADDRH] = 0x13c,
-> > > +	[AMnMBVALID] = 0x148,
-> > > +	[AMnMBS] = 0x14c,
-> > > +	[AMnAXIATTR] = 0x158,
-> > > +	[AMnFIFOPNTR] = 0x168,
-> > > +	[AMnAXISTP] = 0x174,
-> > > +	[AMnAXISTPACK] = 0x178,
-> > > +	[ICnEN] = 0x200,
-> > > +	[ICnMC] = 0x208,
-> > > +	[ICnMS] = 0x254,
-> > > +	[ICnDMR] = 0x26c,
-> > > +};
-> > > +
-> > > +static const struct rzg2l_cru_info rzgl2_cru_info = {
-> > > +	.regs = rzg2l_cru_regs,
-> > > +};
-> > > +
-> > >  static const struct of_device_id rzg2l_cru_of_id_table[] = {
-> > > -	{ .compatible = "renesas,rzg2l-cru", },
-> > > +	{
-> > > +		.compatible = "renesas,rzg2l-cru",
-> > > +		.data = &rzgl2_cru_info,
-> > > +	},
-> > >  	{ /* sentinel */ }
-> > >  };
-> > >  MODULE_DEVICE_TABLE(of, rzg2l_cru_of_id_table);
-> > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
-> > > index 1c9f22118a5d..82920db7134e 100644
-> > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
-> > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru-regs.h
-> > > @@ -10,71 +10,76 @@
-> > >  
-> > >  /* HW CRU Registers Definition */
-> > >  
-> > > -/* CRU Control Register */
-> > > -#define CRUnCTRL			0x0
-> > >  #define CRUnCTRL_VINSEL(x)		((x) << 0)
-> > >  
-> > > -/* CRU Interrupt Enable Register */
-> > > -#define CRUnIE				0x4
-> > >  #define CRUnIE_EFE			BIT(17)
-> > >  
-> > > -/* CRU Interrupt Status Register */
-> > > -#define CRUnINTS			0x8
-> > >  #define CRUnINTS_SFS			BIT(16)
-> > >  
-> > > -/* CRU Reset Register */
-> > > -#define CRUnRST				0xc
-> > >  #define CRUnRST_VRESETN			BIT(0)
-> > >  
-> > >  /* Memory Bank Base Address (Lower) Register for CRU Image Data */
-> > > -#define AMnMBxADDRL(x)			(0x100 + ((x) * 8))
-> > > +#define AMnMBxADDRL(base, x)		((base) + (x) * 2)
-> > >  
-> > >  /* Memory Bank Base Address (Higher) Register for CRU Image Data */
-> > > -#define AMnMBxADDRH(x)			(0x104 + ((x) * 8))
-> > > +#define AMnMBxADDRH(base, x)		AMnMBxADDRL(base, x)
-> > >  
-> > > -/* Memory Bank Enable Register for CRU Image Data */
-> > > -#define AMnMBVALID			0x148
-> > >  #define AMnMBVALID_MBVALID(x)		GENMASK(x, 0)
-> > >  
-> > > -/* Memory Bank Status Register for CRU Image Data */
-> > > -#define AMnMBS				0x14c
-> > >  #define AMnMBS_MBSTS			0x7
-> > >  
-> > > -/* AXI Master Transfer Setting Register for CRU Image Data */
-> > > -#define AMnAXIATTR			0x158
-> > >  #define AMnAXIATTR_AXILEN_MASK		GENMASK(3, 0)
-> > >  #define AMnAXIATTR_AXILEN		(0xf)
-> > >  
-> > > -/* AXI Master FIFO Pointer Register for CRU Image Data */
-> > > -#define AMnFIFOPNTR			0x168
-> > >  #define AMnFIFOPNTR_FIFOWPNTR		GENMASK(7, 0)
-> > >  #define AMnFIFOPNTR_FIFORPNTR_Y		GENMASK(23, 16)
-> > >  
-> > > -/* AXI Master Transfer Stop Register for CRU Image Data */
-> > > -#define AMnAXISTP			0x174
-> > >  #define AMnAXISTP_AXI_STOP		BIT(0)
-> > >  
-> > > -/* AXI Master Transfer Stop Status Register for CRU Image Data */
-> > > -#define AMnAXISTPACK			0x178
-> > >  #define AMnAXISTPACK_AXI_STOP_ACK	BIT(0)
-> > >  
-> > > -/* CRU Image Processing Enable Register */
-> > > -#define ICnEN				0x200
-> > >  #define ICnEN_ICEN			BIT(0)
-> > >  
-> > > -/* CRU Image Processing Main Control Register */
-> > > -#define ICnMC				0x208
-> > >  #define ICnMC_CSCTHR			BIT(5)
-> > >  #define ICnMC_INF(x)			((x) << 16)
-> > >  #define ICnMC_VCSEL(x)			((x) << 22)
-> > >  #define ICnMC_INF_MASK			GENMASK(21, 16)
-> > >  
-> > > -/* CRU Module Status Register */
-> > > -#define ICnMS				0x254
-> > >  #define ICnMS_IA			BIT(2)
-> > >  
-> > > -/* CRU Data Output Mode Register */
-> > > -#define ICnDMR				0x26c
-> > >  #define ICnDMR_YCMODE_UYVY		(1 << 4)
-> > >  
-> > > +enum rzg2l_cru_common_regs {
-> > > +	CRUnCTRL,	/* CRU Control */
-> > > +	CRUnIE,		/* CRU Interrupt Enable */
-> > > +	CRUnINTS,	/* CRU Interrupt Status */
-> > > +	CRUnRST, 	/* CRU Reset */
-> > > +	AMnMB1ADDRL,	/* Bank 1 Address (Lower) for CRU Image Data */
-> > > +	AMnMB1ADDRH,	/* Bank 1 Address (Higher) for CRU Image Data */
-> > > +	AMnMB2ADDRL,    /* Bank 2 Address (Lower) for CRU Image Data */
-> > > +	AMnMB2ADDRH,    /* Bank 2 Address (Higher) for CRU Image Data */
-> > > +	AMnMB3ADDRL,    /* Bank 3 Address (Lower) for CRU Image Data */
-> > > +	AMnMB3ADDRH,    /* Bank 3 Address (Higher) for CRU Image Data */
-> > > +	AMnMB4ADDRL,    /* Bank 4 Address (Lower) for CRU Image Data */
-> > > +	AMnMB4ADDRH,    /* Bank 4 Address (Higher) for CRU Image Data */
-> > > +	AMnMB5ADDRL,    /* Bank 5 Address (Lower) for CRU Image Data */
-> > > +	AMnMB5ADDRH,    /* Bank 5 Address (Higher) for CRU Image Data */
-> > > +	AMnMB6ADDRL,    /* Bank 6 Address (Lower) for CRU Image Data */
-> > > +	AMnMB6ADDRH,    /* Bank 6 Address (Higher) for CRU Image Data */
-> > > +	AMnMB7ADDRL,    /* Bank 7 Address (Lower) for CRU Image Data */
-> > > +	AMnMB7ADDRH,    /* Bank 7 Address (Higher) for CRU Image Data */
-> > > +	AMnMB8ADDRL,    /* Bank 8 Address (Lower) for CRU Image Data */
-> > > +	AMnMB8ADDRH,    /* Bank 8 Address (Higher) for CRU Image Data */
-> > > +	AMnMBVALID,	/* Memory Bank Enable for CRU Image Data */
-> > > +	AMnMBS,		/* Memory Bank Status for CRU Image Data */
-> > > +	AMnAXIATTR,	/* AXI Master Transfer Setting Register for CRU Image Data */
-> > > +	AMnFIFOPNTR,	/* AXI Master FIFO Pointer for CRU Image Data */
-> > > +	AMnAXISTP,	/* AXI Master Transfer Stop for CRU Image Data */
-> > > +	AMnAXISTPACK,	/* AXI Master Transfer Stop Status for CRU Image Data */
-> > > +	ICnEN,		/* CRU Image Processing Enable */
-> > > +	ICnMC,		/* CRU Image Processing Main Control */
-> > > +	ICnMS,		/* CRU Module Status */
-> > > +	ICnDMR,		/* CRU Data Output Mode */
-> > > +};
-> > > +
-> > >  #endif /* __RZG2L_CRU_REGS_H__ */
-> > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> > > index 8b898ce05b84..00c3f7458e20 100644
-> > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cru.h
-> > > @@ -80,6 +80,10 @@ struct rzg2l_cru_ip_format {
-> > >  	bool yuv;
-> > >  };
-> > >  
-> > > +struct rzg2l_cru_info {
-> > > +	const u16 *regs;
-> > > +};
-> > > +
-> > >  /**
-> > >   * struct rzg2l_cru_dev - Renesas CRU device structure
-> > >   * @dev:		(OF) device
-> > > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > index cd69c8a686d3..f25fd9b35c55 100644
-> > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
-> > > @@ -44,12 +44,16 @@ struct rzg2l_cru_buffer {
-> > >   */
-> > >  static void rzg2l_cru_write(struct rzg2l_cru_dev *cru, u32 offset, u32 value)
-> > >  {
-> > > -	iowrite32(value, cru->base + offset);
-> > > +	const u16 *regs = cru->info->regs;
-> > > +
-> > > +	iowrite32(value, cru->base + regs[offset]);
-> > 
-> > Should out-of-bound accesses be checked ? Ideally that should be done at
-> > build time, but in some cases that may be hard. Maybe rzg2l_cru_write()
-> > and rzg2l_cru_read() could implement compile-time checks, and
-> > __rzg2l_cru_write() and __rzg2l_cru_read() could be used for the cases
-> > where checks are not possible at compile time (for AMnMBxADDRL and
-> > AMnMBxADDRH as far as I can see).
+Le 24/02/2025 à 05:19, Dmitry Osipenko a écrit :
+> On 2/24/25 00:11, Christophe JAILLET wrote:
+>>>>
+>>>>> +    ret = cec_register_adapter(cec->adap, cec->dev);
+>>>>> +    if (ret < 0) {
+>>>>> +        dev_err(cec->dev, "cec register adapter failed\n");
+>>>>> +        cec_unregister_adapter(cec->adap);
+>>>>
+>>>> Is it needed to call cec_unregister_adapter() when
+>>>> cec_register_adapter() fails?
+>>>
+>>> Yes, it's confusing, but unregister is needed to free the adapter
+>>> properly, it's prepared to do it. Thanks for the review.
+>>>
+>>
+>> I don't know this API, so you'll get the last word, but
+>> cec_unregister_adapter() does not seem to do that many things in such a
+>> case, unless I miss something. See [1].
+>>
+>> CJ
+>>
+>> [1]: https://elixir.bootlin.com/linux/v6.14-rc3/source/drivers/media/
+>> cec/core/cec-core.c#L370
 > 
-> What about using:
+> On a second look, apparently you're right and
+> cec_notifier_cec_adap_unregister() should be used there.
 > 
-> static void __rzg2l_cru_write(struct rzg2l_cru_dev *cru, u32 offset, u32 value)
-> {
-> 	const u16 *regs = cru->info->regs;
-> 
-> 	if (WARN_ON(offset >= RZG2L_CRU_MAX_REG) ||
-> 	    WARN_ON(offset != CRUnCTRL && regs[offset] == 0))
-> 		return;
-> 
-> 	iowrite32(value, cru->base + regs[offset]);
-> }
-> 
-> static u32 __rzg2l_cru_read(struct rzg2l_cru_dev *cru, u32 offset)
-> {
-> 	const u16 *regs = cru->info->regs;
-> 
-> 	if (WARN_ON(offset >= RZG2L_CRU_MAX_REG) ||
-> 	    WARN_ON(offset != CRUnCTRL && regs[offset] == 0))
-> 		return 0;
-> 
-> 	return ioread32(cru->base + regs[offset]);
-> }
-> 
-> static inline void rzg2l_cru_write(struct rzg2l_cru_dev *cru, u32 offset, u32 value)
-> {
-> 	BUILD_BUG_ON(offset >= RZG2L_CRU_MAX_REG);
-> 	__rzg2l_cru_write(cru, offset, value);
 
-If there's already a check at compile time, we shouldn't incur a
-performance impact at runtime. I'd do
+So, maybe in the .remove() function as well?
 
-	iowrite32(value, cru->base + cru->info->regs[offset]);
-
-here. Same below.
-
-> }
-> 
-> static u32 rzg2l_cru_read(struct rzg2l_cru_dev *cru, u32 offset)
-> {
-> 	BUILD_BUG_ON(offset >= RZG2L_CRU_MAX_REG);
-> 	return __rzg2l_cru_read(cru, offset);
-> }
-> 
-> And use rzg2l_cru_write, rzg2l_cru_read where check can be done at build
-> time, and __read/__write functions where check can be only done at
-> runtime.
-
-Is there a way we could use a common macro (e.g. rzg2l_cru_write()) and
-use __builtin_constant_p() to dispatch to __rzg2l_cru_write_constant()
-or __rzg2l_cru_write() ?
-
-> > >  }
-> > >  
-> > >  static u32 rzg2l_cru_read(struct rzg2l_cru_dev *cru, u32 offset)
-> > >  {
-> > > -	return ioread32(cru->base + offset);
-> > > +	const u16 *regs = cru->info->regs;
-> > > +
-> > > +	return ioread32(cru->base + regs[offset]);
-> > >  }
-> > >  
-> > >  /* Need to hold qlock before calling */
-> > > @@ -132,8 +136,8 @@ static void rzg2l_cru_set_slot_addr(struct rzg2l_cru_dev *cru,
-> > >  		return;
-> > >  
-> > >  	/* Currently, we just use the buffer in 32 bits address */
-> > > -	rzg2l_cru_write(cru, AMnMBxADDRL(slot), addr);
-> > > -	rzg2l_cru_write(cru, AMnMBxADDRH(slot), 0);
-> > > +	rzg2l_cru_write(cru, AMnMBxADDRL(AMnMB1ADDRL, slot), addr);
-> > > +	rzg2l_cru_write(cru, AMnMBxADDRH(AMnMB1ADDRH, slot), 0);
-> > 
-> > This seems fairly error-prone. The first argument doesn't seem to be
-> > needed.
-> 
-> Sorry I don't completely got this.
-> Please correct me if I'm wrong.
-> 
-> I think cru argument is needed here has AMnMBxADDRH macro is returning an
-> index of rzg2l_cru_regs[] and not the real address.
-
-I meant the first argument to the AMnMBxADDRL() and AMnMBxADDRH(),
-sorry. Can it ever be something else than AMnMB1ADDRL or AMnMB1ADDRH
-respectively ?
-
-> Btw with the changes above here we can use:
-> 
-> 	__rzg2l_cru_write(cru, AMnMBxADDRL(AMnMB1ADDRL, slot), addr);
-> 	__rzg2l_cru_write(cru, AMnMBxADDRH(AMnMB1ADDRH, slot), 0);
-> 
-> That is checking for out-of-bound accesses at runtime.
-> 
-> What do you think?
-> Thanks in advance.
-> 
-> > >  }
-> > >  
-> > >  /*
-
--- 
-Regards,
-
-Laurent Pinchart
+CJ
 
