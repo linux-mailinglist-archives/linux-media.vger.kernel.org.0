@@ -1,272 +1,122 @@
-Return-Path: <linux-media+bounces-26967-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26968-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C80CBA44552
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 17:03:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AAA0A4463C
+	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 17:37:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7C2AE1886794
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 16:03:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 94A7B19C25C0
+	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 16:34:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAE071552F5;
-	Tue, 25 Feb 2025 16:02:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1EB6195980;
+	Tue, 25 Feb 2025 16:34:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aayJ+tLx"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="VTBQD9jC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.web.de (mout.web.de [212.227.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2870E17A597;
-	Tue, 25 Feb 2025 16:02:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EC97194C9E;
+	Tue, 25 Feb 2025 16:34:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740499373; cv=none; b=YD0saJss20nuuVlQxj8ZZTVdjQ1NiWKJfCyWOT8S/OPU+jBScFxmaj4nM+3CMApE1MpMPxfFdLjyblMDQz8N02EWnQpyDMgxBfuFIx0afzKhkYAjDoo+zwIO/NNHjRUsfzLF0ao/H8SHyQS62das11U7lo+H1nVFVmlUkVascfw=
+	t=1740501278; cv=none; b=HlRG4oug/nRVahRSVnbq/F8ftE7JK0OQISxEyEIax+O3ZXMyVB4+Tldf7dFf0W/+6b5xkps37r4RWIkk/+PfBZhU+B5MZ3VJ4LDQoo4J+ci940/hauXCel21njFmXVilLUxgX+VWv5SX2VfUZrIc0WoXndjRRfmS2TDsSnVkjZ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740499373; c=relaxed/simple;
-	bh=NKncxX/f4OhZjM586JgqScppgEm06MohF+FhDmQBvJA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mz+EBbvpRHXY91ZIMXXTQBhmMWeS2CPZIgqa1hKJN4mxbnrEC5QRmxI5+t4G5cbwKegBo/wqpnPbLHEoWqIcOgGBq6BXNwQUbiKazhrwnN+urnKzoo4RCuYWpufzJy4soZSbIVOUkRKqSJJNLKcRbS7cj/3UaaHGxt6kveAVYzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aayJ+tLx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 263E1C4CEDD;
-	Tue, 25 Feb 2025 16:02:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740499371;
-	bh=NKncxX/f4OhZjM586JgqScppgEm06MohF+FhDmQBvJA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aayJ+tLxA6sG7cTVHHP4hUNez7LShHiaUnSSJzHetMr0TTsIqSW1PvC+ZUJ9IylE7
-	 XlWq5aGz/7ZLsFiIKCGQ+pWmDERxvEmBdfgcQNT73hLMRjK/aWv1nxDQ9Be+WUtb/9
-	 IxLLTAq02Rm+/M6N3AyMn3uwkw/UY1hMjCSoMBjMSIaePE/L+Qt01+v17wK+HsdLta
-	 yuvJmFvmc3hkC+asYqMSqPc7TAUKOm/snWXAHGGLreTeuo2+hfnTYI6e9APTZJVd+T
-	 8oKTWtP4n5A+GLUUHGhO38M0u90xZ/OY0/wrimn3qWuhSur6TavIPSH36oLHQA9CbG
-	 WLKmVFAGQ+l4A==
-Date: Tue, 25 Feb 2025 10:02:48 -0600
-From: Rob Herring <robh@kernel.org>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, Oded Gabbay <ogabbay@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Jeffrey Hugo <quic_jhugo@quicinc.com>, devicetree@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2 1/7] dt-bindings: npu: rockchip,rknn: Add bindings
-Message-ID: <20250225160248.GA2563229-robh@kernel.org>
-References: <20250225-6-10-rocket-v2-0-d4dbcfafc141@tomeuvizoso.net>
- <20250225-6-10-rocket-v2-1-d4dbcfafc141@tomeuvizoso.net>
+	s=arc-20240116; t=1740501278; c=relaxed/simple;
+	bh=1I0X4ltiGArS/4LY4t83f7eFtoxhqR2YlpZHJjc4/AA=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=CkHgNSjXcL7ty/SxmSwlygmRddiDX7xtmtX0w0Hz/iU5YjtCNXaaMjQGLx230FYyjnLFGvc6Vta+c42Bg0R8LumqxmRwoOvpJNnYOLg7VHvtwLvyTX8TSwoOZCa8Y+Vbr/3lcQa1KMtEpBkk47GEnBM6B+vxRRRpbfE3p2C2d8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=VTBQD9jC; arc=none smtp.client-ip=212.227.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1740501264; x=1741106064; i=markus.elfring@web.de;
+	bh=6F/+BR3fuIk7qDEk7fWKObdKldJLm53E0U6iRmv2vRI=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=VTBQD9jCL5+Hw0tIVKpDJ4zCNLPJK5jZuNPO7qlfkuDBYSPblsvCwUlOreIxJzoY
+	 pYO3vhNCLa7hm63831Y9MhlteK7yaNIaqAMz+8OHeyBCK48IpW1HuHKT+qTYOUs71
+	 QslMPUNoZsoetXnbdSfkh+N6GC04G2iETihgPs1zlYWT1ak8FAJV8X7rxGUx24OXK
+	 csrSpQGQNO+LuYllz2TsYZS2Jy4lNo2KE417lR/4J9GROG2gU2w6bnl6qMK99IGta
+	 UIZCVtMvBR/G0VUh9qYBpcVvit49JZkskE4v+kESYgM4htTWi9HZWQEC7e/zvDhU4
+	 6waCt2OHxtDG5ElhRA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.70.36]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MYcpt-1trWLb13IJ-00WyfW; Tue, 25
+ Feb 2025 17:34:24 +0100
+Message-ID: <ef3f1c7e-30d8-4cdd-b07a-41162adf245d@web.de>
+Date: Tue, 25 Feb 2025 17:34:21 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250225-6-10-rocket-v2-1-d4dbcfafc141@tomeuvizoso.net>
+User-Agent: Mozilla Thunderbird
+To: Qasim Ijaz <qasdev00@gmail.com>, linux-media@vger.kernel.org,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>
+Cc: LKML <linux-kernel@vger.kernel.org>
+References: <20250225125937.20413-1-qasdev00@gmail.com>
+Subject: Re: [PATCH] media: i2c: Replace nested min() with single min3()
+Content-Language: en-GB
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250225125937.20413-1-qasdev00@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:6cbFpp+AElXxu39FIClzrBRRibUKYCpleTgIyuXapN1joZl+EIF
+ KoRVw57cgxpftKMKGIJtZWtpAJP8MGgvdrvZ6zYjsw6yjplZvYcwTsIQ4niFAWpkIyWMyM8
+ EhqtzdlDkq27jBWf1sAicj2fZrxo3tHwpnnTbxEPOzpwXO12Ava+Rjr4l3P5BR8n8vlhjeN
+ 2nsVGUdhfH36BW8XWLfig==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:jzFCJJcFtLk=;zgyC5g0HxtMAAXOWKvLbawFbXfO
+ gKmfENYpqUE1FPA/5bzDdimFWYfgZW7HWlDymGu8kCFQOONzk7YVzU1C0B08yLh6YDbB0K3iE
+ W1mXeSp8R8yw5MmZs8ieWm0/vYEgugMPFgF58yHqdwb/aHl/IJBpETTDhVewL1UNV5E6hzHWp
+ 69Z2Xa2bVC9moSwK1jTXg8H42/5aJmkPDo5Rt1zt5+Cc9yPIVilrWdDW0eOjEmerBkQbJISFd
+ J6gKK2FEEK/0R9Jev1rAj0w+DRhjwCWIIejTnKAyWdhrfv8UCFC1tibqJAPWBmInWSI3CsiD2
+ bePREbrumrKEYlvV0pt9ovdb4Blpe82dvTCgoFFpZFeYVIDGZ7phOOGgg4R2emiX/qwSwbn0s
+ ANiWcF0wM7uO032YNQYD24QHgzz+VsI1MZPm6+b91PdEEIa2IxFmyRQF7An9NaHZJWhiQVyii
+ 3PTyEWHOD/wbUgLW0UvJCjFNnE7KR3Z5ouwdU9g3Nk1v+jGu0qvhucZxEAfOe+yibfcOZYoj+
+ 4tqbXv6AW1dDdAjXUqAU1pMN9JC0aHvhfVCq0rzIaeIqN63Xb+TB7tE7r9YkTHaQ6Vqrk9ZI+
+ dXBuclRNzKLI2rST8vmLJOssu+FNOSawHoKDNd+Ff/heJssCv6tfq4IOXzmX3gsxdr9IgnPJa
+ +maLHkUuTGeQA86/4XcMy/o4YcXhn6jSVDJMewbaE42d9f6bfFRaHiChWCKrNHbvYSEV75E/P
+ e6l9mtuJcnnbZQbHVjZcFnanXEyW0bfJI43oZyz11VAgjMukLxAfr1vbijkrPkN8ngHOu81Yd
+ VpgQb33ptIvmbyfqRJe+yVhNTG9RWqiFtjUhqrXyLx+vEF649ywEZsniXst1IVZZ3hgjhwym+
+ WYP8ASIG1+tCSYliMe8Yw3aBUqUx+M/4AgRnyhrZRcdiP1+9hE4eFZat8Ii8sDS2VDmaba6xU
+ NPgV4rX+kLsut/h2tpkgi+jNOAbU6+1k67Vncpge0o977rfWzA6aJiEMdFvWS7yjU47v7PkiQ
+ u7thVjt4U80CZ5+VGfCaOW5ft6NlRqVm/Xtt9prDrMz9+fj/6lG97LmA8YL7acjBC+yuKm29G
+ BQkN+kgnp9X+yvLVARvt9WV9obdKVAt3wYVXLolY49yrb8VJleJRKxYtY7kDRSImpV6wi9dOc
+ HdAO5glsAFdZ/fSnKhgscb2NyE3tlR/s3l99MyNEwEBc8AnHcegDblGYdub3b21Cpb21Qq8Uv
+ MAI7Bazk3sN5NO8XrfjkxLIraoOk/Z1LX2IIH9dV00Zj3rMJVSuXU+i2HQ8LQIBh5/p6nf1p1
+ LhF/9fPUTOSfW49ogiNpfYEq7yGCKZNWN5qy75XN9wQmCs5mrzA69bGdYohlSA6fTlCe1LisL
+ UnLy6J5SvxsVtXNLXiVg6Codwzt1n0VhuJu6vBSTg/3eYd27H2q6fY2r4WeUpNQ7zna4W6E7A
+ N31j3KA==
 
-On Tue, Feb 25, 2025 at 08:55:47AM +0100, Tomeu Vizoso wrote:
-> Add the bindings for the Neural Processing Unit IP from Rockchip.
-> 
-> v2:
-> - Adapt to new node structure (one node per core, each with its own
->   IOMMU)
-> - Several misc. fixes from Sebastian Reichel
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> ---
->  .../bindings/npu/rockchip,rknn-core.yaml           | 152 +++++++++++++++++++++
->  1 file changed, 152 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml b/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..e8d0afe4a7d1c4f166cf13a9f4aa7c1901362a3f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml
-> @@ -0,0 +1,152 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Neural Processing Unit IP from Rockchip
-> +
-> +maintainers:
-> +  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> +
-> +description:
-> +  Rockchip IP for accelerating inference of neural networks, based on NVIDIA's
-> +  open source NVDLA IP.
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: '^npu-core@[a-f0-9]+$'
-> +
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - rockchip,rk3588-rknn-core-top
-> +          - const: rockchip,rknn-core-top
+=E2=80=A6
+> +++ b/drivers/media/i2c/vgxy61.c
+> @@ -892,8 +892,8 @@ static u32 vgxy61_get_expo_long_max(struct vgxy61_de=
+v *sensor,
+>  	third_rot_max_expo =3D (sensor->frame_length / 71) * short_expo_ratio;
+>
+>  	/* Take the minimum from all rules */
+> -	return min(min(first_rot_max_expo, second_rot_max_expo),
+> -		   third_rot_max_expo);
+> +	return min3(first_rot_max_expo, second_rot_max_expo,
+> +		    third_rot_max_expo);
+=E2=80=A6
 
-Drop the fallbacks unless you have some evidence that the IP is the 
-same across a lot of SoCs. If you don't, then 
-rockchip,rk3588-rknn-core-top can be the fallback whenever there are 
-more compatible SoCs.
+Can the following source code variant be applied?
 
-Or if there's version/feature registers that otherwise make it 
-discoverable, then a common compatible is fine.
++	return min3(first_rot_max_expo, second_rot_max_expo, third_rot_max_expo)=
+;
 
-> +      - items:
-> +          - enum:
-> +              - rockchip,rk3588-rknn-core
-> +          - const: rockchip,rknn-core
 
-I don't understand the difference between core and core-top. That needs 
-to be explained in the top-level description.
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    minItems: 2
-> +    maxItems: 4
-> +
-> +  clock-names:
-> +    items:
-> +      - const: aclk
-> +      - const: hclk
-> +      - const: npu
-> +      - const: pclk
-> +    minItems: 2
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  iommus:
-> +    maxItems: 1
-> +
-> +  npu-supply: true
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    maxItems: 2
-> +
-> +  reset-names:
-> +    items:
-> +      - const: srst_a
-> +      - const: srst_h
-> +
-> +  sram-supply: true
-
-Group supply properties together
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - interrupts
-> +  - iommus
-> +  - npu-supply
-> +  - power-domains
-> +  - resets
-> +  - reset-names
-> +  - sram-supply
-> +
-> +allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - rockchip,rknn-core-top
-> +    then:
-> +      properties:
-> +        clocks:
-> +          minItems: 4
-> +
-> +        clock-names:
-> +          minItems: 4
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - rockchip,rknn-core
-> +    then:
-> +      properties:
-> +        clocks:
-> +          maxItems: 2
-> +        clock-names:
-> +          maxItems: 2
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/rockchip,rk3588-cru.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/power/rk3588-power.h>
-> +    #include <dt-bindings/reset/rockchip,rk3588-cru.h>
-> +
-> +    bus {
-> +      #address-cells = <2>;
-> +      #size-cells = <2>;
-> +
-> +      rknn_core_top: npu-core@fdab0000 {
-
-npu@...
-
-> +        compatible = "rockchip,rk3588-rknn-core-top", "rockchip,rknn-core-top";
-> +        reg = <0x0 0xfdab0000 0x0 0x9000>;
-> +        assigned-clocks = <&scmi_clk SCMI_CLK_NPU>;
-> +        assigned-clock-rates = <200000000>;
-> +        clocks = <&cru ACLK_NPU0>, <&cru HCLK_NPU0>,
-> +                 <&scmi_clk SCMI_CLK_NPU>, <&cru PCLK_NPU_ROOT>;
-> +        clock-names = "aclk", "hclk", "npu", "pclk";
-> +        interrupts = <GIC_SPI 110 IRQ_TYPE_LEVEL_HIGH 0>;
-> +        iommus = <&rknn_mmu_top>;
-> +        npu-supply = <&vdd_npu_s0>;
-> +        power-domains = <&power RK3588_PD_NPUTOP>;
-> +        resets = <&cru SRST_A_RKNN0>, <&cru SRST_H_RKNN0>;
-> +        reset-names = "srst_a", "srst_h";
-> +        sram-supply = <&vdd_npu_mem_s0>;
-> +      };
-> +
-> +      rknn_core_1: npu-core@fdac0000 {
-> +        compatible = "rockchip,rk3588-rknn-core", "rockchip,rknn-core";
-> +        reg = <0x0 0xfdac0000 0x0 0x9000>;
-> +        clocks = <&cru ACLK_NPU1>, <&cru HCLK_NPU1>;
-> +        clock-names = "aclk", "hclk";
-> +        interrupts = <GIC_SPI 111 IRQ_TYPE_LEVEL_HIGH 0>;
-> +        iommus = <&rknn_mmu_1>;
-> +        npu-supply = <&vdd_npu_s0>;
-> +        power-domains = <&power RK3588_PD_NPU1>;
-> +        resets = <&cru SRST_A_RKNN1>, <&cru SRST_H_RKNN1>;
-> +        reset-names = "srst_a", "srst_h";
-> +        sram-supply = <&vdd_npu_mem_s0>;
-> +      };
-> +    };
-> +...
-> 
-> -- 
-> 2.48.1
-> 
+Regards,
+Markus
 
