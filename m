@@ -1,178 +1,111 @@
-Return-Path: <linux-media+bounces-26893-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26894-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 725F4A43543
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 07:31:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB3E3A43552
+	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 07:32:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C92ED7ABFC9
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 06:28:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 684193BA2A6
+	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 06:31:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77BA325A328;
-	Tue, 25 Feb 2025 06:29:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B50A025E47B;
+	Tue, 25 Feb 2025 06:30:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="T/3enqJ2"
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="ATVTdfAo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FF5E257437;
-	Tue, 25 Feb 2025 06:29:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70D3E25E441
+	for <linux-media@vger.kernel.org>; Tue, 25 Feb 2025 06:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740464952; cv=none; b=BgfpwN86VmX6rhoOxggzhQLNVxIV22fLZsjwumeBefKufVTRgyPDjLWPhurlQVTYbQw75NMs74a44OCAECli059ZRmibdijGJ88WcyBRii+PgvLLa8S2JY/R5vAZ1SAgEHKU60J/pd3b1zGlZKS2ZpjUI1YTklyoEW/6zwk2lp4=
+	t=1740465008; cv=none; b=CxlyjO5Ba5UmWhxQB2gHgCxVtYyxw6FwkxAyBD+juhp5Q5/nmKbMNC78nCRecDsAc9bJ/miOZeFqq34qSBRNBMXfkFfTXr9OV7/vINput6IimWVGQdurck+nJYnOSYr8mCjQlC+7qLVlB7ASZPXwT/r93p2oH76eOhkU/E7zxJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740464952; c=relaxed/simple;
-	bh=6H5elsDLfN7x4ABCoiVo5OmOsniFojqAYjePdFe5/Xk=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cBZVo6ZgkhJpv1nqoVv1taiCmpARqw2mDjoTjKuOYo7plSib3x69yEUrolhnkiQMbvTNmEwHBfDtAGFWRFns6qUgxtgZX1G/ocm52Ovjj+1QePxjse9JNT6y4tjeWiJVh67KewI2qLtRsxmKJWS1yyrThrIeHklsDEG0H5xqfEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=T/3enqJ2; arc=none smtp.client-ip=68.232.153.233
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1740464952; x=1772000952;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=6H5elsDLfN7x4ABCoiVo5OmOsniFojqAYjePdFe5/Xk=;
-  b=T/3enqJ224qkljWNA4RgZ3p04RvpLkhOcSd7fdIfpmjNazDwd34kN+mt
-   5Wxlexek54StqQvClmd4EzOIwq8ZQdyaQ4ZgmZaEXFMahRINXt3UTI60M
-   oq7fVCktaVCHGnfXBp49V6NUGSGik2T71T4KZACO4azPSi1kfxNkc03Dt
-   z3bTiPibt9WOHbK12syspRJCZIBVvfVYizltY5YM5WgEvxLTNUoMmdZDN
-   EyJv461foOhqJQCsm/WqZ/ECAHZnnKbqAS7TFy+DOxNRnoOWZhdKSNzZL
-   m/O2GEpQcbsLJ7HGPpHqYrWbSUCgzmie0DYUklRQQStlhzhD2VVM9fvpH
-   g==;
-X-CSE-ConnectionGUID: ADVUi8D6REKc6zSlr8EjjA==
-X-CSE-MsgGUID: m5i9WV8IQVmrAieeOjZClg==
-X-IronPort-AV: E=Sophos;i="6.13,313,1732604400"; 
-   d="scan'208";a="38087711"
-X-Amp-Result: SKIPPED(no attachment in message)
-Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Feb 2025 23:29:03 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 24 Feb 2025 23:28:27 -0700
-Received: from microchip1-OptiPlex-9020.microchip.com (10.10.85.11) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Mon, 24 Feb 2025 23:28:24 -0700
-From: shravan kumar <shravan.chippa@microchip.com>
-To: <sakari.ailus@linux.intel.com>, <mchehab@kernel.org>
-CC: <kieran.bingham@ideasonboard.com>, <linux-media@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <conor.dooley@microchip.com>,
-	<valentina.fernandezalanis@microchip.com>, <praveen.kumar@microchip.com>,
-	<shravan.chippa@microchip.com>
-Subject: [PATCH V5 2/2] media: i2c: imx334: add modes for 720p and 480p resolutions
-Date: Tue, 25 Feb 2025 11:56:35 +0530
-Message-ID: <20250225062635.3566513-3-shravan.chippa@microchip.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250225062635.3566513-1-shravan.chippa@microchip.com>
-References: <20250225062635.3566513-1-shravan.chippa@microchip.com>
+	s=arc-20240116; t=1740465008; c=relaxed/simple;
+	bh=RYfyD32sRASx29xi497H3XJdDF3XXVn40eOIf2rnFm0=;
+	h=From:To:CC:Date:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=rVFE2qHqmclQge3wwHJKzD/D7eVylWoLs4Fy9atlNnhpbUKQKVgoHC2SFFCWIcsWJUzBMMFJVmuMQndWE8W+0u+2T6qoDDCJkAeJBTdFEXLi8JaQOcuNLqznTHFpMbCdZ4dYvMs5MX+9Q9T0mRzz9uSEvvwyFTi74VcQBeNm69g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=ATVTdfAo; arc=none smtp.client-ip=209.85.167.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3f40a38cb6bso2362980b6e.1
+        for <linux-media@vger.kernel.org>; Mon, 24 Feb 2025 22:30:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1740465004; x=1741069804; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:user-agent
+         :references:in-reply-to:message-id:date:cc:to:from:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4+mBAQq6Mkez/2/DMWHStf85qnBYyGFLVJqfvqnbkxk=;
+        b=ATVTdfAoZ8/xxq1ZmnjF7OLKA0Xgvb7CoBQQ87W4nCqYvgoKGF1WfWw7itwOEF/kQ2
+         qSEC712GTgta39biH0N9ptdUCZON99uEGDNtQAHraF5yqKkiQif0P3PLLx4dOpd02hU3
+         w51m7o1mLP/kdvlplhEAUBZB0iorvyx/M6eRY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740465004; x=1741069804;
+        h=content-transfer-encoding:mime-version:subject:user-agent
+         :references:in-reply-to:message-id:date:cc:to:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4+mBAQq6Mkez/2/DMWHStf85qnBYyGFLVJqfvqnbkxk=;
+        b=RMB1HrSbQ853EpWrMdp7DorM++CUwdO0txEQUOhZ7tCERoTmEu6hzG6uZtqrwtih/B
+         UN9M7useoZKyDI23fne9+Da9SNRMZyeh3EBrFfRab88a7WvCfa3hwWDjJtXSwWO+7hmF
+         G4r9hgihNOYb99+SCFQ6rLR+e54Yu0jiVAUgLCHhZCPN9w16HJodHverLKW5eb928N3x
+         oT0PIgkpckkMzUqb1JTQmhQCw2QxMt1cq8cQRvTbFbyGkKolATw4DUOXqCBoCQEOEhDa
+         wPkXipQ4nbzbDocFkU/oNPgs0dBSHjnh5jDtjwL2Q+C2JwktJSqAnmfKbjg0eB4Ye58F
+         RL0Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU9sW/YkG/8SsrCni/XGXEE4bubi9kPf+g95ooDSxXMC4fgyMCy57D+43v4ozmZMV8liG37vPhtrKPDCA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzq3xguLGLxz8Q/LhqKXqqWEfVB3a40OGnIzBtbNHur1JZleTb8
+	NnJXdKov1qG4nLgexUQUlYQTnhQRfLp2XnKOsL3eiFN1USb4BfpyE9VvlSInNw==
+X-Gm-Gg: ASbGncsJfVjFwQNQk2w5i8YLMqjdhLClTGRdFpDOzCj3orwUn58DqfJ6alV8a3TQgNa
+	djWr4x1CroOhwhwH2jd3o37vpOXzRIMhx4pcatrG+19mTuSvQhNTMP9lE2KZ2xQzY8Wbsgk+9+B
+	muCNy6pSJntgZ5ZxKPSSNb8dwxVy+MfEuzdmhW6g09hyZ/bhwegyTyW8Rha8WiNCnM9yq+mLxfO
+	oONk9o9PvUFpgsjZfL6+B4wWHtZCf8IIOqvq/MXMgT0gM9StAT42YTSjd1isRQhwDdck59Hfih1
+	avcta1/m6Hlic7pLoW3hidyf4h6gZb3Uca/dX58JbiLXzTIIM8dNFxcI/Y/a0ji4
+X-Google-Smtp-Source: AGHT+IFdXMbhGx7fP9GFKGlpguOITWaZZGOBzMRAt9OnDAJpr0Tf6LoZNYE9WcUj4WMJOinaxdWK7Q==
+X-Received: by 2002:a05:6808:3c8f:b0:3f3:e8e7:2001 with SMTP id 5614622812f47-3f424777eb0mr12305946b6e.26.1740465004283;
+        Mon, 24 Feb 2025 22:30:04 -0800 (PST)
+Received: from [192.168.178.74] (f215227.upc-f.chello.nl. [80.56.215.227])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3f541bd992bsm190300b6e.16.2025.02.24.22.29.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 24 Feb 2025 22:30:03 -0800 (PST)
+From: Arend Van Spriel <arend.vanspriel@broadcom.com>
+To: "Kuan-Wei Chiu" <visitorckw@gmail.com>, <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>, <x86@kernel.org>, <jk@ozlabs.org>, <joel@jms.id.au>, <eajames@linux.ibm.com>, <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>, <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>, <dmitry.torokhov@gmail.com>, <mchehab@kernel.org>, <awalls@md.metrocast.net>, <hverkuil@xs4all.nl>, <miquel.raynal@bootlin.com>, <richard@nod.at>, <vigneshr@ti.com>, <louis.peens@corigine.com>, <andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>, <pabeni@redhat.com>, <parthiban.veerasooran@microchip.com>, <johannes@sipsolutions.net>, <gregkh@linuxfoundation.org>, <jirislaby@kernel.org>, <yury.norov@gmail.com>, <akpm@linux-foundation.org>
+CC: <hpa@zytor.com>, <alistair@popple.id.au>, <linux@rasmusvillemoes.dk>, <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>, <kuba@kernel.org>, <linux-kernel@vger.kernel.org>, <linux-fsi@lists.ozlabs.org>, <dri-devel@lists.freedesktop.org>, <linux-input@vger.kernel.org>, <linux-media@vger.kernel.org>, <linux-mtd@lists.infradead.org>, <oss-drivers@corigine.com>, <netdev@vger.kernel.org>, <linux-wireless@vger.kernel.org>, <brcm80211@lists.linux.dev>, <brcm80211-dev-list.pdl@broadcom.com>, <linux-serial@vger.kernel.org>, <bpf@vger.kernel.org>, <jserv@ccns.ncku.edu.tw>, "Yu-Chun Lin" <eleanor15x@gmail.com>
+Date: Tue, 25 Feb 2025 07:29:46 +0100
+Message-ID: <1953bcc1790.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
+In-Reply-To: <20250223164217.2139331-12-visitorckw@gmail.com>
+References: <20250223164217.2139331-1-visitorckw@gmail.com>
+ <20250223164217.2139331-12-visitorckw@gmail.com>
+User-Agent: AquaMail/1.54.1 (build: 105401536)
+Subject: Re: [PATCH 11/17] wifi: brcm80211: Replace open-coded parity calculation with parity32()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; format=flowed; charset="us-ascii"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 
-From: Shravan Chippa <shravan.chippa@microchip.com>
+On February 23, 2025 5:44:54 PM Kuan-Wei Chiu <visitorckw@gmail.com> wrote:
 
-Added support for 1280x720@30 and 640x480@30 resolutions
+> Refactor parity calculations to use the standard parity32() helper.
+> This change eliminates redundant implementations and improves code
+> efficiency.
 
-Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
----
- drivers/media/i2c/imx334.c | 66 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 66 insertions(+)
+While the dust settles on the exact implementation from driver perspective 
+looks fine to me so...
 
-diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-index b2ad19abaca8..0172406780df 100644
---- a/drivers/media/i2c/imx334.c
-+++ b/drivers/media/i2c/imx334.c
-@@ -314,6 +314,46 @@ static const struct imx334_reg common_mode_regs[] = {
- 	{0x3002, 0x00},
- };
- 
-+/* Sensor mode registers for 640x480@30fps */
-+static const struct imx334_reg mode_640x480_regs[] = {
-+	{0x302c, 0x70},
-+	{0x302d, 0x06},
-+	{0x302e, 0x80},
-+	{0x302f, 0x02},
-+	{0x3074, 0x48},
-+	{0x3075, 0x07},
-+	{0x308e, 0x49},
-+	{0x308f, 0x07},
-+	{0x3076, 0xe0},
-+	{0x3077, 0x01},
-+	{0x3090, 0xe0},
-+	{0x3091, 0x01},
-+	{0x3308, 0xe0},
-+	{0x3309, 0x01},
-+	{0x30d8, 0x30},
-+	{0x30d9, 0x0b},
-+};
-+
-+/* Sensor mode registers for 1280x720@30fps */
-+static const struct imx334_reg mode_1280x720_regs[] = {
-+	{0x302c, 0x30},
-+	{0x302d, 0x05},
-+	{0x302e, 0x00},
-+	{0x302f, 0x05},
-+	{0x3074, 0x84},
-+	{0x3075, 0x03},
-+	{0x308e, 0x85},
-+	{0x308f, 0x03},
-+	{0x3076, 0xd0},
-+	{0x3077, 0x02},
-+	{0x3090, 0xd0},
-+	{0x3091, 0x02},
-+	{0x3308, 0xd0},
-+	{0x3309, 0x02},
-+	{0x30d8, 0x30},
-+	{0x30d9, 0x0b},
-+};
-+
- /* Sensor mode registers for 1920x1080@30fps */
- static const struct imx334_reg mode_1920x1080_regs[] = {
- 	{0x302c, 0xf0},
-@@ -436,6 +476,32 @@ static const struct imx334_mode supported_modes[] = {
- 			.num_of_regs = ARRAY_SIZE(mode_1920x1080_regs),
- 			.regs = mode_1920x1080_regs,
- 		},
-+	}, {
-+		.width = 1280,
-+		.height = 720,
-+		.hblank = 2480,
-+		.vblank = 1170,
-+		.vblank_min = 45,
-+		.vblank_max = 132840,
-+		.pclk = 297000000,
-+		.link_freq_idx = 1,
-+		.reg_list = {
-+			.num_of_regs = ARRAY_SIZE(mode_1280x720_regs),
-+			.regs = mode_1280x720_regs,
-+		},
-+	}, {
-+		.width = 640,
-+		.height = 480,
-+		.hblank = 2480,
-+		.vblank = 1170,
-+		.vblank_min = 45,
-+		.vblank_max = 132840,
-+		.pclk = 297000000,
-+		.link_freq_idx = 1,
-+		.reg_list = {
-+			.num_of_regs = ARRAY_SIZE(mode_640x480_regs),
-+			.regs = mode_640x480_regs,
-+		},
- 	},
- };
- 
--- 
-2.34.1
+Acked-by: Arend van Spriel <arend.vanspriel@broadcom.com>
+>
+> Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> ---
+> .../wireless/broadcom/brcm80211/brcmsmac/dma.c   | 16 +---------------
+> 1 file changed, 1 insertion(+), 15 deletions(-)
+
+
 
 
