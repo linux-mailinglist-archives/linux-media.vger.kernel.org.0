@@ -1,380 +1,143 @@
-Return-Path: <linux-media+bounces-26960-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26961-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25FC3A4428E
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 15:25:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90CB9A442A9
+	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 15:27:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F2CF9179504
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 14:20:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 04FB21896770
+	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 14:21:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0662526A1DA;
-	Tue, 25 Feb 2025 14:20:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8522226BDBB;
+	Tue, 25 Feb 2025 14:20:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l32UPZdx"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="nIsJWFUV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5F32126C18;
-	Tue, 25 Feb 2025 14:20:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F62926A1A0
+	for <linux-media@vger.kernel.org>; Tue, 25 Feb 2025 14:20:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740493239; cv=none; b=rWGQCZbhZHBEhIPfKx2VbJKAsipAUlPYhyUYdWZODtizOkAjXK0LVpL4s07DanArzNoJmJGIWXBaMm/sYApxqQxlrlKW0KfEISTWdt/uGJ09gFUw+88hzNjSqQLKRiiUZvB2x1UCN9QCBG9FEpEetKjA9rWOHkNPue68K2wh+FA=
+	t=1740493255; cv=none; b=YA3/p9489fiVuV2gHWYqyhid12M2ApWfwI78QWdG//+tZHV5cRAyQ1n/Q0+H/uJ1P8iOcfuZI9VzjwXWMIGdjmLo1QNtYTqbHeKN4e1rP+tuCDnViqEzyxpf5LeWb1V+DIFb75GGttfCoge9cxZXNPIixHAHqwoM1zlvMZahWVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740493239; c=relaxed/simple;
-	bh=igL96eUEZrEr7nXbYX4xSAi+Is+y1+sZ4i8SGsdn+rw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kFX/iqEZGgV018mmTvOmgvjtsxvSjMbo3HLL7wFjFrouNeSLhIMykrUQhgH8Fe5QYCnwSNQpPKQ5DExm0yXeMq2RzURIJafkufKqdsPXyX941X0rDwFIr4GbfvUyUSc1drsRxEZnkp9zPDcUGUeuAm+hF0JYCFjoYjC6dmln82o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l32UPZdx; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-220d28c215eso87779015ad.1;
-        Tue, 25 Feb 2025 06:20:37 -0800 (PST)
+	s=arc-20240116; t=1740493255; c=relaxed/simple;
+	bh=4aRVcR1MtxzUuDinO58olTCgo2qDQEdNqepuqBaC/20=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=USM7iuzc4KBq9mpZG+5DCEYk+78PQuuvurDn3Ep4Gi7SEI3ZJSfQzHqLHJefa/zXAVIyqgXiOQR6LA9f6GKdA6W3KMpUAWPFxqDMAgBq9a8XYIyan5xTIG/3LJKQL3IYAnkmemzxkUxc9pztmXZI2wH6XhT8g9zSbur2c3MAgnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=nIsJWFUV; arc=none smtp.client-ip=209.85.219.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-e6087a8588bso112852276.1
+        for <linux-media@vger.kernel.org>; Tue, 25 Feb 2025 06:20:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740493237; x=1741098037; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=pH6kCz8lTpjp3q7JFqjKA+FgBtUVtLCpjnGefR5mF5k=;
-        b=l32UPZdx67KNPYRn63WdCiA5o1RngRRcjta9ekdoM4ODbTaDBwtniCLew39vzy79N8
-         2vR51cK/kBRvgSBqK/Q1VOalgI08fxRmwyoIlbhGgOFapSocVm6L2PnPU2iRPD/3pdlu
-         Cxi9lyQPkmqN0zYkX0Bao3VqgVTA9nw+O0Wdlg1gM40i8lhg6Cv7M+jIZdhTydLRoY/c
-         eR0Q6HlTyMQXt6NrfVRDBOxbLvcRISpMZX/hPJ51P6Y/Qej+uGIrLrPGJw4e78bgmJ5X
-         7JmikLePAXGw3RhGd0Qrgt4F2cynzoMjsPLS6tFviuGN7H1bzOc9h5z4owrkyi1Td0KN
-         1xrg==
+        d=raspberrypi.com; s=google; t=1740493252; x=1741098052; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=yLGj3f01/5YqskB/AMHKol9KSvNGpbV7f974e7GtQ0U=;
+        b=nIsJWFUVPNvfheUD0MUZufKF654v4pxGi87gALKIYaHHUUQuyeU5xFijZM0cJ2RYqG
+         phYCIFwesyEK4kRNVgrTrDApp8aDCjaF5XMJTh7oYacvAvPFUdcOTA+mrm2veSm5OA9O
+         rnjDunJ8Itk42bUf8qlqQVQm72kx2oZAhSFLglqTIg15K0WShjUmB2Z/FExjSaV16wI2
+         WDu6gUMuEFpU8Z1OzSNdXYShzINVOrzpRN8pYUsqtGayndG9ykZkzx1tzcCarUrdl2uP
+         Crg/YSNkSq3i9dmLuA5s/fLI4baibikpicY8gAVfxBRDrYjs3lnku29eFfDLOn7t979l
+         bbFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740493237; x=1741098037;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pH6kCz8lTpjp3q7JFqjKA+FgBtUVtLCpjnGefR5mF5k=;
-        b=hkUihvKc6DPrj9NR0Oo+LEeu3YZQ9DqoUD419eMO0H8j1YTDGiPCtp7MpEah0fj2xC
-         Hp8QaMVLjNweCCYSQX8TG+xasOR52rZHhXt0n0g+rpjSRRg+3/xb/KPX26YJKbrYF8Lw
-         VuqUpOUgPk9MqC+ZTotJRdUyxkZZp/4DK5YDWhhqBla1nLBNgTlJ7T8tJr2aB5tVCNWS
-         Equ4yg92WTOmSmlLbDehjqTaGsCN1PHu7iKe4M01kk/TzQgoPKt7oCpoZHVDYlA9hHjD
-         yWj+8dROVDIk6OV7wg8TfZApWpRhyD+BW8HTbqcms/sbbnrAuI/38VQGaYqoOkC7HNn9
-         vOdg==
-X-Forwarded-Encrypted: i=1; AJvYcCU1DIrzUzrhtepBROBkn5gVsBuaHb6fnyJAPsvLMzG5InWDbSFp7ntzMIi7vmQoG5122qg=@vger.kernel.org, AJvYcCUGJP75ulyZJeTtkYcthdvw1IGm2TUdKeTmR6tGARwCDS80toPhECx4wAWohgMv8lXwHDamz/LnMX5C6BE=@vger.kernel.org, AJvYcCW1G/sRPezlb6Tx0gfsqpzl0QzXfe1bC4xbozwfYY/2pd+uC5ajpfGARIw9+7u8Bv/59CdlNKR4pt7BdOd1b+8=@vger.kernel.org, AJvYcCWjdDiTYXviznEV4fPTHiMa4dnjerg6fpDac1cCbXV3Ax0j6HQ4pGtnM/zOJbjsUWGL5rRV8lgc0y1cxZd6@vger.kernel.org, AJvYcCX/W1hvsrXueQsd8AANgUvBCgtOgvidLJyQn2KDntm3Th6FwpgcydNd1zPhhMf6lHtiCnkxKH88wV/3Cz6t@vger.kernel.org, AJvYcCXMiMod8z4lh0qgjvJf4xQJsHelcf0DHfchUUlAXA5bjgZhxO6jTyfqITSb2wKU/gkQdsmgpyZ1@vger.kernel.org, AJvYcCXUvEo7acbk8Iic/OabaEvH0+kARNiuNDb9FQHvXnE1FEgvHd9lEosk8xDAgzGNE6BWwN4jb2yWMGDUwuo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxkdD8+2F8Vec3/ek29a0PsxsU0tBiCDLDoOp7odiO+vBnc9FMW
-	r51qZXUSCyQe8WJCaSfZtj2yzLRlHzoQ4pdTrQfkQtorFcc9+onq
-X-Gm-Gg: ASbGncvZQFb+bL6wKtMgPk66kQxQwI+PTik994XtBCbO2I/roHMQc6q9w2lSWMOFkm0
-	gfHuYFphQ5yO5jeHJFzZhxbdSp1/CNaZyUe7yR8Ew5SWdNDjGaLvKtiPBTi8v/zKb32LsofC8zm
-	vF4L6i8dAqQ5W+9FHANwRc1+IrJN1qxe5koou5zhlqF6zz2vKAbmILoGGJV7J6So+nOw/tAfl4M
-	OpmcY1NIrA2F0hAotxyliJYa9FwRR7ResbCuqmCBk2WALsBM9TC+j1N84JN77NdPBA8PZ1GIONu
-	dClQ3GRp3MYeY8HW7ooNX9/NSAgk5yr2eKCadT92ZgXFssvF1YUNpA==
-X-Google-Smtp-Source: AGHT+IF5xwcyMuEse5d6U24DTrm7La/i/EXLcWUjTbDTBaLHgklr2LYp0Shxn4PZ0SRkVV82FkT4WQ==
-X-Received: by 2002:a05:6a00:3392:b0:730:9946:5973 with SMTP id d2e1a72fcca58-734790a2af5mr5118831b3a.5.1740493236834;
-        Tue, 25 Feb 2025 06:20:36 -0800 (PST)
-Received: from visitorckw-System-Product-Name ([140.113.216.168])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7347a72ef60sm1586035b3a.75.2025.02.25.06.20.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2025 06:20:36 -0800 (PST)
-Date: Tue, 25 Feb 2025 22:20:26 +0800
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
-	joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org, rfoss@kernel.org,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-	dmitry.torokhov@gmail.com, mchehab@kernel.org,
-	awalls@md.metrocast.net, hverkuil@xs4all.nl,
-	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-	louis.peens@corigine.com, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-	parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
-	johannes@sipsolutions.net, gregkh@linuxfoundation.org,
-	jirislaby@kernel.org, akpm@linux-foundation.org, hpa@zytor.com,
-	alistair@popple.id.au, linux@rasmusvillemoes.dk,
-	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-	jernej.skrabec@gmail.com, kuba@kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
-	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
-	oss-drivers@corigine.com, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
-	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
-	Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
-Message-ID: <Z73RqnMRS+31wzrv@visitorckw-System-Product-Name>
-References: <20250223164217.2139331-1-visitorckw@gmail.com>
- <20250223164217.2139331-3-visitorckw@gmail.com>
- <Z7zIBwH4aUA7G9MY@thinkpad>
- <Z73FxIv353lbXO3A@visitorckw-System-Product-Name>
+        d=1e100.net; s=20230601; t=1740493252; x=1741098052;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=yLGj3f01/5YqskB/AMHKol9KSvNGpbV7f974e7GtQ0U=;
+        b=IPqRH26uJoul7WYkC+I76Rbx6izskXPwO12vZJyk/gmYZ8fl/8RryoXIpexWt0VOUE
+         qxKbQO/OM/jILv58w4YUEvopmlWheqOEBrALGF73emXOdq7oyA8Mg5iZwrlqpfgIOEzE
+         1Vrv22yQ4mFmpeR32FUbUfSZo1gUsw87xbViXauA0/LN768mJ7HDD63jTIsi8NeExDd1
+         tkrSJAOYgt0fcK7qx4xzLQfYB4SS29fxjgCZl7hLpu57JH0uNd1T27jCQzfg39WohLhn
+         +pLHxcMN6XDeYYUOXjIlSjSGS9XoE8DA2+HodI0YUS2t1pTsjbjJaMcWQJD2qDqxQ4RS
+         6EOg==
+X-Forwarded-Encrypted: i=1; AJvYcCXKrGxFkldlRig4J5f7U0ADPuvDZ78QqqV34jUr+O81Nf1OKnM91h4q7gA1s7ffcxysQoUocidmqxW0Ig==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxnl+kdBtfd1RyqzQ0rUH7WVGqORnTWJQas0/F+1XarV/jd/jko
+	hMnyorHqL9REoXTTFnZgLtv4fZNSU+st4aq5mhtVTpfN2df+vJIYyzg60cAdR5YI/tVcKkRhmGe
+	Pmvm6VDLxVoyewIrhaFMlfLTSU7yU6a4l9KaHWg==
+X-Gm-Gg: ASbGncvZZHAKD59xYkFedJ021tX9J6qUUEXLIbhqwsrSX0vLC0fnjWjV1cAUmUO+9gX
+	mX5Mlm5exN3lK3ZEUfyd4U8TqOdbCnxcV34RISIMZE5e/B+6D5D0iyUES7Y94ADiUkUY00pmDxI
+	s3uwP1WSMPrharm/b1hbJ0yuxxOXvFZF87MnuezRA=
+X-Google-Smtp-Source: AGHT+IENualTBjQ0gC23IsPS4Y3OAVTdoidslIODPAXgztEQkt/QwuDATXiFsWJ/F2T2gnPhUdShHIX8sQEr6smL7nA=
+X-Received: by 2002:a05:6902:2493:b0:e5b:43dd:cf18 with SMTP id
+ 3f1490d57ef6-e5e2490dc3amr14360779276.22.1740493251235; Tue, 25 Feb 2025
+ 06:20:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z73FxIv353lbXO3A@visitorckw-System-Product-Name>
+References: <20250225-b4-ov9282-gain-v1-0-a24af2820dde@linux.dev> <20250225-b4-ov9282-gain-v1-2-a24af2820dde@linux.dev>
+In-Reply-To: <20250225-b4-ov9282-gain-v1-2-a24af2820dde@linux.dev>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 25 Feb 2025 14:20:34 +0000
+X-Gm-Features: AQ5f1JpnFy2Fej1Tv3LO4JDgq3THZkPkBcXgbtSirWhgQwozrTWSiHSj1Na7Bi0
+Message-ID: <CAPY8ntCoerdGgM1CjLWzNPx-0gACR1O9yaccRoHByq-B3D-rJg@mail.gmail.com>
+Subject: Re: [PATCH 2/3] media: i2c: ov9282: add AEC Manual register definition
+To: Richard Leitner <richard.leitner@linux.dev>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Feb 25, 2025 at 09:29:51PM +0800, Kuan-Wei Chiu wrote:
-> Hi Yury,
-> 
-> On Mon, Feb 24, 2025 at 02:27:03PM -0500, Yury Norov wrote:
-> > On Mon, Feb 24, 2025 at 12:42:02AM +0800, Kuan-Wei Chiu wrote:
-> > > Several parts of the kernel open-code parity calculations using
-> > > different methods. Add a generic parity64() helper implemented with the
-> > > same efficient approach as parity8().
-> > 
-> > No reason to add parity32() and parity64() in separate patches
-> 
-> Ack.
-> 
-> >  
-> > > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
-> > > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
-> > > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-> > > ---
-> > >  include/linux/bitops.h | 22 ++++++++++++++++++++++
-> > >  1 file changed, 22 insertions(+)
-> > > 
-> > > diff --git a/include/linux/bitops.h b/include/linux/bitops.h
-> > > index fb13dedad7aa..67677057f5e2 100644
-> > > --- a/include/linux/bitops.h
-> > > +++ b/include/linux/bitops.h
-> > > @@ -281,6 +281,28 @@ static inline int parity32(u32 val)
-> > >  	return (0x6996 >> (val & 0xf)) & 1;
-> > >  }
-> > >  
-> > > +/**
-> > > + * parity64 - get the parity of an u64 value
-> > > + * @value: the value to be examined
-> > > + *
-> > > + * Determine the parity of the u64 argument.
-> > > + *
-> > > + * Returns:
-> > > + * 0 for even parity, 1 for odd parity
-> > > + */
-> > > +static inline int parity64(u64 val)
-> > > +{
-> > > +	/*
-> > > +	 * One explanation of this algorithm:
-> > > +	 * https://funloop.org/codex/problem/parity/README.html
-> > 
-> > This is already referenced in sources. No need to spread it for more.
-> 
-> Ack.
-> 
-> > 
-> > > +	 */
-> > > +	val ^= val >> 32;
-> > > +	val ^= val >> 16;
-> > > +	val ^= val >> 8;
-> > > +	val ^= val >> 4;
-> > > +	return (0x6996 >> (val & 0xf)) & 1;
-> > 
-> > It's better to avoid duplicating the same logic again and again.
-> 
-> Ack.
-> 
-> > 
-> > > +}
-> > > +
-> > 
-> > So maybe make it a macro?
-> > 
-> > 
-> > From f17a28ae3429f49825d65ebc0f7717c6a191a3e2 Mon Sep 17 00:00:00 2001
-> > From: Yury Norov <yury.norov@gmail.com>
-> > Date: Mon, 24 Feb 2025 14:14:27 -0500
-> > Subject: [PATCH] bitops: generalize parity8()
-> > 
-> > The generic parity calculation approach may be easily generalized for
-> > other standard types. Do that and drop sub-optimal implementation of
-> > parity calculation in x86 code.
-> > 
-> > Signed-off-by: Yury Norov [NVIDIA] <yury.norov@gmail.com>
-> > ---
-> >  arch/x86/kernel/bootflag.c | 14 +-----------
-> >  include/linux/bitops.h     | 47 +++++++++++++++++++++++++++-----------
-> >  2 files changed, 35 insertions(+), 26 deletions(-)
-> > 
-> > diff --git a/arch/x86/kernel/bootflag.c b/arch/x86/kernel/bootflag.c
-> > index 3fed7ae58b60..4a85c69a28f8 100644
-> > --- a/arch/x86/kernel/bootflag.c
-> > +++ b/arch/x86/kernel/bootflag.c
-> > @@ -2,6 +2,7 @@
-> >  /*
-> >   *	Implement 'Simple Boot Flag Specification 2.0'
-> >   */
-> > +#include <linux/bitops.h>
-> >  #include <linux/types.h>
-> >  #include <linux/kernel.h>
-> >  #include <linux/init.h>
-> > @@ -20,19 +21,6 @@
-> >  
-> >  int sbf_port __initdata = -1;	/* set via acpi_boot_init() */
-> >  
-> > -static int __init parity(u8 v)
-> > -{
-> > -	int x = 0;
-> > -	int i;
-> > -
-> > -	for (i = 0; i < 8; i++) {
-> > -		x ^= (v & 1);
-> > -		v >>= 1;
-> > -	}
-> > -
-> > -	return x;
-> > -}
-> > -
-> >  static void __init sbf_write(u8 v)
-> >  {
-> >  	unsigned long flags;
-> > diff --git a/include/linux/bitops.h b/include/linux/bitops.h
-> > index c1cb53cf2f0f..29601434f5f4 100644
-> > --- a/include/linux/bitops.h
-> > +++ b/include/linux/bitops.h
-> > @@ -230,10 +230,10 @@ static inline int get_count_order_long(unsigned long l)
-> >  }
-> >  
-> >  /**
-> > - * parity8 - get the parity of an u8 value
-> > + * parity - get the parity of a value
-> >   * @value: the value to be examined
-> >   *
-> > - * Determine the parity of the u8 argument.
-> > + * Determine parity of the argument.
-> >   *
-> >   * Returns:
-> >   * 0 for even parity, 1 for odd parity
-> > @@ -241,24 +241,45 @@ static inline int get_count_order_long(unsigned long l)
-> >   * Note: This function informs you about the current parity. Example to bail
-> >   * out when parity is odd:
-> >   *
-> > - *	if (parity8(val) == 1)
-> > + *	if (parity(val) == 1)
-> >   *		return -EBADMSG;
-> >   *
-> >   * If you need to calculate a parity bit, you need to draw the conclusion from
-> >   * this result yourself. Example to enforce odd parity, parity bit is bit 7:
-> >   *
-> > - *	if (parity8(val) == 0)
-> > + *	if (parity(val) == 0)
-> >   *		val ^= BIT(7);
-> > + *
-> > + * One explanation of this algorithm:
-> > + * https://funloop.org/codex/problem/parity/README.html
-> >   */
-> > -static inline int parity8(u8 val)
-> > -{
-> > -	/*
-> > -	 * One explanation of this algorithm:
-> > -	 * https://funloop.org/codex/problem/parity/README.html
-> > -	 */
-> > -	val ^= val >> 4;
-> > -	return (0x6996 >> (val & 0xf)) & 1;
-> > -}
-> > +#define parity(val)					\
-> > +({							\
-> > +	u64 __v = (val);				\
-> > +	int __ret;					\
-> > +	switch (BITS_PER_TYPE(val)) {			\
-> > +	case 64:					\
-> > +		__v ^= __v >> 32;			\
-> > +		fallthrough;				\
-> > +	case 32:					\
-> > +		__v ^= __v >> 16;			\
-> > +		fallthrough;				\
-> > +	case 16:					\
-> > +		__v ^= __v >> 8;			\
-> > +		fallthrough;				\
-> > +	case 8:						\
-> > +		__v ^= __v >> 4;			\
-> > +		__ret =  (0x6996 >> (__v & 0xf)) & 1;	\
-> > +		break;					\
-> > +	default:					\
-> > +		BUILD_BUG();				\
-> > +	}						\
-> > +	__ret;						\
-> > +})
-> > +
-> > +#define parity8(val)	parity((u8)(val))
-> > +#define parity32(val)	parity((u32)(val))
-> > +#define parity64(val)	parity((u64)(val))
-> >  
-> What do you think about using these inline functions instead of macros?
-> Except for parity8(), each function is a single line and follows the
-> same logic. I find inline functions more readable, and coding-style.rst
-> also recommends them over macros.
-> 
-> Regards,
-> Kuan-Wei
-> 
-> diff --git a/include/linux/bitops.h b/include/linux/bitops.h
-> index c1cb53cf2f0f..d518a382f1fe 100644
-> --- a/include/linux/bitops.h
-> +++ b/include/linux/bitops.h
-> @@ -260,6 +260,26 @@ static inline int parity8(u8 val)
->  	return (0x6996 >> (val & 0xf)) & 1;
->  }
->  
-> +static inline parity16(u16 val)
-> +{
-> +	return parity8(val ^ (val >> 8));
-> +}
-> +
-> +static inline parity16(u16 val)
-> +{
-> +	return parity8(val ^ (val >> 8));
-> +}
-> +
-> +static inline parity32(u32)
-> +{
-> +	return parity16(val ^ (val >> 16));
-> +}
-> +
-> +static inline parity64(u64)
-> +{
-> +	return parity32(val ^ (val >> 32));
-> +}
-> +
->  /**
->   * __ffs64 - find first set bit in a 64 bit word
->   * @word: The 64 bit word
-> 
+Hi Richard
+
+Thanks for the patch
+
+On Tue, 25 Feb 2025 at 13:09, Richard Leitner <richard.leitner@linux.dev> wrote:
 >
-Oops... I made a lot of fat-finger mistakes. Here's the correct one.
+> Add #define's for the "AEC MANUAL" (0x3503) register and its
+> values/flags. Use those in the registers single usage within the
+> `common_regs` struct.
+>
+> All values are based on the OV9281 datasheet v1.01 (09.18.2015).
+>
+> Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
 
-diff --git a/include/linux/bitops.h b/include/linux/bitops.h
-index c1cb53cf2f0f..427e4c06055e 100644
---- a/include/linux/bitops.h
-+++ b/include/linux/bitops.h
-@@ -260,6 +260,21 @@ static inline int parity8(u8 val)
- 	return (0x6996 >> (val & 0xf)) & 1;
- }
- 
-+static inline int parity16(u16 val)
-+{
-+	return parity8(val ^ (val >> 8));
-+}
-+
-+static inline int parity32(u32 val)
-+{
-+	return parity16(val ^ (val >> 16));
-+}
-+
-+static inline int parity64(u64 val)
-+{
-+	return parity32(val ^ (val >> 32));
-+}
-+
- /**
-  * __ffs64 - find first set bit in a 64 bit word
-  * @word: The 64 bit word
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-
-> >  /**
-> >   * __ffs64 - find first set bit in a 64 bit word
-> > -- 
-> > 2.43.0
-> > 
+> ---
+>  drivers/media/i2c/ov9282.c | 11 ++++++++++-
+>  1 file changed, 10 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> index c926842257893c4da3319b847fab9908b5bdaec6..c882a021cf18852237bf9b9524d3de0c5b48cbcb 100644
+> --- a/drivers/media/i2c/ov9282.c
+> +++ b/drivers/media/i2c/ov9282.c
+> @@ -44,6 +44,15 @@
+>  #define OV9282_EXPOSURE_STEP   1
+>  #define OV9282_EXPOSURE_DEFAULT        0x0282
+>
+> +/* AEC/AGC manual */
+> +#define OV9282_REG_AEC_MANUAL          0x3503
+> +#define OV9282_DIGFRAC_GAIN_DELAY      BIT(6)
+> +#define OV9282_GAIN_CHANGE_DELAY       BIT(5)
+> +#define OV9282_GAIN_DELAY              BIT(4)
+> +#define OV9282_GAIN_PREC16_EN          BIT(3)
+> +#define OV9282_GAIN_MANUAL_AS_SENSGAIN BIT(2)
+> +#define OV9282_AEC_MANUAL_DEFAULT      0x00
+> +
+>  /* Analog gain control */
+>  #define OV9282_REG_AGAIN       0x3509
+>  #define OV9282_AGAIN_MIN       0x10
+> @@ -214,7 +223,7 @@ static const struct ov9282_reg common_regs[] = {
+>         {0x3030, 0x10},
+>         {0x3039, 0x32},
+>         {0x303a, 0x00},
+> -       {0x3503, 0x08},
+> +       {OV9282_REG_AEC_MANUAL, OV9282_GAIN_PREC16_EN},
+>         {0x3505, 0x8c},
+>         {0x3507, 0x03},
+>         {0x3508, 0x00},
+>
+> --
+> 2.47.2
+>
+>
 
