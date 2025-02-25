@@ -1,186 +1,114 @@
-Return-Path: <linux-media+bounces-26890-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26891-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEF76A434E0
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 07:00:55 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2552A43540
+	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 07:30:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C758C17A1D5
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 06:00:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 16E517AB872
+	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 06:28:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BB752566FC;
-	Tue, 25 Feb 2025 06:00:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5843C25742D;
+	Tue, 25 Feb 2025 06:29:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="W1Zd3xK3"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="ndpeIz2E"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F16521DFDE
-	for <linux-media@vger.kernel.org>; Tue, 25 Feb 2025 06:00:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0AC2561CE;
+	Tue, 25 Feb 2025 06:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740463249; cv=none; b=FoOfp5DlJihhA4ctom1RI3sUw5CBkFyp0zhkUVWJhNC2s9gFPcSiirfNMfXyoQLZlFO7LvBE44yfgCPG1gdksvkDqBSAyd1Y/4aEyIRHGN1qq2Kiu1qJgFH/ye7Cm4/ZD5TVPIwGiwJW/BMSi7zpJ6jD29FvxZyW+kBMQy9/xVE=
+	t=1740464950; cv=none; b=XddXexYd4act4fYH8Q/gaQuNTKIate8VX189Sqr9HCYsE4U0qXzu0DW7QttTcR+9w36JLAom1rXne9Q35MFqV6dQPf7PmBw2iVYKvn77zkHpiwbpYvB7IcVLq1oexzyy+Q/rduK1FfQ6ZT3k7hcl5ZWe0Cn+4FhadDTYXVs2apU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740463249; c=relaxed/simple;
-	bh=i+my42sHcr8A24cm78I5KRLy+5yo2gaon/1pzFJmD7Q=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=N6RXA/ITpeAVeydqF4fpJ2QOAODsESOxMhCbqbqdAslNylwn91hYcbd9IVILH4CPiJMrEFbnGMHFr3TYc9GgIfk9bJaMmEbhkFIZWTXK1uBL7PM8+p1tRQdPtZquG0BF8qDcFXqRktpXkMNZIKx3gwHp29Sp2weAzkNzz3ZeeP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=W1Zd3xK3; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1740464950; c=relaxed/simple;
+	bh=7eUL0jBzz1cYq9mjHiINOryJSNbEueKGpRbHgX5oi8o=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QtQOW3FDz87sqSsoPvx4AawYlIRUL/6ZEistm04FUxYw7ja7YhSQmtZxqKiHfPyIGN4p/18ASgBopLcrXDoKsuILCwpG2FfrQq4sL2lR11rMqBbrSi5k52ADK20OEInY/PhrLmQgT4Y6LEklnoo0nE9o0Tmmhq9DbQtwDY8k4z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=ndpeIz2E; arc=none smtp.client-ip=68.232.153.233
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740463249; x=1771999249;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=i+my42sHcr8A24cm78I5KRLy+5yo2gaon/1pzFJmD7Q=;
-  b=W1Zd3xK3FLhXOQA7XZaCMd/2q1H/GSQZnh0Ni4yWLByIOdJ7jdKk53Dz
-   w3YvAMGJ8ST996UNFecUNJGzVR5iJkL83cVIwpWKyJ0KdgiiTYWaz0Ek7
-   Q70wiqoz1LN3aEOofJO0vnaBb5hHJ/k6FPKltSS2yBIdK0Oc5Syiis9jZ
-   ZcGNdFhkcbq/WI9Xt2x4b4itpcLLfyJrKcwu1LsNjsBI7mCrJLTqZ4LH7
-   rzSkCA0/Xv23Ap9MHOaUVIx88v2Joa0YbVAHJz7Uh+da0DDioJTv4hgz+
-   iWJl/yF2w8gpXmhcWWeOgFZmHfQfDeBvyJU7fW9VH/lwnFzGmXb0Jmezc
-   Q==;
-X-CSE-ConnectionGUID: CZuoskw0QZW9ncfa+FbcDA==
-X-CSE-MsgGUID: Fl+9+2r/S0Kag6ydA/BW5Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="45036811"
-X-IronPort-AV: E=Sophos;i="6.13,313,1732608000"; 
-   d="scan'208";a="45036811"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 22:00:48 -0800
-X-CSE-ConnectionGUID: b5/KrRZ8SOSfLYeDMRW9Ng==
-X-CSE-MsgGUID: W3POHpoWTKe8o44Ai9nqaA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,313,1732608000"; 
-   d="scan'208";a="116917497"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.136]) ([10.238.232.136])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Feb 2025 22:00:46 -0800
-Subject: Re: [RFC PATCH 7/7] media: ipu7: add Makefile and Kconfig for IPU7
-To: bingbu.cao@intel.com, linux-media@vger.kernel.org,
- sakari.ailus@linux.intel.com, hdegoede@redhat.com
-Cc: hans@hansg.org, stanislaw.gruszka@linux.intel.com
-References: <20250221075252.3347582-1-bingbu.cao@intel.com>
- <20250221075252.3347582-8-bingbu.cao@intel.com>
-From: Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <1f46cbd1-384a-44f8-4ec1-414409ded771@linux.intel.com>
-Date: Tue, 25 Feb 2025 13:55:40 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1740464950; x=1772000950;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=7eUL0jBzz1cYq9mjHiINOryJSNbEueKGpRbHgX5oi8o=;
+  b=ndpeIz2EzU+Y9kFDcSX3PWuKV6q6rqF8zbobDpN/fi+A1GKtxBh3EnJP
+   SmVJR0JYa/dOAMno8kACrgzgKfDu/tUQs71+tRzUXH7YufKq6wLUxqcoQ
+   5tu64Py5blh6wePd5GxD0KZ4WaAaqZfEFC+0I0pjg8VD1IkS0Iac2owJc
+   +6pqUOPQFqerqzMzHaeoY6EYx9PRmFbD6qpbciR5ZEEGrQPgIgJXphzjG
+   8trfkUdMf9g7rs36H5R+8T+Q7F9/MXl7/FarVcUP+Yywtsvo4fduzZOjz
+   upr753/ECHNqecj9l7l0cveSQNxrcVTON/RQlMYAspCcmgE7OPSnVQIhH
+   w==;
+X-CSE-ConnectionGUID: ADVUi8D6REKc6zSlr8EjjA==
+X-CSE-MsgGUID: 791BDBPURFWqQnKqq+1Tdg==
+X-IronPort-AV: E=Sophos;i="6.13,313,1732604400"; 
+   d="scan'208";a="38087707"
+X-Amp-Result: SKIPPED(no attachment in message)
+Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
+  by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Feb 2025 23:29:03 -0700
+Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.35; Mon, 24 Feb 2025 23:28:20 -0700
+Received: from microchip1-OptiPlex-9020.microchip.com (10.10.85.11) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
+ 15.1.2507.35 via Frontend Transport; Mon, 24 Feb 2025 23:28:16 -0700
+From: shravan kumar <shravan.chippa@microchip.com>
+To: <sakari.ailus@linux.intel.com>, <mchehab@kernel.org>
+CC: <kieran.bingham@ideasonboard.com>, <linux-media@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <conor.dooley@microchip.com>,
+	<valentina.fernandezalanis@microchip.com>, <praveen.kumar@microchip.com>,
+	<shravan.chippa@microchip.com>
+Subject: [PATCH V5 0/2] media: i2c: imx334: Add support for 1280x720 & 640x480 resolutions
+Date: Tue, 25 Feb 2025 11:56:33 +0530
+Message-ID: <20250225062635.3566513-1-shravan.chippa@microchip.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20250221075252.3347582-8-bingbu.cao@intel.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-All,
+From: Shravan Chippa <shravan.chippa@microchip.com>
 
-On 2/21/25 3:52 PM, bingbu.cao@intel.com wrote:
-> From: Bingbu Cao <bingbu.cao@intel.com>
-> 
-> Add Kconfig and Makefile for IPU7 driver and also update
-> the Makefile to build the IPU7 driver.
-> 
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> ---
->  drivers/media/pci/intel/Kconfig       |  1 +
->  drivers/media/pci/intel/Makefile      |  1 +
->  drivers/media/pci/intel/ipu7/Kconfig  | 18 ++++++++++++++++++
->  drivers/media/pci/intel/ipu7/Makefile | 23 +++++++++++++++++++++++
->  4 files changed, 43 insertions(+)
->  create mode 100644 drivers/media/pci/intel/ipu7/Kconfig
->  create mode 100644 drivers/media/pci/intel/ipu7/Makefile
-> 
-> diff --git a/drivers/media/pci/intel/Kconfig b/drivers/media/pci/intel/Kconfig
-> index d9fcddce028b..948cda08fff5 100644
-> --- a/drivers/media/pci/intel/Kconfig
-> +++ b/drivers/media/pci/intel/Kconfig
-> @@ -2,6 +2,7 @@
->  
->  source "drivers/media/pci/intel/ipu3/Kconfig"
->  source "drivers/media/pci/intel/ipu6/Kconfig"
-> +source "drivers/media/pci/intel/ipu7/Kconfig"
->  source "drivers/media/pci/intel/ivsc/Kconfig"
->  
->  config IPU_BRIDGE
-> diff --git a/drivers/media/pci/intel/Makefile b/drivers/media/pci/intel/Makefile
-> index 3a2cc6567159..ff0fea13422d 100644
-> --- a/drivers/media/pci/intel/Makefile
-> +++ b/drivers/media/pci/intel/Makefile
-> @@ -6,3 +6,4 @@ obj-$(CONFIG_IPU_BRIDGE) += ipu-bridge.o
->  obj-y	+= ipu3/
->  obj-y	+= ivsc/
->  obj-$(CONFIG_VIDEO_INTEL_IPU6)	+= ipu6/
-> +obj-$(CONFIG_VIDEO_INTEL_IPU7)	+= ipu7/
-> diff --git a/drivers/media/pci/intel/ipu7/Kconfig b/drivers/media/pci/intel/ipu7/Kconfig
-> new file mode 100644
-> index 000000000000..b759d5e6c3a9
-> --- /dev/null
-> +++ b/drivers/media/pci/intel/ipu7/Kconfig
-> @@ -0,0 +1,18 @@
-> +config VIDEO_INTEL_IPU7
-> +	tristate "Intel IPU7 driver"
-> +	depends on ACPI || COMPILE_TEST
-> +	depends on VIDEO_DEV
-> +	depends on X86 && X86_64 && HAS_DMA
+Changelog:
+v4 -> v5:
+Divided the patch into two separate patches:
+- One for common register array values with existing resolutions
+- Another for new modes supporting 640x480 and 1280x720 resolutions
 
-depends on X86 && HAS_DMA
+v3 -> v4:
+In response to the review request, the dependency of the common register value array
+on the 445M link frequency has been eliminated. Although I do not have a test setup for 
+4k resolution at an 819M link frequency, I have made adjustments based on the IMX334 
+data sheet, the latest 4k resolution, and the common register value array. 
+Additionally, the 4k resolution has been switched to master mode to ensure consistency
+with other resolutions that also use master mode.
 
-> +	depends on IPU_BRIDGE || !IPU_BRIDGE
-> +	select AUXILIARY_BUS
-> +	select IOMMU_IOVA
-> +	select VIDEO_V4L2_SUBDEV_API
-> +	select MEDIA_CONTROLLER
-> +	select VIDEOBUF2_DMA_CONTIG
+v2 -> v3:
+removied blank lines reported by media CI robot 
 
-This should be VIDEOBUF2_DMA_SG, I forgot to amend it.
+v1 -> v2:
+Optimized the resolution arrays by added common register
+array
 
-> +	select V4L2_FWNODE
-> +	help
-> +	  This is the 7th Gen Intel Image Processing Unit, found in Intel SoCs
-> +	  and used for capturing images and video from camera sensors.
-> +
-> +	  To compile this driver, say Y here! It contains 2 modules -
-> +	  intel_ipu7 and intel_ipu7_isys.
-> diff --git a/drivers/media/pci/intel/ipu7/Makefile b/drivers/media/pci/intel/ipu7/Makefile
-> new file mode 100644
-> index 000000000000..9a15d119026a
-> --- /dev/null
-> +++ b/drivers/media/pci/intel/ipu7/Makefile
-> @@ -0,0 +1,23 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +# Copyright (c) 2017 - 2024 Intel Corporation.
-> +
-> +intel-ipu7-objs				+= ipu7.o \
-> +					   ipu7-bus.o \
-> +					   ipu7-dma.o \
-> +					   ipu7-mmu.o \
-> +					   ipu7-buttress.o \
-> +					   ipu7-cpd.o \
-> +					   ipu7-syscom.o \
-> +					   ipu7-boot.o
-> +
-> +obj-$(CONFIG_VIDEO_INTEL_IPU7)		+= intel-ipu7.o
-> +
-> +intel-ipu7-isys-objs			+= ipu7-isys.o \
-> +					   ipu7-isys-csi2.o \
-> +					   ipu7-isys-csi-phy.o \
-> +					   ipu7-fw-isys.o \
-> +					   ipu7-isys-video.o \
-> +					   ipu7-isys-queue.o \
-> +					   ipu7-isys-subdev.o
-> +
-> +obj-$(CONFIG_VIDEO_INTEL_IPU7)		+= intel-ipu7-isys.o
-> 
+---
+
+Shravan Chippa (2):
+  media: i2c: imx334: Optimized 4k and 2k mode register arrays
+  media: i2c: imx334: add modes for 720p and 480p resolutions
+
+ drivers/media/i2c/imx334.c | 214 +++++++++++++++++++------------------
+ 1 file changed, 109 insertions(+), 105 deletions(-)
 
 -- 
-Best regards,
-Bingbu Cao
+2.34.1
+
 
