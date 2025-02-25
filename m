@@ -1,114 +1,171 @@
-Return-Path: <linux-media+bounces-26887-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26888-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 848E7A43367
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 04:11:26 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ECD2A433BC
+	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 04:41:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A8A17189CEEF
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 03:09:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E2990189DAD4
+	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 03:40:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F02015E5A6;
-	Tue, 25 Feb 2025 03:09:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBF8D2512DC;
+	Tue, 25 Feb 2025 03:40:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="iF9iqF5I"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+Received: from terminus.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80BAB151991;
-	Tue, 25 Feb 2025 03:09:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.166.238
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63B96242912;
+	Tue, 25 Feb 2025 03:40:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740452952; cv=none; b=GtpVwRhCRkn8+6dyCTkc7iTUzYj/t2BW7MOB8MwOMSCZAGhiyOkTDPQtgrxCYVNwFMp+Fu6mO/1IhRMR4hFfvSias2camQmXq0lCVwWBjV+6d7yb7w4MWmnSR8WS54kSVSmALvBwMWzzp5y4x7vj2r7g+jAKFw1WRw7zv8j4jjE=
+	t=1740454819; cv=none; b=tOxmGkDYcy/je214/o7eMIXkgj8xvGTCsAJYhnabekgcWaFxCH6eluKDFjN9yYGZaNAqtZcOM/e6LEH5i/7gZDIhF187ugjL0mIhK8rSPRdG2cZVB9VWyVWnOuN9dN4T4UzaQSOnXvcZdu0Bf8vCdIwdw8lpz6Cpn1YskCgE0u8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740452952; c=relaxed/simple;
-	bh=qtwoiW+wjxdwfniv8ENqabrlCk5LMOdfrqjAEX8Z+1U=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=r8pTCQYMWQOxdnORL4pkjfqzgyPmMmbu2TpyAVlL8fN+6K2GYAEAAE6jnW/Yk9dWinlxlTHUBeHuik2FagPUHRwEJ2sch8gU6c0cUvPT9LhOI1nUidRUXOV+stIVR3C+eNEL5/r+FHKfP1g+rnmkpDPLU6RbNAsse8Qt3KjwFYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com; spf=pass smtp.mailfrom=windriver.com; arc=none smtp.client-ip=205.220.166.238
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=windriver.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=windriver.com
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 51P2DuUF002099;
-	Mon, 24 Feb 2025 19:08:52 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 44yar7juc7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 24 Feb 2025 19:08:52 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Mon, 24 Feb 2025 19:08:51 -0800
-Received: from pek-lpg-core1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Mon, 24 Feb 2025 19:08:48 -0800
-From: <jianqi.ren.cn@windriver.com>
-To: <stable@vger.kernel.org>
-CC: <patches@lists.linux.dev>, <mchehab@kernel.org>, <fullwaywang@outlook.com>,
-        <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
-        <tiffany.lin@mediatek.com>, <andrew-ct.chen@mediatek.com>,
-        <yunfei.dong@mediatek.com>, <matthias.bgg@gmail.com>,
-        <linux-media@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>
-Subject: [PATCH 6.1.y] media: mtk-vcodec: potential null pointer deference in SCP
-Date: Tue, 25 Feb 2025 11:08:47 +0800
-Message-ID: <20250225030847.3829454-1-jianqi.ren.cn@windriver.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1740454819; c=relaxed/simple;
+	bh=qJuy0nK2q6YCUlorfPoA1uGhIzEe0LfAfeiGmFKmujU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l6I6aJyqp12dgdp4fK0A+SJCajV6XuJuc5ajjDVqpMRw5RwboP8Blz/UCCEiKFyFPkvlM4Ja7tldkfsdTEL6BNo+gb/V4Vqp0JGhfM1eBOy3zvfTZhq+CELWQLdQKcKWl7LC0Jmi3eRJwwl++RzwqTX5Nj1T4nsrSrbMtzqiJNQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=iF9iqF5I; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+Received: from [172.27.1.176] ([76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 51P3aPQT1061652
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Mon, 24 Feb 2025 19:36:26 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 51P3aPQT1061652
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025021701; t=1740454597;
+	bh=ISdSv8V44MsbYhNsZikfbFNm2jh7tbbEZwA+56mURdo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=iF9iqF5IJij6HEIYPvvetQ6+tmIzHsh+pMTMVnu3P5ykEhZfImV1libD4devCmagC
+	 3iyNSk1XFew7r8nfwrcPOMDwT9Cet01bBs8IAXImpdZtFUNL3xujHc86QVgJiUt4X2
+	 0obQOYiKlDxXVK9eiAHHN4J1RQO+t4f6a/s1DU/qIj/jceKMbtNss8wjpWMLBt7Ymh
+	 YFL/VhabUdylO/46/55nX8FOwHbYthWKv8154FTojDQ/TbamsE3xTiQ8D2e6xanXYX
+	 Oq30jBmkXfmGEjBRSmTsnad5TAIoXsXj3RQH1SppbmnJ0+TSzbTmjlZvJzSgp8i1Fw
+	 p0rBDMFAbZAag==
+Message-ID: <d0067e6a-a6af-4b38-ac72-f655af4d3b3d@zytor.com>
+Date: Mon, 24 Feb 2025 19:36:25 -0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 03/17] x86: Replace open-coded parity calculation with
+ parity8()
+To: Uros Bizjak <ubizjak@gmail.com>
+Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
+        Ingo Molnar <mingo@redhat.com>, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
+        joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
+        neil.armstrong@linaro.org, rfoss@kernel.org,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+        dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
+        hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
+        vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
+        davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+        parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+        johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, yury.norov@gmail.com, akpm@linux-foundation.org,
+        mingo@kernel.org, alistair@popple.id.au, linux@rasmusvillemoes.dk,
+        Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+        jernej.skrabec@gmail.com, kuba@kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+        oss-drivers@corigine.com, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+        brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+        bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+        Yu-Chun Lin <eleanor15x@gmail.com>
+References: <20250223164217.2139331-1-visitorckw@gmail.com>
+ <20250223164217.2139331-4-visitorckw@gmail.com>
+ <d080a2d6-9ec7-1c86-4cf4-536400221f68@gmail.com>
+ <e0b1c299-7f19-4453-a1ce-676068601213@zytor.com>
+ <CAFULd4a_AnP4iqgQs7a6xAsnUFL8oZXxFcAWLmZFMm6MPF_zDQ@mail.gmail.com>
+Content-Language: en-US
+From: "H. Peter Anvin" <hpa@zytor.com>
+In-Reply-To: <CAFULd4a_AnP4iqgQs7a6xAsnUFL8oZXxFcAWLmZFMm6MPF_zDQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: jbfNddqTegbxnga7WbzmBe77Awe98qSA
-X-Authority-Analysis: v=2.4 cv=Be0i0qt2 c=1 sm=1 tr=0 ts=67bd3444 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=T2h4t0Lz3GQA:10 a=VwQbUJbxAAAA:8 a=UqCG9HQmAAAA:8 a=t7CeM3EgAAAA:8 a=7f2alXSBUxmpNkzq_swA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: jbfNddqTegbxnga7WbzmBe77Awe98qSA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-02-24_12,2025-02-24_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
- phishscore=0 suspectscore=0 spamscore=0 impostorscore=0 mlxscore=0
- malwarescore=0 priorityscore=1501 lowpriorityscore=0 clxscore=1011
- bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.21.0-2502100000
- definitions=main-2502250020
 
-From: Fullway Wang <fullwaywang@outlook.com>
 
-[ Upstream commit 53dbe08504442dc7ba4865c09b3bbf5fe849681b ]
+On 2/24/25 14:08, Uros Bizjak wrote:
+> On Mon, Feb 24, 2025 at 10:56 PM H. Peter Anvin <hpa@zytor.com> wrote:
+>>
+>> On 2/24/25 07:24, Uros Bizjak wrote:
+>>>
+>>>
+>>> On 23. 02. 25 17:42, Kuan-Wei Chiu wrote:
+>>>> Refactor parity calculations to use the standard parity8() helper. This
+>>>> change eliminates redundant implementations and improves code
+>>>> efficiency.
+>>>
+>>> The patch improves parity assembly code in bootflag.o from:
+>>>
+>>>     58:    89 de                    mov    %ebx,%esi
+>>>     5a:    b9 08 00 00 00           mov    $0x8,%ecx
+>>>     5f:    31 d2                    xor    %edx,%edx
+>>>     61:    89 f0                    mov    %esi,%eax
+>>>     63:    89 d7                    mov    %edx,%edi
+>>>     65:    40 d0 ee                 shr    %sil
+>>>     68:    83 e0 01                 and    $0x1,%eax
+>>>     6b:    31 c2                    xor    %eax,%edx
+>>>     6d:    83 e9 01                 sub    $0x1,%ecx
+>>>     70:    75 ef                    jne    61 <sbf_init+0x51>
+>>>     72:    39 c7                    cmp    %eax,%edi
+>>>     74:    74 7f                    je     f5 <sbf_init+0xe5>
+>>>     76:
+>>>
+>>> to:
+>>>
+>>>     54:    89 d8                    mov    %ebx,%eax
+>>>     56:    ba 96 69 00 00           mov    $0x6996,%edx
+>>>     5b:    c0 e8 04                 shr    $0x4,%al
+>>>     5e:    31 d8                    xor    %ebx,%eax
+>>>     60:    83 e0 0f                 and    $0xf,%eax
+>>>     63:    0f a3 c2                 bt     %eax,%edx
+>>>     66:    73 64                    jae    cc <sbf_init+0xbc>
+>>>     68:
+>>>
+>>> which is faster and smaller (-10 bytes) code.
+>>>
+>>
+>> Of course, on x86, parity8() and parity16() can be implemented very simply:
+>>
+>> (Also, the parity functions really ought to return bool, and be flagged
+>> __attribute_const__.)
+>>
+>> static inline __attribute_const__ bool _arch_parity8(u8 val)
+>> {
+>>          bool parity;
+>>          asm("and %0,%0" : "=@ccnp" (parity) : "q" (val));
+> 
+> asm("test %0,%0" : "=@ccnp" (parity) : "q" (val));
+> 
+> because we are interested only in flags.
+> 
 
-The return value of devm_kzalloc() needs to be checked to avoid
-NULL pointer deference. This is similar to CVE-2022-3113.
+Also, needs to be %1,%1 (my mistake, thought flags outputs didn't count.)
 
-Link: https://lore.kernel.org/linux-media/PH7PR20MB5925094DAE3FD750C7E39E01BF712@PH7PR20MB5925.namprd20.prod.outlook.com
-Signed-off-by: Fullway Wang <fullwaywang@outlook.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-[ To fix CVE-2024-40973, change the file path from drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_scp.c
- to drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_scp.c and minor conflict resolution ]
-Signed-off-by: Jianqi Ren <jianqi.ren.cn@windriver.com>
-Signed-off-by: He Zhe <zhe.he@windriver.com>
----
-Verified the build test.
----
- drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_scp.c | 2 ++
- 1 file changed, 2 insertions(+)
+Finally, this is kind of an obvious improvement:
 
-diff --git a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_scp.c b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_scp.c
-index d8e66b645bd8..27f08b1d34d1 100644
---- a/drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_scp.c
-+++ b/drivers/media/platform/mediatek/vcodec/mtk_vcodec_fw_scp.c
-@@ -65,6 +65,8 @@ struct mtk_vcodec_fw *mtk_vcodec_fw_scp_init(struct mtk_vcodec_dev *dev)
- 	}
- 
- 	fw = devm_kzalloc(&dev->plat_dev->dev, sizeof(*fw), GFP_KERNEL);
-+	if (!fw)
-+		return ERR_PTR(-ENOMEM);
- 	fw->type = SCP;
- 	fw->ops = &mtk_vcodec_rproc_msg;
- 	fw->scp = scp;
--- 
-2.25.1
+  static void __init sbf_write(u8 v)
+  {
+         unsigned long flags;
+
+         if (sbf_port != -1) {
+-               v &= ~SBF_PARITY;
+                 if (!parity(v))
+-                       v |= SBF_PARITY;
++                       v ^= SBF_PARITY;
+
+	-hpa
 
 
