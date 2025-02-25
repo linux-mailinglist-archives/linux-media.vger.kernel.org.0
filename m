@@ -1,144 +1,102 @@
-Return-Path: <linux-media+bounces-26930-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26931-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48534A43A38
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 10:50:23 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C557A43A60
+	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 10:54:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C183B178E30
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 09:47:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B07EC3A5398
+	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 09:54:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68787263F28;
-	Tue, 25 Feb 2025 09:45:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C459C2627EA;
+	Tue, 25 Feb 2025 09:54:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kX0WqFSz"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="YeAPspYB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D79126157E
-	for <linux-media@vger.kernel.org>; Tue, 25 Feb 2025 09:45:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740476740; cv=none; b=M2RLmmQZarhdDtmehrBEzMUVmuGNsDPA0yNiSjqzVtyb4bEvKVBZnWFxvrBF0hpteQQEH7cBHJoFPlM1Lf4A8azUjTwVJI93PLlvhMFBnM5i9PbGpRTa6huwbmcJbfjJ7lrbFWPr8njpdebR06LpSG1WFt6GE8fsdlcuBppPjXQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740476740; c=relaxed/simple;
-	bh=7RKNZN3DjXgj3DOCeyKljHsiHI5JkqWMI96vqJDySZY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=As28diNPQegm7rlFQdz9QSpaC/e70lJx5Qls2DXON3ikResFUJ+DWKYyHgKK3fKFvGiFHmSfXSJfVZRmDNy893hThDqTprnO+EHQbGHjm1wM61Ypluov0B6gudA1IwlHWPUuFFzvM2ywI0xENk5yXF3QbTgVwrCCTpE+5qwz0d8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kX0WqFSz; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740476739; x=1772012739;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=7RKNZN3DjXgj3DOCeyKljHsiHI5JkqWMI96vqJDySZY=;
-  b=kX0WqFSz6JWX9rB7O6CRqdFBekXmR9IvS6nbqd1sBsy5mPFa4ppV8OdE
-   G55DreD35hR7qOkz/7cwTLVlnIdmkAlIdH9m1YGMlLiCpPHkLIWOPHy7j
-   d8hzSSUv+/0Dev5+Z5PGEk676pA8UzpcaOFXDJf5V+I7dqJzfBpkibnld
-   bfCeLnz4ACUFiyUmhDSfrUYxGRIeuKHklS6uix2QWlsZ4wufndHcM3dnq
-   JgTLWxtxJ+8oex/YqlYLZx3Bt8ls/7feQ1HfYGkco5/iXLgdPdg8s64GZ
-   FYR/ax/MntTPxdVriqgwZGZgRKPFJNkCfVkmDeW9ENXiZHw4ydobHY4R6
-   w==;
-X-CSE-ConnectionGUID: 7KIB0QimQ4qSZnhK1Cp9QQ==
-X-CSE-MsgGUID: jlhecnzFS4eVgkAFJGGY+w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11355"; a="40459601"
-X-IronPort-AV: E=Sophos;i="6.13,313,1732608000"; 
-   d="scan'208";a="40459601"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 01:45:37 -0800
-X-CSE-ConnectionGUID: PtsjxphKQ9aoIq1n7osEJg==
-X-CSE-MsgGUID: WxciR5CaTJe/mMJlN5FB0Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,313,1732608000"; 
-   d="scan'208";a="139571912"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 01:45:36 -0800
-Received: from svinhufvud.intel.com (maa-artisokka.localdomain [192.168.240.50])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id BB95111F944;
-	Tue, 25 Feb 2025 11:45:32 +0200 (EET)
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 848752054FD
+	for <linux-media@vger.kernel.org>; Tue, 25 Feb 2025 09:54:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1740477293; cv=pass; b=WA4fLoGAR1+KM2ecXSMoBVIfPKSmUgaQvOu98ardw+XxcqA6SjceSWnoABcn2eFr+XuQhKjol1aaX/LD96SEzgfDHxYS+PUVbaK0afxclD5SiVaogmoiOS+U/HdL6VjtN7HkbdaXOAm/cQnYbsfVydK5tkz8dgT6qEqltLA/BEc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1740477293; c=relaxed/simple;
+	bh=j0Iwf06KCeMFzgZrwwRzlzYKAgfQRhQ/68+MfiLoGMU=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=QpWGfqYUbVBNBaCd44s4onpqnWRTg15Jds9kt+GD2zm0/PiauWg7l90wIeh5eAo9m2/gCmS6Gt1Od6wOytnbd4CSD9e1RhW1WXURsE215Yfq4Akndieqa3yHrGp+vbbsy4pBc2RSo4nuilLN6tgn6RcjJqhyTs0EHQMvcLFrFwE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=YeAPspYB; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1740477289; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=L+4JFGHaokneEvquPgZpteSWuj7Ly30bUBXCe6EJ33Sg+dJWmCrVEa018TKfunPPSBq2JzDMYvBclOj1tVbdFLBfdfAhmjZL4/0tXSBM3kt55XJs//PRyjzeZnUWLyyBNFXGdWsdBQQlmuPZ35i/8uSaZorZ0tJjRCXw59X+2JM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1740477289; h=Content-Type:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
+	bh=9leeQPKOU4Qe+5/Uqza/KYxhLAXeThDyWV1hNjQd3BY=; 
+	b=JkBO4B9uadq0AwYnwQnzgAD9TzC0VI/UpZNSrz2aVifYJAqDfdiYq7MQbR0V9G7rY/3vZkaO2NZcq9PKyFf+4LdqKCwXHlgLHoGrGf6OxISZ6CLOMXt8NADS+NoPLZxEh3UdBmGONhhOHE44h4B7QLNw5vQJ78TtZTVbeVVidPY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
+	dmarc=pass header.from=<sebastian.fricke@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740477289;
+	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
+	h=Date:Date:From:From:To:To:Subject:Subject:Message-ID:MIME-Version:Content-Type:Message-Id:Reply-To:Cc;
+	bh=9leeQPKOU4Qe+5/Uqza/KYxhLAXeThDyWV1hNjQd3BY=;
+	b=YeAPspYBlTFiHuKVRYMJruXnaZF/4XakFD6u7bfGciv6gRrJPCq1z0v0cPNLpAnP
+	9hNHIpHYFI8eF04FYFUj6Eq/ur6k9FWzrkAPTYqAzJZGPB4gG4C7rzhe25aIUDVa2mY
+	xqW93nVoclMM+zQOzmq4z1Th7yOexqxf+7y6RB7U=
+Received: by mx.zohomail.com with SMTPS id 1740477286072683.3888756838697;
+	Tue, 25 Feb 2025 01:54:46 -0800 (PST)
+Date: Tue, 25 Feb 2025 10:54:42 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
 To: linux-media@vger.kernel.org
-Cc: stanislaw.gruszka@linux.intel.com,
-	bingbu.cao@intel.com
-Subject: [PATCH 1/1] media: ipu6: Drop unused ipu6_dma_get_sgtable()
-Date: Tue, 25 Feb 2025 11:45:32 +0200
-Message-Id: <20250225094532.40678-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.5
+Subject: [GIT PULL FOR 6.15] VISL fix
+Message-ID: <20250225095442.dptj6jurbpu2bom3@basti-XPS-13-9310>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+X-ZohoMailClient: External
 
-ipu6_dma_get_sgtable() is now unused. Drop it.
+Hey Hans & Mauro,
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/pci/intel/ipu6/ipu6-dma.c | 33 -------------------------
- drivers/media/pci/intel/ipu6/ipu6-dma.h |  3 ---
- 2 files changed, 36 deletions(-)
+here is a small for the VISL test driver, which limited the usability of
+the test driver.
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-dma.c b/drivers/media/pci/intel/ipu6/ipu6-dma.c
-index 44e24da33907..052e396a28af 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-dma.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-dma.c
-@@ -455,36 +455,3 @@ void ipu6_dma_unmap_sgtable(struct ipu6_bus_device *sys, struct sg_table *sgt,
- 	ipu6_dma_unmap_sg(sys, sgt->sgl, sgt->nents, dir, attrs);
- }
- EXPORT_SYMBOL_NS_GPL(ipu6_dma_unmap_sgtable, "INTEL_IPU6");
--
--/*
-- * Create scatter-list for the already allocated DMA buffer
-- */
--int ipu6_dma_get_sgtable(struct ipu6_bus_device *sys, struct sg_table *sgt,
--			 void *cpu_addr, dma_addr_t handle, size_t size,
--			 unsigned long attrs)
--{
--	struct device *dev = &sys->auxdev.dev;
--	struct ipu6_mmu *mmu = sys->mmu;
--	struct vm_info *info;
--	int n_pages;
--	int ret = 0;
--
--	info = get_vm_info(mmu, handle);
--	if (!info)
--		return -EFAULT;
--
--	if (!info->vaddr)
--		return -EFAULT;
--
--	if (WARN_ON(!info->pages))
--		return -ENOMEM;
--
--	n_pages = PFN_UP(size);
--
--	ret = sg_alloc_table_from_pages(sgt, info->pages, n_pages, 0, size,
--					GFP_KERNEL);
--	if (ret)
--		dev_warn(dev, "get sgt table failed\n");
--
--	return ret;
--}
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-dma.h b/drivers/media/pci/intel/ipu6/ipu6-dma.h
-index b51244add9e6..2882850d9366 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-dma.h
-+++ b/drivers/media/pci/intel/ipu6/ipu6-dma.h
-@@ -43,7 +43,4 @@ int ipu6_dma_map_sgtable(struct ipu6_bus_device *sys, struct sg_table *sgt,
- 			 enum dma_data_direction dir, unsigned long attrs);
- void ipu6_dma_unmap_sgtable(struct ipu6_bus_device *sys, struct sg_table *sgt,
- 			    enum dma_data_direction dir, unsigned long attrs);
--int ipu6_dma_get_sgtable(struct ipu6_bus_device *sys, struct sg_table *sgt,
--			 void *cpu_addr, dma_addr_t handle, size_t size,
--			 unsigned long attrs);
- #endif /* IPU6_DMA_H */
--- 
-2.39.5
+please pull.
 
+--- 
+
+The following changes since commit c2b96a6818159fba8a3bcc38262da9e77f9b3ec7:
+
+   media: platform: allgro-dvt: unregister v4l2_device on the error path (2025-02-22 11:12:59 +0100)
+
+are available in the Git repository at:
+
+   https://gitlab.freedesktop.org/linux-media/users/sebastianfricke.git tags/for-6.15-visl-fix
+
+for you to fetch changes up to c123271613e9bee6d17443120036e275bc31db27:
+
+   media: visl: Fix ERANGE error when setting enum controls (2025-02-24 14:36:51 +0100)
+
+----------------------------------------------------------------
+A fix to the VISL test driver
+
+----------------------------------------------------------------
+Nicolas Dufresne (1):
+       media: visl: Fix ERANGE error when setting enum controls
+
+  drivers/media/test-drivers/visl/visl-core.c | 12 ++++++++++++
+  1 file changed, 12 insertions(+)
+
+Regards,
+Sebastian
 
