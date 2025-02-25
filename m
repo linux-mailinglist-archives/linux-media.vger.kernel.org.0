@@ -1,72 +1,75 @@
-Return-Path: <linux-media+bounces-26891-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26892-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2552A43540
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 07:30:39 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9CFFA43539
+	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 07:29:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 16E517AB872
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 06:28:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4238F188A9B3
+	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 06:29:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5843C25742D;
-	Tue, 25 Feb 2025 06:29:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15C3525A2CF;
+	Tue, 25 Feb 2025 06:29:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="ndpeIz2E"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="BQtbE4Kt"
 X-Original-To: linux-media@vger.kernel.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0AC2561CE;
-	Tue, 25 Feb 2025 06:29:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E85D3257422;
+	Tue, 25 Feb 2025 06:29:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740464950; cv=none; b=XddXexYd4act4fYH8Q/gaQuNTKIate8VX189Sqr9HCYsE4U0qXzu0DW7QttTcR+9w36JLAom1rXne9Q35MFqV6dQPf7PmBw2iVYKvn77zkHpiwbpYvB7IcVLq1oexzyy+Q/rduK1FfQ6ZT3k7hcl5ZWe0Cn+4FhadDTYXVs2apU=
+	t=1740464952; cv=none; b=mjM1Rs3wVJWIS1p/07w2PUE3rCpu+VpFu+lBMFBheww4rIONViks23tBkkIm5i1peapwg6UC3vjqzkuHibqqs08qUNTBn+GUx6Qz3KCPZDViJR9LoIAI9kE77MmKgGnxCXCCGkMjIXBkLHSLPlhJ3eMuOaAnjlWsKdKaZX5pFww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740464950; c=relaxed/simple;
-	bh=7eUL0jBzz1cYq9mjHiINOryJSNbEueKGpRbHgX5oi8o=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=QtQOW3FDz87sqSsoPvx4AawYlIRUL/6ZEistm04FUxYw7ja7YhSQmtZxqKiHfPyIGN4p/18ASgBopLcrXDoKsuILCwpG2FfrQq4sL2lR11rMqBbrSi5k52ADK20OEInY/PhrLmQgT4Y6LEklnoo0nE9o0Tmmhq9DbQtwDY8k4z0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=ndpeIz2E; arc=none smtp.client-ip=68.232.153.233
+	s=arc-20240116; t=1740464952; c=relaxed/simple;
+	bh=oSeFlo9CTIGeUHzE4hndgRUaRfyDJZ6WuxZnNsnrXfM=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ZlVFCFObTdGNWx0xFg8qob06prTKudKqpe3EzS4GzVLz9ua06GXXybOQwzaHWiGpMUKqGiZJYLZfoFwTDdSpf+gSCTDmKyfdr4DiMJffbUA3lGP9AgM2sqX7GYRl9+Y4rhjGirADhR9NXCOQFiJvlwAbFx2oJw4hi0IliFoMAzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=BQtbE4Kt; arc=none smtp.client-ip=68.232.153.233
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1740464950; x=1772000950;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=7eUL0jBzz1cYq9mjHiINOryJSNbEueKGpRbHgX5oi8o=;
-  b=ndpeIz2EzU+Y9kFDcSX3PWuKV6q6rqF8zbobDpN/fi+A1GKtxBh3EnJP
-   SmVJR0JYa/dOAMno8kACrgzgKfDu/tUQs71+tRzUXH7YufKq6wLUxqcoQ
-   5tu64Py5blh6wePd5GxD0KZ4WaAaqZfEFC+0I0pjg8VD1IkS0Iac2owJc
-   +6pqUOPQFqerqzMzHaeoY6EYx9PRmFbD6qpbciR5ZEEGrQPgIgJXphzjG
-   8trfkUdMf9g7rs36H5R+8T+Q7F9/MXl7/FarVcUP+Yywtsvo4fduzZOjz
-   upr753/ECHNqecj9l7l0cveSQNxrcVTON/RQlMYAspCcmgE7OPSnVQIhH
-   w==;
+  t=1740464952; x=1772000952;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=oSeFlo9CTIGeUHzE4hndgRUaRfyDJZ6WuxZnNsnrXfM=;
+  b=BQtbE4KtvcjgxduBfgJ5g97gm1f1P9aHtLa+MbX+bZuwCjZJvk1rQQfp
+   hRKuHubEYZ9zjLxMwkwZY9ZeXrS5xrRKFJKD6PVxPdG7esDZFSUAnFht3
+   rydx8FyqZjEhSnsngi7tNNajWefzfXy0QRvw48nmL2ioMYoWbtzmSGaBF
+   w8i6U0LZqZuu2kXF8ceBaohxaYQywxocOAgZOxOiw6NNl4YfehIoJE/wt
+   34+vKNHjKR2oCyGpvNO8BgaX8FipNdrixLB6F2Id7ezblQRLGaVM0eSVZ
+   9ZWHGn5UEmYiJ9ShCw836P2wLlADInSO0mrlWmnWvn0/vPeJIZFBnY4Tv
+   g==;
 X-CSE-ConnectionGUID: ADVUi8D6REKc6zSlr8EjjA==
-X-CSE-MsgGUID: 791BDBPURFWqQnKqq+1Tdg==
+X-CSE-MsgGUID: SxY5CqNuRVaBrbusN5pmTQ==
 X-IronPort-AV: E=Sophos;i="6.13,313,1732604400"; 
-   d="scan'208";a="38087707"
+   d="scan'208";a="38087710"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
   by esa3.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 24 Feb 2025 23:29:03 -0700
 Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.35; Mon, 24 Feb 2025 23:28:20 -0700
+ 15.1.2507.35; Mon, 24 Feb 2025 23:28:24 -0700
 Received: from microchip1-OptiPlex-9020.microchip.com (10.10.85.11) by
  chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.2507.35 via Frontend Transport; Mon, 24 Feb 2025 23:28:16 -0700
+ 15.1.2507.35 via Frontend Transport; Mon, 24 Feb 2025 23:28:20 -0700
 From: shravan kumar <shravan.chippa@microchip.com>
 To: <sakari.ailus@linux.intel.com>, <mchehab@kernel.org>
 CC: <kieran.bingham@ideasonboard.com>, <linux-media@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, <conor.dooley@microchip.com>,
 	<valentina.fernandezalanis@microchip.com>, <praveen.kumar@microchip.com>,
 	<shravan.chippa@microchip.com>
-Subject: [PATCH V5 0/2] media: i2c: imx334: Add support for 1280x720 & 640x480 resolutions
-Date: Tue, 25 Feb 2025 11:56:33 +0530
-Message-ID: <20250225062635.3566513-1-shravan.chippa@microchip.com>
+Subject: [PATCH V5 1/2] media: i2c: imx334: Optimized 4k and 2k mode register arrays
+Date: Tue, 25 Feb 2025 11:56:34 +0530
+Message-ID: <20250225062635.3566513-2-shravan.chippa@microchip.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250225062635.3566513-1-shravan.chippa@microchip.com>
+References: <20250225062635.3566513-1-shravan.chippa@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -78,36 +81,231 @@ Content-Type: text/plain
 
 From: Shravan Chippa <shravan.chippa@microchip.com>
 
-Changelog:
-v4 -> v5:
-Divided the patch into two separate patches:
-- One for common register array values with existing resolutions
-- Another for new modes supporting 640x480 and 1280x720 resolutions
+Optimized the resolution arrays by integrating a common register array.
 
-v3 -> v4:
-In response to the review request, the dependency of the common register value array
-on the 445M link frequency has been eliminated. Although I do not have a test setup for 
-4k resolution at an 819M link frequency, I have made adjustments based on the IMX334 
-data sheet, the latest 4k resolution, and the common register value array. 
-Additionally, the 4k resolution has been switched to master mode to ensure consistency
-with other resolutions that also use master mode.
+Adjusted the register array values for 1920x1080@30 and 3840x2160@30
+resolutions to align with the common register array values.
 
-v2 -> v3:
-removied blank lines reported by media CI robot 
-
-v1 -> v2:
-Optimized the resolution arrays by added common register
-array
-
+Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
 ---
+ drivers/media/i2c/imx334.c | 148 +++++++++++--------------------------
+ 1 file changed, 43 insertions(+), 105 deletions(-)
 
-Shravan Chippa (2):
-  media: i2c: imx334: Optimized 4k and 2k mode register arrays
-  media: i2c: imx334: add modes for 720p and 480p resolutions
-
- drivers/media/i2c/imx334.c | 214 +++++++++++++++++++------------------
- 1 file changed, 109 insertions(+), 105 deletions(-)
-
+diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
+index a544fc3df39c..b2ad19abaca8 100644
+--- a/drivers/media/i2c/imx334.c
++++ b/drivers/media/i2c/imx334.c
+@@ -167,8 +167,8 @@ static const s64 link_freq[] = {
+ 	IMX334_LINK_FREQ_445M,
+ };
+ 
+-/* Sensor mode registers for 1920x1080@30fps */
+-static const struct imx334_reg mode_1920x1080_regs[] = {
++/* Sensor common mode registers values */
++static const struct imx334_reg common_mode_regs[] = {
+ 	{0x3000, 0x01},
+ 	{0x3018, 0x04},
+ 	{0x3030, 0xca},
+@@ -176,26 +176,10 @@ static const struct imx334_reg mode_1920x1080_regs[] = {
+ 	{0x3032, 0x00},
+ 	{0x3034, 0x4c},
+ 	{0x3035, 0x04},
+-	{0x302c, 0xf0},
+-	{0x302d, 0x03},
+-	{0x302e, 0x80},
+-	{0x302f, 0x07},
+-	{0x3074, 0xcc},
+-	{0x3075, 0x02},
+-	{0x308e, 0xcd},
+-	{0x308f, 0x02},
+-	{0x3076, 0x38},
+-	{0x3077, 0x04},
+-	{0x3090, 0x38},
+-	{0x3091, 0x04},
+-	{0x3308, 0x38},
+-	{0x3309, 0x04},
+-	{0x30C6, 0x00},
++	{0x30c6, 0x00},
+ 	{0x30c7, 0x00},
+ 	{0x30ce, 0x00},
+ 	{0x30cf, 0x00},
+-	{0x30d8, 0x18},
+-	{0x30d9, 0x0a},
+ 	{0x304c, 0x00},
+ 	{0x304e, 0x00},
+ 	{0x304f, 0x00},
+@@ -210,7 +194,7 @@ static const struct imx334_reg mode_1920x1080_regs[] = {
+ 	{0x300d, 0x29},
+ 	{0x314c, 0x29},
+ 	{0x314d, 0x01},
+-	{0x315a, 0x06},
++	{0x315a, 0x0a},
+ 	{0x3168, 0xa0},
+ 	{0x316a, 0x7e},
+ 	{0x319e, 0x02},
+@@ -330,116 +314,63 @@ static const struct imx334_reg mode_1920x1080_regs[] = {
+ 	{0x3002, 0x00},
+ };
+ 
++/* Sensor mode registers for 1920x1080@30fps */
++static const struct imx334_reg mode_1920x1080_regs[] = {
++	{0x302c, 0xf0},
++	{0x302d, 0x03},
++	{0x302e, 0x80},
++	{0x302f, 0x07},
++	{0x3074, 0xcc},
++	{0x3075, 0x02},
++	{0x308e, 0xcd},
++	{0x308f, 0x02},
++	{0x3076, 0x38},
++	{0x3077, 0x04},
++	{0x3090, 0x38},
++	{0x3091, 0x04},
++	{0x3308, 0x38},
++	{0x3309, 0x04},
++	{0x30d8, 0x18},
++	{0x30d9, 0x0a},
++};
++
+ /* Sensor mode registers for 3840x2160@30fps */
+ static const struct imx334_reg mode_3840x2160_regs[] = {
+-	{0x3000, 0x01},
+-	{0x3002, 0x00},
+-	{0x3018, 0x04},
+-	{0x37b0, 0x36},
+-	{0x304c, 0x00},
+-	{0x300c, 0x3b},
+-	{0x300d, 0x2a},
+-	{0x3034, 0x26},
+-	{0x3035, 0x02},
+-	{0x314c, 0x29},
+-	{0x314d, 0x01},
+-	{0x315a, 0x02},
+-	{0x3168, 0xa0},
+-	{0x316a, 0x7e},
+-	{0x3288, 0x21},
+-	{0x328a, 0x02},
+ 	{0x302c, 0x3c},
+ 	{0x302d, 0x00},
+ 	{0x302e, 0x00},
+ 	{0x302f, 0x0f},
++	{0x3074, 0xb0},
++	{0x3075, 0x00},
++	{0x308e, 0xb1},
++	{0x308f, 0x00},
+ 	{0x3076, 0x70},
+ 	{0x3077, 0x08},
+ 	{0x3090, 0x70},
+ 	{0x3091, 0x08},
+-	{0x30d8, 0x20},
+-	{0x30d9, 0x12},
+ 	{0x3308, 0x70},
+ 	{0x3309, 0x08},
+-	{0x3414, 0x05},
+-	{0x3416, 0x18},
+-	{0x35ac, 0x0e},
+-	{0x3648, 0x01},
+-	{0x364a, 0x04},
+-	{0x364c, 0x04},
+-	{0x3678, 0x01},
+-	{0x367c, 0x31},
+-	{0x367e, 0x31},
+-	{0x3708, 0x02},
+-	{0x3714, 0x01},
+-	{0x3715, 0x02},
+-	{0x3716, 0x02},
+-	{0x3717, 0x02},
+-	{0x371c, 0x3d},
+-	{0x371d, 0x3f},
+-	{0x372c, 0x00},
+-	{0x372d, 0x00},
+-	{0x372e, 0x46},
+-	{0x372f, 0x00},
+-	{0x3730, 0x89},
+-	{0x3731, 0x00},
+-	{0x3732, 0x08},
+-	{0x3733, 0x01},
+-	{0x3734, 0xfe},
+-	{0x3735, 0x05},
+-	{0x375d, 0x00},
+-	{0x375e, 0x00},
+-	{0x375f, 0x61},
+-	{0x3760, 0x06},
+-	{0x3768, 0x1b},
+-	{0x3769, 0x1b},
+-	{0x376a, 0x1a},
+-	{0x376b, 0x19},
+-	{0x376c, 0x18},
+-	{0x376d, 0x14},
+-	{0x376e, 0x0f},
+-	{0x3776, 0x00},
+-	{0x3777, 0x00},
+-	{0x3778, 0x46},
+-	{0x3779, 0x00},
+-	{0x377a, 0x08},
+-	{0x377b, 0x01},
+-	{0x377c, 0x45},
+-	{0x377d, 0x01},
+-	{0x377e, 0x23},
+-	{0x377f, 0x02},
+-	{0x3780, 0xd9},
+-	{0x3781, 0x03},
+-	{0x3782, 0xf5},
+-	{0x3783, 0x06},
+-	{0x3784, 0xa5},
+-	{0x3788, 0x0f},
+-	{0x378a, 0xd9},
+-	{0x378b, 0x03},
+-	{0x378c, 0xeb},
+-	{0x378d, 0x05},
+-	{0x378e, 0x87},
+-	{0x378f, 0x06},
+-	{0x3790, 0xf5},
+-	{0x3792, 0x43},
+-	{0x3794, 0x7a},
+-	{0x3796, 0xa1},
+-	{0x3e04, 0x0e},
++	{0x30d8, 0x20},
++	{0x30d9, 0x12},
+ 	{0x319e, 0x00},
+ 	{0x3a00, 0x01},
+ 	{0x3a18, 0xbf},
+-	{0x3a19, 0x00},
+ 	{0x3a1a, 0x67},
+-	{0x3a1b, 0x00},
+ 	{0x3a1c, 0x6f},
+-	{0x3a1d, 0x00},
+ 	{0x3a1e, 0xd7},
+ 	{0x3a1f, 0x01},
++	{0x300d, 0x2a},
++	{0x3034, 0x26},
++	{0x3035, 0x02},
++	{0x315a, 0x02},
+ 	{0x3a20, 0x6f},
+ 	{0x3a21, 0x00},
+ 	{0x3a22, 0xcf},
+ 	{0x3a23, 0x00},
+ 	{0x3a24, 0x6f},
+ 	{0x3a25, 0x00},
++	{0x3a24, 0x6f},
++	{0x3a25, 0x00},
+ 	{0x3a26, 0xb7},
+ 	{0x3a27, 0x00},
+ 	{0x3a28, 0x5f},
+@@ -989,6 +920,13 @@ static int imx334_start_streaming(struct imx334 *imx334)
+ 	const struct imx334_reg_list *reg_list;
+ 	int ret;
+ 
++	ret = imx334_write_regs(imx334, common_mode_regs,
++				ARRAY_SIZE(common_mode_regs));
++	if (ret) {
++		dev_err(imx334->dev, "fail to write common registers");
++		return ret;
++	}
++
+ 	/* Write sensor mode registers */
+ 	reg_list = &imx334->cur_mode->reg_list;
+ 	ret = imx334_write_regs(imx334, reg_list->regs,
 -- 
 2.34.1
 
