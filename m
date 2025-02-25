@@ -1,118 +1,105 @@
-Return-Path: <linux-media+bounces-26950-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26954-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A503A43FDF
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 14:00:24 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3072A4404D
+	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 14:14:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E53457AA9EF
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 12:59:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F33B18970E7
+	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 13:09:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B43B7268FEE;
-	Tue, 25 Feb 2025 13:00:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F70C26981C;
+	Tue, 25 Feb 2025 13:09:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BG8uNxup"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="m2YYPlE/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D7C2676DA;
-	Tue, 25 Feb 2025 13:00:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C17E268FE0;
+	Tue, 25 Feb 2025 13:09:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740488410; cv=none; b=BBXlw1nKKODWcO+ZWgM6J5rKk88iCzno7SPZ5M51R2jqOdsC1XKvtZ/2LJSRiVuNuuGQhrePrFUqxluqbSYWJOx6NOvu1eCOyyBgDDMB25ST8kaIhaD5qlUTVGlkNfnb4NMqkXMgEJD5LKscdyJZYR3Y8BDdilJT+Xm8b/UkVHk=
+	t=1740488959; cv=none; b=ekMaNSNnGtIXM1Q9q4ILbfEzXhP8FeSiVfkFBhLUu7cIsX9CkQxivU/wdJ+VS8peKqoEBE1T2NjAKpV2gaSBKT9MAEuKOxDqFyDxEMN7OOGb4zAteB5tBT73CfvKM7BDt2TPfEST0a4wRKkFEPblu1Wcz9ewYAWDgO522OS/QJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740488410; c=relaxed/simple;
-	bh=bvMpoQhDog3/J1ZwGwsnib37zReYIuMapBWpIzR68DI=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dzBXURPRddVrt85qdV3Fe3YsmbpwiQlWkDDlVtCaFRv5YrfmhLMvn+F9e2s0QN5SovU8Jj1CMrwU+0OGYk91I5boDpI8ZeQdUh5lUPcG5tH40jBoec/zJueYKwumRBBKQDDKG32/biJTOIqQeuxETUEKuBwTnbOH7LlfbEqoLs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BG8uNxup; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-38f5fc33602so3176903f8f.0;
-        Tue, 25 Feb 2025 05:00:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740488407; x=1741093207; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=mL9gUXt1ZdkJEy9Fw6Q/1gDLR1RV1GDWUbxOHo/kh70=;
-        b=BG8uNxups75D2Gp9gygRn9+E81QAezBoE65Qll5ba9eeIQ5wHtIGTsB4plO8p7tvFP
-         eMGobO/G++56Gw5+5YV7iXvjD8jtP/MXK6yZ7tHxII7zfCsYhS+dVt6E/xwEOEl+g/tt
-         hiiFQoeL3K5uQswKfOH+zo0KF6QqRkGt+Pi0fjNeVbz+ARZKSawvQ6UFrJfRxfp2bdC4
-         sOfZDKB8jyGWTnvytL2NAs5RSi8YQ4HjAVqXVbzcMwfL5NrIpZ7bY3RPXNrKzJzuInkx
-         j8Ca664Jw5TdhGeErZ/7JbiDjSdOPZbgz6evf1231mLGa+lRQKi95xZ3hwAt2boJHIEu
-         kZ7A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740488407; x=1741093207;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=mL9gUXt1ZdkJEy9Fw6Q/1gDLR1RV1GDWUbxOHo/kh70=;
-        b=wlclq+nCa8PTWi21y3OFlhC/Y8J+gPO9U0lygUNQ0l/0ZNEKc3cZ65qA2Ul3Pcu1Dv
-         rUneXN30UvgRf5sxA2rp84MV4Zbe0Y/r8O+Oro0KD5k1cIVCsO7Kb86WT1PuN8Kd4BR5
-         r8bQdANUNQclpzWtuib7laNrorsWxwG5Um/0fqgihVkVUi3x8gRQuyAOhcM6VWpM+o0A
-         3zTTsmxzRby8XjKZL+CTWw1BIEO8FsoHH0noG0eKdZbKn+8+B0oW68MAztVgvNXWFegX
-         GJcY6QtkXj6w41fnZnPXcrSQl6k3F2Sht7vhhPI/5Lh+4w+Sn7sGSQTPZjCNp73CeIkv
-         VHJg==
-X-Forwarded-Encrypted: i=1; AJvYcCWZHJBln6tM9o9KkhUFO8NkDRrkBUU0fG+1DarPL1NHh/T5OeDF7T6/AZZOZ7xlgmKdKlejjS5UoG9pw+c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyPWw+HwA3lruE1CssRGkLJ3TSVCUVUizZ7E2wCGfIF132xx27x
-	bt+BeRtY+ofTXevSkJgGScMeJrD0Ddj/b/PyOQ2ZgTsTXMnMtHQwIytGo9/8
-X-Gm-Gg: ASbGncsQXIbWEkIL9/NMcBJNdxa7vRIuYswthwau7sxOKkvgW+7POKJPRnSMUEvX6nA
-	WAl0/DcD1OS2LqUVwxGSnwRj8yAW5adV5jt9C5E2KyMOhXoayOfqZJrwvrj2ranQSMSoK8e1oEA
-	rnqW8ku9YP83qkWnVBWIPDU2OkENatFtgXqbdHHazZH2RDQDBb7gIMG2N3tYyRz82a1eZ2JR/C3
-	xmzEqItVysBMczTuW0jb+T2cpe8hdPTvMTe5XkNeq8zN+M1r4znOcsTNXptLHoaPvhZI+JMcjfv
-	zbCD7aYKSs6O7eOmeO0sYafkAKE1vBYPvfCngbE=
-X-Google-Smtp-Source: AGHT+IGOQtdn0FjBSqnsv1taRF7VQLWRqAxKS2YZHeDb+Wnh6ZnELJGTdawhV5WhDMT+jiIHe6ogRg==
-X-Received: by 2002:a05:6000:401e:b0:38d:d414:124d with SMTP id ffacd0b85a97d-38f6160faedmr17035240f8f.19.1740488406501;
-        Tue, 25 Feb 2025 05:00:06 -0800 (PST)
-Received: from localhost.localdomain ([2a02:c7c:6696:8300:7c3b:8f00:8531:eaa])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390cd8fb9d8sm2176358f8f.83.2025.02.25.05.00.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Feb 2025 05:00:06 -0800 (PST)
-From: Qasim Ijaz <qasdev00@gmail.com>
-To: sakari.ailus@linux.intel.com,
-	benjamin.mugnier@foss.st.com,
-	sylvain.petinot@foss.st.com,
-	mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: i2c: Replace nested min() with single min3()
-Date: Tue, 25 Feb 2025 12:59:37 +0000
-Message-Id: <20250225125937.20413-1-qasdev00@gmail.com>
-X-Mailer: git-send-email 2.39.5
+	s=arc-20240116; t=1740488959; c=relaxed/simple;
+	bh=G7awnzToNUy7mW4PV6EH6k9+Z2pQLMHAQTl2CVo5Lvg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=E5jQ/0Okl4Kv+kY9g4vgDj6RsDcje7Xie5MKIcoOUl3W47YkYusefsKjSz3ph2N8j4LNXArsMBtf+CWYsvZH5AOdZRXNRDbu1utgs6oK09R6L7krknbl2cQ4xQpicvkdklLuOb6dOrq0oEaHkGj/HryiTX5sgEwMjepfEt5G+IM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=m2YYPlE/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id EC3EBC4CEDD;
+	Tue, 25 Feb 2025 13:09:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
+	t=1740488959; bh=G7awnzToNUy7mW4PV6EH6k9+Z2pQLMHAQTl2CVo5Lvg=;
+	h=From:Subject:Date:To:Cc:From;
+	b=m2YYPlE/e5CNePICJiJ0EpOq7Ky2ct59IGy/utmh2ewkWlW6QsGnP0cky0S7bbbYE
+	 sVJGklhKiVJUNhRJAZbBaDEIV/mnidZD25Zu0rJDDMMbweuwA2Ssdt/8JfYKPFIiaU
+	 JR+lx6mrlIiFittH99CPgaSv6hUzzqjKDq2qQ+sY=
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DAA6EC021BB;
+	Tue, 25 Feb 2025 13:09:18 +0000 (UTC)
+From: Richard Leitner <richard.leitner@linux.dev>
+Subject: [PATCH 0/3] Fix analogue gain maximum for ov9282
+Date: Tue, 25 Feb 2025 14:08:39 +0100
+Message-Id: <20250225-b4-ov9282-gain-v1-0-a24af2820dde@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANjAvWcC/x3MTQqAIBBA4avIrBvIIaG6SrTwZ6zZWChIIN09a
+ fkt3mtQOAsXWFWDzFWKXKlDDwr8adPBKKEbaCQzEhl0E151oZnwsJKQo/bBOmtcDNCjO3OU5x9
+ u+/t+x6CGd2AAAAA=
+X-Change-ID: 20250225-b4-ov9282-gain-ef1cdaba5bfd
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Richard Leitner <richard.leitner@linux.dev>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1740488957; l=1042;
+ i=richard.leitner@linux.dev; s=20250225; h=from:subject:message-id;
+ bh=G7awnzToNUy7mW4PV6EH6k9+Z2pQLMHAQTl2CVo5Lvg=;
+ b=5p2rAjjPKVLFr0+2xXN3lP9htymOr7PjqvnUo/2PMystoPS7YDi/E8HdlJQjbENmaIXwF3dnv
+ +GMqHGrpdvzArP69tqyfa30E+hfby/vN2UsJBSG5U7KxncBk+pySX0R
+X-Developer-Key: i=richard.leitner@linux.dev; a=ed25519;
+ pk=8hZNyyyQFqZ5ruVJsSGBSPIrmJpfDm5HwHU4QVOP1Pk=
+X-Endpoint-Received: by B4 Relay for richard.leitner@linux.dev/20250225
+ with auth_id=350
 
-Use min3() macro instead of nesting min() to simplify the return
-statement.
+This series fixes/increases the analogue gain maximum value of the
+ov9282 sensor driver to the limits specified in the datasheet.
 
-Signed-off-by: Qasim Ijaz <qasdev00@gmail.com>
+It furthermore introduces a new register definition (including its
+values) and uses available defined registers instead of addresses where
+possible.
+
+This is basically a first improvement/cleanup series for the ov9282
+driver with likely more to follow.
+
+All register addresses/values are based on the OV9281 datasheet v1.01
+(09.18.2015).
+
+Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
 ---
- drivers/media/i2c/vgxy61.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Richard Leitner (3):
+      media: i2c: ov9282: use register definitions
+      media: i2c: ov9282: add AEC Manual register definition
+      media: i2c: ov9282: fix analogue gain maximum
 
-diff --git a/drivers/media/i2c/vgxy61.c b/drivers/media/i2c/vgxy61.c
-index d77468c8587b..5b0479f3a3c0 100644
---- a/drivers/media/i2c/vgxy61.c
-+++ b/drivers/media/i2c/vgxy61.c
-@@ -892,8 +892,8 @@ static u32 vgxy61_get_expo_long_max(struct vgxy61_dev *sensor,
- 	third_rot_max_expo = (sensor->frame_length / 71) * short_expo_ratio;
- 
- 	/* Take the minimum from all rules */
--	return min(min(first_rot_max_expo, second_rot_max_expo),
--		   third_rot_max_expo);
-+	return min3(first_rot_max_expo, second_rot_max_expo,
-+		    third_rot_max_expo);
- }
- 
- static int vgxy61_update_exposure(struct vgxy61_dev *sensor, u16 new_expo_long,
+ drivers/media/i2c/ov9282.c | 40 ++++++++++++++++++++++++++--------------
+ 1 file changed, 26 insertions(+), 14 deletions(-)
+---
+base-commit: d082ecbc71e9e0bf49883ee4afd435a77a5101b6
+change-id: 20250225-b4-ov9282-gain-ef1cdaba5bfd
+
+Best regards,
 -- 
-2.39.5
+Richard Leitner <richard.leitner@linux.dev>
+
 
 
