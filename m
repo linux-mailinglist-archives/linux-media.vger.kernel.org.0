@@ -1,77 +1,77 @@
-Return-Path: <linux-media+bounces-27038-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27044-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0C64A460B9
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 14:25:46 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BD17A460CC
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 14:26:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5ED481898A59
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 13:25:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8F4137AB38D
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 13:25:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F9F4222576;
-	Wed, 26 Feb 2025 13:23:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67EF521B9D5;
+	Wed, 26 Feb 2025 13:23:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fQ7DklUj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ufq1fxms"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B48F21D3E6
-	for <linux-media@vger.kernel.org>; Wed, 26 Feb 2025 13:23:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64BC0224AEB
+	for <linux-media@vger.kernel.org>; Wed, 26 Feb 2025 13:23:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740576215; cv=none; b=UiGYryPsTMBT+DWnNWPK6makwcVRhbvcSIOK9Yd2ilutY7zfigIzvqdRzvpeMe3p2zloDNIBNMBdFEu/HI85H5fKhwFMbJoSdP0/q1IsB/9XUrNs8Qu45wX9EbiKau9+Fl/9PvaoK11H8nWVHK48RjRqZi1o4P6C/ng5DudFr+8=
+	t=1740576220; cv=none; b=u3cqyMplNwGRpVZ2PpS37iF+ZBLVBd68vIEjFGxSoSfFzv5M7jbNjYkqO/T1PHeDOYzYQDUzqroCgrrS6JGmOfaP/pYiWGSyKErWI9/Y4WSNpqhbz2bIIr4KrN19chuKQX+8vqoHpIDoYVejDYRSwBA3GDQwVe8daobYcgaW4uM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740576215; c=relaxed/simple;
-	bh=lv3A724qG+vJd0CId4qPJp5swfj6Xu4ZRzdySwIVDn0=;
+	s=arc-20240116; t=1740576220; c=relaxed/simple;
+	bh=EP1iiWANqvyeBsSafYiii6TYIhPbiVWsYF1udG1/JBE=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=quJP0IEQA0/XiXS/Ei/OC30IJERclnmybGzQnUJlFBmxmQqk4OBWnAV0hzI+Oa0fUzVScqc1bh5bZ7BuYgxr1gshzAvL6hTT7saRCjqQT8uXyuR1H/+1jpt5rf3W18ivJNgPNDehLa2lcAJABD73/4zFxgv0SWho64fKvak1n3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fQ7DklUj; arc=none smtp.client-ip=192.198.163.12
+	 MIME-Version; b=OTuQTBuHZ1tSKx4ogE3J2GDu18JzaV8diOJxvjsdV2BM6cFr9goBQaxJ1iOPJxs4jKdgW6DU627dYSVIaSxPlwjkvEw9GDnrhmdfwybcBxuQm4HO+wYykNFCFWLkFm6bKyjLb/Ihdhm/lVnbSTHuaJu+2uGwmSHIqcqghH9ePJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ufq1fxms; arc=none smtp.client-ip=192.198.163.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740576214; x=1772112214;
+  t=1740576219; x=1772112219;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=lv3A724qG+vJd0CId4qPJp5swfj6Xu4ZRzdySwIVDn0=;
-  b=fQ7DklUjF3NmvP6RDzqL26Q0L1IIRbqnrekH3y4A16wDK49w2c6WdoDh
-   2+P8JuT7WuZ8SB1AHhIDKW2AOjD5o0pzeQ2gElR+frBB19NS3cDf5amfe
-   fU6nsrndazc/6p6KG3e911dnPaD4M9fH/zexZ2Cey1ZMjvuIQfT9Ep0JR
-   dvCDV3WzzQ8whqZ5BxPyL+CF2i+XHpF3FUSSoR8cNqtvG/HRUKEox+ZzT
-   V07/IuxeZt1WzKvjXW58qA1nNhRmQxiLA9oRFFpi6u1lqAj96QWql4mgL
-   5pvxM7UnNYvpsm0OQqLjBXr5L0BzbyoH+GLnBXFc/gftCh2kMwCCQTqkG
-   Q==;
-X-CSE-ConnectionGUID: xideVHjYRvW8ONTBtZWijA==
-X-CSE-MsgGUID: PQytnQAmQAWuY4YuuyBFPA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="45331987"
+  bh=EP1iiWANqvyeBsSafYiii6TYIhPbiVWsYF1udG1/JBE=;
+  b=Ufq1fxmsqFUp/Diuur0JCeQR7QwOfX8kn+4CjNFRPbIfne0uW4L3MRRH
+   MQoG3etWJ0oGqglNrVYiGFXB2bzOATY8QEsEdxEogHVw8P/xZFkbdXyLu
+   NaYMBL6PndhN8LVcjL/OW4YJLW7E1MbN5G2COefJw5tL7spFxWYQ9Q7II
+   FdMVaFx9EPJP29/CXRJtFoIx8pj9VKBpKcnwweDpfAUQPGAV7/zr5Nv4Y
+   tfWOlna8RuBmsxGbNwGW2JDgY7nRCcmW/tVLfGrZY47wCOPYhDMl5NNhi
+   ZcQ5L5gGp4tRgN6rz2b8FsSgNxETlSynlfd+aYT3Ic0AvGOVOiXXtNTP1
+   A==;
+X-CSE-ConnectionGUID: dK1AOBxCRrC/BEcqJd5fkQ==
+X-CSE-MsgGUID: UBmc0DW0Spyqj2slbrZN6Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="41548666"
 X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; 
-   d="scan'208";a="45331987"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 05:23:33 -0800
-X-CSE-ConnectionGUID: AlC8CUXmQl+8JxyRYWMElw==
-X-CSE-MsgGUID: AlbUra8iQuyUHVqBZsOXSA==
+   d="scan'208";a="41548666"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 05:23:36 -0800
+X-CSE-ConnectionGUID: kgQI6QJ6Qj6ofYMCkeElIQ==
+X-CSE-MsgGUID: 9D+yRFt0QNCLO3rRiddyYg==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="117622416"
+X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; 
+   d="scan'208";a="116724121"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 05:23:33 -0800
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 05:23:36 -0800
 Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 029BF1207D4;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 066CF120867;
 	Wed, 26 Feb 2025 15:23:30 +0200 (EET)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1tnHNp-00AYy5-3C;
-	Wed, 26 Feb 2025 15:23:29 +0200
+	id 1tnHNq-00AYyA-02;
+	Wed, 26 Feb 2025 15:23:30 +0200
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: dongcheng.yan@linux.intel.com
-Subject: [PATCH 4/7] media: ccs-pll: Correctly the upper limit of maximum op_pre_pll_clk_div
-Date: Wed, 26 Feb 2025 15:23:16 +0200
-Message-Id: <20250226132319.2517656-5-sakari.ailus@linux.intel.com>
+Subject: [PATCH 5/7] media: ccs-pll: Print a debug message on too high VT PLL OP clock
+Date: Wed, 26 Feb 2025 15:23:17 +0200
+Message-Id: <20250226132319.2517656-6-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250226132319.2517656-1-sakari.ailus@linux.intel.com>
 References: <20250226132319.2517656-1-sakari.ailus@linux.intel.com>
@@ -83,31 +83,38 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The PLL calculator does a search of the PLL configuration space for all
-valid OP pre-PLL clock dividers. The maximum did not take into account CCS
-PLL flag CCS_PLL_FLAG_EXT_IP_PLL_DIVIDER in which case also odd PLL
-dividers (other than 1) are valid. Do that now.
+In general the CCS PLL calculator prints debugging information on the
+process to ease debugging. This case was not annotated, do that now.
 
-Fixes: 4e1e8d240dff ("media: ccs-pll: Add support for extended input PLL clock divider")
-Cc: stable@vger.kernel.org
+Remove an extra multiplication while at it.
+
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/ccs-pll.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/i2c/ccs-pll.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/media/i2c/ccs-pll.c b/drivers/media/i2c/ccs-pll.c
-index 9041c020e34b..611c9823be85 100644
+index 611c9823be85..66281f676707 100644
 --- a/drivers/media/i2c/ccs-pll.c
 +++ b/drivers/media/i2c/ccs-pll.c
-@@ -799,7 +799,7 @@ int ccs_pll_calculate(struct device *dev, const struct ccs_pll_limits *lim,
- 		op_lim_fr->min_pre_pll_clk_div, op_lim_fr->max_pre_pll_clk_div);
- 	max_op_pre_pll_clk_div =
- 		min_t(u16, op_lim_fr->max_pre_pll_clk_div,
--		      clk_div_even(pll->ext_clk_freq_hz /
-+		      DIV_ROUND_UP(pll->ext_clk_freq_hz,
- 				   op_lim_fr->min_pll_ip_clk_freq_hz));
- 	min_op_pre_pll_clk_div =
- 		max_t(u16, op_lim_fr->min_pre_pll_clk_div,
+@@ -318,12 +318,13 @@ __ccs_pll_calculate_vt_tree(struct device *dev,
+ 		return -EINVAL;
+ 	}
+ 
+-	if (pll_fr->pll_multiplier * pll_fr->pll_ip_clk_freq_hz >
+-	    lim_fr->max_pll_op_clk_freq_hz)
+-		return -EINVAL;
+-
+ 	pll_fr->pll_op_clk_freq_hz =
+ 		pll_fr->pll_ip_clk_freq_hz * pll_fr->pll_multiplier;
++	if (pll_fr->pll_op_clk_freq_hz > lim_fr->max_pll_op_clk_freq_hz) {
++		dev_dbg(dev, "too high OP clock %u\n",
++			pll_fr->pll_op_clk_freq_hz);
++		return -EINVAL;
++	}
+ 
+ 	vt_div = div * more_mul;
+ 
 -- 
 2.39.5
 
