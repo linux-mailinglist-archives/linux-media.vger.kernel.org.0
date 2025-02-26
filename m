@@ -1,56 +1,56 @@
-Return-Path: <linux-media+bounces-27016-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27018-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71F79A45AA9
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 10:52:21 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3AE2A45AB4
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 10:53:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 70690172E1A
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 09:52:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 181967A80B8
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 09:52:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30BBB267B0B;
-	Wed, 26 Feb 2025 09:51:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4620626E159;
+	Wed, 26 Feb 2025 09:51:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="auVSCfii"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="R4QiAf2T"
 X-Original-To: linux-media@vger.kernel.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D612224E007;
-	Wed, 26 Feb 2025 09:51:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08C5A238175;
+	Wed, 26 Feb 2025 09:51:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740563478; cv=pass; b=Ma9g2OnhuPXVTfwJnwvn+s7wog9i6FWsCX4ddR+newQ7XIRLskFTYusSPpnstLirc5osp2BYXxiYAWGxsD+TDEl2kE/bOoFt9qshWPcYQjLlzfanZgrnOd8k5PUFC1QNQ0HW4Whfi5Pr+eWsi0Nqb/oM4Iv5XbDCYgXoDQ3AX/Y=
+	t=1740563487; cv=pass; b=M4eYDUx5ZLN1UqOBiUXcJjdLehwdU2Muiea0VANmWeE+4WLqsnzpdQF7lHjdScXuIe1L7k8NmsWggLeDB+LloHkxLQxvLdUVXOlzty9piegL06mpxPTkvwDNp6LFnRYEy7RpB4yvg+pWZDmLZLvtX15oCExAhpQIVPeBFJygOHA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740563478; c=relaxed/simple;
-	bh=Tzln5mfY2+RK5itMGZHBVwz8YCtbE9sO6UpTnDQrDdY=;
+	s=arc-20240116; t=1740563487; c=relaxed/simple;
+	bh=8F66nSttOlsQP03vnEfihLm5ICcMwT66a6odkCxM1MQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FvndVAHtEIYAdHg4xrefib/8s41UF7/FhraTVCTOerua7VoL703qslcNFxoVKidINIH5Iu98FzsEpDwGdkTsxvAf0M0ncnn4m4r07F0Cf+ntwMy1rd/Fpkav+vf1Itb9mVHHNrzkMtBQbp/Z06keNiU2mUO5a1UDJvGzHAy+4zc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=auVSCfii; arc=pass smtp.client-ip=136.143.188.112
+	 MIME-Version; b=UTlQVdya51T5WaHHtJ036XWxcYsoAuElkxeMd4anVIhtS49PhYN4jUu6T4l8ApWUMMr5mwf3qT7FeJunKXn5H+8XakKEIH8MUCXkdAYwI9b++PcIlc4Ti4MBMh5TdkKkPrxMyk+M+K8RUt3tXdPGUJHuOSWBWG7M668Gv0gvTjA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=R4QiAf2T; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1740563435; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1740563441; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=XB/MDtwIJnYE6bdSvnp/4nOWgdl2Sw3eUkF2CUEnKaodpjar0O3j4KakylN96YnFhCO2e1Nq4xCwbztcmB2IySZ2vj1uN8A7cTtG44dSE9jbpexczjVa86NEOpHzGxEYiZytg2YzzIKuuY5VU42Eqpmc4mS+y4BsTg9MA+oWrOg=
+	b=Ev+78yr/Kk746WNreEsCRCnphL27KZ61nPbp3X+RpFOhKTa9WuJkgmu0A3c1TmTQ5j23jE4+KY1/UcWlXMd6DvZYZq8XjSSsldjRrfE3pcLB5wCLnFBua7WK0vaBjULayldIAJfdwE1hcpj5C7QKHSePk4oTIB69UtJdzD8n/r0=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1740563435; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=/JMA7VJYsngtKi9ltZZXsV2uv0aQI0PgrBwadMgnHyg=; 
-	b=QZuvR+5tpHyck1RXf9hH0fUx5qCZcXsZULYsAwZfOnPxG4jet08xeR9Pr+hCvmwLwopOAiCQxADTMMYesQLW8bVHZ++xyUJeQLRYK7ntKYaypNZFCBKEMBRNYNA9qIi6yICdsHCwlSSE0dYsf6zSUM7SbbLzHxMzivrayslIk0E=
+	t=1740563441; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=v6XdBeWdF3ROCU+Lkd505Ci9024pYHmhBHgplZExxHU=; 
+	b=BG0mb2fGmLpQhSLwtR45bNXmDfERgbAQshGvcGlkeYpR0Qi4EfIz097dQ0jXnN69HcMhKP/vzOv6u4T8u0o+b36DnTn3vPA5tElpJUXSUhDLa60W97CyyIzYgQEiIRgRG8RroqY1HSF8YvI0f2MEqCqiVCzQSGnOBOJJsco3Rz0=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
 	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740563435;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1740563441;
 	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
 	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=/JMA7VJYsngtKi9ltZZXsV2uv0aQI0PgrBwadMgnHyg=;
-	b=auVSCfiiCjtOpIhC0tA6uKo2ohz2XMRTaaCM9LCuxBexDXFDfq7GccpX3deyG+Yi
-	bwtk63I96JiItxZaQjTUu3E3s+1ST6K1txB5GrIoSRplBB5XAEWcKO5Ne+nSIEvTVfz
-	ywH/YngqLoZ1q2T0+Pzdj3PaNYW90sxqOsnSHUro=
-Received: by mx.zohomail.com with SMTPS id 1740563433929106.9367271611734;
-	Wed, 26 Feb 2025 01:50:33 -0800 (PST)
+	bh=v6XdBeWdF3ROCU+Lkd505Ci9024pYHmhBHgplZExxHU=;
+	b=R4QiAf2TzzGh9K51crfRKbt9xRytmtcABMy2jxW1egc1LFu7Ce8xXujnkS2y0nWg
+	+bkxEv74AsXGacUYS+WwQaTL6M4w62pqk3vFnO5Pem5R0/IlBUwrZBdrXe9K57CDVCV
+	uYCxqzhdfJaQGriWvRgjwmc+eoRFhvkui6wgG8l0=
+Received: by mx.zohomail.com with SMTPS id 1740563439562957.3742241856492;
+	Wed, 26 Feb 2025 01:50:39 -0800 (PST)
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: Shreeya Patel <shreeya.patel@collabora.com>,
 	Heiko Stuebner <heiko@sntech.de>,
@@ -71,9 +71,9 @@ Cc: kernel@collabora.com,
 	linux-rockchip@lists.infradead.org,
 	Tim Surber <me@timsurber.de>,
 	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Subject: [PATCH v11 5/6] arm64: dts: rockchip: Enable HDMI receiver on rock-5b
-Date: Wed, 26 Feb 2025 12:49:45 +0300
-Message-ID: <20250226094946.665963-6-dmitry.osipenko@collabora.com>
+Subject: [PATCH v11 6/6] arm64: defconfig: Enable Synopsys HDMI receiver
+Date: Wed, 26 Feb 2025 12:49:46 +0300
+Message-ID: <20250226094946.665963-7-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250226094946.665963-1-dmitry.osipenko@collabora.com>
 References: <20250226094946.665963-1-dmitry.osipenko@collabora.com>
@@ -88,52 +88,27 @@ X-ZohoMailClient: External
 
 From: Sebastian Reichel <sebastian.reichel@collabora.com>
 
-The Rock 5B has a Micro HDMI port, which can be used for receiving
-HDMI data. This enables support for it.
+The Rockchip RK3588 has a built-in HDMI receiver block from
+Synopsys. Let's enable the driver for it.
 
 Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
 Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 ---
- .../arm64/boot/dts/rockchip/rk3588-rock-5b.dts | 18 ++++++++++++++++++
- 1 file changed, 18 insertions(+)
+ arch/arm64/configs/defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-index d597112f1d5b..377824e69e20 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-@@ -220,6 +220,18 @@ hdmi0_out_con: endpoint {
- 	};
- };
- 
-+&hdmi_receiver_cma {
-+	status = "okay";
-+};
-+
-+&hdmi_receiver {
-+	status = "okay";
-+	hpd-gpios = <&gpio1 RK_PC6 GPIO_ACTIVE_LOW>;
-+	pinctrl-0 = <&hdmim1_rx_cec &hdmim1_rx_hpdin &hdmim1_rx_scl &hdmim1_rx_sda &hdmirx_hpd>;
-+	pinctrl-names = "default";
-+	memory-region = <&hdmi_receiver_cma>;
-+};
-+
- &hdptxphy_hdmi0 {
- 	status = "okay";
- };
-@@ -377,6 +389,12 @@ &pcie3x4 {
- };
- 
- &pinctrl {
-+	hdmirx {
-+		hdmirx_hpd: hdmirx-5v-detection {
-+			rockchip,pins = <1 RK_PC6 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+	};
-+
- 	hym8563 {
- 		hym8563_int: hym8563-int {
- 			rockchip,pins = <0 RK_PB0 RK_FUNC_GPIO &pcfg_pull_none>;
+diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
+index cb7da4415599..6ed1ad3c0055 100644
+--- a/arch/arm64/configs/defconfig
++++ b/arch/arm64/configs/defconfig
+@@ -859,6 +859,7 @@ CONFIG_VIDEO_SAMSUNG_EXYNOS_GSC=m
+ CONFIG_VIDEO_SAMSUNG_S5P_JPEG=m
+ CONFIG_VIDEO_SAMSUNG_S5P_MFC=m
+ CONFIG_VIDEO_SUN6I_CSI=m
++CONFIG_VIDEO_SYNOPSYS_HDMIRX=m
+ CONFIG_VIDEO_TI_J721E_CSI2RX=m
+ CONFIG_VIDEO_HANTRO=m
+ CONFIG_VIDEO_IMX219=m
 -- 
 2.48.1
 
