@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-27099-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27100-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74448A46DB0
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 22:40:40 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4274A46DC3
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 22:42:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6B2F016CF1D
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 21:40:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B0034188CA73
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 21:41:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A442261569;
-	Wed, 26 Feb 2025 21:39:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11596260A2C;
+	Wed, 26 Feb 2025 21:40:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="onsHIyvf"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xHfLVn6Y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 544BD25EFA7
-	for <linux-media@vger.kernel.org>; Wed, 26 Feb 2025 21:39:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA55A25C6F6
+	for <linux-media@vger.kernel.org>; Wed, 26 Feb 2025 21:40:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740605942; cv=none; b=c5mLk66NhT1ORFj4D/6NTmWsT8N5hMG4Wd8netB+BVRFaaFE0XtlybpZ1ROVF6oR7AMOkuHaqkqIkAFRrZFquuNxbW3Mri2HpDwZRbNDLSzKBzLziJBKkNE3In/3TthwqnhasJZevcPj6YAoMd+OCAJuhsjLAgiSs14+4YJbNNg=
+	t=1740606008; cv=none; b=jNwLT9v2zp4xVZptboLem5ubpxXhS3sgH1hFiPjBXLnMld1I2T/Txn/aYvI7rclyixzVuZtWmzpO6rSjYwgw2FtWa6zrBbUAfV5iZ3DUNiYaZ0U6ORRrXgAA+fnENNegzKTYvGb1NlS2n6VS8a01dO5uHJKsexKVLLN3NCzS6U0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740605942; c=relaxed/simple;
-	bh=ArH4DXosS6VEtxEnXgez/2JkV2drVRXeyu1zi5Qgjq4=;
+	s=arc-20240116; t=1740606008; c=relaxed/simple;
+	bh=XmQRIyIS2TIQ3FYwT/lQVWnjUvJUJoqOY/Xxdl0Z+/s=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ChZd8gBku3N0aR6PWL++ccYE9mlYIa/klgdRqH1tQ5m5Gtdx40Fdu9tQ6Ayd0KXy0KP+Y2LR62yE+szZtaI0rZxvUEPBUlVAdBmwuZ6ecf7DDsHreDZRhgk4RvN7eQNwl1ir5YmMCJUFPHDbtYphIbEY3S60M7UwxPI6rVoFaQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=onsHIyvf; arc=none smtp.client-ip=209.85.128.54
+	 In-Reply-To:Content-Type; b=WK7+uhcSk3rKFA8rN1uPZyykEv6OMdcgO5jGJIaE+RDn8wdsUJBiNAGcL814aWvdnHQ+jlz/6tA3XRAmLDLLD3YOhSek9ZrNSVIqX2ObpnPvgH/QJSREz2HzketL9OOty4zVz1nBJX4fP46T+R9mbqF81X0Y10souFPNtweFjQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xHfLVn6Y; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43938828d02so368285e9.1
-        for <linux-media@vger.kernel.org>; Wed, 26 Feb 2025 13:38:59 -0800 (PST)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4394944f161so386675e9.3
+        for <linux-media@vger.kernel.org>; Wed, 26 Feb 2025 13:40:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740605938; x=1741210738; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1740606005; x=1741210805; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=PKWXxeyerycjT8mINlrePYKkJ8KjgafF3u1tMHpySjU=;
-        b=onsHIyvfQoeFOBvRwSxVcfUW+96LYZvgEb3NFDesE0R7fB5tvFNWdFTVsxCsyaGCs6
-         Odfug+e/lZmvXfFMZaZv+24y2a7d3NvOnpyExXi5r1i7Q//POtmCkLPBxhozHWeDVIa4
-         KvYMi1KBO90aEYVLJBmbnoe864/J6bGYm+BRRENHVOU9e0HSPicKjtGGbCBM35fiqBzm
-         HRbWl9sirUP8Em2I9TxLUa1NRGj6zIqoup6VDqcuj3+4tR1NBsqfOIe1yuz70hXCCfnm
-         uZLIlFiE8FBC820T6+xcFiN5yvRWVzMYzoB4gpWSVQrL0liFQ8qhqGPrU8p8cxkcczBJ
-         Jx7A==
+        bh=JgO9NpdCEGs6Z6jBDJsgB6BtDtxW71jiKGyTEKJKCGA=;
+        b=xHfLVn6YEjybhQob9sVxvmj+zUWxIQC9VV9hfZKhreVI67cknRboLfzSDUGQD0ZsUK
+         +tZBkMvpydBdAIFT4BQGugcalNNQI/8d3KNPZGdWlpdM/tzetx0xkN3TBwAPTQ6bN1YV
+         QPGnPpvjMHWbyMT5IMYUVVNPAff6S31KnHTjLRZkIKNvsyTNhjyWdr+kNYH3imzxm09A
+         r47Htrxff1Q2FTjGnlp1QqHF0fwSy28+f+TqL5aGdWo35Zic+g8MXCiS24ZODbWIlJvK
+         aXpU1SsiJDSyqzj0j1rrjgydAcGSk/ZG+Y6R1cVcNxIbtbyIadaXEZ4HgcOD45y1ihbq
+         SojQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740605938; x=1741210738;
+        d=1e100.net; s=20230601; t=1740606005; x=1741210805;
         h=content-transfer-encoding:in-reply-to:autocrypt:content-language
          :from:references:cc:to:subject:user-agent:mime-version:date
          :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=PKWXxeyerycjT8mINlrePYKkJ8KjgafF3u1tMHpySjU=;
-        b=AEhDJVTVCBHkE8ySiD1gLcwPh50F4PIgyDZr8yjkW0yyH4/ctHAFwJW4uHdIRDX78f
-         ArXlgu7tTeA3PO3mCuv79rh82GD9E7JiS7mTQq8G2JxQlaYJC2SinRz5Cz4fhjTAmo6S
-         t00YDr4yQyUfJcheJQb3FLHcTmIu3JouxtyzLCPd81Zop2nblTpqcNGCVSOxfxfg0iao
-         uvMXbU1i8V+teOJxRH1omkge4ATev1ijxbFcdeeZWYGGLrnslys1UdjkWmxhPF6+gdSF
-         Glj6GPI5x0esRsg3RoNngp9Zcxnp/YQRg64L9UF/S+QdrMTNTQR3reOpU/kiUf1SROX4
-         4LkA==
-X-Forwarded-Encrypted: i=1; AJvYcCXBxWlIPLvozXcPMvnxvpqtmsJGpN6DTZWNXdI7rC6aiFRbeqUj/wQ/Bcta6SptSt8A8WVwoP8WMJqkRQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLLduVN1q9RMixduR+NM3VpBVmT0hANjW6ak6vCUTkUH/3mzHQ
-	MiMcIVn3LrJwRg+tf30v8mKI9u5H8UHAWGNBK+KdlBGGPXjbPGZO1+rsjWT7g5U=
-X-Gm-Gg: ASbGnctrL5X6tUkJsDqNJ2W99s+z7FzIoNLdWIkfrjVjA9wKkk1tJ7ynd441hCwtZvi
-	/LUQzqCdbWmcSjF1mlZzePWR2dqtouYMvy9pxRHhtpNeI2x/Bhy0Ug+plq7C96hAFs3nNtLl1y1
-	y1Q/dltd89tk+WSAB2mXjlVrOuBwAl+HiA7b5CKyZNyLvKS0WebkrYKeiFUI/Gk92mPer4tYwNd
-	7/QyryO7opacmcROLVLyGpcVSfu9b6UvmHDUxKGjYrfw3H6LzcVYyoSG7zkKzuLGt6Y9DdPooWb
-	MT1r7xDdvamyThv7NoIS1K5a55SLLLFARlEE/lr5A5f3wA==
-X-Google-Smtp-Source: AGHT+IGl7z2yXYQHS8gtgp/PqAYtjqjx8GIvMA1PyfTi0fvGywrgelfkuzD4zx0PHjsiR/DbwpgGzg==
-X-Received: by 2002:a05:600c:1d25:b0:439:930a:5899 with SMTP id 5b1f17b1804b1-439ae22991cmr84882045e9.7.1740605938535;
-        Wed, 26 Feb 2025 13:38:58 -0800 (PST)
+        bh=JgO9NpdCEGs6Z6jBDJsgB6BtDtxW71jiKGyTEKJKCGA=;
+        b=rOuxFVwQY7ApEqHTw0oWi98Jp88XBFsD1+dycql8yrDIicacFGw2LP4FbG3tzuTEps
+         9GKimma6C0/ThtjhmQuZ4KGbx5WLmuj+6JYdfnZ+Lj4XPhvI2p9yH5tM5LHM44Fio2Sl
+         zmbrSyJyJgDpydZaM4LW4ZNEJZG4n5LUSEKC3gxsK71kOXxGywYIxVxUIrw5keqCE9lI
+         FN2tUnZtWbBIAZLQ76IBqNawcxdwpmbhXXTEBMnUcvCcsTksB/N56P1yNQGxh+gDgNgm
+         OqJGRiS3UogFuz2ZiQy9npDdThXxu5Y0yZ4puGZ0eSQieRRWj2MfBxSwVC4c62Ajx+HI
+         b1hg==
+X-Forwarded-Encrypted: i=1; AJvYcCUuPpRqLO/A2PHdp6b2lzREAoobd7JfjDfLGtJEqcuHkHQXVP5UwMuCp5FNKSlGcU7xSTD9nI/s5JdXVQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyzdpGDR/fQnmCL4JNl10s9wHNE1+0yYJ/zZ/m0rrpJID+qJJG8
+	01eOjZnC+NDPnOmNP/iNrjxUEYFvUClPjVrpZ4fXNlgXGCl8MaGWyUzUFFIBrZM=
+X-Gm-Gg: ASbGncvy1z6nxPujrlC3u5ivqxVChbo7b4O0tRh3uBxne6nIB/WglCPAmbhEr3Rmit9
+	zsDD4YxexppxSmM72qkARLc9lfN86QWNzZGArPcg/HnunB1PoyJNZCptabTc1+th81zZEY6RTMv
+	qT4zV8axpH/zEvLQXAx8Mb0tYwMQoTML4+tId2xt8rRvzrCEKangRu9yG5Mr7YV+zuaSRBpq/9a
+	HzJ/E6pWCTjn4zKblP3lxMQ7sbHX24IZgvs8uJAZfu6OzLCZgmC85o9l2W8xs8JO9HmjzLisfCQ
+	0f0kIcwQiy7H9zWGvLGWFSH1qEPKKQR8EwKlF4AqEgzlXw==
+X-Google-Smtp-Source: AGHT+IH5K8VXJUv24C/joRhmZsMKIJdarB1HjHPAB90m4NhFdVMZeL3+c4slkqthb1e8MrMy4FkHHw==
+X-Received: by 2002:a5d:6d8e:0:b0:390:e150:96b8 with SMTP id ffacd0b85a97d-390e1509a57mr323111f8f.6.1740606004983;
+        Wed, 26 Feb 2025 13:40:04 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.206.225])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43b736f839asm2112905e9.2.2025.02.26.13.38.55
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e47960b6sm67703f8f.17.2025.02.26.13.40.02
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Feb 2025 13:38:57 -0800 (PST)
-Message-ID: <6db6b361-caed-42f4-b319-2b8cd43a73b5@linaro.org>
-Date: Wed, 26 Feb 2025 22:38:54 +0100
+        Wed, 26 Feb 2025 13:40:04 -0800 (PST)
+Message-ID: <ac6a461b-44f3-414e-b5a2-2d5a0a87cdf8@linaro.org>
+Date: Wed, 26 Feb 2025 22:40:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,13 +82,12 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] media: dt-bindings: Add Sony IMX728
-To: Sebastian LaVine <slavine@d3embedded.com>
-Cc: devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?=
- <nfraprado@collabora.com>, Abel Vesa <abel.vesa@linaro.org>,
- Achath Vaishnav <vaishnav.a@ti.com>,
+Subject: Re: [PATCH 2/4] media: i2c: Add driver for Sony IMX728
+To: Sebastian LaVine <slavine@d3embedded.com>, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Cc: =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Abel Vesa <abel.vesa@linaro.org>, Achath Vaishnav <vaishnav.a@ti.com>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  Ard Biesheuvel <ardb@kernel.org>,
  Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
@@ -117,9 +116,9 @@ Cc: devicetree@vger.kernel.org, imx@lists.linux.dev,
  Vignesh Raghavendra <vigneshr@ti.com>, Will Deacon <will@kernel.org>,
  Zhi Mao <zhi.mao@mediatek.com>
 References: <20250212195656.69528-1-slavine@d3embedded.com>
- <20250212195656.69528-2-slavine@d3embedded.com>
- <20250213-shrewd-tacky-chachalaca-778a50@krzk-bin>
- <D82KGJEBFQO0.1TX611HMKWB16@d3embedded.com>
+ <20250212195656.69528-3-slavine@d3embedded.com>
+ <416d75fd-40d0-45d7-9590-0322abb480ca@linaro.org>
+ <D82NHO05EBSQ.3AZF1VYBU17V5@d3embedded.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Content-Language: en-US
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
@@ -166,49 +165,30 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <D82KGJEBFQO0.1TX611HMKWB16@d3embedded.com>
+In-Reply-To: <D82NHO05EBSQ.3AZF1VYBU17V5@d3embedded.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 26/02/2025 18:50, Sebastian LaVine wrote:
-> Hello Krzysztof,
-> 
-> On Thu Feb 13, 2025 at 4:26 AM EST, Krzysztof Kozlowski wrote:
->> On Wed, Feb 12, 2025 at 02:56:53PM -0500, Sebastian LaVine wrote:
->>> Adds bindings for the Sony IMX728.
->>>
->>> Signed-off-by: Sebastian LaVine <slavine@d3embedded.com>
->>> Mentored-by: Stuart Burtner <sburtner@d3embedded.com>
->>> ---
->>
->> Please run scripts/checkpatch.pl and fix reported warnings. After that,
->> run also 'scripts/checkpatch.pl --strict' and (probably) fix more
->> warnings. Some warnings can be ignored, especially from --strict run,
->> but the code here looks like it needs a fix. Feel free to get in touch
->> if the warning is not clear.
-> 
-> The only output I get from scripts/checkpatch.pl for this patch is the
-> following:
-> 
->> next$ scripts/checkpatch.pl --strict  patches/outgoing/0001-media-dt-bindings-Add-Sony-IMX728.patch
->> WARNING: Non-standard signature: Mentored-by:
->> #9:
->> Mentored-by: Stuart Burtner <sburtner@d3embedded.com>
->>
->> total: 0 errors, 1 warnings, 0 checks, 108 lines checked
->>
+On 26/02/2025 21:13, Sebastian LaVine wrote:
 >> ...
+>>
+>>> +
+>>> +static int imx728_set_stream(struct v4l2_subdev *sd, int enable)
+>>> +{
+>>> +       struct imx728 *imx728 = to_imx728(sd);
+>>> +       int ret;
+>>> +
+>>> +       mutex_lock(&imx728->lock);
+>>
+>> Just use guard. That's actually perfect candidate.
+>>
 > 
-> I can change this to a Signed-off-by from Stuart if you would like,
-> though I feel that Mentored-by is applicable to this case.
+> Okay -- I'll include this change in v4. I'm not so familiar with using
+> this interface, so please let me know if this is incorrect:
+> 
 
-It has been two weeks, so I don't remember what warning I saw (countless
-of patches in between). It's possible I had in mind the "mentored-by",
-because it's nowhere explained in Linux. Does it mean part of DCO chain?
-Does it mean reviews or suggestions? This should be one of standard
-tags, IMO, with all its effects (because tags have meaning, e.g. DCO or
-reviewer's statement of oversight).
 
+Yes, looks fine.
 
 Best regards,
 Krzysztof
