@@ -1,112 +1,109 @@
-Return-Path: <linux-media+bounces-27031-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27032-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D3A6A45D4A
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 12:36:46 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD03BA45FB5
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 13:49:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0B2C81897AB0
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 11:36:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E151173AB5
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 12:49:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62F702153EA;
-	Wed, 26 Feb 2025 11:36:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E7A72153CF;
+	Wed, 26 Feb 2025 12:49:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="F/uvCfzk"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="nzYbAjZS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51C87322A
-	for <linux-media@vger.kernel.org>; Wed, 26 Feb 2025 11:36:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.5])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44C3E2CAB;
+	Wed, 26 Feb 2025 12:49:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.5
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740569799; cv=none; b=dMMq+P2DP8y05KUrcAtulHFCpMQe3LAW/mtHZMTa/00ZVcfKKtm+75YeSLEUCrSxF3vh9iAT2niaiwY2uxpFGGftkfzOcMIq+PTeIqVGqGO7hafrrTiufyCUYwxRmv9Noydnw+2BaGRuYyZHo6O4dtscqEVKnG2PCVbwXlGu4Rs=
+	t=1740574191; cv=none; b=bJBpYs/2FUlaC8tGjYd7enjd3RvDPoEWUeNu4vNRolsRex9waMT+ed09DUIF6oEwlazOCusmarSMJZFpeLlaSZk6rv7i8l6j/PvF94wFPdkZp6TNZo7Epurd1mVUW/lSpTQKb8HU5W866nVP5aNyM6ReHwhzEx1f8dh8cyEGGGg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740569799; c=relaxed/simple;
-	bh=pT5en15CKkCPW/er7fANvO8IwLdQocjON+iCLWxrRBQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e4eUyg6Niqy4s8bb6o44wzxrG17Lx2TMuCwePl+n3dxpA0WcR4tQCW6zd0suejhaFINGJXYpyLoYQ+af6l7YdJ7LhOPeAqO7VGjMVjClt8QRHumiQYerFf4IyVWVLCxgtJCuuXb1atv4FJrTxZO5yxW9B7U+xRCRk3Uv8SUujUw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=F/uvCfzk; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740569798; x=1772105798;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=pT5en15CKkCPW/er7fANvO8IwLdQocjON+iCLWxrRBQ=;
-  b=F/uvCfzkwFBhu9lT0JgPLfoYjaxbmqW+0vGU5np5cg4t1fyrChCko9gJ
-   HIuCUrxpSitSDeECH5sAlsaUBOFT9UF4CVvxyrTGrb8WPHOeVTmLY/taG
-   nmP3Ih4SmEw95snIa1nXeYhiRVWVt+vLv7qYrTi4unZF622lLL3FTUX4H
-   U/vIc7Ts4CtFMfYso1aDP7YitlZi9EN6XhzLMNmozqYYJX9i3xvSeOpgW
-   KBvG1j1B7HZ7tdgRWFfWOotUPoi3NNSNTbDmSwMCgdKOgfRslgCRBMB4g
-   /nk4yUuIzvf9mwN19TIMKUezTwRSa4NMm6Qz+EPM77rbo+cy9dIp/MgxY
-   Q==;
-X-CSE-ConnectionGUID: GX8TRBPHS3aw2T0f51GdZw==
-X-CSE-MsgGUID: nhEi6R2yTGOsNYNJmoE8zQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="41539401"
-X-IronPort-AV: E=Sophos;i="6.13,317,1732608000"; 
-   d="scan'208";a="41539401"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 03:36:15 -0800
-X-CSE-ConnectionGUID: fFR1F0CWRlqzyMrxjvksDQ==
-X-CSE-MsgGUID: sWWXCqKiR5+Dy9kvMq9Gow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="153848288"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 03:36:12 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id A6BC711F944;
-	Wed, 26 Feb 2025 13:36:09 +0200 (EET)
-Date: Wed, 26 Feb 2025 11:36:09 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Dongcheng Yan <dongcheng.yan@intel.com>, linux-media@vger.kernel.org,
-	laurent.pinchart@ideasonboard.com, ricardo.ribalda@gmail.com,
-	bingbu.cao@linux.intel.com, tomi.valkeinen@ideasonboard.com,
-	jacopo.mondi@ideasonboard.com, daxing.li@intel.com,
-	dongcheng.yan@linux.intel.com, ong.hock.yu@intel.com,
-	balamurugan.c@intel.com, wei.a.fu@intel.com
-Subject: Re: [PATCH v5] media: i2c: add lt6911uxe hdmi bridge driver
-Message-ID: <Z778qdS_4fkIm3dk@kekkonen.localdomain>
-References: <20250210060923.2434047-1-dongcheng.yan@intel.com>
- <09dd94dd-f63a-422b-9452-647f24b7c217@xs4all.nl>
- <Z778R0tL-2knQOwd@kekkonen.localdomain>
+	s=arc-20240116; t=1740574191; c=relaxed/simple;
+	bh=dITrfhYfSkTRNCxmowtpI3OCz2F+YfFl9lEZ/TAdmKo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=F6aYL9YfTJIq+MA7oDtORBSHCZMpmoiiqWQz90vvI7MneaOfaqZ/LBNGPPUJTE51epHpQQS1vFmFxHzgsdXjR2furH/dfiMAzICvlh5VUJfRRaprFHM0orq5xWhwVe0A8j7iTAElUdY5rHHrldjYkPeIMBVpw3iJLin4L8YDg3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=nzYbAjZS; arc=none smtp.client-ip=220.197.31.5
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=QbUGY
+	YPk+RS02VOby7U4Hzj9A50xV95MDQb2+4Sc4fk=; b=nzYbAjZSLXuN1R9HpRduk
+	uTi7yN3OH3OxCDyQ4CIFx11vTfVfj80XAWeV+SMaQ+XPyqQ1ARm5DeX3Tp//JsCN
+	aHxstxpfZhN1iQqB4CoevWtcCaRIvk+FcVgQxLQ0JRpHbZ3F5GuDekN51UgNUfAD
+	RV8hafKmGoC8mBmuuzf+eY=
+Received: from icess-ProLiant-DL380-Gen10.. (unknown [])
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wDX767UDb9nemzXOA--.48555S4;
+	Wed, 26 Feb 2025 20:49:25 +0800 (CST)
+From: Haoxiang Li <haoxiang_li2024@163.com>
+To: devarsht@ti.com,
+	mchehab@kernel.org,
+	hverkuil@xs4all.nl,
+	d-huang@ti.com,
+	benjamin.gaignard@collabora.com,
+	sebastian.fricke@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haoxiang Li <haoxiang_li2024@163.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] media: imagination: fix a potential memory leak in e5010_probe()
+Date: Wed, 26 Feb 2025 20:49:22 +0800
+Message-Id: <20250226124922.3601755-1-haoxiang_li2024@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z778R0tL-2knQOwd@kekkonen.localdomain>
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDX767UDb9nemzXOA--.48555S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW7KF17GF4kZw48XrWUXFW5Jrb_yoW8XF1rpa
+	1DJay3tFWUKrsFqwsrJF4UZF98Kw1S9ayrKrsrCwn3u3s3ZasxJw45JFy0q34rJFWIk3W8
+	Xr9rtF4rAF4jvaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0pimhF7UUUUU=
+X-CM-SenderInfo: xkdr5xpdqjszblsqjki6rwjhhfrp/1tbiqA0Abme-B1eUmgAAsN
 
-On Wed, Feb 26, 2025 at 11:34:31AM +0000, Sakari Ailus wrote:
-> Hi Hans,
-> 
-> On Wed, Feb 26, 2025 at 11:51:48AM +0100, Hans Verkuil wrote:
-> > On 10/02/2025 07:09, Dongcheng Yan wrote:
-> > > +static int lt6911uxe_s_dv_timings(struct v4l2_subdev *sd, unsigned int pad,
-> > > +				  struct v4l2_dv_timings *timings)
-> > > +{
-> > > +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> > > +	struct v4l2_subdev_state *state;
-> > > +
-> > > +	state = v4l2_subdev_lock_and_get_active_state(sd);
-> > > +	if (v4l2_match_dv_timings(&lt6911uxe->timings, timings, 0, false))
-> > 
-> > You're not unlocking the state here.
-> 
-> I think the driver needs to do that as it's using the state lock to
-> serialise access to its own device context data structure as well.
+Add video_device_release() to release the memory allocated by
+video_device_alloc() if something goes wrong.
 
-Oops. I misread the comment and the code. Please ignore.
+Fixes: a1e294045885 ("media: imagination: Add E5010 JPEG Encoder driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
+---
+ drivers/media/platform/imagination/e5010-jpeg-enc.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
+diff --git a/drivers/media/platform/imagination/e5010-jpeg-enc.c b/drivers/media/platform/imagination/e5010-jpeg-enc.c
+index c194f830577f..53e501b5ac0a 100644
+--- a/drivers/media/platform/imagination/e5010-jpeg-enc.c
++++ b/drivers/media/platform/imagination/e5010-jpeg-enc.c
+@@ -1057,8 +1057,11 @@ static int e5010_probe(struct platform_device *pdev)
+ 	e5010->vdev->lock = &e5010->mutex;
+ 
+ 	ret = v4l2_device_register(dev, &e5010->v4l2_dev);
+-	if (ret)
+-		return dev_err_probe(dev, ret, "failed to register v4l2 device\n");
++	if (ret) {
++		dev_err_probe(dev, ret, "failed to register v4l2 device\n");
++		goto fail_after_video_device_alloc;
++	}
++
+ 
+ 	e5010->m2m_dev = v4l2_m2m_init(&e5010_m2m_ops);
+ 	if (IS_ERR(e5010->m2m_dev)) {
+@@ -1118,6 +1121,8 @@ static int e5010_probe(struct platform_device *pdev)
+ 	v4l2_m2m_release(e5010->m2m_dev);
+ fail_after_v4l2_register:
+ 	v4l2_device_unregister(&e5010->v4l2_dev);
++fail_after_video_device_alloc:
++	video_device_release(e5010->vdev);
+ 	return ret;
+ }
+ 
 -- 
-Sakari Ailus
+2.25.1
+
 
