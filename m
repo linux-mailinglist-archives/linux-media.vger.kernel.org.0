@@ -1,155 +1,193 @@
-Return-Path: <linux-media+bounces-26992-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26993-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AD78A45356
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 03:47:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 300D9A454FC
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 06:47:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A4B191890B49
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 02:44:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D4BCB189B733
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 05:47:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67D8E21CC5D;
-	Wed, 26 Feb 2025 02:43:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CABC25D55A;
+	Wed, 26 Feb 2025 05:47:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZEoVw7Ue"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="vOOSVL9y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D15121C9EE
-	for <linux-media@vger.kernel.org>; Wed, 26 Feb 2025 02:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734887DA73;
+	Wed, 26 Feb 2025 05:46:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740537813; cv=none; b=NlKn9eeN+0DHjDdnULEtnTPDcbzzLiPJpbdBpA9u4y6CpoZrfsVz24Hm9KTlyxgUtc3BlmAn39nuLr6VZ3x/GQJczm6BWm9FYqnC9TIJydc3XVXhZXaVMrjxpMRdNVDFKgiU+VEVwZKjSZfR7Nt8YYN1eJoCWR9Pr3aeo3lh6b0=
+	t=1740548820; cv=none; b=PVC4TmKZBbfyBp/DiVI8l1EkHiKb/pQPtnLcOdZa5+Fzr6IKT7G9pQ8LKbgTnME4zjiLZROi1V/Xro1A2jfJtzafuJtk8Tlvxzoj8gYnbZ/ziGm47iGhyQmFnJlsK4TjBiKfFRRHTC7m8DHeVoUqlkKliVqtVEEJZxB2WCQPX6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740537813; c=relaxed/simple;
-	bh=lDYmDU+ckOtrOcZH3WpfJfHHLV/byQaeqR4QumCxm3U=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=bgkcfYwR70DATenbwQZY8C/1N938qex7aMc8/tAOOQVLDYp/4k7FE/Vp6AgVhxegQpOxiyMZ4NSEvTMDJ8hk0BCpo+hRsW7chdq8Evz3itknbZBoIaNz6uXrcGnIZ1mAihmbHn6H7hYtmu1mVFes4p81P3nCY1mAPx/wUcE/3OA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZEoVw7Ue; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740537811; x=1772073811;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=lDYmDU+ckOtrOcZH3WpfJfHHLV/byQaeqR4QumCxm3U=;
-  b=ZEoVw7UeEzkWzqUiYyjgec0wwHn1ti2Dj+vViLvbj8BrMi+2R53HiHFH
-   e5DpT6yJHzbVGd7lj8s/bU9STj/LDU0NmCmBjNNSAq7mifioKQQ5c/d63
-   5OG64IhdzV9taYjMqZ44Jgl2xeHVkq5z/MwdrNVrjdh/7U04pwk3jdCOk
-   VOFen7u8ZlGX1zgFXrx17vqHdN2hljeZx2aETXW3F1cDakj8w59SfbVpb
-   5RBlLB7gvO/GGu+mmWloFOaVuscIlkjcACi0WH89WZEXaVwuzv1Bo2kNQ
-   J3dZK0CiSJ2uTH2r66/m/XIVfYAJUQOKWs5TWIfqBvkpOe/yGO7hTxi6G
-   A==;
-X-CSE-ConnectionGUID: OQ2/bD/nSb2vbAsMhq38dg==
-X-CSE-MsgGUID: RhcHVATlSBirdNAwvUTDKA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="63835703"
-X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
-   d="scan'208";a="63835703"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 18:43:31 -0800
-X-CSE-ConnectionGUID: g+H+9gRuRZGqaE7kgP0Dtg==
-X-CSE-MsgGUID: L1CPIq5LTbKsZ55txJRdHA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
-   d="scan'208";a="116379780"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.136]) ([10.238.232.136])
-  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 18:43:30 -0800
-Subject: Re: [PATCH 1/1] media: ipu6: Drop unused ipu6_dma_get_sgtable()
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Cc: stanislaw.gruszka@linux.intel.com, bingbu.cao@intel.com
-References: <20250225094532.40678-1-sakari.ailus@linux.intel.com>
-From: Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <76556647-505b-1cea-7ae8-5f17873cf161@linux.intel.com>
-Date: Wed, 26 Feb 2025 10:38:25 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	s=arc-20240116; t=1740548820; c=relaxed/simple;
+	bh=AZ7O3bxN7sqRLstDWEOPNtsSOprnvKayaUyZiiYaJxk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=gjUhtX29ZkzOmioOg78Rn3SHtQwfzarSqkSkteu/XXZuAmOXb4qRqHrXX1U94dBNE0OiYIFXWAbweWqzrQqxsUNPS5r9p3Oc/og8er8UUP42parnqW3hxXbgY7eBK0DqOQeaqzvrROt09imd1hIe/OsAy9FmOK0BO5IwPE1NMlQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=vOOSVL9y; arc=none smtp.client-ip=198.47.19.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from fllv0035.itg.ti.com ([10.64.41.0])
+	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 51Q5kn3Y1374760
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 25 Feb 2025 23:46:49 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1740548809;
+	bh=xbRkT+xuVxDxRQSUMfHlXdaittfUN3ZCxDXCGk6mGlg=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=vOOSVL9yFwKaiD5JqCFiuo0wfjjgpTruAeFOhJTGvQWfyREBZpXpw2IPeDUnGUws2
+	 ZCrnen/O7K4mtKFku2xwvCClU36mY3VQUeu+mMxn6+LcTrDZ197r9jqBtoBjhrKSuh
+	 wSpI4BbDLLI+vo8WCz+v//uxs8yys2YmOzAucJIE=
+Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
+	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 51Q5knYN102364
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 25 Feb 2025 23:46:49 -0600
+Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE104.ent.ti.com
+ (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 25
+ Feb 2025 23:46:49 -0600
+Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE114.ent.ti.com
+ (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Tue, 25 Feb 2025 23:46:49 -0600
+Received: from [172.24.227.115] (abhilash-hp.dhcp.ti.com [172.24.227.115])
+	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 51Q5kjOW030893;
+	Tue, 25 Feb 2025 23:46:46 -0600
+Message-ID: <ec20238c-1cd1-493b-8df5-5be055576f14@ti.com>
+Date: Wed, 26 Feb 2025 11:16:44 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20250225094532.40678-1-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=windows-1252
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] dt-bindings: media: cdns,csi2rx.yaml: Add optional
+ interrupts for cdns-csi2rx
+To: Jai Luthra <jai.luthra@linux.dev>,
+        "krzk+dt@kernel.org"
+	<krzk+dt@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <mripard@kernel.org>,
+        <mchehab@kernel.org>, <robh@kernel.org>, <conor+dt@kernel.org>,
+        <devarsht@ti.com>, <vaishnav.a@ti.com>, <r-donadkar@ti.com>,
+        <u-kumar1@ti.com>
+References: <20250221120337.3920874-1-y-abhilashchandra@ti.com>
+ <20250221120337.3920874-2-y-abhilashchandra@ti.com>
+ <3fzkpcdjsthw5lbajxp6zyiyejo45rcgt3gwjfu2bub3v3acpa@kow5blexev5u>
 Content-Language: en-US
+From: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+In-Reply-To: <3fzkpcdjsthw5lbajxp6zyiyejo45rcgt3gwjfu2bub3v3acpa@kow5blexev5u>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Sakari,
+Hi Jai,
+Thanks for the detailed review for the patch series.
 
-On 2/25/25 5:45 PM, Sakari Ailus wrote:
-> ipu6_dma_get_sgtable() is now unused. Drop it.
+On 24/02/25 12:50, Jai Luthra wrote:
+> Hi Abhilash,
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/pci/intel/ipu6/ipu6-dma.c | 33 -------------------------
->  drivers/media/pci/intel/ipu6/ipu6-dma.h |  3 ---
->  2 files changed, 36 deletions(-)
+> Thanks for the patch.
 > 
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-dma.c b/drivers/media/pci/intel/ipu6/ipu6-dma.c
-> index 44e24da33907..052e396a28af 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-dma.c
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-dma.c
-> @@ -455,36 +455,3 @@ void ipu6_dma_unmap_sgtable(struct ipu6_bus_device *sys, struct sg_table *sgt,
->  	ipu6_dma_unmap_sg(sys, sgt->sgl, sgt->nents, dir, attrs);
->  }
->  EXPORT_SYMBOL_NS_GPL(ipu6_dma_unmap_sgtable, "INTEL_IPU6");
-> -
-> -/*
-> - * Create scatter-list for the already allocated DMA buffer
-> - */
-> -int ipu6_dma_get_sgtable(struct ipu6_bus_device *sys, struct sg_table *sgt,
-> -			 void *cpu_addr, dma_addr_t handle, size_t size,
-> -			 unsigned long attrs)
-> -{
-> -	struct device *dev = &sys->auxdev.dev;
-> -	struct ipu6_mmu *mmu = sys->mmu;
-> -	struct vm_info *info;
-> -	int n_pages;
-> -	int ret = 0;
-> -
-> -	info = get_vm_info(mmu, handle);
-> -	if (!info)
-> -		return -EFAULT;
-> -
-> -	if (!info->vaddr)
-> -		return -EFAULT;
-> -
-> -	if (WARN_ON(!info->pages))
-> -		return -ENOMEM;
-> -
-> -	n_pages = PFN_UP(size);
-> -
-> -	ret = sg_alloc_table_from_pages(sgt, info->pages, n_pages, 0, size,
-> -					GFP_KERNEL);
-> -	if (ret)
-> -		dev_warn(dev, "get sgt table failed\n");
-> -
-> -	return ret;
-> -}
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-dma.h b/drivers/media/pci/intel/ipu6/ipu6-dma.h
-> index b51244add9e6..2882850d9366 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-dma.h
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-dma.h
-> @@ -43,7 +43,4 @@ int ipu6_dma_map_sgtable(struct ipu6_bus_device *sys, struct sg_table *sgt,
->  			 enum dma_data_direction dir, unsigned long attrs);
->  void ipu6_dma_unmap_sgtable(struct ipu6_bus_device *sys, struct sg_table *sgt,
->  			    enum dma_data_direction dir, unsigned long attrs);
-> -int ipu6_dma_get_sgtable(struct ipu6_bus_device *sys, struct sg_table *sgt,
-> -			 void *cpu_addr, dma_addr_t handle, size_t size,
-> -			 unsigned long attrs);
-
-ipu6_dma_get_sgtable() is used in downstream PS driver, I don't think it
-is necessary to remove it as it will be hard to integrate with downstream PS
-driver.
-
->  #endif /* IPU6_DMA_H */
+> On Fri, Feb 21, 2025 at 05:33:36PM +0530, Yemike Abhilash Chandra wrote:
+>> The Cadence CSI2RX IP exposes 2 interrupts [0] 12.7 camera subsystem.
+>> Enabling these interrupts will provide additional information about a CSI
+>> packet or an individual frame. So, add support for optional interrupts
+>> and interrupt-names properties.
+>>
+>> [0]: http://www.ti.com/lit/pdf/spruil1
+>>
+>> Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+>> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>> ---
+>>
+>> Changes in v3:
+>> - Address Krzysztof's review comment to drop minItems from the bindings.
+>> - Collect Acked-by from Krzysztof.
+>>
+>>   Documentation/devicetree/bindings/media/cdns,csi2rx.yaml | 8 ++++++++
+>>   1 file changed, 8 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml b/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
+>> index 2008a47c0580..e8d7eaf443d1 100644
+>> --- a/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
+>> +++ b/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
+>> @@ -24,6 +24,14 @@ properties:
+>>     reg:
+>>       maxItems: 1
+>>   
+>> +  interrupts:
+>> +    maxItems: 2
+>> +
+>> +  interrupt-names:
+>> +    items:
+>> +      - const: irq
+>> +      - const: error_irq
+>> +
+> 
+> If I test these bindings with only one interrupt (error_irq) defined in the
+> device tree, I get these errors:
+> 
+>    DTC [C] arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb
+> /home/darkapex/dev/linux2/out_clang/arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: csi-bridge@30101000: interrupts: [[0, 187, 4]] is too short
+>          from schema $id: http://devicetree.org/schemas/media/cdns,csi2rx.yaml#
+> /home/darkapex/dev/linux2/out_clang/arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: csi-bridge@30101000: interrupt-names:0: 'irq' was expected
+>          from schema $id: http://devicetree.org/schemas/media/cdns,csi2rx.yaml#
+> /home/darkapex/dev/linux2/out_clang/arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: csi-bridge@30101000: interrupt-names: ['error_irq'] is too short
+>          from schema $id: http://devicetree.org/schemas/media/cdns,csi2rx.yaml#
+> make[1]: Leaving directory '/home/darkapex/dev/linux2/out_clang'
+> 
+> There could be cases where only the error interrupt is integrated by the SoC,
+> and the second interrupt is unconnected. IMHO it would make sense to keep the
+> other interrupt optional:
 > 
 
--- 
-Best regards,
-Bingbu Cao
+Initially, I had the flexibilty, but I removed that based on Krzysztof's
+feedback, I was also not clear how these interrupts are integrated by
+different vendors at that time.
+
+But since this driver is shared among vendors, I think it is better to
+have the flexibility. Since this is a change in dt-bindings I would I 
+like to have Krzysztof's view on this discussion.
+
+> diff --git a/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
+> b/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
+> index e8d7eaf443d1..054ed4b94312 100644
+> --- a/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
+> +++ b/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
+> @@ -25,12 +25,14 @@ properties:
+>       maxItems: 1
+> 
+>     interrupts:
+> +    minItems: 1
+>       maxItems: 2
+> 
+>     interrupt-names:
+> +    minItems: 1
+>       items:
+> -      - const: irq
+>         - const: error_irq
+> +      - const: irq
+> 
+
+Krzysztof, If you agree to the same I will use the above binidngs in
+next version of the series
+
+Thanks and Regards,
+Yemike Abhilash Chandra.
+
+>     clocks:
+>       items:
+> 
+>>     clocks:
+>>       items:
+>>         - description: CSI2Rx system clock
+>> -- 
+>> 2.34.1
+>>
 
