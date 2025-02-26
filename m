@@ -1,134 +1,237 @@
-Return-Path: <linux-media+bounces-27057-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27058-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4758FA4638B
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 15:48:37 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 099CDA46446
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 16:14:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 520DC3B54C6
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 14:47:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 88EB0170AAE
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 15:14:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8466722371C;
-	Wed, 26 Feb 2025 14:47:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A9F122370C;
+	Wed, 26 Feb 2025 15:14:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="S64eu0v7"
+	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="YXfOOeOh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01B2E2236E0
-	for <linux-media@vger.kernel.org>; Wed, 26 Feb 2025 14:47:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F919223329
+	for <linux-media@vger.kernel.org>; Wed, 26 Feb 2025 15:14:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740581226; cv=none; b=kGKb2WY6e+eZlTqJ3+0U081apCkaXkz8R0xCEeKefLB3juJwoHuTosmasgrSNVRmxocamooiXQO8IFQKVmRixmHNtiKvvyS4XHZR6bnKibD2owHT2pWY1+aGO2BBC7RsPbspsJtLXAyNMreDR0XCRQl3RDic7RX0pdXxyFZxces=
+	t=1740582860; cv=none; b=iGdORfxKfl6GP0OpJ5HMgeDLK6hoTGh5lta8IxydoT4K7m6J3hhZdwfWKlNYbXNv7FCU5hnUpsAF2NaeLMbfjXCnfA3skD96xfCPsletsdEycxXRKvRCsQQQGwPdaSwTrRbqIDgTb+gtCB0XTR2IBI92Z/r4caFQkpZOZf+MHkM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740581226; c=relaxed/simple;
-	bh=m/XdZhhvS6FYiXUcwXOJ1LLkTXVWffO1oF02DIV7wEg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DZAGDO6UiS20MrkhN2VM3PuRc5XfcKMcD205HPGyeunYWz4H+uEJg9uX78UEU39YxQqdcUjn4GUJ5cAERk7IkuSgbc1D6mu6krOPjaqFwYnEDZOHYC7SIo4vJpbHL+St3KxCtJgK0Qmr+qRg1TtMsNKT+LtPVaTrOS+vCUT3Fh0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=S64eu0v7; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-439a1e8ba83so66112225e9.3
-        for <linux-media@vger.kernel.org>; Wed, 26 Feb 2025 06:47:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740581223; x=1741186023; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=8pOyW28UvUKwTgBKlyrzwQ8HJbMn+0BIuk/+k9qJPJw=;
-        b=S64eu0v7kcYJRl94NyQejbkOgpNvivDTCue5bJsmUbKgycmp10LRfYgw2JK0jIeSSR
-         2HxeVGcDCrNiVEB8c1g1Y3HLuA4xnRL8LF8oLpzlopCa1RWX4wLlfvCtdZzJkjCr2PBM
-         mt/Fu+3LJiR4x8/Ei7BDgZQE7nUNar9ULoklm11wS3Ruibktvj8Gyr1D3x5oVTGqooL0
-         V0Bkg/OdQ2AOec5Tz6THR4ygE06twnjFcKpMbOt3mI6knb2Nzgk7w8+ogdmeM++L0OZH
-         RfWidhzjrLo5xZyl/lII2rgRiBkASRlsQTllTBQcO43wUlD8ff/uqraX771hn1o+Xu+m
-         7xzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740581223; x=1741186023;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8pOyW28UvUKwTgBKlyrzwQ8HJbMn+0BIuk/+k9qJPJw=;
-        b=LmGQf349y0bXkFZRdeOHBq+ESAol8Z7CJ+WR48vhWNQvQmqiQJs+jC/pzFCkU4jwq5
-         eNqU0a5JGW1620Sdebp/nwsKdebVpQcTRvwSKah3sY1sqe1kBgCNucymFRnCmRcszHaV
-         42mPKoz76z67fTgPE77V21zcbCtNe4nYsv4EtOvndHvEwZg3oKL3mKK7XU3X1YeZWrD6
-         oL/4P78M2R0ctubFxdQgebapZ6DRWpZ2QpGpq1qsrxJX3nFcdMdxqIet7IR096W2dHFr
-         Dsy5hQ4RYK5u1CS2MaxC/M+VhnbQIX2OW1rrMGNMP8wXFZbgdiAJOuoEFXBtBx+J33mV
-         9X4A==
-X-Forwarded-Encrypted: i=1; AJvYcCVFuESuL0hAredoY9RwCBxFPM3Vf94BF7n6M2f0PuCMj5xEC8F6H4iTGzqz0XplpVPUwW/EOSqzh7dRoA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4KUkrJooh+WOl8cf3jxAFNt9Y49CTCTQYJj/AYBTGBiYY5IXA
-	4xxf/uCm1nw/wW/23l3eVkr4atfLyiQL3xU9vWK1LA9Wose4MJgm053wioj31HY=
-X-Gm-Gg: ASbGnctavwHuVAQtVwD5fJK8E2JjN+bQhfq1WkbcemU18CtHsJy8fkLiRxlCEXUyPYy
-	bpb6REU04+JmJ0qogy2HT/HKULc9MjAYohBLQ2Ig+DE3wEDqDPhgVayQ3i0I77UyTKcPGi09w2n
-	ogMqvVz7WDUVUQBssnU3zhvjf8fnajXIwYTCsUDMGiq2goauErUk7Cs+BlVGKoHlbVEKUXVLr3h
-	TM3g6jgCwhkIsRN9TR3tqZnVEoaItogaPRRb+JXR/uj6b77o3aDCUAeLvSGDUfvjr0QtGLlMZkO
-	6EYpUqSjLM1j+FcHIbTcYxYuxXzVdibEo9TFA9ObfNYPFjEgedy5hAWSOL+9KUG5MEg=
-X-Google-Smtp-Source: AGHT+IHNRfpULJPxhQY9HtJFoLDR0d9T57OoOlmyePOM9Y/l+ILE+lMCUBjbQM1hxPRcUu2S6ET/Lg==
-X-Received: by 2002:a05:6000:1a85:b0:38d:ba81:b5c2 with SMTP id ffacd0b85a97d-38f70854e1amr17780733f8f.47.1740581223249;
-        Wed, 26 Feb 2025 06:47:03 -0800 (PST)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390cd8fbb5dsm5716850f8f.84.2025.02.26.06.47.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 26 Feb 2025 06:47:02 -0800 (PST)
-Message-ID: <eb06daf1-3cc3-4b31-a0bf-bc450cd0f041@linaro.org>
-Date: Wed, 26 Feb 2025 14:47:01 +0000
+	s=arc-20240116; t=1740582860; c=relaxed/simple;
+	bh=cqvBrG3ie58oNevi03YHgjZaOlLV0ON165ZblqwNnOg=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=GkEFY9wcLFxeEhxr7CqpYrILsC9Bkf4+drYBwlP8LMtDDyPLnJiyoiAgqU8qPe2afbq/UE1c2pSA2Y1tiHHambC1CxD+lETXH0Ai8wY1HFS2toE5GoooczbZFWrJFrmqJMPEU5M0kG5FkTLtZV3gSfrrm+CXkxJc9P0CbtE+Tl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=YXfOOeOh; arc=none smtp.client-ip=91.218.175.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] Some small preparations around CAMSS D-PHY / C-PHY
- support
-To: Luca Weiss <luca.weiss@fairphone.com>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Barnabas Czeman <barnabas.czeman@mainlining.org>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
- Caleb Connolly <caleb.connolly@linaro.org>, David Heidelberg <david@ixit.cz>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241209-camss-dphy-v1-0-5f1b6f25ed92@fairphone.com>
- <D82FU3SIX5RZ.1Y525GJO0UOAA@fairphone.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <D82FU3SIX5RZ.1Y525GJO0UOAA@fairphone.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+	t=1740582853;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=6kQbb0PLOfRfxhBJWSWjWCVR9AvSTbkkHB29xifIVyM=;
+	b=YXfOOeOhPXiP8XxbTz7Vksn6vNnz/3+IGZ8Un2zM+V/NOt44UM00lgD4cYqwMKDhSSgDda
+	o6A71UbWTysV+Om+XzX5R4b3ctGUz0Z2jSx2n+Lx9TMobIDZmlYWDJjEyrSRnTWb7tL21V
+	CAe454MournGNCN3lI1U6sbqPqQab6eGDN9DPkIrsQOSjdLASSMz5s7J8zG3gizRisBToi
+	H8zk4KWkeNhClDlEN6WhP4xqLEUymcYJ/fCdhQZlTFs16hLI06/W9VNhPz66KyJY9b3UPI
+	ZcpfaBLUImADDXFiLuoi+t7HL5ZPdb4q6T5tSJ+LX4BlLE6Aj6OrwPDCSJ0Ozw==
+Content-Type: multipart/signed;
+ boundary=a7f4c90e99e2aac72da4a10f52bcd4b0a05ca7264a6152fe3a9c3f70b508;
+ micalg=pgp-sha256; protocol="application/pgp-signature"
+Date: Wed, 26 Feb 2025 16:14:02 +0100
+Message-Id: <D82H4F6J4V4V.2BLHVUVD3BVX9@cknow.org>
+Cc: <kernel@collabora.com>, <linux-media@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-rockchip@lists.infradead.org>, "Tim Surber" <me@timsurber.de>,
+ "Christophe JAILLET" <christophe.jaillet@wanadoo.fr>, "Diederik de Haas"
+ <didi.debian@cknow.org>
+Subject: Re: [PATCH v10 3/6] media: platform: synopsys: Add support for HDMI
+ input driver
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Diederik de Haas" <didi.debian@cknow.org>
+To: "Dmitry Osipenko" <dmitry.osipenko@collabora.com>, "Shreeya Patel"
+ <shreeya.patel@collabora.com>, "Heiko Stuebner" <heiko@sntech.de>, "Mauro
+ Carvalho Chehab" <mchehab@kernel.org>, "Hans Verkuil" <hverkuil@xs4all.nl>,
+ "Rob Herring" <robh@kernel.org>, "Krzysztof Kozlowski"
+ <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ <jose.abreu@synopsys.com>, <nelson.costa@synopsys.com>,
+ <shawn.wen@rock-chips.com>, <nicolas.dufresne@collabora.com>, "Sebastian
+ Reichel" <sebastian.reichel@collabora.com>
+References: <20250225183058.607047-1-dmitry.osipenko@collabora.com>
+ <20250225183058.607047-4-dmitry.osipenko@collabora.com>
+In-Reply-To: <20250225183058.607047-4-dmitry.osipenko@collabora.com>
+X-Migadu-Flow: FLOW_OUT
 
-On 26/02/2025 14:13, Luca Weiss wrote:
-> Hi all,
-> 
-> On Mon Dec 9, 2024 at 1:01 PM CET, Luca Weiss wrote:
->> Since the hardware blocks on the SoCs generally support both D-PHY and
->> C-PHY standards for camera, but the camss driver currently is only
->> supporting D-PHY, do some preparations in order to add C-PHY support at
->> some point.
->>
->> Make the dt bindings explicit that the hardware supports both (except
->> for MSM8916) but also add a check to the driver that errors out in case
->> a dt tries to use C-PHY since that's not supported yet.
->>
->> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
->> ---
->> Luca Weiss (2):
->>        media: dt-bindings: media: camss: Restrict bus-type property
->>        media: qcom: camss: Restrict endpoint bus-type to D-PHY
-> 
-> This series is still pending, both patches got reviews and no pending
-> comments from what I can see.
-> 
-> Would be nice to get it in for 6.15.
-> 
-Yes this should be merged.
+--a7f4c90e99e2aac72da4a10f52bcd4b0a05ca7264a6152fe3a9c3f70b508
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Thanks for following up.
+Hi,
 
----
-bod
+On Tue Feb 25, 2025 at 7:30 PM CET, Dmitry Osipenko wrote:
+> From: Shreeya Patel <shreeya.patel@collabora.com>
+>
+> Add initial support for the Synopsys DesignWare HDMI RX
+> Controller Driver used by Rockchip RK3588. The driver
+> supports:
+>  - HDMI 1.4b and 2.0 modes (HDMI 4k@60Hz)
+>  - RGB888, YUV422, YUV444 and YCC420 pixel formats
+>  - CEC
+>  - EDID configuration
+>
+> The hardware also has Audio and HDCP capabilities, but these are
+> not yet supported by the driver.
+>
+> Co-developed-by: Dingxian Wen <shawn.wen@rock-chips.com>
+> Signed-off-by: Dingxian Wen <shawn.wen@rock-chips.com>
+> Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+>  drivers/media/platform/Kconfig                |    1 +
+>  drivers/media/platform/Makefile               |    1 +
+>  drivers/media/platform/synopsys/Kconfig       |    3 +
+>  drivers/media/platform/synopsys/Makefile      |    2 +
+>  .../media/platform/synopsys/hdmirx/Kconfig    |   27 +
+>  .../media/platform/synopsys/hdmirx/Makefile   |    4 +
+>  .../platform/synopsys/hdmirx/snps_hdmirx.c    | 2756 +++++++++++++++++
+>  .../platform/synopsys/hdmirx/snps_hdmirx.h    |  394 +++
+>  .../synopsys/hdmirx/snps_hdmirx_cec.c         |  284 ++
+>  .../synopsys/hdmirx/snps_hdmirx_cec.h         |   44 +
+>  10 files changed, 3516 insertions(+)
+>  create mode 100644 drivers/media/platform/synopsys/Kconfig
+>  create mode 100644 drivers/media/platform/synopsys/Makefile
+>  create mode 100644 drivers/media/platform/synopsys/hdmirx/Kconfig
+>  create mode 100644 drivers/media/platform/synopsys/hdmirx/Makefile
+>  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+>  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
+>  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmirx_ce=
+c.c
+>  create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmirx_ce=
+c.h
+>
+> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kcon=
+fig
+> index 85d2627776b6..9287faafdce5 100644
+> --- a/drivers/media/platform/Kconfig
+> +++ b/drivers/media/platform/Kconfig
+> @@ -85,6 +85,7 @@ source "drivers/media/platform/rockchip/Kconfig"
+>  source "drivers/media/platform/samsung/Kconfig"
+>  source "drivers/media/platform/st/Kconfig"
+>  source "drivers/media/platform/sunxi/Kconfig"
+> +source "drivers/media/platform/synopsys/Kconfig"
+>  source "drivers/media/platform/ti/Kconfig"
+>  source "drivers/media/platform/verisilicon/Kconfig"
+>  source "drivers/media/platform/via/Kconfig"
+> diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Mak=
+efile
+> index ace4e34483dd..6fd7db0541c7 100644
+> --- a/drivers/media/platform/Makefile
+> +++ b/drivers/media/platform/Makefile
+> @@ -28,6 +28,7 @@ obj-y +=3D rockchip/
+>  obj-y +=3D samsung/
+>  obj-y +=3D st/
+>  obj-y +=3D sunxi/
+> +obj-y +=3D synopsys/
+>  obj-y +=3D ti/
+>  obj-y +=3D verisilicon/
+>  obj-y +=3D via/
+> diff --git a/drivers/media/platform/synopsys/Kconfig b/drivers/media/plat=
+form/synopsys/Kconfig
+> new file mode 100644
+> index 000000000000..4fd521f78425
+> --- /dev/null
+> +++ b/drivers/media/platform/synopsys/Kconfig
+> @@ -0,0 +1,3 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +source "drivers/media/platform/synopsys/hdmirx/Kconfig"
+> diff --git a/drivers/media/platform/synopsys/Makefile b/drivers/media/pla=
+tform/synopsys/Makefile
+> new file mode 100644
+> index 000000000000..3b12c574dd67
+> --- /dev/null
+> +++ b/drivers/media/platform/synopsys/Makefile
+> @@ -0,0 +1,2 @@
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +obj-y +=3D hdmirx/
+> diff --git a/drivers/media/platform/synopsys/hdmirx/Kconfig b/drivers/med=
+ia/platform/synopsys/hdmirx/Kconfig
+> new file mode 100644
+> index 000000000000..3f96f6c97cf0
+> --- /dev/null
+> +++ b/drivers/media/platform/synopsys/hdmirx/Kconfig
+> @@ -0,0 +1,27 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +config VIDEO_SYNOPSYS_HDMIRX
+> +	tristate "Synopsys DesignWare HDMI Receiver driver"
+> +	depends on VIDEO_DEV
+> +	select MEDIA_CONTROLLER
+> +	select VIDEO_V4L2_SUBDEV_API
+> +	select VIDEOBUF2_DMA_CONTIG
+> +	select CEC_CORE
+> +	select CEC_NOTIFIER
+> +	select HDMI
+> +	help
+> +	  Support for Synopsys HDMI HDMI RX Controller.
+> +	  This driver supports HDMI 2.0 version.
+> +
+> +	  To compile this driver as a module, choose M here. The module
+> +	  will be called synopsys_hdmirx.
+> +
+> +config VIDEO_SYNOPSYS_HDMIRX_LOAD_DEFAULT_EDID
+> +	bool "Load default EDID"
+> +	depends on VIDEO_SYNOPSYS_HDMIRX
+> +	help
+> +	  Preload default EDID (Extended Display Identification Data).
+
+I see some value in making explicit what you mean by EDID ...
+
+> +	  EDID contains information about the capabilities of the display,
+> +	  such as supported resolutions, refresh rates, and audio formats.
+
+... I do not think a/this Kconfig needs to explain it.
+
+> +
+> +	  Enabling this option is recommended for a non-production use-cases.
+
+My guess is that it could be useful for development/debugging/CI work
+which possibly do not have an actual device (monitor) which provides
+actual EDID data? Is CI work the reason why you (initially) enabled it
+in the defconfig?
+But when you have an actual monitor (=3Dproduction use-case?), you
+(really) do not want it? Would it be harmless if 'still' enabled?
+
+Thus a more extensive description what *this* Kconfig item does and why
+and when I want to enable it or not, seems more useful to me.
+
+Cheers,
+  Diederik
+
+
+--a7f4c90e99e2aac72da4a10f52bcd4b0a05ca7264a6152fe3a9c3f70b508
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZ78vvgAKCRDXblvOeH7b
+bgcOAQDqS73Snv/YiK3XuYu+04zVOsVyoTgZaPdwB1flqhS6PAD9HpydvFKnE7vj
+pve5Zbq372uE+I1waffsJU9B6k2p2w0=
+=lwwn
+-----END PGP SIGNATURE-----
+
+--a7f4c90e99e2aac72da4a10f52bcd4b0a05ca7264a6152fe3a9c3f70b508--
 
