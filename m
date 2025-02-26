@@ -1,166 +1,181 @@
-Return-Path: <linux-media+bounces-27104-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27105-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E604CA46E96
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 23:29:39 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91085A46EB3
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 23:41:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 59334188C94C
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 22:29:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6CBFF7A5586
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 22:40:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BA4125D91E;
-	Wed, 26 Feb 2025 22:29:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E8F725D1F7;
+	Wed, 26 Feb 2025 22:41:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mAPGceqs"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HXG3Nxin"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0732725D8ED;
-	Wed, 26 Feb 2025 22:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B2A125D1E1;
+	Wed, 26 Feb 2025 22:41:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740608958; cv=none; b=lWohgfoJArUcboHq0hdk0hgwxlceF/J5w0qx/O/aDagwtH5GNjOHl30IjYfbHAj9nY5SnAtx8o3Lxew+FWIld0Ok78Ml+Ml4cEuWU90GfDElQZl0GlChdvQeHKP0EdpF7fVv688Ofx0T1GY6BN/NJUd+FFYCmOtdqc02S5/BKDU=
+	t=1740609701; cv=none; b=EtFjkTSuZBqQL6Lc03U341uHPvt4DEIKO/zT57ZX6XHmN2/E0kx73JXSnF9D3gq3gTs6hLKtMl93ZKqJYMYnpLcDA30ReOfwI30Bwh4FqHSy3PiQO+9SLM6Imz2l+G8+oUpy5dyQ/oEac925j4yAZQ89H4vuQlEOiuNr1MzKpig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740608958; c=relaxed/simple;
-	bh=WHPKx1WninINjpWP2dwg3Iq53rxsjrVAY5O3XcMBM0U=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=PCEYrYsqLT8Hqns0k9L+Qq5BVoBaVSOr/DdcEtZxrdW7zVILO6NbxQ6D6ipHYpptalhi7lygcvtZ/UkSiJz98KkMic7KVf9WxT8eIGIM/AN0bL8apJeN/isctvcz6UGqO8fCTgFrjJNyMbwV9++YRzhqaeG+LotA/DyuFT20nH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mAPGceqs; arc=none smtp.client-ip=209.85.128.51
+	s=arc-20240116; t=1740609701; c=relaxed/simple;
+	bh=Qbf6pdMB9rWRlTmv9kPhr5EySnUr/WkW64EZ9c1V2N0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=h/VyWdYfTtOk+iT3zvovYHSE2zSE+irWlCFG8F6j51W9qkExiznOWZ3Z1JzSYHTfslmQ6h7EMB3OA/535zEItB47iEerqDiDqcX/qICwe89rIr35nTUKdCOql9SgqknumiIBF2hJx245tIYOBkIdaYmTjWpU/0Tzuf1hhc5jo0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HXG3Nxin; arc=none smtp.client-ip=209.85.219.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43996e95114so2115805e9.3;
-        Wed, 26 Feb 2025 14:29:15 -0800 (PST)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6e241443e8dso667346d6.0;
+        Wed, 26 Feb 2025 14:41:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740608954; x=1741213754; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TfWwQBkEse5FRQekJZuNar17CRdvAyTkX7+fO0J+m/4=;
-        b=mAPGceqsRiBwro2u6mE4tdLIvHypC6x3rq8R2BkrIw9c08g6CT61YYdRX8LwVYl9a0
-         L23sG7MFeKtUvpU8ulTO7a2GjLEeB0lTzfP69l9shHuvZV/TCbp/GWMcOhIYVXaSusfM
-         G2wAJnjVzcq9dz3EWpJO9WmsMUPddKBc9j4zmePlsssROu+zQpIVDPW9arFQW6EM2mN4
-         Pf0vPX3HLdJIOCU7HfXAjiVbGlpQ7MJO8FJsnk7slUv1lkA+Pbv8mvQ6QeYGlmxeCQKg
-         9xRVdnBxt33dJiMvQff136CAnYsVk1Mp38soium3nTkU3dk+Z7U3eX8P0K5SCVKa7Zo/
-         VJTQ==
+        d=gmail.com; s=20230601; t=1740609699; x=1741214499; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Qbf6pdMB9rWRlTmv9kPhr5EySnUr/WkW64EZ9c1V2N0=;
+        b=HXG3NxinLSXM24yZa0pmPpACc7mCmrBkgvrobMxP80p/tIDvtZ8QpbKbTtJK7EcK3N
+         fR9tB0qZUpSFxCx4+if403YuNkz+CWKF8toCwX//pIXLa4fOZMRUiWceCwdGetkbwtzn
+         820fyfcCyB7QuyGBNuLSvmconbixM6bfiGZQStyxsGKMHbPKU9ex/CdCIBaiciZpHp3R
+         WvSfubUnZYbWwf8K4e54w7fRi1YWFPGQIy9sOvTcAMQdznTNiyYsmLHJSuuC6HHZYKgc
+         DlDZx04W1Y6q0mR/9QIa1j5njdAFWqKT2Gfs1ZJrFLTYzjR30N5b9q/TNAOPz3cx5I0z
+         fDdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740608954; x=1741213754;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TfWwQBkEse5FRQekJZuNar17CRdvAyTkX7+fO0J+m/4=;
-        b=Ab864Cp894avTWcJ0fEIv6snhEK2B0xsnhvBcmSS74hmdUOEKL3QOhX0oopbeneKpD
-         0opR5ELUr9xQjNOboSDcMqxZrO/0/MxLxT9pUDqN0g6hMVw3uCwCwCFzDOf5g3vt43Zo
-         ZLRWQqNDB3VRh36+Y4Cf4vUCToEm0/7fhh0dy9BpLnB0k0y3IfqRpio+Yz2glKNwOZDx
-         jvFNXwBlezZE/ykkTJZ2VTnrPG/DvA/KCMio6g3VPFQt1ZSxyJLqej2B2tCEWXjgt5ZY
-         gxMR72dPtJvKlG9nCjoBTdwEvB1XEOA5Kzblg9vxvqmxYG8HL1vfapCYaLlBU6lKH2mJ
-         BEVA==
-X-Forwarded-Encrypted: i=1; AJvYcCUcNfx1uaYKScnWlN3fUKjtfkSh6WNQ5rCAh51/NsztiySMXF3DD8Ux3BJsU5AkBl7fqj//FNFZ0QjmBnFi@vger.kernel.org, AJvYcCUg/+sayvUqWupvNgCrW9vceXG5h6dS0pnktB/+xQVDmoKfKxvpn9WBoHEumtO+qcR5fpQToQjnE31phr03uGw=@vger.kernel.org, AJvYcCUz4sAkVRKqKQnkjhzaMn+KS+V1umQkMTE79pq0f1Kb3ikfYS1Td/egN3dSLaZDeXoCVpcx2XQPzYuyhwU=@vger.kernel.org, AJvYcCVXJFaF6Rs5LBKhU5QuEjAwBINQiGW35ytnwXMOaL+ETzBFAMNfb2euxP3sGNmE2grcrn1+crkTv5FwNx0=@vger.kernel.org, AJvYcCWKGrdFEboUQaLDqPjCbECF6naJuvrYV5/ayy8XI2qLcjfpzU/DG4xFHTWinEObilVH2rdPtop83WBj6hu9@vger.kernel.org, AJvYcCX52jR8VfIQrbEtx3spW+rzY/CX3RmwjvBNWepLZDB+LTKytULXOfE45EulhRI24AyuZQM=@vger.kernel.org, AJvYcCXrKKUYGU91ltUYwlvveMm0jPs8QY79pD+PPbrbGxFoEdQ6/7nogrzHz8oJFHVmg3W/SkYdS5xd@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy71pFyZNLU6R36Qe4VCP9tZLuYS/idH5gV8GnmKhBOz6tAGo0Q
-	0yybyVlA4xga7vUpG339ZUvvc5Z08CWBSWt0x6EUtrKwE5/QP7Wl
-X-Gm-Gg: ASbGncu4KOpJYTW6w8+crEAMbINgJOEz0I2rgFL1dVXgXUYiErDPQnu7QWR6TpJk9rY
-	ALaCMk2eN6yUxoVpFt5+AyFSSJzCGdmPnW0jt0GEXm5YYCF7bOftpQ5CguNSU46wPIgO8RRqnh7
-	x4sUJ3/jCw+10JZC3x1wVqw8bUfPUmDV0T1nyzdllzqqIrfsSEvQA5jGu3ZkhNyqXb+K3vLsibS
-	MbDIh79NL2wN5ZfVHylaSGI4d7Ho8oMKiMZgvZg17Nmbwqh9FpqY1TXSVFCtSdULWd2mkNItCGN
-	EjE/f5P/meTo2xmAVHuK0KrD+eCYaOIYHXIgRwGfnlz5M19dTWX2zAsaxcXXgXIm
-X-Google-Smtp-Source: AGHT+IGOLpw4Ro1gZlLbKLPuJeugBpGxKDyhpAzWxjxf7AIm0WuOoMev7XCdFdyak+Spbs3OpN2AOA==
-X-Received: by 2002:a05:600c:4f47:b0:439:9828:c42c with SMTP id 5b1f17b1804b1-439aebc27cfmr188697005e9.23.1740608953906;
-        Wed, 26 Feb 2025 14:29:13 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ab37403cfsm55655745e9.1.2025.02.26.14.29.12
+        d=1e100.net; s=20230601; t=1740609699; x=1741214499;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Qbf6pdMB9rWRlTmv9kPhr5EySnUr/WkW64EZ9c1V2N0=;
+        b=WGQyZyw30X3+auAS53PSB4nZPtbYy+yigngHGLWngnc8kbKWIof1Th5m7ujRRJQ0g1
+         99T75Nw8rNwCdP48Yu2JWGnrxh/fpxIFWCD9jq96154Hnz9hGNk/aA/E6jbqAJiWnznS
+         hwJevqEw1/KoI2eRVnhJTLgGJ/NAvakqGidcOxlwxecG7uC6YsiZspPIfqVOI4fNEFPW
+         XVjqywdgAIrbE8iUzypD7jfqCILdYLQN2rU/OGTuLMBzI9IaJa+DQC+xnk5SjOZA29JX
+         6lEOXTMDJns/k/ryQaBhhRj6TS1AP7el5Irc6UahGvFARfSN0mGhOrJs306qOTWpxp0L
+         SHgg==
+X-Forwarded-Encrypted: i=1; AJvYcCUgm0KH02Dnb2sdxiTi5kZo2gBv3eL79ph/QxT70sPjEJ15wU5Z9PTJShh52+ZUF9CfkSxf2XXKPPjYLYA=@vger.kernel.org, AJvYcCV6Ke53ieK7C8oT0+ie9re2B6KD/HjHSYV824C0tenfLAXMajonOa38xAIplsDc0OYWNelDWpAEXA5c@vger.kernel.org, AJvYcCXC3nvRcbZUEBHLJLV9NzaKrHFD5+6SBaJs05xyZMRiSAaHppVOOOmg+FC/2vdEBxUpg+iA5p9y78pmqhae@vger.kernel.org
+X-Gm-Message-State: AOJu0YyPrBHReH4K2naIZmyacrI2kPAwsXq9pVva1NDG6jESiMZrJ6bX
+	yJlE/8UxIheinvXMnpXCzbrgNK+Fx6j22iF2PneVqJRAo/eXTT6N
+X-Gm-Gg: ASbGncspw/U1baou43f7z4+1WT4CFxXjDqGoME4kqHEby62SEWnWuL2O2CEestSpTB2
+	4ZDSnugLQdyXUigeHpPv6O6cxnOg9SZ3vFikkZCT4JHWEHZKBfWQaaDlaFJ+G4FIS+fiVSXeCuL
+	TFD1Y7bfAr/kVMYvb6mrmLRdc4hqG6unQUqZKVA29Ady+gH3PPh/itYZE9hJb5UYzFMDTvd7Hjl
+	VE7++rOmtu1VtJH7qlMrV/RsqhyyffNA+OxdYEq2t15/4NDluOLbnJmTh1mF4a55dGrTMC36F2x
+	6ETLOwoNpamlVw5gIKhSWxTG0pfHLCIfNRV1mBtMVY0FlaKCtRWKrfvUEIyzo/YkefHzvSo7TkR
+	4vRatlQ==
+X-Google-Smtp-Source: AGHT+IEzn/PG+RBqyb/tDnoYBHFaH7nC7MSNsCeG4Y6DHN/r5jkgDjgEjr6TLU5Kc6SwRg6WlTBCaw==
+X-Received: by 2002:a05:620a:1712:b0:7c0:af16:b4a8 with SMTP id af79cd13be357-7c0ceee5300mr1331316285a.3.1740609698879;
+        Wed, 26 Feb 2025 14:41:38 -0800 (PST)
+Received: from ?IPv6:2600:1002:a012:8f2c:b83e:9ea7:2886:546f? ([2600:1002:a012:8f2c:b83e:9ea7:2886:546f])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c378d9fe6dsm15570485a.77.2025.02.26.14.41.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Feb 2025 14:29:13 -0800 (PST)
-Date: Wed, 26 Feb 2025 22:29:11 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
- x86@kernel.org, jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dmitry.torokhov@gmail.com,
- mchehab@kernel.org, awalls@md.metrocast.net, hverkuil@xs4all.nl,
- miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
- louis.peens@corigine.com, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@google.com, pabeni@redhat.com,
- parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
- johannes@sipsolutions.net, gregkh@linuxfoundation.org,
- jirislaby@kernel.org, akpm@linux-foundation.org, hpa@zytor.com,
- alistair@popple.id.au, linux@rasmusvillemoes.dk,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
- linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- linux-input@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
- linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
- Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
-Message-ID: <20250226222911.22cb0c18@pumpkin>
-In-Reply-To: <Z7zIBwH4aUA7G9MY@thinkpad>
-References: <20250223164217.2139331-1-visitorckw@gmail.com>
-	<20250223164217.2139331-3-visitorckw@gmail.com>
-	<Z7zIBwH4aUA7G9MY@thinkpad>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        Wed, 26 Feb 2025 14:41:37 -0800 (PST)
+Message-ID: <69cb2e95c291f17cff42b45e7c871f30a85c060d.camel@gmail.com>
+Subject: Re: [PATCH v2 1/2] media: dt-bindings: Add dt bindings for
+ m2m-deinterlace device
+From: Matthew Majewski <mattwmajewski@gmail.com>
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh@kernel.org>,  Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Hans Verkuil	 <hverkuil@xs4all.nl>, "Dr. David Alan
+ Gilbert" <linux@treblig.org>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Uwe Kleine-Konig <u.kleine-koenig@baylibre.com>, Andrzej Pietrasiewicz
+ <andrzejtp2010@gmail.com>, devicetree@vger.kernel.org,
+ linux-media@vger.kernel.org, 	linux-kernel@vger.kernel.org
+Date: Wed, 26 Feb 2025 17:41:35 -0500
+In-Reply-To: <20250218-eggplant-skylark-of-swiftness-dcf6ba@krzk-bin>
+References: <20250214231759.119481-1-mattwmajewski@gmail.com>
+	 <20250214231759.119481-2-mattwmajewski@gmail.com>
+	 <20250218-eggplant-skylark-of-swiftness-dcf6ba@krzk-bin>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
 
-On Mon, 24 Feb 2025 14:27:03 -0500
-Yury Norov <yury.norov@gmail.com> wrote:
-....
-> +#define parity(val)					\
-> +({							\
-> +	u64 __v = (val);				\
-> +	int __ret;					\
-> +	switch (BITS_PER_TYPE(val)) {			\
-> +	case 64:					\
-> +		__v ^= __v >> 32;			\
-> +		fallthrough;				\
-> +	case 32:					\
-> +		__v ^= __v >> 16;			\
-> +		fallthrough;				\
-> +	case 16:					\
-> +		__v ^= __v >> 8;			\
-> +		fallthrough;				\
-> +	case 8:						\
-> +		__v ^= __v >> 4;			\
-> +		__ret =  (0x6996 >> (__v & 0xf)) & 1;	\
-> +		break;					\
-> +	default:					\
-> +		BUILD_BUG();				\
-> +	}						\
-> +	__ret;						\
-> +})
-> +
+Hi Krzysztof,
 
-You really don't want to do that!
-gcc makes a right hash of it for x86 (32bit).
-See https://www.godbolt.org/z/jG8dv3cvs
+On Tue, 2025-02-18 at 09:30 +0100, Krzysztof Kozlowski wrote:
+> On Fri, Feb 14, 2025 at 06:17:58PM -0500, Matthew Majewski wrote:
+> > Create a new yaml schema file to describe the device tree bindings
+> > for
+> > generic m2m-deinterlace device.
+> >=20
+> > This device is supported on any hardware that provides a MEM_TO_MEM
+>=20
+> Which device? I don't see here any device name/model.
 
-You do better using a __v32 after the 64bit xor.
+By "device" I am referring to the m2m-deinterlace device, which I
+explained is a quasi-virtual device. If this is confusing wording I can
+change.=20
 
-Even the 64bit version is probably sub-optimal (both gcc and clang).
-The whole lot ends up being a bit single register dependency chain.
-You want to do:
-	mov %eax, %edx
-	shrl $n, %eax
-	xor %edx, %eax
-so that the 'mov' and 'shrl' can happen in the same clock
-(without relying on the register-register move being optimised out).
+> I asked to provide here some examples of devices.
 
-I dropped in the arm64 for an example of where the magic shift of 6996
-just adds an extra instruction.
+As I wrote, supported devices/hardware is anything that provides a
+MEM_TO_MEM capable dma-controller with interleaved transfer support. I
+did not list specific devices because the bindings are supposed to be
+generic, as they are not describing actual silicon. But if you want me
+to list some devices which provide a compatible dma-controller, here
+are devices I found in the current mainline kernel:
 
-	David
+- TI OMAP Soc Family
+- TI Davinci Soc Family
+- TI Keystone Processor Family
+- IMX27 Processor and variants
+- Several Microchip Processors (sama5, sam9x7, sam9x60)
+
+As I mentioned in my original email, I have personally tested on a
+BeagleBone Black with an AM335X OMAP processor. There are likely many
+more devices with compatible dma-controllers that could be supported
+with additional dmaengine driver support.=20
 
 
+> > capable dma channel with interleaved trasfer support. Device tree
+> > bindings are for providing appropriate dma channel to device.
+>=20
+> Don't describe what DT is, but the hardware.
+>=20
+
+Ok, will remove reference to DT.
+
+> > +description: |-
+> > +=C2=A0 A generic memory2memory device for deinterlacing video using
+> > dmaengine. It can
+> > +=C2=A0 convert between interlaced buffer formats and can convert
+> > interlaced to
+> > +=C2=A0 progressive using a simple line-doubling algorithm. This device
+> > can be used on
+> > +=C2=A0 any hardware that provides a MEM_TO_MEM capable dma controller
+> > that supports
+> > +=C2=A0 interleaved transfers.
+>=20
+> And how do you program that device to deinterlace? How do you signal
+> end
+> of frame/data when writing to the memory?
+>=20
+> It still looks all this is for driver :/
+>=20
+
+All of the deinterlacing is handled by the dma channel. To simplify a
+bit, m2m-deinterlace basically just translates video format information
+into appropriate interleaved dma transfers. Everything else (and
+everything hardware specific) is handled by the dma engine, such as
+initiation and signaling completion of transfers.=20
+
+I think an appropriate analogy for m2m-deinterlace would be spi-gpio.
+Since spi-gpio leverages gpio for bitbanging the spi protocol, the
+bindings do not need to describe any clocks, spi-controller registers,
+etc. All of the hardware specific components are abstracted away by the
+gpio controller. But the spi-gpio bindings still exist to specify which
+gpios are used.
+
+Best,
+Matthew
 
