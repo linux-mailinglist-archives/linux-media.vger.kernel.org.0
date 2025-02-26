@@ -1,145 +1,184 @@
-Return-Path: <linux-media+bounces-26997-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26998-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E232DA45858
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 09:32:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B409A4588B
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 09:39:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8CFE318924B2
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 08:32:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C682C1739BA
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 08:39:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C93720F07F;
-	Wed, 26 Feb 2025 08:31:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5EF91E1DF3;
+	Wed, 26 Feb 2025 08:39:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fQbvmHo/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E853258CD6;
-	Wed, 26 Feb 2025 08:31:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99531E1E05
+	for <linux-media@vger.kernel.org>; Wed, 26 Feb 2025 08:39:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740558692; cv=none; b=a2mDQBKnGPsDXHisHRpVkDeXF0qBjX8j/Zc0BWsfZxs3/RaxevyzwUbc/ezwBcrKGkFcRz4ZvMVf/VTfkTiqJCJHKUs4hxqCIqrAyeFZRk7mWRx24jSfFbTQltNUiJeEumGBL39Z55OoNHITW1RLJCdbCeSUCFuvipjvL8LvW6E=
+	t=1740559165; cv=none; b=dcOtMzw/jPsx2MTnDIRcHvHXwudpGhDcX8boUlZnmnDTuEsqvIFygByZ9HI+s9rCyNsEJgdaMxTY10mPO6XzgJ5F7PdIQVvGri6A8sQKTo0WDcKQmYtd5uUsW6CuntYcVPqv7CZ99APwH6bDOkxtv//DC37Ubeqic3LthNqddT0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740558692; c=relaxed/simple;
-	bh=6XNo8P+FKxyALAhfjYA6qOJ2JsHfwQKHf8trMp2xZ7s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iGWaW0WD8mOlFzJtO7+EMGgELkQjk4ln+FMuFfYXX9pl2c0WRVocdlCXyGXAp1YjaIBKksuda8raRGIKUlMxnObXUKqpA8+hFVjsaidkAyID2k+DRFOXxz/xxae9m5qnyxNrStA3UA+3C3M0mVDeKxhBcoXiyDEASBtaAcTOJws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93055C4CED6;
-	Wed, 26 Feb 2025 08:31:26 +0000 (UTC)
-Message-ID: <a8a6c8c8-ee3b-422a-8573-a2cbb61fc3aa@xs4all.nl>
-Date: Wed, 26 Feb 2025 09:31:24 +0100
+	s=arc-20240116; t=1740559165; c=relaxed/simple;
+	bh=ckIMAkd1mdrkKdpy8pa4iE8VAlRLqejCbk7dhqSNWr4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cYWgRRTn0Y3fNI9YlLiXMCuFEEDgEWSgw4QUvPlQhR8MveDjEc5AV2D7oxAqK6SR8CFLQRJ2J9XXeA9I4T7ITzImC1gqKjgoIyFQGhyA9Y7vFcnhC7J8ra3zZrUwvnw6ma8vSIJ4FW5W40oiGRY8c0SPZNW8UcQITUNVswRQyA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fQbvmHo/; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740559163; x=1772095163;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ckIMAkd1mdrkKdpy8pa4iE8VAlRLqejCbk7dhqSNWr4=;
+  b=fQbvmHo/U5A2QwWxcUkCBeoNR6UZlMNcyGcmknrZIqxO+JQxLpxUxxr4
+   QkuMwtdr64J3fA/LRLYUtI5z8+jl4Zns/Da1ENRqRduiT3C1WgjKgA0gF
+   7+JESj3AH6hgb1uSz2e9ruCLNsKeU55p6uGuYokJ1KStnbq+Bv+M6Nqow
+   ADaer3YBiZeSqNVwKGbSQuq1L23I6ZFV2hOOCric4jJbICtGLELPzcEsG
+   WKgDRra+Wh1xAjZNzIrRbNQRFoaHeE8eXVKsENSsY2ZTIYe1VjG7Dg3YU
+   YTtTTJxTHv7FAW3qoWa4Pd6uLvPlWOI30h68i0GyNYGlyU5DfXZR7BEwu
+   Q==;
+X-CSE-ConnectionGUID: 4+wkhUEGTS6eddgeFR8J9g==
+X-CSE-MsgGUID: YXL+6egURmyhKZGO87IBnw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="40575530"
+X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
+   d="scan'208";a="40575530"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 00:39:22 -0800
+X-CSE-ConnectionGUID: hFC06OuUSHmh92C1OuwlJg==
+X-CSE-MsgGUID: +/TB2GptTlCLwK0F0iXCPQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
+   d="scan'208";a="121639392"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 00:39:19 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id C489611F944;
+	Wed, 26 Feb 2025 10:39:17 +0200 (EET)
+Date: Wed, 26 Feb 2025 08:39:17 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Bingbu Cao <bingbu.cao@linux.intel.com>
+Cc: linux-media@vger.kernel.org, stanislaw.gruszka@linux.intel.com,
+	bingbu.cao@intel.com, Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH 1/1] media: ipu6: Drop unused ipu6_dma_get_sgtable()
+Message-ID: <Z77TNQm5mxPa__FA@kekkonen.localdomain>
+References: <20250225094532.40678-1-sakari.ailus@linux.intel.com>
+ <76556647-505b-1cea-7ae8-5f17873cf161@linux.intel.com>
+ <Z77JiXJ2kyLSOuPi@kekkonen.localdomain>
+ <305da783-fffd-76b4-5154-c9b2692fd2ac@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 6/6] arm64: defconfig: Enable Synopsys HDMI receiver
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Shreeya Patel <shreeya.patel@collabora.com>, Heiko Stuebner
- <heiko@sntech.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, jose.abreu@synopsys.com,
- nelson.costa@synopsys.com, shawn.wen@rock-chips.com,
- nicolas.dufresne@collabora.com,
- Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: kernel@collabora.com, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, Tim Surber <me@timsurber.de>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-References: <20250225183058.607047-1-dmitry.osipenko@collabora.com>
- <20250225183058.607047-7-dmitry.osipenko@collabora.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20250225183058.607047-7-dmitry.osipenko@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <305da783-fffd-76b4-5154-c9b2692fd2ac@linux.intel.com>
 
-On 25/02/2025 19:30, Dmitry Osipenko wrote:
-> From: Sebastian Reichel <sebastian.reichel@collabora.com>
+Hi Bingbu,
+
+On Wed, Feb 26, 2025 at 04:01:16PM +0800, Bingbu Cao wrote:
 > 
-> The Rockchip RK3588 has a built-in HDMI receiver block from
-> Synopsys. Let's enable the driver for it.
+> On 2/26/25 3:58 PM, Sakari Ailus wrote:
+> > Hi Bingbu,
+> > 
+> > On Wed, Feb 26, 2025 at 10:38:25AM +0800, Bingbu Cao wrote:
+> >> Sakari,
+> >>
+> >> On 2/25/25 5:45 PM, Sakari Ailus wrote:
+> >>> ipu6_dma_get_sgtable() is now unused. Drop it.
+> >>>
+> >>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> >>> ---
+> >>>  drivers/media/pci/intel/ipu6/ipu6-dma.c | 33 -------------------------
+> >>>  drivers/media/pci/intel/ipu6/ipu6-dma.h |  3 ---
+> >>>  2 files changed, 36 deletions(-)
+> >>>
+> >>> diff --git a/drivers/media/pci/intel/ipu6/ipu6-dma.c b/drivers/media/pci/intel/ipu6/ipu6-dma.c
+> >>> index 44e24da33907..052e396a28af 100644
+> >>> --- a/drivers/media/pci/intel/ipu6/ipu6-dma.c
+> >>> +++ b/drivers/media/pci/intel/ipu6/ipu6-dma.c
+> >>> @@ -455,36 +455,3 @@ void ipu6_dma_unmap_sgtable(struct ipu6_bus_device *sys, struct sg_table *sgt,
+> >>>  	ipu6_dma_unmap_sg(sys, sgt->sgl, sgt->nents, dir, attrs);
+> >>>  }
+> >>>  EXPORT_SYMBOL_NS_GPL(ipu6_dma_unmap_sgtable, "INTEL_IPU6");
+> >>> -
+> >>> -/*
+> >>> - * Create scatter-list for the already allocated DMA buffer
+> >>> - */
+> >>> -int ipu6_dma_get_sgtable(struct ipu6_bus_device *sys, struct sg_table *sgt,
+> >>> -			 void *cpu_addr, dma_addr_t handle, size_t size,
+> >>> -			 unsigned long attrs)
+> >>> -{
+> >>> -	struct device *dev = &sys->auxdev.dev;
+> >>> -	struct ipu6_mmu *mmu = sys->mmu;
+> >>> -	struct vm_info *info;
+> >>> -	int n_pages;
+> >>> -	int ret = 0;
+> >>> -
+> >>> -	info = get_vm_info(mmu, handle);
+> >>> -	if (!info)
+> >>> -		return -EFAULT;
+> >>> -
+> >>> -	if (!info->vaddr)
+> >>> -		return -EFAULT;
+> >>> -
+> >>> -	if (WARN_ON(!info->pages))
+> >>> -		return -ENOMEM;
+> >>> -
+> >>> -	n_pages = PFN_UP(size);
+> >>> -
+> >>> -	ret = sg_alloc_table_from_pages(sgt, info->pages, n_pages, 0, size,
+> >>> -					GFP_KERNEL);
+> >>> -	if (ret)
+> >>> -		dev_warn(dev, "get sgt table failed\n");
+> >>> -
+> >>> -	return ret;
+> >>> -}
+> >>> diff --git a/drivers/media/pci/intel/ipu6/ipu6-dma.h b/drivers/media/pci/intel/ipu6/ipu6-dma.h
+> >>> index b51244add9e6..2882850d9366 100644
+> >>> --- a/drivers/media/pci/intel/ipu6/ipu6-dma.h
+> >>> +++ b/drivers/media/pci/intel/ipu6/ipu6-dma.h
+> >>> @@ -43,7 +43,4 @@ int ipu6_dma_map_sgtable(struct ipu6_bus_device *sys, struct sg_table *sgt,
+> >>>  			 enum dma_data_direction dir, unsigned long attrs);
+> >>>  void ipu6_dma_unmap_sgtable(struct ipu6_bus_device *sys, struct sg_table *sgt,
+> >>>  			    enum dma_data_direction dir, unsigned long attrs);
+> >>> -int ipu6_dma_get_sgtable(struct ipu6_bus_device *sys, struct sg_table *sgt,
+> >>> -			 void *cpu_addr, dma_addr_t handle, size_t size,
+> >>> -			 unsigned long attrs);
+> >>
+> >> ipu6_dma_get_sgtable() is used in downstream PS driver, I don't think it
+> >> is necessary to remove it as it will be hard to integrate with downstream PS
+> >> driver.
+> > 
+> > When will there be an upstream PSYS driver?
+> > 
+> > I suppose you can just as well apply a revert of this patch to your
+> > downstream tree?
+> >
 > 
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  arch/arm64/configs/defconfig | 2 ++
->  1 file changed, 2 insertions(+)
+> Sakari,
 > 
-> diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-> index cb7da4415599..3dccc9e1c4aa 100644
-> --- a/arch/arm64/configs/defconfig
-> +++ b/arch/arm64/configs/defconfig
-> @@ -859,6 +859,8 @@ CONFIG_VIDEO_SAMSUNG_EXYNOS_GSC=m
->  CONFIG_VIDEO_SAMSUNG_S5P_JPEG=m
->  CONFIG_VIDEO_SAMSUNG_S5P_MFC=m
->  CONFIG_VIDEO_SUN6I_CSI=m
-> +CONFIG_VIDEO_SYNOPSYS_HDMIRX=m
-> +CONFIG_VIDEO_SYNOPSYS_HDMIRX_LOAD_DEFAULT_EDID=y
+> I don't think all the OS vendors like this way, it make the downstream
+> development harder. It's a trade-off, I cannot see removing offer any
+> benefits that its side-effect.
 
-I do not believe it is a good idea to default to y for this option.
+I don't think the Linux distro maintainers like downstream drivers at all,
+independently of how many patches they consist of.
 
-The EDID depends on the specific device you make, and you should
-think carefully about whether the default EDID fits the needs of the
-device.
+You could as well move the function to the PSYS driver and use
+find_vm_area(cpu_addr) instead to find the area.
 
-So if you want the default EDID, then you should manually select it
-and not have it autoselected.
-
+-- 
 Regards,
 
-	Hans
-
->  CONFIG_VIDEO_TI_J721E_CSI2RX=m
->  CONFIG_VIDEO_HANTRO=m
->  CONFIG_VIDEO_IMX219=m
-
+Sakari Ailus
 
