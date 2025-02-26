@@ -1,56 +1,87 @@
-Return-Path: <linux-media+bounces-27001-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27002-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4539A458C7
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 09:49:29 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81460A45908
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 09:54:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DE78F7A40AE
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 08:48:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3B94F18910E8
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 08:54:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD5CC20DD7A;
-	Wed, 26 Feb 2025 08:49:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A5C6226D1B;
+	Wed, 26 Feb 2025 08:52:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jxzeTuEh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Jr4Wb4d0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6270F1A5BA0;
-	Wed, 26 Feb 2025 08:49:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE34224E013;
+	Wed, 26 Feb 2025 08:52:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740559759; cv=none; b=pYbK4SyBdgG9c+QdoR7TjhiEkop32D3D0+cjVXMX6RzOEcFfPLyA2eGfM35Mj1Iyljp1G4ppNrSaOl520cmnUVABSubi60Edh7tWZnoxRekKoihId7oAfmBKaIPp9fGf6DJ0p9YDjLl71NKZETcp3VjA2wOZsGoMlfbvxlEgG+I=
+	t=1740559977; cv=none; b=CcyWaL0IohxXgbEk86l+JaIyaxeZjJLvqAvppcZwjnVWPBT8PeGsmbbAEbHNvI6erJlmJBnyDvj64K4d9SMo37mTsJW25RBPZoqZT45VLAb7ABKqQvPFd4Tsww6IfA12PeyS13cXsFnCmTXqhW40PsKKDjgEBlsjFDV7CypC6u4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740559759; c=relaxed/simple;
-	bh=GZU93GuKJIpFBlwgWh+llyo6u7uHzEINyAi3nPlwXUY=;
+	s=arc-20240116; t=1740559977; c=relaxed/simple;
+	bh=sWyxuVp5GIn2PyGiKOrfhffWXLzuRAsQpL6ER1bVxKA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=O0bSWA2XcOEGWy0adKdT33ap0ULWvY/8CHVJOVSJ5lztq81gYURJItWTlySmuvUhmkbe94uuTvr9B9nvr8FRL4614qcJhRWlx09lfdiUczFVbSPByaSJ/aMVsVJJJxI7Ltx7WCH0dmRjf+fHppueihIsdS7G5tO9abW8KXaqgOI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jxzeTuEh; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pyrite.rasen.tech (unknown [IPv6:2404:7a81:160:2100:c539:d123:6770:2110])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EFF9022A;
-	Wed, 26 Feb 2025 09:47:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1740559667;
-	bh=GZU93GuKJIpFBlwgWh+llyo6u7uHzEINyAi3nPlwXUY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jxzeTuEhvTv0ndVVlS6KMPosDbk0rnLdjJcpn3L1yC0j2oOy/o0n0a/TevmFSURXn
-	 oMbqnKgSDSMwgyyxLq94UwWGBb7nZAHiKxaJ3TdJFNaVHU4WHhvs4Wdga0ixC/1o78
-	 62rl7aXZGKCq5HwABemop1ai6BC+USk8gjN9Qrfo=
-Date: Wed, 26 Feb 2025 17:49:07 +0900
-From: Paul Elder <paul.elder@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, kieran.bingham@ideasonboard.com,
+	 Content-Type:Content-Disposition:In-Reply-To; b=H+4yDl+h609oNIjHuqq9zhGMRbLcVrUVhflawk7tDG7iXpRqpfykhRL+1y9iESOxl822CQCbyaGyy6T8KwATW7cZOA7OfdF937xeL0bAxTEgcBOUqvJIVl/876MHqTnfeUiP7Ju0MNqWN3vz4p5F6n6cz+AL+KsowRXPljq9YVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Jr4Wb4d0; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740559976; x=1772095976;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sWyxuVp5GIn2PyGiKOrfhffWXLzuRAsQpL6ER1bVxKA=;
+  b=Jr4Wb4d0D/qLlAlhvSJDGBEUQlVUZQvPJO8iKZCB5VknhlBpXmgz3R+J
+   WkRgALVFdCSOk7GfDxupCewV+SsI22WQHr7ziagigW0jCqlTnAqv+KdN7
+   O1+uIPIVsUDyobrLzlVPgYkFxd4eKaGF1xr5J2PoM/5hT/Cw89hH7Cgii
+   +fdE6+OanyU1gXfHuJ8JUTT8Nma/qN+6cUOL6JbbRwOz2Fdpi966BwbJw
+   7m9H0stkSCLcSxG1PSivgjOU1qxEr49dzC6QM3gcBcvUBNhdCKxZkOwU1
+   maUZxcoMHytEjUXYcEIYnIl9eE3O4ebnhCUKjvxxnMiQIOI+Z16wa+9bf
+   Q==;
+X-CSE-ConnectionGUID: LX7TBp9rQ92Qm8arGbVupQ==
+X-CSE-MsgGUID: 9wmnfeQPSfyt5QoePRivFQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="52389684"
+X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
+   d="scan'208";a="52389684"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 00:52:55 -0800
+X-CSE-ConnectionGUID: Ij3kjip9SWyZdE5qJLB6Tw==
+X-CSE-MsgGUID: Pr4CVODQQOSIt8dTwipeBQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
+   d="scan'208";a="117128677"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Feb 2025 00:52:52 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id AF9D911F944;
+	Wed, 26 Feb 2025 10:52:49 +0200 (EET)
+Date: Wed, 26 Feb 2025 08:52:49 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH] media: imx335: Set vblank immediately
-Message-ID: <Z77Vg7zcnj_5a-0s@pyrite.rasen.tech>
-References: <20250214133709.1290585-1-paul.elder@ideasonboard.com>
- <Z7G3d_zEhqDuepNM@kekkonen.localdomain>
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 5/6] media: i2c: imx219: Report streams using frame
+ descriptors
+Message-ID: <Z77WYcoV1MhWrpV3@kekkonen.localdomain>
+References: <20250220230818.275262-1-demonsingur@gmail.com>
+ <20250220230818.275262-6-demonsingur@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,81 +90,27 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z7G3d_zEhqDuepNM@kekkonen.localdomain>
+In-Reply-To: <20250220230818.275262-6-demonsingur@gmail.com>
 
-Hi Sakari,
+Hi Cosmin,
 
-Thanks for the review.
-
-On Sun, Feb 16, 2025 at 10:01:27AM +0000, Sakari Ailus wrote:
-> Hi Paul,
+On Fri, Feb 21, 2025 at 01:08:13AM +0200, Cosmin Tanislav wrote:
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
-> On Fri, Feb 14, 2025 at 10:37:09PM +0900, Paul Elder wrote:
-> > When the vblank v4l2 control is set, it does not get written to the
-> > hardware immediately. It only gets updated when exposure is set. Change
-> > the behavior such that the vblank is written immediately when the
-> > control is set.
-> > 
-> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> > ---
-> >  drivers/media/i2c/imx335.c | 19 +++++++++++++------
-> >  1 file changed, 13 insertions(+), 6 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-> > index fcfd1d851bd4..e73a23bbbc89 100644
-> > --- a/drivers/media/i2c/imx335.c
-> > +++ b/drivers/media/i2c/imx335.c
-> > @@ -559,12 +559,12 @@ static int imx335_set_ctrl(struct v4l2_ctrl *ctrl)
-> >  			imx335->vblank,
-> >  			imx335->vblank + imx335->cur_mode->height);
-> >  
-> > -		return __v4l2_ctrl_modify_range(imx335->exp_ctrl,
-> > -						IMX335_EXPOSURE_MIN,
-> > -						imx335->vblank +
-> > -						imx335->cur_mode->height -
-> > -						IMX335_EXPOSURE_OFFSET,
-> > -						1, IMX335_EXPOSURE_DEFAULT);
-> > +		 __v4l2_ctrl_modify_range(imx335->exp_ctrl,
+> Implement the .get_frame_desc() subdev operation to report information
+> about streams to the connected CSI-2 receiver. This is required to let
+> the CSI-2 receiver driver know about virtual channels and data types for
+> each stream.
 > 
-> Indentation.
-> 
-> You're also missing an error check here.
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-I reasoned that it's fine to not have the error check.
+In addition to this, the idea has been that the set_frame_desc() could be
+used to set aspects of the frame descriptor. My thinking has been that you
+could modify the entries, up to the degree supported by the driver, but not
+add or remove them. This should be properly documented in v4l2-subdev.h.
 
-afaiu, the only change this has to error is if try/s_ctrl on
-V4L2_CID_EXPOSURE fails when the change to the range of valid exposure
-values requires a new exposure value to be set. Setting the exposure
-control comes back to this function, and goes through the switch-case
-and imx335_update_exp_gain() below, which doesn't fail.
+-- 
+Regards,
 
-Also the imx219 has the exact same pattern in imx219_set_ctrl.
-
-
-Thanks,
-
-Paul
-
-> > +					  IMX335_EXPOSURE_MIN,
-> > +					  imx335->vblank +
-> > +					  imx335->cur_mode->height -
-> > +					  IMX335_EXPOSURE_OFFSET,
-> > +					  1, IMX335_EXPOSURE_DEFAULT);
-> >  	}
-> >  
-> >  	/*
-> > @@ -575,6 +575,13 @@ static int imx335_set_ctrl(struct v4l2_ctrl *ctrl)
-> >  		return 0;
-> >  
-> >  	switch (ctrl->id) {
-> > +	case V4L2_CID_VBLANK:
-> > +		exposure = imx335->exp_ctrl->val;
-> > +		analog_gain = imx335->again_ctrl->val;
-> > +
-> > +		ret = imx335_update_exp_gain(imx335, exposure, analog_gain);
-> > +
-> > +		break;
-> >  	case V4L2_CID_EXPOSURE:
-> >  		exposure = ctrl->val;
-> >  		analog_gain = imx335->again_ctrl->val;
+Sakari Ailus
 
