@@ -1,64 +1,48 @@
-Return-Path: <linux-media+bounces-26993-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26994-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 300D9A454FC
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 06:47:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3D7A45676
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 08:14:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D4BCB189B733
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 05:47:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 063003AAA40
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 07:14:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CABC25D55A;
-	Wed, 26 Feb 2025 05:47:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D6A226BDA1;
+	Wed, 26 Feb 2025 07:14:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="vOOSVL9y"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c9xkau5H"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 734887DA73;
-	Wed, 26 Feb 2025 05:46:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91BD01993B1;
+	Wed, 26 Feb 2025 07:14:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740548820; cv=none; b=PVC4TmKZBbfyBp/DiVI8l1EkHiKb/pQPtnLcOdZa5+Fzr6IKT7G9pQ8LKbgTnME4zjiLZROi1V/Xro1A2jfJtzafuJtk8Tlvxzoj8gYnbZ/ziGm47iGhyQmFnJlsK4TjBiKfFRRHTC7m8DHeVoUqlkKliVqtVEEJZxB2WCQPX6U=
+	t=1740554067; cv=none; b=O89MPQYKmIbU05RYMagaa9yF7rRBE2NK2giI4EXLOaIdfXfe2ahwJUm8mhfgqWA7o5XZnH5BEo4mOp61ES9bqhLFx8rtVx0BgP5S7GNdDfHqRnXjz6+L/Yq4d4ZccVtQiggglZ+Eh3Qfe+Pn5ryeukO9FQE/roNXKLV60WKEFBM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740548820; c=relaxed/simple;
-	bh=AZ7O3bxN7sqRLstDWEOPNtsSOprnvKayaUyZiiYaJxk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=gjUhtX29ZkzOmioOg78Rn3SHtQwfzarSqkSkteu/XXZuAmOXb4qRqHrXX1U94dBNE0OiYIFXWAbweWqzrQqxsUNPS5r9p3Oc/og8er8UUP42parnqW3hxXbgY7eBK0DqOQeaqzvrROt09imd1hIe/OsAy9FmOK0BO5IwPE1NMlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=vOOSVL9y; arc=none smtp.client-ip=198.47.19.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 51Q5kn3Y1374760
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 25 Feb 2025 23:46:49 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1740548809;
-	bh=xbRkT+xuVxDxRQSUMfHlXdaittfUN3ZCxDXCGk6mGlg=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=vOOSVL9yFwKaiD5JqCFiuo0wfjjgpTruAeFOhJTGvQWfyREBZpXpw2IPeDUnGUws2
-	 ZCrnen/O7K4mtKFku2xwvCClU36mY3VQUeu+mMxn6+LcTrDZ197r9jqBtoBjhrKSuh
-	 wSpI4BbDLLI+vo8WCz+v//uxs8yys2YmOzAucJIE=
-Received: from DFLE104.ent.ti.com (dfle104.ent.ti.com [10.64.6.25])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 51Q5knYN102364
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 25 Feb 2025 23:46:49 -0600
-Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 25
- Feb 2025 23:46:49 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 25 Feb 2025 23:46:49 -0600
-Received: from [172.24.227.115] (abhilash-hp.dhcp.ti.com [172.24.227.115])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 51Q5kjOW030893;
-	Tue, 25 Feb 2025 23:46:46 -0600
-Message-ID: <ec20238c-1cd1-493b-8df5-5be055576f14@ti.com>
-Date: Wed, 26 Feb 2025 11:16:44 +0530
+	s=arc-20240116; t=1740554067; c=relaxed/simple;
+	bh=lQkzvtRW6Jq4FuyRixXr8DUVI6AFJhoAhKyzE5400LQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ftl+Sg/WlN61ekFMAgp0leX83VZZh3QC3ZXyFbYuxeI4ewWhPH+JzNiflef39mFFAy/DNpm1kS9EpRK/TnZsx47XEAmyBAWC/Ffp1EzymADbB6BTyInjkbYUP5mbkVMKyyEUw6KaavOtWf1ja9+6EsKBQrKn/aaynhF6jYrkE1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c9xkau5H; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 438FBC4CED6;
+	Wed, 26 Feb 2025 07:14:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1740554067;
+	bh=lQkzvtRW6Jq4FuyRixXr8DUVI6AFJhoAhKyzE5400LQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=c9xkau5HstyyjAg+iCdOXFOoMRN9gnbT8mNRacDl1qqOOEr2Pq8Bc3D7hnNRKDz/L
+	 Tu9ZvDrY/wElfwtV1neqWspf8wbf4oC2L/j+OEvpjw/goqGU26MmrFZ9Oc2pJ6Hs0B
+	 72RYUhuo2JcIrJxETLtfaIqRY49WkLjZ1zEMNhnoqjDdkXTBqXJru/B9qDLncNi/Eb
+	 e2nVCZsoZ66fneV3XoE/ALeo1pAmgwoXp6eKOoa7e18dlurjsRFLv0hSmH7K3QK9sS
+	 SQbIpkVIf/syJfo7iHK93LiG8SEzI5DMNZfERkxh5iXkxNV5JkYSnyoqdg3SAM/shb
+	 3hDZQq7nH9bkw==
+Message-ID: <b5236ae4-7ebe-4a88-bbc9-3b9b3374de53@kernel.org>
+Date: Wed, 26 Feb 2025 08:14:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,128 +50,123 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/2] dt-bindings: media: cdns,csi2rx.yaml: Add optional
- interrupts for cdns-csi2rx
-To: Jai Luthra <jai.luthra@linux.dev>,
-        "krzk+dt@kernel.org"
-	<krzk+dt@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <mripard@kernel.org>,
-        <mchehab@kernel.org>, <robh@kernel.org>, <conor+dt@kernel.org>,
-        <devarsht@ti.com>, <vaishnav.a@ti.com>, <r-donadkar@ti.com>,
-        <u-kumar1@ti.com>
-References: <20250221120337.3920874-1-y-abhilashchandra@ti.com>
- <20250221120337.3920874-2-y-abhilashchandra@ti.com>
- <3fzkpcdjsthw5lbajxp6zyiyejo45rcgt3gwjfu2bub3v3acpa@kow5blexev5u>
+Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
+To: Kuan-Wei Chiu <visitorckw@gmail.com>, Yury Norov <yury.norov@gmail.com>
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
+ eajames@linux.ibm.com, andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+ rfoss@kernel.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
+ hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
+ vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+ johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+ akpm@linux-foundation.org, hpa@zytor.com, alistair@popple.id.au,
+ linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
+ jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
+ linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+ dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+ oss-drivers@corigine.com, netdev@vger.kernel.org,
+ linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+ brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+ bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ Yu-Chun Lin <eleanor15x@gmail.com>
+References: <20250223164217.2139331-1-visitorckw@gmail.com>
+ <20250223164217.2139331-3-visitorckw@gmail.com> <Z7zIBwH4aUA7G9MY@thinkpad>
+ <Z73FxIv353lbXO3A@visitorckw-System-Product-Name>
 Content-Language: en-US
-From: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-In-Reply-To: <3fzkpcdjsthw5lbajxp6zyiyejo45rcgt3gwjfu2bub3v3acpa@kow5blexev5u>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+From: Jiri Slaby <jirislaby@kernel.org>
+Autocrypt: addr=jirislaby@kernel.org; keydata=
+ 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
+In-Reply-To: <Z73FxIv353lbXO3A@visitorckw-System-Product-Name>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Hi Jai,
-Thanks for the detailed review for the patch series.
-
-On 24/02/25 12:50, Jai Luthra wrote:
-> Hi Abhilash,
-> 
-> Thanks for the patch.
-> 
-> On Fri, Feb 21, 2025 at 05:33:36PM +0530, Yemike Abhilash Chandra wrote:
->> The Cadence CSI2RX IP exposes 2 interrupts [0] 12.7 camera subsystem.
->> Enabling these interrupts will provide additional information about a CSI
->> packet or an individual frame. So, add support for optional interrupts
->> and interrupt-names properties.
->>
->> [0]: http://www.ti.com/lit/pdf/spruil1
->>
->> Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
->> Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->> ---
->>
->> Changes in v3:
->> - Address Krzysztof's review comment to drop minItems from the bindings.
->> - Collect Acked-by from Krzysztof.
->>
->>   Documentation/devicetree/bindings/media/cdns,csi2rx.yaml | 8 ++++++++
->>   1 file changed, 8 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml b/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
->> index 2008a47c0580..e8d7eaf443d1 100644
->> --- a/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
->> +++ b/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
->> @@ -24,6 +24,14 @@ properties:
->>     reg:
->>       maxItems: 1
+On 25. 02. 25, 14:29, Kuan-Wei Chiu wrote:
+>> +#define parity(val)					\
+>> +({							\
+>> +	u64 __v = (val);				\
+>> +	int __ret;					\
+>> +	switch (BITS_PER_TYPE(val)) {			\
+>> +	case 64:					\
+>> +		__v ^= __v >> 32;			\
+>> +		fallthrough;				\
+>> +	case 32:					\
+>> +		__v ^= __v >> 16;			\
+>> +		fallthrough;				\
+>> +	case 16:					\
+>> +		__v ^= __v >> 8;			\
+>> +		fallthrough;				\
+>> +	case 8:						\
+>> +		__v ^= __v >> 4;			\
+>> +		__ret =  (0x6996 >> (__v & 0xf)) & 1;	\
+>> +		break;					\
+>> +	default:					\
+>> +		BUILD_BUG();				\
+>> +	}						\
+>> +	__ret;						\
+>> +})
+>> +
+>> +#define parity8(val)	parity((u8)(val))
+>> +#define parity32(val)	parity((u32)(val))
+>> +#define parity64(val)	parity((u64)(val))
 >>   
->> +  interrupts:
->> +    maxItems: 2
->> +
->> +  interrupt-names:
->> +    items:
->> +      - const: irq
->> +      - const: error_irq
->> +
-> 
-> If I test these bindings with only one interrupt (error_irq) defined in the
-> device tree, I get these errors:
-> 
->    DTC [C] arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb
-> /home/darkapex/dev/linux2/out_clang/arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: csi-bridge@30101000: interrupts: [[0, 187, 4]] is too short
->          from schema $id: http://devicetree.org/schemas/media/cdns,csi2rx.yaml#
-> /home/darkapex/dev/linux2/out_clang/arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: csi-bridge@30101000: interrupt-names:0: 'irq' was expected
->          from schema $id: http://devicetree.org/schemas/media/cdns,csi2rx.yaml#
-> /home/darkapex/dev/linux2/out_clang/arch/arm64/boot/dts/ti/k3-am62a7-sk.dtb: csi-bridge@30101000: interrupt-names: ['error_irq'] is too short
->          from schema $id: http://devicetree.org/schemas/media/cdns,csi2rx.yaml#
-> make[1]: Leaving directory '/home/darkapex/dev/linux2/out_clang'
-> 
-> There could be cases where only the error interrupt is integrated by the SoC,
-> and the second interrupt is unconnected. IMHO it would make sense to keep the
-> other interrupt optional:
-> 
+> What do you think about using these inline functions instead of macros?
+> Except for parity8(), each function is a single line and follows the
+> same logic. I find inline functions more readable, and coding-style.rst
+> also recommends them over macros.
 
-Initially, I had the flexibilty, but I removed that based on Krzysztof's
-feedback, I was also not clear how these interrupts are integrated by
-different vendors at that time.
+Not in cases where macros are inevitable. I mean, do we need parityXX() 
+for XX in (8, 16, 32, 64) at all? Isn't the parity() above enough for 
+everybody? And if not, you can have all those parityXX() as inlines as 
+you suggest, but also provide a macro such as the above to call 
+(optimized) parityXX() as per datatype len.
 
-But since this driver is shared among vendors, I think it is better to
-have the flexibility. Since this is a change in dt-bindings I would I 
-like to have Krzysztof's view on this discussion.
-
-> diff --git a/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
-> b/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
-> index e8d7eaf443d1..054ed4b94312 100644
-> --- a/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
-> +++ b/Documentation/devicetree/bindings/media/cdns,csi2rx.yaml
-> @@ -25,12 +25,14 @@ properties:
->       maxItems: 1
-> 
->     interrupts:
-> +    minItems: 1
->       maxItems: 2
-> 
->     interrupt-names:
-> +    minItems: 1
->       items:
-> -      - const: irq
->         - const: error_irq
-> +      - const: irq
-> 
-
-Krzysztof, If you agree to the same I will use the above binidngs in
-next version of the series
-
-Thanks and Regards,
-Yemike Abhilash Chandra.
-
->     clocks:
->       items:
-> 
->>     clocks:
->>       items:
->>         - description: CSI2Rx system clock
->> -- 
->> 2.34.1
->>
+thanks,
+-- 
+js
+suse labs
 
