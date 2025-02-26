@@ -1,184 +1,193 @@
-Return-Path: <linux-media+bounces-26988-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26989-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD394A45093
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 23:56:34 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E749A45179
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 01:31:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9D68116F45B
-	for <lists+linux-media@lfdr.de>; Tue, 25 Feb 2025 22:56:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C09987A6170
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 00:30:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EA41235364;
-	Tue, 25 Feb 2025 22:56:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B46A14900F;
+	Wed, 26 Feb 2025 00:30:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="sRiT5u/F";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mo6A19Mf"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="Vx7b+pHI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C46C023237B;
-	Tue, 25 Feb 2025 22:56:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD9BB4C96;
+	Wed, 26 Feb 2025 00:30:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740524174; cv=none; b=DhvLlnkLvsp+RK8lNOrAL8QGAiM8ezcU/9ZAyf6M1E5qXZB0nUsg6nCqHy53wUi94Kva/tJtB0zqb6G3LvSNezl8B+QWGAOcMLswcsUKTDlUU7th/Hj0au/kjdV98XU1EDxRQ/LM8NDjHNBFCRCNnVVICMuU9Xgk1fc27TaD7dk=
+	t=1740529853; cv=none; b=aWAoFOOo4y+sSEkT3d/YoSHE3rKpNIz60QsbBcvsg+O+U7d47jn+z6BfkAO/ggfZI/wf4bYrnKDU1lOKDVpQ2rtCaDEM9m6WHwE8ocULVWVMvWSxGsPDFopvNE45S+flJxGgGfEgHHPPPSgz1qu6qsoBaLElrRSQuJWD3KEzTU0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740524174; c=relaxed/simple;
-	bh=MLXsjM4OpYPkGdtcQe1WJfFmLK0HKbZxON1wdjGZOE8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SDw9J+BF9zUAHmR4UpH4uCGpwBXkVpzDrvJchi1dOKXBi5KNVvmUkyHsBDpZwrqiL0w+MngSrRJV2HorrcjtExvGtHTkoXRL+I3XfUP5eFcB3VgREXC3tQYbmXx8Ej2T0uKWwGg4JzmiTEx9/2Xb0WVGdcDRELJkNzng5oqW7sE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=sRiT5u/F; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=mo6A19Mf; arc=none smtp.client-ip=202.12.124.147
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfout.stl.internal (Postfix) with ESMTP id 8657A114018F;
-	Tue, 25 Feb 2025 17:56:09 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Tue, 25 Feb 2025 17:56:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1740524169;
-	 x=1740610569; bh=K598ZDf++Qaq8RRv1ivt1GifhME6grtmW2GDDOtSqEY=; b=
-	sRiT5u/FvWW4NmZQx1iSBe7KgVD6a9ZDcsklCaAsUtiwPykwadoR6YCJXluTPRfj
-	khykLO9FeSVCsgNkxAPSxJcte2q8yv0OM9hAdODe/ysIM7GRetxHwSZ9hFAHuCNy
-	QIH/xIXyF/HIjO0Nxk8v7krfvC9v1s1mYjphkGlodRm+Sc2jsrK4meYozWwoQzX9
-	PnmHsxJQ1gEUwdwZoj4fWtFmnAozyYFtGRwgZYETQvbL6RuBe2WlslToP+J052oT
-	wBnCP7EVWKXB04e7A5TgbHD5l31mQhFB4VykOs+FX6ro6rFGUvIxdl2daMyV1b6D
-	Ag9FHsfuJbMPGDbg5SDGTw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1740524169; x=
-	1740610569; bh=K598ZDf++Qaq8RRv1ivt1GifhME6grtmW2GDDOtSqEY=; b=m
-	o6A19Mf71H/0dWgLV2p34JK8b2CJk25P5iX8PYvTyfmLPNFfnbF4iLjmrrQjC6u6
-	yBXxd7xhzFrxzS6MzOl0oG/BTGsCSLTtw/lXjJFsKMu5uHehUi05K11aw24hADPP
-	aL5WGeyXJG2KMBuHVzOVDcDcYArPK/zZ3F72O2Dyy6sPMynNwx80Pk+fFuUlJM4V
-	ZKwBLgsh1DZ0XYnSIl802QQSJZP1h3tHcOFEP2Xf3xz6kKQbLGseCH/QTTue3HQb
-	P6HtTDDCtaT4DSX3WDq8j8/dp3ycBhQOZCJdNd1gmQ+x19/W4RMfR+1ZUnKsUo4H
-	2Ztysx9iWvlKaAjBxzvIA==
-X-ME-Sender: <xms:iUq-Z7iC2c6g9MgtvrLdoi6oHiUZpcznCPbXz7PZzgKWp_GH2IRteQ>
-    <xme:iUq-Z4AUpNehvIF1s5pkAJL0VkA-lIo1Gt_qUlnhZpegUz_nqj39iQrJ8OV8GcId7
-    iXBFiDDTI-jW7F5yus>
-X-ME-Received: <xmr:iUq-Z7ESqBiLEfqlY76Iacf6yhtwhFDjtS8fuYP9WXahhBEGs5Cn8-3KU35x-PBXc3i1E751dB2oq3tNXGnaXQNteAlJEOiqZA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekvdelhecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivg
-    hnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekredttddt
-    jeenucfhrhhomheppfhikhhlrghsucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsoh
-    guvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepveet
-    gedtvddvhfdtkeeghfeffeehteehkeekgeefjeduieduueelgedtheekkeetnecuvehluh
-    hsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhs
-    ohguvghrlhhunhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepjedpmh
-    houggvpehsmhhtphhouhhtpdhrtghpthhtohepjhgrtghophhordhmohhnughiodhrvghn
-    vghsrghssehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlrghurhgvnh
-    htrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtohep
-    khhivghrrghnrdgsihhnghhhrghmodhrvghnvghsrghssehiuggvrghsohhnsghorghrug
-    drtghomhdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgv
-    lhdrohhrghdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvg
-    hlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghr
-    rdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrth
-    dorhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhm
-X-ME-Proxy: <xmx:iUq-Z4Rnan5b3Ch2cS0gU_i3LyWmsjk77fHQI3PPBmZpBvG6AmSIEQ>
-    <xmx:iUq-Z4xvQo5c88fYTtEIWR_rG-KqTejovQsUTj99hPMKjxSpJ2rwcw>
-    <xmx:iUq-Z-7idwCF4A80qDqbnF9fWHAQIiuMa1O1-TB0OYGv-4ERW48MWA>
-    <xmx:iUq-Z9wE8_KnJS0qdqKYEgPjTAnyEEsYpAnNLD-HHVWyoNPN1_uicQ>
-    <xmx:iUq-Z7y-O0Wiqn2xnMvva0lANV8_5T49i8yW9qCUWFLhUtW_Jw4-NyNJ>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 25 Feb 2025 17:56:08 -0500 (EST)
-Date: Tue, 25 Feb 2025 23:56:05 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH v2 0/6] media: renesas: vsp1: Add support for IIF
-Message-ID: <20250225225605.GA2676269@ragnatech.se>
-References: <20250224-v4h-iif-v2-0-0305e3c1fe2d@ideasonboard.com>
+	s=arc-20240116; t=1740529853; c=relaxed/simple;
+	bh=pJ1KehZbitu0kLsVW9eiCKwsgGO686FG7mqY1q5DjlY=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=Bj/BkWhpOHNBlBA53+pOA6qo18/fNedtLDxOoHw8Mu5hRr2L+OzUG5ZgMHIg+GKQfIlUjh9XVH1LTWO12KvIOCE0pF1yN3jMIv58ICnLUWyoNECaHYioNIRP788HMsZKZpgsmEEx2Lh6nN8BRXPtY3EzY50N4mgW+lAIya6UYY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=Vx7b+pHI; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+Received: from [127.0.0.1] ([76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 51Q0Qj6t1485832
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Tue, 25 Feb 2025 16:26:45 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 51Q0Qj6t1485832
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025021701; t=1740529613;
+	bh=/hX8/LeT9m/0VDN5crD4IR806wwsnn6QY9gkxuzs4a0=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=Vx7b+pHI31WYClRevJ90WGCmYkzsC0O4yjSFPubrFkDlFo2vpZqzZ9G40N2ZAk70A
+	 1cQPgYLnd5I5ey7wLfCgJ8Wa0Jqy8sY2mmwkmCFEYEUtcYkP8RXNAjd1Y+xeDCqwyy
+	 AVyJIpfagXD4ZTFbnWuOR5XQI14sBmquPHuWbhW+8b2Y38BEQzTU/x+sgB61KqUTHa
+	 KrIofANBe7vt+iRKzcTlXNAf7DT6yzoW1HRWvAy9pthuwqTbtWlxOjUH2euKtYzuHK
+	 KQskzKcNpxdcsPJFrGasTa7yfZ2Zs9ZcwOmb/PzgE+W9UnEKLynUNcREeGm0XPaNtx
+	 a3lIkp85qLD3w==
+Date: Tue, 25 Feb 2025 16:26:43 -0800
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: David Laight <david.laight.linux@gmail.com>
+CC: Uros Bizjak <ubizjak@gmail.com>, Kuan-Wei Chiu <visitorckw@gmail.com>,
+        tglx@linutronix.de, Ingo Molnar <mingo@redhat.com>, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
+        joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
+        neil.armstrong@linaro.org, rfoss@kernel.org,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+        dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
+        hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
+        vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
+        davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+        parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+        johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+        jirislaby@kernel.org, yury.norov@gmail.com, akpm@linux-foundation.org,
+        mingo@kernel.org, alistair@popple.id.au, linux@rasmusvillemoes.dk,
+        Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+        jernej.skrabec@gmail.com, kuba@kernel.org,
+        linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+        oss-drivers@corigine.com, netdev@vger.kernel.org,
+        linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+        brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+        bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+        Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_03/17=5D_x86=3A_Replace_open-c?=
+ =?US-ASCII?Q?oded_parity_calculation_with_parity8=28=29?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20250225224623.6edaaaa9@pumpkin>
+References: <20250223164217.2139331-1-visitorckw@gmail.com> <20250223164217.2139331-4-visitorckw@gmail.com> <d080a2d6-9ec7-1c86-4cf4-536400221f68@gmail.com> <e0b1c299-7f19-4453-a1ce-676068601213@zytor.com> <20250225224623.6edaaaa9@pumpkin>
+Message-ID: <E07B61E5-324E-4CDC-AE68-A63CDF4325F4@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250224-v4h-iif-v2-0-0305e3c1fe2d@ideasonboard.com>
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Jacopo,
+On February 25, 2025 2:46:23 PM PST, David Laight <david=2Elaight=2Elinux@g=
+mail=2Ecom> wrote:
+>On Mon, 24 Feb 2025 13:55:28 -0800
+>"H=2E Peter Anvin" <hpa@zytor=2Ecom> wrote:
+>
+>> On 2/24/25 07:24, Uros Bizjak wrote:
+>> >=20
+>> >=20
+>> > On 23=2E 02=2E 25 17:42, Kuan-Wei Chiu wrote: =20
+>> >> Refactor parity calculations to use the standard parity8() helper=2E=
+ This
+>> >> change eliminates redundant implementations and improves code
+>> >> efficiency=2E =20
+>=2E=2E=2E
+>> Of course, on x86, parity8() and parity16() can be implemented very sim=
+ply:
+>>=20
+>> (Also, the parity functions really ought to return bool, and be flagged=
+=20
+>> __attribute_const__=2E)
+>>=20
+>> static inline __attribute_const__ bool _arch_parity8(u8 val)
+>> {
+>> 	bool parity;
+>> 	asm("and %0,%0" : "=3D@ccnp" (parity) : "q" (val));
+>> 	return parity;
+>> }
+>>=20
+>> static inline __attribute_const__ bool _arch_parity16(u16 val)
+>> {
+>> 	bool parity;
+>> 	asm("xor %h0,%b0" : "=3D@ccnp" (parity), "+Q" (val));
+>> 	return parity;
+>> }
+>
+>The same (with fixes) can be done for parity64() on 32bit=2E
+>
+>>=20
+>> In the generic algorithm, you probably should implement parity16() in=
+=20
+>> terms of parity8(), parity32() in terms of parity16() and so on:
+>>=20
+>> static inline __attribute_const__ bool parity16(u16 val)
+>> {
+>> #ifdef ARCH_HAS_PARITY16
+>> 	if (!__builtin_const_p(val))
+>> 		return _arch_parity16(val);
+>> #endif
+>> 	return parity8(val ^ (val >> 8));
+>> }
+>>=20
+>> This picks up the architectural versions when available=2E
+>
+>Not the best way to do that=2E
+>Make the name in the #ifdef the same as the function and define
+>a default one if the architecture doesn't define one=2E
+>So:
+>
+>static inline parity16(u16 val)
+>{
+>	return __builtin_const_p(val) ? _parity_const(val) : _parity16(val);
+>}
+>
+>#ifndef _parity16
+>static inline _parity16(u15 val)
+>{
+>	return _parity8(val ^ (val >> 8));
+>}
+>#endif
+>
+>You only need one _parity_const()=2E
+>
+>>=20
+>> Furthermore, if a popcnt instruction is known to exist, then the parity=
+=20
+>> is simply popcnt(x) & 1=2E
+>
+>Beware that some popcnt instructions are slow=2E
+>
+>	David
+>
+>>=20
+>> 	-hpa
+>>=20
+>>=20
+>
 
-Thanks for your work.
+Seems more verbose than just #ifdef _arch_parity8 et al since the const an=
+d generic code cases are the same (which they aren't always=2E)
 
-On 2025-02-24 21:19:40 +0100, Jacopo Mondi wrote:
-> The IIF (ISP InterFace) is a VSP2 function that reads data from
-> external memory using two RPF instances and feed it to the ISP.
-> 
-> The IIF support is modeled in the vsp1 driver as a new, simple,
-> entity type.
-> 
-> IIF is part of VSPX, a version of the VSP2 IP specialized for ISP
-> interfacing. To prepare to support VSPX, support IIF first by
-> introducing a new entity and by adjusting the RPF/WPF drivers to
-> operate correctly when an IIF is present.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> ---
-> Changes in v2:
-> - Collect tags
-> - Address review comments from Laurent, a lot of tiny changes here and
->   there but no major redesign worth an entry in the patchset changelog
+But that part is a good idea, especially since on at least *some* architec=
+tures like x86 doing:=20
 
-I'm still no expert on the VSP1 but the changes looks good, so FWIW.
+#define _arch_parity8(x) __builtin_parity(x)
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+=2E=2E=2E etc is entirely reasonable and lets gcc use an already available=
+ parity flag should one be available=2E
 
-I also tested this with the ISP and it all works as expected,
-
-Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-> 
-> ---
-> Jacopo Mondi (6):
->       media: vsp1: Add support IIF ISP Interface
->       media: vsp1: Clean FRE interrupt status
->       media: vsp1: dl: Use singleshot DL for VSPX
->       media: vsp1: rwpf: Break out format handling
->       media: vsp1: rwpf: Support RAW Bayer and ISP config
->       media: vsp1: rwpf: Support operations with IIF
-> 
->  drivers/media/platform/renesas/vsp1/Makefile      |   2 +-
->  drivers/media/platform/renesas/vsp1/vsp1.h        |   3 +
->  drivers/media/platform/renesas/vsp1/vsp1_dl.c     |   7 +-
->  drivers/media/platform/renesas/vsp1/vsp1_drv.c    |  14 ++-
->  drivers/media/platform/renesas/vsp1/vsp1_entity.c |   8 ++
->  drivers/media/platform/renesas/vsp1/vsp1_entity.h |   1 +
->  drivers/media/platform/renesas/vsp1/vsp1_iif.c    | 133 ++++++++++++++++++++++
->  drivers/media/platform/renesas/vsp1/vsp1_iif.h    |  26 +++++
->  drivers/media/platform/renesas/vsp1/vsp1_pipe.c   |   1 +
->  drivers/media/platform/renesas/vsp1/vsp1_pipe.h   |   1 +
->  drivers/media/platform/renesas/vsp1/vsp1_regs.h   |   8 ++
->  drivers/media/platform/renesas/vsp1/vsp1_rpf.c    |  18 ++-
->  drivers/media/platform/renesas/vsp1/vsp1_rwpf.c   | 110 ++++++++++++++++--
->  drivers/media/platform/renesas/vsp1/vsp1_wpf.c    |  14 ++-
->  14 files changed, 327 insertions(+), 19 deletions(-)
-> ---
-> base-commit: b2c4bf0c102084e77ed1b12090d77a76469a6814
-> change-id: 20250123-v4h-iif-a1dda640c95d
-> 
-> Best regards,
-> -- 
-> Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> 
-
--- 
-Kind Regards,
-Niklas Söderlund
+The inline wrapper, of course, takes care of the type mangling=2E
 
