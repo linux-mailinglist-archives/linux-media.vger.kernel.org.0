@@ -1,172 +1,164 @@
-Return-Path: <linux-media+bounces-26994-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-26995-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E3D7A45676
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 08:14:48 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 711B3A45794
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 09:03:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 063003AAA40
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 07:14:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A204E17168F
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 08:02:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D6A226BDA1;
-	Wed, 26 Feb 2025 07:14:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45885258CCE;
+	Wed, 26 Feb 2025 07:58:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c9xkau5H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Psil6Imw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91BD01993B1;
-	Wed, 26 Feb 2025 07:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B7CF258CC2
+	for <linux-media@vger.kernel.org>; Wed, 26 Feb 2025 07:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740554067; cv=none; b=O89MPQYKmIbU05RYMagaa9yF7rRBE2NK2giI4EXLOaIdfXfe2ahwJUm8mhfgqWA7o5XZnH5BEo4mOp61ES9bqhLFx8rtVx0BgP5S7GNdDfHqRnXjz6+L/Yq4d4ZccVtQiggglZ+Eh3Qfe+Pn5ryeukO9FQE/roNXKLV60WKEFBM=
+	t=1740556687; cv=none; b=BujjDkIHeS6BK/pm5+9W5QZ9pe/IcryQ1fXSkzUnw4Mretjzf9JrENZ+sbKs7Vn/hHYAEwtgEoUHv4r24z742DAWAssIEx9/M9cE0MJTHaBfVA6t1OyOvWY8oc2JyG2GX5Dut0VJbvrs4doWgEsozxNFFNeFhITzW5xc0rJ4+4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740554067; c=relaxed/simple;
-	bh=lQkzvtRW6Jq4FuyRixXr8DUVI6AFJhoAhKyzE5400LQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ftl+Sg/WlN61ekFMAgp0leX83VZZh3QC3ZXyFbYuxeI4ewWhPH+JzNiflef39mFFAy/DNpm1kS9EpRK/TnZsx47XEAmyBAWC/Ffp1EzymADbB6BTyInjkbYUP5mbkVMKyyEUw6KaavOtWf1ja9+6EsKBQrKn/aaynhF6jYrkE1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c9xkau5H; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 438FBC4CED6;
-	Wed, 26 Feb 2025 07:14:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740554067;
-	bh=lQkzvtRW6Jq4FuyRixXr8DUVI6AFJhoAhKyzE5400LQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=c9xkau5HstyyjAg+iCdOXFOoMRN9gnbT8mNRacDl1qqOOEr2Pq8Bc3D7hnNRKDz/L
-	 Tu9ZvDrY/wElfwtV1neqWspf8wbf4oC2L/j+OEvpjw/goqGU26MmrFZ9Oc2pJ6Hs0B
-	 72RYUhuo2JcIrJxETLtfaIqRY49WkLjZ1zEMNhnoqjDdkXTBqXJru/B9qDLncNi/Eb
-	 e2nVCZsoZ66fneV3XoE/ALeo1pAmgwoXp6eKOoa7e18dlurjsRFLv0hSmH7K3QK9sS
-	 SQbIpkVIf/syJfo7iHK93LiG8SEzI5DMNZfERkxh5iXkxNV5JkYSnyoqdg3SAM/shb
-	 3hDZQq7nH9bkw==
-Message-ID: <b5236ae4-7ebe-4a88-bbc9-3b9b3374de53@kernel.org>
-Date: Wed, 26 Feb 2025 08:14:14 +0100
+	s=arc-20240116; t=1740556687; c=relaxed/simple;
+	bh=NPC3+CnmcV/JjbqPjgu5EFEfbSAjUL7hd7ixZRdQnZI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nqKNsBU4oug4faxCkCSeRDzX83PpxvsyGX2YD/GuqBMQ13MjGZ8mk7XaGA5JOCYAWs0NxLk3AmykGXKL6Gr+gsCI/yxxOUKo4J2KyiYeOWv3jiK99iEJS99D61/P+MfmzJj1gFXmhb+l+9FJOvkhjsYV0KD66ExMXIysMRtaslk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Psil6Imw; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740556686; x=1772092686;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NPC3+CnmcV/JjbqPjgu5EFEfbSAjUL7hd7ixZRdQnZI=;
+  b=Psil6ImwPY7xKE3NMOURiOTdoBcqg93Z9BiNAkY8FvCsao7gZ0b0sAqu
+   CIP2WQ7rifNtxfIf83T6ZxaPWkve+UP/USjO7Y2W92DyBFP8LhpPQxJWp
+   I6RLPCXEqMBfg6krrvZg7mr+U7XGES5SCiZ0UPdjKp9DQAmW6DqP1tBy5
+   Uhd/eyRcyEPrEKR62cFucy6ENG4UMxQLIebN42hEg37pibvaJbUT3beEV
+   KfWTxy4hZ/bYnOdEo0fCfWt+u5pf0TymC+78KA9ZFRl6Ued2nD3Oyx7Lh
+   3Q6hkPpzdhXMy5I2cqNiqvpuaqyd7JwbdCO/a10Z0+7xYXxbPMPbhmDrA
+   A==;
+X-CSE-ConnectionGUID: ge6qkPPrREmVgwzt+j9ogg==
+X-CSE-MsgGUID: 6rtJPMDjS+eo3IgKcPCQvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11356"; a="45305916"
+X-IronPort-AV: E=Sophos;i="6.13,316,1732608000"; 
+   d="scan'208";a="45305916"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 23:58:06 -0800
+X-CSE-ConnectionGUID: cIuCCMCYQHaP9LQVCvdQDw==
+X-CSE-MsgGUID: yjY8eFuvTX+okPOR9BUauA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="120744132"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Feb 2025 23:58:04 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id F372811F99F;
+	Wed, 26 Feb 2025 09:58:01 +0200 (EET)
+Date: Wed, 26 Feb 2025 07:58:01 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Bingbu Cao <bingbu.cao@linux.intel.com>
+Cc: linux-media@vger.kernel.org, stanislaw.gruszka@linux.intel.com,
+	bingbu.cao@intel.com
+Subject: Re: [PATCH 1/1] media: ipu6: Drop unused ipu6_dma_get_sgtable()
+Message-ID: <Z77JiXJ2kyLSOuPi@kekkonen.localdomain>
+References: <20250225094532.40678-1-sakari.ailus@linux.intel.com>
+ <76556647-505b-1cea-7ae8-5f17873cf161@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
-To: Kuan-Wei Chiu <visitorckw@gmail.com>, Yury Norov <yury.norov@gmail.com>
-Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
- eajames@linux.ibm.com, andrzej.hajda@intel.com, neil.armstrong@linaro.org,
- rfoss@kernel.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
- hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
- vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
- johannes@sipsolutions.net, gregkh@linuxfoundation.org,
- akpm@linux-foundation.org, hpa@zytor.com, alistair@popple.id.au,
- linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
- jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
- linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
- dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
- oss-drivers@corigine.com, netdev@vger.kernel.org,
- linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
- brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
- bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
- Yu-Chun Lin <eleanor15x@gmail.com>
-References: <20250223164217.2139331-1-visitorckw@gmail.com>
- <20250223164217.2139331-3-visitorckw@gmail.com> <Z7zIBwH4aUA7G9MY@thinkpad>
- <Z73FxIv353lbXO3A@visitorckw-System-Product-Name>
-Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <Z73FxIv353lbXO3A@visitorckw-System-Product-Name>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <76556647-505b-1cea-7ae8-5f17873cf161@linux.intel.com>
 
-On 25. 02. 25, 14:29, Kuan-Wei Chiu wrote:
->> +#define parity(val)					\
->> +({							\
->> +	u64 __v = (val);				\
->> +	int __ret;					\
->> +	switch (BITS_PER_TYPE(val)) {			\
->> +	case 64:					\
->> +		__v ^= __v >> 32;			\
->> +		fallthrough;				\
->> +	case 32:					\
->> +		__v ^= __v >> 16;			\
->> +		fallthrough;				\
->> +	case 16:					\
->> +		__v ^= __v >> 8;			\
->> +		fallthrough;				\
->> +	case 8:						\
->> +		__v ^= __v >> 4;			\
->> +		__ret =  (0x6996 >> (__v & 0xf)) & 1;	\
->> +		break;					\
->> +	default:					\
->> +		BUILD_BUG();				\
->> +	}						\
->> +	__ret;						\
->> +})
->> +
->> +#define parity8(val)	parity((u8)(val))
->> +#define parity32(val)	parity((u32)(val))
->> +#define parity64(val)	parity((u64)(val))
->>   
-> What do you think about using these inline functions instead of macros?
-> Except for parity8(), each function is a single line and follows the
-> same logic. I find inline functions more readable, and coding-style.rst
-> also recommends them over macros.
+Hi Bingbu,
 
-Not in cases where macros are inevitable. I mean, do we need parityXX() 
-for XX in (8, 16, 32, 64) at all? Isn't the parity() above enough for 
-everybody? And if not, you can have all those parityXX() as inlines as 
-you suggest, but also provide a macro such as the above to call 
-(optimized) parityXX() as per datatype len.
+On Wed, Feb 26, 2025 at 10:38:25AM +0800, Bingbu Cao wrote:
+> Sakari,
+> 
+> On 2/25/25 5:45 PM, Sakari Ailus wrote:
+> > ipu6_dma_get_sgtable() is now unused. Drop it.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/pci/intel/ipu6/ipu6-dma.c | 33 -------------------------
+> >  drivers/media/pci/intel/ipu6/ipu6-dma.h |  3 ---
+> >  2 files changed, 36 deletions(-)
+> > 
+> > diff --git a/drivers/media/pci/intel/ipu6/ipu6-dma.c b/drivers/media/pci/intel/ipu6/ipu6-dma.c
+> > index 44e24da33907..052e396a28af 100644
+> > --- a/drivers/media/pci/intel/ipu6/ipu6-dma.c
+> > +++ b/drivers/media/pci/intel/ipu6/ipu6-dma.c
+> > @@ -455,36 +455,3 @@ void ipu6_dma_unmap_sgtable(struct ipu6_bus_device *sys, struct sg_table *sgt,
+> >  	ipu6_dma_unmap_sg(sys, sgt->sgl, sgt->nents, dir, attrs);
+> >  }
+> >  EXPORT_SYMBOL_NS_GPL(ipu6_dma_unmap_sgtable, "INTEL_IPU6");
+> > -
+> > -/*
+> > - * Create scatter-list for the already allocated DMA buffer
+> > - */
+> > -int ipu6_dma_get_sgtable(struct ipu6_bus_device *sys, struct sg_table *sgt,
+> > -			 void *cpu_addr, dma_addr_t handle, size_t size,
+> > -			 unsigned long attrs)
+> > -{
+> > -	struct device *dev = &sys->auxdev.dev;
+> > -	struct ipu6_mmu *mmu = sys->mmu;
+> > -	struct vm_info *info;
+> > -	int n_pages;
+> > -	int ret = 0;
+> > -
+> > -	info = get_vm_info(mmu, handle);
+> > -	if (!info)
+> > -		return -EFAULT;
+> > -
+> > -	if (!info->vaddr)
+> > -		return -EFAULT;
+> > -
+> > -	if (WARN_ON(!info->pages))
+> > -		return -ENOMEM;
+> > -
+> > -	n_pages = PFN_UP(size);
+> > -
+> > -	ret = sg_alloc_table_from_pages(sgt, info->pages, n_pages, 0, size,
+> > -					GFP_KERNEL);
+> > -	if (ret)
+> > -		dev_warn(dev, "get sgt table failed\n");
+> > -
+> > -	return ret;
+> > -}
+> > diff --git a/drivers/media/pci/intel/ipu6/ipu6-dma.h b/drivers/media/pci/intel/ipu6/ipu6-dma.h
+> > index b51244add9e6..2882850d9366 100644
+> > --- a/drivers/media/pci/intel/ipu6/ipu6-dma.h
+> > +++ b/drivers/media/pci/intel/ipu6/ipu6-dma.h
+> > @@ -43,7 +43,4 @@ int ipu6_dma_map_sgtable(struct ipu6_bus_device *sys, struct sg_table *sgt,
+> >  			 enum dma_data_direction dir, unsigned long attrs);
+> >  void ipu6_dma_unmap_sgtable(struct ipu6_bus_device *sys, struct sg_table *sgt,
+> >  			    enum dma_data_direction dir, unsigned long attrs);
+> > -int ipu6_dma_get_sgtable(struct ipu6_bus_device *sys, struct sg_table *sgt,
+> > -			 void *cpu_addr, dma_addr_t handle, size_t size,
+> > -			 unsigned long attrs);
+> 
+> ipu6_dma_get_sgtable() is used in downstream PS driver, I don't think it
+> is necessary to remove it as it will be hard to integrate with downstream PS
+> driver.
 
-thanks,
+When will there be an upstream PSYS driver?
+
+I suppose you can just as well apply a revert of this patch to your
+downstream tree?
+
 -- 
-js
-suse labs
+Kind regards,
+
+Sakari Ailus
 
