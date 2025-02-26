@@ -1,86 +1,87 @@
-Return-Path: <linux-media+bounces-27091-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27092-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44444A468C0
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 19:00:09 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41DFFA469DA
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 19:33:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 39F42173116
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 18:00:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C3DE81884694
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 18:33:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4090622A7FA;
-	Wed, 26 Feb 2025 17:59:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C252235347;
+	Wed, 26 Feb 2025 18:33:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="STKhS2iH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EpawnAZq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FE142A8C1;
-	Wed, 26 Feb 2025 17:59:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 628D121CC53;
+	Wed, 26 Feb 2025 18:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740592797; cv=none; b=Ip1Vx9dU1WA+Ai5aIOSPPVyCXKqgQWX4tDqNQpBNuR9ROQw4FqtKArMXyiDOaaErCrkC4wNGlDD34SlgP3zV3dQgIIYPHSquAqzIFuny0Nlma6Jkbapv1piEwRh70kATsZv79P1kpqIZAk2/MIvUTv2uSjsmzPR6z3/lVvmmIhw=
+	t=1740594803; cv=none; b=S4QcQLqenvCMIsGbD88oYeeQkQIxjX5ynvei6QvwPoTvQSQ28ZQkfucZzkwzjmwBd9lnUV/ByRsLqKsChpMghrEXiCDce8ZFEoHYE0/wmmd2zY/AAyRejm2i4ObQP7qH4oIaZ6/f1TTco1Zjfl/1NZuZYbTDocuW7o7xGimGtSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740592797; c=relaxed/simple;
-	bh=NgL7kzU8DCxs2aqncslIBjrb2AeIRzc4rI9CzlkoJnw=;
+	s=arc-20240116; t=1740594803; c=relaxed/simple;
+	bh=06Bx46w4WKqnLcEDcMImX2Rgvc4s7Az8+qGa2ZiH2i0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JhMuEReKCO3skQuUK5XriM1CQFkBK7WxSmL7gee5rVzI3FpDwRYIE10ZaobqlB9ToZi7yLxvueCpmLdkU332UdxHxVnle6Edfaz+RQ0GPm/jHVFWoOISshnuyW66Cf8+w7SVFG0JRHQBJNU3naQFPvIbu818966X0KF4jOdhvHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=STKhS2iH; arc=none smtp.client-ip=209.85.214.173
+	 Content-Type:Content-Disposition:In-Reply-To; b=K38H0bpA7GUHZm+YgoSnrBVQWzcsdFAMJkRgQKd4lJWwfLmRhqQnh6Vmr8wZ8hBN7GLT/yirWstq6yPjd9m16u78NyvG6TG0X9XA+mcDlxQoJ9zdcn/BszewItxfDTlk1OZiu1O+eKHf9GYNSkGJ7gW+gfbTPs4LHb8/UKz1kXY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EpawnAZq; arc=none smtp.client-ip=209.85.214.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-220e83d65e5so623085ad.1;
-        Wed, 26 Feb 2025 09:59:56 -0800 (PST)
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-22114b800f7so1069885ad.2;
+        Wed, 26 Feb 2025 10:33:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740592795; x=1741197595; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1740594801; x=1741199601; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aLZRzBzitap92yZk251lvU9DytAtAlhsYa/CQwhvV8Q=;
-        b=STKhS2iHxgaS1szjmMC1mTeWJNsONfdDL581017gu22tcyyt6/pp98x+LxU5sC+Sti
-         ApQcwWfvuSGIJXAELy8JSaLK+rGLk9IlIJB9LWzC4QMPxQX63mEmxVZ57C1ADkgp5rJV
-         t7miUx8BoPH+OqJ0G/lnoXsfLE962k5o2ia0mIZdqGsQQ8cICnvMFJXr5y9hQ0kEiQNv
-         RwrQ0PgZlBPiVD7ZIpWCehCGp08qDGmqmjtJwENzTryrRBlkp1PDAEdeCJ9eBVEKFqqM
-         JwROLBvRJ4oTDfj0rVD4E3dFf+fcpBvoMnmoudRSaB5bPTwOJZUtK4dO0By5l5DIe0+A
-         Pmlw==
+        bh=8NV8NW5Mq8hnlsfnK7VYLX7Lb9iIPf134td0bPOEzZY=;
+        b=EpawnAZq/kdSM+6C3tHt1DTf10h9jzDh+WY2mSN4+gpboVFRDEHryGA/0t+fFgfAta
+         yReRXzJB3JR+0vbRVUObb2ma49Z8CYIZmE2vyOlM6zlCAHObPMls0CzJCQwnOwy9//6h
+         QbTqMa9Lww7VGBAtrnZHZX5PGwvL7Ray5MwuuOxeGYPVmSLn8fzJJY3Td9KdkomhHoaZ
+         sZMpdDqgfL92HWT+a+Gs3UofhtamlGm/aglfBOjfC80zOLnfvqhX+wIVySV9I3IeZjkS
+         8QlHXRuEG1vzmkuNqgvtH8kONxqCOvxHHd07TjqBHF8Ebur2rNX+cbn9bq50R+IZ2Ztw
+         xEjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740592795; x=1741197595;
+        d=1e100.net; s=20230601; t=1740594801; x=1741199601;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=aLZRzBzitap92yZk251lvU9DytAtAlhsYa/CQwhvV8Q=;
-        b=exEe3HS7wDS2+mCAGN3cC8xcapyR8OYeyd8dsGoMet96ohBS9gBCQmpHz1hGZKTaIq
-         saIx4kpevpUHolDoRvnM4CHjeNNZXTJKBwJ4OtQ11Bo3/yQp2NLXCM8Lswa5y3EYx/eo
-         p+alN9x7wy1hWmoRX2NI6m4YmG3iVU04mN9RJXhCAExCbC37HkV7Z1F9rKpswwLha/hL
-         gKfwnhCarTQ0UvItS3Th9KGgWpAeG3OqPCBlAGky0gC3EMO/PhuQwr/JJjZgnIouOeJ9
-         fiS1TzhPZZ1zm+cy63ZFIOQfVWRu2uTxnlPvCKj4cfKD0Hsii0J2VC+5bsEhB5ktbUho
-         n4EQ==
-X-Forwarded-Encrypted: i=1; AJvYcCULRgjwXSuT2OYBCtx1z6f7dCT6UrjMKx/mSe4c604u10y3Od3tWfkBUoKLt0sd/sEySSLSDvtWfmN6ZrK+@vger.kernel.org, AJvYcCUYkpZJLUpFFiRxT+rj7LmpyE6LyXGenlANFZbRUx4RcYbsgvymibpSQulpwNYQsY/NvrY=@vger.kernel.org, AJvYcCUm3wcStNywyUZJ/3etPZwh0UwnPAbULmh3/Qk0IYMGowykySe6Z5hbKE9YGtE9AWj4eNC40aSvMvRqpA6ZoM0=@vger.kernel.org, AJvYcCUmKDn27OzRO56WcVx6ulKUOZ7iJKbCq1VhRIbxxaHZMm8RRgUXOeUcjF79XubT30Z6RLUrq6l1RYH+B9OE@vger.kernel.org, AJvYcCVjetR3QUCIUBQUkDIy6UNITur4t37hqXa7Pg/yxzVoWosWeFlIWBDXiM2KZT2xOPwdJMq63njP@vger.kernel.org, AJvYcCWKPuOq1tVS4KJUzR1bti82mmJigDRoRQgJB4RJ1/Hn8zFVSx0GkM64PlE/6ybmDlmDwYR66uXh5OGaUxs=@vger.kernel.org, AJvYcCXsG0iIQtQGdfB2KLZCXLgr0Nnff/a3iTew7JQZjpVsPIEbOn/pShV2BPMpwnSG5mOvGDD/Y8Sa0aRDXkc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzf2nWMXe36z8Arjt5pAHCA96iuAbgEi4kls9wIECMYKxAxNLPs
-	lloDQKWgH7Qn9oEXOZ5gpjhS1v2amw2+iTTDeWB1TgWG3YPMm+xU
-X-Gm-Gg: ASbGnctqVgNRmO//Jb768n8lrIpykAnJPjIjWn8GdWk9oLqAZA9rMkCMayKV0tuluTe
-	3k3i0RuhhHIDAGVQNy5ZbnZH1UqktlT3PsvsvdRzVma5fd1yIJUObwfRLvN+at5fp0y/HzL25ja
-	7cdXsr8ZmW3/JB/h7qCJcsdX3VIB8tvISEo11S4vtZxkd+EsvQHRvtfTAyD6koKJw2Wp3A6sCmg
-	O4E8bOGoFjSGCHDcD98RuHlh9LebUXIrGkL/wTW6jvaupjEo/yxWwT2/3dHQcFeOTy0vAPk6ZLs
-	5m1K49BszDaDvwCSmYva19f/J7w5ZdkmzvjITSEikY6pKiSoBOEIkg==
-X-Google-Smtp-Source: AGHT+IFPX6/YemPi/DqumfrbMAfmVM+yJTxaN3xhdxU4AjgnAZPzxKGRLUd3gIiPdvk59fs7FScnAQ==
-X-Received: by 2002:a05:6a21:600c:b0:1ee:c74c:2436 with SMTP id adf61e73a8af0-1f10ae2ec90mr8029040637.34.1740592795469;
-        Wed, 26 Feb 2025 09:59:55 -0800 (PST)
-Received: from visitorckw-System-Product-Name ([140.113.216.168])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-aedaab2e8fbsm3541850a12.64.2025.02.26.09.59.46
+        bh=8NV8NW5Mq8hnlsfnK7VYLX7Lb9iIPf134td0bPOEzZY=;
+        b=fa9Ky0jHC9BUNbJBYy171n8rC65LzlHvMMvK+s1wX+V0DsDyWjfepLwBptn1GNHtBw
+         3LeCEuDSlB4jnkAJqPJk3Q02Y9duQvHUQEI0JVgp1KlG7J9H+Ef8FRFc4dlWv32Ro/ib
+         6N3BIQDIZIfRkMrTIMAcuR20CUtp2cikehLg6jrKaDxA74im74uozY0l8L3MIIksR30m
+         nzdoBeeIK220QqUmZXiT3JtpbHpqtgh/sq2kpFGN+Ozd+UGTUYs2Z1ul4UNc+WB32NyO
+         kXdOY5pBkRNi3rLliJt9fNMDcAebPzIRqox3MTJMEN2J35ynTGf3LSDNd7Lrghe5PHzY
+         aBgw==
+X-Forwarded-Encrypted: i=1; AJvYcCU0HR1bgjQ8Jyr5IP3uaBHLHzWwGs5PgG2kstM3RITbLhLMOXa1IHoAuoY34JBTDGx4nx0=@vger.kernel.org, AJvYcCUOyJVXqU2p58b+PlLtWzqCm9M7IcWbxOpxxS07h8hn3hATQabj7vsVsjcIXNr2pUoNQYXMDAaEwB9+AkWm@vger.kernel.org, AJvYcCV0zPjq/B65QolHTSI3DwKfyUBJSbz6joMd8o0Iuol4krTiPHUYaL4JXGubdsJzGVB0GdLLuiXb9PT4Ix0=@vger.kernel.org, AJvYcCVwO1LPwYgrSVboCtdkOXZRiQgrk8Pv5snhpd7jc4VCwoZX5wiAFRLFEaCL87KbPnsADApvFYNoevjxgFGQ@vger.kernel.org, AJvYcCWIvHtg+wax6vXltb+6Q+st1agfA7oVs6RCnYIBLCKhxUpaf/NUkYYbkG0tsYQZ5UKoAZZKk2bDiCuRbys=@vger.kernel.org, AJvYcCXRB0QfiC7YSWTWesOIGgv6oEQccDVfW54p8ZnfHg5lMbQStWn1TT5Hk7YC5w0LI7vc8aVx9bntTqPhHeyu+qE=@vger.kernel.org, AJvYcCXUWnioz6RMKjH4TKMAUMuaBajfGMnSxoyPdfsQQXMGFqak9N5dFqHnZOWT2u3GwoJkN7H7M4HU@vger.kernel.org
+X-Gm-Message-State: AOJu0YwydCMtNCDxOgNk6fUwcbNc/2Rc3Y/wqwRCgZxrAlUOh3VqtBUp
+	kF+p/lUZM8X61dBCgpNOtOuMkU9RQ142YXQgxbuVqno25YYr3+YV
+X-Gm-Gg: ASbGnct5PvI/yq/DSrzSRNbuHzzfjZhdj6VpJYHouEWBeROBIar8BxS1E7W17sAUfS6
+	McZvsNqC5MZVA4LckJwjsQWNAESpux4P2dGYd3n6TPIyuB594JyIQaPgo/hTbnf4rLXYwmKg1ap
+	bvLFLUg/bgxEYjdyMh4ZbsURp+xqoZlqaeEY66Me03JdiSL5bJJsRMCg39JlR8Lf09ECx2u/y1N
+	FJBSXBp7ohcQz/aLyc8aEO8ybQbxoa1Oawv5rPCAGj0LDsnfWWTxykUZoXCSaSRDJmnur01iksG
+	az2dMhbM4tSeMhdDPt1rAa2ejDEvE0kKQ8EFaeWAKAZxfZpFMw==
+X-Google-Smtp-Source: AGHT+IEhO/8zynHAj/XQ8CfYcqOsDet7/XXIGYhA3zqO2mHTqzuioBsUax6Pz3NWu+JgRkwDnM6ajg==
+X-Received: by 2002:a17:90b:2d88:b0:2ee:c918:cd60 with SMTP id 98e67ed59e1d1-2fe7e33d442mr6780868a91.20.1740594801403;
+        Wed, 26 Feb 2025 10:33:21 -0800 (PST)
+Received: from localhost (maglev-oncall.nvidia.com. [216.228.125.128])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2fe825eb82fsm1917776a91.32.2025.02.26.10.33.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 26 Feb 2025 09:59:54 -0800 (PST)
-Date: Thu, 27 Feb 2025 01:59:44 +0800
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
+        Wed, 26 Feb 2025 10:33:20 -0800 (PST)
+Date: Wed, 26 Feb 2025 13:33:18 -0500
+From: Yury Norov <yury.norov@gmail.com>
 To: Jiri Slaby <jirislaby@kernel.org>
-Cc: Yury Norov <yury.norov@gmail.com>, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
-	andrzej.hajda@intel.com, neil.armstrong@linaro.org,
-	rfoss@kernel.org, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, airlied@gmail.com,
-	simona@ffwll.ch, dmitry.torokhov@gmail.com, mchehab@kernel.org,
+Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
+	eajames@linux.ibm.com, andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org, rfoss@kernel.org,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+	dmitry.torokhov@gmail.com, mchehab@kernel.org,
 	awalls@md.metrocast.net, hverkuil@xs4all.nl,
 	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
 	louis.peens@corigine.com, andrew+netdev@lunn.ch,
@@ -99,7 +100,7 @@ Cc: Yury Norov <yury.norov@gmail.com>, tglx@linutronix.de, mingo@redhat.com,
 	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
 	Yu-Chun Lin <eleanor15x@gmail.com>
 Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
-Message-ID: <Z79WkNp6p06fV/f9@visitorckw-System-Product-Name>
+Message-ID: <Z79ebv630yuNOJKV@thinkpad>
 References: <20250223164217.2139331-1-visitorckw@gmail.com>
  <20250223164217.2139331-3-visitorckw@gmail.com>
  <Z7zIBwH4aUA7G9MY@thinkpad>
@@ -114,8 +115,6 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <b5236ae4-7ebe-4a88-bbc9-3b9b3374de53@kernel.org>
-
-Hi Jiri,
 
 On Wed, Feb 26, 2025 at 08:14:14AM +0100, Jiri Slaby wrote:
 > On 25. 02. 25, 14:29, Kuan-Wei Chiu wrote:
@@ -150,48 +149,32 @@ On Wed, Feb 26, 2025 at 08:14:14AM +0100, Jiri Slaby wrote:
 > > Except for parity8(), each function is a single line and follows the
 > > same logic. I find inline functions more readable, and coding-style.rst
 > > also recommends them over macros.
-> 
+>
 > Not in cases where macros are inevitable. I mean, do we need parityXX() for
 > XX in (8, 16, 32, 64) at all? Isn't the parity() above enough for everybody?
+
+The existing codebase has something like:
+
+        int ret;
+
+        ret = i3c_master_get_free_addr(m, last_addr + 1);
+        ret |= parity8(ret) ? 0 : BIT(7)
+
+So if we'll switch it to a macro like one above, it will become a
+32-bit parity. It wouldn't be an error because i3c_master_get_free_addr()
+returns an u8 or -ENOMEM, and the error code is checked explicitly. 
+
+But if we decide to go with parity() only, some users will have to
+call it like parity((u8)val) explicitly. Which is not bad actually.
+
 > And if not, you can have all those parityXX() as inlines as you suggest, but
 > also provide a macro such as the above to call (optimized) parityXX() as per
 > datatype len.
-> 
-I agree that we can add a macro to call parity8/16/32/64 based on the
-data type size. However, I think we should still keep parity8/16/32/64.
-As Peter and David discussed, the x86-specific implementations of
-parity8() and parity16() might use different instructions instead of
-just XORing and calling another function, as in the generic version.
 
-My current idea is to follow David's suggestion and use
-__builtin_parity when there is no architecture-specific implementation.
-In lib/, we can provide a generic weak function implementation of
-__parity[sdt]i2.
+Yes, if we need fixed-type parity's, they should all be one-liners
+calling the same macro. Macros or inline functions - no preference for
+me.
 
-Any comments or suggestions are welcome!
-
-Regards,
-Kuan-Wei
-
-static inline parity32(u32 val)
-{
-    return __builtin_const_p(val) ? _parity_const(val) : _parity32(val);
-}
-
-#ifndef _parity32
-static inline _parity32(u32 val)
-{
-    return __builtin_parity(val);
-}
-#endif
-
-int __weak __paritysi2(u32 val);
-int __weak __paritysi2(u32 val)
-{
-    val ^= val >> 16;
-    val ^= val >> 8;
-    val ^= val >> 4;
-    return (0x6996 >> (val & 0xf)) & 1;
-}
-EXPORT_SYMBOL(__paritysi2);
+Thanks,
+Yury
 
