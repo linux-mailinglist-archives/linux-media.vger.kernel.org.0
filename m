@@ -1,890 +1,575 @@
-Return-Path: <linux-media+bounces-27026-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27027-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0680A45C2B
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 11:51:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2E1DA45CAB
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 12:08:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2F5E3188E5DE
-	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 10:52:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A49E8172D76
+	for <lists+linux-media@lfdr.de>; Wed, 26 Feb 2025 11:08:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EA3D24E00F;
-	Wed, 26 Feb 2025 10:51:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2195214214;
+	Wed, 26 Feb 2025 11:08:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="r6wnNrA+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-179.mta1.migadu.com (out-179.mta1.migadu.com [95.215.58.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9F561E1E06
-	for <linux-media@vger.kernel.org>; Wed, 26 Feb 2025 10:51:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A96C20E31F
+	for <linux-media@vger.kernel.org>; Wed, 26 Feb 2025 11:08:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740567112; cv=none; b=eAbO3fhUnnrvJAIj9gDNFZfD2+tdBnLXYCUuSqEatdR9ec4yqwCyNff5D4JxbRGwlMStc7y9CoVSF6Zm58uI8XFy3FWT++MIa+H62qq/p9yTZOc9TeNl7Xi4V7YBrP44n1gTnzZJiLhEcNmr0b8b7jg6Enb5yoywV3KcpjII9qE=
+	t=1740568087; cv=none; b=CI21FbLUQ20bPskgAMt1qjjkNjV7l+bGQWJA65SDw0td69WMAngAFHnEn5O08/N1VlCY+BAbdjztfIJrj3FIVHEEEKgulR4VVaJdq6Zzp9M21AJ+O8QW3ykmQjrq1jAY2qttUXcHizZkhL+YImo+DdQZpQLNr/4vksT+4gDP0l8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740567112; c=relaxed/simple;
-	bh=BnXTjYgk9wmJlKLztb8ivhdDMkLoZ4oZ2sUWi4LDFL8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=C2F6Axw7IHNz8L++2WncdsyUQId9rAOzu+NQDUsdXh5dsG4yBPTXdkFsI60yE3EZAwf7/r93YnF+TwFm9TkdkkDRFDdmqshxfc2zVJz/WL7WIA84lZhni+yQZ7DmDJsQXPOXWHoNDp48r0MAGs8QbHxSK0VjtQCBgtG6ok4qfS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 910F9C4CEE2;
-	Wed, 26 Feb 2025 10:51:49 +0000 (UTC)
-Message-ID: <09dd94dd-f63a-422b-9452-647f24b7c217@xs4all.nl>
-Date: Wed, 26 Feb 2025 11:51:48 +0100
+	s=arc-20240116; t=1740568087; c=relaxed/simple;
+	bh=ryLDPRzLIu25YQMaxZoJD1ubJecRgHg6OQPyQKsQKH8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LM8H5xlwZ3BRdu+Mzvdh5cy/XCInatM062XDruCG0jzIC4Pgx0cQpKeiDuzfK5gOth5Ml90dy1bUaKNLpXlLJXW4eD5JMLKBj7OD014dkymai6dTPeBA7YOLleKnuX5BjphSyFp/FwMa3UO8V6SI2lA1vnN8KSMCHBURDqDy08c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=r6wnNrA+; arc=none smtp.client-ip=95.215.58.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Wed, 26 Feb 2025 12:07:47 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1740568071;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iWmXbiVuFRh/FdEcvraqWB5N6Im6molF1Vz0h6ou1Gs=;
+	b=r6wnNrA+8sL/jnrobpChYZFeVyOBgc508TUd3Xl6dpj5BLincDcSi9Wb1RxTGLw+I24m0b
+	rNBBacBQ+bfK6/YhjX0JZfZmNwx5dlbnXwb9bqqTJo2AWIYA8gAIsNg+WP/8rX65eEYijR
+	oQ6QBbe6JaHt+beQeBv/mYF/DEwGlwg=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Richard Leitner <richard.leitner@linux.dev>
+To: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] media: i2c: ov9282: fix analogue gain maximum
+Message-ID: <ljhusn3jkbq64rn2ureul5kurenjwrtu7ppv5jjx5i542goe65@h4oltlieomfp>
+References: <20250225-b4-ov9282-gain-v1-0-a24af2820dde@linux.dev>
+ <20250225-b4-ov9282-gain-v1-3-a24af2820dde@linux.dev>
+ <CAPY8ntCLUVX91+QYbFk-bHQumuvs70CuDLe85VZRTS2wW-tYHw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5] media: i2c: add lt6911uxe hdmi bridge driver
-To: Dongcheng Yan <dongcheng.yan@intel.com>, linux-media@vger.kernel.org,
- sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
- ricardo.ribalda@gmail.com, bingbu.cao@linux.intel.com
-Cc: tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
- daxing.li@intel.com, dongcheng.yan@linux.intel.com, ong.hock.yu@intel.com,
- balamurugan.c@intel.com, wei.a.fu@intel.com
-References: <20250210060923.2434047-1-dongcheng.yan@intel.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20250210060923.2434047-1-dongcheng.yan@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/mixed; boundary="qypklqcxyarzw3us"
+Content-Disposition: inline
+In-Reply-To: <CAPY8ntCLUVX91+QYbFk-bHQumuvs70CuDLe85VZRTS2wW-tYHw@mail.gmail.com>
+X-Migadu-Flow: FLOW_OUT
 
-On 10/02/2025 07:09, Dongcheng Yan wrote:
-> Lontium LT9611UXE is a HDMI to MIPI CSI-2 bridge,
-> It supports modes up to 4k60fps, switches current mode when
-> plugging HDMI or changing the source active signal mode.
+
+--qypklqcxyarzw3us
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+Hi Dave,
+thanks for the quick and detailled reply!
+
+On Tue, Feb 25, 2025 at 03:30:16PM +0000, Dave Stevenson wrote:
+> Hi Richard
 > 
-> Signed-off-by: Dongcheng Yan <dongcheng.yan@intel.com>
-> ---
-> v1 -> v2: replaced mutex with state_lock
-> v2 -> v3: fixed some pm_runtime err handlings
-> v3 -> v4: add dv_timings api
-> v4 -> v5: use get_mbus_config to replace link_freq v4l2_ctrl_handler
-> 	  rm lt6911uxe_enum_frame_size & lt6911uxe_enum_frame_interval
+> On Tue, 25 Feb 2025 at 13:09, Richard Leitner <richard.leitner@linux.dev> wrote:
+> >
+> > The sensors analogue gain is stored within two "LONG GAIN" registers
+> > (0x3508 and 0x3509) where the first one holds the upper 5 bits of the
+> > value. The second register (0x3509) holds the lower 4 bits of the gain
+> > value in its upper 4 bits. The lower 4 register bits are fraction bits.
+> >
+> > This patch changes the gain control to adhere to the datasheet and
+> > make the "upper gain register" (0x3508) accessible via the gain control,
+> > resulting in a new maximum of 0x1fff instead of 0xff.
+> >
+> > As the "upper gain register" is now written during exposure/gain update
+> > remove the hard-coded 0x00 write to it from common_regs.
+> >
+> > We cover only the "real gain format" use-case. The "sensor gain
+> > format" one is ignored as based on the hard-coded "AEC MANUAL" register
+> > configuration it is disabled.
+> >
+> > All values are based on the OV9281 datasheet v1.01 (09.18.2015).
 > 
-> patch has been tested with Intel IPU isp.
-> ---
->  drivers/media/i2c/Kconfig     |  12 +
->  drivers/media/i2c/Makefile    |   1 +
->  drivers/media/i2c/lt6911uxe.c | 717 ++++++++++++++++++++++++++++++++++
->  3 files changed, 730 insertions(+)
->  create mode 100644 drivers/media/i2c/lt6911uxe.c
+> My web searches turn up a 1.53 from Jan 2019 -
+> http://www.sinotimes-tech.com/product/20220217221034589.pdf
+> That lists 0x3508 as DEBUG, not LONG_GAIN.
+
+Thanks. That helps a lot :-)
+
 > 
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index 8ba096b8ebca..fbe3d0fe4ce6 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -1526,6 +1526,18 @@ config VIDEO_I2C
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called video-i2c
->  
-> +config VIDEO_LT6911UXE
-> +        tristate "Lontium LT6911UXE decoder"
-> +        depends on ACPI && VIDEO_DEV
-> +        select V4L2_FWNODE
-> +        select V4L2_CCI_I2C
-> +        help
-> +          This is a Video4Linux2 sensor-level driver for the Lontium
-> +          LT6911UXE HDMI to MIPI CSI-2 bridge.
-> +
-> +          To compile this driver as a module, choose M here: the
-> +          module will be called lt6911uxe.
-> +
->  config VIDEO_M52790
->  	tristate "Mitsubishi M52790 A/V switch"
->  	depends on VIDEO_DEV && I2C
-> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-> index fbb988bd067a..6c23a4463527 100644
-> --- a/drivers/media/i2c/Makefile
-> +++ b/drivers/media/i2c/Makefile
-> @@ -64,6 +64,7 @@ obj-$(CONFIG_VIDEO_ISL7998X) += isl7998x.o
->  obj-$(CONFIG_VIDEO_KS0127) += ks0127.o
->  obj-$(CONFIG_VIDEO_LM3560) += lm3560.o
->  obj-$(CONFIG_VIDEO_LM3646) += lm3646.o
-> +obj-$(CONFIG_VIDEO_LT6911UXE) += lt6911uxe.o
->  obj-$(CONFIG_VIDEO_M52790) += m52790.o
->  obj-$(CONFIG_VIDEO_MAX9271_LIB) += max9271.o
->  obj-$(CONFIG_VIDEO_MAX9286) += max9286.o
-> diff --git a/drivers/media/i2c/lt6911uxe.c b/drivers/media/i2c/lt6911uxe.c
-> new file mode 100644
-> index 000000000000..4f74648e4545
-> --- /dev/null
-> +++ b/drivers/media/i2c/lt6911uxe.c
-> @@ -0,0 +1,717 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// Copyright (c) 2023 - 2024 Intel Corporation.
-> +
-> +#include <linux/acpi.h>
-> +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/i2c.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/module.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/regmap.h>
-> +#include <linux/v4l2-dv-timings.h>
-> +
-> +#include <media/v4l2-cci.h>
-> +#include <media/v4l2-ctrls.h>
-> +#include <media/v4l2-device.h>
-> +#include <media/v4l2-dv-timings.h>
-> +#include <media/v4l2-event.h>
-> +#include <media/v4l2-fwnode.h>
-> +
-> +#define LT6911UXE_CHIP_ID		0x2102
-> +#define REG_CHIP_ID			CCI_REG16(0xe100)
-> +
-> +#define REG_ENABLE_I2C			CCI_REG8(0xe0ee)
-> +#define REG_HALF_PIX_CLK		CCI_REG24(0xe085)
-> +#define REG_BYTE_CLK			CCI_REG24(0xe092)
-> +#define REG_HALF_H_TOTAL		CCI_REG16(0xe088)
-> +#define REG_V_TOTAL			CCI_REG16(0xe08a)
-> +#define REG_HALF_H_ACTIVE		CCI_REG16(0xe08c)
-> +#define REG_V_ACTIVE			CCI_REG16(0xe08e)
-> +#define REG_MIPI_FORMAT			CCI_REG8(0xe096)
-> +#define REG_MIPI_TX_CTRL		CCI_REG8(0xe0b0)
-> +
-> +/* Interrupts */
-> +#define REG_INT_HDMI			CCI_REG8(0xe084)
-> +#define INT_VIDEO_DISAPPEAR		0x0
-> +#define INT_VIDEO_READY			0x1
-> +
-> +#define LT6911UXE_DEFAULT_LANES		4
-> +#define LT9611_PAGE_CONTROL		0xff
-> +#define YUV422_8_BIT			0x7
-> +
-> +static const struct v4l2_dv_timings_cap lt6911uxe_timings_cap_4kp30 = {
-> +	.type = V4L2_DV_BT_656_1120,
-> +	/* Pixel clock from REF_01 p. 20. Min/max height/width are unknown */
-> +	V4L2_INIT_BT_TIMINGS(
-> +		160, 3840,				/* min/max width */
-> +		120, 2160,				/* min/max height */
-> +		50000000, 594000000,			/* min/max pixelclock */
-> +		V4L2_DV_BT_STD_CEA861 | V4L2_DV_BT_STD_DMT |
-> +		V4L2_DV_BT_STD_CVT,
-> +		V4L2_DV_BT_CAP_PROGRESSIVE | V4L2_DV_BT_CAP_CUSTOM |
-> +		V4L2_DV_BT_CAP_REDUCED_BLANKING)
-> +};
-> +
-> +static const struct regmap_range_cfg lt9611uxe_ranges[] = {
-> +	{
-> +		.name = "register_range",
-> +		.range_min =  0,
-> +		.range_max = 0xffff,
-> +		.selector_reg = LT9611_PAGE_CONTROL,
-> +		.selector_mask = 0xff,
-> +		.selector_shift = 0,
-> +		.window_start = 0,
-> +		.window_len = 0x100,
-> +	},
-> +};
-> +
-> +static const struct regmap_config lt9611uxe_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +	.max_register = 0xffff,
-> +	.ranges = lt9611uxe_ranges,
-> +	.num_ranges = ARRAY_SIZE(lt9611uxe_ranges),
-> +};
-> +
-> +struct lt6911uxe_mode {
-> +	u32 width;
-> +	u32 height;
-> +	u32 htotal;
-> +	u32 vtotal;
-> +	u32 code;
-> +	u32 fps;
-> +	u32 lanes;
-> +	s64 link_freq;
-> +	u64 pixel_clk;
-> +};
-> +
-> +struct lt6911uxe {
-> +	struct v4l2_subdev sd;
-> +	struct media_pad pad;
-> +	struct v4l2_ctrl_handler ctrl_handler;
-> +	struct v4l2_ctrl *pixel_rate;
-> +	struct v4l2_dv_timings timings;
-> +	struct lt6911uxe_mode cur_mode;
-> +	struct regmap *regmap;
-> +	struct gpio_desc *reset_gpio;
-> +	struct gpio_desc *irq_gpio;
-> +};
-> +
-> +static const struct v4l2_event lt6911uxe_ev_source_change = {
-> +	.type = V4L2_EVENT_SOURCE_CHANGE,
-> +	.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION,
-> +};
-> +
-> +static const struct v4l2_event lt6911uxe_ev_stream_end = {
-> +	.type = V4L2_EVENT_EOS,
-> +};
-> +
-> +static inline struct lt6911uxe *to_lt6911uxe(struct v4l2_subdev *sd)
-> +{
-> +	return container_of(sd, struct lt6911uxe, sd);
-> +}
-> +
-> +static s64 get_pixel_rate(struct lt6911uxe *lt6911uxe)
-> +{
-> +	s64 pixel_rate;
-> +
-> +	pixel_rate = (s64)lt6911uxe->cur_mode.width *
-> +		     lt6911uxe->cur_mode.height *
-> +		     lt6911uxe->cur_mode.fps * 16;
-> +	do_div(pixel_rate, lt6911uxe->cur_mode.lanes);
-> +
-> +	return pixel_rate;
-> +}
-> +
-> +static int lt6911uxe_get_detected_timings(struct v4l2_subdev *sd,
-> +					  struct v4l2_dv_timings *timings)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +	struct v4l2_bt_timings *bt = &timings->bt;
-> +
-> +	memset(timings, 0, sizeof(struct v4l2_dv_timings));
-> +
-> +	timings->type = V4L2_DV_BT_656_1120;
-> +
-> +	bt->width = lt6911uxe->cur_mode.width;
-> +	bt->height = lt6911uxe->cur_mode.height;
-> +	bt->vsync = lt6911uxe->cur_mode.vtotal - lt6911uxe->cur_mode.height;
-> +	bt->hsync = lt6911uxe->cur_mode.htotal - lt6911uxe->cur_mode.width;
-> +	bt->pixelclock = lt6911uxe->cur_mode.pixel_clk;
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_s_dv_timings(struct v4l2_subdev *sd, unsigned int pad,
-> +				  struct v4l2_dv_timings *timings)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +	struct v4l2_subdev_state *state;
-> +
-> +	state = v4l2_subdev_lock_and_get_active_state(sd);
-> +	if (v4l2_match_dv_timings(&lt6911uxe->timings, timings, 0, false))
-
-You're not unlocking the state here.
-
-> +		return 0;
-> +
-> +	if (!v4l2_valid_dv_timings(timings, &lt6911uxe_timings_cap_4kp30,
-> +				   NULL, NULL)) {
-> +		v4l2_warn(sd, "timings out of range\n");
-
-Drop this. You don't want to log if the userspace input is invalid in the kernel log,
-and the error code really says it all anyway.
-
-> +		v4l2_subdev_unlock_state(state);
-> +		return -ERANGE;
-> +	}
-> +	lt6911uxe->timings = *timings;
-> +	v4l2_subdev_unlock_state(state);
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_g_dv_timings(struct v4l2_subdev *sd, unsigned int pad,
-> +				  struct v4l2_dv_timings *timings)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +	struct v4l2_subdev_state *state;
-> +
-> +	state = v4l2_subdev_lock_and_get_active_state(sd);
-> +
-> +	*timings = lt6911uxe->timings;
-> +	v4l2_subdev_unlock_state(state);
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_query_dv_timings(struct v4l2_subdev *sd, unsigned int pad,
-> +				      struct v4l2_dv_timings *timings)
-> +{
-> +	struct v4l2_subdev_state *state;
-> +	int ret;
-> +
-> +	state = v4l2_subdev_lock_and_get_active_state(sd);
-> +	ret = lt6911uxe_get_detected_timings(sd, timings);
-> +	if (ret) {
-> +		v4l2_subdev_unlock_state(state);
-> +		return ret;
-> +	}
-> +
-> +	if (!v4l2_valid_dv_timings(timings, &lt6911uxe_timings_cap_4kp30,
-> +				   NULL, NULL)) {
-> +		v4l2_subdev_unlock_state(state);
-> +		return -ERANGE;
-> +	}
-> +
-> +	v4l2_subdev_unlock_state(state);
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_enum_dv_timings(struct v4l2_subdev *sd,
-> +				     struct v4l2_enum_dv_timings *timings)
-> +{
-> +	return v4l2_enum_dv_timings_cap(timings,
-> +			&lt6911uxe_timings_cap_4kp30, NULL, NULL);
-> +}
-> +
-> +static int lt6911uxe_dv_timings_cap(struct v4l2_subdev *sd,
-> +				    struct v4l2_dv_timings_cap *cap)
-> +{
-> +	*cap = lt6911uxe_timings_cap_4kp30;
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_status_update(struct lt6911uxe *lt6911uxe)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&lt6911uxe->sd);
-> +	u64 int_event;
-> +	u64 byte_clk, half_pix_clk, fps, format;
-> +	u64 half_htotal, vtotal, half_width, height;
-> +	int ret = 0;
-> +
-> +	/* Read interrupt event */
-> +	cci_read(lt6911uxe->regmap, REG_INT_HDMI, &int_event, &ret);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to read interrupt event: %d\n",
-> +			ret);
-> +		return ret;
-> +	}
-> +
-> +	switch (int_event) {
-> +	case INT_VIDEO_READY:
-> +		cci_read(lt6911uxe->regmap, REG_BYTE_CLK, &byte_clk, &ret);
-> +		byte_clk *= 1000;
-> +		cci_read(lt6911uxe->regmap, REG_HALF_PIX_CLK,
-> +			 &half_pix_clk, &ret);
-> +		half_pix_clk *= 1000;
-> +
-> +		if (ret || byte_clk == 0 || half_pix_clk == 0) {
-> +			dev_dbg(&client->dev,
-> +				"invalid ByteClock or PixelClock\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		cci_read(lt6911uxe->regmap, REG_HALF_H_TOTAL,
-> +			 &half_htotal, &ret);
-> +		cci_read(lt6911uxe->regmap, REG_V_TOTAL, &vtotal, &ret);
-> +		if (ret || half_htotal == 0 || vtotal == 0) {
-> +			dev_dbg(&client->dev, "invalid htotal or vtotal\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		fps = div_u64(half_pix_clk, half_htotal * vtotal);
-> +		if (fps > 60) {
-> +			dev_dbg(&client->dev,
-> +				"max fps is 60, current fps: %llu\n", fps);
-> +			return -EINVAL;
-> +		}
-> +
-> +		cci_read(lt6911uxe->regmap, REG_HALF_H_ACTIVE,
-> +			 &half_width, &ret);
-> +		cci_read(lt6911uxe->regmap, REG_V_ACTIVE, &height, &ret);
-> +		if (ret || half_width == 0 || half_width * 2 > 3840 ||
-> +		    height == 0 || height > 2160) {
-> +			dev_dbg(&client->dev, "invalid width or height\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		/*
-> +		 * Get MIPI format, YUV422_8_BIT is expected in lt6911uxe
-> +		 */
-> +		cci_read(lt6911uxe->regmap, REG_MIPI_FORMAT, &format, &ret);
-> +		if (format != YUV422_8_BIT) {
-> +			dev_dbg(&client->dev, "invalid MIPI format\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		lt6911uxe->cur_mode.height = height;
-> +		lt6911uxe->cur_mode.width = half_width * 2;
-> +		lt6911uxe->cur_mode.fps = fps;
-> +		/* MIPI Clock Rate = ByteClock × 4, defined in lt6911uxe spec */
-> +		lt6911uxe->cur_mode.link_freq = byte_clk * 4;
-> +		lt6911uxe->cur_mode.pixel_clk = half_pix_clk * 2;
-> +		lt6911uxe->cur_mode.vtotal = vtotal;
-> +		lt6911uxe->cur_mode.htotal = half_htotal * 2;
-> +		break;
-> +
-> +	case INT_VIDEO_DISAPPEAR:
-> +		cci_write(lt6911uxe->regmap, REG_MIPI_TX_CTRL, 0x0, &ret);
-> +		lt6911uxe->cur_mode.height = 0;
-> +		lt6911uxe->cur_mode.width = 0;
-> +		lt6911uxe->cur_mode.fps = 0;
-> +		lt6911uxe->cur_mode.link_freq = 0;
-> +		break;
-> +
-> +	default:
-> +		ret = -ENOLINK;
-> +	}
-> +	v4l2_subdev_notify_event(&lt6911uxe->sd,
-> +					 &lt6911uxe_ev_source_change);
-> +	return ret;
-> +}
-> +
-> +static int lt6911uxe_init_controls(struct lt6911uxe *lt6911uxe)
-> +{
-> +	struct v4l2_ctrl_handler *ctrl_hdlr;
-> +	s64 pixel_rate;
-> +	int ret;
-> +
-> +	ctrl_hdlr = &lt6911uxe->ctrl_handler;
-> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
-> +	if (ret)
-> +		return ret;
-> +
-> +	pixel_rate = get_pixel_rate(lt6911uxe);
-> +	lt6911uxe->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, NULL,
-> +						  V4L2_CID_PIXEL_RATE,
-> +						  pixel_rate, pixel_rate, 1,
-> +						  pixel_rate);
-> +
-> +	if (ctrl_hdlr->error) {
-> +		ret = ctrl_hdlr->error;
-> +		goto hdlr_free;
-> +	}
-> +	lt6911uxe->sd.ctrl_handler = ctrl_hdlr;
-> +
-> +	return 0;
-> +
-> +hdlr_free:
-> +	v4l2_ctrl_handler_free(ctrl_hdlr);
-> +	return ret;
-> +}
-> +
-> +static void lt6911uxe_update_pad_format(const struct lt6911uxe_mode *mode,
-> +					struct v4l2_mbus_framefmt *fmt)
-> +{
-> +	fmt->width = mode->width;
-> +	fmt->height = mode->height;
-> +	fmt->code = mode->code;
-> +	fmt->field = V4L2_FIELD_NONE;
-> +}
-> +
-> +static int lt6911uxe_enable_streams(struct v4l2_subdev *sd,
-> +				    struct v4l2_subdev_state *state,
-> +				    u32 pad, u64 streams_mask)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +	int ret;
-> +
-> +	ret = pm_runtime_resume_and_get(&client->dev);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	cci_write(lt6911uxe->regmap, REG_MIPI_TX_CTRL, 0x1, &ret);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to start stream: %d\n", ret);
-> +		goto err_rpm_put;
-> +	}
-> +
-> +	return 0;
-> +
-> +err_rpm_put:
-> +	pm_runtime_put(&client->dev);
-> +	return ret;
-> +}
-> +
-> +static int lt6911uxe_disable_streams(struct v4l2_subdev *sd,
-> +				     struct v4l2_subdev_state *state,
-> +				     u32 pad, u64 streams_mask)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +	struct i2c_client *client = v4l2_get_subdevdata(&lt6911uxe->sd);
-> +	int ret;
-> +
-> +	ret = cci_write(lt6911uxe->regmap, REG_MIPI_TX_CTRL, 0x0, NULL);
-> +	if (ret)
-> +		dev_err(&client->dev, "failed to stop stream: %d\n", ret);
-> +
-> +	pm_runtime_put(&client->dev);
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_set_format(struct v4l2_subdev *sd,
-> +				struct v4l2_subdev_state *sd_state,
-> +				struct v4l2_subdev_format *fmt)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +	u64 pixel_rate;
-> +
-> +	lt6911uxe_update_pad_format(&lt6911uxe->cur_mode, &fmt->format);
-> +	*v4l2_subdev_state_get_format(sd_state, fmt->pad) = fmt->format;
-> +	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-> +		return 0;
-> +
-> +	pixel_rate = get_pixel_rate(lt6911uxe);
-> +	__v4l2_ctrl_modify_range(lt6911uxe->pixel_rate, pixel_rate,
-> +				 pixel_rate, 1, pixel_rate);
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_get_format(struct v4l2_subdev *sd,
-> +				struct v4l2_subdev_state *sd_state,
-> +				struct v4l2_subdev_format *fmt)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +
-> +	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-> +		fmt->format = *v4l2_subdev_state_get_format(sd_state, fmt->pad);
-> +	else
-> +		lt6911uxe_update_pad_format(&lt6911uxe->cur_mode, &fmt->format);
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_enum_mbus_code(struct v4l2_subdev *sd,
-> +				    struct v4l2_subdev_state *sd_state,
-> +				    struct v4l2_subdev_mbus_code_enum *code)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +
-> +	if (code->index)
-> +		return -EINVAL;
-> +
-> +	code->code = lt6911uxe->cur_mode.code;
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_get_mbus_config(struct v4l2_subdev *sd,
-> +				     unsigned int pad,
-> +				     struct v4l2_mbus_config *cfg)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +	struct v4l2_subdev_state *state;
-> +
-> +	state = v4l2_subdev_lock_and_get_active_state(sd);
-> +	cfg->type = V4L2_MBUS_CSI2_DPHY;
-> +	cfg->link_freq = lt6911uxe->cur_mode.link_freq;
-> +	v4l2_subdev_unlock_state(state);
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_init_state(struct v4l2_subdev *sd,
-> +				struct v4l2_subdev_state *sd_state)
-> +{
-> +	struct v4l2_subdev_format fmt = {
-> +		.which = sd_state ? V4L2_SUBDEV_FORMAT_TRY
-> +		: V4L2_SUBDEV_FORMAT_ACTIVE,
-> +	};
-> +
-> +	return lt6911uxe_set_format(sd, sd_state, &fmt);
-> +}
-> +
-> +static const struct v4l2_subdev_video_ops lt6911uxe_video_ops = {
-> +	.s_stream = v4l2_subdev_s_stream_helper,
-> +};
-> +
-> +/*
-> + * lt6911uxe provides editable EDID for customers, but only can be edited like
-> + * updating flash. Due to this limitation, it is not possible to implement
-> + * EDID support.
-> + */
-> +static const struct v4l2_subdev_pad_ops lt6911uxe_pad_ops = {
-> +	.set_fmt = lt6911uxe_set_format,
-> +	.get_fmt = lt6911uxe_get_format,
-> +	.enable_streams = lt6911uxe_enable_streams,
-> +	.disable_streams = lt6911uxe_disable_streams,
-> +	.enum_mbus_code = lt6911uxe_enum_mbus_code,
-> +	.get_frame_interval = v4l2_subdev_get_frame_interval,
-> +	.s_dv_timings = lt6911uxe_s_dv_timings,
-> +	.g_dv_timings = lt6911uxe_g_dv_timings,
-> +	.query_dv_timings = lt6911uxe_query_dv_timings,
-> +	.enum_dv_timings = lt6911uxe_enum_dv_timings,
-> +	.dv_timings_cap = lt6911uxe_dv_timings_cap,
-> +	.get_mbus_config = lt6911uxe_get_mbus_config,
-> +};
-> +
-> +static const struct v4l2_subdev_core_ops lt6911uxe_subdev_core_ops = {
-> +	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-> +};
-> +
-> +static const struct v4l2_subdev_ops lt6911uxe_subdev_ops = {
-> +	.core = &lt6911uxe_subdev_core_ops,
-> +	.video = &lt6911uxe_video_ops,
-> +	.pad = &lt6911uxe_pad_ops,
-> +};
-> +
-> +static const struct media_entity_operations lt6911uxe_subdev_entity_ops = {
-> +	.link_validate = v4l2_subdev_link_validate,
-> +};
-> +
-> +static const struct v4l2_subdev_internal_ops lt6911uxe_internal_ops = {
-> +	.init_state = lt6911uxe_init_state,
-> +};
-> +
-> +static int lt6911uxe_fwnode_parse(struct lt6911uxe *lt6911uxe,
-> +				  struct device *dev)
-> +{
-> +	struct fwnode_handle *endpoint;
-> +	struct v4l2_fwnode_endpoint bus_cfg = {
-> +		.bus_type = V4L2_MBUS_CSI2_DPHY,
-> +	};
-> +	int ret;
-> +
-> +	endpoint = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0,
-> +						   FWNODE_GRAPH_ENDPOINT_NEXT);
-> +	if (!endpoint)
-> +		return dev_err_probe(dev, -EPROBE_DEFER,
-> +				     "endpoint node not found\n");
-> +
-> +	ret = v4l2_fwnode_endpoint_parse(endpoint, &bus_cfg);
-> +	fwnode_handle_put(endpoint);
-> +	if (ret) {
-> +		dev_err(dev, "failed to parse endpoint node: %d\n", ret);
-> +		goto out_err;
-> +	}
-> +
-> +	/*
-> +	 * Check the number of MIPI CSI2 data lanes,
-> +	 * lt6911uxe only support 4 lanes.
-> +	 */
-> +	if (bus_cfg.bus.mipi_csi2.num_data_lanes != LT6911UXE_DEFAULT_LANES) {
-> +		dev_err(dev, "only 4 data lanes are currently supported\n");
-> +		goto out_err;
-> +	}
-> +	lt6911uxe->cur_mode.lanes = bus_cfg.bus.mipi_csi2.num_data_lanes;
-> +	lt6911uxe->cur_mode.code = MEDIA_BUS_FMT_UYVY8_1X16;
-> +
-> +	return 0;
-> +
-> +out_err:
-> +	v4l2_fwnode_endpoint_free(&bus_cfg);
-> +	return ret;
-> +}
-> +
-> +static int lt6911uxe_identify_module(struct lt6911uxe *lt6911uxe,
-> +				     struct device *dev)
-> +{
-> +	u64 val;
-> +	int ret = 0;
-> +
-> +	/* Chip ID should be confirmed when the I2C slave is active */
-> +	cci_write(lt6911uxe->regmap, REG_ENABLE_I2C, 0x1, &ret);
-> +	cci_read(lt6911uxe->regmap, REG_CHIP_ID, &val, &ret);
-> +	cci_write(lt6911uxe->regmap, REG_ENABLE_I2C, 0x0, &ret);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "fail to read chip id\n");
-> +
-> +	if (val != LT6911UXE_CHIP_ID) {
-> +		return dev_err_probe(dev, -ENXIO, "chip id mismatch: %x!=%x\n",
-> +				     LT6911UXE_CHIP_ID, (u16)val);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static irqreturn_t lt6911uxe_threaded_irq_fn(int irq, void *dev_id)
-> +{
-> +	struct v4l2_subdev *sd = dev_id;
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +	struct v4l2_subdev_state *state;
-> +
-> +	state = v4l2_subdev_lock_and_get_active_state(sd);
-> +	lt6911uxe_status_update(lt6911uxe);
-> +	v4l2_subdev_unlock_state(state);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static void lt6911uxe_remove(struct i2c_client *client)
-> +{
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +
-> +	free_irq(gpiod_to_irq(lt6911uxe->irq_gpio), lt6911uxe);
-> +	v4l2_async_unregister_subdev(sd);
-> +	v4l2_subdev_cleanup(sd);
-> +	media_entity_cleanup(&sd->entity);
-> +	v4l2_ctrl_handler_free(&lt6911uxe->ctrl_handler);
-> +	pm_runtime_disable(&client->dev);
-> +	pm_runtime_set_suspended(&client->dev);
-> +}
-> +
-> +static int lt6911uxe_probe(struct i2c_client *client)
-> +{
-> +	struct lt6911uxe *lt6911uxe;
-> +	struct device *dev = &client->dev;
-> +	u64 irq_pin_flags;
-> +	int ret;
-> +
-> +	lt6911uxe = devm_kzalloc(dev, sizeof(*lt6911uxe), GFP_KERNEL);
-> +	if (!lt6911uxe)
-> +		return -ENOMEM;
-> +
-> +	lt6911uxe->regmap = devm_regmap_init_i2c(client,
-> +						 &lt9611uxe_regmap_config);
-> +	if (IS_ERR(lt6911uxe->regmap))
-> +		return dev_err_probe(dev, PTR_ERR(lt6911uxe->regmap),
-> +				     "failed to init CCI\n");
-> +
-> +	v4l2_i2c_subdev_init(&lt6911uxe->sd, client, &lt6911uxe_subdev_ops);
-> +
-> +	lt6911uxe->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_IN);
-> +	if (IS_ERR(lt6911uxe->reset_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(lt6911uxe->reset_gpio),
-> +				     "failed to get reset gpio\n");
-> +
-> +	lt6911uxe->irq_gpio = devm_gpiod_get(dev, "readystat", GPIOD_IN);
-> +	if (IS_ERR(lt6911uxe->irq_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(lt6911uxe->irq_gpio),
-> +				     "failed to get ready_stat gpio\n");
-> +
-> +	ret = lt6911uxe_fwnode_parse(lt6911uxe, dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	usleep_range(10000, 10500);
-> +
-> +	ret = lt6911uxe_identify_module(lt6911uxe, dev);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to find chip\n");
-> +
-> +	ret = lt6911uxe_init_controls(lt6911uxe);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to init control\n");
-> +
-> +	lt6911uxe->sd.dev = dev;
-> +	lt6911uxe->sd.internal_ops = &lt6911uxe_internal_ops;
-> +	lt6911uxe->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	lt6911uxe->sd.entity.ops = &lt6911uxe_subdev_entity_ops;
-> +	lt6911uxe->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-> +	lt6911uxe->pad.flags = MEDIA_PAD_FL_SOURCE;
-> +	ret = media_entity_pads_init(&lt6911uxe->sd.entity, 1, &lt6911uxe->pad);
-> +	if (ret) {
-> +		dev_err(dev, "failed to init entity pads: %d\n", ret);
-> +		goto v4l2_ctrl_handler_free;
-> +	}
-> +
-> +	/*
-> +	 * Device is already turned on by i2c-core with ACPI domain PM.
-> +	 * Enable runtime PM and turn off the device.
-> +	 */
-> +	pm_runtime_set_active(dev);
-> +	pm_runtime_enable(dev);
-> +	pm_runtime_idle(dev);
-> +
-> +	ret = v4l2_subdev_init_finalize(&lt6911uxe->sd);
-> +	if (ret) {
-> +		dev_err(dev, "failed to init v4l2 subdev: %d\n", ret);
-> +		goto media_entity_cleanup;
-> +	}
-> +
-> +	/* Setting irq */
-> +	irq_pin_flags = IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING |
-> +			IRQF_ONESHOT;
-> +
-> +	ret = request_threaded_irq(gpiod_to_irq(lt6911uxe->irq_gpio), NULL,
-> +				   lt6911uxe_threaded_irq_fn,
-> +				   irq_pin_flags, NULL, lt6911uxe);
-> +	if (ret) {
-> +		dev_err(dev, "failed to request IRQ: %d\n", ret);
-> +		goto subdev_cleanup;
-> +	}
-> +
-> +	ret = v4l2_async_register_subdev_sensor(&lt6911uxe->sd);
-> +	if (ret) {
-> +		dev_err(dev, "failed to register V4L2 subdev: %d\n", ret);
-> +		goto free_irq;
-> +	}
-> +
-> +	return 0;
-> +
-> +free_irq:
-> +	free_irq(gpiod_to_irq(lt6911uxe->irq_gpio), lt6911uxe);
-> +
-> +subdev_cleanup:
-> +	v4l2_subdev_cleanup(&lt6911uxe->sd);
-> +
-> +media_entity_cleanup:
-> +	pm_runtime_disable(dev);
-> +	pm_runtime_set_suspended(dev);
-> +	media_entity_cleanup(&lt6911uxe->sd.entity);
-> +
-> +v4l2_ctrl_handler_free:
-> +	v4l2_ctrl_handler_free(lt6911uxe->sd.ctrl_handler);
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct acpi_device_id lt6911uxe_acpi_ids[] = {
-> +	{ "INTC10C5" },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(acpi, lt6911uxe_acpi_ids);
-> +
-> +static struct i2c_driver lt6911uxe_i2c_driver = {
-> +	.driver = {
-> +		.name = "lt6911uxe",
-> +		.acpi_match_table = ACPI_PTR(lt6911uxe_acpi_ids),
-> +	},
-> +	.probe = lt6911uxe_probe,
-> +	.remove = lt6911uxe_remove,
-> +};
-> +
-> +module_i2c_driver(lt6911uxe_i2c_driver);
-> +
-> +MODULE_AUTHOR("Yan Dongcheng <dongcheng.yan@intel.com>");
-> +MODULE_DESCRIPTION("Lontium lt6911uxe HDMI to MIPI Bridge Driver");
-> +MODULE_LICENSE("GPL");
+> The current range allows analogue gain to x15.9375.
+> Expanding it to 0x1ff.f would be up to x511.9375. I believe that
+> equates to ~54dB as we're scaling voltages, not power. The spec sheet
+> for the sensor lists S/N of 38dB and dynamic range of 68dB, so x511
+> will be almost pure noise.
 > 
-> base-commit: 2f87d0916ce0d2925cedbc9e8f5d6291ba2ac7b2
+> Doing a very basic test using i2ctransfer to set gain values whilst
+> the sensor is running suggests that the image is the same regardless
+> of bits 2-4 of 0x3508. Setting either bits 0 or 1 increases the gain
+> by around x8.5, but they don't combine.
+> 
+> Overall can I ask how you've tested that a range up to 0x1fff works,
+> and on which module? I currently don't believe this works as intended.
 
-Regards,
+I've done some basic testing on a vision components OV9281 module.
+Nonetheless it seems I should have done more testing... I just ran a
+"gain sweep" test and it seems you are perfectly right...
 
-	Hans
+The lower two bits of 0x3508 have some kind of offset and "flattening" effect
+on the applied gain, like shown in the plot (X is the gain, Y is the reported
+mean brightness of the picture, read by magick).
+
+  45 +---------------------------------------------------------------------+
+     |         +           +           +           +           +           |
+     |                     A                     AA                        |
+  40 |-+                AAA                    AA                        +-|
+     |                 AA                 A AAA                            |
+  35 |-+             AA                AAA A                             +-|
+     |              AA              AAAA                             AAAAAA|
+     |            AA             AAAA                          AAAAAA      |
+  30 |-+         AA           AAAA                       AAAAAA          +-|
+     |         AA           AAA                    AAAAAA                  |
+     |         A           A                         A                     |
+  25 |-+     AA                                                          +-|
+     |      A                                                              |
+     |     A                                                               |
+  20 |-+ AA                                                              +-|
+     |   A                                                                 |
+  15 |-AA                                                                +-|
+     |A                                                                    |
+     |A        +           +           +           +           +           |
+  10 +---------------------------------------------------------------------+
+            0x0080      0x0100      0x0180      0x0200      0x0280      0x0300
+                                      gain
+
+This pattern repeats up to 0x1fff, so I guess all other bits of 0x3508
+have no effect on the gain (like shown in the plot attached as png, as
+it got way to big for ascii).
+
+I'm sorry for the inconvenience caused... I've somehow messed up my
+initial tests.
+
+Thank you again for your feedback!
+
+So please feel free to ignore this patch. Should I send a new series
+with just the two minor patches of this series? Or should I include them
+in the next series for the ov9282 driver?
+
+regards;rl
+
+> 
+>   Dave
+> 
+> > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+> > ---
+> >  drivers/media/i2c/ov9282.c | 17 ++++++++++-------
+> >  1 file changed, 10 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> > index c882a021cf18852237bf9b9524d3de0c5b48cbcb..e6effb2b42d4d5d0ca3d924df59c60512f9ce65d 100644
+> > --- a/drivers/media/i2c/ov9282.c
+> > +++ b/drivers/media/i2c/ov9282.c
+> > @@ -54,11 +54,11 @@
+> >  #define OV9282_AEC_MANUAL_DEFAULT      0x00
+> >
+> >  /* Analog gain control */
+> > -#define OV9282_REG_AGAIN       0x3509
+> > -#define OV9282_AGAIN_MIN       0x10
+> > -#define OV9282_AGAIN_MAX       0xff
+> > -#define OV9282_AGAIN_STEP      1
+> > -#define OV9282_AGAIN_DEFAULT   0x10
+> > +#define OV9282_REG_AGAIN       0x3508
+> > +#define OV9282_AGAIN_MIN       0x0010
+> > +#define OV9282_AGAIN_MAX       0x1fff
+> > +#define OV9282_AGAIN_STEP      0x0001
+> > +#define OV9282_AGAIN_DEFAULT   0x0010
+> >
+> >  /* Group hold register */
+> >  #define OV9282_REG_HOLD                0x3308
+> > @@ -226,7 +226,6 @@ static const struct ov9282_reg common_regs[] = {
+> >         {OV9282_REG_AEC_MANUAL, OV9282_GAIN_PREC16_EN},
+> >         {0x3505, 0x8c},
+> >         {0x3507, 0x03},
+> > -       {0x3508, 0x00},
+> >         {0x3610, 0x80},
+> >         {0x3611, 0xa0},
+> >         {0x3620, 0x6e},
+> > @@ -605,7 +604,11 @@ static int ov9282_update_exp_gain(struct ov9282 *ov9282, u32 exposure, u32 gain)
+> >         if (ret)
+> >                 goto error_release_group_hold;
+> >
+> > -       ret = ov9282_write_reg(ov9282, OV9282_REG_AGAIN, 1, gain);
+> > +       ret = ov9282_write_reg(ov9282, OV9282_REG_AGAIN, 1, (gain >> 8) & 0x1f);
+> > +       if (ret)
+> > +               goto error_release_group_hold;
+> > +
+> > +       ret = ov9282_write_reg(ov9282, OV9282_REG_AGAIN + 1, 1, gain & 0xff);
+> >
+> >  error_release_group_hold:
+> >         ov9282_write_reg(ov9282, OV9282_REG_HOLD, 1, 0);
+> >
+> > --
+> > 2.47.2
+> >
+> >
+
+--qypklqcxyarzw3us
+Content-Type: image/png
+Content-Disposition: attachment; filename="plot4.png"
+Content-Transfer-Encoding: base64
+
+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
+tM5FBnqzP0RBmgCAxPkbQgAAgES1olByyygAAECiFIQAAACJUhACAAAkSkEIAACQKAUhAABA
+ohSEAAAAiVIQAgAAJEpBCAAAkCgFIQAAQKIUhAAAAIlSEAIAACRKQQgAAJAoBSEAAECiFIQA
+AACJUhACAAAkSkEIAACQKAUhAABAohSEAAAAiVIQAgAAJEpBCACkZX1lf9FNgJLQm0pAQQgA
+uXFsBHnRm6A9Ii4IDRNRkKYoSFMUpAkAyF1H0Q0AAGiH3mdV6q9vrc4qqDkQMb2pTBSEANAs
+x0ZRqGdkfWW/7ARLb4qC3lQmlWq12vy7nDx58oEHHti8efOhQ4emTp26aNGif/Nv/k3tW9dd
+d92OHTt6//DixYs3bNgwUJsqA7Wq35um7IihkaYoSFMUpCkujo2iIE1RkKYoSFObDVwoDU8+
+Vwi7uro2bty4cePGT3ziE3v37l28eHFHR8ftt9+eZdnx48fnz5+/du3a+g+PHj26mXU5IREF
+aYqCNEVBmgCA1smhIHz//fcfffTRFStW/PEf/3GWZdOnT9+9e/fWrVtrBWFPT8/5558/adKk
+5lcEANA851YgL3pTCeRQEJ599tkHDx4cNWpUfckFF1ywZ8+e2uuenp6xY8c2vxYACJ9jI8iL
+3gTtkc8toxMnTqy/Pnny5M6dO6+88sral8ePH2/yHtHTMUxEQZqiIE1RkCYAIHf5P4fwrrvu
+OnDgwF133VX7sqen59lnn7366qsnTZp0xRVX3HPPPe+++27uKwUAAGCocn7sxN13333fffc9
+9thjV1xxRW3J+PHjDx8+fMcdd3R2dj799NMrVqx49dVXv/71r+e7XgAAAIYqz88tvf322x99
+9NEtW7bceOONp/uZr33ta8uXLz969Gjvu0wb29SCT1MFAACIWriPnciy7M4779y8efOTTz55
+zTXXDPBjH/vYx7IsO3jw4AAFYZZllUqlYYkSEQAASEffmqgV8vkbwr/5m79Zu3bttm3bGqrB
+V1555U//9E9feeWV+pLnn39+xIgRnZ2dA79htY9c2gkAABCF9tREOVxzPHny5GWXXfaJT3xi
+3bp1vZdPmjTp3Xff/chHPnLBBRc88MADF1544d69e5csWfKFL3zhP/7H/zhQm9wyCgAA8Mta
+USjl8I4/+MEPZs+e3Xf566+/PmnSpB/96EddXV179uzp6emZNm3awoULb7vttrPOOmugNikI
+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
+M+cfRwAAAABJRU5ErkJggg==
+
+--qypklqcxyarzw3us--
 
