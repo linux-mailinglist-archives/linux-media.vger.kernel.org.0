@@ -1,228 +1,179 @@
-Return-Path: <linux-media+bounces-27177-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27178-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9DF4A48AF2
-	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2025 22:58:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BBFFA48B96
+	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2025 23:29:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 22A3E7A6146
-	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2025 21:57:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E23237A4318
+	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2025 22:28:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3C7C271837;
-	Thu, 27 Feb 2025 21:57:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 313382777FB;
+	Thu, 27 Feb 2025 22:29:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ToEsXxGf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MfjTynVC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A4D4227B8E;
-	Thu, 27 Feb 2025 21:57:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8644D2777EB;
+	Thu, 27 Feb 2025 22:29:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740693468; cv=none; b=nFDuoNtECG/5sgI6JCOw3esOZhvFPKiAEjv5qChh0VJLREQvkfjxnHKrdzv989jDoZ9GgqWNdOcY27xCX+zsDYOOpEAbJnXcIdTXqEiCtKtFBhhROr+v03sCV4Fn3F7oBotgWt3ChG5z/cms78nHLXm76bSozEZH+CZWu9OiOs0=
+	t=1740695363; cv=none; b=qWv29CBZ7LydYP5MoVeifH/Aj3jgaA82QJlKB35G36xGo62QkJVYXGKLFbPnVUUfqcA0OfMDh0j8pghvedyYOpZ04mZ9UFyUp5/N0UeIJ2o87g9p88QBtLghC6926KiZayFT05QyfKNOlpSwELHRtR2RO13QcnnB2UxaYwVE1IY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740693468; c=relaxed/simple;
-	bh=KRFx2VPv0/SkpIJsIryj+VgjCDlLd6MvWLHprVAY+pE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IETrppeE5j5A/vm2ID4MH8lPSC6nm+Wr5KpHGaEq5Mbz+d8J98QS511gtJzFZM13k4Xxollwh/wVyWIZh724m476nY7AVcUVqUoeQw/umJprH2kVcNQqiMGtP6iGcaG+dGTeogwUpO63W/ChWJBLXcKQfQrgBrMl5E5GRw3LztU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ToEsXxGf; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43998deed24so14228255e9.2;
-        Thu, 27 Feb 2025 13:57:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740693465; x=1741298265; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yMuX81k7SiNTHz2+bDlgy5RWfBuIrQmuJh6Y3XOI5k0=;
-        b=ToEsXxGfke+y6Hq/oOz1RYCu15/2WWOkF5RJbdy8dwuC3s/lfsgCeOfIzAp6MZX7Y6
-         lwlSvvy/+4Lu99wB20NLPAdKr450ji4lDezm+9BjLdQmXoBiC7n52Q3x0raX/VHceWUa
-         PAh0l12jljs4UshLtvf8qtFm/Q6v08Bv50PwyWRTC/BIft0l7rt2yuJ8t0UyKJ0vb3HX
-         03yW1/jwdG8Sd6fIdRbJOhmd0Ir+hzB7or8mmnIbzrysVcwwME7J9HoT+jmzI6lJLlLS
-         KG37noP74COukptatoxiaPYRQhmvQb1mn2KsevjVC/uyHNF5iA3J2/2YpExnzBAzhdXO
-         dbLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740693465; x=1741298265;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yMuX81k7SiNTHz2+bDlgy5RWfBuIrQmuJh6Y3XOI5k0=;
-        b=YXhgLZTR3RmdGr59jOTBs32lE1Xoxn83vvnTUAr5H/qsJ3YDws+XdUXkskXTZVQ83E
-         yC+91jxcCnLVnUV0dHTYMj0FdorgTpkdakyzYWn2Vk+a338VexqroFS5GcyDkqyVCEg+
-         g39cma4VhO6XkrF0SdSbTC1R3T38+zmnjllfRVGowkyQsJY1I1ux2PuaLxJIiF3EfSSq
-         bIxtbGzbfipJrQY3odDd+nXsiZoHA9OaXsSeFb8TX7PXuMYCfI8rchFMU10k+wxwKBHH
-         kkydfmlvhAWxan6yVSJ6h2LkCPmeRaBh0QMR9o+Y4xK9edhMhTMZg4DL6qOhUD3iZyDY
-         s5/g==
-X-Forwarded-Encrypted: i=1; AJvYcCUdEW5yTpG/e+24LgmsbUTjOUBKdkH9p5REJoHWqQA+RssP0qwwf/7rHsQ6IbC/FOk+EXxxd4y74Y/nWUE+@vger.kernel.org, AJvYcCUwNbF521BK830oD3GxhxnLjcNF65UUDOJLppcag2/pWCH3L0qACiyRewfceW096I5ELpo=@vger.kernel.org, AJvYcCV7QEoYPKNz+D1Cn2lgn/p//XeHvdddrd2zH1LeP5KcxJBZWgTB3pDy9LbGeP8C8r0Jpvh4KgiP@vger.kernel.org, AJvYcCVS9ptc+dH4lUmelDv95d/mvOHqdpNjMPm3OtvBGKNrVCBhWam0XvwgrLccxc7jaIPRUrj8A6v5g2tZ0GLB9e8=@vger.kernel.org, AJvYcCWxBudOva1ksIu4FT7POmrdKaVZ6DXB+XZ6nhkLQcTn4l1vZu0nSVHuTWs9FxLshrSKUQmp+sNvBJzEhCz9@vger.kernel.org, AJvYcCXnsegOL/9kmLMVujOu99B/+5YJNiLoXOrMhulVp0RDFFdL8D4KyDGOG1Pg8rna7NvWxw4NZOGT9zHSPY0=@vger.kernel.org, AJvYcCXouRFZZf4fxqEjcjv0Xg6lcGdkAIeSCbt1R+ABrtDs2JyBavVQ8pbII6AAUn0efwsdigIgRZ2wj+ugfAw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2hJ65avONXpKJjigjXmufkhuNPeW/Zq3DE7qZ4RbFVLauYTZx
-	CoLTW1VpJWjoR0G2Ibtw81JG+pQM6G0O8LhntKM2CEqd43lOPzhj
-X-Gm-Gg: ASbGncs8bSZynR3d04PBfZd1zDtTHWf9GUlXzJ+FtIT/iMq1l4qm7I+sbMwtAxUirHP
-	3+Utsyj7PAs8wZzcwnMNdGRLz9RZheS1fXOMkfarJoIzFaEiQoGktr62I0oR/f/LgYfMkxcrZiQ
-	3lcZMvpWH+ciE6p0sJGONgxMno/FQTIlA/oWE/NYwVBfSPPmbLZW0uMf8KdhY/Z9q7Hkpuqg8Sg
-	JhG3yKsmqgoptEK4JH3cXDMI9L58/mKTqfqphbGOanrqhBWQNP0xL0XJxz/1RsZBznGAcZZHM/J
-	vmefVdXAm4VBlV3/WPgYF2kf0WWI1kDp55nREqCixrJzrtUbN3EWnJw4LZjNP3cT
-X-Google-Smtp-Source: AGHT+IEhn6JpdK4VbGGBYqWA0Kpl3+orzugSC/uMKlJ9X/pPv2vI6Oa6V51Yx+DCCez80jfd4SeOMA==
-X-Received: by 2002:a05:600c:1912:b0:439:a1b8:a246 with SMTP id 5b1f17b1804b1-43ba66f9643mr7425895e9.8.1740693464406;
-        Thu, 27 Feb 2025 13:57:44 -0800 (PST)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43b7370372dsm35525085e9.11.2025.02.27.13.57.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Feb 2025 13:57:43 -0800 (PST)
-Date: Thu, 27 Feb 2025 21:57:41 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
- mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
- x86@kernel.org, jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
- andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- airlied@gmail.com, simona@ffwll.ch, dmitry.torokhov@gmail.com,
- mchehab@kernel.org, awalls@md.metrocast.net, hverkuil@xs4all.nl,
- miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
- louis.peens@corigine.com, andrew+netdev@lunn.ch, davem@davemloft.net,
- edumazet@google.com, pabeni@redhat.com,
- parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
- johannes@sipsolutions.net, gregkh@linuxfoundation.org,
- jirislaby@kernel.org, akpm@linux-foundation.org, hpa@zytor.com,
- alistair@popple.id.au, linux@rasmusvillemoes.dk,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
- linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- linux-input@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
- linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
- Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
-Message-ID: <20250227215741.1c2e382f@pumpkin>
-In-Reply-To: <Z8CpaaHv0ahHFVuK@thinkpad>
-References: <20250223164217.2139331-1-visitorckw@gmail.com>
-	<20250223164217.2139331-3-visitorckw@gmail.com>
-	<Z7zIBwH4aUA7G9MY@thinkpad>
-	<20250226222911.22cb0c18@pumpkin>
-	<Z8CpaaHv0ahHFVuK@thinkpad>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+	s=arc-20240116; t=1740695363; c=relaxed/simple;
+	bh=f85n7tc+0wiWu3oJu/ES9vHS7UtP8IVdMUZqaI8+ROI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=s6Rvrz5xKVjufBu+zZpf4Ve1dN/RRl+HDIQ5XdFgClxrpZQFdniFEooXikZUFywkWgCWlxqdMAEiNwi7IX2P1iBuO/XCCqpf9tEOnWqaLoE/dzMT/XnxN8p8EM+bhSuXyYgidYLZY5yvHB38o30rCmvkXQXu+bc3bfgzjUHyAOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MfjTynVC; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740695358; x=1772231358;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=f85n7tc+0wiWu3oJu/ES9vHS7UtP8IVdMUZqaI8+ROI=;
+  b=MfjTynVC7i36pBiQmf2zzVYWy/T9mfEMdrmTg6j0wdb7MuVjEj5cJ6wF
+   s4b8nr3sZuLRfDCG/QpAHRTyp5PbvRzI4s74/kyyCb1LmnZOPq4LFRM4t
+   LalBEXxU42j3pDNL3ZfT9Q3b7Q17iuIZwY2wo6U+joL/0DMsxMlypG+38
+   xZ7E5pd/UN3QCeCum4F+TJUBMv/JhUUKbhIk2NyGLM59pJBZwfHGYw0rc
+   zVwm+SsOStQS7fmnUd8kKE5ofIcwyyvOFiahuvYxCW3HYnT1fLsRU9gfP
+   dDDwRAx2HQRaJyUURec0DnPpu0WM6dHavZG8jUTXmkFBZ5+xb2zUAA6yS
+   Q==;
+X-CSE-ConnectionGUID: g997Rv0pRqezkhOQeTZnoA==
+X-CSE-MsgGUID: 3gwR3sQRQhaAnBV3lrY3pg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="41864931"
+X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
+   d="scan'208";a="41864931"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 14:29:17 -0800
+X-CSE-ConnectionGUID: +N3OgpXOSFCJZp0mQYC0mQ==
+X-CSE-MsgGUID: 35+uvpQmRF+NuNMZNKwxzg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,320,1732608000"; 
+   d="scan'208";a="117654814"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by fmviesa010.fm.intel.com with ESMTP; 27 Feb 2025 14:29:14 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tnmNT-000E6g-2Y;
+	Thu, 27 Feb 2025 22:29:11 +0000
+Date: Fri, 28 Feb 2025 06:28:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+	tomm.merciai@gmail.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-renesas-soc@vger.kernel.org,
+	linux-media@vger.kernel.org, biju.das.jz@bp.renesas.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 17/17] media: rzg2l-cru: Add support for RZ/G3E SoC
+Message-ID: <202502280652.KV7uk1gP-lkp@intel.com>
+References: <20250226152418.1132337-18-tommaso.merciai.xr@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250226152418.1132337-18-tommaso.merciai.xr@bp.renesas.com>
 
-On Thu, 27 Feb 2025 13:05:29 -0500
-Yury Norov <yury.norov@gmail.com> wrote:
+Hi Tommaso,
 
-> On Wed, Feb 26, 2025 at 10:29:11PM +0000, David Laight wrote:
-> > On Mon, 24 Feb 2025 14:27:03 -0500
-> > Yury Norov <yury.norov@gmail.com> wrote:
-> > ....  
-> > > +#define parity(val)					\
-> > > +({							\
-> > > +	u64 __v = (val);				\
-> > > +	int __ret;					\
-> > > +	switch (BITS_PER_TYPE(val)) {			\
-> > > +	case 64:					\
-> > > +		__v ^= __v >> 32;			\
-> > > +		fallthrough;				\
-> > > +	case 32:					\
-> > > +		__v ^= __v >> 16;			\
-> > > +		fallthrough;				\
-> > > +	case 16:					\
-> > > +		__v ^= __v >> 8;			\
-> > > +		fallthrough;				\
-> > > +	case 8:						\
-> > > +		__v ^= __v >> 4;			\
-> > > +		__ret =  (0x6996 >> (__v & 0xf)) & 1;	\
-> > > +		break;					\
-> > > +	default:					\
-> > > +		BUILD_BUG();				\
-> > > +	}						\
-> > > +	__ret;						\
-> > > +})
-> > > +  
-> > 
-> > You really don't want to do that!
-> > gcc makes a right hash of it for x86 (32bit).
-> > See https://www.godbolt.org/z/jG8dv3cvs  
-> 
-> GCC fails to even understand this. Of course, the __v should be an
-> __auto_type. But that way GCC fails to understand that case 64 is
-> a dead code for all smaller type and throws a false-positive 
-> Wshift-count-overflow. This is a known issue, unfixed for 25 years!
+kernel test robot noticed the following build warnings:
 
-Just do __v ^= __v >> 16 >> 16
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.14-rc4 next-20250227]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> 
-> https://gcc.gnu.org/bugzilla/show_bug.cgi?id=4210
->  
-> > You do better using a __v32 after the 64bit xor.  
-> 
-> It should be an __auto_type. I already mentioned. So because of that,
-> we can either do something like this:
-> 
->   #define parity(val)					\
->   ({							\
->   #ifdef CLANG                                          \
->   	__auto_type __v = (val);			\
->   #else /* GCC; because of this and that */             \
->   	u64 __v = (val);			        \
->   #endif                                                \
->   	int __ret;					\
-> 
-> Or simply disable Wshift-count-overflow for GCC.
+url:    https://github.com/intel-lab-lkp/linux/commits/Tommaso-Merciai/media-dt-bindings-renesas-rzg2l-csi2-Document-Renesas-RZ-V2H-P-SoC/20250226-233919
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250226152418.1132337-18-tommaso.merciai.xr%40bp.renesas.com
+patch subject: [PATCH v3 17/17] media: rzg2l-cru: Add support for RZ/G3E SoC
+config: arm-randconfig-001-20250227 (https://download.01.org/0day-ci/archive/20250228/202502280652.KV7uk1gP-lkp@intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250228/202502280652.KV7uk1gP-lkp@intel.com/reproduce)
 
-For 64bit values on 32bit it is probably better to do:
-int p32(unsigned long long x)
-{
-    unsigned int lo = x;
-    lo ^= x >> 32;
-    lo ^= lo >> 16;
-    lo ^= lo >> 8;
-    lo ^= lo >> 4;
-    return (0x6996 >> (lo & 0xf)) & 1;
-}
-That stops the compiler doing 64bit shifts (ok on x86, but probably not elsewhere).
-It is likely to be reasonably optimal for most 64bit cpu as well.
-(For x86-64 it probably removes a load of REX prefix.)
-(It adds an extra instruction to arm because if its barrel shifter.)
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202502280652.KV7uk1gP-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c: In function 'rzg3e_cru_get_current_slot':
+>> drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c:677:65: warning: left shift count >= width of type [-Wshift-count-overflow]
+     677 |         amnmadrs |= ((dma_addr_t)rzg2l_cru_read(cru, AMnMADRSH) << 32);
+         |                                                                 ^~
+   In file included from include/linux/device.h:15,
+                    from include/linux/pm_runtime.h:11,
+                    from drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c:16:
+>> drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c:685:27: warning: format '%llx' expects argument of type 'long long unsigned int', but argument 3 has type 'dma_addr_t' {aka 'unsigned int'} [-Wformat=]
+     685 |         dev_err(cru->dev, "Invalid MB address 0x%llx (out of range)\n", amnmadrs);
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
+     110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
+         |                              ^~~
+   include/linux/dev_printk.h:154:56: note: in expansion of macro 'dev_fmt'
+     154 |         dev_printk_index_wrap(_dev_err, KERN_ERR, dev, dev_fmt(fmt), ##__VA_ARGS__)
+         |                                                        ^~~~~~~
+   drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c:685:9: note: in expansion of macro 'dev_err'
+     685 |         dev_err(cru->dev, "Invalid MB address 0x%llx (out of range)\n", amnmadrs);
+         |         ^~~~~~~
+   drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c:685:52: note: format string is defined here
+     685 |         dev_err(cru->dev, "Invalid MB address 0x%llx (out of range)\n", amnmadrs);
+         |                                                 ~~~^
+         |                                                    |
+         |                                                    long long unsigned int
+         |                                                 %x
 
 
-> 
-> > Even the 64bit version is probably sub-optimal (both gcc and clang).
-> > The whole lot ends up being a bit single register dependency chain.
-> > You want to do:  
-> 
-> No, I don't. I want to have a sane compiler that does it for me.
-> 
-> > 	mov %eax, %edx
-> > 	shrl $n, %eax
-> > 	xor %edx, %eax
-> > so that the 'mov' and 'shrl' can happen in the same clock
-> > (without relying on the register-register move being optimised out).
-> > 
-> > I dropped in the arm64 for an example of where the magic shift of 6996
-> > just adds an extra instruction.  
-> 
-> It's still unclear to me that this parity thing is used in hot paths.
-> If that holds, it's unclear that your hand-made version is better than
-> what's generated by GCC.
+vim +677 drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
 
-I wasn't seriously considering doing that optimisation.
-Perhaps just hoping is might make a compiler person think :-)
+   664	
+   665	static int rzg3e_cru_get_current_slot(struct rzg2l_cru_dev *cru)
+   666	{
+   667		dma_addr_t amnmadrs;
+   668		unsigned int slot;
+   669	
+   670		/*
+   671		 * When AMnMADRSL is read, AMnMADRSH of the higher-order
+   672		 * address also latches the address.
+   673		 *
+   674		 * AMnMADRSH must be read after AMnMADRSL has been read.
+   675		 */
+   676		amnmadrs = rzg2l_cru_read(cru, AMnMADRSL);
+ > 677		amnmadrs |= ((dma_addr_t)rzg2l_cru_read(cru, AMnMADRSH) << 32);
+   678	
+   679		/* Ensure amnmadrs is within this buffer range */
+   680		for (slot = 0; slot < cru->num_buf; slot++)
+   681			if (amnmadrs >= cru->buf_addr[slot] &&
+   682			    amnmadrs < cru->buf_addr[slot] + cru->format.sizeimage)
+   683				return slot;
+   684	
+ > 685		dev_err(cru->dev, "Invalid MB address 0x%llx (out of range)\n", amnmadrs);
+   686		return -EINVAL;
+   687	}
+   688	
 
-	David
-
-> 
-> Do you have any perf test?
-> 
-> Thanks,
-> Yury
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
