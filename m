@@ -1,63 +1,71 @@
-Return-Path: <linux-media+bounces-27134-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27136-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F991A476C9
-	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2025 08:46:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1B9BA477D3
+	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2025 09:30:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 28C4D188B5F9
-	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2025 07:46:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 456CE1884D4B
+	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2025 08:30:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC83C22370F;
-	Thu, 27 Feb 2025 07:46:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 514CD22686B;
+	Thu, 27 Feb 2025 08:29:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Pdw9TsGx"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="rB7E+GNN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.5])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D636438DF9;
-	Thu, 27 Feb 2025 07:46:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.5
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC556226173;
+	Thu, 27 Feb 2025 08:29:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740642384; cv=none; b=oBOeHgJxAQvmFkRj1m0cdcisw5Kadrq334YeAOafODqEydZ0nXX1rIPoMs+1TnPg0G1eyMSGCCDte6KyUUPQPEFUwL2EVkbhYmUosgw94gBhb1Nw31Gm1EK8LZ/lbzO62m5vPRpFcQHN4RP28W9exA3IJ1aV0ELmayzjLi8ct8s=
+	t=1740644989; cv=none; b=nwA7MxpA4Es5ctHLaB5BJz1N8pkTqmi3NtKO2THRd4Wi1XWibA5vy2XzbUQaXTqOAVXDusLgWQEoovdHQVIRhoxL/Bi38B7m90oH3yTlVXjePkXuub9Ru6VWiA4gG/dT8xtFkp5QQ0fmvPapIv2g3erVkT0DU1BfY6ZLwnnGs0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740642384; c=relaxed/simple;
-	bh=jJwqgKWR5JOY+McBAKuUmoyfRIE0w/3F/QEWmYkYatA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VqQl2Yi29HME8PQP9ReLYgVvelQFvkDACRksMpGEF8uqqlH/a9RcCEeW/C5xNLeM+8NpnCavmvkYeEOhORrrkQ0f1POXtLFfJmZoE5uoqW9m1mcebFlEX16KFtDK0EwPvJ1I2OwjYtXdL5ZVwmFXgSiavGU+KolO3PDx1cm0dFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Pdw9TsGx; arc=none smtp.client-ip=117.135.210.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=1r95T
-	CcHEiHpvMqFCEcTBmSykQv+FZGWvggAUclAA/A=; b=Pdw9TsGxqEIb8P1Njcyt2
-	65sRf1XYHRd/Y87FZJJVFM9B4S1n7jBzIVrgtfyMiwaao9AucI5GaqA2BCTeXhDb
-	Yd2ifvgOtUDxN86mHg4aNwTGJc/2Xgvj2+/YzKg8T8f5oy6tsbENpHM4/8BWwLsa
-	oHjEHQsO9B5l7chEHKG388=
-Received: from icess-ProLiant-DL380-Gen10.. (unknown [])
-	by gzga-smtp-mtada-g1-2 (Coremail) with SMTP id _____wBnKk_0F8Bnz+IEPA--.57589S4;
-	Thu, 27 Feb 2025 15:44:54 +0800 (CST)
-From: Haoxiang Li <haoxiang_li2024@163.com>
-To: slongerbeam@gmail.com,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	hverkuil@xs4all.nl
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	Haoxiang Li <haoxiang_li2024@163.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] media: imx: fix a potential memory leak in imx_media_csc_scaler_device_init()
-Date: Thu, 27 Feb 2025 15:44:51 +0800
-Message-Id: <20250227074451.3698971-1-haoxiang_li2024@163.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1740644989; c=relaxed/simple;
+	bh=PYz+vvdw1fGtZ/dpomEfL+SybfCEj77FvEKezxyAS0U=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=i191ewiGvBQNKOObPkKaiLpcSHRBT0ATlTtfi5qSHo3LKJeGFN2oHyU2nDaxSuZ3hgb0vaagpe5+XDMs/+mGO78SAzMUBH0hm0w5sIwSOuqtGYGGHk9mUnvDmSSxFI4J+rlU8nHMUPfZZDKHu9AfwEiYf2NjKzJa6YeAQ+h204k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=rB7E+GNN; arc=none smtp.client-ip=198.47.19.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 51R8TR632301049
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Thu, 27 Feb 2025 02:29:27 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1740644967;
+	bh=jA3LWpnF+QDRXRLUJiRLpxUgIqTtKySbVUY6UcZRcC4=;
+	h=From:To:CC:Subject:Date;
+	b=rB7E+GNNanTEUS1S1dTsf5wwk6zCsGo+GqhNdthmcTW1jBXO0/XQLWcyZfCTCIkjV
+	 f0VzX1wkF39jMjNXwp2KIQvYxe333kaHDP8cpqn5Y0g8UJTqF4r5wVpYnrUo0uYnf+
+	 eUWtJVRlSR9f9pTj0WowyiOb/MIAjCJyHdWCSGjU=
+Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTP id 51R8TR9i094433;
+	Thu, 27 Feb 2025 02:29:27 -0600
+Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 27
+ Feb 2025 02:29:26 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE103.ent.ti.com
+ (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Thu, 27 Feb 2025 02:29:26 -0600
+Received: from abhilash-HP.dhcp.ti.com (abhilash-hp.dhcp.ti.com [172.24.227.115])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 51R8TMOc057599;
+	Thu, 27 Feb 2025 02:29:23 -0600
+From: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+To: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>
+CC: <mripard@kernel.org>, <mchehab@kernel.org>, <jai.luthra@linux.dev>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+        <devarsht@ti.com>, <vaishnav.a@ti.com>, <r-donadkar@ti.com>,
+        <u-kumar1@ti.com>, <y-abhilashchandra@ti.com>
+Subject: [PATCH v4 0/2] Enable support for error detection in CSI2RX
+Date: Thu, 27 Feb 2025 13:59:18 +0530
+Message-ID: <20250227082920.744908-1-y-abhilashchandra@ti.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,41 +73,56 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wBnKk_0F8Bnz+IEPA--.57589S4
-X-Coremail-Antispam: 1Uf129KBjvdXoW7XFyxtFWfKr15GFy5JFyxKrg_yoWDtwc_CF
-	4FgryxZrWUC3ySy3W5tF10v34Sqrs7urWFq3Z0va95XFWjy3WYvr4qvws3X34jgryF9F9I
-	yr1rJr1akry2kjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7sRtnYw7UUUUU==
-X-CM-SenderInfo: xkdr5xpdqjszblsqjki6rwjhhfrp/xtbB0g0BbmfAEbmqBQAAsQ
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Add video_device_release() in label 'err_m2m' to release the memory
-allocated by video_device_alloc() and prevent potential memory leaks.
-Remove the reduntant code in label 'err_m2m'.
+This patch series enables the csi2rx_err_irq interrupt to record any errors
+that occur during streaming. It also adds support for the VIDIOC_LOG_STATUS
+ioctl, which outputs the current device status to the kernel log.
 
-Fixes: a8ef0488cc59 ("media: imx: add csc/scaler mem2mem device")
-Cc: stable@vger.kernel.org
-Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
----
-Changes in v2:
-- Remove the reduntant code. Thanks, Dan!
----
- drivers/staging/media/imx/imx-media-csc-scaler.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The IRQ handler records any errors encountered during streaming.
+Additionally, VIDIOC_LOG_STATUS can be invoked from user space to retrieve
+the latest status.
 
-diff --git a/drivers/staging/media/imx/imx-media-csc-scaler.c b/drivers/staging/media/imx/imx-media-csc-scaler.c
-index e5e08c6f79f2..19fd31cb9bb0 100644
---- a/drivers/staging/media/imx/imx-media-csc-scaler.c
-+++ b/drivers/staging/media/imx/imx-media-csc-scaler.c
-@@ -912,7 +912,7 @@ imx_media_csc_scaler_device_init(struct imx_media_dev *md)
- 	return &priv->vdev;
- 
- err_m2m:
--	video_set_drvdata(vfd, NULL);
-+	video_device_release(vfd);
- err_vfd:
- 	kfree(priv);
- 	return ERR_PTR(ret);
+Changelog:
+
+Changes in v4:
+- Add flexibility in DT bindings
+- Drop the ACK from Krzysztof, since there is change in bindings
+- Use dev_name(&pdev->dev) while requesting the IRQ handler
+- Fix minor issues such as avoiding magic numbers, splitting long lines
+  of code and removing extra spaces
+- Make some minor changes in the commit messages.
+
+The major update is about adding flexibilty in the bindings, since this
+driver is shared by multiple vendors. The detailed discussion regarding
+this can be found here [1].
+[1]: https://lore.kernel.org/all/3fzkpcdjsthw5lbajxp6zyiyejo45rcgt3gwjfu2bub3v3acpa@kow5blexev5u/
+
+
+Changes in v3:
+- Address Krzysztof's review comment to drop minItems from the bindings.
+- Collect Acked-by from Krzysztof.
+- Address Jai's review comment to enable FIFO overflow bits in the mask 
+  only for the source pads that have an active remote.
+- Drop TI-specific interrupt and have support for only two interrupts 
+  that are common across all vendors.
+- Address Changhuang's review to use pdev directly to get the interrupt.
+- Set the interrupt mask register only if the interrupt is defined in the DT.
+
+V3: https://lore.kernel.org/all/20250221120337.3920874-1-y-abhilashchandra@ti.com/
+
+Yemike Abhilash Chandra (2):
+  dt-bindings: media: cdns,csi2rx.yaml: Add optional interrupts for
+    cdns-csi2rx
+  media: cadence: csi2rx: Enable csi2rx_err_irq interrupt and add
+    support for VIDIOC_LOG_STATUS
+
+ .../bindings/media/cdns,csi2rx.yaml           |  10 ++
+ drivers/media/platform/cadence/cdns-csi2rx.c  | 129 ++++++++++++++++++
+ 2 files changed, 139 insertions(+)
+
 -- 
-2.25.1
+2.34.1
 
 
