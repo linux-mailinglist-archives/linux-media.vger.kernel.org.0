@@ -1,142 +1,187 @@
-Return-Path: <linux-media+bounces-27146-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27147-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E129AA479E9
-	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2025 11:14:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 297A7A47A11
+	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2025 11:22:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 275931885045
-	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2025 10:14:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A97AA18922D7
+	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2025 10:22:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD0F9229B23;
-	Thu, 27 Feb 2025 10:14:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA17422A1E1;
+	Thu, 27 Feb 2025 10:22:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IpjobHDH"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ESKW0prr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7345B227EAE;
-	Thu, 27 Feb 2025 10:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F4A1527B4;
+	Thu, 27 Feb 2025 10:21:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740651250; cv=none; b=Y2lMbwMvHJMaZgRCwkN3swlqyyq0PnKzpejZ6N8xDcjCN3a0EER/xwaG/Gac+38Cdj2+ixMEeg4O7H84T1eGvotbH8QJ/RNriZI24j6mOikQx3uq4b6rj0mVqgEcyTkgD5RHUFTK5OJvKn1EyGqt7j13MpP4K80tCCRoNgqN1Us=
+	t=1740651722; cv=none; b=bfKmbrsV9pma+bZ7vOWaBQlWBuT1rsJ1YUPMtDocmffqC+LfbFqqHhzVDvw7tIDPLOkRMJHuu1enm6UpToFX8VtijI4mUDk+etU/8f47KTnKQxfYttk4qKykB3NhTHNBcZmpLKjBvyhhRhJdya5U7QmabgybLC4icfsCxGYq9JY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740651250; c=relaxed/simple;
-	bh=gseLAHp4E+Igv9cI7PtONJP3gJHTR/dnFqtpGS6PFxQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=c6uGdH5uVQ/pQ4mlwWOaL6DsbX2VWZVrzRhjpz4/cSGwCCwY4FWnjrtiIVDdxIE6fV9tsl+lOReUXSpLu9xzTmu7aVg1sUFZrToU5bVgoWxdObDlshX/deRGYTMYicxq0Ek8rY63iVVZN50+hTQXi1ZgpEFT1RRwhNI1/fnI0js=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IpjobHDH; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740651248; x=1772187248;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=gseLAHp4E+Igv9cI7PtONJP3gJHTR/dnFqtpGS6PFxQ=;
-  b=IpjobHDHjgdy3oJJP9oYg2jfMWY1elIzZCD4IhS4zeUeqWfkATf82pb5
-   XIXNw4M2svecqJnWl4DQfsk/PNlVwTFAHkHvUVYAfVBrMuO3UjQ6Ceoya
-   Bm/B04Xf9a9+icubcLUJpx2RqDLr0xAm82GH5hSymjgQeJBUnQ7Nt/pds
-   pgbGNLk50Uikczor9ddWWIXkdVEVL9HKQkdSVv+y5knXWIZbf82/u3KEb
-   VRZhjlbbsQtVkYVy8AEuHpsx05j01oNLVDmneb5b3AmFvPk1WndQzt5cA
-   YHhb7xSEPLdBlihHBX+MpUvufpY8rfQl6F7qYpguU4zW8vwbrlXPm7Yuk
-   g==;
-X-CSE-ConnectionGUID: OMaUPBQQTH2TOX35vrQtgA==
-X-CSE-MsgGUID: aC9+0EINReqXz8LaEJkKQQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="52172112"
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="52172112"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 02:14:07 -0800
-X-CSE-ConnectionGUID: h0+jg6i9R0yBDlukY4UbCg==
-X-CSE-MsgGUID: /TMiIC0sRceQC7YLEYVTJw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="122096659"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 02:14:05 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 1E68F11F944;
-	Thu, 27 Feb 2025 12:14:02 +0200 (EET)
-Date: Thu, 27 Feb 2025 10:14:02 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Mathis Foerst <mathis.foerst@mt.com>
-Cc: linux-kernel@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, manuel.traut@mt.com
-Subject: Re: [PATCH v1 2/8] MT9M114: Add pad-slew-rate DT-binding
-Message-ID: <Z8A66l02Et4J7hj4@kekkonen.localdomain>
-References: <20250226153929.274562-1-mathis.foerst@mt.com>
- <20250226153929.274562-3-mathis.foerst@mt.com>
+	s=arc-20240116; t=1740651722; c=relaxed/simple;
+	bh=z2ZONAcTO4/VFmsehrdrGBrDbKACe9ZikOhKLCiSbtg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=HqLu3o7EX8uyXRHzIl6ovabFzUclWzv7Lb9NakZMmSCFPPa8QdJepzjl2Jf/osRtycXgdAOmdBS64laQd0RFjeYBgb7NMBrI/Cx/UzfCePfMTPwuKbRJfEdpA8/vX76KPim6iXlomq2hRJYb7DWjssgDxnwfot8FYHShGW8g/0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ESKW0prr; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3DF4D4320A;
+	Thu, 27 Feb 2025 10:21:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1740651716;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=xGkIsh7TjTL/9bGJ7x2Ta9onvI4MRkvdjoCpRvx7sFE=;
+	b=ESKW0prrWD2Pdxk1065FrSvfAUuEyQr/FkEw8zlFSM/e8GtZ4wIQe24vC96T2cnuTfzXvr
+	zrI4tySKNzcAdhJPvXqfQixWY7W23PgrcvslX7Fut++IRxr3iggwtUfBG2HzmMGICJil9Q
+	tNaa5MHWo6uUhyQL5sHIYHuZ2ECZLM2ryNu1BOzSLlICRj9SaWJfBsgZjjDIqJeoLb8c2d
+	5UCN0WYWw6BWmXCsAuFTDHtfhQeqwK6BJtOOISPf9NzYvXugGVK+BHzQNW6HhXBCduGrDw
+	gB8DGmCQdeE0bUNMQxyC38XjRxDl4FzFeZTyxX760Ic63el2dhuYAbFolIQpsA==
+From: Romain Gantois <romain.gantois@bootlin.com>
+Subject: [PATCH v8 0/9] misc: Support TI FPC202 dual-port controller
+Date: Thu, 27 Feb 2025 11:21:48 +0100
+Message-Id: <20250227-fpc202-v8-0-b7994117fbe2@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250226153929.274562-3-mathis.foerst@mt.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAL08wGcC/2XQzW7DIAwH8FepOI8JjPnaae8x7QAEVqQtqZIq2
+ lTl3ed0apKJm434/bG5sSmPNU/s5XRjY57rVIeeGvd0Yukc+o/Ma0c9AwEohbS8XBLV3BQRrfJ
+ UW8fo8mXMpX7fg97eqT/X6TqMP/fcWa6nfxFSuEfELLngJSMk411MHl7jMFw/a/+chi+2hsxwg
+ HKHQNAiZizSQ4CuheoAQW9QEVSYnYkp6qhNC3GHoMQGcX3RyAjedjSubaF+QC2OO2qCAZUP0Xv
+ f6dBCc4ByH9UQ7NAGhY7+WKsW2h2CwA3adVQXMbqgdCryP1yW5RcN9loF9AEAAA==
+X-Change-ID: 20241017-fpc202-6f0b739c2078
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Derek Kiernan <derek.kiernan@amd.com>, 
+ Dragan Cvetic <dragan.cvetic@amd.com>, Arnd Bergmann <arnd@arndb.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Kory Maincent <kory.maincent@bootlin.com>, linux-i2c@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ Romain Gantois <romain.gantois@bootlin.com>, 
+ Conor Dooley <conor.dooley@microchip.com>
+X-Mailer: b4 0.14.2
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdekjedvudcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephffufffkgggtgffvvefosehtjeertdertdejnecuhfhrohhmpeftohhmrghinhcuifgrnhhtohhishcuoehrohhmrghinhdrghgrnhhtohhishessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepkeeggeegheffueefieevffefleeuieegveejhfeiudelkeegleelgeduveefkeeunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduledvrdduieekrddtrddufegnpdhmrghilhhfrhhomheprhhomhgrihhnrdhgrghnthhoihhssegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvfedprhgtphhtthhopehlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrghdprhgtphhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmpdhrtghpthhtoheplhhinhhugidqihdvtgesvhhgvghrrdhkv
+ ghrnhgvlhdrohhrghdprhgtphhtthhopegrrhhnugesrghrnhgusgdruggvpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepughrrghgrghnrdgtvhgvthhitgesrghmugdrtghomh
+X-GND-Sasl: romain.gantois@bootlin.com
 
-Hi Mathis,
+Hello everyone,
 
-On Wed, Feb 26, 2025 at 04:39:23PM +0100, Mathis Foerst wrote:
-> The MT9M114 supports the different slew rates (0 to 7) on the output pads.
+This is version eight of my series which adds support for the TI FPC202
+dual-port controller. This is an unusual kind of device which is used as a
+low-speed signal aggregator for various types of SFP-like hardware ports.
 
-"the output pads" probably means pixel data interface (DVP or CSI-2)
-signals in this cases? I suppose this is about clock modulation?
-It'd be good to say that.
+The FPC202 exposes an I2C, or SPI (not supported in this series) control
+interface, which can be used to access two downstream I2C busses, along
+with a set of low-speed GPIO signals for each port. It also has I2C address
+translation (ATR) features, which allow multiple I2C devices with the same
+address (e.g. SFP EEPROMs at address 0x50) to be accessed from the upstream
+control interface on different addresses.
 
-> At the moment, this is hardcoded to 7 (the fastest rate).
-> The user might want to change this values due to EMC requirements.
-> 
-> Add the 'pad-slew-rate' property to the MT9M114 DT-bindings for selecting
-> the desired slew rate.
-> 
-> Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
-> ---
->  .../devicetree/bindings/media/i2c/onnn,mt9m114.yaml         | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-> index 72e258d57186..666afe10c538 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-> @@ -74,6 +74,12 @@ properties:
->      description: Bypass the internal PLL of the sensor to use EXTCLK directly as SYSCLK.
->      type: boolean
->  
-> +  onnn,slew-rate:
-> +    $ref: /schemas/types.yaml#/definitions/uint8
+I've chosen to add this driver to the misc subsystem, as it doesn't
+strictly belong in either the i2c or gpio sybsystem, and as far as I know
+it is the first device of its kind to be added to the kernel.
 
-No need to make this 8-bit (i.e. just use 32 bits).
+Along with the FPC202 driver itself, this series also adds support for
+dynamic address translation to the i2c-atr module. This allows I2C address
+translators to update their translation table on-the-fly when they receive
+transactions to unmapped clients. This feature is needed by the FPC202
+driver to access up to three logical I2C devices per-port, given that the
+FPC202 address translation table only has two address slots.
 
-> +    description: Slew rate ot the output pads DOUT[7:0], LINE_VALID, FRAME_VALID and PIXCLK
+Best Regards,
 
-Please wrap at 80 characters.
+Romain
 
-Is there more information on the effect than 7 is the fastest?
+Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
+---
+Changes in v8:
+- Changed from a "depends on I2C_ATR" to a "select I2C_ATR"
+- Link to v7: https://lore.kernel.org/r/20250204-fpc202-v7-0-78b4b8a35cf1@bootlin.com
 
-> +    minimum: 0
-> +    maximum: 7
+Changes in v7:
+- Removed a superfluous log message
+- Link to v6: https://lore.kernel.org/r/20250115-fpc202-v6-0-d47a34820753@bootlin.com
 
-Please also add a default.
+Changes in v6:
+- Replaced spaces with tabs in misc Makefile
+- Link to v5: https://lore.kernel.org/r/20250108-fpc202-v5-0-a439ab999d5a@bootlin.com
 
-> +
->  required:
->    - compatible
->    - reg
+Changes in v5:
+- Used mutex guards in ub960 and fpc202 drivers
+- Changed wording of some i2c-atr logs
+- Link to v4: https://lore.kernel.org/r/20241230-fpc202-v4-0-761b297dc697@bootlin.com
 
+Changes in v4:
+- Fixed unbalanced refcounting in FPC202 port probing path
+- Fixed KASAN bug by setting alias_pool "shared" flag properly
+- Dropped requirement for both FPC202 ports to be described in the DT
+- Enabled dynamic translation by default, dropped support for non dynamic translation
+- Used aliased_addrs list instead of insufficient bitmap in ub960 driver
+- Added i2c_atr_destroy_c2a() function matching i2c_atr_create_c2a()
+- Fixed list corruption bug in dynamic address translation
+- Indented Kconfig entry with tabs instead of spaces
+- Link to v3: https://lore.kernel.org/r/20241125-fpc202-v3-0-34e86bcb5b56@bootlin.com
+
+Changes in v3:
+- Described the "reg" property of downstream ports in the FPC202 bindings
+- Link to v2: https://lore.kernel.org/r/20241118-fpc202-v2-0-744e4f192a2d@bootlin.com
+
+Changes in v2:
+- Renamed port nodes to match i2c adapter bindings.
+- Declared atr ops struct as static const.
+- Free downstream ports during FPC202 removal.
+- Link to v1: https://lore.kernel.org/r/20241108-fpc202-v1-0-fe42c698bc92@bootlin.com
+
+---
+Romain Gantois (9):
+      dt-bindings: misc: Describe TI FPC202 dual port controller
+      media: i2c: ds90ub960: Replace aliased clients list with address list
+      media: i2c: ds90ub960: Protect alias_use_mask with a mutex
+      i2c: use client addresses directly in ATR interface
+      i2c: move ATR alias pool to a separate struct
+      i2c: rename field 'alias_list' of struct i2c_atr_chan to 'alias_pairs'
+      i2c: support per-channel ATR alias pools
+      i2c: Support dynamic address translation
+      misc: add FPC202 dual port controller driver
+
+ .../devicetree/bindings/misc/ti,fpc202.yaml        |  94 ++++
+ MAINTAINERS                                        |   7 +
+ drivers/i2c/i2c-atr.c                              | 483 ++++++++++++++-------
+ drivers/media/i2c/ds90ub913.c                      |   9 +-
+ drivers/media/i2c/ds90ub953.c                      |   9 +-
+ drivers/media/i2c/ds90ub960.c                      |  49 ++-
+ drivers/misc/Kconfig                               |  11 +
+ drivers/misc/Makefile                              |   1 +
+ drivers/misc/ti_fpc202.c                           | 438 +++++++++++++++++++
+ include/linux/i2c-atr.h                            |  54 ++-
+ 10 files changed, 964 insertions(+), 191 deletions(-)
+---
+base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+change-id: 20241017-fpc202-6f0b739c2078
+
+Best regards,
 -- 
-Regards,
+Romain Gantois <romain.gantois@bootlin.com>
 
-Sakari Ailus
 
