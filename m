@@ -1,74 +1,82 @@
-Return-Path: <linux-media+bounces-27142-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27143-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D567A47966
-	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2025 10:36:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B88A2A4797A
+	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2025 10:42:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 61AA13AC44D
-	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2025 09:36:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 41F811722EF
+	for <lists+linux-media@lfdr.de>; Thu, 27 Feb 2025 09:42:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1008D227E83;
-	Thu, 27 Feb 2025 09:36:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 950FE227EB0;
+	Thu, 27 Feb 2025 09:42:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="kkbjcOV4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LE/9j/7s"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C77270024;
-	Thu, 27 Feb 2025 09:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 413CD270024;
+	Thu, 27 Feb 2025 09:42:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740648966; cv=none; b=sC7rKb9k/rEtlVuhxuazQglF8H8yUmO9QTtSmirvzbnwj81zSVlsPS+4yMm8YxabIxEhWF4hp485VZxuFI+uDB7fPo4XTKYkVAfUL7ZSV5+yEfObVJ2BBKKNDoW9k5RlZmp7Eq8Rfr2X+slSUdMHU8RlIWFQDN09e68zGfXameQ=
+	t=1740649365; cv=none; b=oBMKjGWWeG/Xe2E3Z1SGJy0gJrgBSMCfZU3XNeqXpxJqpEZGPFQ3mygJGXpemO4ulQThzu/RbLeuoSSG4I79b9zncRpIlkWfWT3Fv7Mx/MDbn+iK3U6P7Z7MaE14NIgKzfrUQ+GfRWIwPuHRobeGK1vXAOcBEQ1H+YGQUT5/z1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740648966; c=relaxed/simple;
-	bh=aVNCubdTSJyhWtZt7ylv+jY8nuP1pT1pfnLSlg7fK+g=;
+	s=arc-20240116; t=1740649365; c=relaxed/simple;
+	bh=oLNUegc/8XBTSty1DSCgLYoYhliXB9vD63U3ploOAAY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aZHXZyUHKUEj3lvu9SRBpEiUmKrhWme1tqLeOexr4PVdzf7qZRo+iVEHDq8gQMPI9sHTbdBFwSqv/1iO3YZLX/wlRR4ArgELHwwJaf3IA8ID4aanZg22GlNNa0fV/bQsPZOzmpeC1trDqUZt9oZ8dRQSbkS3/5EYXD/235PMU6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=kkbjcOV4; arc=none smtp.client-ip=192.198.163.17
+	 Content-Type:Content-Disposition:In-Reply-To; b=if6ejS+v4IDDBJd1NTZgXTV11a3rcLfR/vwuPH6hwQyFcjj/thlbkWXG03vIjEJ8bLLajeEVo6XRV3NCDbQV9pI4eGafwzGQiGUjCcfVelZ4bnSR4W1Ent4H+fOzYMMyubA+0tYp/n2Is6dqtGDTCv6ZjW1UU/X7yYTvOA63zAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LE/9j/7s; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740648963; x=1772184963;
+  t=1740649363; x=1772185363;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=aVNCubdTSJyhWtZt7ylv+jY8nuP1pT1pfnLSlg7fK+g=;
-  b=kkbjcOV4w0krx0lJPmPTYKJnIAjyQc76NpDuCxUxVbTZ26NY82f2iWrX
-   Zf+GU/Bim11/UVa4zstJkSOdHbA/CBRd+eHpJ0yg1A9YVQOH8RsDDUXzA
-   Phua0EGSMj30VFYFf3MTtMEquEjIOFA5Wvr5zECgpO8yVbLXbLdjWguHx
-   KliXY91LmsHifdwP4XawKzFtJ73aYYEdrySvEpXBhFcD4eUgKy+v4Wtp0
-   rnMWcqaJHsUuP5dq3B7W/BQEdhdvaBUSQPG7o9IPJqHeVbiWlO1xAHQLQ
-   Ou/vlmWkmlGj9zNREl2oGo4Z+lW5y9aH+chkoL84P4MRXaUWcLa7dTuX/
-   Q==;
-X-CSE-ConnectionGUID: DOYMZmMJRcSU7VYz4gU2TQ==
-X-CSE-MsgGUID: jJwREzXXQvKyiLc7sadSCQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11357"; a="41412142"
-X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="41412142"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 01:36:02 -0800
-X-CSE-ConnectionGUID: 0fiFKu1jSVuQsSH614PbvQ==
-X-CSE-MsgGUID: 90YFT91LS5W1LhGWD/kl2Q==
+  bh=oLNUegc/8XBTSty1DSCgLYoYhliXB9vD63U3ploOAAY=;
+  b=LE/9j/7sAx6yaVO4QhyJCGvHDH1n1TlgHI6aVhql/gHfnwq3iclMIflr
+   CWV2u9ekVEcaIHWWNmRbZP6kw2n4uOR+4mxe/a6qEHZpGE1WgWLAxj6mN
+   70XCH+rMTHy6zywkQvhP8sIYRvvuQ4/1YurRw5jO/JYrbE3X+J6AFNtBq
+   6ThsugpbB5Qw1A/it7MbVL2MWZL0oVxbSpRwchvntl1ErfugpADjDwGRr
+   E5GFGqDMpGeggMwxiHNRJnd+3p5MgAZZ2Gt6GrEPoUUCEFHNY7FBhcu72
+   4IFjaxedtewrOHwRCamY0OEisFanS0/SIEoVl0Nx7AEpz+eT31BvwAU1L
+   A==;
+X-CSE-ConnectionGUID: M+SlBi5mRoaTrznA4G222w==
+X-CSE-MsgGUID: bvO+j3t7QeqrJM78DRSySw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11314"; a="52943700"
+X-IronPort-AV: E=Sophos;i="6.12,310,1728975600"; 
+   d="scan'208";a="52943700"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 01:42:42 -0800
+X-CSE-ConnectionGUID: wKzqTMBVQQ6L/nWZSPpo/g==
+X-CSE-MsgGUID: a0FFmI9oQsqIumUt9EzBcg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.13,319,1732608000"; 
-   d="scan'208";a="117612755"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.245.138])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 01:35:59 -0800
-Date: Thu, 27 Feb 2025 10:35:52 +0100
-From: Mehdi Djait <mehdi.djait@linux.intel.com>
-To: sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
-Cc: tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com, 
-	hverkuil@xs4all.nl, kieran.bingham@ideasonboard.com, naush@raspberrypi.com, 
-	mchehab@kernel.org, hdegoede@redhat.com, dave.stevenson@raspberrypi.com, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v1] media: v4l2-common: Add a helper for obtaining
- the clock producer
-Message-ID: <x5rjvllauyjeah7j7nsaszdmx7wty2kggpxbhaysowuehrketd@niakizftfboz>
-References: <20250227092643.113939-1-mehdi.djait@linux.intel.com>
+   d="scan'208";a="121986583"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Feb 2025 01:42:39 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id C1B0C11F944;
+	Thu, 27 Feb 2025 11:42:36 +0200 (EET)
+Date: Thu, 27 Feb 2025 09:42:36 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Mathis Foerst <mathis.foerst@mt.com>
+Cc: linux-kernel@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, manuel.traut@mt.com
+Subject: Re: [PATCH v1 7/8] MT9M114: Fix deadlock in
+ get_frame_interval/set_frame_interval
+Message-ID: <Z8AzjGF-vuMedinG@kekkonen.localdomain>
+References: <20250226153929.274562-1-mathis.foerst@mt.com>
+ <20250226153929.274562-8-mathis.foerst@mt.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,20 +85,34 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250227092643.113939-1-mehdi.djait@linux.intel.com>
+In-Reply-To: <20250226153929.274562-8-mathis.foerst@mt.com>
 
-Hi everyone,
+Hi Mathis,
 
-On Thu, Feb 27, 2025 at 10:26:43AM +0100, Mehdi Djait wrote:
-> Introduce a helper for v4l2 sensor drivers on both DT- and ACPI-based
-> platforms to retrieve a reference to the clock producer from firmware.
+On Wed, Feb 26, 2025 at 04:39:28PM +0100, Mathis Foerst wrote:
+> Getting / Setting the frame interval using the V4L2 subdev pad ops
+> get_frame_interval/set_frame_interval causes a deadlock, as the subdev
+> state is locked in the [1] but also in the driver itself.
 > 
-> This helper behaves the same as clk_get_optional() except where there is
-> no clock producer like typically in ACPI-based platforms.
-> For ACPI-based platforms the function will read the "clock-frequency"
-> property (_DSD ACPI property) and register a fixed frequency clock with
-> the frequency indicated in the property.
+> In [2] it's described that the caller is responsible to acquire and
+> release the lock in this case. Therefore, acquiring the lock in the
+> driver is wrong.
+> 
+> Remove the lock acquisitions/releases from mt9m114_ifp_get_frame_interval()
+> and mt9m114_ifp_set_frame_interval().
+> 
+> [1] drivers/media/v4l2-core/v4l2-subdev.c - line 1129
+> [2] Documentation/driver-api/media/v4l2-subdev.rst
+> 
+> Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
 
-link for relevant discussion I forgot to include:
-https://lore.kernel.org/linux-media/20250220154909.152538-1-mehdi.djait@linux.intel.com/
+Could you add:
+
+Fixes: 24d756e914fc ("media: i2c: Add driver for onsemi MT9M114 camera sensor")
+Cc: stable@vger.kernel.org
+
+-- 
+Regards,
+
+Sakari Ailus
 
