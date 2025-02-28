@@ -1,156 +1,137 @@
-Return-Path: <linux-media+bounces-27181-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27182-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7175DA48E90
-	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 03:26:27 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 318D1A48EA9
+	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 03:32:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3CF0D3B47FF
-	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 02:26:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8585A7A8537
+	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 02:31:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4C1915B0EC;
-	Fri, 28 Feb 2025 02:26:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7785E14B08E;
+	Fri, 28 Feb 2025 02:31:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="cXHPewBE"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ibnGn6IK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198D1126C02
-	for <linux-media@vger.kernel.org>; Fri, 28 Feb 2025 02:26:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82C8114D70E;
+	Fri, 28 Feb 2025 02:31:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740709574; cv=none; b=gmtl7WLvFkClfOE4Eq08GzPX8zhJJk2XGNzdbg2eTRMjJnYXETEXQFh8aq0Tl+v9LK57MmRZ5CrHiEicXiDxWUo1Fp63yPlutrHwy0S5YnyFiUGnhIepkM/Koj2qyn91t1Cb++T1YoqWqfhAk3+kEpASpjN6hlHo82I4G46oQiQ=
+	t=1740709916; cv=none; b=emLMZB40oSw66aplDbXMx8DZ5TPUfIFWjAGq7gtlVng0LqsOHqRz7eyNtqKmt5NMAn9xZVE2kbSj3A6n2d8WLIOi6n02BWGdnVojKZ/MMA6ZTETDlBvonUrdIowAhjp/6Ym/cefwQSFW73waREHvVe5WNt/2jAQ2cLKFU07C3pU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740709574; c=relaxed/simple;
-	bh=2RjuojcGz7OIb+BqenvzLYjiwmJCtWUXykp9gpRxjoo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=tnUTFHCqzchnQNeICjuTtSsbSoKELSyPqMw9KaYrRvcCnkxD/mKKk3B3ghV+mt2xt4PwODwyIqcePn6T5qFA0xeQzzytszWmI29iVbqPc1uXaieMwthmMrEBVrWyeKUMxASiyUv6NFmRo181+RNhmnmc22Tzo4+pkleQkk2wXZo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=cXHPewBE; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6e89b6b5342so10966706d6.1
-        for <linux-media@vger.kernel.org>; Thu, 27 Feb 2025 18:26:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1740709571; x=1741314371; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=VJcCBxZrPcF1HtINZMO6IVGAMykP+k9zuguph0IARao=;
-        b=cXHPewBEc/mOcfV2g5jYx/OOQYP0tq6uH+W+Cab579WN5mN0DzP8LtK5EgxYiyQhO7
-         5dfWbfE/tGeMcWjb8opWC+E/0DOkcsVs4lDHA9FsjsM/6OLpLqkQQwnl4DVYZqcL9o2e
-         2vSYdAKwhYaW/QyGrYRhub98CTbzWeAD5URlX7OuTjLm68UA50L35+2w3Y/FxJxGXePA
-         oTcliTqe8v34ffBr/savgCih/cJJ8kbdXUf7V9HV3/jXI0UhFoUY3Cfc6Dcsa2Wd/pru
-         tcrNGrjfdiJvi0Plqq/nex5SlDGBQExsZ8KXjJgWdGLIejALqguTweeNoQCPIcaV597m
-         gMhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740709571; x=1741314371;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VJcCBxZrPcF1HtINZMO6IVGAMykP+k9zuguph0IARao=;
-        b=MhFz+W7YL/BY3+II7KbuIRjqRqiIvE9+/2q7PflYpOcL+r0x+1Og8nkBMFgjLE3SEZ
-         7YcEHQ5ggefX1dadsUmVUvlK+96u8JxXsOIBbCcKHm9owZaDVbTPpT36IJF6vKTX/hyF
-         BV+f735uVQv0PZYu1Pne6SFoYwd6hR0m1JrIYZ6wBohzbYJNOlGoQlvqkgZdIXX2FIEJ
-         g0sJVKMuKPrVh/Rye0/IEb/4BK6Jhwcwk1EdjMz21ttkhH4AUI+xsqP31/hmkqNKYHrL
-         028D3KEUA8LLkRIQ9eR5QhN0U+fnXxwKWj6JPhD7YDBZ8qN8leE4rm7f2RJu5cGJ81wP
-         HQCg==
-X-Forwarded-Encrypted: i=1; AJvYcCVkrTbeQ3o/dLsUDtO5EItbidUnlkujZEM8zHK7hdWApHrekd00Oyf0x6UJkKZZnk89CFJMMSwDBIHGGA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3l1dao3IrEDBIIMXFW2QeQpnG5cl7qTj4LT2KZOi595QYjubd
-	HHzpNwOO2bw0FvIFxIkdTQMgaJwXVl+h3OfSiIGthMbAk3wgTy2AUtCEEdVk0iE=
-X-Gm-Gg: ASbGncsDok5kES5CU8IPHR2Yf9JdUKLyZ7pdioo8nkGbpba/LP1w2ohwKQRP0UwEERv
-	2nIor4yJl9bExcBQ0vQ2OmA+cqajtwfGrW0K+4ymRZJmw01KEXezCxp+E5jvt+BZQHWY+kgoIaj
-	ZHkDZtp/HF6D5lCEM1i5DURjW5QKDvdZHQ7t0hBA2qN0G2h8cZhfMTdq6wzRcWcHfEW1bX5TKpn
-	ZRo7zIpyMwOwGqq42FsOwRyb8iFfphPsKeD9v1v6npk/FfSxzGahKBtmxCocgvBEKAJGhnfMe/A
-	kn3/+l6kdyqyyU3IzQkV1/zSTVbzhiE=
-X-Google-Smtp-Source: AGHT+IGUs//lkbvx/dTZ6S1dXtcIeqOusIiHyVcn8w8wYwcYyF0soDMXcDq4Vyroqi8kUxCmEF+Ucw==
-X-Received: by 2002:a05:6214:2b0b:b0:6e6:6225:a910 with SMTP id 6a1803df08f44-6e8a0c9f160mr30820726d6.14.1740709570881;
-        Thu, 27 Feb 2025 18:26:10 -0800 (PST)
-Received: from ?IPv6:2606:6d00:11:e976::c41? ([2606:6d00:11:e976::c41])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e8976da38csm16657186d6.108.2025.02.27.18.26.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Feb 2025 18:26:09 -0800 (PST)
-Message-ID: <fb0e0c207cd6c2cad39c2a38398080d93db4000b.camel@ndufresne.ca>
-Subject: Re: [Patch v2] media: s5p-mfc: Corrected NV12M/NV21M plane-sizes
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Aakarsh Jain <aakarsh.jain@samsung.com>, 
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Cc: m.szyprowski@samsung.com, andrzej.hajda@intel.com, mchehab@kernel.org, 
-	hverkuil-cisco@xs4all.nl, krzysztof.kozlowski+dt@linaro.org, 
-	linux-samsung-soc@vger.kernel.org, gost.dev@samsung.com, 
-	aswani.reddy@samsung.com, pankaj.dubey@samsung.com
-Date: Thu, 27 Feb 2025 21:26:07 -0500
-In-Reply-To: <20250226102251.9040-1-aakarsh.jain@samsung.com>
-References: 
-	<CGME20250226102749epcas5p35afe43774ad2917b846c921dc593a5ef@epcas5p3.samsung.com>
-	 <20250226102251.9040-1-aakarsh.jain@samsung.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+	s=arc-20240116; t=1740709916; c=relaxed/simple;
+	bh=e75NUM5wjlrcBZraXVssZBmLBIhqh9Vhj6YHd8YMEbU=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DEc6y26FfrqU7KGtYh/tliYnQ/k7x1EG8+Yc9VyBijCqJKNK5RurqXIrUf8di8XZpaNDFkdtwGZr9K3ctvZcRhCvCgPQ3V9kXVMwJ4OZcuJRiUzd76BWPRQPN2WcyH4IHcNikJuKPV8NAuhiRjvPns3EcayMa6gvqi8gSXLkU3A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ibnGn6IK; arc=none smtp.client-ip=117.135.210.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=rcHVV
+	NPM3mgsOgMcJQbDPlD26VF9g2Q5u3/LlGBoFIM=; b=ibnGn6IK5uwh5qLasuhn5
+	ECJNJqf9G0/aAlk5r+5Yb8zGEooF0ir6u1R8SW3IxgQ6SzMUoq5T336UWDWKyfed
+	fxXohFW+sYmjME39Ojufx44Sf4HU4q4d4ilLkIRG7d0E3IIYXUQsy9BwFF2/6293
+	IhB2cHFdLMJI/27tBvS1X8=
+Received: from icess-ProLiant-DL380-Gen10.. (unknown [])
+	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wDX3+brH8Fn5_6yOg--.23918S4;
+	Fri, 28 Feb 2025 10:31:09 +0800 (CST)
+From: Haoxiang Li <haoxiang_li2024@163.com>
+To: robdclark@gmail.com,
+	quic_abhinavk@quicinc.com,
+	dmitry.baryshkov@linaro.org,
+	sean@poorly.run,
+	marijn.suijten@somainline.org,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	sumit.semwal@linaro.org,
+	christian.koenig@amd.com
+Cc: linux-arm-msm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	freedreno@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	Haoxiang Li <haoxiang_li2024@163.com>,
+	stable@vger.kernel.org
+Subject: [PATCH] drm/msm: fix a potential memory leak issue in submit_create()
+Date: Fri, 28 Feb 2025 10:31:05 +0800
+Message-Id: <20250228023105.3737605-1-haoxiang_li2024@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wDX3+brH8Fn5_6yOg--.23918S4
+X-Coremail-Antispam: 1Uf129KBjvJXoWxJr13Kryxur18JryfZw48Crg_yoW8trWkpF
+	4UG34jkr1UA3WaqwsFkF1jka45Gw18WayxKF4qv3sxuwn0yw1UW3WUJ3yjqFWUJF92yry3
+	tFs2kr1UXF10krUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zicdjtUUUUU=
+X-CM-SenderInfo: xkdr5xpdqjszblsqjki6rwjhhfrp/1tbiqBQCbmfBGNbydQAAs-
 
-Hi,
+The memory allocated by msm_fence_alloc() actually is the
+container of msm_fence_alloc()'s return value. Thus, just
+free its return value is not enough.
+Add a helper 'msm_fence_free()' in msm_fence.h/msm_fence.c
+to do the complete job.
 
-Le mercredi 26 f=C3=A9vrier 2025 =C3=A0 15:52 +0530, Aakarsh Jain a =C3=A9c=
-rit=C2=A0:
-> There is a possibility of getting page fault if the overall
-> buffer size is not aligned to 256bytes. Since MFC does read
-> operation only and it won't corrupt the data values even if
-> it reads the extra bytes.
-> Corrected luma and chroma plane sizes for V4L2_PIX_FMT_NV12M
-> and V4L2_PIX_FMT_NV21M pixel format.
->=20
-> Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
-> ---
-> changelog:
-> v1->v2
-> Patch link: https://patchwork.kernel.org/project/linux-media/patch/202408=
-06115714.29828-1-aakarsh.jain@samsung.com/
-> Removed duplicate code and aligned luma and chroma size
-> to multiple of 256bytes as suggested by Hans.
-> =C2=A0drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c | 5 +++--
-> =C2=A01 file changed, 3 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c b/dr=
-ivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-> index 73f7af674c01..0c636090d723 100644
-> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-> @@ -549,8 +549,9 @@ static void s5p_mfc_enc_calc_src_size_v6(struct s5p_m=
-fc_ctx *ctx)
-> =C2=A0		case V4L2_PIX_FMT_NV21M:
-> =C2=A0			ctx->stride[0] =3D ALIGN(ctx->img_width, S5P_FIMV_NV12M_HALIGN_V=
-6);
-> =C2=A0			ctx->stride[1] =3D ALIGN(ctx->img_width, S5P_FIMV_NV12M_HALIGN_V=
-6);
-> -			ctx->luma_size =3D ctx->stride[0] * ALIGN(ctx->img_height, 16);
-> -			ctx->chroma_size =3D=C2=A0 ctx->stride[0] * ALIGN(ctx->img_height / 2=
-, 16);
-> +			ctx->luma_size =3D ALIGN(ctx->stride[0] * ALIGN(ctx->img_height, 16),=
- 256);
-> +			ctx->chroma_size =3D ALIGN(ctx->stride[0] * ALIGN(ctx->img_height / 2=
-, 16),
-> +					256);
+Fixes: f94e6a51e17c ("drm/msm: Pre-allocate hw_fence")
+Cc: stable@vger.kernel.org
+Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
+---
+ drivers/gpu/drm/msm/msm_fence.c      | 7 +++++++
+ drivers/gpu/drm/msm/msm_fence.h      | 1 +
+ drivers/gpu/drm/msm/msm_gem_submit.c | 2 +-
+ 3 files changed, 9 insertions(+), 1 deletion(-)
 
-An eventual port to v4l2-common helpers instead of open coding this
-would be nice, though I see nothing wrong to report with this code, so:
-
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
-regards,
-Nicolas
-
-> =C2=A0			break;
-> =C2=A0		case V4L2_PIX_FMT_YUV420M:
-> =C2=A0		case V4L2_PIX_FMT_YVU420M:
+diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_fence.c
+index 1a5d4f1c8b42..0e257afaf443 100644
+--- a/drivers/gpu/drm/msm/msm_fence.c
++++ b/drivers/gpu/drm/msm/msm_fence.c
+@@ -184,6 +184,13 @@ msm_fence_alloc(void)
+ 	return &f->base;
+ }
+ 
++void msm_fence_free(struct dma_fence *fence)
++{
++	struct msm_fence *f = to_msm_fence(fence);
++
++	kfree(f);
++}
++
+ void
+ msm_fence_init(struct dma_fence *fence, struct msm_fence_context *fctx)
+ {
+diff --git a/drivers/gpu/drm/msm/msm_fence.h b/drivers/gpu/drm/msm/msm_fence.h
+index 148196375a0b..635c68629070 100644
+--- a/drivers/gpu/drm/msm/msm_fence.h
++++ b/drivers/gpu/drm/msm/msm_fence.h
+@@ -82,6 +82,7 @@ bool msm_fence_completed(struct msm_fence_context *fctx, uint32_t fence);
+ void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence);
+ 
+ struct dma_fence * msm_fence_alloc(void);
++void msm_fence_free(struct dma_fence *fence);
+ void msm_fence_init(struct dma_fence *fence, struct msm_fence_context *fctx);
+ 
+ static inline bool
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index dee470403036..3fdcfc5714b6 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -56,7 +56,7 @@ static struct msm_gem_submit *submit_create(struct drm_device *dev,
+ 
+ 	ret = drm_sched_job_init(&submit->base, queue->entity, 1, queue);
+ 	if (ret) {
+-		kfree(submit->hw_fence);
++		msm_fence_free(submit->hw_fence);
+ 		kfree(submit);
+ 		return ERR_PTR(ret);
+ 	}
+-- 
+2.25.1
 
 
