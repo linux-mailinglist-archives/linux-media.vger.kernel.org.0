@@ -1,173 +1,228 @@
-Return-Path: <linux-media+bounces-27210-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27211-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31764A496E2
-	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 11:19:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05CA1A49730
+	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 11:26:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9B3F77AA981
-	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 10:18:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4AF00165F58
+	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 10:26:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1B7325D916;
-	Fri, 28 Feb 2025 10:18:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BE5825F984;
+	Fri, 28 Feb 2025 10:25:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JLdgHBis"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="P+Xm1NUN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59EEE25C71F;
-	Fri, 28 Feb 2025 10:18:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FD3D25F7B3
+	for <linux-media@vger.kernel.org>; Fri, 28 Feb 2025 10:25:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740737916; cv=none; b=egSC6igY0hEvoT4N79dhv0M0MqXm+gVG+0pPlH0WOXnTa6Q0d9axGaE4XaohAdzx55tjm9VRDcLCI/B0RukzJKNJha6B/L5xNbzv5E7Tj8wncIX9695bjFo8KPXg1IFe//Cng0ksRy5yCuhS1N3TnvGcPRbJmXlq9lhUw1AGKYM=
+	t=1740738359; cv=none; b=SSWQlILD+orgHlELoLel9A17DKqX9KftF9H5EJxpxINwV8hW28kCljUSkoby0yaLyKbHzNVihLQ4l/b/XdMj3BwAL/fq5WX3K6fwRHfXsYVy9ZFubyGHnOoKy5P1zxIpHQ/l4dWm899is/KobVxstFJeoqLMcHD4iPvGvDRvxsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740737916; c=relaxed/simple;
-	bh=x8P7iYSS8zlM2MxoipbGfAAaEUD4PJmjBAoZcxc5kD4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=szOXNBPcv7nor0k2a8A7FbJOGsRjaGO/xX0yTjWHRR5usHYJq2QSgvFDfd8A+iOxpn1wrXJ9AkbLn7uzY0jWiS5CBRPOYUb3gv/6yJ2FWPNVQGrHCc9B4xShBdLOMDgHqtmu5F/s6vCwPychZtWGHNObHGXgGSRyeTq4cpwpMLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JLdgHBis; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 75AB99FF;
-	Fri, 28 Feb 2025 11:17:02 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1740737822;
-	bh=x8P7iYSS8zlM2MxoipbGfAAaEUD4PJmjBAoZcxc5kD4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JLdgHBis3RLKhkT3eW8n714D7El9DRKo8B1AEoctvAa5Q2jchorf+TUWnERxqGPqf
-	 MVpc40jDJ4R7HJ3v7PaaIQPhYTgJadDRTabMXTWVgWnJlI/9M4U6n0QUDdhb8EPmBB
-	 GrRhSm9wKggZ143auapEEkNHipGQOP0W1v9J7Pgc=
-Date: Fri, 28 Feb 2025 11:18:28 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Tomasz Figa <tfiga@chromium.org>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Mikhail Rudenko <mike.rudenko@gmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Dafna Hirschfeld <dafna@fastmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: rkisp1: allow non-coherent video capture buffers
-Message-ID: <bgnkzjpegpmif7gohoijt42rku6jruovjsxscg75dprdz5ek2i@ntfh2yyjyiry>
-References: <20250102-b4-rkisp-noncoherent-v1-1-bba164f7132c@gmail.com>
- <20250103152326.GP554@pendragon.ideasonboard.com>
- <87bjw9s4s3.fsf@gmail.com>
- <dtfv2slbtj3ar2wvlcnd74p3xtlvggebkk3fj5ocm3eil7kyqw@al3brwf4y5dw>
- <CAAFQd5DS2x3sX59EdkTEMuO=eXc=Q0jD44EUwMisP6ocWz11qg@mail.gmail.com>
+	s=arc-20240116; t=1740738359; c=relaxed/simple;
+	bh=bnYGrNktnSSLWrDFtsq76cPCF2tBeDvXcfc8CAy88ew=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=g/MZflM2FfWBZ+nv6wH/HXYPpAm0sJ83JkAFO+LrHkx96PYoRlvhTIDHw0UQnRaribSqbeoB19t1UvFXRifsS4YtRI5Pe/SOBpmBrWggY5qFhomyUu9f9tjbgImc+X2wWfs96ukkbnDy9lWcfx1oERn9gsqzhs/VDpZewaYBYQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=P+Xm1NUN; arc=none smtp.client-ip=209.85.208.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5e095d47a25so3200744a12.0
+        for <linux-media@vger.kernel.org>; Fri, 28 Feb 2025 02:25:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1740738354; x=1741343154; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nb9NUQhb3bplKyawSYK7wGLTz8Fx3itEvvEthZZH/DE=;
+        b=P+Xm1NUNlgkPzFRH9NaMcnSgWOJ6aYAhI3g+dKDLmgQ7oGdKsa85r7eH5+DVt83pgH
+         c8vHm+IQ9OHMQDORwITam5d8F1AhbKZJtYbZEDFE4q3uElFTnK1EO3tkgWN9rCIeUCu5
+         weJ+73SXK8AtQK96any6ADEGh2twAgqswCkO0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740738354; x=1741343154;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nb9NUQhb3bplKyawSYK7wGLTz8Fx3itEvvEthZZH/DE=;
+        b=DJ/Vgz13uQ44nyuOozH6OOBjqYp4+dVykfNqMdQ4mCMeev5RdAXU/1d+Xc2d1oTOzH
+         ijkErMDI014hAwhKVk2Tqi36MuzCUUr+gNf1U2Ac1nO20NrVgLX+x7lu1IaT7tt0XYh/
+         6rHN1oK8IeKg5iAx9XOamKRdUyAU0KnYNitXtbqv8FdIK5Z0im+sgp0sCaC6Su5oI4Nq
+         6/GHbIC83JGeVLZcIe9/G2/UyXvjf1uggrVPtfqT6VnlnoxzR2rSO5tfs+dZwAjtQXdm
+         KAW7gheCqP99/Kc8pdfrtw38WXtXczwB8OSwOe/CCTiBaTtULrICHavWOYvDpHBn5b13
+         Twcw==
+X-Forwarded-Encrypted: i=1; AJvYcCV4oea7iT/1exGlhIx3NH25D1EvtLuWvmUiR4NfxLAY0PfKvMVbVbKu37qqZfwRHaylpNfkiJpEbsjbfw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywy3jed5fXSz6EjUauY595wSlKjx2LxIkghJILlC7I97Om9Y0K3
+	8UBerCgEK0ZOyv7V5S29GKZOc8AXhjOaR1skGTZtofyhQycCHY8vHsRz7IlzNdQJ7R3XEGEv4XD
+	s1g==
+X-Gm-Gg: ASbGncsb2/jD1JesiHOGgF4lkca1wnn8LMAvx7Is8sE6E/mywCBQ1YTc/N+Ix609Y6A
+	S2p1pZUfMNA/aoyqf46zN+pbkC0nK7IeTJm+NElBfEg3/a4zD8Rve16dBeC3WHtWlNzIqcgul8e
+	RbBsD3isVFWAkE9xKtK9OSHA7XBwoBtIm3eOysFDvAZLeh/zN+uXNfq+xG8C9wUOh7SYpWfWlJ8
+	W/19qS7brYaF2tFGfKSxHB4uAxNKPIdR0nNzvRoRxzUeX40Vq/4TJ42kRIXfn67ygNlouETuadY
+	logrKqaWcqUByuKLBVTAFozKs2/DcR3PPycghqNSEFwjBQ7bEuVPYd41XwHNpg==
+X-Google-Smtp-Source: AGHT+IEz/I5C0zQMc+vRRa8fHXiLy2X9dF1LDTWV4KJnrQpdvjSZvJZU2cnnjzf6fwfrIg3VWNTx6A==
+X-Received: by 2002:a05:6402:847:b0:5e4:cd5c:50f6 with SMTP id 4fb4d7f45d1cf-5e4d6afaf1dmr2075740a12.18.1740738354326;
+        Fri, 28 Feb 2025 02:25:54 -0800 (PST)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com. [209.85.208.52])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e4c3fb58f7sm2272952a12.57.2025.02.28.02.25.51
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Feb 2025 02:25:53 -0800 (PST)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5ded4a3bf0bso9487a12.0
+        for <linux-media@vger.kernel.org>; Fri, 28 Feb 2025 02:25:51 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUWQHNzIOJ+hA98l8CMKniePnnR7DN7j6sqASTavacKC8kGkaiqtJWX3DG3ptY62kF7jEHAjfegtm2nZQ==@vger.kernel.org
+X-Received: by 2002:a50:d7dd:0:b0:5dc:ccb4:cb11 with SMTP id
+ 4fb4d7f45d1cf-5e4d74dea39mr77472a12.4.1740738351014; Fri, 28 Feb 2025
+ 02:25:51 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAAFQd5DS2x3sX59EdkTEMuO=eXc=Q0jD44EUwMisP6ocWz11qg@mail.gmail.com>
+References: <20250128-b4-rkisp-noncoherent-v3-0-baf39c997d2a@gmail.com>
+ <20250128-b4-rkisp-noncoherent-v3-1-baf39c997d2a@gmail.com> <25beec7ea929b624d845f5ba4abce6267974ed82.camel@ndufresne.ca>
+In-Reply-To: <25beec7ea929b624d845f5ba4abce6267974ed82.camel@ndufresne.ca>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Fri, 28 Feb 2025 19:25:33 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5A4YOaSCn=xe7OM-hPKcUhqkD5hTiMUo5F9pwhKNFJ2Lg@mail.gmail.com>
+X-Gm-Features: AQ5f1JoHaD84fv2X5fHk6A_BWpTZQNcf1bz4WEEDQ8FkApfINlkKzBEV-PkKHU4
+Message-ID: <CAAFQd5A4YOaSCn=xe7OM-hPKcUhqkD5hTiMUo5F9pwhKNFJ2Lg@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] media: videobuf2: Fix dmabuf cache sync/flush in dma-contig
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: Mikhail Rudenko <mike.rudenko@gmail.com>, Dafna Hirschfeld <dafna@fastmail.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, linux-media@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, 
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Tomasz
-
-On Fri, Feb 28, 2025 at 07:00:57PM +0900, Tomasz Figa wrote:
-> Hi Jacopo,
+On Fri, Feb 28, 2025 at 12:30=E2=80=AFPM Nicolas Dufresne <nicolas@ndufresn=
+e.ca> wrote:
 >
-> On Fri, Feb 28, 2025 at 2:11 AM Jacopo Mondi
-> <jacopo.mondi@ideasonboard.com> wrote:
+> Le mardi 28 janvier 2025 =C3=A0 23:35 +0300, Mikhail Rudenko a =C3=A9crit=
+ :
+> > When support for V4L2_FLAG_MEMORY_NON_CONSISTENT was removed in
+> > commit 129134e5415d ("media: media/v4l2: remove
+> > V4L2_FLAG_MEMORY_NON_CONSISTENT flag"),
+> > vb2_dc_dmabuf_ops_{begin,end}_cpu_access() functions were made
+> > no-ops. Later, when support for V4L2_MEMORY_FLAG_NON_COHERENT was
+> > introduced in commit c0acf9cfeee0 ("media: videobuf2: handle
+> > V4L2_MEMORY_FLAG_NON_COHERENT flag"), the above functions remained
+> > no-ops, making cache maintenance for non-coherent dmabufs allocated
+> > by
+> > dma-contig impossible.
 > >
-> > Hi Mikhail
+> > Fix this by reintroducing dma_sync_sgtable_for_{cpu,device} and
+> > {flush,invalidate}_kernel_vmap_range calls to
+> > vb2_dc_dmabuf_ops_{begin,end}_cpu_access() functions for non-coherent
+> > buffers.
 > >
-> > On Tue, Jan 14, 2025 at 07:00:39PM +0300, Mikhail Rudenko wrote:
-> > >
-> > > Hi Laurent,
-> > >
-> > > On 2025-01-03 at 17:23 +02, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
-> > >
-> > > > On Thu, Jan 02, 2025 at 06:35:00PM +0300, Mikhail Rudenko wrote:
-> > > >> Currently, the rkisp1 driver always uses coherent DMA allocations for
-> > > >> video capture buffers. However, on some platforms, using non-coherent
-> > > >> buffers can improve performance, especially when CPU processing of
-> > > >> MMAP'ed video buffers is required.
-> > > >>
-> > > >> For example, on the Rockchip RK3399 running at maximum CPU frequency,
-> > > >> the time to memcpy a frame from a 1280x720 XRGB32 MMAP'ed buffer to a
-> > > >> malloc'ed userspace buffer decreases from 7.7 ms to 1.1 ms when using
-> > > >> non-coherent DMA allocation. CPU usage also decreases accordingly.
-> > > >
-> > > > What's the time taken by the cache management operations ?
-> > >
-> > > Sorry for the late reply, your question turned out a little more
-> > > interesting than I expected initially. :)
-> > >
-> > > When capturing using Yavta with MMAP buffers under the conditions mentioned
-> > > in the commit message, ftrace gives 437.6 +- 1.1 us for
-> > > dma_sync_sgtable_for_cpu and 409 +- 14 us for
-> > > dma_sync_sgtable_for_device. Thus, it looks like using non-coherent
-> > > buffers in this case is more CPU-efficient even when considering cache
-> > > management overhead.
-> > >
-> > > When trying to do the same measurements with libcamera, I failed. In a
-> > > typical libcamera use case when MMAP buffers are allocated from a
-> > > device, exported as dmabufs and then used for capture on the same device
-> > > with DMABUF memory type, cache management in kernel is skipped [1]
-> > > [2]. Also, vb2_dc_dmabuf_ops_{begin,end}_cpu_access are no-ops [3], so
-> > > DMA_BUF_IOCTL_SYNC from userspace does not work either.
-> > >
-> > > So it looks like to make this change really useful, the above issue of
-> > > cache management for libcamera/DMABUF/videobuf2-dma-contig has to be
-> > > solved. I'm not an expert in this area, so any advice is kindly welcome. :)
+> > Fixes: c0acf9cfeee0 ("media: videobuf2: handle
+> > V4L2_MEMORY_FLAG_NON_COHERENT flag")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
+> > ---
+> >  .../media/common/videobuf2/videobuf2-dma-contig.c  | 22
+> > ++++++++++++++++++++++
+> >  1 file changed, 22 insertions(+)
 > >
-> > It would be shame if we let this discussion drop dead.. cache
-> > management policies are relevant for performances, specifically for
-> > cpu access, and your above 7.7ms vs 1.1 ms test clearly shows that.
-> >
-> > >
-> > > [1] https://git.linuxtv.org/media.git/tree/drivers/media/common/videobuf2/videobuf2-core.c?id=94794b5ce4d90ab134b0b101a02fddf6e74c437d#n411
-> >
-> > I would like to know from Hans if the decision to disallow cache-hints
-> > for dmabuf importers is a design choice or is deeply rooted in other
-> > reasons I might be missing.
+> > diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> > b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> > index
+> > bb0b7fa67b539aa73ad5ccf3c3bc318e26f8a4cb..146d7997a0da5989fb081a6f28c
+> > e0641fe726e63 100644
+> > --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> > +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+> > @@ -427,6 +427,17 @@ static int
+> >  vb2_dc_dmabuf_ops_begin_cpu_access(struct dma_buf *dbuf,
+> >                                  enum dma_data_direction
+> > direction)
+> >  {
+> > +     struct vb2_dc_buf *buf =3D dbuf->priv;
+> > +     struct sg_table *sgt =3D buf->dma_sgt;
+> > +
+> > +     if (!buf->non_coherent_mem)
+> > +             return 0;
+> > +
+> > +     if (buf->vaddr)
+> > +             invalidate_kernel_vmap_range(buf->vaddr, buf->size);
 >
-> When DMA-buf is used, the responsibility for cache management is
-> solely on the CPU users' side, so cache-hints don't really apply. It's
-> the exporter (=allocator) who determines the mapping policy of the
-> buffer and provides necessary DMA_BUF_SYNC operations (can be no-op if
-> the buffer is coherent).
+> Am I correct that this is mostly to prevent the kernel from reading
+> back old data from the cache after an application or other driver did
+> CPU writes ? If so, can't we restrict that to DMA_TO_DEVICE and
+> DMA_BIDIRECTIONAL ?
 
-This all makes sense.
-
-I take it as, for libcamera, users of the FrameBufferAllocator helper
-(which first exports MMAP buffers from the video device and the
-imports them back as DMABUF) won't be able to control the cache
-policies.
-
-Now, in the long term, we want FrameBufferAllocator to go away and
-have either buffers exported by the consumer (likely DRM) or by a
-system wide buffer allocator (when we'll have one) and have the video
-devices operate as pure importers. But for the time being the
-"first export then import" use case is possibile and valid so I wonder
-if we should consider measures to allow controlling caching policies
-for this use case too.
+Note that this function must also synchronize between the user-space
+and kernel mappings, where the DMA direction doesn't really matter.
+Also it's unlikely for it to be called when not needed - why would one
+begin a CPU access before the DMA, when the DMA is FROM_DEVICE?
 
 >
-> Best regards,
-> Tomasz
+> As for pending kernel writes, they should have been flushed before the
+> buffer is made available for dequeue.
+
+There is no implicit flushing for imported DMA-bufs. All the flushing
+needs to be executed directly by the CPU accessors by surrounding the
+access with begin and end CPU access, be it in the kernel or
+userspace.
+
+> And any access while a buffer is
+> queued is concurrent access, which is expected to have undefined
+> behaviour.
 >
+
+Correct.
+
+> > +
+> > +     dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+>
+> Isn't there a link to make between buf->dma_dir and direcction before
+> calling this ? Also, shouldn't we use direction insead of buf->dma_dir
+> to possibly limit the scope ?
+
+Oh, yes, that's a good catch. It should be |direction| passed here and
+not |buf->dma_dir|, since the former determines what CPU access will
+be done.
+
+>
+> > +
+> >       return 0;
+> >  }
 > >
-> > I'm asking because the idea is for libcamera to act solely as dma-buf
-> > importer, the current alloc-export-then-import trick is an helper for
-> > applications to work around the absence of a system allocator.
+> > @@ -434,6 +445,17 @@ static int
+> >  vb2_dc_dmabuf_ops_end_cpu_access(struct dma_buf *dbuf,
+> >                                enum dma_data_direction direction)
+> >  {
+> > +     struct vb2_dc_buf *buf =3D dbuf->priv;
+> > +     struct sg_table *sgt =3D buf->dma_sgt;
+> > +
+> > +     if (!buf->non_coherent_mem)
+> > +             return 0;
+> > +
+> > +     if (buf->vaddr)
+> > +             flush_kernel_vmap_range(buf->vaddr, buf->size);
+> > +
+> > +     dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
+>
+> Similar questions for the end_cpu_access implementation.
+
+Yeah, same here.
+
+>
+> Nicolas
+>
+> > +
+> >       return 0;
+> >  }
 > >
-> > If the requirement to disable cache-hints for importers cannot be
-> > lifted, for libcamera it means we would not be able to use it.
 > >
-> >
-> > > [2] https://git.linuxtv.org/media.git/tree/drivers/media/common/videobuf2/videobuf2-core.c?id=94794b5ce4d90ab134b0b101a02fddf6e74c437d#n829
-> > > [3] https://git.linuxtv.org/media.git/tree/drivers/media/common/videobuf2/videobuf2-dma-contig.c?id=94794b5ce4d90ab134b0b101a02fddf6e74c437d#n426
-> > >
-> > > --
-> > > Best regards,
-> > > Mikhail Rudenko
-> > >
-> >
+>
 
