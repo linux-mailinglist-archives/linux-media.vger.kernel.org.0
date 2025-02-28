@@ -1,241 +1,306 @@
-Return-Path: <linux-media+bounces-27223-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27224-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD24DA49885
-	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 12:43:45 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42694A4988B
+	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 12:49:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8D9E91887210
-	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 11:43:52 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E7D313B463F
+	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 11:49:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AEBD2620C3;
-	Fri, 28 Feb 2025 11:43:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 621D625F781;
+	Fri, 28 Feb 2025 11:49:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lQdL2a/K"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="djmOzvP6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7CA825D91B;
-	Fri, 28 Feb 2025 11:43:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E07A0276D1A;
+	Fri, 28 Feb 2025 11:49:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740743016; cv=none; b=rpG/ZzgrQ8EhjAPkGCASTKhKge0DaL0Ff0VkwMVSPH1fYIgrdIxJXjqgF0sxCuVnwtuFPhw7xMV/8fYevDqxuWSPcej8x61Wkb6ktizJxLEp1b6E2g81fUpD4W92mdYUQsgCOugXvOBdwnxBPxLXpH2R19dpwABolkFopzFRIzY=
+	t=1740743344; cv=none; b=C1KnK4RAXsNJqGWj1HLAJft/evEs3ptCxbotHT9itZ68lyJp/0U2gJnM51/OEVGvsoLlIdcH21wA3/kJ6qNOf3d1S8mX2/2FvzXK3U6+P3nEFlP7OTo2M3rv1ouM1KOTiDDgtHAat+NajJru0jd45rDyyYGDx1Ff6rPzo3qkpQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740743016; c=relaxed/simple;
-	bh=ISd+R1CNst8eSW/QMkr9HB7kac6KhiQiUPESNAvzryw=;
-	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
-	 MIME-Version:Content-Type; b=lWXWVvNrSDKUCymq+Wcr1iKdpCO5uJ/4RzRWoi8QfcG6D0I3GKzyF7YPKl6wU3znOR/aEHQTry5sIZa/hdQhKZJx/ofbTAeNRnJJrepV0UmVwRPptwZdOwb4f3I3LqPCdAKtBX5UN84lOgjPEM0hLHD9JT2381sPqEEzvF9fVMs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lQdL2a/K; arc=none smtp.client-ip=209.85.208.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-30613802a04so21383751fa.2;
-        Fri, 28 Feb 2025 03:43:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740743012; x=1741347812; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yky+MpWpSqBmuiHoH6G890ahUf3ki5Lz5PCO4fqT27Q=;
-        b=lQdL2a/KVxYNHHskyDldLg2uv3DLVj7vXCJzldiQoMF1kpyfPgc10cBDuJyObgQFR9
-         BfVfEbdIctzyYWNe460dkr8JXhoCMQOunUOprhvG6SATI9PsSBarVVGHC5AWPOroNGof
-         rwdSxHK1+BX3kzYRcpZNnUqmjzXLttEaTU7IpnSHtuQt5twjN4qxlxnJgQL4uftKRJ0r
-         r0xTwwlv8SPXLoHwf6t8aOBFc8wMkZ3KBWH5q44DQ1sKZ/NIZhgkfWSlAJDX05LwW7dq
-         VEsnjWYIoIs4c/if35GasqjyxdNYELVwYfpR0AtQZWJWa6V+4/o7csmg7fbuG3D+Ra2T
-         5jMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740743012; x=1741347812;
-        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
-         :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=yky+MpWpSqBmuiHoH6G890ahUf3ki5Lz5PCO4fqT27Q=;
-        b=e7RWNCUYN4LBDc4GevP18rsrmGIsR9LcPZSNfBFACuKDYvAClcMvLrWHi47btARb1E
-         AAbcwkQ4+5rULXiNji12IVme1UOBcRENxWtQC9InR5qpLR2vXktrKi+8De+R9PENWcWb
-         dFE8jURMivYoF2hL3y3h+XTmXAsqP1O01BNMGDzIE3LJXSqxgvyZpfho+9miGUTCTV0D
-         gwv9+Chj76KmQH4x+zVYEAvN15wWTVtdvEOQSU5+aYOdIBYd1PbZUY+vSFd1HOowE3UK
-         AGhWqAxcrdLBS84w+9aJ63xlrEK/EDqdoA+OC9dtIahStTneJE/B7joSLFe1BhRBCVOq
-         d7yQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUTp4AqQhl1RfhIhi7VV5ezhtkEopw3r+6jxqNfBctbmqv8X4k50LZf9DeF1vc4vXRsFM4LC8M3mjyMk4s=@vger.kernel.org, AJvYcCVSWw2I5sUC6cvjcBTWHXxgNOvGZlvEhkPX8r2nnZdo2ZzgKFjTI/YzpVPBPeiVo1odZhODm8D8fhCcDnw=@vger.kernel.org, AJvYcCXwBv8BtvyqSbO0wxivRfd4lawOcmjWpKWKaSB2EIIy38AefQfIIYJ34I3nZoKPeiP8+A+bBM73@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx2hwiU3wmhQnTi4OwlxIUyV3m3bnkll9gstqK+CtivZwzgWDCw
-	mJrTbsn69JNK/1uN7TLqeKY0wNHg1ZCakxsPq1s5kERgzQw1embX6Egn951z
-X-Gm-Gg: ASbGncsJJJQMe06Mudd4n4yqA0hBSjQWhVyX7qpaWJcv0WkKs4bH4Q30kHv7qfWPqLu
-	imT8Kt/ToMZ3HVhw94tTTUT0t39muIu+AqCQgx9U7Dmu5j4qEgL+dIUMqPLk2j+1yf8OoCNEFyY
-	VV7kufgjjGg/R103tOCEf3QxZidAtUqW0iEIyg8EkFa9GRX/+88bsFuEJ3ZNi56fdmZ4z3fE2Zl
-	c5meh8nzlgLNeS0NTHfRcHNVKXPx0uHUy7yLW7KcUx1ld+wHhCtH/Pnv+imaMBiTK2F1HDef1cj
-	A4YQqTo7Hw0fvi5eRjzymrEdmNzp1Bv6uHkVbWveJvQqbRElztGDffy16YtoBf9dWugNdTVJoM2
-	GIwSTODDDiPI6hQ==
-X-Google-Smtp-Source: AGHT+IHOs9vqantuNod90ERM5xB3i1bFO2RtYdojT8XjyxXMwXaQtOUpbPRNc5KFH73oqV4zi5nIyA==
-X-Received: by 2002:ac2:4e14:0:b0:545:93b:30bf with SMTP id 2adb3069b0e04-5494c37d894mr1314384e87.41.1740743011725;
-        Fri, 28 Feb 2025 03:43:31 -0800 (PST)
-Received: from razdolb (static.248.157.217.95.clients.your-server.de. [95.217.157.248])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549441740ffsm466848e87.50.2025.02.28.03.43.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Feb 2025 03:43:31 -0800 (PST)
-References: <20250128-b4-rkisp-noncoherent-v3-0-baf39c997d2a@gmail.com>
- <20250128-b4-rkisp-noncoherent-v3-1-baf39c997d2a@gmail.com>
- <25beec7ea929b624d845f5ba4abce6267974ed82.camel@ndufresne.ca>
- <CAAFQd5A4YOaSCn=xe7OM-hPKcUhqkD5hTiMUo5F9pwhKNFJ2Lg@mail.gmail.com>
-User-agent: mu4e 1.10.9; emacs 29.4.50
-From: Mikhail Rudenko <mike.rudenko@gmail.com>
-To: Tomasz Figa <tfiga@chromium.org>
-Cc: Nicolas Dufresne <nicolas@ndufresne.ca>, Dafna Hirschfeld
- <dafna@fastmail.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Marek Szyprowski
- <m.szyprowski@samsung.com>, Hans Verkuil <hverkuil@xs4all.nl>, Sergey
- Senozhatsky <senozhatsky@chromium.org>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, Mauro Carvalho Chehab
- <mchehab+huawei@kernel.org>, stable@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] media: videobuf2: Fix dmabuf cache sync/flush in
- dma-contig
-Date: Fri, 28 Feb 2025 14:41:34 +0300
-In-reply-to: <CAAFQd5A4YOaSCn=xe7OM-hPKcUhqkD5hTiMUo5F9pwhKNFJ2Lg@mail.gmail.com>
-Message-ID: <87h64eb8gw.fsf@gmail.com>
+	s=arc-20240116; t=1740743344; c=relaxed/simple;
+	bh=XwQxmlGPReV6UlaylrY2vwKm8Dmxn4Uv+zvw6veM7ec=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Uk+XOhZvQ0URg+g3wF93HjJKQk9IgtY2HkadBePCYqxC4GJjTaR5+8N88ulJmuFNKhpMHYSkU+GdqWx8ffiemrgf13VVk3jwkPJLK5YZIYWDQylmw+h5Wcg18tRSXw3GN5bCnos05EVTKH9023+TQsesnJVWLi1xJ36aBbSSDio=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=djmOzvP6; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1740743343; x=1772279343;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XwQxmlGPReV6UlaylrY2vwKm8Dmxn4Uv+zvw6veM7ec=;
+  b=djmOzvP63bXelT2kgZohiFJP4OuDJiRYfrnsDZjDiSXMNgdlyEsse9Df
+   cZMC08lUutbCAnb8Vrrx52ya8DiBeLvTdkSy+2XTXYTIZxeFhJNZHtc5Y
+   H86lopdbVqWKRgv2Buffe+ZYBX+VmtLDauKAD/WgoABVyKweCFiireoo4
+   GvKIShIIYE5VlWGWANZQIigoJTB3D0+lsSsSMQ8xyyeAUps3/5KAnbn7S
+   xjrAAnsbJy/4dB0EkrbRq2kLXk4xZwUIbjT2p/PwsEyQ8+fcrBKVymGnI
+   SFJFv02E9+F8tUWhId0b6T6P6d/t+LiCRt3sqle1gmvKzZ39XEUuqkIK4
+   g==;
+X-CSE-ConnectionGUID: +bT87kkRS2WQD7hxsLlLrA==
+X-CSE-MsgGUID: oQn6UYhDT0y6AoQmTLWpsA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11358"; a="41791148"
+X-IronPort-AV: E=Sophos;i="6.13,322,1732608000"; 
+   d="scan'208";a="41791148"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 03:49:02 -0800
+X-CSE-ConnectionGUID: 53kRlNm9Tuq+WFIQ2DkStQ==
+X-CSE-MsgGUID: b43Zr6imQu+4nrikgafnxg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.13,322,1732608000"; 
+   d="scan'208";a="117500719"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Feb 2025 03:49:00 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id B905711F944;
+	Fri, 28 Feb 2025 13:48:57 +0200 (EET)
+Date: Fri, 28 Feb 2025 11:48:57 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: shravan kumar <shravan.chippa@microchip.com>
+Cc: mchehab@kernel.org, kieran.bingham@ideasonboard.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	conor.dooley@microchip.com, valentina.fernandezalanis@microchip.com,
+	praveen.kumar@microchip.com
+Subject: Re: [PATCH V6 1/3] media: i2c: imx334: Optimized 4k and 2k mode
+ register arrays
+Message-ID: <Z8GiqSfuyQdUNylt@kekkonen.localdomain>
+References: <20250228103332.3647098-1-shravan.chippa@microchip.com>
+ <20250228103332.3647098-2-shravan.chippa@microchip.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250228103332.3647098-2-shravan.chippa@microchip.com>
 
+Hi Shravan,
 
-On 2025-02-28 at 19:25 +09, Tomasz Figa <tfiga@chromium.org> wrote:
+On Fri, Feb 28, 2025 at 04:03:30PM +0530, shravan kumar wrote:
+> From: Shravan Chippa <shravan.chippa@microchip.com>
+> 
+> Optimized the resolution arrays by integrating a common register array.
+> 
+> Adjusted the register array values for 1920x1080@30 and 3840x2160@30
+> resolutions to align with the common register array values.
+> 
+> Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
+> ---
+>  drivers/media/i2c/imx334.c | 132 +++++++++----------------------------
+>  1 file changed, 31 insertions(+), 101 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
+> index a544fc3df39c..a800f2203592 100644
+> --- a/drivers/media/i2c/imx334.c
+> +++ b/drivers/media/i2c/imx334.c
+> @@ -167,8 +167,8 @@ static const s64 link_freq[] = {
+>  	IMX334_LINK_FREQ_445M,
+>  };
+>  
+> -/* Sensor mode registers for 1920x1080@30fps */
+> -static const struct imx334_reg mode_1920x1080_regs[] = {
+> +/* Sensor common mode registers values */
+> +static const struct imx334_reg common_mode_regs[] = {
+>  	{0x3000, 0x01},
+>  	{0x3018, 0x04},
+>  	{0x3030, 0xca},
+> @@ -176,26 +176,10 @@ static const struct imx334_reg mode_1920x1080_regs[] = {
+>  	{0x3032, 0x00},
+>  	{0x3034, 0x4c},
+>  	{0x3035, 0x04},
+> -	{0x302c, 0xf0},
+> -	{0x302d, 0x03},
+> -	{0x302e, 0x80},
+> -	{0x302f, 0x07},
+> -	{0x3074, 0xcc},
+> -	{0x3075, 0x02},
+> -	{0x308e, 0xcd},
+> -	{0x308f, 0x02},
+> -	{0x3076, 0x38},
+> -	{0x3077, 0x04},
+> -	{0x3090, 0x38},
+> -	{0x3091, 0x04},
+> -	{0x3308, 0x38},
+> -	{0x3309, 0x04},
+> -	{0x30C6, 0x00},
+> +	{0x30c6, 0x00},
+>  	{0x30c7, 0x00},
+>  	{0x30ce, 0x00},
+>  	{0x30cf, 0x00},
+> -	{0x30d8, 0x18},
+> -	{0x30d9, 0x0a},
+>  	{0x304c, 0x00},
+>  	{0x304e, 0x00},
+>  	{0x304f, 0x00},
+> @@ -210,7 +194,7 @@ static const struct imx334_reg mode_1920x1080_regs[] = {
+>  	{0x300d, 0x29},
+>  	{0x314c, 0x29},
+>  	{0x314d, 0x01},
+> -	{0x315a, 0x06},
+> +	{0x315a, 0x0a},
 
-> On Fri, Feb 28, 2025 at 12:30=E2=80=AFPM Nicolas Dufresne <nicolas@ndufre=
-sne.ca> wrote:
->>
->> Le mardi 28 janvier 2025 =C3=A0 23:35 +0300, Mikhail Rudenko a =C3=A9cri=
-t :
->> > When support for V4L2_FLAG_MEMORY_NON_CONSISTENT was removed in
->> > commit 129134e5415d ("media: media/v4l2: remove
->> > V4L2_FLAG_MEMORY_NON_CONSISTENT flag"),
->> > vb2_dc_dmabuf_ops_{begin,end}_cpu_access() functions were made
->> > no-ops. Later, when support for V4L2_MEMORY_FLAG_NON_COHERENT was
->> > introduced in commit c0acf9cfeee0 ("media: videobuf2: handle
->> > V4L2_MEMORY_FLAG_NON_COHERENT flag"), the above functions remained
->> > no-ops, making cache maintenance for non-coherent dmabufs allocated
->> > by
->> > dma-contig impossible.
->> >
->> > Fix this by reintroducing dma_sync_sgtable_for_{cpu,device} and
->> > {flush,invalidate}_kernel_vmap_range calls to
->> > vb2_dc_dmabuf_ops_{begin,end}_cpu_access() functions for non-coherent
->> > buffers.
->> >
->> > Fixes: c0acf9cfeee0 ("media: videobuf2: handle
->> > V4L2_MEMORY_FLAG_NON_COHERENT flag")
->> > Cc: stable@vger.kernel.org
->> > Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
->> > ---
->> >  .../media/common/videobuf2/videobuf2-dma-contig.c  | 22
->> > ++++++++++++++++++++++
->> >  1 file changed, 22 insertions(+)
->> >
->> > diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
->> > b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
->> > index
->> > bb0b7fa67b539aa73ad5ccf3c3bc318e26f8a4cb..146d7997a0da5989fb081a6f28c
->> > e0641fe726e63 100644
->> > --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
->> > +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
->> > @@ -427,6 +427,17 @@ static int
->> >  vb2_dc_dmabuf_ops_begin_cpu_access(struct dma_buf *dbuf,
->> >                                  enum dma_data_direction
->> > direction)
->> >  {
->> > +     struct vb2_dc_buf *buf =3D dbuf->priv;
->> > +     struct sg_table *sgt =3D buf->dma_sgt;
->> > +
->> > +     if (!buf->non_coherent_mem)
->> > +             return 0;
->> > +
->> > +     if (buf->vaddr)
->> > +             invalidate_kernel_vmap_range(buf->vaddr, buf->size);
->>
->> Am I correct that this is mostly to prevent the kernel from reading
->> back old data from the cache after an application or other driver did
->> CPU writes ? If so, can't we restrict that to DMA_TO_DEVICE and
->> DMA_BIDIRECTIONAL ?
->
-> Note that this function must also synchronize between the user-space
-> and kernel mappings, where the DMA direction doesn't really matter.
-> Also it's unlikely for it to be called when not needed - why would one
-> begin a CPU access before the DMA, when the DMA is FROM_DEVICE?
->
->>
->> As for pending kernel writes, they should have been flushed before the
->> buffer is made available for dequeue.
->
-> There is no implicit flushing for imported DMA-bufs. All the flushing
-> needs to be executed directly by the CPU accessors by surrounding the
-> access with begin and end CPU access, be it in the kernel or
-> userspace.
->
->> And any access while a buffer is
->> queued is concurrent access, which is expected to have undefined
->> behaviour.
->>
->
-> Correct.
->
->> > +
->> > +     dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
->>
->> Isn't there a link to make between buf->dma_dir and direcction before
->> calling this ? Also, shouldn't we use direction insead of buf->dma_dir
->> to possibly limit the scope ?
->
-> Oh, yes, that's a good catch.
+We still have this change in the patch that's just supposed to move
+register address/value pairs around. :-( Please check the changes yourself
+before posting v7.
 
-Indeed, will fix this in v4.
+>  	{0x3168, 0xa0},
+>  	{0x316a, 0x7e},
+>  	{0x319e, 0x02},
+> @@ -330,24 +314,32 @@ static const struct imx334_reg mode_1920x1080_regs[] = {
+>  	{0x3002, 0x00},
+>  };
+>  
+> +/* Sensor mode registers for 1920x1080@30fps */
+> +static const struct imx334_reg mode_1920x1080_regs[] = {
+> +	{0x302c, 0xf0},
+> +	{0x302d, 0x03},
+> +	{0x302e, 0x80},
+> +	{0x302f, 0x07},
+> +	{0x3074, 0xcc},
+> +	{0x3075, 0x02},
+> +	{0x308e, 0xcd},
+> +	{0x308f, 0x02},
+> +	{0x3076, 0x38},
+> +	{0x3077, 0x04},
+> +	{0x3090, 0x38},
+> +	{0x3091, 0x04},
+> +	{0x3308, 0x38},
+> +	{0x3309, 0x04},
+> +	{0x30d8, 0x18},
+> +	{0x30d9, 0x0a},
+> +};
+> +
+>  /* Sensor mode registers for 3840x2160@30fps */
+>  static const struct imx334_reg mode_3840x2160_regs[] = {
+> -	{0x3000, 0x01},
+> -	{0x3002, 0x00},
+> -	{0x3018, 0x04},
+> -	{0x37b0, 0x36},
+> -	{0x304c, 0x00},
+> -	{0x300c, 0x3b},
+>  	{0x300d, 0x2a},
+>  	{0x3034, 0x26},
+>  	{0x3035, 0x02},
+> -	{0x314c, 0x29},
+> -	{0x314d, 0x01},
+>  	{0x315a, 0x02},
+> -	{0x3168, 0xa0},
+> -	{0x316a, 0x7e},
+> -	{0x3288, 0x21},
+> -	{0x328a, 0x02},
+>  	{0x302c, 0x3c},
+>  	{0x302d, 0x00},
+>  	{0x302e, 0x00},
+> @@ -356,82 +348,13 @@ static const struct imx334_reg mode_3840x2160_regs[] = {
+>  	{0x3077, 0x08},
+>  	{0x3090, 0x70},
+>  	{0x3091, 0x08},
+> -	{0x30d8, 0x20},
+> -	{0x30d9, 0x12},
+>  	{0x3308, 0x70},
+>  	{0x3309, 0x08},
+> -	{0x3414, 0x05},
+> -	{0x3416, 0x18},
+> -	{0x35ac, 0x0e},
+> -	{0x3648, 0x01},
+> -	{0x364a, 0x04},
+> -	{0x364c, 0x04},
+> -	{0x3678, 0x01},
+> -	{0x367c, 0x31},
+> -	{0x367e, 0x31},
+> -	{0x3708, 0x02},
+> -	{0x3714, 0x01},
+> -	{0x3715, 0x02},
+> -	{0x3716, 0x02},
+> -	{0x3717, 0x02},
+> -	{0x371c, 0x3d},
+> -	{0x371d, 0x3f},
+> -	{0x372c, 0x00},
+> -	{0x372d, 0x00},
+> -	{0x372e, 0x46},
+> -	{0x372f, 0x00},
+> -	{0x3730, 0x89},
+> -	{0x3731, 0x00},
+> -	{0x3732, 0x08},
+> -	{0x3733, 0x01},
+> -	{0x3734, 0xfe},
+> -	{0x3735, 0x05},
+> -	{0x375d, 0x00},
+> -	{0x375e, 0x00},
+> -	{0x375f, 0x61},
+> -	{0x3760, 0x06},
+> -	{0x3768, 0x1b},
+> -	{0x3769, 0x1b},
+> -	{0x376a, 0x1a},
+> -	{0x376b, 0x19},
+> -	{0x376c, 0x18},
+> -	{0x376d, 0x14},
+> -	{0x376e, 0x0f},
+> -	{0x3776, 0x00},
+> -	{0x3777, 0x00},
+> -	{0x3778, 0x46},
+> -	{0x3779, 0x00},
+> -	{0x377a, 0x08},
+> -	{0x377b, 0x01},
+> -	{0x377c, 0x45},
+> -	{0x377d, 0x01},
+> -	{0x377e, 0x23},
+> -	{0x377f, 0x02},
+> -	{0x3780, 0xd9},
+> -	{0x3781, 0x03},
+> -	{0x3782, 0xf5},
+> -	{0x3783, 0x06},
+> -	{0x3784, 0xa5},
+> -	{0x3788, 0x0f},
+> -	{0x378a, 0xd9},
+> -	{0x378b, 0x03},
+> -	{0x378c, 0xeb},
+> -	{0x378d, 0x05},
+> -	{0x378e, 0x87},
+> -	{0x378f, 0x06},
+> -	{0x3790, 0xf5},
+> -	{0x3792, 0x43},
+> -	{0x3794, 0x7a},
+> -	{0x3796, 0xa1},
+> -	{0x3e04, 0x0e},
+>  	{0x319e, 0x00},
+>  	{0x3a00, 0x01},
+>  	{0x3a18, 0xbf},
+> -	{0x3a19, 0x00},
+>  	{0x3a1a, 0x67},
+> -	{0x3a1b, 0x00},
+>  	{0x3a1c, 0x6f},
+> -	{0x3a1d, 0x00},
+>  	{0x3a1e, 0xd7},
+>  	{0x3a1f, 0x01},
+>  	{0x3a20, 0x6f},
+> @@ -989,6 +912,13 @@ static int imx334_start_streaming(struct imx334 *imx334)
+>  	const struct imx334_reg_list *reg_list;
+>  	int ret;
+>  
+> +	ret = imx334_write_regs(imx334, common_mode_regs,
+> +				ARRAY_SIZE(common_mode_regs));
+> +	if (ret) {
+> +		dev_err(imx334->dev, "fail to write common registers");
+> +		return ret;
+> +	}
+> +
+>  	/* Write sensor mode registers */
+>  	reg_list = &imx334->cur_mode->reg_list;
+>  	ret = imx334_write_regs(imx334, reg_list->regs,
 
-> It should be |direction| passed here and
-> not |buf->dma_dir|, since the former determines what CPU access will
-> be done.
->
->>
->> > +
->> >       return 0;
->> >  }
->> >
->> > @@ -434,6 +445,17 @@ static int
->> >  vb2_dc_dmabuf_ops_end_cpu_access(struct dma_buf *dbuf,
->> >                                enum dma_data_direction direction)
->> >  {
->> > +     struct vb2_dc_buf *buf =3D dbuf->priv;
->> > +     struct sg_table *sgt =3D buf->dma_sgt;
->> > +
->> > +     if (!buf->non_coherent_mem)
->> > +             return 0;
->> > +
->> > +     if (buf->vaddr)
->> > +             flush_kernel_vmap_range(buf->vaddr, buf->size);
->> > +
->> > +     dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
->>
->> Similar questions for the end_cpu_access implementation.
->
-> Yeah, same here.
+-- 
+Regards,
 
-Noted, will fix.
-
->>
->> Nicolas
->>
->> > +
->> >       return 0;
->> >  }
->> >
->> >
->>
-
-
---
-Best regards,
-Mikhail Rudenko
+Sakari Ailus
 
