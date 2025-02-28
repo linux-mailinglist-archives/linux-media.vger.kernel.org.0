@@ -1,211 +1,156 @@
-Return-Path: <linux-media+bounces-27180-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27181-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBE32A48E3A
-	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 02:55:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7175DA48E90
+	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 03:26:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C4229188D4E2
-	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 01:55:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3CF0D3B47FF
+	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 02:26:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E809F1494DF;
-	Fri, 28 Feb 2025 01:54:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4C1915B0EC;
+	Fri, 28 Feb 2025 02:26:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="hc1Wnley"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="cXHPewBE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3C33596A;
-	Fri, 28 Feb 2025 01:54:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 198D1126C02
+	for <linux-media@vger.kernel.org>; Fri, 28 Feb 2025 02:26:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740707694; cv=none; b=MVcY+OUHKRQoVYGJ4Iuw/Li+wYHu5Pn93ey6V1Dbw8PN20fwPSsL+yYcNATTdFxA53VDYGLV8nmKU0hKZI5+yFHeeueUewSqIdX3KFhyc6WzLnN7JzY/YiuIseQuJS/EyHv65p8TY4wFUWUJqQ1oPRlAf+VGHJiMhe7rfomnao0=
+	t=1740709574; cv=none; b=gmtl7WLvFkClfOE4Eq08GzPX8zhJJk2XGNzdbg2eTRMjJnYXETEXQFh8aq0Tl+v9LK57MmRZ5CrHiEicXiDxWUo1Fp63yPlutrHwy0S5YnyFiUGnhIepkM/Koj2qyn91t1Cb++T1YoqWqfhAk3+kEpASpjN6hlHo82I4G46oQiQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740707694; c=relaxed/simple;
-	bh=Lp1jbP3VtIoZJb7DDjRQCPnuT/WqIWZRzxbJAQE3YnA=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=sUhwxFtUg5sQeFToy9qKPq/jAjjiANiSkNnECv0FVDxh0NPznBVx4EMQS1swHyYlkcYKmef1Mt+RTowM2DbKTpS6KCGYGbZbHyBy6o5vMpZHTpspSVQwTI58XBQsxIGnLVXdVPD9aSQN+UsTBCo1PdGkmnEYx65O7YoqTCNweeQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=hc1Wnley; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Received: from [127.0.0.1] ([76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 51S1ouig2394050
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Thu, 27 Feb 2025 17:50:57 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 51S1ouig2394050
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025021701; t=1740707463;
-	bh=zdxlCZN7qRmiM8/WMWaSChORmP5U1+mg9Dd2GNfsbGA=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=hc1WnleyPiNvmeMgkj0Fbb3sTWrGCmnnaxiRXiZvVvO6Is3ZJKu6mp+YJv2Dbs05X
-	 aVxT1zsm98Egcx7g7dDapGUM1ppk6QkyAa2wZSKXLVi8I4OeDG/xzxwpW4dEA2MBFx
-	 T1ntM64Z768sGTrScS8Wa6oiWHo2Bu8akRlkAIPTgcwVRV0sgRtvWguE9SobXFYNdw
-	 ClhsdUIvwPyfzfAd+XeT/JQ5MtCRtjegffTL4YeiMAwTwSfCb9k77v5gFOVLmhUpKy
-	 VYHzzZXLAdv9xzXZj/lrKYrLB5diO6XmkXYCixEjE5jI7GVtxQxUpXMNKybtxiJAEr
-	 DXDmmmDy5eD+w==
-Date: Thu, 27 Feb 2025 17:50:55 -0800
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: David Laight <david.laight.linux@gmail.com>,
-        Yury Norov <yury.norov@gmail.com>
-CC: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
-        andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-        dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
-        hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
-        vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
-        davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-        parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
-        johannes@sipsolutions.net, gregkh@linuxfoundation.org,
-        jirislaby@kernel.org, akpm@linux-foundation.org, alistair@popple.id.au,
-        linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
-        jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
-        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
-        oss-drivers@corigine.com, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
-        brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
-        bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
-        Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH 02/17] bitops: Add generic parity calculation for u64
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20250227215741.1c2e382f@pumpkin>
-References: <20250223164217.2139331-1-visitorckw@gmail.com> <20250223164217.2139331-3-visitorckw@gmail.com> <Z7zIBwH4aUA7G9MY@thinkpad> <20250226222911.22cb0c18@pumpkin> <Z8CpaaHv0ahHFVuK@thinkpad> <20250227215741.1c2e382f@pumpkin>
-Message-ID: <EF874FA4-2719-44EA-B0DB-93A0980142BE@zytor.com>
+	s=arc-20240116; t=1740709574; c=relaxed/simple;
+	bh=2RjuojcGz7OIb+BqenvzLYjiwmJCtWUXykp9gpRxjoo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=tnUTFHCqzchnQNeICjuTtSsbSoKELSyPqMw9KaYrRvcCnkxD/mKKk3B3ghV+mt2xt4PwODwyIqcePn6T5qFA0xeQzzytszWmI29iVbqPc1uXaieMwthmMrEBVrWyeKUMxASiyUv6NFmRo181+RNhmnmc22Tzo4+pkleQkk2wXZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=cXHPewBE; arc=none smtp.client-ip=209.85.219.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6e89b6b5342so10966706d6.1
+        for <linux-media@vger.kernel.org>; Thu, 27 Feb 2025 18:26:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1740709571; x=1741314371; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=VJcCBxZrPcF1HtINZMO6IVGAMykP+k9zuguph0IARao=;
+        b=cXHPewBEc/mOcfV2g5jYx/OOQYP0tq6uH+W+Cab579WN5mN0DzP8LtK5EgxYiyQhO7
+         5dfWbfE/tGeMcWjb8opWC+E/0DOkcsVs4lDHA9FsjsM/6OLpLqkQQwnl4DVYZqcL9o2e
+         2vSYdAKwhYaW/QyGrYRhub98CTbzWeAD5URlX7OuTjLm68UA50L35+2w3Y/FxJxGXePA
+         oTcliTqe8v34ffBr/savgCih/cJJ8kbdXUf7V9HV3/jXI0UhFoUY3Cfc6Dcsa2Wd/pru
+         tcrNGrjfdiJvi0Plqq/nex5SlDGBQExsZ8KXjJgWdGLIejALqguTweeNoQCPIcaV597m
+         gMhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740709571; x=1741314371;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VJcCBxZrPcF1HtINZMO6IVGAMykP+k9zuguph0IARao=;
+        b=MhFz+W7YL/BY3+II7KbuIRjqRqiIvE9+/2q7PflYpOcL+r0x+1Og8nkBMFgjLE3SEZ
+         7YcEHQ5ggefX1dadsUmVUvlK+96u8JxXsOIBbCcKHm9owZaDVbTPpT36IJF6vKTX/hyF
+         BV+f735uVQv0PZYu1Pne6SFoYwd6hR0m1JrIYZ6wBohzbYJNOlGoQlvqkgZdIXX2FIEJ
+         g0sJVKMuKPrVh/Rye0/IEb/4BK6Jhwcwk1EdjMz21ttkhH4AUI+xsqP31/hmkqNKYHrL
+         028D3KEUA8LLkRIQ9eR5QhN0U+fnXxwKWj6JPhD7YDBZ8qN8leE4rm7f2RJu5cGJ81wP
+         HQCg==
+X-Forwarded-Encrypted: i=1; AJvYcCVkrTbeQ3o/dLsUDtO5EItbidUnlkujZEM8zHK7hdWApHrekd00Oyf0x6UJkKZZnk89CFJMMSwDBIHGGA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3l1dao3IrEDBIIMXFW2QeQpnG5cl7qTj4LT2KZOi595QYjubd
+	HHzpNwOO2bw0FvIFxIkdTQMgaJwXVl+h3OfSiIGthMbAk3wgTy2AUtCEEdVk0iE=
+X-Gm-Gg: ASbGncsDok5kES5CU8IPHR2Yf9JdUKLyZ7pdioo8nkGbpba/LP1w2ohwKQRP0UwEERv
+	2nIor4yJl9bExcBQ0vQ2OmA+cqajtwfGrW0K+4ymRZJmw01KEXezCxp+E5jvt+BZQHWY+kgoIaj
+	ZHkDZtp/HF6D5lCEM1i5DURjW5QKDvdZHQ7t0hBA2qN0G2h8cZhfMTdq6wzRcWcHfEW1bX5TKpn
+	ZRo7zIpyMwOwGqq42FsOwRyb8iFfphPsKeD9v1v6npk/FfSxzGahKBtmxCocgvBEKAJGhnfMe/A
+	kn3/+l6kdyqyyU3IzQkV1/zSTVbzhiE=
+X-Google-Smtp-Source: AGHT+IGUs//lkbvx/dTZ6S1dXtcIeqOusIiHyVcn8w8wYwcYyF0soDMXcDq4Vyroqi8kUxCmEF+Ucw==
+X-Received: by 2002:a05:6214:2b0b:b0:6e6:6225:a910 with SMTP id 6a1803df08f44-6e8a0c9f160mr30820726d6.14.1740709570881;
+        Thu, 27 Feb 2025 18:26:10 -0800 (PST)
+Received: from ?IPv6:2606:6d00:11:e976::c41? ([2606:6d00:11:e976::c41])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e8976da38csm16657186d6.108.2025.02.27.18.26.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Feb 2025 18:26:09 -0800 (PST)
+Message-ID: <fb0e0c207cd6c2cad39c2a38398080d93db4000b.camel@ndufresne.ca>
+Subject: Re: [Patch v2] media: s5p-mfc: Corrected NV12M/NV21M plane-sizes
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Aakarsh Jain <aakarsh.jain@samsung.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Cc: m.szyprowski@samsung.com, andrzej.hajda@intel.com, mchehab@kernel.org, 
+	hverkuil-cisco@xs4all.nl, krzysztof.kozlowski+dt@linaro.org, 
+	linux-samsung-soc@vger.kernel.org, gost.dev@samsung.com, 
+	aswani.reddy@samsung.com, pankaj.dubey@samsung.com
+Date: Thu, 27 Feb 2025 21:26:07 -0500
+In-Reply-To: <20250226102251.9040-1-aakarsh.jain@samsung.com>
+References: 
+	<CGME20250226102749epcas5p35afe43774ad2917b846c921dc593a5ef@epcas5p3.samsung.com>
+	 <20250226102251.9040-1-aakarsh.jain@samsung.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-On February 27, 2025 1:57:41 PM PST, David Laight <david=2Elaight=2Elinux@g=
-mail=2Ecom> wrote:
->On Thu, 27 Feb 2025 13:05:29 -0500
->Yury Norov <yury=2Enorov@gmail=2Ecom> wrote:
->
->> On Wed, Feb 26, 2025 at 10:29:11PM +0000, David Laight wrote:
->> > On Mon, 24 Feb 2025 14:27:03 -0500
->> > Yury Norov <yury=2Enorov@gmail=2Ecom> wrote:
->> > =2E=2E=2E=2E =20
->> > > +#define parity(val)					\
->> > > +({							\
->> > > +	u64 __v =3D (val);				\
->> > > +	int __ret;					\
->> > > +	switch (BITS_PER_TYPE(val)) {			\
->> > > +	case 64:					\
->> > > +		__v ^=3D __v >> 32;			\
->> > > +		fallthrough;				\
->> > > +	case 32:					\
->> > > +		__v ^=3D __v >> 16;			\
->> > > +		fallthrough;				\
->> > > +	case 16:					\
->> > > +		__v ^=3D __v >> 8;			\
->> > > +		fallthrough;				\
->> > > +	case 8:						\
->> > > +		__v ^=3D __v >> 4;			\
->> > > +		__ret =3D  (0x6996 >> (__v & 0xf)) & 1;	\
->> > > +		break;					\
->> > > +	default:					\
->> > > +		BUILD_BUG();				\
->> > > +	}						\
->> > > +	__ret;						\
->> > > +})
->> > > + =20
->> >=20
->> > You really don't want to do that!
->> > gcc makes a right hash of it for x86 (32bit)=2E
->> > See https://www=2Egodbolt=2Eorg/z/jG8dv3cvs =20
->>=20
->> GCC fails to even understand this=2E Of course, the __v should be an
->> __auto_type=2E But that way GCC fails to understand that case 64 is
->> a dead code for all smaller type and throws a false-positive=20
->> Wshift-count-overflow=2E This is a known issue, unfixed for 25 years!
->
->Just do __v ^=3D __v >> 16 >> 16
->
->>=20
->> https://gcc=2Egnu=2Eorg/bugzilla/show_bug=2Ecgi?id=3D4210
->> =20
->> > You do better using a __v32 after the 64bit xor=2E =20
->>=20
->> It should be an __auto_type=2E I already mentioned=2E So because of tha=
-t,
->> we can either do something like this:
->>=20
->>   #define parity(val)					\
->>   ({							\
->>   #ifdef CLANG                                          \
->>   	__auto_type __v =3D (val);			\
->>   #else /* GCC; because of this and that */             \
->>   	u64 __v =3D (val);			        \
->>   #endif                                                \
->>   	int __ret;					\
->>=20
->> Or simply disable Wshift-count-overflow for GCC=2E
->
->For 64bit values on 32bit it is probably better to do:
->int p32(unsigned long long x)
->{
->    unsigned int lo =3D x;
->    lo ^=3D x >> 32;
->    lo ^=3D lo >> 16;
->    lo ^=3D lo >> 8;
->    lo ^=3D lo >> 4;
->    return (0x6996 >> (lo & 0xf)) & 1;
->}
->That stops the compiler doing 64bit shifts (ok on x86, but probably not e=
-lsewhere)=2E
->It is likely to be reasonably optimal for most 64bit cpu as well=2E
->(For x86-64 it probably removes a load of REX prefix=2E)
->(It adds an extra instruction to arm because if its barrel shifter=2E)
->
->
->>=20
->> > Even the 64bit version is probably sub-optimal (both gcc and clang)=
-=2E
->> > The whole lot ends up being a bit single register dependency chain=2E
->> > You want to do: =20
->>=20
->> No, I don't=2E I want to have a sane compiler that does it for me=2E
->>=20
->> > 	mov %eax, %edx
->> > 	shrl $n, %eax
->> > 	xor %edx, %eax
->> > so that the 'mov' and 'shrl' can happen in the same clock
->> > (without relying on the register-register move being optimised out)=
-=2E
->> >=20
->> > I dropped in the arm64 for an example of where the magic shift of 699=
-6
->> > just adds an extra instruction=2E =20
->>=20
->> It's still unclear to me that this parity thing is used in hot paths=2E
->> If that holds, it's unclear that your hand-made version is better than
->> what's generated by GCC=2E
->
->I wasn't seriously considering doing that optimisation=2E
->Perhaps just hoping is might make a compiler person think :-)
->
->	David
->
->>=20
->> Do you have any perf test?
->>=20
->> Thanks,
->> Yury
->
+Hi,
 
-What the compiler people need to do is to not make __builtin_parity*() gen=
-erate crap=2E
+Le mercredi 26 f=C3=A9vrier 2025 =C3=A0 15:52 +0530, Aakarsh Jain a =C3=A9c=
+rit=C2=A0:
+> There is a possibility of getting page fault if the overall
+> buffer size is not aligned to 256bytes. Since MFC does read
+> operation only and it won't corrupt the data values even if
+> it reads the extra bytes.
+> Corrected luma and chroma plane sizes for V4L2_PIX_FMT_NV12M
+> and V4L2_PIX_FMT_NV21M pixel format.
+>=20
+> Suggested-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
+> ---
+> changelog:
+> v1->v2
+> Patch link: https://patchwork.kernel.org/project/linux-media/patch/202408=
+06115714.29828-1-aakarsh.jain@samsung.com/
+> Removed duplicate code and aligned luma and chroma size
+> to multiple of 256bytes as suggested by Hans.
+> =C2=A0drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c | 5 +++--
+> =C2=A01 file changed, 3 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c b/dr=
+ivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
+> index 73f7af674c01..0c636090d723 100644
+> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
+> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
+> @@ -549,8 +549,9 @@ static void s5p_mfc_enc_calc_src_size_v6(struct s5p_m=
+fc_ctx *ctx)
+> =C2=A0		case V4L2_PIX_FMT_NV21M:
+> =C2=A0			ctx->stride[0] =3D ALIGN(ctx->img_width, S5P_FIMV_NV12M_HALIGN_V=
+6);
+> =C2=A0			ctx->stride[1] =3D ALIGN(ctx->img_width, S5P_FIMV_NV12M_HALIGN_V=
+6);
+> -			ctx->luma_size =3D ctx->stride[0] * ALIGN(ctx->img_height, 16);
+> -			ctx->chroma_size =3D=C2=A0 ctx->stride[0] * ALIGN(ctx->img_height / 2=
+, 16);
+> +			ctx->luma_size =3D ALIGN(ctx->stride[0] * ALIGN(ctx->img_height, 16),=
+ 256);
+> +			ctx->chroma_size =3D ALIGN(ctx->stride[0] * ALIGN(ctx->img_height / 2=
+, 16),
+> +					256);
+
+An eventual port to v4l2-common helpers instead of open coding this
+would be nice, though I see nothing wrong to report with this code, so:
+
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
+regards,
+Nicolas
+
+> =C2=A0			break;
+> =C2=A0		case V4L2_PIX_FMT_YUV420M:
+> =C2=A0		case V4L2_PIX_FMT_YVU420M:
+
 
