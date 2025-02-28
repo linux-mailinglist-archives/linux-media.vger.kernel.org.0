@@ -1,110 +1,112 @@
-Return-Path: <linux-media+bounces-27255-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27256-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52A96A4A4F9
-	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 22:23:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D45EA4A6BF
+	for <lists+linux-media@lfdr.de>; Sat,  1 Mar 2025 00:56:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3E87D189AD2E
-	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 21:23:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1AB553BBF1F
+	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 23:56:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 797CF1DDC1D;
-	Fri, 28 Feb 2025 21:22:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 287421DF96E;
+	Fri, 28 Feb 2025 23:56:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HZfGsz4a"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iZpP9uaQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CADEE1D63FD;
-	Fri, 28 Feb 2025 21:22:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A55261DED57;
+	Fri, 28 Feb 2025 23:56:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740777767; cv=none; b=ROalhsp0za0donSNri+N0FTiIv9OgfTe9XpwH36cWFK45SuN+3Q9enzME0U8WSbnGpd7J61QwyqaIQJ/uv7gnKeHtaQXBn3nBUggX87RWgbkqXkMizUwyEMiiw0w5tDx2NLKOGqTcuHvizRo/a6QzxALU/W/afqJphZQthOgnVQ=
+	t=1740786963; cv=none; b=RAE9Tqe9gDSR0IjFqlvTlCfsab8x0qYAm+m37qJtEsScCg/z6kSy1gpmWVepDbyJw05umSZ2v0M+OW0/FgTpYUVl8o0o5kkWx3+SVryo3QjL5uS4QwFL0LgER07ZXL9h0lLhve6LkO5dTpKkrUM6b9E18GKMnUsyDr7p2sCsBeo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740777767; c=relaxed/simple;
-	bh=JBzeKdwhC3moTlOZODJUQj1pAUwMAaCEBCLwB//XK6k=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=UiWvG9xSXlw3R5sADk8ic7VKgmBHDGgVpXX5uxCUcJiJu7Al/vVBqE6PLqsGJ542FsYSZrENvUr0h1WTKdY9IY3Msf6IaQ9MzXTeY9MYEqCZKxmJeFblwpCO8UMLlwu2Z+ESqJErECvhAbAKBxnNQXltE0yvUwvhZQTvsQiuc6M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HZfGsz4a; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1BE6C4CEE2;
-	Fri, 28 Feb 2025 21:22:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740777767;
-	bh=JBzeKdwhC3moTlOZODJUQj1pAUwMAaCEBCLwB//XK6k=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
-	b=HZfGsz4a/Wb5K190mpN0hUEjxtlng3IksnID5Wqmy//b3riT8NlHGzftLdTW4732C
-	 A3p/X+JU6g2AfKE+5gkGxi9bch0utFZvBMR3iURHDPgc/gSjeKW/9+7Eh8cHh8jtcs
-	 zCl96QPfdnZKij5aMeAZSyjVYMDu/mcIy0JsRE8/tjDiuo85z4Voyr6Lp/vEFt/g6b
-	 xxagA/4BYOfJrJ0RwB1bzwQRXjrOESSMtjivw9MltIyDdFYGzb/ndaU0IkRR1oWA/e
-	 sCe3zg6XH/ElnzZkSNbxGJiodB6gvt4DwmBWPW0Pk0oHfs0vn1M/T3FDCwcD4p+9UD
-	 Dp8OXQLTITh5A==
-From: Mark Brown <broonie@kernel.org>
-To: perex@perex.cz, tiwai@suse.com, lgirdwood@gmail.com, deller@gmx.de, 
- andriy.shevchenko@linux.intel.com, sre@kernel.org, 
- sakari.ailus@linux.intel.com, mchehab@kernel.org, jdmason@kudzu.us, 
- fancer.lancer@gmail.com, Hans Verkuil <hverkuil@xs4all.nl>, 
- Raag Jadav <raag.jadav@intel.com>
-Cc: linux-sound@vger.kernel.org, linux-fbdev@vger.kernel.org, 
- linux-pm@vger.kernel.org, linux-media@vger.kernel.org, ntb@lists.linux.dev, 
- linux-kernel@vger.kernel.org
-In-Reply-To: <20250221165333.2780888-1-raag.jadav@intel.com>
-References: <20250221165333.2780888-1-raag.jadav@intel.com>
-Subject: Re: (subset) [PATCH v1 00/13] Convert to use devm_kmemdup_array()
-Message-Id: <174077776364.602863.4317015681907674937.b4-ty@kernel.org>
-Date: Fri, 28 Feb 2025 21:22:43 +0000
+	s=arc-20240116; t=1740786963; c=relaxed/simple;
+	bh=jTCdtpRYTRHsMVAmFB/azfiEkPNOYIqmEoX6aj1pEFA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Avxg7vQ5pdAv8O6SkqnEbKzq0zbY+evpvdYL8kuI92RQlzIXnB8NskHsLx7XmTqtFcEx3zBywFioaKes8GhPS8hkJ86TTIXs2fhJgq8lFd5MLhA+EL3S3b/RFodCoOPYKQAainIQWYhSAGu5TDWpkz5O3AXg1g6d2qpRuNeRCso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iZpP9uaQ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E5DB18BE;
+	Sat,  1 Mar 2025 00:54:29 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1740786870;
+	bh=jTCdtpRYTRHsMVAmFB/azfiEkPNOYIqmEoX6aj1pEFA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=iZpP9uaQpR66kiiaPF92LMEb35IpeO2GD9C2KMxOyqjXlhvDV0zzctzBqODBjYvgs
+	 j0bK89QAMzr4sdPXTBsODKp1N6FM8h658nyRZ+f2f4OtK31bvcBspPHWdB3jBvIBQO
+	 3Nb82ZUj91bm+/UZTXXvHX14ztrSeIZZ7w1jeDk4=
+Date: Sat, 1 Mar 2025 01:55:39 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Stefan Klug <stefan.klug@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] media: rkisp1: Remove unnecessary defines
+Message-ID: <20250228235539.GG7342@pendragon.ideasonboard.com>
+References: <20250227114558.3097101-1-stefan.klug@ideasonboard.com>
+ <20250227114558.3097101-4-stefan.klug@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Mailer: b4 0.15-dev-1b0d6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250227114558.3097101-4-stefan.klug@ideasonboard.com>
 
-On Fri, 21 Feb 2025 22:23:20 +0530, Raag Jadav wrote:
-> This series is the second wave of patches to add users of newly introduced
-> devm_kmemdup_array() helper. Original series on [1].
+Hi Stefan,
+
+Thank you for the patch.
+
+On Thu, Feb 27, 2025 at 12:45:01PM +0100, Stefan Klug wrote:
+> The effect modes are not shifts but numbers which are already defined a
+> few lines above. Remove the misleading defines.
+
+s/misleading/misleading and unused/ (I didn't expect you to
+intentionally break the build, and I'm sure it would be caught by my
+build tests, but making it clear for reviewers is always nice)
+
 > 
-> This depends on changes available on immutable tag[2]. Feel free to pick
-> your subsystem patches with it, or share your preferred way to route them.
+> Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+No need to resubmit for this, I can update the commit message.
+
+> ---
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h | 7 -------
+>  1 file changed, 7 deletions(-)
 > 
-> [1] https://lore.kernel.org/r/20250212062513.2254767-1-raag.jadav@intel.com
-> [2] https://lore.kernel.org/r/Z7cqCaME4LxTTBn6@black.fi.intel.com
-> 
-> [...]
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+> index bf0260600a19..139177db9c6d 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+> @@ -327,13 +327,6 @@
+>  #define RKISP1_CIF_IMG_EFF_CTRL_CFG_UPD			BIT(4)
+>  #define RKISP1_CIF_IMG_EFF_CTRL_YCBCR_FULL		BIT(5)
+>  
+> -#define RKISP1_CIF_IMG_EFF_CTRL_MODE_BLACKWHITE_SHIFT	0
+> -#define RKISP1_CIF_IMG_EFF_CTRL_MODE_NEGATIVE_SHIFT	1
+> -#define RKISP1_CIF_IMG_EFF_CTRL_MODE_SEPIA_SHIFT	2
+> -#define RKISP1_CIF_IMG_EFF_CTRL_MODE_COLOR_SEL_SHIFT	3
+> -#define RKISP1_CIF_IMG_EFF_CTRL_MODE_EMBOSS_SHIFT	4
+> -#define RKISP1_CIF_IMG_EFF_CTRL_MODE_SKETCH_SHIFT	5
+> -#define RKISP1_CIF_IMG_EFF_CTRL_MODE_SHARPEN_SHIFT	6
+>  #define RKISP1_CIF_IMG_EFF_CTRL_MODE_MASK		0xe
+>  
+>  /* IMG_EFF_COLOR_SEL */
 
-Applied to
+-- 
+Regards,
 
-   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/regulator.git for-next
-
-Thanks!
-
-[09/13] regulator: devres: use devm_kmemdup_array()
-        commit: 6ddd1159825c516b8f64fda83177c161434141f5
-[10/13] regulator: cros-ec: use devm_kmemdup_array()
-        commit: c5c4ce6612bb25ce6d6936d8ade96fcba635da54
-
-All being well this means that it will be integrated into the linux-next
-tree (usually sometime in the next 24 hours) and sent to Linus during
-the next merge window (or sooner if it is a bug fix), however if
-problems are discovered then the patch may be dropped or reverted.
-
-You may get further e-mails resulting from automated or manual testing
-and review of the tree, please engage with people reporting problems and
-send followup patches addressing any issues that are reported if needed.
-
-If any updates are required or you are submitting further changes they
-should be sent as incremental updates against current git, existing
-patches will not be replaced.
-
-Please add any relevant lists and maintainers to the CCs when replying
-to this mail.
-
-Thanks,
-Mark
-
+Laurent Pinchart
 
