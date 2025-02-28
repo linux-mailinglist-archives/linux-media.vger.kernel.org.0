@@ -1,114 +1,135 @@
-Return-Path: <linux-media+bounces-27201-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27202-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28D59A493F6
-	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 09:50:08 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9279A49458
+	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 10:03:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 074FF3ABC4B
-	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 08:49:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8B35A7A44BE
+	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 09:02:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 784E1254AEE;
-	Fri, 28 Feb 2025 08:49:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FohT+C9u"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 215B9254B12;
+	Fri, 28 Feb 2025 09:03:27 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 528B41FE451;
-	Fri, 28 Feb 2025 08:49:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6EDF1A3158;
+	Fri, 28 Feb 2025 09:03:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740732590; cv=none; b=oHTpDEjhjv3BFZ4/IQhPn2cgSeFe6ABbhgqx+xCxScoXBC7ZLtF0/NZXzoA88/y+geQ6WxWAeBTg6ZsWoyz2LGKifAnP9aboJtdlQJfRa/6HT9yIKc+W/ZqUFXz1K21wMHVbOPmIdPf1d8NViha5Wm453lcigNOZQmaE+4h8aFo=
+	t=1740733406; cv=none; b=h4dKM/I8dmjSjX2mVVA0AMSqHj11TsSKL1xc/Sh11M7LhVYyR+Cm1c7beLK32kAxZQGn98ab2S/D8txwdjRWujuWX/hJI5wnWL4D8n1ywDbf1czEfOnyRkSxvQITC0d8HDjsaBxx1Me3d7UGddvXgWwlhq1gQWS94L8G9a6GFX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740732590; c=relaxed/simple;
-	bh=0OeYBfc05rNRrXCsMR/lpy78B0DbGubAinIc4A9f34c=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ca7DnHspCphdDxoPWVCJ+uFsyBvX36I7INPAIzQ+CBUS/AvGNR5cL3Uw4hmtMFYsaTiRxKIy1jIygOUBUHUhO4Qeq/u+P6DBiKymERbCEaXsOJ5tcap4TG6IyvFkPLQqczyrrYA+n/Ysoc/uvhNwcHpLaxzW1iTrThoqtOfA+9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FohT+C9u; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4397dff185fso16380505e9.2;
-        Fri, 28 Feb 2025 00:49:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1740732587; x=1741337387; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=H0278h66H1jTg8JM/D/jFuhQNk348iAfaj0k0Hs30ZY=;
-        b=FohT+C9uuCzizCJAOhZYAJSv9wQO0tj3qrsDpcScw0Q1ETlJXC0XyY8cyqIu2CAtqG
-         KywlpSpdiw81nbyGLOHMyBKJR37817mucUUw3qclOXVl6MzXYSDzvjaeWutlWiSiaOA/
-         T5tcjXCs5WPTlHfKy8q8TwzyFt0ikdjHjN5lAupDKmRispIEpYkUGxyLJsw2REyOTAhI
-         JmvqDTOklX3nPvn4CxuN6MnzXLcpNbOarOqxScGd3vkxyy92f00tz+aC+g0wLEwIpiMU
-         CxIQ8hUANq3FZyZBuWSJbV1g0Cc8oQMAnrJ15aWR+pAVceW6g28+HSKF3HKy06qjiLAt
-         cwug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740732587; x=1741337387;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=H0278h66H1jTg8JM/D/jFuhQNk348iAfaj0k0Hs30ZY=;
-        b=uVaD8w8o59tF+pFG+Tq/7lhtePuRIBnSeONBjwrgwjw288wOccP8Kedv+ETzy5PcYQ
-         PH54h7gjoWCoKePWXP93vXXrwH72v7rkeMknVd2WUAmW+hHlYtzcxPSQ0DP2Dfy+tnWL
-         uQWnNEZ0miQSRMhNt9u4pnPDUj9GHsbCOY/ENRj9Y3Sq5Bjk8x+DYEr+mFDZnVhQYi00
-         ru7AetlUwCGk5NEveft87rguy34fZUKAQHooSOKS58cSLPBdAUrQFHm2LojHZKh03jaX
-         uZ+yX/t/8bdmG3kz7OOgK40xGaAgUcgE9eq4b5S1LchwPq9kdWjPilgubaJg6y8BAEkf
-         Y/Vg==
-X-Forwarded-Encrypted: i=1; AJvYcCVs+mVpeliXSWrJgtDbK1ga+2pryMCpck4/zHLkJM9P6Jc0NwWN1vCwM1SHdDMhKKYmpUPqndoiY/9SS/w=@vger.kernel.org, AJvYcCXPsN2fS+Ot1UFbHsgFe8H1FH0dHuU8LOe/9aw7Gn1HQvOczMIrQs6lOWdm+x5+mpUxLuUx15Ebt0lSeFc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXNGd1hIY5t1Z1auzj/Gw8zvrGoD+sCiAN0sNFwfXzf5WymYn5
-	j/faaDn0ILMHe0W7oXLB3BNuZOS8TbVzZGkJYsKerBXcP2dzKDVf
-X-Gm-Gg: ASbGncuUCFhVull5OKb2Jqtwt3IAEFgNdDZp1f98oZEw3wJShuqBMwOiBhvmMhvK3zf
-	w0y+5Uu8uCpiMg3FAtMo6LY7DBqEPhjV+t65GjixUO8yw0ztC71oAcV4AKDpsB20Pg9Gv/BAb0C
-	G3vYpNlt5eeKK6mQ80qDKyABybF6vxmJWXuyXRol2TcmcCvW/Bg79K/41QLtGa27yM70qc5a03M
-	uXNk+BoKY6KvXofA3PhhrYhn4em9V64mind2HBQ5oqHtFFrj+koqlQ5Mn/fx7ZlkVDCz/b1zibv
-	aFUffDDDzdswkphx4n0gEjBBZQA=
-X-Google-Smtp-Source: AGHT+IHC1kVGHx2QH9Mad6JlM6mJOlbEXN3652P/YltH+GHQY4CFR/FapmuMThulqFL+axQ0wZ1RTA==
-X-Received: by 2002:a05:6000:1786:b0:38e:65d8:b677 with SMTP id ffacd0b85a97d-390ec9cea75mr1984297f8f.33.1740732587518;
-        Fri, 28 Feb 2025 00:49:47 -0800 (PST)
-Received: from localhost ([194.120.133.72])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-390e485dcc1sm4411390f8f.87.2025.02.28.00.49.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Feb 2025 00:49:47 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] media: dvb: Fix spelling mistake "ofset" -> "offset"
-Date: Fri, 28 Feb 2025 08:49:12 +0000
-Message-ID: <20250228084912.678118-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.47.2
+	s=arc-20240116; t=1740733406; c=relaxed/simple;
+	bh=O4X2xrxRUOG/SXW62YK7CFbWwOBWjS1pbfdDLOj7ICE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=j/83oxBZaLbGNPxpJEdaRbhm+tqFtSGoST2VdL0k4WrSMGP/5FKXwm0EBNmtWac8xi/pHwtQ32xB021I0mSdUBckCVSiZTljTGFNBt2sVCplX/rBNSEvc7tC/yXh4RUufETeyhFOWG1Pnm3ujQY6BR6oVgXOTTwdG6eGk4MWppA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48ACBC4CED6;
+	Fri, 28 Feb 2025 09:03:25 +0000 (UTC)
+Message-ID: <bc026cfe-1f67-47dd-9ef5-6025509bf194@xs4all.nl>
+Date: Fri, 28 Feb 2025 10:03:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: Avermedia DVD EZMaker 7 video distortion on capture
+To: Randy K <linuxish@outlook.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ mchehab@kernel.org
+References: <99cc3844-54bd-44f5-88c5-9570fae709a7@xs4all.nl>
+ <PH8PR12MB7112FFF11030DA5FB31A4DF7E6CC2@PH8PR12MB7112.namprd12.prod.outlook.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <PH8PR12MB7112FFF11030DA5FB31A4DF7E6CC2@PH8PR12MB7112.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-There is a spelling mistake in a dprink message. Fix it.
+On 28/02/2025 01:59, Randy K wrote:
+> I mailed the INF file to you Hans.
+> 
+> Please take a look to see if you find anything there that may be 
+> helpful, and of course, your help is very much appreciated.
+> 
+> 
+> Thanks again Hans,
+> 
+>    Randy
+> 
+> 
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/media/dvb-frontends/stv0299.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Can you try to load the driver with the 'card=9' module option? Based on the
+.inf file the correct GPIO to enable the AGC is GPIO 0x0c, while the currently
+selected card uses GPIO 0x1c. Card 9 (Hauppauge USB Live 2) is identical to
+card 5, except for using GPIO 0x0c. So I am hopeful that switching to card 9
+will fix this issue.
 
-diff --git a/drivers/media/dvb-frontends/stv0299.c b/drivers/media/dvb-frontends/stv0299.c
-index da7ff2c2e8e5..ba4bb3685095 100644
---- a/drivers/media/dvb-frontends/stv0299.c
-+++ b/drivers/media/dvb-frontends/stv0299.c
-@@ -250,7 +250,7 @@ static int stv0299_get_symbolrate (struct stv0299_state* state)
- 	offset /= 128;
- 
- 	dprintk ("%s : srate = %i\n", __func__, srate);
--	dprintk ("%s : ofset = %i\n", __func__, offset);
-+	dprintk ("%s : offset = %i\n", __func__, offset);
- 
- 	srate += offset;
- 
--- 
-2.47.2
+Instead of using the card=9 option you can also try this patch:
 
+diff --git a/drivers/media/usb/cx231xx/cx231xx-cards.c b/drivers/media/usb/cx231xx/cx231xx-cards.c
+index 691f073892b3..c01384cce2ca 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-cards.c
++++ b/drivers/media/usb/cx231xx/cx231xx-cards.c
+@@ -1014,7 +1014,7 @@ struct usb_device_id cx231xx_id_table[] = {
+ 	 .driver_info = CX231XX_BOARD_CNXT_RDU_250},
+ 	/* AverMedia DVD EZMaker 7 */
+ 	{USB_DEVICE(0x07ca, 0xc039),
+-	 .driver_info = CX231XX_BOARD_CNXT_VIDEO_GRABBER},
++	 .driver_info = CX231XX_BOARD_HAUPPAUGE_USBLIVE2},
+ 	{USB_DEVICE(0x2040, 0xb110),
+ 	 .driver_info = CX231XX_BOARD_HAUPPAUGE_USB2_FM_PAL},
+ 	{USB_DEVICE(0x2040, 0xb111),
+
+
+Regards,
+
+	Hans
 
