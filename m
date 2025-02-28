@@ -1,298 +1,241 @@
-Return-Path: <linux-media+bounces-27222-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27223-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D71A4986F
-	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 12:41:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD24DA49885
+	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 12:43:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B81F53B897D
-	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 11:41:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8D9E91887210
+	for <lists+linux-media@lfdr.de>; Fri, 28 Feb 2025 11:43:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 050D62620E8;
-	Fri, 28 Feb 2025 11:41:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AEBD2620C3;
+	Fri, 28 Feb 2025 11:43:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="nI0E7LPy"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lQdL2a/K"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13087261579;
-	Fri, 28 Feb 2025 11:41:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7CA825D91B;
+	Fri, 28 Feb 2025 11:43:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740742865; cv=none; b=M9RHI3Mpsih3Kklj9gOWqBltmSQEGY7KvJ/6yr7NHtnih3ZTQys3+NOtLYBu8Gjjuxm06LeX8BxF8hR/8Gc/0Rl3fUvdjEXtmU61ruRpqKzVNYuBxNxYCWTpVeEyl1m3y35rLVfw/GVzCpBUcGjmoSvY4mOUMHbeE8ntOhPDjOI=
+	t=1740743016; cv=none; b=rpG/ZzgrQ8EhjAPkGCASTKhKge0DaL0Ff0VkwMVSPH1fYIgrdIxJXjqgF0sxCuVnwtuFPhw7xMV/8fYevDqxuWSPcej8x61Wkb6ktizJxLEp1b6E2g81fUpD4W92mdYUQsgCOugXvOBdwnxBPxLXpH2R19dpwABolkFopzFRIzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740742865; c=relaxed/simple;
-	bh=vBU07kaMr1FzJ+y0p9rCJFx/6wSa6nMykFujbq+O/I4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Z0ydTlmsuPRMeqyRBSR4b87h69Zxq1iIbkvuYaADwNnpopzF6WVLDtWTadECfCustn6wx5zRN25dx3oBA6EQKLl9DtQAxkVJZGj/3eXpO76P225SmKrvJQawj1akWSds24KjN+n6uOy8tm3iaLWcuPocEHtmU3Sq+o83dxGyrGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=nI0E7LPy; arc=none smtp.client-ip=198.47.19.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 51SBel7e2038443
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Fri, 28 Feb 2025 05:40:47 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1740742847;
-	bh=c1YF4vPEmzeYXAeKXS+4M5oyhCfOioHPJms/kUt1TLQ=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=nI0E7LPyseymI3JWIAlIDP0xQXPwx+kjNezWTa6BhEBiwNZyUNB7YUc9ithgJ4BnT
-	 wfH/yGppSYe3P1Pgyx+Uy8JROfMEblN5P0blAfZuYzlggnqdtyuvO+N0nAPe8cqi8V
-	 qmoYrgi8eoXYb+zj6V0N5Dq2OSul7YsxaimulVJc=
-Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTP id 51SBel8j038617;
-	Fri, 28 Feb 2025 05:40:47 -0600
-Received: from DFLE114.ent.ti.com (10.64.6.35) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 28
- Feb 2025 05:40:46 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE114.ent.ti.com
- (10.64.6.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 28 Feb 2025 05:40:46 -0600
-Received: from abhilash-HP.dhcp.ti.com (abhilash-hp.dhcp.ti.com [172.24.227.115])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 51SBeWfd060249;
-	Fri, 28 Feb 2025 05:40:43 -0600
-From: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-To: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>
-CC: <mripard@kernel.org>, <mchehab@kernel.org>, <jai.luthra@linux.dev>,
-        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
-        <devarsht@ti.com>, <vaishnav.a@ti.com>, <r-donadkar@ti.com>,
-        <u-kumar1@ti.com>, <y-abhilashchandra@ti.com>
-Subject: [PATCH v5 2/2] media: cadence: csi2rx: Enable csi2rx_err_irq interrupt and add support for VIDIOC_LOG_STATUS
-Date: Fri, 28 Feb 2025 17:10:30 +0530
-Message-ID: <20250228114030.1028443-3-y-abhilashchandra@ti.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250228114030.1028443-1-y-abhilashchandra@ti.com>
-References: <20250228114030.1028443-1-y-abhilashchandra@ti.com>
+	s=arc-20240116; t=1740743016; c=relaxed/simple;
+	bh=ISd+R1CNst8eSW/QMkr9HB7kac6KhiQiUPESNAvzryw=;
+	h=References:From:To:Cc:Subject:Date:In-reply-to:Message-ID:
+	 MIME-Version:Content-Type; b=lWXWVvNrSDKUCymq+Wcr1iKdpCO5uJ/4RzRWoi8QfcG6D0I3GKzyF7YPKl6wU3znOR/aEHQTry5sIZa/hdQhKZJx/ofbTAeNRnJJrepV0UmVwRPptwZdOwb4f3I3LqPCdAKtBX5UN84lOgjPEM0hLHD9JT2381sPqEEzvF9fVMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lQdL2a/K; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-30613802a04so21383751fa.2;
+        Fri, 28 Feb 2025 03:43:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1740743012; x=1741347812; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+         :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yky+MpWpSqBmuiHoH6G890ahUf3ki5Lz5PCO4fqT27Q=;
+        b=lQdL2a/KVxYNHHskyDldLg2uv3DLVj7vXCJzldiQoMF1kpyfPgc10cBDuJyObgQFR9
+         BfVfEbdIctzyYWNe460dkr8JXhoCMQOunUOprhvG6SATI9PsSBarVVGHC5AWPOroNGof
+         rwdSxHK1+BX3kzYRcpZNnUqmjzXLttEaTU7IpnSHtuQt5twjN4qxlxnJgQL4uftKRJ0r
+         r0xTwwlv8SPXLoHwf6t8aOBFc8wMkZ3KBWH5q44DQ1sKZ/NIZhgkfWSlAJDX05LwW7dq
+         VEsnjWYIoIs4c/if35GasqjyxdNYELVwYfpR0AtQZWJWa6V+4/o7csmg7fbuG3D+Ra2T
+         5jMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1740743012; x=1741347812;
+        h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+         :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=yky+MpWpSqBmuiHoH6G890ahUf3ki5Lz5PCO4fqT27Q=;
+        b=e7RWNCUYN4LBDc4GevP18rsrmGIsR9LcPZSNfBFACuKDYvAClcMvLrWHi47btARb1E
+         AAbcwkQ4+5rULXiNji12IVme1UOBcRENxWtQC9InR5qpLR2vXktrKi+8De+R9PENWcWb
+         dFE8jURMivYoF2hL3y3h+XTmXAsqP1O01BNMGDzIE3LJXSqxgvyZpfho+9miGUTCTV0D
+         gwv9+Chj76KmQH4x+zVYEAvN15wWTVtdvEOQSU5+aYOdIBYd1PbZUY+vSFd1HOowE3UK
+         AGhWqAxcrdLBS84w+9aJ63xlrEK/EDqdoA+OC9dtIahStTneJE/B7joSLFe1BhRBCVOq
+         d7yQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUTp4AqQhl1RfhIhi7VV5ezhtkEopw3r+6jxqNfBctbmqv8X4k50LZf9DeF1vc4vXRsFM4LC8M3mjyMk4s=@vger.kernel.org, AJvYcCVSWw2I5sUC6cvjcBTWHXxgNOvGZlvEhkPX8r2nnZdo2ZzgKFjTI/YzpVPBPeiVo1odZhODm8D8fhCcDnw=@vger.kernel.org, AJvYcCXwBv8BtvyqSbO0wxivRfd4lawOcmjWpKWKaSB2EIIy38AefQfIIYJ34I3nZoKPeiP8+A+bBM73@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2hwiU3wmhQnTi4OwlxIUyV3m3bnkll9gstqK+CtivZwzgWDCw
+	mJrTbsn69JNK/1uN7TLqeKY0wNHg1ZCakxsPq1s5kERgzQw1embX6Egn951z
+X-Gm-Gg: ASbGncsJJJQMe06Mudd4n4yqA0hBSjQWhVyX7qpaWJcv0WkKs4bH4Q30kHv7qfWPqLu
+	imT8Kt/ToMZ3HVhw94tTTUT0t39muIu+AqCQgx9U7Dmu5j4qEgL+dIUMqPLk2j+1yf8OoCNEFyY
+	VV7kufgjjGg/R103tOCEf3QxZidAtUqW0iEIyg8EkFa9GRX/+88bsFuEJ3ZNi56fdmZ4z3fE2Zl
+	c5meh8nzlgLNeS0NTHfRcHNVKXPx0uHUy7yLW7KcUx1ld+wHhCtH/Pnv+imaMBiTK2F1HDef1cj
+	A4YQqTo7Hw0fvi5eRjzymrEdmNzp1Bv6uHkVbWveJvQqbRElztGDffy16YtoBf9dWugNdTVJoM2
+	GIwSTODDDiPI6hQ==
+X-Google-Smtp-Source: AGHT+IHOs9vqantuNod90ERM5xB3i1bFO2RtYdojT8XjyxXMwXaQtOUpbPRNc5KFH73oqV4zi5nIyA==
+X-Received: by 2002:ac2:4e14:0:b0:545:93b:30bf with SMTP id 2adb3069b0e04-5494c37d894mr1314384e87.41.1740743011725;
+        Fri, 28 Feb 2025 03:43:31 -0800 (PST)
+Received: from razdolb (static.248.157.217.95.clients.your-server.de. [95.217.157.248])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549441740ffsm466848e87.50.2025.02.28.03.43.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Feb 2025 03:43:31 -0800 (PST)
+References: <20250128-b4-rkisp-noncoherent-v3-0-baf39c997d2a@gmail.com>
+ <20250128-b4-rkisp-noncoherent-v3-1-baf39c997d2a@gmail.com>
+ <25beec7ea929b624d845f5ba4abce6267974ed82.camel@ndufresne.ca>
+ <CAAFQd5A4YOaSCn=xe7OM-hPKcUhqkD5hTiMUo5F9pwhKNFJ2Lg@mail.gmail.com>
+User-agent: mu4e 1.10.9; emacs 29.4.50
+From: Mikhail Rudenko <mike.rudenko@gmail.com>
+To: Tomasz Figa <tfiga@chromium.org>
+Cc: Nicolas Dufresne <nicolas@ndufresne.ca>, Dafna Hirschfeld
+ <dafna@fastmail.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Marek Szyprowski
+ <m.szyprowski@samsung.com>, Hans Verkuil <hverkuil@xs4all.nl>, Sergey
+ Senozhatsky <senozhatsky@chromium.org>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>, stable@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] media: videobuf2: Fix dmabuf cache sync/flush in
+ dma-contig
+Date: Fri, 28 Feb 2025 14:41:34 +0300
+In-reply-to: <CAAFQd5A4YOaSCn=xe7OM-hPKcUhqkD5hTiMUo5F9pwhKNFJ2Lg@mail.gmail.com>
+Message-ID: <87h64eb8gw.fsf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Enable the csi2rx_err_irq interrupt to record any errors during streaming
-and also add support for VIDIOC_LOG_STATUS ioctl. This allows users to
-retrieve detailed error information during streaming, including FIFO
-overflow, packet errors, and ECC errors.
 
-Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-Reviewed-by: Changhuang Liang <changhuang.liang@starfivetech.com>
-Reviewed-by: Jai Luthra <jai.luthra@linux.dev>
-Tested-by: Jai Luthra <jai.luthra@linux.dev>
----
- drivers/media/platform/cadence/cdns-csi2rx.c | 129 +++++++++++++++++++
- 1 file changed, 129 insertions(+)
+On 2025-02-28 at 19:25 +09, Tomasz Figa <tfiga@chromium.org> wrote:
 
-diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-index cebcae196eec..30cf2da36023 100644
---- a/drivers/media/platform/cadence/cdns-csi2rx.c
-+++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-@@ -57,6 +57,25 @@
- #define CSI2RX_LANES_MAX	4
- #define CSI2RX_STREAMS_MAX	4
- 
-+#define CSI2RX_ERROR_IRQS_REG			0x28
-+#define CSI2RX_ERROR_IRQS_MASK_REG		0x2C
-+
-+#define CSI2RX_STREAM3_FIFO_OVERFLOW_IRQ	BIT(19)
-+#define CSI2RX_STREAM2_FIFO_OVERFLOW_IRQ	BIT(18)
-+#define CSI2RX_STREAM1_FIFO_OVERFLOW_IRQ	BIT(17)
-+#define CSI2RX_STREAM0_FIFO_OVERFLOW_IRQ	BIT(16)
-+#define CSI2RX_FRONT_TRUNC_HDR_IRQ		BIT(12)
-+#define CSI2RX_PROT_TRUNCATED_PACKET_IRQ	BIT(11)
-+#define CSI2RX_FRONT_LP_NO_PAYLOAD_IRQ		BIT(10)
-+#define CSI2RX_SP_INVALID_RCVD_IRQ		BIT(9)
-+#define CSI2RX_DATA_ID_IRQ			BIT(7)
-+#define CSI2RX_HEADER_CORRECTED_ECC_IRQ	BIT(6)
-+#define CSI2RX_HEADER_ECC_IRQ			BIT(5)
-+#define CSI2RX_PAYLOAD_CRC_IRQ			BIT(4)
-+
-+#define CSI2RX_ECC_ERRORS		GENMASK(7, 4)
-+#define CSI2RX_PACKET_ERRORS		GENMASK(12, 9)
-+
- enum csi2rx_pads {
- 	CSI2RX_PAD_SINK,
- 	CSI2RX_PAD_SOURCE_STREAM0,
-@@ -71,9 +90,32 @@ struct csi2rx_fmt {
- 	u8				bpp;
- };
- 
-+struct csi2rx_event {
-+	u32 mask;
-+	const char *name;
-+};
-+
-+static const struct csi2rx_event csi2rx_events[] = {
-+	{ CSI2RX_STREAM3_FIFO_OVERFLOW_IRQ, "Overflow of the Stream 3 FIFO detected" },
-+	{ CSI2RX_STREAM2_FIFO_OVERFLOW_IRQ, "Overflow of the Stream 2 FIFO detected" },
-+	{ CSI2RX_STREAM1_FIFO_OVERFLOW_IRQ, "Overflow of the Stream 1 FIFO detected" },
-+	{ CSI2RX_STREAM0_FIFO_OVERFLOW_IRQ, "Overflow of the Stream 0 FIFO detected" },
-+	{ CSI2RX_FRONT_TRUNC_HDR_IRQ, "A truncated header [short or long] has been received" },
-+	{ CSI2RX_PROT_TRUNCATED_PACKET_IRQ, "A truncated long packet has been received" },
-+	{ CSI2RX_FRONT_LP_NO_PAYLOAD_IRQ, "A truncated long packet has been received. No payload" },
-+	{ CSI2RX_SP_INVALID_RCVD_IRQ, "A reserved or invalid short packet has been received" },
-+	{ CSI2RX_DATA_ID_IRQ, "Data ID error in the header packet" },
-+	{ CSI2RX_HEADER_CORRECTED_ECC_IRQ, "ECC error detected and corrected" },
-+	{ CSI2RX_HEADER_ECC_IRQ, "Unrecoverable ECC error" },
-+	{ CSI2RX_PAYLOAD_CRC_IRQ, "CRC error" },
-+};
-+
-+#define CSI2RX_NUM_EVENTS		ARRAY_SIZE(csi2rx_events)
-+
- struct csi2rx_priv {
- 	struct device			*dev;
- 	unsigned int			count;
-+	int				error_irq;
- 
- 	/*
- 	 * Used to prevent race conditions between multiple,
-@@ -95,6 +137,7 @@ struct csi2rx_priv {
- 	u8				max_lanes;
- 	u8				max_streams;
- 	bool				has_internal_dphy;
-+	u32				events[CSI2RX_NUM_EVENTS];
- 
- 	struct v4l2_subdev		subdev;
- 	struct v4l2_async_notifier	notifier;
-@@ -124,6 +167,52 @@ static const struct csi2rx_fmt formats[] = {
- 	{ .code	= MEDIA_BUS_FMT_BGR888_1X24,  .bpp = 24, },
- };
- 
-+static void csi2rx_configure_error_irq_mask(void __iomem *base,
-+					    struct csi2rx_priv *csi2rx)
-+{
-+	u32 error_irq_mask = 0;
-+
-+	error_irq_mask |= CSI2RX_ECC_ERRORS;
-+	error_irq_mask |= CSI2RX_PACKET_ERRORS;
-+
-+	/*
-+	 * Iterate through all source pads and check if they are linked
-+	 * to an active remote pad. If an active remote pad is found,
-+	 * calculate the corresponding bit position and set it in
-+	 * mask, enabling the stream overflow error in the mask.
-+	 */
-+	for (int i = CSI2RX_PAD_SOURCE_STREAM0; i < CSI2RX_PAD_MAX; i++) {
-+		struct media_pad *remote_pad;
-+
-+		remote_pad = media_pad_remote_pad_first(&csi2rx->pads[i]);
-+		if (remote_pad) {
-+			int pad = i - CSI2RX_PAD_SOURCE_STREAM0;
-+			u32 bit_mask = CSI2RX_STREAM0_FIFO_OVERFLOW_IRQ << pad;
-+
-+			error_irq_mask |= bit_mask;
-+		}
-+	}
-+
-+	writel(error_irq_mask, base + CSI2RX_ERROR_IRQS_MASK_REG);
-+}
-+
-+static irqreturn_t csi2rx_irq_handler(int irq, void *dev_id)
-+{
-+	struct csi2rx_priv *csi2rx = dev_id;
-+	int i;
-+	u32 error_status;
-+
-+	error_status = readl(csi2rx->base + CSI2RX_ERROR_IRQS_REG);
-+
-+	for (i = 0; i < CSI2RX_NUM_EVENTS; i++)
-+		if (error_status & csi2rx_events[i].mask)
-+			csi2rx->events[i]++;
-+
-+	writel(error_status, csi2rx->base + CSI2RX_ERROR_IRQS_REG);
-+
-+	return IRQ_HANDLED;
-+}
-+
- static const struct csi2rx_fmt *csi2rx_get_fmt_by_code(u32 code)
- {
- 	unsigned int i;
-@@ -220,6 +309,9 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
- 	reset_control_deassert(csi2rx->p_rst);
- 	csi2rx_reset(csi2rx);
- 
-+	if (csi2rx->error_irq >= 0)
-+		csi2rx_configure_error_irq_mask(csi2rx->base, csi2rx);
-+
- 	reg = csi2rx->num_lanes << 8;
- 	for (i = 0; i < csi2rx->num_lanes; i++) {
- 		reg |= CSI2RX_STATIC_CFG_DLANE_MAP(i, csi2rx->lanes[i]);
-@@ -332,6 +424,8 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
- 	reset_control_assert(csi2rx->sys_rst);
- 	clk_disable_unprepare(csi2rx->sys_clk);
- 
-+	writel(0, csi2rx->base + CSI2RX_ERROR_IRQS_MASK_REG);
-+
- 	for (i = 0; i < csi2rx->max_streams; i++) {
- 		writel(CSI2RX_STREAM_CTRL_STOP,
- 		       csi2rx->base + CSI2RX_STREAM_CTRL_REG(i));
-@@ -363,6 +457,21 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
- 	}
- }
- 
-+static int csi2rx_log_status(struct v4l2_subdev *sd)
-+{
-+	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(sd);
-+	unsigned int i;
-+
-+	for (i = 0; i < CSI2RX_NUM_EVENTS; i++) {
-+		if (csi2rx->events[i])
-+			dev_info(csi2rx->dev, "%s events: %d\n",
-+				 csi2rx_events[i].name,
-+				 csi2rx->events[i]);
-+	}
-+
-+	return 0;
-+}
-+
- static int csi2rx_s_stream(struct v4l2_subdev *subdev, int enable)
- {
- 	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
-@@ -468,7 +577,12 @@ static const struct v4l2_subdev_video_ops csi2rx_video_ops = {
- 	.s_stream	= csi2rx_s_stream,
- };
- 
-+static const struct v4l2_subdev_core_ops csi2rx_core_ops = {
-+	.log_status	= csi2rx_log_status,
-+};
-+
- static const struct v4l2_subdev_ops csi2rx_subdev_ops = {
-+	.core		= &csi2rx_core_ops,
- 	.video		= &csi2rx_video_ops,
- 	.pad		= &csi2rx_pad_ops,
- };
-@@ -705,6 +819,21 @@ static int csi2rx_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_cleanup;
- 
-+	csi2rx->error_irq = platform_get_irq_byname_optional(pdev, "error_irq");
-+
-+	if (csi2rx->error_irq < 0) {
-+		dev_dbg(csi2rx->dev, "Optional interrupt not defined, proceeding without it\n");
-+	} else {
-+		ret = devm_request_irq(csi2rx->dev, csi2rx->error_irq,
-+				       csi2rx_irq_handler, 0,
-+				       dev_name(&pdev->dev), csi2rx);
-+		if (ret) {
-+			dev_err(csi2rx->dev,
-+				"Unable to request interrupt: %d\n", ret);
-+			goto err_cleanup;
-+		}
-+	}
-+
- 	ret = v4l2_subdev_init_finalize(&csi2rx->subdev);
- 	if (ret)
- 		goto err_cleanup;
--- 
-2.34.1
+> On Fri, Feb 28, 2025 at 12:30=E2=80=AFPM Nicolas Dufresne <nicolas@ndufre=
+sne.ca> wrote:
+>>
+>> Le mardi 28 janvier 2025 =C3=A0 23:35 +0300, Mikhail Rudenko a =C3=A9cri=
+t :
+>> > When support for V4L2_FLAG_MEMORY_NON_CONSISTENT was removed in
+>> > commit 129134e5415d ("media: media/v4l2: remove
+>> > V4L2_FLAG_MEMORY_NON_CONSISTENT flag"),
+>> > vb2_dc_dmabuf_ops_{begin,end}_cpu_access() functions were made
+>> > no-ops. Later, when support for V4L2_MEMORY_FLAG_NON_COHERENT was
+>> > introduced in commit c0acf9cfeee0 ("media: videobuf2: handle
+>> > V4L2_MEMORY_FLAG_NON_COHERENT flag"), the above functions remained
+>> > no-ops, making cache maintenance for non-coherent dmabufs allocated
+>> > by
+>> > dma-contig impossible.
+>> >
+>> > Fix this by reintroducing dma_sync_sgtable_for_{cpu,device} and
+>> > {flush,invalidate}_kernel_vmap_range calls to
+>> > vb2_dc_dmabuf_ops_{begin,end}_cpu_access() functions for non-coherent
+>> > buffers.
+>> >
+>> > Fixes: c0acf9cfeee0 ("media: videobuf2: handle
+>> > V4L2_MEMORY_FLAG_NON_COHERENT flag")
+>> > Cc: stable@vger.kernel.org
+>> > Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
+>> > ---
+>> >  .../media/common/videobuf2/videobuf2-dma-contig.c  | 22
+>> > ++++++++++++++++++++++
+>> >  1 file changed, 22 insertions(+)
+>> >
+>> > diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+>> > b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+>> > index
+>> > bb0b7fa67b539aa73ad5ccf3c3bc318e26f8a4cb..146d7997a0da5989fb081a6f28c
+>> > e0641fe726e63 100644
+>> > --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+>> > +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+>> > @@ -427,6 +427,17 @@ static int
+>> >  vb2_dc_dmabuf_ops_begin_cpu_access(struct dma_buf *dbuf,
+>> >                                  enum dma_data_direction
+>> > direction)
+>> >  {
+>> > +     struct vb2_dc_buf *buf =3D dbuf->priv;
+>> > +     struct sg_table *sgt =3D buf->dma_sgt;
+>> > +
+>> > +     if (!buf->non_coherent_mem)
+>> > +             return 0;
+>> > +
+>> > +     if (buf->vaddr)
+>> > +             invalidate_kernel_vmap_range(buf->vaddr, buf->size);
+>>
+>> Am I correct that this is mostly to prevent the kernel from reading
+>> back old data from the cache after an application or other driver did
+>> CPU writes ? If so, can't we restrict that to DMA_TO_DEVICE and
+>> DMA_BIDIRECTIONAL ?
+>
+> Note that this function must also synchronize between the user-space
+> and kernel mappings, where the DMA direction doesn't really matter.
+> Also it's unlikely for it to be called when not needed - why would one
+> begin a CPU access before the DMA, when the DMA is FROM_DEVICE?
+>
+>>
+>> As for pending kernel writes, they should have been flushed before the
+>> buffer is made available for dequeue.
+>
+> There is no implicit flushing for imported DMA-bufs. All the flushing
+> needs to be executed directly by the CPU accessors by surrounding the
+> access with begin and end CPU access, be it in the kernel or
+> userspace.
+>
+>> And any access while a buffer is
+>> queued is concurrent access, which is expected to have undefined
+>> behaviour.
+>>
+>
+> Correct.
+>
+>> > +
+>> > +     dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+>>
+>> Isn't there a link to make between buf->dma_dir and direcction before
+>> calling this ? Also, shouldn't we use direction insead of buf->dma_dir
+>> to possibly limit the scope ?
+>
+> Oh, yes, that's a good catch.
 
+Indeed, will fix this in v4.
+
+> It should be |direction| passed here and
+> not |buf->dma_dir|, since the former determines what CPU access will
+> be done.
+>
+>>
+>> > +
+>> >       return 0;
+>> >  }
+>> >
+>> > @@ -434,6 +445,17 @@ static int
+>> >  vb2_dc_dmabuf_ops_end_cpu_access(struct dma_buf *dbuf,
+>> >                                enum dma_data_direction direction)
+>> >  {
+>> > +     struct vb2_dc_buf *buf =3D dbuf->priv;
+>> > +     struct sg_table *sgt =3D buf->dma_sgt;
+>> > +
+>> > +     if (!buf->non_coherent_mem)
+>> > +             return 0;
+>> > +
+>> > +     if (buf->vaddr)
+>> > +             flush_kernel_vmap_range(buf->vaddr, buf->size);
+>> > +
+>> > +     dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
+>>
+>> Similar questions for the end_cpu_access implementation.
+>
+> Yeah, same here.
+
+Noted, will fix.
+
+>>
+>> Nicolas
+>>
+>> > +
+>> >       return 0;
+>> >  }
+>> >
+>> >
+>>
+
+
+--
+Best regards,
+Mikhail Rudenko
 
