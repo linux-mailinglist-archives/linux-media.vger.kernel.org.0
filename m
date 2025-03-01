@@ -1,166 +1,144 @@
-Return-Path: <linux-media+bounces-27287-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27288-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FA40A4ADD1
-	for <lists+linux-media@lfdr.de>; Sat,  1 Mar 2025 21:32:39 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA37A4AE06
+	for <lists+linux-media@lfdr.de>; Sat,  1 Mar 2025 22:29:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 36A6D170344
-	for <lists+linux-media@lfdr.de>; Sat,  1 Mar 2025 20:32:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 18A4E3B28A8
+	for <lists+linux-media@lfdr.de>; Sat,  1 Mar 2025 21:29:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EAC61E882F;
-	Sat,  1 Mar 2025 20:32:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 342B81E7660;
+	Sat,  1 Mar 2025 21:29:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R6VBYz5p"
+	dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b="LW/zRCI+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from ksmg01.maxima.ru (ksmg01.maxima.ru [81.200.124.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 369C9182D7;
-	Sat,  1 Mar 2025 20:32:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CF681C5D77;
+	Sat,  1 Mar 2025 21:29:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.200.124.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740861148; cv=none; b=c6eyYnwrLkWeA6bmP/wHwd4l0/UP/NYkmyHkW+yz9ZEcZvRUW7R7ceEA5L1wn6Xxk2WeIN2KR4ya6j2kM1hkCF5AqbrZNJHOUNCniUPvDsKIluNNFXbP1nB8bwASOcwSLukBFPQSFeHeBOThNhqyAmA/vQvuyowdjyQleOyi9EQ=
+	t=1740864552; cv=none; b=ZldefX/NjuVr+SvgJUHPnv9vUwGzCkkNX0PrlWXqCgRFmQeLobtiH0xR98TDMo0ThqocsobmRVYdQM1p4niq9ZliNbQGxNUkrZmqkG6t0nwvDki5Vwk97UXnAUxRmKBfNBJZaBj+9D4GVumXnHAh7Y3NhZ+EPIqA9E0mcfdBnds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740861148; c=relaxed/simple;
-	bh=wBg5evaKt2ua+JSREx6VTzJBkp8N1lCxgbzNDRsoVo4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gxGYIP+TQu1vaMW+wXs4G4mhj+tAHHEVWKM1ECUfced8Oe57SFb+92VfK8wWxRwVN5Jq1BeORRc0PGbaVWMTd1H39Mrw4ExSjljTcXify9lbf3O/N/HdjSZfUr7A1P461exKWOLlAK+0xnNjib1VSFEWd774456miMdcXbg0Eis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R6VBYz5p; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740861147; x=1772397147;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wBg5evaKt2ua+JSREx6VTzJBkp8N1lCxgbzNDRsoVo4=;
-  b=R6VBYz5pp3bnUhaR6PIxY3wHf9DinLizZYHkg/MM6oAxZKUvQcWDdm6k
-   WyealKEFq5jnLGDADeaRA8LVuNMp1wvdQGh5sWjckNkPjUVTw0Nh2BKII
-   qxg7bJRnpjoWRNRcap3CWhsOGDq5stX9Pdjad74UaOs5jODRzxdCXFvIB
-   b5pxQ/RtfFWUOyLKTNoaSP5eTbgZN8/o42wg6nueOMl9H/5UUj46GxREl
-   VVeZBTjfhVwExfmcN3UlpJ/ZdrlIhhk2IXl67MbA3RHabAPFpkeEdvWId
-   6IYBxNRpI3O3G1jcwmytPa1T6u/oQcgM/D4nK2JkLeNYluYG+UCtDRWvx
-   g==;
-X-CSE-ConnectionGUID: ih6OA1alSQuDYJdBB20Gww==
-X-CSE-MsgGUID: uInj0QL6QQSsOYbEUUw9tA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11360"; a="41009976"
-X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="41009976"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Mar 2025 12:32:26 -0800
-X-CSE-ConnectionGUID: /I33WU5TQPCIw+82ZeJT1Q==
-X-CSE-MsgGUID: BSv1HP4jSiq/0Ee+64SyZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,326,1732608000"; 
-   d="scan'208";a="122590873"
-Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
-  by orviesa003.jf.intel.com with ESMTP; 01 Mar 2025 12:32:20 -0800
-Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1toTVL-000Gft-2i;
-	Sat, 01 Mar 2025 20:32:13 +0000
-Date: Sun, 2 Mar 2025 04:31:48 +0800
-From: kernel test robot <lkp@intel.com>
-To: Romain Gantois <romain.gantois@bootlin.com>,
-	Wolfram Sang <wsa-dev@sang-engineering.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Derek Kiernan <derek.kiernan@amd.com>,
-	Dragan Cvetic <dragan.cvetic@amd.com>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
-	Romain Gantois <romain.gantois@bootlin.com>
-Subject: Re: [PATCH v8 9/9] misc: add FPC202 dual port controller driver
-Message-ID: <202503020450.UW2PuA6X-lkp@intel.com>
-References: <20250227-fpc202-v8-9-b7994117fbe2@bootlin.com>
+	s=arc-20240116; t=1740864552; c=relaxed/simple;
+	bh=wFgpVcZMA4A8ClRtG/vzZVjhAkeeOQo5hLUQI3mB5pk=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=WvcM4vHrMX2YOnkwClcGg4xChj2+MJB2ZwHPf/yiOb3tfx4Si6FM60aKnLB5HC7vps4WvPx5alTP1jBDN/dGge2ipnQI++DxAxuvJN81cFHX8J5k7fm86BexX/ch5LF4QvMpfpVuD20wbdefKojSVRKxM4z1+SoADZkjTnrdzt8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru; spf=pass smtp.mailfrom=mt-integration.ru; dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b=LW/zRCI+; arc=none smtp.client-ip=81.200.124.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mt-integration.ru
+Received: from ksmg01.maxima.ru (localhost [127.0.0.1])
+	by ksmg01.maxima.ru (Postfix) with ESMTP id 5764EC0003;
+	Sun,  2 Mar 2025 00:29:05 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg01.maxima.ru 5764EC0003
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt-integration.ru;
+	s=sl; t=1740864545; bh=un2XxHMkLbWAbgAQ+YeQnD9PaPLgmGvd7W1AjDGV6bw=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:From;
+	b=LW/zRCI+aMORVpjUySsaQ9gur+lP7aOyWYKMPDCJ2M0AK1cFGKBwiblqGblZbBYNS
+	 pFFLrEqy91i/QPj+Ryr1jWmZFGHxI6qMlhXvHGCRQ8IwcnYOahKpDOwdoP2yVWW3Vh
+	 J6coptL9HUJcBfV/Wr5hW6o08ma44qtUrBthkpm65IIGjeotFDWGfICQILaFF1AOhd
+	 tfw6LT8uERXS8EL2cHZagjxTwHTY1LaRUri1dq+S5srU4cwccrq2Od548V63aBhYxW
+	 HisluPnNiV1QmaGRV61YfCUSFJADMmeevCnvEwuMyqZ3E6WdT8GLT9cLt7FsPHJIc3
+	 kRb3xuRJydhCg==
+Received: from ksmg01.maxima.ru (mail.maxima.ru [81.200.124.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client CN "*.maxima.ru", Issuer "GlobalSign GCC R3 DV TLS CA 2020" (verified OK))
+	by ksmg01.maxima.ru (Postfix) with ESMTPS;
+	Sun,  2 Mar 2025 00:29:05 +0300 (MSK)
+Received: from localhost (5.1.51.90) by mmail-p-exch01.mt.ru (81.200.124.61)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1544.4; Sun, 2 Mar 2025
+ 00:29:04 +0300
+Date: Sun, 2 Mar 2025 02:28:06 +0500
+From: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>
+To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+CC: Hans Verkuil <hverkuil@xs4all.nl>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
+	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<lvc-project@linuxtesting.org>
+Subject: Re: [PATCH] media: cec: avoid wraparound in timer interval
+ calculation
+Message-ID: <20250302022806.e66f4f2903748b9bc63289c2@mt-integration.ru>
+In-Reply-To: <cff4d412-abbf-44b5-9705-ba14dff7d5d0@wanadoo.fr>
+References: <20250301111053.2661-1-v.shevtsov@mt-integration.ru>
+	<cff4d412-abbf-44b5-9705-ba14dff7d5d0@wanadoo.fr>
+X-Mailer: Sylpheed 3.7.0 (GTK+ 2.24.33; x86_64--netbsd)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250227-fpc202-v8-9-b7994117fbe2@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: mt-exch-01.mt.ru (91.220.120.210) To mmail-p-exch01.mt.ru
+ (81.200.124.61)
+X-KSMG-AntiPhishing: NotDetected
+X-KSMG-AntiSpam-Auth: dmarc=none header.from=mt-integration.ru;spf=none smtp.mailfrom=mt-integration.ru;dkim=none
+X-KSMG-AntiSpam-Envelope-From: v.shevtsov@mt-integration.ru
+X-KSMG-AntiSpam-Info: LuaCore: 51 0.3.51 68896fb0083a027476849bf400a331a2d5d94398, {rep_avail}, {Prob_CN_TRASH_MAILERS}, {Tracking_from_domain_doesnt_match_to}, ksmg01.maxima.ru:7.1.1;127.0.0.199:7.1.2;81.200.124.61:7.1.2;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;mt-integration.ru:7.1.1, FromAlignment: s, ApMailHostAddress: 81.200.124.61
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiSpam-Lua-Profiles: 191402 [Mar 01 2025]
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Rate: 40
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Version: 6.1.1.11
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2025/03/01 18:37:00 #27521468
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-LinksScanning: NotDetected
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 7
 
-Hi Romain,
+On Sat, 1 Mar 2025 12:32:30 +0100, Christophe JAILLET wrote:
 
-kernel test robot noticed the following build errors:
+> Le 01/03/2025 à 12:09, Vitaliy Shevtsov a écrit :
+> > [Why]
+> > The timer function code may have an integer wraparound issue. Since both
+> > pin->tx_custom_low_usecs and pin->tx_custom_high_usecs can be set to up to
+> > 9999999 from the user space via cec_pin_error_inj_parse_line(), this may
+> > cause usecs to be overflowed when adap->monitor_pin_cnt is zero and usecs
+> > is multiplied by 1000.
+> > 
+> > [How]
+> > Fix this by casting usecs to u64 when it is being converted from
+> > microseconds to nanoseconds.
+> > 
+> > Found by Linux Verification Center (linuxtesting.org) with Svace.
+> > 
+> > Fixes: 865463fc03ed ("media: cec-pin: add error injection support")
+> > Signed-off-by: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>
+> > ---
+> >   drivers/media/cec/core/cec-pin.c | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/drivers/media/cec/core/cec-pin.c b/drivers/media/cec/core/cec-pin.c
+> > index a70451d99ebc..f15ed5c67a65 100644
+> > --- a/drivers/media/cec/core/cec-pin.c
+> > +++ b/drivers/media/cec/core/cec-pin.c
+> > @@ -1021,7 +1021,7 @@ static enum hrtimer_restart cec_pin_timer(struct hrtimer *timer)
+> >   		pin->wait_usecs = 0;
+> >   		pin->timer_ts = ktime_add_us(ts, usecs);
+> >   		hrtimer_forward_now(timer,
+> > -				ns_to_ktime(usecs * 1000));
+> > +				ns_to_ktime((u64)usecs * 1000));
+> 
+> Or maybe us_to_ktime() to be less verbose?
+> 
+> CJ
+> 
 
-[auto build test ERROR on 2014c95afecee3e76ca4a56956a936e23283f05b]
+That makes sense but let me check first. I will send a new one soon.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Romain-Gantois/dt-bindings-misc-Describe-TI-FPC202-dual-port-controller/20250227-182532
-base:   2014c95afecee3e76ca4a56956a936e23283f05b
-patch link:    https://lore.kernel.org/r/20250227-fpc202-v8-9-b7994117fbe2%40bootlin.com
-patch subject: [PATCH v8 9/9] misc: add FPC202 dual port controller driver
-config: sparc-randconfig-r051-20250302 (https://download.01.org/0day-ci/archive/20250302/202503020450.UW2PuA6X-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250302/202503020450.UW2PuA6X-lkp@intel.com/reproduce)
+> >   		return HRTIMER_RESTART;
+> >   	}
+> >   	pin->wait_usecs = usecs - 100;
+> 
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503020450.UW2PuA6X-lkp@intel.com/
-
-All error/warnings (new ones prefixed by >>):
-
-   drivers/misc/ti_fpc202.c: In function 'fpc202_read':
->> drivers/misc/ti_fpc202.c:104:15: error: implicit declaration of function 'i2c_smbus_read_byte_data' [-Wimplicit-function-declaration]
-     104 |         val = i2c_smbus_read_byte_data(priv->client, reg);
-         |               ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/ti_fpc202.c: In function 'fpc202_write':
->> drivers/misc/ti_fpc202.c:110:16: error: implicit declaration of function 'i2c_smbus_write_byte_data' [-Wimplicit-function-declaration]
-     110 |         return i2c_smbus_write_byte_data(priv->client, reg, value);
-         |                ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/ti_fpc202.c: At top level:
->> drivers/misc/ti_fpc202.c:433:1: warning: data definition has no type or storage class
-     433 | module_i2c_driver(fpc202_driver);
-         | ^~~~~~~~~~~~~~~~~
->> drivers/misc/ti_fpc202.c:433:1: error: type defaults to 'int' in declaration of 'module_i2c_driver' [-Wimplicit-int]
->> drivers/misc/ti_fpc202.c:433:1: error: parameter names (without types) in function declaration [-Wdeclaration-missing-parameter-type]
->> drivers/misc/ti_fpc202.c:424:26: warning: 'fpc202_driver' defined but not used [-Wunused-variable]
-     424 | static struct i2c_driver fpc202_driver = {
-         |                          ^~~~~~~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for I2C_ATR
-   Depends on [n]: I2C [=n]
-   Selected by [y]:
-   - TI_FPC202 [=y]
-
-
-vim +/i2c_smbus_read_byte_data +104 drivers/misc/ti_fpc202.c
-
-    99	
-   100	static int fpc202_read(struct fpc202_priv *priv, u8 reg)
-   101	{
-   102		int val;
-   103	
- > 104		val = i2c_smbus_read_byte_data(priv->client, reg);
-   105		return val;
-   106	}
-   107	
-   108	static int fpc202_write(struct fpc202_priv *priv, u8 reg, u8 value)
-   109	{
- > 110		return i2c_smbus_write_byte_data(priv->client, reg, value);
-   111	}
-   112	
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>
 
