@@ -1,198 +1,293 @@
-Return-Path: <linux-media+bounces-27304-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27305-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47D58A4B2BF
-	for <lists+linux-media@lfdr.de>; Sun,  2 Mar 2025 16:56:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BEC5A4B2C8
+	for <lists+linux-media@lfdr.de>; Sun,  2 Mar 2025 17:02:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D205C7A5E3B
-	for <lists+linux-media@lfdr.de>; Sun,  2 Mar 2025 15:55:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB52A3AAB70
+	for <lists+linux-media@lfdr.de>; Sun,  2 Mar 2025 16:02:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C03B1E990B;
-	Sun,  2 Mar 2025 15:56:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 346391E9B1D;
+	Sun,  2 Mar 2025 16:02:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UZUpOoDb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LN9+Cr4x"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0BAF1E8351
-	for <linux-media@vger.kernel.org>; Sun,  2 Mar 2025 15:56:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E26DA1B6D06;
+	Sun,  2 Mar 2025 16:02:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740930970; cv=none; b=pDNuKh+IuA7hm8tbRLB/m89ZSgczXClgZjryalt49JboV/F1bQMBPOaXqZzXjxeqTkUwdD2CJp0IuyVnhSlA7mIPz/uqCdUDfvH+eyPOgofg0M/wQyCZpOypqvHDyqbsX/ogHWNDeOPOTLyc9vNDfFYO92CiyP2KfdcQ+9vt9QM=
+	t=1740931338; cv=none; b=SyO32OS70kk0l6xTg+B7YTnpwGoGCBHqMc/cKKH4kG+SLrLHhuilUX8rsssqXckj7H3Fw40OfEAl6l82NqoVdjDlAOmxRmfpEMlx6E9RuMO+8WghTxThgEBZZnUfnYq+OOLuH+AvlG7IEVLoeru8+HIImNEjCtPk8Kuu40VhpAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740930970; c=relaxed/simple;
-	bh=H8X4S94pGAKOquO0l2C2cojT9a6H8qXbxIRVykkPpQE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MA9yFZpyenl6L4VnpU6HEijI3DqOpQQJZnM3IiTLKREzdrq50a6fFAmAGPnBY/23LqEkzTv7vuFE5HLFMKa6+1IAu3O5FhOfDgMbLpZKWRCPKbPzUSPadDcSbES1rqpZq9wpi6jXQd1VQ7w9QlVQrm+1Ii3fwdjKVsBdU61Cwc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UZUpOoDb; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4394345e4d5so24834545e9.0
-        for <linux-media@vger.kernel.org>; Sun, 02 Mar 2025 07:56:08 -0800 (PST)
+	s=arc-20240116; t=1740931338; c=relaxed/simple;
+	bh=42nc8rGbs4ozsfj3Z5uw223OqXhRXX42NQdy9kalxow=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=PJdBcguYpQWO8asw1USB69AVufa8zKf5nRlVPBsgHmOgzB5gLor2kwuYTFQtisGIR7k8LXBQt9igd1vYrkPOk2NXKcD/9aeWjFrJs6CdAkPAit125V3p2ev4BKn0aU+dQobIZ1rpz1qf9HhIMhvJBJulVnMzSFEk2aNjkBfFW5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LN9+Cr4x; arc=none smtp.client-ip=209.85.219.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e60b81c29c5so1276934276.1;
+        Sun, 02 Mar 2025 08:02:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1740930967; x=1741535767; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hlpIq9SPuf0qn1v2edQTVWT/w0C8xiNzl1ulEaeBlbw=;
-        b=UZUpOoDb5Gn07chugCDy61oyPhAXj+3aVWWz/P8n/a+3wmU7w8Ow7A/nLLBFIMYldj
-         xChVIE9nn0t5vErEFtSSInvFUsmCQpkh2ec999UvziRRX7D71OZThHffUUrvgk/+Kfar
-         I2Q3yNqPW8Q/8xKQJJYHfVIwlYu7byiRnS3bQCqKBBE4D0Jvry+u6RISiNXWuVsejqT5
-         6b3zkqazt4zylqtfeV/8gUVzujq/VNZosSFPc5vPg6TxpjX59iLwKnpz9z7pGLRA78lC
-         lPThFrvZP88RMv1ql2mlCVfeECd4aHCUi9ne6YGaNmE+gb48zIVptKtwOgFPSR+w2ol0
-         2tuQ==
+        d=gmail.com; s=20230601; t=1740931336; x=1741536136; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AqMp5vaYpnKO6cXrhbgbA0K1fLl4S3iWDDCzq3bGh4s=;
+        b=LN9+Cr4xjdvZcDsgj0V6tkS65zXp0cIZmDXiu4NJCXMrNSPhyaSN8wc4ZQJpNLgGeO
+         W2m9yRxmlLxJwJWM0Q3vOeC0KOxaBiBtHkrkCH++gqGU9G1dq6+xfv+NRTlXGQM49KF/
+         CZV79r2m6gHXHUUobmJNWOj5vzDB1btDn8vR6v2nKmgO0RKw6fj1GkgrfBQxNGUqCRjj
+         TyYKscoa4573tW5qUkQe9Cy+khTi+67BezsD9Fro/eUFTmig9dl0kRNjD0iSsTJbBwfq
+         c5vRJ4RL8yzcFXSLmh3Znq47PNuDZ3BOSQx2bMcCHldcRE5yrj/7wCO0HrOcStQlTm8Y
+         0Czg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1740930967; x=1741535767;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hlpIq9SPuf0qn1v2edQTVWT/w0C8xiNzl1ulEaeBlbw=;
-        b=qYnvEIh/IaYVGpMyALmXbW5jGI7AMJe2k0J39OvFZJzaZyzZOx5qFJW8HvhmvJM3ei
-         0Oo0Ei7f1rZkmnvmyBh4BQNRB22qViOSvxLJoPtdv9vxne07yHqY/0a3kfY2BI93tiyL
-         kK0539xnIsgV3AD9cvNu7VzoQtlq8QE3w5+jvTgq+uTiB0uHHiBKD6jpMBCP6KgjmWv0
-         VjXijE3rcnZqwhmjIqcLfCkd2rjWPi8ztOsizOfAizpI7GxS3os4sONBTUEbZD0DdY0A
-         D9xyEU8rmMuB4u7MfH4LvwL/sdV37IQBBgF7fW+FfXpt8BhwvzeRaaKKyqdSe6WuRDif
-         lzXg==
-X-Gm-Message-State: AOJu0Yx6/m4rBQqV4+dGQrIPeBe4k4+wcij8ibWW/xrtcDHG78aTxz7e
-	aLLLmzWMz7MjMvwp1lEGQsM6eX+noTPy6KZoa6Odr2rvZN8sjO/E67is1IkY1rwO5qjunjuXLFu
-	F
-X-Gm-Gg: ASbGnctIIFQohYpfqgjKaPl3p8bAuYTbdXsvybZDEQpw7TG78rpoS7FDbz5ga61qCZu
-	y7VXKMF8ALvYeYZePEqJgguhWOWSewOP96fBc63lGi/9/vQqoGhKiujoBSE+z0vtdNtdEqxSEJI
-	K/HuArUI26uWGWcfcyVkor02bhQ2FJgtROuFlflEfRps2GiCoYiSQRv2xkn9I80jAD6s1p5KN+E
-	iCjd8R2paKYkB4aimLNA8kmezv1Sd3JHWEekIbr5hagV/zD5M7ect9gSvFHg8D86GB9tZMeG63k
-	jyOdkGIV6vzkFUnpiGvFe2D1WtzH6FQq87/73Teb4PrtIlLDIni9kTXAZADcIuqGm9rCUxK3MOm
-	6ykSr+wpdKw==
-X-Google-Smtp-Source: AGHT+IHhDgttzslV/5SoS5Hp8trBu+m77gcArllf4u4+s29M07vSbx2XO1Tt/k0SG6UzXxJv1kT95A==
-X-Received: by 2002:a05:600c:2292:b0:43b:c0fa:f9ce with SMTP id 5b1f17b1804b1-43bc0fafff1mr5402165e9.14.1740930966691;
-        Sun, 02 Mar 2025 07:56:06 -0800 (PST)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43b736f839asm127814985e9.2.2025.03.02.07.56.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 02 Mar 2025 07:56:06 -0800 (PST)
-Message-ID: <19109672-2856-457f-b1f6-305abc6c4434@linaro.org>
-Date: Sun, 2 Mar 2025 15:56:04 +0000
+        d=1e100.net; s=20230601; t=1740931336; x=1741536136;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AqMp5vaYpnKO6cXrhbgbA0K1fLl4S3iWDDCzq3bGh4s=;
+        b=kKWMw/nmFbrYo/SE0rXFSSppfnV8U/Roq9WOwDL1YoMiyPfHkcKrmH4hPJblnQz1V4
+         G7TUaIMs6y7Wjt+Vlqr7ivWLYfBagXdAa0ZZVQacfNRNG5bKI8ylldA1UG6asOFPRUxE
+         hVr3nOQJnvpn1iL5r+dHwezdgRk5lUQ+VFWgOen2WVv72bUvd2yS+jAGR9O+M0Y3pPeB
+         GqNrCkaes3q6SDrqeGpDT+lDYmmE2wgfOV6ZHDAGFmKKPkiadN/ntMqJPG/3Rdj/wfe+
+         a2Ed0AhYhd84x3NbZgswKTYKx6V2loLC5qkmH6RMhC3AscMHupQHa7rJcl1PEfxtJSP0
+         ycDA==
+X-Forwarded-Encrypted: i=1; AJvYcCUtwQKuJjbYzoOrufOLXwuE7QPjjCyzEb9uU1KJvwrn8g/pVmSXK7S+UKODEh4hvDr6diglD4Bc@vger.kernel.org, AJvYcCUyMmUYXIx6kQwiEH19nDaGg2M/TLXmKZbmGnyhe+9EmKJsR84tYrr02gdPHavXQxR8MDVLUBKKLPhSVk08@vger.kernel.org, AJvYcCVCgLqzz0nAADxxkqYP9wr2BwHPz9awYcSCnfIwo6CjF16I6JpsI6lFrMzu331saPqLJ0UssS1JC7EPQGc=@vger.kernel.org, AJvYcCW/m7N9eYXCVHc8gVjibCRpvzeRfsNaoclGKfFNAQ/Sf6m4Q/YKONOspqByiipYPpGcak0gDsdk2ndiJwg=@vger.kernel.org, AJvYcCWLwMZGTdX+4dNPw3jmem0oPzzUW3CUjkoPTVGjQSixLRVthuQFbX1Wh2X80dOuxJIz0Eo=@vger.kernel.org, AJvYcCXY9YgSdCyaj2CnDH23aYaSHsIZXbXgLbGuABLaAuHg9h9s8o4AHgzkgw+Oe/7xtcn7NCjT5HUAcEY3OXH8LRA=@vger.kernel.org, AJvYcCXmJ6Gc6cho2KLfZh6TRfKjeOX86sq2TjQ1U2Zwbf/I1CMLQSRXC8Xe7DyLkDpS+JFqx57Dte5Bm68W8+I5@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+xXRjRywPxjNlBnMy/dl0mr1iwGANC/l3zzCeMdN5ES+XMCf5
+	FZulCrH75cvT33g7LxTcVRtysOCKH1oEytzDPCLcDEOpAhYOxW80
+X-Gm-Gg: ASbGncsZKpGYFskqX2ONxjKoRi/30rSE7hazVVft5NirWJ9mmfDKcmGwlKtNHQQ5Li/
+	RrErlkqDtk93Zs75RtD6hGB8K3qSyHkAF8tC4eAn/chCgIbdnAn9Ndjwhtfz+EVCwtEUTzNzJbH
+	k1GarvAcU7+B956WnXy7byE0CnFmrLBLSwEpKsraASdD9kmyU15szqCVk14KShujXbB3A7pecAo
+	AdnEl0g28+JMg80Yrjifmc9i31bHWkWr79Uq2RoFVhMI51F6zwcimNDCrDSaVJODciqjj+mDL0q
+	Ud5EomWMXFxpoxekyz20ZKOh+7S7rXp6Td0Lf0WB+ISGkN4KWp8XE3QkmY+NvdKmEJ8AE/RZ2kk
+	VaGDW
+X-Google-Smtp-Source: AGHT+IGTA2Ffxb6HyDj6e6db1ev2VVk/M561S2KqXTIWcogd5CMLT4NZ5B2IRrPsjUAAQ5n/S5KqaA==
+X-Received: by 2002:a05:6902:1089:b0:e60:88f9:b081 with SMTP id 3f1490d57ef6-e60b23f8464mr13571127276.17.1740931335559;
+        Sun, 02 Mar 2025 08:02:15 -0800 (PST)
+Received: from localhost (c-73-224-175-84.hsd1.fl.comcast.net. [73.224.175.84])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e60a3a417a6sm2354159276.28.2025.03.02.08.02.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 02 Mar 2025 08:02:14 -0800 (PST)
+Date: Sun, 2 Mar 2025 11:02:12 -0500
+From: Yury Norov <yury.norov@gmail.com>
+To: Kuan-Wei Chiu <visitorckw@gmail.com>
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
+	joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org, rfoss@kernel.org,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+	dmitry.torokhov@gmail.com, mchehab@kernel.org,
+	awalls@md.metrocast.net, hverkuil@xs4all.nl,
+	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+	louis.peens@corigine.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+	johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+	jirislaby@kernel.org, akpm@linux-foundation.org, hpa@zytor.com,
+	alistair@popple.id.au, linux@rasmusvillemoes.dk,
+	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+	jernej.skrabec@gmail.com, kuba@kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+	oss-drivers@corigine.com, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+	david.laight.linux@gmail.com, andrew.cooper3@citrix.com,
+	Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH v2 01/18] lib/parity: Add __builtin_parity() fallback
+ implementations
+Message-ID: <Z8SBBM_81wyHfvC0@thinkpad>
+References: <20250301142409.2513835-1-visitorckw@gmail.com>
+ <20250301142409.2513835-2-visitorckw@gmail.com>
+ <Z8PMHLYHOkCZJpOh@thinkpad>
+ <Z8QUsgpCB0m2qKJR@visitorckw-System-Product-Name>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] venus driver fixes to avoid possible OOB read
- access
-To: Vedang Nagar <quic_vnagar@quicinc.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250215-venus-security-fixes-v2-0-cfc7e4b87168@quicinc.com>
- <c3b27e55-f627-417c-bb62-3189f248fb99@linaro.org>
- <7bf1aeaa-e1bd-412b-90fc-eda30b5f5b37@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <7bf1aeaa-e1bd-412b-90fc-eda30b5f5b37@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z8QUsgpCB0m2qKJR@visitorckw-System-Product-Name>
 
-On 02/03/2025 11:58, Vedang Nagar wrote:
->>
->> The basic question : what is the lifetime of the data from RX 
->> interrupt to consumption by another system agent, DSP, userspace, 
->> whatever ?
-> As mentioned in [1], With the regular firmware, after RX interrupt the 
-> data can be considered as valid until next interrupt is raised, but with 
-> the rouge firmware, data can get invalid during the second read and our 
-> intention is to avoid out of bound access read because of such issues.
+On Sun, Mar 02, 2025 at 04:20:02PM +0800, Kuan-Wei Chiu wrote:
+> Hi Yury,
+> 
+> On Sat, Mar 01, 2025 at 10:10:20PM -0500, Yury Norov wrote:
+> > On Sat, Mar 01, 2025 at 10:23:52PM +0800, Kuan-Wei Chiu wrote:
+> > > Add generic C implementations of __paritysi2(), __paritydi2(), and
+> > > __parityti2() as fallback functions in lib/parity.c. These functions
+> > > compute the parity of a given integer using a bitwise approach and are
+> > > marked with __weak, allowing architecture-specific implementations to
+> > > override them.
+> > > 
+> > > This patch serves as preparation for using __builtin_parity() by
+> > > ensuring a fallback mechanism is available when the compiler does not
+> > > inline the __builtin_parity().
+> > > 
+> > > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> > > ---
+> > >  lib/Makefile |  2 +-
+> > >  lib/parity.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
+> > >  2 files changed, 49 insertions(+), 1 deletion(-)
+> > >  create mode 100644 lib/parity.c
+> > > 
+> > > diff --git a/lib/Makefile b/lib/Makefile
+> > > index 7bab71e59019..45affad85ee4 100644
+> > > --- a/lib/Makefile
+> > > +++ b/lib/Makefile
+> > > @@ -51,7 +51,7 @@ obj-y += bcd.o sort.o parser.o debug_locks.o random32.o \
+> > >  	 bsearch.o find_bit.o llist.o lwq.o memweight.o kfifo.o \
+> > >  	 percpu-refcount.o rhashtable.o base64.o \
+> > >  	 once.o refcount.o rcuref.o usercopy.o errseq.o bucket_locks.o \
+> > > -	 generic-radix-tree.o bitmap-str.o
+> > > +	 generic-radix-tree.o bitmap-str.o parity.o
+> > >  obj-y += string_helpers.o
+> > >  obj-y += hexdump.o
+> > >  obj-$(CONFIG_TEST_HEXDUMP) += test_hexdump.o
+> > > diff --git a/lib/parity.c b/lib/parity.c
+> > > new file mode 100644
+> > > index 000000000000..a83ff8d96778
+> > > --- /dev/null
+> > > +++ b/lib/parity.c
+> > > @@ -0,0 +1,48 @@
+> > > +// SPDX-License-Identifier: GPL-2.0-only
+> > > +/*
+> > > + * lib/parity.c
+> > > + *
+> > > + * Copyright (C) 2025 Kuan-Wei Chiu <visitorckw@gmail.com>
+> > > + * Copyright (C) 2025 Yu-Chun Lin <eleanor15x@gmail.com>
+> > > + *
+> > > + * __parity[sdt]i2 can be overridden by linking arch-specific versions.
+> > > + */
+> > > +
+> > > +#include <linux/export.h>
+> > > +#include <linux/kernel.h>
+> > > +
+> > > +/*
+> > > + * One explanation of this algorithm:
+> > > + * https://funloop.org/codex/problem/parity/README.html
+> > 
+> > I already asked you not to spread this link. Is there any reason to
+> > ignore it?
+> > 
+> In v2, this algorithm was removed from bitops.h, so I moved the link
+> here instead. I'm sorry if it seemed like I ignored your comment.
 
-This is definitely the part I don't compute.
+Yes, it is.
+ 
+> In v1, I used the same approach as parity8() because I couldn't justify
+> the performance impact in a specific driver or subsystem. However,
+> multiple people commented on using __builtin_parity or an x86 assembly
+> implementation. I'm not ignoring their feedback-I want to address these
 
-1. RX interrupt
-2. Frame#0 Some amount of time data is always valid
-3. RX interrupt - new data
-4. Frame#1 new data delivered into a buffer
+Please ask those multiple people: are they ready to maintain all that
+zoo of macros, weak implementations, arch implementations and stubs
+for no clear benefit? Performance is always worth it, but again I see
+not even a hint that the drivers care about performance. You don't
+measure it, so don't care as well. Right?
 
-Are you describing a case between RX interrupts 1-3 or a case after 1-4?
+> comments. Before submitting, I sent an email explaining my current
+> approach: using David's suggested method along with __builtin_parity,
+> but no one responded. So, I decided to submit v2 for discussion
+> instead.
 
-Why do we need to write code for rouge firmware anyway ?
+For discussion use tag RFC.
 
-And the real question - if the data can be invalidated in the 1-3 window 
-above when is the safe time to snapshot that data ?
+> 
+> To avoid mistakes in v3, I want to confirm the following changes before
+> sending it:
+> 
+> (a) Change the return type from int to bool.
+> (b) Avoid __builtin_parity and use the same approach as parity8().
+> (c) Implement parity16/32/64() as single-line inline functions that
+>     call the next smaller variant after xor.
+> (d) Add a parity() macro that selects the appropriate parityXX() based
+>     on type size.
+> (e) Update users to use this parity() macro.
+> 
+> However, (d) may require a patch affecting multiple subsystems at once
+> since some places that already include bitops.h have functions named
+> parity(), causing conflicts. Unless we decide not to add this macro in
+> the end.
+> 
+> As for checkpatch.pl warnings, they are mostly pre-existing coding
+> style issues in this series. I've kept them as-is, but if preferred,
+> I'm fine with fixing them.
 
-We seem to have alot of submissions to deal with 'rouge' firmware 
-without I think properly describing the problem of the _expected_ data 
-lifetime.
+Checkpatch only complains on new lines. Particularly this patch should
+trigger checkpatch warning because it adds a new file but doesn't touch
+MAINTAINERS. 
 
-So
+> If anything is incorrect or if there are concerns, please let me know.
+> 
+> Regards,
+> Kuan-Wei
+> 
+> diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+> index c1cb53cf2f0f..47b7eca8d3b7 100644
+> --- a/include/linux/bitops.h
+> +++ b/include/linux/bitops.h
+> @@ -260,6 +260,43 @@ static inline int parity8(u8 val)
+>  	return (0x6996 >> (val & 0xf)) & 1;
+>  }
+> 
+> +static inline bool parity16(u16 val)
+> +{
+> +	return parity8(val ^ (val >> 8));
+> +}
+> +
+> +static inline bool parity32(u32 val)
+> +{
+> +	return parity16(val ^ (val >> 16));
+> +}
+> +
+> +static inline bool parity64(u64 val)
+> +{
+> +	return parity32(val ^ (val >> 32));
+> +}
 
-a) What is the expected data lifetime of an RX buffer between one
-    RX IRQ and the next ?
-    I hope the answer to this is - APSS owns the buffer.
-    This is BTW usually the case in these types of asymmetric setups
-    with a flag or some other kind of semaphore that indicates which
-    side of the data-exchange owns the buffer.
+That was discussed between Jiri and me in v2. Fixed types functions
+are needed only in a few very specific cases. With the exception of
+I3C driver (which doesn't look good for both Jiri and me), all the
+drivers have the type of variable passed to the parityXX() matching 
+the actual variable length. It means that fixed-type versions of the
+parity() are simply not needed. So if we don't need them, please don't
+introduce it.
 
-b) In this rouge - buggy - firmware case what is the scope of the
-    potential race condition ?
-
-    What I'd really like to know here is why we have to seemingly
-    memcpy() again and again in seemingly incongrous and not
-    immediately obvious places in the code.
-
-    Would we not be better advised to do a memcpy() of the entire
-    RX frame in the RX IRQ handler path if as you appear to me
-    suggesting - the firmware can "race" with the APSS
-    i.e. the data-buffer ownership flag either doesn't work
-    or isn't respected by one side in the data-exchange.
-
-Can we please have a detailed description of the race condition here ?
-
-I don't doubt the new memcpy() makes sense to you but without this 
-detailed understanding of the underlying problem its virtually 
-impossible to debate the appropriate remediation - perhaps this patch 
-you've submitted - or some other solution.
-
-Sorry to dig into my trench here but, way more detail is needed.
-
-> [1]: https://lore.kernel.org/lkml/4cfc1fe1-2fab-4256-9ce2- 
-> b4a0aad1069e@linaro.org/T/#m5f1737b16e68f8b8fc1d75517356b6566d0ec619
->>
->> Why is it in this small specific window that the data can change but 
->> not later ? What is the mechanism the data can change and how do the 
->> changes you propose here address the data lifetime problem ?
-> Currently this issue has been discovered by external researchers at this 
-> point, but if any such OOB issue is discovered at later point as well 
-> then we shall fix them as well.
-
-Right but, I'm looking for a detailed description of the problem.
-
-Can you describe from RX interrupt again what the expected data lifetime 
-of the RX frame is, which I hope we agree is until the next RX interrupt 
-associated with a given buffer with an ownership flag shared between 
-firmware and APSS - and then under what circumstances that "software 
-contract" is being violated.
-
-> Also, with rougue firmware we cannot fix the data lifetime problem in my 
-> opinion, but atleast we can fix the out of bound issues.
->>
->> Without that context, I don't believe it is really possible to 
->> validate an additional memcpy() here and there in the code as fixing 
->> anything.
-> There is no additional memcpy() now in the v2 patch, but as part of the 
-> fix, we are just trying to retain the length of the packet which was 
-> being read in the first memcpy() to avoid the OOB read access.
-
-I can't make a suggestion because - personally speaking I still don't 
-quite understand the data-race you are describing.
-
-I get that you say the firmware is breaking the contract but, without 
-more detail on _how_ it breaks that contract I don't think it's really 
-possible to validate your fix here, fixes anything.
-
----
-bod
+> +#define parity(val)			\
+> +({					\
+> +	bool __ret;			\
+> +	switch (BITS_PER_TYPE(val)) {	\
+> +	case 64:			\
+> +		__ret = parity64(val);	\
+> +		break;			\
+> +	case 32:			\
+> +		__ret = parity32(val);	\
+> +		break;			\
+> +	case 16:			\
+> +		__ret = parity16(val);	\
+> +		break;			\
+> +	case 8:				\
+> +		__ret = parity8(val);	\
+> +		break;			\
+> +	default:			\
+> +		BUILD_BUG();		\
+> +	}				\
+> +	__ret;				\
+> +})
+> +
+>  /**
+>   * __ffs64 - find first set bit in a 64 bit word
+>   * @word: The 64 bit word
 
