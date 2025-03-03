@@ -1,49 +1,50 @@
-Return-Path: <linux-media+bounces-27359-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27360-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD71CA4C5FF
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 17:03:16 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D89F7A4C604
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 17:03:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 10602189507A
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 16:03:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 27F7B1632C3
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 16:03:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBD7A215791;
-	Mon,  3 Mar 2025 16:02:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38A8421638A;
+	Mon,  3 Mar 2025 16:02:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IlCpmyhW"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SgTtv68T"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD1432153F4;
-	Mon,  3 Mar 2025 16:02:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2455A214A9E;
+	Mon,  3 Mar 2025 16:02:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741017742; cv=none; b=ERYpzRXsCE4AwyQgggi1xgF9Am/LZ+jUxJCXG3yrEle6TZtKGG4K612uPW0hPsDMj9BLUXQZqv4JlhAmFDEfQSEpr1vOHMKnNmANKsyEZeEJEq7VwmDkDOphPTU6uXBLpE1KC/kC0nKvWak+Fiq/A1y8XTEKS/w8HxAp91S09bs=
+	t=1741017747; cv=none; b=GoasHtD3zfjOcb0p9pmjBBzYp3JS8jT9zb73Mi8q2eZcqEX5GottAG966KhPyX4ndG5k3m+ODy2sbQHSyVVT0rXQ9FzAsSpTe3HAXGWeYHgKt1hr/brp/DiXCCsfVIjJoa/cQEPTMeYMeEKzhz99JPTEwAeOUSz+NfxLf4iM+lc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741017742; c=relaxed/simple;
-	bh=bBOawXfMAUxCvIZIRS1ntyjnXREI2J9jHtmTFXWo5wk=;
+	s=arc-20240116; t=1741017747; c=relaxed/simple;
+	bh=JLH9MJR6Zq6nZAb3s9lKLinR8MoPluF9Iq/DKAfHIFU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=qYh+7g1CN6BjBkyXmjMXimKam+lA1e6zapgIA1NfXcJLJrPVCspRFMOPH9w4w/VKbM13brODjMynKC4s9X4CwWPwLFmoA26mt4F0T9RhUQ0EBajy+1t9EGS3dr7/JScJ2JVLBZIVMWxjGF7nZpmki8oJvInQ7nhVr+BwQVrw4W8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IlCpmyhW; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=qR5xrvhrge51lMo7Uz2ha4cMBzpX96iUZbYfJ1uiYEEvCpQXHhstrdsJYXnr7AUBHtuBWulPCKh1tBhY7KVqAXwlEC9gAHcEYO63zMZrI8m+81Di2hdL8ZXMs2JVCbEJtj8h4Tw17ISWwHRvfOtNEr4yRkm6NYoHwbInSUQ5myI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SgTtv68T; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c69:8872:6fe4:6987:313:70cc])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8639A11E9;
-	Mon,  3 Mar 2025 17:00:47 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 141341189;
+	Mon,  3 Mar 2025 17:00:52 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1741017647;
-	bh=bBOawXfMAUxCvIZIRS1ntyjnXREI2J9jHtmTFXWo5wk=;
+	s=mail; t=1741017653;
+	bh=JLH9MJR6Zq6nZAb3s9lKLinR8MoPluF9Iq/DKAfHIFU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=IlCpmyhWWDAJw/OpS7H/4dzH2VpoZYT+5lzzlZ3bcPFJL9lzS92Ia44D2CmtQb3M+
-	 ghRmk/gsOyWxbqMD22IZHyq9dpkLb9zZ19TIPXFWUE3eKwtBlGqaWa+QJ8nNjSfjk7
-	 ro0TtNXJwR3iMQ2ItrxktU8wuZenNqyBKMY+hEhY=
+	b=SgTtv68TVcBtayrUxnS/TRFIVaGcKyCkrQi2DmTo0bJr5tc7gVXyEwfJEoQ7ywokt
+	 7gdUUyapNT9IpOyzmqIB/mGITOedYphtA23oU23OSITgGYf4WSzxTf+DMn39DH/LgZ
+	 jAtE5oJMzknNLZU3Uo2wSacwV19SfRxUNXiK7JfY=
 From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Mon, 03 Mar 2025 21:32:04 +0530
-Subject: [PATCH v3 01/19] media: i2c: ds90ub953: Fix error prints
+Date: Mon, 03 Mar 2025 21:32:05 +0530
+Subject: [PATCH v3 02/19] media: i2c: ds90ub913: Fix returned fmt from
+ .set_fmt()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +53,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250303-b4-ub9xx-err-handling-v3-1-7d178796a2b9@ideasonboard.com>
+Message-Id: <20250303-b4-ub9xx-err-handling-v3-2-7d178796a2b9@ideasonboard.com>
 References: <20250303-b4-ub9xx-err-handling-v3-0-7d178796a2b9@ideasonboard.com>
 In-Reply-To: <20250303-b4-ub9xx-err-handling-v3-0-7d178796a2b9@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -62,74 +63,54 @@ Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
  Jai Luthra <jai.luthra@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2166;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1009;
  i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=/auXz4Ow18mNQ+OTf10SPIs0hKMwR0gCoACEFK8Jhwk=;
- b=owEBbQKS/ZANAwAIAUPekfkkmnFFAcsmYgBnxdJ+5+Wg+GwYCxUruPXGrp7AVupr1DuvKo0Nj
- IkbRAus07iJAjMEAAEIAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCZ8XSfgAKCRBD3pH5JJpx
- RatfD/9KPSDobwF0IrmlE97OZhlr8/cAEvRlDV6LaGlyulg7A2BP6H+tPT+K1nXzSdy8OauFYv7
- xu/mT+ta0a+pdbWy9btI0B1wNsAfB4glSgX8KR04O+l3tBVrHgVLvVvcJe1EPPyfdjpDAi9TNuH
- meZx8NKCVlNrdZo14Qyf3L9bcjrjsDlVpwpoBZlG+l51CCYpcq7PbqY/PlPxmqlJCxG2tu9IkAb
- B48Q4JslFKsuS2r6befNDcP0g/Be/cw1S6B2s3qZtISMVOnBtky9/6M26j3i4ubUpgyMKAgq6Cg
- M06L7oT+oR61TT1Z47HqVTe50oWBNmgNmXnyzYpRKE5JhKpmcx4jeoXN/+hl1qOenloh+WCuOiz
- /NbSp10pJYou0AgV52TVQFdPIizZANl3kITxKheIRVvMCn4+TukUDuGWVnjjENtokVsLuV3kR5x
- Y3LrHoGQjqiAkIQDHBt6Hm5kEROl7a6beyVoCEojb9wxZR9iA01Dnzh+WcCvJqU/yWpQ/PDffCG
- GaMtze7emb/ZqJ6CiH/WAxWiaAgw+AqWeDnhn+wDvv8g7GjABrkn/s+qUxAf5sq9A/hV149thhj
- BF3SHau1AgME2n9umtxZg6pj/moq9pKlzMg3zHTlZ0SiSXG5HkIMMcGJ39mSUlY32Q5GNffvusN
- aXi4OhDpvu1oPUQ==
+ bh=GzgsmXWOYQnJFZCCQStgSFGp+y0aPfeevNKeKV6gVVM=;
+ b=owEBbQKS/ZANAwAIAUPekfkkmnFFAcsmYgBnxdJ+CVnm+xnkIRMaDDVGjWw0y8LZ/z5xqRq90
+ 96wRnQd8Y+JAjMEAAEIAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCZ8XSfgAKCRBD3pH5JJpx
+ RTpQD/9ralZV2/880aAJ1glGh8LZagW7GbVtR3bxrmTUyGx/PG/vfhnYFV4TsLHmU1OooMvpCmc
+ 7b8UAM35cmEDz4aSrx78UjZSzmZhOSU5r9cmLcp4x40k2zTX4ikjdF0lt+101znyKVWF/Af6lRh
+ HjbeD6pwfRQBuTKJE+OvQvAKPv/rXTfmRnKRJM0KirCKE71OLOYusz4IQQxTkmwPWVFQEXmq1IT
+ A69aU0S2a8kyj3RyquueAbM6xevF2FtLsSeoS2uQ5HIUedVzX9WqplRSOzQvjpLOnlvq5BeZZQU
+ 9y94DLgPRri4NZN5kIaHOwSSyAFd9/pkbZsFIN90iciZhLZPPTgreo/RChuMHJseXi98lCmEr1W
+ LxNbq1QeJAdQHbcyNUW0pOnWpttGMDw4IocTiwdtqevffBA0nKJQVDQGLxLF5tUNVroImbTfBLC
+ iXxsL9j6PwT9ECFej3Pam8aL/N88mAF4ZsSmqZDVZKbYuwzrnRYMXBaiftVEHPHhAjPHkYJkSZt
+ vap/dQ8oqAe4fu2BSD+H9ARScYbn3dIoGt0DhWUtBNRuYFn/GIjyWC2fDKD/WglE4UancpDriBb
+ LS9Vtf37MYqj6LktW1Z9TETNHK65RfRvznlt6q7JKV9S0tOxb/HfeNS97TjZiMKczgNOd22YW65
+ dZv5VgKDI1pW0kw==
 X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
  fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-ub953_read_ind() and ub953_write_ind() have broken error prints, and the
-register address is printed incorrectly. Fix the prints.
+When setting the sink pad's stream format, set_fmt accidentally changes
+the returned format's code to 'outcode', while the purpose is to only
+use the 'outcode' for the propagated source stream format.
 
+Fixes: c158d0d4ff15 ("media: i2c: add DS90UB913 driver")
+Cc: stable@vger.kernel.org
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 ---
- drivers/media/i2c/ds90ub953.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/media/i2c/ds90ub913.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/i2c/ds90ub953.c b/drivers/media/i2c/ds90ub953.c
-index 46569381b332de3dfd89a0720ada64cdfa3297de..7b33b8cc83c17fce7d3ce6bf73c2ec8bc13a0bfd 100644
---- a/drivers/media/i2c/ds90ub953.c
-+++ b/drivers/media/i2c/ds90ub953.c
-@@ -258,7 +258,7 @@ static int ub953_read_ind(struct ub953_data *priv, u8 block, u8 reg, u8 *val)
- 	ret = regmap_write(priv->regmap, UB953_REG_IND_ACC_ADDR, reg);
- 	if (ret) {
- 		dev_err(&priv->client->dev,
--			"Write to IND_ACC_ADDR failed when reading %u:%x02x: %d\n",
-+			"Write to IND_ACC_ADDR failed when reading %u:0x%02x: %d\n",
- 			block, reg, ret);
- 		goto out_unlock;
- 	}
-@@ -266,7 +266,7 @@ static int ub953_read_ind(struct ub953_data *priv, u8 block, u8 reg, u8 *val)
- 	ret = regmap_read(priv->regmap, UB953_REG_IND_ACC_DATA, &v);
- 	if (ret) {
- 		dev_err(&priv->client->dev,
--			"Write to IND_ACC_DATA failed when reading %u:%x02x: %d\n",
-+			"Write to IND_ACC_DATA failed when reading %u:0x%02x: %d\n",
- 			block, reg, ret);
- 		goto out_unlock;
- 	}
-@@ -293,7 +293,7 @@ static int ub953_write_ind(struct ub953_data *priv, u8 block, u8 reg, u8 val)
- 	ret = regmap_write(priv->regmap, UB953_REG_IND_ACC_ADDR, reg);
- 	if (ret) {
- 		dev_err(&priv->client->dev,
--			"Write to IND_ACC_ADDR failed when writing %u:%x02x: %d\n",
-+			"Write to IND_ACC_ADDR failed when writing %u:0x%02x: %d\n",
- 			block, reg, ret);
- 		goto out_unlock;
- 	}
-@@ -301,7 +301,7 @@ static int ub953_write_ind(struct ub953_data *priv, u8 block, u8 reg, u8 val)
- 	ret = regmap_write(priv->regmap, UB953_REG_IND_ACC_DATA, val);
- 	if (ret) {
- 		dev_err(&priv->client->dev,
--			"Write to IND_ACC_DATA failed when writing %u:%x02x\n: %d\n",
-+			"Write to IND_ACC_DATA failed when writing %u:0x%02x: %d\n",
- 			block, reg, ret);
- 	}
+diff --git a/drivers/media/i2c/ds90ub913.c b/drivers/media/i2c/ds90ub913.c
+index fd2d2d5272bfb688f00d7bf5a109e978f6c322e6..1445ebbcc9cabb3ab43a670aa165deea52db5f35 100644
+--- a/drivers/media/i2c/ds90ub913.c
++++ b/drivers/media/i2c/ds90ub913.c
+@@ -450,10 +450,10 @@ static int ub913_set_fmt(struct v4l2_subdev *sd,
+ 	if (!fmt)
+ 		return -EINVAL;
+ 
+-	format->format.code = finfo->outcode;
+-
+ 	*fmt = format->format;
+ 
++	fmt->code = finfo->outcode;
++
+ 	return 0;
+ }
  
 
 -- 
