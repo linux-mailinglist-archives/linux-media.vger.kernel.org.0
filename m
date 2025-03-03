@@ -1,190 +1,181 @@
-Return-Path: <linux-media+bounces-27351-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27352-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC67EA4C52B
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 16:33:56 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CFB07A4C534
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 16:34:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 05F14162DD1
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 15:31:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A332A3A7E20
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 15:32:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3166F215067;
-	Mon,  3 Mar 2025 15:24:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E85C3216E39;
+	Mon,  3 Mar 2025 15:25:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="sei5hvwH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FXKPjZjF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f169.google.com (mail-qk1-f169.google.com [209.85.222.169])
+Received: from mail-yb1-f169.google.com (mail-yb1-f169.google.com [209.85.219.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 135772147EE
-	for <linux-media@vger.kernel.org>; Mon,  3 Mar 2025 15:24:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEFDC21771E;
+	Mon,  3 Mar 2025 15:25:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741015477; cv=none; b=UBSnp42MUhUYChvOjG7N92W+L2uVfIrfPEPXvevrac3t5x3eKezlNfdseKC6cJVkLt+z8/Q7kuvs8g3BSFahhsae0JlISIxlvgGFbTPCWewsgSnLCEZWT6ohNnVLJA+EtVMfI778ApP/00+UQ2D8JvRob5lU1GE3vNeACKaVxdQ=
+	t=1741015525; cv=none; b=KuLmpKw7pDXXECSU/H6nKMg0/RYZ/yXMFJZCFfpLEVt9ECujcerCetbWujOxu/+GYXEMjbdURWQfl7ApYFQzCy+9UuhUL3k8vVPOIVZgqPq9EEmmGPSAevCWmOqA1yW9JIZAoMzvG/dcNmVb64//hLb5gh0lkwK7n8fInp4xo3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741015477; c=relaxed/simple;
-	bh=pfpr19Iu90GBD6jxo298SmOMqXiX+bP60uY1Ix2uksE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=FcbOj8dImOcVQfFe/0tFu4nl62LLMpVq4YyP4SP+aYztkXDReNwDiFjdAJdcCxHJtLvKOy49uohNVPvoOpWKGmZaDcEfhKlwLAT7QKlew+BZZ8vl8U7P4kfCbZX3xXyf3lDKShlgu8c+0SxbPPXYPFzqEygTcQm7j1HqNPzn2/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=sei5hvwH; arc=none smtp.client-ip=209.85.222.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f169.google.com with SMTP id af79cd13be357-7c0ade6036aso529403885a.0
-        for <linux-media@vger.kernel.org>; Mon, 03 Mar 2025 07:24:34 -0800 (PST)
+	s=arc-20240116; t=1741015525; c=relaxed/simple;
+	bh=w/rH0xuaifnie3Y246Xozhb3kLqb2kCavS2PIlqeo3Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NnEOyXrtfU2kr6xH69AExL5IZD+9dszoNU8GVhppoe//HcJKvYwR2qch3gVTkSJPYpex+jouYNbCHXI2dCXz0Wi6GNKoDB6kNR8l5DP2Wm9kxk3U6HcqmGCRVVHqTuSPquC1fnog+5cCMrRWlMfBRNUcsFoEVcFRmbIHhXESazM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FXKPjZjF; arc=none smtp.client-ip=209.85.219.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-yb1-f169.google.com with SMTP id 3f1490d57ef6-e60b81c29c5so1981111276.1;
+        Mon, 03 Mar 2025 07:25:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1741015474; x=1741620274; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=WFHt+0PcUrjf2KPzth13ahqz68xbUj7oThx+bYUbytM=;
-        b=sei5hvwHuvTkTAJOMcYpdxuIOirM7pWtT9QlEr31KitoJE1PDkADHzOY6msBn48pKO
-         dnr2GkmDJ0KFAUlXgChvD8d/rH400qva64OIJQ58nIHAHMwlYdZQHjR4ahLA7/YQ984d
-         B2/Pr0/lWhAdlS6tmafscVOg89md/4RzPihch01xoKxhgsm1eciEYyRQxLnXM5wW1+Mb
-         tvuamufs30rpSP7S/3/R6MAzVMJLoW+dZygBBasO0ZPwFkF2Kdqrz019WMbP/Pm6bCfC
-         H+xPnbgh4tckK7kcMv50fza0ePq2DRDwRdJgfcM2V1Qlq8uMvMQB9pE0NAIdPTSUP6eR
-         7UMg==
+        d=gmail.com; s=20230601; t=1741015522; x=1741620322; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PCKvwZ5J/h+SCwpYc01AHUjT/aP2XxgC1fqBQTrA6YI=;
+        b=FXKPjZjFNGjB0G079Ckr+zZ4eDbEMBku7vIYbtxscJYsgBwICpT9il7o6FERHrofSD
+         yaG2VetGZJdvOPVETQVjTQJg45qC3/yOU2K9vmIbJwtNlmkrgncHhv+KZWfiF4jzezWv
+         DieUo/s8MQcyV4gU5SEO7r0g55iZJQnUzy9+T0mmAZJ6pIm3rioSOJgHP8jEKiwRY5/t
+         PcM5nQrb76F9/01FLPfZB4yPJl5k7zZWSvByVLvjxQPLQB+38h5n7nZ8BYcCEjTa4UAc
+         8KxHCf9zmysdbWy/rFL3U7NP7JueON9iy45BEtM504J48xydJCYDDiD5lH4i00Gv9snX
+         MFNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741015474; x=1741620274;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WFHt+0PcUrjf2KPzth13ahqz68xbUj7oThx+bYUbytM=;
-        b=eVRhJu3tYDQNE1p/eJwWwPVFvPS/ZyARWUfM+exIaPXGW5KPSMTXbIKkU4h6cJiEn2
-         TRQvAoT6jIOz6NHQTkz6OZbSkUgoTz2nlHwrgQdvbkZNm0eaqABs5DPq+a7i1y/JC/aw
-         UkN6b07jNR5XINr/qFxRnhCmtPG+Kkb55G2yjr0xrkbeg3FaWF9Dqhn5ESNUFeN6sygw
-         tm8Z1/YtBuCkCcJC8bffcANGMRSbrcf8k2LuT1k4Z0klT2Vbjtu0EJPJyQKmB52ZxjpU
-         0JzolzmV/gZ1z5Yu9Z2N3SWyYxgtSdq/J6y4ctyAP2ohKbYRbbKdxqu/v+HtQkyz+cPL
-         YvZw==
-X-Gm-Message-State: AOJu0YwoMablT+3/jVI40ZpWMO6L/11eLAPwM8sid3JT7MmPgNEKzr4H
-	DRUiaOr98BBEle+8s07R6tB5WjqqxjGxhi8VBnwuFNOpYI4Q4rusFaihO9nnLDQ=
-X-Gm-Gg: ASbGnctV5D45UPHXwsNzcNfPJK0pWDQA321MWd6aBvK1OyRFLHs9y9ooyvBKJa8Z3C4
-	162tc/X+6LDW29KzdQAgxzgCI4VG2iNrhZ92nRP148cY7SXiIMuA4IuE2rurGYkg8jwUxyT0QxA
-	l+XE6vRU7zowdTbxo0oI8EYgj8mBUPJv3lGQbGq3ixrSnv+XsiABA0PKws7Hdsg9jHWL9MaFGXz
-	jxa3r7JqN1B+MefYtKeSABIooWUXJ+UuLMk/qIIQ6usttp16F9afVViFm139gVaTLoj4rMiqjP0
-	TlzdfgEysaosuj+eQvgQnxMJDo7u3F6iCmlTmzWd1JXlvmI3lA==
-X-Google-Smtp-Source: AGHT+IFfnYkxtmeyMx4cbVUhHoEgj8vIHk0FHdrXdCz4obVUHVFmEQgHCvy9FSBCGdXes2aYUVuO3Q==
-X-Received: by 2002:a05:620a:f06:b0:7bc:de68:e932 with SMTP id af79cd13be357-7c2a7632d54mr2279290185a.23.1741015473845;
-        Mon, 03 Mar 2025 07:24:33 -0800 (PST)
-Received: from ?IPv6:2606:6d00:11:e976::c41? ([2606:6d00:11:e976::c41])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c3c89408efsm27440485a.114.2025.03.03.07.24.32
+        d=1e100.net; s=20230601; t=1741015522; x=1741620322;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PCKvwZ5J/h+SCwpYc01AHUjT/aP2XxgC1fqBQTrA6YI=;
+        b=YWA5uHUbR2fiGffEArw/kcSO/tL8U8aT77DjcIX0qsZ+BWDQP8DJdRjp+mpRuz1QxS
+         mDsJ56Hd3Av3S1SLfqTESQTOyOKrl4J/9EueF17q18seQ2Y7TVOfhFxM781chprYcbd6
+         LeeiLh1b/A1snB1YIvcbjv8OjXrFtnYvUyoO01rE4xtXeXtk40/knv5X/rmxOVeDmCnP
+         5ek7hRCzaUFSfwyfPOzkTAccyJS5CgozzaGZ5uGvcskGFbw5WzTDzGjsSscegvUizPui
+         54qh6vCMt6zKr7wk3931XOyjocpGSDpIc7cU4qTPU7hXBYnBLb7XJPDp4ORBLoRns4ds
+         hMQg==
+X-Forwarded-Encrypted: i=1; AJvYcCU7nWE5VCmYDyq7qxOo9C56wIZmkEuA+vEDzMVLs4uEF25nBx4hYdIwfZxYPTHD+nTjILym5euT3nyt2LBaGdM=@vger.kernel.org, AJvYcCUGp4WL075ceNaXEsk8hBMh/S4rY6aD4lC8WNu9pbLog0EWSjgZpJxcgKC1kUsUBzyAVkvXhCIh@vger.kernel.org, AJvYcCURJqL3th2msw1fg+jopBbP1KQtMpS+kSDSTCThwPpsFLSvkoMAsuv7pnnRUe9n+QirXV1QJjlZdFos5G3K@vger.kernel.org, AJvYcCVLyEeFfgQQ2rsHFQhx2CD8wCVYGNbzd6u9vldx5mEk3pUvjvuepxGHYAdJ4vieEwE7XqYrHEt7Pdi2cZ5T@vger.kernel.org, AJvYcCWeD3/cKwU/yRf6qT12+0kfaiBAORxs63WnudOk3zfmh7Rnp5iZ0JBupQjFSx/KEE9S0eU=@vger.kernel.org, AJvYcCXFRLYvmpdi8BTExnFfJTwBsYlnbsxBvdKySPPYenm7bs0oETAJWgowrAThA2xeRr9N3LrBl/04F/w4Tg8=@vger.kernel.org, AJvYcCXvBfPnToVH1eGMjSp605+OC471WDCJSGUmQiqtq5AN32NiXCdisR5M6KlbZS/Gk1OR3IVIo5PMqX3D130=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywn11R2Av6vIf8mM6fmBaWAHzZVqjL6mvQVzGPYoLqHvMDXN6ns
+	8Vg0LoEpAighhNtqFdK/qjv+z+RHgNHRt42xECLqdhGwpHUP8ulj
+X-Gm-Gg: ASbGnctJIjFyUPRSx+L6a8CYyNRoDqegooX5L8FTx/WqmLe9DRhklyFchEyYPBWPNKR
+	FKjhueB7mN3ki1iyAAV/PUnl8EnyWmRaEnjsX8759AueDOePRKGRqr2+NZ2Q6JP4qnTo49eF1Y3
+	4FCPZSwUJyU5f9r8b5cAD7Xh9nPjn+qbvv8aN45EWD3LJ0Dudb9ybabBDDn8Thhc88BLQY8/kVe
+	r/nAGhTX2vwEe4Gb+TGtKm1XT14px+lXtHq8t7xBMIPQw3frbltbTBjF8yitJK2OjHW1AFR3pvC
+	sD+4CI6ltuQvbTmUnu1cvUne9TzavlUy4UC4VX0fFpoi/C4MWgefWA/WsTJ8JR7tZ60V3qRWh1Z
+	lxz9g
+X-Google-Smtp-Source: AGHT+IHSscIa3DfqfeKZ+gYLGMqXfo4aPZUveIfgdEWZZaokGaxFBKrjGL5p4Mklbl9y612Oe7mv4g==
+X-Received: by 2002:a05:6902:2006:b0:e58:2a5:241a with SMTP id 3f1490d57ef6-e60b2377d4dmr14240074276.9.1741015522418;
+        Mon, 03 Mar 2025 07:25:22 -0800 (PST)
+Received: from localhost (c-73-224-175-84.hsd1.fl.comcast.net. [73.224.175.84])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e60a3aafebcsm3002012276.51.2025.03.03.07.25.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Mar 2025 07:24:33 -0800 (PST)
-Message-ID: <8b3dac7baed1de9542452547454c53188c384391.camel@ndufresne.ca>
-Subject: Re: [PATCH v4 1/2] media: videobuf2: Fix dmabuf cache sync/flush in
- dma-contig
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Mikhail Rudenko <mike.rudenko@gmail.com>, Dafna Hirschfeld	
- <dafna@fastmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-  Mauro Carvalho Chehab	 <mchehab@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Tomasz Figa	 <tfiga@chromium.org>, Marek Szyprowski
- <m.szyprowski@samsung.com>, Hans Verkuil	 <hverkuil@xs4all.nl>, Sergey
- Senozhatsky <senozhatsky@chromium.org>
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, Mauro
- Carvalho Chehab <mchehab+huawei@kernel.org>, stable@vger.kernel.org
-Date: Mon, 03 Mar 2025 10:24:32 -0500
-In-Reply-To: <20250303-b4-rkisp-noncoherent-v4-1-e32e843fb6ef@gmail.com>
-References: <20250303-b4-rkisp-noncoherent-v4-0-e32e843fb6ef@gmail.com>
-	 <20250303-b4-rkisp-noncoherent-v4-1-e32e843fb6ef@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+        Mon, 03 Mar 2025 07:25:21 -0800 (PST)
+Date: Mon, 3 Mar 2025 10:25:21 -0500
+From: Yury Norov <yury.norov@gmail.com>
+To: David Laight <david.laight.linux@gmail.com>
+Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
+	eajames@linux.ibm.com, andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org, rfoss@kernel.org,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+	dmitry.torokhov@gmail.com, mchehab@kernel.org,
+	awalls@md.metrocast.net, hverkuil@xs4all.nl,
+	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+	louis.peens@corigine.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+	johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+	jirislaby@kernel.org, akpm@linux-foundation.org, hpa@zytor.com,
+	alistair@popple.id.au, linux@rasmusvillemoes.dk,
+	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+	jernej.skrabec@gmail.com, kuba@kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+	oss-drivers@corigine.com, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+	andrew.cooper3@citrix.com, Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH v2 01/18] lib/parity: Add __builtin_parity() fallback
+ implementations
+Message-ID: <Z8XJ4XCByXOx4ZwY@thinkpad>
+References: <20250301142409.2513835-1-visitorckw@gmail.com>
+ <20250301142409.2513835-2-visitorckw@gmail.com>
+ <Z8PMHLYHOkCZJpOh@thinkpad>
+ <Z8QUsgpCB0m2qKJR@visitorckw-System-Product-Name>
+ <Z8SBBM_81wyHfvC0@thinkpad>
+ <Z8SVb4xD4tTiMEpL@visitorckw-System-Product-Name>
+ <20250302190954.2d7e068f@pumpkin>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250302190954.2d7e068f@pumpkin>
 
-Hi Mikhail,
+On Sun, Mar 02, 2025 at 07:09:54PM +0000, David Laight wrote:
+> > #define parity(val)					\
+> > ({							\
+> > 	__auto_type __v = (val);			\
+> > 	bool __ret;					\
+> > 	switch (BITS_PER_TYPE(val)) {			\
+> > 	case 64:					\
+> > 		__v ^= __v >> 16 >> 16;			\
+> > 		fallthrough;				\
+> > 	case 32:					\
+> > 		__v ^= __v >> 16;			\
+> > 		fallthrough;				\
+> > 	case 16:					\
+> > 		__v ^= __v >> 8;			\
+> > 		fallthrough;				\
+> > 	case 8:						\
+> > 		__v ^= __v >> 4;			\
+> > 		__ret =  (0x6996 >> (__v & 0xf)) & 1;	\
+> > 		break;					\
+> > 	default:					\
+> > 		BUILD_BUG();				\
+> > 	}						\
+> > 	__ret;						\
+> > })
+> 
+> I'm seeing double-register shifts for 64bit values on 32bit systems.
+> And gcc is doing 64bit double-register maths all the way down.
 
-Le lundi 03 mars 2025 =C3=A0 14:40 +0300, Mikhail Rudenko a =C3=A9crit=C2=
-=A0:
-> When support for V4L2_FLAG_MEMORY_NON_CONSISTENT was removed in
-> commit 129134e5415d ("media: media/v4l2: remove
-> V4L2_FLAG_MEMORY_NON_CONSISTENT flag"),
-> vb2_dc_dmabuf_ops_{begin,end}_cpu_access() functions were made
-> no-ops. Later, when support for V4L2_MEMORY_FLAG_NON_COHERENT was
-> introduced in commit c0acf9cfeee0 ("media: videobuf2: handle
-> V4L2_MEMORY_FLAG_NON_COHERENT flag"), the above functions remained
-> no-ops, making cache maintenance for non-coherent dmabufs allocated
-> by
-> dma-contig impossible.
->=20
-> Fix this by reintroducing dma_sync_sgtable_for_{cpu,device} and
-> {flush,invalidate}_kernel_vmap_range calls to
-> vb2_dc_dmabuf_ops_{begin,end}_cpu_access() functions for non-coherent
-> buffers.
->=20
-> Fixes: c0acf9cfeee0 ("media: videobuf2: handle
-> V4L2_MEMORY_FLAG_NON_COHERENT flag")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
-> ---
-> =C2=A0.../media/common/videobuf2/videobuf2-dma-contig.c=C2=A0 | 22
-> ++++++++++++++++++++++
-> =C2=A01 file changed, 22 insertions(+)
->=20
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> index
-> a13ec569c82f6da2d977222b94af32e74c6c6c82..d41095fe5bd21faf815d6b035d7
-> bc888a84a95d5 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> @@ -427,6 +427,17 @@ static int
-> =C2=A0vb2_dc_dmabuf_ops_begin_cpu_access(struct dma_buf *dbuf,
-> =C2=A0				=C2=A0=C2=A0 enum dma_data_direction
-> direction)
-> =C2=A0{
-> +	struct vb2_dc_buf *buf =3D dbuf->priv;
-> +	struct sg_table *sgt =3D buf->dma_sgt;
-> +
-> +	if (!buf->non_coherent_mem)
-> +		return 0;
-> +
-> +	if (buf->vaddr)
-> +		invalidate_kernel_vmap_range(buf->vaddr, buf->size);
+If you don't like GCC code generation why don't you discuss it in GCC
+maillist?
+ 
+> That is fixed by changing the top of the define to
+> #define parity(val)					\
+> ({							\
+> 	unsigned int __v = (val);			\
+> 	bool __ret;					\
+> 	switch (BITS_PER_TYPE(val)) {			\
+> 	case 64:					\
+> 		__v ^= val >> 16 >> 16;			\
+> 		fallthrough;				\
+> 
+> But it's need changing to only expand 'val' once.
+> Perhaps:
+> 	auto_type _val = (val);
+> 	u32 __ret = val;
+> and (mostly) s/__v/__ret/g
 
-What would make me a lot more confortable with this change is if you
-enable kernel mappings for one test. This will ensure you cover the
-call to "invalidate" in your testing. I'd like to know about the
-performance impact. With this implementation it should be identical to
-the VB2 one.
+You suggest another complication to mitigate a problem that most
+likely doesn't exist. I looked through the series and found that
+parity64() is used for I2C, joystick and a netronome ethernet card.
 
-What I was trying to say in previous comments, is that my impression is
-that we can skip this for CPU read access, since we don't guaranty
-concurrent access anyway. Both address space can keep their cache in
-that case. Though, I see RKISP does not use kernel mapping plus I'm not
-reporting a bug, but checking if we should leave a comment for possible
-users of kernel mapping in the future ?
+For I2C and joystick performance is definitely not a problem. For
+ethernet - maybe. But I feel like you didn't compile that driver
+for any 32-bit arch, and didn't test with a real hardware. So your
+concern is a pure speculation.
 
-> +
-> +	dma_sync_sgtable_for_cpu(buf->dev, sgt, direction);
-> +
-> =C2=A0	return 0;
-> =C2=A0}
-> =C2=A0
-> @@ -434,6 +445,17 @@ static int
-> =C2=A0vb2_dc_dmabuf_ops_end_cpu_access(struct dma_buf *dbuf,
-> =C2=A0				 enum dma_data_direction direction)
-> =C2=A0{
-> +	struct vb2_dc_buf *buf =3D dbuf->priv;
-> +	struct sg_table *sgt =3D buf->dma_sgt;
-> +
-> +	if (!buf->non_coherent_mem)
-> +		return 0;
-> +
-> +	if (buf->vaddr)
-> +		flush_kernel_vmap_range(buf->vaddr, buf->size);
-> +
-> +	dma_sync_sgtable_for_device(buf->dev, sgt, direction);
-> +
-> =C2=A0	return 0;
-> =C2=A0}
-> =C2=A0
->=20
-
+NAK.
 
