@@ -1,179 +1,96 @@
-Return-Path: <linux-media+bounces-27349-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27350-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CAC2A4C4D9
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 16:23:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 790FCA4C529
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 16:33:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 13F6E18883AD
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 15:22:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 92B70174C04
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 15:31:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C6DE2147F1;
-	Mon,  3 Mar 2025 15:21:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fb2K3wPM"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FA2521504F;
+	Mon,  3 Mar 2025 15:24:23 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49A0E1F17E5;
-	Mon,  3 Mar 2025 15:21:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC9982144CC;
+	Mon,  3 Mar 2025 15:24:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741015303; cv=none; b=gG7wgnoX3w1ydfVG6gHNSWwywv1DcXCE6I1rHIciz7TCo5fqCIO8HFL0e7+VgototBhhFV0nbjpAYoSu7BoxdqE9MHOac6DYzxFh2yML6MdBJPpqYJptxxHmtzyRHgFosfdqIvjgsY23rLUzCCfGpDAW2O7IVineO3t4439FjfU=
+	t=1741015462; cv=none; b=fbGi+LTTzbNNzHRfk/AuyFhJ0PjaJvAl19D/8kJb+YfzudI62HSndruRWC7uGtZtzh7qILnjlnX6i7W1oVl7YXwKvJWeQH8wdouuELkQkIt8wGq0YI9tmYXk3ZkgrQW/KZMoTVB0JRZTVAWmtMAwQFNjzrvuRtydZ4+X5VoR/RU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741015303; c=relaxed/simple;
-	bh=HrebyizLFSGpmcx5xB//mRN6/SrWyVmW26AAoBXRoQM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=EHq1Jl8h3WfBLGz4nfZzTi8WhDrkE8EMmGLN77aEMHSclQo1cQ1+4qsOJZChz4CX57U/My0g4d3MtXT3H4WYgpxjYwXDcnng/j5lCPX5rVAmpyXYkzGeCCyUBHbcAvPNd/KBA6dk89OstncJ1ZOXo3cfwLCQLU2rLar0Sha3UFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fb2K3wPM; arc=none smtp.client-ip=209.85.219.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6dfa69e6922so6696836d6.2;
-        Mon, 03 Mar 2025 07:21:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741015301; x=1741620101; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=HrebyizLFSGpmcx5xB//mRN6/SrWyVmW26AAoBXRoQM=;
-        b=fb2K3wPM9JFw+D0lOuiEoYIyQh8E/05r4ab5iEiGzWQfPeN29Wy+5OIFJVK6OtGZev
-         4WLHoT+Rx5q+580zC+Mh/hl4ERkTDF3bprWSzVkaUtqDL37iAdayjZRDL9kOBwjBlIOv
-         4pYC+QElM0zTbJOsdyNH5eFhBJQ8EyBIKc/vPHwem6ip4VMImAPTnt+7oRirVrdFktzo
-         41nMvYCu9G4nkGdn2zGzluGoNGjiDGQ6cLNF+0HowrVBGWxZHeGgMc6fZBLP/V8J8dZG
-         Qe3QW/glu9W9HxVt911NcDnlVdZ+ZvwuLmooE0plunrN2/Jo3IykI+fUanYCYl5RPAvP
-         /eoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741015301; x=1741620101;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HrebyizLFSGpmcx5xB//mRN6/SrWyVmW26AAoBXRoQM=;
-        b=tl9b3JlgA+RxJ4wfrxHjD0ucmxUjGFQM9e6DecpQl+sKXHly6MiQxiSjImn8QecqKv
-         BFjkbeYFc+EylV0DxGk5IlfA6vIdoARjlCEH1HyGwSG+zJdvvfrTgro6MZ1TMNAtxksi
-         wMwbvyZDRibZ1YIHXEt48oGAnf1+SnGazFdp+veaG46r3yTHN1pgEPcrISwMifV1Aoe8
-         3+FGjQlWBFKhNQX4ZMKrPKe46brDW4qxu1cqBto+E1IDbR4UnV6PD2LsjMrAVOovVK0c
-         bY8a1nlbzH+To0lAlOUhwQiH0tbDiTqn+4etjvyeoZTmn+wbYK7JvPOszW9GPsTfYqXg
-         PDXw==
-X-Forwarded-Encrypted: i=1; AJvYcCVA+Q7CFtH/GnnoxbgdORWykQiSTgL4E4WHPK0rlpFe8ciaenVVtSdWRtmllXGZT5GWC9ZXWVxJtXCFGOFj@vger.kernel.org, AJvYcCXFyoYPUZRrYsIKm6JwP0mQ9yOVSqAs6WaG7Xb7rpy/9J5aVOoJZJwpw4HFw4P4FgYwn+a4L4xqKz+V@vger.kernel.org, AJvYcCXiwiYdLnBJKUs7cVt9DSPD4HBakb0TwNuKD7QfUNTYwa3guOtSrYuRXxWtdLCeU9yJEcdjCVESteSjyQQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyT3suJZWmwWNmTbNGmFXZBYRtQS5oBHRQbkwRqZxlWSMTQTj8Z
-	+K+Ma9SqDfcGwqLncoU68Rsq4LoYkQb//RWN4k2LNrP8MiWNtvP9
-X-Gm-Gg: ASbGncsJ38ukqHcTi9tlAaRyo5E2vOzH/MsJB30lIGC32UnC1ka4OxUkg6xtzBWKRpR
-	IZz4VI4biCk28kNLnlPy4GhpZvi95wvGwdLvOEXSb8djjGydlAxu1ugUm6/4+CwFoFsFKTSrH6f
-	ZMWZXvdSXjlY7/X+cz2FlXrFsrf2G/uU/i/hkBmw9HcCsnQ9VVPDztlAbuktarDItCvMEfh2o8H
-	W/3isARzIsTeLHg1SHQtQwM8cLXeba/KyxDHV3eLZ3CEIOUrgna+RHazjbr+sit1xG4nDUPCUmH
-	AuFv1ljLmhohXHL10NVtPVnoGn1MZFlGJ9De3uP0d6ThhUdrCMn7d2Jc0/FzEA2Texa4gIxPrLV
-	wRSReM3F2Ux0blet3WgH/7/Q0
-X-Google-Smtp-Source: AGHT+IGBBETzxZWMvDcCEcqz2J8GCxkX6hwH+yjvXjOxreqG4J8OkC1oBoHwtqvBKWGvMd20rORHoA==
-X-Received: by 2002:a05:6214:21e7:b0:6c3:5dbd:449c with SMTP id 6a1803df08f44-6e8a0c81d59mr76308736d6.1.1741015301052;
-        Mon, 03 Mar 2025 07:21:41 -0800 (PST)
-Received: from ?IPv6:2600:1002:a012:8f2c:2830:5371:cdd2:ac36? ([2600:1002:a012:8f2c:2830:5371:cdd2:ac36])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6e8976ccacdsm54029836d6.87.2025.03.03.07.21.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Mar 2025 07:21:40 -0800 (PST)
-Message-ID: <c7141c6554b396d3ddaf7e0e540b80e5990b416b.camel@gmail.com>
-Subject: Re: [PATCH v2 1/2] media: dt-bindings: Add dt bindings for
- m2m-deinterlace device
-From: Matthew Majewski <mattwmajewski@gmail.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh@kernel.org>,  Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Hans Verkuil	 <hverkuil@xs4all.nl>, "Dr. David Alan
- Gilbert" <linux@treblig.org>, Neil Armstrong <neil.armstrong@linaro.org>,
- Uwe Kleine-Konig <u.kleine-koenig@baylibre.com>, Andrzej Pietrasiewicz
- <andrzejtp2010@gmail.com>, devicetree@vger.kernel.org,
- linux-media@vger.kernel.org, 	linux-kernel@vger.kernel.org
-Date: Mon, 03 Mar 2025 10:21:38 -0500
-In-Reply-To: <3d729159-4d13-4a61-88c7-3be992b23728@kernel.org>
-References: <20250214231759.119481-1-mattwmajewski@gmail.com>
-	 <20250214231759.119481-2-mattwmajewski@gmail.com>
-	 <20250218-eggplant-skylark-of-swiftness-dcf6ba@krzk-bin>
-	 <69cb2e95c291f17cff42b45e7c871f30a85c060d.camel@gmail.com>
-	 <3d729159-4d13-4a61-88c7-3be992b23728@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (by Flathub.org) 
+	s=arc-20240116; t=1741015462; c=relaxed/simple;
+	bh=L9r5K4/fhByS3/3lkf7rOh8ExDYz8d7mzRGIbUen5/E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Thf52YkIyLdhLRA/jtCVat6LqtPXzyg1yyujDYiL0r7IG+rQl2WMnHpkJc3SeRTVxnYOoHzcJAYVRcMZIE7if0DirVZ+Z+UXVbBtj1iSNOPkSJaBzPVtnMym8F8afl+AGG14F2yrddQI/shAav0nQTAhpH3Bex3EE8ezqwp71eI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [124.16.141.245])
+	by APP-01 (Coremail) with SMTP id qwCowABXXNCbycVnauIVEg--.17707S2;
+	Mon, 03 Mar 2025 23:24:13 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: hverkuil@xs4all.nl,
+	mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Wentao Liang <vulab@iscas.ac.cn>
+Subject: [PATCH] media: gspca: Add error logging for sq905c_command() to prevent silent failure
+Date: Mon,  3 Mar 2025 23:23:55 +0800
+Message-ID: <20250303152355.1897-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.42.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowABXXNCbycVnauIVEg--.17707S2
+X-Coremail-Antispam: 1UD129KBjvdXoWruF4UZr1xury5Ww1UuF4rKrg_yoWfuwc_Ga
+	1kCr9FgrW8Awn3Cr4Uta4Syryv93929w18uFy5KFy7Ja18Aa17Xr9Ivr4rJF1DWa4agrsr
+	X3W8ZryjyanxCjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUb48FF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Jr0_JF4l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Jr0_
+	Gr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r12
+	6r1DMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I3I0E5I8CrVAFwI
+	0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxVWUAVWUtwCIc40Y
+	0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8IcVCY1x0267AKxV
+	WUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aVAFwI0_Jr0_Gr1l
+	IxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZEXa7VUjO6pDUUUU
+	U==
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiBwwKA2fFj5Kr6QAAs-
 
-On Mon, 2025-03-03 at 08:31 +0100, Krzysztof Kozlowski wrote:
-> On 26/02/2025 23:41, Matthew Majewski wrote:
-> >=20
-> > As I wrote, supported devices/hardware is anything that provides a
-> > MEM_TO_MEM capable dma-controller with interleaved transfer
-> > support. I
-> > did not list specific devices because the bindings are supposed to
-> > be
-> > generic, as they are not describing actual silicon. But if you want
-> > me
->=20
-> I already told you that no. Bindings are not supposed to be generic.
->=20
-> From where did you get such information?
+Add error handling for sq905c_command() failure in sq905c_dostream().
+Log debug message with gspca_dbg() to prevent silent failure.
 
-There are generic bindings in the kernel and I based my bindings off of
-them. spi-gpio.yaml, i2c-gpio.yaml, video-mux.yaml, etc are all generic
-bindings, no?
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+---
+ drivers/media/usb/gspca/sq905c.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
->=20
-> > to list some devices which provide a compatible dma-controller,
-> > here
-> > are devices I found in the current mainline kernel:
-> >=20
-> > - TI OMAP Soc Family
-> > - TI Davinci Soc Family
-> > - TI Keystone Processor Family
-> > - IMX27 Processor and variants
-> > - Several Microchip Processors (sama5, sam9x7, sam9x60)
->=20
-> That's too generic - you just listed SoCs, which consist of dozen or
-> hundred of devices. Which hardware piece is here?
->=20
-> Maybe this is not for a real device, but then this should be marked
-> clearly.
->=20
-
-I listed devices that have a compatible dma-controller, so the list is
-a bit big, sorry. I also specifically mentioned the BeagleBone black
-board which I have been testing on.=20
-
-"m2m-deinterlace" used to be a part of the mach-imx27_visstrim_m10.c
-board file, but was removed with commit 879c0e5e0ac711 (ARM: imx:
-Remove i.MX27 board files). So at least the Vistrim M10 device was
-explicitly using the m2m-deinterlace device.=C2=A0
-
-When the move away from board files was made towards device-tree, m2m-
-deinterlace support was never ported over to device-tree. This is what
-I am doing now.=20
-
-And yes, m2m-deinterlace is not a "real device" if by "real device" you
-mean an actual piece of silicon on a specific piece of hardware. I
-think there is just some semantic confusion here. I will no longer
-refer to it as a "device" then, please let me know what the more
-appropriate term is and I will modify the description accordingly.
-
-> >=20
-> > I think an appropriate analogy for m2m-deinterlace would be spi-
-> > gpio.
-> > Since spi-gpio leverages gpio for bitbanging the spi protocol, the
-> > bindings do not need to describe any clocks, spi-controller
-> > registers,
->=20
-> Sure, SPI GPIO is Linux driver, not a device and I am asking about it
-> all the time.
->=20
-
-My point was that spi-gpio has dt-bindings even though these bindings
-do not describe a specific hardware device, hence it is "generic".=20
-
-Best,
-Matthew
-
+diff --git a/drivers/media/usb/gspca/sq905c.c b/drivers/media/usb/gspca/sq905c.c
+index 6ca947aef298..7bb6b24c3ed1 100644
+--- a/drivers/media/usb/gspca/sq905c.c
++++ b/drivers/media/usb/gspca/sq905c.c
+@@ -183,7 +183,9 @@ static void sq905c_dostream(struct work_struct *work)
+ quit_stream:
+ 	if (gspca_dev->present) {
+ 		mutex_lock(&gspca_dev->usb_lock);
+-		sq905c_command(gspca_dev, SQ905C_CLEAR, 0);
++		ret = sq905c_command(gspca_dev, SQ905C_CLEAR, 0);
++		if (ret)
++			gspca_dbg(gspca_dev, D_STREAM, "Clear command failed\n");
+ 		mutex_unlock(&gspca_dev->usb_lock);
+ 	}
+ 	kfree(buffer);
+-- 
+2.42.0.windows.2
 
 
