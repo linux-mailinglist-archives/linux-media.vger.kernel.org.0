@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-27367-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27368-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0748FA4C61D
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 17:06:24 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA97A4C61A
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 17:06:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0A27C189458A
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 16:05:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9E5D17A3222
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 16:04:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F26122ACF2;
-	Mon,  3 Mar 2025 16:03:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB6F022B5A4;
+	Mon,  3 Mar 2025 16:03:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wfaTBfTL"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="A71GGNw4"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C2A82135CB;
-	Mon,  3 Mar 2025 16:02:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5A10214A93;
+	Mon,  3 Mar 2025 16:03:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741017781; cv=none; b=NOPLzZln+wXSyvY8gXpdMaQ91auKL1/iNCniL6WX9kNPycnJGQceGtYNzdjZvUc+SjkwqbHN1Ij0BlhOqSoPJjSe5kG2LcD6XxS++GCCvx3LBtveXRbR6HKoIXP9tiXbXzbdVTR+uXivk0A5tLpCm+exe2Hsvotpe0fhrx1LBJE=
+	t=1741017787; cv=none; b=L3nnAGb4gnyDfDq7uVeqb1f4doqD81ZBcoPKa4iRQZinQTBYtgSAwZrtfwzOY0D5ey8lxHSy5d5AQ/U4CAeji1N4Eq87O+rXgagtdEOC5LMUJT1bbJTzYw6X5L+FyyCwQgfGh7vq9uTClr7X5W1f+JAutk5oYPi87hLckq1037U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741017781; c=relaxed/simple;
-	bh=czBTmpZfnooV5Lyf9ne91pF0c/KGEb0bQZxbCikkAaY=;
+	s=arc-20240116; t=1741017787; c=relaxed/simple;
+	bh=r6QgWYf401NOa9KkoAhiZK5TU+mf3VFZJPP5qiDTYuE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rsgFGKYWkFmt8a6mvG28EtgQMrEPXpS8t6zWN+wXkGFn6nM7U28ZTlsF1rv5KKqP0LO4t8R8hkL2b9GqdFuK93amDVC9KxtKQrs0KP9QmwUHL3jOAbo+BHTR0lqzLjfHd8+1qR9j0I3ZgSYPF8xOF8cVrWF+1PStWdg5HuPeaHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wfaTBfTL; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=gY04q0jmr4v7NnHyfCd093+WDXJ409AjxH4aXvH5n1tN3UHutgpWQbfaFzHfFHbouDXxGIhMwuY+RVB9xUbdyW4ToiNNYEyceGiKNM3HweMeQrxMn4oExisjyDm5Mw6eAZpwc0G0Hvtdjsb1O9ktKPpbd2LTM/dqaI4RTcqXytE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=A71GGNw4; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c69:8872:6fe4:6987:313:70cc])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 026AB1189;
-	Mon,  3 Mar 2025 17:01:26 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C7C8111E9;
+	Mon,  3 Mar 2025 17:01:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1741017687;
-	bh=czBTmpZfnooV5Lyf9ne91pF0c/KGEb0bQZxbCikkAaY=;
+	s=mail; t=1741017693;
+	bh=r6QgWYf401NOa9KkoAhiZK5TU+mf3VFZJPP5qiDTYuE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=wfaTBfTLHBwW0jakFXp8JM64xTpgYmqz6b8Jd4A5xhelPbKbXK4KrYjtWb7LiJklQ
-	 sJw766G+kHh09XirJcNEczkqaE89Uwsojyg6Ni0BIJh5wwVZfWHSLxcOyLaP1mgmSs
-	 XVwV/9CCbgRV8xZlLJRFxAfGwirT8JMs0Ej8ysOM=
+	b=A71GGNw4GNkB5adV8MNlxlScpTyws4MKbXf+o0+ywk4dr8KBC99QQXrs8ZHBzHjdJ
+	 ucEvdqPwXMVeHSiOBpTnVWqwmVX2xBEuPN9xmWG0ZvuOGYeRAZwMVoD5uFSNz1JAOK
+	 caVBM2h4px5JnmC5eNg5EfFCwovQ0vlT//YJB5r0=
 From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Mon, 03 Mar 2025 21:32:11 +0530
-Subject: [PATCH v3 08/19] media: i2c: ds90ub953: Speed-up I2C watchdog
- timer
+Date: Mon, 03 Mar 2025 21:32:12 +0530
+Subject: [PATCH v3 09/19] media: i2c: ds90ub960: Move UB9702 registers to a
+ separate section
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,7 +53,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250303-b4-ub9xx-err-handling-v3-8-7d178796a2b9@ideasonboard.com>
+Message-Id: <20250303-b4-ub9xx-err-handling-v3-9-7d178796a2b9@ideasonboard.com>
 References: <20250303-b4-ub9xx-err-handling-v3-0-7d178796a2b9@ideasonboard.com>
 In-Reply-To: <20250303-b4-ub9xx-err-handling-v3-0-7d178796a2b9@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -63,71 +63,147 @@ Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
  linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
  Jai Luthra <jai.luthra@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1631;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4413;
  i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=czBTmpZfnooV5Lyf9ne91pF0c/KGEb0bQZxbCikkAaY=;
- b=owEBbAKT/ZANAwAIAUPekfkkmnFFAcsmYgBnxdJ/jpOhLF4h6b407RhAwwGmIJbtc8XY3L4rb
- nqtwuOEBjmJAjIEAAEIAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCZ8XSfwAKCRBD3pH5JJpx
- RUWYD/Y/naI4y2HjgIO+LbudtMlcBJ9YjHVorxqiwpPttiqiKcHG1mdxSL0MiEK24HlnXNhQORr
- XUl3jvFS3Hl9DTZYxyJyZYN0oa1JEIbD9DJTkZlGM558GPBRJUcXhJ6lGi3dmU8rlis6vxFJ4L9
- GKcOY60nJCqW8AzXGsmU84yCEeq08HTy79EK6MwW2mqMJyT+Ii1YAz2Kfy/3AKPW/js4LukmI40
- q/OMe4RaaSQUJKqWz/Fm/4Ly+lnI6ABg5SswUXcOW64PfidXKHSiUJXacteVpjCj0uuo8GZxkDO
- W/TwP4/9trYVhuUMEQ4dPoZVRYSqwxZGy0/F29M8JPNHhdh2hZjfU2wfuyDEVazlbIAaEH3Dfkh
- LFsuZMqLCOOVU36zcMnvadSCAXWjz10QXKklgROpX7SberRisYmcc2mWGBKk5kig8U501Jgj3Zt
- XqUQYl6DEsJ1HAEO/mm7CZFlB0UBfjTT/AKYt9dPTLpXeJspzKaYjXty97nakFObbBE1SdIohFf
- /R6TSLrLyr1CuchkghxbN5JeC5Tb9GJDjU8V+/YmZvlgPPmsWa854frNvvI39ZvpepB5VnVTZy4
- hXwe/IyGBb97ihRO43IY6XFKGw1SF67wI7dNWRAAASGV20ev6o1cGc/XvpNIbiIXnxmH1Dtw8N5
- 8v7ZQIneoXeqB
+ bh=IXL5dSwbgPveyVgafIS7q5lVNIBo7+BRNM1+9mJTPLU=;
+ b=owEBbQKS/ZANAwAIAUPekfkkmnFFAcsmYgBnxdJ/XElP6asDwOFeaI5YNSw8epK7dONxHdyBV
+ DtPM3Zs402JAjMEAAEIAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCZ8XSfwAKCRBD3pH5JJpx
+ RWVhEADBqsb2gIgQ8LYgVdD3P0GVMXueYLt9pVec1yui7fxy2O6jN4qPO+zAwikbaFZZMJOTxZI
+ ILXitNdzzMyBDXcSVlTRYNBXhBItaoXBb0g8bpGyKOPW8HluFokj+NjgPOSPZiuWhrg1lZ+G9A7
+ R90ILOdON3/nbQyp3jOgxOeP3hh+Y9xqueUxaVxFL/rYVGSTyCt8wZurxJrMaw1W4ts4/5PIHCr
+ xdHleOU3zqC+OEvqEukR0plxEl11Sm1rYBIdsag3nUOr4NZYAdiJhLK6BTfXMDxCImXYET2pf6M
+ rikoe/dIZS5ufiQxLTGOY8sbxzvMd3bfOsO7wpOlcDgMjZp1Y53P0SNZu7QVDcK5yu3Hbj+a+nS
+ PxXBaKlsPE9PfUoxxrYXQBqctk/skRHiJg6Ydvq+H3hyZRlrQUFLaRnegNAZa+Ig3LjBO4BdgEA
+ JCmMw5U39r/1RjjKTC9171fl4EM5ED3xDTz18Tb23zwWllG1pQO+h2uYT7Dm1ewkGy4XNzG0gxI
+ 1TWvIW9gCFaMLAklg1X1kolV3ju3oB4r2T6xDaVAgveD8/BfTv+ZM65jJK4qKbmpY0igs/dDzfC
+ gJoMBqt6wNrpJ5pbKv0769Pes0eM625C6uHwmJ2ReO0M+biRWCSRdsyZCrkLy0oIe6I16RPYRcz
+ fvEhpm6Mi0P03EA==
 X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
  fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
-On the I2C bus for remote clients (sensors), by default the watchdog
-timer expires in 1s. To allow for a quicker system bring-up time, TI
-recommends to speed it up to 50us [1].
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-[1]: Section 7.3.1.1 - https://www.ti.com/lit/gpn/ds90ub953-q1
+The driver supports both UB960 and UB9702. While devices work in similar
+ways and have a lot of identical registers, there are also plenty of
+differences.
 
+To clarify the situation a bit, move the UB9702 registers to a separate
+section and prefix them with UB9702.
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 ---
-Changes from v2:
-- Use unsigned value for left shifting
-- Re-introduce temp variable v that was dropped as it makes it easier to
-  read IMHO
-- Remove redundancies like initializing v = 0 and if (ret) return ret at
-  the end of the function
----
- drivers/media/i2c/ds90ub953.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ drivers/media/i2c/ds90ub960.c | 28 ++++++++++++++--------------
+ 1 file changed, 14 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/media/i2c/ds90ub953.c b/drivers/media/i2c/ds90ub953.c
-index a08aad3f7fe09f7b396da9c720ed9993d392410c..a5c23e94f4eab5896a2114cfdf2e5f68cde77568 100644
---- a/drivers/media/i2c/ds90ub953.c
-+++ b/drivers/media/i2c/ds90ub953.c
-@@ -54,6 +54,10 @@
- #define UB953_REG_CLKOUT_CTRL0			0x06
- #define UB953_REG_CLKOUT_CTRL1			0x07
+diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
+index 086aa8cc78fa4e4e9ccc08589cbaf1cc06104786..f9af6d643ac86de22286b2107d747341c7d6f9b0 100644
+--- a/drivers/media/i2c/ds90ub960.c
++++ b/drivers/media/i2c/ds90ub960.c
+@@ -307,8 +307,6 @@
  
-+#define UB953_REG_I2C_CONTROL2			0x0a
-+#define UB953_REG_I2C_CONTROL2_SDA_OUTPUT_SETUP_SHIFT	4
-+#define UB953_REG_I2C_CONTROL2_BUS_SPEEDUP	BIT(1)
+ #define UB960_XR_REFCLK_FREQ			0xa5	/* UB960 */
+ 
+-#define UB960_RR_VC_ID_MAP(x)			(0xa0 + (x)) /* UB9702 */
+-
+ #define UB960_SR_IND_ACC_CTL			0xb0
+ #define UB960_SR_IND_ACC_CTL_IA_AUTO_INC	BIT(1)
+ 
+@@ -321,9 +319,6 @@
+ #define UB960_SR_FV_MIN_TIME			0xbc
+ #define UB960_SR_GPIO_PD_CTL			0xbe
+ 
+-#define UB960_SR_FPD_RATE_CFG			0xc2	/* UB9702 */
+-#define UB960_SR_CSI_PLL_DIV			0xc9	/* UB9702 */
+-
+ #define UB960_RR_PORT_DEBUG			0xd0
+ #define UB960_RR_AEQ_CTL2			0xd2
+ #define UB960_RR_AEQ_CTL2_SET_AEQ_FLOOR		BIT(2)
+@@ -354,15 +349,12 @@
+ #define UB960_RR_SEN_INT_RISE_STS		0xde
+ #define UB960_RR_SEN_INT_FALL_STS		0xdf
+ 
+-#define UB960_RR_CHANNEL_MODE			0xe4	/* UB9702 */
+ 
+ #define UB960_SR_FPD3_RX_ID(n)			(0xf0 + (n))
+ #define UB960_SR_FPD3_RX_ID_LEN			6
+ 
+ #define UB960_SR_I2C_RX_ID(n)			(0xf8 + (n))
+ 
+-#define UB9702_SR_REFCLK_FREQ			0x3d
+-
+ /* Indirect register blocks */
+ #define UB960_IND_TARGET_PAT_GEN		0x00
+ #define UB960_IND_TARGET_RX_ANA(n)		(0x01 + (n))
+@@ -397,6 +389,14 @@
+ #define UB960_IR_RX_ANA_STROBE_SET_DATA_NO_EXTRA_DELAY	BIT(3)
+ #define UB960_IR_RX_ANA_STROBE_SET_DATA_DELAY_MASK	GENMASK(2, 0)
+ 
++/* UB9702 Registers */
 +
- #define UB953_REG_SCL_HIGH_TIME			0x0b
- #define UB953_REG_SCL_LOW_TIME			0x0c
++#define UB9702_SR_REFCLK_FREQ			0x3d
++#define UB9702_RR_VC_ID_MAP(x)			(0xa0 + (x))
++#define UB9702_SR_FPD_RATE_CFG			0xc2
++#define UB9702_SR_CSI_PLL_DIV			0xc9
++#define UB9702_RR_CHANNEL_MODE			0xe4
++
+ /* EQ related */
  
-@@ -1320,7 +1324,12 @@ static int ub953_hw_init(struct ub953_data *priv)
+ #define UB960_MIN_AEQ_STROBE_POS -7
+@@ -1989,7 +1989,7 @@ static int ub960_init_tx_ports(struct ub960_data *priv)
+ 	ub960_write(priv, UB960_SR_CSI_PLL_CTL, speed_select, &ret);
+ 
+ 	if (priv->hw_data->is_ub9702) {
+-		ub960_write(priv, UB960_SR_CSI_PLL_DIV, pll_div, &ret);
++		ub960_write(priv, UB9702_SR_CSI_PLL_DIV, pll_div, &ret);
+ 
+ 		switch (priv->tx_data_rate) {
+ 		case MHZ(1600):
+@@ -2170,7 +2170,7 @@ static int ub960_init_rx_port_ub9702_fpd3(struct ub960_data *priv,
+ 
+ 	ub960_rxport_update_bits(priv, nport, UB960_RR_BCC_CONFIG, 0x7,
+ 				 bc_freq_val, &ret);
+-	ub960_rxport_write(priv, nport, UB960_RR_CHANNEL_MODE, fpd_func_mode,
++	ub960_rxport_write(priv, nport, UB9702_RR_CHANNEL_MODE, fpd_func_mode,
+ 			   &ret);
+ 
+ 	/* set serdes_eq_mode = 1 */
+@@ -2197,7 +2197,7 @@ static int ub960_init_rx_port_ub9702_fpd3(struct ub960_data *priv,
+ 			      BIT(3), BIT(3), &ret);
+ 
+ 	/* RX port to half-rate */
+-	ub960_update_bits(priv, UB960_SR_FPD_RATE_CFG, 0x3 << (nport * 2),
++	ub960_update_bits(priv, UB9702_SR_FPD_RATE_CFG, 0x3 << (nport * 2),
+ 			  BIT(nport * 2), &ret);
+ 
+ 	return ret;
+@@ -2285,7 +2285,7 @@ static int ub960_init_rx_port_ub9702_fpd4(struct ub960_data *priv,
+ 				 bc_freq_val, &ret);
+ 
+ 	/* FPD4 Sync Mode */
+-	ub960_rxport_write(priv, nport, UB960_RR_CHANNEL_MODE, 0, &ret);
++	ub960_rxport_write(priv, nport, UB9702_RR_CHANNEL_MODE, 0, &ret);
+ 
+ 	/* add serdes_eq_offset of 4 */
+ 	ub960_write_ind(priv, UB960_IND_TARGET_RX_ANA(nport), 0x2b, 0x04,
+@@ -2312,7 +2312,7 @@ static int ub960_init_rx_port_ub9702_fpd4(struct ub960_data *priv,
+ 			&ret);
+ 
+ 	/* RX port to 7.55G mode */
+-	ub960_update_bits(priv, UB960_SR_FPD_RATE_CFG, 0x3 << (nport * 2),
++	ub960_update_bits(priv, UB9702_SR_FPD_RATE_CFG, 0x3 << (nport * 2),
+ 			  0 << (nport * 2), &ret);
+ 
  	if (ret)
- 		return ret;
- 
--	return 0;
-+	v = 1U << UB953_REG_I2C_CONTROL2_SDA_OUTPUT_SETUP_SHIFT;
-+	v |= UB953_REG_I2C_CONTROL2_BUS_SPEEDUP;
-+
-+	ret = ub953_write(priv, UB953_REG_I2C_CONTROL2, v, NULL);
-+
-+	return ret;
- }
- 
- static int ub953_subdev_init(struct ub953_data *priv)
+@@ -2786,7 +2786,7 @@ static int ub960_configure_ports_for_streaming(struct ub960_data *priv,
+ 				/* Map all VCs from this port to VC(nport) */
+ 				for (i = 0; i < 8; i++)
+ 					ub960_rxport_write(priv, nport,
+-							   UB960_RR_VC_ID_MAP(i),
++							   UB9702_RR_VC_ID_MAP(i),
+ 							   (nport << 4) | nport,
+ 							   &ret);
+ 			}
 
 -- 
 2.48.1
