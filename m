@@ -1,325 +1,227 @@
-Return-Path: <linux-media+bounces-27344-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27345-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F60AA4C4B1
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 16:18:09 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF454A4C4C8
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 16:21:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B21C3173C33
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 15:17:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 44C521885493
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 15:20:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96AC821883F;
-	Mon,  3 Mar 2025 15:15:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F2FC22B8A4;
+	Mon,  3 Mar 2025 15:16:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UKrJoowe"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QolA1Ejx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191A8215063;
-	Mon,  3 Mar 2025 15:15:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E565C22B5AD;
+	Mon,  3 Mar 2025 15:16:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741014945; cv=none; b=JIWqRf8SmmCSoYWtb+eAmA56lFlWDHmQ+PmIgfb2fIDzWj6lm4jVVyaWSNHBc0SCEYGXm1N0FUqeGRJPTjTKZ/F2qq9YUuZ5DtH0FDInKo8cOl/qxvc8yfeUMGjQylYUPpTLySEr46/6XFADZqjVyKNqqOihjfsmRkYlewElqEg=
+	t=1741014987; cv=none; b=QFR+PQ0K3DH74nE3PRHUGZ5fynZPJHSc5+9grnP3lfGb3PBHp3dMGqOlHKrrdy1dEtAVW4ZuzvT4sR0hi34UVKkexIAQkS4bdtUYmmqpqcNfPzfODtoJ7yyZKD3zKtM/Zc+v18Rx5uhU2zsarmxpqIlvCVL4PfgZLKxx3ulmJac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741014945; c=relaxed/simple;
-	bh=J/6FAEzfZUmcf3YQqpKE3PWJQodoKKL5y/1lxELhgyk=;
+	s=arc-20240116; t=1741014987; c=relaxed/simple;
+	bh=O/YF5X5u5uMmMg05zHrKBBDn+gI7OJ675dRwzaGO8HA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=i/8f2vq2KLoWiNx1qltstirHZuu55vYt2b0tV8mBHVp442pGmP+SsuM8f+IMB+YEr3J41qhbNnmuuz2nHeVELBcf+kEAW10klF7J8KkB0yDoQ87kd0GNPf7KiCFulxND2sssy77zPgJ8u1eE+UqSqqtsGEMo/lYoWvZynggLc/8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UKrJoowe; arc=none smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6fd719f9e0dso10331647b3.1;
-        Mon, 03 Mar 2025 07:15:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741014943; x=1741619743; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vnZYfHRjSrDXnbFHbwXoqUV2Rvz3Z3oSLKKN3IWdcq0=;
-        b=UKrJoowevG+eTp3pCUdb+v9q9D26V9QZxC7kbrnvqu5tPVySUr6KR/iQ9ALerKzIkE
-         1CYrkiDzO9oLEJDVFQgGiHtTm9LMXn77L2yxMm1gVMOHPkZW5V5PDFuH+fvuaJA18Jf4
-         PdNRlEqaiOljwKy4PFUlTvWjkRMahCJTne1g6kfaxiBmoyhWK5vjfyT8VI6+XqaQ5zob
-         CEPsk9MxgnfeCNgEae/xMsNoWrpCdSNLMjuyuayClekduCalAr4cMMHeFHZDZRYfnIs4
-         NJy9v/DAFA7ORJFVm/6jdbl8BTxqh5obePTCpmO+dggVBpyVqrzExqLsO5EdQzdwEMKn
-         zfeg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741014943; x=1741619743;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vnZYfHRjSrDXnbFHbwXoqUV2Rvz3Z3oSLKKN3IWdcq0=;
-        b=G9dLQc3OrMUT3dJ5VoqgCbWJqwmqZkmM8BLQLgD4w5/AmoPo07D5tK3D2zcCTVIs45
-         Rp8jV0Ist8Ee82Zjgr+yVd02JPAEVFY3RyQymTRECAZfFtqEWLvFU3GHj9vUBCBC+w8w
-         9FBNlQ236l2U9ilPv7RP2zd9RJu0HbseXTB+4HxWYkEbMUvRvhqHLdVRO4v04SPoazej
-         5opGhFZROWsWER80WF/9Xictuok+rPkaCJ44i9RvRlGHo+4IDVir0C2pdGfneM5wmxAR
-         laiceDnnrXTzemD+IpPX42VHRuAiDn3PoG9yDysyCuJA5JRYMRfyptYMjXNKa9LEDL06
-         4MoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV2aCJZKGNPcImcwWvjH1VxsH1KtdZxmeSXJCWEiAxrrVhbDN4XtMo/jxNO+5zD5lwDce7DLCjL8wEjaRk=@vger.kernel.org, AJvYcCVMeekGvNq+w07nEukudyRXUrysBOaEqfPxHuu3YfeXMUJFYPZhESp78J58AgO+OphX1AQ0LqdgYXUB4J31@vger.kernel.org, AJvYcCVxd6e4BzPIO7AeToIbH3XKJ5Jz87sTCKrdIKcDG9gOgVnooifT9NpGfVTXDp7iA1cbVBM57RGFooumOqcjDCE=@vger.kernel.org, AJvYcCWev/JnMy81b76OYvOQfwFdn+iGNLjKyO5i+6QfbCMHVF7OOlqxlQ6u2UCMYbcsTpsoeXY=@vger.kernel.org, AJvYcCWqJwQ6+IPOugF5kTsfZslWTJAiB5tn5NBBwVaz0TqUy/PsDBeA6KgDWL8Ke9gtNgEhjilIRHeo@vger.kernel.org, AJvYcCWtnmXd2aQwEKD5z9EkcbWMpX30ByNEUFtkOfX0Dho8KfxuKcDGEhxansCaBn7N6+Gd3MOi9BtgziftuTg=@vger.kernel.org, AJvYcCXeOGNB6pKCToM/fvxwKSRSit9NUZjsbXSU1Hbl5YY7ltIsatu+x3aRUUhjzbEu9S2ctNlb4DQbv8SQwo77@vger.kernel.org
-X-Gm-Message-State: AOJu0YyBnYia1bGu91ch4/mFyXvU5M9TrttXjHy0PMkpF1ynmAuT/7fQ
-	Tjm4Q2d7Obga6aNLhesREj6vRG7/h2IgW1RYxSA8vNTk/1g3RNNf
-X-Gm-Gg: ASbGncu4Rh8d+4bJEBZwX4+80cV01ArBVKwIZKw2irGQgQJZ7iQEpBnU2BczZ1cU+SJ
-	qY0KzA7n7/3djof8ljDg9ViU3YeHW8r+7+zdyIkKk5IVOh/QOUToHwhb5DQ78831UJOuxwsYef8
-	TXPR/8E8wYhXFVCjxZmqxbmQJ8POMbp/oSr3F2wJktp5/zHAWoPGzlk79mm/hjEyE3BzFzbkvxd
-	tJAKbazuozJC2JWd3lFFVdLNnIMtDp9kC7P3GRC4dDTv3u6XmMUXrHGnn8KyoJQmIudRc4LdglC
-	o9HKRHOyVbT5ksh9jZkLOmvqIVF0zZtsan5yZ2wvmzwl/xZEV521l0qtYkcmnd/fpWR44ouGNE8
-	b52oh
-X-Google-Smtp-Source: AGHT+IEY4hJ4+y0MnSwcin/X5yMbfMX2rlPGrxXj2stWp9C4NMGoZplIcoPGEYKHHfJxM+PTRJ4GqA==
-X-Received: by 2002:a05:690c:3686:b0:6f9:ad48:a3c7 with SMTP id 00721157ae682-6fd4a0acc71mr190341807b3.21.1741014942895;
-        Mon, 03 Mar 2025 07:15:42 -0800 (PST)
-Received: from localhost (c-73-224-175-84.hsd1.fl.comcast.net. [73.224.175.84])
-        by smtp.gmail.com with ESMTPSA id 00721157ae682-6fd6b9619c5sm9708167b3.75.2025.03.03.07.15.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Mar 2025 07:15:42 -0800 (PST)
-Date: Mon, 3 Mar 2025 10:15:41 -0500
-From: Yury Norov <yury.norov@gmail.com>
-To: Kuan-Wei Chiu <visitorckw@gmail.com>
-Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
-	joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org, rfoss@kernel.org,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-	dmitry.torokhov@gmail.com, mchehab@kernel.org,
-	awalls@md.metrocast.net, hverkuil@xs4all.nl,
-	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-	louis.peens@corigine.com, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-	parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
-	johannes@sipsolutions.net, gregkh@linuxfoundation.org,
-	jirislaby@kernel.org, akpm@linux-foundation.org, hpa@zytor.com,
-	alistair@popple.id.au, linux@rasmusvillemoes.dk,
-	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-	jernej.skrabec@gmail.com, kuba@kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
-	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
-	oss-drivers@corigine.com, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
-	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
-	david.laight.linux@gmail.com, andrew.cooper3@citrix.com,
-	Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH v2 01/18] lib/parity: Add __builtin_parity() fallback
- implementations
-Message-ID: <Z8XHnToOV03hiQKu@thinkpad>
-References: <20250301142409.2513835-1-visitorckw@gmail.com>
- <20250301142409.2513835-2-visitorckw@gmail.com>
- <Z8PMHLYHOkCZJpOh@thinkpad>
- <Z8QUsgpCB0m2qKJR@visitorckw-System-Product-Name>
- <Z8SBBM_81wyHfvC0@thinkpad>
- <Z8SVb4xD4tTiMEpL@visitorckw-System-Product-Name>
+	 Content-Type:Content-Disposition:In-Reply-To; b=qS9zt6H2zaIY6yxdHXBQ0KnAVgF6Mn3UXxplk+Eekb9afTVug8mAGOByQSqB0CYXbZJtSBJJM/QdKAZDtDpp0+KtnjAT7RFDd7/qhGEnBhJhERSsPzU+i7XRn8Nh0jarkFLU8IQn5AAnMV3r6tw7/b7EZS6QLDRFNJo4kYkmCYg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QolA1Ejx; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9CD562D5;
+	Mon,  3 Mar 2025 16:14:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1741014892;
+	bh=O/YF5X5u5uMmMg05zHrKBBDn+gI7OJ675dRwzaGO8HA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=QolA1EjxDOAtWk2X7abWPnS2eEdJg+WICrDUq9vSg+jLU4nZSto2SPaj4JSbHcnBF
+	 k1A8sjiKQwxj2HUiKDOPtchU4r+Ef6OT7HgIU9/yFhTTj/1ockSLvBVkodh8O88VWX
+	 OONPk8AVvsgmidc2SrKsNlvYZHDI9WJEh+knolcc=
+Date: Mon, 3 Mar 2025 17:16:03 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4] media: uvcvideo: Set V4L2_CTRL_FLAG_DISABLED during
+ queryctrl errors
+Message-ID: <20250303151603.GD32048@pendragon.ideasonboard.com>
+References: <20250111-uvc-eaccess-v4-1-c7759bfd1bd4@chromium.org>
+ <20250223170319.GA2821@pendragon.ideasonboard.com>
+ <CANiDSCv1HVu82D=PoJFu=XCQ97k_MM1dmYpufkUCiKpSgGRT9w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Z8SVb4xD4tTiMEpL@visitorckw-System-Product-Name>
+In-Reply-To: <CANiDSCv1HVu82D=PoJFu=XCQ97k_MM1dmYpufkUCiKpSgGRT9w@mail.gmail.com>
 
-On Mon, Mar 03, 2025 at 01:29:19AM +0800, Kuan-Wei Chiu wrote:
-> Hi Yury,
-> 
-> On Sun, Mar 02, 2025 at 11:02:12AM -0500, Yury Norov wrote:
-> > On Sun, Mar 02, 2025 at 04:20:02PM +0800, Kuan-Wei Chiu wrote:
-> > > Hi Yury,
-> > > 
-> > > On Sat, Mar 01, 2025 at 10:10:20PM -0500, Yury Norov wrote:
-> > > > On Sat, Mar 01, 2025 at 10:23:52PM +0800, Kuan-Wei Chiu wrote:
-> > > > > Add generic C implementations of __paritysi2(), __paritydi2(), and
-> > > > > __parityti2() as fallback functions in lib/parity.c. These functions
-> > > > > compute the parity of a given integer using a bitwise approach and are
-> > > > > marked with __weak, allowing architecture-specific implementations to
-> > > > > override them.
-> > > > > 
-> > > > > This patch serves as preparation for using __builtin_parity() by
-> > > > > ensuring a fallback mechanism is available when the compiler does not
-> > > > > inline the __builtin_parity().
-> > > > > 
-> > > > > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
-> > > > > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
-> > > > > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-> > > > > ---
-> > > > >  lib/Makefile |  2 +-
-> > > > >  lib/parity.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
-> > > > >  2 files changed, 49 insertions(+), 1 deletion(-)
-> > > > >  create mode 100644 lib/parity.c
-> > > > > 
-> > > > > diff --git a/lib/Makefile b/lib/Makefile
-> > > > > index 7bab71e59019..45affad85ee4 100644
-> > > > > --- a/lib/Makefile
-> > > > > +++ b/lib/Makefile
-> > > > > @@ -51,7 +51,7 @@ obj-y += bcd.o sort.o parser.o debug_locks.o random32.o \
-> > > > >  	 bsearch.o find_bit.o llist.o lwq.o memweight.o kfifo.o \
-> > > > >  	 percpu-refcount.o rhashtable.o base64.o \
-> > > > >  	 once.o refcount.o rcuref.o usercopy.o errseq.o bucket_locks.o \
-> > > > > -	 generic-radix-tree.o bitmap-str.o
-> > > > > +	 generic-radix-tree.o bitmap-str.o parity.o
-> > > > >  obj-y += string_helpers.o
-> > > > >  obj-y += hexdump.o
-> > > > >  obj-$(CONFIG_TEST_HEXDUMP) += test_hexdump.o
-> > > > > diff --git a/lib/parity.c b/lib/parity.c
-> > > > > new file mode 100644
-> > > > > index 000000000000..a83ff8d96778
-> > > > > --- /dev/null
-> > > > > +++ b/lib/parity.c
-> > > > > @@ -0,0 +1,48 @@
-> > > > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > > > +/*
-> > > > > + * lib/parity.c
-> > > > > + *
-> > > > > + * Copyright (C) 2025 Kuan-Wei Chiu <visitorckw@gmail.com>
-> > > > > + * Copyright (C) 2025 Yu-Chun Lin <eleanor15x@gmail.com>
-> > > > > + *
-> > > > > + * __parity[sdt]i2 can be overridden by linking arch-specific versions.
-> > > > > + */
-> > > > > +
-> > > > > +#include <linux/export.h>
-> > > > > +#include <linux/kernel.h>
-> > > > > +
-> > > > > +/*
-> > > > > + * One explanation of this algorithm:
-> > > > > + * https://funloop.org/codex/problem/parity/README.html
-> > > > 
-> > > > I already asked you not to spread this link. Is there any reason to
-> > > > ignore it?
-> > > > 
-> > > In v2, this algorithm was removed from bitops.h, so I moved the link
-> > > here instead. I'm sorry if it seemed like I ignored your comment.
-> > 
-> > Yes, it is.
-> >  
-> > > In v1, I used the same approach as parity8() because I couldn't justify
-> > > the performance impact in a specific driver or subsystem. However,
-> > > multiple people commented on using __builtin_parity or an x86 assembly
-> > > implementation. I'm not ignoring their feedback-I want to address these
-> > 
-> > Please ask those multiple people: are they ready to maintain all that
-> > zoo of macros, weak implementations, arch implementations and stubs
-> > for no clear benefit? Performance is always worth it, but again I see
-> > not even a hint that the drivers care about performance. You don't
-> > measure it, so don't care as well. Right?
-> > 
-> > > comments. Before submitting, I sent an email explaining my current
-> > > approach: using David's suggested method along with __builtin_parity,
-> > > but no one responded. So, I decided to submit v2 for discussion
-> > > instead.
-> > 
-> > For discussion use tag RFC.
-> > 
-> > > 
-> > > To avoid mistakes in v3, I want to confirm the following changes before
-> > > sending it:
-> > > 
-> > > (a) Change the return type from int to bool.
-> > > (b) Avoid __builtin_parity and use the same approach as parity8().
-> > > (c) Implement parity16/32/64() as single-line inline functions that
-> > >     call the next smaller variant after xor.
-> > > (d) Add a parity() macro that selects the appropriate parityXX() based
-> > >     on type size.
-> > > (e) Update users to use this parity() macro.
-> > > 
-> > > However, (d) may require a patch affecting multiple subsystems at once
-> > > since some places that already include bitops.h have functions named
-> > > parity(), causing conflicts. Unless we decide not to add this macro in
-> > > the end.
-> > > 
-> > > As for checkpatch.pl warnings, they are mostly pre-existing coding
-> > > style issues in this series. I've kept them as-is, but if preferred,
-> > > I'm fine with fixing them.
-> > 
-> > Checkpatch only complains on new lines. Particularly this patch should
-> > trigger checkpatch warning because it adds a new file but doesn't touch
-> > MAINTAINERS. 
-> > 
-> For example, the following warning:
-> 
-> ERROR: space required after that ',' (ctx:VxV)
-> #84: FILE: drivers/input/joystick/sidewinder.c:368:
-> +                       if (!parity64(GB(0,33)))
->                                           ^
-> 
-> This issue already existed before this series, and I'm keeping its
-> style unchanged for now.
-> 
-> > > If anything is incorrect or if there are concerns, please let me know.
-> > > 
-> > > Regards,
-> > > Kuan-Wei
-> > > 
-> > > diff --git a/include/linux/bitops.h b/include/linux/bitops.h
-> > > index c1cb53cf2f0f..47b7eca8d3b7 100644
-> > > --- a/include/linux/bitops.h
-> > > +++ b/include/linux/bitops.h
-> > > @@ -260,6 +260,43 @@ static inline int parity8(u8 val)
-> > >  	return (0x6996 >> (val & 0xf)) & 1;
-> > >  }
-> > > 
-> > > +static inline bool parity16(u16 val)
-> > > +{
-> > > +	return parity8(val ^ (val >> 8));
-> > > +}
-> > > +
-> > > +static inline bool parity32(u32 val)
-> > > +{
-> > > +	return parity16(val ^ (val >> 16));
-> > > +}
-> > > +
-> > > +static inline bool parity64(u64 val)
-> > > +{
-> > > +	return parity32(val ^ (val >> 32));
-> > > +}
-> > 
-> > That was discussed between Jiri and me in v2. Fixed types functions
-> > are needed only in a few very specific cases. With the exception of
-> > I3C driver (which doesn't look good for both Jiri and me), all the
-> > drivers have the type of variable passed to the parityXX() matching 
-> > the actual variable length. It means that fixed-type versions of the
-> > parity() are simply not needed. So if we don't need them, please don't
-> > introduce it.
+On Mon, Feb 24, 2025 at 10:26:34AM +0100, Ricardo Ribalda wrote:
+> On Sun, 23 Feb 2025 at 18:03, Laurent Pinchart wrote:
+> > On Sat, Jan 11, 2025 at 09:57:21AM +0000, Ricardo Ribalda wrote:
+> > > To implement VIDIOC_QUERYCTRL, we need to know the minimum, maximum,
+> > > step and flags of the control. For some of the controls, this involves
+> > > querying the actual hardware.
+> > >
+> > > Some non-compliant cameras produce errors when we query them. Right now,
+> > > we populate that error to userspace. When an error happens, the v4l2
+> > > framework does not copy the v4l2_queryctrl struct to userspace. Also,
+> > > userspace apps are not ready to handle any other error than -EINVAL.
+> > >
+> > > One of the main usecases of VIDIOC_QUERYCTRL is enumerating the controls
+> > > of a device. This is done using the V4L2_CTRL_FLAG_NEXT_CTRL flag. In
+> > > that usecase, a non-compliant control will make it almost impossible to
+> > > enumerate all controls of the device.
+> > >
+> > > A control with an invalid max/min/step/flags is better than non being
+> > > able to enumerate the rest of the controls.
+> > >
+> > > This patch makes VIDIOC_QUERYCTRL return 0 in all the error cases
+> > > different than -EINVAL, introduces a warning in dmesg so we can
+> > > have a trace of what has happened and sets the V4L2_CTRL_FLAG_DISABLED.
+> > >
+> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > ---
+> > > Hi 2*Hans and Laurent!
+> > >
+> > > I came around a device that was listing just a couple of controls when
+> > > it should be listing much more.
+> > >
+> > > Some debugging latter I found that the device was returning -EIO when
+> > > all the focal controls were read.
+> > >
+> > > Lots of good arguments in favor/against this patch in the v1. Please
+> > > check!
+> > >
+> > > Without this patch:
+> > > $ v4l2-ctl --list-ctrls
+> > >                   auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
+> > >          exposure_time_absolute 0x009a0902 (int)    : min=50 max=10000 step=1 default=166 value=166 flags=inactive
+> > >      exposure_dynamic_framerate 0x009a0903 (bool)   : default=0 value=0
+> > > region_of_interest_auto_control 0x009a1902 (bitmask): max=0x00000001 default=0x00000001 value=1
+> > >
+> > > With this patch:
+> > > $ v4l2-ctl --list-ctrls
+> > >                   auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
+> > >          exposure_time_absolute 0x009a0902 (int)    : min=50 max=10000 step=1 default=166 value=166 flags=inactive
+> > >      exposure_dynamic_framerate 0x009a0903 (bool)   : default=0 value=0
+> > > error 5 getting ext_ctrl Focus, Absolute
+> > > error 5 getting ext_ctrl Focus, Automatic Continuous
+> > >    region_of_interest_rectangle 0x009a1901 (unknown): type=107 value=unsupported payload type flags=has-payload
+> > > region_of_interest_auto_control 0x009a1902 (bitmask): max=0x00000001 default=0x00000001 value=1
+> > > --
+> > > ---
+> > > Changes in v4:
+> > > - Display control name (Thanks Hans)
+> > > - Link to v3: https://lore.kernel.org/r/20250107-uvc-eaccess-v3-1-99f3335d5133@chromium.org
+> > >
+> > > Changes in v3:
+> > > - Add a retry mechanism during error.
 > >
-> So, I should add the following parity() macro in v3, remove parity8(),
-> and update all current parity8() users to use this macro, right?
-
-If you go with macro, please apply my patch and modify it in-place
-with this __auto_type thing and GCC hack. Feel free to add your
-co-developed-by, or tested, or whatever.
-
-> I changed u64 to __auto_type and applied David's suggestion to replace
-> the >> 32 with >> 16 >> 16 to avoid compiler warnings.
+> > This needs to be explained in the commit message, including when/why it
+> > helps, and why the retry count is 2.
+> >
+> > > - Set V4L2_CTRL_FLAG_DISABLED flag.
+> > > - Link to v2: https://lore.kernel.org/r/20241219-uvc-eaccess-v2-1-bf6520c8b86d@chromium.org
+> > >
+> > > Changes in v2:
+> > > - Never return error, even if we are not enumerating the controls
+> > > - Improve commit message.
+> > > - Link to v1: https://lore.kernel.org/r/20241213-uvc-eaccess-v1-1-62e0b4fcc634@chromium.org
+> > > ---
+> > >  drivers/media/usb/uvc/uvc_ctrl.c | 43 ++++++++++++++++++++++++++++++++--------
+> > >  1 file changed, 35 insertions(+), 8 deletions(-)
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> > > index 4e58476d305e..9d7812e8572d 100644
+> > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> > > @@ -1280,6 +1280,8 @@ static u32 uvc_get_ctrl_bitmap(struct uvc_control *ctrl,
+> > >       return ~0;
+> > >  }
+> > >
+> > > +#define MAX_QUERY_RETRIES 2
+> > > +
+> > >  static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+> > >       struct uvc_control *ctrl,
+> > >       struct uvc_control_mapping *mapping,
+> > > @@ -1305,19 +1307,44 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+> > >               __uvc_find_control(ctrl->entity, mapping->master_id,
+> > >                                  &master_map, &master_ctrl, 0);
+> > >       if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
+> > > +             unsigned int retries;
+> > >               s32 val;
+> > > -             int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
+> > > -             if (ret < 0)
+> > > -                     return ret;
+> > > +             int ret;
+> > >
+> > > -             if (val != mapping->master_manual)
+> > > -                             v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
+> > > +             for (retries = 0; retries < MAX_QUERY_RETRIES; retries++) {
+> > > +                     ret = __uvc_ctrl_get(chain, master_ctrl, master_map,
+> > > +                                          &val);
+> > > +                     if (ret >= 0)
+> > > +                             break;
+> > > +             }
+> > > +
+> > > +             if (ret < 0) {
+> > > +                     dev_warn_ratelimited(&chain->dev->udev->dev,
+> > > +                                          "UVC non compliance: Error %d querying master control %x (%s)\n",
+> > > +                                           ret, master_map->id,
+> > > +                                           uvc_map_get_name(master_map));
+> > > +             } else if (val != mapping->master_manual) {
+> > > +                     v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
+> > > +             }
+> > >       }
+> > >
+> > >       if (!ctrl->cached) {
+> > > -             int ret = uvc_ctrl_populate_cache(chain, ctrl);
+> > > -             if (ret < 0)
+> > > -                     return ret;
+> > > +             unsigned int retries;
+> > > +             int ret;
+> > > +
+> > > +             for (retries = 0; retries < MAX_QUERY_RETRIES; retries++) {
+> > > +                     ret = uvc_ctrl_populate_cache(chain, ctrl);
+> > > +                     if (ret >= 0)
+> > > +                             break;
+> > > +             }
+> > > +
+> > > +             if (ret < 0) {
+> > > +                     dev_warn_ratelimited(&chain->dev->udev->dev,
+> > > +                                          "UVC non compliance: Error %d populating cache of control %x (%s)\n",
+> > > +                                          ret, mapping->id,
+> > > +                                          uvc_map_get_name(mapping));
+> > > +                     v4l2_ctrl->flags |= V4L2_CTRL_FLAG_DISABLED;
+> >
+> > Can we make the control permanently disabled ?
 > 
-> Regards,
-> Kuan-Wei
-> 
-> #define parity(val)					\
-> ({							\
-> 	__auto_type __v = (val);			\
-> 	bool __ret;					\
-> 	switch (BITS_PER_TYPE(val)) {			\
-> 	case 64:					\
-> 		__v ^= __v >> 16 >> 16;			\
-> 		fallthrough;				\
+> I'd rather not. In funky hardware the control might work with the
+> right combination of other controls.
 
-This hack should be GCC-only, and well documented.
-For clang it should be 
- 		__v ^= __v >> 32;			\
+That makes the behaviour random and therefore very confusing for
+userspace. All of a sudden a control will start being available, even if
+it was marked as disabled during enumeration.
 
-> 	case 32:					\
-> 		__v ^= __v >> 16;			\
-> 		fallthrough;				\
-> 	case 16:					\
-> 		__v ^= __v >> 8;			\
-> 		fallthrough;				\
-> 	case 8:						\
-> 		__v ^= __v >> 4;			\
-> 		__ret =  (0x6996 >> (__v & 0xf)) & 1;	\
-> 		break;					\
-> 	default:					\
-> 		BUILD_BUG();				\
-> 	}						\
-> 	__ret;						\
-> })
+> > > +             }
+> > >       }
+> > >
+> > >       if (ctrl->info.flags & UVC_CTRL_FLAG_GET_DEF) {
+> > >
+> > > ---
+> > > base-commit: c5aa327e10b194884a9c9001a751f6e4703bc3e3
+> > > change-id: 20241213-uvc-eaccess-755cc061a360
+
+-- 
+Regards,
+
+Laurent Pinchart
 
