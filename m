@@ -1,199 +1,262 @@
-Return-Path: <linux-media+bounces-27407-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27408-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FE0FA4C915
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 18:18:42 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED2EEA4C94A
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 18:24:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4EF93189D519
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 17:13:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3656417AC78
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 17:16:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2854D2641F9;
-	Mon,  3 Mar 2025 16:54:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C583A214815;
+	Mon,  3 Mar 2025 16:59:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FH2YasrL"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="indBYQiQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B4722FE11;
-	Mon,  3 Mar 2025 16:54:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47BAF219A68
+	for <linux-media@vger.kernel.org>; Mon,  3 Mar 2025 16:59:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741020883; cv=none; b=Be5tWsvUd2r46x2IVUaaQXwPsovR+BB2mq+5ehY5yFa69LV8fP4Blbl4IJfR6E/H64JESkGcqe9etRpPd8elq2THJgN5jmbhRwERYAyU/uRdWe1fGAm+hp6phVSgaQpf4LUuapLmMlTaKxBoxVtKulcf393Hkmf5//s79UuH+Zs=
+	t=1741021184; cv=none; b=bJPBjvqpo9WvA7zzPzMC8DKErpx/vUO/KAXGbKkfNmzv4V4zGJ64ky1Jeb9reNiCgdy7AgSC9CHopXrEmmjIVqU/l4kLTaox4cmJA7pz6Xw6MWwwMh9PcdRYMoc+y28c7lZdrsbnZAT/3bQHhG7znUzFGjrZRHwwbjkTFsXpeTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741020883; c=relaxed/simple;
-	bh=kkvFR/IJHbl0LGFDEze2MZjviEc4qGy5WgIJZLMUixA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eqziWm8qQ94YF6y139B4slsZcGBxgcJDfHvp2d3XGdUtJuCcvQQwNvKbBmBzcjVDFWVOMNjxK8lL5ZDChD3ghpUx7JYApDoSZ2cXPEj0bF49YV4pTOFDUtD/kQcyDr6hKcP83hmRQTuGTuRJIecQRN/vK/Tg7fYChjkT/SPw78A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FH2YasrL; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2238e884f72so32083065ad.3;
-        Mon, 03 Mar 2025 08:54:40 -0800 (PST)
+	s=arc-20240116; t=1741021184; c=relaxed/simple;
+	bh=oH978JFzs5QlFfeiXA41hwt/41QiwNuuxnrXBUVHP/E=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=RMPOgeAPxtV2E5yIKAaLqC62KCTPYvCG7bMQhSFl5PUx3hcgSqSfShYHgINHccZisxb6I8H2BCY6n7g+8Q7hPAGpr7FewoAhsTwbCr7kjSWI9QdJBRrA4R50g2nN6fjYrtWFGPnvxFoc3SaTBvejar2MfxVQPETYw70HKGVPp30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=indBYQiQ; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4398ec2abc2so42328655e9.1
+        for <linux-media@vger.kernel.org>; Mon, 03 Mar 2025 08:59:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741020880; x=1741625680; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=snQ/FfGFpVYJtbb054yayRa/GPJB9+XLRVNWjcRf72o=;
-        b=FH2YasrLfj2cpywzuZP9mhJKJYhhVFdWXSAmLLzf5JivpByF1aF33VSg++IyP2TA/U
-         s2O+F0NZ1rO5vGh9jjeIfKP3lAHyOetoAxLtBA0tGrKo7IjlkXM4JyJs3z6rlecvfpqO
-         ehzC7B8w4uBqrubC3t2lP6Py/zMsbLbfx/gyulof+3889ZlEfDvOV4wQTLJrBZj7UQRT
-         DAGSvbkdlxMzUgEc/lRtjb2o7vxRz5NbFab5w6nO8tqvJunKgabVnN/rEGQzRbBhldRk
-         HiOh19h55Sl9M1JixQdb2sO2AITeEZKmAVZJ11CCQjZ47Woer2v67sf7fing7yLC7R89
-         aSyg==
+        d=linaro.org; s=google; t=1741021180; x=1741625980; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rqEytWC5Mz9hcceZZmQuQUkkVtwWYuhWvrPiRd/Fx4k=;
+        b=indBYQiQscVvGgwbf2QX7V2S7+pzkSj/JD3P2TGZSscZbFbS52f61gSmv1m9h4m1qo
+         spkd3w+ikeeFZx2TD1qYh3+8QM9e4NkUfYDqDWeXQTHUp3vyW+9rdiEE2ETCbdeHgegz
+         sFlS4Bjo7mQZa4zR2FoY6pAazFayZDsagyOSwZSsyqtzhWKLBRHM8ThdVLygytbDpb1L
+         sIZsGUXjH/hXsYOABN1oKcvooDY0R5WRnyzB6YNYye5HEbklH7ar99AVvJUKCKMN2Y93
+         UsvBCisqKC8g+Rqxm7lDNMdF5EAwI6xsLo9ebgQdk+iCO+5eD3JeOSapsztDuSMlhUCa
+         HedQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741020880; x=1741625680;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=snQ/FfGFpVYJtbb054yayRa/GPJB9+XLRVNWjcRf72o=;
-        b=WlGyDQ+RJSOpFOX00+p+wxErdeoHkA848kBvXyo2XRrlv+u6GFKSHgiDb7UvQX5i8u
-         KNEmwOfzQjlLfomcDuc185881A6HhNr958eBWMXYORybZtohjhdbpdgLMacA5oD3jPiR
-         wrRi+sWdEzPqD+77VtXU4ZyEmXnRjH1rzwxDEqv038haGiF7Ia+BuoUfIV6bLrejNyku
-         2TFcLcUIt3ZI3wy+x8k2+fzEaocID94IwN9Crm+582fZILch27msTq1WWmXdH4N1e1LO
-         hbGkcm0YuedmVODB/OcBl9wZYlp1x7KV/1ikiC3AvXQFsA4ma73xyI3zXvgluOTee1zO
-         sLaA==
-X-Forwarded-Encrypted: i=1; AJvYcCU7x/jrwoPYIi7LXWgUyHNquArOC3RuahV9wPu9anb/hkR4c/W9Msg1yZmcTNk8r+IxXIH0No2ubbeLNMo=@vger.kernel.org, AJvYcCV/EfvguUk6V9UBkNWZoj4cfhCDRQFh/2bHT2CBHid29wsFbZi6KKTs7OuiKjm0eI87I6ZXHCpC2GrkEUhl6wM=@vger.kernel.org, AJvYcCVm+9pZfEEYBBkCpYDxdZYDX/5+gPYlGDGV5wfHTlYZmTwWQEiafQie0kiBz3W01N2qBwhchBreO3z8/HY=@vger.kernel.org, AJvYcCW+/cTZ9SHIcxjD0+d0t5JCI4aFYQHgSIW1YYVaMdU3cGh80hVgCyWkctFYvqccSg8S3mA=@vger.kernel.org, AJvYcCWDVfB8PsgB3Sf26WAGucKHGdoozFD23oBKkkEMq7aeE9DeyUFv88Em4vmjFJxbms1YUMIiW+otvL8+G6MA@vger.kernel.org, AJvYcCWK5CCq8BNm8pGNXHpCc/MXungVffv5Pe35Xx7ZPsFD409w6xu9AUQ+JFlLGru3l7JDvkQGS0mC@vger.kernel.org, AJvYcCWcBPvlV1NWGVYH6EmI/0Lru6HURIhI27RTBRaRObuH5xg7ipYuxQ4do++a0hj6+I26IR8kkAiKYho+xA27@vger.kernel.org
-X-Gm-Message-State: AOJu0YwiC4RjtLEx4i46inwcXUASi8kCplAE7Q360tVB/FaLnPCGI1TO
-	HeC7ofa8MEmXs4tv8JF8+EE0dr3Evr2TIPcGpvKfG5XulJLe/FQeBRE14N2z4zA=
-X-Gm-Gg: ASbGncu/9NtTWWJzeAtjF8Z1mojkN0QDicPanbYsWSurMuQS2ce+Bv7gdu82Qu1MHtY
-	Jlua03PhtU47ikzHWasGj8iDxdeLhTx9YDvLj0wtfUsSOiyuARBF47BYnWz+nMMQIR4DNnvBVX3
-	Ei9XQUUSBbDTVhvUMqcxZ3FdGTXIy+E6U1Ds1/F6VUIVcSg4n2V2+XpNMG5ClRjFZLJ3znQFd/H
-	TP04JkK4HszTHYHXNqETm3hYqjgSpGpx+nw8jp/X0S5s+FHrz1bthwKl18rp2SLMMOGSQ4tHpdD
-	de+onLBMGpU8gXQxXyiej6b9yyRlAkMG4uWKEu7EC/mRL1fZoOMkYqfS2Wfqw8cIhoqWB9t4
-X-Google-Smtp-Source: AGHT+IERzXXFV1wY4JOTqL7FEPHOnAzKcBtkbh1MW/f1V7zUkt/V5lVcottzvfcf37UkL0y23/7mVg==
-X-Received: by 2002:a17:902:fc8d:b0:223:44dc:3f36 with SMTP id d9443c01a7336-2236925eef4mr232091065ad.43.1741020880198;
-        Mon, 03 Mar 2025 08:54:40 -0800 (PST)
-Received: from visitorckw-System-Product-Name ([140.113.216.168])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-223504c59ecsm80088085ad.123.2025.03.03.08.54.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 03 Mar 2025 08:54:39 -0800 (PST)
-Date: Tue, 4 Mar 2025 00:54:30 +0800
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: David Laight <david.laight.linux@gmail.com>, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
-	eajames@linux.ibm.com, andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org, rfoss@kernel.org,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-	dmitry.torokhov@gmail.com, mchehab@kernel.org,
-	awalls@md.metrocast.net, hverkuil@xs4all.nl,
-	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-	louis.peens@corigine.com, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-	parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
-	johannes@sipsolutions.net, gregkh@linuxfoundation.org,
-	jirislaby@kernel.org, akpm@linux-foundation.org, hpa@zytor.com,
-	alistair@popple.id.au, linux@rasmusvillemoes.dk,
-	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-	jernej.skrabec@gmail.com, kuba@kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
-	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
-	oss-drivers@corigine.com, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
-	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
-	andrew.cooper3@citrix.com, Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH v2 01/18] lib/parity: Add __builtin_parity() fallback
- implementations
-Message-ID: <Z8XexgomsveMWK2U@visitorckw-System-Product-Name>
-References: <20250301142409.2513835-1-visitorckw@gmail.com>
- <20250301142409.2513835-2-visitorckw@gmail.com>
- <Z8PMHLYHOkCZJpOh@thinkpad>
- <Z8QUsgpCB0m2qKJR@visitorckw-System-Product-Name>
- <Z8SBBM_81wyHfvC0@thinkpad>
- <Z8SVb4xD4tTiMEpL@visitorckw-System-Product-Name>
- <20250302190954.2d7e068f@pumpkin>
- <Z8UYOD2tyjS25gIc@visitorckw-System-Product-Name>
- <Z8XOF2DMMRKqam6R@thinkpad>
+        d=1e100.net; s=20230601; t=1741021180; x=1741625980;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=rqEytWC5Mz9hcceZZmQuQUkkVtwWYuhWvrPiRd/Fx4k=;
+        b=eBD3B/sFyFoAAagaJKExS0JKEaCoo7P/dzYvdX+9cvTomdOHDj27MIERYS2oQFiyUA
+         QuIMmcyPCEt+EjsYc217uHfmf4NkdFWkbsjWkswZBDoTUy9MIq7nQcT6aIf/SqHRQeYX
+         z5645R7xATL44tC636m+UCa7G0kzHJpZd1jPMxnMhgUAsavOzFcznWHHfbCR5oQAVjlj
+         bZyysQbuVVh7B/jXQAdSNtQR+sd0c/tQJeygWhDbxS4zdBA/f/BUwM/K4N8+tXbtLPc/
+         2Df+/QYwqEbp8VS+6QjcuRf0oV4r+YRc+ZXCLa8AsGMnGVvL7f5OTn/Uw5zULKUpSEz+
+         LmJA==
+X-Forwarded-Encrypted: i=1; AJvYcCWMr35mRMzHVcvsiKkQAMIDswIW1nh//d+Z08fEurt0zYUWlpmbhu8gcfHYvDQHQqT4+NeH7JSjtDeLtw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPidxD9xlguuMfA7SMp4SEpDGLQvseK9yd86ER6DbxwtoITLfL
+	BaxDHpzHCLLWO5bcJ3BgvuaiZs3uH+XM1vdkQB1bzc9kjkwGh0fsBcKQBnDSOCg=
+X-Gm-Gg: ASbGncvLYYAza7STeaLzOXovoLm+qsu6QBiD1FqJ7YJYGRI22iSngPcML7xStu12fWh
+	9bz2511vYZo5A/7RCj34bDHvi7uFCHXam6BWfOzsYEtiPDpLBKPAZFRF4UjmL1UhvwjxW7sHBrI
+	nseOVnoCKBmzGQJPHviKx0FaxzMbfsmknJo5F8biKUNk0um999Lu2KeB3F20Va48yqF5aSiCsIb
+	17W4Hk8bk6aCrCrhkxMBgcuPbzrXaVsksxhcp2Af+pmriuxA/XL1jlfNLUVD4k3UsWCrFuArUQo
+	duYmmEPXiQ0GLMnvRP83dF5WaIu+M3MbZffTT8hvE86fWYx4He03XyYc5t+cH5d9J8kM1FMRJ9B
+	Tt+vMsj54X7za89Wm8B2zJQ==
+X-Google-Smtp-Source: AGHT+IHB5e8qHoNaz92JEh8SpwvriHPYxgjOv/OhwXAPTDqbY6gedugAXYtghujiNdzQrADoIS9mEg==
+X-Received: by 2002:a05:600c:3b24:b0:439:9496:17df with SMTP id 5b1f17b1804b1-43ba66fee15mr121905145e9.13.1741021180506;
+        Mon, 03 Mar 2025 08:59:40 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:982:cbb0:1c49:dea2:d749:5015? ([2a01:e0a:982:cbb0:1c49:dea2:d749:5015])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43b694524c6sm171865805e9.0.2025.03.03.08.59.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Mar 2025 08:59:40 -0800 (PST)
+Message-ID: <71c8e765-7eb8-4572-8461-30e4761be836@linaro.org>
+Date: Mon, 3 Mar 2025 17:59:39 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z8XOF2DMMRKqam6R@thinkpad>
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH 3/4] media: platform: qcom/iris: add support for vpu33
+To: Philipp Zabel <p.zabel@pengutronix.de>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250225-topic-sm8x50-iris-v10-v1-0-128ef05d9665@linaro.org>
+ <20250225-topic-sm8x50-iris-v10-v1-3-128ef05d9665@linaro.org>
+ <1fcf08fe37a8e14c4acae445d65bd1503b13b6d2.camel@pengutronix.de>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <1fcf08fe37a8e14c4acae445d65bd1503b13b6d2.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Mar 03, 2025 at 10:43:28AM -0500, Yury Norov wrote:
-> On Mon, Mar 03, 2025 at 10:47:20AM +0800, Kuan-Wei Chiu wrote:
-> > > > #define parity(val)					\
-> > > > ({							\
-> > > > 	__auto_type __v = (val);			\
-> > > > 	bool __ret;					\
-> > > > 	switch (BITS_PER_TYPE(val)) {			\
-> > > > 	case 64:					\
-> > > > 		__v ^= __v >> 16 >> 16;			\
-> > > > 		fallthrough;				\
-> > > > 	case 32:					\
-> > > > 		__v ^= __v >> 16;			\
-> > > > 		fallthrough;				\
-> > > > 	case 16:					\
-> > > > 		__v ^= __v >> 8;			\
-> > > > 		fallthrough;				\
-> > > > 	case 8:						\
-> > > > 		__v ^= __v >> 4;			\
-> > > > 		__ret =  (0x6996 >> (__v & 0xf)) & 1;	\
-> > > > 		break;					\
-> > > > 	default:					\
-> > > > 		BUILD_BUG();				\
-> > > > 	}						\
-> > > > 	__ret;						\
-> > > > })
-> > > 
-> > > I'm seeing double-register shifts for 64bit values on 32bit systems.
-> > > And gcc is doing 64bit double-register maths all the way down.
-> > > 
-> > > That is fixed by changing the top of the define to
-> > > #define parity(val)					\
-> > > ({							\
-> > > 	unsigned int __v = (val);			\
-> > > 	bool __ret;					\
-> > > 	switch (BITS_PER_TYPE(val)) {			\
-> > > 	case 64:					\
-> > > 		__v ^= val >> 16 >> 16;			\
-> > > 		fallthrough;				\
-> > > 
-> > > But it's need changing to only expand 'val' once.
-> > > Perhaps:
-> > > 	auto_type _val = (val);
-> > > 	u32 __ret = val;
-> > > and (mostly) s/__v/__ret/g
-> > >
-> > I'm happy to make this change, though I'm a bit confused about how much
-> > we care about the code generated by gcc. So this is the macro expected
-> > in v3:
+On 28/02/2025 17:38, Philipp Zabel wrote:
+> On Di, 2025-02-25 at 10:05 +0100, Neil Armstrong wrote:
+>> The IRIS acceleration found in the SM8650 platforms uses the vpu33
+>> hardware version, and requires a slighly different reset and power off
+>> sequences in order to properly get out of runtime suspend.
+>>
+>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> ---
+>>   drivers/media/platform/qcom/iris/Makefile          |   1 +
+>>   drivers/media/platform/qcom/iris/iris_vpu33.c      | 315 +++++++++++++++++++++
+>>   drivers/media/platform/qcom/iris/iris_vpu_common.h |   1 +
+>>   3 files changed, 317 insertions(+)
+>>
+>> diff --git a/drivers/media/platform/qcom/iris/Makefile b/drivers/media/platform/qcom/iris/Makefile
+>> index 35390534534e93f4617c1036a05ca0921567ba1d..6b64c9988505afd9707c704449d60bb53209229f 100644
+>> --- a/drivers/media/platform/qcom/iris/Makefile
+>> +++ b/drivers/media/platform/qcom/iris/Makefile
+>> @@ -21,6 +21,7 @@ qcom-iris-objs += \
+>>                iris_vdec.o \
+>>                iris_vpu2.o \
+>>                iris_vpu3.o \
+>> +             iris_vpu33.o \
+>>                iris_vpu_buffer.o \
+>>                iris_vpu_common.o \
+>>   
+>> diff --git a/drivers/media/platform/qcom/iris/iris_vpu33.c b/drivers/media/platform/qcom/iris/iris_vpu33.c
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..128a050f206f99ec0d43b97ff995fa50d5684150
+>> --- /dev/null
+>> +++ b/drivers/media/platform/qcom/iris/iris_vpu33.c
+>> @@ -0,0 +1,315 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>> + */
+>> +
+>> +#include <linux/iopoll.h>
+>> +#include <linux/reset.h>
+>> +
+>> +#include "iris_instance.h"
+>> +#include "iris_vpu_common.h"
+>> +#include "iris_vpu_register_defines.h"
+>> +
+>> +#define WRAPPER_TZ_BASE_OFFS			0x000C0000
+>> +#define AON_BASE_OFFS				0x000E0000
+>> +#define AON_MVP_NOC_RESET			0x0001F000
+>> +
+>> +#define WRAPPER_DEBUG_BRIDGE_LPI_CONTROL	(WRAPPER_BASE_OFFS + 0x54)
+>> +#define WRAPPER_DEBUG_BRIDGE_LPI_STATUS		(WRAPPER_BASE_OFFS + 0x58)
+>> +#define WRAPPER_IRIS_CPU_NOC_LPI_CONTROL	(WRAPPER_BASE_OFFS + 0x5C)
+>> +#define REQ_POWER_DOWN_PREP			BIT(0)
+>> +#define WRAPPER_IRIS_CPU_NOC_LPI_STATUS		(WRAPPER_BASE_OFFS + 0x60)
+>> +#define WRAPPER_CORE_CLOCK_CONFIG		(WRAPPER_BASE_OFFS + 0x88)
+>> +#define CORE_CLK_RUN				0x0
+>> +
+>> +#define WRAPPER_TZ_CTL_AXI_CLOCK_CONFIG		(WRAPPER_TZ_BASE_OFFS + 0x14)
+>> +#define CTL_AXI_CLK_HALT			BIT(0)
+>> +#define CTL_CLK_HALT				BIT(1)
+>> +
+>> +#define WRAPPER_TZ_QNS4PDXFIFO_RESET		(WRAPPER_TZ_BASE_OFFS + 0x18)
+>> +#define RESET_HIGH				BIT(0)
+>> +
+>> +#define CPU_CS_AHB_BRIDGE_SYNC_RESET		(CPU_CS_BASE_OFFS + 0x160)
+>> +#define CORE_BRIDGE_SW_RESET			BIT(0)
+>> +#define CORE_BRIDGE_HW_RESET_DISABLE		BIT(1)
+>> +
+>> +#define CPU_CS_X2RPMH				(CPU_CS_BASE_OFFS + 0x168)
+>> +#define MSK_SIGNAL_FROM_TENSILICA		BIT(0)
+>> +#define MSK_CORE_POWER_ON			BIT(1)
+>> +
+>> +#define AON_WRAPPER_MVP_NOC_RESET_REQ		(AON_MVP_NOC_RESET + 0x000)
+>> +#define VIDEO_NOC_RESET_REQ			(BIT(0) | BIT(1))
+>> +
+>> +#define AON_WRAPPER_MVP_NOC_RESET_ACK		(AON_MVP_NOC_RESET + 0x004)
+>> +
+>> +#define VCODEC_SS_IDLE_STATUSN			(VCODEC_BASE_OFFS + 0x70)
+>> +
+>> +#define AON_WRAPPER_MVP_NOC_LPI_CONTROL		(AON_BASE_OFFS)
+>> +#define AON_WRAPPER_MVP_NOC_LPI_STATUS		(AON_BASE_OFFS + 0x4)
+>> +
+>> +#define AON_WRAPPER_MVP_NOC_CORE_SW_RESET	(AON_BASE_OFFS + 0x18)
+>> +#define SW_RESET				BIT(0)
+>> +#define AON_WRAPPER_MVP_NOC_CORE_CLK_CONTROL	(AON_BASE_OFFS + 0x20)
+>> +#define NOC_HALT				BIT(0)
+>> +#define AON_WRAPPER_SPARE			(AON_BASE_OFFS + 0x28)
+>> +
+>> +#define VCODEC_DMA_SPARE_3 0x87B8
+>> +
+>> +static int reset_control_bulk_assert_id(int num_rstcs,
+>> +					struct reset_control_bulk_data *rstcs,
+>> +					char *id)
+>> +{
+>> +	int i;
+>> +
+>> +	for (i = 0; i < num_rstcs; ++i) {
+>> +		if (!strcmp(rstcs[i].id, id))
+>> +			return reset_control_assert(rstcs[i].rstc);
+>> +	}
+>> +
+>> +	return -ENODEV;
+>> +}
+>> +
+>> +static int reset_control_bulk_deassert_id(int num_rstcs,
+>> +					  struct reset_control_bulk_data *rstcs,
+>> +					  char *id)
+>> +{
+>> +	int i;
+>> +
+>> +	for (i = 0; i < num_rstcs; ++i) {
+>> +		if (!strcmp(rstcs[i].id, id))
+>> +			return reset_control_deassert(rstcs[i].rstc);
+>> +	}
+>> +
+>> +	return -ENODEV;
+>> +}
 > 
-> We do care about code generated by any compiler. But we don't spread
-> hacks here and there just to make GCC happy. This is entirely broken
-> strategy. Things should work the other way: compiler people should
-> collect real-life examples and learn from them.
+> Please adapt the abstractions instead of working around them. If the
+> driver isn't suited for a single reset_control_bulk_data in iris_core,
+> split it into multiple groups, or store the resets individually.
 > 
-> I'm not happy even with this 'v >> 16 >> 16' hack, I just think that
-> disabling Wshift-count-overflow is the worse option. Hacking the macro
-> to optimize parity64() on 32-bit arch case doesn't worth it entirely.
-> 
-> In your patchset, you have only 3 drivers using parity64(). For each
-> of them, please in the commit message refer that calling generic
-> parity() with 64-bit argument may lead to sub-optimal code generation
-> with a certain compiler against 32-bit arches. If you'll get a
-> feedback that it's a real problem for somebody, we'll think about
-> mitigating it. 
->
-How about reconsidering using parity8/16/32/64() instead of adding a
-parity() macro? They allow compiler to generate correct code without
-any hacks, and each implementation is simple and just one line. Jiri
-also agreed in the previous thread that we need parity8() in cases like
-the i3c driver. I think this might be the easiest solution to satisfy
-most people?
+> At the very least, this could use constant indices instead of linear
+> search with string compares.
 
-Regards,
-Kuan-Wei
+It was a first try, I'll think about something better for v2.
+
+Neil
+
+> 
+> regards
+> Philipp
+
 
