@@ -1,192 +1,151 @@
-Return-Path: <linux-media+bounces-27319-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27320-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A997A4B8A1
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 08:56:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B828DA4B8F4
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 09:16:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6FEE81892896
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 07:56:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5F9E2188DFD2
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 08:16:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A18A1EE013;
-	Mon,  3 Mar 2025 07:56:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11F621EEA5A;
+	Mon,  3 Mar 2025 08:16:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fliox6Xo"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Bmzhnwcs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EEBC1EB5E9;
-	Mon,  3 Mar 2025 07:56:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E50501E9B3D;
+	Mon,  3 Mar 2025 08:16:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740988588; cv=none; b=pl7CCHfPLi1Y57GCl9j2wcwokNMh8rMHDd5k7r2uM7mXiP/85c3yFriODoqoRDZR+3aI3ae44bpdSPhpePW2xVr94hAmdoRIY4iLLbPpvd0NIHXa5ez17destXr3HZJAdn8AfIb0ed/7hiaXUntfOqYRFPogdlUI6muapZg6vxw=
+	t=1740989781; cv=none; b=hM+OiZP5fgD2CDapf7wNk6dMyWJ6XU/i4nYzsonIu0MrNbBe/omcA58DXQtbkSX55rMRGud4YABFettvE9fc0nGwSOUCAosfT8Rla1cSlf4Yo9IG+tZ4DZZA1zqMzvmy3lzu8SSg7h0s8dfT5kjwWwhQ4RaSZ9nHme62lxO4k14=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740988588; c=relaxed/simple;
-	bh=Tche++yzYe0govX8J9qG26Gu3L7YQEixsuceVG26mXU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KYIVlL7+YjfKFwKdcyiqLgS3OYVpU5lUtpzhYiNsQMfqes2TuYTh/t4B+eIBfKW9VUsagEweFlPLyj/FAlhsfqgh8KLQIWcYcySvbNDVsiBIpjHmT3PInljnMR2ZYS74HU0PUqKNDFFRcVNIecE5Iob2r55vrNm3892t6oLXu+0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fliox6Xo; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740988587; x=1772524587;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Tche++yzYe0govX8J9qG26Gu3L7YQEixsuceVG26mXU=;
-  b=Fliox6Xoep9w4DoDHX2xaw0yJH+S4KpbJXaM7kfB/y96wkvGAu6GI47o
-   GcwE8UO8UbVkI3yHkLHdFTYVq9WORGMNecuynxOnNyluAov1WLVB3+CMo
-   l2s69dVaMf9yaRqSFYAd2HN+UDI9rpYspQSqr0FVz/y8o09QBva/Sx5s/
-   SMLFcxsz0DQfZFJ/gCnEfAbumrDdbHB3TlNoB3ll3KN3n1vZ3FwUj1drb
-   4Oz99fyMt0MHc4s1ohWDoPjpqIKmYVOMTWU7FUSBwcbWa6lme7Lbzi1Ax
-   lhImShyZpumb5qiRyPiKdAzWk8SeUCyVsnuiH3C91FGKWI4L87MmPuvbY
-   Q==;
-X-CSE-ConnectionGUID: 2QGn0zAdTSCKJ0sTpP6g5g==
-X-CSE-MsgGUID: xXo/+EDzRjqwD82VUwwpYA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="42107516"
-X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; 
-   d="scan'208";a="42107516"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 23:55:58 -0800
-X-CSE-ConnectionGUID: Kg1XoXbZSE2J4TEGeyaxTA==
-X-CSE-MsgGUID: C1pKHd42TPaC8w3czY6NHA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="117783315"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 23:55:54 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id A985D11F7F0;
-	Mon,  3 Mar 2025 09:55:51 +0200 (EET)
-Date: Mon, 3 Mar 2025 07:55:51 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Shravan.Chippa@microchip.com
-Cc: mchehab@kernel.org, kieran.bingham@ideasonboard.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Conor.Dooley@microchip.com, Valentina.FernandezAlanis@microchip.com,
-	Praveen.Kumar@microchip.com
-Subject: Re: [PATCH V6 1/3] media: i2c: imx334: Optimized 4k and 2k mode
- register arrays
-Message-ID: <Z8Vgh24HtnjmuBNy@kekkonen.localdomain>
-References: <20250228103332.3647098-1-shravan.chippa@microchip.com>
- <20250228103332.3647098-2-shravan.chippa@microchip.com>
- <Z8GiqSfuyQdUNylt@kekkonen.localdomain>
- <PH0PR11MB5611466B2027B79F7598534B81CF2@PH0PR11MB5611.namprd11.prod.outlook.com>
- <Z8VgUoNklDUd_jaF@kekkonen.localdomain>
+	s=arc-20240116; t=1740989781; c=relaxed/simple;
+	bh=snJo+3NGpRyC94Rcz8FErDyfwR5EriJ5LEungpm3iZU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=bTLhZ3wfqDWDV0sO2m+GAM58nllzJl7QJZ8U181gly9VCzealFt4puU5c8Z/ZdfViOJoaMMrmB7MfK8lG6XyO2tergQIkft/6mi7XpRpRQhLjqpKvLBLiQATJr1FR3+qdK7IM0WRfOJROJb9fVhwcDrumzsYSz2EUQ8LgUO4vD8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Bmzhnwcs; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52300fWI001154;
+	Mon, 3 Mar 2025 08:16:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	OIFJa4WhZpyK9Ffdk2fp+kxCySGaf8wagwDQVCjDp3Y=; b=BmzhnwcsHUd5LGbJ
+	u/aEWeFgVmSLH1J472ZPnCRFbetpwnK0XrJR/nUlphkGJp4zYKS1Qegys8sUcuC4
+	5iwR4i+H48/aGLz/xTw1lQpL8ANJ+BhrwGtq6iWuCWZDf2F+Lnc2RR53wKVfedSu
+	FRi7DnWXiw6dZHl5/qlMc9wgE/W2hL9JpWQWzThd2iuOxPFOgTdaNfC7smklIfES
+	pSYELCfWx41PsBB3Ym254gWnRAhQcbduL7s3KOh7j6Cgt82MDuiOjiN4M0u6+LyT
+	azEya/2CIlMnjC5blIle49yvyK980Yq096mgqaq6HDg3yQ8p1p1dV12OODxt+2Bs
+	pBp68g==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 453tasc7ca-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 03 Mar 2025 08:16:11 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5238GAkb008570
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 3 Mar 2025 08:16:10 GMT
+Received: from [10.50.28.15] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 3 Mar 2025
+ 00:16:07 -0800
+Message-ID: <18aa7433-4eac-f632-0787-c56fcb363fd5@quicinc.com>
+Date: Mon, 3 Mar 2025 13:45:52 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z8VgUoNklDUd_jaF@kekkonen.localdomain>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] venus: vdec: queue dpb buffers to firmware for video seek
+To: Renjiang Han <quic_renjiang@quicinc.com>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20250227-fix-seek-bug-v1-1-497ee6406477@quicinc.com>
+Content-Language: en-US
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <20250227-fix-seek-bug-v1-1-497ee6406477@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: OtwKdNZylEqQXlZ4evboooJAPMv5ysDg
+X-Proofpoint-ORIG-GUID: OtwKdNZylEqQXlZ4evboooJAPMv5ysDg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-03_03,2025-03-03_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ mlxlogscore=999 spamscore=0 phishscore=0 mlxscore=0 priorityscore=1501
+ bulkscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0 adultscore=0
+ clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502100000 definitions=main-2503030061
 
-On Mon, Mar 03, 2025 at 07:54:58AM +0000, Sakari Ailus wrote:
-> Hi Shravan,
+
+
+On 2/27/2025 8:13 AM, Renjiang Han wrote:
+> For the seek case, the input port will be called stream_off and then
+> stream_on in the driver. Firmware will flush all buffers during stream_off
+> input port. Therefore, driver needs to queue DPB buffers to firmware
+> during stream_on input port to ensure that decoder can decode normally
+> when it receives enough input and output buffers. Otherwise, decoder
+> will not be able to decode due to lack of DPB buffer even if there are
+> enough input and output buffers.
 > 
-> On Sat, Mar 01, 2025 at 12:56:55AM +0000, Shravan.Chippa@microchip.com wrote:
-> > Hi Sakari,
-> > 
-> > > -----Original Message-----
-> > > From: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > Sent: Friday, February 28, 2025 5:19 PM
-> > > To: shravan Chippa - I35088 <Shravan.Chippa@microchip.com>
-> > > Cc: mchehab@kernel.org; kieran.bingham@ideasonboard.com; linux-
-> > > media@vger.kernel.org; linux-kernel@vger.kernel.org; Conor Dooley -
-> > > M52691 <Conor.Dooley@microchip.com>; Valentina Fernandez Alanis -
-> > > M63239 <Valentina.FernandezAlanis@microchip.com>; Praveen Kumar -
-> > > I30718 <Praveen.Kumar@microchip.com>
-> > > Subject: Re: [PATCH V6 1/3] media: i2c: imx334: Optimized 4k and 2k mode
-> > > register arrays
-> > > 
-> > > EXTERNAL EMAIL: Do not click links or open attachments unless you know the
-> > > content is safe
-> > > 
-> > > Hi Shravan,
-> > > 
-> > > On Fri, Feb 28, 2025 at 04:03:30PM +0530, shravan kumar wrote:
-> > > > From: Shravan Chippa <shravan.chippa@microchip.com>
-> > > >
-> > > > Optimized the resolution arrays by integrating a common register array.
-> > > >
-> > > > Adjusted the register array values for 1920x1080@30 and 3840x2160@30
-> > > > resolutions to align with the common register array values.
-> > > >
-> > > > Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
-> > > > ---
-> > > >  drivers/media/i2c/imx334.c | 132
-> > > > +++++++++----------------------------
-> > > >  1 file changed, 31 insertions(+), 101 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-> > > > index a544fc3df39c..a800f2203592 100644
-> > > > --- a/drivers/media/i2c/imx334.c
-> > > > +++ b/drivers/media/i2c/imx334.c
-> > > > @@ -167,8 +167,8 @@ static const s64 link_freq[] = {
-> > > >       IMX334_LINK_FREQ_445M,
-> > > >  };
-> > > >
-> > > > -/* Sensor mode registers for 1920x1080@30fps */ -static const struct
-> > > > imx334_reg mode_1920x1080_regs[] = {
-> > > > +/* Sensor common mode registers values */ static const struct
-> > > > +imx334_reg common_mode_regs[] = {
-> > > >       {0x3000, 0x01},
-> > > >       {0x3018, 0x04},
-> > > >       {0x3030, 0xca},
-> > > > @@ -176,26 +176,10 @@ static const struct imx334_reg
-> > > mode_1920x1080_regs[] = {
-> > > >       {0x3032, 0x00},
-> > > >       {0x3034, 0x4c},
-> > > >       {0x3035, 0x04},
-> > > > -     {0x302c, 0xf0},
-> > > > -     {0x302d, 0x03},
-> > > > -     {0x302e, 0x80},
-> > > > -     {0x302f, 0x07},
-> > > > -     {0x3074, 0xcc},
-> > > > -     {0x3075, 0x02},
-> > > > -     {0x308e, 0xcd},
-> > > > -     {0x308f, 0x02},
-> > > > -     {0x3076, 0x38},
-> > > > -     {0x3077, 0x04},
-> > > > -     {0x3090, 0x38},
-> > > > -     {0x3091, 0x04},
-> > > > -     {0x3308, 0x38},
-> > > > -     {0x3309, 0x04},
-> > > > -     {0x30C6, 0x00},
-> > > > +     {0x30c6, 0x00},
-> > > >       {0x30c7, 0x00},
-> > > >       {0x30ce, 0x00},
-> > > >       {0x30cf, 0x00},
-> > > > -     {0x30d8, 0x18},
-> > > > -     {0x30d9, 0x0a},
-> > > >       {0x304c, 0x00},
-> > > >       {0x304e, 0x00},
-> > > >       {0x304f, 0x00},
-> > > > @@ -210,7 +194,7 @@ static const struct imx334_reg
-> > > mode_1920x1080_regs[] = {
-> > > >       {0x300d, 0x29},
-> > > >       {0x314c, 0x29},
-> > > >       {0x314d, 0x01},
-> > > > -     {0x315a, 0x06},
-> > > > +     {0x315a, 0x0a},
-> > > 
-> > > We still have this change in the patch that's just supposed to move register
-> > > address/value pairs around. :-( Please check the changes yourself before
-> > > posting v7.
-> > 
-> > Do I need to split the patch or drop this change ? in v7
+> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
+> ---
+>  drivers/media/platform/qcom/venus/vdec.c | 14 ++++++++++++--
+>  1 file changed, 12 insertions(+), 2 deletions(-)
 > 
-> Either way but it does not belong here.
-
-Oh, and btw. if you want to make the change, then I think you'll need to
-make HBLANK configurable with the default being the original value.
-
--- 
-Sakari Ailus
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index 6252a6b3d4ba6d49b343bb53dfb7b0e683410bb4..7d932c985a0b82aa547a7ada75b620c65cb44030 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -1110,10 +1110,20 @@ static int vdec_start_output(struct venus_inst *inst)
+>  
+>  	if (inst->codec_state == VENUS_DEC_STATE_SEEK) {
+>  		ret = venus_helper_process_initial_out_bufs(inst);
+> -		if (inst->next_buf_last)
+> +		if (ret)
+> +			return ret;
+> +
+> +		if (inst->next_buf_last) {
+>  			inst->codec_state = VENUS_DEC_STATE_DRC;
+> -		else
+> +		} else {
+>  			inst->codec_state = VENUS_DEC_STATE_DECODING;
+> +
+> +			if (inst->streamon_cap) {
+> +				ret = venus_helper_queue_dpb_bufs(inst);
+> +				if (ret)
+> +					return ret;
+> +			}
+> +		}
+>  		goto done;
+>  	}
+>  
+LGTM.
+Reviewed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> 
+> ---
+> base-commit: 63b3ff03d91ae8f875fe8747c781a521f78cde17
+> change-id: 20250227-fix-seek-bug-7d3cf544bd2f
+> 
+> Best regards,
 
