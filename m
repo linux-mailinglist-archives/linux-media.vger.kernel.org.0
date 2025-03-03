@@ -1,79 +1,36 @@
-Return-Path: <linux-media+bounces-27339-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27340-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5E46A4C3F1
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 15:56:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89723A4C3F7
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 15:58:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C011E3A65E9
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 14:56:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CFEFF3A612D
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 14:58:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A0BB214210;
-	Mon,  3 Mar 2025 14:56:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PN2MtFey"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0E772139B2;
+	Mon,  3 Mar 2025 14:58:27 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879E020FA9D
-	for <linux-media@vger.kernel.org>; Mon,  3 Mar 2025 14:56:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 648BA1482F2;
+	Mon,  3 Mar 2025 14:58:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741013783; cv=none; b=QBfFpHmNNhN+4LfR0k/FctjVLsIti1COTXO4NaY3eTjFmaXMtaVTiivpK62fVT3xNhUJuQgPvxTDbQXMuZSPDrV7H4/NGP1SqL2n+b6RNMGrm0dzS3p2yfdpvc6Ju4nhqW4qbfJp6l3jZg6aAo765linAFlYwTSN2I90lknblMY=
+	t=1741013907; cv=none; b=jT15VfN7nN8NKETsyF5sroyk7IhkV/EIsl5VX6BIg6c6m+E4UJJv+EM47THSKmstQryRPltW8L86WBkDlF0b6D4rdebb69hVFHBb2JFLF13F+q8ZMoiuirD4cBRR66tk63+0I+wUUpk/FK42UR9/1UcZWmXVwMDSHtCADtA8CMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741013783; c=relaxed/simple;
-	bh=lSFrNOYTs2ebMzVPy9mCvDUTf4C+oW1azbWapwfMyGI=;
+	s=arc-20240116; t=1741013907; c=relaxed/simple;
+	bh=N7Rvlt0XUzHcy2qAULJ45W96l/QKXbc9Qw11enNBNJY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bA3BQtbqWrkCZI5xe0uoRjfc0n+vweRb4MQPm7SJwxjb59PSxjVm4T+nKGoTySsPViv5MZ9dTVZ22iVXCMPkmnp7VP2Xyu+8l6cnd/k56quLyWGYCY7tjuKEz1UjUAVdKNW4hcWJSPhQJqhui3eeAPdof3wP7MHHQvaDdcTm8yo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PN2MtFey; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4398e3dfc66so41010835e9.0
-        for <linux-media@vger.kernel.org>; Mon, 03 Mar 2025 06:56:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741013778; x=1741618578; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=RbOOxP9Odw79YNeXSBNNWZeLoIIK9XfazEkCOs3S38s=;
-        b=PN2MtFeyRN/2FOiMZ6eTv/AGsaMove3HE7zZUKXhBJ0/1vwVyRDDnLEef2OAyN8m1d
-         TSBfhb05CX93ElJAGvJGvv1MHxzujTOHjT9CBkxJjVRpqSqzosEJbBtctB01r2ox4QEx
-         84PTq9NhcCN1cwzE2E54PMzUO0A36Z1tqyicgKDu4GyCiDJcxKvxfI3dMt3ubo66H7Cl
-         rdOeg7vgk1fBlVmnANXsyHwyqJuJdRi8XqUJRSuHTgvBVYvJzqBoXJXGhrS6pJtr0wUt
-         KKI9yEZmP7wIIzGbhpYGIY9+aktBvF1WuUbk80hEbzTQ8Xrd+LoL8H9aok+Sjec0z9uw
-         qjOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741013778; x=1741618578;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RbOOxP9Odw79YNeXSBNNWZeLoIIK9XfazEkCOs3S38s=;
-        b=XW1QISubFg0yqTPRXrtuIY9mAYylxmqjWIyUcOO4DnEOjbNJOe3sVUM6eMlXuMZ0D9
-         LHtx52V+SVhySbvoGgDefwzKiVZvbmo6AQnRbl1AlNHTaCqL5BmuFAnlJTJGwFL8ochX
-         9Hd3+ohTkDzVlmb8ixy8wP/E/lY23gon1MWu9ar7nNLLPFYc2zC0HX2XaSttizk27K4o
-         YXLJtn7wd1nDL7Yrf367zVOX2Ha6WG79kNymbMpTL4/8c0+B3fA9JGeF7PkABuBMwBst
-         iuEDjIAVSHzPAOTmpfJ93AQDG33HB+17wGnji09bWpMVDuLGY9IisByU3Wugxd7Z4PFD
-         NjwQ==
-X-Gm-Message-State: AOJu0YxCkQ2ECtD1q2JnuhQkLesxqwNY4U8Ud4OzpZ3rp290zZK94lkM
-	zJiaqHbUrJDUjDqs//DMK1KhQrLsjLkehm8/QNkvJKvIi2vPLIfEqmhmqx7IyHk=
-X-Gm-Gg: ASbGncuWnmGQ0LLRpidgwsSNq9/+u2GfouYPUDkqJIorABuR1dwlblm2pwE639loSAk
-	tlCawjtbFiaKVwvaVzXspFe3GqGsFKoKLZajDBQE/osAhlqVNwZcdz46h+CDAAj70gtzDthdxYZ
-	4CTtTsMdup/sNwdnt5UapigBKuUz5PbEWTkN3KpGWVT2YM4mHHsA9zvT0QPdv61WOd3mRAzq7/Y
-	ji9K5jMpfE+7BwAdXPipOOJhkPWQEv4xBua2AO6ohK2njV82qkaOx142bwxO0V9pu435kMIwKj7
-	qzpdeNuxsiH1N0aEFTfN1Sg2Q/0JeqrvBYP48fjg5zL+2fhEmPy3Ubxk5KyKZuGVMSipdyoQnEY
-	G00MlyxfIHw==
-X-Google-Smtp-Source: AGHT+IHQTE8UgpNl0+iqYndm1kEDyeG8ZC6z7YUg02JZH40XU0wlpeVtikbYwt+M3QrfOEWZgq6wSw==
-X-Received: by 2002:a05:600c:3146:b0:439:8c6d:7ad9 with SMTP id 5b1f17b1804b1-43bb453dedcmr61168635e9.31.1741013777738;
-        Mon, 03 Mar 2025 06:56:17 -0800 (PST)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ab2ee361dsm137795585e9.0.2025.03.03.06.56.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Mar 2025 06:56:17 -0800 (PST)
-Message-ID: <2ac68f21-cea8-400c-8a61-3638e545bac8@linaro.org>
-Date: Mon, 3 Mar 2025 14:56:16 +0000
+	 In-Reply-To:Content-Type; b=SLbJwF0/RXXJt6XcWM25PSTv7JsIBkSARJwGg95DHhLFSbVSyiZpIOmYjGJxhhwuPzrMBPQidTFWI4U4aQzkKE3W+n3AHBPvRGgA825R0L4v3gDTY+E8sXI4fd+N/MbMZn5Cl40af8cQ+ZPZ/WMJ3OoGFgk98OUFS1cQhBvWNz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25EF6C4CED6;
+	Mon,  3 Mar 2025 14:58:24 +0000 (UTC)
+Message-ID: <43f528b5-2c0e-4154-9a7d-7d1003ac109b@xs4all.nl>
+Date: Mon, 3 Mar 2025 15:58:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,181 +38,333 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] venus driver fixes to avoid possible OOB read
- access
-To: Vikash Garodia <quic_vgarodia@quicinc.com>,
- Vedang Nagar <quic_vnagar@quicinc.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250215-venus-security-fixes-v2-0-cfc7e4b87168@quicinc.com>
- <c3b27e55-f627-417c-bb62-3189f248fb99@linaro.org>
- <7bf1aeaa-e1bd-412b-90fc-eda30b5f5b37@quicinc.com>
- <19109672-2856-457f-b1f6-305abc6c4434@linaro.org>
- <ba1e7a20-2f68-15e0-bc4a-fe52bc4036cc@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <ba1e7a20-2f68-15e0-bc4a-fe52bc4036cc@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [PATCH v17 16/17] media: uvcvideo: implement UVC v1.5 ROI
+To: Hans de Goede <hdegoede@redhat.com>,
+ Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Yunke Cao <yunkec@chromium.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Yunke Cao <yunkec@google.com>
+References: <20250203-uvc-roi-v17-0-5900a9fed613@chromium.org>
+ <20250203-uvc-roi-v17-16-5900a9fed613@chromium.org>
+ <6944a221-b0b4-4042-9d4a-98a0cc806116@xs4all.nl>
+ <5d229e8e-f4b9-4589-a978-e80848678e38@redhat.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <5d229e8e-f4b9-4589-a978-e80848678e38@redhat.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 03/03/2025 13:12, Vikash Garodia wrote:
+On 03/03/2025 15:02, Hans de Goede wrote:
+> Hi,
 > 
-> On 3/2/2025 9:26 PM, Bryan O'Donoghue wrote:
->> On 02/03/2025 11:58, Vedang Nagar wrote:
->>>>
->>>> The basic question : what is the lifetime of the data from RX interrupt to
->>>> consumption by another system agent, DSP, userspace, whatever ?
->>> As mentioned in [1], With the regular firmware, after RX interrupt the data
->>> can be considered as valid until next interrupt is raised, but with the rouge
->>> firmware, data can get invalid during the second read and our intention is to
->>> avoid out of bound access read because of such issues.
+> On 3-Mar-25 14:32, Hans Verkuil wrote:
+>> Hans, Laurent, Yunke,
 >>
->> This is definitely the part I don't compute.
+>> On 03/02/2025 12:55, Ricardo Ribalda wrote:
+>>> From: Yunke Cao <yunkec@google.com>
+>>>
+>>> Implement support for ROI as described in UVC 1.5:
+>>> 4.2.2.1.20 Digital Region of Interest (ROI) Control
+>>>
+>>> ROI control is implemented using V4L2 control API as
+>>> two UVC-specific controls:
+>>> V4L2_CID_UVC_REGION_OF_INTEREST_RECT and
+>>> V4L2_CID_UVC_REGION_OF_INTEREST_AUTO.
+>>>
+>>> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+>>> Signed-off-by: Yunke Cao <yunkec@google.com>
+>>> Reviewed-by: Yunke Cao <yunkec@google.com>
+>>> Tested-by: Yunke Cao <yunkec@google.com>
+>>> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>>> ---
+>>>  drivers/media/usb/uvc/uvc_ctrl.c   | 81 ++++++++++++++++++++++++++++++++++++++
+>>>  drivers/media/usb/uvc/uvcvideo.h   |  7 ++++
+>>>  include/uapi/linux/usb/video.h     |  1 +
+>>>  include/uapi/linux/uvcvideo.h      | 13 ++++++
+>>>  include/uapi/linux/v4l2-controls.h |  7 ++++
+>>>  5 files changed, 109 insertions(+)
+>>>
+>>> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+>>> index 17a7ce525f71..1906ce5b7d50 100644
+>>> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+>>> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+>>> @@ -358,6 +358,24 @@ static const struct uvc_control_info uvc_ctrls[] = {
+>>>  		.flags		= UVC_CTRL_FLAG_GET_CUR
+>>>  				| UVC_CTRL_FLAG_AUTO_UPDATE,
+>>>  	},
+>>> +	/*
+>>> +	 * UVC_CTRL_FLAG_AUTO_UPDATE is needed because the RoI may get updated
+>>> +	 * by sensors.
+>>> +	 * "This RoI should be the same as specified in most recent SET_CUR
+>>> +	 * except in the case where the ‘Auto Detect and Track’ and/or
+>>> +	 * ‘Image Stabilization’ bit have been set."
+>>> +	 * 4.2.2.1.20 Digital Region of Interest (ROI) Control
+>>> +	 */
+>>> +	{
+>>> +		.entity		= UVC_GUID_UVC_CAMERA,
+>>> +		.selector	= UVC_CT_REGION_OF_INTEREST_CONTROL,
+>>> +		.index		= 21,
+>>> +		.size		= 10,
+>>> +		.flags		= UVC_CTRL_FLAG_SET_CUR | UVC_CTRL_FLAG_GET_CUR
+>>> +				| UVC_CTRL_FLAG_GET_MIN | UVC_CTRL_FLAG_GET_MAX
+>>> +				| UVC_CTRL_FLAG_GET_DEF
+>>> +				| UVC_CTRL_FLAG_AUTO_UPDATE,
+>>> +	},
+>>>  };
+>>>  
+>>>  static const u32 uvc_control_classes[] = {
+>>> @@ -603,6 +621,44 @@ static const struct uvc_control_mapping *uvc_ctrl_filter_plf_mapping(
+>>>  	return out_mapping;
+>>>  }
+>>>  
+>>> +static int uvc_get_rect(struct uvc_control_mapping *mapping, u8 query,
+>>> +			const void *uvc_in, size_t v4l2_size, void *v4l2_out)
+>>> +{
+>>> +	const struct uvc_rect *uvc_rect = uvc_in;
+>>> +	struct v4l2_rect *v4l2_rect = v4l2_out;
+>>> +
+>>> +	if (WARN_ON(v4l2_size != sizeof(struct v4l2_rect)))
+>>> +		return -EINVAL;
+>>> +
+>>> +	if (uvc_rect->left > uvc_rect->right ||
+>>> +	    uvc_rect->top > uvc_rect->bottom)
+>>> +		return -EIO;
+>>> +
+>>> +	v4l2_rect->top = uvc_rect->top;
+>>> +	v4l2_rect->left = uvc_rect->left;
+>>> +	v4l2_rect->height = uvc_rect->bottom - uvc_rect->top + 1;
+>>> +	v4l2_rect->width = uvc_rect->right - uvc_rect->left + 1;
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +static int uvc_set_rect(struct uvc_control_mapping *mapping, size_t v4l2_size,
+>>> +			const void *v4l2_in, void *uvc_out)
+>>> +{
+>>> +	struct uvc_rect *uvc_rect = uvc_out;
+>>> +	const struct v4l2_rect *v4l2_rect = v4l2_in;
+>>> +
+>>> +	if (WARN_ON(v4l2_size != sizeof(struct v4l2_rect)))
+>>> +		return -EINVAL;
+>>> +
+>>> +	uvc_rect->top = min(0xffff, v4l2_rect->top);
+>>> +	uvc_rect->left = min(0xffff, v4l2_rect->left);
+>>> +	uvc_rect->bottom = min(0xffff, v4l2_rect->top + v4l2_rect->height - 1);
+>>> +	uvc_rect->right = min(0xffff, v4l2_rect->left + v4l2_rect->width - 1);
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>>  static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
+>>>  	{
+>>>  		.id		= V4L2_CID_BRIGHTNESS,
+>>> @@ -897,6 +953,28 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
+>>>  		.selector	= UVC_PU_POWER_LINE_FREQUENCY_CONTROL,
+>>>  		.filter_mapping	= uvc_ctrl_filter_plf_mapping,
+>>>  	},
+>>> +	{
+>>> +		.id		= V4L2_CID_UVC_REGION_OF_INTEREST_RECT,
+>>> +		.entity		= UVC_GUID_UVC_CAMERA,
+>>> +		.selector	= UVC_CT_REGION_OF_INTEREST_CONTROL,
+>>> +		.size		= sizeof(struct uvc_rect) * 8,
+>>> +		.offset		= 0,
+>>> +		.v4l2_type	= V4L2_CTRL_TYPE_RECT,
+>>> +		.data_type	= UVC_CTRL_DATA_TYPE_RECT,
+>>> +		.get		= uvc_get_rect,
+>>> +		.set		= uvc_set_rect,
+>>> +		.name		= "Region Of Interest Rectangle",
 >>
->> 1. RX interrupt
->> 2. Frame#0 Some amount of time data is always valid
-> This is not correct. Its not the amount of time which determines the validity of
-> the data, its the possibility of rogue firmware which, if incase, puts up the
-> date in shared queue, would always be invalid, irrespective of time.
+>> According to how titles are capitalized in english, this should be lower-case "of".
+>>
+>>> +	},
+>>> +	{
+>>> +		.id		= V4L2_CID_UVC_REGION_OF_INTEREST_AUTO,
+>>> +		.entity		= UVC_GUID_UVC_CAMERA,
+>>> +		.selector	= UVC_CT_REGION_OF_INTEREST_CONTROL,
+>>> +		.size		= 16,
+>>> +		.offset		= 64,
+>>> +		.v4l2_type	= V4L2_CTRL_TYPE_BITMASK,
+>>> +		.data_type	= UVC_CTRL_DATA_TYPE_BITMASK,
+>>> +		.name		= "Region Of Interest Auto Controls",
+>>
+>> Ditto.
+>>
+>> This string is also one character too long (the control description string is at
+>> most 31 characters). Suggested alternatives:
+>>
+>> "Region of Interest Auto Ctrls"
 > 
->> 3. RX interrupt - new data
->> 4. Frame#1 new data delivered into a buffer
->>
->> Are you describing a case between RX interrupts 1-3 or a case after 1-4?
->>
->> Why do we need to write code for rouge firmware anyway ?
-> It is a way to prevent any possibility of OOB, similar to how any API does check
-> for validity of any arguments passed to it, prior to processing.
->>
->> And the real question - if the data can be invalidated in the 1-3 window above
->> when is the safe time to snapshot that data ?
->>
->> We seem to have alot of submissions to deal with 'rouge' firmware without I
->> think properly describing the problem of the _expected_ data lifetime.
->>
->> So
->>
->> a) What is the expected data lifetime of an RX buffer between one
->>     RX IRQ and the next ?
->>     I hope the answer to this is - APSS owns the buffer.
->>     This is BTW usually the case in these types of asymmetric setups
->>     with a flag or some other kind of semaphore that indicates which
->>     side of the data-exchange owns the buffer.
->>
->> b) In this rouge - buggy - firmware case what is the scope of the
->>     potential race condition ?
->>
->>     What I'd really like to know here is why we have to seemingly
->>     memcpy() again and again in seemingly incongrous and not
->>     immediately obvious places in the code.
->>
->>     Would we not be better advised to do a memcpy() of the entire
->>     RX frame in the RX IRQ handler path if as you appear to me
->>     suggesting - the firmware can "race" with the APSS
->>     i.e. the data-buffer ownership flag either doesn't work
->>     or isn't respected by one side in the data-exchange.
->>
->> Can we please have a detailed description of the race condition here ?
-> Below is the report which the reporter reported leading to OOB, let me know if
-> you are unable to deduce the trail leading to OOB here.
+> FWIW my vote goes to the above one, rationale:
 > 
-> OOB read issue is in function event_seq_changed, please reference below code
-> snippet:
-> 
-> Buggy code snippet:
-> 
-> static void event_seq_changed(struct venus_core *core, struct venus_inst *inst,
->          struct hfi_msg_event_notify_pkt *pkt)
-> ...
-> num_properties_changed = pkt->event_data2; //num_properties_changed is from
-> message and is not validated.
-> ...
-> data_ptr = (u8 *)&pkt->ext_event_data[0];
-> do {
->   ptype = *((u32 *)data_ptr);
->   switch (ptype) {
->   case HFI_PROPERTY_PARAM_FRAME_SIZE:
->    data_ptr += sizeof(u32);
->    frame_sz = (struct hfi_framesize *)data_ptr;
->    event.width = frame_sz->width;
-> ...
->   }
->   num_properties_changed--;
-> } while (num_properties_changed > 0);
-> ```
-> There is no validation against `num_properties_changed = pkt->event_data2`, so
-> OOB read occurs.
+> 1. ROI is unclear
+> 2. "Ctrls" with the _s_ over "Control" as this is a bitmask which allows
+>    multiple options to be set at the same time (so not a menu style control)
+>  
+>> "ROI Auto Controls"
+>> "Region Of Interest Auto Control"
 >>
->> I don't doubt the new memcpy() makes sense to you but without this detailed
->> understanding of the underlying problem its virtually impossible to debate the
->> appropriate remediation - perhaps this patch you've submitted - or some other
->> solution.
->>
->> Sorry to dig into my trench here but, way more detail is needed.
->>
->>> [1]: https://lore.kernel.org/lkml/4cfc1fe1-2fab-4256-9ce2-
->>> b4a0aad1069e@linaro.org/T/#m5f1737b16e68f8b8fc1d75517356b6566d0ec619
->>>>
->>>> Why is it in this small specific window that the data can change but not
->>>> later ? What is the mechanism the data can change and how do the changes you
->>>> propose here address the data lifetime problem ?
->>> Currently this issue has been discovered by external researchers at this
->>> point, but if any such OOB issue is discovered at later point as well then we
->>> shall fix them as well.
->>
->> Right but, I'm looking for a detailed description of the problem.
->>
->> Can you describe from RX interrupt again what the expected data lifetime of the
->> RX frame is, which I hope we agree is until the next RX interrupt associated
->> with a given buffer with an ownership flag shared between firmware and APSS -
->> and then under what circumstances that "software contract" is being violated.
->>
->>> Also, with rougue firmware we cannot fix the data lifetime problem in my
->>> opinion, but atleast we can fix the out of bound issues.
->>>>
->>>> Without that context, I don't believe it is really possible to validate an
->>>> additional memcpy() here and there in the code as fixing anything.
->>> There is no additional memcpy() now in the v2 patch, but as part of the fix,
->>> we are just trying to retain the length of the packet which was being read in
->>> the first memcpy() to avoid the OOB read access.
->>
->> I can't make a suggestion because - personally speaking I still don't quite
->> understand the data-race you are describing.
-> Go through the reports from the reporter, it was quite evident in leading upto
-> OOB case.
-> Putting up the sequence for you to go over the interrupt handling and message
-> queue parsing of the packets from firmware
-> 1.
-> https://elixir.bootlin.com/linux/v6.14-rc4/source/drivers/media/platform/qcom/venus/hfi_venus.c#L1082
-> 2.
-> https://elixir.bootlin.com/linux/v6.14-rc4/source/drivers/media/platform/qcom/venus/hfi_msgs.c#L816
-> 3. event handling (this particular case)
-> https://elixir.bootlin.com/linux/v6.14-rc4/source/drivers/media/platform/qcom/venus/hfi_msgs.c#L658
-> 4.
-> https://elixir.bootlin.com/linux/v6.14-rc4/source/drivers/media/platform/qcom/venus/hfi_msgs.c#L22
-> 
-> the "struct hfi_msg_event_notify_pkt *pkt" pkt here is having the data read from
-> shared queue.
-> 
->>
->> I get that you say the firmware is breaking the contract but, without more
->> detail on _how_ it breaks that contract I don't think it's really possible to
->> validate your fix here, fixes anything.
->>
->> ---
->> bod
-> 
+>> I can make the changes myself, but I need to know which alternative to use for
+>> this string.
+>  
 > Regards,
-> Vikash
+>  
+> 	Hans
 
-I'll go through all of these links given here, thanks.
+Thank you for your quick reply! I'll merge it with this change.
 
-Whatever the result of the review, this detail needs to go into the 
-commit log so that a reviewer can reasonably read the problem 
-description and evaluate against submitted code as a fix.
+Regards,
 
----
-bod
+	Hans
+
+> 
+> 
+> 
+> 
+> 
+>>
+>>> +	},
+>>>  };
+>>>  
+>>>  /* ------------------------------------------------------------------------
+>>> @@ -1473,6 +1551,9 @@ static int __uvc_queryctrl_boundaries(struct uvc_video_chain *chain,
+>>>  
+>>>  static size_t uvc_mapping_v4l2_size(struct uvc_control_mapping *mapping)
+>>>  {
+>>> +	if (mapping->v4l2_type == V4L2_CTRL_TYPE_RECT)
+>>> +		return sizeof(struct v4l2_rect);
+>>> +
+>>>  	if (uvc_ctrl_mapping_is_compound(mapping))
+>>>  		return DIV_ROUND_UP(mapping->size, 8);
+>>>  
+>>> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+>>> index 6fc1cb9e99d1..b63720e21075 100644
+>>> --- a/drivers/media/usb/uvc/uvcvideo.h
+>>> +++ b/drivers/media/usb/uvc/uvcvideo.h
+>>> @@ -543,6 +543,13 @@ struct uvc_device_info {
+>>>  	u16	uvc_version;
+>>>  };
+>>>  
+>>> +struct uvc_rect {
+>>> +	u16 top;
+>>> +	u16 left;
+>>> +	u16 bottom;
+>>> +	u16 right;
+>>> +} __packed;
+>>> +
+>>>  struct uvc_status_streaming {
+>>>  	u8	button;
+>>>  } __packed;
+>>> diff --git a/include/uapi/linux/usb/video.h b/include/uapi/linux/usb/video.h
+>>> index 526b5155e23c..e1d9f5773187 100644
+>>> --- a/include/uapi/linux/usb/video.h
+>>> +++ b/include/uapi/linux/usb/video.h
+>>> @@ -104,6 +104,7 @@
+>>>  #define UVC_CT_ROLL_ABSOLUTE_CONTROL			0x0f
+>>>  #define UVC_CT_ROLL_RELATIVE_CONTROL			0x10
+>>>  #define UVC_CT_PRIVACY_CONTROL				0x11
+>>> +#define UVC_CT_REGION_OF_INTEREST_CONTROL		0x14
+>>>  
+>>>  /* A.9.5. Processing Unit Control Selectors */
+>>>  #define UVC_PU_CONTROL_UNDEFINED			0x00
+>>> diff --git a/include/uapi/linux/uvcvideo.h b/include/uapi/linux/uvcvideo.h
+>>> index f86185456dc5..cbe15bca9569 100644
+>>> --- a/include/uapi/linux/uvcvideo.h
+>>> +++ b/include/uapi/linux/uvcvideo.h
+>>> @@ -16,6 +16,7 @@
+>>>  #define UVC_CTRL_DATA_TYPE_BOOLEAN	3
+>>>  #define UVC_CTRL_DATA_TYPE_ENUM		4
+>>>  #define UVC_CTRL_DATA_TYPE_BITMASK	5
+>>> +#define UVC_CTRL_DATA_TYPE_RECT		6
+>>>  
+>>>  /* Control flags */
+>>>  #define UVC_CTRL_FLAG_SET_CUR		(1 << 0)
+>>> @@ -38,6 +39,18 @@
+>>>  
+>>>  #define UVC_MENU_NAME_LEN 32
+>>>  
+>>> +/* V4L2 driver-specific controls */
+>>> +#define V4L2_CID_UVC_REGION_OF_INTEREST_RECT	(V4L2_CID_USER_UVC_BASE + 1)
+>>> +#define V4L2_CID_UVC_REGION_OF_INTEREST_AUTO	(V4L2_CID_USER_UVC_BASE + 2)
+>>> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_EXPOSURE		(1 << 0)
+>>> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_IRIS			(1 << 1)
+>>> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_WHITE_BALANCE		(1 << 2)
+>>> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_FOCUS			(1 << 3)
+>>> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_FACE_DETECT		(1 << 4)
+>>> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_DETECT_AND_TRACK	(1 << 5)
+>>> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_IMAGE_STABILIZATION	(1 << 6)
+>>> +#define V4L2_UVC_REGION_OF_INTEREST_AUTO_HIGHER_QUALITY		(1 << 7)
+>>> +
+>>>  struct uvc_menu_info {
+>>>  	__u32 value;
+>>>  	__u8 name[UVC_MENU_NAME_LEN];
+>>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+>>> index 974fd254e573..72e32814ea83 100644
+>>> --- a/include/uapi/linux/v4l2-controls.h
+>>> +++ b/include/uapi/linux/v4l2-controls.h
+>>> @@ -215,6 +215,13 @@ enum v4l2_colorfx {
+>>>   */
+>>>  #define V4L2_CID_USER_THP7312_BASE		(V4L2_CID_USER_BASE + 0x11c0)
+>>>  
+>>> +/*
+>>> + * The base for the uvc driver controls.
+>>> + * See linux/uvcvideo.h for the list of controls.
+>>> + * We reserve 64 controls for this driver.
+>>> + */
+>>> +#define V4L2_CID_USER_UVC_BASE			(V4L2_CID_USER_BASE + 0x11e0)
+>>> +
+>>>  /* MPEG-class control IDs */
+>>>  /* The MPEG controls are applicable to all codec controls
+>>>   * and the 'MPEG' part of the define is historical */
+>>>
+>>
+>>
+> 
+
 
