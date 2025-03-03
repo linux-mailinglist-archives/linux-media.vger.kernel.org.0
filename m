@@ -1,78 +1,79 @@
-Return-Path: <linux-media+bounces-27415-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27416-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59216A4CB96
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 20:07:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id BE5B1A4CB9A
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 20:07:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4EFD8189381D
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 19:07:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E734016A812
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 19:07:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05435230BF4;
-	Mon,  3 Mar 2025 19:07:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52DCA22D7AF;
+	Mon,  3 Mar 2025 19:07:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SW4UHc+V"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="IgLiRlUq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAA321DE2BF
-	for <linux-media@vger.kernel.org>; Mon,  3 Mar 2025 19:07:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E429231CB1
+	for <linux-media@vger.kernel.org>; Mon,  3 Mar 2025 19:07:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741028836; cv=none; b=AJyRKMn2kAPXCCENkc4CI3h6+RDVvCL6/W13VF101qXoamcIJUKSzuMEcYqh2TnSIjYEwX74fEn+dhfKu3pAOsDI7R6F2Wr+NxK4ciJ700QBM5QIfKIpQ0HdoaBGbMHu6FhfDDLevIomjHWfwz915BqjYSayp5rEM22RUxr0vlo=
+	t=1741028838; cv=none; b=uDISwgQ+bsz/2huwafgixRrGEdvI76wjAaUjvEdO+N4QeClROVIQGkpQR1Sd7B8896EESenxcwYUpipYMLIYsqQ8BW+bC1O01TmHeG/fXogHzOPXvjVMTzMDSu2qxMCc6qpxCj2fNxSIQ612UESh/hnTBtPbX6ZQoJ5CQNz1uRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741028836; c=relaxed/simple;
-	bh=zwKv15o7Jo/9fgFeCeS3GYugU2qgxl7huykM3V6apSc=;
+	s=arc-20240116; t=1741028838; c=relaxed/simple;
+	bh=727RL/vy1smD0AJDbCjmRvd1a1o2D/6943w37oDoA8Q=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=DHQYBNZonWn+w3ICs+W6VBHHonVaFrfnAu6il0vU9GTcFReNINH/BmhAaPGkzbm2jwvdQPsck3ImHUid0WwEYcGi8pCHVjFCk3P4ol86veWhKSPfWLSNQK7O4cm2coOcmAgFOfRJivUNJ3Ih/mm2AOzAqEHk/q9tvc5WPvKzrnw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=SW4UHc+V; arc=none smtp.client-ip=209.85.160.174
+	 In-Reply-To:To:Cc; b=KHS7Lmi/HYMl7Vts/nLEpqVS15JQzSHfZ/1sKqH+0/rh5vJD5ZugI/PgMAYl50Bu59yG8TzFeLefjLJcET64esZsasxWmItQw+t6iTevvpLmoVNIpdzKO4ZE99c/ADMHORlpOCWiCKSoi02/Nyo90OS35arEMDKxP3kcq7ZyJMg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=IgLiRlUq; arc=none smtp.client-ip=209.85.160.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-474bc1aaf5fso63870211cf.0
-        for <linux-media@vger.kernel.org>; Mon, 03 Mar 2025 11:07:14 -0800 (PST)
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-474bc1aaf5fso63870591cf.0
+        for <linux-media@vger.kernel.org>; Mon, 03 Mar 2025 11:07:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1741028833; x=1741633633; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1741028835; x=1741633635; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=a8Gxk9vB5xla0tvwCl8Ds7W2l2MwxkkWMXQxVGtphCo=;
-        b=SW4UHc+VNeQadA0BI0YXHxoHnIzwokI2ZDq80cev7H/Y7t6MdxTtJaXjy4m5qyiOSA
-         1Sex0aJarUpORl75xVe97ao4T6T97bHrawc63MMA+2C0/TCB/0yPhheBuyCIr1pO1M+B
-         +oYWFhBU6d0oITBxUUohKopCb/ZaNQTMRvHj8=
+        bh=ZZwQUn/XlYg8B1gU2t/0mo4nCO2lMeP4D6FyqvnakfU=;
+        b=IgLiRlUqFdj+Xe6BrIOuDEPp1ifXdeLCIO4SE7jmB+5CB6c4XjtiNYG/B5XkDzlfIz
+         tt37qcdaMEqPh6s4XyfYkLthB20ATIKzRVy2UOI0gpPRUpNY6PlvJRSMOQf+YqS3zAeo
+         g6ZFmom0+dyhSFphyROYz5ieiUzOjK+7QwGcY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741028833; x=1741633633;
+        d=1e100.net; s=20230601; t=1741028835; x=1741633635;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=a8Gxk9vB5xla0tvwCl8Ds7W2l2MwxkkWMXQxVGtphCo=;
-        b=MgWKXuFV4SGw9oYFqAw+DsGoIFeYPr0lRHKxbAcTcjsCSrlg8QHCOZY/4DA4cY8Gb2
-         4T5f7waW7y2SNs0K1YQZqFrmXy93XKtTbRoe5Z5XHE1gCM9Djpd3+LkT4qKVITCuDrHc
-         G5E5GzK/deYjlI7T7jJ8YS7ZTVzwLYMV+FPk8wdb5xDobjDvFk3O4xNOFHuyaxb84mVI
-         cqSqgZNc5Y7QHNpdeM2rHJwkoIYJbeKXihJKmlZNOdKFgD6zCGWufz2f8gzQ0xCe3uCz
-         N4fce/jBByUB1VEdFvJ+zig1WlN2YjSwZXCQeGaE8ak6zCAAwuYiNUFXMAQvMYEeKbKQ
-         3zdg==
-X-Forwarded-Encrypted: i=1; AJvYcCVQ499Lky9jzVNWXYyDdnMVLGj3ocpAcvsN0SffOp1df1DhhX6Nj5QIKfnpYhZmeaYcREsS2eyh/TxSug==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwpQH8UMnjv31wgefmWkJYhRhA/PiJRZd3CPHVRLaxFbHuRepLd
-	WgHNy2lSaocpqwKZWqNEjydyJryWMCT2evz8b9kWnwOD0ORInIZdeP51Yr65UA==
-X-Gm-Gg: ASbGncspGPTEX9abY26rpeDLKLnM6R9v2hLFhuhDCkTwVWqQeed3Ss09pF2dW3g8vT+
-	ClpMEd59HmUz5L/FlfrJS1zoh3Jcg1pD6SI99vxGlxCakxPzciFgEoVupwdSofTff2aMrSggOvF
-	MpQHa6hJ+ZtjQ0cKPgu44A9sKpOIlKoH0wtTkiomgxWjOOSdkO0lRjaDmtDfSRqzpzXqVsqIRDN
-	sDwgDCogoexmvpSxCFwUpg67jveN2N3juFnzDo0V484OrD20x6qFnWxjo/OFgaVlPHtZA2epk23
-	MWof29kng9P+dcT5qcaErpbLCmlfrqQiuMOQH1GSrtboviiI0GtEI7Kj1mdo/gj05NUWdBbe1Ar
-	bc01ZK6magPPB0YnBqFwhmQ==
-X-Google-Smtp-Source: AGHT+IHNtHwExEby6G65UwGqmP6x3/NpxGPVOKVUd7HVUEskMl+/Yh0StRkgXpJdIyW8qdJRBCX/Ug==
-X-Received: by 2002:a05:622a:152:b0:471:f539:481c with SMTP id d75a77b69052e-474bc0f6308mr195158551cf.39.1741028833678;
-        Mon, 03 Mar 2025 11:07:13 -0800 (PST)
+        bh=ZZwQUn/XlYg8B1gU2t/0mo4nCO2lMeP4D6FyqvnakfU=;
+        b=JHU39mG2jplZsrcF0svWVX5ntLFEQ2pLeu5D6oxIq5vDlSzEt2DKuAcjp5wghieEnw
+         pHw2sYamgC2Dh3tc5FUpqCAwXh2R7jWT8nQRT9Yf5bad1HVMHq9vjp8YhYF/ONWI4sCm
+         oKjD/iY7Qf+DG5Q/VYCzEBnnaT7gTsf7pw0Evlt0JspnhUDNKYpQbCn4byZda5dzdfGr
+         OudNmgR5reWMav/RPpQfevynxjKtWz1lUCY1dLarNtgAI+G+PqYX7V28DVNc1yQzFnFf
+         VgfhGagNcUwn7d8AMxmtaN04nUTAvHDutuYGQGBGz9YonYIRN6/Xpi1pYV1VgPi/kqoO
+         kJAA==
+X-Forwarded-Encrypted: i=1; AJvYcCXhswSv5i7fUAT4Gc+mNcYcQBmwpQ3z/ecImnEin/uRrOa9U9tJEv7PIKsERmzw6bZgS81J7rA2vEjMVw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwjAMA8pVS/wZJbR07lPnWIm37tquBKqj4UuNHY2dPQA1G5hAUH
+	+6TvksyUWqCQCdrZzUY4tc+9TFC9HfuiSDZKWH/NfUAvDMTNGnjY/kIGEdrwVg==
+X-Gm-Gg: ASbGncud2Tt1sYJ8gIP0orqM/1xkzVCN7j7N++t64ZJxFxR456gQBWk/oE5x6XoH1iI
+	laWkw61T7lyLw7E2uZyzC3pxEsh4be8Es04FNyTrEiusTdGrdFdcPpKa89wnY1SHmyKU9/lJGUA
+	8jFB0mZuFGixQjWi8PYaM3d5urHBhPz9k1fLzo8g7nz6uUNn/7Pn5YpMrI+Uk1JCbCBSfD8Amn4
+	ZEOY362epik9qGABDxTbqkXATJqPon8MsByXZAoOmVO3bgf0d04biFbr5q8KlcP8Jc5S+gsU8Ys
+	8K7AXy9zl+HlJxQsm1x2k2J+yx4Nvg/EwWe7vrG8Dc06KqptmAxqxDXu+Kh+eud1M7m9UIq68uS
+	E8AoMUBL5E9hXeMry/FXGCQ==
+X-Google-Smtp-Source: AGHT+IHbB2ULThZDwvr8LwWiOxMeoRP6M+8CIeBuTRWBxSc7Hsd2Skry93C67PBKQasajm2/AaIqQw==
+X-Received: by 2002:a05:622a:610c:b0:474:bca3:85c1 with SMTP id d75a77b69052e-474bca38813mr202403531cf.8.1741028835091;
+        Mon, 03 Mar 2025 11:07:15 -0800 (PST)
 Received: from denia.c.googlers.com (15.237.245.35.bc.googleusercontent.com. [35.245.237.15])
         by smtp.gmail.com with ESMTPSA id d75a77b69052e-474f1b76856sm10218651cf.16.2025.03.03.11.07.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
         Mon, 03 Mar 2025 11:07:13 -0800 (PST)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 03 Mar 2025 19:07:08 +0000
-Subject: [PATCH v2 1/2] media: uvcvideo: Fix deferred probing error
+Date: Mon, 03 Mar 2025 19:07:09 +0000
+Subject: [PATCH v2 2/2] media: uvcvideo: Use dev_err_probe for
+ devm_gpiod_get_optional
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,7 +82,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250303-uvc-eprobedefer-v2-1-be7c987cc3ca@chromium.org>
+Message-Id: <20250303-uvc-eprobedefer-v2-2-be7c987cc3ca@chromium.org>
 References: <20250303-uvc-eprobedefer-v2-0-be7c987cc3ca@chromium.org>
 In-Reply-To: <20250303-uvc-eprobedefer-v2-0-be7c987cc3ca@chromium.org>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -89,98 +90,42 @@ To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>, stable@vger.kernel.org, 
- Douglas Anderson <dianders@chromium.org>
+ Ricardo Ribalda <ribalda@chromium.org>, 
+ Doug Anderson <dianders@chromium.org>
 X-Mailer: b4 0.14.1
 
-uvc_gpio_parse() can return -EPROBE_DEFER when the GPIOs it depends on
-have not yet been probed. This return code should be propagated to the
-caller of uvc_probe() to ensure that probing is retried when the required
-GPIOs become available.
+Use the dev_err_probe() helper for devm_gpiod_get_optional(), like we do
+with gpiod_to_irq()
 
-Currently, this error code is incorrectly converted to -ENODEV,
-causing some internal cameras to be ignored.
+That eventually calls device_set_deferred_probe_reason() which can be
+helpful for tracking down problems.
 
-This commit fixes this issue by propagating the -EPROBE_DEFER error.
-
-Cc: stable@vger.kernel.org
-Fixes: 2886477ff987 ("media: uvcvideo: Implement UVC_EXT_GPIO_UNIT")
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
+Suggested-by: Doug Anderson <dianders@chromium.org>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/uvc/uvc_driver.c | 27 +++++++++++++++++++--------
- 1 file changed, 19 insertions(+), 8 deletions(-)
+ drivers/media/usb/uvc/uvc_driver.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index deadbcea5e22..e966bdb9239f 100644
+index e966bdb9239f..0094cfc092d6 100644
 --- a/drivers/media/usb/uvc/uvc_driver.c
 +++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -2231,13 +2231,16 @@ static int uvc_probe(struct usb_interface *intf,
- #endif
+@@ -1297,8 +1297,13 @@ static int uvc_gpio_parse(struct uvc_device *dev)
  
- 	/* Parse the Video Class control descriptor. */
--	if (uvc_parse_control(dev) < 0) {
-+	ret = uvc_parse_control(dev);
-+	if (ret < 0) {
-+		ret = -ENODEV;
- 		uvc_dbg(dev, PROBE, "Unable to parse UVC descriptors\n");
- 		goto error;
- 	}
+ 	gpio_privacy = devm_gpiod_get_optional(&dev->intf->dev, "privacy",
+ 					       GPIOD_IN);
+-	if (IS_ERR_OR_NULL(gpio_privacy))
+-		return PTR_ERR_OR_ZERO(gpio_privacy);
++	if (!gpio_privacy)
++		return 0;
++
++	if (IS_ERR(gpio_privacy))
++		return dev_err_probe(&dev->intf->dev,
++				     PTR_ERR(gpio_privacy),
++				     "Can't get privacy GPIO\n");
  
- 	/* Parse the associated GPIOs. */
--	if (uvc_gpio_parse(dev) < 0) {
-+	ret = uvc_gpio_parse(dev);
-+	if (ret < 0) {
- 		uvc_dbg(dev, PROBE, "Unable to parse UVC GPIOs\n");
- 		goto error;
- 	}
-@@ -2263,24 +2266,32 @@ static int uvc_probe(struct usb_interface *intf,
- 	}
- 
- 	/* Register the V4L2 device. */
--	if (v4l2_device_register(&intf->dev, &dev->vdev) < 0)
-+	ret = v4l2_device_register(&intf->dev, &dev->vdev);
-+	if (ret < 0)
- 		goto error;
- 
- 	/* Scan the device for video chains. */
--	if (uvc_scan_device(dev) < 0)
-+	if (uvc_scan_device(dev) < 0) {
-+		ret = -ENODEV;
- 		goto error;
-+	}
- 
- 	/* Initialize controls. */
--	if (uvc_ctrl_init_device(dev) < 0)
-+	if (uvc_ctrl_init_device(dev) < 0) {
-+		ret = -ENODEV;
- 		goto error;
-+	}
- 
- 	/* Register video device nodes. */
--	if (uvc_register_chains(dev) < 0)
-+	if (uvc_register_chains(dev) < 0) {
-+		ret = -ENODEV;
- 		goto error;
-+	}
- 
- #ifdef CONFIG_MEDIA_CONTROLLER
- 	/* Register the media device node */
--	if (media_device_register(&dev->mdev) < 0)
-+	ret = media_device_register(&dev->mdev);
-+	if (ret < 0)
- 		goto error;
- #endif
- 	/* Save our data pointer in the interface data. */
-@@ -2314,7 +2325,7 @@ static int uvc_probe(struct usb_interface *intf,
- error:
- 	uvc_unregister_video(dev);
- 	kref_put(&dev->ref, uvc_delete);
--	return -ENODEV;
-+	return ret;
- }
- 
- static void uvc_disconnect(struct usb_interface *intf)
+ 	irq = gpiod_to_irq(gpio_privacy);
+ 	if (irq < 0)
 
 -- 
 2.48.1.711.g2feabab25a-goog
