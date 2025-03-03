@@ -1,56 +1,59 @@
-Return-Path: <linux-media+bounces-27346-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27348-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55D5AA4C4CD
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 16:21:59 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D0FBA4C4DD
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 16:23:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C58C172A89
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 15:20:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 272DA7A929C
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 15:20:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CC87214A80;
-	Mon,  3 Mar 2025 15:16:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B44C214A79;
+	Mon,  3 Mar 2025 15:18:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TXmHJojT"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JBrOnoY5"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7A121480C;
-	Mon,  3 Mar 2025 15:16:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CBAF15855E;
+	Mon,  3 Mar 2025 15:18:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741015009; cv=none; b=UGYZKkv7S+AOX9UACg4Sh6Ws1gpSJNKc6pzD2aHY/VLGHQJiH30zzKr9/+Oai6RLtzni/f8KOn2CXF2NqVAp6Mg/cGO0E5CZBj3lyQWh3822lvOZxkBBMpZsXL4meNtyeCPce7QcnTTyuiRk/MkYcvg4oevMYgmA4hnLdOCaJJM=
+	t=1741015108; cv=none; b=Ow8O1j0TmdIzemuCglGpximQjtFXn1tR7DslCU2fH/JdSqcODW1Kx8CWSiippO0xXfrUZllcWkLcEbLQRj1h5rG3MGwqfUQCNUfdGp7b6jy6CAaGXppB1GXKHHNXMnNA77RGl5DzF8N3Y38t7/9CCfNIE+8GXB2IBU7s0+Gytp4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741015009; c=relaxed/simple;
-	bh=w8Gzg6G5ATgIFqx6VGug6piru5S1PG7aH5DSn3kk6r4=;
+	s=arc-20240116; t=1741015108; c=relaxed/simple;
+	bh=/HQqaOxmQjTOU9QyIQ+Q//w7j9/nF5iJlhcwlMTOh7I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EJkWmiHdMZ5/adRBZYe2Q495njGljVPf5qdmi83vC0f9KRYQHGPB2Z1XZvM9Tjmrx8ZSgc9oZ2V4wHKLrZsqJuy4BASb08/Sha3esIe/KZ25yLBsFR786P+Yy9JgYMnlPS+wQ9z4Szs2ma0JoVrob7q4QoHoZxQK+VnBbQB0yfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=TXmHJojT; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=q7ETcMWvHKbnU2Rrg3HolLDp/R4kAL9SuyJbEsR1mVUYtTVGnODZFM1kCgEtj1Q5Dv388oZ3kneokXeNA0LRuWj9PpjP7fb/x/9aozSbmr+3wWhRB3+0mFWQR9GHuVpftZMlOgqjiG8RRnOC2FQNTSmofH/SgKLloeyjvcVNpXI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JBrOnoY5; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E82EF2D5;
-	Mon,  3 Mar 2025 16:15:14 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 677F02D5;
+	Mon,  3 Mar 2025 16:16:54 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1741014915;
-	bh=w8Gzg6G5ATgIFqx6VGug6piru5S1PG7aH5DSn3kk6r4=;
+	s=mail; t=1741015014;
+	bh=/HQqaOxmQjTOU9QyIQ+Q//w7j9/nF5iJlhcwlMTOh7I=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TXmHJojTpEXCWiFno0DYkQwRYZIbU3WFuXteOya/ro4iH3viPqdzU5uk2NST7244J
-	 +HA/DJKGoJJgXObYfX/0gSNSUYmno0vRjQZxa0j33i0S1prA/pQG9Xrasp82//zYiT
-	 WxVv2IcivblwlO/6NlRK3NxEbc745EBA24PaJ6AM=
-Date: Mon, 3 Mar 2025 17:16:25 +0200
+	b=JBrOnoY5GYaBPQe4qz5oiKxOw6+UTrKCb1zwo+tA9DropmN9BLFW52zUkk+lWRJAt
+	 eDvlD0u2rtwsadsmQ77J2h99gPPC74po89DH8SSNPo4yJTtK4qma36M7dWRefY58mT
+	 HFdawMdP/ubdnz7+7Ui+ypUN4ytLr2BX6iReSB9I=
+Date: Mon, 3 Mar 2025 17:18:04 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Hans de Goede <hdegoede@redhat.com>,
+Cc: Hans de Goede <hdegoede@redhat.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5] media: uvcvideo: Set V4L2_CTRL_FLAG_DISABLED during
- queryctrl errors
-Message-ID: <20250303151625.GE32048@pendragon.ideasonboard.com>
-References: <20250224-uvc-eaccess-v5-1-690d73bcef28@chromium.org>
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Fix deferred probing error
+Message-ID: <20250303151804.GF32048@pendragon.ideasonboard.com>
+References: <20250129-uvc-eprobedefer-v1-1-643b2603c0d2@chromium.org>
+ <20250223143617.GA27463@pendragon.ideasonboard.com>
+ <CANiDSCupq4A=ctR=Kkp7VxB+gvw=Z8MdDZHDShVMMAzms0VUAg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,166 +62,144 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250224-uvc-eaccess-v5-1-690d73bcef28@chromium.org>
+In-Reply-To: <CANiDSCupq4A=ctR=Kkp7VxB+gvw=Z8MdDZHDShVMMAzms0VUAg@mail.gmail.com>
 
-On Mon, Feb 24, 2025 at 09:40:06AM +0000, Ricardo Ribalda wrote:
-> To implement VIDIOC_QUERYCTRL, we need to know the minimum, maximum,
-> step and flags of the control. For some of the controls, this involves
-> querying the actual hardware.
+On Sun, Feb 23, 2025 at 08:32:24PM +0100, Ricardo Ribalda wrote:
+> On Sun, 23 Feb 2025 at 15:36, Laurent Pinchart wrote:
+> > On Wed, Jan 29, 2025 at 12:39:46PM +0000, Ricardo Ribalda wrote:
+> > > uvc_gpio_parse() can return -EPROBE_DEFER when the GPIOs it depends on
+> > > have not yet been probed. This return code should be propagated to the
+> > > caller of uvc_probe() to ensure that probing is retried when the required
+> > > GPIOs become available.
+> > >
+> > > Currently, this error code is incorrectly converted to -ENODEV,
+> > > causing some internal cameras to be ignored.
+> > >
+> > > This commit fixes this issue by propagating the -EPROBE_DEFER error.
+> > >
+> > > Cc: stable@vger.kernel.org
+> > > Fixes: 2886477ff987 ("media: uvcvideo: Implement UVC_EXT_GPIO_UNIT")
+> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > ---
+> > >  drivers/media/usb/uvc/uvc_driver.c | 9 ++++++---
+> > >  1 file changed, 6 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > > index a10d4f4d9f95..73a7f23b616c 100644
+> > > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > > @@ -2253,9 +2253,10 @@ static int uvc_probe(struct usb_interface *intf,
+> > >       }
+> > >
+> > >       /* Parse the associated GPIOs. */
+> > > -     if (uvc_gpio_parse(dev) < 0) {
+> > > +     ret = uvc_gpio_parse(dev);
+> > > +     if (ret < 0) {
+> > >               uvc_dbg(dev, PROBE, "Unable to parse UVC GPIOs\n");
+> > > -             goto error;
+> > > +             goto error_retcode;
+> > >       }
+> > >
+> > >       dev_info(&dev->udev->dev, "Found UVC %u.%02x device %s (%04x:%04x)\n",
+> > > @@ -2328,9 +2329,11 @@ static int uvc_probe(struct usb_interface *intf,
+> > >       return 0;
+> > >
+> > >  error:
+> > > +     ret = -ENODEV;
+> > > +error_retcode:
+> >
+> > This isn't very nice. Could we instead also propagate error codes from
+> > other locations in the uvc_probe() function ? If you want to minimize
+> > changes, you can initialize ret to -ENODEV, and turn the (ret < 0) check
+> > for uvc_gpio_parse() to a (ret) check.
 > 
-> Some non-compliant cameras produce errors when we query them. These
-> error can be triggered every time, sometimes, or when other controls do
-> not have the "right value". Right now, we populate that error to userspace.
-> When an error happens, the v4l2 framework does not copy the v4l2_queryctrl
-> struct to userspace. Also, userspace apps are not ready to handle any
-> other error than -EINVAL.
-> 
-> One of the main usecases of VIDIOC_QUERYCTRL is enumerating the controls
-> of a device. This is done using the V4L2_CTRL_FLAG_NEXT_CTRL flag. In
-> that usecase, a non-compliant control will make it almost impossible to
-> enumerate all controls of the device.
-> 
-> A control with an invalid max/min/step/flags is better than non being
-> able to enumerate the rest of the controls.
-> 
-> This patch:
-> - Retries for an extra attempt to read the control, to avoid spurious
->   errors. More attempts do not seem to produce better results in the
->   tested hardware.
-> - Makes VIDIOC_QUERYCTRL return 0 in all the error cases different than
->   -EINVAL.
-> - Introduces a warning in dmesg so we can have a trace of what has happened
->   and sets the V4L2_CTRL_FLAG_DISABLED.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
-> Hi 2*Hans and Laurent!
-> 
-> I came around a device that was listing just a couple of controls when
-> it should be listing much more.
-> 
-> Some debugging latter I found that the device was returning -EIO when
-> all the focal controls were read.
-> 
-> Lots of good arguments in favor/against this patch in the v1. Please
-> check!
+> Not very nice, but easy to backport to stables. What about a follow-up
+> change like this:
 
-Let's continue the discussion on v4.
+How about the nicer fix for mainline, and a simpler to backport one for
+stable ? The main focus should be on mainline, not backports.
 
-> Without this patch:
-> $ v4l2-ctl --list-ctrls
->                   auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
->          exposure_time_absolute 0x009a0902 (int)    : min=50 max=10000 step=1 default=166 value=166 flags=inactive
->      exposure_dynamic_framerate 0x009a0903 (bool)   : default=0 value=0
-> region_of_interest_auto_control 0x009a1902 (bitmask): max=0x00000001 default=0x00000001 value=1
+> index c93abe2367aa..8c67feca1688 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -2261,7 +2261,7 @@ static int uvc_probe(struct usb_interface *intf,
+>         ret = uvc_gpio_parse(dev);
+>         if (ret < 0) {
+>                 uvc_dbg(dev, PROBE, "Unable to parse UVC GPIOs\n");
+> -               goto error_retcode;
+> +               goto error;
+>         }
 > 
-> With this patch:
-> $ v4l2-ctl --list-ctrls
->                   auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
->          exposure_time_absolute 0x009a0902 (int)    : min=50 max=10000 step=1 default=166 value=166 flags=inactive
->      exposure_dynamic_framerate 0x009a0903 (bool)   : default=0 value=0
-> error 5 getting ext_ctrl Focus, Absolute
-> error 5 getting ext_ctrl Focus, Automatic Continuous
->    region_of_interest_rectangle 0x009a1901 (unknown): type=107 value=unsupported payload type flags=has-payload
-> region_of_interest_auto_control 0x009a1902 (bitmask): max=0x00000001 default=0x00000001 value=1
-> --
-> ---
-> Changes in v5:
-> - Explain the retry in the commit message (Thanks Laurent).
-> - Link to v4: https://lore.kernel.org/r/20250111-uvc-eaccess-v4-1-c7759bfd1bd4@chromium.org
+>         dev_info(&dev->udev->dev, "Found UVC %u.%02x device %s (%04x:%04x)\n",
+> @@ -2285,24 +2285,32 @@ static int uvc_probe(struct usb_interface *intf,
+>         }
 > 
-> Changes in v4:
-> - Display control name (Thanks Hans)
-> - Link to v3: https://lore.kernel.org/r/20250107-uvc-eaccess-v3-1-99f3335d5133@chromium.org
+>         /* Register the V4L2 device. */
+> -       if (v4l2_device_register(&intf->dev, &dev->vdev) < 0)
+> +       ret = v4l2_device_register(&intf->dev, &dev->vdev);
+> +       if (ret < 0)
+>                 goto error;
 > 
-> Changes in v3:
-> - Add a retry mechanism during error.
-> - Set V4L2_CTRL_FLAG_DISABLED flag.
-> - Link to v2: https://lore.kernel.org/r/20241219-uvc-eaccess-v2-1-bf6520c8b86d@chromium.org
+>         /* Scan the device for video chains. */
+> -       if (uvc_scan_device(dev) < 0)
+> +       if (uvc_scan_device(dev) < 0) {
+> +               ret = -ENODEV;
+>                 goto error;
+> +       }
 > 
-> Changes in v2:
-> - Never return error, even if we are not enumerating the controls
-> - Improve commit message.
-> - Link to v1: https://lore.kernel.org/r/20241213-uvc-eaccess-v1-1-62e0b4fcc634@chromium.org
-> ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 43 ++++++++++++++++++++++++++++++++--------
->  1 file changed, 35 insertions(+), 8 deletions(-)
+>         /* Initialize controls. */
+> -       if (uvc_ctrl_init_device(dev) < 0)
+> +       if (uvc_ctrl_init_device(dev) < 0) {
+> +               ret = -ENODEV;
+>                 goto error;
+> +       }
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index 4e58476d305e..9d7812e8572d 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -1280,6 +1280,8 @@ static u32 uvc_get_ctrl_bitmap(struct uvc_control *ctrl,
->  	return ~0;
->  }
->  
-> +#define MAX_QUERY_RETRIES 2
-> +
->  static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
->  	struct uvc_control *ctrl,
->  	struct uvc_control_mapping *mapping,
-> @@ -1305,19 +1307,44 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
->  		__uvc_find_control(ctrl->entity, mapping->master_id,
->  				   &master_map, &master_ctrl, 0);
->  	if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
-> +		unsigned int retries;
->  		s32 val;
-> -		int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
-> -		if (ret < 0)
-> -			return ret;
-> +		int ret;
->  
-> -		if (val != mapping->master_manual)
-> -				v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
-> +		for (retries = 0; retries < MAX_QUERY_RETRIES; retries++) {
-> +			ret = __uvc_ctrl_get(chain, master_ctrl, master_map,
-> +					     &val);
-> +			if (ret >= 0)
-> +				break;
-> +		}
-> +
-> +		if (ret < 0) {
-> +			dev_warn_ratelimited(&chain->dev->udev->dev,
-> +					     "UVC non compliance: Error %d querying master control %x (%s)\n",
-> +					      ret, master_map->id,
-> +					      uvc_map_get_name(master_map));
-> +		} else if (val != mapping->master_manual) {
-> +			v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
-> +		}
->  	}
->  
->  	if (!ctrl->cached) {
-> -		int ret = uvc_ctrl_populate_cache(chain, ctrl);
-> -		if (ret < 0)
-> -			return ret;
-> +		unsigned int retries;
-> +		int ret;
-> +
-> +		for (retries = 0; retries < MAX_QUERY_RETRIES; retries++) {
-> +			ret = uvc_ctrl_populate_cache(chain, ctrl);
-> +			if (ret >= 0)
-> +				break;
-> +		}
-> +
-> +		if (ret < 0) {
-> +			dev_warn_ratelimited(&chain->dev->udev->dev,
-> +					     "UVC non compliance: Error %d populating cache of control %x (%s)\n",
-> +					     ret, mapping->id,
-> +					     uvc_map_get_name(mapping));
-> +			v4l2_ctrl->flags |= V4L2_CTRL_FLAG_DISABLED;
-> +		}
->  	}
->  
->  	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_DEF) {
+>         /* Register video device nodes. */
+> -       if (uvc_register_chains(dev) < 0)
+> +       if (uvc_register_chains(dev) < 0) {
+> +               ret = -ENODEV;
+>                 goto error;
+> +       }
 > 
-> ---
-> base-commit: c2b96a6818159fba8a3bcc38262da9e77f9b3ec7
-> change-id: 20241213-uvc-eaccess-755cc061a360
+>  #ifdef CONFIG_MEDIA_CONTROLLER
+>         /* Register the media device node */
+> -       if (media_device_register(&dev->mdev) < 0)
+> +       ret = media_device_register(&dev->mdev);
+> +       if (ret < 0)
+>                 goto error;
+>  #endif
+>         /* Save our data pointer in the interface data. */
+> @@ -2334,8 +2342,6 @@ static int uvc_probe(struct usb_interface *intf,
+>         return 0;
 > 
-> Best regards,
-> -- 
-> Ricardo Ribalda <ribalda@chromium.org>
+>  error:
+> -       ret = -ENODEV;
+> -error_retcode:
+>         uvc_unregister_video(dev);
+>         kref_put(&dev->ref, uvc_delete);
+>         return ret;
 > 
+> > >       uvc_unregister_video(dev);
+> > >       kref_put(&dev->ref, uvc_delete);
+> > > -     return -ENODEV;
+> > > +     return ret;
+> > >  }
+> > >
+> > >  static void uvc_disconnect(struct usb_interface *intf)
+> > >
+> > > ---
+> > > base-commit: c4b7779abc6633677e6edb79e2809f4f61fde157
+> > > change-id: 20250129-uvc-eprobedefer-b5ebb4db63cc
+> >
+> > --
+> > Regards,
+> >
+> > Laurent Pinchart
+> 
+> Let me know what do you think so I can send a v2 with the change
+> proposed by Doug.
+> 
+> Regards!
 
 -- 
 Regards,
