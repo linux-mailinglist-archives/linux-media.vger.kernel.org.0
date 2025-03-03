@@ -1,305 +1,430 @@
-Return-Path: <linux-media+bounces-27401-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27402-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C163A4C6EB
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 17:25:21 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8304BA4C732
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 17:32:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7710B3A79D5
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 16:23:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D4FF57AA90C
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 16:25:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AA9D234990;
-	Mon,  3 Mar 2025 16:16:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC16321ADCC;
+	Mon,  3 Mar 2025 16:23:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Z/s3zdAh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3D73215193;
-	Mon,  3 Mar 2025 16:16:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7948215191
+	for <linux-media@vger.kernel.org>; Mon,  3 Mar 2025 16:23:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741018564; cv=none; b=mgHYuyVIBxpNU8dFX+uCCxTm0XeenxVPCGnwW90lWkdOFCu8ZCJaUnARvHiiNfOB41y1TjpEK4RqRkHdBSJ4Il5gH5quXwjai5sw9/3YHambxvSoYnzllXgEL4nXuNcxs6DkSYBMp28PIP89LQvUeLF49YXh5qHGo8T9ePfbdlo=
+	t=1741018986; cv=none; b=BeQk00TPerp+TCw2ud8RLAjLOtogluc7mRZOkZ5o2UHibQcV0KdZywQGyqxEO1aTU87O7HloAubK996QGHu6JdJS/hkAUyl53wCVmSlgNa5rEJcnv7hXSiSB+vSThrDHdry8z2+bRjykkParLQ9B9wvYVY8Yd+ev+Q1QQuWeZy8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741018564; c=relaxed/simple;
-	bh=226GBRazPsQUlovXUlaIfleUlXMaCqSaJQkbVRe8mU8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ngsOsy4WahiQFwZzfshRvmhW6FOEW/gAnuHownpB5W001gb6CSIzhZE4SULklm6uq+YqgIDJ0FVwmqylRp7ZWl2tjpQKkGoqAhsw6/RLWc/Ahg7tWGySrr/wf0J3eMgmZ3bgVYRyceCut5/7XVDw8JEEKqItdi/H0zKL41qaOLQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16772C4CED6;
-	Mon,  3 Mar 2025 16:16:02 +0000 (UTC)
-Message-ID: <0527dc72-ccc3-4f1f-a982-5bc8b2341c1a@xs4all.nl>
-Date: Mon, 3 Mar 2025 17:16:01 +0100
+	s=arc-20240116; t=1741018986; c=relaxed/simple;
+	bh=CHUjZGMHeF9bxbS+Ud0k7HhVr518DMPbBK2Cwd/7hjM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CiF47bIs4RWn5m73NZHaej1vmGmYYYMCvApY9plv6aClYy0e0ckPfZC4MEl3HxzGz4QcgXdcQyWpIzdcPPOYG6KOCbm9wXH719m8MqakPnZxI1HxR0ub73eJ+lIiFp0HW+Uo35Q9+2rTxrAGi1+QdjU/4Kbj92RvJYeqEAYRilY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Z/s3zdAh; arc=none smtp.client-ip=209.85.208.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30b83290b7bso53333041fa.1
+        for <linux-media@vger.kernel.org>; Mon, 03 Mar 2025 08:23:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1741018982; x=1741623782; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=W5yieHl70UQccw03hbS+RktjDgTgakyRXLqO+BIs+mI=;
+        b=Z/s3zdAhKV/pZkVLJWoNHF/xaC7CNRxROa908NioHftGYT1WIuBCx3hbvt6mm03AlE
+         031NI7UQA9Xy7QQV5pll+/DyKi+MOSOlTkQDaFVN0OqMI+1joTGu0BhUlrVmva0HnDRz
+         IopnP3xiICiSNPdu7D7nlr+BMepWhMGEHiMLc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741018982; x=1741623782;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=W5yieHl70UQccw03hbS+RktjDgTgakyRXLqO+BIs+mI=;
+        b=aVFbsdVVdIcJK1jPCCnekqQhK05pxGh6wKWyZE0AToszVAmdWnatlAW1octxNIyX5u
+         jukuikvHVkER+Plcm+w+35lllJwaO4Qcc+TKpTU8figCYpE5EMTYUZx6ZekAzlP+yrWD
+         6Cyn9XHuv71Ly9obTkFPyXgq7dk3C25PkhGWyQDlZ0stO4Cg2VeEaWmohDSb+te2sgIJ
+         AxQ3rysAsCgl424KQXNyP80wsd13pdGK4FU6BLQoKZ9jK674aVX7BoTWhmQTu5ahnfiM
+         ai0FRHWuhXt6YlgJeSqmqUFBJizGjjDO0oGb8orUKzMhBWXH0MuX2g/VpGGzRnk5uKFM
+         utHQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV4Nou1OXGfZG9ZqYf2o/6PqxDovxzC6Ops+uGZ9q8XqERqQRjIspqSiOug+K3q4NaFXPhybQKBgjDazg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3D8K7dbznsqb/pI+BgID0Y3PjrvtW0TmzrcBrRwgBl9v2bOGz
+	JYXsRWtIK/zHUR5WW847dfiNkCA+tynN9Q9nyCIIGF/NVqpg3mrxhvhudhmtysgPQyN4qnw2Fm8
+	=
+X-Gm-Gg: ASbGncuqVAECpQUUkYmRY+7W8lfiP4ZXGH64m57MUElxjMM/gm3D/IyCXD5DyRUBonq
+	jHgYMrxYXkb93D1zqMQqvrPa+qLBaWZ8CkD/y9lnoySw5TphmKttiD6SZmejrcMoy331F8MDD+2
+	/hkocEGxqizaJSPh0y4jdrP2tnOFx9m3rN+Q5Ag4AOqA2lhS3zcBJAfKBEfxTK+gvE0XtZWArC4
+	VeVJ5hS+L6m5C88yScMc/Ukb8J+r/k0d7VnLqlvU3qbVZ8NfT9AFWbG9vBAD525hSokF3t7R2g9
+	FM9RPBj1X8FHReiRjr7ZygXCc5J00kx5AhbmJvtmPh1z8aAD4WbKMFAD2zOC0RcytfxWWySMYHi
+	RuRKRwr7wFK8=
+X-Google-Smtp-Source: AGHT+IHwr+fK16EmPZp9lutl+P4XUMNa2WnK3pakKYgmbPSQ8iVpq9m2B708JO4D1fLQ6cfk0+eD0w==
+X-Received: by 2002:a2e:a9a8:0:b0:30b:c980:c5b5 with SMTP id 38308e7fff4ca-30bc980c99amr2376491fa.5.1741018981549;
+        Mon, 03 Mar 2025 08:23:01 -0800 (PST)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com. [209.85.208.170])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30b931524efsm11867321fa.60.2025.03.03.08.23.00
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 03 Mar 2025 08:23:00 -0800 (PST)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-30b83290b7bso53332661fa.1
+        for <linux-media@vger.kernel.org>; Mon, 03 Mar 2025 08:23:00 -0800 (PST)
+X-Forwarded-Encrypted: i=1; AJvYcCUi2I+QE8+AdPm+UtOmADvmTYwZrqyPqvr0R/PCFswsske0bm08dMDvrq0Tr5XfEL70+5xKzfeio1Etvw==@vger.kernel.org
+X-Received: by 2002:a2e:bea7:0:b0:30b:b852:2f77 with SMTP id
+ 38308e7fff4ca-30bb85235a4mr17425031fa.6.1741018979966; Mon, 03 Mar 2025
+ 08:22:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] media: uvcvideo: Set V4L2_CTRL_FLAG_DISABLED during
- queryctrl errors
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250111-uvc-eaccess-v4-1-c7759bfd1bd4@chromium.org>
- <20250223170319.GA2821@pendragon.ideasonboard.com>
- <CANiDSCv1HVu82D=PoJFu=XCQ97k_MM1dmYpufkUCiKpSgGRT9w@mail.gmail.com>
- <20250303151603.GD32048@pendragon.ideasonboard.com>
- <CANiDSCvQ2evpdfg5FYKBRB9ZNQ5Lfa8Sk-EJ4yNiQwB4OfFnKg@mail.gmail.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <CANiDSCvQ2evpdfg5FYKBRB9ZNQ5Lfa8Sk-EJ4yNiQwB4OfFnKg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250226-uvc-metadata-v1-1-6cd6fe5ec2cb@chromium.org>
+ <c6ab8640-d96c-4a71-929a-a4ad6bb2647d@redhat.com> <20250303151346.GC32048@pendragon.ideasonboard.com>
+ <1436dc95-68a6-456d-ab5d-117c7791ec48@redhat.com> <20250303161059.GA23684@pendragon.ideasonboard.com>
+In-Reply-To: <20250303161059.GA23684@pendragon.ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 3 Mar 2025 17:22:47 +0100
+X-Gmail-Original-Message-ID: <CANiDSCux1whD3yF+mPayajU6imE4t8yjtzeAjrpLPhqyLRc4OA@mail.gmail.com>
+X-Gm-Features: AQ5f1JogNUy-GgNMDlP4PbFIkfcelbsqAd_u9gZGveJZrpvTfU5LC4NgZ7-Dm6I
+Message-ID: <CANiDSCux1whD3yF+mPayajU6imE4t8yjtzeAjrpLPhqyLRc4OA@mail.gmail.com>
+Subject: Re: [PATCH] media: uvcvideo: Enable full UVC metadata for all devices
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 03/03/2025 17:05, Ricardo Ribalda wrote:
-> On Mon, 3 Mar 2025 at 16:16, Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
->>
->> On Mon, Feb 24, 2025 at 10:26:34AM +0100, Ricardo Ribalda wrote:
->>> On Sun, 23 Feb 2025 at 18:03, Laurent Pinchart wrote:
->>>> On Sat, Jan 11, 2025 at 09:57:21AM +0000, Ricardo Ribalda wrote:
->>>>> To implement VIDIOC_QUERYCTRL, we need to know the minimum, maximum,
->>>>> step and flags of the control. For some of the controls, this involves
->>>>> querying the actual hardware.
->>>>>
->>>>> Some non-compliant cameras produce errors when we query them. Right now,
->>>>> we populate that error to userspace. When an error happens, the v4l2
->>>>> framework does not copy the v4l2_queryctrl struct to userspace. Also,
->>>>> userspace apps are not ready to handle any other error than -EINVAL.
->>>>>
->>>>> One of the main usecases of VIDIOC_QUERYCTRL is enumerating the controls
->>>>> of a device. This is done using the V4L2_CTRL_FLAG_NEXT_CTRL flag. In
->>>>> that usecase, a non-compliant control will make it almost impossible to
->>>>> enumerate all controls of the device.
->>>>>
->>>>> A control with an invalid max/min/step/flags is better than non being
->>>>> able to enumerate the rest of the controls.
->>>>>
->>>>> This patch makes VIDIOC_QUERYCTRL return 0 in all the error cases
->>>>> different than -EINVAL, introduces a warning in dmesg so we can
->>>>> have a trace of what has happened and sets the V4L2_CTRL_FLAG_DISABLED.
->>>>>
->>>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->>>>> ---
->>>>> Hi 2*Hans and Laurent!
->>>>>
->>>>> I came around a device that was listing just a couple of controls when
->>>>> it should be listing much more.
->>>>>
->>>>> Some debugging latter I found that the device was returning -EIO when
->>>>> all the focal controls were read.
->>>>>
->>>>> Lots of good arguments in favor/against this patch in the v1. Please
->>>>> check!
->>>>>
->>>>> Without this patch:
->>>>> $ v4l2-ctl --list-ctrls
->>>>>                   auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
->>>>>          exposure_time_absolute 0x009a0902 (int)    : min=50 max=10000 step=1 default=166 value=166 flags=inactive
->>>>>      exposure_dynamic_framerate 0x009a0903 (bool)   : default=0 value=0
->>>>> region_of_interest_auto_control 0x009a1902 (bitmask): max=0x00000001 default=0x00000001 value=1
->>>>>
->>>>> With this patch:
->>>>> $ v4l2-ctl --list-ctrls
->>>>>                   auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
->>>>>          exposure_time_absolute 0x009a0902 (int)    : min=50 max=10000 step=1 default=166 value=166 flags=inactive
->>>>>      exposure_dynamic_framerate 0x009a0903 (bool)   : default=0 value=0
->>>>> error 5 getting ext_ctrl Focus, Absolute
->>>>> error 5 getting ext_ctrl Focus, Automatic Continuous
->>>>>    region_of_interest_rectangle 0x009a1901 (unknown): type=107 value=unsupported payload type flags=has-payload
->>>>> region_of_interest_auto_control 0x009a1902 (bitmask): max=0x00000001 default=0x00000001 value=1
->>>>> --
->>>>> ---
->>>>> Changes in v4:
->>>>> - Display control name (Thanks Hans)
->>>>> - Link to v3: https://lore.kernel.org/r/20250107-uvc-eaccess-v3-1-99f3335d5133@chromium.org
->>>>>
->>>>> Changes in v3:
->>>>> - Add a retry mechanism during error.
->>>>
->>>> This needs to be explained in the commit message, including when/why it
->>>> helps, and why the retry count is 2.
->>>>
->>>>> - Set V4L2_CTRL_FLAG_DISABLED flag.
->>>>> - Link to v2: https://lore.kernel.org/r/20241219-uvc-eaccess-v2-1-bf6520c8b86d@chromium.org
->>>>>
->>>>> Changes in v2:
->>>>> - Never return error, even if we are not enumerating the controls
->>>>> - Improve commit message.
->>>>> - Link to v1: https://lore.kernel.org/r/20241213-uvc-eaccess-v1-1-62e0b4fcc634@chromium.org
->>>>> ---
->>>>>  drivers/media/usb/uvc/uvc_ctrl.c | 43 ++++++++++++++++++++++++++++++++--------
->>>>>  1 file changed, 35 insertions(+), 8 deletions(-)
->>>>>
->>>>> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
->>>>> index 4e58476d305e..9d7812e8572d 100644
->>>>> --- a/drivers/media/usb/uvc/uvc_ctrl.c
->>>>> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
->>>>> @@ -1280,6 +1280,8 @@ static u32 uvc_get_ctrl_bitmap(struct uvc_control *ctrl,
->>>>>       return ~0;
->>>>>  }
->>>>>
->>>>> +#define MAX_QUERY_RETRIES 2
->>>>> +
->>>>>  static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
->>>>>       struct uvc_control *ctrl,
->>>>>       struct uvc_control_mapping *mapping,
->>>>> @@ -1305,19 +1307,44 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
->>>>>               __uvc_find_control(ctrl->entity, mapping->master_id,
->>>>>                                  &master_map, &master_ctrl, 0);
->>>>>       if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
->>>>> +             unsigned int retries;
->>>>>               s32 val;
->>>>> -             int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
->>>>> -             if (ret < 0)
->>>>> -                     return ret;
->>>>> +             int ret;
->>>>>
->>>>> -             if (val != mapping->master_manual)
->>>>> -                             v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
->>>>> +             for (retries = 0; retries < MAX_QUERY_RETRIES; retries++) {
->>>>> +                     ret = __uvc_ctrl_get(chain, master_ctrl, master_map,
->>>>> +                                          &val);
->>>>> +                     if (ret >= 0)
->>>>> +                             break;
->>>>> +             }
->>>>> +
->>>>> +             if (ret < 0) {
->>>>> +                     dev_warn_ratelimited(&chain->dev->udev->dev,
->>>>> +                                          "UVC non compliance: Error %d querying master control %x (%s)\n",
->>>>> +                                           ret, master_map->id,
->>>>> +                                           uvc_map_get_name(master_map));
->>>>> +             } else if (val != mapping->master_manual) {
->>>>> +                     v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
->>>>> +             }
->>>>>       }
->>>>>
->>>>>       if (!ctrl->cached) {
->>>>> -             int ret = uvc_ctrl_populate_cache(chain, ctrl);
->>>>> -             if (ret < 0)
->>>>> -                     return ret;
->>>>> +             unsigned int retries;
->>>>> +             int ret;
->>>>> +
->>>>> +             for (retries = 0; retries < MAX_QUERY_RETRIES; retries++) {
->>>>> +                     ret = uvc_ctrl_populate_cache(chain, ctrl);
->>>>> +                     if (ret >= 0)
->>>>> +                             break;
->>>>> +             }
->>>>> +
->>>>> +             if (ret < 0) {
->>>>> +                     dev_warn_ratelimited(&chain->dev->udev->dev,
->>>>> +                                          "UVC non compliance: Error %d populating cache of control %x (%s)\n",
->>>>> +                                          ret, mapping->id,
->>>>> +                                          uvc_map_get_name(mapping));
->>>>> +                     v4l2_ctrl->flags |= V4L2_CTRL_FLAG_DISABLED;
->>>>
->>>> Can we make the control permanently disabled ?
->>>
->>> I'd rather not. In funky hardware the control might work with the
->>> right combination of other controls.
->>
->> That makes the behaviour random and therefore very confusing for
->> userspace. All of a sudden a control will start being available, even if
->> it was marked as disabled during enumeration.
-> 
-> Random weird hardware will have random behaviour. I think this is kind
-> of expected.
-> 
-> Also there are probably lots of cameras in the field that cannot
-> enumerate properly but are used by custom apps. We are going to break
-> userspace if we enforce this.
-> 
-> Hans V. What do you think?
+On Mon, 3 Mar 2025 at 17:11, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Mon, Mar 03, 2025 at 04:43:50PM +0100, Hans de Goede wrote:
+> > On 3-Mar-25 16:13, Laurent Pinchart wrote:
+> > > On Mon, Mar 03, 2025 at 03:47:51PM +0100, Hans de Goede wrote:
+> > >> On 26-Feb-25 14:00, Ricardo Ribalda wrote:
+> > >>> The UVC driver provides two metadata types V4L2_META_FMT_UVC, and
+> > >>> V4L2_META_FMT_D4XX. The only difference between the two of them is that
+> > >>> V4L2_META_FMT_UVC only copies PTS, SCR, size and flags, and
+> > >>> V4L2_META_FMT_D4XX copies the whole metadata section.
+> > >>>
+> > >>> Now we only enable V4L2_META_FMT_D4XX for the Intel D4xx family of
+> > >>> devices, but it is useful for any device where vendors include other
+> > >>> metadata, such as the one described by Microsoft:
+> > >>> - https://learn.microsoft.com/en-us/windows-hardware/drivers/stream/mf-capture-metadata
+> > >>>
+> > >>> This patch removes the UVC_INFO_META macro and enables
+> > >>> V4L2_META_FMT_D4XX for every device. It also updates the documentation
+> > >>> to reflect the change.
+> > >>>
+> > >>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > >>
+> > >> Thanks, patch looks good to me:
+> > >>
+> > >> Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+> > >
+> > > I don't quite agree, sorry.
+> > >
+> > > The reason why the current mechanism has been implemented this way is to
+> > > ensure we have documentation for the metadata format of devices that
+> > > expose metadata to userspace.
+> > >
+> > > If you want to expose the MS metadata, you can create a new metadata
+> > > format for that, and enable it on devices that implement it.
+> >
+> > Looking at the long list of quirks this removes just for the D4xx
+> > cameras I do not believe that having quirked based relaying of
+> > which metadata fmt is used to userspace is something which scales
+> > on the long term. Given the large amount of different UVC cameras
+> > I really think we should move the USB VID:PID -> metadata format
+> > mapping out of the kernel.
+>
+> If we can find a solution to ensure the metadata format gets documented,
+> sure.
 
-I agree with Laurent here. If this sometimes works, and sometimes it doesn't,
-then what is an application going to do with that? I would start with just
-permanently disabling this. If it turns out that for some hardware this works
-with some magic combination of other controls values, then that feels more like
-a quirk to me.
+MS default metadata is already documented:
+https://learn.microsoft.com/en-us/windows-hardware/drivers/stream/mf-capture-metadata
 
-One note, though:
+I would not worry too much about vendors abusing the metadata for
+custom magic if that is your concern.
+This would not work with Windows default driver, and that is what most
+camera modules are tested against.
 
->>>>> +                     dev_warn_ratelimited(&chain->dev->udev->dev,
->>>>> +                                          "UVC non compliance: Error %d populating cache of control %x (%s)\n",
->>>>> +                                          ret, mapping->id,
->>>>> +                                          uvc_map_get_name(mapping));
->>>>> +                     v4l2_ctrl->flags |= V4L2_CTRL_FLAG_DISABLED;
 
-That warning is too cryptic. You want to clearly state in the kernel log
-that this specific control is disabled due to UVC non compliance. E.g.:
+>
+> When it comes to the MS metadata format, if I recall correctly, Ricardo
+> said there's an XU with a known GUID to detect the metadata format. We
+> therefore wouldn't need quirks.
 
-                                          "UVC non-compliance: permanently disabling control %x (%s) due to error %d\n",
+There is MXSU control MSXU_CONTROL_METADATA
+https://learn.microsoft.com/en-us/windows-hardware/drivers/stream/uvc-extensions-1-5
+But not all the vendors use it.
 
-Regards,
+ChromeOS is working to define a XU... but that will take time to land.
 
-	Hans
+Plus there are a lot of devices today that can benefit from frame metadata.
 
-> 
->>
->>>>> +             }
->>>>>       }
->>>>>
->>>>>       if (ctrl->info.flags & UVC_CTRL_FLAG_GET_DEF) {
->>>>>
->>>>> ---
->>>>> base-commit: c5aa327e10b194884a9c9001a751f6e4703bc3e3
->>>>> change-id: 20241213-uvc-eaccess-755cc061a360
->>
->> --
->> Regards,
->>
->> Laurent Pinchart
-> 
-> 
-> 
+>
+> > I do agree that using V4L2_META_FMT_D4XX for every device is
+> > probably not the best idea. So my suggestion would be to add
+> > a new V4L2_META_FMT_CUSTOM metadata fmt and for index 1
+> > metadata fmt use V4L2_META_FMT_D4XX for the currently quirked
+> > cams and use V4L2_META_FMT_CUSTOM for other cameras.
+> >
+> > This can then be combined with a udev-rule + hwdb to provide
+> > info of what V4L2_META_FMT_CUSTOM should be mapped to in userspace,
+> > moving further VID:PID -> extended-metadata fmt mappings out of
+> > the kernel.
+> >
+> > >>> ---
+> > >>>  .../userspace-api/media/v4l/metafmt-d4xx.rst       | 19 +++--
+> > >>>  .../userspace-api/media/v4l/metafmt-uvc.rst        |  6 +-
+> > >>>  drivers/media/usb/uvc/uvc_driver.c                 | 83 ----------------------
+> > >>>  drivers/media/usb/uvc/uvc_metadata.c               | 15 ++--
+> > >>>  drivers/media/usb/uvc/uvcvideo.h                   |  1 -
+> > >>>  5 files changed, 23 insertions(+), 101 deletions(-)
+> > >>>
+> > >>> diff --git a/Documentation/userspace-api/media/v4l/metafmt-d4xx.rst b/Documentation/userspace-api/media/v4l/metafmt-d4xx.rst
+> > >>> index 0686413b16b2..1b18ef056934 100644
+> > >>> --- a/Documentation/userspace-api/media/v4l/metafmt-d4xx.rst
+> > >>> +++ b/Documentation/userspace-api/media/v4l/metafmt-d4xx.rst
+> > >>> @@ -6,12 +6,23 @@
+> > >>>  V4L2_META_FMT_D4XX ('D4XX')
+> > >>>  *******************************
+> > >>>
+> > >>> -Intel D4xx UVC Cameras Metadata
+> > >>> +UVC Full Payload Header Data (formerly known as Intel D4xx UVC Cameras
+> > >>> +Metadata).
+> > >>>
+> > >>>
+> > >>>  Description
+> > >>>  ===========
+> > >>>
+> > >>> +V4L2_META_FMT_D4XX buffers follow the metadata buffer layout of
+> > >>> +V4L2_META_FMT_UVC with the only difference, that it also includes proprietary
+> > >>> +payload header data. It was originally implemented for Intel D4xx cameras, and
+> > >>> +thus the name, but now it can be used by any UVC device, when userspace wants
+> > >>> +full access to the UVC Metadata.
+> > >>> +
+> > >>> +
+> > >>> +Intel D4xx Metadata
+> > >>> +===================
+> > >>> +
+> > >>>  Intel D4xx (D435, D455 and others) cameras include per-frame metadata in their UVC
+> > >>>  payload headers, following the Microsoft(R) UVC extension proposal [1_]. That
+> > >>>  means, that the private D4XX metadata, following the standard UVC header, is
+> > >>> @@ -21,10 +32,8 @@ types are MetadataId_CaptureStats (ID 3), MetadataId_CameraExtrinsics (ID 4),
+> > >>>  and MetadataId_CameraIntrinsics (ID 5). For their description see [1_]. This
+> > >>>  document describes proprietary metadata types, used by D4xx cameras.
+> > >>>
+> > >>> -V4L2_META_FMT_D4XX buffers follow the metadata buffer layout of
+> > >>> -V4L2_META_FMT_UVC with the only difference, that it also includes proprietary
+> > >>> -payload header data. D4xx cameras use bulk transfers and only send one payload
+> > >>> -per frame, therefore their headers cannot be larger than 255 bytes.
+> > >>> +D4xx cameras use bulk transfers and only send one payload per frame, therefore
+> > >>> +their headers cannot be larger than 255 bytes.
+> > >>>
+> > >>>  This document implements Intel Configuration version 3 [9_].
+> > >>>
+> > >>> diff --git a/Documentation/userspace-api/media/v4l/metafmt-uvc.rst b/Documentation/userspace-api/media/v4l/metafmt-uvc.rst
+> > >>> index 784346d14bbd..a3aae580e89e 100644
+> > >>> --- a/Documentation/userspace-api/media/v4l/metafmt-uvc.rst
+> > >>> +++ b/Documentation/userspace-api/media/v4l/metafmt-uvc.rst
+> > >>> @@ -6,7 +6,7 @@
+> > >>>  V4L2_META_FMT_UVC ('UVCH')
+> > >>>  *******************************
+> > >>>
+> > >>> -UVC Payload Header Data
+> > >>> +UVC Partial Payload Header Data (formerly known as UVC Payload Header Data).
+> > >>>
+> > >>>
+> > >>>  Description
+> > >>> @@ -44,7 +44,9 @@ Each individual block contains the following fields:
+> > >>>          them
+> > >>>      * - :cspan:`1` *The rest is an exact copy of the UVC payload header:*
+> > >>>      * - __u8 length;
+> > >>> -      - length of the rest of the block, including this field
+> > >>> +      - length of the rest of the block, including this field (please note that
+> > >>> +        regardless of this value, the driver will never copy more than 12
+> > >>> +        bytes).
+> > >>>      * - __u8 flags;
+> > >>>        - Flags, indicating presence of other standard UVC fields
+> > >>>      * - __u8 buf[];
+> > >>> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > >>> index deadbcea5e22..f19dcd4a7ac6 100644
+> > >>> --- a/drivers/media/usb/uvc/uvc_driver.c
+> > >>> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > >>> @@ -2488,8 +2488,6 @@ static const struct uvc_device_info uvc_quirk_force_y8 = {
+> > >>>  };
+> > >>>
+> > >>>  #define UVC_INFO_QUIRK(q) (kernel_ulong_t)&(struct uvc_device_info){.quirks = q}
+> > >>> -#define UVC_INFO_META(m) (kernel_ulong_t)&(struct uvc_device_info) \
+> > >>> - {.meta_format = m}
+> > >>>
+> > >>>  /*
+> > >>>   * The Logitech cameras listed below have their interface class set to
+> > >>> @@ -3107,87 +3105,6 @@ static const struct usb_device_id uvc_ids[] = {
+> > >>>     .bInterfaceSubClass   = 1,
+> > >>>     .bInterfaceProtocol   = 0,
+> > >>>     .driver_info          = UVC_INFO_QUIRK(UVC_QUIRK_DISABLE_AUTOSUSPEND) },
+> > >>> - /* Intel D410/ASR depth camera */
+> > >>> - { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > >>> -                         | USB_DEVICE_ID_MATCH_INT_INFO,
+> > >>> -   .idVendor             = 0x8086,
+> > >>> -   .idProduct            = 0x0ad2,
+> > >>> -   .bInterfaceClass      = USB_CLASS_VIDEO,
+> > >>> -   .bInterfaceSubClass   = 1,
+> > >>> -   .bInterfaceProtocol   = 0,
+> > >>> -   .driver_info          = UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > >>> - /* Intel D415/ASRC depth camera */
+> > >>> - { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > >>> -                         | USB_DEVICE_ID_MATCH_INT_INFO,
+> > >>> -   .idVendor             = 0x8086,
+> > >>> -   .idProduct            = 0x0ad3,
+> > >>> -   .bInterfaceClass      = USB_CLASS_VIDEO,
+> > >>> -   .bInterfaceSubClass   = 1,
+> > >>> -   .bInterfaceProtocol   = 0,
+> > >>> -   .driver_info          = UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > >>> - /* Intel D430/AWG depth camera */
+> > >>> - { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > >>> -                         | USB_DEVICE_ID_MATCH_INT_INFO,
+> > >>> -   .idVendor             = 0x8086,
+> > >>> -   .idProduct            = 0x0ad4,
+> > >>> -   .bInterfaceClass      = USB_CLASS_VIDEO,
+> > >>> -   .bInterfaceSubClass   = 1,
+> > >>> -   .bInterfaceProtocol   = 0,
+> > >>> -   .driver_info          = UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > >>> - /* Intel RealSense D4M */
+> > >>> - { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > >>> -                         | USB_DEVICE_ID_MATCH_INT_INFO,
+> > >>> -   .idVendor             = 0x8086,
+> > >>> -   .idProduct            = 0x0b03,
+> > >>> -   .bInterfaceClass      = USB_CLASS_VIDEO,
+> > >>> -   .bInterfaceSubClass   = 1,
+> > >>> -   .bInterfaceProtocol   = 0,
+> > >>> -   .driver_info          = UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > >>> - /* Intel D435/AWGC depth camera */
+> > >>> - { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > >>> -                         | USB_DEVICE_ID_MATCH_INT_INFO,
+> > >>> -   .idVendor             = 0x8086,
+> > >>> -   .idProduct            = 0x0b07,
+> > >>> -   .bInterfaceClass      = USB_CLASS_VIDEO,
+> > >>> -   .bInterfaceSubClass   = 1,
+> > >>> -   .bInterfaceProtocol   = 0,
+> > >>> -   .driver_info          = UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > >>> - /* Intel D435i depth camera */
+> > >>> - { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > >>> -                         | USB_DEVICE_ID_MATCH_INT_INFO,
+> > >>> -   .idVendor             = 0x8086,
+> > >>> -   .idProduct            = 0x0b3a,
+> > >>> -   .bInterfaceClass      = USB_CLASS_VIDEO,
+> > >>> -   .bInterfaceSubClass   = 1,
+> > >>> -   .bInterfaceProtocol   = 0,
+> > >>> -   .driver_info          = UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > >>> - /* Intel D405 Depth Camera */
+> > >>> - { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > >>> -                         | USB_DEVICE_ID_MATCH_INT_INFO,
+> > >>> -   .idVendor             = 0x8086,
+> > >>> -   .idProduct            = 0x0b5b,
+> > >>> -   .bInterfaceClass      = USB_CLASS_VIDEO,
+> > >>> -   .bInterfaceSubClass   = 1,
+> > >>> -   .bInterfaceProtocol   = 0,
+> > >>> -   .driver_info          = UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > >>> - /* Intel D455 Depth Camera */
+> > >>> - { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > >>> -                         | USB_DEVICE_ID_MATCH_INT_INFO,
+> > >>> -   .idVendor             = 0x8086,
+> > >>> -   .idProduct            = 0x0b5c,
+> > >>> -   .bInterfaceClass      = USB_CLASS_VIDEO,
+> > >>> -   .bInterfaceSubClass   = 1,
+> > >>> -   .bInterfaceProtocol   = 0,
+> > >>> -   .driver_info          = UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > >>> - /* Intel D421 Depth Module */
+> > >>> - { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > >>> -                         | USB_DEVICE_ID_MATCH_INT_INFO,
+> > >>> -   .idVendor             = 0x8086,
+> > >>> -   .idProduct            = 0x1155,
+> > >>> -   .bInterfaceClass      = USB_CLASS_VIDEO,
+> > >>> -   .bInterfaceSubClass   = 1,
+> > >>> -   .bInterfaceProtocol   = 0,
+> > >>> -   .driver_info          = UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> > >>>   /* Generic USB Video Class */
+> > >>>   { USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
+> > >>>   { USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
+> > >>> diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
+> > >>> index 82de7781f5b6..5c44e6cdb83c 100644
+> > >>> --- a/drivers/media/usb/uvc/uvc_metadata.c
+> > >>> +++ b/drivers/media/usb/uvc/uvc_metadata.c
+> > >>> @@ -60,18 +60,16 @@ static int uvc_meta_v4l2_try_format(struct file *file, void *fh,
+> > >>>                               struct v4l2_format *format)
+> > >>>  {
+> > >>>   struct v4l2_fh *vfh = file->private_data;
+> > >>> - struct uvc_streaming *stream = video_get_drvdata(vfh->vdev);
+> > >>> - struct uvc_device *dev = stream->dev;
+> > >>>   struct v4l2_meta_format *fmt = &format->fmt.meta;
+> > >>> - u32 fmeta = fmt->dataformat;
+> > >>> + u32 fmeta = fmt->dataformat == V4L2_META_FMT_D4XX ?
+> > >>> +             V4L2_META_FMT_D4XX : V4L2_META_FMT_UVC;
+> > >>>
+> > >>>   if (format->type != vfh->vdev->queue->type)
+> > >>>           return -EINVAL;
+> > >>>
+> > >>>   memset(fmt, 0, sizeof(*fmt));
+> > >>>
+> > >>> - fmt->dataformat = fmeta == dev->info->meta_format
+> > >>> -                 ? fmeta : V4L2_META_FMT_UVC;
+> > >>> + fmt->dataformat = fmeta;
+> > >>>   fmt->buffersize = UVC_METADATA_BUF_SIZE;
+> > >>>
+> > >>>   return 0;
+> > >>> @@ -110,19 +108,16 @@ static int uvc_meta_v4l2_enum_formats(struct file *file, void *fh,
+> > >>>                                 struct v4l2_fmtdesc *fdesc)
+> > >>>  {
+> > >>>   struct v4l2_fh *vfh = file->private_data;
+> > >>> - struct uvc_streaming *stream = video_get_drvdata(vfh->vdev);
+> > >>> - struct uvc_device *dev = stream->dev;
+> > >>>   u32 index = fdesc->index;
+> > >>>
+> > >>> - if (fdesc->type != vfh->vdev->queue->type ||
+> > >>> -     index > 1U || (index && !dev->info->meta_format))
+> > >>> + if (fdesc->type != vfh->vdev->queue->type || index > 1U)
+> > >>>           return -EINVAL;
+> > >>>
+> > >>>   memset(fdesc, 0, sizeof(*fdesc));
+> > >>>
+> > >>>   fdesc->type = vfh->vdev->queue->type;
+> > >>>   fdesc->index = index;
+> > >>> - fdesc->pixelformat = index ? dev->info->meta_format : V4L2_META_FMT_UVC;
+> > >>> + fdesc->pixelformat = index ? V4L2_META_FMT_D4XX : V4L2_META_FMT_UVC;
+> > >>>
+> > >>>   return 0;
+> > >>>  }
+> > >>> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > >>> index 5e388f05f3fc..cc2092ae9987 100644
+> > >>> --- a/drivers/media/usb/uvc/uvcvideo.h
+> > >>> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > >>> @@ -534,7 +534,6 @@ static inline u32 uvc_urb_index(const struct uvc_urb *uvc_urb)
+> > >>>
+> > >>>  struct uvc_device_info {
+> > >>>   u32     quirks;
+> > >>> - u32     meta_format;
+> > >>>   u16     uvc_version;
+> > >>>  };
+> > >>>
+> > >>>
+> > >>> ---
+> > >>> base-commit: d98e9213a768a3cc3a99f5e1abe09ad3baff2104
+> > >>> change-id: 20250226-uvc-metadata-2e7e445966de
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
 
+
+
+-- 
+Ricardo Ribalda
 
