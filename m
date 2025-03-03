@@ -1,85 +1,79 @@
-Return-Path: <linux-media+bounces-27338-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27339-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BD00A4C3DE
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 15:52:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5E46A4C3F1
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 15:56:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C9C603A3AF0
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 14:51:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C011E3A65E9
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 14:56:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA0E0213E8B;
-	Mon,  3 Mar 2025 14:51:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A0BB214210;
+	Mon,  3 Mar 2025 14:56:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="QGBjlslO"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PN2MtFey"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDE2C213E67
-	for <linux-media@vger.kernel.org>; Mon,  3 Mar 2025 14:51:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 879E020FA9D
+	for <linux-media@vger.kernel.org>; Mon,  3 Mar 2025 14:56:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741013506; cv=none; b=hCMa0Auk7SHuBjBfTfqBqClbJenl0IoQYmdwe2ynS08MEBMvFLt0KU0v0ZUO9OvfhI2W/OplRp6SzZwsbAVsAr07fUSOpAMyltNU+ux7L4qqzbTGugb7Oe4JRpyVj6mU7jvlet6FkjYMAMabIpYvLp+FeGHcTikMHGYOU2f9vS0=
+	t=1741013783; cv=none; b=QBfFpHmNNhN+4LfR0k/FctjVLsIti1COTXO4NaY3eTjFmaXMtaVTiivpK62fVT3xNhUJuQgPvxTDbQXMuZSPDrV7H4/NGP1SqL2n+b6RNMGrm0dzS3p2yfdpvc6Ju4nhqW4qbfJp6l3jZg6aAo765linAFlYwTSN2I90lknblMY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741013506; c=relaxed/simple;
-	bh=DkZ0ZU13h9unh67yYI41Mc2eoLM/G+sBDAukmgqAU6E=;
+	s=arc-20240116; t=1741013783; c=relaxed/simple;
+	bh=lSFrNOYTs2ebMzVPy9mCvDUTf4C+oW1azbWapwfMyGI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cAonVaT1X0jivy83ZtnmyZmnT5aabVZUa50HxF2LE3atCpvL9sAfzwNTEq5II1EvB/mtAU/cK9R//YcDf18vJ/q4yQ4rnij9sBwdhTmk2USUK4wz7N1eth6Yqhop9PV3piuJR7YfZ9rDnb3sTQrA+gj+HQ9sY2JwUl9Sh0akYfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=QGBjlslO; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1741013503;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lzyQeS/lmiZRfQTYNaKZi6MlPZQA4aSfZ3WWfK+EdyY=;
-	b=QGBjlslO+Y3YXUPFi2ZVBNrL7Yj70oEuxpza5ImzvO3Sp16SDMK8EpAzaxYFQ6BJHbbVjY
-	xJie8GAptzV8AAnBU6O3yoAQ2r7Fbz16BfO29vGjO9ogsgnz/RDLzog9X2S/+MIafEn56O
-	gfwJOi9qHXTj+6UgKzotfEfPHo1qdo8=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-198-8D7TFEvxOmCEBIqzvyc9EA-1; Mon, 03 Mar 2025 09:51:42 -0500
-X-MC-Unique: 8D7TFEvxOmCEBIqzvyc9EA-1
-X-Mimecast-MFC-AGG-ID: 8D7TFEvxOmCEBIqzvyc9EA_1741013501
-Received: by mail-ed1-f70.google.com with SMTP id 4fb4d7f45d1cf-5e4b6d23a5fso3766703a12.2
-        for <linux-media@vger.kernel.org>; Mon, 03 Mar 2025 06:51:42 -0800 (PST)
+	 In-Reply-To:Content-Type; b=bA3BQtbqWrkCZI5xe0uoRjfc0n+vweRb4MQPm7SJwxjb59PSxjVm4T+nKGoTySsPViv5MZ9dTVZ22iVXCMPkmnp7VP2Xyu+8l6cnd/k56quLyWGYCY7tjuKEz1UjUAVdKNW4hcWJSPhQJqhui3eeAPdof3wP7MHHQvaDdcTm8yo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PN2MtFey; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4398e3dfc66so41010835e9.0
+        for <linux-media@vger.kernel.org>; Mon, 03 Mar 2025 06:56:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741013778; x=1741618578; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RbOOxP9Odw79YNeXSBNNWZeLoIIK9XfazEkCOs3S38s=;
+        b=PN2MtFeyRN/2FOiMZ6eTv/AGsaMove3HE7zZUKXhBJ0/1vwVyRDDnLEef2OAyN8m1d
+         TSBfhb05CX93ElJAGvJGvv1MHxzujTOHjT9CBkxJjVRpqSqzosEJbBtctB01r2ox4QEx
+         84PTq9NhcCN1cwzE2E54PMzUO0A36Z1tqyicgKDu4GyCiDJcxKvxfI3dMt3ubo66H7Cl
+         rdOeg7vgk1fBlVmnANXsyHwyqJuJdRi8XqUJRSuHTgvBVYvJzqBoXJXGhrS6pJtr0wUt
+         KKI9yEZmP7wIIzGbhpYGIY9+aktBvF1WuUbk80hEbzTQ8Xrd+LoL8H9aok+Sjec0z9uw
+         qjOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741013501; x=1741618301;
+        d=1e100.net; s=20230601; t=1741013778; x=1741618578;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lzyQeS/lmiZRfQTYNaKZi6MlPZQA4aSfZ3WWfK+EdyY=;
-        b=CNay0BVvLGVIcz0/0x5Yv+VQHmgCB/9IJ9x4QlN50GnDxQxXy6qHWFKJpOGK3OKbwq
-         f0nl2rNP4LeAS7tCzudIRBcmVnQMDf53tm7FteoiVz9rKFEWp9NwIae1bTonvntEngnd
-         4yjgFTe7SYGdnj5mFr1rGUTCHXbnS+l8eTgTajImutoG9XlMWD4LOEnBQqUjYhu9NNtA
-         2RqVHyGhydIl1qIH4dOg1Y/TT2yD+WzImpVepFGPkh9J3EZOBQwmZVavuPuh1cv5AKsh
-         JyhqkPGS2cCPlBOjxY+LH4OyPVgCNL7iZZOMFEMDpmsAlUywP2j0kFe7JT178x2cXdLE
-         Krtw==
-X-Gm-Message-State: AOJu0YzQruc3KSHJer5ckxtK9gEnmKjNQ/Bo/XEMrwwZb1KSU4y+SHqP
-	LKMydd4Bxp5JoSRgquxO5rX0YTBK1/2b8i3zdlV68Iksh9osanSzrRaNbdIqw8GPqVS12vGs903
-	u4I6lczUqhHQfxG7myeF6RwvuyFUNfKL9Rh8RCTkGu7u2dGjic8vuS0ysIAhO
-X-Gm-Gg: ASbGnct8E9rxPUsvnUWm6689ggVjCEDWsJxL4u786jmFO/yDmHd7RIVEQZpJA65AuGj
-	BlAETTMuVn23HMDlOh/RDUOxCAJlM+ZB8RRn8oAcUmd9SqmwQBWpRGqjVkQOkN+Hfjt2xiv72wK
-	nejjxRUpe4UL/Nw/ibDsNpnEGt8EvazjB+6uAiOUo/tMJKLUpzTWaSSLf5XZwdPcKDn5yU54Peh
-	brFEkk/WI90oAlX3PCpak7S8f4JAIi9MWMTV990arnbg2wPqBHi4L8ZkBfTErQQwlyyagG5WEww
-	VGb2+NbFOAM5hODln1M=
-X-Received: by 2002:a05:6402:5247:b0:5de:e02a:89c1 with SMTP id 4fb4d7f45d1cf-5e4d6b62a7emr14619245a12.26.1741013501168;
-        Mon, 03 Mar 2025 06:51:41 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFQBXMOgL+HG0jccPl6+aG8dYZda1+GqG2MpgHoytE7nB1BqrhIyLiAJarjgZcWY5donAVpUA==
-X-Received: by 2002:a05:6402:5247:b0:5de:e02a:89c1 with SMTP id 4fb4d7f45d1cf-5e4d6b62a7emr14619214a12.26.1741013500778;
-        Mon, 03 Mar 2025 06:51:40 -0800 (PST)
-Received: from [10.40.98.122] ([78.108.130.194])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e4c3b4aa3bsm6905057a12.16.2025.03.03.06.51.39
+        bh=RbOOxP9Odw79YNeXSBNNWZeLoIIK9XfazEkCOs3S38s=;
+        b=XW1QISubFg0yqTPRXrtuIY9mAYylxmqjWIyUcOO4DnEOjbNJOe3sVUM6eMlXuMZ0D9
+         LHtx52V+SVhySbvoGgDefwzKiVZvbmo6AQnRbl1AlNHTaCqL5BmuFAnlJTJGwFL8ochX
+         9Hd3+ohTkDzVlmb8ixy8wP/E/lY23gon1MWu9ar7nNLLPFYc2zC0HX2XaSttizk27K4o
+         YXLJtn7wd1nDL7Yrf367zVOX2Ha6WG79kNymbMpTL4/8c0+B3fA9JGeF7PkABuBMwBst
+         iuEDjIAVSHzPAOTmpfJ93AQDG33HB+17wGnji09bWpMVDuLGY9IisByU3Wugxd7Z4PFD
+         NjwQ==
+X-Gm-Message-State: AOJu0YxCkQ2ECtD1q2JnuhQkLesxqwNY4U8Ud4OzpZ3rp290zZK94lkM
+	zJiaqHbUrJDUjDqs//DMK1KhQrLsjLkehm8/QNkvJKvIi2vPLIfEqmhmqx7IyHk=
+X-Gm-Gg: ASbGncuWnmGQ0LLRpidgwsSNq9/+u2GfouYPUDkqJIorABuR1dwlblm2pwE639loSAk
+	tlCawjtbFiaKVwvaVzXspFe3GqGsFKoKLZajDBQE/osAhlqVNwZcdz46h+CDAAj70gtzDthdxYZ
+	4CTtTsMdup/sNwdnt5UapigBKuUz5PbEWTkN3KpGWVT2YM4mHHsA9zvT0QPdv61WOd3mRAzq7/Y
+	ji9K5jMpfE+7BwAdXPipOOJhkPWQEv4xBua2AO6ohK2njV82qkaOx142bwxO0V9pu435kMIwKj7
+	qzpdeNuxsiH1N0aEFTfN1Sg2Q/0JeqrvBYP48fjg5zL+2fhEmPy3Ubxk5KyKZuGVMSipdyoQnEY
+	G00MlyxfIHw==
+X-Google-Smtp-Source: AGHT+IHQTE8UgpNl0+iqYndm1kEDyeG8ZC6z7YUg02JZH40XU0wlpeVtikbYwt+M3QrfOEWZgq6wSw==
+X-Received: by 2002:a05:600c:3146:b0:439:8c6d:7ad9 with SMTP id 5b1f17b1804b1-43bb453dedcmr61168635e9.31.1741013777738;
+        Mon, 03 Mar 2025 06:56:17 -0800 (PST)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ab2ee361dsm137795585e9.0.2025.03.03.06.56.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 03 Mar 2025 06:51:40 -0800 (PST)
-Message-ID: <a506c61b-41cd-4067-a358-a5c6e94427fb@redhat.com>
-Date: Mon, 3 Mar 2025 15:51:39 +0100
+        Mon, 03 Mar 2025 06:56:17 -0800 (PST)
+Message-ID: <2ac68f21-cea8-400c-8a61-3638e545bac8@linaro.org>
+Date: Mon, 3 Mar 2025 14:56:16 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,94 +81,181 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] media: uvcvideo: Return the number of processed
- controls
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Subject: Re: [PATCH v2 0/2] venus driver fixes to avoid possible OOB read
+ access
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Vedang Nagar <quic_vnagar@quicinc.com>,
+ Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@kernel.org
-References: <20250224-uvc-data-backup-v2-0-de993ed9823b@chromium.org>
- <20250224-uvc-data-backup-v2-1-de993ed9823b@chromium.org>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20250224-uvc-data-backup-v2-1-de993ed9823b@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250215-venus-security-fixes-v2-0-cfc7e4b87168@quicinc.com>
+ <c3b27e55-f627-417c-bb62-3189f248fb99@linaro.org>
+ <7bf1aeaa-e1bd-412b-90fc-eda30b5f5b37@quicinc.com>
+ <19109672-2856-457f-b1f6-305abc6c4434@linaro.org>
+ <ba1e7a20-2f68-15e0-bc4a-fe52bc4036cc@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <ba1e7a20-2f68-15e0-bc4a-fe52bc4036cc@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi,
-
-On 24-Feb-25 11:34, Ricardo Ribalda wrote:
-> If we let know our callers that we have not done anything, they will be
-> able to optimize their decisions.
+On 03/03/2025 13:12, Vikash Garodia wrote:
 > 
-> Cc: stable@kernel.org
-> Fixes: b4012002f3a3 ("[media] uvcvideo: Add support for control events")
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-
-Thanks, patch looks good to me:
-
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-
-Regards,
-
-Hans
-
-
-> ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
+> On 3/2/2025 9:26 PM, Bryan O'Donoghue wrote:
+>> On 02/03/2025 11:58, Vedang Nagar wrote:
+>>>>
+>>>> The basic question : what is the lifetime of the data from RX interrupt to
+>>>> consumption by another system agent, DSP, userspace, whatever ?
+>>> As mentioned in [1], With the regular firmware, after RX interrupt the data
+>>> can be considered as valid until next interrupt is raised, but with the rouge
+>>> firmware, data can get invalid during the second read and our intention is to
+>>> avoid out of bound access read because of such issues.
+>>
+>> This is definitely the part I don't compute.
+>>
+>> 1. RX interrupt
+>> 2. Frame#0 Some amount of time data is always valid
+> This is not correct. Its not the amount of time which determines the validity of
+> the data, its the possibility of rogue firmware which, if incase, puts up the
+> date in shared queue, would always be invalid, irrespective of time.
 > 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index 4e58476d305e..f2484f6d21c1 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -1846,12 +1846,17 @@ int uvc_ctrl_begin(struct uvc_video_chain *chain)
->  	return mutex_lock_interruptible(&chain->ctrl_mutex) ? -ERESTARTSYS : 0;
->  }
->  
-> +/*
-> + * Returns the number of uvc controls that have been correctly set, or a
-> + * negative number if there has been an error.
-> + */
->  static int uvc_ctrl_commit_entity(struct uvc_device *dev,
->  				  struct uvc_fh *handle,
->  				  struct uvc_entity *entity,
->  				  int rollback,
->  				  struct uvc_control **err_ctrl)
->  {
-> +	unsigned int processed_ctrls = 0;
->  	struct uvc_control *ctrl;
->  	unsigned int i;
->  	int ret;
-> @@ -1886,6 +1891,9 @@ static int uvc_ctrl_commit_entity(struct uvc_device *dev,
->  		else
->  			ret = 0;
->  
-> +		if (!ret)
-> +			processed_ctrls++;
-> +
->  		if (rollback || ret < 0)
->  			memcpy(uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
->  			       uvc_ctrl_data(ctrl, UVC_CTRL_DATA_BACKUP),
-> @@ -1904,7 +1912,7 @@ static int uvc_ctrl_commit_entity(struct uvc_device *dev,
->  			uvc_ctrl_set_handle(handle, ctrl, handle);
->  	}
->  
-> -	return 0;
-> +	return processed_ctrls;
->  }
->  
->  static int uvc_ctrl_find_ctrl_idx(struct uvc_entity *entity,
-> @@ -1951,6 +1959,7 @@ int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
->  
->  	if (!rollback)
->  		uvc_ctrl_send_events(handle, ctrls->controls, ctrls->count);
-> +	ret = 0;
->  done:
->  	mutex_unlock(&chain->ctrl_mutex);
->  	return ret;
+>> 3. RX interrupt - new data
+>> 4. Frame#1 new data delivered into a buffer
+>>
+>> Are you describing a case between RX interrupts 1-3 or a case after 1-4?
+>>
+>> Why do we need to write code for rouge firmware anyway ?
+> It is a way to prevent any possibility of OOB, similar to how any API does check
+> for validity of any arguments passed to it, prior to processing.
+>>
+>> And the real question - if the data can be invalidated in the 1-3 window above
+>> when is the safe time to snapshot that data ?
+>>
+>> We seem to have alot of submissions to deal with 'rouge' firmware without I
+>> think properly describing the problem of the _expected_ data lifetime.
+>>
+>> So
+>>
+>> a) What is the expected data lifetime of an RX buffer between one
+>>     RX IRQ and the next ?
+>>     I hope the answer to this is - APSS owns the buffer.
+>>     This is BTW usually the case in these types of asymmetric setups
+>>     with a flag or some other kind of semaphore that indicates which
+>>     side of the data-exchange owns the buffer.
+>>
+>> b) In this rouge - buggy - firmware case what is the scope of the
+>>     potential race condition ?
+>>
+>>     What I'd really like to know here is why we have to seemingly
+>>     memcpy() again and again in seemingly incongrous and not
+>>     immediately obvious places in the code.
+>>
+>>     Would we not be better advised to do a memcpy() of the entire
+>>     RX frame in the RX IRQ handler path if as you appear to me
+>>     suggesting - the firmware can "race" with the APSS
+>>     i.e. the data-buffer ownership flag either doesn't work
+>>     or isn't respected by one side in the data-exchange.
+>>
+>> Can we please have a detailed description of the race condition here ?
+> Below is the report which the reporter reported leading to OOB, let me know if
+> you are unable to deduce the trail leading to OOB here.
 > 
+> OOB read issue is in function event_seq_changed, please reference below code
+> snippet:
+> 
+> Buggy code snippet:
+> 
+> static void event_seq_changed(struct venus_core *core, struct venus_inst *inst,
+>          struct hfi_msg_event_notify_pkt *pkt)
+> ...
+> num_properties_changed = pkt->event_data2; //num_properties_changed is from
+> message and is not validated.
+> ...
+> data_ptr = (u8 *)&pkt->ext_event_data[0];
+> do {
+>   ptype = *((u32 *)data_ptr);
+>   switch (ptype) {
+>   case HFI_PROPERTY_PARAM_FRAME_SIZE:
+>    data_ptr += sizeof(u32);
+>    frame_sz = (struct hfi_framesize *)data_ptr;
+>    event.width = frame_sz->width;
+> ...
+>   }
+>   num_properties_changed--;
+> } while (num_properties_changed > 0);
+> ```
+> There is no validation against `num_properties_changed = pkt->event_data2`, so
+> OOB read occurs.
+>>
+>> I don't doubt the new memcpy() makes sense to you but without this detailed
+>> understanding of the underlying problem its virtually impossible to debate the
+>> appropriate remediation - perhaps this patch you've submitted - or some other
+>> solution.
+>>
+>> Sorry to dig into my trench here but, way more detail is needed.
+>>
+>>> [1]: https://lore.kernel.org/lkml/4cfc1fe1-2fab-4256-9ce2-
+>>> b4a0aad1069e@linaro.org/T/#m5f1737b16e68f8b8fc1d75517356b6566d0ec619
+>>>>
+>>>> Why is it in this small specific window that the data can change but not
+>>>> later ? What is the mechanism the data can change and how do the changes you
+>>>> propose here address the data lifetime problem ?
+>>> Currently this issue has been discovered by external researchers at this
+>>> point, but if any such OOB issue is discovered at later point as well then we
+>>> shall fix them as well.
+>>
+>> Right but, I'm looking for a detailed description of the problem.
+>>
+>> Can you describe from RX interrupt again what the expected data lifetime of the
+>> RX frame is, which I hope we agree is until the next RX interrupt associated
+>> with a given buffer with an ownership flag shared between firmware and APSS -
+>> and then under what circumstances that "software contract" is being violated.
+>>
+>>> Also, with rougue firmware we cannot fix the data lifetime problem in my
+>>> opinion, but atleast we can fix the out of bound issues.
+>>>>
+>>>> Without that context, I don't believe it is really possible to validate an
+>>>> additional memcpy() here and there in the code as fixing anything.
+>>> There is no additional memcpy() now in the v2 patch, but as part of the fix,
+>>> we are just trying to retain the length of the packet which was being read in
+>>> the first memcpy() to avoid the OOB read access.
+>>
+>> I can't make a suggestion because - personally speaking I still don't quite
+>> understand the data-race you are describing.
+> Go through the reports from the reporter, it was quite evident in leading upto
+> OOB case.
+> Putting up the sequence for you to go over the interrupt handling and message
+> queue parsing of the packets from firmware
+> 1.
+> https://elixir.bootlin.com/linux/v6.14-rc4/source/drivers/media/platform/qcom/venus/hfi_venus.c#L1082
+> 2.
+> https://elixir.bootlin.com/linux/v6.14-rc4/source/drivers/media/platform/qcom/venus/hfi_msgs.c#L816
+> 3. event handling (this particular case)
+> https://elixir.bootlin.com/linux/v6.14-rc4/source/drivers/media/platform/qcom/venus/hfi_msgs.c#L658
+> 4.
+> https://elixir.bootlin.com/linux/v6.14-rc4/source/drivers/media/platform/qcom/venus/hfi_msgs.c#L22
+> 
+> the "struct hfi_msg_event_notify_pkt *pkt" pkt here is having the data read from
+> shared queue.
+> 
+>>
+>> I get that you say the firmware is breaking the contract but, without more
+>> detail on _how_ it breaks that contract I don't think it's really possible to
+>> validate your fix here, fixes anything.
+>>
+>> ---
+>> bod
+> 
+> Regards,
+> Vikash
 
+I'll go through all of these links given here, thanks.
+
+Whatever the result of the review, this detail needs to go into the 
+commit log so that a reviewer can reasonably read the problem 
+description and evaluate against submitted code as a fix.
+
+---
+bod
 
