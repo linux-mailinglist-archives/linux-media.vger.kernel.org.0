@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-27315-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27316-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB4AA4B859
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 08:31:42 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3C7EA4B865
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 08:35:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7227F164F73
-	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 07:31:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CBAD4167E26
+	for <lists+linux-media@lfdr.de>; Mon,  3 Mar 2025 07:34:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 056A61E9B33;
-	Mon,  3 Mar 2025 07:31:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D2901EA7E8;
+	Mon,  3 Mar 2025 07:34:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HTzEGiFf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ae/eu6wz"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CBC714AD2D;
-	Mon,  3 Mar 2025 07:31:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F441E5B76;
+	Mon,  3 Mar 2025 07:34:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740987092; cv=none; b=ky5TbUiFvALlMlTaKigdQDLDUk1W1AH8b/MvXagBb0Xk5b5TIUiiItID+KCOXnGO/FZcObnLbedkgXfb+ftAmS7DSkS22QklUVqV4BV6nIGoQvPJgXEgBoZ2vgEJPVqmaIh7lFxE6VDHu+fAPHnBR0ZpQyLX3HUQtBJovb9FZlI=
+	t=1740987292; cv=none; b=EWuLO11zSW+glRwqZVrPpX0V3O/sv3DxKWRnuiOf2JLtRvOSl2qiMZIDSo5apC9l3LjRNUdRWzQ8b2LA6qOblS2erSW3h6dR7ri3Bp3Ohts9ZV08+0g1baacSQto1PRm4OpSB2HbMVKbM9NQjXDfvMZmmRLO/HuvVQy+6TEksmA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740987092; c=relaxed/simple;
-	bh=Rp+ML2bibpqktoLUGR92Bz7M855WOGJIx85KWI6GPlY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Qs/rqmr1PCo3H0sUZ9KVUfarUOj+NsP1wfjmQLXG0WIKQaeK6qK+/w0+UQD3te/wCKDFiZbRc6rN+Yg4pTVy0sssnopchUbeRiJxphCiNlC7pclhI9TvEdcC++q8C0edegJVN+a8VOs4y6a2Ba5yl/IkOPBqx//O5BB/9CHblbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HTzEGiFf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA799C4CED6;
-	Mon,  3 Mar 2025 07:31:26 +0000 (UTC)
+	s=arc-20240116; t=1740987292; c=relaxed/simple;
+	bh=OdVpAxmtfoalSXyqc+DLAkGnZF5iDT2lNU6C/joqxOA=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=TfCjdrrRcMu6o6snqI3+kC3FzSUvML6g+CuXSfTC5S0P9c3EPRKlil1lE9n18GxJ3PWuSAU3BGsIKyZ7mp1NJEqsBsgcUyP07sIYt4pQDKSayjjd4hPkH9oClqworMmZ21qU7CppFMnmjFiihyIHD5y0lFFtRrvtTSI5CbtGRZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ae/eu6wz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94412C4CED6;
+	Mon,  3 Mar 2025 07:34:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1740987091;
-	bh=Rp+ML2bibpqktoLUGR92Bz7M855WOGJIx85KWI6GPlY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HTzEGiFfHLV4w3wmTYdgM1MCufXU4oIQ7PNRV0iGYfH7O1AlC9I9jG8mRefk8kGMk
-	 hHaX3prwYZyBKkE9OkYkGGbfe4+xwGnXulJ7Tn+Yqhbes5R4tmKYP75jte80SDKIrX
-	 ORktdyG6hGNsc+7RzDE68WQt/m9XnfY8ftWGpyWBeQ2r/NSrTW1qY8x8VokwBvGAtf
-	 KwjwSt0LjcHRMPqtg1L3JUujWt3sRkfsY3yO5yyHWKsDWKS3aIcwN+ecSJXmqz/oNX
-	 IH1cwiQLFaJoLuhdLdx/btKuJqw+tg0teun2eDbRAcaZAqjQ2JrgstmwN5S8kQPsss
-	 7blHovP1SNM+A==
-Message-ID: <3d729159-4d13-4a61-88c7-3be992b23728@kernel.org>
-Date: Mon, 3 Mar 2025 08:31:24 +0100
+	s=k20201202; t=1740987292;
+	bh=OdVpAxmtfoalSXyqc+DLAkGnZF5iDT2lNU6C/joqxOA=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=Ae/eu6wzFC+50YktcQuMsFoMEsSip8iy+UoejH9l6iTL+foo31bCfLjUFZFn5COBq
+	 9+SwxdDtT9v2e3n0Rz4tJR4QnZGh7pGvpaga+HBQ5P0t3nsh9z1e9r0WTjYitRScB3
+	 MckHDxDMuCXVtr3pYNcEzCnoRXGoyHuymYWYdqTcRisJbJfffQauC/cp3nWit3Iryl
+	 9nmzPDRdg5Ttnka1VH/LnFW1ar2oS12afA/YFdsnihR2R4J2J5vq19bmQ5Clixcut2
+	 g8NcYKA5YyZOAgXg9naN7yF0/vgJ/A8zIt19AcGTEvrpA5+7k/fe5VVjr7w92ytu5j
+	 HGzLXy+OyWquA==
+Message-ID: <7c720780-03ad-43a1-b89c-8cedd00dd129@kernel.org>
+Date: Mon, 3 Mar 2025 08:34:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,6 +52,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 1/2] media: dt-bindings: Add dt bindings for
  m2m-deinterlace device
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Matthew Majewski <mattwmajewski@gmail.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
  <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
@@ -65,7 +66,7 @@ References: <20250214231759.119481-1-mattwmajewski@gmail.com>
  <20250214231759.119481-2-mattwmajewski@gmail.com>
  <20250218-eggplant-skylark-of-swiftness-dcf6ba@krzk-bin>
  <69cb2e95c291f17cff42b45e7c871f30a85c060d.camel@gmail.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <3d729159-4d13-4a61-88c7-3be992b23728@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -110,107 +111,100 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <69cb2e95c291f17cff42b45e7c871f30a85c060d.camel@gmail.com>
+In-Reply-To: <3d729159-4d13-4a61-88c7-3be992b23728@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 26/02/2025 23:41, Matthew Majewski wrote:
-> Hi Krzysztof,
-> 
-> On Tue, 2025-02-18 at 09:30 +0100, Krzysztof Kozlowski wrote:
->> On Fri, Feb 14, 2025 at 06:17:58PM -0500, Matthew Majewski wrote:
->>> Create a new yaml schema file to describe the device tree bindings
->>> for
->>> generic m2m-deinterlace device.
+On 03/03/2025 08:31, Krzysztof Kozlowski wrote:
+> On 26/02/2025 23:41, Matthew Majewski wrote:
+>> Hi Krzysztof,
+>>
+>> On Tue, 2025-02-18 at 09:30 +0100, Krzysztof Kozlowski wrote:
+>>> On Fri, Feb 14, 2025 at 06:17:58PM -0500, Matthew Majewski wrote:
+>>>> Create a new yaml schema file to describe the device tree bindings
+>>>> for
+>>>> generic m2m-deinterlace device.
+>>>>
+>>>> This device is supported on any hardware that provides a MEM_TO_MEM
 >>>
->>> This device is supported on any hardware that provides a MEM_TO_MEM
+>>> Which device? I don't see here any device name/model.
 >>
->> Which device? I don't see here any device name/model.
-> 
-> By "device" I am referring to the m2m-deinterlace device, which I
-> explained is a quasi-virtual device. If this is confusing wording I can
-> change. 
-> 
->> I asked to provide here some examples of devices.
-> 
-> As I wrote, supported devices/hardware is anything that provides a
-> MEM_TO_MEM capable dma-controller with interleaved transfer support. I
-> did not list specific devices because the bindings are supposed to be
-> generic, as they are not describing actual silicon. But if you want me
-
-I already told you that no. Bindings are not supposed to be generic.
-
-From where did you get such information?
-
-> to list some devices which provide a compatible dma-controller, here
-> are devices I found in the current mainline kernel:
-> 
-> - TI OMAP Soc Family
-> - TI Davinci Soc Family
-> - TI Keystone Processor Family
-> - IMX27 Processor and variants
-> - Several Microchip Processors (sama5, sam9x7, sam9x60)
-
-That's too generic - you just listed SoCs, which consist of dozen or
-hundred of devices. Which hardware piece is here?
-
-Maybe this is not for a real device, but then this should be marked clearly.
-
-> 
-> As I mentioned in my original email, I have personally tested on a
-> BeagleBone Black with an AM335X OMAP processor. There are likely many
-> more devices with compatible dma-controllers that could be supported
-> with additional dmaengine driver support. 
-> 
-> 
->>> capable dma channel with interleaved trasfer support. Device tree
->>> bindings are for providing appropriate dma channel to device.
+>> By "device" I am referring to the m2m-deinterlace device, which I
+>> explained is a quasi-virtual device. If this is confusing wording I can
+>> change. 
 >>
->> Don't describe what DT is, but the hardware.
+>>> I asked to provide here some examples of devices.
 >>
+>> As I wrote, supported devices/hardware is anything that provides a
+>> MEM_TO_MEM capable dma-controller with interleaved transfer support. I
+>> did not list specific devices because the bindings are supposed to be
+>> generic, as they are not describing actual silicon. But if you want me
 > 
-> Ok, will remove reference to DT.
+> I already told you that no. Bindings are not supposed to be generic.
 > 
->>> +description: |-
->>> +  A generic memory2memory device for deinterlacing video using
->>> dmaengine. It can
->>> +  convert between interlaced buffer formats and can convert
->>> interlaced to
->>> +  progressive using a simple line-doubling algorithm. This device
->>> can be used on
->>> +  any hardware that provides a MEM_TO_MEM capable dma controller
->>> that supports
->>> +  interleaved transfers.
+> From where did you get such information?
+> 
+>> to list some devices which provide a compatible dma-controller, here
+>> are devices I found in the current mainline kernel:
 >>
->> And how do you program that device to deinterlace? How do you signal
->> end
->> of frame/data when writing to the memory?
->>
->> It still looks all this is for driver :/
->>
+>> - TI OMAP Soc Family
+>> - TI Davinci Soc Family
+>> - TI Keystone Processor Family
+>> - IMX27 Processor and variants
+>> - Several Microchip Processors (sama5, sam9x7, sam9x60)
 > 
-> All of the deinterlacing is handled by the dma channel. To simplify a
-> bit, m2m-deinterlace basically just translates video format information
-> into appropriate interleaved dma transfers. Everything else (and
-> everything hardware specific) is handled by the dma engine, such as
-> initiation and signaling completion of transfers. 
-
-
-So the device is the dma controller and maybe all this should be folded
-into that controller bindings.
-
+> That's too generic - you just listed SoCs, which consist of dozen or
+> hundred of devices. Which hardware piece is here?
 > 
-> I think an appropriate analogy for m2m-deinterlace would be spi-gpio.
-> Since spi-gpio leverages gpio for bitbanging the spi protocol, the
-> bindings do not need to describe any clocks, spi-controller registers,
+> Maybe this is not for a real device, but then this should be marked clearly.
+> 
+>>
+>> As I mentioned in my original email, I have personally tested on a
+>> BeagleBone Black with an AM335X OMAP processor. There are likely many
+>> more devices with compatible dma-controllers that could be supported
+>> with additional dmaengine driver support. 
+>>
+>>
+>>>> capable dma channel with interleaved trasfer support. Device tree
+>>>> bindings are for providing appropriate dma channel to device.
+>>>
+>>> Don't describe what DT is, but the hardware.
+>>>
+>>
+>> Ok, will remove reference to DT.
+>>
+>>>> +description: |-
+>>>> +  A generic memory2memory device for deinterlacing video using
+>>>> dmaengine. It can
+>>>> +  convert between interlaced buffer formats and can convert
+>>>> interlaced to
+>>>> +  progressive using a simple line-doubling algorithm. This device
+>>>> can be used on
+>>>> +  any hardware that provides a MEM_TO_MEM capable dma controller
+>>>> that supports
+>>>> +  interleaved transfers.
+>>>
+>>> And how do you program that device to deinterlace? How do you signal
+>>> end
+>>> of frame/data when writing to the memory?
+>>>
+>>> It still looks all this is for driver :/
+>>>
+>>
+>> All of the deinterlacing is handled by the dma channel. To simplify a
+>> bit, m2m-deinterlace basically just translates video format information
+>> into appropriate interleaved dma transfers. Everything else (and
+>> everything hardware specific) is handled by the dma engine, such as
+>> initiation and signaling completion of transfers. 
+> 
+> 
+> So the device is the dma controller and maybe all this should be folded
+> into that controller bindings.
 
-Sure, SPI GPIO is Linux driver, not a device and I am asking about it
-all the time.
-
-> etc. All of the hardware specific components are abstracted away by the
-> gpio controller. But the spi-gpio bindings still exist to specify which
-> gpios are used.
-
+Answering myself: obviously no, because interleaved DMA is not relevant
+to this device, so again: there is no device in SoC doing that. You just
+add bindings for specific Linux driver without saying that this is that
+driver and calling it "generic device". There is no device here.
 
 
 Best regards,
