@@ -1,79 +1,35 @@
-Return-Path: <linux-media+bounces-27486-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27487-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E490A4DF92
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 14:45:28 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04B1CA4DFBD
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 14:52:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EA5F43B31B4
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 13:45:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 811337ABE2C
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 13:51:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BDBD2045AB;
-	Tue,  4 Mar 2025 13:45:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tDN1yHwo"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D0922046BF;
+	Tue,  4 Mar 2025 13:51:57 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3972204592
-	for <linux-media@vger.kernel.org>; Tue,  4 Mar 2025 13:45:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CFAB201267
+	for <linux-media@vger.kernel.org>; Tue,  4 Mar 2025 13:51:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741095921; cv=none; b=PGpR1ZR/i1nbPEnJXhVTy1LjobhjcrC+fwJtKg8AEar5f7mw0txBoBkuHgb/E+Apj9Uqd7v7dfK+jtYd4uk25nr5CQGThs5JAChFDlwK5eEgx76kk77YgTlwHb4QXAD6trN8e05NMcd6Jv23HXXwwYpPlqdv2tqc1xegNudwJK0=
+	t=1741096317; cv=none; b=H7KUJu3JJRLxSQy3edqRO9ZgB1ssyp8adpAAA20m1bw/Ypnm4IhTDnu0rcWPF02bnVcp10ruASPEAJWS8sQNjKiTP/n6ivpIHKO+3+WdQvVQf+s2ZKWZydvVNSO5XjbQwTa1j2YbF9UGPttOSHILM6zpb3u9fysGeQ+oY3c5v1A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741095921; c=relaxed/simple;
-	bh=NqK0lDxLELOL9DD+GeZsCiZ5LA3cKDL5a44tbt5qZtE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qR899gXBji7VBkfWo3A0VXeNiww2sXgaZKY75K1cfFWXnWRxEsbzcyfNDPTvWI7Swl45XZ4hEWan0ErVQea+aqG7zfx4gyW6xDmqVa/JpUUV5g5SqljN8f9O+RGQAdZKHTwHIiHV46i8Nw4A1gQJZRQULhn7MjlalHQ3ApUJevU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tDN1yHwo; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-390e6ac844fso4963763f8f.3
-        for <linux-media@vger.kernel.org>; Tue, 04 Mar 2025 05:45:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741095918; x=1741700718; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jtRRg4J7QV1jyEFxXJ9yQG1POl4I6geC1f76q6WuMIM=;
-        b=tDN1yHwodjOz4V3TRaZu7iziYe2aMoFtxsUtCyMhRwPJNDTehta4eM8HZJhUpLmyAt
-         qhbDdH/VrB4MYIV/Z99sMCVaaFF2iZLgEWWAuP8+B1K9Jc8uOCYmokoyiLqcLl7C3RLs
-         Mab+JuebmUNp/JLd8S2mbpTiPiJJuQcIjxY/QIlOugVZFCzOKgDdabxmEoAKUEsakHW2
-         lY/J+muA+GcXtLvoipL9knf62ZNEF7oifZqmqj9JwhyspGDXq8Twusj0dZE+l+L80Tnn
-         HAFwbLvqqoL24nBma7S6eVVHq1IO1OEkHBHjsY0GIsll/AIeH6cjw2LivZ6ONaCcI6u+
-         muWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741095918; x=1741700718;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jtRRg4J7QV1jyEFxXJ9yQG1POl4I6geC1f76q6WuMIM=;
-        b=VZQote6VbaL89fxc0UlS40yRVQg4LKCnJHnOfgUKsNcBzX+7dEY3JgOYUMM85wCxc5
-         Ij+TlcrjNxj0jryPeZ3/z+lKcamJQOzkmderQu9CQwT0BBd1lR5ka5qZU/+Vw1J8F03O
-         TnIE9hBgBbistAqsJWcgSagjF4bx2ZBU0N7eFfXDJkLxzl8jZwTpuawp4zm05yaydQf/
-         T4Fv9eosyYdYrX6N/opngYXRJmSg+4suiNwhpymFdDo0M1HNN2tVywbTw3lSblkIxq1e
-         oUDqQhoHILpH8+aaZmxUxk2DHHwYzFgr6sJtbXl+4Kp7eoP1M5mf0EB8Ba6zY7p8Soal
-         BfuA==
-X-Gm-Message-State: AOJu0Yyvhiyxwq16xKG1O4iXEshvXTB6TfwCVLEPv5Hir1USFkzrqscz
-	GATTypZkpJcLivr0vD3NOvKFHbukoEDSgRfsfAA8iOStjC6sRf5XGhY5tqMO5XM=
-X-Gm-Gg: ASbGncsfQeIBIp914yB4g5RizMpnRq1uUBc1PaGvg1m5++sCJEVb5jCSSJOvJ2haWWi
-	Qree6nRYt+9OyPAqp80Czvcf2kHcqr1w6Lfh65LS3UyZmFdaWGmwGx8eHkfwBzphxcQvrH8sffv
-	5X/iIV5/ESDiQavr1Tp0ugPOFFDim5p60+0VgPtR6bPlurdKvmIGz0KXfmJUVxAuwB0KSCiJvna
-	2E61LdSr+QZ2Ic6pRVoGMc796XcrfLXjZAPOcjkb3dlwLB0cWlMQgD9+AJWS+3IGmASUCr3f48u
-	kxyEAcxz5KCsBAODKHnBpD5iQpT1I0wJ875jKb2DE5anc5f2r9BvpKzRHxnMG6CCrVxKhRhJt5o
-	gW65yGsGxIw==
-X-Google-Smtp-Source: AGHT+IGJ4dtiZRMJMOnqPeHzryVAMSS7yvTZyuTJnVR+H4eCzXwrKiCtheWRCRn+0WfWFlydM7tKCA==
-X-Received: by 2002:a05:6000:1868:b0:390:de58:d7fe with SMTP id ffacd0b85a97d-390eca40e2bmr15866381f8f.51.1741095918174;
-        Tue, 04 Mar 2025 05:45:18 -0800 (PST)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e485d8e4sm17414305f8f.85.2025.03.04.05.45.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 04 Mar 2025 05:45:17 -0800 (PST)
-Message-ID: <79691e26-cddb-47d2-9112-deae3f9aaee6@linaro.org>
-Date: Tue, 4 Mar 2025 13:45:17 +0000
+	s=arc-20240116; t=1741096317; c=relaxed/simple;
+	bh=c+5TVVrnpieeUq/Rk/leBCZnM5JwhgM/CZUodqOx4I4=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=Il0hFnqn9WkhDCQZCpyAS30KBmmLZtmnjJEyrL2oRgnEghRVqmz0b9ZEi0TgnLfPeYgg8o3dA4+lByI25dMCeR7vdWh3Ps7TjbxuGBbIjwZj15a7cX95eUxZEWDCT0BXt54r5jgwLF46qqeiquNH6mUmkmBS6yyi5zPrUit+8Us=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 127DEC4CEE7;
+	Tue,  4 Mar 2025 13:51:55 +0000 (UTC)
+Message-ID: <ea145d2e-f045-4540-9268-86295cefbf92@xs4all.nl>
+Date: Tue, 4 Mar 2025 14:51:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,111 +37,132 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] media: venus: fix OOB read issue due to double
- read
-To: Vedang Nagar <quic_vnagar@quicinc.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL v2 FOR v6.15] cec/printk fixes and the removal of the
+ vidioc_g/s_ctrl and vidioc_queryctrl callbacks
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+To: Linux Media Mailing List <linux-media@vger.kernel.org>,
  Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250215-venus-security-fixes-v2-0-cfc7e4b87168@quicinc.com>
- <20250215-venus-security-fixes-v2-1-cfc7e4b87168@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20250215-venus-security-fixes-v2-1-cfc7e4b87168@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Cc: Ricardo Ribalda <ribalda@chromium.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 15/02/2025 17:19, Vedang Nagar wrote:
-> During message queue read, the address is being read twice
-> from the shared memory. The first read is validated against
-> the size of the packet, however the second read is not
-> being validated. Therefore, it's possible for firmware to
-> modify the value to a bigger invalid value which can lead
-> to OOB read access issue while reading the packet.
-> Added fix to reupdate the size of the packet which was
-> read for the first time.
-> 
-> Signed-off-by: Vedang Nagar <quic_vnagar@quicinc.com>
-> ---
->   drivers/media/platform/qcom/venus/hfi_venus.c | 1 +
->   1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
-> index f9437b6412b91c2483670a2b11f4fd43f3206404..c124db8ac79d18f32289a690ee82145dc93daee6 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
-> @@ -298,6 +298,7 @@ static int venus_read_queue(struct venus_hfi_device *hdev,
->   			memcpy(pkt, rd_ptr, len);
->   			memcpy(pkt + len, queue->qmem.kva, new_rd_idx << 2);
->   		}
-> +		*(u32 *)pkt = dwords << 2;
->   	} else {
->   		/* bad packet received, dropping */
->   		new_rd_idx = qhdr->write_idx;
-> 
+Hi Mauro,
 
-This is confusing - where is the read
+This PR contains one CEC core patch, two core rectangle logging fixes,
+one cx231xx fix that I discovered while testing Ricardo's patch series,
+and Ricardo's patch series:
 
-Your previous code
+https://patchwork.linuxtv.org/project/linux-media/list/?series=14558
 
-https://lore.kernel.org/lkml/20250104-venus-security-fixes-v1-1-9d0dd4594cb4@quicinc.com/
+Note that the uvc patch from that series was modified due to a trivial
+conflict with the UVC PR that was merged earlier.
 
-memcpy(pkt, (u32 *)(queue->qmem.kva + (rd_idx << 2)), sizeof(u32));
+This PR passed the CI:
 
-V1 then would have been:
+https://gitlab.freedesktop.org/linux-media/users/hverkuil/-/pipelines/1377347
 
-if (new_rd_idx < qsize) {
-     memcpy(pkt, rd_ptr, dwords << 2);
-} else {
-     size_t len;
+Since this series contains core changes it is best if you review and process this PR.
 
-     new_rd_idx -= qsize;
-     len = (dwords - new_rd_idx) << 2;
-     memcpy(pkt, rd_ptr, len);
-     memcpy(pkt + len, queue->qmem.kva, new_rd_idx << 2);
-}
+Regards,
 
-+ memcpy(pkt, (u32 *)(queue->qmem.kva + (rd_idx << 2)), sizeof(u32));
+	Hans
 
-V2 proposed:
+Changes since v1:
+- rebase
+- added two core rectangle formatting patches
 
-if (new_rd_idx < qsize) {
-     memcpy(pkt, rd_ptr, dwords << 2);
-} else {
-     size_t len;
+The following changes since commit fd4f68174d8647c4108731a2b8ad95c1c33ecaf7:
 
-     new_rd_idx -= qsize;
-     len = (dwords - new_rd_idx) << 2;
-     memcpy(pkt, rd_ptr, len);
-     memcpy(pkt + len, queue->qmem.kva, new_rd_idx << 2);
-}
+  media: uvcvideo: Drop the uvc_driver structure (2025-03-03 18:23:36 +0100)
 
-+ *(u32 *)pkt = dwords << 2;
+are available in the Git repository at:
 
-My comment wasn't about use of memcpy() it was about why we are doing this.
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.15l
 
-For example if new_rd_idx < qsize is true then we literally do
+for you to fetch changes up to 232f8f5d489bc20ec0034e7683e1169219a1b33c:
 
-a) memcpy(pkt, rd_ptr, dwords << 2);
-b) *(u32 *)pkt = dwords << 2;
+  media: v4l2-core: use (t,l)/wxh format for rectangle (2025-03-04 12:50:31 +0100)
 
-and the question is why ? That is an unambiguous cast of pkt to the 
-value of dwords << 2;
+----------------------------------------------------------------
+Tag branch
 
-What is the scope of how the data can change from a to b ?
+----------------------------------------------------------------
+Hans Verkuil (4):
+      media: cec: core: allow raw msg transmit while configuring
+      media: cx231xx: set device_caps for 417
+      media: v4l2-tpg: use (t,l)/wxh format for rectangle
+      media: v4l2-core: use (t,l)/wxh format for rectangle
 
-And why is the data considered potentially invalid @ the memcpy() but 
-valid subsequent the cast ?
+Ricardo Ribalda (12):
+      media: ioctl: Simulate v4l2_queryctrl with v4l2_query_ext_ctrl
+      media: pvrusb2: Convert queryctrl to query_ext_ctrl
+      media: pvrusb2: Remove g/s_ctrl callbacks
+      media: uvcvideo: Remove vidioc_queryctrl
+      media: atomisp: Replace queryctrl with query_ext_ctrl
+      media: atomisp: Remove vidioc_g/s callback
+      media: v4l2: Remove vidioc_queryctrl callback
+      media: v4l2: Remove vidioc_g_ctrl callback
+      media: cx231xx: Remove vidioc_s_ctrl callback
+      media: v4l2: Remove vidioc_s_ctrl callback
+      media: v4l2-core: Introduce v4l2_query_ext_ctrl_to_v4l2_queryctrl
+      media: radio-wl1273: Rename wl1273_fm_vidioc_s_ctrl
 
-Assuming rd_ptr contains the length of dwords << 2 to begin with in the 
-first 4 bytes - why is it necessary to make _really_ _really_ sure by 
-restuffing the data ?
-
-For example if *(u32 *)rd_ptr != dwords << 2 - why shouldn't we just 
-throw the whole frame away as containing junk data ?
-
----
-bod
+ drivers/media/cec/core/cec-api.c                  |  2 +-
+ drivers/media/common/v4l2-tpg/v4l2-tpg-core.c     |  8 ++++----
+ drivers/media/radio/radio-wl1273.c                |  4 ++--
+ drivers/media/usb/cx231xx/cx231xx-417.c           | 17 ++---------------
+ drivers/media/usb/pvrusb2/pvrusb2-v4l2.c          | 40 ++++++++--------------------------------
+ drivers/media/usb/uvc/uvc_v4l2.c                  | 25 -------------------------
+ drivers/media/v4l2-core/v4l2-ctrls-api.c          | 55 ++++++++++++++++++++++++++++++++-----------------------
+ drivers/media/v4l2-core/v4l2-ctrls-core.c         |  6 +++---
+ drivers/media/v4l2-core/v4l2-dev.c                |  6 +++---
+ drivers/media/v4l2-core/v4l2-ioctl.c              | 39 ++++++++++++++++++++++-----------------
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 35 ++++++++++++++++++-----------------
+ include/media/v4l2-ctrls.h                        | 12 ++++++++++++
+ include/media/v4l2-ioctl.h                        | 12 ------------
+ 13 files changed, 107 insertions(+), 154 deletions(-)
 
