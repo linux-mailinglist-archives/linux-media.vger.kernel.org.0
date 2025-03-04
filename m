@@ -1,221 +1,137 @@
-Return-Path: <linux-media+bounces-27472-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27473-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44190A4DD20
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 12:56:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EA74A4DD8B
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 13:10:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3B687189A8D1
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 11:55:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BC2B7177B4F
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 12:10:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 542D91FF7CA;
-	Tue,  4 Mar 2025 11:53:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9255F20127C;
+	Tue,  4 Mar 2025 12:10:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b="bLLCaBBD"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rcdYd+hs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2082.outbound.protection.outlook.com [40.107.20.82])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D636D201024;
-	Tue,  4 Mar 2025 11:53:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.20.82
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741089201; cv=fail; b=USDyS6uDZyIS4ZTSJfs3N71h8rEGSEuXJrxtH1WPTxJZE7rGcXvhwwyJvRyK+wASo5dp+BADoCsKztJKHcsjMUY9dkZAofm13kmYth++SIWt785BQNSrMAcFN2bnIgLnr5B2MZgfbCv9ZazNmSm5tRc3ahCcDcIH94RuuvPZG/4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741089201; c=relaxed/simple;
-	bh=8J7qYI83f2DiN5PSPl7MsC7qA3HBTF/VLd94rLZjxog=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=K6Z7RaEPngGnMYTWE0dIxpesaDpJD1edlJuyj/0hIuZT+ke3kUMsaiX88ISECTjTalTEH8AB4Q11/HZvpuJrHjms6SYm0LxyCpWlS+8SMifMo+htckp+twJ10D3vVLFQu0OgSK3rwmxIxdWuOjg28XsUMuqN59iRXcbYH8RHB6s=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mt.com; spf=pass smtp.mailfrom=mt.com; dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b=bLLCaBBD; arc=fail smtp.client-ip=40.107.20.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mt.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mt.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S1JwDP1ubpiO8G9UnhntzNWg9sMIV0sjZjXPgfpFlmnL381sudmMcmK6BYrdXSE3Iol+N9kqWQUXKUdSHxF0kemJG4ynJ8B3+NJ3rryZgluKK6ozLhDCP52f3wab2tT63jUlFZqiDW6aojqtSF12Z9il0pcfVfPXUziUTN119XPYXPU6/cVO0dPMvWVJao8Qpd3G4goQouSnPoWKpCJ8oYwqtz+djKMGa6ONTgilZm2oEqKqBLuWJMjs0ihLxoxskFAHtdKgbBUvDv+JPpE0lesJ9fUeRZx+9+FKpBJSc+iTpW3KZLu5Z7rDZeMMVnEBVhf6qa3hmO/63i3SRh7XbQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/Rx8jiJQQx5OAZ0ObisO8Ci46WTdYRZaj4kTZGKdDJU=;
- b=Y84OiIEEkxoiiuLAVsaNAXh1+2ilgdGUkfo5oE1by6bWMd/MCgYquGDjghIDKgN8zcj86ua4hLnJ+Ll0ebcM/Wr6IKzNIyeI9OoIos4rm66JFEo3u2LhsMwu3kvqNu9Gt23WvbztyXIaeF++ZzhOAK1G7jRB0wKLAyzXdJE4ib812rlikQzC14sIkej6NI2V9qAUj11MRwBMvIdKWILeKMvGIJA+34WtZjPp10awQN4+HGD8XtdrYW3q80yW40jFk1aVUm/7Oco3DYWr7BC4k21m3V9r/XbtXvWEN/+vnJSE+1m7nF0VBjSXMZP53Tgiwxj4Cfsm7emMohpFhQr9ng==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
- header.d=mt.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/Rx8jiJQQx5OAZ0ObisO8Ci46WTdYRZaj4kTZGKdDJU=;
- b=bLLCaBBDu7A0++ebpuv4So4uLLJ4TSZgnl0DbiBHdpTKiIzTaegF3yBuik4/vUxs5wPnAV6j5cgJ7ZptdVjAQMhEzE/cM2FiKg9LXEDDcxwnLwhbQrwBoHeCZ1isg7vLY/ikcKlf89Mg7VG2HFexCvzYMkMuJ20iYkRNlDlMMshl5GrZluXbBOMRKJ+0J5bFzWX7RVeuFxXRzWOYWwvLyvX6L0j19Lh84jM3ll///+jQHDlZ6lfQlaCBc81J9hcedFqILu9pyoGZu+pOMVGL1KGYuJqF0z9oAYzrcwz+dC3Fh4A8eliWy1cMPDRX92aMyGDs6H+MXAKPJ7TRNrtndA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mt.com;
-Received: from VI0PR03MB10400.eurprd03.prod.outlook.com
- (2603:10a6:800:203::15) by DB3PR03MB10131.eurprd03.prod.outlook.com
- (2603:10a6:10:43e::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8466.28; Tue, 4 Mar
- 2025 11:53:16 +0000
-Received: from VI0PR03MB10400.eurprd03.prod.outlook.com
- ([fe80::48f6:ae9a:fcdf:b5bd]) by VI0PR03MB10400.eurprd03.prod.outlook.com
- ([fe80::48f6:ae9a:fcdf:b5bd%6]) with mapi id 15.20.8489.025; Tue, 4 Mar 2025
- 11:53:16 +0000
-Date: Tue, 4 Mar 2025 12:53:05 +0100
-From: Mathis Foerst <mathis.foerst@mt.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-kernel@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, manuel.traut@mt.com
-Subject: Re: [PATCH v1 1/8] MT9M114: Add bypass-pll DT-binding
-Message-ID: <Z8bpobFg3BnNHJ+/@mt.com>
-References: <20250226153929.274562-1-mathis.foerst@mt.com>
- <20250226153929.274562-2-mathis.foerst@mt.com>
- <Z788hw7pSpwmL2Ze@kekkonen.localdomain>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z788hw7pSpwmL2Ze@kekkonen.localdomain>
-X-ClientProxiedBy: ZR0P278CA0117.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:20::14) To VI0PR03MB10400.eurprd03.prod.outlook.com
- (2603:10a6:800:203::15)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F7A51F3BAD;
+	Tue,  4 Mar 2025 12:10:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741090207; cv=none; b=E5JE6AEGQQCKG5JVan5e2ZrPiIQi1OzS5JVoszCPlScmMTyBG66YdxjXspFZ+pxHj993XblmsahokFIMMTQIzp9eZncy1cuifIWmxVcMM+8wHDN3zBL9uQcrcnR5/oDjH4TInS7+OgrhN5ebBKS6ilJTjc8jpw3n9d8UwBhVVsM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741090207; c=relaxed/simple;
+	bh=rgXbOkQ3GSLmdnTCxvMm8iPGC8lYoAt0adFqaz48V1I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XbTySngaXQaiuz8LxP3YmwsM19KNltvxhrWPPyes72h+V4K340yqoDu5w8WuGD9LKll7NV0S+GCig7lpoj2T23/jnW66f8oxnJw6lXrBeL6mmzwDEkF7Mh1dVovOjyZ5hYFCnWj8YAeHFdI1vdICfbYxTdUHRVbGrmA3s9whvYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rcdYd+hs; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2D3C7E8A;
+	Tue,  4 Mar 2025 13:08:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1741090111;
+	bh=rgXbOkQ3GSLmdnTCxvMm8iPGC8lYoAt0adFqaz48V1I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=rcdYd+hsO6X7CQfR4vkjck/g+2yh8UtoTI/TczjjApj6BnKFwyWBd4/06CEopx5kb
+	 nYE56MVGZPzAnZvDNBPzmzuhwrhyaKzzS5stOMIFlV+YQeYOyKnvQfBEXnytREvf1F
+	 HJf+a2zdCrJ0sFhrCw9FZlBKc9rGWQgBTAFg2kTI=
+Message-ID: <00f57b2d-454e-4d36-844a-4abcc98a309d@ideasonboard.com>
+Date: Tue, 4 Mar 2025 14:09:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI0PR03MB10400:EE_|DB3PR03MB10131:EE_
-X-MS-Office365-Filtering-Correlation-Id: eba7f282-f51a-4a64-2a4f-08dd5b132679
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?YeLefpiXvZnashLervtFp5SXghRFGw9EVu1u1bdtCZPNdFo/tWI1cyzS/P0c?=
- =?us-ascii?Q?P4QAV2QE/3velW+Pzkfuq+DlerDgWeXIT48kwh1aBVb5Pvugn/2YrSj7tRHW?=
- =?us-ascii?Q?T3A/umm/OrJJaaATJLO3vsAThFejXwHBw9cOgfC5UgkOgY1nIGAtQ6l4X6mv?=
- =?us-ascii?Q?gpDJQW/LtW89PH2aguz2r4wUuWdGnWNzckkWCnLQ9Y953pjbYoPWy/YVf5WL?=
- =?us-ascii?Q?56r+22vjzxWz7l5zNhpCCJjxEUsCNtTyeMl0SybtlXgilbD9mJHM4TWYXX1O?=
- =?us-ascii?Q?7qrNQ78rtlDKs8W1t5jOxoOn/JCPLWRiKnMjuhKY3TqOvfceJy0253ws4QC2?=
- =?us-ascii?Q?XBhoQ/miMQ3jYDbRyGbEmP2LoL0wxAQ8tEW8YY6RtDTII+25L2UuJ5QjQIjv?=
- =?us-ascii?Q?CjBHquoP/jUeAU2WmRtLhVA4+XjMKAiMNsEC3Eo7vaSPQDHCikp1DuhsZ7LP?=
- =?us-ascii?Q?T1CqCsFNB2zqr1uhgixjHTJEIhaAi7hsjN+uUU4BDR2+AkEJ6n3vRtahEHY4?=
- =?us-ascii?Q?07p29CrffUmqt79gzS7WDuzfQL4eqLtzy1gbZvi6pgXfjOzw0Ax5O7JXsmic?=
- =?us-ascii?Q?hMMi5X84KZ+7EwL6RqK39dsFMS3uujGYshjGR0Wfrt/d3rFxVRLhupkcT8+5?=
- =?us-ascii?Q?ZevZAEYO9fiCyTSThaPGOsKlBUnih6z2aSONBa4GLgthE1yVj0dW45Y8n6Ro?=
- =?us-ascii?Q?qMqZ9vuucJl+5lg0CPHSzF1x/a1kuOf/D7QQL0jK8MnGSVYaWn9WrJkjSyWa?=
- =?us-ascii?Q?k2gcoRrPPFg56GpgJwhxFs/mer41OeQXg2PySJeaPU4PB7LQRTPOcXuT9x5Z?=
- =?us-ascii?Q?6dPe5+fZrnj5GTjnpypJkBuU2hT4CzQdPr0O0k7taQ5xg0NYqXbkSsJL1gPv?=
- =?us-ascii?Q?+10RnFzVaVR9tdalUeqykbogiRk/6i3AbT8LU1a06SsiOGDWRgvYm7v0IROX?=
- =?us-ascii?Q?d/phlo2oTR5/8Kry+9zshDQvzKjx2neKNeFTQPPJYxUl7yLnwnxpOpRkVN5R?=
- =?us-ascii?Q?0xq/uSoaP2c8YzPMLF/LMd4pdumTEaXiIzMJ9GqoZqFDWzJCNzc76nkTWmaR?=
- =?us-ascii?Q?TkB705o4OPhsqNbIvcWRxMDUEsDxCje6XZCm0+1fLyIpleDECekCzXCoZ2JV?=
- =?us-ascii?Q?2g+hH0MTB+WUPk2IQuRyyZZPulWiDn3YIGVFw4WjeU0v51fcZNCK0Xa/Ia5x?=
- =?us-ascii?Q?drQyV5whFm/WAKCZnoImZT5meA1ocmCMUi1WhwesI4q6/bwaJbTf1MbZSE7I?=
- =?us-ascii?Q?ie7lgKtZuNzus10fQbPaxJfKSngeYaSe8Anr/M38raPcaDkmguaLO4Aw/c0K?=
- =?us-ascii?Q?JFGaenF87JzZIzEVmWBcbGP96gPgX9fv9uNAE6Bd08znlchcx4L409IixuDS?=
- =?us-ascii?Q?1IIue27kwaJOsKZ8ygOZ7Ts2x9VZxE81iswYdVUS5d+5znTVv1Wd9PIVFzXc?=
- =?us-ascii?Q?2msxhAE6vBr/3MAXzewVmU+hr4LZZekH?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI0PR03MB10400.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?DJv2LZxb9nbwh55n1EpqDoW0VSP3Ev5oDFQXVLJPMAwmspTYhEndn4ABLdy5?=
- =?us-ascii?Q?wFDGoJesmNt0vaR68wewdT/x+g2XdfsPkhHVP/2NCVOiUnrWu56Z+DSwiGIB?=
- =?us-ascii?Q?AMNHdFgoYPWtO7MsvW7kpprH7K5gHYUZPHomrQ+HsOlbhBeg4B3zN7buIRbN?=
- =?us-ascii?Q?+kCRLfiv3HArFxA8XdRjwpPnSl3i/Qw1K237r9Bww5myG+Z+U7cAsKByV3YZ?=
- =?us-ascii?Q?LJZ7aQjNC8FQEg9hW5iKEvRQZ2xVWOpgfLALQRRkqA2k4PZZqSKP43UWJTCy?=
- =?us-ascii?Q?j2YWT5BsIzYn+wgNeN4yE4seDR5rRnrTnh6r8zdx1LJK81xWI7eGlRhn8eZM?=
- =?us-ascii?Q?jP3oVFX26qdXyi2NgB/bodqcY7rBrm7o0YAr1xsLExVmb6nUcdHW30IhZfTY?=
- =?us-ascii?Q?1N2cBtQVfywVsKMbm0VaHv3VeDtqvc0OKgo+vBwUgemJfsSSQ/hsihoNwonM?=
- =?us-ascii?Q?OzlcM94brc3sS0iGJrTFJQPQ2/9mHwWchVGZaae8t0UwfB5MlI6pH12Un46h?=
- =?us-ascii?Q?eZt0xwgAZ0h9P2sUyzCzqziSpQdjr4USrvnlR5LLRtxcpUQ97ISk4Iv0BDGF?=
- =?us-ascii?Q?3FXFlpVVip7pHg00bhQhRQLYSgnuNIkYpOm4cuJd0e+bZMSdT9FClWAMjFbF?=
- =?us-ascii?Q?1UCKeW6VaenoHpbkARkmk9UiHo7U7aZqbZlMIj1wwfEtgm07Xi20+RHIqe+k?=
- =?us-ascii?Q?fJW4fPedyiOsZLJS/UH4lliDDxvGXbkNlOEoonke+3ypLH7bO3RtRplV+5Aj?=
- =?us-ascii?Q?m+hn6LVolDEnjJZudlzJo6u5vsct7lhTin0KkrzeDBiIQm86J4of1oKhcNiF?=
- =?us-ascii?Q?eglP2pHzbKLAsfGzFTeJA7riuUOKiLEiLRe74IcKv9G+UczMdSov0dB6MCb0?=
- =?us-ascii?Q?/CNI5U6tNfZHrnuTk7fs/mzincWPpZKDmChSOUVnSbopub0noSWPh85VSeuf?=
- =?us-ascii?Q?MptsfO5XX0//luxODzJb30Z8ESb0VvDteOpWC+YIOSqLiOYl5Tbi2Zxbztxq?=
- =?us-ascii?Q?NFDv0SENAo7FJjG8o/SDQSe4isgTJVaptUOGSWArQtFoWrPEQSyoscUXrAa4?=
- =?us-ascii?Q?4UTA7MJL5iKdhVjPMEh56bLBFzA7rRjPPQ1L66hGz2sMWaA+5bmQyqVLE3rA?=
- =?us-ascii?Q?iPrEdt/1z/xS2/TzCiZY9pfqUcaeQBa5OkAUAS9ojoeS7wf1ouCy4L1V2p/7?=
- =?us-ascii?Q?anFaIb+agLFn87GKYo1FYS9RavlD3h227J0KPE1zjdm+E7sB7y787H3g/lQR?=
- =?us-ascii?Q?cD90Kbf6EIjRIKwVWdqOOH4aOqbatQ6uwCVkxiiUpZyMAFTOExQ2JpUwLgwe?=
- =?us-ascii?Q?XDQpVglt3qcasPMjpuYG1QVg1eSa3B5GDpm8rwSkKm+eKQF/AHVanf2w5xxU?=
- =?us-ascii?Q?eZDHZF8joBq4ND8LYsF5AxiT5v/53O74D7kMEB6L3X5ZONXZPtWAahTNWmmI?=
- =?us-ascii?Q?gashFGUAJORVkOirIfv4pHCgbY24YGEzzOjUsqi0oryA1ojfjV0xUA9uNscG?=
- =?us-ascii?Q?isMZ4q7gxblBFb6WMaVUJciIhAEagG0FXd04tyDEjGL5ui1AFUsVpNMgyw5W?=
- =?us-ascii?Q?5QzH2sCUHsPhrGFkZ/Anos4+yUrmdj2WwXFrh7Vr?=
-X-OriginatorOrg: mt.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: eba7f282-f51a-4a64-2a4f-08dd5b132679
-X-MS-Exchange-CrossTenant-AuthSource: VI0PR03MB10400.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2025 11:53:16.6261
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4HWI4X7ES0Zq/2IWRRmpcILPQQ87uSY+ONrw/GsL4nBNUp+ijOlwfl8J55e0vfku+2FtrUAgOckw+qkbY0I9LQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR03MB10131
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 00/19] media: i2c: ds90ub9xx: Error handling, UB9702
+ improvements
+To: Jai Luthra <jai.luthra@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Devarsh Thakkar <devarsht@ti.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stable@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ devicetree@vger.kernel.org, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+References: <20250303-b4-ub9xx-err-handling-v3-0-7d178796a2b9@ideasonboard.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20250303-b4-ub9xx-err-handling-v3-0-7d178796a2b9@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Sakari
+Hi,
 
-On Wed, Feb 26, 2025 at 04:08:39PM +0000, Sakari Ailus wrote:
-> Hi Mathis,
+On 03/03/2025 18:02, Jai Luthra wrote:
+> Hi,
 > 
-> Please see which subject prefix has been used in the past for these
-> bindings.
-
-Yes, I'm sorry for that. I adapted the subjects of the patches.
-
+> This series has two main parts: 1) add error handling all around, and 2)
+> update the drivers according to latest (mostly non-public) information
+> from TI.
 > 
-> On Wed, Feb 26, 2025 at 04:39:22PM +0100, Mathis Foerst wrote:
-> > The MT9M114 sensor has an internal PLL that generates the required SYSCLK
-> > from EXTCLK. It also has the option to bypass the PLL and use EXTCLK
-> > directly as SYSCLK.
-> > The current driver implementation uses a hardcoded PLL configuration that
-> > requires a specific EXTCLK frequency. Depending on the available clocks,
-> > it can be desirable to use a different PLL configuration or to bypass it.
-> > 
-> > Add the 'bypass-pll' property to the MT9M114 DT-bindings to allow selecting
-> > the PLL bypass mode.
-> > 
-> > Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
-> > ---
-> >  Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-> > index f6b87892068a..72e258d57186 100644
-> > --- a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-> > +++ b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-> > @@ -70,6 +70,10 @@ properties:
-> >            - bus-type
-> >            - link-frequencies
-> >  
-> > +  onnn,bypass-pll:
-> > +    description: Bypass the internal PLL of the sensor to use EXTCLK directly as SYSCLK.
-> > +    type: boolean
-> > +
+> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> ---
+> Changes in v3:
+> - Now that this series is closer to being merged, squash "Remove old
+>    ub9702 RX port init code (SQUASH)" and "Update UB9702 init sequences"
+>    as they were only split to ease review.
+> - Drop SSCG bindings and driver changes.
+> - Fix Sakari's minor review comments on "Speed-up I2C watchdog timer".
+> - Link to v2: https://lore.kernel.org/r/20250124-ub9xx-improvements-v2-0-f7075c99ea20@ideasonboard.com
 > 
-> But on the content itself: do you need this? Could you instead compare the
-> external clock frequency to the link-frequencies property value(s)?
 
-That should also work. I removed the DT binding and let the driver check if
-EXTCLK matches the required SYSCLK for the given link frequency to decide if
-the PLL should be bypassed.
+Thanks Jai for sending this. Looks good to me.
 
-> 
-> >  required:
-> >    - compatible
-> >    - reg
-> 
-> -- 
-> Regards,
-> 
-> Sakari Ailus
+  Tomi
 
-Best regards,
-Mathis Foerst
 
