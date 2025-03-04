@@ -1,40 +1,40 @@
-Return-Path: <linux-media+bounces-27467-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27466-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7904A4DC24
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 12:14:05 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03416A4DC22
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 12:13:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 89F3D16BA29
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 11:13:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B56341892559
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 11:13:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F0CB1FFC4C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 325F31FFC4E;
 	Tue,  4 Mar 2025 11:11:32 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46AC32036E8
-	for <linux-media@vger.kernel.org>; Tue,  4 Mar 2025 11:11:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBE27202F96
+	for <linux-media@vger.kernel.org>; Tue,  4 Mar 2025 11:11:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741086692; cv=none; b=Uw9BsbeuxQrwcDgIBshO1WkgcaTLEY3QUaqvstwF1IhDKJKDvTqSq3ErRy4byuFteG2p0VJ39U42IRVG2RTLN18XOHaBQSomC/4gGvDVLIYHR1gxeg2YLxVqyzLG75E3R4khpHSS1vlkE7wGD7RV1hoW41U+3ZrQAnLIt+xLcJU=
+	t=1741086691; cv=none; b=mzY0gAsOfodS+/CAprEFP9Z28axfZapDHZSTBzW75vdMS/izI6zK9hCkl4FnSL3357z693y7FycNSaX77MGLnSElsO+8eV1e6sT4f/kaFPnOQlIcVAH7dyj1OM0AuVvZFAtOSI+MX57UKoFXXQnsbV3RMsYBTIbHQYmEiDu9hEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741086692; c=relaxed/simple;
-	bh=nCxd+9o7TnE/pAhdxP+oWArrxOlgpZzl8HoyscL7XMs=;
+	s=arc-20240116; t=1741086691; c=relaxed/simple;
+	bh=I4Ir5F6HVvEEfpJaB2p7puHx/V38QMW1g4Tj61gkqgk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jFaBlk6rpQUK6OS5kNoRbPHpO7IDObJhozcaNQmVxCmAW3jaSIov6MvWNtNyaFNSRUV/pn2As5lu33EcEw/aBCmyTKNyaKWYecJDXc2q28S73a5e9Jvg4SW56EIQAbEMhFo1thwMrHp+sBPSC/awuAVuQtZQwP8jAav1ArdgG7E=
+	 MIME-Version; b=RwttFcqqAi5+tOpARs8RyZFfeBxp6aoIXHb6bQb4Cbq+U6rgIXj7qLl94SpZDl13OZy7nvnKSdwqm/cEh/iMo15bXqPmHiECi7RbVgw09e/Z+mTBWLiPxnNgOMSMKrc0i3QoKnW0/2y4q8IeP4gGcDFNMhBs1nvqQyqVDneGBCs=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CAEAC4CEEA;
-	Tue,  4 Mar 2025 11:11:30 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2825DC4CEEB;
+	Tue,  4 Mar 2025 11:11:31 +0000 (UTC)
 From: Hans Verkuil <hverkuil@xs4all.nl>
 To: linux-media@vger.kernel.org
 Cc: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH 6/8] media: i2c: imx283: use (t,l)/wxh format for rectangle
-Date: Tue,  4 Mar 2025 12:08:12 +0100
-Message-ID: <b1800a865460fbe5a4aee8c132ef908673ed581c.1741086494.git.hverkuil@xs4all.nl>
+Subject: [PATCH 7/8] media: pci: zoran: use (t,l)/wxh format for rectangle
+Date: Tue,  4 Mar 2025 12:08:13 +0100
+Message-ID: <d8c912e6cd393df106bfc02f6dd365278840cd54.1741086494.git.hverkuil@xs4all.nl>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <cover.1741086494.git.hverkuil@xs4all.nl>
 References: <cover.1741086494.git.hverkuil@xs4all.nl>
@@ -50,22 +50,64 @@ Standardize reporting of rectangles to (t,l)/wxh.
 
 Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 ---
- drivers/media/i2c/imx283.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/pci/zoran/zoran_card.c | 2 +-
+ drivers/media/pci/zoran/zr36016.c    | 2 +-
+ drivers/media/pci/zoran/zr36050.c    | 2 +-
+ drivers/media/pci/zoran/zr36060.c    | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/i2c/imx283.c b/drivers/media/i2c/imx283.c
-index f676faf4b301..01b73bab596e 100644
---- a/drivers/media/i2c/imx283.c
-+++ b/drivers/media/i2c/imx283.c
-@@ -1082,7 +1082,7 @@ static int imx283_start_streaming(struct imx283 *imx283,
- 	cci_write(imx283->cci, IMX283_REG_SVR, 0x00, &ret);
+diff --git a/drivers/media/pci/zoran/zoran_card.c b/drivers/media/pci/zoran/zoran_card.c
+index 3975fc1b2ee3..e31f9f19a48a 100644
+--- a/drivers/media/pci/zoran/zoran_card.c
++++ b/drivers/media/pci/zoran/zoran_card.c
+@@ -1202,7 +1202,7 @@ static int zoran_debugfs_show(struct seq_file *seq, void *v)
+ 	seq_printf(seq, "JPG ver_dcm %u\n", zr->jpg_settings.ver_dcm);
+ 	seq_printf(seq, "JPG tmp_dcm %u\n", zr->jpg_settings.tmp_dcm);
+ 	seq_printf(seq, "JPG odd_even %u\n", zr->jpg_settings.odd_even);
+-	seq_printf(seq, "JPG crop %dx%d %d %d\n",
++	seq_printf(seq, "JPG crop (%d,%d)/%dx%d\n",
+ 		   zr->jpg_settings.img_x,
+ 		   zr->jpg_settings.img_y,
+ 		   zr->jpg_settings.img_width,
+diff --git a/drivers/media/pci/zoran/zr36016.c b/drivers/media/pci/zoran/zr36016.c
+index 4b328ad6083f..d2e136c48a1b 100644
+--- a/drivers/media/pci/zoran/zr36016.c
++++ b/drivers/media/pci/zoran/zr36016.c
+@@ -216,7 +216,7 @@ static int zr36016_set_video(struct videocodec *codec, const struct tvnorm *norm
+ 	struct zr36016 *ptr = (struct zr36016 *)codec->data;
+ 	struct zoran *zr = videocodec_to_zoran(codec);
  
- 	dev_dbg(imx283->dev, "Mode: Size %d x %d\n", mode->width, mode->height);
--	dev_dbg(imx283->dev, "Analogue Crop (in the mode) %d,%d %dx%d\n",
-+	dev_dbg(imx283->dev, "Analogue Crop (in the mode) (%d,%d)/%ux%u\n",
- 		mode->crop.left,
- 		mode->crop.top,
- 		mode->crop.width,
+-	zrdev_dbg(zr, "%s: set_video %d.%d, %d/%d-%dx%d (0x%x) call\n",
++	zrdev_dbg(zr, "%s: set_video %d.%d, (%u,%u)/%ux%u (0x%x) call\n",
+ 		  ptr->name, norm->h_start, norm->v_start,
+ 		  cap->x, cap->y, cap->width, cap->height,
+ 		  cap->decimation);
+diff --git a/drivers/media/pci/zoran/zr36050.c b/drivers/media/pci/zoran/zr36050.c
+index b07d7e5c1b4a..c17965073557 100644
+--- a/drivers/media/pci/zoran/zr36050.c
++++ b/drivers/media/pci/zoran/zr36050.c
+@@ -547,7 +547,7 @@ static int zr36050_set_video(struct videocodec *codec, const struct tvnorm *norm
+ 	struct zoran *zr = videocodec_to_zoran(codec);
+ 	int size;
+ 
+-	zrdev_dbg(zr, "%s: set_video %d.%d, %d/%d-%dx%d (0x%x) q%d call\n",
++	zrdev_dbg(zr, "%s: set_video %d.%d, (%u,%u)/%ux%u (0x%x) q%d call\n",
+ 		  ptr->name, norm->h_start, norm->v_start,
+ 		  cap->x, cap->y, cap->width, cap->height,
+ 		  cap->decimation, cap->quality);
+diff --git a/drivers/media/pci/zoran/zr36060.c b/drivers/media/pci/zoran/zr36060.c
+index 75fd167603dc..d6c12efc5bb6 100644
+--- a/drivers/media/pci/zoran/zr36060.c
++++ b/drivers/media/pci/zoran/zr36060.c
+@@ -488,7 +488,7 @@ static int zr36060_set_video(struct videocodec *codec, const struct tvnorm *norm
+ 	u32 reg;
+ 	int size;
+ 
+-	zrdev_dbg(zr, "%s: set_video %d/%d-%dx%d (%%%d) call\n", ptr->name,
++	zrdev_dbg(zr, "%s: set_video (%u,%u)/%ux%u (%%%d) call\n", ptr->name,
+ 		  cap->x, cap->y, cap->width, cap->height, cap->decimation);
+ 
+ 	/* if () return -EINVAL;
 -- 
 2.47.2
 
