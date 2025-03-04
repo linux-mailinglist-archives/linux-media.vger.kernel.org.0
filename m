@@ -1,55 +1,80 @@
-Return-Path: <linux-media+bounces-27448-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27449-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1C1AA4D907
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 10:45:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48292A4D95B
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 10:54:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 357CB16F235
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 09:42:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A35D23B7C79
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 09:48:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2EA91FF1C6;
-	Tue,  4 Mar 2025 09:41:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6669A1FCFE4;
+	Tue,  4 Mar 2025 09:47:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="GKMDyYch"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IcqVUBiS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 611B81FC11A;
-	Tue,  4 Mar 2025 09:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEC6A1FC7F2
+	for <linux-media@vger.kernel.org>; Tue,  4 Mar 2025 09:47:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741081309; cv=none; b=jMlWjRX6i5BucbsfblxjnBkmdw++w/Z9s6F/6rP2lR2vDE1/cnYQJoPhFc8CsdDTqp0rDC9UeFgZpesj2USzxYKZpRatvEC2s3lp6Z9SOrR2MGbXbSmfbcW3bP/wS9tznfLMRnOGkjiko4diEopb7sjum6/d02pMjoqHoIqpbKg=
+	t=1741081670; cv=none; b=uPVde4HjPA9Bowb+M8CSqcWpq87ArKPz/7YzaS6I3H1ctyEMOKvVORfUXFN+2JwS/n57AOtT5B5JwfQlfxOBVRRqBsLLWjJaMUJt8e4F/TWmUu7mcXnYW5Gk8qgJOiSLYgENy8kPSPAHhYn6051QRaHAAz5N4HSw4MFPbbWJ6To=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741081309; c=relaxed/simple;
-	bh=V4CnTDDJt6NGOGhGQPS8FC6bzc1LOyrks5JjjZ6wzOQ=;
+	s=arc-20240116; t=1741081670; c=relaxed/simple;
+	bh=jM+khpR6kSrzXPpnRYBzaNBVw13oVxCaP+gD5x4MJis=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uzwkCxKNGeVRx82U68CNF7WhJq413tbijWmhZa/lqSgkCeMvGQ62tv3GGngSuXsr1abfT2hLHf+eTFynYa3wxN1NOu3pInkHh4hyMu4UJWMcU/JuI/ZN1aZqURMlqaq7ZEyJCQlNW+vmuLCxzkY3/mcO3bYiJqmeRupVwVaMCjc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=GKMDyYch; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1741081305;
-	bh=V4CnTDDJt6NGOGhGQPS8FC6bzc1LOyrks5JjjZ6wzOQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GKMDyYchTQRfBI32tSx1RcUARGgdtMy+exmv+qg0+7lEZCz8pU7SvRBil6cC8qK19
-	 1d/019YaI/311Wosb2lYFvlb1AMHl8V91mpgHWWZX7I9ChFdOm3Q0NcpEru7wwjtZh
-	 oZDxPWwQExqFox7dC0VQaFe0/yFNpwwYvuoGBEVjRZVUcuQ8vtg0FAKNhNj8IVCK8x
-	 tIiAK1leEEM/Fs9gfiGUseX5HQti7AUDjjYggRL0EPiNahhOWxmXRnNbNOYzTn3nh4
-	 i/KATrUmS4CbfT2dTHc5t9KzEBt4b6kO05iRCSjjGF61j5CwBSmIk5Bfs/XwWMwlDL
-	 chmjovx/CDYeg==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5612617E087F;
-	Tue,  4 Mar 2025 10:41:44 +0100 (CET)
-Message-ID: <c52b132b-fc08-4d1c-8276-1771f7457014@collabora.com>
-Date: Tue, 4 Mar 2025 10:41:43 +0100
+	 In-Reply-To:Content-Type; b=bsURHiIbL31qRuvbFqTKdTO/yV09tb7j+AaKq67AFAGGp7fSH8noPcNMI8dGdTKzk2oOJUphCT3uC1f5WvMLDPO6J6aA2IO4UlG+IgDaNpJXle9otDC1dm7qWLBLGdg7Yf6MvTrG9UDSFYT0p0AxbC7Y2hNWE5+s1oochrrWKsE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IcqVUBiS; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43995b907cfso34471435e9.3
+        for <linux-media@vger.kernel.org>; Tue, 04 Mar 2025 01:47:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741081667; x=1741686467; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qSm1lg2/FkL1yWeHeKV4bekvslQt2WvmtVqn6o+tUnQ=;
+        b=IcqVUBiSEsldwLum6i7goXFnHY5PQQoIAs7IH1jZYokVylwIVObVHdSZgT8W/0CYle
+         cFti+mk+DD5KnGfDUrhSBDRh0w6JCJ/VOlDvyr4wj51jSD+08/QC7mwpkYtEF9/amLd2
+         1Z5eeFOpW2LzYRTGb6zIRCrCpRjzha/B9mG34c9ORjz0YkDnMTRXTwnZ4xzYDn5hy0kH
+         EEkFp3gQrVi1x7jMHuAuzU+YHN3ibcQH5ChuH6hCQoyunsv8ilRWqJX4nbJ1GaRij/zg
+         /nPhKxqnEbDvIMJPweVfiYSzECCzo08DijOGcQv3I0ePo1ZLqx4KcXF2Lkf4Zc3L/6G+
+         V2lw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741081667; x=1741686467;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qSm1lg2/FkL1yWeHeKV4bekvslQt2WvmtVqn6o+tUnQ=;
+        b=wnxXV8O7kJpd+BwUduzvea8KhsKNQYxnJPw7zmlGd2bU81ksVgrOVDUvsczAA0LRKx
+         1qxRn5fcZCW5uGT4U9w4oRqP6A8E+3LarRkElMT5kf+I5pF2wWnBhEpSwhTtWOAEAnss
+         fbuN6Dtd6N6IFBtQmokjSSoBJz6fQEQjnVAMLsOtH/kbzodWC2nxQ0D0J343e48e1zQ/
+         FD4UiKHOctucGNFY7gupnc/V3B9AzH2bC93p1RoLRRWl4HwlRja1ZELMhY77pOZ7c07D
+         Mtafu6vdvop1uOJRHVNCOcnMW2kx8JhXBzm3iebwLbi6lnttWEFgX/pDGzBrYckWwjSD
+         0CKQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUY3I6JUJ9FaoIiumOrYcRA/E0fomuKY7dWLuYFqDxCcgTOGa8vJNCdHOs9R6AFx2NTT92dqbjqL0wltA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlIlEFEWfsQ4iS3JHfxh/dtMCqGpUncHIg1D3G3uhO41FmicrZ
+	AHf8iLQ+jIuVBStReF/PvOr30qsGwwtdp42N2n9EamQr3ektwBousCbpCUSU2zI=
+X-Gm-Gg: ASbGncvhzBne9H9FY9mCxa3i3xS3WBefKekCp9tGAAyj6tqSMa79TgLUiJE6Fte4d4f
+	OJrvJgTcasAGU3QGeg2yMp3rLaXvESGOTtldN8qaIQ5hXtSS+Ry7ICisd/IxFzvGLmr42xpFH1U
+	++GBzDkiKrtC9GpfZAxugXOVHdbTJi2fXfSnMk6nziMzKvE5MY3kP6vL4hUqEIdch7RpEwmcU3H
+	wt521iBsfjDonBQNPM9YdgqTEvAmiYNsC1gB+yflD2dV2xJXOWD++bjsW97LTa6mAd3Ng0wVgmh
+	+cLKVaKT9bLMOLd0vXqLFb3JG+hdygwqIr2IFcE5QIfovmsQtnBuzj3NKxzWKzUvANKmKttmaTS
+	vgwSyHqINOg==
+X-Google-Smtp-Source: AGHT+IFDmnK5YYmULhWYfPkCzV4REgmiXkQRXkNfOTnHTpTo4USjUT1kKhF/sQF1HrBw+vy8AZd5Qw==
+X-Received: by 2002:a05:600c:a03:b0:439:9b19:9e2d with SMTP id 5b1f17b1804b1-43ba6702becmr158936035e9.16.1741081667192;
+        Tue, 04 Mar 2025 01:47:47 -0800 (PST)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-390e485e13fsm16964961f8f.100.2025.03.04.01.47.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 04 Mar 2025 01:47:46 -0800 (PST)
+Message-ID: <f5c2044e-e78e-4839-9c29-63610ff406e2@linaro.org>
+Date: Tue, 4 Mar 2025 09:47:44 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,111 +82,91 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 6/8] soc: mediatek: Add programming flow for
- unsupported subsys ID hardware
-To: Jason-JH Lin <jason-jh.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
- Chun-Kuang Hu <chunkuang.hu@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>,
- Nancy Lin <nancy.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>,
- Moudy Ho <moudy.ho@mediatek.com>, Xavier Chang <xavier.chang@mediatek.com>,
- Xiandong Wang <xiandong.wang@mediatek.com>,
- Sirius Wang <sirius.wang@mediatek.com>, Fei Shao <fshao@chromium.org>,
- Pin-yen Lin <treapking@chromium.org>,
- Project_Global_Chrome_Upstream_Group@mediatek.com,
+Subject: Re: [PATCH v14 2/2] arm64: dts: qcom:
+ qcs6490-rb3gen2-vision-mezzanine: Add vision mezzanine
+To: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
+ konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
+ cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com,
+ will@kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-References: <20250218054405.2017918-1-jason-jh.lin@mediatek.com>
- <20250218054405.2017918-7-jason-jh.lin@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+ Konrad Dybcio <konrad.dybcio@linaro.org>
+References: <20250208225143.2868279-1-quic_vikramsa@quicinc.com>
+ <20250208225143.2868279-3-quic_vikramsa@quicinc.com>
+ <ca8e6569-b466-4f83-83af-38c51891d395@kernel.org> <Z8a7cMmxJuHIhgjo@trex>
+ <baae2a56-5299-486f-acf1-14fe13fd2f81@kernel.org> <Z8a/Dk7zjZ7RQT2/@trex>
 Content-Language: en-US
-In-Reply-To: <20250218054405.2017918-7-jason-jh.lin@mediatek.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <Z8a/Dk7zjZ7RQT2/@trex>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Il 18/02/25 06:41, Jason-JH Lin ha scritto:
-> To support hardware without subsys IDs on new SoCs, add a programming
-> flow that checks whether the subsys ID is valid. If the subsys ID is
-> invalid, the flow will call 2 alternative CMDQ APIs:
-> cmdq_pkt_assign() and cmdq_pkt_write_s_value() to achieve the same
-> functionality.
+On 04/03/2025 08:51, Jorge Ramirez wrote:
+> On 04/03/25 09:40:21, Krzysztof Kozlowski wrote:
+>> On 04/03/2025 09:36, Jorge Ramirez wrote:
+>>> On 03/03/25 18:13:20, Krzysztof Kozlowski wrote:
+>>>> On 08/02/2025 23:51, Vikram Sharma wrote:
+>>>>> The Vision Mezzanine for the Qualcomm RB3 Gen 2 ships with an imx577
+>>>>> camera sensor. Enable IMX577 on the vision mezzanine.
+>>>>>
+>>>>> An example media-ctl pipeline for the imx577 is:
+>>>>>
+>>>>> media-ctl --reset
+>>>>> media-ctl -V '"imx577 '17-001a'":0[fmt:SRGGB10/4056x3040 field:none]'
+>>>>
+>>>> AFAIU, camss does not support SRGGB10, but only SRGGB10P.
+>>>>
+>>>> Based on tests reported on IRC I think this might not have been tested
+>>>> correctly.
+>>>
+>>> I acquired SRGGB10P (10 bit packed) frames from the camera despite the
+>>> pipeline being set to SRGGB10 (16 bit) samples.
+>>>
+>>> so something does not add up.
+>>
+>> Then the commands are actually correct, just the camss or media behave
+>> here a bit unexpected?
+>>
 > 
-> Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
-> ---
->   drivers/soc/mediatek/mtk-mmsys.c | 14 +++++++++++---
->   drivers/soc/mediatek/mtk-mutex.c | 11 +++++++++--
->   2 files changed, 20 insertions(+), 5 deletions(-)
+> setting the pipeline (CSI) as SRGGB10 (16 bit samples) as per below
 > 
-> diff --git a/drivers/soc/mediatek/mtk-mmsys.c b/drivers/soc/mediatek/mtk-mmsys.c
-> index bb4639ca0b8c..ce949b863b05 100644
-> --- a/drivers/soc/mediatek/mtk-mmsys.c
-> +++ b/drivers/soc/mediatek/mtk-mmsys.c
-> @@ -167,9 +167,17 @@ static void mtk_mmsys_update_bits(struct mtk_mmsys *mmsys, u32 offset, u32 mask,
->   	u32 tmp;
->   
->   	if (mmsys->cmdq_base.size && cmdq_pkt) {
-> -		ret = cmdq_pkt_write_mask(cmdq_pkt, mmsys->cmdq_base.subsys,
-> -					  mmsys->cmdq_base.offset + offset, val,
-> -					  mask);
-> +		offset += mmsys->cmdq_base.offset;
-> +		if (mmsys->cmdq_base.subsys != CMDQ_SUBSYS_INVALID) {
+> media-ctl --reset
+> media-ctl -v -V '"imx577 '19-001a'":0[fmt:SRGGB10/4056x3040 field:none]'
+> media-ctl -V '"msm_csiphy3":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -l '"msm_csiphy3":1->"msm_csid0":0[1]'
+> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+> 
+> allows to capture SRGGB10P samples (frames-xxxx.bin files contain 10 bit samples for the size)
+> 
+>   ==> yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video0
+> 
+> 
+> shouldnt the CSI need to be set to SRGGB10P instead?
+> 
+> 
+>> Best regards,
+>> Krzysztof
+> 
 
-You're still anyway passing the subsys to cmdq_pkt_write_mask(), right?!
-Why don't you just handle this in cmdq_pkt_write_mask() then? ;-)
+No an internal media bus format MEDIA_BUS_FMT_THING is used
 
-I can see this pattern being repeated over and over in both drm/mediatek and MDP3
-drivers, and it's not necessary to duplicate this many times when you can write it
-just once.
+See
 
-Would've also been faster for you to implement... :-D
+87889f1b7ea40d2544b49c62092e6ef2792dced7
+5480b0c67f120a6c293cc5eff72fa1d6a74de504
+3c1dfb5a69cf836f513a2a49113ee946a4b9d95d
 
-Cheers,
-Angelo
+Yavta is specifying a v4l2 pixel format SRGGB10P which then gets 
+translated into a media bus format MEDIA_BUS_FMT_SRGGB10_1X10.
 
-> +			ret = cmdq_pkt_write_mask(cmdq_pkt, mmsys->cmdq_base.subsys,
-> +						  offset, val, mask);
-> +		} else {
-> +			/* only MMIO access, no need to check mminfro_offset */
-> +			ret = cmdq_pkt_assign(cmdq_pkt, CMDQ_THR_SPR_IDX0,
-> +					      CMDQ_ADDR_HIGH(mmsys->cmdq_base.pa_base));
-> +			ret |= cmdq_pkt_write_s_mask_value(cmdq_pkt, CMDQ_THR_SPR_IDX0,
-> +							   CMDQ_ADDR_LOW(offset), val, mask);
-> +		}
->   		if (ret)
->   			pr_debug("CMDQ unavailable: using CPU write\n");
->   		else
-> diff --git a/drivers/soc/mediatek/mtk-mutex.c b/drivers/soc/mediatek/mtk-mutex.c
-> index 5250c1d702eb..3788b16efbf4 100644
-> --- a/drivers/soc/mediatek/mtk-mutex.c
-> +++ b/drivers/soc/mediatek/mtk-mutex.c
-> @@ -963,6 +963,7 @@ int mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex, void *pkt)
->   	struct mtk_mutex_ctx *mtx = container_of(mutex, struct mtk_mutex_ctx,
->   						 mutex[mutex->id]);
->   	struct cmdq_pkt *cmdq_pkt = (struct cmdq_pkt *)pkt;
-> +	dma_addr_t en_addr = mtx->addr + DISP_REG_MUTEX_EN(mutex->id);
->   
->   	WARN_ON(&mtx->mutex[mutex->id] != mutex);
->   
-> @@ -971,8 +972,14 @@ int mtk_mutex_enable_by_cmdq(struct mtk_mutex *mutex, void *pkt)
->   		return -ENODEV;
->   	}
->   
-> -	cmdq_pkt_write(cmdq_pkt, mtx->cmdq_reg.subsys,
-> -		       mtx->addr + DISP_REG_MUTEX_EN(mutex->id), 1);
-> +	if (mtx->cmdq_reg.subsys != CMDQ_SUBSYS_INVALID) {
-> +		cmdq_pkt_write(cmdq_pkt, mtx->cmdq_reg.subsys, en_addr, 1);
-> +	} else {
-> +		/* only MMIO access, no need to check mminfro_offset */
-> +		cmdq_pkt_assign(cmdq_pkt, CMDQ_THR_SPR_IDX0, CMDQ_ADDR_HIGH(en_addr));
-> +		cmdq_pkt_write_s_value(cmdq_pkt, CMDQ_THR_SPR_IDX0, CMDQ_ADDR_LOW(en_addr), 1);
-> +	}
-> +
->   	return 0;
->   }
->   EXPORT_SYMBOL_GPL(mtk_mutex_enable_by_cmdq);
+I'm not sure what the historical reasons for that are, probably good ones.
 
-
+---
+bod
 
