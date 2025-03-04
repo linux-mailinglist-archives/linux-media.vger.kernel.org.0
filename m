@@ -1,476 +1,185 @@
-Return-Path: <linux-media+bounces-27513-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27515-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A2E6A4E9BC
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 18:47:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CEE0A4EBC3
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 19:34:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 603EA164B57
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 17:42:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 455CF3BB3D2
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 17:49:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 471F529DB9E;
-	Tue,  4 Mar 2025 17:18:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECDD8284B4A;
+	Tue,  4 Mar 2025 17:27:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="GgAHljGj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D84B827CCC2;
-	Tue,  4 Mar 2025 17:18:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683472836BC
+	for <linux-media@vger.kernel.org>; Tue,  4 Mar 2025 17:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741108683; cv=none; b=EDW6lal8alG4FhOc+svPAjdAZO2LEZqLSDCitUKvBXVfUuVKKB2jpZviUqNk7KtrsYHqx9h9M+dIWGQYBKjRm/6rI0ws0x7MCNVb/nK9MO+e1tP67SWszH3fS4s9WG98ar3mDcLfirrt+LSC2oLw6z3S0aeqk9OhhJ2mneWehws=
+	t=1741109278; cv=none; b=dxrd8OhRefFBmFsgxFmaWFKOiz3iCwow9d0AtLkWQyk4CLWB++t6xGkZ4/uK+u4prNDllOLm/3z1z83BVkP/BRnlm25kXifoSXgwl6oVhq/NAXeNlD8+SGcKU8enIEAJLcGNlKnGzWsDwK4tvHNo/Mm3I+P3Szzfsu/exc/AqMc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741108683; c=relaxed/simple;
-	bh=2mZqrtY3JLjsl3S6t+CXPM7hlE+yjD6qP0yrzYqFkRc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WdwYoeJJxmCbtf9+POk8wnnOhfpPUw2n3OiWg9RDPQZbaxNIyady18qycVSbyphyO1n2oSuZOzMkzVsHYjvenrIU+qGKjc0kJ7ryenoEX0+DmnjIFtTLP19hYCvs+vEkpQuh8GL1+JVB10I6Ir+V6nBRKi55jbxKoCcYJU/7/qw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 567ECC4CEED;
-	Tue,  4 Mar 2025 17:18:00 +0000 (UTC)
-Message-ID: <e2e9b2c2-3bd8-419f-aed2-f6f811bdc486@xs4all.nl>
-Date: Tue, 4 Mar 2025 18:17:58 +0100
+	s=arc-20240116; t=1741109278; c=relaxed/simple;
+	bh=C+bBi1F8wyKjwRGAGxl1KKgwS6bfayqNblzlF2k9bno=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=LZpa2BJNZwTzxtfXpwtu8tRVGSkC9SIjQlVJmcnT3j87pAiE052lpcgP21GWGqwdkHiymNfdSycfl+55aYkjM7kqhl1GyhT3IPrexZzGO6a3SZKcJ75mIjtht+k4F+hUq5xJv8vM4+QXf5Qd0Me1GtWwnkk7LHhRHNc4faDmTK4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=GgAHljGj; arc=none smtp.client-ip=209.85.128.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6fd6f7f8df9so73897b3.1
+        for <linux-media@vger.kernel.org>; Tue, 04 Mar 2025 09:27:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1741109275; x=1741714075; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pngwxWfatCIaGOPaCop7AUGkDzTeoWBcZRo0gHnL7tc=;
+        b=GgAHljGjEgNI2dr07VpAxkYCpphJNweeEq/dQtRYeiW4OHUY5hU+qJ0qocEndRvYSq
+         wAlHjvWnGBW0f328KK1hqLv0Fy8vGLNQdJ9mFK3Bd1LCiUiVp+Aqz8Wb/8NSnhxLkMyx
+         goC0MHmjYt/j4hpKHi+r4LrLCoX5Dv+bkujouaJDk/pXMX+sdOqNXo0PgzVZjNKAms8I
+         7kMtYVRRQZa84WiRoK+uiqtY8cupuJAeseLBqhBRkTSJHicNm6i94fixQNGpPOHzEwIX
+         ZMQBZsL094Wrstnxi5spLAJeZ2O/8bliSr7UIeIB2BRkjgwFgUnN8lxb53aw/yqdkfBT
+         VLNA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741109275; x=1741714075;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pngwxWfatCIaGOPaCop7AUGkDzTeoWBcZRo0gHnL7tc=;
+        b=N5TCWr0dMFzReYosz9Qvb3bYAy/jjBd6zaG28Kj3K5njr9TaTRxarWI68iw3h7dAiz
+         Mhe3Y/woTvnxDhOizEUScbjzf8Z5xMJW4VQa+CdSoJs+3R9uCzgaR1svqwYORHBaoK24
+         pFRIFqkbHC/nChggEk+0FbvTbd8TRf70c1wtDSCbzYHgmeinEeiK+rW8aa/iu7u2bL+D
+         5SIllgkKaziBr9Naj9FlK/PKGrlCKbGO0B74ZGyf6ANWKBVUJY61gtswAk31+LII3cP9
+         Bn8cgtbyfnph3s7REprduBk36JELihVl7X5aU3P4Ej1HLl0oxD8WjvVgb3t1AxUpIgda
+         UgcA==
+X-Forwarded-Encrypted: i=1; AJvYcCUB7b6bpc3xkO2E98i+9d3qH9/4NnpPHIddCVOGsSgnURshnx+gFCrbdgP8fsdYEmGPA6VkL/l1XRhx3g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAif09kA+oGPC85yxJKzVATsuCUehZti6oyAjlXg2/EzhViQTy
+	mguGYyelB0vz8mBDL+NaQRKIv82stj8XWwergXV/emQbx3lxlT9ihf+MwqOKoLmXDCulTpmmpnX
+	GFgCNxUoQKUZ4i5XVKhR7h80iZ/zcnr71QUKVNJ1uBE+Eq+nORtA=
+X-Gm-Gg: ASbGncsQrxfXPT71sLeA5dDSupFKSsTAwxSexSqAdXjYJ8yz5uEo9VdyHE7wyIpPxP8
+	N0cDV3UQ3500pfZ9bcG5EuvTdRCgFFY1/E1coPvfR+bosLNNUrEsFFKWBKjv4prvHDwpOxkLrUO
+	qzDve10vnUNk76ZZUrbWdkkpJS8YwZtEaMNviTw+l0ywUTGxf/gDAi4B6fbA==
+X-Google-Smtp-Source: AGHT+IG8rLJKP6QjcPJKBs6HHA5CSFh2OOfYDm0eu1lQ1W/CYWNV7actn7v/IuxMTC+ofswxxNQvZvTBOc2XcAmsQ0g=
+X-Received: by 2002:a05:690c:688a:b0:6fb:a222:6bff with SMTP id
+ 00721157ae682-6fd9413c257mr52561027b3.4.1741109275343; Tue, 04 Mar 2025
+ 09:27:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 0/6] Add Synopsys DesignWare HDMI RX Controller
-To: Tim Surber <me@timsurber.de>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Shreeya Patel <shreeya.patel@collabora.com>, Heiko Stuebner
- <heiko@sntech.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, jose.abreu@synopsys.com,
- nelson.costa@synopsys.com, shawn.wen@rock-chips.com,
- nicolas.dufresne@collabora.com,
- Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: kernel@collabora.com, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Diederik de Haas <didi.debian@cknow.org>
-References: <20250304085819.108067-1-dmitry.osipenko@collabora.com>
- <78ff36f6-01a7-4df4-b653-c4509fb93af4@timsurber.de>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <78ff36f6-01a7-4df4-b653-c4509fb93af4@timsurber.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250303-ov9282-flash-strobe-v1-0-0fd57a1564ba@linux.dev> <20250303-ov9282-flash-strobe-v1-2-0fd57a1564ba@linux.dev>
+In-Reply-To: <20250303-ov9282-flash-strobe-v1-2-0fd57a1564ba@linux.dev>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 4 Mar 2025 17:27:34 +0000
+X-Gm-Features: AQ5f1JqnbgG6UGzwinCOtaxggx0TCkVpbxuND_5KOBtFKC8Gj8lxhcgdz2N9p2E
+Message-ID: <CAPY8ntAQnN+Ea4oMKK5RkCa+EZMwbCjX4uJx2ex5E=peuz0vAA@mail.gmail.com>
+Subject: Re: [PATCH 2/3] media: i2c: ov9282: add led_mode v4l2 control
+To: Richard Leitner <richard.leitner@linux.dev>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On 04/03/2025 17:43, Tim Surber wrote:
-> Hi Dmitry,
-> 
-> it took a while to get my test setup going again. Sadly it does still 
-> not sync with AppleTV Device (which should be a standard-compliant 
-> HDMI-Device). In a few hours I will post a timing comparision with the 
-> vendor kernel. I don't know if this should block the merge or this 
-> should be fixed later.
+Hi Richard
 
-I'll wait until Thursday before making a decision. Hopefully there is some
-clarity by then whether or not this is a blocker.
+On Mon, 3 Mar 2025 at 22:59, Richard Leitner <richard.leitner@linux.dev> wrote:
+>
+> Add V4L2_CID_FLASH_LED_MODE support using the "strobe output enable"
+> feature of the sensor. This implements following modes:
+>
+>  - V4L2_FLASH_LED_MODE_NONE, which disables the strobe output
+>  - V4L2_FLASH_LED_MODE_FLASH, which enables the strobe output
+>
+> All values are based on the OV9281 datasheet v1.53 (january 2019) and
+> tested using an ov9281 VisionComponents module.
+>
+> Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+> ---
+>  drivers/media/i2c/ov9282.c | 29 +++++++++++++++++++++++++++++
+>  1 file changed, 29 insertions(+)
+>
+> diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> index f42e0d439753e74d14e3a3592029e48f49234927..c98ba466e9aea29baff0b13578d760bf69c958c5 100644
+> --- a/drivers/media/i2c/ov9282.c
+> +++ b/drivers/media/i2c/ov9282.c
+> @@ -192,6 +192,7 @@ struct ov9282_mode {
+>   * @exp_ctrl: Pointer to exposure control
+>   * @again_ctrl: Pointer to analog gain control
+>   * @pixel_rate: Pointer to pixel rate control
+> + * @flash_led_mode: Pointer to flash led mode control
+>   * @vblank: Vertical blanking in lines
+>   * @noncontinuous_clock: Selection of CSI2 noncontinuous clock mode
+>   * @cur_mode: Pointer to current selected sensor mode
+> @@ -214,6 +215,7 @@ struct ov9282 {
+>                 struct v4l2_ctrl *again_ctrl;
+>         };
+>         struct v4l2_ctrl *pixel_rate;
+> +       struct v4l2_ctrl *flash_led_mode;
 
-Regards,
+As with 3/3, you only use this control from within ov9282_set_ctrl
+where you are given the struct v4l2_ctrl, so there is no need to store
+it in the device state structure.
 
-	Hans
-
-> 
-> Best regards
-> Tim
-> 
-> On 3/4/25 09:58, Dmitry Osipenko wrote:
->> Note RE the MAINTAINERS patch:
->>    Shreeya is currently busy and will be maintaining driver later on.
->>    I'm helping to upstream the driver meantime.
->>
->> This series implements support for the Synopsys DesignWare
->> HDMI RX Controller, being compliant with standard HDMI 1.4b
->> and HDMI 2.0.
->>
->> Features that are currently supported by the HDMI RX driver
->> have been tested on rock5b board using a HDMI to micro-HDMI cable.
->> It is recommended to use a good quality cable as there were
->> multiple issues seen during testing the driver.
->>
->> Please note the below information :-
->> * HDMIRX driver now only works with the opensource TF-A.
->> * We have tested the working of OBS studio with HDMIRX driver and
->> there were no issues seen.
->> * We tested and verified the support for interlaced video.
->> * We tested capturing of YUV formats.
->>
->> To test the HDMI RX Controller driver, following example commands can be used :-
->>
->> root@debian-rockchip-rock5b-rk3588:~#  v4l2-ctl --stream-mmap \
->> --stream-count=100 --stream-to=/home/hdmiin4k.raw
->>
->> root@debian-rockchip-rock5b-rk3588:~# ffmpeg -f rawvideo -vcodec rawvideo \
->> -s 1920x1080 -r 60 -pix_fmt bgr24 -i /home/hdmiin4k.raw output.mkv
->>
->> CEC compliance test results :-
->>
->> * https://gitlab.collabora.com/-/snippets/380
->> * https://gitlab.collabora.com/-/snippets/381
->>
->> Following is the v4l2-compliance test result :-
->>
->> root@debian-rockchip-rock5b-rk3588:~# v4l2-compliance -d /dev/video1
->> v4l2-compliance 1.29.0-5326, 64 bits, 64-bit time_t
->> v4l2-compliance SHA: 77f5df419204 2025-02-07 08:59:59
->>
->> Compliance test for snps_hdmirx device /dev/video1:
->>
->> Driver Info:
->>          Driver name      : snps_hdmirx
->>          Card type        : snps_hdmirx
->>          Bus info         : platform:fdee0000.hdmi_receiver
->>          Driver version   : 6.14.0
->>          Capabilities     : 0x84201000
->>                  Video Capture Multiplanar
->>                  Streaming
->>                  Extended Pix Format
->>                  Device Capabilities
->>          Device Caps      : 0x04201000
->>                  Video Capture Multiplanar
->>                  Streaming
->>                  Extended Pix Format
->>
->> Required ioctls:
->>          test VIDIOC_QUERYCAP: OK
->>          test invalid ioctls: OK
->>
->> Allow for multiple opens:
->>          test second /dev/video1 open: OK
->>          test VIDIOC_QUERYCAP: OK
->>          test VIDIOC_G/S_PRIORITY: OK
->>          test for unlimited opens: OK
->>
->> Debug ioctls:
->>          test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->>          test VIDIOC_LOG_STATUS: OK
->>
->> Input ioctls:
->>          test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->>          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->>          test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->>          test VIDIOC_ENUMAUDIO: OK (Not Supported)
->>          test VIDIOC_G/S/ENUMINPUT: OK
->>          test VIDIOC_G/S_AUDIO: OK (Not Supported)
->>          Inputs: 1 Audio Inputs: 0 Tuners: 0
->>
->> Output ioctls:
->>          test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->>          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->>          test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->>          test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->>          test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->>          Outputs: 0 Audio Outputs: 0 Modulators: 0
->>
->> Input/Output configuration ioctls:
->>          test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->>          test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK
->>          test VIDIOC_DV_TIMINGS_CAP: OK
->>          test VIDIOC_G/S_EDID: OK
->>
->> Control ioctls (Input 0):
->>          test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->>          test VIDIOC_QUERYCTRL: OK
->>          test VIDIOC_G/S_CTRL: OK
->>          test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->>          test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->>          test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->>          Standard Controls: 4 Private Controls: 0
->>
->> Format ioctls (Input 0):
->>          test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->>          test VIDIOC_G/S_PARM: OK
->>          test VIDIOC_G_FBUF: OK (Not Supported)
->>          test VIDIOC_G_FMT: OK
->>          test VIDIOC_TRY_FMT: OK
->>          test VIDIOC_S_FMT: OK
->>          test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->>          test Cropping: OK (Not Supported)
->>          test Composing: OK (Not Supported)
->>          test Scaling: OK (Not Supported)
->>
->> Codec ioctls (Input 0):
->>          test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->>          test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->>          test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
->>
->> Buffer ioctls (Input 0):
->>          test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->>          test CREATE_BUFS maximum buffers: OK
->>          test VIDIOC_REMOVE_BUFS: OK
->>          test VIDIOC_EXPBUF: OK
->>          test Requests: OK (Not Supported)
->>          test blocking wait: OK
->>
->> Test input 0:
->>
->> Streaming ioctls:
->>          test read/write: OK (Not Supported)
->>          test MMAP (no poll, REQBUFS): OK
->>          test MMAP (select, REQBUFS): OK
->>          test MMAP (epoll, REQBUFS): OK
->>          test MMAP (no poll, CREATE_BUFS): OK
->>          test MMAP (select, CREATE_BUFS): OK
->>          test MMAP (epoll, CREATE_BUFS): OK
->>          test USERPTR (no poll): OK (Not Supported)
->>          test USERPTR (select): OK (Not Supported)
->>          test DMABUF: Cannot test, specify --expbuf-device
->>
->> Total for snps_hdmirx device /dev/video1: 57, Succeeded: 57, Failed: 0, Warnings: 0
->>
->> ---
->>
->> InfoFrame debugfs example output:-
->>
->> # edid-decode -c -I /sys/kernel/debug/v4l2/fdee0000.hdmi_receiver/infoframes/avi
->> edid-decode InfoFrame (hex):
->>
->> 82 02 0d b1 12 28 84 00 00 00 00 00 00 00 00 00
->> 00
->>
->> ----------------
->>
->> HDMI InfoFrame Checksum: 0xb1
->>
->> AVI InfoFrame
->>    Version: 2
->>    Length: 13
->>    Y: Color Component Sample Format: RGB
->>    A: Active Format Information Present: Yes
->>    B: Bar Data Present: Bar Data not present
->>    S: Scan Information: Composed for an underscanned display
->>    C: Colorimetry: No Data
->>    M: Picture Aspect Ratio: 16:9
->>    R: Active Portion Aspect Ratio: 8
->>    ITC: IT Content: IT Content (CN is valid)
->>    EC: Extended Colorimetry: xvYCC601
->>    Q: RGB Quantization Range: Limited Range
->>    SC: Non-Uniform Picture Scaling: No Known non-uniform scaling
->>    YQ: YCC Quantization Range: Limited Range
->>    CN: IT Content Type: Graphics
->>    PR: Pixel Data Repetition Count: 0
->>    Line Number of End of Top Bar: 0
->>    Line Number of Start of Bottom Bar: 0
->>    Pixel Number of End of Left Bar: 0
->>    Pixel Number of Start of Right Bar: 0
->>
->> ----------------
->>
->> edid-decode 1.29.0-5326
->> edid-decode SHA: 77f5df419204 2025-02-07 08:59:59
->>
->> AVI InfoFrame conformity: PASS
->>
->> ---
->>
->> Changes in v13 :-
->> - Removed CEC adapter notifier as it's not used by this driver
->>
->> Changes in v12 :-
->> - Removed legacy wait_finish/prepare() callbacks from vb2_ops,
->>    tested that driver works without them.
->> - Updated and extended driver Kconfig description RE the
->>    LOAD_DEFAULT_EDID option.
->> - Made minor cosmetical improvements to the code
->>
->> Changes in v11 :-
->> - Reverted back defconfig patch by removing LOAD_DEFAULT_EDID=y option
->> - Removed CEC notifier since it's not needed for this driver
->> - Replaced video_unregister_device() with vb2_video_unregister_device()
->> - Added more clarifying comments to the code and updated the timing
->>    sanity-check, borrowing it from a newer downstream driver version.
->>
->> Changes in v10 :-
->> - Replaced cec_unregister_adapter() with cec_notifier_cec_adap_unregister()
->>    in the error unwinding code path of the driver probe, tested that it works
->>    properly.
->> - Changed CEC registration code to propagate original error code to the
->>    driver's probe-failure code path on the CEC registration failure.
->> - Enabled LOAD_DEFAULT_EDID=y in the defconfig patch
->>
->> Changes in v9 :-
->> - Added devm_add_action_or_reset() to free reserved memory properly
->>    on driver probe error
->> - Extra minor code cleanups
->>
->> Changes in v8 :-
->> - Changed HPD logic as was requested by Hans Verkuil. HPD handling
->>    is now decoupled from HDMI plugin/out events and works independently
->>    from 5v status.
->> - Bumped number of EDID blocks from 2 to 4 as was requested by
->>    Hans Verkuil and verified that reading 3/4 EDID blocks from transmitter
->>    works properly.
->> - Made few extra minor cleanup/improvements to the driver code
->>
->> Changes in v7 :-
->> - Changed InfoFrame debugfs to return truncated payload data
->> - Updated cover-letter example stream capture cmdline with a minimized
->>    and cleaned version of the cmdline
->> - Added AVI InfoFrame example output to the cover-letter
->>
->> Changes in v6 :-
->> - Driver now keeps HPD low instead of zeroing EDID when EDID-clearing is
->>    invoked and when default EDID usage is disabled in the kernel config
->> - Added InfoFrame debugfs support
->> - Added another code comment clarifying validation of timing values
->> - Rebased on top of recent media-next tree
->>
->> Changes in v5 :-
->> - Fix the interrupt IRQ number in the dt-bindings and device tree
->> - Add alignment property to ensure hdmi-receiver-cma
->>    starts at a 64KB-aligned address
->> - Change the MODULE_DESCRIPTION
->> - Add VIDEO_SYNOPSYS_HDMIRX as prefix to the default edid config
->> - Drop the enabling of default edid in the Kconfig
->> - Replace the default EDID with hdmi-4k-300mhz EDID produced
->>    by v4l2-ctl tool for better compatibility with various HDMI
->>    cables and adapters
->> - Rework the write_edid and set_edid functions
->> - During format change, retrieve the current pixel format,
->>    color depth, and AVI infoframe details instead of only
->>    detecting the format
->> - Improve the logging mechanism and delays in the
->>    hdmirx_wait_signal_lock function
->> - Fix the 4K@60 capturing for RGB format
->> - Document what hdmirx_check_timing_valid function does
->> - Rework the hdmirx_get_detected_timings function
->> - Fix the NV16/24 size image value
->> - Add the implementation from Benjamin Hoff to expose the
->>    ITC type to v4l2
->> - Remove all the firmware related code
->>
->> Changes in v4 :-
->> - Remove DTS changes included in the device tree patch
->> - Remove the hdmi rx pin info as it's already present
->> in the rk3588-base-pinctrl.dtsi
->> - Create a separate config option for selecting the EDID
->> and enable it by default
->> - Improve the comment related to DV timings and move it
->> to the side of hdmirx_get_detected_timings
->> - Add 100ms delay before pulling the HPD high
->> - Do not return the detected timings from VIDIOC_G_DV_TIMINGS
->> - Drop the bus info from hdmirx_querycap
->> - If *num_planes != 0 then return 0 in hdmirx_queue_setup
->> - Set queue->min_queued_buffers to 1
->> - Drop q->allow_cache_hints = 0; as it's always 0 by default
->> - Add a comment for q->dma_attrs = DMA_ATTR_FORCE_CONTIGUOUS;
->> - Drop .read = vb2_fop_read as it's not supported by driver
->> - Remove redundant edid_init_data_600M
->> - Make HPD low when driver is loaded
->> - Add support for reading AVI Infoframe
->> - Remove msg_len checks from hdmirx_cec_transmit
->> - Add info about the CEC compliance test in the cover letter
->> - Add arbitration lost status
->> - Validate the physical address inside the EDID
->>
->> Changes in v3 :-
->> - Use v4l2-common helpers in the HDMIRX driver
->> - Rename cma node and phandle names
->> - Elaborate the comment to explain 160MiB calculation
->> - Move &hdmi_receiver_cma to the rock5b dts file
->> - Add information about interlaced video testing in the
->> cover-letter
->>
->> Changes in v2 :-
->> - Fix checkpatch --strict warnings
->> - Move the dt-binding include file changes in a separate patch
->> - Add a description for the hardware in the dt-bindings file
->> - Rename resets, vo1 grf and HPD properties
->> - Add a proper description for grf and vo1-grf phandles in the
->> bindings
->> - Rename the HDMI RX node name to hdmi-receiver
->> - Include gpio header file in binding example to fix the
->> dt_binding_check failure
->> - Move hdmirx_cma node to the rk3588.dtsi file
->> - Add an entry to MAINTAINERS file for the HDMIRX driver
->>
->> Sebastian Reichel (2):
->>    arm64: dts: rockchip: Enable HDMI receiver on rock-5b
->>    arm64: defconfig: Enable Synopsys HDMI receiver
->>
->> Shreeya Patel (4):
->>    MAINTAINERS: Add entry for Synopsys DesignWare HDMI RX Driver
->>    dt-bindings: media: Document bindings for HDMI RX Controller
->>    media: platform: synopsys: Add support for HDMI input driver
->>    arm64: dts: rockchip: Add device tree support for HDMI RX Controller
->>
->>   .../bindings/media/snps,dw-hdmi-rx.yaml       |  132 +
->>   MAINTAINERS                                   |    8 +
->>   .../dts/rockchip/rk3588-base-pinctrl.dtsi     |   14 +
->>   .../arm64/boot/dts/rockchip/rk3588-extra.dtsi |   57 +
->>   .../boot/dts/rockchip/rk3588-rock-5b.dts      |   18 +
->>   arch/arm64/configs/defconfig                  |    1 +
->>   drivers/media/platform/Kconfig                |    1 +
->>   drivers/media/platform/Makefile               |    1 +
->>   drivers/media/platform/synopsys/Kconfig       |    3 +
->>   drivers/media/platform/synopsys/Makefile      |    2 +
->>   .../media/platform/synopsys/hdmirx/Kconfig    |   35 +
->>   .../media/platform/synopsys/hdmirx/Makefile   |    4 +
->>   .../platform/synopsys/hdmirx/snps_hdmirx.c    | 2750 +++++++++++++++++
->>   .../platform/synopsys/hdmirx/snps_hdmirx.h    |  394 +++
->>   .../synopsys/hdmirx/snps_hdmirx_cec.c         |  275 ++
->>   .../synopsys/hdmirx/snps_hdmirx_cec.h         |   43 +
->>   16 files changed, 3738 insertions(+)
->>   create mode 100644 Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
->>   create mode 100644 drivers/media/platform/synopsys/Kconfig
->>   create mode 100644 drivers/media/platform/synopsys/Makefile
->>   create mode 100644 drivers/media/platform/synopsys/hdmirx/Kconfig
->>   create mode 100644 drivers/media/platform/synopsys/hdmirx/Makefile
->>   create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
->>   create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
->>   create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmirx_cec.c
->>   create mode 100644 drivers/media/platform/synopsys/hdmirx/snps_hdmirx_cec.h
->>
-> 
-
+>         u32 vblank;
+>         bool noncontinuous_clock;
+>         const struct ov9282_mode *cur_mode;
+> @@ -670,6 +672,23 @@ static int ov9282_set_ctrl_vflip(struct ov9282 *ov9282, int value)
+>                                 current_val);
+>  }
+>
+> +static int ov9282_set_ctrl_flash_led_mode(struct ov9282 *ov9282, int mode)
+> +{
+> +       u32 current_val;
+> +       int ret = ov9282_read_reg(ov9282, OV9282_REG_OUTPUT_ENABLE6, 1,
+> +                                 &current_val);
+> +       if (ret)
+> +               return ret;
+> +
+> +       if (mode == V4L2_FLASH_LED_MODE_FLASH)
+> +               current_val |= OV9282_OUTPUT_ENABLE6_STROBE;
+> +       else
+> +               current_val &= ~OV9282_OUTPUT_ENABLE6_STROBE;
+> +
+> +       return ov9282_write_reg(ov9282, OV9282_REG_OUTPUT_ENABLE6, 1,
+> +                               current_val);
+> +}
+> +
+>  /**
+>   * ov9282_set_ctrl() - Set subdevice control
+>   * @ctrl: pointer to v4l2_ctrl structure
+> @@ -736,6 +755,9 @@ static int ov9282_set_ctrl(struct v4l2_ctrl *ctrl)
+>                 ret = ov9282_write_reg(ov9282, OV9282_REG_TIMING_HTS, 2,
+>                                        (ctrl->val + ov9282->cur_mode->width) >> 1);
+>                 break;
+> +       case V4L2_CID_FLASH_LED_MODE:
+> +               ret = ov9282_set_ctrl_flash_led_mode(ov9282, ctrl->val);
+> +               break;
+>         default:
+>                 dev_err(ov9282->dev, "Invalid control %d", ctrl->id);
+>                 ret = -EINVAL;
+> @@ -1391,6 +1413,13 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+>                                                 OV9282_TIMING_HTS_MAX - mode->width,
+>                                                 1, hblank_min);
+>
+> +       /* Flash/Strobe controls */
+> +       ov9282->flash_led_mode = v4l2_ctrl_new_std_menu(ctrl_hdlr, &ov9282_ctrl_ops,
+> +                                                       V4L2_CID_FLASH_LED_MODE,
+> +                                                       V4L2_FLASH_LED_MODE_TORCH,
+> +                                                       (1 << V4L2_FLASH_LED_MODE_TORCH),
+> +                                                       V4L2_FLASH_LED_MODE_NONE);
+> +
+>         ret = v4l2_fwnode_device_parse(ov9282->dev, &props);
+>         if (!ret) {
+>                 /* Failure sets ctrl_hdlr->error, which we check afterwards anyway */
+>
+> --
+> 2.47.2
+>
+>
 
