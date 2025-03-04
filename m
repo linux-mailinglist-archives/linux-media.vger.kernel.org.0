@@ -1,151 +1,198 @@
-Return-Path: <linux-media+bounces-27518-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27504-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8A7FA4EB04
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 19:17:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C97A4A4E824
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 18:15:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 64C33422F8D
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 18:12:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3655A8C0F69
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 16:38:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18C49251791;
-	Tue,  4 Mar 2025 17:53:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bNF7zXrW"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D19342857F3;
+	Tue,  4 Mar 2025 16:17:33 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from beeline2.cc.itu.edu.tr (beeline2.cc.itu.edu.tr [160.75.25.116])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 203112E3370
-	for <linux-media@vger.kernel.org>; Tue,  4 Mar 2025 17:53:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=160.75.25.116
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741110818; cv=pass; b=XjUntG4wFRixLxKuUn3pmEnGCvpyTL9I7dKLdeeHzhuIgVklPOJka8FnpTB2Gl+AaF/lS1bZUTCClYEn6YSdpzunhbUHP9YGhGpcbd3EjEmgzB8L1IqoU6dna50nI9bH5S3kMBo0bA9UTw65GmVHgF3wRPqCVNoPYOxA/uE46RI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741110818; c=relaxed/simple;
-	bh=MIcJ6qza0x8UAoFaTaN141FosD7VX5v1L2Ka99l7UT8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ne6gfsvPHD21WT+/z9Mf0EV+Qwf14/ZYdKRBFQ+Zl2WKZKZmKp+PP4+mdre97MGc5eTShZ8koVjNAGvSXm/FMI2jSFFDskth2HPYnDGXLz4llS3s+faJG8TXzh5mmqBS47gp6gt8E1PLJIzU6YrSZIZ/WOerjuwlwoZVZtylD2U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org; spf=none smtp.mailfrom=cc.itu.edu.tr; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bNF7zXrW; arc=none smtp.client-ip=10.30.226.201; arc=pass smtp.client-ip=160.75.25.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cc.itu.edu.tr
-Received: from lesvatest1.cc.itu.edu.tr (lesvatest1.cc.itu.edu.tr [10.146.128.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by beeline2.cc.itu.edu.tr (Postfix) with ESMTPS id 76230408B657
-	for <linux-media@vger.kernel.org>; Tue,  4 Mar 2025 20:53:35 +0300 (+03)
-X-Envelope-From: <root@cc.itu.edu.tr>
-Authentication-Results: lesvatest1.cc.itu.edu.tr;
-	dkim=pass (2048-bit key, unprotected) header.d=kernel.org header.i=@kernel.org header.a=rsa-sha256 header.s=k20201202 header.b=bNF7zXrW
-Received: from lesva1.cc.itu.edu.tr (unknown [160.75.70.79])
-	by lesvatest1.cc.itu.edu.tr (Postfix) with ESMTP id 4Z6gxb02LnzG3HT
-	for <linux-media@vger.kernel.org>; Tue,  4 Mar 2025 19:24:35 +0300 (+03)
-Received: by le1 (Postfix, from userid 0)
-	id 26B444272B; Tue,  4 Mar 2025 19:24:24 +0300 (+03)
-Authentication-Results: lesva1.cc.itu.edu.tr;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bNF7zXrW
-X-Envelope-From: <linux-kernel+bounces-541833-bozkiru=itu.edu.tr@vger.kernel.org>
-Authentication-Results: lesva2.cc.itu.edu.tr;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bNF7zXrW
-Received: from fgw1.itu.edu.tr (fgw1.itu.edu.tr [160.75.25.103])
-	by le2 (Postfix) with ESMTP id CFBF441D0A
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 16:39:20 +0300 (+03)
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by fgw1.itu.edu.tr (Postfix) with SMTP id A8B5F305F789
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 16:39:20 +0300 (+03)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AAC401892D4D
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 13:39:22 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97BB1212FB7;
-	Mon,  3 Mar 2025 13:39:02 +0000 (UTC)
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D17E278F44;
-	Mon,  3 Mar 2025 13:38:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62221205511;
+	Tue,  4 Mar 2025 16:17:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741009139; cv=none; b=lHCskcCZrpYJqmwe9cAD+mq8IzWge/+lDstx8Epr5OikYXcqY0gklHyefQQ7iYdaV6MIL+1Wsxuy/XvoXirrdXJIhxAyGa9cH0CkvXSZdM419/JIyjRx8gRf3bhea52K5jwFfFNiR2YbY32V8eab8zH/Hx6dpVZ7162iT4s+7p0=
+	t=1741105053; cv=none; b=sKVE8GX3w3O4/CQMute/o4y2Fk5ZvGs8hV+Fs54r0iAqyb+P4cXUsYqQp5CQRv9iD96yDMRIRoFhFXfPAUMi+W1zDhLiqmlQp8w7KdEpKrR+ZriH1494Xp48WSLCiW5VE9pbumMWcR6vimRuaCc/20AHeBx+5QMjb4SEepUj9nU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741009139; c=relaxed/simple;
-	bh=MIcJ6qza0x8UAoFaTaN141FosD7VX5v1L2Ka99l7UT8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Z8Zm+8ryb3KXlH1IQCwa+0IFFYsQw0L4yVlk9/fhewBDmHQw0cjRkvOQzkz5oB1SRgPYXMbWVKuck3MbifcYKx2rgy4UZfOxm4T3e2xoae95DSBechBKClOBJdeeMM1xkz35QYyfr8ng5EXGtJtYny6iO3F/5tRyC/au4R9D+4c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bNF7zXrW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 24296C4CED6;
-	Mon,  3 Mar 2025 13:38:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741009138;
-	bh=MIcJ6qza0x8UAoFaTaN141FosD7VX5v1L2Ka99l7UT8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bNF7zXrWSKUgPYeWav/35e1168Z+ZTec+1d/GxCddFpqg0wrxKLncs0jQjxM4SK22
-	 PbHh0IxwmTInpq9+/0ULJCbA9gWhC/zkISbn5A1SiSQkeDiX3tS4bsZs+5fCn5qgQ1
-	 BryK1nRQNyM7Sa7DS7gBIBt2b14SkOkKh45dljp9AYjsmGzfDV4i1y09ywYZgTAxwv
-	 mfcbFGgiHZur54Gq+6DuZc38+e34nabp3YRQRXnoYsBxNm9NaQ0xq1+DHMjL77BYbB
-	 fU8qaUVIfyXGg/GcDw3ZoNGBakBuzKAq0Bt4dCXG3So8Ug4ak2m8IPEbTpPUHDxT1h
-	 H8NkQw+SCo/lg==
-Date: Mon, 3 Mar 2025 07:38:56 -0600
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-Cc: linux-kernel@vger.kernel.org, tomm.merciai@gmail.com,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	linux-renesas-soc@vger.kernel.org, biju.das.jz@bp.renesas.com,
-	linux-media@vger.kernel.org,
-	prabhakar.mahadev-lad.rj@bp.renesas.com, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 02/17] media: dt-bindings: renesas,rzg2l-csi2:
- Document Renesas RZ/G3E CSI-2 block
-Message-ID: <174100913611.1710446.8699796804081764660.robh@kernel.org>
-References: <20250226152418.1132337-1-tommaso.merciai.xr@bp.renesas.com>
- <20250226152418.1132337-3-tommaso.merciai.xr@bp.renesas.com>
-Precedence: bulk
+	s=arc-20240116; t=1741105053; c=relaxed/simple;
+	bh=AFgR0mNR/8SlLvdj/O+UVxnsCaumYfIisXWz4wTDJ0Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=H4m6voI2zFL7QGVUKbqpFNpu7kJFNwhrp7oDT/kY4rT538Is/PW7XAinxSV/FCcAalETRM/C6dM9zMs3ep7q8TztjwRGX/Y41gjF9njwO99WSBIKY5WRigTR6hXN2euOdOmv7wOZtc5owonRiYZIM7Ij6beLNb0j2imGtjCz9hU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D231C4CEE5;
+	Tue,  4 Mar 2025 16:17:29 +0000 (UTC)
+Message-ID: <cade5c73-e25f-4f56-be10-7d5a06f92917@xs4all.nl>
+Date: Tue, 4 Mar 2025 17:17:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250226152418.1132337-3-tommaso.merciai.xr@bp.renesas.com>
-X-ITU-Libra-ESVA-Information: Please contact Istanbul Teknik Universitesi for more information
-X-ITU-Libra-ESVA-ID: 4Z6gxb02LnzG3HT
-X-ITU-Libra-ESVA: No virus found
-X-ITU-Libra-ESVA-From: root@cc.itu.edu.tr
-X-ITU-Libra-ESVA-Watermark: 1741715512.36198@fCXwqgzCLLLxBoxhsxP3yQ
-X-ITU-MailScanner-SpamCheck: not spam
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 6/6] arm64: defconfig: Enable Synopsys HDMI receiver
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Shreeya Patel <shreeya.patel@collabora.com>, Heiko Stuebner
+ <heiko@sntech.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, jose.abreu@synopsys.com,
+ nelson.costa@synopsys.com, shawn.wen@rock-chips.com,
+ Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: kernel@collabora.com, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, Tim Surber <me@timsurber.de>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+References: <20250225183058.607047-1-dmitry.osipenko@collabora.com>
+ <20250225183058.607047-7-dmitry.osipenko@collabora.com>
+ <a8a6c8c8-ee3b-422a-8573-a2cbb61fc3aa@xs4all.nl>
+ <863f9c1beb7a912f94f8740b3e5095e09e49cee5.camel@collabora.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <863f9c1beb7a912f94f8740b3e5095e09e49cee5.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+On 28/02/2025 04:51, Nicolas Dufresne wrote:
+> Hi Hans,
+> 
+> Le mercredi 26 février 2025 à 09:31 +0100, Hans Verkuil a écrit :
+>> On 25/02/2025 19:30, Dmitry Osipenko wrote:
+>>> From: Sebastian Reichel <sebastian.reichel@collabora.com>
+>>>
+>>> The Rockchip RK3588 has a built-in HDMI receiver block from
+>>> Synopsys. Let's enable the driver for it.
+>>>
+>>> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+>>> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>>> ---
+>>>  arch/arm64/configs/defconfig | 2 ++
+>>>  1 file changed, 2 insertions(+)
+>>>
+>>> diff --git a/arch/arm64/configs/defconfig
+>>> b/arch/arm64/configs/defconfig
+>>> index cb7da4415599..3dccc9e1c4aa 100644
+>>> --- a/arch/arm64/configs/defconfig
+>>> +++ b/arch/arm64/configs/defconfig
+>>> @@ -859,6 +859,8 @@ CONFIG_VIDEO_SAMSUNG_EXYNOS_GSC=m
+>>>  CONFIG_VIDEO_SAMSUNG_S5P_JPEG=m
+>>>  CONFIG_VIDEO_SAMSUNG_S5P_MFC=m
+>>>  CONFIG_VIDEO_SUN6I_CSI=m
+>>> +CONFIG_VIDEO_SYNOPSYS_HDMIRX=m
+>>> +CONFIG_VIDEO_SYNOPSYS_HDMIRX_LOAD_DEFAULT_EDID=y
+>>
+>> I do not believe it is a good idea to default to y for this option.
+>>
+>> The EDID depends on the specific device you make, and you should
+>> think carefully about whether the default EDID fits the needs of the
+>> device.
+>>
+>> So if you want the default EDID, then you should manually select it
+>> and not have it autoselected.
+> 
+> Following up here, from the device maker perspective sure, but I'm not
+> sure this is the best choice for generic Linux distribution. As of
+> today, pretty much no userspace capture software knows about this,
+> meaning the device will not work out of the box in OBS, GStreamer,
+> Ffmpeg, Web Browsers. In comparison, if you pick any UVC HDMI capture,
+> it just work, with a default EDID that covers the range of
+> capabilities, which in this case are defined by the SoC.
 
-On Wed, 26 Feb 2025 16:23:26 +0100, Tommaso Merciai wrote:
-> Document the CSI-2 block which is part of CRU found in Renesas RZ/G3E
-> SoC.
-> 
-> The CSI-2 block on the RZ/G3E SoC is identical to one found on the
-> RZ/V2H(P) SoC.
-> 
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> ---
-> Changes since v2:
->  - Fixed CRU_CMN_RSTB as suggested by LPinchart
->  - Collected tags.
-> 
->  .../devicetree/bindings/media/renesas,rzg2l-csi2.yaml      | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
+A UVC HDMI capture device is not a good comparison: that has it's own
+EDID that is configured for the specific hardware and USB bandwidth
+limitations. EDID handling is all internal to that device, nothing to
+do with the UVC driver.
 
-Acked-by: Rob Herring (Arm) <robh@kernel.org>
+That said, this device is a bit different compared to most other
+HDMI receivers in that it also has a DMA engine. Usually HDMI receivers
+are i2c devices that connect to an SoC. In this case the hardware is
+inside the SoC. So I am OK with making LOAD_DEFAULT_EDID=y in the defconfig.
 
+So:
+
+Acked-by: Hans Verkuil <hverkuil@xs4all.nl>
+
+Note that I will merge the v13 driver (patches 1-3), since it looks good.
+
+But v11-v13 of this defconfig patch dropped the "CONFIG_VIDEO_SYNOPSYS_HDMIRX_LOAD_DEFAULT_EDID=y"
+line, so you might want to post a v14 of just patches 4-6, restoring that
+line, once I merged patches 1-3.
+
+Regards,
+
+	Hans
+
+> 
+> Whatever we make as a choice, will always be the wrong choice for
+> someone, though I expect this to be a lot easier to change for
+> "specialized" implementation. Now, since there is no reason you can't
+> do a specilized implementation on generic Linux distro, and because you
+> might disagree with me, perhaps a compromise is to also add a module
+> parameter, so that there is a run-time override to this.
+> 
+> Nicolas
+> 
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+>>>  CONFIG_VIDEO_TI_J721E_CSI2RX=m
+>>>  CONFIG_VIDEO_HANTRO=m
+>>>  CONFIG_VIDEO_IMX219=m
+>>
+>>
+> 
 
 
