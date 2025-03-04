@@ -1,143 +1,172 @@
-Return-Path: <linux-media+bounces-27435-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27436-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C80A4D6B7
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 09:40:42 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D983A4D6F7
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 09:51:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9853F3AAFEB
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 08:40:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 02EF918947EF
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 08:51:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 689D71FC0FA;
-	Tue,  4 Mar 2025 08:40:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B30C91FC7D6;
+	Tue,  4 Mar 2025 08:51:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bUF6CQwe"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="nBtLru4u"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97CA11F582F;
-	Tue,  4 Mar 2025 08:40:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7C6D1FA164
+	for <linux-media@vger.kernel.org>; Tue,  4 Mar 2025 08:51:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741077631; cv=none; b=c+moDzVKkVqPFek8qyugA9Lmvr7qMSrttF8fAgKC2IrTcoIMBG+UJqQbpt4obK50F4k57kRX6bZdkNNbO4dtlq2igt/SC1H8wYEXaSEQt1vNfMF7Kqt5lr13DRHlHdWJlZgy2dRv57DqM2Dl4WZU8PkPVKHsM7c4XwenEX/NSbw=
+	t=1741078293; cv=none; b=GezkNmcYAgS54Gvh7G+GyjBiX5GXFFy5bj/jJOX02t6TQNCtC5wttrVRebcbydPObCrxY3lZg21xuewdKw7R4b/Kfe3S/pclGdxsmXAGeE99dF0N+fARe87pmMFjKY7IceZXxUAVF7W/9qD+P5XG0vsCh85KoVXC59Z45sz1urQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741077631; c=relaxed/simple;
-	bh=lTb9kj/VYq2+/Onyib1ardpDWG1lE263WpaogE2OBmM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lE9hOq/QhVC7xGndxOo7fZVhLCaI2jFzJVwhjFp8LOLQKTixxxaLqIvQaqIa6C/Ia9qlY7aazn209cjuB05XFKxW6w/W6CGIxN0tdo3HuMUikrk+JMoStYaDsI/k+4wRNnUbDIEsP12PlsIIjIE0cXlt14jcpZ31P3MYRgduPIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bUF6CQwe; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2FFBC4CEE5;
-	Tue,  4 Mar 2025 08:40:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741077631;
-	bh=lTb9kj/VYq2+/Onyib1ardpDWG1lE263WpaogE2OBmM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bUF6CQwe9uXUIF+57L1KVwUOYWIOF0x/ymyn8yEMLfZYBk3tmeA9zpBdzbqrcsW9b
-	 m2j0qx+XZ7Xihr0JYloW9zcg2mkirP4yOGqG2l1ejxKD1PRirXW/0pe2o47bsfISaD
-	 R+AKuk0RDwz1iEGspcxZNPftbM7eut00UDS98qOlqJYx7ytMUDasgAC0ZbgRRt2fkc
-	 ca192Iy17X1kmvk8M/NIN7DtzPzHQWoNe8ie4XI99XLSYj2e16fkQy4UwiszmMtWmC
-	 qcGG4lmksPdi1u5oYdWX+i5i6gCDOGaav2Wo7m1hWrB8MFEFh9+4mhbkosnMpQjdkL
-	 /Ww31JDQ8qJPA==
-Message-ID: <baae2a56-5299-486f-acf1-14fe13fd2f81@kernel.org>
-Date: Tue, 4 Mar 2025 09:40:21 +0100
+	s=arc-20240116; t=1741078293; c=relaxed/simple;
+	bh=DzcwyW1s2Qh52TtFRwqotEDcRzSij+QevL5cGblPvRs=;
+	h=From:Date:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=G5MbtRdMT+N2pNN2/GRfXcLNsoqX5Ps/DZlvYxeF6ZLPOVeObRJ3pXnUnwUba357HtfVVA4HJLnGh3hK1DunRkCk9tll0jWy00qiJuqc7i1lAY9LtrgW8a7vm46KyVK790poQkzUQCA7cEw2kS/yMJAZkpbu0a9GEwP0lQdh4NU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=nBtLru4u; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 523NX0Mk015969
+	for <linux-media@vger.kernel.org>; Tue, 4 Mar 2025 08:51:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=OLRCuCe47x5UYRcZUJUbMd2a
+	1rwUyvqY0uLF/SHitw4=; b=nBtLru4uRPcGx2Mn7PiW90o4PRddVASupV+VlQHZ
+	2q/uivYxEZorUj/9Af5dMUC84W9Oa8vKUAxmSK81jCJv6aAlTIYA5mS07gwXo/72
+	zvCyaflpNRd/uFplcFDvg7czBmg/pjStpzXUJtiAQINUKqPGIRtb9cm4X8EnbO79
+	v/HMVjPvkKz84WjZUnejDYjXKnlCufz2ehnLAkYVxOHncNgR2d7bfBmycOekpuoG
+	5GIbK0q9vuZyOynSdfnWT+dXg2JyNEy2RLwy+9jcxnOmVQYcZU7/E17/d1t5hvrk
+	2QLGr5azciPC3CY0u21MiAHikq+siipA/8UsA8Vx5iXFMw==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 455p6th9bf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 04 Mar 2025 08:51:30 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-6e8c4f5f3b4so54341766d6.1
+        for <linux-media@vger.kernel.org>; Tue, 04 Mar 2025 00:51:30 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741078289; x=1741683089;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:date:from:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OLRCuCe47x5UYRcZUJUbMd2a1rwUyvqY0uLF/SHitw4=;
+        b=lvDRopAhb4+OL+/K6Ypd9j6cwW6Sco/TfkZ7HnGfl2/HjKjyI0/dJ753HI1z06rYfj
+         RjFtP+WDNZhuSBNoiGAhfzfM1d8gsccwxgTvZfc87cCnv8MUqWYV1VmbolpGKXONJGm2
+         jAZGVB4jQKwrNhQ7Djmu7ONDFOdpMhPI9EK+QaHBRFJDiUYsugrmsuCK213vWobS6Aoz
+         XOaEw4wuu9UGUZZq+YcCmkan9aHUdAErXSpbhNaua56BrjATsXaFyItyh/0OO8YpGc57
+         U2wIZa0bgBD9E0s7jWJaWzAGHX23nfD1cP9NDzMpjlt3wpf0OP5Esknm4xxuKtbB4lqk
+         fOJw==
+X-Forwarded-Encrypted: i=1; AJvYcCWLxT9+6uk3HMLAP+DVIOLVR2tmeTg2zm5wT1jwrC7ykNGpao8oUw/sEJR939UB1U1mQ1VnPb5S85cjBg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTBRzY7xZnbmCPhJhxW1eyjHiu7mi0KKwxbD961F6jcByXsUCF
+	KK/jBTMOcdS3R+lMXGTGDqyRVs7I22J+4oh22llb9Ep8QhB5lRq78D61BkMRU4K2/xBWrQTyV3h
+	5ZsDFnVXt+BbMlu5qOiFkFKKx0nfYAyVOJSamdhZgfXor0Uqul1tn9vS/5+ftRQ==
+X-Gm-Gg: ASbGnctDfdfPHKSzVm1DC+hfYZhNQGMvhHf9C6yUmJ9TsEwMu5ULGwqRzI1S0X/1P8T
+	8cNYjARUaJuwFQFWnX6/PzVkKqNB3sB9Z8APOJ07AJFEQnQovkEwC/aBKbHSa9AzYCTDj7UtHvU
+	2D4FTkEwFaVjHmZ0cz58w96t/j7SBFHMHUR20rLxkb/N5HeIbS1IhWnu5Op7oOMtrIA53S0Sjkx
+	hEO2a9/nXxQ6Xbu+ZtTXHJKT7waYjqLu1e9cvC0DHuJxNSRajsvGQPA6IQJ4o7oQKAhDaEwX83Y
+	X++1X2vL88O5acXJhMlMcMuTVWxekJ82PjEloZOvtczHHBSC
+X-Received: by 2002:a05:6214:500f:b0:6e8:9c3b:af08 with SMTP id 6a1803df08f44-6e8a0d6d748mr233513866d6.30.1741078289589;
+        Tue, 04 Mar 2025 00:51:29 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEXXONIdl74iWtM0enyp5EVNCNlqClOTgbZD6KGhlRFyfxAGkoiqep7Ikq28VZER+zvu5VL7Q==
+X-Received: by 2002:a05:6214:500f:b0:6e8:9c3b:af08 with SMTP id 6a1803df08f44-6e8a0d6d748mr233513566d6.30.1741078289278;
+        Tue, 04 Mar 2025 00:51:29 -0800 (PST)
+Received: from trex (54.red-79-144-194.dynamicip.rima-tde.net. [79.144.194.54])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43aba5393e5sm216342135e9.20.2025.03.04.00.51.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Mar 2025 00:51:28 -0800 (PST)
+From: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>
+X-Google-Original-From: Jorge Ramirez <JorgeRamirez-Ortiz>
+Date: Tue, 4 Mar 2025 09:51:26 +0100
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>,
+        Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
+        todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
+        robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+        andersson@kernel.org, konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
+        cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com,
+        will@kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Konrad Dybcio <konrad.dybcio@linaro.org>
+Subject: Re: [PATCH v14 2/2] arm64: dts: qcom:
+ qcs6490-rb3gen2-vision-mezzanine: Add vision mezzanine
+Message-ID: <Z8a/Dk7zjZ7RQT2/@trex>
+References: <20250208225143.2868279-1-quic_vikramsa@quicinc.com>
+ <20250208225143.2868279-3-quic_vikramsa@quicinc.com>
+ <ca8e6569-b466-4f83-83af-38c51891d395@kernel.org>
+ <Z8a7cMmxJuHIhgjo@trex>
+ <baae2a56-5299-486f-acf1-14fe13fd2f81@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 2/2] arm64: dts: qcom:
- qcs6490-rb3gen2-vision-mezzanine: Add vision mezzanine
-To: Jorge Ramirez <jorge.ramirez@oss.qualcomm.com>
-Cc: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
- todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- andersson@kernel.org, konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
- cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com,
- will@kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@linaro.org>
-References: <20250208225143.2868279-1-quic_vikramsa@quicinc.com>
- <20250208225143.2868279-3-quic_vikramsa@quicinc.com>
- <ca8e6569-b466-4f83-83af-38c51891d395@kernel.org> <Z8a7cMmxJuHIhgjo@trex>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <Z8a7cMmxJuHIhgjo@trex>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <baae2a56-5299-486f-acf1-14fe13fd2f81@kernel.org>
+X-Authority-Analysis: v=2.4 cv=PMb1+eqC c=1 sm=1 tr=0 ts=67c6bf12 cx=c_pps a=wEM5vcRIz55oU/E2lInRtA==:117 a=cl0az7d0LwC7qAhl51RXhA==:17 a=kj9zAlcOel0A:10 a=Vs1iUdzkB0EA:10 a=EIL0MzI05wtt13IUXDMA:9 a=CjuIK1q_8ugA:10 a=OIgjcC2v60KrkQgK7BGD:22
+X-Proofpoint-ORIG-GUID: O-BF4mOFmJLwx3OW2_jfgnbqfiYUsUSJ
+X-Proofpoint-GUID: O-BF4mOFmJLwx3OW2_jfgnbqfiYUsUSJ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-04_04,2025-03-03_04,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=998
+ phishscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
+ mlxscore=0 adultscore=0 spamscore=0 suspectscore=0 impostorscore=0
+ clxscore=1015 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2502100000 definitions=main-2503040074
 
-On 04/03/2025 09:36, Jorge Ramirez wrote:
-> On 03/03/25 18:13:20, Krzysztof Kozlowski wrote:
->> On 08/02/2025 23:51, Vikram Sharma wrote:
->>> The Vision Mezzanine for the Qualcomm RB3 Gen 2 ships with an imx577
->>> camera sensor. Enable IMX577 on the vision mezzanine.
->>>
->>> An example media-ctl pipeline for the imx577 is:
->>>
->>> media-ctl --reset
->>> media-ctl -V '"imx577 '17-001a'":0[fmt:SRGGB10/4056x3040 field:none]'
->>
->> AFAIU, camss does not support SRGGB10, but only SRGGB10P.
->>
->> Based on tests reported on IRC I think this might not have been tested
->> correctly.
+On 04/03/25 09:40:21, Krzysztof Kozlowski wrote:
+> On 04/03/2025 09:36, Jorge Ramirez wrote:
+> > On 03/03/25 18:13:20, Krzysztof Kozlowski wrote:
+> >> On 08/02/2025 23:51, Vikram Sharma wrote:
+> >>> The Vision Mezzanine for the Qualcomm RB3 Gen 2 ships with an imx577
+> >>> camera sensor. Enable IMX577 on the vision mezzanine.
+> >>>
+> >>> An example media-ctl pipeline for the imx577 is:
+> >>>
+> >>> media-ctl --reset
+> >>> media-ctl -V '"imx577 '17-001a'":0[fmt:SRGGB10/4056x3040 field:none]'
+> >>
+> >> AFAIU, camss does not support SRGGB10, but only SRGGB10P.
+> >>
+> >> Based on tests reported on IRC I think this might not have been tested
+> >> correctly.
+> > 
+> > I acquired SRGGB10P (10 bit packed) frames from the camera despite the
+> > pipeline being set to SRGGB10 (16 bit) samples.
+> > 
+> > so something does not add up.
 > 
-> I acquired SRGGB10P (10 bit packed) frames from the camera despite the
-> pipeline being set to SRGGB10 (16 bit) samples.
-> 
-> so something does not add up.
+> Then the commands are actually correct, just the camss or media behave
+> here a bit unexpected?
+>
 
-Then the commands are actually correct, just the camss or media behave
-here a bit unexpected?
+setting the pipeline (CSI) as SRGGB10 (16 bit samples) as per below
 
-Best regards,
-Krzysztof
+media-ctl --reset
+media-ctl -v -V '"imx577 '19-001a'":0[fmt:SRGGB10/4056x3040 field:none]'
+media-ctl -V '"msm_csiphy3":0[fmt:SRGGB10/4056x3040]'
+media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+media-ctl -l '"msm_csiphy3":1->"msm_csid0":0[1]'
+media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+
+allows to capture SRGGB10P samples (frames-xxxx.bin files contain 10 bit samples for the size)
+
+ ==> yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video0
+
+
+shouldnt the CSI need to be set to SRGGB10P instead?
+
+
+> Best regards,
+> Krzysztof
+
 
