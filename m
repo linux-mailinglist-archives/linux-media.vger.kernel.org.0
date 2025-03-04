@@ -1,39 +1,43 @@
-Return-Path: <linux-media+bounces-27460-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27461-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A3B7A4DC16
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 12:12:32 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5620AA4DC27
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 12:14:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 352D37A2EAA
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 11:11:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B55D63AE0ED
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 11:12:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 834BC20127A;
-	Tue,  4 Mar 2025 11:11:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EFFE202984;
+	Tue,  4 Mar 2025 11:11:26 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D96F201256
-	for <linux-media@vger.kernel.org>; Tue,  4 Mar 2025 11:11:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 123D3202971
+	for <linux-media@vger.kernel.org>; Tue,  4 Mar 2025 11:11:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741086685; cv=none; b=ken2xJa9PbKBpSp0lAi0EYwtwYrJ3sGhFVTqrUMvh00KgUpUnpv44AdyTno2wnUMfE5CYlp2C7Nv6+jJe5L0Ya9WFFJ2YrlUFpHhmI7cx/LCuysVqZN3cPGTeA9gODMSQ7Ly8RSeXynCF8mEWGSOt5Ygyf266HTeSKAKC/MnZ8M=
+	t=1741086686; cv=none; b=WxwSFpr+3w5TfT7MeAN5Ob7rt7l2NxAlTU0nVnNJ4CQWdHXWp9ixVStN/Rn9MDAJe9c7VhKiDlyYNrm058nCBeURUQcw61hH9E+hBVwr3GatmJwUqlYLYLvCS1rAAtwxXunzWA7cZ9pLImJOIAWU4E40h/bO4UsnzPX7ifc5YN0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741086685; c=relaxed/simple;
-	bh=mSyZ19VUAzxjZWOqvwvbz2ObjRm8m6/x8B+ehQs7LoA=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version; b=k967/jaSnDhFvV9dYh1DAj6C6DD8Uc52l+AF5dsOGkCYA9dmDPUcgPKK984dG1iveHhFAcZvNb5unA5kA9xuUONrKXkG4Az+jzZQLIPbaywc4SXuv3MfkElcYlOmiiYdwyDAUMMcPeTRaXZIJVUb9Ixe6xAXqKLLX08DTK72axo=
+	s=arc-20240116; t=1741086686; c=relaxed/simple;
+	bh=gRqNUwd+o252LIWHTjJmWILyr0Agv9p1OTA4S2TSSa4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=ln75TiM0gedtrRgtyGEPWrVe63P3UeFUwiDTmDbSwrQCfMoXUsY1a0ZO0CE389sNW6zfeYPD0ct6Pb8yJnqvh4aoWkM8NvNX33lLYf0FU7839iy2TAVLjteAvJbsRdFTv3Zx8MPAtRXl87rbF+HquqGzLBY7q2ohI8mfi0IKohE=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 943DFC4CEE9
-	for <linux-media@vger.kernel.org>; Tue,  4 Mar 2025 11:11:24 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 620CFC4CEE5;
+	Tue,  4 Mar 2025 11:11:25 +0000 (UTC)
 From: Hans Verkuil <hverkuil@xs4all.nl>
 To: linux-media@vger.kernel.org
-Subject: [PATCH 0/8] media: use (t,l)/wxh format for rectangle
-Date: Tue,  4 Mar 2025 12:08:06 +0100
-Message-ID: <cover.1741086494.git.hverkuil@xs4all.nl>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [PATCH 1/8] media: v4l2-tpg: use (t,l)/wxh format for rectangle
+Date: Tue,  4 Mar 2025 12:08:07 +0100
+Message-ID: <add97aa9a4e4aedc84f00743dd9f9a3ff8bb61d9.1741086494.git.hverkuil@xs4all.nl>
 X-Mailer: git-send-email 2.47.2
+In-Reply-To: <cover.1741086494.git.hverkuil@xs4all.nl>
+References: <cover.1741086494.git.hverkuil@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -42,60 +46,32 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is a follow-up of:
+Standardize reporting of rectangles to (t,l)/wxh.
 
-https://lore.kernel.org/linux-media/20250301222207.GA15528@pendragon.ideasonboard.com/T/#t
+Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+---
+ drivers/media/common/v4l2-tpg/v4l2-tpg-core.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-Standardize logging of rectangles to the "(t,l)/wxh" format.
-
-Mostly this logs v4l2_rect structs, but the zoran patch has
-some internal rectangle fields, where either all four fields
-are signed or all are unsigned. So the format specifiers are
-a bit different there.
-
-Regards,
-
-	Hans
-
-Hans Verkuil (8):
-  media: v4l2-tpg: use (t,l)/wxh format for rectangle
-  media: v4l2-core: use (t,l)/wxh format for rectangle
-  staging: media: atomisp/starfive: use (t,l)/wxh format for rectangle
-  media: usb: em28xx: use (t,l)/wxh format for rectangle
-  media: vivid: use (t,l)/wxh format for rectangle
-  media: i2c: imx283: use (t,l)/wxh format for rectangle
-  media: pci: zoran: use (t,l)/wxh format for rectangle
-  media: platform: use (t,l)/wxh format for rectangle
-
- drivers/media/common/v4l2-tpg/v4l2-tpg-core.c |  8 ++++----
- drivers/media/i2c/imx283.c                    |  2 +-
- drivers/media/pci/zoran/zoran_card.c          |  2 +-
- drivers/media/pci/zoran/zr36016.c             |  2 +-
- drivers/media/pci/zoran/zr36050.c             |  2 +-
- drivers/media/pci/zoran/zr36060.c             |  2 +-
- .../media/platform/mediatek/mdp/mtk_mdp_m2m.c |  2 +-
- .../platform/mediatek/mdp3/mtk-mdp3-regs.c    |  4 ++--
- drivers/media/platform/nxp/dw100/dw100.c      |  8 ++++----
- .../platform/renesas/rcar-vin/rcar-v4l2.c     |  8 ++++----
- .../platform/rockchip/rkisp1/rkisp1-isp.c     |  2 +-
- .../platform/rockchip/rkisp1/rkisp1-resizer.c |  2 +-
- .../samsung/exynos4-is/fimc-capture.c         |  6 +++---
- .../platform/samsung/exynos4-is/fimc-lite.c   |  8 ++++----
- .../samsung/s3c-camif/camif-capture.c         | 12 +++++------
- .../media/platform/st/sti/bdisp/bdisp-debug.c |  8 ++++----
- .../media/platform/st/sti/bdisp/bdisp-v4l2.c  | 14 ++++++-------
- .../media/platform/st/sti/delta/delta-debug.c |  8 ++++----
- drivers/media/platform/st/stm32/stm32-dcmi.c  | 10 +++++-----
- .../st/stm32/stm32-dcmipp/dcmipp-byteproc.c   | 10 +++++-----
- .../media/platform/ti/am437x/am437x-vpfe.c    |  2 +-
- .../test-drivers/vivid/vivid-kthread-cap.c    | 20 +++++++++----------
- drivers/media/usb/em28xx/em28xx-video.c       |  2 +-
- drivers/media/v4l2-core/v4l2-ctrls-core.c     |  6 +++---
- drivers/media/v4l2-core/v4l2-ioctl.c          | 20 +++++++++----------
- .../staging/media/atomisp/pci/atomisp_cmd.c   |  4 ++--
- .../staging/media/starfive/camss/stf-isp.c    |  2 +-
- 27 files changed, 88 insertions(+), 88 deletions(-)
-
+diff --git a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
+index ded11cd8dbf7..931e5dc453b9 100644
+--- a/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
++++ b/drivers/media/common/v4l2-tpg/v4l2-tpg-core.c
+@@ -2249,10 +2249,10 @@ void tpg_log_status(struct tpg_data *tpg)
+ 		tpg->src_width, tpg->src_height,
+ 		tpg_color_enc_str(tpg->color_enc));
+ 	pr_info("tpg field: %u\n", tpg->field);
+-	pr_info("tpg crop: %ux%u@%dx%d\n", tpg->crop.width, tpg->crop.height,
+-			tpg->crop.left, tpg->crop.top);
+-	pr_info("tpg compose: %ux%u@%dx%d\n", tpg->compose.width, tpg->compose.height,
+-			tpg->compose.left, tpg->compose.top);
++	pr_info("tpg crop: (%d,%d)/%ux%u\n", tpg->crop.left, tpg->crop.top,
++		tpg->crop.width, tpg->crop.height);
++	pr_info("tpg compose: (%d,%d)/%ux%u\n", tpg->compose.left, tpg->compose.top,
++		tpg->compose.width, tpg->compose.height);
+ 	pr_info("tpg colorspace: %d\n", tpg->colorspace);
+ 	pr_info("tpg transfer function: %d/%d\n", tpg->xfer_func, tpg->real_xfer_func);
+ 	if (tpg->color_enc == TGP_COLOR_ENC_HSV)
 -- 
 2.47.2
 
