@@ -1,160 +1,173 @@
-Return-Path: <linux-media+bounces-27517-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27519-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA18A4EAD2
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 19:12:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A726A4ED12
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 20:17:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0C48517DD9C
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 18:07:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6B8D716C252
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 19:17:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9949828FFCE;
-	Tue,  4 Mar 2025 17:47:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B326325DCEC;
+	Tue,  4 Mar 2025 19:17:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="fhYhvYHZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gRYNBYEB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09AE125F983
-	for <linux-media@vger.kernel.org>; Tue,  4 Mar 2025 17:47:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A894259CA8;
+	Tue,  4 Mar 2025 19:17:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741110426; cv=none; b=Z+8ZAPQEmqSbb9F1En3NUPFN0IRFJjuF7h41+uXAQqLWynUcPi17h0EJwQojbFFK0Y/EF6m38pUyrm10C5mUVfpQPFgfTtpQk5icn4Nx71lptS6bOmkl09o61IfLLNPiKhMgvriQo0/OeVc9mFocp9S1wVACzFNVksNxj/vHOPA=
+	t=1741115839; cv=none; b=hhVUWVzLIiVIBjpIz4IKJ22sqnEHsLLf4C2u/2aGk/oF3yx2BJVlC2UnyL+FcHdmj3NGMmjMJPpVGmSSvSCKXjP+JnUHk1FgCQ/YbZnrJWWeL8bhb8rzDD53D4Z14qxU/4ChbB4CVdiEb3jBRy0ShLGCXaukKpxa5A6gfclGr8o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741110426; c=relaxed/simple;
-	bh=0BeTHKn/9rkWCHe8dQS4KM5fYtL6wfV7Q0u6lZxJe/A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Y2fmudVsUgQdI+mQMti/soDvx7aCt98hr32PTxUMl7Cexzn3y3Yj4+2AXYnz29y1PwODB+B64dbGD1LB7ZISAKGwdLeVXX/U96wc+SFl6n7w4kdWlGcVQWh4dCE+HgH0idayz05UanIflMVYngJTEwVxEA2VclXNfr5/uykkn+c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=fhYhvYHZ; arc=none smtp.client-ip=209.85.128.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-6fd6f7a8c84so25354407b3.2
-        for <linux-media@vger.kernel.org>; Tue, 04 Mar 2025 09:47:04 -0800 (PST)
+	s=arc-20240116; t=1741115839; c=relaxed/simple;
+	bh=71zrPBadSpry4UNGM7EYnqgo5CnGblRzB2FptXkHvoc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lwyNofdIo16bt+tVn+9QYykl5C7jHLpO3xfg9QbVRSTX5nhd12zl+lgOVlZJLrnFMKk2prT53Y/vXpGzua3k04E8JiQamVrmZzZrI/ztbvm4qygGbxqL0HfPrQB4v+GsHlbE2eebprL9z7elWuBxOA8BWGd4NxgJ2UOr73DBiRg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gRYNBYEB; arc=none smtp.client-ip=209.85.219.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6e8a2fd46ddso7646546d6.1;
+        Tue, 04 Mar 2025 11:17:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1741110424; x=1741715224; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=mxnywYP2lTqSlnLFR3ftUdo5O+Ug+wLHKmeRYSDuQTk=;
-        b=fhYhvYHZWBjOHZjsgx2cCqY0vT/rnPWWn0ORAW2AdyNHVftWw0I5UxEvG5SZ5VbfFD
-         3VBjQjbxzlf0xcTOzGO7zTycOamfvGDGD8dI8pNjGbMibvPs2+qG8j2kh1nnc2yXiMim
-         qd3u80yskocyMnvkStAEZfNKZ4sd83NNT1g48AqkiNrTAkrfXoWrxBNxj8h2OijyCWwC
-         olC+vx58HxmVQ96NBD2P5CXs2wMqRZd4Q90fBUlYYROilnQRcaIOkc1vHf8xNSKrN+hH
-         l3LqWDM/4yqc8qvdSkj5GldGAYvIciR/TNW1sRC1nYpZEsDT/gyktMDh0F50j7u8nb9m
-         CKBA==
+        d=gmail.com; s=20230601; t=1741115835; x=1741720635; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6zRcHrLZY9EoRfX7Tn+hs2QGXmbsG5cYizLUiF4DS5k=;
+        b=gRYNBYEBlYVfX2Y1N3XJmVC1IhyXem6knoI9C4irKAS5v0dmdj93r24VbuLtZaA9B0
+         wv9RpCJoMrXlx/UAiAMyiZEXdIxrLDy1D79o1A76KJVGARQGy/1rf415tfUWFgY6yvwy
+         uPtRo69rHhCtz3KxgJThE0/KZCtUo/13ShafvqVV7ViubdLfIhebEgPAO4MX62ouqgCl
+         KkBY4mRazk5e6tyB+xOOoxe/GMHyvcADt9Q59srtUH6CVNTjUrRUnnKxY7ulH3sPcR/q
+         zEJj/89DpOw9K8rYQxIB/GI9/EgXlY5q5nXQWykOqhhAKvFUmEvGSwvaNTg1mdgH3dkL
+         NYtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741110424; x=1741715224;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1741115835; x=1741720635;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=mxnywYP2lTqSlnLFR3ftUdo5O+Ug+wLHKmeRYSDuQTk=;
-        b=nrtbpMJXR0Saa8s7mY6Ejz9LjgQ+o75rCZzjDg1MfKxSJKu9bEPgsozvAzuEEvpht4
-         vEcwxF38It9/qhl1V0d+laRO146X1SuRh3QPAaCG0LtmW+AqEvYiHizeUD44k+FszJUN
-         PbLXH+qSBTyacHNOn8QF5rkCPMJO+gGwHgDNVjlJmOiohd+k2muAnTU4GPkgttwtdADi
-         Hxs4w79vsm3oF9+FYQ18i1UirspCHfB6ASF/fuXTs7G6kSj8R8gZkA2SjIxQ+9yWe0NR
-         06fAwFMesy0Jj4BRhkNECFG8Wgxkb/t5RpX4msDVaw02qgL1wqAkaB3YQyv6wUIAAsqb
-         MUow==
-X-Forwarded-Encrypted: i=1; AJvYcCVjHU1XH5fhLQaUK3gSnGIpMVZnrYNfke2+G9Ybi9nja23P1I24OnSvfISg9rO/Y4MZPbN/UzP133Endg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSOWum/AIgjSgHstuN0R6/uNQpyb95216dYjJN5TGt8pHl0AEt
-	CNgB/Fv0SO77U02uDrLojnI9lv73LRLBa1I3uWb4mAZ4Y+LwB1PfE4z6WD+7Vo7/8tl2oho4qsE
-	Y6ht6pdWqxft6ItFODjcwAsbkiIxDUQ3pBC8rFQ==
-X-Gm-Gg: ASbGncvb+anS6oA4/UlDesJoiJk0C6o2h91xyEQ40d4G247j+I+0TwlbDz/7YrTnQSP
-	VvrDlbctcyH98SKsM5UxPH8pBlZgIFX6fXJBulMF8b+SQ5wI2VD0NU5QEhPaAyRaBHr+FmzBCpp
-	ZNvKMYTvFAhLLoslTbAuGUYjYLrWbXCfhag4DvAhnixvOkN5t+SZ1ckTeT6w==
-X-Google-Smtp-Source: AGHT+IGPlfxsnL8xkZ525LntzQCfam2wCKsFv2c35BiU8Iy6Us9VMAZ/4ps8ZbWXqXudbJreVUIbo0hr9QOb+DIDfWA=
-X-Received: by 2002:a05:690c:7243:b0:6fb:9389:3cde with SMTP id
- 00721157ae682-6fda2fe10a1mr2553737b3.3.1741110424008; Tue, 04 Mar 2025
- 09:47:04 -0800 (PST)
+        bh=6zRcHrLZY9EoRfX7Tn+hs2QGXmbsG5cYizLUiF4DS5k=;
+        b=NQlS0c/w+aQdoXaTT4ZAArjgbUNz74IlPrv/5NTHra83TyP6PXm5HoEW+yjqRrYG3y
+         ebce/JD4P6UDz1Ung9cylZXE1Dt+/n2gJBuWepQcoTe5KDZro7NGmnP1wfM/pI3jvyQy
+         vljB5qKHpgKckWeXAl28nvI6hJACER7qzXIFsDVYMvN6ULv5W7Ilxs+0PngLRQ/FI/qO
+         +gWJ0VBX8ZaQnZwv5M4/zJrL7fhrVHy3kJVmrMZQHC3Qfx8zl/VgLjxApaU63lQeLPqF
+         DTbshmOLX1fFXyJSlfzmUPKoC1DG4h2hroUylbKPgds1vW1gL7BVDunTnryo/NqKO3oL
+         8c1A==
+X-Forwarded-Encrypted: i=1; AJvYcCVvXV80VBglZK4fj7XD+t9b+hEYMKHM5dj1PL1ZAZNDyVJCR07+NNV1re3qrB9XkkUDblwI7JO7RomX2Gc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy/H9EVudDI5bmfXGOLaePGQUizgKYuYLg9V9yXK1Y0xedph59p
+	5qqG9iqRWHXHG2Ylpd9pLe3ITFjmhPXCq3zLN394hDcy1YDR+sPE/a9kDg==
+X-Gm-Gg: ASbGncvGYk1K3f0cH8UEB8k9FE7uSkiE8dd3gFnf33wiuQwDYAnDsgHluwDogLQoSa5
+	8NXTFpzvRSZwYHhD07TKnkgGQ7In1V+nU+rh3ykCwDOdurP/vEyzXUuMQht7fXMG6IVtLxqXFkR
+	Wzs59nA6NFYkAeXx+sxJvG6ciaq62xSuoPUx0u/5ZXyD8PCVxiZjUxRj3PriotOcS1Z1ULA9v4I
+	pneGOVdtOSDWuU45Og4WUcdGH3w16OsLACgq8Ob4En6WS0rJixXhXccs3xiWyfOq38RBBI3Fswi
+	E9f5HKYx4uE7jjIzhDDxSDp8PR8m07SPDS7i6lBaZ4LWpd9TMQ0LZpnWnF0KrvRn9OHoNX3K3yv
+	aoI/i9abjTg==
+X-Google-Smtp-Source: AGHT+IGFEVxkxJdDHL70k8ZQHEkVjG2El2E5FYW5OuYB6c//CkBOdewtyopoiMtF/Fbxc/jwWaZDUA==
+X-Received: by 2002:ac8:5715:0:b0:474:ee9d:43db with SMTP id d75a77b69052e-4750b4b7362mr982781cf.11.1741115835373;
+        Tue, 04 Mar 2025 11:17:15 -0800 (PST)
+Received: from matt-Z87X-UD4H.mynetworksettings.com ([2600:1002:a012:8f2c:1c50:24c:178b:a9b3])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-474f351687bsm24079351cf.19.2025.03.04.11.17.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 04 Mar 2025 11:17:14 -0800 (PST)
+From: Matthew Majewski <mattwmajewski@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Uwe Kleine-Konig <u.kleine-koenig@baylibre.com>,
+	Shuah Khan <skhan@linuxfoundation.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Naushir Patuck <naush@raspberrypi.com>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Matthew Majewski <mattwmajewski@gmail.com>
+Subject: [PATCH 0/3] media: vim2m: add multiplanar API support
+Date: Tue,  4 Mar 2025 14:16:58 -0500
+Message-Id: <20250304191701.2957096-1-mattwmajewski@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250303-ov9282-flash-strobe-v1-0-0fd57a1564ba@linux.dev>
-In-Reply-To: <20250303-ov9282-flash-strobe-v1-0-0fd57a1564ba@linux.dev>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Tue, 4 Mar 2025 17:46:34 +0000
-X-Gm-Features: AQ5f1JprQl2-aACC5Zkamr8nD2QNVsrsLvufWKjEDPBWI84GrWquHohlN1sdMzE
-Message-ID: <CAPY8ntB8i4OyUWAL8k899yUd5QsRifJXiOfWXKceGQ7TNZ4OUw@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Add flash/strobe support for ov9282
-To: Richard Leitner <richard.leitner@linux.dev>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Richard
+Hi everyone,
 
-Thanks for the series.
+This patch series adds multiplane API support for the virtual M2M
+driver, along with some minor driver refactoring/improvements.
 
-On Mon, 3 Mar 2025 at 22:59, Richard Leitner <richard.leitner@linux.dev> wrote:
->
-> This series adds basic flash/strobe support for ov9282 sensors using
-> their "hardware strobe output".
->
-> Apart from en-/disabling the flash/strobe output, setting a timeout
-> (duration of activated strobe per frame) is implemented. The calculation
-> of this timeout is only interpolated from various measurements, as no
-> documentation was found.
+I followed the lead of the vivid driver and made multiplanar support
+selectable with a module parameter, and the default is to use the
+single planar api.
 
-The bigger picture question is whether using these flash controls is
-appropriate for controlling the strobe output on a sensor. That's a
-question for others (mainly Sakari and Laurent).
+Although there are not yet any pixelformats in the driver that make
+use of multiple memory planes, adding support for these should be
+easier now with the API level changes taken care of.
 
-V4L2_CID_FLASH_TIMEOUT feels wrong for setting the duration of the strobe pulse.
-Whilst the description in the docs [1] is a little brief, you then
-have the description of V4L2_FLASH_FAULT_TIMEOUT for
-V4L2_CID_FLASH_FAULT
-"The flash strobe was still on when the timeout set by the user ---
-V4L2_CID_FLASH_TIMEOUT control --- has expired. Not all flash
-controllers may set this in all such conditions."
-which implies it is the hardware watchdog timeout to ensure the flash
-LEDs don't burn out, not configuring the duration of the flash pulse.
-Then again adp1653 adopts it as the flash duration.
+v4l2-compliance reports the following with multiplane support disabled:
 
-Is there an expectation that V4L2_CID_FLASH_STROBE_SOURCE should also
-be implemented, even if it is fixed to
-V4L2_FLASH_STROBE_SOURCE_EXTERNAL?
+  Total for vim2m device /dev/video0: 48, Succeeded: 48, Failed: 0, Warnings: 0
 
-The one saving grace with this sensor is that it has a global shutter,
-so the strobe does correspond to the exposure period. With rolling
-shutter sensors, the flash duration is typically two frames to cover
-the exposure duration of all lines as the shutter rolls down.
+and the same with multiplane support enabled:
 
-  Dave
+  Total for vim2m device /dev/video0: 48, Succeeded: 48, Failed: 0, Warnings: 0
 
-[1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/ext-ctrls-flash.html
+Patches need to be applied in increasing numerical order (Patch [3/3]
+depends on [1/3] and [2/3]).
 
-> Further flash/strobe-related controls as well as a migration to v4l2-cci
-> helpers will likely be implemented in future series.
->
-> All register addresses/values are based on the OV9281 datasheet v1.53
-> (january 2019). This series was tested using an ov9281 VisionComponents
-> camera module.
->
-> Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
-> ---
-> Richard Leitner (3):
->       media: i2c: ov9282: add output enable register definitions
->       media: i2c: ov9282: add led_mode v4l2 control
->       media: i2c: ov9282: add strobe_timeout v4l2 control
->
->  drivers/media/i2c/ov9282.c | 89 ++++++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 86 insertions(+), 3 deletions(-)
-> ---
-> base-commit: f41427b3bdee7d9845b13a80c0d03882212f4b20
-> change-id: 20250303-ov9282-flash-strobe-ac6bd00c9de6
-> prerequisite-change-id: 20250225-b4-ov9282-gain-ef1cdaba5bfd:v1
-> prerequisite-patch-id: 86f2582378ff7095ab65ce4bb25a143eb639e840
-> prerequisite-patch-id: b06eb6ec697aaf0b3155b4b2370f171d0d304ae2
-> prerequisite-patch-id: b123047d71bfb9b93f743bbdd6893d5a98495801
->
-> Best regards,
-> --
-> Richard Leitner <richard.leitner@linux.dev>
->
->
+Since the multi-plane changes had to touch a lot of the driver, I did
+a basic regression test with the following script which generates a
+test input image with vivid and an output image from vim2m for each
+supported format. I confirmed all outputs visually and verified they
+were identical to the outputs before the change. Testing was done on
+an x86_64 qemu image.
+
+#!/bin/sh
+
+# tested with HDMI vivid emulation
+# modprobe vivid num_inputs=1 input_types=3
+
+vim2m=/dev/video0
+vivid=/dev/video1
+
+width=640
+height=480
+out_width=320
+out_height=240
+
+capture_formats=$(v4l2-ctl -d $vim2m --list-formats | awk '/\]:/ {print $2}' | sed "s/'//g")
+output_formats=$(v4l2-ctl -d $vim2m --list-formats-out | awk '/\]:/ {print $2}' | sed "s/'//g")
+
+# Turn off text mode so that images will be identical
+v4l2-ctl -d $vivid -c osd_text_mode=2
+
+for ofmt in ${output_formats}; do
+    # generate input image
+    inname="${width}x${height}.${ofmt}"
+    v4l2-ctl -d $vivid -v pixelformat=$ofmt,width=$width,height=$height,field=none \
+             --stream-mmap --stream-count=1 --stream-to=$inname
+    for cfmt in ${capture_formats}; do
+        outname="${out_width}x${out_height}-out.${cfmt}"
+        v4l2-ctl -d $vim2m -x pixelformat=$ofmt,width=$width,height=$height \
+                 -v pixelformat=$cfmt,width=$out_width,height=$out_height \
+                 --stream-from=$inname --stream-to=$outname --stream-mmap --stream-out-mmap \
+                 --stream-count=1
+    done
+done
+
+Matthew Majewski (3):
+  media: v4l2-common: Add RGBR format info
+  media: vim2m: Simplify try_fmt
+  media: vim2m: Add parametized support for multiplanar API
+
+ drivers/media/test-drivers/vim2m.c    | 327 +++++++++++++++++++++-----
+ drivers/media/v4l2-core/v4l2-common.c |   1 +
+ 2 files changed, 274 insertions(+), 54 deletions(-)
+
+-- 
+2.25.1
 
