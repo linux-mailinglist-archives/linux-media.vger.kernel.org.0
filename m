@@ -1,116 +1,371 @@
-Return-Path: <linux-media+bounces-27443-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27444-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9150AA4D772
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 10:08:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96A59A4D8DA
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 10:41:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EDD8B3B0BBD
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 09:07:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8A9303B31B4
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 09:36:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCACD1FF1A0;
-	Tue,  4 Mar 2025 09:02:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C92581FECB1;
+	Tue,  4 Mar 2025 09:33:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="eH34w4K1"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="qjoOe41T"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3BE204582;
-	Tue,  4 Mar 2025 09:02:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741078926; cv=pass; b=uhRHeXP739VWCGfl+Jfq/N/TqVYhQjZcZATfLRDGqKz0uUZItxvZol3K0ASJVlTzvHJiIKsfld3mNSkyKP5WwNRVplb7o/OcsKmsl1vTlVBqtwH/6hzxNoa8ihgAjbNReBF11NPGeQ970kOUkUrbN1Q0ttuACFvYDjCpUhe+iP8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741078926; c=relaxed/simple;
-	bh=8F66nSttOlsQP03vnEfihLm5ICcMwT66a6odkCxM1MQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hOoAGzUpbesnqbswD7rzH8KSBqH6LISxiBXPRrITjXEfrbnDPT+DDog+U6jMvAN3/n0yAaAkVNgjI23zVNFinxka5B12TS7IArYCkx0wTzf2Ay4t8jp4xI8XiZzDiI82WLXdpSmIQAOYnKqCvZX301zrK3LQyEKJvdE3j6Ka+Bo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=eH34w4K1; arc=pass smtp.client-ip=136.143.188.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29B01FC7C2;
+	Tue,  4 Mar 2025 09:33:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741080785; cv=none; b=tZQpr/ANWgeFDUtlKHjqL1etVuP978i1hbKXRPR5cYJjbw26DPTnpYzVh11NtdyO8cIc2QMFrfTXKVTLlhcCv+y5fxNSneT5Kr4pAE3coPO4tKat7oQ1Oj91riiy71OWOuDPMsC4wcSMB7EkLiWgxkb/PXuMKHdRWND1SPV5Dhk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741080785; c=relaxed/simple;
+	bh=JF9sxbEEccR/pwV4UWR6bRzWcVi7LBjHmtUPbTE7LOg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=rnPDOz7zIPpLpam60WrNnHug5MW/Kk9meuT7lXucpXyxcFz5yUN9GNLq9jJ9rWFIpaB0d3HHzlv1GWksCGxZwrUNyvmYiNF1MaFyfpLrka8G1RxIkO8+HrfkqxAezw/ARYHzfOpalP59PN56A3O5mvZvVQyujl4cySg5npkIdhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=qjoOe41T; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1741078876; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=n8wqhQSPdv8rDFfVZps+5KRPxeUtWo6h5Cplc7J6WEl5aj+cyrBxE0oanyFV/zQAWvM6bx5LBSOdIwsi+GG7BqrQLxBpNdNlYRE01LQZKEgWDjAv3aMV6EuIo5cjRkoJHSFV11tbWwjtQ4pzr/J2iNUQC6lxytbarxNsQBNTs/0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1741078876; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=v6XdBeWdF3ROCU+Lkd505Ci9024pYHmhBHgplZExxHU=; 
-	b=MMqwNnFwd4IFAmLFRTI2bDKoZmiT+ABCMZyA9SWmJdvltqOA9XfmkT4u4vl857CwyWquurcxT0xE/2sdrJXQenzpNu/kCgbusyuV7bnIdqcgdrKnPaDAZQCyCVxQuTNznqnZjrQkLD6QL21tMh+Y3vYPz/mq9UhDJxrgF53um8I=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
-	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741078876;
-	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=v6XdBeWdF3ROCU+Lkd505Ci9024pYHmhBHgplZExxHU=;
-	b=eH34w4K1gXXUgajAGgoDI/iF153FUHOLNz040cQ1z68n0uR+CI2XXhjpFTF4vNus
-	SOuF972r4jWL/1ZKpthcOePSMsuFPSn6ZspLWcaFRpOWvVUIb6cfpufHyYxNKzjck1d
-	WKU0V9VOUHNJrUeGJLSaoF0r2V2eAZaf513RKHYE=
-Received: by mx.zohomail.com with SMTPS id 1741078873694849.3940243076472;
-	Tue, 4 Mar 2025 01:01:13 -0800 (PST)
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: Shreeya Patel <shreeya.patel@collabora.com>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	jose.abreu@synopsys.com,
-	nelson.costa@synopsys.com,
-	shawn.wen@rock-chips.com,
-	nicolas.dufresne@collabora.com,
-	Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: kernel@collabora.com,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	Tim Surber <me@timsurber.de>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Diederik de Haas <didi.debian@cknow.org>
-Subject: [PATCH v13 6/6] arm64: defconfig: Enable Synopsys HDMI receiver
-Date: Tue,  4 Mar 2025 11:58:19 +0300
-Message-ID: <20250304085819.108067-7-dmitry.osipenko@collabora.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250304085819.108067-1-dmitry.osipenko@collabora.com>
-References: <20250304085819.108067-1-dmitry.osipenko@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1741080780;
+	bh=JF9sxbEEccR/pwV4UWR6bRzWcVi7LBjHmtUPbTE7LOg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=qjoOe41TanW4TxwLEeCxJSMLuyej+aEG/K2EWazvTSV+2UZgG50JfJiJNtqJCwsY4
+	 l3TLqRS1ZSpZtnZPtNYQGpbhJFD0XXoAQE3jeC84LdiMxZZ1WsGcEieBCKdChIglWf
+	 aH9lS8ka0ynZjepKUvLtKeuHB2zUh2AdC33uV4Fq47LC3SZs9dFv97Z1+rk/TUngMh
+	 JX1sNGvPV099kGdv4HiBCMNPAqjRDjtbtIT+DVJ+yqy6mxevk78rNkMbXTYd/kmTwv
+	 vDbz0hIprjf2A5y7Si0+YUiqcC+MrcZVEubjxJAyPOC8QAN3DV2ll879Lz5YIhEe9J
+	 K1y4rNxCd5lbA==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 8808917E065A;
+	Tue,  4 Mar 2025 10:32:59 +0100 (CET)
+Message-ID: <652e435c-563b-496a-a4c3-c2e2b665abcf@collabora.com>
+Date: Tue, 4 Mar 2025 10:32:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/8] mailbox: mtk-cmdq: Add driver data to support for
+ MT8196
+To: Jason-JH Lin <jason-jh.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>,
+ Nancy Lin <nancy.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>,
+ Moudy Ho <moudy.ho@mediatek.com>, Xavier Chang <xavier.chang@mediatek.com>,
+ Xiandong Wang <xiandong.wang@mediatek.com>,
+ Sirius Wang <sirius.wang@mediatek.com>, Fei Shao <fshao@chromium.org>,
+ Pin-yen Lin <treapking@chromium.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+References: <20250218054405.2017918-1-jason-jh.lin@mediatek.com>
+ <20250218054405.2017918-4-jason-jh.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250218054405.2017918-4-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
+Il 18/02/25 06:41, Jason-JH Lin ha scritto:
+> MT8196 has 3 new hardware configuration compared with the previous SoC,
+> which correspond to the 3 new driver data:
+> 
+> 1. mminfra_offset: For GCE data plane control
+>     Since GCE has been moved into mminfra, GCE needs to append the
+>     mminfra offset to the DRAM address when accessing the DRAM.
+> 
+> 2. gce_vm: For GCE hardware virtualization
+>     Currently, the first version of the mt8196 mailbox controller only
+>     requires setting the VM-related registers to enable the permissions
+>     of a host VM.
 
-The Rockchip RK3588 has a built-in HDMI receiver block from
-Synopsys. Let's enable the driver for it.
+I think that the GCE VM changes should go to a different commit, as that
+looks like being something not critical for basic functionality of the
+MMINFRA GCE.
 
-Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
----
- arch/arm64/configs/defconfig | 1 +
- 1 file changed, 1 insertion(+)
+I really like seeing support for that, but please split the basic stuff
+from the extra functionality :-)
 
-diff --git a/arch/arm64/configs/defconfig b/arch/arm64/configs/defconfig
-index cb7da4415599..6ed1ad3c0055 100644
---- a/arch/arm64/configs/defconfig
-+++ b/arch/arm64/configs/defconfig
-@@ -859,6 +859,7 @@ CONFIG_VIDEO_SAMSUNG_EXYNOS_GSC=m
- CONFIG_VIDEO_SAMSUNG_S5P_JPEG=m
- CONFIG_VIDEO_SAMSUNG_S5P_MFC=m
- CONFIG_VIDEO_SUN6I_CSI=m
-+CONFIG_VIDEO_SYNOPSYS_HDMIRX=m
- CONFIG_VIDEO_TI_J721E_CSI2RX=m
- CONFIG_VIDEO_HANTRO=m
- CONFIG_VIDEO_IMX219=m
--- 
-2.48.1
+> 
+> 3. dma_mask_bit: For dma address bit control
+>     In order to avoid the hardware limitations of MT8196 accessing DRAM,
+>     GCE needs to configure the DMA address to be less than 35 bits.
+> 
+> Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
+> ---
+>   drivers/mailbox/mtk-cmdq-mailbox.c       | 90 +++++++++++++++++++++---
+>   include/linux/mailbox/mtk-cmdq-mailbox.h |  2 +
+>   2 files changed, 84 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c b/drivers/mailbox/mtk-cmdq-mailbox.c
+> index d186865b8dce..0abe10a7fef9 100644
+> --- a/drivers/mailbox/mtk-cmdq-mailbox.c
+> +++ b/drivers/mailbox/mtk-cmdq-mailbox.c
+> @@ -43,6 +43,17 @@
+>   #define GCE_CTRL_BY_SW				GENMASK(2, 0)
+>   #define GCE_DDR_EN				GENMASK(18, 16)
+>   
+> +#define GCE_VM_ID_MAP0			0x5018
+> +#define GCE_VM_MAP0_ALL_HOST			GENMASK(29, 0)
+> +#define GCE_VM_ID_MAP1			0x501c
+> +#define GCE_VM_MAP1_ALL_HOST			GENMASK(29, 0)
+> +#define GCE_VM_ID_MAP2			0x5020
+> +#define GCE_VM_MAP2_ALL_HOST			GENMASK(29, 0)
+> +#define GCE_VM_ID_MAP3			0x5024
+> +#define GCE_VM_MAP3_ALL_HOST			GENMASK(5, 0)
+> +#define GCE_VM_CPR_GSIZE		0x50c4
+> +#define GCE_VM_CPR_GSIZE_HSOT			GENMASK(3, 0)
+
+typo: GSIZE_HOST....
+
+...but also, if you could add some brief description of what the VMIDs are used for
+and what the GSIZE is... that'd be very much appreciated from whoever is reading
+this.
+
+The GCE stuff isn't even properly described in datasheets - I do (probably!)
+understand what those are for, but asking people to get years of experience on
+MediaTek to understand what's going on would be a bit rude, wouldn't it? :-D
+
+> +
+>   #define CMDQ_THR_ACTIVE_SLOT_CYCLES	0x3200
+>   #define CMDQ_THR_ENABLED		0x1
+>   #define CMDQ_THR_DISABLED		0x0
+> @@ -87,11 +98,24 @@ struct cmdq {
+>   struct gce_plat {
+>   	u32 thread_nr;
+>   	u8 shift;
+> +	dma_addr_t mminfra_offset;
+
+It looks like this is exactly the DRAM's iostart... at least, I can see that in the
+downstream devicetree that's where it starts.
+
+	memory: memory@80000000 {
+		device_type = "memory";
+		reg = <0 0x80000000 0 0x40000000>;
+	};
+
+It doesn't really look like being a coincidence, but, for the sake of asking:
+is this just a coincidence? :-)
+
+>   	bool control_by_sw;
+>   	bool sw_ddr_en;
+> +	bool gce_vm;
+> +	u32 dma_mask_bit;
+>   	u32 gce_num;
+>   };
+>   
+> +static inline u32 cmdq_reg_shift_addr(dma_addr_t addr, const struct gce_plat *pdata)
+> +{
+> +	return ((addr + pdata->mminfra_offset) >> pdata->shift);
+> +}
+> +
+> +static inline u32 cmdq_reg_revert_addr(dma_addr_t addr, const struct gce_plat *pdata)
+> +{
+> +	return ((addr << pdata->shift) - pdata->mminfra_offset);
+> +}
+
+I'm not sure that you really need those two functions... probably it's simply
+cleaner and easier to just write that single line every time... and I'm
+saying that especially for how you're using those functions, with some readl()
+passed directly as param, decreasing human readability by "a whole lot" :-)
+
+> +
+>   static void cmdq_sw_ddr_enable(struct cmdq *cmdq, bool enable)
+>   {
+>   	WARN_ON(clk_bulk_enable(cmdq->pdata->gce_num, cmdq->clocks));
+> @@ -112,6 +136,30 @@ u8 cmdq_get_shift_pa(struct mbox_chan *chan)
+>   }
+>   EXPORT_SYMBOL(cmdq_get_shift_pa);
+>   
+> +dma_addr_t cmdq_get_offset_pa(struct mbox_chan *chan)
+> +{
+> +	struct cmdq *cmdq = container_of(chan->mbox, struct cmdq, mbox);
+> +
+> +	return cmdq->pdata->mminfra_offset;
+> +}
+> +EXPORT_SYMBOL(cmdq_get_offset_pa);
+
+I think I remember this get_offset_pa from the old times, then CK removed it (and I
+was really happy about that disappearing), or am I confusing this with something
+else?
+
+(of course, this wasn't used for mminfra, but for something else!)
+
+> +
+> +bool cmdq_addr_need_offset(struct mbox_chan *chan, dma_addr_t addr)
+> +{
+> +	struct cmdq *cmdq = container_of(chan->mbox, struct cmdq, mbox);
+> +
+> +	if (cmdq->pdata->mminfra_offset == 0)
+> +		return false;
+> +
+> +	/*
+> +	 * mminfra will recognize the addr that greater than the mminfra_offset
+> +	 * as a transaction to DRAM.
+> +	 * So the caller needs to append mminfra_offset for the true case.
+> +	 */
+> +	return (addr >= cmdq->pdata->mminfra_offset);
+
+
+/**
+  * cmdq_is_mminfra_gce() - Brief description
+  * @args.....
+  *
+  * The MMINFRA GCE will recognize an address greater than DRAM iostart as a
+  * DRAM transaction instead of ....xyz
+  *
+  * In order for callers to perform (xyz) transactions through the CMDQ, those
+  * need to know if they are using a GCE located in MMINFRA.
+  */
+bool cmdq_is_mminfra_gce(...)
+{
+	return cmdq->pdata->mminfra_offset &&
+	       (addr >= cmdq->pdata->mminfra_offset)
+
+> +}
+> +EXPORT_SYMBOL(cmdq_addr_need_offset);
+> +
+
+...but then, is there really no way of just handling the GCE being in MMINFRA
+transparently from the callers? Do the callers really *need* to know that they're
+using a new GCE?!
+
+Another way of saying: can't we just handle the address translation in here instead
+of instructing each and every driver about how to communicate with the new GCE?!
+
+
+Cheers,
+Angelo
+
+>   static int cmdq_thread_suspend(struct cmdq *cmdq, struct cmdq_thread *thread)
+>   {
+>   	u32 status;
+> @@ -143,6 +191,17 @@ static void cmdq_init(struct cmdq *cmdq)
+>   	u32 gctl_regval = 0;
+>   
+>   	WARN_ON(clk_bulk_enable(cmdq->pdata->gce_num, cmdq->clocks));
+> +
+> +	if (cmdq->pdata->gce_vm) {
+> +		/* config cpr size for host vm */
+> +		writel(GCE_VM_CPR_GSIZE_HSOT, cmdq->base + GCE_VM_CPR_GSIZE);
+> +		/* config CPR_GSIZE before setting VM_ID_MAP to avoid data leakage */
+> +		writel(GCE_VM_MAP0_ALL_HOST, cmdq->base + GCE_VM_ID_MAP0);
+> +		writel(GCE_VM_MAP1_ALL_HOST, cmdq->base + GCE_VM_ID_MAP1);
+> +		writel(GCE_VM_MAP2_ALL_HOST, cmdq->base + GCE_VM_ID_MAP2);
+> +		writel(GCE_VM_MAP3_ALL_HOST, cmdq->base + GCE_VM_ID_MAP3);
+> +	}
+> +
+>   	if (cmdq->pdata->control_by_sw)
+>   		gctl_regval = GCE_CTRL_BY_SW;
+>   	if (cmdq->pdata->sw_ddr_en)
+> @@ -199,7 +258,7 @@ static void cmdq_task_insert_into_thread(struct cmdq_task *task)
+>   				prev_task->pkt->cmd_buf_size, DMA_TO_DEVICE);
+>   	prev_task_base[CMDQ_NUM_CMD(prev_task->pkt) - 1] =
+>   		(u64)CMDQ_JUMP_BY_PA << 32 |
+> -		(task->pa_base >> task->cmdq->pdata->shift);
+> +		cmdq_reg_shift_addr(task->pa_base, task->cmdq->pdata);
+>   	dma_sync_single_for_device(dev, prev_task->pa_base,
+>   				   prev_task->pkt->cmd_buf_size, DMA_TO_DEVICE);
+>   
+> @@ -264,7 +323,7 @@ static void cmdq_thread_irq_handler(struct cmdq *cmdq,
+>   	else
+>   		return;
+>   
+> -	curr_pa = readl(thread->base + CMDQ_THR_CURR_ADDR) << cmdq->pdata->shift;
+> +	curr_pa = cmdq_reg_shift_addr(readl(thread->base + CMDQ_THR_CURR_ADDR), cmdq->pdata);
+>   
+>   	list_for_each_entry_safe(task, tmp, &thread->task_busy_list,
+>   				 list_entry) {
+> @@ -416,9 +475,9 @@ static int cmdq_mbox_send_data(struct mbox_chan *chan, void *data)
+>   		 */
+>   		WARN_ON(cmdq_thread_reset(cmdq, thread) < 0);
+>   
+> -		writel(task->pa_base >> cmdq->pdata->shift,
+> +		writel(cmdq_reg_shift_addr(task->pa_base, cmdq->pdata),
+>   		       thread->base + CMDQ_THR_CURR_ADDR);
+> -		writel((task->pa_base + pkt->cmd_buf_size) >> cmdq->pdata->shift,
+> +		writel(cmdq_reg_shift_addr(task->pa_base + pkt->cmd_buf_size, cmdq->pdata),
+>   		       thread->base + CMDQ_THR_END_ADDR);
+>   
+>   		writel(thread->priority, thread->base + CMDQ_THR_PRIORITY);
+> @@ -426,10 +485,10 @@ static int cmdq_mbox_send_data(struct mbox_chan *chan, void *data)
+>   		writel(CMDQ_THR_ENABLED, thread->base + CMDQ_THR_ENABLE_TASK);
+>   	} else {
+>   		WARN_ON(cmdq_thread_suspend(cmdq, thread) < 0);
+> -		curr_pa = readl(thread->base + CMDQ_THR_CURR_ADDR) <<
+> -			cmdq->pdata->shift;
+> -		end_pa = readl(thread->base + CMDQ_THR_END_ADDR) <<
+> -			cmdq->pdata->shift;
+> +		curr_pa = cmdq_reg_revert_addr(readl(thread->base + CMDQ_THR_CURR_ADDR),
+> +					       cmdq->pdata);
+> +		end_pa = cmdq_reg_revert_addr(readl(thread->base + CMDQ_THR_END_ADDR),
+> +					      cmdq->pdata);
+>   		/* check boundary */
+>   		if (curr_pa == end_pa - CMDQ_INST_SIZE ||
+>   		    curr_pa == end_pa) {
+> @@ -663,6 +722,9 @@ static int cmdq_probe(struct platform_device *pdev)
+>   	if (err)
+>   		return err;
+>   
+> +	if (cmdq->pdata->dma_mask_bit)
+> +		dma_set_coherent_mask(dev, DMA_BIT_MASK(cmdq->pdata->dma_mask_bit));
+> +
+>   	cmdq->mbox.dev = dev;
+>   	cmdq->mbox.chans = devm_kcalloc(dev, cmdq->pdata->thread_nr,
+>   					sizeof(*cmdq->mbox.chans), GFP_KERNEL);
+> @@ -782,6 +844,17 @@ static const struct gce_plat gce_plat_mt8195 = {
+>   	.gce_num = 2
+>   };
+>   
+> +static const struct gce_plat gce_plat_mt8196 = {
+> +	.thread_nr = 32,
+> +	.shift = 3,
+> +	.mminfra_offset = 0x80000000, /* 2GB */
+> +	.control_by_sw = true,
+> +	.sw_ddr_en = true,
+> +	.gce_vm = true,
+> +	.dma_mask_bit = 35,
+> +	.gce_num = 2
+> +};
+> +
+>   static const struct of_device_id cmdq_of_ids[] = {
+>   	{.compatible = "mediatek,mt6779-gce", .data = (void *)&gce_plat_mt6779},
+>   	{.compatible = "mediatek,mt8173-gce", .data = (void *)&gce_plat_mt8173},
+> @@ -790,6 +863,7 @@ static const struct of_device_id cmdq_of_ids[] = {
+>   	{.compatible = "mediatek,mt8188-gce", .data = (void *)&gce_plat_mt8188},
+>   	{.compatible = "mediatek,mt8192-gce", .data = (void *)&gce_plat_mt8192},
+>   	{.compatible = "mediatek,mt8195-gce", .data = (void *)&gce_plat_mt8195},
+> +	{.compatible = "mediatek,mt8196-gce", .data = (void *)&gce_plat_mt8196},
+>   	{}
+>   };
+>   MODULE_DEVICE_TABLE(of, cmdq_of_ids);
+> diff --git a/include/linux/mailbox/mtk-cmdq-mailbox.h b/include/linux/mailbox/mtk-cmdq-mailbox.h
+> index a8f0070c7aa9..79398bf95f8d 100644
+> --- a/include/linux/mailbox/mtk-cmdq-mailbox.h
+> +++ b/include/linux/mailbox/mtk-cmdq-mailbox.h
+> @@ -79,5 +79,7 @@ struct cmdq_pkt {
+>   };
+>   
+>   u8 cmdq_get_shift_pa(struct mbox_chan *chan);
+> +dma_addr_t cmdq_get_offset_pa(struct mbox_chan *chan);
+> +bool cmdq_addr_need_offset(struct mbox_chan *chan, dma_addr_t addr);
+>   
+>   #endif /* __MTK_CMDQ_MAILBOX_H__ */
 
 
