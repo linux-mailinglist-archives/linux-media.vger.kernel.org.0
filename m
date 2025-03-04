@@ -1,131 +1,200 @@
-Return-Path: <linux-media+bounces-27469-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27470-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E28AA4DC59
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 12:21:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A8A3A4DCE9
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 12:48:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1731B3B24AF
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 11:18:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C06B63A6463
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 11:47:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 563CE201024;
-	Tue,  4 Mar 2025 11:15:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5D57200B9F;
+	Tue,  4 Mar 2025 11:47:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b="ZeV8A67R"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FabJJDm5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ksmg02.maxima.ru (ksmg02.maxima.ru [81.200.124.39])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EB7B200BA1;
-	Tue,  4 Mar 2025 11:15:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.200.124.39
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D15A1FE473;
+	Tue,  4 Mar 2025 11:47:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741086931; cv=none; b=TjClcRBDzPKATGHwJgb3cKhvAiuTuim56eMRPF5bCQJXUFgoGDKypLqAm3h0KGi8QBuFjxgH1PVvI8ah/6+dEdnNYQnt/oAnOLxd3tAjPVSc7cCURgZwmResWc9igy9Tk0M4KA5Wo+rIwxFgnpBQGLInYl331wSlh4W8sKNkfGE=
+	t=1741088840; cv=none; b=ALB2cAuJH/dSwPsVhA5WL2KzMBigAttxRv0OiMHP2tVwxJAxZdLWE0Qs1T4vIaUfCrRWNbCASQ0TDtKr3U9McpXaLKg5bb9OFZbd3IB7R0RL5lndgjYuM4LdR9MWP/5j70a3tT9e6eWq/CONrOXjnVKt5pwshUwpL50O6ZBGjKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741086931; c=relaxed/simple;
-	bh=5BDM17uom/O82sIHy0lmhsXIKxXEb/ZX3iY6CW+R5N0=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JtT9tDZXKFrdbR8C2YB/opdl9H673y9ryX+fnjEVCiBB0+0HpOMuslhFJFzpkgy83fNHoEmp1Hl+yeqVC3NcncgwT0shKuQKp6Sk/ml2O89MbDmo9LEU1BHL9DCtQD5LHsC1gKE0oxKot8/9PS4JNc6vUxc9qdzqrdLUSoKzTYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru; spf=pass smtp.mailfrom=mt-integration.ru; dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b=ZeV8A67R; arc=none smtp.client-ip=81.200.124.39
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mt-integration.ru
-Received: from ksmg02.maxima.ru (localhost [127.0.0.1])
-	by ksmg02.maxima.ru (Postfix) with ESMTP id BCE2D1E0002;
-	Tue,  4 Mar 2025 14:15:18 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg02.maxima.ru BCE2D1E0002
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt-integration.ru;
-	s=sl; t=1741086918; bh=Z0V0m8DolYfni7Yo+BrJEX6IjWmZXrYC9lZZ7A+VISI=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=ZeV8A67RJAaKq5uMY6QB4vEkrOzD53rwqBg3xirIe1Jf5IgKgAcBj5CoR6Y58h//J
-	 dvvPUQg3oSGEIOSs/BIYgzdAnpt20plmHD1C0JPz8mCZpdwTJVglf4ivOt/F+4Necd
-	 6UySDoYZ3O7TV0hrbcB/DQTKRd1EU6Iyj0l6jfmqtXsKcbR7yWhLHhJEx0zYMmjq9K
-	 6XH/evsqndVLuWqyqYq0Ah4VvD8wGSZbuflD8qj3QDftVbuGwr+DPam/Xmfp76KIu6
-	 sgmsrx7Yw8U7rraxsYovpjoO3UsvkCUWgLg3EUCtbzSDjhBfw2vEAVEu/JLJZpg5VC
-	 yG4RXMKBzQK2w==
-Received: from ksmg02.maxima.ru (mail.maxima.ru [81.200.124.62])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(Client CN "*.maxima.ru", Issuer "GlobalSign GCC R3 DV TLS CA 2020" (verified OK))
-	by ksmg02.maxima.ru (Postfix) with ESMTPS;
-	Tue,  4 Mar 2025 14:15:18 +0300 (MSK)
-Received: from GS-NOTE-190.mt.ru (10.0.247.85) by mmail-p-exch02.mt.ru
- (81.200.124.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1544.4; Tue, 4 Mar 2025
- 14:15:16 +0300
-From: Murad Masimov <m.masimov@mt-integration.ru>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: Zheyu Ma <zheyuma97@gmail.com>, Laurent Pinchart
-	<laurent.pinchart+renesas@ideasonboard.com>, Murad Masimov
-	<m.masimov@mt-integration.ru>, "Rob Herring (Arm)" <robh@kernel.org>, Wolfram
- Sang <wsa+renesas@sang-engineering.com>, Heiner Kallweit
-	<hkallweit1@gmail.com>, =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?=
-	<u.kleine-koenig@pengutronix.de>, Fred Richter <frichter@hauppauge.com>,
-	Michael Ira Krufky <mkrufky@linuxtv.org>, Brad Love <brad@nextdimension.cc>,
-	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<lvc-project@linuxtesting.org>
-Subject: [PATCH] media: lgdt3306a: handle negative SNR in lgdt3306a_calculate_snr_x100
-Date: Tue, 4 Mar 2025 14:14:53 +0300
-Message-ID: <20250304111453.1688-1-m.masimov@mt-integration.ru>
-X-Mailer: git-send-email 2.46.0.windows.1
+	s=arc-20240116; t=1741088840; c=relaxed/simple;
+	bh=0vNz5KI663r13YbDYRp/0zNc65hiKkRyDtaZBZqOEAc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mbdkJ8hX/roorqOwc97DnQwxKdJTAE7+k/rGL07Ub1dRBpNVM91M6aWH+Q3Hi7T6KXsFhIR6UhPbRQ+jK+VT+KDPjP0VE3+0XmFtIhmUGfNToYtPaBfzbpkHTb8yq5hI7yXZ7rodH/t53LgQOh9jhfOFpxDalu8y6Cn1s8taYNM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FabJJDm5; arc=none smtp.client-ip=209.85.208.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5e4f5cc3172so6437071a12.0;
+        Tue, 04 Mar 2025 03:47:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741088837; x=1741693637; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LdKvt+9tQm2qCrt7oFiiWlWL0il6DJKlMTh/YLfvuGQ=;
+        b=FabJJDm5h/kdO8JCmXoDf4c/irqyU4+IlbNaQEMfBiXpcaxF7cn0D3tu7vv9BOvgRa
+         n49qT/KaA4kznbS0mDiW2t7+LxGBWNYaGqpALSvspNrDoq2bnSKJD0/IDeimfsCXrUa1
+         b+7UqAL215eEHDUxHd/IjISj1vf8qlM7IEwVTkrV+sWhi8qqWv/T7oPvUf5A+0OXlh0A
+         1WGNdRKvg13udsY7BJqS9wKVoandK50WdVnLqnMwVMLDEBzllv7/D8r9e60j8m46EolP
+         p9x1qWbO2z4/SpXyXfQgX1pAFZwJ6ogloj5E20gdZff5T+p/HvndTc63AwJBDypeQ3Ui
+         m0Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741088837; x=1741693637;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LdKvt+9tQm2qCrt7oFiiWlWL0il6DJKlMTh/YLfvuGQ=;
+        b=Z55G09tDOBI2yCI50eTEV9Q2TpbjcoiAmNbg084tkMHMcB8diCr1LCjA2tgmCuHyOI
+         zBrKy7JY22vI572ePfGBlAdaEZRUdBJjHQ+CMjPjqZVfjXxv5fmAaUdvSNhH7tmH0lzQ
+         Sa6C/l2gxaDQWuXGC1OHRUN/jGz1ze9Vg058XOIZZ49Xt/6COjR2M1idMDHEbuAeliPb
+         knR7/5f5vel7Yr0vUxosUmJJRKfTRSspt1XTtDM5SI92Dtu7+3AdUI8ANQY9HfBU6ZNp
+         mkhnZBgQ0Cqr+XJZ3O78cfNuvv/A5C0G37Hto2cnV0HWFJYd5//OFFphvO9HNbEpJA68
+         +t8w==
+X-Forwarded-Encrypted: i=1; AJvYcCViGPX2SdWBDPRiyZ5I5hHKkoMzq4xVkfnMAXOFwiiGiaCKapKqVhKOTBgecOJQNrRZAwedManIz0L/@vger.kernel.org, AJvYcCWAYkDnMAEBQle+RpK8UwJEZGZUBhvjxywv+KM+Oqtvl0UptQTsjuhumOZtmdUU4lldCtnig4Y7h1/yKm2l@vger.kernel.org, AJvYcCXO8tPJUfNEiN0x2TzsAPcmyT7Z1/X6k4wdQnr3ZdvEWg889R+ExBmUq1AzyBfNVc/YmcgOiguL6S9Uyaw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3BWtkJFY4Zg4qhtHcnOHHFRnYDrhhJvFvqlxLq8ShUGQdLNzO
+	kD0FwgfZQjgzYkW0mMNvGpf71/s1cjT3dINRPDAfI0bX6eBjT879RdTxUe8etjLgV0rbc/btMTV
+	7ttYi1TeC7w9cSPzYpdsVLP0ZlbacfJi91pA=
+X-Gm-Gg: ASbGnctByFn1YqKvDP4IYSbF6CAQPN1M6wrESjxuvuSLNd+hAnFLOJ82s2IdSLHr/FN
+	2FwafVP89LJ+4/gXCrNgg94Bgl0/Q4fXfgqx4iQfejfhAw4eEOfbLpgkxizVh7U8cU1c4DL7exb
+	d6pLMyjqqyUX0WYJoTaSatXTushzk=
+X-Google-Smtp-Source: AGHT+IHeNVeHFv5jhJzVjg4LB/54QEae2d+Sjnh6QpxFmgh5nNZje3z8A3cZOjJzWmEkVq/tu0ZnH8vGN0maF/68lR0=
+X-Received: by 2002:a05:6402:348f:b0:5dc:94ce:42a6 with SMTP id
+ 4fb4d7f45d1cf-5e4d6b4b980mr19108890a12.22.1741088836597; Tue, 04 Mar 2025
+ 03:47:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: mt-exch-01.mt.ru (91.220.120.210) To mmail-p-exch02.mt.ru
- (81.200.124.62)
-X-KSMG-AntiPhishing: NotDetected
-X-KSMG-AntiSpam-Auth: dmarc=none header.from=mt-integration.ru;spf=none smtp.mailfrom=mt-integration.ru;dkim=none
-X-KSMG-AntiSpam-Envelope-From: m.masimov@mt-integration.ru
-X-KSMG-AntiSpam-Info: LuaCore: 51 0.3.51 68896fb0083a027476849bf400a331a2d5d94398, {rep_avail}, {Tracking_from_domain_doesnt_match_to}, mt-integration.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;ksmg02.maxima.ru:7.1.1;127.0.0.199:7.1.2;81.200.124.62:7.1.2, FromAlignment: s, ApMailHostAddress: 81.200.124.62
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiSpam-Lua-Profiles: 191453 [Mar 04 2025]
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Version: 6.1.1.11
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2025/03/04 09:41:00 #27591543
-X-KSMG-AntiVirus-Status: NotDetected, skipped
-X-KSMG-LinksScanning: NotDetected
-X-KSMG-Message-Action: skipped
-X-KSMG-Rule-ID: 7
+References: <20250121-loongson1-nand-v12-0-53507999de39@gmail.com>
+ <20250121-loongson1-nand-v12-2-53507999de39@gmail.com> <87tt972dt0.fsf@bootlin.com>
+In-Reply-To: <87tt972dt0.fsf@bootlin.com>
+From: Keguang Zhang <keguang.zhang@gmail.com>
+Date: Tue, 4 Mar 2025 19:46:39 +0800
+X-Gm-Features: AQ5f1JrHSph0iUHkN40CrLh0rv6H1WjLXzdy0jpcSWywGhbQqeTnmVuEIdx_gPs
+Message-ID: <CAJhJPsUw7YGKfBuFtUirOGuCA9hV6e-wjrL4L9b-5kmuVUW=ow@mail.gmail.com>
+Subject: Re: [PATCH v12 2/2] mtd: rawnand: Add Loongson-1 NAND Controller Driver
+To: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Keguang Zhang via B4 Relay <devnull+keguang.zhang.gmail.com@kernel.org>, 
+	Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-mtd@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The lgdt3306a_calculate_snr_x100() function returns value of type u32.
-However it is possible that the calculated SNR value is negative, which
-may affect the behaviour of the driver. E.g. lgdt3306a_read_snr() assumes
-SNR (x10) can be represented as a value of type u16 so passing negative
-32-bit values would result in garbage there.
+Hello Miquel,
 
-Since the dvb-frontends API only allows unsigned SNR values,
-lgdt3306a_calculate_snr_x100() should return 0 if SNR is negative.
-The same way calculate_snr() returns 0 on negative SNR in lgdt330x driver.
+On Fri, Feb 7, 2025 at 1:17=E2=80=AFAM Miquel Raynal <miquel.raynal@bootlin=
+.com> wrote:
+>
+> Hello,
+>
+> > +static inline int ls1x_nand_check_op(struct nand_chip *chip, const
+> >  struct nand_operation *op)
+>
+> No inline function in a c file.
+>
+> > +{
+> > +     struct ls1x_nand_host *host =3D nand_get_controller_data(chip);
+> > +     const struct nand_op_instr *instr1 =3D NULL, *instr2 =3D NULL;
+> > +     int op_id;
+> > +
+> > +     for (op_id =3D 0; op_id < op->ninstrs; op_id++) {
+> > +             const struct nand_op_instr *instr =3D &op->instrs[op_id];
+> > +
+> > +             if (instr->type =3D=3D NAND_OP_CMD_INSTR) {
+> > +                     if (!instr1)
+> > +                             instr1 =3D instr;
+> > +                     else if (!instr2)
+> > +                             instr2 =3D instr;
+> > +                     else
+> > +                             break;
+> > +             }
+> > +     }
+> > +
+> > +     if (!instr1 || !instr2)
+> > +             return 0;
+>
+> Is this expected?
+>
+> > +
+> > +     if (instr1->ctx.cmd.opcode =3D=3D NAND_CMD_RNDOUT &&
+> > +         instr2->ctx.cmd.opcode =3D=3D NAND_CMD_RNDOUTSTART)
+> > +             return 0;
+> > +
+> > +     if (instr1->ctx.cmd.opcode =3D=3D NAND_CMD_READ0 &&
+> > +         instr2->ctx.cmd.opcode =3D=3D NAND_CMD_READSTART)
+> > +             return 0;
+> > +
+> > +     if (instr1->ctx.cmd.opcode =3D=3D NAND_CMD_ERASE1 &&
+> > +         instr2->ctx.cmd.opcode =3D=3D NAND_CMD_ERASE2)
+> > +             return 0;
+> > +
+> > +     if (instr1->ctx.cmd.opcode =3D=3D NAND_CMD_SEQIN &&
+> > +         instr2->ctx.cmd.opcode =3D=3D NAND_CMD_PAGEPROG)
+> > +             return 0;
+> > +
+> > +     dev_err(host->dev, "unsupported opcode sequence: %x %x",
+> > +             instr1->ctx.cmd.opcode, instr2->ctx.cmd.opcode);
+> > +
+> > +     return -EOPNOTSUPP;
+> > +}
+> > +
+> > +static int ls1x_nand_exec_op(struct nand_chip *chip,
+> > +                          const struct nand_operation *op,
+> > +                          bool check_only)
+> > +{
+> > +     int ret;
+> > +
+>
+>         if (check_only) ?
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+Sorry, I'm not sure if I understand correctly.
+nand_op_parser_exec_op() only checks patterns and will skip
+pattern->exec() when check_only =3D true. Therefore,
+ls1x_nand_check_op() should handle all opcode checks in that case, and
+leave check_only =3D false to nand_op_parser_exec_op().
+Then the code will return to:
 
-Fixes: b63b36fa44d0 ("[media] DVB: add support for LG Electronics LGDT3306A ATSC/QAM-B Demodulator")
-Signed-off-by: Murad Masimov <m.masimov@mt-integration.ru>
----
- drivers/media/dvb-frontends/lgdt3306a.c | 3 +++
- 1 file changed, 3 insertions(+)
+if (check_only)
+        return ls1x_nand_check_op(chip, op);
 
-diff --git a/drivers/media/dvb-frontends/lgdt3306a.c b/drivers/media/dvb-frontends/lgdt3306a.c
-index 6ab9d4de65ce..e6c3b65157e5 100644
---- a/drivers/media/dvb-frontends/lgdt3306a.c
-+++ b/drivers/media/dvb-frontends/lgdt3306a.c
-@@ -1500,6 +1500,9 @@ static u32 lgdt3306a_calculate_snr_x100(struct lgdt3306a_state *state)
- 	snr_x100 = log10_x1000((pwr * 10000) / mse) - 3000;
- 	dbg_info("mse=%u, pwr=%u, snr_x100=%d\n", mse, pwr, snr_x100);
+return nand_op_parser_exec_op(chip, &ls1x_nand_op_parser, op, check_only);
 
-+	if ((s32)snr_x100 < 0)
-+		return 0;
-+
- 	return snr_x100;
- }
+Am I right?
 
---
-2.39.2
+> > +     ret =3D ls1x_nand_check_op(chip, op);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     return nand_op_parser_exec_op(chip, &ls1x_nand_op_parser, op, che=
+ck_only);
+> > +}
+> > +
+> > +static const char * const nand_ecc_algos[] =3D {
+> > +     [NAND_ECC_ALGO_UNKNOWN] =3D "none",
+> > +     [NAND_ECC_ALGO_HAMMING] =3D "hamming",
+> > +     [NAND_ECC_ALGO_BCH] =3D "bch",
+> > +};
+>
+> No way you need this in your driver :-)
+>
+> Thanks,
+> Miqu=C3=A8l
 
+
+
+--=20
+Best regards,
+
+Keguang Zhang
 
