@@ -1,246 +1,160 @@
-Return-Path: <linux-media+bounces-27500-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27491-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85F9EA4E56B
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 17:18:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10CCCA4E344
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 16:29:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 096A33A8C92
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 15:50:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E29A488375A
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 15:18:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF46627C164;
-	Tue,  4 Mar 2025 15:34:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nKLFpNCO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A768278155;
+	Tue,  4 Mar 2025 15:12:33 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from beeline2.cc.itu.edu.tr (beeline2.cc.itu.edu.tr [160.75.25.116])
+Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11020134.outbound.protection.outlook.com [52.101.225.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82541204698
-	for <linux-media@vger.kernel.org>; Tue,  4 Mar 2025 15:34:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=160.75.25.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F6AA1E505;
+	Tue,  4 Mar 2025 15:12:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.225.134
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741102453; cv=pass; b=cFsfSlKIW+863w0oO9PGEk5BeCfOzGvSlHtR6DVDm4syMZoCxLwFT9pNq43b39iUYEnt7VJLffMiEt4OA9ezIWPh5DpSv9pih0oth7J/lNdWTV/p1MhHR5vntGlNw09N6lnrcMD3SanVfZrZg9VUz26EUeHz243F/zGf1gHUp3o=
+	t=1741101152; cv=fail; b=oJnv27yocI6B4p8+LBL1ELpEJROgo5s3dJYTOepkUwY3L5GNkbOvsnpGGgjyEGevpJ7sblzFHtNx2S2iOaGOk7gKyPBayzOZ5SxpYScb8lQbry2IM7hwxiCaYuCk2YRmOgaYtDa0dN8nVEY1nUf6fuE/NjHi3OqLgVP4kv37sSw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741102453; c=relaxed/simple;
-	bh=D4IWbToKWcO62iNyJZD4aj1o1AqbKGWy2Gwm1GpJhGU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fuqvZVHB/wj8s1JGUJ+GKznWr+sBxCAPl1SEDnJBuMognaZNnPgZMPAUSNPcq9npNfnq+AJIOC98xEArTTGPWRdW+O+5+xJCAL6f9W2XVmqp76w+pnftNF7Mq2ygQJIt6/0aE1yPqkStDgvZzB6QowoD3mKK/i9maeep/TO34UQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=cc.itu.edu.tr; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nKLFpNCO; arc=none smtp.client-ip=198.175.65.17; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; arc=pass smtp.client-ip=160.75.25.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cc.itu.edu.tr
-Received: from lesvatest1.cc.itu.edu.tr (lesvatest1.cc.itu.edu.tr [10.146.128.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (2048 bits))
-	(No client certificate requested)
-	by beeline2.cc.itu.edu.tr (Postfix) with ESMTPS id AB86340D286B
-	for <linux-media@vger.kernel.org>; Tue,  4 Mar 2025 18:34:09 +0300 (+03)
-X-Envelope-From: <root@cc.itu.edu.tr>
-Authentication-Results: lesvatest1.cc.itu.edu.tr;
-	dkim=pass (2048-bit key, unprotected) header.d=intel.com header.i=@intel.com header.a=rsa-sha256 header.s=Intel header.b=nKLFpNCO
-Received: from lesva1.cc.itu.edu.tr (unknown [160.75.70.79])
-	by lesvatest1.cc.itu.edu.tr (Postfix) with ESMTP id 4Z6fnm45gkzG0SB
-	for <linux-media@vger.kernel.org>; Tue,  4 Mar 2025 18:32:44 +0300 (+03)
-Received: by le1 (Postfix, from userid 0)
-	id 6829D4272D; Tue,  4 Mar 2025 18:32:37 +0300 (+03)
-Authentication-Results: lesva1.cc.itu.edu.tr;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nKLFpNCO
-X-Envelope-From: <linux-kernel+bounces-541112-bozkiru=itu.edu.tr@vger.kernel.org>
-Authentication-Results: lesva2.cc.itu.edu.tr;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nKLFpNCO
-Received: from fgw1.itu.edu.tr (fgw1.itu.edu.tr [160.75.25.103])
-	by le2 (Postfix) with ESMTP id 7BACA41ABC
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 10:55:22 +0300 (+03)
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by fgw1.itu.edu.tr (Postfix) with SMTP id 5639A3063EFC
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 10:55:22 +0300 (+03)
-Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
-	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E9FBE1892730
-	for <bozkiru@itu.edu.tr>; Mon,  3 Mar 2025 07:55:28 +0000 (UTC)
-Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 725261EE7D9;
-	Mon,  3 Mar 2025 07:55:08 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 317541EB5F7;
-	Mon,  3 Mar 2025 07:55:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1740988505; cv=none; b=iyEQs+Ji/B3+puOYt2LpNt0yDiBiWGwQj57p0LUKGghW9Wk7qqPXG1TPf4CZRxlU6q3phQaGU8RDsOoTteGU8qAG+JuBWeKUp4P9vb9JJsVhJcfj6EOiN+UpnIIh7RnDE+5gZRm18uXco6Oesgd8wPF1OgDPYf3KzaUYYkiDeXc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1740988505; c=relaxed/simple;
-	bh=D4IWbToKWcO62iNyJZD4aj1o1AqbKGWy2Gwm1GpJhGU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Kou/lrL3beKKSkc6VcdFJDYjR+bWkMM9s73rbkzqMvOjexhRR0b+zxCJyjLEXi4oOhXkkXxiNVoQrdCP3bXTlJePGhQkmoV+YLrvhmFqPu03j4i/IjxEs+d4sADf+nKw2fzpk/pOEHCRg57hZnetYZ7ZUspTQYhhj3ENgY524Jg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nKLFpNCO; arc=none smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1740988504; x=1772524504;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=D4IWbToKWcO62iNyJZD4aj1o1AqbKGWy2Gwm1GpJhGU=;
-  b=nKLFpNCO5DBa0w62VEhw0J2DSpnbxN/USOrFFQ06J8oXUCC6qpPx+ME6
-   uaylDHzEcPHsfMMOwEj0c8VtqiPmxHvc/u3PQp8Sd+MIInrinyItOUOji
-   I2upZGsPIBTiTlLKD+dh/L0ewc7Q8f5CzNH3XNeaRrcVuM4FTRNdrl1Q0
-   mPm4XWPXBxZvMtC9VH4Rgo/+JZHiC+i/RjK95/Jr0kxivyi6DBQAEZloO
-   RG7dRbV+T8JY0Vy/JiI2W/rYur5DxrSCOK6nsehc5oorckShN4NpNdogc
-   /GcJaTwy57sM0AIReoK6VkfeyEQhAdbmiTKGvK7BpkCLpoOIRc+fbCUQH
-   w==;
-X-CSE-ConnectionGUID: Dp6eLZEdTFyLn6xKYePi9w==
-X-CSE-MsgGUID: MwLT9vCLQfWjDN66aFWymw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11361"; a="41879056"
-X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; 
-   d="scan'208";a="41879056"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 23:55:03 -0800
-X-CSE-ConnectionGUID: WH46JkHPR16UKFzqWVvezA==
-X-CSE-MsgGUID: elgnfmqxQP2ESY7UCfE1cQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.13,329,1732608000"; 
-   d="scan'208";a="117951499"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Mar 2025 23:55:01 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 9D0EB11F7F0;
-	Mon,  3 Mar 2025 09:54:58 +0200 (EET)
-Date: Mon, 3 Mar 2025 07:54:58 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Shravan.Chippa@microchip.com
-Cc: mchehab@kernel.org, kieran.bingham@ideasonboard.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Conor.Dooley@microchip.com, Valentina.FernandezAlanis@microchip.com,
-	Praveen.Kumar@microchip.com
-Subject: Re: [PATCH V6 1/3] media: i2c: imx334: Optimized 4k and 2k mode
- register arrays
-Message-ID: <Z8VgUoNklDUd_jaF@kekkonen.localdomain>
-References: <20250228103332.3647098-1-shravan.chippa@microchip.com>
- <20250228103332.3647098-2-shravan.chippa@microchip.com>
- <Z8GiqSfuyQdUNylt@kekkonen.localdomain>
- <PH0PR11MB5611466B2027B79F7598534B81CF2@PH0PR11MB5611.namprd11.prod.outlook.com>
-Precedence: bulk
+	s=arc-20240116; t=1741101152; c=relaxed/simple;
+	bh=bEWzpZdI0RCaK9lgbSRZ9cfNA+EY4Tz14MeQfZnWZqI=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=o1+4lJLmoDrnGOwcp2dzn2/5+a4t+wrdLBc+nd6kknEF4UUpHGAAf9+LenyXHDTcvXJpMQltPmQhH9o9ruuSNup+i64kdX5FgRqybrSzSUazyIgxbJ1ZJApfkT7QOI+ij3wdNyO5ThMHPwSbUtGUh0Y5iJig/WKIgVQzXHguv3E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=52.101.225.134
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GMSe79Mp77hSF/tRHBbXEsx53QepzpHt34omYtNVN//XbgnuyxhHIRWB73Bvf8bbSidQtjhZey398USC7oE3X3/W6NEHU9UUzLm+qA1H/LxJABztnjqDPFhwtdg4kDjFB6fiAxKOlUaygoW2GZddIC/LS3n5NykKyHeMRjY8UGsUE7CUMwpar6tpbMMQJOeN0QmcDu3B257+4QlHs2o9hiElTw8Zwr0X2YG1aXtPdtv/wJdt7xQU8l43awnWEKMhoyrHG04OxuTF4wZaNAThq1CCGjBQ3dP/v4NCkKGeJS75yfsyDeDm2bj4VBUHy/q+ryapmK4jkHqY3Rz0n6XxBQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=aUqJAEwXcXtqN8QRmZ/80pLfR7SktP5EycoUnkljBvs=;
+ b=Wcrvub48g6E1+LuyQn9TffPDmVfDkbOGCqaR8+r1Fyw3iaYe52MO02S/tXtv7CRb3to1n+dqUUV7luWJADEHYqH5HQw7Ci6sT5lt4uErk7j5jPH8BjVtn/lx0cUQl5ZKKBVUXFAR7KbRgSYDjtR8Yr0iFPF6754M4bqnUqtIyZR8VN+KBExC/BpfvBiu6cbcox4R0eVKioveDmkFB7fwjXoedUaT0doiksuTMwrARkDSoWwIINNEZAHNu9a7e2gIqr+4RSybx9nR888qz5WAKkwJBRZssid93uF1hdKULZR7JYH4E0qUY8P77a6xpbV8zwo0fpVabVAE1ReMG6PFEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siliconsignals.io;
+Received: from MA0P287MB1836.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:f7::7) by
+ PN0P287MB0672.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:160::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8489.29; Tue, 4 Mar 2025 15:12:27 +0000
+Received: from MA0P287MB1836.INDP287.PROD.OUTLOOK.COM
+ ([fe80::2f96:dc5b:f53f:b759]) by MA0P287MB1836.INDP287.PROD.OUTLOOK.COM
+ ([fe80::2f96:dc5b:f53f:b759%4]) with mapi id 15.20.8489.025; Tue, 4 Mar 2025
+ 15:12:27 +0000
+From: Tarang Raval <tarang.raval@siliconsignals.io>
+To: sakari.ailus@linux.intel.com
+Cc: Tarang Raval <tarang.raval@siliconsignals.io>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/2] media: i2c: imx219: Minor improvements for runtime PM and stream handling
+Date: Tue,  4 Mar 2025 20:41:32 +0530
+Message-Id: <20250304151134.105771-1-tarang.raval@siliconsignals.io>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PN3PR01CA0054.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:98::20) To MA0P287MB1836.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:f7::7)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PH0PR11MB5611466B2027B79F7598534B81CF2@PH0PR11MB5611.namprd11.prod.outlook.com>
-X-ITU-Libra-ESVA-Information: Please contact Istanbul Teknik Universitesi for more information
-X-ITU-Libra-ESVA-ID: 4Z6fnm45gkzG0SB
-X-ITU-Libra-ESVA: No virus found
-X-ITU-Libra-ESVA-From: root@cc.itu.edu.tr
-X-ITU-Libra-ESVA-Watermark: 1741707170.88969@FdePIPFEA3WWp7aSRpN8ag
-X-ITU-MailScanner-SpamCheck: not spam
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MA0P287MB1836:EE_|PN0P287MB0672:EE_
+X-MS-Office365-Filtering-Correlation-Id: c13ec7be-91ac-4144-b4a8-08dd5b2ef959
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|376014|366016|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?fZ45ZqgkHfUQXrKeXVfVhfvNP1ZnqbnSe9w9j80OGo5Uq4jEZhTbO915gv90?=
+ =?us-ascii?Q?6dhEgJ5TVD7lDWoJZSI5azAW0Io02gjTpNm5XygUZUgyudxMI0Z4Vbvj2R4x?=
+ =?us-ascii?Q?60KHT7SMSlA0v1iL8jHQYOBqX8mlo7MN0PFv/btBPsAvX/LWTlAHSzjC5JHd?=
+ =?us-ascii?Q?IlyBZYaguXB8oC67nFVomh1PWzNvTYILIP7lbZndSlcrv9yLPXxDjhN7RvrC?=
+ =?us-ascii?Q?u85KDrXEX3Oir3lbyUvG7Xm3UgPlWEMV9EKaRPwPGCCe4g906j5ZzsZuQsRa?=
+ =?us-ascii?Q?Fc84pFdy7bVmoRRgZLrdOaKmXwNTLNplywBk8eLS6Uh3mjrmF/Tqu2pB/y/n?=
+ =?us-ascii?Q?QpVimoQcdBu2sC1LG1wxy/WUnh/zx9DFF1qq0VRRONASSm8TV1i0l39lujjo?=
+ =?us-ascii?Q?2NrFlK9EHRX0dtjwvPFLjlzEGE9vS2w2eU3w2K4mcR8adGzMslrSv6bsPYmp?=
+ =?us-ascii?Q?VgiKMTsw18mf1ikbI4HiRiNNfalGKxvFH9FlX9Cbh7Sbtmgou7PBqBXIOD5c?=
+ =?us-ascii?Q?wiYXQG9eB8ff/2ckk5UW//oFxa2fJGHgq8gk4/8KrfnuK7GmdSbLF+Ja575b?=
+ =?us-ascii?Q?6c8OfVy5FGUQm5QxkInjpdReVrF92uLBX787tHVRhDZ/XP1JFuUUEBOUA20r?=
+ =?us-ascii?Q?6IscTd7HpARPxS4Uk+aFtwXSdLEe+p7lwMqxqN2tgOhgQB/VHswK/d/9vyV4?=
+ =?us-ascii?Q?WELQl5S9DYNkVeOKLAU1G5xAqg78ime9gI2z+HMTK6iXOxtYVOF5gS1C/QHv?=
+ =?us-ascii?Q?Gg928x8SvBjueC2Gp5TVCqYzPtxF7rTZ/uNlgW9852DHKilja/QTrQID9OUi?=
+ =?us-ascii?Q?Obi9SD+ABp5WNQ4bD5XMGhJFoGZHHgJ5nmLNPCGhwAfMZGVdeAp/BUHrwhZf?=
+ =?us-ascii?Q?JnKa14tXqPltNKag35BbvkwhcCNDjuzEAX6s8eI3FVEO52d2zOg06lBVa9ZS?=
+ =?us-ascii?Q?6Yqwd9eHuec0OaHIQLinntSIQOwr3YpmNr2VlMq1jFhTto8LOvJqEFYieqEU?=
+ =?us-ascii?Q?yKJkFZUj6+fl9NkZCTSlY6ewKqMR/k6ysx/gz23dYQnMB13/r0bVpzU0vpxC?=
+ =?us-ascii?Q?CVV7DPorUL7RRkmQuSpXn/NUcq9nkcmDC9441t3qlWKHJ+3rMtnevU4YhZrp?=
+ =?us-ascii?Q?khalJC/wXtXtN08gybH8QufqBM1LfdCocosMTQo2PwTMMFPJygv5x4TsmE16?=
+ =?us-ascii?Q?tMGvk12XBslF50Hzx3vTshMqx4KISzRq0q4HEESyJnIZDO7eMOlw4qma5agV?=
+ =?us-ascii?Q?QEo7f9C5m0v7v1ZmD8tCOnegSnYG1ev7GCJBV4bPUblxjjpBGjKkGS3UH+Qm?=
+ =?us-ascii?Q?3rblC95NmGuoMZ5LDeAKqWszA4/Z9WGOscJr+r6RgUbz8CqGa202jh2AAD1d?=
+ =?us-ascii?Q?4EHRNB0IzSfuX7l3NcpBu4sN0sj+4bIYsOe4v7FdF7y4RtWcPMJAn/4Zg61P?=
+ =?us-ascii?Q?xOte35y4ZHB84gyDKl0Q0XfMTNTmJhTs?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MA0P287MB1836.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?oyoY3eLlodlYUeMV33A4SJWB/PrOYVprcJIPx+nEOiBEl0hJzx4YDgFE4dmn?=
+ =?us-ascii?Q?4EfoytyvFvJtSRc7JQEKkN1rm1EKTOKANAkLX9jHhCHLnW7QzoQGRkIL3lcS?=
+ =?us-ascii?Q?SKBXKLpG90/73i2VLl6rvc9OUgf7mK7wtbbcpbSrC+3dOAGGQy17elFyvkYh?=
+ =?us-ascii?Q?u0TLfmNWEZ45+2sBL76ydbh1tD8/qFT6QbUah3enAkv20grsVGcLGFpRPKKp?=
+ =?us-ascii?Q?4EVew1FLH0FrI9x4QDX+Q02t+lADVpu/PqV5xD/7ttuxvZR2MV/Rj6BKuNme?=
+ =?us-ascii?Q?SCpPp+rzuSyw256wbOo6si92mHqKpLTmG9a7MiAERqdWDahAlJ9aO0qVOL17?=
+ =?us-ascii?Q?wyqUOsYZQr6JQ9rpgFPj5qdjfnE6cIWPwQDyAtt++AjHj3gYtUdaq2/II8Tb?=
+ =?us-ascii?Q?TaRLD9gBXf5o8J2/EdEC89h881PbHWGs05ESMHx3wdP3mD9kn3IDw36dNcW0?=
+ =?us-ascii?Q?w5em+y2tCE7h8dae0BIMar3ZOdIT8jYGnlmbE8d+kQ1GDk1EWQN/k+w/qt8t?=
+ =?us-ascii?Q?hk5HVWwI8nqk50N5JibkBRPDb87WtmsfFwPjAh/9yc3/C6PoJTiRjXuwWYLH?=
+ =?us-ascii?Q?5da6X692DOsQtsR/6vM939F0PsX527bTNGZFI9hUGDb7SuOO5hizjjrTh+Ip?=
+ =?us-ascii?Q?WviQg+PxRNZIqrpH+HBzEXXRE4txUc1As5xYOKHCnbSxLgUCeLgLjguM6QgA?=
+ =?us-ascii?Q?7jyFUbqa22H3+TtzUATs5CyaUpKbbhEfsezL0xwcdKWi3jhpA8uyos7DNZKP?=
+ =?us-ascii?Q?3pE2KdQW3V0EBsiyjCLlgDQs66pP1tCZgcPSj3yNIvdgJcV2ImhKVXr+5dJF?=
+ =?us-ascii?Q?/UJFBUHjfWcpo2J+LNTx1wBrBuV35gyFkKXF/8f1/lpJHl0Pw1GBKthR/PMf?=
+ =?us-ascii?Q?tVaLPLifC0g7fN4T8Ovr7vkRpiiEVBtpruAGbx1610X6UBGqHvU5YHX30uWE?=
+ =?us-ascii?Q?WD6bhrnaXES4amGTWdItKmfpl+G5B0yX0anVUvUV6b/ScTHMNouIu4juleC6?=
+ =?us-ascii?Q?t+cO6Mgr1A1NJK31dY6ZVyXww0WjlLUu6rVdRSTF014qCw2+ZC4JHI4ImAum?=
+ =?us-ascii?Q?eGf8nqMnp8U3oZ+1MfbimOKcocNSJxH6SPYXAOwSwSy6XHGw9tvZivaOcOQw?=
+ =?us-ascii?Q?wCLxJgJ5r7pOyvgSN7jhcobe+Y4r9W7XqX+vAbmIW3vwNFqygjNeH2p640BG?=
+ =?us-ascii?Q?82UTXlCcWAyS8BwSCJ4/MFbJOiUkmY4aINHxiCD57FyIpJOIJ+ZJ1e90+o0k?=
+ =?us-ascii?Q?p7gBXeuRqfHLKZsq8rdO4F7SiAeKgLShymyyJ4DWxaSLcHMtZ1h15+PWH0qF?=
+ =?us-ascii?Q?pIsMdQxMeb7Yp9pEwnzqMNyOPuFoiilvsNA11HQn3/4lZ7L3PvyvU97dfG2A?=
+ =?us-ascii?Q?W+XzHoidvQFdXTW5YhAAQ0WeGX7qdbmKf/g6CjpZdAxGSTFI9ZMn1DfwAY4p?=
+ =?us-ascii?Q?kWdZek3WJKuhtjCCE0imAVkPAe+Uaz5XUoUkjE+NC5A2WNDiM4jZayvH0mVY?=
+ =?us-ascii?Q?6lZuPUr3W9ZkZtY4roIeeW4dF0BgLfpuCJPh/JAXo3c/gtk/MlMmtl4UngEj?=
+ =?us-ascii?Q?LLsDuyeDiRmgJRizf4yq3Ezk0L9H4khvGr3Hrr7j6RP7rv3kpIAPrzPqPRXh?=
+ =?us-ascii?Q?Vw=3D=3D?=
+X-OriginatorOrg: siliconsignals.io
+X-MS-Exchange-CrossTenant-Network-Message-Id: c13ec7be-91ac-4144-b4a8-08dd5b2ef959
+X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB1836.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Mar 2025 15:12:26.9265
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: U1i84pOEgX1u+dX+PoI1y7ZyJgn5++I/DTArAFsfX594Xf7J5/o9n+EGAg7g5szd0gUZsvE7Ry10OIyOwOEaFZ/BKCyqFs3dRdz7XzWYITI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0P287MB0672
 
-Hi Shravan,
+tarang.raval (2):
+  media: i2c: imx219: Enable runtime PM before sub-device registration
+  media: i2c: imx219: Use enable/disable_streams callbacks
 
-On Sat, Mar 01, 2025 at 12:56:55AM +0000, Shravan.Chippa@microchip.com wrote:
-> Hi Sakari,
-> 
-> > -----Original Message-----
-> > From: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Sent: Friday, February 28, 2025 5:19 PM
-> > To: shravan Chippa - I35088 <Shravan.Chippa@microchip.com>
-> > Cc: mchehab@kernel.org; kieran.bingham@ideasonboard.com; linux-
-> > media@vger.kernel.org; linux-kernel@vger.kernel.org; Conor Dooley -
-> > M52691 <Conor.Dooley@microchip.com>; Valentina Fernandez Alanis -
-> > M63239 <Valentina.FernandezAlanis@microchip.com>; Praveen Kumar -
-> > I30718 <Praveen.Kumar@microchip.com>
-> > Subject: Re: [PATCH V6 1/3] media: i2c: imx334: Optimized 4k and 2k mode
-> > register arrays
-> > 
-> > EXTERNAL EMAIL: Do not click links or open attachments unless you know the
-> > content is safe
-> > 
-> > Hi Shravan,
-> > 
-> > On Fri, Feb 28, 2025 at 04:03:30PM +0530, shravan kumar wrote:
-> > > From: Shravan Chippa <shravan.chippa@microchip.com>
-> > >
-> > > Optimized the resolution arrays by integrating a common register array.
-> > >
-> > > Adjusted the register array values for 1920x1080@30 and 3840x2160@30
-> > > resolutions to align with the common register array values.
-> > >
-> > > Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>
-> > > ---
-> > >  drivers/media/i2c/imx334.c | 132
-> > > +++++++++----------------------------
-> > >  1 file changed, 31 insertions(+), 101 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-> > > index a544fc3df39c..a800f2203592 100644
-> > > --- a/drivers/media/i2c/imx334.c
-> > > +++ b/drivers/media/i2c/imx334.c
-> > > @@ -167,8 +167,8 @@ static const s64 link_freq[] = {
-> > >       IMX334_LINK_FREQ_445M,
-> > >  };
-> > >
-> > > -/* Sensor mode registers for 1920x1080@30fps */ -static const struct
-> > > imx334_reg mode_1920x1080_regs[] = {
-> > > +/* Sensor common mode registers values */ static const struct
-> > > +imx334_reg common_mode_regs[] = {
-> > >       {0x3000, 0x01},
-> > >       {0x3018, 0x04},
-> > >       {0x3030, 0xca},
-> > > @@ -176,26 +176,10 @@ static const struct imx334_reg
-> > mode_1920x1080_regs[] = {
-> > >       {0x3032, 0x00},
-> > >       {0x3034, 0x4c},
-> > >       {0x3035, 0x04},
-> > > -     {0x302c, 0xf0},
-> > > -     {0x302d, 0x03},
-> > > -     {0x302e, 0x80},
-> > > -     {0x302f, 0x07},
-> > > -     {0x3074, 0xcc},
-> > > -     {0x3075, 0x02},
-> > > -     {0x308e, 0xcd},
-> > > -     {0x308f, 0x02},
-> > > -     {0x3076, 0x38},
-> > > -     {0x3077, 0x04},
-> > > -     {0x3090, 0x38},
-> > > -     {0x3091, 0x04},
-> > > -     {0x3308, 0x38},
-> > > -     {0x3309, 0x04},
-> > > -     {0x30C6, 0x00},
-> > > +     {0x30c6, 0x00},
-> > >       {0x30c7, 0x00},
-> > >       {0x30ce, 0x00},
-> > >       {0x30cf, 0x00},
-> > > -     {0x30d8, 0x18},
-> > > -     {0x30d9, 0x0a},
-> > >       {0x304c, 0x00},
-> > >       {0x304e, 0x00},
-> > >       {0x304f, 0x00},
-> > > @@ -210,7 +194,7 @@ static const struct imx334_reg
-> > mode_1920x1080_regs[] = {
-> > >       {0x300d, 0x29},
-> > >       {0x314c, 0x29},
-> > >       {0x314d, 0x01},
-> > > -     {0x315a, 0x06},
-> > > +     {0x315a, 0x0a},
-> > 
-> > We still have this change in the patch that's just supposed to move register
-> > address/value pairs around. :-( Please check the changes yourself before
-> > posting v7.
-> 
-> Do I need to split the patch or drop this change ? in v7
-
-Either way but it does not belong here.
+ drivers/media/i2c/imx219.c | 62 ++++++++++++++++++--------------------
+ 1 file changed, 30 insertions(+), 32 deletions(-)
 
 -- 
-Regards,
-
-Sakari Ailus
+2.34.1
 
 
