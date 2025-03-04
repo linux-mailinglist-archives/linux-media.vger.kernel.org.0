@@ -1,55 +1,54 @@
-Return-Path: <linux-media+bounces-27525-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27526-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60A40A4ED61
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 20:32:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9737A4ED62
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 20:32:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A610B16E498
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 19:32:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2274F16E06A
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 19:32:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15AB625F976;
-	Tue,  4 Mar 2025 19:32:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B59D264619;
+	Tue,  4 Mar 2025 19:32:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="SfAgB7Kb"
+	dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b="O8ntAkpt"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mail.mainlining.org (mail.mainlining.org [5.75.144.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE04C2E3371;
-	Tue,  4 Mar 2025 19:32:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FDED259C8A;
+	Tue,  4 Mar 2025 19:32:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.75.144.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741116746; cv=none; b=ais/eDrYGHm4V5gY3w/zsbIolDwhu9hs9QmjazSmaU+yzlBPoz61hbm7n0Y566LP5iQzZnSaN5aJ1CpYHKVDzJ3uz2MnL/LaP5PMwXT0WZrkPRYo4RNjW41EamxLkksCpZFLj13QJDuJO6gLMZ4o98q3oqMnrDpornyEXxBL+nI=
+	t=1741116747; cv=none; b=Q30DwibVx8FHfa/IxaYF4uI3cZ9Fh6GzFnMpAU8/TSyab05kDJy5RBXP44S8aGAYWCmC++zRhxFkWLw3rYiyq/23zAEdOAPEQqXtMaDv9mmb0sUsQ6fv1PT1XjgQc4IWbOpP3t55Ibk/C917clguJRNzsjMyOfQbE586fiKw14E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741116746; c=relaxed/simple;
-	bh=eqLoiRddp8EsPvEYF6OWcXzyp3WGdUM4H+6GYoWqG7g=;
+	s=arc-20240116; t=1741116747; c=relaxed/simple;
+	bh=NF9dNQDfgKlChd5hDdrsF8MLDBUcsJDSKInl5TObMjM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=edXu8P75K0wRxgn+0TXisC5rFkEklLaGdLvMN3jnc1062AL+un+hk0M6naAdOGKMZdj54mA1XODvcxJM6DhQTIwkQJtGSi5V95auWlLe+ARhoTGAyOhjzNY81Z9umypzdVhabWfGsMqaAFVOdyPUM9x7M+eyzQbu2abVK2Vb9V4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=SfAgB7Kb; arc=none smtp.client-ip=5.75.144.95
+	 In-Reply-To:To:Cc; b=mqFrQdg53GYnI6jG/ZDojRlDbFWZXyxWfwmVNuEdTcpzvx9nFvV4rakAOsP5xk3zKEamRIlqv3nI9Z/jtXNdq4dqqBhCNrngXODzn9VItfoJPbJdN6kMzJvaqbf5u8DDu1LaQJ6lsmdHnG13t688qRDsb7DI5Y8hpKE5XiLdyGk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mainlining.org; spf=pass smtp.mailfrom=mainlining.org; dkim=pass (2048-bit key) header.d=mainlining.org header.i=@mainlining.org header.b=O8ntAkpt; arc=none smtp.client-ip=5.75.144.95
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mainlining.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mainlining.org
 Received: from [192.168.1.78] (unknown [45.136.247.92])
-	by mail.mainlining.org (Postfix) with ESMTPSA id 1B6A8BBEE5;
-	Tue,  4 Mar 2025 19:32:22 +0000 (UTC)
+	by mail.mainlining.org (Postfix) with ESMTPSA id 54851BBEE7;
+	Tue,  4 Mar 2025 19:32:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mainlining.org;
-	s=psm; t=1741116742;
+	s=psm; t=1741116744;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=31/oCz2a/ONrfFM9ai3Wh69nx3m5R0ju7JO40am2Iqo=;
-	b=SfAgB7Kbv1Vk8GQ8xcmhnZ0O0X+sAoEoa7ZByrmFW4wCredaX0AF+12/oBowQGm/mv1QRy
-	U7CK/MuGDqpVW2w3j9nl7i5Y05j+qospkzM4fmtwGcGmePzJyAVMyT3DBBV1mv/rTddm3v
-	eaaSY3lvAG+tFHhGBj5UseIEyaW9sfm5o2pQGXW19C9sPqwasSQeDB6mYcD4KcKWiutYBM
-	GVRY1yVbyw8HkaPEHqQ6hm/GcAtuozlv3IB10HfKf38JQH8izKxFMAGX/ObZsn4Gmz7efO
-	UvysLwO+Akuf8UKGBN34X+nqk4m0R/F8uX/nrWqSPnSIdoadBcVZGiIjnyoaMA==
+	bh=on4zvY3vsLi5Yr4Qba9ODMlNSagHJy2+aaazI8BrlSE=;
+	b=O8ntAkptUGKTjH3XemAKNJHs40fI0h29nEhFmEBro84Eb7pCWWhYDUvcRPTLQrdpBKaYZj
+	S3NEWytj0OJbkZnR82vglvXxkOgIcnvUe3MXlspiZyE5I59qK0KZA6RScpDYMwppdlqKMZ
+	/qCgEoEIb8YI2IEz996JjLVrxKlxBN35nz63TH7TIa3Lici8lLvpchDdrJ1S1J/08WPT07
+	SHuOFF5MLlHla34kOZlr1nB6PYtOmre+lDc8wDDi743ss6n7+V0BTEZhkPnSn+zt0UZIlL
+	LHMz6EHjbl0fhXZjZBla5v9CuP3ddJi+DL+2F2ANrldS5MW9Iv4WDlpp7h/8YQ==
 From: Vasiliy Doylov <nekocwd@mainlining.org>
-Date: Tue, 04 Mar 2025 22:32:18 +0300
-Subject: [PATCH v2 1/3] MAINTAINERS: Add entry for Onsemi LC898217XC lens
- voice coil driver
+Date: Tue, 04 Mar 2025 22:32:19 +0300
+Subject: [PATCH v2 2/3] media: dt-bindings: Add LC898217XC documentation
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -58,7 +57,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250304-media-i2c-lc898217xc-initial-driver-v2-1-6a463cef3ea8@mainlining.org>
+Message-Id: <20250304-media-i2c-lc898217xc-initial-driver-v2-2-6a463cef3ea8@mainlining.org>
 References: <20250304-media-i2c-lc898217xc-initial-driver-v2-0-6a463cef3ea8@mainlining.org>
 In-Reply-To: <20250304-media-i2c-lc898217xc-initial-driver-v2-0-6a463cef3ea8@mainlining.org>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -71,41 +70,84 @@ Cc: linux@mainlining.org, linux-kernel@vger.kernel.org,
  Antonio Rische <nt8r@protonmail.com>, 
  Vasiliy Doylov <nekocwd@mainlining.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=852; i=nekocwd@mainlining.org;
- h=from:subject:message-id; bh=eqLoiRddp8EsPvEYF6OWcXzyp3WGdUM4H+6GYoWqG7g=;
- b=owGbwMvMwCW2fZ/SFZeSpU2Mp9WSGNKPh7r4+NlGbmSfIvTkixN73a1uKcvbWqXrpggGXWvnF
- ovfuaW3o5SFQYyLQVZMkcVmo8dssfxwyUnTnirAzGFlAhnCwMUpABMpyGFk6Azb8fli2rsS8x0/
- 8+WMX5/5Xbrr2ZQ1GxZNdBOYktsyTZ6RoUF1wsOY2KvyfK9fMFQU2PfY3Vju46xysUtpmrv++T3
- SLAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2009;
+ i=nekocwd@mainlining.org; h=from:subject:message-id;
+ bh=NF9dNQDfgKlChd5hDdrsF8MLDBUcsJDSKInl5TObMjM=;
+ b=owGbwMvMwCW2fZ/SFZeSpU2Mp9WSGNKPh7r09EmWHZ+wdr5YYQjbhisi+g1Hct3z1lae0ddny
+ 8/VZLDtKGVhEONikBVTZLHZ6DFbLD9cctK0pwowc1iZQIYwcHEKwEQKJzP8U/t/NvzI6/n52lff
+ Riy/987v+irjXK4k6yUbN1iekmL3msvwT297aYzN+ZWfZ0/MY5zl56PanfXRvcj5jirLjbXzb7Z
+ oMAIA
 X-Developer-Key: i=nekocwd@mainlining.org; a=openpgp;
  fpr=3CB1489B166F57199296E520B7BE22D44474A582
 
-Add entry for Onsemi LC898217XC lens voice coil driver
+Add device tree bindings documentation for ON Semiconductor
+LC898217XC voice coil motor.
 
 Signed-off-by: Vasiliy Doylov <nekocwd@mainlining.org>
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ .../bindings/media/i2c/onnn,lc898217xc.yaml        | 54 ++++++++++++++++++++++
+ 1 file changed, 54 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 29e1a423eee5bcf9df7938aaffe5bd3e2f6a2bbe..c15223f063357a8f89cf12f46ebcb7bd062903f3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17781,6 +17781,14 @@ S:	Supported
- W:	http://www.onsemi.com
- F:	drivers/net/phy/ncn*
- 
-+ONSEMI LC898217XC LENS VOICE COIL DRIVER
-+M:	Vasiliy Doylov <nekocwd@mainlining.org>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+T:	git git://linuxtv.org/media.git
-+F:	Documentation/devicetree/bindings/media/i2c/onnn,lc898217xc.yaml
-+F:	drivers/media/i2c/lc898217xc.c
+diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,lc898217xc.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,lc898217xc.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..848e83c38638f702af3f50f34f1ee7256cdcdc04
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/onnn,lc898217xc.yaml
+@@ -0,0 +1,54 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++# Copyright 2025 Vasiliy Doylov <nekocwd@mainlining.org>
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/onnn,lc898217xc.yaml##
++$schema: http://devicetree.org/meta-schemas/core.yaml#
 +
- OP-TEE DRIVER
- M:	Jens Wiklander <jens.wiklander@linaro.org>
- L:	op-tee@lists.trustedfirmware.org
++title: ON Semiconductor LC898217XC Voice Coil Motor (VCM) Lens
++
++maintainers:
++  - Vasiliy Doylov <nekocwd@mainlining.org>
++
++description:
++  The LC898217XC is a 11-bit digital-to-analog (DAC) converter.
++  VCM current is controlled with a linear mode driver.The DAC is controlled
++  via a 2-wire (I2C-compatible) serial interface that operates at clock
++  rates up to 1MHz. This chip integrates Advanced Actuator Control (AAC)
++  technology and is intended for driving voice coil lenses in camera modules.
++
++properties:
++  compatible:
++    enum:
++      - onnn,lc898217xc
++
++  reg:
++    maxItems: 1
++
++  vcc-supply:
++    description:
++      Definition of the regulator used as voltage supply.
++
++required:
++  - compatible
++  - reg
++  - vcc-supply
++
++additionalProperties: false
++
++examples:
++  - |
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        camera-lens@74 {
++            compatible = "onnn,lc898217xc";
++            reg = <0x74>;
++
++            vcc-supply = <&mt6358_vcamio_reg>;
++        };
++    };
++
++...
 
 -- 
 2.48.1
