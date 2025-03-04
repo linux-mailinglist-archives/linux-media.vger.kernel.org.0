@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-27489-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27490-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EA5DA4E018
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 15:03:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B4A2A4E025
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 15:05:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 933AB3A767F
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 14:01:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F41D189DAA1
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 14:03:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AC47205AB1;
-	Tue,  4 Mar 2025 14:00:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 299CE20551F;
+	Tue,  4 Mar 2025 14:02:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oCiV58v8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XYOLuc7G"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF3E204695;
-	Tue,  4 Mar 2025 14:00:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 799A82054E6;
+	Tue,  4 Mar 2025 14:02:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741096846; cv=none; b=Mbcs4kkZMSIt29RAbAcODvCU5GsFijY2I0JiJez9Ipo7AltzprfzPY1NZkNz5+y4mv0iJ5QIUJ4AhktSE3nZqpXmeCr6c6DliSXSYaljVridR9JXcTcnGnYq02KalsY92WRADgHWU0yiDH7LbIuW0DipOQjZgB4niH5UZewSadE=
+	t=1741096953; cv=none; b=foKhdAc4wRAUsiQsEZrgSvc75Ppilm/iPk7OGIdpmrKxSozH9RP45GnmCXXWWz3//4a7hVQaXv5AiOJWwwnq5/PzqFBVshTIljfFN051At9Znx6dlqWsWLWHwpcdbxLtoW14cgLb9kmazs0BgZnepjw609l7xYpqiGNYc4QCjIQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741096846; c=relaxed/simple;
-	bh=iOf/Btd00TVbhUUPH7qKnM1gAcJ9dD7LIZMQq0bBGOA=;
+	s=arc-20240116; t=1741096953; c=relaxed/simple;
+	bh=Csfk8M7L4hBJzr6Uz+cdd7YpspALmK882a7F2/fMdR0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fv2XEikB9MyEAAbVijT7Jl+bSr60P73mEQcmiUxo1xgGh9mU0ABIJbZjZe3LwvePaDjSZHYmqMBAwLiDY+sC0tquRsosWp5xrXmfcsbPvhdjTOpbg9m7ib/Va5nty8McwzBE71yiGEwZV7/OXXDc/RThj+Qn7BL4V2NocLlk6Gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oCiV58v8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA4AAC4CEE7;
-	Tue,  4 Mar 2025 14:00:40 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=psTW3pr6bzKdPP4Mj4MyokSDWA1g5+0bT0b/gv1DB8TaiOjTbnqc6LrLEAUc3DSC4HyZkkdvLwt4J44ofUXVJR3/LIO7OsNP4jwMTZar0snqa5H/O1UgPH4F4i6ILGTVZhWrT6Ykgf2qXoyXXfJpiHBOknHNqDFHns79e7WCM14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XYOLuc7G; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6156C4CEE9;
+	Tue,  4 Mar 2025 14:02:27 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741096845;
-	bh=iOf/Btd00TVbhUUPH7qKnM1gAcJ9dD7LIZMQq0bBGOA=;
+	s=k20201202; t=1741096952;
+	bh=Csfk8M7L4hBJzr6Uz+cdd7YpspALmK882a7F2/fMdR0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=oCiV58v8EKD9fbf6RJJ84xkHHP0cyJ6kpYnTV3hbiQeDBMFuJka+DR6/TIyAU8XHG
-	 voTacVP2wbLrRZPinrWGWnPIswT6op/wpkDOjncQ0v1T8AxmRllVlGArM04mr05fly
-	 nNLE5fkl9EqOeBAQ/4oiABfG/+vRXfU23ct75+7JxEIuCSa0SGTBTYOxKQiJrBq9zJ
-	 vVi3l2v5SZBnXu4mmMjA2PjT+DyqXIAxUKkxzy+Dxt6oP3tBIlthQGHE/BURS5NEZw
-	 MvNk5AZSgPJtQhtHMe1fDfWg53wfahLVcJlJLf7xoLpXmFZ94HwB5zaUIJbsnQr+X9
-	 gQeCJlanbfPww==
-Message-ID: <6f7fea59-310d-4a7e-94f7-2483363012ba@kernel.org>
-Date: Tue, 4 Mar 2025 15:00:37 +0100
+	b=XYOLuc7GA4g5E7tQ7TOJKVAnrNRMNaFkebsZtBUhVrWFdn6MlvOPEbdvrwTvIc7u5
+	 HktmMzTsHeP8n5p6iAWbKnCrxyl6Pzko2745sskDQ/1abllBUB7XqGKjTc9VBPoDrH
+	 cgRHKY97DPM2RNIwUTj9AcYYC1xRDvTNupZqFb8WgKFLb+G0toxKflZIASc3e5CePm
+	 nCO1HnDXireQf4XC+Y9YkGivICCRTas5SGIfGKSR5w2WSOjZImm1QEl16TXIIKZ+u9
+	 LkR88+mh1kO/7j+LGqnJyjcbjikQlbn+Y2KxS4mTQhbBUqo/QnjPaPXjb2WECmvlp+
+	 WyraCGesOVIpA==
+Message-ID: <77475c23-c173-4512-b257-d7b01fa2054d@kernel.org>
+Date: Tue, 4 Mar 2025 15:02:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/8] media: dt-bindings: Document SC8280XP/SM8350 Venus
+Subject: Re: [PATCH 7/8] arm64: dts: qcom: sc8280xp: Add Venus
 To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
  Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
  Vikash Garodia <quic_vgarodia@quicinc.com>,
@@ -62,7 +62,7 @@ Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
  Johan Hovold <johan+linaro@kernel.org>
 References: <20250304-b4-linux-media-comitters-sc8280xp-venus-v1-0-279c7ea55493@linaro.org>
- <20250304-b4-linux-media-comitters-sc8280xp-venus-v1-1-279c7ea55493@linaro.org>
+ <20250304-b4-linux-media-comitters-sc8280xp-venus-v1-7-279c7ea55493@linaro.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -108,53 +108,54 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250304-b4-linux-media-comitters-sc8280xp-venus-v1-1-279c7ea55493@linaro.org>
+In-Reply-To: <20250304-b4-linux-media-comitters-sc8280xp-venus-v1-7-279c7ea55493@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 04/03/2025 14:07, Bryan O'Donoghue wrote:
 > From: Konrad Dybcio <konradybcio@kernel.org>
 > 
-> Both of these SoCs implement an IRIS2 block, with SC8280XP being able
-> to clock it a bit higher.
+> Add the required nodes to enable Venus on sc8280xp.
 > 
-> Document it.
-> 
-> Signed-off-by: Konrad Dybcio <konradybcio@kernel.org>
-> Link: https://lore.kernel.org/r/20230731-topic-8280_venus-v1-1-8c8bbe1983a5@linaro.org
+> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+
+
+SoB and From do not match.
+
+> [ johan: use sm8350 videocc defines ]
 > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
-> [ bod: dropped dts video-encoder/video-decoder ]
+> [ bod: dropped video encoder/decoder declarations ]
+> [ bod: added interconnect tags ]
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
+>  arch/arm64/boot/dts/qcom/sc8280xp.dtsi | 82 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 82 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
+> index 01501acb1790a..fe8aa24d5d51e 100644
+> --- a/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sc8280xp.dtsi
+> @@ -10,6 +10,8 @@
+>  #include <dt-bindings/clock/qcom,rpmh.h>
+>  #include <dt-bindings/clock/qcom,sc8280xp-camcc.h>
+>  #include <dt-bindings/clock/qcom,sc8280xp-lpasscc.h>
+> +#include <dt-bindings/clock/qcom,sm8350-videocc.h>
+> +#include <dt-bindings/interconnect/qcom,icc.h>
+>  #include <dt-bindings/interconnect/qcom,osm-l3.h>
+>  #include <dt-bindings/interconnect/qcom,sc8280xp.h>
+>  #include <dt-bindings/interrupt-controller/arm-gic.h>
+> @@ -690,6 +692,11 @@ reserved-region@85b00000 {
+>  			no-map;
+>  		};
+>  
+> +		pil_video_mem: pil_video_region@86700000 {
 
+No underscores in node names.
 
-If this is the same version, then please implement previous feedback.
+> +			reg = <0 0x86700000 0 0x500000>;
+> +			no-map;
+> +		};
 
-If this is a new version, then please mark it as v2 and provide
-changelog. This is what b4 gave me:
-
-b4 diff
-'<20250304-b4-linux-media-comitters-sc8280xp-venus-v1-1-279c7ea55493@linaro.org>'
-Grabbing thread from
-lore.kernel.org/all/20250304-b4-linux-media-comitters-sc8280xp-venus-v1-1-279c7ea55493@linaro.org/t.mbox.gz
-Breaking thread to remove parents of
-20250304-b4-linux-media-comitters-sc8280xp-venus-v1-0-279c7ea55493@linaro.org
----
-Analyzing 9 messages in the thread
-Could not find lower series to compare against.
-
-...
-
-> +
-> +        operating-points-v2 = <&venus_opp_table>;
-> +        iommus = <&apps_smmu 0x2100 0x400>;
-> +        memory-region = <&pil_video_mem>;
-> +
-> +        status = "disabled";
-
-So it is the same...
-
-Same comments apply, same review.
 
 Best regards,
 Krzysztof
