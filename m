@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-27529-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27530-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C1D9A4EED8
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 21:54:42 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F0BCA4EEDB
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 21:54:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 128301892118
-	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 20:54:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 483683A9B9F
+	for <lists+linux-media@lfdr.de>; Tue,  4 Mar 2025 20:54:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CFA624C093;
-	Tue,  4 Mar 2025 20:54:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B1E3204F61;
+	Tue,  4 Mar 2025 20:54:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sMSA5BHg"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PXfdPzfE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E49264FBD
-	for <linux-media@vger.kernel.org>; Tue,  4 Mar 2025 20:54:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3C21255250
+	for <linux-media@vger.kernel.org>; Tue,  4 Mar 2025 20:54:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741121662; cv=none; b=OVVh/noSLQCSeKRGsLqoviaJHXFo7UGheny1Y9QwOb9x0I1fra/sVbQEDVwwVdTYcIkkPNgHsbGn7YtsT3k/ann2sccI1gKD9SNQdvbTzYAIeDh444Z+LG8O906eY/K70cf5hGgaOvi6q3ntmbnVJz4lrdCPHxCBRxksvAUOPBQ=
+	t=1741121681; cv=none; b=lAT1Zr8TTEruDFWinScpQnvg/lCB5cIH7pG+hWGsM6TZBOjkos5illzLhGStk86b1mTKVwHSpgDDb0gCoTFXGRCBFtXVZVB22p7+S8EDzmR3awupv6m3kElWF2Cu+Lsfnu7fXZ2ey56w7Jw8frhRrMoH6xRm2oCCDVqKingtUEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741121662; c=relaxed/simple;
-	bh=IRmRM/iqkdC6qVTybFyE3ZuVo0jNnkna+PcF+XjgpOU=;
+	s=arc-20240116; t=1741121681; c=relaxed/simple;
+	bh=4YVqOK61xx6ybzPmoW75jTuHGNHJK+27NwkAqvhAD7k=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ApOwSpLTob72JiCwWZlcG4Zv+7Kp7mfrCk8SQkL/OUnR2ECznNobaoE27oFTPzw4868AbCbArcuuNIyBPNdNYXulYMk8iQWnmTWueip+HNP5MKfldThDr6tXDTf/TVOAcB1soSa6rVBRcpGem7OYYn2aXz7Z12w6kozgFyIRoTU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sMSA5BHg; arc=none smtp.client-ip=209.85.208.180
+	 Content-Type:Content-Disposition:In-Reply-To; b=m9FdOpR/D246UxI3j76dW2y2dLFWC7IkARkrUnDfk5cwLk/mDXAalBLcYPQ8Jk7txN/HBqYFvqihZZolCuJsKXHy5koziDEimSXdjrrEOQSHGky+JY4UN8oMq4qxTcY+8sjNLCs8JmrbHK3XdCptRjjPR/JnhdGvul+v7Q9Hv6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PXfdPzfE; arc=none smtp.client-ip=209.85.208.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-30795988ebeso65649421fa.3
-        for <linux-media@vger.kernel.org>; Tue, 04 Mar 2025 12:54:19 -0800 (PST)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-307bc125e2eso67595601fa.3
+        for <linux-media@vger.kernel.org>; Tue, 04 Mar 2025 12:54:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741121657; x=1741726457; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1741121678; x=1741726478; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zL7TK+qWnCNV5/AETFrb8jPp5cyvJYgATDrXM2qgRgo=;
-        b=sMSA5BHgrCnvwYsX05tvOghXR5G5C+Aglgp7TptOi2wcbjnonD3I8Ub5RQWIwrRo0N
-         W3RujL+q0Q4C6eN/iCQiSwvPcfntg34b1HMF0s0HDRfqEnQfriJvEmTAJevO11d4HOCe
-         ThTm1LJ56b7kpBiGcIBRK2FdZI6JWDXCbaW9SbAnKzEfE6dyruI+SISLOmysSc9nQibN
-         w5E/z9pdcv+Cx6NMwnsVpAGFylP8sjtmHku/wf2PjFSXGt/UozkCTiouphxfdp3xagw6
-         Ywg2CuSGhI0wPT5gJ1EnO+5kmW/mPwV1Uam3TXt8hnAUaQXZwgyEtNvBCuJTPrjTBzTy
-         q+oA==
+        bh=9S5RcvtMlSmmNkHaVMZQhGkdtEWYN039+ylDnNnTkA0=;
+        b=PXfdPzfEz5oyl/Zm1pzTWlGTkVCgtjFUg8033Wy+ssHglM59MtmLTEHb/Kjs0Ibarj
+         CNAewORfeXspv8f0UqPMOPWxoDpzds2RIZ+bvkhfmYTyfSNWKg88yh9Tqx/4zX6KfZCZ
+         aMPM0jcCxlHVSPY/XKnvT0GrP8dP4nZHbilln40O9OM87Sh5ZLTeqsZylEKULYjaO5AB
+         7H1hM3gDUig3JldDvUU267DKB55nS1+QqgrFth9CEEiygZCuP4pMLPmuOiA644DsgEp8
+         HMBvQ9Wq+9SDG9fEwg10hTZodsI+2CaaNlL3yn6C+imzXjupAhaoplz2KaoE9qsCGJr0
+         FAwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741121657; x=1741726457;
+        d=1e100.net; s=20230601; t=1741121678; x=1741726478;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zL7TK+qWnCNV5/AETFrb8jPp5cyvJYgATDrXM2qgRgo=;
-        b=Zq86w/zNhyV0c+z5evJDpZYy+vsERw3FlqOuNS6Vx4mkMh9aHbdoRlUVSWzQ2z1rB1
-         NSlKO60/lH96V3M9pON114OWMv0eTh7DEVzm22grOasFX63OZqp1t1M8N88G+qB0gmq3
-         /kuwV9EWMFy5G0E1ZG3KbkGcnjV9e0Q6kqOTq0p5bLEEhGo1aA+6syWJaYVDF8mJ+dr4
-         a5O08szqX/nRZJqoMK1SR+4vRTITwu69XRiE+HcC4Fy90D2MS9RcLLLBa4esaDon+dnT
-         q4ytkiNokXScsrIWqmwf8v7oXYUFkwxrz37OiHWzFEChStfR5C8pHCb0aV0iBTtEdHAA
-         YaaA==
-X-Forwarded-Encrypted: i=1; AJvYcCUW6ye5ozh2btYXz8R4BFYTIx6vb1BgXpTV9uKCXDQuU40ugr4rVatJhdSMcGWuG7eAdhIZzxEjKxKAGQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+lCo23KxSE8D96vV+7stsK+R7N5FF4mwWKCYVfdQtzpIXEYhc
-	HBk4oANnnFUpa+2FPyTp/lfidwuPCFUCNVbjgG4BY6vszUZgaVyJTIGcJdlfUP8=
-X-Gm-Gg: ASbGnctmC7reJOVO5JtQzCwVHBtwyk0A1d0kqxuPEUlaEsQ9YHX2sspo+PT2oYb49RN
-	QI3gcBa7Ud9Fgg2hOjPUYWiQiJeABb6TwzOC8oqtxiUPvkGSDaZNOSqFYUUp07yzaFt1iOM8796
-	rKtXF+DrwGZfXi1oVOjHdRB9QTTvoZ6xfIRUD49jjpIUpZKFygHtNafZDHk2c82ycUnNKkyMx5t
-	eKe8B1mhcfhUR6Vy+Lus7u97MY5oXACWQsNcZ9RboXBJAO+Y5LMmgSBVQOIUrgjUF13C+HZc6L2
-	gpCKQd6rNJ17D7+Z8n7XV5AIPmuwGK0Dp2hCTAh/anbLmDW5fmeKssHDtoW+EovqyNdjwCePnnq
-	cJ9MszzKCJ2CcaBg6vs/nnoR4
-X-Google-Smtp-Source: AGHT+IE0DjiMQw1sLephw4rxWk7HFEElK/DPXY4ccSdGxPEFiNKQH0Zh68XsjdtSq4f6eZVQtGRvTA==
-X-Received: by 2002:a2e:780f:0:b0:308:e9ae:b5b5 with SMTP id 38308e7fff4ca-30bd7b0fc11mr1647801fa.33.1741121657314;
-        Tue, 04 Mar 2025 12:54:17 -0800 (PST)
+        bh=9S5RcvtMlSmmNkHaVMZQhGkdtEWYN039+ylDnNnTkA0=;
+        b=blI6BDGYop+0rH8sKUnjI6ZJWGZbG2FdTkUxtcFSSqfD/t77HxXIPgGd2S+QeOmGU+
+         qHAY4iZHBJJoGYJTI6/oLTRkhjDbqupZ0xk9YFBEo8FpN6zl3wTt9fLwz4efPzepnO9J
+         qK0vTtooJU9guy+9Ve5uUWqnH0fWIBjNLIlBBbqfeeN/BxwYGUZ0ecabmGI6rvCyNYmO
+         2kLKE5Ld9EeaPtsz+4/CkpOMeOqyAwBB/W/5/UcvObdUkrk5+Jy7H3Fpc4A8t35T/KEW
+         HP0w1BAj8KqlvItoD+A7t0tRSha1xR9tJ1+lTcYGVlEbvAa6SAY7VygtKYKbBprxIoPp
+         2T2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVrvwKVqXDWBnXU3jCdEAwqjunxq55+9clZHKIJ6f+XyMgrh7fjLfoElaW32pkP7HnvU2xSf63y5aG4NA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHZCuSin468ylg0Kt9C2k93CPmzWWB74mIjgft8zpPvjzjMl7+
+	XtksOz0V0OMNUujfDEQn3LH5OqVOZpWRMNy28rt6X8ZjpGZrho9du5vg/bRtYl8=
+X-Gm-Gg: ASbGnct+d9WyNhueAObQW1mhSh0en6aW8eXGy/Yy7jUJPbuAV58Uumw4S6MW3a4fMeQ
+	iKz/797J5JElwg64EhO8vfgJAWTjdAqNFTD7gUICCNlR7NklGVGPP5skue4KHR6DZWZPHmtCcbM
+	kZ+MoT4Dj+Nyi8kIjIvHbvlrYmlWVJLERFaV7zcTE/YaZq/PpSSZSpV14Y75bSJzzm4HZ4Eac5y
+	3x47+yfPAgoYlRChQoe+ZfHcdP1E5SIwvvBIiyaN2thJsvv1IfezFmTLG8zqCujtrvSoNcPvoS3
+	vclO+vrMWn3ap8eYKOOw9VkKnFcyj7ww9AlKbfyOEJK1kfeE4SJ2SEB5Wum+pjSlKGLFrjJLB0U
+	XQBhQpEPuYNoYY2KhopgFCbJU
+X-Google-Smtp-Source: AGHT+IF3JoZTickLvOwPVXpKhIHGvL/BsrsLrH9J55lj1fNWZZWbbOx5aHG2lsArXNVAi8obot0l4g==
+X-Received: by 2002:a05:6512:2809:b0:545:2776:8529 with SMTP id 2adb3069b0e04-5497d32f42dmr166318e87.5.1741121677871;
+        Tue, 04 Mar 2025 12:54:37 -0800 (PST)
 Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30bb9d46221sm7710481fa.54.2025.03.04.12.54.14
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5495d268a42sm992081e87.175.2025.03.04.12.54.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 04 Mar 2025 12:54:16 -0800 (PST)
-Date: Tue, 4 Mar 2025 22:54:13 +0200
+        Tue, 04 Mar 2025 12:54:36 -0800 (PST)
+Date: Tue, 4 Mar 2025 22:54:34 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
@@ -82,10 +82,10 @@ Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
 	Bjorn Andersson <andersson@kernel.org>, linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	Johan Hovold <johan+linaro@kernel.org>
-Subject: Re: [PATCH 5/8] media: venus: core: Add SM8350 resource struct
-Message-ID: <gwgvw5wpfnvswifeyjvcppsxplobahqrwsswikc7z2h7vbef5e@66qpvzp7hz2e>
+Subject: Re: [PATCH 6/8] media: venus: core: Add SC8280XP resource struct
+Message-ID: <6pe6kcz2vnxqnrrb2xtan5edtxslqzfpk2ccxg64rpc77lcrd7@rgxqeoldurjv>
 References: <20250304-b4-linux-media-comitters-sc8280xp-venus-v1-0-279c7ea55493@linaro.org>
- <20250304-b4-linux-media-comitters-sc8280xp-venus-v1-5-279c7ea55493@linaro.org>
+ <20250304-b4-linux-media-comitters-sc8280xp-venus-v1-6-279c7ea55493@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -94,38 +94,44 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250304-b4-linux-media-comitters-sc8280xp-venus-v1-5-279c7ea55493@linaro.org>
+In-Reply-To: <20250304-b4-linux-media-comitters-sc8280xp-venus-v1-6-279c7ea55493@linaro.org>
 
-On Tue, Mar 04, 2025 at 01:07:11PM +0000, Bryan O'Donoghue wrote:
+On Tue, Mar 04, 2025 at 01:07:12PM +0000, Bryan O'Donoghue wrote:
 > From: Konrad Dybcio <konradybcio@kernel.org>
 > 
-> Add SM8350 configuration data and related compatible.
+> Add SC8280XP configuration data and related compatible.
 > 
 > Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> Link: https://lore.kernel.org/r/20230731-topic-8280_venus-v1-5-8c8bbe1983a5@linaro.org
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Link: https://lore.kernel.org/r/20230731-topic-8280_venus-v1-6-8c8bbe1983a5@linaro.org
 > [ johan: rebase on 6.9-rc1; convert vcodec_pmdomains ]
 > Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
 > [ bod: added static video encoder/decoder desciptors ]
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
->  drivers/media/platform/qcom/venus/core.c | 41 ++++++++++++++++++++++++++++++++
->  1 file changed, 41 insertions(+)
+>  drivers/media/platform/qcom/venus/core.c | 47 ++++++++++++++++++++++++++++++++
+>  1 file changed, 47 insertions(+)
 > 
 > diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index 93e5b9e1f70cc..dbce635f9fa45 100644
+> index dbce635f9fa45..3d23a5919462d 100644
 > --- a/drivers/media/platform/qcom/venus/core.c
 > +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -1012,6 +1012,46 @@ static const struct venus_resources sm8250_res = {
+> @@ -1116,6 +1116,52 @@ static const struct venus_resources sc7280_res = {
 >  	.enc_nodename = "video-encoder",
 >  };
 >  
-> +static const struct reg_val sm8350_reg_preset[] = {
-> +	{ 0xb0088, 0, 0x11 },
+> +static const struct freq_tbl sc8280xp_freq_table[] = {
+> +	{ 0, 239999999 },
+> +	{ 0, 338000000 },
+> +	{ 0, 366000000 },
+> +	{ 0, 444000000 },
+> +	{ 0, 533000000 },
+> +	{ 0, 560000000 },
 > +};
 > +
-> +static const struct venus_resources sm8350_res = {
-> +	.freq_tbl = sm8250_freq_table,
-> +	.freq_tbl_size = ARRAY_SIZE(sm8250_freq_table),
+> +static const struct venus_resources sc8280xp_res = {
+> +	.freq_tbl = sc8280xp_freq_table,
+> +	.freq_tbl_size = ARRAY_SIZE(sc8280xp_freq_table),
 > +	.reg_tbl = sm8350_reg_preset,
 > +	.reg_tbl_size = ARRAY_SIZE(sm8350_reg_preset),
 > +	.bw_tbl_enc = sm8250_bw_table_enc,
@@ -156,23 +162,24 @@ On Tue, Mar 04, 2025 at 01:07:11PM +0000, Bryan O'Donoghue wrote:
 > +	.cp_nonpixel_size = 0x24800000,
 > +	.fwname = "qcom/vpu-2.0/venus.mbn",
 
-"qcom/vpu/vpu20_p1.mbn"
+qcom/vpu/vpu20_p1.mbn
 
 > +	.dec_nodename = "video-decoder",
 > +	.enc_nodename = "video-encoder",
 > +};
 > +
->  static const struct freq_tbl sc7280_freq_table[] = {
->  	{ 0, 460000000 },
->  	{ 0, 424000000 },
-> @@ -1086,6 +1126,7 @@ static const struct of_device_id venus_dt_match[] = {
+> +
+>  static const struct of_device_id venus_dt_match[] = {
+>  	{ .compatible = "qcom,msm8916-venus", .data = &msm8916_res },
+>  	{ .compatible = "qcom,msm8996-venus", .data = &msm8996_res },
+> @@ -1125,6 +1171,7 @@ static const struct of_device_id venus_dt_match[] = {
+>  	{ .compatible = "qcom,sdm845-venus-v2", .data = &sdm845_res_v2 },
 >  	{ .compatible = "qcom,sc7180-venus", .data = &sc7180_res },
 >  	{ .compatible = "qcom,sc7280-venus", .data = &sc7280_res },
+> +	{ .compatible = "qcom,sc8280xp-venus", .data = &sc8280xp_res },
 >  	{ .compatible = "qcom,sm8250-venus", .data = &sm8250_res },
-> +	{ .compatible = "qcom,sm8350-venus", .data = &sm8350_res },
+>  	{ .compatible = "qcom,sm8350-venus", .data = &sm8350_res },
 >  	{ }
->  };
->  MODULE_DEVICE_TABLE(of, venus_dt_match);
 > 
 > -- 
 > 2.47.2
