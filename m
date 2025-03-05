@@ -1,195 +1,167 @@
-Return-Path: <linux-media+bounces-27642-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27643-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19D81A502B3
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 15:51:55 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9534A5033E
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 16:13:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 72A9C161AC3
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 14:46:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9601F16478B
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 15:13:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ECF624EF6B;
-	Wed,  5 Mar 2025 14:46:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6AF3924EF9E;
+	Wed,  5 Mar 2025 15:13:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YMCRN1wq"
+	dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b="Bqv864iw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from ksmg01.maxima.ru (ksmg01.maxima.ru [81.200.124.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED1E224E4D9;
-	Wed,  5 Mar 2025 14:46:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FC2824C68D;
+	Wed,  5 Mar 2025 15:13:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.200.124.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741186003; cv=none; b=fCvi1kjFSKM0cfI7cW+ONZrz1b+r0twHcDBGe2D2nRLzMJMiQ89Y6olNHCcTp6dhVMkcaWADKnlrq/hhT1O0oAA3E8lXca5qoK/DvUHtSmnS03ckNtdVWO57sYkWulA/9ynPg/KQxGKeFADZZFoo9aa+lqMERESei7ptlHHPOCQ=
+	t=1741187611; cv=none; b=RCrBCzhyXhqP4kzssgZ3FKwA3POuUod26902kFwiMtM0Cb8Zu6qVsGtSOB2IMY5EAIadOk4nz80VKKm6cAtmd935rbB3rZYb03MWe/GZWLWsJOL8ExJWj3aYw4NjNpH7r8aSM1uPJ0BWKYA4XDBQWEOXDng2GxJR0ZgBW1u8czk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741186003; c=relaxed/simple;
-	bh=L3jUhS/r+JH2pja+AgnftKyj5qnxWl+7BgssdXVj2gw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EYv6rv+w0ObreoGEnHx4qhzBpkJCilz5ba8/+6a/U/qQbZTFKLCoemef+5TJucUT/ODEzZwaq+9wcfNqFI4Rd15jgX4Yc/nWVPQYJwmbBC6XrefKVePM9041XkqQ3rSiDr34va8kueus5pYOdliLAq64WD1ErCCcJUcCz+LlTM8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YMCRN1wq; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741186002; x=1772722002;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=L3jUhS/r+JH2pja+AgnftKyj5qnxWl+7BgssdXVj2gw=;
-  b=YMCRN1wqjrZz0jVq2oA5gvJJXEE9JLqpd74quaAQ4VwV2oS63S/mZcY9
-   HmSyQQ2exkoBRWBIs95jfa9JSFsuPEq0j/wxsfXuy8/i+ZTJFKraqeebG
-   UmBL7hLlKikrFLi5hJCqr3OG1YdMil5i7njA8H9Mf9ERHWq9IeAah42ZA
-   oE8gngIMsJ6CNJHl7EbB2ThN+AldTEEPnxPz2KrFMlSQES1X/Sz+oKAD1
-   5JTaYC/cerR+uYn4clANO5hNTq2PzBmbrAkDRseoVv/U+61HrleVJHcjj
-   i90JIAeHhF3lr5iDjDTr+IoAagTOkxcP3Hd4z2eJilzptHc3ZBKhV2C94
-   Q==;
-X-CSE-ConnectionGUID: DxY+jS37SFapsqkH3qK0Kg==
-X-CSE-MsgGUID: LPwkdlqKSJqKdrq3HkcpYw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="52792665"
-X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; 
-   d="scan'208";a="52792665"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 06:46:41 -0800
-X-CSE-ConnectionGUID: jF6/yAj2RoqpY3HCtIYkbw==
-X-CSE-MsgGUID: prA7QD4NTSOMacJKP8SD3Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; 
-   d="scan'208";a="118864143"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 06:46:39 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id BD44F11FB58;
-	Wed,  5 Mar 2025 16:46:35 +0200 (EET)
-Date: Wed, 5 Mar 2025 14:46:35 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Tarang Raval <tarang.raval@siliconsignals.io>
-Cc: kieran.bingham@ideasonboard.com,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] media: i2c: imx219: switch to
- {enable,disable}_streams
-Message-ID: <Z8hjy8CiM-QcjTME@kekkonen.localdomain>
-References: <20250305142117.29182-1-tarang.raval@siliconsignals.io>
- <20250305142117.29182-2-tarang.raval@siliconsignals.io>
+	s=arc-20240116; t=1741187611; c=relaxed/simple;
+	bh=A30K9ZC21AEWOAnZDI/LtiVBGGSU4L6zt2FCIEN/Wog=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hBp8mUFx3Pjt5WitRTDnMQOhpMCnde86/HHmRdzodABoxILcFvWgm1T8Kx3nTZzDWgiDZ0WJxoKLewCDXOFZzAw5OGWuPwLDUpibBbrZvGpILTRkir/TdSxzuRRfexIbCXN3UKLUsYXPXnp3w3LASdBEVzROehpFgy/iTDVJ06E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru; spf=pass smtp.mailfrom=mt-integration.ru; dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b=Bqv864iw; arc=none smtp.client-ip=81.200.124.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mt-integration.ru
+Received: from ksmg01.maxima.ru (localhost [127.0.0.1])
+	by ksmg01.maxima.ru (Postfix) with ESMTP id 1F3B9C001C;
+	Wed,  5 Mar 2025 18:13:25 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg01.maxima.ru 1F3B9C001C
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt-integration.ru;
+	s=sl; t=1741187605; bh=n5v3qc83BGal1rN0v71QU7IveSQvkixZaWHpHWiEcIQ=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
+	b=Bqv864iwas3lLZxl3csNK+tXIldo4W/kctViiASVgRtIBWOFZl/o1fLLcbVkbysP3
+	 LkdVKuD5yCHygC96t5bj6cC4wwfbRe4tzXr6y2Y9qYUSwjlfc9HllfxYduxYEoUeI6
+	 jxuJp7Sljfu+irrKPqtNAQxDWE89veg0s8m4AtO5ieaAAVHJtZjiNntnBkBlBVsW+S
+	 qFUhFRx8OWMyXTDQeQzhpcHO6o9A1iV7IPcOZ4qhTOnDxaEjL4Gp3c+eq6Wb0aGSoM
+	 5GbfCID1X2Qci5Yh5hB+K0avuO1+pimOscq2RBnd9Z2OFn8zvb+pXfHK/6BWy54K/l
+	 J6NwhXgeDTblA==
+Received: from ksmg01.maxima.ru (autodiscover.maxima.ru [81.200.124.61])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(Client CN "*.maxima.ru", Issuer "GlobalSign GCC R3 DV TLS CA 2020" (verified OK))
+	by ksmg01.maxima.ru (Postfix) with ESMTPS;
+	Wed,  5 Mar 2025 18:13:24 +0300 (MSK)
+Received: from localhost.maximatelecom.ru (5.1.51.168) by mmail-p-exch01.mt.ru
+ (81.200.124.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1544.4; Wed, 5 Mar 2025
+ 18:13:23 +0300
+From: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+CC: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
+	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<lvc-project@linuxtesting.org>
+Subject: [PATCH v2] media: cec: use us_to_ktime() where appropriate
+Date: Wed, 5 Mar 2025 20:11:25 +0500
+Message-ID: <20250305151212.13660-1-v.shevtsov@mt-integration.ru>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250305142117.29182-2-tarang.raval@siliconsignals.io>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: mt-exch-01.mt.ru (91.220.120.210) To mmail-p-exch01.mt.ru
+ (81.200.124.61)
+X-KSMG-AntiPhishing: NotDetected, bases: 2025/03/05 13:16:00
+X-KSMG-AntiSpam-Auth: dmarc=none header.from=mt-integration.ru;spf=none smtp.mailfrom=mt-integration.ru;dkim=none
+X-KSMG-AntiSpam-Envelope-From: v.shevtsov@mt-integration.ru
+X-KSMG-AntiSpam-Info: LuaCore: 51 0.3.51 68896fb0083a027476849bf400a331a2d5d94398, {rep_avail}, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, ksmg01.maxima.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;127.0.0.199:7.1.2;mt-integration.ru:7.1.1;lore.kernel.org:7.1.1;81.200.124.61:7.1.2, FromAlignment: s, ApMailHostAddress: 81.200.124.61
+X-KSMG-AntiSpam-Interceptor-Info: scan successful
+X-KSMG-AntiSpam-Lua-Profiles: 191511 [Mar 05 2025]
+X-KSMG-AntiSpam-Method: none
+X-KSMG-AntiSpam-Rate: 0
+X-KSMG-AntiSpam-Status: not_detected
+X-KSMG-AntiSpam-Version: 6.1.1.11
+X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2025/03/05 13:56:00 #27617700
+X-KSMG-AntiVirus-Status: NotDetected, skipped
+X-KSMG-LinksScanning: NotDetected, bases: 2025/03/05 13:16:00
+X-KSMG-Message-Action: skipped
+X-KSMG-Rule-ID: 7
 
-Hi Tarang,
+[Why]
+There are several ns_to_ktime() calls that require using nanoseconds. It is
+better to replace them with us_to_ktime() to make code clear, getting rid
+of multiplication by 1000.
 
-Thanks for the update.
+Also the timer function code may have an integer wrap-around issue. Since
+both tx_custom_low_usecs and tx_custom_high_usecs can be set to up to
+9999999 from the user space via cec_pin_error_inj_parse_line(), this may
+cause usecs to be overflowed when adap->monitor_pin_cnt is zero and usecs
+is multiplied by 1000.
 
-On Wed, Mar 05, 2025 at 07:51:15PM +0530, Tarang Raval wrote:
-> Switch from s_stream to enable_streams and disable_streams callbacks.
-> 
-> Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>
-> ---
->  drivers/media/i2c/imx219.c | 36 +++++++++++++++++-------------------
->  1 file changed, 17 insertions(+), 19 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index f662c9d75511..12f1aa8824fe 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -723,12 +723,17 @@ static int imx219_configure_lanes(struct imx219 *imx219)
->  				  ARRAY_SIZE(imx219_4lane_regs), NULL);
->  };
->  
-> -static int imx219_start_streaming(struct imx219 *imx219,
-> -				  struct v4l2_subdev_state *state)
-> +static int imx219_enable_streams(struct v4l2_subdev *sd,
-> +				 struct v4l2_subdev_state *state, u32 pad,
-> +				 u64 streams_mask)
->  {
-> +	struct imx219 *imx219 = to_imx219(sd);
->  	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
->  	int ret;
->  
-> +	if (pad != 0)
-> +		return -EINVAL;
+[How]
+Take advantage of using an appropriate helper func us_to_ktime() instead of
+ns_to_ktime() to improve readability and to make the code clearer. And this
+also mitigates possible integer wrap-arounds when usecs value is too large
+and it is multiplied by 1000.
 
-There's no need to check for the pad argument: {enable,disable}_streams may
-be called on source pads only.
+Found by Linux Verification Center (linuxtesting.org) with Svace.
 
-> +
->  	ret = pm_runtime_resume_and_get(&client->dev);
->  	if (ret < 0)
->  		return ret;
-> @@ -778,11 +783,17 @@ static int imx219_start_streaming(struct imx219 *imx219,
->  	return ret;
->  }
->  
-> -static void imx219_stop_streaming(struct imx219 *imx219)
-> +static int imx219_disable_streams(struct v4l2_subdev *sd,
-> +				  struct v4l2_subdev_state *state, u32 pad,
-> +				  u64 streams_mask)
->  {
-> +	struct imx219 *imx219 = to_imx219(sd);
->  	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
->  	int ret;
->  
-> +	if (pad != 0)
-> +		return -EINVAL;
+Signed-off-by: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>
+---
+v2: Wrapped some lines in the commit description to fit into 75 characters.
+    Reported by Patchwork Integration <patchwork@media-ci.org>
 
-Ditto.
+This patch was created after the Christophe JAILLET's comment at
+https://lore.kernel.org/all/cff4d412-abbf-44b5-9705-ba14dff7d5d0@wanadoo.fr/
 
-> +
->  	/* set stream off register */
->  	ret = cci_write(imx219->regmap, IMX219_REG_MODE_SELECT,
->  			IMX219_MODE_STANDBY, NULL);
-> @@ -793,22 +804,7 @@ static void imx219_stop_streaming(struct imx219 *imx219)
->  	__v4l2_ctrl_grab(imx219->hflip, false);
->  
->  	pm_runtime_put(&client->dev);
-> -}
-> -
-> -static int imx219_set_stream(struct v4l2_subdev *sd, int enable)
-> -{
-> -	struct imx219 *imx219 = to_imx219(sd);
-> -	struct v4l2_subdev_state *state;
-> -	int ret = 0;
-> -
-> -	state = v4l2_subdev_lock_and_get_active_state(sd);
-> -
-> -	if (enable)
-> -		ret = imx219_start_streaming(imx219, state);
-> -	else
-> -		imx219_stop_streaming(imx219);
->  
-> -	v4l2_subdev_unlock_state(state);
->  	return ret;
->  }
->  
-> @@ -992,7 +988,7 @@ static int imx219_init_state(struct v4l2_subdev *sd,
->  }
->  
->  static const struct v4l2_subdev_video_ops imx219_video_ops = {
-> -	.s_stream = imx219_set_stream,
-> +	.s_stream = v4l2_subdev_s_stream_helper,
->  };
->  
->  static const struct v4l2_subdev_pad_ops imx219_pad_ops = {
-> @@ -1001,6 +997,8 @@ static const struct v4l2_subdev_pad_ops imx219_pad_ops = {
->  	.set_fmt = imx219_set_pad_format,
->  	.get_selection = imx219_get_selection,
->  	.enum_frame_size = imx219_enum_frame_size,
-> +	.enable_streams = imx219_enable_streams,
-> +	.disable_streams = imx219_disable_streams,
->  };
->  
->  static const struct v4l2_subdev_ops imx219_subdev_ops = {
+ drivers/media/cec/core/cec-pin.c | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/media/cec/core/cec-pin.c b/drivers/media/cec/core/cec-pin.c
+index a70451d99ebc..f232c3df7ee1 100644
+--- a/drivers/media/cec/core/cec-pin.c
++++ b/drivers/media/cec/core/cec-pin.c
+@@ -873,19 +873,19 @@ static enum hrtimer_restart cec_pin_timer(struct hrtimer *timer)
+ 		if (pin->wait_usecs > 150) {
+ 			pin->wait_usecs -= 100;
+ 			pin->timer_ts = ktime_add_us(ts, 100);
+-			hrtimer_forward_now(timer, ns_to_ktime(100000));
++			hrtimer_forward_now(timer, us_to_ktime(100));
+ 			return HRTIMER_RESTART;
+ 		}
+ 		if (pin->wait_usecs > 100) {
+ 			pin->wait_usecs /= 2;
+ 			pin->timer_ts = ktime_add_us(ts, pin->wait_usecs);
+ 			hrtimer_forward_now(timer,
+-					ns_to_ktime(pin->wait_usecs * 1000));
++					us_to_ktime(pin->wait_usecs));
+ 			return HRTIMER_RESTART;
+ 		}
+ 		pin->timer_ts = ktime_add_us(ts, pin->wait_usecs);
+ 		hrtimer_forward_now(timer,
+-				    ns_to_ktime(pin->wait_usecs * 1000));
++				    us_to_ktime(pin->wait_usecs));
+ 		pin->wait_usecs = 0;
+ 		return HRTIMER_RESTART;
+ 	}
+@@ -1020,13 +1020,12 @@ static enum hrtimer_restart cec_pin_timer(struct hrtimer *timer)
+ 	if (!adap->monitor_pin_cnt || usecs <= 150) {
+ 		pin->wait_usecs = 0;
+ 		pin->timer_ts = ktime_add_us(ts, usecs);
+-		hrtimer_forward_now(timer,
+-				ns_to_ktime(usecs * 1000));
++		hrtimer_forward_now(timer, us_to_ktime(usecs));
+ 		return HRTIMER_RESTART;
+ 	}
+ 	pin->wait_usecs = usecs - 100;
+ 	pin->timer_ts = ktime_add_us(ts, 100);
+-	hrtimer_forward_now(timer, ns_to_ktime(100000));
++	hrtimer_forward_now(timer, us_to_ktime(100));
+ 	return HRTIMER_RESTART;
+ }
+ 
 -- 
-Regards,
+2.48.1
 
-Sakari Ailus
 
