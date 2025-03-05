@@ -1,153 +1,151 @@
-Return-Path: <linux-media+bounces-27587-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27588-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C2DAA4FC70
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 11:42:31 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55A91A4FC80
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 11:45:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 55B067A151F
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 10:41:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D65753B01C9
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 10:44:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 385D220AF71;
-	Wed,  5 Mar 2025 10:42:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EB0420CCE3;
+	Wed,  5 Mar 2025 10:44:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=timsurber.de header.i=@timsurber.de header.b="WF+FIobE"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ewLhR7Ov"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 351D320A5EE;
-	Wed,  5 Mar 2025 10:42:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AFE62066F3;
+	Wed,  5 Mar 2025 10:44:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741171332; cv=none; b=h34AXAa/5R1hsOpOhp2Gza5grNn1x3/+JpHvMF6gLih9Fh4JEu/WNcyP85d2Qs5LAkSCscdPWsxnQhTHXaTYrkxz7yXsWGz5o5b1qacc+1BxsA3ypADtpNkw85B7cscoWmMLTHVlfgaIB+QztOMsnDpy70VYAiIMgIq5QEgsgEI=
+	t=1741171473; cv=none; b=ne72R7eeNR6HhBJdDNkeSy7pR0bXx91KUb9m4DpbGmIL48cPiCj0TnJKKeXKPRgEI+7He71QqKPA28FeUQKj8B32eT8r5GPybaUFNDFyD61/ZK0d3Tae3F/KGC8KProiohA2fmtDbAMqj/Z1TRJ8LJnjHtqIG0r3HHG+oagkx00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741171332; c=relaxed/simple;
-	bh=eHLZnWrhATcm5AHiNd1STWhEnwQ9NvDjfqNPJZbDW4A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MVshCY+Wsc/VzvR5zFY2e3/wOh9jeDlyrDmwCL/TO5VYl4cw9kW5gGcmzjPPAf9oNc6mzJttRDCnLI8m/5ezD4K7KhwToejLI1SxS3ed97E7YFG6INdqAZocLgJuEC67VHvgzxAusItfASXcL1QCAvSPP/1EKFiUvWaXbTAOJNE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=timsurber.de; spf=pass smtp.mailfrom=timsurber.de; dkim=pass (2048-bit key) header.d=timsurber.de header.i=@timsurber.de header.b=WF+FIobE; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=timsurber.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=timsurber.de
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4Z78Hv66V4z9sDC;
-	Wed,  5 Mar 2025 11:42:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=timsurber.de;
-	s=MBO0001; t=1741171323;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=9rOeGZ2uHJYNH5SGu5DmNFvlkAimADfypO0YBEqe3ok=;
-	b=WF+FIobEkjFi0U0Qq/qweJfo/S7s8oCqnDdTMXUXXIHcQYlXjvIK3EpvkFPDQe3UPFoWk0
-	ar+7B0eKWDZD7c4HBdB+kD2oyhlaZrqzQ129PQeenYzYu9Q5oNP0QE4yEyECA4ezBqYHnK
-	3271dthcCvMN6wSO85m5/7/zEgxrAzWLjCfKjX35bV8Cpf0W3h11w4KosUeKq9wD4FaPEu
-	3ShsoXrEGSprr2p9xboIz2RVYm0SRqip4p0FetKD/ahvhF/gmkUfARxWMiVhVBjXiY4Hqa
-	FT3W1tMOMwDYCl7G9A4q0jmmAYpnT9wq5/3ihfTe6R4+bVeb4pLfaDVB3dpt+w==
-Message-ID: <e0e144be-5cf9-4a79-a602-2ab2b7cd9aa1@timsurber.de>
-Date: Wed, 5 Mar 2025 11:41:56 +0100
+	s=arc-20240116; t=1741171473; c=relaxed/simple;
+	bh=/OYfXaBPrkoa14cxdMWTGkLSKxQbTY1GqVh8e14rxBA=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=cZ0we3jksE7B1h/W37yrxTvpKVpUp9CzB8xyAQTQQ/aGGBa/gCiEJe13PtKaxqrEQ9y8vucAJjJgURYvcEiUIsQEk6agsuvQj9Px+fL2ZyS4XcrUGrXWzw9Bbp6UpQ4oIOb/9BioU+YERYdIBzFaDh68Bhc9RzPuBgSNA0fZL1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ewLhR7Ov; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 524NAbFZ027880;
+	Wed, 5 Mar 2025 10:44:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=Uyqzo+cNiMRXmYzSgNRL10
+	Oc1Cs45lIbNAMtMMlQhAU=; b=ewLhR7OvP3Gz8oEHi87sLA6rkrmeMBI+NiA/9A
+	SSU3SujxZamlxJun3gKIpUvGWBGMNAK/SMh958YaDLUfKuwSG03M9bbelfHVpZ42
+	w3XxDnvnou4CUKcG176f7qgpEWeLqnNciWPPaUcEYtt6UDH2vd5fMk/C/jFq+hHt
+	OtVYHm0B9XEjfsAUMyoietNR48liV82jUC6TV4mtTsBy/VSPhkVqBeH2KR3WN0fu
+	JrtIAS0Hz3BwMU3ld6g6in6ynIlJV9Ky59OJ57zGhvp/Mhh5mvjEY+wqnIWZt8kS
+	qxQgFeyH+3/n/dVj/869muKaA9d6U/6BSJOBMUOB/qNzPctA==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 455p6tw1ad-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 05 Mar 2025 10:44:28 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 525AiRKJ013545
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 5 Mar 2025 10:44:27 GMT
+Received: from hu-dikshita-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 5 Mar 2025 02:44:23 -0800
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+To: <quic_vgarodia@quicinc.com>, <quic_abhinavk@quicinc.com>,
+        <mchehab@kernel.org>, <quic_dikshita@quicinc.com>
+CC: <hverkuil@xs4all.nl>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [RFC PATCH 00/12] Add support for HEVC and VP9 codecs in decoder 
+Date: Wed, 5 Mar 2025 16:13:23 +0530
+Message-ID: <20250305104335.3629945-1-quic_dikshita@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v13 0/6] Add Synopsys DesignWare HDMI RX Controller
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Shreeya Patel <shreeya.patel@collabora.com>, Heiko Stuebner
- <heiko@sntech.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, jose.abreu@synopsys.com,
- nelson.costa@synopsys.com, shawn.wen@rock-chips.com,
- nicolas.dufresne@collabora.com,
- Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: kernel@collabora.com, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Diederik de Haas <didi.debian@cknow.org>
-References: <20250304085819.108067-1-dmitry.osipenko@collabora.com>
- <78ff36f6-01a7-4df4-b653-c4509fb93af4@timsurber.de>
- <1039aca7-89b9-44ef-9775-e7852e956362@timsurber.de>
- <9b4b1e65-127d-422b-a359-a1d8e25652f9@xs4all.nl>
- <88054acf-3051-414c-aef7-4c0f085d5182@collabora.com>
- <47e022f4-1c1b-43c4-8f6c-bc1ff23ad39f@collabora.com>
-Content-Language: en-US
-From: Tim Surber <me@timsurber.de>
-In-Reply-To: <47e022f4-1c1b-43c4-8f6c-bc1ff23ad39f@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 4Z78Hv66V4z9sDC
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: Z__YNv9APdeHcw_-cMr_pmkDV9dfwlT4
+X-Proofpoint-ORIG-GUID: Z__YNv9APdeHcw_-cMr_pmkDV9dfwlT4
+X-Authority-Analysis: v=2.4 cv=Sf4NduRu c=1 sm=1 tr=0 ts=67c82b0c cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=Vs1iUdzkB0EA:10 a=HO69U94CIm5YmXkL_XkA:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-05_04,2025-03-05_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
+ priorityscore=1501 lowpriorityscore=0 impostorscore=0 phishscore=0
+ suspectscore=0 clxscore=1015 malwarescore=0 bulkscore=0 mlxlogscore=999
+ mlxscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
+ definitions=main-2503050086
 
-Hi,
+Hi all,
 
-so the 4:4:4 issue was just a gstreamer bug and it worked when I applied 
-an experimental fix [1].
+This patch series adds initial support for the HEVC(H.265) and VP9
+codecs in iris decoder. The objective of this work is to extend the 
+decoder's capabilities to handle HEVC and VP9 codec streams,
+including necessary format handling and buffer management.
+In addition, the series also includes a set of fixes to address issues
+identified during testing of these additional codecs.
 
-So everything works for me using the default EDID now.
+I'm sharing this series as an RFC because compliance and conformance
+testing are still in progress.
+While initial functional tests show positive results, I would
+appreciate early feedback on the design, implementation, and fixes
+before moving to a formal submission.
 
-Tested-by: Tim Surber <me@timsurber.de>
+I plan to submit a formal patch series after completing all compliance
+checks. Meanwhile, any feedback or suggestion to improve this work are
+very welcome.
 
-[1]: 
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8534
+Thanks,
+Dikshita
 
-On 3/5/25 10:09, Dmitry Osipenko wrote:
-> On 3/5/25 12:03, Dmitry Osipenko wrote:
->> On 3/5/25 11:10, Hans Verkuil wrote:
->>> On 05/03/2025 01:59, Tim Surber wrote:
->>>> Hi Dmitry,
->>>>
->>>> I did some more testing. That the Apple TV did not work was a bit
->>>> misleading.
->>>>
->>>> It was just, that the Apple TV defaulted to 4:4:4 Chroma which does not
->>>> work at all for me. (The same happens using the vendor driver).
->>>>
->>>> When I changed the EDID to match the vendor driver the HDMI handshake
->>>> happened with 4:2:0 chroma, where I could verify even 4k60fps using your
->>>> driver, nice!
->>>>
->>>> So the remaining problems I see are:
->>>> - 4:4:4 chroma not working in any resolution
->>>> - 4:2:2 and RGB not working in 4k60fps (is this a hardware limitation?)
->>>>
->>>> A possible workaround could be to disable these non supported formats in
->>>> the default EDID.
->>> I would like to merge this driver this week, since otherwise it will likely
->>> slip to v6.16. So if there is a working EDID, perhaps it can be used for now,
->>> and later on it can be patched if there is a better EDID.
->>>
->>> Would this EDID work? Tim, can you try this?
->>>
->>> v4l2-ctl --set-edid type=hdmi-4k-600mhz,ycbcr444,ycbcr422
->>>
->>> Alternatively, if there is indeed a HW limitation that prevents 4kp60 to work,
->>> try this:
->>>
->>> v4l2-ctl --set-edid type=hdmi-4k-300mhz,ycbcr444,ycbcr422
->>>
->>> Whichever of the two works is what we can use as default EDID.
->>
->> Disabling 444 and 422 is an option. Though, they work on my setup at
->> 4k@60p.
->>
->> In general, it often a challenge to get 4k@60p properly with any of
->> these small board devices. 4k@60p works only using a short HDMI cable
->> for me. Also, not everyone aware that the micro HDMI adapter needs to be
->> compliant with HDMI 2.0 for 4k@60, that's why 300MHz is the default.
->>
->> Will be nice to have the good EDID enabled by default in the defconfig.
->> Dealing with problems like that will be a headache for majority of
->> people, IMO.
-> 
-> BTW, I don't see it as a blocker. Driver works in general, new issues
-> can be resolved with additional patches.
-> 
+Dikshita Agarwal (12):
+  media: iris: Add HEVC and VP9 formats for decoder
+  media: iris: Add platform capabilities for HEVC and VP9 decoders
+  media: iris: Set mandatory properties for HEVC and VP9 decoders.
+  media: iris: Add internal buffer calculation for HEVC and VP9 decoders
+  media: iris: Skip destroying internal buffer if not dequeued
+  media: iris: Update CAPTURE format info based on OUTPUT format
+  media: iris: Add handling for corrupt and drop frames
+  media: iris: Avoid updating frame size to firmware during reconfig
+  media: iris: Avoid sending LAST flag multiple times
+  media: iris: Send V4L2_BUF_FLAG_ERROR for buffers with 0 filled length
+  media: iris: Fix handling of eos buffer during drain
+  media: iris: Add handling for no show frames
+
+ .../media/platform/qcom/iris/iris_buffer.c    |  22 +-
+ drivers/media/platform/qcom/iris/iris_ctrls.c |  28 +-
+ .../platform/qcom/iris/iris_hfi_common.h      |   1 +
+ .../qcom/iris/iris_hfi_gen1_command.c         |  38 +-
+ .../qcom/iris/iris_hfi_gen1_defines.h         |   4 +
+ .../qcom/iris/iris_hfi_gen1_response.c        |  11 +
+ .../qcom/iris/iris_hfi_gen2_command.c         | 129 +++++-
+ .../qcom/iris/iris_hfi_gen2_defines.h         |   5 +
+ .../qcom/iris/iris_hfi_gen2_response.c        |  56 ++-
+ .../media/platform/qcom/iris/iris_instance.h  |   6 +
+ .../platform/qcom/iris/iris_platform_common.h |  25 +-
+ .../platform/qcom/iris/iris_platform_sm8250.c |   4 +-
+ .../platform/qcom/iris/iris_platform_sm8550.c | 141 ++++++-
+ drivers/media/platform/qcom/iris/iris_vb2.c   |   3 +-
+ drivers/media/platform/qcom/iris/iris_vdec.c  |  80 +++-
+ drivers/media/platform/qcom/iris/iris_vdec.h  |  11 +
+ drivers/media/platform/qcom/iris/iris_vidc.c  |   3 -
+ .../platform/qcom/iris/iris_vpu_buffer.c      | 397 +++++++++++++++++-
+ .../platform/qcom/iris/iris_vpu_buffer.h      |  46 +-
+ 19 files changed, 931 insertions(+), 79 deletions(-)
+
+-- 
+2.34.1
 
 
