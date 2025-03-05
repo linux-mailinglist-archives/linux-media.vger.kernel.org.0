@@ -1,88 +1,89 @@
-Return-Path: <linux-media+bounces-27661-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27662-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2241FA50CB3
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 21:44:38 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E77C4A50CB6
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 21:45:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E3C627A334B
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 20:43:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 30FFB3AC96B
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 20:45:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 414502566DB;
-	Wed,  5 Mar 2025 20:44:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C087B2571B1;
+	Wed,  5 Mar 2025 20:45:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cas72uP4"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="V7pEL6Wg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BB1FC12
-	for <linux-media@vger.kernel.org>; Wed,  5 Mar 2025 20:44:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F690199920
+	for <linux-media@vger.kernel.org>; Wed,  5 Mar 2025 20:45:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741207460; cv=none; b=Bj5J6TxdXVEhxOxmZvL3AusAGpa948Z2Zi1N61AWbCwIWw9FgkDzJYc+zZPRQdujsu4X6t8ZuoU6osPWwd+lEjCf1dd2pM9o5qFfdaIqiKAvTbg3WUtHgKUlCidoqNkT+juH5zqiS+JM4thYkyfQn9eSCJFeN/leV9GmroXoQN4=
+	t=1741207519; cv=none; b=gwmsgSKCykWSa95n8v84Oi2kt8pNT5Ftp8EW3ngQKjadGoHRBe1HWtQO4W91i28CPGmWZ/dHSHVCDgLqFDEa8wonnMNRAzTJuP3vMCC2khgIRcGkFr1B8Mh8qfI1Gjmn2s4LVCkeB8tFbKPFD+f4Y/AISPLFDNqC7oLvhWQq2bc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741207460; c=relaxed/simple;
-	bh=uBiu/q+tZsa0gP4L7tZmIGYWrBiby7aTZSxyh/yRlQk=;
+	s=arc-20240116; t=1741207519; c=relaxed/simple;
+	bh=nWSgmYzbJW9vIQuFfEEpG7niuQ/1DEtdvz2zxSKIHLw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UsHOWqUcLZC+1CIqDOZzgiSEyK06ileTPp+cACxVYV2gHD9tRFyTNy9Mp0xo3KbhRs44p71W3Oo/Y4iwl3S9IT4P65QHmYQMn8e02P0N57d7vcAiJUzhJSyYKD7DbNwYzUBnpgbnfASUknkM5GWgWgsLu38tn2MRieYVkX9BGOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cas72uP4; arc=none smtp.client-ip=209.85.208.178
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mp4/WLriQae254T3zcws3IVShLHsVC6cGH1jcyYgcdzUDjs/M9UXpGpXUqDtk6Vf2D2A1KAfG8EWm5kFnU1kA5/VOuIInOLEq0vWAgS5mp9xNyy08sTlo93AI3pBYdIfffNghrITvbkcopEBypkWscxXubNA4QdcuF1NqljmGPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=V7pEL6Wg; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-30ba563a6d1so14736741fa.1
-        for <linux-media@vger.kernel.org>; Wed, 05 Mar 2025 12:44:17 -0800 (PST)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5495888f12eso5437613e87.0
+        for <linux-media@vger.kernel.org>; Wed, 05 Mar 2025 12:45:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741207456; x=1741812256; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1741207514; x=1741812314; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YNdiW6NwgPN019oEVN4C32QrEjKTlign/S0WBpecrZc=;
-        b=cas72uP47srT3rT/xE/UP1wwgiw4uBleT9VzbILnEtYmFx37KrEtEDI3PTojoJdrM3
-         GBlESaiaUh1Cre7NdDMa5rhkiczA6jWJwtWeJxxIA+MaHQptyYmR7WutZM4fhJK3auow
-         BU/gWu5NawElIEbamBuZcDyvYyMZPyMnmEcVt/vFBVEO9vYMc1gOi/OjoXrGX9C9eDG9
-         IBJJlG4eOi35pRCS2qIIxsY/ISLob3ZM4KsRY44gXRI4R/7Ayroz8LuPebgudEEu4yFx
-         h6fujTRLlnGkcDENsaaqFCwvkT1pGeSF/XGSX3OAxl5VpbUFWvEloveizyIlQFMoS+6q
-         gOHQ==
+        bh=Cs41APiWQyzW6ccELRrCzvUoQL91nTx9GiNFwDYjQSc=;
+        b=V7pEL6WgMTYHnuAR0h+sh3qUDgxvggKq00UEaldaTBLB8C7SHGkarLa1do/H0R1jC1
+         A21XH23DG/uhCoGhF3cwJsAcvjTMXLKUWzPgDjgeJpF0y8c5oJJrDXrva4Oad/s2qc8F
+         qzMBZ6eMDBQQgnhGo4IcQ4VXda5G9XWq0m7AlMDh5fpT1ILcY8wzPSP3NJpkXKgJCAMJ
+         C8LJfEQS5YB3n7aLDtpJAMrKd7zSczdvmDMC10kyCrYTuTh5dmcQdOZpKd/urE7dV8Az
+         clOPKKzct/DbNpnHtKwQVDPmDqeK7S+jpcZh7l3BvFXW6kYEjwCOz1x1w6Nt2quPTlwu
+         1aiA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741207456; x=1741812256;
+        d=1e100.net; s=20230601; t=1741207514; x=1741812314;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=YNdiW6NwgPN019oEVN4C32QrEjKTlign/S0WBpecrZc=;
-        b=egoTqOc+3CWQrCdZUann8Ry7AhFcC3lSF1KYzRSFHrDkCEU62KOFxbWhxQVef967aa
-         zOzX7xjMNF3O1lkzfQE9D22wx8uLsFFKo4jolKKLRevlocuu+UpfhqnLBw2IixaWEjKL
-         8fPzgHuE8ounDmUOh39eUT+I500wWlnOBzXAkwuj7GDQqvacVWvGFyUbfSdQ++iz7wMZ
-         NnuloUxNWfzEOqlv63NFuSqOsMGtn3muZd/F8o47t6V2ylz6Z+3rNuXnefJ7rnUEZIe+
-         t41v3/u/2SNJRtLs26g7rd1t9kMd0F6wK5TCuQkwj57yjJYo7x4ohxEDFD7QD1GI917G
-         Zr7A==
-X-Forwarded-Encrypted: i=1; AJvYcCVZtBl0gn4DH6BIKKx4Yzqbr8SwtnGmvXGxotmLaGVFNmVwTRQCF7UJeVLqduM1498N7sesR6gcv2XhMQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3/+1XyI/S21j1u4qnOozsrBB3Nb21K/jOzi6FhX+viU38b4KX
-	RMnWBotISPTVqhBB+WmoZyoezbEzMNK3Y96wCbdlkMQJZAjdQ/0v0k6n7yX/0zA=
-X-Gm-Gg: ASbGnctoCzqqyc+9kDNnVh5AZz63cZSVtT6fOb6OTyxN/wtB3Y9R2K551KfuZd9dKok
-	x/45SPCdfMDzdDY1eP9VGvN/32FfonjH+WBaQ4CJWP0SH5g1SHc6hve9qwgFNq8yAZts1ZoB01B
-	tZiG0DthO8kEdx5o4lzPiylWSK2TPPhdfNfM8ppuZpcVYIdeqRVjcpHhMNzmIWmzN97ud8DoPs6
-	zZQFAQ3jkFdhj4ENte30X3v3LnEq2MFqDWYDcj9AE0cLc+U5IPUQizmoYZfj9zqTwZT8JbgSTrS
-	Ib2Icl0Z6CZ34DWJYwVvKnNCbx3vBvW/qe5JMvejN4tC3ea3X/3BHOhokPefnM1K0yowTjMz8Fw
-	1249ymuOUrv7pcqXuMCHV5+Md
-X-Google-Smtp-Source: AGHT+IFczkI3MTzyRZfvWgh/m7rUtd4PnjEbD7z5Jr0gFGe3Qx3ssOoX6oc3c7cd0UiybO63WkVYGQ==
-X-Received: by 2002:a2e:bea1:0:b0:30b:c608:22bf with SMTP id 38308e7fff4ca-30be341a1e8mr3100481fa.9.1741207455704;
-        Wed, 05 Mar 2025 12:44:15 -0800 (PST)
+        bh=Cs41APiWQyzW6ccELRrCzvUoQL91nTx9GiNFwDYjQSc=;
+        b=MwI7ftblShd4S1zvH+/wZsN/Y31o2tOiZ67ga0TI9vkbuIB9kntHtV7qe6DS+0Ytlb
+         /12rtbV4F2Jy0EPcsmyYYP7VaSMVqF7217jO9/v65x/OyAB8BXRiLjNERobuT1+SYXHe
+         SDSmv9uFC86FM7n/oxqREhXxq4M52tI6Xz+ayTAoMkxEcwBFH+izyZSYNaczDeRVBNbX
+         Y8Dya85g0VY7UFtzBH2gUejJop4oIUIyb0YGNw8o8s1tM5FYi7du2z4RHSPZOnQI4ZPG
+         t+K1hzp9oq3UsnmMyglpankbuwwhBeO9BfjpgeIcv5O+fBwZToJM5YklINaDEQUpqLtA
+         Mgmg==
+X-Forwarded-Encrypted: i=1; AJvYcCWpu0X5yNbEd8/zRPVIHieaJhhKkS00Nw8NgydTOaO16dkzfODMAjgQSlAe8xu4WoyY/yGGsj8+VZXmGg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1AiKyfmmag95eLjikjoK2+AVRaA1c5YMZ2V/3WZvBh1AkoiRf
+	ykvWKu6FXhcmm1ygstrnEQrDXuZ4kD+S0SB3Ws/v0jB7ldLt6XJuUihCtAam+aNvPVVLBHU9z/D
+	8spE=
+X-Gm-Gg: ASbGncvew+kO/LpTI8Oqnrh/i2Af8QijohXg/FjXdwGSvgV0nmZ8s24zRJ5YHqGVRqu
+	TpiQdUcH32XJnL3qxlcwg/47taKxrBGtQSvn9nPN2fHdqRBpC5c1kp6H+YsCIjySpsR7qxC4liW
+	h++DCGwRoTYEjJdjFqISdWhAmhTi56TEYhuYbRjJXl6od9GRNigmKQULRysDXNEcp1ihyMypSui
+	NcI2odMWg6uG9vKsLsxhszaValytWH/OXX7rT/lIgEZVCPbKRygQC4H9gRssfv8QXxpZ7+Ma4UD
+	yxwj7QYzrTjQdTX/0aSOp9wGcFX28dWboY3Bjf83ozhsdZFiH+ldsVBWVVwmCclxrVgj3CGB9XW
+	5bLv9NEb09XrE5GH9TlnjigHS
+X-Google-Smtp-Source: AGHT+IGEJt60WIoLMZBtifEB5R8NijD0rs7fn4MENGnhwex5vMpmDDUEO73YQjGoPnubG3s5tux5jg==
+X-Received: by 2002:a05:6512:158a:b0:545:17d:f96b with SMTP id 2adb3069b0e04-5497d336139mr1696933e87.14.1741207513742;
+        Wed, 05 Mar 2025 12:45:13 -0800 (PST)
 Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30b867ca1dfsm20636091fa.58.2025.03.05.12.44.13
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5495e1a7304sm1199597e87.216.2025.03.05.12.45.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 05 Mar 2025 12:44:14 -0800 (PST)
-Date: Wed, 5 Mar 2025 22:44:12 +0200
+        Wed, 05 Mar 2025 12:45:12 -0800 (PST)
+Date: Wed, 5 Mar 2025 22:45:10 +0200
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: Dikshita Agarwal <quic_dikshita@quicinc.com>
 Cc: quic_vgarodia@quicinc.com, quic_abhinavk@quicinc.com, 
 	mchehab@kernel.org, hverkuil@xs4all.nl, linux-media@vger.kernel.org, 
 	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH 05/12] media: iris: Skip destroying internal buffer
- if not dequeued
-Message-ID: <aevtzaqo3pqi5kwufdwciocybibuketxlfy6revxc6r6bzxdai@njgt56fev2vq>
+Subject: Re: [RFC PATCH 06/12] media: iris: Update CAPTURE format info based
+ on OUTPUT format
+Message-ID: <zw42tgyhxedcifrad5i2gam5sbjjczcaopv4iy2fy5hckkjdsj@crawjvp7bdox>
 References: <20250305104335.3629945-1-quic_dikshita@quicinc.com>
- <20250305104335.3629945-6-quic_dikshita@quicinc.com>
+ <20250305104335.3629945-7-quic_dikshita@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -91,41 +92,21 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250305104335.3629945-6-quic_dikshita@quicinc.com>
+In-Reply-To: <20250305104335.3629945-7-quic_dikshita@quicinc.com>
 
-On Wed, Mar 05, 2025 at 04:13:28PM +0530, Dikshita Agarwal wrote:
-> Firmware might hold the DPB buffers for reference in case of sequence
-> change, so skip destroying buffers for which QUEUED flag is not removed.
+On Wed, Mar 05, 2025 at 04:13:29PM +0530, Dikshita Agarwal wrote:
+> Update the width, height and buffer size of CAPTURE based on the
+> resolution set to OUTPUT via VIDIOC_S_FMT. This is required to set the
+> updated capture resolution to firmware when S_FMT is called only for
+> OUTPUT.
 > 
 > Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-
-Please add FIxes tag and move closer to the top.
-
 > ---
->  drivers/media/platform/qcom/iris/iris_buffer.c | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  drivers/media/platform/qcom/iris/iris_vdec.c | 5 +++++
+>  1 file changed, 5 insertions(+)
 > 
-> diff --git a/drivers/media/platform/qcom/iris/iris_buffer.c b/drivers/media/platform/qcom/iris/iris_buffer.c
-> index 8c9d5b7fe75c..305b630ca269 100644
-> --- a/drivers/media/platform/qcom/iris/iris_buffer.c
-> +++ b/drivers/media/platform/qcom/iris/iris_buffer.c
-> @@ -399,6 +399,13 @@ int iris_destroy_internal_buffers(struct iris_inst *inst, u32 plane)
->  	for (i = 0; i < len; i++) {
->  		buffers = &inst->buffers[internal_buf_type[i]];
->  		list_for_each_entry_safe(buf, next, &buffers->list, list) {
-> +			/*
-> +			 * skip destroying internal(DPB) buffer if firmware
-> +			 * did not return it.
-> +			 */
-> +			if (buf->attr & BUF_ATTR_QUEUED)
-> +				continue;
-> +
->  			ret = iris_destroy_internal_buffer(inst, buf);
->  			if (ret)
->  				return ret;
-> -- 
-> 2.34.1
-> 
+
+This also looks like a fix, so Fixes, cc:stable, move to the top.
 
 -- 
 With best wishes
