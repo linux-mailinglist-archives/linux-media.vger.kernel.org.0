@@ -1,216 +1,283 @@
-Return-Path: <linux-media+bounces-27649-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27650-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0B00A504FD
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 17:35:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81430A5059C
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 17:50:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E25701886983
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 16:31:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 81FC6165EBF
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 16:49:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDAA7192B95;
-	Wed,  5 Mar 2025 16:30:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7453819DF61;
+	Wed,  5 Mar 2025 16:49:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bFAN/icr"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BjIGDvIg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB72C15350B;
-	Wed,  5 Mar 2025 16:30:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13FC5151992
+	for <linux-media@vger.kernel.org>; Wed,  5 Mar 2025 16:49:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741192228; cv=none; b=Kdrzhw7GfwJ2SwzIIF93NbMZWb8QjH4WMOc/+DdrktlezwafxPLi2ZfFnGcbG0fuWCaO1EaDeQ+JrCdh91QriyHBxPQVrJajEXvNJjY6B4YrmG46um4uQByCdV50aJ+TBBMX+k0FGzYi31/YcNni2lCJVMr9V8xv+O6E98fgwlQ=
+	t=1741193357; cv=none; b=CCztv91ZISE7RARAYo/SMhnwnqezTTPgkcs/OKpBZmWWTKRv6WWAAHVBKkpq0O+Uz1e5KI/Gl2i3d2KXQB6OOaqJaWDpCw3NmPM1MUURF5ZzBkvx0E/7+nN+PN4QYrvv2Ulkwh/71A4zYG7O3pnxCjy5IgoXAqxy9ZDccRZdrdY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741192228; c=relaxed/simple;
-	bh=FZKrVRaLdOeP4MYB8JeHLpJJFV9GJ95YyHm9V1A+EI4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eDOMtIUhVp2HJZjooUFxNXdaetQJCBAF2zwshfnxF8KX45gtXvKbdLKKJekcocHbYmmejjbF/6NjR9Nx/Lb2l2rRU4We09CRxDdDuEODgkWnFpjs16SsYLj/iUf81aozqhTst4zB3wRcsFV/Kl+cHejBC6PCSGx0QaY5BdHn30o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bFAN/icr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D941C4CED1;
-	Wed,  5 Mar 2025 16:30:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741192227;
-	bh=FZKrVRaLdOeP4MYB8JeHLpJJFV9GJ95YyHm9V1A+EI4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bFAN/icr7W76+KJ0Rq9dSt6QQQfSjqArVeLB6e1WgjQs4LzF9tAeKQB2Ub3yjfsZr
-	 YxJ9JtF4HzXojHSfd7nnuAK5SJsoK4hEwre3fUBQS+IyxgUN3AeNAa+OJ+KuxI1jpI
-	 4hlphX/rre/vzom02wgn4SkUF1pNpz4kcnAKhCeWVOgdvM+1ZcQDCfkV7e9MfK5tob
-	 oCpb5L0hUj67FHwggx6JuJkTEtb1Ly1tJbbAKfyFaNOUC3/SJhxkuofSu9ePbijRW9
-	 sEcKwG8/F2xysGW51EcERUvW9Ykv6maqMf7+q1af5a30X7krJL34rA3jc/9i5RXOjX
-	 dsDqzwCkvBscw==
-Date: Wed, 5 Mar 2025 16:30:23 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Mathis Foerst <mathis.foerst@mt.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-kernel@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	MauroCarvalhoChehab@mt.com, mchehab@kernel.org,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, manuel.traut@mt.com
-Subject: Re: [PATCH v1 2/8] MT9M114: Add pad-slew-rate DT-binding
-Message-ID: <20250305-droplet-freemason-a21045aac0c0@spud>
-References: <20250226153929.274562-1-mathis.foerst@mt.com>
- <20250226153929.274562-3-mathis.foerst@mt.com>
- <Z8A66l02Et4J7hj4@kekkonen.localdomain>
- <20250228-helpless-delivery-42162772caa3@spud>
- <Z8boqvxEAhx7rG9Q@mt.com>
- <20250304-expend-isotope-cea613f4e9d5@spud>
- <Z8ggf4wXX6HAoCpS@mt.com>
- <20250305-dislodge-bleep-53085727cf09@spud>
+	s=arc-20240116; t=1741193357; c=relaxed/simple;
+	bh=MkASYEdga6iLfw4VllshOumZ+ExmpaIft4d1+lw3rOw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=T5k3xN/AW9K+sRvI1EZ17lQLLjaIWoU489lc38TJjD7ek371yIIOU7B+DrXbtijKxEiF63ZZVRvg0gwliRL7jtziUQ8oTKgcxJ5sWu47ZYDJXgw8oIUUgrZUiLw/QmQueMmUMpkDUYvvLBEmLlHlvOp7mTo+8b3tlJHIoMygdXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BjIGDvIg; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741193356; x=1772729356;
+  h=date:from:to:cc:subject:message-id;
+  bh=MkASYEdga6iLfw4VllshOumZ+ExmpaIft4d1+lw3rOw=;
+  b=BjIGDvIgxKK7z0NOGRYRx3fRbgP+iQKi6w7UniCzQOhQd//wFmhz+iQQ
+   t0t2cfB/OXsbaHxRruAN1IZ/pMhboYZo+eQ9PuZ+ZzIc6giikZA5xaxWk
+   IAiiprp4oUalshkTFHAaxOVt+2KRGbWg9xv4hQn5VaDEkkKGrJ7tF/AWe
+   mFCHLAN+uyOiRpUU7sfBbA7un8Zu/v/5+dOpCpd0wtkNucDB9I3bOjzEF
+   QfI/xUa1ebXf6jheGUeKuVGcUlozWrfobfSt4ERcxaG6vOlWfc51+qqJT
+   kVXo0vW8qvpf1Xy97bQzP5mQbu4eF9q/cfEaTkEh1Q5af+2ZgsWc9PTHn
+   g==;
+X-CSE-ConnectionGUID: mpphqtalTS6s7qgwhUlNTA==
+X-CSE-MsgGUID: vP4BmOwuTX2Enco6MiwctQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11363"; a="42297368"
+X-IronPort-AV: E=Sophos;i="6.14,223,1736841600"; 
+   d="scan'208";a="42297368"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Mar 2025 08:49:12 -0800
+X-CSE-ConnectionGUID: TM29sStoSz+bS06lHmi02Q==
+X-CSE-MsgGUID: LxOgACJDR3+vP6d1A0ygVA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
+   d="scan'208";a="119662956"
+Received: from lkp-server02.sh.intel.com (HELO 76cde6cc1f07) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 05 Mar 2025 08:49:10 -0800
+Received: from kbuild by 76cde6cc1f07 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tprv5-000LFk-0l;
+	Wed, 05 Mar 2025 16:48:37 +0000
+Date: Thu, 06 Mar 2025 00:46:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:devel] BUILD SUCCESS WITH WARNING
+ d84f66b64b763277de4a99cca88cccede13ec914
+Message-ID: <202503060046.En438hRy-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="arAqwr9aNN/Ixv2i"
-Content-Disposition: inline
-In-Reply-To: <20250305-dislodge-bleep-53085727cf09@spud>
 
+tree/branch: git://linuxtv.org/sailus/media_tree.git devel
+branch HEAD: d84f66b64b763277de4a99cca88cccede13ec914  media: i2c: ds90ub9xx: Set serializer temperature ramp
 
---arAqwr9aNN/Ixv2i
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Warning (recently discovered and may have been fixed):
 
-On Wed, Mar 05, 2025 at 04:29:24PM +0000, Conor Dooley wrote:
-> On Wed, Mar 05, 2025 at 10:59:27AM +0100, Mathis Foerst wrote:
-> > On Tue, Mar 04, 2025 at 04:39:34PM +0000, Conor Dooley wrote:
-> > > On Tue, Mar 04, 2025 at 12:48:58PM +0100, Mathis Foerst wrote:
-> > > > Hi Conor, Hi Sakari,
-> > > >=20
-> > > > On Fri, Feb 28, 2025 at 07:11:31PM +0000, Conor Dooley wrote:
-> > > > > On Thu, Feb 27, 2025 at 10:14:02AM +0000, Sakari Ailus wrote:
-> > > > > > Hi Mathis,
-> > > > > >=20
-> > > > > > On Wed, Feb 26, 2025 at 04:39:23PM +0100, Mathis Foerst wrote:
-> > > > > > > The MT9M114 supports the different slew rates (0 to 7) on the=
- output pads.
-> > > > > >=20
-> > > > > > "the output pads" probably means pixel data interface (DVP or C=
-SI-2)
-> > > > > > signals in this cases? I suppose this is about clock modulation?
-> > > > > > It'd be good to say that.
-> > > >=20
-> > > > The slew rate defines the slope of the voltage flanks on the output=
- pads (how fast
-> > > > the pads go from LOW to HIGH or vice versa). I tried to clarify the=
- description.
-> > > >=20
-> > > > > >=20
-> > > > > > > At the moment, this is hardcoded to 7 (the fastest rate).
-> > > > > > > The user might want to change this values due to EMC requirem=
-ents.
-> > > > > > >=20
-> > > > > > > Add the 'pad-slew-rate' property to the MT9M114 DT-bindings f=
-or selecting
-> > > > > > > the desired slew rate.
-> > > > > > >=20
-> > > > > > > Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
-> > > > > > > ---
-> > > > > > >  .../devicetree/bindings/media/i2c/onnn,mt9m114.yaml         =
-| 6 ++++++
-> > > > > > >  1 file changed, 6 insertions(+)
-> > > > > > >=20
-> > > > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/onnn=
-,mt9m114.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.ya=
-ml
-> > > > > > > index 72e258d57186..666afe10c538 100644
-> > > > > > > --- a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m11=
-4.yaml
-> > > > > > > +++ b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m11=
-4.yaml
-> > > > > > > @@ -74,6 +74,12 @@ properties:
-> > > > > > >      description: Bypass the internal PLL of the sensor to us=
-e EXTCLK directly as SYSCLK.
-> > > > > > >      type: boolean
-> > > > > > > =20
-> > > > > > > +  onnn,slew-rate:
-> > > > > > > +    $ref: /schemas/types.yaml#/definitions/uint8
-> > > > > >=20
-> > > > > > No need to make this 8-bit (i.e. just use 32 bits).
-> > > >=20
-> > > > Okay, I thought 8-bit would fit the small value range [0,7]. Change=
-d it to 32 bits.
-> > > >=20
-> > > > > >=20
-> > > > > > > +    description: Slew rate ot the output pads DOUT[7:0], LIN=
-E_VALID, FRAME_VALID and PIXCLK
-> > > > > >=20
-> > > > > > Please wrap at 80 characters.
-> > > > > >=20
-> > > > > > Is there more information on the effect than 7 is the fastest?
-> > > >=20
-> > > > There is no more information about the exact meaning of the values.
-> > > > As described above, the higher the value, the steeper the voltage f=
-lanks.
-> > > >=20
-> > > > > >=20
-> > > > > > > +    minimum: 0
-> > > > > > > +    maximum: 7
-> > > > > >=20
-> > > > > > Please also add a default.
-> > > >=20
-> > > > Sure, I added the default value 7 that matches the currently hardco=
-ded=20
-> > > > value in the driver.
-> > > >=20
-> > > > >=20
-> > > > > It'd also be great (IMO) if it were given in terms of actual unit=
-s, not
-> > > > > nebulous values that I assume to be the register values.
-> > > >=20
-> > > > I agree, but the documentation does not provide further details abo=
-ut the
-> > > > unit of the value. So using the register value is my best-effort ap=
-proach.
-> > >=20
-> > > If they don't provide em, how is anyone meant to calculate what's
-> > > correct? Trial and error?
-> >=20
-> > The correct slew-rate is a trade-off:
-> >=20
-> > You would usually start with the fastest slew-rate as it leads to an
-> > output signal that's as close as possible to a perfect square-wave.
-> > On higher link frequencies a too slow slew rate can cause the signal to
-> > not reach the HIGH voltage level before going to LOW again s.t. the
-> > reveiver cannot interpret the digital signal correctly.
-> >=20
-> > But steeper voltage flanks lead to higher electromagnetic emissions s.t.
-> > a device might not pass the electromagnetic compatibility (EMC)
-> > certification with the high slew rate.
-> > In this case you would lower the slew rate until your emissions are
-> > within the allowed range.
-> >=20
-> > The actual emissions depend on many factors like the PCB layout, the
-> > length and shielding of cables etc. This makes it hard to fully simulate
-> > them.
-> > So even if would know the exact unit of the configured slew rate of the
-> > camera sensor, it would not fully allow us to calculate the correct val=
-ue
-> > for it.
->=20
-> So the answer is trial and error then?
+    https://lore.kernel.org/oe-kbuild-all/202503050359.6DYrXi6o-lkp@intel.com
 
-And I guess, keep the register values if there's no actual unit
-corresponding to these values.
+    Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/media/i2c/ov7670.txt
 
---arAqwr9aNN/Ixv2i
-Content-Type: application/pgp-signature; name="signature.asc"
+Warning ids grouped by kconfigs:
 
------BEGIN PGP SIGNATURE-----
+recent_errors
+`-- x86_64-allnoconfig
+    `-- Warning:MAINTAINERS-references-a-file-that-doesn-t-exist:Documentation-devicetree-bindings-media-i2c-ov7670.txt
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZ8h8HgAKCRB4tDGHoIJi
-0iNgAP4/5ILbrecosxmqIUpVl/pQnufWwdGLuIxAiiZZSkmcDAD/exHRHMwO7Q+J
-6r27sqSU8+Dmar195qzIZhHo0hJ+Cg8=
-=ZPDb
------END PGP SIGNATURE-----
+elapsed time: 1458m
 
---arAqwr9aNN/Ixv2i--
+configs tested: 181
+configs skipped: 3
+
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+arc                              allmodconfig    clang-18
+arc                              allmodconfig    gcc-13.2.0
+arc                               allnoconfig    gcc-14.2.0
+arc                              allyesconfig    clang-18
+arc                              allyesconfig    gcc-13.2.0
+arc                         haps_hs_defconfig    gcc-13.2.0
+arc                   randconfig-001-20250305    gcc-13.2.0
+arc                   randconfig-001-20250305    gcc-14.2.0
+arc                   randconfig-002-20250305    gcc-13.2.0
+arc                   randconfig-002-20250305    gcc-14.2.0
+arm                              allmodconfig    clang-18
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    gcc-14.2.0
+arm                              allyesconfig    clang-18
+arm                              allyesconfig    gcc-14.2.0
+arm                      footbridge_defconfig    gcc-13.2.0
+arm                       omap2plus_defconfig    gcc-14.2.0
+arm                   randconfig-001-20250305    gcc-14.2.0
+arm                   randconfig-002-20250305    clang-19
+arm                   randconfig-002-20250305    gcc-14.2.0
+arm                   randconfig-003-20250305    gcc-14.2.0
+arm                   randconfig-004-20250305    gcc-14.2.0
+arm                        spear3xx_defconfig    gcc-13.2.0
+arm64                            allmodconfig    clang-18
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20250305    clang-15
+arm64                 randconfig-001-20250305    gcc-14.2.0
+arm64                 randconfig-002-20250305    gcc-14.2.0
+arm64                 randconfig-003-20250305    clang-21
+arm64                 randconfig-003-20250305    gcc-14.2.0
+arm64                 randconfig-004-20250305    gcc-14.2.0
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20250305    gcc-14.2.0
+csky                  randconfig-002-20250305    gcc-14.2.0
+hexagon                          allmodconfig    clang-21
+hexagon                           allnoconfig    gcc-14.2.0
+hexagon                          allyesconfig    clang-18
+hexagon               randconfig-001-20250305    clang-21
+hexagon               randconfig-001-20250305    gcc-14.2.0
+hexagon               randconfig-002-20250305    clang-18
+hexagon               randconfig-002-20250305    gcc-14.2.0
+i386                             allmodconfig    clang-19
+i386                              allnoconfig    clang-19
+i386                             allyesconfig    clang-19
+i386        buildonly-randconfig-001-20250305    clang-19
+i386        buildonly-randconfig-002-20250305    clang-19
+i386        buildonly-randconfig-003-20250305    clang-19
+i386        buildonly-randconfig-004-20250305    clang-19
+i386        buildonly-randconfig-005-20250305    clang-19
+i386        buildonly-randconfig-006-20250305    clang-19
+i386        buildonly-randconfig-006-20250305    gcc-12
+i386                                defconfig    clang-19
+i386                  randconfig-001-20250305    clang-19
+i386                  randconfig-002-20250305    clang-19
+i386                  randconfig-003-20250305    clang-19
+i386                  randconfig-004-20250305    clang-19
+i386                  randconfig-005-20250305    clang-19
+i386                  randconfig-006-20250305    clang-19
+i386                  randconfig-007-20250305    clang-19
+i386                  randconfig-011-20250305    gcc-11
+i386                  randconfig-012-20250305    gcc-11
+i386                  randconfig-013-20250305    gcc-11
+i386                  randconfig-014-20250305    gcc-11
+i386                  randconfig-015-20250305    gcc-11
+i386                  randconfig-016-20250305    gcc-11
+i386                  randconfig-017-20250305    gcc-11
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20250305    gcc-14.2.0
+loongarch             randconfig-002-20250305    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+mips                       bmips_be_defconfig    gcc-14.2.0
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250305    gcc-14.2.0
+nios2                 randconfig-002-20250305    gcc-14.2.0
+openrisc                          allnoconfig    clang-15
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                            defconfig    gcc-12
+parisc                           alldefconfig    gcc-13.2.0
+parisc                            allnoconfig    clang-15
+parisc                            allnoconfig    gcc-14.2.0
+parisc                              defconfig    gcc-12
+parisc                randconfig-001-20250305    gcc-14.2.0
+parisc                randconfig-002-20250305    gcc-14.2.0
+powerpc                           allnoconfig    clang-15
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc                 mpc834x_itx_defconfig    gcc-14.2.0
+powerpc                  mpc866_ads_defconfig    gcc-14.2.0
+powerpc                     powernv_defconfig    gcc-14.2.0
+powerpc               randconfig-001-20250305    clang-17
+powerpc               randconfig-001-20250305    gcc-14.2.0
+powerpc               randconfig-002-20250305    gcc-14.2.0
+powerpc               randconfig-003-20250305    gcc-14.2.0
+powerpc                     tqm8540_defconfig    gcc-13.2.0
+powerpc                 xes_mpc85xx_defconfig    gcc-13.2.0
+powerpc64             randconfig-001-20250305    clang-19
+powerpc64             randconfig-001-20250305    gcc-14.2.0
+powerpc64             randconfig-002-20250305    clang-17
+powerpc64             randconfig-002-20250305    gcc-14.2.0
+powerpc64             randconfig-003-20250305    clang-19
+powerpc64             randconfig-003-20250305    gcc-14.2.0
+riscv                             allnoconfig    clang-15
+riscv                             allnoconfig    gcc-14.2.0
+riscv                               defconfig    gcc-12
+riscv                 randconfig-001-20250305    clang-19
+riscv                 randconfig-001-20250305    gcc-14.2.0
+riscv                 randconfig-002-20250305    gcc-14.2.0
+s390                             allmodconfig    clang-19
+s390                             allmodconfig    gcc-14.2.0
+s390                              allnoconfig    clang-15
+s390                             allyesconfig    gcc-14.2.0
+s390                                defconfig    gcc-12
+s390                  randconfig-001-20250305    gcc-14.2.0
+s390                  randconfig-002-20250305    gcc-14.2.0
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                                  defconfig    gcc-12
+sh                          polaris_defconfig    gcc-14.2.0
+sh                    randconfig-001-20250305    gcc-14.2.0
+sh                    randconfig-002-20250305    gcc-14.2.0
+sh                   sh7724_generic_defconfig    gcc-13.2.0
+sh                             shx3_defconfig    gcc-14.2.0
+sh                          urquell_defconfig    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250305    gcc-14.2.0
+sparc                 randconfig-002-20250305    gcc-14.2.0
+sparc64                             defconfig    gcc-12
+sparc64               randconfig-001-20250305    gcc-14.2.0
+sparc64               randconfig-002-20250305    gcc-14.2.0
+um                               allmodconfig    clang-21
+um                                allnoconfig    clang-15
+um                                allnoconfig    clang-18
+um                               allyesconfig    gcc-12
+um                                  defconfig    gcc-12
+um                             i386_defconfig    gcc-12
+um                    randconfig-001-20250305    clang-19
+um                    randconfig-001-20250305    gcc-14.2.0
+um                    randconfig-002-20250305    gcc-12
+um                    randconfig-002-20250305    gcc-14.2.0
+um                           x86_64_defconfig    gcc-12
+x86_64                            allnoconfig    clang-19
+x86_64                           allyesconfig    clang-19
+x86_64      buildonly-randconfig-001-20250305    clang-19
+x86_64      buildonly-randconfig-002-20250305    clang-19
+x86_64      buildonly-randconfig-002-20250305    gcc-12
+x86_64      buildonly-randconfig-003-20250305    clang-19
+x86_64      buildonly-randconfig-004-20250305    clang-19
+x86_64      buildonly-randconfig-004-20250305    gcc-12
+x86_64      buildonly-randconfig-005-20250305    clang-19
+x86_64      buildonly-randconfig-006-20250305    clang-19
+x86_64                              defconfig    clang-19
+x86_64                                  kexec    clang-19
+x86_64                randconfig-001-20250305    gcc-12
+x86_64                randconfig-002-20250305    gcc-12
+x86_64                randconfig-003-20250305    gcc-12
+x86_64                randconfig-004-20250305    gcc-12
+x86_64                randconfig-005-20250305    gcc-12
+x86_64                randconfig-006-20250305    gcc-12
+x86_64                randconfig-007-20250305    gcc-12
+x86_64                randconfig-008-20250305    gcc-12
+x86_64                randconfig-071-20250305    clang-19
+x86_64                randconfig-072-20250305    clang-19
+x86_64                randconfig-073-20250305    clang-19
+x86_64                randconfig-074-20250305    clang-19
+x86_64                randconfig-075-20250305    clang-19
+x86_64                randconfig-076-20250305    clang-19
+x86_64                randconfig-077-20250305    clang-19
+x86_64                randconfig-078-20250305    clang-19
+x86_64                               rhel-9.4    clang-19
+x86_64                           rhel-9.4-bpf    clang-18
+x86_64                         rhel-9.4-kunit    clang-18
+x86_64                           rhel-9.4-ltp    clang-18
+x86_64                          rhel-9.4-rust    clang-18
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250305    gcc-14.2.0
+xtensa                randconfig-002-20250305    gcc-14.2.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
