@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-27555-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27556-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 053A6A4F7D2
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 08:23:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8215AA4F7DC
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 08:27:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0FDD0188F2BC
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 07:23:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9B79A188FE1E
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 07:27:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 348781EDA2D;
-	Wed,  5 Mar 2025 07:23:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87D981EDA3E;
+	Wed,  5 Mar 2025 07:27:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XDdN8v02"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nD/e2oF5"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A79284D08;
-	Wed,  5 Mar 2025 07:23:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D80B01EA7F5;
+	Wed,  5 Mar 2025 07:27:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741159393; cv=none; b=RF8dqVfZj88HeV6h0xHchY5Ydda7rAGThxNeiWAbufoFptWGgf0SBaFGn3IhiDKwUGVhJhEa2b+i7nkIO/4OMlYZzspX1w5dlJzLxtRyfp4+AcN5tqGwZMqrjfafMkkcHPraDATJ/A705luYsBZ1oMjXB0kALT6P9DRPCF7i7u4=
+	t=1741159625; cv=none; b=hvubKzjH4Gxd1cqdWwql8y5sfPMWSljhbyaohEAsZNEvW3hFzmD7q8+T0OJsYtJPEgz3Rcd+kt4FHr4qChYUupK8VQuenO0npJnZhJrZURJvJ8mf4awdunlLj0dXCxT4hLXGy3U0zYmRoMHIXOFoZkOi8u9/epPF6wYf0t2qzgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741159393; c=relaxed/simple;
-	bh=GvWw8P7+MkJG2CMdbY3bdVHML1jTS8dX315tfxTG+44=;
+	s=arc-20240116; t=1741159625; c=relaxed/simple;
+	bh=wRaq4uFDdTXwzW2CzVR/8V0Bnta0TTyoo+FbDAQvNt0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FSM+HEeArSwpRbgyctWzpTtpaF/9E8ShqGydDp/DBFMlnP0PDJDCOqd9mStYjEQonRagTDEBozlBH1G4iNqWAfyu+LTS84DSZrsFMxcsUJJt0kYpODZEFUEio1HlSnuLcWQFM3yXJNypJLnO4uXz+RXkt45+smJSUqP8EK6HOj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XDdN8v02; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 223E6C4CEE2;
-	Wed,  5 Mar 2025 07:23:11 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=pqM7D9b7/ozJkQAInR+QpG+OB+nA1+TU7sOC3uiP1zIzgS3JfaaDpPylbNMiL1gHKXOpn+IQY/78yICSRwo3Odnu13eVXoMY0a6Y0jtaCUAMq4c7ewIZq/cZ7HRf3Ad2WTa5XXxhBaNpyWJ2hEvihR9/p+k3MC+tW87OC/P0qww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nD/e2oF5; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A80FC4CEE2;
+	Wed,  5 Mar 2025 07:27:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741159393;
-	bh=GvWw8P7+MkJG2CMdbY3bdVHML1jTS8dX315tfxTG+44=;
+	s=k20201202; t=1741159624;
+	bh=wRaq4uFDdTXwzW2CzVR/8V0Bnta0TTyoo+FbDAQvNt0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XDdN8v02bROoYb/bMhHtVI9RLzeetS6j3zFXp2+Re5Sxo8D/Ipy+NWOOum47L9qcg
-	 RDjc16EXDbSdHq71oFhLc/7oi790pO/a39wsDv6MmAuvpZkskygAj9RxbkIUQ0LLgt
-	 wnFga9io00dhWACS0z2YdK2QEmuWFfEXIcgTGa5YyTfoFjpfwd8Di/+2qNOATSIqXH
-	 bXQhINc0qyvKXvWdqzi1Zvu0FwFteGSWEBxkE7gAnUrIn796mV1e1Mj48KWbLzcOnn
-	 YgPx0bkiUB0f53FGo8A6ZIJeDyjY+YVKvtfXu4Qbao3LjeU5vZcsB9MynIxxXtyeD/
-	 gO+B+LpxGsPyA==
-Date: Wed, 5 Mar 2025 08:23:09 +0100
+	b=nD/e2oF5oGakQJofxgIE1SqfssbJLLX4TIicWW37Q5W/bvq1vlD5zUNrynDGJl8wO
+	 R9OUhQ0HbdOLl3czEjIFH1NdaUqNMRpjKTB+YhuAk6/EsW/5RFLvJoh2bbk07L2BmS
+	 lW3yYUQd1n2BJr+1CVtH4hF2ir0rVbiFD/YDP3/uZVTYxYkVHxtrNEbwelGK96M+VF
+	 gReEoZoKVNwUQxrHE0jRmoggtcRoXxLOmPqbF/4TfxKED+6vuJu74/PJinGLTzY4kp
+	 2izTB8hwFve0XrtWfIy1BAP1/p3Yj4i+AOI4XgCDj/MTcd34deJPBerxFyW2PYeJ+w
+	 E0vDOBcVXKlgw==
+Date: Wed, 5 Mar 2025 08:27:00 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Vasiliy Doylov <nekocwd@mainlining.org>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -50,11 +50,10 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-media@vger.kernel.org, devicetree@vger.kernel.org, phone-devel@vger.kernel.org, 
 	~postmarketos/upstreaming@lists.sr.ht, Vitalii Skorkin <nikroks@mainlining.org>, 
 	Antonio Rische <nt8r@protonmail.com>
-Subject: Re: [PATCH v2 1/3] MAINTAINERS: Add entry for Onsemi LC898217XC lens
- voice coil driver
-Message-ID: <20250305-voracious-outrageous-jaybird-5eae4b@krzk-bin>
+Subject: Re: [PATCH v2 2/3] media: dt-bindings: Add LC898217XC documentation
+Message-ID: <20250305-onyx-vicugna-of-action-cdcf0b@krzk-bin>
 References: <20250304-media-i2c-lc898217xc-initial-driver-v2-0-6a463cef3ea8@mainlining.org>
- <20250304-media-i2c-lc898217xc-initial-driver-v2-1-6a463cef3ea8@mainlining.org>
+ <20250304-media-i2c-lc898217xc-initial-driver-v2-2-6a463cef3ea8@mainlining.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,39 +62,43 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250304-media-i2c-lc898217xc-initial-driver-v2-1-6a463cef3ea8@mainlining.org>
+In-Reply-To: <20250304-media-i2c-lc898217xc-initial-driver-v2-2-6a463cef3ea8@mainlining.org>
 
-On Tue, Mar 04, 2025 at 10:32:18PM +0300, Vasiliy Doylov wrote:
-> Add entry for Onsemi LC898217XC lens voice coil driver
-> 
-> Signed-off-by: Vasiliy Doylov <nekocwd@mainlining.org>
-> ---
->  MAINTAINERS | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 29e1a423eee5bcf9df7938aaffe5bd3e2f6a2bbe..c15223f063357a8f89cf12f46ebcb7bd062903f3 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -17781,6 +17781,14 @@ S:	Supported
->  W:	http://www.onsemi.com
->  F:	drivers/net/phy/ncn*
->  
-> +ONSEMI LC898217XC LENS VOICE COIL DRIVER
-> +M:	Vasiliy Doylov <nekocwd@mainlining.org>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +T:	git git://linuxtv.org/media.git
+On Tue, Mar 04, 2025 at 10:32:19PM +0300, Vasiliy Doylov wrote:
+> +required:
+> +  - compatible
+> +  - reg
+> +  - vcc-supply
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +
 
-Drop, unless *you* are committing there.
+If there is going to be resend/new version: drop above blank line.
 
-> +F:	Documentation/devicetree/bindings/media/i2c/onnn,lc898217xc.yaml
 
-There is no such file.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-> +F:	drivers/media/i2c/lc898217xc.c
+---
 
-There is no such file, either.
+<form letter>
+This is an automated instruction, just in case, because many review tags
+are being ignored. If you know the process, you can skip it (please do
+not feel offended by me posting it here - no bad intentions intended).
+If you do not know the process, here is a short explanation:
+
+Please add Acked-by/Reviewed-by/Tested-by tags when posting new
+versions of patchset, under or above your Signed-off-by tag, unless
+patch changed significantly (e.g. new properties added to the DT
+bindings). Tag is "received", when provided in a message replied to you
+on the mailing list. Tools like b4 can help here. However, there's no
+need to repost patches *only* to add the tags. The upstream maintainer
+will do that for tags received on the version they apply.
+
+https://elixir.bootlin.com/linux/v6.12-rc3/source/Documentation/process/submitting-patches.rst#L577
+</form letter>
 
 Best regards,
 Krzysztof
