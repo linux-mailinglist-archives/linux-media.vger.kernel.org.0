@@ -1,220 +1,167 @@
-Return-Path: <linux-media+bounces-27652-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27653-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E1BDA50890
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 19:09:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58558A50ADA
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 20:06:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 03B731888F72
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 18:08:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BAF281886B1B
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 19:06:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40532252909;
-	Wed,  5 Mar 2025 18:08:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0917253333;
+	Wed,  5 Mar 2025 19:05:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="BgTVMv1f"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NjX6jsiL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85BED2512D6;
-	Wed,  5 Mar 2025 18:08:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27F4719F436
+	for <linux-media@vger.kernel.org>; Wed,  5 Mar 2025 19:05:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741198093; cv=none; b=qg+NKB645tzdqjUImun+iya0f6MN076+Xz9iUst4/R8vq6k6pjAy6+3koVl+SthBDzOLvt/Fjsb7wfwrFMqnQ+7lftidz59pVZbvLJ7inhbnno3FlaT/rPwrLE09SwV43gHzMwQf/okq4IrQNAJh0heGk7Ho6gPmWP7n1ar13gk=
+	t=1741201531; cv=none; b=SzrhrfchG+u75524jYk0yphK9EvGgsFS3FSCCHdBh49iNfMpzaZQWzkC8BWCUonWWB8kR89Wy6dPN+dLpc12UY3ZHp+ws2yNad5Gko+oJ7PslVw5jz8IJWp3Kz/NyUtJ2OKIFXGB0QJL5wQn8d95VsDt56y5ZsrLnNUMCYdtvro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741198093; c=relaxed/simple;
-	bh=RSrGA34yP7qtDktQg873/4X5XR2J1ZoUMnU85sv0+14=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UEWLH1/y8j1yL06GTr5SxU1nLvjd4fJImlVHnQX3I4n6JVkEtbwMEClJmJIYg2xoeBtOWNO4ZCSlshq7vSObRpeX1YZ2VElQ9RuY5c2425lhKtCFRIi5efPVT6McE4m9rLPs/D1rjUSU7oo/g90PQIpccQVdlkGTKNaWk8It+9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=BgTVMv1f; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1741198089;
-	bh=RSrGA34yP7qtDktQg873/4X5XR2J1ZoUMnU85sv0+14=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=BgTVMv1fqV1j9qJ2GNvgOfdOeYCxa7JsX7HymNujv2pzgOhAjxjWwXSRmfJh1ZtSd
-	 q8XiB5unEJBko8+PkZ1NJR0TND/dAh8rLegGtjSE481p+QUbIqoc6ZI6FMSc6AwCpz
-	 9d81cYy/gblpx+soZ4ar8a+HBXjnVJSNiGujXU1DAaU6Orddlt/Q+JhZpnMflYQ5mO
-	 A2bk7clUtWz38Z0QhdU5v1uG2qKkLVspiGm/8LyNyB6KBpt1TfV3+tDgKKxmhHEmpR
-	 vqkF6UnYlgkl06AXSAew8RVcYM0kFfhowcGXAb537SkzF8CtqBD9eMC3q4LWWGsESf
-	 GnDhTNmP1RxMw==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 2B21117E0599;
-	Wed,  5 Mar 2025 19:08:08 +0100 (CET)
-Message-ID: <d02b6bbe-0d32-4e3f-985e-a0b610f72d98@collabora.com>
-Date: Wed, 5 Mar 2025 19:08:07 +0100
+	s=arc-20240116; t=1741201531; c=relaxed/simple;
+	bh=YYkkIgxTX4GLstfNmstSzp+GmhvTVjBPJ/IVcq/Gt2I=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=IY9BHa/AmMHNAuDvxJjRIYcBDqZK/nZdDbW0m6lrcvHDAEOsFQela6hK2UNqMZEJxy6IZKuR4vRddqNKLDZYhYaqqgL1rg1ce1MwihN6qkcG6N15hTGecHbBiRrLTZoZndSXfuEEyM5qcR47u9Topf58CDv9ekVKYvAdOEo8vXw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NjX6jsiL; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-391211ea598so708972f8f.1
+        for <linux-media@vger.kernel.org>; Wed, 05 Mar 2025 11:05:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741201527; x=1741806327; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zCeTGmrbEmfaxnM+HfYUd9pc64+DFd0KUaW1eYYXTqU=;
+        b=NjX6jsiLcAAwKuLPpbj3aMJfuPYZx+URnw/40/q6WLIfMNFYn8kDeLWfTl5wLrBXk9
+         0KsOP3+joktfP1hLGCsezTfiJBo/SqaZBk1TVaYngENWTX1MFg4+5MnptkfixpIDF9py
+         DSVu8qbLA9XMZTZz/zyczlXaOSprZh32Rsz8dz4GyPYLsgzIhwnI7RvQrX3SzxyF9lNp
+         VIayVk6o/bPC5YBlDgd9NropHIztNduYXXRtxGRAVFG6+728WNkr2Vf5t+0DcKQQ0mXA
+         XVG7lznBCks9KM4G00CmfI9vTnQ8Ka2JQg5zfbYUaZyIcXY7oO4XBd/AYvwqSEPhQg2J
+         x1dA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741201527; x=1741806327;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zCeTGmrbEmfaxnM+HfYUd9pc64+DFd0KUaW1eYYXTqU=;
+        b=LbWSNBfZ+mudUMT/irkNHU8lBHKcg585TnsOxjSrocPI1PAE5D+IBuX2gnkCLsRRJf
+         VVzaw6razkP3CfWV2w2GSd+gCXgjDnQjNoKs3UIRDpwcShp+AR6Zh92DtliM2wwlI1Dz
+         RdO1245YgWK5L7o99jPxZKU0RIUHH7QvmtG3ChXz0mkEYEK7h+KuFWCf01A4Vq2/bVR1
+         8yhlS6JX+N1redyS7IdOeRqye5SF5tLHZfB6n8Tdy97Kz0xTBjqcxjw1G5BaDa9LaaUQ
+         sw3H0PnNy7UHkgbdpTi8UtfngWEXUjJn8r0ycS9+cMwmqkbW4WNkAPbdFKbZ2sNZ8zuS
+         wg9w==
+X-Gm-Message-State: AOJu0YwNkXZL0VgwQgdmi0lSKtf0GEOI/zwpANXcA1Wk3rm1YK7eZ8AO
+	9zqakAeeX7R7HEVWQznvge60vEbqQR/pK+hdlSd9IX3uH8trJb1MWpwszCcr8D8=
+X-Gm-Gg: ASbGncsAHILChuwwbSni7z+RcYhi3/2MKkesZo9GlibtHqGmCIG+6MOxvW5jeNArfO5
+	flMpeG5OEmcSzpONZ0tNwgznwcrkKlMe+vfCsrV+ZAk65bpBF5cy0habh7oiHyC9qIqhbHNqXgr
+	OfY8O2QkpBK2n3Gya5djo5NT8j9iG1voG2vV/ZFnITPWASw3XtvTnWtwCiYz+oQBMtceUoSlA4d
+	voF6ItPKYHCy3TI8kqr1pHhSx3NINTk2wmVofeMznljiz1Rn6U7gJswMKg3Xi5MW8OoeXhH555L
+	dFVAI/MxF3SwHIJ2xZGgGEdqs4UoUqFF97Nq6+pRrAQDHOxpGqJpIkPKsF9Nfz2HSw==
+X-Google-Smtp-Source: AGHT+IFzaYt6uJmVt2V5dfAj+VuriUTAalW+RMPdMF2a+gpJZwtrkkCYA/Tu/gq37wE/CmmOMeo+qg==
+X-Received: by 2002:a05:6000:1fa8:b0:390:fb37:1ca with SMTP id ffacd0b85a97d-3911f7d33b4mr3275177f8f.53.1741201527299;
+        Wed, 05 Mar 2025 11:05:27 -0800 (PST)
+Received: from arrakeen.starnux.net ([2a01:e0a:982:cbb0:8261:5fff:fe11:bdda])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-391241bd151sm2045218f8f.21.2025.03.05.11.05.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 05 Mar 2025 11:05:26 -0800 (PST)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: [PATCH v2 0/7] media: qcom: iris: add support for SM8650
+Date: Wed, 05 Mar 2025 20:05:18 +0100
+Message-Id: <20250305-topic-sm8x50-iris-v10-v2-0-bd65a3fc099e@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 6/8] soc: mediatek: Add programming flow for
- unsupported subsys ID hardware
-To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
- "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
- <krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "mchehab@kernel.org" <mchehab@kernel.org>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- =?UTF-8?B?U2lyaXVzIFdhbmcgKOeOi+eak+aYsSk=?= <Sirius.Wang@mediatek.com>,
- =?UTF-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>,
- =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- =?UTF-8?B?WGlhbmRvbmcgV2FuZyAo546L5YWI5YasKQ==?=
- <Xiandong.Wang@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "fshao@chromium.org" <fshao@chromium.org>,
- =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- =?UTF-8?B?WGF2aWVyIENoYW5nICjlvLXnjbvmlocp?= <Xavier.Chang@mediatek.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "treapking@chromium.org" <treapking@chromium.org>
-References: <20250218054405.2017918-1-jason-jh.lin@mediatek.com>
- <20250218054405.2017918-7-jason-jh.lin@mediatek.com>
- <c52b132b-fc08-4d1c-8276-1771f7457014@collabora.com>
- <ddcf01c82f92ee461875e1122b009b7fca691127.camel@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <ddcf01c82f92ee461875e1122b009b7fca691127.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAG6gyGcC/4WNQQqDMBBFryKz7pRkaDR21XsUF1GjDrRGJhIs4
+ t2beoEu34P//g7RC/sI92IH8YkjhzkDXQroJjePHrnPDKTIKCKDa1i4w/i2m1HIwhGTVuhI161
+ 1tr1VFeTtIn7g7ew+m8wTxzXI57xJ+mf/FZNGhZqsH5Tp67I0jxfPTsI1yAjNcRxfRxd0IbsAA
+ AA=
+X-Change-ID: 20250225-topic-sm8x50-iris-v10-a219b8a8b477
+To: Vikash Garodia <quic_vgarodia@quicinc.com>, 
+ Dikshita Agarwal <quic_dikshita@quicinc.com>, 
+ Abhinav Kumar <quic_abhinavk@quicinc.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2363;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=YYkkIgxTX4GLstfNmstSzp+GmhvTVjBPJ/IVcq/Gt2I=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBnyKByUOQ46x3JULN3aAGoTOKskSugv5QgvN+pLXlF
+ iVTi+xmJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCZ8igcgAKCRB33NvayMhJ0YyaD/
+ 48jxnemSfZspspqdWNesmNitkcLTL0obauhi+CUoXRtcQNVHGqyUSYs0dLrB+W0BXrqPE66cHk+lpF
+ DjLVj/2A1OkSHXWgOnPAU4T+7W4TseLRK6WB8t+7EmUxHkMHgqaybMANHl3dNx/3FtKsKb8vP5F2C9
+ 8ADzfHeYyhPTKMW072lt8bLtanRqB97d/M61a6kncRgE1QfaLEjhJ63CkRO3tap4AJyQJmlR5mLkXC
+ bSbEmZz2B32LHUR6+lm1ZcT9YJYUhEhrGSW1ijd+dYEuMGVWVi/2ATs6gF9RsqwQOlsfDAOhrMqcR3
+ DRWkqP46HOl1uo3kYB+fGyKK/kGe4cS3y4zDWgQ3jp9Q185MyLFHsL3pp7ehZwQjlRCrUAro2q+J6F
+ srvKmMeft1zVwxdAYeiq/izm1KGbBUcxXPx22OlvGXgFduRgjGzLUItc0/kj60Xia7XYvP6rAQaH/p
+ ADhKyVm6XFMfMnzaCuyYRl/IQ5pxZ3ZtqAtvVuZ85bGXZxnLU/d6jv4jZ3xtyBVbTMW5WgdrneDixp
+ hFz+KQ4DJbYYRKQnmgmx2x1G2XzLYNKf38RVtaOGBJthv5jcFUVPe81n5SIS1x3WTL0L9pB7OTmOLs
+ gXaRcXVmx+bHXoi8Z7xQjK42N1KfEZBpnZu7SX51Y9isczHlpxtdhIi2SRTQ==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
-Il 05/03/25 17:12, Jason-JH Lin (林睿祥) ha scritto:
-> On Tue, 2025-03-04 at 10:41 +0100, AngeloGioacchino Del Regno wrote:
->>
->> External email : Please do not click links or open attachments until
->> you have verified the sender or the content.
->>
->>
->> Il 18/02/25 06:41, Jason-JH Lin ha scritto:
->>> To support hardware without subsys IDs on new SoCs, add a
->>> programming
->>> flow that checks whether the subsys ID is valid. If the subsys ID
->>> is
->>> invalid, the flow will call 2 alternative CMDQ APIs:
->>> cmdq_pkt_assign() and cmdq_pkt_write_s_value() to achieve the same
->>> functionality.
->>>
->>> Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
->>> ---
->>>    drivers/soc/mediatek/mtk-mmsys.c | 14 +++++++++++---
->>>    drivers/soc/mediatek/mtk-mutex.c | 11 +++++++++--
->>>    2 files changed, 20 insertions(+), 5 deletions(-)
->>>
->>> diff --git a/drivers/soc/mediatek/mtk-mmsys.c
->>> b/drivers/soc/mediatek/mtk-mmsys.c
->>> index bb4639ca0b8c..ce949b863b05 100644
->>> --- a/drivers/soc/mediatek/mtk-mmsys.c
->>> +++ b/drivers/soc/mediatek/mtk-mmsys.c
->>> @@ -167,9 +167,17 @@ static void mtk_mmsys_update_bits(struct
->>> mtk_mmsys *mmsys, u32 offset, u32 mask,
->>>        u32 tmp;
->>>
->>>        if (mmsys->cmdq_base.size && cmdq_pkt) {
->>> -             ret = cmdq_pkt_write_mask(cmdq_pkt, mmsys-
->>>> cmdq_base.subsys,
->>> -                                       mmsys->cmdq_base.offset +
->>> offset, val,
->>> -                                       mask);
->>> +             offset += mmsys->cmdq_base.offset;
->>> +             if (mmsys->cmdq_base.subsys != CMDQ_SUBSYS_INVALID) {
->>
->> You're still anyway passing the subsys to cmdq_pkt_write_mask(),
->> right?!
->> Why don't you just handle this in cmdq_pkt_write_mask() then? ;-)
->>
->> I can see this pattern being repeated over and over in both
->> drm/mediatek and MDP3
->> drivers, and it's not necessary to duplicate this many times when you
->> can write it
->> just once.
->>
->> Would've also been faster for you to implement... :-D
->>
-> 
-> I think did it in the series V1:
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20241121042602.32730-5-jason-jh.lin@mediatek.com/
-> 
-> Because it'll need to passing the base_pa and that will need to change
-> the interface for original APIs.
-> 
-> And CK think that's not a necessary to change the APIs. It can be done
-> by cmdq_pkt_assign() + cmdq_pkt_write_s_mask_value() in the client
-> drivers. Then you can see this pattern in everywhere. :-)
-> 
+Add support for the IRIS accelerator for the SM8650
+platform, which uses the iris33 hardware.
 
-Using likely(x) and unlikely(x) should be avoided, really, unless it's something
-that is really really really really ... really ... rea.... likely or unlikely :-)
+The vpu33 requires a different reset & poweroff sequence
+in order to properly get out of runtime suspend.
 
-Btw. Changing the APIs is a bit difficult, but I disagree with CK about not
-"inventing" a new API for the unsupported-subsys flow.
+Based on the downstream implementation at:
+- https://git.codelinaro.org/clo/la/platform/vendor/opensource/video-driver/
+  branch video-kernel.lnx.4.0.r4-rel
 
-It's true, it is not *strictly* needed to add a function, but it's good for any
-kind of future maintainability - as I explained, it's easier then to fix a problem
-if there's one.... and well, I can see that you agree with me, because effectively
-you did it the first time :-)
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+Changes in v2:
+- Collected bindings review
+- Reworked rest handling by adding a secondary optional table to be used by controller poweroff
+- Reworked power_off_controller to be reused and extended by vpu33 support
+- Removed useless and unneeded vpu33 init
+- Moved vpu33 into vpu3x files to reuse code from vpu3
+- Moved sm8650 data table into sm8550
+- Link to v1: https://lore.kernel.org/r/20250225-topic-sm8x50-iris-v10-v1-0-128ef05d9665@linaro.org
 
-CK mentioned using cmdq_pkt_write() *or* cmdq_pkt_assignwrite/cmdq_pkt_write_pa()
-(however you wanna call it, it's fine for me), in drivers that know that there
-always is or there always isn't a subsys ID: that's a good suggestion, as this can
-be eventually done with assigning a function pointer, so, no conditionals at each
-operation.
+---
+Neil Armstrong (7):
+      dt-bindings: media: qcom,sm8550-iris: document SM8650 IRIS accelerator
+      media: platform: qcom/iris: split iris_vpu_power_off_controller in multiple steps
+      media: platform: qcom/iris: add power_off_controller to vpu_ops
+      media: platform: qcom/iris: introduce optional controller_rst_tbl
+      media: platform: qcom/iris: rename iris_vpu3 to iris_vpu3x
+      media: platform: qcom/iris: add support for vpu33
+      media: platform: qcom/iris: add sm8650 support
 
-My point of view, finally, is:
-  - This is just another way of doing cmdq_pkt_write()
-    - This, at the end of the day, does exactly what cmdq_pkt_write() is doing,
-      except it's doing it with two instructions instead of one;
-  - The same thing can be done in two different ways (depending on SoC)
-    - This same thing should have a function that does it.
+ .../bindings/media/qcom,sm8550-iris.yaml           |  33 ++-
+ drivers/media/platform/qcom/iris/Makefile          |   2 +-
+ drivers/media/platform/qcom/iris/iris_core.h       |   1 +
+ .../platform/qcom/iris/iris_platform_common.h      |   3 +
+ .../platform/qcom/iris/iris_platform_sm8550.c      |  64 ++++++
+ drivers/media/platform/qcom/iris/iris_probe.c      |  43 +++-
+ drivers/media/platform/qcom/iris/iris_vpu2.c       |   1 +
+ drivers/media/platform/qcom/iris/iris_vpu3.c       | 122 -----------
+ drivers/media/platform/qcom/iris/iris_vpu3x.c      | 244 +++++++++++++++++++++
+ drivers/media/platform/qcom/iris/iris_vpu_common.c |  58 +++--
+ drivers/media/platform/qcom/iris/iris_vpu_common.h |   5 +
+ 11 files changed, 420 insertions(+), 156 deletions(-)
+---
+base-commit: 7774f84cfb99eb068539c27485602396a579da57
+change-id: 20250225-topic-sm8x50-iris-v10-a219b8a8b477
 
-A function that does it can be
-
-int cmdq_pkt_write_pa(struct cmdq_pkt *pkt, u8 subsys /*unused*/, u32 pa_base, u16 
-offset, u32 value)
-{
-	err = cmdq_pkt_assign(pkt, 0, CMDQ_ADDR_HIGH(pa_base));
-	if (err < 0)
-		return err;
-
-	return cmdq_pkt_write_s_value( .... etc)
-}
-
-int cmdq_pkt_write() <--- unchanged, scheduled for removal after all drivers migrated
-
-int cmdq_pkt_write_subsys(struct cmdq_pkt *pkt, u8 subsys, u32 pa_base /*unused*/, 
-u16 offset, u32 value)
-{
-	/* This function will get the contents of cmdq_pkt_write once removed,
-            but, in the meanwhile, to avoid duplication we just call that: */
-
-	return cmdq_pkt_write(pkt, subsys, offset, value);
-}
-
-- Are we adding one more function parameter? Yes
-- Is this impacting performance overall? Not really
-
-After all, we're living in an ARMv8 (actually, ARMv9 for new ones) world, so
-one more function param won't hurt anyone.
-
-I think that's the best of both worlds, and makes everyone happy.
-Are you happy with that? :-)
-
-Cheers,
-Angelo
+Best regards,
+-- 
+Neil Armstrong <neil.armstrong@linaro.org>
 
 
