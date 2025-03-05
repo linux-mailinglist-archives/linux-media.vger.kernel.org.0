@@ -1,41 +1,41 @@
-Return-Path: <linux-media+bounces-27543-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27544-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F86FA4F6F3
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 07:14:45 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B55A4F6F6
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 07:15:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6D4F93A792F
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 06:14:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0FBB67A905A
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 06:13:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02C3C1DE8A5;
-	Wed,  5 Mar 2025 06:14:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC7B11E5B77;
+	Wed,  5 Mar 2025 06:14:12 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazon11020075.outbound.protection.outlook.com [52.101.227.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D23FE1D8A12;
-	Wed,  5 Mar 2025 06:14:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8BC81DE4EC;
+	Wed,  5 Mar 2025 06:14:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.227.75
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741155250; cv=fail; b=X7aEn+ZDLPHKXbyfzfJpDSqmLl6V0bvg6OeWmRB0c7si+r7p3n3eBznVmF2FSeoiA0TpHxbAeMizszYhOYz7ErF66nsZetCnfI4W47pNNWj4SXXgJNWK+VdYaBsrkQ3CwdbXaSRENEhsOvCLq41bNTT12s5A+f6HcCNEN/g8O04=
+	t=1741155252; cv=fail; b=ddhcFiHYC1pu2YbAObzoQCnxeFof2EWAWJ31ADA41gQ5AMT+aO6PnDWYJhpNWY8btHtMO6AtV7AWf06UMT2K+24LEdPi/cftkMGQ1FLFF7W0xblmCX2LqDidU94uctc7Ru54u++U/e0Z+CZpEXyZqHv1fJqpJKLvb5Z6Ds6vlFU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741155250; c=relaxed/simple;
-	bh=8nA58qC5ur3EWUTDi0zUhs865IG/vfpQtraU1eTMkyg=;
+	s=arc-20240116; t=1741155252; c=relaxed/simple;
+	bh=Mu59Gj2/APELO742uAKdKEFoZ+MDRMwaXz77ZnRDFls=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=bLGmOH7C7TJB3CodC/LS+CXhSn5pi2QTkLMHmU4joLW9wMydd/waV7/u0ppIvQy9gWSt4HqI/SKFUuO6lvvhEcxrUIhcHbVlNZtvpB+LsBQajJGdweeMxFeF81m4EeE8m8TFN0tlAKhpuMztP6F5bdJWz23WDpOTJnI7ttG5CHM=
+	 Content-Type:MIME-Version; b=A2bnHly2SqpGNTQch79ed4qT56h9nZW2Yo/tYl4OsAIICPv6tzBtUn+5ZNlVlz/HqJXLXwnYv4dc/9EnmAtes1wlyj/F2kwbXQnvtWVTP6RTC0gibDLTUjYiy/7CNRuufi+sTXkD4pTjnjLKeRA3cgloVhCjrbqbSt2uHr741Rc=
 ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=52.101.227.75
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=s6i8uSHCPUnvXCQOX0yO0RyCbMVLFu9R2G1eCWocjVKXFlAzq5rUB8qBmhSi/aw9dElmTjdrTf43YorTNHxlJcT1uCABqhybkQHOiI/b/yBUg2TwlmLDsQ1LPdRZ6JpI31SCAqHS1T5MA5l/GW37sTe9EamawlDSlYXfsUzIarKpa34IU3uV9Tq3ptgBGGVcfENHm3+iwMfegNN8yqZNwllyFxUUVJHgmesnYvqI1ARTXi27GSCe20P76ktAme8umQ0EU7AbbgF7S8+fkB53F0WqN4VAtlrlgwclNPiNxWe3TomcSGwj2nL9ObQz8iF/1Qq8b216Oj5bhJDXEjFKZg==
+ b=dNcXYsJajFfc9gSR4Sq7g6OOjGwKyh2pAYJQ+z5AGObyhmBHPAUrCGZIKAGDGtu1Z3IJed4/slLQOFqgn5gAwT9VXaq3C9CXURX0zxjFzsD4wE247p/RxCKemIHukPp+SJcCm4RbrKDywTIoRPrlPhoVJrluBeu6ruif1KQFgePDopVQyyy50BN2IAyOrCKsvDHfW5WURcKwrR+82KvK9VG9qoD/5Bd0VeMqWKJp8EN8O7eNF51+kdz20EnOb3bUiUe4SXOnSsbwJYKMwjlgv/plyp9piPJd5JSnKCnvbZjFAX+E0+8Fbl/YsQmPcUycelFwUJDlwNSiI2J01kDXWA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LZR4B8ioJCy4DFYvb9ilLwp2+lLHIfuaIKIvB4sNBSw=;
- b=otEFUb9bQflUAhkRird/MKjKx4IrI8DSQV1zpM1cXJN5Xp4080UX/YeuJLy7417+pkHa7yGTAWWRmkM/vjUtBwIQfEk4710y2jYwnGE2FBW4FmVlkMqHJheVp7TbOF190yvYJrP5lbkSn9YyIUXzTlb5ZTU4s0N6b6K3wrwTz8/KKjP7FQgquqKfME1EQ/raJseEBqo2C/d5RMdYm1sCH0pCvCSp05isdgIGHt3kpuhzOQyxKavPtPruJek22vXBTtIRuKSwrrhIVhXzDH3Ku6zZE2kCNYTvAESxLH7eOzE8NdOaJbK3srxfL7dTiwQ8V149/0PY9YoTdE9Bv7/FXg==
+ bh=kDqJRTGj4qJc1uE9t7tu74v6Mtqk4B8hIfQkFENXhxg=;
+ b=D0dKapFZbu0bxadTStRoWVE/Nl0JqxA4rNGdVGLqDE9QVE/VMpHgXXMxhW5iEOX8SOhtyduXHje3aSMUdfTgBdGYfXo2yBMdx0hQ8v8tt3AMvVBJGr0rtbspPXAByXk09wWA+8FJHdYqwCE7qSXzsHOnQKF5OGZv2EhKXbkUf2xBuldEgo1Mx0bWn7pHkRLYv9tDOfJsCJQVzYq6myq+3Daon0q+m7EYUmVDhHaWH5Z8kmc+eQ7kEnGSSYXGVX+4r3/5WgR1yjnbvNh3UTramQ6mgrYjbIHrFZmAfaKAUAidkE2TtPnDotkZVBdbo2Kq5ObFnoK/T/k2BroAuoauNA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
  header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
@@ -45,11 +45,11 @@ Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
  by PN2P287MB1027.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:154::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.17; Wed, 5 Mar
- 2025 06:14:04 +0000
+ 2025 06:14:06 +0000
 Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
  ([fe80::58ec:81a0:9454:689f]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
  ([fe80::58ec:81a0:9454:689f%3]) with mapi id 15.20.8511.017; Wed, 5 Mar 2025
- 06:14:04 +0000
+ 06:14:06 +0000
 From: Tarang Raval <tarang.raval@siliconsignals.io>
 To: sakari.ailus@linux.intel.com
 Cc: Tarang Raval <tarang.raval@siliconsignals.io>,
@@ -57,9 +57,9 @@ Cc: Tarang Raval <tarang.raval@siliconsignals.io>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 1/2] media: i2c: imx219: switch to {enable,disable}_streams
-Date: Wed,  5 Mar 2025 11:43:08 +0530
-Message-Id: <20250305061309.17911-2-tarang.raval@siliconsignals.io>
+Subject: [PATCH v2 2/2] media: i2c: imx219: Enable runtime PM autosuspend
+Date: Wed,  5 Mar 2025 11:43:09 +0530
+Message-Id: <20250305061309.17911-3-tarang.raval@siliconsignals.io>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250305061309.17911-1-tarang.raval@siliconsignals.io>
 References: <20250305061309.17911-1-tarang.raval@siliconsignals.io>
@@ -76,186 +76,123 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PN3P287MB1829:EE_|PN2P287MB1027:EE_
-X-MS-Office365-Filtering-Correlation-Id: 75339868-43df-472c-915b-08dd5bacee2c
+X-MS-Office365-Filtering-Correlation-Id: 58ad64e8-6d2b-48dd-0c67-08dd5bacef4d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|1800799024|52116014|366016|376014|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?52IMh8CBSvf95e/DtNmjRQqYGDw0++F205aF9fl82PXeMHgj0tFzcnfwlavj?=
- =?us-ascii?Q?YLEQghxUXoDFP52O+rzQaob2HOm3Ze0Yrire+YUhsmLYTGFU2+Z70Y7jpoB4?=
- =?us-ascii?Q?CkTg0rr8Ho76Cha6WtA0UmsPZ/D2Dh2yTZpe6Dk2+6yKY5nR4YgEVP0M0ruh?=
- =?us-ascii?Q?UNzFlXsjoRjW9k6ZxCyeL34FRyg+7iAwR2iBXCd4cRaA/YX28L55N695GgUB?=
- =?us-ascii?Q?WYKGMHiwQfucsUHXIvKWNqgY+fZJVVXhCZXQctxekD3sFd1Z4kIwTJZfwuLL?=
- =?us-ascii?Q?rQVHag0PFgW+ZglaPuyC6jl/QEbqPF9SK7f8JsSp0wMhKDqrYbIrVv1pKcC5?=
- =?us-ascii?Q?7mcD+3uZFoOxOURaKn3TiPSw6nOXTNK9tLDfuWc0V4EJfd0MjgK5Zf11jsXV?=
- =?us-ascii?Q?nilXjfRYHNw7NeNWfu0n341Kleazl/8nr2eddU9MKSHiPIhZRmDAAxlG1rUg?=
- =?us-ascii?Q?Ukt6s0MnAaJFhyBSxKqCv2Lp6h52FoXITpibvIrVWPSmnbaLw+Em8hyldCwO?=
- =?us-ascii?Q?qAiLSr5TTRY8eU12QZzQ5hRgxbVCr2hec+lICao9F2MaI/zBwVRkit88zaaT?=
- =?us-ascii?Q?gTRJgzdOIDOGv+JZjEI9a5W+wLV12aT8IdWVnNLqjn7j1gpBo1cXo6zZl8V0?=
- =?us-ascii?Q?avwKp4UX6gRHuaOQQ18C2ylZO0i0LeeWe1ptS5IakhoG/wi0PjcwtpONvpiW?=
- =?us-ascii?Q?K4KmTkTKZ2X+X19vyEih4rc27RAOJp3/8QA4boLNtP4MeToOa8hZf1DpSuBv?=
- =?us-ascii?Q?sy3buC/OMvFHEqDzS/hnZA/GUnYr66r1f0uVf8qq07pjf54m0oIegQbG1d8z?=
- =?us-ascii?Q?skSmFgSJY+oEvPIStvLgPhvXhM4YqZL3RHhjz/S7826z3ZmwYRDlc62o9zbU?=
- =?us-ascii?Q?nTZgRqCCFop7yAg6PVdKGbX2U7vGW4cSzThqJtJEcLb4eHNFrLSKluEqZr0B?=
- =?us-ascii?Q?X0CLCP9rfioUWsE9H/tlBXnyXEZ15VXo5sZLaaNJIArjAMl6Vn1zEGtfmMlM?=
- =?us-ascii?Q?Ee65C+g5iKWZJSY63GMuW3ShTM7zUFnnJjMVCLi+V55h8MeRyx/jUqaWfox9?=
- =?us-ascii?Q?/CUpMuxRmZR0AzzRvnoekX9Hk1OcKVrSB7tYODgotSNwlMTXXxfFExUM0b0a?=
- =?us-ascii?Q?9XJK01JrWlKqWQ10IcidxiHhDoTPR3czoduaUUd1RorYcOF5a6Z2Tb9k+qCj?=
- =?us-ascii?Q?kV2WSElDkP4bHKD1+76RPMj/2t9c0gdBp70Rz4MmRTk8layC5xem9OxwEKxy?=
- =?us-ascii?Q?aMaPX22OTpVTeCrpn0c0uY4eDkm403iLlZF1tAkx22wMGudl6e29oL2IrarO?=
- =?us-ascii?Q?wDAZpK1JHKwcJTPvvJyh5I5cEC2Yreo5vD3Mr2oNn7Yac8eSFcQ3abApoTC/?=
- =?us-ascii?Q?He78wnaREMAiCLrg3xrQSGbfr+pnxR/sjpyluEM/4RWJUD2wqzEtWg0mfMMW?=
- =?us-ascii?Q?8Q6+KHfn/8y4BnEB8m2q4aWoqQEkhXb/?=
+	=?us-ascii?Q?fxI0TZ6aneBEgHSQo9yKfcNJ55pD64WcQw9tf0kuuyNPSLpf4Q3lIdin+prP?=
+ =?us-ascii?Q?ETpQHlFsjXOO2OFrtisAFh5xO5pSGdHDF5GpksERWNApQFu7XlxMtbIVa3K+?=
+ =?us-ascii?Q?CGe2XILPNGFEcYAoJDpk7QOgB34CFr+CxVMfk1np8LiFLezhv56XvSjR2yHd?=
+ =?us-ascii?Q?DIZYWXFtBE6g95hP0vMJXAxrSLcPKl21MAELrlwZN8nlXy5SnPrAi4eQHVAD?=
+ =?us-ascii?Q?g/LZvImG/1rOUbBKX9Zv2Gc8KFfcfZr3BIUykAqtggqCiUaVPfd7p257C/eT?=
+ =?us-ascii?Q?UB8UQX+ANfLskLRfpTyMPT3Mzw+/PkoXlLve9olqeq7Q8YUUiS0qKAXDxs9U?=
+ =?us-ascii?Q?ahhqid8raCDahljqIBbTdyhw/LrSJ62LKtGfRX5XPDUCZai6XM18MoLPd0h/?=
+ =?us-ascii?Q?V90qrnUa1GhG0gITQTJuYm71fZYaD/jMGZe2PT2MMt9A3ZsBv1nKVycGdUmk?=
+ =?us-ascii?Q?QVgQLR3z6FybgRojqdcpfcxBTAfzq7nn2/jdbzZbtFGvYXeP9J4FFzLdWqFc?=
+ =?us-ascii?Q?6g7wu5110b2Z5STlHt4pm1wScIqgRZ7nWZWwyJp1EO8bwlamLRJD7iWiC2Ib?=
+ =?us-ascii?Q?+b3TmokrFiAt2aDZ+CM4O5fnySbefIhAg+uIlMFxZj7myR027mH/KuDznGK6?=
+ =?us-ascii?Q?GfyFsyzRaTWuqDAAGBN1s3gy26F4AgSEuv6QzfMq7v/AwpS4OfEm0b0KUySe?=
+ =?us-ascii?Q?CBvwNZuMKMmXJfS3GX4Grz2JxsV5kO3Q0MpPr3n9EYFSMni/TnuvFQWxq9Vk?=
+ =?us-ascii?Q?eb6oMpsLmvQbBEOm4VDUFTtARwMgYAnEXJntp0Eyg6UNEG3p6TWr1PC4Xk/b?=
+ =?us-ascii?Q?M/oUYPh3QiYDw41ftDdxOrLdunjSwYUtFt7VTVJ8pFCDljxXwLNqit4J0s6d?=
+ =?us-ascii?Q?5JNySFL3D9t+a50cdxqKyow+NaPA7ZBSvDMfWv6jHEAgziv/LIpGYnxsrQsa?=
+ =?us-ascii?Q?w9u8k8o2+pM3ub7FFo14Gj4EAcvWjbAdZnDYH3hr1GC2G1FrBjyBv006PyPC?=
+ =?us-ascii?Q?bt/UXL6FIB0/DBBS/QXqSX6SJnRMwsaQ4EodHnWlLj19cbANZ87d4lAol6LZ?=
+ =?us-ascii?Q?BSlBIii1uove9RRURbV6pgx1IhzfdyBrmSJAp1QCMpMZbwW/4ae6RmOHqYE1?=
+ =?us-ascii?Q?XGxAYI5UdHaBw0MdVFLzM1HB8ajV5Rib/Su7ywxIN7K68WjDc8FMzbovsLz5?=
+ =?us-ascii?Q?fU62cLNb3eMeE/C/CrkyM07+Zh2HYrT5MdqCP3Kd1wrXxMJd7P3KEw6MOu96?=
+ =?us-ascii?Q?bmAp8E/58ECJyn2FRqp9neGKBIcZoRLlAZePKzxIBNnXL8Yuwnf6AJvjUMc6?=
+ =?us-ascii?Q?ttkLT9FKjoUrpIbNRSfOR1UyeHYF6AjDFcjKxLN7nxHWYG7N0hOgicecUh+J?=
+ =?us-ascii?Q?uHAgb9G3Q6MJihncYii/rWxJ0y4KEfN4Ao25l7RYSsZwB25TWDUtU+RtlkyP?=
+ =?us-ascii?Q?t+6AqHAvEvbr5yxvzwdauwQNoVIitp2L?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(366016)(376014)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?QHvuHy9+FbIVkSN0dEDrMhf8Srvg9HgCWE1lV8aePHWCeUdOdoDmCt3yBuyI?=
- =?us-ascii?Q?eKk8uwPlvJUeJtN9jL5JdF07h4t9hnlBA3e/vSj2kvpzewgEh1FaKadNCnen?=
- =?us-ascii?Q?T47CA+eqDuI61myVwrSEmDvXcH3x/sB6O0AUO3jJkmzrfRPHUQ3WswEihd4i?=
- =?us-ascii?Q?+1OIU3hYtrAJBNFifGDtA+2vTsSgGERmUv8fR3LnX2cywMoHeubCqiaCf5KY?=
- =?us-ascii?Q?z1Kta0Q2qQMksjKyCjrUHLC0fu4N1JeaDqyIGhqAamemjLZSQpNTC3yf99Lw?=
- =?us-ascii?Q?2SecMjkPgoklQhLFMNendn1WqVb/oqJ58uiHmJyjorVvRYkDWoetFmWjW3Dh?=
- =?us-ascii?Q?4sj4tjocWuPBDfYeOXT2R4Vzn4Wi1WFXMnfZ0kh7hEPwnc8/QdeLDBYqqVUX?=
- =?us-ascii?Q?R01cQijH4mztwp4YEDhcXZvtNYlTZf2sA5QRuoOPbUS0+7xNTW1Us5odLlbK?=
- =?us-ascii?Q?dO4xYqsea02Ek4VLuUgtRxG9J11I2zmxSFuAksBuf3fk2bOk+KOlUZp7FTlL?=
- =?us-ascii?Q?kzjD4u84mKwaiAGqqJaa4w8xnEg+FGDrEKxiVNy4+nQZBW/x0eMzjguE4WMf?=
- =?us-ascii?Q?v+MXv6sjMZE7wc/T7WieEoMBfOdGuvbtnwbHD5gFOSmxpVf1usUicFPzoCeA?=
- =?us-ascii?Q?RpWWp6pDFNCSp7/51lgCaEP+FvIDgrsuZbviXgnjnw9LR5FjwKo14OCx9pGJ?=
- =?us-ascii?Q?f+3ldbmptUYUOR0FSRpwvvIv4JxRpo3hDbJ4x7sSMdB5pdkzDCfpLut4a3tJ?=
- =?us-ascii?Q?Gvpu08VfuMBM1tclWY0lFTi/fxJeeyXZ4KVzhxq3UHwMOvkzRXUoKaxK+eJU?=
- =?us-ascii?Q?IChgv960zDBOtv+FW55fhbUIfQmJQKPeAgpdUY+PnH/1r6pSxcvY7goBrTwg?=
- =?us-ascii?Q?SWYmd/netN+28C6sD+aOE9jDji56x7kFViQIhg7Q2Mvr9uSp9V62yL511XR4?=
- =?us-ascii?Q?2HtjLpClb0R0SJ8hIhEfjP5GiAe1CbZ6WafO2Uz0OiY3g13scei8mLpy1dXX?=
- =?us-ascii?Q?6AShYPm8e2zpuWdTWk6sAFpPmet9mW2Gmv928K10u5R4HRbdzBbAK+w/s08W?=
- =?us-ascii?Q?bDUNt4pQwNC1mGBBYyh058hXBnfrWfXYijvlObQEUSUBnk64PPfixI99NDPX?=
- =?us-ascii?Q?SO1/k6w7K6SGeKosC2vKuzigcZB0r3Q/+qOXi55Q+h6nMzOJGsAgBRvpojxL?=
- =?us-ascii?Q?dLb7pSuIERW8xGM6Jkz0vPGNvk4DvOWDs3go2MWKNVxH/vBFjCyDFqNMfo19?=
- =?us-ascii?Q?2+ZKYTX+BJPCaH668CkfeIeq/RhYhM+WT3AYmiv5OQ6fhBB4wM1d3JsbO7uZ?=
- =?us-ascii?Q?mJ/ZJcLS9MPuimsZu7A2aruCfzEIX7mqZfaqnSLRTJuOeoje2anuctwsf2Bu?=
- =?us-ascii?Q?TU/WMLPe+V+yvviRdcF37ZlnmBIw0WVwOvDCcjAkwX5wO33iAded5jT78oL2?=
- =?us-ascii?Q?xyvvtTWW1HH/B3Z5NOgLASiRWQXDydvUzx0tO01J9gW6b6ramjIz/6KDI3CC?=
- =?us-ascii?Q?CGQZxqNRzcMrXTydVnFLLzsPyya/SLIxLJrm7N0aMXyiKYKKnxEqhMPTvwjK?=
- =?us-ascii?Q?9d8H32LHKiM566q+0kGFV/L/naKWQknr0Ur5N5MHTlBqkQcggokuykKtda0N?=
- =?us-ascii?Q?TA=3D=3D?=
+	=?us-ascii?Q?NekoHRltSEsz+NCF/Fiom3Bz/UxdapEx4imyoX2jdxS/MTcxfD6BLLl2cOJx?=
+ =?us-ascii?Q?dxZKgmc0V48vilY/kItHjZBQPpB4crftdLTMFO303PfAXhT0qX5v7eo2A+Kn?=
+ =?us-ascii?Q?qVPMsbLy93XEqs1XruPbVmjrIlpixAC5qvyJKE1FRiQwTqIhOuZRxQp0Fnft?=
+ =?us-ascii?Q?KhZX+zd+KSY0UgvhO15Nl+MoKT2NRYcU6VqxMNhf8tN1TN/iCIjmsi9EGDwW?=
+ =?us-ascii?Q?b8frsJCI6HZOdbmL5Ww0Qx/NqhM5eKTytsdDhixPDRbblOdVtGygKtaw4KD5?=
+ =?us-ascii?Q?b6OaidgJgy16vU9iH3j/33qyJDoxwGpatIpEx5s6gy4I0cWJ1uoxiGiSfiGn?=
+ =?us-ascii?Q?6U5+v+p/DijvpxLxjMXn/NQ5UTPdfQkbBG/bicbCHXWQJdykspHK3L98oU8c?=
+ =?us-ascii?Q?4uIpimS3JugveN1wnEJxabVlk9m/nG1JS0mZ+e3EsxCBSSoZw18g/nmxzAb6?=
+ =?us-ascii?Q?7fK8zuDeA8hzsBP7m1Mpw2hhEaMP4h9SfQ4KhGApEHLZoXqnzABYfc2aGSWd?=
+ =?us-ascii?Q?RtKoUMJzXzmGnXKvsuMPNaB8NwVX6UzzzLoyxZR+eRh2Mz881zyk9k8f2N+p?=
+ =?us-ascii?Q?rB1caAgnjmCuQP4Og0Q+9OS9LBrLbuBulwrvUm8Itq3XOPWIwuAUcvuF54CW?=
+ =?us-ascii?Q?I1gM8nrSf+5LsJgfuEdJreDrxCLsFkptsuA6V7R3tPbUSBkj3zQlSm6rnW5M?=
+ =?us-ascii?Q?xcJFsUHT0iUJPffMYpRC3FFW4svfqt7ILTL+ic+7Ui13lWONSpq2baHPcF6m?=
+ =?us-ascii?Q?Msa0QvjGSN/qSnuYCPkbAOW2Z0ObQiP7iGjmkYKhXSpAhjlICfR6H8Gz5SYA?=
+ =?us-ascii?Q?IWPOXqnO8LtsmwopedS0V02k69sLHQG0fbcmPTq6KhOqWp41hDZ9QPEaX3gN?=
+ =?us-ascii?Q?vETfyxDff4bIGVigdZVyGwmde/OGOz6k7hUFBR88s0nDrEiiCfxetaKm+JIe?=
+ =?us-ascii?Q?ziwvvLYCMDYV+ZQ987kLRAu1831khl5f6nXS6p4J2f03eT9k+y3ZTf9GOkTX?=
+ =?us-ascii?Q?5HLE8MX0IR8acRH/h7QOirZhHCOihchDUeOzsumn1c2SVr/d3UMwCgFxX3Jk?=
+ =?us-ascii?Q?jZyfFIAYcllnkZRx4Cty6cvR+2cKQSWTwTYdFt0xgxYn2BBHXLOqvfaW/CeR?=
+ =?us-ascii?Q?djdBEl/LZwQ2QeZpvK6FHQPL+xTowlXUwcpxvXXhr3YN0wQ/A4tXnfe2ZFjj?=
+ =?us-ascii?Q?0EjxMXdw+PHUKQHP67c570oO0v0inK7UawFBrMCR+nOWOGTfFirf27KvXe/+?=
+ =?us-ascii?Q?iHK7sez/h/gDx3FKd0XDesDADnsA0twNQ9w9V/2c+5mx7+lOy5WpIMu2y65V?=
+ =?us-ascii?Q?1ap944D+0O61UvrvEG+mPZae6sBg/lzyJf51Ux1AA3fKycBw08aPH+5HbSe1?=
+ =?us-ascii?Q?mztDGEY4VdL5kaCsGkENGTHSiqJtFSG1b+caC+BdTKkFdFQxlXKDcpHEHr7i?=
+ =?us-ascii?Q?X8ealD4+qAlkDbPrtLUTiHs191yKZniVt+WF0X+Dqp5eqWFaGCylYYGilg9S?=
+ =?us-ascii?Q?vCi1VlKTB3TUuJVRU6IhAlUQyxLFYxVbYKrzdwO4BO1fEXfmiCqvw10X6VYt?=
+ =?us-ascii?Q?Cse2792wP3ncpvSqeJ4ijsuaiYF5Ufof4ZU28QIZcRlwp2/Gvb5oo95ZngEf?=
+ =?us-ascii?Q?lQ=3D=3D?=
 X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-Network-Message-Id: 75339868-43df-472c-915b-08dd5bacee2c
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58ad64e8-6d2b-48dd-0c67-08dd5bacef4d
 X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2025 06:14:04.5721
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2025 06:14:06.4670
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: v+wDRwGY+jLgJNly4/oo9Rhbo0e73gXIiv/s6spMD3zo0ENvkivJVsfKeg2BKdawdcLRPFsUldFneYxhvWEXa4c2xDZ0AJsKfu4NgqLVqj0=
+X-MS-Exchange-CrossTenant-UserPrincipalName: e5Y6u3VRNcC5p2oZpQmod7c7lcIL9T2f8BdvP9FN8rSN+w57JS+3wZmj9pptBj9YcmidmcCGzhMM3kFu2gHJAEYGRDqdarkVX+RgtycO96c=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2P287MB1027
 
-Switch from s_stream to enable_streams and disable_streams callbacks.
+Use pm_runtime_put_autosuspend() instead of pm_runtime_put()
+to allow autosuspend. Set a 1000ms autosuspend delay in
+imx219_probe() to improve power efficiency.
 
 Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>
 ---
- drivers/media/i2c/imx219.c | 43 +++++++++++++++-----------------------
- 1 file changed, 17 insertions(+), 26 deletions(-)
+ drivers/media/i2c/imx219.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index f662c9d75511..75d3123d47b4 100644
+index 75d3123d47b4..5e134c9029cb 100644
 --- a/drivers/media/i2c/imx219.c
 +++ b/drivers/media/i2c/imx219.c
-@@ -723,12 +723,17 @@ static int imx219_configure_lanes(struct imx219 *imx219)
- 				  ARRAY_SIZE(imx219_4lane_regs), NULL);
- };
- 
--static int imx219_start_streaming(struct imx219 *imx219,
--				  struct v4l2_subdev_state *state)
-+static int imx219_enable_streams(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *state, u32 pad,
-+				 u64 streams_mask)
- {
-+	struct imx219 *imx219 = to_imx219(sd);
- 	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
- 	int ret;
- 
-+	if (pad != 0)
-+		return -EINVAL;
-+
- 	ret = pm_runtime_resume_and_get(&client->dev);
- 	if (ret < 0)
- 		return ret;
-@@ -767,10 +772,6 @@ static int imx219_start_streaming(struct imx219 *imx219,
- 	if (ret)
- 		goto err_rpm_put;
- 
--	/* vflip and hflip cannot change during streaming */
--	__v4l2_ctrl_grab(imx219->vflip, true);
--	__v4l2_ctrl_grab(imx219->hflip, true);
--
+@@ -775,7 +775,8 @@ static int imx219_enable_streams(struct v4l2_subdev *sd,
  	return 0;
  
  err_rpm_put:
-@@ -778,37 +779,25 @@ static int imx219_start_streaming(struct imx219 *imx219,
+-	pm_runtime_put(&client->dev);
++	pm_runtime_mark_last_busy(&client->dev);
++	pm_runtime_put_autosuspend(&client->dev);
  	return ret;
  }
  
--static void imx219_stop_streaming(struct imx219 *imx219)
-+static int imx219_disable_streams(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *state, u32 pad,
-+				  u64 streams_mask)
- {
-+	struct imx219 *imx219 = to_imx219(sd);
- 	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
- 	int ret;
- 
-+	if (pad != 0)
-+		return -EINVAL;
-+
- 	/* set stream off register */
- 	ret = cci_write(imx219->regmap, IMX219_REG_MODE_SELECT,
- 			IMX219_MODE_STANDBY, NULL);
+@@ -796,7 +797,8 @@ static int imx219_disable_streams(struct v4l2_subdev *sd,
  	if (ret)
  		dev_err(&client->dev, "%s failed to set stream\n", __func__);
  
--	__v4l2_ctrl_grab(imx219->vflip, false);
--	__v4l2_ctrl_grab(imx219->hflip, false);
--
- 	pm_runtime_put(&client->dev);
--}
--
--static int imx219_set_stream(struct v4l2_subdev *sd, int enable)
--{
--	struct imx219 *imx219 = to_imx219(sd);
--	struct v4l2_subdev_state *state;
--	int ret = 0;
--
--	state = v4l2_subdev_lock_and_get_active_state(sd);
--
--	if (enable)
--		ret = imx219_start_streaming(imx219, state);
--	else
--		imx219_stop_streaming(imx219);
+-	pm_runtime_put(&client->dev);
++	pm_runtime_mark_last_busy(&client->dev);
++	pm_runtime_put_autosuspend(&client->dev);
  
--	v4l2_subdev_unlock_state(state);
  	return ret;
  }
+@@ -1268,6 +1270,8 @@ static int imx219_probe(struct i2c_client *client)
+ 	}
  
-@@ -992,7 +981,7 @@ static int imx219_init_state(struct v4l2_subdev *sd,
- }
+ 	pm_runtime_idle(dev);
++	pm_runtime_set_autosuspend_delay(dev, 1000);
++	pm_runtime_use_autosuspend(dev);
  
- static const struct v4l2_subdev_video_ops imx219_video_ops = {
--	.s_stream = imx219_set_stream,
-+	.s_stream = v4l2_subdev_s_stream_helper,
- };
+ 	return 0;
  
- static const struct v4l2_subdev_pad_ops imx219_pad_ops = {
-@@ -1001,6 +990,8 @@ static const struct v4l2_subdev_pad_ops imx219_pad_ops = {
- 	.set_fmt = imx219_set_pad_format,
- 	.get_selection = imx219_get_selection,
- 	.enum_frame_size = imx219_enum_frame_size,
-+	.enable_streams = imx219_enable_streams,
-+	.disable_streams = imx219_disable_streams,
- };
- 
- static const struct v4l2_subdev_ops imx219_subdev_ops = {
 -- 
 2.34.1
 
