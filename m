@@ -1,69 +1,69 @@
-Return-Path: <linux-media+bounces-27589-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27590-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C6B4A4FC82
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 11:45:50 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF6FDA4FC85
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 11:46:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C983F18950A0
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 10:45:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5CA751895289
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 10:45:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A11A720DD7D;
-	Wed,  5 Mar 2025 10:44:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A24A20E014;
+	Wed,  5 Mar 2025 10:44:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="aEPHNl6W"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="L1De17Fn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5847320D503;
-	Wed,  5 Mar 2025 10:44:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E82C620DD46;
+	Wed,  5 Mar 2025 10:44:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741171477; cv=none; b=GBVBNbI8zlEHaK27IPfWA1IzH2B22G9dcM6JoamCB7ElhU6K6rNBxsaXQI+uovEXp2ZtkxaNdawk8bsPNIqsqAoY6g6ZbDmU4sK2H2xAbObYgZa6rfiWBpyAXdZXi3slPKHzhCrLQzwlj9S09LIIQibxCRH4DbJRm4WJ5n+CcuQ=
+	t=1741171478; cv=none; b=toxf25PWAUDTSHybuF35bFXg2nctI0UDQVx4/IJyCKBY2JTugNDoSzo7+y5Exn94WxInzA/MDwd4WfvWdtglRXAvHNEzAvUcdOo3TrxsQD0j6+WjLfrW3voktT0l/cOWcZX7mE/1CqYm03V48Up+7kKpXYhsJQV99KlOI/cVXWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741171477; c=relaxed/simple;
-	bh=ShTcG9xSos+uOGsX+xOfaUC0HwJZf5qoX09mEtRbYcI=;
+	s=arc-20240116; t=1741171478; c=relaxed/simple;
+	bh=bfoQqDsC1NQPQRMx8KiJDc5enWqMJGusb1/FiILZ59o=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GLY9yat3C6ZTtkx2OVIVQ+SCpYqFk/Cax5KXwGDsrVXVeobZ1Pefu4tDKtRwDsRJBrvoEhoTz2UVo7vx6cshaAFZJw2ANiZArKBT2oq8woqjwH9xJ/bW9gSSHMZIncEri2+LGK1Co8kjqBfY7Xo5fXC2ugn8T3HhtYVTShgtIAk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=aEPHNl6W; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version:Content-Type; b=L1dUkioTo35/6ZIQNV/eZBUUepiaBKSSCdCnSQ+9xBs1/4fyzUxpxFwAYz7mDQCDYafmAe7oegvin+cuEgR5lrMVwL3hR9YQ/+qiipo3fGA2SMZOYAcy1n+rO06h1jVPll3jV+qXDLUy7cazAzK+/mV3BVM/aUxY6qKpIqbaT3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=L1De17Fn; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 525A76fj010970;
-	Wed, 5 Mar 2025 10:44:31 GMT
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 524NAA1o031403;
+	Wed, 5 Mar 2025 10:44:33 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	voEqt2/g8wyEf4sTqjpv/z9IjTpkhgIb222OzcEHGq8=; b=aEPHNl6WMkchDeUU
-	0JT4hCUcRGy+0bvLWeMGWh5iqcH22HeSKEU/Yyziv0to4yNaBuslYxvuXqKYOzj6
-	Hh8fSS4jVABhO2jDdGlKha4skGuF7CZdQv9lqjf2r+9y9l/1qoR1mWRrXrp92dfF
-	K55RAGsef8RktVE/JPvBvwc2DhcpSVwTW5fFL+Ew54HcG1bdjHJS6kSfuPYE0zQN
-	6u4CCYL2ThYgBnI2oyU/ajTY9gbNN6+40+2TB70efosBYsd37CvQFtMwMWUTfaWJ
-	8CsUuGQpD36F7YVB9Pm/z2u2oSKFRFDqAjgqwE2SSFFhsIanVYxF9xRJ9/hQ8ouK
-	2/nPBQ==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 455p6tn1e9-1
+	pqlyaOQrG0Cuo4o0OvhPCgmZnZw5KHktDJpqXby+aCM=; b=L1De17Fn/KPFKdBn
+	Czaj21u7OJ5MYp1lFTSMwzjaPy8vHzWLu/7l8MwGQxaXp3TJutzycP/DNvHBOWdo
+	UM4o5ESZDzp3nqfdAJavp+X4OYwiYeMDQYE9oZJeNXtyeYSE+dQW91vLFEh6iMZo
+	bmHerAKDHDYw41IvnCTuAEc3UVrvPhyRW3pBmF6njeltmGJHluu/7bX7fKqTkicA
+	tX1mvn06YZ6NGP6U0Fnsm1x3MitIDM3cpOKWGteJKdH2VYLek6OOagew1ZYssL2+
+	iGMMpRVqP3813hEhS8ht1dHEMZy5d/cBYHrc7BMzKaZ/EKIkLrKm1WcJwJsqUhws
+	ai7prA==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 455p6t51xd-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 05 Mar 2025 10:44:30 +0000 (GMT)
+	Wed, 05 Mar 2025 10:44:33 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 525AiUUn032350
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 525AiX5r006391
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 5 Mar 2025 10:44:30 GMT
+	Wed, 5 Mar 2025 10:44:33 GMT
 Received: from hu-dikshita-hyd.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Wed, 5 Mar 2025 02:44:26 -0800
+ 15.2.1544.9; Wed, 5 Mar 2025 02:44:29 -0800
 From: Dikshita Agarwal <quic_dikshita@quicinc.com>
 To: <quic_vgarodia@quicinc.com>, <quic_abhinavk@quicinc.com>,
         <mchehab@kernel.org>, <quic_dikshita@quicinc.com>
 CC: <hverkuil@xs4all.nl>, <linux-media@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [RFC PATCH 01/12] media: iris: Add HEVC and VP9 formats for decoder
-Date: Wed, 5 Mar 2025 16:13:24 +0530
-Message-ID: <20250305104335.3629945-2-quic_dikshita@quicinc.com>
+Subject: [RFC PATCH 02/12] media: iris: Add platform capabilities for HEVC and VP9 decoders
+Date: Wed, 5 Mar 2025 16:13:25 +0530
+Message-ID: <20250305104335.3629945-3-quic_dikshita@quicinc.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250305104335.3629945-1-quic_dikshita@quicinc.com>
 References: <20250305104335.3629945-1-quic_dikshita@quicinc.com>
@@ -79,322 +79,327 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=HZbuTjE8 c=1 sm=1 tr=0 ts=67c82b0f cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=q7txp5L90lOmEJWSHg8A:9 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: lNaGlIWCHJkFsci_JrbF7ETSSVlnClqo
-X-Proofpoint-ORIG-GUID: lNaGlIWCHJkFsci_JrbF7ETSSVlnClqo
+X-Proofpoint-GUID: HspAjlj-cP7biLx4xOQchFCGoKumLA4-
+X-Authority-Analysis: v=2.4 cv=KfMosRYD c=1 sm=1 tr=0 ts=67c82b11 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=7MnbDLf3qcBUn0XBFNAA:9 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: HspAjlj-cP7biLx4xOQchFCGoKumLA4-
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-05_04,2025-03-05_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- adultscore=0 mlxscore=0 spamscore=0 clxscore=1015 phishscore=0 bulkscore=0
- priorityscore=1501 impostorscore=0 suspectscore=0 malwarescore=0
- mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ spamscore=0 suspectscore=0 phishscore=0 malwarescore=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 mlxlogscore=999 adultscore=0
+ bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
  definitions=main-2503050086
 
-Extend the decoder driver's supported formats to include HEVC (H.265)
-and VP9. This change updates the format enumeration (VIDIOC_ENUM_FMT)
-and allows setting these formats via VIDIOC_S_FMT.
+Add platform capabilities for HEVC and VP9 codecs in decoder driver
+with related hooks.
 
 Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 ---
- .../qcom/iris/iris_hfi_gen1_command.c         | 18 ++++-
- .../qcom/iris/iris_hfi_gen1_defines.h         |  2 +
- .../qcom/iris/iris_hfi_gen2_command.c         | 16 ++++-
- .../qcom/iris/iris_hfi_gen2_defines.h         |  3 +
- .../media/platform/qcom/iris/iris_instance.h  |  2 +
- drivers/media/platform/qcom/iris/iris_vdec.c  | 69 +++++++++++++++++--
- drivers/media/platform/qcom/iris/iris_vdec.h  | 11 +++
- drivers/media/platform/qcom/iris/iris_vidc.c  |  3 -
- 8 files changed, 113 insertions(+), 11 deletions(-)
+ drivers/media/platform/qcom/iris/iris_ctrls.c | 28 ++++++-
+ .../qcom/iris/iris_hfi_gen2_command.c         | 30 ++++++-
+ .../qcom/iris/iris_hfi_gen2_defines.h         |  1 +
+ .../qcom/iris/iris_hfi_gen2_response.c        | 36 ++++++++-
+ .../platform/qcom/iris/iris_platform_common.h |  9 ++-
+ .../platform/qcom/iris/iris_platform_sm8550.c | 80 ++++++++++++++++++-
+ 6 files changed, 170 insertions(+), 14 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-index 64f887d9a17d..1e774b058ab9 100644
---- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-+++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-@@ -26,6 +26,20 @@ static u32 iris_hfi_gen1_buf_type_from_driver(enum iris_buffer_type buffer_type)
+diff --git a/drivers/media/platform/qcom/iris/iris_ctrls.c b/drivers/media/platform/qcom/iris/iris_ctrls.c
+index b690578256d5..fb2b818c7c5c 100644
+--- a/drivers/media/platform/qcom/iris/iris_ctrls.c
++++ b/drivers/media/platform/qcom/iris/iris_ctrls.c
+@@ -20,9 +20,19 @@ static enum platform_inst_fw_cap_type iris_get_cap_id(u32 id)
+ 	case V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER:
+ 		return DEBLOCK;
+ 	case V4L2_CID_MPEG_VIDEO_H264_PROFILE:
+-		return PROFILE;
++		return PROFILE_H264;
++	case V4L2_CID_MPEG_VIDEO_HEVC_PROFILE:
++		return PROFILE_HEVC;
++	case V4L2_CID_MPEG_VIDEO_VP9_PROFILE:
++		return PROFILE_VP9;
+ 	case V4L2_CID_MPEG_VIDEO_H264_LEVEL:
+-		return LEVEL;
++		return LEVEL_H264;
++	case V4L2_CID_MPEG_VIDEO_HEVC_LEVEL:
++		return LEVEL_HEVC;
++	case V4L2_CID_MPEG_VIDEO_VP9_LEVEL:
++		return LEVEL_VP9;
++	case V4L2_CID_MPEG_VIDEO_HEVC_TIER:
++		return TIER;
+ 	default:
+ 		return INST_FW_CAP_MAX;
  	}
- }
- 
-+static u32 iris_hfi_gen1_v4l2_to_codec_type(u32 pixfmt)
-+{
-+	switch (pixfmt) {
-+	case V4L2_PIX_FMT_H264:
-+		return HFI_VIDEO_CODEC_H264;
-+	case V4L2_PIX_FMT_HEVC:
-+		return HFI_VIDEO_CODEC_HEVC;
-+	case V4L2_PIX_FMT_VP9:
-+		return HFI_VIDEO_CODEC_VP9;
-+	default:
-+		return 0;
-+	}
-+}
-+
- static int iris_hfi_gen1_sys_init(struct iris_core *core)
- {
- 	struct hfi_sys_init_pkt sys_init_pkt;
-@@ -88,16 +102,18 @@ static int iris_hfi_gen1_sys_pc_prep(struct iris_core *core)
- static int iris_hfi_gen1_session_open(struct iris_inst *inst)
- {
- 	struct hfi_session_open_pkt packet;
-+	u32 codec;
- 	int ret;
- 
- 	if (inst->state != IRIS_INST_DEINIT)
- 		return -EALREADY;
- 
-+	codec = iris_hfi_gen1_v4l2_to_codec_type(inst->codec);
- 	packet.shdr.hdr.size = sizeof(struct hfi_session_open_pkt);
- 	packet.shdr.hdr.pkt_type = HFI_CMD_SYS_SESSION_INIT;
- 	packet.shdr.session_id = inst->session_id;
- 	packet.session_domain = HFI_SESSION_TYPE_DEC;
--	packet.session_codec = HFI_VIDEO_CODEC_H264;
-+	packet.session_codec = codec;
- 
- 	reinit_completion(&inst->completion);
- 
-diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h b/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
-index 9f246816a286..3bea643068f9 100644
---- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
-+++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
-@@ -13,6 +13,8 @@
- #define HFI_SESSION_TYPE_DEC				2
- 
- #define HFI_VIDEO_CODEC_H264				0x00000002
-+#define HFI_VIDEO_CODEC_HEVC				0x00002000
-+#define HFI_VIDEO_CODEC_VP9				0x00004000
- 
- #define HFI_ERR_NONE					0x0
- 
+@@ -36,10 +46,20 @@ static u32 iris_get_v4l2_id(enum platform_inst_fw_cap_type cap_id)
+ 	switch (cap_id) {
+ 	case DEBLOCK:
+ 		return V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER;
+-	case PROFILE:
++	case PROFILE_H264:
+ 		return V4L2_CID_MPEG_VIDEO_H264_PROFILE;
+-	case LEVEL:
++	case PROFILE_HEVC:
++		return V4L2_CID_MPEG_VIDEO_HEVC_PROFILE;
++	case PROFILE_VP9:
++		return V4L2_CID_MPEG_VIDEO_VP9_PROFILE;
++	case LEVEL_H264:
+ 		return V4L2_CID_MPEG_VIDEO_H264_LEVEL;
++	case LEVEL_HEVC:
++		return V4L2_CID_MPEG_VIDEO_HEVC_LEVEL;
++	case LEVEL_VP9:
++		return V4L2_CID_MPEG_VIDEO_VP9_LEVEL;
++	case TIER:
++		return V4L2_CID_MPEG_VIDEO_HEVC_TIER;
+ 	default:
+ 		return 0;
+ 	}
 diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-index a908b41e2868..beaf3a051d7c 100644
+index beaf3a051d7c..a3ebcda9a2ba 100644
 --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
 +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-@@ -20,6 +20,20 @@
- #define SYS_NO_PAYLOAD_PKT_SIZE (sizeof(struct iris_hfi_header) + \
- 	sizeof(struct iris_hfi_packet))
- 
-+static u32 iris_hfi_gen2_v4l2_to_codec_type(struct iris_inst *inst)
-+{
-+	switch (inst->codec) {
-+	case V4L2_PIX_FMT_H264:
-+		return HFI_CODEC_DECODE_AVC;
-+	case V4L2_PIX_FMT_HEVC:
-+		return HFI_CODEC_DECODE_HEVC;
-+	case V4L2_PIX_FMT_VP9:
-+		return HFI_CODEC_DECODE_VP9;
-+	default:
-+		return 0;
-+	}
-+}
-+
- static int iris_hfi_gen2_sys_init(struct iris_core *core)
- {
- 	struct iris_hfi_header *hdr;
-@@ -416,7 +430,7 @@ static int iris_hfi_gen2_session_set_config_params(struct iris_inst *inst, u32 p
- static int iris_hfi_gen2_session_set_codec(struct iris_inst *inst)
+@@ -309,7 +309,20 @@ static int iris_hfi_gen2_set_profile(struct iris_inst *inst)
  {
  	struct iris_inst_hfi_gen2 *inst_hfi_gen2 = to_iris_inst_hfi_gen2(inst);
--	u32 codec = HFI_CODEC_DECODE_AVC;
-+	u32 codec = iris_hfi_gen2_v4l2_to_codec_type(inst);
+ 	u32 port = iris_hfi_gen2_get_port(V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
+-	u32 profile = inst->fw_caps[PROFILE].value;
++	u32 profile;
++
++	switch (inst->codec) {
++	case V4L2_PIX_FMT_HEVC:
++		profile = inst->fw_caps[PROFILE_HEVC].value;
++		break;
++	case V4L2_PIX_FMT_VP9:
++		profile = inst->fw_caps[PROFILE_VP9].value;
++		break;
++	case V4L2_PIX_FMT_H264:
++	default:
++		profile = inst->fw_caps[PROFILE_H264].value;
++		break;
++	}
  
- 	iris_hfi_gen2_packet_session_property(inst,
- 					      HFI_PROP_CODEC,
+ 	inst_hfi_gen2->src_subcr_params.profile = profile;
+ 
+@@ -326,7 +339,20 @@ static int iris_hfi_gen2_set_level(struct iris_inst *inst)
+ {
+ 	struct iris_inst_hfi_gen2 *inst_hfi_gen2 = to_iris_inst_hfi_gen2(inst);
+ 	u32 port = iris_hfi_gen2_get_port(V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
+-	u32 level = inst->fw_caps[LEVEL].value;
++	u32 level;
++
++	switch (inst->codec) {
++	case V4L2_PIX_FMT_HEVC:
++		level = inst->fw_caps[LEVEL_HEVC].value;
++		break;
++	case V4L2_PIX_FMT_VP9:
++		level = inst->fw_caps[LEVEL_VP9].value;
++		break;
++	case V4L2_PIX_FMT_H264:
++	default:
++		level = inst->fw_caps[LEVEL_H264].value;
++		break;
++	}
+ 
+ 	inst_hfi_gen2->src_subcr_params.level = level;
+ 
 diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h b/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
-index 806f8bb7f505..2fcf7914b70f 100644
+index 2fcf7914b70f..48c507a1ec27 100644
 --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
 +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
-@@ -104,6 +104,9 @@ enum hfi_color_format {
- enum hfi_codec_type {
- 	HFI_CODEC_DECODE_AVC			= 1,
- 	HFI_CODEC_ENCODE_AVC			= 2,
-+	HFI_CODEC_DECODE_HEVC			= 3,
-+	HFI_CODEC_ENCODE_HEVC			= 4,
-+	HFI_CODEC_DECODE_VP9			= 5,
- };
+@@ -46,6 +46,7 @@
+ #define HFI_PROP_CROP_OFFSETS			0x03000105
+ #define HFI_PROP_PROFILE			0x03000107
+ #define HFI_PROP_LEVEL				0x03000108
++#define HFI_PROP_TIER				0x03000109
+ #define HFI_PROP_STAGE				0x0300010a
+ #define HFI_PROP_PIPE				0x0300010b
+ #define HFI_PROP_LUMA_CHROMA_BIT_DEPTH		0x0300010f
+diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+index b75a01641d5d..809bf0f238bd 100644
+--- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
++++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+@@ -563,8 +563,22 @@ static void iris_hfi_gen2_read_input_subcr_params(struct iris_inst *inst)
+ 	inst->crop.width = pixmp_ip->width -
+ 		((subsc_params.crop_offsets[1] >> 16) & 0xFFFF) - inst->crop.left;
  
- enum hfi_picture_type {
-diff --git a/drivers/media/platform/qcom/iris/iris_instance.h b/drivers/media/platform/qcom/iris/iris_instance.h
-index caa3c6507006..d8f076936c2b 100644
---- a/drivers/media/platform/qcom/iris/iris_instance.h
-+++ b/drivers/media/platform/qcom/iris/iris_instance.h
-@@ -42,6 +42,7 @@
-  * @sequence_out: a sequence counter for output queue
-  * @tss: timestamp metadata
-  * @metadata_idx: index for metadata buffer
-+ * @codec: codec type
-  */
- 
- struct iris_inst {
-@@ -72,6 +73,7 @@ struct iris_inst {
- 	u32				sequence_out;
- 	struct iris_ts_metadata		tss[VIDEO_MAX_FRAME];
- 	u32				metadata_idx;
-+	u32				codec;
- };
- 
- #endif
-diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media/platform/qcom/iris/iris_vdec.c
-index 4143acedfc57..cdcfe71f5b96 100644
---- a/drivers/media/platform/qcom/iris/iris_vdec.c
-+++ b/drivers/media/platform/qcom/iris/iris_vdec.c
-@@ -32,6 +32,7 @@ int iris_vdec_inst_init(struct iris_inst *inst)
- 	f->fmt.pix_mp.width = DEFAULT_WIDTH;
- 	f->fmt.pix_mp.height = DEFAULT_HEIGHT;
- 	f->fmt.pix_mp.pixelformat = V4L2_PIX_FMT_H264;
-+	inst->codec = f->fmt.pix_mp.pixelformat;
- 	f->fmt.pix_mp.num_planes = 1;
- 	f->fmt.pix_mp.plane_fmt[0].bytesperline = 0;
- 	f->fmt.pix_mp.plane_fmt[0].sizeimage = iris_get_buffer_size(inst, BUF_INPUT);
-@@ -67,14 +68,67 @@ void iris_vdec_inst_deinit(struct iris_inst *inst)
- 	kfree(inst->fmt_src);
- }
- 
-+static const struct iris_fmt iris_vdec_formats[] = {
-+	[IRIS_FMT_H264] = {
-+		.pixfmt = V4L2_PIX_FMT_H264,
-+		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-+	},
-+	[IRIS_FMT_HEVC] = {
-+		.pixfmt = V4L2_PIX_FMT_HEVC,
-+		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-+	},
-+	[IRIS_FMT_VP9] = {
-+		.pixfmt = V4L2_PIX_FMT_VP9,
-+		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-+	},
-+};
-+
-+static const struct iris_fmt *
-+find_format(struct iris_inst *inst, u32 pixfmt, u32 type)
-+{
-+	const struct iris_fmt *fmt = iris_vdec_formats;
-+	unsigned int size = ARRAY_SIZE(iris_vdec_formats);
-+	unsigned int i;
-+
-+	for (i = 0; i < size; i++) {
-+		if (fmt[i].pixfmt == pixfmt)
-+			break;
+-	inst->fw_caps[PROFILE].value = subsc_params.profile;
+-	inst->fw_caps[LEVEL].value = subsc_params.level;
++	switch (inst->codec) {
++	case V4L2_PIX_FMT_HEVC:
++		inst->fw_caps[PROFILE_HEVC].value = subsc_params.profile;
++		inst->fw_caps[LEVEL_HEVC].value = subsc_params.level;
++		break;
++	case V4L2_PIX_FMT_VP9:
++		inst->fw_caps[PROFILE_VP9].value = subsc_params.profile;
++		inst->fw_caps[LEVEL_VP9].value = subsc_params.level;
++		break;
++	case V4L2_PIX_FMT_H264:
++	default:
++		inst->fw_caps[PROFILE_H264].value = subsc_params.profile;
++		inst->fw_caps[LEVEL_H264].value = subsc_params.level;
++		break;
 +	}
 +
-+	if (i == size || fmt[i].type != type)
-+		return NULL;
-+
-+	return &fmt[i];
-+}
-+
-+static const struct iris_fmt *
-+find_format_by_index(struct iris_inst *inst, u32 index, u32 type)
-+{
-+	const struct iris_fmt *fmt = iris_vdec_formats;
-+	unsigned int size = ARRAY_SIZE(iris_vdec_formats);
-+
-+	if (index >= size || fmt[index].type != type)
-+		return NULL;
-+
-+	return &fmt[index];
-+}
-+
- int iris_vdec_enum_fmt(struct iris_inst *inst, struct v4l2_fmtdesc *f)
- {
-+	const struct iris_fmt *fmt;
-+
- 	switch (f->type) {
- 	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
--		f->pixelformat = V4L2_PIX_FMT_H264;
-+		fmt = find_format_by_index(inst, f->index, f->type);
-+		if (!fmt)
-+			return -EINVAL;
-+
-+		f->pixelformat = fmt->pixfmt;
- 		f->flags = V4L2_FMT_FLAG_COMPRESSED | V4L2_FMT_FLAG_DYN_RESOLUTION;
- 		break;
- 	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
-+		if (f->index)
-+			return -EINVAL;
- 		f->pixelformat = V4L2_PIX_FMT_NV12;
- 		break;
- 	default:
-@@ -88,13 +142,15 @@ int iris_vdec_try_fmt(struct iris_inst *inst, struct v4l2_format *f)
- {
- 	struct v4l2_pix_format_mplane *pixmp = &f->fmt.pix_mp;
- 	struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
-+	const struct iris_fmt *fmt;
- 	struct v4l2_format *f_inst;
- 	struct vb2_queue *src_q;
+ 	inst->fw_caps[POC].value = subsc_params.pic_order_cnt;
  
- 	memset(pixmp->reserved, 0, sizeof(pixmp->reserved));
-+	fmt = find_format(inst, pixmp->pixelformat, f->type);
- 	switch (f->type) {
- 	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
--		if (f->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_H264) {
-+		if (!fmt) {
- 			f_inst = inst->fmt_src;
- 			f->fmt.pix_mp.width = f_inst->fmt.pix_mp.width;
- 			f->fmt.pix_mp.height = f_inst->fmt.pix_mp.height;
-@@ -102,7 +158,7 @@ int iris_vdec_try_fmt(struct iris_inst *inst, struct v4l2_format *f)
- 		}
- 		break;
- 	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
--		if (f->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_NV12) {
-+		if (!fmt) {
- 			f_inst = inst->fmt_dst;
- 			f->fmt.pix_mp.pixelformat = f_inst->fmt.pix_mp.pixelformat;
- 			f->fmt.pix_mp.width = f_inst->fmt.pix_mp.width;
-@@ -145,13 +201,14 @@ int iris_vdec_s_fmt(struct iris_inst *inst, struct v4l2_format *f)
+ 	if (subsc_params.bit_depth != BIT_DEPTH_8 ||
+@@ -791,8 +805,22 @@ static void iris_hfi_gen2_init_src_change_param(struct iris_inst *inst)
+ 					     full_range, video_format,
+ 					     video_signal_type_present_flag);
  
- 	switch (f->type) {
- 	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
--		if (f->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_H264)
-+		if (!(find_format(inst, f->fmt.pix_mp.pixelformat, f->type)))
- 			return -EINVAL;
- 
- 		fmt = inst->fmt_src;
- 		fmt->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
--
--		codec_align = DEFAULT_CODEC_ALIGNMENT;
-+		fmt->fmt.pix_mp.pixelformat = f->fmt.pix_mp.pixelformat;
-+		inst->codec = fmt->fmt.pix_mp.pixelformat;
-+		codec_align = inst->codec == V4L2_PIX_FMT_HEVC ? 32 : 16;
- 		fmt->fmt.pix_mp.width = ALIGN(f->fmt.pix_mp.width, codec_align);
- 		fmt->fmt.pix_mp.height = ALIGN(f->fmt.pix_mp.height, codec_align);
- 		fmt->fmt.pix_mp.num_planes = 1;
-diff --git a/drivers/media/platform/qcom/iris/iris_vdec.h b/drivers/media/platform/qcom/iris/iris_vdec.h
-index b24932dc511a..cd7aab66dc7c 100644
---- a/drivers/media/platform/qcom/iris/iris_vdec.h
-+++ b/drivers/media/platform/qcom/iris/iris_vdec.h
-@@ -8,6 +8,17 @@
- 
- struct iris_inst;
- 
-+enum iris_fmt_type {
-+	IRIS_FMT_H264,
-+	IRIS_FMT_HEVC,
-+	IRIS_FMT_VP9,
-+};
+-	subsc_params->profile = inst->fw_caps[PROFILE].value;
+-	subsc_params->level = inst->fw_caps[LEVEL].value;
++	switch (inst->codec) {
++	case V4L2_PIX_FMT_HEVC:
++		subsc_params->profile = inst->fw_caps[PROFILE_HEVC].value;
++		subsc_params->level = inst->fw_caps[LEVEL_HEVC].value;
++		break;
++	case V4L2_PIX_FMT_VP9:
++		subsc_params->profile = inst->fw_caps[PROFILE_VP9].value;
++		subsc_params->level = inst->fw_caps[LEVEL_VP9].value;
++		break;
++	case V4L2_PIX_FMT_H264:
++	default:
++		subsc_params->profile = inst->fw_caps[PROFILE_H264].value;
++		subsc_params->level = inst->fw_caps[LEVEL_H264].value;
++		break;
++	}
 +
-+struct iris_fmt {
-+	u32 pixfmt;
-+	u32 type;
-+};
-+
- int iris_vdec_inst_init(struct iris_inst *inst);
- void iris_vdec_inst_deinit(struct iris_inst *inst);
- int iris_vdec_enum_fmt(struct iris_inst *inst, struct v4l2_fmtdesc *f);
-diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
-index ca0f4e310f77..6a6afa15b647 100644
---- a/drivers/media/platform/qcom/iris/iris_vidc.c
-+++ b/drivers/media/platform/qcom/iris/iris_vidc.c
-@@ -249,9 +249,6 @@ static int iris_enum_fmt(struct file *filp, void *fh, struct v4l2_fmtdesc *f)
- {
- 	struct iris_inst *inst = iris_get_inst(filp, NULL);
+ 	subsc_params->pic_order_cnt = inst->fw_caps[POC].value;
+ 	subsc_params->bit_depth = inst->fw_caps[BIT_DEPTH].value;
+ 	if (inst->fw_caps[CODED_FRAMES].value ==
+diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
+index f6b15d2805fb..67204cddd44a 100644
+--- a/drivers/media/platform/qcom/iris/iris_platform_common.h
++++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+@@ -78,8 +78,12 @@ struct platform_inst_caps {
+ };
  
--	if (f->index)
--		return -EINVAL;
--
- 	return iris_vdec_enum_fmt(inst, f);
- }
+ enum platform_inst_fw_cap_type {
+-	PROFILE = 1,
+-	LEVEL,
++	PROFILE_H264 = 1,
++	PROFILE_HEVC,
++	PROFILE_VP9,
++	LEVEL_H264,
++	LEVEL_HEVC,
++	LEVEL_VP9,
+ 	INPUT_BUF_HOST_MAX_COUNT,
+ 	STAGE,
+ 	PIPE,
+@@ -88,6 +92,7 @@ enum platform_inst_fw_cap_type {
+ 	BIT_DEPTH,
+ 	RAP_FRAME,
+ 	DEBLOCK,
++	TIER,
+ 	INST_FW_CAP_MAX,
+ };
  
+diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
+index 35d278996c43..29bc50785da5 100644
+--- a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
++++ b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
+@@ -14,7 +14,7 @@
+ 
+ static struct platform_inst_fw_cap inst_fw_cap_sm8550[] = {
+ 	{
+-		.cap_id = PROFILE,
++		.cap_id = PROFILE_H264,
+ 		.min = V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
+ 		.max = V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_HIGH,
+ 		.step_or_mask = BIT(V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE) |
+@@ -28,7 +28,29 @@ static struct platform_inst_fw_cap inst_fw_cap_sm8550[] = {
+ 		.set = iris_set_u32_enum,
+ 	},
+ 	{
+-		.cap_id = LEVEL,
++		.cap_id = PROFILE_HEVC,
++		.min = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN,
++		.max = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE,
++		.step_or_mask = BIT(V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN) |
++				BIT(V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE),
++		.value = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN,
++		.hfi_id = HFI_PROP_PROFILE,
++		.flags = CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
++		.set = iris_set_u32_enum,
++	},
++	{
++		.cap_id = PROFILE_VP9,
++		.min = V4L2_MPEG_VIDEO_VP9_PROFILE_0,
++		.max = V4L2_MPEG_VIDEO_VP9_PROFILE_2,
++		.step_or_mask = BIT(V4L2_MPEG_VIDEO_VP9_PROFILE_0) |
++				BIT(V4L2_MPEG_VIDEO_VP9_PROFILE_2),
++		.value = V4L2_MPEG_VIDEO_VP9_PROFILE_0,
++		.hfi_id = HFI_PROP_PROFILE,
++		.flags = CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
++		.set = iris_set_u32_enum,
++	},
++	{
++		.cap_id = LEVEL_H264,
+ 		.min = V4L2_MPEG_VIDEO_H264_LEVEL_1_0,
+ 		.max = V4L2_MPEG_VIDEO_H264_LEVEL_6_2,
+ 		.step_or_mask = BIT(V4L2_MPEG_VIDEO_H264_LEVEL_1_0) |
+@@ -56,6 +78,60 @@ static struct platform_inst_fw_cap inst_fw_cap_sm8550[] = {
+ 		.flags = CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
+ 		.set = iris_set_u32_enum,
+ 	},
++	{
++		.cap_id = LEVEL_HEVC,
++		.min = V4L2_MPEG_VIDEO_HEVC_LEVEL_1,
++		.max = V4L2_MPEG_VIDEO_HEVC_LEVEL_6_2,
++		.step_or_mask = BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_1) |
++				BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_2) |
++				BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_2_1) |
++				BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_3) |
++				BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_3_1) |
++				BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_4) |
++				BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_4_1) |
++				BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_5) |
++				BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_5_1) |
++				BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_5_2) |
++				BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_6) |
++				BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_6_1) |
++				BIT(V4L2_MPEG_VIDEO_HEVC_LEVEL_6_2),
++		.value = V4L2_MPEG_VIDEO_HEVC_LEVEL_6_1,
++		.hfi_id = HFI_PROP_LEVEL,
++		.flags = CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
++		.set = iris_set_u32_enum,
++	},
++	{
++		.cap_id = LEVEL_VP9,
++		.min = V4L2_MPEG_VIDEO_VP9_LEVEL_1_0,
++		.max = V4L2_MPEG_VIDEO_VP9_LEVEL_6_0,
++		.step_or_mask = BIT(V4L2_MPEG_VIDEO_VP9_LEVEL_1_0) |
++				BIT(V4L2_MPEG_VIDEO_VP9_LEVEL_1_1) |
++				BIT(V4L2_MPEG_VIDEO_VP9_LEVEL_2_0) |
++				BIT(V4L2_MPEG_VIDEO_VP9_LEVEL_2_1) |
++				BIT(V4L2_MPEG_VIDEO_VP9_LEVEL_3_0) |
++				BIT(V4L2_MPEG_VIDEO_VP9_LEVEL_3_1) |
++				BIT(V4L2_MPEG_VIDEO_VP9_LEVEL_4_0) |
++				BIT(V4L2_MPEG_VIDEO_VP9_LEVEL_4_1) |
++				BIT(V4L2_MPEG_VIDEO_VP9_LEVEL_5_0) |
++				BIT(V4L2_MPEG_VIDEO_VP9_LEVEL_5_1) |
++				BIT(V4L2_MPEG_VIDEO_VP9_LEVEL_5_2) |
++				BIT(V4L2_MPEG_VIDEO_VP9_LEVEL_6_0),
++		.value = V4L2_MPEG_VIDEO_VP9_LEVEL_6_0,
++		.hfi_id = HFI_PROP_LEVEL,
++		.flags = CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
++		.set = iris_set_u32_enum,
++	},
++	{
++		.cap_id = TIER,
++		.min = V4L2_MPEG_VIDEO_HEVC_TIER_MAIN,
++		.max = V4L2_MPEG_VIDEO_HEVC_TIER_HIGH,
++		.step_or_mask = BIT(V4L2_MPEG_VIDEO_HEVC_TIER_MAIN) |
++				BIT(V4L2_MPEG_VIDEO_HEVC_TIER_HIGH),
++		.value = V4L2_MPEG_VIDEO_HEVC_TIER_HIGH,
++		.hfi_id = HFI_PROP_TIER,
++		.flags = CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
++		.set = iris_set_u32_enum,
++	},
+ 	{
+ 		.cap_id = INPUT_BUF_HOST_MAX_COUNT,
+ 		.min = DEFAULT_MAX_HOST_BUF_COUNT,
 -- 
 2.34.1
 
