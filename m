@@ -1,261 +1,319 @@
-Return-Path: <linux-media+bounces-27575-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27576-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC14DA4FAED
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 11:00:05 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43B32A4FB67
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 11:12:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE52E16AC02
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 10:00:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6619516B9A6
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 10:12:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDC3C20551E;
-	Wed,  5 Mar 2025 09:59:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b="MdE/YNJX"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C0AD205E21;
+	Wed,  5 Mar 2025 10:12:22 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2085.outbound.protection.outlook.com [40.107.20.85])
+Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazon11021094.outbound.protection.outlook.com [40.107.57.94])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 775801C8612;
-	Wed,  5 Mar 2025 09:59:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.20.85
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D822204C35;
+	Wed,  5 Mar 2025 10:12:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.57.94
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741168797; cv=fail; b=dixMbn+ksx+v9SEDaTZXr8XB2clT2otNZL8rcFsUylmw/OjbekjvxB3VUAieDrB26TwrAp3uGEPfQJfd55mJ+01OAJAJ54SOTEO6jogUAhC6YnXGU7dmW9XO30xtASvaH1e8av4kAuwtUk/UrqaaBg7UVJyZO5FOtSGhTyrq/yA=
+	t=1741169542; cv=fail; b=WHCrnOTYnUDVnJ3Zq/sEyvb5Ye5XcGPodHgZNqhKg38dZKrzJUIZkPpUQsS/3X7AK0Kzgs7Xa4P6+B3mtGRTJxPCEc/6HvMJX1udrbxsRa+HLqJWrDN33cOjBuk4TbKa7kMHIrO9/+ufLtsgWNS+QxMEafiFNFRnfCGq8wCP/aE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741168797; c=relaxed/simple;
-	bh=Ypcn1ZXYLUABHRafSKJCeZCrayEFQTrNvRDa46yGG+U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=rFWkGfUpkCZDJKVJ6/orwKyxUqq1Q4WbG0AmpL4DMjbPjYIpOHzLBAdPCdSS2STjMCEn1gkW2KOGjKMAljdNp6Z22J7F/yekkqDmUkwLfBmWbpZl7mzAkfTwU8gdz86q+7Bgw9+ATRADQevpV/TZLan1qAozoi547y5YH5M6Yww=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mt.com; spf=pass smtp.mailfrom=mt.com; dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b=MdE/YNJX; arc=fail smtp.client-ip=40.107.20.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mt.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mt.com
+	s=arc-20240116; t=1741169542; c=relaxed/simple;
+	bh=y2EjSgpAjZZN+i3wyR38x3HDPtIu/YwLZm4SE0cdnRA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=cry98H/fBJWq9aQu3FXY6UaMN8JosTTfqvrI+C9k45zPWY1n2ooL94CdC+raL18mZA4E1MWg3q/qwIX6aVmnRt/bu8cn7QufH9yGdvWboWzx7H2UNx40Ljydn8wfYRHWTzYlUXwdD/0SRyRHflxApecajQVGlpF9epRpZxUrOgI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=40.107.57.94
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Yadd5pg/zuTfkQEWZ3YaGNIxhcf/4EmCkg4kg3NEdJRPjbHeoNui8sRxT/G5v9109gOiAF6WyvIge2jM+A/7UrqmJYkfA+OuIQekNBoJw6rkhx2yCLbh2YoebAi7VPL0at7k4c9oFp1tPiJp3r8yyZuuLSlVjMUF1rHkgYqUsGiGPR6BQ5BFOZkYjWaJGO8ElKrT6v9S4GBSnqaorORIWzpmAAMpJpSbBx5me3+bqMZO1XuS4oAUgwOkPHw3cvS+UbbQHi5Dos2whpgNLEMohbkU7gk8B+XcX7xo8KVNoSXbvBUWlBlR6c4/giPlH6fx9yytxIIken4zGugVSguSDw==
+ b=nczVCSGBDesyJAVOljWbiQZ+opGUEEEFFcwKh8xGQPUM0d5ncCdaoGFsSvRdXWZRpHhzkhlhyC0DkQDcUB1q8+C/TIhdKLzgqGhxkNIB1seZjR6h21hfg1sUD7FLAF9PmS3PiFkCQqcwmBI/jB0+qSj2sAbIz1L5GXpyF7ni7CHh5P+aQk9clD8Wezpk7e9S6pKq3amwlqa0i40FOKS1Z4o0TqiwNkyHxDoSjp8khr7/d+SY+I//2/mFoeQ/pkdTlVTV3ra4HOwtX3djVH/pexIolERUtGRMorkRGBdf8HJRPArpnDeBvkFttbAi1MpJhAW3xzavw1qC6cAi3aBIWA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oxlP4M7ZCzgDrl2K4Rw6JE8KP6M8sjrHYWqmiS+x8UI=;
- b=WYhieZ0PokatfE+m0GTRLjpopGPQEwwTWD9qYucALNZOYC8ADBCWRCa9sx/dVOekvEtvY9FaTYZqSRZX1PhU6xxGkEejSol/NUmc6AZ+3tZ6Phw9VMjqDjlmpSXslfnVBl7c968e2sVp++oWeIllRkO1ofRuwuiHcEbvemrJgIKYtDUPGwPkk12BKL9r6OvaZbX1R6Ytml8OWkeeiWjA255x+n3LZzzm0VW5UBCzRsidHrn9kHG2b4wYul8VHlaqBb9Ytbv2a+0qlANmrU45Tyt09jGuD7vpumjrTgzw56KTS9q8kTPp67eBvfkocGOUkXntffG0tRMc2gZbX9kXTw==
+ bh=y2EjSgpAjZZN+i3wyR38x3HDPtIu/YwLZm4SE0cdnRA=;
+ b=VGpOdVwHny6DKOwWx/yc85spUOmW53Wxo8ezrlAF/uwIt7V1P7C8wtK7+64gtvtFuJAgWSWsuEFTGT0Iy1w7NyJWp2WdXsseo7m7HHkURbUwmIXhTfdjXziANdg8vi40qodlp2rMHjAaeZA6LRXFmo0U457ChfhOxQJXGFCl/rxK0HCmAYI1cPTO0ka3+6egpIgbYahXZIVvLLP/HaOFc5BANW1eeHy31N3fcer36bOd+vTWLbGH4O7pakaCUuhJ8vX7/0oyxeYAk0CwUgXmRDHoaVAsw7W2lDqlje2nVVh8i1dkaF/JlCYIsZ8h1H6uGrHaAK9k3J/NV5ukD+DZ4g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
- header.d=mt.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oxlP4M7ZCzgDrl2K4Rw6JE8KP6M8sjrHYWqmiS+x8UI=;
- b=MdE/YNJXI5u8YrJl2va52rIkVpkHXY65Zp3ZVTZuiMfYGGAwXXpTBeEPQxf6hfpAifTtevzo0JGEEfbmGNBVlWbHFQTv+9RhGMEv5yVbKm090bIJcwuQW4tQxi5H/8rUUobpXyv/FU9ezGoXeilAuU/gT5nIhSKACTNV/hbsIue7mLHAmd3EIooKI18VR1u+YT4uEqKsAIk9rJ7hmNGHrwKh8UXy4ax8UpejKrlGhfWQ2UBGb5MEB8mbuSGWjaqqDB+u3esDogT+lFyBupKaBGZiRklY0avof0l/Zrmv1jETFBXa8Bmb0S0b++DtrVt73D+AS+BrzvvlZK1WU25x+g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mt.com;
-Received: from DBBPR03MB10396.eurprd03.prod.outlook.com (2603:10a6:10:53a::11)
- by VI1PR03MB6381.eurprd03.prod.outlook.com (2603:10a6:800:192::20) with
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
+ by PN2P287MB0365.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:dc::13) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.18; Wed, 5 Mar
- 2025 09:59:50 +0000
-Received: from DBBPR03MB10396.eurprd03.prod.outlook.com
- ([fe80::ee3c:c9be:681:c0bf]) by DBBPR03MB10396.eurprd03.prod.outlook.com
- ([fe80::ee3c:c9be:681:c0bf%7]) with mapi id 15.20.8511.015; Wed, 5 Mar 2025
- 09:59:50 +0000
-Date: Wed, 5 Mar 2025 10:59:27 +0100
-From: Mathis Foerst <mathis.foerst@mt.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-kernel@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	MauroCarvalhoChehab@mt.com, mchehab@kernel.org,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, manuel.traut@mt.com
-Subject: Re: [PATCH v1 2/8] MT9M114: Add pad-slew-rate DT-binding
-Message-ID: <Z8ggf4wXX6HAoCpS@mt.com>
-References: <20250226153929.274562-1-mathis.foerst@mt.com>
- <20250226153929.274562-3-mathis.foerst@mt.com>
- <Z8A66l02Et4J7hj4@kekkonen.localdomain>
- <20250228-helpless-delivery-42162772caa3@spud>
- <Z8boqvxEAhx7rG9Q@mt.com>
- <20250304-expend-isotope-cea613f4e9d5@spud>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250304-expend-isotope-cea613f4e9d5@spud>
-X-ClientProxiedBy: ZR2P278CA0036.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:47::14) To DBBPR03MB10396.eurprd03.prod.outlook.com
- (2603:10a6:10:53a::11)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.17; Wed, 5 Mar
+ 2025 10:12:13 +0000
+Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+ ([fe80::58ec:81a0:9454:689f]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+ ([fe80::58ec:81a0:9454:689f%3]) with mapi id 15.20.8511.017; Wed, 5 Mar 2025
+ 10:12:13 +0000
+From: Tarang Raval <tarang.raval@siliconsignals.io>
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	"sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
+CC: Dave Stevenson <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 1/2] media: i2c: imx219: switch to
+ {enable,disable}_streams
+Thread-Topic: [PATCH v2 1/2] media: i2c: imx219: switch to
+ {enable,disable}_streams
+Thread-Index: AQHbjZXLuHB9HV4wWE+uBP0JqYn+p7NkRdyAgAAGizM=
+Date: Wed, 5 Mar 2025 10:12:13 +0000
+Message-ID:
+ <PN3P287MB182955C5B846B0DC522E10BC8BCB2@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+References: <20250305061309.17911-1-tarang.raval@siliconsignals.io>
+ <20250305061309.17911-2-tarang.raval@siliconsignals.io>
+ <174116672182.2914008.912215873023431841@ping.linuxembedded.co.uk>
+In-Reply-To:
+ <174116672182.2914008.912215873023431841@ping.linuxembedded.co.uk>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siliconsignals.io;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PN3P287MB1829:EE_|PN2P287MB0365:EE_
+x-ms-office365-filtering-correlation-id: d47a1f42-1597-4804-4b57-08dd5bce3341
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?1xRVbFu/LEn5W4SpHCAGmdGhd4//eildQGtzo1F/I0HWWGXoNDpwnTrR1/?=
+ =?iso-8859-1?Q?eRjp2sC4UUOJ3UzTMh1aPn+FSRzyFybIrkp6KFWGU0m7DvVN1zPyZhN+7a?=
+ =?iso-8859-1?Q?81hgrCVYIocroCyqhFXbJmIGSFJ88RoDBqeeNSeQngCfSLKW2zuAW2pvaj?=
+ =?iso-8859-1?Q?P2ZSXZa+VXW6ZvgHu0mnGxCb6i+dnP3WPspJ26pezev55oL4AEePB5pD8Q?=
+ =?iso-8859-1?Q?oIG3qT0oh2zrzoYwm3ZSSn55g6UTT6MUkhVmmkCVI2K6D5VI74tCdA7Rhq?=
+ =?iso-8859-1?Q?djdAzEFWxOH67COoKOGGSmuxnv46EcajYXckQ2DHlQjcsftMpmNRVyKFX6?=
+ =?iso-8859-1?Q?4+GmCw2kdbalDU4Vw+uPB7OoTdYWbL2C44sJBl2HvlhHOsc5FvlZl4kdQH?=
+ =?iso-8859-1?Q?l60dHi5QrCyhdukdqwwkAknDlu3yL0sH9S68nhRfoVe21/wSRfifihtyCG?=
+ =?iso-8859-1?Q?aDzb3INRg4FgUQC3rwL16/jdkJco9ppL9H5cU8azmiC3g/lKHcxvK2s38v?=
+ =?iso-8859-1?Q?az3IWAb72CbyU80CFi9sTqCGOmHCFBxiariAvrB7yVvd99pzApUrjSBntm?=
+ =?iso-8859-1?Q?L7YO/gXTVcVt0qRBggGKl99qnbzfkPzjfZxaJrrSR4eG9yfqdL2w6K5QlZ?=
+ =?iso-8859-1?Q?7aJ3Q2ZOTB0YLpLeNSrjDmcABdlOoyMhgB/IGmCAO48DG5xFqdmyvcr8wG?=
+ =?iso-8859-1?Q?50FTdVceeHumSmXD9QuJFPOf0/XjXrhwSYj2S3VtteHrfeuwgP8WMcJuH9?=
+ =?iso-8859-1?Q?9kLIQF8z6El5XXdIT96D2/oQ0K5mnUThQPnxbfUW9okQ+gFEc8Pkk+of7l?=
+ =?iso-8859-1?Q?jRtC/nPC14ZId5qzdCJ3bd9xz6gnfEMgHM05+t/Il/ivmayGe9M8pNwhf1?=
+ =?iso-8859-1?Q?xQWnuvJBq9mw5+niqML4dY3J8EN9H+HfQrwf65O4i8gJGbF33wOnP+PbFa?=
+ =?iso-8859-1?Q?qJo/S1WcM7n+VlX4EHv1w36j/MvWA40VssEhoUFBQ3huimEUgUW4Cjl6Aa?=
+ =?iso-8859-1?Q?UzUsA+/g3Um62BOXdMAf07K5OGVOz7qqE2Wuf8yP+/7je7ZrhssNPNFWh2?=
+ =?iso-8859-1?Q?vRBCPX64nQlhRVWfqez/+oURrB0r26IBSY7n5dCJ/rq9eT0HYjC1Do7EBt?=
+ =?iso-8859-1?Q?8HB7yo/30OvosPzeOJc1rmK1Cmt4eAfmfNbQ+IdnFS0O4dVtdczNSGrSNQ?=
+ =?iso-8859-1?Q?PynNgIjgMNEPJcoqjenW+mYQbpwjUeXcdLv2wNbo4N5gSKCmafwKmBFqHS?=
+ =?iso-8859-1?Q?F5G2QcUpsmYWPQSVCouZBYf2D84ViCx1EiDNmSkKdY3DrCikVV62SVJJZR?=
+ =?iso-8859-1?Q?TxpY64HX6WWIAPGaDJI6k4ks0UuNgY7XDVqPwZg+e1yRimxKsZCfvd51if?=
+ =?iso-8859-1?Q?8WU91L8440zOwmoBUNi6q33MWgS2/yVfrp/UrEMPOSnrrtEl3173N8hQfL?=
+ =?iso-8859-1?Q?52KsQBWoqrlL/CINOJzHXoB4HL2l+D2TTB08tWMHoAb+lbm232/rQ951Zt?=
+ =?iso-8859-1?Q?A+q8SbuLWQLFXbc4uscI4p?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?rqandmrGBP0IiretGpDdgpmOviHsbJlxJ4xYYsmKtC2mJ2amrV7kJZld2b?=
+ =?iso-8859-1?Q?PFMzVGo4T+NjnYMQOEY/VOxtDsG3B4gQ35Qu6RZ7BGw3aY8rMc0DmeYmN3?=
+ =?iso-8859-1?Q?zAuZrHlYA6//Gf5iyUW/+NcxPMDpgNquYkRjzyXdXlTinFu9np4lqNjZWX?=
+ =?iso-8859-1?Q?3V32zLjaURTJj8nKMgQ12hRliMkhV5a8MxagZBQ/9dBqltlxQP7RwUZuqS?=
+ =?iso-8859-1?Q?isWI3OGwtUOvLyim5xcp+8L4gCskrAO+ba6sc33TCXxhOOHBHO+f4xTW8A?=
+ =?iso-8859-1?Q?6/6oaUliijSElxjB1MPM3fuWNJxFutWTc9jQ6Q4jGH7ubOjTnSpmbAUag9?=
+ =?iso-8859-1?Q?c7u9hD2kXCZY7DLJc4Old9N9BaTwRBsrckT02NInmEPf/4JGpKjWlFMuGc?=
+ =?iso-8859-1?Q?rUYW5el/ZAu0T95AYQ0bN5lCWa5Nb2/VprqW04cG6e21D0y4DjlWuRe24P?=
+ =?iso-8859-1?Q?ZWt+Ayu09JakdFlM4O91PAAxIIvGsChh3iT/KVTh0mV523xqQZAoyJ6xb9?=
+ =?iso-8859-1?Q?CRL5qoJL2jn2qOdjC0gpPy4gAp6l7I7YdXuuFkJlCOghwJd7Qjo1UmA3gR?=
+ =?iso-8859-1?Q?NqYrdFH+/9WUyNkcWNM0tBc/+G5qm7F9rcFGYRmj55XGTzU/JpcpV1AKYc?=
+ =?iso-8859-1?Q?qsSFHkmQkMoYwUnLpbsuKgDuqM87ohRy3ZbJ7u9wwaigKBzrRQMMciM98o?=
+ =?iso-8859-1?Q?73ux+n/y2nQ+L/+XwrP0JPqV+ZLeSKlwsPCzQ+UV6SQznusWMEHB74NP6D?=
+ =?iso-8859-1?Q?iXyrWxY2S2kSo2phGQOS5+1bqnhkBR6n8aBngkRlcXzExHE7BjcCHidFyo?=
+ =?iso-8859-1?Q?qG1x4lmj1os1AopA2ZVJXX/GLp8ZVY8oqLnIglfvYX1Bb3HvByPmEF6GxJ?=
+ =?iso-8859-1?Q?VXiIUOnxFwmxcnTT7E5Tb07+daOZgJChS2e9pKvz+jitIG6DmKZn4rsuvC?=
+ =?iso-8859-1?Q?/8bTcnCCnzFInPa0QTHZjeIX2UYT78OvQfCodeH/gPAML46cQK7tQ8WPn1?=
+ =?iso-8859-1?Q?BAboSwRfGVnYaczDHz/OjTMPTaTnSb8tckc6AKyNq8aHEl5hwK6syXeBFG?=
+ =?iso-8859-1?Q?vLr8mJE4y4FUOg4aAIA9iSYwQMSU91h0P90lWNsPst49CXC1k9JLQnFx7K?=
+ =?iso-8859-1?Q?X5nH8aBBY0fnnSsNA0BXErEmfN7LdmjrOnkcgswZ8nIT7K98NUrzokqCcl?=
+ =?iso-8859-1?Q?yc++YLt97oyvmWSCzsdjGmbtbJ5a49PUwWChpXmT0XK6m3Lov+lnBFKmjU?=
+ =?iso-8859-1?Q?3Uwtziigbb21nUMkNP7FsXYry0axL3jKpMUfVp9DRhi49rV4CUWJewNp6f?=
+ =?iso-8859-1?Q?rVwptIlgVgrI6UN/hUCOyTpiKS1WC2GqMmmbxpvOP4e/bjFtPn8EQYGgHm?=
+ =?iso-8859-1?Q?7UtRKINaKPR1OOnmRdGmjJKyTYSeQsKSbKKNYyxjDFT6Ykf4HVcY2n2mhZ?=
+ =?iso-8859-1?Q?IbC0hXa5csjczxlFYaBpAGzQ9PZ/kkp9Fkfjln4Uc00On1sVpdENvlyb6/?=
+ =?iso-8859-1?Q?uVxn8uChxvUb1twBp7AGVDl5Ja2YOm0B6AvL/vX47J3bySTh0cT/icyXMR?=
+ =?iso-8859-1?Q?pkgpBbzZu2TVDjX/b+Fl0v2zhQGLS8LZveC0FO1I0uRzel/O77QykVQrDx?=
+ =?iso-8859-1?Q?GqamqbhM4wzXD/Ijpkb41jNko4Pyt4gI+ugyjV49ZG///yXUKkKZZIpQ?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DBBPR03MB10396:EE_|VI1PR03MB6381:EE_
-X-MS-Office365-Filtering-Correlation-Id: ccf03427-58c4-4d57-1b30-08dd5bcc7821
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|7416014|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?SjdbBjMVUTn68CigJq+R3AOJWCtixNDMLkj+Eur/0bgVqOUxNWy0one91RiJ?=
- =?us-ascii?Q?h5SZv+NVr/gFVWzqJ3AxuVTW+ucuerbkkdFuZxjAXn4DvIav2Oxfcm1DnI+6?=
- =?us-ascii?Q?DkvvQMnmAJpFnabhlLch9NSf8SVKq4Xp8h5EZurmI3BIEXnuHxTh0TZCNb8r?=
- =?us-ascii?Q?NZTtvLuh0JVOQqDFELqy/lscpPUF8F4hRdqSMo3As1Uo/5IWpQlXpLuRPAMn?=
- =?us-ascii?Q?yRb8REvIPdTqvLzeljZl1viWXWP3Ck23bs1CbIkjYn9rds6H8ShwD0UqIl9n?=
- =?us-ascii?Q?aIclnFxCUFOSdAARBrCQo9KeRZeDdlPaq/tXwgptArkHuG9xI8tYX5PyZajg?=
- =?us-ascii?Q?qbjDhfmCgBOR8VSSWuJiIEgirvAp2gqIKvBWAuul83b3+2WVWOhvSY8ZJ1uF?=
- =?us-ascii?Q?c1+g4KjX82ipaXf8M/VVWFCaVSY75tvx8hvvDb51UjyLhHh/pMVFhVeXtGH9?=
- =?us-ascii?Q?3UuYRzB1Al3lhnQMd9kXGg35WiPvBMECcg+SOTW30mFxR6lUxXc12iPRkmZL?=
- =?us-ascii?Q?ffWQrj7JgtQX1jTc5jut61LxWyfcNTqZlyX+M264d/2Itv7dzcUEAEhKaIwV?=
- =?us-ascii?Q?2zctYg8iCIXHEH3LhAV7vMNSdxBnxcvfeNgVL5E2mxhN9f76jey6L7gIBqq0?=
- =?us-ascii?Q?EkLcOJpTw0BqvqD94bqpHUhuC29rX5y4Y/4kkEpZsGj8Vf+lh+i3jEoWpSSl?=
- =?us-ascii?Q?hd63NOgeTGDY9fSQhD4LikI3+GgjK3lDJmIunYBKxWOjTcYtKLdJrM8Nqv+r?=
- =?us-ascii?Q?eU5kHfiwpBh57738GhtKGAXZD3mgAKslUg/hKn8zzt8I85VOZqpALb7UyjCI?=
- =?us-ascii?Q?huoVPaBvg7Iq55Be9963LSG/vf9Ib1CcpGjbkAOeTWTcTBiym2TYipG4/bkC?=
- =?us-ascii?Q?GTbISKcBP8DdXldnxcRHaotmmF/hnqmrTQ/Z3Ra7Rxmz5ql9RE9ukJPaVN70?=
- =?us-ascii?Q?uhGOwRuKVIpxKdw/1K9wrzoTaje+w0Vqv2MtRjVbbCUJrqwcd3pxPXpRYj3s?=
- =?us-ascii?Q?Iy7PXLvknrE4q3ngPMUQjhxcmBe5T5JO7yPjrieTnbnLLiiB7XfKmjgu0w04?=
- =?us-ascii?Q?zzjnjHTQO46GqPO2E8JLZqOqscrlihB4/aDAIqU5bFfEzssNuOHfHMHmlr7C?=
- =?us-ascii?Q?5smxTCfJ+boldfhJdRCf7R1Y81paphPCmVDcr+e4C5JfEg956WyiddZQ4WGb?=
- =?us-ascii?Q?+S+ijYL3dxrqDG/w8N2/zaLIO+NzNPb2XFiM52MBEqa31QbDuO8oEIMNQiqy?=
- =?us-ascii?Q?WLacppXWR70JR/xe6XSQVUDRv12tiN4TdhM40IS4P5BruD2j1SdZFYGgC7rp?=
- =?us-ascii?Q?AvgwACBz530iJ6uLIV2z0dRz4wwjf7aXfPY7sJUEwW42/8viKzsWgRV6CxY/?=
- =?us-ascii?Q?R6LYlzxMz3zYk/EEQrFYv0aNgjSIHFRpjLJad3R0Vkz0MoA4gwbhAprHkNBR?=
- =?us-ascii?Q?wklHqHRh/gLPpGsVjeRH2YQDPul4M2b+?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR03MB10396.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(7416014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?VaxYntRTotnIovXhoHXt64bmyTw6Ks6CAxtw7m5MRESU8p0nH5GQlcUpW8b6?=
- =?us-ascii?Q?lVxM24O3zk4pQkpG+DpJxv5BY46PUkQ6QlOmX/ghYRqBDQ4W84KRFIp8qvtr?=
- =?us-ascii?Q?sFDbLwDdoUh/mHyD29Q+mDIEfChPxBHX07hKmS6M3o3jMn3bb2pKCo3rAF9s?=
- =?us-ascii?Q?m3WOtwASnxOtPaXvEOIpqDCt6nRWCJ1h4kEvh+45KuqgkayFsiS9h3qBt2iY?=
- =?us-ascii?Q?BfuO+VEKDboLjHxnN5jQKoi8db9W2teVxbbTEtwDDVhXFDgNzIUIcVPuCrJV?=
- =?us-ascii?Q?cpEQUu5dR7TY+fPTzBCzTf3hxCNdTAO69LPwyGKwFaLUUAkYMNpFH5G2FPmC?=
- =?us-ascii?Q?dTDl/WuUTJqk4S6bvOloFe8vNYK7r8+MtVf+b5VQ+vnENtk2V9anJubWRVbD?=
- =?us-ascii?Q?Vp3p/ombz/RPqmjF2+JhCkddk8csZZxxpTP/0toP4JyQEW4jKw4YJcEzb6II?=
- =?us-ascii?Q?KneD//Jw4b7oI7Harx8aBYQdfOuzpLulRVKHtfSGG+ONlr7lMVDKFTABERbt?=
- =?us-ascii?Q?nP9GRM/pxihjaY0AtMc5zSpWhBqzRuxlI60XdMWuxc9k9d5AhnSrmCCzs/O1?=
- =?us-ascii?Q?dSikpbZ/sG1zN1U9oup/BCF4l0bkPjaELudBAzUu7rT/5WOq+EJMrVdPLaGI?=
- =?us-ascii?Q?R53PAs0nAK9U8dsblRfsKumyEosS7Gm6v7riHzJqc4azXk7vj0EqMjVwuPVv?=
- =?us-ascii?Q?zJzNG6kOqoMIdrJHMd7pIchkvu48xeI6v+T8aL7E7/UBzECZiZae5Auto08S?=
- =?us-ascii?Q?0OQuZrNKpLVJ46KMcJAn1qiYn9ULeMGNl2+UACFxaobyaDtAc3sqsn20hRoc?=
- =?us-ascii?Q?qyykxZEoLOn/82NuMjwfJOp4n04mSsqouUt7PK9doGXMJmfg6As/76mjbbN7?=
- =?us-ascii?Q?aqCzpY7ZMSFX78BQzRjrl2w8Oj6eGW2hC1B+jNNhIKaUFC90C2ZJr+rNjLGY?=
- =?us-ascii?Q?ZKAwJS/yXcs+yLhzvP3f8SJoZX+1jOBsf6G0IWJnAPTkQijEqglG+AgDVOPV?=
- =?us-ascii?Q?XHF0a1JjfcFu3wVapXGk73XztQOuywa68MPinJZ8mx+KcwovXhwQZ8TC0RfO?=
- =?us-ascii?Q?eUWZFfJSOh0Y2kDhKhr91oqK+LVsfVczQZin1WUPo+4Z9RH7qqstOoK74W3l?=
- =?us-ascii?Q?Hc4f2rGZnfC6x6mbMAspQ61syju3Jb58U3sT3QHu4SPS1/KrEtmCcSeB8hYb?=
- =?us-ascii?Q?DbmZGU6sKyfxhyXJkHk8L67pdrtYFTyTTfqT6ldtRMwEseTCRFXjqJsZesWJ?=
- =?us-ascii?Q?kVndDAjU2sEdH+dnfKH+b3FP4z8szQnQqlq9C2I39QaYSF6alLgmeEb2E9Sw?=
- =?us-ascii?Q?1+WYKTGTomTomiiOBoSzOufkjy0w9yS1py17iroogKb4VBaf1dJuZSEdImDb?=
- =?us-ascii?Q?BY8Pj86X4PjTJ26xju78QYc4CHeVjguyMnRf+q94/kAsIqk7IXis7d0B9V+C?=
- =?us-ascii?Q?jUT2RxMXngLK47r8TWclZQY5w2dQNI1yN426HL0B1nzxSarJDWCtdh69WShL?=
- =?us-ascii?Q?H3EB/QVqoC3WcZw7BYAv2ZMzCXcD6oaiTi9cCwF40RktbBWO7Kn1uHpeE/Bq?=
- =?us-ascii?Q?SeLfYnYSE8EmCge6gwXzDDzywnQsk09BnG82nJXI?=
-X-OriginatorOrg: mt.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ccf03427-58c4-4d57-1b30-08dd5bcc7821
-X-MS-Exchange-CrossTenant-AuthSource: DBBPR03MB10396.eurprd03.prod.outlook.com
+X-OriginatorOrg: siliconsignals.io
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Mar 2025 09:59:50.5668
+X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: d47a1f42-1597-4804-4b57-08dd5bce3341
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Mar 2025 10:12:13.7580
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 21TD1f6c566vjMNTIFsLzKFobYIxe1+LmAm+IlGmdoilI3zJoxIsNj0BW/WzSHK+K3aDpuhrp9elz4p5BR3Ohg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR03MB6381
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: +gaBedgY8iV+PlA4B045aPZtPVlkt7rv6ajS1MqIKt1WYHM2KiAObGh+jfPqAPRbPuWzu/vzW4OXo3Lc6qgGIyURZu3MrodOe9/Mhdt1HoQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2P287MB0365
 
-On Tue, Mar 04, 2025 at 04:39:34PM +0000, Conor Dooley wrote:
-> On Tue, Mar 04, 2025 at 12:48:58PM +0100, Mathis Foerst wrote:
-> > Hi Conor, Hi Sakari,
-> > 
-> > On Fri, Feb 28, 2025 at 07:11:31PM +0000, Conor Dooley wrote:
-> > > On Thu, Feb 27, 2025 at 10:14:02AM +0000, Sakari Ailus wrote:
-> > > > Hi Mathis,
-> > > > 
-> > > > On Wed, Feb 26, 2025 at 04:39:23PM +0100, Mathis Foerst wrote:
-> > > > > The MT9M114 supports the different slew rates (0 to 7) on the output pads.
-> > > > 
-> > > > "the output pads" probably means pixel data interface (DVP or CSI-2)
-> > > > signals in this cases? I suppose this is about clock modulation?
-> > > > It'd be good to say that.
-> > 
-> > The slew rate defines the slope of the voltage flanks on the output pads (how fast
-> > the pads go from LOW to HIGH or vice versa). I tried to clarify the description.
-> > 
-> > > > 
-> > > > > At the moment, this is hardcoded to 7 (the fastest rate).
-> > > > > The user might want to change this values due to EMC requirements.
-> > > > > 
-> > > > > Add the 'pad-slew-rate' property to the MT9M114 DT-bindings for selecting
-> > > > > the desired slew rate.
-> > > > > 
-> > > > > Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
-> > > > > ---
-> > > > >  .../devicetree/bindings/media/i2c/onnn,mt9m114.yaml         | 6 ++++++
-> > > > >  1 file changed, 6 insertions(+)
-> > > > > 
-> > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-> > > > > index 72e258d57186..666afe10c538 100644
-> > > > > --- a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-> > > > > +++ b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-> > > > > @@ -74,6 +74,12 @@ properties:
-> > > > >      description: Bypass the internal PLL of the sensor to use EXTCLK directly as SYSCLK.
-> > > > >      type: boolean
-> > > > >  
-> > > > > +  onnn,slew-rate:
-> > > > > +    $ref: /schemas/types.yaml#/definitions/uint8
-> > > > 
-> > > > No need to make this 8-bit (i.e. just use 32 bits).
-> > 
-> > Okay, I thought 8-bit would fit the small value range [0,7]. Changed it to 32 bits.
-> > 
-> > > > 
-> > > > > +    description: Slew rate ot the output pads DOUT[7:0], LINE_VALID, FRAME_VALID and PIXCLK
-> > > > 
-> > > > Please wrap at 80 characters.
-> > > > 
-> > > > Is there more information on the effect than 7 is the fastest?
-> > 
-> > There is no more information about the exact meaning of the values.
-> > As described above, the higher the value, the steeper the voltage flanks.
-> > 
-> > > > 
-> > > > > +    minimum: 0
-> > > > > +    maximum: 7
-> > > > 
-> > > > Please also add a default.
-> > 
-> > Sure, I added the default value 7 that matches the currently hardcoded 
-> > value in the driver.
-> > 
-> > > 
-> > > It'd also be great (IMO) if it were given in terms of actual units, not
-> > > nebulous values that I assume to be the register values.
-> > 
-> > I agree, but the documentation does not provide further details about the
-> > unit of the value. So using the register value is my best-effort approach.
-> 
-> If they don't provide em, how is anyone meant to calculate what's
-> correct? Trial and error?
-
-The correct slew-rate is a trade-off:
-
-You would usually start with the fastest slew-rate as it leads to an
-output signal that's as close as possible to a perfect square-wave.
-On higher link frequencies a too slow slew rate can cause the signal to
-not reach the HIGH voltage level before going to LOW again s.t. the
-reveiver cannot interpret the digital signal correctly.
-
-But steeper voltage flanks lead to higher electromagnetic emissions s.t.
-a device might not pass the electromagnetic compatibility (EMC)
-certification with the high slew rate.
-In this case you would lower the slew rate until your emissions are
-within the allowed range.
-
-The actual emissions depend on many factors like the PCB layout, the
-length and shielding of cables etc. This makes it hard to fully simulate
-them.
-So even if would know the exact unit of the configured slew rate of the
-camera sensor, it would not fully allow us to calculate the correct value
-for it.
-
+Hi Kieran,=0A=
+=0A=
+> Quoting Tarang Raval (2025-03-05 06:13:08)=0A=
+> > Switch from s_stream to enable_streams and disable_streams callbacks.=
+=0A=
+> >=0A=
+> > Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>=0A=
+> > ---=0A=
+> >=A0 drivers/media/i2c/imx219.c | 43 +++++++++++++++---------------------=
+--=0A=
+> >=A0 1 file changed, 17 insertions(+), 26 deletions(-)=0A=
+> >=0A=
+> > diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c=0A=
+> > index f662c9d75511..75d3123d47b4 100644=0A=
+> > --- a/drivers/media/i2c/imx219.c=0A=
+> > +++ b/drivers/media/i2c/imx219.c=0A=
+> > @@ -723,12 +723,17 @@ static int imx219_configure_lanes(struct imx219 *=
+imx219)=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ARRAY_SIZE(imx219_4lane_regs), NULL);=0A=
+> >=A0 };=0A=
+> >=0A=
+> > -static int imx219_start_streaming(struct imx219 *imx219,=0A=
+> > -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0 struct v4l2_subdev_state *state)=0A=
+> > +static int imx219_enable_streams(struct v4l2_subdev *sd,=0A=
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0 struct v4l2_subdev_state *state, u32 pad,=0A=
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0 u64 streams_mask)=0A=
+> >=A0 {=0A=
+> > +=A0=A0=A0=A0=A0=A0 struct imx219 *imx219 =3D to_imx219(sd);=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0 struct i2c_client *client =3D v4l2_get_subdevda=
+ta(&imx219->sd);=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0 int ret;=0A=
+> >=0A=
+> > +=A0=A0=A0=A0=A0=A0 if (pad !=3D 0)=0A=
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return -EINVAL;=0A=
+> > +=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0 ret =3D pm_runtime_resume_and_get(&client->dev)=
+;=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0 if (ret < 0)=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return ret;=0A=
+> > @@ -767,10 +772,6 @@ static int imx219_start_streaming(struct imx219 *i=
+mx219,=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0 if (ret)=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 goto err_rpm_put;=0A=
+> >=0A=
+> > -=A0=A0=A0=A0=A0=A0 /* vflip and hflip cannot change during streaming *=
+/=0A=
+> > -=A0=A0=A0=A0=A0=A0 __v4l2_ctrl_grab(imx219->vflip, true);=0A=
+> > -=A0=A0=A0=A0=A0=A0 __v4l2_ctrl_grab(imx219->hflip, true);=0A=
+> > -=0A=
+>=0A=
+> Why do you drop these lines? It's not mentioned in the commit message.=0A=
+> Are these handled somewhere else now ?=0A=
+=0A=
+Thank you for catching that. I had made this patch earlier and sent it with=
+out=0A=
+re-verifying the changes. =0A=
+=0A=
+I should have reviewed it thoroughly before submitting.=0A=
+=0A=
+I will correct this in the next version.=0A=
+=0A=
+Apologies for the inconvenience.=0A=
+=0A=
+Best Regards,=0A=
+Tarang=0A=
+=0A=
+> --=0A=
+> Kieran=0A=
+> =0A=
+>=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0 return 0;=0A=
+> >=0A=
+> >=A0 err_rpm_put:=0A=
+> > @@ -778,37 +779,25 @@ static int imx219_start_streaming(struct imx219 *=
+imx219,=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0 return ret;=0A=
+> >=A0 }=0A=
+> >=0A=
+> > -static void imx219_stop_streaming(struct imx219 *imx219)=0A=
+> > +static int imx219_disable_streams(struct v4l2_subdev *sd,=0A=
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0 struct v4l2_subdev_state *state, u32 pad,=0A=
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0 u64 streams_mask)=0A=
+> >=A0 {=0A=
+> > +=A0=A0=A0=A0=A0=A0 struct imx219 *imx219 =3D to_imx219(sd);=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0 struct i2c_client *client =3D v4l2_get_subdevda=
+ta(&imx219->sd);=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0 int ret;=0A=
+> >=0A=
+> > +=A0=A0=A0=A0=A0=A0 if (pad !=3D 0)=0A=
+> > +=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 return -EINVAL;=0A=
+> > +=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0 /* set stream off register */=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0 ret =3D cci_write(imx219->regmap, IMX219_REG_MO=
+DE_SELECT,=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+ IMX219_MODE_STANDBY, NULL);=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0 if (ret)=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 dev_err(&client->dev, "=
+%s failed to set stream\n", __func__);=0A=
+> >=0A=
+> > -=A0=A0=A0=A0=A0=A0 __v4l2_ctrl_grab(imx219->vflip, false);=0A=
+> > -=A0=A0=A0=A0=A0=A0 __v4l2_ctrl_grab(imx219->hflip, false);=0A=
+> > -=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0 pm_runtime_put(&client->dev);=0A=
+> > -}=0A=
+> > -=0A=
+> > -static int imx219_set_stream(struct v4l2_subdev *sd, int enable)=0A=
+> > -{=0A=
+> > -=A0=A0=A0=A0=A0=A0 struct imx219 *imx219 =3D to_imx219(sd);=0A=
+> > -=A0=A0=A0=A0=A0=A0 struct v4l2_subdev_state *state;=0A=
+> > -=A0=A0=A0=A0=A0=A0 int ret =3D 0;=0A=
+> > -=0A=
+> > -=A0=A0=A0=A0=A0=A0 state =3D v4l2_subdev_lock_and_get_active_state(sd)=
+;=0A=
+> > -=0A=
+> > -=A0=A0=A0=A0=A0=A0 if (enable)=0A=
+> > -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 ret =3D imx219_start_stream=
+ing(imx219, state);=0A=
+> > -=A0=A0=A0=A0=A0=A0 else=0A=
+> > -=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 imx219_stop_streaming(imx21=
+9);=0A=
+> >=0A=
+> > -=A0=A0=A0=A0=A0=A0 v4l2_subdev_unlock_state(state);=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0 return ret;=0A=
+> >=A0 }=0A=
+> >=0A=
+> > @@ -992,7 +981,7 @@ static int imx219_init_state(struct v4l2_subdev *sd=
+,=0A=
+> >=A0 }=0A=
+> >=0A=
+> >=A0 static const struct v4l2_subdev_video_ops imx219_video_ops =3D {=0A=
+> > -=A0=A0=A0=A0=A0=A0 .s_stream =3D imx219_set_stream,=0A=
+> > +=A0=A0=A0=A0=A0=A0 .s_stream =3D v4l2_subdev_s_stream_helper,=0A=
+> >=A0 };=0A=
+> >=0A=
+> >=A0 static const struct v4l2_subdev_pad_ops imx219_pad_ops =3D {=0A=
+> > @@ -1001,6 +990,8 @@ static const struct v4l2_subdev_pad_ops imx219_pad=
+_ops =3D {=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0 .set_fmt =3D imx219_set_pad_format,=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0 .get_selection =3D imx219_get_selection,=0A=
+> >=A0=A0=A0=A0=A0=A0=A0=A0 .enum_frame_size =3D imx219_enum_frame_size,=0A=
+> > +=A0=A0=A0=A0=A0=A0 .enable_streams =3D imx219_enable_streams,=0A=
+> > +=A0=A0=A0=A0=A0=A0 .disable_streams =3D imx219_disable_streams,=0A=
+> >=A0 };=0A=
+> >=0A=
+> >=A0 static const struct v4l2_subdev_ops imx219_subdev_ops =3D {=0A=
+> > --=0A=
+> > 2.34.1=0A=
+> >=
 
