@@ -1,227 +1,156 @@
-Return-Path: <linux-media+bounces-27548-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27549-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFC5EA4F70B
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 07:23:09 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7D69A4F70E
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 07:23:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 21EDF3ABACE
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 06:22:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 338D616530B
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 06:23:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCE571DF982;
-	Wed,  5 Mar 2025 06:22:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9B221E0DB3;
+	Wed,  5 Mar 2025 06:22:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="fbTLDk4H"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="W0PBd+yi"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5501DE89E
-	for <linux-media@vger.kernel.org>; Wed,  5 Mar 2025 06:22:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40F8D1C84BA
+	for <linux-media@vger.kernel.org>; Wed,  5 Mar 2025 06:22:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741155768; cv=none; b=m5ry0sfW/vYlWjNKMLc3Jm9oZubZWmVbqopENdykPs+8XNkkSWqeveyPbrzsZBoVY8PtC+KVwQwmDatapQH6F8AcANqRyyoZQdOD/fZSe7tE9Qa4Hf+f37/tPBI/PDBORUkK3EFB8zT8Ak/CD1wNtTf8aKjSQl1Sfz9tztHOhxo=
+	t=1741155770; cv=none; b=bDwVrNUl3DYxbMsRWY/2kEZ7dKFPy9AonoGvN3DIyol3Y9s/KNbdwsM4l0WLmbLJPP7py3pp2F/B7vHTCtKp+OLLvCBMfbRFpAxN4L/48ceoSAK0JilY+NfS6s+XgKJGev/MoFQfG2kyPjk1I10HmyLDyJ3h6H98/ctKXJ5xkEA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741155768; c=relaxed/simple;
-	bh=0HnBw9w2IzgF6rpejhaGQQTj0NbIISdoJpXBjcqqL0Y=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:Content-Type:
-	 References; b=pTXz2LfLxqI6s0Qe8giyBOsaFUSM7ppPQcr5QPy56WWFrX61rLDnCvhNMgOn6H4fIbNGM4eUGF6wh3Ye2H39zOsIQXEKGNmp4wSe1ti/ONqzF6TIlwJdgPecshJZ52oGafqrU4D8rOYrYOtt1aeudD9I3wLxee8CrpCSbkkj0uw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=fbTLDk4H; arc=none smtp.client-ip=203.254.224.33
+	s=arc-20240116; t=1741155770; c=relaxed/simple;
+	bh=Hp/3hLQszbQpC4Dkavwf3pq6VtFVA0LTPkBh/vhoZIw=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:References; b=R9N8ZiJl/k6Bc+3on4PlkNrFZxF/me8FgAY7nAuYavYJwN9zvZfVLaRnizILUnXjo35QdhGaySvl5Pk1h8sI2RCJ+JxJhkoLA5i0UzXMMfl0+ieVYIA/C2bRKLO87s/r9FFrYBpuV/sVTf5MxRU0BCxwre8ErByLc7d7Zv+yY9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=W0PBd+yi; arc=none smtp.client-ip=203.254.224.33
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20250305062243epoutp0391eebc0dd3a0d5f0a8d1d95cebd026de~p0-E6DMgB3180131801epoutp03c
-	for <linux-media@vger.kernel.org>; Wed,  5 Mar 2025 06:22:43 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20250305062243epoutp0391eebc0dd3a0d5f0a8d1d95cebd026de~p0-E6DMgB3180131801epoutp03c
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20250305062246epoutp0329d7c4822dbb8e8f5db4b15db95de65f~p0-HFkvBw0121401214epoutp03l
+	for <linux-media@vger.kernel.org>; Wed,  5 Mar 2025 06:22:46 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20250305062246epoutp0329d7c4822dbb8e8f5db4b15db95de65f~p0-HFkvBw0121401214epoutp03l
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1741155764;
-	bh=U8yGItZGsATKQZUU1R1JXmvAiWxXb3uu7q+xzzdWEb4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fbTLDk4HNePFFo7pz3LVY7fuI+/RQCVbDjgD0SBiN0/YngV31tusylUwXWoEpcI3w
-	 tv1LZ44mTQqDUndj9zKP/qidej2YIUTqff1oe0z4pyHkZQ06CQfiToA2ZxwsR2FK+2
-	 nNU5mIoATikJ/WEEqZ6QsVkB2M7tsq8IhlvQdIfE=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	s=mail20170921; t=1741155766;
+	bh=skXfz601zwxGnlS1FM693PJw5hGibXY8CTNZiA2Lo4I=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=W0PBd+yi6The5YrQkeDh0UCvBO0stflph3otVBGx4s98U0wiT6Eq62pXemkHABil9
+	 Hb1KguJQCCUOj6jnLSzdWl+MLDNx+RE+vqKQZH0FGqLU/7ODqc9etxf3wqJ5dngZVM
+	 aYHy9pQIACdPhhFZ5S9ijR7fRf5Q8dN4iKd7vSds=
+Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
 	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
-	20250305062242epcas5p284ec2b4db915d4c0128f4df5a7c19888~p0-D4xagZ1779417794epcas5p2N;
-	Wed,  5 Mar 2025 06:22:42 +0000 (GMT)
-Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.182]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4Z72Xc0bZDz4x9Pv; Wed,  5 Mar
-	2025 06:22:40 +0000 (GMT)
-Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
-	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	EF.2F.19710.FADE7C76; Wed,  5 Mar 2025 15:22:39 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	20250305062245epcas5p23067eadd0e690fbee68023f2774468ac~p0-GUv7ny1813318133epcas5p2X;
+	Wed,  5 Mar 2025 06:22:45 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.181]) by
+	epsnrtp1.localdomain (Postfix) with ESMTP id 4Z72Xg2Z94z4x9Q0; Wed,  5 Mar
+	2025 06:22:43 +0000 (GMT)
+Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	32.02.19933.3BDE7C76; Wed,  5 Mar 2025 15:22:43 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
 	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20250305055908epcas5p222e192cc21512ac178543445184a2519~p0qerZhYL0089400894epcas5p2q;
-	Wed,  5 Mar 2025 05:59:08 +0000 (GMT)
+	20250305060259epcas5p20c02f4c4b4ff84b0f790b4ea446056e6~p0t1X1d2e1988819888epcas5p2W;
+	Wed,  5 Mar 2025 06:02:59 +0000 (GMT)
 Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20250305055908epsmtrp275ea5e1dd4e29daf87b98efce83d9070~p0qeqcypT1599615996epsmtrp2g;
-	Wed,  5 Mar 2025 05:59:08 +0000 (GMT)
-X-AuditID: b6c32a44-363dc70000004cfe-59-67c7edaf3639
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20250305060259epsmtrp11bd6866051780894bf24883dc4b2621b~p0t1W9LDS0144901449epsmtrp1K;
+	Wed,  5 Mar 2025 06:02:59 +0000 (GMT)
+X-AuditID: b6c32a4a-b87c770000004ddd-7f-67c7edb3dabb
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
 	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	ED.AD.33707.C28E7C76; Wed,  5 Mar 2025 14:59:08 +0900 (KST)
+	5E.5E.33707.219E7C76; Wed,  5 Mar 2025 15:02:58 +0900 (KST)
 Received: from cheetah.samsungds.net (unknown [107.109.115.53]) by
-	epsmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20250305055906epsmtip10bbe5c1cdd842ff29e652ec38d9da5c6~p0qc4w-qu1758417584epsmtip15;
-	Wed,  5 Mar 2025 05:59:06 +0000 (GMT)
-From: Aakarsh Jain <aakarsh.jain@samsung.com>
-To: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: m.szyprowski@samsung.com, andrzej.hajda@intel.com, mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl, krzysztof.kozlowski+dt@linaro.org,
-	linux-samsung-soc@vger.kernel.org, gost.dev@samsung.com,
-	aswani.reddy@samsung.com, pankaj.dubey@samsung.com, Aakarsh Jain
-	<aakarsh.jain@samsung.com>
-Subject: [Patch v2] media: s5p-mfc: Support for handling RET_ENC_BUFFER_FULL
- interrupt
-Date: Wed,  5 Mar 2025 11:23:08 +0530
-Message-Id: <20250305055308.111300-2-aakarsh.jain@samsung.com>
+	epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20250305060256epsmtip2ebb003603dcf4055c8070785ac5dc092~p0tzO5xUE2406324063epsmtip2J;
+	Wed,  5 Mar 2025 06:02:56 +0000 (GMT)
+From: Inbaraj E <inbaraj.e@samsung.com>
+To: linux-media@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Cc: pankaj.dubey@samsung.com, rmfrfs@gmail.com,
+	laurent.pinchart@ideasonboard.com, martink@posteo.de, kernel@puri.sm,
+	mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+	kernel@pengutronix.de, festevam@gmail.com, gost.dev@samsung.com, Inbaraj E
+	<inbaraj.e@samsung.com>
+Subject: [PATCH] media: imx-mipi-csis: Fix v4l2 mbus frame descriptor type
+Date: Wed,  5 Mar 2025 11:26:55 +0530
+Message-Id: <20250305055655.6622-1-inbaraj.e@samsung.com>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20250305055308.111300-1-aakarsh.jain@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFmpjk+LIzCtJLcpLzFFi42LZdlhTS3fD2+PpBrNcLZ7umMlqcX/xZxaL
-	Q5u3slvcPLCTyeLizLssFn0vHjJbbHp8jdXi8q45bBY9G7ayWsw4v4/JYu2Ru+wWyzb9YbJY
-	tPULuwOvx+I9L5k8Nq3qZPO4c20Pm8fmJfUefVtWMXp83iTncerrZ/YA9qhsm4zUxJTUIoXU
-	vOT8lMy8dFsl7+B453hTMwNDXUNLC3MlhbzE3FRbJRefAF23zBygY5UUyhJzSoFCAYnFxUr6
-	djZF+aUlqQoZ+cUltkqpBSk5BSYFesWJucWleel6eaklVoYGBkamQIUJ2RmnGy8yF0yUq/h7
-	YBpjA+NUqS5GTg4JAROJ7d9aWLoYuTiEBHYzSkxqeM4E4XxilLg+8RkrnLPpz1FmmJadzZeg
-	qnYySjy6to8RwvnCKNF1az1QCwcHm4CuxNntOSANIgKpEq/WrQWbxCywhEli0ZFnTCAJYYEI
-	iVsvnoJNZRFQlVi0bB9YnFfATmLKornsENvkJVZvOABWwylgL/F17iNmkEESAo0cEjtP3IA6
-	yUXiTe9GqAZhiVfHt0DZUhKf3+1lg7CTJR4veglVnyOxfs8UFgjbXuLAlTksIEczC2hKrN+l
-	DxGWlZh6ah3YPcwCfBK9v58wQcR5JXbMg7HVJObc+cEKYctIHF69lBFkjISAh8TTPXyQMJnE
-	KDF50Q62CYxysxA2LGBkXMUomVpQnJuemmxaYJiXWg6PteT83E2M4ASp5bKD8cb8f3qHGJk4
-	GA8xSnAwK4nwvj51PF2INyWxsiq1KD++qDQntfgQoykw/CYyS4km5wNTdF5JvKGJpYGJmZmZ
-	iaWxmaGSOG/zzpZ0IYH0xJLU7NTUgtQimD4mDk6pBqZLEn0fdLQfiq8J5tuR4WAffJhxe2dx
-	W7KbX9qPW2Jv+83fvW5lmlwvEsRW69HibDe/I3XmvZ9xDSvmOuU07N/8xm8B65tT5dpuOtdn
-	O2t9nrhpbdD6vzcnp/4/I8n4or87aLnY7fKHZ/i+5drrzna7lbLrVeeRb091Uro63jYsa3wh
-	dz3v8YSCy1+Kj5y77fN/8q3C5/NnLPfxqbJutv4tb3yjJ0Z6dznnylBtl9hE7u33BXUX/A4I
-	kvh6PHfLmQeXl9z/u6fR/1jOJrZKhz37jvtqqWZrZKhFFv9R0T6kFFgzbfHjk+HRs+es22ww
-	v5ZL2Ki14sTVF9yiLAGsCf8Uaj2WsMS/7Dx5cW7H2qNKLMUZiYZazEXFiQDeuAaXGQQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrFLMWRmVeSWpSXmKPExsWy7bCSnK7Oi+PpBi090hZPd8xktbi/+DOL
-	xaHNW9ktbh7YyWRxceZdFou+Fw+ZLTY9vsZqcXnXHDaLng1bWS1mnN/HZLH2yF12i2Wb/jBZ
-	LNr6hd2B12PxnpdMHptWdbJ53Lm2h81j85J6j74tqxg9Pm+S8zj19TN7AHsUl01Kak5mWWqR
-	vl0CV8bpxovMBRPlKv4emMbYwDhVqouRk0NCwERiZ/Mlpi5GLg4hge2MEnsO7WaESMhI/G87
-	xg5hC0us/PecHaLoE6PEjF+fWbsYOTjYBHQlzm7PAakREUiXmHTnKwtIDbPAOiaJnSsnsoIk
-	hAXCJFav/wpmswioSixato8JxOYVsJOYsmgu1AJ5idUbDjCD2JwC9hJf5z4Cs4WAavYd6GCd
-	wMi3gJFhFaNoakFxbnpucoGhXnFibnFpXrpecn7uJkZw8GoF7WBctv6v3iFGJg7GQ4wSHMxK
-	IryvTx1PF+JNSaysSi3Kjy8qzUktPsQozcGiJM6rnNOZIiSQnliSmp2aWpBaBJNl4uCUamBS
-	u/nN8NfKyJBXn1TfPhN+MFlIvXS/9qOqXfLt5d8jEyJbuh3vTPzxxWzLjAzR4PXabrJxpw+a
-	f9CJsH0yj/H+VFW9m5YfLZx9Hu5sZWt+t3j1gYX/rqleO+azscTFd2KpzK47KYuPm3GIREfv
-	lSzeVa69UILN7LDX4v/5zDEiAX1N6fFB3kdzCnMZ0iJur197SVDR+bpsjflC/bP3c1+Wx3WG
-	rt7f/HFL6E1Gpvnb307+831Bs1XbhZVXfJYlOthvKOEV+hzjN/3mz5m603VW+GyudEpdpXc9
-	NMRR8hSTakBDW7HIvOqK7AWcLCcY9Q4FP5c28b5rZulY3q3xd89hyZmrzPprNny/aip3ZpES
-	S3FGoqEWc1FxIgCGERoyzQIAAA==
-X-CMS-MailID: 20250305055908epcas5p222e192cc21512ac178543445184a2519
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprCJsWRmVeSWpSXmKPExsWy7bCmhu7mt8fTDZ5/5rV4eNXf4uaBnUwW
+	M++1slnc/TOJzWLV1J0sFvPbZrBYdE5cwm6x6fE1VovLu+awWfRs2MpqcW3FRFaLZZv+MFks
+	2vqF3aJxwXsWi7/bN7FYvNgi7iDgsXPWXXaP2R0zWT02repk89i8pN7jxeaZjB79fw08fh0W
+	9Xi04xajR9+WVYwenzfJBXBFZdtkpCampBYppOYl56dk5qXbKnkHxzvHm5oZGOoaWlqYKynk
+	Jeam2iq5+AToumXmAP2hpFCWmFMKFApILC5W0rezKcovLUlVyMgvLrFVSi1IySkwKdArTswt
+	Ls1L18tLLbEyNDAwMgUqTMjOWL/3AlvBRI6KLZt+sjUwNrF3MXJySAiYSPTPWsHYxcjFISSw
+	m1Hi/JWXzBDOJ0aJv382M8I511YeZ4RpWf/oCTOILSSwk1HiyW89iKIvjBLPV31iAkmwCahL
+	bOj+ztbFyMEhIlAl0btSBaSGWWAhk8TrawfYQGqEBbwk+g72gt3BIqAqsXTuUbBeXgFLib4l
+	S1kglslLrN5wAOwkCYFODom767awQSRcJD7feM0KYQtLvDq+BeohKYmX/W1Qto/E/jm/oK7O
+	kDi2fTlUvb3EgStzWECOYxbQlFi/Sx8iLCsx9dQ6sBuYBfgken8/YYKI80rsmAdjK0vMPHIf
+	6gRJiZ2Xd0Ld6SFxf/cGJkigxEqs+/eZeQKj7CyEDQsYGVcxSqYWFOempxabFhjlpZbDIyo5
+	P3cTIzh5anntYHz44IPeIUYmDsZDjBIczEoivK9PHU8X4k1JrKxKLcqPLyrNSS0+xGgKDLOJ
+	zFKiyfnA9J1XEm9oYmlgYmZmZmJpbGaoJM7bvLMlXUggPbEkNTs1tSC1CKaPiYNTqoFp/yeX
+	fW/95x6umugfIr46pDaQgSfQc7mK8bKmrgkWfKcDUhmPbDYykCq/bf35yOpkux/3rzbuP2y4
+	4mlMzbxfWveTbBhzt9W9Xlky/+7VJWwVbtxPuAv8LO0cFgeeaGc5Z/ei4diF2jkmDD+S5s0p
+	qji1j+eO1epDhW2MCZOVV+mZrDDLMFt/Oy/T/ZwYd7C0Wo9FkralP7cu5+6Nzrf3i+gmzin1
+	frfk4zOe5Que71S7z3YjykP7vUBP1KQ7+fuzVx0y2+pw4EqFU2ueVFHYpufPV7Y9LvCu7ZBt
+	qnOPlvpX9LzSNZNpLkv+L59ZK718+F8YxwYdt5v3b61E+slpU/w7+45f/jnvcPY9sU9KLMUZ
+	iYZazEXFiQCh3jAxJwQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLLMWRmVeSWpSXmKPExsWy7bCSvK7Qy+PpBhd+W1o8vOpvcfPATiaL
+	mfda2Szu/pnEZrFq6k4Wi/ltM1gsOicuYbfY9Pgaq8XlXXPYLHo2bGW1uLZiIqvFsk1/mCwW
+	bf3CbtG44D2Lxd/tm1gsXmwRdxDw2DnrLrvH7I6ZrB6bVnWyeWxeUu/xYvNMRo/+vwYevw6L
+	ejzacYvRo2/LKkaPz5vkAriiuGxSUnMyy1KL9O0SuDLW773AVjCRo2LLpp9sDYxN7F2MnBwS
+	AiYS6x89Ye5i5OIQEtjOKNG5eAcTREJSYvbv6VBFwhIr/z1nhyj6xChxafV9RpAEm4C6xIbu
+	72wgtohAncT8B3NZQIqYBdYzSXx9DzKWk0NYwEui72Av2CQWAVWJpXOPgm3gFbCU6FuylAVi
+	g7zE6g0HmCcw8ixgZFjFKJpaUJybnptcYKhXnJhbXJqXrpecn7uJERzCWkE7GJet/6t3iJGJ
+	g/EQowQHs5II7+tTx9OFeFMSK6tSi/Lji0pzUosPMUpzsCiJ8yrndKYICaQnlqRmp6YWpBbB
+	ZJk4OKUamOb9rnWOEN4a8zeXsW5n+o31ilpGq33b7367nKhgk9O6iP/zvZueN/Z/rGv7eHJd
+	fUxGlBdvT1HH1qbXhfca779alqk96dVJ19p/G6Otn+e0t8pMdRZb5Lv6Wlc8p9JvnuVhn4w/
+	sc9WXPXk+a2++Q6G++YdqXa49sZCv9yV1z+s+LF6d/5CrdVqvE+MUy9EypzROOL670hSAGva
+	3dw9BT1P/wjrzNo1N1EgPzs1e8u8Yt9tTN0n9XULC9PO5OdM26HQP8XxcNHr7Q9uWc9xZlar
+	rLnwZX7cwm+VrN2sghNjNmZwGS21OrdBN+dsZyfX5/05a1Yoz816pe+j4Fd1920Vb3pj8fVT
+	dXrxf/NalViKMxINtZiLihMBPJ9jr9ACAAA=
+X-CMS-MailID: 20250305060259epcas5p20c02f4c4b4ff84b0f790b4ea446056e6
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 X-Sendblock-Type: REQ_APPROVE
 CMS-TYPE: 105P
 DLP-Filter: Pass
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250305055908epcas5p222e192cc21512ac178543445184a2519
-References: <20250305055308.111300-1-aakarsh.jain@samsung.com>
-	<CGME20250305055908epcas5p222e192cc21512ac178543445184a2519@epcas5p2.samsung.com>
+X-CMS-RootMailID: 20250305060259epcas5p20c02f4c4b4ff84b0f790b4ea446056e6
+References: <CGME20250305060259epcas5p20c02f4c4b4ff84b0f790b4ea446056e6@epcas5p2.samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 
-When output encoded buffer size provided by userspace
-is insufficient with current encoding parameters, it
-leads to RET_ENC_BUFFER_FULL interrupt which was not
-handled in IRQ handler.
+For MIPI CSI2 v4l2 mbus frame descriptor type should be set to
+V4L2_MBUS_FRAME_DESC_TYPE_CSI2. Now frame descriptor type is set to
+V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL. So changing the frame descriptor
+type to V4L2_MBUS_FRAME_DESC_TYPE_CSI2.
 
-On handling of RET_ENC_BUFFER_FULL interrupt leads to
-NAL_ABORT command from host to risc which in turn leads
-to RET_NAL_ABORT interrupt. On receiving RET_NAL_ABORT
-driver clears workbit and VB2 queues for cleaner closing
-of MFC instance.
-
-When user encounters "Call on DQBUF after unrecoverable
-error", userspace should close fd and restart with larger
-output encoder buffer size.
-
-Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
+Fixes: d200de90de2a0 ("media: imx: imx-mipi-csis: Implement the .get_frame_desc() operation")
+Signed-off-by: Inbaraj E <inbaraj.e@samsung.com>
 ---
-changelog:
-v1->v2
-Patch link: https://patchwork.kernel.org/project/linux-media/patch/20250228065952.14375-1-aakarsh.jain@samsung.com/
-Fixed build errors reported by Media CI robot.
- .../media/platform/samsung/s5p-mfc/regs-mfc-v6.h   |  1 +
- drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c   | 14 ++++++++++++++
- .../platform/samsung/s5p-mfc/s5p_mfc_common.h      |  1 +
- .../platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c      |  5 +++++
- 4 files changed, 21 insertions(+)
+ drivers/media/platform/nxp/imx-mipi-csis.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/samsung/s5p-mfc/regs-mfc-v6.h b/drivers/media/platform/samsung/s5p-mfc/regs-mfc-v6.h
-index fa49fe580e1a..075a58b50b8c 100644
---- a/drivers/media/platform/samsung/s5p-mfc/regs-mfc-v6.h
-+++ b/drivers/media/platform/samsung/s5p-mfc/regs-mfc-v6.h
-@@ -45,6 +45,7 @@
- #define S5P_FIMV_H2R_CMD_WAKEUP_V6		8
- #define S5P_FIMV_CH_LAST_FRAME_V6		9
- #define S5P_FIMV_H2R_CMD_FLUSH_V6		10
-+#define S5P_FIMV_H2R_CMD_NAL_ABORT_V6		11
- /* RMVME: REALLOC used? */
- #define S5P_FIMV_CH_FRAME_START_REALLOC_V6	5
+diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
+index 29523bb84d95..bb6550bed230 100644
+--- a/drivers/media/platform/nxp/imx-mipi-csis.c
++++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+@@ -1137,7 +1137,7 @@ static int mipi_csis_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+ 	if (!csis_fmt)
+ 		return -EPIPE;
  
-diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
-index 5f80931f056d..e764cab2485c 100644
---- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
-+++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
-@@ -739,6 +739,20 @@ static irqreturn_t s5p_mfc_irq(int irq, void *priv)
- 		ctx->state = MFCINST_RUNNING;
- 		goto irq_cleanup_hw;
+-	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_PARALLEL;
++	fd->type = V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
+ 	fd->num_entries = 1;
  
-+	case S5P_MFC_R2H_CMD_ENC_BUFFER_FUL_RET:
-+		ctx->state = MFCINST_NAL_ABORT;
-+		s5p_mfc_hw_call(dev->mfc_ops, clear_int_flags, dev);
-+		set_work_bit(ctx);
-+		WARN_ON(test_and_clear_bit(0, &dev->hw_lock) == 0);
-+		s5p_mfc_hw_call(dev->mfc_ops, try_run, dev);
-+		break;
-+
-+	case S5P_MFC_R2H_CMD_NAL_ABORT_RET:
-+		ctx->state = MFCINST_ERROR;
-+		s5p_mfc_cleanup_queue(&ctx->dst_queue, &ctx->vq_dst);
-+		s5p_mfc_cleanup_queue(&ctx->src_queue, &ctx->vq_src);
-+		goto irq_cleanup_hw;
-+
- 	default:
- 		mfc_debug(2, "Unknown int reason\n");
- 		s5p_mfc_hw_call(dev->mfc_ops, clear_int_flags, dev);
-diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h
-index 3cc2a4f5c40a..86c316c1ff8f 100644
---- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h
-+++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h
-@@ -141,6 +141,7 @@ enum s5p_mfc_inst_state {
- 	MFCINST_RES_CHANGE_INIT,
- 	MFCINST_RES_CHANGE_FLUSH,
- 	MFCINST_RES_CHANGE_END,
-+	MFCINST_NAL_ABORT,
- };
- 
- /*
-diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-index 4cf12f33d706..356adfddcfcf 100644
---- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-+++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-@@ -2229,6 +2229,11 @@ static void s5p_mfc_try_run_v6(struct s5p_mfc_dev *dev)
- 		case MFCINST_HEAD_PRODUCED:
- 			ret = s5p_mfc_run_init_enc_buffers(ctx);
- 			break;
-+		case MFCINST_NAL_ABORT:
-+			mfc_write(dev, ctx->inst_no, S5P_FIMV_INSTANCE_ID_V6);
-+			s5p_mfc_hw_call(dev->mfc_cmds, cmd_host2risc,
-+					dev, S5P_FIMV_H2R_CMD_NAL_ABORT_V6, NULL);
-+			break;
- 		default:
- 			ret = -EAGAIN;
- 		}
+ 	entry->flags = 0;
 -- 
 2.17.1
 
