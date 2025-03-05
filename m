@@ -1,164 +1,226 @@
-Return-Path: <linux-media+bounces-27617-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27618-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F32A4FEA0
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 13:30:20 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3524EA4FEF1
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 13:45:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A09C73AA73F
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 12:30:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5858116BF1D
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 12:45:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21A33245019;
-	Wed,  5 Mar 2025 12:30:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53645245026;
+	Wed,  5 Mar 2025 12:45:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b="LmI72CSt"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Dj+2hbm4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ksmg01.maxima.ru (ksmg01.maxima.ru [81.200.124.38])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881BB2A1BF;
-	Wed,  5 Mar 2025 12:30:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.200.124.38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E03F2E3396;
+	Wed,  5 Mar 2025 12:45:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741177813; cv=none; b=muS2W1ofiQgA2ThAoLjwyVFJVjtmiuYBsZ9jEKeXDAHQbjj5wM75iVjKzuTkVsOWJasl0Ynnou2RggOVCSkv4953bwwudSYD+TvS9NKJ908oDeueXIrDQ6bPcJzCBKHmx517XA3Ac1J74OyVN4nOrdcPbjDV0SgbQeEdy7B3DXs=
+	t=1741178743; cv=none; b=jFK/5KlBPKSv/8Z1N7FQ8QNqsNY0nK0JSo8OeNKylmmOVxA4DFRblX2tGTBnQSw7vfvSnTvQ04qMYtus5eknnl1NGiDrHZOWkvhcH6d8sGDitIby5tTBEvrEDsiThgYL7IRHwgwk5RQ+3b+zvffiFcoAdPhhK6xM7S4XqzS9Xkw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741177813; c=relaxed/simple;
-	bh=XUYFquD2kF7krYW6kimapa9xXRvl53m+sHdaVBDWrg0=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=vA/XAN7jvw5Ch8/mafxeJI9OHZOZb4FLMD5LUepjmBqa0zrMgYQ4NSc3bmbxDEMYqlEUMuS26eMzOD7iiyMIIh9BJLiK5movSO8yq0CG0mQD0tqePz9AQKzbZ8R3AUgz5B+5Wv9d66tjftp6KLdu4+a4mDs1ns461f6SjEd21qY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru; spf=pass smtp.mailfrom=mt-integration.ru; dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b=LmI72CSt; arc=none smtp.client-ip=81.200.124.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mt-integration.ru
-Received: from ksmg01.maxima.ru (localhost [127.0.0.1])
-	by ksmg01.maxima.ru (Postfix) with ESMTP id 1DB85C001B;
-	Wed,  5 Mar 2025 15:30:01 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg01.maxima.ru 1DB85C001B
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt-integration.ru;
-	s=sl; t=1741177801; bh=jwfiOKN+C1alB3gS3qmr0uc2qIJJ9i/ducBeeGQwW5k=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=LmI72CStgcWWaWzQbPfDk2TeA2dNAw1/zxz9w4rltvJGmKJZmLg9PXkYa8PRzKBVT
-	 UGjoA21Hu+cXHtOOHmAL5TJHVKEnEqf46aH025ZhpVbmH0Y4ywdQVFnJz4d8POQ7Ef
-	 Fsmmxz3CaSccae4tValibP5bwu4CuA6NDgcVzG4OnQV/aJFAGp4RVMdvXD2C7tRohY
-	 ZzjNrQPRkS28SOwBVtTfHHZ3tHWk+90/hWCAmeCua/fdakNDARAPK91ZUzDzIMUnxC
-	 PLOYqCLKabmkNH3fzPAyexycXydUgKMNvm0qRgEILHAVjKuaTRblBvGftrK2nyTDuY
-	 LKwiV/RLW9MYA==
-Received: from ksmg01.maxima.ru (autodiscover.maxima.ru [81.200.124.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(Client CN "*.maxima.ru", Issuer "GlobalSign GCC R3 DV TLS CA 2020" (verified OK))
-	by ksmg01.maxima.ru (Postfix) with ESMTPS;
-	Wed,  5 Mar 2025 15:30:00 +0300 (MSK)
-Received: from localhost.maximatelecom.ru (178.236.220.168) by
- mmail-p-exch01.mt.ru (81.200.124.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.1544.4; Wed, 5 Mar 2025 15:29:59 +0300
-From: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-CC: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Jani Nikula <jani.nikula@intel.com>,
-	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<lvc-project@linuxtesting.org>
-Subject: [PATCH] media: cec: use us_to_ktime() where appropriate
-Date: Wed, 5 Mar 2025 17:26:39 +0500
-Message-ID: <20250305122728.2317-1-v.shevtsov@mt-integration.ru>
-X-Mailer: git-send-email 2.48.1
+	s=arc-20240116; t=1741178743; c=relaxed/simple;
+	bh=H96G30ENaGwtDAr/tuCrMCCUC+3thOBRDy1f+clwVXg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=kpQ0RwmFScaFtIYNZglAd0ecEE6DNn0HM6h0el2IQDRzFnne8oimw47qrOHGNPMqYizBByw8/3f3Yr+UE/OiAjnCdWIJjFT7Db/3bbcOQEMFV4+jiX5WetSVLInPRo3RBWY6qBjrzet/If1aRtipjTLiz2+Yasj0jbXGguZC2T0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Dj+2hbm4; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 525Abkpc001816;
+	Wed, 5 Mar 2025 12:45:27 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	JpGr/a/pGmwJPnYM1jBEjOHF6XQ+p0dgaV4nasqDDCA=; b=Dj+2hbm4OHM5LmPY
+	5ZkT5ClQn2PGXUwqnUk4y6ki+sgq7r4XoxwZyFU0B1tyJaB/ThVwrKfP+ia3VEsr
+	XtZ/1dTRCVIqYMxBRT0xxKhzLXXOzBOCu8Q8hV7PO1us+fBEQ+pZdw8oZ+ENJPl6
+	kSABK8hy/ZNdeg/4RW6QBv8lKXFoMnlVUJwwCMaFql2yieaS2BmxsE2f2+x+jYgI
+	ulzFyfkcI82QHiUXlxo0ruHWNv/em9x2KmJLQRo6S/tNsCQTeZCjPvIaH/5u3wNE
+	5/UL749tM5FaPZK50GaD8JwVj6mP7ruTCWkepNp6WlsVACOxUUDdskeOXUYbW2XQ
+	udOxyg==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 455p6t5ba9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 05 Mar 2025 12:45:26 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 525CjQCX012167
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 5 Mar 2025 12:45:26 GMT
+Received: from [10.204.66.229] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 5 Mar 2025
+ 04:45:20 -0800
+Message-ID: <b3203de4-e888-41e2-80bd-0d60fb8c520e@quicinc.com>
+Date: Wed, 5 Mar 2025 18:15:11 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 2/2] arm64: dts: qcom:
+ qcs6490-rb3gen2-vision-mezzanine: Add vision mezzanine
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Jorge Ramirez
+	<jorge.ramirez@oss.qualcomm.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>
+CC: <rfoss@kernel.org>, <todor.too@gmail.com>, <mchehab@kernel.org>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+        <andersson@kernel.org>, <konradybcio@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <cros-qcom-dts-watchers@chromium.org>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Konrad Dybcio
+	<konrad.dybcio@linaro.org>
+References: <20250208225143.2868279-1-quic_vikramsa@quicinc.com>
+ <20250208225143.2868279-3-quic_vikramsa@quicinc.com>
+ <ca8e6569-b466-4f83-83af-38c51891d395@kernel.org> <Z8a7cMmxJuHIhgjo@trex>
+ <baae2a56-5299-486f-acf1-14fe13fd2f81@kernel.org> <Z8a/Dk7zjZ7RQT2/@trex>
+ <f5c2044e-e78e-4839-9c29-63610ff406e2@linaro.org>
+Content-Language: en-US
+From: Vikram Sharma <quic_vikramsa@quicinc.com>
+In-Reply-To: <f5c2044e-e78e-4839-9c29-63610ff406e2@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: mt-exch-01.mt.ru (91.220.120.210) To mmail-p-exch01.mt.ru
- (81.200.124.61)
-X-KSMG-AntiPhishing: NotDetected, bases: 2025/03/05 10:40:00
-X-KSMG-AntiSpam-Auth: dmarc=none header.from=mt-integration.ru;spf=none smtp.mailfrom=mt-integration.ru;dkim=none
-X-KSMG-AntiSpam-Envelope-From: v.shevtsov@mt-integration.ru
-X-KSMG-AntiSpam-Info: LuaCore: 51 0.3.51 68896fb0083a027476849bf400a331a2d5d94398, {rep_avail}, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, mt-integration.ru:7.1.1;ksmg01.maxima.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;lore.kernel.org:7.1.1;127.0.0.199:7.1.2;81.200.124.61:7.1.2, FromAlignment: s, ApMailHostAddress: 81.200.124.61
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiSpam-Lua-Profiles: 191499 [Mar 05 2025]
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Version: 6.1.1.11
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2025/03/05 09:56:00 #27614020
-X-KSMG-AntiVirus-Status: NotDetected, skipped
-X-KSMG-LinksScanning: NotDetected, bases: 2025/03/05 10:40:00
-X-KSMG-Message-Action: skipped
-X-KSMG-Rule-ID: 7
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: rD_VuSdeuzspbz4UZ6s3PCFXNPCktPxg
+X-Authority-Analysis: v=2.4 cv=KfMosRYD c=1 sm=1 tr=0 ts=67c84766 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=5jREd-yU2LfHNI075jcA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: rD_VuSdeuzspbz4UZ6s3PCFXNPCktPxg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-05_05,2025-03-05_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 lowpriorityscore=0
+ spamscore=0 suspectscore=0 phishscore=0 malwarescore=0 clxscore=1015
+ priorityscore=1501 impostorscore=0 mlxlogscore=999 adultscore=0
+ bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
+ definitions=main-2503050100
 
-[Why]
-There are several ns_to_ktime() calls that require using nanoseconds. It is
-better to replace them with us_to_ktime() to make code clear, getting rid
-of multiplication by 1000.
 
-Also the timer function code may have an integer wrap-around issue. Since
-both tx_custom_low_usecs and tx_custom_high_usecs can be set to up to
-9999999 from the user space via cec_pin_error_inj_parse_line(), this may
-cause usecs to be overflowed when adap->monitor_pin_cnt is zero and usecs
-is multiplied by 1000.
+On 3/4/2025 3:17 PM, Bryan O'Donoghue wrote:
+> On 04/03/2025 08:51, Jorge Ramirez wrote:
+>> On 04/03/25 09:40:21, Krzysztof Kozlowski wrote:
+>>> On 04/03/2025 09:36, Jorge Ramirez wrote:
+>>>> On 03/03/25 18:13:20, Krzysztof Kozlowski wrote:
+>>>>> On 08/02/2025 23:51, Vikram Sharma wrote:
+>>>>>> The Vision Mezzanine for the Qualcomm RB3 Gen 2 ships with an imx577
+>>>>>> camera sensor. Enable IMX577 on the vision mezzanine.
+>>>>>>
+>>>>>> An example media-ctl pipeline for the imx577 is:
+>>>>>>
+>>>>>> media-ctl --reset
+>>>>>> media-ctl -V '"imx577 '17-001a'":0[fmt:SRGGB10/4056x3040 
+>>>>>> field:none]'
+>>>>>
+>>>>> AFAIU, camss does not support SRGGB10, but only SRGGB10P.
+>>>>>
+>>>>> Based on tests reported on IRC I think this might not have been 
+>>>>> tested
+>>>>> correctly.
+Hi everyone,
 
-[How]
-Take advantage of using an appropriate helper func us_to_ktime() instead of
-ns_to_ktime() to improve readability and to make the code clearer. This also
-mitigates possible integer wrap-arounds when usecs value is too large and
-it is multiplied by 1000.
+Thank you for your comments and discussion on this thread.
+I can confirm that I have verified this implementation using the same 
+steps mentioned in the commit text.
 
-Found by Linux Verification Center (linuxtesting.org) with Svace.
+Here is the sample output.
 
-Signed-off-by: Vitaliy Shevtsov <v.shevtsov@mt-integration.ru>
----
-This patch was created after the Christophe JAILLET's comment at
-https://lore.kernel.org/all/cff4d412-abbf-44b5-9705-ba14dff7d5d0@wanadoo.fr/
+yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video0
+Device /dev/video0 opened.
+Device `Qualcomm Camera Subsystem' on `platform:acb3000.isp' (driver 
+'qcom-camss') supports video, capture, with mplanes.
+Video format set: SRGGB10P (41415270) 4056x3040 field none, 1 planes:
+  * Stride 5072, buffer size 15418880
+Video format: SRGGB10P (41415270) 4056x3040 field none, 1 planes:
+  * Stride 5072, buffer size 15418880
+5 buffers requested.
+length: 1 offset: 3791353960 timestamp type/source: mono/EoF
+Buffer 0/0 mapped at address 0xffff7eb7b000.
+length: 1 offset: 3791353960 timestamp type/source: mono/EoF
+Buffer 1/0 mapped at address 0xffff7dcc6000.
+length: 1 offset: 3791353960 timestamp type/source: mono/EoF
+Buffer 2/0 mapped at address 0xffff7ce11000.
+length: 1 offset: 3791353960 timestamp type/source: mono/EoF
+Buffer 3/0 mapped at address 0xffff7bf5c000.
+length: 1 offset: 3791353960 timestamp type/source: mono/EoF
+Buffer 4/0 mapped at address 0xffff7b0a7000.
+0 (0) [-] none 0 15418880 B 114.742722 114.744108 20.839 fps ts mono/EoF
+1 (1) [-] none 1 15418880 B 114.775069 114.775932 30.915 fps ts mono/EoF
+2 (2) [-] none 2 15418880 B 114.808401 114.886861 30.001 fps ts mono/EoF
+3 (3) [-] none 3 15418880 B 114.841923 114.899629 29.831 fps ts mono/EoF
+4 (4) [-] none 4 15418880 B 114.875247 114.949205 30.008 fps ts mono/EoF
+5 (0) [-] none 5 15418880 B 114.908511 114.963073 30.063 fps ts mono/EoF
+6 (1) [-] none 6 15418880 B 114.941727 114.997570 30.106 fps ts mono/EoF
+7 (2) [-] none 7 15418880 B 114.975066 115.011758 29.995 fps ts mono/EoF
+8 (3) [-] none 8 15418880 B 115.008486 115.047468 29.922 fps ts mono/EoF
+9 (4) [-] none 9 15418880 B 115.041750 115.060305 30.063 fps ts mono/EoF
+10 (0) [-] none 10 15418880 B 115.075060 115.106941 30.021 fps ts mono/EoF
+...
 
- drivers/media/cec/core/cec-pin.c | 11 +++++------
- 1 file changed, 5 insertions(+), 6 deletions(-)
+Best Regards,
+Vikram
 
-diff --git a/drivers/media/cec/core/cec-pin.c b/drivers/media/cec/core/cec-pin.c
-index a70451d99ebc..f232c3df7ee1 100644
---- a/drivers/media/cec/core/cec-pin.c
-+++ b/drivers/media/cec/core/cec-pin.c
-@@ -873,19 +873,19 @@ static enum hrtimer_restart cec_pin_timer(struct hrtimer *timer)
- 		if (pin->wait_usecs > 150) {
- 			pin->wait_usecs -= 100;
- 			pin->timer_ts = ktime_add_us(ts, 100);
--			hrtimer_forward_now(timer, ns_to_ktime(100000));
-+			hrtimer_forward_now(timer, us_to_ktime(100));
- 			return HRTIMER_RESTART;
- 		}
- 		if (pin->wait_usecs > 100) {
- 			pin->wait_usecs /= 2;
- 			pin->timer_ts = ktime_add_us(ts, pin->wait_usecs);
- 			hrtimer_forward_now(timer,
--					ns_to_ktime(pin->wait_usecs * 1000));
-+					us_to_ktime(pin->wait_usecs));
- 			return HRTIMER_RESTART;
- 		}
- 		pin->timer_ts = ktime_add_us(ts, pin->wait_usecs);
- 		hrtimer_forward_now(timer,
--				    ns_to_ktime(pin->wait_usecs * 1000));
-+				    us_to_ktime(pin->wait_usecs));
- 		pin->wait_usecs = 0;
- 		return HRTIMER_RESTART;
- 	}
-@@ -1020,13 +1020,12 @@ static enum hrtimer_restart cec_pin_timer(struct hrtimer *timer)
- 	if (!adap->monitor_pin_cnt || usecs <= 150) {
- 		pin->wait_usecs = 0;
- 		pin->timer_ts = ktime_add_us(ts, usecs);
--		hrtimer_forward_now(timer,
--				ns_to_ktime(usecs * 1000));
-+		hrtimer_forward_now(timer, us_to_ktime(usecs));
- 		return HRTIMER_RESTART;
- 	}
- 	pin->wait_usecs = usecs - 100;
- 	pin->timer_ts = ktime_add_us(ts, 100);
--	hrtimer_forward_now(timer, ns_to_ktime(100000));
-+	hrtimer_forward_now(timer, us_to_ktime(100));
- 	return HRTIMER_RESTART;
- }
- 
--- 
-2.48.1
+>>>>
+>>>> I acquired SRGGB10P (10 bit packed) frames from the camera despite the
+>>>> pipeline being set to SRGGB10 (16 bit) samples.
+>>>>
+>>>> so something does not add up.
+>>>
+>>> Then the commands are actually correct, just the camss or media behave
+>>> here a bit unexpected?
+>>>
+>>
+>> setting the pipeline (CSI) as SRGGB10 (16 bit samples) as per below
+>>
+>> media-ctl --reset
+>> media-ctl -v -V '"imx577 '19-001a'":0[fmt:SRGGB10/4056x3040 field:none]'
+>> media-ctl -V '"msm_csiphy3":0[fmt:SRGGB10/4056x3040]'
+>> media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+>> media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+>> media-ctl -l '"msm_csiphy3":1->"msm_csid0":0[1]'
+>> media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+>>
+>> allows to capture SRGGB10P samples (frames-xxxx.bin files contain 10 
+>> bit samples for the size)
+>>
+>>   ==> yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F 
+>> /dev/video0
+>>
+>>
+>> shouldnt the CSI need to be set to SRGGB10P instead?
+>>
+>>
+>>> Best regards,
+>>> Krzysztof
+>>
+>
+> No an internal media bus format MEDIA_BUS_FMT_THING is used
+>
+> See
+>
+> 87889f1b7ea40d2544b49c62092e6ef2792dced7
+> 5480b0c67f120a6c293cc5eff72fa1d6a74de504
+> 3c1dfb5a69cf836f513a2a49113ee946a4b9d95d
+>
+> Yavta is specifying a v4l2 pixel format SRGGB10P which then gets 
+> translated into a media bus format MEDIA_BUS_FMT_SRGGB10_1X10.
+>
+> I'm not sure what the historical reasons for that are, probably good 
+> ones.
+>
+> ---
+> bod
 
 
