@@ -1,60 +1,60 @@
-Return-Path: <linux-media+bounces-27554-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27555-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2578BA4F7CF
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 08:22:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 053A6A4F7D2
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 08:23:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4E41516F3EB
-	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 07:22:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0FDD0188F2BC
+	for <lists+linux-media@lfdr.de>; Wed,  5 Mar 2025 07:23:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BDF51EDA0C;
-	Wed,  5 Mar 2025 07:21:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 348781EDA2D;
+	Wed,  5 Mar 2025 07:23:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GNPXMhdo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XDdN8v02"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80CB084D08;
-	Wed,  5 Mar 2025 07:21:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A79284D08;
+	Wed,  5 Mar 2025 07:23:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741159313; cv=none; b=RL80nV/uH8U25fTD/v1lWNbPjfYgBMZffaciZcGj+1kzoM2dpG6HEIRHC3/ldv3BtU6Nge5J6OtABvcNKvEW1l54umZncJtLOL6V0ENHdaAbzuaYBToc20YLCYqYlsQpumstnmyapLOjDdnqjP1qQFbr5VYz4J9HnjtvrI1S78k=
+	t=1741159393; cv=none; b=RF8dqVfZj88HeV6h0xHchY5Ydda7rAGThxNeiWAbufoFptWGgf0SBaFGn3IhiDKwUGVhJhEa2b+i7nkIO/4OMlYZzspX1w5dlJzLxtRyfp4+AcN5tqGwZMqrjfafMkkcHPraDATJ/A705luYsBZ1oMjXB0kALT6P9DRPCF7i7u4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741159313; c=relaxed/simple;
-	bh=NfVfEIy9JAsmc2M4fDTDmPxs03YQCbRkrjjQCG7x4YM=;
+	s=arc-20240116; t=1741159393; c=relaxed/simple;
+	bh=GvWw8P7+MkJG2CMdbY3bdVHML1jTS8dX315tfxTG+44=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=n/1j6yDQeeIh9T5QJAqZJdeZuUo5sxytLrYsoJbwg+bA48OGaMVJQNC1rYtrDmSqR0/1ttffXdBZg0pN9moKYThBsd2OM4ySwgsL04YaiH9MtDdOMUH5eUl6mX1hS+5MRPG6CtIBBaOHgdU7wzULxiL7N2WtQS6kOpln1yk2f2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GNPXMhdo; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D460AC4CEE8;
-	Wed,  5 Mar 2025 07:21:51 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=FSM+HEeArSwpRbgyctWzpTtpaF/9E8ShqGydDp/DBFMlnP0PDJDCOqd9mStYjEQonRagTDEBozlBH1G4iNqWAfyu+LTS84DSZrsFMxcsUJJt0kYpODZEFUEio1HlSnuLcWQFM3yXJNypJLnO4uXz+RXkt45+smJSUqP8EK6HOj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XDdN8v02; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 223E6C4CEE2;
+	Wed,  5 Mar 2025 07:23:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741159312;
-	bh=NfVfEIy9JAsmc2M4fDTDmPxs03YQCbRkrjjQCG7x4YM=;
+	s=k20201202; t=1741159393;
+	bh=GvWw8P7+MkJG2CMdbY3bdVHML1jTS8dX315tfxTG+44=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GNPXMhdoakBXg5//XWkJvhhdG1cXWnLLSCH8/V/YYCwZk4ilIYKgk5IjOTZVdTabU
-	 PTwy74ZGOf6YKw1HQ2LutsAAxrIj4Bs+OK4NL7QAZiyuwcOqsfP7hQzIq9c86CAx8U
-	 zEJwzEqlvq4PHDP9gfa648WGrjIQf5XV5Ej2yXDMHQNsS9W/OoUpeipIWJCs2uJLse
-	 1Fz59U7bvkvlRoLR66hKnRmsUlFcWzLgZGazi5c2Lc583XlykxSPKErm5+1OBjGPAB
-	 jtVabQSpW9JEgmhm8uDrBFmsJlwHPntHRpv8K/EhxXmNWY+flg7qOBQ49QHL4P5xxK
-	 8LmS2XgqNRUrQ==
-Date: Wed, 5 Mar 2025 08:21:49 +0100
+	b=XDdN8v02bROoYb/bMhHtVI9RLzeetS6j3zFXp2+Re5Sxo8D/Ipy+NWOOum47L9qcg
+	 RDjc16EXDbSdHq71oFhLc/7oi790pO/a39wsDv6MmAuvpZkskygAj9RxbkIUQ0LLgt
+	 wnFga9io00dhWACS0z2YdK2QEmuWFfEXIcgTGa5YyTfoFjpfwd8Di/+2qNOATSIqXH
+	 bXQhINc0qyvKXvWdqzi1Zvu0FwFteGSWEBxkE7gAnUrIn796mV1e1Mj48KWbLzcOnn
+	 YgPx0bkiUB0f53FGo8A6ZIJeDyjY+YVKvtfXu4Qbao3LjeU5vZcsB9MynIxxXtyeD/
+	 gO+B+LpxGsPyA==
+Date: Wed, 5 Mar 2025 08:23:09 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Mathis Foerst <mathis.foerst@mt.com>
-Cc: linux-kernel@vger.kernel.org, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+To: Vasiliy Doylov <nekocwd@mainlining.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, manuel.traut@mt.com, 
-	mathis.foerst@zuehlke.com
-Subject: Re: [PATCH v2 1/7] media: dt-bindings: mt9m114: Add pad-slew-rate
- DT-binding
-Message-ID: <20250305-vagabond-viper-of-imagination-bd8a46@krzk-bin>
-References: <20250304103647.34235-1-mathis.foerst@mt.com>
- <20250304103647.34235-2-mathis.foerst@mt.com>
+	Conor Dooley <conor+dt@kernel.org>, linux@mainlining.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, phone-devel@vger.kernel.org, 
+	~postmarketos/upstreaming@lists.sr.ht, Vitalii Skorkin <nikroks@mainlining.org>, 
+	Antonio Rische <nt8r@protonmail.com>
+Subject: Re: [PATCH v2 1/3] MAINTAINERS: Add entry for Onsemi LC898217XC lens
+ voice coil driver
+Message-ID: <20250305-voracious-outrageous-jaybird-5eae4b@krzk-bin>
+References: <20250304-media-i2c-lc898217xc-initial-driver-v2-0-6a463cef3ea8@mainlining.org>
+ <20250304-media-i2c-lc898217xc-initial-driver-v2-1-6a463cef3ea8@mainlining.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,25 +63,39 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250304103647.34235-2-mathis.foerst@mt.com>
+In-Reply-To: <20250304-media-i2c-lc898217xc-initial-driver-v2-1-6a463cef3ea8@mainlining.org>
 
-On Tue, Mar 04, 2025 at 11:36:41AM +0100, Mathis Foerst wrote:
-> The MT9M114 supports the different slew rates (0 to 7) on the output pads.
-> At the moment, this is hardcoded to 7 (the fastest rate).
-> The user might want to change this values due to EMC requirements.
+On Tue, Mar 04, 2025 at 10:32:18PM +0300, Vasiliy Doylov wrote:
+> Add entry for Onsemi LC898217XC lens voice coil driver
 > 
-> Add the 'pad-slew-rate' property to the MT9M114 DT-bindings for selecting
-
-Old commit msg? I see different name.
-
-> the desired slew rate.
-> 
-> Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
+> Signed-off-by: Vasiliy Doylov <nekocwd@mainlining.org>
 > ---
+>  MAINTAINERS | 8 ++++++++
+>  1 file changed, 8 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 29e1a423eee5bcf9df7938aaffe5bd3e2f6a2bbe..c15223f063357a8f89cf12f46ebcb7bd062903f3 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -17781,6 +17781,14 @@ S:	Supported
+>  W:	http://www.onsemi.com
+>  F:	drivers/net/phy/ncn*
+>  
+> +ONSEMI LC898217XC LENS VOICE COIL DRIVER
+> +M:	Vasiliy Doylov <nekocwd@mainlining.org>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +T:	git git://linuxtv.org/media.git
 
-With fixed commit msg:
+Drop, unless *you* are committing there.
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> +F:	Documentation/devicetree/bindings/media/i2c/onnn,lc898217xc.yaml
+
+There is no such file.
+
+> +F:	drivers/media/i2c/lc898217xc.c
+
+There is no such file, either.
 
 Best regards,
 Krzysztof
