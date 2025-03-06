@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-27701-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27702-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D304BA54A61
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 13:11:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9218BA54A80
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 13:17:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 05ACA3AD4FC
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 12:10:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C7A81188766A
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 12:17:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08D2420B1F2;
-	Thu,  6 Mar 2025 12:10:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3784D20AF9C;
+	Thu,  6 Mar 2025 12:17:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="JZLZLFRb"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="mcSxjzy0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE26201022;
-	Thu,  6 Mar 2025 12:10:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A7FD1853;
+	Thu,  6 Mar 2025 12:17:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741263058; cv=none; b=oze1rnAziGA/fpQjgI8Kt4Us0DyTviMq+EyJSQWor8RO21g7vqIMFGEpwaX8VxA95joHN+OnnZTJJtrAZMdqHWLp15w3TZRYLcSEiNBVXD7tMhtLPCVyh2bVnxP34/yyYuHU7TM262jAzK1+Js0ladI4d6f47S8L8+u3oMZw6G0=
+	t=1741263433; cv=none; b=gmCmUQPCauRyxQZtdRa6GoQFJRZQsZA6YRwusLog8X+pcL0XgHFNJLXVWE6c7ca6t2GB8RiX5KRzqqgN0nr6f36AOiO9kcoaliotnigD4ltuEXvaXqfgn5ldXZxDCS4p0BARbj7h7+LQTJ8uSplzT4zUZfH+jRxCkTUob5wOI5A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741263058; c=relaxed/simple;
-	bh=h5TWzsiFVB8ZWaX4YeUDmeGfhZVVAcQ74ijU5ElUBOk=;
+	s=arc-20240116; t=1741263433; c=relaxed/simple;
+	bh=2edB3FwVFwzliWCSQ/mM30nUa9UelnNi4vgPxQLtTnk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=IXDj7Py9OJ0BMk8eDBABEuQuwLAIX4f9MOLBHphLss1PnOUUZzOx0NaN6oqsqAzg7w83lFdUo3vL+pkLQH7rHpNVD+YKq9N8GB1I7QrE/akLDWu4EjNhPfk1XwweOtgmyEYVnJEsg2+wKm6fY4FrbQnOnqJpkCitR13YicXdL5o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=JZLZLFRb; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:Content-Type; b=RT9jHNLF0WR9fFV8dZ2wpegYpCZY5AQqQD5nR2zfOSTSKo6Q3qjC3TKAjIGbD4PbOTRHePNkArYclOmRwqlSSSOsZc1RffiM0DvS4Lb1DLpccmo8cRSIJUNwZUWax0B2uJc9CDbNzrKsv4Ur2PHjSB2TknjfJpu9PonqxwnoJaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=mcSxjzy0; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5267mBFb005350;
-	Thu, 6 Mar 2025 12:10:51 GMT
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5269p5fA028808;
+	Thu, 6 Mar 2025 12:17:07 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ZVAsO9TwNTHIKk8EbxDilYkLDWq8p1FE0Gc2Qo9kZE0=; b=JZLZLFRbBf+8hlcc
-	eI1GisGJwubh1xxl84PhPEztUNthSdQw8UMw9B2pHEKcnFBYmfdJqswkCjKn17Ce
-	Y+eYM0XOW51VyTrMLoUI4j7kwYEXNPtsA39KkHacPmQiGCccxYkwFwojVC+n+Iiw
-	w85cidy25Uv3XUk+Wevki/SQOWHJ3lQWTWeSapB7IZLMo1g1V6zkgfYa+8LsULQz
-	u8nqybOwujvjlmvDZxI3rKB3Fnq4nM3YjfYouXqhrkY4uMg4wZSS2NlF6GcOu2ON
-	c2dMqNvRkRapRP6anHTiYjH0JUF0YN/ZAVigXjD40RmKnyVplSG2UnQI3+Jlsk9S
-	ZEtV6A==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4577mx8t1v-1
+	qrmH6u6GWnvmH1nMyUaw2iY9F6LxCOIgyMEUlfvJ6H4=; b=mcSxjzy0poI7SCkm
+	IyGBF9VyhtIy7JAxo+5aXysA5TIHafzuYdc9LcFADyjxEkM069rL55DU4RXrGsqA
+	mZ1lp2q5xQ8KviPlSWk9tY2Ook/LXXz2ktyTQyv0OFW+EuzhZ+C31I8noaNCYI5s
+	MvFrCYfdO36XsntV7vXLF7ZOUPqI268X3BcIG7MrnD7iBaXSbkjv9ozuvmyoh597
+	q4t0EgiWoz2oI5IuqgyzZ8+RXTVdwd/DopTh0if/BzfafybtDEbC6r36q2vZTCH1
+	BUMsWEhW786zqRuAuibsHuKi1+5gA6hOsFTkJZWQdZvNL1ThPdCyJlwxgozCR9P9
+	wI6QKw==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 455p6trxnj-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 06 Mar 2025 12:10:51 +0000 (GMT)
+	Thu, 06 Mar 2025 12:17:06 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 526CAoEK010583
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 526CH5oH014897
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 6 Mar 2025 12:10:50 GMT
+	Thu, 6 Mar 2025 12:17:05 GMT
 Received: from [10.50.63.230] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 6 Mar 2025
- 04:10:47 -0800
-Message-ID: <a9b21381-f01f-afa1-fa20-7b585af377ad@quicinc.com>
-Date: Thu, 6 Mar 2025 17:40:43 +0530
+ 04:17:01 -0800
+Message-ID: <328c6b00-787e-7372-11a2-5a95e9e7754a@quicinc.com>
+Date: Thu, 6 Mar 2025 17:46:58 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -69,39 +69,39 @@ User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
 Subject: Re: [RFC PATCH 03/12] media: iris: Set mandatory properties for HEVC
  and VP9 decoders.
 Content-Language: en-US
-To: <neil.armstrong@linaro.org>, <quic_vgarodia@quicinc.com>,
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, <quic_vgarodia@quicinc.com>,
         <quic_abhinavk@quicinc.com>, <mchehab@kernel.org>
 CC: <hverkuil@xs4all.nl>, <linux-media@vger.kernel.org>,
         <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
 References: <20250305104335.3629945-1-quic_dikshita@quicinc.com>
  <20250305104335.3629945-4-quic_dikshita@quicinc.com>
- <f2d012de-827d-46d6-a9c9-d31dce65fbc2@linaro.org>
+ <927e9a50-d46d-47ee-8edd-bef3f9894093@linaro.org>
 From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <f2d012de-827d-46d6-a9c9-d31dce65fbc2@linaro.org>
+In-Reply-To: <927e9a50-d46d-47ee-8edd-bef3f9894093@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: q7i9MH1567gRPe_eS_SGE0FRs4CX1L3H
-X-Authority-Analysis: v=2.4 cv=cOIaskeN c=1 sm=1 tr=0 ts=67c990cb cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8 a=wCJys03LKCdMsGlDwlsA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: q7i9MH1567gRPe_eS_SGE0FRs4CX1L3H
+X-Authority-Analysis: v=2.4 cv=PMb1+eqC c=1 sm=1 tr=0 ts=67c99242 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=TChcOxb9f172O01IUyUA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: qniueSV21qZBN0kS2HjwmSbu7ycnIYdD
+X-Proofpoint-GUID: qniueSV21qZBN0kS2HjwmSbu7ycnIYdD
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-03-06_05,2025-03-06_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
- priorityscore=1501 suspectscore=0 adultscore=0 phishscore=0 spamscore=0
- lowpriorityscore=0 bulkscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999
- malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 mlxlogscore=999
+ phishscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
+ mlxscore=0 adultscore=0 spamscore=0 suspectscore=0 impostorscore=0
+ clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
  definitions=main-2503060092
 
 
 
-On 3/5/2025 7:30 PM, neil.armstrong@linaro.org wrote:
-> On 05/03/2025 11:43, Dikshita Agarwal wrote:
+On 3/6/2025 6:22 AM, Bryan O'Donoghue wrote:
+> On 05/03/2025 10:43, Dikshita Agarwal wrote:
 >> Subscribe and set mandatory properties to the firmware for HEVC and VP9
 >> decoders.
 >>
@@ -156,15 +156,6 @@ On 3/5/2025 7:30 PM, neil.armstrong@linaro.org wrote:
 >>   }
 >>   -static int iris_hfi_gen2_set_bit_dpeth(struct iris_inst *inst)
 >> +static int iris_hfi_gen2_set_bit_depth(struct iris_inst *inst)
-> 
-> Please move typo fixes to separate patch with Fixes tag.
-> 
-> Neil
-> 
-Ack.
-
-Thanks,
-Dikshita
 >>   {
 >>       struct iris_inst_hfi_gen2 *inst_hfi_gen2 =
 >> to_iris_inst_hfi_gen2(inst);
@@ -271,7 +262,13 @@ Dikshita
 >> +    } else {
 >> +        return -EINVAL;
 >> +    }
->>         payload[0] = HFI_MODE_PORT_SETTINGS_CHANGE;
+> 
+> I'm not a massive fan of multi-clause if/elses - in this particular case
+> this will grow and grow into something very sprawling.
+> 
+Sure, I can move to switch case if that is the preffered choice.
+> Grateful if you'd switch() this.
+>>>         payload[0] = HFI_MODE_PORT_SETTINGS_CHANGE;
 >>   @@ -648,6 +692,11 @@ static int
 >> iris_hfi_gen2_subscribe_change_param(struct iris_inst *inst, u32 plan
 >>                   payload_size = sizeof(u32);
@@ -322,6 +319,10 @@ Dikshita
 >> +        } else {
 >> +            return -EINVAL;
 >> +        }
+> 
+> Same here, this code will be neater IMO as a swtich statement as it grows
+> with new codecs.
+> 
 >>       }
 >>         for (i = 0; i < subscribe_prop_size; i++)
 >> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
@@ -472,6 +473,24 @@ Dikshita
 >>       .num_vpp_pipe = 4,
 >>       .max_session_count = 16,
 >>       .max_core_mbpf = ((8192 * 4352) / 256) * 2,
+> 
+> I realise it's not in your changeset but....
+> 
+> mbpf - mega bytes per frame ?
+> 
+> What do these numbers capture and how do we validate them ?
+> 
+> Defines with meaning would be better
+> 
+> ((MAX_BYTES_PER_THING * NUMBER_OF_LINES_OF_PIXELS) / SOME_ALIGNMENT ) * 2
+> 
+> or whatever it is those numbers ultimately capture.
+> 
+mbpf is macroblocks per frame, 8192 * 4352 is 8k resolution
+I can add a comment if that helps to understand this better.
+
+Thanks,
+Dikshita
 >> -    .input_config_params =
 >> -        sm8550_vdec_input_config_params,
 >> -    .input_config_params_size =
@@ -512,4 +531,6 @@ Dikshita
 >>       .dec_ip_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_ip_int_buf_tbl),
 >>       .dec_op_int_buf_tbl = sm8550_dec_op_int_buf_tbl,
 > 
+> ---
+> bod
 
