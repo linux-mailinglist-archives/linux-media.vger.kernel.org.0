@@ -1,140 +1,174 @@
-Return-Path: <linux-media+bounces-27781-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27782-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2145BA5573D
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 21:03:26 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B270CA557B6
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 21:46:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0F8CB3A7649
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 20:03:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DD8A1176790
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 20:46:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1C06270048;
-	Thu,  6 Mar 2025 20:03:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B72B22045B9;
+	Thu,  6 Mar 2025 20:45:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Yo8GMXYQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9591C42A8C;
-	Thu,  6 Mar 2025 20:03:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D521A23BD;
+	Thu,  6 Mar 2025 20:45:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741291399; cv=none; b=VPk1CtbPYQvhB/UF19KBicaPppy5O43PRLe5uikM35eD5RGP4VHCnDAiW/pyd7oFbbfbqA2GS+402Edkl+oysxZ3oLbQzXdhve4BU0mnyKS9Gv7KdiFXSX/YR6Viyl4igCIZb6nZIXuL9nyOWVh5b95pQGCF0XsWD89r1rQoK7M=
+	t=1741293950; cv=none; b=gBpufuVS7owY7AJpKyHGEiChOHs5GjxdhQ/GvxD+OB/y0gmFRRgDkrzXfPX/VcL6RXzeipxQh3wJ8h8LzePDDBy23PhxeKEFK7UCdurfP9k3WEun2plUEyQw53ZO8NIrG1Xtdm8sURa0A7mCMifAI1vkCI+2N476C9GofsHisZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741291399; c=relaxed/simple;
-	bh=k1K7V2WHq5y3Nh1hc+GDfA1sX0sXquQbiGfIGmnHIiA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g3iHxn8Tj3EdWQ9DSu2LkFRIB1pTHN7tWQNnsN+higk7qUIe2i2+9FtWAHk0NVyUw9EqKow/hoJhLsBZqrVEO/xmh8oWtk29YjcZJMW2xTXcNvmVAjPzMXD2ecJAjpr3wfqIMhjksh2s3/k2/a3XpU4O+OalrNfVn2LtYjnmbG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26B28C4CEE0;
-	Thu,  6 Mar 2025 20:03:17 +0000 (UTC)
-Message-ID: <e191da0c-7d63-43e6-adf6-bf39364b8583@xs4all.nl>
-Date: Thu, 6 Mar 2025 21:03:16 +0100
+	s=arc-20240116; t=1741293950; c=relaxed/simple;
+	bh=YRiEklZgyKif9YQuFPeDNCuPRKOpVl4Sp4NBuCatdYk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=EqdfaPhY605s4c6GqFcl/zo0MjHxNNOqB426UKNjTnw9V2K9ivq5XtcBYGh7xcW5b53IoBsy7jESaXPkT9am8zzlxDZi+32fsNKMqt8MpVrrpuRf6y1jQGxvO8kqLTAn/WxeBm8NR3n3ybrVonMpMz+B3mue2lvNJKMlffuRzB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Yo8GMXYQ; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-390d98ae34dso876605f8f.3;
+        Thu, 06 Mar 2025 12:45:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741293947; x=1741898747; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=U/2AW/XQ+C1Dkr/bifBKVXkd3UKdww00iQvvrQ69JSo=;
+        b=Yo8GMXYQY66Qke/AigSX3nfeldGlI4YA8pihoQyOws62kK/g2lLRepvjNAgN+XL6cR
+         ZBqg5LkSaU3JXTpUBUFJheGjOmvViwCbwV2t/v6AxJegDBfljJCkazn2KioQou8rgkJ1
+         VqMHqOwujeGuYyx6dYQubWKWZVgG150yAvNIRLSf5MfxerDbgCLcnu3aoEjy+be4FppB
+         Xie6o5bIcKevKXUWUmPgHbrrvDche+/zHf3uh1oXVEUxPK9BuNgCttNmi3QWQLZDIj0E
+         mrABgL4PTwo5Hy25mk4gYqaa94/c4x61pnMQSy4fwItFJdFhJHNzoYy5euy+blTnPiAA
+         3wmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741293947; x=1741898747;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=U/2AW/XQ+C1Dkr/bifBKVXkd3UKdww00iQvvrQ69JSo=;
+        b=dGk4qQnr5wTn0Qt6k6QAu/0Eq5sBYTc3fiB1xeSxjUtuXuScwx1F9Ls7+pQeMQaL5h
+         cbgaWMd2Ue89OBod/8v50SpZmKwQDcUkd6ID1wZnoUz824WONUe5K9BZP05/Kvg9Hdk/
+         Vja/7tw0VTkPXBY/pudXc1edRllvOQKRLThBG3G1UzTZLYiyq6W8WXAWVd+K+EOLVutR
+         pa/V/3TLkCNdjbg6BWL23g4SLT5hSP2FAOZnfy8sMpAOxeWIzmG3e42AuL+GsJxmvJ0P
+         GZ9qXJJ5GZZUJeaG9Bjm0tT839FvCJXeO0lPWNO3ZASr84Wfnn8vSwEaRgExibSGzvkb
+         Ua5A==
+X-Forwarded-Encrypted: i=1; AJvYcCUAA6Y2WGbWYU+CfGFBVpNZp27DAMP5AXS6Yi603QwE/qdsMqn6klEBZ8Q3vyPMR7RwjCILOT7e@vger.kernel.org, AJvYcCVLpF6g/9OucMzsFrmUNI6Zep3ugGq6WrIlzXGlSoqd9u8es1OlPFuMyL5eSWTC4Pcerz5xoJYrIS4Mpvo=@vger.kernel.org, AJvYcCVb/K+WKCPbEriErmdbYMpqC4JhbsmKk1Ko+aDksTb+dFHszy1l/EtwwZlsYqkPOy/R4+liiXoneZm1glFv@vger.kernel.org, AJvYcCWMUC6Xz/HI0Fs5x2itxY03lT3gnHWLPu/zdqb3KOZ30Nd1Qv7D+ET1s1qJYCgBMU3WCA1gohZwYLbWyEoA@vger.kernel.org, AJvYcCWRBwtOHCvnkEG52PyJyybFHECALqeRSUKIkKhePFHMjJPfFB50341yxdMdGhyihwbALtkfNxbjLfItXx/hzuE=@vger.kernel.org, AJvYcCXHqXLyitFhoJGpm+nGHxoOKXslNU6p16OgAtpgod9J2qpeZoygAIRmRWaTRt1tJTSAgD0=@vger.kernel.org, AJvYcCXhZ6RBFFDE6j/t5bUBHV6e7fdLCXeQB/LGXJxdN/BQpBjSx2tu7cUKBbz5xpbztTGjd/pN141sOomb9RQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyv1tkDo+b+EAxhTsNHEFESwkWTPtgZEXGF+ZbhaSzuSC0M5WyU
+	t/kPBAG/wX+QebzoUo5aBWmHJ06RyMmbqgKXipm51sNI/Ar6xF5x
+X-Gm-Gg: ASbGncsQoFz0KdJ5miS5ff6gASWPNKOWRLiMzEQXLHirJgIwJzw5cGb1NcuxBwr7w9X
+	gD3ERHVQsRamYkJakm9mbiynZN0cCVG5AxOAnCBq/fG0B+geRsf/xsVnlkAf1xwhM5G3MEznnlB
+	NPfOVGK7kjapW6Qk+1cPV0U26V4Xg72ZdGAS/51PTBDb8mBskqARsIrhWcA19M9mUUHjTOoavfK
+	pwVkWr92bbSizQ6c441xIvsG4wqxG/qgu6xPiRflAeb2dphewEjNdpcoQNwLqku6v/g+JUM+zx6
+	iV1F51T7UQRoVK/+JnPo1ItDxIxwCjvT1ycXYpfK5Cn3jhuSM6JEmxuYHH7X9lkLNmC1ROQ4Tsd
+	moGlN3Rk=
+X-Google-Smtp-Source: AGHT+IGypB/6b6ARKmDBu94pyV9a8VQg2efcRX5KU7nOp2iuQaxkdpIq9rBXtaXWDKzDk6KRW6vJqA==
+X-Received: by 2002:a05:6000:4112:b0:391:b87:37ad with SMTP id ffacd0b85a97d-39132dad239mr349795f8f.42.1741293946634;
+        Thu, 06 Mar 2025 12:45:46 -0800 (PST)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3912c01de21sm3140996f8f.59.2025.03.06.12.45.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 06 Mar 2025 12:45:46 -0800 (PST)
+Date: Thu, 6 Mar 2025 20:45:44 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Kuan-Wei Chiu <visitorckw@gmail.com>
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
+ eajames@linux.ibm.com, andrzej.hajda@intel.com, neil.armstrong@linaro.org,
+ rfoss@kernel.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+ tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+ dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
+ hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
+ vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
+ davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+ parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+ johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+ jirislaby@kernel.org, yury.norov@gmail.com, akpm@linux-foundation.org,
+ hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
+ Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+ jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
+ linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
+ linux-input@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
+ netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
+ linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+ Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH v3 01/16] bitops: Change parity8() return type to bool
+Message-ID: <20250306204544.35086b52@pumpkin>
+In-Reply-To: <20250306162541.2633025-2-visitorckw@gmail.com>
+References: <20250306162541.2633025-1-visitorckw@gmail.com>
+	<20250306162541.2633025-2-visitorckw@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL] Linux Media vimc update for Linux 6.15-rc1
-To: Shuah Khan <skhan@linuxfoundation.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <a3344fc3-c7ea-44ae-8fc8-86184315a58f@linuxfoundation.org>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <a3344fc3-c7ea-44ae-8fc8-86184315a58f@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On 06/03/2025 20:46, Shuah Khan wrote:
-> Hi Mauro,
-> 
-> Please pull the following vimc update for Linux 6.15-rc1.
-> 
-> Fixes a bug in vimc streamer pipeline init code found by syzbot.
+On Fri,  7 Mar 2025 00:25:26 +0800
+Kuan-Wei Chiu <visitorckw@gmail.com> wrote:
 
-Ah, I merged that vimc fix already, so I'll just mark this PR as Obsoleted.
+> Change return type to bool for better clarity. Update the kernel doc
+> comment accordingly, including fixing "@value" to "@val" and adjusting
+> examples. Also mark the function with __attribute_const__ to allow
+> potential compiler optimizations.
 
-Regards,
+If the result type is 'bool' you should just check it.
+Not compare against true/false.
 
-	Hans
+	David
 
 > 
-> diff is attached.
+> Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> ---
+>  include/linux/bitops.h | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> thanks,
-> -- Shuah
-> 
-> ----------------------------------------------------------------
-> The following changes since commit a64dcfb451e254085a7daee5fe51bf22959d52d3:
-> 
->    Linux 6.14-rc2 (2025-02-09 12:45:03 -0800)
-> 
-> are available in the Git repository at:
-> 
->    git://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux tags/linux-vimc-6.15-rc1
-> 
-> for you to fetch changes up to d6813eb9c3de01307801f253d89d777b4669a0d0:
-> 
->    media: vimc: skip .s_stream() for stopped entities (2025-03-06 09:11:39 -0700)
-> 
-> ----------------------------------------------------------------
-> linux-vimc-6.15-rc1
-> 
-> Fixes a bug in vimc streamer pipeline init code found by syzbot.
-> 
-> ----------------------------------------------------------------
-> Nikita Zhandarovich (1):
->        media: vimc: skip .s_stream() for stopped entities
-> 
->   drivers/media/test-drivers/vimc/vimc-streamer.c | 6 ++++++
->   1 file changed, 6 insertions(+)
-> ----------------------------------------------------------------
+> diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+> index c1cb53cf2f0f..44e5765b8bec 100644
+> --- a/include/linux/bitops.h
+> +++ b/include/linux/bitops.h
+> @@ -231,26 +231,26 @@ static inline int get_count_order_long(unsigned long l)
+>  
+>  /**
+>   * parity8 - get the parity of an u8 value
+> - * @value: the value to be examined
+> + * @val: the value to be examined
+>   *
+>   * Determine the parity of the u8 argument.
+>   *
+>   * Returns:
+> - * 0 for even parity, 1 for odd parity
+> + * false for even parity, true for odd parity
+>   *
+>   * Note: This function informs you about the current parity. Example to bail
+>   * out when parity is odd:
+>   *
+> - *	if (parity8(val) == 1)
+> + *	if (parity8(val) == true)
+>   *		return -EBADMSG;
+>   *
+>   * If you need to calculate a parity bit, you need to draw the conclusion from
+>   * this result yourself. Example to enforce odd parity, parity bit is bit 7:
+>   *
+> - *	if (parity8(val) == 0)
+> + *	if (parity8(val) == false)
+>   *		val ^= BIT(7);
+>   */
+> -static inline int parity8(u8 val)
+> +static inline __attribute_const__ bool parity8(u8 val)
+>  {
+>  	/*
+>  	 * One explanation of this algorithm:
 
 
