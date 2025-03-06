@@ -1,153 +1,194 @@
-Return-Path: <linux-media+bounces-27735-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27736-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C48AEA5505C
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 17:17:50 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8D9FA5507A
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 17:23:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2CAA83A83C2
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 16:17:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AEB881730E2
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 16:23:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55694212D7A;
-	Thu,  6 Mar 2025 16:17:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B82E32139A6;
+	Thu,  6 Mar 2025 16:23:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="HRuSJEPH"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mmDdAd9K"
 X-Original-To: linux-media@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9957010F1;
-	Thu,  6 Mar 2025 16:17:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8704EC2;
+	Thu,  6 Mar 2025 16:23:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741277833; cv=none; b=nFupHecAAwd1etRmlpF9bIia8uN3teazTJgMmXCdn7z0DNa4ZubH7du02FsDQss694DBNp4WNbuP6vA7ey9UwPiDfWEt7n63M1y/DH4zYYLl/IIKLIV9zigT990xPGh/lWeoqtriCz1TTnc//zcwqeaSV12pkctO7GO9vGkk9yI=
+	t=1741278219; cv=none; b=TdtMF1JLwU9eRESSO18vbTaBEs3+grh/Ft0qBqGXGArKNoh7ntfPWIMTXaP2s/yhB/xmVtVmhIOO6Gw9aV/HA+54MS4f/4TphS++wARpkWUj7DcnYvcvILX3nGDWzn1oH8EJdbI8F+6UO/omOXvSb5RviSWN9lddh5H7qLJ6BzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741277833; c=relaxed/simple;
-	bh=4PR+wrbIV9a1dU/V3AYEVB955Nz6kBYS5XJ39/VJA5g=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oZLZkGRDHQdwGbfEWGrHH+8Aib+FOdYrYGrN7gyPgozRGAjAxtVa4RrLu3/PHKIXMz4jqtEFB7t6+X26H2obdYO4hPnVt9y07CJ32PwEEI/BJ9tlMrXMvRb2Do4VNwshzuchsrmNsgrar/KktHpY6OeoVDL2/2q3rDcvVKlicVM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=HRuSJEPH; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=Geb6EtM93X/fXUXMAE0FPspUAQRaC0n4VhGwzmdgPhc=; b=HRuSJEPHExoiukq5ECmYJqumVz
-	abvKSEf1ZGPhhA4F1EEBPY2qzHRaRsRmCwBIC/kLPhFnmHbtkqwcIPxPmQ43RLXu6/FwoX4c6gWCc
-	L0WsDGZaT9r6dYpr6ouaTUlnzxUZKNjcVr3dY7e9CmR9C+0hLpymRbb2hs++jh6p7i7Xcll1aTWXf
-	ZllK+3oQn/1gamSSM4pBUFlr47zuq/FspmCtzotCt2UcU0J+ZA35p+Kml4LCZefr+xOLjt8mNyODL
-	QxXXI1ku+3j3pDjhkWBkQAWFTfzM4jy8Wj44PdibMPTF/PXc1iXahuQLkaifqNXsmhTT6V2b2LXy2
-	uBH+chWQ==;
-Received: from i53875a38.versanet.de ([83.135.90.56] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1tqDu7-0004hc-2k; Thu, 06 Mar 2025 17:16:59 +0100
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: Shreeya Patel <shreeya.patel@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil@xs4all.nl>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- jose.abreu@synopsys.com, nelson.costa@synopsys.com, shawn.wen@rock-chips.com,
- nicolas.dufresne@collabora.com,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: kernel@collabora.com, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, Tim Surber <me@timsurber.de>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Diederik de Haas <didi.debian@cknow.org>
-Subject:
- Re: [PATCH v14 1/3] arm64: dts: rockchip: Add device tree support for HDMI RX
- Controller
-Date: Thu, 06 Mar 2025 17:16:57 +0100
-Message-ID: <3216426.Mh6RI2rZIc@diego>
-In-Reply-To: <f5f3dd36-0f90-47dd-bc12-1e2f0207fe7d@collabora.com>
-References:
- <20250306072842.287142-1-dmitry.osipenko@collabora.com>
- <9489391.T7Z3S40VBb@diego>
- <f5f3dd36-0f90-47dd-bc12-1e2f0207fe7d@collabora.com>
+	s=arc-20240116; t=1741278219; c=relaxed/simple;
+	bh=bbklhI3aQ73zd287vaasvsj4pDf8CW/6eLem5wZ2qBA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=BugX8PIsx+AHbum7zOMeWxGReE3hZFUYNmEuRP1I4whF1eiCi14Q8Zk36S7Ge1kw94FzgLLstDU1vpmXjO5Yqnwha5VVWCaMUw6gaMWAptReb4ulhdN7jyc6dPfoS+MTm041g5vK+eCkS8C2YLfL+SnGa5JHpPz1JzT1YmFMjfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=mmDdAd9K; arc=none smtp.client-ip=217.70.183.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9E5CD44409;
+	Thu,  6 Mar 2025 16:23:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1741278214;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=si5Dfu8yQaBDrNM5uyIEeL+Od5jYUbAwYxzy5yMhdw0=;
+	b=mmDdAd9KBQJHq9RDUfSsMLBDxEsAFPwZTh0vwsvDGtmT6PsicV5qzmrqvtEL/9awTfzya9
+	naH8YtZot6ok8fMeTtj/uyCunSescSdtOi4j3RxoL0mb4sIjKa7LSnHeKP8VXPl7pPEgSz
+	g+7lxV3GRo1SH+2ecQuQ6O+TyAcWFTXTrJdj3CNoQYtYUuuCI4MaDyUkpxoFRC+ZWxgNLW
+	aYic6k98UB0x2YZUK4604B94lErw6AaPCdRdz8X8lBg2Uypkakc6jfUrd7NafQEDw5vwXy
+	g7kSyvsHCc7F7JGSJFnnVPQahoczrXl+i5jcodsLRZqxKGTyWt3N48vv1ZhS0Q==
+From: Romain Gantois <romain.gantois@bootlin.com>
+Subject: [PATCH v9 0/9] misc: Support TI FPC202 dual-port controller
+Date: Thu, 06 Mar 2025 17:23:21 +0100
+Message-Id: <20250306-fpc202-v9-0-2779af6780f6@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPrLyWcC/2XRzW7DIAwH8FepOC8TGPPhnfYe0w5AYEXakiqpo
+ k1V3n1OpybRcsOI3x+Db2LMQ82jeDndxJCnOta+44KeTiKdQ/eRm9pyLUACKqlcUy6J140tMjp
+ NvHZe8OHLkEv9vge9vXN9ruO1H37uuZNadv8ilPSPiEk1sikZIVnyMRG8xr6/ftbuOfVfYgmZY
+ AfVBoGhQ8xYFEGA9gj1DoJZoWaoMXsbUzTR2CPEDYKWK8TlRqsikGu5XXeE5gGN3L/RMAyoKUQ
+ iak04QruDamvVMmzRBY2e/9joI3QbBIkrdEurPmL0QZtU1BH6HYR1opNnGB0Rf5krMf8bxzzPv
+ 1QmFE4tAgAA
+X-Change-ID: 20241017-fpc202-6f0b739c2078
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+ Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Derek Kiernan <derek.kiernan@amd.com>, 
+ Dragan Cvetic <dragan.cvetic@amd.com>, Arnd Bergmann <arnd@arndb.de>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ Bartosz Golaszewski <brgl@bgdev.pl>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Kory Maincent <kory.maincent@bootlin.com>, 
+ Cosmin Tanislav <demonsingur@gmail.com>, linux-i2c@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-gpio@vger.kernel.org, 
+ Romain Gantois <romain.gantois@bootlin.com>, 
+ Conor Dooley <conor.dooley@microchip.com>
+X-Mailer: b4 0.14.2
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddutdekvdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhufffkfggtgfgvfevofesthejredtredtjeenucfhrhhomheptfhomhgrihhnucfirghnthhoihhsuceorhhomhgrihhnrdhgrghnthhoihhssegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeekgeeggeehffeufeeivefffeelueeigeevjefhieduleekgeelleegudevfeekueenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludelvddrudeikedrtddrudefngdpmhgrihhlfhhrohhmpehrohhmrghinhdrghgrnhhtohhishessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdegpdhrtghpthhtoheprghnughirdhshhihthhisehkvghrnhgvlhdrohhrghdprhgtphhtthhopehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtoheprghrnhgusegrrhhnuggsrdguvgdprhgtphhtt
+ hhopeguvghmohhnshhinhhguhhrsehgmhgrihhlrdgtohhmpdhrtghpthhtoheplhhinhhugidqghhpihhosehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhomhgrihhnrdhgrghnthhoihhssegsohhothhlihhnrdgtohhmpdhrtghpthhtohepghhrvghgkhhhsehlihhnuhigfhhouhhnuggrthhiohhnrdhorhhg
+X-GND-Sasl: romain.gantois@bootlin.com
 
-Am Donnerstag, 6. M=C3=A4rz 2025, 16:53:48 MEZ schrieb Dmitry Osipenko:
-> On 3/6/25 16:06, Heiko St=C3=BCbner wrote:
-> > Hi Dmitry,
-> >=20
-> > Am Donnerstag, 6. M=C3=A4rz 2025, 08:28:40 MEZ schrieb Dmitry Osipenko:
-> >> From: Shreeya Patel <shreeya.patel@collabora.com>
-> >>
-> >> Add device tree support for Synopsys DesignWare HDMI RX
-> >> Controller.
-> >>
-> >> Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> >> Tested-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> >> Co-developed-by: Dingxian Wen <shawn.wen@rock-chips.com>
-> >> Signed-off-by: Dingxian Wen <shawn.wen@rock-chips.com>
-> >> Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
-> >> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> >> ---
+Hello everyone,
 
-> >> +	hdmi_receiver: hdmi_receiver@fdee0000 {
-> >> +		compatible =3D "rockchip,rk3588-hdmirx-ctrler", "snps,dw-hdmi-rx";
-> >> +		reg =3D <0x0 0xfdee0000 0x0 0x6000>;
-> >> +		power-domains =3D <&power RK3588_PD_VO1>;
-> >> +		rockchip,grf =3D <&sys_grf>;
-> >> +		rockchip,vo1-grf =3D <&vo1_grf>;
-> >> +		interrupts =3D <GIC_SPI 177 IRQ_TYPE_LEVEL_HIGH 0>,
-> >> +			     <GIC_SPI 178 IRQ_TYPE_LEVEL_HIGH 0>,
-> >> +			     <GIC_SPI 179 IRQ_TYPE_LEVEL_HIGH 0>;
-> >> +		interrupt-names =3D "cec", "hdmi", "dma";
-> >> +		clocks =3D <&cru ACLK_HDMIRX>,
-> >> +			 <&cru CLK_HDMIRX_AUD>,
-> >> +			 <&cru CLK_CR_PARA>,
-> >> +			 <&cru PCLK_HDMIRX>,
-> >> +			 <&cru CLK_HDMIRX_REF>,
-> >> +			 <&cru PCLK_S_HDMIRX>,
-> >> +			 <&cru HCLK_VO1>;
-> >> +		clock-names =3D "aclk",
-> >> +			      "audio",
-> >> +			      "cr_para",
-> >> +			      "pclk",
-> >> +			      "ref",
-> >> +			      "hclk_s_hdmirx",
-> >> +			      "hclk_vo1";
-> >> +		resets =3D <&cru SRST_A_HDMIRX>, <&cru SRST_P_HDMIRX>,
-> >> +			 <&cru SRST_HDMIRX_REF>, <&cru SRST_A_HDMIRX_BIU>;
-> >> +		reset-names =3D "axi", "apb", "ref", "biu";
-> >> +		memory-region =3D <&hdmi_receiver_cma>;
-> >> +		pinctrl-0 =3D <&hdmim1_rx>;
-> >> +		pinctrl-names =3D "default";
-> >=20
-> > hmm, this might be better living in the board dts?
->=20
-> HDMI RX controller is a part of the SoC, it's not specific to a
-> particular board. If you meaning move it into rock5b.dts, then we
-> definitely shouldn't do it. It's like moving PCIe controller node into a
-> board DT :)
+This is version nine of my series which adds support for the TI FPC202
+dual-port controller. This is an unusual kind of device which is used as a
+low-speed signal aggregator for various types of SFP-like hardware ports.
 
-sorry, should've been clearer. I meant the pinctrl.
-There are two sets of pins hdmim0-rx and hdmim1-rx which one is used is
-board specific.
+The FPC202 exposes an I2C, or SPI (not supported in this series) control
+interface, which can be used to access two downstream I2C busses, along
+with a set of low-speed GPIO signals for each port. It also has I2C address
+translation (ATR) features, which allow multiple I2C devices with the same
+address (e.g. SFP EEPROMs at address 0x50) to be accessed from the upstream
+control interface on different addresses.
 
-Can you check if "most" boards use the M1 variant?
+I've chosen to add this driver to the misc subsystem, as it doesn't
+strictly belong in either the i2c or gpio sybsystem, and as far as I know
+it is the first device of its kind to be added to the kernel.
 
-Rationale being, that if we know that most boards use the same set of
-pins, it's likely ok to just have the minority boards override it.
+Along with the FPC202 driver itself, this series also adds support for
+dynamic address translation to the i2c-atr module. This allows I2C address
+translators to update their translation table on-the-fly when they receive
+transactions to unmapped clients. This feature is needed by the FPC202
+driver to access up to three logical I2C devices per-port, given that the
+FPC202 address translation table only has two address slots.
 
-Heiko
+Best Regards,
 
+Romain
 
+Signed-off-by: Romain Gantois <romain.gantois@bootlin.com>
+---
+Changes in v9:
+- Fix unmet dependency for I2C_ATR
+- Fix locking issue in i2c_atr_detach_addr()
+- Link to v8: https://lore.kernel.org/r/20250227-fpc202-v8-0-b7994117fbe2@bootlin.com
+
+Changes in v8:
+- Changed from a "depends on I2C_ATR" to a "select I2C_ATR"
+- Link to v7: https://lore.kernel.org/r/20250204-fpc202-v7-0-78b4b8a35cf1@bootlin.com
+
+Changes in v7:
+- Removed a superfluous log message
+- Link to v6: https://lore.kernel.org/r/20250115-fpc202-v6-0-d47a34820753@bootlin.com
+
+Changes in v6:
+- Replaced spaces with tabs in misc Makefile
+- Link to v5: https://lore.kernel.org/r/20250108-fpc202-v5-0-a439ab999d5a@bootlin.com
+
+Changes in v5:
+- Used mutex guards in ub960 and fpc202 drivers
+- Changed wording of some i2c-atr logs
+- Link to v4: https://lore.kernel.org/r/20241230-fpc202-v4-0-761b297dc697@bootlin.com
+
+Changes in v4:
+- Fixed unbalanced refcounting in FPC202 port probing path
+- Fixed KASAN bug by setting alias_pool "shared" flag properly
+- Dropped requirement for both FPC202 ports to be described in the DT
+- Enabled dynamic translation by default, dropped support for non dynamic translation
+- Used aliased_addrs list instead of insufficient bitmap in ub960 driver
+- Added i2c_atr_destroy_c2a() function matching i2c_atr_create_c2a()
+- Fixed list corruption bug in dynamic address translation
+- Indented Kconfig entry with tabs instead of spaces
+- Link to v3: https://lore.kernel.org/r/20241125-fpc202-v3-0-34e86bcb5b56@bootlin.com
+
+Changes in v3:
+- Described the "reg" property of downstream ports in the FPC202 bindings
+- Link to v2: https://lore.kernel.org/r/20241118-fpc202-v2-0-744e4f192a2d@bootlin.com
+
+Changes in v2:
+- Renamed port nodes to match i2c adapter bindings.
+- Declared atr ops struct as static const.
+- Free downstream ports during FPC202 removal.
+- Link to v1: https://lore.kernel.org/r/20241108-fpc202-v1-0-fe42c698bc92@bootlin.com
+
+---
+Romain Gantois (9):
+      dt-bindings: misc: Describe TI FPC202 dual port controller
+      media: i2c: ds90ub960: Replace aliased clients list with address list
+      media: i2c: ds90ub960: Protect alias_use_mask with a mutex
+      i2c: use client addresses directly in ATR interface
+      i2c: move ATR alias pool to a separate struct
+      i2c: rename field 'alias_list' of struct i2c_atr_chan to 'alias_pairs'
+      i2c: support per-channel ATR alias pools
+      i2c: Support dynamic address translation
+      misc: add FPC202 dual port controller driver
+
+ .../devicetree/bindings/misc/ti,fpc202.yaml        |  94 ++++
+ MAINTAINERS                                        |   7 +
+ drivers/i2c/i2c-atr.c                              | 483 ++++++++++++++-------
+ drivers/media/i2c/ds90ub913.c                      |   9 +-
+ drivers/media/i2c/ds90ub953.c                      |   9 +-
+ drivers/media/i2c/ds90ub960.c                      |  49 ++-
+ drivers/misc/Kconfig                               |  12 +
+ drivers/misc/Makefile                              |   1 +
+ drivers/misc/ti_fpc202.c                           | 438 +++++++++++++++++++
+ include/linux/i2c-atr.h                            |  54 ++-
+ 10 files changed, 965 insertions(+), 191 deletions(-)
+---
+base-commit: 2014c95afecee3e76ca4a56956a936e23283f05b
+change-id: 20241017-fpc202-6f0b739c2078
+
+Best regards,
+-- 
+Romain Gantois <romain.gantois@bootlin.com>
 
 
