@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-27665-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27666-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5852A53F64
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 01:52:29 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD31DA53F95
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 02:06:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C9DB16EACA
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 00:52:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C6C1B1891C36
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 01:06:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8223D3DBB6;
-	Thu,  6 Mar 2025 00:52:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 281E37DA67;
+	Thu,  6 Mar 2025 01:05:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="oMS+/gaa"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FeGmXz8/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8184C1F95C
-	for <linux-media@vger.kernel.org>; Thu,  6 Mar 2025 00:52:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B615628DA1
+	for <linux-media@vger.kernel.org>; Thu,  6 Mar 2025 01:05:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741222341; cv=none; b=QQP015wFrj4A1fRHn9LLbF15hgR8rxSFGpazfQ1HuxgiQMPOoccasJB2cNFx4jr7WkSFImJWvzRxn2ISoJod7T6j+z8ZFq4/kZ0K7XXcNr7fHC8gXmEsboGGQ1y3tflK8Wepj5E19nmQA6owtinNJ8qf0uElJ2ncEJk3S6DmtRg=
+	t=1741223157; cv=none; b=pT/injwvPEw9H0y+zGZSf+204MqT44D/+Zk3tPfCtnUJbTo+rxq40sBLOOFwp2XWuA0Rc8vBmcyM2c+mKi1vaqlH/YgiTRsztRVtIa23Rh1uLat8VZrKqUTV1DD/Yyvhb47Eumqiu92uXj9cHxmjfPstELC68vTZF32Zv9sdgLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741222341; c=relaxed/simple;
-	bh=Tjip/ad+SPUgz0IlY8he0t9q6LTni/sLlgD346oWw8E=;
+	s=arc-20240116; t=1741223157; c=relaxed/simple;
+	bh=iKZaZZ93A8EmJ6E6wiLd3eIK1XonMbv0JikYfwCMXDA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cNZ3skXqSlxB92h0UhW0zy2rxHiRUZyNUj/oB01XgMXUkAkvSVs8aIHWToiUq5ibKqduD4iE+OmgfeeoiLpERKQe3uASYG5qV9itioewGRatSrMKwOqQ2XNR0YS6GPxt3vI4bzccOqlZul5suB5bluaF3HbO41VUgE1MhSq46lM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=oMS+/gaa; arc=none smtp.client-ip=209.85.128.42
+	 In-Reply-To:Content-Type; b=AivgQkstQzVK5xxP/Eet3VIktgh2Jy0ey74Svp0y7dVOj7JKl08OY2bDMm8389jEzL4/pO/ML1EbcyRAIGRcXx/UA6XteBdo5QYTxcI7xJ3EIZwN/PviftFnmVFvHurqVuqgv85TuMH8LGqi/3VsAqT3g4nrbABjpFA8Ucj21tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FeGmXz8/; arc=none smtp.client-ip=209.85.128.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43bdc607c3fso218355e9.3
-        for <linux-media@vger.kernel.org>; Wed, 05 Mar 2025 16:52:18 -0800 (PST)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43bdcd0d97dso249015e9.3
+        for <linux-media@vger.kernel.org>; Wed, 05 Mar 2025 17:05:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741222337; x=1741827137; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1741223154; x=1741827954; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=PtQSEnTxKwLGrerPU5Pktc/xc4dhaexJ2IEbSXCV0fs=;
-        b=oMS+/gaa7xXhkit9xKt+mKscmDJXMsXWjtjvrJ5xmOTrA41BO7e1QxA1RSKZTgTJtK
-         mEKJylQcfak8ykcNNJ/gTA5unmkKd3QeLs+5yhv52tU1eg1el+MNtc2bDyWS7jXSyCwV
-         2uj8d8XYvaDIyz0D+T+ej6foUqA9MlKDV1648bAVyaF3WCUlEzDZpcnmOpLiksNifXps
-         OlHnQrm/SburgsqXi4/IFkCyJUXUTEo9q/XVneWzd8WiPIf/TeyAdtfjUNnJD3MNGWmH
-         E4+mQLNYK1lB+ZNWzSClotmEKse55OgNFpk2mOkHW5iVDspjr2Ou0Gr9QXhWzMCQVfno
-         djvg==
+        bh=ZUbDcyt1+aw6K+SCP95Z+3ScUhwExiAJQZmJDC2tNv0=;
+        b=FeGmXz8/UXatXipjY2Uf8S0HWtoTPXHgP9s1mPZMdQcLRaDzOY1Y/Usr/GwFW0Quv+
+         7RoacIMDUlhlgogaXx9xhOWRSsTBoXgDXD8mzu8YbztycICfbLNA6HqiUugex6vzJ+KJ
+         F2tqnxBv4Ux3lQnPcvFMfondHwWRKbfKrdRK1m9Gdfn7JdwiNhkFClUUFngfzE1+bJrb
+         LglPoMgT3KEbvUJ4dt2PFXTOJXb32y3rTKewOlWtT6WYCPVYop1GZZ24WO9IYVv+LA6R
+         SizlpWjXXtvKHw6KEaF7pi1CzEreXpIJIsXN6izHjEBZDiYvy2VB3kYLTDHCa9jEsZWS
+         CxNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741222337; x=1741827137;
+        d=1e100.net; s=20230601; t=1741223154; x=1741827954;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PtQSEnTxKwLGrerPU5Pktc/xc4dhaexJ2IEbSXCV0fs=;
-        b=FzFCH3h7unRhWTTdQvztkTqwsPtVjKkZalMD9r1BnyC+1wa3n3yWEATZXffk2Dw2hF
-         3TT6zgi/gbBdOAVzQgu7bUNxI0Rjl8SOzHi9s+bRNnRHJV0csUz6hc5kQyL0hKaRAwrW
-         qTd4znlHTuZPZ5TI5JKbWWE+gVuxd5HUlJI3Ms69DRvvAsjhjBBm7zx5RAWknOokw5fz
-         tYjGzbwf5qEwk8IefeQDp1LbzirqJUdX0jkITvaNElNx8riyxjdCfmMGaoebd1a29HDD
-         +Nxvk+0cIa76zjCAmqq7Oj8NkM8NWvPsZ7u8fod2ru1PQPvpZ/S+mUDpx2F2xgjfC47Y
-         iHxA==
-X-Forwarded-Encrypted: i=1; AJvYcCW6n4OUND7vdZiwu8MAKWLd6tOl6DJ5r9uedcZCeFfohdT4OhLhcd25qSwsvtxlVSzK0wc7mI5AIn+wuQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxlj8Jfnye08lVTSu96h569xXmMZ70Rm1MYYJ/VslTOa/B9dMb8
-	W9CX15MDuAHKBUQYOuFB/To27KWnuuPn/FIdSGsDwcxa5HppdURLDzrXcwdcWn4=
-X-Gm-Gg: ASbGncur/37D/0JvhmNtk8n3pHFfYTunB7BoUDtqBdSdnTTYT/zNsa1Oxeynzby+CSc
-	alvyk7CNslmzzOWnThNy/9OX7CmCMcwJsz/2yt2u0xR5i/DqGewRvObeLNnGwX6WD8oE0nnphkn
-	wD7iBYkRZnqFGsA9O2TFYJrou6EF/STAuuFQV2cIl8HOIj/R2zgKhCntSw3Azv51JbjCJskBXOL
-	7d4OzMijJnAznMEtEXqs1DgFYe+N1IUYM3cbXe8JkGNCSOYGJCIE66zFWCZ3ISrc6jDiTYPtNJD
-	lJiFIgS9UgqD5cjl6/48/zpcLeq3mIByrGNaNYSVtdrClMChltIIXSrUsIQo/NINBZdy04bhrpQ
-	hmkl0dH8Dbw==
-X-Google-Smtp-Source: AGHT+IH7lVvepjt/pTD5dyqr25GUGFKsbWSSMtDI6B6LGkC7FjYCPzBcVv0YcssF4IE1NL6kjLGGTA==
-X-Received: by 2002:a05:600c:5112:b0:439:a1ad:6851 with SMTP id 5b1f17b1804b1-43bd2ae1663mr35394055e9.23.1741222336504;
-        Wed, 05 Mar 2025 16:52:16 -0800 (PST)
+        bh=ZUbDcyt1+aw6K+SCP95Z+3ScUhwExiAJQZmJDC2tNv0=;
+        b=STeu5O844HSsmkOZzbMTVXKddN0dga7Ccoy2r3nMqV4xHUg41UKJw1j1udxXKrMCgv
+         d9f6GLbh4Phul3bzEp6vgJZcuU9YvuYsuc2Mf+PoSisgCKJblNe51ATAGmUkaLXr7E68
+         Iaq+UhXVXw0d3T+kEmm9GEEdt5b3hQ9vyYEEaJ84wkN/I9wctaH/pqzvBrIg1hb7ZU8U
+         3w74QGu81VwZp8qruxUfXOGHFabrSqex2ojgZcmEMmTRpx7FLvLEB/Y01duxsRAs8GcT
+         DRACAIHkR8k8VtM4+xipiYurXPj6fZmkaSHSeB8SxP3Id3GGv66PDZoRLxf8xcf4omc/
+         cmCA==
+X-Forwarded-Encrypted: i=1; AJvYcCU5l9UjXmoKgR1YnBoI7YET0qO0Z0GVBRpb8pJi/Xg8dkkAzFo4h0rSTpw2OfkJFLOKTmxVDhw+iNkHHA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwzSUoOW+kZa8WI6lC6I8SrwhzkdZbVD/j8Bbaa3f8u35xpxTWM
+	gMHzjysv6uMOXa8W73bvzkNQWOmEMCE6TwEGOZ/nlMl4kD/FFVLFBeZe6qtssZ0=
+X-Gm-Gg: ASbGncu4dC8IhXJJb0jABwKTPJyHU4x99Jq6SPMUHHgouNntIVkacGirOB31w66e9zn
+	cD3DCwivdUo9ePK3PLkL8ZgcK6bJjWgK4vll2Z4hwXgT8Kfdvh1A+tqfkF+kAeP0hp0sNWyEx2O
+	yJBSSXBxyPf9mdTPvxJ3dXVUf0kmQ+THhW4CelcE09l3I/eJ+2ULKcb5uoP0XiQA8bKB98J+iha
+	WZZRAdYtSQamRv9DBtqBjdnTdglUSxZhO3rLfhgcGY9k5AZDkmpr1b+zg0Mx5SkFXd6lIAw4Lif
+	bXFsOCKNnc6s5JOjZ7UwxTCtnFSuHjAvIThrvm0vQnlsvH1wlUW+x2KmReCndjcP9HX2eFsDpur
+	oFTzia0ssMg==
+X-Google-Smtp-Source: AGHT+IEBE+AjJSFQ5hTzB0AD9wDUmggQ6dY7nBAGbbjumNehivZ0YmNvgBtLxJfeYy/ati/9+ylr/A==
+X-Received: by 2002:a05:600c:190a:b0:43b:cbe2:ec0c with SMTP id 5b1f17b1804b1-43bd29c9377mr40663785e9.27.1741223152664;
+        Wed, 05 Mar 2025 17:05:52 -0800 (PST)
 Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43bdd8dad73sm3048585e9.19.2025.03.05.16.52.14
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3912bfdfe2bsm206780f8f.24.2025.03.05.17.05.51
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 05 Mar 2025 16:52:15 -0800 (PST)
-Message-ID: <927e9a50-d46d-47ee-8edd-bef3f9894093@linaro.org>
-Date: Thu, 6 Mar 2025 00:52:13 +0000
+        Wed, 05 Mar 2025 17:05:52 -0800 (PST)
+Message-ID: <ac44e16c-36af-471a-b47b-bb26ccd9f018@linaro.org>
+Date: Thu, 6 Mar 2025 01:05:50 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,415 +82,92 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 03/12] media: iris: Set mandatory properties for HEVC
- and VP9 decoders.
+Subject: Re: [RFC PATCH 04/12] media: iris: Add internal buffer calculation
+ for HEVC and VP9 decoders
 To: Dikshita Agarwal <quic_dikshita@quicinc.com>, quic_vgarodia@quicinc.com,
  quic_abhinavk@quicinc.com, mchehab@kernel.org
 Cc: hverkuil@xs4all.nl, linux-media@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250305104335.3629945-1-quic_dikshita@quicinc.com>
- <20250305104335.3629945-4-quic_dikshita@quicinc.com>
+ <20250305104335.3629945-5-quic_dikshita@quicinc.com>
 Content-Language: en-US
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20250305104335.3629945-4-quic_dikshita@quicinc.com>
+In-Reply-To: <20250305104335.3629945-5-quic_dikshita@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 05/03/2025 10:43, Dikshita Agarwal wrote:
-> Subscribe and set mandatory properties to the firmware for HEVC and VP9
+> Add internal buffer count and size calculations for HEVC and VP9
 > decoders.
 > 
 > Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 > ---
->   .../platform/qcom/iris/iris_hfi_common.h      |  1 +
->   .../qcom/iris/iris_hfi_gen1_command.c         |  4 +-
->   .../qcom/iris/iris_hfi_gen2_command.c         | 83 +++++++++++++++++--
->   .../qcom/iris/iris_hfi_gen2_response.c        |  7 ++
->   .../platform/qcom/iris/iris_platform_common.h | 16 +++-
->   .../platform/qcom/iris/iris_platform_sm8250.c |  4 +-
->   .../platform/qcom/iris/iris_platform_sm8550.c | 61 ++++++++++++--
->   7 files changed, 151 insertions(+), 25 deletions(-)
+>   .../media/platform/qcom/iris/iris_buffer.c    |   3 +
+>   .../platform/qcom/iris/iris_vpu_buffer.c      | 397 +++++++++++++++++-
+>   .../platform/qcom/iris/iris_vpu_buffer.h      |  46 +-
+>   3 files changed, 432 insertions(+), 14 deletions(-)
 > 
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_common.h b/drivers/media/platform/qcom/iris/iris_hfi_common.h
-> index b2c541367fc6..9e6aadb83783 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_common.h
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_common.h
-> @@ -140,6 +140,7 @@ struct hfi_subscription_params {
->   	u32	color_info;
->   	u32	profile;
->   	u32	level;
-> +	u32	tier;
->   };
+> diff --git a/drivers/media/platform/qcom/iris/iris_buffer.c b/drivers/media/platform/qcom/iris/iris_buffer.c
+> index e5c5a564fcb8..8c9d5b7fe75c 100644
+> --- a/drivers/media/platform/qcom/iris/iris_buffer.c
+> +++ b/drivers/media/platform/qcom/iris/iris_buffer.c
+> @@ -205,6 +205,9 @@ static u32 iris_bitstream_buffer_size(struct iris_inst *inst)
+>   	if (num_mbs > NUM_MBS_4K) {
+>   		div_factor = 4;
+>   		base_res_mbs = caps->max_mbpf;
+> +	} else {
+> +		if (inst->codec == V4L2_PIX_FMT_VP9)
+> +			div_factor = 1;
+>   	}
 >   
->   u32 iris_hfi_get_v4l2_color_primaries(u32 hfi_primaries);
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-> index 1e774b058ab9..a160ae915886 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-> @@ -784,8 +784,8 @@ static int iris_hfi_gen1_session_set_config_params(struct iris_inst *inst, u32 p
->   			iris_hfi_gen1_set_bufsize},
->   	};
->   
-> -	config_params = core->iris_platform_data->input_config_params;
-> -	config_params_size = core->iris_platform_data->input_config_params_size;
-> +	config_params = core->iris_platform_data->input_config_params_default;
-> +	config_params_size = core->iris_platform_data->input_config_params_default_size;
->   
->   	if (V4L2_TYPE_IS_OUTPUT(plane)) {
->   		for (i = 0; i < config_params_size; i++) {
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-> index a3ebcda9a2ba..5b4c89184297 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-> @@ -192,7 +192,7 @@ static int iris_hfi_gen2_set_crop_offsets(struct iris_inst *inst)
->   						  sizeof(u64));
+>   	/*
+> diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+> index dce25e410d80..13ee93356bcb 100644
+> --- a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+> +++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+> @@ -31,6 +31,42 @@ static u32 hfi_buffer_bin_h264d(u32 frame_width, u32 frame_height, u32 num_vpp_p
+>   	return size_h264d_hw_bin_buffer(n_aligned_w, n_aligned_h, num_vpp_pipes);
 >   }
 >   
-> -static int iris_hfi_gen2_set_bit_dpeth(struct iris_inst *inst)
-> +static int iris_hfi_gen2_set_bit_depth(struct iris_inst *inst)
->   {
->   	struct iris_inst_hfi_gen2 *inst_hfi_gen2 = to_iris_inst_hfi_gen2(inst);
->   	u32 port = iris_hfi_gen2_get_port(V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
-> @@ -407,6 +407,23 @@ static int iris_hfi_gen2_set_linear_stride_scanline(struct iris_inst *inst)
->   						  sizeof(u64));
->   }
->   
-> +static int iris_hfi_gen2_set_tier(struct iris_inst *inst)
+> +static u32 size_h265d_hw_bin_buffer(u32 frame_width, u32 frame_height, u32 num_vpp_pipes)
 > +{
-> +	struct iris_inst_hfi_gen2 *inst_hfi_gen2 = to_iris_inst_hfi_gen2(inst);
-> +	u32 port = iris_hfi_gen2_get_port(V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
-> +	u32 tier = inst->fw_caps[TIER].value;
+> +	u32 product = frame_width * frame_height;
+> +	u32 size_yuv, size_bin_hdr, size_bin_res;
 > +
-> +	inst_hfi_gen2->src_subcr_params.tier = tier;
+> +	size_yuv = (product <= BIN_BUFFER_THRESHOLD) ?
+> +		((BIN_BUFFER_THRESHOLD * 3) >> 1) : ((product * 3) >> 1);
+
+When I read this code I have no way of knowing if it makes sense.
+
+#define BIN_BUFFER_THRESHOLD		(1280 * 736)
+
+((BIN_BUFFER_THRESHOLD * 3) >> 1)
+
+How/why is that correct ?
+
+> +	size_bin_hdr = size_yuv * H265_CABAC_HDR_RATIO_HD_TOT;
+> +	size_bin_res = size_yuv * H265_CABAC_RES_RATIO_HD_TOT;
+> +	size_bin_hdr = ALIGN(size_bin_hdr / num_vpp_pipes, DMA_ALIGNMENT) * num_vpp_pipes;
+> +	size_bin_res = ALIGN(size_bin_res / num_vpp_pipes, DMA_ALIGNMENT) * num_vpp_pipes;
 > +
-> +	return iris_hfi_gen2_session_set_property(inst,
-> +						  HFI_PROP_TIER,
-> +						  HFI_HOST_FLAGS_NONE,
-> +						  port,
-> +						  HFI_PAYLOAD_U32_ENUM,
-> +						  &tier,
-> +						  sizeof(u32));
+> +	return size_bin_hdr + size_bin_res;
 > +}
 > +
->   static int iris_hfi_gen2_session_set_config_params(struct iris_inst *inst, u32 plane)
->   {
->   	struct iris_core *core = inst->core;
-> @@ -418,7 +435,7 @@ static int iris_hfi_gen2_session_set_config_params(struct iris_inst *inst, u32 p
->   		{HFI_PROP_BITSTREAM_RESOLUTION,       iris_hfi_gen2_set_bitstream_resolution   },
->   		{HFI_PROP_CROP_OFFSETS,               iris_hfi_gen2_set_crop_offsets           },
->   		{HFI_PROP_CODED_FRAMES,               iris_hfi_gen2_set_coded_frames           },
-> -		{HFI_PROP_LUMA_CHROMA_BIT_DEPTH,      iris_hfi_gen2_set_bit_dpeth              },
-> +		{HFI_PROP_LUMA_CHROMA_BIT_DEPTH,      iris_hfi_gen2_set_bit_depth              },
->   		{HFI_PROP_BUFFER_FW_MIN_OUTPUT_COUNT, iris_hfi_gen2_set_min_output_count       },
->   		{HFI_PROP_PIC_ORDER_CNT_TYPE,         iris_hfi_gen2_set_picture_order_count    },
->   		{HFI_PROP_SIGNAL_COLOR_INFO,          iris_hfi_gen2_set_colorspace             },
-> @@ -426,11 +443,25 @@ static int iris_hfi_gen2_session_set_config_params(struct iris_inst *inst, u32 p
->   		{HFI_PROP_LEVEL,                      iris_hfi_gen2_set_level                  },
->   		{HFI_PROP_COLOR_FORMAT,               iris_hfi_gen2_set_colorformat            },
->   		{HFI_PROP_LINEAR_STRIDE_SCANLINE,     iris_hfi_gen2_set_linear_stride_scanline },
-> +		{HFI_PROP_TIER,                       iris_hfi_gen2_set_tier                   },
->   	};
->   
->   	if (V4L2_TYPE_IS_OUTPUT(plane)) {
-> -		config_params = core->iris_platform_data->input_config_params;
-> -		config_params_size = core->iris_platform_data->input_config_params_size;
-> +		if (inst->codec == V4L2_PIX_FMT_H264) {
-> +			config_params = core->iris_platform_data->input_config_params_default;
-> +			config_params_size =
-> +				core->iris_platform_data->input_config_params_default_size;
-> +		} else if (inst->codec == V4L2_PIX_FMT_HEVC) {
-> +			config_params = core->iris_platform_data->input_config_params_hevc;
-> +			config_params_size =
-> +				core->iris_platform_data->input_config_params_hevc_size;
-> +		} else if (inst->codec == V4L2_PIX_FMT_VP9) {
-> +			config_params = core->iris_platform_data->input_config_params_vp9;
-> +			config_params_size =
-> +				core->iris_platform_data->input_config_params_vp9_size;
-> +		} else {
-> +			return -EINVAL;
-> +		}
->   	} else {
->   		config_params = core->iris_platform_data->output_config_params;
->   		config_params_size = core->iris_platform_data->output_config_params_size;
-> @@ -600,8 +631,21 @@ static int iris_hfi_gen2_subscribe_change_param(struct iris_inst *inst, u32 plan
->   		return 0;
->   	}
->   
-> -	change_param = core->iris_platform_data->input_config_params;
-> -	change_param_size = core->iris_platform_data->input_config_params_size;
-> +	if (inst->codec == V4L2_PIX_FMT_H264) {
-> +		change_param = core->iris_platform_data->input_config_params_default;
-> +		change_param_size =
-> +			core->iris_platform_data->input_config_params_default_size;
-> +	} else if (inst->codec == V4L2_PIX_FMT_HEVC) {
-> +		change_param = core->iris_platform_data->input_config_params_hevc;
-> +		change_param_size =
-> +			core->iris_platform_data->input_config_params_hevc_size;
-> +	} else if (inst->codec == V4L2_PIX_FMT_VP9) {
-> +		change_param = core->iris_platform_data->input_config_params_vp9;
-> +		change_param_size =
-> +			core->iris_platform_data->input_config_params_vp9_size;
-> +	} else {
-> +		return -EINVAL;
-> +	}
+> +static u32 hfi_buffer_bin_vp9d(u32 frame_width, u32 frame_height, u32 num_vpp_pipes)
+> +{
+> +	u32 _size_yuv = ALIGN(frame_width, 16) * ALIGN(frame_height, 16) * 3 / 2;
+> +	u32 _size = ALIGN(((max_t(u32, _size_yuv, ((BIN_BUFFER_THRESHOLD * 3) >> 1)) *
+> +			VPX_DECODER_FRAME_BIN_HDR_BUDGET / VPX_DECODER_FRAME_BIN_DENOMINATOR *
+> +			VPX_DECODER_FRAME_CONCURENCY_LVL) / num_vpp_pipes), DMA_ALIGNMENT) +
+> +			ALIGN(((max_t(u32, _size_yuv, ((BIN_BUFFER_THRESHOLD * 3) >> 1)) *
+> +			VPX_DECODER_FRAME_BIN_RES_BUDGET / VPX_DECODER_FRAME_BIN_DENOMINATOR *
+> +			VPX_DECODER_FRAME_CONCURENCY_LVL) / num_vpp_pipes), DMA_ALIGNMENT);
 
-I'm not a massive fan of multi-clause if/elses - in this particular case 
-this will grow and grow into something very sprawling.
+The size_yuv I guess just about makes sense but the _size component here 
+is pretty hard to say whether or not this adds up.
 
-Grateful if you'd switch() this.
-
->   
->   	payload[0] = HFI_MODE_PORT_SETTINGS_CHANGE;
->   
-> @@ -648,6 +692,11 @@ static int iris_hfi_gen2_subscribe_change_param(struct iris_inst *inst, u32 plan
->   				payload_size = sizeof(u32);
->   				payload_type = HFI_PAYLOAD_U32;
->   				break;
-> +			case HFI_PROP_LUMA_CHROMA_BIT_DEPTH:
-> +				payload[0] = subsc_params.bit_depth;
-> +				payload_size = sizeof(u32);
-> +				payload_type = HFI_PAYLOAD_U32;
-> +				break;
->   			case HFI_PROP_BUFFER_FW_MIN_OUTPUT_COUNT:
->   				payload[0] = subsc_params.fw_min_count;
->   				payload_size = sizeof(u32);
-> @@ -673,6 +722,11 @@ static int iris_hfi_gen2_subscribe_change_param(struct iris_inst *inst, u32 plan
->   				payload_size = sizeof(u32);
->   				payload_type = HFI_PAYLOAD_U32;
->   				break;
-> +			case HFI_PROP_TIER:
-> +				payload[0] = subsc_params.tier;
-> +				payload_size = sizeof(u32);
-> +				payload_type = HFI_PAYLOAD_U32;
-> +				break;
->   			default:
->   				prop_type = 0;
->   				ret = -EINVAL;
-> @@ -709,8 +763,21 @@ static int iris_hfi_gen2_subscribe_property(struct iris_inst *inst, u32 plane)
->   		subscribe_prop_size = core->iris_platform_data->dec_input_prop_size;
->   		subcribe_prop = core->iris_platform_data->dec_input_prop;
->   	} else {
-> -		subscribe_prop_size = core->iris_platform_data->dec_output_prop_size;
-> -		subcribe_prop = core->iris_platform_data->dec_output_prop;
-> +		if (inst->codec == V4L2_PIX_FMT_H264) {
-> +			subcribe_prop = core->iris_platform_data->dec_output_prop_avc;
-> +			subscribe_prop_size =
-> +				core->iris_platform_data->dec_output_prop_avc_size;
-> +		} else if (inst->codec == V4L2_PIX_FMT_HEVC) {
-> +			subcribe_prop = core->iris_platform_data->dec_output_prop_hevc;
-> +			subscribe_prop_size =
-> +				core->iris_platform_data->dec_output_prop_hevc_size;
-> +		} else if (inst->codec == V4L2_PIX_FMT_VP9) {
-> +			subcribe_prop = core->iris_platform_data->dec_output_prop_vp9;
-> +			subscribe_prop_size =
-> +				core->iris_platform_data->dec_output_prop_vp9_size;
-> +		} else {
-> +			return -EINVAL;
-> +		}
-
-Same here, this code will be neater IMO as a swtich statement as it 
-grows with new codecs.
-
->   	}
->   
->   	for (i = 0; i < subscribe_prop_size; i++)
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
-> index 809bf0f238bd..6846311a26c3 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
-> @@ -580,6 +580,7 @@ static void iris_hfi_gen2_read_input_subcr_params(struct iris_inst *inst)
->   	}
->   
->   	inst->fw_caps[POC].value = subsc_params.pic_order_cnt;
-> +	inst->fw_caps[TIER].value = subsc_params.tier;
->   
->   	if (subsc_params.bit_depth != BIT_DEPTH_8 ||
->   	    !(subsc_params.coded_frames & HFI_BITMASK_FRAME_MBS_ONLY_FLAG)) {
-> @@ -664,6 +665,9 @@ static int iris_hfi_gen2_handle_session_property(struct iris_inst *inst,
->   		inst_hfi_gen2->src_subcr_params.crop_offsets[0] = pkt->payload[0];
->   		inst_hfi_gen2->src_subcr_params.crop_offsets[1] = pkt->payload[1];
->   		break;
-> +	case HFI_PROP_LUMA_CHROMA_BIT_DEPTH:
-> +		inst_hfi_gen2->src_subcr_params.bit_depth = pkt->payload[0];
-> +		break;
->   	case HFI_PROP_CODED_FRAMES:
->   		inst_hfi_gen2->src_subcr_params.coded_frames = pkt->payload[0];
->   		break;
-> @@ -682,6 +686,9 @@ static int iris_hfi_gen2_handle_session_property(struct iris_inst *inst,
->   	case HFI_PROP_LEVEL:
->   		inst_hfi_gen2->src_subcr_params.level = pkt->payload[0];
->   		break;
-> +	case HFI_PROP_TIER:
-> +		inst_hfi_gen2->src_subcr_params.tier = pkt->payload[0];
-> +		break;
->   	case HFI_PROP_PICTURE_TYPE:
->   		inst_hfi_gen2->hfi_frame_info.picture_type = pkt->payload[0];
->   		break;
-> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
-> index 67204cddd44a..433ce9b00c68 100644
-> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
-> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
-> @@ -174,14 +174,22 @@ struct iris_platform_data {
->   	u32 num_vpp_pipe;
->   	u32 max_session_count;
->   	u32 max_core_mbpf;
-> -	const u32 *input_config_params;
-> -	unsigned int input_config_params_size;
-> +	const u32 *input_config_params_default;
-> +	unsigned int input_config_params_default_size;
-> +	const u32 *input_config_params_hevc;
-> +	unsigned int input_config_params_hevc_size;
-> +	const u32 *input_config_params_vp9;
-> +	unsigned int input_config_params_vp9_size;
->   	const u32 *output_config_params;
->   	unsigned int output_config_params_size;
->   	const u32 *dec_input_prop;
->   	unsigned int dec_input_prop_size;
-> -	const u32 *dec_output_prop;
-> -	unsigned int dec_output_prop_size;
-> +	const u32 *dec_output_prop_avc;
-> +	unsigned int dec_output_prop_avc_size;
-> +	const u32 *dec_output_prop_hevc;
-> +	unsigned int dec_output_prop_hevc_size;
-> +	const u32 *dec_output_prop_vp9;
-> +	unsigned int dec_output_prop_vp9_size;
->   	const u32 *dec_ip_int_buf_tbl;
->   	unsigned int dec_ip_int_buf_tbl_size;
->   	const u32 *dec_op_int_buf_tbl;
-> diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8250.c b/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
-> index 5c86fd7b7b6f..5f74e57f04fc 100644
-> --- a/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
-> +++ b/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
-> @@ -137,9 +137,9 @@ struct iris_platform_data sm8250_data = {
->   	.num_vpp_pipe = 4,
->   	.max_session_count = 16,
->   	.max_core_mbpf = (8192 * 4352) / 256,
-> -	.input_config_params =
-> +	.input_config_params_default =
->   		sm8250_vdec_input_config_param_default,
-> -	.input_config_params_size =
-> +	.input_config_params_default_size =
->   		ARRAY_SIZE(sm8250_vdec_input_config_param_default),
->   
->   	.dec_ip_int_buf_tbl = sm8250_dec_ip_int_buf_tbl,
-> diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-> index 29bc50785da5..779c71885f51 100644
-> --- a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-> +++ b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-> @@ -254,9 +254,10 @@ static struct tz_cp_config tz_cp_config_sm8550 = {
->   	.cp_nonpixel_size = 0x24800000,
->   };
->   
-> -static const u32 sm8550_vdec_input_config_params[] = {
-> +static const u32 sm8550_vdec_input_config_params_default[] = {
->   	HFI_PROP_BITSTREAM_RESOLUTION,
->   	HFI_PROP_CROP_OFFSETS,
-> +	HFI_PROP_LUMA_CHROMA_BIT_DEPTH,
->   	HFI_PROP_CODED_FRAMES,
->   	HFI_PROP_BUFFER_FW_MIN_OUTPUT_COUNT,
->   	HFI_PROP_PIC_ORDER_CNT_TYPE,
-> @@ -265,6 +266,26 @@ static const u32 sm8550_vdec_input_config_params[] = {
->   	HFI_PROP_SIGNAL_COLOR_INFO,
->   };
->   
-> +static const u32 sm8550_vdec_input_config_param_hevc[] = {
-> +	HFI_PROP_BITSTREAM_RESOLUTION,
-> +	HFI_PROP_CROP_OFFSETS,
-> +	HFI_PROP_LUMA_CHROMA_BIT_DEPTH,
-> +	HFI_PROP_BUFFER_FW_MIN_OUTPUT_COUNT,
-> +	HFI_PROP_PROFILE,
-> +	HFI_PROP_LEVEL,
-> +	HFI_PROP_TIER,
-> +	HFI_PROP_SIGNAL_COLOR_INFO,
-> +};
-> +
-> +static const u32 sm8550_vdec_input_config_param_vp9[] = {
-> +	HFI_PROP_BITSTREAM_RESOLUTION,
-> +	HFI_PROP_CROP_OFFSETS,
-> +	HFI_PROP_LUMA_CHROMA_BIT_DEPTH,
-> +	HFI_PROP_BUFFER_FW_MIN_OUTPUT_COUNT,
-> +	HFI_PROP_PROFILE,
-> +	HFI_PROP_LEVEL,
-> +};
-> +
->   static const u32 sm8550_vdec_output_config_params[] = {
->   	HFI_PROP_COLOR_FORMAT,
->   	HFI_PROP_LINEAR_STRIDE_SCANLINE,
-> @@ -274,11 +295,19 @@ static const u32 sm8550_vdec_subscribe_input_properties[] = {
->   	HFI_PROP_NO_OUTPUT,
->   };
->   
-> -static const u32 sm8550_vdec_subscribe_output_properties[] = {
-> +static const u32 sm8550_vdec_subscribe_output_properties_avc[] = {
->   	HFI_PROP_PICTURE_TYPE,
->   	HFI_PROP_CABAC_SESSION,
->   };
->   
-> +static const u32 sm8550_vdec_subscribe_output_properties_hevc[] = {
-> +	HFI_PROP_PICTURE_TYPE,
-> +};
-> +
-> +static const u32 sm8550_vdec_subscribe_output_properties_vp9[] = {
-> +	HFI_PROP_PICTURE_TYPE,
-> +};
-> +
->   static const u32 sm8550_dec_ip_int_buf_tbl[] = {
->   	BUF_BIN,
->   	BUF_COMV,
-> @@ -322,19 +351,33 @@ struct iris_platform_data sm8550_data = {
->   	.num_vpp_pipe = 4,
->   	.max_session_count = 16,
->   	.max_core_mbpf = ((8192 * 4352) / 256) * 2,
-
-I realise it's not in your changeset but....
-
-mbpf - mega bytes per frame ?
-
-What do these numbers capture and how do we validate them ?
-
-Defines with meaning would be better
-
-((MAX_BYTES_PER_THING * NUMBER_OF_LINES_OF_PIXELS) / SOME_ALIGNMENT ) * 2
-
-or whatever it is those numbers ultimately capture.
-
-> -	.input_config_params =
-> -		sm8550_vdec_input_config_params,
-> -	.input_config_params_size =
-> -		ARRAY_SIZE(sm8550_vdec_input_config_params),
-> +	.input_config_params_default =
-> +		sm8550_vdec_input_config_params_default,
-> +	.input_config_params_default_size =
-> +		ARRAY_SIZE(sm8550_vdec_input_config_params_default),
-> +	.input_config_params_hevc =
-> +		sm8550_vdec_input_config_param_hevc,
-> +	.input_config_params_hevc_size =
-> +		ARRAY_SIZE(sm8550_vdec_input_config_param_hevc),
-> +	.input_config_params_vp9 =
-> +		sm8550_vdec_input_config_param_vp9,
-> +	.input_config_params_vp9_size =
-> +		ARRAY_SIZE(sm8550_vdec_input_config_param_vp9),
->   	.output_config_params =
->   		sm8550_vdec_output_config_params,
->   	.output_config_params_size =
->   		ARRAY_SIZE(sm8550_vdec_output_config_params),
->   	.dec_input_prop = sm8550_vdec_subscribe_input_properties,
->   	.dec_input_prop_size = ARRAY_SIZE(sm8550_vdec_subscribe_input_properties),
-> -	.dec_output_prop = sm8550_vdec_subscribe_output_properties,
-> -	.dec_output_prop_size = ARRAY_SIZE(sm8550_vdec_subscribe_output_properties),
-> -
-> +	.dec_output_prop_avc = sm8550_vdec_subscribe_output_properties_avc,
-> +	.dec_output_prop_avc_size =
-> +		ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_avc),
-> +	.dec_output_prop_hevc = sm8550_vdec_subscribe_output_properties_hevc,
-> +	.dec_output_prop_hevc_size =
-> +		ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_hevc),
-> +	.dec_output_prop_vp9 = sm8550_vdec_subscribe_output_properties_vp9,
-> +	.dec_output_prop_vp9_size =
-> +		ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_vp9),
->   	.dec_ip_int_buf_tbl = sm8550_dec_ip_int_buf_tbl,
->   	.dec_ip_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_ip_int_buf_tbl),
->   	.dec_op_int_buf_tbl = sm8550_dec_op_int_buf_tbl,
+Could you please add some comments to describe the calculations in these 
+complex size/alignment clauses.
 
 ---
 bod
