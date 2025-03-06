@@ -1,284 +1,416 @@
-Return-Path: <linux-media+bounces-27698-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27699-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C312A548D0
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 12:11:05 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 585EEA54A22
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 12:56:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ACF331731F1
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 11:11:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 804E5188B789
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 11:56:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B9992066E1;
-	Thu,  6 Mar 2025 11:10:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC2CD20AF64;
+	Thu,  6 Mar 2025 11:56:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="E9lo1zv3";
-	dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="sjnkADwJ"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="gE5J01Zv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B106199E88;
-	Thu,  6 Mar 2025 11:10:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=60.244.123.138
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741259438; cv=fail; b=NxJZd9C9Q9AI0mfCrwvsbyxaFM2sN1D2VkM3TsfDfCOicB5FhSSWbuVlEmd19dX2pF1tRkYvXucewTpyxpvEQU9T8NtsXQJZtxGsAoRhOe7BY79R4CuUhlNdfpBfcKGkBnoVfv2w8epPwdM+hABrRwO40D9ceUJ0FVMcIrLmtBg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741259438; c=relaxed/simple;
-	bh=Ra4nKsih27IUnZC/n2YOLCp8y2+C3irwAmeoQjBCdOs=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=jyKOaH4IQbGp7yY8iB5suuXazF2KV+Gu06cSHQ8MyP6M/aFNKy9uI6UyQLw3n4f4+DWT5ghgAyIMQZTm1EhoiE9V2MRykSRG0xQVoIOryQEsYCEgPN+uiqjjZSvRyHD4PAIedWBudgrDpG7VL8OynC/pmR7MIsLTEND4mvhAzMA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=E9lo1zv3; dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b=sjnkADwJ; arc=fail smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 9db85a6afa7b11efaae1fd9735fae912-20250306
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=Ra4nKsih27IUnZC/n2YOLCp8y2+C3irwAmeoQjBCdOs=;
-	b=E9lo1zv3BN8OrUNXt+L30gi8icXNsfg5aaly7Yigul8f6fplWHR4n2d8V4zHSJySQl28RKNDUOgGZXuXstMrV/blmWPVsW0rbud+2YPJ4nH6/CTRyzLIsqmjR9ml4xsFhUux3bu/s6Klb5jS2C21+H6UOfWpzslzE7wKfgS0gYk=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.2.1,REQID:683f2ee3-36ab-407a-93c0-f712618a993b,IP:0,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:0
-X-CID-META: VersionHash:0ef645f,CLOUDID:2e40c449-a527-43d8-8af6-bc8b32d9f5e9,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|50,
-	EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
-	A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 9db85a6afa7b11efaae1fd9735fae912-20250306
-Received: from mtkmbs09n2.mediatek.inc [(172.21.101.94)] by mailgw01.mediatek.com
-	(envelope-from <jason-jh.lin@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1344203730; Thu, 06 Mar 2025 19:10:30 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Thu, 6 Mar 2025 19:10:29 +0800
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
- 15.2.1258.28 via Frontend Transport; Thu, 6 Mar 2025 19:10:29 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=emk750g+ZQZWLDewhjGv1oaQpEWUOBQTd8B+JETxXQTvt2nEdTp69/MI7DvxWbe1fP5MCb+kxMBSe/JK4tiqEKShZ8G/iZmw6YsiVSxoCNeWRFPyIypdrbxjw4upUQRhQz/sa7t9hjm1Eg+KeHgQ+sv8h9masWIXP6iSSxhCNEKkB76IS0c29Ye1rZ89snT4UopqVg8PMOSy07cpgWbTtUTM/FhYZ6Ea1cTbh+nsWsidcIyjEEk0TgtAddJXvaBHYTaVwXKRArNhgfjaXVzepKPTAD3TJ2MYMlgC4EvcR39xQpc+RYHKcfJUou6nu7U2yrWIkraILSRPhdW3eX7VjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ra4nKsih27IUnZC/n2YOLCp8y2+C3irwAmeoQjBCdOs=;
- b=iZarg5OJcHKEidA+pL/RiKCzWcKJIgobWgg5WUyqHKLLBNdj+sIVfyPiMohe71yklP9CA36U5rMiWCHzjtXUKmVD1HKPJlolzZ8hUSVzT6P1pJ67pT+rl5gYepgsF+TAhkDgmZRYpd27dOyiiwmdYz3RH/5vd6qwP0W8KT4ykFAVkno3mGdMZm3g1q4WU5uvvfWb0kTT81/jHqHCiqU8ntakXFmUb3KtOYKUVHx9xGmsTtN1Ttv0G+cnxBpBtvLNCAXHvXWsHTCGa+rfBf+acktwdZ/WFhEWHBBGF8e8jLroOEq4E7qRQt5SG2Uw7aWS22Rg5oilLbALfAEHZtvJ6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ra4nKsih27IUnZC/n2YOLCp8y2+C3irwAmeoQjBCdOs=;
- b=sjnkADwJfGF0YulFtEcl8ZOtv97cNr9N7VZ+DyzJN3i63kJCQudsKYGT0w6hBzOkr5G8IFi5NEr4puR08BuFFp4xwTy68I6Xv+K/LWJDfaRPqDA9W9NT/e6fyZYrpSwZv9S/tw1QOr+opfqVEfwx8JVDR40bxNXUV6fAzsT4jtM=
-Received: from SEYPR03MB7682.apcprd03.prod.outlook.com (2603:1096:101:149::11)
- by JH0PR03MB7927.apcprd03.prod.outlook.com (2603:1096:990:34::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.17; Thu, 6 Mar
- 2025 11:10:26 +0000
-Received: from SEYPR03MB7682.apcprd03.prod.outlook.com
- ([fe80::c6cc:cbf7:59cf:62b6]) by SEYPR03MB7682.apcprd03.prod.outlook.com
- ([fe80::c6cc:cbf7:59cf:62b6%3]) with mapi id 15.20.8511.017; Thu, 6 Mar 2025
- 11:10:26 +0000
-From: =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
-To: "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
-	<krzk+dt@kernel.org>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, "conor+dt@kernel.org"
-	<conor+dt@kernel.org>, "mchehab@kernel.org" <mchehab@kernel.org>,
-	"chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
-	"jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>
-CC: =?utf-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	=?utf-8?B?U2lyaXVzIFdhbmcgKOeOi+eak+aYsSk=?= <Sirius.Wang@mediatek.com>,
-	=?utf-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>,
-	=?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
-	=?utf-8?B?WGlhbmRvbmcgV2FuZyAo546L5YWI5YasKQ==?=
-	<Xiandong.Wang@mediatek.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, Project_Global_Chrome_Upstream_Group
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"fshao@chromium.org" <fshao@chromium.org>,
-	=?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>,
-	=?utf-8?B?WGF2aWVyIENoYW5nICjlvLXnjbvmlocp?= <Xavier.Chang@mediatek.com>,
-	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, "treapking@chromium.org"
-	<treapking@chromium.org>
-Subject: Re: [PATCH v4 7/8] drm/mediatek: Add programming flow for unsupported
- subsys ID hardware
-Thread-Topic: [PATCH v4 7/8] drm/mediatek: Add programming flow for
- unsupported subsys ID hardware
-Thread-Index: AQHbgchC1LDQOm8+tk6+Bz9oOtAgy7Nl9hGAgAAXFIA=
-Date: Thu, 6 Mar 2025 11:10:26 +0000
-Message-ID: <5132cd9dd130917d0d08fc8c2e5057e7e5cef040.camel@mediatek.com>
-References: <20250218054405.2017918-1-jason-jh.lin@mediatek.com>
-	 <20250218054405.2017918-8-jason-jh.lin@mediatek.com>
-	 <d1c2dfa8-c7e0-40b2-8b39-c04854e3ee24@collabora.com>
-In-Reply-To: <d1c2dfa8-c7e0-40b2-8b39-c04854e3ee24@collabora.com>
-Accept-Language: zh-TW, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SEYPR03MB7682:EE_|JH0PR03MB7927:EE_
-x-ms-office365-filtering-correlation-id: 135bedd8-10fc-45de-68c6-08dd5c9f7f80
-x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?d0wxRXJFOGVDZjdTdllBSG4zbTNtWmxRTmVKVVFtREpTclJlZlpCVHBHS2dw?=
- =?utf-8?B?bjB5RDAzTEFQUE1UYXV2RlNPZmoxU0F3NXUycktRTmZnQXFNQ0NHWXVGNjBn?=
- =?utf-8?B?dHVjWGZ5UEpqOXNvc1dTdk1mYTRrQ0pSRGpUUUtWVHlDb1J0NDZrTEc4TWly?=
- =?utf-8?B?VFRSSkRpUkgxUTlvN2tUbWQ3Qk10cUhLRHlMTkJMWHFnUWlXTFVxalRlNkxH?=
- =?utf-8?B?MWVKeWNQZ2x3eVNNSlcxMFJNdHVLM0VwQWh6Z1lMNjRmT2FDalRJQ0ZTWDdL?=
- =?utf-8?B?VndaWVR2elhXQ21WTjZSVExyNGpEb1RVVUZpNk9BU2NyRkcwd0hPZXB4QjNS?=
- =?utf-8?B?dWh1b0FncjRNbTV3ZVJieXo0ZVFKUGI4N1NzelVydmhKNkVINys2Nyt0bDVj?=
- =?utf-8?B?SXFQVW1mOUY0TFJHaHFIdkZCckxVS3VMUmNoSEhUWTBIdTlTaU1IWVh0bVJ3?=
- =?utf-8?B?Q0pXcmI5amw2a1F4NGpGNkJVeklCYWtvZUgwV2ZWUWJDZzBiVUdTY0Rsdy8w?=
- =?utf-8?B?dTJuSGNIU0RCeXhKZHBPTmxocTFZZmw3QzVKZHp0Q1hVNXhaOFo0UFVYZDNF?=
- =?utf-8?B?Q2lnd01HTC8vWVdFZW5BRVhQL2lBaVdOZkJGelpFS2RyOXlWV1hzTzdJUFlp?=
- =?utf-8?B?dGxRTTFuNjFMV2xpU1ZiOGltd0JnelZLMk8xUjhVN2R0VDNIMC8xVy9oZnUx?=
- =?utf-8?B?NFhFeUFXUENtd0dTcFV4ZkEzUE9FRnNNNFg0MVBRRkJidnplWStJeVZ4aGYz?=
- =?utf-8?B?SzVLUUlZaVczYTcyQ3pCT0VpTmwvcWRId2hHUG5IaHNUclNkeVgxcnUwQkti?=
- =?utf-8?B?WUZidkh1QlhyK0hTRWs2NmVxcDVHM1pUNitHMjRoTjZxbzU2Y0Y3REpYQUlG?=
- =?utf-8?B?UmdPbk0zMi85SGVjVWx6MXBQZzhxY25iK1A1TlhyUG16b3pjalpPdERiS2lS?=
- =?utf-8?B?OVZOK255VXk3OXdhR1ZOcmw4ZENpM1p5SkVPN3pqVjFZNXlaTUtrdWhaOU1X?=
- =?utf-8?B?eUN2QTliMkozZVRyZzE2NUN6am5DdHpIUzRMNnBPOUhsNUdBUm9lVWVpSmNT?=
- =?utf-8?B?QTE1cTdNY0c5SVJOR0lTckhpTVdaYUJDS3NNSFBSZ0t6aFlpR3FoM0xBV3VD?=
- =?utf-8?B?c0pmc3U0ZVVVK2h4a3NFRVZ5N3hxbWc5NCsyVjlsTlRTdkEzSUVObEp3Yzc4?=
- =?utf-8?B?djlFWjZiSGRoaWpqaDZEd1B2MS80MG5BK2JTTEFzejNQRlJIbEpURXlmRkVY?=
- =?utf-8?B?VW1lcDNXZmF4djZpUDdsWFNtV1hscmhXb3BDemhrV1M3RklmZ1pudEl0ZmRV?=
- =?utf-8?B?d0Fxd2NlbDdPZm52OVRnUXdTeFNJMkVlNDJ2ZlhOL0RGdmpjbzdIcGZHVFBT?=
- =?utf-8?B?TllMZnJRaStoeHZUOGNETTgxMnVPMHduRFZHcHo1ZlVGTVZzcUo2eHBROW4r?=
- =?utf-8?B?T1NvT2hHWVpNUmkxdmI1SzdFcHNFd294WTR1WjZ1NkJVcDQySkpEWDFTbVFr?=
- =?utf-8?B?SGd6c3owWjgyMVJnMkIrRHVMV2hMRjQreXl3U0VtZVVTTmFrbWMrNmNqUzVY?=
- =?utf-8?B?eWtpSFlINEovdzB5MTVqYnI3Zmg3eEQxM1QrNzZmeVpEdCs2SEFGVkQ3VC9j?=
- =?utf-8?B?UUpUaklQTWxDVzR4VUpNMTlWMnBYNlZ5NVdZdGk1SnV6a1RDclFPdCtpa1Jl?=
- =?utf-8?B?c1JHZGo3S0Nzcnp3YVVnVlI5UndTWCtiNG1YNWNTY2twTUpPaGNwUHdNanNy?=
- =?utf-8?B?cE15TDFXZHN5T25nNEEvdGlRSTVNZDZTbEw5aDJUOFU5dXRpVGJoT3lXcURL?=
- =?utf-8?B?SHBlalQyWDFpcDhkUjNIbmZoMjlncVV0RThRS2hIRWlGN1dJVEU0VXUzRUI4?=
- =?utf-8?B?a2lIamxLdlRpd29NSWxmWGtFRCt4NmxiYnA1SjMxQ0JmN0tWNkdWTlFESU1E?=
- =?utf-8?Q?m5PeEYcqdSnVWJsCIilUrkjYpXF1UdnF?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEYPR03MB7682.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WldxUTZDNjRpbFlKZ2pDYk9oRC9rMUMveVZDd3RWSXpWY3o2eU5JVHFpQW5u?=
- =?utf-8?B?U2MrL25Tb0tvTXY5eTV5cS9jalpNMis4QWh1YTdZNG03Vm95SXBZLzlnMVJD?=
- =?utf-8?B?RVlJQ1dCK00wTnZWMDRrMWVvVU1yU01Lc2JEY1VnRHFJa2xCUEh4cmpuZFhG?=
- =?utf-8?B?QnNmR1RNdzkrNTVob2dxeEZqd3QwQzAyM01FQjFqckxodWhSNGhQR1o4eDVu?=
- =?utf-8?B?OHAzSVJIMDdKOWpMWTF4MkFSK0NUazVDYnByZDlNZGRLazh6aE0yNExaZWZw?=
- =?utf-8?B?OHJjVUs5YUJaeEZjZm42aVhWT2x4NkVJNDk0Yy9DSVZTQjdvTy9xWThqUkQ2?=
- =?utf-8?B?Z3U5TWZRUmRRL0JhQ3NZNzJFa25zbWZod05NUndmWVBxb2dqUFhGblZzekZu?=
- =?utf-8?B?Y3hlcmVSRGJWelpZTThxVWllRFdDRFUwMllmNjdPelc3WHEwcDFmRjdUWXpE?=
- =?utf-8?B?dDJLVllqWjEwVS9sK2xtNzBIRkwzTlg2YTNSdnpETUdHYU5hNnVzMFBzVm51?=
- =?utf-8?B?cis3U01IbzMyc09WWDhMV0VITGtkK01jNll5Y3hXNUo3Rm01TXlML2ZYbzNQ?=
- =?utf-8?B?RGdHejJBYTdrcUdMN1BkelRiSThPdnB5TkM3MkhUdXJLaFkyK29IN1U4QjJx?=
- =?utf-8?B?Rk5Vak4xSUJYNDNTNmNtblJxZHVWbFN6QUpTZSsrK1dhVy9aeEVpNzM1STFt?=
- =?utf-8?B?QjFGMUdIUnA4T1JYbkRDMjZNRHcvMEhhRVNvNk5LbUJ1WnNscllQakJ4YWUv?=
- =?utf-8?B?MWdtTmtUaWRrdE43RHpGd05oRmlHcE5KVW51RjVYZC9HZTFTMFhDM0w2Z1pS?=
- =?utf-8?B?NGlvVjN5Y1FuZ2R3VlJCY1liL0lFcENRclQ0WmVOSGhHUUZDL2UwMGhwNWZ6?=
- =?utf-8?B?MWdRb2ZlSHVxZnZ4bmIxWHFOd3hJRmN1a21INkY5NlY2Skg5cHdYc0FxN2dQ?=
- =?utf-8?B?MWtMV05BRVZyQ2ZiMUxpbkFqeUgzcXJRU2ZKeTZKQlBXMGNZUmphdUxUV3dB?=
- =?utf-8?B?L2JIOEhqdCsrdFRQS2hwamtiaUwwV2lORnd5WnFYRGluWHFaT3lOQTF2QWhk?=
- =?utf-8?B?dkM2akloNUdzSENtOHEvd3ZZZUo2eXViNmVCZTVlV3JsazluZ2tOTCtycHFp?=
- =?utf-8?B?WmllSVRXenpkRDVnNTJSRFd2STRGMGtqTFl4b3cvYXEvbUlzdEZ5SnNtUXVa?=
- =?utf-8?B?Y2pFMzYwQkFaS0RzZjBTbGRWZlQxWnY4dDdYYUprYlIzT2lCcHFWKzNueUlJ?=
- =?utf-8?B?TnpvNmF5d0JoaUl3ZDdPV2tYekMyV0t5aFA1dEErelZwa2pzUFp0R2FrSk9D?=
- =?utf-8?B?M0UxQ3VBWitSRk9kWW9rN21Bd1pGY2VlQ3ZxYkxyWTl5M3lhNFZTK3hFZkN3?=
- =?utf-8?B?eTRCQUJpWVFQd2Q3QUJ2d2FaeHB0ZnN6ait4ZTlFbXdmNlk4MTcwbkZVdThJ?=
- =?utf-8?B?cTJBNDJTSERrNUxSVjVvRmpBNjRJSDNFelVlMDh2dUhCVm5lbDVOemhHUlBo?=
- =?utf-8?B?NUZwZURzWnpRanpxaFJ6bFRKcDRJQWtJNUJhMUlvTVlvSGFyd05JNmp0ZkNj?=
- =?utf-8?B?Zy9RS0tkalhnMTZ1Tm1FR0JKQjhWZks0VXBWRUFJQ3VtNGppQWtaNHhEeXlD?=
- =?utf-8?B?VnZSeTNxcVdEZFhiOUxWSUIyWnNHWFJ0RlV1UjhST1hnK2tDTVY0ZHVrZ2RN?=
- =?utf-8?B?YlMwd2pyTjZsK2Fnb05uT1UxOXZaRVZMcFErZ0d1MlBQUjVlSTJoVXdnZkE4?=
- =?utf-8?B?OU4vVHRJYWVYZ2tBUVVQYUJFdTlsR3hHZmpiQytua2NPTldKYlcveGtFMUxu?=
- =?utf-8?B?VWxjSHBvdlZPVy94QWtpR2xodmFYWU1LdGVQU2pVYnc3TDY3eGt4VGdMeXNi?=
- =?utf-8?B?OXlMd3VtNkVrR3dHTkI5Y1lHbzlHRzBhVU04TFZ1SEw3SDZYTmM5L0hDMWVM?=
- =?utf-8?B?SWc5OE1od0ticUl4ZlB4UkdpUGFodGFLSXFnQ0xtZHExQlBVUU9SMkRZWG55?=
- =?utf-8?B?Z1NySWozQzlHWE1mVzM5bWowUWZRbUV0Ly83N0lhOWt4b1JlNnY4d3A0Z1Rm?=
- =?utf-8?B?aFVOTmJYcFpIQXN4N3JUdGxTdXZyajNZWEVsL1ZrdEhodXpJdTVvU0VRbXd1?=
- =?utf-8?B?R2xpMjRBdk84OENKMHJYY2o4VFpoR3pQTjJ4VWZuTURQRUowWmkwOWg0alBE?=
- =?utf-8?B?ekE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <DF52C0C540273A4AB855362691C7F5AC@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36F171EE03B;
+	Thu,  6 Mar 2025 11:56:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741262165; cv=none; b=PfHW+AXnGY2QCXHycTBKK/SwiimU9hASZ4+r0FOc6e3ldqBj0Qlo5uryiDcLwbnF8CuZ1lNBtVXDGpMzDY62YzSdg2b1d2ba4ZyMjDmJxCaQFwx1+E5ejy9MbqJpNB5uxiQu03UjmNXhr2YrZJHWKy8UYC0DScqMHtkbktDkyT0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741262165; c=relaxed/simple;
+	bh=Zs+OtU/6Yt+NhKmsapbVetDQRQuKHldrJPLNh1Dac0M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=qmeDQ8CXOewuWkKUM1UlPQ6yXz5YVmYKrot6/XORA2RAKw9KDFq84z3eqieJxsJKlYkneC2nw1SGGPbSzpfcR2ijxQKM06Fy5ydH0hJZwl/82ufsBbvbTZCGKPUdzM3rYt9G4qaoMh8ww5df/7cDxUofR8cv9PgMeZjGQ6dEhF8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=gE5J01Zv; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5267uSqm028674;
+	Thu, 6 Mar 2025 11:55:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	GV50H3tjN/5akoMmiSdH/PMbSrrrQJbUGwBdQR/C4cc=; b=gE5J01ZvdVnZmQRU
+	xY9nDg0vfqrBtE/l12iIiOhC2RtFefvEnTpIumy2ppDjnl/IrOY3E3111gGO/wgF
+	k5HlAubtQSHZo3QJPcQhTZuVY8b3H58tqutuGufND1yAYpSEE8qmmm3Ux0JQs6Na
+	ZFueixtZcMW/HeJ2FrCtIBb0g0NpLxHLI507vMIwXspuBXY6VJc2OsF103h+770i
+	IoLLiN9Uykov3j9B9CpYgck5xxV8L6OCxTGzNjGBPZM5ZZ9ufkI7nUEf3dEhvErI
+	8J+Lgr3MUfu/y1RF09S8M1HmbsQH3Xxk9RLpV2sEUPUSs/L6Uj05IucPacqX07Ay
+	6p7hxQ==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4577rpgqwy-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 06 Mar 2025 11:55:58 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 526BtvCC013613
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 6 Mar 2025 11:55:57 GMT
+Received: from [10.50.63.230] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 6 Mar 2025
+ 03:55:54 -0800
+Message-ID: <8967ae12-8b0e-7442-7a16-465f71e6f706@quicinc.com>
+Date: Thu, 6 Mar 2025 17:25:51 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SEYPR03MB7682.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 135bedd8-10fc-45de-68c6-08dd5c9f7f80
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Mar 2025 11:10:26.4443
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: /AZ8YDYTrNL+EwcbRngfohP0hOHTKkT3bSNNnpA+3T+AYcMZCx/urp8y1T5B5hHrKKZTCp37zY3UWuWkOHIhsunGVpREk3sCMdqtwF2exnA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: JH0PR03MB7927
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [RFC PATCH 01/12] media: iris: Add HEVC and VP9 formats for
+ decoder
+Content-Language: en-US
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, <quic_vgarodia@quicinc.com>,
+        <quic_abhinavk@quicinc.com>, <mchehab@kernel.org>
+CC: <hverkuil@xs4all.nl>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20250305104335.3629945-1-quic_dikshita@quicinc.com>
+ <20250305104335.3629945-2-quic_dikshita@quicinc.com>
+ <505c9ca6-7c69-4642-b03e-7df23af20484@linaro.org>
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <505c9ca6-7c69-4642-b03e-7df23af20484@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=EYQyQOmC c=1 sm=1 tr=0 ts=67c98d4e cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8 a=LqOWpRZtMr9JUrO45AcA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: S--RBXuxto3VC2PHP7-hgxh7q3RoTCj7
+X-Proofpoint-GUID: S--RBXuxto3VC2PHP7-hgxh7q3RoTCj7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-06_05,2025-03-06_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 clxscore=1015
+ priorityscore=1501 bulkscore=0 spamscore=0 impostorscore=0 suspectscore=0
+ adultscore=0 mlxscore=0 lowpriorityscore=0 malwarescore=0 mlxlogscore=999
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502100000
+ definitions=main-2503060089
 
-T24gVGh1LCAyMDI1LTAzLTA2IGF0IDEwOjQ3ICswMTAwLCBBbmdlbG9HaW9hY2NoaW5vIERlbCBS
-ZWdubyB3cm90ZToKPiAKPiBFeHRlcm5hbCBlbWFpbCA6IFBsZWFzZSBkbyBub3QgY2xpY2sgbGlu
-a3Mgb3Igb3BlbiBhdHRhY2htZW50cyB1bnRpbAo+IHlvdSBoYXZlIHZlcmlmaWVkIHRoZSBzZW5k
-ZXIgb3IgdGhlIGNvbnRlbnQuCj4gCj4gCj4gSWwgMTgvMDIvMjUgMDY6NDEsIEphc29uLUpIIExp
-biBoYSBzY3JpdHRvOgo+ID4gVG8gc3VwcG9ydCBoYXJkd2FyZSB3aXRob3V0IHN1YnN5cyBJRHMg
-b24gbmV3IFNvQ3MsIGFkZCBhCj4gPiBwcm9ncmFtbWluZwo+ID4gZmxvdyB0aGF0IGNoZWNrcyB3
-aGV0aGVyIHRoZSBzdWJzeXMgSUQgaXMgdmFsaWQuIElmIHRoZSBzdWJzeXMgSUQKPiA+IGlzCj4g
-PiBpbnZhbGlkLCB0aGUgZmxvdyB3aWxsIGNhbGwgMiBhbHRlcm5hdGl2ZSBDTURRIEFQSXM6Cj4g
-PiBjbWRxX3BrdF9hc3NpZ24oKSBhbmQgY21kcV9wa3Rfd3JpdGVfc192YWx1ZSgpIHRvIGFjaGll
-dmUgdGhlIHNhbWUKPiA+IGZ1bmN0aW9uYWxpdHkuCj4gPiAKPiA+IFNpZ25lZC1vZmYtYnk6IEph
-c29uLUpIIExpbiA8amFzb24tamgubGluQG1lZGlhdGVrLmNvbT4KPiA+IFJldmlld2VkLWJ5OiBD
-SyBIdSA8Y2suaHVAbWVkaWF0ZWsuY29tPgo+ID4gLS0tCj4gPiDCoCBkcml2ZXJzL2dwdS9kcm0v
-bWVkaWF0ZWsvbXRrX2RkcF9jb21wLmMgfCAzMwo+ID4gKysrKysrKysrKysrKysrKysrKystLS0t
-LQo+ID4gwqAgMSBmaWxlIGNoYW5nZWQsIDI3IGluc2VydGlvbnMoKyksIDYgZGVsZXRpb25zKC0p
-Cj4gPiAKPiA+IGRpZmYgLS1naXQgYS9kcml2ZXJzL2dwdS9kcm0vbWVkaWF0ZWsvbXRrX2RkcF9j
-b21wLmMKPiA+IGIvZHJpdmVycy9ncHUvZHJtL21lZGlhdGVrL210a19kZHBfY29tcC5jCj4gPiBp
-bmRleCBlZGM2NDE3NjM5ZTYuLjIxOWQ2NzczNWE1NCAxMDA2NDQKPiA+IC0tLSBhL2RyaXZlcnMv
-Z3B1L2RybS9tZWRpYXRlay9tdGtfZGRwX2NvbXAuYwo+ID4gKysrIGIvZHJpdmVycy9ncHUvZHJt
-L21lZGlhdGVrL210a19kZHBfY29tcC5jCj4gPiBAQCAtNjYsMTQgKzY2LDM3IEBAIHN0cnVjdCBt
-dGtfZGRwX2NvbXBfZGV2IHsKPiA+IMKgwqDCoMKgwqAgc3RydWN0IGNtZHFfY2xpZW50X3JlZyBj
-bWRxX3JlZzsKPiA+IMKgIH07Cj4gPiAKPiA+ICsjaWYgSVNfUkVBQ0hBQkxFKENPTkZJR19NVEtf
-Q01EUSkKPiA+ICtzdGF0aWMgdm9pZCBtdGtfZGRwX3dyaXRlX2NtZHFfcGt0KHN0cnVjdCBjbWRx
-X3BrdCAqY21kcV9wa3QsCj4gPiBzdHJ1Y3QgY21kcV9jbGllbnRfcmVnICpjbWRxX3JlZywKPiA+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCB1bnNpZ25lZCBpbnQgb2Zmc2V0LCB1bnNpZ25lZCBpbnQKPiA+IHZhbHVlLCB1bnNp
-Z25lZCBpbnQgbWFzaykKPiA+ICt7Cj4gPiArwqDCoMKgwqAgb2Zmc2V0ICs9IGNtZHFfcmVnLT5v
-ZmZzZXQ7Cj4gPiArCj4gPiArwqDCoMKgwqAgaWYgKGNtZHFfcmVnLT5zdWJzeXMgIT0gQ01EUV9T
-VUJTWVNfSU5WQUxJRCkgewo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAobWFzayA9
-PSBHRU5NQVNLKDMxLCAwKSkKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIGNtZHFfcGt0X3dyaXRlKGNtZHFfcGt0LCBjbWRxX3JlZy0+c3Vic3lzLAo+ID4gb2Zm
-c2V0LCB2YWx1ZSk7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGVsc2UKPiA+ICvCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNtZHFfcGt0X3dyaXRlX21hc2so
-Y21kcV9wa3QsIGNtZHFfcmVnLQo+ID4gPnN1YnN5cywgb2Zmc2V0LCB2YWx1ZSwgbWFzayk7Cj4g
-Cj4gU29ycnkgYnV0IHRoaXMgaXMgcG9pbnRsZXNzLCByZWFsbHkuLi4KPiAKPiBGdW5jdGlvbiBj
-bWRxX3BrdF93cml0ZV9tYXNrKCkgaW4gbXRrLWNtZHEtaGVscGVyIGlzIGRvaW5nOgo+IAo+IMKg
-wqDCoMKgwqDCoMKgIGlmIChtYXNrICE9IEdFTk1BU0soMzEsIDApKSB7Cj4gwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIGVyciA9IGNtZHFfcGt0X21hc2socGt0LCBtYXNrKTsKPiDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKGVyciA8IDApCj4gwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1cm4gZXJyOwo+IAo+IMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBvZmZzZXRfbWFzayB8PSBDTURRX1dSSVRFX0VOQUJMRV9N
-QVNLOwo+IMKgwqDCoMKgwqDCoMKgIH0KPiDCoMKgwqDCoMKgwqDCoCByZXR1cm4gY21kcV9wa3Rf
-d3JpdGUocGt0LCBzdWJzeXMsIG9mZnNldF9tYXNrLCB2YWx1ZSk7Cj4gCj4gaGVyZSB5b3UncmUg
-ZG9pbmcgdGhlIGV4YWN0IGludmVyc2UgY2hlY2suCj4gCgpPaCwgSSBkaWRuJ3Qgbm90aWNlIHRo
-YXQgaXQgd2FzIHJlZHVuZGFudC4gVGhhbmtzLgoKPiBBdCB0aGlzIHBvaW50IHlvdSBjYW4ganVz
-dCBkbzoKPiAKPiBzdGF0aWMgaW50IG10a19kZHBfd3JpdGVfY21kcV9wa3Qoc3RydWN0IGNtZHFf
-cGt0ICpjbWRxX3BrdCwgc3RydWN0Cj4gY21kcV9jbGllbnRfcmVnCj4gKmNtZHFfcmVnLAo+IMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCB1MTYgb2Zmc2V0LCB1MzIgdmFsdWUsIHUzMiBtYXNrKQo+IHsKPiDCoMKgwqDCoMKg
-wqDCoCB1MTYgZ2NlX29mZnNldCA9IGNtZHFfcmVnLT5vZmZzZXQgKyBvZmZzZXQ7Cj4gCj4gwqDC
-oMKgwqDCoMKgwqAgaWYgKGNtZHFfcmVnLT5zdWJzeXMgIT0gQ01EUV9TVUJTWVNfSU5WQUxJRCkK
-PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIGNtZHFfcGt0X3dyaXRlX21h
-c2socGt0LCBjbWRxX3JlZy0+c3Vic3lzLAo+IGdjZV9vZmZzZXQsIHZhbHVlLCBtYXNrKTsKPiAK
-PiDCoMKgwqDCoMKgwqDCoCByZXR1cm4gY21kcV9wa3Rfd3JpdGVfbWFza19wYShjbWRxX3BrdCwg
-Y21kcV9yZWctPnBhX2Jhc2UsCj4gZ2NlX29mZnNldCwgdmFsdWUsIG1hc2spOwo+IH0KPiAKCkkn
-bGwgY2hhbmdlIGxpa2UgdGhpcywgVGhhbmtzIQoKUmVnYXJkcywKSmFzb24tSkggTGluCgo+IENo
-ZWVycywKPiBBbmdlbG8K
+
+
+On 3/6/2025 5:47 AM, Bryan O'Donoghue wrote:
+> On 05/03/2025 10:43, Dikshita Agarwal wrote:
+>> Extend the decoder driver's supported formats to include HEVC (H.265)
+>> and VP9. This change updates the format enumeration (VIDIOC_ENUM_FMT)
+>> and allows setting these formats via VIDIOC_S_FMT.
+>>
+>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>> ---
+>>   .../qcom/iris/iris_hfi_gen1_command.c         | 18 ++++-
+>>   .../qcom/iris/iris_hfi_gen1_defines.h         |  2 +
+>>   .../qcom/iris/iris_hfi_gen2_command.c         | 16 ++++-
+>>   .../qcom/iris/iris_hfi_gen2_defines.h         |  3 +
+>>   .../media/platform/qcom/iris/iris_instance.h  |  2 +
+>>   drivers/media/platform/qcom/iris/iris_vdec.c  | 69 +++++++++++++++++--
+>>   drivers/media/platform/qcom/iris/iris_vdec.h  | 11 +++
+>>   drivers/media/platform/qcom/iris/iris_vidc.c  |  3 -
+>>   8 files changed, 113 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+>> b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+>> index 64f887d9a17d..1e774b058ab9 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+>> @@ -26,6 +26,20 @@ static u32 iris_hfi_gen1_buf_type_from_driver(enum
+>> iris_buffer_type buffer_type)
+>>       }
+>>   }
+>>   +static u32 iris_hfi_gen1_v4l2_to_codec_type(u32 pixfmt)
+>> +{
+>> +    switch (pixfmt) {
+>> +    case V4L2_PIX_FMT_H264:
+>> +        return HFI_VIDEO_CODEC_H264;
+>> +    case V4L2_PIX_FMT_HEVC:
+>> +        return HFI_VIDEO_CODEC_HEVC;
+>> +    case V4L2_PIX_FMT_VP9:
+>> +        return HFI_VIDEO_CODEC_VP9;
+>> +    default:
+>> +        return 0;
+>> +    }
+> 
+> Unknown is 0 here - perhaps it should be a define.
+> 
+>> +}
+>> +
+>>   static int iris_hfi_gen1_sys_init(struct iris_core *core)
+>>   {
+>>       struct hfi_sys_init_pkt sys_init_pkt;
+>> @@ -88,16 +102,18 @@ static int iris_hfi_gen1_sys_pc_prep(struct
+>> iris_core *core)
+>>   static int iris_hfi_gen1_session_open(struct iris_inst *inst)
+>>   {
+>>       struct hfi_session_open_pkt packet;
+>> +    u32 codec;
+>>       int ret;
+>>         if (inst->state != IRIS_INST_DEINIT)
+>>           return -EALREADY;
+>>   +    codec = iris_hfi_gen1_v4l2_to_codec_type(inst->codec);
+> 
+> 
+> You can return an error from this function - suggest better error handling is
+> 
+> if (!codec)
+>     return -EINVAL; -ENO
+> 
+> or some other error value that makes more sense to you.
+> 
+This will never happen, as code will not reach to this point for
+unsupported codec. I can just simply remove the default case.
+>> +static u32 iris_hfi_gen2_v4l2_to_codec_type(struct iris_inst *inst)
+>> +{
+>> +    switch (inst->codec) {
+>> +    case V4L2_PIX_FMT_H264:
+>> +        return HFI_CODEC_DECODE_AVC;
+>> +    case V4L2_PIX_FMT_HEVC:
+>> +        return HFI_CODEC_DECODE_HEVC;
+>> +    case V4L2_PIX_FMT_VP9:
+>> +        return HFI_CODEC_DECODE_VP9;
+>> +    default:
+>> +        return 0;
+> 
+>>   static int iris_hfi_gen2_session_set_codec(struct iris_inst *inst)
+>>   {
+>>       struct iris_inst_hfi_gen2 *inst_hfi_gen2 =
+>> to_iris_inst_hfi_gen2(inst);
+>> -    u32 codec = HFI_CODEC_DECODE_AVC;
+>> +    u32 codec = iris_hfi_gen2_v4l2_to_codec_type(inst);
+> 
+> Same comment for gen2
+> 
+>>         iris_hfi_gen2_packet_session_property(inst,
+>>                             HFI_PROP_CODEC,
+>> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
+>> b/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
+>> index 806f8bb7f505..2fcf7914b70f 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
+>> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
+>> @@ -104,6 +104,9 @@ enum hfi_color_format {
+>>   enum hfi_codec_type {
+>>       HFI_CODEC_DECODE_AVC            = 1,
+>>       HFI_CODEC_ENCODE_AVC            = 2,
+>> +    HFI_CODEC_DECODE_HEVC            = 3,
+>> +    HFI_CODEC_ENCODE_HEVC            = 4,
+>> +    HFI_CODEC_DECODE_VP9            = 5,
+>>   };
+>>     enum hfi_picture_type {
+>> diff --git a/drivers/media/platform/qcom/iris/iris_instance.h
+>> b/drivers/media/platform/qcom/iris/iris_instance.h
+>> index caa3c6507006..d8f076936c2b 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_instance.h
+>> +++ b/drivers/media/platform/qcom/iris/iris_instance.h
+>> @@ -42,6 +42,7 @@
+>>    * @sequence_out: a sequence counter for output queue
+>>    * @tss: timestamp metadata
+>>    * @metadata_idx: index for metadata buffer
+>> + * @codec: codec type
+>>    */
+>>     struct iris_inst {
+>> @@ -72,6 +73,7 @@ struct iris_inst {
+>>       u32                sequence_out;
+>>       struct iris_ts_metadata        tss[VIDEO_MAX_FRAME];
+>>       u32                metadata_idx;
+>> +    u32                codec;
+>>   };
+>>     #endif
+>> diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c
+>> b/drivers/media/platform/qcom/iris/iris_vdec.c
+>> index 4143acedfc57..cdcfe71f5b96 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_vdec.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_vdec.c
+>> @@ -32,6 +32,7 @@ int iris_vdec_inst_init(struct iris_inst *inst)
+>>       f->fmt.pix_mp.width = DEFAULT_WIDTH;
+>>       f->fmt.pix_mp.height = DEFAULT_HEIGHT;
+>>       f->fmt.pix_mp.pixelformat = V4L2_PIX_FMT_H264;
+>> +    inst->codec = f->fmt.pix_mp.pixelformat;
+>>       f->fmt.pix_mp.num_planes = 1;
+>>       f->fmt.pix_mp.plane_fmt[0].bytesperline = 0;
+>>       f->fmt.pix_mp.plane_fmt[0].sizeimage = iris_get_buffer_size(inst,
+>> BUF_INPUT);
+>> @@ -67,14 +68,67 @@ void iris_vdec_inst_deinit(struct iris_inst *inst)
+>>       kfree(inst->fmt_src);
+>>   }
+>>   +static const struct iris_fmt iris_vdec_formats[] = {
+>> +    [IRIS_FMT_H264] = {
+>> +        .pixfmt = V4L2_PIX_FMT_H264,
+>> +        .type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+>> +    },
+>> +    [IRIS_FMT_HEVC] = {
+>> +        .pixfmt = V4L2_PIX_FMT_HEVC,
+>> +        .type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+>> +    },
+>> +    [IRIS_FMT_VP9] = {
+>> +        .pixfmt = V4L2_PIX_FMT_VP9,
+>> +        .type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+>> +    },
+>> +};
+>> +
+>> +static const struct iris_fmt *
+>> +find_format(struct iris_inst *inst, u32 pixfmt, u32 type)
+>> +{
+>> +    const struct iris_fmt *fmt = iris_vdec_formats;
+>> +    unsigned int size = ARRAY_SIZE(iris_vdec_formats);
+>> +    unsigned int i;
+> 
+> Slightly neater as a reverse christmas tree.
+> 
+Noted.
+>> +
+>> +    for (i = 0; i < size; i++) {
+>> +        if (fmt[i].pixfmt == pixfmt)
+>> +            break;
+>> +    }
+>> +
+>> +    if (i == size || fmt[i].type != type)
+>> +        return NULL;
+>> +
+>> +    return &fmt[i];
+>> +}
+>> +
+>> +static const struct iris_fmt *
+>> +find_format_by_index(struct iris_inst *inst, u32 index, u32 type)
+>> +{
+>> +    const struct iris_fmt *fmt = iris_vdec_formats;
+>> +    unsigned int size = ARRAY_SIZE(iris_vdec_formats);
+>> +
+>> +    if (index >= size || fmt[index].type != type)
+>> +        return NULL;
+>> +
+>> +    return &fmt[index];
+>> +}
+>> +
+>>   int iris_vdec_enum_fmt(struct iris_inst *inst, struct v4l2_fmtdesc *f)
+>>   {
+>> +    const struct iris_fmt *fmt;
+>> +
+>>       switch (f->type) {
+>>       case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+>> -        f->pixelformat = V4L2_PIX_FMT_H264;
+>> +        fmt = find_format_by_index(inst, f->index, f->type);
+>> +        if (!fmt)
+>> +            return -EINVAL;
+>> +
+>> +        f->pixelformat = fmt->pixfmt;
+>>           f->flags = V4L2_FMT_FLAG_COMPRESSED |
+>> V4L2_FMT_FLAG_DYN_RESOLUTION;
+>>           break;
+>>       case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+>> +        if (f->index)
+>> +            return -EINVAL;
+>>           f->pixelformat = V4L2_PIX_FMT_NV12;
+>>           break;
+>>       default:
+>> @@ -88,13 +142,15 @@ int iris_vdec_try_fmt(struct iris_inst *inst, struct
+>> v4l2_format *f)
+>>   {
+>>       struct v4l2_pix_format_mplane *pixmp = &f->fmt.pix_mp;
+>>       struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
+>> +    const struct iris_fmt *fmt;
+>>       struct v4l2_format *f_inst;
+>>       struct vb2_queue *src_q;
+>>         memset(pixmp->reserved, 0, sizeof(pixmp->reserved));
+>> +    fmt = find_format(inst, pixmp->pixelformat, f->type);
+>>       switch (f->type) {
+>>       case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+>> -        if (f->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_H264) {
+>> +        if (!fmt) {
+>>               f_inst = inst->fmt_src;
+>>               f->fmt.pix_mp.width = f_inst->fmt.pix_mp.width;
+>>               f->fmt.pix_mp.height = f_inst->fmt.pix_mp.height;
+>> @@ -102,7 +158,7 @@ int iris_vdec_try_fmt(struct iris_inst *inst, struct
+>> v4l2_format *f)
+>>           }
+>>           break;
+>>       case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+>> -        if (f->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_NV12) {
+>> +        if (!fmt) {
+>>               f_inst = inst->fmt_dst;
+>>               f->fmt.pix_mp.pixelformat = f_inst->fmt.pix_mp.pixelformat;
+>>               f->fmt.pix_mp.width = f_inst->fmt.pix_mp.width;
+>> @@ -145,13 +201,14 @@ int iris_vdec_s_fmt(struct iris_inst *inst, struct
+>> v4l2_format *f)
+>>         switch (f->type) {
+>>       case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+>> -        if (f->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_H264)
+>> +        if (!(find_format(inst, f->fmt.pix_mp.pixelformat, f->type)))
+>>               return -EINVAL;
+>>             fmt = inst->fmt_src;
+>>           fmt->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+>> -
+>> -        codec_align = DEFAULT_CODEC_ALIGNMENT;
+>> +        fmt->fmt.pix_mp.pixelformat = f->fmt.pix_mp.pixelformat;
+>> +        inst->codec = fmt->fmt.pix_mp.pixelformat;
+>> +        codec_align = inst->codec == V4L2_PIX_FMT_HEVC ? 32 : 16;
+> 
+> For preference I'd choose a default assignment and then an if for whatever
+> you choose as non-default.
+> 
+> codec_align = 16;
+> if (inst->codec == V4L2_PIX_FMT_HEVC)
+>     codec_align = 32;
+> 
+I don't see any issue with using ternary operator here, since it's just a
+simple value selection.
+>>           fmt->fmt.pix_mp.width = ALIGN(f->fmt.pix_mp.width, codec_align);
+>>           fmt->fmt.pix_mp.height = ALIGN(f->fmt.pix_mp.height, codec_align);
+>>           fmt->fmt.pix_mp.num_planes = 1;
+>> diff --git a/drivers/media/platform/qcom/iris/iris_vdec.h
+>> b/drivers/media/platform/qcom/iris/iris_vdec.h
+>> index b24932dc511a..cd7aab66dc7c 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_vdec.h
+>> +++ b/drivers/media/platform/qcom/iris/iris_vdec.h
+>> @@ -8,6 +8,17 @@
+>>     struct iris_inst;
+>>   +enum iris_fmt_type {
+>> +    IRIS_FMT_H264,
+> 
+> I persoanlly like to init enums = 0,
+> 
+we are initializing enum only if it starts with non zero value in the
+driver code currently so would like to follow the same practise, unless
+there is strong concern here.
+> 
+>> +    IRIS_FMT_HEVC,
+>> +    IRIS_FMT_VP9,
+>> +};
+>> +
+>> +struct iris_fmt {
+>> +    u32 pixfmt;
+>> +    u32 type;
+>> +};
+>> +
+>>   int iris_vdec_inst_init(struct iris_inst *inst);
+>>   void iris_vdec_inst_deinit(struct iris_inst *inst);
+>>   int iris_vdec_enum_fmt(struct iris_inst *inst, struct v4l2_fmtdesc *f);
+>> diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c
+>> b/drivers/media/platform/qcom/iris/iris_vidc.c
+>> index ca0f4e310f77..6a6afa15b647 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_vidc.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_vidc.c
+>> @@ -249,9 +249,6 @@ static int iris_enum_fmt(struct file *filp, void *fh,
+>> struct v4l2_fmtdesc *f)
+>>   {
+>>       struct iris_inst *inst = iris_get_inst(filp, NULL);
+>>   -    if (f->index)
+>> -        return -EINVAL;
+>> -
+>>       return iris_vdec_enum_fmt(inst, f);
+>>   }
+>>   
+> 
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+
+Thanks,
+Dikshita
 
