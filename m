@@ -1,55 +1,80 @@
-Return-Path: <linux-media+bounces-27717-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27718-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27737A54B90
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 14:08:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2D74A54B97
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 14:09:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 383017A941B
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 13:07:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D84BC3AA5B7
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 13:09:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A82920C03B;
-	Thu,  6 Mar 2025 13:08:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2C9420C499;
+	Thu,  6 Mar 2025 13:09:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="DhJjecco"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nvXZja6h"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450B920C009;
-	Thu,  6 Mar 2025 13:08:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1562B20CCDC
+	for <linux-media@vger.kernel.org>; Thu,  6 Mar 2025 13:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741266494; cv=none; b=UD90/m3S7yYq9eR9mJso2Ja4o5c7HlMLPx/Wj3ezKunztjNUeLqW4Vxvfgcga5nVwEGmjBUY8MvledVmny8Ns6WpDmUy8Ix6Pa+WIl6ZJ62Nsji8IkuL4+/Vt/ojScvtuUTUznjsoEIffGjLeHNScKhXGSxBWyOdqMUy1K1r53U=
+	t=1741266557; cv=none; b=dc3OcfOhZf8SdUw0b9rxoCmSSpS7FRTdMLsphFMhQhF//f+5wsKCu4Rpb/+UJ57H962vi6wL/mp8hRRuFknOI/+Vc/jKHBjrBlNP6SIN+4jgofCrIxY8M0Y+QQpfkBUCc11B7QGKHsh0S5u9XABLYoJDrSRu4SLMpeXAOwQKBqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741266494; c=relaxed/simple;
-	bh=4VH2tK+QU3YhYZw7s4V3IaHAhAPl5z7BMEjep4f94Hw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cQvntbsWT3UQyxvR9WSFIYpI7vxiyVY/WMq+jNR2E0H7iU0T61wOI1g7b46MEy38nbQts7Y3PkQh8jTPwh614O6DGnzx0Nm+htg/aARTXsm+iP+NolV4QjbbafUMt4cXbrnDukZZRo1JwCKGRzfxpvVabSKL0FJsWulEkl7vcCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=DhJjecco; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1741266489;
-	bh=4VH2tK+QU3YhYZw7s4V3IaHAhAPl5z7BMEjep4f94Hw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DhJjeccorupWWnlH1MUXiZk9Lw59escc4DFZbf19Ksm61faHl/ImsrS+Ir0zq6+FP
-	 c8hOGcpR7U/HnkM3d63ObvE1y7ud8OZPqeIYsa3fWYWCuybM/Nf3bRQlwibtsmY5RP
-	 PEWJ6PmGmwJZFCkx2cAcqwRcyCz06QP5V81+XRw4ek7wirt2M28bmzffJ7HN5hxiWt
-	 /4nqVHaSQ6BohWGTW87I6q1hu8xBZtHv4ijr3qvK8TtvxO5G9QrHlqEtfTZZ1kP7yt
-	 FOTvLCrKJAvhY99RqSukK+TFhqfkCCUHQDCX3AacPFpExrN1K6H0hM6C18YW5jQfvt
-	 LYqIwvdMjczqg==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 2B70E17E0599;
-	Thu,  6 Mar 2025 14:08:08 +0100 (CET)
-Message-ID: <1f9007ed-c978-431d-aab2-c04237d5d117@collabora.com>
-Date: Thu, 6 Mar 2025 14:08:07 +0100
+	s=arc-20240116; t=1741266557; c=relaxed/simple;
+	bh=lQ4bLgx/Xb7dV5WdIP/9LUgzmdDliDNU0QvEXeaChkg=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=KvhjDB1+q2fb/OUlou1ri60x7jJfI+xE2r0qldnr2vG1hEtmoI/2M9RptnjOblxhdvg9SfrGJV3GwUFxWIMppCWXOD3KvlQdD26S7eYsamkJ24+ReF/6h74PZxnnN4PzcXZDqCncyivgWzEIByVcqMF3A0VztKHLXuZSjyoFtfw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nvXZja6h; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43bdcd0d97dso3530085e9.3
+        for <linux-media@vger.kernel.org>; Thu, 06 Mar 2025 05:09:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741266553; x=1741871353; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=wsqoDlyRavkFJSHs98DYEVEa8T5jQBkRC0rqGM3dKVg=;
+        b=nvXZja6h3W058JP0gK9GDknrmVnSS6BRVvi5GGISfoidtWAZCTh4wqYBYp84rvzmvl
+         U4IQphjfY2LvVIv/v/Z06TIWOY+GvUpB5qscFNjCdVPbYDvgEaj0r7MJPExUU0dJni0p
+         yJ8c7GjweUBBXUuBWx9er4Me6J8rji+oWsJ8rqrTWPOuea1pZsxnzhwQKVUdK9QtwQUW
+         pbtTEjmeNqXHGUpNZuRdeQLfaEoSIwaDEAX45itN/f4Tvc5LEqh+TJvT5uKSZTIGaMQT
+         qnXnsKDgzJ1JDjgFMPOx/Kv5LKFzo70SNM8sw2I8NaCBfyMkfB3nGJ8D7w0y3c7vSfM7
+         Z6Yg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741266553; x=1741871353;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wsqoDlyRavkFJSHs98DYEVEa8T5jQBkRC0rqGM3dKVg=;
+        b=MfsOZjWDF6vCZ8cdcF08bLkKBHCPFxAB3Eu17sAyCD+vOqeoU/I5S+N5FseMo8daSq
+         slzVuuvgLr/mkmCi/xxgoxFCG+j02xk3P2rgGtXUzKq8vLXhQFWBvWtgPB4+/Bs0FlrT
+         ODkNq3grCO250wVNinmHH3zLkV+kOsXJxN3lumJ7lFj9ydhTUQKtVDO6GSkOCs1n5Q5w
+         BLkRiyuRqS64UZNhAnWcLks0viGeCb0eltEHph+UlcZdnuBmpn7jgE2OvUlpB/x8gdok
+         D26FtABplhP3a6N3N904tzgfgk79Em1NyR8jD5brdkk6v03s2jv/ojaeIPnKcMXwezLq
+         MHMg==
+X-Gm-Message-State: AOJu0YzxdKjdlb4VbtyjeJu4ZJlS3fAx+fLrb4IK6x2XrkQSBTSfgrLw
+	cVgm586ZNIAMvhLUBYAOaHDM5Uvgmp944+RLPp+Fvrpmu9TSc0ho6EpzjhFZveM=
+X-Gm-Gg: ASbGncvEgxwLUGdIXicszeiUR5Q58uev+wrY8Hd9o48N7Xjl6lXLnbn2vKj6Q75S8Wa
+	88/5J37lCnUyDeoZHMezp1j55wBTXc+yYLluZ2kKjiwoFrKDmnvY+EFhvMV61pIdBBBdTDsV01z
+	cRfZ0FqL+FSbsn9eXkxGzvmu9mCiAuk/vNrc/s3asgOagb4Tm1P+zwhoNzLo7qHdEZnRIT1yfyv
+	izZKlN6kKFRs8eA4+tPLPHtPgYrnQo5aK7Xa4Og/jdf3Et15+mWBFOb+eE1UMyr12um+mVJE2JV
+	YDyoA3WyTDvrwow5lGoJJm1Ri3rf99BD6UZT+HMfgyzzetTrKOhT+OKp
+X-Google-Smtp-Source: AGHT+IFLFXYFESVup+3/A1k5fskkTgTCcGh5Je+8XfcKozlGc0Q7+yDf2TTStBe7ALPfXh4EIIRipQ==
+X-Received: by 2002:a05:600c:5119:b0:43b:c390:b773 with SMTP id 5b1f17b1804b1-43bd29b41f8mr52753005e9.24.1741266553182;
+        Thu, 06 Mar 2025 05:09:13 -0800 (PST)
+Received: from [192.168.1.101] ([37.167.199.63])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3912bfdfb16sm2012881f8f.29.2025.03.06.05.09.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Mar 2025 05:09:12 -0800 (PST)
+Message-ID: <f1baa968-68ff-4118-a353-c6e71e4df629@linaro.org>
+Date: Thu, 6 Mar 2025 14:09:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,484 +82,172 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/8] mailbox: mtk-cmdq: Add driver data to support for
- MT8196
-To: =?UTF-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>,
- "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
- =?UTF-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>
-Cc: "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "robh@kernel.org" <robh@kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- =?UTF-8?B?U2lyaXVzIFdhbmcgKOeOi+eak+aYsSk=?= <Sirius.Wang@mediatek.com>,
- =?UTF-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
- =?UTF-8?B?WGlhbmRvbmcgV2FuZyAo546L5YWI5YasKQ==?=
- <Xiandong.Wang@mediatek.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- Project_Global_Chrome_Upstream_Group
- <Project_Global_Chrome_Upstream_Group@mediatek.com>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "fshao@chromium.org" <fshao@chromium.org>,
- "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
- =?UTF-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
- "mchehab@kernel.org" <mchehab@kernel.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- =?UTF-8?B?WGF2aWVyIENoYW5nICjlvLXnjbvmlocp?= <Xavier.Chang@mediatek.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "treapking@chromium.org" <treapking@chromium.org>
-References: <20250218054405.2017918-1-jason-jh.lin@mediatek.com>
- <20250218054405.2017918-4-jason-jh.lin@mediatek.com>
- <652e435c-563b-496a-a4c3-c2e2b665abcf@collabora.com>
- <5aa04ff5fa567468f32921d4014bbae696c6470f.camel@mediatek.com>
- <9d383fc5-8c64-478c-8aab-6c56bf5b45be@collabora.com>
- <0efe42427be4eb619b6ea7db18687b0211d1ec9f.camel@mediatek.com>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <0efe42427be4eb619b6ea7db18687b0211d1ec9f.camel@mediatek.com>
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH v2 2/7] media: platform: qcom/iris: split
+ iris_vpu_power_off_controller in multiple steps
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250305-topic-sm8x50-iris-v10-v2-0-bd65a3fc099e@linaro.org>
+ <20250305-topic-sm8x50-iris-v10-v2-2-bd65a3fc099e@linaro.org>
+ <24fd8e60-e782-0625-7d90-513cd2a3ea19@quicinc.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <24fd8e60-e782-0625-7d90-513cd2a3ea19@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Il 06/03/25 12:00, Jason-JH Lin (林睿祥) ha scritto:
-> [snip]
->>
->>> CPR_GSIZE is the setting for allocating the CPR SRAM size to each
->>> VM.
->>
->> Would be awesome if you could then clarify the comment that you have
->> later in
->> the code here, from...
->>
->> /* config cpr size for host vm */
->>
->> to
->>
->> /* Set the amount of CPR SRAM to allocate to each VM */
->>
->> ...that could be a way of more properly describing what the writel
->> there is doing.
->>
+On 06/03/2025 14:06, Dikshita Agarwal wrote:
 > 
-> OK, I'll change it.
 > 
->>>
->>>> The GCE stuff isn't even properly described in datasheets - I do
->>>> (probably!)
->>>> understand what those are for, but asking people to get years of
->>>> experience on
->>>> MediaTek to understand what's going on would be a bit rude,
->>>> wouldn't
->>>> it? :-D
->>>>
->>>
->>> I agree with you :-)
->>> I'll put them in the VM patch and add some brief description for
->>> them.
->>>
+> On 3/6/2025 12:35 AM, Neil Armstrong wrote:
+>> In order to support vpu33, the iris_vpu_power_off_controller needs to be
+>> reused and extended, but the AON_WRAPPER_MVP_NOC_LPI_CONTROL cannot be
+>> set from the power_off_controller sequence like vpu2 and vpu3 so
+>> split the power_off_controller into 3 steps:
+>> - iris_vpu_power_off_controller_begin
+>> - iris_vpu_power_off_controller_end
+>> - iris_vpu_power_off_controller_disable
 >>
->> Thanks, much appreciated!
->>
->>>>> +
->>>>>     #define CMDQ_THR_ACTIVE_SLOT_CYCLES 0x3200
->>>>>     #define CMDQ_THR_ENABLED            0x1
->>>>>     #define CMDQ_THR_DISABLED           0x0
->>>>> @@ -87,11 +98,24 @@ struct cmdq {
->>>>>     struct gce_plat {
->>>>>         u32 thread_nr;
->>>>>         u8 shift;
->>>>> +     dma_addr_t mminfra_offset;
->>>>
->>>> It looks like this is exactly the DRAM's iostart... at least, I
->>>> can
->>>> see that in the
->>>> downstream devicetree that's where it starts.
->>>>
->>>>           memory: memory@80000000 {
->>>>                   device_type = "memory";
->>>>                   reg = <0 0x80000000 0 0x40000000>;
->>>>           };
->>>>
->>>> It doesn't really look like being a coincidence, but, for the
->>>> sake of
->>>> asking:
->>>> is this just a coincidence? :-)
->>>>
->>>
->>> As the confirmation with the hardware designer in previous reply
->>> mail
->>> for CK:
->>> https://patchwork.kernel.org/project/linux-mediatek/patch/20250218054405.2017918-4-jason-jh.lin@mediatek.com/*26258463
->>>
->>
->> That explanation was simply wonderful.
->>
->>> Since the MMINFRA remap subtracting 2G is done in the hardware
->>> circuit
->>> and cannot be configured by software, the address +2G adjustment is
->>> necessary to implement in the CMDQ driver.
->>>
->>> So that might not be a coincidence.
->>> But even if DRAM start address changes, this mminfra_offset is
->>> still
->>> subtracting 2G, so I think it is a better choice to define it as
->>> the
->>> driver data for MT8196.
->>>
->>
->> ....so, this makes me think the following:
->>
->> 1. The DRAM start address cannot *ever* be less than 2G, because
->> otherwise the
->>      MMINFRA HW would have a hole in the usable address range;
->>      1a. If the start address changes to less than 2G, then also the
->> IOMMU would
->>          get limitations, not only the mminfra..!
->>      2b. This makes it very very very unlikely for the start address
->> to be changed
->>          to less than 0x80000000
->>
->> 2. If the DRAM start address changes to be ABOVE 2G (so more than
->> 0x80000000),
->>      there would be no point for MMINFRA to start a "config path"
->> write (or read)
->>      in the SMMU DRAM block, would it? ;-)
->>
-> 
-> GCE is using IOMMU in MT8196, so all the address put into the GCE
-> instruction or GCE register for GCE access should be IOVA.
-> 
-> The DRAM start address is 2G(PA=0x80000000, IOVA=0x0) currently, so
-> when GCE want to access the IOVA=0x0, it will need to +2G into the
-> instruction, then the MMINFRA will see it as data path(IOVA > 2G) and
-> subtract 2G for that IOVA, so GCE can finally access the IOVA=0x0.
-> 
-> I'm not sure if I've misunderstood what you mean by ABOVE 2G. :-)
-> If DRAM start address is changed to 3G(PA=0xc0000000) the IOVA is still
-> 0x0, so GCE still need to + 2G to make MMINFRA go to the data path.
-> 
-> But if you mean PA=0x80000000 and IOVA start address is 3G(0xc0000000),
-> then MMINFRA will go to the data path without GCE +2G.
-> However, MMINFRA will -2G when going to the data path and that will
-> cause GCE access the wrong IOVA.
-> So GCE still need to +2G no matter IOVA start address is already can
-> make MMINFRA go to the data path(IOVA > 2G).
-> 
-> We have already complained to our hardware designer that MMINFRA -2G
-> con not be changed, which will make software operation very
-> troublesome.
-> So in the next few generations of SoC will change this MMINFRA -2G to
-> software configurable. Then we can just make IOVA start address to 2G
-> without adding the mminfra_offset to the IOVA for GCE.
-> 
+> NAK.
+> I don't think splitting the API into these small functions is beneficial in
+> this case, The extracted parts are too trivial to justify separate
+> functions, and this actually makes the flow harder to follow rather than
+> improving re-usability or clarity.
+> If there is no clear or significant re-use case, I'd prefer keeping the
+> logic consolidated in single API to maintain readability.
 
-Okay now I got it, the reality is way worse than I was thinking... eww... :-(
+Right I agree, I tried to do my best and reuse code, and this is the result.
 
->> I get it - if the DRAM moves up, MMINFRA is still at 2G because
->> that's hard baked
->> into the hardware, but I foresee that it'll be unlikely to see a
->> platform changing
->> the DRAM start address arbitrarily, getting out-of-sync with MMINFRA.
->>
->> I propose to just get the address from the memory node for now, and
->> to add a nice
->> comment in the code that explains that "In at least MT8196, the
->> MMINFRA hardware
->> subtracts xyz etc etc" (and that explanation from the previous email
->> is again
->> wonderful and shall not be lost: either use that in the comment, or
->> add it to
->> the commit description, because it's really that good).
->>
->> Should a new SoC appear in the future requiring an offset from the
->> DRAM start
->> address, we will think about how to make that work in the best
->> possible way: in
->> that case we could either reference something else to get the right
->> address or
->> we can just change this driver to just use the 2G offset statically
->> for all.
->>
->> What I'm trying to do here is to reduce the amount of changes that
->> we'd need for
->> adding new SoCs: since that 2G MMINFRA offset -> 2G DRAM start is not
->> a coincidence
->> I think that, should the DRAM start vary on new SoCs, the MMINFRA
->> offset will
->> follow the trend and vary with it.
->>
->> So what I think is:
->> 1. If I'm right, adding a new SoC (with different MMINFRA + DRAM
->> offset) will be
->>      as easy as adding a compatible string in the bindings, no effort
->> in changing
->>      this driver with new pdata offsets;
->> 2. If I'm wrong, adding a new SoC means adding compat string and
->> adding pdata and
->>      one variable in the cmdq struct.
->>
->> Where N.2 is what we would do anyway if we don't go with my proposed
->> solution...
->>
->> All this is just to give you my considerations about this topic -
->> you're left
->> completely free to disagree with me.
->> If you disagree, I will trust your judgement, no problem here.
->>
+So what would be the next step ? I can:
+- move iris_vpu_power_off_controller into vpu2, and add it into the vpu3 ops
+- re-implement it for vpu33 as v1
+
+Neil
+
 > 
-> Yes, I think your are right. No matter the IOVA start address changing,
-> MMINFRA will still -2G(the start address of DRAM PA).
-> Do you mean we can get the mminfra_offset from the start address of
-> memory in DTS, rather than defining it in pdata?
-> 
-
-After the last explanation... no, it would be wrong to get the start from
-memory in DTS, because then this will still need hacks.
-I was somehow convinced that the DRAM start address and the MMINFRA offset
-were directly related and that it would've been hard to change the DRAM
-start address with the MMINFRA offset being -2G, but it's not, so doing it
-my way will eventually backfire on us.
-
-So my way is not good, as it's not showing the reality of things.
-
-Just go with your current way, as it's really tied to the hardware and it's
-not restricted to that dram start coincidence in the end. That's a pity.
-
-Just instead of writing 0x80000000, use " SZ_2G " instead... and please
-add a comment in the code that explains in brief that there's this strange
-behavior for which we.. need that, and that's a static subtraction, and is
-tied to the MMINFRA hardware, and cannot be changed :-(
-
-btw, being clear..
-
-#include <linux/sizes.h>
-
-.mminfra_offset = SZ_2G,
-
-..that way you don't even need a comment saying /* 2GB */ ....
-
-Cheers!
-
->>>>>         bool control_by_sw;
->>>>>         bool sw_ddr_en;
->>>>> +     bool gce_vm;
->>>>> +     u32 dma_mask_bit;
->>>>>         u32 gce_num;
->>>>>     };
->>>>>
->>>>> +static inline u32 cmdq_reg_shift_addr(dma_addr_t addr, const
->>>>> struct gce_plat *pdata)
->>>>> +{
->>>>> +     return ((addr + pdata->mminfra_offset) >> pdata->shift);
->>>>> +}
->>>>> +
->>>>> +static inline u32 cmdq_reg_revert_addr(dma_addr_t addr, const
->>>>> struct gce_plat *pdata)
->>>>> +{
->>>>> +     return ((addr << pdata->shift) - pdata->mminfra_offset);
->>>>> +}
->>>>
->>>> I'm not sure that you really need those two functions... probably
->>>> it's simply
->>>> cleaner and easier to just write that single line every time...
->>>> and
->>>> I'm
->>>> saying that especially for how you're using those functions, with
->>>> some readl()
->>>> passed directly as param, decreasing human readability by "a
->>>> whole
->>>> lot" :-)
->>>>
->>>
->>> The reason why I use API wrapper instead of writing it directly in
->>> readl() is to avoid missing the shift or mminfra_offset conversion
->>> in
->>> some places.
->>> This problem is not easy to debug, and I have encountered it at
->>> least
->>> twice...
->>>
->>> I think the advantage of using function is that it can be uniformly
->>> modified to all places that need to handle DRAM address conversion.
->>> What do you think? :-)
->>>
+> Thanks,
+> Dikshita
+>> And use them in a common iris_vpu_power_off_controller() for
+>> vpu2 and vpu3 based platforms.
 >>
->> Eh, if you put it like that... it makes sense, so.. yeah, okay :-)
+>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> ---
+>>   drivers/media/platform/qcom/iris/iris_vpu_common.c | 46 ++++++++++++++++------
+>>   1 file changed, 33 insertions(+), 13 deletions(-)
 >>
->> Still, please cleanup those instances of
+>> diff --git a/drivers/media/platform/qcom/iris/iris_vpu_common.c b/drivers/media/platform/qcom/iris/iris_vpu_common.c
+>> index fe9896d66848cdcd8c67bd45bbf3b6ce4a01ab10..d6ce92f3c7544e44dccca26bf6a4c95a720f9229 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_vpu_common.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_vpu_common.c
+>> @@ -211,33 +211,29 @@ int iris_vpu_prepare_pc(struct iris_core *core)
+>>   	return -EAGAIN;
+>>   }
+>>   
+>> -static int iris_vpu_power_off_controller(struct iris_core *core)
+>> +static void iris_vpu_power_off_controller_begin(struct iris_core *core)
+>>   {
+>> -	u32 val = 0;
+>> -	int ret;
+>> -
+>>   	writel(MSK_SIGNAL_FROM_TENSILICA | MSK_CORE_POWER_ON, core->reg_base + CPU_CS_X2RPMH);
+>> +}
+>>   
+>> -	writel(REQ_POWER_DOWN_PREP, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
+>> -
+>> -	ret = readl_poll_timeout(core->reg_base + AON_WRAPPER_MVP_NOC_LPI_STATUS,
+>> -				 val, val & BIT(0), 200, 2000);
+>> -	if (ret)
+>> -		goto disable_power;
+>> +static int iris_vpu_power_off_controller_end(struct iris_core *core)
+>> +{
+>> +	u32 val = 0;
+>> +	int ret;
+>>   
+>>   	writel(REQ_POWER_DOWN_PREP, core->reg_base + WRAPPER_IRIS_CPU_NOC_LPI_CONTROL);
+>>   
+>>   	ret = readl_poll_timeout(core->reg_base + WRAPPER_IRIS_CPU_NOC_LPI_STATUS,
+>>   				 val, val & BIT(0), 200, 2000);
+>>   	if (ret)
+>> -		goto disable_power;
+>> +		return ret;
+>>   
+>>   	writel(0x0, core->reg_base + WRAPPER_DEBUG_BRIDGE_LPI_CONTROL);
+>>   
+>>   	ret = readl_poll_timeout(core->reg_base + WRAPPER_DEBUG_BRIDGE_LPI_STATUS,
+>>   				 val, val == 0, 200, 2000);
+>>   	if (ret)
+>> -		goto disable_power;
+>> +		return ret;
+>>   
+>>   	writel(CTL_AXI_CLK_HALT | CTL_CLK_HALT,
+>>   	       core->reg_base + WRAPPER_TZ_CTL_AXI_CLOCK_CONFIG);
+>> @@ -245,10 +241,34 @@ static int iris_vpu_power_off_controller(struct iris_core *core)
+>>   	writel(0x0, core->reg_base + WRAPPER_TZ_QNS4PDXFIFO_RESET);
+>>   	writel(0x0, core->reg_base + WRAPPER_TZ_CTL_AXI_CLOCK_CONFIG);
+>>   
+>> -disable_power:
+>> +	return 0;
+>> +}
+>> +
+>> +static void iris_vpu_power_off_controller_disable(struct iris_core *core)
+>> +{
+>>   	iris_disable_unprepare_clock(core, IRIS_CTRL_CLK);
+>>   	iris_disable_unprepare_clock(core, IRIS_AXI_CLK);
+>>   	iris_disable_power_domains(core, core->pmdomain_tbl->pd_devs[IRIS_CTRL_POWER_DOMAIN]);
+>> +}
+>> +
+>> +static int iris_vpu_power_off_controller(struct iris_core *core)
+>> +{
+>> +	u32 val = 0;
+>> +	int ret;
+>> +
+>> +	iris_vpu_power_off_controller_begin(core);
+>> +
+>> +	writel(REQ_POWER_DOWN_PREP, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
+>> +
+>> +	ret = readl_poll_timeout(core->reg_base + AON_WRAPPER_MVP_NOC_LPI_STATUS,
+>> +				 val, val & BIT(0), 200, 2000);
+>> +	if (ret)
+>> +		goto disable_power;
+>> +
+>> +	iris_vpu_power_off_controller_end(core);
+>> +
+>> +disable_power:
+>> +	iris_vpu_power_off_controller_disable(core);
+>>   
+>>   	return 0;
+>>   }
 >>
->> `cmdq_reg_revert_addr(readl(something), pdata)`
->>
->> those might be hard to read, so please just do something like:
->>
->> regval = readl(something);
->> curr_pa = cmdq_revert_addr(regval, pdata);
->>
->> ...reword to your own liking, of course.
->>
-> 
-> OK, I'll refine that. Thanks.
-> 
->>>>> +
->>>>>     static void cmdq_sw_ddr_enable(struct cmdq *cmdq, bool
->>>>> enable)
->>>>>     {
->>>>>         WARN_ON(clk_bulk_enable(cmdq->pdata->gce_num, cmdq-
->>>>>> clocks));
->>>>> @@ -112,6 +136,30 @@ u8 cmdq_get_shift_pa(struct mbox_chan
->>>>> *chan)
->>>>>     }
->>>>>     EXPORT_SYMBOL(cmdq_get_shift_pa);
->>>>>
->>>>> +dma_addr_t cmdq_get_offset_pa(struct mbox_chan *chan)
->>>>> +{
->>>>> +     struct cmdq *cmdq = container_of(chan->mbox, struct cmdq,
->>>>> mbox);
->>>>> +
->>>>> +     return cmdq->pdata->mminfra_offset;
->>>>> +}
->>>>> +EXPORT_SYMBOL(cmdq_get_offset_pa);
->>>>
->>>> I think I remember this get_offset_pa from the old times, then CK
->>>> removed it (and I
->>>> was really happy about that disappearing), or am I confusing this
->>>> with something
->>>> else?
->>>>
->>>> (of course, this wasn't used for mminfra, but for something
->>>> else!)
->>>>
->>>
->>> I can't find any remove history in mtk-cmdq-mailbox.c.
->>>
->>> Maybe you mean the patch in this series?
->>> https://lore.kernel.org/all/171213938049.123698.15573779837703602591.b4-ty@collabora.com/
->>>
->>
->> Uhm, I think I may have confused something here, but yes I was
->> remembering the
->> patch series that you pointed out, definitely.
->>
->> At the end, that series is doing something else, so nevermind, was
->> just confusion.
->>
-> 
-> OK, no problem.
-> 
->>>>> +
->>>>> +bool cmdq_addr_need_offset(struct mbox_chan *chan, dma_addr_t
->>>>> addr)
->>>>> +{
->>>>> +     struct cmdq *cmdq = container_of(chan->mbox, struct cmdq,
->>>>> mbox);
->>>>> +
->>>>> +     if (cmdq->pdata->mminfra_offset == 0)
->>>>> +             return false;
->>>>> +
->>>>> +     /*
->>>>> +      * mminfra will recognize the addr that greater than the
->>>>> mminfra_offset
->>>>> +      * as a transaction to DRAM.
->>>>> +      * So the caller needs to append mminfra_offset for the
->>>>> true
->>>>> case.
->>>>> +      */
->>>>> +     return (addr >= cmdq->pdata->mminfra_offset);
->>>>
->>>>
->>>> /**
->>>>     * cmdq_is_mminfra_gce() - Brief description
->>>>     * @args.....
->>>>     *
->>>>     * The MMINFRA GCE will recognize an address greater than DRAM
->>>> iostart as a
->>>>     * DRAM transaction instead of ....xyz
->>>>     *
->>>>     * In order for callers to perform (xyz) transactions through
->>>> the
->>>> CMDQ, those
->>>>     * need to know if they are using a GCE located in MMINFRA.
->>>>     */
->>>> bool cmdq_is_mminfra_gce(...)
->>>> {
->>>>           return cmdq->pdata->mminfra_offset &&
->>>>                  (addr >= cmdq->pdata->mminfra_offset)
->>>>
->>>>> +}
->>>>> +EXPORT_SYMBOL(cmdq_addr_need_offset);
->>>>> +
->>>>
->>>
->>> OK, I'll modify the API like this.
->>>
->>>> ...but then, is there really no way of just handling the GCE
->>>> being in
->>>> MMINFRA
->>>> transparently from the callers? Do the callers really *need* to
->>>> know
->>>> that they're
->>>> using a new GCE?!
->>>>
->>>
->>> Since the address subtracting is done in MMINFRA hardware, I think
->>> GCE
->>> users really need to handle it in driver.
->>>
->>
->> Since the users of this infrastructure are multimedia related
->> (disp/MDP3),
->> I'd also like to get an opinion from MediaTek engineers familiar with
->> that.
->>
->> CK, Moudy, any opinion on that, please?
->>
->>>> Another way of saying: can't we just handle the address
->>>> translation
->>>> in here instead
->>>> of instructing each and every driver about how to communicate
->>>> with
->>>> the new GCE?!
->>>>
->>>
->>> The DRAM address may not only be the command buffer to GCE, but
->>> also
->>> the working buffer provided by CMDQ users and being a part of GCE
->>> instruction, so we need to handle the address translation in CMDQ
->>> helper driver for the instruction generation.
->>> E.g. ISP drivers may use GCE to write a hardware settings to a DRAM
->>> as
->>> backup buffer. The GCE write instruction will be:
->>> WRITE the value of ISP register to DRAM address + mminfra_offset.
->>>
->>> But most of the CMDQ users only need to use GCE to write hardware
->>> register, so I only keep the translation in cmdq_pkt_mem_move(),
->>> cmdq_pkt_poll_addr() and cmdq_pkt_jump_abs() at the latest series.
->>
->> Yeah you're choosing the best of both worlds in that case, I do
->> agree, but
->> still - if there's a way to avoid drivers to have different handling
->> for
->> mminfra vs no-mminfra, that'd still be preferred.
->>
->> Having the handling for something *centralized* somewhere, instead of
->> it
->> being sparse here and there, would make maintenance way easier...
->>
->> ...and that's why I'm asking for CK and Moudy's opinion, nothing else
->> :-)
->>
-> 
-> Yes, I totally agree with you. Thanks for the asking!
-> 
-> Regards,
-> Jason-JH.Lin
-> 
->> Cheers!
->> Angelo
->>
-> 
-
-
 
 
