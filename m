@@ -1,58 +1,76 @@
-Return-Path: <linux-media+bounces-27733-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27734-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42618A54FBC
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 16:55:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5749A54FFA
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 17:01:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6DAEC162751
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 15:55:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 09F6C16F1D9
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 16:01:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36F6A21147B;
-	Thu,  6 Mar 2025 15:55:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13DAC19ABBB;
+	Thu,  6 Mar 2025 16:01:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="IFT+T9RM"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="h5Ji2W+h"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F043321019C;
-	Thu,  6 Mar 2025 15:55:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741276536; cv=pass; b=NIV3Xa2wyVXcJrU1ysFIJhBEFZr5fXqddgCcMJruas6Tqi3zQSUcwpyqOCnOcO8mSENSRPitatsgDpnFjGMlY7ApGKmXDHETsWdyeAREAXJJSMormZvpBUA4/zlYfi24frQg7XYEvJBLct750uhJnuJ7etzBiNj3zwm7ubZHb28=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741276536; c=relaxed/simple;
-	bh=S7UdvqQ+NuldeVect8SwxPaxgZ9/tghmkzdLEa0GTFY=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6A0D31A89
+	for <linux-media@vger.kernel.org>; Thu,  6 Mar 2025 16:01:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741276902; cv=none; b=QWpxlgq2JIs50m0W42jOdMBz7xo/y4v1xAg9NgiifYCNV4V7aLNdFleEGcJFlVjFoOF0WEw0FBAghLEl2TrRaDG3MlWfFkctjRiYo6rkEhRsJUYmfrLz0D5lqTfnG0+t+ieqDdHoITK58nOHQ7RTfyD4IqwRMGEMhxzrQtw15CA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741276902; c=relaxed/simple;
+	bh=E8ASYo3UrMPC3hDewAZmOcmnA1im+L9mOOJf1TCKZ2k=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SH233vqk9UYsTE+DwR7Qycf3TEmNsLQ45hNnZRbCL86SaERqtphoa0zPMOCAe9vu46va1Sxg2jRc+uS+1hZ2jY4nawjSxkNFM+zvUainz74B9L8/x1Fwe3r6BhYJifL+0pJ0dX7y2bh/6/bmvdxRxIbKPx9qEcDDKgBYXJVlRZk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=IFT+T9RM; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1741276436; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=UzUgJMyXzSDXVYt2rs1iZca/mHvJEFZnEALrzOL6YY0LSaZqATV+TpzjPG/OCAjtOwUu0XAUwbtxIs7KVYi9/gWLFzAdGWw31J3eDxoQrkWTS1a+MhM0VATiv+Q0rvTHKwx+a9dZYfmTZJQLA7PzRH4mDzqFoFaZzPbLm2AtiuA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1741276436; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=9RLMymZvzrB2rucmHDCFIoCm3hDd8BfOl7cSA/Mw3JA=; 
-	b=fRYWhOkLgqZuM38ZHBcI2YsQbR+90T/v1F4QXy9QdTYmyxpXbxcOhQBVal8D0NwnqPRzmGt5fhyIXoQIAuLBsXDtfDUyw+1X0QEeGesZr8usohSMjB7GWurRv0wi9gZ7G10EP4zq3L1kQIwn37X+AbDnK+ydFtFpp12vq/LED0U=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
-	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741276435;
-	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=9RLMymZvzrB2rucmHDCFIoCm3hDd8BfOl7cSA/Mw3JA=;
-	b=IFT+T9RMj0Zx3DB3tASzcDIV7qS2QbE6EzXiKgP8gaalo8lEaKMtrpI7czRuewbe
-	AbAaGtB/X4D7K1xuRWQVGpwEtZtKGKTEwj9HlO0uYNEeZTjqVYoBVYc+bw047oKzVdD
-	i9IAEYPP8yQLU4L/5ssTzF9yeSavOGQb+fRrhFsY=
-Received: by mx.zohomail.com with SMTPS id 1741276434441715.0460931361157;
-	Thu, 6 Mar 2025 07:53:54 -0800 (PST)
-Message-ID: <f5f3dd36-0f90-47dd-bc12-1e2f0207fe7d@collabora.com>
-Date: Thu, 6 Mar 2025 18:53:48 +0300
+	 In-Reply-To:Content-Type; b=pZMhWwN235dt24+DD1qVo26WIFk8j7rwW4PZgrx+xw9LdwkVPc4QHkpNtLavjVIrEJU+bPhS0rT5i0EziGLCK7ytbx0k9TFSpxZHi0YblcbTxyifi93IJZJYiaXcGkxQ3i6GLCYinn7n6RZsbQMMcGck/VV+jPAbcnadrtm2Fb8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=h5Ji2W+h; arc=none smtp.client-ip=209.85.166.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-3cfe17f75dfso6578355ab.2
+        for <linux-media@vger.kernel.org>; Thu, 06 Mar 2025 08:01:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1741276900; x=1741881700; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ZVnnzRabgTQCEUIYr+F/94B5+FAwfZoxZsQ8xoGHCek=;
+        b=h5Ji2W+hiTaUSbj4Gs2KjMb/Q9pE+8MAb4zF6ypplJuHTux906qAx2tEwIvD0KFvDi
+         qoiFGqEUGO1/+k8QyuaTaCTulniW00KJq5cN+lAQFG2Jjgj+8y/eBTvC0bHPnMkDrIVN
+         rxtQQSQLIvdSRuyBYB0X0SvP/pLjQ5erv2t20=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741276900; x=1741881700;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZVnnzRabgTQCEUIYr+F/94B5+FAwfZoxZsQ8xoGHCek=;
+        b=LNF8hxYceBnMCqVp5DEiq7GCXq78sW4SweokrHIAXP9dzzBmUHEhpZjsd1/VBi6O/O
+         nSBD29MWsiB5iSCdumOFZ8K0xYZIOW1kxrWox9NhBsJcY8Jy043rTr+vsSEb9hgSxQD5
+         y63dh4btQNX4nYC8vyoxrZ/JCLlv7jtNl9FhmI4T0CZGI5rrcaKZM3dWWWSm1Jy2Orl1
+         TugQNqPVJiLDBHMGWMFdJDdsnKtAwO2poCqGwZG/Tb9kW6LkuHLBJTTatq5+Xmpsyon7
+         p25Qn27yoFY49Gk1SWDmY49M7gA17sYJWfhF/DeDZOSuY5aTpMhNZktcEZxbU6RMEQiG
+         +/ZA==
+X-Forwarded-Encrypted: i=1; AJvYcCUud/b6YZu4HoKZxOU+fU+ej/wrGqh8z+5vCs+FxGvUChaVof27HnQq8ilwGY3mtD2J58KU6AVrcn+UYg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzaCIVFeeE2zqzAZDbhbIOGNeKGCO9pL2iGimVGvIWKBucBW5rP
+	HlbA8bqRQrSxsSYKpX4uqbMH6OXYhhoAtCDsdF9pyWiXRIOJdzZLbHxGJipT1mc=
+X-Gm-Gg: ASbGnctuuuqCJAz2fFJDNPoPaQaewZeGWjmHiPaIzQHZCQEInFm2wXMRkK3rNSYFt80
+	Lqt2Y1F0gYXLuyX+rRKM6hPNOJ/WnChV8spYeQIDqRYhByCq7Ey5FANrP66cZxLzZf7HfXJRe5u
+	c+Hw5HGnD5o+PtrWBe2EpQFCs5PChf3lDa+U1bZ2xtRhfsoXuuqQ55G8QnHMpOeaVWRlol6NTaI
+	MEdJV0itiipMHNdsxhR54SjpccOZaL/XE94CyQ87NPS5UwvLFOTzXq+YyOZjfdExuytrp113tX8
+	6fV3wQcUd1Uk11n96V9jXAXhy+P+vTb54G2DJZGSvjkHJtdoegYvXPk=
+X-Google-Smtp-Source: AGHT+IFqVDoMxQ+ybV14JJzOP/UeroC4pF5340mvSNaJjPqDwHb3xmlejwbzaVxMkbTTC6Lh4W+Qrg==
+X-Received: by 2002:a92:3603:0:b0:3d4:3aba:954a with SMTP id e9e14a558f8ab-3d43aba962emr23771405ab.15.1741276899710;
+        Thu, 06 Mar 2025 08:01:39 -0800 (PST)
+Received: from [192.168.1.14] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3d43b510102sm3335975ab.37.2025.03.06.08.01.38
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Mar 2025 08:01:39 -0800 (PST)
+Message-ID: <287521e2-afaf-4ed9-bcd6-bac610aab564@linuxfoundation.org>
+Date: Thu, 6 Mar 2025 09:01:38 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,160 +78,74 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 1/3] arm64: dts: rockchip: Add device tree support for
- HDMI RX Controller
-To: =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Shreeya Patel <shreeya.patel@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
- <hverkuil@xs4all.nl>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, jose.abreu@synopsys.com, nelson.costa@synopsys.com,
- shawn.wen@rock-chips.com, nicolas.dufresne@collabora.com,
- Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: kernel@collabora.com, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, Tim Surber <me@timsurber.de>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Diederik de Haas <didi.debian@cknow.org>
-References: <20250306072842.287142-1-dmitry.osipenko@collabora.com>
- <20250306072842.287142-2-dmitry.osipenko@collabora.com>
- <9489391.T7Z3S40VBb@diego>
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Subject: Re: [PATCH] media: vim2m: print device name after registering device
+To: Hans Verkuil <hverkuil@xs4all.nl>,
+ Matthew Majewski <mattwmajewski@gmail.com>,
+ Uwe Kleine-Konig <u.kleine-koenig@baylibre.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>
+References: <20250219190501.295976-1-mattwmajewski@gmail.com>
+ <ym5q2cpn2lxk7sarylnf4o3ztvtnb47wroxdiibdsp6yz4gt2y@jfyfo2ekmdmj>
+ <5051c252-f1ef-4731-b0cb-fedfcda04d98@linuxfoundation.org>
+ <61bd42742ff8a8e5f409b0f2ccc4ab8875dfe7a4.camel@gmail.com>
+ <fdd0356f-d91e-400e-9598-d34e0862c9cb@linuxfoundation.org>
+ <06766086-b148-436c-b6d4-975c26493233@xs4all.nl>
 Content-Language: en-US
-In-Reply-To: <9489391.T7Z3S40VBb@diego>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <06766086-b148-436c-b6d4-975c26493233@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 3/6/25 16:06, Heiko Stübner wrote:
-> Hi Dmitry,
+On 3/6/25 01:37, Hans Verkuil wrote:
+> Hi Shuah,
 > 
-> Am Donnerstag, 6. März 2025, 08:28:40 MEZ schrieb Dmitry Osipenko:
->> From: Shreeya Patel <shreeya.patel@collabora.com>
+> On 20/02/2025 17:27, Shuah Khan wrote:
+>> On 2/20/25 08:29, Matthew Majewski wrote:
+>>> On Wed, 2025-02-19 at 17:21 -0700, Shuah Khan wrote:
+>>>> On 2/19/25 14:58, Uwe Kleine-Konig wrote:
+>>>>> On Wed, Feb 19, 2025 at 02:05:01PM -0500, Matthew Majewski wrote:
+>>>>>> Move the v4l2_info() call displaying the video device name after
+>>>>>> the
+>>>>>> device is actually registered.
+>>>>>>
+>>>>>> This fixes a bug where the driver was always displaying
+>>>>>> "/dev/video0"
+>>>>>> since it was reading from the vfd before it was registered.
+>>>>>>
+>>>>>> Signed-off-by: Matthew Majewski <mattwmajewski@gmail.com>
+>>>>>
+>>>>> A Fixes: tag would be great.
+>>>>
+>>>> Matthew, there is no need to resend the patch. Just send me the
+>>>> Fixes tag and I will update the repo.
+>>>>
+>>>>
+>>>
+>>> Ok, here is the fixes tag:
+>>>
+>>> Fixes: cf7f34777a5b4100a ("media: vim2m: Register video device after
+>>> setting up internals")
+>>>
 >>
->> Add device tree support for Synopsys DesignWare HDMI RX
->> Controller.
+>> Thank you. commit is now updated.
 >>
->> Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->> Tested-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->> Co-developed-by: Dingxian Wen <shawn.wen@rock-chips.com>
->> Signed-off-by: Dingxian Wen <shawn.wen@rock-chips.com>
->> Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
->> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->> ---
->>  .../dts/rockchip/rk3588-base-pinctrl.dtsi     | 14 +++++
->>  .../arm64/boot/dts/rockchip/rk3588-extra.dtsi | 57 +++++++++++++++++++
->>  2 files changed, 71 insertions(+)
+>> thanks,
+>> -- Shuah
 >>
->> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base-pinctrl.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base-pinctrl.dtsi
->> index 7f874c77410c..2d4b9986a177 100644
->> --- a/arch/arm64/boot/dts/rockchip/rk3588-base-pinctrl.dtsi
->> +++ b/arch/arm64/boot/dts/rockchip/rk3588-base-pinctrl.dtsi
->> @@ -594,6 +594,20 @@ hdmim0_tx1_hpd: hdmim0-tx1-hpd {
->>  				/* hdmim0_tx1_hpd */
->>  				<1 RK_PA6 5 &pcfg_pull_none>;
->>  		};
->> +
->> +		/omit-if-no-ref/
->> +		hdmim1_rx: hdmim1-rx {
->> +			rockchip,pins =
->> +				/* hdmim1_rx_cec */
->> +				<3 RK_PD1 5 &pcfg_pull_none>,
->> +				/* hdmim1_rx_scl */
->> +				<3 RK_PD2 5 &pcfg_pull_none_smt>,
->> +				/* hdmim1_rx_sda */
->> +				<3 RK_PD3 5 &pcfg_pull_none_smt>,
->> +				/* hdmim1_rx_hpdin */
->> +				<3 RK_PD4 5 &pcfg_pull_none>;
->> +		};
->> +
 > 
-> what's the reason for duplicating these pinctrl entries?
-> 
-> The base-pinctrl already contains a separate set of pins (and also a
-> variant for the m0 set of pins), so why not check and use the already
-> existing ones:
-> 
->                 hdmim1_rx_cec: hdmim1-rx-cec {
->                         rockchip,pins =
->                                 /* hdmim1_rx_cec */
->                                 <3 RK_PD1 5 &pcfg_pull_none>;
->                 };
-> 
->                 hdmim1_rx_hpdin: hdmim1-rx-hpdin {
->                         rockchip,pins =
->                                 /* hdmim1_rx_hpdin */
->                                 <3 RK_PD4 5 &pcfg_pull_none>;
->                 };
-> 
->                 hdmim1_rx_scl: hdmim1-rx-scl {
->                         rockchip,pins =
->                                 /* hdmim1_rx_scl */
->                                 <3 RK_PD2 5 &pcfg_pull_none>;
->                 };
-> 
->                 hdmim1_rx_sda: hdmim1-rx-sda {
->                         rockchip,pins =
->                                 /* hdmim1_rx_sda */
->                                 <3 RK_PD3 5 &pcfg_pull_none>;
->                 };
-> 
-> 
-> Having multiple sets (even with differeing settings) will cause confusion
-> later on.
+> Please post your PR today, if possible. Otherwise it might slip to the
+> v6.16. Alternatively, I can take this patch myself.
 
-Will try this variant, thanks!
+Thanks for the reminder - I have to send a vimc PR
 
->>  		/omit-if-no-ref/
->>  		hdmim1_rx_cec: hdmim1-rx-cec {
->>  			rockchip,pins =
->> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
->> index 4a950907ea6f..b7d06f93c8ce 100644
->> --- a/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
->> +++ b/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
->> @@ -135,6 +159,39 @@ i2s10_8ch: i2s@fde00000 {
->>  		status = "disabled";
->>  	};
->>  
->> +	hdmi_receiver: hdmi_receiver@fdee0000 {
->> +		compatible = "rockchip,rk3588-hdmirx-ctrler", "snps,dw-hdmi-rx";
->> +		reg = <0x0 0xfdee0000 0x0 0x6000>;
->> +		power-domains = <&power RK3588_PD_VO1>;
->> +		rockchip,grf = <&sys_grf>;
->> +		rockchip,vo1-grf = <&vo1_grf>;
->> +		interrupts = <GIC_SPI 177 IRQ_TYPE_LEVEL_HIGH 0>,
->> +			     <GIC_SPI 178 IRQ_TYPE_LEVEL_HIGH 0>,
->> +			     <GIC_SPI 179 IRQ_TYPE_LEVEL_HIGH 0>;
->> +		interrupt-names = "cec", "hdmi", "dma";
->> +		clocks = <&cru ACLK_HDMIRX>,
->> +			 <&cru CLK_HDMIRX_AUD>,
->> +			 <&cru CLK_CR_PARA>,
->> +			 <&cru PCLK_HDMIRX>,
->> +			 <&cru CLK_HDMIRX_REF>,
->> +			 <&cru PCLK_S_HDMIRX>,
->> +			 <&cru HCLK_VO1>;
->> +		clock-names = "aclk",
->> +			      "audio",
->> +			      "cr_para",
->> +			      "pclk",
->> +			      "ref",
->> +			      "hclk_s_hdmirx",
->> +			      "hclk_vo1";
->> +		resets = <&cru SRST_A_HDMIRX>, <&cru SRST_P_HDMIRX>,
->> +			 <&cru SRST_HDMIRX_REF>, <&cru SRST_A_HDMIRX_BIU>;
->> +		reset-names = "axi", "apb", "ref", "biu";
->> +		memory-region = <&hdmi_receiver_cma>;
->> +		pinctrl-0 = <&hdmim1_rx>;
->> +		pinctrl-names = "default";
+Please take this through your tree.
+
 > 
-> hmm, this might be better living in the board dts?
+> Also, why did you pick up this vim2m patch? I was a bit surprised by that.
 
-HDMI RX controller is a part of the SoC, it's not specific to a
-particular board. If you meaning move it into rock5b.dts, then we
-definitely shouldn't do it. It's like moving PCIe controller node into a
-board DT :)
+By mistake - Blame it on jet lag - sorry. Explains why Matthew sent series
+for my review.
 
--- 
-Best regards,
-Dmitry
+thanks,
+-- Shuah
 
