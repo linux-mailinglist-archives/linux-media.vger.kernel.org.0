@@ -1,55 +1,56 @@
-Return-Path: <linux-media+bounces-27682-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27679-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A536A5443D
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 09:08:05 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7442EA5442E
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 09:07:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 527D417108C
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 08:08:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6E4297A1E31
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 08:06:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E87761FBC9F;
-	Thu,  6 Mar 2025 08:07:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A91B51FC0E3;
+	Thu,  6 Mar 2025 08:07:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="Erj10uqx"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="XXeYrDPn"
 X-Original-To: linux-media@vger.kernel.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C60081C8602;
-	Thu,  6 Mar 2025 08:07:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F711DC9B1;
+	Thu,  6 Mar 2025 08:07:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741248445; cv=pass; b=nnscRxojIqA+BKPyS/a9UgMG/gXzXlYWQeTF8xWYDuG5WnUSF/qclOiz+/wmeTcO5M5jmjM1mgwOuGi0MScBMUMsz6zJrD7uLn+le/FnGh8ItwNbqRoiBTQsTqjiORlBlU+6OtZSmdM8PvF+tG+q+0lRitQJrBwz+WZJKSJJAoI=
+	t=1741248432; cv=pass; b=KFSbN5Gnt/wQYkyt73C6JnXcbt7yonLZIa1no/n+CPMIQhG+gGLjCGVJ44aOxUeNOMjmeI3T1kRv9e5Z98tLywz1fo1SQf3bbg/KlLTDvZ206m8qtKQbMtssydJSQt61XDxJ0NDC4qqVhctJpiEJ9c/YkeNyiWWLTFF8QZ96C5M=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741248445; c=relaxed/simple;
-	bh=lA+iBJcFX6Jy8GTqBQJtCX4q+kEAxMYiJnZ1Q1Vk6YI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oMj8lFehRCVbu5W/+xPwZ4Ted5vsa30MIMzQvRuUuuN3oSNf6jIcUPo0BJXrTGEeWJcDWiAANcyhEynP0ehExDhVqNRIBfzXlu3bmUghqJUnt4deSjXvAWc9jsjaPU7XQNVB4Sr2NP00llx9Y3uYZalRL0xICWBEnx6ma+s0Yl8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=Erj10uqx; arc=pass smtp.client-ip=136.143.188.112
+	s=arc-20240116; t=1741248432; c=relaxed/simple;
+	bh=dWKsAci39FlsH6tQCq0upEs19/Xio6S+NFIyyEsNm24=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=bVZga7e8wRt38ryMLmUUa+i/ICkkxQnjCsLzVrEIFxeCEwEfTjtGf5A2kpc8HG16WMeAlgnMXIb3cGJvNBejiLXNr2Dv5m5zqQca+ua8b2AFUrupqBhnPxlF49m7YqrIYFLcigc+En3rxPE6Mbl4G99bpFzlFx7TPX5HFcOAKEU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=XXeYrDPn; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1741248391; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1741248395; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=CWvERW0aqJYos4A9ChZ0WUYpVAlLVFcka6xZ2DPgwvhNJaLV+ulwb86isCMTiDUYd/JbTGnMv/Icx1AmyM30qhjBwxVm5cA48k1rqgJuQrUa0vV0UY1EM+hZj70FX7usbKyLso6eyU5KZfDMJf25DqHEL3d6tMFRQsuLItb+BRM=
+	b=dcuS1vvnFY8KcKNp3B1qWH6z5ABilI5v5mzOFsWTGqDDIMEMhiH69DLJg/93jVZfLvGYNQAQEtu7PAHBwvTZSBgSG0T+FfuWlNoDS6z7IYqjvOQfV9mV3VUcAIclCgtt4X3mYNOj0vtHoU+6pm7nHHVbjAzRa0wm2ohHXG+Xykc=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1741248391; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=pJnrzorwJZg5YVopIF87hrP6/JAWjqvnB+RBADKXXwE=; 
-	b=aweY4RFBbqtihLY1gVBtSPV4PS6Wk+Z8mXv28xlIXIhoreRVvzDEdPa8yyInVep2ODkU8e+MowviUpKgc9CmVy4YYRVsZ+lbMxrfQFDQ6mNihiQwIv2Kz/ArAkwcmkntfaXTaGUla47ZCdaFOuvlVbYcMc0TMe3saX+2Iuo1tm0=
+	t=1741248395; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=uCOliLTc8FCNZdZQCcLkuTnopU2o/wGilsZ2OAGkH7Q=; 
+	b=XX8zeFLWDdSw5pKnyqisWzxlInY4vWSB5482xn7bqWYCNDoTwF/M5qco07KSqd0AcMZ6v1YY0JEJUS6w0otWupEtFqln2+/p7vn0kbBVoFSmODjHrmQGLRwWgVqEXX7hLeEIp/ajAfpJV8TO4Ju+RsI/9B9Oa+C2fBugdfQvWMU=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
 	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741248391;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741248395;
 	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=pJnrzorwJZg5YVopIF87hrP6/JAWjqvnB+RBADKXXwE=;
-	b=Erj10uqxvm9Iu8s/SDjtOeOxUkedSot1Wk0iS/H8EzDUM92HUKs+A3KDhXr6nWns
-	NFJQYC7clS0PRJq9vuIyYAEefmD/K7BVwYaoRc6bD/ffZb+/xP4n43Q30UjJGjxSXt8
-	ZDotbJ9sVKoP7QVH4dCkq4Rvdg3uKuje3p99xhhw=
-Received: by mx.zohomail.com with SMTPS id 174124838915716.167179851729884;
-	Thu, 6 Mar 2025 00:06:29 -0800 (PST)
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=uCOliLTc8FCNZdZQCcLkuTnopU2o/wGilsZ2OAGkH7Q=;
+	b=XXeYrDPnvMwong0AxeA19sYfopUW8O/CPCEdhZPU4CgtXNniVnkkYQNeWtfl9cve
+	MpcjD3wQ8SbTqQ87BpX6KsyOan1IGWI929lA5Z5OUQHsH9ZYjYVuD8Fgvpg+DJtMkMR
+	NcKe4gdhb8vu/EIcJg8nihpUv1UWtRhnRJwYBLy4=
+Received: by mx.zohomail.com with SMTPS id 174124839394569.84592736885759;
+	Thu, 6 Mar 2025 00:06:33 -0800 (PST)
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 To: Shreeya Patel <shreeya.patel@collabora.com>,
 	Heiko Stuebner <heiko@sntech.de>,
@@ -68,10 +69,12 @@ Cc: kernel@collabora.com,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	linux-rockchip@lists.infradead.org
-Subject: [PATCH v1 0/3] Remove unused code from HDMI RX driver
-Date: Thu,  6 Mar 2025 11:05:30 +0300
-Message-ID: <20250306080533.294964-1-dmitry.osipenko@collabora.com>
+Subject: [PATCH v1 1/3] media: platform: synopsys: hdmirx: Remove duplicated header inclusion
+Date: Thu,  6 Mar 2025 11:05:31 +0300
+Message-ID: <20250306080533.294964-2-dmitry.osipenko@collabora.com>
 X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250306080533.294964-1-dmitry.osipenko@collabora.com>
+References: <20250306080533.294964-1-dmitry.osipenko@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,25 +84,27 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-ZohoMailClient: External
 
-Hi Hans,
+Remove second v4l2-common.h header inclusion.
 
-This is a follow up to the v13 HDMI RX patches [1] addressing warning
-produced by Intel's test robot.
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202503061231.PHF6hEL2-lkp@intel.com/
+Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+---
+ drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-It also removes the unused HDMI CODEC leftovers that we accidentally
-missed to remove previously and makes minor improvement to the definition
-of struct snps_hdmirx_dev, all of which I noticed while was looking at
-the warning report.
-
-Dmitry Osipenko (3):
-  media: platform: synopsys: hdmirx: Remove duplicated header inclusion
-  media: platform: synopsys: hdmirx: Remove unused HDMI audio CODEC
-    relics
-  media: platform: synopsys: hdmirx: Optimize struct snps_hdmirx_dev
-
- drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
-
+diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+index 4ffc86ad6c35..f161fd6712b6 100644
+--- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
++++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+@@ -39,7 +39,6 @@
+ #include <media/v4l2-ioctl.h>
+ #include <media/videobuf2-dma-contig.h>
+ #include <media/videobuf2-v4l2.h>
+-#include <media/v4l2-common.h>
+ 
+ #include <sound/hdmi-codec.h>
+ 
 -- 
 2.48.1
 
