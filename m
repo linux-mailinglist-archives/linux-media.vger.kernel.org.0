@@ -1,168 +1,197 @@
-Return-Path: <linux-media+bounces-27693-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27694-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E56F5A546BE
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 10:44:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8C9CA546CB
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 10:48:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7A69416EC24
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 09:44:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F10831890078
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 09:48:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB94C20AF64;
-	Thu,  6 Mar 2025 09:44:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECB5720A5DF;
+	Thu,  6 Mar 2025 09:47:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="x0KlARKk"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="KjwCjN2B"
 X-Original-To: linux-media@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70447209F51;
-	Thu,  6 Mar 2025 09:44:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C3E19F438;
+	Thu,  6 Mar 2025 09:47:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741254259; cv=none; b=tnFyip3vPl/IXapzIPMTUmPZ8yrQjsiBxynaxzfsy/GpVGOXEkVrN9o4dSJOpHXi2A4iHTIn/3ZIBXhoqD/1M0y5PpR6d9hEM0FIGIzJAm5g4max1unxTHgfqemhbL4l5JGraHekq73dr+AvBVWMycz4nM170M3n76uXrQOW2ps=
+	t=1741254473; cv=none; b=RXoFEfwbXmegFkw8mXYIfd/Q6WWGpVQER8RwtzspiXhiMl/9xlZ0xa2n4ySPsEt0XwVwdWfizr2aWXc8mysFHG1nO0UixIrfBy11RRxb3AO3sF7kmR8kxH/awdVkdod6eaBZNYwwCVOG0NLdCEThL9+bz4IqAYK8sRUORUeOJGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741254259; c=relaxed/simple;
-	bh=jcSCTexaWQ24umIDHBo2CI/qbEBSr0EgpMjuTX8NrE8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fvAevuuM/aV0e4ZrbYpeT51VEgAXurbl1rcDcR8l+DL/PAlnV0i4IEWTXx0zhTvxc6jyw7ONPjc0C+Q5gzI3pd+A+6sx9D727hq8/JryuWEZPnvUP78ctH5ADpzxjat9cXY52gNUG57vamuB4JbrUx8xqetrtpNpxxFhgf8OFEw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=x0KlARKk; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=A+AoCpj+mam2Hv7JmuwsRJRor7A216pIOlHe7OyVTl8=; b=x0KlARKkaEwkEYUQAlmMaZ6OaQ
-	DWuU+6P0xe9DEu+abQ7xh4VNXtyfY/Ea7IjpIr3fpklDXjFuOG12udhbCwKdck6RB1XCZ1G1/Kf2e
-	h64oPx9KJkm/93PVKb3/59Ae8kDAoM0tlhhY3kqMNZ3p5tFlxfdhAqx1ebdW6wG1TGRsIWITGFzHV
-	AI3KVKYHQ8x6VNjDwWWT1T1qfPjCbT8PmOCMDuWXZaA2lHHJalSmb2Dw/VsMCp/jyTauklU0GzY3t
-	tl6q7ncsda64gfzzZGUIFACAX7gDkEjsosnf/H9W/YUTEcntgYoks2HFpQjtognUBMrhBtwsjYyGV
-	9bZvFCJw==;
-Received: from i53875a38.versanet.de ([83.135.90.56] helo=diego.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1tq7lu-0001tC-By; Thu, 06 Mar 2025 10:44:06 +0100
-From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
-To: Shreeya Patel <shreeya.patel@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- jose.abreu@synopsys.com, nelson.costa@synopsys.com, shawn.wen@rock-chips.com,
- nicolas.dufresne@collabora.com,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Hans Verkuil <hverkuil@xs4all.nl>
-Cc: kernel@collabora.com, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, Tim Surber <me@timsurber.de>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Diederik de Haas <didi.debian@cknow.org>
-Subject: Re: [PATCH v14 0/3] Enable HDMI RX controller on RK3588
-Date: Thu, 06 Mar 2025 10:44:05 +0100
-Message-ID: <14706072.uLZWGnKmhe@diego>
-In-Reply-To: <1105cde1-7557-4104-9652-3527f8d9b599@xs4all.nl>
-References:
- <20250306072842.287142-1-dmitry.osipenko@collabora.com>
- <2906773.tdWV9SEqCh@diego> <1105cde1-7557-4104-9652-3527f8d9b599@xs4all.nl>
+	s=arc-20240116; t=1741254473; c=relaxed/simple;
+	bh=eirDffSZXQnuWFuuk3LO+GhR4ye9aHsev/7ZgRDFsZE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OtWxOYQzN+uFZ4ioPu6oe4/41t8m2TmWHSYu4JxPskIq1gufFdxddep1nETme8eGyKsfpOC64Bg1mCswgI+9roJhwKUaET3Fz1aHVQWK9y5a6zVjonRkN76AtMEX5pZ6DTCNl0x4lWrHGPmSKvpgnNg0j4x6FFdMLHo5o0E3dQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=KjwCjN2B; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1741254469;
+	bh=eirDffSZXQnuWFuuk3LO+GhR4ye9aHsev/7ZgRDFsZE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=KjwCjN2BJjbtWfG9AsHIp0aneWHpiAVyB05RKDW866qB9fy0lUTbpdMIZawilrQVa
+	 lIykk/y3I1JQbrvpDP8+p1lJC9Lqvx6hApqU/ARpDNPT6JWrA1Jilb37YUArx7w16o
+	 jhYGi5LlUZa5Dis19/YUcGWvdoNW9sHa2PowipRhkq0NtnBGXR7OcYy5d13OktL0nq
+	 Lm+HvvyzWbGAHvzBNiQLSHcT+hDjl7U2Pk2nL+uw0Y/dxiqoDJf8z788RXWdv3aRwH
+	 oivqfb7tJnYw7a1AKyZEHiblWWXaCbnBIFAmMCFsdh7OHbIWJaZ0YANcTX1B4r3QrN
+	 gk861/ltW+1qA==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id D6FD317E088C;
+	Thu,  6 Mar 2025 10:47:47 +0100 (CET)
+Message-ID: <d1c2dfa8-c7e0-40b2-8b39-c04854e3ee24@collabora.com>
+Date: Thu, 6 Mar 2025 10:47:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 7/8] drm/mediatek: Add programming flow for unsupported
+ subsys ID hardware
+To: Jason-JH Lin <jason-jh.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>,
+ Nancy Lin <nancy.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>,
+ Moudy Ho <moudy.ho@mediatek.com>, Xavier Chang <xavier.chang@mediatek.com>,
+ Xiandong Wang <xiandong.wang@mediatek.com>,
+ Sirius Wang <sirius.wang@mediatek.com>, Fei Shao <fshao@chromium.org>,
+ Pin-yen Lin <treapking@chromium.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ CK Hu <ck.hu@mediatek.com>
+References: <20250218054405.2017918-1-jason-jh.lin@mediatek.com>
+ <20250218054405.2017918-8-jason-jh.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250218054405.2017918-8-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Hans,
+Il 18/02/25 06:41, Jason-JH Lin ha scritto:
+> To support hardware without subsys IDs on new SoCs, add a programming
+> flow that checks whether the subsys ID is valid. If the subsys ID is
+> invalid, the flow will call 2 alternative CMDQ APIs:
+> cmdq_pkt_assign() and cmdq_pkt_write_s_value() to achieve the same
+> functionality.
+> 
+> Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
+> Reviewed-by: CK Hu <ck.hu@mediatek.com>
+> ---
+>   drivers/gpu/drm/mediatek/mtk_ddp_comp.c | 33 ++++++++++++++++++++-----
+>   1 file changed, 27 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
+> index edc6417639e6..219d67735a54 100644
+> --- a/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
+> +++ b/drivers/gpu/drm/mediatek/mtk_ddp_comp.c
+> @@ -66,14 +66,37 @@ struct mtk_ddp_comp_dev {
+>   	struct cmdq_client_reg cmdq_reg;
+>   };
+>   
+> +#if IS_REACHABLE(CONFIG_MTK_CMDQ)
+> +static void mtk_ddp_write_cmdq_pkt(struct cmdq_pkt *cmdq_pkt, struct cmdq_client_reg *cmdq_reg,
+> +				   unsigned int offset, unsigned int value, unsigned int mask)
+> +{
+> +	offset += cmdq_reg->offset;
+> +
+> +	if (cmdq_reg->subsys != CMDQ_SUBSYS_INVALID) {
+> +		if (mask == GENMASK(31, 0))
+> +			cmdq_pkt_write(cmdq_pkt, cmdq_reg->subsys, offset, value);
+> +		else
+> +			cmdq_pkt_write_mask(cmdq_pkt, cmdq_reg->subsys, offset, value, mask);
 
-Am Donnerstag, 6. M=C3=A4rz 2025, 10:41:46 MEZ schrieb Hans Verkuil:
-> On 06/03/2025 10:26, Heiko St=C3=BCbner wrote:
-> > Hi Dmitry,
-> >=20
-> > Am Donnerstag, 6. M=C3=A4rz 2025, 08:28:39 MEZ schrieb Dmitry Osipenko:
-> >> This is a follow up to the v13 of HDMI RX patches [1]. Hans queued the
-> >> driver into the media tree. Now the DT patches are left to apply, could
-> >> you please take care of this series if it's good to you? Thanks
-> >>
-> >> [1] https://lore.kernel.org/linux-media/20250304085819.108067-1-dmitry=
-=2Eosipenko@collabora.com/
-> >=20
-> > Linux-Media, has this strange "applied" reporting thing going, so neith=
-er
-> > the thread reports that nor does https://git.linuxtv.org/ show the comm=
-its
-> > yet.
-> >=20
-> > If you see the driver patches appear on https://git.linuxtv.org/ before=
- I do,
-> > please ping this thread :-)
->=20
-> Patches are merged here first:
->=20
-> https://gitlab.freedesktop.org/linux-media/media-committers
+Sorry but this is pointless, really...
 
-aaaah, that was the missing piece of the puzzle.
+Function cmdq_pkt_write_mask() in mtk-cmdq-helper is doing:
 
-I remember reading that media also switched to a multi-comitter model,
-but didn't realize that this might entail a different host.
+	if (mask != GENMASK(31, 0)) {
+		err = cmdq_pkt_mask(pkt, mask);
+		if (err < 0)
+			return err;
 
-So thanks for the pointer.
+		offset_mask |= CMDQ_WRITE_ENABLE_MASK;
+	}
+	return cmdq_pkt_write(pkt, subsys, offset_mask, value);
 
-Heiko
+here you're doing the exact inverse check.
 
+At this point you can just do:
 
->=20
-> That's where all the new code lands.
->=20
-> With a two day delay (if I am not mistaken) they will arrive on the
-> https://git.linuxtv.org/media.git/ tree.
->=20
-> If it is in the media-committers tree, then it is OK to take dts etc.
-> patches.
->=20
-> Regards,
->=20
-> 	Hans
->=20
-> >=20
-> >=20
-> > Thanks a lot
-> > Heiko
-> >=20
-> >=20
-> >>
-> >> Changelog:
-> >>
-> >> v14: - Re-enabled LOAD_DEFAULT_EDID=3Dy option in the defconfig and
-> >>        added ack from Hans Verkuil fot that patch.
-> >>
-> >> Sebastian Reichel (2):
-> >>   arm64: dts: rockchip: Enable HDMI receiver on rock-5b
-> >>   arm64: defconfig: Enable Synopsys HDMI receiver
-> >>
-> >> Shreeya Patel (1):
-> >>   arm64: dts: rockchip: Add device tree support for HDMI RX Controller
-> >>
-> >>  .../dts/rockchip/rk3588-base-pinctrl.dtsi     | 14 +++++
-> >>  .../arm64/boot/dts/rockchip/rk3588-extra.dtsi | 57 +++++++++++++++++++
-> >>  .../boot/dts/rockchip/rk3588-rock-5b.dts      | 18 ++++++
-> >>  arch/arm64/configs/defconfig                  |  2 +
-> >>  4 files changed, 91 insertions(+)
-> >>
-> >>
-> >=20
-> >=20
-> >=20
-> >=20
->=20
->=20
+static int mtk_ddp_write_cmdq_pkt(struct cmdq_pkt *cmdq_pkt, struct cmdq_client_reg 
+*cmdq_reg,
+				  u16 offset, u32 value, u32 mask)
+{
+	u16 gce_offset = cmdq_reg->offset + offset;
 
+	if (cmdq_reg->subsys != CMDQ_SUBSYS_INVALID)
+		return cmdq_pkt_write_mask(pkt, cmdq_reg->subsys, gce_offset, value, mask);
 
+	return cmdq_pkt_write_mask_pa(cmdq_pkt, cmdq_reg->pa_base, gce_offset, value, mask);
+}
 
+Cheers,
+Angelo
+
+> +	} else {
+> +		/* only MMIO access, no need to check mminfro_offset */
+> +		cmdq_pkt_assign(cmdq_pkt, 0, CMDQ_ADDR_HIGH(cmdq_reg->pa_base));
+> +		if (mask == GENMASK(31, 0))
+> +			cmdq_pkt_write_s_value(cmdq_pkt, CMDQ_THR_SPR_IDX0,
+> +					       CMDQ_ADDR_LOW(offset), value);
+> +		else
+> +			cmdq_pkt_write_s_mask_value(cmdq_pkt, CMDQ_THR_SPR_IDX0,
+> +						    CMDQ_ADDR_LOW(offset), value, mask);
+> +	}
+> +}
+> +#endif
+> +
+>   void mtk_ddp_write(struct cmdq_pkt *cmdq_pkt, unsigned int value,
+>   		   struct cmdq_client_reg *cmdq_reg, void __iomem *regs,
+>   		   unsigned int offset)
+>   {
+>   #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+>   	if (cmdq_pkt)
+> -		cmdq_pkt_write(cmdq_pkt, cmdq_reg->subsys,
+> -			       cmdq_reg->offset + offset, value);
+> +		mtk_ddp_write_cmdq_pkt(cmdq_pkt, cmdq_reg, offset, value, GENMASK(31, 0));
+>   	else
+>   #endif
+>   		writel(value, regs + offset);
+> @@ -85,8 +108,7 @@ void mtk_ddp_write_relaxed(struct cmdq_pkt *cmdq_pkt, unsigned int value,
+>   {
+>   #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+>   	if (cmdq_pkt)
+> -		cmdq_pkt_write(cmdq_pkt, cmdq_reg->subsys,
+> -			       cmdq_reg->offset + offset, value);
+> +		mtk_ddp_write_cmdq_pkt(cmdq_pkt, cmdq_reg, offset, value, GENMASK(31, 0));
+>   	else
+>   #endif
+>   		writel_relaxed(value, regs + offset);
+> @@ -98,8 +120,7 @@ void mtk_ddp_write_mask(struct cmdq_pkt *cmdq_pkt, unsigned int value,
+>   {
+>   #if IS_REACHABLE(CONFIG_MTK_CMDQ)
+>   	if (cmdq_pkt) {
+> -		cmdq_pkt_write_mask(cmdq_pkt, cmdq_reg->subsys,
+> -				    cmdq_reg->offset + offset, value, mask);
+> +		mtk_ddp_write_cmdq_pkt(cmdq_pkt, cmdq_reg, offset, value, mask);
+>   	} else {
+>   #endif
+>   		u32 tmp = readl(regs + offset);
 
 
