@@ -1,79 +1,78 @@
-Return-Path: <linux-media+bounces-27724-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27725-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF76A54C23
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 14:28:01 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DE6EA54C26
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 14:28:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B802B3A3696
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 13:27:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CAA3B168597
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 13:28:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B0FB20E71C;
-	Thu,  6 Mar 2025 13:27:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42AEF20F087;
+	Thu,  6 Mar 2025 13:27:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="hHzQQtIA"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Xz5j2vun"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2522720297E
-	for <linux-media@vger.kernel.org>; Thu,  6 Mar 2025 13:27:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E03EE20E334
+	for <linux-media@vger.kernel.org>; Thu,  6 Mar 2025 13:27:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741267665; cv=none; b=tzGJ9+RSVbkh+CwxRB6WA7Ukgn/9YosupXFHZ/sa3/PG7PexT8+6via0eQ6DXHT83qcUmaa5TuzTjypNqvk9AAi0HuT09sMYfHFJUJmxhVxEAiAO5MwUyftzxjSTd01bdcaNV8YlwtFOjIKW5ZStjly4/lyJZOixWbuqFQjTjXY=
+	t=1741267666; cv=none; b=oPkjqtUOaOwjXNabHIbGdMmhJZNFLkM9ERfL4LcTXmbrEgyT4rXfYSW2g9QtiwfulGDehLS5csAEcwxnSrubav1Zv61QPMsGc2Rdd8SCGbQYbanRQu7ObZ+35214ezV8nazo5KAp6t4KPjfYPS4uK3t2A35SjgBT6QHTIKUExww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741267665; c=relaxed/simple;
-	bh=M1vo6eIbJ4cdUhRmXLHhitPd8stcAIbGV1GDpMpmCbo=;
+	s=arc-20240116; t=1741267666; c=relaxed/simple;
+	bh=Jqv28Jm7qzh84U9+lqjLvmKZl6KOXWlqr0fpxkfKg3k=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=oxVfzsXdFptNZmRiXEFrurkyW8jsTV0/m9bCFVnLNimOFoKJB9RHtGFzJFmPe6ZdMAR9sjEEEH+mXxdgVDWud5oLB/Ymj2g1/M1LUHlFNeyDwrd5qiijnmxQY7+xBvW64dwOVzj4ieorHp9WhtyEE74SLoD3eb/iFKyB7jw4RT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=hHzQQtIA; arc=none smtp.client-ip=209.85.222.182
+	 In-Reply-To:To:Cc; b=VQRv+LZZtgaxoLl9FKVXcZR87vd7OzNrax+Y1oJbMSM5vXLCv8Ajx/VSfi7AHmuMp7aYk/b2aTxILrBC/hCksQwKp1tTD2zt3SrOq6sAnVN9kswmeNwtZds5RqDJXnyvNbmWLSWUP25vW0TAsGhcOK59oWNWLCFfKzW642OVJNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Xz5j2vun; arc=none smtp.client-ip=209.85.222.175
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7c3d1664ed5so74312585a.2
-        for <linux-media@vger.kernel.org>; Thu, 06 Mar 2025 05:27:43 -0800 (PST)
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7c3d1664ed5so74314485a.2
+        for <linux-media@vger.kernel.org>; Thu, 06 Mar 2025 05:27:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google; t=1741267663; x=1741872463; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=kus539I2CJtJ6uB69LisMl3/GCpWB9IVQ3KXxg+iETo=;
-        b=hHzQQtIA0yY6wYdhrAsKUrSG4EOe+gSmNPnVs4WlW7SVzNfVZwK+6Kp6IxPpB9V+sy
-         1g4IjywzSdmJfn+/Tn+sveqZSIIl9G5lUXnzV8TO6KWxqmI1BKEOuWSFSwpiUhYqYTwD
-         8iIzC5p7dX7/ndJF8jAmas1ozOA4VmmC/A7k4=
+        bh=k5fyHJOXDgzeVD5N4PQBEWE96deyhJv7YjSge5olLmc=;
+        b=Xz5j2vunbZunWR4eFIIlfpCAHD8yHpmrIuw99rZk1aeDrZWZPh0nlgKwhQMslSjrBP
+         gGixiiqmerG50h+eklBpk0BgSjtlpAN8asxALJKqf4ySSuu2HwRstq6gVcTCWwqYjduT
+         fchzwktU2PVgEeB0q8gzsashLNtqkISqMjEZY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1741267663; x=1741872463;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kus539I2CJtJ6uB69LisMl3/GCpWB9IVQ3KXxg+iETo=;
-        b=qx0xuKgz5vo+OeTFI3OC3xwle7RBciwzbm0SufpX7cNzXQDYNe11vU66ulBcvAeWoN
-         iOYIfFb1ur+t+HkegqZhIn1jT1emvd9xVHUZAsitCaPlPRZJoQTm2tGLKM0fo/BbRkKT
-         KdciNBRTlGyxJLNy96RD6TzPx+hlJj0siHgnfsuh7lHAZusBIrp4emYX/c3Y+5bUzxBO
-         D7svL2Auq8tZvCqp5ld3HygdK1lGlVtxODqfQcL00mTj83M3+ESob+S2uYrds52VWW7w
-         Ne3FKvHHcM0L2wPFoRkAOeN3f2GTNQ4dmp8NigFh/q6RgRferrKI1Lr4m2H0He2FqKfa
-         VuYw==
-X-Gm-Message-State: AOJu0YyaJbal7jnMNrVOVTLss/EvrkRYhSRKcWUleQ1EaxvTltASDVAC
-	bV3q2chw+1UtSnM0N+GIRuBj5avhstQWALiH+gJixfRB/psqaDPPgoHbpEsDbjMB+NdvKBswJGy
-	maQ==
-X-Gm-Gg: ASbGncu9Ri/TlpFj+pVGlyYlkhxQIrmQjpdVLren/2ASHfJ6BfkOtxiroFLOg9I1BVC
-	yp5OD4iN1Rp10jbg+ZOKqtarAjdJ3Y0e/VVU5LrCyP01+dC01cwFv1BDVNZFfpttGpeESA0XlDc
-	S1wGe2m0NWhjX9kfl1nz69rnFALumEqBRKQ9pNtXoP1u1q9a+WE+rhNQwo2EekQge8EshGq/1xp
-	3UPTB3OMxZzWomAa9tdGx0muvvQTK5pPtvqHYUGC2PlQRVflu4Ej+sOM9Tz4wcXBrkg5TQBVl1S
-	bcMj+FGHltEaXq5A2YneyrOVjyH9E/BgLA9iDMfwWoYVno7cdbO+tN/nlxH4tEgHdlbfS2oJqpa
-	KvtqyjxKzQhUnt/B/8Jn8qg==
-X-Google-Smtp-Source: AGHT+IG3I4g3eGA6wCxh1KdiN/p34BEZ4+P/uc/fC39VdDt/4K47oAhpd1+urFScBYiCX7Zbn/ihZg==
-X-Received: by 2002:a05:620a:2815:b0:7c0:9ac5:7f9a with SMTP id af79cd13be357-7c3d8e17302mr1299941185a.7.1741267662792;
-        Thu, 06 Mar 2025 05:27:42 -0800 (PST)
+        bh=k5fyHJOXDgzeVD5N4PQBEWE96deyhJv7YjSge5olLmc=;
+        b=caHj3ylgR5gkxV1B1itf22ptfqPuRG7M3WasynGb3DOy5qBubBSPvEbxpTZb3UrrWR
+         Nny0G0EOgeXeSuzlEFDlby9u6pSEBpGWlN1rvOn+Fq4Fe8BDWv0MRF2O7Zvrs4uhrNLY
+         Cw4pS7XV9nzWSRGFhkPB/cFZUjoiRtrwTUxZtBqJV/SwsQWJB87BKMXs5hK8ljP14IV6
+         eExzBw4aVnEax/1htGwV7C5aYE2GMK5l23iAonp0fE98tGrdks0Bg0zO4X9A+AE7DxJi
+         EhMTw331mo9RH41nPMUpNySheJ1QejRt/Z3KNcZ0CafEIBNFTkvVIKYixafb31uZYEew
+         I1/Q==
+X-Gm-Message-State: AOJu0YztWufyTzmbkqHEIV7UKVwmmC0q6mUSdIhnvokpGn1fO2y/OcmT
+	zwsXMy2ufAsETyoYs6PUtpKX2N9+srscLLhDz9WIOCHW/Xf7NOavU5DLlYqGdt2d2x+8U2Pl0Qg
+	rSA==
+X-Gm-Gg: ASbGncsx51jIMtjDoPge8YMRTXZTW6PXBORSz3eRC/7iC4AbA2PlIMRKiPveMK2RWgP
+	hV46nxo6W/iktYcMm6We2YLFTQKR+GSMBp3mUhQLTmx+kR3LWARRgA4oRWoqyALSO9lBBRtxKRt
+	+le2R4WHKTmuqQyi+awRhqQrcdknPJKyDGv/NmOIQ6MUnarTsdaioeACo7Kc8XD/O4SCd0lX647
+	ZDOblYtDOefEHCFws3jJRSvCnPT+au0ZRxsKpygMZ5Ed/4xfAyf8QgeZSsOb9zCxFjL7QkX7DYo
+	Pm95Fhhow1iNHGrev7EDMI5ahGYYC158lo32119liNQugc2hvPepV1NeTJocCx3DlxcdDDa0sox
+	WcSCdmvMh5dISWzSPDHMPuw==
+X-Google-Smtp-Source: AGHT+IHq1N4OYDeNoBf2bjvN54GUOf3HZ+YUtSjclkRhroCRuaQUtaXrUfoD8P+jnfCq0HclXR+/KA==
+X-Received: by 2002:a05:620a:1b90:b0:7c0:bf09:405d with SMTP id af79cd13be357-7c3d8ec5f60mr1190072485a.50.1741267663492;
+        Thu, 06 Mar 2025 05:27:43 -0800 (PST)
 Received: from denia.c.googlers.com (15.237.245.35.bc.googleusercontent.com. [35.245.237.15])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c3e538448fsm91268685a.63.2025.03.06.05.27.41
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c3e538448fsm91268685a.63.2025.03.06.05.27.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Mar 2025 05:27:42 -0800 (PST)
+        Thu, 06 Mar 2025 05:27:43 -0800 (PST)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 06 Mar 2025 13:27:30 +0000
-Subject: [PATCH v2 1/2] media: vivid: Move all fb_info references into
- vivid-osd
+Date: Thu, 06 Mar 2025 13:27:31 +0000
+Subject: [PATCH v2 2/2] media: vivid: Introduce VIDEO_VIVID_OSD
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,7 +81,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250306-vivid-osd-v2-1-86db53ecb39c@chromium.org>
+Message-Id: <20250306-vivid-osd-v2-2-86db53ecb39c@chromium.org>
 References: <20250306-vivid-osd-v2-0-86db53ecb39c@chromium.org>
 In-Reply-To: <20250306-vivid-osd-v2-0-86db53ecb39c@chromium.org>
 To: Hans Verkuil <hverkuil@xs4all.nl>, 
@@ -93,161 +92,141 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.14.2
 
-Most references to fb_info are already within vivid-osd.c. This patch
-moves the remaining references into vivid-osd.c.
+vivid-osd depends on CONFIG_FB, which can be a large dependency. Introduce
+CONFIG_VIDEO_VIVID_OSD to control enabling support for testing output
+overlay.
 
-We also take this opportunity to make the function names in vivid-osd
-more consistent.
-
-This is a preparation patch to make CONFIG_FB optional for vivid.
-
+Suggested-by: Slawomir Rosek <srosek@google.com>
+Co-developed-by: Slawomir Rosek <srosek@google.com>
+Signed-off-by: Slawomir Rosek <srosek@google.com>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/test-drivers/vivid/vivid-core.c    | 10 ++--------
- drivers/media/test-drivers/vivid/vivid-ctrls.c   |  2 +-
- drivers/media/test-drivers/vivid/vivid-osd.c     | 24 ++++++++++++++++++++----
- drivers/media/test-drivers/vivid/vivid-osd.h     |  5 +++--
- drivers/media/test-drivers/vivid/vivid-vid-out.c |  3 ++-
- 5 files changed, 28 insertions(+), 16 deletions(-)
+ drivers/media/test-drivers/vivid/Kconfig      | 12 ++++++++++--
+ drivers/media/test-drivers/vivid/Makefile     |  5 ++++-
+ drivers/media/test-drivers/vivid/vivid-core.c |  4 ++++
+ drivers/media/test-drivers/vivid/vivid-core.h |  2 ++
+ drivers/media/test-drivers/vivid/vivid-osd.h  | 13 +++++++++++++
+ 5 files changed, 33 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/media/test-drivers/vivid/Kconfig b/drivers/media/test-drivers/vivid/Kconfig
+index ec2e71d769659492df698a7e0874ce5e927042ed..e95edc0f22bfb97099f6fdea97402fc8a190f11f 100644
+--- a/drivers/media/test-drivers/vivid/Kconfig
++++ b/drivers/media/test-drivers/vivid/Kconfig
+@@ -1,9 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ config VIDEO_VIVID
+ 	tristate "Virtual Video Test Driver"
+-	depends on VIDEO_DEV && !SPARC32 && !SPARC64 && FB
++	depends on VIDEO_DEV && !SPARC32 && !SPARC64
+ 	depends on HAS_DMA
+-	select FB_IOMEM_HELPERS
+ 	select FONT_SUPPORT
+ 	select FONT_8x16
+ 	select VIDEOBUF2_VMALLOC
+@@ -31,6 +30,15 @@ config VIDEO_VIVID_CEC
+ 	  When selected the vivid module will emulate the optional
+ 	  HDMI CEC feature.
+ 
++config VIDEO_VIVID_OSD
++	bool "Enable Framebuffer for testing Output Overlay"
++	depends on VIDEO_VIVID && FB
++	default y
++	select FB_IOMEM_HELPERS
++	help
++	  When selected the vivid module will emulate a Framebuffer for
++	  testing Output Overlay.
++
+ config VIDEO_VIVID_MAX_DEVS
+ 	int "Maximum number of devices"
+ 	depends on VIDEO_VIVID
+diff --git a/drivers/media/test-drivers/vivid/Makefile b/drivers/media/test-drivers/vivid/Makefile
+index b12ad0152a3e0fde428bd75fd50137bd2ae4d53c..284a59e9733554addabf73944ac9df5116c6c323 100644
+--- a/drivers/media/test-drivers/vivid/Makefile
++++ b/drivers/media/test-drivers/vivid/Makefile
+@@ -3,10 +3,13 @@ vivid-objs := vivid-core.o vivid-ctrls.o vivid-vid-common.o vivid-vbi-gen.o \
+ 		vivid-vid-cap.o vivid-vid-out.o vivid-kthread-cap.o vivid-kthread-out.o \
+ 		vivid-radio-rx.o vivid-radio-tx.o vivid-radio-common.o \
+ 		vivid-rds-gen.o vivid-sdr-cap.o vivid-vbi-cap.o vivid-vbi-out.o \
+-		vivid-osd.o vivid-meta-cap.o vivid-meta-out.o \
++		vivid-meta-cap.o vivid-meta-out.o \
+ 		vivid-kthread-touch.o vivid-touch-cap.o
+ ifeq ($(CONFIG_VIDEO_VIVID_CEC),y)
+   vivid-objs += vivid-cec.o
+ endif
++ifeq ($(CONFIG_VIDEO_VIVID_OSD),y)
++  vivid-objs += vivid-osd.o
++endif
+ 
+ obj-$(CONFIG_VIDEO_VIVID) += vivid.o
 diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
-index 7477ac8cb955647bfb713ef2b171e25ac5d39128..10f5bef3f49cca4c3a0ae62dd4704ac4180a7c43 100644
+index 10f5bef3f49cca4c3a0ae62dd4704ac4180a7c43..8d56168c72aa09f94ba2f0bdb2415e7247e08c14 100644
 --- a/drivers/media/test-drivers/vivid/vivid-core.c
 +++ b/drivers/media/test-drivers/vivid/vivid-core.c
-@@ -1410,8 +1410,6 @@ static int vivid_create_queues(struct vivid_dev *dev)
- 		ret = vivid_fb_init(dev);
- 		if (ret)
- 			return ret;
--		v4l2_info(&dev->v4l2_dev, "Framebuffer device registered as fb%d\n",
--			  dev->fb_info.node);
- 	}
- 	return 0;
- }
-@@ -2197,12 +2195,8 @@ static void vivid_remove(struct platform_device *pdev)
- 				video_device_node_name(&dev->radio_tx_dev));
- 			video_unregister_device(&dev->radio_tx_dev);
- 		}
--		if (dev->has_fb) {
--			v4l2_info(&dev->v4l2_dev, "unregistering fb%d\n",
--				dev->fb_info.node);
--			unregister_framebuffer(&dev->fb_info);
--			vivid_fb_release_buffers(dev);
--		}
-+		if (dev->has_fb)
-+			vivid_fb_deinit(dev);
- 		if (dev->has_meta_cap) {
- 			v4l2_info(&dev->v4l2_dev, "unregistering %s\n",
- 				  video_device_node_name(&dev->meta_cap_dev));
-diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-index 2b5c8fbcd0a27858f84c8e1135aeeac3cb5e2750..dc473175fd2b902f64f63d6c27e699547ea0be82 100644
---- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
-+++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
-@@ -369,7 +369,7 @@ static int vivid_fb_s_ctrl(struct v4l2_ctrl *ctrl)
+@@ -125,7 +125,9 @@ MODULE_PARM_DESC(node_types, " node types, default is 0xe1d3d. Bitmask with the
+ 			     "\t\t    bit 8: Video Output node\n"
+ 			     "\t\t    bit 10-11: VBI Output node: 0 = none, 1 = raw vbi, 2 = sliced vbi, 3 = both\n"
+ 			     "\t\t    bit 12: Radio Transmitter node\n"
++#ifdef CONFIG_VIDEO_VIVID_OSD
+ 			     "\t\t    bit 16: Framebuffer for testing output overlays\n"
++#endif
+ 			     "\t\t    bit 17: Metadata Capture node\n"
+ 			     "\t\t    bit 18: Metadata Output node\n"
+ 			     "\t\t    bit 19: Touch Capture node\n");
+@@ -1071,9 +1073,11 @@ static int vivid_detect_feature_set(struct vivid_dev *dev, int inst,
+ 	/* do we have a modulator? */
+ 	*has_modulator = dev->has_radio_tx;
  
- 	switch (ctrl->id) {
- 	case VIVID_CID_CLEAR_FB:
--		vivid_clear_fb(dev);
-+		vivid_fb_clear(dev);
- 		break;
- 	}
- 	return 0;
-diff --git a/drivers/media/test-drivers/vivid/vivid-osd.c b/drivers/media/test-drivers/vivid/vivid-osd.c
-index 5c931b94a7b5e2fd4e50f8bc1b2767e5c927de2b..91ad9b314f2ec3a31cc339408db6db627007d1c5 100644
---- a/drivers/media/test-drivers/vivid/vivid-osd.c
-+++ b/drivers/media/test-drivers/vivid/vivid-osd.c
-@@ -45,13 +45,18 @@ static const u16 rgb565[16] = {
- 	0xffff, 0xffe0, 0x07ff, 0x07e0, 0xf81f, 0xf800, 0x001f, 0x0000
- };
++#ifdef CONFIG_VIDEO_VIVID_OSD
+ 	if (dev->has_vid_cap)
+ 		/* do we have a framebuffer for overlay testing? */
+ 		dev->has_fb = node_type & 0x10000;
++#endif
  
--void vivid_clear_fb(struct vivid_dev *dev)
-+unsigned int vivid_fb_green_bits(struct vivid_dev *dev)
-+{
-+	return dev->fb_defined.green.length;
-+}
-+
-+void vivid_fb_clear(struct vivid_dev *dev)
- {
- 	void *p = dev->video_vbase;
- 	const u16 *rgb = rgb555;
- 	unsigned x, y;
+ 	/* can we do crop/compose/scaling while capturing? */
+ 	if (no_error_inj && *ccs_cap == -1)
+diff --git a/drivers/media/test-drivers/vivid/vivid-core.h b/drivers/media/test-drivers/vivid/vivid-core.h
+index d2d52763b11977d39f630dd9ae9bd9fdb288fd51..571a6c2229692109f5d038029bfd9d38d9e53fc3 100644
+--- a/drivers/media/test-drivers/vivid/vivid-core.h
++++ b/drivers/media/test-drivers/vivid/vivid-core.h
+@@ -403,9 +403,11 @@ struct vivid_dev {
+ 	int				display_byte_stride;
+ 	int				bits_per_pixel;
+ 	int				bytes_per_pixel;
++#ifdef CONFIG_VIDEO_VIVID_OSD
+ 	struct fb_info			fb_info;
+ 	struct fb_var_screeninfo	fb_defined;
+ 	struct fb_fix_screeninfo	fb_fix;
++#endif
  
--	if (dev->fb_defined.green.length == 6)
-+	if (vivid_fb_green_bits(dev) == 6)
- 		rgb = rgb565;
- 
- 	for (y = 0; y < dev->display_height; y++) {
-@@ -333,7 +338,7 @@ static int vivid_fb_init_vidmode(struct vivid_dev *dev)
- }
- 
- /* Release any memory we've grabbed */
--void vivid_fb_release_buffers(struct vivid_dev *dev)
-+static void vivid_fb_release_buffers(struct vivid_dev *dev)
- {
- 	if (dev->video_vbase == NULL)
- 		return;
-@@ -370,7 +375,7 @@ int vivid_fb_init(struct vivid_dev *dev)
- 		return ret;
- 	}
- 
--	vivid_clear_fb(dev);
-+	vivid_fb_clear(dev);
- 
- 	/* Register the framebuffer */
- 	if (register_framebuffer(&dev->fb_info) < 0) {
-@@ -380,6 +385,17 @@ int vivid_fb_init(struct vivid_dev *dev)
- 
- 	/* Set the card to the requested mode */
- 	vivid_fb_set_par(&dev->fb_info);
-+
-+	v4l2_info(&dev->v4l2_dev, "Framebuffer device registered as fb%d\n",
-+		  dev->fb_info.node);
-+
- 	return 0;
- 
- }
-+
-+void vivid_fb_deinit(struct vivid_dev *dev)
-+{
-+	v4l2_info(&dev->v4l2_dev, "unregistering fb%d\n", dev->fb_info.node);
-+	unregister_framebuffer(&dev->fb_info);
-+	vivid_fb_release_buffers(dev);
-+}
+ 	/* Error injection */
+ 	bool				disconnect_error;
 diff --git a/drivers/media/test-drivers/vivid/vivid-osd.h b/drivers/media/test-drivers/vivid/vivid-osd.h
-index f9ac1af25dd3adb86b2f9b2719c4e72eca419ca6..9a7ef83e6eb2e44e20d2a2e98303845703375bcb 100644
+index 9a7ef83e6eb2e44e20d2a2e98303845703375bcb..b6a618834b65c6547d9ad2b47e4675040a3bf726 100644
 --- a/drivers/media/test-drivers/vivid/vivid-osd.h
 +++ b/drivers/media/test-drivers/vivid/vivid-osd.h
-@@ -9,7 +9,8 @@
+@@ -8,9 +8,22 @@
+ #ifndef _VIVID_OSD_H_
  #define _VIVID_OSD_H_
  
++#ifdef CONFIG_VIDEO_VIVID_OSD
  int vivid_fb_init(struct vivid_dev *dev);
--void vivid_fb_release_buffers(struct vivid_dev *dev);
--void vivid_clear_fb(struct vivid_dev *dev);
-+void vivid_fb_deinit(struct vivid_dev *dev);
-+void vivid_fb_clear(struct vivid_dev *dev);
-+unsigned int vivid_fb_green_bits(struct vivid_dev *dev);
+ void vivid_fb_deinit(struct vivid_dev *dev);
+ void vivid_fb_clear(struct vivid_dev *dev);
+ unsigned int vivid_fb_green_bits(struct vivid_dev *dev);
++#else
++static inline int vivid_fb_init(struct vivid_dev *dev)
++{
++	return -ENODEV;
++}
++static inline void vivid_fb_deinit(struct vivid_dev *dev) {}
++static inline void vivid_fb_clear(struct vivid_dev *dev) {}
++static inline unsigned int vivid_fb_green_bits(struct vivid_dev *dev)
++{
++	return 5;
++}
++#endif
  
  #endif
-diff --git a/drivers/media/test-drivers/vivid/vivid-vid-out.c b/drivers/media/test-drivers/vivid/vivid-vid-out.c
-index 5ec84db934d6b0fd9f659298f80cd59a25983a2c..c3398bce6c150dab4b76f5fbe8cb7420edbc0132 100644
---- a/drivers/media/test-drivers/vivid/vivid-vid-out.c
-+++ b/drivers/media/test-drivers/vivid/vivid-vid-out.c
-@@ -16,6 +16,7 @@
- #include <media/v4l2-rect.h>
- 
- #include "vivid-core.h"
-+#include "vivid-osd.h"
- #include "vivid-vid-common.h"
- #include "vivid-kthread-out.h"
- #include "vivid-vid-out.h"
-@@ -907,7 +908,7 @@ int vivid_vid_out_g_fbuf(struct file *file, void *fh,
- 	a->base = (void *)dev->video_pbase;
- 	a->fmt.width = dev->display_width;
- 	a->fmt.height = dev->display_height;
--	if (dev->fb_defined.green.length == 5)
-+	if (vivid_fb_green_bits(dev) == 5)
- 		a->fmt.pixelformat = V4L2_PIX_FMT_ARGB555;
- 	else
- 		a->fmt.pixelformat = V4L2_PIX_FMT_RGB565;
 
 -- 
 2.48.1.711.g2feabab25a-goog
