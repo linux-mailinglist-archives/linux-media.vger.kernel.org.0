@@ -1,79 +1,79 @@
-Return-Path: <linux-media+bounces-27683-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27684-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8D9DA5444D
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 09:11:33 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2995FA5446F
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 09:16:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7CD4F3AA2FE
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 08:11:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 47EDA18963D2
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 08:15:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56FD41FAC52;
-	Thu,  6 Mar 2025 08:11:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EEC41FDA95;
+	Thu,  6 Mar 2025 08:15:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="ClzHVjkN"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="XPFlizap"
 X-Original-To: linux-media@vger.kernel.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2051.outbound.protection.outlook.com [40.107.21.51])
+Received: from AS8PR03CU001.outbound.protection.outlook.com (mail-westeuropeazon11012039.outbound.protection.outlook.com [52.101.71.39])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B881DF24E;
-	Thu,  6 Mar 2025 08:11:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C48E1FC7FF;
+	Thu,  6 Mar 2025 08:14:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.71.39
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741248681; cv=fail; b=ldmVA3vvULeI70EB96O4jHyYAbXHjuEqJ6EY/52lzBtH+1fxaFRNODxdWo5Kgztx51AxSc4gyaYiD6kSIfXDPrTSm4DSUQHmiSffU4YF8a4vUUtO2x1pDPS4fgYVc/aUUdCzw+7oVW7E2I/t8PsVw0H4mftzeLzSYAOx9tp0m7g=
+	t=1741248901; cv=fail; b=muuLu5QBC6kypbkeMZZZYec87kpEaADoKRKPq22tltaITX7kXfCY6+ZbbSx42gWxCWrFDSvn4VBqPgLXFWD5NsIlXsPsb5PBLC/vPud/ncy7OP9/eYRvMUIOFCTfLoAcE/+GDhm3bYy8tlLPUo3t0C62cvf1zjW4fXb8qJn11+M=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741248681; c=relaxed/simple;
-	bh=erGf/vooNEPvWuo+gXU2xJ1+VR82KRsPyChmRO1idLQ=;
+	s=arc-20240116; t=1741248901; c=relaxed/simple;
+	bh=Ki6rApT97dsLgXgZoMGAgK0r3FY1vzR5VOSHKJNfK1Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=pTV7cM+5qi+P+K3HwTyUwe/ZeQzxR4bR7cmHT/LsYbBngoxZXu5BxoMAX6ohOLtPio6icgNv0dXYKXippUbIwv4UVa1+CNOEomVAtuwHnWcLaiW+wRSylJEAnokvOsDx8JB2v9C4wZa/ah0l8zBGsgd+OG9phkwDOCeDGr/0mII=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=fail (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=ClzHVjkN reason="signature verification failed"; arc=fail smtp.client-ip=40.107.21.51
+	 Content-Disposition:In-Reply-To:MIME-Version; b=RDvKZM38VB5eIhAEo8ARf0SR7AyaHMs5wxN+svjZDPlHVcR21KH62/i0Hl06FjfuopFA0utCeIWI7PXLyde3/KEbvyMdmFVXwXH9DoiNQA294jdCDeGHexnHzjMqvnF4SQLWQ23R3OtHHnYJ8MP9/3+T8+imBgGmBr877/+9aYk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=fail (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=XPFlizap reason="signature verification failed"; arc=fail smtp.client-ip=52.101.71.39
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EWGFtL/KAzMl/NSzqaCPF4aroL3O0ngkZksFi0YxZMfb9DzBMmP023gIFcSMkAKlGOx3Kl2//gxIR9nBQOfIkbl1S/RoDb7VKz/R2sYcYEal5M1KqdN4HrX5qSCw5BNRLzxlwCRLXwbEItzAjTLr0YVCQerFVZwwiMSUmQMV5AL2p3lh16auY844HQJ5MuwGFqWBa6MGfYQjL9GAvTCFN3MbWV+asJ+Gl77p80rQOaLbGcozx8IWb5e5uoNdRnwz1clFa+73JODrjqT6dOi7/qGeL4OM+KNUcLcKZBDImLQbQ2LsqB6r2lWejbPolpN7E+0a+Fpub6Wr3DAUrUE2ag==
+ b=vrQPMwyCvrtrr0RJjWLdYVzc0wx2Q9JmIktZZieHYLsGeC9MZ94MtfjzMhCEY4Ul4fD+R+U2Ia8/Bo3zwrzKPAltax89mSLoL9s6mAR93L/6GEiBaPpN66hP01HUm8uHMuirhUszorneESR1jeIy1qm6Gs9ufYDa5S6gryimeozKVbaxrMwN4gPKgoBWBkSrwjCn5ujiE/kZmbqSlCNFuyQGax5r6FDYaM4zAXKSpaUIoGMNYPC/SsM/ZYW7l3wVyNuk1JB4rqBJXLH49g458rEsBH7euhHO2hveDEkLETLKXk49WDyUhjo6NVQPQEXbEhm1vvYEp/OXPYqQfUzVzg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KpuYd/ALbTpnJeUqsm6thZE/6AqKCuU1CTIg/6dEw4A=;
- b=FgUPmBpGeReEThJXWKEBw8cjGHuf/nnvqzivsF1usgoM35WKycsrxcZlgItbJEbPaSl3zLhZgJHSf47HqZK3FZD2fXPBRty9/QfWD7pMoZAVty0FZndMgtMFXSGO+BLxXuUqkt63sJHUKQy4TzL+Iniyd3If+XyxtfyQMataF85C9hr58h35J995WaWYsukonq1VerfoAD4uCO9LeWAbZLeQXqcVNOpzhvKiyXeyZshB65dY86CZAHZFruqFTivnwaTax8Qz+kST9/DVy4D9UlkGzIyhIDrf0r5AsYzSdIs0p6uMIMJGnrbZp5BYN5YbD+aW5W6nBXZbOPFGXjW/Ww==
+ bh=VvRZtRwmOjdMgAgMglw+9ots5sw7Uwyxu9QPdesDkrU=;
+ b=nLT83ft0TYpKcqirClJsLdq5mHvxROheGVRx4JV2m+Ep9uL3LeltsrgfVYeAyM6Rfbrqu7n5OEWHFm6NyUP7GEAXq6CThC8n/1K2XKsX4u+zi9BnxmTTJYrWHctaNjhr2lrlHYwSc7vVYS702/dIq/VVEtUVRqcG7+N1oIw58zhR9ss8qFgLhgc2jQC4XEZKc5npmzrpTCG3qObmNyIilqkpDgMT6GSjqVsyEyCXfBHfiJiYVx3WKxbSJZkxkj0pj6xxAhyFm6SIl9JDQ/YWzdifFer8yyaE2UeTiaYOhkrvtTxQVRp9AQ5fuKjVGKali+frHJRRqAV61DKE80Cr2A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector1-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KpuYd/ALbTpnJeUqsm6thZE/6AqKCuU1CTIg/6dEw4A=;
- b=ClzHVjkNlg3FSaekHQwSHsFNkOCukHzd5bRtdLD8haxn196uFAtZw0qzdqKMhy55XwkoCRH8lyxv0f9ftRvu+Ms5Bm/6B4uWIhKT9h5S8WyxM5V0M3iZo+QFrRLA4PzBE8FlPzAl9aCXffl47qcoQ8S2NfAxBfQy0E8gmOrgghUIQEoro3P056maNQKiTsmGFpe/U9iXyamHJA6VoY/ybijP8vgK2LaecZFGdMJ0ePnJ+fMKXrtjgyb7lZSTvfB4VoNRf59vq6mL1XycAv3jRdLjVe5+rFZ6bfjWsZ1EeD0v/WdJHv8utplx3X4N7JD4B9lKANS3u/DqblK0kdaKNQ==
+ bh=VvRZtRwmOjdMgAgMglw+9ots5sw7Uwyxu9QPdesDkrU=;
+ b=XPFlizappvKUyLfhtqIpnPHr0rt52TX2Ff0kbuQzudnAZrOCV2YBtIsdWyWkbAyE2PAV0gaGMIV/SBL8NN42nS7xVM7MOW6fb4zv6NFwAHJxAJc74VtK53aMQqOoM5tJN3WuoFZtx0+svCi26lHlRv4iBhD8HVWtPiM3RmT6ZVF/XHl1KTJGwSY6JX/s+5D7I0twWOUg//yz6yNeg8tEPdNJEuPf1DPWuOjGYwmQKda1UBqW3tTCdDz8vxTp85e+Kh195g5ISXxGBAGbjm52cQa1zxFTJKJz0+mrqnmJYUkV4mJTyVMFfv2kVLkTSAx/2oJisx1nNW+rxQNHFHFMAg==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=oss.nxp.com;
 Received: from AS4PR04MB9576.eurprd04.prod.outlook.com (2603:10a6:20b:4fe::12)
- by AS8PR04MB9080.eurprd04.prod.outlook.com (2603:10a6:20b:447::16) with
+ by AS8PR04MB8676.eurprd04.prod.outlook.com (2603:10a6:20b:42b::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.19; Thu, 6 Mar
- 2025 08:11:14 +0000
+ 2025 08:14:55 +0000
 Received: from AS4PR04MB9576.eurprd04.prod.outlook.com
  ([fe80::9cf2:8eae:c3d1:2f30]) by AS4PR04MB9576.eurprd04.prod.outlook.com
  ([fe80::9cf2:8eae:c3d1:2f30%4]) with mapi id 15.20.8511.017; Thu, 6 Mar 2025
- 08:11:14 +0000
-Date: Thu, 6 Mar 2025 10:11:11 +0200
+ 08:14:54 +0000
+Date: Thu, 6 Mar 2025 10:14:51 +0200
 From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
 To: Julien Massot <julien.massot@collabora.com>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
 	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/5] media/i2c: max96717: change internal regulator
- voltage
-Message-ID: <fvwj4hi4n2uspsggikw5vce7tyxxv2pga5duoqxbqkd46msfjy@ndshmqgxm6ky>
+Subject: Re: [PATCH 2/5] media/i2c: max96717: implement the .get_frame_desc()
+ operation
+Message-ID: <iowx7ej5qfkwhoqvdocpuvjzytihukephb7lpuazll754e45kf@yo22sxya5n36>
 References: <20250207112958.2571600-1-laurentiu.palcu@oss.nxp.com>
- <20250207112958.2571600-2-laurentiu.palcu@oss.nxp.com>
- <57262be8baee2e5c08ed7ba88cfa2716ef0138bb.camel@collabora.com>
+ <20250207112958.2571600-3-laurentiu.palcu@oss.nxp.com>
+ <f5940c764af6587b97d39fdb9b64ec9bfe09b4e8.camel@collabora.com>
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <57262be8baee2e5c08ed7ba88cfa2716ef0138bb.camel@collabora.com>
-X-ClientProxiedBy: AM9P250CA0020.EURP250.PROD.OUTLOOK.COM
- (2603:10a6:20b:21c::25) To AS4PR04MB9576.eurprd04.prod.outlook.com
+In-Reply-To: <f5940c764af6587b97d39fdb9b64ec9bfe09b4e8.camel@collabora.com>
+X-ClientProxiedBy: AM0PR07CA0031.eurprd07.prod.outlook.com
+ (2603:10a6:208:ac::44) To AS4PR04MB9576.eurprd04.prod.outlook.com
  (2603:10a6:20b:4fe::12)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -83,155 +83,149 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR04MB9576:EE_|AS8PR04MB9080:EE_
-X-MS-Office365-Filtering-Correlation-Id: 26ab4d7e-1aec-47bc-a7cf-08dd5c8676a3
+X-MS-TrafficTypeDiagnostic: AS4PR04MB9576:EE_|AS8PR04MB8676:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1f096ac0-5148-4dec-89ca-08dd5c86fa02
 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
 X-Microsoft-Antispam-Message-Info:
-	=?iso-8859-1?Q?J/8CmMw16C8aLLR1sAQy1L6izlmwoKJl+OsF/XsgpndUNvD/YBX+IMVZoW?=
- =?iso-8859-1?Q?85bMHDyRrXuVhZwmoE059+D/yxDFvqCmGWCY/XuGX+oQt2dEXg3TYt8bZy?=
- =?iso-8859-1?Q?D0cbyiIO8RpofPNgcIeo99IcddznPv6Rxf1IK3lUonunhJ0z3+ndOOvkRL?=
- =?iso-8859-1?Q?ZxfJZGpzEPGIN47BXMYtyjdQsR5VHKDl5cfrl2bkiWCajvkLg7qNOMSQYJ?=
- =?iso-8859-1?Q?xAi7HoN80Eto9xjZAlq2PU8QnMSj97X8/hQ8rSnECIXtbBKTjjznSR2GyS?=
- =?iso-8859-1?Q?X1yjb72UvTl7gGEXAQqmFjwr1uFz9h2CkTGYf1Jn2vhOZCz94gGpUzcYyW?=
- =?iso-8859-1?Q?k+iOl5wWCE/18dG/x93t9ml6kqgLQrlSSAjZH/YfJi8HfB5Kl/Z726PXXZ?=
- =?iso-8859-1?Q?gHufBoG3ig05Z8GDsEzOblzdt2csGm9McHvzgQnEbrQvbFne5ke5lcmPn3?=
- =?iso-8859-1?Q?cfi611WYlTLPp2hpKL0VPR7qC3uahgZ+lc1iq3yiUU6kMMOW0P6CCqQ7js?=
- =?iso-8859-1?Q?9vslr34EB4SIlRvd1JJdlyiEZ4ezDOgJqxvgv3suDTnA5hUq9hhm4NLCl3?=
- =?iso-8859-1?Q?K7ecuzueoswjsqLI2qyW1h+G3ZFsHbzNPa+B64847csPHUhxgkyPOrZoG4?=
- =?iso-8859-1?Q?a2FT+tF3Hvuke30Px+HSzzeDUqbZxb3olheoXzUag9e+mKOzfDaxYN3tq5?=
- =?iso-8859-1?Q?Slua1tdTLgiw43p/Oyk+aXTs4IueY8I8O55c0qxZ1keqG5xzBT8TTjn3AG?=
- =?iso-8859-1?Q?+Dtm7BKK4wWfh4DfumqV5YM1hVyd8ZGKQ+JkG9rtnPcMnrclRdWDoMplKA?=
- =?iso-8859-1?Q?vrN/aDlHlTutnUnvlTu+IBnXzGS0t9BRKST4waAXUshHOsI0HlK37HF/aC?=
- =?iso-8859-1?Q?BvKJehCPK80i3FEdwEglmgobhN33PSfFk0oX0RvPGUeY2vJBELuot/FreM?=
- =?iso-8859-1?Q?7Dvd6Met8Qc2QbxHWIAikmootMZWQCis1gJ5VgWQw/t2r2ZkbNdkUtFzrd?=
- =?iso-8859-1?Q?NaP7NmcT5dxHCVI+3H49MTKQiLedXBUkKqDFiIKBWvPFBLnwCrqdjJUTxv?=
- =?iso-8859-1?Q?v6MGMMxYPSckJ3licix5FzOopAM6NyJyOU6JDpgNUScyGA7GW5IHiQ1GXa?=
- =?iso-8859-1?Q?ifLai8UuiX8lzfxQqbvPccZRlEFl0EaPbGNf40qD1crmaCPC7JPDhn2ST4?=
- =?iso-8859-1?Q?75vOUiUE8q2cJ7DsQWD2hUl10QQPiWKB5ixTOw37XRq5F7Pek4iI/jCPt5?=
- =?iso-8859-1?Q?NheICIMXH+5qb6/AVwmkl68rl+oORhz4snmA5AGP9CjqaX81ctPMiNsGdV?=
- =?iso-8859-1?Q?srxul0w9aHDQrziFKH4m99QpOI2vX26QBco8Wuvh3iyUFUm6tXo2ZUHXHO?=
- =?iso-8859-1?Q?OCP3xGoT8FdSyyIh9CZ8eeasvOyuuoQqFI2U9oK49Xo5LEg0Rx//I8vioh?=
- =?iso-8859-1?Q?zm/aL6BxE24TJzYq?=
+	=?iso-8859-1?Q?Pt1CzQinm+N0fXY2ll6jyFiMMA0JgwJU5UlEQKevjZ9bXOfaqHo9YBCSJ/?=
+ =?iso-8859-1?Q?CCeaQQUdbAgsHSqpdL8UrmuhmiZNuzZedPabFHTJWC8dJ2u6RuGGky7xMn?=
+ =?iso-8859-1?Q?sqKSe1loRvuocLthWfZkX1RczCdaAUHvEJiNzjDMfQ1cezJDixdutriNSE?=
+ =?iso-8859-1?Q?IMcFeKqKn9Kdk0c9vWhTSqNN3Hnfr4RIn/gSa5EyOO3s/DyIoeLDQeuS3w?=
+ =?iso-8859-1?Q?bgtUr5oWaym0XpDBq2jdCPvjrsAZQRgFl0Hy3g6J7eGz5X73SiwAn+Wpv9?=
+ =?iso-8859-1?Q?D8s7tiMqiGYmaPI2nUAp+rClfqQZBKuF8pzdXyAWiuO1eAY17krORobN8F?=
+ =?iso-8859-1?Q?YPOSRLYL67sAUlZXZlLERzYa2Zt+aCgUpJLpyGExgQYuOHLzfPdsXghqL0?=
+ =?iso-8859-1?Q?BOdbz9AXfznQwsX0SByvlIbNu7MSvpxvSW8HScnyCzZ2SEcDqvX0NwtDe2?=
+ =?iso-8859-1?Q?Re5e412FIug62Bli8azjM+zMO859ec5Ymiup0QCRF8b2WGn2LzQ1dWDKTY?=
+ =?iso-8859-1?Q?yOLMBh/cqWVWw9W3Ip7JR/Cz2p2cVzh1hcZvMJfEXN3T9tEon0CSrSX/+j?=
+ =?iso-8859-1?Q?rFW25MmHynSiN95LAOq84ZgBxrbzvM5a4x9742sZao5kf0P9HAJPvOu7NB?=
+ =?iso-8859-1?Q?SlrskM1/oHwpVV1rjQ2xgw2xgk7bVs1evNxSPI5P6np3Hnt0FESn+33l7+?=
+ =?iso-8859-1?Q?5FTSe1XjtPdqgPWTctzeUE3ciVOgpmXKEc8Ak1E1jjqswAcwf128nkHkZZ?=
+ =?iso-8859-1?Q?hp4SmGH2uVH9TADe+OaSGkhEoWJeZhs1PQi3riElmPNC6l74I5b7wt2wiM?=
+ =?iso-8859-1?Q?F3Fzw6bbJnJMIsXTQ0sohPdxWZyxPOm8YypZUv+y63NrJ+IaMQ96PH8Gq8?=
+ =?iso-8859-1?Q?ji+qtmKy202wg3cmydNFIRx4xpFvlfT9FbsDP/0WHtDeq96F9IZmyROdXB?=
+ =?iso-8859-1?Q?0FYZFsnBLzbNK7hQBIFYrwVOuKfGS456e5vrlEsU9zpqtmksDv+Q+aqGMm?=
+ =?iso-8859-1?Q?bAiimpY9urUVFrTsCctdc71a8VFMzRqF9nUXqflnO0JvZxD3zvMUxVT7tJ?=
+ =?iso-8859-1?Q?Sapah3CsogENhoW/iGU0h8FjCrgIqhG01EacW2UqaP3ol5QYk4QF8Y2Qgc?=
+ =?iso-8859-1?Q?1b84v8fW4k1bKRYl2nb86uBJ7rhLvXch1Lf1v7o32pT986FFypV0jFw8AQ?=
+ =?iso-8859-1?Q?sgyG80izd0pcJsQr82GKq/QE3Pm9YB0NlJ2wuXNPyIkAWFe/WOj+ESWhEI?=
+ =?iso-8859-1?Q?nG1jJakWxiLxFOdHpSS1pC1so5Sse0mFQBrOgz33BzqlW8MCh/5k6Z6B3T?=
+ =?iso-8859-1?Q?VLbO8Y5ZNaVopaBCIW6Teq2ZMF/bbebtJ6jBWjZehti0sk7UzqoFNKyrwn?=
+ =?iso-8859-1?Q?yhIJcrNQs0tjnoZxlk9mn8kB9sojKBuKq/DeL/hAfLCTqCY/UYYs6bAo/e?=
+ =?iso-8859-1?Q?veA2PqexzwpEHJYI?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9576.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?iso-8859-1?Q?zPvvCjloByacF2++PZScfpRbRkZH7yfnEDw44IExgmeCKVPJY4bKS4JUIF?=
- =?iso-8859-1?Q?aPwb9zsd4KEIwpsro+8H+1CoYkEGZ6WX7yJjPh8gnXzEpzp3Um5/fF2Jx6?=
- =?iso-8859-1?Q?UUNE84YTTQm9VkZmYYtu04P8k84Tt5AdcRxhmqKzYyE9wIY94jKl1iUu0B?=
- =?iso-8859-1?Q?K6hL7Zw+Pcj28pScPJ1rpkWIc/VjP+HjaWS/kA08lJtDLzGaqinzllhXu0?=
- =?iso-8859-1?Q?jHFkdvkzArYONoMw+vaNAZm9PnSi+ggzk/jrGkzQQqO55M086Pye72q5Io?=
- =?iso-8859-1?Q?TBW5sPQJGtA5zDzWvKzAR2Sx+ZPzjEsBT3RzZ4PzWIsuv67Qxdwd/Ijg2q?=
- =?iso-8859-1?Q?TeJmvEss8ab1CZbsK5lORQ0sKBnwXQcxDzo/7bihUsTVLCloq4DPnblr8R?=
- =?iso-8859-1?Q?vHi2OGPAR77/cH+iN35utTx1hjAGrs0xRqIajqz6EhoHo14t5iV5AF+YJa?=
- =?iso-8859-1?Q?WAuGNtLeWM+R+Pm9jfxTLMgovEbMC1jeYzrP4834prspuRSwIIockjg34N?=
- =?iso-8859-1?Q?1ivuOwWskwGhCEDJKMjXu+RaKxEN0fPkcanxLSnj29z4zB4mPDr1LQrMCf?=
- =?iso-8859-1?Q?ndqbcJW3HxRsskfgInNHvoXYgwYlP8cEjXxyIDz0FgrL1l5mOnod06CaLq?=
- =?iso-8859-1?Q?r3SXSb0UQGR9bR94uzWToZOLQ5BFtlC0jXqlBn0VEA5Jg1TtPtXqQgcSXe?=
- =?iso-8859-1?Q?pv1hgJA3rJQACbATzVKbON6fWEMUoJkyAxNgv0Qv5GMOfV9plmrHhJsrGP?=
- =?iso-8859-1?Q?bfY5roNA8oI/eyXCaHQ61tZUAp31c/tV5wF/xiblY33M65KlBR8T+W3zOd?=
- =?iso-8859-1?Q?iD8YNFsNf460BK+uGdKGp1kQXYcoNG2Qa26zMj/xKmjMOqs1MHF8WUsUY/?=
- =?iso-8859-1?Q?/w/NHohl/8x133ZL/JocZ5vrDsL/kxdKz+j5S2jgFvjVFq4c6Q0aF8Cx3U?=
- =?iso-8859-1?Q?PMWDV7OtT/lKLz18W3OeWL+kXe5lAdewN/n53sj9YQmoXJfWPPRoxgByUn?=
- =?iso-8859-1?Q?7o7AlAYygvyI9ifpqgPkGnmcj1qD/ha/dIDNT5PTzowGWvSdGl4+HGMCfm?=
- =?iso-8859-1?Q?DQ+RwNyc2z4vB2r0bc+QS2VswZdddiypF2Sxn+Y37yMrnQL8PV4cetF19d?=
- =?iso-8859-1?Q?EKEl2xvZMqmU5oTKBAeDMkF7Z+SVZRJ3cS+jnLj5vrCnGgROTJJboeWsaM?=
- =?iso-8859-1?Q?In2C7BLpTDzJ6NSFrh8fTucuThb/A42NPa86I0YGyC53aiJvMz1yNj+Rmy?=
- =?iso-8859-1?Q?hWDvsRQD33gMS8ZTPxD845pSvTW6hW37T41+xYe5crvUrBemRMe1bbUSSg?=
- =?iso-8859-1?Q?bHMIfRxdXVHGGDyF0jyrbmQwaRFaG50WVNbKECPYccBS/yWc0QSuF7v3pE?=
- =?iso-8859-1?Q?sj6KWtbudqZNZt5FBlvc8oUh1wz4bRsk1vx7faYbKaeS65PTCMwEFDNRDC?=
- =?iso-8859-1?Q?Mn/MXwhFR+NWvz2EM6AoB/gPmWwNj/qRDcs9u23cR7D+3fl4Mu4r58C4hu?=
- =?iso-8859-1?Q?Bzet/3rE/rgn04TWhfkYkZJpeW0JAel9+8zkGqAny3kkzUmMfsNl4NLNeM?=
- =?iso-8859-1?Q?IVzza0xRfWbxGLSyNn9BqJRqR6MPGDyKkTzHE0QnovckEfTRbjiykeipU2?=
- =?iso-8859-1?Q?DNDnrfbHSrAsynvIc46xU6q4bs3bjfm14FqIiB286mL8xEPJ3/oAou3Q?=
+	=?iso-8859-1?Q?1Ev8VC+EUnTchQRRA7XEC4DdnnHnbTxHMsAUF58+4MN82E8TfFh+hBkvzs?=
+ =?iso-8859-1?Q?tuzf246XD8j+kNjuUJ7IKlnyTz4BrvV5p3DzS4MLa3cMgyJhMYAljhvNwo?=
+ =?iso-8859-1?Q?rwYFs2tJxrSfdNLiAK2EnCZC3JuIDf2LqXFtF2jSOvzqeIGUHd22GnRRrs?=
+ =?iso-8859-1?Q?CbEikVlvJVjOV8btwRfS6oCWk+6DulXvKyV6LH083sheMvHX++uPH4plUH?=
+ =?iso-8859-1?Q?HCsq6s81aG1n0KhVg103W1bEQJo0xeLWeIxBtpI53DkXewEzUdFRB00yNC?=
+ =?iso-8859-1?Q?FAmdEJFMl+SoSlC79rNw7h6pEWUz1HBmv45fNdmoQZADreyzCbszuntgwS?=
+ =?iso-8859-1?Q?MYkEoPFNwXQnZh/f49GF5uzbPYPNjRjiYLVGxx9ZIKy3aNSP0EMb9Gkipq?=
+ =?iso-8859-1?Q?+KcmVJzN3KLk9OWVPC2ZQju5ZkYjcR8cPLKD+Gr4l/UVoAevCRoxMc42T+?=
+ =?iso-8859-1?Q?IN/5/+SS7MAQQNOLaPtqoXoQFZkHpU9VJZ6rD/dsHcJX4Ii6cQXMg+svcD?=
+ =?iso-8859-1?Q?Oz58SFpt5TGOruEHD4I5f6vZp/PSbCeYighe8ZOqJf6yLnPk2rJoReVOEK?=
+ =?iso-8859-1?Q?5jJcqkIcd1HyqmoUO6q6/JxVP1IyhkqTgKaepCq8mKUtUZrY8k/G+bPKgF?=
+ =?iso-8859-1?Q?6Drna9hnbN5Fb1q3UEW5UtriYUDJQaheGDKWayYE5VMRrnNdCZpqpnOwqE?=
+ =?iso-8859-1?Q?y2zc8OJXtSinCTuHdeBz4eiZYf/IhVwOz4xb+pUE/yrbJVQBUHkFnWmiTL?=
+ =?iso-8859-1?Q?XF6qXpTOGjELOpvjeqZD1dHlpJ8PGHRrQcXTsTMA3v1kQsD9ieKXP2FWXT?=
+ =?iso-8859-1?Q?lT4I1swuLIXlbvnxrcLd8r2RE7ky0YlWwy8Sh3unCQMO8TvxOv1TR622rx?=
+ =?iso-8859-1?Q?d09UoSrcmdpTCf0s9HTVHZK433byevi0dDC2jt4bvwFolO7UxmdAWGNZ7s?=
+ =?iso-8859-1?Q?oLcygFcVrZtg3dQEe1a/t6AVgDXKBDhLltzlWEoRassOETBuKSkKU7rasZ?=
+ =?iso-8859-1?Q?zAqsVPD3X/zxexY91RnwskHu+hnrk88JhCAC4K6urk7D+i4//SHgmfjVcF?=
+ =?iso-8859-1?Q?lIUg9JpT8OXmp/RyFagwAjtLJSLNpNARjDxj3sd5GYIKynSx1G9myMyv3g?=
+ =?iso-8859-1?Q?rNho0L1WJG8NMo7Rjnw65U77eUGQKfO8R9y3UB/ET+tEt/7dvb2/WdTCH1?=
+ =?iso-8859-1?Q?ztJz2YBHCQmOj+qwxg44N+8zCJZyqly45WmIRNNTedycHSoZNYl5fcm/Qw?=
+ =?iso-8859-1?Q?rk/Fm5BBoTq6hXoCYsKm4KkGaHdqUqjj9UYLRSMVwlqd8pZsnwI5ALcN2d?=
+ =?iso-8859-1?Q?z2j0fLN5cj2uJdJ13+0fc8ZfIfca/tQsHSBksEQV7icPGYoapU7KykpInx?=
+ =?iso-8859-1?Q?7bUphLBEBVFvmO6SPju2OWtDrRoHfSCzcU3aGL2PKeEE9jmP1OsEFY64B4?=
+ =?iso-8859-1?Q?uBi4XwApju+fEZChEFDLzf3vSdylQAf0XtcXHdEcq0vXPeLvJya8XRtxHy?=
+ =?iso-8859-1?Q?gXeILSzdVFqy8ISoiRD84ehFnRZSZjoxlz5RV2369EgxmGZhBhoPOel4Eg?=
+ =?iso-8859-1?Q?UPcL24LL47NBigVq5dC3A1C06nYcgq+PCoP4N3tErmSosjqiHEetvXnrNj?=
+ =?iso-8859-1?Q?1R4ZH/rnYZQYzVtzm6iV3CaE96N+J8WUJyR1L2IYXQ4U8Z6hL/FssfHA?=
  =?iso-8859-1?Q?=3D=3D?=
 X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 26ab4d7e-1aec-47bc-a7cf-08dd5c8676a3
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1f096ac0-5148-4dec-89ca-08dd5c86fa02
 X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9576.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2025 08:11:14.4608
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2025 08:14:54.7657
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5zdrFn4orDQl6XIPOCfmzNgtuq7g0OSdAjmJ+HTOD5oAs6yZssjCF/fFJoCd0MpCpim2pbOdXAinqKbkS/sWqA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB9080
+X-MS-Exchange-CrossTenant-UserPrincipalName: p7SaIlihkZF90kCxqvgbNlTizJMLcy+rQKgKIQQnrDx6sjgIdsF9bf+YFG49aNfdquxtzXad5RBoBV+Ykm41Kg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8676
 
-Hi Julien,
+Hi,
 
-Thank you for taking some time to review this series and sorry for the
-late reply... :/ I have been involved in other more pressing stuff
-lately...
-
-On Tue, Feb 18, 2025 at 02:14:57PM +0100, Julien Massot wrote:
-> Hi Laurentiu,
+On Tue, Feb 18, 2025 at 02:29:30PM +0100, Julien Massot wrote:
+> Hi,
 > 
-> Thanks for your patch,
 > On Fri, 2025-02-07 at 13:29 +0200, Laurentiu Palcu wrote:
-> > The Programming Notes section of the specifications states:
-> > 
-> > """
-> > MANDATORY REGISTER PROGRAMMING
-> > Make the following register writes to ensure proper operation of the
-> > MAX96717F. Without these writes, the operation of the device specified
-> > in the data sheet cannot be guaranteed.
-> > Set bits [6:4] = 3'b001 in register 0x302
-> > """
-> > 
-> > Set this register before going on with the chip initialization.
+> > Since the max96717 serializer can work with various sensors, we need to
+> > implement the .get_frame_desc() callback to get the VCs and DTs for the
+> > incoming stream(s).
 > > 
 > > Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
 > > ---
-> >  drivers/media/i2c/max96717.c | 17 +++++++++++++++++
-> >  1 file changed, 17 insertions(+)
+> >  drivers/media/i2c/max96717.c | 21 +++++++++++++++++++++
+> >  1 file changed, 21 insertions(+)
 > > 
 > > diff --git a/drivers/media/i2c/max96717.c b/drivers/media/i2c/max96717.c
-> > index 9259d58ba734e..b1116aade0687 100644
+> > index b1116aade0687..6a668a004c717 100644
 > > --- a/drivers/media/i2c/max96717.c
 > > +++ b/drivers/media/i2c/max96717.c
-> > @@ -78,6 +78,15 @@
-> >  #define MAX96717_GPIO_TX_EN       BIT(1)
-> >  #define MAX96717_GPIO_OUT_DIS     BIT(0)
+> > @@ -575,12 +575,33 @@ static int max96717_disable_streams(struct v4l2_subdev *sd,
+> >  	return 0;
+> >  }
 > >  
-> > +/* CMU */
-> > +#define MAX96717_CMU_CMU2		CCI_REG8(0x0302)
-> > +#define MAX96717_PFDDIV_RSHORT_MASK	GENMASK(6, 4)
-> > +#define MAX96717_PFDDIV_RSHORT_SHIFT	4
-> > +#define MAX96717_PFDDIV_VREG_1V0	0
-> > +#define MAX96717_PFDDIV_VREG_1V1	1
-> > +#define MAX96717_PFDDIV_VREG_0V875	2
-> > +#define MAX96717_PFDDIV_VREG_0V94	3
+> > +static int max96717_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+> > +				   struct v4l2_mbus_frame_desc *fd)
+> > +{
+> > +	struct max96717_priv *priv = sd_to_max96717(sd);
+> > +	int ret;
+> > +	struct v4l2_mbus_frame_desc source_fd;
 > > +
-> >  /* FRONTTOP */
-> >  /* MAX96717 only have CSI port 'B' */
-> >  #define MAX96717_FRONTOP0     CCI_REG8(0x308)
-> > @@ -981,6 +990,14 @@ static int max96717_hw_init(struct max96717_priv *priv)
-> >  	dev_dbg(dev, "Found %x (rev %lx)\n", (u8)dev_id,
-> >  		(u8)val & MAX96717_DEV_REV_MASK);
-> >  
-> > +	/*
-> > +	 * According to specs, in the Programming Notes section, there's a mandatory register
-> > +	 * programming notice that advises to enable the 1.1V internal regulator to guarantee
-> > proper
-> > +	 * device operation. Let's do this before any other operations.
-> > +	 */
-> Latest MAX96717{,K,F} revision 6 seems not affected by this issue. Can you please make this write
-> conditional to rev < 6 ? Register 0xe.
+> > +	if (pad != MAX96717_PAD_SOURCE)
+> > +		return -EINVAL;
+> > +
+> Please check priv->source_sd first, we support the case where we only have a test pattern from
+> the serializer. Then we can simply return the result of v4l2_subdev_call.
+> 
+>         return v4l2_subdev_call(priv->source_sd, pad, get_frame_desc,
+> 			       priv->source_sd_pad, fd);
 
-Ok, makes sense.
+Ok, I guess I missed the test pattern functionality completely.
 
 Thanks,
 Laurentiu
+
 > 
-> > +	cci_write(priv->regmap, MAX96717_CMU_CMU2,
-> > +		  MAX96717_PFDDIV_VREG_1V1 << MAX96717_PFDDIV_RSHORT_SHIFT, NULL);
+> > +	ret = v4l2_subdev_call(priv->source_sd, pad, get_frame_desc,
+> > +			       priv->source_sd_pad, &source_fd);
+> > +	if (ret)
+> > +		return ret;
 > > +
-> >  	ret = cci_read(priv->regmap, MAX96717_MIPI_RX_EXT11, &val, NULL);
-> >  	if (ret)
-> >  		return dev_err_probe(dev, ret,
+> > +	*fd = source_fd;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static const struct v4l2_subdev_pad_ops max96717_pad_ops = {
+> >  	.enable_streams = max96717_enable_streams,
+> >  	.disable_streams = max96717_disable_streams,
+> >  	.set_routing = max96717_set_routing,
+> >  	.get_fmt = v4l2_subdev_get_fmt,
+> >  	.set_fmt = max96717_set_fmt,
+> > +	.get_frame_desc = max96717_get_frame_desc,
+> >  };
+> >  
+> >  static const struct v4l2_subdev_core_ops max96717_subdev_core_ops = {
+> 
 > Regards,
 > -- 
 > Julien
