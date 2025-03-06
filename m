@@ -1,176 +1,213 @@
-Return-Path: <linux-media+bounces-27707-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27708-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92C21A54AC8
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 13:34:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 973C1A54ACE
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 13:35:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BD29A16C62D
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 12:34:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C0FAF16AC61
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 12:35:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A36220B80A;
-	Thu,  6 Mar 2025 12:34:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F020D20C02A;
+	Thu,  6 Mar 2025 12:34:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Pb+3C9Nd"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Wahu4H20"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E1AA1FC0E5;
-	Thu,  6 Mar 2025 12:34:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3267220C014
+	for <linux-media@vger.kernel.org>; Thu,  6 Mar 2025 12:34:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741264475; cv=none; b=Q9imjkj36MH3mXX/O+uNZHRx3YmPJJkEr6dNQHrkMWzyB2SgIumK5avRP02DssAcJswb0um9Q4/RA2VK2GV4MBzac+GbzLWcO3mg+6PFdOliqPhE2Ul/csXVN2CrSDkP+htvpISGDUnHzc/cMKAkuz/AXI7E5RD3w+y9qzYJ3Wg=
+	t=1741264495; cv=none; b=erPfzhfb+SiOg2NYJxZawNeXn55quTxXv7Vtwb3nrhhazc/cNJjeMOnn6GYFMN2oxpl64eMInVJM3yep/dtJht58D/y5eQRUmarHH7759YnBg8DATLVusACxNbiELGmOzErYJWQhAH0SJQQQ5P9MFVCSoLu/0VxtFJmEcVmvthg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741264475; c=relaxed/simple;
-	bh=65hdsP0lwELLMQE1D/Mi/b7L044+bM80dXXbMcA8cPY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=qxmRUSp8beL8wzYvsZss2DbYUYT6PDQY4yMl6H5qyONmcepEda0UwTsSh+am++5SqEEqeqQcHEBamlKrTyyfhu+xjQq0clQFhFZKpGl4N0myGVbWwLKg7EcANqOTAAZGTjNuKBbKXl9ncZd3I4b18nJOGI6jWkWlsnQcN7Y3mdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Pb+3C9Nd; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5268gFYA020886;
-	Thu, 6 Mar 2025 12:34:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	36bXT+WM5K9bw4Zb40hn1wj4HKhtjhNBCzHSZ6DFiyw=; b=Pb+3C9NdQ/KizQVs
-	MTZyGm+7n5bB6glwy/EGUqzsaYj3jmsGbjvaAws9t3seJGq3Tf/l3sGckPSrbn8m
-	uH0xcHOOpHBpNZLXnY5W+PN3RwsuLSJXPZq0IsVE13/j98jrAFhMQQFKEU7hxeLd
-	PD8c4xNLD3aOpomtwlC0N6m+L0Vv597YwG0eJ03f8RxohRnW5zQDyO17no22sQ9B
-	k4h5tE7HfiAokNhTV2cIOVTZqJU1mqFs9hamxEZVSv/YsxF6J6Jo+1fFaJTzSFvm
-	6PXMlJs2XVgNFOXWRTD3mP+C+3nJtOkGP/wNkkWPMjxlm48tm4+WK99ijkTYgLR7
-	x9OZ7Q==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 456xcuj82s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 06 Mar 2025 12:34:29 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 526CYSnQ010317
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 6 Mar 2025 12:34:28 GMT
-Received: from [10.50.63.230] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 6 Mar 2025
- 04:34:25 -0800
-Message-ID: <31cfacfc-fd69-d488-e2f7-7399bd5a680a@quicinc.com>
-Date: Thu, 6 Mar 2025 18:04:22 +0530
+	s=arc-20240116; t=1741264495; c=relaxed/simple;
+	bh=PQygVsrdXeDMpZ7Tj/Nb8RLss9RHfa2fpTVfus0xpuU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NCZIxPmj0G7LAKzcID9YDiiSQ/k5Z4P+mx2u7sWnhBo/H/2GVtHzdazOwUfkvU26lSg177R7R2fxnRtn3Bl0Wicsby/q2Xy8f8PuFsYtq9XcgvVHKwoeTYuGj7cXyN40MowFcT2N7bncbyaDHa5hcuNCbFD/QV9oTI4PtvxJsO0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Wahu4H20; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-abf5e1a6cd3so106392766b.2
+        for <linux-media@vger.kernel.org>; Thu, 06 Mar 2025 04:34:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741264490; x=1741869290; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qQk+W9UnjEI727XCdsbdZAmPH0hj538LnJhUknTw6ak=;
+        b=Wahu4H20r6kJ+Rm2Mo3PM6GJTBnACbJ1w5EbaQBJVUFG39/BwywQmsR8EzulGqVLvi
+         MrJUkIRFRjWHUmtqhykUrvCzay5uOX4AgQwpmFzD+Iwut0fGVKWsDdzR8XNpI6pBlf8X
+         72IA7QhwO8ov20pD8BfhzeDYGEyfcA52kY/YppggOJkPAdexx+HSO4a5mqjdBDD9Wy+e
+         xmdU9sHGDF2v4z0e4cH8PmFOPrqZeplqX5KqKXXubHecynx2vQE9ekgPfN7TX9a1OU8j
+         KcIpHX4+rUVQQDVUujQoCJwdjArJcXknuYiuBn+xZ6/JRzvR2z7H9zkmZ9CsH5z7lTwL
+         0J7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741264490; x=1741869290;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qQk+W9UnjEI727XCdsbdZAmPH0hj538LnJhUknTw6ak=;
+        b=kLaFb5TuvvNIZ3qcNPZ7/7OK/sztx41bjNazQtrRgmHAdIrvWKCCeXCb4IGJHehtLW
+         Rukm89tquaZ69zY6wnxlTKYJrjjpPYjc5kh6kLEs/eawsC/0fpV8J7sNfPZgFkq/ofF+
+         Ql13RXXYufS5WpewonFG3X2mufvYpAnqpGz2ywEu5O/lGs9QQt+g6fT531oMpn/i3KgJ
+         QGsGMdcOiDmCzyYms44I+3nNMivZQBCGrl5RaoTXhIFw7oFwrQTPFo/F3bEkcKBwZKaQ
+         /vyHXKqzchSdKBOLxw24HK+/Q/kKQb5IRfm/QF6i/gPOjQdwlPB8QGDkL+P9snLl6kc6
+         C/bw==
+X-Gm-Message-State: AOJu0YwrW59o0lr+7Yu4wFSqTSIbkMMEJJ0OZYytxWZy4MxpP7s5Xiw7
+	B1OhzT3m3ps8QV893Gl+CIl5aOmmLZ0vZs2dWRedhjK5m3wbyzV0JFDss2tYAcM=
+X-Gm-Gg: ASbGncv1AFbW3ik4+CqhgfrhewvUUwffwMD9QhRdd0SV48kUstGNnX2h+FY5/hDKGr3
+	d1PDnf1pXsdl91FI8QSzB1vL8u1UBhiEP8vxs/xFBpoHXwwqzBand8EJ1HPmRsChXr7PVCa+aWs
+	SQ3+DAfwBesATtvn05aHH06vkvKU8Un+hJFnivUOuQTNTJcmaUY6aZUNW3K9MPb8S/+4XNbd381
+	RyscO/nlzDGG86EeBLB2cV3hOzMNSDInEByTnKeC3M8lK1dGkpkcZu/Iej/N/Od1P+irS5hg7wY
+	J6dywGZxwgjgTALYjWuaUYMO/SgD8zgD0Nf6R7kjElLrDbglhKyQ/W4OgXeI5RplLVQRAf7WaMA
+	LJcRNp2DFZA==
+X-Google-Smtp-Source: AGHT+IHkjGPRfdYa7OHu+XAJ3GgJlZ3qHNqYEcATDMhpQ5IfOOS79FbY2LfL26sEiKj98rMWg3iQ7g==
+X-Received: by 2002:a17:907:7f29:b0:abf:7a26:c485 with SMTP id a640c23a62f3a-ac20e1dce23mr763535666b.50.1741264490411;
+        Thu, 06 Mar 2025 04:34:50 -0800 (PST)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac2394894cbsm90195866b.70.2025.03.06.04.34.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Mar 2025 04:34:50 -0800 (PST)
+Message-ID: <4cacd96b-8d71-4b0a-954b-8d6f4a769f82@linaro.org>
+Date: Thu, 6 Mar 2025 12:34:49 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [RFC PATCH 00/12] Add support for HEVC and VP9 codecs in decoder
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/7] media: platform: qcom/iris: split
+ iris_vpu_power_off_controller in multiple steps
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250305-topic-sm8x50-iris-v10-v2-0-bd65a3fc099e@linaro.org>
+ <SPBTL2Mq2VFDygL8bL4vg-byfmn_GW3b6yBuJCG-0-RloybQS5iNNMZYiAKejJoPPUhp5CgkM46PXu5d3OLSRA==@protonmail.internalid>
+ <20250305-topic-sm8x50-iris-v10-v2-2-bd65a3fc099e@linaro.org>
 Content-Language: en-US
-To: <neil.armstrong@linaro.org>, <quic_vgarodia@quicinc.com>,
-        <quic_abhinavk@quicinc.com>, <mchehab@kernel.org>
-CC: <hverkuil@xs4all.nl>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20250305104335.3629945-1-quic_dikshita@quicinc.com>
- <6d88effc-2aed-4f92-89a7-17d48f43ccd3@linaro.org>
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <6d88effc-2aed-4f92-89a7-17d48f43ccd3@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: lQkEYeVp8Fd49uyUhCKtBKVFHdnmPP9n
-X-Proofpoint-GUID: lQkEYeVp8Fd49uyUhCKtBKVFHdnmPP9n
-X-Authority-Analysis: v=2.4 cv=eeXHf6EH c=1 sm=1 tr=0 ts=67c99655 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=KKAkSRfTAAAA:8 a=9FZtKMY-L_oLx9VXxCsA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-06_05,2025-03-06_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 mlxscore=0
- impostorscore=0 malwarescore=0 bulkscore=0 phishscore=0 adultscore=0
- priorityscore=1501 suspectscore=0 clxscore=1015 lowpriorityscore=0
- spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
- definitions=main-2503060095
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20250305-topic-sm8x50-iris-v10-v2-2-bd65a3fc099e@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 05/03/2025 19:05, Neil Armstrong wrote:
+> In order to support vpu33, the iris_vpu_power_off_controller needs to be
+> reused and extended, but the AON_WRAPPER_MVP_NOC_LPI_CONTROL cannot be
+> set from the power_off_controller sequence like vpu2 and vpu3 so
+> split the power_off_controller into 3 steps:
+> - iris_vpu_power_off_controller_begin
+> - iris_vpu_power_off_controller_end
+> - iris_vpu_power_off_controller_disable
+> 
+> And use them in a common iris_vpu_power_off_controller() for
+> vpu2 and vpu3 based platforms.
+> 
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>   drivers/media/platform/qcom/iris/iris_vpu_common.c | 46 ++++++++++++++++------
+>   1 file changed, 33 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/iris/iris_vpu_common.c b/drivers/media/platform/qcom/iris/iris_vpu_common.c
+> index fe9896d66848cdcd8c67bd45bbf3b6ce4a01ab10..d6ce92f3c7544e44dccca26bf6a4c95a720f9229 100644
+> --- a/drivers/media/platform/qcom/iris/iris_vpu_common.c
+> +++ b/drivers/media/platform/qcom/iris/iris_vpu_common.c
+> @@ -211,33 +211,29 @@ int iris_vpu_prepare_pc(struct iris_core *core)
+>   	return -EAGAIN;
+>   }
+> 
+> -static int iris_vpu_power_off_controller(struct iris_core *core)
+> +static void iris_vpu_power_off_controller_begin(struct iris_core *core)
+>   {
+> -	u32 val = 0;
+> -	int ret;
+> -
+>   	writel(MSK_SIGNAL_FROM_TENSILICA | MSK_CORE_POWER_ON, core->reg_base + CPU_CS_X2RPMH);
+> +}
+> 
+> -	writel(REQ_POWER_DOWN_PREP, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
+> -
+> -	ret = readl_poll_timeout(core->reg_base + AON_WRAPPER_MVP_NOC_LPI_STATUS,
+> -				 val, val & BIT(0), 200, 2000);
+> -	if (ret)
+> -		goto disable_power;
+> +static int iris_vpu_power_off_controller_end(struct iris_core *core)
+> +{
+> +	u32 val = 0;
+> +	int ret;
+> 
+>   	writel(REQ_POWER_DOWN_PREP, core->reg_base + WRAPPER_IRIS_CPU_NOC_LPI_CONTROL);
+> 
+>   	ret = readl_poll_timeout(core->reg_base + WRAPPER_IRIS_CPU_NOC_LPI_STATUS,
+>   				 val, val & BIT(0), 200, 2000);
+>   	if (ret)
+> -		goto disable_power;
+> +		return ret;
+> 
+>   	writel(0x0, core->reg_base + WRAPPER_DEBUG_BRIDGE_LPI_CONTROL);
+> 
+>   	ret = readl_poll_timeout(core->reg_base + WRAPPER_DEBUG_BRIDGE_LPI_STATUS,
+>   				 val, val == 0, 200, 2000);
+>   	if (ret)
+> -		goto disable_power;
+> +		return ret;
+> 
+>   	writel(CTL_AXI_CLK_HALT | CTL_CLK_HALT,
+>   	       core->reg_base + WRAPPER_TZ_CTL_AXI_CLOCK_CONFIG);
+> @@ -245,10 +241,34 @@ static int iris_vpu_power_off_controller(struct iris_core *core)
+>   	writel(0x0, core->reg_base + WRAPPER_TZ_QNS4PDXFIFO_RESET);
+>   	writel(0x0, core->reg_base + WRAPPER_TZ_CTL_AXI_CLOCK_CONFIG);
+> 
+> -disable_power:
+> +	return 0;
+> +}
+> +
+> +static void iris_vpu_power_off_controller_disable(struct iris_core *core)
+> +{
+>   	iris_disable_unprepare_clock(core, IRIS_CTRL_CLK);
+>   	iris_disable_unprepare_clock(core, IRIS_AXI_CLK);
+>   	iris_disable_power_domains(core, core->pmdomain_tbl->pd_devs[IRIS_CTRL_POWER_DOMAIN]);
+> +}
+> +
+> +static int iris_vpu_power_off_controller(struct iris_core *core)
+> +{
+> +	u32 val = 0;
+> +	int ret;
+> +
+> +	iris_vpu_power_off_controller_begin(core);
+> +
+> +	writel(REQ_POWER_DOWN_PREP, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
+> +
+> +	ret = readl_poll_timeout(core->reg_base + AON_WRAPPER_MVP_NOC_LPI_STATUS,
+> +				 val, val & BIT(0), 200, 2000);
+> +	if (ret)
+> +		goto disable_power;
+> +
+> +	iris_vpu_power_off_controller_end(core);
+> +
+> +disable_power:
+> +	iris_vpu_power_off_controller_disable(core);
+> 
+>   	return 0;
+>   }
+> 
+> --
+> 2.34.1
+> 
+> 
 
+Have you checked that rb5/sm8250 still works after this change ?
 
-On 3/5/2025 7:52 PM, neil.armstrong@linaro.org wrote:
-> Hi,
-> 
-> On 05/03/2025 11:43, Dikshita Agarwal wrote:
->> Hi all,
->>
->> This patch series adds initial support for the HEVC(H.265) and VP9
->> codecs in iris decoder. The objective of this work is to extend the
->> decoder's capabilities to handle HEVC and VP9 codec streams,
->> including necessary format handling and buffer management.
->> In addition, the series also includes a set of fixes to address issues
->> identified during testing of these additional codecs.
->>
->> I'm sharing this series as an RFC because compliance and conformance
->> testing are still in progress.
->> While initial functional tests show positive results, I would
->> appreciate early feedback on the design, implementation, and fixes
->> before moving to a formal submission.
->>
->> I plan to submit a formal patch series after completing all compliance
->> checks. Meanwhile, any feedback or suggestion to improve this work are
->> very welcome.
->>
->> Thanks,
->> Dikshita
->>
->> Dikshita Agarwal (12):
->>    media: iris: Add HEVC and VP9 formats for decoder
->>    media: iris: Add platform capabilities for HEVC and VP9 decoders
->>    media: iris: Set mandatory properties for HEVC and VP9 decoders.
->>    media: iris: Add internal buffer calculation for HEVC and VP9 decoders
->>    media: iris: Skip destroying internal buffer if not dequeued
->>    media: iris: Update CAPTURE format info based on OUTPUT format
->>    media: iris: Add handling for corrupt and drop frames
->>    media: iris: Avoid updating frame size to firmware during reconfig
->>    media: iris: Avoid sending LAST flag multiple times
->>    media: iris: Send V4L2_BUF_FLAG_ERROR for buffers with 0 filled length
->>    media: iris: Fix handling of eos buffer during drain
->>    media: iris: Add handling for no show frames
-> 
-> I should be better to move patches 1, 2 & 3 at the end, after the patches
-> adding support for specific hecv & h265 features, and please check that
-> none of the patches breaks h264 at any time to keep bisectability.
-> 
-Noted.
-
-Thanks,
-Dikshita
-> Neil
-> 
-> Neil
-> 
->>
->>   .../media/platform/qcom/iris/iris_buffer.c    |  22 +-
->>   drivers/media/platform/qcom/iris/iris_ctrls.c |  28 +-
->>   .../platform/qcom/iris/iris_hfi_common.h      |   1 +
->>   .../qcom/iris/iris_hfi_gen1_command.c         |  38 +-
->>   .../qcom/iris/iris_hfi_gen1_defines.h         |   4 +
->>   .../qcom/iris/iris_hfi_gen1_response.c        |  11 +
->>   .../qcom/iris/iris_hfi_gen2_command.c         | 129 +++++-
->>   .../qcom/iris/iris_hfi_gen2_defines.h         |   5 +
->>   .../qcom/iris/iris_hfi_gen2_response.c        |  56 ++-
->>   .../media/platform/qcom/iris/iris_instance.h  |   6 +
->>   .../platform/qcom/iris/iris_platform_common.h |  25 +-
->>   .../platform/qcom/iris/iris_platform_sm8250.c |   4 +-
->>   .../platform/qcom/iris/iris_platform_sm8550.c | 141 ++++++-
->>   drivers/media/platform/qcom/iris/iris_vb2.c   |   3 +-
->>   drivers/media/platform/qcom/iris/iris_vdec.c  |  80 +++-
->>   drivers/media/platform/qcom/iris/iris_vdec.h  |  11 +
->>   drivers/media/platform/qcom/iris/iris_vidc.c  |   3 -
->>   .../platform/qcom/iris/iris_vpu_buffer.c      | 397 +++++++++++++++++-
->>   .../platform/qcom/iris/iris_vpu_buffer.h      |  46 +-
->>   19 files changed, 931 insertions(+), 79 deletions(-)
->>
-> 
+---
+bod
 
