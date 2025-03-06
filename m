@@ -1,211 +1,146 @@
-Return-Path: <linux-media+bounces-27779-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27780-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADBDDA5562C
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 20:07:36 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F3AAA55710
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 20:47:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DC70718963BC
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 19:07:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D7ED2169E15
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 19:47:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7B7E26E15F;
-	Thu,  6 Mar 2025 19:07:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E6F9272917;
+	Thu,  6 Mar 2025 19:46:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="L9BUFe6w"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="X8icVlPx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5239425A652
-	for <linux-media@vger.kernel.org>; Thu,  6 Mar 2025 19:07:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35CB27183F
+	for <linux-media@vger.kernel.org>; Thu,  6 Mar 2025 19:46:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741288048; cv=none; b=GWSu1LyDlEocLhoJH26osefGt92riWRFJ7bKNc2IFIZa6xFQoMS8yhiL6wTt3/x8P39AnH32t4qC77lvkc6zSCkdhBreYhT0hGGDOLFAg+kJNzqg0HFa07/E8z3eJF4vwX+qRPWUFIS0AkJDqYyJET9FX2pkO08tYarIMGp7wiI=
+	t=1741290414; cv=none; b=o5iJJ/9cjmN2ny5OXG3vwfj3bZX1BgvXksPSiA27GFRkqRSYVljvBkpScJhrLI1LpI8mNRUVw5xfbWpqKeC8AJng11gKqfxKCmzMpMrCwnucZ9zjQyUokibrrIVUrjQAbI+lU3GydcOwEFnasFENSxUFcbI7xxurDU8DjqVZ+qI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741288048; c=relaxed/simple;
-	bh=NuM0/4Z7CHDs8YxtoXcHEdVgcIA8PHCLZ43FdsDlooE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JW8nkRXgNOiStMtO25E5vyO8mj73uOfDbFjZruf9hCFCgYWdUpoespKpP0+l69Wgwe3Xt2OszXsP03XLCeZaQomYbAjA9nX7ORJr0xf+K0Js+BhEG0gy9/jZvMnvfqNANo5EG3XPrPe4uo8rkQvatXuEa8c7Y2kcMc5qgAbUY30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=L9BUFe6w; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3910e101d0fso648479f8f.2
-        for <linux-media@vger.kernel.org>; Thu, 06 Mar 2025 11:07:26 -0800 (PST)
+	s=arc-20240116; t=1741290414; c=relaxed/simple;
+	bh=Qy7zGsJTaXY4YvT3V6KgAR44azxYg0LCKGz4DciGpLw=;
+	h=Content-Type:Message-ID:Date:MIME-Version:From:Subject:To:Cc; b=RDeireccJRkHKdy53sa5WembaZrZ6jSehitTEesaR/DH9YB9mX9zKKvOi1qvgTi8lWr8FWRq6Pg8N4O5mINWS6ZxHLzdTKJpuYsZL4i9qwUICrqf2zyRGe3aw9RzldMZkkZ25PExGg5Oxa3wJYCHhcROTGvXWmQt5en3RmwVMWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=X8icVlPx; arc=none smtp.client-ip=209.85.166.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-85ae4dc67e5so32366739f.2
+        for <linux-media@vger.kernel.org>; Thu, 06 Mar 2025 11:46:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741288044; x=1741892844; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=hcPTYtu0Id6NGn3oYEB5ke8Yt/wGoQtkJ2G5rC4dZ8Y=;
-        b=L9BUFe6wQl7esND5MuBdPsZinKeYSbUgoPxkPCAJyQuhtGF3snTFBizBoOkJ+RKI5O
-         N12b8QdpV3jw7r5c+nHY33pZPZAWuIxVMo8MglEh2qAFUiaBB94rM9vYj6+YU4srM8QR
-         6AHqb037g9Ey1JlMvu9xOpkpmbimzXC0HQ+1Ng2ikwgZlmHocSVKJ23E6+WRkzrmt4SH
-         GEUIBQES4uwKIehTFZ9gNGXujB3DWewwFcz0W7PPw7nAdKKc8/t51noeQthkSICWMhS9
-         DVT6XyCt1T4riGchcfvr1GFtT3X43CkSvIz2LeAI5WDPoo8/ufxpHwBLtLTt88twWEMW
-         +XxA==
+        d=linuxfoundation.org; s=google; t=1741290412; x=1741895212; darn=vger.kernel.org;
+        h=cc:to:subject:from:content-language:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=vAZsrQ5pHfKfGgxDS14zPnvQCXj7F1Vy1cfr1GUo/8Q=;
+        b=X8icVlPxEPYrMHLFFVZ8vqVsvKbTOHHHtSW6jsCeDfgwViL9cu06PeZ8ykuy9Mge8Y
+         dLIrvIcDzUvzJI87Fz8+Ou8dgGQU5Qp8so5UgEzCMOpxAfTRwccSKP8NFGAIxEbbfTzp
+         h52bz4mr7j5YZ8VDMRfgQ76XlIREM/0/4kS58=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741288044; x=1741892844;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hcPTYtu0Id6NGn3oYEB5ke8Yt/wGoQtkJ2G5rC4dZ8Y=;
-        b=t/gUxPaP7rZPGCRMoy7h6QAG+Dsj+08z+V4BtUZyJP7zzVe4QCooxi7Y6OQZY+3/14
-         OaFCPATsW7XwAojeSf1/PMSiHfNFvi0ZdQkY+tsR3zp6hIxof5pP/uFAykWJ5ocMXhg+
-         6A7MYV5sptmRZb93XAAk7uEtUAKcMcrdy04Fr1ErsS+9QhGph8kdq6G9Tcb5T4Oq6DGB
-         U7UT/3oyAxJ/bkKr9sfmwLh8l/Sve5tmeHo95Kj9a1DQg5mUiVLsHJ9EpXixyDr7Hb1m
-         PPbAI61der16MIRz4QqF88n9yBGImoR0BBTdaMDif8VnqqI3Iy+QRUXyvjw3DCx74P80
-         AnCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXkLj6r98gJjD2IxZSWti5ewPChQyuB3ULyu53PeDRpVMw8J3WfmVgT5mUZpyy98UYQml+WnU+QccMpZA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLHuCGKRPHPAn+f8gqh7JEmk2pFTflF3UNVfXuU8R00sTcPBMP
-	+yr9yA9zLMLX6k0h3BhkxvhFZnJ+xD6XoKxaTlTpQCaB5NAKiljiaegd6PHL94I=
-X-Gm-Gg: ASbGnctEXTX0qjY1Yr+GvmpCwUd8qaj0vyUVcwY3TIaVXtyTEDV12DIHXYK4Gm2uzrs
-	aiN8YhoVWjsX7whmZVrhfZd85Dw3QlocjTZZUf/tZxW11oyP3+Qg+pmWs/D4vGia3qq839Eg+FA
-	5zdgXcLLG4LPmZawR+40qrccgJQnUl/WppRNFIBPGrMz6W9VfE58HgRsgVLykQYh4hIn/7LqbYp
-	CRVDRzDwr+P6kgtRebdbkuyB5wSKNo5YBVAu4CISd4QOZzKuUOvM9gEwXRrJ2btKqDRojsXUyvy
-	4pIA9Uah0dl3Msam1D7aoSvllwEOd141mfxMEH7HqfCPhqJgqg==
-X-Google-Smtp-Source: AGHT+IGw/KEJ9CBs+ZmqDYKL+kV1HSN6Zuv++vQFuUB2xUBy6Y//0Fpmd9GzursfaQ4hN9Ki5iMA9Q==
-X-Received: by 2002:a5d:6c66:0:b0:390:fceb:72f1 with SMTP id ffacd0b85a97d-39132d7625emr290402f8f.26.1741288044594;
-        Thu, 06 Mar 2025 11:07:24 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3912c0e1476sm2880709f8f.70.2025.03.06.11.07.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 06 Mar 2025 11:07:23 -0800 (PST)
-Date: Thu, 6 Mar 2025 22:07:20 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Mathis Foerst <mathis.foerst@mt.com>, linux-kernel@vger.kernel.org,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, manuel.traut@mt.com,
-	mathis.foerst@zuehlke.com
-Subject: Re: [PATCH v1 1/1] media: imx: csi: Parse link configuration from
- fw_node
-Message-ID: <84aa2d87-d7f1-46c9-b28d-6f0e9a78788d@stanley.mountain>
-References: <20250305113802.897087-1-mathis.foerst@mt.com>
- <20250305113802.897087-2-mathis.foerst@mt.com>
- <Z8nOTrjEW_OYBGlq@valkosipuli.retiisi.eu>
+        d=1e100.net; s=20230601; t=1741290412; x=1741895212;
+        h=cc:to:subject:from:content-language:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vAZsrQ5pHfKfGgxDS14zPnvQCXj7F1Vy1cfr1GUo/8Q=;
+        b=lsuHo0lmuS2WOK3boKVJwAvpTTz6cls6whv0+n4Ah/r9jjg9UX/dkjSHEFkDfRWFMm
+         EGtYbUNtXZwRVzX41/grH1+5VRrn/R4jaq3YIlKWy74rJDcYTjTxR6H1Tef9WPzpcZlB
+         Ixx6LEzSFet5cGFmuZ4dMVW/4SpSaoNdKpY/xGEV7Bnj5Vrrs0Bp/hVeQov4p7qNZHYV
+         OmWd2YD8m3Ld7S6Ixt1eXUG/Eq6iTN0KGhJG4QshGHYAIXe3O+KF9tiSan10B0FWs+ec
+         fjVTGvPD66b3C49dYO2GreMmcQ07srAailuVioXQU/9SqZEs+C9RhipHN6TFNEk1VG93
+         456g==
+X-Gm-Message-State: AOJu0YxmxphpvDs4dz3NtfDidxxFBUpu2ybie+1M2C6T1cCtHd4C7y+g
+	d6U4h7tPS0qnByhwpyzBQInj+SYrlpnFdgeqMo4IrUtP9jYJyKeRYwOiwLWEk1E=
+X-Gm-Gg: ASbGncs4abVI9loZTHOb3/7g6YZG3vm+qJ242uhT/KVfLQ8sS/fYfcPmGLiA/nBRqNs
+	Hf3c7b723mHV9oSwYNrUSDMMgCoXu8oPJW07NyRtnP+OYFWMm2eg7KuL2lAVUPkGK954uLWzbYU
+	xbGBcKCLbD3mVq7atMousBqKGg0LVV3OQbyVyWV3WRtaAjrqEKq9cI1inl+umg1EPiTjWYNwm9v
+	mWBSYXK84qLPtzvBgR5csK1im1Y8F21REGUG3ej19v6c/aAo3KCLmsROimgQsvsqI2zB3/Dp7GQ
+	wZAAlR9wWSfB0+qrGa6fWYX10kXxZCg5kl6MixF65uNeYT4OmH908Z4=
+X-Google-Smtp-Source: AGHT+IE4jehB2r0k/L1GncTFMRlZv1hWZJcvcV/y63BhnbuVN9R9itnxTvtsR2t8iDnag8rzRyLbxQ==
+X-Received: by 2002:a05:6602:3818:b0:85a:fd12:9270 with SMTP id ca18e2360f4ac-85b1d05d2e3mr108030739f.10.1741290411723;
+        Thu, 06 Mar 2025 11:46:51 -0800 (PST)
+Received: from [192.168.1.14] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4f209dee919sm518783173.15.2025.03.06.11.46.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 06 Mar 2025 11:46:51 -0800 (PST)
+Content-Type: multipart/mixed; boundary="------------w78nUxmUbzxQVn2eMG0M3ZMu"
+Message-ID: <a3344fc3-c7ea-44ae-8fc8-86184315a58f@linuxfoundation.org>
+Date: Thu, 6 Mar 2025 12:46:50 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z8nOTrjEW_OYBGlq@valkosipuli.retiisi.eu>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+From: Shuah Khan <skhan@linuxfoundation.org>
+Subject: [GIT PULL] Linux Media vimc update for Linux 6.15-rc1
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, hverkuil@xs4all.nl
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Shuah Khan <skhan@linuxfoundation.org>
 
-On Thu, Mar 06, 2025 at 04:33:18PM +0000, Sakari Ailus wrote:
-> Hi Mathis,
-> 
-> Thanks for the patch.
-> 
-> On Wed, Mar 05, 2025 at 12:38:02PM +0100, Mathis Foerst wrote:
-> > The imx-media-csi driver requires upstream camera drivers to implement
-> > the subdev-pad-op "get_mbus_config" [0]. Camera drivers that don't
-> > implement this function are not usable on the i.MX6.
-> > 
-> > The docs for get_mbus_config [1] say:
-> > @get_mbus_config: get the media bus configuration of a remote sub-device.
-> >             The media bus configuration is usually retrieved from the
-> >             firmware interface at sub-device probe time, immediately
-> >             applied to the hardware and eventually adjusted by the
-> >             driver.
-> > 
-> > Currently, the imx-media-csi driver is not incorporating the information
-> > from the firmware interface and therefore relies on the implementation of
-> > get_mbus_config by the camera driver.
-> > 
-> > To be compatible with camera drivers not implementing get_mbus_config
-> > (which is the usual case), use the bus information from the fw interface:
-> > 
-> > The camera does not necessarily has a direct media bus link to the CSI as
-> > the video-mux and/or the MIPI CSI-2 receiver of the i.MX6 might be in
-> > between them on the media pipeline.
-> > The CSI driver already implements the functionality to find the connected
-> > camera sub-device to call get_mbus_config on it.
-> > 
-> > At this point the driver is modified as follows:
-> > In the case that get_mbus_config is not implemented by the upstream
-> > camera, try to get its endpoint configuration from the firmware interface
-> > usign v4l2_fwnode_endpoint_parse.
-> > For the supported mbus_types (V4L2_MBUS_PARALLEL, V4L2_MBUS_BT656 and
-> > V4L2_MBUS_CSI2_DPHY), extract the mbus_config from the endpoint
-> > configuration.
-> > For all other mbus_types, return an error.
-> > 
-> > Note that parsing the mbus_config from the fw interface is not done during
-> > probing because the camera that's connected to the CSI can change based on
-> > the selected input of the video-mux at runtime.
-> > 
-> > [0] drivers/staging/media/imx/imx-media-csi.c - line 211..216
-> > [1] include/media/v4l2-subdev.h - line 814
-> > 
-> > Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
-> > ---
-> >  drivers/staging/media/imx/imx-media-csi.c | 36 ++++++++++++++++++++---
-> >  1 file changed, 32 insertions(+), 4 deletions(-)
-> > 
-> > diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-> > index 3edbc57be2ca..394a9321a10b 100644
-> > --- a/drivers/staging/media/imx/imx-media-csi.c
-> > +++ b/drivers/staging/media/imx/imx-media-csi.c
-> > @@ -169,6 +169,8 @@ static int csi_get_upstream_mbus_config(struct csi_priv *priv,
-> >  {
-> >  	struct v4l2_subdev *sd, *remote_sd;
-> >  	struct media_pad *remote_pad;
-> > +	struct fwnode_handle *ep_node;
-> > +	struct v4l2_fwnode_endpoint ep = { .bus_type = 0 };
-> 
-> Are there any defaults in DT bindings (other than 0's)? Also initialising a
-> field to zero this way is redundant, just use {}.
-> 
+This is a multi-part message in MIME format.
+--------------w78nUxmUbzxQVn2eMG0M3ZMu
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-I was going to respond in much the same way.  This is equivalen to:
+Hi Mauro,
 
-struct v4l2_fwnode_endpoint ep = { .bus_type = V4L2_MBUS_UNKNOWN };
+Please pull the following vimc update for Linux 6.15-rc1.
 
-> >  	int ret;
-> >  
-> >  	if (!priv->src_sd)
-> > @@ -210,11 +212,37 @@ static int csi_get_upstream_mbus_config(struct csi_priv *priv,
-> >  
-> >  	ret = v4l2_subdev_call(remote_sd, pad, get_mbus_config,
-> >  			       remote_pad->index, mbus_cfg);
-> > -	if (ret == -ENOIOCTLCMD)
-> > -		v4l2_err(&priv->sd,
-> > -			 "entity %s does not implement get_mbus_config()\n",
-> > -			 remote_pad->entity->name);
-> > +	if (ret == -ENOIOCTLCMD) {
-> 
-> 	if (!ret)
-> 		return 0;
-> 
-> And you can unindent the rest.
+Fixes a bug in vimc streamer pipeline init code found by syzbot.
 
-I was going to say this too but then I thought actually this needs to
-be:
+diff is attached.
 
-	if (ret != -ENOIOCTLCMD)
-		return ret;
+thanks,
+-- Shuah
 
-Which is weird.  Better to break all the new code into a separate
-helper function.
+----------------------------------------------------------------
+The following changes since commit a64dcfb451e254085a7daee5fe51bf22959d52d3:
 
-	if (ret == -ENOIOCTLCMD)
-		ret = parse_fw_link_config_stuff();
+   Linux 6.14-rc2 (2025-02-09 12:45:03 -0800)
 
-	return ret;
+are available in the Git repository at:
 
-regards,
-dan carpenter
+   git://git.kernel.org/pub/scm/linux/kernel/git/shuah/linux tags/linux-vimc-6.15-rc1
 
+for you to fetch changes up to d6813eb9c3de01307801f253d89d777b4669a0d0:
 
+   media: vimc: skip .s_stream() for stopped entities (2025-03-06 09:11:39 -0700)
+
+----------------------------------------------------------------
+linux-vimc-6.15-rc1
+
+Fixes a bug in vimc streamer pipeline init code found by syzbot.
+
+----------------------------------------------------------------
+Nikita Zhandarovich (1):
+       media: vimc: skip .s_stream() for stopped entities
+
+  drivers/media/test-drivers/vimc/vimc-streamer.c | 6 ++++++
+  1 file changed, 6 insertions(+)
+----------------------------------------------------------------
+--------------w78nUxmUbzxQVn2eMG0M3ZMu
+Content-Type: text/x-patch; charset=UTF-8; name="linux-vimc-6.15-rc1.diff"
+Content-Disposition: attachment; filename="linux-vimc-6.15-rc1.diff"
+Content-Transfer-Encoding: base64
+
+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvdGVzdC1kcml2ZXJzL3ZpbWMvdmltYy1zdHJl
+YW1lci5jIGIvZHJpdmVycy9tZWRpYS90ZXN0LWRyaXZlcnMvdmltYy92aW1jLXN0cmVhbWVy
+LmMKaW5kZXggODA3NTUxYTUxNDNiLi4xNWQ4NjNmOTdjYmYgMTAwNjQ0Ci0tLSBhL2RyaXZl
+cnMvbWVkaWEvdGVzdC1kcml2ZXJzL3ZpbWMvdmltYy1zdHJlYW1lci5jCisrKyBiL2RyaXZl
+cnMvbWVkaWEvdGVzdC1kcml2ZXJzL3ZpbWMvdmltYy1zdHJlYW1lci5jCkBAIC01OSw2ICs1
+OSwxMiBAQCBzdGF0aWMgdm9pZCB2aW1jX3N0cmVhbWVyX3BpcGVsaW5lX3Rlcm1pbmF0ZShz
+dHJ1Y3QgdmltY19zdHJlYW0gKnN0cmVhbSkKIAkJCWNvbnRpbnVlOwogCiAJCXNkID0gbWVk
+aWFfZW50aXR5X3RvX3Y0bDJfc3ViZGV2KHZlZC0+ZW50KTsKKwkJLyoKKwkJICogRG8gbm90
+IGNhbGwgLnNfc3RyZWFtKCkgdG8gc3RvcCBhbiBhbHJlYWR5CisJCSAqIHN0b3BwZWQvdW5z
+dGFydGVkIHN1YmRldi4KKwkJICovCisJCWlmICghdjRsMl9zdWJkZXZfaXNfc3RyZWFtaW5n
+KHNkKSkKKwkJCWNvbnRpbnVlOwogCQl2NGwyX3N1YmRldl9jYWxsKHNkLCB2aWRlbywgc19z
+dHJlYW0sIDApOwogCX0KIH0K
+
+--------------w78nUxmUbzxQVn2eMG0M3ZMu--
 
