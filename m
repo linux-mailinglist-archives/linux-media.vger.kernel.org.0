@@ -1,121 +1,125 @@
-Return-Path: <linux-media+bounces-27784-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27785-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 422E5A5590B
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 22:45:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AF42A55B28
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 00:53:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 649DD1758E5
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 21:45:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7EBAE18961BA
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 23:53:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AF39275601;
-	Thu,  6 Mar 2025 21:45:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 298A8209F22;
+	Thu,  6 Mar 2025 23:53:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gv3JjUR7"
+	dkim=pass (2048-bit key) header.d=senhasbis.com.br header.i=@senhasbis.com.br header.b="UBYUzBhx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from tiger.tulip.relay.mailchannels.net (tiger.tulip.relay.mailchannels.net [23.83.218.248])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93CA0DDA8;
-	Thu,  6 Mar 2025 21:45:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741297544; cv=none; b=HpHifOGEKXy/Im0xCVEL3Pp9s3GH86FaJTYwfClh6os7rmVCGmi8IaeiiSdqcf3VfVEiYrzI3fCzlUbSS/EShEIsowSYqbmO7ulJNBM+nYiQe1GFpX++zc/hEPtW6enkYD4ISOC2AIPmIZyUHGLGRvlcJbl0g2gnmguXVN0nQ94=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741297544; c=relaxed/simple;
-	bh=FDBiD6CMyk9mBfJBcQ02immidYLn/vhBlRWWu5bCyfc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=V4JTL/t8/rHuN8W5Zy2LmQmdGttr1YwtVe88uEJ7bfIbT+2PPp10j7MaipLAkx67661+fxjIwzK2EHruYt0Erg33UQGYwplGWu33oLDYzA/2uWpyrgpjTNgvKFJ9l4fNfPcUf01T8VbEWplEp8zeRQq95p80AvFXE9LiqXMVWro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gv3JjUR7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38F00C4CEE0;
-	Thu,  6 Mar 2025 21:45:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741297544;
-	bh=FDBiD6CMyk9mBfJBcQ02immidYLn/vhBlRWWu5bCyfc=;
-	h=From:Date:Subject:To:Cc:From;
-	b=gv3JjUR7IXYxK5d/OHOCWf7Zi8jElLUpjqOwH5kfUknMCVLQ02ggZVe6CDnb9dxY5
-	 VvapdGyph1vnoD+Z/j/1srxrinhxXE+EeYLeqOzWG/JaaVEMH551yvPL8IK1CEecvO
-	 jZpOHSuDSAcCLnmju97MaWRwdJbk37/b05EddGeux5/dPbM57ZxCWVESYkdRUhRMjl
-	 qcWZk6pToh4QezdjTGL79LuiOvQmPgnGA+enokT4sWDWiZUA0MqKKZsaoB+qTvL5gs
-	 wL/es7tPxJ9A7B8HK3rZPGdIjAWYuI8xlRskQZ6E35nk+611wzUfZDcED8eFRyqKst
-	 KuuHrR/+IvxfQ==
-From: Nathan Chancellor <nathan@kernel.org>
-Date: Thu, 06 Mar 2025 22:45:16 +0100
-Subject: [PATCH] media: platform: synopsys: hdmirx: Fix 64-bit division for
- 32-bit targets
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E24819E971
+	for <linux-media@vger.kernel.org>; Thu,  6 Mar 2025 23:53:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=23.83.218.248
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741305215; cv=pass; b=IRDVnyRSXOCRzMDd0xLbCAXfrFfjYYrDMfP3W6j5wvHu6ZJiQZs2dRJrexMszvUVeA7Q0fMrAobSYg9HEEkuukUElyG7y2lhhKmTMoZv16ts/M4SEOrF4oB6VEoVrkglghQOe502xQTCRvgbTj+p9STwBoarMTSkROeVoptzjfM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741305215; c=relaxed/simple;
+	bh=n1BJpsJAcg4u3+46KAwbPyfqTZHhyulhhATG0b422HU=;
+	h=From:To:Subject:Message-ID:MIME-Version:Content-Type:Date; b=Y+9RmYPr9m08nnourcs5Rby4TaqCCsWQARHrkGCT5E1pwhY9K2okaKm8mXILU8eDOLs64WHN+PBNbG9OqKW1E5ySqEhWo8SFfbKyFGjU3xrBZStfDnu6HiBzPd3Ti+Vwhd8Jl5mCR3AcyI1B9tZ+CHmeVjJQDC5HEMAsFZ/vV+Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=senhasbis.com.br; spf=fail smtp.mailfrom=senhasbis.com.br; dkim=pass (2048-bit key) header.d=senhasbis.com.br header.i=@senhasbis.com.br header.b=UBYUzBhx; arc=pass smtp.client-ip=23.83.218.248
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=senhasbis.com.br
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=senhasbis.com.br
+X-Sender-Id: hostingeremail|x-authuser|senhasbis@senhasbis.com.br
+Received: from relay.mailchannels.net (localhost [127.0.0.1])
+	by relay.mailchannels.net (Postfix) with ESMTP id 1862E1837D9
+	for <linux-media@vger.kernel.org>; Thu,  6 Mar 2025 23:53:26 +0000 (UTC)
+Received: from fr-int-smtpout2.hostinger.io (trex-3.trex.outbound.svc.cluster.local [100.107.186.7])
+	(Authenticated sender: hostingeremail)
+	by relay.mailchannels.net (Postfix) with ESMTPA id 660B118394F
+	for <linux-media@vger.kernel.org>; Thu,  6 Mar 2025 23:53:25 +0000 (UTC)
+ARC-Seal: i=1; s=arc-2022; d=mailchannels.net; t=1741305205; a=rsa-sha256;
+	cv=none;
+	b=a9VJHyFzldcix5LAcl6kIBgoWW6GfO0XdFh5oDgvsPr6KpbIW3tIHKJDEfQGlXeolxowi8
+	TDe222NmIBvC/ty53epkob+LOGBsQ2XMnS7qs4xQvP/LXN7v3gD/RV9A8HueJNrjE4hvTi
+	YjerJ8g0WxxlevvxxAUKbZFs/WV+Gc7cVVyzQkSbCyWyyhTUmGZx8FXM0d7tWVJdQnKPNG
+	U91aqHIHtfuW28FDuwoYMkOEX1jYwtS3uV4G9TIlRipO1JTvtLSMGGqsM7WfCl1QHHlUBC
+	3JnozAbeo3ARqwb+evJScOcGwRfAoPjJNr58t1wqTIhvG6qRmS4Iitoz3nWs5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mailchannels.net;
+	s=arc-2022; t=1741305205;
+	h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:dkim-signature;
+	bh=n1BJpsJAcg4u3+46KAwbPyfqTZHhyulhhATG0b422HU=;
+	b=kmhZO8MMqX+uri2wmrMXmAtVcnJU5HHizrulYwA+3F/oJS3cbnnQzNmGzmqiPghk/9vGaV
+	hZdJW1e/spy/RkPMV173gRkCbl/h4CEdWlmIt2nvGWvCMvKvHOveK1Vm+sBKF8N+EzPgLd
+	1xpL71bX4Z3Vi02OHBJcUnKVfR6tgcqs1VG55cxBi6qus1dY+QdHWQBMTSEbbpZVjp7F0R
+	M3OFoF0j2XeQDUSJ9k5taaGi05+97xLoan7CQG3oekxhxHcs7Ojuglke52LrspN2rG08Jv
+	AQuNHCmVuOa/EJMIHrYSm4eNLbGmP/7rwBYjRPVUwz9sAZS/SYp3vxSOoW8wTg==
+ARC-Authentication-Results: i=1;
+	rspamd-7ffbdd7fb5-52x5k;
+	auth=pass smtp.auth=hostingeremail smtp.mailfrom=senhasbis@senhasbis.com.br
+X-Sender-Id: hostingeremail|x-authuser|senhasbis@senhasbis.com.br
+X-MC-Relay: Neutral
+X-MailChannels-SenderId: hostingeremail|x-authuser|senhasbis@senhasbis.com.br
+X-MailChannels-Auth-Id: hostingeremail
+X-Whistle-Language: 1abd02e979e729aa_1741305205929_2503731309
+X-MC-Loop-Signature: 1741305205929:3218256589
+X-MC-Ingress-Time: 1741305205929
+Received: from fr-int-smtpout2.hostinger.io (fr-int-smtpout2.hostinger.io
+ [89.116.146.81])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384)
+	by 100.107.186.7 (trex/7.0.2);
+	Thu, 06 Mar 2025 23:53:25 +0000
+Received: from ec2-18-227-52-104.us-east-2.compute.amazonaws.com (ec2-18-227-52-104.us-east-2.compute.amazonaws.com [18.227.52.104])
+	(Authenticated sender: senhasbis@senhasbis.com.br)
+	by smtp.hostinger.com (smtp.hostinger.com) with ESMTPSA id 4Z85pW0jtXz6nv68
+	for <linux-media@vger.kernel.org>; Thu, 06 Mar 2025 23:53:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=senhasbis.com.br;
+	s=hostingermail-a; t=1741305203;
+	h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:mime-version:mime-version:
+	 content-type:content-type:  content-transfer-encoding:content-transfer-encoding;
+	bh=n1BJpsJAcg4u3+46KAwbPyfqTZHhyulhhATG0b422HU=;
+	b=UBYUzBhx2vILgLh5RD5rEnTQnfvkmanK0LPQTcdp6cu7RRPxLqAGPw4OsLNxEuRQ60Vd1s
+	QZDtAy5Yjaf+5Fr4xe48Kxc8bOEojSMVqPw2jjShkyP/cDegfojxuHGx2RN0FMu23kSTlj
+	AHqo2qQReF4vLSZUXighxwDhJUwqiKrZxYL+lHLnc8A/kh0JzBK0JeKN4vBJDM1y2V1ZLj
+	ownRnzVmRV5xtV+fLEc0FN84oQKr0fkxTRSHGh7KslsOme7hWA5gBlaqnCydeIYX2Gfcfw
+	Rc6xDqA/FxJiKowAm0JXh45wSVpkr4IXW1rrFNkOCXdNCkUf0OunZLF5Xh1a2Q==
+Reply-To: ifaldazos@federante.com.ar
+From: senhasbis@senhasbis.com.br
+To: linux-media@vger.kernel.org
+Subject: Contract #. D=?UTF-8?B?0LB00LU6My82LzIwMjUgMTE6NDY6MjEgUE0=?=
+Message-ID: <20250306234621.04D9BE55A1DAEC7A@smtp.hostinger.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250306-synopsys-hdmirx-fix-64-div-v1-1-dd5ff38bba5e@kernel.org>
-X-B4-Tracking: v=1; b=H4sIAGsXymcC/x3MMQqAMAxA0atIZgNprSJeRRy0jZrBKg2IIt7d4
- vj48B9QTsIKXfFA4lNU9phhygL8OsaFUUI2WLI1VdSg3nE/9FZcwybpwlkubBwGOdGTcd6QnWb
- XQh4ciXP95/3wvh9rjM0JbAAAAA==
-X-Change-ID: 20250306-synopsys-hdmirx-fix-64-div-c014c102bf48
-To: Shreeya Patel <shreeya.patel@collabora.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Dmitry Osipenko <dmitry.osipenko@collabora.com>, 
- Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org, kernel@collabora.com, 
- linux-kernel@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>
-X-Mailer: b4 0.15-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1730; i=nathan@kernel.org;
- h=from:subject:message-id; bh=FDBiD6CMyk9mBfJBcQ02immidYLn/vhBlRWWu5bCyfc=;
- b=owGbwMvMwCUmm602sfCA1DTG02pJDOmnxFtZXGLWtsZw/ZeoOr/zwRnp498CuNtWJDCZr7dhZ
- tizftq3jlIWBjEuBlkxRZbqx6rHDQ3nnGW8cWoSzBxWJpAhDFycAjARrzkM/wyyszZEGE/ZkWgR
- wea1XvL2uuMKm+w2Nyd/UH5b/PPXolsM/6t4lX8x7CheU/l0ZsJeqyNLrR8VLl2U+uz1W19ZIc8
- Sbm4A
-X-Developer-Key: i=nathan@kernel.org; a=openpgp;
- fpr=2437CB76E544CB6AB3D9DFD399739260CB6CB716
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 06 Mar 2025 23:53:22 +0000 (UTC)
+X-CM-Envelope: MS4xfDFbGS6j+kG0TSQVdfg4grF83o4DFn26CApdigPUGnN1tGtMDAXyQd0LnjysEAzyy4haK+YML22yEjHfRZhsY0hw/3hmACynBiJ6/kHQoBDcryOP73Xg IqCnVVPI+gHhrf3XAs+XqRwUljRULCk//zATN79jPSaKAuGehPrNTJbSFcJr+nNieOjJLf+mGuVxE0yh2TXnbnoXAVHFV1j+hMTWoq2ClkxOY4rCyPDpJHLO YfnWMsEgEL81zBTi+RFypQ==
+X-CM-Analysis: v=2.4 cv=e81USrp/ c=1 sm=1 tr=0 ts=67ca3573 a=PNr8vWZJDW7mT2DyFscmbA==:117 a=PNr8vWZJDW7mT2DyFscmbA==:17 a=IkcTkHD0fZMA:10 a=5KLPUuaC_9wA:10 a=Jlx8vXo6AAAA:8 a=yfqaB9iOPoRs9SVuPHQA:9 a=QEXdDO2ut3YA:10 a=j1RKUZb8YFR67jhtK3fQ:22
+X-AuthUser: senhasbis@senhasbis.com.br
 
-The build fails for 32-bit targets with:
+Hello linux-media,
 
-  arm-linux-gnueabi-ld: drivers/media/platform/synopsys/hdmirx/snps_hdmirx.o: in function `hdmirx_get_timings':
-  snps_hdmirx.c:(.text.hdmirx_get_timings+0x46c): undefined reference to `__aeabi_uldivmod'
+I=E2=80=99m Jordan Patel from Federante Ltd. We=E2=80=99re interested in pl=
+acing=20
+an order and would love to see your latest product/service list=20
+along with pricing.
 
-bt->pixelclock is __u64, which causes the compiler to emit a libcall for
-64-bit division. Use the optimized kernel helper, div_u64(), to resolve
-this.
+Could you kindly send the details to ifaldazos@federante.com.ar=20
+at your earliest convenience?
 
-Fixes: 7b59b132ad43 ("media: platform: synopsys: Add support for HDMI input driver")
-Signed-off-by: Nathan Chancellor <nathan@kernel.org>
----
- drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-index 4d42da7255f3..e4cdd8b5745d 100644
---- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-+++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-@@ -17,6 +17,7 @@
- #include <linux/interrupt.h>
- #include <linux/irq.h>
- #include <linux/mfd/syscon.h>
-+#include <linux/math64.h>
- #include <linux/module.h>
- #include <linux/of.h>
- #include <linux/of_platform.h>
-@@ -291,7 +292,7 @@ static void hdmirx_get_timings(struct snps_hdmirx_dev *hdmirx_dev,
- 	hfp = htotal - hact - hs - hbp;
- 	vfp = vtotal - vact - vs - vbp;
- 
--	fps = (bt->pixelclock + (htotal * vtotal) / 2) / (htotal * vtotal);
-+	fps = div_u64(bt->pixelclock + (htotal * vtotal) / 2, htotal * vtotal);
- 	bt->width = hact;
- 	bt->height = vact;
- 	bt->hfrontporch = hfp;
-
----
-base-commit: 143d75583f2427f3a97dba62413c4f0604867ebf
-change-id: 20250306-synopsys-hdmirx-fix-64-div-c014c102bf48
+Looking forward to your response.
 
 Best regards,
--- 
-Nathan Chancellor <nathan@kernel.org>
-
+Jordan Patel
+Federante Ltd.
 
