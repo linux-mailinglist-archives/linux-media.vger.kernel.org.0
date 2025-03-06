@@ -1,156 +1,209 @@
-Return-Path: <linux-media+bounces-27713-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27714-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5152BA54B81
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 14:07:10 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27828A54B83
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 14:07:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8A146174BE1
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 13:07:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4841E18974A6
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 13:07:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C1A9209F44;
-	Thu,  6 Mar 2025 13:06:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4E8920C48A;
+	Thu,  6 Mar 2025 13:06:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IdK49UnD"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="HW4ePAFd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8748520B80B
-	for <linux-media@vger.kernel.org>; Thu,  6 Mar 2025 13:06:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBCA420B80B;
+	Thu,  6 Mar 2025 13:06:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741266411; cv=none; b=qajlf3vYiGTxa/XwNn2l4tvg/8XVdVmCrOE8i3vjRX6j1XS6skeliP7mroixy+NGiuORS8bq1h8NpOhWmg0XzEsVNTfY/UHZXqFmPSEeUk3kuHnK0cbuPMvg1N8u9fj4t46as+OvD1ZaTkOB7W7jfo3U8x7w6seH4fE4Hl4LV/8=
+	t=1741266417; cv=none; b=fXzOURZtvT9Q77xboymaArkxTEyLSRI7Hi1vM8EbZyhEbBrSrvn3frDzImx7643MjUtq8RYpy+R7M1MdnZdu6cU00ef6TBR6bSQqMg7mK+5F5Ftd6M8rJCyGsO+lgDH/Y6UXFN038JNsDS9ZpwpvwYpyAf5HFXt05AcTitx3z5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741266411; c=relaxed/simple;
-	bh=TDAzhX/Zy/+x4P7nc110+tBXSY0/imKcBkSgLG5hTIg=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=hNP3+TMqnDRrJ1plYNhh2ZimAWFQUTfss2q21lPiOkfMbG3kH8V3tcq/hbBlRbt0Ww7pNSwbihvE7laEzBl3W22IfVmkwD62JTj1qGYXuwB6d3O/WPoixTX7OxIruy62IpVcm/FjaZXRywcrwNdFWzcueqjbasG9gU8ZH6wzObc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IdK49UnD; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741266411; x=1772802411;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=TDAzhX/Zy/+x4P7nc110+tBXSY0/imKcBkSgLG5hTIg=;
-  b=IdK49UnDwqPhV4jSyAev1m1rv4TjE8x6Y7SABwee8ZgYl4e+47q9YcJb
-   2sS7SOETreDNLL/04sixMsVTJhYNB1e6ZUbm40bqDply00xaddCstJnU2
-   AgwJzq8yzliVBkK2s7XyKAE9TTB+kTkHRStfMI1QKBr056nET+H90QjVd
-   iCaJKb3FRkgqyHW5cIS3wAfq63H7G+F5vL3ef0njhXeJDQXUWFkTUwIaj
-   jJxeX1kYaiR1oV+p2relcc1lh6vB2a9uvZeMBno7PJdBIhmHE1xLS0jU5
-   IzUrbU+d7rb0gH+L6v0hYyGDof5qOdVlEuDcjF7J0+PwoUQApdZ1XTqj3
-   g==;
-X-CSE-ConnectionGUID: 66O35cSzS72Gh6qtJFNfHg==
-X-CSE-MsgGUID: FwL7OPupTvWHn3Q+pkrNUg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42131874"
-X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; 
-   d="scan'208";a="42131874"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 05:06:50 -0800
-X-CSE-ConnectionGUID: xt1yM3NURpyf6IehdUvRfQ==
-X-CSE-MsgGUID: JIj3q0W7SAGew4HcPe3bLw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,226,1736841600"; 
-   d="scan'208";a="142241230"
-Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.246.21.136])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 05:06:49 -0800
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Subject: [PATCH v1 3/3] media: intel/ipu6: Constify ipu6_buttress_ctrl structure
-Date: Thu,  6 Mar 2025 14:06:29 +0100
-Message-Id: <20250306130629.885163-4-stanislaw.gruszka@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250306130629.885163-1-stanislaw.gruszka@linux.intel.com>
-References: <20250306130629.885163-1-stanislaw.gruszka@linux.intel.com>
+	s=arc-20240116; t=1741266417; c=relaxed/simple;
+	bh=/zvzWaJI1zZXi4qtvOSdgjvM/z7uv3ifWM6gOzWmeH4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VKE1Dm70FDLIfvoMDKtZmy+YvPOCunTVoodJYFlbjml6sUcZs+z6HK03/mQ+2jse1sHm87QYFF7Y7BzPNCDYI/8iIlnCHpTgCN4hVQyIOZPOK1avNXNV852VeFm3NysXAUwFEFo4BjaAdgtg9pTsQvrhss1X4rpbWA+b21VXgBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=HW4ePAFd; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=mfBuDbSuVwW4tPY5y3ejNrFbP51Lhqr440UyYLTygs4=; b=HW4ePAFdm0EXJK81MA9j0l1Ngf
+	N3QPXF+BbJlJPc0SOGcLA1ibPPtby/R5nL4YwQC/BR0BgoiuSNlTA2Wnl5QT20X/yqs0ydptuWQms
+	/FB8hhqJhXACRIer/jCk/qeyBtlsjzCB3R7/2OoH1WkR+Ctpp1sOFoFx/8dcCuY2+0v27H+LN6wqA
+	VSqBTpJ3Noa58ge6W0gtqOyW39+UNE6CG19l1hASFfHGtOlwrWYfKGobuQIfyFU1GuAa1jjLIC4/l
+	MjxDgwLGbSjM+hKtV9Pn+8TYKHGLC4AEjZF2EKiX7nqK5mQbgm1k20cfFD3QdcGmKinmPOe+WLv+R
+	6XWmSdHQ==;
+Received: from i53875a38.versanet.de ([83.135.90.56] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1tqAvx-00039x-W9; Thu, 06 Mar 2025 14:06:42 +0100
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: Shreeya Patel <shreeya.patel@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil@xs4all.nl>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ jose.abreu@synopsys.com, nelson.costa@synopsys.com, shawn.wen@rock-chips.com,
+ nicolas.dufresne@collabora.com,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Dmitry Osipenko <dmitry.osipenko@collabora.com>
+Cc: kernel@collabora.com, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, Tim Surber <me@timsurber.de>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Diederik de Haas <didi.debian@cknow.org>
+Subject:
+ Re: [PATCH v14 1/3] arm64: dts: rockchip: Add device tree support for HDMI RX
+ Controller
+Date: Thu, 06 Mar 2025 14:06:40 +0100
+Message-ID: <9489391.T7Z3S40VBb@diego>
+In-Reply-To: <20250306072842.287142-2-dmitry.osipenko@collabora.com>
+References:
+ <20250306072842.287142-1-dmitry.osipenko@collabora.com>
+ <20250306072842.287142-2-dmitry.osipenko@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
 
-Make ipu6_buttress_ctrl constant since it is not modified
-any longer.
+Hi Dmitry,
 
-Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
----
- drivers/media/pci/intel/ipu6/ipu6-bus.c      | 2 +-
- drivers/media/pci/intel/ipu6/ipu6-bus.h      | 4 ++--
- drivers/media/pci/intel/ipu6/ipu6-buttress.c | 2 +-
- drivers/media/pci/intel/ipu6/ipu6-buttress.h | 3 ++-
- 4 files changed, 6 insertions(+), 5 deletions(-)
+Am Donnerstag, 6. M=C3=A4rz 2025, 08:28:40 MEZ schrieb Dmitry Osipenko:
+> From: Shreeya Patel <shreeya.patel@collabora.com>
+>=20
+> Add device tree support for Synopsys DesignWare HDMI RX
+> Controller.
+>=20
+> Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> Tested-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> Co-developed-by: Dingxian Wen <shawn.wen@rock-chips.com>
+> Signed-off-by: Dingxian Wen <shawn.wen@rock-chips.com>
+> Signed-off-by: Shreeya Patel <shreeya.patel@collabora.com>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+>  .../dts/rockchip/rk3588-base-pinctrl.dtsi     | 14 +++++
+>  .../arm64/boot/dts/rockchip/rk3588-extra.dtsi | 57 +++++++++++++++++++
+>  2 files changed, 71 insertions(+)
+>=20
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base-pinctrl.dtsi b/arch=
+/arm64/boot/dts/rockchip/rk3588-base-pinctrl.dtsi
+> index 7f874c77410c..2d4b9986a177 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk3588-base-pinctrl.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/rk3588-base-pinctrl.dtsi
+> @@ -594,6 +594,20 @@ hdmim0_tx1_hpd: hdmim0-tx1-hpd {
+>  				/* hdmim0_tx1_hpd */
+>  				<1 RK_PA6 5 &pcfg_pull_none>;
+>  		};
+> +
+> +		/omit-if-no-ref/
+> +		hdmim1_rx: hdmim1-rx {
+> +			rockchip,pins =3D
+> +				/* hdmim1_rx_cec */
+> +				<3 RK_PD1 5 &pcfg_pull_none>,
+> +				/* hdmim1_rx_scl */
+> +				<3 RK_PD2 5 &pcfg_pull_none_smt>,
+> +				/* hdmim1_rx_sda */
+> +				<3 RK_PD3 5 &pcfg_pull_none_smt>,
+> +				/* hdmim1_rx_hpdin */
+> +				<3 RK_PD4 5 &pcfg_pull_none>;
+> +		};
+> +
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-bus.c b/drivers/media/pci/intel/ipu6/ipu6-bus.c
-index 37d88ddb6ee7..5cee2748983b 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-bus.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-bus.c
-@@ -82,7 +82,7 @@ static void ipu6_bus_release(struct device *dev)
- 
- struct ipu6_bus_device *
- ipu6_bus_initialize_device(struct pci_dev *pdev, struct device *parent,
--			   void *pdata, struct ipu6_buttress_ctrl *ctrl,
-+			   void *pdata, const struct ipu6_buttress_ctrl *ctrl,
- 			   char *name)
- {
- 	struct auxiliary_device *auxdev;
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-bus.h b/drivers/media/pci/intel/ipu6/ipu6-bus.h
-index ebf470806a74..b790f9cc37e3 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-bus.h
-+++ b/drivers/media/pci/intel/ipu6/ipu6-bus.h
-@@ -25,7 +25,7 @@ struct ipu6_bus_device {
- 	void *pdata;
- 	struct ipu6_mmu *mmu;
- 	struct ipu6_device *isp;
--	struct ipu6_buttress_ctrl *ctrl;
-+	const struct ipu6_buttress_ctrl *ctrl;
- 	u64 dma_mask;
- 	const struct firmware *fw;
- 	struct sg_table fw_sgt;
-@@ -48,7 +48,7 @@ struct ipu6_auxdrv_data {
- 
- struct ipu6_bus_device *
- ipu6_bus_initialize_device(struct pci_dev *pdev, struct device *parent,
--			   void *pdata, struct ipu6_buttress_ctrl *ctrl,
-+			   void *pdata, const struct ipu6_buttress_ctrl *ctrl,
- 			   char *name);
- int ipu6_bus_add_device(struct ipu6_bus_device *adev);
- void ipu6_bus_del_devices(struct pci_dev *pdev);
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-buttress.c b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-index 787fcbd1df09..f8fdc07a953c 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-@@ -443,7 +443,7 @@ irqreturn_t ipu6_buttress_isr_threaded(int irq, void *isp_ptr)
- 	return ret;
- }
- 
--int ipu6_buttress_power(struct device *dev, struct ipu6_buttress_ctrl *ctrl,
-+int ipu6_buttress_power(struct device *dev, const struct ipu6_buttress_ctrl *ctrl,
- 			bool on)
- {
- 	struct ipu6_device *isp = to_ipu6_bus_device(dev)->isp;
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-buttress.h b/drivers/media/pci/intel/ipu6/ipu6-buttress.h
-index 4b9763acdfdd..cb008964f870 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-buttress.h
-+++ b/drivers/media/pci/intel/ipu6/ipu6-buttress.h
-@@ -65,7 +65,8 @@ int ipu6_buttress_map_fw_image(struct ipu6_bus_device *sys,
- 			       struct sg_table *sgt);
- void ipu6_buttress_unmap_fw_image(struct ipu6_bus_device *sys,
- 				  struct sg_table *sgt);
--int ipu6_buttress_power(struct device *dev, struct ipu6_buttress_ctrl *ctrl,
-+int ipu6_buttress_power(struct device *dev,
-+			const struct ipu6_buttress_ctrl *ctrl,
- 			bool on);
- bool ipu6_buttress_get_secure_mode(struct ipu6_device *isp);
- int ipu6_buttress_authenticate(struct ipu6_device *isp);
--- 
-2.34.1
+what's the reason for duplicating these pinctrl entries?
+
+The base-pinctrl already contains a separate set of pins (and also a
+variant for the m0 set of pins), so why not check and use the already
+existing ones:
+
+                hdmim1_rx_cec: hdmim1-rx-cec {
+                        rockchip,pins =3D
+                                /* hdmim1_rx_cec */
+                                <3 RK_PD1 5 &pcfg_pull_none>;
+                };
+
+                hdmim1_rx_hpdin: hdmim1-rx-hpdin {
+                        rockchip,pins =3D
+                                /* hdmim1_rx_hpdin */
+                                <3 RK_PD4 5 &pcfg_pull_none>;
+                };
+
+                hdmim1_rx_scl: hdmim1-rx-scl {
+                        rockchip,pins =3D
+                                /* hdmim1_rx_scl */
+                                <3 RK_PD2 5 &pcfg_pull_none>;
+                };
+
+                hdmim1_rx_sda: hdmim1-rx-sda {
+                        rockchip,pins =3D
+                                /* hdmim1_rx_sda */
+                                <3 RK_PD3 5 &pcfg_pull_none>;
+                };
+
+
+Having multiple sets (even with differeing settings) will cause confusion
+later on.
+
+
+>  		/omit-if-no-ref/
+>  		hdmim1_rx_cec: hdmim1-rx-cec {
+>  			rockchip,pins =3D
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi b/arch/arm64/=
+boot/dts/rockchip/rk3588-extra.dtsi
+> index 4a950907ea6f..b7d06f93c8ce 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/rk3588-extra.dtsi
+> @@ -135,6 +159,39 @@ i2s10_8ch: i2s@fde00000 {
+>  		status =3D "disabled";
+>  	};
+> =20
+> +	hdmi_receiver: hdmi_receiver@fdee0000 {
+> +		compatible =3D "rockchip,rk3588-hdmirx-ctrler", "snps,dw-hdmi-rx";
+> +		reg =3D <0x0 0xfdee0000 0x0 0x6000>;
+> +		power-domains =3D <&power RK3588_PD_VO1>;
+> +		rockchip,grf =3D <&sys_grf>;
+> +		rockchip,vo1-grf =3D <&vo1_grf>;
+> +		interrupts =3D <GIC_SPI 177 IRQ_TYPE_LEVEL_HIGH 0>,
+> +			     <GIC_SPI 178 IRQ_TYPE_LEVEL_HIGH 0>,
+> +			     <GIC_SPI 179 IRQ_TYPE_LEVEL_HIGH 0>;
+> +		interrupt-names =3D "cec", "hdmi", "dma";
+> +		clocks =3D <&cru ACLK_HDMIRX>,
+> +			 <&cru CLK_HDMIRX_AUD>,
+> +			 <&cru CLK_CR_PARA>,
+> +			 <&cru PCLK_HDMIRX>,
+> +			 <&cru CLK_HDMIRX_REF>,
+> +			 <&cru PCLK_S_HDMIRX>,
+> +			 <&cru HCLK_VO1>;
+> +		clock-names =3D "aclk",
+> +			      "audio",
+> +			      "cr_para",
+> +			      "pclk",
+> +			      "ref",
+> +			      "hclk_s_hdmirx",
+> +			      "hclk_vo1";
+> +		resets =3D <&cru SRST_A_HDMIRX>, <&cru SRST_P_HDMIRX>,
+> +			 <&cru SRST_HDMIRX_REF>, <&cru SRST_A_HDMIRX_BIU>;
+> +		reset-names =3D "axi", "apb", "ref", "biu";
+> +		memory-region =3D <&hdmi_receiver_cma>;
+> +		pinctrl-0 =3D <&hdmim1_rx>;
+> +		pinctrl-names =3D "default";
+
+hmm, this might be better living in the board dts?
+
+Heiko
+
 
 
