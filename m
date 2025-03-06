@@ -1,145 +1,261 @@
-Return-Path: <linux-media+bounces-27688-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27689-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8B86A54506
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 09:37:26 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB46A5452E
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 09:42:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F19C51659E9
-	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 08:37:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4E6177A7E1F
+	for <lists+linux-media@lfdr.de>; Thu,  6 Mar 2025 08:41:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C43BE207E03;
-	Thu,  6 Mar 2025 08:37:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DD6C207DE7;
+	Thu,  6 Mar 2025 08:42:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="QMvKCuOE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2066.outbound.protection.outlook.com [40.107.104.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C97207DE0;
-	Thu,  6 Mar 2025 08:37:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741250232; cv=none; b=oheuKZLDtfGd0tSztPMjqkabrdeXEMuCNjKNcK/oS/E2XHXB6TVQgEmUAydLya29wFPqnN5wGDQODur72gncItQNYWnsmGuRgDcCVxMoYx14+TcjB2Y4PwKav2WamJrS3Fnpacs/BVfnrSO6+IjMpZe5HK4DOEGzD2HMPKBp5tE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741250232; c=relaxed/simple;
-	bh=qzjXpCQjZyUGD9d9LRO+IYdghIyJg3tcoivgKSkjov4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D7kE15rCjvg83oDnXB9e9icgl5gps1uKtkS3vMd4KTt1nlYrmtN5mfCBVg/qSq6VNuWQIJIANoMaZbsizQZCmxlDVuO9Qszvpn7F76I/JA8T8zs/Hgn8XKJiH2Z73gk6eaGSD3XsOhC9tlziOla8zYNyP9djceSqc5x3PCqgufs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C9E03C4CEE0;
-	Thu,  6 Mar 2025 08:37:10 +0000 (UTC)
-Message-ID: <06766086-b148-436c-b6d4-975c26493233@xs4all.nl>
-Date: Thu, 6 Mar 2025 09:37:09 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 861BC207A04;
+	Thu,  6 Mar 2025 08:42:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.104.66
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741250535; cv=fail; b=tQMJyYn3HtlmDGtGqFqOqqOa7pz4P08wmdCOUlQjs7d7LP48POwv1yXASQY/vpxzdT9T8DWRqKp6mT1MLy1y9+PSECxJpzQR0vALjJnm6OxcHWE5V+tl8TLA8Z3CsJwxHeR/F0/rQiA6c4ok//bit/coR0w+sukWWjQf42D7zWc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741250535; c=relaxed/simple;
+	bh=++KX7G/EsBmh4NNh/x+QSf3vhSePKppaA1hRhlW/HJ8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=SydW4w5BS+txX0LKovJ2dgdhh+sEJ1yUsR1ngesMVVqf7OTQXphc3tOhh9rVUNbiXlb1nx6CnWOpQ9vy4mqwZK2qJZgVZ4cEL3X/aUTAvojRWoM2EPU+6yDCp6c6V9i+VQt62xI20IAiqVvmpWIIUyCZlAUQmnrkA4DBNBWnncw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=fail (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=QMvKCuOE reason="signature verification failed"; arc=fail smtp.client-ip=40.107.104.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WQKohYQ9NJt0+FSURRsa8TdRaJMaPJVg1fD/qdkUG3gKhzThJquwPf+et9lZs8L4qZjh3xYFPlEEtB5hxuHR69UaeSR17NGiuMHgn0w+T5G9n1tLVKqEDN0V3YRES+jJui3lNgbc8J2KXD69C0K3RA+WPKL18O28dY3blCJXHVtC+AEQbA/GCJUXMeNCKAGfLshRVo/pfPucrwxh2kYeMjbeyfAetcnunRbovZChnSyCj6hjG7iNa6QaGDcsk2ZL5Zvf5iJisx4kcK+Vzn5MQHNURJXXW2VP0Y2pRFf4/AlF+0IcLWE7L0rvcu1LfepdaDjJp7llmtn9ar50XBwWrQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=djHcqphDkxIppl+QiAfFXHlgVuPeKKUqjFcJzkf8agU=;
+ b=ANwxwxvxge2rigf8i3EtlR3LJccrFUPMvDpkWxDj97r3zrpWz20iowaS1AGIlQ9C5ponYqIKN3bSzzsEdhm8g/GcgshkBmoOU75miN3w6vNUfNGqDThyOCphtwxxazBuhTBet7CLbu/kdvhZp/dRAffqTo2MIopLrG1Dlk+49e3kAVy8Zy05qdiEVazY0nCP19NeC+kOqf4/WRV4LFkmpbcdDhcrLw3lHAt2c/XO6TlbDUud9His3d10HAXrUbayZ1BtDQVOH7yLCF2kPQuOSNdk3j4ue3bob5kNE/mNiy5qAShI9Kfz03EtyQfFTAXI6Q6ukVcciDUZCg/W44xwEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=djHcqphDkxIppl+QiAfFXHlgVuPeKKUqjFcJzkf8agU=;
+ b=QMvKCuOEyxtiSSHBlUIkMNCtr73sfx8k34FIIQX2S0OgEyc/yOmNQkIVJeq+pCEuojEkhZLPVW8DK+V12OtoLodL/qnabEELfK/jAQPXJMQZUGObDYX/cyLVr6ubRpnL6iFHpIx2HM9DHI4e+9d5EAope120wTMxOg1yuTj6CebJktsaggcmBJ0PdiolyOrrNMBvaGGjl1Pd8yivJEGgfnVpqdzTCeY9XsYv4RDhKQtkyDsUna2p4mjaZYSUwDPk6R6h5LCbuyDe9DLN6vUw6dz8fhxuAkdV+NSzzzTsxrpepI3/q7MM7Oo7PvzwdR39t/rr/pDDc9Lfzc1OjFPrww==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from AS4PR04MB9576.eurprd04.prod.outlook.com (2603:10a6:20b:4fe::12)
+ by VE1PR04MB7472.eurprd04.prod.outlook.com (2603:10a6:800:1b2::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.19; Thu, 6 Mar
+ 2025 08:42:10 +0000
+Received: from AS4PR04MB9576.eurprd04.prod.outlook.com
+ ([fe80::9cf2:8eae:c3d1:2f30]) by AS4PR04MB9576.eurprd04.prod.outlook.com
+ ([fe80::9cf2:8eae:c3d1:2f30%4]) with mapi id 15.20.8511.017; Thu, 6 Mar 2025
+ 08:42:10 +0000
+Date: Thu, 6 Mar 2025 10:42:06 +0200
+From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+To: Julien Massot <julien.massot@collabora.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH 5/5] media/i2c: max96717: allow user to override
+ operation mode from DT
+Message-ID: <twfyc6qllxcssrw7ydfinby56azxadw6zjcinzukncoxnunixu@swknfqwn2qez>
+References: <20250207112958.2571600-1-laurentiu.palcu@oss.nxp.com>
+ <20250207112958.2571600-6-laurentiu.palcu@oss.nxp.com>
+ <3c46bbb64e6e9c7b836c3ca82d678e550d1b2ddf.camel@collabora.com>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3c46bbb64e6e9c7b836c3ca82d678e550d1b2ddf.camel@collabora.com>
+X-ClientProxiedBy: WA1P291CA0020.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:19::24) To AS4PR04MB9576.eurprd04.prod.outlook.com
+ (2603:10a6:20b:4fe::12)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: vim2m: print device name after registering device
-To: Shuah Khan <skhan@linuxfoundation.org>,
- Matthew Majewski <mattwmajewski@gmail.com>,
- Uwe Kleine-Konig <u.kleine-koenig@baylibre.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250219190501.295976-1-mattwmajewski@gmail.com>
- <ym5q2cpn2lxk7sarylnf4o3ztvtnb47wroxdiibdsp6yz4gt2y@jfyfo2ekmdmj>
- <5051c252-f1ef-4731-b0cb-fedfcda04d98@linuxfoundation.org>
- <61bd42742ff8a8e5f409b0f2ccc4ab8875dfe7a4.camel@gmail.com>
- <fdd0356f-d91e-400e-9598-d34e0862c9cb@linuxfoundation.org>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <fdd0356f-d91e-400e-9598-d34e0862c9cb@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4PR04MB9576:EE_|VE1PR04MB7472:EE_
+X-MS-Office365-Filtering-Correlation-Id: 025a5747-009a-4191-ceb5-08dd5c8ac8d2
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?iso-8859-1?Q?2tF2JAGYbWsxQWf6F4dz3sB7Z7KihU78LfY3qqK91VUexa0cRnIBOpxG6Q?=
+ =?iso-8859-1?Q?RLJ89iJVPrM4bMYZwCt+13aCP53gDMNJM6Vnon7632XwOJwOFIWlRw1sl3?=
+ =?iso-8859-1?Q?2VUBFvMDtcmvmjQShqPcWHshT5tuvXYLuohnqMFoTvHCtQWxtaurXa6NPp?=
+ =?iso-8859-1?Q?HooGk0Wg59LGiVBNdKQRjiZxcfnio8KQCE6RrPIwq3K+6FuMFwzFreMCpQ?=
+ =?iso-8859-1?Q?KfO+ly4fwFixJxtct/BNPGfsAlj+zwvv09/0adTtMKFdiEwKCsQtoSlDG9?=
+ =?iso-8859-1?Q?+HI6acluwtt70X6ean2fkMNB7Hk71WkEW1c7u6PUAKd8t56a4BJgnWzHDS?=
+ =?iso-8859-1?Q?6N1Xxi6kaJwwzfRHCxIQNUFBscEFL5LfPWJwfiJdRhseK4d5v3CEneAibG?=
+ =?iso-8859-1?Q?vGsGvcw2U0f7qg41yh8i68lvhO3PAe7EkKn9rcSchBAObdEVTwBgXNv5Sm?=
+ =?iso-8859-1?Q?HdIkNxym0syd7igheUNiLwsmY52onE1a541BUkHcic+IBnuzAIdhge6Pk+?=
+ =?iso-8859-1?Q?bLEWJdUp/HNEBnodPSuUFhuNfNLMvoXUjdLsjodfb/tMhZ2yr/dHmjAR3t?=
+ =?iso-8859-1?Q?qZ/E4RevRm2aGzEmOai5FArO9Q00Y6yNtiSkpJjIXkIbT5+ln7yY04L3CY?=
+ =?iso-8859-1?Q?2Es7ube1PFRgRzXlVgWKOIVVkhOkxWeInARfFJjAhM40Gy7wSI6m0egvsI?=
+ =?iso-8859-1?Q?3DViWTIuFJsbpmqA3YKgGALcxk6+yg4lkZqpT47/q1X81ooR5lbX0eyGYG?=
+ =?iso-8859-1?Q?pYUTQZlFYzpzKq/r3/sXIcO4EzLb8GZbGSMREZhxsxb0AouwzCsf3H48Oz?=
+ =?iso-8859-1?Q?uI1fyTuE3V7DJMv3g0UCfAog0WeqTP00OKf0CEGKbvbKhmLoCOSbLldxQr?=
+ =?iso-8859-1?Q?CdEqOYIjMgbVSkcCTPd6sG+p8/MhFWrU0dtTl/4Ak8GKwSBYxGSTlOZmu3?=
+ =?iso-8859-1?Q?m4SzkVwtSCjVjWDuQGha5K36LYu6qF3B3j8i7vvD6JTGVcEjNtqXBoUbvw?=
+ =?iso-8859-1?Q?XB+SIElRf5hGIWIXnhBLOG6MpgIFGpc5IDAu52h7pp3GPnEohLp4sWMssh?=
+ =?iso-8859-1?Q?UIGngp+6C4Y3AeomjYvAkgSKWtx2DszENj+KUCznttaYgUzD6YboN9L9jg?=
+ =?iso-8859-1?Q?5TQN58huVHqKN0w5bhJeV/B+LdQGG2dHgCuEaNjlkCgVSS9Qb3sGeEebv4?=
+ =?iso-8859-1?Q?CROGcNIud/2NoQmn492csm6RROePtrMEFNJdVooDS/DDNyVLQ/ka4BVqxl?=
+ =?iso-8859-1?Q?YZqhx87lfJ1CS5CdJ13BJRsJsa9ZolwxxzelljVI3riTw6J8RvHctjNrVc?=
+ =?iso-8859-1?Q?IXT5sxP+CPAlK+ZRXTw42x6BHIWG/Z9mSo96iuEdf2Rfe8EGI0+jdIeAGg?=
+ =?iso-8859-1?Q?6Tyhd61bgAjBXckQz9e/GXcgS7UhudK2ZO6mwNTdkmGJFud2ou9Ur2w4ej?=
+ =?iso-8859-1?Q?BXhVJd/fv5tfIwdj?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9576.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?iso-8859-1?Q?zb10kKLOXeY7MCdcoOGzFJ3mpi5vPhdN4nhpDEPac/L5332ZZ2+T73LOIy?=
+ =?iso-8859-1?Q?QcVYug/8ziJ6f7XL3ct5CW94RKnQcIiymAM7tLlF//IzuemP+0dN+tNFan?=
+ =?iso-8859-1?Q?G5hs/u7Vt7ny2VB4fEcMGUkriGZvSL+WEKfn6RuWnDhSz4ld1aYNojAigQ?=
+ =?iso-8859-1?Q?p8TjzqNF96LSz1w7EFj+0hpen62yjMFzstp7l8yVn27BKUkiK8XAQZG3K0?=
+ =?iso-8859-1?Q?7FeA4tlIGwMmXoOK+YAwyMv5UkSq2lSV6Ia1mx4+O0a8uieEUCDnnwo47h?=
+ =?iso-8859-1?Q?Lqx70cfSWCy6AVt3O2s/DkHvBvKi+U8b737DTts0JJhw8KuFA4GK8K1lJD?=
+ =?iso-8859-1?Q?IayoSMqwDaY2fj8hQHIHLhfj3ByM7weJzNDcgagHCE38uito3A5DaSEG62?=
+ =?iso-8859-1?Q?UPc7DRHtc4Le0FnpHR0EnbYOHKXN+/rANS/JqvGmNypJhg/ZScNDHd/CUR?=
+ =?iso-8859-1?Q?0ZjCj/O8PMHyBHqs1BJlQkb9Z+0rFNU2EW5gexFH+fkrEaXRc7KCUMjerz?=
+ =?iso-8859-1?Q?3npQW2tOuRA4DVsI854YpSCToXGilchCECOfc3waCjxTiVijlLwf+mfx7c?=
+ =?iso-8859-1?Q?SwZvfLb+A3WZBWdPbBkrkwEjjQ5SY35gPXnVLXRPTf5TYiwSJTSTFOSr04?=
+ =?iso-8859-1?Q?7P04dHWiFaVv4PUrnjaGcMx/PoERgZSizXT0f0UPYfq9F9b9Xw5FFe+Bfs?=
+ =?iso-8859-1?Q?161TSwKebiwQqRvDFNBt4xJzB6WHZEJwbCw/E+o+O1xxAeP5av5YXcNwAY?=
+ =?iso-8859-1?Q?02CUB7tGdgiSWOlFGhh8fJIMmQKhnHS6vZcaPfeEY74oVaL7d29KlXHSD+?=
+ =?iso-8859-1?Q?zMp7PkyOsqw68ebQpaOMW6zWAMbw2mn6Eme8YyDE5Hx91/Dl8MIEZYvWOU?=
+ =?iso-8859-1?Q?B4OfKMrh/YcbG8aSh4xJ/nybNd7lO2DWZ8KNx9zGi291fgOzeqjwwT5zb5?=
+ =?iso-8859-1?Q?zeqXtn410cZ36rcBqrs9ouoxUfQW3zCBKgOMnI5TQG4dC7dVnSCMrds1a8?=
+ =?iso-8859-1?Q?fRgSErIckun+nTZXU3psmsX3tFQprf0kwySZJTE8TCfD4e4/lK91rnyLWC?=
+ =?iso-8859-1?Q?5TLmjQ+/V18jxhC4BsZXfWCVsp8vfB4RLK4xj3bMQRAgva4gsq3O+nZYgu?=
+ =?iso-8859-1?Q?qb+/bSz1Mrjlv/dgJ9jxS9I5DKyLb7JKqd0Z88gG+UD64eDN6TXW+KLUay?=
+ =?iso-8859-1?Q?MZnaJnd3qwUkfzXL4OkFFKSD0i3zvJ7a+0MFx7/rYBGfyA5Q6RQte/81FB?=
+ =?iso-8859-1?Q?TjC06lfpxw1KlcuQ+e8EZwZbN/XJQtELE5m9Ly+p7fsZuKanQUSXDU813D?=
+ =?iso-8859-1?Q?xVqIXOW953CjKAB1ant50mP0bVUqMr8sJOV9zGW6zfmElOkxqAeFOZjPqG?=
+ =?iso-8859-1?Q?3DWs1WvCt/cA05f+7F7nv1CFVs289qN8nMTdYO7pVvWjuRPRrB2fXz4G/c?=
+ =?iso-8859-1?Q?vTx/DWX+CxBCSkIk1FXNmTyH73QJ4pnxw++mJSGPBHTpJBqKQUT45mzMuW?=
+ =?iso-8859-1?Q?aP+sggb+/2stYl+FrtF67DGBI1ynApKRSJZUyvpmRrr5x0TBYZIy8w0psI?=
+ =?iso-8859-1?Q?IqiNLZ+EEvnFRkYV7oClEt19iefHgsmYpUmtGbRJJTtFhHkpJFD0uKHzmj?=
+ =?iso-8859-1?Q?JgabohsW95PvsbJgGECM7iySLTfbb4hyxyYTPxESvkfHe1BmMxejv8TA?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 025a5747-009a-4191-ceb5-08dd5c8ac8d2
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9576.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Mar 2025 08:42:10.3614
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: idLa/4x7TGxJasBzuaP3TjREEHfw5jXIVLzR9XVGEX73O6u3IudGdZVwkYzfgeWoS2thkVxftPeq3swv50ug7A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VE1PR04MB7472
 
-Hi Shuah,
+Hi Julien,
 
-On 20/02/2025 17:27, Shuah Khan wrote:
-> On 2/20/25 08:29, Matthew Majewski wrote:
->> On Wed, 2025-02-19 at 17:21 -0700, Shuah Khan wrote:
->>> On 2/19/25 14:58, Uwe Kleine-Konig wrote:
->>>> On Wed, Feb 19, 2025 at 02:05:01PM -0500, Matthew Majewski wrote:
->>>>> Move the v4l2_info() call displaying the video device name after
->>>>> the
->>>>> device is actually registered.
->>>>>
->>>>> This fixes a bug where the driver was always displaying
->>>>> "/dev/video0"
->>>>> since it was reading from the vfd before it was registered.
->>>>>
->>>>> Signed-off-by: Matthew Majewski <mattwmajewski@gmail.com>
->>>>
->>>> A Fixes: tag would be great.
->>>
->>> Matthew, there is no need to resend the patch. Just send me the
->>> Fixes tag and I will update the repo.
->>>
->>>
->>
->> Ok, here is the fixes tag:
->>
->> Fixes: cf7f34777a5b4100a ("media: vim2m: Register video device after
->> setting up internals")
->>
+On Tue, Feb 18, 2025 at 04:21:36PM +0100, Julien Massot wrote:
+> Hi Laurentiu,
 > 
-> Thank you. commit is now updated.
+> On Fri, 2025-02-07 at 13:29 +0200, Laurentiu Palcu wrote:
+> > There are situations when the CFG pins set the chip up for a certain
+> > mode of operation (ie: pixel mode or tunneling mode), because the HW
+> > designers decided this way, and we, the users, want to change that. For
+> > that, add an optional DT property that would allow toggling the
+> > operation mode from the configured one to the other one.
+> > 
+> > The driver still only supports tunneling mode, that didn't change.
+> > 
+> > Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
+> > ---
+> >  drivers/media/i2c/max96717.c | 12 ++++++++++++
+> >  1 file changed, 12 insertions(+)
+> > 
+> > diff --git a/drivers/media/i2c/max96717.c b/drivers/media/i2c/max96717.c
+> > index 47a3be195a971..a591ca5d5f44f 100644
+> > --- a/drivers/media/i2c/max96717.c
+> > +++ b/drivers/media/i2c/max96717.c
 > 
-> thanks,
-> -- Shuah
 > 
+> enum gmsl2_mode {
+>   GMSL2_PIXEL_MODE,
+>   GMSL2_MODE_TUNNEL,
+> };
+> 
+> > @@ -161,6 +161,7 @@ struct max96717_priv {
+> >  	struct clk_hw                     clk_hw;
+> >  	struct gpio_chip                  gpio_chip;
+> >  	enum max96717_vpg_mode            pattern;
+> > +	bool				  mode_override;
+> 	enum gmsl2_mode                   mode;
+> I would prefer to set the mode in an explicit way instead of toggling
+> the bit in the register.
+> 
+> >  	struct max96717_fsync_desc	  fsync;
+> >  };
+> >  
+> > @@ -1066,6 +1067,14 @@ static int max96717_hw_init(struct max96717_priv *priv)
+> >  		return dev_err_probe(dev, ret,
+> >  				     "Fail to read mipi rx extension");
+> >  
+> > +	if (priv->mode_override) {
+>         if (priv->mode_override && priv->mode == GMSL2_MODE_TUNNEL) {
+> > +		
+> > +
+> > +		ret = cci_write(priv->regmap, MAX96717_MIPI_RX_EXT11, val, NULL);
+> 		ret = cci_update_bits(priv->regmap, MAX96717_MIPI_RX_EXT11, MAX96717_TUN_MODE,
+> 					MAX96717_TUN_MODE, NULL);
+> > +		if (ret)
+> > +			return dev_err_probe(dev, ret, "Unable to update operation mode\n");
+> > +	}
+> > +
+> In case we are overwriting the mode to tunnel mode then no need to read the EXT11 register.
+> 
+> >  	if (!(val & MAX96717_TUN_MODE))
+> >  		return dev_err_probe(dev, -EOPNOTSUPP,
+> >  				     "Only supporting tunnel mode");
+> 
+> In fact the driver can works in pixel mode, but since we don't set the "stream id" the
+> deserializer have to configured with the right one :)
+> 
+> > @@ -1101,6 +1110,9 @@ static int max96717_parse_dt(struct max96717_priv *priv)
+> >  
+> >  	priv->mipi_csi2 = vep.bus.mipi_csi2;
+> >  
+> > +	if (fwnode_property_present(dev_fwnode(dev), "maxim,cfg-mode-override"))
+> > +		priv->mode_override = true;
+> > +
+> 	source_fwnode = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev),
+> 							MAX96717_PAD_SOURCE, 0, 0);
+> 	if (fwnode_property_present(source_fwnode, "maxim,tunnel-mode")) {
+> 		priv->mode_override = true;
+> 		priv->mode = GMSL2_MODE_TUNNEL;
+> 	}
 
-Please post your PR today, if possible. Otherwise it might slip to the
-v6.16. Alternatively, I can take this patch myself.
+So, I don't think the boolean 'maxim,tunnel-mode' would work well when
+the pin configuration is 'tunnel' and the user wants to switch to
+'pixel'. Maybe, replace the boolean 'maxim,cfg-mode-override' property
+with an optional enum property 'maxim,cfg-mode'? Does that sound better?
 
-Also, why did you pick up this vim2m patch? I was a bit surprised by that.
+Thanks,
+Laurentiu
 
-Regards,
-
-	Hans
+> So we can parse the tunnel property from the GMSL port.
+> 
+> >  	priv->fsync.pin = -1;
+> >  	count = fwnode_property_present(dev_fwnode(dev), "maxim,fsync-config");
+> >  	if (count > 0) {
+> 
+> Best Regards,
+> 
+> -- 
+> Julien
 
