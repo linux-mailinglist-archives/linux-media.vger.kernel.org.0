@@ -1,214 +1,380 @@
-Return-Path: <linux-media+bounces-27817-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27818-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A91CA56425
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 10:42:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D866BA5642B
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 10:43:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6C7023A8461
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 09:42:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 092D3188FE66
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 09:43:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDBF820B7EF;
-	Fri,  7 Mar 2025 09:41:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE68C20B209;
+	Fri,  7 Mar 2025 09:43:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b="Ntf3wSeW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LaSW0QOK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11013036.outbound.protection.outlook.com [52.101.67.36])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6B02063F1;
-	Fri,  7 Mar 2025 09:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.67.36
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741340518; cv=fail; b=tpyuJE/wvU0PJKYOTGkXxAgbvndzvoAia7tCmcaRk4v/fxiJuPFW0LikcbOj/CmXbC+iP0AH1E1t6/3z/fgAQMGCLwUgR/2v3NsZA87uZSCZOtCQxry+DYZfrYIP7bhrOjOdlebBP2A4Wd93F1BPVAqqC6spd1Jetn7vZsyW6mI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741340518; c=relaxed/simple;
-	bh=bd2qyFZPzLM/vHrJtWfOViNgOk7OeteGbdKWJgoFcYU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=nV9gplGBn4kBfqi0K+76LY1YQpaf7VPgVefkyJIw3rQFoPZ6At49l8kJjBzikTV1m81j/r9FwfqvebgOJawCd446o8MTRBbOkUlwQ32lVNND0gPfFbGkCjgdY9qpxQphxfNihoXhh0GslIG7GAibF8hp3p8ExaVS24zQqOhJa1Q=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mt.com; spf=pass smtp.mailfrom=mt.com; dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b=Ntf3wSeW; arc=fail smtp.client-ip=52.101.67.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mt.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mt.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=k1BVN6EnRykWYHVfXsaw5LLgOonroQCqh+PHvWKZaispO6xVmZW1MFd16Y+LPCTvYTHbrcsCTqDo1t//YRK6Ho0TiWDXnMBBtuofcpUzKRUfJMWwAeUWdN6ZtzSZIbrVTyVM6hrY7hiw3+Lx3Git3rAab76tN5J/ZcCTbuOiutP5SilDCMphHcGiUhaxcRBcBavA0Y+Fsj0kVErY5rQSS/yJk6VF4+kegD8yLcH+lZcldHw7AkaOjiv0gNulL7mM3KaXmOOQx7I6pp+X800zg3SIOUNAUL8EadtEcjUHPDsc+Zv0hocRuSiBhVmFG8UgxJsq5Q2rKknbadEfYD7kxg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JR98LGZXt+CNTV5AR5kD4p2FkRbUo68pZ81MKP2qhAQ=;
- b=vgvpROH7fqjoLOrd0DiYimwnkzG228eU3XHbPJAqLyVB2wDzjdGEOVNGQ81pVon+G/HIR/RmMy3FbOS59sl01mMgj4OpGFSN/sZkknwjOjPSm8gMpmL5fCIMkzUr3ulpvi3H3o+LmFT1+QhoK3AEEJABMGA0SVTuwcLxzA3uumAg6lKG6OZJPqcka1cUW8VXycWXFsY35XIOB6M9ZVelqWGZEDe4MuoaqAILFlTeV+Vt/kj0tfRpwY/6J4MU4wGSyW2KvhJvt9dPk5HzwQGyVGv4UyoP+v32/aKSEYcG5S5GR3tn4Vqhidm5plunqK/ZalgD7/tOQcuJTBR3L3yMxg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
- header.d=mt.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JR98LGZXt+CNTV5AR5kD4p2FkRbUo68pZ81MKP2qhAQ=;
- b=Ntf3wSeW/PAXm8xpACMuztxyIaHcAhx5m6d0whzybCL7aoZIniLvA+qGJwopZAWb92vYu7fAC2FpOjTOYb+/IwjeBJ6jfPRQBeoRT/aJlRUbtyf1VRbzgevn3qpQLXoCmJhxyHe+uQP6xba7D3R21pLLuUI6lXzkQVSueLz13zdnKC/Z9ErQoVfHJXkKd9S/fMdJjxm7xm3Z8vamxmkMJrLYxhMcD/CgD7UhLLte6Wfr7AUFVc+JIszuJsqoj8ZlXgGVheenSvbtwq4Z5IiqTSjCNxgt7fQRUl8CFngbWaunD88qPcLxIJw0CC/ye9fDpNvYeZVHlpVlCpoD7/Hlqw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mt.com;
-Received: from DBBPR03MB10396.eurprd03.prod.outlook.com (2603:10a6:10:53a::11)
- by VI2PR03MB10738.eurprd03.prod.outlook.com (2603:10a6:800:272::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.17; Fri, 7 Mar
- 2025 09:41:54 +0000
-Received: from DBBPR03MB10396.eurprd03.prod.outlook.com
- ([fe80::ee3c:c9be:681:c0bf]) by DBBPR03MB10396.eurprd03.prod.outlook.com
- ([fe80::ee3c:c9be:681:c0bf%7]) with mapi id 15.20.8511.017; Fri, 7 Mar 2025
- 09:41:53 +0000
-Date: Fri, 7 Mar 2025 10:41:47 +0100
-From: Mathis Foerst <mathis.foerst@mt.com>
-To: Rob Herring <robh@kernel.org>
-Cc: linux-kernel@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A10F71A00D1
+	for <linux-media@vger.kernel.org>; Fri,  7 Mar 2025 09:43:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741340621; cv=none; b=a19Y1982YNCcob9f9JCBCmN5QBSXpDHAUlNc+O0pZyX8aDCdCY+x+DWjWjQH1NsFDMfULR3FxLie3R4RjOn/gGPXQsYENuhCbZdmHI+R7JZpuuwvDWYT0i7pfTdB7ErJTUn/NDZwzqbqpXCULnJoXJyWNa/sauOzduUCB0ss9+k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741340621; c=relaxed/simple;
+	bh=uLmOFjZkkjGEuNZHYnTa4DL7jV3pJ+YFcBEgIQfrCjo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=paxSSkjt+pre49KSp9tsi2yxuU+b/qr7kmK9w6ljIXcf1SCnK4DtgI5tjjMT0jgXan2BShen3RHbMosR7xMIBAL9e13kJ7Fm/Sehv7lgtSzu/GzZUG7jhsjncAjbrPMENvoDaFZPceZj+Ed0EML4MSarJxlxYNLFL2sst5Lqo7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LaSW0QOK; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741340620; x=1772876620;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uLmOFjZkkjGEuNZHYnTa4DL7jV3pJ+YFcBEgIQfrCjo=;
+  b=LaSW0QOKDMrHNeySl1xmONDf/IrfZ81mhxF0NKSNWwe3v/O5cpLt16oc
+   AXxNLvhirMqI57uNXguEAyILnPs52MgO6ORWOeTp64UgM8aWldLrWBmry
+   aelnhF2zlDmxvwbzS+LR3i1ZKNH3UqMGXqsGLk1IqJDv8JucYe4puBSvD
+   U0HE8S0gGFMV3eJpjPP/6dp5ngk+PKkdtMfti/fNqnEk4TelIiwglLhse
+   vd0X/gdsmsGXCziyHZUIRS4dTsf4GN7el/bX+qibKYfe6wPYiU6iGE+Yl
+   b3Img6aqSt5cS24cPzQ1O+OxLIQQs/JoLSSXogSLLRHBkotnz3XV7S/M1
+   Q==;
+X-CSE-ConnectionGUID: 2j7DAiJ5Ry6R2MFA+KeKJw==
+X-CSE-MsgGUID: d2xAFmx6Tx2kIqSQFZk9DA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42415320"
+X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
+   d="scan'208";a="42415320"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 01:43:39 -0800
+X-CSE-ConnectionGUID: nNY1ZpjrT5eyj7v4j2YUPw==
+X-CSE-MsgGUID: UVo2seOCQ4m4LsTy74YC/g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
+   d="scan'208";a="119283386"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 01:43:37 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id E436C11F9DA;
+	Fri,  7 Mar 2025 11:43:34 +0200 (EET)
+Date: Fri, 7 Mar 2025 09:43:34 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hao Yao <hao.yao@intel.com>
+Cc: Arec Kao <arec.kao@intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	manuel.traut@mt.com, mathis.foerst@zuehlke.com
-Subject: Re: [PATCH v3 1/6] media: dt-bindings: mt9m114: Add onnn,slew-rate
- DT-binding
-Message-ID: <Z8q/W+wHnERu9P6G@mt.com>
-References: <20250305101453.708270-1-mathis.foerst@mt.com>
- <20250305101453.708270-2-mathis.foerst@mt.com>
- <20250305130821.GA1374586-robh@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250305130821.GA1374586-robh@kernel.org>
-X-ClientProxiedBy: ZR2P278CA0037.CHEP278.PROD.OUTLOOK.COM
- (2603:10a6:910:47::19) To DBBPR03MB10396.eurprd03.prod.outlook.com
- (2603:10a6:10:53a::11)
+	linux-media@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>
+Subject: Re: [PATCH 2/2] media: i2c: ov13b10: Support 2 lane mode
+Message-ID: <Z8q_xpTIs1UsN0l9@kekkonen.localdomain>
+References: <20250307093130.1103961-1-hao.yao@intel.com>
+ <20250307093130.1103961-2-hao.yao@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DBBPR03MB10396:EE_|VI2PR03MB10738:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3e99c133-1325-4b0d-20a5-08dd5d5c4b3a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|52116014|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Ck/o0JMTAIx4QLINx92L+oZcGT516Vi8tNAmqT99EQaXP168Tot0nAUoMZYM?=
- =?us-ascii?Q?npZ/SROHFn65dEZxpAOQhlhe0Ec5jpWNQbsMWZgkpVywL6FFdMZm8q2aZWq9?=
- =?us-ascii?Q?oQaea61zs+rg+VPhVUtTO0+ni3Ri/bmKkTV1DC1StZvHZzG/w1nMZhrV2rW/?=
- =?us-ascii?Q?SJrdYxZIluPvvraufb83MKZuzdks00lCrLEmeFRPtX1qy4t2yHUNpRaOyPiG?=
- =?us-ascii?Q?GDFXZVnYcogAVM0IjT2hPtbnn9QqiK78uMCeW3naDfV1pCTEmG41wLhjeF4T?=
- =?us-ascii?Q?RB6Jqd+uAtYtQNXvAgEWGXT/bjZ5nzvZfYU7/9kl17tT3xf5Nal0ygzwaL0L?=
- =?us-ascii?Q?MRBSykByOu2XD7F5pc5KSZT2nTyV/CvG1xjCvjGzxzcGZlsJFqwnD7EjrJHu?=
- =?us-ascii?Q?i3Gb4HPsfE0hE11k2FNHzpvL95Htp0/SIPbEdO+ZehHoWfm3yGetzb6K5Qmo?=
- =?us-ascii?Q?1kToS/yCYO2Cz+ZyX7bvcOAFaIv/LnHKZFmo9EKkJQ+XtUfk0G8bX19JAG5h?=
- =?us-ascii?Q?gIgqxTQDzMGpes+O/1/i3HCNUYKgqU279gKP5xRyHcz9GfteL4L3tyS5LhQL?=
- =?us-ascii?Q?L8dzZ/UpO9yXXfFvi/lulO2KJEPNvszkmw/G9+4xG8bUFq52hmcAYgMX4Sle?=
- =?us-ascii?Q?vDPu3suEJ159vKMtwhCvafNlFoLDe0urXZcbAwN/mvcV/nIWMyL56OIKM7aM?=
- =?us-ascii?Q?5BuaDWKj4H1SZ96RDiF6yPd5JyvqqXHTEmbWVX47BcHIkHs39xPlwM4TzvNE?=
- =?us-ascii?Q?Ih5yiCkSZdlvl/oj0ucNbDqJAOFX0BzROtloacvoRF8Ezd5dFCkvGoMHEdWw?=
- =?us-ascii?Q?4NHLozzm7e52UK3Id4My57srjnjjCoTZkhH00gFrZOUdejSEgiL/68CkqhMG?=
- =?us-ascii?Q?uparKc5pKTQw+5dA7bLXEPPlPPaq8SKY0IYo2AdrZhlJS+s8EWhyWRne4ybu?=
- =?us-ascii?Q?Bpn6tKSfHmdcKHP3mywTCYXakngRtrWXfYhuEdcnM9x0efclIatAo/3raiOu?=
- =?us-ascii?Q?nnSUdR6kz9gJxeKXeTfmRQjbXpVLIZDDeA3wq9rYyzeFG2jzBCxLbOPFCnnf?=
- =?us-ascii?Q?D0V3KuoPSEqTx+FXyyFG0qGSd6Yg/yx09So4oBofo/LfCrVNo1lPRcI/Fijc?=
- =?us-ascii?Q?kAoZlcaaLhddApo/DhPmV1FgLG3Qv41WYtB5k4kYsX4lN5dz3izzuly5JB9N?=
- =?us-ascii?Q?a5FF1MjbA3qk/9mHrq4gcZtSm21qlAOFN2PGj/IEKFaunN8Qstoe/p6v2rDs?=
- =?us-ascii?Q?ZuRh8T57tAuIumEfGMKNCFq9bEE+dy6GPbBivLT2CGeSTIG/zTlz0Ou3swRt?=
- =?us-ascii?Q?81kx/aXl7wqYgCUCKTlKqWfsGE7INluQ47Kj90nWRw4OPdHOkterQD1GNctT?=
- =?us-ascii?Q?CTlaiMNaspZyHuOCUkLHRttGOqvpMIBG2hRBnp2n7PYADolLF2iUA6jy3EjL?=
- =?us-ascii?Q?4OffDOya6HU8qdzF/dcyWTZ68UveGTLP?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR03MB10396.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?Se1WoQ3C0yqCQ8PQpi99YiLkPrAkwCdwr3yEzKytbWVm6D9TKOszSMVKspI6?=
- =?us-ascii?Q?n3uHFC8d3UZwz/qzEpLbLKQXkFJzvIzw0IYoLd9kJqP9aAgnCbiBijIH1dmd?=
- =?us-ascii?Q?0rjg1IYxGJXk7+P/CizvJf8ZQayDdzrxl6AbzVqk3PHQkBVL58SYNMSsqKB9?=
- =?us-ascii?Q?kZmUI8dxSTGqfenCW+ml9A7d7FvBRcgxOAwLa1tMAq97/ERvmbR3OHBgSqkg?=
- =?us-ascii?Q?ZFSbfCMUdXdhZCJG2wUN2P/k98/W35tgQbvz2smtNaGOkaOnH/e85gNTBuNi?=
- =?us-ascii?Q?OgpFsYAia1fUz2JMu/x0axPJtK8nd+M6ccy+fNqheYe/wSsHiBE2iEzGYUgH?=
- =?us-ascii?Q?AcedAm6/MDr8MslsKhKURpJP2wWWuqM24gQqTsJ/eGJVWJwpuz2JOyTV3nYd?=
- =?us-ascii?Q?kPR3Rjcu8bpt90lim2oC4c9UjxllV6uIZQWNtQ0SsxjGjaB2xK9SSdQImpys?=
- =?us-ascii?Q?jgXGkAgbcHlk+Bx/nTdWBLmNfBSUeZ+UFwgqMC6fIjD9H7e1ZyIZAoNXV0yi?=
- =?us-ascii?Q?TR+Kr/8PzyHIFPqtnwlT2e3O138eaG0I5cdNe7ro6fWOMCBtXiZLHi98pAKw?=
- =?us-ascii?Q?GTiXsZSn46dMD4L+7pERbLkQ1cMHJvd0myE8dzPQw2lqil1iuPqfuvBHl8RM?=
- =?us-ascii?Q?+EGxhfZg0oafYiRRNgDkvewE+ys4Y7eSIjk1uG6r/Etk4gHp85s1kVA+P9xJ?=
- =?us-ascii?Q?tViUrPqG7DPbyjrX1kiqYnWGKlOD3wN/QpWxHq7Ptfbm290NiI2LndsgRzly?=
- =?us-ascii?Q?FRMMr/ACytauZCaTeWXxinTKoyVk34bvClWiGt0V0rACKw8fMbgHZQAEGSje?=
- =?us-ascii?Q?wmix3T9kx3rIwq3THrn848mz3LPjwbM+48edte2kr8Ggq8l4YWkskxyYUOX3?=
- =?us-ascii?Q?9/AxRHKpiA0Q75KAb/iVi9wnp+hjnniox4TaYky2Nuu8rnJ5B1eS88kirv09?=
- =?us-ascii?Q?kUf/WjhPIOZ05rJ9loqE75IbKkvIOLZ4ZtCxMuwwQVUkGw15udVMMGyQ9fMw?=
- =?us-ascii?Q?UKPkk2KJIyaYRZKjgI4qrPYE+L7Fja9dRfrrnA2JJhK2BMtVACA+rqRr0v+W?=
- =?us-ascii?Q?Nmjx+o/KLkGjcW2/P3psOWZpcc+2tK9Q08Rec3/sTtIdDPuALDcZxs2f1aba?=
- =?us-ascii?Q?Akv9+ju/H7GvgovjYlLuH/V4ciXYJfGU7L7nSBoSuJthzZAjNH41o6oz2M6j?=
- =?us-ascii?Q?YsoMTXvHDs517FBq92anosos+FpPfznP6EZasvDULBcsRIk/sgix5fiXJkos?=
- =?us-ascii?Q?kdDYMg+LrRqx7DpHuP0MPROxFWQ7xtqRjmTHFJcSljqRkA5n/PIZeLthQxDC?=
- =?us-ascii?Q?P+bkX9y6m0cy5eI4YD8/LEbLF2javcmFSwUjxH2h1g/i8XpTpFV63IqIknSD?=
- =?us-ascii?Q?pEk5D1wlBcbRNgaOeGKTTuj7FxY3BRJqg0Mju7xWdO0Cry0ubFsbYPqo/FZX?=
- =?us-ascii?Q?StzkxSRcbEyER7E0wFCRxmqM2GaxGd1mk4sx81oZcvjOfxxpziOMHvQBVS/M?=
- =?us-ascii?Q?vT0sanNuujrvCpIUpSYx5mHhw2T9XAc1fDdILxzTQ2IE+3MLBPoOP6vN8QCB?=
- =?us-ascii?Q?3E8k1737Rh1be/e3P5e0Q7bD/MiNKfQdNLeOiQ0U?=
-X-OriginatorOrg: mt.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3e99c133-1325-4b0d-20a5-08dd5d5c4b3a
-X-MS-Exchange-CrossTenant-AuthSource: DBBPR03MB10396.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2025 09:41:53.8962
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Wrr61AH4To0KJAh975js3eJHsHMubzYy17Q8c2YjkjYTcEIDhb8z0f+6EWbVUpNMK6GvrDOJf4HgG142VhD8qA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI2PR03MB10738
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250307093130.1103961-2-hao.yao@intel.com>
 
-Hi Rob,
+Hi Bingbu, Hao,
 
-thank you for your input.
+Thanks for the patchset.
 
-On Wed, Mar 05, 2025 at 07:08:21AM -0600, Rob Herring wrote:
-> On Wed, Mar 05, 2025 at 11:14:48AM +0100, Mathis Foerst wrote:
-> > The MT9M114 supports the different slew rates (0 to 7) on the output pads.
-> > At the moment, this is hardcoded to 7 (the fastest rate).
-> > The user might want to change this values due to EMC requirements.
-> > 
-> > Add the 'onnn,slew-rate' property to the MT9M114 DT-bindings for selecting
-> > the desired slew rate.
-> > 
-> > Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
-> > ---
-> >  .../devicetree/bindings/media/i2c/onnn,mt9m114.yaml      | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-> > index f6b87892068a..c184bc04b743 100644
-> > --- a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-> > +++ b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
-> > @@ -70,6 +70,15 @@ properties:
-> >            - bus-type
-> >            - link-frequencies
-> >  
-> > +  onnn,slew-rate:
+On Fri, Mar 07, 2025 at 05:31:17PM +0800, Hao Yao wrote:
+> 1. Fix pixel rate calculation to consider different lane number
+> 2. Add 2104x1560 60fps 2 data lanes register setting
+> 3. Support 2 lane in check_hwcfg
+> 4. Select correct mode considering lane number used
 > 
-> Just 'slew-rate' which is already defined in the pinctrl binding.
-
-Okay, I fixed this in v4.
-
+> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> Signed-off-by: Hao Yao <hao.yao@intel.com>
+> ---
+>  drivers/media/i2c/ov13b10.c | 134 ++++++++++++++++++++++++++++++------
+>  1 file changed, 112 insertions(+), 22 deletions(-)
 > 
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +    description:
-> > +      Slew rate ot the output pads DOUT[7:0], LINE_VALID, FRAME_VALID and
-> > +      PIXCLK. Higher values imply steeper voltage-flanks on the pads.
-> > +    minimum: 0
-> > +    maximum: 7
-> > +    default: 7
-> > +
-> >  required:
-> >    - compatible
-> >    - reg
-> > -- 
-> > 2.34.1
-> > 
+> diff --git a/drivers/media/i2c/ov13b10.c b/drivers/media/i2c/ov13b10.c
+> index 2e83fc23f321..20481b8d4e79 100644
+> --- a/drivers/media/i2c/ov13b10.c
+> +++ b/drivers/media/i2c/ov13b10.c
+> @@ -514,6 +514,52 @@ static const struct ov13b10_reg mode_1364x768_120fps_regs[] = {
+>  	{0x5001, 0x0d},
+>  };
+>  
+> +static const struct ov13b10_reg mode_2lanes_2104x1560_60fps_regs[] = {
+> +	{0x3016, 0x32},
+> +	{0x3106, 0x29},
+> +	{0x0305, 0xaf},
+> +	{0x3501, 0x06},
+> +	{0x3662, 0x88},
+> +	{0x3714, 0x28},
+> +	{0x3739, 0x10},
+> +	{0x37c2, 0x14},
+> +	{0x37d9, 0x06},
+> +	{0x37e2, 0x0c},
+> +	{0x3800, 0x00},
+> +	{0x3801, 0x00},
+> +	{0x3802, 0x00},
+> +	{0x3803, 0x08},
+> +	{0x3804, 0x10},
+> +	{0x3805, 0x8f},
+> +	{0x3806, 0x0c},
+> +	{0x3807, 0x47},
+> +	{0x3808, 0x08},
+> +	{0x3809, 0x38},
+> +	{0x380a, 0x06},
+> +	{0x380b, 0x18},
+> +	{0x380c, 0x04},
+> +	{0x380d, 0x98},
+> +	{0x380e, 0x06},
+> +	{0x380f, 0x3e},
+> +	{0x3810, 0x00},
+> +	{0x3811, 0x07},
+> +	{0x3812, 0x00},
+> +	{0x3813, 0x05},
+> +	{0x3814, 0x03},
+> +	{0x3816, 0x03},
+> +	{0x3820, 0x8b},
+> +	{0x3c8c, 0x18},
+> +	{0x4008, 0x00},
+> +	{0x4009, 0x05},
+> +	{0x4050, 0x00},
+> +	{0x4051, 0x05},
+> +	{0x4501, 0x08},
+> +	{0x4505, 0x00},
+> +	{0x4837, 0x0e},
+> +	{0x5000, 0xfd},
+> +	{0x5001, 0x0d},
+> +};
+> +
+>  static const char * const ov13b10_test_pattern_menu[] = {
+>  	"Disabled",
+>  	"Vertical Color Bar Type 1",
+> @@ -527,15 +573,16 @@ static const char * const ov13b10_test_pattern_menu[] = {
+>  #define OV13B10_LINK_FREQ_INDEX_0	0
+>  
+>  #define OV13B10_EXT_CLK			19200000
+> -#define OV13B10_DATA_LANES		4
+> +#define OV13B10_4_DATA_LANES		4
+> +#define OV13B10_2_DATA_LANES		2
+>  
+>  /*
+> - * pixel_rate = link_freq * data-rate * nr_of_lanes / bits_per_sample
+> - * data rate => double data rate; number of lanes => 4; bits per pixel => 10
+> + * pixel_rate = data_rate * nr_of_lanes / bits_per_pixel
+> + * data_rate => link_freq * 2; number of lanes => 4; bits per pixel => 10
+>   */
+> -static u64 link_freq_to_pixel_rate(u64 f)
+> +static u64 link_freq_to_pixel_rate(u64 f, u8 lanes)
+>  {
+> -	f *= 2 * OV13B10_DATA_LANES;
+> +	f *= 2 * lanes;
+>  	do_div(f, 10);
+>  
+>  	return f;
+> @@ -559,7 +606,8 @@ static const struct ov13b10_link_freq_config
+>  };
+>  
+>  /* Mode configs */
+> -static const struct ov13b10_mode supported_modes[] = {
+> +static const struct ov13b10_mode supported_4_lanes_modes[] = {
+> +	/* 4 data lanes */
+>  	{
+>  		.width = 4208,
+>  		.height = 3120,
+> @@ -634,6 +682,23 @@ static const struct ov13b10_mode supported_modes[] = {
+>  	},
+>  };
+>  
+> +static const struct ov13b10_mode supported_2_lanes_modes[] = {
+> +	/* 2 data lanes */
+> +	{
+> +		.width = 2104,
+> +		.height = 1560,
+> +		.vts_def = OV13B10_VTS_60FPS,
+> +		.vts_min = OV13B10_VTS_60FPS,
+> +		.link_freq_index = OV13B10_LINK_FREQ_INDEX_0,
+> +		.ppl = 2352,
+> +		.reg_list = {
+> +			.num_of_regs =
+> +				ARRAY_SIZE(mode_2lanes_2104x1560_60fps_regs),
+> +			.regs = mode_2lanes_2104x1560_60fps_regs,
+> +		},
+> +	},
+> +};
+> +
+>  struct ov13b10 {
+>  	struct v4l2_subdev sd;
+>  	struct media_pad pad;
+> @@ -651,12 +716,20 @@ struct ov13b10 {
+>  	struct v4l2_ctrl *hblank;
+>  	struct v4l2_ctrl *exposure;
+>  
+> +	/* Supported modes */
+> +	const struct ov13b10_mode *supported_modes;
+> +
+>  	/* Current mode */
+>  	const struct ov13b10_mode *cur_mode;
+>  
+>  	/* Mutex for serialized access */
+>  	struct mutex mutex;
+>  
+> +	u8 supported_modes_num;
+> +
+> +	/* Data lanes used */
+> +	u8 data_lanes;
+> +
+>  	/* True if the device has been identified */
+>  	bool identified;
+>  };
+> @@ -760,8 +833,8 @@ static int ov13b10_write_reg_list(struct ov13b10 *ov13b,
+>  /* Open sub-device */
+>  static int ov13b10_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+>  {
+> -	const struct ov13b10_mode *default_mode = &supported_modes[0];
+>  	struct ov13b10 *ov13b = to_ov13b10(sd);
+> +	const struct ov13b10_mode *default_mode = ov13b->supported_modes;
+>  	struct v4l2_mbus_framefmt *try_fmt = v4l2_subdev_state_get_format(fh->state,
+>  									  0);
+>  
+> @@ -980,7 +1053,10 @@ static int ov13b10_enum_frame_size(struct v4l2_subdev *sd,
+>  				   struct v4l2_subdev_state *sd_state,
+>  				   struct v4l2_subdev_frame_size_enum *fse)
+>  {
+> -	if (fse->index >= ARRAY_SIZE(supported_modes))
+> +	struct ov13b10 *ov13b = to_ov13b10(sd);
+> +	const struct ov13b10_mode *supported_modes = ov13b->supported_modes;
+> +
+> +	if (fse->index >= ov13b->supported_modes_num)
+>  		return -EINVAL;
+>  
+>  	if (fse->code != MEDIA_BUS_FMT_SGRBG10_1X10)
+> @@ -1040,6 +1116,7 @@ ov13b10_set_pad_format(struct v4l2_subdev *sd,
+>  {
+>  	struct ov13b10 *ov13b = to_ov13b10(sd);
+>  	const struct ov13b10_mode *mode;
+> +	const struct ov13b10_mode *supported_modes = ov13b->supported_modes;
+>  	struct v4l2_mbus_framefmt *framefmt;
+>  	s32 vblank_def;
+>  	s32 vblank_min;
+> @@ -1054,7 +1131,7 @@ ov13b10_set_pad_format(struct v4l2_subdev *sd,
+>  		fmt->format.code = MEDIA_BUS_FMT_SGRBG10_1X10;
+>  
+>  	mode = v4l2_find_nearest_size(supported_modes,
+> -				      ARRAY_SIZE(supported_modes),
+> +				      ov13b->supported_modes_num,
+>  				      width, height,
+>  				      fmt->format.width, fmt->format.height);
+>  	ov13b10_update_pad_format(mode, fmt);
+> @@ -1065,7 +1142,8 @@ ov13b10_set_pad_format(struct v4l2_subdev *sd,
+>  		ov13b->cur_mode = mode;
+>  		__v4l2_ctrl_s_ctrl(ov13b->link_freq, mode->link_freq_index);
+>  		link_freq = link_freq_menu_items[mode->link_freq_index];
+> -		pixel_rate = link_freq_to_pixel_rate(link_freq);
+> +		pixel_rate = link_freq_to_pixel_rate(link_freq,
+> +						     ov13b->data_lanes);
+>  		__v4l2_ctrl_s_ctrl_int64(ov13b->pixel_rate, pixel_rate);
+>  
+>  		/* Update limits and set FPS to default */
+> @@ -1312,7 +1390,8 @@ static int ov13b10_init_controls(struct ov13b10 *ov13b)
+>  	if (ov13b->link_freq)
+>  		ov13b->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>  
+> -	pixel_rate_max = link_freq_to_pixel_rate(link_freq_menu_items[0]);
+> +	pixel_rate_max = link_freq_to_pixel_rate(link_freq_menu_items[0],
+> +						 ov13b->data_lanes);
+>  	pixel_rate_min = 0;
+>  	/* By default, PIXEL_RATE is read only */
+>  	ov13b->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &ov13b10_ctrl_ops,
+> @@ -1423,7 +1502,7 @@ static int ov13b10_get_pm_resources(struct device *dev)
+>  	return 0;
+>  }
+>  
+> -static int ov13b10_check_hwcfg(struct device *dev)
+> +static int ov13b10_check_hwcfg(struct device *dev, struct ov13b10 *ov13b)
+>  {
+>  	struct v4l2_fwnode_endpoint bus_cfg = {
+>  		.bus_type = V4L2_MBUS_CSI2_DPHY
+> @@ -1433,6 +1512,7 @@ static int ov13b10_check_hwcfg(struct device *dev)
+>  	unsigned int i, j;
+>  	int ret;
+>  	u32 ext_clk;
+> +	u8 dlane;
+>  
+>  	if (!fwnode)
+>  		return -ENXIO;
+> @@ -1459,12 +1539,25 @@ static int ov13b10_check_hwcfg(struct device *dev)
+>  	if (ret)
+>  		return ret;
+>  
+> -	if (bus_cfg.bus.mipi_csi2.num_data_lanes != OV13B10_DATA_LANES) {
+> +	dlane = bus_cfg.bus.mipi_csi2.num_data_lanes;
+> +	if (dlane != OV13B10_4_DATA_LANES && dlane != OV13B10_2_DATA_LANES) {
+>  		dev_err(dev, "number of CSI2 data lanes %d is not supported",
+> -			bus_cfg.bus.mipi_csi2.num_data_lanes);
+> +			dlane);
+>  		ret = -EINVAL;
+>  		goto out_err;
+>  	}
+> +	ov13b->data_lanes = dlane;
+> +	ov13b->supported_modes = supported_4_lanes_modes;
+> +	ov13b->supported_modes_num = ARRAY_SIZE(supported_4_lanes_modes);
+> +	if (dlane == OV13B10_2_DATA_LANES) {
+> +		ov13b->supported_modes = supported_2_lanes_modes;
+> +		ov13b->supported_modes_num =
+> +			ARRAY_SIZE(supported_2_lanes_modes);
 
-Best regards,
-Mathis Foerst
+How about using switch() here?
+
+> +	}
+> +
+> +	ov13b->cur_mode = ov13b->supported_modes;
+> +	dev_dbg(dev, "%u lanes with %u modes selected\n",
+> +		ov13b->data_lanes, ov13b->supported_modes_num);
+>  
+>  	if (!bus_cfg.nr_of_link_frequencies) {
+>  		dev_err(dev, "no link frequencies defined");
+> @@ -1499,17 +1592,17 @@ static int ov13b10_probe(struct i2c_client *client)
+>  	bool full_power;
+>  	int ret;
+>  
+> +	ov13b = devm_kzalloc(&client->dev, sizeof(*ov13b), GFP_KERNEL);
+> +	if (!ov13b)
+> +		return -ENOMEM;
+> +
+>  	/* Check HW config */
+> -	ret = ov13b10_check_hwcfg(&client->dev);
+> +	ret = ov13b10_check_hwcfg(&client->dev, ov13b);
+>  	if (ret) {
+>  		dev_err(&client->dev, "failed to check hwcfg: %d", ret);
+>  		return ret;
+>  	}
+>  
+> -	ov13b = devm_kzalloc(&client->dev, sizeof(*ov13b), GFP_KERNEL);
+> -	if (!ov13b)
+> -		return -ENOMEM;
+> -
+>  	/* Initialize subdev */
+>  	v4l2_i2c_subdev_init(&ov13b->sd, client, &ov13b10_subdev_ops);
+>  
+> @@ -1533,9 +1626,6 @@ static int ov13b10_probe(struct i2c_client *client)
+>  		}
+>  	}
+>  
+> -	/* Set default mode to max resolution */
+> -	ov13b->cur_mode = &supported_modes[0];
+> -
+>  	ret = ov13b10_init_controls(ov13b);
+>  	if (ret)
+>  		goto error_power_off;
+
+-- 
+Regards,
+
+Sakari Ailus
 
