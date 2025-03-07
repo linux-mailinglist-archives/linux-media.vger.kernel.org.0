@@ -1,179 +1,210 @@
-Return-Path: <linux-media+bounces-27794-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27795-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D597A561FD
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 08:45:16 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A9F0A56209
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 08:52:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5B8381894E0B
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 07:45:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 73D34175C1C
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 07:52:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 577ED1AA1D8;
-	Fri,  7 Mar 2025 07:45:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 259CC1A9B4C;
+	Fri,  7 Mar 2025 07:51:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AaqIOExf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ga9J963q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 016601A5B8C
-	for <linux-media@vger.kernel.org>; Fri,  7 Mar 2025 07:45:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD7E1A4E98;
+	Fri,  7 Mar 2025 07:51:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741333509; cv=none; b=STAWrsgSO1ToCOnEWExpSXXBMUJSjTQHsp2ijdY5uGt4gp6xxcB1RRw0dC6giokWbPC+DBksycgBQRt69NCfz55m5geMFXdNJvAbzbSbK6ivfT6jqbpJvkbC0ogunVSSh4z0MAFU0KTVEe7iNVS50RXLGsa4SMjMW3sgLY1ir0I=
+	t=1741333918; cv=none; b=gF8/fLVUlsYl+qBgeWjezkxuNOeU4f9u47vDh7C0FZnvGx+Y8MFBuHGXaL2/oNWxHu/EwEIVZR0SYq5RAOXYkRsK+rlFqvS0B7iVItpnrRKS2N7FaB44+R1vci2Avu04m0L6WwqG4y4O5ntqfiEAf659FbM65frWb+8HlCiIt08=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741333509; c=relaxed/simple;
-	bh=RQhdooPtxUPTzpxTsl9JjUX8OVjweXN2lU4sACB6Kk4=;
+	s=arc-20240116; t=1741333918; c=relaxed/simple;
+	bh=ieDYzfj//1cDvOJNqapCIuJLLqt1QzcZn23Zs1tsHJE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FOTlDyrOdpwJxfgSexokCAd7Vw+pu1H3fXbnFe8sS/uIH25o2UeXLrRgW+v1J/yUd2EslXjEWw9YQzVdtUoLPRrZa5ACy8xzebg7ymWhSS7+UvahuvHro88sJ8RUc6xweSnvb6ZLSvjeMI52mtfFxUMgGO0X/ioXtibwSUnppcU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AaqIOExf; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741333508; x=1772869508;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RQhdooPtxUPTzpxTsl9JjUX8OVjweXN2lU4sACB6Kk4=;
-  b=AaqIOExfXq5GAMIESJUKDxErwPe+eG5xr0ISt5u9xpO/KU9XF99iPJeY
-   pUjPiL6SQkB4AjpE7zcGMt7w6aZ3LzTdrfzy/Z+oK1DQ65ifaY6iDAX+r
-   YzTEnxbMAIyTQ5MpUaRrP2wVOYk6XpCVW0vMSJPS+2Pjs47wfX2XHWW0d
-   j7lUqXCSAj0XEhzqNOmjz97qiLV7ojUv+DS++PKaIXCn3q5+1rEpzsYDl
-   Gs9qpu2AlthLNLhuVGWOFni64jDegkl4oUreKgGamij7/3R2kUqp5Ky7x
-   sWXWzt4YVIWCvWZj24HLFpVLC8jtjaaSQRyPKcjVSedm5T/DVljt0Txu0
-   g==;
-X-CSE-ConnectionGUID: LsYFyAj9TluX50DwmZSURw==
-X-CSE-MsgGUID: JQMWbd4ZSbWc40LQcEWmwQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="59779723"
-X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
-   d="scan'208";a="59779723"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 23:45:08 -0800
-X-CSE-ConnectionGUID: cD56qb3yTwqS3+dOACCyYQ==
-X-CSE-MsgGUID: EAJKhSmKQDKF+ZpFLdR27A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
-   d="scan'208";a="119257152"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Mar 2025 23:45:06 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id A22FC11F7F2;
-	Fri,  7 Mar 2025 09:45:03 +0200 (EET)
-Date: Fri, 7 Mar 2025 07:45:03 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-Cc: linux-media@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>
-Subject: Re: [PATCH v1 3/3] media: intel/ipu6: Constify ipu6_buttress_ctrl
- structure
-Message-ID: <Z8qj_2RJpuff42Sd@kekkonen.localdomain>
-References: <20250306130629.885163-1-stanislaw.gruszka@linux.intel.com>
- <20250306130629.885163-4-stanislaw.gruszka@linux.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=NhwylaFTEXihuSmJElX1tbFOIysjDpXMgnRU4ZZgUUui7i2hu67PUh4Fc9HydlpTXOe7gPluO2ld2YmIoCXypnSPz7lPB++PYpaC9A0fDAYq0N1T+u3XLYu7baJ+hfcBatkGG3SgWD52XBKAIA8V29dZyKvXZ81bF+A3KPcVX7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ga9J963q; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04BCAC4CEE2;
+	Fri,  7 Mar 2025 07:51:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741333917;
+	bh=ieDYzfj//1cDvOJNqapCIuJLLqt1QzcZn23Zs1tsHJE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ga9J963q3jHOvwg8Bwp0RNJuOWzcccUyRJWI2xTjYAg5QED3WlCMzuoONL6CE4NrB
+	 RifjplPbC03fT8ktbrWoyz249WfmVfgjRf3O6UrugHTkXn4sixProkryssCrhdQQaj
+	 8pKZLeYqnwDxdhgyaCyqdM6MNoIo/iexGkKUHjYp81LfeILY6TGNMXar+Tytzwb4dR
+	 bX2ikQ8Y6wSJpiOCLZ1M8IuOfU71Cq1GV4F6Unfiza/aWF3U+smLBCRHIYplZoc8l7
+	 IS/GauBEpOHoIXSulE7RUTkl2/MUcNBUQIj+OEuVarAgNPfq9mWkGRvQ8CNo3K7kyE
+	 36uHSDM3ikbDw==
+Date: Fri, 7 Mar 2025 08:51:54 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Michael Riesch <michael.riesch@wolfvision.net>
+Cc: Mehdi Djait <mehdi.djait@linux.intel.com>, 
+	Maxime Chevallier <maxime.chevallier@bootlin.com>, =?utf-8?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>, 
+	Gerald Loacker <gerald.loacker@wolfvision.net>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+	Kever Yang <kever.yang@rock-chips.com>, Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+	Sebastian Fricke <sebastian.fricke@collabora.com>, Sebastian Reichel <sebastian.reichel@collabora.com>, 
+	Paul Kocialkowski <paulk@sys-base.io>, Alexander Shiyan <eagle.alexander923@gmail.com>, 
+	Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
+Subject: Re: [PATCH v5 03/11] media: dt-bindings: media: add bindings for
+ rockchip rk3568 vicap
+Message-ID: <20250307-pink-dalmatian-of-kindness-f87ad2@krzk-bin>
+References: <20250306-v6-8-topic-rk3568-vicap-v5-0-f02152534f3c@wolfvision.net>
+ <20250306-v6-8-topic-rk3568-vicap-v5-3-f02152534f3c@wolfvision.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250306130629.885163-4-stanislaw.gruszka@linux.intel.com>
+In-Reply-To: <20250306-v6-8-topic-rk3568-vicap-v5-3-f02152534f3c@wolfvision.net>
 
-Hi Stanislaw,
-
-Thanks for the set. A few minor comments below.
-
-On Thu, Mar 06, 2025 at 02:06:29PM +0100, Stanislaw Gruszka wrote:
-> Make ipu6_buttress_ctrl constant since it is not modified
-> any longer.
-
-Fits on previous line.
-
+On Thu, Mar 06, 2025 at 05:56:04PM +0100, Michael Riesch wrote:
+> Add documentation for the Rockchip RK3568 Video Capture (VICAP) unit.
 > 
-> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+
+subject: only one media prefix, the first
+
+A nit, subject: drop second/last, redundant "bindings". The
+"dt-bindings" prefix is already stating that these are bindings.
+See also:
+https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+
 > ---
->  drivers/media/pci/intel/ipu6/ipu6-bus.c      | 2 +-
->  drivers/media/pci/intel/ipu6/ipu6-bus.h      | 4 ++--
->  drivers/media/pci/intel/ipu6/ipu6-buttress.c | 2 +-
->  drivers/media/pci/intel/ipu6/ipu6-buttress.h | 3 ++-
->  4 files changed, 6 insertions(+), 5 deletions(-)
+>  .../bindings/media/rockchip,rk3568-vicap.yaml      | 169 +++++++++++++++++++++
+>  MAINTAINERS                                        |   1 +
+>  2 files changed, 170 insertions(+)
 > 
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-bus.c b/drivers/media/pci/intel/ipu6/ipu6-bus.c
-> index 37d88ddb6ee7..5cee2748983b 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-bus.c
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-bus.c
-> @@ -82,7 +82,7 @@ static void ipu6_bus_release(struct device *dev)
->  
->  struct ipu6_bus_device *
->  ipu6_bus_initialize_device(struct pci_dev *pdev, struct device *parent,
-> -			   void *pdata, struct ipu6_buttress_ctrl *ctrl,
-> +			   void *pdata, const struct ipu6_buttress_ctrl *ctrl,
->  			   char *name)
->  {
->  	struct auxiliary_device *auxdev;
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-bus.h b/drivers/media/pci/intel/ipu6/ipu6-bus.h
-> index ebf470806a74..b790f9cc37e3 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-bus.h
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-bus.h
-> @@ -25,7 +25,7 @@ struct ipu6_bus_device {
->  	void *pdata;
->  	struct ipu6_mmu *mmu;
->  	struct ipu6_device *isp;
-> -	struct ipu6_buttress_ctrl *ctrl;
-> +	const struct ipu6_buttress_ctrl *ctrl;
->  	u64 dma_mask;
->  	const struct firmware *fw;
->  	struct sg_table fw_sgt;
-> @@ -48,7 +48,7 @@ struct ipu6_auxdrv_data {
->  
->  struct ipu6_bus_device *
->  ipu6_bus_initialize_device(struct pci_dev *pdev, struct device *parent,
-> -			   void *pdata, struct ipu6_buttress_ctrl *ctrl,
-> +			   void *pdata, const struct ipu6_buttress_ctrl *ctrl,
 
-pdata should be const, too, btw.
+...
 
->  			   char *name);
->  int ipu6_bus_add_device(struct ipu6_bus_device *adev);
->  void ipu6_bus_del_devices(struct pci_dev *pdev);
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-buttress.c b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-> index 787fcbd1df09..f8fdc07a953c 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-> @@ -443,7 +443,7 @@ irqreturn_t ipu6_buttress_isr_threaded(int irq, void *isp_ptr)
->  	return ret;
->  }
->  
-> -int ipu6_buttress_power(struct device *dev, struct ipu6_buttress_ctrl *ctrl,
-> +int ipu6_buttress_power(struct device *dev, const struct ipu6_buttress_ctrl *ctrl,
->  			bool on)
+> +  clocks:
+> +    items:
+> +      - description: ACLK
+> +      - description: HCLK
+> +      - description: DCLK
+> +      - description: ICLK
+> +
+> +  clock-names:
+> +    items:
+> +      - const: aclk
+> +      - const: hclk
+> +      - const: dclk
+> +      - const: iclk
+> +
+> +  rockchip,cif-clk-delaynum:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    minimum: 0
+> +    maximum: 127
+> +    description:
+> +      Delay the DVP path clock input to align the sampling phase, only valid
+> +      in dual edge sampling mode. Delay is zero by default and can be adjusted
+> +      optionally.
 
-But this is over 80.
+default: 0
 
->  {
->  	struct ipu6_device *isp = to_ipu6_bus_device(dev)->isp;
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-buttress.h b/drivers/media/pci/intel/ipu6/ipu6-buttress.h
-> index 4b9763acdfdd..cb008964f870 100644
-> --- a/drivers/media/pci/intel/ipu6/ipu6-buttress.h
-> +++ b/drivers/media/pci/intel/ipu6/ipu6-buttress.h
-> @@ -65,7 +65,8 @@ int ipu6_buttress_map_fw_image(struct ipu6_bus_device *sys,
->  			       struct sg_table *sgt);
->  void ipu6_buttress_unmap_fw_image(struct ipu6_bus_device *sys,
->  				  struct sg_table *sgt);
-> -int ipu6_buttress_power(struct device *dev, struct ipu6_buttress_ctrl *ctrl,
-> +int ipu6_buttress_power(struct device *dev,
-> +			const struct ipu6_buttress_ctrl *ctrl,
->  			bool on);
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    items:
+> +      - description: ARST
+> +      - description: HRST
+> +      - description: DRST
+> +      - description: PRST
+> +      - description: IRST
+> +
+> +  reset-names:
+> +    items:
+> +      - const: arst
+> +      - const: hrst
+> +      - const: drst
+> +      - const: prst
+> +      - const: irst
+> +
+> +  rockchip,grf:
+> +    $ref: /schemas/types.yaml#/definitions/phandle
+> +    description: Phandle to general register file used for video input block control.
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: The digital video port (DVP, a parallel video interface).
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              bus-type:
+> +                enum: [5, 6]
+> +
+> +            required:
+> +              - bus-type
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: Internal port connected to a MIPI CSI-2 host.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
 
-And this fits on the previous line, too.
+Hm, does it actually work? graph/port does not allow any other
+properties. You should use graph/port-base and probably still narrow
+lanes for both of port@0 and port@1.
 
->  bool ipu6_buttress_get_secure_mode(struct ipu6_device *isp);
->  int ipu6_buttress_authenticate(struct ipu6_device *isp);
 
--- 
-Regards,
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/rk3568-cru.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/power/rk3568-power.h>
+> +    #include <dt-bindings/media/video-interfaces.h>
+> +
+> +    parent {
 
-Sakari Ailus
+soc {
+
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+
+Best regards,
+Krzysztof
+
 
