@@ -1,62 +1,63 @@
-Return-Path: <linux-media+bounces-27810-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27812-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2CA4A563F1
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 10:34:05 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52AA2A563FB
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 10:34:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A228F1770E2
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 09:33:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AE9CD188F825
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 09:34:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 355251C84BD;
-	Fri,  7 Mar 2025 09:32:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6334321325B;
+	Fri,  7 Mar 2025 09:32:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wcv8YpeS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="COEc+nkg"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC47D20F070
-	for <linux-media@vger.kernel.org>; Fri,  7 Mar 2025 09:32:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE702212D65
+	for <linux-media@vger.kernel.org>; Fri,  7 Mar 2025 09:32:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741339924; cv=none; b=faT5yP5R0ta/9/kObcU+ezGUyYgHXoU8qmm7l5gch9wMYseAE2KARw2oLGZRY0WB9p0R+BoehIuaA1CvyfNzX/03MYhgYAu9JlK39UwbCXa+InNIq+QF2CI+6DoWN8LaJjVGl3Dabl8Rv7IJu+HKMS0/eo9TvVmQ8vt5YoJsKJA=
+	t=1741339927; cv=none; b=eTqejh5R35o36Fq77eLHRf5FiC1EWmtEERw6h61sFgPUesUtWkQuMuavk7dHW2WG81RUmr4eevPm4sTeeubBOGo5+VlTg3u41oTfI7pr/HQGGpoUVBQSc1ZMfLiTxhf1TQl1aReiSeQTSRLPEdgDlOEviQ4Ydf3tOfTzXQKdyFQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741339924; c=relaxed/simple;
-	bh=GspFDeVEsVWwbJUGiIOGqr0rZGNLX+suT8bWT5JwpS8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VzOnlbEFPunTGL5g3MST2Kc875fU5TCOrG5OxVLRZzU+H5ly0Xeo7uxGKrXrBVWe2BHa0yUfbUVyiuNi4jBccSuIDpZyDLK6KZtjPxQcuhwhmWYr/78BCEXpOV3qyPj9JBbp7u2ImGe1L/x528DB4q1dtwWwX6ZJX+f1ZoOtJr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wcv8YpeS; arc=none smtp.client-ip=192.198.163.12
+	s=arc-20240116; t=1741339927; c=relaxed/simple;
+	bh=FiZycXagpjFRbxN5U4pEgG6VxWt7woPOASvrWfhIrnU=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=OI677g12kgkWyjr4K7Q4FOTE3Evt/uJC2F/l9ivvfq3JgNa7lCIfehG/CUz0yqvqmkhKjFPMq8KWp32fMSHA13b/7UPbcIc5BZvlxpAvRFXi0cP2bH2SqmBGHJWNQ42ST4yfAgO4/Swj19JaDG6x8eO03Be9e2ajX/Rf+fAWU/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=COEc+nkg; arc=none smtp.client-ip=192.198.163.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741339923; x=1772875923;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=GspFDeVEsVWwbJUGiIOGqr0rZGNLX+suT8bWT5JwpS8=;
-  b=Wcv8YpeSrxOwM3TY0yH5lOBsM/UKm27QxKybCDBm+65PkvbT03H8sT+p
-   2goqq/7s36p/sql0AnWpXz/KJPLirQQY1HxHQx/zJ0AHEJDBgoV5qNBnV
-   Ji9NYk+becpXMC9jbd+d/LizTmSYQ55ltYf+yBiihCOhZymJmBcBveDJi
-   dXKUEAmjGbppdfyrCYBuWFDylg6VX635JOk5KkVQpebdZKcRYBjYbCsVs
-   VrFT8L0UDSus3aHjqrFE9ow5mBO4Y7gcwMbRx1wJSr+TgiUb2BhRfpSEI
-   ZTe78gmif+nHHUuHpaytoKylsOFLDMPRl+5a7xyV/lrxOSLC2cu+RWh/D
-   A==;
-X-CSE-ConnectionGUID: d9br9DH/TBq+Ra6eG+p9Fw==
-X-CSE-MsgGUID: rhu5BRRmTdCHRO7rRX+mnw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="46309948"
+  t=1741339926; x=1772875926;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=FiZycXagpjFRbxN5U4pEgG6VxWt7woPOASvrWfhIrnU=;
+  b=COEc+nkgIsBs6XxNZA7TW3t7hasPdnBYthAPAXGE7iztUKPGONSqYfFV
+   Yg8soPJRuc2m8Dd/+4VpZMqwzaawXymnfwn431EkyKXfHC7FrKWWvylaZ
+   RqyWPqtJlbFHf+Z3F2EfUWzp0zRrigNrgKm+1nrBicgJA+JHGfKVIbuBh
+   +QtEcNaahchG4CICDVCwwj0LBPkTm0C3ySYsHxJZ6W12qet2/DCdS/T7A
+   3oSs5SFeCDTgm58hGgmoTG5zWoduBrsFaPusddFFBjjbEF14ecZwvrh10
+   oITfXtiC2l72rBZj+2aJNOtD7VkgdzoXt2ekdemteNuDdhyF358abBFRJ
+   g==;
+X-CSE-ConnectionGUID: vQepteKDR5ef41Weey8LTg==
+X-CSE-MsgGUID: mMScPbcEQS2KE4Fam6whSw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="46309951"
 X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
-   d="scan'208";a="46309948"
+   d="scan'208";a="46309951"
 Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 01:32:02 -0800
-X-CSE-ConnectionGUID: bkwobahvSdGAcZwYRIU6og==
-X-CSE-MsgGUID: UV27k29zSqyktvr5B3TQfA==
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 01:32:06 -0800
+X-CSE-ConnectionGUID: ziqTqukWR7WN4FzvNNbAnw==
+X-CSE-MsgGUID: dWy2EAHsTk239UOHCmFc3g==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
-   d="scan'208";a="119280834"
+   d="scan'208";a="119280846"
 Received: from haoyao-desk.bj.intel.com ([10.238.232.12])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 01:32:00 -0800
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 01:32:04 -0800
 From: Hao Yao <hao.yao@intel.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Arec Kao <arec.kao@intel.com>,
@@ -64,10 +65,12 @@ To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-media@vger.kernel.org
 Cc: Hao Yao <hao.yao@intel.com>,
 	Bingbu Cao <bingbu.cao@intel.com>
-Subject: [PATCH 1/2] media: i2c: ov13b10: Fix h_blank calculation
-Date: Fri,  7 Mar 2025 17:31:16 +0800
-Message-ID: <20250307093130.1103961-1-hao.yao@intel.com>
+Subject: [PATCH 2/2] media: i2c: ov13b10: Support 2 lane mode
+Date: Fri,  7 Mar 2025 17:31:17 +0800
+Message-ID: <20250307093130.1103961-2-hao.yao@intel.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20250307093130.1103961-1-hao.yao@intel.com>
+References: <20250307093130.1103961-1-hao.yao@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,148 +79,288 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Pixel per line (PPL) is calculated as pixel_rate / (VTS * FPS), which
-is not decided by MIPI CSI-2 link frequency. PPL can vary while link
-frequency keeps the same. If PPL is wrong, the h_blank = PPL - width
-is also wrong then FPS control is inaccurate.
-
-This patch fix h_blank by:
-1. Move PPL from link_freq_config to ov13b10_mode
-2. Add PPL value for different modes
-3. Use PPL from mode to calculate h_blank
+1. Fix pixel rate calculation to consider different lane number
+2. Add 2104x1560 60fps 2 data lanes register setting
+3. Support 2 lane in check_hwcfg
+4. Select correct mode considering lane number used
 
 Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
 Signed-off-by: Hao Yao <hao.yao@intel.com>
 ---
- drivers/media/i2c/ov13b10.c | 36 ++++++++++++++++++------------------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+ drivers/media/i2c/ov13b10.c | 134 ++++++++++++++++++++++++++++++------
+ 1 file changed, 112 insertions(+), 22 deletions(-)
 
 diff --git a/drivers/media/i2c/ov13b10.c b/drivers/media/i2c/ov13b10.c
-index 73c844aa5697..2e83fc23f321 100644
+index 2e83fc23f321..20481b8d4e79 100644
 --- a/drivers/media/i2c/ov13b10.c
 +++ b/drivers/media/i2c/ov13b10.c
-@@ -34,9 +34,6 @@
- #define OV13B10_VTS_120FPS		0x0320
- #define OV13B10_VTS_MAX			0x7fff
- 
--/* HBLANK control - read only */
--#define OV13B10_PPL_560MHZ		4704
--
- /* Exposure control */
- #define OV13B10_REG_EXPOSURE		0x3500
- #define OV13B10_EXPOSURE_MIN		4
-@@ -95,7 +92,7 @@ struct ov13b10_reg_list {
- 
- /* Link frequency config */
- struct ov13b10_link_freq_config {
--	u32 pixels_per_line;
-+	u64 link_freq;
- 
- 	/* registers for this link frequency */
- 	struct ov13b10_reg_list reg_list;
-@@ -114,6 +111,10 @@ struct ov13b10_mode {
- 
- 	/* Index of Link frequency config to be used */
- 	u32 link_freq_index;
-+
-+	/* Pixels per line in current mode */
-+	u32 ppl;
-+
- 	/* Default register values */
- 	struct ov13b10_reg_list reg_list;
+@@ -514,6 +514,52 @@ static const struct ov13b10_reg mode_1364x768_120fps_regs[] = {
+ 	{0x5001, 0x0d},
  };
-@@ -549,7 +550,7 @@ static const s64 link_freq_menu_items[] = {
- static const struct ov13b10_link_freq_config
- 			link_freq_configs[] = {
+ 
++static const struct ov13b10_reg mode_2lanes_2104x1560_60fps_regs[] = {
++	{0x3016, 0x32},
++	{0x3106, 0x29},
++	{0x0305, 0xaf},
++	{0x3501, 0x06},
++	{0x3662, 0x88},
++	{0x3714, 0x28},
++	{0x3739, 0x10},
++	{0x37c2, 0x14},
++	{0x37d9, 0x06},
++	{0x37e2, 0x0c},
++	{0x3800, 0x00},
++	{0x3801, 0x00},
++	{0x3802, 0x00},
++	{0x3803, 0x08},
++	{0x3804, 0x10},
++	{0x3805, 0x8f},
++	{0x3806, 0x0c},
++	{0x3807, 0x47},
++	{0x3808, 0x08},
++	{0x3809, 0x38},
++	{0x380a, 0x06},
++	{0x380b, 0x18},
++	{0x380c, 0x04},
++	{0x380d, 0x98},
++	{0x380e, 0x06},
++	{0x380f, 0x3e},
++	{0x3810, 0x00},
++	{0x3811, 0x07},
++	{0x3812, 0x00},
++	{0x3813, 0x05},
++	{0x3814, 0x03},
++	{0x3816, 0x03},
++	{0x3820, 0x8b},
++	{0x3c8c, 0x18},
++	{0x4008, 0x00},
++	{0x4009, 0x05},
++	{0x4050, 0x00},
++	{0x4051, 0x05},
++	{0x4501, 0x08},
++	{0x4505, 0x00},
++	{0x4837, 0x0e},
++	{0x5000, 0xfd},
++	{0x5001, 0x0d},
++};
++
+ static const char * const ov13b10_test_pattern_menu[] = {
+ 	"Disabled",
+ 	"Vertical Color Bar Type 1",
+@@ -527,15 +573,16 @@ static const char * const ov13b10_test_pattern_menu[] = {
+ #define OV13B10_LINK_FREQ_INDEX_0	0
+ 
+ #define OV13B10_EXT_CLK			19200000
+-#define OV13B10_DATA_LANES		4
++#define OV13B10_4_DATA_LANES		4
++#define OV13B10_2_DATA_LANES		2
+ 
+ /*
+- * pixel_rate = link_freq * data-rate * nr_of_lanes / bits_per_sample
+- * data rate => double data rate; number of lanes => 4; bits per pixel => 10
++ * pixel_rate = data_rate * nr_of_lanes / bits_per_pixel
++ * data_rate => link_freq * 2; number of lanes => 4; bits per pixel => 10
+  */
+-static u64 link_freq_to_pixel_rate(u64 f)
++static u64 link_freq_to_pixel_rate(u64 f, u8 lanes)
+ {
+-	f *= 2 * OV13B10_DATA_LANES;
++	f *= 2 * lanes;
+ 	do_div(f, 10);
+ 
+ 	return f;
+@@ -559,7 +606,8 @@ static const struct ov13b10_link_freq_config
+ };
+ 
+ /* Mode configs */
+-static const struct ov13b10_mode supported_modes[] = {
++static const struct ov13b10_mode supported_4_lanes_modes[] = {
++	/* 4 data lanes */
  	{
--		.pixels_per_line = OV13B10_PPL_560MHZ,
-+		.link_freq = OV13B10_LINK_FREQ_560MHZ,
- 		.reg_list = {
- 			.num_of_regs = ARRAY_SIZE(mipi_data_rate_1120mbps),
- 			.regs = mipi_data_rate_1120mbps,
-@@ -564,6 +565,7 @@ static const struct ov13b10_mode supported_modes[] = {
+ 		.width = 4208,
  		.height = 3120,
- 		.vts_def = OV13B10_VTS_30FPS,
- 		.vts_min = OV13B10_VTS_30FPS,
-+		.ppl = 4704,
- 		.reg_list = {
- 			.num_of_regs = ARRAY_SIZE(mode_4208x3120_regs),
- 			.regs = mode_4208x3120_regs,
-@@ -575,6 +577,7 @@ static const struct ov13b10_mode supported_modes[] = {
- 		.height = 3120,
- 		.vts_def = OV13B10_VTS_30FPS,
- 		.vts_min = OV13B10_VTS_30FPS,
-+		.ppl = 4704,
- 		.reg_list = {
- 			.num_of_regs = ARRAY_SIZE(mode_4160x3120_regs),
- 			.regs = mode_4160x3120_regs,
-@@ -586,6 +589,7 @@ static const struct ov13b10_mode supported_modes[] = {
- 		.height = 2340,
- 		.vts_def = OV13B10_VTS_30FPS,
- 		.vts_min = OV13B10_VTS_30FPS,
-+		.ppl = 4704,
- 		.reg_list = {
- 			.num_of_regs = ARRAY_SIZE(mode_4160x2340_regs),
- 			.regs = mode_4160x2340_regs,
-@@ -597,6 +601,7 @@ static const struct ov13b10_mode supported_modes[] = {
- 		.height = 1560,
- 		.vts_def = OV13B10_VTS_60FPS,
- 		.vts_min = OV13B10_VTS_60FPS,
-+		.ppl = 4704,
- 		.reg_list = {
- 			.num_of_regs = ARRAY_SIZE(mode_2104x1560_regs),
- 			.regs = mode_2104x1560_regs,
-@@ -608,6 +613,7 @@ static const struct ov13b10_mode supported_modes[] = {
- 		.height = 1170,
- 		.vts_def = OV13B10_VTS_60FPS,
- 		.vts_min = OV13B10_VTS_60FPS,
-+		.ppl = 4704,
- 		.reg_list = {
- 			.num_of_regs = ARRAY_SIZE(mode_2080x1170_regs),
- 			.regs = mode_2080x1170_regs,
-@@ -620,6 +626,7 @@ static const struct ov13b10_mode supported_modes[] = {
- 		.vts_def = OV13B10_VTS_120FPS,
- 		.vts_min = OV13B10_VTS_120FPS,
- 		.link_freq_index = OV13B10_LINK_FREQ_INDEX_0,
-+		.ppl = 4664,
- 		.reg_list = {
- 			.num_of_regs = ARRAY_SIZE(mode_1364x768_120fps_regs),
- 			.regs = mode_1364x768_120fps_regs,
-@@ -1062,19 +1069,13 @@ ov13b10_set_pad_format(struct v4l2_subdev *sd,
+@@ -634,6 +682,23 @@ static const struct ov13b10_mode supported_modes[] = {
+ 	},
+ };
+ 
++static const struct ov13b10_mode supported_2_lanes_modes[] = {
++	/* 2 data lanes */
++	{
++		.width = 2104,
++		.height = 1560,
++		.vts_def = OV13B10_VTS_60FPS,
++		.vts_min = OV13B10_VTS_60FPS,
++		.link_freq_index = OV13B10_LINK_FREQ_INDEX_0,
++		.ppl = 2352,
++		.reg_list = {
++			.num_of_regs =
++				ARRAY_SIZE(mode_2lanes_2104x1560_60fps_regs),
++			.regs = mode_2lanes_2104x1560_60fps_regs,
++		},
++	},
++};
++
+ struct ov13b10 {
+ 	struct v4l2_subdev sd;
+ 	struct media_pad pad;
+@@ -651,12 +716,20 @@ struct ov13b10 {
+ 	struct v4l2_ctrl *hblank;
+ 	struct v4l2_ctrl *exposure;
+ 
++	/* Supported modes */
++	const struct ov13b10_mode *supported_modes;
++
+ 	/* Current mode */
+ 	const struct ov13b10_mode *cur_mode;
+ 
+ 	/* Mutex for serialized access */
+ 	struct mutex mutex;
+ 
++	u8 supported_modes_num;
++
++	/* Data lanes used */
++	u8 data_lanes;
++
+ 	/* True if the device has been identified */
+ 	bool identified;
+ };
+@@ -760,8 +833,8 @@ static int ov13b10_write_reg_list(struct ov13b10 *ov13b,
+ /* Open sub-device */
+ static int ov13b10_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+ {
+-	const struct ov13b10_mode *default_mode = &supported_modes[0];
+ 	struct ov13b10 *ov13b = to_ov13b10(sd);
++	const struct ov13b10_mode *default_mode = ov13b->supported_modes;
+ 	struct v4l2_mbus_framefmt *try_fmt = v4l2_subdev_state_get_format(fh->state,
+ 									  0);
+ 
+@@ -980,7 +1053,10 @@ static int ov13b10_enum_frame_size(struct v4l2_subdev *sd,
+ 				   struct v4l2_subdev_state *sd_state,
+ 				   struct v4l2_subdev_frame_size_enum *fse)
+ {
+-	if (fse->index >= ARRAY_SIZE(supported_modes))
++	struct ov13b10 *ov13b = to_ov13b10(sd);
++	const struct ov13b10_mode *supported_modes = ov13b->supported_modes;
++
++	if (fse->index >= ov13b->supported_modes_num)
+ 		return -EINVAL;
+ 
+ 	if (fse->code != MEDIA_BUS_FMT_SGRBG10_1X10)
+@@ -1040,6 +1116,7 @@ ov13b10_set_pad_format(struct v4l2_subdev *sd,
+ {
+ 	struct ov13b10 *ov13b = to_ov13b10(sd);
+ 	const struct ov13b10_mode *mode;
++	const struct ov13b10_mode *supported_modes = ov13b->supported_modes;
+ 	struct v4l2_mbus_framefmt *framefmt;
+ 	s32 vblank_def;
+ 	s32 vblank_min;
+@@ -1054,7 +1131,7 @@ ov13b10_set_pad_format(struct v4l2_subdev *sd,
+ 		fmt->format.code = MEDIA_BUS_FMT_SGRBG10_1X10;
+ 
+ 	mode = v4l2_find_nearest_size(supported_modes,
+-				      ARRAY_SIZE(supported_modes),
++				      ov13b->supported_modes_num,
+ 				      width, height,
+ 				      fmt->format.width, fmt->format.height);
+ 	ov13b10_update_pad_format(mode, fmt);
+@@ -1065,7 +1142,8 @@ ov13b10_set_pad_format(struct v4l2_subdev *sd,
+ 		ov13b->cur_mode = mode;
+ 		__v4l2_ctrl_s_ctrl(ov13b->link_freq, mode->link_freq_index);
+ 		link_freq = link_freq_menu_items[mode->link_freq_index];
+-		pixel_rate = link_freq_to_pixel_rate(link_freq);
++		pixel_rate = link_freq_to_pixel_rate(link_freq,
++						     ov13b->data_lanes);
  		__v4l2_ctrl_s_ctrl_int64(ov13b->pixel_rate, pixel_rate);
  
  		/* Update limits and set FPS to default */
--		vblank_def = ov13b->cur_mode->vts_def -
--			     ov13b->cur_mode->height;
--		vblank_min = ov13b->cur_mode->vts_min -
--			     ov13b->cur_mode->height;
-+		vblank_def = mode->vts_def - mode->height;
-+		vblank_min = mode->vts_min - mode->height;
- 		__v4l2_ctrl_modify_range(ov13b->vblank, vblank_min,
--					 OV13B10_VTS_MAX
--					 - ov13b->cur_mode->height,
--					 1,
--					 vblank_def);
-+					 OV13B10_VTS_MAX - mode->height,
-+					 1, vblank_def);
- 		__v4l2_ctrl_s_ctrl(ov13b->vblank, vblank_def);
--		h_blank =
--			link_freq_configs[mode->link_freq_index].pixels_per_line
--			 - ov13b->cur_mode->width;
-+		h_blank = mode->ppl - mode->width;
- 		__v4l2_ctrl_modify_range(ov13b->hblank, h_blank,
- 					 h_blank, 1, h_blank);
- 	}
-@@ -1328,8 +1329,7 @@ static int ov13b10_init_controls(struct ov13b10 *ov13b)
- 					  OV13B10_VTS_MAX - mode->height, 1,
- 					  vblank_def);
+@@ -1312,7 +1390,8 @@ static int ov13b10_init_controls(struct ov13b10 *ov13b)
+ 	if (ov13b->link_freq)
+ 		ov13b->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
  
--	hblank = link_freq_configs[mode->link_freq_index].pixels_per_line -
--		 mode->width;
-+	hblank = mode->ppl - mode->width;
- 	ov13b->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &ov13b10_ctrl_ops,
- 					  V4L2_CID_HBLANK,
- 					  hblank, hblank, 1, hblank);
+-	pixel_rate_max = link_freq_to_pixel_rate(link_freq_menu_items[0]);
++	pixel_rate_max = link_freq_to_pixel_rate(link_freq_menu_items[0],
++						 ov13b->data_lanes);
+ 	pixel_rate_min = 0;
+ 	/* By default, PIXEL_RATE is read only */
+ 	ov13b->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &ov13b10_ctrl_ops,
+@@ -1423,7 +1502,7 @@ static int ov13b10_get_pm_resources(struct device *dev)
+ 	return 0;
+ }
+ 
+-static int ov13b10_check_hwcfg(struct device *dev)
++static int ov13b10_check_hwcfg(struct device *dev, struct ov13b10 *ov13b)
+ {
+ 	struct v4l2_fwnode_endpoint bus_cfg = {
+ 		.bus_type = V4L2_MBUS_CSI2_DPHY
+@@ -1433,6 +1512,7 @@ static int ov13b10_check_hwcfg(struct device *dev)
+ 	unsigned int i, j;
+ 	int ret;
+ 	u32 ext_clk;
++	u8 dlane;
+ 
+ 	if (!fwnode)
+ 		return -ENXIO;
+@@ -1459,12 +1539,25 @@ static int ov13b10_check_hwcfg(struct device *dev)
+ 	if (ret)
+ 		return ret;
+ 
+-	if (bus_cfg.bus.mipi_csi2.num_data_lanes != OV13B10_DATA_LANES) {
++	dlane = bus_cfg.bus.mipi_csi2.num_data_lanes;
++	if (dlane != OV13B10_4_DATA_LANES && dlane != OV13B10_2_DATA_LANES) {
+ 		dev_err(dev, "number of CSI2 data lanes %d is not supported",
+-			bus_cfg.bus.mipi_csi2.num_data_lanes);
++			dlane);
+ 		ret = -EINVAL;
+ 		goto out_err;
+ 	}
++	ov13b->data_lanes = dlane;
++	ov13b->supported_modes = supported_4_lanes_modes;
++	ov13b->supported_modes_num = ARRAY_SIZE(supported_4_lanes_modes);
++	if (dlane == OV13B10_2_DATA_LANES) {
++		ov13b->supported_modes = supported_2_lanes_modes;
++		ov13b->supported_modes_num =
++			ARRAY_SIZE(supported_2_lanes_modes);
++	}
++
++	ov13b->cur_mode = ov13b->supported_modes;
++	dev_dbg(dev, "%u lanes with %u modes selected\n",
++		ov13b->data_lanes, ov13b->supported_modes_num);
+ 
+ 	if (!bus_cfg.nr_of_link_frequencies) {
+ 		dev_err(dev, "no link frequencies defined");
+@@ -1499,17 +1592,17 @@ static int ov13b10_probe(struct i2c_client *client)
+ 	bool full_power;
+ 	int ret;
+ 
++	ov13b = devm_kzalloc(&client->dev, sizeof(*ov13b), GFP_KERNEL);
++	if (!ov13b)
++		return -ENOMEM;
++
+ 	/* Check HW config */
+-	ret = ov13b10_check_hwcfg(&client->dev);
++	ret = ov13b10_check_hwcfg(&client->dev, ov13b);
+ 	if (ret) {
+ 		dev_err(&client->dev, "failed to check hwcfg: %d", ret);
+ 		return ret;
+ 	}
+ 
+-	ov13b = devm_kzalloc(&client->dev, sizeof(*ov13b), GFP_KERNEL);
+-	if (!ov13b)
+-		return -ENOMEM;
+-
+ 	/* Initialize subdev */
+ 	v4l2_i2c_subdev_init(&ov13b->sd, client, &ov13b10_subdev_ops);
+ 
+@@ -1533,9 +1626,6 @@ static int ov13b10_probe(struct i2c_client *client)
+ 		}
+ 	}
+ 
+-	/* Set default mode to max resolution */
+-	ov13b->cur_mode = &supported_modes[0];
+-
+ 	ret = ov13b10_init_controls(ov13b);
+ 	if (ret)
+ 		goto error_power_off;
 -- 
 2.43.0
 
