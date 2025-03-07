@@ -1,127 +1,224 @@
-Return-Path: <linux-media+bounces-27805-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27810-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28C69A563D3
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 10:30:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2CA4A563F1
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 10:34:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8DA3418955B4
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 09:30:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A228F1770E2
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 09:33:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7F3620B817;
-	Fri,  7 Mar 2025 09:30:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 355251C84BD;
+	Fri,  7 Mar 2025 09:32:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VDsWTn4q"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wcv8YpeS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C17DF20B209
-	for <linux-media@vger.kernel.org>; Fri,  7 Mar 2025 09:30:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC47D20F070
+	for <linux-media@vger.kernel.org>; Fri,  7 Mar 2025 09:32:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741339824; cv=none; b=lDVzrKzsj8BEeSeW8Bxs3A4NcHl3ThsIhfiiB9K78haLDCJ/SVyRnY+OkpESGIdaS05Op7GKSOmOBKN0c4++Lnh8dcSF2yZivT2jrvocnw8sASOyR7CJQQOeiS9Q8jlJZTxaYJVZJuFocrT3jrdj2TueI6TcU0XyPxx8C1s9Lhc=
+	t=1741339924; cv=none; b=faT5yP5R0ta/9/kObcU+ezGUyYgHXoU8qmm7l5gch9wMYseAE2KARw2oLGZRY0WB9p0R+BoehIuaA1CvyfNzX/03MYhgYAu9JlK39UwbCXa+InNIq+QF2CI+6DoWN8LaJjVGl3Dabl8Rv7IJu+HKMS0/eo9TvVmQ8vt5YoJsKJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741339824; c=relaxed/simple;
-	bh=Ai4u6jucrFJEo5fiJus6WWtKhesRZx/NrT2YEqPhK3o=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=U0R8Y6/NgcaMC2D8aodCcHj8sjClDG09QogScyc3n+kRTCmX4mb+dSGP6Krd5/GLjPZaNx7+ThhBnIRyBEUWPHZdswYYJfDUyMZG+p+eDMPkr22wwERYv3NUx1M12qcZ6x/VUNFIg5MANJdgNcWAGvU1f56p6Qq+8uc3Kn5O7cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VDsWTn4q; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43bbd711eedso12523775e9.3
-        for <linux-media@vger.kernel.org>; Fri, 07 Mar 2025 01:30:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741339820; x=1741944620; darn=vger.kernel.org;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=93blEQmxjswWheyXHKesIB+wQzCMQvJ6bucP/eSHntw=;
-        b=VDsWTn4qx/JCgvdN9+TYPTjaj1IZ+ww8uk5lWdsZfzUDSYO35B0i/UrnmwcpGuLlzq
-         stNmTrMd+H8HdhIhGKIoIGCBBd4fM5cqfXSnHoZKmOreAgstZJKAwfgq5IpJ9DxjE6h2
-         wcVK/EVXam2bnd7hN77O+idKL4VPLZeuhOyKx35EQijix/IZl1uqMnJrwZWDINkCQEi3
-         1CacdI896HKUOHOMs4B/DupEi4O2zManKuxUt0dQh9s0qA7aE7eUap2T/iqT/j2h4peA
-         tgTt1BSqYYUZlILhzX41d/Z9Lg5ajWUXVKBwFf0MpcW+F03WlcNqOTGiW+MAgedH5uJb
-         bX+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741339820; x=1741944620;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=93blEQmxjswWheyXHKesIB+wQzCMQvJ6bucP/eSHntw=;
-        b=fnBP6KFIEg2F9jflt9ucsaIaOcncuJf2nGXOtRyio7dPWGclxjFDa8TZf79GKS3A8v
-         BqjPxkSJKG1QHIcE5UkhnniGFY7JRqHZSGMg7cxc+jxV/gjM4UUxdklTGxUcAQtXAcNq
-         E24FxTn+H//Qs0BBHv/W0aNop20SlDxEP+Jxnl5IeGv+43MVABtYTjR8ZfG/BzSKCYIO
-         sHFPrDUk1GzpvsZoBr/Y4To8ubDNHUoKvsWb/+DY6Kz3E8dHJ5E9phh4oYw7Axfkfw0G
-         fm8EdbrjG3gLsP2T1phHlCi5XsXc4nFvNmB0WpDUY03319rgDsiKhCv+Twxx0czsGJkK
-         K94w==
-X-Forwarded-Encrypted: i=1; AJvYcCXNzi6xDjWbRz4yigmGub04NNa0yuaILj6IQFJMJp0x7SHVGPZSlId0evZ7izsl+CgLBbhxe0yFUXn9KQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyVGRPJZ4yJPlR7yz1jq/0lDCHGLKqwZpRngZjNkcWwI1hbz8Ws
-	rrZNov15a0swcr0DC/H3wI3ZNvPz9mdy+Y1gS4xcHo9PdpFdTTYnUbmzLBU3h1I=
-X-Gm-Gg: ASbGncsOE0udX4/3uzgxZtuSvqvDnvgZEijny2+rdAqlNByZZUjJGslMXbjOCF+tWsv
-	38JmDydQJMbS/TkkkuaI4EBY3rWXukTncyjCGW2h+BE3IGSraeh4dZztUUtlCIgy0uWFjlcJTEU
-	nq8QpNhcD1BgdSRw4ev/ZhHLi8aq2RaL2IX5M8e5deyMdIizRy6zZ+voMxzgGsF1e9LqYrX5m8Z
-	1PpVwJGEl1zUContDb8gSfQEQWjFstIX039xWKAUDivakxnfE/Ym/itUg7VnZ7sxKiXkmOXxuCw
-	RTQvVFA3MAiH8Jt0ExFOxk9f88ub8SK5Fly/Cv1UH33JfW1zCQ==
-X-Google-Smtp-Source: AGHT+IF7W0BZOmIMpa6aTO/bUCCYodrmELNE8zettIHxeBxOTGRaV6zmqbl8WqRyoPh3IyqfSxwMVQ==
-X-Received: by 2002:a05:600c:8a8:b0:43b:ca39:a9ca with SMTP id 5b1f17b1804b1-43c5a60e07amr22236695e9.16.1741339820010;
-        Fri, 07 Mar 2025 01:30:20 -0800 (PST)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3912bfdfdb9sm4709196f8f.27.2025.03.07.01.30.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Mar 2025 01:30:19 -0800 (PST)
-Date: Fri, 7 Mar 2025 12:30:16 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Shreeya Patel <shreeya.patel@collabora.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Dingxian Wen <shawn.wen@rock-chips.com>,
-	linux-media@vger.kernel.org, kernel@collabora.com,
-	linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH next] media: synopsys: hdmirx: Fix signedness bug in
- hdmirx_parse_dt()
-Message-ID: <7ec94789-305c-4de4-b477-c0eb839170e5@stanley.mountain>
+	s=arc-20240116; t=1741339924; c=relaxed/simple;
+	bh=GspFDeVEsVWwbJUGiIOGqr0rZGNLX+suT8bWT5JwpS8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VzOnlbEFPunTGL5g3MST2Kc875fU5TCOrG5OxVLRZzU+H5ly0Xeo7uxGKrXrBVWe2BHa0yUfbUVyiuNi4jBccSuIDpZyDLK6KZtjPxQcuhwhmWYr/78BCEXpOV3qyPj9JBbp7u2ImGe1L/x528DB4q1dtwWwX6ZJX+f1ZoOtJr4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wcv8YpeS; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741339923; x=1772875923;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=GspFDeVEsVWwbJUGiIOGqr0rZGNLX+suT8bWT5JwpS8=;
+  b=Wcv8YpeSrxOwM3TY0yH5lOBsM/UKm27QxKybCDBm+65PkvbT03H8sT+p
+   2goqq/7s36p/sql0AnWpXz/KJPLirQQY1HxHQx/zJ0AHEJDBgoV5qNBnV
+   Ji9NYk+becpXMC9jbd+d/LizTmSYQ55ltYf+yBiihCOhZymJmBcBveDJi
+   dXKUEAmjGbppdfyrCYBuWFDylg6VX635JOk5KkVQpebdZKcRYBjYbCsVs
+   VrFT8L0UDSus3aHjqrFE9ow5mBO4Y7gcwMbRx1wJSr+TgiUb2BhRfpSEI
+   ZTe78gmif+nHHUuHpaytoKylsOFLDMPRl+5a7xyV/lrxOSLC2cu+RWh/D
+   A==;
+X-CSE-ConnectionGUID: d9br9DH/TBq+Ra6eG+p9Fw==
+X-CSE-MsgGUID: rhu5BRRmTdCHRO7rRX+mnw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="46309948"
+X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
+   d="scan'208";a="46309948"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 01:32:02 -0800
+X-CSE-ConnectionGUID: bkwobahvSdGAcZwYRIU6og==
+X-CSE-MsgGUID: UV27k29zSqyktvr5B3TQfA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
+   d="scan'208";a="119280834"
+Received: from haoyao-desk.bj.intel.com ([10.238.232.12])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 01:32:00 -0800
+From: Hao Yao <hao.yao@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Arec Kao <arec.kao@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org
+Cc: Hao Yao <hao.yao@intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>
+Subject: [PATCH 1/2] media: i2c: ov13b10: Fix h_blank calculation
+Date: Fri,  7 Mar 2025 17:31:16 +0800
+Message-ID: <20250307093130.1103961-1-hao.yao@intel.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
+Content-Transfer-Encoding: 8bit
 
-The num_clks is set this way:
+Pixel per line (PPL) is calculated as pixel_rate / (VTS * FPS), which
+is not decided by MIPI CSI-2 link frequency. PPL can vary while link
+frequency keeps the same. If PPL is wrong, the h_blank = PPL - width
+is also wrong then FPS control is inaccurate.
 
-	hdmirx_dev->num_clks = devm_clk_bulk_get_all(dev, &hdmirx_dev->clks);
-        if (hdmirx_dev->num_clks < 1)
-                return -ENODEV;
+This patch fix h_blank by:
+1. Move PPL from link_freq_config to ov13b10_mode
+2. Add PPL value for different modes
+3. Use PPL from mode to calculate h_blank
 
-The devm_clk_bulk_get_all() function returns negative error codes so the
-hdmirx_dev->num_cks variable needs to be signed for the error handling to
-work.
-
-Fixes: 7b59b132ad43 ("media: platform: synopsys: Add support for HDMI input driver")
-Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+Signed-off-by: Hao Yao <hao.yao@intel.com>
 ---
- drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/i2c/ov13b10.c | 36 ++++++++++++++++++------------------
+ 1 file changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-index 4ffc86ad6c35..e0d3fed87a92 100644
---- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-+++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-@@ -154,7 +154,7 @@ struct snps_hdmirx_dev {
- 	bool hpd_trigger_level_high;
- 	bool tmds_clk_ratio;
- 	bool plugged;
--	u32 num_clks;
-+	int num_clks;
- 	u32 edid_blocks_written;
- 	u32 cur_fmt_fourcc;
- 	u32 color_depth;
+diff --git a/drivers/media/i2c/ov13b10.c b/drivers/media/i2c/ov13b10.c
+index 73c844aa5697..2e83fc23f321 100644
+--- a/drivers/media/i2c/ov13b10.c
++++ b/drivers/media/i2c/ov13b10.c
+@@ -34,9 +34,6 @@
+ #define OV13B10_VTS_120FPS		0x0320
+ #define OV13B10_VTS_MAX			0x7fff
+ 
+-/* HBLANK control - read only */
+-#define OV13B10_PPL_560MHZ		4704
+-
+ /* Exposure control */
+ #define OV13B10_REG_EXPOSURE		0x3500
+ #define OV13B10_EXPOSURE_MIN		4
+@@ -95,7 +92,7 @@ struct ov13b10_reg_list {
+ 
+ /* Link frequency config */
+ struct ov13b10_link_freq_config {
+-	u32 pixels_per_line;
++	u64 link_freq;
+ 
+ 	/* registers for this link frequency */
+ 	struct ov13b10_reg_list reg_list;
+@@ -114,6 +111,10 @@ struct ov13b10_mode {
+ 
+ 	/* Index of Link frequency config to be used */
+ 	u32 link_freq_index;
++
++	/* Pixels per line in current mode */
++	u32 ppl;
++
+ 	/* Default register values */
+ 	struct ov13b10_reg_list reg_list;
+ };
+@@ -549,7 +550,7 @@ static const s64 link_freq_menu_items[] = {
+ static const struct ov13b10_link_freq_config
+ 			link_freq_configs[] = {
+ 	{
+-		.pixels_per_line = OV13B10_PPL_560MHZ,
++		.link_freq = OV13B10_LINK_FREQ_560MHZ,
+ 		.reg_list = {
+ 			.num_of_regs = ARRAY_SIZE(mipi_data_rate_1120mbps),
+ 			.regs = mipi_data_rate_1120mbps,
+@@ -564,6 +565,7 @@ static const struct ov13b10_mode supported_modes[] = {
+ 		.height = 3120,
+ 		.vts_def = OV13B10_VTS_30FPS,
+ 		.vts_min = OV13B10_VTS_30FPS,
++		.ppl = 4704,
+ 		.reg_list = {
+ 			.num_of_regs = ARRAY_SIZE(mode_4208x3120_regs),
+ 			.regs = mode_4208x3120_regs,
+@@ -575,6 +577,7 @@ static const struct ov13b10_mode supported_modes[] = {
+ 		.height = 3120,
+ 		.vts_def = OV13B10_VTS_30FPS,
+ 		.vts_min = OV13B10_VTS_30FPS,
++		.ppl = 4704,
+ 		.reg_list = {
+ 			.num_of_regs = ARRAY_SIZE(mode_4160x3120_regs),
+ 			.regs = mode_4160x3120_regs,
+@@ -586,6 +589,7 @@ static const struct ov13b10_mode supported_modes[] = {
+ 		.height = 2340,
+ 		.vts_def = OV13B10_VTS_30FPS,
+ 		.vts_min = OV13B10_VTS_30FPS,
++		.ppl = 4704,
+ 		.reg_list = {
+ 			.num_of_regs = ARRAY_SIZE(mode_4160x2340_regs),
+ 			.regs = mode_4160x2340_regs,
+@@ -597,6 +601,7 @@ static const struct ov13b10_mode supported_modes[] = {
+ 		.height = 1560,
+ 		.vts_def = OV13B10_VTS_60FPS,
+ 		.vts_min = OV13B10_VTS_60FPS,
++		.ppl = 4704,
+ 		.reg_list = {
+ 			.num_of_regs = ARRAY_SIZE(mode_2104x1560_regs),
+ 			.regs = mode_2104x1560_regs,
+@@ -608,6 +613,7 @@ static const struct ov13b10_mode supported_modes[] = {
+ 		.height = 1170,
+ 		.vts_def = OV13B10_VTS_60FPS,
+ 		.vts_min = OV13B10_VTS_60FPS,
++		.ppl = 4704,
+ 		.reg_list = {
+ 			.num_of_regs = ARRAY_SIZE(mode_2080x1170_regs),
+ 			.regs = mode_2080x1170_regs,
+@@ -620,6 +626,7 @@ static const struct ov13b10_mode supported_modes[] = {
+ 		.vts_def = OV13B10_VTS_120FPS,
+ 		.vts_min = OV13B10_VTS_120FPS,
+ 		.link_freq_index = OV13B10_LINK_FREQ_INDEX_0,
++		.ppl = 4664,
+ 		.reg_list = {
+ 			.num_of_regs = ARRAY_SIZE(mode_1364x768_120fps_regs),
+ 			.regs = mode_1364x768_120fps_regs,
+@@ -1062,19 +1069,13 @@ ov13b10_set_pad_format(struct v4l2_subdev *sd,
+ 		__v4l2_ctrl_s_ctrl_int64(ov13b->pixel_rate, pixel_rate);
+ 
+ 		/* Update limits and set FPS to default */
+-		vblank_def = ov13b->cur_mode->vts_def -
+-			     ov13b->cur_mode->height;
+-		vblank_min = ov13b->cur_mode->vts_min -
+-			     ov13b->cur_mode->height;
++		vblank_def = mode->vts_def - mode->height;
++		vblank_min = mode->vts_min - mode->height;
+ 		__v4l2_ctrl_modify_range(ov13b->vblank, vblank_min,
+-					 OV13B10_VTS_MAX
+-					 - ov13b->cur_mode->height,
+-					 1,
+-					 vblank_def);
++					 OV13B10_VTS_MAX - mode->height,
++					 1, vblank_def);
+ 		__v4l2_ctrl_s_ctrl(ov13b->vblank, vblank_def);
+-		h_blank =
+-			link_freq_configs[mode->link_freq_index].pixels_per_line
+-			 - ov13b->cur_mode->width;
++		h_blank = mode->ppl - mode->width;
+ 		__v4l2_ctrl_modify_range(ov13b->hblank, h_blank,
+ 					 h_blank, 1, h_blank);
+ 	}
+@@ -1328,8 +1329,7 @@ static int ov13b10_init_controls(struct ov13b10 *ov13b)
+ 					  OV13B10_VTS_MAX - mode->height, 1,
+ 					  vblank_def);
+ 
+-	hblank = link_freq_configs[mode->link_freq_index].pixels_per_line -
+-		 mode->width;
++	hblank = mode->ppl - mode->width;
+ 	ov13b->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &ov13b10_ctrl_ops,
+ 					  V4L2_CID_HBLANK,
+ 					  hblank, hblank, 1, hblank);
 -- 
-2.47.2
+2.43.0
 
 
