@@ -1,158 +1,116 @@
-Return-Path: <linux-media+bounces-27838-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27839-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F732A567B9
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 13:18:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C43A8A5690C
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 14:36:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3F1FE3B5AC8
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 12:18:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B3C503A24BC
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 13:36:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 266362192FC;
-	Fri,  7 Mar 2025 12:18:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23376219E82;
+	Fri,  7 Mar 2025 13:36:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="Be5SaSGg"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="c5+jQteu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5C4149E0E;
-	Fri,  7 Mar 2025 12:18:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3946EBE
+	for <linux-media@vger.kernel.org>; Fri,  7 Mar 2025 13:36:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741349907; cv=none; b=CJg8CNWzX1AK9Faf7glpNjWXHtC4I9jL9BE95SwDrr2c4JJzdLQ4fxDLb4bO77ttRqvuE9clJBqAhB26zVJW6TApwgEdh+ElLzXQYMgKlCDABh2d+eh1GvhYr3dwMRJuUWGr6toCtev6u33xc0YdaCk9yH/17SeyKbqerVi14BA=
+	t=1741354599; cv=none; b=SV5xe7ArILDOrEnZ5LoWfvELOccB4sv/89kZrxiK1RKyI0rNnkUm1/7kUGrA9bpzNtyX71BE7fJ4stwrfFD/Ojd3P5/FNxqMuO3OGDaHvxKNas5OgWrqwk2o6QcQaU7sSH/6MzHCTh1dPOCAa4MQNRNqLkCsbXxsLuTkQeFiJ5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741349907; c=relaxed/simple;
-	bh=XBMcxAGP8IpKFfU2qVeDIEJfY/IKzzE1da4HAgQQXc4=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=F4gbQjDWJhM//SqOFijvnGVm0HB+4gNry/JtaEtjp/+fGvrpza8TMkvmsE0Oj5/WVOkaswFwqjCJ56RbiulnEcklrW1K/MGqZXoxX0nj9Twp9Xwp4hVXGbvC7l+4OLTATFd30Qgs4jEmU+SlICV+Ik1jCXubqApvU1kvyAHs9R8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=Be5SaSGg; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Received: from [127.0.0.1] ([76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 527CEaSZ216144
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Fri, 7 Mar 2025 04:14:36 -0800
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 527CEaSZ216144
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025021701; t=1741349679;
-	bh=jpHguGFzA2ESTQPvqJoIr0NmAS1zWgolyOTrgBL62N8=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=Be5SaSGgmsWvlkd2HRqfzArk9nnQa/gbB2kCd/vi2QEK8XF7tn7E007LPGCySYBmv
-	 IBe4UFr66OEmtiNpObBgvlVSM3dsVFMAmcCg1qk0KnpRrF+aipL4y7W2YaKWxosfjg
-	 cWf5lVQ4b9ZseS/T4Ejdb1zr76nvhUjdua5R2Pch5YNHmdUnn4vc+zzlh64uFhK6vb
-	 WTkqjjxZYMKmKvVthPXAaIt6oPShwbOs2Gi2goJSFgvNUhGes6srmI4eDqrLD0uLkC
-	 /B3MuqYu4V3A5+3QHFJOLT2DdF/UOScSb+vcFfW82sFlWlX0qiCgDEt2HYcKJg4NnR
-	 6SqqnMn8wULdA==
-Date: Fri, 07 Mar 2025 04:14:34 -0800
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Ingo Molnar <mingo@kernel.org>, Jiri Slaby <jirislaby@kernel.org>
-CC: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de, mingo@redhat.com,
-        bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-        jk@ozlabs.org, joel@jms.id.au, eajames@linux.ibm.com,
-        andrzej.hajda@intel.com, neil.armstrong@linaro.org, rfoss@kernel.org,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-        dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
-        hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
-        vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
-        davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-        parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
-        johannes@sipsolutions.net, gregkh@linuxfoundation.org,
-        yury.norov@gmail.com, akpm@linux-foundation.org, alistair@popple.id.au,
-        linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
-        jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
-        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
-        oss-drivers@corigine.com, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
-        brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
-        bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
-        Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH v3 01/16] bitops: Change parity8() return type to bool
-User-Agent: K-9 Mail for Android
-In-Reply-To: <Z8ri5h-nvNXNp6NB@gmail.com>
-References: <20250306162541.2633025-1-visitorckw@gmail.com> <20250306162541.2633025-2-visitorckw@gmail.com> <9d4b77da-18c5-4551-ae94-a2b9fe78489a@kernel.org> <Z8ra0s9uRoS35brb@gmail.com> <a4040c78-8765-425e-a44e-c374dfc02a9c@kernel.org> <Z8ri5h-nvNXNp6NB@gmail.com>
-Message-ID: <04AA7852-2D68-4B3F-9AA7-51AA57E3D23D@zytor.com>
+	s=arc-20240116; t=1741354599; c=relaxed/simple;
+	bh=OZt+d436vgWpErCasgSzXjEueulSHTP3Aw6tVwQxmPA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X3K1MfcVloGIHJH5l3xkSjFJS22IrNOgf0p41OsMPtSPpkyEqw1VqWsSRLDnCsElxQEvAgUYc9qbm710QWXajblVMovpD2L3VO8f9+ZzG8MMvPIgOwKv9FYafj7u1T0YBKj7+sCk24oV+4L3NB77yMPLdyBEiaLIFZqn9qQPx+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=c5+jQteu; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741354597; x=1772890597;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=OZt+d436vgWpErCasgSzXjEueulSHTP3Aw6tVwQxmPA=;
+  b=c5+jQteuoDo+qraoRoXU77EHCdkef1SIxuw5t5c7MyE1BmtGkK+mXCBP
+   7XglVZ0Nz1WN2zpu4BTt9+2orNYVeZXUgM2x5LaaZLV76nx1OGK3C/WLv
+   eegwkLT5IbWdV70da8twXteusZ9PLDqtexKMEBwvLdG26EFOA1N54IZwu
+   rNlajzO/Dd47BfJ1BY/SUCPVTQv8MsJ1rRvfyhxHxZFE/I/8qhDQ6wL+u
+   WmzqSt67ywMlAOppGA+uw6vPgPbT1fFBOeIReiG9BOEuK0N/wRtz/H1t8
+   Bp0JEbP7mv9/ziBd63hIHn+58BM8fRta9xcccjaEP0VZ3amjBwAq/2EE8
+   w==;
+X-CSE-ConnectionGUID: Jd2jmaZESW2yuzOG3YU7GA==
+X-CSE-MsgGUID: Fi+mw8O9Qo6l+wyDWXyDfQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="42313324"
+X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
+   d="scan'208";a="42313324"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 05:36:37 -0800
+X-CSE-ConnectionGUID: v5RLjkMrSgOZ7tfyKq1V0g==
+X-CSE-MsgGUID: c2s/Jn/FTB6NY/AUSuJkEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
+   d="scan'208";a="124355964"
+Received: from yandongc-mobl1.ccr.corp.intel.com (HELO [10.124.249.20]) ([10.124.249.20])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 05:36:33 -0800
+Message-ID: <f1dec7e7-b2ee-4746-b266-5927faf36c61@intel.com>
+Date: Fri, 7 Mar 2025 21:36:30 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7] media: i2c: add lt6911uxe hdmi bridge driver
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+ hverkuil@xs4all.nl, ricardo.ribalda@gmail.com, bingbu.cao@linux.intel.com,
+ tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
+ daxing.li@intel.com, dongcheng.yan@linux.intel.com, ong.hock.yu@intel.com,
+ balamurugan.c@intel.com, wei.a.fu@intel.com, xiaohong.zou@intel.com
+References: <20250306060427.859679-1-dongcheng.yan@intel.com>
+ <Z8q-zqzAXPUzkUmP@kekkonen.localdomain>
+ <c20e68e2-11ef-4f35-a3ca-45d0435e2e22@intel.com>
+ <Z8rQp2OCPZbvSnjH@kekkonen.localdomain>
+From: "Yan, Dongcheng" <dongcheng.yan@intel.com>
+Content-Language: en-US
+In-Reply-To: <Z8rQp2OCPZbvSnjH@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On March 7, 2025 4:13:26 AM PST, Ingo Molnar <mingo@kernel=2Eorg> wrote:
->
->* Jiri Slaby <jirislaby@kernel=2Eorg> wrote:
->
->> On 07=2E 03=2E 25, 12:38, Ingo Molnar wrote:
->> >=20
->> > * Jiri Slaby <jirislaby@kernel=2Eorg> wrote:
->> >=20
->> > > On 06=2E 03=2E 25, 17:25, Kuan-Wei Chiu wrote:
->> > > > Change return type to bool for better clarity=2E Update the kerne=
-l doc
->> > > > comment accordingly, including fixing "@value" to "@val" and adju=
-sting
->> > > > examples=2E Also mark the function with __attribute_const__ to al=
-low
->> > > > potential compiler optimizations=2E
->> > > >=20
->> > > > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail=2Ecom>
->> > > > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail=2Ecom>
->> > > > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail=2Ecom>
->> > > > ---
->> > > >    include/linux/bitops=2Eh | 10 +++++-----
->> > > >    1 file changed, 5 insertions(+), 5 deletions(-)
->> > > >=20
->> > > > diff --git a/include/linux/bitops=2Eh b/include/linux/bitops=2Eh
->> > > > index c1cb53cf2f0f=2E=2E44e5765b8bec 100644
->> > > > --- a/include/linux/bitops=2Eh
->> > > > +++ b/include/linux/bitops=2Eh
->> > > > @@ -231,26 +231,26 @@ static inline int get_count_order_long(unsi=
-gned long l)
->> > > >    /**
->> > > >     * parity8 - get the parity of an u8 value
->> > > > - * @value: the value to be examined
->> > > > + * @val: the value to be examined
->> > > >     *
->> > > >     * Determine the parity of the u8 argument=2E
->> > > >     *
->> > > >     * Returns:
->> > > > - * 0 for even parity, 1 for odd parity
->> > > > + * false for even parity, true for odd parity
->> > >=20
->> > > This occurs somehow inverted to me=2E When something is in parity m=
-eans that
->> > > it has equal number of 1s and 0s=2E I=2Ee=2E return true for even d=
-istribution=2E
->> > > Dunno what others think? Or perhaps this should be dubbed odd_parit=
-y() when
->> > > bool is returned? Then you'd return true for odd=2E
->> >=20
->> > OTOH:
->> >=20
->> >   - '0' is an even number and is returned for even parity,
->> >   - '1' is an odd  number and is returned for odd  parity=2E
->>=20
->> Yes, that used to make sense for me=2E For bool/true/false, it no longe=
-r does=2E
->> But as I wrote, it might be only me=2E=2E=2E
->
->No strong opinion on this from me either, I'd guess existing practice=20
->with other parity functions should probably control=2E (If a coherent=20
->praxis exists=2E)=2E
->
->Thanks,
->
->	Ingo
+Hi Sakari,
 
-Instead of "bool" think of it as "bit" and it makes more sense 
+On 3/7/2025 6:55 PM, Sakari Ailus wrote:
+> Hi Dongcheng,
+> 
+> On Fri, Mar 07, 2025 at 06:00:56PM +0800, Yan, Dongcheng wrote:
+>>>> +		/* MIPI Clock Rate = ByteClock × 4, defined in lt6911uxe spec */
+>>>
+>>> What does the byte clock actually signify? Bytes per second on CSI-2?
+>>>
+>>
+>> This is more like a DSI related calculation, I think lontium uses the
+>> expression related to HDMI and DSI in the video field.
+>> dsi_clk = Bitclk / 2 = Byteclk * 4, dsi_clk is mipi clk, which is used
+>> as link_freq.
+>> Here Bitclk = HTS * VTS * fps * bpp / lanes.
+> 
+> The PHY for CSI-2 and DSI is the same, so the same formula is applicable.
+> The chip is HDMI/CSI-2 (isn'it it?), so I wonder how DSI is related to
+> this. How many HDMI lanes are in use?
+> 
+
+My expression misunderstood you. I am just explaining why ByteClock is
+used here to name. Yes, ByteClock is Bytes per second on CSI-2, and
+because CSI-2 uses DDR(Double Data Rate), here link_freq = bitclk / 2 =
+ByteClock * 4.
+
+Thanks,
+Dongcheng
 
