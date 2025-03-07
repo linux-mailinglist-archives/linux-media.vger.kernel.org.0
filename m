@@ -1,259 +1,141 @@
-Return-Path: <linux-media+bounces-27822-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27823-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ABA7A56453
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 10:49:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D94B7A56468
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 10:55:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3B11A1893938
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 09:49:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CDA8B3B4301
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 09:54:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4660C20C033;
-	Fri,  7 Mar 2025 09:49:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lkEP1op/"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B8EC20C48A;
+	Fri,  7 Mar 2025 09:55:04 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B825B1519B4;
-	Fri,  7 Mar 2025 09:49:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A29206F2E;
+	Fri,  7 Mar 2025 09:55:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741340964; cv=none; b=TgjtH10wrnvj7tFhZyHKNN3uqV0Rp6ik+sFNXb9IpI8S3J59V3HzuJQVFjAIwMmtGt1dhJsN0aeeCEI5seWBEyXkaBvxtzbuhIOTmCT186toSdFrh9ZPBJ3+3rIFlksyrdYe6zYbOM8XfT6dFr79nF+ClMexBLsDL9/awchSQyw=
+	t=1741341303; cv=none; b=rOuwG7/0LO77FN7FLpFiu/vtu607tlpQJ9CELA9OB+equDAcuoqGJJennwDifklaY8vK48ITC1tSQ+3YwKwMxWyVp9e3exAAeepPCnfIHpYMTGJP8pW328NlIRGmuUFyStOI+ZsMIGTOZO8Ubu+FmW9Rzr/0K5GcMSqGU9KvSr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741340964; c=relaxed/simple;
-	bh=UMv+mWNoFkGiSJzPQ4HjhZzF/GGFwH++BILQFYuqJjc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FqmA0Nj2l2WL426S/p3do00h95uWKLdGG4ga5wtkBijncokEGgq67CKU3q4JqAF2OEOAFL9svOWefKzAJU/xZFUE2GqX0a8ZODvN9BN98bVuGRFur8FLyH1TSmzSIbO2+9reAetbX79G5M7UGS1U81ougiL4iRdQ4LACv1oqLkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lkEP1op/; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741340963; x=1772876963;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UMv+mWNoFkGiSJzPQ4HjhZzF/GGFwH++BILQFYuqJjc=;
-  b=lkEP1op//qEerqIxLMJUlsPba89MAepx9HqUkw5DcJNuyJQuBIbGF2yp
-   dlduPsWnaKBzvpS5XUb8L7AUmKb9ckqaVQdOmWIjZXKacyH+6/U1/iKa2
-   npPqTRtB2ssF5gSWzLajbwH7LIaiZGeUMmKoA0ZYKejaJ0PA+7ejO5sX9
-   pZdNxUJ3mIofBeamBA7N9igRxP1lKjaWLHP5bEEDrOoB6TvxBMzIbErld
-   vGfT/twEteQuSex8/VjNJWynm/FB9+mWWXrzXlfTa6MvyHCNfAuXupYGN
-   LRM8xVK0/qDyfSjR/BuKajiob0NK1h56sj7fui0EaYQdQrdx9HnTlCiEQ
-   g==;
-X-CSE-ConnectionGUID: 0W9mkAo1RyeGoEDCZJcizg==
-X-CSE-MsgGUID: aCsGCXKiRbmiAnZLNkBXFw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="41553786"
-X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
-   d="scan'208";a="41553786"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 01:49:22 -0800
-X-CSE-ConnectionGUID: PaMUlQqVQtK1CzZrnIll9g==
-X-CSE-MsgGUID: d7CscytIQdiOtvxDoGLfRA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="120197533"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 01:49:15 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id C298411F9DA;
-	Fri,  7 Mar 2025 11:49:12 +0200 (EET)
-Date: Fri, 7 Mar 2025 09:49:12 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Michael Riesch <michael.riesch@wolfvision.net>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	=?iso-8859-1?Q?Th=E9o?= Lebrun <theo.lebrun@bootlin.com>,
-	Gerald Loacker <gerald.loacker@wolfvision.net>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Kever Yang <kever.yang@rock-chips.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Paul Kocialkowski <paulk@sys-base.io>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v5 03/11] media: dt-bindings: media: add bindings for
- rockchip rk3568 vicap
-Message-ID: <Z8rBGHK9Tjx7D1D2@kekkonen.localdomain>
-References: <20250306-v6-8-topic-rk3568-vicap-v5-0-f02152534f3c@wolfvision.net>
- <20250306-v6-8-topic-rk3568-vicap-v5-3-f02152534f3c@wolfvision.net>
- <20250307-pink-dalmatian-of-kindness-f87ad2@krzk-bin>
+	s=arc-20240116; t=1741341303; c=relaxed/simple;
+	bh=ZZBf7Q2DqrgOZ/Lx4lxpMhcpbpCClO+/EL2j9nTpWeA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fy08FA0C4nfcPRI51bI7uu0Gm1hKv70jU3eDYSP2siv7Y/X223W4XW7PUR3MwWuBEwQqL8TLEFaNjLEKonmrdkgZSq3ZuLmqPq2DYfn0pyn3fzJv0qMDib1EKz5R/SyVda+BtwlDThgQCtAlXpZDgQMJNZjJZFhy8EGgfE6RM/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3250C4CED1;
+	Fri,  7 Mar 2025 09:54:59 +0000 (UTC)
+Message-ID: <8cb4af0d-935a-4305-a204-9c2f187e0593@xs4all.nl>
+Date: Fri, 7 Mar 2025 10:54:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250307-pink-dalmatian-of-kindness-f87ad2@krzk-bin>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1] media: platform: synopsys: hdmirx: Fix compilation on
+ 32bit arches
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Shreeya Patel <shreeya.patel@collabora.com>, Heiko Stuebner
+ <heiko@sntech.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ jose.abreu@synopsys.com, nelson.costa@synopsys.com,
+ shawn.wen@rock-chips.com, nicolas.dufresne@collabora.com,
+ Sebastian Reichel <sebastian.reichel@collabora.com>
+Cc: kernel@collabora.com, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ Tim Surber <me@timsurber.de>
+References: <20250307092113.646831-1-dmitry.osipenko@collabora.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20250307092113.646831-1-dmitry.osipenko@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Krzysztof, Michael,
+Hi Dmitry,
 
-On Fri, Mar 07, 2025 at 08:51:54AM +0100, Krzysztof Kozlowski wrote:
-> On Thu, Mar 06, 2025 at 05:56:04PM +0100, Michael Riesch wrote:
-> > Add documentation for the Rockchip RK3568 Video Capture (VICAP) unit.
-> > 
-> > Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+On 07/03/2025 10:21, Dmitry Osipenko wrote:
+> The pixelclock is specified as 64bit integer and for this driver it
+> won't be above 600MHz. Fix the 64bit division of the pixclock for 32bit
+> kernel builds.
 > 
-> subject: only one media prefix, the first
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202503070743.WnRxStlk-lkp@intel.com/
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+>  drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> A nit, subject: drop second/last, redundant "bindings". The
-> "dt-bindings" prefix is already stating that these are bindings.
-> See also:
-> https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
-> 
-> > ---
-> >  .../bindings/media/rockchip,rk3568-vicap.yaml      | 169 +++++++++++++++++++++
-> >  MAINTAINERS                                        |   1 +
-> >  2 files changed, 170 insertions(+)
-> > 
-> 
-> ...
-> 
-> > +  clocks:
-> > +    items:
-> > +      - description: ACLK
-> > +      - description: HCLK
-> > +      - description: DCLK
-> > +      - description: ICLK
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: aclk
-> > +      - const: hclk
-> > +      - const: dclk
-> > +      - const: iclk
-> > +
-> > +  rockchip,cif-clk-delaynum:
-> > +    $ref: /schemas/types.yaml#/definitions/uint32
-> > +    minimum: 0
-> > +    maximum: 127
-> > +    description:
-> > +      Delay the DVP path clock input to align the sampling phase, only valid
-> > +      in dual edge sampling mode. Delay is zero by default and can be adjusted
-> > +      optionally.
-> 
-> default: 0
+> diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+> index 4d42da7255f3..7e342bbde967 100644
+> --- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+> +++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+> @@ -291,7 +291,7 @@ static void hdmirx_get_timings(struct snps_hdmirx_dev *hdmirx_dev,
+>  	hfp = htotal - hact - hs - hbp;
+>  	vfp = vtotal - vact - vs - vbp;
+>  
+> -	fps = (bt->pixelclock + (htotal * vtotal) / 2) / (htotal * vtotal);
+> +	fps = ((u32)bt->pixelclock + (htotal * vtotal) / 2) / (htotal * vtotal);
 
-And this is technically specific to the DVP port (0). Should (or could?) it
-be located there?
+I just merged:
 
-> 
-> > +
-> > +  iommus:
-> > +    maxItems: 1
-> > +
-> > +  resets:
-> > +    items:
-> > +      - description: ARST
-> > +      - description: HRST
-> > +      - description: DRST
-> > +      - description: PRST
-> > +      - description: IRST
-> > +
-> > +  reset-names:
-> > +    items:
-> > +      - const: arst
-> > +      - const: hrst
-> > +      - const: drst
-> > +      - const: prst
-> > +      - const: irst
-> > +
-> > +  rockchip,grf:
-> > +    $ref: /schemas/types.yaml#/definitions/phandle
-> > +    description: Phandle to general register file used for video input block control.
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  ports:
-> > +    $ref: /schemas/graph.yaml#/properties/ports
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > +        unevaluatedProperties: false
-> > +        description: The digital video port (DVP, a parallel video interface).
-> > +
-> > +        properties:
-> > +          endpoint:
-> > +            $ref: video-interfaces.yaml#
-> > +            unevaluatedProperties: false
-> > +
-> > +            properties:
-> > +              bus-type:
-> > +                enum: [5, 6]
-> > +
-> > +            required:
-> > +              - bus-type
-> > +
-> > +      port@1:
-> > +        $ref: /schemas/graph.yaml#/properties/port
-> > +        description: Internal port connected to a MIPI CSI-2 host.
-> > +
-> > +        properties:
-> > +          endpoint:
-> > +            $ref: video-interfaces.yaml#
-> > +            unevaluatedProperties: false
-> 
-> Hm, does it actually work? graph/port does not allow any other
-> properties. You should use graph/port-base and probably still narrow
-> lanes for both of port@0 and port@1.
+https://patchwork.linuxtv.org/project/linux-media/patch/20250306-synopsys-hdmirx-fix-64-div-v1-1-dd5ff38bba5e@kernel.org/
 
-I'd list the relevant properties for both DVP and CSI-2, either as
-mandatory or with defaults (could be reasonable for DVP signal polarities
-but not e.g. on number of CSI-2 lanes).
+So you can either leave that patch in, or provide a patch on top.
 
-> 
-> 
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - clocks
-> > +  - ports
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/clock/rk3568-cru.h>
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > +    #include <dt-bindings/power/rk3568-power.h>
-> > +    #include <dt-bindings/media/video-interfaces.h>
-> > +
-> > +    parent {
-> 
-> soc {
-> 
-> > +        #address-cells = <2>;
-> > +        #size-cells = <2>;
-> 
-> Best regards,
-> Krzysztof
-> 
+Regards,
 
--- 
-Kind regards,
+	Hans
 
-Sakari Ailus
+>  	bt->width = hact;
+>  	bt->height = vact;
+>  	bt->hfrontporch = hfp;
+
 
