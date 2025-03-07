@@ -1,193 +1,122 @@
-Return-Path: <linux-media+bounces-27797-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27798-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 792E8A562AB
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 09:38:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67A60A562AE
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 09:39:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7DDD216AB31
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 08:38:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EE58A3A8BDB
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 08:39:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D3C31ACEDF;
-	Fri,  7 Mar 2025 08:38:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="EwVZiggL"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E9361E1DE6;
+	Fri,  7 Mar 2025 08:39:01 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 113CD1B4240
-	for <linux-media@vger.kernel.org>; Fri,  7 Mar 2025 08:38:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 476EB1DF97E
+	for <linux-media@vger.kernel.org>; Fri,  7 Mar 2025 08:39:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741336693; cv=none; b=gdYfxJRM9irsOTTPXK9KtuYai6JQztjqnJNCBho+MjxXVqBCA5XGZ8+0dg1C1jYaL+ba50on0LwNRrZqXn+mFM1mgE3/XA2F+hMQv5wI4ZSTsdzxbCqsfV6dXxW9beDghhjWJBkonOjQIgNkH2lQsf/qhHALluSfuGbO9rDKXDI=
+	t=1741336741; cv=none; b=pKNgvzF3oReTSvWRSTj2q/2N7lh/rhDkIgOJlJrIWPBcULVgT6ieziy0zk9VkPvM0lFL/ms0AOXk15O22zHSRR9DGJHXCWUKHM8BcLzwenBybzY7HuNufK9wwTRg4y/DWHldnwA3gCXZG6AQoW/OzLw6KEkc/Oq9kslujdyDFFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741336693; c=relaxed/simple;
-	bh=GYxyFRQKZQBt9XGGtRQ5AC7grdC0Qr21Eraa7nH9i/s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pUUuR3Zp99faOEsuMZ9fYksPbwV/rl8fVq+bxONMPzBWVNzdi7kL0eAp+rTHkXUjhBxgipFeNlQB/iFJ0ADGL1MfjN8PdC/e83s3t7LlsUFzANLh/ugVdApSNquUrdJrgrhsoXJajRKPGWNX1GvX0WezR6AWUTUGVuKJ97zZTEg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=EwVZiggL; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-54955222959so1673856e87.3
-        for <linux-media@vger.kernel.org>; Fri, 07 Mar 2025 00:38:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741336689; x=1741941489; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=+N6yDlV0NFncs+ZNUB+wRwddFt938JHfbLuCUG/BitY=;
-        b=EwVZiggLREqY/iuY3dJVLoEV4iTF4jVxPQoY20NpVajKhCZ451OmORDbcT+UeFFiXA
-         Gw0mw5J4ZQGQO/8gZ85bf/5okULC9DXsE5rgeuXHVLOMS5FsHpWo/aQPEO8OurBwXU9v
-         dCOcIbFinqQ3fJAqE/CQmtSjmhiw1bG7FjZHhrfsKQm7O2Bc1y/CQndO/EDl6eEX+9FD
-         pINfW98VojfXWNVw5wBjZtIqSe2T9OhnbKTC+0adzrszaEq704ysvQnguLMmAjDJpPun
-         AsFPd/tdsJRT5zqEKyVSqjv0QuBLSPih4IxFu7pp+tnK/efTzGJUF0WWGc5VcJsCQHkm
-         mhBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741336689; x=1741941489;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+N6yDlV0NFncs+ZNUB+wRwddFt938JHfbLuCUG/BitY=;
-        b=sXw9CYma/zGJHHUiuGUaDD9mqVDS/NhK4wr9UMcxxAjCrzSZEHBjV0NXGoKjtSqsly
-         oOYGVR3eX/AbMfVuS/ob8v20F/XgPUxajRjC9jYueYlSNpXWtWG4kV9giLvdJ9Jgfans
-         A66Z9iha+DfLSuYBOmZ1TPc2w/2+2kZfj5majSr02YHcT2tVR1pKhDHASLD2eeJ7ACha
-         mW3EQtcAh2XDsXufb0HflcKymt2zktj2U4mQycJVo1XyWHnrFxzw8qzXniHdt4uLOJxU
-         kEDh4+Pyt+uPUikZS1FyRZGclSAYzXVIXT8/G4RxLnSnUZPrZVKwE8xkns6nJbQY9JG1
-         ZHog==
-X-Forwarded-Encrypted: i=1; AJvYcCXn71vMNFicPWWXlPicvSiWLflFQ0MkOGFr5/YmgUv5x5/SO2dHel8kzk039PrtGJIMhingco0X7YnWsA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YycLPHc1P9YUn82BBFEXmy+Keo10qvDgdx+Qh/2T2ksKjB0oCR6
-	va1TEl27t/ND48ulZabzQMiQpl7ErTjytzzEEIBCTZwiV3GcKkhujoPgRkooC/o=
-X-Gm-Gg: ASbGncs82gAcnF8/XCsILMIwZjfJXAN4UmRwO2ioYRTjzLbY0ehhR+3s/3hgKRaopnO
-	jkDhqpNDGXUMFWSESYZJyTzFSm0PALK0sAc3YQG/D5guICBerDfJCU53nEWb3/+hxf1TDHZVPmb
-	h9kVOTgBHFBCnCrxmxwQzgHgBTg9kCiWyXfU1mIC0HAbiasrQDYSN0Sgim+uQE4gYkGaD5vBWsm
-	KSShrfE8MwowMEK5TBdj3cFZ4xmOUDr+B3wU7IT8Gns9to3Fzw0CrdRDJvi3GgxYOwRckltWZTP
-	9t5O+NfSDRow8Fjrg9RoNmPiKvWMkDecEthHhEoxqgkv31BlrwXC9iYraZ2wStYNcmcqr1R0Smj
-	um67jxlgi0+pL3roMt0n5RkBu
-X-Google-Smtp-Source: AGHT+IGfVv7MlpX59E0f3tOSQukf2FN0b9H49VnDyqRemuSX3X6T5WqxxVCQMq9nBH5XyTBY2wHgBg==
-X-Received: by 2002:a05:6512:2313:b0:549:74a7:12da with SMTP id 2adb3069b0e04-549910b765bmr856831e87.51.1741336689064;
-        Fri, 07 Mar 2025 00:38:09 -0800 (PST)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5498ae46042sm417789e87.30.2025.03.07.00.38.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 07 Mar 2025 00:38:08 -0800 (PST)
-Date: Fri, 7 Mar 2025 10:38:05 +0200
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, 
-	Vikash Garodia <quic_vgarodia@quicinc.com>, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 7/7] media: platform: qcom/iris: add sm8650 support
-Message-ID: <noowenzvhkcmx7cmwbnqqepuabown6taznmuuomw6lp7mo6tam@zihcgcjsmt73>
-References: <20250305-topic-sm8x50-iris-v10-v2-0-bd65a3fc099e@linaro.org>
- <20250305-topic-sm8x50-iris-v10-v2-7-bd65a3fc099e@linaro.org>
- <feea4c41-d3cf-4dc7-d197-6d91313d90ff@quicinc.com>
+	s=arc-20240116; t=1741336741; c=relaxed/simple;
+	bh=dA/HNUI2KeD3rvv1vIjyDiCWRwxQLUUHBJeTUqmVg6E=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=ENRK+e6T6LhGrsveSTQunZRdnkRHObRUzwbU4Vm0k48FEoubbf3BvY58/LMcJAE+Rg15EBfhR26ufphuo9FpNEYF+ruWZRrWV9DGtRojYBIRsRwq5qp6E2AqmRWuyo87YN/OijzHjbYvBU19MJYNafr5KV88LNXrp/vZX/OhJzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E199C4CEE5;
+	Fri,  7 Mar 2025 08:39:00 +0000 (UTC)
+Message-ID: <a65ab9db-a2f7-4501-a156-257c62c653e9@xs4all.nl>
+Date: Fri, 7 Mar 2025 09:38:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <feea4c41-d3cf-4dc7-d197-6d91313d90ff@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US, nl
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT FIXES FOR v6.14] media: rtl2832_sdr: assign vb2 lock before
+ vb2_queue_init
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Mar 06, 2025 at 06:46:06PM +0530, Dikshita Agarwal wrote:
-> 
-> 
-> On 3/6/2025 12:35 AM, Neil Armstrong wrote:
-> > Add support for the SM8650 platform by re-using the SM8550
-> > definitions and using the vpu33 ops.
-> > 
-> > The SM8650/vpu33 requires more reset lines, but the H.284
-> > decoder capabilities are identical.
-> > 
-> > Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> > ---
-> >  .../platform/qcom/iris/iris_platform_common.h      |  1 +
-> >  .../platform/qcom/iris/iris_platform_sm8550.c      | 64 ++++++++++++++++++++++
-> >  drivers/media/platform/qcom/iris/iris_probe.c      |  4 ++
-> >  3 files changed, 69 insertions(+)
-> > 
-> > diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
-> > index fdd40fd80178c4c66b37e392d07a0a62f492f108..6bc3a7975b04d612f6c89206eae95dac678695fc 100644
-> > --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
-> > +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
-> > @@ -35,6 +35,7 @@ enum pipe_type {
-> >  
-> >  extern struct iris_platform_data sm8250_data;
-> >  extern struct iris_platform_data sm8550_data;
-> > +extern struct iris_platform_data sm8650_data;
-> >  
-> >  enum platform_clk_type {
-> >  	IRIS_AXI_CLK,
-> > diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-> > index 35d278996c430f2856d0fe59586930061a271c3e..d0f8fa960d53367023e41bc5807ba3f8beae2efc 100644
-> > --- a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-> > +++ b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-> > @@ -144,6 +144,10 @@ static const struct icc_info sm8550_icc_table[] = {
-> >  
-> >  static const char * const sm8550_clk_reset_table[] = { "bus" };
-> >  
-> > +static const char * const sm8650_clk_reset_table[] = { "bus", "core" };
-> > +
-> > +static const char * const sm8650_controller_reset_table[] = { "xo" };
-> > +
-> >  static const struct bw_info sm8550_bw_table_dec[] = {
-> >  	{ ((4096 * 2160) / 256) * 60, 1608000 },
-> >  	{ ((4096 * 2160) / 256) * 30,  826000 },
-> > @@ -264,3 +268,63 @@ struct iris_platform_data sm8550_data = {
-> >  	.dec_op_int_buf_tbl = sm8550_dec_op_int_buf_tbl,
-> >  	.dec_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_op_int_buf_tbl),
-> >  };
-> > +
-> > +/*
-> > + * Shares most of SM8550 data except:
-> > + * - vpu_ops to iris_vpu33_ops
-> > + * - clk_rst_tbl to sm8650_clk_reset_table
-> > + * - controller_rst_tbl to sm8650_controller_reset_table
-> > + * - fwname to "qcom/vpu/vpu33_p4.mbn"
-> > + */
-> > +struct iris_platform_data sm8650_data = {
-[...]
-> > +
-> > +	.dec_ip_int_buf_tbl = sm8550_dec_ip_int_buf_tbl,
-> > +	.dec_ip_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_ip_int_buf_tbl),
-> > +	.dec_op_int_buf_tbl = sm8550_dec_op_int_buf_tbl,
-> > +	.dec_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_op_int_buf_tbl),
-> > +};
-> This approach looks good to me, reusing the platform data like this keeps
-> the code cleaner and avoids duplication. I think this is a good way to
-> handle the differences while sharing the common parts.
+Hi Mauro,
 
-Just to share some thoughts. We had this kind of data-sharing in the DPU
-driver. It looked good in the beginning, but at some point we found
-ourselves stuck with the platform data being named semi-randomly
-(following the first-added SoC instead of the first-in-family).
+This is a fix for rtl2832_sdr.c that regressed in 6.14.
 
-Modifying "catalog" data became troublesome as it was no longer clear,
-which chipsets are going to be affected by the change. So, after some
-thought we ended up duplicating data all over the catalog files for the
-sake of them being easy to modify. There are some ideas on how to
-simplify that, but for now we have (almost) full data set for each SoC.
+The media CI pipeline passed:
 
-For example, imagine somebody adding sm8450 support and sm8450 reusing
-sm8550 data. It would be a bit troublesome to remember that changing
-sm8550 data would affect sm8450. And maybe some of the SAR, SA or
-QCM/QCS platforms. I think you see the point.
+https://gitlab.freedesktop.org/linux-media/users/hverkuil/-/pipelines/1379257
 
-If you are to explore the data sharing solution, I'd suggest exploring
-an idea similar to the DPU catalog: start naming each of the platform
-files with some kind of generation-like ID. In case of DPU it was easy
-as each DPU instance has unique version. For the Iris devices it might
-be as easy as vpu30_sm8550, vpu33_sm8650, etc. It might make it easier
-to make assumptions and derive common pieces of data.
+Regards,
 
--- 
-With best wishes
-Dmitry
+	Hans
+
+The following changes since commit 2014c95afecee3e76ca4a56956a936e23283f05b:
+
+  Linux 6.14-rc1 (2025-02-02 15:39:26 -0800)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git for-v6.14a
+
+for you to fetch changes up to 547ef4fc716913f193dd540e2493d10e2ee6d9ba:
+
+  media: rtl2832_sdr: assign vb2 lock before vb2_queue_init (2025-03-06 21:19:46 +0100)
+
+----------------------------------------------------------------
+Hans Verkuil (1):
+      media: rtl2832_sdr: assign vb2 lock before vb2_queue_init
+
+ drivers/media/dvb-frontends/rtl2832_sdr.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
