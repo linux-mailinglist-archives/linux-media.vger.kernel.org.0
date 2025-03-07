@@ -1,112 +1,133 @@
-Return-Path: <linux-media+bounces-27832-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27833-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B429AA565EC
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 11:56:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E26A566E8
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 12:39:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A1CEB3A7B55
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 10:56:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 90E43177FE4
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 11:39:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B87921323D;
-	Fri,  7 Mar 2025 10:55:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CE1D21858E;
+	Fri,  7 Mar 2025 11:39:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cDMcrW7D"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YLmlxbVx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E7621019E
-	for <linux-media@vger.kernel.org>; Fri,  7 Mar 2025 10:55:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7798420764E;
+	Fri,  7 Mar 2025 11:39:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741344947; cv=none; b=b+F4UhAdrkM9+KJ2OcfR0NlvSNFekJjro54f28hT5ylCHsuqE6ngX/2Knrf2agygNvTVg6VKM4H0cz5fenOi2qML56HsH7MvJb7ZWTI1unAyY/CRSdrnLPonGv7DUrCe0UVAfx5QcMQZrNDthISEeHJI4WCf4XoyX74HHHSrfLY=
+	t=1741347553; cv=none; b=WMCcri5HSW8kLpRQ+9LI2UjqbYyRrnRekyrtn2hLmrDeqc8QkM5pF8Jn2CIHrXuAECovjnsiCEwnFMSCFzdl7XgnkyiDcPNe26vSHJsGIYcw8X1PFA4jxDeumLEMi1KzWpHUMnP8uZcAxAuBI5ojxU3RXfAf8EtkVp3wm36y1Wk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741344947; c=relaxed/simple;
-	bh=725mOYdUznaKxvS195LOncTGxZlN7PlASqq6UwrH2dc=;
+	s=arc-20240116; t=1741347553; c=relaxed/simple;
+	bh=3/sdXJVj7KtnSE85cKxaG8wUs9rqjrFuOU79jRxJq1I=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DM1n1UEwRfZxcu/OHym7UyOJn42BE9gFP4Nt760L5W0U7fW5iLSb2qgVc1FhRex/zeiXu2Js7RvHvk8YZAch+BU9UqSUDRCazKZrefJeIzZAF7DOq2lmWeYlrib3XOl1E3RXRnbd3L2y1PHVpU6n3FwJzX+bibjEyPhmCLEXUr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cDMcrW7D; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741344945; x=1772880945;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=725mOYdUznaKxvS195LOncTGxZlN7PlASqq6UwrH2dc=;
-  b=cDMcrW7D/XRwm9K+IK9n1XO47EZXEVZ/BjDoHd+0SUq+Ij7VzsjaI2hS
-   wfehXKTG9YINccUDYZHmvXa2M+GLgJ5XPY+geapOJGRHKIkKo6EW1nPlD
-   /kIBda8gLjL7MZmBOkCmwZdBMzVNXQiGcFIzTJ8KizdMruyne0S/rOkmf
-   s0GKeYlDATaA1OiR41n+lQt8fO7I5YiO0mTlZGCvI9bwRo1Y9TRHxd0w+
-   d8xR3RZEMGEl17tNa5c1nLSeC60DJeWRTC0dl4yHUF4GAq/PVkBnyDSRb
-   f5AX9xaUA/hSj3uxM7MdVESfbSUfDLchJYEvutMK4YxtG3K6LoE+39K4L
-   A==;
-X-CSE-ConnectionGUID: x7xeseviQ+uPky+lSCMBkA==
-X-CSE-MsgGUID: Z+AHZlQxTwWP6Hu6B99K7Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="41643998"
-X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="41643998"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 02:55:43 -0800
-X-CSE-ConnectionGUID: TL/U/4vPSECy/PUmvF8lcQ==
-X-CSE-MsgGUID: YNbqV3wXSm6WiFNorJcMKA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
-   d="scan'208";a="124329005"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 02:55:40 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id CF91211F9DA;
-	Fri,  7 Mar 2025 12:55:35 +0200 (EET)
-Date: Fri, 7 Mar 2025 10:55:35 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: "Yan, Dongcheng" <dongcheng.yan@intel.com>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-	hverkuil@xs4all.nl, ricardo.ribalda@gmail.com,
-	bingbu.cao@linux.intel.com, tomi.valkeinen@ideasonboard.com,
-	jacopo.mondi@ideasonboard.com, daxing.li@intel.com,
-	dongcheng.yan@linux.intel.com, ong.hock.yu@intel.com,
-	balamurugan.c@intel.com, wei.a.fu@intel.com, xiaohong.zou@intel.com
-Subject: Re: [PATCH v7] media: i2c: add lt6911uxe hdmi bridge driver
-Message-ID: <Z8rQp2OCPZbvSnjH@kekkonen.localdomain>
-References: <20250306060427.859679-1-dongcheng.yan@intel.com>
- <Z8q-zqzAXPUzkUmP@kekkonen.localdomain>
- <c20e68e2-11ef-4f35-a3ca-45d0435e2e22@intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=iMZ4WgPuYPaVQex0QzQL4tPOxIJOXt2Xf7HMSIbiNJ2amU1FXpO61SgrvbEYEykDJoHj0fwMMFs47P4pjencJMGazDgBvRYPKr3Wc0EoQmIAGYEDQnAPAWVaRcP66mSWUJkrpdmisEjAyBb4X6RS4RL4PGJC/wR4zoSsc+PWRgU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YLmlxbVx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CED54C4CED1;
+	Fri,  7 Mar 2025 11:39:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741347552;
+	bh=3/sdXJVj7KtnSE85cKxaG8wUs9rqjrFuOU79jRxJq1I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YLmlxbVxqEup0anPAlcb+dTa8FE8yj+y8ZZ0PST3YP2elqVhKYbGBRuANPKgYm1pV
+	 NGn7rb39E++lc1xbYoS5OhozY8nndia47/v8Sa5rqGO0Bu8MCd8jDX4s/rl8jnc9KS
+	 /Zw1dAykvcP3jA1LZJezkeY71xfpNocgXG5ZY1+5Iclozb/CN7EK86u7FruZPbQxgj
+	 O/EL7tcNhW8jLL10yopA5JzxQSg3yqC7XySzB7uBdYZaoLo+uDBWnCmh/MI/mDyW7C
+	 DnKxEvglJ/VC5FCGBR5poufWGtRL6VWA6EpoY09yZ3F8omD0L+wJBxziuE5Y36X3fT
+	 t3EHCJ+yuPtdQ==
+Date: Fri, 7 Mar 2025 12:38:58 +0100
+From: Ingo Molnar <mingo@kernel.org>
+To: Jiri Slaby <jirislaby@kernel.org>
+Cc: Kuan-Wei Chiu <visitorckw@gmail.com>, tglx@linutronix.de,
+	mingo@redhat.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
+	eajames@linux.ibm.com, andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org, rfoss@kernel.org,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+	dmitry.torokhov@gmail.com, mchehab@kernel.org,
+	awalls@md.metrocast.net, hverkuil@xs4all.nl,
+	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+	louis.peens@corigine.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+	johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+	yury.norov@gmail.com, akpm@linux-foundation.org, hpa@zytor.com,
+	alistair@popple.id.au, linux@rasmusvillemoes.dk,
+	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+	jernej.skrabec@gmail.com, kuba@kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+	oss-drivers@corigine.com, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
+	Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH v3 01/16] bitops: Change parity8() return type to bool
+Message-ID: <Z8ra0s9uRoS35brb@gmail.com>
+References: <20250306162541.2633025-1-visitorckw@gmail.com>
+ <20250306162541.2633025-2-visitorckw@gmail.com>
+ <9d4b77da-18c5-4551-ae94-a2b9fe78489a@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c20e68e2-11ef-4f35-a3ca-45d0435e2e22@intel.com>
+In-Reply-To: <9d4b77da-18c5-4551-ae94-a2b9fe78489a@kernel.org>
 
-Hi Dongcheng,
 
-On Fri, Mar 07, 2025 at 06:00:56PM +0800, Yan, Dongcheng wrote:
-> >> +		/* MIPI Clock Rate = ByteClock × 4, defined in lt6911uxe spec */
+* Jiri Slaby <jirislaby@kernel.org> wrote:
+
+> On 06. 03. 25, 17:25, Kuan-Wei Chiu wrote:
+> > Change return type to bool for better clarity. Update the kernel doc
+> > comment accordingly, including fixing "@value" to "@val" and adjusting
+> > examples. Also mark the function with __attribute_const__ to allow
+> > potential compiler optimizations.
 > > 
-> > What does the byte clock actually signify? Bytes per second on CSI-2?
+> > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> > ---
+> >   include/linux/bitops.h | 10 +++++-----
+> >   1 file changed, 5 insertions(+), 5 deletions(-)
 > > 
+> > diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+> > index c1cb53cf2f0f..44e5765b8bec 100644
+> > --- a/include/linux/bitops.h
+> > +++ b/include/linux/bitops.h
+> > @@ -231,26 +231,26 @@ static inline int get_count_order_long(unsigned long l)
+> >   /**
+> >    * parity8 - get the parity of an u8 value
+> > - * @value: the value to be examined
+> > + * @val: the value to be examined
+> >    *
+> >    * Determine the parity of the u8 argument.
+> >    *
+> >    * Returns:
+> > - * 0 for even parity, 1 for odd parity
+> > + * false for even parity, true for odd parity
 > 
-> This is more like a DSI related calculation, I think lontium uses the
-> expression related to HDMI and DSI in the video field.
-> dsi_clk = Bitclk / 2 = Byteclk * 4, dsi_clk is mipi clk, which is used
-> as link_freq.
-> Here Bitclk = HTS * VTS * fps * bpp / lanes.
+> This occurs somehow inverted to me. When something is in parity means that
+> it has equal number of 1s and 0s. I.e. return true for even distribution.
+> Dunno what others think? Or perhaps this should be dubbed odd_parity() when
+> bool is returned? Then you'd return true for odd.
 
-The PHY for CSI-2 and DSI is the same, so the same formula is applicable.
-The chip is HDMI/CSI-2 (isn'it it?), so I wonder how DSI is related to
-this. How many HDMI lanes are in use?
+OTOH:
 
--- 
-Regards,
+ - '0' is an even number and is returned for even parity,
+ - '1' is an odd  number and is returned for odd  parity.
 
-Sakari Ailus
+Thanks,
+
+	Ingo
 
