@@ -1,881 +1,214 @@
-Return-Path: <linux-media+bounces-27816-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27817-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13C93A5641A
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 10:39:45 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A91CA56425
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 10:42:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 040473A8287
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 09:39:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6C7023A8461
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 09:42:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A8A4206F3F;
-	Fri,  7 Mar 2025 09:39:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDBF820B7EF;
+	Fri,  7 Mar 2025 09:41:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YxuI+ht2"
+	dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b="Ntf3wSeW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from DUZPR83CU001.outbound.protection.outlook.com (mail-northeuropeazon11013036.outbound.protection.outlook.com [52.101.67.36])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2ECD1A8F97
-	for <linux-media@vger.kernel.org>; Fri,  7 Mar 2025 09:39:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741340378; cv=none; b=tifhJXv4XuRcuHKG1VArnixrQ2R/WWM4w5xzxhTYLFxDpz1zFQfVRZU0811q+Qhh0wf7Z5R3lEWcMQz9qUThwT4ENqlzgkVk1xskBwikGuTPwaYhDGlg/XJno8u509J0TdoSDrDW5WMMykrD1aOqmnEyeAemef29CdIitGwLjuY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741340378; c=relaxed/simple;
-	bh=8PyrKyoroWameGtIDWvdagQXZUeZIV0wIJ0xeBqjQ04=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=S+nvF0E6CfNSYpxFEkDLNPB3xriucLCzBBsPJi+tFg2zv3GltvvQc/OgVn4yvjbYayDwK5KQuwShb/jfwibk0H3SGSGUyz2Pr4lPcCI24kAKozowLY6tCjwMqW6Le4XVOgC3V7VTPtSJCey2DSoB862GTeJZ4pX1hqQlNlTmbaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YxuI+ht2; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741340376; x=1772876376;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=8PyrKyoroWameGtIDWvdagQXZUeZIV0wIJ0xeBqjQ04=;
-  b=YxuI+ht2CP7Kvdf3JfxItOonRVnd/eWI/roxxCdGAjOoM1pZUvS4qgq5
-   MMzVn6YzG5FnbvZOZ6DZ+4kPKHexRGnbsKZVoFXCvgiw30AH1kaTzEBOk
-   Cyh3frn46opSL0vDkF1LdQc2aQ532hx6C3HipivuT9KKwhFKDfAvLhd0T
-   TCCltmk/pWnsodcKanpDIcaqX7IYBlgW0BNlTHvtCbTjeIEtPdndXf5rf
-   0HPptM8fFxld9koidanBg0HnS/Bd6277/N/RBXEcnrKStm25jlUUH8NNz
-   4YPsGNzfYRK3ZQYJ3q/JR9+hVkA44U2Jstu7Rd8BeQlMZ1WT3r2XdXMJh
-   w==;
-X-CSE-ConnectionGUID: RU51Kj6tT3+eN+uEe0HSWw==
-X-CSE-MsgGUID: oRCMSbuPTw+42yILCHlp2A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="53372188"
-X-IronPort-AV: E=Sophos;i="6.14,228,1736841600"; 
-   d="scan'208";a="53372188"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 01:39:33 -0800
-X-CSE-ConnectionGUID: jc0yEG0/S0qB3hMRDP0xAg==
-X-CSE-MsgGUID: Aat211oYS9inops50zV+kw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,224,1728975600"; 
-   d="scan'208";a="150223419"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 01:39:30 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id EC31C11F9DA;
-	Fri,  7 Mar 2025 11:39:26 +0200 (EET)
-Date: Fri, 7 Mar 2025 09:39:26 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Dongcheng Yan <dongcheng.yan@intel.com>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-	hverkuil@xs4all.nl, ricardo.ribalda@gmail.com,
-	bingbu.cao@linux.intel.com, tomi.valkeinen@ideasonboard.com,
-	jacopo.mondi@ideasonboard.com, daxing.li@intel.com,
-	dongcheng.yan@linux.intel.com, ong.hock.yu@intel.com,
-	balamurugan.c@intel.com, wei.a.fu@intel.com, xiaohong.zou@intel.com
-Subject: Re: [PATCH v7] media: i2c: add lt6911uxe hdmi bridge driver
-Message-ID: <Z8q-zqzAXPUzkUmP@kekkonen.localdomain>
-References: <20250306060427.859679-1-dongcheng.yan@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B6B02063F1;
+	Fri,  7 Mar 2025 09:41:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.67.36
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741340518; cv=fail; b=tpyuJE/wvU0PJKYOTGkXxAgbvndzvoAia7tCmcaRk4v/fxiJuPFW0LikcbOj/CmXbC+iP0AH1E1t6/3z/fgAQMGCLwUgR/2v3NsZA87uZSCZOtCQxry+DYZfrYIP7bhrOjOdlebBP2A4Wd93F1BPVAqqC6spd1Jetn7vZsyW6mI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741340518; c=relaxed/simple;
+	bh=bd2qyFZPzLM/vHrJtWfOViNgOk7OeteGbdKWJgoFcYU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=nV9gplGBn4kBfqi0K+76LY1YQpaf7VPgVefkyJIw3rQFoPZ6At49l8kJjBzikTV1m81j/r9FwfqvebgOJawCd446o8MTRBbOkUlwQ32lVNND0gPfFbGkCjgdY9qpxQphxfNihoXhh0GslIG7GAibF8hp3p8ExaVS24zQqOhJa1Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mt.com; spf=pass smtp.mailfrom=mt.com; dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b=Ntf3wSeW; arc=fail smtp.client-ip=52.101.67.36
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mt.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mt.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=k1BVN6EnRykWYHVfXsaw5LLgOonroQCqh+PHvWKZaispO6xVmZW1MFd16Y+LPCTvYTHbrcsCTqDo1t//YRK6Ho0TiWDXnMBBtuofcpUzKRUfJMWwAeUWdN6ZtzSZIbrVTyVM6hrY7hiw3+Lx3Git3rAab76tN5J/ZcCTbuOiutP5SilDCMphHcGiUhaxcRBcBavA0Y+Fsj0kVErY5rQSS/yJk6VF4+kegD8yLcH+lZcldHw7AkaOjiv0gNulL7mM3KaXmOOQx7I6pp+X800zg3SIOUNAUL8EadtEcjUHPDsc+Zv0hocRuSiBhVmFG8UgxJsq5Q2rKknbadEfYD7kxg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JR98LGZXt+CNTV5AR5kD4p2FkRbUo68pZ81MKP2qhAQ=;
+ b=vgvpROH7fqjoLOrd0DiYimwnkzG228eU3XHbPJAqLyVB2wDzjdGEOVNGQ81pVon+G/HIR/RmMy3FbOS59sl01mMgj4OpGFSN/sZkknwjOjPSm8gMpmL5fCIMkzUr3ulpvi3H3o+LmFT1+QhoK3AEEJABMGA0SVTuwcLxzA3uumAg6lKG6OZJPqcka1cUW8VXycWXFsY35XIOB6M9ZVelqWGZEDe4MuoaqAILFlTeV+Vt/kj0tfRpwY/6J4MU4wGSyW2KvhJvt9dPk5HzwQGyVGv4UyoP+v32/aKSEYcG5S5GR3tn4Vqhidm5plunqK/ZalgD7/tOQcuJTBR3L3yMxg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
+ header.d=mt.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=JR98LGZXt+CNTV5AR5kD4p2FkRbUo68pZ81MKP2qhAQ=;
+ b=Ntf3wSeW/PAXm8xpACMuztxyIaHcAhx5m6d0whzybCL7aoZIniLvA+qGJwopZAWb92vYu7fAC2FpOjTOYb+/IwjeBJ6jfPRQBeoRT/aJlRUbtyf1VRbzgevn3qpQLXoCmJhxyHe+uQP6xba7D3R21pLLuUI6lXzkQVSueLz13zdnKC/Z9ErQoVfHJXkKd9S/fMdJjxm7xm3Z8vamxmkMJrLYxhMcD/CgD7UhLLte6Wfr7AUFVc+JIszuJsqoj8ZlXgGVheenSvbtwq4Z5IiqTSjCNxgt7fQRUl8CFngbWaunD88qPcLxIJw0CC/ye9fDpNvYeZVHlpVlCpoD7/Hlqw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mt.com;
+Received: from DBBPR03MB10396.eurprd03.prod.outlook.com (2603:10a6:10:53a::11)
+ by VI2PR03MB10738.eurprd03.prod.outlook.com (2603:10a6:800:272::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.17; Fri, 7 Mar
+ 2025 09:41:54 +0000
+Received: from DBBPR03MB10396.eurprd03.prod.outlook.com
+ ([fe80::ee3c:c9be:681:c0bf]) by DBBPR03MB10396.eurprd03.prod.outlook.com
+ ([fe80::ee3c:c9be:681:c0bf%7]) with mapi id 15.20.8511.017; Fri, 7 Mar 2025
+ 09:41:53 +0000
+Date: Fri, 7 Mar 2025 10:41:47 +0100
+From: Mathis Foerst <mathis.foerst@mt.com>
+To: Rob Herring <robh@kernel.org>
+Cc: linux-kernel@vger.kernel.org,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	manuel.traut@mt.com, mathis.foerst@zuehlke.com
+Subject: Re: [PATCH v3 1/6] media: dt-bindings: mt9m114: Add onnn,slew-rate
+ DT-binding
+Message-ID: <Z8q/W+wHnERu9P6G@mt.com>
+References: <20250305101453.708270-1-mathis.foerst@mt.com>
+ <20250305101453.708270-2-mathis.foerst@mt.com>
+ <20250305130821.GA1374586-robh@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250305130821.GA1374586-robh@kernel.org>
+X-ClientProxiedBy: ZR2P278CA0037.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:47::19) To DBBPR03MB10396.eurprd03.prod.outlook.com
+ (2603:10a6:10:53a::11)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250306060427.859679-1-dongcheng.yan@intel.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DBBPR03MB10396:EE_|VI2PR03MB10738:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3e99c133-1325-4b0d-20a5-08dd5d5c4b3a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|52116014|1800799024|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?Ck/o0JMTAIx4QLINx92L+oZcGT516Vi8tNAmqT99EQaXP168Tot0nAUoMZYM?=
+ =?us-ascii?Q?npZ/SROHFn65dEZxpAOQhlhe0Ec5jpWNQbsMWZgkpVywL6FFdMZm8q2aZWq9?=
+ =?us-ascii?Q?oQaea61zs+rg+VPhVUtTO0+ni3Ri/bmKkTV1DC1StZvHZzG/w1nMZhrV2rW/?=
+ =?us-ascii?Q?SJrdYxZIluPvvraufb83MKZuzdks00lCrLEmeFRPtX1qy4t2yHUNpRaOyPiG?=
+ =?us-ascii?Q?GDFXZVnYcogAVM0IjT2hPtbnn9QqiK78uMCeW3naDfV1pCTEmG41wLhjeF4T?=
+ =?us-ascii?Q?RB6Jqd+uAtYtQNXvAgEWGXT/bjZ5nzvZfYU7/9kl17tT3xf5Nal0ygzwaL0L?=
+ =?us-ascii?Q?MRBSykByOu2XD7F5pc5KSZT2nTyV/CvG1xjCvjGzxzcGZlsJFqwnD7EjrJHu?=
+ =?us-ascii?Q?i3Gb4HPsfE0hE11k2FNHzpvL95Htp0/SIPbEdO+ZehHoWfm3yGetzb6K5Qmo?=
+ =?us-ascii?Q?1kToS/yCYO2Cz+ZyX7bvcOAFaIv/LnHKZFmo9EKkJQ+XtUfk0G8bX19JAG5h?=
+ =?us-ascii?Q?gIgqxTQDzMGpes+O/1/i3HCNUYKgqU279gKP5xRyHcz9GfteL4L3tyS5LhQL?=
+ =?us-ascii?Q?L8dzZ/UpO9yXXfFvi/lulO2KJEPNvszkmw/G9+4xG8bUFq52hmcAYgMX4Sle?=
+ =?us-ascii?Q?vDPu3suEJ159vKMtwhCvafNlFoLDe0urXZcbAwN/mvcV/nIWMyL56OIKM7aM?=
+ =?us-ascii?Q?5BuaDWKj4H1SZ96RDiF6yPd5JyvqqXHTEmbWVX47BcHIkHs39xPlwM4TzvNE?=
+ =?us-ascii?Q?Ih5yiCkSZdlvl/oj0ucNbDqJAOFX0BzROtloacvoRF8Ezd5dFCkvGoMHEdWw?=
+ =?us-ascii?Q?4NHLozzm7e52UK3Id4My57srjnjjCoTZkhH00gFrZOUdejSEgiL/68CkqhMG?=
+ =?us-ascii?Q?uparKc5pKTQw+5dA7bLXEPPlPPaq8SKY0IYo2AdrZhlJS+s8EWhyWRne4ybu?=
+ =?us-ascii?Q?Bpn6tKSfHmdcKHP3mywTCYXakngRtrWXfYhuEdcnM9x0efclIatAo/3raiOu?=
+ =?us-ascii?Q?nnSUdR6kz9gJxeKXeTfmRQjbXpVLIZDDeA3wq9rYyzeFG2jzBCxLbOPFCnnf?=
+ =?us-ascii?Q?D0V3KuoPSEqTx+FXyyFG0qGSd6Yg/yx09So4oBofo/LfCrVNo1lPRcI/Fijc?=
+ =?us-ascii?Q?kAoZlcaaLhddApo/DhPmV1FgLG3Qv41WYtB5k4kYsX4lN5dz3izzuly5JB9N?=
+ =?us-ascii?Q?a5FF1MjbA3qk/9mHrq4gcZtSm21qlAOFN2PGj/IEKFaunN8Qstoe/p6v2rDs?=
+ =?us-ascii?Q?ZuRh8T57tAuIumEfGMKNCFq9bEE+dy6GPbBivLT2CGeSTIG/zTlz0Ou3swRt?=
+ =?us-ascii?Q?81kx/aXl7wqYgCUCKTlKqWfsGE7INluQ47Kj90nWRw4OPdHOkterQD1GNctT?=
+ =?us-ascii?Q?CTlaiMNaspZyHuOCUkLHRttGOqvpMIBG2hRBnp2n7PYADolLF2iUA6jy3EjL?=
+ =?us-ascii?Q?4OffDOya6HU8qdzF/dcyWTZ68UveGTLP?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR03MB10396.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?Se1WoQ3C0yqCQ8PQpi99YiLkPrAkwCdwr3yEzKytbWVm6D9TKOszSMVKspI6?=
+ =?us-ascii?Q?n3uHFC8d3UZwz/qzEpLbLKQXkFJzvIzw0IYoLd9kJqP9aAgnCbiBijIH1dmd?=
+ =?us-ascii?Q?0rjg1IYxGJXk7+P/CizvJf8ZQayDdzrxl6AbzVqk3PHQkBVL58SYNMSsqKB9?=
+ =?us-ascii?Q?kZmUI8dxSTGqfenCW+ml9A7d7FvBRcgxOAwLa1tMAq97/ERvmbR3OHBgSqkg?=
+ =?us-ascii?Q?ZFSbfCMUdXdhZCJG2wUN2P/k98/W35tgQbvz2smtNaGOkaOnH/e85gNTBuNi?=
+ =?us-ascii?Q?OgpFsYAia1fUz2JMu/x0axPJtK8nd+M6ccy+fNqheYe/wSsHiBE2iEzGYUgH?=
+ =?us-ascii?Q?AcedAm6/MDr8MslsKhKURpJP2wWWuqM24gQqTsJ/eGJVWJwpuz2JOyTV3nYd?=
+ =?us-ascii?Q?kPR3Rjcu8bpt90lim2oC4c9UjxllV6uIZQWNtQ0SsxjGjaB2xK9SSdQImpys?=
+ =?us-ascii?Q?jgXGkAgbcHlk+Bx/nTdWBLmNfBSUeZ+UFwgqMC6fIjD9H7e1ZyIZAoNXV0yi?=
+ =?us-ascii?Q?TR+Kr/8PzyHIFPqtnwlT2e3O138eaG0I5cdNe7ro6fWOMCBtXiZLHi98pAKw?=
+ =?us-ascii?Q?GTiXsZSn46dMD4L+7pERbLkQ1cMHJvd0myE8dzPQw2lqil1iuPqfuvBHl8RM?=
+ =?us-ascii?Q?+EGxhfZg0oafYiRRNgDkvewE+ys4Y7eSIjk1uG6r/Etk4gHp85s1kVA+P9xJ?=
+ =?us-ascii?Q?tViUrPqG7DPbyjrX1kiqYnWGKlOD3wN/QpWxHq7Ptfbm290NiI2LndsgRzly?=
+ =?us-ascii?Q?FRMMr/ACytauZCaTeWXxinTKoyVk34bvClWiGt0V0rACKw8fMbgHZQAEGSje?=
+ =?us-ascii?Q?wmix3T9kx3rIwq3THrn848mz3LPjwbM+48edte2kr8Ggq8l4YWkskxyYUOX3?=
+ =?us-ascii?Q?9/AxRHKpiA0Q75KAb/iVi9wnp+hjnniox4TaYky2Nuu8rnJ5B1eS88kirv09?=
+ =?us-ascii?Q?kUf/WjhPIOZ05rJ9loqE75IbKkvIOLZ4ZtCxMuwwQVUkGw15udVMMGyQ9fMw?=
+ =?us-ascii?Q?UKPkk2KJIyaYRZKjgI4qrPYE+L7Fja9dRfrrnA2JJhK2BMtVACA+rqRr0v+W?=
+ =?us-ascii?Q?Nmjx+o/KLkGjcW2/P3psOWZpcc+2tK9Q08Rec3/sTtIdDPuALDcZxs2f1aba?=
+ =?us-ascii?Q?Akv9+ju/H7GvgovjYlLuH/V4ciXYJfGU7L7nSBoSuJthzZAjNH41o6oz2M6j?=
+ =?us-ascii?Q?YsoMTXvHDs517FBq92anosos+FpPfznP6EZasvDULBcsRIk/sgix5fiXJkos?=
+ =?us-ascii?Q?kdDYMg+LrRqx7DpHuP0MPROxFWQ7xtqRjmTHFJcSljqRkA5n/PIZeLthQxDC?=
+ =?us-ascii?Q?P+bkX9y6m0cy5eI4YD8/LEbLF2javcmFSwUjxH2h1g/i8XpTpFV63IqIknSD?=
+ =?us-ascii?Q?pEk5D1wlBcbRNgaOeGKTTuj7FxY3BRJqg0Mju7xWdO0Cry0ubFsbYPqo/FZX?=
+ =?us-ascii?Q?StzkxSRcbEyER7E0wFCRxmqM2GaxGd1mk4sx81oZcvjOfxxpziOMHvQBVS/M?=
+ =?us-ascii?Q?vT0sanNuujrvCpIUpSYx5mHhw2T9XAc1fDdILxzTQ2IE+3MLBPoOP6vN8QCB?=
+ =?us-ascii?Q?3E8k1737Rh1be/e3P5e0Q7bD/MiNKfQdNLeOiQ0U?=
+X-OriginatorOrg: mt.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3e99c133-1325-4b0d-20a5-08dd5d5c4b3a
+X-MS-Exchange-CrossTenant-AuthSource: DBBPR03MB10396.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Mar 2025 09:41:53.8962
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Wrr61AH4To0KJAh975js3eJHsHMubzYy17Q8c2YjkjYTcEIDhb8z0f+6EWbVUpNMK6GvrDOJf4HgG142VhD8qA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI2PR03MB10738
 
-Hi Dongcheng,
+Hi Rob,
 
-A few minor comments.
+thank you for your input.
 
-On Thu, Mar 06, 2025 at 02:04:27PM +0800, Dongcheng Yan wrote:
-> Lontium LT9611UXE is a HDMI to MIPI CSI-2 bridge. The device supports
-> modes up to 4k@60fps, obtains the video information and switches the
-> current mode once the video signal changes.
+On Wed, Mar 05, 2025 at 07:08:21AM -0600, Rob Herring wrote:
+> On Wed, Mar 05, 2025 at 11:14:48AM +0100, Mathis Foerst wrote:
+> > The MT9M114 supports the different slew rates (0 to 7) on the output pads.
+> > At the moment, this is hardcoded to 7 (the fastest rate).
+> > The user might want to change this values due to EMC requirements.
+> > 
+> > Add the 'onnn,slew-rate' property to the MT9M114 DT-bindings for selecting
+> > the desired slew rate.
+> > 
+> > Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
+> > ---
+> >  .../devicetree/bindings/media/i2c/onnn,mt9m114.yaml      | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
+> > index f6b87892068a..c184bc04b743 100644
+> > --- a/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
+> > +++ b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m114.yaml
+> > @@ -70,6 +70,15 @@ properties:
+> >            - bus-type
+> >            - link-frequencies
+> >  
+> > +  onnn,slew-rate:
 > 
-> Signed-off-by: Dongcheng Yan <dongcheng.yan@intel.com>
+> Just 'slew-rate' which is already defined in the pinctrl binding.
+
+Okay, I fixed this in v4.
+
 > 
-> ---
-> v1 -> v2: replaced mutex with state_lock
-> v2 -> v3: fixed some pm_runtime err handlings
-> v3 -> v4: add DV Timings api
-> v4 -> v5: use get_mbus_config to replace link_freq v4l2_ctrl_handler,
->           rm lt6911uxe_enum_frame_size & lt6911uxe_enum_frame_interval
-> v5 -> v6: update format in irq_handle func, fix the state_unlock
->           missing bug
-> v6 -> v7: base on https://git.linuxtv.org/media.git:next,
-> 	  place config under the heading "Video decoders"
-> 
-> The driver is tested with Intel IPU and refers to
-> drivers/media/pci/intel/ipu6.
-> ---
->  drivers/media/i2c/Kconfig     |  11 +
->  drivers/media/i2c/Makefile    |   1 +
->  drivers/media/i2c/lt6911uxe.c | 709 ++++++++++++++++++++++++++++++++++
->  3 files changed, 721 insertions(+)
->  create mode 100644 drivers/media/i2c/lt6911uxe.c
-> 
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index 85ecb2aeefdb..e576b213084d 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -1147,6 +1147,17 @@ config VIDEO_ISL7998X
->  	  Support for Intersil ISL7998x analog to MIPI-CSI2 or
->  	  BT.656 decoder.
->  
-> +config VIDEO_LT6911UXE
-> +	tristate "Lontium LT6911UXE decoder"
-> +	depends on ACPI && VIDEO_DEV
-> +	select V4L2_FWNODE
-> +	help
-> +	  This is a Video4Linux2 sensor-level driver for the Lontium
-> +	  LT6911UXE HDMI to MIPI CSI-2 bridge.
-> +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called lt6911uxe.
-> +
->  config VIDEO_KS0127
->  	tristate "KS0127 video decoder"
->  	depends on VIDEO_DEV && I2C
-> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-> index fbb988bd067a..6c23a4463527 100644
-> --- a/drivers/media/i2c/Makefile
-> +++ b/drivers/media/i2c/Makefile
-> @@ -64,6 +64,7 @@ obj-$(CONFIG_VIDEO_ISL7998X) += isl7998x.o
->  obj-$(CONFIG_VIDEO_KS0127) += ks0127.o
->  obj-$(CONFIG_VIDEO_LM3560) += lm3560.o
->  obj-$(CONFIG_VIDEO_LM3646) += lm3646.o
-> +obj-$(CONFIG_VIDEO_LT6911UXE) += lt6911uxe.o
->  obj-$(CONFIG_VIDEO_M52790) += m52790.o
->  obj-$(CONFIG_VIDEO_MAX9271_LIB) += max9271.o
->  obj-$(CONFIG_VIDEO_MAX9286) += max9286.o
-> diff --git a/drivers/media/i2c/lt6911uxe.c b/drivers/media/i2c/lt6911uxe.c
-> new file mode 100644
-> index 000000000000..2a8c5bf663f1
-> --- /dev/null
-> +++ b/drivers/media/i2c/lt6911uxe.c
-> @@ -0,0 +1,709 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +// Copyright (c) 2023 - 2025 Intel Corporation.
-> +
-> +#include <linux/acpi.h>
-> +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/i2c.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/module.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/regmap.h>
-> +#include <linux/v4l2-dv-timings.h>
-> +
-> +#include <media/v4l2-cci.h>
-> +#include <media/v4l2-ctrls.h>
-> +#include <media/v4l2-device.h>
-> +#include <media/v4l2-dv-timings.h>
-> +#include <media/v4l2-event.h>
-> +#include <media/v4l2-fwnode.h>
-> +
-> +#define LT6911UXE_CHIP_ID		0x2102
-> +#define REG_CHIP_ID			CCI_REG16(0xe100)
-> +
-> +#define REG_ENABLE_I2C			CCI_REG8(0xe0ee)
-> +#define REG_HALF_PIX_CLK		CCI_REG24(0xe085)
-> +#define REG_BYTE_CLK			CCI_REG24(0xe092)
-> +#define REG_HALF_H_TOTAL		CCI_REG16(0xe088)
-> +#define REG_V_TOTAL			CCI_REG16(0xe08a)
-> +#define REG_HALF_H_ACTIVE		CCI_REG16(0xe08c)
-> +#define REG_V_ACTIVE			CCI_REG16(0xe08e)
-> +#define REG_MIPI_FORMAT			CCI_REG8(0xe096)
-> +#define REG_MIPI_TX_CTRL		CCI_REG8(0xe0b0)
-> +
-> +/* Interrupts */
-> +#define REG_INT_HDMI			CCI_REG8(0xe084)
-> +#define INT_VIDEO_DISAPPEAR		0x0
-> +#define INT_VIDEO_READY			0x1
-> +
-> +#define LT6911UXE_DEFAULT_LANES		4
-> +#define LT6911_PAGE_CONTROL		0xff
-> +#define YUV422_8_BIT			0x7
-> +
-> +static const struct v4l2_dv_timings_cap lt6911uxe_timings_cap_4kp30 = {
-> +	.type = V4L2_DV_BT_656_1120,
-> +	/* keep this initialization for compatibility with CLANG */
-> +	.reserved = { 0 },
-> +	/* Pixel clock from REF_01 p. 20. Min/max height/width are unknown */
-> +	V4L2_INIT_BT_TIMINGS(160, 3840,			/* min/max width */
-> +			     120, 2160,			/* min/max height */
-> +			     50000000, 594000000,	/* min/max pixelclock */
-> +			     V4L2_DV_BT_STD_CEA861 | V4L2_DV_BT_STD_DMT |
-> +			     V4L2_DV_BT_STD_CVT,
-> +			     V4L2_DV_BT_CAP_PROGRESSIVE |
-> +			     V4L2_DV_BT_CAP_CUSTOM |
-> +			     V4L2_DV_BT_CAP_REDUCED_BLANKING)
-> +};
-> +
-> +static const struct regmap_range_cfg lt6911uxe_ranges[] = {
-> +	{
-> +		.name = "register_range",
-> +		.range_min =  0,
-> +		.range_max = 0xffff,
-> +		.selector_reg = LT6911_PAGE_CONTROL,
-> +		.selector_mask = 0xff,
-> +		.selector_shift = 0,
-> +		.window_start = 0,
-> +		.window_len = 0x100,
-> +	},
-> +};
-> +
-> +static const struct regmap_config lt6911uxe_regmap_config = {
-> +	.reg_bits = 8,
-> +	.val_bits = 8,
-> +	.max_register = 0xffff,
-> +	.ranges = lt6911uxe_ranges,
-> +	.num_ranges = ARRAY_SIZE(lt6911uxe_ranges),
-> +};
-> +
-> +struct lt6911uxe_mode {
-> +	u32 width;
-> +	u32 height;
-> +	u32 htotal;
-> +	u32 vtotal;
-> +	u32 code;
-> +	u32 fps;
-> +	u32 lanes;
-> +	s64 link_freq;
-> +	u64 pixel_clk;
-> +};
-> +
-> +struct lt6911uxe {
-> +	struct v4l2_subdev sd;
-> +	struct media_pad pad;
-> +	struct v4l2_ctrl_handler ctrl_handler;
-> +	struct v4l2_ctrl *pixel_rate;
-> +	struct v4l2_dv_timings timings;
-> +	struct lt6911uxe_mode cur_mode;
-> +	struct regmap *regmap;
-> +	struct gpio_desc *reset_gpio;
-> +	struct gpio_desc *irq_gpio;
-> +};
-> +
-> +static const struct v4l2_event lt6911uxe_ev_source_change = {
-> +	.type = V4L2_EVENT_SOURCE_CHANGE,
-> +	.u.src_change.changes = V4L2_EVENT_SRC_CH_RESOLUTION,
-> +};
-> +
-> +static inline struct lt6911uxe *to_lt6911uxe(struct v4l2_subdev *sd)
-> +{
-> +	return container_of(sd, struct lt6911uxe, sd);
-> +}
-> +
-> +static s64 get_pixel_rate(struct lt6911uxe *lt6911uxe)
-> +{
-> +	s64 pixel_rate;
-> +
-> +	pixel_rate = (s64)lt6911uxe->cur_mode.width *
-> +		     lt6911uxe->cur_mode.height *
-> +		     lt6911uxe->cur_mode.fps * 16;
-> +	do_div(pixel_rate, lt6911uxe->cur_mode.lanes);
-> +
-> +	return pixel_rate;
-> +}
-> +
-> +static int lt6911uxe_get_detected_timings(struct v4l2_subdev *sd,
-> +					  struct v4l2_dv_timings *timings)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +	struct v4l2_bt_timings *bt = &timings->bt;
-> +
-> +	memset(timings, 0, sizeof(struct v4l2_dv_timings));
-> +
-> +	timings->type = V4L2_DV_BT_656_1120;
-> +
-> +	bt->width = lt6911uxe->cur_mode.width;
-> +	bt->height = lt6911uxe->cur_mode.height;
-> +	bt->vsync = lt6911uxe->cur_mode.vtotal - lt6911uxe->cur_mode.height;
-> +	bt->hsync = lt6911uxe->cur_mode.htotal - lt6911uxe->cur_mode.width;
-> +	bt->pixelclock = lt6911uxe->cur_mode.pixel_clk;
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_s_dv_timings(struct v4l2_subdev *sd, unsigned int pad,
-> +				  struct v4l2_dv_timings *timings)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +	struct v4l2_subdev_state *state;
-> +
-> +	state = v4l2_subdev_lock_and_get_active_state(sd);
-> +	if (v4l2_match_dv_timings(&lt6911uxe->timings, timings, 0, false)) {
-> +		v4l2_subdev_unlock_state(state);
-> +		return 0;
-> +	}
-> +
-> +	if (!v4l2_valid_dv_timings(timings, &lt6911uxe_timings_cap_4kp30,
-> +				   NULL, NULL)) {
-> +		v4l2_subdev_unlock_state(state);
-> +		return -ERANGE;
-> +	}
-> +	lt6911uxe->timings = *timings;
-> +	v4l2_subdev_unlock_state(state);
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_g_dv_timings(struct v4l2_subdev *sd, unsigned int pad,
-> +				  struct v4l2_dv_timings *timings)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +	struct v4l2_subdev_state *state;
-> +
-> +	state = v4l2_subdev_lock_and_get_active_state(sd);
-> +
-> +	*timings = lt6911uxe->timings;
-> +	v4l2_subdev_unlock_state(state);
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_query_dv_timings(struct v4l2_subdev *sd, unsigned int pad,
-> +				      struct v4l2_dv_timings *timings)
-> +{
-> +	struct v4l2_subdev_state *state;
-> +	int ret;
-> +
-> +	state = v4l2_subdev_lock_and_get_active_state(sd);
-> +	ret = lt6911uxe_get_detected_timings(sd, timings);
-> +	if (ret) {
-> +		v4l2_subdev_unlock_state(state);
-> +		return ret;
-> +	}
-> +
-> +	if (!v4l2_valid_dv_timings(timings, &lt6911uxe_timings_cap_4kp30,
-> +				   NULL, NULL)) {
-> +		v4l2_subdev_unlock_state(state);
-> +		return -ERANGE;
-> +	}
-> +
-> +	v4l2_subdev_unlock_state(state);
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_enum_dv_timings(struct v4l2_subdev *sd,
-> +				     struct v4l2_enum_dv_timings *timings)
-> +{
-> +	return v4l2_enum_dv_timings_cap(timings,
-> +			&lt6911uxe_timings_cap_4kp30, NULL, NULL);
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    description:
+> > +      Slew rate ot the output pads DOUT[7:0], LINE_VALID, FRAME_VALID and
+> > +      PIXCLK. Higher values imply steeper voltage-flanks on the pads.
+> > +    minimum: 0
+> > +    maximum: 7
+> > +    default: 7
+> > +
+> >  required:
+> >    - compatible
+> >    - reg
+> > -- 
+> > 2.34.1
+> > 
 
-Indentation.
-
-> +}
-> +
-> +static int lt6911uxe_dv_timings_cap(struct v4l2_subdev *sd,
-> +				    struct v4l2_dv_timings_cap *cap)
-> +{
-> +	*cap = lt6911uxe_timings_cap_4kp30;
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_status_update(struct lt6911uxe *lt6911uxe)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&lt6911uxe->sd);
-> +	u64 int_event;
-> +	u64 byte_clk, half_pix_clk, fps, format;
-> +	u64 half_htotal, vtotal, half_width, height;
-> +	int ret = 0;
-> +
-> +	/* Read interrupt event */
-> +	cci_read(lt6911uxe->regmap, REG_INT_HDMI, &int_event, &ret);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to read interrupt event: %d\n",
-> +			ret);
-> +		return ret;
-> +	}
-> +
-> +	switch (int_event) {
-> +	case INT_VIDEO_READY:
-> +		cci_read(lt6911uxe->regmap, REG_BYTE_CLK, &byte_clk, &ret);
-> +		byte_clk *= 1000;
-> +		cci_read(lt6911uxe->regmap, REG_HALF_PIX_CLK,
-> +			 &half_pix_clk, &ret);
-> +		half_pix_clk *= 1000;
-> +
-> +		if (ret || byte_clk == 0 || half_pix_clk == 0) {
-> +			dev_dbg(&client->dev,
-> +				"invalid ByteClock or PixelClock\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		cci_read(lt6911uxe->regmap, REG_HALF_H_TOTAL,
-> +			 &half_htotal, &ret);
-> +		cci_read(lt6911uxe->regmap, REG_V_TOTAL, &vtotal, &ret);
-> +		if (ret || half_htotal == 0 || vtotal == 0) {
-> +			dev_dbg(&client->dev, "invalid htotal or vtotal\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		fps = div_u64(half_pix_clk, half_htotal * vtotal);
-> +		if (fps > 60) {
-> +			dev_dbg(&client->dev,
-> +				"max fps is 60, current fps: %llu\n", fps);
-> +			return -EINVAL;
-> +		}
-> +
-> +		cci_read(lt6911uxe->regmap, REG_HALF_H_ACTIVE,
-> +			 &half_width, &ret);
-> +		cci_read(lt6911uxe->regmap, REG_V_ACTIVE, &height, &ret);
-> +		if (ret || half_width == 0 || half_width * 2 > 3840 ||
-> +		    height == 0 || height > 2160) {
-> +			dev_dbg(&client->dev, "invalid width or height\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		/*
-> +		 * Get MIPI format, YUV422_8_BIT is expected in lt6911uxe
-> +		 */
-> +		cci_read(lt6911uxe->regmap, REG_MIPI_FORMAT, &format, &ret);
-> +		if (format != YUV422_8_BIT) {
-> +			dev_dbg(&client->dev, "invalid MIPI format\n");
-> +			return -EINVAL;
-> +		}
-> +
-> +		lt6911uxe->cur_mode.height = height;
-> +		lt6911uxe->cur_mode.width = half_width * 2;
-> +		lt6911uxe->cur_mode.fps = fps;
-> +		/* MIPI Clock Rate = ByteClock × 4, defined in lt6911uxe spec */
-
-What does the byte clock actually signify? Bytes per second on CSI-2?
-
-> +		lt6911uxe->cur_mode.link_freq = byte_clk * 4;
-> +		lt6911uxe->cur_mode.pixel_clk = half_pix_clk * 2;
-> +		lt6911uxe->cur_mode.vtotal = vtotal;
-> +		lt6911uxe->cur_mode.htotal = half_htotal * 2;
-> +		break;
-> +
-> +	case INT_VIDEO_DISAPPEAR:
-> +		cci_write(lt6911uxe->regmap, REG_MIPI_TX_CTRL, 0x0, &ret);
-> +		lt6911uxe->cur_mode.height = 0;
-> +		lt6911uxe->cur_mode.width = 0;
-> +		lt6911uxe->cur_mode.fps = 0;
-> +		lt6911uxe->cur_mode.link_freq = 0;
-> +		break;
-> +
-> +	default:
-> +		ret = -ENOLINK;
-> +	}
-> +	v4l2_subdev_notify_event(&lt6911uxe->sd, &lt6911uxe_ev_source_change);
-> +	return ret;
-> +}
-> +
-> +static int lt6911uxe_init_controls(struct lt6911uxe *lt6911uxe)
-> +{
-> +	struct v4l2_ctrl_handler *ctrl_hdlr;
-> +	s64 pixel_rate;
-> +	int ret;
-> +
-> +	ctrl_hdlr = &lt6911uxe->ctrl_handler;
-> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
-> +	if (ret)
-> +		return ret;
-> +
-> +	pixel_rate = get_pixel_rate(lt6911uxe);
-> +	lt6911uxe->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, NULL,
-> +						  V4L2_CID_PIXEL_RATE,
-> +						  pixel_rate, pixel_rate, 1,
-> +						  pixel_rate);
-> +
-> +	if (ctrl_hdlr->error) {
-> +		ret = ctrl_hdlr->error;
-> +		goto hdlr_free;
-> +	}
-> +	lt6911uxe->sd.ctrl_handler = ctrl_hdlr;
-> +
-> +	return 0;
-> +
-> +hdlr_free:
-> +	v4l2_ctrl_handler_free(ctrl_hdlr);
-> +	return ret;
-> +}
-> +
-> +static void lt6911uxe_update_pad_format(const struct lt6911uxe_mode *mode,
-> +					struct v4l2_mbus_framefmt *fmt)
-> +{
-> +	fmt->width = mode->width;
-> +	fmt->height = mode->height;
-> +	fmt->code = mode->code;
-> +	fmt->field = V4L2_FIELD_NONE;
-> +}
-> +
-> +static int lt6911uxe_enable_streams(struct v4l2_subdev *sd,
-> +				    struct v4l2_subdev_state *state,
-> +				    u32 pad, u64 streams_mask)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +	int ret;
-> +
-> +	ret = pm_runtime_resume_and_get(&client->dev);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	cci_write(lt6911uxe->regmap, REG_MIPI_TX_CTRL, 0x1, &ret);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to start stream: %d\n", ret);
-> +		goto err_rpm_put;
-> +	}
-> +
-> +	return 0;
-> +
-> +err_rpm_put:
-> +	pm_runtime_put(&client->dev);
-> +	return ret;
-> +}
-> +
-> +static int lt6911uxe_disable_streams(struct v4l2_subdev *sd,
-> +				     struct v4l2_subdev_state *state,
-> +				     u32 pad, u64 streams_mask)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +	struct i2c_client *client = v4l2_get_subdevdata(&lt6911uxe->sd);
-> +	int ret;
-> +
-> +	ret = cci_write(lt6911uxe->regmap, REG_MIPI_TX_CTRL, 0x0, NULL);
-> +	if (ret)
-> +		dev_err(&client->dev, "failed to stop stream: %d\n", ret);
-> +
-> +	pm_runtime_put(&client->dev);
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_set_format(struct v4l2_subdev *sd,
-> +				struct v4l2_subdev_state *sd_state,
-> +				struct v4l2_subdev_format *fmt)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +	u64 pixel_rate;
-> +
-> +	lt6911uxe_update_pad_format(&lt6911uxe->cur_mode, &fmt->format);
-> +	*v4l2_subdev_state_get_format(sd_state, fmt->pad) = fmt->format;
-> +	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-> +		return 0;
-> +
-> +	pixel_rate = get_pixel_rate(lt6911uxe);
-> +	__v4l2_ctrl_modify_range(lt6911uxe->pixel_rate, pixel_rate,
-> +				 pixel_rate, 1, pixel_rate);
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_enum_mbus_code(struct v4l2_subdev *sd,
-> +				    struct v4l2_subdev_state *sd_state,
-> +				    struct v4l2_subdev_mbus_code_enum *code)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +
-> +	if (code->index)
-> +		return -EINVAL;
-> +
-> +	code->code = lt6911uxe->cur_mode.code;
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_get_mbus_config(struct v4l2_subdev *sd,
-> +				     unsigned int pad,
-> +				     struct v4l2_mbus_config *cfg)
-> +{
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +	struct v4l2_subdev_state *state;
-> +
-> +	state = v4l2_subdev_lock_and_get_active_state(sd);
-> +	cfg->type = V4L2_MBUS_CSI2_DPHY;
-> +	cfg->link_freq = lt6911uxe->cur_mode.link_freq;
-> +	v4l2_subdev_unlock_state(state);
-> +
-> +	return 0;
-> +}
-> +
-> +static int lt6911uxe_init_state(struct v4l2_subdev *sd,
-> +				struct v4l2_subdev_state *sd_state)
-> +{
-> +	struct v4l2_subdev_format fmt = {
-> +		.which = sd_state ? V4L2_SUBDEV_FORMAT_TRY
-> +		: V4L2_SUBDEV_FORMAT_ACTIVE,
-> +	};
-> +
-> +	return lt6911uxe_set_format(sd, sd_state, &fmt);
-> +}
-> +
-> +static const struct v4l2_subdev_video_ops lt6911uxe_video_ops = {
-> +	.s_stream = v4l2_subdev_s_stream_helper,
-> +};
-> +
-> +/*
-> + * lt6911uxe provides editable EDID for customers, but only can be edited like
-> + * updating flash. Due to this limitation, it is not possible to implement
-> + * EDID support.
-> + */
-> +static const struct v4l2_subdev_pad_ops lt6911uxe_pad_ops = {
-> +	.set_fmt = lt6911uxe_set_format,
-> +	.get_fmt = v4l2_subdev_get_fmt,
-> +	.enable_streams = lt6911uxe_enable_streams,
-> +	.disable_streams = lt6911uxe_disable_streams,
-> +	.enum_mbus_code = lt6911uxe_enum_mbus_code,
-> +	.get_frame_interval = v4l2_subdev_get_frame_interval,
-> +	.s_dv_timings = lt6911uxe_s_dv_timings,
-> +	.g_dv_timings = lt6911uxe_g_dv_timings,
-> +	.query_dv_timings = lt6911uxe_query_dv_timings,
-> +	.enum_dv_timings = lt6911uxe_enum_dv_timings,
-> +	.dv_timings_cap = lt6911uxe_dv_timings_cap,
-> +	.get_mbus_config = lt6911uxe_get_mbus_config,
-> +};
-> +
-> +static const struct v4l2_subdev_core_ops lt6911uxe_subdev_core_ops = {
-> +	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-> +};
-> +
-> +static const struct v4l2_subdev_ops lt6911uxe_subdev_ops = {
-> +	.core = &lt6911uxe_subdev_core_ops,
-> +	.video = &lt6911uxe_video_ops,
-> +	.pad = &lt6911uxe_pad_ops,
-> +};
-> +
-> +static const struct media_entity_operations lt6911uxe_subdev_entity_ops = {
-> +	.link_validate = v4l2_subdev_link_validate,
-> +};
-> +
-> +static const struct v4l2_subdev_internal_ops lt6911uxe_internal_ops = {
-> +	.init_state = lt6911uxe_init_state,
-> +};
-> +
-> +static int lt6911uxe_fwnode_parse(struct lt6911uxe *lt6911uxe,
-> +				  struct device *dev)
-> +{
-> +	struct fwnode_handle *endpoint;
-> +	struct v4l2_fwnode_endpoint bus_cfg = {
-> +		.bus_type = V4L2_MBUS_CSI2_DPHY,
-> +	};
-> +	int ret;
-> +
-> +	endpoint = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0,
-> +						   FWNODE_GRAPH_ENDPOINT_NEXT);
-> +	if (!endpoint)
-> +		return dev_err_probe(dev, -EPROBE_DEFER,
-> +				     "endpoint node not found\n");
-> +
-> +	ret = v4l2_fwnode_endpoint_parse(endpoint, &bus_cfg);
-> +	fwnode_handle_put(endpoint);
-> +	if (ret) {
-> +		dev_err(dev, "failed to parse endpoint node: %d\n", ret);
-> +		goto out_err;
-> +	}
-> +
-> +	/*
-> +	 * Check the number of MIPI CSI2 data lanes,
-> +	 * lt6911uxe only support 4 lanes.
-> +	 */
-> +	if (bus_cfg.bus.mipi_csi2.num_data_lanes != LT6911UXE_DEFAULT_LANES) {
-> +		dev_err(dev, "only 4 data lanes are currently supported\n");
-> +		goto out_err;
-> +	}
-> +	lt6911uxe->cur_mode.lanes = bus_cfg.bus.mipi_csi2.num_data_lanes;
-> +	lt6911uxe->cur_mode.code = MEDIA_BUS_FMT_UYVY8_1X16;
-> +
-> +	return 0;
-> +
-> +out_err:
-> +	v4l2_fwnode_endpoint_free(&bus_cfg);
-> +	return ret;
-> +}
-> +
-> +static int lt6911uxe_identify_module(struct lt6911uxe *lt6911uxe,
-> +				     struct device *dev)
-> +{
-> +	u64 val;
-> +	int ret = 0;
-> +
-> +	/* Chip ID should be confirmed when the I2C slave is active */
-> +	cci_write(lt6911uxe->regmap, REG_ENABLE_I2C, 0x1, &ret);
-> +	cci_read(lt6911uxe->regmap, REG_CHIP_ID, &val, &ret);
-> +	cci_write(lt6911uxe->regmap, REG_ENABLE_I2C, 0x0, &ret);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "fail to read chip id\n");
-> +
-> +	if (val != LT6911UXE_CHIP_ID) {
-> +		return dev_err_probe(dev, -ENXIO, "chip id mismatch: %x!=%x\n",
-> +				     LT6911UXE_CHIP_ID, (u16)val);
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static irqreturn_t lt6911uxe_threaded_irq_fn(int irq, void *dev_id)
-> +{
-> +	struct v4l2_subdev *sd = dev_id;
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +	struct v4l2_subdev_state *state;
-> +	struct v4l2_subdev_format fmt = {
-> +		.which = V4L2_SUBDEV_FORMAT_ACTIVE
-> +	};
-> +
-> +	lt6911uxe_status_update(lt6911uxe);
-> +	state = v4l2_subdev_lock_and_get_active_state(sd);
-> +	/*
-> +	 * As a HDMI to CSI2 bridge, it needs to update the format in time
-> +	 * when the HDMI source changes.
-> +	 */
-> +	lt6911uxe_set_format(sd, state, &fmt);
-> +	v4l2_subdev_unlock_state(state);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static void lt6911uxe_remove(struct i2c_client *client)
-> +{
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct lt6911uxe *lt6911uxe = to_lt6911uxe(sd);
-> +
-> +	free_irq(gpiod_to_irq(lt6911uxe->irq_gpio), lt6911uxe);
-> +	v4l2_async_unregister_subdev(sd);
-> +	v4l2_subdev_cleanup(sd);
-> +	media_entity_cleanup(&sd->entity);
-> +	v4l2_ctrl_handler_free(&lt6911uxe->ctrl_handler);
-> +	pm_runtime_disable(&client->dev);
-> +	pm_runtime_set_suspended(&client->dev);
-> +}
-> +
-> +static int lt6911uxe_probe(struct i2c_client *client)
-> +{
-> +	struct lt6911uxe *lt6911uxe;
-> +	struct device *dev = &client->dev;
-> +	u64 irq_pin_flags;
-> +	int ret;
-> +
-> +	lt6911uxe = devm_kzalloc(dev, sizeof(*lt6911uxe), GFP_KERNEL);
-> +	if (!lt6911uxe)
-> +		return -ENOMEM;
-> +
-> +	lt6911uxe->regmap = devm_regmap_init_i2c(client,
-> +						 &lt6911uxe_regmap_config);
-> +	if (IS_ERR(lt6911uxe->regmap))
-> +		return dev_err_probe(dev, PTR_ERR(lt6911uxe->regmap),
-> +				     "failed to init CCI\n");
-> +
-> +	v4l2_i2c_subdev_init(&lt6911uxe->sd, client, &lt6911uxe_subdev_ops);
-> +
-> +	lt6911uxe->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_IN);
-> +	if (IS_ERR(lt6911uxe->reset_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(lt6911uxe->reset_gpio),
-> +				     "failed to get reset gpio\n");
-> +
-> +	lt6911uxe->irq_gpio = devm_gpiod_get(dev, "readystat", GPIOD_IN);
-> +	if (IS_ERR(lt6911uxe->irq_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(lt6911uxe->irq_gpio),
-> +				     "failed to get ready_stat gpio\n");
-> +
-> +	ret = lt6911uxe_fwnode_parse(lt6911uxe, dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	usleep_range(10000, 10500);
-> +
-> +	ret = lt6911uxe_identify_module(lt6911uxe, dev);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to find chip\n");
-> +
-> +	ret = lt6911uxe_init_controls(lt6911uxe);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to init control\n");
-> +
-> +	lt6911uxe->sd.dev = dev;
-> +	lt6911uxe->sd.internal_ops = &lt6911uxe_internal_ops;
-> +	lt6911uxe->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	lt6911uxe->sd.entity.ops = &lt6911uxe_subdev_entity_ops;
-> +	lt6911uxe->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-> +	lt6911uxe->pad.flags = MEDIA_PAD_FL_SOURCE;
-> +	ret = media_entity_pads_init(&lt6911uxe->sd.entity, 1, &lt6911uxe->pad);
-> +	if (ret) {
-> +		dev_err(dev, "failed to init entity pads: %d\n", ret);
-> +		goto v4l2_ctrl_handler_free;
-> +	}
-> +
-> +	/*
-> +	 * Device is already turned on by i2c-core with ACPI domain PM.
-> +	 * Enable runtime PM and turn off the device.
-> +	 */
-> +	pm_runtime_set_active(dev);
-> +	pm_runtime_enable(dev);
-> +	pm_runtime_idle(dev);
-> +
-> +	ret = v4l2_subdev_init_finalize(&lt6911uxe->sd);
-> +	if (ret) {
-> +		dev_err(dev, "failed to init v4l2 subdev: %d\n", ret);
-> +		goto media_entity_cleanup;
-> +	}
-> +
-> +	/* Setting irq */
-> +	irq_pin_flags = IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING |
-> +			IRQF_ONESHOT;
-> +
-> +	ret = request_threaded_irq(gpiod_to_irq(lt6911uxe->irq_gpio), NULL,
-> +				   lt6911uxe_threaded_irq_fn,
-> +				   irq_pin_flags, NULL, lt6911uxe);
-> +	if (ret) {
-> +		dev_err(dev, "failed to request IRQ: %d\n", ret);
-> +		goto subdev_cleanup;
-> +	}
-> +
-> +	ret = v4l2_async_register_subdev_sensor(&lt6911uxe->sd);
-> +	if (ret) {
-> +		dev_err(dev, "failed to register V4L2 subdev: %d\n", ret);
-> +		goto free_irq;
-> +	}
-> +
-> +	return 0;
-> +
-> +free_irq:
-> +	free_irq(gpiod_to_irq(lt6911uxe->irq_gpio), lt6911uxe);
-> +
-> +subdev_cleanup:
-> +	v4l2_subdev_cleanup(&lt6911uxe->sd);
-> +
-> +media_entity_cleanup:
-> +	pm_runtime_disable(dev);
-> +	pm_runtime_set_suspended(dev);
-> +	media_entity_cleanup(&lt6911uxe->sd.entity);
-> +
-> +v4l2_ctrl_handler_free:
-> +	v4l2_ctrl_handler_free(lt6911uxe->sd.ctrl_handler);
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct acpi_device_id lt6911uxe_acpi_ids[] = {
-> +	{ "INTC10C5" },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(acpi, lt6911uxe_acpi_ids);
-> +
-> +static struct i2c_driver lt6911uxe_i2c_driver = {
-> +	.driver = {
-> +		.name = "lt6911uxe",
-> +		.acpi_match_table = ACPI_PTR(lt6911uxe_acpi_ids),
-> +	},
-> +	.probe = lt6911uxe_probe,
-> +	.remove = lt6911uxe_remove,
-> +};
-> +
-> +module_i2c_driver(lt6911uxe_i2c_driver);
-> +
-> +MODULE_AUTHOR("Yan Dongcheng <dongcheng.yan@intel.com>");
-> +MODULE_DESCRIPTION("Lontium lt6911uxe HDMI to MIPI Bridge Driver");
-> +MODULE_LICENSE("GPL");
-> 
-> base-commit: d98e9213a768a3cc3a99f5e1abe09ad3baff2104
-
--- 
-Kind regards,
-
-Sakari Ailus
+Best regards,
+Mathis Foerst
 
