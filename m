@@ -1,152 +1,112 @@
-Return-Path: <linux-media+bounces-27831-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27832-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7332BA565DB
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 11:53:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B429AA565EC
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 11:56:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2E62C7A9C58
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 10:52:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A1CEB3A7B55
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 10:56:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13D9A212B3B;
-	Fri,  7 Mar 2025 10:53:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B87921323D;
+	Fri,  7 Mar 2025 10:55:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y9gg/Alp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cDMcrW7D"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 484F220ADF8;
-	Fri,  7 Mar 2025 10:53:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41E7621019E
+	for <linux-media@vger.kernel.org>; Fri,  7 Mar 2025 10:55:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741344786; cv=none; b=fxhjyEHLA1pPy4Kjt7Y+7MhF9tq1fADYlN3gsV2eYWMmRdOw4wcTQcoeAiMZpZb8cU95phPCyhRXg++uqw0laXklxYd73rLFElERJxMLLmEX4vhhZOR0YAFvwMzU9PnXOM443ApXqIX2LVlgFdOz/91USD96cctmKOB0RsEV8Vc=
+	t=1741344947; cv=none; b=b+F4UhAdrkM9+KJ2OcfR0NlvSNFekJjro54f28hT5ylCHsuqE6ngX/2Knrf2agygNvTVg6VKM4H0cz5fenOi2qML56HsH7MvJb7ZWTI1unAyY/CRSdrnLPonGv7DUrCe0UVAfx5QcMQZrNDthISEeHJI4WCf4XoyX74HHHSrfLY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741344786; c=relaxed/simple;
-	bh=Urg129Bz2A1KqSkBMVGf/u0i0jwz2GvVKbmLB4w3EOk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B9D4iTZUU1EqZ/Lq0RHUOBionyIKI5rMSUQwjR5ZGYWHrIAnrixKqrX315S/qQ5DfYQ6cqrVdYwacpXGC2+Z+qvaD+pxMVEQrD64qs6//W2RRQLKqWzHW0UA4VRAQB17LbG0olewfdwmzl7FvaP4pJIdjl0pDvK7Ueee45jq6Fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y9gg/Alp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7BA5BC4CEE8;
-	Fri,  7 Mar 2025 10:52:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741344785;
-	bh=Urg129Bz2A1KqSkBMVGf/u0i0jwz2GvVKbmLB4w3EOk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Y9gg/Alpnnpx43uk0EoB2ChH/g2zmL9Ac0KFIKRqqetxhzNGH3AkMF1BoAkOQVBbL
-	 cowhZKUf3qVEKNRyETqjX5dis9Z3/ZW1g/Z9sI5fFtJN3QPXrzzpAElmNCeWYNP+Fn
-	 Vi75+mBOzeOeUA8c1w7JYfhmZ4pUE+PAJ8Y6UJngcPCPbdPt0qxkq85CIDDO8iMU4G
-	 60eoRM4cq1PKG13D2CB21c88OL+0Su8uRLCU21p6y0LskY6EYzvKLW6NZSUVsIinLF
-	 Ud0RMc8zi12I+GrAKGQIBrwPAjKGQts/q1YdSg7OUbXai3zMkynzUiMkoA8Wf855pF
-	 6MtRTSrPZN+3g==
-Message-ID: <7856ccb5-d848-416a-bb6c-e3bcdc03aebe@kernel.org>
-Date: Fri, 7 Mar 2025 11:52:52 +0100
+	s=arc-20240116; t=1741344947; c=relaxed/simple;
+	bh=725mOYdUznaKxvS195LOncTGxZlN7PlASqq6UwrH2dc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DM1n1UEwRfZxcu/OHym7UyOJn42BE9gFP4Nt760L5W0U7fW5iLSb2qgVc1FhRex/zeiXu2Js7RvHvk8YZAch+BU9UqSUDRCazKZrefJeIzZAF7DOq2lmWeYlrib3XOl1E3RXRnbd3L2y1PHVpU6n3FwJzX+bibjEyPhmCLEXUr8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cDMcrW7D; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741344945; x=1772880945;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=725mOYdUznaKxvS195LOncTGxZlN7PlASqq6UwrH2dc=;
+  b=cDMcrW7D/XRwm9K+IK9n1XO47EZXEVZ/BjDoHd+0SUq+Ij7VzsjaI2hS
+   wfehXKTG9YINccUDYZHmvXa2M+GLgJ5XPY+geapOJGRHKIkKo6EW1nPlD
+   /kIBda8gLjL7MZmBOkCmwZdBMzVNXQiGcFIzTJ8KizdMruyne0S/rOkmf
+   s0GKeYlDATaA1OiR41n+lQt8fO7I5YiO0mTlZGCvI9bwRo1Y9TRHxd0w+
+   d8xR3RZEMGEl17tNa5c1nLSeC60DJeWRTC0dl4yHUF4GAq/PVkBnyDSRb
+   f5AX9xaUA/hSj3uxM7MdVESfbSUfDLchJYEvutMK4YxtG3K6LoE+39K4L
+   A==;
+X-CSE-ConnectionGUID: x7xeseviQ+uPky+lSCMBkA==
+X-CSE-MsgGUID: Z+AHZlQxTwWP6Hu6B99K7Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11365"; a="41643998"
+X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
+   d="scan'208";a="41643998"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 02:55:43 -0800
+X-CSE-ConnectionGUID: TL/U/4vPSECy/PUmvF8lcQ==
+X-CSE-MsgGUID: YNbqV3wXSm6WiFNorJcMKA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,229,1736841600"; 
+   d="scan'208";a="124329005"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Mar 2025 02:55:40 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id CF91211F9DA;
+	Fri,  7 Mar 2025 12:55:35 +0200 (EET)
+Date: Fri, 7 Mar 2025 10:55:35 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: "Yan, Dongcheng" <dongcheng.yan@intel.com>
+Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+	hverkuil@xs4all.nl, ricardo.ribalda@gmail.com,
+	bingbu.cao@linux.intel.com, tomi.valkeinen@ideasonboard.com,
+	jacopo.mondi@ideasonboard.com, daxing.li@intel.com,
+	dongcheng.yan@linux.intel.com, ong.hock.yu@intel.com,
+	balamurugan.c@intel.com, wei.a.fu@intel.com, xiaohong.zou@intel.com
+Subject: Re: [PATCH v7] media: i2c: add lt6911uxe hdmi bridge driver
+Message-ID: <Z8rQp2OCPZbvSnjH@kekkonen.localdomain>
+References: <20250306060427.859679-1-dongcheng.yan@intel.com>
+ <Z8q-zqzAXPUzkUmP@kekkonen.localdomain>
+ <c20e68e2-11ef-4f35-a3ca-45d0435e2e22@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 00/16] Introduce and use generic parity16/32/64 helper
-To: Kuan-Wei Chiu <visitorckw@gmail.com>, "H. Peter Anvin" <hpa@zytor.com>,
- longman@redhat.com, llong@redhat.com
-Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org, joel@jms.id.au,
- eajames@linux.ibm.com, andrzej.hajda@intel.com, neil.armstrong@linaro.org,
- rfoss@kernel.org, maarten.lankhorst@linux.intel.com, mripard@kernel.org,
- tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
- dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
- hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
- vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
- davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
- parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
- johannes@sipsolutions.net, gregkh@linuxfoundation.org, yury.norov@gmail.com,
- akpm@linux-foundation.org, alistair@popple.id.au, linux@rasmusvillemoes.dk,
- Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
- jernej.skrabec@gmail.com, kuba@kernel.org, linux-kernel@vger.kernel.org,
- linux-fsi@lists.ozlabs.org, dri-devel@lists.freedesktop.org,
- linux-input@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mtd@lists.infradead.org, oss-drivers@corigine.com,
- netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
- brcm80211@lists.linux.dev, brcm80211-dev-list.pdl@broadcom.com,
- linux-serial@vger.kernel.org, bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
- Yu-Chun Lin <eleanor15x@gmail.com>
-References: <20250306162541.2633025-1-visitorckw@gmail.com>
- <F134DC06-54DE-4B8E-8AE0-3740275835C1@zytor.com>
- <Z8q6LlkQDG95Amgw@visitorckw-System-Product-Name>
-Content-Language: en-US
-From: Jiri Slaby <jirislaby@kernel.org>
-Autocrypt: addr=jirislaby@kernel.org; keydata=
- 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
-In-Reply-To: <Z8q6LlkQDG95Amgw@visitorckw-System-Product-Name>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c20e68e2-11ef-4f35-a3ca-45d0435e2e22@intel.com>
 
-On 07. 03. 25, 10:19, Kuan-Wei Chiu wrote:
-> I used to believe that casting a boolean variable to int would always
-> result in 0 or 1 until a few months ago when Waiman Long explicitly
-> pointed out during a review that C does not guarantee this.
+Hi Dongcheng,
+
+On Fri, Mar 07, 2025 at 06:00:56PM +0800, Yan, Dongcheng wrote:
+> >> +		/* MIPI Clock Rate = ByteClock × 4, defined in lt6911uxe spec */
+> > 
+> > What does the byte clock actually signify? Bytes per second on CSI-2?
+> > 
 > 
-> So I revisited the C11 standard, which states that casting to _Bool
-> always results in 0 or 1 [1]. Another section specifies that bool,
-> true, and false are macros defined in <stdbool.h>, with true expanding
-> to 1 and false to 0. However, these macros can be #undef and redefined
-> to other values [2].
+> This is more like a DSI related calculation, I think lontium uses the
+> expression related to HDMI and DSI in the video field.
+> dsi_clk = Bitclk / 2 = Byteclk * 4, dsi_clk is mipi clk, which is used
+> as link_freq.
+> Here Bitclk = HTS * VTS * fps * bpp / lanes.
 
-Note that we do not have/use user's stdbool.h in kernel at all. Instead, 
-in linux/stddef.h, we define:
-enum {
-         false   = 0,
-         true    = 1
-};
+The PHY for CSI-2 and DSI is the same, so the same formula is applicable.
+The chip is HDMI/CSI-2 (isn'it it?), so I wonder how DSI is related to
+this. How many HDMI lanes are in use?
 
-So all is blue.
-
-thanks,
 -- 
-js
-suse labs
+Regards,
+
+Sakari Ailus
 
