@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-27823-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27824-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D94B7A56468
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 10:55:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0F58A5646D
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 10:58:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CDA8B3B4301
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 09:54:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B01233B1003
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 09:58:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B8EC20C48A;
-	Fri,  7 Mar 2025 09:55:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C498A20C49E;
+	Fri,  7 Mar 2025 09:58:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A29206F2E;
-	Fri,  7 Mar 2025 09:55:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6075F204C2A;
+	Fri,  7 Mar 2025 09:58:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741341303; cv=none; b=rOuwG7/0LO77FN7FLpFiu/vtu607tlpQJ9CELA9OB+equDAcuoqGJJennwDifklaY8vK48ITC1tSQ+3YwKwMxWyVp9e3exAAeepPCnfIHpYMTGJP8pW328NlIRGmuUFyStOI+ZsMIGTOZO8Ubu+FmW9Rzr/0K5GcMSqGU9KvSr4=
+	t=1741341489; cv=none; b=plPmXjFikR8v7a3YYSrxoQ2wihLMzqHmRK84scAjQ3YFe34BNsAgattNTYlf4jpNH/UHaoNYmJyyB2Q9QERtQgkCutzsL5HeRX0/UXSXkZuyb7WoDWK5R7TxQ6J5e/a7sFvz/Ji8IAMV+ELaV7S+6xb0XXd7rcJrSZflhxsrorE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741341303; c=relaxed/simple;
-	bh=ZZBf7Q2DqrgOZ/Lx4lxpMhcpbpCClO+/EL2j9nTpWeA=;
+	s=arc-20240116; t=1741341489; c=relaxed/simple;
+	bh=ucr+bccldZkrqFJ4ccH1dQQdTKxMqH0tvhvJJjrQmTI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fy08FA0C4nfcPRI51bI7uu0Gm1hKv70jU3eDYSP2siv7Y/X223W4XW7PUR3MwWuBEwQqL8TLEFaNjLEKonmrdkgZSq3ZuLmqPq2DYfn0pyn3fzJv0qMDib1EKz5R/SyVda+BtwlDThgQCtAlXpZDgQMJNZjJZFhy8EGgfE6RM/U=
+	 In-Reply-To:Content-Type; b=CgXfCI/gFzuJMfU79VGLhGx8HiHrWMSJ3Ap05DQAu0MAinOdY0E7Hb3gBwuFxIzjz1heoTOR7SC4mIemUawdA8vYmp4BTkZ1AVPWBS24fct+muGI32IIq4Ndr4FqgSof6YtQIWUXYLp2xxtNkgKOvzLQlrYjVPsjPwCNSlUqrG0=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3250C4CED1;
-	Fri,  7 Mar 2025 09:54:59 +0000 (UTC)
-Message-ID: <8cb4af0d-935a-4305-a204-9c2f187e0593@xs4all.nl>
-Date: Fri, 7 Mar 2025 10:54:58 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A069C4CED1;
+	Fri,  7 Mar 2025 09:58:07 +0000 (UTC)
+Message-ID: <a4f08c9c-b74a-486f-915d-6b0e06e22d7b@xs4all.nl>
+Date: Fri, 7 Mar 2025 10:58:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,18 +38,19 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] media: platform: synopsys: hdmirx: Fix compilation on
- 32bit arches
+Subject: Re: [PATCH next] media: synopsys: hdmirx: Fix signedness bug in
+ hdmirx_parse_dt()
 To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Shreeya Patel <shreeya.patel@collabora.com>, Heiko Stuebner
- <heiko@sntech.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- jose.abreu@synopsys.com, nelson.costa@synopsys.com,
- shawn.wen@rock-chips.com, nicolas.dufresne@collabora.com,
- Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: kernel@collabora.com, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
- Tim Surber <me@timsurber.de>
-References: <20250307092113.646831-1-dmitry.osipenko@collabora.com>
+ Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Shreeya Patel <shreeya.patel@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Dingxian Wen <shawn.wen@rock-chips.com>, linux-media@vger.kernel.org,
+ kernel@collabora.com, linux-kernel@vger.kernel.org,
+ kernel-janitors@vger.kernel.org
+References: <7ec94789-305c-4de4-b477-c0eb839170e5@stanley.mountain>
+ <54d5eef8-66a9-44aa-9e9b-0324d6fee46d@collabora.com>
+ <4a50949d-e472-4942-9152-3e5a54c6b076@stanley.mountain>
+ <51d0781b-1da4-46c6-b772-718d7833798e@collabora.com>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -95,47 +96,46 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <20250307092113.646831-1-dmitry.osipenko@collabora.com>
+In-Reply-To: <51d0781b-1da4-46c6-b772-718d7833798e@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Dmitry,
-
-On 07/03/2025 10:21, Dmitry Osipenko wrote:
-> The pixelclock is specified as 64bit integer and for this driver it
-> won't be above 600MHz. Fix the 64bit division of the pixclock for 32bit
-> kernel builds.
+On 07/03/2025 10:47, Dmitry Osipenko wrote:
+> On 3/7/25 12:45, Dan Carpenter wrote:
+>> On Fri, Mar 07, 2025 at 12:36:47PM +0300, Dmitry Osipenko wrote:
+>>> On 3/7/25 12:30, Dan Carpenter wrote:
+>>>> diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+>>>> index 4ffc86ad6c35..e0d3fed87a92 100644
+>>>> --- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+>>>> +++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+>>>> @@ -154,7 +154,7 @@ struct snps_hdmirx_dev {
+>>>>  	bool hpd_trigger_level_high;
+>>>>  	bool tmds_clk_ratio;
+>>>>  	bool plugged;
+>>>> -	u32 num_clks;
+>>>> +	int num_clks;
+>>>>  	u32 edid_blocks_written;
+>>>>  	u32 cur_fmt_fourcc;
+>>>>  	u32 color_depth;
+>>>
+>>> Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>>>
+>>> Would be also good to return the original error code. There is no need
+>>> to check for the < 1 clock, it should be the < 0 check. Can be done in a
+>>> separate patch later. Thanks for the fix!
+>>
+>> I'm not very familiar with th edevm_clk_bulk_get_all() function and it's
+>> not documented.  But clk_bulk_get_all() does return zero, so I can see why
+>> people would be confused.
 > 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202503070743.WnRxStlk-lkp@intel.com/
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> We will take care of it, thanks again.
 > 
-> diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-> index 4d42da7255f3..7e342bbde967 100644
-> --- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-> +++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-> @@ -291,7 +291,7 @@ static void hdmirx_get_timings(struct snps_hdmirx_dev *hdmirx_dev,
->  	hfp = htotal - hact - hs - hbp;
->  	vfp = vtotal - vact - vs - vbp;
->  
-> -	fps = (bt->pixelclock + (htotal * vtotal) / 2) / (htotal * vtotal);
-> +	fps = ((u32)bt->pixelclock + (htotal * vtotal) / 2) / (htotal * vtotal);
 
-I just merged:
-
-https://patchwork.linuxtv.org/project/linux-media/patch/20250306-synopsys-hdmirx-fix-64-div-v1-1-dd5ff38bba5e@kernel.org/
-
-So you can either leave that patch in, or provide a patch on top.
+I'm confused. Is Dan's patch correct or is more work needed? If more work is
+needed, then I prefer to have a single patch correcting the devm_clk_bulk_get_all()
+handling.
 
 Regards,
 
 	Hans
-
->  	bt->width = hact;
->  	bt->height = vact;
->  	bt->hfrontporch = hfp;
-
 
