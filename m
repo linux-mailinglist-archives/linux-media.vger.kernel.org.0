@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-27795-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27796-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9F0A56209
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 08:52:10 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF7E0A5620D
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 08:53:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 73D34175C1C
-	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 07:52:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CD1587A4F0B
+	for <lists+linux-media@lfdr.de>; Fri,  7 Mar 2025 07:52:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 259CC1A9B4C;
-	Fri,  7 Mar 2025 07:51:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A5EE1AA7BF;
+	Fri,  7 Mar 2025 07:53:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ga9J963q"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B2zT1gS6"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DD7E1A4E98;
-	Fri,  7 Mar 2025 07:51:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925811632C8;
+	Fri,  7 Mar 2025 07:53:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741333918; cv=none; b=gF8/fLVUlsYl+qBgeWjezkxuNOeU4f9u47vDh7C0FZnvGx+Y8MFBuHGXaL2/oNWxHu/EwEIVZR0SYq5RAOXYkRsK+rlFqvS0B7iVItpnrRKS2N7FaB44+R1vci2Avu04m0L6WwqG4y4O5ntqfiEAf659FbM65frWb+8HlCiIt08=
+	t=1741334010; cv=none; b=UCoV8hfkI+0r4PAGz//Br3D1gG/D6Tp9nt1EK0bm/fRECph6eefT0FMP+OkNNA4zV9x8KPqFCoiB12eMYg1qg+BBA/p/3kNirQWHObhXRQqjeDKZ5qR+OkpAIVSBfl65NYM0uUS4vUSiOCkIzwvQ2eP09IERZzL1tNCiyLm0ckA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741333918; c=relaxed/simple;
-	bh=ieDYzfj//1cDvOJNqapCIuJLLqt1QzcZn23Zs1tsHJE=;
+	s=arc-20240116; t=1741334010; c=relaxed/simple;
+	bh=lTRXkcQG9Z1B5zmCxuNgpQ9Vtwor9EZ3D+xgKciSc/E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NhwylaFTEXihuSmJElX1tbFOIysjDpXMgnRU4ZZgUUui7i2hu67PUh4Fc9HydlpTXOe7gPluO2ld2YmIoCXypnSPz7lPB++PYpaC9A0fDAYq0N1T+u3XLYu7baJ+hfcBatkGG3SgWD52XBKAIA8V29dZyKvXZ81bF+A3KPcVX7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ga9J963q; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04BCAC4CEE2;
-	Fri,  7 Mar 2025 07:51:57 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=ntwGncdXIu66yvfY575091329+76qo9c5xMMyKGhEOJ2kwa41035GbWdMSvKSrfL93PeY713atB2BalxvAGZ/hQJO0uBUfrDRZBPcFFIDOOVAZshbE/fMuDokwY3dUpeHnJYwGT2cusrZdPGyqyjbfVbnydFVQryaePe6V0iHJk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B2zT1gS6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13B65C4CED1;
+	Fri,  7 Mar 2025 07:53:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741333917;
-	bh=ieDYzfj//1cDvOJNqapCIuJLLqt1QzcZn23Zs1tsHJE=;
+	s=k20201202; t=1741334010;
+	bh=lTRXkcQG9Z1B5zmCxuNgpQ9Vtwor9EZ3D+xgKciSc/E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ga9J963q3jHOvwg8Bwp0RNJuOWzcccUyRJWI2xTjYAg5QED3WlCMzuoONL6CE4NrB
-	 RifjplPbC03fT8ktbrWoyz249WfmVfgjRf3O6UrugHTkXn4sixProkryssCrhdQQaj
-	 8pKZLeYqnwDxdhgyaCyqdM6MNoIo/iexGkKUHjYp81LfeILY6TGNMXar+Tytzwb4dR
-	 bX2ikQ8Y6wSJpiOCLZ1M8IuOfU71Cq1GV4F6Unfiza/aWF3U+smLBCRHIYplZoc8l7
-	 IS/GauBEpOHoIXSulE7RUTkl2/MUcNBUQIj+OEuVarAgNPfq9mWkGRvQ8CNo3K7kyE
-	 36uHSDM3ikbDw==
-Date: Fri, 7 Mar 2025 08:51:54 +0100
+	b=B2zT1gS6DJ5D50DqZd3GD9wAcgplYjmWgsvFHnzQW1x8kf9QLZYESHj3sd3d4Qtoo
+	 Jq37CyYmeOraCNmW8lbW/vNyB3fvN9t3KpVpflN+a4AqEO2gTP9uzKr+x442QQaCtl
+	 QNnAEAuLBsrE27hQ4Vglt83i8N+j4OKdjAx59msMqb96GMX72gceNwwe4Jyb2qtwSf
+	 /qV1I6F+3ASeaQkt+6WqQWArYcmfoew64+Mo0gwu1nFY56KuHYZgyREp0j4h7MAllx
+	 l1hJNJ6ObadqOLLz1GfJdNM+VkSjlsOyzN+kA5Cy8u53XOD3r93GSmN1wWoYZ2r4wZ
+	 T9imrFN4M17pw==
+Date: Fri, 7 Mar 2025 08:53:26 +0100
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Michael Riesch <michael.riesch@wolfvision.net>
 Cc: Mehdi Djait <mehdi.djait@linux.intel.com>, 
@@ -57,11 +57,11 @@ Cc: Mehdi Djait <mehdi.djait@linux.intel.com>,
 	Philipp Zabel <p.zabel@pengutronix.de>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v5 03/11] media: dt-bindings: media: add bindings for
- rockchip rk3568 vicap
-Message-ID: <20250307-pink-dalmatian-of-kindness-f87ad2@krzk-bin>
+Subject: Re: [PATCH v5 04/11] media: dt-bindings: media: add bindings for
+ rockchip mipi csi host
+Message-ID: <20250307-cunning-glorious-pig-80a99a@krzk-bin>
 References: <20250306-v6-8-topic-rk3568-vicap-v5-0-f02152534f3c@wolfvision.net>
- <20250306-v6-8-topic-rk3568-vicap-v5-3-f02152534f3c@wolfvision.net>
+ <20250306-v6-8-topic-rk3568-vicap-v5-4-f02152534f3c@wolfvision.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -70,139 +70,53 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250306-v6-8-topic-rk3568-vicap-v5-3-f02152534f3c@wolfvision.net>
+In-Reply-To: <20250306-v6-8-topic-rk3568-vicap-v5-4-f02152534f3c@wolfvision.net>
 
-On Thu, Mar 06, 2025 at 05:56:04PM +0100, Michael Riesch wrote:
-> Add documentation for the Rockchip RK3568 Video Capture (VICAP) unit.
+On Thu, Mar 06, 2025 at 05:56:05PM +0100, Michael Riesch wrote:
+> Add documentation for the Rockchip RK3568 MIPI CSI-2 Host unit.
 > 
 > Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
-
-subject: only one media prefix, the first
-
-A nit, subject: drop second/last, redundant "bindings". The
-"dt-bindings" prefix is already stating that these are bindings.
-See also:
-https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
-
 > ---
->  .../bindings/media/rockchip,rk3568-vicap.yaml      | 169 +++++++++++++++++++++
+>  .../bindings/media/rockchip,rk3568-mipi-csi.yaml   | 114 +++++++++++++++++++++
 >  MAINTAINERS                                        |   1 +
->  2 files changed, 170 insertions(+)
+>  2 files changed, 115 insertions(+)
 > 
+
+Same comments about subject.
+
+> diff --git a/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi.yaml b/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi.yaml
+> new file mode 100644
+> index 000000000000..900f5a32dab9
+> --- /dev/null
 
 ...
 
-> +  clocks:
-> +    items:
-> +      - description: ACLK
-> +      - description: HCLK
-> +      - description: DCLK
-> +      - description: ICLK
-> +
-> +  clock-names:
-> +    items:
-> +      - const: aclk
-> +      - const: hclk
-> +      - const: dclk
-> +      - const: iclk
-> +
-> +  rockchip,cif-clk-delaynum:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 0
-> +    maximum: 127
-> +    description:
-> +      Delay the DVP path clock input to align the sampling phase, only valid
-> +      in dual edge sampling mode. Delay is zero by default and can be adjusted
-> +      optionally.
-
-default: 0
-
-> +
-> +  iommus:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    items:
-> +      - description: ARST
-> +      - description: HRST
-> +      - description: DRST
-> +      - description: PRST
-> +      - description: IRST
-> +
-> +  reset-names:
-> +    items:
-> +      - const: arst
-> +      - const: hrst
-> +      - const: drst
-> +      - const: prst
-> +      - const: irst
-> +
-> +  rockchip,grf:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: Phandle to general register file used for video input block control.
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: The digital video port (DVP, a parallel video interface).
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              bus-type:
-> +                enum: [5, 6]
-> +
-> +            required:
-> +              - bus-type
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: Internal port connected to a MIPI CSI-2 host.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-
-Hm, does it actually work? graph/port does not allow any other
-properties. You should use graph/port-base and probably still narrow
-lanes for both of port@0 and port@1.
-
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - ports
-> +
 > +additionalProperties: false
 > +
 > +examples:
 > +  - |
 > +    #include <dt-bindings/clock/rk3568-cru.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
 > +    #include <dt-bindings/power/rk3568-power.h>
-> +    #include <dt-bindings/media/video-interfaces.h>
 > +
 > +    parent {
-
-soc {
-
 > +        #address-cells = <2>;
 > +        #size-cells = <2>;
+> +
+> +        csi: csi@fdfb0000 {
+> +            compatible = "rockchip,rk3568-mipi-csi";
+> +            reg = <0x0 0xfdfb0000 0x0 0x10000>;
+> +            clocks = <&cru PCLK_CSI2HOST1>;
+> +            phys = <&csi_dphy>;
+> +            power-domains = <&power RK3568_PD_VI>;
+> +            resets = <&cru SRST_P_CSI2HOST1>;
+> +            status = "disabled";
+
+Drop
+
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
 
 Best regards,
 Krzysztof
