@@ -1,133 +1,102 @@
-Return-Path: <linux-media+bounces-27890-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27892-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FC4FA57E39
-	for <lists+linux-media@lfdr.de>; Sat,  8 Mar 2025 21:45:22 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF1AA57EF7
+	for <lists+linux-media@lfdr.de>; Sat,  8 Mar 2025 22:48:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3AC017A6DB2
-	for <lists+linux-media@lfdr.de>; Sat,  8 Mar 2025 20:44:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1B78E3A9885
+	for <lists+linux-media@lfdr.de>; Sat,  8 Mar 2025 21:48:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C72921323B;
-	Sat,  8 Mar 2025 20:45:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECEAA212D67;
+	Sat,  8 Mar 2025 21:48:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kz1LBSgr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GaGOmCI7"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4BEA20F07F;
-	Sat,  8 Mar 2025 20:45:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473AA2BB13;
+	Sat,  8 Mar 2025 21:48:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741466702; cv=none; b=e/juhXs11IIPryM61VTZMh138WbNCz3h9hDXHLMXuAMHC4ppr2j6xK4h7rxCG7McAxxan5VCm6cQX4HWx6HYhcoyKpx71gu1SBLKm5gfVFiflT32ktvDN2Q6wwFEVOAU43mJB+KqU9bfmXTFUVqNxNR12h2fkSXHAE7FW9VX+Vk=
+	t=1741470491; cv=none; b=iLnGmAHtAFJB4/SoQGymsSNrJHwEO5GzQc2L/JRi2dkqVNYD4yERa/fYBqrDEXXOyQQkP7uXEFoNSzSGUtXoUxDOnBUFMTFqWCftMs0CE60UmOajjNm5OgsyM5yTYFqy3Y4qBx+A/PT4AsDnfg9tOOcSpqIA5jVTyBjuVde6gDg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741466702; c=relaxed/simple;
-	bh=10nSWWi5MGce0BH+GQkLNo0/x4b1dtShGmGc6K9YmIY=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=FNvim2VRqGGPkjrKT1cWMSGl3P1og5h574f/liHOvBaqdWS0x5c5vpRaJOik0Alt+fKJEDSCzBh4UnjptZTM60YEUwZJHMYq4uQG0K27ZDV3RfuP9Hivjr06klF7NifeeqD4JWiOeEm4kB6TYoKkAkfQZbfWzVTkMIi0q7NHLJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kz1LBSgr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2458CC4CEE0;
-	Sat,  8 Mar 2025 20:45:01 +0000 (UTC)
+	s=arc-20240116; t=1741470491; c=relaxed/simple;
+	bh=zUId9PjSmn0obYH/MQAPLhkKVd5X65P4v7UboY1hDOU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=UN4vsuYwGF3yX+rJHGB6YzIlCXC0n7uccWN7c7Kd5nZPsq4QO/TFb4b8E4hiSBgjwqW65bFyKAqYOt27ATwga2u2kOwrqjcAncN5TX29crNLfRVp2v+0+truzg8+nmtJqNgR9a/Uo+i6bKjyj/6VLH3VyQJrgzqjCBdNFJWBQN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GaGOmCI7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id AAE63C4CEE0;
+	Sat,  8 Mar 2025 21:48:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741466701;
-	bh=10nSWWi5MGce0BH+GQkLNo0/x4b1dtShGmGc6K9YmIY=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=Kz1LBSgrogv+lhsn7L7DdYBf6ZHwHChsXvgRU+mU6ABQDwN9mDk8O0mvvImrQfxA3
-	 +6cJoz5rO/+wVrrqWjG+CMsxuxz7PIKH+Habq2cisTL/QpOcjfCJmolFfR62CGiIUf
-	 Jcvd9uykI4kWXvDLSgcD4uSC9YlpPCBPq0wtPBt93UIxRBCqbxGRn18MahlajdRYz2
-	 JtIts04s1WUZ7r3BxY1lnOV9mlm3OD29pY7V4AaPgIiO/2c+IoOchKcXVvc3pP8SVx
-	 GZ9HsT6YFxXfc1f481f1IXCoEPi2G+pq4FoiOAxg91rko91KYb6ayRgXSws+ijHsIk
-	 HgvPceEkU+wXA==
-Date: Sat, 08 Mar 2025 14:44:59 -0600
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=k20201202; t=1741470490;
+	bh=zUId9PjSmn0obYH/MQAPLhkKVd5X65P4v7UboY1hDOU=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=GaGOmCI7zEC1lNgGaQz9b82iWHu+EOBhuJnMKulktCqkNAlemy8ivEzO7jz7a5iSy
+	 FAegUYgw2ho3xhNfHx+43FAb66k2Sua4GtpgCNW1A7ILznHxPq1aqHMfWMbrtw3fzC
+	 TEu2X/ZVjmyfRGJ+QsWNqnVcOOKbGUd5uq2KiqA5XXFgSHUlGfxVz/xfNt4GGNnzJR
+	 hCXbjAMyuRG/6V6ctllEGGrjY0aiiDZXEomzigf6RsJ9Xx/Qks1LF8YjiUVgcsSDRu
+	 CtGDr1GntpSCqytGduloUWHeLhpovF1ygw/ZFtz2H2aTi7HTd8uRsjamMqhgMy2HRb
+	 OdcF9bO3VjqSw==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B0C6C282EC;
+	Sat,  8 Mar 2025 21:48:10 +0000 (UTC)
+From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
+Subject: [PATCH RESEND 0/4] media: i2c: imx214: Add support for 23.88MHz
+ clock
+Date: Sat, 08 Mar 2025 22:47:54 +0100
+Message-Id: <20250308-imx214_clk_freq-v1-0-467a4c083c35@apitzsch.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
- Geert Uytterhoeven <geert+renesas@glider.be>, 
- Heiko Stuebner <heiko@sntech.de>, Dan Carpenter <dan.carpenter@linaro.org>, 
- Cosmin Tanislav <cosmin.tanislav@analog.com>, linux-kernel@vger.kernel.org, 
- Ross Burton <ross.burton@arm.com>, Ricardo Ribalda <ribalda@chromium.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Will Deacon <will@kernel.org>, 
- Bjorn Andersson <quic_bjorande@quicinc.com>, 
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- linux-arm-kernel@lists.infradead.org, 
- Javier Carrasco <javier.carrasco@wolfvision.net>, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
- Bartosz Golaszewski <brgl@bgdev.pl>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Julien Massot <julien.massot@collabora.com>, linux-gpio@vger.kernel.org, 
- Catalin Marinas <catalin.marinas@arm.com>, 
- Eric Biggers <ebiggers@google.com>, Conor Dooley <conor+dt@kernel.org>, 
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+To: Ricardo Ribalda <ribalda@kernel.org>, 
  Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Ihor Matushchak <ihor.matushchak@foobox.net>, 
- Taniya Das <quic_tdas@quicinc.com>, Mark Brown <broonie@kernel.org>, 
- devicetree@vger.kernel.org, 
- Kieran Bingham <kieran.bingham@ideasonboard.com>, 
- =?utf-8?q?N=C3=ADcolas_F_=2E_R_=2E_A_=2E_Prado?= <nfraprado@collabora.com>, 
- linux-staging@lists.linux.dev, Biju Das <biju.das.jz@bp.renesas.com>, 
- linux-media@vger.kernel.org, Tommaso Merciai <tomm.merciai@gmail.com>, 
- Linus Walleij <linus.walleij@linaro.org>, 
- Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>, 
- Umang Jain <umang.jain@ideasonboard.com>, 
- Dongcheng Yan <dongcheng.yan@intel.com>, 
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
- Zhi Mao <zhi.mao@mediatek.com>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Liam Girdwood <lgirdwood@gmail.com>, Hans Verkuil <hverkuil@xs4all.nl>
-To: Cosmin Tanislav <demonsingur@gmail.com>
-In-Reply-To: <20250308183410.3013996-10-demonsingur@gmail.com>
-References: <20250308183410.3013996-1-demonsingur@gmail.com>
- <20250308183410.3013996-10-demonsingur@gmail.com>
-Message-Id: <174146669769.3550313.9537741171612632999.robh@kernel.org>
-Subject: Re: [RFC PATCH 09/24] dt-bindings: media: i2c: max96714: make
- i2c-gate conditional on compatible
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1741470489; l=883;
+ i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
+ bh=zUId9PjSmn0obYH/MQAPLhkKVd5X65P4v7UboY1hDOU=;
+ b=kuBfcjUn9LmwUeVpxN9JMXjKpC9oj0KgSPIF23LkhTf4kcucoLbcuUuXdPD1nrIiL6oLkcO+J
+ 2jDHZ+cYj/3BXn2MDnuYRTe9FSn8xeDi56og5e7IYivKLsZXM3Dx3Zz
+X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
+ pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
+X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
+ auth_id=142
+X-Original-From: =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+Reply-To: git@apitzsch.eu
 
+The imx214 driver currently supports only a 24MHz external clock. But
+there are devices, like Qualcomm-MSM8916-based phones, which cannot
+provide this frequency. To make the sensor usable by those devices, add
+support for 23.88MHz clock.
 
-On Sat, 08 Mar 2025 20:33:38 +0200, Cosmin Tanislav wrote:
-> Devices to be added in following patches don't use I2C gate.
-> 
-> Make this property conditional on the compatible strings.
-> 
-> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
-> ---
->  .../bindings/media/i2c/maxim,max96714.yaml    | 21 ++++++++++++-------
->  1 file changed, 13 insertions(+), 8 deletions(-)
-> 
+Signed-off-by: André Apitzsch <git@apitzsch.eu>
+---
+André Apitzsch (4):
+      media: i2c: imx214: Calculate link bit rate from clock frequency
+      media: i2c: imx214: Prepare for variable clock frequency
+      media: i2c: imx214: Read clock frequency from device tree
+      media: i2c: imx214: Add support for 23.88MHz clock
 
-My bot found errors running 'make dt_binding_check' on your patch:
+ drivers/media/i2c/imx214.c | 188 +++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 146 insertions(+), 42 deletions(-)
+---
+base-commit: 942a51cca29ed20f23ba37f34ff52a6af32ab6c4
+change-id: 20250205-imx214_clk_freq-3bf6a05de35a
 
-yamllint warnings/errors:
+Best regards,
+-- 
+André Apitzsch <git@apitzsch.eu>
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/maxim,max96714.example.dtb: deserializer@28: 'i2c-gate' does not match any of the regexes: 'pinctrl-[0-9]+'
-	from schema $id: http://devicetree.org/schemas/media/i2c/maxim,max96714.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250308183410.3013996-10-demonsingur@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
 
 
