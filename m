@@ -1,144 +1,327 @@
-Return-Path: <linux-media+bounces-27861-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27862-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9AB9A57C78
-	for <lists+linux-media@lfdr.de>; Sat,  8 Mar 2025 18:44:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 918B2A57CD6
+	for <lists+linux-media@lfdr.de>; Sat,  8 Mar 2025 19:34:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 78E647A5B48
-	for <lists+linux-media@lfdr.de>; Sat,  8 Mar 2025 17:43:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BF11E16C9AE
+	for <lists+linux-media@lfdr.de>; Sat,  8 Mar 2025 18:34:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD4121EB5C7;
-	Sat,  8 Mar 2025 17:44:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DFDA1F585E;
+	Sat,  8 Mar 2025 18:34:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hr8zAAT7"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iyNlnN1V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C366137E
-	for <linux-media@vger.kernel.org>; Sat,  8 Mar 2025 17:44:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99CA1EB5C3;
+	Sat,  8 Mar 2025 18:34:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741455883; cv=none; b=HdprLeqpioxjjQ/TLtgaPJCsK0Redof8qE0EjX6ooPGdPdLy1XueY9eXJWZ6Wqqu/wGQ+Z2hTPt/5LpaKdcSwGmGwUiM31aN/xZ+/Mq5AxuQ7ilZ/pSKoWEXdahjOEMpFVW8gSYcDfPwLOXBMUrPa6hX0j/EVfFWVqhfoMpIsKM=
+	t=1741458872; cv=none; b=aUay+tLIpmx64Ht/VlEI9Vigem5e+zztqJ7JUaWHYXNQMnquMOsiXNbH0/wmV6qQ5pQjyLRlnl6gIeJ+sFoB3aGMeufGe89M+AWvssy8mg073KFZ8hPToY9CMqJsVFfUBNYzcqNEY69cWjc5AFPx1OyhYOQ/U3/7G9hUbPtpp1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741455883; c=relaxed/simple;
-	bh=q5uR06cY+jAnDp/h7Pi7MuljuNi05KT1CKa+bgbKDWg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FYJhPlfxPZDl3rMS3WSasFhWZNm7X42/JUPkJqKg/tOlFDfstH4oM3GTcSkK2OALwm7Y6udLW3cFftmbyX6BtXJexHfLOyGEcLFFzWdv7A/y0JNvO85iCgt+D7/yH+yUY2Pls0q/UeFfEz4n64FLIL66k7Z6S1zIrPm3FA1z6XE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hr8zAAT7; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 528HIiGc029179
-	for <linux-media@vger.kernel.org>; Sat, 8 Mar 2025 17:44:40 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	OLWsJUYVMSW/2p1uHoMFxNSZXw/knEpq6SZxmuPMxgk=; b=hr8zAAT7JxWPuumA
-	0dsejk28swJhxG9us4KApZ3HAH0vnZ+JaaKCMdX5DQOKTv/SbirUDTXP0W9Tr2zr
-	HI6sBMBkcylxyr1b10qwAegmq5KnXUUAvfyEmLiZrH2GUhbyGv31bAL4HmuPSOXN
-	6i9qzqbXKTeLdM/J2rpzG05uSsdY7D0FOHy0BrjV7SNO5rytaH9Wzpa2bzFN5bTQ
-	5aXvtt1gM0VsYs+qPqCFlIjyrMpMoFJiD9wotMAc5LOxPu4yamIW9JC4nNueiYUr
-	rIhmttB/tUQJVu8lqnLoi5JDSGyBNmDDZNGiNNHYgP317bj97ddZhGR5Fkvesk/V
-	Aq/+UA==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 458ex6rwrf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Sat, 08 Mar 2025 17:44:40 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-6e906c422a9so3897096d6.2
-        for <linux-media@vger.kernel.org>; Sat, 08 Mar 2025 09:44:39 -0800 (PST)
+	s=arc-20240116; t=1741458872; c=relaxed/simple;
+	bh=NZUEtbJq5bu1tJCRUKEYacZtpI3V7Bf5yJ2ZzcKmhtw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cHp91eMpXHaKFPipx/Du7q+DUIeNjpk9bQYnBnAQQgskuGkDqkTNfDiqR6Sk7VvZHw5/ch0oX/i3NOk7/DG8xWD/fvOXiDZG8QFZxytoyvPLjKxK7t2p37xZg6Paz5BUrERZeEryUqpZ/4usuorDSwXuxqwz4xX7KyZxp/U8ktE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iyNlnN1V; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-aaecf50578eso526311766b.2;
+        Sat, 08 Mar 2025 10:34:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741458869; x=1742063669; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cnph4Pjkh7NDe/vO7CvtB8Q7vW3zaR6uOeHtknwGb3Q=;
+        b=iyNlnN1VqV2bIxYwWLokUawiK9IdDV0OxAwQ8TrfAcGS0j4c7cGSv1jAedrDMV4eID
+         Bm5Ocw3iZxlZcR3mTr12VjdjfjgBhs5MNFB87IY7XwRflB0Q1IOzgSzcT1HfxkOOPPw0
+         NruKYPijrmqfuqKZYZ20U/Y+k+XYlWP7rZHtBJadlD6Zo58xuAND4nc9Ski9HL+oH3G5
+         ThNvKybjCSy0iSuJyO21VY7f8q76JyTt9YOvIxncULD49/mKF3TaTuWr/PlveKWZt5t3
+         Liwu2TlPwU5WjkYJ/AcUdGEGVMUdHJvfFDHNhsCeDzbuyf69iNKSEPrCSG30ecBLdalU
+         W9tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741455879; x=1742060679;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OLWsJUYVMSW/2p1uHoMFxNSZXw/knEpq6SZxmuPMxgk=;
-        b=L+pAnkGChRNyR7FyxsEjpc9OTMvbjbQWT8hND+ftoLVHqw2WxgFu/lwZMbjttDwqUZ
-         vTtJ2TX5XLjkL4d8GRjoDlDBn+AEPRYHTFI0Y1MFiGLEgMtPR1maQSNGaudhW+gohxEy
-         kjworUEWcNBCgNbcSQvCxJZftm1+UWZJsSCzbrLCNBr6mnEF+C96j/DAinzJiEQMxUTp
-         OHGZ4uGPVCnEVOnb2DmLwZCWNWv8Ww1Azoac77MU2NPxMn8VkmmZK/bunbwkiJ3nOoaz
-         Fn7/W1FB7iybAiRGbAyzzhFm0Rm0zNQx/qnS7tfZOyNQH9C8a7HfaOm7e2p0RYQ9k+1D
-         xhtA==
-X-Gm-Message-State: AOJu0Yx0HiaREWjg7oaSnFRdNck9/5TIVyeNRvdik1ePMvAxDFiCHL8U
-	6H8LF+2+4jgMvZTfylHTmmsMerxED/VqXAbqYcB6z5ea3f4c22od4XYOw9s39OgR6bwYz+/YIYL
-	G5ascS6TB4R/49hBA7qac3GS8HJlFGN7x4wLv6LPGT00FuA7j4+2TYWH887ZBSg==
-X-Gm-Gg: ASbGncvHMhywRxcMBC0VyFn3qmnWzFNC+oFlRuv81B9OoRKer2XiHaHgXrL1kcTmKaK
-	dSA7YKogkO4tTYp8hH5jUzcKSbsVUHX7KmMZ/WyacvqyaTWfAqL8d/VUJRc2o3ZatZGhnJE2eZz
-	u8jfSIByoG9IvOe9cIo8UCKNdWkgao2RBkhAOxJZUfB/xjGWYPlqpguNapcWdxv4MrQNesgGHVI
-	L8aAnqdmFBLi70NS7yS2YqxdmVmyUZ1v3cUgV+FAVMK/SmM5L7e7wBSrOYQOz2gogDWcggkjxwE
-	Ac1Kl/cTXgHEuFlUG5NeX9wXJ7/Vb9bQoYhbRBaU78AbZ3zIilk7BHYK0rjlcVk0M7Iyig==
-X-Received: by 2002:a05:6214:2b0f:b0:6e8:9ed4:140c with SMTP id 6a1803df08f44-6e908d5c1e8mr18056496d6.7.1741455878799;
-        Sat, 08 Mar 2025 09:44:38 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFLalPszjzFHr1vq7EvScP5oSkuDVHvvjG4hrxJmmcS9aB7d9TRhg4dfW47CYFQsaxmjCd1ng==
-X-Received: by 2002:a05:6214:2b0f:b0:6e8:9ed4:140c with SMTP id 6a1803df08f44-6e908d5c1e8mr18056276d6.7.1741455878331;
-        Sat, 08 Mar 2025 09:44:38 -0800 (PST)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac23973a74bsm455697666b.123.2025.03.08.09.44.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 08 Mar 2025 09:44:37 -0800 (PST)
-Message-ID: <028cb159-badd-4dfc-8a67-35f12cb1a720@oss.qualcomm.com>
-Date: Sat, 8 Mar 2025 18:44:35 +0100
+        d=1e100.net; s=20230601; t=1741458869; x=1742063669;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cnph4Pjkh7NDe/vO7CvtB8Q7vW3zaR6uOeHtknwGb3Q=;
+        b=m0S7avk7WCZL/czkyfmzSOzE/kgDR7eeBhFm6haMSkWN8i3e1qLPDPNbYE9gs4HS2m
+         OfkXdhM6M7A48qNJ1S4ee/t3QlqP+j6U1kM3jgVIiHWbg34MgOFyv/GP5KtpIij4cHAX
+         4/xO9O3aASA0a3wJJFzoDSbzC/rzuXaKYDzDnn4DGwZtdGbZyxeV1n2cJkzN8kSE/R57
+         dnLN/wQcCp1mp2nA29ebUvMM2QW+jwOvMnb8mwBA2C7SH3ghs2Lyrp9O+6EkFTbjg8M5
+         Ku1FdkEC/D8xH9uHlb3wt5xxJVgwwqidWxpzVbUFMk0GNFLAhMRbZ3maeSq4y9Ubx4nz
+         RWRw==
+X-Forwarded-Encrypted: i=1; AJvYcCUNm6c8zKct85ylfkyFBXRrcuCi9jVnIj5zK9nPtncscuKp0XJKPzTxI979EglRcRMFfQB6+oIn0RPEKg==@vger.kernel.org, AJvYcCUuAX40wyGvNnBLD/LczQq9T1OsKHwNdtFyijGw7mC7LddKw0W7a3nHW3kqIXm1Qs2j1ns0VLuA3aoN@vger.kernel.org, AJvYcCW/nJaVrMKKC/zmf2HrKLn1VQYHCUC8EiPjaSmNW4ZhxMjFS8iKUXfROWf9oDAbfVTxrWQ81+RQrJ8mctXD@vger.kernel.org, AJvYcCX00YXCjWDWObc0ivLNx4WMVV6zgZME0pbahxLSIQC1mT4zyue8nNCxvyu/ZlzW+ZEf42h+P1LlDmI9mm8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzgTC4zKdPxbt8Px+62bC8/qn9OlhORzVuwBx43pCe0rLqAXX7Z
+	xIgoMtk7WFADbI9kmGOVdytIn+QC2ypnMcL3eZhQObiT8hk5dwmx
+X-Gm-Gg: ASbGncucz4KkU8/9/qpTCsL180cQiPlaBHWAi1cJSvgqZ/wzjXrR4N8TFRzLCyybhLW
+	SgCPokci3k1mSHOHW0du9HP49oY7x+M09TOFDROsEW7SbSkutonQ9GwvLj6FKT91QnZTUXCygUi
+	2nMrHN4pgdn+RRL1s5veG1kHPx4rHj5hoDB2e1moWq9xcQu7xd4KPnUaQeTRQdIXNdeCACl41Ys
+	jpCL+o0p9tzBnlE8ITuc+Y5cAItysmsnV8f/TXcKLHcoHSgh56/tpYZnOF/7FPYoneFnU2Et4aB
+	FtQ0jIPgxT62zbAP6m537vppkBXWzxDvUEq+K0tSyvhlaGJQi6gj0cWvyw==
+X-Google-Smtp-Source: AGHT+IFlQa0WMb2+wSlKNfDHlapXAeQqbXw15a3LXATAfKzeJE3GltkLPgSDOpIdBu646StR1yvVuA==
+X-Received: by 2002:a17:906:dc8e:b0:abf:6ec7:65e9 with SMTP id a640c23a62f3a-ac252f8f556mr813756566b.43.1741458868737;
+        Sat, 08 Mar 2025 10:34:28 -0800 (PST)
+Received: from demon-pc.localdomain ([188.27.130.21])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac24a84397fsm379693666b.96.2025.03.08.10.34.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 08 Mar 2025 10:34:28 -0800 (PST)
+From: Cosmin Tanislav <demonsingur@gmail.com>
+To: 
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Julien Massot <julien.massot@collabora.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Bjorn Andersson <quic_bjorande@quicinc.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Taniya Das <quic_tdas@quicinc.com>,
+	=?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?= <nfraprado@collabora.com>,
+	Eric Biggers <ebiggers@google.com>,
+	Javier Carrasco <javier.carrasco@wolfvision.net>,
+	Ross Burton <ross.burton@arm.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Zhi Mao <zhi.mao@mediatek.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Ihor Matushchak <ihor.matushchak@foobox.net>,
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev,
+	linux-gpio@vger.kernel.org,
+	Cosmin Tanislav <demonsingur@gmail.com>
+Subject: [RFC PATCH 00/24] media: i2c: add Maxim GMSL2/3 serializer and deserializer drivers
+Date: Sat,  8 Mar 2025 20:33:29 +0200
+Message-ID: <20250308183410.3013996-1-demonsingur@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/8] media: platform: venus: Add optional LLCC path
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Johan Hovold <johan+linaro@kernel.org>
-References: <20250304-b4-linux-media-comitters-sc8280xp-venus-v1-0-279c7ea55493@linaro.org>
- <20250304-b4-linux-media-comitters-sc8280xp-venus-v1-4-279c7ea55493@linaro.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250304-b4-linux-media-comitters-sc8280xp-venus-v1-4-279c7ea55493@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=G8bmE8k5 c=1 sm=1 tr=0 ts=67cc8208 cx=c_pps a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=lSgUl_dL9m1uDwSaNSYA:9 a=QEXdDO2ut3YA:10
- a=pJ04lnu7RYOZP9TFuWaZ:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-GUID: DdN_DrfO04rJ9cMSET-Nw2k7-Gr-IqUF
-X-Proofpoint-ORIG-GUID: DdN_DrfO04rJ9cMSET-Nw2k7-Gr-IqUF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-08_07,2025-03-07_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 phishscore=0
- malwarescore=0 mlxscore=0 suspectscore=0 clxscore=1015 bulkscore=0
- adultscore=0 priorityscore=1501 lowpriorityscore=0 spamscore=0
- impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502100000
- definitions=main-2503080136
+Content-Transfer-Encoding: 8bit
 
-On 4.03.2025 2:07 PM, Bryan O'Donoghue wrote:
-> From: Konrad Dybcio <konradybcio@kernel.org>
-> 
-> Some newer SoCs (such as SM8350) have a third interconnect path. Add
-> it and make it optional.
-> 
-> Signed-off-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> Link: https://lore.kernel.org/r/20230731-topic-8280_venus-v1-4-8c8bbe1983a5@linaro.org
-> Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
+This series adds new drivers for multiple Maxim GMSL2 and GMSL3 devices,
+replacing the few GMSL2 drivers already in upstream, and introducing a
+common framework that can be used to implement such GMSL chips, which
+avoids code duplication while also adding support for previously
+unsupported features.
 
-I'm not sure this is any useful without additional code after all,
-as the LLCC path is a subset of the DDR path, the downstream driver
-likely just increases the bw to LLC itself which then may be
-a bit more slowly
+While the normally acceptable and polite way would be to extend the
+current mainline drivers, the choice was made here to add a totally new
+set of drivers. The current drivers support only a small subset of the
+possible features, and only a few devices, so the end result after
+extending them would in any case be essentially fully rewritten, new
+drivers.
 
-Konrad
+This series depends on these two series:
+ * https://lore.kernel.org/lkml/20250306-fpc202-v9-0-2779af6780f6@bootlin.com
+ * https://lore.kernel.org/lkml/20250228151730.1874916-1-demonsingur@gmail.com
+
+The following deserializers are supported:
+ * MAX96712 (already exists in staging)
+ * MAX96714 (already exists)
+ * MAX96716 (GMSL2)
+ * MAX96724 (part of existing MAX96712 driver)
+ * MAX9296A (GMSL2)
+ * MAX96792A (GMSL3)
+
+The following serializers are supported:
+ * MAX96717 (already exists)
+ * MAX9295A (GMSL2)
+ * MAX96793 (GMSL3)
+
+Missing features:
+ * The current TPG implementation makes use of the V4L2_CID_TEST_PATTERN
+   V4L2 control. With V4L2 streams support added, we would like to hook
+   up TPG using the internal pad feature which has not been accepted
+   upstream yet. We decided to leave TPG out for the moment and add it
+   back after internal pads have been accepted.
+
+Known backward compatibility breakages:
+ * No default routing. Default routing has been intentionally ommitted
+   as the devices support quite complex routing and it would be
+   unfeasible to provide sane defaults for multi-link deserialziers.
+   It is expected that userspace programs would set appropritate
+   routing. 
+
+The following list enumerates new features that are supported by the
+common framework and their respective chip-specific drivers:
+ * Full Streams API support. Most deserializers have support for more
+   than one link, and more than one PHY. Streams support allows
+   configuration of routing between these links and PHYs.
+
+ * .get_frame_desc() support. Both the serializers and deserializers
+   implement this to query and provide frame descriptor data. This is
+   used in features explained in-depth below.
+
+ * .get_mbus_config() support. The deserializers implement this to allow
+   upstream devices to query the link frequency of its pads.
+
+ * Address translation with I2C ATR for the serializers.
+
+ * I2C MUX where supported by the hardware for deserializers, otherwise
+   I2C ATR translation - some deserializers cannot do muxing since I2C
+   communication channel masking is not available per-link, and the only
+   other way to select links is to turn them off, causing link resets.
+   For such cases, I2C ATR is used to change the address of
+   the serializers at probe time.
+
+ * Automatic VC remapping on the deserializers. VCs are picked so that
+   if they were unique on the sink pad, they will end up as unique on
+   the source pad they are routed to too, prioritizing using the same
+   VC ID as the sink pad, to facilitate the possibility of using tunnel
+   mode.
+
+ * Automatic pixel mode / tunnel mode selection. Tunnel mode is used
+   when VC IDs do not need to be changed and all hardware supports
+   tunnel mode, otherwise, pixel mode is used. The serializers are
+   automatically switched between the two by using a private API.
+
+ * Automatic double mode selection. In pixel mode, double mode can be
+   used to pack two pixels into a single data unit, optimizing bandwidth
+   usage. The serializers are automatically set up to support the double
+   modes determined by the deserializers using a private API.
+
+ * Automatic data padding. In pixel mode, if the data being transferred
+   uses two different BPPs, data needs to be padded. The serializers
+   automatically set this up depending on the configured double mode
+   settings and incoming data types.
+
+ * Logging. Both the deserializers and serializers implement the V4L2
+   .log_status() ops to allow debugging of the internal state and
+   important chip status registers.
+
+ * PHY modes. Deserializer chips commonly have more than a single PHY.
+   The firmware ports are parsed to determine the modes in which to
+   configure the PHYs (2x4, 4x2, 1x4+2x2, 2x2+1x4, and variations using
+   fewer lanes).
+
+ * Serializer pinctrl. Serializers implement pinctrl to allow setting
+   configs which would otherwise be inaccessible through GPIO: TX/RX via
+   GMSL link, pull-up & pull-down (with strength), open-drain &
+   push-pull, slew rate, RCLK pin selection.
+
+The drivers have been tested on the following hardware combinations, but
+further testing is welcome to ensure no / minimal breakage:
+ * Raspberry Pi 5 + MAX96724 + 4xMAX96717 + 4xIMX219
+ * Raspberry Pi 5 + MAX96792A + 1xMAX96793 + 1xMAX96717 + 2xIMX219
+ * Raspberry Pi 5 + MAX96792A + 2xMAX96717 + 2xIMX219
+ * Renesas V4H + MAX96712 + 2xMAX96717 + 2xIMX219 
+
+Analog Devices is taking responsibility for the maintenance of these
+drivers and common framework, and plans to add support for new
+broad-market chips on top of them.
+
+Special thanks go to Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+for testing the drivers, helping debug and coming up with ideas /
+implementations for various features.
+
+Cosmin Tanislav (24):
+  dt-bindings: media: i2c: max96717: add myself as maintainer
+  dt-bindings: media: i2c: max96717: reflow text
+  dt-bindings: media: i2c: max96717: add support for I2C ATR
+  dt-bindings: media: i2c: max96717: add support for pinctrl/pinconf
+  dt-bindings: media: i2c: max96717: add support for MAX9295A
+  dt-bindings: media: i2c: max96717: add support for MAX96793
+  dt-bindings: media: i2c: max96714: add myself as maintainer
+  dt-bindings: media: i2c: max96714: reflow text
+  dt-bindings: media: i2c: max96714: make i2c-gate conditional on
+    compatible
+  dt-bindings: media: i2c: max96714: make ports conditional on
+    compatible
+  dt-bindings: media: i2c: max96714: make supply conditional on
+    compatible
+  dt-bindings: media: i2c: max96714: add support for MAX9296A
+  dt-bindings: media: i2c: max96714: add support for MAX96716A
+  dt-bindings: media: i2c: max96714: add support for MAX96792A
+  dt-bindings: media: i2c: max96712: add myself as maintainer
+  dt-bindings: media: i2c: max96712: use pattern properties for input
+    ports
+  dt-bindings: media: i2c: max96712: increase number of output ports
+  dt-bindings: media: i2c: max96712: add support for I2C MUX
+  dt-bindings: media: i2c: max96712: add support for POC supplies
+  media: i2c: add Maxim GMSL2/3 serializer and deserializer drivers
+  arm64: defconfig: disable deprecated MAX96712 driver
+  staging: media: remove MAX96712 driver
+  media: i2c: remove MAX96717 driver
+  media: i2c: remove MAX96714 driver
+
+ .../bindings/media/i2c/maxim,max96712.yaml    |   49 +-
+ .../bindings/media/i2c/maxim,max96714.yaml    |  245 +-
+ .../media/i2c/maxim,max96717-pinctrl.yaml     |   71 +
+ .../bindings/media/i2c/maxim,max96717.yaml    |   75 +-
+ MAINTAINERS                                   |   13 +-
+ arch/arm64/configs/defconfig                  |    1 -
+ drivers/media/i2c/Kconfig                     |   34 +-
+ drivers/media/i2c/Makefile                    |    3 +-
+ drivers/media/i2c/max96714.c                  | 1024 --------
+ drivers/media/i2c/max96717.c                  | 1103 --------
+ drivers/media/i2c/maxim-serdes/Kconfig        |   53 +
+ drivers/media/i2c/maxim-serdes/Makefile       |    6 +
+ drivers/media/i2c/maxim-serdes/max9296a.c     | 1146 ++++++++
+ drivers/media/i2c/maxim-serdes/max96717.c     | 1500 +++++++++++
+ drivers/media/i2c/maxim-serdes/max96724.c     |  905 +++++++
+ drivers/media/i2c/maxim-serdes/max_des.c      | 2321 +++++++++++++++++
+ drivers/media/i2c/maxim-serdes/max_des.h      |  135 +
+ drivers/media/i2c/maxim-serdes/max_ser.c      | 1584 +++++++++++
+ drivers/media/i2c/maxim-serdes/max_ser.h      |  132 +
+ drivers/media/i2c/maxim-serdes/max_serdes.c   |  302 +++
+ drivers/media/i2c/maxim-serdes/max_serdes.h   |   88 +
+ drivers/staging/media/Kconfig                 |    2 -
+ drivers/staging/media/Makefile                |    1 -
+ drivers/staging/media/max96712/Kconfig        |   14 -
+ drivers/staging/media/max96712/Makefile       |    2 -
+ drivers/staging/media/max96712/max96712.c     |  487 ----
+ 26 files changed, 8523 insertions(+), 2773 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96717-pinctrl.yaml
+ delete mode 100644 drivers/media/i2c/max96714.c
+ delete mode 100644 drivers/media/i2c/max96717.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/Kconfig
+ create mode 100644 drivers/media/i2c/maxim-serdes/Makefile
+ create mode 100644 drivers/media/i2c/maxim-serdes/max9296a.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max96717.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max96724.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_des.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_des.h
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_ser.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_ser.h
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_serdes.c
+ create mode 100644 drivers/media/i2c/maxim-serdes/max_serdes.h
+ delete mode 100644 drivers/staging/media/max96712/Kconfig
+ delete mode 100644 drivers/staging/media/max96712/Makefile
+ delete mode 100644 drivers/staging/media/max96712/max96712.c
+
+-- 
+2.48.1
+
 
