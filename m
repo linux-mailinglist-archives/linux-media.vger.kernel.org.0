@@ -1,149 +1,276 @@
-Return-Path: <linux-media+bounces-27895-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27896-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C68A57EF9
-	for <lists+linux-media@lfdr.de>; Sat,  8 Mar 2025 22:48:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75F29A57FF8
+	for <lists+linux-media@lfdr.de>; Sun,  9 Mar 2025 01:14:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5E13B1892E27
-	for <lists+linux-media@lfdr.de>; Sat,  8 Mar 2025 21:48:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 947BD16ABE3
+	for <lists+linux-media@lfdr.de>; Sun,  9 Mar 2025 00:14:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BC39212FB2;
-	Sat,  8 Mar 2025 21:48:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DB09186A;
+	Sun,  9 Mar 2025 00:14:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IlH/w/dW"
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="Itiz5jKJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D288187FEC;
-	Sat,  8 Mar 2025 21:48:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D431036C;
+	Sun,  9 Mar 2025 00:14:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741470491; cv=none; b=W2nE8LyRgy7j6DXiv+WHXiiDYKqipuQR4P2EAfA5V8sXL9fEYy1r5go0xBozMSQrM9UyAcm2PNwYxbUHQ/eDdcZho8mw5Pk2CLzrOtbUBccUOWsq9EnjqqnCgDSY/XxMzRarJEAhvYF1RhoktQQiY8RfXxVJIuzpH1cnhch+8es=
+	t=1741479278; cv=none; b=tvy2wnFwORPgAuWAuGaemD1kjsE/DnK9/RzqjoZwipW7VNxyNAVVKT7OCzgtvv0kPyyHZ1qcWJC2DWkZry9ACJ3pv+121zEKqDNE3UWCkjyKRXKyPpvilLN7PpSBZJjnlZWDbXuWHDSH0GiOMBU+xUmU15xBISM54BIti6Yp7EU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741470491; c=relaxed/simple;
-	bh=NBkyLSUP9n9Ax4+7aC60v72hjL1RvF641HX71E/k+i8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=GaO4Q1m0nCl3tI6Cd7qmFzZGsjT8F/qd4hUu0bwRiABnCNajlQK32Qa4jXFZDBOGN6lOj0NKKiJ7xXJgQOGJ8J+jxkN+Zjp9c5JteYGKdf7Eyga9O+vBBXZOibink3oYFF7f88PWLbwNSQIVxdQZqU+YY950xdiVvSGlio1xYDg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IlH/w/dW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id E7F4DC4CEED;
-	Sat,  8 Mar 2025 21:48:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741470491;
-	bh=NBkyLSUP9n9Ax4+7aC60v72hjL1RvF641HX71E/k+i8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=IlH/w/dW52z87757vTdf4M7w9gn7K6w+DE1iPANxiGTm7AidiByDUeN45c5keAROM
-	 3AaBW152441T2oqK0nERdZLc7rxY/4ugVU4MB7uJBYqtJ0qb8oF7f/9ucQjLSVURlw
-	 284o0HlUqfEiL7A20n0CFtYdgWa4mgHAih1HdOfzfKHbAo9d24r9olu2ATIE7xI1X3
-	 nzSeb+WfKpkCriACuXRELkR14clF9WeAoF0h6QESrl9vXZ76v/dv9CGwBOTkxHal66
-	 yBG0gM0QFujIW2Phjp71GY3+ztqbqhGnv7F0F4/KGazC0EfO8S4J6zVwJ6/17b63I+
-	 eHCL58Vnl5eJQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D87C0C282EC;
-	Sat,  8 Mar 2025 21:48:10 +0000 (UTC)
-From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
-Date: Sat, 08 Mar 2025 22:47:58 +0100
-Subject: [PATCH RESEND 4/4] media: i2c: imx214: Add support for 23.88MHz
- clock
+	s=arc-20240116; t=1741479278; c=relaxed/simple;
+	bh=7e6eKxmRQ+Br0gKpgH4VgGDaoif0AE8vbkrrsG0rv+4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lGc2hYVPufy8EfcZA+Yryw2GCOcV3++/JQ/UywPzzhZNONsKqHvPFsR+H1UzZp2WX3P0mO6k7Bc/w9UGvdH5oHYs9ckzw2Hi4CxN1B122RQLSn420h+uMu8zj9kGD7ISo4QMyEEtG+NAcn4xQhJhtJIzqs9xbesCmhVCHuWwdEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=Itiz5jKJ; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
+	:Subject; bh=KwUUZ+KPJTmyLfJTwCs4KiNUfyZmVdVVhPGradVNjU8=; b=Itiz5jKJlch+/7Gd
+	5BRWKa573vYnoIKEJBSYYnw04uKUN4oowQLUcR4+qwrn5VFDWJK2ZrjydPHDmxUmUTRYBNq9CnyRC
+	MnQWa3qXcKEMUGuo4EYz3gDEwCCB+rtF9J1SHgcuKrmxxv8V9c7Rp/0DolrOCT8O3nLdCHynaPm1P
+	xH602utCQ2jn4P+h/VBKtKeAWo8px+AJvd8c10tXgDkmWRRLY7ibcv792cpTa4rOXdXIY789aJlzS
+	h3ZsR72PqxD1R/DXJvQT+8sYBt8jO+z9Gmh638yKs5MlaHYG4vOnZ3kCHLajfwiq31HbU68v2CqsT
+	8/KMyZecFmIB3jZ+5Q==;
+Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
+	by mx.treblig.org with esmtp (Exim 4.96)
+	(envelope-from <linux@treblig.org>)
+	id 1tr4JL-003f6z-2z;
+	Sun, 09 Mar 2025 00:14:31 +0000
+From: linux@treblig.org
+To: isely@pobox.com,
+	mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Dr. David Alan Gilbert" <linux@treblig.org>
+Subject: [PATCH] media: pvrusb2: Remove unused pvr2_std_create_enum
+Date: Sun,  9 Mar 2025 00:14:31 +0000
+Message-ID: <20250309001431.260682-1-linux@treblig.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250308-imx214_clk_freq-v1-4-467a4c083c35@apitzsch.eu>
-References: <20250308-imx214_clk_freq-v1-0-467a4c083c35@apitzsch.eu>
-In-Reply-To: <20250308-imx214_clk_freq-v1-0-467a4c083c35@apitzsch.eu>
-To: Ricardo Ribalda <ribalda@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1741470489; l=2166;
- i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
- bh=WazSPfo9iHxmaDrm3SErM4Vh2VDI2d/EHPhwKDpeOK0=;
- b=9FuClyeXyAMC4vqo/KrMlBMy2FxYhXKiRyuEQ6X/GiABtnb+qz4HmAW41Ze4+ALTYE+RYFYIb
- 0X6ehEiIaHLA+5xaZx9Q4/kdKFKhktKqdBC4tX/ATg7SW6jee3qkgXG
-X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
- pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
-X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
- auth_id=142
-X-Original-From: =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
-Reply-To: git@apitzsch.eu
 
-From: André Apitzsch <git@apitzsch.eu>
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
 
-Qualcomm MSM8916 devices only provide an external clock of 23.88MHz.
-Make the sensor usable by those devices by adding support for this
-frequency.
+pvr2_std_create_enum() has been unused since 2012's
+commit c0bb609fdc0b ("[media] pvrusb2: Get rid of obsolete code for video
+standard enumeration")
 
-Signed-off-by: André Apitzsch <git@apitzsch.eu>
+Remove it.
+
+Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
 ---
- drivers/media/i2c/imx214.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
+ drivers/media/usb/pvrusb2/pvrusb2-std.c | 167 ------------------------
+ drivers/media/usb/pvrusb2/pvrusb2-std.h |   6 -
+ 2 files changed, 173 deletions(-)
 
-diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-index c3d55259d6fd1c4ca96f52833864bdfe6bedf13a..e24c76e01ab5070c073d082b1a2969cff3e17f9f 100644
---- a/drivers/media/i2c/imx214.c
-+++ b/drivers/media/i2c/imx214.c
-@@ -30,7 +30,10 @@
+diff --git a/drivers/media/usb/pvrusb2/pvrusb2-std.c b/drivers/media/usb/pvrusb2/pvrusb2-std.c
+index e7ab41401577..81c994e62241 100644
+--- a/drivers/media/usb/pvrusb2/pvrusb2-std.c
++++ b/drivers/media/usb/pvrusb2/pvrusb2-std.c
+@@ -212,173 +212,6 @@ unsigned int pvr2_std_id_to_str(char *bufPtr, unsigned int bufSize,
+ }
  
- #define IMX214_REG_FAST_STANDBY_CTRL	CCI_REG8(0x0106)
  
-+#define IMX214_CLK_FREQ_23880KHZ	23880000
- #define IMX214_CLK_FREQ_24000KHZ	24000000
-+
-+#define IMX214_LINK_FREQ_597MHZ		597000000
- #define IMX214_LINK_FREQ_600MHZ		600000000
- /* Keep wrong link frequency for backward compatibility */
- #define IMX214_DEFAULT_LINK_FREQ_LEGACY	480000000
-@@ -233,6 +236,7 @@ static const char * const imx214_supply_name[] = {
- #define IMX214_NUM_SUPPLIES ARRAY_SIZE(imx214_supply_name)
+-// Template data for possible enumerated video standards.  Here we group
+-// standards which share common frame rates and resolution.
+-static struct v4l2_standard generic_standards[] = {
+-	{
+-		.id             = (TSTD_B|TSTD_B1|
+-				   TSTD_D|TSTD_D1|
+-				   TSTD_G|
+-				   TSTD_H|
+-				   TSTD_I|
+-				   TSTD_K|TSTD_K1|
+-				   TSTD_L|
+-				   V4L2_STD_SECAM_LC |
+-				   TSTD_N|TSTD_Nc),
+-		.frameperiod    =
+-		{
+-			.numerator  = 1,
+-			.denominator= 25
+-		},
+-		.framelines     = 625,
+-		.reserved       = {0,0,0,0}
+-	}, {
+-		.id             = (TSTD_M|
+-				   V4L2_STD_NTSC_M_JP|
+-				   V4L2_STD_NTSC_M_KR),
+-		.frameperiod    =
+-		{
+-			.numerator  = 1001,
+-			.denominator= 30000
+-		},
+-		.framelines     = 525,
+-		.reserved       = {0,0,0,0}
+-	}, { // This is a total wild guess
+-		.id             = (TSTD_60),
+-		.frameperiod    =
+-		{
+-			.numerator  = 1001,
+-			.denominator= 30000
+-		},
+-		.framelines     = 525,
+-		.reserved       = {0,0,0,0}
+-	}, { // This is total wild guess
+-		.id             = V4L2_STD_NTSC_443,
+-		.frameperiod    =
+-		{
+-			.numerator  = 1001,
+-			.denominator= 30000
+-		},
+-		.framelines     = 525,
+-		.reserved       = {0,0,0,0}
+-	}
+-};
+-
+-static struct v4l2_standard *match_std(v4l2_std_id id)
+-{
+-	unsigned int idx;
+-	for (idx = 0; idx < ARRAY_SIZE(generic_standards); idx++) {
+-		if (generic_standards[idx].id & id) {
+-			return generic_standards + idx;
+-		}
+-	}
+-	return NULL;
+-}
+-
+-static int pvr2_std_fill(struct v4l2_standard *std,v4l2_std_id id)
+-{
+-	struct v4l2_standard *template;
+-	int idx;
+-	unsigned int bcnt;
+-	template = match_std(id);
+-	if (!template) return 0;
+-	idx = std->index;
+-	memcpy(std,template,sizeof(*template));
+-	std->index = idx;
+-	std->id = id;
+-	bcnt = pvr2_std_id_to_str(std->name,sizeof(std->name)-1,id);
+-	std->name[bcnt] = 0;
+-	pvr2_trace(PVR2_TRACE_STD,"Set up standard idx=%u name=%s",
+-		   std->index,std->name);
+-	return !0;
+-}
+-
+-/* These are special cases of combined standards that we should enumerate
+-   separately if the component pieces are present. */
+-static v4l2_std_id std_mixes[] = {
+-	V4L2_STD_PAL_B | V4L2_STD_PAL_G,
+-	V4L2_STD_PAL_D | V4L2_STD_PAL_K,
+-	V4L2_STD_SECAM_B | V4L2_STD_SECAM_G,
+-	V4L2_STD_SECAM_D | V4L2_STD_SECAM_K,
+-};
+-
+-struct v4l2_standard *pvr2_std_create_enum(unsigned int *countptr,
+-					   v4l2_std_id id)
+-{
+-	unsigned int std_cnt = 0;
+-	unsigned int idx,bcnt,idx2;
+-	v4l2_std_id idmsk,cmsk,fmsk;
+-	struct v4l2_standard *stddefs;
+-
+-	if (pvrusb2_debug & PVR2_TRACE_STD) {
+-		char buf[100];
+-		bcnt = pvr2_std_id_to_str(buf,sizeof(buf),id);
+-		pvr2_trace(
+-			PVR2_TRACE_STD,"Mapping standards mask=0x%x (%.*s)",
+-			(int)id,bcnt,buf);
+-	}
+-
+-	*countptr = 0;
+-	std_cnt = 0;
+-	fmsk = 0;
+-	for (idmsk = 1, cmsk = id; cmsk; idmsk <<= 1) {
+-		if (!(idmsk & cmsk)) continue;
+-		cmsk &= ~idmsk;
+-		if (match_std(idmsk)) {
+-			std_cnt++;
+-			continue;
+-		}
+-		fmsk |= idmsk;
+-	}
+-
+-	for (idx2 = 0; idx2 < ARRAY_SIZE(std_mixes); idx2++) {
+-		if ((id & std_mixes[idx2]) == std_mixes[idx2]) std_cnt++;
+-	}
+-
+-	/* Don't complain about ATSC standard values */
+-	fmsk &= ~CSTD_ATSC;
+-
+-	if (fmsk) {
+-		char buf[100];
+-		bcnt = pvr2_std_id_to_str(buf,sizeof(buf),fmsk);
+-		pvr2_trace(
+-			PVR2_TRACE_ERROR_LEGS,
+-			"***WARNING*** Failed to classify the following standard(s): %.*s",
+-			bcnt,buf);
+-	}
+-
+-	pvr2_trace(PVR2_TRACE_STD,"Setting up %u unique standard(s)",
+-		   std_cnt);
+-	if (!std_cnt) return NULL; // paranoia
+-
+-	stddefs = kcalloc(std_cnt, sizeof(struct v4l2_standard),
+-			  GFP_KERNEL);
+-	if (!stddefs)
+-		return NULL;
+-
+-	for (idx = 0; idx < std_cnt; idx++)
+-		stddefs[idx].index = idx;
+-
+-	idx = 0;
+-
+-	/* Enumerate potential special cases */
+-	for (idx2 = 0; (idx2 < ARRAY_SIZE(std_mixes)) && (idx < std_cnt);
+-	     idx2++) {
+-		if (!(id & std_mixes[idx2])) continue;
+-		if (pvr2_std_fill(stddefs+idx,std_mixes[idx2])) idx++;
+-	}
+-	/* Now enumerate individual pieces */
+-	for (idmsk = 1, cmsk = id; cmsk && (idx < std_cnt); idmsk <<= 1) {
+-		if (!(idmsk & cmsk)) continue;
+-		cmsk &= ~idmsk;
+-		if (!pvr2_std_fill(stddefs+idx,idmsk)) continue;
+-		idx++;
+-	}
+-
+-	*countptr = std_cnt;
+-	return stddefs;
+-}
+-
+ v4l2_std_id pvr2_std_get_usable(void)
+ {
+ 	return CSTD_ALL;
+diff --git a/drivers/media/usb/pvrusb2/pvrusb2-std.h b/drivers/media/usb/pvrusb2/pvrusb2-std.h
+index d8b4c6dc72fe..74b05ecb9708 100644
+--- a/drivers/media/usb/pvrusb2/pvrusb2-std.h
++++ b/drivers/media/usb/pvrusb2/pvrusb2-std.h
+@@ -23,12 +23,6 @@ int pvr2_std_str_to_id(v4l2_std_id *idPtr,const char *bufPtr,
+ unsigned int pvr2_std_id_to_str(char *bufPtr, unsigned int bufSize,
+ 				v4l2_std_id id);
  
- static const s64 link_freq[] = {
-+	IMX214_LINK_FREQ_597MHZ,
- 	IMX214_LINK_FREQ_600MHZ,
- };
+-// Create an array of suitable v4l2_standard structures given a bit mask of
+-// video standards to support.  The array is allocated from the heap, and
+-// the number of elements is returned in the first argument.
+-struct v4l2_standard *pvr2_std_create_enum(unsigned int *countptr,
+-					   v4l2_std_id id);
+-
+ // Return mask of which video standard bits are valid
+ v4l2_std_id pvr2_std_get_usable(void);
  
-@@ -242,6 +246,10 @@ struct imx214_clk_params {
- };
- 
- static const struct imx214_clk_params imx214_clk_params[] = {
-+	{
-+		.clk_freq = IMX214_CLK_FREQ_23880KHZ,
-+		.link_freq = IMX214_LINK_FREQ_597MHZ,
-+	},
- 	{
- 		.clk_freq = IMX214_CLK_FREQ_24000KHZ,
- 		.link_freq = IMX214_LINK_FREQ_600MHZ,
-@@ -1320,8 +1328,7 @@ static int imx214_parse_fwnode(struct device *dev, struct imx214 *imx214)
- 
- 	if (i == bus_cfg.nr_of_link_frequencies)
- 		ret = dev_err_probe(dev, -EINVAL,
--				    "link-frequencies %d not supported, please review your DT\n",
--				    IMX214_LINK_FREQ_600MHZ);
-+				    "provided link-frequencies not supported, please review your DT\n");
- 
- done:
- 	v4l2_fwnode_endpoint_free(&bus_cfg);
-@@ -1359,6 +1366,7 @@ static int imx214_probe(struct i2c_client *client)
- 	}
- 
- 	switch (xclk_freq) {
-+	case IMX214_CLK_FREQ_23880KHZ:
- 	case IMX214_CLK_FREQ_24000KHZ:
- 		if (imx214->clk_params->clk_freq != xclk_freq)
- 			return dev_err_probe(imx214->dev, -EINVAL,
-
 -- 
 2.48.1
-
 
 
