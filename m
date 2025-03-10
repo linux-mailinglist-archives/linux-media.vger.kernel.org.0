@@ -1,298 +1,271 @@
-Return-Path: <linux-media+bounces-27964-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27965-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60163A59663
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 14:32:29 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FBC8A59755
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 15:17:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 073D43A4981
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 13:32:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 960C11884059
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 14:17:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6F4A229B1F;
-	Mon, 10 Mar 2025 13:32:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84DCE22B5B8;
+	Mon, 10 Mar 2025 14:17:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="x2eOePKx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f208.google.com (mail-il1-f208.google.com [209.85.166.208])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2067.outbound.protection.outlook.com [40.107.243.67])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A83541E49F
-	for <linux-media@vger.kernel.org>; Mon, 10 Mar 2025 13:32:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.208
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741613541; cv=none; b=qi+mJznn/EMByAsoS2idFAHXe8BGvVmnKfiQv4MgcHD8VYT7q4nYTBkGiRmHAUliV62DBeGKEADNpM0//zO/6bN1BSQeadIGeHPiouLBK4um9JRGq0iord9Q6hcFXRt1IpLYyyh56BqK8EmfLgnqct1ExeeQvszRIoMANU45yh0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741613541; c=relaxed/simple;
-	bh=MxUGtItzdHn9mOpY/sYS15j1TuaN+v05N+60iPhkelo=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=IOb19U9ldjDElZw1y7wPqUmqRaEcWSx88AUYOhHgZ041d6XBfL2EMHOENMy8zeW+RzUJN28JzlPGB87u+961A9+tW368HuWExAp6krMJ/a7EJ/69z3WVfcpuVAKcRU9rm2GlVGboXCXAWUsIIvshwnQXJ0debGhWf2MPcxM3EFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f208.google.com with SMTP id e9e14a558f8ab-3d2b3a2f2d4so82197985ab.0
-        for <linux-media@vger.kernel.org>; Mon, 10 Mar 2025 06:32:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741613539; x=1742218339;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MYbgyRHeKh0XqiQ7QhQ5H2YnwJA15iAWXtoBQzsrzf4=;
-        b=OeBUsh/t2N437x+vBHUiAACBpSDjoe+3uFPU5TlHZsbO9vkYWXhPpoE1Bh6ladX3h6
-         1Eh5hSNvNs7CjRvSZPD2aau7/lworiry36AmqJkYB1IgviDHLLwr8Y8KykFJC7QBimA1
-         OhNGutaka4+sh1fWnBHYfos8Z5ZMkcWwiOqeJtFwSo3aGjUrxyodEsmr3Z5XczPcMJ3S
-         vgloYu3bbru0bzI8o36Nrhc4ptvBzZSnguwtuOwYv6FM777sx5H0mQ5CB6LfLLZAEH7N
-         /0ZoDCL9VZfLoTTvkc9neiar/4UiChDGjtnm+uNvgGUeorScmS9tz14nwMhLxuc1D3bH
-         +DSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWY2vidGlFDOKDFaDNc6urQ7fDlDdkXFBZteXMvn16iPA36l8lDscj2LGPcZVagU1ZI9h9Tf84v8Vum3g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx7R4bAP989XCfuydU/gTJJR6Cg7Qvk1B/iv83VtRvb17fUT8VR
-	HtDK0Varl8rEqNkLjF6wcQ0lAuleh86AfYul7wBPf9HYcS+rb8trvb1qwUtgsAuGk4n57kmp+pi
-	2cpOWap9uMRv2oCQCBdF5/GwknM2ZLtjflNtdTQpBtLdpIWi3hO7Fxto=
-X-Google-Smtp-Source: AGHT+IHmHfUuR/BiTP5jRpcYaVKXUZbY62Rqb4KGVUm3T0/7rpOiKrlRD0FFRirPI8NXEhNGxCbIPp05yU3ji1AuoN1qxV1m0Gbu
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69F06211C;
+	Mon, 10 Mar 2025 14:17:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.67
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741616236; cv=fail; b=XKYuaEjccTFxV/HitjnvRMCsWx1ZJ0x4N0A+83r59VOhE6edNEmgIZcHgSfyOAnTD96LMlRBmhBvMpA8F8wurePL5TMW40/a80bIOSkb1WYKUIE4yQPW6e4rQ2XaSt9fFbEC1JSyIF0P08Drt5SY2hhkGGojudzHekkoq0XD2fg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741616236; c=relaxed/simple;
+	bh=xDJVA20H04rC1tFq42GmDBOjsksEEz+PQvID+sMcjfo=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=r4EECQ9RLOUX8g1vcdkFs5DQEybV8ReNF5D9AZmnM+0q5eHNSRv/SvdU1XlM4hRKnZNOQI9w9rW+McPlZIOK4Fn719PReDjwF6h5nVcGEv/HVlo7yokgiuN46SgLoUZcXr2t835znEfNzxvq5hyAUE19lnHjBQGXpI/UhGUbGpY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=x2eOePKx; arc=fail smtp.client-ip=40.107.243.67
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=hzTBMWmsN2z9nn/6zfe+7H2ow/39dAl0YztjyiuPclrM0gEd281n7mu6CudIq3wIE95DK8Sb76Fm4jSgV4X8Vw3FnWfinr6AhzvjpXckv3uECDSFT0uU/KoLP9zfUrwrWaz3EPSGshaW7Q0kpogxb6DMrgsZTZoNexC5w1atyFWdfrFKOereGovbGgYDop7uG+mo/zT1xij9Wjb5j4oh6+HNaiFo9vf0HKD2zNxqoaF8A33jniJ4Fo2Pn1G6ikpwqMvANgeWD0oJS7+WNUTRnyBRmw4oAdVQ3ByVpHlywaE0Kw4Up9sqZ5czslgqAHyRH2Qho5usgstz41KuPUY7XQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mKY89rEA+ribjh2lznT55aRaGNBigwic6eh6FaJU3tk=;
+ b=kVdNc9waJ6NrHMZsPH3AxJIldHbwD5MVnoYqfy8tkm6cWJg0xH+wUOk4lFXvtnCQLI4GApQvZQXuxgJHPSCIiEIM9NUA3cDsTqRBKRZBV3X2ctmIdfTb1DLXU3PoHN/LRvQXFSEwIrnJyn5rL6iX6VfnN6gnPSZolEHFiZ4VWLQtBwDpnuyqUrxBJIeOd5iKcGd4xILvhCgK3Xh2lTGcQZpXaylaSZu7eBDNEQaXPu+yy+9jyEsrMgeTq/XYnLUQsWfjG1HkbSaaV9K2H/g+6/+6BikvEXHKgIwNu34E0SnDSi/ItLrqn8woKm6iexbzEqcCn9q29HIru4gbNOGQ/Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mKY89rEA+ribjh2lznT55aRaGNBigwic6eh6FaJU3tk=;
+ b=x2eOePKxxsPBXrk5Tm0memPPQC4GJfdFzIKW2NNnYBnkaFwG32/tmwR8rej+ob5wKnAXyXRq/Xbbhlmls2kfly3JfesVXcE+iX4G3wJ/ZKS8NQ3QjkhqLWGlDFsS/8ThOzK13aRLIY7Bp170676ew2F2XJcChcspCsSkL5yZRSQ=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CH3PR12MB9430.namprd12.prod.outlook.com (2603:10b6:610:1cd::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.27; Mon, 10 Mar
+ 2025 14:17:06 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8511.025; Mon, 10 Mar 2025
+ 14:17:06 +0000
+Message-ID: <f5fdc666-dd72-4a4f-9270-b539a3179382@amd.com>
+Date: Mon, 10 Mar 2025 15:16:53 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 00/12] dma: Enable dmem cgroup tracking
+To: Maxime Ripard <mripard@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Tomasz Figa <tfiga@chromium.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Ben Woodard <woodard@redhat.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0053.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:cc::18) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:168b:b0:3d4:3db1:77ae with SMTP id
- e9e14a558f8ab-3d4419f4f33mr199534665ab.18.1741613538796; Mon, 10 Mar 2025
- 06:32:18 -0700 (PDT)
-Date: Mon, 10 Mar 2025 06:32:18 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <67cee9e2.050a0220.1939a6.0004.GAE@google.com>
-Subject: [syzbot] [media?] KASAN: slab-use-after-free Read in vidtv_mux_init
-From: syzbot <syzbot+0d33ab192bd50b6c91e6@syzkaller.appspotmail.com>
-To: dwlsalmeida@gmail.com, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, mchehab@kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CH3PR12MB9430:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4fc24a74-b51b-4c53-7cd4-08dd5fde3cd2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|921020|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?NGxUQjNKRjhCOFBPdnc0dnVJcUZmNzZxNzNWR25jVXNuN2xWeXpsUStKZ2lw?=
+ =?utf-8?B?czhQMWVSZ1FjaFE2d3M1Zmc0ajdtUmtSWlBreWFKY0I5dTFmNWVaZ0RQTHVY?=
+ =?utf-8?B?QnZTSWRxT2V6VUlPOEF1UEFsZlpLYjNlZURzL0FzY3I4aFJNYjlXZFNPWXNk?=
+ =?utf-8?B?ZFpMNTllMmxvdkw1WnlibUMxQ1dGOE1kWHBjTVVaeElxUk5OUS9JcmdiWm9B?=
+ =?utf-8?B?aXdyajJ0WGN1eVY5U3M2RFF1OXVXQ24wYmVSR1NkRlNncE5lOTZFSUR1b3RS?=
+ =?utf-8?B?WE1DRmhkVW1rSkxkcFBGRlZ6ZE50bURCTkdJeUtHSm9BdDJZME03RURjakFq?=
+ =?utf-8?B?eDZGMkZPd2JBbHRQckFyMjliQ1Vvc0lZTk1aSmNpNzJDTkM1YlpHVjVpOENU?=
+ =?utf-8?B?d1JDa1N5b3krY2wyQzhQWmlVbm5VRHFxODJYWXNvUk9RMUVvWTZLUllIYnBi?=
+ =?utf-8?B?WmJFVHdmU3E5cjROOXNUM21PYTQ3eHZxcTFhdXlvQzZ1VE9mUld6TkRjSm5n?=
+ =?utf-8?B?bkV1RTNaS2ZtZ3ZpMUl4MHA1STVtczVXNjBGaXllWWVSQVA3NG5hQUtBbFRE?=
+ =?utf-8?B?ZWpjOTV6MGEwQmZ1RHYrNnpNeUxhbkVTallNYnBLR0sxUEtBWVhhYTNFZUJh?=
+ =?utf-8?B?SDlRUWV5L3UwSDhPOGVya3NhMmRNVG40UG1UR0ZPdm9ZN001THh2UEdZdmFv?=
+ =?utf-8?B?MFk1VVNkdWtJajJtcllmUGpuZTM5ckoxWThtMEVvMURpbHRSRHN5VnZuQlg5?=
+ =?utf-8?B?UnBRNHdrMlFZOFdjN0hXWVUxdy9ka25aZGZvSVpTa1dYY2l2dFpLVzBYQ3Ru?=
+ =?utf-8?B?dHZLWG05MFNGZnYzSE9MT1E0RTRkTFV6ZzRVemVTTmNlRkVNeXpFMzQ5REZK?=
+ =?utf-8?B?NDhUVzZzY2EvZjkzbzB2RUlmYy9DL3NnS0FBVll5YWJEamF2R0JuRW5EUE5u?=
+ =?utf-8?B?REgvSTl0d0xkOWx0NVl3bllqUWRoalVWN3hobkIrSllSeFBBalBFcDBVTm5W?=
+ =?utf-8?B?VlhGa2ZiN21MclFYTFNCRzdRa0FMNThITFAwZDRsZUZHQ1lQMzlGaUVSZytT?=
+ =?utf-8?B?U1VJYWVaNEJBbEIxSGpnclJDR243RlNMVVFzVWpFTGJqZXZBVDIzR0xsZFdX?=
+ =?utf-8?B?VE9pM2ZHTTQ4NTBCeVZvUHVPMlF0M2FwTFdZdVpTaEs0aFRCemFIMjZjbXBR?=
+ =?utf-8?B?TVFVMnRRcjdyakIzWkdPNlVNT2o0S3VPTGhLR20zQk1INEFJaEhwTmk4K0FG?=
+ =?utf-8?B?aXJuS25XcGkvUDJpclJOM2h4cWNvRm1SaTJkY1Y3eUE4Vk5udFI4Q1V4blE1?=
+ =?utf-8?B?K1dTbXJFUlFLTDRDMWd1R01SK0tVY3d5L0wzUzRiRitncDluVVZJdVgwUldK?=
+ =?utf-8?B?TzJnOGxYMktzeDVmT1ROMGJkWVVSK0syU0NRRjQ5U1pNL0hCQ1dBZ2pxM1Fq?=
+ =?utf-8?B?WXp6QUg0WHhPQWo4ejZ0Q0hwNnB1ZkxzQmhHS2pmc2pjOTFEWkFSbm1mTGpR?=
+ =?utf-8?B?cnJEejh5dnRuOWh0aWpJYUVZS3JNeG5WSEVibEgwYTk2Z0c4dzRrQ1FXVlNR?=
+ =?utf-8?B?VzlMYmk4ZXl1aUpnTTJGbndsOU1FeXg1OXVkSFNQRXpoNGVmZk0wdWtZUEtQ?=
+ =?utf-8?B?UE9qWFh0cFVEZjFvMVJ6YnE2SnlWUnRXNkJuL3ZiK2d0d0NGK2JZaG5mQzkw?=
+ =?utf-8?B?NXNhVHBqb29RK0VDNXQwREEzOXAwVG51c0hmeHRoZHRCZWRZUWNiRDZMbHE5?=
+ =?utf-8?B?cmtXb0lpd0VxaEtza1Z1cWN6VzNkcjl3S3FUZFBDQUo2ZWNhelZvZ3J1Umc3?=
+ =?utf-8?B?MzZMVWFNUThjZktwa0l1b0htbTc3akVxcHZFbHFSdVVHSjhqWnJsVGM4K3FK?=
+ =?utf-8?B?dVEybE1tbktNK3JQb1NnR1o3RXE1anpEZktjUXgxZVNVQmxTTFJFeVNaY0VT?=
+ =?utf-8?Q?jOJ4oGQMHnk=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(921020)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QjQ1aFUxVGtTdkxJSmJHUHBiMXlHcXUvS01mTHR0anQ5R2xtWFhHMm9HVm1k?=
+ =?utf-8?B?dHFIbExiaTRiVDJZRm5SU0xUY0lMVk5IMGhSbklPYmtDbWQ4RjI0YzBWZjd5?=
+ =?utf-8?B?NENXdnB5VUFKM2h0OEYyV3hTTEVldkM1bzRuSmUyRm1HeEN6NzFmSENqNVQw?=
+ =?utf-8?B?bE9LTFdxbm5Za3BUUzVtK2pZKytBSVROcGpTY3hjSlN0RHBHNWw1OW16TnA1?=
+ =?utf-8?B?TVRlYmk0VWd1a2c1VU00V1RTZDcvb2ZNSDlvbUNzUGthMDFVeGdUZEx1cVRj?=
+ =?utf-8?B?L0l2Y0pnUDRjOGtoazFmTmJHcGJ0em1QaWRleE9qYnR1NFVPbmhScXg1N1cx?=
+ =?utf-8?B?eTNUdHZUS2lyUEtmNXhvc05jeVFCVk1pWUFvemFiRjQveTRTMVZTRzVEdnpp?=
+ =?utf-8?B?a0J0UGIxTSt6SFVZMFJEUDU2OXJab3dBdTQ0WHpSOWpmbkplbEt5UXYrOFhv?=
+ =?utf-8?B?Mlk2WHZ1Y01tS3VPajgxSHVBVUJ0c2dnWHhvRWpFc2NFQ1QyNFU3TUxPZitm?=
+ =?utf-8?B?QmY5aG9Kb21McWpuQjNjSjQ4bUQ4S0VFZ2JMemdPWGliZU50UGlEY0lPUExr?=
+ =?utf-8?B?eDRkVHg4MFVMZWpzRmNPOG5IUlI4dy9wTEdRcHRlU01MYnVGZjJGM0QxZUgz?=
+ =?utf-8?B?UWxCdlQ0VWhDOHJEdklBWU9QUVZtc3JmanQ1MzJWQVpDK3F4M3BIVEw5M0Z6?=
+ =?utf-8?B?OUFjWWttUHBjOUdjaTA5TE1qN3lWRmIrM2pxeHhrM25BNytEQmFXNFk3cnJl?=
+ =?utf-8?B?NXJJMzB1c0c0WElRVk9XMERadVhoU040cUtDUDJaQ2d3dUsveHZ0aXkrczVQ?=
+ =?utf-8?B?dUFmaVNIT0xSbTh3UGw2aTNTSUVHOFJaNUJDUjdUSWN1dmxCZ1daWi8wRnF4?=
+ =?utf-8?B?c21MOWNhaFIxTFBzcGRyMXV5VFI4NStmMExvN2lzWEhZZW1jVGJnNlBSRlhU?=
+ =?utf-8?B?ZHcwMlBxTmhlbE1UZ3dFZkJJb2Y3YVhWM2Erb3ZEVU1CMWd0ajBnUE9OQ1hl?=
+ =?utf-8?B?eFNmVXZHcktpYUk0RW1LQWFvbk9YanNKRGRYUlZBbmtyZjRYSnlSZUdnd1Rx?=
+ =?utf-8?B?Y1YzaEZXZzBnTmxxUFZzK05hd1pUNDhTQUdDREtMVDh1WUIzeFEyNHdwdGVz?=
+ =?utf-8?B?NjFySXJjMTY3cTN0Qm9wa1lhdFZWcXdqTVRBVkZma0hHYUZWRzlaM0R6L3hZ?=
+ =?utf-8?B?cEpnZVIwdUU0K2twN2RUUHVUcTcrZ2hnVEJjV1hWL25NbGpzallYbDlZYzU0?=
+ =?utf-8?B?c3o0SGdxK1hmTDR1MnY3TmNubm1rQ0R0WThmZm9qSzlqdWl1UWN4UzNOYzJT?=
+ =?utf-8?B?a0ZEOFh0T21Nenlna3RCRDdUM2dRRG5CdXdHTVUrdzhIRFlCZ29mYUlTWlpy?=
+ =?utf-8?B?V2FXc3VFUjhwTTNJd2hCbXFLSjRtQ3Qzd0gzUGFnVnROOS9lamtMVkpXZGIz?=
+ =?utf-8?B?d3VZKzlHZzNCVGlMekE2bm03dVJQRGs2OW5ON3JlU0t5cXYvRUlTYTlLR29F?=
+ =?utf-8?B?dzEzYWV4KzYreld6V3ptbmE0bG9HZ0xPc01JRkZWZngzMHZuUmwrM3FLM0U4?=
+ =?utf-8?B?TVh6OXVVS3RnRlNtZWJTRzNpcmFaaGlKOEhneUEvVForcE1RdVl3azI0U1pF?=
+ =?utf-8?B?QTFKT2JkcFZlM2lpeFlTQy8xblpXMGRvVkVhT0JUd2x4UXdjdDdEMEt4TE1u?=
+ =?utf-8?B?Qm56QVNjREltdC9YYlhZelF2RlpFc1J6MkZpa0UrclJzTWk1ejB4aDJWS3c4?=
+ =?utf-8?B?M1dFZmVleUhXL3BjNnRyTWtTcEtsSkM4MXA0OHl6eVAxMVhwdWhkWlRDNURV?=
+ =?utf-8?B?WFhNc0dpdVJibGR2QThVVlRMSmdTdTdzWU1FNW80bUFsNTBrWTBkWUx0Uno0?=
+ =?utf-8?B?Q0xicHZ6RG4vbEMyNU9jRmViYTVtdGJBVlNSSDJoYWM5dTQ2UnRLZHllSmU0?=
+ =?utf-8?B?QTdLY2xJeTM4RkkwYW9RdTRIc25ZNi9xUHNnbXYySHVHL0x4cmorM2JwenJp?=
+ =?utf-8?B?bHBZZHBPbFlwU1IwMHVFV1JqMWpkbVZIWlhYSVlzanR0OS9Ed2xYSENCaEx5?=
+ =?utf-8?B?MFJMTndNVWI1VGcrcTZDMnVvNENuS21DcWd2ai8wSVNZZ0dxSkNlbjZMamY5?=
+ =?utf-8?Q?s56BNreoSzot9oboAA1c/OHNv?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4fc24a74-b51b-4c53-7cd4-08dd5fde3cd2
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2025 14:17:06.5622
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mYk4IwgRz9z0HychzA2rKaQRSSjKCOnIjXbqeFv8HGJEC6zTmgpw9d6tvrLkrVLz
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9430
 
-Hello,
+[Adding Ben since we are currently in the middle of a discussion regarding exactly that problem]
 
-syzbot found the following issue on:
+Just for my understanding before I deep dive into the code: This uses a separate dmem cgroup and does not account against memcg, don't it?
 
-HEAD commit:    848e07631744 Merge tag 'hid-for-linus-2025030501' of git:/..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=12e38a64580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=bed8205d3b84ef81
-dashboard link: https://syzkaller.appspot.com/bug?extid=0d33ab192bd50b6c91e6
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=138afda8580000
+Thanks,
+Christian.
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/6a6c7015dd03/disk-848e0763.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/66cbd3af2068/vmlinux-848e0763.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/1c1ceeb2230c/bzImage-848e0763.xz
+Am 10.03.25 um 13:06 schrieb Maxime Ripard:
+> Hi,
+>
+> Here's preliminary work to enable dmem tracking for heavy users of DMA
+> allocations on behalf of userspace: v4l2, DRM, and dma-buf heaps.
+>
+> It's not really meant for inclusion at the moment, because I really
+> don't like it that much, and would like to discuss solutions on how to
+> make it nicer.
+>
+> In particular, the dma dmem region accessors don't feel that great to
+> me. It duplicates the logic to select the proper accessor in
+> dma_alloc_attrs(), and it looks fragile and potentially buggy to me.
+>
+> One solution I tried is to do the accounting in dma_alloc_attrs()
+> directly, depending on a flag being set, similar to what __GFP_ACCOUNT
+> is doing.
+>
+> It didn't work because dmem initialises a state pointer when charging an
+> allocation to a region, and expects that state pointer to be passed back
+> when uncharging. Since dma_alloc_attrs() returns a void pointer to the
+> allocated buffer, we need to put that state into a higher-level
+> structure, such as drm_gem_object, or dma_buf.
+>
+> Since we can't share the region selection logic, we need to get the
+> region through some other mean. Another thing I consider was to return
+> the region as part of the allocated buffer (through struct page or
+> folio), but those are lost across the calls and dma_alloc_attrs() will
+> only get a void pointer. So that's not doable without some heavy
+> rework, if it's a good idea at all.
+>
+> So yeah, I went for the dumbest possible solution with the accessors,
+> hoping you could suggest a much smarter idea :)
+>
+> Thanks,
+> Maxime
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+> Maxime Ripard (12):
+>       cma: Register dmem region for each cma region
+>       cma: Provide accessor to cma dmem region
+>       dma: coherent: Register dmem region for each coherent region
+>       dma: coherent: Provide accessor to dmem region
+>       dma: contiguous: Provide accessor to dmem region
+>       dma: direct: Provide accessor to dmem region
+>       dma: Create default dmem region for DMA allocations
+>       dma: Provide accessor to dmem region
+>       dma-buf: Clear cgroup accounting on release
+>       dma-buf: cma: Account for allocations in dmem cgroup
+>       drm/gem: Add cgroup memory accounting
+>       media: videobuf2: Track buffer allocations through the dmem cgroup
+>
+>  drivers/dma-buf/dma-buf.c                          |  7 ++++
+>  drivers/dma-buf/heaps/cma_heap.c                   | 18 ++++++++--
+>  drivers/gpu/drm/drm_gem.c                          |  5 +++
+>  drivers/gpu/drm/drm_gem_dma_helper.c               |  6 ++++
+>  .../media/common/videobuf2/videobuf2-dma-contig.c  | 19 +++++++++++
+>  include/drm/drm_device.h                           |  1 +
+>  include/drm/drm_gem.h                              |  2 ++
+>  include/linux/cma.h                                |  9 +++++
+>  include/linux/dma-buf.h                            |  5 +++
+>  include/linux/dma-direct.h                         |  2 ++
+>  include/linux/dma-map-ops.h                        | 32 ++++++++++++++++++
+>  include/linux/dma-mapping.h                        | 11 ++++++
+>  kernel/dma/coherent.c                              | 26 +++++++++++++++
+>  kernel/dma/direct.c                                |  8 +++++
+>  kernel/dma/mapping.c                               | 39 ++++++++++++++++++++++
+>  mm/cma.c                                           | 21 +++++++++++-
+>  mm/cma.h                                           |  3 ++
+>  17 files changed, 211 insertions(+), 3 deletions(-)
+> ---
+> base-commit: 55a2aa61ba59c138bd956afe0376ec412a7004cf
+> change-id: 20250307-dmem-cgroups-73febced0989
+>
+> Best regards,
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+0d33ab192bd50b6c91e6@syzkaller.appspotmail.com
-
-RBP: 00007fff4b19a7ec R08: 0000000b4b19a87f R09: 00000000000927c0
-R10: 0000000000000001 R11: 0000000000000246 R12: 0000000000000003
-R13: 00000000000927c0 R14: 000000000001d553 R15: 00007fff4b19a840
- </TASK>
-==================================================================
-BUG: KASAN: slab-use-after-free in vidtv_mux_pid_ctx_init drivers/media/test-drivers/vidtv/vidtv_mux.c:78 [inline]
-BUG: KASAN: slab-use-after-free in vidtv_mux_init+0xac2/0xbe0 drivers/media/test-drivers/vidtv/vidtv_mux.c:524
-Read of size 8 at addr ffff88802fa42acc by task syz.2.37/6059
-
-CPU: 0 UID: 0 PID: 6059 Comm: syz.2.37 Not tainted 6.14.0-rc5-syzkaller-00039-g848e07631744 #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2025
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x116/0x1f0 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:408 [inline]
- print_report+0xc3/0x670 mm/kasan/report.c:521
- kasan_report+0xd9/0x110 mm/kasan/report.c:634
- vidtv_mux_pid_ctx_init drivers/media/test-drivers/vidtv/vidtv_mux.c:78 [inline]
- vidtv_mux_init+0xac2/0xbe0 drivers/media/test-drivers/vidtv/vidtv_mux.c:524
- vidtv_start_streaming drivers/media/test-drivers/vidtv/vidtv_bridge.c:194 [inline]
- vidtv_start_feed+0x334/0x4c0 drivers/media/test-drivers/vidtv/vidtv_bridge.c:239
- dmx_section_feed_start_filtering+0x3a5/0x660 drivers/media/dvb-core/dvb_demux.c:973
- dvb_dmxdev_feed_start drivers/media/dvb-core/dmxdev.c:508 [inline]
- dvb_dmxdev_feed_restart.isra.0+0x457/0x530 drivers/media/dvb-core/dmxdev.c:537
- dvb_dmxdev_filter_stop+0x2b4/0x3a0 drivers/media/dvb-core/dmxdev.c:564
- dvb_dmxdev_filter_free drivers/media/dvb-core/dmxdev.c:840 [inline]
- dvb_demux_release+0x92/0x550 drivers/media/dvb-core/dmxdev.c:1246
- __fput+0x3ff/0xb70 fs/file_table.c:464
- task_work_run+0x14e/0x250 kernel/task_work.c:227
- exit_task_work include/linux/task_work.h:40 [inline]
- do_exit+0xad8/0x2d70 kernel/exit.c:938
- do_group_exit+0xd3/0x2a0 kernel/exit.c:1087
- __do_sys_exit_group kernel/exit.c:1098 [inline]
- __se_sys_exit_group kernel/exit.c:1096 [inline]
- __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1096
- x64_sys_call+0x151f/0x1720 arch/x86/include/generated/asm/syscalls_64.h:232
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f871d58d169
-Code: Unable to access opcode bytes at 0x7f871d58d13f.
-RSP: 002b:00007fff4b19a788 EFLAGS: 00000246 ORIG_RAX: 00000000000000e7
-RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f871d58d169
-RDX: 0000000000000064 RSI: 0000000000000000 RDI: 0000000000000000
-RBP: 00007fff4b19a7ec R08: 0000000b4b19a87f R09: 00000000000927c0
-R10: 0000000000000001 R11: 0000000000000246 R12: 0000000000000003
-R13: 00000000000927c0 R14: 000000000001d553 R15: 00007fff4b19a840
- </TASK>
-
-Allocated by task 6059:
- kasan_save_stack+0x33/0x60 mm/kasan/common.c:47
- kasan_save_track+0x14/0x30 mm/kasan/common.c:68
- poison_kmalloc_redzone mm/kasan/common.c:377 [inline]
- __kasan_kmalloc+0xaa/0xb0 mm/kasan/common.c:394
- kmalloc_noprof include/linux/slab.h:901 [inline]
- kzalloc_noprof include/linux/slab.h:1037 [inline]
- vidtv_psi_pat_table_init+0x46/0x2c0 drivers/media/test-drivers/vidtv/vidtv_psi.c:970
- vidtv_channel_si_init+0x67/0x1a90 drivers/media/test-drivers/vidtv/vidtv_channel.c:423
- vidtv_mux_init+0x526/0xbe0 drivers/media/test-drivers/vidtv/vidtv_mux.c:519
- vidtv_start_streaming drivers/media/test-drivers/vidtv/vidtv_bridge.c:194 [inline]
- vidtv_start_feed+0x334/0x4c0 drivers/media/test-drivers/vidtv/vidtv_bridge.c:239
- dmx_section_feed_start_filtering+0x3a5/0x660 drivers/media/dvb-core/dvb_demux.c:973
- dvb_dmxdev_feed_start drivers/media/dvb-core/dmxdev.c:508 [inline]
- dvb_dmxdev_feed_restart.isra.0+0x457/0x530 drivers/media/dvb-core/dmxdev.c:537
- dvb_dmxdev_filter_stop+0x2b4/0x3a0 drivers/media/dvb-core/dmxdev.c:564
- dvb_dmxdev_filter_free drivers/media/dvb-core/dmxdev.c:840 [inline]
- dvb_demux_release+0x92/0x550 drivers/media/dvb-core/dmxdev.c:1246
- __fput+0x3ff/0xb70 fs/file_table.c:464
- task_work_run+0x14e/0x250 kernel/task_work.c:227
- exit_task_work include/linux/task_work.h:40 [inline]
- do_exit+0xad8/0x2d70 kernel/exit.c:938
- do_group_exit+0xd3/0x2a0 kernel/exit.c:1087
- __do_sys_exit_group kernel/exit.c:1098 [inline]
- __se_sys_exit_group kernel/exit.c:1096 [inline]
- __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1096
- x64_sys_call+0x151f/0x1720 arch/x86/include/generated/asm/syscalls_64.h:232
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Freed by task 6059:
- kasan_save_stack+0x33/0x60 mm/kasan/common.c:47
- kasan_save_track+0x14/0x30 mm/kasan/common.c:68
- kasan_save_free_info+0x3b/0x60 mm/kasan/generic.c:576
- poison_slab_object mm/kasan/common.c:247 [inline]
- __kasan_slab_free+0x51/0x70 mm/kasan/common.c:264
- kasan_slab_free include/linux/kasan.h:233 [inline]
- slab_free_hook mm/slub.c:2353 [inline]
- slab_free mm/slub.c:4609 [inline]
- kfree+0x2c4/0x4d0 mm/slub.c:4757
- vidtv_channel_si_init+0x34a/0x1a90 drivers/media/test-drivers/vidtv/vidtv_channel.c:499
- vidtv_mux_init+0x526/0xbe0 drivers/media/test-drivers/vidtv/vidtv_mux.c:519
- vidtv_start_streaming drivers/media/test-drivers/vidtv/vidtv_bridge.c:194 [inline]
- vidtv_start_feed+0x334/0x4c0 drivers/media/test-drivers/vidtv/vidtv_bridge.c:239
- dmx_section_feed_start_filtering+0x3a5/0x660 drivers/media/dvb-core/dvb_demux.c:973
- dvb_dmxdev_feed_start drivers/media/dvb-core/dmxdev.c:508 [inline]
- dvb_dmxdev_feed_restart.isra.0+0x457/0x530 drivers/media/dvb-core/dmxdev.c:537
- dvb_dmxdev_filter_stop+0x2b4/0x3a0 drivers/media/dvb-core/dmxdev.c:564
- dvb_dmxdev_filter_free drivers/media/dvb-core/dmxdev.c:840 [inline]
- dvb_demux_release+0x92/0x550 drivers/media/dvb-core/dmxdev.c:1246
- __fput+0x3ff/0xb70 fs/file_table.c:464
- task_work_run+0x14e/0x250 kernel/task_work.c:227
- exit_task_work include/linux/task_work.h:40 [inline]
- do_exit+0xad8/0x2d70 kernel/exit.c:938
- do_group_exit+0xd3/0x2a0 kernel/exit.c:1087
- __do_sys_exit_group kernel/exit.c:1098 [inline]
- __se_sys_exit_group kernel/exit.c:1096 [inline]
- __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1096
- x64_sys_call+0x151f/0x1720 arch/x86/include/generated/asm/syscalls_64.h:232
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-The buggy address belongs to the object at ffff88802fa42ac0
- which belongs to the cache kmalloc-32 of size 32
-The buggy address is located 12 bytes inside of
- freed 32-byte region [ffff88802fa42ac0, ffff88802fa42ae0)
-
-The buggy address belongs to the physical page:
-page: refcount:0 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x2fa42
-flags: 0xfff00000000000(node=0|zone=1|lastcpupid=0x7ff)
-page_type: f5(slab)
-raw: 00fff00000000000 ffff88801b041780 dead000000000122 0000000000000000
-raw: 0000000000000000 0000000000400040 00000000f5000000 0000000000000000
-page dumped because: kasan: bad access detected
-page_owner tracks the page as allocated
-page last allocated via order 0, migratetype Unmovable, gfp_mask 0x52cc0(GFP_KERNEL|__GFP_NOWARN|__GFP_NORETRY|__GFP_COMP), pid 5963, tgid 5963 (syz-executor), ts 120407289997, free_ts 120403969520
- set_page_owner include/linux/page_owner.h:32 [inline]
- post_alloc_hook+0x181/0x1b0 mm/page_alloc.c:1551
- prep_new_page mm/page_alloc.c:1559 [inline]
- get_page_from_freelist+0xfce/0x2f80 mm/page_alloc.c:3477
- __alloc_frozen_pages_noprof+0x221/0x2470 mm/page_alloc.c:4739
- alloc_pages_mpol+0x1fc/0x540 mm/mempolicy.c:2270
- alloc_slab_page mm/slub.c:2423 [inline]
- allocate_slab mm/slub.c:2587 [inline]
- new_slab+0x23d/0x330 mm/slub.c:2640
- ___slab_alloc+0xc5d/0x1720 mm/slub.c:3826
- __slab_alloc.constprop.0+0x56/0xb0 mm/slub.c:3916
- __slab_alloc_node mm/slub.c:3991 [inline]
- slab_alloc_node mm/slub.c:4152 [inline]
- __kmalloc_cache_noprof+0xfa/0x410 mm/slub.c:4320
- kmalloc_noprof include/linux/slab.h:901 [inline]
- kzalloc_noprof include/linux/slab.h:1037 [inline]
- ref_tracker_alloc+0x17c/0x5b0 lib/ref_tracker.c:203
- __netdev_tracker_alloc include/linux/netdevice.h:4282 [inline]
- netdev_tracker_alloc include/linux/netdevice.h:4294 [inline]
- netdev_get_by_index+0x7c/0xb0 net/core/dev.c:990
- fib6_nh_init+0x792/0x1da0 net/ipv6/route.c:3548
- ip6_route_info_create+0x1073/0x1910 net/ipv6/route.c:3814
- ip6_route_add+0x26/0x1c0 net/ipv6/route.c:3858
- addrconf_add_mroute+0x1de/0x350 net/ipv6/addrconf.c:2549
- addrconf_add_dev+0x14e/0x1c0 net/ipv6/addrconf.c:2567
- addrconf_dev_config net/ipv6/addrconf.c:3475 [inline]
- addrconf_init_auto_addrs+0x380/0x820 net/ipv6/addrconf.c:3563
-page last free pid 6059 tgid 6059 stack trace:
- reset_page_owner include/linux/page_owner.h:25 [inline]
- free_pages_prepare mm/page_alloc.c:1127 [inline]
- free_frozen_pages+0x6db/0xfb0 mm/page_alloc.c:2660
- tlb_batch_list_free mm/mmu_gather.c:159 [inline]
- tlb_finish_mmu+0x237/0x7b0 mm/mmu_gather.c:491
- exit_mmap+0x40e/0xba0 mm/mmap.c:1297
- __mmput+0x12a/0x410 kernel/fork.c:1356
- mmput+0x62/0x70 kernel/fork.c:1378
- exit_mm kernel/exit.c:570 [inline]
- do_exit+0x9ba/0x2d70 kernel/exit.c:925
- do_group_exit+0xd3/0x2a0 kernel/exit.c:1087
- __do_sys_exit_group kernel/exit.c:1098 [inline]
- __se_sys_exit_group kernel/exit.c:1096 [inline]
- __x64_sys_exit_group+0x3e/0x50 kernel/exit.c:1096
- x64_sys_call+0x151f/0x1720 arch/x86/include/generated/asm/syscalls_64.h:232
- do_syscall_x64 arch/x86/entry/common.c:52 [inline]
- do_syscall_64+0xcd/0x250 arch/x86/entry/common.c:83
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-
-Memory state around the buggy address:
- ffff88802fa42980: 00 00 00 05 fc fc fc fc 00 00 05 fc fc fc fc fc
- ffff88802fa42a00: 00 00 02 fc fc fc fc fc 00 00 00 00 fc fc fc fc
->ffff88802fa42a80: 00 00 00 04 fc fc fc fc fa fb fb fb fc fc fc fc
-                                              ^
- ffff88802fa42b00: fa fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
- ffff88802fa42b80: fa fb fb fb fc fc fc fc fa fb fb fb fc fc fc fc
-==================================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
 
