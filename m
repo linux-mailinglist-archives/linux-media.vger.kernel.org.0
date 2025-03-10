@@ -1,156 +1,186 @@
-Return-Path: <linux-media+bounces-27982-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27983-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADF9EA5A64A
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 22:33:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F527A5A650
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 22:35:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 62E413AB02C
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 21:33:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B2C723ABDE5
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 21:35:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1C9B1E0E05;
-	Mon, 10 Mar 2025 21:33:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 426AF1E3DC9;
+	Mon, 10 Mar 2025 21:35:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SSF+7SVg"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lHXsfkyz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A077E1DE2D8
-	for <linux-media@vger.kernel.org>; Mon, 10 Mar 2025 21:33:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88F031E1C22
+	for <linux-media@vger.kernel.org>; Mon, 10 Mar 2025 21:35:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741642417; cv=none; b=Z3z3sV/lBTiDyzmKbNwTJfD79g3RvJZJj2GNQGw8y3mQSZYAUrj8eExJHGaVVaFgrS6lK3fhRyTaKXhfQ3Zf7yuZurZm+SNxRyhfxQLk3i6R7IrwZKB+NFDtIyNIkArqJ1VRVD6Q1AZpwH7d5TPh6QohWBLMyRGoDyoKZ98w5IA=
+	t=1741642539; cv=none; b=GWL45xwP/z/zWkZz4qmsESjTN5miJfDyzuZnOIzZ9Y+Hr91EjpZ901+EMxPr5qwvx+Yg8xeD5lMvNyurVOEZ6CZTYYOGPhyxiiLS/Noy3HlWingSk3KrwuV6Y8R5Mqc/3jHXRUqdRgSpA781y1c1eksgTP4HfnxTlQqvUoEgH80=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741642417; c=relaxed/simple;
-	bh=sfRcIWo6fC9vYfEEbwG5irFtI4H4l3WxRKjPF8MQDos=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ID2LHFKLVxcr0nCuiBMholmlbkHYnYksZFgXslgOgD9rDLH1p6vYzmLo3euLZAuw//X3r7g2OVBTVikEEq2hxagB0PHdDSmbtbuLGPyBQ/wcB+NEYumzJX9DJgkPB2Ue/axmcgLQc2QaWdZI8FM040S8R5A56xFWE/BVsZ5CxII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SSF+7SVg; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741642416; x=1773178416;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=sfRcIWo6fC9vYfEEbwG5irFtI4H4l3WxRKjPF8MQDos=;
-  b=SSF+7SVgwkLxDizG5oism6gTf+b0wSdlWHYphhOsWDcl1ro/rqZ35X/l
-   tQ+Eig7riwjMIA8q71IgYfE6mKDEzbUPvUXqD6zYGIqJ9pJogyjCdDG3v
-   OvFnVmHTK1NZZzgpKOMMtBR5/qO3AuuBr/M038p39dvDghG901iIN4Ew7
-   IjnQKW1mqYMEV++KSshE8Rwh1/MQRNyreBfKysYcDK/Q9h//eJSOlevxk
-   Kq39bxDhiUC3lJQFWaQHqOd+A12Dgq8+tw7iHVOWY46JYO/HzTsfnCNlJ
-   6OHdYxt+OrrimfKpd0GdpzUYx/V0jOilBdEAi9ZgZkj4xxTx9Y99WIQlk
-   w==;
-X-CSE-ConnectionGUID: DjPRXkniQF6i7di8LWTkhQ==
-X-CSE-MsgGUID: lOrKsVw9TXe9y5lAiXJEsA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="65114210"
-X-IronPort-AV: E=Sophos;i="6.14,237,1736841600"; 
-   d="scan'208";a="65114210"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 14:33:35 -0700
-X-CSE-ConnectionGUID: rSG8M5aCQ0uqbNVKLm/l1Q==
-X-CSE-MsgGUID: gV4WmIVcR7aB9aGkv0GkIA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,237,1736841600"; 
-   d="scan'208";a="120130684"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 10 Mar 2025 14:33:33 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1trkkd-00065W-1Q;
-	Mon, 10 Mar 2025 21:33:31 +0000
-Date: Tue, 11 Mar 2025 05:32:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [sailus-media-tree:devel 22/23]
- drivers/media/platform/atmel/atmel-isi.c:1075:22: error: call to undeclared
- function 'devm_kmemdup_array'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202503110545.xrh6sBcJ-lkp@intel.com>
+	s=arc-20240116; t=1741642539; c=relaxed/simple;
+	bh=yOO+kcznc9jGj+Su8RqYwWEA8F6gmuzqRQmyUr/FcyQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Ky2dOELK7NEcwnY4UOS00/V+dnjEOlNjuBYAzXWcX9RmBRc2zt9nP0N97pEU20uXgp0vqI83pBkNGmtttEFzB8SVTVNymaBxPinLbo3+zlkCbHQaYAqY5/IpI5yibjrVikYL3hu3MAk+5sNGctCJoqPNK6K5pCFkPj8Gao6FeUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lHXsfkyz; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-5494fe13a6eso700458e87.0
+        for <linux-media@vger.kernel.org>; Mon, 10 Mar 2025 14:35:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741642536; x=1742247336; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=C5nGNIjoZJal1by6jAmqJfEMBdj6g2CPD4ZYPpb59g0=;
+        b=lHXsfkyzZMHhhFuKdlZ6wP9rupu1JIYKBC0xy+xgjfuoqoctUzu6KswF6VJMgJc80S
+         Qkk4lPXZotV8DR7xv2Utsig4m14df16mbYh/v0oDIHYIOaC6i7wzGolY5VRFTjf3gGDU
+         I7Rzgh3HGB0kFPvGR/YtMQvzyC3Y7YWODcvsFpiL9lbyBBLfy5ATQWTjz0FfxHmnM2Ph
+         bHG1kxqy7OJNOhLRAdAUVF7b7yXNvZJBrxqI/ca3Oxmfx/xx1X5UZdWc6eHw6TAUcZE8
+         +BtSvvYU6uR0KJD7qN+K8dj5mMrVHnGzsL1a8Oa7JLDNIY/fEfNW2CFuQIZ6xk3R3VSy
+         7aVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741642536; x=1742247336;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=C5nGNIjoZJal1by6jAmqJfEMBdj6g2CPD4ZYPpb59g0=;
+        b=V4lo0HcvOwlJrJmWCHxkxiYWXaOrqD11ClopNtQ6nqxcplS1EaGha9/jLL/jygUzok
+         JLmoGlsyMyyfq8tru61O8+xAvXf56xxpji7FM6IkxN8p6ptl351Di/fskLbwTjt3i/hc
+         PdpBL92XNk5PQ2sjkRmKhjRyARosJ6OdnASPqCI6Mis+IDgWQ5mKwJjwdI2Ej+aMpIP2
+         lHumHHtp00lIZ9RZ5eFHSiWLt3SUEU2d62yoToFM1+dRNRmg9UmzGrRvaaGXtXNn9xGc
+         uXag/FD1Yua3skiRnXrmuwmbbisZuH52YPKtLZLHivggJjnTL+wFHlWIqwas4dtqKH9M
+         +nzA==
+X-Forwarded-Encrypted: i=1; AJvYcCVZQVMIo0ratfE9h0uUDKR0OWgWGmLLQEJtvZMo1N1HIOrIuvDK7XEkq8SYww8G2jGpAokYpnKjaJGjZA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YynrV87OSXJtiFZtGlb36b+2Q2YHpIEhDu9QdFMPh6fHGhUQh+I
+	XxnO2Y9bN3D0Lg5x8w1/c/0EESrYUOeETqGbshs2SZQUyNl6Q/tU4cCwodNhRsQ=
+X-Gm-Gg: ASbGncvPxlC8zUtdtSQMgrxi+v43KGKHDHhVCohMntXY0hhWm7Vb8oXsjbkLdMBB9H9
+	8msi5D19DjetOYXWAj5TGU3CM2qRiqQiOWg2zXO6M2tSJ1BBCeDOWav3zxqRacmsIsRgt5MilEs
+	5crnSTda3nTukGl9v6vEuDNijsQ5kh9NEPqC/cZFls3k/sA/1kVP6OFIsJ4nmNy0Z/hE4kpmNFW
+	g67G6PttSwFFeamC6ZK4MXDfPZBWTwNHiH0n1T5Y5lWQzxGpGEM4w6cgXjCkgv42bKaeh4jtj0S
+	o0txn8ok6XuZNrLGTbONvf38y3OYIMS8mSkUwGTFCCEgfoAjYnFU8n6i6xCVCJVkyW8qac4xrME
+	JhpuQzc6DrMziO6oBiPXmjFE=
+X-Google-Smtp-Source: AGHT+IF3UbdFVNzHKttXVepOd/BWp8z+1ePpZ96mJNjgJzTuGPbY+EoLScTTvRSPkloK2EvbHVRnsQ==
+X-Received: by 2002:a05:6512:3b9a:b0:545:8a1:536d with SMTP id 2adb3069b0e04-549abaadbfbmr140818e87.2.1741642535438;
+        Mon, 10 Mar 2025 14:35:35 -0700 (PDT)
+Received: from [192.168.1.4] (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5498b1bc679sm1569216e87.194.2025.03.10.14.35.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 10 Mar 2025 14:35:34 -0700 (PDT)
+Message-ID: <7928a52a-ff6f-4705-a55c-8b60fd7797bc@linaro.org>
+Date: Mon, 10 Mar 2025 23:35:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/4] dt-bindings: media: Add qcom,x1e80100-camss
+Content-Language: ru-RU
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Loic Poulain <loic.poulain@linaro.org>, Robert Foss <rfoss@kernel.org>,
+ Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Jagadeesh Kona <quic_jkona@quicinc.com>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+References: <20250119-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v4-0-c2964504131c@linaro.org>
+ <20250119-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v4-1-c2964504131c@linaro.org>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20250119-b4-linux-next-24-11-18-dtsi-x1e80100-camss-v4-1-c2964504131c@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree:   git://linuxtv.org/sailus/media_tree.git devel
-head:   07e07f2cd3ebb7e8b62ccb8f22a16032b599c9e2
-commit: 93c8dabd1d1ed94f03eb9a63c0bc291b62595bda [22/23] media: atmel-isi: use devm_kmemdup_array()
-config: hexagon-allyesconfig (https://download.01.org/0day-ci/archive/20250311/202503110545.xrh6sBcJ-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250311/202503110545.xrh6sBcJ-lkp@intel.com/reproduce)
+Hi Bryan.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503110545.xrh6sBcJ-lkp@intel.com/
+On 1/19/25 02:54, Bryan O'Donoghue wrote:
+> Add bindings for qcom,x1e80100-camss in order to support the camera
+> subsystem for x1e80100 as found in various Co-Pilot laptops.
+> 
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>   .../bindings/media/qcom,x1e80100-camss.yaml        | 367 +++++++++++++++++++++
+>   1 file changed, 367 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+> new file mode 100644
+> index 0000000000000..88eeac262f0e2
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+> @@ -0,0 +1,367 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/qcom,x1e80100-camss.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm X1E80100 Camera Subsystem (CAMSS)
+> +
+> +maintainers:
+> +  - Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> +
+> +description: |
 
-All errors (new ones prefixed by >>):
+Please drop '|' here.
 
->> drivers/media/platform/atmel/atmel-isi.c:1075:22: error: call to undeclared function 'devm_kmemdup_array'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    1075 |         isi->user_formats = devm_kmemdup_array(isi->dev, isi_fmts, num_fmts,
-         |                             ^
->> drivers/media/platform/atmel/atmel-isi.c:1075:20: error: incompatible integer to pointer conversion assigning to 'const struct isi_format **' from 'int' [-Wint-conversion]
-    1075 |         isi->user_formats = devm_kmemdup_array(isi->dev, isi_fmts, num_fmts,
-         |                           ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    1076 |                                                sizeof(isi_fmts[0]), GFP_KERNEL);
-         |                                                ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 errors generated.
+> +  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms.
+> +
 
+<snip>
 
-vim +/devm_kmemdup_array +1075 drivers/media/platform/atmel/atmel-isi.c
+> +
+> +  interconnects:
+> +    maxItems: 4
+> +
+> +  interconnect-names:
+> +    items:
+> +      - const: cam_ahb
+> +      - const: cam_hf_mnoc
+> +      - const: cam_sf_mnoc
+> +      - const: cam_sf_icp_mnoc
 
-  1043	
-  1044	static int isi_formats_init(struct atmel_isi *isi)
-  1045	{
-  1046		const struct isi_format *isi_fmts[ARRAY_SIZE(isi_formats)];
-  1047		unsigned int num_fmts = 0, i, j;
-  1048		struct v4l2_subdev *subdev = isi->entity.subdev;
-  1049		struct v4l2_subdev_mbus_code_enum mbus_code = {
-  1050			.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-  1051		};
-  1052	
-  1053		while (!v4l2_subdev_call(subdev, pad, enum_mbus_code,
-  1054					 NULL, &mbus_code)) {
-  1055			for (i = 0; i < ARRAY_SIZE(isi_formats); i++) {
-  1056				if (isi_formats[i].mbus_code != mbus_code.code)
-  1057					continue;
-  1058	
-  1059				/* Code supported, have we got this fourcc yet? */
-  1060				for (j = 0; j < num_fmts; j++)
-  1061					if (isi_fmts[j]->fourcc == isi_formats[i].fourcc)
-  1062						/* Already available */
-  1063						break;
-  1064				if (j == num_fmts)
-  1065					/* new */
-  1066					isi_fmts[num_fmts++] = isi_formats + i;
-  1067			}
-  1068			mbus_code.index++;
-  1069		}
-  1070	
-  1071		if (!num_fmts)
-  1072			return -ENXIO;
-  1073	
-  1074		isi->num_user_formats = num_fmts;
-> 1075		isi->user_formats = devm_kmemdup_array(isi->dev, isi_fmts, num_fmts,
-  1076						       sizeof(isi_fmts[0]), GFP_KERNEL);
-  1077		if (!isi->user_formats)
-  1078			return -ENOMEM;
-  1079	
-  1080		isi->current_fmt = isi->user_formats[0];
-  1081		return 0;
-  1082	}
-  1083	
+Once Krzysztof objected to the "cam_" prefix in the interconnect names,
+and it's a pretty reasonable comment, and also it's been applied for
+sc7280-camss and sm8550-camss:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+https://lore.kernel.org/all/087e7f29-1fa8-4bc2-bb3d-acb941432381@kernel.org/
+
+<snip>
+
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    description:
+> +      CSI input ports.
+> +
+> +    patternProperties:
+> +      "^port@[0-3]+$":
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+
+It's a smart enumeration, nice to see it.
+
+After minor updates done,
+
+Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+
+--
+Best wishes,
+Vladimir
 
