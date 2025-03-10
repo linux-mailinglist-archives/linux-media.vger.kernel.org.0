@@ -1,112 +1,133 @@
-Return-Path: <linux-media+bounces-27966-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27967-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1391EA59789
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 15:27:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E7EAA59901
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 16:04:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E55033AB064
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 14:26:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8E4641884920
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 15:02:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E05F22C336;
-	Mon, 10 Mar 2025 14:26:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WM+PScBP"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37A1A22DFEF;
+	Mon, 10 Mar 2025 14:56:46 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2989229B1F;
-	Mon, 10 Mar 2025 14:26:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B1D822A4EF;
+	Mon, 10 Mar 2025 14:56:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741616814; cv=none; b=h+4knsPexUrxvZzVILUMRGE57Hic+Cg7A/KiAKbFYThdLn6l9c8PFTrlKIUt7kZKV6lKvs3FQkVaL6RghaLqUxm3NrOU+FJ5KqJNua1V1HF4i9PPWdLW6X5Sc2KXnQ2TT+XMp4xBbGpaprhPGOPDKX9NdC4BSTiHFCdCiwW2iQ8=
+	t=1741618605; cv=none; b=J3TLlyn0HJgyNOxmDsZhhCX1riJUjlcmCuKzhl6Z4+ubmKDf4EJHLM6xB2RG/BNjPzNKxg1f1CFAW58/npTPTreOG3mBmnsP+cqsebrOzn1yOhzMTJyIesbzc8BNQR/iDUHppjxw5Z7JpNyMFQti6FDOvy/Sv9nZhzlIZ4wKsos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741616814; c=relaxed/simple;
-	bh=POtmH2Pk7YZquZ7ykg+i1ChooTzaYIGRWYlQYgqXhPI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W16Zx2eBhsTID8yHHLTah+dh7MmXWvaAs1LY1xtNj9O+LqOas52VEklswgr7wlh9dE/crlYjlEnlto3TWVC/OHWwlfQQ3jhpkdxgi4xcxCygf+/UflbMRopzMYyKjmnQXZrMq5jSdrSbrKiTi5HLFr0kMrULS29cQIFTeOPaYiY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WM+PScBP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F40AC4CEE5;
-	Mon, 10 Mar 2025 14:26:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741616814;
-	bh=POtmH2Pk7YZquZ7ykg+i1ChooTzaYIGRWYlQYgqXhPI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WM+PScBPqE5h/eL2Yaf49hmt3QKMZNb8yvz11tDPXr9ktrDYrvV4GQMZv2EE6PZZq
-	 trZ3j0IX9sSWUAjmf9ZtuRPDLZ2iFu7dDsXSJ5d+S3gKp+LrhtThNHL5wC0H1gMkEs
-	 +vvvRcbQ60w2/ecqyK+UIiVoeo+kjxQ0wz7p75Ci+F/zerF53xFn4FeCxyBbI4dWGg
-	 Tf0H5ghqCqPjxQNJosfZ2XS5qNAQVVFMOkB/GmFpXQnQXMHbHgbIIwunlYxxVYF+xh
-	 eDke46hNOfMA0wtUpzF1dRdPYVB9WwGpPynz5iKydvkeuRMYQ2XhOa1KBVmPkqy03/
-	 XA1ZpP5BnfQ+A==
-Date: Mon, 10 Mar 2025 15:26:52 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
-	"T.J. Mercier" <tjmercier@google.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Tomasz Figa <tfiga@chromium.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Ben Woodard <woodard@redhat.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH RFC 00/12] dma: Enable dmem cgroup tracking
-Message-ID: <20250310-eccentric-wonderful-puffin-ddbb26@houat>
-References: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
- <f5fdc666-dd72-4a4f-9270-b539a3179382@amd.com>
+	s=arc-20240116; t=1741618605; c=relaxed/simple;
+	bh=dQqnv6mgf3IwDlnwbZwTB6OKAFN6Up7tjfQY+73RYCo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=X/3cCAxOCUITw8fAOPp3YQC+7YRnWwpoPpZEQ+UDuvx0xvQieNOKbe5wJJOSgwtv0W56Mpb3Ic7JF5gLC5EtNEKiZAJw2KQ5LOs3pe0RvU07loR45WbxripIeega5qnaiQcKpZplNYq4EzqN+0yNpKyy/S8hpxOxd7hlp9rd8J4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C18D226BC;
+	Mon, 10 Mar 2025 07:56:54 -0700 (PDT)
+Received: from [10.57.39.174] (unknown [10.57.39.174])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B0B203F5A1;
+	Mon, 10 Mar 2025 07:56:39 -0700 (PDT)
+Message-ID: <2af9ea85-b31d-49c9-b574-38c33cc89cef@arm.com>
+Date: Mon, 10 Mar 2025 14:56:37 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="v4rwoqplwp332trx"
-Content-Disposition: inline
-In-Reply-To: <f5fdc666-dd72-4a4f-9270-b539a3179382@amd.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 06/12] dma: direct: Provide accessor to dmem region
+To: Maxime Ripard <mripard@kernel.org>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Tomasz Figa <tfiga@chromium.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
+ <20250310-dmem-cgroups-v1-6-2984c1bc9312@kernel.org>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <20250310-dmem-cgroups-v1-6-2984c1bc9312@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 2025-03-10 12:06 pm, Maxime Ripard wrote:
+> Consumers of the direct DMA API will have to know which region their
+> device allocate from in order for them to charge the memory allocation
+> in the right one.
 
---v4rwoqplwp332trx
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH RFC 00/12] dma: Enable dmem cgroup tracking
-MIME-Version: 1.0
+This doesn't seem to make much sense - dma-direct is not an allocator 
+itself, it just provides the high-level 
+dma_alloc_attrs/dma_alloc_pages/etc. interfaces wherein the underlying 
+allocations _could_ come from CMA, but also a per-device 
+coherent/restricted pool, or a global coherent/atomic pool, or the 
+regular page allocator, or in one weird corner case the SWIOTLB buffer, 
+or...
 
-Hi,
+Thanks,
+Robin.
 
-On Mon, Mar 10, 2025 at 03:16:53PM +0100, Christian K=F6nig wrote:
-> [Adding Ben since we are currently in the middle of a discussion
-> regarding exactly that problem]
->
-> Just for my understanding before I deep dive into the code: This uses
-> a separate dmem cgroup and does not account against memcg, don't it?
+> Let's provide an accessor for that region.
+> 
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>   include/linux/dma-direct.h | 2 ++
+>   kernel/dma/direct.c        | 8 ++++++++
+>   2 files changed, 10 insertions(+)
+> 
+> diff --git a/include/linux/dma-direct.h b/include/linux/dma-direct.h
+> index d7e30d4f7503a898a456df8eedf6a2cd284c35ff..2dd7cbccfaeed81c18c67aae877417fe89f2f2f5 100644
+> --- a/include/linux/dma-direct.h
+> +++ b/include/linux/dma-direct.h
+> @@ -145,6 +145,8 @@ void dma_direct_free_pages(struct device *dev, size_t size,
+>   		enum dma_data_direction dir);
+>   int dma_direct_supported(struct device *dev, u64 mask);
+>   dma_addr_t dma_direct_map_resource(struct device *dev, phys_addr_t paddr,
+>   		size_t size, enum dma_data_direction dir, unsigned long attrs);
+>   
+> +struct dmem_cgroup_region *dma_direct_get_dmem_cgroup_region(struct device *dev);
+> +
+>   #endif /* _LINUX_DMA_DIRECT_H */
+> diff --git a/kernel/dma/direct.c b/kernel/dma/direct.c
+> index 5b4e6d3bf7bcca8930877ba078aed4ce26828f06..ece1361077b6efeec5b202d838750afd967d473f 100644
+> --- a/kernel/dma/direct.c
+> +++ b/kernel/dma/direct.c
+> @@ -42,10 +42,18 @@ u64 dma_direct_get_required_mask(struct device *dev)
+>   	u64 max_dma = phys_to_dma_direct(dev, phys);
+>   
+>   	return (1ULL << (fls64(max_dma) - 1)) * 2 - 1;
+>   }
+>   
+> +#if IS_ENABLED(CONFIG_CGROUP_DMEM)
+> +struct dmem_cgroup_region *
+> +dma_direct_get_dmem_cgroup_region(struct device *dev)
+> +{
+> +	return dma_contiguous_get_dmem_cgroup_region(dev);
+> +}
+> +#endif
+> +
+>   static gfp_t dma_direct_optimal_gfp_mask(struct device *dev, u64 *phys_limit)
+>   {
+>   	u64 dma_limit = min_not_zero(
+>   		dev->coherent_dma_mask,
+>   		dev->bus_dma_limit);
+> 
 
-Yes. The main rationale being that it doesn't always make sense to
-register against memcg: a lot of devices are going to allocate from
-dedicated chunks of memory that are either carved out from the main
-memory allocator, or not under Linux supervision at all.
-
-And if there's no way to make it consistent across drivers, it's not the
-right tool.
-
-Maxime
-
---v4rwoqplwp332trx
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ872qwAKCRDj7w1vZxhR
-xfDdAQCFXvj/doesASzkIHFH0zB9NLLN59l3YZOIRTbK66YYRgD+KKLR7EXgcgov
-1vvbHZ0EY8qhZsF/1+Mwgg9bFZh+1wk=
-=KuAg
------END PGP SIGNATURE-----
-
---v4rwoqplwp332trx--
 
