@@ -1,73 +1,71 @@
-Return-Path: <linux-media+bounces-27927-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27929-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D778A58E4A
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 09:38:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2B21A58EB0
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 09:56:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 85535188EB3F
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 08:38:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 681E2188F5F2
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 08:56:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5410224238;
-	Mon, 10 Mar 2025 08:38:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6521822424E;
+	Mon, 10 Mar 2025 08:56:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="irXRyf4F"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VS2GD8mC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F50223705
-	for <linux-media@vger.kernel.org>; Mon, 10 Mar 2025 08:37:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2574380;
+	Mon, 10 Mar 2025 08:56:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741595881; cv=none; b=mEhXZALX1+oZW1dhZHArQfzENA4rfarU5CREwie4lAjajqgWc08druDpBeXi/jNOo70a/IqUECdW5mCck0tJgzOGNS/cx2vTxiyRvWkhJIXi4NRcOTHoHCPZJD7Kqe6+4TzOn9YnF16cedHaRYTUFZ15bEZQjbLPXx7p8pMMX+4=
+	t=1741596996; cv=none; b=el34XrQfVrx6LG3Zke2qUf1fl/7/q09J2UpjMMTo7Jma6cP3s0czXVhtKYeNfIiH0HrBFZbreYZt3pLvKyGyPwrXfMG6Gexn40WyYFCVNGItKC7U13tpg1TNEm3JCcXVJ8DzGkPGtlcaVxeNHGKeBiadSkSlLa2FonO8o5bNZAg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741595881; c=relaxed/simple;
-	bh=nxFcwKvvoK1UjkxhFySPmDTgOkVgn8q4MoSsOMMatEM=;
+	s=arc-20240116; t=1741596996; c=relaxed/simple;
+	bh=C12mkxyY7Tuz4k36lFMWBiBskfY3UsSgTUDwu4ymK5A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aaGivgHWcCqztMjktlIivte+J6JspahSP1gH5wkgOnq3Nj2+sDBoT6YblyKrSLdIUH9T5e04aDRvvELcEJPibLH8mLCP+hrGYcfkjVRkmGXWEoWTIY96RzVt8HRWukqg+iGrSu8pZC6Lj/PoBLRLmpqeBQeh1v8ORt4QyescTYk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=irXRyf4F; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741595880; x=1773131880;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=nxFcwKvvoK1UjkxhFySPmDTgOkVgn8q4MoSsOMMatEM=;
-  b=irXRyf4Fz2bOQaIuyIFbr3ukjPAkp/Bl1Yy/oN1Pbd+PkJqhSX7uLULC
-   5wxZiTzYhc/NXY2kGloS9unSRsEM+8b3FFnOojoyGT3L+jbpiupFCxYrT
-   wf3N5Rfu8XO9/rHlGI4lUxZifKrnmgqA3rWl3rVCxI6KNA1g/fH5/u8eo
-   K6StQQgUnKivla63FUehg6GMUQxs0G30V+GFWLd/INFt/bR0ALFaf9hdz
-   SJfLFYXORoWpmbpflmBdKo+Ea1qIStXJMTJSpdwnq+RWJA2JFAoLhXgrH
-   8rZze9Jd9lR0TArpVJXzIb5sA83uEEcCl/Vr6C616yVEmWBx/uXG/sNuT
-   g==;
-X-CSE-ConnectionGUID: +ofpHAxWRbiZCiHNoPlsMQ==
-X-CSE-MsgGUID: WiFOjUr+S9WSdnugyfy8fg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="45372819"
-X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
-   d="scan'208";a="45372819"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 01:37:59 -0700
-X-CSE-ConnectionGUID: cWQDlW5RS5291OxbxJqeUA==
-X-CSE-MsgGUID: 7BgnGPv3Rpqfwv3yNziA+A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
-   d="scan'208";a="119861330"
-Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.245.112.97])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 01:37:57 -0700
-Date: Mon, 10 Mar 2025 09:37:55 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>
-Subject: Re: [PATCH v1 3/3] media: intel/ipu6: Constify ipu6_buttress_ctrl
- structure
-Message-ID: <Z86k41DyFtNTHMsM@linux.intel.com>
-References: <20250306130629.885163-1-stanislaw.gruszka@linux.intel.com>
- <20250306130629.885163-4-stanislaw.gruszka@linux.intel.com>
- <Z8qj_2RJpuff42Sd@kekkonen.localdomain>
+	 Content-Type:Content-Disposition:In-Reply-To; b=uSdV37EQfykIFegLlGDNdaPot1IpV2QWO8UZuTT5+uMhYRHAhRSPKi+t0yFkUu4J7wwPhFxg2spYksg/eJJDRdZirs0fLdsyPKOVaohb6pRvtTsmYrShPug0T3uI0qRyEYC7b2frzIeyU2cK96YoFEi9DOMkNo1XZXNM3Y2Zxck=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VS2GD8mC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF69EC4CEEC;
+	Mon, 10 Mar 2025 08:56:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741596996;
+	bh=C12mkxyY7Tuz4k36lFMWBiBskfY3UsSgTUDwu4ymK5A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VS2GD8mC3KF67GsqwrZolL2PJC5nV8QLxQyAj07n3f39prZtkH1iJvEM60yAG3gQD
+	 V6plRwhAVbOW7QKUgyQAJHRX8KqkzSNYtqJVSaCbMIZFHBfrzwotEzdTyBf7nahb1F
+	 ulw5xmNt1ZS0/aH3skbKsPmqAglFS17CXESwCPnsNYfVvt5TieC74ADPeUyUBP34F1
+	 pDsXpTVlIpEGb5v1s3vkFszlbLMYeyG2K7k5dPXep0ShufS8ewpYY5j+8DCkBkiobB
+	 dcRrEG7RKtdyu/gY2i+79yqPKgi/ec7BtqCYNCz/r78UnJa0FdyBemgkAxkJvqs9vk
+	 pVW7xYFBa9f3g==
+Date: Mon, 10 Mar 2025 14:26:26 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Jens Wiklander <jens.wiklander@linaro.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	op-tee@lists.trustedfirmware.org,
+	linux-arm-kernel@lists.infradead.org,
+	Olivier Masse <olivier.masse@nxp.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Yong Wu <yong.wu@mediatek.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T . J . Mercier" <tjmercier@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
+	Daniel Stone <daniel@fooishbar.org>
+Subject: Re: [PATCH v6 01/10] tee: tee_device_alloc(): copy dma_mask from
+ parent device
+Message-ID: <Z86pOi874jfJJSOv@sumit-X1>
+References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
+ <20250305130634.1850178-2-jens.wiklander@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,46 +74,37 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z8qj_2RJpuff42Sd@kekkonen.localdomain>
+In-Reply-To: <20250305130634.1850178-2-jens.wiklander@linaro.org>
 
-Hi Sakari,
-
-On Fri, Mar 07, 2025 at 07:45:03AM +0000, Sakari Ailus wrote:
-> >  ipu6_bus_initialize_device(struct pci_dev *pdev, struct device *parent,
-> > -			   void *pdata, struct ipu6_buttress_ctrl *ctrl,
-> > +			   void *pdata, const struct ipu6_buttress_ctrl *ctrl,
+On Wed, Mar 05, 2025 at 02:04:07PM +0100, Jens Wiklander wrote:
+> If a parent device is supplied to tee_device_alloc(), copy the dma_mask
+> field into the new device. This avoids future warnings when mapping a
+> DMA-buf for the device.
 > 
-> pdata should be const, too, btw.
+> Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> ---
+>  drivers/tee/tee_core.c | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+
+Reviewed-by: Sumit Garg <sumit.garg@kernel.org>
+
+-Sumit
+
+> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
+> index d113679b1e2d..685afcaa3ea1 100644
+> --- a/drivers/tee/tee_core.c
+> +++ b/drivers/tee/tee_core.c
+> @@ -922,6 +922,8 @@ struct tee_device *tee_device_alloc(const struct tee_desc *teedesc,
+>  	teedev->dev.class = &tee_class;
+>  	teedev->dev.release = tee_release_device;
+>  	teedev->dev.parent = dev;
+> +	if (dev)
+> +		teedev->dev.dma_mask = dev->dma_mask;
+>  
+>  	teedev->dev.devt = MKDEV(MAJOR(tee_devt), teedev->id);
+>  
+> -- 
+> 2.43.0
 > 
-> >  			   char *name);
-> >  int ipu6_bus_add_device(struct ipu6_bus_device *adev);
-> >  void ipu6_bus_del_devices(struct pci_dev *pdev);
-> > diff --git a/drivers/media/pci/intel/ipu6/ipu6-buttress.c b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-> > index 787fcbd1df09..f8fdc07a953c 100644
-> > --- a/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-> > +++ b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-> > @@ -443,7 +443,7 @@ irqreturn_t ipu6_buttress_isr_threaded(int irq, void *isp_ptr)
-> >  	return ret;
-> >  }
-> >  
-> > -int ipu6_buttress_power(struct device *dev, struct ipu6_buttress_ctrl *ctrl,
-> > +int ipu6_buttress_power(struct device *dev, const struct ipu6_buttress_ctrl *ctrl,
-> >  			bool on)
-> 
-> But this is over 80.
-
-On official kernel doc the limit is 100 (with 80 being preferred).
-I run chackpatch.pl on this patch and it was just fine.
-
-However clang-format change this to:
-
-int ipu6_buttress_power(struct device *dev,
-			const struct ipu6_buttress_ctrl *ctrl, bool on)
-
-which is less than 80 characters. So I guess I need to use auto formatter
-for lines I change (for whole file clang-format change lot unrelated things).
-
-Regards
-Stanislaw
-
 
