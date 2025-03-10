@@ -1,200 +1,230 @@
-Return-Path: <linux-media+bounces-27973-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27976-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8418A59E20
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 18:28:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A434A5A2FB
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 19:33:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 22F271709F6
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 17:28:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 26A08172B6F
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 18:33:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF0D1233719;
-	Mon, 10 Mar 2025 17:27:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CB74237163;
+	Mon, 10 Mar 2025 18:32:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=d3engineering.onmicrosoft.com header.i=@d3engineering.onmicrosoft.com header.b="aPImrLpS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2115.outbound.protection.outlook.com [40.107.237.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56BE6231A24
-	for <linux-media@vger.kernel.org>; Mon, 10 Mar 2025 17:27:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741627645; cv=none; b=hAFpipb353evq0Cn4i6kvL/jdyu6AzE4BPg5VsQbbjg+0I50sDAjBLTkGlo1CS//M+r1biWiiogTpBibO7ouJv5HN/BCOdIbr2riVUMVPvRwqx1KUBOUZqSHZBkVCPeNJDBzWTWzGawJ9uOK+yjKIN/gqzn+yBaXDcX/PmBKA+o=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741627645; c=relaxed/simple;
-	bh=BgAIoLHSgV6hJl4mENRqqI5rSw/C9g8bghsvzc2iY5I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Oc5MGVGAnAbpsXa1wKejRFBOOqVVPOLutoKn/V6bntuMcL4criMCPuKYYAIBGPBmOlIa4R8vsV6LJS+OIEM1th9g1Yd51tvoJiPbO7VCRgO/qjlKaxzH5OEnt6B02r3euwcs6OY+NgPm3hYHK+6FP060pr4F/Aof3bmvuglbVys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EE4D8C4CEE5;
-	Mon, 10 Mar 2025 17:27:20 +0000 (UTC)
-Message-ID: <3ea9c657-1324-44f0-8820-02817020cf0d@xs4all.nl>
-Date: Mon, 10 Mar 2025 18:27:19 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C60D235C17;
+	Mon, 10 Mar 2025 18:32:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.115
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741631575; cv=fail; b=HDlKNJSNwRhQKqTwfd/OBLiQ7lrvga5k0JI0N4/voBJ6vapGIju7qg7jHGDbolYE8BrknL6M2PSx5VYytJNg7BJFflbULv4CQP/bP5/UG/267cW2TyAzMfYZ/wpzvP28guJvDCCyrAyjWWt/gWb1xshz608eP2WdGY3YGNRe1Hs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741631575; c=relaxed/simple;
+	bh=kAYGOzEGQx2OvKgjIChEuRkCI0P2yuNRdyG6zjTShZ0=;
+	h=Content-Type:Date:Message-Id:To:Cc:Subject:From:References:
+	 In-Reply-To:MIME-Version; b=EGp38Yh0ZJfji8rPJm4XO6Iy2cxc7v+8Rv2JDpnfIaPwKDrg19czk1yb8xbabM9GVDeBrpsjMCmZ7SXemj+AIoA5SbhCA34UyIr7N7ODu0QZC8fC5TKolu7fSAuIhUKEodVQRF5xFjwrJK5pYvtumh7TM38jbtfjd51/bGYiw5Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=d3embedded.com; spf=pass smtp.mailfrom=d3embedded.com; dkim=pass (1024-bit key) header.d=d3engineering.onmicrosoft.com header.i=@d3engineering.onmicrosoft.com header.b=aPImrLpS; arc=fail smtp.client-ip=40.107.237.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=d3embedded.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=d3embedded.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=JbD9OU3yspyTNMZtBa8TabU8CeV/M+YpXDTBvwlMeJQAMeD81GM+4ZcMUxP0mvlPF0ePxauvLKgik0QQq+P05Yi9pf2wgTARVW6BFwvnqOwNpJkOsMF8vvHw6h9BvotzbTpYND2IvZ1+Kf+6VtF34RBeQuBTdEgOzrLQvejxjUhQn6fQlpB9f5IiKQDAjUYaQObtS4D/Xt7mxPnnbCHmn91F1lNRVjadUMhvxCU/cH5Jz4W0TbWqfJEhX8h/2FM0Ba4as0CjOsjo7tUmrcFgakZn5pvkjuNv6BcYLExMsxF4xUu2rx6bvuOsnRWkOsniOF32ORyA6/UGoCyKdf1+lw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=kAYGOzEGQx2OvKgjIChEuRkCI0P2yuNRdyG6zjTShZ0=;
+ b=E5lUB136Y6/pdREn40hWbMtLC0iYE79BQv/ktfvTv6Mfry5OWEBbFTmfVLPy8HZkeg8hQv/8WrUKb/+e84udp7gZqu88ITnNx/aQeKZR1pexP0igvt2YFEa0Dc9E5xzek3iP0+e/tdDCd4BIJgqZ5G5ifTmswpddhWs3qVE38MVInnt8NuX8BFzQGZkS60rVqO+4wpNdrAPSpE3fvzPeaq9fdOsD5ARe2XoZ81Hn0yL3WX9MKO1aAC79T+F8zL0K5BVV1rnjvF13+E2F3Yz3BLP0NdMuk7eKIn3W717Oa3uyqknPmh2FbRksCDIVuM7zKvRGf2EynRdYLGNd2K0s4w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=d3embedded.com; dmarc=pass action=none
+ header.from=d3embedded.com; dkim=pass header.d=d3embedded.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=d3engineering.onmicrosoft.com; s=selector2-d3engineering-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=kAYGOzEGQx2OvKgjIChEuRkCI0P2yuNRdyG6zjTShZ0=;
+ b=aPImrLpSEdbuQwaPItZlt5prcDFwLBudpy8W3dLQ5Id39GwVbU1lSRRVyAlNWBLD0TuObFDwWGyTLLMuUMmjvptc0JtfRcijPzgcLfewWQl6ZZxKfb4xGRwaCmmWPGxO8kDaTd3gf7jjVjzSiCtrgc3wC/nWH1KHaMRnH3Ukyso=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=d3embedded.com;
+Received: from CH0PR14MB7306.namprd14.prod.outlook.com (2603:10b6:610:186::18)
+ by SA1PR14MB5425.namprd14.prod.outlook.com (2603:10b6:806:239::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.26; Mon, 10 Mar
+ 2025 18:32:50 +0000
+Received: from CH0PR14MB7306.namprd14.prod.outlook.com
+ ([fe80::8bfa:1131:30b1:9295]) by CH0PR14MB7306.namprd14.prod.outlook.com
+ ([fe80::8bfa:1131:30b1:9295%6]) with mapi id 15.20.8511.026; Mon, 10 Mar 2025
+ 18:32:50 +0000
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 10 Mar 2025 14:32:47 -0400
+Message-Id: <D8CSV4M7YSV8.3QV5EGNMV1LKF@d3embedded.com>
+To: "Vaishnav Achath" <vaishnav.a@ti.com>, <devicetree@vger.kernel.org>,
+ <imx@lists.linux.dev>, <linux-arm-kernel@lists.infradead.org>,
+ <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>
+Cc: =?utf-8?b?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
+ "Abel Vesa" <abel.vesa@linaro.org>, "AngeloGioacchino Del Regno"
+ <angelogioacchino.delregno@collabora.com>, "Ard Biesheuvel"
+ <ardb@kernel.org>, "Benjamin Mugnier" <benjamin.mugnier@foss.st.com>, "Biju
+ Das" <biju.das.jz@bp.renesas.com>, "Bjorn Andersson"
+ <quic_bjorande@quicinc.com>, "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Conor Dooley" <conor+dt@kernel.org>, "Dmitry Baryshkov"
+ <dmitry.baryshkov@linaro.org>, "Elinor Montmasson"
+ <elinor.montmasson@savoirfairelinux.com>, "Fabio Estevam"
+ <festevam@gmail.com>, "Geert Uytterhoeven" <geert+renesas@glider.be>, "Hans
+ Verkuil" <hverkuil@xs4all.nl>, "Javier Carrasco"
+ <javier.carrasco@wolfvision.net>, "Jianzhong Xu" <xuj@ti.com>, "Julien
+ Massot" <julien.massot@collabora.com>, "Kieran Bingham"
+ <kieran.bingham@ideasonboard.com>, "Kory Maincent"
+ <kory.maincent@bootlin.com>, "Krzysztof Kozlowski"
+ <krzysztof.kozlowski@linaro.org>, "Laurent Pinchart"
+ <laurent.pinchart@ideasonboard.com>, "Mauro Carvalho Chehab"
+ <mchehab@kernel.org>, "Mikhail Rudenko" <mike.rudenko@gmail.com>, "Nishanth
+ Menon" <nm@ti.com>, "Pengutronix Kernel Team" <kernel@pengutronix.de>, "Rob
+ Herring" <robh@kernel.org>, "Sakari Ailus" <sakari.ailus@linux.intel.com>,
+ "Sascha Hauer" <s.hauer@pengutronix.de>, "Shawn Guo" <shawnguo@kernel.org>,
+ "Stuart Burtner" <sburtner@d3embedded.com>, "Tero Kristo"
+ <kristo@kernel.org>, "Thakkar Devarsh" <devarsht@ti.com>, "Tomi Valkeinen"
+ <tomi.valkeinen@ideasonboard.com>, "Umang Jain"
+ <umang.jain@ideasonboard.com>, "Vignesh Raghavendra" <vigneshr@ti.com>,
+ "Will Deacon" <will@kernel.org>, "Zhi Mao" <zhi.mao@mediatek.com>
+Subject: Re: [PATCH 3/4] arm64: dts: ti: k3-am62a7-sk: Add overlay for
+ fusion 2 board
+From: "Sebastian LaVine" <slavine@d3embedded.com>
+X-Mailer: aerc 0.20.1
+References: <20250212195656.69528-1-slavine@d3embedded.com>
+ <20250212195656.69528-4-slavine@d3embedded.com>
+ <bbf4f6db-cac1-4558-b345-8b4d6b36a8fa@ti.com>
+In-Reply-To: <bbf4f6db-cac1-4558-b345-8b4d6b36a8fa@ti.com>
+X-ClientProxiedBy: BL0PR05CA0009.namprd05.prod.outlook.com
+ (2603:10b6:208:91::19) To CH0PR14MB7306.namprd14.prod.outlook.com
+ (2603:10b6:610:186::18)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [ANN v2] Media Summit 2025: Nice in May or Amsterdam in August?
-To: Paul Kocialkowski <paulk@sys-base.io>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sean Young <sean@mess.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Ricardo Ribalda <ribalda@chromium.org>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- "stanimir.k.varbanov@gmail.com" <stanimir.k.varbanov@gmail.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Michael Tretter <m.tretter@pengutronix.de>, Tomasz Figa
- <tfiga@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Steve Cho <stevecho@chromium.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Kevin Hilman <khilman@baylibre.com>
-References: <ab1fef54-d83f-46e2-a6c8-42b0761368fc@xs4all.nl>
- <d29353c7-7ae2-411b-9c13-3fbd7bd63da2@xs4all.nl> <Z88gGktbzEsmuehK@collins>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <Z88gGktbzEsmuehK@collins>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR14MB7306:EE_|SA1PR14MB5425:EE_
+X-MS-Office365-Filtering-Correlation-Id: 181a21c0-2b2c-4051-ab8a-08dd6001f680
+X-LD-Processed: b7153db5-3376-478b-b601-92ce9bc0d3bc,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+ =?utf-8?B?cVRNdk8vUzJNbDFXTE9GakhrYWl4SmlRNlFSMktrRnZ0eGRSQVYramcyb29U?=
+ =?utf-8?B?ak5PUUdmcDY5cTFWVk55MXd4N254cXZBZklNaTZnNG9UYm5aYnJMYXI1MEth?=
+ =?utf-8?B?RjEyUG9Hc20wVzdpUmNSbjUwZm9VdU81MGVDOUxyRWgzRGFxOWtrT0U0QUw5?=
+ =?utf-8?B?bTM4VHJ2SElSNXNHNmJYWmZhTjVETXkzWFhTM2FGZEdGN3gweHdjbEJGVnZ4?=
+ =?utf-8?B?dWZDN0JqTGhpMXozb1d2dEowSEc5Q3I4emczM2VXclltR0F3SzQxSkVwWE5s?=
+ =?utf-8?B?MEZJdkMyUjNRODJjUGQxaXE1WnovZVlZSGFSc3FUY1EvSE45dXZudkxzUGRW?=
+ =?utf-8?B?a08rWHdNcWxtT2J2VWd4M0ZwMU5rR0FLUXlHTEQxcFNzYjVlOXBCUGRTZzA5?=
+ =?utf-8?B?ZG1lVGFIbXJiWTV2UGdndEFMdGFDRFRkL1drU2duTENRbUxaaTdKYkEzRStB?=
+ =?utf-8?B?MnVLZ2ZQdmVKWGx6ME1GKzlIL0NDRHZXYzI3N2JYWDBPdlB0SWQ1M1hlTWhT?=
+ =?utf-8?B?dDBYRWN1dndNSXd0dWxnZ1JoZzdZdExaa2N5NTFKQXZCVWJkN3d5UVdrSll5?=
+ =?utf-8?B?UWdDTXVxQ3l3NGI1czZCY1hoeWRyRXp0TTlBL3g0anhDeEdGTU51NG9SeEdG?=
+ =?utf-8?B?QkZOam00SXQyYXJudXBCNUxuRlpmY3ljMzJJMnRuT3JlMzZtOW1rMktZSGxC?=
+ =?utf-8?B?Z0NuV3lpeW5qcFh6L0EvcjdEMUFLMWtmSmxFbUdKd1FnZXhRU3RGdXcxZzJr?=
+ =?utf-8?B?UUxwdm55UU5Samw5am1Xd0gzempNanpHWHZMeGY2ZWdkS2h3UnpqZ01RMzlN?=
+ =?utf-8?B?M2pkcEMzckUxTEo5SU5IVWhWZzhrTXY0Y0pJa2F1amF6VHlBRFZVUm5yR2dU?=
+ =?utf-8?B?b3B6VDR5ZW9XSHhhVFdXbGpOdXdxamtuTjdsM1c4L1NaK0lCbDdqWUVIZHUw?=
+ =?utf-8?B?NXl6VjNGWVpHL3RkWVpZeUNlZnRwaTN2OVhBQVZqdis0OFc0YkJiRG5BdGxh?=
+ =?utf-8?B?ekxNVGttUTZId04wZEl5T3FHdFAyWTh0TXlUSHkrakVoU2RudVdXY0tPbW5L?=
+ =?utf-8?B?SU5hQjdQZnZUT2QrelN6QjNORHo2TjRvekZnUXc0SGp3a0tZcjdYSVBka3pV?=
+ =?utf-8?B?cUlLOHo0QUdKa3VwcFNvWTRHRitBejVPdXUrSE5nNzJ0K1lTSHJSRGd2Uldr?=
+ =?utf-8?B?bWtVcHl0YXcyR1BEa3R0bjdxYUpaWEFVcFhXRkc4M1d6UVAvS1JrdDVBdVVB?=
+ =?utf-8?B?b1g5YnZkM21uQTc5b2tDS25MSVVMV09tdEg0SmxDZGJ4Y29mTkVpb2pYNUJG?=
+ =?utf-8?B?OEowbEVoYXA0Q2Q1cGxEZ2E3YS94OXR3OGpFK3VGZUJCczdTRERGS2YxS2py?=
+ =?utf-8?B?YXlldVhRZkpYc3o2TS8wdjBUZEwraGZCWXpTeVk3ZURQM1R5eDcvdFpFbmpa?=
+ =?utf-8?B?V2dINzIxWDhHRkdPdWJ4RFVWd3NQZTJMNW1ydXh5b0ZFbEtZK0Fhc25wRFdN?=
+ =?utf-8?B?cEV5cnUzZzd3dC9QTGlJS0hjbDU3M3FIZVAzN3JmRGtmclhKQkMxM01JZGNN?=
+ =?utf-8?B?V1BDNEpGOFpJVXNVRE5EQm5XckF2RUl3ZzhyWDRzeGZJRTlqSGovMkJkbnk3?=
+ =?utf-8?B?TWlHOE5PNE1tQnMybnFDZS9ncmUxQUhjYmt6OVp6YVFnem1JZDNtU1pNVmps?=
+ =?utf-8?B?a1hJTEZSRUFRSHhXZHkyMjVFQWp5SEk3cVZyUXowYTIyR2lOVTQyYlpVR0hW?=
+ =?utf-8?B?TkZoaTFCbDNPNzM5eXhlKzZLYW15SUJuZlk2elJBQlFSc3NVMWZ5NzJ0T3FT?=
+ =?utf-8?B?OWtFR3pwdGFXRFFFWjlhbit2dERHQWhMZzZhQW53ZS9FNm56a1o1TTdiV2k3?=
+ =?utf-8?Q?rt4J3rL5aCrMu?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH0PR14MB7306.namprd14.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?cnFVelpBMTFwKzQyTHdrS3hjV2N3aTlkYnFSUHhXTHhsSWNzYjAyTVlqUXVk?=
+ =?utf-8?B?Vkl5U3BOSmt4N3FnU05OMmY2TGhYb0s2Y2FRL0llYUhBeVErd3IvZ21NbUEw?=
+ =?utf-8?B?dlhXZGQ0QldyNlVFZ3JhbWJ4U0hSQUdHZ3NkWTFvYmw0c3k2bGdCaU9qeEEr?=
+ =?utf-8?B?MUp5U1VYeWh3UXVTTUZHUXBRSGg2WlBwSnhYS0l5TjVqSUx4b0NodzZsR3lO?=
+ =?utf-8?B?eG1oVXk2ZXVQcVdWVS9maGxZZFU5ZGk2eHIzZmV3eVRuc1oxNHE0Y1k5cy9l?=
+ =?utf-8?B?K2FTTzRBUXI2SXB0YlRHVGNXM3JmZC8vV2ptdlE2clpjaGhoYk1RNFVMbjBk?=
+ =?utf-8?B?N3VJdFJ2ZUdWWVdWYU1LVHdwZnh5dFJuZFhLV0ZnY0FpMkJzQVNLQzBHSzly?=
+ =?utf-8?B?d014WkdLUHpBMktUSjFLaG8xYkFNMDNyWGZzWkVNc2xEUVd6QTd6dEdjd2hJ?=
+ =?utf-8?B?Y3NCUThBakNJOCt0WXhUQmlKWUdjTGRjTGJSajVMRHl3aXBXcytyV0lzemtH?=
+ =?utf-8?B?clpERDNIWmlLZTV1MkFTY2FRbzhjWWtiT3M3OEtjbEVYYmxZRDF4ZFNxOFpz?=
+ =?utf-8?B?cHZRZVlXL3VrU3p0OVhJaUd1dnNNZFlBRVBHaG1MSUllOWlkdDVndGRQVTlG?=
+ =?utf-8?B?ZzNPVXJyazJKeG5MOFErNzl5NHlVQlY3VVN2L053QitONDRBN0JTdlRVNEtS?=
+ =?utf-8?B?OFJ2SWZSYTNLTVowRVYwZ2JmYXdGN0o2QVNDWnFVZTdBeTVwWVpqY3lVWDB4?=
+ =?utf-8?B?UUZzdXVINlVGUWU4algwaU93UzJYQll5S3V6cmJmY24rRXQ4a1VGeWpiSmFu?=
+ =?utf-8?B?SG9GVjhCM2dEUnhMaGx5UFRYemxjeXA0UXpQRlNWb1FhWGw3UE9iSUpYU1kv?=
+ =?utf-8?B?dkI0WDdnQlFZUXNpejRTalRWNTRSN0JiQmIyVjdxVjJ0czJPV0YxMjI4cE5K?=
+ =?utf-8?B?cEpyem1nWUtSaVZlZGVDcjBOSVp1emhtUU5hSkNQWWQyVmZnZEFHYkxZdmVv?=
+ =?utf-8?B?WUxuSkI1YnVmWkVKdVlQQWV3S092WjVMVW5YdGlEazJxbUpLaXUrazZwbGdQ?=
+ =?utf-8?B?eG1XUE5Qcmh2YURQMTdma0w2WVhPaXdFUDZhZlN5UzdIQU5LbUZlM2tXNXRx?=
+ =?utf-8?B?OVFHRW5ab1pPOWpHMVdBUjZ2b2ZKaGNRTUNLdXlQUTN0YU81d0JBM2liazBU?=
+ =?utf-8?B?dHlqVlFZRzhHWVQxUk5QQmJBbm5oQ2hEdXgyY1oyeXhpUklIUlVIdE1iSjJV?=
+ =?utf-8?B?NlRNbXVRNVJldHJwdjdUVUtuUHUydGo1QlJucTBmcDNSSmRQUnNxanpsdm5Z?=
+ =?utf-8?B?ampEbnBqTi9lVHVqQWx2elE1TWJqNGd6aUxGdzhTYW1TSjFwNi9MaTUvTWI0?=
+ =?utf-8?B?VzQ1YVVXZXNVeEhwaUtCMmRCU2pKL2c0VUVNVlZXV2dTUVJmK0o1U1NEakNS?=
+ =?utf-8?B?ZktZOW11U2NvV3lha1M4RlVlcUg3NEhkeFR1ckp0TTlCSUFSdTVsWUpyRGt2?=
+ =?utf-8?B?bmtkTjhzU1NsWUlNWjdpZStsdU54WU9wMWx2TXBCdzFEeG5CM0YwRnArUW9k?=
+ =?utf-8?B?ZFl1bytpZldJMG1tQnJzUU0vVG9ROGVJRVVPcmZHVk52S09yaTBVKzMzUDJ4?=
+ =?utf-8?B?ZzlUdEdPcE9tS1hNeTBnME9DZUtoY0ZvbW83Qkw0MFFvOXdRQ25lWHlIWllQ?=
+ =?utf-8?B?Zm1xSVNKV2pSNTZJN21NZ2pxM3N1T1V2bWVxamFYeE82SDFLWFczOXNEQ0lo?=
+ =?utf-8?B?UzBaTE93N2dsV2YraStqWXhuNWZrVWcvNjhWbEpzck5OSHljL2lZeDFDUFdy?=
+ =?utf-8?B?bGtCOUlUVHd5dmNhUVdXSXd6U3Mwb0hUL2x1WHoza2ZWU3RmNU56S2xUYmRv?=
+ =?utf-8?B?cFc5L2RqTUlDQlB5a2dnVHZPdUY3bVRvQnQ4ZDdjbTFweVRmZjA4V2lNVjNO?=
+ =?utf-8?B?U09wUWhOYVFXUERRN095S3ZWcW9DUFlENC8zZFU2Y3BzWHJoZTR3aEsrVmta?=
+ =?utf-8?B?WFB4a0FVWmFIbnpjUzRTSlFoQ3VrZXdncmdwUGM3VjczOEtHb1crbHBxSkxE?=
+ =?utf-8?B?ZjB1VC9CMVlzdWlKZFo2K0NrNFo2RHk1S1ArZ1IzQTRCMnd0aGNueEtveW9w?=
+ =?utf-8?B?VG1JaGlRWnh5OUd4dVFUcU1oaVVKVDlFQU9MMml6MXg0U2F4VURxQzY3eVVJ?=
+ =?utf-8?B?L1E9PQ==?=
+X-OriginatorOrg: d3embedded.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 181a21c0-2b2c-4051-ab8a-08dd6001f680
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR14MB7306.namprd14.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Mar 2025 18:32:50.4921
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: b7153db5-3376-478b-b601-92ce9bc0d3bc
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pXKeeKnXJhuRXOxH8rB10jMOiN7FTMgd35sU+bPGZ+DdOi+uB770Y7MXTVIMOalyyFj2ncwgzLDKEaNKC0CokA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR14MB5425
 
-Hi all,
-
-I can confirm that the Media Summit will be held in Nice. I hope to be able to
-post more details by the end of this week.
-
-Regards,
-
-	Hans
-
-
-On 10/03/2025 18:23, Paul Kocialkowski wrote:
-> Hi,
-> 
-> Le Thu 27 Feb 25, 11:05, Hans Verkuil a écrit :
->> Just a friendly reminder to reply if you want to attend the Media Summit, and
->> if so, which place works for you.
+On Tue Feb 18, 2025 at 2:07 PM EST, Vaishnav Achath wrote:
+> Hi Sebastian,
+>
+> On 13/02/25 01:26, Sebastian LaVine wrote:
+>> Adds an overlay for the Fusion 2 (FPD-Link IV) board on SK-AM62A.
 >>
->> Currently the preference seems to be Nice.
-> 
-> I will also attend Embedded Recipes in Nice and really unsure about ELCE in
-> Amsterdam. Like Nicolas pointed out, it's an expensive trip with less and less
-> technical value. I feel like it's mostly interesting to get business
-> visibility and see people from the community.
-> 
-> I'd be interested to talk about stateless video encoding uAPI topics there.
-> 
-> Cheers,
-> 
-> Paul
-> 
->> On 20/02/2025 11:24, Hans Verkuil wrote:
->>> [Repost because I mixed up a Lyon and Nice, and to provide more info on the other
->>>  events that take place in Nice. Also added Kevin Hilman to the CC list.]
->>>
->>> Hi all,
->>>
->>> We want to organize a Media Summit this year as well to meet each other face-to-face.
->>> We try to co-locate with an existing conference, and this year there are two options:
->>>
->>> 1) Co-locate with the Embedded Recipes conference in Nice in France which is held on May 14-16:
->>>
->>>    https://embedded-recipes.org/2025/
->>>
->>>    So a media summit would probably take place on May 11 or 12.
->>>
->>>    This conference is a one room, one track format. But the room holds up to 200
->>>    people and the expectation is that it is not a problem to get tickets for it.
->>>    And we might be able to reserve some tickets for us as well.
->>>
->>>    There is a libcamera workshop on Friday, and AFAIK a pipewire workshop on the same day.
->>>    GStreamer plans an event during the weekend after ER.
->>>
->>> 2) Co-locate with the Open Source Summit Europe in Amsterdam which is held on August 25-27.
->>>
->>>    https://events.linuxfoundation.org/open-source-summit-europe/
->>>
->>>    The Embedded Linux Conference Europe is part of that event. The summit would
->>>    probably be on August 24 or 28.
->>>
->>> I know that getting permission to travel is still a problem for many, which is why we
->>> try to co-locate with a larger event.
->>>
->>> So: if you are a core media maintainer or an active media developer, and want to join
->>> the Media Summit, which of these two options would work for you?
->>>
->>> If possible, I would like to get an idea of what I can expect in about two weeks time.
->>> I'll send out a reminder in about a week as well.
->>>
->>> Feel free to forward this if you know other people who might be interested.
->>>
->>> If you haven't been to one of these Media Summits before, then you can find the report
->>> on last year's summit here:
->>>
->>> https://lore.kernel.org/linux-media/45e4f5d4-f6c4-4f0b-96b5-f5e1125b0845@xs4all.nl/
->>>
->>> That should give you an idea of what to expect.
->>>
->>> Regards,
->>>
->>> 	Hans
->>>
->>
->>
-> 
+>
+> Were you able to test and get this working without additional patches on
+> linux-next?
+>
+> The multi-steam support for J721E-CSI2RX and CDNS-CSI2RX drivers are
+> still WIP [1] and as per my understanding you will need those to get
+> this overlay functional.
+>
+> 1 -
+> https://lore.kernel.org/all/20240627-multistream-v2-0-6ae96c54c1c3@ti.com=
+/
 
+Thanks for this -- I'll hold off on the overlays for the next series
+revision.
+
+--
+
+Sebastian
+
+Please be aware that this email includes email addresses outside of the org=
+anization.
 
