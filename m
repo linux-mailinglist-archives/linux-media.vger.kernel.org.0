@@ -1,154 +1,107 @@
-Return-Path: <linux-media+bounces-27972-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27975-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EA08A59B38
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 17:39:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A7ACA5A064
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 18:49:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 448F31884CDD
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 16:39:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EDF15188E7C1
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 17:49:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 415D52309A7;
-	Mon, 10 Mar 2025 16:39:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 761392327AE;
+	Mon, 10 Mar 2025 17:49:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="isevvDNd"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="JF+KWOnF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA83B216392
-	for <linux-media@vger.kernel.org>; Mon, 10 Mar 2025 16:39:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC3D517CA12;
+	Mon, 10 Mar 2025 17:49:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741624753; cv=none; b=ay5Mzq3uxGRMG61BtCfk84xzKfHgIJ4hWBpjBg6s8eAuDbp8jTZzrokICnziSB+xpS9rssoe8GkLZoSt5kgz7vU46nKiw1PTt6EI+8MrrN5lQVfplEfQr9NRIatP51Y+oICX0HSkAR2qEMpDyPHDxa0azDhEEl0o3I3RVbiROvo=
+	t=1741628953; cv=none; b=KUX3tPjlYl2qk81vrYEnXT3yyZCaGHqVyRYlZCmdg5jBN1iNLdD3RRyAeFdKM/C5lQUeFrdG5YxuOwFJzcZl4gtIcY7KyO9ufEF5r9r3wIttpUfXHXYE5D9tPBHforbj0AICp9j/UzgkJWacoKkPYlhQOEhn7/0OFqpke+875jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741624753; c=relaxed/simple;
-	bh=GExsIkkqVDXmOXPMiwRTt6YMXBtO7N7bXDqeWCHr8LI=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=ANUseVjOQrRaD9rZcyx7Vg+F9rIw8bACGUHt6thnW+y1cY/ypEfUlJ5HhlozJT9E4L7YqCgtNQXyFfZ2Hay8VzMHggKwQ4i+iN3NuJxSO8AyG4IX+RYzXJ3waNoAgdoUFbGc9D5h4/XwOjBJGPQUJjj46V+VeMJP2UuY/fwYN24=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=isevvDNd; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741624752; x=1773160752;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=GExsIkkqVDXmOXPMiwRTt6YMXBtO7N7bXDqeWCHr8LI=;
-  b=isevvDNd4mdwCQ+37GGbkSm4pc6T3+XZN140OiSYnrrLDHEvwrK1z169
-   sjPMeqwMGc11k07/YssnN7d4ynwrtF6ISQoluqG5+H6fJc4L606He6jN0
-   YxOKoRMI3es7h0RZCMzXdsUZah3H1Mo61E8kgtyRKwCIwsH15ZREpQaQM
-   sGWD3UEddXbsyEoUkE1M1t2dPWDaIsEy0S+soiVzPrdNzsFygG0HMvGt2
-   qi5FCDffVvJBRMGMkjn6xOYJI5HEQEWX8XUzARcOaNgrUilAabdFHrAOw
-   327C0EWu7H5gmYtZNhl78UfxiGathxSs1egPWBlSOxn5KbNfPczS++ue+
-   g==;
-X-CSE-ConnectionGUID: Pb6TAIN7SxWzPYCaZ92Zpg==
-X-CSE-MsgGUID: qLNayfy5TXuggfq2u7gXdw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="41798580"
-X-IronPort-AV: E=Sophos;i="6.14,236,1736841600"; 
-   d="scan'208";a="41798580"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 09:39:10 -0700
-X-CSE-ConnectionGUID: 9ieiZkrLQBeYxfVZx7OSUw==
-X-CSE-MsgGUID: U+zdeB3vSM29ryleoBEChw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,236,1736841600"; 
-   d="scan'208";a="143244021"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa002.fm.intel.com with ESMTP; 10 Mar 2025 09:39:09 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1trg9e-0004TU-2Z;
-	Mon, 10 Mar 2025 16:39:03 +0000
-Date: Tue, 11 Mar 2025 00:38:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [sailus-media-tree:devel 22/23]
- drivers/media/platform/atmel/atmel-isi.c:1075:29: error: implicit
- declaration of function 'devm_kmemdup_array'; did you mean
- 'devm_kmalloc_array'?
-Message-ID: <202503110007.KgiJLedM-lkp@intel.com>
+	s=arc-20240116; t=1741628953; c=relaxed/simple;
+	bh=eorEADAoLiM1mfw0R59okj0tCbLtySU1ct0ID5XU28M=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ONkvWlB/CnRCTz/ne3Aivh++oY076PplzxqrfSOGZsoM9qgozRS9uTDbOaOSvzXck4rlE/r2Q6cdt/EduYsP5mEqywnVSYXJ9cw0Qk3B1xm4mceWHIJD187/DWqijyiO2ZDglfYTDYiCSEiFqM+MZ53VSePd3ca2Qw6vlcSRH6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=JF+KWOnF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4CAA4C4CEE5;
+	Mon, 10 Mar 2025 17:49:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1741628953;
+	bh=eorEADAoLiM1mfw0R59okj0tCbLtySU1ct0ID5XU28M=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=JF+KWOnFF1s9Bs/W/Eu2QjQomJWKCBHCsEmaRhwjflfbg7/zrjLSCO9dZOALdxH4H
+	 fa/3A8SaWiUJ/JnSjzYY88yq6JR4cV06kll1Fy0NfPZKNE/5X83JNTh99BZ3+L3mUn
+	 pK5zhAHj+hKq8TphZ2F88BwJBKPKFega8UTFpbWw=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 5.15 127/620] ARM: dts: mediatek: mt7623: fix IR nodename
+Date: Mon, 10 Mar 2025 17:59:33 +0100
+Message-ID: <20250310170550.611160205@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250310170545.553361750@linuxfoundation.org>
+References: <20250310170545.553361750@linuxfoundation.org>
+User-Agent: quilt/0.68
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-tree:   git://linuxtv.org/sailus/media_tree.git devel
-head:   07e07f2cd3ebb7e8b62ccb8f22a16032b599c9e2
-commit: 93c8dabd1d1ed94f03eb9a63c0bc291b62595bda [22/23] media: atmel-isi: use devm_kmemdup_array()
-config: xtensa-randconfig-002-20250310 (https://download.01.org/0day-ci/archive/20250311/202503110007.KgiJLedM-lkp@intel.com/config)
-compiler: xtensa-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250311/202503110007.KgiJLedM-lkp@intel.com/reproduce)
+5.15-stable review patch.  If anyone has any objections, please let me know.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503110007.KgiJLedM-lkp@intel.com/
+------------------
 
-All errors (new ones prefixed by >>):
+From: Rafał Miłecki <rafal@milecki.pl>
 
-   drivers/media/platform/atmel/atmel-isi.c: In function 'isi_formats_init':
->> drivers/media/platform/atmel/atmel-isi.c:1075:29: error: implicit declaration of function 'devm_kmemdup_array'; did you mean 'devm_kmalloc_array'? [-Wimplicit-function-declaration]
-    1075 |         isi->user_formats = devm_kmemdup_array(isi->dev, isi_fmts, num_fmts,
-         |                             ^~~~~~~~~~~~~~~~~~
-         |                             devm_kmalloc_array
->> drivers/media/platform/atmel/atmel-isi.c:1075:27: error: assignment to 'const struct isi_format **' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1075 |         isi->user_formats = devm_kmemdup_array(isi->dev, isi_fmts, num_fmts,
-         |                           ^
+[ Upstream commit 90234cf9b37c57201a24b78c217a91a8af774109 ]
 
+Fix following validation error:
+arch/arm/boot/dts/mediatek/mt7623a-rfb-emmc.dtb: cir@10013000: $nodename:0: 'cir@10013000' does not match '^ir(-receiver)?(@[a-f0-9]+)?$'
+        from schema $id: http://devicetree.org/schemas/media/mediatek,mt7622-cir.yaml#
 
-vim +1075 drivers/media/platform/atmel/atmel-isi.c
+Fixes: 91044f38dae7 ("arm: dts: mt7623: add ir nodes to the mt7623.dtsi file")
+Cc: linux-media@vger.kernel.org
+Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+Link: https://lore.kernel.org/r/20240617094634.23173-1-zajec5@gmail.com
+Signed-off-by: Matthias Brugger <matthias.bgg@gmail.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ arch/arm/boot/dts/mt7623.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  1043	
-  1044	static int isi_formats_init(struct atmel_isi *isi)
-  1045	{
-  1046		const struct isi_format *isi_fmts[ARRAY_SIZE(isi_formats)];
-  1047		unsigned int num_fmts = 0, i, j;
-  1048		struct v4l2_subdev *subdev = isi->entity.subdev;
-  1049		struct v4l2_subdev_mbus_code_enum mbus_code = {
-  1050			.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-  1051		};
-  1052	
-  1053		while (!v4l2_subdev_call(subdev, pad, enum_mbus_code,
-  1054					 NULL, &mbus_code)) {
-  1055			for (i = 0; i < ARRAY_SIZE(isi_formats); i++) {
-  1056				if (isi_formats[i].mbus_code != mbus_code.code)
-  1057					continue;
-  1058	
-  1059				/* Code supported, have we got this fourcc yet? */
-  1060				for (j = 0; j < num_fmts; j++)
-  1061					if (isi_fmts[j]->fourcc == isi_formats[i].fourcc)
-  1062						/* Already available */
-  1063						break;
-  1064				if (j == num_fmts)
-  1065					/* new */
-  1066					isi_fmts[num_fmts++] = isi_formats + i;
-  1067			}
-  1068			mbus_code.index++;
-  1069		}
-  1070	
-  1071		if (!num_fmts)
-  1072			return -ENXIO;
-  1073	
-  1074		isi->num_user_formats = num_fmts;
-> 1075		isi->user_formats = devm_kmemdup_array(isi->dev, isi_fmts, num_fmts,
-  1076						       sizeof(isi_fmts[0]), GFP_KERNEL);
-  1077		if (!isi->user_formats)
-  1078			return -ENOMEM;
-  1079	
-  1080		isi->current_fmt = isi->user_formats[0];
-  1081		return 0;
-  1082	}
-  1083	
-
+diff --git a/arch/arm/boot/dts/mt7623.dtsi b/arch/arm/boot/dts/mt7623.dtsi
+index a7d62dbad6026..64756888fd0d1 100644
+--- a/arch/arm/boot/dts/mt7623.dtsi
++++ b/arch/arm/boot/dts/mt7623.dtsi
+@@ -309,7 +309,7 @@
+ 		clock-names = "spi", "wrap";
+ 	};
+ 
+-	cir: cir@10013000 {
++	cir: ir-receiver@10013000 {
+ 		compatible = "mediatek,mt7623-cir";
+ 		reg = <0 0x10013000 0 0x1000>;
+ 		interrupts = <GIC_SPI 87 IRQ_TYPE_LEVEL_LOW>;
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.5
+
+
+
 
