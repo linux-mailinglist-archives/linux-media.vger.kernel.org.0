@@ -1,170 +1,119 @@
-Return-Path: <linux-media+bounces-27970-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27971-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D727A59A4A
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 16:47:06 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BEA6A59B01
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 17:29:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EEE243A66B8
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 15:46:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CA4837A6ACC
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 16:27:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B202226CFA;
-	Mon, 10 Mar 2025 15:47:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2A2922FF4C;
+	Mon, 10 Mar 2025 16:28:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RxrP5QSH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HjCRfgvh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37E11DFF0
-	for <linux-media@vger.kernel.org>; Mon, 10 Mar 2025 15:46:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E289E226556;
+	Mon, 10 Mar 2025 16:28:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741621619; cv=none; b=BzF1ZSoPKP9DfmIWqBma/m1S6GbiO7ePDPzMydIsEt2+iuFQ3pDc7X1OlyxIRRLkeJDLkwPfxuHyIkB/GCAH/4QNCdcsAzg+uj8A4KatcVHt1rHzPV3vWrTQYm69LY8jUDw3e0Qo7rSKa4+fBqJ3ClBKVQYNm8o2kZTYSnLWOh4=
+	t=1741624110; cv=none; b=sPJhoFgNUEqaUb38fRy78OSnzoi2gLabOKKxjEvtg0A6hY7FF4yGSS1GnH/E/2FbeP7iHpHGGEOIUDXLJa+tFJZb/viIBTzH9P1zy/DVpb8Mlpf1odx23JF+dXwdwqX40C4BKbf8Ne7eVh9g9E3zHCXPGZeOiJk3ksK3+Svh2W4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741621619; c=relaxed/simple;
-	bh=FBgwY36HDCOGShWtd98nUyKOeQn3V3CPBD96iQp7bC0=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=rdXxENJaVT0iHTNAp76IKHs2ZphcwDDxY8UwqxslOH9vE02HXk6obVuTbBBuJyjp4elmX12+MZYYOCuqcmXeUt9PlJdtEd/DK6XnqpKg0D6TSweUrw4n55H1ft4O2SsPIA4PgS0a6GttzK91RxTMHI5Cz/ZP3wGQeY472Ky5/Rk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RxrP5QSH; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741621618; x=1773157618;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=FBgwY36HDCOGShWtd98nUyKOeQn3V3CPBD96iQp7bC0=;
-  b=RxrP5QSHcdboIjQb/si7giAu9o5nZbp8h9YGuOcKgU9vYA8OOiIAw96e
-   XUaKWenzcYKRuva69EYykOLJfMkne8QMEYt3XKxIogjrh9XBC0B0qFLW7
-   pr0y72e7ALVWmk2byAFH0bYYl5bEBo7Yf3DK64oEaFFCj6U38Umyb8cOt
-   x9/90buQtvpLWZG6xDrYWenuwi/YK6bLlTcMf7byJ67q5VDwSZ/ESn64F
-   mb1vL6z1ETREqI0cZaHM29KKdv6v6vrmklXITical7RzpkEK85xjA33tf
-   v2PHHeSOrfn/Rm8mrl+qFJX2tBuQp4F1PrHgL44g6V/drUq1foJc7nvs7
-   Q==;
-X-CSE-ConnectionGUID: U1PUJVN8ROGDyc6U4UpdBQ==
-X-CSE-MsgGUID: N/11VVF1TMaNR85r2VH0Mw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="42503677"
-X-IronPort-AV: E=Sophos;i="6.14,236,1736841600"; 
-   d="scan'208";a="42503677"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 08:46:57 -0700
-X-CSE-ConnectionGUID: 970ODgy7RY6vUYtdemQNiA==
-X-CSE-MsgGUID: 1ROdfxaZTbGfPIzbUQPmGg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,236,1736841600"; 
-   d="scan'208";a="119866069"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa006.fm.intel.com with ESMTP; 10 Mar 2025 08:46:56 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1trfLC-0004PI-09;
-	Mon, 10 Mar 2025 15:46:54 +0000
-Date: Mon, 10 Mar 2025 23:46:28 +0800
-From: kernel test robot <lkp@intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [sailus-media-tree:devel 23/23]
- drivers/media/platform/st/stm32/stm32-dcmi.c:1685:28: error: implicit
- declaration of function 'devm_kmemdup_array'; did you mean
- 'devm_kmalloc_array'?
-Message-ID: <202503102326.NA0KFO8t-lkp@intel.com>
+	s=arc-20240116; t=1741624110; c=relaxed/simple;
+	bh=sfvhajnKh+JsG0G6ZCvurp8nXoOWJhhwIboB81/bSrw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=P2mQNdxQqnq/Mh6bihTnsilZM9EO+nET3LrZskbIw92/s+6GUaLaM8DGU3c/XYu+rWl7ZlpTi81pERHMD9A0OcscHPwSIIfUquk0L74tkursCgNi/aLarYJWFyJ6Kl29bX0+eVZ8xy/xGk/BmHKLeRpDxmMCd2GIE/e1dBxrfe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HjCRfgvh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3E28C4CEE5;
+	Mon, 10 Mar 2025 16:28:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741624109;
+	bh=sfvhajnKh+JsG0G6ZCvurp8nXoOWJhhwIboB81/bSrw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HjCRfgvhI4AlUc9WjlFhsPXUiJyzrUc7p1qSry8OFL6MdHrIU9dymbeJiT9YIoP0D
+	 VpC7Nku3EXjciL5/o5SgIqVML56l8wAsBs9D0MV02GYwaxyVQleOU1pZm20IaC9MqS
+	 6WL2AQtsDOrq/PSSrVIqLEmgiG7O2qg68NrFKbo0o/GbNDo1vAl8GfYDxMYrV6IemA
+	 TA2xBT4nqJ+pqLZuSkQGtcP74qh8qiWlsFnT1nJd8PimtWtBMONmIe6Y1t9kfiJZfa
+	 zgaHp90KP/TRdKxL6fw5PTlDtElMmsEjwJkxJo+mqgxXI69OPILcXnnV23cR/5WNFt
+	 Lra5gXAYY48XQ==
+Date: Mon, 10 Mar 2025 17:28:26 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Robin Murphy <robin.murphy@arm.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+	"T.J. Mercier" <tjmercier@google.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Tomasz Figa <tfiga@chromium.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
+	iommu@lists.linux.dev, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH RFC 06/12] dma: direct: Provide accessor to dmem region
+Message-ID: <20250310-expert-piculet-of-fascination-3813cd@houat>
+References: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
+ <20250310-dmem-cgroups-v1-6-2984c1bc9312@kernel.org>
+ <2af9ea85-b31d-49c9-b574-38c33cc89cef@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="u3dzblkp3nldqa3e"
 Content-Disposition: inline
-
-tree:   git://linuxtv.org/sailus/media_tree.git devel
-head:   07e07f2cd3ebb7e8b62ccb8f22a16032b599c9e2
-commit: 07e07f2cd3ebb7e8b62ccb8f22a16032b599c9e2 [23/23] media: stm32-dcmi: use devm_kmemdup_array()
-config: sparc-randconfig-001-20250310 (https://download.01.org/0day-ci/archive/20250310/202503102326.NA0KFO8t-lkp@intel.com/config)
-compiler: sparc-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250310/202503102326.NA0KFO8t-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503102326.NA0KFO8t-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/media/platform/st/stm32/stm32-dcmi.c: In function 'dcmi_formats_init':
->> drivers/media/platform/st/stm32/stm32-dcmi.c:1685:28: error: implicit declaration of function 'devm_kmemdup_array'; did you mean 'devm_kmalloc_array'? [-Wimplicit-function-declaration]
-    1685 |         dcmi->sd_formats = devm_kmemdup_array(dcmi->dev, sd_fmts, num_fmts,
-         |                            ^~~~~~~~~~~~~~~~~~
-         |                            devm_kmalloc_array
->> drivers/media/platform/st/stm32/stm32-dcmi.c:1685:26: error: assignment to 'const struct dcmi_format **' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1685 |         dcmi->sd_formats = devm_kmemdup_array(dcmi->dev, sd_fmts, num_fmts,
-         |                          ^
+In-Reply-To: <2af9ea85-b31d-49c9-b574-38c33cc89cef@arm.com>
 
 
-vim +1685 drivers/media/platform/st/stm32/stm32-dcmi.c
+--u3dzblkp3nldqa3e
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH RFC 06/12] dma: direct: Provide accessor to dmem region
+MIME-Version: 1.0
 
-  1639	
-  1640	static int dcmi_formats_init(struct stm32_dcmi *dcmi)
-  1641	{
-  1642		const struct dcmi_format *sd_fmts[ARRAY_SIZE(dcmi_formats)];
-  1643		unsigned int num_fmts = 0, i, j;
-  1644		struct v4l2_subdev *subdev = dcmi->source;
-  1645		struct v4l2_subdev_mbus_code_enum mbus_code = {
-  1646			.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-  1647		};
-  1648	
-  1649		while (!v4l2_subdev_call(subdev, pad, enum_mbus_code,
-  1650					 NULL, &mbus_code)) {
-  1651			for (i = 0; i < ARRAY_SIZE(dcmi_formats); i++) {
-  1652				if (dcmi_formats[i].mbus_code != mbus_code.code)
-  1653					continue;
-  1654	
-  1655				/* Exclude JPEG if BT656 bus is selected */
-  1656				if (dcmi_formats[i].fourcc == V4L2_PIX_FMT_JPEG &&
-  1657				    dcmi->bus_type == V4L2_MBUS_BT656)
-  1658					continue;
-  1659	
-  1660				/* Code supported, have we got this fourcc yet? */
-  1661				for (j = 0; j < num_fmts; j++)
-  1662					if (sd_fmts[j]->fourcc ==
-  1663							dcmi_formats[i].fourcc) {
-  1664						/* Already available */
-  1665						dev_dbg(dcmi->dev, "Skipping fourcc/code: %4.4s/0x%x\n",
-  1666							(char *)&sd_fmts[j]->fourcc,
-  1667							mbus_code.code);
-  1668						break;
-  1669					}
-  1670				if (j == num_fmts) {
-  1671					/* New */
-  1672					sd_fmts[num_fmts++] = dcmi_formats + i;
-  1673					dev_dbg(dcmi->dev, "Supported fourcc/code: %4.4s/0x%x\n",
-  1674						(char *)&sd_fmts[num_fmts - 1]->fourcc,
-  1675						sd_fmts[num_fmts - 1]->mbus_code);
-  1676				}
-  1677			}
-  1678			mbus_code.index++;
-  1679		}
-  1680	
-  1681		if (!num_fmts)
-  1682			return -ENXIO;
-  1683	
-  1684		dcmi->num_of_sd_formats = num_fmts;
-> 1685		dcmi->sd_formats = devm_kmemdup_array(dcmi->dev, sd_fmts, num_fmts,
-  1686						      sizeof(sd_fmts[0]), GFP_KERNEL);
-  1687		if (!dcmi->sd_formats) {
-  1688			dev_err(dcmi->dev, "Could not allocate memory\n");
-  1689			return -ENOMEM;
-  1690		}
-  1691	
-  1692		dcmi->sd_format = dcmi->sd_formats[0];
-  1693		return 0;
-  1694	}
-  1695	
+On Mon, Mar 10, 2025 at 02:56:37PM +0000, Robin Murphy wrote:
+> On 2025-03-10 12:06 pm, Maxime Ripard wrote:
+> > Consumers of the direct DMA API will have to know which region their
+> > device allocate from in order for them to charge the memory allocation
+> > in the right one.
+>=20
+> This doesn't seem to make much sense - dma-direct is not an allocator
+> itself, it just provides the high-level dma_alloc_attrs/dma_alloc_pages/e=
+tc.
+> interfaces wherein the underlying allocations _could_ come from CMA, but
+> also a per-device coherent/restricted pool, or a global coherent/atomic
+> pool, or the regular page allocator, or in one weird corner case the SWIO=
+TLB
+> buffer, or...
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+I guess it wasn't super clear, but what I meant is that it's an
+allocator to the consumer: it gets called, and returns a buffer. How it
+does so is transparent to the device, and on the other side of the
+abstraction.
+
+I do agree that the logic is complicated to follow, and that's what I
+was getting at in the cover letter.
+
+Maxime
+
+--u3dzblkp3nldqa3e
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ88TKQAKCRDj7w1vZxhR
+xeXsAP4+bkSf79vghGDX51PPSs2osfbQ4iJhpf10VBrMEcmucQD/fkdqnL4MMQHy
+pTxcWVuD9g8C9rHEtoXUgWXksoghYQ4=
+=f/EX
+-----END PGP SIGNATURE-----
+
+--u3dzblkp3nldqa3e--
 
