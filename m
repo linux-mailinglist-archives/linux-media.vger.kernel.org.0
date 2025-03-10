@@ -1,136 +1,193 @@
-Return-Path: <linux-media+bounces-27955-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27956-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F69A593FF
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 13:16:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22A79A59421
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 13:23:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 084C81655E1
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 12:16:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BEEF818897C8
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 12:23:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7566322579E;
-	Mon, 10 Mar 2025 12:15:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAEAB2253E6;
+	Mon, 10 Mar 2025 12:23:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N0IMrrYI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BPSEGU/E"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C893A1C5D5B;
-	Mon, 10 Mar 2025 12:15:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A10A21C182;
+	Mon, 10 Mar 2025 12:23:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741608957; cv=none; b=FVkpSN8B5mkOfxiRqH0D6K9LPkMtUAooyfa/zApEDtTHG4R+WH1n1NKo3j11Trmn78PjzmSd2UpkdKuce0sgrbmoowTF1CKsiDuRKlb10LNJjlcI4A88ndFYurP3k1jBFRGdzWythtovMy45S0ktjKs2eessyBqyx+U7vbi8JbU=
+	t=1741609401; cv=none; b=eXujqVHv7BuIbWODzzZI+TOo9FR4TMkTflF9MJbBRQmxCUQLCyLXSl76RL+C5JjAR6nyw4KCPgd0qGKd9KNl+CNK+4T7oY3x+uFW5AXgEKq7+Lngg7nOhOUluPerDuVw5P6hrAocA5cUiBegWMyvHiUAu3xVxck1W4Tv/BpDOOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741608957; c=relaxed/simple;
-	bh=KUnX5nhORWvOtCZHvFP20W21X3MBVPy20HvX7ysw3k8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iPNgYALcsIdHbR8HDi5K0pqbcTFqlZYhpqKC7UMR1DYRedCsiZxIGayVtMaexlIV2TQFuKytCMzzXf+yB70gYff9oMZjYcGggMb8dGCsIvtT208pnnAkSiC78EwIVHZbabl+lUrMurzwZUPNtLaLGQZU9Wwm5fZcNIKjqcQH7ms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N0IMrrYI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CC7FEC4CEE5;
-	Mon, 10 Mar 2025 12:15:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741608957;
-	bh=KUnX5nhORWvOtCZHvFP20W21X3MBVPy20HvX7ysw3k8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=N0IMrrYIBu39uSjEkhRFYAdxzoyG002lgHph+TW+mMDW+6bhWEFRi/J0WyRYZTSgz
-	 Bx56A/0mLXPy9N9br/OvR+ZZs6YhXlCTfAdKprucWWiYTSbdR21iPhbsbfyvDx10p1
-	 J3Bwy2MhegMZke26K2MTuzJQxIEDMYvcu9oFhwkBocv7tuHzppQIfB0W8TyifDz1QB
-	 BrYP2Ckz59F1p/bWPXXPbSGY4X38nrUPNXZ+knrmHLsWwxlgrc2YZl3QWEt2LoHvGW
-	 yqC8c1KeMIz645bN1JtPwRVqyvH3op9kz0hUdLGcHpT25lWukDs6hjzF8n3CvYbbwA
-	 0pmpStiii7PUg==
-Date: Mon, 10 Mar 2025 13:15:54 +0100
-From: Maxime Ripard <mripard@kernel.org>
-To: Andrew Morton <akpm@linux-foundation.org>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Tomasz Figa <tfiga@chromium.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, linux-mm@kvack.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH RFC 00/12] dma: Enable dmem cgroup tracking
-Message-ID: <20250310-aromatic-gaur-of-growth-bd4071@houat>
-References: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
+	s=arc-20240116; t=1741609401; c=relaxed/simple;
+	bh=dT//UUcj+RqiVI68CLZOn94nDljT+vtKOHfROrfwdSw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AZVWP2MJVbBa7VEuqWrc46FvAQNZQ9wbKhMyXI6WgO4JeN7Mf298iw8FjnWShTxnjPXZFRzTE0LA64cAnnUFlNTmenZD1R1Ql4dVEaOmHJPWx97hrGE6cTRL7amE7/HldKdYyaqau0o0le1XO6ZHf+J0TQTgor+lFfxt7EyA2A4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BPSEGU/E; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741609399; x=1773145399;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=dT//UUcj+RqiVI68CLZOn94nDljT+vtKOHfROrfwdSw=;
+  b=BPSEGU/EMbMnxiuEGWBnnMG/qH5h53qFmHTffCY06TzAqn8hDln+ldh3
+   O9KrSMd0zuT9ZhLD3/wdHxu0rT7FuSisYMbBEExDTSdJ5nHhFaDO6UKyj
+   cTbYNjshSNz1fAGIyBY3X0zdegEPtm+0iUv9H6YuZJzFMHmIPMGYwn8Dx
+   x+Tfkq93QGcb3fYCTgEqRbbX9H6lHEp6qj+vYmnImo427UgogMGXmWgmW
+   2ckmhstZ8m4StP+mAjEGUBGi9kmobf4M0SWrbcDcla7kfkBoMpvkj6cM/
+   U742JPHzWH8ov5FFN/HjrdQIXUVvmTthBcEbrfpvt53TybyMp9G/guS/Y
+   w==;
+X-CSE-ConnectionGUID: gBevGz15QM6XA/E1BjUHFw==
+X-CSE-MsgGUID: 7zhOEFWLTair7Ze/aPjIvQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="60152464"
+X-IronPort-AV: E=Sophos;i="6.14,236,1736841600"; 
+   d="scan'208";a="60152464"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 05:23:18 -0700
+X-CSE-ConnectionGUID: GQUR5dldQLyIwz1CGDA+zQ==
+X-CSE-MsgGUID: 0oZjZxIQQCWgUgyXGCaDSQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,236,1736841600"; 
+   d="scan'208";a="124586068"
+Received: from dhhellew-desk2.ger.corp.intel.com (HELO mdjait-mobl.intel.com) ([10.245.245.245])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 05:23:15 -0700
+From: Mehdi Djait <mehdi.djait@linux.intel.com>
+To: sakari.ailus@linux.intel.com,
+	laurent.pinchart@ideasonboard.com
+Cc: tomi.valkeinen@ideasonboard.com,
+	jacopo.mondi@ideasonboard.com,
+	hverkuil@xs4all.nl,
+	kieran.bingham@ideasonboard.com,
+	naush@raspberrypi.com,
+	mchehab@kernel.org,
+	hdegoede@redhat.com,
+	dave.stevenson@raspberrypi.com,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Mehdi Djait <mehdi.djait@linux.intel.com>
+Subject: [RFC PATCH v2] media: v4l2-common: Add a helper for obtaining the clock producer
+Date: Mon, 10 Mar 2025 13:23:05 +0100
+Message-ID: <20250310122305.209534-1-mehdi.djait@linux.intel.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ppavg5bsjgk4kjoi"
-Content-Disposition: inline
-In-Reply-To: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
+Content-Transfer-Encoding: 8bit
 
+Introduce a helper for v4l2 sensor drivers on both DT- and ACPI-based
+platforms to retrieve a reference to the clock producer from firmware.
 
---ppavg5bsjgk4kjoi
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH RFC 00/12] dma: Enable dmem cgroup tracking
-MIME-Version: 1.0
+This helper behaves the same as clk_get_optional() except where there is
+no clock producer like ACPI-based platforms.
 
-On Mon, Mar 10, 2025 at 01:06:06PM +0100, Maxime Ripard wrote:
-> Here's preliminary work to enable dmem tracking for heavy users of DMA
-> allocations on behalf of userspace: v4l2, DRM, and dma-buf heaps.
->=20
-> It's not really meant for inclusion at the moment, because I really
-> don't like it that much, and would like to discuss solutions on how to
-> make it nicer.
->=20
-> In particular, the dma dmem region accessors don't feel that great to
-> me. It duplicates the logic to select the proper accessor in
-> dma_alloc_attrs(), and it looks fragile and potentially buggy to me.
->=20
-> One solution I tried is to do the accounting in dma_alloc_attrs()
-> directly, depending on a flag being set, similar to what __GFP_ACCOUNT
-> is doing.
->=20
-> It didn't work because dmem initialises a state pointer when charging an
-> allocation to a region, and expects that state pointer to be passed back
-> when uncharging. Since dma_alloc_attrs() returns a void pointer to the
-> allocated buffer, we need to put that state into a higher-level
-> structure, such as drm_gem_object, or dma_buf.
->=20
-> Since we can't share the region selection logic, we need to get the
-> region through some other mean. Another thing I consider was to return
-> the region as part of the allocated buffer (through struct page or
-> folio), but those are lost across the calls and dma_alloc_attrs() will
-> only get a void pointer. So that's not doable without some heavy
-> rework, if it's a good idea at all.
+For ACPI-based platforms the function will read the "clock-frequency"
+ACPI _DSD property and register a fixed frequency clock with the frequency
+indicated in the property.
 
-One thing I forgot to mention is that it makes it harder than it could
-for subsystems that can allocate from multiple allocators (like... all
-the ones included in this series at least).
+Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+---
+Link for discussion (where this patch was proposed): https://lore.kernel.org/linux-media/20250220154909.152538-1-mehdi.djait@linux.intel.com/
 
-I only added proper tracking in the backends using dma_alloc_attrs(),
-but they also support vmalloc. In what region vmalloc allocations should
-be tracked (if any) is an open-question to me. Similarly, some use
-dma_alloc_noncontiguous().
+v1 -> v2:
+Suggested by Sakari:
+    - removed clk_name
+    - removed the IS_ERR() check
+    - improved the kernel-doc comment and commit msg
+Link for v1: https://lore.kernel.org/linux-media/20250227092643.113939-1-mehdi.djait@linux.intel.com
 
-Also, I've set the size of the "default" DMA allocation region to
-U64_MAX, but that's obviously wrong and will break any relative metric.
-I'm not sure what would be the correct size though.
+ drivers/media/v4l2-core/v4l2-common.c | 35 +++++++++++++++++++++++++++
+ include/media/v4l2-common.h           | 18 ++++++++++++++
+ 2 files changed, 53 insertions(+)
 
-Maxime
+diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+index 0a2f4f0d0a07..99d826acb213 100644
+--- a/drivers/media/v4l2-core/v4l2-common.c
++++ b/drivers/media/v4l2-core/v4l2-common.c
+@@ -34,6 +34,9 @@
+  * Added Gerd Knorrs v4l1 enhancements (Justin Schoeman)
+  */
+ 
++#include <linux/clk.h>
++#include <linux/clkdev.h>
++#include <linux/clk-provider.h>
+ #include <linux/module.h>
+ #include <linux/types.h>
+ #include <linux/kernel.h>
+@@ -636,3 +639,35 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
+ 	return 0;
+ }
+ EXPORT_SYMBOL_GPL(v4l2_link_freq_to_bitmap);
++
++struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id)
++{
++	struct clk_hw *clk_hw;
++	struct clk *clk;
++	u32 rate;
++	int ret;
++
++	clk = devm_clk_get_optional(dev, id);
++	if (clk)
++		return clk;
++
++	if (!is_acpi_node(dev_fwnode(dev)))
++		return ERR_PTR(-ENOENT);
++
++	ret = device_property_read_u32(dev, "clock-frequency", &rate);
++	if (ret)
++		return ERR_PTR(ret);
++
++	if (!id) {
++		id = devm_kasprintf(dev, GFP_KERNEL, "clk-%s", dev_name(dev));
++		if (!id)
++			return ERR_PTR(-ENOMEM);
++	}
++
++	clk_hw = devm_clk_hw_register_fixed_rate(dev, id, NULL, 0, rate);
++	if (IS_ERR(clk_hw))
++		return ERR_CAST(clk_hw);
++
++	return clk_hw->clk;
++}
++EXPORT_SYMBOL_GPL(devm_v4l2_sensor_clk_get);
+diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+index 63ad36f04f72..35b9ac698e8a 100644
+--- a/include/media/v4l2-common.h
++++ b/include/media/v4l2-common.h
+@@ -573,6 +573,24 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
+ 			     unsigned int num_of_driver_link_freqs,
+ 			     unsigned long *bitmap);
+ 
++/**
++ * devm_v4l2_sensor_clk_get - lookup and obtain a reference to an optional clock
++ *			      producer for a camera sensor.
++ *
++ * @dev: device for v4l2 sensor clock "consumer"
++ * @id: clock consumer ID
++ *
++ * This function behaves the same way as clk_get_optional() except where there
++ * is no clock producer like in ACPI-based platforms.
++ * For ACPI-based platforms, the function will read the "clock-frequency"
++ * ACPI _DSD property and register a fixed-clock with the frequency indicated
++ * in the property.
++ *
++ * Return:
++ * * pointer to a struct clk on success or an error code on failure.
++ */
++struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id);
++
+ static inline u64 v4l2_buffer_get_timestamp(const struct v4l2_buffer *buf)
+ {
+ 	/*
+-- 
+2.48.1
 
---ppavg5bsjgk4kjoi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ87X+QAKCRDj7w1vZxhR
-xV0SAP9D+a9I6bgS5IRYuQrHA6k0Ra5d7uq+uPWbr3aJfwKx2QD/fe7P1A9AYvBB
-2tIKFUcziC1uvL3qqtVJMp4dvAZf0w8=
-=6LbE
------END PGP SIGNATURE-----
-
---ppavg5bsjgk4kjoi--
 
