@@ -1,116 +1,159 @@
-Return-Path: <linux-media+bounces-27939-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27940-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63131A5925F
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 12:11:50 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 369B6A59286
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 12:18:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EC2721889846
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 11:11:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 74778169BB6
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 11:18:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA527227EB2;
-	Mon, 10 Mar 2025 11:11:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B18921D5A6;
+	Mon, 10 Mar 2025 11:18:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KQ0f2W+o"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ps+QK2ga"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA5FB227581;
-	Mon, 10 Mar 2025 11:11:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61D2925761
+	for <linux-media@vger.kernel.org>; Mon, 10 Mar 2025 11:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741605090; cv=none; b=Gtq4YhrPWeyCnIUtGxICKjIV7BAHObZogo8LkWv8d5StnPJBbBrZ5atj0ieLUokEL19CG6xsoQm/zGnoduHBGBbbe97TO7+AnDkm6kE6cJkHPTAxoRMCbgtABPBWsSvR0KJl1SgaCriTq6EFXXXvv3ZNrJnq5iDkBPw8NU4qbRg=
+	t=1741605519; cv=none; b=aPcusSRV1U+1C9dyM4gSYsAr2sM2BdZBhwY7JvfwfvkkH3r6XPA5w4g+TPcbLdDBenkF8MTB7mCifLjHHiATcoYtzMB7LxhYfKrQ07UEvJiRnljPxpfiEBueHo3Jqc6oVfJNpXNpuDzn/5J/nB4Pf64ochMf3OMLnBLAvGAt+uA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741605090; c=relaxed/simple;
-	bh=UxOUffZNESsbT7Z8GSqYcfxxCZg7cmpwRMjI71zfCXU=;
+	s=arc-20240116; t=1741605519; c=relaxed/simple;
+	bh=yZYMkZTFTiNkeC91wPvQXsN9RE8eUXiOoybFSg2GTaI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DTgNNY1U10lLLKKdCqJIQEejzSQbRvKw/TPdoEnFCEjgZhOv/0O0r/+N6sdTnwa723lSJ5jiQfTPKHERs/CUY7xyCNeftN8j4LiOWIwqDurIO6vUMMsov9zMHCGS8u11vjrd7ypuvgWYJCCUgFVf1R+8Hsi4EkKqUc1jiPY3rJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KQ0f2W+o; arc=none smtp.client-ip=198.175.65.18
+	 Content-Type:Content-Disposition:In-Reply-To; b=YBFaI2GmDKem64iXHJOEKtqNhADBN17Hy4v/BVqfHdY3CASfnSifM+qH8j93X/bg0gRsBEuv0UcHvJS8LTwHz5gRaMaevrd07P5wYRq7jqz9e9o6cGQDqldqEqSM6TPx0ThU9egkGuqDnw00B/yvsYefKYDgtCCdBbOqfaIqzaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ps+QK2ga; arc=none smtp.client-ip=198.175.65.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741605089; x=1773141089;
+  t=1741605518; x=1773141518;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=UxOUffZNESsbT7Z8GSqYcfxxCZg7cmpwRMjI71zfCXU=;
-  b=KQ0f2W+oybCtodNpu8GCcIfn/wRVmgtldIHQnRmjrHAE98ufhCZxZzsf
-   Yx88d/FtsOV9kRI8nGbren/4ZxiaqED6UVVghaMywdmuwi4KS/ZuTuRu7
-   bLdftLGPqEef36DUqIAqyQCizBzSFF6tfSEXEfQSoWFf1FLa0m5nTR640
-   +6QsylhDBiEfvvJxkGjirytYsyJy72lNy+dMvV5/Fp1emnUKfC1nY0uLh
-   IdGoDxerNFGSNx9P8l9330RgDYuaZcpgW4dQwOPtF5Z8vbz1PKkAGuPhr
-   wD/L2hBCWXZi9cT5omPBTDjVH0rmIENnZFtaN8ZGX4XmY9shwdKYDrYax
-   A==;
-X-CSE-ConnectionGUID: cfJMhILOTze/KIu9RTA/5g==
-X-CSE-MsgGUID: goA/J/jWR1KLeUnKX4daCw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="42787617"
+   mime-version:in-reply-to;
+  bh=yZYMkZTFTiNkeC91wPvQXsN9RE8eUXiOoybFSg2GTaI=;
+  b=Ps+QK2gaGNxspcPk2qOaMGUAFjq/a1QapfCH1SiUdt2BXi6aRO3FxiQ1
+   012UC2rCrEg+SFYXqumE15IGapM6SW/aLazLRilDkTVmIJZRy+kSsmcwK
+   r73GOdlZr2qHvnFhgsJ7SaxGw+6pZ2pIihQ3KMnkTtZg8XSzPetSvDj7v
+   2W33IuXwiMmckSQEIG0aRRktkAAEVO9SCkTEkXBvEymJXEBWaov1qGtXB
+   uEODegeAISnjoE5hHRakkfQCuQE/sVxuGbNAN1XM3MpzSQx3YsxzIqlQh
+   iGPehJ8+lkOeJafOcRAOgsRXHz7nwwcfOKFYYujBizHPQpLlZ1VEgzdOF
+   w==;
+X-CSE-ConnectionGUID: MNkWIUYMSmuL9Eo3JzL2iQ==
+X-CSE-MsgGUID: ghVWbMctTFC+Lm95P02Dsg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="60002561"
 X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
-   d="scan'208";a="42787617"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 04:11:28 -0700
-X-CSE-ConnectionGUID: qJDWkpdYR4WjODFSm7tG8A==
-X-CSE-MsgGUID: lkCayGBqTPmjAy8j5OjF3Q==
+   d="scan'208";a="60002561"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 04:18:37 -0700
+X-CSE-ConnectionGUID: 0FyK32HSQLOlZXtZrHD84g==
+X-CSE-MsgGUID: AwLMxg9gRimUABDQJA9f0w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,235,1736841600"; 
-   d="scan'208";a="120668568"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 04:11:26 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id A323A11F7F0;
-	Mon, 10 Mar 2025 13:11:23 +0200 (EET)
-Date: Mon, 10 Mar 2025 11:11:23 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: git@apitzsch.eu
-Cc: Ricardo Ribalda <ribalda@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH RESEND 0/4] media: i2c: imx214: Add support for 23.88MHz
- clock
-Message-ID: <Z87I2xh0HY-YD_tZ@kekkonen.localdomain>
-References: <20250308-imx214_clk_freq-v1-0-467a4c083c35@apitzsch.eu>
+   d="scan'208";a="125023658"
+Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.245.112.97])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 04:18:36 -0700
+Date: Mon, 10 Mar 2025 12:18:25 +0100
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>
+Subject: Re: [PATCH v1 3/3] media: intel/ipu6: Constify ipu6_buttress_ctrl
+ structure
+Message-ID: <Z87KgbCzYU6nzpxF@linux.intel.com>
+References: <20250306130629.885163-1-stanislaw.gruszka@linux.intel.com>
+ <20250306130629.885163-4-stanislaw.gruszka@linux.intel.com>
+ <Z8qj_2RJpuff42Sd@kekkonen.localdomain>
+ <Z86k41DyFtNTHMsM@linux.intel.com>
+ <Z86_UII900cD9fkk@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250308-imx214_clk_freq-v1-0-467a4c083c35@apitzsch.eu>
+In-Reply-To: <Z86_UII900cD9fkk@kekkonen.localdomain>
 
-Hi André,
-
-On Sat, Mar 08, 2025 at 10:47:54PM +0100, André Apitzsch via B4 Relay wrote:
-> The imx214 driver currently supports only a 24MHz external clock. But
-> there are devices, like Qualcomm-MSM8916-based phones, which cannot
-> provide this frequency. To make the sensor usable by those devices, add
-> support for 23.88MHz clock.
+On Mon, Mar 10, 2025 at 10:30:40AM +0000, Sakari Ailus wrote:
+> Hi Stanislaw,
 > 
-> Signed-off-by: André Apitzsch <git@apitzsch.eu>
-> ---
-> André Apitzsch (4):
->       media: i2c: imx214: Calculate link bit rate from clock frequency
->       media: i2c: imx214: Prepare for variable clock frequency
->       media: i2c: imx214: Read clock frequency from device tree
->       media: i2c: imx214: Add support for 23.88MHz clock
+> On Mon, Mar 10, 2025 at 09:37:55AM +0100, Stanislaw Gruszka wrote:
+> > Hi Sakari,
+> > 
+> > On Fri, Mar 07, 2025 at 07:45:03AM +0000, Sakari Ailus wrote:
+> > > >  ipu6_bus_initialize_device(struct pci_dev *pdev, struct device *parent,
+> > > > -			   void *pdata, struct ipu6_buttress_ctrl *ctrl,
+> > > > +			   void *pdata, const struct ipu6_buttress_ctrl *ctrl,
+> > > 
+> > > pdata should be const, too, btw.
+> > > 
+> > > >  			   char *name);
+> > > >  int ipu6_bus_add_device(struct ipu6_bus_device *adev);
+> > > >  void ipu6_bus_del_devices(struct pci_dev *pdev);
+> > > > diff --git a/drivers/media/pci/intel/ipu6/ipu6-buttress.c b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
+> > > > index 787fcbd1df09..f8fdc07a953c 100644
+> > > > --- a/drivers/media/pci/intel/ipu6/ipu6-buttress.c
+> > > > +++ b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
+> > > > @@ -443,7 +443,7 @@ irqreturn_t ipu6_buttress_isr_threaded(int irq, void *isp_ptr)
+> > > >  	return ret;
+> > > >  }
+> > > >  
+> > > > -int ipu6_buttress_power(struct device *dev, struct ipu6_buttress_ctrl *ctrl,
+> > > > +int ipu6_buttress_power(struct device *dev, const struct ipu6_buttress_ctrl *ctrl,
+> > > >  			bool on)
+> > > 
+> > > But this is over 80.
+> > 
+> > On official kernel doc the limit is 100 (with 80 being preferred).
+> > I run chackpatch.pl on this patch and it was just fine.
 > 
->  drivers/media/i2c/imx214.c | 188 +++++++++++++++++++++++++++++++++++----------
->  1 file changed, 146 insertions(+), 42 deletions(-)
+> The Media tree driver documentation suggests:
+> 
+> $ ./scripts/checkpatch.pl --strict --max-line-length=80
 
-Thanks for the patches.
+TBH, in context of ipu6 enforcing 80 characters instead of 100,
+frequently makes more harm then good IMHO, for example:
 
-Do you think the driver could use the CCS PLL calculator? The PLL appears
-to be compliant. The AR0234 driver will do the same. (The sensor might just
-work with the CCS driver, too, but that's another discussion.)
+const struct ipu6_isys_pixelformat ipu6_isys_pfmts[] = {
+	{ V4L2_PIX_FMT_SBGGR12, 16, 12, MEDIA_BUS_FMT_SBGGR12_1X12,
+	  IPU6_FW_ISYS_FRAME_FORMAT_RAW16 },
+	{ V4L2_PIX_FMT_SGBRG12, 16, 12, MEDIA_BUS_FMT_SGBRG12_1X12,
+	  IPU6_FW_ISYS_FRAME_FORMAT_RAW16 },
+	{ V4L2_PIX_FMT_SGRBG12, 16, 12, MEDIA_BUS_FMT_SGRBG12_1X12,
+	  IPU6_FW_ISYS_FRAME_FORMAT_RAW16 },
+	{ V4L2_PIX_FMT_SRGGB12, 16, 12, MEDIA_BUS_FMT_SRGGB12_1X12,
+vs:
 
--- 
-Kind regards,
+const struct ipu6_isys_pixelformat ipu6_isys_pfmts[] = {
+	{ V4L2_PIX_FMT_SBGGR12, 16, 12, MEDIA_BUS_FMT_SBGGR12_1X12, IPU6_FW_ISYS_FRAME_FORMAT_RAW16 },
+	{ V4L2_PIX_FMT_SGBRG12, 16, 12, MEDIA_BUS_FMT_SGBRG12_1X12, IPU6_FW_ISYS_FRAME_FORMAT_RAW16 },
+	{ V4L2_PIX_FMT_SGRBG12, 16, 12, MEDIA_BUS_FMT_SGRBG12_1X12, IPU6_FW_ISYS_FRAME_FORMAT_RAW16 },
+	{ V4L2_PIX_FMT_SRGGB12, 16, 12, MEDIA_BUS_FMT_SRGGB12_1X12, IPU6_FW_ISYS_FRAME_FORMAT_RAW16 },
 
-Sakari Ailus
+
+Or:
+		if (type && ((!pfmt->is_meta &&
+			      type != V4L2_BUF_TYPE_VIDEO_CAPTURE) ||
+			     (pfmt->is_meta &&
+			      type != V4L2_BUF_TYPE_META_CAPTURE)))
+			continue;
+
+vs:
+
+		if (type && ((!pfmt->is_meta && type != V4L2_BUF_TYPE_VIDEO_CAPTURE) ||
+			     (pfmt->is_meta && type != V4L2_BUF_TYPE_META_CAPTURE)))
+			continue;
+
+
+Do we really need 80 chars limit in ipu drivers ? 
+
+Regards
+Stanislaw
+
 
