@@ -1,193 +1,160 @@
-Return-Path: <linux-media+bounces-27956-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27957-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22A79A59421
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 13:23:28 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01567A5949A
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 13:33:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BEEF818897C8
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 12:23:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 351AC3A888B
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 12:32:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EAEAB2253E6;
-	Mon, 10 Mar 2025 12:23:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A52C227BAD;
+	Mon, 10 Mar 2025 12:32:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BPSEGU/E"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XY0FhGNz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A10A21C182;
-	Mon, 10 Mar 2025 12:23:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5474221ABBF;
+	Mon, 10 Mar 2025 12:32:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741609401; cv=none; b=eXujqVHv7BuIbWODzzZI+TOo9FR4TMkTflF9MJbBRQmxCUQLCyLXSl76RL+C5JjAR6nyw4KCPgd0qGKd9KNl+CNK+4T7oY3x+uFW5AXgEKq7+Lngg7nOhOUluPerDuVw5P6hrAocA5cUiBegWMyvHiUAu3xVxck1W4Tv/BpDOOA=
+	t=1741609931; cv=none; b=i8yAzn0j6ziePYXmg4wlu7iWgKNMgFFukkU8K3P/yzM5O2hPxueefU+HRszPMlfeAhyML/K2dNxgiBnQMASEpzshWFWncD98NK3ud+dsNnZDdUEUQDHK+hKopVeGZA5rysBijpBt1rTgqRebi47hVJoQwX7WTKoLu3bUNPp+300=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741609401; c=relaxed/simple;
-	bh=dT//UUcj+RqiVI68CLZOn94nDljT+vtKOHfROrfwdSw=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=AZVWP2MJVbBa7VEuqWrc46FvAQNZQ9wbKhMyXI6WgO4JeN7Mf298iw8FjnWShTxnjPXZFRzTE0LA64cAnnUFlNTmenZD1R1Ql4dVEaOmHJPWx97hrGE6cTRL7amE7/HldKdYyaqau0o0le1XO6ZHf+J0TQTgor+lFfxt7EyA2A4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BPSEGU/E; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741609399; x=1773145399;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=dT//UUcj+RqiVI68CLZOn94nDljT+vtKOHfROrfwdSw=;
-  b=BPSEGU/EMbMnxiuEGWBnnMG/qH5h53qFmHTffCY06TzAqn8hDln+ldh3
-   O9KrSMd0zuT9ZhLD3/wdHxu0rT7FuSisYMbBEExDTSdJ5nHhFaDO6UKyj
-   cTbYNjshSNz1fAGIyBY3X0zdegEPtm+0iUv9H6YuZJzFMHmIPMGYwn8Dx
-   x+Tfkq93QGcb3fYCTgEqRbbX9H6lHEp6qj+vYmnImo427UgogMGXmWgmW
-   2ckmhstZ8m4StP+mAjEGUBGi9kmobf4M0SWrbcDcla7kfkBoMpvkj6cM/
-   U742JPHzWH8ov5FFN/HjrdQIXUVvmTthBcEbrfpvt53TybyMp9G/guS/Y
-   w==;
-X-CSE-ConnectionGUID: gBevGz15QM6XA/E1BjUHFw==
-X-CSE-MsgGUID: 7zhOEFWLTair7Ze/aPjIvQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11368"; a="60152464"
-X-IronPort-AV: E=Sophos;i="6.14,236,1736841600"; 
-   d="scan'208";a="60152464"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 05:23:18 -0700
-X-CSE-ConnectionGUID: GQUR5dldQLyIwz1CGDA+zQ==
-X-CSE-MsgGUID: 0oZjZxIQQCWgUgyXGCaDSQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,236,1736841600"; 
-   d="scan'208";a="124586068"
-Received: from dhhellew-desk2.ger.corp.intel.com (HELO mdjait-mobl.intel.com) ([10.245.245.245])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 05:23:15 -0700
-From: Mehdi Djait <mehdi.djait@linux.intel.com>
-To: sakari.ailus@linux.intel.com,
-	laurent.pinchart@ideasonboard.com
-Cc: tomi.valkeinen@ideasonboard.com,
-	jacopo.mondi@ideasonboard.com,
-	hverkuil@xs4all.nl,
-	kieran.bingham@ideasonboard.com,
-	naush@raspberrypi.com,
-	mchehab@kernel.org,
-	hdegoede@redhat.com,
-	dave.stevenson@raspberrypi.com,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mehdi Djait <mehdi.djait@linux.intel.com>
-Subject: [RFC PATCH v2] media: v4l2-common: Add a helper for obtaining the clock producer
-Date: Mon, 10 Mar 2025 13:23:05 +0100
-Message-ID: <20250310122305.209534-1-mehdi.djait@linux.intel.com>
-X-Mailer: git-send-email 2.48.1
+	s=arc-20240116; t=1741609931; c=relaxed/simple;
+	bh=+yJXW3oB2sKwOAYNjS/cyatF0So7vPbPll756fs5Nps=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ggZmqlPbK/JcjidgVpBspCJ2S1AbydLu8/Ma/6MURXwHBDJJcAS0lzi0qrE7vlTTyEZaKeADoHpTJLiZ1I5vwMzeQ9rsssy25nmNZw5ZG0bovXgK7/jSntRRDFlKC/6/v6c/Ll7aC81UnSBZSbhMlsqkfkIXJ1xOKX6pHJi3QgA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XY0FhGNz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8D320C4CEEA;
+	Mon, 10 Mar 2025 12:32:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741609929;
+	bh=+yJXW3oB2sKwOAYNjS/cyatF0So7vPbPll756fs5Nps=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XY0FhGNz/+TRaq1rubNK8SAY4CBRiH1RDdjwpGzDXcryn/LGrKkpSiJXxMN05qTto
+	 GktCOuoFSdnUrIfGHOgrQo1OZFKBgcTJnyRqazDKuhi69HD8z3SJjX6rQDCAQ86oI9
+	 H6KWiijonJVFQ+kGlJ3Qwx8/N7RZlUiYRaT3zAB/eLpnodG4uneirLn775Umqp9GvP
+	 FTw5LBehq9qDwlE/arO5Xh9TtJW5betOcs0PF/moAReVhf2hEvMQuStoZ2EhVYtjtC
+	 XbxYxvPMHJNgDlOusvJQWYu1/xgKTNZQCi+z0HAHBB5dn0RwjotXYCFZXjm6SVxsxT
+	 lBwykbgDebHfQ==
+Date: Mon, 10 Mar 2025 07:32:07 -0500
+From: Rob Herring <robh@kernel.org>
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Julien Massot <julien.massot@collabora.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Bjorn Andersson <quic_bjorande@quicinc.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Taniya Das <quic_tdas@quicinc.com>,
+	=?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
+	Eric Biggers <ebiggers@google.com>,
+	Javier Carrasco <javier.carrasco@wolfvision.net>,
+	Ross Burton <ross.burton@arm.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Zhi Mao <zhi.mao@mediatek.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Ihor Matushchak <ihor.matushchak@foobox.net>,
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org
+Subject: Re: [RFC PATCH 09/24] dt-bindings: media: i2c: max96714: make
+ i2c-gate conditional on compatible
+Message-ID: <20250310123207.GA3853920-robh@kernel.org>
+References: <20250308183410.3013996-1-demonsingur@gmail.com>
+ <20250308183410.3013996-10-demonsingur@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250308183410.3013996-10-demonsingur@gmail.com>
 
-Introduce a helper for v4l2 sensor drivers on both DT- and ACPI-based
-platforms to retrieve a reference to the clock producer from firmware.
+On Sat, Mar 08, 2025 at 08:33:38PM +0200, Cosmin Tanislav wrote:
+> Devices to be added in following patches don't use I2C gate.
+> 
+> Make this property conditional on the compatible strings.
+> 
+> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+> ---
+>  .../bindings/media/i2c/maxim,max96714.yaml    | 21 ++++++++++++-------
+>  1 file changed, 13 insertions(+), 8 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96714.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96714.yaml
+> index 2f453189338f..d0a2aaf7df9c 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96714.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96714.yaml
+> @@ -84,14 +84,6 @@ properties:
+>      required:
+>        - port@1
+>  
+> -  i2c-gate:
+> -    $ref: /schemas/i2c/i2c-gate.yaml
+> -    unevaluatedProperties: false
+> -    description:
+> -      The MAX96714 will pass through and forward the I2C requests from the
+> -      incoming I2C bus over the GMSL2 link. Therefore it supports an i2c-gate
+> -      subnode to configure a serializer.
+> -
+>    port0-poc-supply:
+>      description: Regulator providing Power over Coax for the GMSL port
+>  
+> @@ -101,6 +93,19 @@ required:
+>    - ports
+>  
+>  additionalProperties: false
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - maxim,max96714
+> +              - maxim,max96714f
+> +    then:
+> +      properties:
+> +        i2c-gate:
 
-This helper behaves the same as clk_get_optional() except where there is
-no clock producer like ACPI-based platforms.
+Leave the original definition, invert the 'if', and here you just need:
 
-For ACPI-based platforms the function will read the "clock-frequency"
-ACPI _DSD property and register a fixed frequency clock with the frequency
-indicated in the property.
+i2c-gate: false
 
-Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
----
-Link for discussion (where this patch was proposed): https://lore.kernel.org/linux-media/20250220154909.152538-1-mehdi.djait@linux.intel.com/
-
-v1 -> v2:
-Suggested by Sakari:
-    - removed clk_name
-    - removed the IS_ERR() check
-    - improved the kernel-doc comment and commit msg
-Link for v1: https://lore.kernel.org/linux-media/20250227092643.113939-1-mehdi.djait@linux.intel.com
-
- drivers/media/v4l2-core/v4l2-common.c | 35 +++++++++++++++++++++++++++
- include/media/v4l2-common.h           | 18 ++++++++++++++
- 2 files changed, 53 insertions(+)
-
-diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-index 0a2f4f0d0a07..99d826acb213 100644
---- a/drivers/media/v4l2-core/v4l2-common.c
-+++ b/drivers/media/v4l2-core/v4l2-common.c
-@@ -34,6 +34,9 @@
-  * Added Gerd Knorrs v4l1 enhancements (Justin Schoeman)
-  */
- 
-+#include <linux/clk.h>
-+#include <linux/clkdev.h>
-+#include <linux/clk-provider.h>
- #include <linux/module.h>
- #include <linux/types.h>
- #include <linux/kernel.h>
-@@ -636,3 +639,35 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
- 	return 0;
- }
- EXPORT_SYMBOL_GPL(v4l2_link_freq_to_bitmap);
-+
-+struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id)
-+{
-+	struct clk_hw *clk_hw;
-+	struct clk *clk;
-+	u32 rate;
-+	int ret;
-+
-+	clk = devm_clk_get_optional(dev, id);
-+	if (clk)
-+		return clk;
-+
-+	if (!is_acpi_node(dev_fwnode(dev)))
-+		return ERR_PTR(-ENOENT);
-+
-+	ret = device_property_read_u32(dev, "clock-frequency", &rate);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	if (!id) {
-+		id = devm_kasprintf(dev, GFP_KERNEL, "clk-%s", dev_name(dev));
-+		if (!id)
-+			return ERR_PTR(-ENOMEM);
-+	}
-+
-+	clk_hw = devm_clk_hw_register_fixed_rate(dev, id, NULL, 0, rate);
-+	if (IS_ERR(clk_hw))
-+		return ERR_CAST(clk_hw);
-+
-+	return clk_hw->clk;
-+}
-+EXPORT_SYMBOL_GPL(devm_v4l2_sensor_clk_get);
-diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-index 63ad36f04f72..35b9ac698e8a 100644
---- a/include/media/v4l2-common.h
-+++ b/include/media/v4l2-common.h
-@@ -573,6 +573,24 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
- 			     unsigned int num_of_driver_link_freqs,
- 			     unsigned long *bitmap);
- 
-+/**
-+ * devm_v4l2_sensor_clk_get - lookup and obtain a reference to an optional clock
-+ *			      producer for a camera sensor.
-+ *
-+ * @dev: device for v4l2 sensor clock "consumer"
-+ * @id: clock consumer ID
-+ *
-+ * This function behaves the same way as clk_get_optional() except where there
-+ * is no clock producer like in ACPI-based platforms.
-+ * For ACPI-based platforms, the function will read the "clock-frequency"
-+ * ACPI _DSD property and register a fixed-clock with the frequency indicated
-+ * in the property.
-+ *
-+ * Return:
-+ * * pointer to a struct clk on success or an error code on failure.
-+ */
-+struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id);
-+
- static inline u64 v4l2_buffer_get_timestamp(const struct v4l2_buffer *buf)
- {
- 	/*
--- 
-2.48.1
-
+> +          $ref: /schemas/i2c/i2c-gate.yaml
+> +          unevaluatedProperties: false
+>  
+>  examples:
+>    - |
+> -- 
+> 2.48.1
+> 
 
