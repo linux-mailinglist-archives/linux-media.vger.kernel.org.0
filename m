@@ -1,155 +1,131 @@
-Return-Path: <linux-media+bounces-27984-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27985-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A5CA5A65E
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 22:44:44 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48515A5A96B
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 23:52:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 712CA1718D2
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 21:44:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BED907A7841
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 22:50:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 106A81E47B3;
-	Mon, 10 Mar 2025 21:44:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 009001F4C88;
+	Mon, 10 Mar 2025 22:51:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ezDZRWFj"
+	dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b="K/TA5oJF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from www637.your-server.de (www637.your-server.de [168.119.26.117])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C06D21E25F9
-	for <linux-media@vger.kernel.org>; Mon, 10 Mar 2025 21:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1084A02;
+	Mon, 10 Mar 2025 22:51:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.26.117
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741643079; cv=none; b=bznbQEJy+tbuHk39Khqwhu24lDzImQSTZW4C3EZhGAT04kFDHt7NWeYbMt9M/hbJZZC7MCATox28xHeRBjLdKka9h0IbmAb2sF20j+3CTiY5rn+lnIAW0MYW2utqdwnACOj5a34rqFQ3yYS8AfV7AioktZQcptFTKtszXAMQI/w=
+	t=1741647109; cv=none; b=tT5uT24pLx+Y1bOnfkaxNWaUYPY+6i41A57luy2fHe9iJ2YRYJg4rt9aavxYjkkIgDRIHnzPPUxf/rtmH2lvgSK1GTcjNycp0P/7MGQCB4vvRAaKUI32nVcZ+jQ1gEOEAXLNZxArKAy0OA70EOGeWAC1YOkvPYCorsVqiNRuoYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741643079; c=relaxed/simple;
-	bh=xFcD+WAS8JvggU+R6FqMm/oA/8bbDL1L5s7rvcehr1Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=cHcjbizI7iV12xiAhuGhpBBzu5tDpNsfWnNjT38D0QZ4U8vgDEVPx88AjeYLJhddYJxThyU18z5Yb0qD0fGvZWmpXRLUTFZ+LZEGUlxOk7ejse/vRjfLWOjmKZ/3LSUU5hmKweuMWutP2KMvt8Zy2UpFf7/bQbpAHJR7DOCTdm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ezDZRWFj; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741643077; x=1773179077;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=xFcD+WAS8JvggU+R6FqMm/oA/8bbDL1L5s7rvcehr1Q=;
-  b=ezDZRWFjzjrefCIltUPyRAobRjZAl4tqTdJraijNslHbH9OJLYmAKuzw
-   bA5mgpV1ZT8qSitHMYAMDib72WSSGJG/lrdXB90hT01WKGut2w/rMjjFm
-   D0ENa2sYWSdBv4BplZc4d65C80pyZIx7V/IckYAW77DM45bvdxBybE7if
-   hAMOzRmP2/S7q0eTacZ6xcnj6BkzCVQA0+FGttMVJZ8xDFqWs0b3QL/7N
-   WEXHV+PHDwruL6tJy83grPjbzxw4XMQyjnoOu0mgZjSudHgx5bsZXfCoC
-   fDKw6LnFOLwcoAXHmnI/LfFZasMvpbfSbMgA920IWcLzo4HU4pUUt7qka
-   g==;
-X-CSE-ConnectionGUID: bFU7Tp5pRyWNLAdfJ2Ff7w==
-X-CSE-MsgGUID: ZU2f3n2CQ1SRg0a997bzOw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11369"; a="60065303"
-X-IronPort-AV: E=Sophos;i="6.14,237,1736841600"; 
-   d="scan'208";a="60065303"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Mar 2025 14:44:37 -0700
-X-CSE-ConnectionGUID: ibSaXHsCQnSnKzlQLfL5kw==
-X-CSE-MsgGUID: ipuIL4ycQ3GMHWsrX9IWKQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,237,1736841600"; 
-   d="scan'208";a="120637791"
-Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by orviesa007.jf.intel.com with ESMTP; 10 Mar 2025 14:44:35 -0700
-Received: from kbuild by a4747d147074 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1trkvI-000666-1F;
-	Mon, 10 Mar 2025 21:44:32 +0000
-Date: Tue, 11 Mar 2025 05:43:57 +0800
-From: kernel test robot <lkp@intel.com>
-To: Raag Jadav <raag.jadav@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [sailus-media-tree:devel 22/23]
- drivers/media/platform/atmel/atmel-isi.c:1075:27: warning: assignment to
- 'const struct isi_format **' from 'int' makes pointer from integer without a
- cast
-Message-ID: <202503110526.P3GrQ20d-lkp@intel.com>
+	s=arc-20240116; t=1741647109; c=relaxed/simple;
+	bh=hMUTidMfkkDJMzZA6MYxS0DzBePJgGcet1BbONPR2OI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=o9l59nq9/conXFGLtnUFuZetcQ3GQIRUpBVvOuCkTmvHPCOZ+fxiCd/J/U2/Glde9v0qEEkEYVSFx+Zi3SbV30WqT4AxN+OLcZFmvjZ/xWte2Lk7t7/rkLGTqoNM+6JI3Iot86RKBDH1i33aHXRYuiPCEYOqCzw+VOFRZGk0eus=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b=K/TA5oJF; arc=none smtp.client-ip=168.119.26.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=apitzsch.eu
+	; s=default2410; h=MIME-Version:Content-Transfer-Encoding:Content-Type:
+	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=hMUTidMfkkDJMzZA6MYxS0DzBePJgGcet1BbONPR2OI=; b=K/TA5oJFfr0Brllu+E5D+RUXMB
+	UmpxColfXAhqdCRfAPUxJrJnwitibsp7O+bFD13xMcq5h4U03jzzDmy0wDFmNRrTOyS2GLisucKYS
+	paolxe9J95AneFtXo08p1nXR4xAn4ujhzhn3dnvpuoTrp2Mj4HoxaW9jkIK1HTlnGhfUEtY9lQeME
+	1oyDAbnW94LTYOoXyxicBbEfZtHA8X+oxMjg6wLNr6TiKemXdMACgkWHREKvhWOfcr/KnqkGK/dbZ
+	W4dNjuwmYDwzrz1qilTFcyFX9LnT3LWBkXi1Szh3CDIwxeFSqQ0uMAbtYtJsYGg8fq+oKjumhnu5e
+	VwN9ufTQ==;
+Received: from sslproxy07.your-server.de ([78.47.199.104])
+	by www637.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <git@apitzsch.eu>)
+	id 1trliP-0001C6-0J;
+	Mon, 10 Mar 2025 23:35:17 +0100
+Received: from [77.64.147.108] (helo=framework.lan)
+	by sslproxy07.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <git@apitzsch.eu>)
+	id 1trliO-0007ck-2N;
+	Mon, 10 Mar 2025 23:35:16 +0100
+Message-ID: <4c62bb9d5575e9075b39500917e09687d37cf7ca.camel@apitzsch.eu>
+Subject: Re: [PATCH RESEND 0/4] media: i2c: imx214: Add support for 23.88MHz
+ clock
+From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Ricardo Ribalda <ribalda@kernel.org>, Mauro Carvalho Chehab
+	 <mchehab@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht, 
+	phone-devel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Mon, 10 Mar 2025 23:35:15 +0100
+In-Reply-To: <Z87I2xh0HY-YD_tZ@kekkonen.localdomain>
+References: <20250308-imx214_clk_freq-v1-0-467a4c083c35@apitzsch.eu>
+	 <Z87I2xh0HY-YD_tZ@kekkonen.localdomain>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+X-Authenticated-Sender: andre@apitzsch.eu
+X-Virus-Scanned: Clear (ClamAV 1.0.7/27573/Mon Mar 10 09:38:09 2025)
 
-tree:   git://linuxtv.org/sailus/media_tree.git devel
-head:   07e07f2cd3ebb7e8b62ccb8f22a16032b599c9e2
-commit: 93c8dabd1d1ed94f03eb9a63c0bc291b62595bda [22/23] media: atmel-isi: use devm_kmemdup_array()
-config: arc-allyesconfig (https://download.01.org/0day-ci/archive/20250311/202503110526.P3GrQ20d-lkp@intel.com/config)
-compiler: arceb-elf-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250311/202503110526.P3GrQ20d-lkp@intel.com/reproduce)
+Hi Sakari,
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503110526.P3GrQ20d-lkp@intel.com/
+Am Montag, dem 10.03.2025 um 11:11 +0000 schrieb Sakari Ailus:
+> Hi Andr=C3=A9,
+>=20
+> On Sat, Mar 08, 2025 at 10:47:54PM +0100, Andr=C3=A9 Apitzsch via B4 Rela=
+y
+> wrote:
+> > The imx214 driver currently supports only a 24MHz external clock.
+> > But
+> > there are devices, like Qualcomm-MSM8916-based phones, which cannot
+> > provide this frequency. To make the sensor usable by those devices,
+> > add
+> > support for 23.88MHz clock.
+> >=20
+> > Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
+> > ---
+> > Andr=C3=A9 Apitzsch (4):
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Calculate link bit r=
+ate from clock
+> > frequency
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Prepare for variable=
+ clock frequency
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Read clock frequency=
+ from device tree
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Add support for 23.8=
+8MHz clock
+> >=20
+> > =C2=A0drivers/media/i2c/imx214.c | 188
+> > +++++++++++++++++++++++++++++++++++----------
+> > =C2=A01 file changed, 146 insertions(+), 42 deletions(-)
+>=20
+> Thanks for the patches.
+>=20
+> Do you think the driver could use the CCS PLL calculator? The PLL
+> appears to be compliant. The AR0234 driver will do the same. (The
+> sensor might just work with the CCS driver, too, but that's another
+> discussion.)
+>=20
+Using the CCS PLL calculator seems quite complicated compared to
+switching to the CCS driver. That's why I looked at the later first.
+But for it to work, quirks already need to be applied in
+ccs_power_on(), to disable writing to COMPRESSION_MODE, and in
+ccs_identify_module(), to change the MODULE_MANUFACTURER_ID register.
 
-All warnings (new ones prefixed by >>):
+I'll check if CCS PLL calculator could be used.
 
-   drivers/media/platform/atmel/atmel-isi.c: In function 'isi_formats_init':
-   drivers/media/platform/atmel/atmel-isi.c:1075:29: error: implicit declaration of function 'devm_kmemdup_array'; did you mean 'devm_kmalloc_array'? [-Werror=implicit-function-declaration]
-    1075 |         isi->user_formats = devm_kmemdup_array(isi->dev, isi_fmts, num_fmts,
-         |                             ^~~~~~~~~~~~~~~~~~
-         |                             devm_kmalloc_array
->> drivers/media/platform/atmel/atmel-isi.c:1075:27: warning: assignment to 'const struct isi_format **' from 'int' makes pointer from integer without a cast [-Wint-conversion]
-    1075 |         isi->user_formats = devm_kmemdup_array(isi->dev, isi_fmts, num_fmts,
-         |                           ^
-   cc1: some warnings being treated as errors
-
-
-vim +1075 drivers/media/platform/atmel/atmel-isi.c
-
-  1043	
-  1044	static int isi_formats_init(struct atmel_isi *isi)
-  1045	{
-  1046		const struct isi_format *isi_fmts[ARRAY_SIZE(isi_formats)];
-  1047		unsigned int num_fmts = 0, i, j;
-  1048		struct v4l2_subdev *subdev = isi->entity.subdev;
-  1049		struct v4l2_subdev_mbus_code_enum mbus_code = {
-  1050			.which = V4L2_SUBDEV_FORMAT_ACTIVE,
-  1051		};
-  1052	
-  1053		while (!v4l2_subdev_call(subdev, pad, enum_mbus_code,
-  1054					 NULL, &mbus_code)) {
-  1055			for (i = 0; i < ARRAY_SIZE(isi_formats); i++) {
-  1056				if (isi_formats[i].mbus_code != mbus_code.code)
-  1057					continue;
-  1058	
-  1059				/* Code supported, have we got this fourcc yet? */
-  1060				for (j = 0; j < num_fmts; j++)
-  1061					if (isi_fmts[j]->fourcc == isi_formats[i].fourcc)
-  1062						/* Already available */
-  1063						break;
-  1064				if (j == num_fmts)
-  1065					/* new */
-  1066					isi_fmts[num_fmts++] = isi_formats + i;
-  1067			}
-  1068			mbus_code.index++;
-  1069		}
-  1070	
-  1071		if (!num_fmts)
-  1072			return -ENXIO;
-  1073	
-  1074		isi->num_user_formats = num_fmts;
-> 1075		isi->user_formats = devm_kmemdup_array(isi->dev, isi_fmts, num_fmts,
-  1076						       sizeof(isi_fmts[0]), GFP_KERNEL);
-  1077		if (!isi->user_formats)
-  1078			return -ENOMEM;
-  1079	
-  1080		isi->current_fmt = isi->user_formats[0];
-  1081		return 0;
-  1082	}
-  1083	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Andr=C3=A9
 
