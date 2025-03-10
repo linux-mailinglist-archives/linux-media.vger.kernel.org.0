@@ -1,50 +1,49 @@
-Return-Path: <linux-media+bounces-27944-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-27945-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 806CBA59384
-	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 13:07:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A957A59387
+	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 13:07:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 59ACB188FB87
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 08CA03A8357
 	for <lists+linux-media@lfdr.de>; Mon, 10 Mar 2025 12:07:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C28D3229B00;
-	Mon, 10 Mar 2025 12:06:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E5CA22A1ED;
+	Mon, 10 Mar 2025 12:06:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h1Zf+ZM4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Fd8MwOI6"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF23D2288CC;
-	Mon, 10 Mar 2025 12:06:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 742E5229B23;
+	Mon, 10 Mar 2025 12:06:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741608387; cv=none; b=Sg222sRLcomO5sV8GBdG54yI8GEvDA/lEiUzgPapDjpMO0izmtFBXqFs9X6Z5n6AYF9h0Z1iq82cShg1vQ2mV7PqDsL01Fz03Q7LgmZ2EDvchFW2KKAABKlwbBdfPXqR0N1rbnKrudAiGY6hphDzp8MRuoGK6Lo4TlRs/J5l7m4=
+	t=1741608390; cv=none; b=r1W/4pVgmoYmSJvDRlMVVHIpWteofNLZWN1jE7dGgRxh5J05DDgyp1M2iikHM0L7wl+/1wsFzUHo/fCt8qpHWP9vYa47OD863gjA+dGbQ6Cwwxs2niXZ9fZ90HKDNOHD0d4vsduvxD8Ubf5WDD0I8Wk0TLllh1noLori1Byapc4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741608387; c=relaxed/simple;
-	bh=/UAL0ad49jcngOkD0mAWDzGa0d7QjTxM4lCTP33f5+4=;
+	s=arc-20240116; t=1741608390; c=relaxed/simple;
+	bh=MHX69KTowxgUBaIq2U0nJk1Dh2Qpf931EJ3Gm20lDzU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WLkL9H4GJZfP59ij2XVdsCwc6xtCYwQeazvPjDYgbOvpH0sh+obdhQBwTOBQYDkc6oZdI6tWzt7wGzQmq5qcF+uydRwULw7P5UhgJwe6h0y+1guAmE9VKX98/cvDtWJbpbgr28bxamvKAENlTbzlRvOibZZgj1hxMUgglulXcro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h1Zf+ZM4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94331C4CEEE;
-	Mon, 10 Mar 2025 12:06:26 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=tHaRBJAyYAMpCHBPhRKHTop88lvGiPAWCiIvv4NAJhYmrEGr83sw7z5H4HVQ+9oFVEWmFJ10MX14wzQTkzo9KkE1SFGsuvjnl1l5nriKEdDhlwRWDOqu7Ijz7vG9pPK/JFpZScN1R1OcmJCpRyQPW4FftmmawpQdBMdJ+BSgAIE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Fd8MwOI6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59344C4CEED;
+	Mon, 10 Mar 2025 12:06:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741608387;
-	bh=/UAL0ad49jcngOkD0mAWDzGa0d7QjTxM4lCTP33f5+4=;
+	s=k20201202; t=1741608389;
+	bh=MHX69KTowxgUBaIq2U0nJk1Dh2Qpf931EJ3Gm20lDzU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=h1Zf+ZM4Dqtwu1U4J20iOEAVrrphW+yhBnDr5d+g3qRKv+nXi4+U4z+zGiscHqgIJ
-	 jDUbDDfaU0xN3s3IiJ5iYy/hVOmEzoC1iGGqEHNpCp8k0y3nWsV/3ZM9vHvXRwVPo1
-	 2fPoTnlS3G3ZT7vefqxhxsjm0yC480gMCoBAP0CQzdHflDKowuMalbQpcBBFbJZR64
-	 fHQHlaX7dk9rale95FWC1Laqog0FtGsZ3ujKmR1n5j79GfIaWO7FkejT1/Y5sUk/61
-	 WwaKkKvQBPqb1WZjg6GrWJF4c5AgBt/pcVmc1nSiiEMRyE4HaNlngnYtHlQ3A2gPmA
-	 h8d4CfRauzyXQ==
+	b=Fd8MwOI6Gr4g8BxyrBDoPe5CkR6LxWSS86cWJnaVKQOIKhwpyInBkAsVLEqZkg+Wb
+	 92kysW/uU1DvJxhXvHDYryxQcl3F3RW8iCg7E3r49YcFoC0joeuTsIlwEf2tyc1CNQ
+	 bm5BMdZG6Wdemat7usQFs9xfPoIcoavti+dtm/KPA+l8DVWGohgUkhECakNgp7YyGk
+	 skf2qKyhtWb0v7FHzEEToVkb+KYzmvqOptZkOO/efesCe/PhU/vWxW3fznUnDzM+TC
+	 4fJfyO59HAxcIcLLolGaqV65cB2wXS0MRBKmBdOFpi+X98F+pVQCGw+kCDg250k8t5
+	 HlmHQEHBVHCbQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 10 Mar 2025 13:06:09 +0100
-Subject: [PATCH RFC 03/12] dma: coherent: Register dmem region for each
- coherent region
+Date: Mon, 10 Mar 2025 13:06:10 +0100
+Subject: [PATCH RFC 04/12] dma: coherent: Provide accessor to dmem region
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,7 +52,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250310-dmem-cgroups-v1-3-2984c1bc9312@kernel.org>
+Message-Id: <20250310-dmem-cgroups-v1-4-2984c1bc9312@kernel.org>
 References: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
 In-Reply-To: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
 To: Andrew Morton <akpm@linux-foundation.org>, 
@@ -73,81 +72,82 @@ Cc: Hans Verkuil <hverkuil@xs4all.nl>,
  linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
  linaro-mm-sig@lists.linaro.org, Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1940; i=mripard@kernel.org;
- h=from:subject:message-id; bh=/UAL0ad49jcngOkD0mAWDzGa0d7QjTxM4lCTP33f5+4=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDOnnrm7clPp7wa7PzbMebqtakmhdV8Nk65B7SrPty7XjK
- 546TVoQ31HKwiDGxSArpsgSI2y+JO7UrNedbHzzYOawMoEMYeDiFICJ6D9lZLjvfGnBE4fJ51rT
- XGQSXjNW8Zds/rg3XKTr0/Zcla3x38sZ/nsuda/5n79f3Cd/QfOtqvsy1hW2Zwvk/Y8uXZIpX33
- FnAkA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2413; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=MHX69KTowxgUBaIq2U0nJk1Dh2Qpf931EJ3Gm20lDzU=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDOnnrm56E/7yxj4HNfHYzFPqWVsnsExuXHlz2uHEp0wf5
+ 4tcjNRa11HCwiDGxSArpsgSI2y+JO7UrNedbHzzYOawMoEMYeDiFICJCF9k+B899/qseSLBUSsv
+ u3VNuPdaYHmEpcNpV5fGg7++GJWmq6sx/LgUnqF8xVvbKyHQrUnf1ZLllVSE0cWvT9SnbvsRnOj
+ NCAA=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-There can be several coherent memory region in the system, and all of
-them might end up being used to allocate a DMA buffer.
+Consumers of the coherent DMA API will have to know which coherent
+region their device allocate from in order for them to charge the memory
+allocation in the right one.
 
-Let's register a dmem region for each of them to make sure we can track
-those allocations.
+Let's provide an accessor for that region.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- kernel/dma/coherent.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ include/linux/dma-map-ops.h | 11 +++++++++++
+ kernel/dma/coherent.c       | 14 ++++++++++++++
+ 2 files changed, 25 insertions(+)
 
-diff --git a/kernel/dma/coherent.c b/kernel/dma/coherent.c
-index 3b2bdca9f1d4b0274bf4874892b94730cd05c5df..2a2d515e43acbdef19c14d8840ed90e48e7ebb43 100644
---- a/kernel/dma/coherent.c
-+++ b/kernel/dma/coherent.c
-@@ -5,10 +5,11 @@
-  */
- #include <linux/io.h>
- #include <linux/slab.h>
- #include <linux/kernel.h>
- #include <linux/module.h>
-+#include <linux/cgroup_dmem.h>
- #include <linux/dma-direct.h>
- #include <linux/dma-map-ops.h>
- 
- struct dma_coherent_mem {
- 	void		*virt_base;
-@@ -16,10 +17,12 @@ struct dma_coherent_mem {
- 	unsigned long	pfn_base;
- 	int		size;
- 	unsigned long	*bitmap;
- 	spinlock_t	spinlock;
- 	bool		use_dev_dma_pfn_offset;
-+
-+	struct dmem_cgroup_region *dmem_cgroup_region;
- };
- 
- static inline struct dma_coherent_mem *dev_get_coherent_memory(struct device *dev)
+diff --git a/include/linux/dma-map-ops.h b/include/linux/dma-map-ops.h
+index e172522cd93651594607e16461fac56e4d67cbce..a2c10ed186efb6e08f64df0954b4d389589b6e35 100644
+--- a/include/linux/dma-map-ops.h
++++ b/include/linux/dma-map-ops.h
+@@ -199,10 +199,21 @@ static inline int dma_mmap_from_global_coherent(struct vm_area_struct *vma,
  {
- 	if (dev && dev->dma_mem)
-@@ -335,16 +338,25 @@ static phys_addr_t dma_reserved_default_memory_size __initdata;
- #endif
- 
- static int rmem_dma_device_init(struct reserved_mem *rmem, struct device *dev)
- {
- 	if (!rmem->priv) {
-+		struct dmem_cgroup_region *region;
- 		struct dma_coherent_mem *mem;
- 
- 		mem = dma_init_coherent_memory(rmem->base, rmem->base,
- 					       rmem->size, true);
- 		if (IS_ERR(mem))
- 			return PTR_ERR(mem);
-+
-+		region = dmem_cgroup_register_region(rmem->size,
-+						     "dma/coherent/%s",
-+						     rmem->name);
-+		if (IS_ERR(region))
-+			return PTR_ERR(region);
-+
-+		mem->dmem_cgroup_region = region;
- 		rmem->priv = mem;
- 	}
- 	dma_assign_coherent_memory(dev, rmem->priv);
  	return 0;
  }
+ #endif /* CONFIG_DMA_GLOBAL_POOL */
+ 
++#if IS_ENABLED(CONFIG_CGROUP_DMEM) && IS_ENABLED(CONFIG_DMA_DECLARE_COHERENT)
++struct dmem_cgroup_region *
++dma_coherent_get_dmem_cgroup_region(struct device *dev);
++#else /* CONFIG_CGROUP_DMEM && CONFIG_DMA_DECLARE_COHERENT */
++static inline struct dmem_cgroup_region *
++dma_coherent_get_dmem_cgroup_region(struct device *dev)
++{
++	return NULL;
++}
++#endif /* CONFIG_CGROUP_DMEM && CONFIG_DMA_DECLARE_COHERENT */
++
+ int dma_common_get_sgtable(struct device *dev, struct sg_table *sgt,
+ 		void *cpu_addr, dma_addr_t dma_addr, size_t size,
+ 		unsigned long attrs);
+ int dma_common_mmap(struct device *dev, struct vm_area_struct *vma,
+ 		void *cpu_addr, dma_addr_t dma_addr, size_t size,
+diff --git a/kernel/dma/coherent.c b/kernel/dma/coherent.c
+index 2a2d515e43acbdef19c14d8840ed90e48e7ebb43..74c5ff5105110487770c1b73812eefe8b3d7eb3c 100644
+--- a/kernel/dma/coherent.c
++++ b/kernel/dma/coherent.c
+@@ -28,10 +28,24 @@ static inline struct dma_coherent_mem *dev_get_coherent_memory(struct device *de
+ 	if (dev && dev->dma_mem)
+ 		return dev->dma_mem;
+ 	return NULL;
+ }
+ 
++#if IS_ENABLED(CONFIG_CGROUP_DMEM)
++struct dmem_cgroup_region *
++dma_coherent_get_dmem_cgroup_region(struct device *dev)
++{
++	struct dma_coherent_mem *mem;
++
++	mem = dev_get_coherent_memory(dev);
++	if (!mem)
++		return NULL;
++
++	return mem->dmem_cgroup_region;
++}
++#endif
++
+ static inline dma_addr_t dma_get_device_base(struct device *dev,
+ 					     struct dma_coherent_mem * mem)
+ {
+ 	if (mem->use_dev_dma_pfn_offset)
+ 		return phys_to_dma(dev, PFN_PHYS(mem->pfn_base));
 
 -- 
 2.48.1
