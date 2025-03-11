@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-28045-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28046-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07940A5CC42
-	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 18:34:14 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DFE7A5CC4A
+	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 18:35:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 462E3170CD0
-	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 17:34:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C25973A3365
+	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 17:34:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52F702627EC;
-	Tue, 11 Mar 2025 17:34:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78FAE262801;
+	Tue, 11 Mar 2025 17:34:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cZL/qCcG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SR6DmOGD"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A186525FA2F;
-	Tue, 11 Mar 2025 17:33:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA75C1D514A;
+	Tue, 11 Mar 2025 17:34:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741714439; cv=none; b=kofn1BK4VET3+xjzjadNZqsgDfNOP8ir6hXuJJ2qRtdBkGD2skO0tfvu9vrL2cAdihJ3Zuwo2vvtjo8r5XYcAPn/Brefwl8kIwm+JRPIyVwC+misT9uRoWpwbDU2rwaFr64LrJPVdhl0SLkiQ1y2fxFiCKYqxbBJT61ldRgPcoM=
+	t=1741714496; cv=none; b=WkRq6cNJSuTZAWMA4S6GVQ1EXPa9hU5uYOunMNTlUM3yAX30fggp58Zqdj9O9AHPz+YaLmcFOu4idAeUhSTAom155/HQWxO/oHsXh+XOT/Vrpxzo2/4ew4fLYc7PDl9TeOJafSpzR4Q+nOGIWJQZKIecqkc7s8BwiVT6AbLr+Jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741714439; c=relaxed/simple;
-	bh=zA59t0WkXzAatzwQl8zrEkHO5lofy4yy+/ThGJAJnks=;
+	s=arc-20240116; t=1741714496; c=relaxed/simple;
+	bh=hO+ZWV3c02739h2EmWuf5jS4BdGdx7DrCGtd7Xchzck=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kZDtqLOj7RbozQ05CsGvX4ZZpqaH+eNgXLE4Rtbf1f9E3w0fOaHiBzMv5fAZmDZWbkELFjEtLHRmflXaqpSZpI5r+XtHHimncPahM9BF/6OcIrcLtto4t79L6esXfRxsmPIlCzXLa2fXxwNmeqd6zYWd7zSRAcfnU0A498g2XWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cZL/qCcG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2797BC4CEE9;
-	Tue, 11 Mar 2025 17:33:53 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=IxoelIjytL5YYKfnZxDhuCneJQNPMRC5YVIt3TBsVGHbWMhCQSCtFbDzvNnQ0VPcLtZWS2B3kG62PEnoctbkzIvgP5RZV+vutg0nDMgwo4Xv6Skin1NVpSBJE0HM1DZFBCF45HZlP22PW6Cv8ArWU4BDonzvFXriJZpOWuyiIlo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SR6DmOGD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5112AC4CEE9;
+	Tue, 11 Mar 2025 17:34:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741714439;
-	bh=zA59t0WkXzAatzwQl8zrEkHO5lofy4yy+/ThGJAJnks=;
+	s=k20201202; t=1741714496;
+	bh=hO+ZWV3c02739h2EmWuf5jS4BdGdx7DrCGtd7Xchzck=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cZL/qCcGtfoHYhmVXe/EDpnndpXWuoX4K6I9hRgSa6c+wYS9eCAtKLTE6js5RitwH
-	 IW6nPqJymADhEix4VAdPKuWVFPZLct86tL3/lQFhbL/a9pJzCOq2NOIAxMvxFTJ7yE
-	 D4cllJ0EADEheDuVp6jmAxfBnuzSPcDHdrRCmj3lXer1e6XVG4XZ2kkFmj5smDXyWL
-	 18kwAamC3H3cpVE7ob4lmfBfQ/Kspm1jdrjtxtWObHHfIZkhunrWNAKGgPRmcCDbo7
-	 cbMO+zHRHuYt27n1njVy9Ts6JBI9/1TnkM3Ra1I744kSpRG5kBm05ZPOzlBqR4R2RY
-	 ocXndcjIFFVTw==
-Message-ID: <607f842d-07b5-4c1f-ad26-0fd34e6e605b@kernel.org>
-Date: Tue, 11 Mar 2025 18:33:51 +0100
+	b=SR6DmOGDFDAl7Q3urxGjgjTRmUoSn4P5garJmxng2MTzIEIr5IQDKFP2DCuGrdzar
+	 oFxkBKtmo5ydwbvtq0YpeWihllHcboP7XQaVWhNj4sRVTi6BEE9uU6b5WgokIymFLn
+	 BC0XbtXcHCNP459XQWJT+epHuvxYlYsJvg/7/1Kn1MMKDdvj8JyY7v7CM4QWhhXPm/
+	 AH3FWd+TejOeQVDm/cDyiQ5zXKc1Mkb+fkbOo00N8/Mi2hNqy3eXnAdLT03EDngAbP
+	 WxpfsO9UWurEcepbM1DRlg+Ko464cMZwL/IuScDdnR8m/8+cj2MJhnf+JHURR7npto
+	 aTkXT8plXDq/Q==
+Message-ID: <058546d4-d180-439f-9f30-d01e66cac438@kernel.org>
+Date: Tue, 11 Mar 2025 18:34:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: media: qcom,sm8550-iris: update power
- domain name
+Subject: Re: [PATCH 4/4] media: iris: add compatible string for sa8775p
 To: Vikash Garodia <quic_vgarodia@quicinc.com>,
  Dikshita Agarwal <quic_dikshita@quicinc.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -62,7 +61,7 @@ To: Vikash Garodia <quic_vgarodia@quicinc.com>,
 Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250311-dtbinding-v1-0-5c807d33f7ae@quicinc.com>
- <20250311-dtbinding-v1-1-5c807d33f7ae@quicinc.com>
+ <20250311-dtbinding-v1-4-5c807d33f7ae@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -108,18 +107,36 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250311-dtbinding-v1-1-5c807d33f7ae@quicinc.com>
+In-Reply-To: <20250311-dtbinding-v1-4-5c807d33f7ae@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/03/2025 13:03, Vikash Garodia wrote:
-> Not all platforms has a collapsible mx, so use the more generic naming
-> of mx in the binding.
-> 
+> Add required compatible string to enable video hardware
+> acceleration on sa8775p.
 
-No, neither tested, nor justified. Read the file. How many platforms do
-you have there? One. Out of this one platform you claim not all of them
-have MX collapsible, so you want MX?
+
+Please wrap commit message according to Linux coding style / submission
+process (neither too early nor over the limit):
+https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+
+> 
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> ---
+>  drivers/media/platform/qcom/iris/iris_probe.c | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+> index aca442dcc153830e6252d1dca87afb38c0b9eb8f..23c9e76a68013399b0fc1d68c1ccf0f8b0ddb037 100644
+> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+> @@ -324,6 +324,10 @@ static const struct of_device_id iris_dt_match[] = {
+>  		.compatible = "qcom,sm8550-iris",
+>  		.data = &sm8550_data,
+>  	},
+> +	{
+> +		.compatible = "qcom,sa8775p-iris",
+Drop. Not needed.
 
 Best regards,
 Krzysztof
