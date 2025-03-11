@@ -1,105 +1,107 @@
-Return-Path: <linux-media+bounces-28034-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28038-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 481B3A5C43C
-	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 15:53:01 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CB9BA5C6DA
+	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 16:29:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 858E6171EC8
-	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 14:53:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 287D93B4B71
+	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 15:23:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0B9F25D553;
-	Tue, 11 Mar 2025 14:52:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31C6E25E834;
+	Tue, 11 Mar 2025 15:23:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ar9pqhhv"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HcKiI1hn"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A8CA1BB6BA;
-	Tue, 11 Mar 2025 14:52:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 805CC1DF749;
+	Tue, 11 Mar 2025 15:23:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741704771; cv=none; b=bl3D7cSTYmbIhwDg6p7+BPynfOcFfR3HeVTWdh4XwrZwYVZeDKaH4vI8GKAEuaNwR5a7fA55IAUtScKR8krZeE54C2P0bHSwYsriKicrbIqtXz5wmWI7x5I7bhlNpJ80fsT40MDLlE4GY6v7SwA+hIiPGGeZiXy8g+s8rsUN/Y4=
+	t=1741706602; cv=none; b=feITh1Ww/XeD4XoKrNBtZSkZ5+kjfMTsVQrjwy3yLSK3MkKACrp7017L2ga9W+gVXg/QRAfFSOVTENS7XTi26BDSTheZOggL0arLcG+YWA2UmjAOGNvsY6p2C3jclmIaVAlG4UU0j7xJuj8SVnZZkhDTNoNkQ5jPivbyafsu1KI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741704771; c=relaxed/simple;
-	bh=yuPVk9WldAMtntYxp3zd8OUcJfojpeIHIzELiOdyLS4=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=N5MQhUXEpblE20iPCxNpULb/jM5OyJ95Ic/X7xlH1HtpKimMK+oaJkWr3VLOerTa6obWPhSjJQkr53htNj59oi81H5Zrs6vbFYEohWpoLVUnXSZ5GLTDb8eBcpFvfPuHv0Mx3us3BIH7NqvCb7k8Y+jOphMcYKr7Dj0JRktO3yA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ar9pqhhv; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7CCF1C4CEE9;
-	Tue, 11 Mar 2025 14:52:50 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741704770;
-	bh=yuPVk9WldAMtntYxp3zd8OUcJfojpeIHIzELiOdyLS4=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=Ar9pqhhvcd7v1MMbdgBDPEcHDJJdVvA7FFumK4hO+UYQxAe0Z5oP8KGIec+JnrNnV
-	 YNWfyEyp8TbI6bgMkDkA3xu8XUHeH+LuLGPOG6418LLq7sYPIZJN0rsbodBU+hH8G1
-	 /qozxptgtc/qDDkKYIYpD4KVHsybKtVF2PrPwngJkNDQKLleE2ujbwoleglG5zXlPX
-	 TbHzK+3gVPP6xDyAx31GaIFhqMdbiUoFuftmLkpQ7YEzvLtrOmu1cHUsVHcZDvSI6F
-	 Jj0KhoxtLaTbNMOqOEOwHw0CxiBWxYl+yUZE2qZ0OPR8SeyCyA6M5e9CY2zJBVC3D2
-	 UrqYvgb58nWUg==
-Date: Tue, 11 Mar 2025 09:52:48 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1741706602; c=relaxed/simple;
+	bh=gX33swGfNFibkFOxuy2e1d7FqpOjvVBceBdEVbkMVgQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=bYbBqBhLtZObx8SxmAXsJ5o56+7GVsRCiIxByFDHMR/BJQaMhYfBb2OjWK8ZhkiPpP//Ji8b3WnzVdVoNLcK8ym+jMsGV0jLdNmzr2PBhaEqBw25cYvjCh2MFYv2uIGTvr2VzhffexfBOK5eC7rDwMefhD7LhxMig/Ag17O2w54=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=HcKiI1hn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0570DC4CEE9;
+	Tue, 11 Mar 2025 15:23:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1741706602;
+	bh=gX33swGfNFibkFOxuy2e1d7FqpOjvVBceBdEVbkMVgQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=HcKiI1hn53v2zEq8DnRx/fy3gowFnAL0U8L91ODYafDVbSIR5olRSlDyzAmZrTp8Q
+	 JOtKuFHxJydHj1uJtaCXmcdpuxV0UeFvb73NF9kP7h9gqGg4qnhy/LixjaDp8KbQ09
+	 rYiCIYHbvgrzQHMUtWRwhvMVdI+D7l38X/941QU0=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Sasha Levin <sashal@kernel.org>
+Subject: [PATCH 5.10 077/462] ARM: dts: mediatek: mt7623: fix IR nodename
+Date: Tue, 11 Mar 2025 15:55:43 +0100
+Message-ID: <20250311145801.390789844@linuxfoundation.org>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250311145758.343076290@linuxfoundation.org>
+References: <20250311145758.343076290@linuxfoundation.org>
+User-Agent: quilt/0.68
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: linux-media@vger.kernel.org, Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, devicetree@vger.kernel.org, 
- Dikshita Agarwal <quic_dikshita@quicinc.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>
-To: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <20250311-dtbinding-v1-1-5c807d33f7ae@quicinc.com>
-References: <20250311-dtbinding-v1-0-5c807d33f7ae@quicinc.com>
- <20250311-dtbinding-v1-1-5c807d33f7ae@quicinc.com>
-Message-Id: <174170473449.3452573.11984106414323631593.robh@kernel.org>
-Subject: Re: [PATCH 1/4] dt-bindings: media: qcom,sm8550-iris: update power
- domain name
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+5.10-stable review patch.  If anyone has any objections, please let me know.
+
+------------------
+
+From: Rafał Miłecki <rafal@milecki.pl>
+
+[ Upstream commit 90234cf9b37c57201a24b78c217a91a8af774109 ]
+
+Fix following validation error:
+arch/arm/boot/dts/mediatek/mt7623a-rfb-emmc.dtb: cir@10013000: $nodename:0: 'cir@10013000' does not match '^ir(-receiver)?(@[a-f0-9]+)?$'
+        from schema $id: http://devicetree.org/schemas/media/mediatek,mt7622-cir.yaml#
+
+Fixes: 91044f38dae7 ("arm: dts: mt7623: add ir nodes to the mt7623.dtsi file")
+Cc: linux-media@vger.kernel.org
+Signed-off-by: Rafał Miłecki <rafal@milecki.pl>
+Link: https://lore.kernel.org/r/20240617094634.23173-1-zajec5@gmail.com
+Signed-off-by: Matthias Brugger <matthias.bgg@gmail.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ arch/arm/boot/dts/mt7623.dtsi | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm/boot/dts/mt7623.dtsi b/arch/arm/boot/dts/mt7623.dtsi
+index aea6809500d74..c267fc1f83579 100644
+--- a/arch/arm/boot/dts/mt7623.dtsi
++++ b/arch/arm/boot/dts/mt7623.dtsi
+@@ -309,7 +309,7 @@
+ 		clock-names = "spi", "wrap";
+ 	};
+ 
+-	cir: cir@10013000 {
++	cir: ir-receiver@10013000 {
+ 		compatible = "mediatek,mt7623-cir";
+ 		reg = <0 0x10013000 0 0x1000>;
+ 		interrupts = <GIC_SPI 87 IRQ_TYPE_LEVEL_LOW>;
+-- 
+2.39.5
 
 
-On Tue, 11 Mar 2025 17:33:53 +0530, Vikash Garodia wrote:
-> Not all platforms has a collapsible mx, so use the more generic naming
-> of mx in the binding.
-> 
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> ---
->  Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-
-My bot found errors running 'make dt_binding_check' on your patch:
-
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,sm8550-iris.example.dtb: video-codec@aa00000: power-domain-names:2: 'mx' was expected
-	from schema $id: http://devicetree.org/schemas/media/qcom,sm8550-iris.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250311-dtbinding-v1-1-5c807d33f7ae@quicinc.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
 
 
