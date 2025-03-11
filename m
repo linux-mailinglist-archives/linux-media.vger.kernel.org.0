@@ -1,162 +1,208 @@
-Return-Path: <linux-media+bounces-28069-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28071-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C152A5D25A
-	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 23:13:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA7B2A5D28E
+	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 23:29:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EA959189D3B5
-	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 22:13:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7C729189D18A
+	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 22:29:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2B01265603;
-	Tue, 11 Mar 2025 22:13:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99502265CB5;
+	Tue, 11 Mar 2025 22:28:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="D6CC4r+x"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="QWEZWp44"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85D571E7C06;
-	Tue, 11 Mar 2025 22:13:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38C9C26560E;
+	Tue, 11 Mar 2025 22:28:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741731209; cv=none; b=d+ENXUU3YaP7vAJNOJ8UED0kRwNALxEE5yI51R15QWEwA/owHKeKmLjGGpHx0i0xjO6jSd3ljQ/n8aEPzhe52z/EZSOi1ZCy70ME7nvOSrAwhjpSt5Tpvi3+Xpvd6fE6oyaKnQ+7kQPM+Ca3qUZL9vLK/MmWJuvk6udl+/tbWMs=
+	t=1741732133; cv=none; b=lVLq9HWqcv8SXjoHP50X6hqabz9X8JBo+MWwTDQEL2SzexkfO4zXK4AfS/JPo+ECvtInPh+RZc0PHVCgFpNBqqOGsfT2mvuxdzD6XaXqscyc85d9XpJ9/mn4Ck+r9arluMnjQ2u8uS8b3n/TVsB1+FMz+1CyPygAIf4TSk9sqtE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741731209; c=relaxed/simple;
-	bh=3aGBcFcTaNaR79p8ePa1pCcF1TKKHFwBabPmxaAkhoE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KGNoVzLVGbrYoQPfOBzv6vYMrAGut7BFyEuff/3dZrijYVDTsjQfrVFWe8akpMdQnkIjuXG55yOn9OcY+QpBTeuIBmxX9aTcPQzFUyhBynj0wmy7VOlKycRz2rySucdl7dc+2Ulb5gl5vtnYV1Dzz5+t248Y2FdK44ff8A1p1j8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=D6CC4r+x; arc=none smtp.client-ip=209.85.218.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-abf3d64849dso703450866b.3;
-        Tue, 11 Mar 2025 15:13:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741731206; x=1742336006; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=rjUc9bePqbTdDTZkTfNHhdZzvWN4QLUd87uz3URl6ag=;
-        b=D6CC4r+xzDIlgqPv4grzBXtonyzlAmJIoxU8qQ3jPwTMx5rKNdY3bc3cY9oiePXbx9
-         bt/KVQxxFJZ6HrB4lbhoEdoY5oe0lai5ddiAr7yowf2oYtufKFE3HRy5xRuu4ZKWKzFm
-         jwQbPSYvxlabHVWFKYHDcl6LIElX29MVl0BFrMcYb+VW9F7Evj8Y6L5uPS/kjPXaSgSs
-         mOqybz2i+nt1XL6iEvuIi88MHDPRzlN/BSDDp5nbeb0Rk9vxh4FTIkMswdm+HRuUVkyj
-         +QCl5hZYtJcEjnR5ATF3Aw9GjL/Dh7qgdyj9QEfuPae6GcOJA/1TXbzDnEM56mq8coxn
-         8spg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741731206; x=1742336006;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rjUc9bePqbTdDTZkTfNHhdZzvWN4QLUd87uz3URl6ag=;
-        b=qmFB33MGA9BfDcA0QeW/gFbRZDrbXwbfX38lvJPCQtYeTVFPu5EFPuZpt1LGZA8vF+
-         gqAKLlgsvoWAW4tltYQ1YDjTtJ0Lql03O/aHFJVLZW93EIPD6w6akBv/+0Ks4ZCYTjEh
-         mdvjXluGHfqTKagrMuo/jgdFCSfkG3XKvLsbvUuD3iMVSUDiRuT0mW1UjIgEwH2lpdfk
-         P3sSe663ZovSRdJQmBmtzNxxXl68isE20TRID5aDduOk7r2ZLgZVaHw5XS/cJuHkSqy9
-         B3IsOLUoZlaHtnJnucMzzWGwvMywCfhwvAymsNF+I4VoB2cr5RJh7I0P7CG7xgYdCzeT
-         RjXw==
-X-Forwarded-Encrypted: i=1; AJvYcCV9aUOcYCpNOsSJyBJS4g/qo/ecQ+foAHg+YPtce14KMLPRbK5PB9RA0r+ILY5D6o3FWlaYsxg5zh7T4Qkr@vger.kernel.org, AJvYcCVStD/EkVDQv6OTDWAj2Ljxi9+RqvlbR6UXFbuNhXpzs9ucvCWde0/QdSzjH4UsoaXV9Ji1H1kaSnYXxM0=@vger.kernel.org, AJvYcCWLWmMDjNrRXoBt2rtqhjwaRWvmIQGf2j/7Cke7HhCJ+viDMSQwOUJOZDp5RlX6wxeSqJA0sxh0Cplf@vger.kernel.org, AJvYcCX1hqpagB7+3wRdd15BvKcvLLlAPbgresPr0dl3qpkj+hTfHki92pHWY9v35gop9G8dOUpyKK0Eep0fNIv75g==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywiz8ozVWAjaYxpQQfx1ayYjWnSnQMT93zavw6vJtQXr8NrMAlD
-	p543nMJKzwI5T518ufDq1kjPAm5guyidZlyA/pahL2ZMLkFNYo0o/1FunSCCgs71Jgc3G3GZVGI
-	BzGmy2ziwwJ4yqv8HJo4TBEX6TgDWvg==
-X-Gm-Gg: ASbGnctkdNJtYvrwp0QbG70PnUNrGviFxB09nE/Qk0xq3M14I9mMkvj96Peq+SL5YDZ
-	yc5WRQnBsQvbpeVD0eM0AZz3ps+wh79oEPc1cJ5Euf5CplUH8zjUBXnbzj6ZA+SKM61sVyKklmy
-	Fcgpi5Dd4gt8fVuNiRgHLiZaQD4InW8EGFuGK2mzaoK5+qBAV7gT9J11qr7g==
-X-Google-Smtp-Source: AGHT+IEnlCesq9Sm6fpV1dwPArArN/oTo2sRyqjMAyFXYP4HF57/9egXxxaFYA3J1rptFlnafWwJQQ7H/6zLNQVjros=
-X-Received: by 2002:a17:906:dc8a:b0:ac1:dc6d:af32 with SMTP id
- a640c23a62f3a-ac25269072cmr205164466b.27.1741731205522; Tue, 11 Mar 2025
- 15:13:25 -0700 (PDT)
+	s=arc-20240116; t=1741732133; c=relaxed/simple;
+	bh=c1EJT745wp+iQYTsgV/aSwRcGMBCnAjhwzzcywlBgcs=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=Oe7GI+FuqovgygwKtFZXYGePcym7xyvh7uz8eZdQhEuSYAOoSiPFNQcLkKRzgQIWpDzGlEGxXx36NkE6Czs9OwsMI64i5wraysP83MtJU8TwaTqYQKe2hpwwE2g+9sn4m4PR7NnbCqjCyueZ7493dGDpXZkPy/eCKQNW+ZEbjwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=QWEZWp44; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+Received: from [127.0.0.1] ([76.133.66.138])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52BMOF3B2275039
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Tue, 11 Mar 2025 15:24:15 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52BMOF3B2275039
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025021701; t=1741731862;
+	bh=GFDhiFKvtRD+W2XGLJDNjRiea0qe1W3j0iK0xY8JZL8=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=QWEZWp44Cu/zN1UIDmdWXY6QcwrSH2LoTB7gxC/oODFA2E5hnyx87scqetv/EJqaq
+	 W3NGSD2lutyv9Jcq8m20s075mr19ouosvjSfuoByKOZE3mQ3jwMuLYAfFD7NHXFjMu
+	 PSNQMtgdMv8Ylzz6iTK9sKEdCddWc+fBTUdrnEKWu4ZtGPAVnloe7NrgEcViX9/54l
+	 wN7/sR5ozYXyi5j6Ocpn7dIVIj/aVN6iIt0U8c7AYlRPFAXzs4Zww/v+elJgd/PqhB
+	 MqAlIlffCnFmITyc2l4ZgqDCwWd5yt6Lw5IBPI6hlmBqX3gG06MBm8zXyyFfILZebk
+	 u/gMoXml+mBPw==
+Date: Tue, 11 Mar 2025 15:24:14 -0700
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: Yury Norov <yury.norov@gmail.com>, Kuan-Wei Chiu <visitorckw@gmail.com>
+CC: David Laight <david.laight.linux@gmail.com>,
+        Andrew Cooper <andrew.cooper3@citrix.com>,
+        Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
+        akpm@linux-foundation.org, alistair@popple.id.au,
+        andrew+netdev@lunn.ch, andrzej.hajda@intel.com,
+        arend.vanspriel@broadcom.com, awalls@md.metrocast.net, bp@alien8.de,
+        bpf@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
+        brcm80211@lists.linux.dev, dave.hansen@linux.intel.com,
+        davem@davemloft.net, dmitry.torokhov@gmail.com,
+        dri-devel@lists.freedesktop.org, eajames@linux.ibm.com,
+        edumazet@google.com, eleanor15x@gmail.com, gregkh@linuxfoundation.org,
+        hverkuil@xs4all.nl, jernej.skrabec@gmail.com, jirislaby@kernel.org,
+        jk@ozlabs.org, joel@jms.id.au, johannes@sipsolutions.net,
+        jonas@kwiboo.se, jserv@ccns.ncku.edu.tw, kuba@kernel.org,
+        linux-fsi@lists.ozlabs.org, linux-input@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linux-serial@vger.kernel.org,
+        linux-wireless@vger.kernel.org, linux@rasmusvillemoes.dk,
+        louis.peens@corigine.com, maarten.lankhorst@linux.intel.com,
+        mchehab@kernel.org, mingo@redhat.com, miquel.raynal@bootlin.com,
+        mripard@kernel.org, neil.armstrong@linaro.org, netdev@vger.kernel.org,
+        oss-drivers@corigine.com, pabeni@redhat.com,
+        parthiban.veerasooran@microchip.com, rfoss@kernel.org, richard@nod.at,
+        simona@ffwll.ch, tglx@linutronix.de, tzimmermann@suse.de,
+        vigneshr@ti.com, x86@kernel.org
+Subject: Re: [PATCH v3 00/16] Introduce and use generic parity16/32/64 helper
+User-Agent: K-9 Mail for Android
+In-Reply-To: <Z9CyuowYsZyez36c@thinkpad>
+References: <4732F6F6-1D41-4E3F-BE24-E54489BC699C@zytor.com> <efc2ee9d-5382-457f-b471-f3c44b81a190@citrix.com> <5A790652-1B22-4D13-AAC5-5D9931E90903@zytor.com> <20250307195310.58abff8c@pumpkin> <EB85C3C1-8A0D-4CB9-B501-BFEABDF3E977@zytor.com> <Z824SgB9Dt5zdWYc@visitorckw-System-Product-Name> <Z9CyuowYsZyez36c@thinkpad>
+Message-ID: <80771542-476C-493E-858A-D2AF6A355CC1@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250311-dtbinding-v1-0-5c807d33f7ae@quicinc.com>
- <20250311-dtbinding-v1-1-5c807d33f7ae@quicinc.com> <7yjj2eemvvvnsgv67d7tueid4h3n3onuou6ammx36am4qhfsal@xam3iamk4er3>
- <c0430086-675d-b58c-4ef9-1bd9ee51d3db@quicinc.com> <zssjkvxxv7kionartp6f3y2qh3d4i6gwnhwsrklsfad3t4fy3q@jkehbkx6wcyk>
- <203ea0bb-c53c-389e-db12-b41773c0ff5d@quicinc.com>
-In-Reply-To: <203ea0bb-c53c-389e-db12-b41773c0ff5d@quicinc.com>
-From: Dmitry Baryshkov <dbaryshkov@gmail.com>
-Date: Wed, 12 Mar 2025 00:13:14 +0200
-X-Gm-Features: AQ5f1JrSy91oYnYZTZryNqtuXvq7j4AA0a3FL9eIdiJigCbNEuF4Dql52zRWNxM
-Message-ID: <CALT56yP5mh4QjhOEHh0x2s_+BWWXH0fPM7r7YVvx+DEgWZ0MCw@mail.gmail.com>
-Subject: Re: [PATCH 1/4] dt-bindings: media: qcom,sm8550-iris: update power
- domain name
-To: Vikash Garodia <quic_vgarodia@quicinc.com>
-Cc: Dmitry Baryshkov <lumag@kernel.org>, Dikshita Agarwal <quic_dikshita@quicinc.com>, 
-	Abhinav Kumar <quic_abhinavk@quicinc.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 11 Mar 2025 at 21:19, Vikash Garodia <quic_vgarodia@quicinc.com> wrote:
+On March 11, 2025 3:01:30 PM PDT, Yury Norov <yury=2Enorov@gmail=2Ecom> wro=
+te:
+>On Sun, Mar 09, 2025 at 11:48:26PM +0800, Kuan-Wei Chiu wrote:
+>> On Fri, Mar 07, 2025 at 12:07:02PM -0800, H=2E Peter Anvin wrote:
+>> > On March 7, 2025 11:53:10 AM PST, David Laight <david=2Elaight=2Elinu=
+x@gmail=2Ecom> wrote:
+>> > >On Fri, 07 Mar 2025 11:30:35 -0800
+>> > >"H=2E Peter Anvin" <hpa@zytor=2Ecom> wrote:
+>> > >
+>> > >> On March 7, 2025 10:49:56 AM PST, Andrew Cooper <andrew=2Ecooper3@=
+citrix=2Ecom> wrote:
+>> > >> >> (int)true most definitely is guaranteed to be 1=2E =20
+>> > >> >
+>> > >> >That's not technically correct any more=2E
+>> > >> >
+>> > >> >GCC has introduced hardened bools that intentionally have bit pat=
+terns
+>> > >> >other than 0 and 1=2E
+>> > >> >
+>> > >> >https://gcc=2Egnu=2Eorg/gcc-14/changes=2Ehtml
+>> > >> >
+>> > >> >~Andrew =20
+>> > >>=20
+>> > >> Bit patterns in memory maybe (not that I can see the Linux kernel =
+using them) but
+>> > >> for compiler-generated conversations that's still a given, or the =
+manager isn't C
+>> > >> or anything even remotely like it=2E
+>> > >>=20
+>> > >
+>> > >The whole idea of 'bool' is pretty much broken by design=2E
+>> > >The underlying problem is that values other than 'true' and 'false' =
+can
+>> > >always get into 'bool' variables=2E
+>> > >
+>> > >Once that has happened it is all fubar=2E
+>> > >
+>> > >Trying to sanitise a value with (say):
+>> > >int f(bool v)
+>> > >{
+>> > >	return (int)v & 1;
+>> > >}   =20
+>> > >just doesn't work (see https://www=2Egodbolt=2Eorg/z/MEndP3q9j)
+>> > >
+>> > >I really don't see how using (say) 0xaa and 0x55 helps=2E
+>> > >What happens if the value is wrong? a trap or exception?, good luck =
+recovering
+>> > >from that=2E
+>> > >
+>> > >	David
+>> >=20
+>> > Did you just discover GIGO?
+>>=20
+>> Thanks for all the suggestions=2E
+>>=20
+>> I don't have a strong opinion on the naming or return type=2E I'm still=
+ a
+>> bit confused about whether I can assume that casting bool to int always
+>> results in 0 or 1=2E
+>>=20
+>> If that's the case, since most people prefer bool over int as the
+>> return type and some are against introducing u1, my current plan is to
+>> use the following in the next version:
+>>=20
+>> bool parity_odd(u64 val);
+>>=20
+>> This keeps the bool return type, renames the function for better
+>> clarity, and avoids extra maintenance burden by having just one
+>> function=2E
+>>=20
+>> If I can't assume that casting bool to int always results in 0 or 1,
+>> would it be acceptable to keep the return type as int?
+>>=20
+>> Would this work for everyone?
 >
+>Alright, it's clearly a split opinion=2E So what I would do myself in
+>such case is to look at existing code and see what people who really
+>need parity invent in their drivers:
 >
-> On 3/11/2025 9:05 PM, Dmitry Baryshkov wrote:
-> > On Tue, Mar 11, 2025 at 08:41:01PM +0530, Vikash Garodia wrote:
-> >>
-> >> On 3/11/2025 8:37 PM, Dmitry Baryshkov wrote:
-> >>> On Tue, Mar 11, 2025 at 05:33:53PM +0530, Vikash Garodia wrote:
-> >>>> Not all platforms has a collapsible mx, so use the more generic naming
-> >>>> of mx in the binding.
-> >>>
-> >>> I guess, it wasn't even tested...
-> >> Not sure what made you guess so, let me check why my binding checker did not
-> >> catch the bot reported warning.
-> >
-> > Obvious: you are changing the bindings in a non-backwards compatible
-> > way, but you are not changing the example in the same file (and
-> > obviously you are not changing the DTs), which means that this wasn't
-> > tested.
-> >
-> > Hint: you can use enum [mx, mxc] instead of const. That would make it
-> > backwards compatible.
-> Currently there are no user of this binding. Given that either of MX or MXC are
-> same connection to video hardware, just that one is collapsible, it would be
-> good to replace the existing element instead of enum.
-
-This obviously should go to the commit message.
-
+>                                     bool      parity_odd
+>static inline int parity8(u8 val)       -               -
+>static u8 calc_parity(u8 val)           -               -
+>static int odd_parity(u8 c)             -               +
+>static int saa711x_odd_parity           -               +
+>static int max3100_do_parity            -               -
+>static inline int parity(unsigned x)    -               -
+>static int bit_parity(u32 pkt)          -               -
+>static int oa_tc6_get_parity(u32 p)     -               -
+>static u32 parity32(__le32 data)        -               -
+>static u32 parity(u32 sample)           -               -
+>static int get_parity(int number,       -               -
+>                      int size)
+>static bool i2cr_check_parity32(u32 v,  +               -
+>                        bool parity)
+>static bool i2cr_check_parity64(u64 v)  +               -
+>static int sw_parity(__u64 t)           -               -
+>static bool parity(u64 value)           +               -
 >
-> Regards,
-> Vikash
-> >
-> >> Regards,
-> >> Vikash
-> >>>
-> >>>>
-> >>>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> >>>> ---
-> >>>>  Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml | 2 +-
-> >>>>  1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>>
-> >>>> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-> >>>> index e424ea84c211f473a799481fd5463a16580187ed..440a0d7cdfe19a1ccedefc207d96b26eed5d6630 100644
-> >>>> --- a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-> >>>> +++ b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-> >>>> @@ -28,7 +28,7 @@ properties:
-> >>>>      items:
-> >>>>        - const: venus
-> >>>>        - const: vcodec0
-> >>>> -      - const: mxc
-> >>>> +      - const: mx
-> >>>>        - const: mmcx
-> >>>>
-> >>>>    clocks:
-> >>>>
-> >>>> --
-> >>>> 2.34.1
-> >>>>
-> >>>
-> >
+>Now you can refer to that table say that int parity(uXX) is what
+>people want to see in their drivers=2E
+>
+>Whichever interface you choose, please discuss it's pros and cons=2E
+>What bloat-o-meter says for each option? What's maintenance burden?
+>Perf test? Look at generated code?
+>
+>I personally for a macro returning boolean, something like I
+>proposed at the very beginning=2E
+>
+>Thanks,
+>Yury
 
-
-
--- 
-With best wishes
-Dmitry
+Also, please at least provide a way for an arch to opt in to using the bui=
+ltins, which seem to produce as good results or better at least on some arc=
+hitectures like x86 and probably with CPU options that imply fast popcnt is=
+ available=2E
 
