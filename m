@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-28039-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28040-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AA5AA5C7BD
-	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 16:38:17 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35A24A5C7A6
+	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 16:37:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2DA033BBE21
-	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 15:32:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7D90416192C
+	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 15:33:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E10833EA76;
-	Tue, 11 Mar 2025 15:32:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6BED25F99D;
+	Tue, 11 Mar 2025 15:32:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nkiqKK4U"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y0NgHzIh"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CC3725B69D;
-	Tue, 11 Mar 2025 15:32:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0239314BF89;
+	Tue, 11 Mar 2025 15:32:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741707123; cv=none; b=p6k2uOo386zXTWVmPPPycgpZBAWlZY7Lae5C/rRkq5EfMuTmcAoq5IVku1OEwC5NFYwEQ6beHxwoahSCjYCgKKCqssaU8JlPUIfztqdp/c+Z0M2/ngF4ydH84L2UD+tH+GQ5XriqUtwb9xR1EQ6eUiLpdDOzdfRDh7zlftHc7b4=
+	t=1741707147; cv=none; b=dn/IiDHps0J/4XGbWjXqRIevg7gF0PO2HORM5xxfmFMg/3iPzgvfN/GQDeAkujNY44C5/BUxFkVw8MUtyRrekPL09RVRwMJtJAhoPXRpTP6nUhEVHzsRSobtNb2taw1VQNIItB6xufE6BciKrwOVEEVRoUuprcs2lonhPTPQgbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741707123; c=relaxed/simple;
-	bh=VtkaJ7L6XEIE9QnAL1+dX4kibxBnJwlPy8zVdc2LrHM=;
+	s=arc-20240116; t=1741707147; c=relaxed/simple;
+	bh=kSGitwPYJ+KY5vOStc4FnbTJlBpFDOIIed4t2krKKfY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V/p8E6nDey7AfC1eNGkYO9G5DRrT4q33vAWrPVm4sX4F6cj4vO0vex39tm9G2xtjSEzy/xnBz2CLKrXqfkixJDIBGZ+TXgnvjvWxbrPb79YvKTH1NBdVeb8Rau0m4Ep/VFuWTPFnYrwgnSMdQy9EDe/piFaQwLSFvRPJ8gnIP5c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nkiqKK4U; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2036AC4CEF3;
-	Tue, 11 Mar 2025 15:31:59 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=p2G95pp/vGHbkEIylYhVrr20ybQk5stQjoFJgkIgBdYDDylrzslGL5STNRcjH/OSaRqGOD8tS79X66aAcoe2SNbovpC6L2biLfOeNWfG60sIVALTvpCr3BdYzpN4iRZAuSSlBTZ/Tf75N0uBUuCGqV+0Cd47xyrT3pir9eKPsfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y0NgHzIh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4E53C4CEEC;
+	Tue, 11 Mar 2025 15:32:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741707123;
-	bh=VtkaJ7L6XEIE9QnAL1+dX4kibxBnJwlPy8zVdc2LrHM=;
+	s=k20201202; t=1741707146;
+	bh=kSGitwPYJ+KY5vOStc4FnbTJlBpFDOIIed4t2krKKfY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nkiqKK4UlgQ3bHIj+Fa2H3znDor0YOQfCHGZi4BE+Oy4tLZIQ5G21b63zkyyJT5v2
-	 LR3rdQKJ5nfiK3qFXAmVgYZ2PYDrJgp0fXL9hZXH7EWRf2jbhX7Tw52DiJ58vUg79V
-	 umwYYl+FJAeSJocInIfr2sAR/85pHgdSsJ9i1g82EaYjlbpqeZF89RMsk8nlNRpgna
-	 nIaTjGeBj4RcwafWQ1nIabLujNUz7oB7GxNqf1Cjl+dgll4SCKGrgSq/ePeF9eeMVl
-	 6Sk+x8fFpz01tRLt7bRnZkp3/0WYa/jNg+qWCgW7oD+7Sz+K6Hv9RQbzW1/ryIeHBz
-	 q/MDAV1qBbYYg==
-Date: Tue, 11 Mar 2025 17:31:57 +0200
+	b=Y0NgHzIhTyIQt9H/i5oslgxlPfUEOMWTqxjVFrZ/yCOyyZzcLlhoU8FPI4oLAa1jM
+	 u8ZfFmcrNpSRDDIW/kThhmdes9j/JAzqqBr7XS9PIbIv6OI0Y4DyRZof4FS/4hnCld
+	 UUKvNQOU902ANiIeWPrOZDkoRE2iiWi9TAU6DI/UFGp2LWG15aOBVBPIbiHgH00+71
+	 HOMOQM0vSH6stjbWFXPz/HMBL9miUTdoT6bQnEyDEHw6aYmKVTosjNOf1UQo9bcSU+
+	 I9qn8YHjxaOPsI60+V80n+5KAQpXOa2UKFC56hY9njlqi0rCOlJNMX8YInjkRalBSq
+	 JGe9CMFMdnRGQ==
+Date: Tue, 11 Mar 2025 17:32:21 +0200
 From: Dmitry Baryshkov <lumag@kernel.org>
 To: Vikash Garodia <quic_vgarodia@quicinc.com>
 Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>, 
@@ -50,11 +50,10 @@ Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>,
 	Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
 	Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/4] dt-bindings: media: qcom,sm8550-iris: document
- SA8775p IRIS accelerator
-Message-ID: <ngzl7q3fli3bpuo5gjvppfrsnmlw6viy26ieqwhpfokgue2uxm@whomn2h6h3a7>
+Subject: Re: [PATCH 4/4] media: iris: add compatible string for sa8775p
+Message-ID: <ci52x2f3rael6zyimkoorn42bkoomiyakvqgvukodwlpczeofi@ivwl773psavo>
 References: <20250311-dtbinding-v1-0-5c807d33f7ae@quicinc.com>
- <20250311-dtbinding-v1-2-5c807d33f7ae@quicinc.com>
+ <20250311-dtbinding-v1-4-5c807d33f7ae@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,40 +62,35 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250311-dtbinding-v1-2-5c807d33f7ae@quicinc.com>
+In-Reply-To: <20250311-dtbinding-v1-4-5c807d33f7ae@quicinc.com>
 
-On Tue, Mar 11, 2025 at 05:33:54PM +0530, Vikash Garodia wrote:
-> Document the IRIS video decoder and encoder accelerator found in the
-> SA8775P platform. SA8775P has collapsible MX compared to SM8550.
+On Tue, Mar 11, 2025 at 05:33:56PM +0530, Vikash Garodia wrote:
+> Add required compatible string to enable video hardware
+> acceleration on sa8775p.
 
-How compatible is SA8775P to SM8550? Should it be using a fallback
-compatible?
-
-This kind of comes as a more generic question: is there anything like
-'IP version' or 'core version'? It would be really nice to determine the
-'baseline' SoCs and make other instances compatible with the baseline.
+No, use fallback compatibles instead.
 
 > 
 > Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 > ---
->  Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
+>  drivers/media/platform/qcom/iris/iris_probe.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-> index 440a0d7cdfe19a1ccedefc207d96b26eed5d6630..20ac596638ba33f49cce9e42d70d31a8aaa7c36e 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-> @@ -19,7 +19,9 @@ allOf:
->  
->  properties:
->    compatible:
-> -    const: qcom,sm8550-iris
-> +    enum:
-> +      - qcom,sm8550-iris
-> +      - qcom,sa8775p-iris
->  
->    power-domains:
->      maxItems: 4
+> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+> index aca442dcc153830e6252d1dca87afb38c0b9eb8f..23c9e76a68013399b0fc1d68c1ccf0f8b0ddb037 100644
+> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+> @@ -324,6 +324,10 @@ static const struct of_device_id iris_dt_match[] = {
+>  		.compatible = "qcom,sm8550-iris",
+>  		.data = &sm8550_data,
+>  	},
+> +	{
+> +		.compatible = "qcom,sa8775p-iris",
+> +		.data = &sm8550_data,
+> +	},
+>  #if (!IS_ENABLED(CONFIG_VIDEO_QCOM_VENUS))
+>  		{
+>  			.compatible = "qcom,sm8250-venus",
 > 
 > -- 
 > 2.34.1
