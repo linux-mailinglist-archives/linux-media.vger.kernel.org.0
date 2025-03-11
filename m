@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-28046-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28047-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DFE7A5CC4A
-	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 18:35:05 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67EF5A5CC53
+	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 18:36:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C25973A3365
-	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 17:34:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2480C189E935
+	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 17:36:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78FAE262801;
-	Tue, 11 Mar 2025 17:34:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82B92260A21;
+	Tue, 11 Mar 2025 17:36:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SR6DmOGD"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JyQ+/pWg"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA75C1D514A;
-	Tue, 11 Mar 2025 17:34:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD8E61EB5E7;
+	Tue, 11 Mar 2025 17:36:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741714496; cv=none; b=WkRq6cNJSuTZAWMA4S6GVQ1EXPa9hU5uYOunMNTlUM3yAX30fggp58Zqdj9O9AHPz+YaLmcFOu4idAeUhSTAom155/HQWxO/oHsXh+XOT/Vrpxzo2/4ew4fLYc7PDl9TeOJafSpzR4Q+nOGIWJQZKIecqkc7s8BwiVT6AbLr+Jc=
+	t=1741714566; cv=none; b=guIb3XfjaK0LHc8AmnEgu9mM85OhLD5HUbtedL77ongmm2DL53DmH7kKioTYueUfCKpT8riN14TTiwYal11hwc2kXq1IoZ42qtKhqrIisF5dIVlR7exIj2Pd9pM46a+5YblnlsSZ2EXteN8Z0XNr/c7nNE4oXsvjpWPZoat1Agw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741714496; c=relaxed/simple;
-	bh=hO+ZWV3c02739h2EmWuf5jS4BdGdx7DrCGtd7Xchzck=;
+	s=arc-20240116; t=1741714566; c=relaxed/simple;
+	bh=68nMgbh1aMDdXTFMA4jy6p7PMf4uI8Y4axeRZRKvuI4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IxoelIjytL5YYKfnZxDhuCneJQNPMRC5YVIt3TBsVGHbWMhCQSCtFbDzvNnQ0VPcLtZWS2B3kG62PEnoctbkzIvgP5RZV+vutg0nDMgwo4Xv6Skin1NVpSBJE0HM1DZFBCF45HZlP22PW6Cv8ArWU4BDonzvFXriJZpOWuyiIlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SR6DmOGD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5112AC4CEE9;
-	Tue, 11 Mar 2025 17:34:51 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=MiuI5vVXRlI731PcQ92EUoIGDBj9xY4b+S/zcHdzN3mpZPSx7fya95tbyUblPqRmvmRfCCGmeggRAW/SZ3XiiXPHOZajQVkTk2jo0weGTNh6F1voQU9NhCj7hk2RTQTnNm0oVNL9EuT6qNWcwbiPgClkU5aohOYfYEeib/gaLlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JyQ+/pWg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C343C4CEE9;
+	Tue, 11 Mar 2025 17:36:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741714496;
-	bh=hO+ZWV3c02739h2EmWuf5jS4BdGdx7DrCGtd7Xchzck=;
+	s=k20201202; t=1741714566;
+	bh=68nMgbh1aMDdXTFMA4jy6p7PMf4uI8Y4axeRZRKvuI4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SR6DmOGDFDAl7Q3urxGjgjTRmUoSn4P5garJmxng2MTzIEIr5IQDKFP2DCuGrdzar
-	 oFxkBKtmo5ydwbvtq0YpeWihllHcboP7XQaVWhNj4sRVTi6BEE9uU6b5WgokIymFLn
-	 BC0XbtXcHCNP459XQWJT+epHuvxYlYsJvg/7/1Kn1MMKDdvj8JyY7v7CM4QWhhXPm/
-	 AH3FWd+TejOeQVDm/cDyiQ5zXKc1Mkb+fkbOo00N8/Mi2hNqy3eXnAdLT03EDngAbP
-	 WxpfsO9UWurEcepbM1DRlg+Ko464cMZwL/IuScDdnR8m/8+cj2MJhnf+JHURR7npto
-	 aTkXT8plXDq/Q==
-Message-ID: <058546d4-d180-439f-9f30-d01e66cac438@kernel.org>
-Date: Tue, 11 Mar 2025 18:34:49 +0100
+	b=JyQ+/pWgmfh6w04OmtDWhAUg5OCxvwUG6tM57qY83aZgbqcpBjOticoeGzm+8nemx
+	 rHl7glyFr0Wvj0xVUdf0y0AUJq8uIgdeG5T6UMgxM3w1RTtp+C4Wx0JK2scqOimyGe
+	 RjwTg2/+fUdZYX6yPnstJHiL/JQpByzG3gc9G+oXfQM48Mfnm06MMdmxHpvz6PNSzx
+	 xmEHPyxrYK1k4OAVuSlcQs7R+BVCKMF+mn5AYeEwva+UcoUatwuuELL+P8Kw4H28X0
+	 lutkhmx1oYP3dSoI+aIg8Nzht2l6kMS7ikFVvdHjzjClFqZBv6MTsrSgAzT8gUYErJ
+	 lDd0B0wNl7huw==
+Message-ID: <7e8350dc-dab4-4306-877c-59139b049e26@kernel.org>
+Date: Tue, 11 Mar 2025 18:35:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] media: iris: add compatible string for sa8775p
+Subject: Re: [PATCH 2/4] dt-bindings: media: qcom,sm8550-iris: document
+ SA8775p IRIS accelerator
 To: Vikash Garodia <quic_vgarodia@quicinc.com>,
  Dikshita Agarwal <quic_dikshita@quicinc.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -61,7 +62,7 @@ To: Vikash Garodia <quic_vgarodia@quicinc.com>,
 Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250311-dtbinding-v1-0-5c807d33f7ae@quicinc.com>
- <20250311-dtbinding-v1-4-5c807d33f7ae@quicinc.com>
+ <20250311-dtbinding-v1-2-5c807d33f7ae@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -107,36 +108,14 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250311-dtbinding-v1-4-5c807d33f7ae@quicinc.com>
+In-Reply-To: <20250311-dtbinding-v1-2-5c807d33f7ae@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 11/03/2025 13:03, Vikash Garodia wrote:
-> Add required compatible string to enable video hardware
-> acceleration on sa8775p.
-
-
-Please wrap commit message according to Linux coding style / submission
-process (neither too early nor over the limit):
-https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
-
-> 
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> ---
->  drivers/media/platform/qcom/iris/iris_probe.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
-> index aca442dcc153830e6252d1dca87afb38c0b9eb8f..23c9e76a68013399b0fc1d68c1ccf0f8b0ddb037 100644
-> --- a/drivers/media/platform/qcom/iris/iris_probe.c
-> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
-> @@ -324,6 +324,10 @@ static const struct of_device_id iris_dt_match[] = {
->  		.compatible = "qcom,sm8550-iris",
->  		.data = &sm8550_data,
->  	},
-> +	{
-> +		.compatible = "qcom,sa8775p-iris",
-Drop. Not needed.
+> Document the IRIS video decoder and encoder accelerator found in the
+> SA8775P platform. SA8775P has collapsible MX compared to SM8550.
+Does this make interface incompatible? Does not look like.
 
 Best regards,
 Krzysztof
