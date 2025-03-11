@@ -1,168 +1,216 @@
-Return-Path: <linux-media+bounces-28061-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28062-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D5BAA5CF27
-	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 20:20:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED4CDA5D10B
+	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 21:49:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B1B23178EEA
-	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 19:20:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 90DF2189C604
+	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 20:49:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F2C82641C0;
-	Tue, 11 Mar 2025 19:19:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5DBF264A63;
+	Tue, 11 Mar 2025 20:49:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="JmJ4pQPs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hPmUW+YU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D55B1F03F2;
-	Tue, 11 Mar 2025 19:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27ADB2620F9;
+	Tue, 11 Mar 2025 20:49:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741720793; cv=none; b=XFiKiMnjadeEnXG8lfRzYqFHLfkxoar4gbyM4Sk8CXH6QbcZd0150SfkvL4nE6DPuaxn0iWh7hjP3GFIOVF5fafFqWCuZ1IAufU3wGXsXpBXwXd8pnNAtv42JBZmjArNpFnUG6MRUrB5syZSbDQeZeq3QkhYCCuSG728qJtEd7k=
+	t=1741726167; cv=none; b=oJgoy1iRWwJhEDNQ0VyGj5+mV6q7BgjiteI5sgeZ41UQPEHyoQPpfplogeNWGvCEs/m1fgmD5betijz1rqq3ma5ymH3ru0HKhQbRCw7BFCsVX3WAkeRVSMQoEsQDdXSUUgK0yOMflS1klOHS3i7lKc7doXdKpKKFITD6R8mYP7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741720793; c=relaxed/simple;
-	bh=2LCiy4lFtFm1TsLHV4lPWQ9w3NrS4s9HWA9Rz74dfj4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=KFDx0xuv0lX/wM8kb9MLep25yLI5H/RLRASBbg1dF4HWVT2jXwMLx1jwNLw0Ltt8F0x5YhuSsAlcdomf/Uy2QawEkQIN5iFVkYQIVG7yoeyA9OwndlgmVdMdeAv1p+d27x226yrxohS5S336Mg44FmyVuC+o5ojSfruvJMQHHbk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=JmJ4pQPs; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52BJ8ZHe017734;
-	Tue, 11 Mar 2025 19:19:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	cOhWVdEMxYHFBSFUIiBHuYp/vQkdKu4vEMS65xaXcL8=; b=JmJ4pQPshJW651tO
-	UZvTCFtA2KHcr7OPjqnPp5JIctaSk3ezU/IG/TNQAbL7H/lgLb1juJcvLtV9eem3
-	TMjDLZuTTZt/5hWRZjBC3m3QGpADuoWdrwl+5FPskAyWQ8ViPKk0cA3fTESyF/l5
-	my/EGgV9lPBOPJionF18iH12CNcQgXhrypEsB1PfLxpa7xzhYZRuYabnFOXeBtj0
-	zzXjssSFqFsN09nx2gzQ43toz7mA2dGDCPHbbC1XpXKw+mmQAiCexVfGr4nw3t/f
-	RrBAr3GVQE0wnIZy5QNiAaQkyYBI6nQ+hUc4VMOs6DUeAemeBglV3VljQX3cBcPu
-	+b/nwg==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45au2nr0up-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Mar 2025 19:19:47 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52BJJjLB005862
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 11 Mar 2025 19:19:45 GMT
-Received: from [10.216.38.182] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 11 Mar
- 2025 12:19:41 -0700
-Message-ID: <203ea0bb-c53c-389e-db12-b41773c0ff5d@quicinc.com>
-Date: Wed, 12 Mar 2025 00:49:38 +0530
+	s=arc-20240116; t=1741726167; c=relaxed/simple;
+	bh=8FmPYlcHFOpSfnHE1XVVmISlRoOzSb1SFySvsKU2bLM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tuRTdiqaexkVmQ8TAAf/fjjkkbhMpZPjmsrkokGKZBh7+kyLzgap0m9rG5YnMT8YAi4dF2vFtCdL+sLY5Q/IW3cmmFJUKU70kM9qyTbDINsrgueRavefvE32106qhwfsXNqH91tIf2P1B9rolFHNOMxqncgVdTnt3+f3HrHaOos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hPmUW+YU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC513C4CEE9;
+	Tue, 11 Mar 2025 20:49:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741726167;
+	bh=8FmPYlcHFOpSfnHE1XVVmISlRoOzSb1SFySvsKU2bLM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=hPmUW+YU4x+MqhdXvR9UPVQKT2sjxAiptQMsT01ERZr9zhhJOd1ulpswNO3COGf9S
+	 GlGAgr8lOc62Soihct+fa9aioqyCTDa4V86HncGSTvdtDDtG7Qw9FdUvUQZ3UH+iYm
+	 O3mxdnt/rb8PU4LJ6P0xraOjJyLPcrXBd657GIDNx2aQitpQcC+K7xUUpIPEsGbjp2
+	 X7LUKSzne9lQlIF1J5cYZfSFDrVPMsj4Wzaxd6XY0vyc/36ac9DBcZzbu+ULCaBzyB
+	 qhVpskFsFkdzhNNQsAm/EOIPgEAq9jbUoZX8Qs8+rahv9taCZFJUEU+Fo4v+R/fwH2
+	 6PrTfBVcQvW9A==
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-523ee30e0d4so2022630e0c.2;
+        Tue, 11 Mar 2025 13:49:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVSd7ObnlP098bYAo27uDnieGFqfSZJxwdgqYjSw5e39FxNvWcQvEaiUDTDBIsE5GYqS4xYq8PCqiLaHkU=@vger.kernel.org, AJvYcCWw77Ur7Pg8NhMoHNiSkWCkk0GIsJCGPxxBz7MpLH/JqxPIfBoKyP9VA7nCps6VHOx3P0LP7ek1KE+Q6X4=@vger.kernel.org, AJvYcCWxUYZlJlvvWbEnM6o0IuuTe81L5ixHaVQPrnpS+z4e0dPH1ar5palctRWXG+RFjw3zeYXjUxs7W0pRoes=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDkTf+1wZaxVoKnW0+gHl4LtJPY1X6oFEUVILX/GMrnchZPwho
+	smRj59lTH2oSkyvozag+79aMNZvmkhJxUYEbItTxwYAwZ01Cc4gwp2Cb3qwPoHo5NySCTYeOall
+	+YzK6J0Vqhz5wmjlPVdZRaMALMcc=
+X-Google-Smtp-Source: AGHT+IGv8rYPtePlNgNFcXomGIjZGgtpHGzu87s3KufWdYOrUgDZ1+WsBcXha+mFin0bUO1R5dcgCvuClQlj1vzVEKQ=
+X-Received: by 2002:a05:6102:3fa7:b0:4c3:49b:8f78 with SMTP id
+ ada2fe7eead31-4c30a72e421mr12682483137.25.1741726166067; Tue, 11 Mar 2025
+ 13:49:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 1/4] dt-bindings: media: qcom,sm8550-iris: update power
- domain name
-Content-Language: en-US
-To: Dmitry Baryshkov <lumag@kernel.org>
-CC: Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Abhinav Kumar
-	<quic_abhinavk@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Rob
- Herring" <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        "Conor
- Dooley" <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Konrad Dybcio" <konradybcio@kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20250311-dtbinding-v1-0-5c807d33f7ae@quicinc.com>
- <20250311-dtbinding-v1-1-5c807d33f7ae@quicinc.com>
- <7yjj2eemvvvnsgv67d7tueid4h3n3onuou6ammx36am4qhfsal@xam3iamk4er3>
- <c0430086-675d-b58c-4ef9-1bd9ee51d3db@quicinc.com>
- <zssjkvxxv7kionartp6f3y2qh3d4i6gwnhwsrklsfad3t4fy3q@jkehbkx6wcyk>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <zssjkvxxv7kionartp6f3y2qh3d4i6gwnhwsrklsfad3t4fy3q@jkehbkx6wcyk>
+References: <20250308-imx214_clk_freq-v1-0-467a4c083c35@apitzsch.eu> <20250308-imx214_clk_freq-v1-1-467a4c083c35@apitzsch.eu>
+In-Reply-To: <20250308-imx214_clk_freq-v1-1-467a4c083c35@apitzsch.eu>
+From: Ricardo Ribalda Delgado <ribalda@kernel.org>
+Date: Tue, 11 Mar 2025 21:49:09 +0100
+X-Gmail-Original-Message-ID: <CAPybu_3MEY8GziQFwA6QFfycdYvLovrY0bQOv=xSbOS=X+627A@mail.gmail.com>
+X-Gm-Features: AQ5f1JrlWikQKbkSC4DkBsFp6tcFAV6eyIqSzm6I74jq4lhMBcm0n3Qp36BdMzg
+Message-ID: <CAPybu_3MEY8GziQFwA6QFfycdYvLovrY0bQOv=xSbOS=X+627A@mail.gmail.com>
+Subject: Re: [PATCH RESEND 1/4] media: i2c: imx214: Calculate link bit rate
+ from clock frequency
+To: git@apitzsch.eu
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht, 
+	phone-devel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: HgxfAPyusGHWxAxQC0V6gT8J8q9kQRrL
-X-Authority-Analysis: v=2.4 cv=Q4XS452a c=1 sm=1 tr=0 ts=67d08cd3 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=Ve5_cTlWWX7DCNKN5mYA:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: HgxfAPyusGHWxAxQC0V6gT8J8q9kQRrL
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-11_05,2025-03-11_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 adultscore=0
- lowpriorityscore=0 mlxscore=0 clxscore=1015 phishscore=0 malwarescore=0
- spamscore=0 impostorscore=0 bulkscore=0 suspectscore=0 priorityscore=1501
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503110125
+Content-Transfer-Encoding: quoted-printable
+
+On Sat, Mar 8, 2025 at 10:48=E2=80=AFPM Andr=C3=A9 Apitzsch via B4 Relay
+<devnull+git.apitzsch.eu@kernel.org> wrote:
+>
+> From: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
+>
+> Replace the magic link bit rate number (4800) by its calculation based
+> on the used parameters and the provided external clock frequency.
+>
+> The link bit rate is output bitrate multiplied by the number lanes. The
+> output bitrate is the OPPXCK clock frequency multiplied by the number of
+> bits per pixel. The OPPXCK clock frequency is OPCK multiplied by the
+> OPPXCK clock division ratio. And OPCK is the external clock frequency
+> multiplied by the PreDivider setting and the PLL multiple setting.
+>
+> Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
+Acked-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/i2c/imx214.c | 51 +++++++++++++++++++++++++++++++++-------=
+------
+>  1 file changed, 37 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
+> index 6c3f6f3c8b1f7724110dc55fead0f8a168edf35b..14a4c5094799014da38ab1bee=
+c401f0d923c2152 100644
+> --- a/drivers/media/i2c/imx214.c
+> +++ b/drivers/media/i2c/imx214.c
+> @@ -84,6 +84,7 @@
+>  #define IMX214_CSI_DATA_FORMAT_RAW10   0x0A0A
+>  #define IMX214_CSI_DATA_FORMAT_COMP6   0x0A06
+>  #define IMX214_CSI_DATA_FORMAT_COMP8   0x0A08
+> +#define IMX214_BITS_PER_PIXEL_MASK     0xFF
+>
+>  #define IMX214_REG_CSI_LANE_MODE       CCI_REG8(0x0114)
+>  #define IMX214_CSI_2_LANE_MODE         1
+> @@ -104,11 +105,23 @@
+>
+>  /* PLL settings */
+>  #define IMX214_REG_VTPXCK_DIV          CCI_REG8(0x0301)
+> +#define IMX214_DEFAULT_VTPXCK_DIV      5
+> +
+>  #define IMX214_REG_VTSYCK_DIV          CCI_REG8(0x0303)
+> +#define IMX214_DEFAULT_VTSYCK_DIV      2
+> +
+>  #define IMX214_REG_PREPLLCK_VT_DIV     CCI_REG8(0x0305)
+> +#define IMX214_DEFAULT_PREPLLCK_VT_DIV 3
+> +
+>  #define IMX214_REG_PLL_VT_MPY          CCI_REG16(0x0306)
+> +#define IMX214_DEFAULT_PLL_VT_MPY      150
+> +
+>  #define IMX214_REG_OPPXCK_DIV          CCI_REG8(0x0309)
+> +#define IMX214_DEFAULT_OPPXCK_DIV      10
+> +
+>  #define IMX214_REG_OPSYCK_DIV          CCI_REG8(0x030b)
+> +#define IMX214_DEFAULT_OPSYCK_DIV      1
+> +
+>  #define IMX214_REG_PLL_MULT_DRIV       CCI_REG8(0x0310)
+>  #define IMX214_PLL_SINGLE              0
+>  #define IMX214_PLL_DUAL                        1
+> @@ -204,6 +217,14 @@
+>  #define IMX214_PIXEL_ARRAY_WIDTH       4208U
+>  #define IMX214_PIXEL_ARRAY_HEIGHT      3120U
+>
+> +/* Link bit rate for a given input clock frequency in single PLL mode */
+> +#define IMX214_LINK_BIT_RATE(clk_freq) \
+> +       (((clk_freq) / 1000000) / IMX214_DEFAULT_PREPLLCK_VT_DIV \
+> +       * IMX214_DEFAULT_PLL_VT_MPY \
+> +       / (IMX214_DEFAULT_OPSYCK_DIV * IMX214_DEFAULT_OPPXCK_DIV) \
+> +       * (IMX214_CSI_DATA_FORMAT_RAW10 & IMX214_BITS_PER_PIXEL_MASK) \
+> +       * (IMX214_CSI_4_LANE_MODE + 1))
+I am always very scared of these macros.... Integer over/underflows
+are very easy to miss
+If we support a small number of frequencies I would rather see a
+function with a switch and a comment explaining where the number comes
+from.
 
 
-On 3/11/2025 9:05 PM, Dmitry Baryshkov wrote:
-> On Tue, Mar 11, 2025 at 08:41:01PM +0530, Vikash Garodia wrote:
->>
->> On 3/11/2025 8:37 PM, Dmitry Baryshkov wrote:
->>> On Tue, Mar 11, 2025 at 05:33:53PM +0530, Vikash Garodia wrote:
->>>> Not all platforms has a collapsible mx, so use the more generic naming
->>>> of mx in the binding.
->>>
->>> I guess, it wasn't even tested...
->> Not sure what made you guess so, let me check why my binding checker did not
->> catch the bot reported warning.
-> 
-> Obvious: you are changing the bindings in a non-backwards compatible
-> way, but you are not changing the example in the same file (and
-> obviously you are not changing the DTs), which means that this wasn't
-> tested.
-> 
-> Hint: you can use enum [mx, mxc] instead of const. That would make it
-> backwards compatible.
-Currently there are no user of this binding. Given that either of MX or MXC are
-same connection to video hardware, just that one is collapsible, it would be
-good to replace the existing element instead of enum.
-
-Regards,
-Vikash
-> 
->> Regards,
->> Vikash
->>>
->>>>
->>>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
->>>> ---
->>>>  Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml | 2 +-
->>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
->>>> index e424ea84c211f473a799481fd5463a16580187ed..440a0d7cdfe19a1ccedefc207d96b26eed5d6630 100644
->>>> --- a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
->>>> +++ b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
->>>> @@ -28,7 +28,7 @@ properties:
->>>>      items:
->>>>        - const: venus
->>>>        - const: vcodec0
->>>> -      - const: mxc
->>>> +      - const: mx
->>>>        - const: mmcx
->>>>  
->>>>    clocks:
->>>>
->>>> -- 
->>>> 2.34.1
->>>>
->>>
-> 
+> +
+>  static const char * const imx214_supply_name[] =3D {
+>         "vdda",
+>         "vddd",
+> @@ -299,15 +320,16 @@ static const struct cci_reg_sequence mode_4096x2304=
+[] =3D {
+>         { IMX214_REG_DIG_CROP_WIDTH, 4096 },
+>         { IMX214_REG_DIG_CROP_HEIGHT, 2304 },
+>
+> -       { IMX214_REG_VTPXCK_DIV, 5 },
+> -       { IMX214_REG_VTSYCK_DIV, 2 },
+> -       { IMX214_REG_PREPLLCK_VT_DIV, 3 },
+> -       { IMX214_REG_PLL_VT_MPY, 150 },
+> -       { IMX214_REG_OPPXCK_DIV, 10 },
+> -       { IMX214_REG_OPSYCK_DIV, 1 },
+> +       { IMX214_REG_VTPXCK_DIV, IMX214_DEFAULT_VTPXCK_DIV },
+> +       { IMX214_REG_VTSYCK_DIV, IMX214_DEFAULT_VTSYCK_DIV },
+> +       { IMX214_REG_PREPLLCK_VT_DIV, IMX214_DEFAULT_PREPLLCK_VT_DIV },
+> +       { IMX214_REG_PLL_VT_MPY, IMX214_DEFAULT_PLL_VT_MPY },
+> +       { IMX214_REG_OPPXCK_DIV, IMX214_DEFAULT_OPPXCK_DIV },
+> +       { IMX214_REG_OPSYCK_DIV, IMX214_DEFAULT_OPSYCK_DIV },
+>         { IMX214_REG_PLL_MULT_DRIV, IMX214_PLL_SINGLE },
+>
+> -       { IMX214_REG_REQ_LINK_BIT_RATE, IMX214_LINK_BIT_RATE_MBPS(4800) }=
+,
+> +       { IMX214_REG_REQ_LINK_BIT_RATE,
+> +               IMX214_LINK_BIT_RATE_MBPS(IMX214_LINK_BIT_RATE(IMX214_DEF=
+AULT_CLK_FREQ)) },
+>
+>         { CCI_REG8(0x3A03), 0x09 },
+>         { CCI_REG8(0x3A04), 0x50 },
+> @@ -362,15 +384,16 @@ static const struct cci_reg_sequence mode_1920x1080=
+[] =3D {
+>         { IMX214_REG_DIG_CROP_WIDTH, 1920 },
+>         { IMX214_REG_DIG_CROP_HEIGHT, 1080 },
+>
+> -       { IMX214_REG_VTPXCK_DIV, 5 },
+> -       { IMX214_REG_VTSYCK_DIV, 2 },
+> -       { IMX214_REG_PREPLLCK_VT_DIV, 3 },
+> -       { IMX214_REG_PLL_VT_MPY, 150 },
+> -       { IMX214_REG_OPPXCK_DIV, 10 },
+> -       { IMX214_REG_OPSYCK_DIV, 1 },
+> +       { IMX214_REG_VTPXCK_DIV, IMX214_DEFAULT_VTPXCK_DIV },
+> +       { IMX214_REG_VTSYCK_DIV, IMX214_DEFAULT_VTSYCK_DIV },
+> +       { IMX214_REG_PREPLLCK_VT_DIV, IMX214_DEFAULT_PREPLLCK_VT_DIV },
+> +       { IMX214_REG_PLL_VT_MPY, IMX214_DEFAULT_PLL_VT_MPY },
+> +       { IMX214_REG_OPPXCK_DIV, IMX214_DEFAULT_OPPXCK_DIV },
+> +       { IMX214_REG_OPSYCK_DIV, IMX214_DEFAULT_OPSYCK_DIV },
+>         { IMX214_REG_PLL_MULT_DRIV, IMX214_PLL_SINGLE },
+>
+> -       { IMX214_REG_REQ_LINK_BIT_RATE, IMX214_LINK_BIT_RATE_MBPS(4800) }=
+,
+> +       { IMX214_REG_REQ_LINK_BIT_RATE,
+> +               IMX214_LINK_BIT_RATE_MBPS(IMX214_LINK_BIT_RATE(IMX214_DEF=
+AULT_CLK_FREQ)) },
+>
+>         { CCI_REG8(0x3A03), 0x04 },
+>         { CCI_REG8(0x3A04), 0xF8 },
+>
+> --
+> 2.48.1
+>
+>
 
