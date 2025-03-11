@@ -1,129 +1,138 @@
-Return-Path: <linux-media+bounces-28027-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28028-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8825A5BFC0
-	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 12:51:27 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8734A5C070
+	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 13:16:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0500B176A7E
-	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 11:51:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0468618920FF
+	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 12:12:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ECCC24169E;
-	Tue, 11 Mar 2025 11:51:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B93082580C2;
+	Tue, 11 Mar 2025 12:04:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="o8u739UW"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ZUSprxPw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E228A241673
-	for <linux-media@vger.kernel.org>; Tue, 11 Mar 2025 11:51:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783A6254851;
+	Tue, 11 Mar 2025 12:04:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741693881; cv=none; b=HZSxXcjIEXdgZyUCmZIk7xt07IOOHXXK3NceavNMSgxCYvxzovgS+oxcm5YhZxbrDWC7G7BXvRQsAENiL8qrhtMzcJWCYCCFgDLsyiIx5Vl1PRLbR8f9lhs86lZdtpyeJhAlwfzMwowPiDm5kklsrrbZ/KWPXr5wADR3Rei7q/o=
+	t=1741694677; cv=none; b=YahteRqifP+2kuFHneYUeuaDwr2g1XDdc5qV+XQSBLgbE9hr7JL09GPUlR+MPFouCaQ4kwd0CpMoMX8cb9dpenJxAV3MvbqyNqvlVsnpC9PELBA23Xx4JsFkmWC6DGVGX4hOGCOyMBDPAAfk8gvkSKltJfBE6AY3RNXh2SAEEHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741693881; c=relaxed/simple;
-	bh=BRGPhWKMTP+x9rObzblyv23NkvpwSnlwYHn/rxeU66M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YjSoOUBfwPReFd9P8w+D3H+DXUk43ZZW+rK4HwmqtJuNmgTIps4/aOcZUEfjRqwLQ3j9Nt3UPPUKmUN5PbH40NFkpDRLLT6pqtWtltSyTzc3SkjxSSwY12E6HuFxhG21Gu4+8fUg7FzzPKk3R7jMhPIozWxruOuL2y6x68Xa9QM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=o8u739UW; arc=none smtp.client-ip=209.85.208.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5e6194e9d2cso6073358a12.2
-        for <linux-media@vger.kernel.org>; Tue, 11 Mar 2025 04:51:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741693878; x=1742298678; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lYI2xGqGMCChSdpu+7M/u63WF0nwaKmmkm/WTEBGB08=;
-        b=o8u739UWMMOs+Pm1NqqK2R6vRtCnw8iRSOeqfoYNG6dFHt9O5PtXH1TzSqjnN3Yjp8
-         x3TKfkWwEcjV+3RsMAUPlKcdu/2eWqfv2uGzI7aZIeJlWOPcc/25TbO0SNRAC0wT6NLF
-         ZVMk3qjiGkJNjM/s9zQBhGIk3Vph5T5DDVQFHccH0CTte2IzqOPsKrGJtd/TL4Nrf1lw
-         FA26eIDH85RsDo8Ion5+6F66ZwLhfyIct304ebYEfJ1ianVYXdpXpnylxDnsflWmsQvv
-         OXIqYjrXqQX3FKiPDQ85M+KGc6im6+wLKyA6t+dWccscTw8sH+bWMfhIUlH26k3xQU/c
-         I92g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741693878; x=1742298678;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lYI2xGqGMCChSdpu+7M/u63WF0nwaKmmkm/WTEBGB08=;
-        b=TObD+Dmyma/xRN29PS+vg3lpsZRqKQPis9YnJOa/o6mddZNVoGf5LpHyCEWPuKFTLj
-         7tlulgipiXF+LLafg4cXrbsk0D98QndN7L7BPLAuTpp11qL8IJiS+vqmHpRD+p1lp82G
-         gin6OBPUb4Z64/xRKGpat3IrcC3BkStJWWMX9KMEk6b6H8Qc5+2UEw/OuUZdKIlVWSkX
-         Z3ZjZhdYohId+akD2V9x35z4EMg+TpcJdxhp9p0o0GSOBTjYtJyspqwtK/oW2aRQ+cIB
-         aT0oXhipupPpsYPPBY89ybzvefaLCBgpcbYXOfHj44eFEqpT2ozeJHmIVJZLlctX9n2S
-         iRXg==
-X-Forwarded-Encrypted: i=1; AJvYcCVqYVhGCPMul4Jj6Tt/vBhmdbStL2A2Sav9lZFeJLEfrLtAEW4byjvWHdHoAVt+YwCvlXwxMjyIVxhoPA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx9CPXLVOj8pWBhR5jmEcO3px1j6GHHXwiUBOvrYkMM+rRxRpXb
-	1b0KXGjLlx4l6KLVnYKq7i38eY0U2OEBA+3pDi4zceekxxRsIYtr9ACmWiiSN1U=
-X-Gm-Gg: ASbGnctKZgcuIoIaDNlqFPDCMoGehcPWyNOk7zW/DGiXkuWlw6sWUDjcFNa6g4mKcDl
-	5sai0g3NP9WitdzlwfUzakEhzrfdm1EnbI0l/wf2UPsi+Nn9nnkpuv05VYWL7WYzb1ncOjWCtJZ
-	gXJtQRYpDdt2cCmcGqJLT0JvySz7iH+jU46Ka2FM+Jl72auLW4mMefnaKgCJEXHIWfTUU1qgXnu
-	Xz6/cPaViiN/muT2bevbyV/Lu0X0mvF1iFS0wZIENYJ6KoRSk9Siuxy4hfeX6QmR2l0+5dJ3OIk
-	q6khS1F24gYJkSBVFkEgG1M5m12CFEqQgKhayAscWyjcNLf4eYGwQp2COpkd/hxAgjea4sfS93R
-	7fBbULMBu+A==
-X-Google-Smtp-Source: AGHT+IGjcdw4Qq6ZKkHAGN5K1gnRweSu2n2zrgdK5INR0vyUxjP11ElEAyNgg/FQtxdpk2Bibc79GQ==
-X-Received: by 2002:a05:6402:2712:b0:5e6:6cc2:696 with SMTP id 4fb4d7f45d1cf-5e66cc21070mr10282823a12.14.1741693878159;
-        Tue, 11 Mar 2025 04:51:18 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e5c733fca8sm8078637a12.4.2025.03.11.04.51.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 11 Mar 2025 04:51:17 -0700 (PDT)
-Message-ID: <10c7a09f-8c76-4815-bb62-39100f45e8ef@linaro.org>
-Date: Tue, 11 Mar 2025 11:51:16 +0000
+	s=arc-20240116; t=1741694677; c=relaxed/simple;
+	bh=/hyzRqo/EjFJuD5hBfmi4j0cxnnXEkdhQnXX5f/LBJU=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=JuAX8J1O2I5io/sXp3F2JqWsqZowK4XMyh4VZRQlfedIuKdJJRiJxazauUhZqvdlsHHD9Gl699KKBI/CgLOWt7bHaZEqS9yM5PRNCChvJx6ZtysseDRGJhdyJrr3O/pRCOH/xuRrPg3NI7ierjVaFJcdHdE0lM8KIh/+k/XTz94=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ZUSprxPw; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52B7jSLk022356;
+	Tue, 11 Mar 2025 12:04:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=u1zZXPIOwRSCiN1Kdwzg+S
+	DIi46E0QuCFvXHLpK7FNs=; b=ZUSprxPwy66DB2qAs481kYe7dinYPClm5gP8gz
+	+BIgbOaTq2v0W9xnxFvHz2rndZcZIQxx9W1IDAJy1kysJ3WbQDwyBMJAnUkga/kw
+	/uNNoZacQrwQzVr62jGxYBrGSf4kKy83/1esg2+cdrCUlK0sVEMGz3webDu5VTeE
+	fgP1WKpgIpQlvE5Yz5U0u8EOUqaiF/smymIuwPLu1aqO7eyykK1PpMzGcObhgrnx
+	31kUU1sIirFcwEwrVRysKFKEuDVtThcYtZyZmE7lciaWHeH0VPev5UV+epTQ8wTv
+	WknzVQurUaUOVMnpYnbVJFvqY8jtjggzlVx8djrTq4G2HPZA==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 458eyugemq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 11 Mar 2025 12:04:31 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52BC4UGR028138
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 11 Mar 2025 12:04:30 GMT
+Received: from hu-vgarodia-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Tue, 11 Mar 2025 05:04:26 -0700
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+Subject: [PATCH 0/4] media: qcom: iris: add support for SA8775P
+Date: Tue, 11 Mar 2025 17:33:52 +0530
+Message-ID: <20250311-dtbinding-v1-0-5c807d33f7ae@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: ov08x40: Extend sleep after reset to 5 ms
-To: Hans de Goede <hdegoede@redhat.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- stable@vger.kernel.org
-References: <20250311114844.25593-1-hdegoede@redhat.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20250311114844.25593-1-hdegoede@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKgm0GcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDY0MD3ZSSpMy8lMy8dF0LSyPDpLRkQ1PDVEsloPqCotS0zAqwWdGxtbU
+ A/QbDiVsAAAA=
+X-Change-ID: 20250310-dtbinding-8921bfc151e9
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Abhinav Kumar
+	<quic_abhinavk@quicinc.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Rob
+ Herring" <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "Conor
+ Dooley" <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Konrad Dybcio" <konradybcio@kernel.org>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Vikash Garodia
+	<quic_vgarodia@quicinc.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1741694666; l=950;
+ i=quic_vgarodia@quicinc.com; s=20241104; h=from:subject:message-id;
+ bh=/hyzRqo/EjFJuD5hBfmi4j0cxnnXEkdhQnXX5f/LBJU=;
+ b=K2Xu7VLeH4EeGlWKFzsHkK15lwSPLIt8w0mcBsBPEyk7QJ41qKr9ia/aCzEnmeasaY7Pi3R07
+ 4pHAZ2frnt/Ds6t73eu2bv5FkBcGMNvBgTsim+FhzyfDeJxjDkZxor6
+X-Developer-Key: i=quic_vgarodia@quicinc.com; a=ed25519;
+ pk=LY9Eqp4KiHWxzGNKGHbwRFEJOfRCSzG/rxQNmvZvaKE=
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=cbIormDM c=1 sm=1 tr=0 ts=67d026cf cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=mjDvK4EOspKsfaktqpsA:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: CFjwq3hK7aHI7wPGgBYwCDurq2nGrLG1
+X-Proofpoint-GUID: CFjwq3hK7aHI7wPGgBYwCDurq2nGrLG1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-11_01,2025-03-11_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0 mlxscore=0
+ impostorscore=0 bulkscore=0 suspectscore=0 priorityscore=1501 phishscore=0
+ malwarescore=0 adultscore=0 clxscore=1015 spamscore=0 mlxlogscore=945
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502100000
+ definitions=main-2503110078
 
-On 11/03/2025 11:48, Hans de Goede wrote:
-> Some users are reporting that ov08x40_identify_module() fails
-> to identify the chip reading 0x00 as value for OV08X40_REG_CHIP_ID.
-> 
-> Intel's out of tree IPU6 drivers include some ov08x40 changes
-> including adding support for the reset GPIO for older kernels and
-> Intel's patch for this uses 5 ms. Extend the sleep to 5 ms following
-> Intel's example, this fixes the ov08x40_identify_module() problem.
-> 
-> Link: https://github.com/intel/ipu6-drivers/blob/c09e2198d801e1eb701984d2948373123ba92a56/patch/v6.12/0008-media-ov08x40-Add-support-for-2-4-lanes-support-at-1.patch#L4607
-> Fixes: df1ae2251a50 ("media: ov08x40: Add OF probe support")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-> ---
->   drivers/media/i2c/ov08x40.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/ov08x40.c b/drivers/media/i2c/ov08x40.c
-> index cf0e41fc3071..54575eea3c49 100644
-> --- a/drivers/media/i2c/ov08x40.c
-> +++ b/drivers/media/i2c/ov08x40.c
-> @@ -1341,7 +1341,7 @@ static int ov08x40_power_on(struct device *dev)
->   	}
->   
->   	gpiod_set_value_cansleep(ov08x->reset_gpio, 0);
-> -	usleep_range(1500, 1800);
-> +	usleep_range(5000, 5500);
->   
->   	return 0;
->   
+Add support for video hardware acceleration on SA8775P platform. SA8775P 
+is a similar video IP as that in SM8550, except the input to hardware 
+being a collapsible MX.
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+---
+Vikash Garodia (4):
+      dt-bindings: media: qcom,sm8550-iris: update power domain name
+      dt-bindings: media: qcom,sm8550-iris: document SA8775p IRIS accelerator
+      arm64: dts: qcom: sa8775p: add support for video node
+      media: iris: add compatible string for sa8775p
+
+ .../bindings/media/qcom,sm8550-iris.yaml           |  6 +-
+ arch/arm64/boot/dts/qcom/sa8775p.dtsi              | 67 ++++++++++++++++++++++
+ drivers/media/platform/qcom/iris/iris_probe.c      |  4 ++
+ 3 files changed, 75 insertions(+), 2 deletions(-)
+---
+base-commit: f2151613e040973c868d28c8b00885dfab69eb75
+change-id: 20250310-dtbinding-8921bfc151e9
+
+Best regards,
+-- 
+Vikash Garodia <quic_vgarodia@quicinc.com>
+
 
