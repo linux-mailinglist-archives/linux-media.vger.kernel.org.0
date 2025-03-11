@@ -1,81 +1,74 @@
-Return-Path: <linux-media+bounces-28017-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28018-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AD70A5BD2C
-	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 11:05:28 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2812AA5BD43
+	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 11:09:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0833A189457F
-	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 10:05:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C428A3A5A87
+	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 10:09:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F94622D4FD;
-	Tue, 11 Mar 2025 10:05:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07B2D22F395;
+	Tue, 11 Mar 2025 10:09:28 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazon11020101.outbound.protection.outlook.com [52.101.227.101])
+Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazon11021129.outbound.protection.outlook.com [40.107.57.129])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FD4C42065;
-	Tue, 11 Mar 2025 10:05:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.227.101
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B98221F2A;
+	Tue, 11 Mar 2025 10:09:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.57.129
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741687520; cv=fail; b=WSVxns3104UZcAowxzIGpOrgiCrhTqfMxdFDC0SNHQV+/FOoFo0OohfwXs7wJIn2ZN9E45w4M3f9JdjMv+i4dEqlvXI6hx3+Qeix15/kT/CNGsjCdRtgdEkY5u8snOv7F1W29kD43iwmBSXfWb6lvmHV/T0jY9CJK/r0R8eW0ps=
+	t=1741687767; cv=fail; b=fAV6QGcRXde8UAEloR1DQw/1Wk+ZutPI39aX95ujbgkiSH+ErXqgqTQecOZdvZsFruB30sW32Gm89kVSFW/epW5zE9b2Q0CVMFsRrb5MqOz86aRD6+2joz3P9ifWofO2/EuFF9fEufeI+iJPcIF82QKwvjCY8Nk4RNbejh14a7o=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741687520; c=relaxed/simple;
-	bh=AEPspe7PUyT6QTNtrhEG3deXf9OgvltY9ybCEK/LRzI=;
+	s=arc-20240116; t=1741687767; c=relaxed/simple;
+	bh=JcXlkt22IcH8F/AU7Kebol+bEKBiX+p3zgPLpdf91cI=;
 	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=IV8qDgiuDf1Pb1YZGeGjenec9ypVNkRpWbO3IgZrVpaol5V9gCBvCwfLL/g2lfR+927zQspS54OCr3NVjiHnTk+6gVZ9UXnG9sGRXjTmOGVj6b3z6+CnMDmT5BZdzlCPXlcuXSQEIcndAC2zG9lda/wwCvlJiAVOnvejj1RveVQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=52.101.227.101
+	 Content-Type:MIME-Version; b=AjVfUksahvWzBOcrpDzGfIzI8vwFGwpcpryotQ2ueef6A0aifiDfTPL9Kc9uWl4agJn8wyqCC/mqZ7H1JsM3wtKtqvG537wCcQ0zK1aepJpvElD6rweCP03MMi3hwDVhLH6yNmSFDtbLNPR1DnA/KBPrqiLu9JSEHODdcpQ2CAs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=40.107.57.129
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pVjnT/PnJZVKo/gjkbWUSwtHDowbKI+26/mQf+yZIzr5Gq95WRVW850g/sSMWjzirL8Kh+lXCj7GprspUfqB5t/pemWuPj/Z/ZjvaV5dikPhCVwV6al6d+NeXs1w3YWt44pU4vB3Mnr079LUe3fLMBXmkA9mJ5uTcwBr9UdTym6S+GvmRbS8Gs43F1XXZE/CmjV6n5Tlw6gQN7tq4S5tIWzo77JbISqwfIBNtqChhDOF+3ZYCyRGNFFylAPggW4Z25SD7lg8msWezZe9v+OmBu+WAhSB+vCfm7q5FsZr5M5ZzM4+m5Zg1/+wrqcz10EzeX98X8doHXUmZKClmVwhwQ==
+ b=vZLVk8Q2oEJSVP5vEsPNFhgwc9q87fXyPQ8wy3tD8EgU+CvYV19Kr+NILUitA1pwtaDdzBgKPlYdQkYystGgSOfDb6WSI2KPpBD14/f0ulDJcgyfCy0KsRmY1JjvmJME+ANd87l6+3alZt/l4AoKljqzABRjXZctH39WEkmyDQN+mfucELf3jI9Y1ZK8/11XWSCBn1edFOSHJf/xPS27oVCLDTlagH9CO5pqF4LCf0er08McbQrHKzXRPYv3lYovzTNAAUzVEDjnGC/AgCpSCxIu/SbsJohSDtYRbMyhCzzfVmvA8Yqn9+iv4SrtinsVNY83d46nQ4vle4venLekSw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AEPspe7PUyT6QTNtrhEG3deXf9OgvltY9ybCEK/LRzI=;
- b=YLGOKNMkkLah+7qArfAy419uFAlSQm5bldK4kyXNqZOZyzY4K7FZFW4rGTQLb8EWk2zNpZ5D7haw9TEKctwWGOiSRi0ILB2DlHpo+dHmGrTYLQNWauMMAoHwhI+ZpLl1aE1LdEO5UCLup1KHCNA/utiNc1Vdp7kl+UpBvLN5xaOUaCBoeCdhj7lxfuCJXR/tn5L5hPA3MboJ06/wf3DjCk1+HlBrlCapRPobyanhj8d1CEZnRWGL/6OQze5Jnh7jNffUm116w1/UpsmAj2SX2e1//IeW5J4x9KHR40zobvywJm72Jp+MS+dTNBlr71KarjyLx3KGWuFr+ZIrJe4iUA==
+ bh=JcXlkt22IcH8F/AU7Kebol+bEKBiX+p3zgPLpdf91cI=;
+ b=sC/Pi1iI/Xa5GNVWTFzROroLK3v9ifza5fuq4md9IWSD+IFbMp9Uj/nmTav2dYaOcVmVUkpUErolS2zNeaYB+EyQ2G5AExfx3pLTXXmhlMRNlborqlqU+mQw7RHovGmpWkDMdU5hG5XcpQWxxMwXofa463tFeb9qEV2Bbai3JgL9Z+2HQqJO2ffW62Lp0Ov7SM1GPdkHOPHoBVV3gWikYYIpYZU4NXoXKKBurr06k9OZ/beA1tuZNniu1gqTMEWY7sJDm8cH9wvRngltsMaTdKpHSesraz91RWZwHb04teEoN278QyLOkP3SpvL2lnZE0DeQ2fTlQUk9LVNa6qQIUQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
  header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
 Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
- by PN0P287MB0506.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:122::8) with
+ by PNXP287MB4098.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:28c::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.27; Tue, 11 Mar
- 2025 10:05:12 +0000
+ 2025 10:09:21 +0000
 Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
  ([fe80::58ec:81a0:9454:689f]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
  ([fe80::58ec:81a0:9454:689f%3]) with mapi id 15.20.8511.026; Tue, 11 Mar 2025
- 10:05:12 +0000
+ 10:09:21 +0000
 From: Tarang Raval <tarang.raval@siliconsignals.io>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	"Shravan.Chippa@microchip.com" <Shravan.Chippa@microchip.com>
-CC: "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, shravan kumar
+	<shravan.chippa@microchip.com>
+CC: "mchehab@kernel.org" <mchehab@kernel.org>,
 	"kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
-	"mchehab@kernel.org" <mchehab@kernel.org>, "hverkuil@xs4all.nl"
-	<hverkuil@xs4all.nl>, "umang.jain@ideasonboard.com"
-	<umang.jain@ideasonboard.com>, "zhi.mao@mediatek.com" <zhi.mao@mediatek.com>,
-	"julien.massot@collabora.com" <julien.massot@collabora.com>,
-	"mike.rudenko@gmail.com" <mike.rudenko@gmail.com>,
-	"benjamin.mugnier@foss.st.com" <benjamin.mugnier@foss.st.com>,
 	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/6] media: i2c: imx334: Convert to CCI register access
- helpers
-Thread-Topic: [PATCH 2/6] media: i2c: imx334: Convert to CCI register access
- helpers
-Thread-Index: AQHbkYzYAYsQnqOsSUCeETtbfyFKyrNtdpYAgAAGzoCAAAOhAIAAMNEAgAAB/yg=
-Date: Tue, 11 Mar 2025 10:05:12 +0000
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"conor.dooley@microchip.com" <conor.dooley@microchip.com>,
+	"valentina.fernandezalanis@microchip.com"
+	<valentina.fernandezalanis@microchip.com>, "praveen.kumar@microchip.com"
+	<praveen.kumar@microchip.com>
+Subject: Re: [PATCH V7 2/4] media: i2c: imx334: common reg value correction
+Thread-Topic: [PATCH V7 2/4] media: i2c: imx334: common reg value correction
+Thread-Index: AQHbjY3c2AXRKWgUnkeCQQL0UU2Jq7Ntui8AgAAFMRQ=
+Date: Tue, 11 Mar 2025 10:09:21 +0000
 Message-ID:
- <PN3P287MB18297B36A79D3A1AD568448A8BD12@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
-References: <20250310071751.151382-1-tarang.raval@siliconsignals.io>
- <20250310071751.151382-3-tarang.raval@siliconsignals.io>
- <PH0PR11MB5611A568DC879D4206FDE76681D12@PH0PR11MB5611.namprd11.prod.outlook.com>
- <20250311063849.GB29331@pendragon.ideasonboard.com>
- <PH0PR11MB5611257EF7BF21EA7617008881D12@PH0PR11MB5611.namprd11.prod.outlook.com>
- <Z9AGeIA-207RuGQ0@kekkonen.localdomain>
-In-Reply-To: <Z9AGeIA-207RuGQ0@kekkonen.localdomain>
+ <PN3P287MB1829A883F503B5D3EA2533E98BD12@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+References: <20250305051442.3716817-1-shravan.chippa@microchip.com>
+ <20250305051442.3716817-3-shravan.chippa@microchip.com>
+ <Z9AGxJuk7V-QPKW1@kekkonen.localdomain>
+In-Reply-To: <Z9AGxJuk7V-QPKW1@kekkonen.localdomain>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach:
@@ -84,75 +77,72 @@ msip_labels:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=siliconsignals.io;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3P287MB1829:EE_|PN0P287MB0506:EE_
-x-ms-office365-filtering-correlation-id: c6846346-0c10-4db1-9596-08dd60843687
+x-ms-traffictypediagnostic: PN3P287MB1829:EE_|PNXP287MB4098:EE_
+x-ms-office365-filtering-correlation-id: 98783926-7b12-4432-6a0d-08dd6084cae4
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|366016|1800799024|7416014|376014|38070700018|7053199007;
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|38070700018;
 x-microsoft-antispam-message-info:
- =?Windows-1252?Q?xoKjXNE9Uqys6XW0qEAH3l2bpoGHZlgivvGl4NShZay16l7JxIch77Ts?=
- =?Windows-1252?Q?O4XO17ZfLIydXWaulTu3/QHoNaQzADuZSVfgtJKyaYNzRbtdrg+rvz3f?=
- =?Windows-1252?Q?1EihSgzoJwWTPlrRY1WPtTFs7bPDQGSeQNvlMXaoruXY5WL95dti4CAW?=
- =?Windows-1252?Q?1gfQkpRa6NvAvDKyFvJOUnGEiTV46HpUtIlWrwPRmpYu6pQIAcAFpXYW?=
- =?Windows-1252?Q?NtD4VXIbaOankE/hNRrcrMvJKgR5Bgz7p59SiqNvQ0xDUspHI3Oz1Zhs?=
- =?Windows-1252?Q?kAfdBfQsCho0Q0V9m7laQwGRLfQ9Pyl1YybOda5c+FQy4YiqIf52IdYc?=
- =?Windows-1252?Q?/nPwP0osZvksnb7G1X+6Q/X7y07YdWiLuloQ1lzG3cxR/scxSu+DF81I?=
- =?Windows-1252?Q?FDWvd+FvC6K5stm0Pu4b7KReVdZUITwUK8k04zm2y+InidgvTntAtPdY?=
- =?Windows-1252?Q?Tvpt+eoQUMYqroVVk3LUUzdnzsbvu/CeOq5wQHdNaAi1jKcE7kOKzByA?=
- =?Windows-1252?Q?l5nZnfE/TQtUhcvCKHpwUu70HQsfAI2Y1ONPeg1dFcQq5N10gT/HRlXk?=
- =?Windows-1252?Q?1jYa4bePKKnK4tSvie8+2Nmitylb6pF3rTXrpk4jm+m2MoPluix8lVJb?=
- =?Windows-1252?Q?/UcmpICbwX0dZNl+k8nUocvYG0bX1kV10bP9nn3ilxCqD7iYqhAew84I?=
- =?Windows-1252?Q?CNQpPuuRZTf4E2LxqZ0V8STbPj2481w2X9sDAOyMa30rY1AIXkB4BzQZ?=
- =?Windows-1252?Q?l/fOVpMR0dKf/eQnkRpz7eN2jHJFhPOCPhVeX7tjZ3/BVhyxTptvMXQX?=
- =?Windows-1252?Q?fjP0MswSLhhhzV5rwj1lf5JJpfttuQoq9H/4menF9/KuGLGJUCVh43p2?=
- =?Windows-1252?Q?kajJufFhUR5qWu5S7N1OjeBGePuxL0fMDuDodRwmfYbiV9wXbs81Onbn?=
- =?Windows-1252?Q?J7pXJ0xD0OkhC4BDwsVuK7beWdND3lb2E1fSawqa1I3IuWmdvKPoiFol?=
- =?Windows-1252?Q?cOBKv1AUT7jbMA6ZACA/7C4H1ghR3wkITo4yau/d4IsuKK4Qztlb9L2I?=
- =?Windows-1252?Q?0Kcwb2TbcWmtM7qG6MX13+NqMCtYQiXlRnDuoWv7SakOA9jOa6tbaiS0?=
- =?Windows-1252?Q?ZzOEVI/AT92Ar6PCbXPKc975sWIik1+ZSIIRB7OoNtGo1kDWQc/VUPTm?=
- =?Windows-1252?Q?a35hJgLgm05uL/6tuSlSNkfme5lphadIbzy7aWSuqo8Xbv+mPk8plpHk?=
- =?Windows-1252?Q?4dkpPIKe+FhZhl06fYMi9Lc0agWZNGsVap277z677PMjU36e1dHq3HUY?=
- =?Windows-1252?Q?kGDgwuRtIFvzLdXsdVnwGpNbsj//kyw6Nxrl1uv9IfM/zBasDzyKfOIS?=
- =?Windows-1252?Q?mXRNB+X214zckgBDQp1d5TDGZ8V/DHVELcsZa3hf2d1U1mwBcGGS9H/4?=
- =?Windows-1252?Q?SgtI1FhHS8OTMpeWofNPt1GBZ+qTa2Fg0vS6XSuWwIUacC0qIzDMOPlK?=
- =?Windows-1252?Q?EAiRMYd4IZJpHYLPuMojCbcsYNcsA8LG753fM1eu2PbTmPPBjsj6oetL?=
- =?Windows-1252?Q?zoduJqazayzIRyab?=
+ =?iso-8859-1?Q?8N3f5evYByW5zDAdtG8mYDVlc1ZYIxME6es+D13FKx0NM2JM/x195xz0nE?=
+ =?iso-8859-1?Q?Kh3t66pFYFBMi4xBeTX8rf0nAsODkd8gQU2WxrvMMUHeb4AxzXPYYrZenH?=
+ =?iso-8859-1?Q?mp6T5afb2vBG901I8/+G15VwhNujcQii2dTOwSdwI2veE2ftnYOOa+HFyR?=
+ =?iso-8859-1?Q?L03hZFIwTJYQ/zvkYzU3n+NWsd6qWNf7aOdGc7gCXb0NMmhF3Fkux29ZH1?=
+ =?iso-8859-1?Q?AgP313JwHOn13Jl+DC83VW4bipQ2MUI3md1A6dIZl7kOU3cCPRIFJ4G9d+?=
+ =?iso-8859-1?Q?mwcFZ0D/6mTWZ8lJnCHVWm6R2dox4c//5WbwJbAPTA7JL9ZEI7op/oEUNb?=
+ =?iso-8859-1?Q?X48IY0WvkBFaqCK7hnpLFSfk5fPCyB9TqkNs27Bukc0sT9sIkQAOEpTf2Y?=
+ =?iso-8859-1?Q?TEAyyY5y3h2J2Oi8o2pfyofDxQMlr9W0cmQE9VTTQ202EMgC5fHpZerLwz?=
+ =?iso-8859-1?Q?iW43McUqAzq1/5babM4ELoINsVoxJvyS89+vrLOa936nEH7erw8bHVSBEn?=
+ =?iso-8859-1?Q?dBBxRBp1lopKsBEfkibzmJNLXYjpXDNqeyfLMI7Osync4bjIQXfR0YqR9G?=
+ =?iso-8859-1?Q?9j+kiK8Fd1ZBfuY2h9KfcVYaR+uqdaML/U511Cpw7sr9TruBcn2FbBM7ZJ?=
+ =?iso-8859-1?Q?q093+jJrs/BK9IZ2HHbtxl2gO0Ni/QmaVrw4zUiLsNggAclcAy75mn8OKw?=
+ =?iso-8859-1?Q?vDq+Ek6LY0ANJSWGP8vSvpsVM95Ktmo1khl9ODQux+u+NZtE+p2ukGTjni?=
+ =?iso-8859-1?Q?JN8afMyNr6Q11mUWnEmiL2y5DjQMxMRK9EOJ3DKzLCOAnBjlO0LuMV6swC?=
+ =?iso-8859-1?Q?Pn+JrelrYcOSpHJQvXbXZm5/z8dDCNd3IoPfnklEGi+k6PHBAgLEtZKj7B?=
+ =?iso-8859-1?Q?hEqHByuLJjjqjsOMN0wFX4rE0C+Qh3/ozV9VnF1p20svfeyA8DU73DQqrp?=
+ =?iso-8859-1?Q?aDWzs12uJgWLfag+olD6YTYKFidGFQ6dBDze7ji76jk3QxFG/PHzor25hy?=
+ =?iso-8859-1?Q?9P2TFO6UmdXCODT4wu59KjkAuEBNIuI3Zj8PyKLN8QMu8UpJCtAQHujpZV?=
+ =?iso-8859-1?Q?XZfBxVW1FIKRbgXsgMAUd79iNWv9UYnAHBXBinzuZevZhXpT4C6K/c1mPh?=
+ =?iso-8859-1?Q?UGDiLF+ONPiIL/Bi8/i2jJe9F959WSQPS0QcUQxT9WyUqNGjVUGOCV2xS3?=
+ =?iso-8859-1?Q?aRjZFUbBGYSBtlSorYjx7JREYLGZ4egizA6053ZCb+xwlzhfZTJSD9eLi5?=
+ =?iso-8859-1?Q?0eNceDoF74hMUEHZl0uEYEhDWm6aQd958mI5wck0KLVHkqkufg+EkCe5c1?=
+ =?iso-8859-1?Q?3lFNYo09ywpv9zY804aVzMjyZf+qT5rhr38pi1w+hZFGR2hYPDy9dz4jWD?=
+ =?iso-8859-1?Q?NNMNo+TJ5rbhhf+NdRiuOwaq/FtxeiIEr3VosdlKK+lOzJujmU/wvfXJ3W?=
+ =?iso-8859-1?Q?b0p4oiD9HY9MpZhp3cdH70DSIpuo6f1ClTSiCVldFJmhwVWJnuFYNPgVf5?=
+ =?iso-8859-1?Q?pjsOdpKUaZcY7TfX0vlnu6?=
 x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700018)(7053199007);DIR:OUT;SFP:1102;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018);DIR:OUT;SFP:1102;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0:
- =?Windows-1252?Q?7KWGGtJx1bOsbYId8B7Tt0txkaWypaMG5Lz4aDATQ7X7ph+LdcQt4CNi?=
- =?Windows-1252?Q?GT0hnUr4x9Seh/8oFCg+NZr/d5wqn38bfWvAypI7Ir5A/PLp0cMSsauf?=
- =?Windows-1252?Q?S8PiSPqSlJZIhly4NX89Zl0NaUnS7QXiA4xeurJXMafXN2aEsUNlkEWV?=
- =?Windows-1252?Q?JqZHEc5Gp/jM2/8Mh3Q9tTVG+7RHjSJJJyv8TVBQTVXfwzEJBtfzPdNI?=
- =?Windows-1252?Q?uK4q+9AlL9yoUyUhJxzxKQh3qw2saUB2oRUxOD9scDXDed+UoeWQbR9a?=
- =?Windows-1252?Q?gz1OE43OimGaHJFKHLwMbyvUylNamp72tE8zOFz5RzHVeCGayK2yfqDi?=
- =?Windows-1252?Q?64ZFniyeU1Bp5KgGoy5etxLBtIedmpXiOwfADn07ZjtPNzXl6aQMf0tf?=
- =?Windows-1252?Q?DUiIK6KXKXo9eXnFG1mSz+MRhrgrjSKprkViEt8XfuZKA3uxLqsWsqeb?=
- =?Windows-1252?Q?Pgt+xz/RYEdC84mhIOu1nEcyH/oFp6aXj5CEy021+PiV8PEy1f4JWTn1?=
- =?Windows-1252?Q?mOS5/ZKuerCiofPNOtCgdOc/uuJCVSoJeYOZm+KDelnj4CvhDIsp/dfl?=
- =?Windows-1252?Q?1JnoEqM5bBtdzJaIbmJY/IQYCvuhLFAyDNkfCLyfHV4s1Tf1gmp1jMEW?=
- =?Windows-1252?Q?yKCr9i16ejwn9lc1Gg6rCt0KaPzW9A+CvTGeYVT2IHOMdPsawntgqDwb?=
- =?Windows-1252?Q?EdEmZYEmA029ZMGe3dUrLX6UpKsJ4eegCb/ZTdHDRz4pylmkFDJtTJR3?=
- =?Windows-1252?Q?WCVDI5aZW+PFecUoTk4JBxJxLyUZotHOR30XPlVclxPiU3cDdVpQoPcI?=
- =?Windows-1252?Q?UdzhmCF4N87rpA0oP3QIetz9fMX8q+dclKrgN+yuhC4A2UWbM9+FhKP2?=
- =?Windows-1252?Q?5LlwJ9unVsazXkgDn4PiAHvZe0ggoQqHoBI0Q525AvhcoY3c/az6WA1+?=
- =?Windows-1252?Q?uKLyCigqeRH/MI8tf30KhD9Lzg4aWGp2hLS8oXy5T/hXSItZ7NNqa2Ed?=
- =?Windows-1252?Q?VIaNSi9mMKc9PQxEQL2WH4f6/06YxaxW46K4IpZEh+ujwkKV1wU2EMDe?=
- =?Windows-1252?Q?NpLGN9biw4vA4RzllzIcXWws2Qcj+DiGlFOCx1YjodUDuMhmwEFCKqL+?=
- =?Windows-1252?Q?Ky5S3MsNXdVtI91ipPqfBP4MJBe2YjhSayrccFK3hDeMu+b0Ik87gzMh?=
- =?Windows-1252?Q?wxnu8JicyHuwNrsO2iLm1pQwRmvQBybH3/Dmn/OaeMz400EmCn0UL/IG?=
- =?Windows-1252?Q?la0cL8Cm2EWsA8/4qqNzja9H6okkF/k9IIxIC/1zb0h1RQA+sM/KLBUa?=
- =?Windows-1252?Q?Zn4p1lnzdcv/mOnSgreCL7wAh3ia1NCIIZ5JaORhOLKUiHh7vE0pyE2o?=
- =?Windows-1252?Q?PrN8UiNJzr9FeAydhn/xPtqkin5ZbnrFnFfu/MZIt28HKrK/iRUQRE2y?=
- =?Windows-1252?Q?o7xnhojgbtVUOJnwdZC+8mk1lxOfvE9SsdHTpFFMkcrXbRHxxhYQRZwB?=
- =?Windows-1252?Q?xcsiexT7VQe/BIib85yufhM3nDa03yZfO/yLMLWa2/mJ0PIs77viPdZG?=
- =?Windows-1252?Q?NEfQuiyzg0tf6/gbbKBbJSwIj5TvLrP3duEm2hIIkVGU3mIgB+TAMkJB?=
- =?Windows-1252?Q?bV19fihERWaCew4Tvo1HfmQ4dlNcsD4CJu2L7WZILl3yedifnU8rweN+?=
- =?Windows-1252?Q?mMpvr0L/xciyjvdO0yMKN1PAUaIegbcvV2ST32SyeRLIKfybk83tmQ?=
- =?Windows-1252?Q?=3D=3D?=
-Content-Type: text/plain; charset="Windows-1252"
+ =?iso-8859-1?Q?J7NNCZTP3glCi+pY5YEriEGUYBZT58WAT5sHw5sMg2mRIv2fU0tRoeGyaV?=
+ =?iso-8859-1?Q?xXrCHxbiyEqbC4fBtFL4PjOKpPrnfV9/nCG7ZIhV3x1MTjMvDmkBKcS9Pq?=
+ =?iso-8859-1?Q?FV4vP7N3mi07IGcJIPD8t75VdFPkQlzJcfbbTHKz+FUuF07sv22rYP8PPC?=
+ =?iso-8859-1?Q?sRrv3ZEc+BCXiUSU3GssPVYz6h89clTJNizF6cmEnbnrBo4qIFSbg+saKB?=
+ =?iso-8859-1?Q?sATpwcIwiYE6xFQbvRxnMJ88mRA9C0MnmyfbJd4Y6LAUwbAQlC9jHXEE8I?=
+ =?iso-8859-1?Q?kD0ITkZAHtilrJ9u7FgZ15jBV/PARG1jiCio+AbJCVEmLgkx2r+FiHp68L?=
+ =?iso-8859-1?Q?NH0zA2z/JNLU8+cxfhbjESuW6+cWYrXw8E7xR7NbmrnJC/fRK+R87035cj?=
+ =?iso-8859-1?Q?WfRzT0A16hd9HPs38/7jzF08PFPUQBfQEGTBMC8LufSvJlaEYhIK4gyQOz?=
+ =?iso-8859-1?Q?bNrKiC4Yyy9OCyKDhp7azt/uD1r82F3JR/JD7pQQeZn0MvCMahkRIgOHRx?=
+ =?iso-8859-1?Q?WHqvh14ewxgBGsseK9UbPhV9rdNJtnPov8A0fXoyuEnGabQ6V56n0wS332?=
+ =?iso-8859-1?Q?oq6gBvKK6T2Jqkn58HSadFDv4dzOJg5ROFNAC1u1nwfk3zBiiD3yaEzjcH?=
+ =?iso-8859-1?Q?HgdYAsBxBAwj3HZOVjtfFarQecw59UHLlGFQPiLWAJ+Nc6+TO7VE0ommJ+?=
+ =?iso-8859-1?Q?i+dpqSrZPw2WafiupoYiTKXSxkSXcLcsiaJzYElovOQ4+LXlCcTzGr0SDF?=
+ =?iso-8859-1?Q?T/iTlHGBWcTCcVNsSICUZeLAgMfrTQ5DXFVl3qErN3f4uisf9YR+FyUwVf?=
+ =?iso-8859-1?Q?GAdDace9bfhRYCW5jrpEg7j4jH+Z81O2ah0tn/zwkyumbBonM8I29Bvc53?=
+ =?iso-8859-1?Q?o/4oU713Wh43rekJynu803Su/3RiYg3usbY7BPYUHjG3ASWVriTWxSud0z?=
+ =?iso-8859-1?Q?KkqGcNMfGateV8DaOSVncCHNCqblCVPhpwcX3s7ACm135Hby0l3bKl6gCB?=
+ =?iso-8859-1?Q?Om50HPpG3Ee9HkgZjx9wfryqBZEU7Lnc6L/iGMFXH10hq/7CwEgEjDR4CD?=
+ =?iso-8859-1?Q?r8aqdKCfm027VtRBX/1HCyn+5U7Id3ToRCnDNLme+jlugC04N4OE60dklB?=
+ =?iso-8859-1?Q?RkvwdGr4FA3QDtWSXmWRW63g9w3VJMf9FXneE/T8md7v8oZWI6h3Lmkk5s?=
+ =?iso-8859-1?Q?laclGKVzFQuDMXX9tC5H38BB32UAsym1jZSrnMA6/iqB3K8jBfdhGgZ9VC?=
+ =?iso-8859-1?Q?5uh5wwfDfLIGLii4Uo6jyTDc4MasoCQX9idv2DLTQn/1ePGcXY6QWd3ckl?=
+ =?iso-8859-1?Q?/sOm67shjuUs8/bG6oRMR6KreuLyIjFmg19l8USZEhkSvD/6TsHm9oXs33?=
+ =?iso-8859-1?Q?5zPHEX0tcESg4H5TrBfoWfboigU5yoVP2J1sIsZZdtQEFOhtvxBy9b5L7u?=
+ =?iso-8859-1?Q?+P9zMnAUGacdgNbvfiRA4Q1LzQEShkUvw0SGqGdDmFnijPKynoTDnxv6Ln?=
+ =?iso-8859-1?Q?0kYs46vhOEz7wRN0Tclav/YJQEmH9wktI6XlKiGDgJIwfZjTDpaEZsp0Bn?=
+ =?iso-8859-1?Q?lYcGn0lik4ner+tG6qPTr/iY41Vy+EJqfpNaBvjFjNDxN5QEkgjw1PiRWj?=
+ =?iso-8859-1?Q?YAdw1IfUixNlEBC2Jozu1IHC1S/t3h1EeEFc7Cv1Ue0m6lO6y4Sn+Rdg?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -163,105 +153,58 @@ MIME-Version: 1.0
 X-OriginatorOrg: siliconsignals.io
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6846346-0c10-4db1-9596-08dd60843687
-X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Mar 2025 10:05:12.2908
+X-MS-Exchange-CrossTenant-Network-Message-Id: 98783926-7b12-4432-6a0d-08dd6084cae4
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Mar 2025 10:09:21.2216
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mYoMiisVAd8PFKGxBCy+kLKcg205EjmYLo4npA58KVkjiuRsBfbuQxWHvXLswFpgG5aNxJXk2yPHFt4GXX2GFneOcdooZ3YG68M5vNMZT58=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0P287MB0506
+X-MS-Exchange-CrossTenant-userprincipalname: yBt+8rO/13FW7n2ZfDt0TJx9ii6NYIGJXoGU8/WkfO9TOmgBP1DJ2nARzBgq14EeTuusG9ep8wKe6dO7gA00J2fjKhOe0BEJZNparc3Mdio=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PNXP287MB4098
 
 Hi Sakari,=0A=
 =0A=
-> On Tue, Mar 11, 2025 at 06:51:48AM +0000, Shravan.Chippa@microchip.com wr=
-ote:=0A=
-> > Hi Laurent,=0A=
+> On Wed, Mar 05, 2025 at 10:44:40AM +0530, shravan kumar wrote:=0A=
+> > From: Shravan Chippa <shravan.chippa@microchip.com>=0A=
 > >=0A=
-> > > -----Original Message-----=0A=
-> > > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>=0A=
-> > > Sent: Tuesday, March 11, 2025 12:09 PM=0A=
-> > > To: shravan Chippa - I35088 <Shravan.Chippa@microchip.com>=0A=
-> > > Cc: tarang.raval@siliconsignals.io; sakari.ailus@linux.intel.com;=0A=
-> > > kieran.bingham@ideasonboard.com; mchehab@kernel.org;=0A=
-> > > hverkuil@xs4all.nl; umang.jain@ideasonboard.com; zhi.mao@mediatek.com=
-;=0A=
-> > > julien.massot@collabora.com; mike.rudenko@gmail.com;=0A=
-> > > benjamin.mugnier@foss.st.com; linux-media@vger.kernel.org; linux-=0A=
-> > > kernel@vger.kernel.org=0A=
-> > > Subject: Re: [PATCH 2/6] media: i2c: imx334: Convert to CCI register =
-access=0A=
-> > > helpers=0A=
-> > >=0A=
-> > > EXTERNAL EMAIL: Do not click links or open attachments unless you kno=
-w the=0A=
-> > > content is safe=0A=
-> > >=0A=
-> > > Hi Shravan,=0A=
-> > >=0A=
-> > > On Tue, Mar 11, 2025 at 06:14:28AM +0000, Shravan.Chippa@microchip.co=
-m=0A=
-> > > wrote:=0A=
-> > > > Hi Tarang,=0A=
-> > > >=0A=
-> > > > Thanks for the patch series with CCI register access helpers on top=
- of=0A=
-> > > > my patches I have tested (1080p,720p, 480p resolution only) and=0A=
-> > > > working on my board with small PLL changes to make it compatible wi=
-th=0A=
-> > > > pfsoc board (mpfs-video-kit).=0A=
-> > >=0A=
-> > > Could you please provide more information about what those PLL change=
-s are=0A=
-> > > ?=0A=
+> > correcting the CPWAIT_TIME value as per the data sheet=0A=
+> > for the link frequency and input clock=0A=
 > >=0A=
-> > Here is the change for mpfs-video-kit board.=0A=
-> >=0A=
-> > diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c=0A=
-> > index 375367314416..30470dbd1f3c 100644=0A=
-> > --- a/drivers/media/i2c/imx334.c=0A=
-> > +++ b/drivers/media/i2c/imx334.c=0A=
-> > @@ -236,9 +236,9 @@ static const struct cci_reg_sequence common_mode_re=
-gs[] =3D {=0A=
-> >=A0=A0=A0=A0=A0=A0=A0=A0 { IMX334_REG_XVS_XHS_OUTSEL, 0x20},=0A=
-> >=A0=A0=A0=A0=A0=A0=A0=A0 { IMX334_REG_XVS_XHS_DRV, 0x0f},=0A=
-> >=A0=A0=A0=A0=A0=A0=A0=A0 { IMX334_REG_BCWAIT_TIME, 0x3b},=0A=
-> > -=A0=A0=A0=A0=A0=A0 { IMX334_REG_CPWAIT_TIME, 0x2a},=0A=
-> > +=A0=A0=A0=A0=A0=A0 { IMX334_REG_CPWAIT_TIME, 0x29},=0A=
-> =0A=
-> A patch converting the driver to use V4L2 CCI / human-readable register=
+> > Signed-off-by: Shravan Chippa <shravan.chippa@microchip.com>=0A=
+>=A0=0A=
+> I've postponed applying this one once we have a better understanding what=
 =0A=
-> names should not change the values written.=0A=
+> that change actually is and why Tarang would seem to want to revert it.=
 =0A=
-This change is not from my patch.=0A=
 =0A=
-You can recheck Shravan=92s second patch, there is no change in the =0A=
-CPWAIT_TIME value from my patch or his.=0A=
+No, please recheck; I am not reverting this patch.=0A=
 =0A=
-The change Shravan mentioned was made locally to ensure compatibility=0A=
-with the mpfs-video-kit board, as Laurent requested. =0A=
-That=92s why he provided those details.=0A=
+You can go ahead and apply this patch.=0A=
 =0A=
 Best Regards,=0A=
-Tarang=0A=
+Tarang =0A=
 =0A=
-> This change is exactly the same than your 2nd patch does. It'd be good to=
-=0A=
-> understand why it is different and what is effect of that difference.=0A=
->=0A=
-> >=A0=A0=A0=A0=A0=A0=A0=A0 { IMX334_REG_INCKSEL1, 0x0129},=0A=
-> > -=A0=A0=A0=A0=A0=A0 { IMX334_REG_INCKSEL2, 0x06},=0A=
-> > +=A0=A0=A0=A0=A0=A0 { IMX334_REG_INCKSEL2, 0x0a},=0A=
-> =0A=
-> This is a bigger change indeed.=0A=
-> =0A=
-> >=A0=A0=A0=A0=A0=A0=A0=A0 { IMX334_REG_INCKSEL3, 0xa0},=0A=
-> >=A0=A0=A0=A0=A0=A0=A0=A0 { IMX334_REG_INCKSEL4, 0x7e},=0A=
-> >=A0=A0=A0=A0=A0=A0=A0=A0 { IMX334_REG_SYS_MODE, 0x02},=0A=
-> =0A=
+> > ---=0A=
+> > =A0drivers/media/i2c/imx334.c | 2 +-=0A=
+> > =A01 file changed, 1 insertion(+), 1 deletion(-)=0A=
+> >=0A=
+> > diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c=0A=
+> > index db61b298ceb3..0b42bc0470a1 100644=0A=
+> > --- a/drivers/media/i2c/imx334.c=0A=
+> > +++ b/drivers/media/i2c/imx334.c=0A=
+> > @@ -191,7 +191,7 @@ static const struct imx334_reg common_mode_regs[] =
+=3D {=0A=
+> > =A0 =A0 =A0 {0x31a0, 0x20},=0A=
+> > =A0 =A0 =A0 {0x31a1, 0x0f},=0A=
+> > =A0 =A0 =A0 {0x300c, 0x3b},=0A=
+> > - =A0 =A0 {0x300d, 0x29},=0A=
+> > + =A0 =A0 {0x300d, 0x2a},=0A=
+> > =A0 =A0 =A0 {0x314c, 0x29},=0A=
+> > =A0 =A0 =A0 {0x314d, 0x01},=0A=
+> > =A0 =A0 =A0 {0x315a, 0x06},=0A=
+>=A0=0A=
 > --=0A=
-> Regards,=0A=
-> =0A=
->=0A=
+> Kind regards,=0A=
+>=A0=0A=
 > Sakari Ailus=
 
