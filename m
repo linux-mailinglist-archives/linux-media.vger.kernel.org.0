@@ -1,43 +1,43 @@
-Return-Path: <linux-media+bounces-28038-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28035-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4CB9BA5C6DA
-	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 16:29:31 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E14AEA5C494
+	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 16:06:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 287D93B4B71
-	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 15:23:45 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B26A37AB60E
+	for <lists+linux-media@lfdr.de>; Tue, 11 Mar 2025 15:04:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 31C6E25E834;
-	Tue, 11 Mar 2025 15:23:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2BF525EFB5;
+	Tue, 11 Mar 2025 15:04:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="HcKiI1hn"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="NSYu/Xxh"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 805CC1DF749;
-	Tue, 11 Mar 2025 15:23:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2751225DD12;
+	Tue, 11 Mar 2025 15:04:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741706602; cv=none; b=feITh1Ww/XeD4XoKrNBtZSkZ5+kjfMTsVQrjwy3yLSK3MkKACrp7017L2ga9W+gVXg/QRAfFSOVTENS7XTi26BDSTheZOggL0arLcG+YWA2UmjAOGNvsY6p2C3jclmIaVAlG4UU0j7xJuj8SVnZZkhDTNoNkQ5jPivbyafsu1KI=
+	t=1741705469; cv=none; b=FUDg23kX3Y5mvU8ih1VisY3foNmo/u2/KXq0ZjEkz3jGB6COM4xdxKbY2ZXbPR80DXGpyDMXBPxSVtNm1dBfuj2fAkFWkj+2/Gcp1i/wzCuGMXbnN2WA2aC64wh8HiJe65s68mvF8nYffynXeFdvfrgJhkDVoWm5wQ2TaAjRJjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741706602; c=relaxed/simple;
-	bh=gX33swGfNFibkFOxuy2e1d7FqpOjvVBceBdEVbkMVgQ=;
+	s=arc-20240116; t=1741705469; c=relaxed/simple;
+	bh=6/nKgIlRV3zqvSbAbK3DgnHUvOGNBbPjC0M+IFnrHZ0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bYbBqBhLtZObx8SxmAXsJ5o56+7GVsRCiIxByFDHMR/BJQaMhYfBb2OjWK8ZhkiPpP//Ji8b3WnzVdVoNLcK8ym+jMsGV0jLdNmzr2PBhaEqBw25cYvjCh2MFYv2uIGTvr2VzhffexfBOK5eC7rDwMefhD7LhxMig/Ag17O2w54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=HcKiI1hn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0570DC4CEE9;
-	Tue, 11 Mar 2025 15:23:21 +0000 (UTC)
+	 MIME-Version:Content-Type; b=qhwyr54CWN4Chnbl7CU3Ob4PfC2n/c/vAjgcqcBQWgXvpFyUMEYHvGgh+SApawLjuBbAILzRTQJ6nYv9AARoQz04972zNJB6yFkXM7zaYeKxIumc27A4x1HeffajS7ugcA84xmDTJoWA/rHW8uRrLoHGnTMfB04wcugHNFBjcLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=NSYu/Xxh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4FDDC4CEE9;
+	Tue, 11 Mar 2025 15:04:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1741706602;
-	bh=gX33swGfNFibkFOxuy2e1d7FqpOjvVBceBdEVbkMVgQ=;
+	s=korg; t=1741705469;
+	bh=6/nKgIlRV3zqvSbAbK3DgnHUvOGNBbPjC0M+IFnrHZ0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HcKiI1hn53v2zEq8DnRx/fy3gowFnAL0U8L91ODYafDVbSIR5olRSlDyzAmZrTp8Q
-	 JOtKuFHxJydHj1uJtaCXmcdpuxV0UeFvb73NF9kP7h9gqGg4qnhy/LixjaDp8KbQ09
-	 rYiCIYHbvgrzQHMUtWRwhvMVdI+D7l38X/941QU0=
+	b=NSYu/XxhNBu1+qiJ5Dvuc2MuqjuCEj9Pl2W32YMltfixnasdslbLVZ+uCVAbZs4JT
+	 0P7OfMSMqz6tqktpNcmixDZWra+nk6ZdCJ8NCusevGiHN0j+IEnlq4a/LK+bksdJC0
+	 4CU6YjrMKDK2f+3QQg8tKRzLF58cvIXZvp5oeiNQ=
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: stable@vger.kernel.org
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -46,12 +46,12 @@ Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	=?UTF-8?q?Rafa=C5=82=20Mi=C5=82ecki?= <rafal@milecki.pl>,
 	Matthias Brugger <matthias.bgg@gmail.com>,
 	Sasha Levin <sashal@kernel.org>
-Subject: [PATCH 5.10 077/462] ARM: dts: mediatek: mt7623: fix IR nodename
-Date: Tue, 11 Mar 2025 15:55:43 +0100
-Message-ID: <20250311145801.390789844@linuxfoundation.org>
+Subject: [PATCH 5.4 046/328] ARM: dts: mediatek: mt7623: fix IR nodename
+Date: Tue, 11 Mar 2025 15:56:56 +0100
+Message-ID: <20250311145716.723106216@linuxfoundation.org>
 X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250311145758.343076290@linuxfoundation.org>
-References: <20250311145758.343076290@linuxfoundation.org>
+In-Reply-To: <20250311145714.865727435@linuxfoundation.org>
+References: <20250311145714.865727435@linuxfoundation.org>
 User-Agent: quilt/0.68
 X-stable: review
 X-Patchwork-Hint: ignore
@@ -64,7 +64,7 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-5.10-stable review patch.  If anyone has any objections, please let me know.
+5.4-stable review patch.  If anyone has any objections, please let me know.
 
 ------------------
 
@@ -87,10 +87,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/arch/arm/boot/dts/mt7623.dtsi b/arch/arm/boot/dts/mt7623.dtsi
-index aea6809500d74..c267fc1f83579 100644
+index a79f0b6c34293..2f9154c13ea89 100644
 --- a/arch/arm/boot/dts/mt7623.dtsi
 +++ b/arch/arm/boot/dts/mt7623.dtsi
-@@ -309,7 +309,7 @@
+@@ -320,7 +320,7 @@
  		clock-names = "spi", "wrap";
  	};
  
