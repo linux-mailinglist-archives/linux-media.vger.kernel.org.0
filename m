@@ -1,61 +1,77 @@
-Return-Path: <linux-media+bounces-28095-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28096-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23888A5E391
-	for <lists+linux-media@lfdr.de>; Wed, 12 Mar 2025 19:20:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AC76A5E3F2
+	for <lists+linux-media@lfdr.de>; Wed, 12 Mar 2025 19:53:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A64B3189BC6E
-	for <lists+linux-media@lfdr.de>; Wed, 12 Mar 2025 18:20:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0877A19C06BB
+	for <lists+linux-media@lfdr.de>; Wed, 12 Mar 2025 18:53:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1140E2571A7;
-	Wed, 12 Mar 2025 18:20:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 803EC257AFA;
+	Wed, 12 Mar 2025 18:53:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tRDVx6EL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A9xrK22U"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654C51BD01F;
-	Wed, 12 Mar 2025 18:20:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFADE23CF12
+	for <linux-media@vger.kernel.org>; Wed, 12 Mar 2025 18:53:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741803617; cv=none; b=qICwh45zcpyTMEu/Yh6b/kXJZzfcAK51Vuzz46e8nGpn70PkydcyPbXVJ/NNPjTlYSSc3cGxu3ZxSlRrCQicW6wAW6NxujCcPFF15tgLVJymZZ4p3aqxbAKmtmHRGceqS9oPJ6R2YvA9/efIYO6FdIMX0oWJtEKUy2lxi6MgrDk=
+	t=1741805608; cv=none; b=MvLtnTliweGFb8hAE4l+Clf4ie2G2R1D7v19G/dEUWg/mnwxVC38V32VUUxlC9oJ7Bpo5baZp4QCWCGxt6z4sLmjswjsoxsptfHbpvnvMDCREuK2VQhkCm8baHxK1Mw/cbCfIJgRWJFgB6cf8t0S7acvhMtuqNKmickSEI82Xe4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741803617; c=relaxed/simple;
-	bh=s+CBHfUJKiD6XbXU4pBoLbV5PYi7tDYYoApHS1ESmVE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pIDUkIiAd6hp/TLnGCWQN7GuDe3nozbIR/J7neKVEnJcIT5lXMTuB6jOfioPn6D4vQZ9o+Z1qpF+I9ldkoQnzReNw6aMmsrlKAEMAP62jAULmLWdaaKzHkf+tX6ndVlasapO2AgFhQUSUb9aQWeNbbZYYdXrt6PVidrsxyqcQbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tRDVx6EL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 014BDC4CEDD;
-	Wed, 12 Mar 2025 18:20:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741803616;
-	bh=s+CBHfUJKiD6XbXU4pBoLbV5PYi7tDYYoApHS1ESmVE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=tRDVx6ELLnIGPajIveZ5AxcX3uHtI0kgoz+s6zzUvI6MgTxtaSZ5YetJGsdgSJqs3
-	 2knoI/zS7oD+s8Sxk9ZBVoH9fqQwTQM+3tIbO1l6kWFDsoPWXV8sHi8/U7i9XpqBtp
-	 1t/A9/X0r79AfW77TzVTlvjAyyH2kZugbAi/ZcYf2quDUr605iRadMx1ivTbRVn4c9
-	 QhxHMsDmacZkP+uFU+ernfP/8qgWHGqyYv+4KZm1XDQjJcLTZRsedeAT+pWPPBdURk
-	 HcQiZbU12fPys/XMAaPP49lflTjZYOpHaLUmQayXRFeOQBlq97W00jtFhXavDfjAa1
-	 bjlpd9Gxc4zIg==
-Date: Wed, 12 Mar 2025 20:20:11 +0200
-From: Dmitry Baryshkov <lumag@kernel.org>
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Cc: "Rob Herring (Arm)" <robh@kernel.org>, linux-media@vger.kernel.org, 
-	Conor Dooley <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org, 
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
-	devicetree@vger.kernel.org, Konrad Dybcio <konradybcio@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>
-Subject: Re: [PATCH 1/3] dt-bindings: media: Describe Qualcomm SM8650 CAMSS IP
-Message-ID: <xcltpgufdvz3p3uki6xxkvaszkblege5gwixbakxi2v3jhov4f@zdwosub3ajdt>
-References: <20250312001132.1832655-1-vladimir.zapolskiy@linaro.org>
- <20250312001132.1832655-2-vladimir.zapolskiy@linaro.org>
- <174177914766.189343.17822607487336311201.robh@kernel.org>
- <ebe9d832-e414-4b67-b78e-f30a7c43a466@linaro.org>
+	s=arc-20240116; t=1741805608; c=relaxed/simple;
+	bh=z5M79GoGCcyPk4JvYR9VHqVC2Gnrz9bNi1L40AIYjA4=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CtbFio1r4+kFpk45EvW4TSk70NPIpMiV7Qv2BTmDYS4nHGgpRwMMZIGXdW6d1ZkYfgPJ+O+41Z88LGKeRO5/h/yciTYRVRnENvWN63rpjmN+qK9wQpb5nYFOwrCZi1MbIms8Y/ApMtd+7FsVrIXiGHIarVKUmZErwxfsUDmiU+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A9xrK22U; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741805606; x=1773341606;
+  h=date:from:to:subject:message-id:references:mime-version:
+   in-reply-to;
+  bh=z5M79GoGCcyPk4JvYR9VHqVC2Gnrz9bNi1L40AIYjA4=;
+  b=A9xrK22UsJ1MkVLWaRUfDvvW5E+likYNkDA0EMKK7MoBsf1uFnCbsIK9
+   dFyp9obdqfm7yTCTj5F4Kz/ErKY3laoKo0XD5a8SjTwUd0a3hghy/IqDA
+   p+pPjx6edEGDkhiR3OJABYIsFUusfLOghPeON+XualK4NvIjGjVZMOO31
+   y0ux9JWuXiKnTQGWllo0zSqehS1A+DAw8gHCO6DrbDdcB6v8wMhUM8MU7
+   VKXkzs5Yqk/DoelKwWhLGfPEs+pCC/7xGo1QFdILJVWLym8Na4lVt3Nyr
+   LPzzbB8RS54eH89PPpt1+g9W/YLrJgssdFPfcbcn+OE+fk7wD8XgvMkeS
+   Q==;
+X-CSE-ConnectionGUID: 1Y8uctB4TLC05g7fbb8piQ==
+X-CSE-MsgGUID: tOssAgDTT/2SRDrECf/j9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="43083928"
+X-IronPort-AV: E=Sophos;i="6.14,242,1736841600"; 
+   d="scan'208";a="43083928"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 11:53:26 -0700
+X-CSE-ConnectionGUID: CKF5CQ/FSBO4yivmJNdiVA==
+X-CSE-MsgGUID: Ql9WNX/AQGC4pD1+qqQq4g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,242,1736841600"; 
+   d="scan'208";a="120755232"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Mar 2025 11:53:25 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1tsRCl-00000001xDD-0WfV
+	for linux-media@vger.kernel.org;
+	Wed, 12 Mar 2025 20:53:23 +0200
+Date: Wed, 12 Mar 2025 20:53:22 +0200
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: linux-media@vger.kernel.org
+Subject: Re: [v1,1/1] media: =?iso-8859-1?Q?v4l2-co?=
+ =?iso-8859-1?Q?re=3A_Replace_the_check_for_firmware_registered_I=B2?=
+ =?iso-8859-1?Q?C?= devices
+Message-ID: <Z9HYIk7mvk3UZQPR@smile.fi.intel.com>
+References: <20250312174116.4111623-1-andriy.shevchenko@linux.intel.com>
+ <67d1d748.050a0220.54744.0b0f@mx.google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,36 +80,23 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ebe9d832-e414-4b67-b78e-f30a7c43a466@linaro.org>
+In-Reply-To: <67d1d748.050a0220.54744.0b0f@mx.google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, Mar 12, 2025 at 08:05:31PM +0200, Vladimir Zapolskiy wrote:
-> On 3/12/25 13:33, Rob Herring (Arm) wrote:
-> > 
-> > On Wed, 12 Mar 2025 02:11:30 +0200, Vladimir Zapolskiy wrote:
-> > > Add device tree bindings for Qualcomm SM8650 camera subsystem.
-> > > 
-> > > Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-> > > ---
-> > >   .../bindings/media/qcom,sm8650-camss.yaml     | 389 ++++++++++++++++++
-> > >   1 file changed, 389 insertions(+)
-> > >   create mode 100644 Documentation/devicetree/bindings/media/qcom,sm8650-camss.yaml
-> > > 
-> > 
-> > My bot found errors running 'make dt_binding_check' on your patch:
-> > 
-> > yamllint warnings/errors:
-> > 
-> > dtschema/dtc warnings/errors:
-> > /builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,sm8650-camss.yaml: properties:ports:properties: '^port@[0-5]$' does not match '^[#$a-zA-Z][a-zA-Z0-9#,+\\-._@]{0,63}$'
-> > 	hint: Expected a valid DT property name
-> > 	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-> > 
+On Wed, Mar 12, 2025 at 11:49:44AM -0700, Patchwork Integration wrote:
+> Dear Andy Shevchenko:
 > 
-> I believe it's a false positive of a regexp unparsed by a regexp, and the warning can be ignored.
+> Thanks for your patches! Unfortunately the Media CI robot detected some
+> issues:
 
-Not quite. See properties: vs paternProperties:
+Cool, I have been under impression that I compiled it...
+Now I see that it was different configuration (and actually different branch).
+I will fix and send a v2 for this.
+
 
 -- 
-With best wishes
-Dmitry
+With Best Regards,
+Andy Shevchenko
+
+
 
