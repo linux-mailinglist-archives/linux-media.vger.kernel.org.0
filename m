@@ -1,112 +1,107 @@
-Return-Path: <linux-media+bounces-28085-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28086-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AA30A5DB4D
-	for <lists+linux-media@lfdr.de>; Wed, 12 Mar 2025 12:22:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF257A5DBA0
+	for <lists+linux-media@lfdr.de>; Wed, 12 Mar 2025 12:33:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6B6287A2E6B
-	for <lists+linux-media@lfdr.de>; Wed, 12 Mar 2025 11:21:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A85723B42D5
+	for <lists+linux-media@lfdr.de>; Wed, 12 Mar 2025 11:33:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7373B23F289;
-	Wed, 12 Mar 2025 11:22:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03DD41DF735;
+	Wed, 12 Mar 2025 11:33:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="KLE/CqEM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QVsOBf+h"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 027A12C190;
-	Wed, 12 Mar 2025 11:22:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5989623BD13;
+	Wed, 12 Mar 2025 11:33:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741778534; cv=none; b=Tw7nf/TYu2ZVCKptWodd9yst552blszw3z0SfltPXqZQ0mRYYvg+GH6rOrGKF3HWzKndRiPYfa7vkX5ooSgMXYJf+hvgJb4os9O2cTe0ukUeLhB0Ssxf/TWkjOTfwyvaHi9uWUihIsEEkaV/KeMWqdPvzHTZ0ng6Ur2FCWXzqMI=
+	t=1741779194; cv=none; b=ZAo9hGc+Xml4Hwn10lUmKVTkhHp0WLJLSbSz07C4cUxSnMcaCpbL6/btcyGbm1GvUJToIz3vxczwvmvG2F6FukD4m+OOGqSjHk2vftnYfXfez4Imz6OnYhcamY/6fRovkU8zFmHD2ghFMmptFOxJ9ial4+I8c+2v/UKMd1XOWdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741778534; c=relaxed/simple;
-	bh=r4UtDqttS3td9wq7cG5SlG2fWfSXqZ4cwwc1WIm4/pk=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=KpYA7xJllKgi+FaEi4oas6XAo2Cb6l6Q7OgDtb/iheY3SK0gozehxCgq4cUn4K9qlKFmVwdXYq3+ZTRxVymGgfB67x98MfO9Nvphubfjw7+R+PQ41XO4Z1H+0EiCRPzfkzyfPm4Jl0MU+/EdJtwdqKzIKI8ZNA5qW6o68hFF9uU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=KLE/CqEM; arc=none smtp.client-ip=198.47.23.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 52CBLftx1044961
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 12 Mar 2025 06:21:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1741778501;
-	bh=hJlnPKiZhJFQrE0s110HOAEmMxXkxOy2RoLFvgXBgbY=;
-	h=From:To:CC:Subject:Date;
-	b=KLE/CqEMoEwkvn9y4LARMrYq1/D6ncNq3HPMEAM1abAxMgMgGnxImDQrpOWjj5vY8
-	 eN8b/6+crnWSqbLOKgJHjAT95kfvJaf+C4BrU8d6OwNY7U98XbbCZUY5Tnr1CthcQt
-	 8/M4nLgBfFND+ezcmZibfl0gt2eVv8bunZxS82bo=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 52CBLf5W105432
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 12 Mar 2025 06:21:41 -0500
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 12
- Mar 2025 06:21:41 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 12 Mar 2025 06:21:41 -0500
-Received: from localhost (ti.dhcp.ti.com [172.24.227.95] (may be forged))
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 52CBLeSM024153;
-	Wed, 12 Mar 2025 06:21:40 -0500
-From: Devarsh Thakkar <devarsht@ti.com>
-To: <jai.luthra@linux.dev>, <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC: <s-jain1@ti.com>, <r-donadkar@ti.com>, <devarsht@ti.com>,
-        <vigneshr@ti.com>, <praneeth@ti.com>,
-        <tomi.valkeinen@ideasonboard.com>, <y-abhilashchandra@ti.com>
-Subject: [PATCH] media: ti: j721e-csi2rx: Allow passing cache hints from user-space
-Date: Wed, 12 Mar 2025 16:51:40 +0530
-Message-ID: <20250312112140.449765-1-devarsht@ti.com>
-X-Mailer: git-send-email 2.39.1
+	s=arc-20240116; t=1741779194; c=relaxed/simple;
+	bh=E/aiie6JpPwOoULZENAwypugxM9ePI9OiT+4riVd96I=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=kgbbkxcWH/0FBRaXhjGMuG9ShiEYeIkgQfLluX0Kj84F5ehdsLVw7EOV4N1qDngmP//8DKAl4LJ+WTLnhD8VDBsyMrNG7M9D2Hi/8BLd6CNMnDJ/BuUR4+5AQWHg3CVfAg1PKaliEsh9coFzj+0WC7YdCxnXvDatKa4+QLttB3o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QVsOBf+h; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 65BF0C4CEE3;
+	Wed, 12 Mar 2025 11:33:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1741779193;
+	bh=E/aiie6JpPwOoULZENAwypugxM9ePI9OiT+4riVd96I=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=QVsOBf+hGXDuQi4Jh9IdImcG+z3rvAvsfHFbflbK1R2PlcYTzaIGLOHbeRSA4ep/K
+	 LYej0d9sMCFAsowl5gHUaFsbscu50j3ezojudo6G75P02ERPTj3q0wP5U1MoJtKTD5
+	 /XNbRwa9xA1nddJuKrPdx+CcJv4brPkmwEhbpFamcIH5ZC0Cz76BzK3JQlAcWaD06j
+	 +TjDJ66bRRs5Y4QAtV0OSkpDFFm4F2y0wrilm8hgta0rmgoZaMQE3n3KN4mpIVUgRP
+	 bIuMfTi7kplhzCi9c36zm3hNrN9cf9mbLUkrcTuPxB2cLTKbQtz0PBA+ejqkqAjCpU
+	 ET4bJWcGXZZiQ==
+Date: Wed, 12 Mar 2025 06:33:11 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: linux-media@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ linux-arm-msm@vger.kernel.org, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Bjorn Andersson <andersson@kernel.org>, devicetree@vger.kernel.org, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Robert Foss <rfoss@kernel.org>, 
+ Todor Tomov <todor.too@gmail.com>
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20250312001132.1832655-2-vladimir.zapolskiy@linaro.org>
+References: <20250312001132.1832655-1-vladimir.zapolskiy@linaro.org>
+ <20250312001132.1832655-2-vladimir.zapolskiy@linaro.org>
+Message-Id: <174177914766.189343.17822607487336311201.robh@kernel.org>
+Subject: Re: [PATCH 1/3] dt-bindings: media: Describe Qualcomm SM8650 CAMSS
+ IP
 
-User-space can provide cache hints to enable software managed cache
-operations or skip certain cache operations using memory flags
-and buffer flags. This is useful for SoCs such as AM62px
-which do not support hardware cache coherency.
 
-This is tested on AM62px with yavta capture by passing
-V4L2_MEMORY_FLAG_NON_COHERENT while using VIDIOC_REQBUFS
-and V4L2_BUF_FLAG_NO_CACHE_CLEAN while using VIDIOC_QBUF
-and ~5x reduction in memcpy time is seen for
-copying captured frame to DDR as shared here [1].
+On Wed, 12 Mar 2025 02:11:30 +0200, Vladimir Zapolskiy wrote:
+> Add device tree bindings for Qualcomm SM8650 camera subsystem.
+> 
+> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+> ---
+>  .../bindings/media/qcom,sm8650-camss.yaml     | 389 ++++++++++++++++++
+>  1 file changed, 389 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/qcom,sm8650-camss.yaml
+> 
 
-[1]:
-Link: https://e2e.ti.com/support/processors-group/processors/f/processors-forum/1452545/am62p-the-ads6311-radar-camera-has-lost-frame-capture/5580472#5580472
-Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
----
- drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c | 1 +
- 1 file changed, 1 insertion(+)
+My bot found errors running 'make dt_binding_check' on your patch:
 
-diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-index 6412a00be8ea..284d33b2a0ec 100644
---- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-+++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-@@ -895,6 +895,7 @@ static int ti_csi2rx_init_vb2q(struct ti_csi2rx_dev *csi)
- 	q->dev = dmaengine_get_dma_device(csi->dma.chan);
- 	q->lock = &csi->mutex;
- 	q->min_queued_buffers = 1;
-+	q->allow_cache_hints = 1;
- 
- 	ret = vb2_queue_init(q);
- 	if (ret)
--- 
-2.39.1
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/qcom,sm8650-camss.yaml: properties:ports:properties: '^port@[0-5]$' does not match '^[#$a-zA-Z][a-zA-Z0-9#,+\\-._@]{0,63}$'
+	hint: Expected a valid DT property name
+	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250312001132.1832655-2-vladimir.zapolskiy@linaro.org
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
 
