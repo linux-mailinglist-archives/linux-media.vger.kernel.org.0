@@ -1,596 +1,564 @@
-Return-Path: <linux-media+bounces-28103-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28104-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE5DAA5E4F9
-	for <lists+linux-media@lfdr.de>; Wed, 12 Mar 2025 21:06:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18D01A5E5FF
+	for <lists+linux-media@lfdr.de>; Wed, 12 Mar 2025 22:04:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D86D71733EF
-	for <lists+linux-media@lfdr.de>; Wed, 12 Mar 2025 20:06:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9029F3AA573
+	for <lists+linux-media@lfdr.de>; Wed, 12 Mar 2025 21:02:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 248681EB5FC;
-	Wed, 12 Mar 2025 20:06:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0EA51F0E2C;
+	Wed, 12 Mar 2025 20:56:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="UD4V6+bA"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="p21mNceg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04A091E9B32;
-	Wed, 12 Mar 2025 20:06:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741809971; cv=pass; b=AejaEUvLLb/kfRtRPQGxA0xo4fyfHbJYpvYOlfTqnE8j/K7BCRPMWkvN+7AfocqOecNSbE7b33rkH2wDq/R2Aut8Ru8/j6sLuNQULP6zQeb94zLRrYarGnwko+X3lxrz5rsmWEdCi8XuU3aQbXKFLxX5Wm4Y3dduZF3vURH7y9E=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741809971; c=relaxed/simple;
-	bh=bKeoPV2nuRGTtnBy8nxGGL8R3xnHcTIURt6bu7N3NHA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=T6abBfYqH7qLXXrTqfl/YV7CdBAYicuRnqw/s2Lu1u7C7tii5rFSKvfWIT2pjIQTVyFVMIXevniIt5hSHmXWhrCPUmEk/ef9lp2819lJh4K9I3m2qMD6DOtjsH8TOkCVSsECVwvkbdIqgNcf9DXo06vUn8/Zs02o41gZbz0GEN8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=UD4V6+bA; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1741809928; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=PviTS/4OaJ3lhiuPoiHbQ4Bhx6WNTtuXbDKJGXGXEqtaXD1rTr9JNXx/cRVQ/PJPSpnsrEPWJJOdw6o7TZPJTQjRrGbIHjbo2lPgvBiGRFfQRf/lLPAcHV7CKpy0r6vX5Qyd/gBIiyKFTc6CquQQ80n7tpLz/i1NKXHn/kC/y+8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1741809928; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=T6oTJ/T6m/WggVmL8h7Mzw7Ixokc3/XGdC0+YtzoXtE=; 
-	b=I2IsBRVa4yBBNqxuu89Ksj2jgNhUBXz1cLd89AO8Y+qEHAfjWOB7DK6N3IQc/5rKk45rPxnu3kpOx8pWCmaYo9jG6+1AepEgpRGzO/Z91g8gmu6tYcjmB9gXAVvKootnqgDETiZlpuDS0QK8FaVHZmZjpN+CDNp86oqJEMgYGD0=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
-	dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741809928;
-	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=T6oTJ/T6m/WggVmL8h7Mzw7Ixokc3/XGdC0+YtzoXtE=;
-	b=UD4V6+bAwlQkx9kuTKejOfO28T6ArUAoBSaLaJBqGfhuJdfzj0soJw/qhuttbLbL
-	7BXYtBr2iFX2Kl754NfFQF/kHPLmBDKFhyNxQg1jDbkfNbk8cIymd9muNS4zEbGQQUX
-	39dPpYzL6tU7yKrce4zcBdbMXcTrRtjDG0C1Xl7c=
-Received: by mx.zohomail.com with SMTPS id 1741809925948773.0672405161134;
-	Wed, 12 Mar 2025 13:05:25 -0700 (PDT)
-Date: Wed, 12 Mar 2025 20:05:14 +0000
-From: Adrian Larumbe <adrian.larumbe@collabora.com>
-To: Florent Tomasin <florent.tomasin@arm.com>
-Cc: Vinod Koul <vkoul@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Boris Brezillon <boris.brezillon@collabora.com>, Steven Price <steven.price@arm.com>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
-	"T . J . Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Yong Wu <yong.wu@mediatek.com>, dmaengine@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, nd@arm.com, 
-	Akash Goel <akash.goel@arm.com>
-Subject: Re: [RFC PATCH 4/5] drm/panthor: Add support for protected memory
- allocation in panthor
-Message-ID: <yzshale7kmhdkjjmdcjt7hsekrftor66nshdnxlmc4ji3wuexd@5ptz7dtze7ez>
-References: <cover.1738228114.git.florent.tomasin@arm.com>
- <821252c96ab2ab3e2d8ef211a09f8b171719baaa.1738228114.git.florent.tomasin@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2CB31F0E28
+	for <linux-media@vger.kernel.org>; Wed, 12 Mar 2025 20:56:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741813017; cv=none; b=ubAO3B5xZcG0GAK1hZPDcDaPFR249udWZu+e7UobJexFr1JIY4EKHnp8mUPEw7Zy2n6JikgBW85JNA+IZYdMlQghqcWxs+5OcNrCWF2hBokMnV8UC7ajPLZ2ERbFWz/czvGDQwJ4RPpskkALQyUwuZJonefoUs6agsDI+ey8J+M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741813017; c=relaxed/simple;
+	bh=4bMcp9kSOAlOq2JdYCU3OWX9mxxoloYS3+mBOiikIZ0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bimAbmKJ2WLSVyy+e7hmywsivQVP3IahL9sLEF+nUNAkxP7vo8aDDEh5ckBlMoakZQA6X8Gv6FxYR15wqTJP9MnkaTZFG2FUOb1zjKJrKABdliUMM4mfaSa+D0xs/f2E36MYo5rmf80bNt1USiL3HhW1/s+p6aVAA4P/brUAe8w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=p21mNceg; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ac2ab99e16eso64809166b.0
+        for <linux-media@vger.kernel.org>; Wed, 12 Mar 2025 13:56:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741813013; x=1742417813; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=S8n1Yu/GTOV8VtCZr/+a2PIr5Rilh36raTNTnNvfZOc=;
+        b=p21mNcegMOw1jIuNnCh1FQX6+x/ozj/mPi8Uj1afWtRB9FIbN+GUsWe2NAyWHO9lKF
+         4UMyTCGAh/pd1h7Y1sulEEi+/1/gEzBFp53lAbB/8BVeXt3RKotfcjMHaRlpSMCqzSNu
+         PPD4WcyCNr0xzLWafHiXUDfeemBYRRANMfzU2iPBSBgQ7dIJEWhbFCJXPI3e5xIn7Y9E
+         ag2nMdzCPLUnT/b5NiyZDnGp26FO/PMeFXKuBi1RgHbmVChI6XyHQ19LIT86q3CafBMi
+         yhDBXa5rKLRKI6Je35N9Z0rujXNkLolNnf1rpxou7FMJWGU9ACN55WvHBmjyjMuaJTLL
+         AnZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741813013; x=1742417813;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=S8n1Yu/GTOV8VtCZr/+a2PIr5Rilh36raTNTnNvfZOc=;
+        b=tcS2g/6etbKkEXyn8Bz2BhoUMTYptCNjDkylOblPj71m0HBJJ/JiPCphForPsNLExS
+         O8v8OoT1xkBPTbZPGzi0nEyOUE3YtYQf934QOb7LJ5BIH0PPvH31TD2vD3nOU5kC0yy6
+         V1PwlBjX9Y908a9RW7GkEvJJMoLDP0ljeUO7aJPChaL5XLxi7zZwTpOWDwHBVFDHOivt
+         TTYQo8+MJnRKJzHhUD2+NbSLeP+OcocufzjLR8cxVXfDflrtm4eiGG/Zrd/3Ym0boHJc
+         ignPCoN02N0IrInbe8qsQd9lA66FhZLNsgzd4NC8LCkUTUGGl1ztsd2qNYc9Z0FDa0g2
+         LPwg==
+X-Forwarded-Encrypted: i=1; AJvYcCWW/u5Fz5MJNdYzI0lp0LfxHZgPtAcTRIbojWmZFwV/Ez5kOvLvBfcoilkmRmugORllumjmwUDLEA8xvg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyphimxiMTOVFGVSvi3iEpFRE3wzPrbFbvfg9nhHGXvx2dDkFvH
+	P7dKBRjC8lqmMjN67R/itAtfQ+qg45Pn3J57ut1OBmzlwVniFMQBRyr3PyhVNHc=
+X-Gm-Gg: ASbGnct1cVYfoY5v47j5/sFnr46UiVy97RlOxcdlqavCUmxSR0WA8rE2p/WlHeLx7vF
+	gusvh4w29yToyBfYpNgFKy47mycr5R9LZt0Y4hc8pT8es8rdDOH1p3YLrvRvqpILHLFhuPvajnt
+	oYIAv031ABuR0Asm5OdMDfF9Ji43AlPYU7UAxNNeP51+iw8lzjH0vlQW5lDlW2lnXDXU1G6Y4lN
+	tzyu7Vz2+V9yrWW9V78qPi2QWjPJDJVQcVK2ogB3TPTIXeTHtCwaZltIhH+L6ByAJHY/R9yKRjP
+	ZMfELoFvp9EN0XSQTnxGbpotM9yIzdVjKcLG+T4ha3YLjCOvU56tyGqUZt43g9L0B+JBJh+39b2
+	3HjhoVGuwKeOlBCBFzdkN8ZhmuImxRWpIVwkAe4+qMh/N0SGiv2Yi80aIrmzrmYTmKckROMaEGO
+	gzysMPcaZyAca0fs+DxLPW3uB6ocad7RA=
+X-Google-Smtp-Source: AGHT+IFX5DpYodSDqwK+QP4lduao5tkExCL1ZGC9AKS8A3mu6fHWPG1jsVixJk0/WmrXUL+1tBq7OQ==
+X-Received: by 2002:a17:907:9452:b0:ab6:362b:a83a with SMTP id a640c23a62f3a-ac25274acf4mr2728967866b.8.1741813013073;
+        Wed, 12 Mar 2025 13:56:53 -0700 (PDT)
+Received: from ?IPV6:2001:1c06:2302:5600:7555:cca3:bbc4:648b? (2001-1c06-2302-5600-7555-cca3-bbc4-648b.cable.dynamic.v6.ziggo.nl. [2001:1c06:2302:5600:7555:cca3:bbc4:648b])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac23943897esm1135776666b.13.2025.03.12.13.56.52
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 12 Mar 2025 13:56:52 -0700 (PDT)
+Message-ID: <7e3b9e7d-fe9f-4df4-aa50-3f385d53ae4c@linaro.org>
+Date: Wed, 12 Mar 2025 20:56:51 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <821252c96ab2ab3e2d8ef211a09f8b171719baaa.1738228114.git.florent.tomasin@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dt-bindings: media: Describe Qualcomm SM8650 CAMSS IP
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250312001132.1832655-1-vladimir.zapolskiy@linaro.org>
+ <20250312001132.1832655-2-vladimir.zapolskiy@linaro.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20250312001132.1832655-2-vladimir.zapolskiy@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Florent,
-
-There's a chance whatever I say here's already been discussed in the
-review before. If that were the case, ignore it without further ado.
-
-On 30.01.2025 13:09, Florent Tomasin wrote:
-> This patch allows Panthor to allocate buffer objects from a
-> protected heap. The Panthor driver should be seen as a consumer
-> of the heap and not an exporter.
->
-> To help with the review of this patch, here are important information
-> about the Mali GPU protected mode support:
-> - On CSF FW load, the Panthor driver must allocate a protected
->   buffer object to hold data to use by the FW when in protected
->   mode. This protected buffer object is owned by the device
->   and does not belong to a process.
-> - On CSG creation, the Panthor driver must allocate a protected
->   suspend buffer object for the FW to store data when suspending
->   the CSG while in protected mode. The kernel owns this allocation
->   and does not allow user space mapping. The format of the data
->   in this buffer is only known by the FW and does not need to be
->   shared with other entities.
->
-> To summarize, Mali GPUs require allocations of protected buffer
-> objects at the kernel level.
->
-> * How is the protected heap accessed by the Panthor driver?
-> The driver will retrieve the protected heap using the name of the
-> heap provided to the driver via the DTB as attribute.
-> If the heap is not yet available, the panthor driver will defer
-> the probe until created. It is an integration error to provide
-> a heap name that does not exist or is never created in the
-> DTB node.
->
-> * How is the Panthor driver allocating from the heap?
-> Panthor is calling the DMA heap allocation function
-> and obtains a DMA buffer from it. This buffer is then
-> registered to GEM via PRIME by importing the DMA buffer.
->
-> Signed-off-by: Florent Tomasin <florent.tomasin@arm.com>
+On 12/03/2025 00:11, Vladimir Zapolskiy wrote:
+> Add device tree bindings for Qualcomm SM8650 camera subsystem.
+> 
+> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 > ---
->  drivers/gpu/drm/panthor/Kconfig          |  1 +
->  drivers/gpu/drm/panthor/panthor_device.c | 22 ++++++++++-
->  drivers/gpu/drm/panthor/panthor_device.h |  7 ++++
->  drivers/gpu/drm/panthor/panthor_fw.c     | 36 +++++++++++++++--
->  drivers/gpu/drm/panthor/panthor_fw.h     |  2 +
->  drivers/gpu/drm/panthor/panthor_gem.c    | 49 ++++++++++++++++++++++--
->  drivers/gpu/drm/panthor/panthor_gem.h    | 16 +++++++-
->  drivers/gpu/drm/panthor/panthor_heap.c   |  2 +
->  drivers/gpu/drm/panthor/panthor_sched.c  |  5 ++-
->  9 files changed, 130 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/gpu/drm/panthor/Kconfig b/drivers/gpu/drm/panthor/Kconfig
-> index 55b40ad07f3b..c0208b886d9f 100644
-> --- a/drivers/gpu/drm/panthor/Kconfig
-> +++ b/drivers/gpu/drm/panthor/Kconfig
-> @@ -7,6 +7,7 @@ config DRM_PANTHOR
->  	depends on !GENERIC_ATOMIC64  # for IOMMU_IO_PGTABLE_LPAE
->  	depends on MMU
->  	select DEVFREQ_GOV_SIMPLE_ONDEMAND
-> +	select DMABUF_HEAPS
->  	select DRM_EXEC
->  	select DRM_GEM_SHMEM_HELPER
->  	select DRM_GPUVM
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> index 00f7b8ce935a..1018e5c90a0e 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -4,7 +4,9 @@
->  /* Copyright 2023 Collabora ltd. */
->
->  #include <linux/clk.h>
-> +#include <linux/dma-heap.h>
->  #include <linux/mm.h>
-> +#include <linux/of.h>
->  #include <linux/platform_device.h>
->  #include <linux/pm_domain.h>
->  #include <linux/pm_runtime.h>
-> @@ -102,6 +104,9 @@ void panthor_device_unplug(struct panthor_device *ptdev)
->  	panthor_mmu_unplug(ptdev);
->  	panthor_gpu_unplug(ptdev);
->
-> +	if (ptdev->protm.heap)
-> +		dma_heap_put(ptdev->protm.heap);
+>   .../bindings/media/qcom,sm8650-camss.yaml     | 389 ++++++++++++++++++
+>   1 file changed, 389 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/media/qcom,sm8650-camss.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8650-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sm8650-camss.yaml
+> new file mode 100644
+> index 000000000000..c405d4e1f81d
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/qcom,sm8650-camss.yaml
+> @@ -0,0 +1,389 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/qcom,sm8650-camss.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-Probably beyond the point here, but I think in this case you might be
-better off using the CMA API directly rather than going through a
-hypothetical extension of dma-heaps.
-
->  	pm_runtime_dont_use_autosuspend(ptdev->base.dev);
->  	pm_runtime_put_sync_suspend(ptdev->base.dev);
->
-> @@ -172,6 +177,7 @@ int panthor_device_init(struct panthor_device *ptdev)
->  	u32 *dummy_page_virt;
->  	struct resource *res;
->  	struct page *p;
-> +	const char *protm_heap_name;
->  	int ret;
->
->  	ret = panthor_gpu_coherency_init(ptdev);
-> @@ -246,9 +252,19 @@ int panthor_device_init(struct panthor_device *ptdev)
->  			return ret;
->  	}
->
-> +	/* If a protected heap is specified but not found, defer the probe until created */
-> +	if (!of_property_read_string(ptdev->base.dev->of_node, "protected-heap-name",
-> +				     &protm_heap_name)) {
-> +		ptdev->protm.heap = dma_heap_find(protm_heap_name);
-> +		if (!ptdev->protm.heap) {
-> +			ret = -EPROBE_DEFER;
-> +			goto err_rpm_put;
-> +		}
-> +	}
-
-Cince none of the DMA memory is going to be shared with othe devices, I don't
-think a dma-heap interface is the right tool for the job here. Whatever
-protected contiguous memory you allocate for protected mode, it'll always remain
-within the boundaries of the driver, so maybe just do the usual sequence here:
-
-of_reserved_mem_device_init();
-dev_get_cma_area();
-cma_alloc();
-
->  	ret = panthor_gpu_init(ptdev);
->  	if (ret)
-> -		goto err_rpm_put;
-> +		goto err_dma_heap_put;
->
->  	ret = panthor_mmu_init(ptdev);
->  	if (ret)
-> @@ -286,6 +302,10 @@ int panthor_device_init(struct panthor_device *ptdev)
->  err_unplug_gpu:
->  	panthor_gpu_unplug(ptdev);
->
-> +err_dma_heap_put:
-> +	if (ptdev->protm.heap)
-> +		dma_heap_put(ptdev->protm.heap);
+> +title: Qualcomm SM8650 Camera Subsystem (CAMSS)
 > +
->  err_rpm_put:
->  	pm_runtime_put_sync_suspend(ptdev->base.dev);
->  	return ret;
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-> index 0e68f5a70d20..406de9e888e2 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.h
-> +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> @@ -7,6 +7,7 @@
->  #define __PANTHOR_DEVICE_H__
->
->  #include <linux/atomic.h>
-> +#include <linux/dma-heap.h>
->  #include <linux/io-pgtable.h>
->  #include <linux/regulator/consumer.h>
->  #include <linux/sched.h>
-> @@ -190,6 +191,12 @@ struct panthor_device {
->
->  	/** @fast_rate: Maximum device clock frequency. Set by DVFS */
->  	unsigned long fast_rate;
+> +maintainers:
+> +  - Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 > +
-> +	/** @protm: Protected mode related data. */
-> +	struct {
-> +		/** @heap: Pointer to the protected heap */
-> +		struct dma_heap *heap;
-> +	} protm;
->  };
->
->  struct panthor_gpu_usage {
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> index 4a2e36504fea..7822af1533b4 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> @@ -458,6 +458,7 @@ panthor_fw_alloc_queue_iface_mem(struct panthor_device *ptdev,
->
->  	mem = panthor_kernel_bo_create(ptdev, ptdev->fw->vm, SZ_8K,
->  				       DRM_PANTHOR_BO_NO_MMAP,
-> +				       0,
->  				       DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
->  				       DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
->  				       PANTHOR_VM_KERNEL_AUTO_VA);
-> @@ -491,6 +492,28 @@ panthor_fw_alloc_suspend_buf_mem(struct panthor_device *ptdev, size_t size)
->  {
->  	return panthor_kernel_bo_create(ptdev, panthor_fw_vm(ptdev), size,
->  					DRM_PANTHOR_BO_NO_MMAP,
-> +					0,
-> +					DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
-> +					PANTHOR_VM_KERNEL_AUTO_VA);
-> +}
+> +description:
+> +  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms.
 > +
-> +/**
-> + * panthor_fw_alloc_protm_suspend_buf_mem() - Allocate a protm suspend buffer
-> + * for a command stream group.
-> + * @ptdev: Device.
-> + * @size: Size of the protm suspend buffer.
-> + *
-> + * Return: A valid pointer in case of success, NULL if no protected heap, an ERR_PTR() otherwise.
-> + */
-> +struct panthor_kernel_bo *
-> +panthor_fw_alloc_protm_suspend_buf_mem(struct panthor_device *ptdev, size_t size)
-> +{
-> +	if (!ptdev->protm.heap)
-> +		return NULL;
+> +properties:
+> +  compatible:
+> +    const: qcom,sm8650-camss
 > +
-> +	return panthor_kernel_bo_create(ptdev, panthor_fw_vm(ptdev), size,
-> +					DRM_PANTHOR_BO_NO_MMAP,
-> +					DRM_PANTHOR_KBO_PROTECTED_HEAP,
->  					DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
->  					PANTHOR_VM_KERNEL_AUTO_VA);
->  }
+> +  reg:
+> +    maxItems: 17
+> +
+> +  reg-names:
+> +    items:
 
-Unify the two above into a single interface like:
-struct panthor_kernel_bo *
-panthor_fw_alloc_suspend_buf_mem(struct panthor_device *ptdev, size_t size, bool protected)
+Does this silicon have the CSID wrapper ?
 
-and then
+If so then this answers your question in the x1e series, csid_wrapper 
+should come first as it routes between CSID, SFE and SBI and is the 
+"main register set" for that reason.
 
-return panthor_kernel_bo_create(ptdev, panthor_fw_vm(ptdev), size,
-				DRM_PANTHOR_BO_NO_MMAP,
-				(protected ? DRM_PANTHOR_KBO_PROTECTED_HEAP : 0)
-				DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
-				PANTHOR_VM_KERNEL_AUTO_VA);
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid2
+> +      - const: csid_lite0
+> +      - const: csid_lite1
+> +      - const: csid_wrapper
 
-> @@ -503,6 +526,7 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
->  	ssize_t vm_pgsz = panthor_vm_page_size(ptdev->fw->vm);
->  	struct panthor_fw_binary_section_entry_hdr hdr;
->  	struct panthor_fw_section *section;
-> +	bool is_protm_section = false;
->  	u32 section_size;
->  	u32 name_len;
->  	int ret;
-> @@ -541,10 +565,13 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
->  		return -EINVAL;
->  	}
->
-> -	if (hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_PROT) {
-> +	if ((hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_PROT) && !ptdev->protm.heap) {
->  		drm_warn(&ptdev->base,
->  			 "Firmware protected mode entry not be supported, ignoring");
->  		return 0;
-> +	} else if ((hdr.flags & CSF_FW_BINARY_IFACE_ENTRY_PROT) && ptdev->protm.heap) {
-> +		drm_info(&ptdev->base, "Firmware protected mode entry supported");
-> +		is_protm_section = true;
->  	}
->
->  	if (hdr.va.start == CSF_MCU_SHARED_REGION_START &&
-> @@ -610,9 +637,10 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
->  			vm_map_flags |= DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED;
->
->  		section->mem = panthor_kernel_bo_create(ptdev, panthor_fw_vm(ptdev),
-> -							section_size,
-> -							DRM_PANTHOR_BO_NO_MMAP,
-> -							vm_map_flags, va);
-> +					section_size,
-> +					DRM_PANTHOR_BO_NO_MMAP,
-> +					(is_protm_section ? DRM_PANTHOR_KBO_PROTECTED_HEAP : 0),
-> +					vm_map_flags, va);
->  		if (IS_ERR(section->mem))
->  			return PTR_ERR(section->mem);
->
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.h b/drivers/gpu/drm/panthor/panthor_fw.h
-> index 22448abde992..29042d0dc60c 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.h
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.h
-> @@ -481,6 +481,8 @@ panthor_fw_alloc_queue_iface_mem(struct panthor_device *ptdev,
->  				 u32 *input_fw_va, u32 *output_fw_va);
->  struct panthor_kernel_bo *
->  panthor_fw_alloc_suspend_buf_mem(struct panthor_device *ptdev, size_t size);
-> +struct panthor_kernel_bo *
-> +panthor_fw_alloc_protm_suspend_buf_mem(struct panthor_device *ptdev, size_t size);
->
->  struct panthor_vm *panthor_fw_vm(struct panthor_device *ptdev);
->
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> index 8244a4e6c2a2..88caf928acd0 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -9,10 +9,14 @@
->
->  #include <drm/panthor_drm.h>
->
-> +#include <uapi/linux/dma-heap.h>
-> +
->  #include "panthor_device.h"
->  #include "panthor_gem.h"
->  #include "panthor_mmu.h"
->
-> +MODULE_IMPORT_NS(DMA_BUF);
-> +
->  static void panthor_gem_free_object(struct drm_gem_object *obj)
->  {
->  	struct panthor_gem_object *bo = to_panthor_bo(obj);
-> @@ -31,6 +35,7 @@ static void panthor_gem_free_object(struct drm_gem_object *obj)
->   */
->  void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
->  {
-> +	struct dma_buf *dma_bo = NULL;
->  	struct panthor_vm *vm;
->  	int ret;
->
-> @@ -38,6 +43,10 @@ void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
->  		return;
->
->  	vm = bo->vm;
-> +
-> +	if (bo->flags & DRM_PANTHOR_KBO_PROTECTED_HEAP)
-> +		dma_bo = bo->obj->import_attach->dmabuf;
-> +
->  	panthor_kernel_bo_vunmap(bo);
->
->  	if (drm_WARN_ON(bo->obj->dev,
-> @@ -51,6 +60,9 @@ void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
->  	panthor_vm_free_va(vm, &bo->va_node);
->  	drm_gem_object_put(bo->obj);
->
-> +	if (dma_bo)
-> +		dma_buf_put(dma_bo);
-> +
->  out_free_bo:
->  	panthor_vm_put(vm);
->  	kfree(bo);
-> @@ -62,6 +74,7 @@ void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
->   * @vm: VM to map the GEM to. If NULL, the kernel object is not GPU mapped.
->   * @size: Size of the buffer object.
->   * @bo_flags: Combination of drm_panthor_bo_flags flags.
-> + * @kbo_flags: Combination of drm_panthor_kbo_flags flags.
->   * @vm_map_flags: Combination of drm_panthor_vm_bind_op_flags (only those
->   * that are related to map operations).
->   * @gpu_va: GPU address assigned when mapping to the VM.
-> @@ -72,9 +85,11 @@ void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
->   */
->  struct panthor_kernel_bo *
->  panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
-> -			 size_t size, u32 bo_flags, u32 vm_map_flags,
-> +			 size_t size, u32 bo_flags, u32 kbo_flags, u32 vm_map_flags,
->  			 u64 gpu_va)
->  {
-> +	struct dma_buf *dma_bo = NULL;
-> +	struct drm_gem_object *gem_obj = NULL;
->  	struct drm_gem_shmem_object *obj;
->  	struct panthor_kernel_bo *kbo;
->  	struct panthor_gem_object *bo;
-> @@ -87,14 +102,38 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
->  	if (!kbo)
->  		return ERR_PTR(-ENOMEM);
->
-> -	obj = drm_gem_shmem_create(&ptdev->base, size);
-> +	if (kbo_flags & DRM_PANTHOR_KBO_PROTECTED_HEAP) {
-> +		if (!ptdev->protm.heap) {
-> +			ret = -EINVAL;
-> +			goto err_free_bo;
-> +		}
-> +
-> +		dma_bo = dma_heap_buffer_alloc(ptdev->protm.heap, size,
-> +					       DMA_HEAP_VALID_FD_FLAGS, DMA_HEAP_VALID_HEAP_FLAGS);
+Oh there it is.
 
-		dma_heap_buffer_alloc() is a static function, so why do you call it from here?
-                I suppose you plan on extending the dma-heap interface in the future?
+Sigh I honestly thought the decision was to have csid_wrapper come 
+first, followed by alphabetised name sorting.
 
-> +		if (!dma_bo) {
-> +			ret = -ENOMEM;
-> +			goto err_free_bo;
-> +		}
+Looking at
+
+commit cabab3257eb0b6b3badc3f0264d11ebbd57900f6
+Author: Depeng Shao <quic_depengs@quicinc.com>
+Date:   Mon Jan 13 10:01:29 2025 +0530
+
+     dt-bindings: media: camss: Add qcom,sm8550-camss binding
+
+what you have here is consistent with what we comitted so, lets stick to 
+this format and not relitigate again the ordering.
+
+> +      - const: csiphy0
+> +      - const: csiphy1
+> +      - const: csiphy2
+> +      - const: csiphy3
+> +      - const: csiphy4
+> +      - const: csiphy5
+> +      - const: vfe0
+> +      - const: vfe1
+> +      - const: vfe2
+> +      - const: vfe_lite0
+> +      - const: vfe_lite1
 > +
-> +		gem_obj = drm_gem_prime_import(&ptdev->base, dma_bo);
-> +		if (IS_ERR(gem_obj)) {
-> +			ret = PTR_ERR(gem_obj);
-> +			goto err_free_dma_bo;
-> +		}
+> +  clocks:
+> +    maxItems: 36
 > +
-
-If you chose the dma-heap interface because dma-heap offers you an easy
-way to create a GEM object from an sgtable, perhaps you could create the
-dma-buf right here and do a self-import. That way you wouldn't need to
-extend dma-heap.
-
-
-> +		obj = to_drm_gem_shmem_obj(gem_obj);
-> +	} else {
-> +		obj = drm_gem_shmem_create(&ptdev->base, size);
-> +	}
+> +  clock-names:
+> +    items:
+> +      - const: camnoc_axi_nrt
+> +      - const: camnoc_axi_rt
+> +      - const: cpas_ahb
+> +      - const: cpas_fast_ahb
+> +      - const: cpas_vfe0
+> +      - const: cpas_vfe1
+> +      - const: cpas_vfe2
+> +      - const: cpas_vfe_lite
+> +      - const: csid
+> +      - const: csiphy0
+> +      - const: csiphy0_timer
+> +      - const: csiphy1
+> +      - const: csiphy1_timer
+> +      - const: csiphy2
+> +      - const: csiphy2_timer
+> +      - const: csiphy3
+> +      - const: csiphy3_timer
+> +      - const: csiphy4
+> +      - const: csiphy4_timer
+> +      - const: csiphy5
+> +      - const: csiphy5_timer
+> +      - const: csiphy_rx
+> +      - const: gcc_ahb_clk
+> +      - const: gcc_axi_hf
+> +      - const: gcc_axi_sf
+> +      - const: qdss_debug_xo
+> +      - const: vfe0
+> +      - const: vfe0_fast_ahb
+> +      - const: vfe1
+> +      - const: vfe1_fast_ahb
+> +      - const: vfe2
+> +      - const: vfe2_fast_ahb
+> +      - const: vfe_lite
+> +      - const: vfe_lite_ahb
+> +      - const: vfe_lite_cphy_rx
+> +      - const: vfe_lite_csid
 > +
->  	if (IS_ERR(obj)) {
->  		ret = PTR_ERR(obj);
-> -		goto err_free_bo;
-> +		goto err_free_dma_bo;
->  	}
->
->  	bo = to_panthor_bo(&obj->base);
->  	kbo->obj = &obj->base;
-> +	kbo->flags = kbo_flags;
->  	bo->flags = bo_flags;
->
->  	/* The system and GPU MMU page size might differ, which becomes a
-> @@ -124,6 +163,10 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
->  err_put_obj:
->  	drm_gem_object_put(&obj->base);
->
-> +err_free_dma_bo:
-> +	if (dma_bo)
-> +		dma_buf_put(dma_bo);
+> +  interrupts:
+> +    maxItems: 16
 > +
->  err_free_bo:
->  	kfree(kbo);
->  	return ERR_PTR(ret);
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-> index e43021cf6d45..d4fe8ae9f0a8 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.h
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
-> @@ -13,6 +13,17 @@
->
->  struct panthor_vm;
->
-> +/**
-> + * enum drm_panthor_kbo_flags -  Kernel buffer object flags, passed at creation time
-> + */
-> +enum drm_panthor_kbo_flags {
-> +	/**
-> +	 * @DRM_PANTHOR_KBO_PROTECTED_HEAP: The buffer object will be allocated
-> +	 * from a DMA-Buf protected heap.
-> +	 */
-> +	DRM_PANTHOR_KBO_PROTECTED_HEAP = (1 << 0),
-> +};
+> +  interrupt-names:
+> +    items:
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid2
+> +      - const: csid_lite0
+> +      - const: csid_lite1
+> +      - const: csiphy0
+> +      - const: csiphy1
+> +      - const: csiphy2
+> +      - const: csiphy3
+> +      - const: csiphy4
+> +      - const: csiphy5
+> +      - const: vfe0
+> +      - const: vfe1
+> +      - const: vfe2
+> +      - const: vfe_lite0
+> +      - const: vfe_lite1
 > +
->  /**
->   * struct panthor_gem_object - Driver specific GEM object.
->   */
-> @@ -75,6 +86,9 @@ struct panthor_kernel_bo {
->  	 * @kmap: Kernel CPU mapping of @gem.
->  	 */
->  	void *kmap;
+> +  iommus:
+> +    maxItems: 3
 > +
-> +	/** @flags: Combination of drm_panthor_kbo_flags flags. */
-> +	u32 flags;
->  };
->
->  static inline
-> @@ -138,7 +152,7 @@ panthor_kernel_bo_vunmap(struct panthor_kernel_bo *bo)
->
->  struct panthor_kernel_bo *
->  panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
-> -			 size_t size, u32 bo_flags, u32 vm_map_flags,
-> +			 size_t size, u32 bo_flags, u32 kbo_flags, u32 vm_map_flags,
->  			 u64 gpu_va);
->
->  void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
-> diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
-> index 3796a9eb22af..5395f0d90360 100644
-> --- a/drivers/gpu/drm/panthor/panthor_heap.c
-> +++ b/drivers/gpu/drm/panthor/panthor_heap.c
-> @@ -146,6 +146,7 @@ static int panthor_alloc_heap_chunk(struct panthor_device *ptdev,
->
->  	chunk->bo = panthor_kernel_bo_create(ptdev, vm, heap->chunk_size,
->  					     DRM_PANTHOR_BO_NO_MMAP,
-> +					     0,
->  					     DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
->  					     PANTHOR_VM_KERNEL_AUTO_VA);
->  	if (IS_ERR(chunk->bo)) {
-> @@ -549,6 +550,7 @@ panthor_heap_pool_create(struct panthor_device *ptdev, struct panthor_vm *vm)
->
->  	pool->gpu_contexts = panthor_kernel_bo_create(ptdev, vm, bosize,
->  						      DRM_PANTHOR_BO_NO_MMAP,
-> +						      0,
->  						      DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
->  						      PANTHOR_VM_KERNEL_AUTO_VA);
->  	if (IS_ERR(pool->gpu_contexts)) {
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index ef4bec7ff9c7..e260ed8aef5b 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -3298,6 +3298,7 @@ group_create_queue(struct panthor_group *group,
->  	queue->ringbuf = panthor_kernel_bo_create(group->ptdev, group->vm,
->  						  args->ringbuf_size,
->  						  DRM_PANTHOR_BO_NO_MMAP,
-> +						  0,
->  						  DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
->  						  DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
->  						  PANTHOR_VM_KERNEL_AUTO_VA);
-> @@ -3328,6 +3329,7 @@ group_create_queue(struct panthor_group *group,
->  					 queue->profiling.slot_count *
->  					 sizeof(struct panthor_job_profiling_data),
->  					 DRM_PANTHOR_BO_NO_MMAP,
-> +					 0,
->  					 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
->  					 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
->  					 PANTHOR_VM_KERNEL_AUTO_VA);
-> @@ -3435,7 +3437,7 @@ int panthor_group_create(struct panthor_file *pfile,
->  	}
->
->  	suspend_size = csg_iface->control->protm_suspend_size;
-> -	group->protm_suspend_buf = panthor_fw_alloc_suspend_buf_mem(ptdev, suspend_size);
-> +	group->protm_suspend_buf = panthor_fw_alloc_protm_suspend_buf_mem(ptdev, suspend_size);
+> +  interconnects:
+> +    maxItems: 2
+> +
+> +  interconnect-names:
+> +    items:
+> +      - const: ahb
+> +      - const: hf_0_mnoc
+> +
+> +  power-domains:
+> +    items:
+> +      - description: IFE0 GDSC - Image Front End, Global Distributed Switch Controller.
+> +      - description: IFE1 GDSC - Image Front End, Global Distributed Switch Controller.
+> +      - description: IFE2 GDSC - Image Front End, Global Distributed Switch Controller.
+> +      - description: Titan GDSC - Titan ISP Block, Global Distributed Switch Controller.
+> +
+> +  power-domain-names:
+> +    items:
+> +      - const: ife0
+> +      - const: ife1
+> +      - const: ife2
+> +      - const: top
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    description:
+> +      CSI input ports.
+> +
+> +    properties:
+> +      "^port@[0-5]$":
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +
+> +        description:
+> +          Input port for receiving CSI data from a CSIPHY.
+> +
+> +        properties:
 
-I think  you could reuse panthor_fw_alloc_suspend_buf_mem() and extend its interface
-so that it takes a boolean for the case you want to allocate a protected buffer.
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
 
->  	if (IS_ERR(group->protm_suspend_buf)) {
->  		ret = PTR_ERR(group->protm_suspend_buf);
->  		group->protm_suspend_buf = NULL;
-> @@ -3446,6 +3448,7 @@ int panthor_group_create(struct panthor_file *pfile,
->  						   group_args->queues.count *
->  						   sizeof(struct panthor_syncobj_64b),
->  						   DRM_PANTHOR_BO_NO_MMAP,
-> +						   0,
->  						   DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
->  						   DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
->  						   PANTHOR_VM_KERNEL_AUTO_VA);
-> --
-> 2.34.1
+     description:
+       CSI input ports.
 
+     patternProperties:
+       "^port@[0-3]+$":
+         $ref: /schemas/graph.yaml#/$defs/port-base
+         unevaluatedProperties: false
 
-Adrian Larumbe
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              clock-lanes:
+> +                maxItems: 1
+> +
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +              bus-type:
+> +                enum:
+> +                  - 1 # MEDIA_BUS_TYPE_CSI2_CPHY
+> +                  - 4 # MEDIA_BUS_TYPE_CSI2_DPHY
+> +
+> +            required:
+> +              - clock-lanes
+> +              - data-lanes
+> +
+> +  vdda-csi01-0p9-supply:
+> +    description:
+> +      Phandle to a 0.9V regulator supply to CSIPHY0 and CSIPHY1 IP blocks.
+> +
+> +  vdda-csi24-0p9-supply:
+> +    description:
+> +      Phandle to a 0.9V regulator supply to CSIPHY2 and CSIPHY4 IP blocks.
+> +
+> +  vdda-csi35-0p9-supply:
+> +    description:
+> +      Phandle to a 0.9V regulator supply to CSIPHY3 and CSIPHY5 IP blocks.
+> +
+> +  vdda-csi01-1p2-supply:
+> +    description:
+> +      Phandle to a 1.2V regulator supply to CSIPHY0 and CSIPHY1 IP blocks.
+> +
+> +  vdda-csi24-1p2-supply:
+> +    description:
+> +      Phandle to a 1.2V regulator supply to CSIPHY2 and CSIPHY4 IP blocks.
+> +
+> +  vdda-csi35-1p2-supply:
+> +    description:
+> +      Phandle to a 1.2V regulator supply to CSIPHY3 and CSIPHY5 IP blocks.
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - clocks
+> +  - clock-names
+> +  - interconnects
+> +  - interconnect-names
+> +  - interrupts
+> +  - interrupt-names
+> +  - iommus
+> +  - power-domains
+> +  - power-domain-names
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/qcom,sm8650-camcc.h>
+> +    #include <dt-bindings/clock/qcom,sm8650-gcc.h>
+> +    #include <dt-bindings/interconnect/qcom,sm8650-rpmh.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        isp@acb8000 {
+> +            compatible = "qcom,sm8650-camss";
+> +            reg = <0 0x0acb8000 0 0x1000>,
+> +                  <0 0x0acba000 0 0x1000>,
+> +                  <0 0x0acbc000 0 0x1000>,
+> +                  <0 0x0accb000 0 0x1000>,
+> +                  <0 0x0acd0000 0 0x1000>,
+> +                  <0 0x0acb6000 0 0x1000>,
+> +                  <0 0x0ace4000 0 0x2000>,
+> +                  <0 0x0ace6000 0 0x2000>,
+> +                  <0 0x0ace8000 0 0x2000>,
+> +                  <0 0x0acea000 0 0x2000>,
+> +                  <0 0x0acec000 0 0x2000>,
+> +                  <0 0x0acee000 0 0x2000>,
+> +                  <0 0x0ac62000 0 0xf000>,
+> +                  <0 0x0ac71000 0 0xf000>,
+> +                  <0 0x0ac80000 0 0xf000>,
+> +                  <0 0x0accc000 0 0x2000>,
+> +                  <0 0x0acd1000 0 0x2000>;
+> +            reg-names = "csid0",
+> +                        "csid1",
+> +                        "csid2",
+> +                        "csid_lite0",
+> +                        "csid_lite1",
+> +                        "csid_wrapper",
+> +                        "csiphy0",
+> +                        "csiphy1",
+> +                        "csiphy2",
+> +                        "csiphy3",
+> +                        "csiphy4",
+> +                        "csiphy5",
+> +                        "vfe0",
+> +                        "vfe1",
+> +                        "vfe2",
+> +                        "vfe_lite0",
+> +                        "vfe_lite1";
+
+\n
+
+> +            clocks = <&camcc CAM_CC_CAMNOC_AXI_NRT_CLK>,
+> +                     <&camcc CAM_CC_CAMNOC_AXI_RT_CLK>,
+> +                     <&camcc CAM_CC_CPAS_AHB_CLK>,
+> +                     <&camcc CAM_CC_CPAS_FAST_AHB_CLK>,
+> +                     <&camcc CAM_CC_CPAS_IFE_0_CLK>,
+> +                     <&camcc CAM_CC_CPAS_IFE_1_CLK>,
+> +                     <&camcc CAM_CC_CPAS_IFE_2_CLK>,
+> +                     <&camcc CAM_CC_CPAS_IFE_LITE_CLK>,
+> +                     <&camcc CAM_CC_CSID_CLK>,
+> +                     <&camcc CAM_CC_CSIPHY0_CLK>,
+> +                     <&camcc CAM_CC_CSI0PHYTIMER_CLK>,
+> +                     <&camcc CAM_CC_CSI1PHYTIMER_CLK>,
+> +                     <&camcc CAM_CC_CSIPHY1_CLK>,
+> +                     <&camcc CAM_CC_CSI2PHYTIMER_CLK>,
+> +                     <&camcc CAM_CC_CSIPHY2_CLK>,
+> +                     <&camcc CAM_CC_CSI3PHYTIMER_CLK>,
+> +                     <&camcc CAM_CC_CSIPHY3_CLK>,
+> +                     <&camcc CAM_CC_CSI4PHYTIMER_CLK>,
+> +                     <&camcc CAM_CC_CSIPHY4_CLK>,
+> +                     <&camcc CAM_CC_CSI5PHYTIMER_CLK>,
+> +                     <&camcc CAM_CC_CSIPHY5_CLK>,
+> +                     <&camcc CAM_CC_CSID_CSIPHY_RX_CLK>,
+> +                     <&gcc GCC_CAMERA_AHB_CLK>,
+> +                     <&gcc GCC_CAMERA_HF_AXI_CLK>,
+> +                     <&gcc GCC_CAMERA_SF_AXI_CLK>,
+> +                     <&camcc CAM_CC_QDSS_DEBUG_XO_CLK>,
+> +                     <&camcc CAM_CC_IFE_0_CLK>,
+> +                     <&camcc CAM_CC_IFE_0_FAST_AHB_CLK>,
+> +                     <&camcc CAM_CC_IFE_1_CLK>,
+> +                     <&camcc CAM_CC_IFE_1_FAST_AHB_CLK>,
+> +                     <&camcc CAM_CC_IFE_2_CLK>,
+> +                     <&camcc CAM_CC_IFE_2_FAST_AHB_CLK>,
+> +                     <&camcc CAM_CC_IFE_LITE_CLK>,
+> +                     <&camcc CAM_CC_IFE_LITE_AHB_CLK>,
+> +                     <&camcc CAM_CC_IFE_LITE_CPHY_RX_CLK>,
+> +                     <&camcc CAM_CC_IFE_LITE_CSID_CLK>;
+> +            clock-names = "camnoc_axi_nrt",
+> +                          "camnoc_axi_rt",
+> +                          "cpas_ahb",
+> +                          "cpas_fast_ahb",
+> +                          "cpas_vfe0",
+> +                          "cpas_vfe1",
+> +                          "cpas_vfe2",
+> +                          "cpas_vfe_lite",
+> +                          "csid",
+> +                          "csiphy0",
+> +                          "csiphy0_timer",
+> +                          "csiphy1",
+> +                          "csiphy1_timer",
+> +                          "csiphy2",
+> +                          "csiphy2_timer",
+> +                          "csiphy3",
+> +                          "csiphy3_timer",
+> +                          "csiphy4",
+> +                          "csiphy4_timer",
+> +                          "csiphy5",
+> +                          "csiphy5_timer",
+> +                          "csiphy_rx",
+> +                          "gcc_ahb_clk",
+> +                          "gcc_axi_hf",
+> +                          "gcc_axi_sf",
+> +                          "qdss_debug_xo",
+> +                          "vfe0",
+> +                          "vfe0_fast_ahb",
+> +                          "vfe1",
+> +                          "vfe1_fast_ahb",
+> +                          "vfe2",
+> +                          "vfe2_fast_ahb",
+> +                          "vfe_lite",
+> +                          "vfe_lite_ahb",
+> +                          "vfe_lite_cphy_rx",
+> +                          "vfe_lite_csid";
+
+\n
+
+> +            interrupts = <GIC_SPI 601 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 603 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 431 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 605 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 376 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 478 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 479 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 448 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 122 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 89 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 602 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 604 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 688 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 606 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 377 IRQ_TYPE_EDGE_RISING>;
+> +            interrupt-names = "csid0",
+> +                              "csid1",
+> +                              "csid2",
+> +                              "csid_lite0",
+> +                              "csid_lite1",
+> +                              "csiphy0",
+> +                              "csiphy1",
+> +                              "csiphy2",
+> +                              "csiphy3",
+> +                              "csiphy4",
+> +                              "csiphy5",
+> +                              "vfe0",
+> +                              "vfe1",
+> +                              "vfe2",
+> +                              "vfe_lite0",
+> +                              "vfe_lite1";
+
+\n
+
+> +            interconnects = <&gem_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_CAMERA_CFG 0>,
+> +                            <&mmss_noc MASTER_CAMNOC_HF 0 &mc_virt SLAVE_EBI1 0>;
+> +            interconnect-names = "ahb",
+> +                                 "hf_0_mnoc";
+
+\n
+
+> +            iommus = <&apps_smmu 0x800 0x20>,
+> +                     <&apps_smmu 0x18a0 0x40>,
+> +                     <&apps_smmu 0x1860 0x00>;
+
+\n
+
+> +            power-domains = <&camcc CAM_CC_IFE_0_GDSC>,
+> +                            <&camcc CAM_CC_IFE_1_GDSC>,
+> +                            <&camcc CAM_CC_IFE_2_GDSC>,
+> +                            <&camcc CAM_CC_TITAN_TOP_GDSC>;
+> +            power-domain-names = "ife0", "ife1", "ife2", "top";
+> +
+> +            vdda-csi01-0p9-supply = <&vreg_0p9>;
+> +            vdda-csi01-1p2-supply = <&vreg_1p2>;
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@1 {
+> +                    reg = <1>;
+> +
+> +                    csiphy1_ep: endpoint {
+> +                        clock-lanes = <4>;
+> +                        data-lanes = <0 1>;
+> +                        remote-endpoint = <&camera_sensor>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+
+Other than the patternProperties and newlines looks OK to me.
+
+---
+bod
+
 
