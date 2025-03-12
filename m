@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-28082-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28083-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AA89A5D86B
-	for <lists+linux-media@lfdr.de>; Wed, 12 Mar 2025 09:42:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F595A5D886
+	for <lists+linux-media@lfdr.de>; Wed, 12 Mar 2025 09:45:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CE3AD1791F3
-	for <lists+linux-media@lfdr.de>; Wed, 12 Mar 2025 08:42:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8ADA93B4899
+	for <lists+linux-media@lfdr.de>; Wed, 12 Mar 2025 08:45:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D094236451;
-	Wed, 12 Mar 2025 08:42:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66DA323716E;
+	Wed, 12 Mar 2025 08:44:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ccRgj5Bc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LB7dL4Jo"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3A422E011;
-	Wed, 12 Mar 2025 08:42:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B09AD23643A;
+	Wed, 12 Mar 2025 08:44:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741768969; cv=none; b=G5JyaGZsHbYzOdhhvhXYPLmEmANbidnMh76bXEgdOsqZQBhf1Y0iDGW91+TND26vMFJoKCKjiWfkBjsPHg2XwyxLJxLYCR3MigR/zW/lqKtZw3ocfND9Ov52/p7uSNfAMoFsMYlJjoJkeckFWige9HiFdTvv0P6QKsH5DRBMjUA=
+	t=1741769088; cv=none; b=Lv3Km3S7GoS8HYQ7u6/0XPV+hvh4ktUu8kmg6J7MqZjMbDxfWYj/X3T/KShlZKyHZ9RM6ltNMb7M0C/on9otsMwSEZTU8qijDcU9PQh92uapkzX1PucXwDKBzqLATUPdm43UlazBFF8HxoXG6RgljDr49/3aXgGBqwLqwxwBQvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741768969; c=relaxed/simple;
-	bh=BstbsyyGd11C6Z5XYNF2rSSoyJ4hUfW5mmfNA3ehRpk=;
+	s=arc-20240116; t=1741769088; c=relaxed/simple;
+	bh=6lTzpLfydCLbFxtECio5+77GPtcrYg8BwHLHp8dQ60M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nM6kseBCoEHG6TOqK2FshH+itaPpNaKSOrjiAn17yWCmN9rFjgOZztVbFHEW1FYkCrvP+A6u9fF7eMAovbgD280oVm7mSsaZfnosKXZRFifu6B/WOBHjlzbB0dzKjfpO8el8WvZb/bGK/J8zmtORFRYC1Z5u4ShdrbW02kkLouY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ccRgj5Bc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C14D1C4CEE3;
-	Wed, 12 Mar 2025 08:42:44 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=a0ao/KECJG3Rs8oZVo4QsIkOnbw3VK3ZO4NN8D5UGQaKM1dSzFEJoHBhVqkmfrrRnt4SldrExnmVwUdf8uDgAzplOF8hNnebRgb+HQ/j/3ZFolz0JEU32A+/j74pV6d7+q8nTG6nBV59EWLx1Gxe9Gl8cP8x6yv69Feu2mdgXcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LB7dL4Jo; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5CC8C4CEE3;
+	Wed, 12 Mar 2025 08:44:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741768969;
-	bh=BstbsyyGd11C6Z5XYNF2rSSoyJ4hUfW5mmfNA3ehRpk=;
+	s=k20201202; t=1741769088;
+	bh=6lTzpLfydCLbFxtECio5+77GPtcrYg8BwHLHp8dQ60M=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ccRgj5Bc6KXIzs7dtfXwseKGogf22LSnyx40mLWPRNCDAJfEQfC/FNr++SH+yJMzk
-	 CwCt2E7sfhf7EsEpqV/inuMS0jCAMD9Y+wtKbeTdV0LfZcDBQP8mILhsbw7DSQb8a0
-	 qV+TCjed6dAsv7anskl04llX9SC3ZXN9o6R3rt9NkKaWJyYNhSq5bL1egQ30ZSExCJ
-	 /90IdWlXkUhphknQDUZX/RkvOiNJ+uBQxbkb2iYQzImaOGd8Qmxt21KP4P9f6o9T6V
-	 kveKaUPPxE0gYRJfzAmuFDCL62WUozZkSFa7X98sM75SixaO+tUePzKdN7LUVKHSyZ
-	 IbQhkdBiBOQog==
-Message-ID: <6e70f017-9ca0-41fb-8018-a93f19ff6038@kernel.org>
-Date: Wed, 12 Mar 2025 09:42:41 +0100
+	b=LB7dL4JowHgps/f6KJIIercmqTR2AGrNvOQfK2nFmyRAQuAAa44HET1c+8ZbqOu+r
+	 FaqNvPwhxAL0U5RDJB8WKj2DwCoWLzHbMCNPUhwR2SBc1AkSw2shhPMYEGEKjySjTu
+	 5lrJsZtSbrO9tOh9aULyA+d80n0mSuEreOfnT55W30ct7vBjuAG4HBhUZ1GAxt0f77
+	 CkSLyV2flxbAQlmioyE5yTwEfChOt6DSe+EbsStuZrTe+y/d1fiET0kLob3aL/UUZP
+	 qzJsybFOBHxXTlYvuRyUMDo7CF1E1oB5LR4eU148wGyOdB9oNZeIiDSrlI3IFWF0nt
+	 0I66pNqBMiIuQ==
+Message-ID: <85bd865b-71e7-40e1-9303-e970d338cb59@kernel.org>
+Date: Wed, 12 Mar 2025 09:44:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/4] dt-bindings: media: qcom,sm8550-iris: document
- SA8775p IRIS accelerator
+Subject: Re: [PATCH 1/4] dt-bindings: media: qcom,sm8550-iris: update power
+ domain name
 To: Vikash Garodia <quic_vgarodia@quicinc.com>,
  Dikshita Agarwal <quic_dikshita@quicinc.com>,
  Abhinav Kumar <quic_abhinavk@quicinc.com>,
@@ -62,9 +62,9 @@ To: Vikash Garodia <quic_vgarodia@quicinc.com>,
 Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250311-dtbinding-v1-0-5c807d33f7ae@quicinc.com>
- <20250311-dtbinding-v1-2-5c807d33f7ae@quicinc.com>
- <7e8350dc-dab4-4306-877c-59139b049e26@kernel.org>
- <6de6ed76-d3fa-1939-d6b4-c11112751406@quicinc.com>
+ <20250311-dtbinding-v1-1-5c807d33f7ae@quicinc.com>
+ <607f842d-07b5-4c1f-ad26-0fd34e6e605b@kernel.org>
+ <40d1a27e-aee9-bd68-a82b-a51ef8ccde05@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -110,21 +110,27 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <6de6ed76-d3fa-1939-d6b4-c11112751406@quicinc.com>
+In-Reply-To: <40d1a27e-aee9-bd68-a82b-a51ef8ccde05@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 11/03/2025 18:57, Vikash Garodia wrote:
+On 11/03/2025 18:47, Vikash Garodia wrote:
 > 
-> 
-> On 3/11/2025 11:05 PM, Krzysztof Kozlowski wrote:
+> On 3/11/2025 11:03 PM, Krzysztof Kozlowski wrote:
 >> On 11/03/2025 13:03, Vikash Garodia wrote:
->>> Document the IRIS video decoder and encoder accelerator found in the
->>> SA8775P platform. SA8775P has collapsible MX compared to SM8550.
->> Does this make interface incompatible? Does not look like.
-> Just the phandle specifier in the DT property, otherwise same.
-I don't understand above. This is about hardware and its interface.
-Hardware does not care about DT or its phandles.
+>>> Not all platforms has a collapsible mx, so use the more generic naming
+>>> of mx in the binding.
+>>>
+>>
+>> No, neither tested, nor justified. Read the file. How many platforms do
+>> you have there? One. Out of this one platform you claim not all of them
+>> have MX collapsible, so you want MX?
+> Let say we have one which is non-collapsible, what should be the way in that
+> case to use the bindings which differ only in the MX/MXC part ?
+
+
+I don't care about imaginary things. Send patches for real hardware. How
+does collapsibility of the domain change the real hardware interface?
 
 Best regards,
 Krzysztof
