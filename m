@@ -1,74 +1,70 @@
-Return-Path: <linux-media+bounces-28125-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28126-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66FB4A5F070
-	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 11:18:23 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8416A5F0BB
+	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 11:26:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4405D19C0AE8
-	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 10:18:31 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CCAE17A00F7
+	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 10:25:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 358F2265600;
-	Thu, 13 Mar 2025 10:18:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 145D2264630;
+	Thu, 13 Mar 2025 10:24:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xixkgq0c"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X4efqICJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30A74264F86
-	for <linux-media@vger.kernel.org>; Thu, 13 Mar 2025 10:18:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EE9D26462C
+	for <linux-media@vger.kernel.org>; Thu, 13 Mar 2025 10:24:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741861082; cv=none; b=IAVSSOke5RuZ8/8EZ+HNFX+0G4epGb8QiHBCKxEvyVJK9UWd3ZTE5Omru8reptWTLSNOgibe1JVDmbylPqGFqOyXY9Owqguf9ZQbhEG9Bkgv7w7B5kG4ZYb5rIVAZQUkalvb4BAXjXM2MeIzLRlEIbcA3gthqXhzrf2p1lUqEyQ=
+	t=1741861478; cv=none; b=uIh4LSZKLjrSXoEFRFD7tgE7iZ4I2xOUn7tENIptUIxkxYm8WMOpAoV+SL15AG9M9rX4E04jL5S9Q+gcZraDwVbDj8+FZIgZgD6Ch5X5Ara5d76k8mc9jEmMzI2ABqMmVm1aChoODrtP/hj+wgS9KREL9x0RTAnHNf8LRvqnUCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741861082; c=relaxed/simple;
-	bh=AxL6DPhFsh4HbSOCV6i8kruFeQznEnHw9qZalgjMWts=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=NBo3k8nTvmilzeHG5X/LdnPjjrE1IxM3GTuRFIxiu0XHeruoV0dYIOnQ2PX2q8O8d0HDhYr1lbWoX5Hlw17MLy4TV3DgL/NBN/tk7lRaLT5M2rUg5o5EdnNa8CrsCxJ7GpcARwMcno5HczswyqeA2xGmW8ln/PhhmAr2PkcsO04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xixkgq0c; arc=none smtp.client-ip=198.175.65.20
+	s=arc-20240116; t=1741861478; c=relaxed/simple;
+	bh=J7V9/5Tqn9TNpQF+BiJWjLj95F7mcPkkSAkoRi8T/aQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=W23bWJSslBkJudaL20YtnDyTNd2HszdWeQFczXmePSLZwZi4hambB9rAIkl0WSBTUfxdBcMilLZmf6UDeYqx73PUa2f1pS+gexJJiSmEwqJN5Y300U6oHSypWtx6ALkli/8bKVGb78Cu+YmahiEzLmdunLdr7xKJH+xHXrud1o0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X4efqICJ; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741861082; x=1773397082;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=AxL6DPhFsh4HbSOCV6i8kruFeQznEnHw9qZalgjMWts=;
-  b=Xixkgq0cwb6DTKQiQ5nq5IvTKRnUFzhoiyCijXBchVWLqFojT1f9l9EZ
-   xYOYRCZto99Xpx7WyN7ehKWX614iGdoUgwTYktohmZYHDxefujaukFG1P
-   /mRrkHBBgA4ieTvE4Z11mwfJs7pyG4qy9Vtk2xNbQZoduKRzYZbzdHd4X
-   Whm92rxd1XdB5+cgPdG/+Ly0x8V7zGliDn2Xmk/rbjGXS0V6CAYenRkf7
-   kf/UtfuktdxzltgbGB4R7hzuHZ3s1cUJK2AVcHDxtOFImpdw7b8xe/NW7
-   JtgcsM/sIvawWPkd0/mTp+WWYrM/5vFoOucyWg5ObhEfPiMbgmwuWAumm
-   A==;
-X-CSE-ConnectionGUID: ZNPgG7ObR3WfRjYUqysakw==
-X-CSE-MsgGUID: 7ush/AP/SjqRqNThq62+og==
-X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="42700014"
+  t=1741861477; x=1773397477;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=J7V9/5Tqn9TNpQF+BiJWjLj95F7mcPkkSAkoRi8T/aQ=;
+  b=X4efqICJF91louj02blO6YIXqJx9nD54DTFXOyOE2wg+/XrsVnDi3Om4
+   x5N5YcorD/l2MyL67+gGE2TXScBqPQSOC7Z6ae63emfodUk6T9FTWO0n5
+   /7egXPq4Hai9JC/D+RZciWBXoYd8a9ZXd+Qbiy3enJMkfruwd64An3IOM
+   UnsrTaYCsDUaBqDDVyNpj3oKGI44+zTYybEB/KwE4pn2BAHMiosEFytmt
+   uFFApbiyK5unOJZJ6jaXRuoEs69lpjZ6djddWyLFVbWd2qiXJHGqLEW+o
+   0xgZtv2xbXzqoQhKuFDsrXYLsWHUGiwT2WEGwSaj63xI4ecEh1t3ZEc5f
+   w==;
+X-CSE-ConnectionGUID: 5Y4RQc4nTCmR11dEsCAC5Q==
+X-CSE-MsgGUID: Tk/es2VGQ7CyVIAWU9AVSw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="68325124"
 X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
-   d="scan'208";a="42700014"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 03:18:01 -0700
-X-CSE-ConnectionGUID: CgTiMC8CQF2nqIF80ohwrQ==
-X-CSE-MsgGUID: 9M55EjpMTcORRAnlO3S2Hw==
+   d="scan'208";a="68325124"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 03:24:36 -0700
+X-CSE-ConnectionGUID: fWyjpgabR4Gs1ZtnK2Y/EQ==
+X-CSE-MsgGUID: JlVHBg3PSQiSZYGKV+3MVg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
-   d="scan'208";a="158070753"
+   d="scan'208";a="125984281"
 Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.245.81.114])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 03:17:59 -0700
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 03:24:35 -0700
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH v2 3/3] media: intel/ipu6: Constify ipu6_buttress_ctrl structure
-Date: Thu, 13 Mar 2025 11:17:44 +0100
-Message-Id: <20250313101744.128564-4-stanislaw.gruszka@linux.intel.com>
+	Bingbu Cao <bingbu.cao@intel.com>
+Subject: [PATCH 0/5] media: intel/ipu6: Cleanups and small refactor
+Date: Thu, 13 Mar 2025 11:24:22 +0100
+Message-Id: <20250313102427.131832-1-stanislaw.gruszka@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250313101744.128564-1-stanislaw.gruszka@linux.intel.com>
-References: <20250313101744.128564-1-stanislaw.gruszka@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,82 +73,20 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Make ipu6_buttress_ctrl constant since it is not modified any longer.
+Some clenaups and abstract buf ready function away from FW interface
+to make it reusable with ipu7.
 
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
----
- drivers/media/pci/intel/ipu6/ipu6-bus.c      | 2 +-
- drivers/media/pci/intel/ipu6/ipu6-bus.h      | 4 ++--
- drivers/media/pci/intel/ipu6/ipu6-buttress.c | 4 ++--
- drivers/media/pci/intel/ipu6/ipu6-buttress.h | 4 ++--
- 4 files changed, 7 insertions(+), 7 deletions(-)
+Stanislaw Gruszka (5):
+  media: intel/ipu6: Add missing new line character in error message
+  media: intel/ipu6: Make two functions static
+  media: intel/ipu6: Use timestamp value directly
+  media: intel/ipu6: Abstart buf ready function
+  media: intel/ipu6: Remove unused dev field from ipu6_isys_queue
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-bus.c b/drivers/media/pci/intel/ipu6/ipu6-bus.c
-index 37d88ddb6ee7..5cee2748983b 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-bus.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-bus.c
-@@ -82,7 +82,7 @@ static void ipu6_bus_release(struct device *dev)
- 
- struct ipu6_bus_device *
- ipu6_bus_initialize_device(struct pci_dev *pdev, struct device *parent,
--			   void *pdata, struct ipu6_buttress_ctrl *ctrl,
-+			   void *pdata, const struct ipu6_buttress_ctrl *ctrl,
- 			   char *name)
- {
- 	struct auxiliary_device *auxdev;
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-bus.h b/drivers/media/pci/intel/ipu6/ipu6-bus.h
-index ebf470806a74..b790f9cc37e3 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-bus.h
-+++ b/drivers/media/pci/intel/ipu6/ipu6-bus.h
-@@ -25,7 +25,7 @@ struct ipu6_bus_device {
- 	void *pdata;
- 	struct ipu6_mmu *mmu;
- 	struct ipu6_device *isp;
--	struct ipu6_buttress_ctrl *ctrl;
-+	const struct ipu6_buttress_ctrl *ctrl;
- 	u64 dma_mask;
- 	const struct firmware *fw;
- 	struct sg_table fw_sgt;
-@@ -48,7 +48,7 @@ struct ipu6_auxdrv_data {
- 
- struct ipu6_bus_device *
- ipu6_bus_initialize_device(struct pci_dev *pdev, struct device *parent,
--			   void *pdata, struct ipu6_buttress_ctrl *ctrl,
-+			   void *pdata, const struct ipu6_buttress_ctrl *ctrl,
- 			   char *name);
- int ipu6_bus_add_device(struct ipu6_bus_device *adev);
- void ipu6_bus_del_devices(struct pci_dev *pdev);
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-buttress.c b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-index 787fcbd1df09..103386c4f6ae 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-buttress.c
-@@ -443,8 +443,8 @@ irqreturn_t ipu6_buttress_isr_threaded(int irq, void *isp_ptr)
- 	return ret;
- }
- 
--int ipu6_buttress_power(struct device *dev, struct ipu6_buttress_ctrl *ctrl,
--			bool on)
-+int ipu6_buttress_power(struct device *dev,
-+			const struct ipu6_buttress_ctrl *ctrl, bool on)
- {
- 	struct ipu6_device *isp = to_ipu6_bus_device(dev)->isp;
- 	u32 pwr_sts, val;
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-buttress.h b/drivers/media/pci/intel/ipu6/ipu6-buttress.h
-index 4b9763acdfdd..51e5ad48db82 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-buttress.h
-+++ b/drivers/media/pci/intel/ipu6/ipu6-buttress.h
-@@ -65,8 +65,8 @@ int ipu6_buttress_map_fw_image(struct ipu6_bus_device *sys,
- 			       struct sg_table *sgt);
- void ipu6_buttress_unmap_fw_image(struct ipu6_bus_device *sys,
- 				  struct sg_table *sgt);
--int ipu6_buttress_power(struct device *dev, struct ipu6_buttress_ctrl *ctrl,
--			bool on);
-+int ipu6_buttress_power(struct device *dev,
-+			const struct ipu6_buttress_ctrl *ctrl, bool on);
- bool ipu6_buttress_get_secure_mode(struct ipu6_device *isp);
- int ipu6_buttress_authenticate(struct ipu6_device *isp);
- int ipu6_buttress_reset_authentication(struct ipu6_device *isp);
+ .../media/pci/intel/ipu6/ipu6-isys-queue.c    | 51 ++++++++++---------
+ .../media/pci/intel/ipu6/ipu6-isys-queue.h    |  5 --
+ 2 files changed, 28 insertions(+), 28 deletions(-)
+
 -- 
 2.34.1
 
