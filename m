@@ -1,287 +1,144 @@
-Return-Path: <linux-media+bounces-28143-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28144-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03CE8A5F3D3
-	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 13:07:49 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E72CAA5F424
+	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 13:21:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E9060165847
-	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 12:07:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3C1FE3BA863
+	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 12:20:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E5D9267706;
-	Thu, 13 Mar 2025 12:06:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 272F22676E3;
+	Thu, 13 Mar 2025 12:20:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Awowln0p"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LGp2Wrd3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 296ED2676CA
-	for <linux-media@vger.kernel.org>; Thu, 13 Mar 2025 12:06:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F021EE7A8;
+	Thu, 13 Mar 2025 12:20:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741867595; cv=none; b=jSd14KmEbFNcKe6TyHMSLrGLXsWFMB7r7LkpK7Kz0gxrFL7rrGcFsSz8R0vXkbrmQSFOEQsPj1z6tXs/n0NH0hpvlF/FpfJ4ldll2qc0YAjRNfFyCfVuZTalL4WGberU3SnRc0d2PH9zUGbCj4DYgjCMmDysPpYd949YDnq1n0M=
+	t=1741868433; cv=none; b=iGa+FzcLnVByZlq40RLx/WC6wnWSfRACb9zbMZOg5Xz/KO7JGKy9j35iYkyX5fzXP5JjKIMdRPxQEapOANaRTvYZ7VyjdMebmigGIqQoX3pavYb/39LpPQ84jNNmaD2U03GkdzvLp2vY6px81jjn6RN761iSpSJvfsGf+nPYWSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741867595; c=relaxed/simple;
-	bh=29pelfkmcmoRIGGzeUx/Al0wDWrgyoW69zhwYaoLsnI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=s7n4HXYjpO/flDOqREW2y5IuaHImnjoakjaMprLk+T5i22qaZ42AtvUmmOgfZAhkW/IcPEcww5EMPC/P+oO0gLTvWUF7uufD94HT+mYsp4K3NNG48i8JXjiQCm9CbalWYsu8573oOuiZhbibbha4GPa6soODrP/y26zvBOIpCa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Awowln0p; arc=none smtp.client-ip=209.85.222.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7c547932d2eso51012385a.0
-        for <linux-media@vger.kernel.org>; Thu, 13 Mar 2025 05:06:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1741867591; x=1742472391; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=uoMekbFYiURjA/Ma1CHI/wWtmP4OuAXoPIc+PxHPaU0=;
-        b=Awowln0pcLe8sqlxpsgXU0xKki8KB4hj78pNOnBk44yd/61ft4KEy/t5uSx4h29dOy
-         vaBAnyLhzBjrbu3TLbNulLJgJIpkeIp1AUB5V5lj1Gb1OujcRcD9HDwj7bwzR1Ru++Db
-         tGY+1h2zdxVh7XkEoCqeaXICwJP8dbuvWKdIE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741867591; x=1742472391;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=uoMekbFYiURjA/Ma1CHI/wWtmP4OuAXoPIc+PxHPaU0=;
-        b=qgdugONU1WHYbpqvpMI5rbzQijM00H35Xby3Z0GhB3Cw2O4gawj9+b/CyVYpAJG8Iw
-         fIn8g2mx1mfBfTp8zg11pgq+iIGi906/TCtrKlTr1y5dUbFw2w65pq4P/U5ovYT8FwXs
-         xvYY5qDiTNzjXo1HOmB7ANQGCIL1Wv8CrG9F+PWIOrEfgOAXwE7MNDh5MIF9GW/O+Uz8
-         1kGDngUzZWd34/X7MQ+u21axV9RSLxDAHaYeCy1uLVg1k75RFEFOFeeoCtbNDKzpjmNe
-         1TRNIXIFRYRjZ0U0bAOEI40QVvWCfU9524W9ANGmQHj4upeEtSfWs62xeu9owGrcXkCt
-         YfNQ==
-X-Gm-Message-State: AOJu0YwumNd7EulJDOdqc0cjMQ35qFaEEWb+cb14nczAiUA+9AWUdH5B
-	zIEm3D1hXQ21lpZb6cXZX4kEoLmK/G/GUcKpNLl01CHNALVQnuvJgydUDsZPuQ==
-X-Gm-Gg: ASbGncuAwjLMrgRyAq5UTJTonsAfbME1apjYXcgDPDe9tMfgkeBRIChKXPGHIwQfXBk
-	4kJx2yv1D+wK5+dCzoKkBTlwRMAwt/ib60g3jIFwflw/SRmD9ibx0ZKprbsoHEf0hMZiNzPRgIM
-	I5JcVi75gvVTa4JJPf0IUIA7DfhohG19MCUMZ7KPv0Lar4nObu/4/zkNsmeNR8lBlkuKH/WOTrA
-	vJnb4QmCwpOqvxZqbw4466w4BkEoSB36WHbNxQcoxPiiadNBfEXn0jYTzmaPuxiPG4pWf2ou/n6
-	gEIauSms9mdY0I9G/6k1OqVLqmU+jZhPNWRzKVDSZ3Wa6DsX0MerQ6DBIU/65YYKgObbTKFCOvv
-	HreYcjui7MYToZQUOmxrPhw==
-X-Google-Smtp-Source: AGHT+IGTlig8kmYrtdA9vFKMK5hVn4z1GSGbEe1Xa8zAMYN41pWD/i7Dx4awPb0ofXtkDJoOxZfLag==
-X-Received: by 2002:a05:620a:6083:b0:7c5:6678:ab18 with SMTP id af79cd13be357-7c56678ae0emr1320035285a.42.1741867591068;
-        Thu, 13 Mar 2025 05:06:31 -0700 (PDT)
-Received: from denia.c.googlers.com (15.237.245.35.bc.googleusercontent.com. [35.245.237.15])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c573c4db57sm92117685a.8.2025.03.13.05.06.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Mar 2025 05:06:29 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 13 Mar 2025 12:06:27 +0000
-Subject: [PATCH v3 3/3] media: uvcvideo: Introduce V4L2_META_FMT_UVC_CUSTOM
+	s=arc-20240116; t=1741868433; c=relaxed/simple;
+	bh=J9gkmDvvDPgdi4lbEVPnHeSBkfUAvzFaSnLIVoFM3hg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=BNxecQhq3hGFMEjGiu6V+x2SWksK4YyEbhYsy2DkRG2Uvcu6Jgmu3YA/JO5yrhjvGtm0n55r3Y8wwYvVGf9j+8DHhW6tCmGMyXpKNKUyE8U3uxqfoPiJS+qE3KohaIj3NldAEWL4UclfmFGtwn81qlxqwY4gOKT0+wTqwqveIhI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LGp2Wrd3; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52D9Q5HT023241;
+	Thu, 13 Mar 2025 12:20:24 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	fDU8c74Q4bDPD4cXlM5fRCqP8qjtAceNigyKKmnZJuw=; b=LGp2Wrd3RM3qpfZh
+	MmtyydncBM/h6hX+2FhFnIYjoYb7DcDNQ5Vdrl5ZgrNviN8DY2b9sIUkJWaJ2cmV
+	ROWlRX9aSTlMqZN+AEhSRpLdzgctb5Yk6lVbB3zjccQpT6FJ7ZUEvjpLGN3FTack
+	lroSbDFR+/uVEby93e0jTpIlLkGsL4+hkLZ6v9xrHOLS9s/By2lrnkRS6zeKmMuG
+	TtfezUkeyxo1bv4utG/SSkrmPFDrUVrm8yki8okj0FXl/zLViEUDP+w22d4IWoKF
+	b4PLbFRf+O5CC9DBEDsiBhqsmPdgdn16TdeeWdxux1oXN+Q1EbLNLYh4iAP+edG8
+	T2ys+A==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45au2mnspq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 13 Mar 2025 12:20:23 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52DCKNal020388
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 13 Mar 2025 12:20:23 GMT
+Received: from [10.218.15.14] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 13 Mar
+ 2025 05:20:18 -0700
+Message-ID: <c402bdae-04b0-4745-b4c9-f12298cd7a05@quicinc.com>
+Date: Thu, 13 Mar 2025 17:50:15 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 RESEND 1/2] dmaengine: qcom: gpi: Add GPI Block event
+ interrupt support
+To: Vinod Koul <vkoul@kernel.org>
+CC: Andi Shyti <andi.shyti@kernel.org>,
+        Sumit Semwal
+	<sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?=
+	<christian.koenig@amd.com>,
+        <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <quic_msavaliy@quicinc.com>,
+        <quic_vtanuku@quicinc.com>
+References: <20250212120536.28879-1-quic_jseerapu@quicinc.com>
+ <20250212120536.28879-2-quic_jseerapu@quicinc.com> <Z89TC7fKzmmeu6tW@vaman>
+Content-Language: en-US
+From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+In-Reply-To: <Z89TC7fKzmmeu6tW@vaman>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250313-uvc-metadata-v3-3-c467af869c60@chromium.org>
-References: <20250313-uvc-metadata-v3-0-c467af869c60@chromium.org>
-In-Reply-To: <20250313-uvc-metadata-v3-0-c467af869c60@chromium.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Hans de Goede <hdegoede@redhat.com>, 
- Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.14.2
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: pmnVupMtP4qZ34e0cWtkVzg1kvtB_MB7
+X-Authority-Analysis: v=2.4 cv=aKnwqa9m c=1 sm=1 tr=0 ts=67d2cd87 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=llsIEhTl_2UyQBK4H_sA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: pmnVupMtP4qZ34e0cWtkVzg1kvtB_MB7
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-13_06,2025-03-11_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 clxscore=1015
+ adultscore=0 malwarescore=0 priorityscore=1501 phishscore=0 spamscore=0
+ bulkscore=0 lowpriorityscore=0 impostorscore=0 mlxscore=0 suspectscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503130097
 
-The UVC driver provides two metadata types V4L2_META_FMT_UVC, and
-V4L2_META_FMT_D4XX. The only difference between the two of them is that
-V4L2_META_FMT_UVC only copies PTS, SCR, size and flags, and
-V4L2_META_FMT_D4XX copies the whole metadata section.
+Hi Vinod, Thanks for the review comments.
 
-Now we only enable V4L2_META_FMT_D4XX for the Intel D4xx family of
-devices, but it is useful to have the whole metadata section for any
-device where vendors include other metadata, such as the one described by
-Microsoft:
-https://learn.microsoft.com/en-us/windows-hardware/drivers/stream/mf-capture-metadata
+On 3/11/2025 2:30 AM, Vinod Koul wrote:
+> On 12-02-25, 17:35, Jyothi Kumar Seerapu wrote:
+>> GSI hardware generates an interrupt for each transfer completion.
+>> For multiple messages within a single transfer, this results in
+>> N interrupts for N messages, leading to significant software
+>> interrupt latency.
+>>
+>> To mitigate this latency, utilize Block Event Interrupt (BEI) mechanism.
+>> Enabling BEI instructs the GSI hardware to prevent interrupt generation
+>> and BEI is disabled when an interrupt is necessary.
+>>
+>> When using BEI, consider splitting a single multi-message transfer into
+>> chunks of 8 messages internally and so interrupts are not expected for
+>> the first 7 message completions, only the last message triggers
+>> an interrupt, indicating the completion of 8 messages.
+>>
+>> This BEI mechanism enhances overall transfer efficiency.
+> 
+> That sounds good but I dont like the idea that we add a custom interface
+> for this. Please use DMA_PREP_INTERRUPT instead. Adding this flag should
+> trigger N interrupts, absence of this should lead to Block events only
+> 
+The DMA_PREP_INTERRUPT flag in DMA operations is used to indicate that 
+an interrupt should be generated once the DMA transfer is completed.
+However, this flag itself does not block interrupt generation at the GPI 
+DMA hardware level. The GPI DMA hardware can still raise interrupts even 
+in the absence of the DMA_PREP_INTERRUPT flag.
 
-This patch introduces a new format V4L2_META_FMT_UVC_CUSTOM, that is
-identical to V4L2_META_FMT_D4XX but it is available to all the UVC
-devices.
+To block interrupts at the GPI DMA hardware level, we need to use the 
+Block Event Interrupt (BEI) bit (as explained in the commit log).
+As an example : for 100 transfers, we only want to receive one interrupt 
+at the 100th transfer. This helps us significantly reduce latencies, as 
+handling back-to-back 100 interrupts can take a few milliseconds.
 
-Suggested-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- .../userspace-api/media/v4l/meta-formats.rst       |  1 +
- .../userspace-api/media/v4l/metafmt-uvc-custom.rst | 31 +++++++++++++++++
- MAINTAINERS                                        |  1 +
- drivers/media/usb/uvc/uvc_metadata.c               | 40 ++++++++++++++++++----
- drivers/media/v4l2-core/v4l2-ioctl.c               |  1 +
- include/uapi/linux/videodev2.h                     |  1 +
- 6 files changed, 69 insertions(+), 6 deletions(-)
-
-diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
-index 86ffb3bc8ade2e0c563dd84441572ecea1a571a6..9fd83f4a3cc8509702a2a9f032fdc04bf6c6d1bc 100644
---- a/Documentation/userspace-api/media/v4l/meta-formats.rst
-+++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
-@@ -19,6 +19,7 @@ These formats are used for the :ref:`metadata` interface only.
-     metafmt-pisp-fe
-     metafmt-rkisp1
-     metafmt-uvc
-+    metafmt-uvc-custom
-     metafmt-vivid
-     metafmt-vsp1-hgo
-     metafmt-vsp1-hgt
-diff --git a/Documentation/userspace-api/media/v4l/metafmt-uvc-custom.rst b/Documentation/userspace-api/media/v4l/metafmt-uvc-custom.rst
-new file mode 100644
-index 0000000000000000000000000000000000000000..9f150fc2b6f379cc4707ff45041dd014956ae11a
---- /dev/null
-+++ b/Documentation/userspace-api/media/v4l/metafmt-uvc-custom.rst
-@@ -0,0 +1,31 @@
-+.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+
-+.. _v4l2-meta-fmt-uvc-custom:
-+
-+*********************************
-+V4L2_META_FMT_UVC_CUSTOM ('UVCC')
-+*********************************
-+
-+UVC Custom Payload Metadata.
-+
-+
-+Description
-+===========
-+
-+V4L2_META_FMT_UVC_CUSTOM buffers follow the metadata buffer layout of
-+V4L2_META_FMT_UVC with the only difference that it includes all the UVC
-+metadata, not just the first 2-12 bytes.
-+
-+The most common metadata format is the one proposed by Microsoft(R)'s UVC
-+extension [1_], but other vendors might have different formats.
-+
-+Applications might use information from the Hardware Database (hwdb)[2_] to
-+process the camera's metadata accordingly.
-+
-+.. _1:
-+
-+[1] https://docs.microsoft.com/en-us/windows-hardware/drivers/stream/uvc-extensions-1-5
-+
-+.. _2:
-+
-+[2] https://www.freedesktop.org/software/systemd/man/latest/hwdb.html
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 29b4471574982bf3f8d03158cd5edcb94bc9fab9..4e8e8096951ff0e7159d7f3916cf7b014a6ef95f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -24665,6 +24665,7 @@ S:	Maintained
- W:	http://www.ideasonboard.org/uvc/
- T:	git git://linuxtv.org/media.git
- F:	Documentation/userspace-api/media/drivers/uvcvideo.rst
-+F:	Documentation/userspace-api/media/v4l/metafmt-uvc-custom.rst
- F:	Documentation/userspace-api/media/v4l/metafmt-uvc.rst
- F:	drivers/media/common/uvc.c
- F:	drivers/media/usb/uvc/
-diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
-index 82de7781f5b6b70c5ba16bcba9e0741231231904..b257524d279a141f650e2fbb376a35cc17252c2e 100644
---- a/drivers/media/usb/uvc/uvc_metadata.c
-+++ b/drivers/media/usb/uvc/uvc_metadata.c
-@@ -63,15 +63,21 @@ static int uvc_meta_v4l2_try_format(struct file *file, void *fh,
- 	struct uvc_streaming *stream = video_get_drvdata(vfh->vdev);
- 	struct uvc_device *dev = stream->dev;
- 	struct v4l2_meta_format *fmt = &format->fmt.meta;
--	u32 fmeta = fmt->dataformat;
-+	u32 fmeta;
-+
-+	if (fmt->dataformat == dev->info->meta_format)
-+		fmeta = dev->info->meta_format;
-+	else if (fmt->dataformat == V4L2_META_FMT_UVC_CUSTOM)
-+		fmeta = V4L2_META_FMT_UVC_CUSTOM;
-+	else
-+		fmeta = V4L2_META_FMT_UVC;
- 
- 	if (format->type != vfh->vdev->queue->type)
- 		return -EINVAL;
- 
- 	memset(fmt, 0, sizeof(*fmt));
- 
--	fmt->dataformat = fmeta == dev->info->meta_format
--			? fmeta : V4L2_META_FMT_UVC;
-+	fmt->dataformat = fmeta;
- 	fmt->buffersize = UVC_METADATA_BUF_SIZE;
- 
- 	return 0;
-@@ -106,6 +112,24 @@ static int uvc_meta_v4l2_set_format(struct file *file, void *fh,
- 	return ret;
- }
- 
-+static u32 uvc_meta_idx_to_fmeta(struct uvc_device *dev, u32 index)
-+{
-+	switch (index) {
-+	case 0:
-+		return V4L2_META_FMT_UVC;
-+	case 1:
-+		if (dev->info->meta_format)
-+			return dev->info->meta_format;
-+		return V4L2_META_FMT_UVC_CUSTOM;
-+	case 2:
-+		if (dev->info->meta_format)
-+			return V4L2_META_FMT_UVC_CUSTOM;
-+		return 0;
-+	}
-+
-+	return 0;
-+}
-+
- static int uvc_meta_v4l2_enum_formats(struct file *file, void *fh,
- 				      struct v4l2_fmtdesc *fdesc)
- {
-@@ -113,16 +137,20 @@ static int uvc_meta_v4l2_enum_formats(struct file *file, void *fh,
- 	struct uvc_streaming *stream = video_get_drvdata(vfh->vdev);
- 	struct uvc_device *dev = stream->dev;
- 	u32 index = fdesc->index;
-+	u32 fmeta;
-+
-+	if (fdesc->type != vfh->vdev->queue->type)
-+		return -EINVAL;
- 
--	if (fdesc->type != vfh->vdev->queue->type ||
--	    index > 1U || (index && !dev->info->meta_format))
-+	fmeta = uvc_meta_idx_to_fmeta(dev, fdesc->index);
-+	if (!fmeta)
- 		return -EINVAL;
- 
- 	memset(fdesc, 0, sizeof(*fdesc));
- 
- 	fdesc->type = vfh->vdev->queue->type;
- 	fdesc->index = index;
--	fdesc->pixelformat = index ? dev->info->meta_format : V4L2_META_FMT_UVC;
-+	fdesc->pixelformat = fmeta;
- 
- 	return 0;
- }
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index a16fb44c7246e35f3710306fde5dfc15329b4d95..1ffbf38823b226ff7044c798c4b982d52137e904 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1457,6 +1457,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 	case V4L2_META_FMT_VSP1_HGO:	descr = "R-Car VSP1 1-D Histogram"; break;
- 	case V4L2_META_FMT_VSP1_HGT:	descr = "R-Car VSP1 2-D Histogram"; break;
- 	case V4L2_META_FMT_UVC:		descr = "UVC Payload Header Metadata"; break;
-+	case V4L2_META_FMT_UVC_CUSTOM:	descr = "UVC Custom Payload Metadata"; break;
- 	case V4L2_META_FMT_D4XX:	descr = "Intel D4xx UVC Metadata"; break;
- 	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
- 	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr = "Rockchip ISP1 3A Parameters"; break;
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index c8cb2796130f8d1b864d669267d2b31f73b839aa..b0af18b7621296be0885d5b65494ec01bc425c9c 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -851,6 +851,7 @@ struct v4l2_pix_format {
- #define V4L2_META_FMT_VSP1_HGT    v4l2_fourcc('V', 'S', 'P', 'T') /* R-Car VSP1 2-D Histogram */
- #define V4L2_META_FMT_UVC         v4l2_fourcc('U', 'V', 'C', 'H') /* UVC Payload Header metadata */
- #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D4XX Payload Header metadata */
-+#define V4L2_META_FMT_UVC_CUSTOM  v4l2_fourcc('U', 'V', 'C', 'C') /* UVC Custom Payload metadata */
- #define V4L2_META_FMT_VIVID	  v4l2_fourcc('V', 'I', 'V', 'D') /* Vivid Metadata */
- 
- /* Vendor specific - used for RK_ISP1 camera sub-system */
-
--- 
-2.49.0.rc0.332.g42c0ae87b1-goog
+Hope this explains it well. Please let me know if there are any other 
+concerns or feedback.
 
 
