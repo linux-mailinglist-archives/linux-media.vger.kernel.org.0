@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-28162-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28163-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70B17A5FFBE
-	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 19:44:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C71BBA5FFC0
+	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 19:44:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6673719C0840
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 07ED71767B6
 	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 18:44:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCB911EFF9F;
-	Thu, 13 Mar 2025 18:43:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E3611EFFA2;
+	Thu, 13 Mar 2025 18:43:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZP8WsYtW"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Qoze3pZo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3FF1EEA51
-	for <linux-media@vger.kernel.org>; Thu, 13 Mar 2025 18:43:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57B2A1DB54C
+	for <linux-media@vger.kernel.org>; Thu, 13 Mar 2025 18:43:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741891429; cv=none; b=F9kSd76z4l1OsXGBSDk+c0aq8qYNQfft4KUOf4D1m0R5hqiSwofh+q0rn09lcBijUqn2ed7EPWeSQN/59c4wP+cbVlpocRYFFLGcRBcfAgf9oqi+VFAcrd/fungqDplVxSV0vndLameJiUIO33/XuvL1bt4xTEiPd1Bie+f4T+w=
+	t=1741891436; cv=none; b=F1nkTFKSA6B+z0cN0boqH80pxxZbaZ8eeRVNYyFuft9XKtqi1DvLcvvjLowU2S+EIHJA7Ofkv+AGyp1GAox+9Ns/lqmI//xkuDLvIauzBlbiyGLNxCXRcJ9l1nOWttet1K8/botzTlj6jSjG+kwQ6vFvvtiS09UpBDTzcppzxYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741891429; c=relaxed/simple;
-	bh=Ic1kKssEI0uaaEraaU6gsgRVC3jZNN3pJZDwTqt1uIE=;
+	s=arc-20240116; t=1741891436; c=relaxed/simple;
+	bh=TyCrM0iNFxYyBXKhzg8Db58rlTNHKgZ3OVwlqu+AJVk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aaQH36eBifVRG6PbYvUM8lb70TIXsfHYFYwkX++xLMd6MkYnsa7G774IgwIVqqtfTCbQBgMiu9dK6KuDsslqsO8W30uh4QfLvZAQHzwE7NTSvFTOGFTKMcsT28l32gBWE5BIRdbVQBl/WkbVUwwc5JoIcBudpyrvokQnpfPqHIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZP8WsYtW; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version; b=TxfTJROP7J33TJUslx6Y4BlvmZ2DSZU4+aPu8lcgvr3Z1y4uKcngVE9qNiCohxaMNeiHNbNx8SzV3ZsBYFc7rmZdA0lbSOl2TL/hlxQgYMHL8Kq8dgg9ydcvmQhqbgWGGLpNW6tVU0GQBCmzrihNtmayVfljTA8F5zjcEqMof+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Qoze3pZo; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1741891427;
+	s=mimecast20190719; t=1741891433;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=bD+mqbgkHA0PlnzJdZdo2V3QIhUAmxPfhQd5ON0+tGI=;
-	b=ZP8WsYtWTsrlC7FFtNkGOt13Lh/+SBHBaML52Y6O/6+v8HTjyRJERWHiRBmh+R1Q7TwZUy
-	tgIaaZf+j12etMTsG165hQ2ecRacTtXRPj2w9EKGFxdQ5qzWSP3h2VjODpTbuIPLfZ4Kjd
-	xJNsL57uRkIAKkC+PTWmXHb4Zo+ZgxI=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+	bh=33NHCMQTlmTS51f+KPkZJsq6MZ8F2AqedGUCxOeA6aI=;
+	b=Qoze3pZo40IRavIk1nkINFiEh0a4Ls3NZal2MdaSEdjwbXRjoFKvnFKl5EVficoO19KpY5
+	W4Hr1p9N0MBtg/qjNQP48rqx8DCN79kjE93GVWqOEjoe3198ZNBjYFJJDwI61CbdO2U7Qx
+	CZ5PI6saXp2y1HiioVdhZnmspLzkYDM=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-120-f15o8LhFP5mqXObQEeQk_w-1; Thu,
- 13 Mar 2025 14:43:45 -0400
-X-MC-Unique: f15o8LhFP5mqXObQEeQk_w-1
-X-Mimecast-MFC-AGG-ID: f15o8LhFP5mqXObQEeQk_w_1741891424
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-93-KJngkfvqMWiGZ4_1zvLZlg-1; Thu,
+ 13 Mar 2025 14:43:49 -0400
+X-MC-Unique: KJngkfvqMWiGZ4_1zvLZlg-1
+X-Mimecast-MFC-AGG-ID: KJngkfvqMWiGZ4_1zvLZlg_1741891427
 Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 25C161956046;
-	Thu, 13 Mar 2025 18:43:44 +0000 (UTC)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7FA9B195608F;
+	Thu, 13 Mar 2025 18:43:47 +0000 (UTC)
 Received: from shalem.redhat.com (unknown [10.45.224.5])
-	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 434A5300376F;
-	Thu, 13 Mar 2025 18:43:41 +0000 (UTC)
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 94831300376F;
+	Thu, 13 Mar 2025 18:43:44 +0000 (UTC)
 From: Hans de Goede <hdegoede@redhat.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>
@@ -68,9 +68,9 @@ Cc: Hans de Goede <hdegoede@redhat.com>,
 	Hao Yao <hao.yao@intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-media@vger.kernel.org
-Subject: [PATCH v8 07/14] media: ov02c10: CCI usage fixes
-Date: Thu, 13 Mar 2025 19:43:07 +0100
-Message-ID: <20250313184314.91410-8-hdegoede@redhat.com>
+Subject: [PATCH v8 08/14] media: ov02c10: Make modes lane-count independent
+Date: Thu, 13 Mar 2025 19:43:08 +0100
+Message-ID: <20250313184314.91410-9-hdegoede@redhat.com>
 In-Reply-To: <20250313184314.91410-1-hdegoede@redhat.com>
 References: <20250313184314.91410-1-hdegoede@redhat.com>
 Precedence: bulk
@@ -82,101 +82,161 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-Several fixes to ov02c10's usage of the CCI helpers:
-- Fix indentation of some cci_*() calls
-- Make sure logged register writing errors end with '\n'
-- CCI functions already log errors themselves, drop error
-  logging for them
-- CCI functions being passed &ret as last argument can be chained
-  without need to check ret in between, if ret != 0 then the next
-  CCI call(s) will be a no-op
-- err/&ret argument passed to cci_*() functions should be signed
-- Move devm_cci_regmap_init_i2c() to ov02c10_probe() and add error check
+ATM the driver only supports one mode (1928x1092) but before this change
+the supported_modes[] had 2 entries, 1 for 1928x1092 when using 1 mipi lane
+and 1 for 1928x1092 when using 2 mipi lanes.
+
+This causes enum_framesizes returning 2 1928x1092 modes, instead make it
+one mode and dynamically adapt for the number of lanes in
+ov02c10_start_streaming() and ov02c10_set_format().
 
 Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 ---
- drivers/media/i2c/ov02c10.c | 30 ++++++++++--------------------
- 1 file changed, 10 insertions(+), 20 deletions(-)
+ drivers/media/i2c/ov02c10.c | 63 ++++++++++++++++---------------------
+ 1 file changed, 27 insertions(+), 36 deletions(-)
 
 diff --git a/drivers/media/i2c/ov02c10.c b/drivers/media/i2c/ov02c10.c
-index a6ea747243e6..b9f28368e29f 100644
+index b9f28368e29f..e1013d1da459 100644
 --- a/drivers/media/i2c/ov02c10.c
 +++ b/drivers/media/i2c/ov02c10.c
-@@ -423,16 +423,12 @@ static int ov02c10_test_pattern(struct ov02c10 *ov02c10, int pattern)
+@@ -70,21 +70,15 @@ struct ov02c10_mode {
+ 	/* Horizontal timining size */
+ 	u32 hts;
  
- 	if (!pattern)
- 		return cci_update_bits(ov02c10->regmap, OV02C10_REG_TEST_PATTERN,
--			BIT(7), 0, NULL);
-+				       BIT(7), 0, NULL);
- 
- 	cci_update_bits(ov02c10->regmap, OV02C10_REG_TEST_PATTERN,
- 			0x03, pattern - 1, &ret);
--	if (ret)
--		return ret;
+-	/* Default vertical timining size */
+-	u32 vts_def;
 -
- 	cci_update_bits(ov02c10->regmap, OV02C10_REG_TEST_PATTERN,
- 			BIT(7), OV02C10_TEST_PATTERN_ENABLE, &ret);
--
- 	return ret;
- }
+ 	/* Min vertical timining size */
+ 	u32 vts_min;
  
-@@ -590,7 +586,7 @@ static int ov02c10_start_streaming(struct ov02c10 *ov02c10)
- 	ret = regmap_multi_reg_write(ov02c10->regmap,
- 				     reg_sequence, sequence_length);
- 	if (ret) {
--		dev_err(&client->dev, "failed to set mode");
-+		dev_err(&client->dev, "failed to set mode\n");
+-	/* MIPI lanes used */
+-	u8 mipi_lanes;
+-
+ 	/* Sensor register settings for this resolution */
+ 	const struct reg_sequence *reg_sequence;
+ 	const int sequence_length;
+ 	/* Sensor register settings for 1 or 2 lane config */
+-	const struct reg_sequence *lane_settings;
+-	const int lane_settings_length;
++	const struct reg_sequence *lane_settings[2];
++	const int lane_settings_length[2];
+ };
+ 
+ static const struct reg_sequence sensor_1928x1092_30fps_setting[] = {
+@@ -358,25 +352,17 @@ static const struct ov02c10_mode supported_modes[] = {
+ 		.width = 1928,
+ 		.height = 1092,
+ 		.hts = 2280,
+-		.vts_def = 1164,
+ 		.vts_min = 1164,
+-		.mipi_lanes = 1,
+ 		.reg_sequence = sensor_1928x1092_30fps_setting,
+ 		.sequence_length = ARRAY_SIZE(sensor_1928x1092_30fps_setting),
+-		.lane_settings = sensor_1928x1092_30fps_1lane_setting,
+-		.lane_settings_length = ARRAY_SIZE(sensor_1928x1092_30fps_1lane_setting),
+-	},
+-	{
+-		.width = 1928,
+-		.height = 1092,
+-		.hts = 2280,
+-		.vts_def = 2328,
+-		.vts_min = 1164,
+-		.mipi_lanes = 2,
+-		.reg_sequence = sensor_1928x1092_30fps_setting,
+-		.sequence_length = ARRAY_SIZE(sensor_1928x1092_30fps_setting),
+-		.lane_settings = sensor_1928x1092_30fps_2lane_setting,
+-		.lane_settings_length = ARRAY_SIZE(sensor_1928x1092_30fps_2lane_setting),
++		.lane_settings = {
++			sensor_1928x1092_30fps_1lane_setting,
++			sensor_1928x1092_30fps_2lane_setting
++		},
++		.lane_settings_length = {
++			ARRAY_SIZE(sensor_1928x1092_30fps_1lane_setting),
++			ARRAY_SIZE(sensor_1928x1092_30fps_2lane_setting),
++		},
+ 	},
+ };
+ 
+@@ -499,7 +485,7 @@ static int ov02c10_init_controls(struct ov02c10 *ov02c10)
+ 	struct v4l2_ctrl_handler *ctrl_hdlr;
+ 	const struct ov02c10_mode *cur_mode;
+ 	s64 exposure_max, h_blank, pixel_rate;
+-	u32 vblank_min, vblank_max, vblank_default;
++	u32 vblank_min, vblank_max, vblank_default, vts_def;
+ 	int ret = 0;
+ 
+ 	ctrl_hdlr = &ov02c10->ctrl_handler;
+@@ -526,9 +512,15 @@ static int ov02c10_init_controls(struct ov02c10 *ov02c10)
+ 						V4L2_CID_PIXEL_RATE, 0,
+ 						pixel_rate, 1, pixel_rate);
+ 
++	/*
++	 * For default multiple min by number of lanes to keep the default
++	 * FPS the same indepenedent of the lane count.
++	 */
++	vts_def = cur_mode->vts_min * ov02c10->mipi_lanes;
++
+ 	vblank_min = cur_mode->vts_min - cur_mode->height;
+ 	vblank_max = OV02C10_VTS_MAX - cur_mode->height;
+-	vblank_default = cur_mode->vts_def - cur_mode->height;
++	vblank_default = vts_def - cur_mode->height;
+ 	ov02c10->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &ov02c10_ctrl_ops,
+ 					    V4L2_CID_VBLANK, vblank_min,
+ 					    vblank_max, 1, vblank_default);
+@@ -546,7 +538,7 @@ static int ov02c10_init_controls(struct ov02c10 *ov02c10)
+ 	v4l2_ctrl_new_std(ctrl_hdlr, &ov02c10_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
+ 			  OV02C10_DGTL_GAIN_MIN, OV02C10_DGTL_GAIN_MAX,
+ 			  OV02C10_DGTL_GAIN_STEP, OV02C10_DGTL_GAIN_DEFAULT);
+-	exposure_max = cur_mode->vts_def - OV02C10_EXPOSURE_MAX_MARGIN;
++	exposure_max = vts_def - OV02C10_EXPOSURE_MAX_MARGIN;
+ 	ov02c10->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &ov02c10_ctrl_ops,
+ 					      V4L2_CID_EXPOSURE,
+ 					      OV02C10_EXPOSURE_MIN,
+@@ -590,8 +582,8 @@ static int ov02c10_start_streaming(struct ov02c10 *ov02c10)
  		return ret;
  	}
  
-@@ -607,21 +603,12 @@ static int ov02c10_start_streaming(struct ov02c10 *ov02c10)
- 	if (ret)
- 		return ret;
- 
--	ret = cci_write(ov02c10->regmap, OV02C10_REG_STREAM_CONTROL, 1, NULL);
--	if (ret)
--		dev_err(&client->dev, "failed to start streaming");
--
--	return ret;
-+	return cci_write(ov02c10->regmap, OV02C10_REG_STREAM_CONTROL, 1, NULL);
- }
- 
- static void ov02c10_stop_streaming(struct ov02c10 *ov02c10)
- {
--	struct i2c_client *client = v4l2_get_subdevdata(&ov02c10->sd);
--	int ret = 0;
--
--	ret = cci_write(ov02c10->regmap, OV02C10_REG_STREAM_CONTROL, 0, NULL);
--	if (ret)
--		dev_err(&client->dev, "failed to stop streaming");
-+	cci_write(ov02c10->regmap, OV02C10_REG_STREAM_CONTROL, 0, NULL);
- }
- 
- static int ov02c10_set_stream(struct v4l2_subdev *sd, int enable)
-@@ -900,10 +887,9 @@ static int ov02c10_identify_module(struct ov02c10 *ov02c10)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(&ov02c10->sd);
- 	u64 chip_id;
--	u32 ret = 0;
-+	int ret;
- 
--	ov02c10->regmap = devm_cci_regmap_init_i2c(client, 16);
--	cci_read(ov02c10->regmap, OV02C10_REG_CHIP_ID, &chip_id, &ret);
-+	ret = cci_read(ov02c10->regmap, OV02C10_REG_CHIP_ID, &chip_id, NULL);
- 	if (ret)
- 		return ret;
- 
-@@ -1009,6 +995,10 @@ static int ov02c10_probe(struct i2c_client *client)
- 	v4l2_i2c_subdev_init(&ov02c10->sd, client, &ov02c10_subdev_ops);
- 	ov02c10_get_pm_resources(&client->dev);
- 
-+	ov02c10->regmap = devm_cci_regmap_init_i2c(client, 16);
-+	if (IS_ERR(ov02c10->regmap))
-+		return PTR_ERR(ov02c10->regmap);
-+
- 	ret = ov02c10_power_on(&client->dev);
+-	reg_sequence = ov02c10->cur_mode->lane_settings;
+-	sequence_length = ov02c10->cur_mode->lane_settings_length;
++	reg_sequence = ov02c10->cur_mode->lane_settings[ov02c10->mipi_lanes - 1];
++	sequence_length = ov02c10->cur_mode->lane_settings_length[ov02c10->mipi_lanes - 1];
+ 	ret = regmap_multi_reg_write(ov02c10->regmap,
+ 				     reg_sequence, sequence_length);
  	if (ret) {
- 		dev_err_probe(&client->dev, ret, "failed to power on\n");
+@@ -775,10 +767,10 @@ static int ov02c10_set_format(struct v4l2_subdev *sd,
+ 	const struct ov02c10_mode *mode;
+ 	s32 vblank_def, h_blank;
+ 
+-	if (ov02c10->mipi_lanes == 1)
+-		mode = &supported_modes[0];
+-	else
+-		mode = &supported_modes[1];
++	mode = v4l2_find_nearest_size(supported_modes,
++				      ARRAY_SIZE(supported_modes), width,
++				      height, fmt->format.width,
++				      fmt->format.height);
+ 
+ 	mutex_lock(&ov02c10->mutex);
+ 	ov02c10_update_pad_format(mode, &fmt->format);
+@@ -788,7 +780,7 @@ static int ov02c10_set_format(struct v4l2_subdev *sd,
+ 		ov02c10->cur_mode = mode;
+ 
+ 		/* Update limits and set FPS to default */
+-		vblank_def = mode->vts_def - mode->height;
++		vblank_def = mode->vts_min * ov02c10->mipi_lanes - mode->height;
+ 		__v4l2_ctrl_modify_range(ov02c10->vblank,
+ 					 mode->vts_min - mode->height,
+ 					 OV02C10_VTS_MAX - mode->height, 1,
+@@ -1013,8 +1005,7 @@ static int ov02c10_probe(struct i2c_client *client)
+ 
+ 	mutex_init(&ov02c10->mutex);
+ 	ov02c10->cur_mode = &supported_modes[0];
+-	if (ov02c10->mipi_lanes == 2)
+-		ov02c10->cur_mode = &supported_modes[1];
++
+ 	ret = ov02c10_init_controls(ov02c10);
+ 	if (ret) {
+ 		dev_err(&client->dev, "failed to init controls: %d", ret);
 -- 
 2.48.1
 
