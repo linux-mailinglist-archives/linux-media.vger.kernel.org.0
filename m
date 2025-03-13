@@ -1,150 +1,129 @@
-Return-Path: <linux-media+bounces-28120-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28121-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F072A5EFF4
-	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 10:52:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2767A5F058
+	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 11:11:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 016933AAA4A
-	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 09:52:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6FB633B4023
+	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 10:10:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12E28264629;
-	Thu, 13 Mar 2025 09:52:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CFB7265637;
+	Thu, 13 Mar 2025 10:10:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T7VBDQao"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A15262D0F;
-	Thu, 13 Mar 2025 09:52:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9816126560E;
+	Thu, 13 Mar 2025 10:10:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741859548; cv=none; b=GoI3NzndJioDsJ1R4lpgdX46SeKngcRmREgy1fiL55dIO/RHjaf/Rc/zN0DmdkpyACTBI/3JZu54HuiB3ELMG1qgGMugKwmRaGe3+shYy+aw48K7fpqsB8d1y5etLtx0bpQ7sccAHRRYMC+MlrVFwECinp3UTE4E9xK4Gc9wauY=
+	t=1741860654; cv=none; b=A6f3/CBrP3y3EeEG8Ayvfk+Xuz4eVBEb0ELxzDyd4IsZjAMoRIn1EMqSuZzVNU6hJkKe4iI9ZHW8SHYNSqzaICl3m6ARmYwF5/cUzKdQ/wGa8YPde72BVPk9ToGv/chj1wm8aVWiV/p6pvMs+EFM0cfUDTktYvmUAbbAfvDcBfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741859548; c=relaxed/simple;
-	bh=zRYtyMuFiy3b8Jg3MYqQJnxiHD2o/QMJSfyzNrER9NM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MtmaRf5B29CxIdoa64gX+Wvrf8/Uv5Tyfktq4x5qORQfoIwTpWMj0BVE/ltQTdaRZagv4SkVn7kJWjsNSW6MHgC/039jZIjHdEsbvi2wsyLHd647jGO5YeIZSjhzEz4FU0hZ5J5R384Z5o/RaLyGGc322LFeTGxLz6tduURC3vY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F5ECC4CEDD;
-	Thu, 13 Mar 2025 09:52:27 +0000 (UTC)
-Message-ID: <4633173e-111a-4659-945d-149e3857896c@xs4all.nl>
-Date: Thu, 13 Mar 2025 10:52:25 +0100
+	s=arc-20240116; t=1741860654; c=relaxed/simple;
+	bh=iDTPmKsP/Dkh4u+cTW/Lgk7hf7SQS3xcNseBGE75wpE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DMvVCQ7JQuuqW8lsl5DDQsmVxJLurEKfuPiTaIc2il2DpZK7hcuL0uVjcO1kfgNwrOAtC6RIEFQIlp2KYNpxV+af39dY80BW7jO2ZFGhqxJnp9GQgHVxdTbZYXmfLMrLMvM83P3biB2ah5VPq8HmDeJjtFH6HzHjfxCpGTWnAzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T7VBDQao; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741860652; x=1773396652;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=iDTPmKsP/Dkh4u+cTW/Lgk7hf7SQS3xcNseBGE75wpE=;
+  b=T7VBDQaoCp48ih/skMjiFRIXlxRD651cZjVuj+A7woEoEE7puaxcWdA1
+   jDtpH44+AQXARl5gW9SvuQVTIwjg2hNUQyyvuNYAwiD+hvGnQgS+fdhxr
+   Ds1PokSOBH/yjLHLugQJLPeqDFZR+tPgfJtylu1APuKNcyYwC3pWnuggg
+   t11Syk9NKC7wn5ea5ZOBS1UfayTMtT4R+cX4FbujHC5aN+SXourYxQhLa
+   NJz9/qM/Bc4yF45t5flUU8qbNxRw4csnIglLAIwfWzY+/S/mhS/VOfvQu
+   snZ6czTiutpDqc6Wpi8SdjFQxYZZIIEmHe0LTogFGRcHmeTQLDPYdivMq
+   Q==;
+X-CSE-ConnectionGUID: /LA1ktMtRnaDfhFpb4O0Xg==
+X-CSE-MsgGUID: YHGow8oHSf6BGun5+1DfLw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11371"; a="46873637"
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
+   d="scan'208";a="46873637"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 03:10:51 -0700
+X-CSE-ConnectionGUID: QfouAGhmRcOb8ID6NJbPbw==
+X-CSE-MsgGUID: 4EoC7DcFQ7W0MBVryaDIsg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
+   d="scan'208";a="151747890"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 03:10:50 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 96A2511F96E;
+	Thu, 13 Mar 2025 12:10:46 +0200 (EET)
+Date: Thu, 13 Mar 2025 10:10:46 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Ma Ke <make24@iscas.ac.cn>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl, viro@zeniv.linux.org.uk,
+	bartosz.golaszewski@linaro.org, benjamin.gaignard@collabora.com,
+	hljunggr@cisco.com, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH] media: v4l2-dev: fix error handling in
+ __video_register_device()
+Message-ID: <Z9KvJteBVuPE8Hrs@kekkonen.localdomain>
+References: <20250313074318.305556-1-make24@iscas.ac.cn>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: =?UTF-8?Q?Re=3A_=5Bv2=2C1/1=5D_media=3A_v4l2-core=3A_Replace_the_ch?=
- =?UTF-8?Q?eck_for_firmware_registered_I=C2=B2C_devices?=
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Ricardo Ribalda <ribalda@chromium.org>
-Cc: linux-kernel@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-media@vger.kernel.org
-References: <20250312192528.95838-1-andriy.shevchenko@linux.intel.com>
- <67d1f748.050a0220.353790.339b@mx.google.com>
- <Z9Kf06nLg86jmcqI@smile.fi.intel.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <Z9Kf06nLg86jmcqI@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250313074318.305556-1-make24@iscas.ac.cn>
 
-On 13/03/2025 10:05, Andy Shevchenko wrote:
-> On Wed, Mar 12, 2025 at 02:06:16PM -0700, Patchwork Integration wrote:
->> Dear Andy Shevchenko:
->>
->> Thanks for your patches! Unfortunately the Media CI robot detected some
->> issues:
->>
->> # Test media-patchstyle:./0001-media-v4l2-core-Replace-the-check-for-firmware-regis.patch media style
->> ERROR: ./0001-media-v4l2-core-Replace-the-check-for-firmware-regis.patch: Missing 'media:' prefix in Subject
+Hi Ma,
+
+Thanks for the patch.
+
+On Thu, Mar 13, 2025 at 03:43:18PM +0800, Ma Ke wrote:
+> Once device_register() failed, we should call put_device() to
+> decrement reference count for cleanup. Or it could cause memory leak.
 > 
-> LOL, what?
-
-Hmm, the 'I²C' bit in the Subject header causes it to be UTF-8. The Subject line in
-patchwork (1) is now:
-
-Subject: [PATCH v2 1/1] =?utf-8?q?media=3A_v4l2-core=3A_Replace_the_check_fo?=
-        =?utf-8?q?r_firmware_registered_I=C2=B2C_devices?=
-
-so the check for the 'media:' prefix in the Subject line fails.
-
-Interestingly, if I commit the patch (git am) to a test branch, then run
-'git format-patch -n1' the Subject line now reads:
-
-Subject: [PATCH 1/1] =?UTF-8?q?media:=20v4l2-core:=20Replace=20the=20check?=
- =?UTF-8?q?=20for=20firmware=20registered=20I=C2=B2C=20devices?=
-
-and that restored the ':'.
-
-Ricardo, can you look at this?
-
-I also noticed that the v1 and v2 patches ended up in my spam folder. Whether that
-is related to UTF-8 in the Subject is not clear (my provider marks way too many
-legit posts as spam).
-
-Andy, can you post a v3 with just 'I2C' in the subject instead of 'I²C'? If nothing
-else, I'd like to know if that's the reason it ended up in my spam folder.
-
-Regards,
-
-	Hans
-
-(1) https://patchwork.linuxtv.org/project/linux-media/patch/20250312192528.95838-1-andriy.shevchenko@linux.intel.com/
-
+> As comment of device_register() says, 'NOTE: _Never_ directly free
+> @dev after calling this function, even if it returned an error! Always
+> use put_device() to give up the reference initialized in this function
+> instead.'
 > 
->> Please fix your series, and upload a new version. If you have a patchwork
->> account, do not forget to mark the current series as Superseded.
->>
->> For more details, check the full report at:
->> https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/72774130/artifacts/report.htm .
+> Found by code review.
 > 
+> Cc: stable@vger.kernel.org
+> Fixes: baa057e29b58 ("media: v4l2-dev: use pr_foo() for printing messages")
+> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+> ---
+>  drivers/media/v4l2-core/v4l2-dev.c | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index 5bcaeeba4d09..1619614e96bf 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -1060,6 +1060,7 @@ int __video_register_device(struct video_device *vdev,
+>  	if (ret < 0) {
+>  		mutex_unlock(&videodev_lock);
+>  		pr_err("%s: device_register failed\n", __func__);
+> +		put_device(&vdev->dev);
 
+Fixing this isn't quite as simple. The release callback is actually set
+below so there's no release callback set for this device yet.
+
+>  		goto cleanup;
+>  	}
+>  	/* Register the release callback that will be called when the last
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
