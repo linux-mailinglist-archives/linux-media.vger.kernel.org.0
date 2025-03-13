@@ -1,57 +1,91 @@
-Return-Path: <linux-media+bounces-28112-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28113-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1208CA5ECB2
-	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 08:18:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CEBAA5ECCC
+	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 08:20:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6337B188BD84
-	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 07:19:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EBDE1188B967
+	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 07:21:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEECE1FC0FF;
-	Thu, 13 Mar 2025 07:18:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85B371FC7C8;
+	Thu, 13 Mar 2025 07:20:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rvKednmx"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kg+Jg9VX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-180.mta1.migadu.com (out-180.mta1.migadu.com [95.215.58.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04C411FC0EE
-	for <linux-media@vger.kernel.org>; Thu, 13 Mar 2025 07:18:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8A41FBCB1;
+	Thu, 13 Mar 2025 07:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741850302; cv=none; b=PcOgerB1kAW/rWlHdr72uYt6n3ws4ebkKYRYHhbGl7bZ4Ypc4fq8MdH3YM0P5hL8KNCt7KllvDk/NeFJEfKMrOJ3gNYYDgCBBhpbNS7TaYPXrZOlBEV+ytWDsmzhczcUT1c+c/QByb+w3Li6LlPX8AeUxDkuSCKrZ6oFeGH9L3E=
+	t=1741850437; cv=none; b=nHYac/uSCot+31XtnYaWFcq9BQzLaaqN6bGkOgg+GLA/Y836MkWq0s8QtvZudhhj3Y/GTvDzPjnw+cgywkJrA1jyMjgmaU8I09kVmp8XmPHltxj4ALKC74eYQRJjDB+QYMAc6i1iZK7c8sn+naPiUz1WyncvuG0F/SvCmQuNjsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741850302; c=relaxed/simple;
-	bh=/+jpPpSGX0Sf//ENsPu4llyBfi3/h0mUS8D5LVpDdSY=;
+	s=arc-20240116; t=1741850437; c=relaxed/simple;
+	bh=hBkCxWmyE5jrvqncfe5e+qETgtqpE6ZBXbCZxNEtt7A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gLvBWsT+oET93ap/7fPiyrg0nUKe7UTbfRBZuEhS3XcYf6Fy5sQryup9yK9DeT2ujAkb1SJK0KrTQ0yoN4gjbDmHUQlpx2dvTg/Jiiuly03MthwHhITdkPZvkd+Uqpp9MOB5eTSXtvGA+uOog9C4qIbBEzLN3eX8v9lj10WaPa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rvKednmx; arc=none smtp.client-ip=95.215.58.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Thu, 13 Mar 2025 12:47:56 +0530
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1741850286;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hST4ycqRSNya1re+EE3IvtjNSlDNjjwEUlIKChXm/rE=;
-	b=rvKednmx7sXxQ1RJrUviX5oJ/g3cOFcj/SndPHr63Gst5wfUrTOlcA7wBredbOaEpKAoqP
-	YOOKbb3OZWqWtr/Y+ajamkxgvlya7eTQixbuxEfnSSi/tmrV42Uz1WpuyBhewGqRqPSJLK
-	hNlWnqEdA7QXDAjiQwFzgT7G0+n7vZM=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Jai Luthra <jai.luthra@linux.dev>
-To: Devarsh Thakkar <devarsht@ti.com>
-Cc: mchehab@kernel.org, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, s-jain1@ti.com, r-donadkar@ti.com, vigneshr@ti.com, 
-	praneeth@ti.com, tomi.valkeinen@ideasonboard.com, y-abhilashchandra@ti.com
-Subject: Re: [PATCH] media: ti: j721e-csi2rx: Allow passing cache hints from
- user-space
-Message-ID: <sxmxk4f3o3rmbkzsy7opkcfqyqqeefebnlvje44qfjhocshwwr@vsiq4px6yxiy>
-X-PGP-Key: http://jailuthra.in/files/public-key.asc
-References: <20250312112140.449765-1-devarsht@ti.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=IjmccWd5jZWYWcIFVTstR/eBBGfc3qjFaq9hIBE17EQ2eYz1Jctc4xBUvkLtji0O2OKhoBxv/7HZ6eFa8rbIvfUWpCPEerI2mnJqVmdhtt1oAoNHi111uFVZFdxP/4SD5RH0fYQa4InUgVmwIW5EZSNpppBSFlnvTlQzUHTDxjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kg+Jg9VX; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-30c2d427194so7097241fa.0;
+        Thu, 13 Mar 2025 00:20:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1741850434; x=1742455234; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hsk7xMDgDeSHwgWQ5/loA236SbTMptIYDxPDvOeh6o0=;
+        b=kg+Jg9VX8R5kwMgJIcfRfSzdDdtoUYWqMuFFnchJUxxP6qCdv9ueMYyUkndvCFzaKz
+         +HBkqOClRllxLVXHsVEUTptxwKdWzjzFbYqLqLk4R6q45EoJ6f3rSPKPQS2tjzieZU2n
+         Bj5zpBBtReM2mIYIq+UmmsM8sx4PB1UmGWO1tCUGy1/tQqFtiadycJrBtct98EwhzXJe
+         OuPrGVQy88nMArgAao+5Vi4Zg/MkJjzXMHq16b6w2D4KezYmVFO2hXQSuSZjxgIWBUE8
+         wM/y1O+9XVOZZIJcZdH7uvIbZei2tlooWKj57Zz4cohWjEMmiMA3z+F3bbsS3jB06Veq
+         JfuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741850434; x=1742455234;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Hsk7xMDgDeSHwgWQ5/loA236SbTMptIYDxPDvOeh6o0=;
+        b=IEF/2WPwSlzRH0cecGoApHLzS8DcbGI8OgUO/7wSR3t43Pd9h1zDG1ijkdHOhuFH3B
+         a+jmqWTFILGwBfYvBnAaCQuslzl3IZxEmHf+iuYLHZE+NIdxugQhrKHArq8SB6aqOkCE
+         8IgV09pQQyy/QnspBgK9zo08xP2lDiqoEIofDKFQWdHjxQxQCjEA+LQNITxd50w6s9Og
+         MHBjOW+rRy8aBFb5iLej2XTBx0ymtzCVqobqQ0cFzHQolkaqDbxe9BNG0P/59NSyKPVd
+         VT0B8M+1eRzXZcV8TzZK6U0xqpqYtqf4g7PhVUcDb+idDfiQrGBbvw15a2q1Qyw/oD5q
+         9/lA==
+X-Forwarded-Encrypted: i=1; AJvYcCUv8+81XeA2X7J2g1QuQ+ny6DgEvwtniZXjqfCNLApFsqnBe9gjL4aO/IJ8+A9Lta8n3cja22fvYSU2f0Q=@vger.kernel.org, AJvYcCWVmFtda/Oi0AxfZZzIRreiwb3qPVpVxZhPGe4BxIxgoi7HOmjm66KG5Kz4Wb39/CCcNhrYAGzCpQmgAsU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIb/Ti0JNObICxqbp4rRi68zuCVx4RaEMYLP0XKXN5veDbl9Yy
+	xrp+6jVfnY1z8miEAR4dpgvQuroswO0JZkyHKK5Z5ywKyl6ic/2E
+X-Gm-Gg: ASbGncvGrflw8SGtgq+5LnaZnT277+WLQhhfgmGlT6szDS97UG5ijnhG4N+IsTfXAcF
+	3w/P96n8+hjZLm+MWoM4nC2/vUFLa5KSo1xza9g1zyo8EZZSiVMWujkMEO3cqxwZARGyf155KZy
+	nOiLEmhXlNRekN5ak8pjJoL76envYfFdxId8R/jojTNMstMfVOlTTO4Ey0nYxWIL4jUhCVmLrru
+	wmmMl21hwtaJ5mS5XaD3pkzUdV9CpMoOozy2AfLtSIGAPd/INTWNAI8fWZAjOsAhHcEfyC1Vcz+
+	xEGQn/+QK8051FJTI5spJZhylix1DM9CJcEZ6Hq6Uz/0xeAagrU=
+X-Google-Smtp-Source: AGHT+IH2dj+ZrlrxAYZT8l4XChj2QzXtanxNbBTinXDcuurWwv8gRgi9FcsL8czljgCZPKO1Bq7zmg==
+X-Received: by 2002:a2e:be27:0:b0:30c:7a7:e872 with SMTP id 38308e7fff4ca-30c207543d8mr51158801fa.34.1741850434099;
+        Thu, 13 Mar 2025 00:20:34 -0700 (PDT)
+Received: from mva-rohm ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30c3f117461sm1212491fa.61.2025.03.13.00.20.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Mar 2025 00:20:32 -0700 (PDT)
+Date: Thu, 13 Mar 2025 09:20:27 +0200
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+To: Matti Vaittinen <mazziesaccount@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Matti Vaittinen <mazziesaccount@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH v7 10/10] media: thp7312: Use helper for iterating named
+ child nodes
+Message-ID: <63a94c96c90ae84754df38581637614695e61bb4.1741849323.git.mazziesaccount@gmail.com>
+References: <cover.1741849323.git.mazziesaccount@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -59,94 +93,73 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="mpt5tt5jomo6knm5"
+	protocol="application/pgp-signature"; boundary="rsWcXqNw98gn4nAG"
 Content-Disposition: inline
-In-Reply-To: <20250312112140.449765-1-devarsht@ti.com>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <cover.1741849323.git.mazziesaccount@gmail.com>
 
 
---mpt5tt5jomo6knm5
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+--rsWcXqNw98gn4nAG
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH] media: ti: j721e-csi2rx: Allow passing cache hints from
- user-space
-MIME-Version: 1.0
 
-Hi Devarsh,
+Slightly simplify code iterating the child nodes with specific names
+using the new fwnode_for_each_available_named_child_node().
 
-Thanks for the patch.
+Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+---
+Revision history:
+v6 =3D>:
+ - No changes
+v5 =3D> v6:
+ - New patch
 
-On Wed, Mar 12, 2025 at 04:51:40PM +0530, Devarsh Thakkar wrote:
-> User-space can provide cache hints to enable software managed cache=20
-> operations or skip certain cache operations using memory flags and buffer=
+NOTE: This patch depends on the patch:
+[2/10] "property: Add functions to iterate named child"
+
+Compile-tested only!
+---
+ drivers/media/i2c/thp7312.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/media/i2c/thp7312.c b/drivers/media/i2c/thp7312.c
+index 8852c56431fe..104754b2ace2 100644
+--- a/drivers/media/i2c/thp7312.c
++++ b/drivers/media/i2c/thp7312.c
+@@ -2067,11 +2067,9 @@ static int thp7312_parse_dt(struct thp7312_device *t=
+hp7312)
+ 		return -EINVAL;
+ 	}
 =20
-> flags. This is useful for SoCs such as AM62px which do not support hardwa=
-re=20
-> cache coherency.
->=20
-> This is tested on AM62px with yavta capture by passing=20
-> V4L2_MEMORY_FLAG_NON_COHERENT while using VIDIOC_REQBUFS and=20
-> V4L2_BUF_FLAG_NO_CACHE_CLEAN while using VIDIOC_QBUF and ~5x reduction in=
+-	fwnode_for_each_available_child_node(sensors, node) {
+-		if (fwnode_name_eq(node, "sensor")) {
+-			if (!thp7312_sensor_parse_dt(thp7312, node))
+-				num_sensors++;
+-		}
++	fwnode_for_each_available_named_child_node(sensors, node, "sensor") {
++		if (!thp7312_sensor_parse_dt(thp7312, node))
++			num_sensors++;
+ 	}
 =20
-> memcpy time is seen for copying captured frame to DDR as shared here [1].
->=20
-> [1]:
-> Link: https://e2e.ti.com/support/processors-group/processors/f/processors=
--forum/1452545/am62p-the-ads6311-radar-camera-has-lost-frame-capture/558047=
-2#5580472
+ 	fwnode_handle_put(sensors);
+--=20
+2.48.1
 
 
-nit: might be cleaner to drop the "[1]" reference as a single Link tag is=
-=20
-pretty unambiguous.
-
-But in any case,
-
-Acked-by: Jai Luthra <jai.luthra@linux.dev>
-
-> Signed-off-by: Devarsh Thakkar <devarsht@ti.com>
-> ---
->  drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/driv=
-ers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> index 6412a00be8ea..284d33b2a0ec 100644
-> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> @@ -895,6 +895,7 @@ static int ti_csi2rx_init_vb2q(struct ti_csi2rx_dev *=
-csi)
->  	q->dev =3D dmaengine_get_dma_device(csi->dma.chan);
->  	q->lock =3D &csi->mutex;
->  	q->min_queued_buffers =3D 1;
-> +	q->allow_cache_hints =3D 1;
-> =20
->  	ret =3D vb2_queue_init(q);
->  	if (ret)
-> --=20
-> 2.39.1
->=20
-
---mpt5tt5jomo6knm5
+--rsWcXqNw98gn4nAG
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmfShqQACgkQQ96R+SSa
-cUVhDhAAs203c7NIEbqg83LKsVIfRWHGyF7SH+Gx92gjLyMVH4k1VFgSYnUtN6Wu
-cx7Xj1gpYa0V6FIs9DgEmE5CFAkBEp8zwCwltUluRBohK+S37NTjgmaEjFJejhXR
-2M/S3v3TqAhLSwnkTj+dUBNlYsWJAYdEbxN29y7Ja6yYOr8Fju52iBQdLLcEB5It
-KDH043eL4TE7a83SWyHAx3GIZ6y4UI2FQKwDkw8iVwXFjIBHrj6j/HEHAQgL1tmH
-SsF+6Wi+eZ1LwZYap/Mq7CFPpVDce182OTOPSLb4KsXZID5NZp+BkJWzVLpA1225
-aXrcbNt57KWtcPpr2H2f5OqO6o4y0sF3X412x5w9/667XH183ctJrLvBQVQ/8fZI
-Blzmuzo6aue4GpfgJaOusjSo1b0mT5EhWx5/vjZfoKlkCJ8ap5Fkdrrd1GbvzaCB
-RZ0aPHASYZVo96AZlDwK1ABommAY6xhmtaIx/ZKDWWYuMtN7fGI3BG0cmHMP/SII
-xSMGWsNvb35/cL32AKNY+sntZR9jMm7+/Dgo1kgQiY1/0vx4DK0wcEmO7zeObw4b
-Rl4Sxa3/rojeDvYOkD1e7Y05UvfqOYaG5Z7gWzYjSR6VE2Dy90vgHVo0j7uUFvsc
-ONCInnT9fnT0l25UDHuR0RLBtpYjbNdF4VT8QzsrmxN+3tpOJ9k=
-=TlV7
+iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmfShzoACgkQeFA3/03a
+ocVp0QgAz70TUjycfG2bZvH9TpvbsMRTqKkhAgDqH/sQVdLWEjZb27ytecvEyj4f
+pSVP9emAhhH4bUmQS3ANr7GgYp6lH80dwGRZ0//RkPZ5U8Kwh1OtuZVKVzrn/Fy8
+L0LaKjjAE7YihCKKhyF/mp5ImjOrRlQkuzWDOkr5QympIbn7qCqdYV5Q6mPQtoFf
+xH/vcDtf3qG3yz6MYE2GRkRvwlU8LpCT2llQ7CxwSAbYswjfTlbtegZ3DWLs3vfh
+eLAD3gTscCvBdNP4fB3KjTgt0UH/xYmR2ypk8sukg9Znzod/PxX5OZknkb8Gq2VT
+ZNCo4zEwXgVq/I8kqqKdGj5vVM7Paw==
+=ZHjG
 -----END PGP SIGNATURE-----
 
---mpt5tt5jomo6knm5--
+--rsWcXqNw98gn4nAG--
 
