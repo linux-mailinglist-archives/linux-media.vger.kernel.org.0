@@ -1,144 +1,126 @@
-Return-Path: <linux-media+bounces-28144-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28145-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E72CAA5F424
-	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 13:21:14 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5783A5F427
+	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 13:21:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3C1FE3BA863
-	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 12:20:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7E9DC17E761
+	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 12:21:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 272F22676E3;
-	Thu, 13 Mar 2025 12:20:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2D352676C6;
+	Thu, 13 Mar 2025 12:20:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LGp2Wrd3"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="U2WY8X+1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F021EE7A8;
-	Thu, 13 Mar 2025 12:20:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB2F91EE7A8
+	for <linux-media@vger.kernel.org>; Thu, 13 Mar 2025 12:20:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741868433; cv=none; b=iGa+FzcLnVByZlq40RLx/WC6wnWSfRACb9zbMZOg5Xz/KO7JGKy9j35iYkyX5fzXP5JjKIMdRPxQEapOANaRTvYZ7VyjdMebmigGIqQoX3pavYb/39LpPQ84jNNmaD2U03GkdzvLp2vY6px81jjn6RN761iSpSJvfsGf+nPYWSM=
+	t=1741868443; cv=none; b=tRH/A+1qOowA6FedcGRZaU5erhTarHghXumohqmjbCK7M7bWU83Sok6vPqHi0Q93d+V4RY/IdPQYhKVuvdIY826OCWzpehFkTPzWJ8SDCcIS62MzkjKEvj/f3/UnBR+W/2nl0HvZ2BthX+LkNE+MhdloaDyGK5aQMnT2x+piDHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741868433; c=relaxed/simple;
-	bh=J9gkmDvvDPgdi4lbEVPnHeSBkfUAvzFaSnLIVoFM3hg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=BNxecQhq3hGFMEjGiu6V+x2SWksK4YyEbhYsy2DkRG2Uvcu6Jgmu3YA/JO5yrhjvGtm0n55r3Y8wwYvVGf9j+8DHhW6tCmGMyXpKNKUyE8U3uxqfoPiJS+qE3KohaIj3NldAEWL4UclfmFGtwn81qlxqwY4gOKT0+wTqwqveIhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LGp2Wrd3; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52D9Q5HT023241;
-	Thu, 13 Mar 2025 12:20:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	fDU8c74Q4bDPD4cXlM5fRCqP8qjtAceNigyKKmnZJuw=; b=LGp2Wrd3RM3qpfZh
-	MmtyydncBM/h6hX+2FhFnIYjoYb7DcDNQ5Vdrl5ZgrNviN8DY2b9sIUkJWaJ2cmV
-	ROWlRX9aSTlMqZN+AEhSRpLdzgctb5Yk6lVbB3zjccQpT6FJ7ZUEvjpLGN3FTack
-	lroSbDFR+/uVEby93e0jTpIlLkGsL4+hkLZ6v9xrHOLS9s/By2lrnkRS6zeKmMuG
-	TtfezUkeyxo1bv4utG/SSkrmPFDrUVrm8yki8okj0FXl/zLViEUDP+w22d4IWoKF
-	b4PLbFRf+O5CC9DBEDsiBhqsmPdgdn16TdeeWdxux1oXN+Q1EbLNLYh4iAP+edG8
-	T2ys+A==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45au2mnspq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 13 Mar 2025 12:20:23 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52DCKNal020388
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 13 Mar 2025 12:20:23 GMT
-Received: from [10.218.15.14] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 13 Mar
- 2025 05:20:18 -0700
-Message-ID: <c402bdae-04b0-4745-b4c9-f12298cd7a05@quicinc.com>
-Date: Thu, 13 Mar 2025 17:50:15 +0530
+	s=arc-20240116; t=1741868443; c=relaxed/simple;
+	bh=vWTi3LR9hJZNwt3nMvFrGfBx1tozG7F0KblReapEJjs=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=QwMnzgvVlQ9ZXt+0SlQ2kfJlF5pvvtiobceORIEoiMYCvXq6FjDf5zsAfsZFbKj0NA+MDzd8miR8dcCWnZnOEZIbkvEUj/0qurGeC6lY2xCYvaJsa3r8V6E9a/fuW6x8E2bCvHaUYSyVBe+4ZQ859jcfgFJGEdwWv+vwwnm2Ed4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=U2WY8X+1; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6e8f06e13a4so17556746d6.0
+        for <linux-media@vger.kernel.org>; Thu, 13 Mar 2025 05:20:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1741868440; x=1742473240; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eABKFzeZYScxgYja+KDOHU4gTOLr6uHZM4XhISuduUM=;
+        b=U2WY8X+1+8hBKhqS2d5jL1tVE+XJVgGeNker7Z/pO/NpAj7R9tuG+EH2la979IWLUe
+         P8b6M1S3qpZgg2Q16pxnCKETRdAvGuMciVbmk/G4/SJch7ypnHXeJUUp/AXtYkLwIz4h
+         x1ObV+qKEGlN7A4cYVFZKJKJk89vZlS6ZTYFY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741868440; x=1742473240;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eABKFzeZYScxgYja+KDOHU4gTOLr6uHZM4XhISuduUM=;
+        b=gDVX+pu33YSuoLgnwvC9kyW80XHz9SRHUU1IRHdtem3/EoJW8WBxNWOe2hBwLpj9o8
+         Dj8tx5M/ZuP9TawAIDVhTrICXQHP7m7GOY4nyjcdqHYj2D8mGRj5izpalVwbBTZE2CNb
+         NDOKFUV8rIU1bYunmm+zlkFpZ3CyUqDK/iCQkHNa5nl7UCNiPln+AUkOu/UwRXPJsNCa
+         FpCH9uVJLI7I5t9tLjT3IpKStwgQOhNuTmN1jMfCrkq1uwLGqHLYJ5TgmiQA6Mni4fAJ
+         CSAkIDzKkRYFgcfieLgUIuFsZvp5pY2Gu//G1lfX7KAgdwm/nd3HHJbVv8/6op4RG9HZ
+         fczA==
+X-Forwarded-Encrypted: i=1; AJvYcCWsdnJQrItbRkRV0WQ1Dh/IgY38VcFd0AKEI/1GPCJTMp+cb1jNvif2ddEMDGku+cO2FmgyndBGjW6Dzw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFmQ9TdAKnk1VtfA3VCmhSsl93RCk6h6DswGpclxeo3H8a+r8m
+	ci24PDqNv22MsYN/Z2Jv0bBRHsqY3YbRWXHL9iuVPmOkLFynInf/ww28nCDFbA==
+X-Gm-Gg: ASbGncsj4NFyVyeaRtaBhlMQyuVRs9cfen4z9vcotNT6idhX9ajA+Jxz66/5zRpTiLC
+	xTCWDJqWIBVhpQrwWoiaft8999bVpD2jqs0GLvXTS5EA7xxJ8HXLUmwdDCf2RvE4CBVqsJwY1nL
+	FPMf6SXx5I48ajOi9plNKX9XNduReLD2NKq9P0AAwVKcZTp5Q2SjgtxnW42RjSA3u9RYvSzdKzj
+	pBNdXsCObTkzDLo6/MNkgGgcgwJ/CgR8cE4X4duBembwCu3s+o4RjX+PzotmAUUFJNLEAKHYLRx
+	/UjC30p8gq76P+xE6XLkt9U34lQngH2sGmGq1UH68vSpuONCLwTx337OEAT9iqK6vjBg2r//xYu
+	325clO+e/fXjXQ/VIe4dbWg==
+X-Google-Smtp-Source: AGHT+IFbg5j8PXxdID945dtHure5/GdfhUiyt/sO6UjxT+wwZ4ooK4hNtTzwXvCSsIxBoX2VJ0H9mw==
+X-Received: by 2002:a05:6214:3c9b:b0:6e8:903c:6e5b with SMTP id 6a1803df08f44-6eaddf21d4cmr36484256d6.9.1741868440714;
+        Thu, 13 Mar 2025 05:20:40 -0700 (PDT)
+Received: from denia.c.googlers.com (15.237.245.35.bc.googleusercontent.com. [35.245.237.15])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6eade235f9bsm9038616d6.29.2025.03.13.05.20.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 13 Mar 2025 05:20:40 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v3 0/2] media: uvcvideo: Fix Fix deferred probing error
+Date: Thu, 13 Mar 2025 12:20:38 +0000
+Message-Id: <20250313-uvc-eprobedefer-v3-0-a1d312708eef@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 RESEND 1/2] dmaengine: qcom: gpi: Add GPI Block event
- interrupt support
-To: Vinod Koul <vkoul@kernel.org>
-CC: Andi Shyti <andi.shyti@kernel.org>,
-        Sumit Semwal
-	<sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?=
-	<christian.koenig@amd.com>,
-        <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, <quic_msavaliy@quicinc.com>,
-        <quic_vtanuku@quicinc.com>
-References: <20250212120536.28879-1-quic_jseerapu@quicinc.com>
- <20250212120536.28879-2-quic_jseerapu@quicinc.com> <Z89TC7fKzmmeu6tW@vaman>
-Content-Language: en-US
-From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-In-Reply-To: <Z89TC7fKzmmeu6tW@vaman>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: pmnVupMtP4qZ34e0cWtkVzg1kvtB_MB7
-X-Authority-Analysis: v=2.4 cv=aKnwqa9m c=1 sm=1 tr=0 ts=67d2cd87 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=llsIEhTl_2UyQBK4H_sA:9 a=QEXdDO2ut3YA:10
-X-Proofpoint-ORIG-GUID: pmnVupMtP4qZ34e0cWtkVzg1kvtB_MB7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-13_06,2025-03-11_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 clxscore=1015
- adultscore=0 malwarescore=0 priorityscore=1501 phishscore=0 spamscore=0
- bulkscore=0 lowpriorityscore=0 impostorscore=0 mlxscore=0 suspectscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503130097
+X-B4-Tracking: v=1; b=H4sIAJbN0mcC/3XNTQ6CMBCG4auYrh1TWn7ElfcwLuh0gC6gZCqNh
+ nB3CxsTjcv3S+aZRQRiR0FcDotgii44P6bQx4PAvhk7AmdTCyVVITNVwxwRaGJvyFJLDKYgY3J
+ rSo0o0tXE1LrnLt7uqXsXHp5f+4OYbet/K2aQQZlro0qpUVp1xZ794Obh5LkTGxfVh9BS/xIKJ
+ BiqsD5XiBqbL2Jd1zesVZ6g9AAAAA==
+X-Change-ID: 20250129-uvc-eprobedefer-b5ebb4db63cc
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Ricardo Ribalda <ribalda@chromium.org>, stable@vger.kernel.org, 
+ Douglas Anderson <dianders@chromium.org>
+X-Mailer: b4 0.14.2
 
-Hi Vinod, Thanks for the review comments.
+uvc_gpio_parse() can return -EPROBE_DEFER when the GPIOs it depends on
+have not yet been probed.
 
-On 3/11/2025 2:30 AM, Vinod Koul wrote:
-> On 12-02-25, 17:35, Jyothi Kumar Seerapu wrote:
->> GSI hardware generates an interrupt for each transfer completion.
->> For multiple messages within a single transfer, this results in
->> N interrupts for N messages, leading to significant software
->> interrupt latency.
->>
->> To mitigate this latency, utilize Block Event Interrupt (BEI) mechanism.
->> Enabling BEI instructs the GSI hardware to prevent interrupt generation
->> and BEI is disabled when an interrupt is necessary.
->>
->> When using BEI, consider splitting a single multi-message transfer into
->> chunks of 8 messages internally and so interrupts are not expected for
->> the first 7 message completions, only the last message triggers
->> an interrupt, indicating the completion of 8 messages.
->>
->> This BEI mechanism enhances overall transfer efficiency.
-> 
-> That sounds good but I dont like the idea that we add a custom interface
-> for this. Please use DMA_PREP_INTERRUPT instead. Adding this flag should
-> trigger N interrupts, absence of this should lead to Block events only
-> 
-The DMA_PREP_INTERRUPT flag in DMA operations is used to indicate that 
-an interrupt should be generated once the DMA transfer is completed.
-However, this flag itself does not block interrupt generation at the GPI 
-DMA hardware level. The GPI DMA hardware can still raise interrupts even 
-in the absence of the DMA_PREP_INTERRUPT flag.
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Changes in v3:
+- Remove duplicated error messages in uvc_probe()
+- Link to v2: https://lore.kernel.org/r/20250303-uvc-eprobedefer-v2-0-be7c987cc3ca@chromium.org
 
-To block interrupts at the GPI DMA hardware level, we need to use the 
-Block Event Interrupt (BEI) bit (as explained in the commit log).
-As an example : for 100 transfers, we only want to receive one interrupt 
-at the 100th transfer. This helps us significantly reduce latencies, as 
-handling back-to-back 100 interrupts can take a few milliseconds.
+Changes in v2:
+- Add follow-up patch for using dev_err_probe
+- Avoid error_retcode style
+- Link to v1: https://lore.kernel.org/r/20250129-uvc-eprobedefer-v1-1-643b2603c0d2@chromium.org
 
-Hope this explains it well. Please let me know if there are any other 
-concerns or feedback.
+---
+Ricardo Ribalda (2):
+      media: uvcvideo: Fix deferred probing error
+      media: uvcvideo: Use dev_err_probe for devm_gpiod_get_optional
+
+ drivers/media/usb/uvc/uvc_driver.c | 38 ++++++++++++++++++++++++++------------
+ 1 file changed, 26 insertions(+), 12 deletions(-)
+---
+base-commit: f4b211714bcc70effa60c34d9fa613d182e3ef1e
+change-id: 20250129-uvc-eprobedefer-b5ebb4db63cc
+
+Best regards,
+-- 
+Ricardo Ribalda <ribalda@chromium.org>
 
 
