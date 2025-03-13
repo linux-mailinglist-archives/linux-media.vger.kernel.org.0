@@ -1,150 +1,163 @@
-Return-Path: <linux-media+bounces-28147-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28148-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F559A5F42B
-	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 13:21:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B478A5F44A
+	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 13:25:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ADBF019C0A3F
-	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 12:21:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0A9DC19C21A9
+	for <lists+linux-media@lfdr.de>; Thu, 13 Mar 2025 12:26:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A91B2676D1;
-	Thu, 13 Mar 2025 12:20:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6AC6267708;
+	Thu, 13 Mar 2025 12:25:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ah5iSIxS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="e3846Q+V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4703A2676CB
-	for <linux-media@vger.kernel.org>; Thu, 13 Mar 2025 12:20:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85FB22676D2;
+	Thu, 13 Mar 2025 12:25:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741868445; cv=none; b=iVl4peXNwb1En9rZ2l7E8/2PbaCbLCYXcBURnuvqTbkIzOkkdzJgxdZpBRv6BA5VMiz7gPjcRWE8XkGfHIi6VTGw52aehvcbYmh6X4Od9XZ9OkY+MRrkvUIUbu3xzSmaTCGQRqdacJ0Sngjte9yuFpv/O/AZAtr2GN+lLqnkjgQ=
+	t=1741868724; cv=none; b=G68H22ObCfAklP6ef9fCA+ncorE23RXXBTHlAkdY+rOF8r9PyjIP9/DlespMK+7NSAfWHOfoznmVhFd10G/g2j5yRMak3rre0LalB4wakEoYHwoY+/rp6HmMEwelo2mmzwR83vzrJICTeQDVzZUgvpuzJeHHdZMmeHk/IXorqZM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741868445; c=relaxed/simple;
-	bh=BwgDyyHIsbebUjnhMSTS4dLo89prxllUAC1gteUe9+Y=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=sn9Q4ywUoqMiiXacXaH7KcWaD4VL/WrIbcIDeBfCpqSKnheQwmCqjWTlVhVAgb3PX+xubZGsxrg+eF3br7wgqHvK0SSB/5o62KyyOLJxlWGL+/QYAsa3FdaaHL9EreOJa+x8BccXnRWk96tgj9ZgBOgjTTxEREtyTy++boVwfEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ah5iSIxS; arc=none smtp.client-ip=209.85.219.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6e8f05acc13so10207186d6.2
-        for <linux-media@vger.kernel.org>; Thu, 13 Mar 2025 05:20:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1741868442; x=1742473242; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7vcY7CKAqwG/zbhJLiCG47Bjs6dQB9a8QmJmLIP3Qqw=;
-        b=ah5iSIxS7Aj+YxIWECxRvdVPVmXgxyLGb16fC/p9+NwgWFl0dFjyFOCYzSHh646dGW
-         KkiaHLayq8ztEjWYi68ec/2tK5tp9cUzzGr60NIlNMNjCv4z+0h04XHSv02kS1LXULLi
-         01mXtaOmlFmt5hkM3MkpqfafTV49xgkM48fwA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741868442; x=1742473242;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7vcY7CKAqwG/zbhJLiCG47Bjs6dQB9a8QmJmLIP3Qqw=;
-        b=KbRMVjNfhYVZv9zrRdaJRsZ1+EYFOHOZ4ZQADvXA3KaN+ijwZR/TXGiWph3rjEsBAW
-         EMZHNkvs28/ty7pkLoF3p/KetpviVp3xx56YAmBpXfXV1ZcpdmFvNnAAN5WgWG/JsB4M
-         yvHFGeKIpBEx+7tSXdRmwDIDKzHlH46Hj5TmPR51sbaEyICZ9XBB/+RlY1NykhsWyJFW
-         KB4TW2QZewJVA1rc5C3+H2/fTQmFdDMazBVAV89hkvnQvNJXBKePJ+T7415F4iQ6Cn13
-         f9cxS46Dk/el/y1cZQjZlT3LGZoFHGHp7BZIEmJLe6WrwB30lIcZZ/8h9krguePSjD1T
-         2WUg==
-X-Forwarded-Encrypted: i=1; AJvYcCW08lJiT3XuQ6qVO1a0hjxu64I17Tp6J1dRABWOYUhSbPA7gf8jtF8Z3Z6bgfx029LEy7s7gvpFDM1lUQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwxzhEE5sYc5IO7i9s+LgOuA5trf/Sfneq8sTFUMWYmPqA5l2a1
-	Qe/F3cZWWQwaECe7o1OqcFMHvnr4YLcF6bxZVAxVYXP9OlEpOghrKuOL93ZWRg==
-X-Gm-Gg: ASbGnct4eWu4NVRqbTolAZbb3WcWBLipi7gJzJBmec666ka8BNcavgrZlLbqLIJZ1jj
-	I/I8X6ArE/4IdR9zkg6oWqIyI1dtadKdLUOebxaeJEac4RooFh7gOmA6mQlLgDvggsqJ6lu5MK4
-	QEeL1m4XevAzhwS0gRRjJATC499JIaB/ygLqHrjHaVZhY9jQilLUPW0DfrgqsdMrWt5sArIPrHA
-	0e0DAwvtikohsIMq4pCecBdljE5bgUWKLus9DDgkj6BPOOWuwVdyx0d7WnIZnu6NyJaZOGVSz9D
-	Y+oUS2GEn7qn+aDTZbJU70XSl4s0qoaCQrWc4IJBKL7UdtRZt3XgYuqgy/aJ68Iql6sWgSE2gNb
-	D6LLotDwOyM3vZUP7h2+p0N8IOn8YWXLn
-X-Google-Smtp-Source: AGHT+IGxu2l67R32KRhYTVLsCIiUHIBqUN26a2hLoa3PyEKo82RHqkFlvKoqmyrBpM6B8yDc3nFn+w==
-X-Received: by 2002:ad4:5f85:0:b0:6e8:9394:cbbe with SMTP id 6a1803df08f44-6e90060978amr408704926d6.20.1741868442139;
-        Thu, 13 Mar 2025 05:20:42 -0700 (PDT)
-Received: from denia.c.googlers.com (15.237.245.35.bc.googleusercontent.com. [35.245.237.15])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6eade235f9bsm9038616d6.29.2025.03.13.05.20.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 13 Mar 2025 05:20:41 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 13 Mar 2025 12:20:40 +0000
-Subject: [PATCH v3 2/2] media: uvcvideo: Use dev_err_probe for
- devm_gpiod_get_optional
+	s=arc-20240116; t=1741868724; c=relaxed/simple;
+	bh=qtso+QylSCMYkJlmOyQHdWoGgp+Hq5bh4XDeml5Lx2c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YEkoYHiA6/rJzC1XZvfYVoWHqcAV0gApLICDXTzKHLXr505mvam1Q0tj/JO28Wum/QbxeYkcXudN6nXcBVCb9ukXE3ANGjxsQLfOUkJkK+kOc2GQmiUKOkam3PN+hKLZncP+PJYEjei9FjbaEO1lutCed5sTa1/nQeCEOAuBKM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=e3846Q+V; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741868723; x=1773404723;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=qtso+QylSCMYkJlmOyQHdWoGgp+Hq5bh4XDeml5Lx2c=;
+  b=e3846Q+V9eH+jFV1iYyf15u7w/aywF2EfzRmFBs914lP6NaWi/zKelcs
+   GRAK2C6tVJIcMHz+8jY4ozB87tiRPxL7hfMNsJudTjWAhEng7tS5ZKMKi
+   UAn13nZq6Tn9hIkxFW6RIAyAFLg6fZe4KrtnOkvVPxHNJfTEBlkE32/hx
+   /7HFs53Ub57dGeHO63nKiD/xP4su7j/AyVT/mRv3Ib4g6bMjFQYlsHwRe
+   GA2h3CCLN9H+xUmFkG2ADdWsq7/vFRjZRxg/jhLCTDx5PSHXxNCHcGPoa
+   DA3AsXyXV5sWT44k5NjI6oJo9rhGqxwIaA22D7oVmFWQlahzTUrgVASUL
+   w==;
+X-CSE-ConnectionGUID: KFsSEPxuREictRu/Wwx/hA==
+X-CSE-MsgGUID: tEslKlfHQ9OahTgGAihn/g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11372"; a="43113244"
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
+   d="scan'208";a="43113244"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 05:25:22 -0700
+X-CSE-ConnectionGUID: KGpsUbEJQs2MVyUdlNP4KA==
+X-CSE-MsgGUID: BX9hJvZwTXqJh109+wTkSQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,244,1736841600"; 
+   d="scan'208";a="151782413"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Mar 2025 05:25:12 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 004C311F96E;
+	Thu, 13 Mar 2025 14:25:09 +0200 (EET)
+Date: Thu, 13 Mar 2025 12:25:09 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Cosmin Tanislav <cosmin.tanislav@analog.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
+	Julien Massot <julien.massot@collabora.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Bjorn Andersson <quic_bjorande@quicinc.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>, Taniya Das <quic_tdas@quicinc.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	=?iso-8859-1?Q?N=EDcolas_F_=2E_R_=2E_A_=2E?= Prado <nfraprado@collabora.com>,
+	Eric Biggers <ebiggers@google.com>,
+	Javier Carrasco <javier.carrasco@wolfvision.net>,
+	Ross Burton <ross.burton@arm.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Zhi Mao <zhi.mao@mediatek.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Ihor Matushchak <ihor.matushchak@foobox.net>,
+	Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-staging@lists.linux.dev, linux-gpio@vger.kernel.org
+Subject: Re: [RFC PATCH v2 06/16] dt-bindings: media: i2c: max96717: add
+ support for MAX96793
+Message-ID: <Z9LOpR5yiILj6KsT@kekkonen.localdomain>
+References: <20250309084814.3114794-1-demonsingur@gmail.com>
+ <20250309084814.3114794-7-demonsingur@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250313-uvc-eprobedefer-v3-2-a1d312708eef@chromium.org>
-References: <20250313-uvc-eprobedefer-v3-0-a1d312708eef@chromium.org>
-In-Reply-To: <20250313-uvc-eprobedefer-v3-0-a1d312708eef@chromium.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Hans de Goede <hdegoede@redhat.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>, 
- Doug Anderson <dianders@chromium.org>, 
- Douglas Anderson <dianders@chromium.org>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250309084814.3114794-7-demonsingur@gmail.com>
 
-Use the dev_err_probe() helper for devm_gpiod_get_optional(), like we do
-with gpiod_to_irq()
+Hi Cosmin,
 
-That eventually calls device_set_deferred_probe_reason() which can be
-helpful for tracking down problems.
+On Sun, Mar 09, 2025 at 10:47:58AM +0200, Cosmin Tanislav wrote:
+> MAX96793 is a newer variant of the MAX96717 which also supports GMSL3
+> links.
+> 
+> Document this compatibility.
+> 
+> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+> ---
+>  Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+> index 31fb62debdc7..02857f0364c4 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max96717.yaml
+> @@ -27,6 +27,7 @@ description:
+>  
+>    MAX96717F only supports a fixed rate of 3Gbps in the forward direction.
+>    MAX9295A only supports pixel mode.
+> +  MAX96793 also supports GMSL3 mode.
 
-Now that all the error paths in uvc_gpio_parse have dev_err_probe, we
-can remove the error message in uvc_probe.
+Fits on the previous line. Same goes for some of the commit messages in the
+set: the limit is 75 characters per line.
 
-Suggested-by: Doug Anderson <dianders@chromium.org>
-Reviewed-by: Douglas Anderson <dianders@chromium.org>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_driver.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index e966bdb9239f345fd157588ebdad2b3ebe45168d..d8e51c3db7575bebe7bb700b53b50ae02d355d8e 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -1297,8 +1297,13 @@ static int uvc_gpio_parse(struct uvc_device *dev)
- 
- 	gpio_privacy = devm_gpiod_get_optional(&dev->intf->dev, "privacy",
- 					       GPIOD_IN);
--	if (IS_ERR_OR_NULL(gpio_privacy))
--		return PTR_ERR_OR_ZERO(gpio_privacy);
-+	if (!gpio_privacy)
-+		return 0;
-+
-+	if (IS_ERR(gpio_privacy))
-+		return dev_err_probe(&dev->intf->dev,
-+				     PTR_ERR(gpio_privacy),
-+				     "Can't get privacy GPIO\n");
- 
- 	irq = gpiod_to_irq(gpio_privacy);
- 	if (irq < 0)
-@@ -2240,10 +2245,8 @@ static int uvc_probe(struct usb_interface *intf,
- 
- 	/* Parse the associated GPIOs. */
- 	ret = uvc_gpio_parse(dev);
--	if (ret < 0) {
--		uvc_dbg(dev, PROBE, "Unable to parse UVC GPIOs\n");
-+	if (ret < 0)
- 		goto error;
--	}
- 
- 	dev_info(&dev->udev->dev, "Found UVC %u.%02x device %s (%04x:%04x)\n",
- 		 dev->uvc_version >> 8, dev->uvc_version & 0xff,
+>  
+>  properties:
+>    compatible:
+> @@ -36,6 +37,7 @@ properties:
+>        - items:
+>            - enum:
+>                - maxim,max96717
+> +              - maxim,max96793
+>            - const: maxim,max96717f
+>  
+>    '#gpio-cells':
 
 -- 
-2.49.0.rc0.332.g42c0ae87b1-goog
+Regards,
 
+Sakari Ailus
 
