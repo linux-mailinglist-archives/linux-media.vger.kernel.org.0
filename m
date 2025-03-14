@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-28208-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28209-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C230A60F1F
-	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 11:36:36 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CCFAA61048
+	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 12:44:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6881A3BF75E
-	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 10:36:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4A1D017182A
+	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 11:44:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 343841F4701;
-	Fri, 14 Mar 2025 10:36:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D33F1FE452;
+	Fri, 14 Mar 2025 11:44:43 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45911D63C3;
-	Fri, 14 Mar 2025 10:36:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ACA51FE444
+	for <linux-media@vger.kernel.org>; Fri, 14 Mar 2025 11:44:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741948575; cv=none; b=oS/jp61+CDIu8xVumJFsA2iSaIC9uULVrwXuw7HlLG4KhUbFuEGaywPaS9K2KBpDA6QnP+yYqTdstcKQYWH/noSN2Y0OB/Fa+WalTS3iuWGTE3INDj4GVspqNvXbjm301b5TczvWoQ60/C636awOOvRxD0qiDWZ21A4NEoE6w2o=
+	t=1741952682; cv=none; b=trHIAOS13GB4xegBsOgL68iN1UwBYl9cULEZdUe58rA0GzkVT2Q40PHnJwLM3wmrFt1tcdCqN06hvxF0tLbiattr+a4EIB8Y4DrRi7bHEyfyTgds/edGW1HreEtOmPpkGhVqLK2wcxOR3kPbfraPCfT7rzwdwLHNnurm0DkAkGY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741948575; c=relaxed/simple;
-	bh=L6iqEPCrRo4RSoQhnoMUUyb+wBAos0SMRG2Z5RInBQs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ajtdf69LTmxdhwG2hYxH+6Tu5k8JFbr0No15pCr3eI/89oFchSaYIZiAYWHcoeTk3spAQ+Ck97o9n6lFH/lAQnZTW3tGfn5Llm4u8C0X7hLXGcv/7LyLDioJjBxxf+qWrRJltL9kmaYXlQHTVLYpHsnriVCM+DLIffm7s3BgumU=
+	s=arc-20240116; t=1741952682; c=relaxed/simple;
+	bh=0hYU5Ts9rEqE9hxnk52FmU872PbaL4AGQDdeP2j2TcM=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=JxvAD9z4MV+QYeRRTb11P3Jg1QtUVVRhVKVdaeBEtu74S9Rm2eE2fNr3EDr7NQV24io4IEM9k25uESrsk3QGYBHWLe9mkU+LO+LQKo3uNHZHABec5ig1570n3w1YYSZu/nlk/WiTpZWHghrNJNusbCYzQWARyfC71L0TVm2hzrU=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DD78C4CEE3;
-	Fri, 14 Mar 2025 10:36:13 +0000 (UTC)
-Message-ID: <0fd2cbfa-8804-456f-891d-ecd06e828bc6@xs4all.nl>
-Date: Fri, 14 Mar 2025 11:36:12 +0100
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD897C4CEE3;
+	Fri, 14 Mar 2025 11:44:37 +0000 (UTC)
+Message-ID: <083912a1-34aa-4767-be3e-2145e9a978c3@xs4all.nl>
+Date: Fri, 14 Mar 2025 12:44:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,22 +38,34 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/8] Documentation: uAPI: media: add
- V4L2_CID_FLASH_DURATION
-To: Richard Leitner <richard.leitner@linux.dev>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org
-References: <20250314-ov9282-flash-strobe-v2-0-14d7a281342d@linux.dev>
- <20250314-ov9282-flash-strobe-v2-4-14d7a281342d@linux.dev>
- <d14b8c18-55b9-472c-897d-3a481892b080@xs4all.nl>
- <4w7s6g32rol2ptkchczhyhgvytyeq6baqvz4h7ikurzg2tygnr@a3q7cgeagzk4>
-Content-Language: en-US, nl
+Subject: Re: [ANN] Registration and Request for Topics for the Media Summit on
+ May 13th in Nice, France
 From: Hans Verkuil <hverkuil@xs4all.nl>
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sean Young <sean@mess.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Ricardo Ribalda <ribalda@chromium.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Alain Volmat <alain.volmat@foss.st.com>,
+ "stanimir.k.varbanov@gmail.com" <stanimir.k.varbanov@gmail.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Michael Tretter <m.tretter@pengutronix.de>, Tomasz Figa
+ <tfiga@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>,
+ Steve Cho <stevecho@chromium.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Kevin Hilman <khilman@baylibre.com>, Paul Kocialkowski <paulk@sys-base.io>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Larysa Grynko Grynko <larysagrynko@collabora.com>,
+ Mark Filion <mark.filion@collabora.com>
+References: <044f2fa6-a245-4ae5-b9de-7a2e8831ccd6@xs4all.nl>
+Content-Language: en-US, nl
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
  BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
@@ -97,67 +109,77 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <4w7s6g32rol2ptkchczhyhgvytyeq6baqvz4h7ikurzg2tygnr@a3q7cgeagzk4>
+In-Reply-To: <044f2fa6-a245-4ae5-b9de-7a2e8831ccd6@xs4all.nl>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 14/03/2025 11:28, Richard Leitner wrote:
-> Hi Hans,
+On 14/03/2025 10:59, Hans Verkuil wrote:
+> Hi all,
 > 
-> thanks for your quick feedback!
+> We will organize another Media Summit on Tuesday May 13th to coincide with
+> the Embedded Recipes Conference in Nice, France:
 > 
-> On Fri, Mar 14, 2025 at 10:41:04AM +0100, Hans Verkuil wrote:
->> On 14/03/2025 09:49, Richard Leitner wrote:
->>> Add the new strobe_duration control to v4l uAPI documentation.
->>>
->>> Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
->>> ---
->>>  Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst | 5 +++++
->>>  1 file changed, 5 insertions(+)
->>>
->>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
->>> index d22c5efb806a183a3ad67ec3e6550b002a51659a..03a58ef94be7c870f55d5a9bb09503995dbfb402 100644
->>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
->>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
->>> @@ -186,3 +186,8 @@ Flash Control IDs
->>>      charged before strobing. LED flashes often require a cooldown period
->>>      after strobe during which another strobe will not be possible. This
->>>      is a read-only control.
->>> +
->>> +``V4L2_CID_FLASH_DURATION (integer)``
->>> +    Duration the flash should be on when the flash LED is in flash mode
->>> +    (V4L2_FLASH_LED_MODE_FLASH). The unit should be microseconds (µs)
->>> +    if possible.
->>>
->>
->> If this control is present, does that mean that the flash duration always have
->> to be set manually? Or can there be an 'Auto' mode as well? And if so, how is
->> that set?
+> https://embedded-recipes.org/2025/
 > 
-> To be honest I haven't thought about automatic flash duration. Is this
-> something which is required?
+> Note that there are also some workshops held after this conference:
+> 
+> https://embedded-recipes.org/2025/workshops/
+> 
+> And apparently a gStreamer event during the weekend. If anyone has more
+> details about this, please reply to this post.
+> 
+> The Media Summit will be held at Hotel Campanile:
+> 
+> https://nice-aeroport.campanile.com/en-us/
+> 
+> It is close to the Airport and to the Embedded Recipes venue.
+> 
+> The meeting room can hold up to 30 people and has video conferencing support.
 
-No idea, it was just something I was wondering about. Sakari probably knows a lot
-more about this.
+Many thanks to Collabora and Cisco Systems Norway for sponsoring the Media Summit and
+taking care of the meeting room costs!
+
+And from me a special 'Thank you!' to Larysa from Collabora for finding a suitable meeting
+room for us, since I was swamped with work and had no time to look into that. Very much
+appreciated!
 
 Regards,
 
 	Hans
 
 > 
-> At least for the ov9282 sensor (which I've implemented this control for
-> in this series) there is no "auto" mode AFAIK.
+> That said, I want to keep remote participation to a minimum. This yearly summit is meant
+> for active media developers to meet up face-to-face and to discuss media subsystem issues.
+> But if you are an active media developer and are really not able to attend in person, then
+> remote participation is an option.
 > 
-> If it's required: What would be the best solution?
-> Extending V4L2_CID_FLASH_LED_MODE with a new menu option? E.g.
-> V4L2_FLASH_LED_MODE_FLASH_{MANUAL,AUTO}?
+> If you want to attend the meeting (either in person or remote), then send an email to me
+> directly. The deadline for that is May 2nd as the hotel needs to know the final number of
+> attendees by then. We have more seats available than last year, so I do not expect to run out.
+> In the unlikely case that this becomes a problem, then I will revisit this.
 > 
->>
->> Regards,
->>
->> 	Hans
+> There is no registration fee.
 > 
-> Thanks!
-> Richard
+> If you have a topic that you want to discuss, just 'Reply All' to this announcement.
+> It would be very much appreciated if you can also add a guesstimate of the time
+> you need for your topic.
+> 
+> See last year's Media Summit Report as an example of what to expect:
+> 
+> https://lore.kernel.org/linux-media/45e4f5d4-f6c4-4f0b-96b5-f5e1125b0845@xs4all.nl/
+> 
+> There are two topics already for the upcoming Media Summit:
+> 
+> Paul Kocialkowski:
+> Stateless video encoding uAPI
+> 
+> Hans Verkuil:
+> Status of Media CI/Multi-committers
+> Duration guesstimate: 1 hour
+> 
+> Regards,
+> 
+> 	Hans
+> 
 
 
