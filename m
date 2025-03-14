@@ -1,121 +1,183 @@
-Return-Path: <linux-media+bounces-28228-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28229-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54CEDA6129E
-	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 14:28:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA30CA612C1
+	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 14:34:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9E4B03B5CCC
-	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 13:28:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1AD91174535
+	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 13:34:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B82C1FFC6F;
-	Fri, 14 Mar 2025 13:27:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E61861FFC6B;
+	Fri, 14 Mar 2025 13:34:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="AzLZgyEo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JHP4SRgi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5239B1FFC59;
-	Fri, 14 Mar 2025 13:27:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741958866; cv=pass; b=ZQzqGkzsvUWAUgQm1CM2S5Tn5JbVan7aNsefl3S9+a13yKrDjav8+CNypENmyjOUrZ/cwEjQeoWpU17PmpMYE/Z8wsItQx1ohxRUnw/OSeYT6huxgRPjoKZ6xZlyGIgb4B11e1gWZDSOZe3UpsyHGGnNoJ5DtPISKpifhmzxQQM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741958866; c=relaxed/simple;
-	bh=41uAuDBAdwDURpr00ZnHEdCpyfUzB/9vnikmEpd4glM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=txnmYzxB5TOfEEBhyG1MR3lElNI/o2rXNhytidHaSetckKBUIQ388AXxAlrx6kscfVJHDRoM/KkuPVEvPTvLxiru1RmqIO6KQw9DarGlJnDDRQXYgyDI3kD1+uJmowlMOvo/Y3wSMJGHIws1BnsgaZaGK2VwVo/jWiGZ18K+i1w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=AzLZgyEo; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1741958834; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=NsS4F1K90WlNKnGrraMnXP8XW5Y09jO/+BORJJ/hXkN31ua4XWH/RKftru+7EEzjC+F7HY9AWte1a9XuK1I2MfwvY2FliqOqcWLDQjGNAiPbCwak5PbuGLZbOH64dYa1M+MnmPDkPel9g3zgJqkHmwi9O12x1iFfmt1EsWjEuek=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1741958834; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=uCoDkNxle5kYQxEYElD69IYy2zg+RTAZoMqICiRmeUE=; 
-	b=dnDjZQFKOG7k/KbiuZUiIiVSMTxgB+oKf66bO0JbxU6isK/TJhs0NPODkf63CnCyse/WR/Nq6MT7s03RkGPd+GqOvPikdra40TXSQRPCg2DGTlvTPE+EzyN3ArTSf/MeoyIVAwlj9F4qLj9EXaV+HGj+qBmBi4FNStcTHQ+lopo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
-	dmarc=pass header.from=<sebastian.fricke@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741958834;
-	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=uCoDkNxle5kYQxEYElD69IYy2zg+RTAZoMqICiRmeUE=;
-	b=AzLZgyEoRHU2ZMpk6ReS0fi31DtyDvOCHBnCOaQGxESo8INRr8lrr9Bl/rCKhYTd
-	78kkeLeO6zBJIp8PFLK1NNGGAFA7HAwztquhc53d7CM32iUKSfYJUWO50azwBShvaS1
-	9OMKrHoCqppyJggRmwjTEzY2F3t+y7lUOei7jXi4=
-Received: by mx.zohomail.com with SMTPS id 1741958831940301.9413422942897;
-	Fri, 14 Mar 2025 06:27:11 -0700 (PDT)
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-Date: Fri, 14 Mar 2025 14:26:30 +0100
-Subject: [PATCH 5/5] media: mtk-vcodec: Don't try to decode 422/444 VP9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 534B21FF5F7;
+	Fri, 14 Mar 2025 13:34:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741959255; cv=none; b=GimLEmIqoMGR7GKBgiuvcoZd3zJDy840t0yTNiVl2eY+8qVl2gTIgVCshWCl9tpZu4URYHXj29dxNKRsZGqtHHdXiu3GTsmUh2gGzoL1Sfx8u/JO2i2baiUqZ7cxwN7VQOwCAGom75vYvC+sXK+SKcMBNaRuu9VwUH6m3GbtcuY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741959255; c=relaxed/simple;
+	bh=AblPfx8eF6BCp+Mvn4xq9FAZ1hinMSOmBuNT9HtKsL8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ctHnOqV0sTQ6p6oYsfamv5Kc2DtL5MVR2zpdrpd+QG1g+B4c5ybdehy5HJ4iMCubZvVNo4qTdUN+XJEIARetMmBE1s/A8n4UxhB8RQO9AaxaZL7QKIepSQ8DIPZvhvaybh1Q1D82WkhJe0i/NNaZJYdaBvIL4Mt6apncOERkQgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JHP4SRgi; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1741959253; x=1773495253;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=AblPfx8eF6BCp+Mvn4xq9FAZ1hinMSOmBuNT9HtKsL8=;
+  b=JHP4SRgiRuZ1KzM1RY8i4mMfcOcWxgpZ8KBnXv9z5PW26Hsz9MCzRWCl
+   911Vr0KdsdNaescgwBlB8NQtHJgMhTd0f4p4CGWidWfiWELy0Set8hpYI
+   uo5H9FB/0tLfF5086lcc3rXcEgy9eXJroS0tpKdUUMd7UTV7CIFBcsbtb
+   AGLNvFSLQdAW5b49sjHH5WeC1Rbwa56o/GbAq3PG0ddILNc/IGZyjU6QH
+   Zc8EKlaZTwMe4w+mwQKJgCQ2b72nRk09g6h1o79tFfkoAsqoPFywIiWrg
+   cFizc9hEiqdbwI3CQdKmMzw3CdfPLtZ3bETPqcfYMRGvawio6nSypAu1E
+   w==;
+X-CSE-ConnectionGUID: /7ApU5LRToeDVI2jvihZUw==
+X-CSE-MsgGUID: tNmRk6yzTE6SHyogM8tCRw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="54481546"
+X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
+   d="scan'208";a="54481546"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 06:34:12 -0700
+X-CSE-ConnectionGUID: SCd4GhAlSKiktkieOaEWjw==
+X-CSE-MsgGUID: Q7DxYn/JQ9qGh59tIhlJrw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
+   d="scan'208";a="121279893"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 06:34:10 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 21C6D11F944;
+	Fri, 14 Mar 2025 15:34:07 +0200 (EET)
+Date: Fri, 14 Mar 2025 13:34:07 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Richard Leitner <richard.leitner@linux.dev>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 1/8] media: v4l: ctrls: add a control for flash/strobe
+ duration
+Message-ID: <Z9QwT7n7D09BEfqa@kekkonen.localdomain>
+References: <20250314-ov9282-flash-strobe-v2-0-14d7a281342d@linux.dev>
+ <20250314-ov9282-flash-strobe-v2-1-14d7a281342d@linux.dev>
+ <Z9P01zU_Kg0U62wa@kekkonen.localdomain>
+ <bx4p2hycva2rqywgglqluus6o7jbmfa2jjbc4k5d6aw6wsfkxd@zrtckmwtphuq>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250314-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v1-5-5e277a3d695b@collabora.com>
-References: <20250314-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v1-0-5e277a3d695b@collabora.com>
-In-Reply-To: <20250314-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v1-0-5e277a3d695b@collabora.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Hans Verkuil <hverkuil@xs4all.nl>, Tiffany Lin <tiffany.lin@mediatek.com>, 
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
- Yunfei Dong <yunfei.dong@mediatek.com>, 
- Matthias Brugger <matthias.bgg@gmail.com>, 
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
- kernel@collabora.com, Sebastian Fricke <sebastian.fricke@collabora.com>, 
- Nicolas Dufresne <nicolas.dufresne@collabora.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1741958789; l=1233;
- i=sebastian.fricke@collabora.com; s=linux-media; h=from:subject:message-id;
- bh=emJE1X62MuP0DezjydZOlvtEYLKSLG8mtfx8cJ7l/Ak=;
- b=8osgM6j4VT/PtVsmE7tkbG8dQ7JBOV2MAMNuNrQGJk5n2F7j6aPuW/gs9ohRwuBFlnr3mskub
- 7aWEdfocOPcDm1ourg2ImJ9zqwCQiJegWK3m+BOYhhMj0jR6xd3YVrj
-X-Developer-Key: i=sebastian.fricke@collabora.com; a=ed25519;
- pk=pYXedPwrTtErcj7ERYeo/IpTrpe4QbJuEzSB52fslBg=
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bx4p2hycva2rqywgglqluus6o7jbmfa2jjbc4k5d6aw6wsfkxd@zrtckmwtphuq>
 
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Hi Richard,
 
-This is not supported by the hardware and trying to decode
-these leads to LAT timeout errors.
+On Fri, Mar 14, 2025 at 11:25:09AM +0100, Richard Leitner wrote:
+> On Fri, Mar 14, 2025 at 09:20:23AM +0000, Sakari Ailus wrote:
+> > Hi Richard,
+> > 
+> > Thanks for the set.
+> 
+> Hi Sakari,
+> thanks for the quick response!
+> 
+> > 
+> > On Fri, Mar 14, 2025 at 09:49:55AM +0100, Richard Leitner wrote:
+> > > Add a control V4L2_CID_FLASH_DURATION to set the duration of a
+> > > flash/strobe pulse. This is different to the V4L2_CID_FLASH_TIMEOUT
+> > > control, as the timeout defines a limit after which the flash is
+> > > "forcefully" turned off again.
+> > > 
+> > > On the other hand the new V4L2_CID_FLASH_DURATION is the desired length
+> > > of the flash/strobe pulse
+> > 
+> > What's the actual difference between the two? To me they appear the same,
+> > just expressed in a different way.
+> 
+> According to FLASH_TIMEOUT documentation:
+> 
+> 	Hardware timeout for flash. The flash strobe is stopped after this
+> 	period of time has passed from the start of the strobe. [1]
+> 
+> This is a little bit unspecific, but as also discussed with Dave [2]
+> according to the documentation of V4L2_FLASH_FAULT_TIMEOUT it seems to
+> be targeted at providing a "real timeout" control, not settings the
+> desired duration:
+> 
+> 	The flash strobe was still on when the timeout set by the user
+> 	--- V4L2_CID_FLASH_TIMEOUT control --- has expired. Not all flash
+> 	controllers may set this in all such conditions. [1]
+> 
+> If I understood that wrong, I'm also happy to use FLASH_TIMEOUT for this
+> use-case. But tbh I think FLASH_DURATION would be more specific.
+> 
+> As this still seems unclear: Should the documentation be
+> changed/rewritten if we stick with the FLASH_DURATION approach?
+> 
+> [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/ext-ctrls-flash.html
+> [2] https://lore.kernel.org/lkml/CAPY8ntB8i4OyUWAL8k899yUd5QsRifJXiOfWXKceGQ7TNZ4OUw@mail.gmail.com/
 
-Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
----
- .../platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c     | 6 ++++++
- 1 file changed, 6 insertions(+)
+Right, I think I can see what you're after.
 
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
-index 9187d7bcfc8aea17f3fc98d94419777d8026db51..3dbd251034b85e521c3c93538d9ecf9078ef3820 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
-@@ -496,6 +496,12 @@ static int mtk_vdec_s_ctrl(struct v4l2_ctrl *ctrl)
- 			mtk_v4l2_vdec_err(ctx, "VP9: bit_depth:%d", frame->bit_depth);
- 			return -EINVAL;
- 		}
-+
-+		if (!(frame->flags & V4L2_VP9_FRAME_FLAG_X_SUBSAMPLING) ||
-+		    !(frame->flags & V4L2_VP9_FRAME_FLAG_Y_SUBSAMPLING)) {
-+			mtk_v4l2_vdec_err(ctx, "VP9: only 420 subsampling is supported");
-+			return -EINVAL;
-+		}
- 		break;
- 	case V4L2_CID_STATELESS_AV1_SEQUENCE:
- 		seq = (struct v4l2_ctrl_av1_sequence *)hdr_ctrl->p_new.p;
+How does the sensor determine when to start the strobe, i.e. on which frame
+and which part of the exposure of that frame?
+
+> 
+> > 
+> > > 
+> > > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+> > > ---
+> > >  drivers/media/v4l2-core/v4l2-ctrls-defs.c | 1 +
+> > >  include/uapi/linux/v4l2-controls.h        | 1 +
+> > >  2 files changed, 2 insertions(+)
+> > > 
+> > > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > > index 1ea52011247accc51d0261f56eab1cf13c0624a0..f9ed7273a9f3eafe01c31b638e1c8d9fcf5424af 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > > @@ -1135,6 +1135,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> > >  	case V4L2_CID_FLASH_FAULT:		return "Faults";
+> > >  	case V4L2_CID_FLASH_CHARGE:		return "Charge";
+> > >  	case V4L2_CID_FLASH_READY:		return "Ready to Strobe";
+> > > +	case V4L2_CID_FLASH_DURATION:		return "Strobe Duration";
+> > >  
+> > >  	/* JPEG encoder controls */
+> > >  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> > > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> > > index 974fd254e57309e6def95b4a4f8e4de13a3972a7..80050cadb8377e3070ebbadc493fcd08b2c12c0b 100644
+> > > --- a/include/uapi/linux/v4l2-controls.h
+> > > +++ b/include/uapi/linux/v4l2-controls.h
+> > > @@ -1173,6 +1173,7 @@ enum v4l2_flash_strobe_source {
+> > >  
+> > >  #define V4L2_CID_FLASH_CHARGE			(V4L2_CID_FLASH_CLASS_BASE + 11)
+> > >  #define V4L2_CID_FLASH_READY			(V4L2_CID_FLASH_CLASS_BASE + 12)
+> > > +#define V4L2_CID_FLASH_DURATION			(V4L2_CID_FLASH_CLASS_BASE + 13)
+> > >  
+> > >  
+> > >  /* JPEG-class control IDs */
+> > > 
+> > 
 
 -- 
-2.34.1
+Regards,
 
+Sakari Ailus
 
