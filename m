@@ -1,169 +1,194 @@
-Return-Path: <linux-media+bounces-28192-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28194-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C1EFA60C5E
-	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 09:58:09 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E155CA60CCA
+	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 10:10:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 76348460E4F
-	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 08:58:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1FF07461139
+	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 09:10:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E0451DDC08;
-	Fri, 14 Mar 2025 08:57:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D53811DF963;
+	Fri, 14 Mar 2025 09:09:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VMwU24Yb"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="i+2AbyM3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97F001DB924
-	for <linux-media@vger.kernel.org>; Fri, 14 Mar 2025 08:57:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C5221DE3AD;
+	Fri, 14 Mar 2025 09:09:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741942669; cv=none; b=EdDT8wwYFmx/JMLK9PbdyubwduPbIOZotQImVf+FHUBYMQw8ufrsk+oGjMTYOEZ2rIkXuV2dxsDX7mChYot5pBCoj2dlDyn46rhtVQ6egCkVqm8S6q1iPK0mC5ex3SLZi2F1V0Qar0LkGZhG+jAPCC+ChlpDLPvIBWvjwDCeug4=
+	t=1741943392; cv=none; b=BpB2mf3Wy78jW7giXdeRgNJePoG2hTfweY2VJ6Y/io25A5na6lGyqpdxNRmSXFmKGeZSZiNUn4BCbm97U1fqK/axxA7sEMj2Yn4WAM+6Q/oIHxZ3WPRz7GaFyZme1YpqPn/+x1IwM1cUMl4DmgAeUg0eGCc/Oh1+mqyGJt6vbo0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741942669; c=relaxed/simple;
-	bh=/9HiRgLVAcf8p1ECna3uBG+12wfypO//4aB4JVSwgV4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=m9IiDaeiovFg9TfYLAhR3TN0qtSvWe6p7ek/LspZ/BntxM80wmFYarCvj8SUTO9vaMhTI1alpD8l/+LxQlZxCiAXJiC6NZLLoGL+OeawMfYJa3xl1ObSklO/TJM/puR8oaBqSufDKLYAA1ngGCaQTh/qHMtCo3SeU8QRtsGc0h0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VMwU24Yb; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1741942666;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UvFH9Knj3hl7iOYYG4m34Elst94rHcidF3oA0/6g8Lk=;
-	b=VMwU24YbRj2luFJn+zMruTifcrIEKam4pQ2qwEqq14X96sNscIdyoLiAnUn864L4pSJ5uV
-	quaruacaVamFLlRP6ODhL3ZrLI4OhijNeHchdv6c6sGWSYHM/IlhVj8R4jQd1ZnZWyvVVk
-	JLSCoO+Is5RUFW68bIQiGn5KJmR9xKI=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-93-7gtPxakyNKem3uv7JR3aog-1; Fri, 14 Mar 2025 04:57:45 -0400
-X-MC-Unique: 7gtPxakyNKem3uv7JR3aog-1
-X-Mimecast-MFC-AGG-ID: 7gtPxakyNKem3uv7JR3aog_1741942664
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-ac31adc55e4so136540866b.3
-        for <linux-media@vger.kernel.org>; Fri, 14 Mar 2025 01:57:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741942663; x=1742547463;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=UvFH9Knj3hl7iOYYG4m34Elst94rHcidF3oA0/6g8Lk=;
-        b=quIQ9WJ+xR+FnCui8bxxUoZA+DVTiltoXbaqLFAr0djpiTovhQaA17VjdMi8DL3cYA
-         Te75oDLyVyII+IjENPdvvei9zitpXNylfvQ1/YUzsswrotorOL5PbZMyFkEL6DmLFcn4
-         kHs2iAGW9t7mGfyFnQpjkclxrHBhWtWGmHuwUvkaJt8fPHjYERqQ0rsOMOX87yMX8i+C
-         i+UL+7NywkvewvJos8dcMlcmP/xj1LjUL8jnmmbdkgsVEgGL6wrhygLCrjmdTKgP7Ftb
-         8SjBFHCOSu4252Fr8JIy3w9QfoAGnfTxz64/O2XdLsPpub7uAXYntVE/VGirsHag/456
-         wBMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVLpYyE7ePVW2MydP+gs6/WwXJI+pefDd4yZ9WSCmdRHYlERdA+hUwYLaYH2x04PzrFIU9exarvoqOyKQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwuqSgMrm1As/nKRVFXLhkxO5TRdwVako9/HdTTpyhGQKc+2Hl
-	AWa7HhnoO5QAnl1KSPjwgbW45LHnk+Pl3y0qN7cc7Os5HqN79j07F6Mla6F6skpUpSRVwYEFOxP
-	KXuTOV+/HaDUTb7o0f4W5NVumRqwAsnnKSI5/LP3joM21yEeCHbOtlgp9E5Nh8Ee1Xd554d8=
-X-Gm-Gg: ASbGncvkpsokCex6Z8lL3IUid8upyLd2B09zSwXL63gJUueqmhZ9ebHyFtDXTISkXbI
-	cHIpRGtlBW1jFxZECLewyvURMGCo1MiZqHxvCD7TNurRY8Z2jEGlMq5WTX7IwSg6Bae7Op2/+nr
-	9zppm8iZ8DZzwL2jesIyLcMoIbW33ZGdPA1DS7OtedhiJ88lMcdiL7255pnZ4j2Q1hN/9xoZOov
-	Zu+wGzbPWQem/ah/N2PIsdKSAsxNH/8zOhPvSlrld0n4BWVzwGHoGEIaHhZnv5KQOwpeJzlgalV
-	cxq2InS4jdg72oTXTA0JQNlhploypOW9xwMnx7+fDnfkeJQHZ9iHpWMcUMZuYH8oEcS+GlXV9bA
-	uuyKa8Yx2UV2i0Vgbm169sMbBHVOcgvY1E7K0DUKz5ANP0hkKCK54eWJKaT9lCGcCqQ==
-X-Received: by 2002:a17:907:2dac:b0:ac2:63a9:df0b with SMTP id a640c23a62f3a-ac330378652mr188498566b.35.1741942663122;
-        Fri, 14 Mar 2025 01:57:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHREeEQWzAZbmBZyHJHEApsmhjnzU+MV8PtzV3nFcxh4ddMtyFRw54TeApFrTCGXMoWXZdgvQ==
-X-Received: by 2002:a17:907:2dac:b0:ac2:63a9:df0b with SMTP id a640c23a62f3a-ac330378652mr188496666b.35.1741942662695;
-        Fri, 14 Mar 2025 01:57:42 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac314aa7d10sm193297566b.185.2025.03.14.01.57.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 14 Mar 2025 01:57:42 -0700 (PDT)
-Message-ID: <af1f02d3-7341-4b2c-b9ed-50a38f8ebee8@redhat.com>
-Date: Fri, 14 Mar 2025 09:57:40 +0100
+	s=arc-20240116; t=1741943392; c=relaxed/simple;
+	bh=TlmG2L5R+I3AdyCukinQlJkSWU33w6Q3hwD9UJHGjYc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=odkB4vK/kHU3U5Y3w9CxCOPa3Sv+vKO51rlBQNBsvKYAW+R3Z+3l0BvF/Z1KCMVxgowU5JfosrbmL2/VIpxR4LIChryKBMVAn6v5ELcMgCFHcrROmedesmjdkJ2iBDjrWUHVz8deHZe3oy36/9dkblvUOmjPXJWHjl2lKTdZvLs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=i+2AbyM3; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (ip-185-104-138-24.ptr.icomera.net [185.104.138.24])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 90B778D4;
+	Fri, 14 Mar 2025 10:08:02 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1741943282;
+	bh=TlmG2L5R+I3AdyCukinQlJkSWU33w6Q3hwD9UJHGjYc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=i+2AbyM3JKtCGMu9inhOg5zYq1eoI/RodlcnyVoNHYZJjBmT03mu1vcARRYjnY+D1
+	 yo03LTTOlgxeRFzmZOU3RMF6T+ic1swf0WOe2Sh4TpE9Vf2EZVlQs+wmjlX7h5AxRz
+	 4cIArSaOV8sCPcvadtPz+SvmPziEMKbiVxgu9fU8=
+Date: Fri, 14 Mar 2025 11:09:19 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] media: uvcvideo: Introduce
+ V4L2_META_FMT_UVC_CUSTOM
+Message-ID: <20250314090919.GE19612@pendragon.ideasonboard.com>
+References: <20250313-uvc-metadata-v3-0-c467af869c60@chromium.org>
+ <20250313-uvc-metadata-v3-3-c467af869c60@chromium.org>
+ <20250314073456.25817a3d@foz.lan>
+ <CANiDSCuNzwqhYOORqY+PGUbK8=tqxm6stpzQC3BFYF7pxgRG6w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 00/14] media: i2c: Add Omnivision OV02C10 sensor driver
-To: Ingvar Hagelund <ingvar@redpill-linpro.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>
-Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
- Joachim Reichel <joachim.reichel@posteo.de>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Hao Yao <hao.yao@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
-References: <20250313184314.91410-1-hdegoede@redhat.com>
- <455e819b9fe70ee5958d220b8eca6f9c23baa889.camel@redpill-linpro.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <455e819b9fe70ee5958d220b8eca6f9c23baa889.camel@redpill-linpro.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CANiDSCuNzwqhYOORqY+PGUbK8=tqxm6stpzQC3BFYF7pxgRG6w@mail.gmail.com>
 
-Hi Ingvar,
+Hi Ricardo,
 
-On 14-Mar-25 9:52 AM, Ingvar Hagelund wrote:
-> to., 13.03.2025 kl. 19.43 +0100, skrev Hans de Goede:
->> Here is v8 of the patch to upstream the OV02C10 sensor driver
->> originally writen by Intel which Heimir has been working on
->> upstreaming.
->>
+On Fri, Mar 14, 2025 at 09:28:34AM +0100, Ricardo Ribalda wrote:
+> On Fri, 14 Mar 2025 at 07:35, Mauro Carvalho Chehab wrote:
+> > Em Thu, 13 Mar 2025 12:06:27 +0000 Ricardo Ribalda escreveu:
+> >
+> > > The UVC driver provides two metadata types V4L2_META_FMT_UVC, and
+> > > V4L2_META_FMT_D4XX. The only difference between the two of them is that
+> > > V4L2_META_FMT_UVC only copies PTS, SCR, size and flags, and
+> > > V4L2_META_FMT_D4XX copies the whole metadata section.
+> > >
+> > > Now we only enable V4L2_META_FMT_D4XX for the Intel D4xx family of
+> > > devices, but it is useful to have the whole metadata section for any
+> > > device where vendors include other metadata, such as the one described by
+> > > Microsoft:
+> > > https://learn.microsoft.com/en-us/windows-hardware/drivers/stream/mf-capture-metadata
+> > >
+> > > This patch introduces a new format V4L2_META_FMT_UVC_CUSTOM, that is
+> > > identical to V4L2_META_FMT_D4XX but it is available to all the UVC
+> > > devices.
+> > >
+> > > Suggested-by: Hans de Goede <hdegoede@redhat.com>
+> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > ---
+> > >  .../userspace-api/media/v4l/meta-formats.rst       |  1 +
+> > >  .../userspace-api/media/v4l/metafmt-uvc-custom.rst | 31 +++++++++++++++++
+> > >  MAINTAINERS                                        |  1 +
+> > >  drivers/media/usb/uvc/uvc_metadata.c               | 40 ++++++++++++++++++----
+> > >  drivers/media/v4l2-core/v4l2-ioctl.c               |  1 +
+> > >  include/uapi/linux/videodev2.h                     |  1 +
+> > >  6 files changed, 69 insertions(+), 6 deletions(-)
+> > >
+> > > diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> > > index 86ffb3bc8ade2e0c563dd84441572ecea1a571a6..9fd83f4a3cc8509702a2a9f032fdc04bf6c6d1bc 100644
+> > > --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> > > @@ -19,6 +19,7 @@ These formats are used for the :ref:`metadata` interface only.
+> > >      metafmt-pisp-fe
+> > >      metafmt-rkisp1
+> > >      metafmt-uvc
+> > > +    metafmt-uvc-custom
+> > >      metafmt-vivid
+> > >      metafmt-vsp1-hgo
+> > >      metafmt-vsp1-hgt
+> > > diff --git a/Documentation/userspace-api/media/v4l/metafmt-uvc-custom.rst b/Documentation/userspace-api/media/v4l/metafmt-uvc-custom.rst
+> > > new file mode 100644
+> > > index 0000000000000000000000000000000000000000..9f150fc2b6f379cc4707ff45041dd014956ae11a
+> > > --- /dev/null
+> > > +++ b/Documentation/userspace-api/media/v4l/metafmt-uvc-custom.rst
+> > > @@ -0,0 +1,31 @@
+> > > +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+> > > +
+> > > +.. _v4l2-meta-fmt-uvc-custom:
+> > > +
+> > > +*********************************
+> > > +V4L2_META_FMT_UVC_CUSTOM ('UVCC')
+> > > +*********************************
+> > > +
+> > > +UVC Custom Payload Metadata.
+> > > +
+> > > +
+> > > +Description
+> > > +===========
+> > > +
+> > > +V4L2_META_FMT_UVC_CUSTOM buffers follow the metadata buffer layout of
+> > > +V4L2_META_FMT_UVC with the only difference that it includes all the UVC
+> > > +metadata, not just the first 2-12 bytes.
+> > > +
+> > > +The most common metadata format is the one proposed by Microsoft(R)'s UVC
+> > > +extension [1_], but other vendors might have different formats.
+> > > +
+> > > +Applications might use information from the Hardware Database (hwdb)[2_] to
+> > > +process the camera's metadata accordingly.
+> >
+> > Having something like that at the userspace API shouldn't be handled
+> > lightly. This sounds to me that passing a blank check for vendors to stream
+> > whatever they want without any requirements to provide and sort of
+> > documentation for the usersace to decode it.
 > 
-> Many thanks to Heimir and Hans for this excellent work. This makes my
-> workday easier. 
+> As HdG previously mentioned, all the processing is done in the camera
+> so the metadata is not going to hide highly secret required for
+> processing:
+> https://lore.kernel.org/linux-media/67c1a857-7656-421f-994c-751709b6ae01@redhat.com/
+
+Without judging whether or not such an undocumented format should be
+supported by the driver, a correction is needed here: the issue is not
+"secrets required for processing", but giving closed-source application
+an unfair advantage.
+
+> > Also, it would be hard for userspace to distinguish what metatata
+> > is contained for a random UVC camera. Please let's not do that.
 > 
->> (...)
->>
->> 1. I don't have hardware to test. I hope that others can test this
->> soon,
->>    if things don't work the idea is that people can apply my cleanups
->>    1 by 1 and then we will know which change has broken things.
+> Userspace will use hwdb info to properly parse the metadata.
+
+I don't have experience with that, so I would like to see the effort
+being started on hwdb support to see how it will look like before we
+merge this patch. A few cameras should be added as examples, and a
+stategy to ensure the hwdb will be properly populated should be
+proposed.
+
+> > As the specific issue here is to support an already known extension,
+> > which is already documented, Just add an specific format for it, e.g.
+> > you could add something like that at the documentation:
 > 
-> Seems to work fine on my Dell XPS 13 9340. I have not found any
-> glitches so far. Tested with on fedora 41 with qcam, cheese, obs, and
-> firefox - tested with websites gum, jitsi, and webcamtests.com. All
-> these work fine. webcamtests.com was even able to select highest
-> resolution/zoom. Note that chromium does *not* work yet, at least not
-> in Fedora.
-
-Great thank you for testing. I was afraid that I would have broken
-something it is good to hear that I did not break anything.
-
-Sakari, do you want to take a look at the incremental patches in this
-v8 to get an idea of what I changed after your last review and maybe
-give feedback on specific changes, or shall I post a squashed v9
-which might be easier for you to review ?
-
-> I now use this as my daily camera, without any problems.
+> The problem here is how do we know from the driver if a device
+> supports V4L2_META_FMT_MSXU_UVC_1_5 or not.
 > 
-> I only miss more controls available, for example adjusting colors and
-> white balance. Some basic automatic adjustment seem to work, like when
-> changing rooms or lightning, but when for example you sit by a window
-> with sun on half your face, the image distorts, like getting over- or
-> underexposed. Also, the colors seems a bit washed out compared to my
-> usb cam (and to real life colors)
+> In Windows it seems that vendors add that information to the device
+> .inf file. That is equivalent to the hwdb proposal.
+> In ChromeOS we are trying to push vendors to use an extension saying
+> if there is metadata or not. But that will take some time to land and
+> there are thousands of modules out there not ChromeOS compliant.
+> 
+> >
+> >         V4L2_META_FMT_MSXU_UVC_1_5
+> >            Microsoft extensions to USB Video Class 1.5 specification.
+> >
+> >            For more details, see: https://learn.microsoft.com/en-us/windows-hardware/drivers/stream/uvc-extensions-1-5
+> >
+> > And then add the corresponding format to V4L2 API.
 
-Yes we need to work on improving the image quality and things like
-the autoexposure algorithm, note this is all work which needs to be
-done on the libcamera / softisp side not on the kernel side.
-
-> Switching to and fro between v7 and v8 without rebooting gave unstable
-> and strange results, but I presume that is less important, or even
-> expected.
-
-This is expected the sensor and CSI receiver get linked together
-once both have loaded, rmmod-ing the sensor driver after this linking
-is done is not really supported.
-
+-- 
 Regards,
 
-Hans
-
-
-
+Laurent Pinchart
 
