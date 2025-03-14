@@ -1,169 +1,116 @@
-Return-Path: <linux-media+bounces-28200-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28201-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49431A60E1E
-	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 11:02:15 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCF8EA60E64
+	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 11:12:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2F2BA3B2277
-	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 10:02:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ABA323BC81B
+	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 10:12:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 136151F37BA;
-	Fri, 14 Mar 2025 10:01:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0ECE61EF09A;
+	Fri, 14 Mar 2025 10:11:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redpill-linpro.com header.i=@redpill-linpro.com header.b="zVRx/2N7"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Jg+VM00z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from frontend01-osl2.zimbra.h.bitbit.net (frontend01-osl2.zimbra.h.bitbit.net [87.238.49.235])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0CA61F37DA
-	for <linux-media@vger.kernel.org>; Fri, 14 Mar 2025 10:01:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=87.238.49.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA5C11EEA4E
+	for <linux-media@vger.kernel.org>; Fri, 14 Mar 2025 10:11:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741946487; cv=none; b=GkVHZc2uHKLCoMFrIqfdxwfJyKoMFsiWgMvUmuuZHg+AvIh+0B1yzD2u7UO9QXnPF7yqgncNI98y92teH8t63U2DxlTmtIUT/zVTvZGlSNC9jStxcy1R1zY1nWadlpVPF7K9g0W7J6zPDW02Jy1u9HUQ19cliPARYNeD0j+2OBA=
+	t=1741947103; cv=none; b=I/lEZIVXsrWcawuTyJzRUNwjRsLYiEWciA0m1wf4bqRj/w2Q+gAP3+xwlBW7xXpee/FShN0TYz0rzCL2oLBzIHjCxjJsCGQVjYX1sjFJlp4NpyVsglSAOMmXNNDPNu+fnCD0LHpodTtCxi/RgRLcK6Fy2TybkoVTGV6t6kMwyxs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741946487; c=relaxed/simple;
-	bh=4fs5KNskG6hJ0gKTBp6datOHofJWVCA4TfB/MrSJ6Dk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=VgdK3bmzSwWataUzJ9hDJtOpxYKfSEFnasKq2TW4uRyrp3/xHhS0Sz9e4rAQo054KX0RFjZbhl1OpLwhaLlHFjMmB+CIPuo0ywpE02MddRcgA1yjpgz3G21YM19ORQMi8I22jt67FJdrJ5iO6LJN++3rAup8sERXGDAQanEeylg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redpill-linpro.com; spf=pass smtp.mailfrom=redpill-linpro.com; dkim=pass (1024-bit key) header.d=redpill-linpro.com header.i=@redpill-linpro.com header.b=zVRx/2N7; arc=none smtp.client-ip=87.238.49.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redpill-linpro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redpill-linpro.com
-Received: from localhost (localhost [IPv6:::1])
-	by frontend01-osl2.zimbra.h.bitbit.net (Postfix) with ESMTP id C1382603C3;
-	Fri, 14 Mar 2025 11:01:22 +0100 (CET)
-Received: from frontend01-osl2.zimbra.h.bitbit.net ([IPv6:::1])
- by localhost (frontend01-osl2.zimbra.h.bitbit.net [IPv6:::1]) (amavis, port 10032)
- with ESMTP id GAgbKVdfo-Zk; Fri, 14 Mar 2025 11:01:22 +0100 (CET)
-Received: from localhost (localhost [IPv6:::1])
-	by frontend01-osl2.zimbra.h.bitbit.net (Postfix) with ESMTP id A14E0607DC;
-	Fri, 14 Mar 2025 11:01:22 +0100 (CET)
-DKIM-Filter: OpenDKIM Filter v2.10.3 frontend01-osl2.zimbra.h.bitbit.net A14E0607DC
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redpill-linpro.com;
-	s=612BF5B6-589A-11E6-A0CB-300C70828C2A; t=1741946482;
-	bh=7QTNxBFoieZqUCOLGx0ZImRVPdMO0ru0UTZk1l7Hlz4=;
-	h=Message-ID:From:To:Date:MIME-Version;
-	b=zVRx/2N7g+1T6WrGiSs8BQWIAqOnHo37qS+rmA4m0RV0a+3TuxN1lj2XJFS7RSRPl
-	 ngNU+AyKajMbhXqbxag1ajr7t7g9Q+1xjJ+SSHue/bplhjgt1yTW6LV54RB4yUC7zm
-	 0T2bKFQ8gOf6xotN5aA/kXATj49ZxaAgXr5OUHys=
-X-Virus-Scanned: amavis at frontend01-osl2.zimbra.h.bitbit.net
-Received: from frontend01-osl2.zimbra.h.bitbit.net ([IPv6:::1])
- by localhost (frontend01-osl2.zimbra.h.bitbit.net [IPv6:::1]) (amavis, port 10026)
- with ESMTP id X5dO5R6i9ag0; Fri, 14 Mar 2025 11:01:22 +0100 (CET)
-Received: from [IPv6:2a02:c0:2:7::5e] (vpn.i.bitbit.net [IPv6:2a02:c0:2:6:18:59ff:fe38:da0d])
-	by frontend01-osl2.zimbra.h.bitbit.net (Postfix) with ESMTPSA id 6A1C5603C3;
-	Fri, 14 Mar 2025 11:01:22 +0100 (CET)
-Message-ID: <66e2d951ecb236007ffecf6f2218084173f8eb24.camel@redpill-linpro.com>
-Subject: Re: [PATCH v8 00/14] media: i2c: Add Omnivision OV02C10 sensor
- driver
-From: Ingvar Hagelund <ingvar@redpill-linpro.com>
-To: Hans de Goede <hdegoede@redhat.com>, Sakari Ailus
-	 <sakari.ailus@linux.intel.com>, Heimir Thor Sverrisson
-	 <heimir.sverrisson@gmail.com>
-Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, Joachim Reichel	
- <joachim.reichel@posteo.de>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-  Hao Yao <hao.yao@intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	s=arc-20240116; t=1741947103; c=relaxed/simple;
+	bh=kTVPwgOugGkT5Jrg0Yo5pirbfTvjX9UerUHDE9tqU+o=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=J+9uKIen5E84v6/R7JdvCQ2KrvBZN0TLJ/4yajhHV48Xw3jiP2JWN8Qj/Ap2OdAhzr15azwl409xnpt8rQg/HF4mKL5fL2VyoY6o8N5RP6q0wE0MFdMasoiK+IL6XGzLd87V92w81k3CAkFEUnbVz1UJC7XGi0M/LQ/aMHvZd0Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Jg+VM00z; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1741947100;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Xdlhtp/fKVcdydo3NdWZOFw3Vtmlm/vm+N2N2Yf61KU=;
+	b=Jg+VM00z386CPAYjPL+IXwo3GAaYa1O2U8upfV84xuPD/2bVgq93LMpQAswklsgf4NiApM
+	AXz1lI9jovA7vWIMbMZILMBTiLQKNsQWetFYxF8OGYh+j8HWsmOSkGrJ4Ydq0um/umjZIS
+	TquOcIIGRTnp6XhrZEy5WVOP+24LPL4=
+Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-689-Np8FQZKfP4agz8OLm3KQCQ-1; Fri,
+ 14 Mar 2025 06:11:37 -0400
+X-MC-Unique: Np8FQZKfP4agz8OLm3KQCQ-1
+X-Mimecast-MFC-AGG-ID: Np8FQZKfP4agz8OLm3KQCQ_1741947096
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D344418001E1;
+	Fri, 14 Mar 2025 10:11:35 +0000 (UTC)
+Received: from localhost.localdomain (unknown [10.45.225.107])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 27582180175A;
+	Fri, 14 Mar 2025 10:11:31 +0000 (UTC)
+From: Hans de Goede <hdegoede@redhat.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Ingvar Hagelund <ingvar@redpill-linpro.com>,
+	Joachim Reichel <joachim.reichel@posteo.de>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Hao Yao <hao.yao@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-media@vger.kernel.org
-Date: Fri, 14 Mar 2025 11:01:22 +0100
-In-Reply-To: <b9bfb5f8-9e69-4e61-ae7c-20bb4f2c8d2b@redhat.com>
-References: <20250313184314.91410-1-hdegoede@redhat.com>
-	 <455e819b9fe70ee5958d220b8eca6f9c23baa889.camel@redpill-linpro.com>
-	 <b9bfb5f8-9e69-4e61-ae7c-20bb4f2c8d2b@redhat.com>
-Organization: Redpill Linpro CloudOps AS
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+Subject: [PATCH v9 0/1] media: i2c: Add Omnivision OV02C10 sensor driver
+Date: Fri, 14 Mar 2025 11:11:24 +0100
+Message-ID: <20250314101125.9853-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-fr., 14.03.2025 kl. 10.43 +0100, skrev Hans de Goede:
->=20
-> One more testing request, can you run qcam and
-> then see what it reports for FPS after letting it run for
-> a couple of seconds ?
->=20
-> And then report the FPS back here ?
+Hi All,
 
-Sure
+Here is v9 of the patch to upstream the OV02C10 sensor driver originally
+writen by Intel.
 
-It stabilizes at 30 fps (wandering a bit between 30.00 and 30.02 fps).
+This is the same as v8, but then with everything squashed back together
+into a single patch again.
 
-Also, here is the output of cam -l and modinfo.
+Changes in v8:
+- Many changes, so many that this has been posted as an incremental
+  series on top of v7. See individual commits for change details:
+  https://lore.kernel.org/linux-media/20250313184314.91410-1-hdegoede@redhat.com/
 
-I observe that cam says=C2=A0
+Changes in v9:
+- Squashed everything back into a single patch again
+- Dropped Heimir's and Stanislaw's Tested-by tags since much
+  has changed since v7
 
-Configuration file 'ov02c10.yaml' not found for IPA module 'simple',
-falling back to 'uncalibrated.yaml'
+Regards,
 
-Should this file exist, or will the driver downloaded from the settings
-from the device, making the configuration file superflous?
-
-Best regards,
-Ingvar
-
+Hans
 
 
-$ cam -l=20
-[2:16:02.661071222] [25536]  INFO Camera camera_manager.cpp:325
-libcamera v0.3.2
-[2:16:02.677709274] [25539]  WARN CameraSensor camera_sensor.cpp:257
-'ov02c10 17-0036': Recommended V4L2 control 0x009a0922 not supported
-[2:16:02.677733285] [25539] ERROR V4L2 v4l2_subdevice.cpp:1085 'ov02c10
-17-0036': Unable to get rectangle 2 on pad 0/0: Inappropriate ioctl for
-device
-[2:16:02.677742291] [25539]  WARN CameraSensor camera_sensor.cpp:304
-'ov02c10 17-0036': The PixelArraySize property has been defaulted to
-1928x1092
-[2:16:02.677747409] [25539] ERROR V4L2 v4l2_subdevice.cpp:1085 'ov02c10
-17-0036': Unable to get rectangle 1 on pad 0/0: Inappropriate ioctl for
-device
-[2:16:02.677751299] [25539]  WARN CameraSensor camera_sensor.cpp:315
-'ov02c10 17-0036': The PixelArrayActiveAreas property has been
-defaulted to (0, 0)/1928x1092
-[2:16:02.677757335] [25539] ERROR V4L2 v4l2_subdevice.cpp:1085 'ov02c10
-17-0036': Unable to get rectangle 0 on pad 0/0: Inappropriate ioctl for
-device
-[2:16:02.677760909] [25539]  WARN CameraSensor camera_sensor.cpp:323
-'ov02c10 17-0036': Failed to retrieve the sensor crop rectangle
-[2:16:02.677764402] [25539]  WARN CameraSensor camera_sensor.cpp:329
-'ov02c10 17-0036': The sensor kernel driver needs to be fixed
-[2:16:02.677767468] [25539]  WARN CameraSensor camera_sensor.cpp:331
-'ov02c10 17-0036': See Documentation/sensor_driver_requirements.rst in
-the libcamera sources for more information
-[2:16:02.678099594] [25539]  WARN CameraSensorProperties
-camera_sensor_properties.cpp:293 No static properties available for
-'ov02c10'
-[2:16:02.678112388] [25539]  WARN CameraSensorProperties
-camera_sensor_properties.cpp:295 Please consider updating the camera
-sensor properties database
-[2:16:02.678116314] [25539]  WARN CameraSensor camera_sensor.cpp:477
-'ov02c10 17-0036': Failed to retrieve the camera location
-[2:16:02.678120108] [25539]  WARN CameraSensor camera_sensor.cpp:499
-'ov02c10 17-0036': Rotation control not available, default to 0 degrees
-[2:16:02.679507146] [25539]  WARN IPAProxy ipa_proxy.cpp:160
-Configuration file 'ov02c10.yaml' not found for IPA module 'simple',
-falling back to 'uncalibrated.yaml'
-[2:16:02.679530599] [25539]  WARN IPASoft soft_simple.cpp:114 Failed to
-create camera sensor helper for ov02c10
+Heimir Thor Sverrisson (1):
+  media: i2c: Add Omnivision OV02C10 sensor driver
 
-$ modinfo ov02c10
-filename:       /lib/modules/6.13.6-
-200.fc41.x86_64/kernel/drivers/media/i2c/ov02c10.ko.xz
-license:        GPL
-description:    OmniVision OV02C10 sensor driver
-author:         Hao Yao <hao.yao@intel.com>
-alias:          acpi*:OVTI02C1:*
-depends:        videodev,v4l2-cci,v4l2-fwnode,mc,v4l2-async
-name:           ov02c10
-retpoline:      Y
-vermagic:       6.13.6-200.fc41.x86_64 SMP preempt mod_unload=20
+ drivers/media/i2c/Kconfig   |   10 +
+ drivers/media/i2c/Makefile  |    1 +
+ drivers/media/i2c/ov02c10.c | 1012 +++++++++++++++++++++++++++++++++++
+ 3 files changed, 1023 insertions(+)
+ create mode 100644 drivers/media/i2c/ov02c10.c
 
-
+-- 
+2.48.1
 
 
