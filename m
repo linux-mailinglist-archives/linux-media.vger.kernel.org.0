@@ -1,82 +1,60 @@
-Return-Path: <linux-media+bounces-28222-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28224-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7A95A6124C
-	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 14:15:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC2F6A61293
+	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 14:27:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C2A391B61947
-	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 13:15:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8472418943D9
+	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 13:27:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 206FC200BA1;
-	Fri, 14 Mar 2025 13:14:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AA5A1FF7DB;
+	Fri, 14 Mar 2025 13:27:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="td9yKDRE"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="e8HuVzn+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com [136.143.184.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29EC9200B96
-	for <linux-media@vger.kernel.org>; Fri, 14 Mar 2025 13:14:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741958059; cv=none; b=WcapcMMeqFg2abseHrRRwKUCn7hGIWTx0GvC7rIrjJfbRMnz1Lj9qJzYn3NYOGu1/eRMnmLic9a8qP3k2giU+5Whh1bEb9EzU+HtPN73mXavXOOVV67oM3L3bE3IYcWTFV96wZeVDlXpu2QkpLvW/WY/6/GbFRlgeB4bJcOwHjo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741958059; c=relaxed/simple;
-	bh=3qEj3bbV+h7bw70W9Qu2rgKmNJSTX2xHpgR9W8Jm1k8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VFidwmpIu9D60Vm35xnzotUGPI/Nivyx6tO14ca7TEWaTSDLc352KAtWERGLoJs8TEcC+3TLfiHJXkCT1jHwZb35c4I32rZA5ypQ0bQ7VZVfROeuk+mNWuQn/U7QjaIeIyTng1XJ5zRSsl+7wvNxgyAzV74maj2yGsXpnAjJKcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=td9yKDRE; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ac2a81e41e3so454436266b.1
-        for <linux-media@vger.kernel.org>; Fri, 14 Mar 2025 06:14:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1741958055; x=1742562855; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RP6R7UedA0jjAiOICwsvyjhC9KhOLijiSoq6VNfxblc=;
-        b=td9yKDREf3HjMyOdGu5Uhh+ulSqxvfsFGhuijG2zu3b1VSYNtNAL1AgaoR5NCLjH5C
-         +ghQUj3EFcU2PnZ3uXAEZbg2p8Uk3jEfegtYxKqe8zKveG9oqLNGvtmyzhoAxPT+tUBo
-         06fR9D0U9o90M/up83Jw3zVA/3SzJHmChfaEJHQbzox0V6OoCDJrYt68KEP2sHBpHsBc
-         xoCP/NzchrenJ6CTs+zgGtG4hZellaFdabcPiOos+yuGO3AMi47uRAC7SIGZ0gHk+V67
-         lSGeJQB31nyJ2Js3I0vMUrNMmT2dhz8pM5Vxl9NmWj9PsAybqqxt+hVKbw2M38a8antr
-         NNlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741958055; x=1742562855;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RP6R7UedA0jjAiOICwsvyjhC9KhOLijiSoq6VNfxblc=;
-        b=gvVrMSZ2U3bq8RidzBwKDpAVYgFeZfMYilzCqGT1WTb+fxaHyF8IeTOyS8SLDA1ofp
-         LrvnfY+mF5avAIT1aIQ9DFn4CLu2OOh1HNyH8YxHmk7eG6iUMHcD+0hhWMDqSoLvG1AC
-         bMgH6cd5Q+15QxRZTRhH2CGfyC03RM6vgGUaYRBHDvE9h71NNekEQtKpsvA0aJCMysVC
-         0eCZXOAdRUpkrBFATkuZAaZJpNes5ME3DieLpu/tO4/xIdfa1tgGxYen6eGjrPpQF4xI
-         BvobWOzfihq/az8tuV93cbGsEr5WXB8sucR656Mob0n0VqMmeSTGzHZH/WxCV022Pjhk
-         y1bw==
-X-Forwarded-Encrypted: i=1; AJvYcCWClAowHn1FxfZzavH2HHGWo5x4+gKP/DRk2iXCBfw8dXB+GSTZnnyPlpJnhS9yn/+bG7B9L7qaREVxrw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxt2SmBroIpYTp2WMYKB/8QRgBECiRkmXKycsHLFCt3Tzdx6enq
-	+76/8yv7h/IVdBFBzhsgtTlv04iE7JkKHSro1c6cFk2AC5itIkat7WVBqdq8fTw=
-X-Gm-Gg: ASbGnctJga/AXZZQ06F4fg1abFBD7f4/S/ZdcXLhr55xmoxkiCjYLeTXw+cS8Dmn3Bj
-	A4FkCbHKdDFJLlveyLOlU6Spz1wBTmrTTXDJCJuFoVBQduPSCLfgGxjga/0n5xRdyETcvUpVOQn
-	hmfAWkQBbOJWdaAw0vi4Yfpvpcr7/Us/9pZ4M3f73yx0Qe6SmtEDtneJsZx7bWcwC1A5lXMhJVu
-	0rCTFRoWmBtv30DI9HVJ5aKDFbMsrS8bkrg3F9kihQauM2wp53l318cZ7Mt+eAukcOOESFQMEL2
-	NMseLJ9Ovl9e77KVDPGuqmtIPnSbyKH/s1//eHXpY4Eou6My+k3LpDjh18BfMZ5S5crSjyOhNsv
-	FXnk7fU5l8Q9u0ZMahY6K6tdIeGRA/MHqWYXYW0oKc0e3Ln8nwGXGPD+qMcUfiMkZD7JT
-X-Google-Smtp-Source: AGHT+IH6lz7+L7jSWCp/dupY+i3E2c1bi9sBCsicl1Tdt+QjUj8+2p5pZTHaCBVg2QBhL+EH+3ixqQ==
-X-Received: by 2002:a17:906:ef0b:b0:ac2:7a97:87fb with SMTP id a640c23a62f3a-ac3302f0a5fmr234668166b.33.1741958055309;
-        Fri, 14 Mar 2025 06:14:15 -0700 (PDT)
-Received: from [192.168.178.107] (2001-1c06-2302-5600-7555-cca3-bbc4-648b.cable.dynamic.v6.ziggo.nl. [2001:1c06:2302:5600:7555:cca3:bbc4:648b])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac314a3fc0esm226008566b.137.2025.03.14.06.14.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Mar 2025 06:14:14 -0700 (PDT)
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date: Fri, 14 Mar 2025 13:14:03 +0000
-Subject: [PATCH v6 5/5] arm64: dts: qcom: x1e80100: Add CAMSS block
- definition
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEF9812FF6F;
+	Fri, 14 Mar 2025 13:27:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.184.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741958834; cv=pass; b=AlSU1FOuJlEoOAjD18xSR8q/v1L6gudDr4JrMtRxGP1juFJ3vsABUOJVq01t0mWd2gbDCSpgkmZAGRuCMBH5PhhgvsveqLul/BxXvLh1ou1dFYfYLRfRjMT6LqUyszaA0f42ue31v2dyAXrFp3LkIeu7NHsuF9tgWu3JfQkOq6M=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741958834; c=relaxed/simple;
+	bh=Xp0Y8pHU3fv/bIXLAawK95MaSBrGEYjOs4pySFviY/w=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Q48YmewAEbMoimHxUYehE6y0xCFDvxKN5bwKIiSEaKDKPPR4ZjJx9Za/4fFuNtjggqrdkxMXWV4qX3jD8FZHbhCMYkdu5p8SSf4ZC1v59t3A4DcvtKb7xr4T4OLxaa7wiAeyls/0OVfrSXKveJIEj5Z0r/qTmVfl1+f9SvF8BPQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=e8HuVzn+; arc=pass smtp.client-ip=136.143.184.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1741958798; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=D4k3SKsVi5dF8Z3ZB4rjnk6FXSb8ROD01yQSVBAcAm46+r9Rk7SRAbIJ6MQv07q8S1LSSg8TXuJousZ8TmJq6zDyYryNfkab3SWxrsn4h6K/T1VJgnY22rigFDVRgFIKLyM3b0+7DZt6aSomlfBL7QV2ZG7ryXCeWXbBsVFzL9w=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1741958798; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=TFP7XQ1cObdqQ6De6eSsgjYNzHKxK2Nt4AObjojPfNo=; 
+	b=ihm1Uo8exTE5IABlu3X5y8qdKU30rmWh6Ur83wSEQy7JNbyR5qb3uL5z0jIE3x45f5YpRfK+6honuCaYvUztaL1MQPzCZDmua5z7xcTFsSPUG8sLLPD2AxKUsPMjf1zYMKnySvLbECuitGVqK1XyPjFOlI7Q+pa5bAW79c3XMqw=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
+	dmarc=pass header.from=<sebastian.fricke@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1741958798;
+	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
+	h=From:From:Subject:Subject:Date:Date:Message-Id:Message-Id:MIME-Version:Content-Type:Content-Transfer-Encoding:To:To:Cc:Cc:Reply-To;
+	bh=TFP7XQ1cObdqQ6De6eSsgjYNzHKxK2Nt4AObjojPfNo=;
+	b=e8HuVzn+uMJOmOW7EN341A6UjAQkT9ccnM/Tw2WnM/Wz7ZDoRNKTyETONJgq4Gsk
+	+GcnhLxcvKVjru8HwuU4j1nJgqRx4JVIzTtqey3QO022T0sMu56+a9SRH+QKyqOH2uW
+	EDC819E5xZUpFRcGzCQJJCEaa3KSEtWDFxpsqnRk=
+Received: by mx.zohomail.com with SMTPS id 1741958796725877.1323443038518;
+	Fri, 14 Mar 2025 06:26:36 -0700 (PDT)
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+Subject: [PATCH 0/5] Add manual request completion to the MediaTek VCodec
+ driver
+Date: Fri, 14 Mar 2025 14:26:25 +0100
+Message-Id: <20250314-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v1-0-5e277a3d695b@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -85,238 +63,101 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250314-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v6-5-edcb2cfc3122@linaro.org>
-References: <20250314-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v6-0-edcb2cfc3122@linaro.org>
-In-Reply-To: <20250314-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v6-0-edcb2cfc3122@linaro.org>
-To: Bjorn Andersson <andersson@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>, 
- Todor Tomov <todor.too@gmail.com>, 
+X-B4-Tracking: v=1; b=H4sIAIEu1GcC/x2O0QqCQBBFf0X2uQVdy6JfiVim8ZpDutrOaoH47
+ y09HricezajiAI112IzEauoTCFDdSgM9xSesNJmNq50p7KunFU8SJNQ6KLwC3blqQX7kcJCg49
+ 4L9DkeRrnASnL/EdS7zVRQh5xLwG2qRvH5+5SUnU0+WmO6OT7r7jd9/0HIUjRl5UAAAA=
+X-Change-ID: 20250312-sebastianfricke-vcodec_manual_request_completion_with_state_machine-6362c7f80a14
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, 
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+ Hans Verkuil <hverkuil@xs4all.nl>, Tiffany Lin <tiffany.lin@mediatek.com>, 
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
+ Yunfei Dong <yunfei.dong@mediatek.com>, 
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ kernel@collabora.com, Sebastian Fricke <sebastian.fricke@collabora.com>, 
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+ Hans Verkuil <hverkuil@xs4all.nl>
 X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1741958789; l=3501;
+ i=sebastian.fricke@collabora.com; s=linux-media; h=from:subject:message-id;
+ bh=Xp0Y8pHU3fv/bIXLAawK95MaSBrGEYjOs4pySFviY/w=;
+ b=3QIJWz8aO21ikn7G/sTIYXAiWCA335VBVJ6d1vE+9/medWSofWgVGyuBgGZC7ZJa/b73S13ls
+ ZkS/Y9WunT3BVM1lwJ4dQnDfWRlQ+VNg5hKS73rldUKBA7XZligWjVL
+X-Developer-Key: i=sebastian.fricke@collabora.com; a=ed25519;
+ pk=pYXedPwrTtErcj7ERYeo/IpTrpe4QbJuEzSB52fslBg=
+X-ZohoMailClient: External
 
-Add dtsi to describe the xe180100 CAMSS block
+This set introduces the manual request completion API by the author Hans
+Verkuil and implements it within the MediaTek VCodec driver.
 
-4 x CSIPHY
-2 x CSID
-2 x CSID Lite
-2 x IFE
-2 x IFE Lite
+Why is this needed?
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+The VCodec driver supports a hardware containing two separate cores, the
+CORE and the LAT, these are working in a serial manner without this
+series. This series solves two issues, the first being that the current
+code runs into a problem, that occurs when the last request object is
+unbound from the request, before the v4l2_ctrl_request_complete function
+is called, causing an implicit transition to the COMPLETE state.
+This issues has been found in applications which didn't attach the
+controls for the very first request (which is supposed to enable the
+driver to sniff out the correct formats, etc.).
+The second issue is that the VCodec driver can not utilize the full
+performance of both cores, when the LAT core has to wait for the CORE
+core to finishing processing the decode. Thus by enabling the LAT core
+to process the next bitstream, right after processing the last we can
+increase the performance of the driver.
+With the manual request completion API, we can separate the
+completion of the request objects of a request and from the completion
+of the request itself, which allows to send a new bitstream after the
+LAT core has processed the previous and while the CORE core decodes the
+previous bitstream, so both cores can work in a parallel manner, but
+while keeping the request alive during both steps.
+
+A new state machine for the VCodec driver ensures, that all necessary
+processing steps are handled in the correct order depending on the
+current step in the execution. This state machine has been added to each
+request to ensure that new requests do not alter the state of still
+ongoing requests.
+
+Additionally, this series adds a small patch to avoid trying to handle a
+scenario, which is not supported by the hardware and thus runs into a
+timeout.
+
+Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 ---
- arch/arm64/boot/dts/qcom/x1e80100.dtsi | 185 +++++++++++++++++++++++++++++++++
- 1 file changed, 185 insertions(+)
+Hans Verkuil (3):
+      media: mc: add manual request completion
+      media: vicodec: add support for manual completion
+      media: mc: add debugfs node to keep track of requests
 
-diff --git a/arch/arm64/boot/dts/qcom/x1e80100.dtsi b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-index 4ae0f67a634a982143df7aa933ec4de697f357a5..ee78c630e2a1c38643c9222a6d6fff4cc1216a47 100644
---- a/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-+++ b/arch/arm64/boot/dts/qcom/x1e80100.dtsi
-@@ -5195,6 +5195,191 @@ cci1_i2c1: i2c-bus@1 {
- 			};
- 		};
- 
-+		camss: isp@acb6000 {
-+			compatible = "qcom,x1e80100-camss";
-+
-+			reg = <0 0x0acb7000 0 0x2000>,
-+			      <0 0x0acb9000 0 0x2000>,
-+			      <0 0x0acbb000 0 0x2000>,
-+			      <0 0x0acc6000 0 0x1000>,
-+			      <0 0x0acca000 0 0x1000>,
-+			      <0 0x0acb6000 0 0x1000>,
-+			      <0 0x0ace4000 0 0x2000>,
-+			      <0 0x0ace6000 0 0x2000>,
-+			      <0 0x0ace8000 0 0x2000>,
-+			      <0 0x0acec000 0 0x2000>,
-+			      <0 0x0acf6000 0 0x1000>,
-+			      <0 0x0acf7000 0 0x1000>,
-+			      <0 0x0acf8000 0 0x1000>,
-+			      <0 0x0ac62000 0 0x4000>,
-+			      <0 0x0ac71000 0 0x4000>,
-+			      <0 0x0acc7000 0 0x2000>,
-+			      <0 0x0accb000 0 0x2000>;
-+			reg-names = "csid0",
-+				    "csid1",
-+				    "csid2",
-+				    "csid_lite0",
-+				    "csid_lite1",
-+				    "csid_wrapper",
-+				    "csiphy0",
-+				    "csiphy1",
-+				    "csiphy2",
-+				    "csiphy4",
-+				    "csitpg0",
-+				    "csitpg1",
-+				    "csitpg2",
-+				    "vfe0",
-+				    "vfe1",
-+				    "vfe_lite0",
-+				    "vfe_lite1";
-+
-+			clocks = <&camcc CAM_CC_CAMNOC_AXI_NRT_CLK>,
-+				 <&camcc CAM_CC_CAMNOC_AXI_RT_CLK>,
-+				 <&camcc CAM_CC_CORE_AHB_CLK>,
-+				 <&camcc CAM_CC_CPAS_AHB_CLK>,
-+				 <&camcc CAM_CC_CPAS_FAST_AHB_CLK>,
-+				 <&camcc CAM_CC_CPAS_IFE_0_CLK>,
-+				 <&camcc CAM_CC_CPAS_IFE_1_CLK>,
-+				 <&camcc CAM_CC_CPAS_IFE_LITE_CLK>,
-+				 <&camcc CAM_CC_CPHY_RX_CLK_SRC>,
-+				 <&camcc CAM_CC_CSID_CLK>,
-+				 <&camcc CAM_CC_CSID_CSIPHY_RX_CLK>,
-+				 <&camcc CAM_CC_CSIPHY0_CLK>,
-+				 <&camcc CAM_CC_CSI0PHYTIMER_CLK>,
-+				 <&camcc CAM_CC_CSIPHY1_CLK>,
-+				 <&camcc CAM_CC_CSI1PHYTIMER_CLK>,
-+				 <&camcc CAM_CC_CSIPHY2_CLK>,
-+				 <&camcc CAM_CC_CSI2PHYTIMER_CLK>,
-+				 <&camcc CAM_CC_CSIPHY4_CLK>,
-+				 <&camcc CAM_CC_CSI4PHYTIMER_CLK>,
-+				 <&gcc GCC_CAMERA_HF_AXI_CLK>,
-+				 <&gcc GCC_CAMERA_SF_AXI_CLK>,
-+				 <&camcc CAM_CC_IFE_0_CLK>,
-+				 <&camcc CAM_CC_IFE_0_FAST_AHB_CLK>,
-+				 <&camcc CAM_CC_IFE_1_CLK>,
-+				 <&camcc CAM_CC_IFE_1_FAST_AHB_CLK>,
-+				 <&camcc CAM_CC_IFE_LITE_CLK>,
-+				 <&camcc CAM_CC_IFE_LITE_AHB_CLK>,
-+				 <&camcc CAM_CC_IFE_LITE_CPHY_RX_CLK>,
-+				 <&camcc CAM_CC_IFE_LITE_CSID_CLK>;
-+			clock-names = "camnoc_nrt_axi",
-+				      "camnoc_rt_axi",
-+				      "core_ahb",
-+				      "cpas_ahb",
-+				      "cpas_fast_ahb",
-+				      "cpas_vfe0",
-+				      "cpas_vfe1",
-+				      "cpas_vfe_lite",
-+				      "cphy_rx_clk_src",
-+				      "csid",
-+				      "csid_csiphy_rx",
-+				      "csiphy0",
-+				      "csiphy0_timer",
-+				      "csiphy1",
-+				      "csiphy1_timer",
-+				      "csiphy2",
-+				      "csiphy2_timer",
-+				      "csiphy4",
-+				      "csiphy4_timer",
-+				      "gcc_axi_hf",
-+				      "gcc_axi_sf",
-+				      "vfe0",
-+				      "vfe0_fast_ahb",
-+				      "vfe1",
-+				      "vfe1_fast_ahb",
-+				      "vfe_lite",
-+				      "vfe_lite_ahb",
-+				      "vfe_lite_cphy_rx",
-+				      "vfe_lite_csid";
-+
-+			interrupts = <GIC_SPI 464 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 466 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 431 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 468 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 359 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 477 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 478 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 479 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 122 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 465 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 467 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 469 IRQ_TYPE_EDGE_RISING>,
-+				     <GIC_SPI 360 IRQ_TYPE_EDGE_RISING>;
-+			interrupt-names = "csid0",
-+					  "csid1",
-+					  "csid2",
-+					  "csid_lite0",
-+					  "csid_lite1",
-+					  "csiphy0",
-+					  "csiphy1",
-+					  "csiphy2",
-+					  "csiphy4",
-+					  "vfe0",
-+					  "vfe1",
-+					  "vfe_lite0",
-+					  "vfe_lite1";
-+
-+			interconnects = <&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ACTIVE_ONLY
-+					 &config_noc SLAVE_CAMERA_CFG QCOM_ICC_TAG_ACTIVE_ONLY>,
-+					<&mmss_noc MASTER_CAMNOC_HF QCOM_ICC_TAG_ALWAYS
-+					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
-+					<&mmss_noc MASTER_CAMNOC_SF QCOM_ICC_TAG_ALWAYS
-+					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>,
-+					<&mmss_noc MASTER_CAMNOC_ICP QCOM_ICC_TAG_ALWAYS
-+					 &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
-+			interconnect-names = "ahb",
-+					     "hf_mnoc",
-+					     "sf_mnoc",
-+					     "sf_icp_mnoc";
-+
-+			iommus = <&apps_smmu 0x800 0x60>,
-+				 <&apps_smmu 0x860 0x60>,
-+				 <&apps_smmu 0x1800 0x60>,
-+				 <&apps_smmu 0x1860 0x60>,
-+				 <&apps_smmu 0x18e0 0x00>,
-+				 <&apps_smmu 0x1900 0x00>,
-+				 <&apps_smmu 0x1980 0x20>,
-+				 <&apps_smmu 0x19a0 0x20>;
-+
-+			power-domains = <&camcc CAM_CC_IFE_0_GDSC>,
-+					<&camcc CAM_CC_IFE_1_GDSC>,
-+					<&camcc CAM_CC_TITAN_TOP_GDSC>;
-+			power-domain-names = "ife0",
-+					     "ife1",
-+					     "top";
-+
-+			status = "disabled";
-+
-+			ports {
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+
-+				port@0 {
-+					reg = <0>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+				};
-+
-+				port@1 {
-+					reg = <1>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+				};
-+
-+				port@2 {
-+					reg = <2>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+				};
-+
-+				port@3 {
-+					reg = <3>;
-+					#address-cells = <1>;
-+					#size-cells = <0>;
-+				};
-+			};
-+		};
-+
- 		camcc: clock-controller@ade0000 {
- 			compatible = "qcom,x1e80100-camcc";
- 			reg = <0 0x0ade0000 0 0x20000>;
+Nicolas Dufresne (1):
+      media: mtk-vcodec: Don't try to decode 422/444 VP9
 
+Sebastian Fricke (1):
+      media: vcodec: Implement manual request completion
+
+ drivers/media/mc/mc-device.c                       | 30 +++++++++++++
+ drivers/media/mc/mc-devnode.c                      |  5 +++
+ drivers/media/mc/mc-request.c                      | 44 +++++++++++++++++-
+ .../mediatek/vcodec/common/mtk_vcodec_cmn_drv.h    | 13 ++++++
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec.c       |  4 +-
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c   | 52 ++++++++++++++++++++++
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h   |  4 ++
+ .../vcodec/decoder/mtk_vcodec_dec_stateless.c      | 52 ++++++++++++----------
+ drivers/media/test-drivers/vicodec/vicodec-core.c  | 21 +++++++--
+ include/media/media-device.h                       |  9 ++++
+ include/media/media-devnode.h                      |  4 ++
+ include/media/media-request.h                      | 38 +++++++++++++++-
+ 12 files changed, 244 insertions(+), 32 deletions(-)
+---
+base-commit: f2151613e040973c868d28c8b00885dfab69eb75
+change-id: 20250312-sebastianfricke-vcodec_manual_request_completion_with_state_machine-6362c7f80a14
+
+Best regards,
 -- 
-2.48.1
+Sebastian Fricke <sebastian.fricke@collabora.com>
 
 
