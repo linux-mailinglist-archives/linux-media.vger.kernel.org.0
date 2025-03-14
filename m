@@ -1,75 +1,77 @@
-Return-Path: <linux-media+bounces-28237-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28238-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26B41A614DF
-	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 16:30:02 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8BA8A614E1
+	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 16:30:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A8B381B63760
-	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 15:30:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A082D880BA5
+	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 15:29:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50DD7202994;
-	Fri, 14 Mar 2025 15:29:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F5B2202C53;
+	Fri, 14 Mar 2025 15:29:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PHFBprcQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="A3BJR+05"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0811202968;
-	Fri, 14 Mar 2025 15:29:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38A58202991;
+	Fri, 14 Mar 2025 15:29:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741966187; cv=none; b=jfgP46J/Bdh0L/sXAmvxdiZaKhNREcG0eHUmbllp9OtQSkJiyKkZdfCTuOTCly1GwC0zbUQgt1CM8KIbomx7EzTuUWEg5WynEZRGsAcdSeSAByFsp5LuNprKab6t4cY4qOTh0sqZkvgD9wB/psg2JwnHDcFZyRotvk15GcglRA0=
+	t=1741966189; cv=none; b=b8Vxbm6cVZrELZmS5miYy0d9s24j4d2vv2uFYgplQMNrA29h65nilHWHZFPQfdIELqLedNE2YR7f30viN3jQZb2tw1z18tB5OHbH0ZvhNBfntU7qcA15U3G2sV+2qiTPAnHbHPXKB/Dr2rSPgtN04ZdK93dxQT4SyRAOEJFbX44=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741966187; c=relaxed/simple;
-	bh=rHNB3cncIFXRVXjuxgfdKYQlC0Tsam7anJFpLJEfQPQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=DgMk3VbXkv5dkUbk6ut17bakXw6RnNobm48dR43oSCVyXbpe99l3UvvrCP+NOzDco+mHrxh+amf/Ny83RTeaZ/RvZygtdM4/TS6Amt7su+TZRi1KQVscWKyv63cvPcaK48kGyTBbrN6NrOdV6PHlrz26X5oIX2125w8K48yIzPo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PHFBprcQ; arc=none smtp.client-ip=209.85.208.171
+	s=arc-20240116; t=1741966189; c=relaxed/simple;
+	bh=3cmE2i1Gz9lClv3Jfpe/1r3UhrAIU3SNzkgw702sHyQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Pzt4YLPEjyHrdNVFvjaL6QeP69sWH/rkKOVhwAc4ypqlJbnOWsaAq5Rl0SzyqQoiZrWN+gWcDZFAgdyuNMxpHOYr7vIOqScw2LNV39vYjidiTlwZ/tmmVMD53/kpo72NjVAQfHSz6Q9u2viludB7TscZeLQm/rFjhyotb5xtv2Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=A3BJR+05; arc=none smtp.client-ip=209.85.208.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-30c461a45f8so13562681fa.1;
-        Fri, 14 Mar 2025 08:29:45 -0700 (PDT)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-30bf5d7d107so19330721fa.2;
+        Fri, 14 Mar 2025 08:29:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1741966183; x=1742570983; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=MPyk6XcUmnWugQP4HxO4j5PfsjDj3sqCpKeOAvSBxB8=;
-        b=PHFBprcQifHp7Si/G5srN0uoGFlo8CvthZl5HA6kDHjMPe03wLutV4cMdOLGB1206s
-         S+7EIg1QBMo92uqoYrMDbb6QqtEljkT4XYyGx6qlhbxlD+LJbJZoQk5QgRyToII/wTwW
-         KosG/aKeQEtV6X0jaCmrGOMea0zPQ+Xxl5ZCqbXC7WyHw9O2izvoXMNOxBzOIG/0fgLo
-         Rvxl692qiitAL7vEtS2Oux9qNmP7yFb9UaMnqOpLqPa8ntOFApAoaZzkPOeRCvC8/PEN
-         43Fmmzw8hRYEuh3Kcfz3TSs+oMDRdeKqskgbi5g7u/1Iz/vGGhR2nzJVBD2qX1p0HlrF
-         jLuw==
+        d=gmail.com; s=20230601; t=1741966185; x=1742570985; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g2TBxm9b4Z7DvE3zMi2yjLlJGaJTiMHJTb4BUjWKoMs=;
+        b=A3BJR+05HQePvJEAmwRku6BSqPbRDeOuNLH4A4mTHyYc8BDk87pNr2BQ9Vy+vsuSSn
+         gIOJNudDSg8LMGeLaIYJVjD7/wK5hmWwR4hp5utJBqFK5BqYI5xbUtR5kgMkxTooczYx
+         5DrG7AbTXwTjC4uDewRfRUuYyu+PcjtIiLHFeapM5CMr4mH0RCCRvJYTXfpf/JJEh406
+         7ADi9NX5hQPSXAhwbWnS3Pmk2HuL8pHaOR6tihNlVI46kW9w3uuNOCDBVRTeoxVp4IcC
+         gTNZ8F24U1u4HxXXPFXuKzs+Y91/i2z9GlNSBnZcdxACxw6e/YGMllXalVHYeV0HSlxI
+         fi9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1741966183; x=1742570983;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MPyk6XcUmnWugQP4HxO4j5PfsjDj3sqCpKeOAvSBxB8=;
-        b=MqwRQAdU3dKGq/fdTAOr7IDU9zfCWW5m6FpRejeIDCgBU10DzEZ6/x0wQNFlMTA78g
-         DLAj3zs+ZnZuLx5B99mJPViXCF/3gsj4K3sJj0Y2EUvIOFjXZEJKTvViZ3vRD36lNWq/
-         h3oDFmVtSL5bbEN3k09+AFNpWLO7gtdhag5bhIqhRxCMnaWkUaUmn0hewKI2QM3IfGoB
-         TYDeALalufJaaxqPIuBznkQICzV00X3JSAlryXZZdJXc8rEP2njyT2S+BowJTBXqpHWn
-         +dK5u8MTTsMu1m1HEMKM+C3Jp7+1cJOyc6jF3vE/MvN8TpuUcXVetpAnFz9dW9IVtk1g
-         hvBw==
-X-Forwarded-Encrypted: i=1; AJvYcCWjl7M5F+NPCVco8hCIV6cSEWPsLWujiVKW4h39EHBJMyV4kjhSb59o+hcj7zEA015yTtFUM5481FVDLhM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMFvirNxrmH5cPfMERpZpi2tMXi0zjECnAZqDVZ+Zqm0F4A7pL
-	zKAjLZteNJciAhfMQWYE4VmHFfOHyvGwTkpAUV4Futy8N8+5ve5PgmDiaNddH9s=
-X-Gm-Gg: ASbGncsh22bfmjyAq/svdAb+7tDpddlZlAOHLaFso46g9Xo07ZSAic5HHJWkvtIFGPG
-	NHg6WS8DEaJ916cumMuBwlQ7MF/aH+9fsogurCU/Cuu/mM4iVlf5fdy1n4ocgZm0hcqUnodipsM
-	NC+zc9eAVt/53aqyO4nYsQalU04sIYX9qd9X0ni0mFjllWF9FYQjpcWBlN0smgKNsO5SpYmfk0c
-	sAtUrHR2DYPdqH0pAmku2Q2CMWqQrHQ2raD5Sc+FNw1xF0Nbyd6TgSk7gkM9Y3mvFYNSBcVGTLr
-	aWJ8xOl0WL8KlW51agY4uz0WrW+oBOXB/AuN9gS6d8MXWSEqsi0PAhff84f7F6zH4kY9
-X-Google-Smtp-Source: AGHT+IGrPtC3VrEHEEFt0tCDqtq7pafLx+YUJGI03PvlnWrRQ+jjv8GbXZJIe5ZIKt1VdBk+rs9rPw==
-X-Received: by 2002:a05:651c:b0e:b0:309:2653:5dda with SMTP id 38308e7fff4ca-30c4a8d2068mr9904591fa.29.1741966183276;
-        Fri, 14 Mar 2025 08:29:43 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1741966185; x=1742570985;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=g2TBxm9b4Z7DvE3zMi2yjLlJGaJTiMHJTb4BUjWKoMs=;
+        b=eR/I/I8VkHZpml+HgI/bKwl0diqZg/W48JeT9kPsiu/gv716neFvCwQeX4zX+ZvFcn
+         hpjcrbNA8/kLjDObTsSH3oVb2PIpY5S0aZmWiMYepmZWltOCUrYmSTt4rVYmpbdGTLNJ
+         VfEbQ0eeR8YnL72ya7YVSQBEzk992TvKfbQwe/ypS9FwWi7ARBhhly8PC0gPv4y7LjXl
+         8Gzj/E6uEAZ1mWc2hwunVbF6dROpRRoRNyeKBInUg8T9keGTrmh2SfL1dYUcR+z40zJu
+         qcVFcU80mzlzT/zEnhRmcrgujIL+q0J6VNq9Cl4RtbIa4JlIYA4EsmHVBErpZ3RRMZXO
+         JP5w==
+X-Forwarded-Encrypted: i=1; AJvYcCXCTitxXjcoKMPsRPuKsWsSHq4lBDLSUIyR5AJ88t6I9EtLV//3VVb29waSnDcXdiDusshSVXvsGmI52Ss=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+ZsFLEVNYbCAZC32fZ/jnxdPxSeC/pa3rWdWqE+AaLaxai+6t
+	zDtJVL+n+cRjpOtsE6O4UBlMzpfiG8DgvlnhVpDcnkB+Q05wd/SzEymLF4nAWvM=
+X-Gm-Gg: ASbGncsDmYIHVQmVQ/PFz7j7IS8AWt7/WKFJfTomnV9xONGrkidDhFQ8ED7FGIs1AIC
+	nyBs4Oo4hypyB9g/k8WWqAQ35ERkNfH+DunLBEFrzCTX8KQhcroPBTgKnwF5NiIwCg5vqj9zOlw
+	Ug45iOAPoQTy6mQgyU383zbGi6lBracJeLSDVcLi2RNaa5Wxwv6NFeWkcjZzJo6aJAeCtMq0Hjc
+	G18/2cJipheAq2Ijf0zrXLTwmfIDTRX6w1rzI8U3ds8bwDcpFPyrK5BMsk2cb5ryzKhgNspVmOc
+	rXQXIT5RSy7yKR7ngOrl59ixCyvJ2h6DBIeXjH/Bt980DwDMcvM0UVS/auk5JgdVo8Hc
+X-Google-Smtp-Source: AGHT+IHz3UFJwnIa4DizqArqEXe7UJKpqN6ShlYP0/kZkaZxijazQ/Qj3vUgdb2JaYqJb+fk32p4pg==
+X-Received: by 2002:a05:651c:198c:b0:30c:1441:9e84 with SMTP id 38308e7fff4ca-30c4a860201mr11324771fa.13.1741966185322;
+        Fri, 14 Mar 2025 08:29:45 -0700 (PDT)
 Received: from skhimich.dev.yadro.com (avpn02.yadro.com. [89.207.88.245])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30c3f0e99f6sm6253581fa.37.2025.03.14.08.29.40
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30c3f0e99f6sm6253581fa.37.2025.03.14.08.29.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Mar 2025 08:29:41 -0700 (PDT)
+        Fri, 14 Mar 2025 08:29:43 -0700 (PDT)
 From: Sergey Khimich <serghox@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: Philipp Zabel <p.zabel@pengutronix.de>,
@@ -77,10 +79,12 @@ Cc: Philipp Zabel <p.zabel@pengutronix.de>,
 	linux-kernel@vger.kernel.org,
 	Vladimir Yakovlev <vovchkir@gmail.com>,
 	Maksim Turok <turok.m7@gmail.com>
-Subject: [PATCH 00/18] coda988 video codec support
-Date: Fri, 14 Mar 2025 18:29:21 +0300
-Message-Id: <20250314152939.2759573-1-serghox@gmail.com>
+Subject: [PATCH 01/18] media: coda: Add print if irq isn't present
+Date: Fri, 14 Mar 2025 18:29:22 +0300
+Message-Id: <20250314152939.2759573-2-serghox@gmail.com>
 X-Mailer: git-send-email 2.30.2
+In-Reply-To: <20250314152939.2759573-1-serghox@gmail.com>
+References: <20250314152939.2759573-1-serghox@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -89,90 +93,30 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hello!
+From: Vladimir Yakovlev <vovchkir@gmail.com>
 
-This is the implementation of the Chips&Media "CODA988" video codec support
-within v4l2 driver for coda. Support for the following codecs
-was implemented:
- * h264:   decoder & encoder
- * h263:   decoder & encoder
- * mpeg4:  decoder & encoder
- * vp8dec: decoder
+Use dev_err_probe for print and return error if irq isn't present
 
-Support for the following formates was implemented:
- * yuv420p(I420)
- * yvu420p(YV12)
- * NV12
- * NV21
+Co-developed-by: Sergey Khimich <serghox@gmail.com>
+Signed-off-by: Sergey Khimich <serghox@gmail.com>
+Signed-off-by: Vladimir Yakovlev <vovchkir@gmail.com>
+---
+ drivers/media/platform/chips-media/coda/coda-common.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Also the following features and fixes were implemented for coda988:
- * special config for mem_ctrl
- * special config for encoder header (sps and pps)
- * special set profile_idc
- * special set RC config
- * special set QP
- * special set slice mode
- * special set Motion Extimation (ME)
- * v4l2_ctrl for h264 profile 
- * v4l2_ctrl for h264 level
- * v4l2_ctrl for h.264 RC mode
- * v4l2_ctrl for h.264 skipFrame
- * v4l2_ctrl for h.264 i-frame min/max qp
- * v4l2_ctrl for h.264 p-frame min/max qp
- * v4l2_ctrl for h.264 entropy mode
- * v4l2_ctrl for h.264 8x8transform
- * v4l2_ctrl for h.264 i-frame period
- * v4l2_ctrl for h.264 Access Unit Delimiter(AUD)
- * v4l2_ctrl for h.264 me x/y search range
- * v4l2_ctrl for h.264 intra refresh period
- * v4l2_ctrl for h.263 intra/inter qp
- * v4l2_ctrl for h.263 min/max qp
- * v4l2_ctrl for mpeg4 min/max qp
-
-During adding support for "CODA988" we also did some extra work
-related to refactoring and improvement of generic part of C&M coda
-driver:
- * Improve error checking for probe, irq-handle and etc.
- * Update work with resets
- * Replace hard_irq by threaded_irq
- * Remove double setting of stop flag
- * Improve some prints
- * Fix loglevel to avoid performance failure
- * Fix support of MPEG4 levels
- * Fix setting gamma for h264enc
- * Update default velues of QP for mpeg4 I/P
- * Other minor fixes
-
-Sergey Khimich (18):
-  media: coda: Add print if irq isn't present
-  media: coda: Use get_array to work use multiple reset
-  dt-bindings: media: coda: Fix resets count
-  media: coda: Add check result after reset
-  media: coda: using threaded_irq for 0 (bit) interrupt
-  media: coda: Add reset device before getting interrupt
-  media: coda: Add fake IRQ check
-  media: coda: Add log to finish_encode if buffer is too small
-  media: coda: Fix max h.264 level for CODA_DX6
-  media: coda: Remove double setting of stop flag
-  media: coda: Print size of encoded buff in other place
-  media: coda: Fix loglevel for seq mismatch print
-  media: coda: Fix support for all mpeg4 levels
-  media: coda: Fix handling wrong format in coda_try_fmt
-  media: coda: Use v4l2_ctrl to set gamma for h264enc
-  media: coda: Update default velues of QP for mpeg4 I/P
-  media: coda: Use preferred usleep_range than udelay
-  media: coda: add support coda988 enc and dec
-
- .../devicetree/bindings/media/coda.yaml       |    2 +-
- .../platform/chips-media/coda/coda-bit.c      | 1114 ++++++++++++++---
- .../platform/chips-media/coda/coda-common.c   |  430 ++++++-
- .../platform/chips-media/coda/coda-gdi.c      |  149 +++
- .../platform/chips-media/coda/coda-h264.c     |   10 +
- .../media/platform/chips-media/coda/coda.h    |   41 +-
- .../platform/chips-media/coda/coda_regs.h     |  157 +++
- .../media/platform/chips-media/coda/trace.h   |   16 +
- 8 files changed, 1703 insertions(+), 216 deletions(-)
-
+diff --git a/drivers/media/platform/chips-media/coda/coda-common.c b/drivers/media/platform/chips-media/coda/coda-common.c
+index 289a076c3bcc..84b9b75b382e 100644
+--- a/drivers/media/platform/chips-media/coda/coda-common.c
++++ b/drivers/media/platform/chips-media/coda/coda-common.c
+@@ -3178,7 +3178,7 @@ static int coda_probe(struct platform_device *pdev)
+ 	if (irq < 0)
+ 		irq = platform_get_irq(pdev, 0);
+ 	if (irq < 0)
+-		return irq;
++		return dev_err_probe(&pdev->dev, irq, "Failed to get irq 0 (bit)\n");
+ 
+ 	ret = devm_request_irq(&pdev->dev, irq, coda_irq_handler, 0,
+ 			       CODA_NAME "-video", dev);
 -- 
 2.30.2
 
