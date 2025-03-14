@@ -1,334 +1,206 @@
-Return-Path: <linux-media+bounces-28230-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28231-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE583A6136E
-	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 15:14:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA3FEA61389
+	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 15:20:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E346717A613
-	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 14:14:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2BC0F16D37A
+	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 14:20:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D683200130;
-	Fri, 14 Mar 2025 14:14:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pemmq0jH"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5FB5200BA1;
+	Fri, 14 Mar 2025 14:20:06 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26FDF1FFC4B;
-	Fri, 14 Mar 2025 14:13:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFA61FFC55
+	for <linux-media@vger.kernel.org>; Fri, 14 Mar 2025 14:20:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741961642; cv=none; b=Hw9fQM5rRJ6DpASI/VrenE5LqnHpuryxETDnUYjEnGP2zd7JkeDzJ910OhkQZbtwCreDxugQlkUydmJcKfGyOoYmIIRxl9iqjpad172aXIPkt1QTwfiwLViiSjJFtRq7VYRwCUQBdgIw0sinSatrjTmdOHxY69Jf6k9pP0pLTvk=
+	t=1741962006; cv=none; b=HGuBabMTnJGE3YjcLfYnX3uFaTKLOx7QtgZFjuZz8UFjO+NciGvrByuxKqj2MBZBmY4aXfVL9pPgbdqsPwFq5p+pMX4wQeY/dPtRrrvB2+iI4JwgyP/28MupePT0IjMyleEOcuzw+0KRidFZ0ED+A/hr+SCmnvknvXhkv+1Dp3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741961642; c=relaxed/simple;
-	bh=Fx0ebOC5uH8NMR3SZWYPq0rOBYxvyhh8DDnwX9FWHG0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eEFNnpDYwquJZtdo8W7/69tXnHyERNqo+TEiezJGhHaVZ3PkMQcPPZXLlv8/JbmVDTJMqeIijLFtLoOskakLV4VxWTA+C8OTQq1lozW18COs89L6Ykvk7O967EBg1Q3h/sPCK7GC+wSD0hPPKEtlE96lE1wNvcn0X3Jk7s18x6o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pemmq0jH; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1741961640; x=1773497640;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Fx0ebOC5uH8NMR3SZWYPq0rOBYxvyhh8DDnwX9FWHG0=;
-  b=Pemmq0jHTETqoqOaupYgf9lS3QllbrpNX86TvAq4mtmHiJCcmwXWDK2o
-   BnHNcrvBQRgbBeYnsYPqR6Njr9Wz9RYg1qZ7ihtN1ZOf7s42v/GTmBmhc
-   ZLerjwXatXjoWdIL7felWucyakIqJD7XttPo8pqP1SngBbocpVmJNlbDQ
-   NwX/QpqB7vaYQE5lT0J+ntV6QimIYvocBLAt/zl4fyBTCZ2jdbQ9nG+tf
-   imAyvjpMahi3FsrekVcYbPGksXXaNHKe7os3zWzovsCAkmOPGTWgkWCvR
-   x5Mm0IVs8P7EkTCQwDdj1aAAAVI1pCm48QkCYU+Uc3CR+bCmsvuj98Fzg
-   w==;
-X-CSE-ConnectionGUID: 6ChVqPPsTZKGetU0ep3hnQ==
-X-CSE-MsgGUID: Zvp2EcEdR6iTfuBCMMguVQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="54493715"
-X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="54493715"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 07:13:59 -0700
-X-CSE-ConnectionGUID: ZYy/A/7PRbujgJ7ESpPvEw==
-X-CSE-MsgGUID: UiCIHD6UT/ysIubPPBj9FA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,246,1736841600"; 
-   d="scan'208";a="144477262"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Mar 2025 07:13:57 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 4F30111F944;
-	Fri, 14 Mar 2025 16:13:53 +0200 (EET)
-Date: Fri, 14 Mar 2025 14:13:53 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, kernel@collabora.com
-Subject: Re: [PATCH 3/5] media: mc: add debugfs node to keep track of requests
-Message-ID: <Z9Q5oTXEPPIoGWgE@kekkonen.localdomain>
-References: <20250314-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v1-0-5e277a3d695b@collabora.com>
- <20250314-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v1-3-5e277a3d695b@collabora.com>
+	s=arc-20240116; t=1741962006; c=relaxed/simple;
+	bh=yq9an8CfyMxDE55qCJievO88pgLMzre+8hBcHFI0Tvk=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=W/FZiTc2z1J9TyaklJJQbIY5DXZIr85n1MulHx7GdSt23EVGhm41wV4vmZvLUcd4eftyLlbWhTnf84jS/fy9gtvI+SJCy8zXMbty4Z8NbOCVe9qz9iQu0Fzs2wOtHnfqRziQmuIGwrm7W2bk7qiRV6f4SggTH3XKDWrxyBXhLSc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43DEBC4CEE3;
+	Fri, 14 Mar 2025 14:20:05 +0000 (UTC)
+Message-ID: <bf119c2e-34a4-441d-b55a-f5105e8df8d3@xs4all.nl>
+Date: Fri, 14 Mar 2025 15:20:03 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250314-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v1-3-5e277a3d695b@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: omap3isp: drop wait_prepare/finish callbacks
+From: Hans Verkuil <hverkuil@xs4all.nl>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <218877d9-5f95-42ab-8bbf-2325cb31ed73@xs4all.nl>
+ <20250128154040.GF12673@pendragon.ideasonboard.com>
+ <f11dab4a-0288-42ae-b6c1-a548206a1249@xs4all.nl>
+ <7e2bf95e-5cbd-4792-a8b6-d38a1532f3dd@xs4all.nl>
+ <Z7bgqrfTovdssWTc@kekkonen.localdomain>
+ <61241a2a-1b87-4711-af2c-26a97a1ef6a7@xs4all.nl>
+Content-Language: en-US, nl
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
+ BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
+ yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
+ C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
+ BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
+ E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
+ YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
+ JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
+ 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
+ UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSFIYW5zIFZlcmt1
+ aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD7CwZUEEwEKAD8CGwMGCwkIBwMCBhUIAgkKCwQWAgMB
+ Ah4BAheAFiEEBSzee8IVBTtonxvKvS1hSGYUO0wFAmaU3GkFCRf7lXsACgkQvS1hSGYUO0wZ
+ cw//cLMiaV+p2rCyzdpDjWon2XD6M646THYvqXLb9eVWicFlVG78kNtHrHyEWKPhN3OdWWjn
+ kOzXseVR/nS6vZvqCaT3rwgh3ZMb0GvOQk1/7V8UbcIERy036AjQoZmKo5tEDIv48MSvqxjj
+ H6wbKXbCyvnIwpGICLyb0xAwvvpTaJkwZjvGqeo5EL0Z+cQ8fCelfKNO5CFFP3FNd3dH8wU6
+ CHRtdZE03iIVEWpgCTjsG2zwsX/CKfPx0EKcrQajW3Tc50Jm0uuRUEKCVphlYORAPtFAF1dj
+ Ly8zpN1bEXH+0FDXe/SHhzbvgS4sL0J4KQCCZ/GcbKh/vsDC1VLsGS5C7fKOhAtOkUPWRjF+
+ kOEEcTOROMMvSUVokO+gCdb9nA/e3WMgiTwWRumWy5eCEnCpM9+rfI2HzTeACrVgGEDkOTHW
+ eaGHEy8nS9a25ejQzsBhi+T7MW53ZTIjklR7dFl/uuK+EJ6DLbDpVbwyYo2oeiwP+sf8/Rgv
+ WfJv4wzfUo/JABwrsbfWfycVZwFWBzqq+TaKFkMPm017dkLdg4MzxvvTMP7nKfJxU1bQ2OOr
+ xkPk5KDcz+aRYBvTqEXgYZ6OZtnOUFKD+uPlbWf68vuz/1iFbQYnNJkTxwWhiIMN7BULK74d
+ Ek89MU7JlbYNSv0v21lRF+uDo0J6zyoTt0ZxSPzOwU0EVDzhbQEQANzLiI6gHkIhBQKeQaYs
+ p2SSqF9c++9LOy5x6nbQ4s0X3oTKaMGfBZuiKkkU6NnHCSa0Az5ScRWLaRGu1PzjgcVwzl5O
+ sDawR1BtOG/XoPRNB2351PRp++W8TWo2viYYY0uJHKFHML+ku9q0P+NkdTzFGJLP+hn7x0RT
+ DMbhKTHO3H2xJz5TXNE9zTJuIfGAz3ShDpijvzYieY330BzZYfpgvCllDVM5E4XgfF4F/N90
+ wWKu50fMA01ufwu+99GEwTFVG2az5T9SXd7vfSgRSkzXy7hcnxj4IhOfM6Ts85/BjMeIpeqy
+ TDdsuetBgX9DMMWxMWl7BLeiMzMGrfkJ4tvlof0sVjurXibTibZyfyGR2ricg8iTbHyFaAzX
+ 2uFVoZaPxrp7udDfQ96sfz0hesF9Zi8d7NnNnMYbUmUtaS083L/l2EDKvCIkhSjd48XF+aO8
+ VhrCfbXWpGRaLcY/gxi2TXRYG9xCa7PINgz9SyO34sL6TeFPSZn4bPQV5O1j85Dj4jBecB1k
+ z2arzwlWWKMZUbR04HTeAuuvYvCKEMnfW3ABzdonh70QdqJbpQGfAF2p4/iCETKWuqefiOYn
+ pR8PqoQA1DYv3t7y9DIN5Jw/8Oj5wOeEybw6vTMB0rrnx+JaXvxeHSlFzHiD6il/ChDDkJ9J
+ /ejCHUQIl40wLSDRABEBAAHCwXwEGAEKACYCGwwWIQQFLN57whUFO2ifG8q9LWFIZhQ7TAUC
+ ZpTcxwUJF/uV2gAKCRC9LWFIZhQ7TMlPD/9ppgrN4Z9gXta9IdS8a+0E7lj/dc0LnF9T6MMq
+ aUC+CFffTiOoNDnfXh8sfsqTjAT50TsVpdlH6YyPlbU5FR8bC8wntrJ6ZRWDdHJiCDLqNA/l
+ GVtIKP1YW8fA01thMcVUyQCdVUqnByMJiJQDzZYrX+E/YKUTh2RL5Ye0foAGE7SGzfZagI0D
+ OZN92w59e1Jg3zBhYXQIjzBbhGIy7usBfvE882GdUbP29bKfTpcOKkJIgO6K+w82D/1d5TON
+ SD146+UySmEnjYxHI8kBYaZJ4ubyYrDGgXT3jIBPq8i9iZP3JSeZ/0F9UIlX4KeMSG8ymgCR
+ SqL1y9pl9R2ewCepCahEkTT7IieGUzJZz7fGUaxrSyexPE1+qNosfrUIu3yhRA6AIjhwPisl
+ aSwDxLI6qWDEQeeWNQaYUSEIFQ5XkZxd/VN8JeMwGIAq17Hlym+JzjBkgkm1LV9LXw9D8MQL
+ e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
+ XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
+ LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
+In-Reply-To: <61241a2a-1b87-4711-af2c-26a97a1ef6a7@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Sebastian,
-
-On Fri, Mar 14, 2025 at 02:26:28PM +0100, Sebastian Fricke wrote:
-> From: Hans Verkuil <hverkuil@xs4all.nl>
+On 20/02/2025 09:10, Hans Verkuil wrote:
+> On 20/02/2025 08:58, Sakari Ailus wrote:
+>> Hi Hans,
+>>
+>> On Thu, Feb 20, 2025 at 08:48:32AM +0100, Hans Verkuil wrote:
+>>> On 29/01/2025 15:21, Hans Verkuil wrote:
+>>>> On 28/01/2025 16:40, Laurent Pinchart wrote:
+>>>>> Hi Hans,
+>>>>>
+>>>>> Thank you for the patch.
+>>>>>
+>>>>> On Tue, Jan 28, 2025 at 04:08:18PM +0100, Hans Verkuil wrote:
+>>>>>> Since commit 88785982a19d ("media: vb2: use lock if wait_prepare/finish
+>>>>>> are NULL") it is no longer needed to set the wait_prepare/finish
+>>>>>> vb2_ops callbacks as long as the lock field in vb2_queue is set.
+>>>>>>
+>>>>>> Set the queue lock to &video->queue_lock, which makes it possible to drop
+>>>>>> the wait_prepare/finish callbacks.
+>>>>>>
+>>>>>> This simplifies the code and this is a step towards the goal of deleting
+>>>>>> these callbacks.
+>>>>>>
+>>>>>> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+>>>>>> ---
+>>>>>>  drivers/media/platform/ti/omap3isp/ispvideo.c | 19 +------------------
+>>>>>>  1 file changed, 1 insertion(+), 18 deletions(-)
+>>>>>>
+>>>>>> diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
+>>>>>> index 5c9aa80023fd..78e30298c7ad 100644
+>>>>>> --- a/drivers/media/platform/ti/omap3isp/ispvideo.c
+>>>>>> +++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
+>>>>>> @@ -480,29 +480,11 @@ static int isp_video_start_streaming(struct vb2_queue *queue,
+>>>>>>  	return 0;
+>>>>>>  }
+>>>>>>
+>>>>>> -static void omap3isp_wait_prepare(struct vb2_queue *vq)
+>>>>>> -{
+>>>>>> -	struct isp_video_fh *vfh = vb2_get_drv_priv(vq);
+>>>>>> -	struct isp_video *video = vfh->video;
+>>>>>> -
+>>>>>> -	mutex_unlock(&video->queue_lock);
+>>>>>> -}
+>>>>>> -
+>>>>>> -static void omap3isp_wait_finish(struct vb2_queue *vq)
+>>>>>> -{
+>>>>>> -	struct isp_video_fh *vfh = vb2_get_drv_priv(vq);
+>>>>>> -	struct isp_video *video = vfh->video;
+>>>>>> -
+>>>>>> -	mutex_lock(&video->queue_lock);
+>>>>>> -}
+>>>>>> -
+>>>>>>  static const struct vb2_ops isp_video_queue_ops = {
+>>>>>>  	.queue_setup = isp_video_queue_setup,
+>>>>>>  	.buf_prepare = isp_video_buffer_prepare,
+>>>>>>  	.buf_queue = isp_video_buffer_queue,
+>>>>>>  	.start_streaming = isp_video_start_streaming,
+>>>>>> -	.wait_prepare = omap3isp_wait_prepare,
+>>>>>> -	.wait_finish = omap3isp_wait_finish,
+>>>>>>  };
+>>>>>>
+>>>>>>  /*
+>>>>>> @@ -1338,6 +1320,7 @@ static int isp_video_open(struct file *file)
+>>>>>>  	queue->buf_struct_size = sizeof(struct isp_buffer);
+>>>>>>  	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+>>>>>>  	queue->dev = video->isp->dev;
+>>>>>> +	queue->lock = &video->queue_lock;
+>>>>>
+>>>>> This is goind to deadlock at least when calling VIDIOC_DQBUF in blocking
+>>>>> mode.
+>>>>
+>>>> Yeah, you are right. I think I will need to test this on real hardware.
+>>>
+>>> I still haven't found my Beagle Board. I found the box for the Beagle Board,
+>>> but not the board itself :-(
+>>>
+>>> When I'm back in the Netherlands I'll dig around some more to see if it is
+>>> there, but if I can't find it, are you or someone else from Ideas on Board
+>>> willing to test patches from me?
+>>>
+>>> This driver is the last remaining user of these wait_prepare/finish helpers,
+>>> so I'd really like to get this fixed.
+>>
+>> If you have a patch, I can test it, presuming omap3isp will work on N900.
+>> :-) I haven't tested it for a while.
+>>
+>> omap3isp is a bit special as the video buffer queues are specific to file
+>> handles but I'm not sure it matters here.
+>>
 > 
-> Keep track of the number of requests and request objects of a media
-> device. Helps to verify that all request-related memory is freed.
+> That shouldn't matter. Thank you for the offer, I'll keep you in reserve if
+> I really can't find my Beagle Board.
 > 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
->  drivers/media/mc/mc-device.c  | 30 ++++++++++++++++++++++++++++++
->  drivers/media/mc/mc-devnode.c |  5 +++++
->  drivers/media/mc/mc-request.c |  6 ++++++
->  include/media/media-device.h  |  9 +++++++++
->  include/media/media-devnode.h |  4 ++++
->  include/media/media-request.h |  2 ++
->  6 files changed, 56 insertions(+)
-> 
-> diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
-> index c0dd4ae5722725f1744bc6fd6282d5c765438059..5a458160200afb540d8014fed42d8bf2dab9c8c3 100644
-> --- a/drivers/media/mc/mc-device.c
-> +++ b/drivers/media/mc/mc-device.c
-> @@ -679,6 +679,23 @@ void media_device_unregister_entity(struct media_entity *entity)
->  }
->  EXPORT_SYMBOL_GPL(media_device_unregister_entity);
->  
-> +#ifdef CONFIG_DEBUG_FS
-> +/*
-> + * Log the state of media requests.
-> + * Very useful for debugging.
-> + */
-> +static int media_device_requests(struct seq_file *file, void *priv)
-> +{
-> +	struct media_device *dev = dev_get_drvdata(file->private);
+> I've got the freakin' box, so the board must be somewhere, right?
 
-Hmm. Can't you obtain struct media_device via struct device (dev field in
-struct media_devnode is what I believe you have here)?
+I did find my BeagleBoard, but didn't have time yet to work on this.
 
-> +
-> +	seq_printf(file, "number of requests: %d\n",
-> +		   atomic_read(&dev->num_requests));
-> +	seq_printf(file, "number of request objects: %d\n",
-> +		   atomic_read(&dev->num_request_objects));
-> +	return 0;
-> +}
-> +#endif
-> +
->  void media_device_init(struct media_device *mdev)
->  {
->  	INIT_LIST_HEAD(&mdev->entities);
-> @@ -697,6 +714,9 @@ void media_device_init(struct media_device *mdev)
->  		media_set_bus_info(mdev->bus_info, sizeof(mdev->bus_info),
->  				   mdev->dev);
->  
-> +	atomic_set(&mdev->num_requests, 0);
-> +	atomic_set(&mdev->num_request_objects, 0);
-> +
->  	dev_dbg(mdev->dev, "Media device initialized\n");
->  }
->  EXPORT_SYMBOL_GPL(media_device_init);
-> @@ -748,6 +768,15 @@ int __must_check __media_device_register(struct media_device *mdev,
->  
->  	dev_dbg(mdev->dev, "Media device registered\n");
->  
-> +#ifdef CONFIG_DEBUG_FS
-> +	if (!media_debugfs_root)
-> +		media_debugfs_root = debugfs_create_dir("media", NULL);
-> +	mdev->media_dir = debugfs_create_dir(dev_name(&devnode->dev),
-> +					     media_debugfs_root);
-> +	debugfs_create_devm_seqfile(&devnode->dev, "requests",
-> +				    mdev->media_dir, media_device_requests);
-> +#endif
-> +
->  	return 0;
->  }
->  EXPORT_SYMBOL_GPL(__media_device_register);
-> @@ -824,6 +853,7 @@ void media_device_unregister(struct media_device *mdev)
->  
->  	dev_dbg(mdev->dev, "Media device unregistered\n");
->  
-> +	debugfs_remove_recursive(mdev->media_dir);
->  	device_remove_file(&mdev->devnode->dev, &dev_attr_model);
->  	media_devnode_unregister(mdev->devnode);
->  	/* devnode free is handled in media_devnode_*() */
-> diff --git a/drivers/media/mc/mc-devnode.c b/drivers/media/mc/mc-devnode.c
-> index 56444edaf13651874331e7c04e86b0a585067d38..d0a8bcc11dd6350fdbc04add70f62de2c5f01178 100644
-> --- a/drivers/media/mc/mc-devnode.c
-> +++ b/drivers/media/mc/mc-devnode.c
-> @@ -45,6 +45,9 @@ static dev_t media_dev_t;
->  static DEFINE_MUTEX(media_devnode_lock);
->  static DECLARE_BITMAP(media_devnode_nums, MEDIA_NUM_DEVICES);
->  
-> +/* debugfs */
-> +struct dentry *media_debugfs_root;
-> +
->  /* Called when the last user of the media device exits. */
->  static void media_devnode_release(struct device *cd)
->  {
-> @@ -236,6 +239,7 @@ int __must_check media_devnode_register(struct media_device *mdev,
->  	if (devnode->parent)
->  		devnode->dev.parent = devnode->parent;
->  	dev_set_name(&devnode->dev, "media%d", devnode->minor);
-> +	dev_set_drvdata(&devnode->dev, mdev);
->  	device_initialize(&devnode->dev);
->  
->  	/* Part 2: Initialize the character device */
-> @@ -313,6 +317,7 @@ static int __init media_devnode_init(void)
->  
->  static void __exit media_devnode_exit(void)
->  {
-> +	debugfs_remove_recursive(media_debugfs_root);
->  	bus_unregister(&media_bus_type);
->  	unregister_chrdev_region(media_dev_t, MEDIA_NUM_DEVICES);
->  }
-> diff --git a/drivers/media/mc/mc-request.c b/drivers/media/mc/mc-request.c
-> index 398d0806d1d274eb8c454fc5c37b77476abe1e74..829e35a5d56d41c52cc583cdea1c959bcb4fce60 100644
-> --- a/drivers/media/mc/mc-request.c
-> +++ b/drivers/media/mc/mc-request.c
-> @@ -75,6 +75,7 @@ static void media_request_release(struct kref *kref)
->  		mdev->ops->req_free(req);
->  	else
->  		kfree(req);
-> +	atomic_dec(&mdev->num_requests);
->  }
->  
->  void media_request_put(struct media_request *req)
-> @@ -326,6 +327,7 @@ int media_request_alloc(struct media_device *mdev, int *alloc_fd)
->  
->  	snprintf(req->debug_str, sizeof(req->debug_str), "%u:%d",
->  		 atomic_inc_return(&mdev->request_id), fd);
-> +	atomic_inc(&mdev->num_requests);
->  	dev_dbg(mdev->dev, "request: allocated %s\n", req->debug_str);
->  
->  	fd_install(fd, filp);
-> @@ -349,10 +351,12 @@ static void media_request_object_release(struct kref *kref)
->  	struct media_request_object *obj =
->  		container_of(kref, struct media_request_object, kref);
->  	struct media_request *req = obj->req;
-> +	struct media_device *mdev = obj->mdev;
->  
->  	if (WARN_ON(req))
->  		media_request_object_unbind(obj);
->  	obj->ops->release(obj);
-> +	atomic_dec(&mdev->num_request_objects);
->  }
->  
->  struct media_request_object *
-> @@ -417,6 +421,7 @@ int media_request_object_bind(struct media_request *req,
->  	obj->req = req;
->  	obj->ops = ops;
->  	obj->priv = priv;
-> +	obj->mdev = req->mdev;
->  
->  	if (is_buffer)
->  		list_add_tail(&obj->list, &req->objects);
-> @@ -424,6 +429,7 @@ int media_request_object_bind(struct media_request *req,
->  		list_add(&obj->list, &req->objects);
->  	req->num_incomplete_objects++;
->  	ret = 0;
-> +	atomic_inc(&obj->mdev->num_request_objects);
->  
->  unlock:
->  	spin_unlock_irqrestore(&req->lock, flags);
-> diff --git a/include/media/media-device.h b/include/media/media-device.h
-> index 53d2a16a70b0d9d6e5cc28fe1fc5d5ef384410d5..749c327e3c582c3c583e0394468321ccd6160da5 100644
-> --- a/include/media/media-device.h
-> +++ b/include/media/media-device.h
-> @@ -11,6 +11,7 @@
->  #ifndef _MEDIA_DEVICE_H
->  #define _MEDIA_DEVICE_H
->  
-> +#include <linux/atomic.h>
->  #include <linux/list.h>
->  #include <linux/mutex.h>
->  #include <linux/pci.h>
-> @@ -106,6 +107,9 @@ struct media_device_ops {
->   * @ops:	Operation handler callbacks
->   * @req_queue_mutex: Serialise the MEDIA_REQUEST_IOC_QUEUE ioctl w.r.t.
->   *		     other operations that stop or start streaming.
-> + * @num_requests: number of associated requests
-> + * @num_request_objects: number of associated request objects
-> + * @media_dir:	DebugFS media directory
->   * @request_id: Used to generate unique request IDs
->   *
->   * This structure represents an abstract high-level media device. It allows easy
-> @@ -179,6 +183,11 @@ struct media_device {
->  	const struct media_device_ops *ops;
->  
->  	struct mutex req_queue_mutex;
-> +	atomic_t num_requests;
-> +	atomic_t num_request_objects;
-> +
-> +	/* debugfs */
-> +	struct dentry *media_dir;
->  	atomic_t request_id;
->  };
->  
-> diff --git a/include/media/media-devnode.h b/include/media/media-devnode.h
-> index d27c1c646c2805171be3997d72210dd4d1a38e32..dbcabeffcb572ae707f5fe1f51ff719d451c6784 100644
-> --- a/include/media/media-devnode.h
-> +++ b/include/media/media-devnode.h
-> @@ -20,9 +20,13 @@
->  #include <linux/fs.h>
->  #include <linux/device.h>
->  #include <linux/cdev.h>
-> +#include <linux/debugfs.h>
->  
->  struct media_device;
->  
-> +/* debugfs top-level media directory */
-> +extern struct dentry *media_debugfs_root;
-> +
->  /*
->   * Flag to mark the media_devnode struct as registered. Drivers must not touch
->   * this flag directly, it will be set and cleared by media_devnode_register and
-> diff --git a/include/media/media-request.h b/include/media/media-request.h
-> index 645d18907be7148ca50dcc9248ff06bd8ccdf953..c8dad380c40767f192f30dcf1c69b9ad1310f449 100644
-> --- a/include/media/media-request.h
-> +++ b/include/media/media-request.h
-> @@ -290,6 +290,7 @@ struct media_request_object_ops {
->   * struct media_request_object - An opaque object that belongs to a media
->   *				 request
->   *
-> + * @mdev: Media device this object belongs to
->   * @ops: object's operations
->   * @priv: object's priv pointer
->   * @req: the request this object belongs to (can be NULL)
-> @@ -301,6 +302,7 @@ struct media_request_object_ops {
->   * another struct that contains the actual data for this request object.
->   */
->  struct media_request_object {
-> +	struct media_device *mdev;
->  	const struct media_request_object_ops *ops;
->  	void *priv;
->  	struct media_request *req;
-> 
-
--- 
 Regards,
 
-Sakari Ailus
+	Hans
+
+> 
+> Regards,
+> 
+> 	Hans
+> 
+
 
