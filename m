@@ -1,159 +1,150 @@
-Return-Path: <linux-media+bounces-28177-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28178-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C174A60937
-	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 07:35:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84C69A60A2E
+	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 08:42:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 866D117D4F8
-	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 06:35:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8E57117FA82
+	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 07:42:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B76BC1547E0;
-	Fri, 14 Mar 2025 06:35:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F3E718A6D2;
+	Fri, 14 Mar 2025 07:42:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qfVqAqKi"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OzIvzIb0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 178F32F4A;
-	Fri, 14 Mar 2025 06:35:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B7961898ED
+	for <linux-media@vger.kernel.org>; Fri, 14 Mar 2025 07:42:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741934102; cv=none; b=WGJxt6OQhn13I5L2zZdXb4EnfCMmZxiF/OSWNTsuAk3JIxWGoSF2XV545kcVSoVpLuExcrO9MgK2X3RYvVTHNWG7/y4to7sHJfwbkqVjUDGrwKZqLz1Mzroul4MaJh0ZSqnESLxqqM10KtKBMMoGrynW+vxvOV7KoSHFaZjKDXc=
+	t=1741938129; cv=none; b=c3oR8lqgYUdsNM3hFqWR/TQEUUdnYmC72iJNvB/65S0EfuZR8ygWqe6puQVCOQSrCXeAGKOBGar4kpG4MMqU4I72du59SM+gNVcu8zl3Sq3e8HoRK/0s5Un0Td2YosUyBvZtFdWUD8nBa18skq94AistK1CPnZfPMBnFbuTBZpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741934102; c=relaxed/simple;
-	bh=zHa1YR43gS+g+8/IcC54v4zmSih9SACYwhm1yGincVg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=KI30O9AYlItROcpxeWJalgJgEcaRH/xTVs8tK5InL/N99Y10pTKxPFYNrvO9hx6sBxQbikYa5AZl1ECrwA9yEfJmJ2ZrvoqYBX1KKwFcKdsU8mDJxb4bRGWQj+DGxWflUij+tb+ZDOLO7Xm1dZSAZ42mCtbTZdB2tRaaNxluiUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qfVqAqKi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E28F1C4CEE3;
-	Fri, 14 Mar 2025 06:34:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1741934101;
-	bh=zHa1YR43gS+g+8/IcC54v4zmSih9SACYwhm1yGincVg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=qfVqAqKiSFbgrzaWubxdV5cdnie0qi43IqStGiLj/XlAXiThAl8eGS0iZqLBULNWb
-	 dRKLQUKZmIkaP4BIdBgEwis/gz0yvUQQzYrdkLyQmdNK3a95ztTYw2SpNjVhLdeAzT
-	 zPP+o9s5Q6kVgNE+uVo9duQlOe8omR/wekTow6g5ayRFEnORMt/C2ZTt9MuvT0CCNa
-	 ACTeB54QLLlV6NpLWcBb1XuPOzKmvD7KshNrMQ0wrnJ5cwBpiJHdcG+xF80Wg1SGZ6
-	 ygZ39b3IwDWUuxoU5jKAJK6szOUEqzdR9UmCQRmB+PwAGIF/unxxmE9pukXV9wNuQb
-	 qNTINQdTAPeTg==
-Date: Fri, 14 Mar 2025 07:34:56 +0100
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Hans de Goede <hdegoede@redhat.com>,
- Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 3/3] media: uvcvideo: Introduce
- V4L2_META_FMT_UVC_CUSTOM
-Message-ID: <20250314073456.25817a3d@foz.lan>
-In-Reply-To: <20250313-uvc-metadata-v3-3-c467af869c60@chromium.org>
-References: <20250313-uvc-metadata-v3-0-c467af869c60@chromium.org>
-	<20250313-uvc-metadata-v3-3-c467af869c60@chromium.org>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1741938129; c=relaxed/simple;
+	bh=TFKMPnY7DyEVxOFjIJ3Z/VwODwE5uOu6Wfsj5MAkP4o=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition:In-Reply-To; b=WejD2/F4VjzMi7cx0jOw4wONzT61sPrZskMTdn4yZAk8trRJi80m1BRpL2DEIOkWTdJ9/zT+Pgp7ShPsDL4KTIf5u6oCVOH2xiAPsCYQJgmieL0Io9HDaVYeQ0e6TJEGZq2Wi9agB6tridQqsU9tLkAjv94ESr/S9NheiEK4uAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OzIvzIb0; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3913958ebf2so1394005f8f.3
+        for <linux-media@vger.kernel.org>; Fri, 14 Mar 2025 00:42:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1741938126; x=1742542926; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=5VICj1mgoxCCVFexS9kMcpPesi2AHSs3Nxw6/os/EPE=;
+        b=OzIvzIb0KYFmvWdXuhgW4qaB2KVhEg4YZTTGMebrWrmvLzOYL2OU9/eK4CxZQfeGBJ
+         W/sHKrL5ppQuHkxEZPB5mbhggggCqbxu/ze2Zv4LNG7YVylU7AOBBwP0+MvoCB77w/u3
+         oPQUB50IL0jwtVXWt8z4nJ5vX84G5+6cPMK2uOubW1RZk0W9Rh4ay97iiloHF+6Citf2
+         Xkk95S4iFR21ZyhzlOjUBlcTjjyfezNoRQ41x/eGCIKRbT9J0c9UT1lpeCrJJ+zwrGNc
+         Ret2TlTUkMWFrTxtXrBPfBhttPUH159Rar8zAu0KZTbAQwTZBMJdv4SQAI9EnKlWApwf
+         nTVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1741938126; x=1742542926;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5VICj1mgoxCCVFexS9kMcpPesi2AHSs3Nxw6/os/EPE=;
+        b=eb9gFu9e9DEOISc/AzhYC7R81UXm9svK9czrfGepAF1/00gfXjHrTQu37Hqxf5y778
+         55zOVS2C+lmnpyc3iF3To+ESX49lfK3ou6yrGf4ZgWmsSJKffvTFDw2D7v7v1nEW+uOv
+         S3xAJ1chT+/QgRJ61q7W0ZM0tDMoeq8997LTWTSmD9npjmT5LvBMTi/ZnG+tVWkYj6pS
+         4w1j7CAevMZRrQYxfNl6whiIXArl5G0U4cGdPpWw9mODt9AOgsEk1OXDkoRLvXn74p+M
+         GoDXio56ss8qyOizYKXNYKMzkGLGIyLniMNXVjyQAeaEzK0ZahAM2JOb7KodJ4Vw8iDC
+         5QMg==
+X-Forwarded-Encrypted: i=1; AJvYcCWb5MznIHLk8h+mJJbnliHLthUxqT3JPvvDVFeISiH9vcwq5pziDylCdjOi/rlc8tOSalRV5vegut5o8A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6p/ZILIbdSdsrYKbLRgy1Ux6oFCIDReirU0BBlISvsHT5O0/q
+	5m+Z/wO1sUxLldLhsnK6CBExVcsVBNFjJ3Xscr7dHrMJIyGCrZyAAKouzr9zkEk=
+X-Gm-Gg: ASbGncvNLZ4WCNcUUt4IWYgjjC3BTXM9xF+3tkEAEXZXfvs4iMY0aQeBFyNkVSvCP7j
+	cjTvfIBmFafNLYDA/s2uOW4q/W40JW5KNUmoaLycloBN2LFVrkkKNmLLavxuIngUezMMCpt8yHI
+	zg6x7A/2FBlAIDUfojt4UCLEhWN4E0jM+1c9TQDpe9fnEnlgQ8Hs1b4udMZJQLkYH8LLOKgnFtn
+	8ETSYxXr8ViJ/zcctYPgc6lYBoOGeHDnk9n9PfMp2hJavmijxvHlVH9+13DBzJr8LZzqlpFgeWt
+	zWTDSGNj1NmAbeMv8gq4uwinZLZMo6mUSRwgCClU+mKL+ALhm+Acmtf9Vk8s
+X-Google-Smtp-Source: AGHT+IFm7E17nEcoSOxY7Tw6+e0xDZ8rnIFbb6oMH7ZJtR8SbLPv6jsqnXgR/epND77bkL5mfCoWCw==
+X-Received: by 2002:a5d:598b:0:b0:38d:badf:9df5 with SMTP id ffacd0b85a97d-3971d2378a8mr1262317f8f.17.1741938125641;
+        Fri, 14 Mar 2025 00:42:05 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-395cb7ebe4bsm4738082f8f.98.2025.03.14.00.42.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 14 Mar 2025 00:42:05 -0700 (PDT)
+Date: Fri, 14 Mar 2025 10:42:01 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: oe-kbuild@lists.linux.dev, Pratap Nirujogi <pratap.nirujogi@amd.com>,
+	mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
+	dave.stevenson@raspberrypi.com
+Cc: lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	benjamin.chan@amd.com, Pratap Nirujogi <pratap.nirujogi@amd.com>
+Subject: Re: [PATCH] media: i2c: Add OV05C camera sensor driver
+Message-ID: <237cb63f-6cfa-4a66-8bc7-21cf48c8e760@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250228165317.3468075-1-pratap.nirujogi@amd.com>
 
-Em Thu, 13 Mar 2025 12:06:27 +0000
-Ricardo Ribalda <ribalda@chromium.org> escreveu:
+Hi Pratap,
 
-> The UVC driver provides two metadata types V4L2_META_FMT_UVC, and
-> V4L2_META_FMT_D4XX. The only difference between the two of them is that
-> V4L2_META_FMT_UVC only copies PTS, SCR, size and flags, and
-> V4L2_META_FMT_D4XX copies the whole metadata section.
-> 
-> Now we only enable V4L2_META_FMT_D4XX for the Intel D4xx family of
-> devices, but it is useful to have the whole metadata section for any
-> device where vendors include other metadata, such as the one described by
-> Microsoft:
-> https://learn.microsoft.com/en-us/windows-hardware/drivers/stream/mf-capture-metadata
-> 
-> This patch introduces a new format V4L2_META_FMT_UVC_CUSTOM, that is
-> identical to V4L2_META_FMT_D4XX but it is available to all the UVC
-> devices.
-> 
-> Suggested-by: Hans de Goede <hdegoede@redhat.com>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  .../userspace-api/media/v4l/meta-formats.rst       |  1 +
->  .../userspace-api/media/v4l/metafmt-uvc-custom.rst | 31 +++++++++++++++++
->  MAINTAINERS                                        |  1 +
->  drivers/media/usb/uvc/uvc_metadata.c               | 40 ++++++++++++++++++----
->  drivers/media/v4l2-core/v4l2-ioctl.c               |  1 +
->  include/uapi/linux/videodev2.h                     |  1 +
->  6 files changed, 69 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
-> index 86ffb3bc8ade2e0c563dd84441572ecea1a571a6..9fd83f4a3cc8509702a2a9f032fdc04bf6c6d1bc 100644
-> --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
-> +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
-> @@ -19,6 +19,7 @@ These formats are used for the :ref:`metadata` interface only.
->      metafmt-pisp-fe
->      metafmt-rkisp1
->      metafmt-uvc
-> +    metafmt-uvc-custom
->      metafmt-vivid
->      metafmt-vsp1-hgo
->      metafmt-vsp1-hgt
-> diff --git a/Documentation/userspace-api/media/v4l/metafmt-uvc-custom.rst b/Documentation/userspace-api/media/v4l/metafmt-uvc-custom.rst
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..9f150fc2b6f379cc4707ff45041dd014956ae11a
-> --- /dev/null
-> +++ b/Documentation/userspace-api/media/v4l/metafmt-uvc-custom.rst
-> @@ -0,0 +1,31 @@
-> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-> +
-> +.. _v4l2-meta-fmt-uvc-custom:
-> +
-> +*********************************
-> +V4L2_META_FMT_UVC_CUSTOM ('UVCC')
-> +*********************************
-> +
-> +UVC Custom Payload Metadata.
-> +
-> +
-> +Description
-> +===========
-> +
-> +V4L2_META_FMT_UVC_CUSTOM buffers follow the metadata buffer layout of
-> +V4L2_META_FMT_UVC with the only difference that it includes all the UVC
-> +metadata, not just the first 2-12 bytes.
-> +
-> +The most common metadata format is the one proposed by Microsoft(R)'s UVC
-> +extension [1_], but other vendors might have different formats.
-> +
-> +Applications might use information from the Hardware Database (hwdb)[2_] to
-> +process the camera's metadata accordingly.
+kernel test robot noticed the following build warnings:
 
-Having something like that at the userspace API shouldn't be handled
-lightly. This sounds to me that passing a blank check for vendors to stream
-whatever they want without any requirements to provide and sort of
-documentation for the usersace to decode it.
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Also, it would be hard for userspace to distinguish what metatata
-is contained for a random UVC camera. Please let's not do that.
+url:    https://github.com/intel-lab-lkp/linux/commits/Pratap-Nirujogi/media-i2c-Add-OV05C-camera-sensor-driver/20250301-005638
+base:   https://git.linuxtv.org/media-ci/media-pending.git master
+patch link:    https://lore.kernel.org/r/20250228165317.3468075-1-pratap.nirujogi%40amd.com
+patch subject: [PATCH] media: i2c: Add OV05C camera sensor driver
+config: arm64-randconfig-r071-20250312 (https://download.01.org/0day-ci/archive/20250314/202503140559.3mp2n2oI-lkp@intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 14.2.0
 
-As the specific issue here is to support an already known extension,
-which is already documented, Just add an specific format for it, e.g. 
-you could add something like that at the documentation:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202503140559.3mp2n2oI-lkp@intel.com/
 
-	V4L2_META_FMT_MSXU_UVC_1_5
-	   Microsoft extensions to USB Video Class 1.5 specification.
-	
-	   For more details, see: https://learn.microsoft.com/en-us/windows-hardware/drivers/stream/uvc-extensions-1-5	
+smatch warnings:
+drivers/media/i2c/ov05c.c:936 ov05c_probe() warn: passing zero to 'PTR_ERR'
 
-And then add the corresponding format to V4L2 API.
+vim +/PTR_ERR +936 drivers/media/i2c/ov05c.c
 
-Regards,
-Mauro
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  922  static int ov05c_probe(struct i2c_client *client)
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  923  {
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  924  	struct ov05c *ov05c;
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  925  	int i, ret;
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  926  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  927  	ov05c = devm_kzalloc(&client->dev, sizeof(*ov05c), GFP_KERNEL);
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  928  	if (!ov05c)
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  929  		return -ENOMEM;
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  930  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  931  	client->dev.init_name = DRV_NAME;
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  932  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  933  	/* create sensor enable gpio control */
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  934  	ov05c->enable_gpio = devm_gpiod_get(&client->dev, "sensor0_enable", GPIOD_OUT_LOW);
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  935  	if (IS_ERR_OR_NULL(ov05c->enable_gpio))
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28 @936  		return PTR_ERR(ov05c->enable_gpio);
+
+If devm_gpiod_get() returns NULL then we'd return success, but actually
+devm_gpiod_get() can't return NULL.  Only error pointers.
+
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  937  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  938  	/* Initialize subdev */
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  939  	v4l2_i2c_subdev_init(&ov05c->sd, client, &ov05c_subdev_ops);
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  940  
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  941  	/* Initialize CCI */
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  942  	ov05c->regmap = devm_cci_regmap_init_i2c(client, 8);
+6da03431f4f1e18 Pratap Nirujogi 2025-02-28  943  	if (IS_ERR(ov05c->regmap)) {
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
 
