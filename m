@@ -1,79 +1,79 @@
-Return-Path: <linux-media+bounces-28211-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28212-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8D6DA61181
-	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 13:38:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED92AA61184
+	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 13:38:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8408319C2A22
-	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 12:38:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 83FE4176001
+	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 12:38:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 695EC1FF1B5;
-	Fri, 14 Mar 2025 12:37:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8373D1FF5F3;
+	Fri, 14 Mar 2025 12:38:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="fa8iduWn"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Ct0fMGqj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499811FDA89
-	for <linux-media@vger.kernel.org>; Fri, 14 Mar 2025 12:37:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D79C1FECA5
+	for <linux-media@vger.kernel.org>; Fri, 14 Mar 2025 12:37:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741955878; cv=none; b=Gq8J2qG8Ru2+vJD+AIiKOefEBtmkutOy9hLCpouu6viS66amuqaeVt9k1cKrhhzihFBcXfvgO/KQ+tF3/qnJagIRKVLRPZq527UJgOq2zHSB2MV6+KFEaV8aXbi/YWbLXYpVPiqePjhGXl3TtsjRtF0iJPXiP8f/dEgCQep39n8=
+	t=1741955880; cv=none; b=ZHvu9TPOZ2rdwL/c8cmt+pf397aA9Hj2PkX1YHzMzYFxiZ3pHBV0SIZkXjt/K2yEnsRsUbA4Qpdso4POUJd4OwmliaMUhH95BCEf0GG9XIpeXvFXmGyLNDwR8aQ0ufL4/PKjjES/Lb/DBFMsOlFbq0OC2s8trbkyW1jixzkJe0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741955878; c=relaxed/simple;
-	bh=qIm+gMdvupKqwS9Xu6DPAYAhkyp9bxQv0TScmBCRWAU=;
+	s=arc-20240116; t=1741955880; c=relaxed/simple;
+	bh=Z4vVBZrwdsora5jaavoKvH4SBMRfW+n+z+2ksvCX0uU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VvngP1/viqe1LnRS6koxsqgg4vA4WkyfaIltMoKIyoFnD4no1P9XYXBjRH74vvZ5SsR9Pcu6itpWrb0VWvUyLyHNdgsd7GrmQkE93Ya4hVztzv2oGgBHR5vL8mB36LH1zrBtiI7omFQmp/JhrtJwp+uOUBA1XoTsoVOxKpLthRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=fa8iduWn; arc=none smtp.client-ip=209.85.219.48
+	 In-Reply-To:To:Cc; b=IEq69o/4MptraQVuBs1OJRDyDdrS5x5YhIrkw2nxZAGw5rqe23JjbLzU7GpVpAWWi9RLpRRpygeLdKAyktCDcwdBnn4TzyQRintbA1dwnMIP4xfXwdwGTuAcZNXAbK8eRimhtST9luSB74oU+753GfartptmzCo3T4zhEAXLLcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Ct0fMGqj; arc=none smtp.client-ip=209.85.222.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6e8f4c50a8fso18353016d6.1
-        for <linux-media@vger.kernel.org>; Fri, 14 Mar 2025 05:37:56 -0700 (PDT)
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7c0818add57so222857485a.3
+        for <linux-media@vger.kernel.org>; Fri, 14 Mar 2025 05:37:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google; t=1741955876; x=1742560676; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Au/TjH3+zjUdDPhRJAjj0/vsDAjgHCF7V+hbXHtsO9U=;
-        b=fa8iduWndcsK9L7/pmbrHFddq+M2vwWCH13NcPwywJnpfUGxW+Us8VutCZ+kkF4U1X
-         WGlx0/31lK9yihFLuqPEBgPMB8C0ev1T45ANHHaEvPg3I554zttVC81M4wZMml4ByNcE
-         tJKc6/W9bwzIdqFyZ4/RAIaKs3prEYJROZlu0=
+        bh=4Mt1R0EC3FYz66XqhH4MaCDZ6sflbyDD7zxn5LRYO4w=;
+        b=Ct0fMGqj0Zq8y6F7+IU1iK0RUohll3LgpOZJf7Cidnyoh+M6nk52fghd+lNBG/dRPA
+         XXBj0FYXMtZKcOJBMRKpx4NXtc2xWcJ3DRW9fg37sV7rG9bRnpqFWRvGGyNnOdGOkGWz
+         1GXlZ9oBOGwt72dDKU4fD7P0gaNiR0YtC/Unk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1741955876; x=1742560676;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Au/TjH3+zjUdDPhRJAjj0/vsDAjgHCF7V+hbXHtsO9U=;
-        b=s+NgDclQQT6ca6Q4IblIy2kH/0ugYJDeap3ZYv4Tfxm2okohyvLNFuyQD/X2lG+UpU
-         vmzCWJEZLwEl1nl2nRrI69DyfE9PVmW/HzjRrjG8ueccBJaYxkAdFBPlIKu0wKWiY0yp
-         rIXJAhbahvmywVoemZRQ+irYcwKwrPIXLd4GnJJ7WXJp3YgoO2V+eGn7P4/QUEf46HC3
-         u5g55Viu6cee6y5Hm6BsBBCX+CZ2+2YQQZH1+7pvUZtKtMGDXika3errRu9dWq6Pa9T9
-         UVSjxlD7OzW5g3rfs/Xy9Yt24vqWy2RKMhW8rTbsu56uwkRxthTr5SERufEi5unhC7RW
-         SuAw==
-X-Forwarded-Encrypted: i=1; AJvYcCWk+RKl1PvfZ5DFVHxaZQKWG+4Oy6vbBSizFAb6wd9C8mvu+KPQ/2YQAUkubL6dPHJr1i07lgKW9kPHrg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLmW6V8DS3G4/QMiYm6YjVXH39rqmQdsS9lNWfMAh4H0UXX8yj
-	bM1lfbQ9Dkjv8j/THOY33rHC2BpGX2AsFSOSrwzTPFgIxcKtsbA6K/GCa1dzOq7qogm/dkfY7cO
-	Iow==
-X-Gm-Gg: ASbGnctZ5SBkGICFKPh3BqNNXHoXQN/jhXRJpLvIdrZQQ17KmxwkD+R6TJDjY6z7t/o
-	uAIMV5i32IrWiVUJKJ3svpBBP66ZFjT/vVp6i0B2sHHT+E7FetlegyIIPuZ5B+LnJeH7NtnH7CM
-	tXg0HgGYMaR3iyj5JYxcUrvewHRkcbC2Nn8/QD9RD/IZzvH2TbsTAMYXYZWEpIQk7OfNzIruVV4
-	hoOOMNifm6KjcgNttlS/BL38XFA/gFOICYc/Y593D6SLfwKIUGWuqMlyx4LgHhf3KfBjyFYOyr0
-	X3sHAypwGcXEz7L1Fv0eXeCNmlWq5wIY2HnD6YCqKvoZFU+aUNv4o1xUUuGz6DCpuvsajGZmXBF
-	R4Re80ADg26Hd/yBi0LieNQ==
-X-Google-Smtp-Source: AGHT+IG1soI/f8SA1zxak+RF/DcH11J2/WsE7iepmItBe5lAxghxQPzlLhQXGTbEnZnAJSzvs34p/Q==
-X-Received: by 2002:a05:6214:2483:b0:6e8:eabf:fd55 with SMTP id 6a1803df08f44-6eaeaae0998mr29795736d6.39.1741955875895;
-        Fri, 14 Mar 2025 05:37:55 -0700 (PDT)
+        bh=4Mt1R0EC3FYz66XqhH4MaCDZ6sflbyDD7zxn5LRYO4w=;
+        b=sdKdUEpuqgpavZQcMBN0qfTZZPnQ7d3wRV5znaXyynaCjmdufzR/GB5j44se1x19ai
+         85RvhzV90rR/JeQ4LEQIhZy4QruFfS0vVCja5FgHmGf31No4C8guuP7yf6Fr+E+267T4
+         v52gYt7VPrGVgOhOR6gUtu5su+/FYddrOH7IIdU53ocUkGdrDhjyKhmD7DzprnJgsvxy
+         6evhekSIYzRbyU05/ARASabDlaoR0EZyoSXxof3SOTkJN2vZQD1vfdYPWDFuYUAbvbi3
+         Qt6tqyiOJUWY62cHr8s5HTQk3XXRuSVDsL5wtttyfMm7IY5sc8XRklmZi7VXhR6gaTVw
+         Ikgw==
+X-Forwarded-Encrypted: i=1; AJvYcCV57b9gNTOH+J2R7qSaWY4Al2ADflhjRxebjolQmSds+5calqzLBMOMUnMMSoSqK/JVRLskR8zMKqi1aQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHSY5ARelcIApZR8yUaOy6X78Swk256toRefi2hLZUWQdavWz8
+	HfucX3TH0nCpuAQR9o9E1MG9seAuk8yzLBFQMoYO1wWcS8gux9GqOOZ7I/r3XzhJGoL9IC6UggI
+	+4g==
+X-Gm-Gg: ASbGncsm6APKddnIw1oevS+ci9OU5vKKbxVx9tka5+pA41hix63zXClEPjgHLh/TiPk
+	r/DjFWGh4OwztfP6eJpSrbBp5/gQtf95Rwj2V6KW8Fy3iXAlNJTA4+EmUQj2aEjcUddVQ2zaVB9
+	dhOJlhDyL0lFJNRvIC6bGDZssAkngxccDE7wkd1ddsqrngHQlwkQAOAb3sEpWjSaTHS0h/tIcH7
+	oDA34gA5CyuatRNLn6y7iDRmKjowYzm+cCaPAxzXnLKyYU5bU/MwVD4UG3rvWHtFxcnnnNPMwsu
+	smLZb+u3JN+VGIPSAdyxampQpltDLBOQMZdm/u7Jv281yO28GHTDa6Xo0PEnMj7cMxHdGZm0V9A
+	hee68F6EVt/6HCBtLuMDF4w==
+X-Google-Smtp-Source: AGHT+IGMU11VsoezNLSdINUAsRSlE0CW48Y+kQb7z5VQcOk1VIrvuaXDWSla6So21S8lMPm/2Jii/g==
+X-Received: by 2002:a05:6214:300a:b0:6d8:99cf:d2db with SMTP id 6a1803df08f44-6eaeab5a2bfmr28487096d6.38.1741955876613;
+        Fri, 14 Mar 2025 05:37:56 -0700 (PDT)
 Received: from denia.c.googlers.com (15.237.245.35.bc.googleusercontent.com. [35.245.237.15])
         by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6eade24dda0sm23168706d6.58.2025.03.14.05.37.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 14 Mar 2025 05:37:55 -0700 (PDT)
+        Fri, 14 Mar 2025 05:37:56 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 14 Mar 2025 12:37:51 +0000
-Subject: [PATCH 1/2] media: vivid: Fix requirement about webcam_intervals
+Date: Fri, 14 Mar 2025 12:37:52 +0000
+Subject: [PATCH 2/2] media: vivid: Add more webcam resolutions
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,7 +82,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250314-vivid-fix-twice-v1-1-7463c2b0ba63@chromium.org>
+Message-Id: <20250314-vivid-fix-twice-v1-2-7463c2b0ba63@chromium.org>
 References: <20250314-vivid-fix-twice-v1-0-7463c2b0ba63@chromium.org>
 In-Reply-To: <20250314-vivid-fix-twice-v1-0-7463c2b0ba63@chromium.org>
 To: Hans Verkuil <hverkuil@xs4all.nl>, 
@@ -92,31 +92,33 @@ Cc: Hidenori Kobayashi <hidenorik@chromium.com>,
  Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.14.2
 
-Since commit f0b4a2c037c0 ("media: vivid: Extend FPS rates offered by
-simulated webcam") we do not require twice as many intervals as sizes. In
-fact, now we have 13 intervals and 6 sizes.
+Add 3 more common resolution for webcams. This is required to increase
+the test coverage of unit tests based on vivid.
 
-Fix the comment.
-
+Co-developed-by: Hidenori Kobayashi <hidenorik@chromium.com>
+Signed-off-by: Hidenori Kobayashi <hidenorik@chromium.com>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/test-drivers/vivid/vivid-vid-cap.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/media/test-drivers/vivid/vivid-vid-cap.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/drivers/media/test-drivers/vivid/vivid-vid-cap.c b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-index b166d90177c641eed8116e791daeec8822973ff0..623ba1e5e54791c0ac62aa2f0fcc3dcd444c873a 100644
+index 623ba1e5e54791c0ac62aa2f0fcc3dcd444c873a..df726961222be874c39d19e1fb457bd816ab45fd 100644
 --- a/drivers/media/test-drivers/vivid/vivid-vid-cap.c
 +++ b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-@@ -33,8 +33,7 @@ static const struct v4l2_frmsize_discrete webcam_sizes[] = {
+@@ -25,9 +25,12 @@
+ /* Sizes must be in increasing order */
+ static const struct v4l2_frmsize_discrete webcam_sizes[] = {
+ 	{  320, 180 },
++	{  320, 240 },
+ 	{  640, 360 },
+ 	{  640, 480 },
+ 	{ 1280, 720 },
++	{ 1280, 960 },
++	{ 1600, 1200 },
+ 	{ 1920, 1080 },
+ 	{ 3840, 2160 },
  };
- 
- /*
-- * Intervals must be in increasing order and there must be twice as many
-- * elements in this array as there are in webcam_sizes.
-+ * Intervals must be in increasing order.
-  */
- static const struct v4l2_fract webcam_intervals[] = {
- 	{  1, 1 },
 
 -- 
 2.49.0.rc1.451.g8f38331e32-goog
