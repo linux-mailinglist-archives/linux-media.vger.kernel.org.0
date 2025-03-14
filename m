@@ -1,206 +1,198 @@
-Return-Path: <linux-media+bounces-28231-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28233-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA3FEA61389
-	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 15:20:11 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0385A613F2
+	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 15:46:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2BC0F16D37A
-	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 14:20:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 22A527AE894
+	for <lists+linux-media@lfdr.de>; Fri, 14 Mar 2025 14:45:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5FB5200BA1;
-	Fri, 14 Mar 2025 14:20:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98761201261;
+	Fri, 14 Mar 2025 14:46:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b="sw0ksIdS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from EUR03-VI1-obe.outbound.protection.outlook.com (mail-vi1eur03on2068.outbound.protection.outlook.com [40.107.103.68])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FFA61FFC55
-	for <linux-media@vger.kernel.org>; Fri, 14 Mar 2025 14:20:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741962006; cv=none; b=HGuBabMTnJGE3YjcLfYnX3uFaTKLOx7QtgZFjuZz8UFjO+NciGvrByuxKqj2MBZBmY4aXfVL9pPgbdqsPwFq5p+pMX4wQeY/dPtRrrvB2+iI4JwgyP/28MupePT0IjMyleEOcuzw+0KRidFZ0ED+A/hr+SCmnvknvXhkv+1Dp3E=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741962006; c=relaxed/simple;
-	bh=yq9an8CfyMxDE55qCJievO88pgLMzre+8hBcHFI0Tvk=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=W/FZiTc2z1J9TyaklJJQbIY5DXZIr85n1MulHx7GdSt23EVGhm41wV4vmZvLUcd4eftyLlbWhTnf84jS/fy9gtvI+SJCy8zXMbty4Z8NbOCVe9qz9iQu0Fzs2wOtHnfqRziQmuIGwrm7W2bk7qiRV6f4SggTH3XKDWrxyBXhLSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43DEBC4CEE3;
-	Fri, 14 Mar 2025 14:20:05 +0000 (UTC)
-Message-ID: <bf119c2e-34a4-441d-b55a-f5105e8df8d3@xs4all.nl>
-Date: Fri, 14 Mar 2025 15:20:03 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 551261DD0F6;
+	Fri, 14 Mar 2025 14:46:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.103.68
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1741963584; cv=fail; b=DG2gtuMVup++npufVaVFwTLLbSzkA/y3e1B1mCvNZKW+uI3rjGWNySUS1umpQfTRgR3ZpK10yn7sHyAoKn0mkRMaLk1ywAHa9wFrayJKSBnrODqwMjAAdPAJRwRzM4dfKTES95L2+7OZnNG1w6RPOIJvOIGaKqZK78ljv/d/2eg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1741963584; c=relaxed/simple;
+	bh=1Oewsj4XNt6xokfiSlNKUNQb4NbG4nNkPyUMeTq5vNU=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=XBLw5J3c5WKTu8WbXaE7zQflW+1T+LEoRNNUe9v6TMI38QCfm/PODEX3HRq0Pe20x9XZizj6k8Fyc6oj8tRFcWuX81vRw8KROs7aiI8rmo9dDDAwBhyDqgBiphodFeZnPrc5Qz+6mM09HjFHQw3c4FgHETz02EFu9i25WjRnxcQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mt.com; spf=pass smtp.mailfrom=mt.com; dkim=pass (2048-bit key) header.d=mt.com header.i=@mt.com header.b=sw0ksIdS; arc=fail smtp.client-ip=40.107.103.68
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mt.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mt.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=RsVqjjRoVj/fD+XvWhpMxbAj5H/Gtdt2yyotWaYWdl/U74Gqf+2jGXV5RKNJ4m9PV1iHhEgB5DrJyX4Thv8QSClB4fln20ZGPX/nVhcqMAvyW1vDQr3jAY1GwkX7bSKFXo4otTHw4RERpnrQqUqggGvx5LUUkm/rPLvnLPMDZFrDKBuXSJ2QOUsBiNYFVjSI+sQFU64FNcPPx8GTrq942p6MmMfzcOhW1j9EM4UE+CWg9zGVtv/w2o0cBircswIC66nWUP4eDXu3XYDYfTBIwcW/3e3S0/xaInyXq/l7BJesZz5ALeDesaJev0K85vEHjvEK+B/7wsCdGtT13u78Rw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PyIhlryqTffvbOslgC9jaZL7kWsAmiR5RzOr1CoMFHs=;
+ b=Y5UPrQkhkTrByUsQbkSkVwyhdWEskJ64+ii17iS4B0jbDPpSfxBOGE4aJ+7l527k7f5NCGNQteBhWz+FDV4dBtpmKsmXmeRo4kzX7/SnK/hxUjvExiyX84ymgC+sTmJMYZi99Ok6NXcrtVCnTPtvC3pZOdKA0mpIfOsuHtEocMavgC86jLHyE4ZfQkC0QhXLCTJPmn/3+fm8ODDapzHHHSFSS6hSXhhiJGGzAlx45NsJz7pzBCh7k6g5Yb8QOfStfDYduDFnSsjvWLko22nFkLC4sMiPNhgL0ednwFsXEP9oeJkvI4PVBXryiF9Y31KEpxysJo7ENzseQvAYnXdvKA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mt.com; dmarc=pass action=none header.from=mt.com; dkim=pass
+ header.d=mt.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PyIhlryqTffvbOslgC9jaZL7kWsAmiR5RzOr1CoMFHs=;
+ b=sw0ksIdSMuuLsbWrxTpDnL4V6VU/yPxG28oA1J5McC+j0pGwCF6kgbPHneECKywetgt8UffYIb5aluIjrm1SeQjLeixNapn7PdlM3HpJD6bry4NEe/4l5nzzf5MqCyYdi3t2foJyXTXKSuDf/ziWEML4edR9cqMCNfSpQAAg9SQyQ3nZH117ImCtY2aSYTFfh43+rtDCyrXvaHA1OgNHLboJvCbLALtisCwVlPpeNGj8nmm/h2HmBlPpAhuEGXRP3tfrQOR3oQVyVPmWdhTiAZCymtAV4aoTGhb1LIUV+CmpcySJb8zaaT7w3bDYAkAh/CM9BPgWgUz+1XMRdudEZw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mt.com;
+Received: from DBBPR03MB10396.eurprd03.prod.outlook.com (2603:10a6:10:53a::11)
+ by AS8PR03MB7208.eurprd03.prod.outlook.com (2603:10a6:20b:2ea::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8511.28; Fri, 14 Mar
+ 2025 14:46:16 +0000
+Received: from DBBPR03MB10396.eurprd03.prod.outlook.com
+ ([fe80::ee3c:c9be:681:c0bf]) by DBBPR03MB10396.eurprd03.prod.outlook.com
+ ([fe80::ee3c:c9be:681:c0bf%4]) with mapi id 15.20.8511.026; Fri, 14 Mar 2025
+ 14:46:15 +0000
+From: Mathis Foerst <mathis.foerst@mt.com>
+To: linux-kernel@vger.kernel.org
+Cc: Mathis Foerst <mathis.foerst@mt.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	manuel.traut@mt.com,
+	mathis.foerst@zuehlke.com
+Subject: [PATCH v2 0/1] media: imx: csi: Parse link configuration from fw_node
+Date: Fri, 14 Mar 2025 15:46:08 +0100
+Message-Id: <20250314144609.219486-1-mathis.foerst@mt.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: ZRAP278CA0018.CHEP278.PROD.OUTLOOK.COM
+ (2603:10a6:910:10::28) To DBBPR03MB10396.eurprd03.prod.outlook.com
+ (2603:10a6:10:53a::11)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: omap3isp: drop wait_prepare/finish callbacks
-From: Hans Verkuil <hverkuil@xs4all.nl>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <218877d9-5f95-42ab-8bbf-2325cb31ed73@xs4all.nl>
- <20250128154040.GF12673@pendragon.ideasonboard.com>
- <f11dab4a-0288-42ae-b6c1-a548206a1249@xs4all.nl>
- <7e2bf95e-5cbd-4792-a8b6-d38a1532f3dd@xs4all.nl>
- <Z7bgqrfTovdssWTc@kekkonen.localdomain>
- <61241a2a-1b87-4711-af2c-26a97a1ef6a7@xs4all.nl>
-Content-Language: en-US, nl
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
- BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
- yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
- C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
- BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
- E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
- YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
- JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
- 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
- UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSFIYW5zIFZlcmt1
- aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD7CwZUEEwEKAD8CGwMGCwkIBwMCBhUIAgkKCwQWAgMB
- Ah4BAheAFiEEBSzee8IVBTtonxvKvS1hSGYUO0wFAmaU3GkFCRf7lXsACgkQvS1hSGYUO0wZ
- cw//cLMiaV+p2rCyzdpDjWon2XD6M646THYvqXLb9eVWicFlVG78kNtHrHyEWKPhN3OdWWjn
- kOzXseVR/nS6vZvqCaT3rwgh3ZMb0GvOQk1/7V8UbcIERy036AjQoZmKo5tEDIv48MSvqxjj
- H6wbKXbCyvnIwpGICLyb0xAwvvpTaJkwZjvGqeo5EL0Z+cQ8fCelfKNO5CFFP3FNd3dH8wU6
- CHRtdZE03iIVEWpgCTjsG2zwsX/CKfPx0EKcrQajW3Tc50Jm0uuRUEKCVphlYORAPtFAF1dj
- Ly8zpN1bEXH+0FDXe/SHhzbvgS4sL0J4KQCCZ/GcbKh/vsDC1VLsGS5C7fKOhAtOkUPWRjF+
- kOEEcTOROMMvSUVokO+gCdb9nA/e3WMgiTwWRumWy5eCEnCpM9+rfI2HzTeACrVgGEDkOTHW
- eaGHEy8nS9a25ejQzsBhi+T7MW53ZTIjklR7dFl/uuK+EJ6DLbDpVbwyYo2oeiwP+sf8/Rgv
- WfJv4wzfUo/JABwrsbfWfycVZwFWBzqq+TaKFkMPm017dkLdg4MzxvvTMP7nKfJxU1bQ2OOr
- xkPk5KDcz+aRYBvTqEXgYZ6OZtnOUFKD+uPlbWf68vuz/1iFbQYnNJkTxwWhiIMN7BULK74d
- Ek89MU7JlbYNSv0v21lRF+uDo0J6zyoTt0ZxSPzOwU0EVDzhbQEQANzLiI6gHkIhBQKeQaYs
- p2SSqF9c++9LOy5x6nbQ4s0X3oTKaMGfBZuiKkkU6NnHCSa0Az5ScRWLaRGu1PzjgcVwzl5O
- sDawR1BtOG/XoPRNB2351PRp++W8TWo2viYYY0uJHKFHML+ku9q0P+NkdTzFGJLP+hn7x0RT
- DMbhKTHO3H2xJz5TXNE9zTJuIfGAz3ShDpijvzYieY330BzZYfpgvCllDVM5E4XgfF4F/N90
- wWKu50fMA01ufwu+99GEwTFVG2az5T9SXd7vfSgRSkzXy7hcnxj4IhOfM6Ts85/BjMeIpeqy
- TDdsuetBgX9DMMWxMWl7BLeiMzMGrfkJ4tvlof0sVjurXibTibZyfyGR2ricg8iTbHyFaAzX
- 2uFVoZaPxrp7udDfQ96sfz0hesF9Zi8d7NnNnMYbUmUtaS083L/l2EDKvCIkhSjd48XF+aO8
- VhrCfbXWpGRaLcY/gxi2TXRYG9xCa7PINgz9SyO34sL6TeFPSZn4bPQV5O1j85Dj4jBecB1k
- z2arzwlWWKMZUbR04HTeAuuvYvCKEMnfW3ABzdonh70QdqJbpQGfAF2p4/iCETKWuqefiOYn
- pR8PqoQA1DYv3t7y9DIN5Jw/8Oj5wOeEybw6vTMB0rrnx+JaXvxeHSlFzHiD6il/ChDDkJ9J
- /ejCHUQIl40wLSDRABEBAAHCwXwEGAEKACYCGwwWIQQFLN57whUFO2ifG8q9LWFIZhQ7TAUC
- ZpTcxwUJF/uV2gAKCRC9LWFIZhQ7TMlPD/9ppgrN4Z9gXta9IdS8a+0E7lj/dc0LnF9T6MMq
- aUC+CFffTiOoNDnfXh8sfsqTjAT50TsVpdlH6YyPlbU5FR8bC8wntrJ6ZRWDdHJiCDLqNA/l
- GVtIKP1YW8fA01thMcVUyQCdVUqnByMJiJQDzZYrX+E/YKUTh2RL5Ye0foAGE7SGzfZagI0D
- OZN92w59e1Jg3zBhYXQIjzBbhGIy7usBfvE882GdUbP29bKfTpcOKkJIgO6K+w82D/1d5TON
- SD146+UySmEnjYxHI8kBYaZJ4ubyYrDGgXT3jIBPq8i9iZP3JSeZ/0F9UIlX4KeMSG8ymgCR
- SqL1y9pl9R2ewCepCahEkTT7IieGUzJZz7fGUaxrSyexPE1+qNosfrUIu3yhRA6AIjhwPisl
- aSwDxLI6qWDEQeeWNQaYUSEIFQ5XkZxd/VN8JeMwGIAq17Hlym+JzjBkgkm1LV9LXw9D8MQL
- e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
- XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
- LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <61241a2a-1b87-4711-af2c-26a97a1ef6a7@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DBBPR03MB10396:EE_|AS8PR03MB7208:EE_
+X-MS-Office365-Filtering-Correlation-Id: 618bee19-5405-4350-b6e5-08dd6306f918
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|376014|7416014|366016|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?vtD80hrrBTKe9ZgQ6B/Wz431d9AO19v05L7bPckPWd0W++T0j4aKuYTMSN6M?=
+ =?us-ascii?Q?NFpSX8SAVeEw1UGKy/XnCx1CfNmLM1AM7jlZVh4S7eIdE10ZpzIQmkkT4zUi?=
+ =?us-ascii?Q?l0O4dl9TjXNxl4sW+KhFv4VnGAZoCNZ7tnEUjAcO5zjaIzwGpoVwL67xB1Ys?=
+ =?us-ascii?Q?ZKIWVb7Cycd0Eyy/niLOeQDxWF75TVeCHdWBOSRk1pxNJsZBGhytDuhyUzhK?=
+ =?us-ascii?Q?KKzqN/DZ2C2RLLrh8sRNEa1HuV9zHZfBGuvYrfQH9pIHTZ7qgEQmKgWWo/6F?=
+ =?us-ascii?Q?wsT8z3EcBQX6YGFcBDbKa0DDuS9InqJvaOn8dBynlCWQLZRspWeIac7dpAvX?=
+ =?us-ascii?Q?IlgCisyDkc01VKaG3pCYnNDWq7gaSxSS9+liTgWVf7f0/Y9SNs87c8vzoWvi?=
+ =?us-ascii?Q?TcK4NCKxHo2gN8vCGCXcYZLcCoBqt76lprs76p1P/gKVJ9viZ/eWNFmWSomW?=
+ =?us-ascii?Q?o3t0yQXgpzkz1jBGUUP5zu5x787cSI1PxiN5EJl5bJmDkIApONNtN6BobA+A?=
+ =?us-ascii?Q?YRGXkRFHMNdiwka+MCovydxSZAZIF9TcYzshsOtumxy7kPTPoXxetRY/4wg9?=
+ =?us-ascii?Q?BAsfqecineV2+m0hHQfYfP4hIjuoB497Yoi8+HPbnLsKfbj7JN0wkEn3HDdx?=
+ =?us-ascii?Q?8tm3OUYGBeZk19i4qmV3ToiiEny9U4nzk+HeF7Z6NQsCFDo6wVeskJSvJyho?=
+ =?us-ascii?Q?vTKAsdIS8gEt5qAPmuTrBAHVA72+Y8q5PjhTQnt4zHyp2XiKx8XbdLn2xNGE?=
+ =?us-ascii?Q?RosJT5tELGO95ZYCSt3OOLwIjH6tTSNQp68IiQoWvnrQrg+pKeMhtE50pIb7?=
+ =?us-ascii?Q?2YOvhpIDsItulgtrwWzP5CiNMpQPLonLT7860z+6RptQ/Fkvat362UCcc11+?=
+ =?us-ascii?Q?fgUAsqPEtHTB15boaZlEjPdTTmiNGYbOFthOCXXP4uK3oqlxa6xESGFRMJo8?=
+ =?us-ascii?Q?rZ6Wgz6PopE+tMUmYGd2sS3sTvlkqf+VGf4QQR0lCnOFhZZwuNs3oj9PDU9J?=
+ =?us-ascii?Q?wNJ1u763FmrqesSrdqBlRg8XsQ1VJVKAEHiW+YmZLoZ967MwXn33QUVglLju?=
+ =?us-ascii?Q?qb/6AvQVqm0Gh44L4WMf4E7y+uvC72R6KnPSxO2igleIfwiWVcPgON16r53r?=
+ =?us-ascii?Q?Ms+str/uaT/VzRl2guOeVIVXjzxcbi8FzZiHA3BgG3v9ZjUfuBsNF4sqx2fX?=
+ =?us-ascii?Q?iDaOlOsGVWW4FaZ0D0mdEGi4N6Y6NSKGt+WG8xWcQ84plv5MT38J5J2Egg5Y?=
+ =?us-ascii?Q?5g08NCNVbN3TRWMqH6ICRo+xBl2P2arCwFqIbvGEepD7hyAYH1RvdC+Ey0+F?=
+ =?us-ascii?Q?6tIxuo+C/gD9mrB8HJSTIcS8RLN7luWI4+7GIHeoEHxbRpsklsQE5QIzogG0?=
+ =?us-ascii?Q?t2D7UH9ZYa0r8+iMcPBhuYghhgGONi2uM80fdRipq5lpCFcUqd1THIRLicfm?=
+ =?us-ascii?Q?Kzr9I/fksymTVQBtf1w6/Gu5u4mY/cYF?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DBBPR03MB10396.eurprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(7416014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?xjw8K0zkmh1ZgaZQ2ptDzkaXCWjPkcy2TndjXXs7JexRUtYlaTkqC0GOacZ4?=
+ =?us-ascii?Q?IrUBrUk1V8e/+MmeT6IO3gvNYlo9P/2Dq+X6a6bGX1DYXOy4a1GhlPpvU0wT?=
+ =?us-ascii?Q?d1UaOd3Tq72oXmnUNE+bPVe0RHAuO7pFrMX9vmDY050LRBAKKYyoh5S93EYV?=
+ =?us-ascii?Q?nX0HO9ZYfAqzehOj7kIiSvteN+tHPEt8NWIrJQO74T0+7sOuGlwBGfHX8pmy?=
+ =?us-ascii?Q?dfA7nBBpVJC2QJ5FsbrkSHzeXpZI0+3bwMVyZ5Ee434ETpip1TtXexW79QLf?=
+ =?us-ascii?Q?3GASREQABQQQqcMpNJNNOK1VYt0gd9jNLM5C2px8MCzqWYaiWjPNElCuznY2?=
+ =?us-ascii?Q?G+BMWSuoWLcR8AD/bmzRm3vICPQTZtamPjMNXccvYOzTx9x6kAFbWlwp9Ybm?=
+ =?us-ascii?Q?AL/U2aSLqrx/0u5Vg15/6zqpBdLL/IjFDLnN6zv3Cc+twWbd2ATLJoruFDGm?=
+ =?us-ascii?Q?NuKcSOm54zk+oykxmqjTRH544x6xnRahqeXDtA90sFueT5V6fyhyqvFtiOcB?=
+ =?us-ascii?Q?sBUOt2awSrqZdGU7RO/lr/Wvb/y351NpYyQ1KdzMlGaDUtnMdmjYgFhn3zdO?=
+ =?us-ascii?Q?VlygMFmPIKRr7XVOmDcRnz9ltJCOn6/NxVVd7NTaMJXGSLienYiAUgOpMJAH?=
+ =?us-ascii?Q?saXScC39HW8QmaPiCJOS9tFESOJ1M1CLAG+7GclBDc9g4iVNHwRZhGJF1t61?=
+ =?us-ascii?Q?RJkrghQA+vmRfsH2e4Nwc3wCTWYKhWAQu55qYyyWvekyBLmg7lWTB/xDUZpv?=
+ =?us-ascii?Q?AGZY59HmEApYrHs2GL8hsOwYWtPqEnIzd5Plt2aPgdVjCVpHorHC8QC0NKLN?=
+ =?us-ascii?Q?DKSqb3pHoYTUfxLO/jFS3FzvvI+wgG++587FGN8Z/xp4oZhRxcKTXvXuWgAw?=
+ =?us-ascii?Q?5tRg488Fuwp0Q0feMOWxloDprBD0sFZlLmDTrvBQGYh82aU7CgCSGiAYpT1q?=
+ =?us-ascii?Q?kdLBdlqcnNG4VW1WVDf+G0L+7HAt5yXwlpdePO3oREfn96YOc8YArBdjpuvw?=
+ =?us-ascii?Q?H1kevjkX4qBRVuY+5Go6nrqNggU0XU00Rt3cc73qjPcjUSdhj1cAbg/5uDRm?=
+ =?us-ascii?Q?k4+e1tpZXo1l39wARWaLZSAi3YQbpk6E9p88kHdZXg8zbF9CuKO+vYKdYfRu?=
+ =?us-ascii?Q?4/WFQON82dIY+pY+XJyxq3Yi1rBe9WEjLaehDUgJlea8vxKINdrdA819r0Us?=
+ =?us-ascii?Q?xZ2agzqejO0QBAxuxgxeLEfbgConcU1QHDADcV/BpiuVwW0ZzQHUYwkQPF/u?=
+ =?us-ascii?Q?cXkwQZcePQ3Qf2cs2bXUktH0AFMO/8b4AenRUN0k3NlxjC9HXVR3zQZyc3H8?=
+ =?us-ascii?Q?uW2BNNB2sSTpLHDJllOQ+by2N0QHsFgHT5Ne76uGtVevDlV76UNXPI4N4SfD?=
+ =?us-ascii?Q?yj9aoeD1fCmCTsB2boHUDJIZw211ZGyneSGEcGM67hxT5kML3/mWoCWZYjYP?=
+ =?us-ascii?Q?1pRHNxEMZJsuG43wChNzHtdhHb4NCmEUsi4KbimLCWotrtPlu6Xn6WXlasvD?=
+ =?us-ascii?Q?u2gj59AJWo9rPXEEtQyREf7yvKgbvhqjiQd6JK1qRUUhBc+ek2mrHKkMR3+c?=
+ =?us-ascii?Q?RrN0q94ipY1zCnBBl9S8i0x1/rnvvDyOlwukBYB1?=
+X-OriginatorOrg: mt.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 618bee19-5405-4350-b6e5-08dd6306f918
+X-MS-Exchange-CrossTenant-AuthSource: DBBPR03MB10396.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Mar 2025 14:46:15.7998
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fb4c0aee-6cd2-482f-a1a5-717e7c02496b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sPaUa8QzieQWIl0pmBMHvHCIYl1zHl/r9JddqOj0JSloTfxiXKpGapxywnfzze5dbsSUO/8uG0EkbZTsaXKWfg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR03MB7208
 
-On 20/02/2025 09:10, Hans Verkuil wrote:
-> On 20/02/2025 08:58, Sakari Ailus wrote:
->> Hi Hans,
->>
->> On Thu, Feb 20, 2025 at 08:48:32AM +0100, Hans Verkuil wrote:
->>> On 29/01/2025 15:21, Hans Verkuil wrote:
->>>> On 28/01/2025 16:40, Laurent Pinchart wrote:
->>>>> Hi Hans,
->>>>>
->>>>> Thank you for the patch.
->>>>>
->>>>> On Tue, Jan 28, 2025 at 04:08:18PM +0100, Hans Verkuil wrote:
->>>>>> Since commit 88785982a19d ("media: vb2: use lock if wait_prepare/finish
->>>>>> are NULL") it is no longer needed to set the wait_prepare/finish
->>>>>> vb2_ops callbacks as long as the lock field in vb2_queue is set.
->>>>>>
->>>>>> Set the queue lock to &video->queue_lock, which makes it possible to drop
->>>>>> the wait_prepare/finish callbacks.
->>>>>>
->>>>>> This simplifies the code and this is a step towards the goal of deleting
->>>>>> these callbacks.
->>>>>>
->>>>>> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
->>>>>> ---
->>>>>>  drivers/media/platform/ti/omap3isp/ispvideo.c | 19 +------------------
->>>>>>  1 file changed, 1 insertion(+), 18 deletions(-)
->>>>>>
->>>>>> diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
->>>>>> index 5c9aa80023fd..78e30298c7ad 100644
->>>>>> --- a/drivers/media/platform/ti/omap3isp/ispvideo.c
->>>>>> +++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
->>>>>> @@ -480,29 +480,11 @@ static int isp_video_start_streaming(struct vb2_queue *queue,
->>>>>>  	return 0;
->>>>>>  }
->>>>>>
->>>>>> -static void omap3isp_wait_prepare(struct vb2_queue *vq)
->>>>>> -{
->>>>>> -	struct isp_video_fh *vfh = vb2_get_drv_priv(vq);
->>>>>> -	struct isp_video *video = vfh->video;
->>>>>> -
->>>>>> -	mutex_unlock(&video->queue_lock);
->>>>>> -}
->>>>>> -
->>>>>> -static void omap3isp_wait_finish(struct vb2_queue *vq)
->>>>>> -{
->>>>>> -	struct isp_video_fh *vfh = vb2_get_drv_priv(vq);
->>>>>> -	struct isp_video *video = vfh->video;
->>>>>> -
->>>>>> -	mutex_lock(&video->queue_lock);
->>>>>> -}
->>>>>> -
->>>>>>  static const struct vb2_ops isp_video_queue_ops = {
->>>>>>  	.queue_setup = isp_video_queue_setup,
->>>>>>  	.buf_prepare = isp_video_buffer_prepare,
->>>>>>  	.buf_queue = isp_video_buffer_queue,
->>>>>>  	.start_streaming = isp_video_start_streaming,
->>>>>> -	.wait_prepare = omap3isp_wait_prepare,
->>>>>> -	.wait_finish = omap3isp_wait_finish,
->>>>>>  };
->>>>>>
->>>>>>  /*
->>>>>> @@ -1338,6 +1320,7 @@ static int isp_video_open(struct file *file)
->>>>>>  	queue->buf_struct_size = sizeof(struct isp_buffer);
->>>>>>  	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
->>>>>>  	queue->dev = video->isp->dev;
->>>>>> +	queue->lock = &video->queue_lock;
->>>>>
->>>>> This is goind to deadlock at least when calling VIDIOC_DQBUF in blocking
->>>>> mode.
->>>>
->>>> Yeah, you are right. I think I will need to test this on real hardware.
->>>
->>> I still haven't found my Beagle Board. I found the box for the Beagle Board,
->>> but not the board itself :-(
->>>
->>> When I'm back in the Netherlands I'll dig around some more to see if it is
->>> there, but if I can't find it, are you or someone else from Ideas on Board
->>> willing to test patches from me?
->>>
->>> This driver is the last remaining user of these wait_prepare/finish helpers,
->>> so I'd really like to get this fixed.
->>
->> If you have a patch, I can test it, presuming omap3isp will work on N900.
->> :-) I haven't tested it for a while.
->>
->> omap3isp is a bit special as the video buffer queues are specific to file
->> handles but I'm not sure it matters here.
->>
-> 
-> That shouldn't matter. Thank you for the offer, I'll keep you in reserve if
-> I really can't find my Beagle Board.
-> 
-> I've got the freakin' box, so the board must be somewhere, right?
+Hi,
 
-I did find my BeagleBoard, but didn't have time yet to work on this.
+this patch fixes the imx-media-csi driver to work with camera drivers that
+do not implement the subdev-pad-operation "get_mbus_format".
 
-Regards,
+Changelog:
+v1 -> v2:
+- Factor out the function "csi_parse_upstream_fw_link_config" for better
+readability.
 
-	Hans
+It's the follow up of this discussion:
+https://lore.kernel.org/linux-media/Z8AoA6WjbXQufqR6@kekkonen.localdomain/
 
-> 
-> Regards,
-> 
-> 	Hans
-> 
+I tested the changes successfully on an i.MX6DL with an MT9M114 and an
+MT9V032 camera. They both use the parallel camera interface.
+Sadly, I don't have the hardware to test with a MIPI CSI-2 camera.
+
+Best regards,
+Mathis Foerst
+
+
+Mathis Foerst (1):
+  media: imx: csi: Parse link configuration from fw_node
+
+ drivers/staging/media/imx/imx-media-csi.c | 36 ++++++++++++++++++++---
+ 1 file changed, 32 insertions(+), 4 deletions(-)
+
+
+base-commit: ac9c34d1e45a4c25174ced4fc0cfc33ff3ed08c7
+-- 
+2.34.1
 
 
