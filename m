@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-28287-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28288-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84319A62D9D
-	for <lists+linux-media@lfdr.de>; Sat, 15 Mar 2025 14:40:47 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 396AFA62D9E
+	for <lists+linux-media@lfdr.de>; Sat, 15 Mar 2025 14:40:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3669B7A5DCA
-	for <lists+linux-media@lfdr.de>; Sat, 15 Mar 2025 13:39:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 47327189D929
+	for <lists+linux-media@lfdr.de>; Sat, 15 Mar 2025 13:40:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5262E1FCD07;
-	Sat, 15 Mar 2025 13:40:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DFED1FCCFD;
+	Sat, 15 Mar 2025 13:40:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NNZdh92u"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BO/qv1CH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3A11FCD00
-	for <linux-media@vger.kernel.org>; Sat, 15 Mar 2025 13:40:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 418981FCCF9
+	for <linux-media@vger.kernel.org>; Sat, 15 Mar 2025 13:40:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742046039; cv=none; b=kTJLYrlOsF3KIdbsenN4OUHpN2QRzgVfmSQ3fsIPOSAA9ZVTI2ITKPsb+pA9V0B4Y5fcj1BJ/E6kx+XbkjYeEp9nc2+h5mHrV4yRxkcexotqin3U6kU6i9756OTXDHDi/NKNY7ZOIllCtBX2EU14pWApFn+aIwYL71Ri0d4UNKY=
+	t=1742046042; cv=none; b=fXttMUsVK9ktTuzv2Pv211uHfOVZ+TARo59asUtUgEc4EhtaGXuPA0vDQXV+7axCDqVtpvP6i88EyCs+c13YpmqZ8Ebd6o+vlhTkL/CJcAtWGNtR7arqYqeST1XsxbURH6HVsPzfMdk/D+YsYtbiBQJ1RXHQGNB+G2rnslifNLw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742046039; c=relaxed/simple;
-	bh=ob7EuhXpGnktGfDcOTWv+3MsFvXv3RvEalxeOvINqTA=;
+	s=arc-20240116; t=1742046042; c=relaxed/simple;
+	bh=E8jocHu5wWsMxvcoCmPKc+TA3pYPbkfWJvR/i7m4LdQ=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=RzHeOpCuMZUeMpXKMClM4Y0ZWibsuPUgeOl5JbxFTWJ7O8kekEFhkpjhqEDo7hIVpPZ6A4bMhPzBiLcA12R51ObsLUBpBiAoj2g3y2cey0Oq0BwL7Lqkj+Tq2whqhQCvYG5sE2FBRVAgUVpQ7CvXWjN9qUEKv4W6LsM1RaK65gE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NNZdh92u; arc=none smtp.client-ip=209.85.218.50
+	 MIME-Version; b=HHtpLGX9OI4/ID84pIEy7OcHlR0SGuzh4yATLCrzM9vphsc3CPS7i6MgAHzEitfLOQyuhlwPzenRFf789IFMy1eTcHPX3vIrEmnazKTJK2ANqymZCt1xlKI3U/5SuyXRLNdkqAjyRnsSK8cWSVkpyG3twKsMXfGuIZ5t8xT7UyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BO/qv1CH; arc=none smtp.client-ip=209.85.208.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ac345bd8e13so109544266b.0
-        for <linux-media@vger.kernel.org>; Sat, 15 Mar 2025 06:40:37 -0700 (PDT)
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5dca468c5e4so5232526a12.1
+        for <linux-media@vger.kernel.org>; Sat, 15 Mar 2025 06:40:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742046036; x=1742650836; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1742046038; x=1742650838; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=uZKOsr5RYKkjXg4DicEjwNb17WMUuY3yeez9AejhVeU=;
-        b=NNZdh92uXLHVYcbIDJqL0HU0oLZr8OnB3s6WHXHrNFtUfk7IphrYAZaEjpquvrU7lE
-         3VdFI4kfpGAsbigwhCdHXt/UvL0gvj1md7zfzaTnCK8kzaUW1hfVFKrSM8wan4xkWIhB
-         +iQHYagPBh8eK/LgkLinsHvVkbMCjXoUzAg3vF/p5Tke+XGL/VgPU+JBnIf67rvu3SG2
-         mOyXljpW7njtTuQ0LgAC81+JzrhqB+Y7VMHP5CeUj5+HbTwM1nq5YsveOL/VQRgWx1sX
-         EsOVx3SHfZBgGXvR+iQecCTIgg/9bcmW+V1uC/+s20eqMADfJuWx2vA4HUwvpZWUlhBA
-         b/+w==
+        bh=RD11mzJFRq6d0T7pDKGqoqCjyj5QqJtchVCr8n4C52w=;
+        b=BO/qv1CHEC/eE/AHEEbZSxgFTuUL2vufOZJ0SEjYaqp4pKN90u9NAD/K33Xe6WBn0c
+         S93C1zNuhM24bDxgud8C3EpMMNKVsJu3LAJXcJ0iwnSrw05fTn3004e+STblm/qM5tBp
+         3SF+pmeImwwvWDj7SzHdmytIDVAcBJsHkH0MHnMckUfUTtrj9Unpc9AtlR5tCucRWdEq
+         PAwAkxqDfIcxsKq8WRlKDO+tl1GrBMgxtCveO9Xkm1MpqiD8xdoWbay2G3AyYw8E+cf2
+         Et1o0XBRYVGEZ113iZoAaY8MG3/Nk2gA9Vv4TTDOrdL946GyZJz40tCZv2PRYGYr3CX/
+         +tcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742046036; x=1742650836;
+        d=1e100.net; s=20230601; t=1742046038; x=1742650838;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uZKOsr5RYKkjXg4DicEjwNb17WMUuY3yeez9AejhVeU=;
-        b=DoCM8tsO/7jL2h+e8MwhA+yu9YfOKPSJQSlIekPRaznMDEODSNgTbzgio5YUwpJkhZ
-         48YHR4ZMmC6Mcz7RnI3O7mbmi/ajJSDOyOXhr68CjvCaUX/MmclLmjybUdrszmFQLMc6
-         5Ozp2q0T84/4+qtiz4PPoFyGEc2CYFdHG0qoLebhonB93GvwwyELI80hKlg3+822Cu8Z
-         bcZR+JbLw+1iDjOk79iI/Gp9h3Xk7TEOul2CYs+MFLhWXGBf1oRxX2ntY4X+279HZeVD
-         9aHqFEPyOINsAjgZ4hcELKAvhHk5hRo+adwh1c6in7ej/5EDPpYX9s9+u6HiktfkYkoA
-         oZ9g==
-X-Forwarded-Encrypted: i=1; AJvYcCWeqiUFFa/f6CYo1PfN2JqPNS4rTiZmGCcdVK+v8N2Gnv/dgXLlj/lYP3zv81B8kYkYXL8EZTUmTQ2paA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxiPjzS/QX5ORRTo/CjP7nPYroEams2i0FskxEVZm9pYknFah22
-	McK/lfgQXQHMfMTLOOso76dwDqo20h2F2jVcSEKlUg0mJOxHaOg7ZJqfMAV/m8xm1m8p/MKeLbe
-	ANxwbeg==
-X-Gm-Gg: ASbGncv79CWgrMDj/2xZP2x+3fb+zJ+ADP7k015BmGOFF9BjoW+7PbQXZKDxsZiQcIf
-	0kB2bR0AMy7C8x7k/bdwEdApTokX7tcXbIIYsko3RgI6CQa6/HqkBHO/N8Ukd95x4FceRHyR3Yu
-	XTxXOGhG8rwjUDhsVpMoZuEyP0m8NtpDgF53ldBN/yeKKZWjieR/Xp8BXQsMqP25feqJj8+vWyK
-	kd3x/ZLaE31GGNoSVxtI5FuVsBkz0G5i3ZFcnxPpFpAgySKIGxlP23suW102/5BF6rRIvqixEIf
-	2BJkLAFWnZfwNir6pLkvY/28/3ZKCv310iEY46JzlANKfZGyP22f3RCg83hGFUKyKfnGLpvY/KW
-	mVsokEZkMwdZAij2H2YON30mPDrVbLFW9WPctUnb+8bA02imlGXiC6Y+952L+IChz1jgtMpN8hQ
+        bh=RD11mzJFRq6d0T7pDKGqoqCjyj5QqJtchVCr8n4C52w=;
+        b=sUJGWwaIq4tdZeHTrtyVv0PqyKAkkTqr85iXbm49rwiCN+RldiOEvbk44F0Ap9kfGw
+         +Xr4h2NHd2msREET+isrfU8nQjtyxzujlfwYeFOrrJ2y2Rv3/DepBJxcxBZG/ZBiv6gJ
+         ItZIavmGWD+D/1FsrgUIoQOYAj4mUytsa6zo56sXNYKkWX9xaWPObAbTShvz0Mq/Uf5Z
+         /hJkc6a6CjPUge5LYKasWJFFP4iETs+1Nrpst+kyFLIw9EJJRtfdbZpgFmSSeiSn6Z2W
+         Ic7p9OQBZ9HNltRd/7KmHMdD/r2mP+8UUUvkk/DI/Gj0lz+/GutJ/sj39pKB2+G3l+DC
+         GiFw==
+X-Forwarded-Encrypted: i=1; AJvYcCUjD5eOU8/GuR69wisAdUsPqmos36TrXvg5NVq3QazRReRUxQlcMIW0UK3AMwp+cec7O3+dmySgcS0wEw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwPmOFno9qNonN3SFlSdid2y5u9Je7p3oW1/5gUOI2xhDE5NMvx
+	/kauoN/fexKbnCu9NsEv2/RuG0xG2AjaX2U7sX4RczyBDiCv0hdUViYlwdXHa7updR6yxT4KPFU
+	ra3Nw/g==
+X-Gm-Gg: ASbGnct0EPMYvTGgtWB8093EZnRlXDUsrusfPjRw+BBJkLrApaL8xdNEMYI4GzlhhJG
+	4krh1NCjVT8UF2K/9W5OucD4w6YyykmjUZP4GUrskjDCpgivdiHey1RIM0GNjbb8c4L3wwXUKWm
+	snzNm92TSBdTNLBh366BvNg5DkfOvzM7QUVu2eFxNjWsnhPAnHSBlfYbydskkg6C15JA03/SZWr
+	8RY1A4Wc0mctT3UftXmHlDyEfq1Y4gu7u5qUxpCEZE4LpoFeII0xppuot3vk7nqEtA56sTkvU9o
+	vRYdgn4Dr8rCeUqNGlRPaDpcpaRY0YAUDSgjJ9MuYKUTExK9j+tSUWxiZkwZ+/b9jdq+HhRij4c
+	FYXssWKIz0KRFYkDMokoFOy4PMK+SgOAfYcJqTo/gdppBYq5IS92IJh1ZMkbAGT9jQpIMQoxKpA
 	==
-X-Google-Smtp-Source: AGHT+IEryYAH4U5xOlJZ0FtsmMv+Gy8KrllKo4b7oROpG2tcDnL7/rwT07hALb3ex+6PnWMyNDc53A==
-X-Received: by 2002:a17:907:96a1:b0:ac1:fb60:2269 with SMTP id a640c23a62f3a-ac3301e8eb6mr659028366b.27.1742046036348;
-        Sat, 15 Mar 2025 06:40:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF94uOzzvBdoGEe8hOCEMQD4gwFpdgpulBXsezhA1kwIkTQSRXsrr++z9Inem7QZTmL2Bzr1w==
+X-Received: by 2002:a05:6402:50d0:b0:5e4:b66f:880e with SMTP id 4fb4d7f45d1cf-5e89f24f5e8mr4840870a12.7.1742046038528;
+        Sat, 15 Mar 2025 06:40:38 -0700 (PDT)
 Received: from localhost.localdomain (2001-1c06-2302-5600-7555-cca3-bbc4-648b.cable.dynamic.v6.ziggo.nl. [2001:1c06:2302:5600:7555:cca3:bbc4:648b])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e8169b009fsm3378824a12.34.2025.03.15.06.40.34
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5e8169b009fsm3378824a12.34.2025.03.15.06.40.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 15 Mar 2025 06:40:35 -0700 (PDT)
+        Sat, 15 Mar 2025 06:40:37 -0700 (PDT)
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To: hdegoede@redhat.com
 Cc: sakari.ailus@linux.intel.com,
@@ -85,9 +85,9 @@ Cc: sakari.ailus@linux.intel.com,
 	hao.yao@intel.com,
 	mchehab@kernel.org,
 	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [PATCH 3/4] media: i2c: ov02c10: Implement power-on reset
-Date: Sat, 15 Mar 2025 13:40:08 +0000
-Message-ID: <20250315134009.157132-4-bryan.odonoghue@linaro.org>
+Subject: [PATCH 4/4] media: i2c: ov02c10: Add OF probe support
+Date: Sat, 15 Mar 2025 13:40:09 +0000
+Message-ID: <20250315134009.157132-5-bryan.odonoghue@linaro.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250315134009.157132-1-bryan.odonoghue@linaro.org>
 References: <20250314101125.9853-1-hdegoede@redhat.com>
@@ -100,37 +100,36 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Implement recommended power-on reset.
-
-ov02c10 documentation states that the hardware reset is active low and that
-the reset pulse should be greater than 2 milliseconds.
-
-The power-on timing tables shows that t5 the time between XSHUTDOWN
-deassert to system ready is a minimum 5 millseconds.
-
-Implement the recommended power-on reset minimums.
+Supply OF probe matching table and enumeration structure hook.
 
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- drivers/media/i2c/ov02c10.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/media/i2c/ov02c10.c | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/drivers/media/i2c/ov02c10.c b/drivers/media/i2c/ov02c10.c
-index 595998e60b22..d3dc614a3c01 100644
+index d3dc614a3c01..094651228763 100644
 --- a/drivers/media/i2c/ov02c10.c
 +++ b/drivers/media/i2c/ov02c10.c
-@@ -696,8 +696,10 @@ static int ov02c10_power_on(struct device *dev)
- 	}
+@@ -1004,11 +1004,18 @@ static const struct acpi_device_id ov02c10_acpi_ids[] = {
+ MODULE_DEVICE_TABLE(acpi, ov02c10_acpi_ids);
+ #endif
  
- 	if (ov02c10->reset) {
-+		gpiod_set_value_cansleep(ov02c10->reset, 1);
-+		usleep_range(2000, 2200);
- 		gpiod_set_value_cansleep(ov02c10->reset, 0);
--		usleep_range(1500, 1800);
-+		usleep_range(5000, 5100);
- 	}
- 
- 	return 0;
++static const struct of_device_id ov02c10_of_match[] = {
++	{ .compatible = "ovti,ov02c10" },
++	{ /* sentinel */ }
++};
++MODULE_DEVICE_TABLE(of, ov02c10_of_match);
++
+ static struct i2c_driver ov02c10_i2c_driver = {
+ 	.driver = {
+ 		.name = "ov02c10",
+ 		.pm = pm_sleep_ptr(&ov02c10_pm_ops),
+ 		.acpi_match_table = ACPI_PTR(ov02c10_acpi_ids),
++		.of_match_table = ov02c10_of_match,
+ 	},
+ 	.probe = ov02c10_probe,
+ 	.remove = ov02c10_remove,
 -- 
 2.48.1
 
