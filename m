@@ -1,87 +1,81 @@
-Return-Path: <linux-media+bounces-28310-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28311-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 130D5A6328F
-	for <lists+linux-media@lfdr.de>; Sat, 15 Mar 2025 22:12:23 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C68CDA63294
+	for <lists+linux-media@lfdr.de>; Sat, 15 Mar 2025 22:15:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0339A18901E1
-	for <lists+linux-media@lfdr.de>; Sat, 15 Mar 2025 21:12:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DA5601728F1
+	for <lists+linux-media@lfdr.de>; Sat, 15 Mar 2025 21:15:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A07161A23A1;
-	Sat, 15 Mar 2025 21:12:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21FFF19CC1C;
+	Sat, 15 Mar 2025 21:15:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Qz9m9Lx9"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zKf84hpH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 611D8197A8E
-	for <linux-media@vger.kernel.org>; Sat, 15 Mar 2025 21:12:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C27A913AD22
+	for <linux-media@vger.kernel.org>; Sat, 15 Mar 2025 21:15:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742073137; cv=none; b=gLBH6yKrZgFIyEv6bHEgslbDonJG7RPdw8Cpj422v4FT7lwdi9TkNt/OEh7c7cZ6NiCmCTSmDv1520zk04MhCcxoKT44luDLdc4r+tLV/zzaPUF0LI8BKjsbaycQI0TZY6/WNlc2v2fab7iNeZrt860zmul/lARC+on08PXQyxk=
+	t=1742073323; cv=none; b=fWi/QQmmc3nV4AebF0FnGmOExQNfPpmHARm2UPQcv2Ng7fhMJWMnwxn9mmu5C5ag0LZVhUf5AoIHE008VNCV0WWBU0VS+4emlBZci6e3aA/J2ZqY/hYybEfjOHYy9yOZrrCyu8F+7WdMV2Hlp22aTz2MaCyedNa1xQUwZphBb+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742073137; c=relaxed/simple;
-	bh=LlscGHFCyExCofD7so4puSbqHd/KK534erjve7WEOsU=;
+	s=arc-20240116; t=1742073323; c=relaxed/simple;
+	bh=4HcqAfSIoM5zYXk4yifgIWjaQrENFkms6x8+28acleQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pIvLeBJ1Zs7QBEBfUZzVccSe0QSb8RPKXUXCaa0NbI65IUuo0G5zAvjTpJOtwwZoh8YvVdChqdSAon5oxA6aQiVmjQEmfHyRmAxbK6Za76bIioJ6SAgzez8mqh1QdSUAFLoPwn3/T2Qia4dRHXnwAnfO+vOERGYf7yhG8ZbHXIg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Qz9m9Lx9; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1742073132;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QBKwUPcWHG1UDx+j2SDyZ1EMe7WQ/s6OR9xnLxgvOyc=;
-	b=Qz9m9Lx95+dO/mbGwRjAE1SGoz+M7JkNvo8TMFTLodVYYIHQWHwZL39LdxDRh9bVDuYlmh
-	+L/mriq/ZG/uVsPwMBX060XodcMbB7BB5ZDfxxb9oFZRj3Mi95O3kho7yMUYkT4tMnUu0k
-	fPRwup/FmDSTmPhhlN0taiZHrcBxGgA=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-92-hFKg584iOwuQvaJDF1LTFw-1; Sat, 15 Mar 2025 17:12:11 -0400
-X-MC-Unique: hFKg584iOwuQvaJDF1LTFw-1
-X-Mimecast-MFC-AGG-ID: hFKg584iOwuQvaJDF1LTFw_1742073130
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-ac297c79dabso314826666b.0
-        for <linux-media@vger.kernel.org>; Sat, 15 Mar 2025 14:12:11 -0700 (PDT)
+	 In-Reply-To:Content-Type; b=Cb9AfzMF5qss/HRWKfRhMBw9RY/URrWM7otmn0ZaV+/DaVh0mANRdWMmAoXcFRBgA8KihlWJDsdupVPOLxtsSMV9b28Gr4kw/wdQgNHb6GNvCoZyL0XJ4ITgBW1yg3RD03lNRdreNP+41L0oa8PbiD1aeK95lixabDiXuMe8ryQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zKf84hpH; arc=none smtp.client-ip=209.85.218.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ac2a089fbbdso577130166b.1
+        for <linux-media@vger.kernel.org>; Sat, 15 Mar 2025 14:15:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1742073319; x=1742678119; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0ROj216o3N9NIrqi8Fjx1+gCRTSuFyetUON+RRlcFjk=;
+        b=zKf84hpHulJnpsvobT5t7Dt2GPchFYn03arFIIo1h4bVEWJCvdPBlWnxXGjAXBUa8U
+         K5NCQqYqCfd9O4ePr/6rZ3hfLI8y7nBGwRU1CZBmMRqs19+JbRfzEb+SR/HLK/rBNrYf
+         Xx72DoCAUPX5Ka4Ozq142+OL/zGaRaOB3td3blDS84PC+0F48dApsELTwbgayd821iuI
+         E3HUEqh+NoD7YKyzGvLemRzCdXX/wCX0A++2rHt9YlKdYR8CZW8lqsVGtQ/9A3kacD7A
+         qHv/aft9YX1ujJhy2C95elAf4GK08ShmSt3yOM0V5FDB1y7adgW29Qfak2Dh2xWDKmu8
+         UmMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742073130; x=1742677930;
+        d=1e100.net; s=20230601; t=1742073319; x=1742678119;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QBKwUPcWHG1UDx+j2SDyZ1EMe7WQ/s6OR9xnLxgvOyc=;
-        b=SM7V4QpLd4FbWVk9lWyYonr6IY2kGSiZRyEM374QFa8w290jXE/VJlJCSo6aOQREc3
-         IGOU4sczG1gRzRugO2oj02rLFGzEcmenej1ei8wqoQQ+vFrVy9IflAiXVYlaGTbeL0eZ
-         Rs5h7x81Gu0j7bUgff6uZ3bervFJZ8312nd5KDD9v63JFlwXQAcZCyxHN/vWqx4M/Uaj
-         QLOH7oAMUQKfpgRbkcY5zpnm3/MMNzyneD6d/ChA8hbAukyjhsdXLJjUJz1AgU6xiPQ3
-         pm8hiLgeOz/IYHux4ZjjeLu+2980GItgzKeA7XzvxSMHR0MQAghFLkHT5/dLxs5aHeYT
-         w56w==
-X-Forwarded-Encrypted: i=1; AJvYcCUMYkhlDg+9ZXGWejHeLGfJA1FTCx4yXNSwLj8jBPVjkgPQz7GnRX1qR6RwA5jCL2XZWiW3lRjMoorxgA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIazVkwVfpG2R7n0xsjZo3LlITnA/VUcCJaF94UPSROflTRX5m
-	NkQFILwRsBgGK9SiJHyv+385G9hXEadtaYyIX0ortFrxBTWLB1qBm6/I681PfQP0gkVfnXASzBp
-	5Ac1i75NOH9uQvoHsocK5NjADQk+q4S5ufLTKeILyYxgIIxrqrwR99/vZMcrL
-X-Gm-Gg: ASbGncu8Qb0L4e20aegfwN4I90A/CF7JrZ3jlJh48CIqSHyTDCEYS3ejEAvsp7viOpZ
-	3H/W+e/Z92F8ZOy0Gl1iBCwAN2Xy1lldaXqGcJmwTUcrWkeN4REcmDQRCXtwtYpigrRn8IoI48y
-	U7PlvVyH3GTmcymdOgQLFH9JXw3Zc2KiWgYiLeTiXUq0Y5BY98B/4x1u96EkdOSIfITn+7nXfYP
-	dFSsZJ/ipoN3MEebQ2rA8g80SDYPeV7QdDAPo2hYgSyoaeR7JtTNxND2S7r78LMMF6uZVFnoDM6
-	t+8cpbIb3ggclXHLreafozJAtYm8Y5oQ1gPROQubuLsn4f2KcjF4dKUAjD7CrinpecUdYlqMkNR
-	De8AhgKPcnL3un3KClLUVK8aU6fvJBVzjiKtOKJ5bYuNW2Sg/Pkt4vb5jrHtpsWopcg==
-X-Received: by 2002:a17:907:2dac:b0:abf:7b38:7e64 with SMTP id a640c23a62f3a-ac330396bccmr861744866b.43.1742073130078;
-        Sat, 15 Mar 2025 14:12:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEqtJUMyzabZTVkcg1FtYLF9LluPBc8yKlxpXKGJss8GU2g52DLKcBKPN5zdPY6xY8fyfAEdQ==
-X-Received: by 2002:a17:907:2dac:b0:abf:7b38:7e64 with SMTP id a640c23a62f3a-ac330396bccmr861742566b.43.1742073129736;
-        Sat, 15 Mar 2025 14:12:09 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3146aef90sm417946566b.6.2025.03.15.14.12.08
+        bh=0ROj216o3N9NIrqi8Fjx1+gCRTSuFyetUON+RRlcFjk=;
+        b=jeGik9ooaAXfFG5yovVz75Jz3VF8+rFWJ5YfZiAj5xl1kx9f1CyR6aK9YAWHCOiv9i
+         0Ju7rIckwMcj6B+4LMKlsEFVEQqgWa4BZYQtKqRc0xL9GiWbSyTO2B1CEQtaWFoM8OKq
+         IMT9FE5u1osCA/QMzvwPdwtOTR6Y48yBu0lvz2UDq2BdxZ0k9M61qIpZHaUGDihASpFU
+         /8cDcy7hENJ2Tom7BpQ0tzwO/NaME+/NazE0QzA0P2CzxDhE8bMe8HT+U49ICcnHySl+
+         IbwX7QIGYT7wR7O+dZ05AQGNcS8DIZXtqhq2UcJPt/OYdajr8fKcw7RjMA2VOdIsCct1
+         NVVg==
+X-Forwarded-Encrypted: i=1; AJvYcCVxYEnSrXxRE1SZTn7HqCOyp9PS1aXq2eotaad+BC4UO7PArz7oF3JQpdGAMwzHK+uazxT1VFFYeFyAPA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVauDdGOWKi0X2Be3W8vF3OgEHrk7kFOEjj27+fz8uY6MiyZu2
+	2ST1GinDUqxiR19vH2c2kQ7wO8BpVLi8YKZw7cW4K2V2VqRcg5d8C4t3nBLf0/o=
+X-Gm-Gg: ASbGncucXyHalZPK4IgEwCeEX1YMgqaBwWYP1lK6KJUgWVR861EUwuvI2m56GfB8D1Z
+	NfnsWeEuwFK1OIot76g+fQ2WsD5kTzjiooMeFXw3VOcFLGmJidXxsi1DmnYx2DbIzdFx7nCVAiR
+	Tv4fT9GA1nTp+MabvKqxSy7e2qr/zQMsFaIvPV27akzD0tGCXGkA2qwnz/HV8QNbVluOBu+N8Hk
+	1DB6ElEvM5d+uGHjciaabWUifosxM2KmGjkStLG+E4camapFk7N9yAP6Q3cYvL5KEwI+SHEHzzm
+	rsOxXR9vXA5zELS5EVaCJlICPok+zgfHHWgMRHFnoF3jdxpt1TrgnJQkr7Qg1N6ySKyfFOG6FkT
+	1nDbeNdNvWQLUqgY2IRDXAT0+dXPZWpKozZv1eW/NJlUheCoxVQqcIoS++5Rtie+OWwqS7qskW0
+	ugFNQJnUPlzKAIA5XtoHsHwEwOeR4IuG0=
+X-Google-Smtp-Source: AGHT+IH0bAABeoUpgSN/b+SOv7g52vQT6B/odxUI4Fi5X2Gn+NFjX6xOZmzKvWBy8HLL+4chSe3TDg==
+X-Received: by 2002:a17:907:178c:b0:ac2:b813:ac25 with SMTP id a640c23a62f3a-ac3123415b4mr1274450066b.14.1742073319069;
+        Sat, 15 Mar 2025 14:15:19 -0700 (PDT)
+Received: from ?IPV6:2001:1c06:2302:5600:7555:cca3:bbc4:648b? (2001-1c06-2302-5600-7555-cca3-bbc4-648b.cable.dynamic.v6.ziggo.nl. [2001:1c06:2302:5600:7555:cca3:bbc4:648b])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac314a3fc7asm417160466b.135.2025.03.15.14.15.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 15 Mar 2025 14:12:09 -0700 (PDT)
-Message-ID: <e8d5161c-1a33-4c7c-aa85-ff5eb2d33374@redhat.com>
-Date: Sat, 15 Mar 2025 22:12:08 +0100
+        Sat, 15 Mar 2025 14:15:18 -0700 (PDT)
+Message-ID: <1e046d3c-8610-4027-88d7-56f73f95260b@linaro.org>
+Date: Sat, 15 Mar 2025 21:15:17 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -90,7 +84,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 3/4] media: i2c: ov02c10: Implement power-on reset
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To: Hans de Goede <hdegoede@redhat.com>
 Cc: sakari.ailus@linux.intel.com, heimir.sverrisson@gmail.com,
  linux-media@vger.kernel.org, stanislaw.gruszka@linux.intel.com,
  ingvar@redpill-linpro.com, hao.yao@intel.com, mchehab@kernel.org
@@ -99,42 +93,25 @@ References: <20250314101125.9853-1-hdegoede@redhat.com>
  <20250315134009.157132-4-bryan.odonoghue@linaro.org>
  <54b4b5e6-06fe-46f8-8484-3c86aaa46cad@redhat.com>
  <c9c6858f-a250-45d1-ac0c-3aeaa56fcdc5@linaro.org>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <c9c6858f-a250-45d1-ac0c-3aeaa56fcdc5@linaro.org>
-Content-Type: text/plain; charset=UTF-8
+ <e8d5161c-1a33-4c7c-aa85-ff5eb2d33374@redhat.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <e8d5161c-1a33-4c7c-aa85-ff5eb2d33374@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi,
+On 15/03/2025 21:12, Hans de Goede wrote:
+> Except for explictly driving the GPIO high before
+> the 2ms sleep, it should always be high when we enter
+> the power_on() helper since power_on() / off() calls
+> are guaranteed to be paired (and we request it to be
+> high initially).
 
-On 15-Mar-25 10:09 PM, Bryan O'Donoghue wrote:
-> On 15/03/2025 21:05, Hans de Goede wrote:
->> So I think for v10 I'll go with the above solution to sleep
->> 2 ms in power_on() before de-asserting reset.
->>
->> Bryan, any comments on that ?
-> 
-> Don't we go through power_on/power_off cycles if/when we add runtime PM though ?
+Yeah I agree it should work.
 
-Right, notice that I said "to sleep 2 ms in power_on()
-before de-asserting reset"
+The important part is t5 => making sure we give enough time for the chip 
+to "boot up" basically.
 
-IOW I'm suggesting to go with your solution.
-
-> So to me it makes sense to do it the same way we did it in ov08x40 for example.
-
-Ack, I agreee :)
-
-Except for explictly driving the GPIO high before
-the 2ms sleep, it should always be high when we enter
-the power_on() helper since power_on() / off() calls
-are guaranteed to be paired (and we request it to be
-high initially).
-
-Regards,
-
-Hans
-
-
-
+---
+bod
 
