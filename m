@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-28297-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28298-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95BB6A62F2C
-	for <lists+linux-media@lfdr.de>; Sat, 15 Mar 2025 16:29:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00E4FA62F2B
+	for <lists+linux-media@lfdr.de>; Sat, 15 Mar 2025 16:29:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9F51B1899539
-	for <lists+linux-media@lfdr.de>; Sat, 15 Mar 2025 15:29:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 28DB83B91D0
+	for <lists+linux-media@lfdr.de>; Sat, 15 Mar 2025 15:28:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD58920468A;
-	Sat, 15 Mar 2025 15:28:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E7D1204697;
+	Sat, 15 Mar 2025 15:28:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="xTj5YylD";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="s1KJGXoc"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="kepfGMTK";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="E02GFDFU"
 X-Original-To: linux-media@vger.kernel.org
 Received: from fout-b6-smtp.messagingengine.com (fout-b6-smtp.messagingengine.com [202.12.124.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 844362046BB;
-	Sat, 15 Mar 2025 15:28:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5803204684;
+	Sat, 15 Mar 2025 15:28:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742052522; cv=none; b=jS3KjZsO1bGAVbZ2Db/yJ8Jjnb2L1QuIGcdLnfpdQacDUgp4OXsggdPHXDehPvxpM0PtOBPGOg2PJ1yVO7RMsZm15+w4/7Hle4zj8i76y96kvB2eeIFaqWQLe7BLwtkIK4KB1iuJjbbIJnpCev4bDhUNe+HEQ1EKdxT17CV4scg=
+	t=1742052524; cv=none; b=MPJSHibEYVNlmix7m0hRJGWtuiJX/B+lLdnm+b/BiOcOffkhH+jNthQOYx26pYSs0VEG7JDnIqhMCq23YW8k4KyPjeaUc2TbeIiUO1mt02H2nCVKlWSeOQ+739ApXDgL7N7xKrbB47otDXekgD2wyx8XqT79SpDzz/VcSD+y60M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742052522; c=relaxed/simple;
-	bh=0YWonZBUO2s/U0Io8eotRlBYhsHluVbqy4nmbCIdA0U=;
+	s=arc-20240116; t=1742052524; c=relaxed/simple;
+	bh=8DbvGikmpWnJeIX8gK0zybAMiAWBtmPbUrT/sh6IBFk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tRzsT//0pcQhXnNhlw9c+Wt5ILryn22JcQUdXL84g+SOgZJL03DatqHkzASSsi6fw4FerecrzuZV7CpFtgWwqqb0Vu3gFJgLxSIUw3pBMSldvSFsxeM9+yUwseAcX/QLWygima/K+GCZ5wXEg7E7DUZ259PaNXUhSEMMvNKGu3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=xTj5YylD; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=s1KJGXoc; arc=none smtp.client-ip=202.12.124.149
+	 MIME-Version:Content-Type; b=n4a5v0H3rrc6ZN3PRIpPlgqM0qbGHyYX1bLZFTf7uI4BvGYHgqFxtBFFGln/uIJJ0LDke0/TaTrwKZSWfNSwWsIBEoeiOhJOJ/7y7C0swLCa921M3Dh5yJxVC+pGsh7VEAl71pQ+B17/UanDqaiP8C0Fz6D/AWI8tIekC/k5njA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=kepfGMTK; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=E02GFDFU; arc=none smtp.client-ip=202.12.124.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-03.internal (phl-compute-03.phl.internal [10.202.2.43])
-	by mailfout.stl.internal (Postfix) with ESMTP id 404321140152;
-	Sat, 15 Mar 2025 11:28:39 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Sat, 15 Mar 2025 11:28:39 -0400
+Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
+	by mailfout.stl.internal (Postfix) with ESMTP id 9B7B9114015A;
+	Sat, 15 Mar 2025 11:28:41 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-12.internal (MEProxy); Sat, 15 Mar 2025 11:28:41 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1742052519;
-	 x=1742138919; bh=2YoPP4F0FfNZI72IUUVmrZnsD/Ac//4B80QW0dpFDic=; b=
-	xTj5YylDjX8ZmgaIU7+FhDEZ+SYcVGpn3C1Pop5QzQ8FZydxF1gP/7YfnYDqtbIG
-	ROOnEnfBsWyW/gCKZXhyhwxJhFlK67QtSkGdrgpyObkfbDlQEiKsBb1a1gTl4y5b
-	pbIjAk6xlG5+ws3ChcOqccWfqcP+yRfVYKaDWODSf+HPnL/cOqhWjHj0W8Dku1R3
-	WmHwDZrfo8viwzFCalhoXqJ6CDZd00b9tIGJnw/BSjnpHSgtW0VfiH+h/GePk0HW
-	t1gshg6aYhmQ7DNsNhgB9vMX0biBxGiAfkRHzdtV7faAsbKAUSFuNu6qeFZcUdSr
-	tiULEV/+/7QBCT6KiViywQ==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1742052521;
+	 x=1742138921; bh=L2nTFLGDzUDj3VvOW56bNuqjeRnajnNmhFuGXtbayF4=; b=
+	kepfGMTKxzA+L8gZQoAr/DK7c2I1/CejmzX6pCDDdbsqzV5MXIxffZx/Z7a92YPu
+	G7E3lA8FGZ/AkQFYgoLc8Ms1Jnt1mWkL8q+U1EWoFfNoQfUW9i08zG0PbkEm3YET
+	krcdFTwwoY21/RnWl7HtlvMmsFLYL8w/c5Bm6WXMasGTxFSw3Vn4QzfIrk6IIdnP
+	CJmgBq8rAr7j39UzDOzkZbFYjweyunPaxGjhpPSF2lk4LtOY/zaq+VY0XzTI4dOe
+	0PE5zryZZra8hiGeeRwukzI0uPz/6wcce7zNLIjbiJJBkORqzau6/Egw36l8v8XW
+	a/aSxikfHhT7Y9SQnwLlMg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742052519; x=
-	1742138919; bh=2YoPP4F0FfNZI72IUUVmrZnsD/Ac//4B80QW0dpFDic=; b=s
-	1KJGXoc/FOYAawxFVOBbvI0Igh5cYxcUWiaLPFarR7UI8OjaGJ02E+ChSU87Mtuz
-	wbrXwglehHOcGSpS45TcdhkLNqzN88hsFl2shJiH6exo6yFNTDQcklhDqP1vAuez
-	ASRc4LvuU9R8fv+vryZqzeStHpLaQ5fW4gaI+Ha28nZ2UbWfB6zrTPfZteCrlt58
-	Xz7fPLF9hW/w7KkQl0JtH8P8UfdcAVH6vnC1ozaUHa/Hfg5EEMwSzZq9Q0T6rOyv
-	aXrE+r3WbrQRu2xwyWimTP8hdtVDojGMD4xhcYxZu/xPbNmZhBxNnQeaioNbtcKI
-	IGLBMrb6o0z+fpe1HnGEQ==
-X-ME-Sender: <xms:ppzVZ48DuxNzAklm_3sfbCo-wwzvqmnLHffoXRLi1cRZN6_hGUSqeg>
-    <xme:ppzVZwsanf187vi_mG3BmFuR-5jUpMfdv8c0Tqw6NvaNq-0Q4UJ6C1TMIbz0KAr7e
-    NXGy6K_O683Ah_69B0>
-X-ME-Received: <xmr:ppzVZ-BQzqS4ehReoJ_HolLZEgqNVaWqBAlkSIvGhY4Hj1tQ9FIhUi9SGGceNS5sdO5-Aq7WAcEP1MGwAjeu01sfog>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742052521; x=
+	1742138921; bh=L2nTFLGDzUDj3VvOW56bNuqjeRnajnNmhFuGXtbayF4=; b=E
+	02GFDFU579A+KdgQmdixHah1xW5OAfbRxg4u3YgGbcNsoNIY8NunnPshZ9ZgXMKJ
+	JAppCqecE21ZTTnBqpXSc3SQWkaVLbl3bd+BB/oQrxzriYVHb0WHaKSk914su1W7
+	RFs4JFMUrPF/U7i2rAphtqNn2qJnWnVUV6lEFp/qfisAdmOfl2196NTmAk2Uhcxd
+	dKgO636+OTnf3b84a3ZPFqEa/jzBKir176uE1igijR9rtWmvPtwQ0umMV/6Et6N4
+	e8ZIMJztJZCPxCD08A6tibkRq7vbRDooZ6JywL0w8KnJ+qczYh805rUctyJ0MpPi
+	p4YLvpWYzNZhO+RvCjpzQ==
+X-ME-Sender: <xms:qZzVZ2zp_oyOqxfxhntR_n04vCfxLXKeRLCYMVV17_icbuhSRSq4GQ>
+    <xme:qZzVZySHxi2QrzJZ1efRyGaJ4SRlZTlYXAvsbn1mNus_HcPFD5WeHUpBBHOT3__U9
+    ZOJ4hI2A-n6ygyUh2o>
+X-ME-Received: <xmr:qZzVZ4U6gp9e7MMo8n5ay7clapNTTvA9nDZSuxQZKGRXGIcFBERTMhYrENXd322OzVUQnzxrayPJktq-pKFA-Qbajg>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufeegtdekucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
     pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
@@ -83,14 +83,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufeegtdekucetufdote
     gvlhdrtghomhdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthesihguvggr
     shhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhgrtghophhordhmohhnughisehiug
     gvrghsohhnsghorghrugdrtghomh
-X-ME-Proxy: <xmx:p5zVZ4cb5Zt7dHT0196NKDX5FoKyuiAl89fD3zmEuVyjINNYqUusqA>
-    <xmx:p5zVZ9PG_-W25lI12tFzT0ljTrpEzXUTE_VkZIgC2eNfUlxLsRMANw>
-    <xmx:p5zVZynW839cGAe0u51-C0Z1hEmu1v3SiOoc9qgsO3Tahe_xsrk_Jg>
-    <xmx:p5zVZ_uWpPsfxqsEC_4i_Uiwq0QH4ralK3OsGmtY3PmDa2W8HZ1vKQ>
-    <xmx:p5zVZztYzPL_Rp31NPegzPlszVBibOfoub_EAH9IbRuFwaJAvblEvyPJ>
+X-ME-Proxy: <xmx:qZzVZ8jUhXh2M95ePaQMoawzZsqpPDYnXaRI5UGA8A8L_kenqZch5Q>
+    <xmx:qZzVZ4ANy2I_e3D99qqJ0_bq7YsiUWRSNZ4zto47-pz8DnRhkaox_A>
+    <xmx:qZzVZ9JbfHH4YTW0ks-TYUKF0jiF7JOu-EenPvjiT9cIoIUOu3ULyg>
+    <xmx:qZzVZ_BVp0B3JpHUS4G_xfTSOkZgNb8Tqk75AVvKCY40Mc49H5khjQ>
+    <xmx:qZzVZwYSmH4U5NZddXtfrSm4ZOM739zPJw5_V-7vz1WzVYXxAo6Z33MG>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 15 Mar 2025 11:28:38 -0400 (EDT)
+ 15 Mar 2025 11:28:40 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -105,9 +105,9 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH 5/7] media: rcar-isp: Move driver to own directory
-Date: Sat, 15 Mar 2025 16:27:06 +0100
-Message-ID: <20250315152708.328036-6-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH 6/7] media: rcar-isp: Rename base register variable
+Date: Sat, 15 Mar 2025 16:27:07 +0100
+Message-ID: <20250315152708.328036-7-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250315152708.328036-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20250315152708.328036-1-niklas.soderlund+renesas@ragnatech.se>
@@ -120,129 +120,120 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Before extending the driver with functions from the R-Car ISP core that
-will span multiple files move the existing driver to a separate
-directory. While at it rename the single source file to allow future
-files to be grouped by functions.
+Prepare for extending the driver to in addition to support the channel
+selector (CS) also support the core ISP. The two different functions
+have different base addresses so the driver needs to distinguish between
+them.
+
+Prepare for this by marking existing base address variable and
+read/write functions to make it clear it operates on the CS portion of
+the driver. There is no functional change.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- MAINTAINERS                                    |  2 +-
- drivers/media/platform/renesas/Kconfig         | 18 +-----------------
- drivers/media/platform/renesas/Makefile        |  2 +-
- .../media/platform/renesas/rcar-isp/Kconfig    | 17 +++++++++++++++++
- .../media/platform/renesas/rcar-isp/Makefile   |  4 ++++
- .../renesas/{rcar-isp.c => rcar-isp/csisp.c}   |  0
- 6 files changed, 24 insertions(+), 19 deletions(-)
- create mode 100644 drivers/media/platform/renesas/rcar-isp/Kconfig
- create mode 100644 drivers/media/platform/renesas/rcar-isp/Makefile
- rename drivers/media/platform/renesas/{rcar-isp.c => rcar-isp/csisp.c} (100%)
+ .../media/platform/renesas/rcar-isp/csisp.c   | 46 +++++++++----------
+ 1 file changed, 23 insertions(+), 23 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f3658f16fa24..c2f36486f5f5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -14679,7 +14679,7 @@ F:	Documentation/devicetree/bindings/media/renesas,csi2.yaml
- F:	Documentation/devicetree/bindings/media/renesas,isp.yaml
- F:	Documentation/devicetree/bindings/media/renesas,vin.yaml
- F:	drivers/media/platform/renesas/rcar-csi2.c
--F:	drivers/media/platform/renesas/rcar-isp.c
-+F:	drivers/media/platform/renesas/rcar-isp/
- F:	drivers/media/platform/renesas/rcar-vin/
+diff --git a/drivers/media/platform/renesas/rcar-isp/csisp.c b/drivers/media/platform/renesas/rcar-isp/csisp.c
+index c515278e3be5..a86d2a9a4915 100644
+--- a/drivers/media/platform/renesas/rcar-isp/csisp.c
++++ b/drivers/media/platform/renesas/rcar-isp/csisp.c
+@@ -111,7 +111,7 @@ enum rcar_isp_pads {
  
- MEDIA DRIVERS FOR RENESAS - VSP1
-diff --git a/drivers/media/platform/renesas/Kconfig b/drivers/media/platform/renesas/Kconfig
-index c7fc718a30a5..27a54fa79083 100644
---- a/drivers/media/platform/renesas/Kconfig
-+++ b/drivers/media/platform/renesas/Kconfig
-@@ -30,23 +30,6 @@ config VIDEO_RCAR_CSI2
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called rcar-csi2.
+ struct rcar_isp {
+ 	struct device *dev;
+-	void __iomem *base;
++	void __iomem *csbase;
+ 	struct reset_control *rstc;
  
--config VIDEO_RCAR_ISP
--	tristate "R-Car Image Signal Processor (ISP)"
--	depends on V4L_PLATFORM_DRIVERS
--	depends on VIDEO_DEV && OF
--	depends on ARCH_RENESAS || COMPILE_TEST
--	select MEDIA_CONTROLLER
--	select VIDEO_V4L2_SUBDEV_API
--	select RESET_CONTROLLER
--	select V4L2_FWNODE
--	help
--	  Support for Renesas R-Car Image Signal Processor (ISP).
--	  Enable this to support the Renesas R-Car Image Signal
--	  Processor (ISP).
--
--	  To compile this driver as a module, choose M here: the
--	  module will be called rcar-isp.
--
- config VIDEO_SH_VOU
- 	tristate "SuperH VOU video output driver"
- 	depends on V4L_PLATFORM_DRIVERS
-@@ -56,6 +39,7 @@ config VIDEO_SH_VOU
- 	help
- 	  Support for the Video Output Unit (VOU) on SuperH SoCs.
+ 	enum rcar_isp_input csi_input;
+@@ -137,14 +137,14 @@ static inline struct rcar_isp *notifier_to_isp(struct v4l2_async_notifier *n)
+ 	return container_of(n, struct rcar_isp, notifier);
+ }
  
-+source "drivers/media/platform/renesas/rcar-isp/Kconfig"
- source "drivers/media/platform/renesas/rcar-vin/Kconfig"
- source "drivers/media/platform/renesas/rzg2l-cru/Kconfig"
+-static void risp_write(struct rcar_isp *isp, u32 offset, u32 value)
++static void risp_write_cs(struct rcar_isp *isp, u32 offset, u32 value)
+ {
+-	iowrite32(value, isp->base + offset);
++	iowrite32(value, isp->csbase + offset);
+ }
  
-diff --git a/drivers/media/platform/renesas/Makefile b/drivers/media/platform/renesas/Makefile
-index 50774a20330c..1127259c09d6 100644
---- a/drivers/media/platform/renesas/Makefile
-+++ b/drivers/media/platform/renesas/Makefile
-@@ -3,13 +3,13 @@
- # Makefile for the Renesas capture/playback device drivers.
- #
+-static u32 risp_read(struct rcar_isp *isp, u32 offset)
++static u32 risp_read_cs(struct rcar_isp *isp, u32 offset)
+ {
+-	return ioread32(isp->base + offset);
++	return ioread32(isp->csbase + offset);
+ }
  
-+obj-y += rcar-isp/
- obj-y += rcar-vin/
- obj-y += rzg2l-cru/
- obj-y += vsp1/
+ static int risp_power_on(struct rcar_isp *isp)
+@@ -193,31 +193,31 @@ static int risp_start(struct rcar_isp *isp)
+ 	if (isp->csi_input == RISP_CSI_INPUT1)
+ 		sel_csi = ISPINPUTSEL0_SEL_CSI0;
  
- obj-$(CONFIG_VIDEO_RCAR_CSI2) += rcar-csi2.o
- obj-$(CONFIG_VIDEO_RCAR_DRIF) += rcar_drif.o
--obj-$(CONFIG_VIDEO_RCAR_ISP) += rcar-isp.o
- obj-$(CONFIG_VIDEO_RENESAS_CEU) += renesas-ceu.o
- obj-$(CONFIG_VIDEO_RENESAS_FCP) += rcar-fcp.o
- obj-$(CONFIG_VIDEO_RENESAS_FDP1) += rcar_fdp1.o
-diff --git a/drivers/media/platform/renesas/rcar-isp/Kconfig b/drivers/media/platform/renesas/rcar-isp/Kconfig
-new file mode 100644
-index 000000000000..59e0d91862d1
---- /dev/null
-+++ b/drivers/media/platform/renesas/rcar-isp/Kconfig
-@@ -0,0 +1,17 @@
-+# SPDX-License-Identifier: GPL-2.0
-+config VIDEO_RCAR_ISP
-+	tristate "R-Car Image Signal Processor (ISP)"
-+	depends on V4L_PLATFORM_DRIVERS
-+	depends on VIDEO_DEV && OF
-+	depends on ARCH_RENESAS || COMPILE_TEST
-+	select MEDIA_CONTROLLER
-+	select VIDEO_V4L2_SUBDEV_API
-+	select RESET_CONTROLLER
-+	select V4L2_FWNODE
-+	help
-+	  Support for Renesas R-Car Image Signal Processor (ISP).
-+	  Enable this to support the Renesas R-Car Image Signal
-+	  Processor (ISP).
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called rcar-isp.
-diff --git a/drivers/media/platform/renesas/rcar-isp/Makefile b/drivers/media/platform/renesas/rcar-isp/Makefile
-new file mode 100644
-index 000000000000..b542118c831e
---- /dev/null
-+++ b/drivers/media/platform/renesas/rcar-isp/Makefile
-@@ -0,0 +1,4 @@
-+# SPDX-License-Identifier: GPL-2.0
-+rcar-isp-objs = csisp.o
-+
-+obj-$(CONFIG_VIDEO_RCAR_ISP) += rcar-isp.o
-diff --git a/drivers/media/platform/renesas/rcar-isp.c b/drivers/media/platform/renesas/rcar-isp/csisp.c
-similarity index 100%
-rename from drivers/media/platform/renesas/rcar-isp.c
-rename to drivers/media/platform/renesas/rcar-isp/csisp.c
+-	risp_write(isp, ISPINPUTSEL0_REG,
+-		   risp_read(isp, ISPINPUTSEL0_REG) | sel_csi);
++	risp_write_cs(isp, ISPINPUTSEL0_REG,
++		      risp_read_cs(isp, ISPINPUTSEL0_REG) | sel_csi);
+ 
+ 	/* Configure Channel Selector. */
+ 	for (vc = 0; vc < 4; vc++) {
+ 		u8 ch = vc + 4;
+ 		u8 dt = format->datatype;
+ 
+-		risp_write(isp, ISPCS_FILTER_ID_CH_REG(ch), BIT(vc));
+-		risp_write(isp, ISPCS_DT_CODE03_CH_REG(ch),
+-			   ISPCS_DT_CODE03_EN3 | ISPCS_DT_CODE03_DT3(dt) |
+-			   ISPCS_DT_CODE03_EN2 | ISPCS_DT_CODE03_DT2(dt) |
+-			   ISPCS_DT_CODE03_EN1 | ISPCS_DT_CODE03_DT1(dt) |
+-			   ISPCS_DT_CODE03_EN0 | ISPCS_DT_CODE03_DT0(dt));
++		risp_write_cs(isp, ISPCS_FILTER_ID_CH_REG(ch), BIT(vc));
++		risp_write_cs(isp, ISPCS_DT_CODE03_CH_REG(ch),
++			      ISPCS_DT_CODE03_EN3 | ISPCS_DT_CODE03_DT3(dt) |
++			      ISPCS_DT_CODE03_EN2 | ISPCS_DT_CODE03_DT2(dt) |
++			      ISPCS_DT_CODE03_EN1 | ISPCS_DT_CODE03_DT1(dt) |
++			      ISPCS_DT_CODE03_EN0 | ISPCS_DT_CODE03_DT0(dt));
+ 	}
+ 
+ 	/* Setup processing method. */
+-	risp_write(isp, ISPPROCMODE_DT_REG(format->datatype),
+-		   ISPPROCMODE_DT_PROC_MODE_VC3(format->procmode) |
+-		   ISPPROCMODE_DT_PROC_MODE_VC2(format->procmode) |
+-		   ISPPROCMODE_DT_PROC_MODE_VC1(format->procmode) |
+-		   ISPPROCMODE_DT_PROC_MODE_VC0(format->procmode));
++	risp_write_cs(isp, ISPPROCMODE_DT_REG(format->datatype),
++		      ISPPROCMODE_DT_PROC_MODE_VC3(format->procmode) |
++		      ISPPROCMODE_DT_PROC_MODE_VC2(format->procmode) |
++		      ISPPROCMODE_DT_PROC_MODE_VC1(format->procmode) |
++		      ISPPROCMODE_DT_PROC_MODE_VC0(format->procmode));
+ 
+ 	/* Start ISP. */
+-	risp_write(isp, ISPSTART_REG, ISPSTART_START);
++	risp_write_cs(isp, ISPSTART_REG, ISPSTART_START);
+ 
+ 	ret = v4l2_subdev_call(isp->remote, video, s_stream, 1);
+ 	if (ret)
+@@ -231,7 +231,7 @@ static void risp_stop(struct rcar_isp *isp)
+ 	v4l2_subdev_call(isp->remote, video, s_stream, 0);
+ 
+ 	/* Stop ISP. */
+-	risp_write(isp, ISPSTART_REG, ISPSTART_STOP);
++	risp_write_cs(isp, ISPSTART_REG, ISPSTART_STOP);
+ 
+ 	risp_power_off(isp);
+ }
+@@ -419,9 +419,9 @@ static const struct media_entity_operations risp_entity_ops = {
+ static int risp_probe_resources(struct rcar_isp *isp,
+ 				struct platform_device *pdev)
+ {
+-	isp->base = devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
+-	if (IS_ERR(isp->base))
+-		return PTR_ERR(isp->base);
++	isp->csbase = devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
++	if (IS_ERR(isp->csbase))
++		return PTR_ERR(isp->csbase);
+ 
+ 	isp->rstc = devm_reset_control_get(&pdev->dev, NULL);
+ 
 -- 
 2.48.1
 
