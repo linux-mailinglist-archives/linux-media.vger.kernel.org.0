@@ -1,148 +1,194 @@
-Return-Path: <linux-media+bounces-28279-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28280-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E089A6290C
-	for <lists+linux-media@lfdr.de>; Sat, 15 Mar 2025 09:26:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A3D6A629ED
+	for <lists+linux-media@lfdr.de>; Sat, 15 Mar 2025 10:21:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 479BD881407
-	for <lists+linux-media@lfdr.de>; Sat, 15 Mar 2025 08:25:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 76FCD3ADBF3
+	for <lists+linux-media@lfdr.de>; Sat, 15 Mar 2025 09:21:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3A8C1F03C2;
-	Sat, 15 Mar 2025 08:25:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83A621F4607;
+	Sat, 15 Mar 2025 09:21:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ePr/JySJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JS/tFaUq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E3D51DF994;
-	Sat, 15 Mar 2025 08:25:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65BD9D531
+	for <linux-media@vger.kernel.org>; Sat, 15 Mar 2025 09:21:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742027156; cv=none; b=pnG0zqUPG46wI1XM9jUfjgMRgQzXUdyQTlRhBPFtiPv5jAjYYactqmJpp9imprQeuQo6cVWPJhLEVBdSYaEWckVUzUYMq5jUo3AE1OB1OygXZLLhcs3iKcrEk1t4HBJLs8ye7fRJNd23OxA64nVXo6hjJN7LvmiftKNrT5nOXgc=
+	t=1742030474; cv=none; b=f+XEzdCCQAsicd4FtQgedB8fxxri4+NHKjkcvT50VGpjQWmKYizPWv8m19yM/zEKsei3blfs+n58wGmRmZS5sT9aJIxuo4ZfmAkL4HFGjwvUmqvpQQJjmlVxMt2NgDc3SYFekpK1SCC/b0l/6cwSL/c69EWDeUJCKG2G/E+vj6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742027156; c=relaxed/simple;
-	bh=VkdKPwJSbXuVY/GWIxtpTxYdiXqy9fUXpxwA7ilNpuc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GhurXDJuBFKsZmSVZstQFwJu9x9Uk2CuK1t0KO90HvEFWpd9p0P/Utnqs7FFlhscAQjy2yv+a42WHjghnSpinNsZLbRil7ZVj3uYjOtZopnho1o+m3udsteY8yGV1oVIPJuc/ATQTwPZX9Ssa3q7Z5NejbfK77/sPtGMUnluWIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ePr/JySJ; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1742030474; c=relaxed/simple;
+	bh=JLOIQxchqRM4v3q0YtHsA2LZiVtn8HlbKIdMjKWT4Ks=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=CzT9YKyUiTF3NMIEjRE3UtinKruXv3m9gKvbwtf92DWx69dCx+nGe0dH+T3+8NzJ7cwBf2Own1gErnf+89lQvvpbyX4qC6uCWG4w47dBXKv2SdjX8QvP7K4dLgwk9XnkK0I8fvVtbWQZpiOcMYfTIZ0QYRN6cFa/BGhLBeo3Z5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JS/tFaUq; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742027154; x=1773563154;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=VkdKPwJSbXuVY/GWIxtpTxYdiXqy9fUXpxwA7ilNpuc=;
-  b=ePr/JySJTwK0VWTawwOIXc4igtUV0Zx0JRhpWx9hBzJR+hThqaYPk+2g
-   tbPQZj+GR4zevYMJULysWhA0mE3vpowl9WMkQQOQBHjKVcGyvkdoXoUM/
-   6w5maa4qq7qNR7wlK/lysCPSnyJAVs6abq8Dzgo5l+nrEaJjBe+1eeQhz
-   i++EjEog89i9Nt05+kTYUBy2O5o0PrRGW+hhpAj9C5KQE20VOmGw3aw3N
-   VUJcPkkQbCyGdToxChN0keGng72qzxRUYGj/EksbM8NBeE4PacXN04xIF
-   zvWwoWIPmvgpMvnEy9GHCIfFAcn9erMX4iyvCN6Fy2bPF4G7SUleROZx2
-   w==;
-X-CSE-ConnectionGUID: mhf6CeSzTJ+QKEm7XexEgQ==
-X-CSE-MsgGUID: fAzzUSVwTDCJnHJLYhB6Xw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="43388362"
+  t=1742030473; x=1773566473;
+  h=date:from:to:cc:subject:message-id;
+  bh=JLOIQxchqRM4v3q0YtHsA2LZiVtn8HlbKIdMjKWT4Ks=;
+  b=JS/tFaUqXDeZpipWiZPnB6lO8DhIk+xmruTjsNZgJVx/xSrN6t8+9YCo
+   xUiwCSxmgnOzxxrEaov8rvH3FafzJVcBawGFhO09S0SnIYjjWAmlMH/kj
+   dVBNP4Vr87H3XLrtjO+nQYIf+P/AkTpAXEc3HTxZDQGqAtoqcp6ZFNwKt
+   NYFuWQCm6YYxDz3d5djZJjJ0VfzVqA8zZipdTGoxUC1pkw/dGpPl9Wv9h
+   YRXyGITG5eJoL8dNY3rrS1ALZa1V+sbUf0n6MNH/X6BTUWnt6hATamrDc
+   WU9t0tAT/h50IayMZVKOP5f1xX10BHiNDZbsHPxLBQGkqVR+mxAZ/SziM
+   A==;
+X-CSE-ConnectionGUID: 73n42wStSnaOiY+9CGEV1Q==
+X-CSE-MsgGUID: 1XOmHcW4QC+KRKazEcDE1w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11373"; a="53393273"
 X-IronPort-AV: E=Sophos;i="6.14,249,1736841600"; 
-   d="scan'208";a="43388362"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 01:25:54 -0700
-X-CSE-ConnectionGUID: UBbR/qeyT+uAlIeUlwwv7A==
-X-CSE-MsgGUID: uIYkhi5mSoij1+dwF9nXrw==
+   d="scan'208";a="53393273"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Mar 2025 02:21:12 -0700
+X-CSE-ConnectionGUID: K8kwEbl8QSKLZXe2pAzIpg==
+X-CSE-MsgGUID: yoRpjOxeSyuN+QyR1Wf6pw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,249,1736841600"; 
-   d="scan'208";a="125691055"
+   d="scan'208";a="121314681"
 Received: from lkp-server02.sh.intel.com (HELO a4747d147074) ([10.239.97.151])
-  by fmviesa003.fm.intel.com with ESMTP; 15 Mar 2025 01:25:50 -0700
+  by fmviesa006.fm.intel.com with ESMTP; 15 Mar 2025 02:21:10 -0700
 Received: from kbuild by a4747d147074 with local (Exim 4.96)
 	(envelope-from <lkp@intel.com>)
-	id 1ttMq4-000B9v-1M;
-	Sat, 15 Mar 2025 08:25:48 +0000
-Date: Sat, 15 Mar 2025 16:24:59 +0800
+	id 1ttNhc-000BCy-0q;
+	Sat, 15 Mar 2025 09:21:08 +0000
+Date: Sat, 15 Mar 2025 17:21:03 +0800
 From: kernel test robot <lkp@intel.com>
-To: Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org, kernel@collabora.com,
-	Sebastian Fricke <sebastian.fricke@collabora.com>
-Subject: Re: [PATCH 4/5] media: vcodec: Implement manual request completion
-Message-ID: <202503151605.1d1dDLuM-lkp@intel.com>
-References: <20250314-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v1-4-5e277a3d695b@collabora.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:devel] BUILD SUCCESS
+ a4159ca71306042d87e1646340014088b38bcfbf
+Message-ID: <202503151757.YQqSWKa9-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250314-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v1-4-5e277a3d695b@collabora.com>
 
-Hi Sebastian,
+tree/branch: git://linuxtv.org/sailus/media_tree.git devel
+branch HEAD: a4159ca71306042d87e1646340014088b38bcfbf  media: intel/ipu6: Constify ipu6_buttress_ctrl structure
 
-kernel test robot noticed the following build warnings:
+elapsed time: 1448m
 
-[auto build test WARNING on f2151613e040973c868d28c8b00885dfab69eb75]
+configs tested: 101
+configs skipped: 1
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Fricke/media-mc-add-manual-request-completion/20250314-213005
-base:   f2151613e040973c868d28c8b00885dfab69eb75
-patch link:    https://lore.kernel.org/r/20250314-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v1-4-5e277a3d695b%40collabora.com
-patch subject: [PATCH 4/5] media: vcodec: Implement manual request completion
-config: x86_64-buildonly-randconfig-003-20250315 (https://download.01.org/0day-ci/archive/20250315/202503151605.1d1dDLuM-lkp@intel.com/config)
-compiler: clang version 19.1.7 (https://github.com/llvm/llvm-project cd708029e0b2869e80abe31ddb175f7c35361f90)
-rustc: rustc 1.78.0 (9b00956e5 2024-04-29)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250315/202503151605.1d1dDLuM-lkp@intel.com/reproduce)
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503151605.1d1dDLuM-lkp@intel.com/
+tested configs:
+alpha                            allyesconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-13.2.0
+arc                              allyesconfig    gcc-13.2.0
+arc                     nsimosci_hs_defconfig    gcc-13.2.0
+arc                   randconfig-001-20250314    gcc-13.2.0
+arc                   randconfig-002-20250314    gcc-13.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                              allyesconfig    gcc-14.2.0
+arm                           h3600_defconfig    gcc-14.2.0
+arm                         lpc32xx_defconfig    clang-21
+arm                   randconfig-001-20250314    clang-21
+arm                   randconfig-002-20250314    gcc-14.2.0
+arm                   randconfig-003-20250314    gcc-14.2.0
+arm                   randconfig-004-20250314    gcc-14.2.0
+arm                           spitz_defconfig    gcc-14.2.0
+arm                    vt8500_v6_v7_defconfig    gcc-14.2.0
+arm64                            allmodconfig    clang-18
+arm64                 randconfig-001-20250314    gcc-14.2.0
+arm64                 randconfig-002-20250314    clang-21
+arm64                 randconfig-003-20250314    clang-15
+arm64                 randconfig-004-20250314    clang-21
+csky                  randconfig-001-20250314    gcc-14.2.0
+csky                  randconfig-002-20250314    gcc-14.2.0
+hexagon                          allmodconfig    clang-21
+hexagon                          allyesconfig    clang-18
+hexagon               randconfig-001-20250314    clang-21
+hexagon               randconfig-002-20250314    clang-21
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250314    clang-19
+i386        buildonly-randconfig-002-20250314    clang-19
+i386        buildonly-randconfig-003-20250314    gcc-12
+i386        buildonly-randconfig-004-20250314    gcc-12
+i386        buildonly-randconfig-005-20250314    gcc-12
+i386        buildonly-randconfig-006-20250314    gcc-12
+i386                                defconfig    clang-19
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch             randconfig-001-20250314    gcc-14.2.0
+loongarch             randconfig-002-20250314    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+mips                        qi_lb60_defconfig    clang-18
+mips                        vocore2_defconfig    clang-15
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250314    gcc-14.2.0
+nios2                 randconfig-002-20250314    gcc-14.2.0
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+parisc                           allmodconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                randconfig-001-20250314    gcc-14.2.0
+parisc                randconfig-002-20250314    gcc-14.2.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc                       eiger_defconfig    clang-17
+powerpc               randconfig-001-20250314    clang-21
+powerpc               randconfig-002-20250314    gcc-14.2.0
+powerpc               randconfig-003-20250314    gcc-14.2.0
+powerpc64             randconfig-001-20250314    gcc-14.2.0
+powerpc64             randconfig-002-20250314    clang-17
+powerpc64             randconfig-003-20250314    clang-21
+riscv                             allnoconfig    gcc-14.2.0
+riscv                 randconfig-001-20250314    clang-19
+riscv                 randconfig-002-20250314    gcc-14.2.0
+s390                             allmodconfig    clang-19
+s390                              allnoconfig    clang-15
+s390                             allyesconfig    gcc-14.2.0
+s390                  randconfig-001-20250314    gcc-14.2.0
+s390                  randconfig-002-20250314    gcc-14.2.0
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                    randconfig-001-20250314    gcc-14.2.0
+sh                    randconfig-002-20250314    gcc-14.2.0
+sh                        sh7763rdp_defconfig    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250314    gcc-14.2.0
+sparc                 randconfig-002-20250314    gcc-14.2.0
+sparc64               randconfig-001-20250314    gcc-14.2.0
+sparc64               randconfig-002-20250314    gcc-14.2.0
+um                               allmodconfig    clang-21
+um                                allnoconfig    clang-18
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250314    gcc-12
+um                    randconfig-002-20250314    gcc-12
+x86_64                            allnoconfig    clang-19
+x86_64                           allyesconfig    clang-19
+x86_64      buildonly-randconfig-001-20250314    clang-19
+x86_64      buildonly-randconfig-002-20250314    clang-19
+x86_64      buildonly-randconfig-003-20250314    gcc-12
+x86_64      buildonly-randconfig-004-20250314    clang-19
+x86_64      buildonly-randconfig-005-20250314    gcc-12
+x86_64      buildonly-randconfig-006-20250314    gcc-12
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250314    gcc-14.2.0
+xtensa                randconfig-002-20250314    gcc-14.2.0
 
-All warnings (new ones prefixed by >>):
-
->> drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c:29:13: warning: no previous prototype for function 'state_to_str' [-Wmissing-prototypes]
-      29 | const char *state_to_str(enum mtk_request_state state)
-         |             ^
-   drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c:29:7: note: declare 'static' if the function is not intended to be used outside of this translation unit
-      29 | const char *state_to_str(enum mtk_request_state state)
-         |       ^
-         | static 
-   1 warning generated.
-
-
-vim +/state_to_str +29 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
-
-    28	
-  > 29	const char *state_to_str(enum mtk_request_state state)
-    30	{
-    31		switch (state) {
-    32		case MTK_REQUEST_RECEIVED:
-    33			return "RECEIVED";
-    34		case MTK_REQUEST_LAT_DONE:
-    35			return "LAT_DONE";
-    36		case MTK_REQUEST_CORE_DONE:
-    37			return "CORE_DONE";
-    38		default:
-    39			return "UNKNOWN";
-    40		}
-    41	}
-    42	
-
--- 
+--
 0-DAY CI Kernel Test Service
 https://github.com/intel/lkp-tests/wiki
 
