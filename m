@@ -1,169 +1,92 @@
-Return-Path: <linux-media+bounces-28276-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28277-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE863A622B0
-	for <lists+linux-media@lfdr.de>; Sat, 15 Mar 2025 01:19:34 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08F3CA62610
+	for <lists+linux-media@lfdr.de>; Sat, 15 Mar 2025 05:40:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 17D1B17EA25
-	for <lists+linux-media@lfdr.de>; Sat, 15 Mar 2025 00:19:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3EB5F3B7D35
+	for <lists+linux-media@lfdr.de>; Sat, 15 Mar 2025 04:40:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A101A94F;
-	Sat, 15 Mar 2025 00:19:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="Tx4ZYo9f"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E55418E34A;
+	Sat, 15 Mar 2025 04:40:23 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.40])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAEDE4C76;
-	Sat, 15 Mar 2025 00:19:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22D5D367;
+	Sat, 15 Mar 2025 04:40:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.216.63.40
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1741997956; cv=none; b=PVsa0+9CRG7Nw3XxXvWSRAjtmnmnIXKI7wiRIfqglaI94aRKQkvEkbcRhcoyl6SSkLiulcQrdK6crwlwGdBauIvBcS3geNVhoWokkFBbBugrwPxWuXW4dyChNpeWuh0jdOy+adpIWA+CiI3B4hKQgxJnPlMD5uCk1xnNQPVtwWo=
+	t=1742013623; cv=none; b=I1H2mw4g29KaWoT5vV9k4hUjuh7zGweyyGgKZfoXcFqbZIkob1di469G2NxFdZFE75buYlNxd+T6tyhLB5tQ+EDL3g9NJubEVwHd1I3dM0r9BcG8tATb0rjHw71yYPayD1HwD6tQL/X6Kov85ci4ed371MhKox53sfUEXuvqms8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1741997956; c=relaxed/simple;
-	bh=Vu1QPwy12fhx3g7FowbsOY4q1TiQL9aT+Z6El6ge7xk=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=Zit+jjYpf40ukQqQ88l3acV8JePgKdsDwBB5rJYfmOfZY2Nim6Vqa2HLZChKdi1dcDYikIISat3DWJpvQGvZfeWmBe83TBmf+GY+imvL49LRjUIeD9VJlR121mDMO2UL2MYx5p/tmXWlY2qGQKda0DX7xBU5+xwjY1Tk2zks7Ac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=Tx4ZYo9f; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Received: from [127.0.0.1] ([76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52F0EnBX3633411
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Fri, 14 Mar 2025 17:14:49 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52F0EnBX3633411
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025021701; t=1741997698;
-	bh=p1RiZcB4vxNShw8WemiNGPP7YkRsysNV0zKEEix3DOc=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=Tx4ZYo9fiuY+wDg4a68kI5cIuARdVD68JoQLpMesIGNwSOczhbBzbTQfcwfNxfdUD
-	 47XsN8wLRZvhKBjF2r+4045rg3oCcRJXoucMdOJNL1OMZbLn4bX9oZ+i6W8e9sW4/v
-	 gt8eVi3UxwK4JnA3/PA4TiFwuLM+Otv/LqOfFQaMUHaNp3e6BrpYdyQ0VwZeoSpqWr
-	 T/LWMwFrcdksOlkEzMrMEH8Z+9ya9BolDRz2oHPpWkApezrBJmDX+I34duXBeeFwZs
-	 kW+562xssDMBNp3juXplJf3P9JcHcQ4Wpbms/nUI43DenD4X+97Pqxmi4dScjrfmYn
-	 BdMqAkWnIyUzQ==
-Date: Fri, 14 Mar 2025 17:14:46 -0700
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: David Laight <david.laight.linux@gmail.com>,
-        Jacob Keller <jacob.e.keller@intel.com>
-CC: Yury Norov <yury.norov@gmail.com>, Jiri Slaby <jirislaby@kernel.org>,
-        Ingo Molnar <mingo@kernel.org>, Kuan-Wei Chiu <visitorckw@gmail.com>,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
-        joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
-        neil.armstrong@linaro.org, rfoss@kernel.org,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-        dmitry.torokhov@gmail.com, mchehab@kernel.org, awalls@md.metrocast.net,
-        hverkuil@xs4all.nl, miquel.raynal@bootlin.com, richard@nod.at,
-        vigneshr@ti.com, louis.peens@corigine.com, andrew+netdev@lunn.ch,
-        davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-        parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
-        johannes@sipsolutions.net, gregkh@linuxfoundation.org,
-        akpm@linux-foundation.org, alistair@popple.id.au,
-        linux@rasmusvillemoes.dk, Laurent.pinchart@ideasonboard.com,
-        jonas@kwiboo.se, jernej.skrabec@gmail.com, kuba@kernel.org,
-        linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
-        dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
-        oss-drivers@corigine.com, netdev@vger.kernel.org,
-        linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
-        brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
-        bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw,
-        Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH v3 01/16] bitops: Change parity8() return type to bool
-User-Agent: K-9 Mail for Android
-In-Reply-To: <20250314190604.53470966@pumpkin>
-References: <20250306162541.2633025-1-visitorckw@gmail.com> <20250306162541.2633025-2-visitorckw@gmail.com> <9d4b77da-18c5-4551-ae94-a2b9fe78489a@kernel.org> <Z8ra0s9uRoS35brb@gmail.com> <a4040c78-8765-425e-a44e-c374dfc02a9c@kernel.org> <20250307193643.28065d2d@pumpkin> <cbb26a91-807b-4227-be81-8114e9ea72cb@intel.com> <0F794C6F-32A9-4F34-9516-CEE24EA4BC49@zytor.com> <Z9MGxknjluvbX19w@thinkpad> <795281B1-9B8A-477F-8012-DECD14CB53E5@zytor.com> <b2b632cc-ca69-497f-9cf9-782bd02cac79@intel.com> <20250314190604.53470966@pumpkin>
-Message-ID: <F3723528-8978-43A9-804F-06FDFE55BDC0@zytor.com>
+	s=arc-20240116; t=1742013623; c=relaxed/simple;
+	bh=8NPJpn3HyFTnwXahbQuUWleGTas6jrHLNib3zzqWO84=;
+	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=KEjEHFKJbUFLl9lz1aKTQ6pHToiwxACQ2TYg5OjfKeN3l6T2XvHQLB3YSGUhInKEOGaW+cczWAo5TJ1T6XMoF5EjgbZfAJby47mjJfhXKiP5vhwU8ZxDf+4eIXXpOxYpRIf/OPW3DAEVJZZRVlvdIq/7nLBKlfNR7RPzFuwzObg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=63.216.63.40
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
+Received: from mse-fl1.zte.com.cn (unknown [10.5.228.132])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4ZF7nn4yXYz8R039;
+	Sat, 15 Mar 2025 12:40:13 +0800 (CST)
+Received: from xaxapp02.zte.com.cn ([10.88.97.241])
+	by mse-fl1.zte.com.cn with SMTP id 52F4e95m076816;
+	Sat, 15 Mar 2025 12:40:09 +0800 (+08)
+	(envelope-from feng.wei8@zte.com.cn)
+Received: from mapi (xaxapp04[null])
+	by mapi (Zmail) with MAPI id mid32;
+	Sat, 15 Mar 2025 12:40:09 +0800 (CST)
+Date: Sat, 15 Mar 2025 12:40:09 +0800 (CST)
+X-Zmail-TransId: 2afb67d504a97f3-07648
+X-Mailer: Zmail v1.0
+Message-ID: <20250315124009404aGYiofkCnWFti1fQoFZ58@zte.com.cn>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
+From: <feng.wei8@zte.com.cn>
+To: <sumit.semwal@linaro.org>
+Cc: <benjamin.gaignard@collabora.com>, <brian.starkey@arm.com>,
+        <jstultz@google.com>, <tjmercier@google.com>,
+        <christian.koenig@amd.com>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: =?UTF-8?B?W1BBVENIXSBSZXBsYWNlIG5lc3RlZCBtYXgoKSB3aXRoIHNpbmdsZSBtYXgzKCk=?=
 Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+	charset="UTF-8"
+X-MAIL:mse-fl1.zte.com.cn 52F4e95m076816
+X-Fangmail-Anti-Spam-Filtered: true
+X-Fangmail-MID-QID: 67D504AD.001/4ZF7nn4yXYz8R039
 
-On March 14, 2025 12:06:04 PM PDT, David Laight <david=2Elaight=2Elinux@gma=
-il=2Ecom> wrote:
->On Thu, 13 Mar 2025 14:09:24 -0700
->Jacob Keller <jacob=2Ee=2Ekeller@intel=2Ecom> wrote:
->
->> On 3/13/2025 9:36 AM, H=2E Peter Anvin wrote:
->> > On March 13, 2025 9:24:38 AM PDT, Yury Norov <yury=2Enorov@gmail=2Eco=
-m> wrote: =20
->> >> On Wed, Mar 12, 2025 at 05:09:16PM -0700, H=2E Peter Anvin wrote: =
-=20
->> >>> On March 12, 2025 4:56:31 PM PDT, Jacob Keller <jacob=2Ee=2Ekeller@=
-intel=2Ecom> wrote: =20
->> >>
->> >> [=2E=2E=2E]
->> >> =20
->> >>>> This is really a question of whether you expect odd or even parity=
- as
->> >>>> the "true" value=2E I think that would depend on context, and we m=
-ay not
->> >>>> reach a good consensus=2E
->> >>>>
->> >>>> I do agree that my brain would jump to "true is even, false is odd=
-"=2E
->> >>>> However, I also agree returning the value as 0 for even and 1 for =
-odd
->> >>>> kind of made sense before, and updating this to be a bool and then
->> >>>> requiring to switch all the callers is a bit obnoxious=2E=2E=2E =
-=20
->> >>>
->> >>> Odd =3D 1 =3D true is the only same definition=2E It is a bitwise X=
-OR, or sum mod 1=2E =20
->> >>
->> >> The x86 implementation will be "popcnt(val) & 1", right? So if we
->> >> choose to go with odd =3D=3D false, we'll have to add an extra negat=
-ion=2E
->> >> So because it's a purely conventional thing, let's just pick a simpl=
-er
->> >> one?
->> >>
->> >> Compiler's builtin parity() returns 1 for odd=2E
->> >>
->> >> Thanks,
->> >> Yury =20
->> >=20
->> > The x86 implementation, no, but there will be plenty of others having=
- that exact definition=2E =20
->>=20
->> Makes sense to stick with that existing convention then=2E Enough to
->> convince me=2E
->
->There is the possibility that the compiler will treat the builtin as havi=
-ng
->an 'int' result without the constraint of it being zero or one=2E
->In which case the conversion to bool will be a compare=2E
->This doesn't happen on x86-64 (gcc or clang) - but who knows elsewhere=2E
->
->For x86 popcnt(val) & 1 is best (except for parity8) but requires a non-a=
-rchaic cpu=2E
->(Probably Nehelem or K10 or later - includes Sandy bridge and all the 'ea=
-rth movers'=2E)
->Since performance isn't critical the generic C code is actually ok=2E
->(The 'parity' flag bit is only set on the low 8 bits=2E)
->
->	David
->
->
+From: FengWei <feng.wei8@zte.com.cn>
 
-You seem confused=2E We have already established that the built-in didn't =
-currently produce good code on some cpus, but it does on others, with very =
-little in between, so it would make sense to use the builtins on an opt-in =
-basis=2E
+Use max3() macro instead of nesting max() to simplify the return
+statement.
 
-On x86 8- or 16-bit parity is best don't with test or xor respectively; 32=
-- or 64-bit parity may use popcnt; test or by reducing down to a parity16 x=
-or=2E
+Signed-off-by: FengWei <feng.wei8@zte.com.cn>
+---
+ drivers/dma-buf/dma-heap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+index 3cbe87d4a464..96cb9ab5731a 100644
+--- a/drivers/dma-buf/dma-heap.c
++++ b/drivers/dma-buf/dma-heap.c
+@@ -147,7 +147,7 @@ static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
+ 		in_size = 0;
+ 	if ((ucmd & kcmd & IOC_OUT) == 0)
+ 		out_size = 0;
+-	ksize = max(max(in_size, out_size), drv_size);
++	ksize = max3(in_size, out_size, drv_size);
+
+ 	/* If necessary, allocate buffer for ioctl argument */
+ 	if (ksize > sizeof(stack_kdata)) {
+-- 
+2.25.1
 
