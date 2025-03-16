@@ -1,56 +1,48 @@
-Return-Path: <linux-media+bounces-28315-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28316-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B8DDA634E3
-	for <lists+linux-media@lfdr.de>; Sun, 16 Mar 2025 10:53:21 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82847A63570
+	for <lists+linux-media@lfdr.de>; Sun, 16 Mar 2025 12:42:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8A64916EFC5
-	for <lists+linux-media@lfdr.de>; Sun, 16 Mar 2025 09:53:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BC4E07A6829
+	for <lists+linux-media@lfdr.de>; Sun, 16 Mar 2025 11:41:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2250119E998;
-	Sun, 16 Mar 2025 09:53:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCA421A2630;
+	Sun, 16 Mar 2025 11:42:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="UTlYTmBa"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NtoNjXLN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5747D19D082;
-	Sun, 16 Mar 2025 09:53:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3662319ABD4;
+	Sun, 16 Mar 2025 11:42:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742118792; cv=none; b=oFevxF+CM9xQoKIs4AL4a24yPlT0D+TkWA1SxsjO4rzxby8Uzd2PK1wdErGknBmb5YoJsZZdq2WX7Q5mBNTzmqn2zqVYg+rc2lR8PdemzZVhXAJfNbLiRdRxNFv7z51rlz/x7y01rpqgJP3IurDvDvF+L40uEIOdEJBVwTLvwHY=
+	t=1742125345; cv=none; b=lu8rjmKHBVIkhcCn2mxllVSa7C0fggIWjdiGIyjcndYVlRTvbskTI8VW5JCvSiCKtFbdcY0wX1JHbzpx9736tR1GXKVrUXagWUh2O9XHUkXfnMpwIsbCNoC+LrrgaTsqWBOM85c2t14gOKyOb82EIANtmzut7dX42gtsWVGlGZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742118792; c=relaxed/simple;
-	bh=GvX4DXkXOVyGXM5iC5+hqvP5Cpidw97YzNo6kd6AN+0=;
+	s=arc-20240116; t=1742125345; c=relaxed/simple;
+	bh=0qz7MldLcAQjDocy9h7hiI/KoIHMsF9XIPnZE8WzhLc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oX9UGURDtBuw0hvt9B+7qX5lUUbgrc711kKhFyGo7WZ8mG9WJcGxy/A7998eyq+W8yfKtpn2jRh+zMJVgv1NTEl9B39QgVlIKl18DV6KM+S/sOxOtmFVgZ9CsD6gLYCXH5JX7Tfm8aLJjZRc2IoSgw+8W1Xlj/XF5RAd50RerQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net; spf=pass smtp.mailfrom=gmx.net; dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b=UTlYTmBa; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.net
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.net;
-	s=s31663417; t=1742118783; x=1742723583; i=wahrenst@gmx.net;
-	bh=waqk40he1Aos8eWly4RCtuqg/j6badeXprlfS9WCE6g=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=UTlYTmBaE9UfJMFm0fBosxWdLtUjXglbyF3YhhSElrZh+xdXrxtsP6baRRhMtkSQ
-	 GRrpIHkZwHgd5O0CvNInkBIxNWSPnSTCL1aZM75x/rSbX5j22gqnUed/3mK1sSF55
-	 z3vHYjPFQNpGVFs5ppLzQluxh8vB0/RIoQlet/k81G/5TItwYxBEEEZOKkC7Nez5h
-	 JdBEOAdXSnw6aq//5b6lbixiISXJY0/EPPDL8uerlW0t13RoLvnlVyjiv67DstsMp
-	 FgxuklKwKhbyRH4As7X52oJAvsNylwXyQHgBWP8mkVjwpD9vw+lTbRTbxVNTmBQky
-	 lsO3Fg9Mv4NUl7F2ng==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.107] ([37.4.251.153]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MhD2O-1tFRqH2yRe-00bvvv; Sun, 16
- Mar 2025 10:53:03 +0100
-Message-ID: <9a23c31d-e26f-4bc1-9759-5b6b4340a588@gmx.net>
-Date: Sun, 16 Mar 2025 10:52:58 +0100
+	 In-Reply-To:Content-Type; b=Ym7eXcKugCjugEm+PMQyF0N1P5mJb7sBDVqFnP+Nifi5NhEAzcyoHVJpXjgc5qhpH0dTjDX1JLjpFcWd4RKTUE7TC0yvKLT1vprH+vm9NGv2SW2/VmwEnNTIrv39UkysXjH//46X3ldoAKxPQr3qudm962LRHfn7NVq98LXxoRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NtoNjXLN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB86EC4CEDD;
+	Sun, 16 Mar 2025 11:42:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742125344;
+	bh=0qz7MldLcAQjDocy9h7hiI/KoIHMsF9XIPnZE8WzhLc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=NtoNjXLNLHCksVkIfwlJNTIgcO1TcADiUh9oxp6kE7rJLg3DfRlbfxc57qCEWEPNF
+	 /NKmj5S1wk3JU0WRaQZISVR4YiZ/zqRrx0E5GJEyNbWBLz6C3wTMqFCJ8JGbAi6Uaf
+	 AAKM/KqZ9kb33q/ENnsxib2V8M5h1+Ws87sCF+cqt+ULSc0jBxkocytyvQmPGsnFgJ
+	 pzVyd/57id6avT3KcxEjm/3k0TSiAGLoPucE1pj9j3H9BACDuSLbYXKfybGEAPBGFQ
+	 abbYdTsY/OU7+SWLegcCwvGAejvrCPgRN61F7NxW3s4Lj6aU6eAo8X9zjcfUMKjeXi
+	 FmVt5V1YJezlg==
+Message-ID: <3c85ee34-2e64-40aa-8398-675bcaa92b10@kernel.org>
+Date: Sun, 16 Mar 2025 12:42:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -58,113 +50,112 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/5] arm: dts: bcm2711-rpi: Add HEVC decoder node
-To: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, John Cox
- <john.cox@raspberrypi.com>, Dom Cobley <dom@raspberrypi.com>,
- review list <kernel-list@raspberrypi.com>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc: John Cox <jc@kynesim.co.uk>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-References: <20250206-media-rpi-hevc-dec-v2-0-69353c8805b2@raspberrypi.com>
- <20250206-media-rpi-hevc-dec-v2-5-69353c8805b2@raspberrypi.com>
+Subject: Re: [PATCH 03/18] dt-bindings: media: coda: Fix resets count
+To: Sergey Khimich <serghox@gmail.com>, linux-media@vger.kernel.org
+Cc: Philipp Zabel <p.zabel@pengutronix.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org,
+ Vladimir Yakovlev <vovchkir@gmail.com>, Maksim Turok <turok.m7@gmail.com>
+References: <20250314152939.2759573-1-serghox@gmail.com>
+ <20250314152939.2759573-4-serghox@gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-Autocrypt: addr=wahrenst@gmx.net; keydata=
- xjMEZ1dOJBYJKwYBBAHaRw8BAQdA7H2MMG3q8FV7kAPko5vOAeaa4UA1I0hMgga1j5iYTTvN
- IFN0ZWZhbiBXYWhyZW4gPHdhaHJlbnN0QGdteC5uZXQ+wo8EExYIADcWIQT3FXg+ApsOhPDN
- NNFuwvLLwiAwigUCZ1dOJAUJB4TOAAIbAwQLCQgHBRUICQoLBRYCAwEAAAoJEG7C8svCIDCK
- JQ4BAP4Y9uuHAxbAhHSQf6UZ+hl5BDznsZVBJvH8cZe2dSZ6AQCNgoc1Lxw1tvPscuC1Jd1C
- TZomrGfQI47OiiJ3vGktBc44BGdXTiQSCisGAQQBl1UBBQEBB0B5M0B2E2XxySUQhU6emMYx
- f5QR/BrEK0hs3bLT6Hb9WgMBCAfCfgQYFggAJhYhBPcVeD4Cmw6E8M000W7C8svCIDCKBQJn
- V04kBQkHhM4AAhsMAAoJEG7C8svCIDCKJxoA/i+kqD5bphZEucrJHw77ujnOQbiKY2rLb0pE
- aHMQoiECAQDVbj827W1Yai/0XEABIr8Ci6a+/qZ8Vz6MZzL5GJosAA==
-In-Reply-To: <20250206-media-rpi-hevc-dec-v2-5-69353c8805b2@raspberrypi.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:W2pLMWrKNN8dtTF7L8PthwX1uIuTiOYSHJ9N6pqTNo+4n30bD5F
- llud2RqIz07G4rVMxz5XxgahMcXaq7qE2YaPepJ1LxKCvK/5rSTb4rNY7JGzbqSK6CPM0l2
- GbENGZCekzGiRSFbEv4+kNy/FmVTHMJMii9KQb9c2PCDveNBxHZT2XCrFkcyWAGyWxpAg2x
- a6HS9rhO8qHbeLyHho6sA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:aTOBw0LTolI=;JbWdY10KwOeKZNbXmN8ynmnfgna
- KLDq8pSkz9JsOn+QNMZV70MZpCzEJL1KeBK6Mbk5mEb6uCXl1MLEHiN7pgOX/sExk4GMUqKmA
- Rr/HnvTC3dhsTwzAVmGkbtgWiLcskjtoHDp9ftXySaPKUkXv7lG3Qr7pk1QnFMYTDXBPSyt8d
- mzYI/YxteOQxdZ0sT8PgNsMbAU16xdDLClJ44lfBfTqeAjNUB0B/1kbVQf6SktWiZyARWXi1/
- pBicjOC41z20t06GeQATe4GZFTBk/Pkzgnp+510Wg6oq85bnspuYDsFgy7EQgiMr0cAP5LFJD
- It7R14rVAEmsLKcwo2rSDj35zMvd15kNE6ebw9Eu6HTPgtp5YirQ0N/EF5twF11DkjEGlT4Am
- BY0Et7GnNMqa5a3bzX8cE4dKwGBuzoE2ZHpW6E5hVEyaGHxG0ppdHqf2h2dogU7DbrrTv1U3q
- 04p/9BC3yO3Z2kM/SwbLlMPYN2oN/P2xAkEqEOWEmmG8IDGWqiK4hxzGriJCju8QIQpsNod1G
- 7wtvUZyWHG4PATIv+k7xSKuV8x0QM2X2E9UQSjXb5co1H0BTHtIUmmV/g+JeOiTs5kItjqjJr
- O1szBTBBSN8SIKaCApYUOYtijlus5Vp+HkwC4jYjd+VMXZI7etxCLcQDb048/Kt+uEwv2IT7Z
- YIvX+tFNILBPYGXGBUnbzDMNdJkNank1Kuz5YvXRpqfPqoMczXy1+CqEBRMnVhzU7F3TzB5vj
- ZJGj8F3tCbsJGFetfV3Ivre2qQE7/PBerpAdfdiVmK1ZJIOyKRCvbuneWQrjqSYtm+APt2O/z
- LPPTruRyyvbyxKXIGPWsIuLXEtPiffDyMmE04MFnj1K1lFqDnONAg7zpgKa4+tY5ILLE0rFmv
- 5cG0SdG1geaP2oaKkbv+GDyHzU/7bTj39AgNfdoQ+1SQSIDtlCrzv4EJUk8dMgOuSGZy77WsO
- 1yi3qxrYuxI7b2hcNcP2PBDp0UMdThV7YHuq3Ifl6kfmBLWdk92K5BOzaQ9b5tsrzVtzu1qkt
- Kz5RniDCa7ZrJA5C2VOBSSqINx0En6gIQIWCmbVouZaXtHk7hOKMmBbObc5A6LQOPBDTEbsNJ
- SYW/GlpQlqCzLrzo18wKJoZNfSDOjgUgqZcqaM4q2IxophDgzY50FCilzS3QwJwkg/tIgB3q8
- xEZTpVLmGngXeu6/wi5nnwlVNQh/BiBpLwqYAagK+8pRGfnMyUhJ2xfbDeSkB0dIzekYkaj93
- I/T14flkmyxhIBGxeNqxXY3WnUAU/TosvVcC3C9HeAqyJqBfWXpDMfb3L9CfFBTQF2vyALLVV
- vCrgqaJLzRxZFJl0omfyrsX7kOpklsY61s0cX6Lh0f4QOiHfTL28ez332iZkjIVHKy2e/rHxU
- p7NMKH0S5M9bYcy3g1sgsEXleEirqZV9uYh7uR7chejXK2RJPTd5vK7bee3+we8gypFrAz3wO
- +YtzF0vUycY3ixxmGtiur9HE/LUg=
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20250314152939.2759573-4-serghox@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Dave,
+On 14/03/2025 16:29, Sergey Khimich wrote:
+> From: Vladimir Yakovlev <vovchkir@gmail.com>
+> 
+> Change resets count because now we use get array function and reset
+> signas may be more than 1.
+> 
+> Co-developed-by: Sergey Khimich <serghox@gmail.com>
+> Signed-off-by: Sergey Khimich <serghox@gmail.com>
+> Signed-off-by: Vladimir Yakovlev <vovchkir@gmail.com>
 
-Am 06.02.25 um 19:02 schrieb Dave Stevenson:
-> Add the configuration information for the HEVC decoder.
->
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+<form letter>
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC. It might happen, that command when run on an older
+kernel, gives you outdated entries. Therefore please be sure you base
+your patches on recent Linux kernel.
+
+Tools like b4 or scripts/get_maintainer.pl provide you proper list of
+people, so fix your workflow. Tools might also fail if you work on some
+ancient tree (don't, instead use mainline) or work on fork of kernel
+(don't, instead use mainline). Just use b4 and everything should be
+fine, although remember about `b4 prep --auto-to-cc` if you added new
+patches to the patchset.
+
+You missed at least devicetree list (maybe more), so this won't be
+tested by automated tooling. Performing review on untested code might be
+a waste of time.
+
+Please kindly resend and include all necessary To/Cc entries.
+</form letter>
+
+
 > ---
->   arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi | 4 ++++
->   arch/arm/boot/dts/broadcom/bcm2711.dtsi     | 9 +++++++++
->   2 files changed, 13 insertions(+)
->
-> diff --git a/arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi b/arch/arm/boot=
-/dts/broadcom/bcm2711-rpi.dtsi
-> index 6bf4241fe3b7..56c633005941 100644
-> --- a/arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi
-> +++ b/arch/arm/boot/dts/broadcom/bcm2711-rpi.dtsi
-> @@ -105,3 +105,7 @@ &vchiq {
->   &xhci {
->   	power-domains =3D <&power RPI_POWER_DOMAIN_USB>;
->   };
-> +
-> +&hevc_dec {
-> +	clocks =3D <&firmware_clocks 11>;
-> +};
-the node ref should be in alphabetical order, so please add after hdmi1.
-> diff --git a/arch/arm/boot/dts/broadcom/bcm2711.dtsi b/arch/arm/boot/dts=
-/broadcom/bcm2711.dtsi
-> index e4e42af21ef3..2931d93ba184 100644
-> --- a/arch/arm/boot/dts/broadcom/bcm2711.dtsi
-> +++ b/arch/arm/boot/dts/broadcom/bcm2711.dtsi
-> @@ -628,6 +628,15 @@ v3d: gpu@7ec00000 {
->   			resets =3D <&pm BCM2835_RESET_V3D>;
->   			interrupts =3D <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>;
->   		};
-> +
-> +		hevc_dec: codec@7eb10000 {
-Please put the node before V3D to keep the register order.
-> +			compatible =3D "raspberrypi,hevc-dec";
-> +			reg =3D <0x0 0x7eb00000  0x10000>, /* HEVC */
-> +			      <0x0 0x7eb10000  0x1000>;  /* INTC */
-Since the reg-names are provided, there is no need for these comments.
-> +			reg-names =3D "hevc",
-> +				    "intc";
-> +			interrupts =3D <GIC_SPI 98 IRQ_TYPE_LEVEL_HIGH>;
-> +		};
->   	};
->   };
->
->
+>  Documentation/devicetree/bindings/media/coda.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/coda.yaml b/Documentation/devicetree/bindings/media/coda.yaml
+> index c9d5adbc8c4a..3cb0e9afc100 100644
+> --- a/Documentation/devicetree/bindings/media/coda.yaml
+> +++ b/Documentation/devicetree/bindings/media/coda.yaml
+> @@ -60,7 +60,7 @@ properties:
+>      maxItems: 1
+>  
+>    resets:
+> -    maxItems: 1
+> +    minItems: 1
 
+No, this must be specific.
+
+
+
+Best regards,
+Krzysztof
 
