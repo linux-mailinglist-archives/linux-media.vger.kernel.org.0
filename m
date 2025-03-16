@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-28316-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28317-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82847A63570
-	for <lists+linux-media@lfdr.de>; Sun, 16 Mar 2025 12:42:35 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0B6EA63572
+	for <lists+linux-media@lfdr.de>; Sun, 16 Mar 2025 12:44:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BC4E07A6829
-	for <lists+linux-media@lfdr.de>; Sun, 16 Mar 2025 11:41:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E67CD3A9CE5
+	for <lists+linux-media@lfdr.de>; Sun, 16 Mar 2025 11:44:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCA421A2630;
-	Sun, 16 Mar 2025 11:42:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF9711A3164;
+	Sun, 16 Mar 2025 11:44:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NtoNjXLN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N8z/U4G4"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3662319ABD4;
-	Sun, 16 Mar 2025 11:42:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4711515990C;
+	Sun, 16 Mar 2025 11:44:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742125345; cv=none; b=lu8rjmKHBVIkhcCn2mxllVSa7C0fggIWjdiGIyjcndYVlRTvbskTI8VW5JCvSiCKtFbdcY0wX1JHbzpx9736tR1GXKVrUXagWUh2O9XHUkXfnMpwIsbCNoC+LrrgaTsqWBOM85c2t14gOKyOb82EIANtmzut7dX42gtsWVGlGZI=
+	t=1742125452; cv=none; b=dldAp9je8dX+GAK+cY5i7h+fCH1MkaR+E2DwnjJ4Tbi/UkLkCPcsA9zn3jbNpPxfbLu2AWBAWetzG0LuYcWdybtAVUSSv9p0mFOWfpOjDnBJag7gyD/CXQDomJ5Oc+6M/lPflpqxEMtdYfPtZq7doe9tuK3cphBXbkqTniVyMzE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742125345; c=relaxed/simple;
-	bh=0qz7MldLcAQjDocy9h7hiI/KoIHMsF9XIPnZE8WzhLc=;
+	s=arc-20240116; t=1742125452; c=relaxed/simple;
+	bh=rtU1MuzkK6Xhrqlatv2aJz6Nf71gR+ZcZSV7q4UwLkI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ym7eXcKugCjugEm+PMQyF0N1P5mJb7sBDVqFnP+Nifi5NhEAzcyoHVJpXjgc5qhpH0dTjDX1JLjpFcWd4RKTUE7TC0yvKLT1vprH+vm9NGv2SW2/VmwEnNTIrv39UkysXjH//46X3ldoAKxPQr3qudm962LRHfn7NVq98LXxoRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NtoNjXLN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB86EC4CEDD;
-	Sun, 16 Mar 2025 11:42:20 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=D0RJAxuLkaxMcXy+CDvTH+z2pLwPj5P+FRYqZQ99TkLJqQOs1r5lmme23omEma7a7xkE4kkV6BSQuRxjdaKOWIP4CZV0TtrIuneKIE340xOJxdRiGW2ZUZkGqmrlEghw+fRo+tFUwQZw/Z48QSPMitahDshEeVG4xC5uAnBcyRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N8z/U4G4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5F70C4CEDD;
+	Sun, 16 Mar 2025 11:44:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742125344;
-	bh=0qz7MldLcAQjDocy9h7hiI/KoIHMsF9XIPnZE8WzhLc=;
+	s=k20201202; t=1742125451;
+	bh=rtU1MuzkK6Xhrqlatv2aJz6Nf71gR+ZcZSV7q4UwLkI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=NtoNjXLNLHCksVkIfwlJNTIgcO1TcADiUh9oxp6kE7rJLg3DfRlbfxc57qCEWEPNF
-	 /NKmj5S1wk3JU0WRaQZISVR4YiZ/zqRrx0E5GJEyNbWBLz6C3wTMqFCJ8JGbAi6Uaf
-	 AAKM/KqZ9kb33q/ENnsxib2V8M5h1+Ws87sCF+cqt+ULSc0jBxkocytyvQmPGsnFgJ
-	 pzVyd/57id6avT3KcxEjm/3k0TSiAGLoPucE1pj9j3H9BACDuSLbYXKfybGEAPBGFQ
-	 abbYdTsY/OU7+SWLegcCwvGAejvrCPgRN61F7NxW3s4Lj6aU6eAo8X9zjcfUMKjeXi
-	 FmVt5V1YJezlg==
-Message-ID: <3c85ee34-2e64-40aa-8398-675bcaa92b10@kernel.org>
-Date: Sun, 16 Mar 2025 12:42:18 +0100
+	b=N8z/U4G4IAwN18xAK9pVeyldpsyYYwnVaP0bnbnT/zLu8iizfUNycKZzuLeESqdqY
+	 qD7TKaq08YgTEmnaP9Ww1TnE0R0T+5vhfp9qQyPqeTl/E8PPegAVsGVm0vFOuDZ3QU
+	 PQ5K+HOyUwGuJEUcHxvVPk9YQ6qgsRM8B3ZPKcBrY45ds1/hdCbCmSi/0cwO+qYMho
+	 zOI5EDQQVq9aErnGkl5+TVsZyuXj2uOMS2R5EYH9zi/aZfbzbO6FRS48rx81MvFYbI
+	 R5r83PrRXKbnTy4DuEBpjfMXDk28pSUaqlohUDS78tnO1t8DFRUcXguk5aeQGgLLlC
+	 Xp48H1aXvZlDw==
+Message-ID: <74877f37-57c5-4949-9029-8785778c5742@kernel.org>
+Date: Sun, 16 Mar 2025 12:44:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,13 +50,14 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/18] dt-bindings: media: coda: Fix resets count
+Subject: Re: [PATCH 02/18] media: coda: Use get_array to work use multiple
+ reset
 To: Sergey Khimich <serghox@gmail.com>, linux-media@vger.kernel.org
 Cc: Philipp Zabel <p.zabel@pengutronix.de>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org,
  Vladimir Yakovlev <vovchkir@gmail.com>, Maksim Turok <turok.m7@gmail.com>
 References: <20250314152939.2759573-1-serghox@gmail.com>
- <20250314152939.2759573-4-serghox@gmail.com>
+ <20250314152939.2759573-3-serghox@gmail.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -102,59 +103,23 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250314152939.2759573-4-serghox@gmail.com>
+In-Reply-To: <20250314152939.2759573-3-serghox@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 14/03/2025 16:29, Sergey Khimich wrote:
 > From: Vladimir Yakovlev <vovchkir@gmail.com>
 > 
-> Change resets count because now we use get array function and reset
-> signas may be more than 1.
+> Some Coda's IP blocks may require more than one reset signal.
+> Than we must use get_array or bulk functions. For compatibility with old
+> code it's better to use devm_reset_control_array_get_optional_exclusive().
 > 
 > Co-developed-by: Sergey Khimich <serghox@gmail.com>
 > Signed-off-by: Sergey Khimich <serghox@gmail.com>
 > Signed-off-by: Vladimir Yakovlev <vovchkir@gmail.com>
-
-<form letter>
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
-
-Tools like b4 or scripts/get_maintainer.pl provide you proper list of
-people, so fix your workflow. Tools might also fail if you work on some
-ancient tree (don't, instead use mainline) or work on fork of kernel
-(don't, instead use mainline). Just use b4 and everything should be
-fine, although remember about `b4 prep --auto-to-cc` if you added new
-patches to the patchset.
-
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time.
-
-Please kindly resend and include all necessary To/Cc entries.
-</form letter>
-
-
-> ---
->  Documentation/devicetree/bindings/media/coda.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/coda.yaml b/Documentation/devicetree/bindings/media/coda.yaml
-> index c9d5adbc8c4a..3cb0e9afc100 100644
-> --- a/Documentation/devicetree/bindings/media/coda.yaml
-> +++ b/Documentation/devicetree/bindings/media/coda.yaml
-> @@ -60,7 +60,7 @@ properties:
->      maxItems: 1
->  
->    resets:
-> -    maxItems: 1
-> +    minItems: 1
-
-No, this must be specific.
-
-
+Your chain is supposed to be reverse or fixed other way. Your SoB cannot
+be before the author. Look at submitting patches - it is explained there
+pretty precise, exactly your case.
 
 Best regards,
 Krzysztof
