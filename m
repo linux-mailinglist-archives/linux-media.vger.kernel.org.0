@@ -1,219 +1,155 @@
-Return-Path: <linux-media+bounces-28374-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28376-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97CB2A658A3
-	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 17:44:56 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 82D19A65973
+	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 18:03:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F26519A1584
-	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 16:42:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 33A5C7A6B5F
+	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 17:02:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 173FC2036F5;
-	Mon, 17 Mar 2025 16:38:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23F7D1DF97E;
+	Mon, 17 Mar 2025 16:59:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="imcNWENI"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="seDB55nw";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="exTvthlm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2042.outbound.protection.outlook.com [40.107.102.42])
+Received: from fhigh-b5-smtp.messagingengine.com (fhigh-b5-smtp.messagingengine.com [202.12.124.156])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 989241B0424;
-	Mon, 17 Mar 2025 16:38:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.42
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742229512; cv=fail; b=jncB6QRkIk+lHEruIGx0WyqPdWjCdbIAbHHQYBC6pBo+Cx/gBVRW57ixLwY16TlJrsV3JiSXW52J2vXutH7hm6HBxUR1/WvjMiE/6a8LRVg1bzYRmMP936mmTKqlpW8W72UVb3wtee+V59twVPtV2jruzQJMAwO3nP7zAzutMN0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742229512; c=relaxed/simple;
-	bh=l7MU9KXEoZL5qyriI/1rn+jlEw2h3IlvUR90tgYsCPc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=SSkyBqcow4C4tlu+9Lrv7UNtLU+tf2aDerxRHesERsBqt020HrLquW2C8gjN51AzPBmXTKaOyZ0oe735WVPMVZK6NLrDD8q/YjLbsu7nca85WlCwwa0qgbgenqoNxtkRgZhROXwSaIyZJyAXMk8faR/08lbMsl2ZGFFHgefHMKk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=imcNWENI; arc=fail smtp.client-ip=40.107.102.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RSs2Jmu2t6deLdxIQUaKNEAu8qMpqoO0jCwSHJHVrJ5M/ikCEAi5KfZIEdLJzXZ/CGLKExm4KjBH0AN4RyT53mQU0g7AFG4pIVjcJvwgCoIP9gyP299njdkqh5rFGsfZ+CNdR5aTahzkiky69NA1RAotwaT2Qw1YSRQ2ToimzJKnYhkmJw/+KGbF6w09JBqe5X9WkHrZCklaJERBUgOgVlJCWDR9yalWw5ONFqgMWhkdtol8yYSb2FKakF/YhuyOGcSReKJEpRhPH1hAmH7aagYoF02nWHXTvMH++2sxqMSUs4+QAiiblpEgEvGaCgGMCyesvfp19sOKTDv0BPrGeA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=KMR+033BL8YtE0zJD+p3KFTKRLda1626i4IzJtvXTK8=;
- b=nrCcPlsHkHui4CW/zsOLY361lVAzJH+nl6B9vQ2unYGwOAjTtIfvcF9faCtIxqxBX2iWUMFqtm69vCpUbkmirxDEMlElD930c603J1HbwYqOfeqzTdgh0z8ryMxxrTzEm3ve1KoaDhGCw1kCUEV9HNemR4AI3xCtnAkCHceIjh2Y8zPmZD0YOtyKF6msQg8oBS/p5QhFZN62TiOfq6IrpAXapkIeKdFxtBukjoqLxTzDFQBOizvtjJt1vXO0rqMEdJBYpRCCHdchQNNS1hljEKbT8NraVbomAxbTMfQCJc9iOZL/S4RlkTgCAYILGFWN3s6SF/46yMEUK0brkC23ow==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=KMR+033BL8YtE0zJD+p3KFTKRLda1626i4IzJtvXTK8=;
- b=imcNWENITuSQfbkQhaTR3waaZH+V2DsCopTfe9k5uP2och/k1uIcITsD7q0hwRjG5jVvFJIxdRjrmezHPgzN9YhSGXS3CTBMfwPdBj4VVzmaLuwwSAqVXd6jRQpCQU3Bu9RnrFYxRpHiJrgQP2WlBo2Sy7DMOdTUWDEZxZXl1u0+KuhOHUkP1GvfFJRtpTGCdifg6ESXc75F1J72gdrf8f2j/PdjvAzFHExHbRdOEJW0omQc4+NElUXftVimokam/i3KJgtd7OfplDSsEh7JXLC2fqfZoC9RhcxQ3R1d2mGsS7Bor4vVUVJ0+tVUSFsw1X3vDHjwWUJdFvuu90lXaQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by MN0PR12MB5788.namprd12.prod.outlook.com (2603:10b6:208:377::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Mon, 17 Mar
- 2025 16:38:27 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8534.031; Mon, 17 Mar 2025
- 16:38:27 +0000
-Date: Mon, 17 Mar 2025 13:38:25 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: Alexey Kardashevskiy <aik@amd.com>, Baolu Lu <baolu.lu@linux.intel.com>,
-	Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
-	christian.koenig@amd.com, pbonzini@redhat.com, seanjc@google.com,
-	alex.williamson@redhat.com, vivek.kasireddy@intel.com,
-	yilun.xu@intel.com, linux-coco@lists.linux.dev,
-	linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
-	daniel.vetter@ffwll.ch, leon@kernel.org, zhenzhong.duan@intel.com,
-	tao1.su@intel.com
-Subject: Re: [RFC PATCH 08/12] vfio/pci: Create host unaccessible dma-buf for
- private device
-Message-ID: <20250317163825.GL9311@nvidia.com>
-References: <20250113164935.GP5556@nvidia.com>
- <ZnDGqww5SLbVD6ET@yilunxu-OptiPlex-7050>
- <20250114133553.GB5556@nvidia.com>
- <17cd9b77-4620-4883-9a6a-8d1cab822c88@amd.com>
- <20250115130102.GM5556@nvidia.com>
- <f1ac048f-64b1-4343-ab86-ad98c24a44f5@linux.intel.com>
- <20250117132523.GA5556@nvidia.com>
- <835c7751-d8ba-4af0-812f-2b3a9a91d0bc@amd.com>
- <20250120132843.GI5556@nvidia.com>
- <67d0e549d4d27_201f029458@dwillia2-xfh.jf.intel.com.notmuch>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <67d0e549d4d27_201f029458@dwillia2-xfh.jf.intel.com.notmuch>
-X-ClientProxiedBy: MN0P221CA0001.NAMP221.PROD.OUTLOOK.COM
- (2603:10b6:208:52a::7) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F781DE4E1;
+	Mon, 17 Mar 2025 16:59:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.156
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742230782; cv=none; b=e4IZNI4ajUFP8X9LFFI86wi9a7PDedBc98MKWSH4jA1Fz4jTTBVdomb/ghf9vszFXhMSuEvRNp2k3tOHLs0OHCnn+l9oVFHOYWlPBx21T56Z3iZ0D0TdO89Vt8aOKAxTq6DGbhBw1PLtcrZLzQyHinpDIA+MaFBg7MPvMn3nZxo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742230782; c=relaxed/simple;
+	bh=kulgJ/8FzqilYzSkAQL7QR1ZHDmMAEUT9TpSQaFPiQs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=DKG1mK2p+GOUbArAHXL/53pmpeWmiWswqskYdMHmL8B7evA5PSekbpXX0R/6Yq3gMw/i5ZzbbJp/Q9ywlN2DbcPObjO8PMFtCEjhwmlewvF4wETOm90rLGM2n4OY48Bq8sXNJOTgmVoRG49GyMj7gnJ+bqKA8QDXGG8KOIroIgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=seDB55nw; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=exTvthlm; arc=none smtp.client-ip=202.12.124.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 55DF12540225;
+	Mon, 17 Mar 2025 12:59:39 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-04.internal (MEProxy); Mon, 17 Mar 2025 12:59:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1742230779;
+	 x=1742317179; bh=1rFOoL77puI9P/jkLdgqnIEf9zSShrReWii6Vid1qsk=; b=
+	seDB55nwjeaMKdSbFpPnxGsw1PYQDb7blC6OBRw3dVPdowkEZqqACRGq9Ncagbv6
+	1wTHYrVewNSBpCwL7KejeH5tW5PmEPSAUZilw2cJoL46aTYVexho7rcvtGWD05EZ
+	oRxd1xJW9jgRT2LMEV2Ach3KJNRYhBoyPuR81ZRtocxw+9LKHut4tIQfTZAZt/en
+	EILxmFuiOtVmQxOhBOX3A8+vIpQQ4Lxup3YVeFf7yLPlMCAHDEL4VdKpfgY1qD7B
+	AXJMmM3QtUAR0LTEKo3P3eAutitSM3EdulIrQheMDdAvO06bZGXL/iygMOQARgb3
+	9djxnJQMmKanvQ0FG9668w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742230779; x=
+	1742317179; bh=1rFOoL77puI9P/jkLdgqnIEf9zSShrReWii6Vid1qsk=; b=e
+	xTvthlmqMXSgfZKX/S4AWF1ct5TpoXMue/ZShq0YYW9mo++Q2vyi3ugnUP0Yxh+A
+	1muxAAlzs5StdvKFfscXbusM8ZSEBghf/s4urStqYv0DHss6FqcbyANK7FPVzkZ8
+	sTrZTHjLOjJpLXsgeei5QdUdBLbSLjqcd0+Dr2cwPRMuK2cB/VL1flNkRrd0kAoD
+	hzrgDQClBNskTIlatIk4Ybfy46fUMgfF2437/KvQ/cJ2HS/L990nKWw9efEEZS8d
+	Pj7sL0zCK2fTzYJH2i99pZtdWpfsem/FmQtbvhXY1EzgI6So1v6b1IVAXKeEmAK5
+	R6ZYF/WGhI7RukK8bX/zw==
+X-ME-Sender: <xms:-lTYZ6L4XE8ebu4wE07sGT-8dW77AIC1EJHCTlX9dG3S9MExV6fGBw>
+    <xme:-lTYZyKFRUs1RbYQ7SZ2Ff9oP6MdnN_zVP5LTxD5BJESiBm08trPU2gEsTFwwAEma
+    k-D4tHBqjW6P4DxDvE>
+X-ME-Received: <xmr:-lTYZ6uT7rDWiB2NDovo-eidFgOAaSbM0T4u6WDSgnoONXyzYfArNFy9Mf_a-k0fO2xMt7U0OwThHDfAIbdr0KR9rw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugedttdeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhggtgfgsehtkeertder
+    tdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrsh
+    houggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffr
+    rghtthgvrhhnpeehiefgueevuedtfefhheegkeevtdelueeukeevfeduhefhhfejfffgge
+    ffleefgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
+    pehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprh
+    gtphhtthhopeejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehsrghkrghrihdr
+    rghilhhusheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehmtghhvghhrg
+    gssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehtohhmihdrvhgrlhhkvghinhgvnhdo
+    rhgvnhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhgruh
+    hrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphht
+    thhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpth
+    htoheplhhinhhugidqrhgvnhgvshgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhr
+    ghdprhgtphhtthhopehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrh
+    grghhnrghtvggthhdrshgv
+X-ME-Proxy: <xmx:-lTYZ_btx17iUXmG6QgZtVlknk8bm8-dKtk-jWUTWt3nNMwVJtmZhw>
+    <xmx:-lTYZxYa9-mK7cY5YoCxZar6ooJl5QwE3gPWBRfnffGPfy0xDsWi_w>
+    <xmx:-lTYZ7B71ED171Dpvm_9SiixoqLlcwPriTcKoodHx7LqwiNQ1puXNg>
+    <xmx:-lTYZ3ZbdpqDMAKJIkUlGnODtpKSh4pGduceOnCJEvVBZgf_6ZFQcg>
+    <xmx:-1TYZ_O85QoFppAM0i8pU4ReeqoskhOBRyrvxRJdmJ0k425cc3YYjpFy>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 17 Mar 2025 12:59:38 -0400 (EDT)
+From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 1/6] media: rcar-vin: Use correct count of remote subdevices
+Date: Mon, 17 Mar 2025 17:59:02 +0100
+Message-ID: <20250317165907.2412377-2-niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250317165907.2412377-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20250317165907.2412377-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|MN0PR12MB5788:EE_
-X-MS-Office365-Filtering-Correlation-Id: 117cc56d-05ef-4cd1-e26d-08dd65722482
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?9BO/lCk2kcMXmq49JmMSS8LGKmIFZHXGm3hXrFwima1giu1gkf9L1N5eQ47m?=
- =?us-ascii?Q?KGXIKbll9oZ5wJOgduwwjuRBhWU1lxcrULWZIshwjJRSLdy4RILEfe+5Z17r?=
- =?us-ascii?Q?UQXglsiJ+7wZZ1qOm5qaMmUKL81lREd1og3GUmKMGPoL1zMNTq6kqht8D1bO?=
- =?us-ascii?Q?Adx8zpdLomTNmr3DGqGoYEuR9X86LqKL9Xg6SgD59pHupidzx5H5vnRUzleA?=
- =?us-ascii?Q?CjtL0VNDKujHM5N/F3O7MoJdkwr42BVTe7k8ecFyN5I9qDQHxdggyBZm+kX5?=
- =?us-ascii?Q?SR51cOS1kvwDOMEkvseTcbhYFIoVQTxuA8vsMoev5LQFUaqvLIq0TO+M99qr?=
- =?us-ascii?Q?3dBlG71Ha32QOnmOfuUvLZpStrzG9+mcsAuJ/Nl0rLXEgF7aaLM+IsTlTcWq?=
- =?us-ascii?Q?U1rNWqReaW3Dj/hgfumTk371elC2/Jg4wU7kP1RjHg6ESDdak9exoI9WIloz?=
- =?us-ascii?Q?Yf4hsYm8RE5ewkG25DljAXXVFedSVu57j77eRmOca/LeOWIpVnDuNV6EuNLz?=
- =?us-ascii?Q?0rO6/TfIexqZudVghMv9JksAmv378/KrvicI+cfoniXFqpc3TipXMAOBa8xK?=
- =?us-ascii?Q?wZSLaLE6lWgkfkSVY8Es8iuQ/7g3x0VrWp8F8cqTey95HioG8rYDDuXrhkcr?=
- =?us-ascii?Q?HcZtN7HAKIFvJOg9IsFnQKoewddhxvOVTj3YZkN2g/T2/4UUZYWoNfK6UJI9?=
- =?us-ascii?Q?vgx/TNqIem4jAw1NIhbGx46pehbmsDDH7QzI5V21gUIOSZQwGv7adja3rWkl?=
- =?us-ascii?Q?UwNKsWjmmRy4QOZ5b7jVAkxIricW5tU9GXvowZBjBK/wJjzDNIVZ1wV79jME?=
- =?us-ascii?Q?hI73tXTgsMqI6AkKFrrznbdHGu7JtjzW72szGYC0DY6wlekO288+vyY7fc1W?=
- =?us-ascii?Q?szeYEwbv8/+wZ9T4xeTw7zQ2Y4INZtUQ3bEw56OTCWU+HnPUEDz9k7mKnSh4?=
- =?us-ascii?Q?LxsfZbNIIkkcZDu4k8AbCokGEmozacJxHxIHAaPYnTn+BULiHAA1zz2NH6BN?=
- =?us-ascii?Q?q9n3cVMydOvwGRhIAdcm6gMKtQII59wZFLTJXH0Ctoe3NLaeyb3UDzizebw3?=
- =?us-ascii?Q?gOP4AvtS5721V3a2sOPNGsyuSIfVQ2vUScJgiocQg4Vh2XrQ2+VWa7zAXNZq?=
- =?us-ascii?Q?oLZYPg9R/bBlzOlHRuHvCQh80nyElYuFhGiPzsuSpe4tfgpP+f+Thn/Xgweu?=
- =?us-ascii?Q?7tY1YKCDoaQ6i9GPwUt66PoIGzl1TPWOMV/CM2c2xoXbiaFMZRFwp++Lsdkt?=
- =?us-ascii?Q?7Ymuvp/Nq2cryybkT0faNLwkXKyQLCMDFNJI5wxr49FBL6TrsUJOpuOwklc2?=
- =?us-ascii?Q?T3DK3qct6wLjILz2GpSEE1Q38ANw85jcH/GXh2jxSiPMDj1AeRNrln54LbRI?=
- =?us-ascii?Q?5RpPunX2UJSmCeAwG4cfBN32/1jR?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?MAq4S5LX+W1/NrBZwJoU4vC3X6IkdbIgJrsUeI1M74+LrM81YtMJxE2AOBZr?=
- =?us-ascii?Q?Vn97VhyIGSOJaivoy1EuGR4jhBFvRRqW8YzOsOgIMApVwzhEb169CLXLkHta?=
- =?us-ascii?Q?n28eHTNqmmGpg3tu80KyaCQ94qKyzjGcCW6K0io6xFUpDP8PJUuo0nuM1v6Z?=
- =?us-ascii?Q?n1SJfm3Ppilucnb6TEljLIHZWxEbo9XfwaSOLRo3GgWxvLkCy5Gzb6kGrv4a?=
- =?us-ascii?Q?7w7sprX/ncRfwHG28Eu7A3hseUBvL9be0ZRGs4uag4jZ48QaRICniIESR4qy?=
- =?us-ascii?Q?bQB7X7tw6PbARv9qoUOGYkWhRNA3Od/nLS60EIixJWfOzQMH8DHTUZ+1WgC+?=
- =?us-ascii?Q?RFI6Pb5PNtQyCr8AZQQ3xB0TFa/IksrUcBXsPgjLXcbA2sN9JfUVG+GmN4Gu?=
- =?us-ascii?Q?j360LS4OBO2OKcWQqBOPEtXTrvz6MXpl4Mb/E6SP7ar1t7dNBg2qwi0gAccL?=
- =?us-ascii?Q?oV7atC6+u7KYsvFUk4uRx/yhhLI6awWs49pB3l/tCIIyfxfiQ77aQPzQMEhN?=
- =?us-ascii?Q?4wAiaezOisYzOKNYjDmxe4KWHQPwjM+eekjHm407A+dkzxmBSNAGpxhiEYIQ?=
- =?us-ascii?Q?xusgRaitUZgkMjj19eDJxoh3W5BkBl1xn0ZONIdCBIX5u3OB8v3avWI/AsoS?=
- =?us-ascii?Q?OQRpcMZdCaJ/kQdlfvIqzEXQMcV13Gi7PqqigJiEizcpokl05fxmfxcOoJkj?=
- =?us-ascii?Q?UARMKLze4nghlqAtMgx3yC0IRS9Rs3TL+yNQKySHkbV1pmYVDQNAJa7hZG86?=
- =?us-ascii?Q?wCnPaei1WI2iQiwMYq/3rVWjUUiUObgft4IYALjThFRmxJ4MPG3Yu0XYHL3E?=
- =?us-ascii?Q?p7arDsiYExfs15on6/OcD8iSOiKIHk5pIuGwO69l15Xot+V+5VjvHJvEnURf?=
- =?us-ascii?Q?zLZCjlwB/YGfm4+iobIWxwDvgwFFyimeEWQnp6u2BbzB/9FBOccRiA0RuPVr?=
- =?us-ascii?Q?XYO5hK9/ozGie0u8YYp8YwRCtuRLlE9jA08qe5ZES7PQw6bM7PtgqEayTAgc?=
- =?us-ascii?Q?P8ij1XMre3ZnN1M+OLfk70QfKqOYI7DCK3UnZP6U/xct/cI4xm6zYLwTSttI?=
- =?us-ascii?Q?LuaFyk7xYYyMOdF7Y2CzyGOxaUloDVRT2ZBBlmm2OrZZp7qn+aKdYgQLUPEO?=
- =?us-ascii?Q?uia56jv/VH1lLZ/uYIhbcQQZAen5KuguPrak2XuYvo2ECUDpoT3szMl4gAMv?=
- =?us-ascii?Q?SoYP7kTMMSoQESUFdD67HUfg6Xwr+W3RhuBEbGd/CcC/Js4DPQS+nR9bswaA?=
- =?us-ascii?Q?jh/+BPFY2Yk9jH0iugzRDA3MRe9eDuWh76ocXZqNwPrnH67EAuJ22BxrYQ9V?=
- =?us-ascii?Q?s6MNex3OXKqZLZTKrP+CYnRiNShL7rYQh7TOIWBWHJAWVILebcxasP8KSgGV?=
- =?us-ascii?Q?AX9vZEWHJXI6AUHjH4ELTZhUQPiOiYrjMAZeLGML0808E4vEigY6KooZFzaM?=
- =?us-ascii?Q?veazZBnslP3EYDlj+DlDNR2JzdtUM0socs0L5EVf8onX6BAk8jBNeE9AVnco?=
- =?us-ascii?Q?1FTCp9nL7Gg4FJH6yUXwowHtgJY56/mW2F2Jccy0o1IDSOlxw8bELntKne7P?=
- =?us-ascii?Q?+wy5SSghn558wMY4Ct9BRevxLxns4WF6vwWC/FyK?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 117cc56d-05ef-4cd1-e26d-08dd65722482
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Mar 2025 16:38:27.2579
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 8egIt5/ccd0soGnswQUBqEJcQfyIeidvsbw5NNZ3waTnWadJDPHfx1T9sOy80rT7
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5788
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Mar 11, 2025 at 06:37:13PM -0700, Dan Williams wrote:
+When extending the driver with Gen4 support the iteration of over
+possible remote subdevices changed from being R-Car CSI-2 Rx only to
+also cover R-Car CSISP instances. In two loops updating the bounds
+variable was missed.
 
-> > There is a use case for using TDISP and getting devices up into an
-> > ecrypted/attested state on pure bare metal without any KVM, VFIO
-> > should work in that use case too.
-> 
-> Are you sure you are not confusing the use case for native PCI CMA plus
-> PCIe IDE *without* PCIe TDISP?
+This had no ill effect as the count the two values have always been the
+same in the past. Fix it before the two diverge.
 
-Oh maybe, who knows with all this complexity :\
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+ drivers/media/platform/renesas/rcar-vin/rcar-core.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I see there is a crossover point, once you start getting T=1 traffic
-then you need a KVM handle to process it, yes, but everything prior to
-T=0, including all the use cases with T=0 IDE, attestation and so on,
-still need to be working.
-
-> In other words validate device measurements over a secure session
-> and set up link encryption, but not enable DMA to private
-> memory. Without a cVM there is no private memory for the device to
-> talk to in the TDISP run state, but you can certainly encrypt the
-> PCIe link.
-
-Right. But can you do that all without touching tdisp?
-
-> However that pretty much only gets you an extension of a secure session
-> to a PCIe link state. It does not enable end-to-end MMIO and DMA
-> integrity+confidentiality.
-
-But that is the point, right? You want to bind your IDE encryption to
-the device attestation and get all of those things. I thought you
-needed some TDISP for that?
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-core.c b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+index ddfb18e6e7a4..fcb3162f9ab6 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-core.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-core.c
+@@ -262,7 +262,7 @@ static void rvin_group_notify_unbind(struct v4l2_async_notifier *notifier,
  
-> Note that to my knowledge all but the Intel TEE I/O implementation
-> disallow routing T=0 traffic over IDE.
+ 	mutex_lock(&vin->group->lock);
+ 
+-	for (i = 0; i < RVIN_CSI_MAX; i++) {
++	for (i = 0; i < RVIN_REMOTES_MAX; i++) {
+ 		if (vin->group->remotes[i].asc != asc)
+ 			continue;
+ 		vin->group->remotes[i].subdev = NULL;
+@@ -284,7 +284,7 @@ static int rvin_group_notify_bound(struct v4l2_async_notifier *notifier,
+ 
+ 	mutex_lock(&vin->group->lock);
+ 
+-	for (i = 0; i < RVIN_CSI_MAX; i++) {
++	for (i = 0; i < RVIN_REMOTES_MAX; i++) {
+ 		if (vin->group->remotes[i].asc != asc)
+ 			continue;
+ 		vin->group->remotes[i].subdev = subdev;
+-- 
+2.48.1
 
-I'm not sure that will hold up long term, I hear alot of people
-talking about using IDE to solve all kinds of PCI problems that have
-nothing to do with CC.
-
-> The uapi proposed in the PCI/TSM series [1] is all about the setup of PCI
-> CMA + PCIe IDE without KVM as a precuror to all the VFIO + KVM + IOMMUFD
-> work needed to get the TDI able to publish private MMIO and DMA to
-> private memory.
-
-That seems reasonable
-
-Jason
 
