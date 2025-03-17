@@ -1,94 +1,102 @@
-Return-Path: <linux-media+bounces-28334-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28335-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD857A63BCB
-	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 03:37:36 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B700A63C6F
+	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 03:59:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 200E716D4D1
-	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 02:37:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0FAFC3AF2E4
+	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 02:59:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C07501531F0;
-	Mon, 17 Mar 2025 02:37:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E3AF1B424A;
+	Mon, 17 Mar 2025 02:56:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bCOjgGeg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mxhk.zte.com.cn (mxhk.zte.com.cn [63.216.63.35])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1035C8F5C;
-	Mon, 17 Mar 2025 02:37:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.216.63.35
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F11B1A8F68;
+	Mon, 17 Mar 2025 02:56:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742179050; cv=none; b=fkKAkC54T7jYb8+CwpvVT4LinchfacJ0B4uXdttRF9chhrLj1JP8GeEBH55NYFZaLxHT90aFD2gvd17qn23rVGPW+6YugS4oIejs4FjTBdTtb5hktMVjkrbxaeDUGmgFXGw+sYKliwboSmksy3yk2yi8qJRAAE42BBhhOb+4HrA=
+	t=1742180181; cv=none; b=GpxQyLZ90E+3YaY4zNqm8gMd5PFWNgGZl0hLSUZk0yPIwAlXStv3+0/hTCB0jBUV7p1iZNkwABYshUtiuZiQ0tCWs4LkzunTP/SdYiSJXxzunF2Jlhy3IUgVeSvBf/wHivTq2N7lxyybIwSN5MkPkKhKdVSqdJXRIqnJFbfYpAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742179050; c=relaxed/simple;
-	bh=r/FuFsZTtgK1p1FUPUC75+BFRTPecVZwNbe74eefUdI=;
-	h=Date:Message-ID:Mime-Version:From:To:Cc:Subject:Content-Type; b=q/jCy9dSR15gT7N5h0UamiAvU0mZt/DyalJVjMCECaq2/wWdEe/bBj25U+EHnEUrSl4yMm2SO1z6eqMuzMOoDXfxUAZ33FZLqwJtaByOcknvSU993rOZCMw1H1w/2ery9899NF3J3xyg2505g2WNt4uVYGwlY/RsOhACi8yYg54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn; spf=pass smtp.mailfrom=zte.com.cn; arc=none smtp.client-ip=63.216.63.35
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zte.com.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zte.com.cn
-Received: from mse-fl2.zte.com.cn (unknown [10.5.228.133])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mxhk.zte.com.cn (FangMail) with ESMTPS id 4ZGJzB1Rhyz5B1Jw;
-	Mon, 17 Mar 2025 10:37:26 +0800 (CST)
-Received: from xaxapp04.zte.com.cn ([10.99.98.157])
-	by mse-fl2.zte.com.cn with SMTP id 52H2b1bH051787;
-	Mon, 17 Mar 2025 10:37:01 +0800 (+08)
-	(envelope-from feng.wei8@zte.com.cn)
-Received: from mapi (xaxapp01[null])
-	by mapi (Zmail) with MAPI id mid32;
-	Mon, 17 Mar 2025 10:37:02 +0800 (CST)
-Date: Mon, 17 Mar 2025 10:37:02 +0800 (CST)
-X-Zmail-TransId: 2af967d78acefffffffff06-bc4ae
-X-Mailer: Zmail v1.0
-Message-ID: <20250317103702708UdayAw742BADL4gzNYcle@zte.com.cn>
+	s=arc-20240116; t=1742180181; c=relaxed/simple;
+	bh=lAznnt8Ub0g0fJn7VAfYtR0EILvS7z3VrcFUWHbFZPk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=BvXYw/7mH4GPVkUoIamZpJ1g2+U85hpsNQrV8H5gqW6Mj+BqkdipP7k87SBMgFpqp7vnsDTcDhUlLCkA4voWPeI+MFhUtxZsVnbHeQmC2f8F9bzhsqDUDJyyCjM+gDoFWizOnh3C7i0KazsyIFr+TTWU5bV4DGyS+e/CK8wfq/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bCOjgGeg; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50527C4CEF2;
+	Mon, 17 Mar 2025 02:56:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742180181;
+	bh=lAznnt8Ub0g0fJn7VAfYtR0EILvS7z3VrcFUWHbFZPk=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=bCOjgGegN08+3CvIjAYKkn0uGfactgTFFXxQwhTAfaC+Rpt23DsNQAXUxnbcCg7Gf
+	 5DWTFTx6UIqkT26Uh/FC9erAg1/Bzmofs3HrRdJ0M+7YrH7QHnt30cfwTXg0CvqIIl
+	 UpkwuOd0nbZzso6Nn7J22ap6tWqrSWi5SgaQ3JVP9KDKzrKiCzin5zZGXlSzyGZd1Z
+	 rypAh+L4Qonegtz8VcNd4dtGCwuFlHwJ0Ny1s5XVfr7tNa3gUxzDMjQS9BxtG6c/ng
+	 h5EKuJ8N9wCGkugfyULA74YYeZxx6gUEvftw9nQTmKPLG3H3PU/iD5tLdjV4DfmI3y
+	 oUKM3Ke4KSHGg==
+From: Bjorn Andersson <andersson@kernel.org>
+To: rfoss@kernel.org,
+	todor.too@gmail.com,
+	bryan.odonoghue@linaro.org,
+	mchehab@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	konradybcio@kernel.org,
+	cros-qcom-dts-watchers@chromium.org,
+	catalin.marinas@arm.com,
+	will@kernel.org,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Vikram Sharma <quic_vikramsa@quicinc.com>
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v14 0/2] media: qcom: camss: Add sc7280 support
+Date: Sun, 16 Mar 2025 21:56:00 -0500
+Message-ID: <174218015892.1913428.13707146883622182488.b4-ty@kernel.org>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250208225143.2868279-1-quic_vikramsa@quicinc.com>
+References: <20250208225143.2868279-1-quic_vikramsa@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-From: <feng.wei8@zte.com.cn>
-To: <sumit.semwal@linaro.org>
-Cc: <benjamin.gaignard@collabora.com>, <brian.starkey@arm.com>,
-        <jstultz@google.com>, <tjmercier@google.com>,
-        <christian.koenig@amd.com>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
-        <linux-kernel@vger.kernel.org>
-Subject: =?UTF-8?B?W1BBVENIIHY0XSBkbWEtYnVmOiBoZWFwOiBSZXBsYWNlIG5lc3RlZCBtYXgoKSB3aXRoIHNpbmdsZSBtYXgzKCk=?=
-Content-Type: text/plain;
-	charset="UTF-8"
-X-MAIL:mse-fl2.zte.com.cn 52H2b1bH051787
-X-Fangmail-Anti-Spam-Filtered: true
-X-Fangmail-MID-QID: 67D78AE6.000/4ZGJzB1Rhyz5B1Jw
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-From: FengWei <feng.wei8@zte.com.cn>
 
-Use max3() macro instead of nesting max() to simplify the return
-statement.
+On Sun, 09 Feb 2025 04:21:41 +0530, Vikram Sharma wrote:
+> SC7280 is a Qualcomm SoC. This series adds support to bring up the CSIPHY,
+> CSID, VFE/RDI interfaces in SC7280.
+> 
+> SC7280 provides
+> - 3 x VFE, 3 RDI per VFE
+> - 2 x VFE Lite, 4 RDI per VFE
+> - 3 x CSID
+> - 2 x CSID Lite
+> - 5 x CSI PHY
+> 
+> [...]
 
-Signed-off-by: FengWei <feng.wei8@zte.com.cn>
----
-v3 -> v4
-fix the format of this patch.
- drivers/dma-buf/dma-heap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Applied, thanks!
 
-diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-index 3cbe87d4a464..96cb9ab5731a 100644
---- a/drivers/dma-buf/dma-heap.c
-+++ b/drivers/dma-buf/dma-heap.c
-@@ -147,7 +147,7 @@ static long dma_heap_ioctl(struct file *file, unsigned int ucmd,
- 		in_size = 0;
- 	if ((ucmd & kcmd & IOC_OUT) == 0)
- 		out_size = 0;
--	ksize = max(max(in_size, out_size), drv_size);
-+	ksize = max3(in_size, out_size, drv_size);
+[1/2] arm64: dts: qcom: sc7280: Add support for camss
+      commit: d4da3adfc560fcb55578f8564d9f5a972507b118
+[2/2] arm64: dts: qcom: qcs6490-rb3gen2-vision-mezzanine: Add vision mezzanine
+      commit: 39e6ca14ace9d138e40ddd42313c2649a6f3e69f
 
- 	/* If necessary, allocate buffer for ioctl argument */
- 	if (ksize > sizeof(stack_kdata)) {
+Best regards,
 -- 
-2.25.1
+Bjorn Andersson <andersson@kernel.org>
 
