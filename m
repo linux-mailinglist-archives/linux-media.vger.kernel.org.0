@@ -1,157 +1,146 @@
-Return-Path: <linux-media+bounces-28353-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28354-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37F50A64D45
-	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 12:50:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EA0CA64D7A
+	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 12:57:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E05B41896053
-	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 11:50:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B36CD16CB1C
+	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 11:57:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6532D230BC7;
-	Mon, 17 Mar 2025 11:50:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1E0E238D22;
+	Mon, 17 Mar 2025 11:57:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="vXjW0ONF";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="jUZxojme"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dFLmILtl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3E0017D346;
-	Mon, 17 Mar 2025 11:50:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 922B727701;
+	Mon, 17 Mar 2025 11:57:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742212211; cv=none; b=JWXoDVRoDMUK52gx+Be6Hfg3+MuHg+g/0FSXB7LhPjKri9gwizosxH+qwvxJPuP6ZMzjhYYbkh4EUs2vDJG8h/yie+hbHLqbR1sWQq3YK4dYxNDEs2Y6I7Spp9DLSMMM2ap9HvTDE/+K5iTI/S607cDb8vN9jemzogl7BuGNsHI=
+	t=1742212656; cv=none; b=a1WhYl+NSCVhMBi2E51Thlu3MxBtpdOvkbEskb91Ktnkd+9rFHrzG06cmZoZBGJq19l1io5nSAqnkzQoXD1EyJuuDraEYf1HV+5TjmaVgnhdpVq/Na6NNiPfkR5DQ9/PrXNgAxat9ExcE3wWxKQiHB7yzgOe8xjh39R57Hqr33w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742212211; c=relaxed/simple;
-	bh=CVKfYDRgCnRlRQLAwffZrQk4HTLDuraJRKsyRUEn2zo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fdtgIrTgnSNcgqfOur7uDE/qt3Pjywi3kMQO9RFQ9Tqmcuek2v0X82wEvnEE3F1IS+/h1ZiNHhiYbn1/ZYHf5GxMeDdqJF5gB///2SEHGPlo6ADZDXldYDledh76Xy34rIs92pisVdudakMZ8ro+GGT0RnAov/6YuybwTZmqNlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=vXjW0ONF; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=jUZxojme; arc=none smtp.client-ip=202.12.124.145
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfout.stl.internal (Postfix) with ESMTP id 8725B1140186;
-	Mon, 17 Mar 2025 07:50:08 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Mon, 17 Mar 2025 07:50:08 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1742212208;
-	 x=1742298608; bh=9i7rKMcJkYraRPkp7wcprgDtKykaWiXN2c6sWJxGjX4=; b=
-	vXjW0ONFexFiQ49U9ZA3JEht9h+daHGKdIE28w/+DYf5iMO6fJFabOztMyzyz6vX
-	UFJdhB9iXXbNpeZu0pr7NSzRbN/aHxAH01chmJGP0+Bc5luYOGRCYKcTHjyya43E
-	DF7GzY95GW2prrjUT0MtvseqLPTOlbAoXKkcyhGF6VOUkegyqYn8SJcunMnk3HmT
-	8QA0vmmaG/KdyN+OyfjzQ0F2Y74CpBROFgXpAYscWmTcE7xt3Jxhgv2D/oKMTYef
-	TgQEhc6Cs73y7RrY2/tA5wk++ArHpJGU2Bo1WvNx30+Iw0UcpKX279aeT3E1SC+V
-	D0UHmbrwM+FwSQqxvN/94w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742212208; x=
-	1742298608; bh=9i7rKMcJkYraRPkp7wcprgDtKykaWiXN2c6sWJxGjX4=; b=j
-	UZxojmeiiz8ae/W1o9x3TGgMrYOuNr1f5J8tJnDE0tru1ZhhfsWjyCO5UC7hshCJ
-	t+k4KUO++IBeDHIhkGMBUqm8144AqjLE5neSnBCLGIPdc3Irxmguz8gU25n+Ou6P
-	1sl8AEUOlI+mFEEOhiNljqdAIEU10CVMHUdQ7KyHz25qOv7wFxM9sgp7YwqdBHTV
-	7y6rgnpE4qTv+QCon/Xga0ewRw5a+DCTLOX0LyhlUDxKDQe7wjDh2NjZTuOrZ4mf
-	2BvFgJt50yyLfgGX6zpb8O0SFTVLs1f0lC5EWht3OszoO01SmMH6qg72skmw0oGg
-	rAw9msNuBgcjwfKs/YSig==
-X-ME-Sender: <xms:cAzYZ6IEaDk_YIz161E15CM-WJd2y_meYQK3-MrNnJbEY4Os28sWHw>
-    <xme:cAzYZyKhwe7iaAKTKRGCt69c4HKf814QerbN5UH1tu0brHj4tCZuqtYF6urqGUvXF
-    AUgmvohc3DDB7UMMLg>
-X-ME-Received: <xmr:cAzYZ6t_7p044PFZOSnGdX-W6PKfFezkNyxjOFiX5b3E_eUSBOn0Cg6B75dvQMf8ZnvBfOYhpyiB_cVrNspYLkCjSjJAmPfC6g>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufeelgeefucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddt
-    tdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrsh
-    houggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffr
-    rghtthgvrhhnpeefhfellefhffejgfefudfggeejlefhveehieekhfeulefgtdefueehff
-    dtvdelieenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhm
-    pehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthh
-    drshgvpdhnsggprhgtphhtthhopedufedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
-    ohepkhhriihksehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmtghhvghhrggssehkvg
-    hrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghp
-    thhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorh
-    doughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghs
-    sehglhhiuggvrhdrsggvpdhrtghpthhtohephhhvvghrkhhuihhlseigshegrghllhdrnh
-    hlpdhrtghpthhtohepshgrkhgrrhhirdgrihhluhhssehlihhnuhigrdhinhhtvghlrdgt
-    ohhmpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsg
-    horghrugdrtghomh
-X-ME-Proxy: <xmx:cAzYZ_Zpx8XsbioYo0wq1QUjq0WEa8jjEk5wizFymZneN8EdSZpw-A>
-    <xmx:cAzYZxbmJp6MuA0J0ePYB4rHr0FlHr-0q_Ci-EMbSUD_LVlf5YPGBg>
-    <xmx:cAzYZ7BXdvo_lGifRPsrxTioXchDcFmG8Cxf_847AxXYr78I6uwgsA>
-    <xmx:cAzYZ3YHCeBqQwl64huwX27CD4DEP3Y0mLXcSax2CsT3O-nKBdAz2g>
-    <xmx:cAzYZ1oUdQdwrNbEpwOs10wC4kJpVi7g-rzARqMINbVAE4Bx8he7oAim>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 17 Mar 2025 07:50:07 -0400 (EDT)
-Date: Mon, 17 Mar 2025 12:50:06 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/7] dt-bindings: media: renesas,isp: Add ISP core
- function block
-Message-ID: <20250317115006.GB868399@ragnatech.se>
-References: <20250315152708.328036-1-niklas.soderlund+renesas@ragnatech.se>
- <20250315152708.328036-2-niklas.soderlund+renesas@ragnatech.se>
- <20250317-furry-independent-clam-33db01@krzk-bin>
+	s=arc-20240116; t=1742212656; c=relaxed/simple;
+	bh=z8b37/ozlxCy9LGufC0RgsM7ahUEIvaOS1x0SlLXgpw=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=nh/z6veciZSjZhY1yJzVA1gjsjIPvmiy1LrA4MpqlK3kLOl//6ImfZ2BrjHpWfd43BnPYkSIhH9H7eUOys165ka9XcB01hink0zmXEQoRqWcj1zuF2f+yLgODHapWMViaJEZfJxv3HF3zJgL1SH96Ppdvfb9nkaCzqfBZ5iamRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dFLmILtl; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.1.102] (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0DE1C1E6;
+	Mon, 17 Mar 2025 12:55:44 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1742212545;
+	bh=z8b37/ozlxCy9LGufC0RgsM7ahUEIvaOS1x0SlLXgpw=;
+	h=From:Subject:Date:To:Cc:From;
+	b=dFLmILtlym5CzmEHWiP6ORGcr68umHBMZ8Rtf25Hf7fbpmR574I9sL4IOfKoJ5Np0
+	 PfLIrRBQf24l0iDirg/QtSt74mqWOh3Ell/sRJMpEeqG/xSYt13DDVOvBr/E0ebyK1
+	 7JIzgbpYNwr3IyYSXDd41OaBDMK1Pa6T6AVbUs5k=
+From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Subject: [PATCH v3 0/7] media: renesas: vsp1: Add support for IIF
+Date: Mon, 17 Mar 2025 12:56:38 +0100
+Message-Id: <20250317-v4h-iif-v3-0-63aab8982b50@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250317-furry-independent-clam-33db01@krzk-bin>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPYN2GcC/22MsQ7CIBRFf6VhFgMP0ODU/zAOFB72DRYDhmia/
+ ru0Swcdz809Z2YFM2Fhl25mGSsVSlMDdeiYH910R06hMQMBRkhQvOqRE0XuZAjupIW3JrD2fma
+ M9N5K11vjkcor5c8WrnJdfxtVcsHPg0YD1lplY08BXUnTkFwOR58ebE1V2HUAvevQdKGEQeVlR
+ Ah/9GVZvqJxrDnkAAAA
+X-Change-ID: 20250123-v4h-iif-a1dda640c95d
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, 
+ Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: b4 0.15-dev-1b0d6
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2532;
+ i=jacopo.mondi+renesas@ideasonboard.com; h=from:subject:message-id;
+ bh=z8b37/ozlxCy9LGufC0RgsM7ahUEIvaOS1x0SlLXgpw=;
+ b=owEBbQKS/ZANAwAIAXI0Bo8WoVY8AcsmYgBn2A4kvHLiP0SeRK7KtuPYkF2LAVf95I1VioXin
+ ISdL2dST8CJAjMEAAEIAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCZ9gOJAAKCRByNAaPFqFW
+ PLERD/485+LrY+OWH2foy6WTald4yhalbZn45m7vkozcaXdbD2gzDUS8OUZlpQuG99Dq7S2Fdlx
+ 8aEbdbFw+MH2YhS+kWxzE2KDC9Zqt1Y41fEbWMC+tE1vmF9a2SNyRs5UHJJWEmDhxTGmcXwrf9I
+ zp2gqm8aAymJVzuPzdF3/CJCi6P/4aXffDU9gLqDG1tQLtiaeaPdk4aRumunJWXveiZP3kvD617
+ P+ZkjHBEBBt8w/cHIA6hicdHJzt92ppu/1CSvMFdlkAR21tYXD2mGRJkzHaYihrsEH8u2WURHOY
+ 0x3OEXy5FCkf7Evm7dSDzjLwR2kQb6hdEuvEslGCkuizYPvikdbXD0JzdbZRycdHt/mqgJiSSFl
+ aSKbWVdUYzRmwKaDVwFTbME3Cz8d3Cea0fqKfFyExvQUZAwVT14N2vCOfRpSP6GHsf7avLMWi18
+ JcVZVG3t4NmDULmvQ9WbTrMcrqsdKc7mynL2EFRyZEuBrXLLfdoLf2NwNBzqSMovB/1igM1o4BI
+ mgPW/ISuQ0gFk0iWeJpeFxJvqhO3oV8BzRFQe8nclbprrNZGnl0kQisggXMF4F/E2OolkpJ7FGl
+ N49P3vsVawEYnjtPeKzbE1sRVrIYOmzwH1T+wNO21p89lOIQoNwqpJIzwZ9BQrZ2htxbrYRvkb2
+ 7Qo+0lf7kV5AlvA==
+X-Developer-Key: i=jacopo.mondi+renesas@ideasonboard.com; a=openpgp;
+ fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-On 2025-03-17 12:33:07 +0100, Krzysztof Kozlowski wrote:
-> On Sat, Mar 15, 2025 at 04:27:02PM +0100, Niklas Söderlund wrote:
-> >    ports:
-> >      $ref: /schemas/graph.yaml#/properties/ports
-> > @@ -103,10 +138,14 @@ properties:
-> >  required:
-> >    - compatible
-> >    - reg
-> > +  - reg-names
-> >    - interrupts
-> > +  - interrupt-names
-> >    - clocks
-> > +  - clock-names
-> >    - power-domains
-> >    - resets
-> > +  - reset-names
-> 
-> Another point, this will spawn bunch of warnings for no real reason.
-> Just drop all the xxx-names from properties and from here.
+The IIF (ISP InterFace) is a VSP2 function that reads data from
+external memory using two RPF instances and feed it to the ISP.
 
-I'm sorry maybe I'm missing something, but if I drop them from 
-properties how can I add checks to makesure the names are either "cs" or 
-"core"?
+The IIF support is modeled in the vsp1 driver as a new, simple,
+entity type.
 
-> 
-> Best regards,
-> Krzysztof
-> 
+IIF is part of VSPX, a version of the VSP2 IP specialized for ISP
+interfacing. To prepare to support VSPX, support IIF first by
+introducing a new entity and by adjusting the RPF/WPF drivers to
+operate correctly when an IIF is present.
 
+Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+---
+Changes in v3:
+- Drop 2/6 from v2
+- Add 5/7 to prepare for a new implementation of 6/7
+- Individual changelog per patch
+- Add 7/7
+- Link to v2: https://lore.kernel.org/r/20250224-v4h-iif-v2-0-0305e3c1fe2d@ideasonboard.com
+
+Changes in v2:
+- Collect tags
+- Address review comments from Laurent, a lot of tiny changes here and
+  there but no major redesign worth an entry in the patchset changelog
+
+---
+Jacopo Mondi (7):
+      media: vsp1: Add support IIF ISP Interface
+      media: vsp1: dl: Use singleshot DL for VSPX
+      media: vsp1: rwpf: Break out format handling
+      media: vsp1: wpf: Propagate vsp1_rwpf_init_ctrls()
+      media: vsp1: rwpf: Initialize image formats
+      media: vsp1: rwpf: Support operations with IIF
+      media: vsp1: pipe: Add RAW Bayer formats mapping
+
+ drivers/media/platform/renesas/vsp1/Makefile      |   2 +-
+ drivers/media/platform/renesas/vsp1/vsp1.h        |   3 +
+ drivers/media/platform/renesas/vsp1/vsp1_dl.c     |   7 +-
+ drivers/media/platform/renesas/vsp1/vsp1_drv.c    |  11 ++
+ drivers/media/platform/renesas/vsp1/vsp1_entity.c |   8 ++
+ drivers/media/platform/renesas/vsp1/vsp1_entity.h |   1 +
+ drivers/media/platform/renesas/vsp1/vsp1_iif.c    | 121 ++++++++++++++++++++++
+ drivers/media/platform/renesas/vsp1/vsp1_iif.h    |  26 +++++
+ drivers/media/platform/renesas/vsp1/vsp1_pipe.c   |  73 ++++++++++++-
+ drivers/media/platform/renesas/vsp1/vsp1_pipe.h   |   1 +
+ drivers/media/platform/renesas/vsp1/vsp1_regs.h   |   8 ++
+ drivers/media/platform/renesas/vsp1/vsp1_rpf.c    |  18 +++-
+ drivers/media/platform/renesas/vsp1/vsp1_rwpf.c   |  92 ++++++++++++++--
+ drivers/media/platform/renesas/vsp1/vsp1_rwpf.h   |   4 +
+ drivers/media/platform/renesas/vsp1/vsp1_wpf.c    |  31 ++++--
+ 15 files changed, 381 insertions(+), 25 deletions(-)
+---
+base-commit: f2151613e040973c868d28c8b00885dfab69eb75
+change-id: 20250123-v4h-iif-a1dda640c95d
+
+Best regards,
 -- 
-Kind Regards,
-Niklas Söderlund
+Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+
 
