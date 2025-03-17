@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-28367-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28368-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B005A654AD
-	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 16:00:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35209A654E0
+	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 16:03:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 843317A2A6A
-	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 14:57:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 194001897652
+	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 15:03:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67C582459DD;
-	Mon, 17 Mar 2025 14:57:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86DD72459DD;
+	Mon, 17 Mar 2025 15:02:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="V260F5MX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cmnJJUlx"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A896B23FC55;
-	Mon, 17 Mar 2025 14:57:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8FF82356D5;
+	Mon, 17 Mar 2025 15:02:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742223458; cv=none; b=CS0fA76H2FfoQA+WvOouO/nEuJMHory+JKUf40JOdcFHpTUGcprh7XiNygLyVA5YC4YObQa8Q94qcrD3B668ReWestPbekuGx8eNCbwCOlpv/jrAgn2HqErVilSFwhHgpLNyDnh2RlnqoNZIMge7ello5xIKReXeX9FuqlPR09s=
+	t=1742223762; cv=none; b=BksJv9ljzqjNvyuFKc3yEXN/u2BCl0G0iSEFPHVPfVpZM/7YpJKFDYXRrRztp7TI1ELNKFMZ/L9gaB3EynBNHYi0KZvjwA9WSyd/jfvYv4qUH5aoMppb2kP/YEsCn7FH8/qDNoElvU3AIZqLtjpmGmyU4pPeRm0wTMW2OnTJ9S0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742223458; c=relaxed/simple;
-	bh=GA3nbkILXNlbtQRdQ4pAHXJgCJBvmFjuvs1trzNI0yQ=;
+	s=arc-20240116; t=1742223762; c=relaxed/simple;
+	bh=5+WA2jvK1Y92HiccBOISC6s0excdcJ1mZkNYAv6bnPU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qwpMIzhcgd9TBlVRX6R/ILJP07fAQEwuukT/I8OneX7+U8Yvr0iLIZ62sgtzim6V4NZID9UCJCa9kXvXoWKw1xAkyGh8DXdCNz+eIlF5QCW5dRCCx7s6/Q2kZ4hLnMhw2R6P8KK7eSBG2qXQ2Fl04lESX9fgC9HBUSdLQyNQgCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=V260F5MX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF212C4CEE3;
-	Mon, 17 Mar 2025 14:57:33 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=ZEb9mDUdlG3D/XvoKxxHCvDUC6dl0SAHgj1CsxvRNcIwgCFJ86EkOFj2wPNShTnbgLv1Wx0yC2JNjdcqWWUAxcdkBSrldVRtfAYYYuorAEY/P9WC51xvYo9mHzKRo0m84JCRJFVW/R7O0DK9Oexy67/B5P9ABjPrs4NWJYngOc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cmnJJUlx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8CF4C4CEE9;
+	Mon, 17 Mar 2025 15:02:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742223458;
-	bh=GA3nbkILXNlbtQRdQ4pAHXJgCJBvmFjuvs1trzNI0yQ=;
+	s=k20201202; t=1742223761;
+	bh=5+WA2jvK1Y92HiccBOISC6s0excdcJ1mZkNYAv6bnPU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=V260F5MXOHIOcbubiWU4JWgAZEPMn8spdQS3bdKmaZDRIpwBL0AGekA3G+LI41V/y
-	 8Pkb6MtGY8aygSFjjW55le1GJhHkgNo+8mZ9fDEuU3WjnHxhzGetifeql3Sg5LfPCo
-	 7j0aYXt1u2ubJDEILmZNuIJuh/OrmoJV6F+tkrDyWG8IelXP0r6+gVMtqxuRjiGqkd
-	 rSL0sRuaSu3iXCLVrhmswPUEh8hcHo3c1anSDSzoMx+D+dJZteoT8Dry08iLFqPgR9
-	 1MPCj9zcqdg3kIP7rO0MnvsJgpX5IuHico1nf5Rpr/bwy8iHwBH/KiY076A1Xo7azY
-	 78+cLpzFWszqw==
-Message-ID: <5876368b-1549-4ce0-af43-80f712f457c8@kernel.org>
-Date: Mon, 17 Mar 2025 15:57:31 +0100
+	b=cmnJJUlxOfRaM+u2c5mUY1xncRUnF7a8IP+WunZDZ/S/6nGNjU+Ul9IEx2NEbYoX/
+	 qVzgv3ZYjIE0CqugzdiBEsF+ei0einUXB9IlwlskFU0PfpT1D6KnrmKh8JLDGKM7JX
+	 P9GagA62K+cHjTZqLh28cwasjAvLQzM8NbW0PuuLJXUywOFHxqIg46DVDe1iKSu+Gk
+	 JwkMG7O2jmWhXl+COg0PoqigxOQ1yLQJMzP5HkEd/DGZqV3BUDWD9JCM47tkc9cIZp
+	 yNDcSXcoYzKbh074sPqE+iI/sO/wNWcaVNaq9YqBzPKa+mAwI74Rq8i/OxYbZj+VW7
+	 2qstanPfFYV1g==
+Message-ID: <573bb90b-bada-4dde-b88a-f92db1d1a3d1@kernel.org>
+Date: Mon, 17 Mar 2025 16:02:34 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,8 +64,8 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
  devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
 References: <20250315152708.328036-1-niklas.soderlund+renesas@ragnatech.se>
  <20250315152708.328036-2-niklas.soderlund+renesas@ragnatech.se>
- <20250317-furry-independent-clam-33db01@krzk-bin>
- <20250317115006.GB868399@ragnatech.se>
+ <20250317-merry-ringtail-of-competition-7d46fb@krzk-bin>
+ <20250317114904.GA868399@ragnatech.se>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -111,38 +111,56 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20250317115006.GB868399@ragnatech.se>
+In-Reply-To: <20250317114904.GA868399@ragnatech.se>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 17/03/2025 12:50, Niklas Söderlund wrote:
-> On 2025-03-17 12:33:07 +0100, Krzysztof Kozlowski wrote:
->> On Sat, Mar 15, 2025 at 04:27:02PM +0100, Niklas Söderlund wrote:
->>>    ports:
->>>      $ref: /schemas/graph.yaml#/properties/ports
->>> @@ -103,10 +138,14 @@ properties:
->>>  required:
->>>    - compatible
->>>    - reg
->>> +  - reg-names
->>>    - interrupts
->>> +  - interrupt-names
->>>    - clocks
->>> +  - clock-names
->>>    - power-domains
->>>    - resets
->>> +  - reset-names
->>
->> Another point, this will spawn bunch of warnings for no real reason.
->> Just drop all the xxx-names from properties and from here.
+On 17/03/2025 12:49, Niklas Söderlund wrote:
+> Hi Krzysztof,
 > 
-> I'm sorry maybe I'm missing something, but if I drop them from 
-> properties how can I add checks to makesure the names are either "cs" or 
+> Thanks for your feedback.
+> 
+> On 2025-03-17 12:31:51 +0100, Krzysztof Kozlowski wrote:
+>> On Sat, Mar 15, 2025 at 04:27:02PM +0100, Niklas Söderlund wrote:
+>>> diff --git a/Documentation/devicetree/bindings/media/renesas,isp.yaml b/Documentation/devicetree/bindings/media/renesas,isp.yaml
+>>> index c4de4555b753..de9bc739e084 100644
+>>> --- a/Documentation/devicetree/bindings/media/renesas,isp.yaml
+>>> +++ b/Documentation/devicetree/bindings/media/renesas,isp.yaml
+>>> @@ -25,19 +25,54 @@ properties:
+>>>            - renesas,r8a779h0-isp # V4M
+>>>        - const: renesas,rcar-gen4-isp # Generic R-Car Gen4
+>>>    reg:
+>>> -    maxItems: 1
+>>> +    minItems: 1
+>>> +    maxItems: 2
+>>> +
+>>> +  reg-names:
+>>> +    minItems: 1
+>>> +    items:
+>>> +      - const: cs
+>>> +      - const: core
+>>
+>> All of this and further must be restricted per compatible. Otherwise
+>> commit msg should explain why one SoC can have it different on different
+>> boards.
+> 
+> I will expand the commit message. In short this can't be restricted per 
+> compatible, different instances of the IP on the same board can and can 
+> not have a core part.
 
-Why do you need to check for the names? There will be no names, so
-nothing to check for.
+s/Same board/same SoC/? Or you really meant that same SoC on different
+boards will have or have not that ISP core?
 
-> "core"?
+Both are odd, first even weirder.
+
+I wonder if some other difference is not the documented. E.g. same IP
+blocks are not exactly the same, but have different programming model.
+
+What is this ISP core responsible for inside Renesas ISP? How many ISPs
+are inside of SoC?
+
+And how would it work? You have two exactly the same IP blocks in the
+SoC, but one you program differently than other. How do you know which one?
 
 Best regards,
 Krzysztof
