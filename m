@@ -1,194 +1,119 @@
-Return-Path: <linux-media+bounces-28385-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28386-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBBD9A65E51
-	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 20:45:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 130C7A65FCD
+	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 21:57:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 83A4A7ABD28
-	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 19:43:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9FD9F19A07A7
+	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 20:57:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E819E1EFF97;
-	Mon, 17 Mar 2025 19:44:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 810A61FECAD;
+	Mon, 17 Mar 2025 20:56:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="JqMuCFPB";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="ZsWAigZa"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uzLcOO2P"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-a1-smtp.messagingengine.com (fhigh-a1-smtp.messagingengine.com [103.168.172.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B2DF1C6FF7;
-	Mon, 17 Mar 2025 19:44:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6D41FA26C
+	for <linux-media@vger.kernel.org>; Mon, 17 Mar 2025 20:56:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742240667; cv=none; b=dm3O/4+AkiVjxig47Ut6vyA3zyXCyZ5giY948XNvkQQCJl0nWwVF66IEVZvUplDhOZz5P/+o8fotnH81Zm3721AqQs0wSzjGyWGCW844BuibBMpG/E/R/Rcke+wLEQSgXV/+G3hH8uqsxAFaWVNIfIq1eaNlOOMtZmjkLdeFX8Q=
+	t=1742245006; cv=none; b=OheE+a3eG9N0fYGfIRQ8qPR51+Ap1r5hqktsmJR1GmycolHt+LPcbj5gMdSavoEqcYyXQXMsDQvABtORddRqrS9iozFBXVWtSGqyEi7Uib/kBVpqKg8MEUe4OF0RZr+sGlS7ygR5D9FWIsg05wmFUYA1iYsYcr5g8kdbkGxcVa4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742240667; c=relaxed/simple;
-	bh=e6pKxjRpOywJYjLXV9cUmzm3EkOq+DyNe+4o7auCxhU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Lzb5RTHnupcAWt3aekHnGWexfsMdAxRSuYzx/kijEYBfzMFtdeD/fCMTrtL4xnalOuJ6vcCzzdhApJtozaG8DcJWPeqSJEkqmjo9PGz8kVtFVaXNGLQA6U6eCvmE0IByfytZUg7hQy4TEmt+xsrsQRD0NK4uX4Qito76Txrg74k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=JqMuCFPB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=ZsWAigZa; arc=none smtp.client-ip=103.168.172.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 6004311401BE;
-	Mon, 17 Mar 2025 15:44:23 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-07.internal (MEProxy); Mon, 17 Mar 2025 15:44:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1742240663;
-	 x=1742327063; bh=3FmmIDjQM+RHX1Lvf7nP6PhbyWa8+bI1w43RRWznJ2g=; b=
-	JqMuCFPBNwYmSgrxLgQM8RjvFFnHo5OJ3cxcVR0XMgm7TuwC9wMK0jnL6OzGlq9v
-	aqsVoKp1otmjFcXn1HZL8oWQiFrzQwzkP7nsGtpzZtwjmRsVMEhynEaKVHnyXX3z
-	rmkLe/FxFcgZNZI0QCqc5OtU7qO+LSzWdeU7t9nbOAOL0+LZ4wG+Kc/uMivbl80u
-	NcZ10oRik3VwQIQ23hDEw5+M+4GN1B52YJUEnFt72/oi0r+pZqGbqmI6NumLGKHY
-	rHEewpiQUzw7E1v3yJ97yLN3iOl8NIiO1HAt9D+IV6xmKacTDMkRSzPjaNRq4JNw
-	1TzQM6Q4K6Rmj0tirUuz2g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742240663; x=
-	1742327063; bh=3FmmIDjQM+RHX1Lvf7nP6PhbyWa8+bI1w43RRWznJ2g=; b=Z
-	sWAigZasCYA+Oby5335c7cPIsdqWFXx0rKPzl22MkHCdZCxnR1AKOA6LB9lxsIC0
-	PQK1lc3juygdEc+YBk3gJHcZ1n0mZegYuwdK2D4Oz+5M5SVr4MukBPOlbtfHEVLK
-	k1VW0jr3+qPHoRYL/ZaETZ2zPcnehf2DXx6cUIWCk+clLgZ77Kn6Wg6EGzFiro0B
-	/NTIvKphkpVq0qan6KgRiwiiYzNDD+zdL4lTmbO8UCj2I+eM4/uhWsFMX7VTOqRE
-	AnTPyg1Hk1s8ttrNgRu81/AQQUQdQvAyAIpVIaraW1JRZwVSXEHJoayA0pBCQfC7
-	xJJdZIs+72AAShV6Vi5rw==
-X-ME-Sender: <xms:lnvYZ7Vy6SqHfzWCeBw4LCC9hhokB8LM54FHJXB1yOCS5yq2jHUOHQ>
-    <xme:lnvYZzmRRv_adClB2xRhitLvdOE9BNHHcq4lp5KvSFSFYulyZ1LNGtLOXbR1NORiv
-    RFGRdI65BsMklslvvQ>
-X-ME-Received: <xmr:lnvYZ3ZjcV3bpKoOm6aKY9PG_4g-mgy_zwtoPeYLchrrst8fD6a1Q7HkpZ7BUAxB74K3G0ZWFYyd3c94LR59FsedRUAUs-B7wA>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugedtgedtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddt
-    tdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrsh
-    houggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffr
-    rghtthgvrhhnpeefhfellefhffejgfefudfggeejlefhveehieekhfeulefgtdefueehff
-    dtvdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
-    pehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthh
-    drshgvpdhnsggprhgtphhtthhopedugedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
-    ohepghgvvghrtheslhhinhhugidqmheikehkrdhorhhgpdhrtghpthhtohepkhhriihkse
-    hkvghrnhgvlhdrohhrghdprhgtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhr
-    ghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhrii
-    hkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptghonhhorhdoughtsehkvghr
-    nhgvlhdrohhrghdprhgtphhtthhopehgvggvrhhtodhrvghnvghsrghssehglhhiuggvrh
-    drsggvpdhrtghpthhtohephhhvvghrkhhuihhlseigshegrghllhdrnhhlpdhrtghpthht
-    ohepshgrkhgrrhhirdgrihhluhhssehlihhnuhigrdhinhhtvghlrdgtohhm
-X-ME-Proxy: <xmx:lnvYZ2XJTvIjBv2fhuKktxQxNJyDki8BEFymEoPjECmmoFlCLXgevQ>
-    <xmx:lnvYZ1lC3G8eJYCH0C2cnEk8hrcvxtaqlPsM_SqK__Pl6mwOP5A_5w>
-    <xmx:lnvYZzfSVl2ZjrGD3hGkWgpew___Wbj6ITa7k3GzYXYNBxRxllLkPg>
-    <xmx:lnvYZ_F8Jq4EYrzF5yfQVdfy7tEuaH007rK9AF-8So4GpH8t9wFeZw>
-    <xmx:l3vYZ69HjrRjWaoaML-sHbbLPYMZAW0FV_z8_sMrqmCPhMe6YUE3lDNr>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 17 Mar 2025 15:44:21 -0400 (EDT)
-Date: Mon, 17 Mar 2025 20:44:19 +0100
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Krzysztof Kozlowski <krzk@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/7] dt-bindings: media: renesas,isp: Add ISP core
- function block
-Message-ID: <20250317194419.GB949127@ragnatech.se>
-References: <20250315152708.328036-1-niklas.soderlund+renesas@ragnatech.se>
- <20250315152708.328036-2-niklas.soderlund+renesas@ragnatech.se>
- <20250317-furry-independent-clam-33db01@krzk-bin>
- <20250317115006.GB868399@ragnatech.se>
- <5876368b-1549-4ce0-af43-80f712f457c8@kernel.org>
- <20250317153726.GC919085@ragnatech.se>
- <CAMuHMdXU4JxDe-L+UcUwzndariz=mfed7UyVXW2Mv0yggXZw4w@mail.gmail.com>
+	s=arc-20240116; t=1742245006; c=relaxed/simple;
+	bh=81zBDcNSTguoXj9MOJ1/PFN5nLQAASCySc3Mh2z+s74=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KczFxolW2bz1XdeSFO9VYFBI8u28Am/WktzLHkt3R8QovSVQ33bgvgkfK94OWhDSyENeHbohon29X5BHMVU+LnSdhFA1hsvrcoznS3Lae0AdjUfoU6LlefPx3BsB4tH9zzQcq92y+3r72vmTwa3JxgmJRyV4d6SoTa60esgmn7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uzLcOO2P; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-ab7430e27b2so935870466b.3
+        for <linux-media@vger.kernel.org>; Mon, 17 Mar 2025 13:56:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1742245003; x=1742849803; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=BstLVAtzfOCDqp+GhsAWxESvpLO5VswkpR8jzgDHtmM=;
+        b=uzLcOO2PWzFpBucLzqkKFaFSshXo8t3b4oo4pRs+AagfY9cs9t7sgthLLbR+9yCyst
+         zeG4ffRWifH9sAcg0fPE4pzBTWU/we0J1ss/AztOGCbBec+ERAXX3X2dJcLL/rum3e+h
+         EpeuT3eRc5d4bbZGjlTYN/WaYZI/zRn2XTECG4tR7RV7Uvar/dllWtgqRVjT8lJlG3pc
+         iERRfUZnlWyA4dAmxC86q+qG10/PJ2K2uFCP/jpzhrPoccDTY9JxUey2FnSDZ2suM04C
+         tRHBNW3YeYY3znzBr8LGhHwIKwlv3yqCdbDktaBD6fq1cJ0L/1y+tTzBxkW6cJYySobK
+         Qnpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742245003; x=1742849803;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BstLVAtzfOCDqp+GhsAWxESvpLO5VswkpR8jzgDHtmM=;
+        b=akwi1aKC/srqf+PsprQgS83UGzWbYPm72CWukGQJFNxZsbLOIEoTNLv0hDVkmKsebK
+         xGhLZo5s/rR12wVxi+8GGcXGQRY8j+9VnrX2F9xQc/6hsSFiVeHpPyhIPfnCfD2o7OCH
+         dnkfOQKCjWMww/P5PbHywbbE2KZfPXK/2ztHRvRibtABLYbM8mg4K47gevfLfXO/3fEt
+         xRJIxuIPSK3qlfWOenr/YnotFS/dL4VnLpMs+IEcqp0LBqCcNxf07x7KIG8mAApdMJQE
+         dg2oEGTndpOkGqOEyeUEigqcH5gz4yPWmjfZKIYKi/7dqo3tTAVYZpZSu4nGmTHhpEkV
+         GV/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXMS1swModX2jlyDZR+Ox4Jwh36U4kl/zFoERiIjfVtpM8bIE6H1bpr6zUq8gWNkI0/1CIzMQIwADM4Fg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwHAmt1pBYN6vrWefz90qxAm4lQg5ufbizipKCkDz/XVqJLmiGU
+	5msT8f2btjAncrDn2TL1QYKJpddOvgMEnFxral8Rd2Iiqu2/RzF92EbvEwbpGLM=
+X-Gm-Gg: ASbGncvRGuP+wTYcBdUNDlfJ+Q6CFvTc7BON7ANjqnEEI1HQvLQxqGKj28+oo3rwRz+
+	CoIrWnU6IlYwVjjYF74lEE+VaNsOCINSYiYTW/0boEsThH3DB3rvZMUXGbzLbnsvLmpEHAY/KF/
+	iJ0wIYuSu3tP0xJ1y264j5w99sOlvC+MTNn18Wv/UNAwKvyLAPEcIO4oJsBcR7ugbkcSn1ofs0T
+	hUsZJd5Fq11bDTL6kztWWqJyLbOrAKtXCDbMSOSBx/Dpe31JY49eZJVUTFsSDx4qXEkRH6ydvKV
+	w1VuF34CNX7VuFDaA6NXyGrU+ghwSNrxCCrKowAWyf/kFwStugKthqiCMdwI5Xfv67KuNpSsSDB
+	2ZqjIq6B68jBSn6nVlz+RHbKzSDLEL/28bL4ym4WeQXHwC7fmwarVmVuXQzG1qVU182dYgKLpHx
+	UWGDIMaqp5W2MhVpqpD1XfjsVREutA8DM=
+X-Google-Smtp-Source: AGHT+IFKWe2DZ5nF9okyCT//0zSoiElFf1qyr0Z5z8k5hDUvEjT4K7BHpoBvcuOjJECmwN34SwR+WQ==
+X-Received: by 2002:a17:907:9604:b0:aa6:b63a:4521 with SMTP id a640c23a62f3a-ac38d40101cmr109581166b.15.1742245003482;
+        Mon, 17 Mar 2025 13:56:43 -0700 (PDT)
+Received: from ?IPV6:2001:1c06:2302:5600:7555:cca3:bbc4:648b? (2001-1c06-2302-5600-7555-cca3-bbc4-648b.cable.dynamic.v6.ziggo.nl. [2001:1c06:2302:5600:7555:cca3:bbc4:648b])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3149cec1esm721968966b.114.2025.03.17.13.56.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Mar 2025 13:56:42 -0700 (PDT)
+Message-ID: <4ac65d97-e494-4047-ab72-e1da09d057ca@linaro.org>
+Date: Mon, 17 Mar 2025 20:56:40 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdXU4JxDe-L+UcUwzndariz=mfed7UyVXW2Mv0yggXZw4w@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/8] RFT/RFC: Import IPU6 ov02e10 sensor driver and enable
+ OF usage of it
+To: Alan Stern <stern@rowland.harvard.edu>,
+ Hans de Goede <hdegoede@redhat.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Jingjing Xiong <jingjing.xiong@intel.com>, Hao Yao <hao.yao@intel.com>,
+ Jim Lai <jim.lai@intel.com>, You-Sheng Yang <vicamo.yang@canonical.com>,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+References: <20250317-b4-media-comitters-next-25-03-13-ov02e10-v1-0-bd924634b889@linaro.org>
+ <89af0891-3bbe-4964-8d19-205cdab79497@redhat.com>
+ <685ef286-0694-44c6-85c2-c6c5f51ce6a4@rowland.harvard.edu>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <685ef286-0694-44c6-85c2-c6c5f51ce6a4@rowland.harvard.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Geert,
-
-Thanks for your feedback.
-
-On 2025-03-17 20:21:14 +0100, Geert Uytterhoeven wrote:
-> Hi Niklas,
+On 17/03/2025 17:33, Alan Stern wrote:
+> After installing all the patches except for 3/8 (and adjusting some of
+> the later ones to account for its lack), I can confirm that the camera
+> on my laptop still works.
 > 
-> On Mon, 17 Mar 2025 at 16:37, Niklas Söderlund
-> <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > On 2025-03-17 15:57:31 +0100, Krzysztof Kozlowski wrote:
-> > > On 17/03/2025 12:50, Niklas Söderlund wrote:
-> > > > On 2025-03-17 12:33:07 +0100, Krzysztof Kozlowski wrote:
-> > > >> On Sat, Mar 15, 2025 at 04:27:02PM +0100, Niklas Söderlund wrote:
-> > > >>>    ports:
-> > > >>>      $ref: /schemas/graph.yaml#/properties/ports
-> > > >>> @@ -103,10 +138,14 @@ properties:
-> > > >>>  required:
-> > > >>>    - compatible
-> > > >>>    - reg
-> > > >>> +  - reg-names
-> > > >>>    - interrupts
-> > > >>> +  - interrupt-names
-> > > >>>    - clocks
-> > > >>> +  - clock-names
-> > > >>>    - power-domains
-> > > >>>    - resets
-> > > >>> +  - reset-names
-> > > >>
-> > > >> Another point, this will spawn bunch of warnings for no real reason.
-> > > >> Just drop all the xxx-names from properties and from here.
-> > > >
-> > > > I'm sorry maybe I'm missing something, but if I drop them from
-> > > > properties how can I add checks to makesure the names are either "cs" or
-> > >
-> > > Why do you need to check for the names? There will be no names, so
-> > > nothing to check for.
-> >
-> > Ahh I see. But I would like to have names if possible.
-> >
-> > The driver is backward compatible with the old bindings, and going
-> > forward we have better bindings with names. All users are updated in the
-> > next commits in this series so the warnings will go way rather quickly.
+> Is there any particular aspect you want me to test or is basic
+> functionality good enough?
 > 
-> Note that the driver does not _have_ to obtain the "cs" clock by name,
-> as it will always be the first clock anyway ("make dtbs_check" will
-> sort-of enforce that).  So you can simplify the code by obtaining
-> the first clock without specifying a name, and the second (optional)
-> clock with a name.
+> Alan
 
-I understand that, and for this fix this would be acceptable. I'm just 
-trying to think a head, something I should have done when first writing 
-these bindings...
+No not really thank you, just a smoke test to make sure nothing broke.
 
-I'm fearing a scenario where we will need to add a 3rd reg region or 
-clock. I don't think we will need that for the compatible values we have 
-here, but then I never though we get the documentation that now allows 
-us to describe the second region...
-
-If you and Krzysztof are happy without names I can move forward with 
-that too, I'm just trying to learn from my mistakes ;-) I will give it a 
-few days and then head down this road without names.
-
--- 
-Kind Regards,
-Niklas Söderlund
+---
+bod
 
