@@ -1,474 +1,171 @@
-Return-Path: <linux-media+bounces-28342-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28343-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 096FAA64555
-	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 09:26:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ACFEA6467A
+	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 10:03:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 023903A5248
-	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 08:26:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 492121893DB2
+	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 09:03:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A31D21D3E8;
-	Mon, 17 Mar 2025 08:26:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 928F921D5A7;
+	Mon, 17 Mar 2025 09:02:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="graNFns2"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="POeT3M3O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79219481B1;
-	Mon, 17 Mar 2025 08:26:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 726012E3373
+	for <linux-media@vger.kernel.org>; Mon, 17 Mar 2025 09:02:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742199986; cv=none; b=blX8FvKmbNtQ+c0Vi7nnk9jSp7j27AWKtROKzYNq1RSevKfpeb85UCYlXq2hdwCxZlqVk8tAxLbCGJ15Yfeg7no9LOSSHN8xiDdBv1C8Z4rftXtti529V0aL5J1BS2Uxo8EEh1MwA4lhs3H4Vp2seOACxGE7yJVgmrTs9DGnxX0=
+	t=1742202169; cv=none; b=Mgw0Y42Y3vrC4Yr/FIcQxTtJmhH9GzbUlDldiLeaMB+RX0AAOoWRuY8O5yJJu2GEsSaGWIbQO9VfhQb9MEUMWHqDk9nzE8weLLVXoHU3OkW/K3vWPMeryt2Zs7cSSv1nZm4+ZOtSWPVhf4UKxX2pJt1hg1B87g4n/juIRlEMH/g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742199986; c=relaxed/simple;
-	bh=VGurj73sbEsOe8vORjuKEJfMZaChuXR5898uD65O33o=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=W2tFi/pt9ESSB9qRtahp9QZkrxfFNioGB4CVDqVF89BsdoIV7YVdPQKdXb1Ayl5Z5nFKWMnXV50sg2AkglYIYLc/iY/vSdisQ7gGjLosqjLkd2mdVxlzk4iUpVxvSnZvRFP7GU4PdWV4PianT/RMqB4cnf9yygDB+rNm0lmmEj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=graNFns2; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1742199982;
-	bh=VGurj73sbEsOe8vORjuKEJfMZaChuXR5898uD65O33o=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=graNFns2FMKsxT6eAjlonp3YFAOpSXSHjtBi9wxZwz6XU4sKJGtSi0DQJJW7L1/XP
-	 DcTTQHAexTQSUucyfIZ7k3FQwQL3qPtHZGHH2uEJh/OKEpLkgbZolwTnWLKvOuNdmV
-	 kA+8vL8FONncRlO7oa6pqJtgt6yx5DuDjn6eQJZCEktgW+i9YxVgurm7YrqxbvrdFb
-	 JTY9l1X0Nos3Hluz7b+2gLkBWFXKhx54vIBn+uUkuu4D5cinHvLjyKfCEQfuiZwc4O
-	 ughupjiaCYEfhGz3VaKPrg40Rf5OKMiK/RG7TL/Pyq5dSmERp7yoORP7bnSwh2B+x4
-	 d+gkkGvPFI2VA==
-Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbrezillon)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id E590517E0FE5;
-	Mon, 17 Mar 2025 09:26:21 +0100 (CET)
-Date: Mon, 17 Mar 2025 09:26:14 +0100
-From: Boris Brezillon <boris.brezillon@collabora.com>
-To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
- <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, kernel@collabora.com,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH 3/4] drm/panthor: show device-wide list of DRM GEM
- objects over DebugFS
-Message-ID: <20250317092614.55b3c4e9@collabora.com>
-In-Reply-To: <20250316215139.3940623-4-adrian.larumbe@collabora.com>
-References: <20250316215139.3940623-1-adrian.larumbe@collabora.com>
-	<20250316215139.3940623-4-adrian.larumbe@collabora.com>
-Organization: Collabora
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1742202169; c=relaxed/simple;
+	bh=OzaSM6jQzBxdb7Hoyqy0LYeXzdu5k+CuH1y9tMge+fI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=q7KH5SNjx2UnJaboi8iL0O+w8Qf7BxhBT8rdUtAfp48AKiHkWKz6MdkQh8xB5Am/wmQAWXBuSieanQE8MssAmz24uswP0HKyUKRO14zZ9vbCwVYbNZBMNWulBZoNTxxJTURU+DQj8FXLjQgwMqZQjIXun74fjH+R4wQVxmP+cIs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=POeT3M3O; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1742202166;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3aF0/wtB/JcnykItpAzIP7wArEVKeMtYR91x3yct1f4=;
+	b=POeT3M3O+Fwvn7KieGxaWCmYu+AEXBVzfDkaILJ7rh0C/qhZ4XWrJJujzyOOI8045aS3Em
+	Wq5uW/ooId/hCPcOrS8Lc1a175iKUpAqqr3O4rnsEZAzFas5OUPBwZACb7hAFFBxQEmYGS
+	bAc8ccWuQO3LNkEF8ESU/LvsJSCXQzU=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-456-q8chhB6XMZKM1LGPwe_IdA-1; Mon, 17 Mar 2025 05:02:44 -0400
+X-MC-Unique: q8chhB6XMZKM1LGPwe_IdA-1
+X-Mimecast-MFC-AGG-ID: q8chhB6XMZKM1LGPwe_IdA_1742202164
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-ac384a889easo9755966b.0
+        for <linux-media@vger.kernel.org>; Mon, 17 Mar 2025 02:02:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742202163; x=1742806963;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3aF0/wtB/JcnykItpAzIP7wArEVKeMtYR91x3yct1f4=;
+        b=o/G1iiswGjVXww12AI87cVD61jTQZUgQEhb3lwBS7C5zdyFshhTA26d6ZeSjt+TbKC
+         HFVOmJORDfG0MtdRf4VbBa0lyqTTI45LzjLd8V5DvWdGTFtjXEe166jL6/gbfzn9OrOm
+         wqeQLgmEpkFm8Rd1TBFxTQm4kvyG8oDsha2ROVJp8dNwdxJC8SpK6FgK3tH0Qoz9Fxxs
+         qoPu6pwFXS5LgIIii2zN8OMzEqqQZ8aqWhD31kb2gZi2D3M0qqlT3407icHggrsowEd6
+         1T3Cu/D5q74jaonamuYpw0oyLFSfzWYhCJIWZBhz8myzUq7VpAKkak7oGiiH/djnQkSw
+         ZDPw==
+X-Forwarded-Encrypted: i=1; AJvYcCVuyKqjIXcGvR+DecjkQfDFws08lnr+lHNzyd2W4SwN+jPs67dI7JjcL1aHyRUq5ipfcuI4s9V6tpphtQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0Meywe6P4rVWn/1R0PKbaAZMkWEjsfdobLLihP2Rx88HC0Bxp
+	yPbzW4BHBGdgJ/TjQtjx+EFHxvDeFoM3Pw1xj3uVZ3sP35LfV1IiQOqm+qTYLCoV+yFAmRAtbOY
+	ryOuiO250RhoIWtwxpiWmZd7y4CkUPxoyYWMV8BVJiuZNk69xaLAfNqJ2wCVe
+X-Gm-Gg: ASbGnctHxmHH9Rv594urNykKkxACIW2SXL4SACg0dzFEDp3di36EL9s11WnvnoYP94r
+	q1Fw+r4vzZ7e9OM1+RLO/4mAPaxPHNbwTgtNS+PpyvdQcDGJaifFV4rVql7uLcUufUi3l15wCYB
+	qsD3RMioqGF0dDzgbKU6ZQTu6gXtu09TYZxSeBtER49cArARZ6FwTzMocOAjJUAOwdKz+oM/W7L
+	gaK420Xxj+jK/lwCywBYXUrEtC03BXATBbJuFRUH0M6rTTgf8H7bh89TLzQ7XCyqVzqCRLTgzeQ
+	WTJP82DHd0TX2kE9BnI=
+X-Received: by 2002:a17:907:a08a:b0:ac2:e2bf:d42e with SMTP id a640c23a62f3a-ac331304cf9mr1189503566b.11.1742202163587;
+        Mon, 17 Mar 2025 02:02:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFgYs1475G5su3BApYOdMm5Ae9l+JRwpVfpRWugRdsS8Zx6uub2tSHnC1/TK3rsgpKWSlD3ww==
+X-Received: by 2002:a17:907:a08a:b0:ac2:e2bf:d42e with SMTP id a640c23a62f3a-ac331304cf9mr1189499466b.11.1742202163124;
+        Mon, 17 Mar 2025 02:02:43 -0700 (PDT)
+Received: from [10.40.98.122] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3149cfbbesm632071866b.100.2025.03.17.02.02.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 17 Mar 2025 02:02:42 -0700 (PDT)
+Message-ID: <89af0891-3bbe-4964-8d19-205cdab79497@redhat.com>
+Date: Mon, 17 Mar 2025 10:02:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/8] RFT/RFC: Import IPU6 ov02e10 sensor driver and enable
+ OF usage of it
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>
+Cc: Jingjing Xiong <jingjing.xiong@intel.com>, Hao Yao <hao.yao@intel.com>,
+ Jim Lai <jim.lai@intel.com>, You-Sheng Yang <vicamo.yang@canonical.com>,
+ Alan Stern <stern@rowland.harvard.edu>, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org
+References: <20250317-b4-media-comitters-next-25-03-13-ov02e10-v1-0-bd924634b889@linaro.org>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20250317-b4-media-comitters-next-25-03-13-ov02e10-v1-0-bd924634b889@linaro.org>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
 
-On Sun, 16 Mar 2025 21:51:34 +0000
-Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+Hi Bryan, Alan,
 
-> Add a device DebugFS file that displays a complete list of all the DRM GEM
-> objects that are exposed to UM through a DRM handle.
->=20
-> Since leaking object identifiers that might belong to a different NS is
-> inadmissible, this functionality is only made available in debug builds
-> with DEBUGFS support enabled.
->=20
-> File format is that of a table, with each entry displaying a variety of
-> fields with information about each GEM object.
->=20
-> Each GEM object entry in the file displays the following information
-> fields: Client PID, BO's global name, reference count, BO virtual size, BO
-> resize size, VM address in its DRM-managed range, BO label and a flag
-> bitmask.
->=20
-> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+On 17-Mar-25 01:39, Bryan O'Donoghue wrote:
+> Similar to Hans' progressive series on ov02c10 I've picked up via Hans the
+> IPU6 driver with some additional fixes from Alan Stern.
+> 
+> https://lore.kernel.org/linux-media/20250313184314.91410-1-hdegoede@redhat.com
+> 
+> I've made a number of initial changes to this driver sufficient to get it
+> working on the Dell Inspiron 14 Plus 7441 with the Qualcomm X Elite
+> x1e80100 SoC and its CAMSS stack.
+> 
+> link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/x1e80100-6.14-rc6-inspirion14-slim7x-camss?ref_type=heads
+> 
+> This is a first pass which adds in the minimum to get the sensor going on
+> the Qualcomm platform. What would be nice would be someone on the IPU6 side
+> giving it a test.
+> 
+> A big TBD here is the YAML for this file but, I'd like to make sure nothing
+> has broken for IPU6/IPU7 with the modifications before diving into
+> Documentation.
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+
+Bryan, thank you for your work on this.
+
+Alan, can you give this version of the driver a test run on your laptop?
+
+Note you need to skip patch 3/8 for now until I've implemented the
+solution for handshake handling in the INT3472 driver. Also you need
+keep the sleep of at least 25 ms after setting the handshake GPIO.
+
+Regards,
+
+Hans
+
+
+
+
+
 > ---
->  drivers/gpu/drm/panthor/panthor_device.c |   5 ++
->  drivers/gpu/drm/panthor/panthor_device.h |   8 ++
->  drivers/gpu/drm/panthor/panthor_drv.c    |  26 ++++++
->  drivers/gpu/drm/panthor/panthor_gem.c    | 101 +++++++++++++++++++++++
->  drivers/gpu/drm/panthor/panthor_gem.h    |  22 +++++
->  5 files changed, 162 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/p=
-anthor/panthor_device.c
-> index a9da1d1eeb70..7df12eefc39f 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.c
-> +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> @@ -263,6 +263,11 @@ int panthor_device_init(struct panthor_device *ptdev)
->  	pm_runtime_set_autosuspend_delay(ptdev->base.dev, 50);
->  	pm_runtime_use_autosuspend(ptdev->base.dev);
-> =20
-> +#ifdef CONFIG_DEBUG_FS
-> +	drmm_mutex_init(&ptdev->base, &ptdev->gems_lock);
-> +	INIT_LIST_HEAD(&ptdev->gems);
-> +#endif
-> +
->  	ret =3D drm_dev_register(&ptdev->base, 0);
->  	if (ret)
->  		goto err_disable_autosuspend;
-> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/p=
-anthor/panthor_device.h
-> index da6574021664..6c030978cdc3 100644
-> --- a/drivers/gpu/drm/panthor/panthor_device.h
-> +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> @@ -205,6 +205,14 @@ struct panthor_device {
-> =20
->  	/** @fast_rate: Maximum device clock frequency. Set by DVFS */
->  	unsigned long fast_rate;
-> +
-> +#ifdef CONFIG_DEBUG_FS
-> +	/** @gems_lock: Protects the device-wide list of GEM objects. */
-> +	struct mutex gems_lock;
-> +
-> +	/** @gems: Device-wide list of GEM objects owned by at least one file. =
-*/
-> +	struct list_head gems;
-
-	struct {
-		struct mutex lock;
-		struct list_head list;
-	} gems;
-
-> +#endif
->  };
-> =20
->  struct panthor_gpu_usage {
-> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/pant=
-hor/panthor_drv.c
-> index f41b8946258f..6663eff44bdc 100644
-> --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> @@ -1525,9 +1525,35 @@ static const struct file_operations panthor_drm_dr=
-iver_fops =3D {
->  };
-> =20
->  #ifdef CONFIG_DEBUG_FS
-> +static int panthor_gems_show(struct seq_file *m, void *data)
-> +{
-> +	struct drm_info_node *node =3D m->private;
-> +	struct drm_device *dev =3D node->minor->dev;
-> +	struct panthor_device *ptdev =3D container_of(dev, struct panthor_devic=
-e, base);
-> +
-> +	panthor_gem_print_objects(ptdev, m);
-> +
-> +	return 0;
-> +}
-> +
-> +
-> +static struct drm_info_list panthor_debugfs_list[] =3D {
-> +	{"gems", panthor_gems_show, 0, NULL},
-> +};
-> +
-> +static int panthor_gems_debugfs_init(struct drm_minor *minor)
-> +{
-> +	drm_debugfs_create_files(panthor_debugfs_list,
-> +				 ARRAY_SIZE(panthor_debugfs_list),
-> +				 minor->debugfs_root, minor);
-> +
-> +	return 0;
-> +}
-> +
->  static void panthor_debugfs_init(struct drm_minor *minor)
->  {
->  	panthor_mmu_debugfs_init(minor);
-> +	panthor_gems_debugfs_init(minor);
->  }
->  #endif
-> =20
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/pant=
-hor/panthor_gem.c
-> index 3c58bb2965ea..8cea6caf3143 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -17,6 +17,16 @@ static void panthor_gem_free_object(struct drm_gem_obj=
-ect *obj)
->  {
->  	struct panthor_gem_object *bo =3D to_panthor_bo(obj);
->  	struct drm_gem_object *vm_root_gem =3D bo->exclusive_vm_root_gem;
-> +#ifdef CONFIG_DEBUG_FS
-> +	struct drm_device *dev =3D bo->base.base.dev;
-> +	struct panthor_device *ptdev =3D container_of(dev, struct panthor_devic=
-e, base);
-> +
-> +	if (!list_empty(&bo->gems_node)) {
-> +		mutex_lock(&ptdev->gems_lock);
-> +		list_del_init(&bo->gems_node);
-> +		mutex_unlock(&ptdev->gems_lock);
-> +	}
-> +#endif
-
-Can we add helpers to add/remove a GEM to the list and define dummy
-implementations for the !CONFIG_DEBUG_FS case?
-
-#ifdef CONFIG_DEBUG_FS
-static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo)
-{
-	INIT_LIST_HEAD(&obj->gems_node);
-	obj->creator.tgid =3D current->group_leader->pid;
-	get_task_comm(obj->creator.process_name, current->group_leader);
-}
-
-static void panthor_gem_debugfs_bo_add(struct panthor_gem_object *bo)
-{
-	struct panthor_device *ptdev =3D container_of(bo->base.base.dev,
-						    struct panthor_device, base);
-
-	mutex_lock(&ptdev->gems_lock);
-	list_add_tail(&bo->gems_node, &ptdev->gems);
-	mutex_unlock(&ptdev->gems_lock);
-}
-
-static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo)
-{
-	struct panthor_device *ptdev =3D container_of(bo->base.base.dev,
-						    struct panthor_device, base);
-=09
-	if (list_empty(&bo->gems_node))
-		return;
-
-	mutex_lock(&ptdev->gems_lock);
-	list_del_init(&bo->gems_node);
-	mutex_unlock(&ptdev->gems_lock);
-}
-#else
-static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo) {}
-static void panthor_gem_debugfs_bo_add(struct panthor_gem_object *bo) {}
-static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo) {}
-#endif
-
-> =20
->  	kfree(bo->label);
->  	mutex_destroy(&bo->label_lock);
-> @@ -201,6 +211,12 @@ struct drm_gem_object *panthor_gem_create_object(str=
-uct drm_device *ddev, size_t
->  	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
->  	mutex_init(&obj->label_lock);
-> =20
-> +#ifdef CONFIG_DEBUG_FS
-> +	INIT_LIST_HEAD(&obj->gems_node);
-> +	obj->creator.tgid =3D current->group_leader->pid;
-> +	get_task_comm(obj->creator.process_name, current->group_leader);
-> +#endif
-
-	panthor_gem_debugfs_bo_init(obj);
-=09
-> +
->  	return &obj->base.base;
->  }
-> =20
-> @@ -224,6 +240,10 @@ panthor_gem_create_with_handle(struct drm_file *file,
->  	int ret;
->  	struct drm_gem_shmem_object *shmem;
->  	struct panthor_gem_object *bo;
-> +#ifdef CONFIG_DEBUG_FS
-> +	struct panthor_device *ptdev =3D
-> +		container_of(ddev, struct panthor_device, base);
-> +#endif
-> =20
->  	shmem =3D drm_gem_shmem_create(ddev, *size);
->  	if (IS_ERR(shmem))
-> @@ -249,6 +269,12 @@ panthor_gem_create_with_handle(struct drm_file *file,
->  	/* drop reference from allocate - handle holds it now. */
->  	drm_gem_object_put(&shmem->base);
-> =20
-> +#ifdef CONFIG_DEBUG_FS
-> +	mutex_lock(&ptdev->gems_lock);
-> +	list_add_tail(&bo->gems_node, &ptdev->gems);
-> +	mutex_unlock(&ptdev->gems_lock);
-> +#endif
-
-	panthor_gem_debugfs_bo_rm(bo);
-
-> +
->  	return ret;
->  }
-> =20
-> @@ -265,3 +291,78 @@ panthor_gem_label_bo(struct drm_gem_object *obj, con=
-st char *label)
-> =20
->  	kfree(old_label);
->  }
-> +
-> +#ifdef CONFIG_DEBUG_FS
-> +static bool panfrost_gem_print_flag(const char *name,
-> +				    bool is_set,
-> +				    bool other_flags_printed,
-> +				    struct seq_file *m)
-> +{
-> +	if (is_set)
-> +		seq_printf(m, "%s%s", other_flags_printed ? "," : "", name);
-> +
-> +	return is_set | other_flags_printed;
-> +}
-> +
-> +void panthor_gem_print_objects(struct panthor_device *ptdev,
-> +				struct seq_file *m)
-> +{
-> +	size_t total =3D 0, total_resident =3D 0, total_reclaimable =3D 0;
-> +	struct panthor_gem_object *bo;
-> +
-> +	seq_puts(m, "created-by                      global-name     refcount  =
-      size            resident-size   file-offset     flags           label=
-\n");
-> +	seq_puts(m, "----------------------------------------------------------=
----------------------------------------------------------------------------=
------------\n");
-> +
-> +	mutex_lock(&ptdev->gems_lock);
-> +	list_for_each_entry(bo, &ptdev->gems, gems_node) {
-> +		unsigned int refcount =3D kref_read(&bo->base.base.refcount);
-> +		char creator_info[32] =3D {};
-> +		bool has_flags =3D false;
-> +		size_t resident_size;
-> +
-> +		/* Skip BOs being destroyed. */
-> +		if (!refcount)
-> +			continue;
-> +
-> +		resident_size =3D bo->base.pages !=3D NULL ? bo->base.base.size : 0;
-> +
-> +		snprintf(creator_info, sizeof(creator_info),
-> +			 "%s/%d", bo->creator.process_name, bo->creator.tgid);
-> +		seq_printf(m, "%-32s%-16d%-16d%-16zd%-16zd%-16lx",
-> +			   creator_info,
-> +			   bo->base.base.name,
-> +			   refcount,
-> +			   bo->base.base.size,
-> +			   resident_size,
-> +			   drm_vma_node_start(&bo->base.base.vma_node));
-> +
-> +		seq_puts(m, "(");
-> +		has_flags =3D panfrost_gem_print_flag("imported", bo->base.base.import=
-_attach !=3D NULL,
-> +						    has_flags, m);
-> +		has_flags =3D panfrost_gem_print_flag("exported", bo->base.base.dma_bu=
-f !=3D NULL,
-> +						    has_flags, m);
-> +		if (bo->base.madv < 0)
-> +			has_flags =3D panfrost_gem_print_flag("purged", true, has_flags, m);
-> +		else if (bo->base.madv > 0)
-> +			has_flags =3D panfrost_gem_print_flag("purgeable", true, has_flags, m=
-);
-> +		if (!has_flags)
-> +			seq_puts(m, "none");
-> +		seq_puts(m, ")");
-> +
-> +		mutex_lock(&bo->label_lock);
-> +		seq_printf(m, "%-16s%-60s", "", bo->label ? : NULL);
-> +		mutex_unlock(&bo->label_lock);
-> +		seq_puts(m, "\n");
-
-Let's have a panthor_gem_debugfs_bo_print() helper to print a single BO.
-
-> +
-> +		total +=3D bo->base.base.size;
-> +		total_resident +=3D resident_size;
-> +		if (bo->base.madv > 0)
-> +			total_reclaimable +=3D resident_size;
-> +	}
-> +	mutex_unlock(&ptdev->gems_lock);
-> +
-> +	seq_puts(m, "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-\n");
-> +	seq_printf(m, "Total size: %zd, Total resident: %zd, Total reclaimable:=
- %zd\n",
-> +		   total, total_resident, total_reclaimable);
-> +}
-> +#endif
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/pant=
-hor/panthor_gem.h
-> index da9268d24566..c0be30434b34 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.h
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
-> @@ -55,6 +55,23 @@ struct panthor_gem_object {
-> =20
->  	/** @label_lock: Lock that protects access to the @label field. */
->  	struct mutex label_lock;
-> +
-> +#ifdef CONFIG_DEBUG_FS
-> +	/**
-> +	 * @gems_node: Node used to insert the object in the device-wide list of
-> +	 * GEM objects, to display information about it through a DebugFS file.
-> +	 */
-> +	struct list_head gems_node;
-> +
-> +	/** @creator: Information about the UM process which created the GEM. */
-> +	struct {
-> +		/** @process_name: Group leader name in owning thread's process */
-> +		char process_name[TASK_COMM_LEN];
-> +
-> +		/** @tgid: PID of the thread's group leader within its process */
-> +		pid_t tgid;
-> +	} creator;
-
-Can we put all these fields under a debugfs struct?
-
-struct panthor_gem_debugfs {
-	/**
-	 * @gems_node: Node used to insert the object in the device-wide list of
-	 * GEM objects, to display information about it through a DebugFS file.
-	 */
-	struct list_head gems_node;
-
-	/** @creator: Information about the UM process which created the GEM. */
-	struct {
-		/** @process_name: Group leader name in owning thread's process */
-		char process_name[TASK_COMM_LEN];
-=09
-		/** @tgid: PID of the thread's group leader within its process */
-		pid_t tgid;
-	} creator;
-};
-
-...
-
-struct panthor_gem_object {
-	...
-
-#ifdef CONFIG_DEBUG_FS
-	struct panthor_gem_debugfs debugfs;
-#endif
-
-	...
-};
-
-> +#endif
->  };
-> =20
->  /**
-> @@ -150,4 +167,9 @@ panthor_kernel_bo_create(struct panthor_device *ptdev=
-, struct panthor_vm *vm,
-> =20
->  void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
-> =20
-> +#ifdef CONFIG_DEBUG_FS
-> +void panthor_gem_print_objects(struct panthor_device *pfdev,
-> +			       struct seq_file *m);
-
-s/panthor_gem_print_objects/panthor_gem_debugfs_print_bos/
-
-> +#endif
-> +
->  #endif /* __PANTHOR_GEM_H__ */
+> Bryan O'Donoghue (7):
+>       media: i2c: ov02e10: Fix initial indentation and spacing
+>       media: i2c: ov02e10: Drop IPU6 FPGA specific handshake GPIO
+>       media: i2c: ov02e10: Convert to regulator_bulk API
+>       media: i2c: ov02e10: Rework MCLK clock get logic to facilitate OF
+>       media: i2c: ov02e10: Implement specification t3 and t5 delays on power-up
+>       media: i2c: ov02e10: Remove redundant dev_dbg() and some extra dev_err()
+>       media: i2c: ov02e10: Add OF probe support
+> 
+> Jingjing Xiong (1):
+>       media: i2c: add OV02E10 image sensor driver
+> 
+>  drivers/media/i2c/Kconfig   |  10 +
+>  drivers/media/i2c/Makefile  |   1 +
+>  drivers/media/i2c/ov02e10.c | 978 ++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 989 insertions(+)
+> ---
+> base-commit: f2151613e040973c868d28c8b00885dfab69eb75
+> change-id: 20250317-b4-media-comitters-next-25-03-13-ov02e10-23e68307d589
+> 
+> Best regards,
 
 
