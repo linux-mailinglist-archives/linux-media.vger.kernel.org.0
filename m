@@ -1,147 +1,113 @@
-Return-Path: <linux-media+bounces-28339-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28340-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 205BCA64419
-	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 08:45:58 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCD1DA644AC
+	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 09:04:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BDFDF3A747F
-	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 07:45:44 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DC0E37A5C7E
+	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 08:03:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 535BE21B90F;
-	Mon, 17 Mar 2025 07:45:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="SKEvc+fa"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2052921ADDB;
+	Mon, 17 Mar 2025 08:03:58 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2BB21ABC1
-	for <linux-media@vger.kernel.org>; Mon, 17 Mar 2025 07:45:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE68921A452
+	for <linux-media@vger.kernel.org>; Mon, 17 Mar 2025 08:03:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742197550; cv=none; b=K21E54JEbUjHsBe8gOaQQNLQ/18YLD66dYn/NUC48hrGrmdVQY6wr02YazH+/lliDqkp6+FfCfnkkbV8UFit4FrBAePdoRNEGwMva/dZSGSdtvmriU1b+rSuMwkKX1CU4buMTFo3AnWduXEyLp8RvAZoPykz3eAiyW6i27p5xNU=
+	t=1742198637; cv=none; b=Z5I1Nkm0OBj7v5KdDyEHvEpWuxgAuOyIysYGCdNHh8+BfrMd8SCSx3qiS3S8e5cUn4s/6oy/afgZG7KTpbKJ8tIBtGGNhyOWJjxfzEc9YWjLbNrAqqeDJoFaX2gHaYCYqqrQu1w91oT8pAdlnHP0RiXa2C4bwRGQhq64JAxmKvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742197550; c=relaxed/simple;
-	bh=z/35C6OncKImSrzwCMGsv4v7SHuEIwjIRKaGVCMngMk=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
-	 References:In-Reply-To; b=K5W/qNe5yfS06inp5sGw1SRVr3lw/Bhp9NAxlk8SxD2NKkDnSyp9uInopgePPd7tpBhpvkJ4v3KgVjuOVDQABCClgc7A48gBrkkJ9wdE0qVvJl27S+UoGoQ1rmd8ljo5GqlJXytAUd4eT2yH78EBibL0Az3BO4oyf9PKmI4CIRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=SKEvc+fa; arc=none smtp.client-ip=209.85.208.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fairphone.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5e5e8274a74so6522856a12.1
-        for <linux-media@vger.kernel.org>; Mon, 17 Mar 2025 00:45:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1742197547; x=1742802347; darn=vger.kernel.org;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Gl7H7yZOIWFrlEzxdHx2ScaCc87hpAhwNF8CQ1QYBik=;
-        b=SKEvc+faLEJJIRTvnn7nJyhuqtSC91fYhPUaM4EqY2EHC+FV2cPcLnlBagyvmEnv3W
-         dG69pcspGSax0w4/OXWmYqyo3Oh+qD1h+n8MCf3k2daVrm5Jh82vxgkpgHFAPokeq3Js
-         CaoqeTH4hS1KfpGm2CYmIaK8qiisMHd4FwCp4U0823sGqc8UgkDF41QiveiFD+zo4bPf
-         04zWvXBLP8z8wVzIKds/n1A77x9A9SGZgB7UEvgWmEX9Sea0lYdFQkOTnkonRi3wNZvw
-         51KUI07RWyW+Kct/edAQq/TuyYm3PvALwuZkI09dbcWRzXOBA9X3fDHyC8BrwBRtuZf1
-         JEHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742197547; x=1742802347;
-        h=in-reply-to:references:cc:to:from:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Gl7H7yZOIWFrlEzxdHx2ScaCc87hpAhwNF8CQ1QYBik=;
-        b=C9Sf/6trp4WExMc4cvqZF1NQO81aZ4m4TY9tr1VqbG2uA8Uoe/lR5gj1OK4ZbmBpO/
-         S86zIL/4J557H3U1+WD6wYbQXsTtnH99TjYxo6CYW3TuvRsRjAaluuxB/tPMVo4jZFd6
-         RDXKYTTkBBWHUfdwWAMaU+0Ac7Gw4KYDS74BSCxqfloEHw7kK4XCQTLJ+CQLhGrO/tO+
-         ikSzJ6jkJebO+ivU3Jcko3D9gVNYj7eRzn389lOhKQ9dtzqg2lJhCRV9kLgS3kH3A+Wx
-         XQyJtf8gTatrzSvBGpdUZALUIU+VyRX4gvuc+VV+Ovl2PAlArYsiBOy/ixZTHSsk/N72
-         43Yw==
-X-Forwarded-Encrypted: i=1; AJvYcCXAgYTJAhykMpx4MOPsWru+g1WL++Ck+36EmAreST1LDGJ9fZm7XgA4fKYaDtcd5YovkeGuDNwaTrEerw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKI7fIuxgmgKGkQ6Gp3/I40QuiewGp3oomaDu3udippS9Jfx7K
-	KOVPrKyM2U7v50bOt74uXQgVsabpZwMvHH6P2mxDWMQj13gPuo/AbtjkCP/wW7s=
-X-Gm-Gg: ASbGnctXxYhIQCzQ8W0h9Lb93noBSvw9EibC+2a4AcF5qiTPiMZL/ma58IlwyazAOL+
-	R27AIiQEHQ8pSvECGXZ9JwD/o6LZg7Po+lrxz1RzPsLSgpQHaRHJqCbvvGyNTShh4+St2puBKIj
-	D30wSMPzkxOecSvkB6lJyKEy4u5dLeSPERoDfSm8/V4Wkhci55JqOsaJUSbDrmRnzFvnCnJ/7Za
-	xZFblq73vTaJhL16TwobXkpsbbFbj599XI7i8lijRlhujqGUBfSewvLVbAoCzJuWYIfpMWZ1Kyj
-	rlLEbqAoX+rX816SBio2v1uDKz2Th7Vw+YIgVGxojDRPH2JD3hhVX3aIGJUdTotbZ+WSgwzkJ2+
-	v8fgIDHyo3AYGvw==
-X-Google-Smtp-Source: AGHT+IGmNMHuunVdQSgHrKnOfe/ERZGsvr0xj7JwdS+NX5aLfGQnW8CH56uoLVrH9JWD/35XdRKpyA==
-X-Received: by 2002:a17:907:2d92:b0:abf:6b14:6d00 with SMTP id a640c23a62f3a-ac3301e1e64mr1158441066b.5.1742197546956;
-        Mon, 17 Mar 2025 00:45:46 -0700 (PDT)
-Received: from localhost (144-178-202-138.static.ef-service.nl. [144.178.202.138])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3147ed1e4sm623996666b.66.2025.03.17.00.45.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Mar 2025 00:45:46 -0700 (PDT)
+	s=arc-20240116; t=1742198637; c=relaxed/simple;
+	bh=MwSl5sYYA5t/a1Daq6+ZqIQDQzMUJ05GL9vXJ1esO08=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=VJ1NwqtRSITuS114PUE625p7klx4FjXdVolJloeq6CJLoS36XxqDbqhMxmmazOZNlwrDJADWBi+eSdTUOcAbZHi90UdhzQ65sqj4ZyO6PFD6OgamW6yrdrvL6L4XPpjL5X5vje3VIqW+NIbmocqwfmzD58rP2cfY75esZ2UWCtY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 374E3C4CEE3;
+	Mon, 17 Mar 2025 08:03:55 +0000 (UTC)
+Message-ID: <28a3436d-fd51-4e4e-ae07-4cf5d7f73439@xs4all.nl>
+Date: Mon, 17 Mar 2025 09:03:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US, nl
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sean Young <sean@mess.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ "stanimir.k.varbanov@gmail.com" <stanimir.k.varbanov@gmail.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Ricardo Ribalda <ribalda@chromium.org>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [ANN] Migration of gitlab.freedesktop.org, urgent fixes for v6.15 can
+ go through me
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 17 Mar 2025 08:45:45 +0100
-Message-Id: <D8IDHJAC4BJ1.WNTMQEJXD2R2@fairphone.com>
-Subject: Re: [PATCH 0/2] Some small preparations around CAMSS D-PHY / C-PHY
- support
-From: "Luca Weiss" <luca.weiss@fairphone.com>
-To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, "Robert Foss"
- <rfoss@kernel.org>, "Todor Tomov" <todor.too@gmail.com>, "Mauro Carvalho
- Chehab" <mchehab@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Barnabas Czeman" <barnabas.czeman@mainlining.org>, "AngeloGioacchino Del
- Regno" <angelogioacchino.delregno@somainline.org>, "Caleb Connolly"
- <caleb.connolly@linaro.org>, "David Heidelberg" <david@ixit.cz>, "Hans
- Verkuil" <hverkuil@xs4all.nl>
-Cc: <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
- <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
- <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a
-References: <20241209-camss-dphy-v1-0-5f1b6f25ed92@fairphone.com>
- <D82FU3SIX5RZ.1Y525GJO0UOAA@fairphone.com>
- <eb06daf1-3cc3-4b31-a0bf-bc450cd0f041@linaro.org>
-In-Reply-To: <eb06daf1-3cc3-4b31-a0bf-bc450cd0f041@linaro.org>
+Content-Transfer-Encoding: 7bit
 
-On Wed Feb 26, 2025 at 3:47 PM CET, Bryan O'Donoghue wrote:
-> On 26/02/2025 14:13, Luca Weiss wrote:
->> Hi all,
->>=20
->> On Mon Dec 9, 2024 at 1:01 PM CET, Luca Weiss wrote:
->>> Since the hardware blocks on the SoCs generally support both D-PHY and
->>> C-PHY standards for camera, but the camss driver currently is only
->>> supporting D-PHY, do some preparations in order to add C-PHY support at
->>> some point.
->>>
->>> Make the dt bindings explicit that the hardware supports both (except
->>> for MSM8916) but also add a check to the driver that errors out in case
->>> a dt tries to use C-PHY since that's not supported yet.
->>>
->>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
->>> ---
->>> Luca Weiss (2):
->>>        media: dt-bindings: media: camss: Restrict bus-type property
->>>        media: qcom: camss: Restrict endpoint bus-type to D-PHY
->>=20
->> This series is still pending, both patches got reviews and no pending
->> comments from what I can see.
->>=20
->> Would be nice to get it in for 6.15.
->>=20
-> Yes this should be merged.
->
-> Thanks for following up.
+Hi all,
 
-Hi Bryan, hi Hans,
+As most of you know, gitlab on freedesktop.org is migrating this week to
+another provider, so there is no Media CI this week.
 
-6.15 merge window is approaching fast, I wonder if this series was
-missed still.
+Any urgent patches that need to be merged before the v6.15 merge window opens
+(likely next week) can go through me. Just ping me on irc or email me with a
+link to the patch in patchwork.
 
-Regards
-Luca
+I actually have two Kconfig patches from Arnd that I will apply today.
 
->
-> ---
-> bod
+Regards,
 
+	Hans
 
