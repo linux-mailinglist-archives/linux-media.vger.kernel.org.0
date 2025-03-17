@@ -1,149 +1,123 @@
-Return-Path: <linux-media+bounces-28362-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28363-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98766A64E4A
-	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 13:13:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFD59A64E60
+	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 13:16:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 432357A744C
-	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 12:12:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 09C027A4BA6
+	for <lists+linux-media@lfdr.de>; Mon, 17 Mar 2025 12:15:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1695F23E346;
-	Mon, 17 Mar 2025 12:08:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6543C238169;
+	Mon, 17 Mar 2025 12:16:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ND4sN0Kv"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="UFHMKudI";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="nN/Dembt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB93A239082
-	for <linux-media@vger.kernel.org>; Mon, 17 Mar 2025 12:08:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A329C198A08;
+	Mon, 17 Mar 2025 12:16:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742213331; cv=none; b=PUG4dcuaeUudhPjQsFlxtCIAo06z4nQa7TR+7OXe2Nso3J+ARmOTft8tubwTLbc5Mz4W7v59GCL++GWEj2u5jrBmpvdI+wGbtaqbrR9Gtrz5k4lgko4FUBZFAQpJ0IOdYzYvUY0s/SpYn4Xzq5apoab0gzRYq6wxZYgAAF7m1Tc=
+	t=1742213769; cv=none; b=ZEbHQhsuV9vmD3MlDiAHhQmpCtI7wZpzRUHNXeHZCc1RyT/Xdf5dw4+jHwA+y//FJRxL7S9k4VhDN4mbav70vcKjulxiG+23GoYvN+pR/6GhFmlu4C3ifPRJNdkp1mMI9R3RqFmW4YT3DDIfmbavaDYhw/B99yo4tTYuMJKD4pc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742213331; c=relaxed/simple;
-	bh=9iXfixuSBDIc78RgUMbLHrK4yHUAjQR8XzDPw1h7zFc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=AMH7O74OKkM2eRjNPklJ17IbomNtXtQVqhFXM5VbreMmKu5cxZpeLx3+i5qpqirb2Z8ERFXFyZ4V3DJbgyZQZLGtohgKSO81UbJgAK3O7U3JK3LAHZlBMwaZlAKxgiDzKnazrNUECUzrlcHd7YyLjDU5IQrCQ/K5AdVaZb8FvOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ND4sN0Kv; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5439a6179a7so4847163e87.1
-        for <linux-media@vger.kernel.org>; Mon, 17 Mar 2025 05:08:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1742213327; x=1742818127; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=U/ODjBc7H+F36djhBChv/kX744H5zY7HbwroUiftCms=;
-        b=ND4sN0KvKt2NO7Udv7yulD0U9AgN6fTlKE6En/a7iQaif0YTVlApTxTTzsI4K5SALc
-         sz1xkLrhqh6F9TOhqXD5as5m3h0A7m42G2bqVY5vuMU9FltSJzCrpL/dLx/DYg9Ls1W4
-         QCgkduJoH9RnmEZJKiDl6AfMiv6cKMr8D6/nc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742213327; x=1742818127;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=U/ODjBc7H+F36djhBChv/kX744H5zY7HbwroUiftCms=;
-        b=BCP2laSZK7UBQU80d5cKKIyty7O978pBba94tJyNVdGf26VFJa1Vv4iJg36ROiwa3Z
-         DZROgoAHXH3GlKm/f9aOGmuNZk3IIm55pGBfEQEroxNmHWXoub8fRyBjkfgwKnDfnhoU
-         POkgsgo4aYWVub0DhWtCXY25Ci1isDVqxMKPcdnlq52Fh2MdFPH/EI6PtTwBhLlGKqpQ
-         /lWo7NMvUodcXxbCNAAtCFNVVYYDNVi2lsqz2bZT6ufzARDsLJRIvvZxnqz+t2cox/ps
-         HdZzgvY7TtHETn16e5WMSO9Hx/jEu3s4EBS+BrSGS3JQ6c6QH4XYoIevzECMvW7mkIOG
-         pWGw==
-X-Forwarded-Encrypted: i=1; AJvYcCXHNbHKVTcLKBvdYNTXBW8M330clsFDElLUIJ6TiIyv1Byc36KJ3L1VQGSbFRMZ8Mvy1ibUGmxyvwZQPA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7s5HVnf9GuEkUy3nAuU9wHvdI7GYTC0Ha1d9/oRwZqXT00mmF
-	ZhJSJHsuZr31cJ36QV+i5xR/dpDcRRXJD2WlwcISgWtbCgiUQGpk3tKQejp/NVrvEVNGwWcd/AU
-	=
-X-Gm-Gg: ASbGncs1SgdQvgPuvZv7/L645SIuwVosQ4fbWCDQS+oQ6RaU2q6X4fi1n0pGVX0GYM5
-	m4aNQlOa+rS05/p7N2v60HTJaaB4tXC1UTrzunnmU3aHG2WhevEaNsZwt0yQgkbtfjzs86ojHKt
-	HSi0lV2i222sHdf2o6w3r5zww5769IYrCV7AR7+kDJ9cyo1NhBfLzW7y//fac1dc4lgrgC8FU90
-	vjJXEfwtYaQC6GAp3fAxbMak2/I0/gnyvfrTLT5EX+5Qw9+yw6/R2QdHNIYphH257csMWbCRitA
-	bxRj7QyrX4Vpg6CJKIY/rrsV0T/mfgK5OPhHbYy1AO0IwcqXZQpMzwq9KoKq6vnEttzJhy7Uz8d
-	m/quCQ5k=
-X-Google-Smtp-Source: AGHT+IEqfV+hZbCTvIoHhBLFAfPlK8dMNhCfp8cUVXh/mheyzorGY3iAsIBtq4OqtUH+pG7a4LAtjw==
-X-Received: by 2002:a05:6512:4007:b0:549:5dcf:a5b with SMTP id 2adb3069b0e04-549ba3b41a6mr7490362e87.4.1742213327489;
-        Mon, 17 Mar 2025 05:08:47 -0700 (PDT)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com. [209.85.167.41])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30c3f20a5cbsm15398161fa.114.2025.03.17.05.08.46
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 17 Mar 2025 05:08:47 -0700 (PDT)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-5499da759e8so6051526e87.0
-        for <linux-media@vger.kernel.org>; Mon, 17 Mar 2025 05:08:46 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCV9LIUh4BCHx7hb4tGMNB2CnXw55Mb2WKZN5VUijObrEHA2bbQWhiCfby83D8HVt68dgm6DncGa9UxMfw==@vger.kernel.org
-X-Received: by 2002:a05:6512:6ca:b0:549:74a7:12ce with SMTP id
- 2adb3069b0e04-549ba3ef133mr7614324e87.14.1742213325707; Mon, 17 Mar 2025
- 05:08:45 -0700 (PDT)
+	s=arc-20240116; t=1742213769; c=relaxed/simple;
+	bh=qbpYp2IF2/zO18LSHebvXP1qzB+sbYp7X6zTXraFqFA=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=I7pckTbG5qSwZknAnrNeb/h4GXtx+rgtTmCG0DTdi3WCcsHsta1q4GdNKd2G4ndguctbNFVYL3YsGXrwXNtjeb8bZVlYBMJ2S852hXQIxs4EbcW/4sgv5LDqtB+S668XLdhkn9w6rDVtxpbm0KgDEJe32waa+2yydon9G5n6/f4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=UFHMKudI; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=nN/Dembt; arc=none smtp.client-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
+	by mailfout.stl.internal (Postfix) with ESMTP id 8A611114015E;
+	Mon, 17 Mar 2025 08:16:06 -0400 (EDT)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-07.internal (MEProxy); Mon, 17 Mar 2025 08:16:06 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1742213766;
+	 x=1742300166; bh=7zbfZRDSjUREIaZm/zoU8HIsunTmGDJGKaYJ0MgX7WE=; b=
+	UFHMKudIncskhcTAYPVVjW9h2ez0Af9DF6GPq6UpqwZ1dj7hJjYtbp115K7pQftR
+	9eX811EZpg3v1z+jYuiv9GXYcznLTlpWjnwl/AzoByykm8KJcyucWKpCDILqTsVs
+	J/IISj5X51sq2eDKUKy0f4C6dtf0kLZrvvj6VNFOl5x6fMzwlehdrtGOlLFqfzAF
+	Ie3Uez3PGF0QpBF6fAl6iAtGgWimkSqx+XXpeVRBJNunKfUbUTZUrGC/AwMIyrzn
+	wMPjjkVdfUOto36CgaAIewaXy/3pbiUPmXwWZ0thuDvSoH+hDstySEi4t4KHpd7o
+	M7tpd0XyL6FqlGVMVtw2Lg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742213766; x=
+	1742300166; bh=7zbfZRDSjUREIaZm/zoU8HIsunTmGDJGKaYJ0MgX7WE=; b=n
+	N/Dembtr/a3BJth9bspmChYTMFOpkZtcpPHhaCj8VLy1761p2yaRKdDsGlXwkEVP
+	vN/gS/uxC+UEZ1AyC/4nI6hXdQ0azxgw1NE8yDP7wUdcVal+FXMM1NGc81GWWDEE
+	teuX2d1M9TGL49TAB2QyQxiwfbHsNcj1fMG1VpdTP/KKnKwW50bY5nPjxgNlivKK
+	PTLT5zDN7Myh7RF5HLYcJRipCweJ27/uQzkoDm0WP+1cvrM2bg5JmohLLADrT03i
+	lAAMIegY3NGU7gzMIw4fUEeeSjmCmlBilTUcAfyUzXrSeiwWBObpzV8v7fmh6Shm
+	v5u905asuS88xrLb19D4Q==
+X-ME-Sender: <xms:hhLYZ_Iom-niy58z5TaYua0YS3vf0S__JrcXnNO7s-lM3eYFYvMz8Q>
+    <xme:hhLYZzL358AV-jCYTOTLSvhxJuTerYEksn5SMH-qFCgzhHPydWsewL2Lfdpve5mKn
+    WjLSFFH0G6q0mJGsUg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddufeelgeekucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
+    tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnug
+    gsrdguvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeet
+    fefggfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
+    hmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohep
+    jedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtoheprhhisggrlhgurgestghhrhhomh
+    hiuhhmrdhorhhgpdhrtghpthhtohepshhrohhsvghksehgohhoghhlvgdrtghomhdprhgt
+    phhtthhopegrrhhnugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgthhgvhhgrsg
+    eskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgv
+    rhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvg
+    hrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehhvhgvrhhkuhhilhesgihsgegrlhhl
+    rdhnlh
+X-ME-Proxy: <xmx:hhLYZ3uEU8DCn6c-fHS5cvwgZ6E605LoeCh4OwmYqjK_OT7Ian_mNA>
+    <xmx:hhLYZ4ZW3fwSFqmJTZMDXNJV31Z4kcy1FUIa8QVtddqn5COuRGzbBQ>
+    <xmx:hhLYZ2b_xbk54WcWIpgnAY-rgEiUeluSWfWyKJQYL0vEQw8bej5abw>
+    <xmx:hhLYZ8D-sWNNz-Uo88tKMNqTyGl_fHxhHz0zTUx7SlT3jrWnNfqIgQ>
+    <xmx:hhLYZ7OuzH-pxfMd1mEiD42WIoDDpHM7TylgO7OKcYPU0rntQC6ebCGT>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 094F92220072; Mon, 17 Mar 2025 08:16:05 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Date: Mon, 17 Mar 2025 13:15:45 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Ricardo Ribalda" <ribalda@chromium.org>,
+ "Arnd Bergmann" <arnd@kernel.org>
+Cc: "Hans Verkuil" <hverkuil@xs4all.nl>,
+ "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+ "Slawomir Rosek" <srosek@google.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Message-Id: <f2742c8b-0dac-495e-a072-3d136329f116@app.fastmail.com>
+In-Reply-To: 
+ <CANiDSCuqdy2UrhZ8_erFO4kjXwt_bvQgmrqmPZmrw4xaRwJBrA@mail.gmail.com>
 References: <20250314213859.3543936-1-arnd@kernel.org>
-In-Reply-To: <20250314213859.3543936-1-arnd@kernel.org>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 17 Mar 2025 13:08:33 +0100
-X-Gmail-Original-Message-ID: <CANiDSCuqdy2UrhZ8_erFO4kjXwt_bvQgmrqmPZmrw4xaRwJBrA@mail.gmail.com>
-X-Gm-Features: AQ5f1JoUk-w0vqc9PkqG9r76DrJtcTvoYlEAHfsnxS0XUCOOMftIXJoRmJY_6vM
-Message-ID: <CANiDSCuqdy2UrhZ8_erFO4kjXwt_bvQgmrqmPZmrw4xaRwJBrA@mail.gmail.com>
+ <CANiDSCuqdy2UrhZ8_erFO4kjXwt_bvQgmrqmPZmrw4xaRwJBrA@mail.gmail.com>
 Subject: Re: [PATCH] media: vivid: fix FB dependency
-To: Arnd Bergmann <arnd@kernel.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Slawomir Rosek <srosek@google.com>, Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Thanks for the patch!
-
-Just out of curiosity, how did you found this? make randconfig?
-
-Best regards!
-
-On Fri, 14 Mar 2025 at 22:39, Arnd Bergmann <arnd@kernel.org> wrote:
+On Mon, Mar 17, 2025, at 13:08, Ricardo Ribalda wrote:
+> Thanks for the patch!
 >
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> It's not enough to have a dependency on CONFIG_FB, as that can be in
-> a loadable module when vivid itself is builtin:
->
-> drivers/media/test-drivers/vivid/vivid-osd.o: in function `vivid_fb_init':
-> vivid-osd.c:(.text+0xdc0): undefined reference to `fb_alloc_cmap'
-> vivid-osd.c:(.text+0xe26): undefined reference to `register_framebuffer'
->
-> Change the dependency to only allow configurations that can be built,
-> but change the FB to FB_CORE so this is also possible when using
-> DRM with FB compatibility rather than full fbdev.
->
-> Fixes: 20889ddede38 ("media: vivid: Introduce VIDEO_VIVID_OSD")
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> ---
->  drivers/media/test-drivers/vivid/Kconfig | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/test-drivers/vivid/Kconfig b/drivers/media/test-drivers/vivid/Kconfig
-> index e95edc0f22bf..cc470070a7a5 100644
-> --- a/drivers/media/test-drivers/vivid/Kconfig
-> +++ b/drivers/media/test-drivers/vivid/Kconfig
-> @@ -32,7 +32,8 @@ config VIDEO_VIVID_CEC
->
->  config VIDEO_VIVID_OSD
->         bool "Enable Framebuffer for testing Output Overlay"
-> -       depends on VIDEO_VIVID && FB
-> +       depends on VIDEO_VIVID && FB_CORE
-> +       depends on VIDEO_VIVID=m || FB_CORE=y
->         default y
->         select FB_IOMEM_HELPERS
->         help
-> --
-> 2.39.5
+> Just out of curiosity, how did you found this? make randconfig?
 >
 
+Yes, I do a lot of randconfig builds.
 
--- 
-Ricardo Ribalda
+     Arnd
 
