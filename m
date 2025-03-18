@@ -1,87 +1,48 @@
-Return-Path: <linux-media+bounces-28426-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28427-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F46FA67678
-	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 15:33:40 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3EA9A676B8
+	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 15:46:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4CCE3177E52
-	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 14:33:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E770E7AABCF
+	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 14:45:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B114F20E00A;
-	Tue, 18 Mar 2025 14:33:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBD7220E32D;
+	Tue, 18 Mar 2025 14:46:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Wv0v35Ub"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FvxVy8z2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A8520CCEA
-	for <linux-media@vger.kernel.org>; Tue, 18 Mar 2025 14:33:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EEA5207A3E;
+	Tue, 18 Mar 2025 14:46:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742308409; cv=none; b=gvQp2vjmdYBlYYhONMn5xAEERuGCMB1NHGMkw0ltcE9ymarV8yE3Us2sSXOaO1XIbkw/VoJGOm+O+3i9CroM9O1kZnIfi7WkZVlbBBZI4EgcdTyBDeJJF3LXT5wS0ti+fTPYEHCBLN2tg6+qKKEnVISoZBZwiNM/qDlA9C86K+0=
+	t=1742309175; cv=none; b=RqNrF1QrRld8QlZ19AcsiWC03btj9nqFd+uTk/pteu2q7bjbLI4QXrgoh8tmLCMaTlEAd6axuPfkNb+khOb+JQ9DNcbroqfRaxTmq5fNWfSy09RDs5MA2nEWOvokEyQW6hKj8nk1MSv0B+aRMeXiN+/j32hz3o8k6h1vNXFkE1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742308409; c=relaxed/simple;
-	bh=eas+vQ1ReggmI3VLIUXfF3opvpqo6XgOUi6ufjd5atQ=;
+	s=arc-20240116; t=1742309175; c=relaxed/simple;
+	bh=1Wr03/Qkon9oS5NVwNq1baj9iT6/pEbxQrYGlLnkhzw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qQzlCWyJ9dZ+a4vvb4bZRRsBTNpmm4XIQVJF1bPjH3YR21K/3wbR755mjvL9pa4XEv+ctnLYi7wIIde0rnXlyswPdaAUWPFFUyC0JSi/wbeDfaj+Mztj3xj0lHrD/yfani1F7PCnnDayLdC792t/9CALmmtnqCLY4wJWNNqmlJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Wv0v35Ub; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52IAVrgq027058
-	for <linux-media@vger.kernel.org>; Tue, 18 Mar 2025 14:33:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	1gSHyxlizzu6L+Z9HZ3/usswbAq6JRVp+YGuaZi/mPc=; b=Wv0v35UbW/m6fi/1
-	pyNrOYQ3+YBprgYemg0KkFBPGYCo0+N+uwrypKcQO3S4F2Y5Ef+xvwx6eBxrSPnj
-	kcb55JOjnff6xIwQdXMWiyCj8HPY3THX62nhKbJ8YbJIOOrrIjEJgU4uyGhpmznj
-	cBnPE2aqaD+zehBaFEXbBv3sBKsqdM/fgZT0TarPXhtGVOO2XIB96bzU1ePpNWtU
-	ogWfLqa1muOcAAGbu16j7i2XX/51iz8XagTpGG3vvdSY9CwEAiuNwfJXljovzMuz
-	t59qW+e7W1OGA9jVukhX76SmNtLneZdBk7i1eDeGh+W0e6ay+02Xj4YJ5/v+ge9T
-	gukyog==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45exwtj7p1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 18 Mar 2025 14:33:26 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6e8f9c5af3dso9749906d6.1
-        for <linux-media@vger.kernel.org>; Tue, 18 Mar 2025 07:33:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742308405; x=1742913205;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1gSHyxlizzu6L+Z9HZ3/usswbAq6JRVp+YGuaZi/mPc=;
-        b=h0kks4WT8KfED3rYjqlMOTJIflXIMWzCTRGLdJgK2p7CaYGZaX36jJIJ3ANGTLqYQi
-         JAptgy5VsKR0jeFT9JdmLGXvl+Zy123wDyY95HgURSEfEn1D55W9Xw2qbOl2bUsYAUZe
-         EZb97akBVqAbX0I7lKD1UTUwFgeBkPVfBwOeYVJRUzPpRZiYicFVaWGe65AUygkNJ/5s
-         CTnnOEoqdnCxw9WnQUgrT8UBLuaYhgnljwLqmB7gAn43/V/nt6DwHtijk7VHGoKZIRbZ
-         1iJASTtspkQRd7k3dkBYuJDxYUiMNPlWhp1jWLxKWafxUiEFOUeJxes/7s6FxL20yVds
-         uKnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXNk1DZTUq1yx5u68cyQjHP61AytqLlwxOljxiTV6XPwsz0D44aX1OtxM11SJFNXiuSe3zpga9OvW6shA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKrijoEbdmzl0EDPxb/BLxFylvdhI6v67+3i26Sm/BZJPSinzG
-	96uH4n4MN+kfBW0bhO/wOxDsFn4JiPvOkNZUy8eZ4IFSlYJIQtzKvEEL8DswKqJ4osswLgRpqFM
-	DUIa148hCKr8QiHzrN6fan2QrEpelDefbqZLvze/qO+2v2pVm5KMaiIyFMSPajQ==
-X-Gm-Gg: ASbGncvY0Yf/39AkNOPupGF6tf3Nta6dqd/FFTSRDJ1KYLEcNHQocpSztoVTkt24Wex
-	3ZGOTHorCO9zt85oacQXiQdHpRnv8H1SzfeG6R1eUCy9zWmw6heoh/FGF8WFkzBRNZZMafPQKeC
-	AZS73SMfzfWtTw16PHVyrlldesSj8IpmbWbECWfBO52LryX6XGgjHjOxnUiL8aj49JH9HVRvLzR
-	pIpnkIu7eccHwvxQr3mYxq8p5kFjrvSpxAruLzWxeDUOkpKgezmU2LQKHMRHxmW+XRsEjdVtLLJ
-	N/Bv8SupcmFDFnPi6iiN+2AYRz7oIl9F/J00AZQ0GSs0tOBo+T7U4DwqKKblKnY0/eW9CA==
-X-Received: by 2002:a05:622a:180e:b0:472:2122:5a37 with SMTP id d75a77b69052e-476c81410fcmr97651661cf.4.1742308404962;
-        Tue, 18 Mar 2025 07:33:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGijmIEbCtzUiyK4kMVgUNiQ4VrmlRjM2YTS3V022dmP4rU4NWQYFESVJkXCh24tWs7ZzGqWQ==
-X-Received: by 2002:a05:622a:180e:b0:472:2122:5a37 with SMTP id d75a77b69052e-476c81410fcmr97651381cf.4.1742308404588;
-        Tue, 18 Mar 2025 07:33:24 -0700 (PDT)
-Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac314a40f61sm853965466b.134.2025.03.18.07.33.22
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Mar 2025 07:33:24 -0700 (PDT)
-Message-ID: <9940290b-6b97-4339-848d-ea95a365f74c@oss.qualcomm.com>
-Date: Tue, 18 Mar 2025 15:33:21 +0100
+	 In-Reply-To:Content-Type; b=SuAIRpv3cPEGMB40FjLWPRLswz2ZLVsL3bLhBdy5/PXlDFlydD5abFVfR89cZOEtAIsFaGB9CnHYZJh03I3qNNOQiFQDbxfKL7od952PNrFGV9KupoYTLN6mZpOjU3xuyE4gki8++lF8JS/AmLMvEIVq2BUJOz9T7O454F6aaiI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FvxVy8z2; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F317AA2F;
+	Tue, 18 Mar 2025 15:44:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1742309064;
+	bh=1Wr03/Qkon9oS5NVwNq1baj9iT6/pEbxQrYGlLnkhzw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=FvxVy8z2TxQw98M6QVSHZ+Ms73Ju/9JS27U0CHUXemVM+JMFr0gS19H+x7pETI6cS
+	 444xDzOiEjrbfxXblindUbTSV02H6QVFtKKhvNGcWwWmYR8yNYE5KdRsDLpYa/8hNT
+	 pqT+nFsQnGPq5IjHd0Ua3V/M6ou8ev60P4gW+xZo=
+Message-ID: <9032362c-a332-4b44-8c77-386edb1f09f7@ideasonboard.com>
+Date: Tue, 18 Mar 2025 16:46:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -89,102 +50,88 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] arm64: dts: qcom: sa8775p: add support for video node
-To: Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250311-dtbinding-v1-0-5c807d33f7ae@quicinc.com>
- <20250311-dtbinding-v1-3-5c807d33f7ae@quicinc.com>
- <3ec71075-b1ef-4366-b595-80fe41cd1e13@oss.qualcomm.com>
- <8f7c1c08-6776-968c-530e-b640ded940b3@quicinc.com>
+Subject: Re: [PATCH RFC] media: i2c: ds90ub960: Enable second i2c interface
+To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, mchehab@kernel.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ vaishnav.a@ti.com, u-kumar1@ti.com, r-donadkar@ti.com
+References: <20250305121705.2143540-1-y-abhilashchandra@ti.com>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <8f7c1c08-6776-968c-530e-b640ded940b3@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20250305121705.2143540-1-y-abhilashchandra@ti.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: xHrmPWXKDUG5f2P4Bc0YQvO2YjOyKuoZ
-X-Proofpoint-ORIG-GUID: xHrmPWXKDUG5f2P4Bc0YQvO2YjOyKuoZ
-X-Authority-Analysis: v=2.4 cv=UoJjN/wB c=1 sm=1 tr=0 ts=67d98436 cx=c_pps a=UgVkIMxJMSkC9lv97toC5g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=TSMI0u4FDo7tO7E2M5oA:9 a=QEXdDO2ut3YA:10
- a=1HOtulTD9v-eNWfpl4qZ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-18_07,2025-03-17_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
- impostorscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=999
- phishscore=0 adultscore=0 clxscore=1015 spamscore=0 suspectscore=0
- lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503180107
 
-On 3/18/25 3:24 PM, Vikash Garodia wrote:
-> 
-> On 3/15/2025 7:13 PM, Konrad Dybcio wrote:
->> On 3/11/25 1:03 PM, Vikash Garodia wrote:
->>> Video node enables video on Qualcomm SA8775P platform.
->>>
->>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
->>> ---
->>>  arch/arm64/boot/dts/qcom/sa8775p.dtsi | 67 +++++++++++++++++++++++++++++++++++
->>>  1 file changed, 67 insertions(+)
->>>
->>> diff --git a/arch/arm64/boot/dts/qcom/sa8775p.dtsi b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
->>> index 3394ae2d13003417a15e64c9e47833725ec779e6..09db8e2eb578f1cada0f4a15e3f844dc097bd46d 100644
->>> --- a/arch/arm64/boot/dts/qcom/sa8775p.dtsi
->>> +++ b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
->>> @@ -10,6 +10,7 @@
->>>  #include <dt-bindings/clock/qcom,sa8775p-dispcc.h>
->>>  #include <dt-bindings/clock/qcom,sa8775p-gcc.h>
->>>  #include <dt-bindings/clock/qcom,sa8775p-gpucc.h>
->>> +#include <dt-bindings/clock/qcom,sa8775p-videocc.h>
->>>  #include <dt-bindings/dma/qcom-gpi.h>
->>>  #include <dt-bindings/interconnect/qcom,sa8775p-rpmh.h>
->>>  #include <dt-bindings/mailbox/qcom-ipcc.h>
->>> @@ -3783,6 +3784,72 @@ llcc: system-cache-controller@9200000 {
->>>  			interrupts = <GIC_SPI 580 IRQ_TYPE_LEVEL_HIGH>;
->>>  		};
->>>  
->>> +		iris: video-codec@aa00000 {
->>> +			compatible = "qcom,sa8775p-iris";
->>> +
->>> +			reg = <0 0x0aa00000 0 0xf0000>;
->>> +			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
->>> +
->>> +			power-domains = <&videocc VIDEO_CC_MVS0C_GDSC>,
->>> +					<&videocc VIDEO_CC_MVS0_GDSC>,
->>> +					<&rpmhpd SA8775P_MXC>,
->>> +					<&rpmhpd SA8775P_MMCX>;
->>> +			power-domain-names = "venus",
->>> +					     "vcodec0",
->>> +					     "mx",
->>> +					     "mmcx";
->>> +			operating-points-v2 = <&iris_opp_table>;
->>> +
->>> +			clocks = <&gcc GCC_VIDEO_AXI0_CLK>,
->>> +				 <&videocc VIDEO_CC_MVS0C_CLK>,
->>> +				 <&videocc VIDEO_CC_MVS0_CLK>;
->>> +			clock-names = "iface",
->>> +				      "core",
->>> +				      "vcodec0_core";
->>> +
->>> +			interconnects = <&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ALWAYS
->>> +					&config_noc SLAVE_VENUS_CFG QCOM_ICC_TAG_ALWAYS>,
->>
->> This path should use QCOM_ICC_TAG_ACTIVE_ONLY on both endpoints
-> What is the advantage of "ALWAYS" vs "ACTIVE_ONLY". Thinking of a possibility of
-> APSS power collapsed, while video hardware is processing a frame ?
+Hi,
 
-That's totally okay, I'm requesting ACTIVE_ONLY just on the cpu-cfg path,
-which must not be used if APSS if offline anyway
+On 05/03/2025 14:17, Yemike Abhilash Chandra wrote:
+> The DS90UB960-Q1 includes a second I2C interface for independent control
+> of the deserializer and remote devices. However, the current driver does
+> not utilize it, thus restricting users to either CSI TX0 or CSI TX1 on
+> the primary I2C interface. Enable the second I2C interface, allowing
+> flexible routing where CSI TX0 can be used on the primary and CSI TX1 on
+> the secondary, or vice versa by enabling appropriate ports in DT. To
+> achieve the same only modify the bits relevant to the enabled RX and TX
+> ports of that interface and during probe and enable_streams call, few
+> registers were being reset to HW reset state, these operations are not
+> necessary for functionality and resets the state when secondary I2C
+> interface is probed, thus drop them.
 
-Konrad
+I'm a bit confused about the description. My recollection is that both 
+CSI TX0 and TX1 can be programmed just fine from the first I2C 
+interface. Is that not so?
+
+Also, even if the driver supports both CSI TXes, at the moment v4l2 
+framework doesn't work with it, at least in many cases. E.g. if you 
+connect one TX to a CSIRX, the other TX to another CSIRX, and those 
+CSIRXes are independent, have their own media graphs, it's not going to 
+work at all.
+
+So I guess my question is, what's the target here, how did you test 
+this, etc?
+
+  Tomi
+
 
