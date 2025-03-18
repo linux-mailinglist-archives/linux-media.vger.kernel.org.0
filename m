@@ -1,59 +1,59 @@
-Return-Path: <linux-media+bounces-28437-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28436-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 961F8A67D0C
-	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 20:25:42 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0CE2A67D07
+	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 20:24:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D464F19C6B63
-	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 19:24:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2742E7AA1C8
+	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 19:23:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21B1A2139A1;
-	Tue, 18 Mar 2025 19:23:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D479212F83;
+	Tue, 18 Mar 2025 19:23:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="OPfECu2S"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="j0NKxYto"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-op-o15.zoho.com (sender4-op-o15.zoho.com [136.143.188.15])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D644E1E5217;
-	Tue, 18 Mar 2025 19:23:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C9E5199924;
+	Tue, 18 Mar 2025 19:23:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742325829; cv=pass; b=IWxAAzU9LKkJFNlOEz3o1c1f1zb4eiOsQ6uMIbkm25duedxKYNOMNbCz/aNU6pdQHgbE8mPBr3u02FfpqpSn7Ai9kpMa8XJTbffF9NGB+jSYdJ13pVgKoA1E34QIPSXB2r/YG1QosOLmiy0Tw1F+BW1IWxNPenf3x2zr/vJ+qOw=
+	t=1742325828; cv=pass; b=cLUSw6SUr1gDUGMTjwcaJCMXkn6FTh8d4/n+Ei/XkRvr7X+Lt+EuAjKHYyZz7/4Nal0sJ7EGvs+f/gYDX4zjUIM/pGDVwuaAANSsm6mOLM+RE1HiLkuqddd/DmdgvxLU7O3y+vltVQyk/BzOl47P6t2K4c2KcAAghH6aSlSIHso=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742325829; c=relaxed/simple;
-	bh=de2jq1yT+RGQkDq8v9mkyCtbheIxKJFWYU8ozp1q1I8=;
+	s=arc-20240116; t=1742325828; c=relaxed/simple;
+	bh=Lki/NwPjPvhMGHSp1xI7uK4o8OGHzn0gSex0DX8Rzxw=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=r2oZWlmvLFA2zUqokAC9AJx4mbxUWmyLusLQGGwsPjy1zVr2YpGgAXuBGy1kE1ff8tdP2u008v8paOAoPAyHjp8mA8+MDOmELduAVEFq5UqJPqkNAa3PtXKVkthBdse8gR/967t8JW0OEFvCQmBCiaX0ZvMD8SlGLB9XwLe8gTw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=OPfECu2S; arc=pass smtp.client-ip=136.143.188.15
+	 In-Reply-To:To:Cc; b=DtLs9iMB7cOva2zp1JGsrZtXM/X1Ms3l9Xo3VgKb3eK3Ad1LO5GO3+9XgIHScAcyOnPniQVGgCtOUMK7BdKxE+EjHNv/gyu1WeiMDbEXq+z9ISBDxtRnpqdHe7DR0T6A+B2UsNTRcVKgZp882jxp0PGam4btgMvvtCumQs9WKUU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=j0NKxYto; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1742325783; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1742325786; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=PTJaz09qFMbDsvagbvsS3rm9wHzpkAY9ZV5xoNNjdwYWo8dG2qShxrXnwuKXXMwLUZhI92VaqKOGglKgdC+MP3iUG/fU+QILWf+fZPQBxw2PHTvWCrYEUViuQTZ4DpKsuTpSyOBycOIlR6EmduZWQCc3f2JDeXeWWQ25QBibN6I=
+	b=fTdHk+BytT5+tAfwi7NcvHNxKZFG7p+KIUnxtgXU3T/DlcR2ZeGWPktNW5VlRhEI4Hm3lOUQ4DcyP81f+uWv0UDjsimPdAr91zt1W12fq0N3P0BzJRjMwmw7+RRcgZ3NIXY7HUMaaEwM7A3W1Ki+DG+H7TnDKaP9Ul+gUl6a20Y=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1742325783; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=9wCuwS7UKXaDgrz4jduawpF4mCPLt9l9JKYC4KOue28=; 
-	b=XdXiUDcelySLk2ckYEsf5stweq8Yz6iScMd2F9AhMIaH9gen6M5nNXtCJIDdGQ25ETUKCx5BMF/taCXKlO8I8q87IiFPJEEyD64MzJ4IgJchF0OWVK2SVzB4sQtVbJXws87cQ3jKtc2cViwV1D0rDOrot61sdCZzIM8exo3xAiM=
+	t=1742325786; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=MY7Cl7jgPAQV9jp81m1D78HRv5kJV8iHLNLGSHsiP00=; 
+	b=MCDYFck2oN7OEXdxsFORYj7U87GQoCGW8rjafARpC9bteeZJ8vw2hWbMqVl3TE1TcMWJ2LZVtFxu10pTw5SYLO+tXf8XUXMScuuqeCDubVDXOG2Vi7MlxRYPVlZmist+sSQq12kN1+qoyWEhq22qXzfpkhIJQwbh/Qlgciq5774=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
 	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742325783;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742325786;
 	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
 	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=9wCuwS7UKXaDgrz4jduawpF4mCPLt9l9JKYC4KOue28=;
-	b=OPfECu2SmR5CTw0zvl0legVF9p8Dj5+hol1B1Qci4h90TRDOCAGN996H/6ccAel6
-	o7DkE7aBV5hvC4MOiWgwWo2UQDDXCQag/pBhYti2K0OcK99ViaAxi2Lh1MiQKSR2LNB
-	Pi6pQK/KMsUuN/r75o2pZHrbaxafqJljltjdfOho=
-Received: by mx.zohomail.com with SMTPS id 1742325779988998.490270205079;
-	Tue, 18 Mar 2025 12:22:59 -0700 (PDT)
+	bh=MY7Cl7jgPAQV9jp81m1D78HRv5kJV8iHLNLGSHsiP00=;
+	b=j0NKxYtoLRK6J9dsv6r263wIo/zx8c8wsaCLzwTIzs5F7SJSLBtcm8NAxekvIX6l
+	8VeMNTGEzqU3ohwb9zUXq6Bt28ME1A94gtWyYk9mas2HBIzrK7B3ClU4sdTaJJN3lBH
+	JHAQN87PPmKvEptO8IbMmyDPaeskki/cBJN7mK98=
+Received: by mx.zohomail.com with SMTPS id 1742325785766934.6166976605112;
+	Tue, 18 Mar 2025 12:23:05 -0700 (PDT)
 From: Daniel Almeida <daniel.almeida@collabora.com>
-Date: Tue, 18 Mar 2025 16:22:35 -0300
-Subject: [PATCH 1/7] drm/shmem-helper: Add lockdep asserts to vmap/vunmap
+Date: Tue, 18 Mar 2025 16:22:36 -0300
+Subject: [PATCH 2/7] drm/gem-shmem: Export VM ops functions
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -62,7 +62,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250318-drm-gem-shmem-v1-1-64b96511a84f@collabora.com>
+Message-Id: <20250318-drm-gem-shmem-v1-2-64b96511a84f@collabora.com>
 References: <20250318-drm-gem-shmem-v1-0-64b96511a84f@collabora.com>
 In-Reply-To: <20250318-drm-gem-shmem-v1-0-64b96511a84f@collabora.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -85,39 +85,74 @@ X-ZohoMailClient: External
 
 From: Asahi Lina <lina@asahilina.net>
 
-Since commit 21aa27ddc582 ("drm/shmem-helper: Switch to reservation
-lock"), the drm_gem_shmem_vmap and drm_gem_shmem_vunmap functions
-require that the caller holds the DMA reservation lock for the object.
-Add lockdep assertions to help validate this.
+There doesn't seem to be a way for the Rust bindings to get a
+compile-time constant reference to drm_gem_shmem_vm_ops, so we need to
+duplicate that structure in Rust... this isn't nice...
 
 Signed-off-by: Asahi Lina <lina@asahilina.net>
 Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
 ---
- drivers/gpu/drm/drm_gem_shmem_helper.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 9 ++++++---
+ include/drm/drm_gem_shmem_helper.h     | 3 +++
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-index 5ab351409312b5a0de542df2b636278d6186cb7b..ec89e9499f5f02a2a35713669bf649dd2abb9938 100644
+index ec89e9499f5f02a2a35713669bf649dd2abb9938..be310db5863871604f3502ad1f419937d4c20a84 100644
 --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
 +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -338,6 +338,8 @@ int drm_gem_shmem_vmap(struct drm_gem_shmem_object *shmem,
- 	struct drm_gem_object *obj = &shmem->base;
- 	int ret = 0;
+@@ -535,7 +535,7 @@ int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
+ }
+ EXPORT_SYMBOL_GPL(drm_gem_shmem_dumb_create);
  
-+	dma_resv_assert_held(obj->resv);
-+
- 	if (obj->import_attach) {
- 		ret = dma_buf_vmap(obj->import_attach->dmabuf, map);
- 		if (!ret) {
-@@ -404,6 +406,8 @@ void drm_gem_shmem_vunmap(struct drm_gem_shmem_object *shmem,
+-static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
++vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
  {
- 	struct drm_gem_object *obj = &shmem->base;
+ 	struct vm_area_struct *vma = vmf->vma;
+ 	struct drm_gem_object *obj = vma->vm_private_data;
+@@ -564,8 +564,9 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
  
-+	dma_resv_assert_held(obj->resv);
-+
- 	if (obj->import_attach) {
- 		dma_buf_vunmap(obj->import_attach->dmabuf, map);
- 	} else {
+ 	return ret;
+ }
++EXPORT_SYMBOL_GPL(drm_gem_shmem_fault);
+ 
+-static void drm_gem_shmem_vm_open(struct vm_area_struct *vma)
++void drm_gem_shmem_vm_open(struct vm_area_struct *vma)
+ {
+ 	struct drm_gem_object *obj = vma->vm_private_data;
+ 	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+@@ -586,8 +587,9 @@ static void drm_gem_shmem_vm_open(struct vm_area_struct *vma)
+ 
+ 	drm_gem_vm_open(vma);
+ }
++EXPORT_SYMBOL_GPL(drm_gem_shmem_vm_open);
+ 
+-static void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
++void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
+ {
+ 	struct drm_gem_object *obj = vma->vm_private_data;
+ 	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
+@@ -598,6 +600,7 @@ static void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
+ 
+ 	drm_gem_vm_close(vma);
+ }
++EXPORT_SYMBOL_GPL(drm_gem_shmem_vm_close);
+ 
+ const struct vm_operations_struct drm_gem_shmem_vm_ops = {
+ 	.fault = drm_gem_shmem_fault,
+diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
+index d22e3fb53631ab655748d7f6c628ffdb402f6324..b70d3cc35bd194e7cd718bee220408b5dda568bf 100644
+--- a/include/drm/drm_gem_shmem_helper.h
++++ b/include/drm/drm_gem_shmem_helper.h
+@@ -132,6 +132,9 @@ void drm_gem_shmem_print_info(const struct drm_gem_shmem_object *shmem,
+ 			      struct drm_printer *p, unsigned int indent);
+ 
+ extern const struct vm_operations_struct drm_gem_shmem_vm_ops;
++vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf);
++void drm_gem_shmem_vm_open(struct vm_area_struct *vma);
++void drm_gem_shmem_vm_close(struct vm_area_struct *vma);
+ 
+ /*
+  * GEM object functions
 
 -- 
 2.48.1
