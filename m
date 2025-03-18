@@ -1,174 +1,144 @@
-Return-Path: <linux-media+bounces-28442-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28444-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74A02A67D1E
-	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 20:28:01 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18CBEA67F14
+	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 22:49:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3823E3B4848
-	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 19:25:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 57FA0174EE7
+	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 21:48:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18432214815;
-	Tue, 18 Mar 2025 19:24:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1495D2063D7;
+	Tue, 18 Mar 2025 21:48:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="TzxHbaWU"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="cfhtXEwu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC9DF1DF745;
-	Tue, 18 Mar 2025 19:24:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742325846; cv=pass; b=OJKRMCnIVfrCw+CZVMOpplGxdJh42SXjDeleH04b9pjeF+RsHVeCS/iDwXGPeZ+V9hJG/NYnqk4GY8xs4EvfnAsG3V3OOi3bKPnIVswiSpvseo/WfLVfzO4n2z9DsaF877GQbKsAfRmbTp0xUogISjz8b69UWbRAEdRg/O6sCy0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742325846; c=relaxed/simple;
-	bh=vvTB8rkN7ljMSUXzRFh/rfPsl7C9GGs09UoRBBl3iyY=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WuOWT8y9dfIIwa9QAjfVduuRNcu1Ot8NVcq7d8xn9pG1Dzz/CwT1TdJL5iuTLxUK3jyP5W0nvJzoGMQtAVcMr3huNWMNbWGThSiEAbCHQauxZ2NkS+7qMsFq2gmoT03HMA/FkevlAYo7kC1XT9YCJyI4+80TwTMh4x0zgNH91hE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=TzxHbaWU; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1742325815; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=BKEbwh2MQCWz4P1R2zqqcPU93xs5X1S7FMSeWtTtupARQbFRbP1NpocXvCeq8f9AQMAPS8OvVMkHMTo/psATprDyBETB0ix77Mv4VK3bqL5k4siVwXnkfWukPa+tjL4OkBgkYQA3A4rbsoa7P1oKxTMjcT4Anjhm/TZZ7GdqUyQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1742325815; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=VFvk+dYAnpkou9AH4DFuJ+Nu9zjD0N7bOMF+5NpPK7A=; 
-	b=Me1Ts1r3qYGEt6jl99IAwxsZ3yyJvd2873HYaHmVuBWB8AJUpIRu2+chMl5eqyspcZjhmXuSIS7NedqUiWmJJZzftC6pkvTmXr57CKCIKqUPvY/KBKlMnlLjmqdljFy9GfsDuQ2Nz+N0jPwkFQ3QA4DqGx9cmCHuHsYXFENIMhc=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
-	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742325815;
-	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=VFvk+dYAnpkou9AH4DFuJ+Nu9zjD0N7bOMF+5NpPK7A=;
-	b=TzxHbaWU1iBonu2y8PYFsdKmU9LLZKO885R2SQtzuB2hitjZHptU1zrtk/2Eh0QR
-	6+iy+vZzwHlzhOPqalbScfJpCXuA9FV5yUp0l+7HdoDWzLAtgWKUriPso7wBR1L1viV
-	9jIMkxlP9SZjpCyUJdXpyQmiOrNdNAayUxGxTyj0=
-Received: by mx.zohomail.com with SMTPS id 1742325814316498.85405764067946;
-	Tue, 18 Mar 2025 12:23:34 -0700 (PDT)
-From: Daniel Almeida <daniel.almeida@collabora.com>
-Date: Tue, 18 Mar 2025 16:22:41 -0300
-Subject: [PATCH 7/7] rust: drm: gem: shmem: Add share_dma_resv() function
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C11971EB5DB
+	for <linux-media@vger.kernel.org>; Tue, 18 Mar 2025 21:48:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742334526; cv=none; b=Cptp7EKMd4gSeU9RvQlxAzsUrlogQnWBQZO4TflzbLqRh68lwEstsNdLpbhLQZy3zK5cVzs9iYVfIX6U3N92jJ4uoRdgDTVbyGBtp0Q5pIdzHvBxMMCH0/x0okCLKqwwNUeSxG8jevgtBi0hkQq48fIbQzci3CqgI7+XUV5dbFk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742334526; c=relaxed/simple;
+	bh=9QWi9Jbu2T/CyKwbiyJQWuyZbY48B9JmNpyjsuhsu70=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MhwHtqMbIb6tdPLSVzqY/ZqQ1Bt5SO90yrn3fVzf+hZoAmt9ua+WgvX94nKhEdStjvcZVLlxmWkeP3nEMNT+d1faUjXQiPlf/dkNzGcqpLf8qxlPcaszX4YMNBsC92qaRtuUl83U4qE1hSL1WV3gzf9+/FiM8HQTk/Rr3eDq+6c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=cfhtXEwu; arc=none smtp.client-ip=209.85.218.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ab771575040so19023166b.1
+        for <linux-media@vger.kernel.org>; Tue, 18 Mar 2025 14:48:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1742334523; x=1742939323; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=duoNyUPDpZ35AJzrwQXSbOfWB68wwqzf/wrWJgrnJcc=;
+        b=cfhtXEwu2LdGKmKztXYwu9hsns9j6UgYEwbAQuhomB08WLLs8Rk1jQQ75ymRgIpUev
+         Ec2lHjJu42hoRduOq0sKg2ZO4kD3lh8FVIqC6qQ74Ca286iZGsg/cgo3cE/Vj/onLc3T
+         8iV2an/UN00eyCtRs0JTlY1yvXcbd/Z6MRVlrg1cWlqPCYbnxhU0yy2OjE/QIj1xNvab
+         dibQljxjX95KFclCUeSfR3wyNHVEHqiuW7WW8LBOjs4g3UK8rcQri3XxnyjozkuUmX5e
+         4g9mwveFRzoYatgZQV6ewoS3+kjulVr7/gTGIH4d6xB03geaVyhoMhf/xAXxDlblzwWL
+         5yqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742334523; x=1742939323;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=duoNyUPDpZ35AJzrwQXSbOfWB68wwqzf/wrWJgrnJcc=;
+        b=eBOruFFY3DdhdPsb8LW/Bifo4GUWcQjbtQKnCI2Wj7qoCl7O9B0dkyWKTN+6AxF9uO
+         4qLDR96NwUdAZtUNfMgto2IOFsXax5sIXUQP/s1PV3ofdFEXjmdjIyWuP3+2cyKVEL0d
+         MR2KSf+IJprmf9jdRb4v0V3gEaBWl1xv9aRDB5cO7QK3rTvy1S/n8dW4k2/u29xVXvTT
+         3nlxKXvPelVuw/AkvYQ5CqtohtyWaWIWmb+RNjeZJ9BY/Rlrw3JtDCpiom4OnC5grLUA
+         kZ7sg5ZB+Tre8NN773M77giPFiDmzxGf41rdCcMuWE0UPGpuupGJY6j1RSVQdTdhilWl
+         72PQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW6BQbp5XHp5zu/gMy9mGT7avc/zXXqOu52hj9SzB0DH3dwIBGolpnGdhAHZgCCe/mMQ4IqAlJvypD6JQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKwa2J0KaOKe91C9YNaBUxYcZX3Dbl1KyB6eD3LSQRCVOQT9vE
+	/OOM6AlLogjvKOo/U4rxTYdRm8I7vZeCjj0Aajq9CtbEyY9GLF1CPWJjZbxds4w=
+X-Gm-Gg: ASbGncslWq/CRyoHyTXLhpArYfZTWoKFDCC37fWvQZVFUm/6CvSj+rt0EgVm5f3zett
+	5yDjmDgoloPbnu544nOwleS80qwgqKdFEEvaLwqtnY6me5zikS7h+Jn3O6Xe1U62qO+rx9GyDCt
+	egpIxg8wmFPmoX9Xhf5XTjTu4/3geEXKB367oSRwaOTmbCqKr+cMKTL6JDSKaPtWcti5R6pf7KD
+	wizcChZlOkGjWoHyEUzmnLFLKvF/puF/PXegnRpUctutAltzGjYIj3S+DALMlhNBm1WFPE2jN24
+	bhSNV3fZnMlryFwAzNsdDVfoIvlBJOW8rbTqihDWA0PmO6gt3E+KWkfO/3W6T/JY7jvu3bR/8B1
+	1NMrqbC4ni6au3dgs2Jy5KHTWxTvCENjJHbXOA7PYom8VGUvks79IiKG9znN6XO31vmuFYt75Rm
+	mCZoLHaS+3w/Kt/TpBjqtoZkoJaSerjdQ=
+X-Google-Smtp-Source: AGHT+IF06W/HXbWDQcnvIov2Jj/jxhVUXmUlc3LWIaSEPfb9UpbLNwCGC29SRRaa+u05btkXLemWAA==
+X-Received: by 2002:a17:907:f50a:b0:ac3:3e43:f451 with SMTP id a640c23a62f3a-ac3b6abe286mr34843266b.5.1742334522980;
+        Tue, 18 Mar 2025 14:48:42 -0700 (PDT)
+Received: from ?IPV6:2001:1c06:2302:5600:7555:cca3:bbc4:648b? (2001-1c06-2302-5600-7555-cca3-bbc4-648b.cable.dynamic.v6.ziggo.nl. [2001:1c06:2302:5600:7555:cca3:bbc4:648b])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3147ef34asm921171966b.68.2025.03.18.14.48.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 18 Mar 2025 14:48:42 -0700 (PDT)
+Message-ID: <b1ea0500-595f-48d6-9358-649c25fd4ee9@linaro.org>
+Date: Tue, 18 Mar 2025 21:48:40 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/2] media: dt-bindings: Add qcom,qcs8300-camss
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Vikram Sharma <quic_vikramsa@quicinc.com>
+Cc: rfoss@kernel.org, todor.too@gmail.com, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ andersson@kernel.org, konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
+ cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com,
+ will@kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250214094747.2483058-1-quic_vikramsa@quicinc.com>
+ <20250214094747.2483058-2-quic_vikramsa@quicinc.com>
+ <20250223-observant-auspicious-basilisk-d78ba9@krzk-bin>
+ <66c35bce-c657-4c12-ad02-58c995ae385a@quicinc.com>
+ <f2899540-f9ac-4013-a703-25800429f97d@kernel.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <f2899540-f9ac-4013-a703-25800429f97d@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250318-drm-gem-shmem-v1-7-64b96511a84f@collabora.com>
-References: <20250318-drm-gem-shmem-v1-0-64b96511a84f@collabora.com>
-In-Reply-To: <20250318-drm-gem-shmem-v1-0-64b96511a84f@collabora.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
- =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
- Benno Lossin <benno.lossin@proton.me>, 
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>, 
- Trevor Gross <tmgross@umich.edu>, Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- rust-for-linux@vger.kernel.org, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org, Danilo Krummrich <dakr@kernel.org>, 
- Asahi Lina <lina@asahilina.net>, 
- Daniel Almeida <daniel.almeida@collabora.com>
-X-Mailer: b4 0.14.2
-X-ZohoMailClient: External
 
-From: Asahi Lina <lina@asahilina.net>
+On 18/03/2025 07:16, Krzysztof Kozlowski wrote:
+> On 18/03/2025 06:52, Vikram Sharma wrote:
+>>
+>> On 2/23/2025 5:03 PM, Krzysztof Kozlowski wrote:
+>>> On Fri, Feb 14, 2025 at 03:17:46PM +0530, Vikram Sharma wrote:
+>>>> +properties:
+>>>> +  compatible:
+>>>> +    const: qcom,qcs8300-camss
+>>>> +
+>>>> +  reg:
+>>>> +    maxItems: 21
+>>>> +
+>>>> +  reg-names:
+>>>> +    items:
+>>>> +      - const: csid_wrapper
+>>> Why different order of entries than sm8550?
+>>
+>> Hi Krzysztof,
+>>
+>> Thanks for your review.
+>> I did this change to address a comment from Bryan on another series.
+>> https://lore.kernel.org/linux-arm-msm/e152ff78-caa5-493a-88da-96a6670eb2a2@linaro.org/
+>>
+>> Please suggest if I should keep the order same as sm8550?
+> If you chosen the same order as x1e80100 then it is fine, but that file
+> is not merged so it is your responsibility to track any differences and
+> be sure whatever you send is always in sync with x1e.
+> 
+> Best regards,
+> Krzysztof
 
-Allow a GEM object to share another object's DMA reservation, for use
-with drm_gpuvm. To keep memory safety, we hold a reference to the GEM
-object owning the resv, and drop it when the child object is freed.
+My mistake, I hadn't realised/remembered what we merged for 8550.
 
-Signed-off-by: Asahi Lina <lina@asahilina.net>
-Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
+Vikram, please follow latest committed example @ 8550.
+
 ---
- rust/kernel/drm/gem/shmem.rs | 33 ++++++++++++++++++++++++++++++++-
- 1 file changed, 32 insertions(+), 1 deletion(-)
-
-diff --git a/rust/kernel/drm/gem/shmem.rs b/rust/kernel/drm/gem/shmem.rs
-index fdf7dd7f2408bd2857f5b72027ef48e29c9dd9e3..e026b26a4895daea0534b93296da9a33683aa432 100644
---- a/rust/kernel/drm/gem/shmem.rs
-+++ b/rust/kernel/drm/gem/shmem.rs
-@@ -17,7 +17,7 @@
-     slice,
- };
- 
--use gem::BaseObject;
-+use gem::{BaseObject, IntoGEMObject};
- 
- /// Trait which must be implemented by drivers using shmem-backed GEM objects.
- pub trait DriverObject: gem::BaseDriverObject<Object<Self>> {
-@@ -72,6 +72,8 @@ pub struct Object<T: DriverObject> {
-     // The DRM core ensures the Device exists as long as its objects exist, so we don't need to
-     // manage the reference count here.
-     dev: *const bindings::drm_device,
-+    // Parent object that owns this object's DMA reservation object
-+    parent_resv_obj: *const bindings::drm_gem_object,
-     #[pin]
-     inner: T,
- }
-@@ -101,6 +103,7 @@ unsafe impl init::Zeroable for bindings::drm_gem_shmem_object {}
-         // SAFETY: GEM ensures the device lives as long as its objects live
-         inner <- T::new(unsafe { device::Device::borrow(dev)}, size),
-         dev,
-+        parent_resv_obj: core::ptr::null(),
-     });
- 
-     // SAFETY: p is a valid pointer to an uninitialized Object<T>.
-@@ -135,6 +138,15 @@ unsafe impl init::Zeroable for bindings::drm_gem_shmem_object {}
-         core::ptr::drop_in_place(&mut (*p).inner);
-     }
- 
-+    // SAFETY: parent_resv_obj is either NULL or a valid reference to the
-+    // GEM object owning the DMA reservation for this object, which we drop
-+    // here.
-+    unsafe {
-+        if !(*p).parent_resv_obj.is_null() {
-+            bindings::drm_gem_object_put((*p).parent_resv_obj as *const _ as *mut _);
-+        }
-+    }
-+
-     // SAFETY: This pointer has to be valid, since p is valid
-     unsafe {
-         bindings::drm_gem_shmem_free(&mut (*p).obj);
-@@ -236,6 +248,25 @@ pub fn vmap(&self) -> Result<VMap<T>> {
-     pub fn set_wc(&mut self, map_wc: bool) {
-         self.obj.set_map_wc(map_wc);
-     }
-+
-+    /// Share the dma_resv object from another GEM object.
-+    ///
-+    /// Should be called before the object is used/shared. Can only be called once.
-+    pub fn share_dma_resv(&mut self, from_object: &impl IntoGEMObject) -> Result {
-+        let from_obj = from_object.gem_obj();
-+        if !self.parent_resv_obj.is_null() {
-+            Err(EBUSY)
-+        } else {
-+            // SAFETY: from_obj is a valid object pointer per the trait Invariant.
-+            unsafe {
-+                bindings::drm_gem_object_get(from_obj as *const _ as *mut _);
-+            }
-+            self.parent_resv_obj = from_obj;
-+            let gem = self.mut_gem_obj();
-+            gem.resv = from_obj.resv;
-+            Ok(())
-+        }
-+    }
- }
- 
- impl<T: DriverObject> Deref for Object<T> {
-
--- 
-2.48.1
-
+bod
 
