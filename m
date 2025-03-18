@@ -1,166 +1,270 @@
-Return-Path: <linux-media+bounces-28402-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28404-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41B6EA670C9
-	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 11:11:05 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8147A6717B
+	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 11:38:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 996054204D3
-	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 10:10:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0D81D422464
+	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 10:38:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88D04207DF5;
-	Tue, 18 Mar 2025 10:10:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 231B42080CF;
+	Tue, 18 Mar 2025 10:38:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mecIlYJU"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="GEaiDJwS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2048.outbound.protection.outlook.com [40.107.101.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33FE0207670
-	for <linux-media@vger.kernel.org>; Tue, 18 Mar 2025 10:10:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742292648; cv=none; b=JaavDqHiKIQzS4mfZnhqPyOqJ3oLlmBalZCKdlhKHvBSuLm+N+9xFZLiiMoBh4R39YFw8C3+yH+Bx0hoYLGVUFG2CAwU2yZSs3kFQy3m9a2kY8s7VB/46UgtUWt1Df6OZbnjQfm2FdrwpQx9lFPNfVdGESuhealnMhaW3fXJ1DM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742292648; c=relaxed/simple;
-	bh=NdOXlQY6LSxWk1LYo10E/kXzqa2q06qeotqWrI9rn+I=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oh9Jx5rSZyznM08+BNcS80PzlgeaomCWLl6U9dqMvOnjg5LJWpEIc9pPeF7+MfvFd0ZzEEZUppe/bZShbR1Wy0AIIikgbCVXv58dmOCt2OJO9OnFfD12CLNdC56l1cYzrSntYzeT2RqVIb5offrAihQ2+veoteH/YbXYGsxmvlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mecIlYJU; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742292646; x=1773828646;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=NdOXlQY6LSxWk1LYo10E/kXzqa2q06qeotqWrI9rn+I=;
-  b=mecIlYJU0YftVApeqOIE39s2YOftwsJLKlSJyCla6jQN7Qj5SV9QKgV/
-   WZlm/rpmKthX/t7H7xlcNiPd6m2JghNI+UW0oOJGLx/E/a21Davhwpp7f
-   44FNvIR6UypE34MrSL2vDSV2/8cykeqxRW31AdDmiyuT0wpVE7JYXR1HW
-   Bd0GrlppNyDFNjEOrbKdqD84bly1PDB6lCxBTlI8sJoIIObCfVJ8yOEFB
-   5j9aF5y025f4A52j51BSjgFUUqNEmNcsvghm1rpYsR4WnhEosd+F35s7s
-   lxotjudqFxuqn+6W4V9ZbLcH+gZv24aBXw4oAZwpmSRz/85DyXojClRDN
-   w==;
-X-CSE-ConnectionGUID: kd1gU6wwRCeYy4VUvg08Jg==
-X-CSE-MsgGUID: 1ZTuPWX4TYaglP3I2p8X2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="60817149"
-X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
-   d="scan'208";a="60817149"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 03:10:45 -0700
-X-CSE-ConnectionGUID: YIfUjykRS0G6i1+39LA79Q==
-X-CSE-MsgGUID: O2B6gmp6TGePTSuPEgsE+g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
-   d="scan'208";a="122713412"
-Received: from unknown (HELO nitin-Super-Server.iind.intel.com) ([10.190.238.72])
-  by fmviesa010.fm.intel.com with ESMTP; 18 Mar 2025 03:10:43 -0700
-From: Nitin Gote <nitin.r.gote@intel.com>
-To: christian.koenig@amd.com
-Cc: intel-gfx@lists.freedesktop.org,
-	sumit.semwal@linaro.org,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	chris.p.wilson@intel.com,
-	andi.shyti@intel.com,
-	nitin.r.gote@intel.com
-Subject: [PATCH] dma-buf: Take a breath during dma-fence-chain subtests
-Date: Tue, 18 Mar 2025 16:04:08 +0530
-Message-Id: <20250318103408.3566010-1-nitin.r.gote@intel.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155C935957
+	for <linux-media@vger.kernel.org>; Tue, 18 Mar 2025 10:37:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.48
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742294281; cv=fail; b=jz2d84f9OAnK9vnc3BIEfEPoyK+cX7kmNHiqYDEdMSEBNKqsEJDD/P5U7CKncph0QxhE+KSwjIbB0BD143LFz5ei2CJqD2KYGao+5xBTSXnCvUJ+scIZFA836p6crAM+CfvJUVTY08UVbD2TQDZslZ7CqYRyj6cdqMY/pNtValg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742294281; c=relaxed/simple;
+	bh=wg+FEdlqp2ut1EiPUm+UCHJ2bSRZZnmT5eOvysI7sck=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=HXqc7gLt/1Mv2tp3DfrSGfxtJQTb4FWp7zHLeot7NzW1kawWVklcieP5PLK4Dx4LyreMMaig4GHC1/ijE5TA+tEfOvs7F/yGOf8NpnWwIOENmGWRpPkHxqfkmmJAhSqfqegUCTa4GtX3WrTKk9yJ7nBr1W6ML4Cl50RABQp+sdk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=GEaiDJwS; arc=fail smtp.client-ip=40.107.101.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=jcli5KlC0JNgZkhBnWKhvXDKXYoxx/XkIys+FzVNc7g09Au9sLSbzonYCd+eow33zqdFwxzs8TUvuw7XO2/pU/0P34Y/x8ThN9ReeoKtFT+Gohw2DmM3c3EYLLsNTbeLW/8ldsg9Uw2mPSIwQrLNNLWF3veqzzwsOUT76PokfYKhmx5JLtGhPpM3xx1UGaWcM7k5NNVTZqor+ZGlnGEX+VyHzw7uDAlFCfkZlIDz+oXNZYY7E2h+t6Xn07M6uBjKbQRSoTGCYXFWmFftdWtyft9QOSuJkFOkWXtZcSgjj5/Q9NH96y9NYqhbo8IuaSTX8Ga7HrXV3R85BO5jMfOlSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bgsHhyVT6ZrdPTDWZctopaP6R8TN5dtCsWBlYdmbhtM=;
+ b=v9P6wcg+eUobrdHZBWcEko1jIElzJkW7o4RXU0G5EcokQDETk94lAVxV/nAAjXJ3zndm51zoAc9HB51V6AThrkGWeGVyDU8fCoqSPY3Ein8vHZeB3PtT4Wrpqd03Imwv4oswweASgiRUQtOWPMgWUmGOXozCAG8jEIu7Hfl8GaHnyutM+JZU8lWb9Os3UekMjm1BfAXDpxeHFXjPmqJ6n5OKMRf/Ilm9gvW3n3+BGU28xiL5O9FpuxXnoh3IUrvb3qqjEaUx16Rtg3PDnmESgAdlsmsWgZ/vZ12VlJdAERQa3hcK9lqhyuyTtODfjfGC5X0nv8QJ1zahe5zXNuv04g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=bgsHhyVT6ZrdPTDWZctopaP6R8TN5dtCsWBlYdmbhtM=;
+ b=GEaiDJwSfmM9R/Gq7g+h8sY9ikE5Y4TwSCmcAseh2L8ag+y/MLvEqabD+BLoPHc2pCq0D30ga4DlTzpmbOL6WmOGwNP6fVkn+JBxLjuacPilxRrEZmMEi0g1OJ/556T06wQR7kR6wnonjNfbXyuaHpmXDs76tsAiqRf1wCHGT20=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by SA3PR12MB7781.namprd12.prod.outlook.com (2603:10b6:806:31a::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Tue, 18 Mar
+ 2025 10:37:54 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8511.026; Tue, 18 Mar 2025
+ 10:37:53 +0000
+Message-ID: <9a1dddba-7020-482e-8636-4f0f31c3bbfc@amd.com>
+Date: Tue, 18 Mar 2025 11:37:47 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-buf: Take a breath during dma-fence-chain subtests
+To: Nitin Gote <nitin.r.gote@intel.com>
+Cc: intel-gfx@lists.freedesktop.org, sumit.semwal@linaro.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ chris.p.wilson@intel.com, andi.shyti@intel.com
+References: <20250318103408.3566010-1-nitin.r.gote@intel.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250318103408.3566010-1-nitin.r.gote@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR2P281CA0113.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:9d::8) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA3PR12MB7781:EE_
+X-MS-Office365-Filtering-Correlation-Id: 32c38e7d-d8ea-4357-b0f1-08dd6608f05c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?MGIxR3F2eWp0aXVzSUhscjdYS2ZIRytLbWxCZWUrZXpua2RUcHdEbkxkM3NC?=
+ =?utf-8?B?WVIyaDZ2S1BWcm9wYzMyNTJKZVFVNVJIUEF5WEdBV1JwbnlqYnJzd1JGV2Vv?=
+ =?utf-8?B?VXdvNFdOdHZUNUxJSVJ0dndadlpyZGpQSWJ2c0VrZUZDblBqSU5BSi9KV3NR?=
+ =?utf-8?B?MjIvS2R4MDMxclNuMnY5M2pmc1JsdGZiZjdLQ2NxMUNqYmN2ZkZ5TU44TUtw?=
+ =?utf-8?B?dkplZnQvb3N4MW5LWDdhNUx5MGVBeXJySHJ5M0pvWG5SeG9YSkxUdk5id0kv?=
+ =?utf-8?B?QWtRTllrZkxhbEE0eVpDR1pVOWhEdCtEUTloWWZrY3Z2UmhPTWYxYUVNak05?=
+ =?utf-8?B?YlIyRjhyVTNsQjJ4ak00R1hiblZlOWtkVSsyVkdxeG1IKzVPb0pjMmh4amF6?=
+ =?utf-8?B?Mmo3amQzK3BVL1NtSDYrNGd0V2xuM20yM2NlNGdQbWR4T0YycWQrL2dYdWNI?=
+ =?utf-8?B?QitpbjBlYmVpMUZ4NVpoeW1vc3k1MUZpTC9aS1VXNGZEZFk2d3BVTU5IbDBS?=
+ =?utf-8?B?MFg5WUs1Q1MzanJvNC96ZFdHemlMTWZ2eHZsakw5aG5WOWZLNUFJcVFHMEtm?=
+ =?utf-8?B?WkppNi9UUG1sUWZpQm1QQkJqU0U4cXBic0FsTzNoeUdWaEFUTlMzajJwZXlL?=
+ =?utf-8?B?TlRRejZQOUY2ZFljK2VER25tS1dBdFgzbUUybzJCTnpBaDA5d1NyMXBrRlR0?=
+ =?utf-8?B?dEszOTk5UDVHVGhLeHk1Rm9YcXNJS2FRKy83c2lPcVZzaWFJQk1Xb3NMWGpB?=
+ =?utf-8?B?cEhmaWJ1aDJLMkQwbitxTCtpcE1DOUlKZDJLd2NvbFYyVHRhdmZCQjg1L1lw?=
+ =?utf-8?B?WlZwUkk5ZTh5RXNDQmdFOHNHQ3lzUnQ5eGNTMk1pK0lFLytLWTFXZ0ZjWnhk?=
+ =?utf-8?B?MG5qUEYyT3FKRU9aVkNJRzY1MmEwREZjR2dhWldPNGYwM2J2UGdtTmd0M0Mv?=
+ =?utf-8?B?VG0vN3ViV0xYUDlLOTZmNTRxcEJBZ0NyemRlaUZseWNNOE44Q1VlK3VLQkRv?=
+ =?utf-8?B?WHMzUGgzcVFJSEdEOEw2Yk0wWGpyMWhTYXp1YjBIYTlMSVl2SWltTUZESTdr?=
+ =?utf-8?B?N1MySkpRZE5ybnRFSzlGRVBsam5kdldXYWk0NVg5c1RGTENNWE55YXhJb08z?=
+ =?utf-8?B?anUyY2pWdlhKRFhYelRkMkE2dzdXemVoc29OU3BMb3FOZTZIOUxTNzJBNWtj?=
+ =?utf-8?B?bUpFQUhMQUFXSVd3eUx6OTY5TlIxcDV3SUtSMTdxQUs3ZDZpeWZVMFpGdkg0?=
+ =?utf-8?B?ajFMbVhMTjQ1TzNtWWdFY1NNL3VCajNzdFpaMHhaUFZGOSt4THVPRlVQRXh6?=
+ =?utf-8?B?RDF2RXMzbUE0UFltZ3hMWEdCYkVrZy9TdXZKR2VtWktQbHR0MHV3TWI5V25R?=
+ =?utf-8?B?dkxiUVJSRkljWXQyVWNxU3A4Nk5lbS8vYmlmck1qMUdnYjdtd2l2dmorSXVV?=
+ =?utf-8?B?dDVjUlRybDlxYkpHU1pCNlIxbnY3OTBVODlkRUpPZ29pNXA1OEJqTDg4VWxD?=
+ =?utf-8?B?aG8wbFNTdDJ5N2ZRblFGM3ZFeDM3U0tLaGRMaDhnR0M1NTdjV3d1UFpWZU8y?=
+ =?utf-8?B?ZkpmazA5WXNOTGg2RUhJS3NUQ0xPVUJ6U0tTOVAwdDJzUklCbTBUaVc1RDNR?=
+ =?utf-8?B?VUJBVGVESDlyazZZRlhCYnFlTFRNYng2SU5JREJ1K0E4UWxORkFzMnovQzk5?=
+ =?utf-8?B?eFNkRi81MC9YS0R0aUMwR1BNcWhtTzRoYkthV3J1Q0tqNnZncmZLOTRiS3l5?=
+ =?utf-8?B?OGhpNmEvZUQ1alJ0UXVZMkhqcFRSd3RlMDdaWFAwQW1UR2JKdE9abUNZQk9X?=
+ =?utf-8?B?NGJ6N2pLeVF4K2VtREkwQT09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?OXlnekcyWXA2MVhWcW0yR0RZU3grS281cTRtVjhlNmhMSFB6enZSMmE2Y1V3?=
+ =?utf-8?B?QjU3bklDMURUVUlnUUR1NWVBNWpvK0tZNjJITlVnQ1dzYS9vZjZhSHhad05i?=
+ =?utf-8?B?MTJyR1k0TWkzUkl6cHpENG1mcHJ4UG5tVHJQVnJsNTgzTW9iMlNsVGN4UGlW?=
+ =?utf-8?B?U3ZvNzIzYk10b3hxMGJWSEtLWHc5by9lSTdrVHpZNWFianBYOEhCaEduTlBw?=
+ =?utf-8?B?M3V1UjhQcDRta1c0Yi9NOWRZYW51K09ub0V0MzRmZ3k2SmVyUk5jQUhtb2VX?=
+ =?utf-8?B?YUsxNk14WmQ0cTFleVBCOU1qS2Z0WkxFK1ZIbHp0RWNrLzF0dlI5K2dVeGJH?=
+ =?utf-8?B?ZHZtelpTNjBadURuK0I3ejk4bHR1UWJqUUowQUU5RDJXSjBmUUc0VXNjN2Qx?=
+ =?utf-8?B?RUpqVG9sQk5hVkhRblpTWXMyQ0gzS3Bid3JNeUkyTmZkUmdjVG55dkYvVDJh?=
+ =?utf-8?B?YUl4dWtEM3dHSFgrRmdOcUswQkF6T1JBL2U5d2pabTRhSjQ1dmovbktKQVFa?=
+ =?utf-8?B?M290THhDMTJ6Zk5zU0krMGNCS1BVdUU3Q2ZScVdrNlJQK2JjUGEyemQwTnBP?=
+ =?utf-8?B?eDhOVmpXQldxSUxvNm1mcmNWUjAvM0xnV2F0alQzT0ZLQmxQZ083MWRscVZh?=
+ =?utf-8?B?OWtrZ3pJRldCUHZsTFNIaHh4Y0xOS2ZHWEk2Qk5xVWhiZGpQU1dCSm1BSlVQ?=
+ =?utf-8?B?SitSd2t6LzdGc2FEQ3R4OWVMeGs3aUQ1aytXeWFTVG9FYjI5OWZDbHZRWU0r?=
+ =?utf-8?B?SVVyZUIwd2xPWVJJelFhRmlRV01lSDNOODhYRG9wbmNBSlU1OGNiUEJWQzNs?=
+ =?utf-8?B?S2kwTDJ4VnJWcGh5R3I2bDRldlJTaWdwYzk1OHdadC9NZFRpWWp4N3JwbVls?=
+ =?utf-8?B?QWc2OWIzclZrRy9qVldTcEhmeTQ5WkFodUZ4dTY3ZWZoL1BWS2VlNDdSWnp5?=
+ =?utf-8?B?MVVBd05rT1EvTnpndGJhc2FGVEV6dWVFV2FQcWF1aWhmSXVZVkozbEtHVkly?=
+ =?utf-8?B?OG93bm5nTjVhUmtxcDZFbnRIU3FOT1NNTkdsay9lYVpNbkptdmJzWjZGMnJT?=
+ =?utf-8?B?c3pZS3FwTTFHVmo5eWEyRUpGYVR3bndhZmlzSXgweTRHWXo3Y2t1SFc4ZEw5?=
+ =?utf-8?B?NEMweTNnS2ZoMkR2NHNORThPV000d3NaakpMMXJSRVBKekFOM2k4RFFiL3JQ?=
+ =?utf-8?B?cC9UeEt2d0JaOWJaYVVLUTJJenBrOU9jRTdmU2YwQ0VWM3R1aUlYWG1pdkNW?=
+ =?utf-8?B?MmIxRWwxbU5sSkVpMDUwYmNmc0EvcGZTYjVTTHRCbEFaZUpUY2taenVYazJB?=
+ =?utf-8?B?enJaUUlmL21vYk4xVHRBL3FWMWIybUc5OHNrdHFBbWR4Mmg2dFRtYmhiMkI4?=
+ =?utf-8?B?VFQwZUdoL1FWQ3RpTUVCRDU0NmZKRWxQNmxjZ0ZSSDFudGU3aDluM3QzZlV4?=
+ =?utf-8?B?WUY3MlprUTRJbk5wV3VxU1E0QWs0VFlrQm9YaVNUQVJsV0p2MVdWb241Y3ZJ?=
+ =?utf-8?B?alJjamE0UC8zVlREOGNUQ0l3eW5tdGd4d0lXOExOZENpeE11NWNubFRqaG5u?=
+ =?utf-8?B?Ujlvb1c1RlVJS21tNXQvc2MvWXhGbW1MMks5WU80dnRaZ2JBQjIzNmJVL3ln?=
+ =?utf-8?B?NnBpRDkrTHc4UytSZnpFMzVlanIxR0JUMzBYL0dRUXd1a3NlR2ovanRVcFNI?=
+ =?utf-8?B?L0Jod2tGQmYveHVHcVJ4elJLTXRGRThwWG5yWWVpK01ZU29MVW5SNTRwdHdN?=
+ =?utf-8?B?WnlPYnQzOGk5aWN2TnFMZFlKMHdxdlM0WWRhY2lKVGZJNzJYV2tIZ0dGUEx5?=
+ =?utf-8?B?WnpDOUN1b2Mwd24vMEdOTXF3bFpOTmZPczFwbUZxU0kzUWVvM3ZXejJlN3lC?=
+ =?utf-8?B?VllycHBxdlJsUlZYd1Q4b0g0QW52MWMvaEdiN2FVTFdlV29UVDlrUGdrQ2Vn?=
+ =?utf-8?B?aUd1SEltNU12alc2ZjNoQUZvNmpFQ1NmZ0RCamRrcy9uM2tycDlJUmJqUXpG?=
+ =?utf-8?B?NzN5ZE1XbVpnL2d4emlYa3BDeW8vTHZxTFJndjNua1ZEZHNWeEhHSG9KVStt?=
+ =?utf-8?B?QUxiRSt5emtoZlNLUDZtdElpZlhJc1lTVHZqUFB3clcvTUowa1hucXpMelpm?=
+ =?utf-8?Q?wMlAv/QqowfOGyRSYxBiyb8h8?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 32c38e7d-d8ea-4357-b0f1-08dd6608f05c
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2025 10:37:53.7928
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4vNtcLgxFJtpdkKGHg8EYFaC59KI57zutzolLIovRhTP3DGFO9Of7dSmMTb5ZW6F
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7781
 
-Give the scheduler a chance to breathe by calling cond_resched()
-as some of the loops may take some time on old machines (apl/bsw/pnv), and
-so catch the attention of the watchdogs.
+Am 18.03.25 um 11:34 schrieb Nitin Gote:
+> Give the scheduler a chance to breathe by calling cond_resched()
+> as some of the loops may take some time on old machines (apl/bsw/pnv), and
+> so catch the attention of the watchdogs.
+>
+> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12904
+> Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
+> ---
+> Cc: Christian Konig <christian.koenig@amd.com>
+>
+> Hi Konig,
+>
+> This is not a functional issue in test.
 
-Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12904
-Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
----
-Cc: Christian Konig <christian.koenig@amd.com>
+Exactly that doesn't sounds correct to me.
 
-Hi Konig,
+> We wish to prevent softlock and allow the
+> dma-fence-chain test run to completion to verify it's functional correctness.
+>
+> The performance issue takes about 5ms for the dma-fence-chain to be signalled on
+> older hardware which is an orthogonal issue and to be debugged separately for
+> which the test has to run to completion.
+>
+> So, reverting to cond_resched() which fixes the issue instead of
+> delay functions.
 
-This is not a functional issue in test. We wish to prevent softlock and allow the
-dma-fence-chain test run to completion to verify it's functional correctness.
+See what the warning is all about is that the CPU *busy* on something for more than 26seconds. Even on older hardware that should absolutely not happen.
 
-The performance issue takes about 5ms for the dma-fence-chain to be signalled on
-older hardware which is an orthogonal issue and to be debugged separately for
-which the test has to run to completion.
+So what we either have is a bug in the test case (perfectly possible) or we have a bug in the dma-fence-chain implementation.
 
-So, reverting to cond_resched() which fixes the issue instead of
-delay functions.
+As long as you don't come with a good explanation why the test case keeps the CPU busy for that long this patch here is a clear NAK from my side.
 
-- Nitin
+Regards,
+Christian.
 
- drivers/dma-buf/st-dma-fence-chain.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/dma-buf/st-dma-fence-chain.c b/drivers/dma-buf/st-dma-fence-chain.c
-index ed4b323886e4..328a66ed59e5 100644
---- a/drivers/dma-buf/st-dma-fence-chain.c
-+++ b/drivers/dma-buf/st-dma-fence-chain.c
-@@ -505,6 +505,7 @@ static int signal_forward(void *arg)
- 
- 	for (i = 0; i < fc.chain_length; i++) {
- 		dma_fence_signal(fc.fences[i]);
-+		cond_resched();
- 
- 		if (!dma_fence_is_signaled(fc.chains[i])) {
- 			pr_err("chain[%d] not signaled!\n", i);
-@@ -537,6 +538,7 @@ static int signal_backward(void *arg)
- 
- 	for (i = fc.chain_length; i--; ) {
- 		dma_fence_signal(fc.fences[i]);
-+		cond_resched();
- 
- 		if (i > 0 && dma_fence_is_signaled(fc.chains[i])) {
- 			pr_err("chain[%d] is signaled!\n", i);
-@@ -587,8 +589,10 @@ static int wait_forward(void *arg)
- 	get_task_struct(tsk);
- 	yield_to(tsk, true);
- 
--	for (i = 0; i < fc.chain_length; i++)
-+	for (i = 0; i < fc.chain_length; i++) {
- 		dma_fence_signal(fc.fences[i]);
-+		cond_resched();
-+	}
- 
- 	err = kthread_stop_put(tsk);
- 
-@@ -616,8 +620,10 @@ static int wait_backward(void *arg)
- 	get_task_struct(tsk);
- 	yield_to(tsk, true);
- 
--	for (i = fc.chain_length; i--; )
-+	for (i = fc.chain_length; i--; ) {
- 		dma_fence_signal(fc.fences[i]);
-+		cond_resched();
-+	}
- 
- 	err = kthread_stop_put(tsk);
- 
-@@ -663,8 +669,10 @@ static int wait_random(void *arg)
- 	get_task_struct(tsk);
- 	yield_to(tsk, true);
- 
--	for (i = 0; i < fc.chain_length; i++)
-+	for (i = 0; i < fc.chain_length; i++) {
- 		dma_fence_signal(fc.fences[i]);
-+		cond_resched();
-+	}
- 
- 	err = kthread_stop_put(tsk);
- 
--- 
-2.25.1
+>
+> - Nitin
+>
+>  drivers/dma-buf/st-dma-fence-chain.c | 14 +++++++++++---
+>  1 file changed, 11 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/dma-buf/st-dma-fence-chain.c b/drivers/dma-buf/st-dma-fence-chain.c
+> index ed4b323886e4..328a66ed59e5 100644
+> --- a/drivers/dma-buf/st-dma-fence-chain.c
+> +++ b/drivers/dma-buf/st-dma-fence-chain.c
+> @@ -505,6 +505,7 @@ static int signal_forward(void *arg)
+>  
+>  	for (i = 0; i < fc.chain_length; i++) {
+>  		dma_fence_signal(fc.fences[i]);
+> +		cond_resched();
+>  
+>  		if (!dma_fence_is_signaled(fc.chains[i])) {
+>  			pr_err("chain[%d] not signaled!\n", i);
+> @@ -537,6 +538,7 @@ static int signal_backward(void *arg)
+>  
+>  	for (i = fc.chain_length; i--; ) {
+>  		dma_fence_signal(fc.fences[i]);
+> +		cond_resched();
+>  
+>  		if (i > 0 && dma_fence_is_signaled(fc.chains[i])) {
+>  			pr_err("chain[%d] is signaled!\n", i);
+> @@ -587,8 +589,10 @@ static int wait_forward(void *arg)
+>  	get_task_struct(tsk);
+>  	yield_to(tsk, true);
+>  
+> -	for (i = 0; i < fc.chain_length; i++)
+> +	for (i = 0; i < fc.chain_length; i++) {
+>  		dma_fence_signal(fc.fences[i]);
+> +		cond_resched();
+> +	}
+>  
+>  	err = kthread_stop_put(tsk);
+>  
+> @@ -616,8 +620,10 @@ static int wait_backward(void *arg)
+>  	get_task_struct(tsk);
+>  	yield_to(tsk, true);
+>  
+> -	for (i = fc.chain_length; i--; )
+> +	for (i = fc.chain_length; i--; ) {
+>  		dma_fence_signal(fc.fences[i]);
+> +		cond_resched();
+> +	}
+>  
+>  	err = kthread_stop_put(tsk);
+>  
+> @@ -663,8 +669,10 @@ static int wait_random(void *arg)
+>  	get_task_struct(tsk);
+>  	yield_to(tsk, true);
+>  
+> -	for (i = 0; i < fc.chain_length; i++)
+> +	for (i = 0; i < fc.chain_length; i++) {
+>  		dma_fence_signal(fc.fences[i]);
+> +		cond_resched();
+> +	}
+>  
+>  	err = kthread_stop_put(tsk);
+>  
 
 
