@@ -1,76 +1,85 @@
-Return-Path: <linux-media+bounces-28418-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28419-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED044A674D4
-	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 14:20:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63D61A6751A
+	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 14:28:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0D0A6188B913
-	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 13:19:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1237C1893092
+	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 13:28:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F0A820D4E7;
-	Tue, 18 Mar 2025 13:18:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C246520CCFB;
+	Tue, 18 Mar 2025 13:28:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="czhU9c+x"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KoXOBXwZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D1B4AD2C;
-	Tue, 18 Mar 2025 13:18:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC3F417A311;
+	Tue, 18 Mar 2025 13:28:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742303938; cv=none; b=oeGpuDwHBg4RLt8oyFjPilS/PB5WpdCXGdlmBEjfMF7NNREabhB0BvitiuNMhRktmH5vRP7gJFYrTZO6EpqPfXLrEptbyOCRodt8eaB5gCL0y2HWcRuaU6w8PhZM59gCoTxSwjWLlNLWX2z2fE1v/yatiOVElyUe5DA73y5SA/0=
+	t=1742304489; cv=none; b=co2bJzsmFNzXYTUdHRYbZkppAFvDBTbru9Sifm1GHYkuo1nSza4DUKpzEne4Vzeww/LlW+NlnwMwV+eD8DYVj1LpvCP/HeTgvD6LIKOxqZxzlfCnrINUB1P6ltJu3lQDrXDlLiTDLI2OrnuRxhG5PvYYUioLJyylASMeF7no/GU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742303938; c=relaxed/simple;
-	bh=3Oi8jiFqgl+aEYI1HZI2J5pcnohFtSR2tEqDeV0RWqU=;
+	s=arc-20240116; t=1742304489; c=relaxed/simple;
+	bh=XIFQgKXLvgcn11mpSEh8HygsxPKLUzk5wzTI0vGCpj0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dlSEHilFg2PGoLhKl9zPHPlTWnNSmlWy/s6Rpi8ppoQwXKM1Z6us2n5dtyD8NHNxuwk25tiTZI3gBKYfMM8Bn0kQ4hECj9kql7YHh1jL9UUDWL31oIm3qelqm2TRJAjJzWQ1BAYznU42cT0oAwuPjn+X0zxS/lZanOoDdhhguWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=czhU9c+x; arc=none smtp.client-ip=198.175.65.21
+	 Content-Type:Content-Disposition:In-Reply-To; b=nxa960/jhpjpbHAOZ7ipjXS8wN8fHFueEpAhSvHXGrn2Pk1hmmAEXlNLLrXYWi/3bmfu/HKzeFpCtrv7bRY0zN0Ysz1d/W/HAbn/XdTzpr81+d4ABJHBe26kyVS5YV33F84FhawBvdR94tfVKScMdYD3XrLraoXGj9fWX85vuR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KoXOBXwZ; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742303933; x=1773839933;
+  t=1742304488; x=1773840488;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=3Oi8jiFqgl+aEYI1HZI2J5pcnohFtSR2tEqDeV0RWqU=;
-  b=czhU9c+xjanu8QqHL7xX8wt4597RTKbcVbxPT03hMDW36Dhp2RLzeZoK
-   PO2UNSBu25Txpzu7BWaNYSZ/w7zYds0CFJYcxhbpFZHQvQcSk8OrpJpmw
-   zte8yGNt8tu8A/lEZr1tqrBDC885NPQsgt0jLX+KdxNA1ZpiBQ9EGbQCH
-   ue/E/rSgMXXL3WhN4ZuZ9ZjYsxGtJA5uK4Whs3hrhvjiEOfn9iDW458kI
-   cvbXgM37M7AIK6SOlSQrpkAu3GtTertXSHqxCsfP4PTT49nLkXtcA/Dvc
-   nKilIGjOjYwi0NYNHlQMPM1siWmRKjDLrIgaBF9ZKiNuJ5ssn1jL8BBX1
-   g==;
-X-CSE-ConnectionGUID: f9+2qQVZQ1W+sE3Nr6tQ3A==
-X-CSE-MsgGUID: +m7ZGvrESMeY85Ft4NT6TQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="43359897"
-X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
-   d="scan'208";a="43359897"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 06:18:52 -0700
-X-CSE-ConnectionGUID: glzh0WzESBmuMqdayJU9ew==
-X-CSE-MsgGUID: oaV8qNn3QgKXR5Bk48/n4Q==
+  bh=XIFQgKXLvgcn11mpSEh8HygsxPKLUzk5wzTI0vGCpj0=;
+  b=KoXOBXwZvBR5cdic/RJjGUzuPsGQGlajSY+ktNXoLYaaIIlcYbjMxw9K
+   w4hK+A9HFzzm3zJ9IJpJpd3FGx1m49Zmd3RILW5mOMn26Abaq1J/kY5d+
+   ltTBKnEIuvErTV3aWNNOU2puuashqv26zeKweyRZsVVxlLOpHHeFNFSUr
+   YCSTvBNalsG3oM7/ofl2HY+cYM6v3om13xVMsisjKJZ6iJiKASHdCyLnG
+   7Eqx9DZBB01ho/i3vFcB0sYzCxwMr7/vsec71bnjlK5zJJQCCCmFq0GxQ
+   I4abQU6Yp9qWpLZlJewt2yMwKLCDIRFaQWpORDuZKomtM015NL4q8ODGC
+   w==;
+X-CSE-ConnectionGUID: bZ5XA+thQJSrj/jvS54P2Q==
+X-CSE-MsgGUID: Z4SzYWYNRKy2ikulIWylIg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="43460093"
+X-IronPort-AV: E=Sophos;i="6.14,257,1736841600"; 
+   d="scan'208";a="43460093"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 06:28:07 -0700
+X-CSE-ConnectionGUID: /FznNnb4Tve6hnL8E3lqIQ==
+X-CSE-MsgGUID: HGQqv6VLQz+AyRL+jqpLHw==
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
-   d="scan'208";a="122231949"
-Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.245.112.43])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 06:18:48 -0700
-Date: Tue, 18 Mar 2025 14:18:45 +0100
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: Ma Ke <make24@iscas.ac.cn>
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl, sebastian.fricke@collabora.com,
-	ribalda@chromium.org, benjamin.gaignard@collabora.com,
-	viro@zeniv.linux.org.uk, bartosz.golaszewski@linaro.org,
-	hljunggr@cisco.com, sakari.ailus@linux.intel.com,
+X-IronPort-AV: E=Sophos;i="6.14,257,1736841600"; 
+   d="scan'208";a="153245820"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 06:28:04 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id EF65611F74E;
+	Tue, 18 Mar 2025 15:28:01 +0200 (EET)
+Date: Tue, 18 Mar 2025 13:28:01 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Richard Leitner <richard.leitner@linux.dev>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2] media: v4l2-dev: fix error handling in
- __video_register_device()
-Message-ID: <Z9lytZ0bOk4Fjk83@linux.intel.com>
-References: <20250318090945.1655458-1-make24@iscas.ac.cn>
+	linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 1/8] media: v4l: ctrls: add a control for flash/strobe
+ duration
+Message-ID: <Z9l04b5ZGy877j32@kekkonen.localdomain>
+References: <20250314-ov9282-flash-strobe-v2-0-14d7a281342d@linux.dev>
+ <20250314-ov9282-flash-strobe-v2-1-14d7a281342d@linux.dev>
+ <Z9P01zU_Kg0U62wa@kekkonen.localdomain>
+ <bx4p2hycva2rqywgglqluus6o7jbmfa2jjbc4k5d6aw6wsfkxd@zrtckmwtphuq>
+ <Z9QwT7n7D09BEfqa@kekkonen.localdomain>
+ <3dkwhfqxjhu3w4hpcl4gfsi22kwauo6s5urxrorezaw323yygq@nujmlkie5rpd>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -79,64 +88,85 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250318090945.1655458-1-make24@iscas.ac.cn>
+In-Reply-To: <3dkwhfqxjhu3w4hpcl4gfsi22kwauo6s5urxrorezaw323yygq@nujmlkie5rpd>
 
-On Tue, Mar 18, 2025 at 05:09:45PM +0800, Ma Ke wrote:
-> Once device_register() failed, we should call put_device() to
-> decrement reference count for cleanup. Or it could cause memory leak.
-> And move callback function before put_device().
-> 
-> As comment of device_register() says, 'NOTE: _Never_ directly free
-> @dev after calling this function, even if it returned an error! Always
-> use put_device() to give up the reference initialized in this function
-> instead.'
-> 
-> Found by code review.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: baa057e29b58 ("media: v4l2-dev: use pr_foo() for printing messages")
+Hi Richard,
 
-This tag does not seems to be right, the commit just change printk calls.
-
-Regards
-Stanislaw
-
-
-> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
-> ---
-> Changes in v2:
-> - modified the patch as no callback function before put_device().
-> ---
->  drivers/media/v4l2-core/v4l2-dev.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+On Fri, Mar 14, 2025 at 05:08:16PM +0100, Richard Leitner wrote:
+> Hi Sakari,
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-> index 5bcaeeba4d09..4a8fdf8115c0 100644
-> --- a/drivers/media/v4l2-core/v4l2-dev.c
-> +++ b/drivers/media/v4l2-core/v4l2-dev.c
-> @@ -1054,17 +1054,16 @@ int __video_register_device(struct video_device *vdev,
->  	vdev->dev.class = &video_class;
->  	vdev->dev.devt = MKDEV(VIDEO_MAJOR, vdev->minor);
->  	vdev->dev.parent = vdev->dev_parent;
-> +	vdev->dev.release = v4l2_device_release;
->  	dev_set_name(&vdev->dev, "%s%d", name_base, vdev->num);
->  	mutex_lock(&videodev_lock);
->  	ret = device_register(&vdev->dev);
->  	if (ret < 0) {
->  		mutex_unlock(&videodev_lock);
->  		pr_err("%s: device_register failed\n", __func__);
-> -		goto cleanup;
-> +		put_device(&vdev->dev);
-> +		return ret;
->  	}
-> -	/* Register the release callback that will be called when the last
-> -	   reference to the device goes away. */
-> -	vdev->dev.release = v4l2_device_release;
->  
->  	if (nr != -1 && nr != vdev->num && warn_if_nr_in_use)
->  		pr_warn("%s: requested %s%d, got %s\n", __func__,
-> -- 
-> 2.25.1
+> On Fri, Mar 14, 2025 at 01:34:07PM +0000, Sakari Ailus wrote:
+> > Hi Richard,
+> > 
+> > On Fri, Mar 14, 2025 at 11:25:09AM +0100, Richard Leitner wrote:
+> > > On Fri, Mar 14, 2025 at 09:20:23AM +0000, Sakari Ailus wrote:
+> [...]
+> > > > On Fri, Mar 14, 2025 at 09:49:55AM +0100, Richard Leitner wrote:
+> > > > > Add a control V4L2_CID_FLASH_DURATION to set the duration of a
+> > > > > flash/strobe pulse. This is different to the V4L2_CID_FLASH_TIMEOUT
+> > > > > control, as the timeout defines a limit after which the flash is
+> > > > > "forcefully" turned off again.
+> > > > > 
+> > > > > On the other hand the new V4L2_CID_FLASH_DURATION is the desired length
+> > > > > of the flash/strobe pulse
+> > > > 
+> > > > What's the actual difference between the two? To me they appear the same,
+> > > > just expressed in a different way.
+> > > 
+> > > According to FLASH_TIMEOUT documentation:
+> > > 
+> > > 	Hardware timeout for flash. The flash strobe is stopped after this
+> > > 	period of time has passed from the start of the strobe. [1]
+> > > 
+> > > This is a little bit unspecific, but as also discussed with Dave [2]
+> > > according to the documentation of V4L2_FLASH_FAULT_TIMEOUT it seems to
+> > > be targeted at providing a "real timeout" control, not settings the
+> > > desired duration:
+> > > 
+> > > 	The flash strobe was still on when the timeout set by the user
+> > > 	--- V4L2_CID_FLASH_TIMEOUT control --- has expired. Not all flash
+> > > 	controllers may set this in all such conditions. [1]
+> > > 
+> > > If I understood that wrong, I'm also happy to use FLASH_TIMEOUT for this
+> > > use-case. But tbh I think FLASH_DURATION would be more specific.
+> > > 
+> > > As this still seems unclear: Should the documentation be
+> > > changed/rewritten if we stick with the FLASH_DURATION approach?
+> > > 
+> > > [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/ext-ctrls-flash.html
+> > > [2] https://lore.kernel.org/lkml/CAPY8ntB8i4OyUWAL8k899yUd5QsRifJXiOfWXKceGQ7TNZ4OUw@mail.gmail.com/
+> > 
+> > Right, I think I can see what you're after.
+> > 
+> > How does the sensor determine when to start the strobe, i.e. on which frame
+> > and which part of the exposure of that frame?
 > 
+> In general I think it's not part of V4L2_CID_FLASH_DURATION to take any
+> assumptions on that, as that's sensor/flash specific IMHO.
 > 
+> In case of the ov9282 sensor driver (which is also part of this series)
+> the strobe is started synchronously with the exposure on each frame
+> start.
+> Being even more specific on the ov9292, the sensor also offers the
+> possibility to shift that strobe start in in either direction using a
+> register. Implementing this "flash shift" (as it's called in the sensors
+> datasheet) is currently under test on my side. I will likely send a
+> series for that in the coming weeks.
+
+Ok, so you get a single frame exposed with a flash when you start
+streaming, is that correct?
+
+> 
+> > > > > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+> > > > > ---
+> > > > >  drivers/media/v4l2-core/v4l2-ctrls-defs.c | 1 +
+> > > > >  include/uapi/linux/v4l2-controls.h        | 1 +
+> > > > >  2 files changed, 2 insertions(+)
+> [...]
+> > 
+
+-- 
+Regards,
+
+Sakari Ailus
 
