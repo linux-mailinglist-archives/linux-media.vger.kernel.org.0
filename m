@@ -1,137 +1,173 @@
-Return-Path: <linux-media+bounces-28427-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28428-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3EA9A676B8
-	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 15:46:27 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B4A1A676BA
+	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 15:46:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E770E7AABCF
-	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 14:45:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 02E2A1892833
+	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 14:46:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBD7220E32D;
-	Tue, 18 Mar 2025 14:46:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BA8920E01F;
+	Tue, 18 Mar 2025 14:46:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FvxVy8z2"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="K64n7s0G"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from out-182.mta1.migadu.com (out-182.mta1.migadu.com [95.215.58.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EEA5207A3E;
-	Tue, 18 Mar 2025 14:46:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94362C13D
+	for <linux-media@vger.kernel.org>; Tue, 18 Mar 2025 14:46:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742309175; cv=none; b=RqNrF1QrRld8QlZ19AcsiWC03btj9nqFd+uTk/pteu2q7bjbLI4QXrgoh8tmLCMaTlEAd6axuPfkNb+khOb+JQ9DNcbroqfRaxTmq5fNWfSy09RDs5MA2nEWOvokEyQW6hKj8nk1MSv0B+aRMeXiN+/j32hz3o8k6h1vNXFkE1I=
+	t=1742309192; cv=none; b=LqtV2DBwH0DN3359SePYAEb5SGtXiWDN7+h1IXBTAu9B5FVV3s8ASMl5rRXy1tkWvCvZQq/+mDw65XjGDa3/2+kIMkwS/2JS9jdsw2vPKWGgsGEtsQh6Yg4Y10MxL21glYkP7c2OOL2EyrdSYbo+00RvEWUP8JSRDr4d/nWLDY0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742309175; c=relaxed/simple;
-	bh=1Wr03/Qkon9oS5NVwNq1baj9iT6/pEbxQrYGlLnkhzw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SuAIRpv3cPEGMB40FjLWPRLswz2ZLVsL3bLhBdy5/PXlDFlydD5abFVfR89cZOEtAIsFaGB9CnHYZJh03I3qNNOQiFQDbxfKL7od952PNrFGV9KupoYTLN6mZpOjU3xuyE4gki8++lF8JS/AmLMvEIVq2BUJOz9T7O454F6aaiI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FvxVy8z2; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F317AA2F;
-	Tue, 18 Mar 2025 15:44:23 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1742309064;
-	bh=1Wr03/Qkon9oS5NVwNq1baj9iT6/pEbxQrYGlLnkhzw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FvxVy8z2TxQw98M6QVSHZ+Ms73Ju/9JS27U0CHUXemVM+JMFr0gS19H+x7pETI6cS
-	 444xDzOiEjrbfxXblindUbTSV02H6QVFtKKhvNGcWwWmYR8yNYE5KdRsDLpYa/8hNT
-	 pqT+nFsQnGPq5IjHd0Ua3V/M6ou8ev60P4gW+xZo=
-Message-ID: <9032362c-a332-4b44-8c77-386edb1f09f7@ideasonboard.com>
-Date: Tue, 18 Mar 2025 16:46:02 +0200
+	s=arc-20240116; t=1742309192; c=relaxed/simple;
+	bh=Kka54JqAs4GcDIKhmp09VxdckImUY8KKXLPgc+M4hBI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A/ts2FahkD13xK6WYLDNEOfeRI7M+1WfpOgtwfOKQn7/921hNTSYr5lrT35rmQ6c78X4QBzkByZVkFJGEUpyWK3jUfO2egXGCSZ/yGoGzxj7RmCfk7mBaZvFa7c+pqDoi8N07zJADFWrJ9yEs6rj0a79A+ZYCOChhcsOyGIqDtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=K64n7s0G; arc=none smtp.client-ip=95.215.58.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Tue, 18 Mar 2025 15:46:18 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1742309185;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Vm40nGdSq4m8F5CATamMEzmCWLQ2Uno/MJi+1tnCx00=;
+	b=K64n7s0G4evdQyfL56CjJBfQHslBy6Wo4cUzzDGjRgk+UTgaHBnZHZw2xMjEWGRw7bNSXQ
+	lvyrGCrFM9tRpxeIqu0SSBXG62+0T5FfoLqgJGl9X4Zx0dl6sgdUJXQRFFAIeDr0jqaAbt
+	vmLbAU2YBInKaztwhaZa2YHwp5C2KaY=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Richard Leitner <richard.leitner@linux.dev>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 1/8] media: v4l: ctrls: add a control for flash/strobe
+ duration
+Message-ID: <s76b7q2cvcuk32n3jpsijyrhxhtstk6fewb5drkxdeopvt5grj@p4mcqltiza36>
+References: <20250314-ov9282-flash-strobe-v2-0-14d7a281342d@linux.dev>
+ <20250314-ov9282-flash-strobe-v2-1-14d7a281342d@linux.dev>
+ <Z9P01zU_Kg0U62wa@kekkonen.localdomain>
+ <bx4p2hycva2rqywgglqluus6o7jbmfa2jjbc4k5d6aw6wsfkxd@zrtckmwtphuq>
+ <Z9QwT7n7D09BEfqa@kekkonen.localdomain>
+ <3dkwhfqxjhu3w4hpcl4gfsi22kwauo6s5urxrorezaw323yygq@nujmlkie5rpd>
+ <Z9l04b5ZGy877j32@kekkonen.localdomain>
+ <myyn53owptzx3dm3qmudtm4pmnon7axmjks2u5adno6ywktd3t@qriiifsitqoh>
+ <Z9l9-tEwHRtXnz1a@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC] media: i2c: ds90ub960: Enable second i2c interface
-To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, mchehab@kernel.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- vaishnav.a@ti.com, u-kumar1@ti.com, r-donadkar@ti.com
-References: <20250305121705.2143540-1-y-abhilashchandra@ti.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250305121705.2143540-1-y-abhilashchandra@ti.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z9l9-tEwHRtXnz1a@kekkonen.localdomain>
+X-Migadu-Flow: FLOW_OUT
 
-Hi,
+On Tue, Mar 18, 2025 at 02:06:50PM +0000, Sakari Ailus wrote:
+> Hi Richard,
+> 
+> On Tue, Mar 18, 2025 at 02:42:53PM +0100, Richard Leitner wrote:
+> > On Tue, Mar 18, 2025 at 01:28:01PM +0000, Sakari Ailus wrote:
+> > > Hi Richard,
+> > > 
+> > > On Fri, Mar 14, 2025 at 05:08:16PM +0100, Richard Leitner wrote:
+> > > > Hi Sakari,
+> > > > 
+> > > > On Fri, Mar 14, 2025 at 01:34:07PM +0000, Sakari Ailus wrote:
+> > > > > Hi Richard,
+> > > > > 
+> > > > > On Fri, Mar 14, 2025 at 11:25:09AM +0100, Richard Leitner wrote:
+> > > > > > On Fri, Mar 14, 2025 at 09:20:23AM +0000, Sakari Ailus wrote:
+> > > > [...]
+> > > > > > > On Fri, Mar 14, 2025 at 09:49:55AM +0100, Richard Leitner wrote:
+> > > > > > > > Add a control V4L2_CID_FLASH_DURATION to set the duration of a
+> > > > > > > > flash/strobe pulse. This is different to the V4L2_CID_FLASH_TIMEOUT
+> > > > > > > > control, as the timeout defines a limit after which the flash is
+> > > > > > > > "forcefully" turned off again.
+> > > > > > > > 
+> > > > > > > > On the other hand the new V4L2_CID_FLASH_DURATION is the desired length
+> > > > > > > > of the flash/strobe pulse
+> > > > > > > 
+> > > > > > > What's the actual difference between the two? To me they appear the same,
+> > > > > > > just expressed in a different way.
+> > > > > > 
+> > > > > > According to FLASH_TIMEOUT documentation:
+> > > > > > 
+> > > > > > 	Hardware timeout for flash. The flash strobe is stopped after this
+> > > > > > 	period of time has passed from the start of the strobe. [1]
+> > > > > > 
+> > > > > > This is a little bit unspecific, but as also discussed with Dave [2]
+> > > > > > according to the documentation of V4L2_FLASH_FAULT_TIMEOUT it seems to
+> > > > > > be targeted at providing a "real timeout" control, not settings the
+> > > > > > desired duration:
+> > > > > > 
+> > > > > > 	The flash strobe was still on when the timeout set by the user
+> > > > > > 	--- V4L2_CID_FLASH_TIMEOUT control --- has expired. Not all flash
+> > > > > > 	controllers may set this in all such conditions. [1]
+> > > > > > 
+> > > > > > If I understood that wrong, I'm also happy to use FLASH_TIMEOUT for this
+> > > > > > use-case. But tbh I think FLASH_DURATION would be more specific.
+> > > > > > 
+> > > > > > As this still seems unclear: Should the documentation be
+> > > > > > changed/rewritten if we stick with the FLASH_DURATION approach?
+> > > > > > 
+> > > > > > [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/ext-ctrls-flash.html
+> > > > > > [2] https://lore.kernel.org/lkml/CAPY8ntB8i4OyUWAL8k899yUd5QsRifJXiOfWXKceGQ7TNZ4OUw@mail.gmail.com/
+> > > > > 
+> > > > > Right, I think I can see what you're after.
+> > > > > 
+> > > > > How does the sensor determine when to start the strobe, i.e. on which frame
+> > > > > and which part of the exposure of that frame?
+> > > > 
+> > > > In general I think it's not part of V4L2_CID_FLASH_DURATION to take any
+> > > > assumptions on that, as that's sensor/flash specific IMHO.
+> > > > 
+> > > > In case of the ov9282 sensor driver (which is also part of this series)
+> > > > the strobe is started synchronously with the exposure on each frame
+> > > > start.
+> > > > Being even more specific on the ov9292, the sensor also offers the
+> > > > possibility to shift that strobe start in in either direction using a
+> > > > register. Implementing this "flash shift" (as it's called in the sensors
+> > > > datasheet) is currently under test on my side. I will likely send a
+> > > > series for that in the coming weeks.
+> > > 
+> > > Ok, so you get a single frame exposed with a flash when you start
+> > > streaming, is that correct?
+> > 
+> > Correct. The flash is switched on for the configured duration at every
+> > frame exposure (the sensor has a global shutter) as long as the camera is
+> > streaming.
+> > 
+> > Maybe to following visualization of configured flash and exposure times help:
+> > 
+> >              _________        _________        _________
+> > exposure: __|         |______|         |______|         |__
+> > 
+> >              __               __               __
+> > flash:    __|  |_____________|  |_____________|  |_________
+> >             ^^^^
+> >       strobe_duration
+> 
+> That diagram would work for global shutter but not for the much, much more
+> common rolling shutter operation. Does the driver use the sensor in rolling
+> shutter mode? This isn't very common with LED flashes.
 
-On 05/03/2025 14:17, Yemike Abhilash Chandra wrote:
-> The DS90UB960-Q1 includes a second I2C interface for independent control
-> of the deserializer and remote devices. However, the current driver does
-> not utilize it, thus restricting users to either CSI TX0 or CSI TX1 on
-> the primary I2C interface. Enable the second I2C interface, allowing
-> flexible routing where CSI TX0 can be used on the primary and CSI TX1 on
-> the secondary, or vice versa by enabling appropriate ports in DT. To
-> achieve the same only modify the bits relevant to the enabled RX and TX
-> ports of that interface and during probe and enable_streams call, few
-> registers were being reset to HW reset state, these operations are not
-> necessary for functionality and resets the state when secondary I2C
-> interface is probed, thus drop them.
+The ov9282 driver uses the sensor in global shutter mode.
 
-I'm a bit confused about the description. My recollection is that both 
-CSI TX0 and TX1 can be programmed just fine from the first I2C 
-interface. Is that not so?
+I totally agree with your statement. This pattern is only useful for
+global shutter operation.
 
-Also, even if the driver supports both CSI TXes, at the moment v4l2 
-framework doesn't work with it, at least in many cases. E.g. if you 
-connect one TX to a CSIRX, the other TX to another CSIRX, and those 
-CSIRXes are independent, have their own media graphs, it's not going to 
-work at all.
-
-So I guess my question is, what's the target here, how did you test 
-this, etc?
-
-  Tomi
-
+> 
+> -- 
+> Regards,
+> 
+> Sakari Ailus
 
