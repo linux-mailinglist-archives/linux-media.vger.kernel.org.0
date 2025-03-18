@@ -1,270 +1,135 @@
-Return-Path: <linux-media+bounces-28404-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28405-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8147A6717B
-	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 11:38:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D43F1A6722A
+	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 12:07:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0D81D422464
-	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 10:38:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 365CB16AD09
+	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 11:06:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 231B42080CF;
-	Tue, 18 Mar 2025 10:38:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20D7220A5C0;
+	Tue, 18 Mar 2025 11:06:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="GEaiDJwS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VGNslLiv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2048.outbound.protection.outlook.com [40.107.101.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 155C935957
-	for <linux-media@vger.kernel.org>; Tue, 18 Mar 2025 10:37:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.48
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742294281; cv=fail; b=jz2d84f9OAnK9vnc3BIEfEPoyK+cX7kmNHiqYDEdMSEBNKqsEJDD/P5U7CKncph0QxhE+KSwjIbB0BD143LFz5ei2CJqD2KYGao+5xBTSXnCvUJ+scIZFA836p6crAM+CfvJUVTY08UVbD2TQDZslZ7CqYRyj6cdqMY/pNtValg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742294281; c=relaxed/simple;
-	bh=wg+FEdlqp2ut1EiPUm+UCHJ2bSRZZnmT5eOvysI7sck=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=HXqc7gLt/1Mv2tp3DfrSGfxtJQTb4FWp7zHLeot7NzW1kawWVklcieP5PLK4Dx4LyreMMaig4GHC1/ijE5TA+tEfOvs7F/yGOf8NpnWwIOENmGWRpPkHxqfkmmJAhSqfqegUCTa4GtX3WrTKk9yJ7nBr1W6ML4Cl50RABQp+sdk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=GEaiDJwS; arc=fail smtp.client-ip=40.107.101.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jcli5KlC0JNgZkhBnWKhvXDKXYoxx/XkIys+FzVNc7g09Au9sLSbzonYCd+eow33zqdFwxzs8TUvuw7XO2/pU/0P34Y/x8ThN9ReeoKtFT+Gohw2DmM3c3EYLLsNTbeLW/8ldsg9Uw2mPSIwQrLNNLWF3veqzzwsOUT76PokfYKhmx5JLtGhPpM3xx1UGaWcM7k5NNVTZqor+ZGlnGEX+VyHzw7uDAlFCfkZlIDz+oXNZYY7E2h+t6Xn07M6uBjKbQRSoTGCYXFWmFftdWtyft9QOSuJkFOkWXtZcSgjj5/Q9NH96y9NYqhbo8IuaSTX8Ga7HrXV3R85BO5jMfOlSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bgsHhyVT6ZrdPTDWZctopaP6R8TN5dtCsWBlYdmbhtM=;
- b=v9P6wcg+eUobrdHZBWcEko1jIElzJkW7o4RXU0G5EcokQDETk94lAVxV/nAAjXJ3zndm51zoAc9HB51V6AThrkGWeGVyDU8fCoqSPY3Ein8vHZeB3PtT4Wrpqd03Imwv4oswweASgiRUQtOWPMgWUmGOXozCAG8jEIu7Hfl8GaHnyutM+JZU8lWb9Os3UekMjm1BfAXDpxeHFXjPmqJ6n5OKMRf/Ilm9gvW3n3+BGU28xiL5O9FpuxXnoh3IUrvb3qqjEaUx16Rtg3PDnmESgAdlsmsWgZ/vZ12VlJdAERQa3hcK9lqhyuyTtODfjfGC5X0nv8QJ1zahe5zXNuv04g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bgsHhyVT6ZrdPTDWZctopaP6R8TN5dtCsWBlYdmbhtM=;
- b=GEaiDJwSfmM9R/Gq7g+h8sY9ikE5Y4TwSCmcAseh2L8ag+y/MLvEqabD+BLoPHc2pCq0D30ga4DlTzpmbOL6WmOGwNP6fVkn+JBxLjuacPilxRrEZmMEi0g1OJ/556T06wQR7kR6wnonjNfbXyuaHpmXDs76tsAiqRf1wCHGT20=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SA3PR12MB7781.namprd12.prod.outlook.com (2603:10b6:806:31a::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Tue, 18 Mar
- 2025 10:37:54 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8511.026; Tue, 18 Mar 2025
- 10:37:53 +0000
-Message-ID: <9a1dddba-7020-482e-8636-4f0f31c3bbfc@amd.com>
-Date: Tue, 18 Mar 2025 11:37:47 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: Take a breath during dma-fence-chain subtests
-To: Nitin Gote <nitin.r.gote@intel.com>
-Cc: intel-gfx@lists.freedesktop.org, sumit.semwal@linaro.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- chris.p.wilson@intel.com, andi.shyti@intel.com
-References: <20250318103408.3566010-1-nitin.r.gote@intel.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250318103408.3566010-1-nitin.r.gote@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0113.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9d::8) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1767C209F4F;
+	Tue, 18 Mar 2025 11:06:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742295967; cv=none; b=BndoiQRkUNLmVj2yZOmPqW3bdq2sIqQ7nT6VFAKuxR+BNBE1c8lULunl80cv1QyOz9oYNQiwjBwiYBL6J3B8s9iSQGqlUWbYMXXSzReCQZ/uBdJF9QbzDy9FSYfLC8KhT1nmEJ6/7HX7rkyU8tF5iHyan63iQr9bgy7c/w2BkiY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742295967; c=relaxed/simple;
+	bh=DH70alzSsPNOYoAFcUFfnBcoSSJlTrvzOeP/loFNSSc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=spcofmkEbuEEpld6lNg7gOUgue/wZ6K6M2ZG3KC78HCIXpwXSWWNUOjatRfc4rrWOgWu0RKoojVaXjcXwWLdzXNmn5WJOQ4gMm4JimTdzwSNmsqwzF7QGvag90S0vtbpWKzWBzo3RmfKED8htkopJkzMskAk4Ws5vMvWKaca+Y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VGNslLiv; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-30185d00446so2620418a91.0;
+        Tue, 18 Mar 2025 04:06:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742295965; x=1742900765; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zpMoor3dBxgu172XtLCnpvR9tyAyuKLKTcHfjZ0A4I4=;
+        b=VGNslLivjutcJmOlVhAEPwGS76aDYICEGw4K03rWp6ggEdL8HwppNbRGMW91TlgdBt
+         uVG8DqObK/DvLtfSmskci9BxNdqTyoEbwwHjAjRrJN1CXoQrSoGX7HTHTo3WrvRwIM+s
+         oB34dziLC+6aFqHRBM6NBJXDUOxGWgm5vfWx8NKx3GF3ByS7UI//768T5XPZP+ytUTgq
+         XHbajZEWCnj17Xyfw6TiPaDIp5RKvSjW4NJt3PrevBcjhZja6BVHnRSfS+bT5uO1OWBA
+         enGEPQhIjPW+qqGSMIaiGAfP662Pankvp7gBhvjleywkKrxrAJUAyFpQinuz5HCXjZoK
+         KzWg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742295965; x=1742900765;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zpMoor3dBxgu172XtLCnpvR9tyAyuKLKTcHfjZ0A4I4=;
+        b=iNNSGWPuw46NnBgNFy9ij1VzCTwF+eYiFEGCNN8g6ZebtKR3BJgOF/yng+UXxqKfMm
+         B6B1pT1opfdi+FPpkhD+CLV8m41+7BOLzTJJH3TXix3zdfH4ZOq3oBBvm5kWlzbrQq+V
+         qHw13Fa29GBuIgqsMK/WEd0tLOP3v8o4kr+vqaDlxj4YIsW6rMqQLhw0Bxi/JEaUpZAW
+         OIabWFNI+ORLBmse1zWiZc2oGbj+TESLWLhSAMXFJGCo4MqwJ0ntbHU1Vftux9nzIgsE
+         IjpeS8IYNYNYnp/qo0r0agIuZ8fW0TyX+GiXJaMRJqR8yev5fgAHD5Br+Y+gHTfgBBg2
+         T+3g==
+X-Forwarded-Encrypted: i=1; AJvYcCVjnb0PyA+ILIALRFk8pvIgUKAYSNctKRuvwGv9vBQi0hpZW9/Ro5QHRgyWb1D2RpaH802aufT/6y3k4Kk=@vger.kernel.org, AJvYcCVqdKKPVTW/fPwhYaPAx9513+qCOOcqaRZ9sNb5+E575ISpRbERt8xcROx9FjFuh1RTEdw+x9g28tkktTI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywd8ArLuwVtD8UqnXvxI6QHu7kTNrE+46OcSv+BhdM87Cp7k4w3
+	g3apndmhYMnBThtsMeuljixK0l1dQHuc5SIeouVJ3uVl2aQZGYDC
+X-Gm-Gg: ASbGncuc7/fsUu/L3iV7V3v9uF9s709DS3eXnqTusS2t8+MCHPVYLEv3wp4fRw2L56+
+	taE1A+8DFVP96JIPtLs5tmQebd8n98bAx85nyqF65Tj7WicKX2WJFyt1SJ602DU6AXa37N6H6Bm
+	szkkHm3PfSm3F6NGjOViWqThduWwwANFwiHU4FTMVX22Xv36+x4VS2ADAXa2oq0dx1egSq5z0Ns
+	hi2XlrEWppMhSvxDwYwfpbvANmSeIAG0FUzr1+PQIDDVMFSM3ZGVNmZweLl5k2/lAFk6/wf3VeV
+	It+likJWyOQguktP/6pOdUrpbKLoRjVuFf++3o2CB7wQJdWxFHcu+QsbynvNRPOApVChDgvWORk
+	ByYQ=
+X-Google-Smtp-Source: AGHT+IERa90JABWCDbih4/KSJyahmNphPCQsBv4vNHzGIf8QKc+5jhhkS4+jqZA/ZsgnGvidqB83cA==
+X-Received: by 2002:a17:90a:e7c4:b0:2ff:53d6:2b82 with SMTP id 98e67ed59e1d1-301a5bde7f8mr2666252a91.11.1742295965236;
+        Tue, 18 Mar 2025 04:06:05 -0700 (PDT)
+Received: from localhost.localdomain ([183.242.254.176])
+        by smtp.googlemail.com with ESMTPSA id 98e67ed59e1d1-301539ed283sm8775205a91.18.2025.03.18.04.06.00
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 18 Mar 2025 04:06:04 -0700 (PDT)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Fullway Wang <fullwaywang@outlook.com>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Cc: linmq006@gmail.com
+Subject: [PATCH] media: mtk-vcodec: Fix reference count leak in mtk_vcodec_fw_scp_init
+Date: Tue, 18 Mar 2025 19:05:53 +0800
+Message-Id: <20250318110556.903-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SA3PR12MB7781:EE_
-X-MS-Office365-Filtering-Correlation-Id: 32c38e7d-d8ea-4357-b0f1-08dd6608f05c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MGIxR3F2eWp0aXVzSUhscjdYS2ZIRytLbWxCZWUrZXpua2RUcHdEbkxkM3NC?=
- =?utf-8?B?WVIyaDZ2S1BWcm9wYzMyNTJKZVFVNVJIUEF5WEdBV1JwbnlqYnJzd1JGV2Vv?=
- =?utf-8?B?VXdvNFdOdHZUNUxJSVJ0dndadlpyZGpQSWJ2c0VrZUZDblBqSU5BSi9KV3NR?=
- =?utf-8?B?MjIvS2R4MDMxclNuMnY5M2pmc1JsdGZiZjdLQ2NxMUNqYmN2ZkZ5TU44TUtw?=
- =?utf-8?B?dkplZnQvb3N4MW5LWDdhNUx5MGVBeXJySHJ5M0pvWG5SeG9YSkxUdk5id0kv?=
- =?utf-8?B?QWtRTllrZkxhbEE0eVpDR1pVOWhEdCtEUTloWWZrY3Z2UmhPTWYxYUVNak05?=
- =?utf-8?B?YlIyRjhyVTNsQjJ4ak00R1hiblZlOWtkVSsyVkdxeG1IKzVPb0pjMmh4amF6?=
- =?utf-8?B?Mmo3amQzK3BVL1NtSDYrNGd0V2xuM20yM2NlNGdQbWR4T0YycWQrL2dYdWNI?=
- =?utf-8?B?QitpbjBlYmVpMUZ4NVpoeW1vc3k1MUZpTC9aS1VXNGZEZFk2d3BVTU5IbDBS?=
- =?utf-8?B?MFg5WUs1Q1MzanJvNC96ZFdHemlMTWZ2eHZsakw5aG5WOWZLNUFJcVFHMEtm?=
- =?utf-8?B?WkppNi9UUG1sUWZpQm1QQkJqU0U4cXBic0FsTzNoeUdWaEFUTlMzajJwZXlL?=
- =?utf-8?B?TlRRejZQOUY2ZFljK2VER25tS1dBdFgzbUUybzJCTnpBaDA5d1NyMXBrRlR0?=
- =?utf-8?B?dEszOTk5UDVHVGhLeHk1Rm9YcXNJS2FRKy83c2lPcVZzaWFJQk1Xb3NMWGpB?=
- =?utf-8?B?cEhmaWJ1aDJLMkQwbitxTCtpcE1DOUlKZDJLd2NvbFYyVHRhdmZCQjg1L1lw?=
- =?utf-8?B?WlZwUkk5ZTh5RXNDQmdFOHNHQ3lzUnQ5eGNTMk1pK0lFLytLWTFXZ0ZjWnhk?=
- =?utf-8?B?MG5qUEYyT3FKRU9aVkNJRzY1MmEwREZjR2dhWldPNGYwM2J2UGdtTmd0M0Mv?=
- =?utf-8?B?VG0vN3ViV0xYUDlLOTZmNTRxcEJBZ0NyemRlaUZseWNNOE44Q1VlK3VLQkRv?=
- =?utf-8?B?WHMzUGgzcVFJSEdEOEw2Yk0wWGpyMWhTYXp1YjBIYTlMSVl2SWltTUZESTdr?=
- =?utf-8?B?N1MySkpRZE5ybnRFSzlGRVBsam5kdldXYWk0NVg5c1RGTENNWE55YXhJb08z?=
- =?utf-8?B?anUyY2pWdlhKRFhYelRkMkE2dzdXemVoc29OU3BMb3FOZTZIOUxTNzJBNWtj?=
- =?utf-8?B?bUpFQUhMQUFXSVd3eUx6OTY5TlIxcDV3SUtSMTdxQUs3ZDZpeWZVMFpGdkg0?=
- =?utf-8?B?ajFMbVhMTjQ1TzNtWWdFY1NNL3VCajNzdFpaMHhaUFZGOSt4THVPRlVQRXh6?=
- =?utf-8?B?RDF2RXMzbUE0UFltZ3hMWEdCYkVrZy9TdXZKR2VtWktQbHR0MHV3TWI5V25R?=
- =?utf-8?B?dkxiUVJSRkljWXQyVWNxU3A4Nk5lbS8vYmlmck1qMUdnYjdtd2l2dmorSXVV?=
- =?utf-8?B?dDVjUlRybDlxYkpHU1pCNlIxbnY3OTBVODlkRUpPZ29pNXA1OEJqTDg4VWxD?=
- =?utf-8?B?aG8wbFNTdDJ5N2ZRblFGM3ZFeDM3U0tLaGRMaDhnR0M1NTdjV3d1UFpWZU8y?=
- =?utf-8?B?ZkpmazA5WXNOTGg2RUhJS3NUQ0xPVUJ6U0tTOVAwdDJzUklCbTBUaVc1RDNR?=
- =?utf-8?B?VUJBVGVESDlyazZZRlhCYnFlTFRNYng2SU5JREJ1K0E4UWxORkFzMnovQzk5?=
- =?utf-8?B?eFNkRi81MC9YS0R0aUMwR1BNcWhtTzRoYkthV3J1Q0tqNnZncmZLOTRiS3l5?=
- =?utf-8?B?OGhpNmEvZUQ1alJ0UXVZMkhqcFRSd3RlMDdaWFAwQW1UR2JKdE9abUNZQk9X?=
- =?utf-8?B?NGJ6N2pLeVF4K2VtREkwQT09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OXlnekcyWXA2MVhWcW0yR0RZU3grS281cTRtVjhlNmhMSFB6enZSMmE2Y1V3?=
- =?utf-8?B?QjU3bklDMURUVUlnUUR1NWVBNWpvK0tZNjJITlVnQ1dzYS9vZjZhSHhad05i?=
- =?utf-8?B?MTJyR1k0TWkzUkl6cHpENG1mcHJ4UG5tVHJQVnJsNTgzTW9iMlNsVGN4UGlW?=
- =?utf-8?B?U3ZvNzIzYk10b3hxMGJWSEtLWHc5by9lSTdrVHpZNWFianBYOEhCaEduTlBw?=
- =?utf-8?B?M3V1UjhQcDRta1c0Yi9NOWRZYW51K09ub0V0MzRmZ3k2SmVyUk5jQUhtb2VX?=
- =?utf-8?B?YUsxNk14WmQ0cTFleVBCOU1qS2Z0WkxFK1ZIbHp0RWNrLzF0dlI5K2dVeGJH?=
- =?utf-8?B?ZHZtelpTNjBadURuK0I3ejk4bHR1UWJqUUowQUU5RDJXSjBmUUc0VXNjN2Qx?=
- =?utf-8?B?RUpqVG9sQk5hVkhRblpTWXMyQ0gzS3Bid3JNeUkyTmZkUmdjVG55dkYvVDJh?=
- =?utf-8?B?YUl4dWtEM3dHSFgrRmdOcUswQkF6T1JBL2U5d2pabTRhSjQ1dmovbktKQVFa?=
- =?utf-8?B?M290THhDMTJ6Zk5zU0krMGNCS1BVdUU3Q2ZScVdrNlJQK2JjUGEyemQwTnBP?=
- =?utf-8?B?eDhOVmpXQldxSUxvNm1mcmNWUjAvM0xnV2F0alQzT0ZLQmxQZ083MWRscVZh?=
- =?utf-8?B?OWtrZ3pJRldCUHZsTFNIaHh4Y0xOS2ZHWEk2Qk5xVWhiZGpQU1dCSm1BSlVQ?=
- =?utf-8?B?SitSd2t6LzdGc2FEQ3R4OWVMeGs3aUQ1aytXeWFTVG9FYjI5OWZDbHZRWU0r?=
- =?utf-8?B?SVVyZUIwd2xPWVJJelFhRmlRV01lSDNOODhYRG9wbmNBSlU1OGNiUEJWQzNs?=
- =?utf-8?B?S2kwTDJ4VnJWcGh5R3I2bDRldlJTaWdwYzk1OHdadC9NZFRpWWp4N3JwbVls?=
- =?utf-8?B?QWc2OWIzclZrRy9qVldTcEhmeTQ5WkFodUZ4dTY3ZWZoL1BWS2VlNDdSWnp5?=
- =?utf-8?B?MVVBd05rT1EvTnpndGJhc2FGVEV6dWVFV2FQcWF1aWhmSXVZVkozbEtHVkly?=
- =?utf-8?B?OG93bm5nTjVhUmtxcDZFbnRIU3FOT1NNTkdsay9lYVpNbkptdmJzWjZGMnJT?=
- =?utf-8?B?c3pZS3FwTTFHVmo5eWEyRUpGYVR3bndhZmlzSXgweTRHWXo3Y2t1SFc4ZEw5?=
- =?utf-8?B?NEMweTNnS2ZoMkR2NHNORThPV000d3NaakpMMXJSRVBKekFOM2k4RFFiL3JQ?=
- =?utf-8?B?cC9UeEt2d0JaOWJaYVVLUTJJenBrOU9jRTdmU2YwQ0VWM3R1aUlYWG1pdkNW?=
- =?utf-8?B?MmIxRWwxbU5sSkVpMDUwYmNmc0EvcGZTYjVTTHRCbEFaZUpUY2taenVYazJB?=
- =?utf-8?B?enJaUUlmL21vYk4xVHRBL3FWMWIybUc5OHNrdHFBbWR4Mmg2dFRtYmhiMkI4?=
- =?utf-8?B?VFQwZUdoL1FWQ3RpTUVCRDU0NmZKRWxQNmxjZ0ZSSDFudGU3aDluM3QzZlV4?=
- =?utf-8?B?WUY3MlprUTRJbk5wV3VxU1E0QWs0VFlrQm9YaVNUQVJsV0p2MVdWb241Y3ZJ?=
- =?utf-8?B?alJjamE0UC8zVlREOGNUQ0l3eW5tdGd4d0lXOExOZENpeE11NWNubFRqaG5u?=
- =?utf-8?B?Ujlvb1c1RlVJS21tNXQvc2MvWXhGbW1MMks5WU80dnRaZ2JBQjIzNmJVL3ln?=
- =?utf-8?B?NnBpRDkrTHc4UytSZnpFMzVlanIxR0JUMzBYL0dRUXd1a3NlR2ovanRVcFNI?=
- =?utf-8?B?L0Jod2tGQmYveHVHcVJ4elJLTXRGRThwWG5yWWVpK01ZU29MVW5SNTRwdHdN?=
- =?utf-8?B?WnlPYnQzOGk5aWN2TnFMZFlKMHdxdlM0WWRhY2lKVGZJNzJYV2tIZ0dGUEx5?=
- =?utf-8?B?WnpDOUN1b2Mwd24vMEdOTXF3bFpOTmZPczFwbUZxU0kzUWVvM3ZXejJlN3lC?=
- =?utf-8?B?VllycHBxdlJsUlZYd1Q4b0g0QW52MWMvaEdiN2FVTFdlV29UVDlrUGdrQ2Vn?=
- =?utf-8?B?aUd1SEltNU12alc2ZjNoQUZvNmpFQ1NmZ0RCamRrcy9uM2tycDlJUmJqUXpG?=
- =?utf-8?B?NzN5ZE1XbVpnL2d4emlYa3BDeW8vTHZxTFJndjNua1ZEZHNWeEhHSG9KVStt?=
- =?utf-8?B?QUxiRSt5emtoZlNLUDZtdElpZlhJc1lTVHZqUFB3clcvTUowa1hucXpMelpm?=
- =?utf-8?Q?wMlAv/QqowfOGyRSYxBiyb8h8?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 32c38e7d-d8ea-4357-b0f1-08dd6608f05c
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Mar 2025 10:37:53.7928
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 4vNtcLgxFJtpdkKGHg8EYFaC59KI57zutzolLIovRhTP3DGFO9Of7dSmMTb5ZW6F
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR12MB7781
+Content-Transfer-Encoding: 8bit
 
-Am 18.03.25 um 11:34 schrieb Nitin Gote:
-> Give the scheduler a chance to breathe by calling cond_resched()
-> as some of the loops may take some time on old machines (apl/bsw/pnv), and
-> so catch the attention of the watchdogs.
->
-> Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12904
-> Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
-> ---
-> Cc: Christian Konig <christian.koenig@amd.com>
->
-> Hi Konig,
->
-> This is not a functional issue in test.
+scp_get() returns a reference that needs to be released with scp_put().
+Add missing scp_put() before returning error in mtk_vcodec_fw_scp_init().
 
-Exactly that doesn't sounds correct to me.
+Fixes: 53dbe0850444 ("media: mtk-vcodec: potential null pointer deference in SCP")
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ .../platform/mediatek/vcodec/common/mtk_vcodec_fw_scp.c      | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-> We wish to prevent softlock and allow the
-> dma-fence-chain test run to completion to verify it's functional correctness.
->
-> The performance issue takes about 5ms for the dma-fence-chain to be signalled on
-> older hardware which is an orthogonal issue and to be debugged separately for
-> which the test has to run to completion.
->
-> So, reverting to cond_resched() which fixes the issue instead of
-> delay functions.
-
-See what the warning is all about is that the CPU *busy* on something for more than 26seconds. Even on older hardware that should absolutely not happen.
-
-So what we either have is a bug in the test case (perfectly possible) or we have a bug in the dma-fence-chain implementation.
-
-As long as you don't come with a good explanation why the test case keeps the CPU busy for that long this patch here is a clear NAK from my side.
-
-Regards,
-Christian.
-
->
-> - Nitin
->
->  drivers/dma-buf/st-dma-fence-chain.c | 14 +++++++++++---
->  1 file changed, 11 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/dma-buf/st-dma-fence-chain.c b/drivers/dma-buf/st-dma-fence-chain.c
-> index ed4b323886e4..328a66ed59e5 100644
-> --- a/drivers/dma-buf/st-dma-fence-chain.c
-> +++ b/drivers/dma-buf/st-dma-fence-chain.c
-> @@ -505,6 +505,7 @@ static int signal_forward(void *arg)
->  
->  	for (i = 0; i < fc.chain_length; i++) {
->  		dma_fence_signal(fc.fences[i]);
-> +		cond_resched();
->  
->  		if (!dma_fence_is_signaled(fc.chains[i])) {
->  			pr_err("chain[%d] not signaled!\n", i);
-> @@ -537,6 +538,7 @@ static int signal_backward(void *arg)
->  
->  	for (i = fc.chain_length; i--; ) {
->  		dma_fence_signal(fc.fences[i]);
-> +		cond_resched();
->  
->  		if (i > 0 && dma_fence_is_signaled(fc.chains[i])) {
->  			pr_err("chain[%d] is signaled!\n", i);
-> @@ -587,8 +589,10 @@ static int wait_forward(void *arg)
->  	get_task_struct(tsk);
->  	yield_to(tsk, true);
->  
-> -	for (i = 0; i < fc.chain_length; i++)
-> +	for (i = 0; i < fc.chain_length; i++) {
->  		dma_fence_signal(fc.fences[i]);
-> +		cond_resched();
-> +	}
->  
->  	err = kthread_stop_put(tsk);
->  
-> @@ -616,8 +620,10 @@ static int wait_backward(void *arg)
->  	get_task_struct(tsk);
->  	yield_to(tsk, true);
->  
-> -	for (i = fc.chain_length; i--; )
-> +	for (i = fc.chain_length; i--; ) {
->  		dma_fence_signal(fc.fences[i]);
-> +		cond_resched();
-> +	}
->  
->  	err = kthread_stop_put(tsk);
->  
-> @@ -663,8 +669,10 @@ static int wait_random(void *arg)
->  	get_task_struct(tsk);
->  	yield_to(tsk, true);
->  
-> -	for (i = 0; i < fc.chain_length; i++)
-> +	for (i = 0; i < fc.chain_length; i++) {
->  		dma_fence_signal(fc.fences[i]);
-> +		cond_resched();
-> +	}
->  
->  	err = kthread_stop_put(tsk);
->  
+diff --git a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_scp.c b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_scp.c
+index ff23b225db70..11ab3bc60217 100644
+--- a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_scp.c
++++ b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_scp.c
+@@ -71,7 +71,6 @@ struct mtk_vcodec_fw *mtk_vcodec_fw_scp_init(void *priv, enum mtk_vcodec_fw_use
+ 		pr_err("Invalid fw_use %d (use a reasonable fw id here)\n", fw_use);
+ 		return ERR_PTR(-EINVAL);
+ 	}
+-
+ 	scp = scp_get(plat_dev);
+ 	if (!scp) {
+ 		dev_err(&plat_dev->dev, "could not get vdec scp handle");
+@@ -79,8 +78,10 @@ struct mtk_vcodec_fw *mtk_vcodec_fw_scp_init(void *priv, enum mtk_vcodec_fw_use
+ 	}
+ 
+ 	fw = devm_kzalloc(&plat_dev->dev, sizeof(*fw), GFP_KERNEL);
+-	if (!fw)
++	if (!fw) {
++		scp_put(scp);
+ 		return ERR_PTR(-ENOMEM);
++	}
+ 	fw->type = SCP;
+ 	fw->ops = &mtk_vcodec_rproc_msg;
+ 	fw->scp = scp;
+-- 
+2.39.5 (Apple Git-154)
 
 
