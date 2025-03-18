@@ -1,248 +1,190 @@
-Return-Path: <linux-media+bounces-28391-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28392-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60658A66B85
-	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 08:21:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA181A66B92
+	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 08:27:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 68AF3189687E
-	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 07:22:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 04416189A1CE
+	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 07:28:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 14DE01EB5DE;
-	Tue, 18 Mar 2025 07:21:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09FC01EF362;
+	Tue, 18 Mar 2025 07:27:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="HfTMyk4a"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WDFyaPVG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0CDA7E1;
-	Tue, 18 Mar 2025 07:21:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FA511A08A8;
+	Tue, 18 Mar 2025 07:27:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742282507; cv=none; b=N/DERHf96m4N479dXJ0+Vyz0Ig4OYwsS3ssvsItCXw6ejIpKI3I5bG0bzGmPGhXgObVZn9PDrX3NCt8ePgT/N5STVpFLebdPKrJryvqs9F5zfu7TbIob6AEYwPpKz7DJFKInQZ1F2OQwAgffgPQB+JbR+bNnqDM0RB4HjIPu6Is=
+	t=1742282864; cv=none; b=PPkjQMXLI6KlcvhajJ8RygIKnTRlVDHB8Z4Uw/PxkGEX337fATTL3mw1GN9KiRnpXFTUZDxVS2InI53Ps3Qk7NcvhhV/ii4bvSGvYXdQGA+z0oV+021AM/dJVhQ3YQxWN+8Z052dRKu8fU+B6OlN3OHo+NhQoeldNm/YT5pvznc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742282507; c=relaxed/simple;
-	bh=nLiUrkSEAtV4YFJNW+wAuqzsKoD6bIiGGwewymLXb4A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=cJTtDyK3EL1ExYZ3h3uQC5/V02+xEbq7ZBOZeiPXXjoQpZleBctEGJRpB0zL8ZeBajMMeTQ2yDpJtQte6288U2g8ES3easGobiQC/M44LsXXdFua1ZnKXpNn7AF8buprSp4kt2q4RtTPOLEOLyn9rKtzxW6LPXIbWqA7o1UEB1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=HfTMyk4a; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52HLpQsp026106;
-	Tue, 18 Mar 2025 07:21:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Li0MNn7ZrEOOD0vThX+KqWitMZLUv/ZYpvkQwGchqQE=; b=HfTMyk4aNUMqCD3Z
-	wGqkrBsuw0DMj/7/zUZgN0FHZvJb6JH+ZFCPHH3BkyVpK8k2lhCzcL9yCFIVL4Cp
-	ds0od3pkVgpc8GzYeeSphAJV6YmB20lhRXO2hx7OvImqH1GeVDJ1gdEcIOu0QajO
-	PsnAhA5Zlw9Umk759dbzEWQBM0N+UD6SanqPD4r2dNX+myybIPbMO5RzazeXDhoW
-	tMoWSb+7Hq/CGxhNkVN6VqUSutIefenkdxEM8mmI2TToYxGk8689PljMD4PYZITy
-	IoBL4G+muf4APhFg4ZFdjSUROCfMKjbmjTDPyfWWPaC9r9nmit9BnQn3LMyozs+L
-	NcCeZA==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45d1x7y8wf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 18 Mar 2025 07:21:40 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52I7Ldh9025028
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 18 Mar 2025 07:21:39 GMT
-Received: from [10.204.100.69] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 18 Mar
- 2025 00:21:36 -0700
-Message-ID: <120b4f09-9145-b9c5-14b9-927086d44e71@quicinc.com>
-Date: Tue, 18 Mar 2025 12:51:33 +0530
+	s=arc-20240116; t=1742282864; c=relaxed/simple;
+	bh=LD6D/fUK6vuH/GD8DCKxkLu8RTp2JZwsSqgWYZh7hpc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=D/fWub3R7S+C5FTUF1hwTGTJ+CUKHT4JD1me5n1gtxwu4CenEcfp+viB80jh6Dp5MYEnk6z4hyhB/rc/L2QwGvrq+KepMgHCVt+MqLMJp7TY/LMCzsiecWnUmE62omJuuUo6CulgyWtI0XH5+GCfhiDZqow6wtc5/TBQFzkVejQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WDFyaPVG; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9A493C4CEDD;
+	Tue, 18 Mar 2025 07:27:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742282862;
+	bh=LD6D/fUK6vuH/GD8DCKxkLu8RTp2JZwsSqgWYZh7hpc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=WDFyaPVGzvHMilLAt47cjoHTyC9Wm0uxr4aeVi/mbQhW6j0M/ohPt7dMPqt1NNMl/
+	 4jVWKcDmuo/gHn9KStefm8faq/YmcG2uJgP6vkQNNgcuTIqoNdTXUFleLekiodpOJR
+	 OPD2I97tqWcVcGUAm+5D80Fv5nENj97Yn1wmGSYZkPTup1hNOKM6Po7CKp3C+Oy/oH
+	 rZGLckGaVAoGgkvmUMrZYY34vtfvYfa0htfdhEVOFa7xluiznciDj5IjT9z9A2RsWN
+	 ih4PUkqDgFTFsiAebpglSXEBx9giOf+DnB1HCY9vabRFss4vUBWBvmN0ri2WKks+VJ
+	 Fyy3cIJ76Xs7Q==
+Message-ID: <4134b49c-f3f2-4b46-bf2c-52986fca265f@kernel.org>
+Date: Tue, 18 Mar 2025 08:27:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v4 1/2] venus: pm_helpers: add compatibility for
- dev_pm_genpd_set_hwmode on V4
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/7] dt-bindings: media: renesas,isp: Add ISP core
+ function block
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Geert Uytterhoeven <geert+renesas@glider.be>,
+ Hans Verkuil <hverkuil@xs4all.nl>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20250315152708.328036-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250315152708.328036-2-niklas.soderlund+renesas@ragnatech.se>
+ <20250317-merry-ringtail-of-competition-7d46fb@krzk-bin>
+ <20250317114904.GA868399@ragnatech.se>
+ <573bb90b-bada-4dde-b88a-f92db1d1a3d1@kernel.org>
+ <20250317153406.GB919085@ragnatech.se>
 Content-Language: en-US
-To: Renjiang Han <quic_renjiang@quicinc.com>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        "Stephen
- Boyd" <sboyd@kernel.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>
-CC: <linux-arm-msm@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>
-References: <20250218-switch_gdsc_mode-v4-0-546f6c925ae0@quicinc.com>
- <20250218-switch_gdsc_mode-v4-1-546f6c925ae0@quicinc.com>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <20250218-switch_gdsc_mode-v4-1-546f6c925ae0@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: eyVkrTMd7AIUWpOyAyRF4wfzcW2przSd
-X-Proofpoint-ORIG-GUID: eyVkrTMd7AIUWpOyAyRF4wfzcW2przSd
-X-Authority-Analysis: v=2.4 cv=Jem8rVKV c=1 sm=1 tr=0 ts=67d91f04 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=gF5d3Xu8TQ-Je0CE9tcA:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-18_03,2025-03-17_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- mlxlogscore=999 spamscore=0 mlxscore=0 malwarescore=0 adultscore=0
- phishscore=0 impostorscore=0 priorityscore=1501 lowpriorityscore=0
- bulkscore=0 clxscore=1011 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503180051
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <20250317153406.GB919085@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+On 17/03/2025 16:34, Niklas Söderlund wrote:
+> SoCs. I know it's confusing and not logical but that's how they are 
+> made.
+> 
+> - One part is the ISP Channel Selector, this is a function that sits on 
+>   the CIS-2 receiver data bus. It is responsible for selecting which 
+>   CSI-2 Virtual Channel is routed to which DMA capture engine.
+> 
+>   This part is what the rcar-isp.ko driver have always supported and 
+>   every instance of the ISP that is described in tree deals with just 
+>   this one function as this is the one we always had documentation for.
+> 
+>   This block is the one the reg-names and clock-names labels "cs".
+> 
+> - One part that we now wish to add is the ISP Core. This is a 
+>   traditional ISP that act on image data in different ways. This is what 
+>   I try to model with the reg-name and clock-name labeled "core".
+> 
+>   This is new and we have not had documentation for this until recently.  
+>   Unfortunately the "core" and "cs" functions is implemented in the same 
+>   IP block. And to operate the "core" one needs to also deal with "cs".  
+> 
+> To make it more interesting all ISP Channel Selectors (cs) do not have a 
+> companion ISP Core, but most do. The lack of a ISP core is OK, it just 
+> means that video capture path can't manipulate the image as much as 
+> paths that do.
+> 
+> It's not ideal but to support the ISP Core and ISP Channel Selecotr the 
+> rcar-isp.ko module needs both "core" and "cs" clocks and regs. And to 
+> support just the Channel Selector it only needs the "cs" resources.
+> 
+> 
+> Sorry if I have been confusing. A good example of this is patch 4/7 in 
+> this series. It shows the V4M board that have 2 ISP instances, one that 
+> have both cs and core functions, and one that only have cs function.
+
+Based on this I think the instances with ISP core are not the same
+hardware as instances without. You have there different (new)
+programming model for entirely new part of hardware not present in "old"
+instances.
+
+Different device means different compatible.
+
+And judging by the address:
+reg = <0 0xfed00000 0 0x10000>, <0 0xfec00000 0 0x100000>;
+1. 0xfec0 < 0xfed0
+2. Huge address range
+
+that's not "renesas,r8a779h0-isp" at all, but your old "ISP" device is
+actually a part of that 0xfec0_0000.
+
+Probably the channel selector should have never been called "ISP"
+because it does not process images. :/
+
+> 
+>>
+>> What is this ISP core responsible for inside Renesas ISP? How many ISPs
+>> are inside of SoC?
+> 
+> The ISP core is responsible for image manipulation. ISP Channel Selector 
+> for CSI-2 channel routing. The number of ISP varies between SoCs:
+> 
+> 
+> V3U: Have 4 ISP instances, all 4 have cs and core.
+> V4H: Have 2 ISP instances, both have cs and core.
+> V4M: Have 2 ISP instances, one have cs and core, one have only cs.
 
 
-On 2/18/2025 4:03 PM, Renjiang Han wrote:
-> There are two ways to switch GDSC mode. One is to write the POWER_CONTROL
-> register and the other is to use dev_pm_genpd_set_hwmode(). However, they
-> rely on different clock driver flags. dev_pm_genpd_set_hwmode() depends on
-> the HW_CTRL_TRIGGER flag and POWER_CONTROL register depends on the HW_CTRL
-> flag.
-> 
-> By default, the dev_pm_genpd_set_hwmode() is used to switch the GDSC mode.
-> If it fails and dev_pm_genpd_set_hwmode() returns -EOPNOTSUPP, it means
-> that the clock driver uses the HW_CTRL flag. At this time, the GDSC mode
-> is switched to write the POWER_CONTROL register.
-> 
-> Clock driver is using HW_CTRL_TRIGGER flag with V6. So hwmode_dev is
-> always true on using V6 platform. Conversely, if hwmode_dev is false, this
-> platform must be not using V6. Therefore, replace IS_V6 in poweroff_coreid
-> with hwmode_dev. Also, with HW_CTRL_TRIGGER flag, the vcodec gdsc gets
-> enabled in SW mode by default. Therefore, before disabling the GDSC, GDSC
-> should be switched to SW mode so that GDSC gets enabled in SW mode in the
-> next enable.
-> 
-> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
-> ---
->  drivers/media/platform/qcom/venus/core.h       |  2 ++
->  drivers/media/platform/qcom/venus/pm_helpers.c | 38 ++++++++++++++------------
->  2 files changed, 23 insertions(+), 17 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-> index 43532543292280be15adf688fc0c30f44e207c7f..0ccce89d3f54cf685ecce5b339a51e44f6ea3704 100644
-> --- a/drivers/media/platform/qcom/venus/core.h
-> +++ b/drivers/media/platform/qcom/venus/core.h
-> @@ -168,6 +168,7 @@ struct venus_format {
->   * @root:	debugfs root directory
->   * @venus_ver:	the venus firmware version
->   * @dump_core:	a flag indicating that a core dump is required
-> + * @hwmode_dev:	a flag indicating that HW_CTRL_TRIGGER is used in clock driver
->   */
->  struct venus_core {
->  	void __iomem *base;
-> @@ -230,6 +231,7 @@ struct venus_core {
->  		u32 rev;
->  	} venus_ver;
->  	unsigned long dump_core;
-> +	bool hwmode_dev;
->  };
->  
->  struct vdec_controls {
-> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-> index 33a5a659c0ada0ca97eebb5522c5f349f95c49c7..409aa9bd0b5d099c993eedb03177ec5ed918b4a0 100644
-> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
-> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-> @@ -412,9 +412,17 @@ static int vcodec_control_v4(struct venus_core *core, u32 coreid, bool enable)
->  	u32 val;
->  	int ret;
->  
-> -	if (IS_V6(core))
-> -		return dev_pm_genpd_set_hwmode(core->pmdomains->pd_devs[coreid], !enable);
-> -	else if (coreid == VIDC_CORE_ID_1) {
-> +	ret = dev_pm_genpd_set_hwmode(core->pmdomains->pd_devs[coreid], !enable);
-> +	if (ret == -EOPNOTSUPP) {
-> +		core->hwmode_dev = false;
-> +		goto legacy;
-> +	}
-> +
-> +	core->hwmode_dev = true;
-> +	return ret;
-> +
-> +legacy:
-> +	if (coreid == VIDC_CORE_ID_1) {
->  		ctrl = core->wrapper_base + WRAPPER_VCODEC0_MMCC_POWER_CONTROL;
->  		stat = core->wrapper_base + WRAPPER_VCODEC0_MMCC_POWER_STATUS;
->  	} else {
-> @@ -450,7 +458,7 @@ static int poweroff_coreid(struct venus_core *core, unsigned int coreid_mask)
->  
->  		vcodec_clks_disable(core, core->vcodec0_clks);
->  
-> -		if (!IS_V6(core)) {
-> +		if (!core->hwmode_dev) {
->  			ret = vcodec_control_v4(core, VIDC_CORE_ID_1, false);
->  			if (ret)
->  				return ret;
-> @@ -468,7 +476,7 @@ static int poweroff_coreid(struct venus_core *core, unsigned int coreid_mask)
->  
->  		vcodec_clks_disable(core, core->vcodec1_clks);
->  
-> -		if (!IS_V6(core)) {
-> +		if (!core->hwmode_dev) {
->  			ret = vcodec_control_v4(core, VIDC_CORE_ID_2, false);
->  			if (ret)
->  				return ret;
-> @@ -491,11 +499,9 @@ static int poweron_coreid(struct venus_core *core, unsigned int coreid_mask)
->  		if (ret < 0)
->  			return ret;
->  
-> -		if (!IS_V6(core)) {
-> -			ret = vcodec_control_v4(core, VIDC_CORE_ID_1, true);
-> -			if (ret)
-> -				return ret;
-> -		}
-> +		ret = vcodec_control_v4(core, VIDC_CORE_ID_1, true);
-> +		if (ret)
-> +			return ret;
->  
->  		ret = vcodec_clks_enable(core, core->vcodec0_clks);
->  		if (ret)
-> @@ -511,11 +517,9 @@ static int poweron_coreid(struct venus_core *core, unsigned int coreid_mask)
->  		if (ret < 0)
->  			return ret;
->  
-> -		if (!IS_V6(core)) {
-> -			ret = vcodec_control_v4(core, VIDC_CORE_ID_2, true);
-> -			if (ret)
-> -				return ret;
-> -		}
-> +		ret = vcodec_control_v4(core, VIDC_CORE_ID_2, true);
-> +		if (ret)
-> +			return ret;
->  
->  		ret = vcodec_clks_enable(core, core->vcodec1_clks);
->  		if (ret)
-> @@ -811,7 +815,7 @@ static int vdec_power_v4(struct device *dev, int on)
->  	else
->  		vcodec_clks_disable(core, core->vcodec0_clks);
->  
-> -	vcodec_control_v4(core, VIDC_CORE_ID_1, false);
-> +	ret = vcodec_control_v4(core, VIDC_CORE_ID_1, false);
->  
->  	return ret;
->  }
-> @@ -856,7 +860,7 @@ static int venc_power_v4(struct device *dev, int on)
->  	else
->  		vcodec_clks_disable(core, core->vcodec1_clks);
->  
-> -	vcodec_control_v4(core, VIDC_CORE_ID_2, false);
-> +	ret = vcodec_control_v4(core, VIDC_CORE_ID_2, false);
->  
->  	return ret;
->  }
-
-Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+Best regards,
+Krzysztof
 
