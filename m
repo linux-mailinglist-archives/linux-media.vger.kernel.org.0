@@ -1,119 +1,166 @@
-Return-Path: <linux-media+bounces-28403-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28402-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EECA0A67149
-	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 11:30:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41B6EA670C9
+	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 11:11:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8D21042284A
-	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 10:29:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 996054204D3
+	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 10:10:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28B02208961;
-	Tue, 18 Mar 2025 10:28:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88D04207DF5;
+	Tue, 18 Mar 2025 10:10:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mecIlYJU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A04A9207670
-	for <linux-media@vger.kernel.org>; Tue, 18 Mar 2025 10:28:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33FE0207670
+	for <linux-media@vger.kernel.org>; Tue, 18 Mar 2025 10:10:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742293726; cv=none; b=VR6ePF8QeznhdB1640W2S3VpTnesdqnpH1+S2RaC7Mh1RLy17U+HtsAqwLGUiFVoFQc01yHJnJ9D6UVNEFmTJl6LDBOHRZe7261/FdlNcncCAW3LiTdnEUlzVs/eocphXHTAtbNIICyoWm+tI1l0Ewtu+NValU55ognHEfziMGY=
+	t=1742292648; cv=none; b=JaavDqHiKIQzS4mfZnhqPyOqJ3oLlmBalZCKdlhKHvBSuLm+N+9xFZLiiMoBh4R39YFw8C3+yH+Bx0hoYLGVUFG2CAwU2yZSs3kFQy3m9a2kY8s7VB/46UgtUWt1Df6OZbnjQfm2FdrwpQx9lFPNfVdGESuhealnMhaW3fXJ1DM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742293726; c=relaxed/simple;
-	bh=0Yf8zwe0iIiSKI0Dg2hD7OmFQpt7e+kC2AcWFL83mwY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e7uOeEpyPyGXbk17gCE/96Sy8hleXwJjLyf1Tzsv0XAgbxVaVrquzVfmKc7N3rs92yimn9GEJohmes6LtVPdJloZ5tkvGtmUWp00IZzl2hsIZtO4RaqKMiTlGQ7EexWbznCXoQJsLTegziCTvC2jL2QSBPz8V4wJTj12Bc+FqG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=google.com; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2263428c8baso88155ad.1
-        for <linux-media@vger.kernel.org>; Tue, 18 Mar 2025 03:28:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742293721; x=1742898521;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RM+okc81SddqYQR5Qb68dWyTT/KjxhqC4j719LC3UJ8=;
-        b=MQczMwyyEne4nSKOT5KKlozGnCnbWc3iWLJW6fmHAoXsICLsYReUGlxQB2JJ1rgR+j
-         KS8bL+uKG79ME4ae0kvGijF+CctEs8NMLY8rrw1MY6sclUaZLx84iJ1ngW9iZgd1l7wd
-         ilRNaI6bQgjtWR8JFa7v899QJPXFJQhs/O9uJu2Rkqvw2SQ0OixcV4kn3cwGZ6SXDxGc
-         OpEMYbwIV6CmIdlJGqOyxG/dcsUuyzs2yTY1BAAuZgeSb68j0WPqZfBzeEViD6s+j0zJ
-         vV9/tg4sNWGz9M0O7DW+qjnQqdjIzFrSfO3P5SDAB+zv0zedJYv1+AlLJcFit5Z8TGgu
-         E52A==
-X-Forwarded-Encrypted: i=1; AJvYcCUp5BSXOQfcA5obrg12HcWz6Xex4AI/WibOTr/v3jF6CPxPygZKu/Hsj8ykyG1yGiUl2fqUKOnKTwB3xg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywtm4wYFVtfYnjF/8ovrHRCIc3FjDxp6R0NWEVk29Kdk5CjLAcn
-	FAarvzgvh95ICtR1Udc0KgRvxhsyUNUeA3s4nPyagexEaXJ/CNeaYHYxF7MUJPa7HqRJmCG6ax4
-	wp8qK
-X-Gm-Gg: ASbGncv4uzRVF/H6P/bnA8az4dG/xBw2jzsux/4mdRwaBFcOXFCSK7YWJq6FL4b2yln
-	txWSHGZllN+UXf7pZLRTEx0DocaRVn/rsRRm/evIMsEpaOKbcafAIP3Hkln+dSdX11/B/7GjWEQ
-	ULSx84wfGg5R3Hed/R753CrP0csEndOCqZMbKxEdvVnH2kkrgOZLQCN4m+jz/RIUVP+wPiGpZcq
-	nH74B2XrG36hXeI9EaZHGworCere3/hjISXWnCct8/8bg/h4iagaOlBnIADMbKllDc5gxQ2G1cb
-	s8mQOjnmVIOXocCS2jbAbNbrzlylk6RJReb+OKKSZGjEZg==
-X-Google-Smtp-Source: AGHT+IGKc8EaZI3unlc+kVdriOoL1O0l9vdYG/4SJdDspSPx+oktmGGKkLOFcJKRAjb8ZjB5EId3xw==
-X-Received: by 2002:a17:902:ef43:b0:215:8232:5596 with SMTP id d9443c01a7336-22630eecac6mr1808115ad.16.1742293720753;
-        Tue, 18 Mar 2025 03:28:40 -0700 (PDT)
-Received: from google.com ([2401:fa00:8f:203:a770:ff91:7d61:7179])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-225c6bd5da2sm90801825ad.254.2025.03.18.03.28.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Mar 2025 03:28:40 -0700 (PDT)
-Date: Tue, 18 Mar 2025 19:28:32 +0900
-From: Hidenori Kobayashi <hidenorik@chromium.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] media: vivid: Add more webcam resolutions
-Message-ID: <4gfphzokeqm4rx2ggxz2pq4wekbuqofpzrfdasafuk3h5xzlip@xwbc6jnd3mdj>
-References: <20250314-vivid-fix-twice-v2-0-dcfca4053704@chromium.org>
- <20250314-vivid-fix-twice-v2-2-dcfca4053704@chromium.org>
+	s=arc-20240116; t=1742292648; c=relaxed/simple;
+	bh=NdOXlQY6LSxWk1LYo10E/kXzqa2q06qeotqWrI9rn+I=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oh9Jx5rSZyznM08+BNcS80PzlgeaomCWLl6U9dqMvOnjg5LJWpEIc9pPeF7+MfvFd0ZzEEZUppe/bZShbR1Wy0AIIikgbCVXv58dmOCt2OJO9OnFfD12CLNdC56l1cYzrSntYzeT2RqVIb5offrAihQ2+veoteH/YbXYGsxmvlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mecIlYJU; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742292646; x=1773828646;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=NdOXlQY6LSxWk1LYo10E/kXzqa2q06qeotqWrI9rn+I=;
+  b=mecIlYJU0YftVApeqOIE39s2YOftwsJLKlSJyCla6jQN7Qj5SV9QKgV/
+   WZlm/rpmKthX/t7H7xlcNiPd6m2JghNI+UW0oOJGLx/E/a21Davhwpp7f
+   44FNvIR6UypE34MrSL2vDSV2/8cykeqxRW31AdDmiyuT0wpVE7JYXR1HW
+   Bd0GrlppNyDFNjEOrbKdqD84bly1PDB6lCxBTlI8sJoIIObCfVJ8yOEFB
+   5j9aF5y025f4A52j51BSjgFUUqNEmNcsvghm1rpYsR4WnhEosd+F35s7s
+   lxotjudqFxuqn+6W4V9ZbLcH+gZv24aBXw4oAZwpmSRz/85DyXojClRDN
+   w==;
+X-CSE-ConnectionGUID: kd1gU6wwRCeYy4VUvg08Jg==
+X-CSE-MsgGUID: 1ZTuPWX4TYaglP3I2p8X2w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11376"; a="60817149"
+X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
+   d="scan'208";a="60817149"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Mar 2025 03:10:45 -0700
+X-CSE-ConnectionGUID: YIfUjykRS0G6i1+39LA79Q==
+X-CSE-MsgGUID: O2B6gmp6TGePTSuPEgsE+g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,256,1736841600"; 
+   d="scan'208";a="122713412"
+Received: from unknown (HELO nitin-Super-Server.iind.intel.com) ([10.190.238.72])
+  by fmviesa010.fm.intel.com with ESMTP; 18 Mar 2025 03:10:43 -0700
+From: Nitin Gote <nitin.r.gote@intel.com>
+To: christian.koenig@amd.com
+Cc: intel-gfx@lists.freedesktop.org,
+	sumit.semwal@linaro.org,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	chris.p.wilson@intel.com,
+	andi.shyti@intel.com,
+	nitin.r.gote@intel.com
+Subject: [PATCH] dma-buf: Take a breath during dma-fence-chain subtests
+Date: Tue, 18 Mar 2025 16:04:08 +0530
+Message-Id: <20250318103408.3566010-1-nitin.r.gote@intel.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250314-vivid-fix-twice-v2-2-dcfca4053704@chromium.org>
+Content-Transfer-Encoding: 8bit
 
-Re-sending in proper plain text. Sorry, please discard the previous one.
+Give the scheduler a chance to breathe by calling cond_resched()
+as some of the loops may take some time on old machines (apl/bsw/pnv), and
+so catch the attention of the watchdogs.
 
-On Fri, Mar 14, 2025 at 12:39:41PM +0000, Ricardo Ribalda wrote:
-> Add 3 more common resolution for webcams. This is required to increase
-> the test coverage of unit tests based on vivid.
-> 
-> Co-developed-by: Hidenori Kobayashi <hidenorik@chromium.org>
-> Signed-off-by: Hidenori Kobayashi <hidenorik@chromium.org>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/test-drivers/vivid/vivid-vid-cap.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/media/test-drivers/vivid/vivid-vid-cap.c b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-> index 623ba1e5e54791c0ac62aa2f0fcc3dcd444c873a..df726961222be874c39d19e1fb457bd816ab45fd 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-> @@ -25,9 +25,12 @@
->  /* Sizes must be in increasing order */
->  static const struct v4l2_frmsize_discrete webcam_sizes[] = {
->  	{  320, 180 },
-> +	{  320, 240 },
->  	{  640, 360 },
->  	{  640, 480 },
->  	{ 1280, 720 },
-> +	{ 1280, 960 },
-> +	{ 1600, 1200 },
->  	{ 1920, 1080 },
->  	{ 3840, 2160 },
->  };
-> 
-> -- 
-> 2.49.0.rc1.451.g8f38331e32-goog
-> 
+Closes: https://gitlab.freedesktop.org/drm/i915/kernel/-/issues/12904
+Signed-off-by: Nitin Gote <nitin.r.gote@intel.com>
+---
+Cc: Christian Konig <christian.koenig@amd.com>
 
-Tested-by: Hidenori Kobayashi <hidenorik@chromium.org> # v4l2-compliance,
-v4l2-ctl --list-formats-ext
+Hi Konig,
+
+This is not a functional issue in test. We wish to prevent softlock and allow the
+dma-fence-chain test run to completion to verify it's functional correctness.
+
+The performance issue takes about 5ms for the dma-fence-chain to be signalled on
+older hardware which is an orthogonal issue and to be debugged separately for
+which the test has to run to completion.
+
+So, reverting to cond_resched() which fixes the issue instead of
+delay functions.
+
+- Nitin
+
+ drivers/dma-buf/st-dma-fence-chain.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/dma-buf/st-dma-fence-chain.c b/drivers/dma-buf/st-dma-fence-chain.c
+index ed4b323886e4..328a66ed59e5 100644
+--- a/drivers/dma-buf/st-dma-fence-chain.c
++++ b/drivers/dma-buf/st-dma-fence-chain.c
+@@ -505,6 +505,7 @@ static int signal_forward(void *arg)
+ 
+ 	for (i = 0; i < fc.chain_length; i++) {
+ 		dma_fence_signal(fc.fences[i]);
++		cond_resched();
+ 
+ 		if (!dma_fence_is_signaled(fc.chains[i])) {
+ 			pr_err("chain[%d] not signaled!\n", i);
+@@ -537,6 +538,7 @@ static int signal_backward(void *arg)
+ 
+ 	for (i = fc.chain_length; i--; ) {
+ 		dma_fence_signal(fc.fences[i]);
++		cond_resched();
+ 
+ 		if (i > 0 && dma_fence_is_signaled(fc.chains[i])) {
+ 			pr_err("chain[%d] is signaled!\n", i);
+@@ -587,8 +589,10 @@ static int wait_forward(void *arg)
+ 	get_task_struct(tsk);
+ 	yield_to(tsk, true);
+ 
+-	for (i = 0; i < fc.chain_length; i++)
++	for (i = 0; i < fc.chain_length; i++) {
+ 		dma_fence_signal(fc.fences[i]);
++		cond_resched();
++	}
+ 
+ 	err = kthread_stop_put(tsk);
+ 
+@@ -616,8 +620,10 @@ static int wait_backward(void *arg)
+ 	get_task_struct(tsk);
+ 	yield_to(tsk, true);
+ 
+-	for (i = fc.chain_length; i--; )
++	for (i = fc.chain_length; i--; ) {
+ 		dma_fence_signal(fc.fences[i]);
++		cond_resched();
++	}
+ 
+ 	err = kthread_stop_put(tsk);
+ 
+@@ -663,8 +669,10 @@ static int wait_random(void *arg)
+ 	get_task_struct(tsk);
+ 	yield_to(tsk, true);
+ 
+-	for (i = 0; i < fc.chain_length; i++)
++	for (i = 0; i < fc.chain_length; i++) {
+ 		dma_fence_signal(fc.fences[i]);
++		cond_resched();
++	}
+ 
+ 	err = kthread_stop_put(tsk);
+ 
+-- 
+2.25.1
 
 
