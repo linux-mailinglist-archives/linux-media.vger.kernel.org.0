@@ -1,204 +1,246 @@
-Return-Path: <linux-media+bounces-28492-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28493-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E1FFA6920C
-	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 16:00:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3167BA69234
+	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 16:04:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 56B94164125
-	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 14:55:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AFD273BEFBA
+	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 14:57:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 53E9A1DE4F8;
-	Wed, 19 Mar 2025 14:50:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51B3E1DB122;
+	Wed, 19 Mar 2025 14:54:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MoT6kVbq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gkS6uoRk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA7B1C9B62;
-	Wed, 19 Mar 2025 14:50:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 294E41B2194;
+	Wed, 19 Mar 2025 14:54:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742395813; cv=none; b=ZrhhwWRfVSAACYOlDwxa+1M5k5Xsto8WIPi6e2rFZmw0STQXwc5dV2fbWMUs5fNONI/GpT/dkSf9dgxI8WCIQSYiw3QnN38cmIzogvHpj7fXOeBK40Le2pgos3nEcXaiYwbq3cuxqJU0jJQV7Ei81EUv5nq5hd2gCl8U3/fEncA=
+	t=1742396089; cv=none; b=jaFqMz1d5e9jsdsVNVL85LJ6iGaLeoNOBlSy/q7cDoxOkkUMTpT2Tb/ClcM2H8OIdBIlvzn5QNy5lloB0+zLkUSq90LvREbhqN3emAgFZrYxRRQQktJWUiD/u9wD6ETlllHYfddqxwhUB3FG+1/jzDaHzMrCQ3dURTm8N5iQKeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742395813; c=relaxed/simple;
-	bh=3F9NEowTuNHLMAc1h4HtO+FWEVyEP264qY5xCg55J2U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RQyv6gR3FhIdfMrt75ZfqDXo6tWdJzXYdt+HAqGiO/nMZhYHWgQCv1+x+DUM+3YakCTQl31eQkH7G13kHQ9RfJ/sUboOFUM/AB/UPGwNct09T69TPqjCzm4Ye3nvyA0Z8SUOH6e4P7/1bM65hNC50WM7JOw5b5PXUMwUnLzdo6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MoT6kVbq; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5269D55A;
-	Wed, 19 Mar 2025 15:48:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1742395700;
-	bh=3F9NEowTuNHLMAc1h4HtO+FWEVyEP264qY5xCg55J2U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MoT6kVbqXJO/mKemirJD9knzCTwtiPN8lWz4kmOW1QYyDdbnjdGSSc0iikafpL3Rn
-	 /sm9LJT4esblrzSBlnrsui4dsliLO82MCT2JmFG3K8LrlRK1j75pADqMkL9X3iaWoY
-	 rJ2BECcyEhfdm6sISo3TyEN/TNbikBJ+Mi4mG3Bw=
-Date: Wed, 19 Mar 2025 15:50:00 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/7] arm64: dts: renesas: r8a779a0: Add ISP core function
- block
-Message-ID: <hwj6d3ll75magopi5oak4zmboy5dol3ztv3isd6wvrxmvbkx4b@ayjumbqmuk3l>
-References: <20250315152708.328036-1-niklas.soderlund+renesas@ragnatech.se>
- <20250315152708.328036-3-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1742396089; c=relaxed/simple;
+	bh=AGyODwLobG1NCgwCezUM+zv2QHG0aN1ehA3R8olmM0U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iP6ljMKhYYk25cu0ipBYMvRX/TjZYLnm05mgD1bBh77FOYO0QTi3yiC8vLQLEdKDfQlXeUSV8w/oQ+TWpp9/I6L5jWLIWAg+g02Icj7R72b9wE/tymJwhxVaQ9TDy35WZl0/sm5oVwqmiCrXVkBtCZyWcudHGI8q37WO6ByffEo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gkS6uoRk; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-225fbdfc17dso71123155ad.3;
+        Wed, 19 Mar 2025 07:54:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1742396087; x=1743000887; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=VqnqIl7gzMI6XYAL9+ESVwKY9TAcHFNVEaABvSsYd58=;
+        b=gkS6uoRk6h3bF095rWyO+W04ChQuNUCRRZ+XyYJw1T8WtVPuH5qoO2IgXkZ7o23Fz6
+         MqoWfh+hTB8/3rColi2pv+18qRcNqG+/TBIj/0cygVkwoyEp+zNYriIfxtxhPJvfvEJg
+         2uJArTilr9P9Hhi3VoTQ7oSEwPMguxd7Qd3WbIseW8+RoqEhn1LgxeNDsVICGLrQbNiE
+         AuZyM7iBXrGBwA3LK2wVHO2/4T7XvRAiplYPVcrWwc27t7x5XTYApZe+Y/Pe3tMvPGmr
+         Uqzh8+jyfZBwz42qHNWDIVR9gKoRCjsUNNmNuAd/84X95W23Fcvtc2OJ9706RUs/oFkh
+         UNag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742396087; x=1743000887;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VqnqIl7gzMI6XYAL9+ESVwKY9TAcHFNVEaABvSsYd58=;
+        b=wcyp6SPS6IorWxaIC3keFad43JxC1+r7xEJczR5CiQkqi0AGO46SsqsoIGjvHP9a64
+         09KirHB9grq5ltu/tyG4N0d+JO8rzhgIUa+iXe2wVTt77Htgg3mP5FNa7eA9WTB7WK+B
+         oL4W5uhPgyo3R7kHda3s05Os0W677niCjB0Pem5NQ/BqasxYI/4MOgZtw3Gjluqn7Tv0
+         jnUwGonv+31W6btE4tUWGfSkBxlnQm1BQD/j+Xhf9RZEAaDlJPdHUUSGPcYYKFxbm3H5
+         5mwNch+y9fh6/xSt4ud9VuD2aGIuSqJ8LdNMoyopb7zMAJ1rG+sZpo8K7AXC5ioj9o+8
+         937Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUoglUHbJTTlRKVDSLRSFtIi2AjFSTty/xb8V/yrga52kdlrKqtxKBaLeM2iRW81rNIDY+42hi3W8vX4bA=@vger.kernel.org, AJvYcCVN2BoRiTnqMqyeSDQi7yuJ5RZpx6xe5JFnk7TBPeWoSU3oFmOePrMEWlHIKHU/TP2UtAKPa6SqnH54XxNt@vger.kernel.org, AJvYcCWJ7maI/f/n98IUOmxxWpU0SBV8Oy1RAsQsYOWmMRgW0/bHPyVxSoSf+dyZPvZGFQilGIe5k1nIrMHFR/wY@vger.kernel.org
+X-Gm-Message-State: AOJu0YyVujuweXjvdWCrHm5T7hg4fkqf2K4RSyK2UJOebGTEC+Bm6uN8
+	FIjQ4he6jEE4UJn+1R7fr+3vN1oa+UF90Xdo93g9kz4g6pHDDZAL
+X-Gm-Gg: ASbGncsqCk59bgB3R0XLc0AnPlG8Ujz3IObHlUldiGycwtfIQG0f5mu8xJShmSN7M1D
+	nuxgCOfFFYrkmPuRvQ4KJgivPgxQXvBDDXw63GuUXb1l8uzx2ylbXzbZ5Hf/GyZrtvEsS8A0bLh
+	2ydIF8NNh1+MdY7BeRUidAEUbmGQLHxEs2VTBdui47xOXQa0F2CnUOlKZwXPgef8+DX2vYSOF+k
+	nKmBWPcwJhfBB+d+zhZytUKSmE7LEMiF2JGTPnhcn0pGexb52SA6uR5Q6DNzueOhb6Nl9243M+Y
+	mmSAmSnOlLne0EJuJngn7d7jR/qqg/QTyPzEj+qxUO10nfX97IfBNtijbpnD0vr675mAZoRvyKj
+	JQ1GG9egEspqwDIs53SM=
+X-Google-Smtp-Source: AGHT+IEM2Aydh8wQyAb3fV9+udMGx+2FPS+SU7qcCCvi4qn6KMqVbM+eGzMKYXiVBUkhhnlIU/lnAg==
+X-Received: by 2002:a05:6a20:12d5:b0:1ee:e2ac:5159 with SMTP id adf61e73a8af0-1fbebc87101mr5465045637.19.1742396087191;
+        Wed, 19 Mar 2025 07:54:47 -0700 (PDT)
+Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af56e9fe51asm10978709a12.36.2025.03.19.07.54.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 19 Mar 2025 07:54:46 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org,
+	Rob Clark <robdclark@chromium.org>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	=?UTF-8?q?Barnab=C3=A1s=20Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>,
+	Christopher Snowhill <chris@kode54.net>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Eugene Lepshy <fekz115@gmail.com>,
+	Jani Nikula <jani.nikula@intel.com>,
+	Jessica Zhang <quic_jesszhan@quicinc.com>,
+	Jonathan Marek <jonathan@marek.ca>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b),
+	linux-kernel@vger.kernel.org (open list),
+	linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b),
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Sean Paul <sean@poorly.run>
+Subject: [PATCH v2 00/34] drm/msm: sparse / "VM_BIND" support
+Date: Wed, 19 Mar 2025 07:52:12 -0700
+Message-ID: <20250319145425.51935-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250315152708.328036-3-niklas.soderlund+renesas@ragnatech.se>
 
-Hi Niklas
+From: Rob Clark <robdclark@chromium.org>
 
-On Sat, Mar 15, 2025 at 04:27:03PM +0100, Niklas Söderlund wrote:
-> All ISP instances on V3U have both a channel select and core function
-> block, describe the core region in addition to the existing cs region.
->
-> The interrupt number already described intended to reflect the cs
-> function but did incorrectly describe the core block. This was not
+Conversion to DRM GPU VA Manager[1], and adding support for Vulkan Sparse
+Memory[2] in the form of:
 
-I can't find the interrupt mapping table for V3U, so this is the only
-thing I can't check
+1. A new VM_BIND submitqueue type for executing VM MSM_SUBMIT_BO_OP_MAP/
+   MAP_NULL/UNMAP commands
 
-> noticed until now as the driver do not make use of the interrupt for the
-> cs block.
->
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+2. Extending the SUBMIT ioctl to allow submitting batches of one or more
+   MAP/MAP_NULL/UNMAP commands to a VM_BIND submitqueue
 
-The rest looks good
+The UABI takes a slightly different approach from what other drivers have
+done, and what would make sense if starting from a clean sheet, ie separate
+VM_BIND and EXEC ioctls.  But since we have to maintain support for the
+existing SUBMIT ioctl, and because the fence, syncobj, and BO pinning is
+largely the same between legacy "BO-table" style SUBMIT ioctls, and new-
+style VM updates submitted to a VM_BIND submitqueue, I chose to go the
+route of extending the existing `SUBMIT` ioctl rather than adding a new
+ioctl.
 
-> ---
->  arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 60 +++++++++++++++++------
->  1 file changed, 44 insertions(+), 16 deletions(-)
->
-> diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> index f1613bfd1632..95ff69339991 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
-> @@ -2588,13 +2588,20 @@ du_out_dsi1: endpoint {
->  		isp0: isp@fed00000 {
->  			compatible = "renesas,r8a779a0-isp",
->  				     "renesas,rcar-gen4-isp";
-> -			reg = <0 0xfed00000 0 0x10000>;
-> -			interrupts = <GIC_SPI 153 IRQ_TYPE_LEVEL_HIGH>;
-> -			clocks = <&cpg CPG_MOD 612>;
-> +			reg = <0 0xfed00000 0 0x10000>, <0 0xfec00000 0 0x100000>;
-> +			reg-names = "cs", "core";
+I also did not implement support for synchronous VM_BIND commands.  Since
+userspace could just immediately wait for the `SUBMIT` to complete, I don't
+think we need this extra complexity in the kernel.  Synchronous/immediate
+VM_BIND operations could be implemented with a 2nd VM_BIND submitqueue.
 
-However, won't the presence of a "core" part trigger the probing of
-the forthcoming RPP core support, which should not support V3U as far
-I understood ?
+The corresponding mesa MR: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/32533
 
-> +			interrupts = <GIC_SPI 152 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 153 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "cs", "core";
-> +			clocks = <&cpg CPG_MOD 612>, <&cpg CPG_MOD 16>;
-> +			clock-names = "cs", "core";
->  			power-domains = <&sysc R8A779A0_PD_A3ISP01>;
-> -			resets = <&cpg 612>;
-> +			resets = <&cpg 612>, <&cpg 16>;
-> +			reset-names = "cs", "core";
->  			status = "disabled";
->
-> +			renesas,vspx = <&vspx0>;
-> +
->  			ports {
->  				#address-cells = <1>;
->  				#size-cells = <0>;
-> @@ -2672,13 +2679,20 @@ isp0vin07: endpoint {
->  		isp1: isp@fed20000 {
->  			compatible = "renesas,r8a779a0-isp",
->  				     "renesas,rcar-gen4-isp";
-> -			reg = <0 0xfed20000 0 0x10000>;
-> -			interrupts = <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
-> -			clocks = <&cpg CPG_MOD 613>;
-> +			reg = <0 0xfed20000 0 0x10000>, <0 0xfee00000 0 0x100000>;
-> +			reg-names = "cs", "core";
-> +			interrupts = <GIC_SPI 154 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "cs", "core";
-> +			clocks = <&cpg CPG_MOD 613>, <&cpg CPG_MOD 17>;
-> +			clock-names = "cs", "core";
->  			power-domains = <&sysc R8A779A0_PD_A3ISP01>;
-> -			resets = <&cpg 613>;
-> +			resets = <&cpg 613>, <&cpg 17>;
-> +			reset-names = "cs", "core";
->  			status = "disabled";
->
-> +			renesas,vspx = <&vspx1>;
-> +
->  			ports {
->  				#address-cells = <1>;
->  				#size-cells = <0>;
-> @@ -2756,13 +2770,20 @@ isp1vin15: endpoint {
->  		isp2: isp@fed30000 {
->  			compatible = "renesas,r8a779a0-isp",
->  				     "renesas,rcar-gen4-isp";
-> -			reg = <0 0xfed30000 0 0x10000>;
-> -			interrupts = <GIC_SPI 157 IRQ_TYPE_LEVEL_HIGH>;
-> -			clocks = <&cpg CPG_MOD 614>;
-> +			reg = <0 0xfed30000 0 0x10000>, <0 0xfef00000 0 0x100000>;
-> +			reg-names = "cs", "core";
-> +			interrupts = <GIC_SPI 156 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 157 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "cs", "core";
-> +			clocks = <&cpg CPG_MOD 614>, <&cpg CPG_MOD 18>;
-> +			clock-names = "cs", "core";
->  			power-domains = <&sysc R8A779A0_PD_A3ISP23>;
-> -			resets = <&cpg 614>;
-> +			resets = <&cpg 614>, <&cpg 18>;
-> +			reset-names = "cs", "core";
->  			status = "disabled";
->
-> +			renesas,vspx = <&vspx2>;
-> +
->  			ports {
->  				#address-cells = <1>;
->  				#size-cells = <0>;
-> @@ -2840,13 +2861,20 @@ isp2vin23: endpoint {
->  		isp3: isp@fed40000 {
->  			compatible = "renesas,r8a779a0-isp",
->  				     "renesas,rcar-gen4-isp";
-> -			reg = <0 0xfed40000 0 0x10000>;
-> -			interrupts = <GIC_SPI 159 IRQ_TYPE_LEVEL_HIGH>;
-> -			clocks = <&cpg CPG_MOD 615>;
-> +			reg = <0 0xfed40000 0 0x10000>, <0 0xfe400000 0 0x100000>;
-> +			reg-names = "cs", "core";
-> +			interrupts = <GIC_SPI 158 IRQ_TYPE_LEVEL_HIGH>,
-> +				     <GIC_SPI 159 IRQ_TYPE_LEVEL_HIGH>;
-> +			interrupt-names = "cs", "core";
-> +			clocks = <&cpg CPG_MOD 615>, <&cpg CPG_MOD 19>;
-> +			clock-names = "cs", "core";
->  			power-domains = <&sysc R8A779A0_PD_A3ISP23>;
-> -			resets = <&cpg 615>;
-> +			resets = <&cpg 615>, <&cpg 19>;
-> +			reset-names = "cs", "core";
->  			status = "disabled";
->
-> +			renesas,vspx = <&vspx3>;
-> +
->  			ports {
->  				#address-cells = <1>;
->  				#size-cells = <0>;
-> --
-> 2.48.1
->
+This series can be found in MR form, if you prefer:
+https://gitlab.freedesktop.org/drm/msm/-/merge_requests/144
+
+Changes in v2:
+- Dropped Bibek Kumar Patro's arm-smmu patches[3], which have since been
+  merged.
+- Pre-allocate all the things, and drop HACK patch which disabled shrinker.
+  This includes ensuring that vm_bo objects are allocated up front, pre-
+  allocating VMA objects, and pre-allocating pages used for pgtable updates.
+  The latter utilizes io_pgtable_cfg callbacks for pgtable alloc/free, that
+  were initially added for panthor. 
+- Add back support for BO dumping for devcoredump.
+- Link to v1 (RFC): https://lore.kernel.org/dri-devel/20241207161651.410556-1-robdclark@gmail.com/T/#t
+
+[1] https://www.kernel.org/doc/html/next/gpu/drm-mm.html#drm-gpuvm
+[2] https://docs.vulkan.org/spec/latest/chapters/sparsemem.html
+[3] https://patchwork.kernel.org/project/linux-arm-kernel/list/?series=909700
+
+Rob Clark (34):
+  drm/gpuvm: Don't require obj lock in destructor path
+  drm/gpuvm: Remove bogus lock assert
+  drm/gpuvm: Allow VAs to hold soft reference to BOs
+  drm/gpuvm: Add drm_gpuvm_sm_unmap_va()
+  drm/msm: Rename msm_file_private -> msm_context
+  drm/msm: Improve msm_context comments
+  drm/msm: Rename msm_gem_address_space -> msm_gem_vm
+  drm/msm: Remove vram carveout support
+  drm/msm: Collapse vma allocation and initialization
+  drm/msm: Collapse vma close and delete
+  drm/msm: drm_gpuvm conversion
+  drm/msm: Use drm_gpuvm types more
+  drm/msm: Split submit_pin_objects()
+  drm/msm: Lazily create context VM
+  drm/msm: Add opt-in for VM_BIND
+  drm/msm: Mark VM as unusable on faults
+  drm/msm: Extend SUBMIT ioctl for VM_BIND
+  drm/msm: Add VM_BIND submitqueue
+  drm/msm: Add _NO_SHARE flag
+  drm/msm: Split out helper to get iommu prot flags
+  drm/msm: Add mmu support for non-zero offset
+  drm/msm: Add PRR support
+  drm/msm: Rename msm_gem_vma_purge() -> _unmap()
+  drm/msm: Split msm_gem_vma_new()
+  drm/msm: Pre-allocate VMAs
+  drm/msm: Pre-allocate vm_bo objects
+  drm/msm: Pre-allocate pages for pgtable entries
+  drm/msm: Wire up gpuvm ops
+  drm/msm: Wire up drm_gpuvm debugfs
+  drm/msm: Crashdump prep for sparse mappings
+  drm/msm: rd dumping prep for sparse mappings
+  drm/msm: Crashdec support for sparse
+  drm/msm: rd dumping support for sparse
+  drm/msm: Bump UAPI version
+
+ drivers/gpu/drm/drm_gpuvm.c                   | 141 ++--
+ drivers/gpu/drm/msm/Kconfig                   |   1 +
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.c         |  25 +-
+ drivers/gpu/drm/msm/adreno/a2xx_gpummu.c      |   5 +-
+ drivers/gpu/drm/msm/adreno/a3xx_gpu.c         |  17 +-
+ drivers/gpu/drm/msm/adreno/a4xx_gpu.c         |  17 +-
+ drivers/gpu/drm/msm/adreno/a5xx_debugfs.c     |   4 +-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |  24 +-
+ drivers/gpu/drm/msm/adreno/a5xx_power.c       |   2 +-
+ drivers/gpu/drm/msm/adreno/a5xx_preempt.c     |  10 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |  32 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h         |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c         |  51 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c   |   6 +-
+ drivers/gpu/drm/msm/adreno/a6xx_preempt.c     |  10 +-
+ drivers/gpu/drm/msm/adreno/adreno_device.c    |   4 -
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c       |  84 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h       |  23 +-
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |  14 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c   |  18 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h   |   2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |  18 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |  14 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h     |   4 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c     |   6 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c      |  28 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c    |  12 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c     |   4 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c      |  19 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c    |  12 +-
+ drivers/gpu/drm/msm/dsi/dsi_host.c            |  14 +-
+ drivers/gpu/drm/msm/msm_debugfs.c             |  20 +
+ drivers/gpu/drm/msm/msm_drv.c                 | 176 ++---
+ drivers/gpu/drm/msm/msm_drv.h                 |  35 +-
+ drivers/gpu/drm/msm/msm_fb.c                  |  18 +-
+ drivers/gpu/drm/msm/msm_fbdev.c               |   2 +-
+ drivers/gpu/drm/msm/msm_gem.c                 | 437 +++++-----
+ drivers/gpu/drm/msm/msm_gem.h                 | 226 ++++--
+ drivers/gpu/drm/msm/msm_gem_prime.c           |  15 +
+ drivers/gpu/drm/msm/msm_gem_submit.c          | 234 +++++-
+ drivers/gpu/drm/msm/msm_gem_vma.c             | 748 ++++++++++++++++--
+ drivers/gpu/drm/msm/msm_gpu.c                 | 146 ++--
+ drivers/gpu/drm/msm/msm_gpu.h                 | 132 +++-
+ drivers/gpu/drm/msm/msm_iommu.c               | 285 ++++++-
+ drivers/gpu/drm/msm/msm_kms.c                 |  18 +-
+ drivers/gpu/drm/msm/msm_kms.h                 |   2 +-
+ drivers/gpu/drm/msm/msm_mmu.h                 |  38 +-
+ drivers/gpu/drm/msm/msm_rd.c                  |  62 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.c          |   4 +-
+ drivers/gpu/drm/msm/msm_submitqueue.c         |  86 +-
+ include/drm/drm_gpuvm.h                       |  14 +-
+ include/uapi/drm/msm_drm.h                    |  98 ++-
+ 52 files changed, 2359 insertions(+), 1060 deletions(-)
+
+-- 
+2.48.1
+
 
