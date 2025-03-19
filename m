@@ -1,166 +1,155 @@
-Return-Path: <linux-media+bounces-28458-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28459-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C151A684BE
-	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 07:05:12 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 045CEA68509
+	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 07:25:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F27A43AAAC5
-	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 06:04:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EB4F419C570B
+	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 06:24:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F83724EF65;
-	Wed, 19 Mar 2025 06:05:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0676212FBC;
+	Wed, 19 Mar 2025 06:24:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="D4d+EFxb"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="VVAsEcFl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.4])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E18321B4156;
-	Wed, 19 Mar 2025 06:04:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.4
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CFBB36B;
+	Wed, 19 Mar 2025 06:24:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742364303; cv=none; b=QuPfRNIg/gX6wJA/m6QLLV9zvmDsto+Z16kj+FzfN+SzWoiogrFSTPrJFgOWz7pMker1s2Mber5KfPMqEerPlvCQHzWIRwtxb35BREnQjacB8oJa4/wwEHH9LHJoGjQ0n9ey/oc3a/AU/qAFMbKyL6OCiGaK82KflgUYFazD8aA=
+	t=1742365479; cv=none; b=QXuk6NC6gCSAMJSdj6MvPOBT3kf5xEi6X+DDejBtdp3UioChZnrk3B4hrbitGTIHWkZewwh0sNyfTcipRV2BGGf+hPXwWb/nof75dMQ7eFQMjSFCGcFRTNeh9tqiK77A3KCVHR0sX3AV8+fcIFBGXSOxwFw/47GMHmI2ZC6Vt8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742364303; c=relaxed/simple;
-	bh=O3B/AuGPkvGUwB+rImRFo483+AgoxQuokEvZg+ccIzE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=h6HjkXvmTf316wBNXOlgQUR9Rpm5FFp6d0Tm4qyK1RqGmvt8Wm9jNm0TAnMxLzJB53du/ORGqOp7iB4iyNF4ihsdamMifhynuc0R8uohv3mVtReS+NMdV0utH5WAtfGystMviIGUqiy+frLQzQEsOmn5ylwkUWqFkdRp0HiKR1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=D4d+EFxb; arc=none smtp.client-ip=117.135.210.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=m7u9B
-	IMP1jcXHhI4kltVw+xqRn1Y8IRXGfMp7Bp8NcU=; b=D4d+EFxbIdWlSJmdBySQH
-	0S1+UnT/fnhTVWs0r59elCjb58pv4llh59dyp8WBhb34lqiMLH58IZJ1JEpqhLCd
-	VwPdv4NcSjhLA7eLyBHbL1peLcw6GIU7iLeLJt86kKxuTWBRsQhtQNMx1yx4HI4h
-	vw3tkwVlSnG/9KR0uE/BAI=
-Received: from localhost.localdomain (unknown [])
-	by gzga-smtp-mtada-g0-1 (Coremail) with SMTP id _____wD3F3VmXtpnlHyWAQ--.42378S2;
-	Wed, 19 Mar 2025 14:04:24 +0800 (CST)
-From: chenchangcheng <ccc194101@163.com>
-To: laurent.pinchart@ideasonboard.com,
-	hdegoede@redhat.com,
-	mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	chenchangcheng <chenchangcheng@kylinos.cn>,
-	kernel test robot <lkp@intel.com>
-Subject: [PATCH v3] media: uvcvideo: Fix bandwidth issue for Alcor camera
-Date: Wed, 19 Mar 2025 14:04:20 +0800
-Message-Id: <20250319060420.720023-1-ccc194101@163.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1742365479; c=relaxed/simple;
+	bh=dxO06fqoNrqBRAmFBEuChTRfwFd/Xw7+EC+Z5k/dTpY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=kobaE1ylkCtQu57WJ0Q8AFQ0eHJ89djwFOckdJhrG9rosdTdeeaB9fKjxzndvcvnYs1nhWxOGBX1oaEbp82ZpT7EjIw0tNOIObAaq+KJAha0wHuOD3cM4EP3wnHsgOpYo6UxGdriwBQUNGD60lYgxxV+/JKiLD1YVysrYHSHXzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=VVAsEcFl; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52J4lhKq020637;
+	Wed, 19 Mar 2025 06:24:25 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	DLLJeXXAeb93cHTkbet2VBd+/+6brCAnW2S98VPVpmA=; b=VVAsEcFlADwNg6ZT
+	pokVD3K6Qv+r+mVmzWvS/+oCGkkQyTOA8ad+W2YFulttBMjLHN1r9+TGjG3Xxs25
+	Hj27Ko7Xsb3Bz5UnRSNgeG0RL/UMwNNy7MJa/LA76L4yP01DXSyUL7toIwfunwJo
+	thsLrFEZgghD/LqpPMVsE0jfNEllI1aDUM3s8kCjPgiSGbRj8kdNgOGMqNeY0lzN
+	/CH16eUa2/Q9uB5tSjS5iFXIfLBYvpWTRUwUe2OtlO5HGym+H/I8ty/XSaZM+QjE
+	EBmvMKfH+b36SD1sk2prRBQ5hvxxEgnAX52lB6tRBr3Shs7mRL5f0koo9yV/yGl0
+	A5FXDw==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45exx34afj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 19 Mar 2025 06:24:25 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52J6OO9X013506
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 19 Mar 2025 06:24:24 GMT
+Received: from [10.206.106.133] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 18 Mar
+ 2025 23:24:19 -0700
+Message-ID: <a734ed32-00ed-43ca-a42f-5ac88e2a70c1@quicinc.com>
+Date: Wed, 19 Mar 2025 11:54:16 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/2] media: dt-bindings: Add qcom,qcs8300-camss
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Krzysztof Kozlowski
+	<krzk@kernel.org>
+CC: <rfoss@kernel.org>, <todor.too@gmail.com>, <mchehab@kernel.org>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+        <andersson@kernel.org>, <konradybcio@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <cros-qcom-dts-watchers@chromium.org>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20250214094747.2483058-1-quic_vikramsa@quicinc.com>
+ <20250214094747.2483058-2-quic_vikramsa@quicinc.com>
+ <20250223-observant-auspicious-basilisk-d78ba9@krzk-bin>
+ <66c35bce-c657-4c12-ad02-58c995ae385a@quicinc.com>
+ <f2899540-f9ac-4013-a703-25800429f97d@kernel.org>
+ <b1ea0500-595f-48d6-9358-649c25fd4ee9@linaro.org>
+Content-Language: en-US
+From: Vikram Sharma <quic_vikramsa@quicinc.com>
+In-Reply-To: <b1ea0500-595f-48d6-9358-649c25fd4ee9@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wD3F3VmXtpnlHyWAQ--.42378S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW3WFykXr1fKry8XrW3AF13urg_yoW7ur18pa
-	s8ArWFyry8GrW8Gw17J3WvqFy5Ganakay2krs3Ka4kZr1UAr18XF45KayIqFW0kFnF9rnF
-	yrn0vr4Uu34jqF7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07joZXOUUUUU=
-X-CM-SenderInfo: 5fffimiurqiqqrwthudrp/1tbiGBgV3mfaWuBqdgAAsQ
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=b+uy4sGx c=1 sm=1 tr=0 ts=67da6319 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=cXzS56WWJYi8bN41XdMA:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: Gjaa4ABEb6ysyYpnEVV6WtC7v2Ig0r5P
+X-Proofpoint-GUID: Gjaa4ABEb6ysyYpnEVV6WtC7v2Ig0r5P
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-19_02,2025-03-17_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 phishscore=0
+ bulkscore=0 clxscore=1011 mlxlogscore=999 priorityscore=1501 mlxscore=0
+ lowpriorityscore=0 malwarescore=0 impostorscore=0 adultscore=0
+ suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503190042
 
-From: chenchangcheng <chenchangcheng@kylinos.cn>
 
-Some broken device return wrong dwMaxPayloadTransferSize fields,
-as follows:
-[  218.211425] [pid:20391,cpu4,guvcview,3]uvcvideo: Trying format 0x47504a4d (MJPG): 640x480.
-[  218.211425] [pid:20391,cpu4,guvcview,4]uvcvideo: Using default frame interval 33333.3 us (30.0 fps).
-[  218.252532] [pid:20391,cpu4,guvcview,1]uvcvideo: Trying format 0x47504a4d (MJPG): 640x480.
-[  218.252532] [pid:20391,cpu4,guvcview,2]uvcvideo: Using default frame interval 33333.3 us (30.0 fps).
-[  218.293426] [pid:20391,cpu7,guvcview,8]videobuf2_common: __setup_offsets: buffer 0, plane 0 offset 0x00000000
-[  218.294067] [pid:20391,cpu7,guvcview,9]videobuf2_common: __setup_offsets: buffer 1, plane 0 offset 0x000e1000
-[  218.294433] [pid:20391,cpu7,guvcview,0]videobuf2_common: __setup_offsets: buffer 2, plane 0 offset 0x001c2000
-[  218.294677] [pid:20391,cpu7,guvcview,1]videobuf2_common: __setup_offsets: buffer 3, plane 0 offset 0x002a3000
-[  218.294677] [pid:20391,cpu7,guvcview,2]videobuf2_common: __vb2_queue_alloc: allocated 4 buffers, 1 plane(s) each
-[  218.294738] [pid:20391,cpu7,guvcview,3]uvcvideo: uvc_v4l2_mmap
-[  218.294799] [pid:20391,cpu7,guvcview,4]videobuf2_common: vb2_mmap: buffer 0, plane 0 successfully mapped
-[  218.294799] [pid:20391,cpu7,guvcview,5]uvcvideo: uvc_v4l2_mmap
-[  218.294830] [pid:20391,cpu7,guvcview,6]videobuf2_common: vb2_mmap: buffer 1, plane 0 successfully mapped
-[  218.294830] [pid:20391,cpu7,guvcview,7]uvcvideo: uvc_v4l2_mmap
-[  218.294830] [pid:20391,cpu7,guvcview,8]videobuf2_common: vb2_mmap: buffer 2, plane 0 successfully mapped
-[  218.294860] [pid:20391,cpu7,guvcview,9]uvcvideo: uvc_v4l2_mmap
-[  218.294860] [pid:20391,cpu7,guvcview,0]videobuf2_common: vb2_mmap: buffer 3, plane 0 successfully mapped
-[  218.294860] [pid:20391,cpu7,guvcview,1]videobuf2_common: vb2_core_qbuf: qbuf of buffer 0 succeeded
-[  218.294891] [pid:20391,cpu7,guvcview,2]videobuf2_common: vb2_core_qbuf: qbuf of buffer 1 succeeded
-[  218.294891] [pid:20391,cpu7,guvcview,3]videobuf2_common: vb2_core_qbuf: qbuf of buffer 2 succeeded
-[  218.294891] [pid:20391,cpu7,guvcview,4]videobuf2_common: vb2_core_qbuf: qbuf of buffer 3 succeeded
-[  218.294891] [pid:20391,cpu7,guvcview,5]uvcvideo: Setting frame interval to 1/25 (400000).
-[  218.632537] [pid:20427,cpu6,guvcview,8]uvcvideo: Device requested 2752512 B/frame bandwidth.
-[  218.632598] [pid:20427,cpu6,guvcview,9]uvcvideo: No fast enough alt setting for requested bandwidth.
+On 3/19/2025 3:18 AM, Bryan O'Donoghue wrote:
+> On 18/03/2025 07:16, Krzysztof Kozlowski wrote:
+>> On 18/03/2025 06:52, Vikram Sharma wrote:
+>>>
+>>> On 2/23/2025 5:03 PM, Krzysztof Kozlowski wrote:
+>>>> On Fri, Feb 14, 2025 at 03:17:46PM +0530, Vikram Sharma wrote:
+>>>>> +properties:
+>>>>> +  compatible:
+>>>>> +    const: qcom,qcs8300-camss
+>>>>> +
+>>>>> +  reg:
+>>>>> +    maxItems: 21
+>>>>> +
+>>>>> +  reg-names:
+>>>>> +    items:
+>>>>> +      - const: csid_wrapper
+>>>> Why different order of entries than sm8550?
+>>>
+>>> Hi Krzysztof,
+>>>
+>>> Thanks for your review.
+>>> I did this change to address a comment from Bryan on another series.
+>>> https://lore.kernel.org/linux-arm-msm/e152ff78-caa5-493a-88da-96a6670eb2a2@linaro.org/ 
+>>>
+>>>
+>>> Please suggest if I should keep the order same as sm8550?
+>> If you chosen the same order as x1e80100 then it is fine, but that file
+>> is not merged so it is your responsibility to track any differences and
+>> be sure whatever you send is always in sync with x1e.
+>>
+>> Best regards,
+>> Krzysztof
+>
+> My mistake, I hadn't realised/remembered what we merged for 8550.
+>
+> Vikram, please follow latest committed example @ 8550.
 
-The maximum packet size of the device is 3 * 1024,
-but according to the logs above, the device needs to apply for a bandwidth of 0x2a0000.
+Thanks Bryan for conclusion on this. Will keep reference dts as 8550.
 
-Signed-off-by: chenchangcheng <chenchangcheng@kylinos.cn>
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202503191330.AveQs7tb-lkp@intel.com/
----
- drivers/media/usb/uvc/uvc_driver.c |  9 +++++++++
- drivers/media/usb/uvc/uvc_video.c  | 11 +++++++++++
- drivers/media/usb/uvc/uvcvideo.h   |  1 +
- 3 files changed, 21 insertions(+)
-
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index deadbcea5e22..6d739c3cc88f 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -3188,6 +3188,15 @@ static const struct usb_device_id uvc_ids[] = {
- 	  .bInterfaceSubClass	= 1,
- 	  .bInterfaceProtocol	= 0,
- 	  .driver_info		= UVC_INFO_META(V4L2_META_FMT_D4XX) },
-+	/* Alcor Corp. Slave camera */
-+	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		= 0x1b17,
-+	  .idProduct		= 0x6684,
-+	  .bInterfaceClass	= USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	= 1,
-+	  .bInterfaceProtocol	= 0,
-+	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_OVERFLOW_BANDWIDTH) },
- 	/* Generic USB Video Class */
- 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
- 	{ USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index e3567aeb0007..0670f8c58717 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -262,6 +262,17 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
- 
- 		ctrl->dwMaxPayloadTransferSize = bandwidth;
- 	}
-+
-+	if (format->flags & UVC_FMT_FLAG_COMPRESSED &&
-+	    stream->dev->quirks & UVC_QUIRK_OVERFLOW_BANDWIDTH &&
-+	    ctrl->dwMaxPayloadTransferSize > stream->maxpsize) {
-+		dev_warn(&stream->intf->dev,
-+			 "the max payload transmission size (%d)"
-+			 "exceededs the size of the ep max packet (%d)."
-+			 "use the default value of 1024 bytes.\n",
-+			 ctrl->dwMaxPayloadTransferSize, stream->maxpsize);
-+		ctrl->dwMaxPayloadTransferSize = 1024;
-+	}
- }
- 
- static size_t uvc_video_ctrl_size(struct uvc_streaming *stream)
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 5e388f05f3fc..8b43d725c259 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -77,6 +77,7 @@
- #define UVC_QUIRK_DISABLE_AUTOSUSPEND	0x00008000
- #define UVC_QUIRK_INVALID_DEVICE_SOF	0x00010000
- #define UVC_QUIRK_MJPEG_NO_EOF		0x00020000
-+#define UVC_QUIRK_OVERFLOW_BANDWIDTH	0x00040000
- 
- /* Format flags */
- #define UVC_FMT_FLAG_COMPRESSED		0x00000001
-
-base-commit: 4701f33a10702d5fc577c32434eb62adde0a1ae1
--- 
-2.25.1
-
+>
+> ---
+> bod
+>
+Best regards,
+Vikram
 
