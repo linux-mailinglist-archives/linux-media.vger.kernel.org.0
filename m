@@ -1,190 +1,99 @@
-Return-Path: <linux-media+bounces-28478-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28479-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F48A68BC3
-	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 12:35:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30CDFA68C72
+	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 13:11:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E82E5163914
-	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 11:30:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C2AF53BEDE0
+	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 12:10:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0B79257426;
-	Wed, 19 Mar 2025 11:28:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10721255255;
+	Wed, 19 Mar 2025 12:10:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="c3/B96TB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="exGxulmC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 736322571AB;
-	Wed, 19 Mar 2025 11:28:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18A2B254AED
+	for <linux-media@vger.kernel.org>; Wed, 19 Mar 2025 12:10:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742383719; cv=none; b=MLOQbs84Rsl1Fnq7EdLHlvLlmfCw/bd5YNDY7XrDRce6GbWTUc7Fmoksw7dOh1+zZ5cLGmHB5SWNefwGjxgmrR4tunj1eUDY8CmHS910eknNmFxnVtQPhg2KvbU989YXJXMzYdcb7qOTZyhUXrCVR56If69/nHNDus0PKamDmYY=
+	t=1742386250; cv=none; b=tNJbB045AWn/bi30EGqHeOfNeWw/e3Jc/MFaI+kVD9MnILb/VuKd9waLNiY3PYx0Halxo+6kizeZUE72XvZmezBzBO+MC7vr12Nbjbs1DzPfI6qI6HxPPKnd/JGSbBFt/PLaRkttDFQ5YLM+If+a4IriWFzghTKHmqdx65NHJfs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742383719; c=relaxed/simple;
-	bh=8/dwMhavIR3LpRaxSdSscjLVSo4SziV3FqCQRkRdRq4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZGjr/W6RwUPCDmImQwJ7Pi8DKSYk/d377If1JUvAoOb5PxefNg7tmlRI0V1VkdySkdWoAPPlRtKaMU/b1dZIYusNq8ONH524LtQTmzJ4dVI39MH3jh0Lc9+r0CVCGUl4Ig+9Dr4YIBql5Ml6G+ZviCv+jU17O5oNGYl3Zng5rnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=c3/B96TB; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.1.102] (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6A7A31986;
-	Wed, 19 Mar 2025 12:26:45 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1742383605;
-	bh=8/dwMhavIR3LpRaxSdSscjLVSo4SziV3FqCQRkRdRq4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=c3/B96TBMkf9/Lm+1PZ1BZZSjBWHDKPw0L45csn/Ft48ggzRHaKUxxYcDI1j8JPzc
-	 n3gkPSOo7gu5Kj9mrqlU8ErEZDK29XA9JhJObWOsvRsWp0FAJ1wN8EKgxPmBcu4mJr
-	 PSqUQMh9e6DAxAiHgKDxAz0meAvw1kFrZnniMS60=
-From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Date: Wed, 19 Mar 2025 12:28:20 +0100
-Subject: [PATCH v5 7/7] media: vsp1: pipe: Add RAW Bayer formats mapping
+	s=arc-20240116; t=1742386250; c=relaxed/simple;
+	bh=egk5hB1kXPu7HwYnheUW6i4e0OFow0W+xziB7evk0tI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eS6B2sTfg41ZI9+ArkGsLR38xgVlGo89lPaOyiawaf+BDPcHZ/Qi+FPdAmQsRX1v7Ufwb16ZhuRMRvW5HKsdQ8e7QjGqD8PQC8+zzd2nzB+eFm5+OGQjEnwzAZ/3i1WD9XR8HdWUnXv+JlTsVyPscI++4OBwBae/1UVVXBpLRFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=exGxulmC; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742386249; x=1773922249;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=egk5hB1kXPu7HwYnheUW6i4e0OFow0W+xziB7evk0tI=;
+  b=exGxulmCVKsgGTN7/TdCgRc9mylNlbxz9xqJHYxBnPOkwwfgk1sJpNyB
+   2bTv234c5ruFvc4CNU/WxxCpSHWjhrwltxdUtEpFAmWkd+65cVN3JGAJG
+   Vcfn4JeWzde25DZtRVVIbt3UUwR93ZC4ap+C2JVP9w60j5xI8DotUbvMA
+   MB2s704qV5+SIDIPg0SB+Y8u9fUs3/c7IwDvYpmpaP1zrc8LOJyUTw695
+   QqOoURs7RtOOkrEh6Q/ke9/TiPZAFZcTaE8NJ+uRxBnms4/96YimgKbO+
+   ybv7C/zOXFgqkzE5jjJe2fDFlhtsIgjg6SG3pfRRpP2b/zqKQbqVvE4k9
+   g==;
+X-CSE-ConnectionGUID: rjhglHvJQ6mT75qiwJiQlA==
+X-CSE-MsgGUID: 1+1/n8shSzy+osTxYzLpSA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="53785884"
+X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
+   d="scan'208";a="53785884"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 05:10:49 -0700
+X-CSE-ConnectionGUID: vKNqE35MRS+AufNm6EkPCQ==
+X-CSE-MsgGUID: 3lX12Qw+R8m7svdMYtcqEA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
+   d="scan'208";a="123086635"
+Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.245.81.118])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 05:10:48 -0700
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>
+Subject: [PATCH v2 0/5] media: intel/ipu6: Cleanups and small refactor
+Date: Wed, 19 Mar 2025 13:10:39 +0100
+Message-Id: <20250319121044.113705-1-stanislaw.gruszka@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250319-v4h-iif-v5-7-0a10456d792c@ideasonboard.com>
-References: <20250319-v4h-iif-v5-0-0a10456d792c@ideasonboard.com>
-In-Reply-To: <20250319-v4h-iif-v5-0-0a10456d792c@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-renesas-soc@vger.kernel.org, 
- Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, 
- =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: b4 0.15-dev-1b0d6
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4724;
- i=jacopo.mondi+renesas@ideasonboard.com; h=from:subject:message-id;
- bh=8/dwMhavIR3LpRaxSdSscjLVSo4SziV3FqCQRkRdRq4=;
- b=owEBbQKS/ZANAwAIAXI0Bo8WoVY8AcsmYgBn2qpXzRu1nPvFC3X2RdwPhItcJoLdvcyEAp6/U
- NK8NLFgcJOJAjMEAAEIAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCZ9qqVwAKCRByNAaPFqFW
- PI4iD/sEoNcseCpLmaHQZeB2Y/PEycNUycCiEDUDc9355E2nW5vbfsJ8frCDZgYO07aSmZI7SHP
- MZ0CDnXKTJDLN8nCM4hVk/wyzpj4I9RRI6ZF2o6TXXpQPG9JtGjP4j39hzEh86Lt5GiPNYvU5F5
- nV7WjHHTZR5SzAOz4ganmfzZgiXSrHEO3n6uEHPCYn/mwB/C7ff/LHTaFw33apETLdIOcZ0pWjT
- TjOdYvlpVJJ9WGY582ZMq2Edj4v1ka1fQ700G0TLy/TMDcH2ehz/uqsULdyFrBdXOPG9sG+21jU
- EWbjbGu1jAC9aUTzXVhf395hl4KFgo3FFG2CFpNP6OnT7tTbN4EEJRCqEqKNeaFlE7Q9y+m/Zyt
- 2ue0xh6rrtRLKSwaj4RwKVzatZe57nqZU7AcWcdHS96vr4str6Ph2kGY7Twhni+DAe+b/uSULqS
- y7GOEHzWPQlYSTwNRHvn5Fq1VkEr47FvvnBDDrlttT1Qzo6kZpz47NqAV6W9Q/7gAsS67I/Hjy7
- 4FWqiSU+94OIhWRnAvXkqC9qhFoK5ApU62GRPaWKVzPTxUhv71m4RcIhLMIJEdbdNifozpE3egv
- VTOU4H7NUf9rkIGEZjRT5eqmdvwJAw61agf3LK+hn1tVUuNztLLKLoJrsUe9Yqh1NBULOrB9Ej8
- oFClQZMOYu1n70A==
-X-Developer-Key: i=jacopo.mondi+renesas@ideasonboard.com; a=openpgp;
- fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-Add formats definition for RAW Bayer formats in vsp1_pipe.c.
+Some clenaups and abstract buf ready function away from FW interface
+to make it reusable with ipu7.
 
-8-bits RAW Bayer pixel formats map on VSP format RGB332.
-10, 12 and 16 bits RAW Bayer pixel formats map on RGB565 insted.
+v1 -> v2:
+ - spelling fixes
+ - remove redundant ()
+ - do not change addr to dma_addr in patch 4 - fixes wrong usage of %pad
+   reported by CI
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Stanislaw Gruszka (5):
+  media: intel/ipu6: Add missing new line character in error message
+  media: intel/ipu6: Make two functions static
+  media: intel/ipu6: Use timestamp value directly
+  media: intel/ipu6: Abstract buf ready function
+  media: intel/ipu6: Remove unused dev field from ipu6_isys_queue
 
----
-v3->v4:
-- Fix SWAP bits for RAW 10, 12 and 16
----
- drivers/media/platform/renesas/vsp1/vsp1_pipe.c | 72 ++++++++++++++++++++++++-
- 1 file changed, 71 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-index 8e9be3ec1b4dbdad1cbe35ae3a88952f46e41343..a51061738edce566079d72bd027391d24a065e72 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-@@ -30,10 +30,80 @@
-  */
- 
- static const struct vsp1_format_info vsp1_video_formats[] = {
--	{ V4L2_PIX_FMT_RGB332, MEDIA_BUS_FMT_ARGB8888_1X32,
-+	/* Raw Bayer 8-bit: Maps on RGB332 */
-+	{ V4L2_PIX_FMT_SBGGR8, MEDIA_BUS_FMT_Y8_1X8,
-+	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 8, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SGBRG8, MEDIA_BUS_FMT_Y8_1X8,
-+	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 8, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SGRBG8, MEDIA_BUS_FMT_Y8_1X8,
-+	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 8, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SRGGB8, MEDIA_BUS_FMT_Y8_1X8,
- 	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
- 	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
- 	  1, { 8, 0, 0 }, false, false, 1, 1, false },
-+
-+	/* Raw Bayer 10/12/16-bit: Maps on RGB565 */
-+	{ V4L2_PIX_FMT_SBGGR10, MEDIA_BUS_FMT_Y10_1X10,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS,
-+	  1, { 10, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SGBRG10, MEDIA_BUS_FMT_Y10_1X10,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS,
-+	  1, { 10, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SGRBG10, MEDIA_BUS_FMT_Y10_1X10,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS,
-+	  1, { 10, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SRGGB10, MEDIA_BUS_FMT_Y10_1X10,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS,
-+	  1, { 10, 0, 0 }, false, false, 1, 1, false },
-+
-+	{ V4L2_PIX_FMT_SBGGR12, MEDIA_BUS_FMT_Y12_1X12,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS,
-+	  1, { 12, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SGBRG12, MEDIA_BUS_FMT_Y12_1X12,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS,
-+	  1, { 12, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SGRBG12, MEDIA_BUS_FMT_Y12_1X12,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS,
-+	  1, { 12, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SRGGB12, MEDIA_BUS_FMT_Y12_1X12,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS,
-+	  1, { 12, 0, 0 }, false, false, 1, 1, false },
-+
-+	{ V4L2_PIX_FMT_SBGGR16, MEDIA_BUS_FMT_Y16_1X16,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS,
-+	  1, { 16, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SGBRG16, MEDIA_BUS_FMT_Y16_1X16,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS,
-+	  1, { 16, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SGRBG16, MEDIA_BUS_FMT_Y16_1X16,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS,
-+	  1, { 16, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_SRGGB16, MEDIA_BUS_FMT_Y16_1X16,
-+	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS,
-+	  1, { 16, 0, 0 }, false, false, 1, 1, false },
-+
-+	{ V4L2_PIX_FMT_RGB332, MEDIA_BUS_FMT_ARGB8888_1X32,
-+	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 10, 0, 0 }, false, false, 1, 1, false },
- 	{ V4L2_PIX_FMT_ARGB444, MEDIA_BUS_FMT_ARGB8888_1X32,
- 	  VI6_FMT_ARGB_4444, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
- 	  VI6_RPF_DSWAP_P_WDS,
+ .../media/pci/intel/ipu6/ipu6-isys-queue.c    | 45 ++++++++++---------
+ .../media/pci/intel/ipu6/ipu6-isys-queue.h    |  5 ---
+ 2 files changed, 25 insertions(+), 25 deletions(-)
 
 -- 
-2.48.1
+2.34.1
 
 
