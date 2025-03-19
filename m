@@ -1,414 +1,279 @@
-Return-Path: <linux-media+bounces-28502-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28500-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F871A6932E
-	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 16:23:50 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3DA8A69315
+	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 16:21:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 105281669E9
-	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 15:17:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A19624261D3
+	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 15:13:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B86A1DE2C0;
-	Wed, 19 Mar 2025 15:16:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FD141CCB4B;
+	Wed, 19 Mar 2025 15:07:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="GWKs+EmC"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="zD6wC2KV";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="62ykFpYV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E08B21C7013;
-	Wed, 19 Mar 2025 15:16:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742397408; cv=pass; b=VGIDG2tHRRvemWH4iLVZ9Ed43G9EINJ89H7sMH1xY1/3GZkEChPpR377oQexICP1xPklph9dNo0J6Ig/+sT8yvHQyNZdCvmwh633kpPXGIQSVU8EroP3w9+LDMI5aXpIZYHUEmOqzOlS4iXCVTWVjt+UUDe17nGWlFnA4ID9MbU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742397408; c=relaxed/simple;
-	bh=X53+/bqZ787xHfvqcOpvOHeHeJocdTcUsijXDLbDkF0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IpYExpY2rWxMTzMtSNlzykH1rzNoLG1YoDPcsgM/IEPFOd25hU8mSe/b7+Dyvp7FkUQxSvnn21U5NuwbJEHqEX7kCKkqTUK54dADacDaJyRRdnY0OBPiOBPNZws9dVuB2V4/7FOoicbQG5Zuag7VbI6sF6Q0bcmSEhf5SaChcE8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=GWKs+EmC; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1742397383; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=WF8kYicq5QXfMyEne+xw9jD/sqBXmU8RYOzeIk+0t1nI6nKxtQew11TpQp8sz0Fbq4SQ7e3hhucO7PQxVMCeuU04BJMhRcppNNknKOYASu9T/pQ+l+fxRshes9XOF6kmHRViy8v1Hv78wWaL3mAgjnF12lfLIc04xJE3i6KAkXE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1742397383; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=nfH6v6lfdIk1blzio1DZSnW0EW8C4O+mBkMFo1dv7xo=; 
-	b=guAGeEsd3B11/DrsXkYsKA8Iyd7jW4n3mnFgiC4IPBY23hR9Hi76x9o80qL58M5OHNrNZZXdfBl6hKPgHRPTG5J7mktLncuNCuAn23QVhDtMRo1UmYEgz3/e/V+aSVp8DIZb9ieZivEyDkml66aU4lM4+0ujRlv7zWegURrMiTU=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
-	dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1742397383;
-	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=nfH6v6lfdIk1blzio1DZSnW0EW8C4O+mBkMFo1dv7xo=;
-	b=GWKs+EmCpXADzEG1BrwLH0kagdStuQNbiNN3okzZ1kfj/LDgLaA0ihIqt84rc9oA
-	1xcBrPSMp2GxHiqaZBurrUmAhnISxn2iXD6AYokdav/QFs/dL3HPV9R+Wd72z8Bgxw9
-	tFyVi39j9NIpaS6du5KnHlgFcQHNsnTGnyxzktGQ=
-Received: by mx.zohomail.com with SMTPS id 1742397381956855.6215348499818;
-	Wed, 19 Mar 2025 08:16:21 -0700 (PDT)
-From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>,
-	Steven Price <steven.price@arm.com>,
-	Liviu Dudau <liviu.dudau@arm.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: kernel@collabora.com,
-	=?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH v2 3/4] drm/panthor: show device-wide list of DRM GEM objects over DebugFS
-Date: Wed, 19 Mar 2025 15:03:18 +0000
-Message-ID: <20250319150953.1634322-4-adrian.larumbe@collabora.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250319150953.1634322-1-adrian.larumbe@collabora.com>
-References: <20250319150953.1634322-1-adrian.larumbe@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A2681A4F0A;
+	Wed, 19 Mar 2025 15:07:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.152
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742396873; cv=none; b=NPIydzgnGdhxeWA59NoYY2ATHA3QDmU1Fgx8Qv5dS0u5J49mgRh/TobdIVidpvnGuegI/bMNu9Su//ypGVV3jKQ/ElKpRn2kCwstcIC12hQV4xXa+M16nZ16EFEEZvx24MeeY9ilX/MO0iC15RP8UbC1x9PE70uyzcHkWoAiRL0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742396873; c=relaxed/simple;
+	bh=sejEb1ymOKn3UQElCjIArq21+MBAEBSD579oJKzYKho=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kwaZ3aRDY8DN+fEpqQGuOM53uSI/QrilSzFHXag7pm997Y0tgSX/4obuXsIyd1PR9PLWZSennQImn0tB9p9BSCj5qNtVuO8szf9EKbnycBSZ7VEacvaFrR9k024BCNi1Um+5VMDQ3ZHJ6b0h/IpApLmCBltnAalhGkP4qHZMGlU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=zD6wC2KV; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=62ykFpYV; arc=none smtp.client-ip=202.12.124.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 21D282540223;
+	Wed, 19 Mar 2025 11:07:49 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-07.internal (MEProxy); Wed, 19 Mar 2025 11:07:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1742396868;
+	 x=1742483268; bh=OFem1S2fafkmevswHgaSAN0Iz2pEzjs7TuHY9LHZw5Q=; b=
+	zD6wC2KV8TSFpqbT44GVB9ElGOLEfTTsJgshQqDZiMNJO4QWTyz2QS/bfvYHvYKS
+	pjNxOi0YEbfruG5wtFD7einhZUEecnCpUmjwD44a+m7Ta/SJugqZg4IWQ6MvjgfZ
+	mOB3bUhx2cV/djddb+mDf4m9UIyCG6qvD6zwYCsOAKxCimY2EeW/yTCgzUMaGm6z
+	ueiLNkq/cf3li/99NRY8eRKtQ52bzqWBGe8OXlLcfWkXasNkzbWurYk6kVTPdDEl
+	5RrO4eByXyf2H2i6S3qqSdkDfPBwNGVRfpoS2LzfkfByYUHJWVaRg3EBIXOrd1QN
+	/kZnRBUlT/xIdKnWVDKfuQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1742396868; x=
+	1742483268; bh=OFem1S2fafkmevswHgaSAN0Iz2pEzjs7TuHY9LHZw5Q=; b=6
+	2ykFpYVcX8ZFqW4oIfGr7ssj/inEV0EhQnXYIxdR0xVn+nV1aktstIMO5O6tlfs8
+	eu2z+l2LFLg/HRz3BO5/+daNTy0sGOUfD2GGqdwQe7JCsyuSzqqRlcXKUoQH5W4+
+	7PkvdEcxXoeimOKC6+vnnIsvEjGxvkxRCZrrVLuti3iNs9ZcYA+UhLQz4dF99X/Q
+	iDhsit1L89YKEhTPeWWDonxZNgZlE7sgW6XDHb79/k6Pi2AT4foVkv3heDgXaC6C
+	YHl/7TpZGZilIfNliZQ4djQWPolIkJe/mmTB9QC+7C7AL3xyUbNVdMxmr1jcR1tw
+	55fCwtWmSgrg7li1v9Fhw==
+X-ME-Sender: <xms:xN3aZ__-a14j6IN40xJ7fVRkv83HnHsPBn9mk2yw_X4O2xqLbL4pMA>
+    <xme:xN3aZ7vIHrhJzNIMip842O6B_BjrpVjA1JMjHhF2Egr67Kh7E6RE0MF4J1KDIuKkY
+    h-fPyYx1dsHbSt31Rg>
+X-ME-Received: <xmr:xN3aZ9DRNzsKwGAan7NFWeuX2fSit_gaWx8lAFW3H18YEowoK0TWCDOgPc3czgj3UIy2AIw0JkEnoo3WJzpxIJ_fm5vptXwehA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddugeehieehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddt
+    tdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrsh
+    houggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffr
+    rghtthgvrhhnpeefhfellefhffejgfefudfggeejlefhveehieekhfeulefgtdefueehff
+    dtvdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
+    pehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthh
+    drshgvpdhnsggprhgtphhtthhopeduvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
+    ohepjhgrtghophhordhmohhnughisehiuggvrghsohhnsghorghrugdrtghomhdprhgtph
+    htthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshhes
+    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorh
+    hgpdhrtghpthhtoheptghonhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthho
+    pehgvggvrhhtodhrvghnvghsrghssehglhhiuggvrhdrsggvpdhrtghpthhtohephhhvvg
+    hrkhhuihhlseigshegrghllhdrnhhlpdhrtghpthhtohepshgrkhgrrhhirdgrihhluhhs
+    sehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhtoheplhgruhhrvghnthdrphhinh
+    gthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomh
+X-ME-Proxy: <xmx:xN3aZ7eh6G1yQDeGzNlSiIIhvF9U8MDb1oPQ93FrNnukgM5jJblygw>
+    <xmx:xN3aZ0MJT9BwEoF3qdxM6sSfzZF_CPN4bYDhzA-yIeB-m2JuWqU5Yw>
+    <xmx:xN3aZ9m_o9g8BAEiGGL8iLhUVlR78Mkc5szdQH5aHojb48C9H-GsBQ>
+    <xmx:xN3aZ-s2v9iVSfdtUX4NlNAcMBlU6kigYBiDWZzNzPksqhRYk4zEJg>
+    <xmx:xN3aZwnIIjAR3sUUPKNnvhEzzDamgpf91ZXP-sRK4APztvG386Wm9czg>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 19 Mar 2025 11:07:47 -0400 (EDT)
+Date: Wed, 19 Mar 2025 16:07:45 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/7] arm64: dts: renesas: r8a779a0: Add ISP core function
+ block
+Message-ID: <20250319150745.GE949127@ragnatech.se>
+References: <20250315152708.328036-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250315152708.328036-3-niklas.soderlund+renesas@ragnatech.se>
+ <hwj6d3ll75magopi5oak4zmboy5dol3ztv3isd6wvrxmvbkx4b@ayjumbqmuk3l>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <hwj6d3ll75magopi5oak4zmboy5dol3ztv3isd6wvrxmvbkx4b@ayjumbqmuk3l>
 
-Add a device DebugFS file that displays a complete list of all the DRM GEM
-objects that are exposed to UM through a DRM handle.
+Hi Jacopo,
 
-Since leaking object identifiers that might belong to a different NS is
-inadmissible, this functionality is only made available in debug builds
-with DEBUGFS support enabled.
+Thanks for your feedback.
 
-File format is that of a table, with each entry displaying a variety of
-fields with information about each GEM object.
+On 2025-03-19 15:50:00 +0100, Jacopo Mondi wrote:
+> Hi Niklas
+> 
+> On Sat, Mar 15, 2025 at 04:27:03PM +0100, Niklas Söderlund wrote:
+> > All ISP instances on V3U have both a channel select and core function
+> > block, describe the core region in addition to the existing cs region.
+> >
+> > The interrupt number already described intended to reflect the cs
+> > function but did incorrectly describe the core block. This was not
+> 
+> I can't find the interrupt mapping table for V3U, so this is the only
+> thing I can't check
 
-Each GEM object entry in the file displays the following information
-fields: Client PID, BO's global name, reference count, BO virtual size, BO
-resize size, VM address in its DRM-managed range, BO label and a flag
-bitmask.
+Page number 820, or search for "SPI 152" (fist one).
 
-Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
----
- drivers/gpu/drm/panthor/panthor_device.c |   5 +
- drivers/gpu/drm/panthor/panthor_device.h |  11 ++
- drivers/gpu/drm/panthor/panthor_drv.c    |  26 +++++
- drivers/gpu/drm/panthor/panthor_gem.c    | 130 +++++++++++++++++++++++
- drivers/gpu/drm/panthor/panthor_gem.h    |  29 +++++
- 5 files changed, 201 insertions(+)
+> 
+> > noticed until now as the driver do not make use of the interrupt for the
+> > cs block.
+> >
+> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> 
+> The rest looks good
+> 
+> > ---
+> >  arch/arm64/boot/dts/renesas/r8a779a0.dtsi | 60 +++++++++++++++++------
+> >  1 file changed, 44 insertions(+), 16 deletions(-)
+> >
+> > diff --git a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> > index f1613bfd1632..95ff69339991 100644
+> > --- a/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> > +++ b/arch/arm64/boot/dts/renesas/r8a779a0.dtsi
+> > @@ -2588,13 +2588,20 @@ du_out_dsi1: endpoint {
+> >  		isp0: isp@fed00000 {
+> >  			compatible = "renesas,r8a779a0-isp",
+> >  				     "renesas,rcar-gen4-isp";
+> > -			reg = <0 0xfed00000 0 0x10000>;
+> > -			interrupts = <GIC_SPI 153 IRQ_TYPE_LEVEL_HIGH>;
+> > -			clocks = <&cpg CPG_MOD 612>;
+> > +			reg = <0 0xfed00000 0 0x10000>, <0 0xfec00000 0 0x100000>;
+> > +			reg-names = "cs", "core";
+> 
+> However, won't the presence of a "core" part trigger the probing of
+> the forthcoming RPP core support, which should not support V3U as far
+> I understood ?
 
-diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-index a9da1d1eeb70..bae1a74d7111 100644
---- a/drivers/gpu/drm/panthor/panthor_device.c
-+++ b/drivers/gpu/drm/panthor/panthor_device.c
-@@ -263,6 +263,11 @@ int panthor_device_init(struct panthor_device *ptdev)
- 	pm_runtime_set_autosuspend_delay(ptdev->base.dev, 50);
- 	pm_runtime_use_autosuspend(ptdev->base.dev);
- 
-+#ifdef CONFIG_DEBUG_FS
-+	drmm_mutex_init(&ptdev->base, &ptdev->gems.lock);
-+	INIT_LIST_HEAD(&ptdev->gems.node);
-+#endif
-+
- 	ret = drm_dev_register(&ptdev->base, 0);
- 	if (ret)
- 		goto err_disable_autosuspend;
-diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-index da6574021664..86206a961b38 100644
---- a/drivers/gpu/drm/panthor/panthor_device.h
-+++ b/drivers/gpu/drm/panthor/panthor_device.h
-@@ -205,6 +205,17 @@ struct panthor_device {
- 
- 	/** @fast_rate: Maximum device clock frequency. Set by DVFS */
- 	unsigned long fast_rate;
-+
-+#ifdef CONFIG_DEBUG_FS
-+	/** @gems: Device-wide list of GEM objects owned by at least one file. */
-+	struct {
-+		/** @gems.lock: Protects the device-wide list of GEM objects. */
-+		struct mutex lock;
-+
-+		/** @node: Used to keep track of all the device's DRM objects */
-+		struct list_head node;
-+	} gems;
-+#endif
- };
- 
- struct panthor_gpu_usage {
-diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-index e91acf132e06..61ebf87f2946 100644
---- a/drivers/gpu/drm/panthor/panthor_drv.c
-+++ b/drivers/gpu/drm/panthor/panthor_drv.c
-@@ -1531,9 +1531,35 @@ static const struct file_operations panthor_drm_driver_fops = {
- };
- 
- #ifdef CONFIG_DEBUG_FS
-+static int panthor_gems_show(struct seq_file *m, void *data)
-+{
-+	struct drm_info_node *node = m->private;
-+	struct drm_device *dev = node->minor->dev;
-+	struct panthor_device *ptdev = container_of(dev, struct panthor_device, base);
-+
-+	panthor_gem_debugfs_print_bos(ptdev, m);
-+
-+	return 0;
-+}
-+
-+
-+static struct drm_info_list panthor_debugfs_list[] = {
-+	{"gems", panthor_gems_show, 0, NULL},
-+};
-+
-+static int panthor_gems_debugfs_init(struct drm_minor *minor)
-+{
-+	drm_debugfs_create_files(panthor_debugfs_list,
-+				 ARRAY_SIZE(panthor_debugfs_list),
-+				 minor->debugfs_root, minor);
-+
-+	return 0;
-+}
-+
- static void panthor_debugfs_init(struct drm_minor *minor)
- {
- 	panthor_mmu_debugfs_init(minor);
-+	panthor_gems_debugfs_init(minor);
- }
- #endif
- 
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-index 165c7f4eb920..f7eb413d88e7 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.c
-+++ b/drivers/gpu/drm/panthor/panthor_gem.c
-@@ -2,6 +2,7 @@
- /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
- /* Copyright 2023 Collabora ltd. */
- 
-+#include <linux/cleanup.h>
- #include <linux/dma-buf.h>
- #include <linux/dma-mapping.h>
- #include <linux/err.h>
-@@ -13,11 +14,49 @@
- #include "panthor_gem.h"
- #include "panthor_mmu.h"
- 
-+#ifdef CONFIG_DEBUG_FS
-+static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo)
-+{
-+	INIT_LIST_HEAD(&bo->gems.node);
-+	bo->gems.creator.tgid = current->group_leader->pid;
-+	get_task_comm(bo->gems.creator.process_name, current->group_leader);
-+}
-+
-+static void panthor_gem_debugfs_bo_add(struct panthor_gem_object *bo)
-+{
-+	struct panthor_device *ptdev =  container_of(bo->base.base.dev,
-+						     struct panthor_device, base);
-+
-+	mutex_lock(&ptdev->gems.lock);
-+	list_add_tail(&bo->gems.node, &ptdev->gems.node);
-+	mutex_unlock(&ptdev->gems.lock);
-+}
-+
-+static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo)
-+{
-+	struct panthor_device *ptdev = container_of(bo->base.base.dev,
-+						    struct panthor_device, base);
-+
-+	if (list_empty(&bo->gems.node))
-+		return;
-+
-+	mutex_lock(&ptdev->gems.lock);
-+	list_del_init(&bo->gems.node);
-+	mutex_unlock(&ptdev->gems.lock);
-+}
-+#else
-+static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo) {}
-+static void panthor_gem_debugfs_bo_add(struct panthor_gem_object *bo) {}
-+static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo) {}
-+#endif
-+
- static void panthor_gem_free_object(struct drm_gem_object *obj)
- {
- 	struct panthor_gem_object *bo = to_panthor_bo(obj);
- 	struct drm_gem_object *vm_root_gem = bo->exclusive_vm_root_gem;
- 
-+	panthor_gem_debugfs_bo_rm(bo);
-+
- 	kfree(bo->label.str);
- 	mutex_destroy(&bo->label.lock);
- 
-@@ -201,6 +240,8 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
- 	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
- 	mutex_init(&obj->label.lock);
- 
-+	panthor_gem_debugfs_bo_init(obj);
-+
- 	return &obj->base.base;
- }
- 
-@@ -249,6 +290,8 @@ panthor_gem_create_with_handle(struct drm_file *file,
- 	/* drop reference from allocate - handle holds it now. */
- 	drm_gem_object_put(&shmem->base);
- 
-+	panthor_gem_debugfs_bo_add(bo);
-+
- 	return ret;
- }
- 
-@@ -271,3 +314,90 @@ panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
- {
- 	panthor_gem_bo_set_label(bo->obj, kstrdup_const(label, GFP_KERNEL));
- }
-+
-+#ifdef CONFIG_DEBUG_FS
-+static bool panfrost_gem_print_flag(const char *name,
-+				    bool is_set,
-+				    bool other_flags_printed,
-+				    struct seq_file *m)
-+{
-+	if (is_set)
-+		seq_printf(m, "%s%s", other_flags_printed ? "," : "", name);
-+
-+	return is_set | other_flags_printed;
-+}
-+
-+struct gem_size_totals {
-+	size_t size;
-+	size_t resident;
-+	size_t reclaimable;
-+};
-+
-+static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
-+					 struct seq_file *m,
-+					 struct gem_size_totals *totals)
-+{
-+	unsigned int refcount = kref_read(&bo->base.base.refcount);
-+	char creator_info[32] = {};
-+	bool has_flags = false;
-+	size_t resident_size;
-+
-+	/* Skip BOs being destroyed. */
-+	if (!refcount)
-+		return;
-+
-+	resident_size = bo->base.pages != NULL ? bo->base.base.size : 0;
-+
-+	snprintf(creator_info, sizeof(creator_info),
-+		 "%s/%d", bo->gems.creator.process_name, bo->gems.creator.tgid);
-+	seq_printf(m, "%-32s%-16d%-16d%-16zd%-16zd%-16lx",
-+		   creator_info,
-+		   bo->base.base.name,
-+		   refcount,
-+		   bo->base.base.size,
-+		   resident_size,
-+		   drm_vma_node_start(&bo->base.base.vma_node));
-+
-+	seq_puts(m, "(");
-+	has_flags = panfrost_gem_print_flag("imported", bo->base.base.import_attach != NULL,
-+					    has_flags, m);
-+	has_flags = panfrost_gem_print_flag("exported", bo->base.base.dma_buf != NULL,
-+					    has_flags, m);
-+	if (bo->base.madv < 0)
-+		has_flags = panfrost_gem_print_flag("purged", true, has_flags, m);
-+	else if (bo->base.madv > 0)
-+		has_flags = panfrost_gem_print_flag("purgeable", true, has_flags, m);
-+	if (!has_flags)
-+		seq_puts(m, "none");
-+	seq_puts(m, ")");
-+
-+	mutex_lock(&bo->label.lock);
-+	seq_printf(m, "%-16s%-60s", "", bo->label.str ? : NULL);
-+	mutex_unlock(&bo->label.lock);
-+	seq_puts(m, "\n");
-+
-+	totals->size += bo->base.base.size;
-+	totals->resident += resident_size;
-+	if (bo->base.madv > 0)
-+		totals->reclaimable += resident_size;
-+}
-+
-+void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
-+				   struct seq_file *m)
-+{
-+	struct gem_size_totals totals = {0};
-+	struct panthor_gem_object *bo;
-+
-+	seq_puts(m, "created-by                      global-name     refcount        size            resident-size   file-offset     flags           label\n");
-+	seq_puts(m, "------------------------------------------------------------------------------------------------------------------------------------------------\n");
-+
-+	scoped_guard(mutex, &ptdev->gems.lock) {
-+		list_for_each_entry(bo, &ptdev->gems.node, gems.node)
-+			panthor_gem_debugfs_bo_print(bo, m, &totals);
-+	}
-+
-+	seq_puts(m, "================================================================================================================================================\n");
-+	seq_printf(m, "Total size: %zd, Total resident: %zd, Total reclaimable: %zd\n",
-+		   totals.size, totals.resident, totals.reclaimable);
-+}
-+#endif
-diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-index 0582826b341a..7c896ec35801 100644
---- a/drivers/gpu/drm/panthor/panthor_gem.h
-+++ b/drivers/gpu/drm/panthor/panthor_gem.h
-@@ -13,6 +13,26 @@
- 
- struct panthor_vm;
- 
-+/**
-+ * struct panthor_gem_debugfs - GEM object's DebugFS list information
-+ */
-+struct panthor_gem_debugfs {
-+	/**
-+	 * @node: Node used to insert the object in the device-wide list of
-+	 * GEM objects, to display information about it through a DebugFS file.
-+	 */
-+	struct list_head node;
-+
-+	/** @creator: Information about the UM process which created the GEM. */
-+	struct {
-+		/** @creator.process_name: Group leader name in owning thread's process */
-+		char process_name[TASK_COMM_LEN];
-+
-+		/** @creator.tgid: PID of the thread's group leader within its process */
-+		pid_t tgid;
-+	} creator;
-+};
-+
- /**
-  * struct panthor_gem_object - Driver specific GEM object.
-  */
-@@ -60,6 +80,10 @@ struct panthor_gem_object {
- 		/** @lock.str: Protects access to the @label.str field. */
- 		struct mutex lock;
- 	} label;
-+
-+#ifdef CONFIG_DEBUG_FS
-+	struct panthor_gem_debugfs gems;
-+#endif
- };
- 
- /**
-@@ -155,4 +179,9 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
- 
- void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
- 
-+#ifdef CONFIG_DEBUG_FS
-+void panthor_gem_debugfs_print_bos(struct panthor_device *pfdev,
-+				   struct seq_file *m);
-+#endif
-+
- #endif /* __PANTHOR_GEM_H__ */
+
+Correct the RPPX1 library will be given the change to probe on V3U, it 
+will detect it's not an RPPX1 gracefully not create an ISPCORE on V3U.  
+This describes the hardware, and there is an ISP core mapped at this 
+address, not just the same as on the others ;-) The driver is prepared 
+for this.
+
+> 
+> > +			interrupts = <GIC_SPI 152 IRQ_TYPE_LEVEL_HIGH>,
+> > +				     <GIC_SPI 153 IRQ_TYPE_LEVEL_HIGH>;
+> > +			interrupt-names = "cs", "core";
+> > +			clocks = <&cpg CPG_MOD 612>, <&cpg CPG_MOD 16>;
+> > +			clock-names = "cs", "core";
+> >  			power-domains = <&sysc R8A779A0_PD_A3ISP01>;
+> > -			resets = <&cpg 612>;
+> > +			resets = <&cpg 612>, <&cpg 16>;
+> > +			reset-names = "cs", "core";
+> >  			status = "disabled";
+> >
+> > +			renesas,vspx = <&vspx0>;
+> > +
+> >  			ports {
+> >  				#address-cells = <1>;
+> >  				#size-cells = <0>;
+> > @@ -2672,13 +2679,20 @@ isp0vin07: endpoint {
+> >  		isp1: isp@fed20000 {
+> >  			compatible = "renesas,r8a779a0-isp",
+> >  				     "renesas,rcar-gen4-isp";
+> > -			reg = <0 0xfed20000 0 0x10000>;
+> > -			interrupts = <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
+> > -			clocks = <&cpg CPG_MOD 613>;
+> > +			reg = <0 0xfed20000 0 0x10000>, <0 0xfee00000 0 0x100000>;
+> > +			reg-names = "cs", "core";
+> > +			interrupts = <GIC_SPI 154 IRQ_TYPE_LEVEL_HIGH>,
+> > +				     <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
+> > +			interrupt-names = "cs", "core";
+> > +			clocks = <&cpg CPG_MOD 613>, <&cpg CPG_MOD 17>;
+> > +			clock-names = "cs", "core";
+> >  			power-domains = <&sysc R8A779A0_PD_A3ISP01>;
+> > -			resets = <&cpg 613>;
+> > +			resets = <&cpg 613>, <&cpg 17>;
+> > +			reset-names = "cs", "core";
+> >  			status = "disabled";
+> >
+> > +			renesas,vspx = <&vspx1>;
+> > +
+> >  			ports {
+> >  				#address-cells = <1>;
+> >  				#size-cells = <0>;
+> > @@ -2756,13 +2770,20 @@ isp1vin15: endpoint {
+> >  		isp2: isp@fed30000 {
+> >  			compatible = "renesas,r8a779a0-isp",
+> >  				     "renesas,rcar-gen4-isp";
+> > -			reg = <0 0xfed30000 0 0x10000>;
+> > -			interrupts = <GIC_SPI 157 IRQ_TYPE_LEVEL_HIGH>;
+> > -			clocks = <&cpg CPG_MOD 614>;
+> > +			reg = <0 0xfed30000 0 0x10000>, <0 0xfef00000 0 0x100000>;
+> > +			reg-names = "cs", "core";
+> > +			interrupts = <GIC_SPI 156 IRQ_TYPE_LEVEL_HIGH>,
+> > +				     <GIC_SPI 157 IRQ_TYPE_LEVEL_HIGH>;
+> > +			interrupt-names = "cs", "core";
+> > +			clocks = <&cpg CPG_MOD 614>, <&cpg CPG_MOD 18>;
+> > +			clock-names = "cs", "core";
+> >  			power-domains = <&sysc R8A779A0_PD_A3ISP23>;
+> > -			resets = <&cpg 614>;
+> > +			resets = <&cpg 614>, <&cpg 18>;
+> > +			reset-names = "cs", "core";
+> >  			status = "disabled";
+> >
+> > +			renesas,vspx = <&vspx2>;
+> > +
+> >  			ports {
+> >  				#address-cells = <1>;
+> >  				#size-cells = <0>;
+> > @@ -2840,13 +2861,20 @@ isp2vin23: endpoint {
+> >  		isp3: isp@fed40000 {
+> >  			compatible = "renesas,r8a779a0-isp",
+> >  				     "renesas,rcar-gen4-isp";
+> > -			reg = <0 0xfed40000 0 0x10000>;
+> > -			interrupts = <GIC_SPI 159 IRQ_TYPE_LEVEL_HIGH>;
+> > -			clocks = <&cpg CPG_MOD 615>;
+> > +			reg = <0 0xfed40000 0 0x10000>, <0 0xfe400000 0 0x100000>;
+> > +			reg-names = "cs", "core";
+> > +			interrupts = <GIC_SPI 158 IRQ_TYPE_LEVEL_HIGH>,
+> > +				     <GIC_SPI 159 IRQ_TYPE_LEVEL_HIGH>;
+> > +			interrupt-names = "cs", "core";
+> > +			clocks = <&cpg CPG_MOD 615>, <&cpg CPG_MOD 19>;
+> > +			clock-names = "cs", "core";
+> >  			power-domains = <&sysc R8A779A0_PD_A3ISP23>;
+> > -			resets = <&cpg 615>;
+> > +			resets = <&cpg 615>, <&cpg 19>;
+> > +			reset-names = "cs", "core";
+> >  			status = "disabled";
+> >
+> > +			renesas,vspx = <&vspx3>;
+> > +
+> >  			ports {
+> >  				#address-cells = <1>;
+> >  				#size-cells = <0>;
+> > --
+> > 2.48.1
+> >
+
 -- 
-2.48.1
-
+Kind Regards,
+Niklas Söderlund
 
