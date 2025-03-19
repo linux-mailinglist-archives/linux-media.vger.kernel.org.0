@@ -1,230 +1,216 @@
-Return-Path: <linux-media+bounces-28446-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28447-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BF87A67F6B
-	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 23:12:17 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5646CA682DE
+	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 02:46:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D74E5424B7E
-	for <lists+linux-media@lfdr.de>; Tue, 18 Mar 2025 22:12:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 299A119C058F
+	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 01:46:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C278520B81B;
-	Tue, 18 Mar 2025 22:11:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3466624E4AF;
+	Wed, 19 Mar 2025 01:45:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nuSnVjyS"
+	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="hDQDbGhP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from SE2P216CU007.outbound.protection.outlook.com (mail-koreacentralazon11021078.outbound.protection.outlook.com [40.107.42.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC9B2066D9
-	for <linux-media@vger.kernel.org>; Tue, 18 Mar 2025 22:11:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742335912; cv=none; b=BrpFO3BsvMHq9gw2EtOaq3AxD1FVpZfhguBxei2izgX0j4d8lbiFRkLBEE2A/xh/INDZResBReJtjycGCNEPxBoQ1dQMXUTY1N/64nrUHCEzYLl1jCaiiZfvQeaO5uIMShB2YyzQs09y31mBZcqVR2piMXZF+nIe0livUkhLJZ4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742335912; c=relaxed/simple;
-	bh=9gh3xtWkal4psS5BuhqOt8wWpRdxFLmYUUTWbCZ71kw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Fd80a5zhKQZgoBEapuYFc+KzTQiwuZeM3gMLu5f/nQ7yf59UUf53DS0tuInh0akMyAwGhdWz5c/Uk2vUjROxb8BLCTHmuyfFDmohqalI7fPbLUvYjfGShEZ7bsH4wEFDKn/uGo6eP7taQG9NmOjXxxKxpEesZYoT1kIDHUSp7dY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=nuSnVjyS; arc=none smtp.client-ip=209.85.218.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-aaf900cc7fbso1173068066b.3
-        for <linux-media@vger.kernel.org>; Tue, 18 Mar 2025 15:11:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1742335908; x=1742940708; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HD9NpfmchfroViUWqm7KH0wfqC0Fje7BCCs4RB1DhO4=;
-        b=nuSnVjySH4YigZml0f8ir9PDjzVDTmd4hJn+OoIoaVAEsevb4aXfyX6YZOBvCJJ3MV
-         0Vb8PuTKi8gRlZ5+Ztx4QWzuRhxAp9tSZagQlCtauiXFaDn6/oNGNZOc2quErFrjMGmr
-         Q0E6CCeRBTKpBEOPlOGew3hAHSq9KFZJrZ42aoqbN0Hp8JClYpDaAFZPZpMQV//fIxWT
-         98d5xoUqWQeO9IcIGM/Gq7aXEF3EP7mTjZVXpkdFdAegTv/QUJyNQTGsP/omLtoG/I14
-         KJ4GOiWDWCuI5RfWPjVSi2hP310YYqCVkbaizy9Q9nZthAyKRAYV0poY7HxpZ11612Sy
-         x5pA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742335908; x=1742940708;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HD9NpfmchfroViUWqm7KH0wfqC0Fje7BCCs4RB1DhO4=;
-        b=Qp9e+ulbbBvrv2+gt0Ppyf+oHVU3fVfYTw7v4f7aiSG0Kd7inTB7jcxhHgRPdnAOZN
-         0P8yROmxaBQg6JwiHTNPiqako3u5AY3HX3ohHIKJ9n/AP1RgZH8HaVUPAabLBEtvzarN
-         l8F3qCX6BD2M6XY73ymJZoUF30VIv9BdvN6LP4gwRRXaKUzs53B+Tvv5aSmdJY9UfHCn
-         8DIq7j7wJVFMDZJzpUBj6C5wY6Kt4dF1TmJU4POcNA2B3gf9wSxAHFTJTlJS1yt/vs9u
-         5jAHwqNCp/36sKxcdHecVzLsa/10qnkbBFnBHwgdnID3OGeRmAHkHBJSW0/2hkyglRGu
-         6sGA==
-X-Forwarded-Encrypted: i=1; AJvYcCU//l3IveaDVOBpBTrqrIyTdgynRm0Jdsn5kcR3SPVDxp1CKI2eiNXEMaNTkqHabmjCNHkVtgIDoze0fg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxiBy5qPFXcp9zUCYma9OLyZC7uI/frMfX0aaCDF2HbMfYLhWD8
-	rFryay2sYwqKjM+5mgeEEjzumdr7kg9XEuRfmvr0Cb6w7fY5SkZcPdEDBzGeoCE=
-X-Gm-Gg: ASbGncuYtkKUvy/rKD0Wb1rj1Skt0k4cqml8quAU9QH2zlykozIM+Reed7AhMPgNjGv
-	xh3i3+rnO2CpohhnyAqWeKd8dPmgKJHDjB48sz9G5Ns6q8Zi5l6lBC+WOO4ksvOUsXfGWO1u98U
-	9zxn72a6W9QQPRqxT798RJX8ZtoNOXyxAuAJM3BG8RsYmqUls3Vs3lzG1wTgL4xr0OLRt0tdJFM
-	yO2S2N+R7zBzsaxNmCP4SBpbyXrLBTJlqv7jKYawvQ4RLPdjH0/B09VeD9Um2ctPlWY1o6q27/n
-	cPANZ+TGc1kYZq2I8J2Xv3JRex1bZHd9SwXdMOSFUNEgbT6ktHM2EbtygxpB7fga7VkwJQlKZpp
-	gXfT3GX3ckrZB/Hu/89dsyjdfyJU5dRPezsw8v2HBtRuC0EiNatAxgYibeznjDjJPmuIQYeBBU6
-	9XRga+rtKzxFqdXprEI2ndIApvbQ4w8s8=
-X-Google-Smtp-Source: AGHT+IEXE0inCD4aajK8MsM22xf4Qjmf2+sGSHBGZhUMUr3KQpAvROEQ6rhZOgUPF7EZOPYuIMSKxQ==
-X-Received: by 2002:a17:907:d7c8:b0:ac3:3f84:4055 with SMTP id a640c23a62f3a-ac3b7a97443mr34239066b.4.1742335907931;
-        Tue, 18 Mar 2025 15:11:47 -0700 (PDT)
-Received: from ?IPV6:2001:1c06:2302:5600:7555:cca3:bbc4:648b? (2001-1c06-2302-5600-7555-cca3-bbc4-648b.cable.dynamic.v6.ziggo.nl. [2001:1c06:2302:5600:7555:cca3:bbc4:648b])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3149ce9a9sm908266966b.110.2025.03.18.15.11.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 18 Mar 2025 15:11:47 -0700 (PDT)
-Message-ID: <cf244e11-96b3-49cd-8daa-df9c91435e6e@linaro.org>
-Date: Tue, 18 Mar 2025 22:11:46 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F417A1581F9;
+	Wed, 19 Mar 2025 01:45:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.42.78
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742348745; cv=fail; b=V/SRYAGjS80oPOEanxDheHd8eHMkDSU62zLxqHykJLrSHXVvjNxff5mc/HisfpqwNs9oGGk9vpwgaw2Wg+yo83XS5HMxh7ulA3RZ4LQPZWKGLbBUsr7Z+SSQtmbuubGgShSFiPGurmVvuv3lUKUGq8zb3vC5mhAwu9ITNBWYq8g=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742348745; c=relaxed/simple;
+	bh=u6at0thV7255BNXbZezQd7/9s8Y+Cn5yUd1jbNP5+O0=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=ZKEz7pP8bkGBfdOV4u6zA/n9rbZoNDB1FaOd1CYP9l9/13RsC5bnVoriE2MNmINJhMc/TDvc5OfyUQjEEFhqTeRLcCwO1jIe3Q0Kw8wV9gFpPL0yv/tBYFqUgvxn7hMfwvlcO8bYSkXZyVresmdL7KeSo9jb36/z2TR20In0G8c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=hDQDbGhP; arc=fail smtp.client-ip=40.107.42.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=chipsnmedia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Yy///3lwccouUWttCQ4uK6Uz/iFqv9+Yo1QbklBMDQDjcQ+THue9I0JnyfQsxLPX1TRHh60VdXt4mck8LKccbR8+l6rjOWhMbka2556u+qRV9nD77ccZGrcRM4TVsmwVbPNH4s9zA7pDHCe5bHiyQACOSzwoU8Ii9W79/wUGv0GZ3ASeYKUxtPjIeA79GyEav1pkbIQRNnF76jhYd/fauuHUG3EcnfUmLdLuOf+/+eWTs9j3o6+oM9+AzmPgaeRbcwkpEqV9htH6u8+H2K45xc5Tg+oGDg24i4FsyMhMoIEQ+f01/fWJ3LcDl62qZ1o+MITeeqlEsVCpINPHDfcjyg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EE+raeSK6DhbikAmvxAvKA7FiPaPEVn3UunaUZQAt/s=;
+ b=R3H5yby4rYibl1MftRDttiuUS7wpmRDQMRo+ceK/pJDPpHE7wN0kdgft1zeQAgiojumQbiDc9KubJtJazfOqgEi/NGmBxyNCo35aDgjLvaTPbt7O/huIIW8ix0/K+crtQfksugOhW19D7n+mwcrMaF0uYvkPLmYw/bB9mduoVh7ee2BMJnChgp0NgKKA4RgFnOHdPCXY6MB5VC/BDWQRH8ujanAEPCp/D/kmo3qzeTxNOrr/BsjxdBHkXMeDmKL1nbz5IXfGataSJQ6goleqxnAqbFYUdRcXe44bXwX9xrwjENX70KMrszzTiX6RETWfSupWFQXkiLrEbWJMB5sd2w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
+ header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EE+raeSK6DhbikAmvxAvKA7FiPaPEVn3UunaUZQAt/s=;
+ b=hDQDbGhPqr/5wbausSBH6/xOE2HVqCOQEcx33f/1jbfamT+nY4Ju0zT+QZgDXWMSp3JNQhJuCvRe1uB3oHO4HgyXfRAIH2TrWpkBRQg7ComiE1mZ2CydF2aYraLsogStlX4yTsZU+35+V/KP5REpOF7sAWb/CoIj0jBtGEPpbSE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
+Received: from SE1P216MB1303.KORP216.PROD.OUTLOOK.COM (2603:1096:101:15::5) by
+ SL2P216MB2121.KORP216.PROD.OUTLOOK.COM (2603:1096:101:14e::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8534.34; Wed, 19 Mar 2025 01:45:40 +0000
+Received: from SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
+ ([fe80::b711:5ab1:b5a4:d01b]) by SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
+ ([fe80::b711:5ab1:b5a4:d01b%6]) with mapi id 15.20.8534.034; Wed, 19 Mar 2025
+ 01:45:40 +0000
+From: "Jackson.lee" <jackson.lee@chipsnmedia.com>
+To: mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl,
+	sebastian.fricke@collabora.com,
+	nicolas.dufresne@collabora.com,
+	bob.beckett@collabora.com,
+	dafna.hirschfeld@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	jackson.lee@chipsnmedia.com,
+	lafley.kim@chipsnmedia.com,
+	b-brnich@ti.com,
+	hverkuil@xs4all.nl,
+	nas.chung@chipsnmedia.com
+Subject: [PATCH v0 0/3] Performance improvement of decoder
+Date: Wed, 19 Mar 2025 10:45:27 +0900
+Message-Id: <20250319014530.61-1-jackson.lee@chipsnmedia.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SEWP216CA0060.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:2ba::8) To SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:15::5)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] clk: qcom: videocc: Use HW_CTRL_TRIGGER flag for
- video GDSC's
-To: Renjiang Han <quic_renjiang@quicinc.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
- <sboyd@kernel.org>, Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- Taniya Das <quic_tdas@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-References: <20250218-switch_gdsc_mode-v4-0-546f6c925ae0@quicinc.com>
- <20250218-switch_gdsc_mode-v4-2-546f6c925ae0@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20250218-switch_gdsc_mode-v4-2-546f6c925ae0@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SE1P216MB1303:EE_|SL2P216MB2121:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3944f9a1-e487-4f5c-c9be-08dd6687c0e8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|52116014|366016|1800799024|376014|7416014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?XhEO2uMF3yade0axkbTG+RPPyEYgxgsETumvnaAAEsarsvDrbRJJoYPbEpv/?=
+ =?us-ascii?Q?+9BZXUXBKDO7sX/dVF+rkpG/1kWymDiWFwJLGh5rxzk1WRV2pz3limdOOmMP?=
+ =?us-ascii?Q?iLbhc7pRbPhN7jrFYrR0Gq8V7gJiIUrjGFRtds0prSO5dhO4MvjwftY0rwri?=
+ =?us-ascii?Q?gauwXCHJmlWtWF3AILJCgcRmNWeyd8JtLbA+W+Kc7wdCrEK7XRgTabDANmqw?=
+ =?us-ascii?Q?Z1aNFihV4T19AemOOnxqNt3m9YWw5Vsrq0eMPXCBkxYYYKxujhrSy/v4OxES?=
+ =?us-ascii?Q?Lf6DCtIW/YfqQEK0CwPSs2K/Z1o4/Nqh9eKodU5QiN7C4v0PcZArOWp3d3vK?=
+ =?us-ascii?Q?1OzVJVT2M/GyLZJDNcZjp45H6WeUbSokuck3Kh124b8ppOqX0f29+7qQBOF1?=
+ =?us-ascii?Q?Q4VOVIAZUbvOlyngZ/uGrU1cCADHaQb2GWQUFs13XKUym7Z5rOICetb59DnS?=
+ =?us-ascii?Q?lewzdRVzPSo2TlsI5L+uxtTKg27eONFFYtpmjkljFucBqWOwlYdEZw57ZGG4?=
+ =?us-ascii?Q?sINEu/2P0uZi+j3h8Xe+ArbRmzeJuHQ7sqCvBrHB1+OxRb20xkQHLIWGY+xp?=
+ =?us-ascii?Q?I7bFz0P/cozZxn700fnTQu37o3OEI3YX/CarOgt4/8T2K9hJnG4t8Hsi9nX/?=
+ =?us-ascii?Q?l8XTjWXDEgJo2vTiMizHI/TFRjymxAnJktV4q5bequ05E7jaFsZnu1NqwJDY?=
+ =?us-ascii?Q?E9Fw9VO8yocG+EEcC/19UJ1a+xwUivBYAaIi32NOuFteos9pXarnGW6bm2cd?=
+ =?us-ascii?Q?q7SH1Bg29vSPHXEb5I27RUVOQgZkV7hwxlR3eCdsPAUAsisvyO8faR7F8WiF?=
+ =?us-ascii?Q?kMn2s2VGaYqN0SWkbmNJzGnpXhi7El3Jqr5YCZbLzZFh1ANGWNX2W1sjDuWw?=
+ =?us-ascii?Q?e9djztIKpomOPXpMO9JZAWZ+gEKTAS5Wl25ADd/yVpRVWFG/iu9OUC/4APn+?=
+ =?us-ascii?Q?p1622c0zb7VG4oD7xzoriOaY0iwOI/IgbiUN2XIr9uJCzX+ud/I4RsuMbKUJ?=
+ =?us-ascii?Q?CXf8GuY9KQC8XZ3JAJH4SeNM0MQqBNIkp1Y8nJz1lPPnYsPgdSrfLtDm8YKm?=
+ =?us-ascii?Q?xKShb5yLwuF6+M+YcC8AskpClWNFSLSSI3kyuMcDlH6k0Q81w37bSOKSx5JB?=
+ =?us-ascii?Q?uVFln9HANO+RWv6KkgXu9y5TP32+6Y3jKegn2u95N+6kDhIHyY5Vo+4n6DSx?=
+ =?us-ascii?Q?BIx6H6jQVEH9mUBjTfq4FV2M/W4Cfvh+oRV6dFHkLB7bdcBvDuJueXv8gpi0?=
+ =?us-ascii?Q?hys3jiRyWa2X8dCG3dwg8O605XnibEdoqTIIE8qqe8Hs+u/m1KDS9Q5ui2eF?=
+ =?us-ascii?Q?3BvQPV0ynAHX/ivx/7dLCvASJfYqlwyLgXlqAvxcI0QD7DWZQJbz8nm8FEhZ?=
+ =?us-ascii?Q?YeeZUeQUE5xtGRqnOPxUWNEX1Vqs+M0HhISmZiAQjglGcx3WpYGK2ZDZel/a?=
+ =?us-ascii?Q?NiFbnN4BHzG7VGrkPCPQ84+uUqFY/Fxg?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SE1P216MB1303.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(52116014)(366016)(1800799024)(376014)(7416014)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?CGNlTHFS/J9XMCzf5nuk6QgJag8nTJJK6Hxmr6yBVxktas0cHua9lBOHmbDZ?=
+ =?us-ascii?Q?F/A6ORjw0g/hHh6Q2ewio4PgltSCfRCXifAZkorQFuAT80MSxYOnX/vM3pa5?=
+ =?us-ascii?Q?U2kEzTvPEzryoLkfU+2fJHyHwY1zJq7n8Jy6/M4F+Tz2IBkvmBPyzrXLP5Mq?=
+ =?us-ascii?Q?H+mqZivtUIrhhIbviClT/OgXY/B9/Ynxa/Xbq83ZNye5zqbQElzmK1WwVv38?=
+ =?us-ascii?Q?gruiEoepJ9BfpOD22Q/YR5KRWKCxvqB1x5hdUOIhMUNAcMtrGVVArWhgSNLR?=
+ =?us-ascii?Q?kWlhkbnaIpzfy+qmUyQ9XqiQ1c4o1V7xFmmS29CluLFS80Jxs3Om0/nXoTS4?=
+ =?us-ascii?Q?rvhgK7hUFGqHZ9ztx2mZuo421TycPikJkhhiAUZaI2fSbEXm2BwEYuuCJKjp?=
+ =?us-ascii?Q?AKFIpSR+DElHJV1oIPrTTFMoENwLdGwz/IbJ/fcAFM3GJukM2Y88IoT6+W5l?=
+ =?us-ascii?Q?Xep6+wADinoHeZHZWixHeIaR1RpDogrpavzErBfvMe0GuPFNjptOJuCFIbPv?=
+ =?us-ascii?Q?uO9gmqeU7VKFnSBvlUo0vDSPGO6Hen5uSaDkOo4AE7jeOLNu6yR77LdS0WJ3?=
+ =?us-ascii?Q?ZegBAzaA66hLud16SH54VIkxdkGRabL09ON96WzbBgQSOeB9nyHfHRSUZ4Q7?=
+ =?us-ascii?Q?LnARqx2JyzAvF/IGxuTQ5zu0u7TEcydIUhJX57mcucA7gJxICyvKbq+ls2Jt?=
+ =?us-ascii?Q?xUwmpml0VGwd5GbUs743okljAHzlg9NuHPQDhZiYN1ptjbTfNe9g9BEUWwb1?=
+ =?us-ascii?Q?wnJ20WOyFqxlDPDn/i3QbtYc8+ny5amUTdGwpEX2TR9LEO8hdjE/p7PLBT95?=
+ =?us-ascii?Q?aBVU6AcK48CtOosMjRPwGnLyrq0RoKfFPZN3hvOrethXQt9X99E3ieOElTtf?=
+ =?us-ascii?Q?rQF+ZpHGlm4P4Z5wkKmo0qSrJh999ImbgT5sKBkFmANB7bj5K7Rej/hHaWUa?=
+ =?us-ascii?Q?UJ+eS3Mz3wi4Q7sPJgPrRmfWbgBNoLOGZpkwt635sb1NAzTzMilcOZUtCT57?=
+ =?us-ascii?Q?xkW7S3Hs/jaX2S/5bdXsUlUEHVIiAvVesTw9+qA4ZRRcHWqcTKynsiCfVgvq?=
+ =?us-ascii?Q?Gyndi7C1MdITstdzZoezVs8ooR5snwxpjxJ6SXqyIG5SXqJ1RWZKHQLYKh6m?=
+ =?us-ascii?Q?CuKpobB6PSnTSFduyEE9gA0GCUWb2ksOPFbPyUU+tRDeEKF3FiJSTGJHLN+p?=
+ =?us-ascii?Q?yL4nJU87/umfWlbFI74YnuiaCJdIKUNG/AiF3C7ZDgAblKAB+PYMLKA9byuX?=
+ =?us-ascii?Q?Ps8W1nqLum8sBjZJsHrdsuFK62cKXrU5F74Ot8GBCR5uEbTU61GCgLI2NIv9?=
+ =?us-ascii?Q?VpaZGuyEn2HhAKb7owDfi8NlFZa+2dvw2qfkdBmhY2YQRTVneZFlyMji+3nX?=
+ =?us-ascii?Q?BHNLuN7cznlDlS9dK31wg65aZCEp9ANULwArBST5BqjdjgEPaFqEHSN9uW6Q?=
+ =?us-ascii?Q?pJbtrOyWdtoLhVrXgK7Of3Fpq5RMiSp+6Bt3jWYSWNScAFHqHDcWUtTNq07Q?=
+ =?us-ascii?Q?9CRCpICkBdYvhBPo73zyMhfFTqYen54FUty0zAQcOr7F/dpprVg27SJ8C6R7?=
+ =?us-ascii?Q?anD8Q6Kbi/4NaoKXu20FBMVkbbAbWGp0tf14B8P2SFs9BMtNyT4fBiE+evoU?=
+ =?us-ascii?Q?LQ=3D=3D?=
+X-OriginatorOrg: chipsnmedia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3944f9a1-e487-4f5c-c9be-08dd6687c0e8
+X-MS-Exchange-CrossTenant-AuthSource: SE1P216MB1303.KORP216.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2025 01:45:40.1093
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DD4ppOvpKEbpm4MrphlyMsfoYiEGhmh/pCU9DBKh6udWxIa7cwsFTGWKczvhyBQJZdTiaOM0H6Jqo5PglRGtjqT7YsByqhJkY5/J4ay9Chw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SL2P216MB2121
 
-On 18/02/2025 10:33, Renjiang Han wrote:
-> From: Taniya Das <quic_tdas@quicinc.com>
-> 
-> The video driver will be using the newly introduced
-> dev_pm_genpd_set_hwmode() API to switch the video GDSC to HW and SW
-> control modes at runtime.
-> Hence use HW_CTRL_TRIGGER flag instead of HW_CTRL for video GDSC's for
-> Qualcomm SoC SC7180, SDM845, SM7150, SM8150 and SM8450.
-> 
-> Signed-off-by: Taniya Das <quic_tdas@quicinc.com>
-> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
-> ---
->   drivers/clk/qcom/videocc-sc7180.c | 2 +-
->   drivers/clk/qcom/videocc-sdm845.c | 4 ++--
->   drivers/clk/qcom/videocc-sm7150.c | 4 ++--
->   drivers/clk/qcom/videocc-sm8150.c | 4 ++--
->   drivers/clk/qcom/videocc-sm8450.c | 4 ++--
->   5 files changed, 9 insertions(+), 9 deletions(-)
-> 
-> diff --git a/drivers/clk/qcom/videocc-sc7180.c b/drivers/clk/qcom/videocc-sc7180.c
-> index d7f84548039699ce6fdd7c0f6675c168d5eaf4c1..dd2441d6aa83bd7cff17deeb42f5d011c1e9b134 100644
-> --- a/drivers/clk/qcom/videocc-sc7180.c
-> +++ b/drivers/clk/qcom/videocc-sc7180.c
-> @@ -166,7 +166,7 @@ static struct gdsc vcodec0_gdsc = {
->   	.pd = {
->   		.name = "vcodec0_gdsc",
->   	},
-> -	.flags = HW_CTRL,
-> +	.flags = HW_CTRL_TRIGGER,
->   	.pwrsts = PWRSTS_OFF_ON,
->   };
->   
-> diff --git a/drivers/clk/qcom/videocc-sdm845.c b/drivers/clk/qcom/videocc-sdm845.c
-> index f77a0777947773dc8902c92098acff71b9b8f10f..6dedc80a8b3e18eca82c08a5bcd7e1fdc374d4b5 100644
-> --- a/drivers/clk/qcom/videocc-sdm845.c
-> +++ b/drivers/clk/qcom/videocc-sdm845.c
-> @@ -260,7 +260,7 @@ static struct gdsc vcodec0_gdsc = {
->   	},
->   	.cxcs = (unsigned int []){ 0x890, 0x930 },
->   	.cxc_count = 2,
-> -	.flags = HW_CTRL | POLL_CFG_GDSCR,
-> +	.flags = HW_CTRL_TRIGGER | POLL_CFG_GDSCR,
->   	.pwrsts = PWRSTS_OFF_ON,
->   };
->   
-> @@ -271,7 +271,7 @@ static struct gdsc vcodec1_gdsc = {
->   	},
->   	.cxcs = (unsigned int []){ 0x8d0, 0x950 },
->   	.cxc_count = 2,
-> -	.flags = HW_CTRL | POLL_CFG_GDSCR,
-> +	.flags = HW_CTRL_TRIGGER | POLL_CFG_GDSCR,
->   	.pwrsts = PWRSTS_OFF_ON,
->   };
->   
-> diff --git a/drivers/clk/qcom/videocc-sm7150.c b/drivers/clk/qcom/videocc-sm7150.c
-> index 14ef7f5617537363673662adc3910ddba8ea6a4f..b6912560ef9b7a84e7fd1d9924f5aac6967da780 100644
-> --- a/drivers/clk/qcom/videocc-sm7150.c
-> +++ b/drivers/clk/qcom/videocc-sm7150.c
-> @@ -271,7 +271,7 @@ static struct gdsc vcodec0_gdsc = {
->   	},
->   	.cxcs = (unsigned int []){ 0x890, 0x9ec },
->   	.cxc_count = 2,
-> -	.flags = HW_CTRL | POLL_CFG_GDSCR,
-> +	.flags = HW_CTRL_TRIGGER | POLL_CFG_GDSCR,
->   	.pwrsts = PWRSTS_OFF_ON,
->   };
->   
-> @@ -282,7 +282,7 @@ static struct gdsc vcodec1_gdsc = {
->   	},
->   	.cxcs = (unsigned int []){ 0x8d0, 0xa0c },
->   	.cxc_count = 2,
-> -	.flags = HW_CTRL | POLL_CFG_GDSCR,
-> +	.flags = HW_CTRL_TRIGGER | POLL_CFG_GDSCR,
->   	.pwrsts = PWRSTS_OFF_ON,
->   };
->   
-> diff --git a/drivers/clk/qcom/videocc-sm8150.c b/drivers/clk/qcom/videocc-sm8150.c
-> index daab3237eec19b727d34512d3a2ba1d7bd2743d6..3024f6fc89c8b374f2ef13debc283998cb136f6b 100644
-> --- a/drivers/clk/qcom/videocc-sm8150.c
-> +++ b/drivers/clk/qcom/videocc-sm8150.c
-> @@ -179,7 +179,7 @@ static struct gdsc vcodec0_gdsc = {
->   	.pd = {
->   		.name = "vcodec0_gdsc",
->   	},
-> -	.flags = HW_CTRL,
-> +	.flags = HW_CTRL_TRIGGER,
->   	.pwrsts = PWRSTS_OFF_ON,
->   };
->   
-> @@ -188,7 +188,7 @@ static struct gdsc vcodec1_gdsc = {
->   	.pd = {
->   		.name = "vcodec1_gdsc",
->   	},
-> -	.flags = HW_CTRL,
-> +	.flags = HW_CTRL_TRIGGER,
->   	.pwrsts = PWRSTS_OFF_ON,
->   };
->   static struct clk_regmap *video_cc_sm8150_clocks[] = {
-> diff --git a/drivers/clk/qcom/videocc-sm8450.c b/drivers/clk/qcom/videocc-sm8450.c
-> index f26c7eccb62e7eb8dbd022e2f01fa496eb570b3f..4cefcbbc020f201f19c75c20229415e0bdea2963 100644
-> --- a/drivers/clk/qcom/videocc-sm8450.c
-> +++ b/drivers/clk/qcom/videocc-sm8450.c
-> @@ -347,7 +347,7 @@ static struct gdsc video_cc_mvs0_gdsc = {
->   	},
->   	.pwrsts = PWRSTS_OFF_ON,
->   	.parent = &video_cc_mvs0c_gdsc.pd,
-> -	.flags = RETAIN_FF_ENABLE | HW_CTRL,
-> +	.flags = HW_CTRL_TRIGGER | RETAIN_FF_ENABLE,
->   };
->   
->   static struct gdsc video_cc_mvs1c_gdsc = {
-> @@ -372,7 +372,7 @@ static struct gdsc video_cc_mvs1_gdsc = {
->   	},
->   	.pwrsts = PWRSTS_OFF_ON,
->   	.parent = &video_cc_mvs1c_gdsc.pd,
-> -	.flags = RETAIN_FF_ENABLE | HW_CTRL,
-> +	.flags = HW_CTRL_TRIGGER | RETAIN_FF_ENABLE,
->   };
->   
->   static struct clk_regmap *video_cc_sm8450_clocks[] = {
-> 
+From: Jackson Lee <jackson.lee@chipsnmedia.com>
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+The wave5 codec driver is a stateful encoder/decoder.
+The following patches is for improving decoder performance. 
+
+v4l2-compliance results:
+========================
+
+v4l2-compliance 1.28.1-5233, 64 bits, 64-bit time_t
+
+Buffer ioctls:
+                warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not supported
+                warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not supported
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Total for wave5-dec device /dev/video0: 46, Succeeded: 46, Failed: 0, Warnings: 2 
+Total for wave5-enc device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
+
+Fluster test results:
+=====================
+
+Running test suite JCT-VC-HEVC_V1 with decoder GStreamer-H.265-V4L2-Gst1.0 Using 1 parallel job(s)
+Ran 133/147 tests successfully               in 68.517 secs
+
+(1 test fails because of not supporting to parse multi frames, 1 test fails because of a missing frame and slight corruption,
+ 2 tests fail because of sizes which are incompatible with the IP, 11 tests fail because of unsupported 10 bit format)
+
+Running test suite JVT-AVC_V1 with decoder GStreamer-H.264-V4L2-Gst1.0 Using 1 parallel job(s)
+Ran 78/135 tests successfully               in 35.015 secs
+
+(57 fail because the hardware is unable to decode  MBAFF / FMO / Field / Extended profile streams.)
+
+
+Jackson Lee (3):
+  media: chips-media: wave5: Improve performance of decoder
+  media: chips-media: wave5: Reduce high CPU load
+  media: chips-media: wave5: Fix Null reference while testing fluster
+
+ .../platform/chips-media/wave5/wave5-helper.c |  10 +-
+ .../chips-media/wave5/wave5-vpu-dec.c         | 361 ++++++++++--------
+ .../chips-media/wave5/wave5-vpu-enc.c         |   8 +-
+ .../platform/chips-media/wave5/wave5-vpu.c    |  69 +++-
+ .../platform/chips-media/wave5/wave5-vpuapi.c |  25 +-
+ .../platform/chips-media/wave5/wave5-vpuapi.h |  12 +-
+ 6 files changed, 307 insertions(+), 178 deletions(-)
+
+-- 
+2.43.0
+
 
