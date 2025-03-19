@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-28482-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28483-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C232A68C73
-	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 13:11:19 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B982AA68C78
+	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 13:11:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 690327A8247
-	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 12:10:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9B3B017E5F1
+	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 12:11:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5804B2561AB;
-	Wed, 19 Mar 2025 12:11:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC08E255255;
+	Wed, 19 Mar 2025 12:11:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QWAoW+gA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K0htUgPk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3473B255241
-	for <linux-media@vger.kernel.org>; Wed, 19 Mar 2025 12:11:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF62A255E3C
+	for <linux-media@vger.kernel.org>; Wed, 19 Mar 2025 12:11:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742386261; cv=none; b=RmsK3A28s/ZgQ72uqBxoMogDVon1vCrXvg9/LnwTGomku5M3DU+ZmVV5+bMRFPLl1StiyCFr3ORxEVT2yw77gWCxaGqDXL05zbefMo1ZhNMk3c3XCo83ne9d9K7Rz5jo42oYm1taN2BQo0kwC6d/k5uCzlL3meVTpNct3gdkLyA=
+	t=1742386266; cv=none; b=n/FZKi30/kG6oUpSqazQH6/dWb0ILIP4okEAnBZ514xfoRnve6CSfmWSRulp73+ayVMwMsxcFqZcETkMsPYgduk6H+WAQN8vYV1/KSpmXy7QRXnq6gGhNoo8gYNUDyMm9Koqwg6sbW15D6YUKaQAXXLRosuAqr0rAN5233ZDGTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742386261; c=relaxed/simple;
-	bh=RZ5b/AXSyS1/UHSTuZZXOdXuinogRB+HyfTLhilwR/I=;
+	s=arc-20240116; t=1742386266; c=relaxed/simple;
+	bh=fUZM8Qx+E9sFwFA8sRDU+MoPUK99weHi3tgGUE2s1Ig=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=bSjLl+Wo0F/jLLAlXbxD9+vdjOXSKfz1ha1Nr5LBDe+sRALe2unJZe9PqaFvXmgnCeLBPgtRUp+5Qt6JH1/NzWxmjqf2rj6jLeQqrfSaEHV8y6+lkxdKrsNrH1yPqpaovDKKizSQVXvKC5XyXXPRnrteFQwseIldOJC+lNwChDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QWAoW+gA; arc=none smtp.client-ip=198.175.65.11
+	 MIME-Version; b=a0HGn3l8ljgdVscxDpIqU8gQtI/PTaMrh7172YIk4DxxhYvJ9ksRfhQnR/Hal972r5ZKbsiJ5wqFggt9jgD9G1h4UiyFv325N5CUTIvy60WjglWV23fVzUDtX6LLcvUYnYJw8/twhHnuV2LqAGO+QkQRp1r+tQc+VW3qUPEeLDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K0htUgPk; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742386260; x=1773922260;
+  t=1742386265; x=1773922265;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=RZ5b/AXSyS1/UHSTuZZXOdXuinogRB+HyfTLhilwR/I=;
-  b=QWAoW+gAemT8jwfRUa48Peuht+jgt4hVGnOk6y9EM3P7czth2JGws7aw
-   dR0ijNM0hlbHevyj31m4M0szDGUBXE4k6lI4Y5kQTY9tEPQccbZmfW29Y
-   og/b+GmvI/CepRNUHLlqGqHG7HKE4lGgRo6OiOtL9DMx4GaM7sLBbrXPE
-   wm9aLVlYiE15Y3sL5tzhRFuwlOpfUm+kM3wonWhgazs6bVfSPXk6mAR3v
-   3u9Ra86WhxZua/BMmQys2dHt8fXkF+9plhuZmo4JVdeimiCs6pUGgihNk
-   sCJURl09GGzK2tiHBpSbFjRky2x3sBjVNhyzYzd7urapbDK7Bu7oNChlX
-   g==;
-X-CSE-ConnectionGUID: mXzllPk7SgKIf/cy5VCUzg==
-X-CSE-MsgGUID: 9ASEogG4R5yjpB9lQI85gQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="53785890"
+  bh=fUZM8Qx+E9sFwFA8sRDU+MoPUK99weHi3tgGUE2s1Ig=;
+  b=K0htUgPkHTOX7eqQ1ty2KNFksht5PldF/q6T/lruabrS9SJNMYnuRj92
+   6bd/9XTw95ehEg6uxNdPx2LKVruxceQTjSqc/jerNsmMD4FuSs4CLfCRq
+   ea48+m9GRa6algWKz4oiIabKWkB+S/vxIDqQjP2RYtQ2gUyVrpHBKu1A7
+   WhCTNlNxI+4e6t42MVG4tCn/+2mc4c1uW/ktSFbqEtcA14frw1to3YUfT
+   wgJjMJaOsHkaG/lj7KJhvVz/rZ3EuQqdkVLU3BCg83sDwvUzhU4FudW4N
+   IHM75SoTgZo6KvYAVyEcAsFPSRPcpaF10QoVAdyBWf7yOA2pYuXTvk1a+
+   w==;
+X-CSE-ConnectionGUID: ES1KMtRUQj+fPhNdqmkfHQ==
+X-CSE-MsgGUID: uSqSYC94TQK3TkJe8RRJ9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11377"; a="61100276"
 X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="53785890"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 05:11:00 -0700
-X-CSE-ConnectionGUID: PnwOnI64RWeYDswSNxdVug==
-X-CSE-MsgGUID: zau1CFO9TEyRR5YVLic+Bg==
+   d="scan'208";a="61100276"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 05:11:04 -0700
+X-CSE-ConnectionGUID: EAZ2sDyPRNS7KdGCfbnGNw==
+X-CSE-MsgGUID: ZUxqcLyHTta/Ae5ulYRcDQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,259,1736841600"; 
-   d="scan'208";a="123086726"
+   d="scan'208";a="122598967"
 Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.245.81.118])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 05:10:59 -0700
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Mar 2025 05:11:03 -0700
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Bingbu Cao <bingbu.cao@intel.com>
-Subject: [PATCH v2 3/5] media: intel/ipu6: Use timestamp value directly
-Date: Wed, 19 Mar 2025 13:10:42 +0100
-Message-Id: <20250319121044.113705-4-stanislaw.gruszka@linux.intel.com>
+Subject: [PATCH v2 4/5] media: intel/ipu6: Abstract buf ready function
+Date: Wed, 19 Mar 2025 13:10:43 +0100
+Message-Id: <20250319121044.113705-5-stanislaw.gruszka@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250319121044.113705-1-stanislaw.gruszka@linux.intel.com>
 References: <20250319121044.113705-1-stanislaw.gruszka@linux.intel.com>
@@ -76,85 +76,77 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Remove pointer for fw abi structure when setting frame sequence and
-time, use timestamp value from the structure directly.
+Extract values needed by ipu6_queue_buf_ready() function from fw abi
+structure. This will allow to reuse same buf ready code when fw abi
+change.
 
 Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 ---
- .../media/pci/intel/ipu6/ipu6-isys-queue.c    | 19 ++++++++-----------
- 1 file changed, 8 insertions(+), 11 deletions(-)
+ .../media/pci/intel/ipu6/ipu6-isys-queue.c    | 22 +++++++++++++------
+ 1 file changed, 15 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-index 3984b9d43919..c68dc577daf0 100644
+index c68dc577daf0..55d45d2d8768 100644
 --- a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
 +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-@@ -652,10 +652,8 @@ static void stop_streaming(struct vb2_queue *q)
+@@ -734,10 +734,11 @@ static void ipu6_isys_queue_buf_done(struct ipu6_isys_buffer *ib)
+ 	}
  }
  
- static unsigned int
--get_sof_sequence_by_timestamp(struct ipu6_isys_stream *stream,
--			      struct ipu6_fw_isys_resp_info_abi *info)
-+get_sof_sequence_by_timestamp(struct ipu6_isys_stream *stream, u64 time)
+-void ipu6_isys_queue_buf_ready(struct ipu6_isys_stream *stream,
+-			       struct ipu6_fw_isys_resp_info_abi *info)
++static void
++ipu6_stream_buf_ready(struct ipu6_isys_stream *stream, u8 pin_id, u32 pin_addr,
++		      u64 time, bool error_check)
  {
--	u64 time = (u64)info->timestamp[1] << 32 | info->timestamp[0];
+-	struct ipu6_isys_queue *aq = stream->output_pins[info->pin_id].aq;
++	struct ipu6_isys_queue *aq = stream->output_pins[pin_id].aq;
  	struct ipu6_isys *isys = stream->isys;
  	struct device *dev = &isys->adev->auxdev.dev;
- 	unsigned int i;
-@@ -681,8 +679,7 @@ get_sof_sequence_by_timestamp(struct ipu6_isys_stream *stream,
- 	return 0;
- }
- 
--static u64 get_sof_ns_delta(struct ipu6_isys_video *av,
--			    struct ipu6_fw_isys_resp_info_abi *info)
-+static u64 get_sof_ns_delta(struct ipu6_isys_video *av, u64 timestamp)
- {
- 	struct ipu6_bus_device *adev = av->isys->adev;
- 	struct ipu6_device *isp = adev->isp;
-@@ -692,14 +689,13 @@ static u64 get_sof_ns_delta(struct ipu6_isys_video *av,
- 	if (!tsc_now)
- 		return 0;
- 
--	delta = tsc_now - ((u64)info->timestamp[1] << 32 | info->timestamp[0]);
-+	delta = tsc_now - timestamp;
- 
- 	return ipu6_buttress_tsc_ticks_to_ns(delta, isp);
- }
- 
- static void
--ipu6_isys_buf_calc_sequence_time(struct ipu6_isys_buffer *ib,
--				 struct ipu6_fw_isys_resp_info_abi *info)
-+ipu6_isys_buf_calc_sequence_time(struct ipu6_isys_buffer *ib, u64 time)
- {
- 	struct vb2_buffer *vb = ipu6_isys_buffer_to_vb2_buffer(ib);
- 	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-@@ -710,8 +706,8 @@ ipu6_isys_buf_calc_sequence_time(struct ipu6_isys_buffer *ib,
- 	u64 ns;
- 	u32 sequence;
- 
--	ns = ktime_get_ns() - get_sof_ns_delta(av, info);
--	sequence = get_sof_sequence_by_timestamp(stream, info);
-+	ns = ktime_get_ns() - get_sof_ns_delta(av, time);
-+	sequence = get_sof_sequence_by_timestamp(stream, time);
- 
- 	vbuf->vb2_buf.timestamp = ns;
- 	vbuf->sequence = sequence;
-@@ -749,6 +745,7 @@ void ipu6_isys_queue_buf_ready(struct ipu6_isys_stream *stream,
+ 	struct ipu6_isys_buffer *ib;
+@@ -745,7 +746,6 @@ void ipu6_isys_queue_buf_ready(struct ipu6_isys_stream *stream,
  	unsigned long flags;
  	bool first = true;
  	struct vb2_v4l2_buffer *buf;
-+	u64 time = (u64)info->timestamp[1] << 32 | info->timestamp[0];
+-	u64 time = (u64)info->timestamp[1] << 32 | info->timestamp[0];
  
  	spin_lock_irqsave(&aq->lock, flags);
  	if (list_empty(&aq->active)) {
-@@ -791,7 +788,7 @@ void ipu6_isys_queue_buf_ready(struct ipu6_isys_stream *stream,
- 		list_del(&ib->head);
- 		spin_unlock_irqrestore(&aq->lock, flags);
+@@ -764,7 +764,7 @@ void ipu6_isys_queue_buf_ready(struct ipu6_isys_stream *stream,
+ 		ivb = vb2_buffer_to_ipu6_isys_video_buffer(vvb);
+ 		addr = ivb->dma_addr;
  
--		ipu6_isys_buf_calc_sequence_time(ib, info);
-+		ipu6_isys_buf_calc_sequence_time(ib, time);
+-		if (info->pin.addr != addr) {
++		if (pin_addr != addr) {
+ 			if (first)
+ 				dev_err(dev, "Unexpected buffer address %pad\n",
+ 					&addr);
+@@ -772,8 +772,7 @@ void ipu6_isys_queue_buf_ready(struct ipu6_isys_stream *stream,
+ 			continue;
+ 		}
  
- 		ipu6_isys_queue_buf_done(ib);
+-		if (info->error_info.error ==
+-		    IPU6_FW_ISYS_ERROR_HW_REPORTED_STR2MMIO) {
++		if (error_check) {
+ 			/*
+ 			 * Check for error message:
+ 			 * 'IPU6_FW_ISYS_ERROR_HW_REPORTED_STR2MMIO'
+@@ -800,6 +799,15 @@ void ipu6_isys_queue_buf_ready(struct ipu6_isys_stream *stream,
+ 	spin_unlock_irqrestore(&aq->lock, flags);
+ }
  
++void ipu6_isys_queue_buf_ready(struct ipu6_isys_stream *stream,
++			       struct ipu6_fw_isys_resp_info_abi *info)
++{
++	u64 time = (u64)info->timestamp[1] << 32 | info->timestamp[0];
++	bool err = info->error_info.error == IPU6_FW_ISYS_ERROR_HW_REPORTED_STR2MMIO;
++
++	ipu6_stream_buf_ready(stream, info->pin_id, info->pin.addr, time, err);
++}
++
+ static const struct vb2_ops ipu6_isys_queue_ops = {
+ 	.queue_setup = ipu6_isys_queue_setup,
+ 	.buf_init = ipu6_isys_buf_init,
 -- 
 2.34.1
 
