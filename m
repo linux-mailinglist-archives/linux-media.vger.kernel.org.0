@@ -1,269 +1,144 @@
-Return-Path: <linux-media+bounces-28465-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28466-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEF79A6863D
-	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 08:56:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E1EEA68649
+	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 09:03:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1315B189F745
-	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 07:56:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2572E19C27B8
+	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 08:03:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78BCE2500CE;
-	Wed, 19 Mar 2025 07:56:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="z//pERIS"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 546822505A3;
+	Wed, 19 Mar 2025 08:03:16 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EE771E1E1F;
-	Wed, 19 Mar 2025 07:56:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742370963; cv=fail; b=MFy4c1YOCpAvMxK3oG1nAdjIeGizs0vUjMTUWSh45cjEhUv/AJHw7qYfX3DiFSCtQ48Ns+0vVoyb32vM1U2DNVQnzR2y41Fd1fqtY14SYj5e3pNI5ldq801PSFULK7VlvjqqTXYV1fMlTsLTY84tJv11pxdMfmXUcj0C+JJj8nA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742370963; c=relaxed/simple;
-	bh=yp3Whoi2Aa75DfF6a6mgYjj9cUKd4xCBbCBBalvTdfY=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=KrJ1SybudIjVjWZzb4nV6PygZHJ2FgWsjTVIZ1wYux7qiYa/rvN/uxsTuN/9aRv6HW0dT0dBhOL/hFJgjZMIKSz2rNuo8sBZb4hCIRH/eaDgP+9XDTDkgKI24lcOTqVPwX2RqoFfCXVaTzGiv24zVB+iyHWhE8Oj54tuWs78e+o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=z//pERIS; arc=fail smtp.client-ip=40.107.236.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BMVKiTQkEkvsotcmfCCuBWjBSygK/sPpkYW6XqoEy5+KjNfjItVdVOyND8xEfCtPH69PjzOOZ9C5EB8lJnCWgmyxDc2/wPoaySac7o+zs+vZJC1LcJQh+CLo74fxd2RJ/W+dprGq+qfHCKSIfNrchU0C3PqOdpRJ1cjHwpokr/p/F7jAcgtWk2Rb6x4PM4ege/yrkRkitPzkP7J/iMHdTQ474PCIPxVpfBGjQ3DFAI9gKNPqQawmz5L6oEv/blCUyi9VL+wAG26Q/Y1iAp43lORpMYYcqe6N4yBy4aqyeqjfTP+YQbhW8JDfWIgDiJ1yEKwRv51rvzpyg6iZLwNrKA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XfjUB0N0DxTadwtDRYnYhR1+s+hCy4UJT3K5MNamjUE=;
- b=E1Bi+j7vuRYk55j4mf+MiIRwMI/PIBQxdD5aASTBec5FDCaNYSZvcZ2cJDZIzhMYRGCH01My76gdicwOKJeBt7zYkWtNN3abiIpQ49sihOv55OAnOKQSeoXobVBCE5vJrMQvS8LW1MTRszAXXGXp6z8tu9CO7a9eVUmvKI8MGrxBSWwspFFq/e0PVjPduRGB9sn+clQLQg+4rOLksVdVgj56QCG6KM1tlCH21yV1NEFcBUbj8gqDuzmRqH36V3035SS2tvPEM0tdTfOfp1g8POPyQLCvcVbCYpg/hsxeM/k86CiUhHcB2hvf7kbv2ip2RMZNOOOcuIi+nsLA0/ad/g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XfjUB0N0DxTadwtDRYnYhR1+s+hCy4UJT3K5MNamjUE=;
- b=z//pERISbiVC+q3XYz1X0S08BnRKkwK2PpCzl/2cYZ6COQ0T/unQOQrHyNymSVJkxLCS7oWqpRbUgtfiH62P9KtSLfNU0tsKeWWRyFdyAZZc9YN4KyeGmMKEWa6gsUA6gMvU8ivJBcl0zDazcVogE/eLIRtdwzwqPzy6PW/1XBs=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SJ2PR12MB7865.namprd12.prod.outlook.com (2603:10b6:a03:4cc::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.33; Wed, 19 Mar
- 2025 07:56:00 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8511.026; Wed, 19 Mar 2025
- 07:56:00 +0000
-Message-ID: <c1fcc69e-e782-4050-8941-176bfe68e10a@amd.com>
-Date: Wed, 19 Mar 2025 08:55:51 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/7] drm/gem-shmem: Export VM ops functions
-To: Daniel Almeida <daniel.almeida@collabora.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <benno.lossin@proton.me>,
- Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- Trevor Gross <tmgross@umich.edu>, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- rust-for-linux@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, Danilo Krummrich <dakr@kernel.org>,
- Asahi Lina <lina@asahilina.net>
-References: <20250318-drm-gem-shmem-v1-0-64b96511a84f@collabora.com>
- <20250318-drm-gem-shmem-v1-2-64b96511a84f@collabora.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250318-drm-gem-shmem-v1-2-64b96511a84f@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0176.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b7::7) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3F7EE552;
+	Wed, 19 Mar 2025 08:03:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742371396; cv=none; b=WJTi89ogWcSAYAcV7kwZlJ0l0xa+FOXmYD+aA1Oec5BuHwD17j2uCkWvVwt/eMzKRX7+Z6SrMQTQlCwHBQjrgo5VQUk/KjhX+zvK5YBwNqteJz9hweI71bRD0KiH8oA4dfHmwKMSXVAw2yJ/Xvz0ezxAzTKQlv8/OgT3k237Me0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742371396; c=relaxed/simple;
+	bh=WcYNaSjfXzS/GEKzqJtSGfn4MzzRLOOG5FCgssavhkI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=PyuX37o6xHnVs2FfQnuE6UdEqsFXKAjqLmT1EdFQgNTRlN1MqVbERbZXatcu6q00coIZuBomNxD6WHScnxaAxsGGZWoomfr7z5+cVxuFztGIs1pdYzaNb9LUX6VY/ebLfeJjSN3rkU/2U7jwqTEVYMoTJDqMjMkCeof1IrQ3iJs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
+	by APP-05 (Coremail) with SMTP id zQCowABnbysqetpnGlpAFg--.36380S2;
+	Wed, 19 Mar 2025 16:03:00 +0800 (CST)
+From: Ma Ke <make24@iscas.ac.cn>
+To: mchehab@kernel.org,
+	hverkuil@xs4all.nl,
+	make24@iscas.ac.cn,
+	sebastian.fricke@collabora.com,
+	ribalda@chromium.org,
+	benjamin.gaignard@collabora.com,
+	viro@zeniv.linux.org.uk,
+	bartosz.golaszewski@linaro.org,
+	hljunggr@cisco.com,
+	sakari.ailus@linux.intel.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: [PATCH v3] media: v4l2-dev: fix error handling in __video_register_device()
+Date: Wed, 19 Mar 2025 16:02:48 +0800
+Message-Id: <20250319080248.1746847-1-make24@iscas.ac.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ2PR12MB7865:EE_
-X-MS-Office365-Filtering-Correlation-Id: 68b681a2-5b62-4bcc-26da-08dd66bb7cf9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|7053199007|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?dk1rcGhGNUhYQmgrVzRiNUljcnhwVUlVMEthKy9TUmtoelhQekgxMzM2b0Uv?=
- =?utf-8?B?bE5xYXM2aVNqZVphczk0ZWJyZFM5M1BNNGJqT2dGbmM3VUZ2RkpTaHF0aVBj?=
- =?utf-8?B?ZmFvbUtlUnNWNUtIWENibDdBVXFPc0xxMUNsV0VGSUtJSC90bDRFeFJJcUlP?=
- =?utf-8?B?Wkkxd2Q0S2lmSTI0ZHhISFlma0hQOFl4c3Ric29ZMUhGc08vYjkrOWE4TmpC?=
- =?utf-8?B?REVQa3g2Y1R0WU9qTEREMmorM0JxNkZlR094cmVqTEVTR0dwNFBnN2xJZHAz?=
- =?utf-8?B?MUdWc2F4ZDg0a0FUOFFaN3o4NG5JRklXUHBJZFNTYndVSGlVenk5SXlKZFJB?=
- =?utf-8?B?Q21yZW1IWk13TXhWYkxFOEJGM3VpNWNwR1ZYd0RmaU01bFc0Z05GWG12bE1P?=
- =?utf-8?B?VEVYVVdtWGM5b3E2V1F6R1hkMHF0Q3A5N2E2bmlrMnhtT09oUFdqektkOEZ4?=
- =?utf-8?B?NDVCa2xqdG44U0VyYmpjTS9IODBpTWw3eXgySnZONXJWbkx3MjRXblRBNUpN?=
- =?utf-8?B?bWMxZzVhMEw2QUJlazhjVUxLV0UrOTdlNXM5N2M5L2sxVEFsM3BDcGRjcGVo?=
- =?utf-8?B?U2V1RkxaMUJYZWFJSEFoTEVGZHpVOEpMYklNVnJCcitjSE51VVlkMk4rTmNl?=
- =?utf-8?B?QVE3eERSczREUDNPVUcyL3FSMllGTDk5NlcyaThRMVBXd3FIZHBmODhyL00y?=
- =?utf-8?B?blVINTZiQlg4MG9QZmZ1dUs4aHpRanlzOGlseDROR0JqWlhyT01va3pyR1dP?=
- =?utf-8?B?WmxrRHVMWlFuNHlCWTFDdU1qeWpVbW1FdTZlVmd4QzlqeWt3aWttbzk5UTJW?=
- =?utf-8?B?TU1wSmJUZzM4ay95NFQ0K0VMd2JuaXB6YTJxZEpndnd5MHE2TFdDWVZtQlVK?=
- =?utf-8?B?OVZXVXNIcFBUYjdOZEpyZDhPZWIxdkpydExyNksxcWlKZlVTSUdPaE94bnVp?=
- =?utf-8?B?TEJaYklJcGgzUlM5aTdwVEVMbnhZQ0lxTnliVVR6czZ6VHRIVFU1NVBlalRo?=
- =?utf-8?B?c0h5bkFQNUF3Zm9nTUsxMS9ZL09QanhGdi9sL1JHTlFOQnBvdGZmRW9kUmh1?=
- =?utf-8?B?S2tvdSs2QTdWSjFyd1JmZkczbnZsR1dvMkRNVkVOWEEwekl5bGNmelpwVkFH?=
- =?utf-8?B?NjJQWXM0QldGdEMvT0gxQ1NnWU9GTC9NZGNQYTBXMk14NlJHdzRqUjRTQWhs?=
- =?utf-8?B?Ty9KWWlONDlBc3psNzcxa1ljSC92d0tnSzUxSHhNaHdoZFZmV24xZzJxcmwx?=
- =?utf-8?B?QTRIdXo0aUlQV3pGNXVVZzU1OTR3bFB4blR3aXV0TFQrVG9UQkNZODVONS9r?=
- =?utf-8?B?dWZvampTS2tGUTNoVW5Vd0k5K25acUFHWEpSWDFSWDAydHdhdVR3WWVKcDVi?=
- =?utf-8?B?UW1yckpYblUxdHFnYSsxcDdERFJaQkplNDdqZXE5T0g5K2ZwZXpHaUc0VEFo?=
- =?utf-8?B?MWFYZnN6NFIxV2pWU1N0bXNRN0tNcHZadTlhREg0V0grSTBiRDE0VVRSYW9u?=
- =?utf-8?B?NTg5TkorbWNncTJ2WjQvMWZTc1kyZTBraFFmcEpOemFSQlcyNGxHdHFhcy9L?=
- =?utf-8?B?SjhQMlN5OThBWU5rT3cvb3VGZ3lrandEY0ZTWXRRSDJYRUZLS0hNdHdldUJv?=
- =?utf-8?B?OUJMR0VSUkF6dHNScjdlc21UQnFKakFUbHoydEE5NEV6Uy9iZFFuOW0yZGJh?=
- =?utf-8?B?ZlNBb0NpU3QvSU9OUW9TTUpMdnNXU1UranoycWQ3SDRRRnoycmxyb3FoNWMv?=
- =?utf-8?B?OXRoeWdCMmJkVVJPazZLYVVWWmpTVkJLWmhrOWFCL2svZk1PQ0Z5L3BvQ0VE?=
- =?utf-8?B?RU5IMEpNMnVmRUE0QTAyMzJWTjdUSnlLSHpRRXZJYXJOeXpEd24yRGtoSGJw?=
- =?utf-8?B?ZklnQXFmVFNEQmZmQmFlb09RVnRKMGkyTVJKMlRVL0NqY2R0MXE0bjkwQUZO?=
- =?utf-8?Q?t0bDyVSWcrA=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(7053199007)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?QWxxYVJzbzB4QmJtemRHQm9TeTZod0VMdUZWNkxtbFhsanI4QTh5ZkVEQ0g4?=
- =?utf-8?B?VmV2UklRZDZnTmRhZHh2SVhzN1lkbWlYbk9pOHpEbDV2dzJLcDdRcVZZczV2?=
- =?utf-8?B?Y3V4a0JxM0V6S0wrQ2JORjlGL2V1Y1lvNnJnVm9kZFpUVnhFOGpuT0JtbFlD?=
- =?utf-8?B?Y0J6ZkZPT3kvVVdFQ0JkZkRsQ2FNeEZEdVJ6TTgvYS92bm5QVXdjVE9oWG5E?=
- =?utf-8?B?djhDcHdXNTVRb3RZS0VDQUJxejJuMW9PZW5HaGoyY1Z1bEpjZjNXREhoTEJn?=
- =?utf-8?B?WkJMRkpyUVllUnllVE5BQlJkZ3Juc2pFTGVvNDM2d1NlQXhneWt6OE92a3B0?=
- =?utf-8?B?RVFLcWkrVk14bHFzMlZta25naWxuOE80OGJLUTBkV1ZxL082ME1uS0NGUVdq?=
- =?utf-8?B?NHhTdTlJc3N6QWRKZzVuNUN6V0FuODg1d1BzM3FnY1pRRG1FcFRTb01hMkhY?=
- =?utf-8?B?dTNyVis5NGM2NHYyQ1BraytoMDkvT2kyQi9qcXFzTk9JbTVkTnZHOFZPRE1M?=
- =?utf-8?B?MDNNNmY4aDdQUEdOcmdBTVB1SmEwOTV3M1YxeEJIdjdhanpzbVlyN1dDWWN6?=
- =?utf-8?B?dUVOY25QMVdrbGFNSmZRVGJ3NmVjQ1N2YW1QWm9lNmttZTlONVFEZlplcHor?=
- =?utf-8?B?SmVENDE3ZzVYTGdUOTM5c0FuT0l6dElsVWRMYWJOTUhWKy9IeEtjUXZhOTUz?=
- =?utf-8?B?Z1BaeDNKUzJacWtlUE9CT2NYRWtxSmUrV3Z0VkZISCs0QmxFS2hvdmdJNER5?=
- =?utf-8?B?ZkYyOGpqeVFoV3FuNmpBMklJMms1M1psRU0rOHkvNW1mRHlocUR0NmdXWUVM?=
- =?utf-8?B?M21iYjlsYThzcmZ4S2ZURUxzanB2cGtnTUNIaWs0UUZ0Y0ZiWnlUT0Y0bHFE?=
- =?utf-8?B?aUZjT1VpdWplNXk4NlJjOTBhR0dlMHkzd3dib0l4VTg1MmNRcjRZeTMxZk9r?=
- =?utf-8?B?SzRaeFR6dHpBbzRleWx0anR4RVlOTEJkT0ZIUlBUcXRPYkI2OFRYU25CLzBF?=
- =?utf-8?B?RklmNXJQK05OV1dxczU0MnUyVEtGYXpIaGR4Z2hsRDN2eTZuWmxFQUFmLzdq?=
- =?utf-8?B?SThraHExSSsvOXVxUmhYVUpGbmtBTUphRG01RWJ2QW9icmM1VjVXbyswS3lO?=
- =?utf-8?B?MU5LanhyTFg5R3FXRDVmNFBWMjlqSkR0dVhwekZHckJNa0M4Vm1ndG5IL1Zo?=
- =?utf-8?B?VTA2czQ5ak5PSWFUL001Z0lQUDBBdkhuWWFXTkhKbVNOYmN5eEJURmRoT2Fo?=
- =?utf-8?B?cDJIN0hEcUJTUjB1NDBGWlI3a1A2WTdoS1JqdFMxS0lkbVUrby9ENGFoN2p2?=
- =?utf-8?B?S1Q2NnQyM3RURS9Va3pUUlhLU1VzZ2x0UHFjTFcvbVBIUW1lUXJrY3hmY3Vl?=
- =?utf-8?B?Y1BvMlpMSndLNk5Uc1BENU5YbXZ4KzFhcUZiTXZXNlh2TGdTbzRMbFNtM2sx?=
- =?utf-8?B?Y1BXTTVUWTh3VEc2UHdFUVVsRHR2QVRuKzdCa3hVMDI0cHNpUHV4eDdnU0p1?=
- =?utf-8?B?Y1lPSGRPN3FTeVN4NndCODJweHVoWkpwMEQvZ1Bma1llRzhsdjg1M0NnRlQ5?=
- =?utf-8?B?OU03bDJ4SnlxNHphNDI2cHRUdU1Fc1BMa09hRUdVZTU1UWJ6STJPeVh3azNN?=
- =?utf-8?B?MlE2WXlrMWhjNEo4Zjl4VEJMbGdnV2NVU21rNEJjalMrWTB6OWhnR3RPaHFD?=
- =?utf-8?B?WEt5Qjd2Q1F4ZXVqeXdOaVN3MUo1Vm9CK1Nwb0pjcEhiYytSUGtKdnNyYW0r?=
- =?utf-8?B?UTk0VGdoZHQ3SjdmVy9SdzVseW1UNU9zZW9lMm1zSDNnM0ZVN1RBVUk4NWp2?=
- =?utf-8?B?cEVEMVJTSG5hMEVhR2JoRFJLc21YY2tmV1ZGKy8vR2FhNWZTTkVlS3kxUGlG?=
- =?utf-8?B?cUErVld3QWp3NVhQVTJ3bFNoOThKYUVhNkhreVJTeSs5akdWK3F0MkFHSDEw?=
- =?utf-8?B?YkJMc09kV2VwbjF4ZjFaQjFiSjhOQWUrZXNSNzFOSWtDKzNjY2N3WUt3R3l6?=
- =?utf-8?B?MXVBWlZqMWpqZ1NBc1JzNkxrWjhaU01uZjhoMjlPMDNGS2dnQ3ZhcWRIU1Zy?=
- =?utf-8?B?MmsxaEtBSzVpREM2R2VLanRUNjFZWm9TWWRWQ094TTNyQW9adnBNcXN5VndE?=
- =?utf-8?Q?0ALfvcepM6ljaLwGy9w6jwVdC?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 68b681a2-5b62-4bcc-26da-08dd66bb7cf9
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Mar 2025 07:55:59.9416
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 51YOe2Y88aJ+abEiS9O/QiOTqAuymRRUPbL5nwfhuEI4RmmK3cpKgHfmvl5IoxZ1
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7865
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowABnbysqetpnGlpAFg--.36380S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7WryrKw45Jr17XryrKrWDCFg_yoW8KF1kp3
+	4S9ay3tFWUKw4IkwsxXa1DXFyruw4Sy3WrArWrAw10k3s3urWfJry8tryUX3yUt392yF4j
+	qry2qw4rXF1UZ3DanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUB214x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26ryj6F1UM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26F4j
+	6r4UJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gc
+	CE3s1lnxkEFVAIw20F6cxK64vIFxWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xv
+	F2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r
+	4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I
+	648v4I1lFIxGxcIEc7CjxVA2Y2ka0xkIwI1lc7CjxVAaw2AFwI0_Jw0_GFyl42xK82IYc2
+	Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s02
+	6x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r1q6r43MIIYrxkI7VAKI48JMIIF0x
+	vE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F4UMIIF0xvE
+	42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8JwCI42IY6I8E87Iv6x
+	kF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjfUOmhFUUUUU
+X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
 
-Am 18.03.25 um 20:22 schrieb Daniel Almeida:
-> From: Asahi Lina <lina@asahilina.net>
->
-> There doesn't seem to be a way for the Rust bindings to get a
-> compile-time constant reference to drm_gem_shmem_vm_ops, so we need to
-> duplicate that structure in Rust... this isn't nice...
+Once device_register() failed, we should call put_device() to
+decrement reference count for cleanup. Or it could cause memory leak.
+And move callback function v4l2_device_release() and v4l2_device_get()
+before put_device().
 
-Well "isn't nice" is an understatement. We can have that as a short term hack, but I don't think that this is a doable long term solution.
+As comment of device_register() says, 'NOTE: _Never_ directly free
+@dev after calling this function, even if it returned an error! Always
+use put_device() to give up the reference initialized in this function
+instead.'
 
-For this particular case here it most likely doesn't matter, but operation pointer structures are often used to identify a certain class of object.
+Found by code review.
 
-So exporting the functions and then re-creating the constant operation pointer structure in Rust doesn't work in some cases.
+Cc: stable@vger.kernel.org
+Fixes: dc93a70cc7f9 ("V4L/DVB (9973): v4l2-dev: use the release callback from device instead of cdev")
+Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+---
+Changes in v3:
+- modified the patch to balance the v4l2_device reference count;
+- changed the Fix tag as suggestions;
+Changes in v2:
+- modified the patch as no callback function before put_device().
+---
+ drivers/media/v4l2-core/v4l2-dev.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Regards,
-Christian.
-
->
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
-> ---
->  drivers/gpu/drm/drm_gem_shmem_helper.c | 9 ++++++---
->  include/drm/drm_gem_shmem_helper.h     | 3 +++
->  2 files changed, 9 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> index ec89e9499f5f02a2a35713669bf649dd2abb9938..be310db5863871604f3502ad1f419937d4c20a84 100644
-> --- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-> +++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-> @@ -535,7 +535,7 @@ int drm_gem_shmem_dumb_create(struct drm_file *file, struct drm_device *dev,
->  }
->  EXPORT_SYMBOL_GPL(drm_gem_shmem_dumb_create);
->  
-> -static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
-> +vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
->  {
->  	struct vm_area_struct *vma = vmf->vma;
->  	struct drm_gem_object *obj = vma->vm_private_data;
-> @@ -564,8 +564,9 @@ static vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf)
->  
->  	return ret;
->  }
-> +EXPORT_SYMBOL_GPL(drm_gem_shmem_fault);
->  
-> -static void drm_gem_shmem_vm_open(struct vm_area_struct *vma)
-> +void drm_gem_shmem_vm_open(struct vm_area_struct *vma)
->  {
->  	struct drm_gem_object *obj = vma->vm_private_data;
->  	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-> @@ -586,8 +587,9 @@ static void drm_gem_shmem_vm_open(struct vm_area_struct *vma)
->  
->  	drm_gem_vm_open(vma);
->  }
-> +EXPORT_SYMBOL_GPL(drm_gem_shmem_vm_open);
->  
-> -static void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
-> +void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
->  {
->  	struct drm_gem_object *obj = vma->vm_private_data;
->  	struct drm_gem_shmem_object *shmem = to_drm_gem_shmem_obj(obj);
-> @@ -598,6 +600,7 @@ static void drm_gem_shmem_vm_close(struct vm_area_struct *vma)
->  
->  	drm_gem_vm_close(vma);
->  }
-> +EXPORT_SYMBOL_GPL(drm_gem_shmem_vm_close);
->  
->  const struct vm_operations_struct drm_gem_shmem_vm_ops = {
->  	.fault = drm_gem_shmem_fault,
-> diff --git a/include/drm/drm_gem_shmem_helper.h b/include/drm/drm_gem_shmem_helper.h
-> index d22e3fb53631ab655748d7f6c628ffdb402f6324..b70d3cc35bd194e7cd718bee220408b5dda568bf 100644
-> --- a/include/drm/drm_gem_shmem_helper.h
-> +++ b/include/drm/drm_gem_shmem_helper.h
-> @@ -132,6 +132,9 @@ void drm_gem_shmem_print_info(const struct drm_gem_shmem_object *shmem,
->  			      struct drm_printer *p, unsigned int indent);
->  
->  extern const struct vm_operations_struct drm_gem_shmem_vm_ops;
-> +vm_fault_t drm_gem_shmem_fault(struct vm_fault *vmf);
-> +void drm_gem_shmem_vm_open(struct vm_area_struct *vma);
-> +void drm_gem_shmem_vm_close(struct vm_area_struct *vma);
->  
->  /*
->   * GEM object functions
->
+diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+index 5bcaeeba4d09..4c7e1008a152 100644
+--- a/drivers/media/v4l2-core/v4l2-dev.c
++++ b/drivers/media/v4l2-core/v4l2-dev.c
+@@ -1054,25 +1054,25 @@ int __video_register_device(struct video_device *vdev,
+ 	vdev->dev.class = &video_class;
+ 	vdev->dev.devt = MKDEV(VIDEO_MAJOR, vdev->minor);
+ 	vdev->dev.parent = vdev->dev_parent;
++	vdev->dev.release = v4l2_device_release;
+ 	dev_set_name(&vdev->dev, "%s%d", name_base, vdev->num);
++
++	/* Increase v4l2_device refcount*/
++	v4l2_device_get(vdev->v4l2_dev);
++
+ 	mutex_lock(&videodev_lock);
+ 	ret = device_register(&vdev->dev);
+ 	if (ret < 0) {
+ 		mutex_unlock(&videodev_lock);
+ 		pr_err("%s: device_register failed\n", __func__);
+-		goto cleanup;
++		put_device(&vdev->dev);
++		return ret;
+ 	}
+-	/* Register the release callback that will be called when the last
+-	   reference to the device goes away. */
+-	vdev->dev.release = v4l2_device_release;
+-
++
+ 	if (nr != -1 && nr != vdev->num && warn_if_nr_in_use)
+ 		pr_warn("%s: requested %s%d, got %s\n", __func__,
+ 			name_base, nr, video_device_node_name(vdev));
+ 
+-	/* Increase v4l2_device refcount */
+-	v4l2_device_get(vdev->v4l2_dev);
+-
+ 	/* Part 5: Register the entity. */
+ 	ret = video_register_media_controller(vdev);
+ 
+-- 
+2.25.1
 
 
