@@ -1,275 +1,204 @@
-Return-Path: <linux-media+bounces-28486-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28487-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 605ACA68E8A
-	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 15:09:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B3BA68F18
+	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 15:29:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E2BD37A8AE7
-	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 14:08:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 689A7176373
+	for <lists+linux-media@lfdr.de>; Wed, 19 Mar 2025 14:26:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69CCE1C84A9;
-	Wed, 19 Mar 2025 14:07:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1FCE1D7E5F;
+	Wed, 19 Mar 2025 14:25:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="SZMdqj8U"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="h0bujmvl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 627A21C460A;
-	Wed, 19 Mar 2025 14:07:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C401AF0D7;
+	Wed, 19 Mar 2025 14:25:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742393239; cv=none; b=HyUvjZxSJggLNNhQQpscaXLui4rY9AbS9GMonyVS1Gj8FRrXemnZbF/fXTrHCEFIR5X+4XH2Qox7YfJl9+n3clrfLHOxx95sVjxUc7lPhWoKaxtXJ59OKXphALi2golnOW112BxqvR2WHlhywF01BXOcSoTwlXBRkbYhL3IG13c=
+	t=1742394349; cv=none; b=YkdU8MghQE6IICBw8ZzQ8UFUdv+ePfzQyjQDQx3oS9IM/9eImY+HfeEad4+z27a6jIQ7bcNOw7iAUa19we1m+wQKj+Yc9vlbjViGfT3HdniW/w+xYsOKvDbt+UK2cXop6KeLLFvJHwvm3gAn8JBl1MA80c2t2VL3A/6aJhiUOhs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742393239; c=relaxed/simple;
-	bh=vpGjYI6Vrz1T1LESF45jAadrF+3ulmGVN9/2NRUNuGY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=K8yehRkCwng8HJaSlifh1xCgJbeNuOrLNAoqjSXCdHD4tM+s3JV+35klWeO34qmlWNmK+Dl0IdLff3849MuGQc2VaoVj1jRni1mRtJnDqbv3WVlJxSHDJ5U+MStn/2EhzEXpv8RdBChl8YBCWWczkCoPhqJdpcYs6/FrgxrwR+k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=SZMdqj8U; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1742393235;
-	bh=vpGjYI6Vrz1T1LESF45jAadrF+3ulmGVN9/2NRUNuGY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SZMdqj8US2vOliEoZQe9zqs9dmvk8BMMXT+I9LVY2ZLyGvCt80NrdWzi/bqRLk5BL
-	 L0g/P6jQHrtJaLqsjlDv/YJsSzgGVCWv1gZoGtVAdMxNEgXZvqEZTG075OCcl5viAN
-	 cOTC+wqAj0Jh9ChssaAYXgrD6ROvZIdd8Tf2FZN36mahwCz9qtuTY8Az5cP/f7vdDd
-	 Imj9G7dloskYXP6CBtW8kIIUSVFoghsAqDzxvI49Vv4LNjYQTY5CHinfwJUZPlj4rY
-	 uhYTUwJFSRGT8MS0C7sHYGC+4InfFz0nqsBZG29KofKrNJaZoc13VKzPmhbKXq1mqL
-	 JzcNajUleXZog==
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3087F17E05D9;
-	Wed, 19 Mar 2025 15:07:14 +0100 (CET)
-Message-ID: <a79697fa-9ac0-4829-a36f-4e9915ad6bff@collabora.com>
-Date: Wed, 19 Mar 2025 15:07:13 +0100
+	s=arc-20240116; t=1742394349; c=relaxed/simple;
+	bh=h+cdS3pTwJUVuEV6GWnYBg/ZoOiO0Y9wWE4vjGoAuvw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ju17+/kelVMIaqrlmUkUo0Vy11uQ5rHg0KaqJPamGwkP5c4JlgAQlDRi6Cbc5ILKf8srkA1lhvN13UOvaeyEgJFbgtE2WUkqNk0H4nq6EO23jNy52B/ZRGkc1q61YAREjYqnvl5kKzbpiiJ69QFiW5zmswxV2sLflJEJxSf87bU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=h0bujmvl; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CB51355A;
+	Wed, 19 Mar 2025 15:24:00 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1742394241;
+	bh=h+cdS3pTwJUVuEV6GWnYBg/ZoOiO0Y9wWE4vjGoAuvw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=h0bujmvl5pn9HbXHhdQ4XKMx1Y5uDd2NqnHkzFfKPPg2qPv+7+CHlhFUsEW1U4NWQ
+	 VDXYll0xmbkCO5BbFySJmeti3o8j3Q7DinRQLS+RgDumGljxWQiyfyI00ZyUrBoK6d
+	 gLc4I7v7+xSWiRpfrybobTPGRyIizM15uRmkQZI4=
+Date: Wed, 19 Mar 2025 15:25:40 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven <geert+renesas@glider.be>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 5/7] media: rcar-isp: Move driver to own directory
+Message-ID: <2i2jtexgxiar2qwgpp3ujgshezj7fxo52f7n5xlexi7ieajimw@qwdw5e7dypet>
+References: <20250315152708.328036-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250315152708.328036-6-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/3] dt-bindings: media: mediatek: mdp3: Add
- compatibles for MT8188 MDP3
-To: Nicolas Dufresne <nicolas@ndufresne.ca>, chunkuang.hu@kernel.org,
- Yunfei Dong <yunfei.dong@mediatek.com>,
- Jason-JH Lin <jason-jh.lin@mediatek.com>
-Cc: p.zabel@pengutronix.de, airlied@gmail.com, simona@ffwll.ch,
- maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- mchehab@kernel.org, matthias.bgg@gmail.com, moudy.ho@mediatek.com,
- dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kernel@collabora.com, sebastian.fricke@collabora.com,
- macpaul.lin@mediatek.com
-References: <20241218105320.38980-1-angelogioacchino.delregno@collabora.com>
- <20241218105320.38980-3-angelogioacchino.delregno@collabora.com>
- <5682afd1785f37d9a995bee1643174b669c48535.camel@ndufresne.ca>
-From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Content-Language: en-US
-In-Reply-To: <5682afd1785f37d9a995bee1643174b669c48535.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250315152708.328036-6-niklas.soderlund+renesas@ragnatech.se>
 
-Il 19/02/25 16:38, Nicolas Dufresne ha scritto:
-> Hi Angelo,
-> 
-> Le mercredi 18 décembre 2024 à 11:53 +0100, AngeloGioacchino Del Regno
-> a écrit :
->> Add compatible strings for the FG, HDR, RSZ, STITCH, TCC, TDSHP
->> and WROT hardware components found in MediaTek's MT8188 SoC.
-> 
-> The firmware for this is missing in linux-firmware. I will not ack or
-> pickMTK-VCODEC/MDP3 patches until this issue has been resolved.
-> 
+Hi Niklas
 
-Nicolas et al linux-media maintainers:
+On Sat, Mar 15, 2025 at 04:27:06PM +0100, Niklas Söderlund wrote:
+> Before extending the driver with functions from the R-Car ISP core that
+> will span multiple files move the existing driver to a separate
+> directory. While at it rename the single source file to allow future
+> files to be grouped by functions.
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-https://lore.kernel.org/all/CA+5PVA6a+g1rZOM+ZRsNr-e4C9DPagQrffRO36yO3Bt3UXJNfQ@mail.gmail.com/
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-We ran tests on the firmware that was pushed, and sent the results in
-reply to the patch that adds the firmware:
+Thanks
+  j
 
-https://lore.kernel.org/all/8049a2ec-b5fe-440d-9704-c3b0e2d610c7@notapiano
-
-The SCP firmware for VCODEC and MDP3 on the MT8188/MT8370/MT8390 SoCs has
-been merged in linux-firmware.
-
-Can you please ack this patch now? :-)
-
-Cheers,
-Angelo
-
-> regards,
-> Nicolas
-> 
->>
->> This hardware is compatible with MT8195.
->>
->> Signed-off-by: AngeloGioacchino Del Regno
->> <angelogioacchino.delregno@collabora.com>
->> ---
->>   .../devicetree/bindings/media/mediatek,mdp3-fg.yaml       | 8
->> ++++++--
->>   .../devicetree/bindings/media/mediatek,mdp3-hdr.yaml      | 8
->> ++++++--
->>   .../devicetree/bindings/media/mediatek,mdp3-rsz.yaml      | 1 +
->>   .../devicetree/bindings/media/mediatek,mdp3-stitch.yaml   | 8
->> ++++++--
->>   .../devicetree/bindings/media/mediatek,mdp3-tcc.yaml      | 8
->> ++++++--
->>   .../devicetree/bindings/media/mediatek,mdp3-tdshp.yaml    | 8
->> ++++++--
->>   .../devicetree/bindings/media/mediatek,mdp3-wrot.yaml     | 1 +
->>   7 files changed, 32 insertions(+), 10 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-
->> fg.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-
->> fg.yaml
->> index 03f31b009085..40fda59fa8a8 100644
->> --- a/Documentation/devicetree/bindings/media/mediatek,mdp3-fg.yaml
->> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-fg.yaml
->> @@ -16,8 +16,12 @@ description:
->>   
->>   properties:
->>     compatible:
->> -    enum:
->> -      - mediatek,mt8195-mdp3-fg
->> +    oneOf:
->> +      - enum:
->> +          - mediatek,mt8195-mdp3-fg
->> +      - items:
->> +          - const: mediatek,mt8188-mdp3-fg
->> +          - const: mediatek,mt8195-mdp3-fg
->>   
->>     reg:
->>       maxItems: 1
->> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-
->> hdr.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-
->> hdr.yaml
->> index d4609bba6578..d9f926c20220 100644
->> --- a/Documentation/devicetree/bindings/media/mediatek,mdp3-hdr.yaml
->> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-hdr.yaml
->> @@ -16,8 +16,12 @@ description:
->>   
->>   properties:
->>     compatible:
->> -    enum:
->> -      - mediatek,mt8195-mdp3-hdr
->> +    oneOf:
->> +      - enum:
->> +          - mediatek,mt8195-mdp3-hdr
->> +      - items:
->> +          - const: mediatek,mt8188-mdp3-hdr
->> +          - const: mediatek,mt8195-mdp3-hdr
->>   
->>     reg:
->>       maxItems: 1
->> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-
->> rsz.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-
->> rsz.yaml
->> index f5676bec4326..8124c39d73e9 100644
->> --- a/Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
->> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-rsz.yaml
->> @@ -20,6 +20,7 @@ properties:
->>             - mediatek,mt8183-mdp3-rsz
->>         - items:
->>             - enum:
->> +              - mediatek,mt8188-mdp3-rsz
->>                 - mediatek,mt8195-mdp3-rsz
->>             - const: mediatek,mt8183-mdp3-rsz
->>   
->> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-
->> stitch.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-
->> stitch.yaml
->> index d815bea29154..1d8e7e202c42 100644
->> --- a/Documentation/devicetree/bindings/media/mediatek,mdp3-
->> stitch.yaml
->> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-
->> stitch.yaml
->> @@ -16,8 +16,12 @@ description:
->>   
->>   properties:
->>     compatible:
->> -    enum:
->> -      - mediatek,mt8195-mdp3-stitch
->> +    oneOf:
->> +      - enum:
->> +          - mediatek,mt8195-mdp3-stitch
->> +      - items:
->> +          - const: mediatek,mt8188-mdp3-stitch
->> +          - const: mediatek,mt8195-mdp3-stitch
->>   
->>     reg:
->>       maxItems: 1
->> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-
->> tcc.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-
->> tcc.yaml
->> index 14ea556d4f82..6cff7c073ce4 100644
->> --- a/Documentation/devicetree/bindings/media/mediatek,mdp3-tcc.yaml
->> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-tcc.yaml
->> @@ -17,8 +17,12 @@ description:
->>   
->>   properties:
->>     compatible:
->> -    enum:
->> -      - mediatek,mt8195-mdp3-tcc
->> +    oneOf:
->> +      - enum:
->> +          - mediatek,mt8195-mdp3-tcc
->> +      - items:
->> +          - const: mediatek,mt8188-mdp3-tcc
->> +          - const: mediatek,mt8195-mdp3-tcc
->>   
->>     reg:
->>       maxItems: 1
->> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-
->> tdshp.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-
->> tdshp.yaml
->> index 8ab7f2d8e148..cdfa27324738 100644
->> --- a/Documentation/devicetree/bindings/media/mediatek,mdp3-
->> tdshp.yaml
->> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-
->> tdshp.yaml
->> @@ -16,8 +16,12 @@ description:
->>   
->>   properties:
->>     compatible:
->> -    enum:
->> -      - mediatek,mt8195-mdp3-tdshp
->> +    oneOf:
->> +      - enum:
->> +          - mediatek,mt8195-mdp3-tdshp
->> +      - items:
->> +          - const: mediatek,mt8188-mdp3-tdshp
->> +          - const: mediatek,mt8195-mdp3-tdshp
->>   
->>     reg:
->>       maxItems: 1
->> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-
->> wrot.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-
->> wrot.yaml
->> index 53a679338402..b6269f4f9fd6 100644
->> --- a/Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
->> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-wrot.yaml
->> @@ -20,6 +20,7 @@ properties:
->>             - mediatek,mt8183-mdp3-wrot
->>         - items:
->>             - enum:
->> +              - mediatek,mt8188-mdp3-wrot
->>                 - mediatek,mt8195-mdp3-wrot
->>             - const: mediatek,mt8183-mdp3-wrot
->>   
-> 
-
-
+> ---
+>  MAINTAINERS                                    |  2 +-
+>  drivers/media/platform/renesas/Kconfig         | 18 +-----------------
+>  drivers/media/platform/renesas/Makefile        |  2 +-
+>  .../media/platform/renesas/rcar-isp/Kconfig    | 17 +++++++++++++++++
+>  .../media/platform/renesas/rcar-isp/Makefile   |  4 ++++
+>  .../renesas/{rcar-isp.c => rcar-isp/csisp.c}   |  0
+>  6 files changed, 24 insertions(+), 19 deletions(-)
+>  create mode 100644 drivers/media/platform/renesas/rcar-isp/Kconfig
+>  create mode 100644 drivers/media/platform/renesas/rcar-isp/Makefile
+>  rename drivers/media/platform/renesas/{rcar-isp.c => rcar-isp/csisp.c} (100%)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index f3658f16fa24..c2f36486f5f5 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14679,7 +14679,7 @@ F:	Documentation/devicetree/bindings/media/renesas,csi2.yaml
+>  F:	Documentation/devicetree/bindings/media/renesas,isp.yaml
+>  F:	Documentation/devicetree/bindings/media/renesas,vin.yaml
+>  F:	drivers/media/platform/renesas/rcar-csi2.c
+> -F:	drivers/media/platform/renesas/rcar-isp.c
+> +F:	drivers/media/platform/renesas/rcar-isp/
+>  F:	drivers/media/platform/renesas/rcar-vin/
+>
+>  MEDIA DRIVERS FOR RENESAS - VSP1
+> diff --git a/drivers/media/platform/renesas/Kconfig b/drivers/media/platform/renesas/Kconfig
+> index c7fc718a30a5..27a54fa79083 100644
+> --- a/drivers/media/platform/renesas/Kconfig
+> +++ b/drivers/media/platform/renesas/Kconfig
+> @@ -30,23 +30,6 @@ config VIDEO_RCAR_CSI2
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called rcar-csi2.
+>
+> -config VIDEO_RCAR_ISP
+> -	tristate "R-Car Image Signal Processor (ISP)"
+> -	depends on V4L_PLATFORM_DRIVERS
+> -	depends on VIDEO_DEV && OF
+> -	depends on ARCH_RENESAS || COMPILE_TEST
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select RESET_CONTROLLER
+> -	select V4L2_FWNODE
+> -	help
+> -	  Support for Renesas R-Car Image Signal Processor (ISP).
+> -	  Enable this to support the Renesas R-Car Image Signal
+> -	  Processor (ISP).
+> -
+> -	  To compile this driver as a module, choose M here: the
+> -	  module will be called rcar-isp.
+> -
+>  config VIDEO_SH_VOU
+>  	tristate "SuperH VOU video output driver"
+>  	depends on V4L_PLATFORM_DRIVERS
+> @@ -56,6 +39,7 @@ config VIDEO_SH_VOU
+>  	help
+>  	  Support for the Video Output Unit (VOU) on SuperH SoCs.
+>
+> +source "drivers/media/platform/renesas/rcar-isp/Kconfig"
+>  source "drivers/media/platform/renesas/rcar-vin/Kconfig"
+>  source "drivers/media/platform/renesas/rzg2l-cru/Kconfig"
+>
+> diff --git a/drivers/media/platform/renesas/Makefile b/drivers/media/platform/renesas/Makefile
+> index 50774a20330c..1127259c09d6 100644
+> --- a/drivers/media/platform/renesas/Makefile
+> +++ b/drivers/media/platform/renesas/Makefile
+> @@ -3,13 +3,13 @@
+>  # Makefile for the Renesas capture/playback device drivers.
+>  #
+>
+> +obj-y += rcar-isp/
+>  obj-y += rcar-vin/
+>  obj-y += rzg2l-cru/
+>  obj-y += vsp1/
+>
+>  obj-$(CONFIG_VIDEO_RCAR_CSI2) += rcar-csi2.o
+>  obj-$(CONFIG_VIDEO_RCAR_DRIF) += rcar_drif.o
+> -obj-$(CONFIG_VIDEO_RCAR_ISP) += rcar-isp.o
+>  obj-$(CONFIG_VIDEO_RENESAS_CEU) += renesas-ceu.o
+>  obj-$(CONFIG_VIDEO_RENESAS_FCP) += rcar-fcp.o
+>  obj-$(CONFIG_VIDEO_RENESAS_FDP1) += rcar_fdp1.o
+> diff --git a/drivers/media/platform/renesas/rcar-isp/Kconfig b/drivers/media/platform/renesas/rcar-isp/Kconfig
+> new file mode 100644
+> index 000000000000..59e0d91862d1
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/rcar-isp/Kconfig
+> @@ -0,0 +1,17 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +config VIDEO_RCAR_ISP
+> +	tristate "R-Car Image Signal Processor (ISP)"
+> +	depends on V4L_PLATFORM_DRIVERS
+> +	depends on VIDEO_DEV && OF
+> +	depends on ARCH_RENESAS || COMPILE_TEST
+> +	select MEDIA_CONTROLLER
+> +	select VIDEO_V4L2_SUBDEV_API
+> +	select RESET_CONTROLLER
+> +	select V4L2_FWNODE
+> +	help
+> +	  Support for Renesas R-Car Image Signal Processor (ISP).
+> +	  Enable this to support the Renesas R-Car Image Signal
+> +	  Processor (ISP).
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called rcar-isp.
+> diff --git a/drivers/media/platform/renesas/rcar-isp/Makefile b/drivers/media/platform/renesas/rcar-isp/Makefile
+> new file mode 100644
+> index 000000000000..b542118c831e
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/rcar-isp/Makefile
+> @@ -0,0 +1,4 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +rcar-isp-objs = csisp.o
+> +
+> +obj-$(CONFIG_VIDEO_RCAR_ISP) += rcar-isp.o
+> diff --git a/drivers/media/platform/renesas/rcar-isp.c b/drivers/media/platform/renesas/rcar-isp/csisp.c
+> similarity index 100%
+> rename from drivers/media/platform/renesas/rcar-isp.c
+> rename to drivers/media/platform/renesas/rcar-isp/csisp.c
+> --
+> 2.48.1
+>
+>
 
