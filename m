@@ -1,189 +1,163 @@
-Return-Path: <linux-media+bounces-28528-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28529-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75DEAA6A408
-	for <lists+linux-media@lfdr.de>; Thu, 20 Mar 2025 11:47:46 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5954DA6A4A9
+	for <lists+linux-media@lfdr.de>; Thu, 20 Mar 2025 12:16:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B2EEC3B729F
-	for <lists+linux-media@lfdr.de>; Thu, 20 Mar 2025 10:47:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E3ED9188F443
+	for <lists+linux-media@lfdr.de>; Thu, 20 Mar 2025 11:15:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A845A224255;
-	Thu, 20 Mar 2025 10:47:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A89D521CC5C;
+	Thu, 20 Mar 2025 11:14:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b="bEmaajYy"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Z1vz7mQj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6F5DC222580
-	for <linux-media@vger.kernel.org>; Thu, 20 Mar 2025 10:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD81F21CA00
+	for <linux-media@vger.kernel.org>; Thu, 20 Mar 2025 11:14:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742467653; cv=none; b=iAaADsDNuUW0PMmvy4LVaBG0bz4RrR3gijbAy2BaOcvTUVWZYLa44SapgT6O/1vjsVS2t754xXVYhBPfkJCGfsH98HUF9ELrfF4slHqYT+wMp4QDUGVEW7KVkUeFHPIPpdQS69Uqgfrp2N95DXpWx1006/uIAaOhiuZAQX0QNXw=
+	t=1742469298; cv=none; b=d9QgjwxiBNsKIDBqZ/ASaTlqdslCOwz2bIZTmhGsUz4wqj3BuR9VNbng4TDgnDP3DXG7IY73aRGtIK9zgB29B4K7CRWrDuxK5I7l+G3dmCx6vgfqRbxK3SsMn3hxuJJGma7OOM+rX0fPeZ0m5u42ZquECEd0up/r/mSDZko7rG8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742467653; c=relaxed/simple;
-	bh=9dLj34jXO3aWy8eeyY3CZQzkprJGU2y+2pU7Y2wkRA0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Hy+XBi5DJ1pt6EBR9wXdHyqQb/8Ib+GCmRc+5Oiu77xrY9h9pS4mk9ECglYnabUks1gHpsVuUktHswnd4HEVvUx1JBly3hDqAl3IxgE+gRskD8nhEuJwoQu1r/0C67qW1xOw9esNv2zeNnRoKSslkLEWHsBIZ69C7BfgC5s2RMA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net; spf=none smtp.mailfrom=ursulin.net; dkim=pass (2048-bit key) header.d=ursulin-net.20230601.gappssmtp.com header.i=@ursulin-net.20230601.gappssmtp.com header.b=bEmaajYy; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ursulin.net
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ursulin.net
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4394a823036so5966625e9.0
-        for <linux-media@vger.kernel.org>; Thu, 20 Mar 2025 03:47:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ursulin-net.20230601.gappssmtp.com; s=20230601; t=1742467650; x=1743072450; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=foGgFo33VLzIkzjoUbfwPOydEMR+xeWsTRE1WEHeQbI=;
-        b=bEmaajYyuEAwqsj1lT8XHD82b/XDX7wdgDnk4gAkmWIerawX7CIrbX7sW2qTvqKgy+
-         wikI9i6hruJYVLlE7pOiXLnAwGWqb2/6J5D7gtkTe9wVo+cAxhU35STNea7eFyLxEARI
-         LHY0+aRc/bJFjbBfpxXUXLCKaztk76T3rDmiIrvLoO2FwZtXHPvuJeZrHq5QX9R7ZHzm
-         fipw234hvMWjGW0JLC8h6XZJP+8nB/gBykadkQF6rj4Nmvo2a+dYEGe/Wf3nzC/XnacX
-         san9StQbuOWEBP2J7YXIZUDTMTWUIPnesdVg8ukv2sQGshkyvkKJ61wWC91x2MBtJtth
-         gYDg==
+	s=arc-20240116; t=1742469298; c=relaxed/simple;
+	bh=KlHQ/WFnkGjmsqgep/V6ueRLG3RRI5gfdfEkHx5aY+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Au8nOyT+Wa2LcX0KEWZpAwV8h7ZYY/tLnfJbaXHBDfzVU4xqzoI0ZKcEciiKtN3kV3NbYSNDMrsl9SO+0ldCoACOK1qap7xAnA9SdOf6LXv7hLDu5HoQEogAxhXMi/pYuPun1RjJ+fv7LvR414sM77dkOOM9fPUgs+PqAO0TpeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Z1vz7mQj; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52K6Z1vT014550
+	for <linux-media@vger.kernel.org>; Thu, 20 Mar 2025 11:14:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=CphREDIqT3X+IPjX/cFD5C2t
+	2uq9/2FWUbiQkv6xqKk=; b=Z1vz7mQjo0Un0ItYPnUmKcpxEmOMhvwUPHux9/HE
+	4pjyCKfZ0bo5JF5jNM9sprCe+y3uJsquBFzo1JBRygHdRKH8LqzLkxz/wFukmAMn
+	9sn9wcP4vVg6hkGaZVotIZhxFb7s9NCb+/UmXmnh4oN1/827Bb/Mn97vs0M3X6Xk
+	STt3CMLuVWgTcqRm7bRftbjJSQPhvoF+sqlPnQ3inDMoyMnJKtwrWxGwSYwXPMAE
+	ClrNVYp0ovXetJZGe2WBxufw2eR+ORTGD0dJLuwioNsu+HsvrEbMhe+XbxuO9v6Q
+	vfZJyJGR2cGjBNZlxPcJkp8ZKhsOhbfn/dKv1Y4VmNQC8Q==
+Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45exwtrwhh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 20 Mar 2025 11:14:55 +0000 (GMT)
+Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-7c0c1025a6cso182619485a.0
+        for <linux-media@vger.kernel.org>; Thu, 20 Mar 2025 04:14:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742467650; x=1743072450;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=foGgFo33VLzIkzjoUbfwPOydEMR+xeWsTRE1WEHeQbI=;
-        b=lZVAoNT+Ep2Sb0vno2XohO3Uf0ZZSD/PJuU1PXtqMiLZADvlKRXHmyKFUqjWTq+Py4
-         JtxFO6ZAcrZUj1XnoR44Iwyy668drApuFsKvz0l82KeJm/cVvfJnhdwILsRwsNQAJw2f
-         0+5HgAuWp66R+K0k+G4bYq6WEEU3D6xQiD9JKOR7QkcuNf/pWo8OzA0rFmLfu3s2LyWn
-         qCTaquVZHCcFYplxvCUg4OBTnNGhLk9n907DK/GqTIukxDoxO8bHVWReYHgPKud+r4q2
-         a70o5eOyS0gYURiz8bcIu0pnwuyPSCFvIX8POeE5bd+ilIqK3BxiMFCv7Mh5NanB+3Cs
-         kaTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUnrjp6U0Bpor2sIn1Yp0zJE4fAvPy+cNrmigNhNoKoo3U5yZs1n23gUkG3txy4xh6cwrRi7ULXvARNhQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxbK0FyV6q3J7RLV5JBLkO4ke/tbgM2rQO/lHKvdOaHI/jy0P9x
-	DMTbcmwKMgd5/J1NQ89bGFQNgErHT8CHN52XaIWEgYaR6T2OOKUkT1sfrSRe5w4=
-X-Gm-Gg: ASbGncvdysmhrEOhXGNfdR6fXI3eyt0HGE2WNM8C2108EtVvPRxWl7NDNCifburkSG7
-	R2JE+rU5Uq6LiF+5pmNFC20Sf1AJsU3Fb4IOnl8M7bj48z5oFvGfSFdsO1KiR4nm7k+RbqT7VFG
-	Lt7sbJANWb2W7o1fIozm6TCTjIFwjMtnHS0IJt1KHNDYJpZmBo0dM0SJkyWh3oAMA0mVoCb3Qm9
-	bH/9FTYa8zS2uFL8O+ctc2nAHyTJbUSW/mJ58DVjazU+D804e6iyn1OFP7TBpcWRJ1lkt15/DJ8
-	KVtKjlG7gu+/gMSZZdiRn2itUhGYKtbN18+s3HvDI+heW8bssXj3/BV+z5Ef
-X-Google-Smtp-Source: AGHT+IEvHPoPXyg7rfkgM3Y97xOpECmfVdCIe7gAm9tgP99dIaDKMLf19aoDb9oOuJzL8kX1SocWRw==
-X-Received: by 2002:a05:600c:5008:b0:43c:f87c:24d3 with SMTP id 5b1f17b1804b1-43d4381b4b9mr64371575e9.20.1742467649457;
-        Thu, 20 Mar 2025 03:47:29 -0700 (PDT)
-Received: from [192.168.0.101] ([90.241.98.187])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-395c7df35f7sm23678038f8f.13.2025.03.20.03.47.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 20 Mar 2025 03:47:29 -0700 (PDT)
-Message-ID: <d4ef3a3b-eed1-4c15-827b-4a34a8a47dc1@ursulin.net>
-Date: Thu, 20 Mar 2025 10:47:28 +0000
+        d=1e100.net; s=20230601; t=1742469293; x=1743074093;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CphREDIqT3X+IPjX/cFD5C2t2uq9/2FWUbiQkv6xqKk=;
+        b=aU6PHtbwyDmBfqeFgPBPv9LKLoI8367xODBpqMxMiXLYUYJLJfOlYQcirXzlkiVn+g
+         D6PHx7/66z/L29R6ZS9mpx0thP+687lLEO+7uyyKW9blM6Br6FFLMOfWLzQUK0etbB91
+         A9kRAHglM37B3oHNq89t4YzZW2h2OaCUYm/XCxMUuvloE84RgBeHA0oN1ev0+qBy38f/
+         bQ5nwC03oTdhxmaPbC8PcnCWTTkiJ/aW7Qe/Fbk39S285rx3N1GlkCR5TLaCVWrDUOMb
+         N/zq3GEeVRfoFdVAf0d2wso/S/53grrFQUlVKlRhtA2p/Rig3qUY+JJi+o1Xq5WkBAbS
+         8TGA==
+X-Forwarded-Encrypted: i=1; AJvYcCXgPSKwEFxpdVTJQYfq/qlJ4ZMQgoG6tXyPwu+bogUx4j7r+dri/5CvnTO1gLPOWPzLiBttb5q/BeNcCQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzlRJDVBw7u2nq7yfTb+3+HCa+tfcldW4NMhvD4ehLxtVz9JOlf
+	RUyK2JslPb2P3uShqOEca/UjEVaWkyRjsLNrGlPVmijB9GneuH6+yFWsTChT6RN53mBqgi3imY2
+	qdnuF1FRKxG6O85gbd6/mvZLLHC9AaBaAauFdwbbmgHOS0aJCTTxS4Wop0Q9b7g==
+X-Gm-Gg: ASbGncuwP0XWpvrCzkHD+t3Y2i1xEsBo2DTM8aYniZUk1NUWmqLS6RSR/pGUWd/TYNW
+	zur2U8svrnY8QIloK3EN0LtNUNNbI7+RCFB96rZxSZjoEAN4XxR7KI1aSPq5FXv9TDWEF6lWr86
+	jt25K6EgWT1KpTiZ872TPVsC6+gUZ94yNMQMcqed5h86Zy46YR4Dfla+EyQnpai91R2YSnGRUQo
+	Pv20D8lfdlF5YBAvHUCV2zIRWXNEmG2b/2NkprqfVzrS8HjJzp0IT5sd5GQazkr1sgJp3pNEVvt
+	ByjTtfmQ73Z+tLN1+/TgmFjOJZC7S+Tu1NlYgD3dWTFFStkdPAwmWlgY1DTrsWAZDsLZxbhaUQf
+	/i60=
+X-Received: by 2002:a05:620a:46a1:b0:7c5:5339:48cf with SMTP id af79cd13be357-7c5a83d3f7amr778271685a.30.1742469293278;
+        Thu, 20 Mar 2025 04:14:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFMbzGxGL+jwpf9q91HSRSqez6HkMOjgloJv545KGKYFtz6HFDw01gcoqjAgGPrCIiuIhR30w==
+X-Received: by 2002:a05:620a:46a1:b0:7c5:5339:48cf with SMTP id af79cd13be357-7c5a83d3f7amr778268885a.30.1742469293011;
+        Thu, 20 Mar 2025 04:14:53 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-549ba7a833csm2243614e87.44.2025.03.20.04.14.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Mar 2025 04:14:52 -0700 (PDT)
+Date: Thu, 20 Mar 2025 13:14:50 +0200
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, sumit.garg@oss.qualcomm.com
+Subject: Re: [PATCH v2 2/3] arm64: dts: qcom: sa8775p: add support for video
+ node
+Message-ID: <xlzyboz26ma3kuvwjbnnev7iolcnpm3wd5ajps2v7ci3frwsqs@3j6qfh4n4ujh>
+References: <20250320-dtbinding-v2-0-8d8eaa4e76cc@quicinc.com>
+ <20250320-dtbinding-v2-2-8d8eaa4e76cc@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 05/10] drm/sched: trace dependencies for gpu jobs
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
- Philipp Stanner <phasta@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20250320095818.40622-1-pierre-eric.pelloux-prayer@amd.com>
- <20250320095818.40622-6-pierre-eric.pelloux-prayer@amd.com>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tursulin@ursulin.net>
-In-Reply-To: <20250320095818.40622-6-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250320-dtbinding-v2-2-8d8eaa4e76cc@quicinc.com>
+X-Proofpoint-GUID: 7TjqZLC3HvU12Qvf82_GLAJRGenlin5v
+X-Proofpoint-ORIG-GUID: 7TjqZLC3HvU12Qvf82_GLAJRGenlin5v
+X-Authority-Analysis: v=2.4 cv=UoJjN/wB c=1 sm=1 tr=0 ts=67dbf8b0 cx=c_pps a=50t2pK5VMbmlHzFWWp8p/g==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=Vs1iUdzkB0EA:10 a=COk6AnOGAAAA:8 a=2z3VMMZyhDFlt49ukAUA:9 a=CjuIK1q_8ugA:10 a=IoWCM6iH3mJn3m4BftBB:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-20_03,2025-03-19_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
+ impostorscore=0 bulkscore=0 priorityscore=1501 mlxlogscore=999
+ phishscore=0 adultscore=0 clxscore=1015 spamscore=0 suspectscore=0
+ lowpriorityscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503200069
 
-
-On 20/03/2025 09:58, Pierre-Eric Pelloux-Prayer wrote:
-> We can't trace dependencies from drm_sched_job_add_dependency
-> because when it's called the job's fence is not available yet.
+On Thu, Mar 20, 2025 at 08:24:30AM +0530, Vikash Garodia wrote:
+> Video node enables video on Qualcomm SA8775P platform.
 > 
-> So instead each dependency is traced individually when
-> drm_sched_entity_push_job is used.
-> 
-> Tracing the dependencies allows tools to analyze the dependencies
-> between the jobs (previously it was only possible for fences
-> traced by drm_sched_job_wait_dep).
-> 
-> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 > ---
->   .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 24 ++++++++++++++++++-
->   drivers/gpu/drm/scheduler/sched_entity.c      |  8 +++++++
->   2 files changed, 31 insertions(+), 1 deletion(-)
+>  arch/arm64/boot/dts/qcom/sa8775p.dtsi | 71 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 71 insertions(+)
 > 
-> diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> index 21a85ee59066..5d9992ad47d3 100644
-> --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-> @@ -54,7 +54,6 @@ DECLARE_EVENT_CLASS(drm_sched_job,
->   			   __assign_str(dev);
->   			   __entry->fence_context = sched_job->s_fence->finished.context;
->   			   __entry->fence_seqno = sched_job->s_fence->finished.seqno;
-> -
->   			   ),
->   	    TP_printk("dev=%s, id=%llu, fence=%llu:%llu, ring=%s, job count:%u, hw job count:%d",
->   		      __get_str(dev), __entry->id,
-> @@ -88,6 +87,29 @@ TRACE_EVENT(drm_sched_process_job,
->   		      __entry->fence_context, __entry->fence_seqno)
->   );
->   
-> +TRACE_EVENT(drm_sched_job_add_dep,
-> +	TP_PROTO(struct drm_sched_job *sched_job, struct dma_fence *fence),
-> +	TP_ARGS(sched_job, fence),
-> +	TP_STRUCT__entry(
-> +		    __field(u64, fence_context)
-> +		    __field(u64, fence_seqno)
-> +		    __field(u64, id)
-> +		    __field(u64, ctx)
-> +		    __field(u64, seqno)
-> +		    ),
+> diff --git a/arch/arm64/boot/dts/qcom/sa8775p.dtsi b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
+> index 3394ae2d13003417a15e64c9e47833725ec779e6..0b5bfcdb803913396ff269c9002b4314991075b8 100644
+> --- a/arch/arm64/boot/dts/qcom/sa8775p.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sa8775p.dtsi
+> @@ -10,6 +10,7 @@
+>  #include <dt-bindings/clock/qcom,sa8775p-dispcc.h>
+>  #include <dt-bindings/clock/qcom,sa8775p-gcc.h>
+>  #include <dt-bindings/clock/qcom,sa8775p-gpucc.h>
+> +#include <dt-bindings/clock/qcom,sa8775p-videocc.h>
+>  #include <dt-bindings/dma/qcom-gpi.h>
+>  #include <dt-bindings/interconnect/qcom,sa8775p-rpmh.h>
+>  #include <dt-bindings/mailbox/qcom-ipcc.h>
+> @@ -3783,6 +3784,76 @@ llcc: system-cache-controller@9200000 {
+>  			interrupts = <GIC_SPI 580 IRQ_TYPE_LEVEL_HIGH>;
+>  		};
+>  
+> +		iris: video-codec@aa00000 {
+> +			compatible = "qcom,sa8775p-iris", "qcom,sm8550-iris";
 > +
-> +	TP_fast_assign(
-> +		    __entry->fence_context = sched_job->s_fence->finished.context;
-> +		    __entry->fence_seqno = sched_job->s_fence->finished.seqno;
-> +		    __entry->id = sched_job->id;
-> +		    __entry->ctx = fence->context;
-> +		    __entry->seqno = fence->seqno;
-> +		    ),
-> +	TP_printk("fence=%llu:%llu, id=%llu depends on fence=%llu:%llu",
-> +		  __entry->fence_context, __entry->fence_seqno, __entry->id,
-> +		  __entry->ctx, __entry->seqno)
-> +);
+> +			reg = <0 0x0aa00000 0 0xf0000>;
+
+0x0 instead of 0
+
+LGTM otherwise.
+
+> +			interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
 > +
->   TRACE_EVENT(drm_sched_job_wait_dep,
->   	    TP_PROTO(struct drm_sched_job *sched_job, struct dma_fence *fence),
->   	    TP_ARGS(sched_job, fence),
-> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-> index a6d2a4722d82..047e42cfb129 100644
-> --- a/drivers/gpu/drm/scheduler/sched_entity.c
-> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
-> @@ -580,6 +580,14 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
->   	ktime_t submit_ts;
->   
->   	trace_drm_sched_job(sched_job, entity);
-> +
-> +	if (trace_drm_sched_job_add_dep_enabled()) {
-> +		struct dma_fence *entry;
-> +		unsigned long index;
-> +
-> +		xa_for_each(&sched_job->dependencies, index, entry)
-> +			trace_drm_sched_job_add_dep(sched_job, entry);
-> +	}
->   	atomic_inc(entity->rq->sched->score);
->   	WRITE_ONCE(entity->last_user, current->group_leader);
->   
 
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-
-Regards,
-
-Tvrtko
-
+-- 
+With best wishes
+Dmitry
 
