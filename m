@@ -1,200 +1,336 @@
-Return-Path: <linux-media+bounces-28555-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28556-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B32A6A6B7D6
-	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 10:43:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A39A5A6B7EF
+	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 10:46:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CC0891896DDC
-	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 09:40:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C89621899F13
+	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 09:44:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F6352206A3;
-	Fri, 21 Mar 2025 09:38:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67D0C1F151A;
+	Fri, 21 Mar 2025 09:44:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EyTJ5Bbc"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="myS5bosg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8552212FB3;
-	Fri, 21 Mar 2025 09:38:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E2A35947
+	for <linux-media@vger.kernel.org>; Fri, 21 Mar 2025 09:44:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742549907; cv=none; b=bpL+RamiBV6spDRH8W3BN08/UFiYCUXhQkDaZ7uTTc62o62ndPrw6cpba/+NFGz4Rbe1CbVRB2dgqPV9aVIklralUcO9dA+Ip85Hrj3XdRRlcbrOzhGgbAsZOBVl2xmXeM6cVF5xds50bNMIG5TK2wn04S6aw+gtd9Rw0hNDCxw=
+	t=1742550250; cv=none; b=LDS4wIcbYKucdSWnUBSbUaLJDUFBNaI0/DggMZ+n7/3xOrYlUKnD7wM/OBI9VCEO7p4+u6Md6GgY/BQ50Vb48NfcpQFs4gx0KUHxMrgJO5MnFdXtMdIURJh/gNhi8OVMbsTQ/0ixiSrmEaZezhgdzNWndOjV0wnYcOpcfHVDQiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742549907; c=relaxed/simple;
-	bh=I+g5uyiO8BthO6kUgy4ZEHhW95DL2yo/6eN6vFueBUc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cMQeVaUwQjq+5wiZpXlB9WK8nbn/LtmJal8hiB9Fl4+rFq6ip/SRTB+CeO1VJz4iCKDs1C8KQw3qeFkX4gqUCRowVxrEztT1yxkkbwfFbNmIkWvl7QvEY68IQMjJWdDlm8KeOJpfvhEcn30pfnw8hAahGCoX2UnYsYHbDUWUOnQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EyTJ5Bbc; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742549906; x=1774085906;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=I+g5uyiO8BthO6kUgy4ZEHhW95DL2yo/6eN6vFueBUc=;
-  b=EyTJ5BbcPfOWV4sfyrPT4xypHJxdoiQqH8JGKR1h/IeM+mrC4z8TTolx
-   ZYNFJwztURpk5QCvBBkVrYEi9MOPjLiYZsYxwyL7jOvp7pOD2PVYZjvpX
-   ZSdW7z5tz5xZuuuPLYnZ/meHUwiF5/M07ZrbaAGO552fUOUU0n7R7cR+E
-   gTBAeWcy0z4Kvml5Tr6avv2nJohFfsUrAc8qT6vInGtQ3P3sZ667MU/zm
-   5q4hQsFFuo1EXCowv4aK+HwbKl1LUaPGjrc0HmcoMPvDSKNwUqv7UDk4b
-   NIAohZnP4NdgJL83XlR89v5tKzREOUmrGpRjJJF8ME8HPcq2TQiM3KJkF
-   A==;
-X-CSE-ConnectionGUID: IqXpbv3nQ3aFmsr/5LTl9g==
-X-CSE-MsgGUID: Q6qQAzHLTGy34LG4pzV9OA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11379"; a="47692857"
-X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; 
-   d="scan'208";a="47692857"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 02:38:25 -0700
-X-CSE-ConnectionGUID: sUS3o+3GS4GAOYCitUd15g==
-X-CSE-MsgGUID: Fs09Uo8ASs6mt6Nt72E0Ew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,264,1736841600"; 
-   d="scan'208";a="123872631"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO mdjait-mobl.intel.com) ([10.245.245.43])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Mar 2025 02:38:22 -0700
-From: Mehdi Djait <mehdi.djait@linux.intel.com>
-To: sakari.ailus@linux.intel.com,
-	laurent.pinchart@ideasonboard.com
-Cc: tomi.valkeinen@ideasonboard.com,
-	jacopo.mondi@ideasonboard.com,
-	hverkuil@xs4all.nl,
-	kieran.bingham@ideasonboard.com,
-	naush@raspberrypi.com,
-	mchehab@kernel.org,
-	hdegoede@redhat.com,
-	dave.stevenson@raspberrypi.com,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Mehdi Djait <mehdi.djait@linux.intel.com>
-Subject: [RFC PATCH v3] media: v4l2-common: Add a helper for obtaining the clock producer
-Date: Fri, 21 Mar 2025 10:38:14 +0100
-Message-ID: <20250321093814.18159-1-mehdi.djait@linux.intel.com>
-X-Mailer: git-send-email 2.48.1
+	s=arc-20240116; t=1742550250; c=relaxed/simple;
+	bh=ATigMA0a/MlF8JyYwM1f7DKgjphs05xuS1/j4qKoTcw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=T3Uj0rmOA5Kw7T5fuErj3Sq7ZF12ULrab+xIeKY8Wyl768ykcIODurkwFLrrYuqYFow9ZNkZqXw0XhVOa1zOmld6/6q6/bKHuyQXwmpxoBmWtfx3bUAVOqfzxobW2wB1AeafpM8nJxruNpLRTQY9KULDw6wn7xfdHmyBpZBU088=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=myS5bosg; arc=none smtp.client-ip=209.85.167.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-549644ae382so2268327e87.1
+        for <linux-media@vger.kernel.org>; Fri, 21 Mar 2025 02:44:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1742550247; x=1743155047; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=7KzR4/KTCc1hHx0bVWFwybI1sqREbxFze/GsdIhnkQs=;
+        b=myS5bosgWwvE+svIBBVlPtAd+qH3osr+uWMKOuK+/UKSf70+37mHA/VGJc8EFbihyi
+         vq1VO4pGsHQ8FLueR+2pPfFaxf9/JLodKjQZozQMnHfnhZRLiPJlbl7+0MVNOJ1TYikj
+         2horRS2MIV1olCL/TRDNwu5dwdESsXfhSDuUE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742550247; x=1743155047;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7KzR4/KTCc1hHx0bVWFwybI1sqREbxFze/GsdIhnkQs=;
+        b=X2PKkF2GAmx4KnocxvrnYFVg/W5uDRprN7/2ySL4jUm44FT9EzOBTO26VjktTITnyg
+         xSrIV1lFLYM0l27NfWQe1zC9AyVMZu/ZMncTSGBiJ3H/nnyJord+0fe0NtF9HneubLJM
+         0158PrsGy+3/H+Ts/diZh5vFyZcjVbily1q4M4PeEcENHtVkSHW3yhYxRp16i9TBRqA5
+         6eYWeUs30fXqqrFJgHy2CGALA2u4UYf9Uo59DT9NuCADKDKvqiL5bjEuOi6FmyJrNGEO
+         5oY9ulAWCLDba17I54K0W5PO5vp3uoo+qrq7NF1l40e8z63YmbAznUIRAPZRrdyZqv+r
+         LRMw==
+X-Forwarded-Encrypted: i=1; AJvYcCWOhloffYLjtBrUa96o726T93lrMdknOX7A2VHO7SEpeASp1jwsycEGF+UEzptjWfOsTmXAuqXpq404Cw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzBbhaamCZ0eQwRejDe56cDSIZkImLQL7JjpW7euM/50HufVdqg
+	KInjwWfo+oU6+uEvbVpNOS1fbMzrhSpZHwimMgcc2YlQYFmVSu5c/cHRZr27ByhiUYO0qQ+Rfjo
+	=
+X-Gm-Gg: ASbGncsitGY9XvC8RjHNnZrj8Ke3ODIlndg4Qr3BJyklGx1NXQeK7/VmP7p564WYiLU
+	62x6bg0+YQdczINrCX+QgMyZ8OdKlrAOaDiIsWFT8m7aP8rOjBS15sDkYIpreYKki8Gmecz3eQW
+	THefAuGLaZ3zusqhqQSk90i/8nx+bQODgiF1fmp+orhjqECojlhE5Vj05xt/tigQFQiASm6l0rE
+	jo8t4MpNbDe2rYUGIT8BEjgjILExiJdxj0k/0AUo1fM1NpPETtvXDV/Sdn+jaTWHu2IyLjcF802
+	iQA4XKSLezh+uKnbuDoBVEZcPPiJU87JFsvmL7+ReZfvW6hkSI7Cw5mqslPwNe4YOhH8jk8b9tt
+	UPAbLv1RLQQ4=
+X-Google-Smtp-Source: AGHT+IEdN2SCx17WILp4eEAjZX/CWXoUp4VyAJbrYxRlTDRrFg14rzTkFvS1P00jf0P01kdpAuEYXw==
+X-Received: by 2002:a05:6512:ea5:b0:545:ee3:f3c5 with SMTP id 2adb3069b0e04-54ad6484e57mr931898e87.17.1742550246370;
+        Fri, 21 Mar 2025 02:44:06 -0700 (PDT)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com. [209.85.208.178])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54ad6511672sm146068e87.219.2025.03.21.02.44.05
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Mar 2025 02:44:05 -0700 (PDT)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-30bf8f5dde5so16185491fa.2
+        for <linux-media@vger.kernel.org>; Fri, 21 Mar 2025 02:44:05 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUdfTMkM4HvdeNt22EgM9SgdcNyjR8FnD/d4GBwWy10DXh9vAIk1eIa7V4/ewVMXo42kIt+QY9aW4DHNQ==@vger.kernel.org
+X-Received: by 2002:a2e:a7ca:0:b0:30b:feb4:ed4 with SMTP id
+ 38308e7fff4ca-30d7e2ba516mr9130741fa.31.1742550244669; Fri, 21 Mar 2025
+ 02:44:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250321014904.129768-1-ccc194101@163.com>
+In-Reply-To: <20250321014904.129768-1-ccc194101@163.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Fri, 21 Mar 2025 10:43:52 +0100
+X-Gmail-Original-Message-ID: <CANiDSCs9p=JkGs8w8_n8oPkYg5J3rQFF2RT1bbdme_sNKuzwmg@mail.gmail.com>
+X-Gm-Features: AQ5f1JonmDYWYcHzcO8vXYDfya0NXyjJ0hXUe4izsg4TP3Bz07BroK5N3AChmWk
+Message-ID: <CANiDSCs9p=JkGs8w8_n8oPkYg5J3rQFF2RT1bbdme_sNKuzwmg@mail.gmail.com>
+Subject: Re: [PATCH v5] media: uvcvideo: Fix bandwidth issue for Alcor camera
+To: chenchangcheng <ccc194101@163.com>
+Cc: laurent.pinchart@ideasonboard.com, hdegoede@redhat.com, mchehab@kernel.org, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	chenchangcheng <chenchangcheng@kylinos.cn>, kernel test robot <lkp@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Introduce a helper for v4l2 sensor drivers on both DT- and ACPI-based
-platforms to retrieve a reference to the clock producer from firmware.
+Hi Chenchangcheng
 
-This helper behaves the same as clk_get_optional() except where there is
-no clock producer like in ACPI-based platforms.
+On Fri, 21 Mar 2025 at 02:51, chenchangcheng <ccc194101@163.com> wrote:
+>
+> From: chenchangcheng <chenchangcheng@kylinos.cn>
+>
+> Some broken device return wrong dwMaxPayloadTransferSize fields,
+> as follows:
+> [  218.211425] [pid:20391,cpu4,guvcview,3]uvcvideo: Trying format 0x47504a4d (MJPG): 640x480.
+> [  218.211425] [pid:20391,cpu4,guvcview,4]uvcvideo: Using default frame interval 33333.3 us (30.0 fps).
+> [  218.252532] [pid:20391,cpu4,guvcview,1]uvcvideo: Trying format 0x47504a4d (MJPG): 640x480.
+> [  218.252532] [pid:20391,cpu4,guvcview,2]uvcvideo: Using default frame interval 33333.3 us (30.0 fps).
+> [  218.293426] [pid:20391,cpu7,guvcview,8]videobuf2_common: __setup_offsets: buffer 0, plane 0 offset 0x00000000
+> [  218.294067] [pid:20391,cpu7,guvcview,9]videobuf2_common: __setup_offsets: buffer 1, plane 0 offset 0x000e1000
+> [  218.294433] [pid:20391,cpu7,guvcview,0]videobuf2_common: __setup_offsets: buffer 2, plane 0 offset 0x001c2000
+> [  218.294677] [pid:20391,cpu7,guvcview,1]videobuf2_common: __setup_offsets: buffer 3, plane 0 offset 0x002a3000
+> [  218.294677] [pid:20391,cpu7,guvcview,2]videobuf2_common: __vb2_queue_alloc: allocated 4 buffers, 1 plane(s) each
+> [  218.294738] [pid:20391,cpu7,guvcview,3]uvcvideo: uvc_v4l2_mmap
+> [  218.294799] [pid:20391,cpu7,guvcview,4]videobuf2_common: vb2_mmap: buffer 0, plane 0 successfully mapped
+> [  218.294799] [pid:20391,cpu7,guvcview,5]uvcvideo: uvc_v4l2_mmap
+> [  218.294830] [pid:20391,cpu7,guvcview,6]videobuf2_common: vb2_mmap: buffer 1, plane 0 successfully mapped
+> [  218.294830] [pid:20391,cpu7,guvcview,7]uvcvideo: uvc_v4l2_mmap
+> [  218.294830] [pid:20391,cpu7,guvcview,8]videobuf2_common: vb2_mmap: buffer 2, plane 0 successfully mapped
+> [  218.294860] [pid:20391,cpu7,guvcview,9]uvcvideo: uvc_v4l2_mmap
+> [  218.294860] [pid:20391,cpu7,guvcview,0]videobuf2_common: vb2_mmap: buffer 3, plane 0 successfully mapped
+> [  218.294860] [pid:20391,cpu7,guvcview,1]videobuf2_common: vb2_core_qbuf: qbuf of buffer 0 succeeded
+> [  218.294891] [pid:20391,cpu7,guvcview,2]videobuf2_common: vb2_core_qbuf: qbuf of buffer 1 succeeded
+> [  218.294891] [pid:20391,cpu7,guvcview,3]videobuf2_common: vb2_core_qbuf: qbuf of buffer 2 succeeded
+> [  218.294891] [pid:20391,cpu7,guvcview,4]videobuf2_common: vb2_core_qbuf: qbuf of buffer 3 succeeded
+> [  218.294891] [pid:20391,cpu7,guvcview,5]uvcvideo: Setting frame interval to 1/25 (400000).
+> [  218.632537] [pid:20427,cpu6,guvcview,8]uvcvideo: Device requested 2752512 B/frame bandwidth.
+> [  218.632598] [pid:20427,cpu6,guvcview,9]uvcvideo: No fast enough alt setting for requested bandwidth.
+You can copy the whole log messages in the cover letter. I think the
+commit message should only contain:
 
-For ACPI-based platforms the function will read the "clock-frequency"
-ACPI _DSD property and register a fixed frequency clock with the frequency
-indicated in the property.
+uvcvideo: Device requested 2752512 B/frame bandwidth.
+uvcvideo: No fast enough alt setting for requested bandwidth.
 
-Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
----
-Link for discussion (where this patch was proposed): https://lore.kernel.org/linux-media/20250220154909.152538-1-mehdi.djait@linux.intel.com/
+Please also add the out of lsusb -v -d 1b17:6684 to the cover letter
 
-v1 -> v2:
-Suggested by Sakari:
-    - removed clk_name
-    - removed the IS_ERR() check
-    - improved the kernel-doc comment and commit msg
-Link for v1: https://lore.kernel.org/linux-media/20250227092643.113939-1-mehdi.djait@linux.intel.com
 
-v2 -> v3:
-- Added #ifdef CONFIG_COMMON_CLK for the ACPI case
 
- drivers/media/v4l2-core/v4l2-common.c | 39 +++++++++++++++++++++++++++
- include/media/v4l2-common.h           | 18 +++++++++++++
- 2 files changed, 57 insertions(+)
+>
+> The maximum packet size of the device is 3 * 1024, according to the
+> logs above, the device needs to apply for a bandwidth of 0x2a0000.
+>
+> Reported-by: kernel test robot <lkp@intel.com>
+> Closes: https://lore.kernel.org/oe-kbuild-all/202503191330.AveQs7tb-lkp@intel.com/
+The code has not landed, please remove the previous two lines.
 
-diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-index 0a2f4f0d0a07..4e30f8b777b7 100644
---- a/drivers/media/v4l2-core/v4l2-common.c
-+++ b/drivers/media/v4l2-core/v4l2-common.c
-@@ -34,6 +34,9 @@
-  * Added Gerd Knorrs v4l1 enhancements (Justin Schoeman)
-  */
- 
-+#include <linux/clk.h>
-+#include <linux/clkdev.h>
-+#include <linux/clk-provider.h>
- #include <linux/module.h>
- #include <linux/types.h>
- #include <linux/kernel.h>
-@@ -636,3 +639,39 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
- 	return 0;
+
+> Signed-off-by: chenchangcheng <chenchangcheng@kylinos.cn>
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c |  9 ++++
+>  drivers/media/usb/uvc/uvc_video.c  | 82 +++++++++++++++++-------------
+>  drivers/media/usb/uvc/uvcvideo.h   |  1 +
+>  3 files changed, 58 insertions(+), 34 deletions(-)
+>
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index deadbcea5e22..6d739c3cc88f 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -3188,6 +3188,15 @@ static const struct usb_device_id uvc_ids[] = {
+>           .bInterfaceSubClass   = 1,
+>           .bInterfaceProtocol   = 0,
+>           .driver_info          = UVC_INFO_META(V4L2_META_FMT_D4XX) },
+> +       /* Alcor Corp. Slave camera */
+> +       { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> +                               | USB_DEVICE_ID_MATCH_INT_INFO,
+> +         .idVendor             = 0x1b17,
+> +         .idProduct            = 0x6684,
+> +         .bInterfaceClass      = USB_CLASS_VIDEO,
+> +         .bInterfaceSubClass   = 1,
+> +         .bInterfaceProtocol   = 0,
+> +         .driver_info          = UVC_INFO_QUIRK(UVC_QUIRK_OVERFLOW_BANDWIDTH) },
+
+The quirks are ordered by vid:pid. Please move this element to its
+correct position
+
+>         /* Generic USB Video Class */
+>         { USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_UNDEFINED) },
+>         { USB_INTERFACE_INFO(USB_CLASS_VIDEO, 1, UVC_PC_PROTOCOL_15) },
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index e3567aeb0007..7af77bf1be9b 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -226,41 +226,55 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+>         if ((ctrl->dwMaxPayloadTransferSize & 0xffff0000) == 0xffff0000)
+>                 ctrl->dwMaxPayloadTransferSize &= ~0xffff0000;
+>
+> -       if (!(format->flags & UVC_FMT_FLAG_COMPRESSED) &&
+> -           stream->dev->quirks & UVC_QUIRK_FIX_BANDWIDTH &&
+> -           stream->intf->num_altsetting > 1) {
+> -               u32 interval;
+> -               u32 bandwidth;
+> -
+> -               interval = (ctrl->dwFrameInterval > 100000)
+> -                        ? ctrl->dwFrameInterval
+> -                        : frame->dwFrameInterval[0];
+> -
+> -               /*
+> -                * Compute a bandwidth estimation by multiplying the frame
+> -                * size by the number of video frames per second, divide the
+> -                * result by the number of USB frames (or micro-frames for
+> -                * high- and super-speed devices) per second and add the UVC
+> -                * header size (assumed to be 12 bytes long).
+> -                */
+> -               bandwidth = frame->wWidth * frame->wHeight / 8 * format->bpp;
+> -               bandwidth *= 10000000 / interval + 1;
+> -               bandwidth /= 1000;
+> -               if (stream->dev->udev->speed >= USB_SPEED_HIGH)
+> -                       bandwidth /= 8;
+> -               bandwidth += 12;
+> -
+> -               /*
+> -                * The bandwidth estimate is too low for many cameras. Don't use
+> -                * maximum packet sizes lower than 1024 bytes to try and work
+> -                * around the problem. According to measurements done on two
+> -                * different camera models, the value is high enough to get most
+> -                * resolutions working while not preventing two simultaneous
+> -                * VGA streams at 15 fps.
+> -                */
+> -               bandwidth = max_t(u32, bandwidth, 1024);
+> +       if (stream->intf->num_altsetting > 1) {
+> +               if (!(format->flags & UVC_FMT_FLAG_COMPRESSED) &&
+> +                   stream->dev->quirks & UVC_QUIRK_FIX_BANDWIDTH) {
+> +                       u32 interval;
+> +                       u32 bandwidth;
+> +
+> +                       interval = (ctrl->dwFrameInterval > 100000)
+> +                                ? ctrl->dwFrameInterval
+> +                                : frame->dwFrameInterval[0];
+> +
+> +                       /*
+> +                        * Compute a bandwidth estimation by multiplying the
+> +                        * frame size by the number of video frames per second,
+> +                        * divide the result by the number of USB frames (or
+> +                        * micro-frames for high- and super-speed devices) per
+> +                        * second and add the UVC header size (assumed to be
+> +                        * 12 bytes long).
+> +                        */
+> +                       bandwidth = frame->wWidth * frame->wHeight / 8
+> +                                   * format->bpp;
+> +                       bandwidth *= 10000000 / interval + 1;
+> +                       bandwidth /= 1000;
+> +                       if (stream->dev->udev->speed >= USB_SPEED_HIGH)
+> +                               bandwidth /= 8;
+> +                       bandwidth += 12;
+> +
+> +                       /*
+> +                        * The bandwidth estimate is too low for many cameras.
+> +                        * Don't use maximum packet sizes lower than 1024 bytes
+> +                        * to try and work around the problem. According to
+> +                        * measurements done on two different camera models,
+> +                        * the value is high enough to get most resolutions
+> +                        * working while not preventing two simultaneous VGA
+> +                        * streams at 15 fps.
+> +                        */
+> +                       bandwidth = max_t(u32, bandwidth, 1024);
+> +
+> +                       ctrl->dwMaxPayloadTransferSize = bandwidth;
+> +               }
+>
+> -               ctrl->dwMaxPayloadTransferSize = bandwidth;
+> +               if (format->flags & UVC_FMT_FLAG_COMPRESSED &&
+
+Why only for compressed formats?
+> +                   stream->dev->quirks & UVC_QUIRK_OVERFLOW_BANDWIDTH &&
+> +                   ctrl->dwMaxPayloadTransferSize > stream->maxpsize) {
+> +                       dev_warn(&stream->intf->dev,
+> +                                "the max payload transmission size (%d) exceededs the size of the ep max packet (%d). use the default value of 1024 bytes.\n",
+exceeds
+The max
+. Use
+> +                                ctrl->dwMaxPayloadTransferSize,
+> +                                stream->maxpsize);
+> +                       ctrl->dwMaxPayloadTransferSize = 1024;
+
+Why did you decided 1024 to be the correct transfer Size? Wouldn;t it
+be more generic to use stream->maxpsize
+
+
+> +               }
+
+Maybe a bit nicer:
+
+diff --git a/drivers/media/usb/uvc/uvc_video.c
+b/drivers/media/usb/uvc/uvc_video.c
+index e3567aeb0007..b50e6a4048f0 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -262,6 +262,16 @@ static void uvc_fixup_video_ctrl(struct
+uvc_streaming *stream,
+
+                ctrl->dwMaxPayloadTransferSize = bandwidth;
+        }
++
++       /* Proper comment.... bla bla bla */
++       if (stream->intf->num_altsetting > 1 &&
++           ctrl->dwMaxPayloadTransferSize > stream->maxpsize &&
++           stream->dev->quirks & UVC_QUIRK_OVERFLOW_BANDWIDTH) {
++               dev_warn(&stream->intf->dev,
++                        "the max payload transmission size (%d)
+exceeds the size of the ep max packet (%d). Using the max size.\n",
++                        ctrl->dwMaxPayloadTransferSize, stream->maxpsize);
++               ctrl->dwMaxPayloadTransferSize = stream->maxpsize;
++       }
  }
- EXPORT_SYMBOL_GPL(v4l2_link_freq_to_bitmap);
-+
-+struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id)
-+{
-+	struct clk_hw *clk_hw;
-+	struct clk *clk;
-+	u32 rate;
-+	int ret;
-+
-+	clk = devm_clk_get_optional(dev, id);
-+	if (clk)
-+		return clk;
-+
-+#ifdef CONFIG_COMMON_CLK
-+	if (!is_acpi_node(dev_fwnode(dev)))
-+		return ERR_PTR(-ENOENT);
-+
-+	ret = device_property_read_u32(dev, "clock-frequency", &rate);
-+	if (ret)
-+		return ERR_PTR(ret);
-+
-+	if (!id) {
-+		id = devm_kasprintf(dev, GFP_KERNEL, "clk-%s", dev_name(dev));
-+		if (!id)
-+			return ERR_PTR(-ENOMEM);
-+	}
-+
-+	clk_hw = devm_clk_hw_register_fixed_rate(dev, id, NULL, 0, rate);
-+	if (IS_ERR(clk_hw))
-+		return ERR_CAST(clk_hw);
-+
-+	return clk_hw->clk;
-+#else
-+	return ERR_PTR(-ENOENT);
-+#endif
-+}
-+EXPORT_SYMBOL_GPL(devm_v4l2_sensor_clk_get);
-diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-index 63ad36f04f72..35b9ac698e8a 100644
---- a/include/media/v4l2-common.h
-+++ b/include/media/v4l2-common.h
-@@ -573,6 +573,24 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
- 			     unsigned int num_of_driver_link_freqs,
- 			     unsigned long *bitmap);
- 
-+/**
-+ * devm_v4l2_sensor_clk_get - lookup and obtain a reference to an optional clock
-+ *			      producer for a camera sensor.
-+ *
-+ * @dev: device for v4l2 sensor clock "consumer"
-+ * @id: clock consumer ID
-+ *
-+ * This function behaves the same way as clk_get_optional() except where there
-+ * is no clock producer like in ACPI-based platforms.
-+ * For ACPI-based platforms, the function will read the "clock-frequency"
-+ * ACPI _DSD property and register a fixed-clock with the frequency indicated
-+ * in the property.
-+ *
-+ * Return:
-+ * * pointer to a struct clk on success or an error code on failure.
-+ */
-+struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id);
-+
- static inline u64 v4l2_buffer_get_timestamp(const struct v4l2_buffer *buf)
- {
- 	/*
--- 
-2.48.1
 
+
+
+>         }
+>  }
+>
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 5e388f05f3fc..8b43d725c259 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -77,6 +77,7 @@
+>  #define UVC_QUIRK_DISABLE_AUTOSUSPEND  0x00008000
+>  #define UVC_QUIRK_INVALID_DEVICE_SOF   0x00010000
+>  #define UVC_QUIRK_MJPEG_NO_EOF         0x00020000
+> +#define UVC_QUIRK_OVERFLOW_BANDWIDTH   0x00040000
+>
+>  /* Format flags */
+>  #define UVC_FMT_FLAG_COMPRESSED                0x00000001
+>
+> base-commit: 4701f33a10702d5fc577c32434eb62adde0a1ae1
+> --
+> 2.25.1
+>
+>
+
+
+-- 
+Ricardo Ribalda
 
