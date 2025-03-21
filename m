@@ -1,174 +1,297 @@
-Return-Path: <linux-media+bounces-28587-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28588-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AC77A6C039
-	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 17:42:15 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15E8AA6C0E8
+	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 18:10:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8BA7D3A8BF4
-	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 16:40:02 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9DAED3B685F
+	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 17:09:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 264E022CBC9;
-	Fri, 21 Mar 2025 16:39:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63A9E22D7A8;
+	Fri, 21 Mar 2025 17:09:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="1b9AZ2oi"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IMooDBDL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2073.outbound.protection.outlook.com [40.107.96.73])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DED8078F30
-	for <linux-media@vger.kernel.org>; Fri, 21 Mar 2025 16:39:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.73
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742575181; cv=fail; b=GPMJi16YvR54236AWzDb/SVsliySNKdKh7GDKtUbMSQ0yvLMCpgqhMd3HsE41tyk4noBxhn1/o20NXHa3qeGKZfxcj3lWm/i4UW09c1C+dQsWAP9iZ59JxFVP2+8S7HjPuhSOlvQaINIPc3WE7eEzX8nOi3aSQx+r2XnWSbX7HE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742575181; c=relaxed/simple;
-	bh=J50C5RDU/cRDNvXn3BvG7miR1dv3BUC5Y1c4vhNw9D4=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=WM4S3wRQ8fbwe0sDqzRrvprI3szyk1hAHmDudCKYuxs80Nl6Z5CcaKhlbPKaQmaTqNfO3u4FnLZ8W+obw7/t6gXiMNr4YI4plTyTX84dy84nhcGNuXvYmPz4wAwSrLr2MFKioiW2IkVpi/b2JoLPDG8Yod5e3ZteW3e5z5EyEWM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=1b9AZ2oi; arc=fail smtp.client-ip=40.107.96.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KhujWXdr4CcvHmsYu6BowaMAGzc0Dg46pxxmmAhV+zDcRg62dofP5Xw6OZyqfY+Sr5pgJn82+hujfLUThHxwWRwszmJGhEeS2YOOskhHftUhAErODg92LzjPGExK/D4bAcP1OdsLUSJtDMz73TPiaKLTfrUkRUzC1+RrxASX8oEq3QptH7K9n0YrrRQJnyJ3sJo0/plW9kid16epsHH0eH0zKr+H4dTbbJJYeysvRcJ0fgY2ISs8+k1tHlC5PaeDWmiUr21O5+W3zEuezjzn/gxjNEsPhN6trr35UYo9J8xo37ObPemwy1lq5gGaAgrbZ67uWj6zNfC64kTeI+vW1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=offHz67MTSkED9HE4jYtGtARkeNJuWIsljF6KlQ/hX4=;
- b=ntt/qWXfhsd1kMiX0lFJUPMGxS18I1fBp4EHNKU2duqGXvFx+eGv2pFe8IWf+eXPSYwP8FPYiEowRXjTEt0/nYwBF3aBd6tWy3eDHPPycST4hN4/ULZtnyQv4lDxXCbDKJ8A2M55TjvAdzvR/Rdjay67xx6IltaUzAuBcvAYDeR4xsJih9ADKgYxyjDNlZs+rZmYXCyoPkTAkyG1Z9EjW6iwYJA+zAVWgvyymCt0ZmBwuckcCDtiuTy0T3RTHarO/FBqmb1zNljXuvxIh4n7aFzKmaF+U9EiBeUAjFDWP/OjnKx8npelZgcY1KgRPUgY4eRalz8ukDoiokWXiVRFUQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=redhat.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=offHz67MTSkED9HE4jYtGtARkeNJuWIsljF6KlQ/hX4=;
- b=1b9AZ2oiM54Z6ppXVjXZlOKgud7M5/3aNWvb4L8OpHhQPlbn/knlMSqbTFpntTy2kX/DMRMeXNjXZs0TQxAhNmYAKs/FgUsnDgZVgjQFuqbxTfEZCiN49rhnGIIzy0ip5/tzT1gcTRDOze1LQtYDOpBp9F8l5NgA892Coj7sdno=
-Received: from BN0PR04CA0178.namprd04.prod.outlook.com (2603:10b6:408:eb::33)
- by CH3PR12MB7572.namprd12.prod.outlook.com (2603:10b6:610:144::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.37; Fri, 21 Mar
- 2025 16:39:35 +0000
-Received: from MN1PEPF0000ECD9.namprd02.prod.outlook.com
- (2603:10b6:408:eb:cafe::34) by BN0PR04CA0178.outlook.office365.com
- (2603:10b6:408:eb::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8534.36 via Frontend Transport; Fri,
- 21 Mar 2025 16:39:35 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- MN1PEPF0000ECD9.mail.protection.outlook.com (10.167.242.138) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8534.20 via Frontend Transport; Fri, 21 Mar 2025 16:39:35 +0000
-Received: from SATLEXMB05.amd.com (10.181.40.146) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 21 Mar
- 2025 11:39:34 -0500
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB05.amd.com
- (10.181.40.146) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 21 Mar
- 2025 11:39:34 -0500
-Received: from smtp.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Fri, 21 Mar 2025 11:39:28 -0500
-From: Xiaogang.Chen <xiaogang.chen@amd.com>
-To: <kraxel@redhat.com>, <vivek.kasireddy@intel.com>,
-	<sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
-	<dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
-	<linaro-mm-sig@lists.linaro.org>
-CC: Xiaogang Chen <xiaogang.chen@amd.com>, Xiaogang Chen
-	<Xiaogang.Chen@amd.com>
-Subject: [PATCH] udmabuf: fix a buf size overflow issue during udmabuf creation
-Date: Fri, 21 Mar 2025 11:41:26 -0500
-Message-ID: <20250321164126.329638-1-xiaogang.chen@amd.com>
-X-Mailer: git-send-email 2.25.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C921D6DC8;
+	Fri, 21 Mar 2025 17:09:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742576950; cv=none; b=Rg+Jk7+RrAx04phT+8Mt1K2z8O+2bAZshosnz2kh9A0muQS3U6yvG0/UHqkBqOyx2s2IUPb3sx/vr6ZhqtcMvtV1hbxzFvY7umEUWcRptGxsMPbZNR2jqIc7dg77MEb9P5+bHNNdxnMrZ9Y9VHElHPxZVHuJs0sEu+f0AfuoYs8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742576950; c=relaxed/simple;
+	bh=N7sp3P6xNKaf7f8wQZP5ReSpHb2zIev9y664ZZl3RA4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C9QfpfXceaTXsch/Nn5dUWVvm617Hsyq1KQE/iSwV/0frkZRa3rBYWyZIBJCfSLmMtMThH3gve0d5L0f9098vHAuYRr9BVO5jWr0xy7kMYlElInbD1c+ySyT+Tevyp/I9Sb84h5eLZTp9oCLj7ruWJjyZk6lQElX6UUBl0YIaBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IMooDBDL; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (unknown [157.231.223.213])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8A2D12C5;
+	Fri, 21 Mar 2025 18:07:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1742576836;
+	bh=N7sp3P6xNKaf7f8wQZP5ReSpHb2zIev9y664ZZl3RA4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IMooDBDLHcUNSlNbrralMeadIgNZRC83OxIuQUmNP63MQfYhDwD7XrjrO3GFfNOgZ
+	 2sNHm4aCzfY1AhclH11awALKQyH7orgCM8tF6+txrv3P9K0tLU0VlrpVFyEB0duEY7
+	 vTxSG4mg+OAuzDbMrO6yd343G0740nQM0g4M95U4=
+Date: Fri, 21 Mar 2025 19:08:38 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH v6 5/7] media: vsp1: rwpf: Initialize image formats
+Message-ID: <20250321170838.GA11255@pendragon.ideasonboard.com>
+References: <20250321-v4h-iif-v6-0-361e9043026a@ideasonboard.com>
+ <20250321-v4h-iif-v6-5-361e9043026a@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: None (SATLEXMB05.amd.com: xiaogang.chen@amd.com does not
- designate permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN1PEPF0000ECD9:EE_|CH3PR12MB7572:EE_
-X-MS-Office365-Filtering-Correlation-Id: f688cb2f-7a00-48fa-6d0d-08dd6896f6c7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?d0Yc1PW9+jCBpKXFBQTLF+iJ1P8wQduU6vgGVq6C71Ykv4BKZh/+mPLwyQeD?=
- =?us-ascii?Q?5a91ZCrIF86L3B66MMk4im+CICgXJM7okG0y49ugUkdhV7GUtpQaTrlzevvN?=
- =?us-ascii?Q?m8eYANrfHZQSLtSx3ya9Hp3kzy72Zu2bU7hLMPrFyhsLMufU8rG16WwxfDtJ?=
- =?us-ascii?Q?zeSVKoCQHW9j+CfVd+6x/FdgKQEyXqtIARp5SpEUV0K3AUYQkRL4mxA4zrYw?=
- =?us-ascii?Q?L+101LZVABC+0Es4cxwjCswCsU0VFzXHxa3XWU2ilaM2ejktxIe513Sr3N5K?=
- =?us-ascii?Q?147zLURvwz9ZKlkAdEqVMT8pLFrhGlPcpKUeRHE8ihNs5F3/7DEfS1IzLqkK?=
- =?us-ascii?Q?bfjqN9wBMAJQMNvgrQRkpyptSLCR1WunnIYRBjO1f6FZ3voKKxpNBWaMfSsC?=
- =?us-ascii?Q?ST3Mr1w5c1FmI01PUZSbuGBIWk1cRJCszbClK3BWys3vvtU7kzI3zmlDQDzC?=
- =?us-ascii?Q?KI5NgRUdWz9NmKT5H+cVpwtzsMbr120IjEgSNnRidEzUk662mLopODqvv/Zw?=
- =?us-ascii?Q?IvygABotHIqh1HUngXC3YLFlAeVCWvqVIx1N5ODkl6YBaRHuAdOZ6WQP4O7P?=
- =?us-ascii?Q?sIPsvlw0eW1To3n1HcZqYkjZsuhQsQmK19jElTOFjXQp0uBPDEUfqPQZWQnl?=
- =?us-ascii?Q?dOXJ5dPYhgRdb6r6j8/9RdckZeBfZ5+KsUhpBRYH4OZVqGVau5QOW/y8M87S?=
- =?us-ascii?Q?qJBUSxtAnnJ1mvwQcft4ZA4DKxDzOGfOG9M/Z74t1e8E9oxIqnOqh2e7eEQ6?=
- =?us-ascii?Q?X6ab3Xs98VkjcJHI5jnjoDTj1gasvuVWANnufK0kKK9N8rOoiIi4uqqCm0j0?=
- =?us-ascii?Q?UP6fETC84/c3Tr1lriecwOLB0QiPjemQ0UVoQKT0kA2w7B175sWrR/khIJ6R?=
- =?us-ascii?Q?qjuuFW1S9pHNt+jeGMYYaHkm6y6EyzJI8lOY5BZo4EpGMqT7uOhX89bntUbV?=
- =?us-ascii?Q?oI1+KHOrYk9r/KU2LUTw9WbO7ONPfYoYs03wIlsKvPuBzIWK+wZ8I8uuZiPE?=
- =?us-ascii?Q?FlAzW4T8VhW0/qrhUCwITsgYhbUIjc52lKc+zCwWqlK9DbsN0hEmWyAjYvlq?=
- =?us-ascii?Q?rM0I3ALEIqGzTMvZP44MIs1P0I6G+oEpQlW8lM71LJYl1xl4npI17damwZ9O?=
- =?us-ascii?Q?mSKyLPfWzkGQVuQuxR7u4LokbxMinn7tcv6D8VcDJ2f9TB4sF6VyAe6m43sH?=
- =?us-ascii?Q?JYXXvXIXzk4tHMO2p5lSHQnA6nWsFv36LtzPif30V8ZnJaot1nUgUR6xmcqw?=
- =?us-ascii?Q?SJtiCKbUdYIpDqe/pSHwzwp976PI6/ALSLO9PU1oFI+qn46Ext7gcXHujAMw?=
- =?us-ascii?Q?aPaXuRCx0BwDB11hXeflKtjyjQ46FtljIIkFWhdHtv8qVJOcqPYdfV7b5jII?=
- =?us-ascii?Q?N8MLYIscGjANJQg86cceWVmR5BmoPvmwNIfCh950Wdos6HIspzP8lCvbA/d8?=
- =?us-ascii?Q?9ZBRzPmCAl7Ry97NIlamEbYCCurvkv6zy4P0kUQ2cdiiJiADto6QxQT0IGH2?=
- =?us-ascii?Q?Hwxl6FoudVNjD1Y=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Mar 2025 16:39:35.0657
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f688cb2f-7a00-48fa-6d0d-08dd6896f6c7
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	MN1PEPF0000ECD9.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7572
+In-Reply-To: <20250321-v4h-iif-v6-5-361e9043026a@ideasonboard.com>
 
-From: Xiaogang Chen <xiaogang.chen@amd.com>
+Hi Jacopo,
 
-by casting size_limit_mb to u64  when calculate pglimit.
+Thank you for the patch.
 
-Signed-off-by: Xiaogang Chen<Xiaogang.Chen@amd.com>
----
- drivers/dma-buf/udmabuf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, Mar 21, 2025 at 04:45:37PM +0100, Jacopo Mondi wrote:
+> With the forthcoming support for VSPX the r/wpf unit will be used
+> to perform memory access on the behalf of the ISP units.
+> 
+> Prepare to support reading from external memory images in RAW Bayer
+> format and ISP configuration parameters by expanding the list
+> of supported media bus codes.
+> 
+> Store the list of valid mbus code in the rwpf device and initialize it
+> in the new vsp1_rwpf_init_formats() function, called by RPFs and WFPs at
+> entity creation time.
+> 
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> 
+> ---
+> v4->v5:
+>   - Drop double empty line
+> v2->v3:
+>   - Introduce vsp1_rwpf_init_formats()
+>   - Store the list of mbus codes at init time instead of computing it
+> ---
+>  drivers/media/platform/renesas/vsp1/vsp1_rpf.c  |  7 +++
+>  drivers/media/platform/renesas/vsp1/vsp1_rwpf.c | 78 +++++++++++++++++++++++--
+>  drivers/media/platform/renesas/vsp1/vsp1_rwpf.h |  4 ++
+>  drivers/media/platform/renesas/vsp1/vsp1_wpf.c  |  7 +++
+>  4 files changed, 90 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> index 5c8b3ba1bd3c..056491286577 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> @@ -400,6 +400,13 @@ struct vsp1_rwpf *vsp1_rpf_create(struct vsp1_device *vsp1, unsigned int index)
+>  	rpf->entity.type = VSP1_ENTITY_RPF;
+>  	rpf->entity.index = index;
+>  
+> +	ret = vsp1_rwpf_init_formats(vsp1, rpf);
+> +	if (ret < 0) {
+> +		dev_err(vsp1->dev, "rpf%u: failed to initialize formats\n",
+> +			index);
+> +		return ERR_PTR(ret);
+> +	}
+> +
+>  	sprintf(name, "rpf.%u", index);
+>  	ret = vsp1_entity_init(vsp1, &rpf->entity, name, 2, &vsp1_rwpf_subdev_ops,
+>  			       MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER);
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> index 93b0ed5fd0da..91d70886e64d 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> @@ -16,12 +16,47 @@
+>  #define RWPF_MIN_WIDTH				1
+>  #define RWPF_MIN_HEIGHT				1
+>  
+> +struct vsp1_rwpf_codes {
+> +	const u32 *codes;
+> +	unsigned int num_codes;
+> +};
+> +
+>  static const u32 rwpf_mbus_codes[] = {
+>  	MEDIA_BUS_FMT_ARGB8888_1X32,
+>  	MEDIA_BUS_FMT_AHSV8888_1X32,
+>  	MEDIA_BUS_FMT_AYUV8_1X32,
+>  };
+>  
+> +static const struct vsp1_rwpf_codes rwpf_codes = {
+> +	.codes = rwpf_mbus_codes,
+> +	.num_codes = ARRAY_SIZE(rwpf_mbus_codes),
+> +};
+> +
+> +static const u32 vspx_rpf0_mbus_codes[] = {
+> +	MEDIA_BUS_FMT_Y8_1X8,
+> +	MEDIA_BUS_FMT_Y10_1X10,
+> +	MEDIA_BUS_FMT_Y12_1X12,
+> +	MEDIA_BUS_FMT_Y16_1X16,
+> +	MEDIA_BUS_FMT_METADATA_FIXED
+> +};
+> +
+> +static const struct vsp1_rwpf_codes vspx_rpf0_codes = {
+> +	.codes = vspx_rpf0_mbus_codes,
+> +	.num_codes = ARRAY_SIZE(vspx_rpf0_mbus_codes),
+> +};
+> +
+> +static const u32 vspx_rpf1_mbus_codes[] = {
+> +	MEDIA_BUS_FMT_Y8_1X8,
+> +	MEDIA_BUS_FMT_Y10_1X10,
+> +	MEDIA_BUS_FMT_Y12_1X12,
+> +	MEDIA_BUS_FMT_Y16_1X16,
+> +};
+> +
+> +static const struct vsp1_rwpf_codes vspx_rpf1_codes = {
+> +	.codes = vspx_rpf1_mbus_codes,
+> +	.num_codes = ARRAY_SIZE(vspx_rpf1_mbus_codes),
+> +};
+> +
+>  /* -----------------------------------------------------------------------------
+>   * V4L2 Subdevice Operations
+>   */
+> @@ -30,10 +65,12 @@ static int vsp1_rwpf_enum_mbus_code(struct v4l2_subdev *subdev,
+>  				    struct v4l2_subdev_state *sd_state,
+>  				    struct v4l2_subdev_mbus_code_enum *code)
+>  {
+> -	if (code->index >= ARRAY_SIZE(rwpf_mbus_codes))
+> +	struct vsp1_rwpf *rwpf = to_rwpf(subdev);
+> +
+> +	if (code->index >= rwpf->mbus_codes->num_codes)
+>  		return -EINVAL;
+>  
+> -	code->code = rwpf_mbus_codes[code->index];
+> +	code->code = rwpf->mbus_codes->codes[code->index];
+>  
+>  	return 0;
+>  }
+> @@ -69,12 +106,12 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
+>  	}
+>  
+>  	/* Default to YUV if the requested format is not supported. */
+> -	for (i = 0; i < ARRAY_SIZE(rwpf_mbus_codes); ++i) {
+> -		if (fmt->format.code == rwpf_mbus_codes[i])
+> +	for (i = 0; i < rwpf->mbus_codes->num_codes; ++i) {
+> +		if (fmt->format.code == rwpf->mbus_codes->codes[i])
+>  			break;
+>  	}
+> -	if (i == ARRAY_SIZE(rwpf_mbus_codes))
+> -		fmt->format.code = MEDIA_BUS_FMT_AYUV8_1X32;
+> +	if (i == rwpf->mbus_codes->num_codes)
+> +		fmt->format.code = rwpf->mbus_codes->codes[0];
+>  
+>  	format = v4l2_subdev_state_get_format(state, fmt->pad);
+>  
+> @@ -267,8 +304,37 @@ static const struct v4l2_ctrl_ops vsp1_rwpf_ctrl_ops = {
+>  	.s_ctrl = vsp1_rwpf_s_ctrl,
+>  };
+>  
+> +int vsp1_rwpf_init_formats(struct vsp1_device *vsp1, struct vsp1_rwpf *rwpf)
+> +{
+> +	/* Only VSPX and RPF support reading Bayer data. */
+> +	if (!vsp1_feature(vsp1, VSP1_HAS_IIF) ||
+> +	    rwpf->entity.type != VSP1_ENTITY_RPF) {
+> +		rwpf->mbus_codes = &rwpf_codes;
+> +		return 0;
+> +	}
+> +
+> +	/*
+> +	 * VSPX only features RPF0 and RPF1. RPF0 supports reading ISP ConfigDMA
+> +	 * and Bayer data, RPF1 supports reading Bayer data only.
+> +	 */
+> +	switch (rwpf->entity.index) {
+> +	case 0:
+> +		rwpf->mbus_codes = &vspx_rpf0_codes;
+> +		break;
+> +	case 1:
+> +		rwpf->mbus_codes = &vspx_rpf1_codes;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  int vsp1_rwpf_init_ctrls(struct vsp1_rwpf *rwpf, unsigned int ncontrols)
+>  {
+> +	/* Initialize controls. */
+> +
+>  	v4l2_ctrl_handler_init(&rwpf->ctrls, ncontrols + 1);
+>  	v4l2_ctrl_new_std(&rwpf->ctrls, &vsp1_rwpf_ctrl_ops,
+>  			  V4L2_CID_ALPHA_COMPONENT, 0, 255, 1, 255);
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
+> index 5ac9f0a6fafc..64feb4742494 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
+> @@ -30,6 +30,7 @@ struct vsp1_rwpf_memory {
+>  	dma_addr_t addr[3];
+>  };
+>  
+> +struct vsp1_rwpf_codes;
 
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 8ce1f074c2d3..e99e3a65a470 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -398,7 +398,7 @@ static long udmabuf_create(struct miscdevice *device,
- 	if (!ubuf)
- 		return -ENOMEM;
- 
--	pglimit = (size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
-+	pglimit = ((u64)size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
- 	for (i = 0; i < head->count; i++) {
- 		pgoff_t subpgcnt;
- 
+I'll add a blank line here.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>  struct vsp1_rwpf {
+>  	struct vsp1_entity entity;
+>  	struct v4l2_ctrl_handler ctrls;
+> @@ -39,6 +40,8 @@ struct vsp1_rwpf {
+>  	unsigned int max_width;
+>  	unsigned int max_height;
+>  
+> +	const struct vsp1_rwpf_codes *mbus_codes;
+> +
+>  	struct v4l2_pix_format_mplane format;
+>  	const struct vsp1_format_info *fmtinfo;
+>  	unsigned int brx_input;
+> @@ -81,6 +84,7 @@ struct vsp1_rwpf *vsp1_wpf_create(struct vsp1_device *vsp1, unsigned int index);
+>  
+>  void vsp1_wpf_stop(struct vsp1_rwpf *wpf);
+>  
+> +int vsp1_rwpf_init_formats(struct vsp1_device *vsp1, struct vsp1_rwpf *rwpf);
+>  int vsp1_rwpf_init_ctrls(struct vsp1_rwpf *rwpf, unsigned int ncontrols);
+>  
+>  extern const struct v4l2_subdev_ops vsp1_rwpf_subdev_ops;
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> index da651a882bbb..a32e4b3527db 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> @@ -548,6 +548,13 @@ struct vsp1_rwpf *vsp1_wpf_create(struct vsp1_device *vsp1, unsigned int index)
+>  	wpf->entity.type = VSP1_ENTITY_WPF;
+>  	wpf->entity.index = index;
+>  
+> +	ret = vsp1_rwpf_init_formats(vsp1, wpf);
+> +	if (ret < 0) {
+> +		dev_err(vsp1->dev, "wpf%u: failed to initialize formats\n",
+> +			index);
+> +		return ERR_PTR(ret);
+> +	}
+> +
+>  	sprintf(name, "wpf.%u", index);
+>  	ret = vsp1_entity_init(vsp1, &wpf->entity, name, 2, &vsp1_rwpf_subdev_ops,
+>  			       MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER);
+
 -- 
-2.25.1
+Regards,
 
+Laurent Pinchart
 
