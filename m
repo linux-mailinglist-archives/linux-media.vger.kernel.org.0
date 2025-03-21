@@ -1,157 +1,221 @@
-Return-Path: <linux-media+bounces-28557-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28558-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85127A6B838
-	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 10:57:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F8F1A6B88A
+	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 11:12:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 09FE1188AE3D
-	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 09:57:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D1EDF19C29DF
+	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 10:12:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4FA021D001;
-	Fri, 21 Mar 2025 09:56:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B8A11F4E57;
+	Fri, 21 Mar 2025 10:11:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WXG4m84a"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="O45aUPQd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52E381F891F
-	for <linux-media@vger.kernel.org>; Fri, 21 Mar 2025 09:56:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E8EE1D514A;
+	Fri, 21 Mar 2025 10:11:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742550984; cv=none; b=do+jqDBRYl4EjBuOMlLsfPodzA5zj5tzuO7lqiDW4KJOpW/W921piTFHWzVcD7A7J1K2uIxxNx3p9oLGtRHZaHllJYWpLM18SuO9iRi2+CWSKBvT6ByIufIxjy3iHqkIctUF8tpxjIoiMp74gW7gAoEWfI7QN+d/7sqS7eWKd78=
+	t=1742551912; cv=none; b=Qd6q4320lrOwg9hsiLDZiIo6jd2FRPTHYi4k7UrrFCah7nVWRH5rrrfezOa+38NSQ9N+qrdVQ+bUB6lBkge2l/XXoHjKvTbtM4tX4TZife8q9THMq/bhfMIJ5gBy/v4o4hyRnRf0RNje8cBNh2KQQrSnfYSkL56nBRsTinSRZpA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742550984; c=relaxed/simple;
-	bh=3xfB+A5jB0teMZAv/g0K2Kxlec3s7wVOwobnNWSRkiw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BSQrThVNTNeVJDKe9Dp8FVeCxViKncqx42B5cR6yZpg+/B9F2Z2kRGE8vKAqnrWZNcPtDK1l259Lf5SnFxuS08BT29A0q2XheQ1KI4j4mRTWqIHZMBaDM6gYpT1pry8qWu9PeZ5wEkIau15bEHRlbWAxtePYoVzD3QNdNeI9zuE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=WXG4m84a; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-30bee1cb370so18209251fa.1
-        for <linux-media@vger.kernel.org>; Fri, 21 Mar 2025 02:56:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1742550980; x=1743155780; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MOqlAPjZrRzOYnHFfuUdD9O/rWeFMZYprqqx28W7RJk=;
-        b=WXG4m84adSuOMzvzzMIZ616e4/wHznDZZloH0L1w3TWJVy4E6a2Gu1C9qQKXOGkDMX
-         RS3WDQwORz+lav4L+ymy+RlLOiZwBgeICkajlctoMB3ODYzjWQclfndlug/Fo+MiHheh
-         /BA7PJsxrd2ye27LhGmBtcUnFy4uUFnEssGls=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742550980; x=1743155780;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MOqlAPjZrRzOYnHFfuUdD9O/rWeFMZYprqqx28W7RJk=;
-        b=UbrIRNumKpNxI+bTgQLcrOSFvl7ZwePYjjAd7afqdrV7cD/W+BDClDfqVVQsO+o7zU
-         CaLTAApZp/AJOeR7bCOIakGWmETlf2xZVmMgKUsZXLfHiyywHhX51SAugLejLzcJ4wpv
-         bFfTFUv6WAVnVHO+ao77iDDVsCvYrIYuY/k90n0nUHTU6aQNMR1XN6moO46kpR02qDMe
-         p3OPRvYstx8a5MYcbDHakht+v2B5QluZ7+byF1QQuUGoNqDS2dy6lmSrNWDGYAnP4SAW
-         FIxlQzEKr/3flJblyTzEqCf8sxN+fKvpEfs/idQOXs/2Kd1SItt33aPsBhEmOiTccrqB
-         9ftw==
-X-Gm-Message-State: AOJu0YzwNGxAPckkxeg9OIdK2wZyWDgxOko8ZanRb+OK2lEsKbV1uCyp
-	x8npVBc6WpnigN25nYV0mg96AtXH9Gb8Ftg346AFl640PUNzcl6cnSiARLUjJe3bDLWnJBHKtRw
-	=
-X-Gm-Gg: ASbGncu0TI2FyC3PW5kwrNqgUKUZVWq8CI+hV2vVHLvxegLewbdoqBB8FevMRW0D5y5
-	vBS0+GBSIVQjjL4ls8/GOi69VQXAd+gQRuf5LZNhbrXGaZDX9FNJClfjrCh2hjEGiwg7yyTIf78
-	8gh6IG3Q6ZefJVKRRA/cu4K6x5SnjCz0yKN8UIYu8o3wmXzE9pSquIBmIDEgx7J/g1A4gkvs4MX
-	/UwTFDJx1wcqL5ysYp+zVfRvjAU9af1XKitgNYE5kBOzpvmS4IsTBfIxu20XDY4DWrALxoAvJVD
-	skLhDJRk/xNOqcQcVCNAbeyJ1QD4O962m7uxofnlg6qWnz7dAus43o9SPZYjCIrthQOazIE66lG
-	twLqM4wuNWNs=
-X-Google-Smtp-Source: AGHT+IGNNnujeMCrxo/KdDtYgqlGXg/d1Hh0Dl+X/QqVeonqaAro026Hhj7G9lpJcbNcCiz7OnSQew==
-X-Received: by 2002:a05:651c:39e:b0:30b:cacd:fd7b with SMTP id 38308e7fff4ca-30d7e21a918mr8236611fa.12.1742550979998;
-        Fri, 21 Mar 2025 02:56:19 -0700 (PDT)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com. [209.85.208.174])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30d7d8f3eb1sm2045251fa.87.2025.03.21.02.56.19
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Mar 2025 02:56:19 -0700 (PDT)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-30bf8f5dde5so16273691fa.2
-        for <linux-media@vger.kernel.org>; Fri, 21 Mar 2025 02:56:19 -0700 (PDT)
-X-Received: by 2002:a05:651c:1506:b0:30b:c6fe:4530 with SMTP id
- 38308e7fff4ca-30d7e20217bmr9099951fa.3.1742550979163; Fri, 21 Mar 2025
- 02:56:19 -0700 (PDT)
+	s=arc-20240116; t=1742551912; c=relaxed/simple;
+	bh=u1fDJwY0KnI6T+SKP6FXZkOthu+525MlJxD6jg0kFto=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=L0EZf2Kx6xRRSsqV7u0Hy1HOYSMIVnRwvAqFYQnFoj2b+fHalGDqopQYwcbmuBRADK6uRV84Hv9dyG1y7D/sqGKPLZ2C4HHOr5ivMjknbPIBhALbMXD62HxAJDgD0pVERkAnWBGDD2wQ8G6ItQM7bbuMLA/1pVfsiGiIVhH/iH4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=O45aUPQd; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (unknown [157.231.223.213])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B13CF9FF;
+	Fri, 21 Mar 2025 11:10:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1742551803;
+	bh=u1fDJwY0KnI6T+SKP6FXZkOthu+525MlJxD6jg0kFto=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=O45aUPQdey0sMF5N+2Cvyk1zrAxrpuoRSwVbiDWD3x0C5+cgypu285DzgMK0zNN+O
+	 W+Bek55zTjtOOIsc18Y6AZd2D/IpzUQ6i1vCZ4blsHPi/Yth2HMC0uJ80TaOBRU8CF
+	 YyzQ8vCkCCWmVJRMsl6GR4zZoRgTwluqie+cc+eQ=
+Date: Fri, 21 Mar 2025 12:11:24 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Mehdi Djait <mehdi.djait@linux.intel.com>
+Cc: sakari.ailus@linux.intel.com, tomi.valkeinen@ideasonboard.com,
+	jacopo.mondi@ideasonboard.com, hverkuil@xs4all.nl,
+	kieran.bingham@ideasonboard.com, naush@raspberrypi.com,
+	mchehab@kernel.org, hdegoede@redhat.com,
+	dave.stevenson@raspberrypi.com, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v3] media: v4l2-common: Add a helper for obtaining
+ the clock producer
+Message-ID: <20250321101124.GB25483@pendragon.ideasonboard.com>
+References: <20250321093814.18159-1-mehdi.djait@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CA+q66aSkTee-JbFg2Yg+NddiVYJWdf4P86tiUF=bo1iahCOFMQ@mail.gmail.com>
-In-Reply-To: <CA+q66aSkTee-JbFg2Yg+NddiVYJWdf4P86tiUF=bo1iahCOFMQ@mail.gmail.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 21 Mar 2025 10:56:06 +0100
-X-Gmail-Original-Message-ID: <CANiDSCvb8G9m1Fif-HSQQLQZrAJTTEzhNGf=kkQQXBCpR8svEQ@mail.gmail.com>
-X-Gm-Features: AQ5f1Jqi_MaAEaUpJ_d9OgNn0RTFv3k8Uf0upTSKYQNyvZNyW5H84FGMs4HmK8g
-Message-ID: <CANiDSCvb8G9m1Fif-HSQQLQZrAJTTEzhNGf=kkQQXBCpR8svEQ@mail.gmail.com>
-Subject: Re: Missing support for webcam HP HD 2300 (0bda / 5822)
-To: =?UTF-8?Q?Micha=C3=ABl_Melchiore?= <rohel01@gmail.com>
-Cc: linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250321093814.18159-1-mehdi.djait@linux.intel.com>
 
-Hi Micha=C3=ABl
+Hi Mehdi,
 
-By looking at your dmesg.log. This sees to be the culprit:
+Thank you for the patch.
 
-[123030.111453] uvcvideo 1-8.4:1.1: Failed to resubmit video URB (-1).
+On Fri, Mar 21, 2025 at 10:38:14AM +0100, Mehdi Djait wrote:
+> Introduce a helper for v4l2 sensor drivers on both DT- and ACPI-based
+> platforms to retrieve a reference to the clock producer from firmware.
+> 
+> This helper behaves the same as clk_get_optional() except where there is
+> no clock producer like in ACPI-based platforms.
+> 
+> For ACPI-based platforms the function will read the "clock-frequency"
+> ACPI _DSD property and register a fixed frequency clock with the frequency
+> indicated in the property.
+> 
+> Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+> ---
+> Link for discussion (where this patch was proposed): https://lore.kernel.org/linux-media/20250220154909.152538-1-mehdi.djait@linux.intel.com/
+> 
+> v1 -> v2:
+> Suggested by Sakari:
+>     - removed clk_name
+>     - removed the IS_ERR() check
+>     - improved the kernel-doc comment and commit msg
+> Link for v1: https://lore.kernel.org/linux-media/20250227092643.113939-1-mehdi.djait@linux.intel.com
+> 
+> v2 -> v3:
+> - Added #ifdef CONFIG_COMMON_CLK for the ACPI case
+> 
+>  drivers/media/v4l2-core/v4l2-common.c | 39 +++++++++++++++++++++++++++
+>  include/media/v4l2-common.h           | 18 +++++++++++++
+>  2 files changed, 57 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> index 0a2f4f0d0a07..4e30f8b777b7 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -34,6 +34,9 @@
+>   * Added Gerd Knorrs v4l1 enhancements (Justin Schoeman)
+>   */
+>  
+> +#include <linux/clk.h>
+> +#include <linux/clkdev.h>
+> +#include <linux/clk-provider.h>
+>  #include <linux/module.h>
+>  #include <linux/types.h>
+>  #include <linux/kernel.h>
+> @@ -636,3 +639,39 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_link_freq_to_bitmap);
+> +
+> +struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id)
+> +{
+> +	struct clk_hw *clk_hw;
+> +	struct clk *clk;
+> +	u32 rate;
+> +	int ret;
+> +
+> +	clk = devm_clk_get_optional(dev, id);
+> +	if (clk)
+> +		return clk;
+> +
+> +#ifdef CONFIG_COMMON_CLK
 
-Unfortunately, it happened before you enabled the trace in uvc.
+This patch will cause warnings when CONFIG_COMMON_CLK is disabled. Could
+you use
 
-Could you try again but this this time do this:
+	if (IS_REACHABLE(CONFIG_COMMON_CLK)) {
+		...
+	}
 
-1) enable trace
-2) connect the camera
-3) try to capture frames with yavta.
-yavta -c /dev/video0
-4) share the logs
+instead ? It will also ensure that all code gets compile-tested, even
+when CONFIG_COMMON_CLK is disabled ?
 
-Also try to connect the device to a different port in your notebook,
-preferably being the only thing connected to that port.
+If you want to minimize implementation, you could write
 
-Thanks!
+	if (!IS_REACHABLE(CONFIG_COMMON_CLK))
+		return ERR_PTR(-ENOENT);
 
+and keep the code below as-is.
 
+> +	if (!is_acpi_node(dev_fwnode(dev)))
+> +		return ERR_PTR(-ENOENT);
+> +
+> +	ret = device_property_read_u32(dev, "clock-frequency", &rate);
+> +	if (ret)
+> +		return ERR_PTR(ret);
+> +
+> +	if (!id) {
+> +		id = devm_kasprintf(dev, GFP_KERNEL, "clk-%s", dev_name(dev));
 
-On Thu, 20 Mar 2025 at 23:30, Micha=C3=ABl Melchiore <rohel01@gmail.com> wr=
-ote:
->
-> Hi. I just want to report on a non working webcam. Details is as below
->
-> Device details
->
->  1. Vendor Id / Device Id : 0bda / 5822
->  2. Device name : Realtek Semiconductor Corp. USB Camera
->  3. Vendor : HP
->
-> My laptop details
->
->  1. Lenovo Legion Pro 5 16IRX9
->  2. Linux kernel : 6.11.0-19-generic
->  4. My operating system : Ubuntu 24.04.2 LTS
->
-> I tried using this webcam with GMeet, Cheese and Kamoso. In all cases,
-> I get a blank screen even though the LED on the webcam lights-up as if
-> it was working: all programs seem stuck displaying a "Starting up your
-> webcam..." phase.
->
-> As requested in the FAQ, I have attached my dmesg.log and lsusb.log
-> files. Please note this laptop has an integrated webcam which is
-> working fine. My problem is with HP HD 2300 webcam.
->
-> Let me know if can help investigate!
->
-> Cheers,
->
-> Micha=C3=ABl
+As far as I understand, the name doesn't need to stay valid after
+devm_clk_hw_register_fixed_rate() returns. You can call kasprintf here,
+and call kfree after devm_clk_hw_register_fixed_rate(). You could use
+__free to manage the memory life time:
 
+	const char *clk_id __free(kfree) = NULL;
 
+	if (!id) {
+		clk_id = kasprintf(GFP_KERNEL, "clk-%s", dev_name(dev));
+		if (!clk_id)
+			return ERR_PTR(-ENOMEM);
+		id = clk_id;
+	}
 
---=20
-Ricardo Ribalda
+> +		if (!id)
+> +			return ERR_PTR(-ENOMEM);
+> +	}
+> +
+> +	clk_hw = devm_clk_hw_register_fixed_rate(dev, id, NULL, 0, rate);
+> +	if (IS_ERR(clk_hw))
+> +		return ERR_CAST(clk_hw);
+> +
+> +	return clk_hw->clk;
+> +#else
+> +	return ERR_PTR(-ENOENT);
+> +#endif
+> +}
+> +EXPORT_SYMBOL_GPL(devm_v4l2_sensor_clk_get);
+> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+> index 63ad36f04f72..35b9ac698e8a 100644
+> --- a/include/media/v4l2-common.h
+> +++ b/include/media/v4l2-common.h
+> @@ -573,6 +573,24 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
+>  			     unsigned int num_of_driver_link_freqs,
+>  			     unsigned long *bitmap);
+>  
+> +/**
+> + * devm_v4l2_sensor_clk_get - lookup and obtain a reference to an optional clock
+> + *			      producer for a camera sensor.
+> + *
+> + * @dev: device for v4l2 sensor clock "consumer"
+> + * @id: clock consumer ID
+> + *
+> + * This function behaves the same way as clk_get_optional() except where there
+> + * is no clock producer like in ACPI-based platforms.
+> + * For ACPI-based platforms, the function will read the "clock-frequency"
+> + * ACPI _DSD property and register a fixed-clock with the frequency indicated
+> + * in the property.
+> + *
+> + * Return:
+> + * * pointer to a struct clk on success or an error code on failure.
+> + */
+> +struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id);
+> +
+>  static inline u64 v4l2_buffer_get_timestamp(const struct v4l2_buffer *buf)
+>  {
+>  	/*
+
+-- 
+Regards,
+
+Laurent Pinchart
 
