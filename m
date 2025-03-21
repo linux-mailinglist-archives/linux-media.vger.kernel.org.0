@@ -1,59 +1,57 @@
-Return-Path: <linux-media+bounces-28558-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28559-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F8F1A6B88A
-	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 11:12:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 48B1CA6B8F2
+	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 11:41:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D1EDF19C29DF
-	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 10:12:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8AB1848427A
+	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 10:41:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B8A11F4E57;
-	Fri, 21 Mar 2025 10:11:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D9531B6CE0;
+	Fri, 21 Mar 2025 10:41:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="O45aUPQd"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ry3akBWp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E8EE1D514A;
-	Fri, 21 Mar 2025 10:11:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE1B321579C;
+	Fri, 21 Mar 2025 10:41:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742551912; cv=none; b=Qd6q4320lrOwg9hsiLDZiIo6jd2FRPTHYi4k7UrrFCah7nVWRH5rrrfezOa+38NSQ9N+qrdVQ+bUB6lBkge2l/XXoHjKvTbtM4tX4TZife8q9THMq/bhfMIJ5gBy/v4o4hyRnRf0RNje8cBNh2KQQrSnfYSkL56nBRsTinSRZpA=
+	t=1742553687; cv=none; b=mGjzJOIabv97NQ4fbsNIdmCxTT2lF7aN8O+8GaWbQxR7zLg0XCcSnz8KA7IcDOUbBhc5QJD5dwZWU0V5ptmPmQKiOCY4i+OFoktRmia3OyXZolherQXaOLzk/J/n4JzK+vsaGbFEtyCaLVXVo/jZXAT19cM5j2jomBAzSojA8vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742551912; c=relaxed/simple;
-	bh=u1fDJwY0KnI6T+SKP6FXZkOthu+525MlJxD6jg0kFto=;
+	s=arc-20240116; t=1742553687; c=relaxed/simple;
+	bh=chypnKkbqtDTyot5OV0fDkwQFJeU/VjBRT9g4yNXGEc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=L0EZf2Kx6xRRSsqV7u0Hy1HOYSMIVnRwvAqFYQnFoj2b+fHalGDqopQYwcbmuBRADK6uRV84Hv9dyG1y7D/sqGKPLZ2C4HHOr5ivMjknbPIBhALbMXD62HxAJDgD0pVERkAnWBGDD2wQ8G6ItQM7bbuMLA/1pVfsiGiIVhH/iH4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=O45aUPQd; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=raWZvRASqfx/lGZP7Rwco9qibhqgtSU9lHTQOfgmh5UN5GWb9bTn+Jh+IZ1zBcPE7U/ZpyLk3z2An7CxFCXOrP505+QAq/t4F9G6cFMgZhR9I8xSZyW+MI29/A1OQuWsUqc6TwdKNdz82SY8welvZMYEvjgkqi82Ld1u9JtB/0k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Ry3akBWp; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (unknown [157.231.223.213])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B13CF9FF;
-	Fri, 21 Mar 2025 11:10:03 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 93AA4F6;
+	Fri, 21 Mar 2025 11:39:39 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1742551803;
-	bh=u1fDJwY0KnI6T+SKP6FXZkOthu+525MlJxD6jg0kFto=;
+	s=mail; t=1742553579;
+	bh=chypnKkbqtDTyot5OV0fDkwQFJeU/VjBRT9g4yNXGEc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=O45aUPQdey0sMF5N+2Cvyk1zrAxrpuoRSwVbiDWD3x0C5+cgypu285DzgMK0zNN+O
-	 W+Bek55zTjtOOIsc18Y6AZd2D/IpzUQ6i1vCZ4blsHPi/Yth2HMC0uJ80TaOBRU8CF
-	 YyzQ8vCkCCWmVJRMsl6GR4zZoRgTwluqie+cc+eQ=
-Date: Fri, 21 Mar 2025 12:11:24 +0200
+	b=Ry3akBWpJvQ9CjN/U/LHMKargAU/fO0Pgz8X27psVQ8vZmkbWYkRHvqcOqRZr7NFA
+	 A9L11aLOM9QCjCo3bkOtKousXOhaRPQMduMeMtKA0/L386ml2G5iClRTvnOcew92+6
+	 Lo96ESQ+F2q8dFFZv5yFBBW9thlhOhGpd87uDhlA=
+Date: Fri, 21 Mar 2025 12:41:00 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mehdi Djait <mehdi.djait@linux.intel.com>
-Cc: sakari.ailus@linux.intel.com, tomi.valkeinen@ideasonboard.com,
-	jacopo.mondi@ideasonboard.com, hverkuil@xs4all.nl,
-	kieran.bingham@ideasonboard.com, naush@raspberrypi.com,
-	mchehab@kernel.org, hdegoede@redhat.com,
-	dave.stevenson@raspberrypi.com, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v3] media: v4l2-common: Add a helper for obtaining
- the clock producer
-Message-ID: <20250321101124.GB25483@pendragon.ideasonboard.com>
-References: <20250321093814.18159-1-mehdi.djait@linux.intel.com>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v2] media: i2c: thp7312: use fwnode_for_each_child_node()
+Message-ID: <20250321104100.GC25483@pendragon.ideasonboard.com>
+References: <Z90qM33DvkTMGg_x@mva-rohm>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -62,157 +60,70 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250321093814.18159-1-mehdi.djait@linux.intel.com>
+In-Reply-To: <Z90qM33DvkTMGg_x@mva-rohm>
 
-Hi Mehdi,
+Hi Matti,
 
 Thank you for the patch.
 
-On Fri, Mar 21, 2025 at 10:38:14AM +0100, Mehdi Djait wrote:
-> Introduce a helper for v4l2 sensor drivers on both DT- and ACPI-based
-> platforms to retrieve a reference to the clock producer from firmware.
+On Fri, Mar 21, 2025 at 10:58:27AM +0200, Matti Vaittinen wrote:
+> When fwnode_for_each_available_child_node() is used on the device-tree
+> backed systems, it renders to same operation as the
+> fwnode_for_each_child_node(), because the fwnode_for_each_child_node()
+> does only iterate through those device-tree nodes which are available.
+
+This makes me wonder why the OF backend implements
+fwnode_for_each_child_node() as fwnode_for_each_available_child_node().
+Is that on purpose, or is it a bug ?
+
+> The thp7312 uses the fwnode_for_each_available_child_node() to look up
+> and handle nodes with specific names. This means the code is used only
+> on the device-tree backed systems because the node names have little
+> meaning on ACPI or swnode backed systems.
 > 
-> This helper behaves the same as clk_get_optional() except where there is
-> no clock producer like in ACPI-based platforms.
+> Use the fwnode_for_each_child_node() instead of the
+> fwnode_for_each_available_child_node() In order to make it clearly
+> visible that the 'availability' of the nodes does not need to be
+> explicitly considered here. This will also make it clearly visible that
+> the code in this driver is suitable candidate to be converted to use the
+> new fwnode_for_each_named_child_node()[2] when it gets merged.
 > 
-> For ACPI-based platforms the function will read the "clock-frequency"
-> ACPI _DSD property and register a fixed frequency clock with the frequency
-> indicated in the property.
+> [1]: https://lore.kernel.org/all/Z9rhfJUlCbi7kA2m@kekkonen.localdomain/
+> [2]: https://lore.kernel.org/all/9c3880f74476436f39d796b5c10c540ae50b722c.1742225817.git.mazziesaccount@gmail.com/
 > 
-> Signed-off-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+> Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
+> 
 > ---
-> Link for discussion (where this patch was proposed): https://lore.kernel.org/linux-media/20250220154909.152538-1-mehdi.djait@linux.intel.com/
+> Revision history:
+> v1 => v2:
+>  - rephrase the commit message to not claim the 'availability' has no
+>    well defined meaning on the DT backed systems. Instead, explain that
+>    the fwnode_for_each_available_child_node() only iterates through the
+>    available nodes on the DT backed systems and is thus functionally
+>    equivalent to the fwnode_for_each_child_node().
 > 
-> v1 -> v2:
-> Suggested by Sakari:
->     - removed clk_name
->     - removed the IS_ERR() check
->     - improved the kernel-doc comment and commit msg
-> Link for v1: https://lore.kernel.org/linux-media/20250227092643.113939-1-mehdi.djait@linux.intel.com
+> NOTE: The change is compile tested only! Proper testing and reviewing is
+> highly appreciated (as always).
+> ---
+>  drivers/media/i2c/thp7312.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> v2 -> v3:
-> - Added #ifdef CONFIG_COMMON_CLK for the ACPI case
-> 
->  drivers/media/v4l2-core/v4l2-common.c | 39 +++++++++++++++++++++++++++
->  include/media/v4l2-common.h           | 18 +++++++++++++
->  2 files changed, 57 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> index 0a2f4f0d0a07..4e30f8b777b7 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -34,6 +34,9 @@
->   * Added Gerd Knorrs v4l1 enhancements (Justin Schoeman)
->   */
+> diff --git a/drivers/media/i2c/thp7312.c b/drivers/media/i2c/thp7312.c
+> index 8852c56431fe..4b66f64f8d65 100644
+> --- a/drivers/media/i2c/thp7312.c
+> +++ b/drivers/media/i2c/thp7312.c
+> @@ -2067,7 +2067,7 @@ static int thp7312_parse_dt(struct thp7312_device *thp7312)
+>  		return -EINVAL;
+>  	}
 >  
-> +#include <linux/clk.h>
-> +#include <linux/clkdev.h>
-> +#include <linux/clk-provider.h>
->  #include <linux/module.h>
->  #include <linux/types.h>
->  #include <linux/kernel.h>
-> @@ -636,3 +639,39 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
->  	return 0;
->  }
->  EXPORT_SYMBOL_GPL(v4l2_link_freq_to_bitmap);
-> +
-> +struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id)
-> +{
-> +	struct clk_hw *clk_hw;
-> +	struct clk *clk;
-> +	u32 rate;
-> +	int ret;
-> +
-> +	clk = devm_clk_get_optional(dev, id);
-> +	if (clk)
-> +		return clk;
-> +
-> +#ifdef CONFIG_COMMON_CLK
-
-This patch will cause warnings when CONFIG_COMMON_CLK is disabled. Could
-you use
-
-	if (IS_REACHABLE(CONFIG_COMMON_CLK)) {
-		...
-	}
-
-instead ? It will also ensure that all code gets compile-tested, even
-when CONFIG_COMMON_CLK is disabled ?
-
-If you want to minimize implementation, you could write
-
-	if (!IS_REACHABLE(CONFIG_COMMON_CLK))
-		return ERR_PTR(-ENOENT);
-
-and keep the code below as-is.
-
-> +	if (!is_acpi_node(dev_fwnode(dev)))
-> +		return ERR_PTR(-ENOENT);
-> +
-> +	ret = device_property_read_u32(dev, "clock-frequency", &rate);
-> +	if (ret)
-> +		return ERR_PTR(ret);
-> +
-> +	if (!id) {
-> +		id = devm_kasprintf(dev, GFP_KERNEL, "clk-%s", dev_name(dev));
-
-As far as I understand, the name doesn't need to stay valid after
-devm_clk_hw_register_fixed_rate() returns. You can call kasprintf here,
-and call kfree after devm_clk_hw_register_fixed_rate(). You could use
-__free to manage the memory life time:
-
-	const char *clk_id __free(kfree) = NULL;
-
-	if (!id) {
-		clk_id = kasprintf(GFP_KERNEL, "clk-%s", dev_name(dev));
-		if (!clk_id)
-			return ERR_PTR(-ENOMEM);
-		id = clk_id;
-	}
-
-> +		if (!id)
-> +			return ERR_PTR(-ENOMEM);
-> +	}
-> +
-> +	clk_hw = devm_clk_hw_register_fixed_rate(dev, id, NULL, 0, rate);
-> +	if (IS_ERR(clk_hw))
-> +		return ERR_CAST(clk_hw);
-> +
-> +	return clk_hw->clk;
-> +#else
-> +	return ERR_PTR(-ENOENT);
-> +#endif
-> +}
-> +EXPORT_SYMBOL_GPL(devm_v4l2_sensor_clk_get);
-> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> index 63ad36f04f72..35b9ac698e8a 100644
-> --- a/include/media/v4l2-common.h
-> +++ b/include/media/v4l2-common.h
-> @@ -573,6 +573,24 @@ int v4l2_link_freq_to_bitmap(struct device *dev, const u64 *fw_link_freqs,
->  			     unsigned int num_of_driver_link_freqs,
->  			     unsigned long *bitmap);
->  
-> +/**
-> + * devm_v4l2_sensor_clk_get - lookup and obtain a reference to an optional clock
-> + *			      producer for a camera sensor.
-> + *
-> + * @dev: device for v4l2 sensor clock "consumer"
-> + * @id: clock consumer ID
-> + *
-> + * This function behaves the same way as clk_get_optional() except where there
-> + * is no clock producer like in ACPI-based platforms.
-> + * For ACPI-based platforms, the function will read the "clock-frequency"
-> + * ACPI _DSD property and register a fixed-clock with the frequency indicated
-> + * in the property.
-> + *
-> + * Return:
-> + * * pointer to a struct clk on success or an error code on failure.
-> + */
-> +struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id);
-> +
->  static inline u64 v4l2_buffer_get_timestamp(const struct v4l2_buffer *buf)
->  {
->  	/*
+> -	fwnode_for_each_available_child_node(sensors, node) {
+> +	fwnode_for_each_child_node(sensors, node) {
+>  		if (fwnode_name_eq(node, "sensor")) {
+>  			if (!thp7312_sensor_parse_dt(thp7312, node))
+>  				num_sensors++;
+> 
+> base-commit: 7eb172143d5508b4da468ed59ee857c6e5e01da6
 
 -- 
 Regards,
