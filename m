@@ -1,164 +1,177 @@
-Return-Path: <linux-media+bounces-28553-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28554-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1391FA6B611
-	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 09:30:07 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12287A6B682
+	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 10:00:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2AFB37A83DD
-	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 08:29:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7ED1C3AE855
+	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 08:58:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A1501EFF99;
-	Fri, 21 Mar 2025 08:29:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E83971F03ED;
+	Fri, 21 Mar 2025 08:58:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZfdPMNmM"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ck+t6MkN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B965A17C210;
-	Fri, 21 Mar 2025 08:29:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01E32B9BC;
+	Fri, 21 Mar 2025 08:58:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742545794; cv=none; b=iAlav6qt9BX0zIaKeLhbnl/JPK06sP24VRBJhLdfmX9wrghFOSRVqZ7Mp4u946xv0pxm5v5HrnwpUj7LSFQ/piSvI/KX8Ve9IdE5WKfmppGTqCIPp9OVz6r71jbKXjDBz3MhmlelQqdzYFvXA39TUwIuzrpCpAg0SE0ZECFhpeI=
+	t=1742547528; cv=none; b=UgMOlczhGpoMXh+ZM56mtMvty/vWlIj8ox/RJnfisU+81p3MgCRnfqG8ModUI/DZq4UV3XXLdi5PZa8Rp06yYPrQSWN6i+v8ejTVxrDK7HroopEBzzmD5gb9VWMSaAnoRFoy+6ZzKGOV0hjhzLqAYe2w4Q9FfOkcQzrAs+n1fec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742545794; c=relaxed/simple;
-	bh=tFTHM2RfGa+9ZilHqFk4mBtlQxBhVVTEjxZP6+s5It8=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=g10AptGrQXSWRYZ097TDHXfyLpfO2jX7wZVckILnSpJIwm3q2ERUY1K04Ftr/FhT2mZEC6RMU96+uqlrSu/WALHj/ONFhpngA6JyS3Q/AerXwk+GcjkbkZfAo3JRrWMHOJwIhBmgc563gJBu0QwatSwuIJY11iNlMoiav7dV2Ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZfdPMNmM; arc=none smtp.client-ip=209.85.208.172
+	s=arc-20240116; t=1742547528; c=relaxed/simple;
+	bh=T1PvkW1tK5JReMqvH5nQyvYh9NGbhr3r9bOLr0LtqVE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Q7DYnyLrDTIt59PhOpfdIQ7Ajbl/aMNEsq4NetyOhmP/OaWfA+XXII8Fzy1lLHAxS7kNOg0BOZ1ZLbobLVFBmO2/TZrh2943b9+mFPGnNpmbTOf36nBtUSDbzOB8nK/dTuJFsAg78geE0LXWRJ6aIbhLJSPXTNc8z0/3izl9/9k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ck+t6MkN; arc=none smtp.client-ip=209.85.167.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-30b83290b7bso17711951fa.1;
-        Fri, 21 Mar 2025 01:29:52 -0700 (PDT)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-549963b5551so1895401e87.2;
+        Fri, 21 Mar 2025 01:58:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1742545791; x=1743150591; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=aTmc+7B7r3Ct9Gn3PyZkUnvw0YMub17N1opATrNTSr4=;
-        b=ZfdPMNmMMg82E5fs8kLXfTly9TGTT5/PCokrE/7eCWbjv1D64gF88G0FlOcqLj8KJT
-         Vx0r69Io7qcA2D5F5Pl3eBkvUFxAL2L7KhSfHN9xUZn4jmt6Cbzmqkd7ZTI/MGM2v1qT
-         +wuKM8qZ1FZBRq4zQOsunN9ckv054LGQvywYoGKRqDxfN5w8eUnjqp6xN7tt17NVy+3h
-         RYAzpeFL+kakmwHLJtdMHT2hR1DMiT+DL9vsjsqzuIX5ht2nNeVZSPR7EZSGytO4XQ6d
-         4taXd4RfJhxF7AuFxyu+qCdH99qfQKQkEGFujyxgi04c50Er8cel/X2GoKsOr5JddG7g
-         MzBw==
+        d=gmail.com; s=20230601; t=1742547524; x=1743152324; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VRxr/3yDierEJn4XMuzsB59m3HklSWHOO8B7tMnyABQ=;
+        b=ck+t6MkNy3ZWAlASTgLZMgE/nyCglxwZ7UPq3yzQ3HkgPwM/sr3do5UrPKY2v1iToK
+         oyXLU1P1AJR967imTe3gF5mRUiQsHZpS7xLvZun6UIjKeFf2qyXHkT4c8/BpMH0IFwAi
+         JhXjIUm1tVcd+upmukcliTixflb4qIPCZb51MwvTe88sH2hmhm+VJRF9emKLwl+Axliy
+         93OqTyy0lt5tzcdxarITnuwZEbe22pWtgAQpdc3gYiCZ1oDK2w1+1DEjfvMp0fG+GTUL
+         6Jyd2kpLZg1Dl0S22GvqUYOPE4ShljwENMIl8dj2jadqfD0GH5Zi3dHCuK9B0fiqPg6K
+         C5Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1742545791; x=1743150591;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :cc:to:from:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1742547524; x=1743152324;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aTmc+7B7r3Ct9Gn3PyZkUnvw0YMub17N1opATrNTSr4=;
-        b=xBp4mAaULcn4C5Zjn4MfhUg1UkurebDJRztCquYSKEJIFVsj9QU/IEEUiOeU7RWn5y
-         UJMicNw2NwFcgQ6vpjaJHP4rXhr9ZYFD5IJtJWn6q3GHjjqgZ/UZpRlG+/u8WxuC5I1/
-         LvFOE+mj1zVoUZ2Uh67+PPhrqidS/U95TYDCHzTUhMS9YT9g1ltx+pnRekc8/9fu4fy4
-         u7CiIq8mA0gHAAjhyGg7FqAMMFTfcqWj1SnSRjrTDGSNC6PIV/5jOS+WMTFPD7Bx+NjB
-         lucPjDQyqZ/WhlS9yQ6QXli9XFpGirmarhCSBrqSBzLWcPPEzkvlHufebS+wr5p8YlRr
-         733w==
-X-Forwarded-Encrypted: i=1; AJvYcCVhsqd5Ncjuzt/hdk0DcDO3d5VqxcMsToNoD2kWmeYafi7vaYOh1//lJqs/Ht952XaOfhE/srUlb8cSk8s=@vger.kernel.org, AJvYcCXs7NZFpBPo3ef66+jQr56MDn6qssn1AzCZpl47wkMRoXRfI6CtlQj48jepcGlBZ88ysoQn9sGE+EI/HSw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy+9BNge8E12ilB0NyZwgo+kR80piVkGzJQ6In5yYtXgRIzRYKD
-	wMP31JIpr4FbR3moz+Z+4SQy3IZFNBcGAGwim4qxtm3kxVh+ZkP4SRoDOQ==
-X-Gm-Gg: ASbGncsFICyReH0QcFbsF3Pmg1rE1mGIk32hvYuz7XDzmM4DfKzHW8Pnf5apUe9SbRC
-	ghxRNqZ9d8PKIY2nr/CYfFMZTGE1WXHZilUTZbLr0R5n+6XZIQcdm4/nhiy/ccvOD8IBcT85WyP
-	5e0yoxAYhLe0dv2rFWb9o9H2I06e/w+1ZZOYAe8gydVlmzHN5Mh7iDzyw+/3EVPWoxMkYjOQVZ9
-	PsWkCtSQZQDubCqp2XgLWKqO5cINpKm5n1VVMT9j2lEocN7AgSyUzd1ZNBXfn5gAr34AYmIeIDK
-	12d4TVmzQ0t0SgK1ZZ7g5xglKhqv23D+gzqHG8+D/8s/tBeI5hcbPbQUQrCYIVBf/1K7pWKmH/C
-	QAGnIrxvGMs78ClN/Xle9DAFH3A==
-X-Google-Smtp-Source: AGHT+IEJDE8JKnE3YsZE14EVbF+C3BriIXmFsOZUR4/ra5Oiuj296mslD90UTgcom+giEc/obQU4RQ==
-X-Received: by 2002:a05:6512:3e0a:b0:549:9078:dd46 with SMTP id 2adb3069b0e04-54ad64fbda3mr803385e87.43.1742545790481;
-        Fri, 21 Mar 2025 01:29:50 -0700 (PDT)
-Received: from ?IPV6:2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703? ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54ad650b89bsm126790e87.208.2025.03.21.01.29.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Mar 2025 01:29:48 -0700 (PDT)
-Message-ID: <7286121f-e3f4-48bb-9fea-1d14e695f203@gmail.com>
-Date: Fri, 21 Mar 2025 10:29:46 +0200
+        bh=VRxr/3yDierEJn4XMuzsB59m3HklSWHOO8B7tMnyABQ=;
+        b=t6vCcJV7JwT5Ay/KZiQ6XL4wMhoa80RGRxsO+F3DpLgPQRq58UdJ/2qiKU+SVNsI5v
+         z8pjvuS6LEA+s3XGpMNd9NWPRgAjvqBE69NboY4LWBm827e34m4eLdR4pfVBmWuIqIzY
+         iUh7iqmUSEcsZjkhVd5aGj0ku/epu5EIbmBgW151crR0eQkW34QFRbr9GnmrP2NObs/u
+         Vd+MvdoL8SHW4GDiU+2YICUSn5xI4xYq5klqggc/ZF/5f/cfe/+NhCnbAO5xNx+S4SH2
+         AmfpnRxRfsI1xPKkBbh9yNql4b/0v8PGA0EGc20P4BpynyQnYe67fN285XSCmJeAfSud
+         2WxA==
+X-Forwarded-Encrypted: i=1; AJvYcCUt73J57kKop2BhqH/1UDxXYnaJI2JOk15Pkc70MI64Bk6kYOxeoEE1PWoHv1rz4F27wPQDZungr27fQWI=@vger.kernel.org, AJvYcCVRCygcb10ybZvgTiPHmh9GalCsuVRO2hdAX52kO2zRWfyeYPkk0+VMZhfQOxhGviVEbBWI9A2YoOq8pA4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZ5QAfuUmWnbPs+9FgbisgZmMpmigLVDAEvPjru1tLbvFEGmwh
+	Uc485ObggJOgJHrr8ztUjWiS5VzIhR9WMcNK5DQIcl8jpo1LTBYa
+X-Gm-Gg: ASbGnctnV1sD5VFuz+ZakOeCIFAyYEQv40Nco3HjOpeHK+9dyN8z56jqJR2iBI5VxVl
+	yMrhl48rONkva8slcGMJfQnlb7y4D5RyGN1pXKgI9G2HNflKcAwY06Un1HTBBDGEvxxr/ZAvgCh
+	mlEn5nv85CHal0NLcuC/ABce37tE6jETxCarCiSdVeFNq05GPhUVdtb/DHbVDd4AxkZ8WyyYlwE
+	XK6S3d17glxDO8xLd9benA9YwZko/+cxhaxWaZ2JrkqtjJlozzvAhO5oFOBv3h1a9wSUtLddN8j
+	ll3jgYCsH4mzl/0natOyqkBroRuIRgn2wOB1HbWCTClQSxzYGJ4=
+X-Google-Smtp-Source: AGHT+IE8unwcjobvTvkmOqQeY6Nvu8RMXa/0/x987i137LsUQ3tqwRNKz4WQRIRSnEi7iG6QfNbr5w==
+X-Received: by 2002:a05:6512:3985:b0:545:2c2c:5802 with SMTP id 2adb3069b0e04-54ad6503700mr931235e87.48.1742547524113;
+        Fri, 21 Mar 2025 01:58:44 -0700 (PDT)
+Received: from mva-rohm ([2a10:a5c0:800d:dd00:8fdf:935a:2c85:d703])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54ad6468745sm131050e87.51.2025.03.21.01.58.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Mar 2025 01:58:41 -0700 (PDT)
+Date: Fri, 21 Mar 2025 10:58:27 +0200
+From: Matti Vaittinen <mazziesaccount@gmail.com>
+To: Matti Vaittinen <mazziesaccount@gmail.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [PATCH v2] media: i2c: thp7312: use fwnode_for_each_child_node()
+Message-ID: <Z90qM33DvkTMGg_x@mva-rohm>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: i2c: thp7312: Don't require node availability
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
- Paul Elder <paul.elder@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <Z9vTV7tS2ZI3tM6m@mva-rohm>
- <20250320142635.GA14394@pendragon.ideasonboard.com>
- <ffa5ae6d-a925-41da-9826-4bb376ca0fbe@gmail.com>
-Content-Language: en-US, en-AU, en-GB, en-BW
-In-Reply-To: <ffa5ae6d-a925-41da-9826-4bb376ca0fbe@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="2t2NLr7q7HXOL/hy"
+Content-Disposition: inline
 
-On 21/03/2025 08:35, Matti Vaittinen wrote:
-> Hi dee Ho Laurent,
-> 
-> On 20/03/2025 16:26, Laurent Pinchart wrote:
->> Hi Matti,
->>
->> On Thu, Mar 20, 2025 at 10:35:35AM +0200, Matti Vaittinen wrote:
->>> It appears that the concept of available firmware nodes is not really
->>> applicable to the scenarios where a specific name is required from a
->>> node.
->>>
->>> As explained[1] by Sakari:
->>> "OF only enumerates available nodes via the fwnode API, software nodes
->>> don't have the concept but on ACPI I guess you could have a difference
->>> in nodes where you have device sub-nodes that aren't available. Still,
->>> these ACPI device nodes don't have meaningful names in this context
->>> (they're 4-character object names) so you wouldn't use them like this
->>> anyway."
->>>
->>> Use the fwnode_for_each_child_node() instead of the
->>> fwnode_for_each_available_child_node() In order to make it clearly
->>> visible that the 'availability' of the nodes does not need to be
->>> considered here.
->>
->> Why not ? Node availability is a concept that exists in DT, and this
->> driver has only been tested on DT-based systems.
-> 
-> I admit I need to study this then. I just took what Sakari said for 
-> granted, without taking any further look at this.
-> 
 
-I took a peek in the 'availability' concept and found:
-https://elixir.bootlin.com/linux/v6.14-rc6/source/drivers/of/base.c#L468
+--2t2NLr7q7HXOL/hy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-So, the availability indeed has a well defined meaning in the DT, 
-boiling down to the value of the 'status' -property.
+When fwnode_for_each_available_child_node() is used on the device-tree
+backed systems, it renders to same operation as the
+fwnode_for_each_child_node(), because the fwnode_for_each_child_node()
+does only iterate through those device-tree nodes which are available.
 
-Then I took further look at the fwnode_for_each_child_node(), and if I'm 
-not mistaken, it calls:
+The thp7312 uses the fwnode_for_each_available_child_node() to look up
+and handle nodes with specific names. This means the code is used only
+on the device-tree backed systems because the node names have little
+meaning on ACPI or swnode backed systems.
 
-fwnode_for_each_child_node()
-	fwnode_get_next_child_node()
-		fwnode_call_ptr_op(fwnode, get_next_child_node, child);
-			 of_fwnode_get_next_child_node() (dt-based)
-				of_get_next_available_child() (dt-based)
+Use the fwnode_for_each_child_node() instead of the
+fwnode_for_each_available_child_node() In order to make it clearly
+visible that the 'availability' of the nodes does not need to be
+explicitly considered here. This will also make it clearly visible that
+the code in this driver is suitable candidate to be converted to use the
+new fwnode_for_each_named_child_node()[2] when it gets merged.
 
-where the of_get_next_available_child() skips all the disabled nodes.
+[1]:
+https://lore.kernel.org/all/Z9rhfJUlCbi7kA2m@kekkonen.localdomain/
+[2]:
+https://lore.kernel.org/all/9c3880f74476436f39d796b5c10c540ae50b722c.174222=
+5817.git.mazziesaccount@gmail.com/
 
-So, in that regard I agree with Sakari. On DT based systems, the
+Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
 
-fwnode_for_each_child_node() seems to equal the
-fwnode_for_each_available_child_node().
+---
+Revision history:
+v1 =3D> v2:
+ - rephrase the commit message to not claim the 'availability' has no
+   well defined meaning on the DT backed systems. Instead, explain that
+   the fwnode_for_each_available_child_node() only iterates through the
+   available nodes on the DT backed systems and is thus functionally
+   equivalent to the fwnode_for_each_child_node().
 
-And, since the 'thp7312' driver requires specific names for the nodes, 
-it indeed seems to me that only the device-tree use-case needs to be 
-considered.
+NOTE: The change is compile tested only! Proper testing and reviewing is
+highly appreciated (as always).
+---
+ drivers/media/i2c/thp7312.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-After all this I'd say this patch is still valid - but the commit 
-message is misleading. If no one objects I'll rewrite the commit msg and 
-respin :)
+diff --git a/drivers/media/i2c/thp7312.c b/drivers/media/i2c/thp7312.c
+index 8852c56431fe..4b66f64f8d65 100644
+--- a/drivers/media/i2c/thp7312.c
++++ b/drivers/media/i2c/thp7312.c
+@@ -2067,7 +2067,7 @@ static int thp7312_parse_dt(struct thp7312_device *th=
+p7312)
+ 		return -EINVAL;
+ 	}
+=20
+-	fwnode_for_each_available_child_node(sensors, node) {
++	fwnode_for_each_child_node(sensors, node) {
+ 		if (fwnode_name_eq(node, "sensor")) {
+ 			if (!thp7312_sensor_parse_dt(thp7312, node))
+ 				num_sensors++;
 
-Yours,
-	-- Matti
+base-commit: 7eb172143d5508b4da468ed59ee857c6e5e01da6
+--=20
+2.48.1
+
+
+--2t2NLr7q7HXOL/hy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEIx+f8wZb28fLKEhTeFA3/03aocUFAmfdKjAACgkQeFA3/03a
+ocV0rAf/dK/eKL5/DzjoxB77wHYFdZROYnEiIaVFsFXfV9SHL9bZhQym8Llova+w
+PNxsI8Yyu5b3A9wib3zXBN3MmswmtmXzDg96DicKUadygv3j5bKDa/lyMHfpmBQ8
+yu1Eg24bg1SSpTQN3v5JEGP90pFHd0qIwnevbQCOT2h22K6PyuG7wg3GUuBAQyQu
+i3G+yJYS7Lh2YtOxDm8O2gvicPQ0RjWhUN08s80mXxDGZSI2wGG5hDW1Qnrk0NQK
+4dwwkAgXZMx18OY583ssyjpNuHjvIZFIC2eJDHs8lsMyIoDvJnvUI1W8AA6dzPbw
+ZKUeq1H5xyq0P2iswLQOIgl8ig4gdA==
+=9nnn
+-----END PGP SIGNATURE-----
+
+--2t2NLr7q7HXOL/hy--
 
