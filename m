@@ -1,206 +1,100 @@
-Return-Path: <linux-media+bounces-28591-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28592-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FA95A6C586
-	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 22:57:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB04A6C720
+	for <lists+linux-media@lfdr.de>; Sat, 22 Mar 2025 03:39:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7DDB23B3B96
-	for <lists+linux-media@lfdr.de>; Fri, 21 Mar 2025 21:56:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD13A1788A9
+	for <lists+linux-media@lfdr.de>; Sat, 22 Mar 2025 02:38:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01C96232367;
-	Fri, 21 Mar 2025 21:57:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GYP6fsDD"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B90C678F2B;
+	Sat, 22 Mar 2025 02:38:52 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56F2D231C9F;
-	Fri, 21 Mar 2025 21:56:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F12258A;
+	Sat, 22 Mar 2025 02:38:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742594222; cv=none; b=VSojLZpcC7JcvIyP+rxGOaHunUwkIeMdj9KVONOsPwOPyDxpyr9o+ulSqQEycPCl2m3JOArMo4NbUv7HlkY0dBmETmcH2dMsC/FSB66LGIiMeuCrjc4dtjFqdLc9JMbJyweOCmlOTXhohRfyiZSzbHd1175olfp8z5APWb3JENg=
+	t=1742611132; cv=none; b=Bsq2QteE0wEcvW7z+OW6ggkkkaN9jgPel549wyL37pjIxHR+tC2+vGbmJwRM57OxzOH6NjCqZVYj+xHzJI56EnA3gih3kDEk7O3ZxWDWVC9/VmlGrtYMHUyydYKu/iMzmofU7lE50FrbwJnYs0onp5zUWI2qoPfCCSNU5fJIjJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742594222; c=relaxed/simple;
-	bh=XAGvWynXDWibkIhhVTdU5IuUHx6RupfoFAXHu1BGyqM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B85+SyGYsHqZEaYoIjH5YlE1Pmmr0oOqbjT7MtxBUezWYzj1KnWDStdsmdubZXxkfIQLeX3sJ3uREz2/Jf0vJlU1KAMhzFkLxygL69Uqw+vPGKb+VuincBZITvwnuaT0R+RKxDOqjYMvzpHjYfoh7jFcD/wH319q/ciGz3VxUr4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GYP6fsDD; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (unknown [194.75.195.10])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7B0CB346;
-	Fri, 21 Mar 2025 22:55:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1742594113;
-	bh=XAGvWynXDWibkIhhVTdU5IuUHx6RupfoFAXHu1BGyqM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GYP6fsDDN5istxHehr7hViEXFogC6ddM1avVzyy71EUe0MI93LhKbSmAJXWc4suOU
-	 CDFKFHmLauYXh9bxWpNyeks+aSeWceXA3K/t/+i//ev6uDVcnBPADJXZeXSfuDJTdj
-	 POntF3JRH2F+9CPXEzwzTLZkuki+vqvr5y+U3Q1Q=
-Date: Fri, 21 Mar 2025 23:56:34 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH v6 7/7] media: vsp1: pipe: Add RAW Bayer formats mapping
-Message-ID: <20250321215634.GB11255@pendragon.ideasonboard.com>
-References: <20250321-v4h-iif-v6-0-361e9043026a@ideasonboard.com>
- <20250321-v4h-iif-v6-7-361e9043026a@ideasonboard.com>
+	s=arc-20240116; t=1742611132; c=relaxed/simple;
+	bh=HDiGpQMUSQSSpd+1HQ3gtF15/rSaDB66Bi8OZmHTOUo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VKQ2ebY4BWVHtYav9CwWbUL2/n9J1fAvyV+xXHyInsV06kN2zdWI2Ri981Emi4eBFZGL86GWoJX79YWiZ0YbK9lWRXoioa3xnZKRLSuY0ZKKq+lnEPscmruiYH0tWZd2z4o4mEdTJ8lwNwBn1a8oZdBKBmNEFJW7g9KhSbbbYMw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.19.163.44])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4ZKNg83sDfz1g2Ck;
+	Sat, 22 Mar 2025 10:34:12 +0800 (CST)
+Received: from dggpemf500002.china.huawei.com (unknown [7.185.36.57])
+	by mail.maildlp.com (Postfix) with ESMTPS id 42A73140144;
+	Sat, 22 Mar 2025 10:38:46 +0800 (CST)
+Received: from huawei.com (10.175.101.6) by dggpemf500002.china.huawei.com
+ (7.185.36.57) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Sat, 22 Mar
+ 2025 10:38:45 +0800
+From: Yue Haibing <yuehaibing@huawei.com>
+To: <hverkuil@xs4all.nl>, <mchehab@kernel.org>, <lumag@kernel.org>,
+	<dmitry.baryshkov@linaro.org>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<yuehaibing@huawei.com>, <dri-devel@lists.freedesktop.org>
+Subject: [PATCH v2 -next] media: cec: tda9950: Add missing I2C dependency
+Date: Sat, 22 Mar 2025 10:49:14 +0800
+Message-ID: <20250322024914.3622546-1-yuehaibing@huawei.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250321-v4h-iif-v6-7-361e9043026a@ideasonboard.com>
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
+ dggpemf500002.china.huawei.com (7.185.36.57)
 
-Hi Jacopo,
+If CONFIG_I2C is not set, build fails:
 
-Thank you for the patch.
+drivers/media/cec/i2c/tda9950.c: In function ‘tda9950_probe’:
+drivers/media/cec/i2c/tda9950.c:391:14: error: implicit declaration of function ‘i2c_check_functionality’ [-Werror=implicit-function-declaration]
+	if (!i2c_check_functionality(client->adapter, I2C_FUNC_I2C)) {
+      |              ^~~~~~~~~~~~~~~~~~~~~~~
+  CC      crypto/aes_generic.o
+drivers/media/cec/i2c/tda9950.c: At top level:
+drivers/media/cec/i2c/tda9950.c:503:1: warning: data definition has no type or storage class
+  503 | module_i2c_driver(tda9950_driver);
+      | ^~~~~~~~~~~~~~~~~
+drivers/media/cec/i2c/tda9950.c:503:1: error: type defaults to ‘int’ in declaration of ‘module_i2c_driver’ [-Werror=implicit-int]
+drivers/media/cec/i2c/tda9950.c:503:1: warning: parameter names (without types) in function declaration
 
-On Fri, Mar 21, 2025 at 04:45:39PM +0100, Jacopo Mondi wrote:
-> Add formats definition for RAW Bayer formats in vsp1_pipe.c.
-> 
-> 8-bits RAW Bayer pixel formats map on VSP format RGB332.
+Add missing I2C dependency to fix this.
 
-s/map on/map to/
+Fixes: caa6f4a75e9f ("media: cec: move driver for TDA9950 from drm/i2c")
+Signed-off-by: Yue Haibing <yuehaibing@huawei.com>
+---
+v2: Fix patch title, also cc dri-devel list
+---
+ drivers/media/cec/i2c/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-> 10, 12 and 16 bits RAW Bayer pixel formats map on RGB565 insted.
-> 
-> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Tested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> ---
-> v3->v4:
-> - Fix SWAP bits for RAW 10, 12 and 16
-> ---
->  drivers/media/platform/renesas/vsp1/vsp1_pipe.c | 72 ++++++++++++++++++++++++-
->  1 file changed, 71 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> index 8e9be3ec1b4d..a51061738edc 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> @@ -30,10 +30,80 @@
->   */
->  
->  static const struct vsp1_format_info vsp1_video_formats[] = {
-> -	{ V4L2_PIX_FMT_RGB332, MEDIA_BUS_FMT_ARGB8888_1X32,
-> +	/* Raw Bayer 8-bit: Maps on RGB332 */
-> +	{ V4L2_PIX_FMT_SBGGR8, MEDIA_BUS_FMT_Y8_1X8,
-> +	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-> +	  1, { 8, 0, 0 }, false, false, 1, 1, false },
-> +	{ V4L2_PIX_FMT_SGBRG8, MEDIA_BUS_FMT_Y8_1X8,
-> +	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-> +	  1, { 8, 0, 0 }, false, false, 1, 1, false },
-> +	{ V4L2_PIX_FMT_SGRBG8, MEDIA_BUS_FMT_Y8_1X8,
-> +	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-> +	  1, { 8, 0, 0 }, false, false, 1, 1, false },
-> +	{ V4L2_PIX_FMT_SRGGB8, MEDIA_BUS_FMT_Y8_1X8,
->  	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
->  	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
->  	  1, { 8, 0, 0 }, false, false, 1, 1, false },
-
-Similarly to the media bus codes, could we have a single entry, using
-V4L2_PIX_FMT_GREY ? Same below with V4L2_PIX_FMT_Y10, V4L2_PIX_FMT_Y12
-and V4L2_PIX_FMT_Y16.
-
-This would still duplicate entries, as V4L2_PIX_FMT_Y1[026] are
-essentially treated the same, and they are identical to
-V4L2_PIX_FMT_RGB565. We could ask the ISP driver to use
-V4L2_PIX_FMT_RGB565 (and V4L2_PIX_FMT_RGB332 for 8-bit raw) when
-configuring the VSPX, but that's a bit of a hack.
-
-Another option would be to handle the translation in
-vsp1_vspx_rwpf_set_subdev_fmt(). I would still in that case only expect
-the V4L2_PIX_FMT_GREY and V4L2_PIX_FMT_Y* 4CCs from the ISP driver. This
-patch could then be dropped.
-
-What's your preference ?
-
-> +
-> +	/* Raw Bayer 10/12/16-bit: Maps on RGB565 */
-> +	{ V4L2_PIX_FMT_SBGGR10, MEDIA_BUS_FMT_Y10_1X10,
-> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> +	  VI6_RPF_DSWAP_P_WDS,
-> +	  1, { 10, 0, 0 }, false, false, 1, 1, false },
-
-The bpp values are used to calculate memory offsets. Unless I'm
-mistaken, you should use 16 here, not 10.
-
-> +	{ V4L2_PIX_FMT_SGBRG10, MEDIA_BUS_FMT_Y10_1X10,
-> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> +	  VI6_RPF_DSWAP_P_WDS,
-> +	  1, { 10, 0, 0 }, false, false, 1, 1, false },
-> +	{ V4L2_PIX_FMT_SGRBG10, MEDIA_BUS_FMT_Y10_1X10,
-> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> +	  VI6_RPF_DSWAP_P_WDS,
-> +	  1, { 10, 0, 0 }, false, false, 1, 1, false },
-> +	{ V4L2_PIX_FMT_SRGGB10, MEDIA_BUS_FMT_Y10_1X10,
-> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> +	  VI6_RPF_DSWAP_P_WDS,
-> +	  1, { 10, 0, 0 }, false, false, 1, 1, false },
-> +
-> +	{ V4L2_PIX_FMT_SBGGR12, MEDIA_BUS_FMT_Y12_1X12,
-> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> +	  VI6_RPF_DSWAP_P_WDS,
-> +	  1, { 12, 0, 0 }, false, false, 1, 1, false },
-> +	{ V4L2_PIX_FMT_SGBRG12, MEDIA_BUS_FMT_Y12_1X12,
-> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> +	  VI6_RPF_DSWAP_P_WDS,
-> +	  1, { 12, 0, 0 }, false, false, 1, 1, false },
-> +	{ V4L2_PIX_FMT_SGRBG12, MEDIA_BUS_FMT_Y12_1X12,
-> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> +	  VI6_RPF_DSWAP_P_WDS,
-> +	  1, { 12, 0, 0 }, false, false, 1, 1, false },
-> +	{ V4L2_PIX_FMT_SRGGB12, MEDIA_BUS_FMT_Y12_1X12,
-> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> +	  VI6_RPF_DSWAP_P_WDS,
-> +	  1, { 12, 0, 0 }, false, false, 1, 1, false },
-> +
-> +	{ V4L2_PIX_FMT_SBGGR16, MEDIA_BUS_FMT_Y16_1X16,
-> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> +	  VI6_RPF_DSWAP_P_WDS,
-> +	  1, { 16, 0, 0 }, false, false, 1, 1, false },
-> +	{ V4L2_PIX_FMT_SGBRG16, MEDIA_BUS_FMT_Y16_1X16,
-> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> +	  VI6_RPF_DSWAP_P_WDS,
-> +	  1, { 16, 0, 0 }, false, false, 1, 1, false },
-> +	{ V4L2_PIX_FMT_SGRBG16, MEDIA_BUS_FMT_Y16_1X16,
-> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> +	  VI6_RPF_DSWAP_P_WDS,
-> +	  1, { 16, 0, 0 }, false, false, 1, 1, false },
-> +	{ V4L2_PIX_FMT_SRGGB16, MEDIA_BUS_FMT_Y16_1X16,
-> +	  VI6_FMT_RGB_565, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> +	  VI6_RPF_DSWAP_P_WDS,
-> +	  1, { 16, 0, 0 }, false, false, 1, 1, false },
-> +
-> +	{ V4L2_PIX_FMT_RGB332, MEDIA_BUS_FMT_ARGB8888_1X32,
-> +	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> +	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-> +	  1, { 10, 0, 0 }, false, false, 1, 1, false },
-
-This doesn't seem right, the patch is changing the V4L2_PIX_FMT_RGB332.
-
->  	{ V4L2_PIX_FMT_ARGB444, MEDIA_BUS_FMT_ARGB8888_1X32,
->  	  VI6_FMT_ARGB_4444, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
->  	  VI6_RPF_DSWAP_P_WDS,
-
+diff --git a/drivers/media/cec/i2c/Kconfig b/drivers/media/cec/i2c/Kconfig
+index b9d21643eef1..c31abc26f602 100644
+--- a/drivers/media/cec/i2c/Kconfig
++++ b/drivers/media/cec/i2c/Kconfig
+@@ -16,6 +16,7 @@ config CEC_CH7322
+ 
+ config CEC_NXP_TDA9950
+ 	tristate "NXP Semiconductors TDA9950/TDA998X HDMI CEC"
++	depends on I2C
+ 	select CEC_NOTIFIER
+ 	select CEC_CORE
+ 	default DRM_I2C_NXP_TDA998X
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
 
