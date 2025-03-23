@@ -1,305 +1,1175 @@
-Return-Path: <linux-media+bounces-28597-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28598-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B603BA6D248
-	for <lists+linux-media@lfdr.de>; Sun, 23 Mar 2025 23:52:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A87A0A6D27B
+	for <lists+linux-media@lfdr.de>; Mon, 24 Mar 2025 00:46:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 123DC3B17AB
-	for <lists+linux-media@lfdr.de>; Sun, 23 Mar 2025 22:48:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BF7A23B1827
+	for <lists+linux-media@lfdr.de>; Sun, 23 Mar 2025 23:46:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA5271DED49;
-	Sun, 23 Mar 2025 22:45:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B1DF1AD3E0;
+	Sun, 23 Mar 2025 23:46:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="gpzvbk1/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kL13Jvao"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC0CDBA53;
-	Sun, 23 Mar 2025 22:45:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6391B800
+	for <linux-media@vger.kernel.org>; Sun, 23 Mar 2025 23:46:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742769903; cv=none; b=EXQx/mtzicbN0ZghknNutBiLy8FVlBmTE/XEVT5137UaZKQ1fRH3GjNNGzJ7VNlHe1Alnh2cDj6VxeARYkpzZTWq9G5W5340NZrvs3GGb1J8M01KFdprSVuMTPS3lIcErqnyeuNBM0qcmFzG33xFPH0kceBFvHWHVBU067+YINI=
+	t=1742773592; cv=none; b=t6RO11WXe7X0X/VTmT/knFqX6O8LyKFDB7mcJjXxeiEWv7iyWuScK4mUEuhuz6F2h1Ji0utHfc+3KDwL+IjD8JaiUS+WVcKQNfNF0Q640d9ssZSjSUPCMkDqEjM47NydZSVdc9v02jKWtq1OkM6phdK5kk6RecRe3lxzENVZuaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742769903; c=relaxed/simple;
-	bh=xCqn5FiTDlk8VfRuuwEImn8dGmxcyVuO1Zhr3g0tNGI=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=e8wi+EwgAHPs2NSVtg4tAi5ws9ZdNv8lBxzcWwLmIhZvrgeV7swU95Crq5nj2CZBXbJ2HlM5LHHiOisvl2cHT9OANsW9yjTPML+7qqtTRkJSx+fBx6nDScLx9uWx6NFe1Tfl/sZI3m2OqFNE075ZPuE/lH08SpcCFjShtL3Pwdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=gpzvbk1/; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
-Received: from [127.0.0.1] ([76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52NMeKdo3968387
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Sun, 23 Mar 2025 15:40:20 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52NMeKdo3968387
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025032001; t=1742769629;
-	bh=jX8qvOcg5sHOYMzS8O1ZeFoLDzr4b9fAXnawD1sDsAQ=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=gpzvbk1/xbueYaRDkNUQItniaCPabNWQpBYkbzyWYtmr70CkFDr1QjiA+EEsvKZvw
-	 x+NlI2wYpRq9XIxDM3W6qyI4muMLrm74m6hk9SQZhj6u/678GeAxC2aHNwRAd8Fz02
-	 eaUD2juyAsarROcyXcOXSBJeY7WSazHhunwmvS0uaYtHesKXlr5cVrOSTOXia+d9ur
-	 x0GW78E2/YRSCfLq+CgCW5Ss3gdvaEyZxBcb+3QJlbHUizJ8HRUBm+f0VKsMTTNTOb
-	 biBm8UgyfdkV3Cldwh9ks4o9ztz33Hpie/nEjLEaxfg2nLmHMgLWNzA/75tuDFoxiX
-	 JvvTdqoR1VRZA==
-Date: Sun, 23 Mar 2025 15:40:20 -0700
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Kuan-Wei Chiu <visitorckw@gmail.com>, Yury Norov <yury.norov@gmail.com>
-CC: David Laight <david.laight.linux@gmail.com>,
-        Andrew Cooper <andrew.cooper3@citrix.com>,
-        Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
-        akpm@linux-foundation.org, alistair@popple.id.au,
-        andrew+netdev@lunn.ch, andrzej.hajda@intel.com,
-        arend.vanspriel@broadcom.com, awalls@md.metrocast.net, bp@alien8.de,
-        bpf@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
-        brcm80211@lists.linux.dev, dave.hansen@linux.intel.com,
-        davem@davemloft.net, dmitry.torokhov@gmail.com,
-        dri-devel@lists.freedesktop.org, eajames@linux.ibm.com,
-        edumazet@google.com, eleanor15x@gmail.com, gregkh@linuxfoundation.org,
-        hverkuil@xs4all.nl, jernej.skrabec@gmail.com, jirislaby@kernel.org,
-        jk@ozlabs.org, joel@jms.id.au, johannes@sipsolutions.net,
-        jonas@kwiboo.se, jserv@ccns.ncku.edu.tw, kuba@kernel.org,
-        linux-fsi@lists.ozlabs.org, linux-input@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-mtd@lists.infradead.org, linux-serial@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux@rasmusvillemoes.dk,
-        louis.peens@corigine.com, maarten.lankhorst@linux.intel.com,
-        mchehab@kernel.org, mingo@redhat.com, miquel.raynal@bootlin.com,
-        mripard@kernel.org, neil.armstrong@linaro.org, netdev@vger.kernel.org,
-        oss-drivers@corigine.com, pabeni@redhat.com,
-        parthiban.veerasooran@microchip.com, rfoss@kernel.org, richard@nod.at,
-        simona@ffwll.ch, tglx@linutronix.de, tzimmermann@suse.de,
-        vigneshr@ti.com, x86@kernel.org
-Subject: Re: [PATCH v3 00/16] Introduce and use generic parity16/32/64 helper
-User-Agent: K-9 Mail for Android
-In-Reply-To: <Z+AlyB461xwMxMtG@visitorckw-System-Product-Name>
-References: <efc2ee9d-5382-457f-b471-f3c44b81a190@citrix.com> <5A790652-1B22-4D13-AAC5-5D9931E90903@zytor.com> <20250307195310.58abff8c@pumpkin> <EB85C3C1-8A0D-4CB9-B501-BFEABDF3E977@zytor.com> <Z824SgB9Dt5zdWYc@visitorckw-System-Product-Name> <Z9CyuowYsZyez36c@thinkpad> <80771542-476C-493E-858A-D2AF6A355CC1@zytor.com> <Z9GtcNJie8TRKywZ@thinkpad> <Z9G2Tyypb3iLoBjn@visitorckw-System-Product-Name> <Z9KMKwnZXA2mkD2s@visitorckw-System-Product-Name> <Z+AlyB461xwMxMtG@visitorckw-System-Product-Name>
-Message-ID: <05F7AC70-E8E7-4D14-A4EB-880D92A96534@zytor.com>
+	s=arc-20240116; t=1742773592; c=relaxed/simple;
+	bh=FpEWheI3B82iIwC8nJmQ9bxO9M+xWzQg61TDQ2rEkhs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=R9k2mubpAW7ZaWhvsI5m2Z4MuupebxUXMf3z5vdeAkKo2V+lde0V+0rljeq2b1bQqAybsvoBZT6ctG4dZpD++Q5mnEbm3h9ytK3X8xYwn6JQtPmWzy05Ja6fbIB75mSXAXEPeYaxK2O5TTRTDZvOV2ihQSHINPaxmJ/9ggkqs6Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kL13Jvao; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02793C4CEE2;
+	Sun, 23 Mar 2025 23:46:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1742773591;
+	bh=FpEWheI3B82iIwC8nJmQ9bxO9M+xWzQg61TDQ2rEkhs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=kL13JvaoM/UxDt+ER6VpmaSQKTSUwDPL1XBi7OPUjICemuJMM6LSU0Ov4x/xGlAOi
+	 leLwsyqKb9QUpMAbxd3tyMh5Pjk4tSrJr//Of9OfOMWCuYquRzbDQLNNl5jKnJlf+J
+	 P4JSuVc/9Y54qKZCaFksEZVGv+fg/ejg2ZrcvM/+28N5EAW9+PVpxr5/Zok8q9k5p2
+	 Kr0waa7bLPu4rmJ9CGvrsOBSEPjFYIBCTKaZuAdMXZ0Pvtnb0jcJ4iO4MEmWnD4akc
+	 auV0e7nNTD/cq5aVXhZ0SIMSRiVDhghKptgbVfn2B1PqPEA0HKhhYHYkKjSbA8T1Y3
+	 qEdHUAmkT0TrA==
+Message-ID: <4546bbcd-e134-43f2-b301-73006cda12f5@kernel.org>
+Date: Sun, 23 Mar 2025 23:46:28 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: i2c: Add Omnivision OV02C10 sensor driver
+To: Hans de Goede <hdegoede@redhat.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>
+Cc: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+ Ingvar Hagelund <ingvar@redpill-linpro.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+References: <20250319145927.70534-1-hdegoede@redhat.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bod@kernel.org>
+In-Reply-To: <20250319145927.70534-1-hdegoede@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On March 23, 2025 8:16:24 AM PDT, Kuan-Wei Chiu <visitorckw@gmail=2Ecom> wr=
-ote:
->On Thu, Mar 13, 2025 at 03:41:49PM +0800, Kuan-Wei Chiu wrote:
->> On Thu, Mar 13, 2025 at 12:29:13AM +0800, Kuan-Wei Chiu wrote:
->> > On Wed, Mar 12, 2025 at 11:51:12AM -0400, Yury Norov wrote:
->> > > On Tue, Mar 11, 2025 at 03:24:14PM -0700, H=2E Peter Anvin wrote:
->> > > > On March 11, 2025 3:01:30 PM PDT, Yury Norov <yury=2Enorov@gmail=
-=2Ecom> wrote:
->> > > > >On Sun, Mar 09, 2025 at 11:48:26PM +0800, Kuan-Wei Chiu wrote:
->> > > > >> On Fri, Mar 07, 2025 at 12:07:02PM -0800, H=2E Peter Anvin wro=
-te:
->> > > > >> > On March 7, 2025 11:53:10 AM PST, David Laight <david=2Elaig=
-ht=2Elinux@gmail=2Ecom> wrote:
->> > > > >> > >On Fri, 07 Mar 2025 11:30:35 -0800
->> > > > >> > >"H=2E Peter Anvin" <hpa@zytor=2Ecom> wrote:
->> > > > >> > >
->> > > > >> > >> On March 7, 2025 10:49:56 AM PST, Andrew Cooper <andrew=
-=2Ecooper3@citrix=2Ecom> wrote:
->> > > > >> > >> >> (int)true most definitely is guaranteed to be 1=2E =20
->> > > > >> > >> >
->> > > > >> > >> >That's not technically correct any more=2E
->> > > > >> > >> >
->> > > > >> > >> >GCC has introduced hardened bools that intentionally hav=
-e bit patterns
->> > > > >> > >> >other than 0 and 1=2E
->> > > > >> > >> >
->> > > > >> > >> >https://gcc=2Egnu=2Eorg/gcc-14/changes=2Ehtml
->> > > > >> > >> >
->> > > > >> > >> >~Andrew =20
->> > > > >> > >>=20
->> > > > >> > >> Bit patterns in memory maybe (not that I can see the Linu=
-x kernel using them) but
->> > > > >> > >> for compiler-generated conversations that's still a given=
-, or the manager isn't C
->> > > > >> > >> or anything even remotely like it=2E
->> > > > >> > >>=20
->> > > > >> > >
->> > > > >> > >The whole idea of 'bool' is pretty much broken by design=2E
->> > > > >> > >The underlying problem is that values other than 'true' and=
- 'false' can
->> > > > >> > >always get into 'bool' variables=2E
->> > > > >> > >
->> > > > >> > >Once that has happened it is all fubar=2E
->> > > > >> > >
->> > > > >> > >Trying to sanitise a value with (say):
->> > > > >> > >int f(bool v)
->> > > > >> > >{
->> > > > >> > >	return (int)v & 1;
->> > > > >> > >}   =20
->> > > > >> > >just doesn't work (see https://www=2Egodbolt=2Eorg/z/MEndP3=
-q9j)
->> > > > >> > >
->> > > > >> > >I really don't see how using (say) 0xaa and 0x55 helps=2E
->> > > > >> > >What happens if the value is wrong? a trap or exception?, g=
-ood luck recovering
->> > > > >> > >from that=2E
->> > > > >> > >
->> > > > >> > >	David
->> > > > >> >=20
->> > > > >> > Did you just discover GIGO?
->> > > > >>=20
->> > > > >> Thanks for all the suggestions=2E
->> > > > >>=20
->> > > > >> I don't have a strong opinion on the naming or return type=2E =
-I'm still a
->> > > > >> bit confused about whether I can assume that casting bool to i=
-nt always
->> > > > >> results in 0 or 1=2E
->> > > > >>=20
->> > > > >> If that's the case, since most people prefer bool over int as =
-the
->> > > > >> return type and some are against introducing u1, my current pl=
-an is to
->> > > > >> use the following in the next version:
->> > > > >>=20
->> > > > >> bool parity_odd(u64 val);
->> > > > >>=20
->> > > > >> This keeps the bool return type, renames the function for bett=
-er
->> > > > >> clarity, and avoids extra maintenance burden by having just on=
-e
->> > > > >> function=2E
->> > > > >>=20
->> > > > >> If I can't assume that casting bool to int always results in 0=
- or 1,
->> > > > >> would it be acceptable to keep the return type as int?
->> > > > >>=20
->> > > > >> Would this work for everyone?
->> > > > >
->> > > > >Alright, it's clearly a split opinion=2E So what I would do myse=
-lf in
->> > > > >such case is to look at existing code and see what people who re=
-ally
->> > > > >need parity invent in their drivers:
->> > > > >
->> > > > >                                     bool      parity_odd
->> > > > >static inline int parity8(u8 val)       -               -
->> > > > >static u8 calc_parity(u8 val)           -               -
->> > > > >static int odd_parity(u8 c)             -               +
->> > > > >static int saa711x_odd_parity           -               +
->> > > > >static int max3100_do_parity            -               -
->> > > > >static inline int parity(unsigned x)    -               -
->> > > > >static int bit_parity(u32 pkt)          -               -
->> > > > >static int oa_tc6_get_parity(u32 p)     -               -
->> > > > >static u32 parity32(__le32 data)        -               -
->> > > > >static u32 parity(u32 sample)           -               -
->> > > > >static int get_parity(int number,       -               -
->> > > > >                      int size)
->> > > > >static bool i2cr_check_parity32(u32 v,  +               -
->> > > > >                        bool parity)
->> > > > >static bool i2cr_check_parity64(u64 v)  +               -
->> > > > >static int sw_parity(__u64 t)           -               -
->> > > > >static bool parity(u64 value)           +               -
->> > > > >
->> > > > >Now you can refer to that table say that int parity(uXX) is what
->> > > > >people want to see in their drivers=2E
->> > > > >
->> > > > >Whichever interface you choose, please discuss it's pros and con=
-s=2E
->> > > > >What bloat-o-meter says for each option? What's maintenance burd=
-en?
->> > > > >Perf test? Look at generated code?
->> > > > >
->> > > > >I personally for a macro returning boolean, something like I
->> > > > >proposed at the very beginning=2E
->> > > > >
->> > > > >Thanks,
->> > > > >Yury
->> > > >=20
->> > > > Also, please at least provide a way for an arch to opt in to usin=
-g the builtins, which seem to produce as good results or better at least on=
- some architectures like x86 and probably with CPU options that imply fast =
-popcnt is available=2E
->> > >=20
->> > > Yeah=2E And because linux/bitops=2Eh already includes asm/bitops=2E=
-h
->> > > the simplest way would be wrapping generic implementation with
->> > > the #ifndef parity, similarly to how we handle find_next_bit case=
-=2E
->> > >=20
->> > > So:
->> > > 1=2E Kuan-Wei, please don't invent something like ARCH_HAS_PARITY;
->> > > 2=2E This may, and probably should, be a separate follow-up series,
->> > >    likely created by corresponding arch experts=2E
->> > >=20
->> > I saw discussions in the previous email thread about both
->> > __builtin_parity and x86-specific implementations=2E However, from th=
-e
->> > discussion, I learned that before considering any optimization, we
->> > should first ask: which driver or subsystem actually cares about pari=
-ty
->> > efficiency? If someone does, I can help with a micro-benchmark to
->> > provide performance numbers, but I don't have enough domain knowledge
->> > to identify hot paths where parity efficiency matters=2E
->> >=20
->> IMHO,
->>=20
->> If parity is never used in any hot path and we don't care about parity:
->>=20
->> Then benchmarking its performance seems meaningless=2E In this case, a
->> function with a u64 argument would suffice, and we might not even need
->> a macro to optimize for different types=E2=80=94especially since the ma=
-cro
->> requires special hacks to avoid compiler warnings=2E Also, I don't thin=
-k
->> code size matters here=2E If it does, we should first consider making
->> parity a non-inline function in a =2Ec file rather than an inline
->> function/macro in a header=2E
->>=20
->> If parity is used in a hot path:
->>=20
->> We need different handling for different type sizes=2E As previously
->> discussed, x86 assembly might use different instructions for u8 and
->> u16=2E This may sound stubborn, but I want to ask again: should we
->> consider using parity8/16/32/64 interfaces? Like in the i3c driver
->> example, if we only have a single parity macro that selects an
->> implementation based on type size, users must explicitly cast types=2E
->> If future users also need parity in a hot path, they might not be aware
->> of this requirement and end up generating suboptimal code=2E Since we
->> care about efficiency and generated code, why not follow hweight() and
->> provide separate implementations for different sizes?
->>=20
->It seems no one will reply to my two emails=2E So, I have summarized
->different interface approaches=2E If there is a next version, I will send
->it after the merge window closes=2E
->
->Interface 1: Single Function
->Description: bool parity_odd(u64)
->Pros: Minimal maintenance cost
->Cons: Difficult to integrate with architecture-specific implementations
->      due to the inability to optimize for different argument sizes
->Opinions: Jiri supports this approach
->
->Interface 2: Single Macro
->Description: parity_odd() macro
->Pros: Allows type-specific implementation
->Cons: Requires hacks to avoid warnings; users may need explicit
->      casting; potential sub-optimal code on 32-bit x86
->Opinions: Yury supports this approach
->
->Interface 3: Multiple Functions
->Description: bool parity_odd8/16/32/64()
->Pros: No need for explicit casting; easy to integrate
->      architecture-specific optimizations; except for parity8(), all
->      functions are one-liners with no significant code duplication
->Cons: More functions may increase maintenance burden
->Opinions: Only I support this approach
->
->Regards,
->Kuan-Wei
+On 19/03/2025 14:59, Hans de Goede wrote:
+> From: Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>
+> 
+> Add a new driver for the Omnivision OV02C10 camera sensor. This is based
+> on the out of tree driver by Hao Yao <hao.yao@intel.com> from:
+> https://github.com/intel/ipu6-drivers/blob/master/drivers/media/i2c/ov02c10.c
+> 
+> This has been tested on a Dell XPS 9440 together with the IPU6 isys CSI
+> driver and the libcamera software ISP code.
+> 
+> Tested-by: Ingvar Hagelund <ingvar@redpill-linpro.com> # Dell XPS 9340
+> Tested-by: Heimir Thor Sverrisson <heimir.sverrisson@gmail.com> # Dell XPS 9440
+> Signed-off-by: Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>
+> Co-developed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Co-developed-by: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+> Changes in v10:
+> - Squash in changes from Bryan to add DT / aarch64 devices support
+> - Add camera orientation and sensor rotation controls using
+>    v4l2_ctrl_new_fwnode_properties()
+> - Drop cur_mode since there is only 1 mode
+> - Add MODULE_AUTHOR() macros for Heimir and Hans
+> - Some small code cleanups from Sakari's v9 review
+> 
+> Changes in v9 (Hans de Goede):
+> - Squashed everything back into a single patch again
+> - Dropped Stanislaw's Tested-by tags since much has changed since v7
+> 
+> Changes in v8 (Hans de Goede):
+> - Many changes, so many that this has been posted as an incremental
+>    series on top of v7. See individual commits for change details:
+>    https://lore.kernel.org/linux-media/20250313184314.91410-1-hdegoede@redhat.com/
+> ---
+>   drivers/media/i2c/Kconfig   |   10 +
+>   drivers/media/i2c/Makefile  |    1 +
+>   drivers/media/i2c/ov02c10.c | 1013 +++++++++++++++++++++++++++++++++++
+>   3 files changed, 1024 insertions(+)
+>   create mode 100644 drivers/media/i2c/ov02c10.c
+> 
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index bb9ab2330d24..99a72b8ee45c 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -365,6 +365,16 @@ config VIDEO_OV02A10
+>   	  To compile this driver as a module, choose M here: the
+>   	  module will be called ov02a10.
+>   
+> +config VIDEO_OV02C10
+> +	tristate "OmniVision OV02C10 sensor support"
+> +	select V4L2_CCI_I2C
+> +	help
+> +	  This is a Video4Linux2 sensor driver for the OmniVision
+> +	  OV02C10 camera.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called ov02c10.
+> +
+>   config VIDEO_OV08D10
+>           tristate "OmniVision OV08D10 sensor support"
+>           help
+> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> index a17151bb3d49..191c1f7c3f50 100644
+> --- a/drivers/media/i2c/Makefile
+> +++ b/drivers/media/i2c/Makefile
+> @@ -85,6 +85,7 @@ obj-$(CONFIG_VIDEO_OG01A1B) += og01a1b.o
+>   obj-$(CONFIG_VIDEO_OV01A10) += ov01a10.o
+>   obj-$(CONFIG_VIDEO_OV01A1S) += ov01a1s.o
+>   obj-$(CONFIG_VIDEO_OV02A10) += ov02a10.o
+> +obj-$(CONFIG_VIDEO_OV02C10) += ov02c10.o
+>   obj-$(CONFIG_VIDEO_OV08D10) += ov08d10.o
+>   obj-$(CONFIG_VIDEO_OV08X40) += ov08x40.o
+>   obj-$(CONFIG_VIDEO_OV13858) += ov13858.o
+> diff --git a/drivers/media/i2c/ov02c10.c b/drivers/media/i2c/ov02c10.c
+> new file mode 100644
+> index 000000000000..9e3d4a4e12ce
+> --- /dev/null
+> +++ b/drivers/media/i2c/ov02c10.c
+> @@ -0,0 +1,1013 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +// Copyright (c) 2022 Intel Corporation.
+> +
+> +#include <linux/acpi.h>
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/regmap.h>
+> +#include <linux/version.h>
+> +#include <media/v4l2-cci.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-device.h>
+> +#include <media/v4l2-fwnode.h>
+> +
+> +#define OV02C10_LINK_FREQ_400MHZ	400000000ULL
+> +#define OV02C10_MCLK			19200000
+> +#define OV02C10_RGB_DEPTH		10
+> +
+> +#define OV02C10_REG_CHIP_ID		CCI_REG16(0x300a)
+> +#define OV02C10_CHIP_ID			0x5602
+> +
+> +#define OV02C10_REG_STREAM_CONTROL	CCI_REG8(0x0100)
+> +
+> +#define OV02C10_REG_HTS			CCI_REG16(0x380c)
+> +
+> +/* vertical-timings from sensor */
+> +#define OV02C10_REG_VTS			CCI_REG16(0x380e)
+> +#define OV02C10_VTS_MAX			0xffff
+> +
+> +/* Exposure controls from sensor */
+> +#define OV02C10_REG_EXPOSURE		CCI_REG16(0x3501)
+> +#define OV02C10_EXPOSURE_MIN		4
+> +#define OV02C10_EXPOSURE_MAX_MARGIN	8
+> +#define OV02C10_EXPOSURE_STEP		1
+> +
+> +/* Analog gain controls from sensor */
+> +#define OV02C10_REG_ANALOG_GAIN		CCI_REG16(0x3508)
+> +#define OV02C10_ANAL_GAIN_MIN		0x10
+> +#define OV02C10_ANAL_GAIN_MAX		0xf8
+> +#define OV02C10_ANAL_GAIN_STEP		1
+> +#define OV02C10_ANAL_GAIN_DEFAULT	0x10
+> +
+> +/* Digital gain controls from sensor */
+> +#define OV02C10_REG_DIGITAL_GAIN	CCI_REG24(0x350a)
+> +#define OV02C10_DGTL_GAIN_MIN		0x0400
+> +#define OV02C10_DGTL_GAIN_MAX		0x3fff
+> +#define OV02C10_DGTL_GAIN_STEP		1
+> +#define OV02C10_DGTL_GAIN_DEFAULT	0x0400
+> +
+> +/* Rotate */
+> +#define OV02C10_ROTATE_CONTROL		CCI_REG8(0x3820)
+> +#define OV02C10_ISP_X_WIN_CONTROL	CCI_REG16(0x3810)
+> +#define OV02C10_ISP_Y_WIN_CONTROL	CCI_REG16(0x3812)
+> +#define OV02C10_CONFIG_ROTATE		0x18
+> +
+> +/* Test Pattern Control */
+> +#define OV02C10_REG_TEST_PATTERN		CCI_REG8(0x4503)
+> +#define OV02C10_TEST_PATTERN_ENABLE		BIT(7)
+> +
+> +struct ov02c10_mode {
+> +	/* Frame width in pixels */
+> +	u32 width;
+> +
+> +	/* Frame height in pixels */
+> +	u32 height;
+> +
+> +	/* Horizontal timining size */
+> +	u32 hts;
+> +
+> +	/* Min vertical timining size */
+> +	u32 vts_min;
+> +
+> +	/* Sensor register settings for this resolution */
+> +	const struct reg_sequence *reg_sequence;
+> +	const int sequence_length;
+> +	/* Sensor register settings for 1 or 2 lane config */
+> +	const struct reg_sequence *lane_settings[2];
+> +	const int lane_settings_length[2];
+> +};
+> +
+> +static const struct reg_sequence sensor_1928x1092_30fps_setting[] = {
+> +	{0x0301, 0x08},
+> +	{0x0303, 0x06},
+> +	{0x0304, 0x01},
+> +	{0x0305, 0xe0},
+> +	{0x0313, 0x40},
+> +	{0x031c, 0x4f},
+> +	{0x3020, 0x97},
+> +	{0x3022, 0x01},
+> +	{0x3026, 0xb4},
+> +	{0x303b, 0x00},
+> +	{0x303c, 0x4f},
+> +	{0x303d, 0xe6},
+> +	{0x303e, 0x00},
+> +	{0x303f, 0x03},
+> +	{0x3021, 0x23},
+> +	{0x3501, 0x04},
+> +	{0x3502, 0x6c},
+> +	{0x3504, 0x0c},
+> +	{0x3507, 0x00},
+> +	{0x3508, 0x08},
+> +	{0x3509, 0x00},
+> +	{0x350a, 0x01},
+> +	{0x350b, 0x00},
+> +	{0x350c, 0x41},
+> +	{0x3600, 0x84},
+> +	{0x3603, 0x08},
+> +	{0x3610, 0x57},
+> +	{0x3611, 0x1b},
+> +	{0x3613, 0x78},
+> +	{0x3623, 0x00},
+> +	{0x3632, 0xa0},
+> +	{0x3642, 0xe8},
+> +	{0x364c, 0x70},
+> +	{0x365f, 0x0f},
+> +	{0x3708, 0x30},
+> +	{0x3714, 0x24},
+> +	{0x3725, 0x02},
+> +	{0x3737, 0x08},
+> +	{0x3739, 0x28},
+> +	{0x3749, 0x32},
+> +	{0x374a, 0x32},
+> +	{0x374b, 0x32},
+> +	{0x374c, 0x32},
+> +	{0x374d, 0x81},
+> +	{0x374e, 0x81},
+> +	{0x374f, 0x81},
+> +	{0x3752, 0x36},
+> +	{0x3753, 0x36},
+> +	{0x3754, 0x36},
+> +	{0x3761, 0x00},
+> +	{0x376c, 0x81},
+> +	{0x3774, 0x18},
+> +	{0x3776, 0x08},
+> +	{0x377c, 0x81},
+> +	{0x377d, 0x81},
+> +	{0x377e, 0x81},
+> +	{0x37a0, 0x44},
+> +	{0x37a6, 0x44},
+> +	{0x37aa, 0x0d},
+> +	{0x37ae, 0x00},
+> +	{0x37cb, 0x03},
+> +	{0x37cc, 0x01},
+> +	{0x37d8, 0x02},
+> +	{0x37d9, 0x10},
+> +	{0x37e1, 0x10},
+> +	{0x37e2, 0x18},
+> +	{0x37e3, 0x08},
+> +	{0x37e4, 0x08},
+> +	{0x37e5, 0x02},
+> +	{0x37e6, 0x08},
+> +
+> +	/* 1928x1092 */
+> +	{0x3800, 0x00},
+> +	{0x3801, 0x00},
+> +	{0x3802, 0x00},
+> +	{0x3803, 0x00},
+> +	{0x3804, 0x07},
+> +	{0x3805, 0x8f},
+> +	{0x3806, 0x04},
+> +	{0x3807, 0x47},
+> +	{0x3808, 0x07},
+> +	{0x3809, 0x88},
+> +	{0x380a, 0x04},
+> +	{0x380b, 0x44},
+> +	{0x3810, 0x00},
+> +	{0x3811, 0x02},
+> +	{0x3812, 0x00},
+> +	{0x3813, 0x02},
+> +	{0x3814, 0x01},
+> +	{0x3815, 0x01},
+> +	{0x3816, 0x01},
+> +	{0x3817, 0x01},
+> +
+> +	{0x3820, 0xb0},
+> +	{0x3821, 0x00},
+> +	{0x3822, 0x80},
+> +	{0x3823, 0x08},
+> +	{0x3824, 0x00},
+> +	{0x3825, 0x20},
+> +	{0x3826, 0x00},
+> +	{0x3827, 0x08},
+> +	{0x382a, 0x00},
+> +	{0x382b, 0x08},
+> +	{0x382d, 0x00},
+> +	{0x382e, 0x00},
+> +	{0x382f, 0x23},
+> +	{0x3834, 0x00},
+> +	{0x3839, 0x00},
+> +	{0x383a, 0xd1},
+> +	{0x383e, 0x03},
+> +	{0x393d, 0x29},
+> +	{0x393f, 0x6e},
+> +	{0x394b, 0x06},
+> +	{0x394c, 0x06},
+> +	{0x394d, 0x08},
+> +	{0x394f, 0x01},
+> +	{0x3950, 0x01},
+> +	{0x3951, 0x01},
+> +	{0x3952, 0x01},
+> +	{0x3953, 0x01},
+> +	{0x3954, 0x01},
+> +	{0x3955, 0x01},
+> +	{0x3956, 0x01},
+> +	{0x3957, 0x0e},
+> +	{0x3958, 0x08},
+> +	{0x3959, 0x08},
+> +	{0x395a, 0x08},
+> +	{0x395b, 0x13},
+> +	{0x395c, 0x09},
+> +	{0x395d, 0x05},
+> +	{0x395e, 0x02},
+> +	{0x395f, 0x00},
+> +	{0x395f, 0x00},
+> +	{0x3960, 0x00},
+> +	{0x3961, 0x00},
+> +	{0x3962, 0x00},
+> +	{0x3963, 0x00},
+> +	{0x3964, 0x00},
+> +	{0x3965, 0x00},
+> +	{0x3966, 0x00},
+> +	{0x3967, 0x00},
+> +	{0x3968, 0x01},
+> +	{0x3969, 0x01},
+> +	{0x396a, 0x01},
+> +	{0x396b, 0x01},
+> +	{0x396c, 0x10},
+> +	{0x396d, 0xf0},
+> +	{0x396e, 0x11},
+> +	{0x396f, 0x00},
+> +	{0x3970, 0x37},
+> +	{0x3971, 0x37},
+> +	{0x3972, 0x37},
+> +	{0x3973, 0x37},
+> +	{0x3974, 0x00},
+> +	{0x3975, 0x3c},
+> +	{0x3976, 0x3c},
+> +	{0x3977, 0x3c},
+> +	{0x3978, 0x3c},
+> +	{0x3c00, 0x0f},
+> +	{0x3c20, 0x01},
+> +	{0x3c21, 0x08},
+> +	{0x3f00, 0x8b},
+> +	{0x3f02, 0x0f},
+> +	{0x4000, 0xc3},
+> +	{0x4001, 0xe0},
+> +	{0x4002, 0x00},
+> +	{0x4003, 0x40},
+> +	{0x4008, 0x04},
+> +	{0x4009, 0x23},
+> +	{0x400a, 0x04},
+> +	{0x400b, 0x01},
+> +	{0x4077, 0x06},
+> +	{0x4078, 0x00},
+> +	{0x4079, 0x1a},
+> +	{0x407a, 0x7f},
+> +	{0x407b, 0x01},
+> +	{0x4080, 0x03},
+> +	{0x4081, 0x84},
+> +	{0x4308, 0x03},
+> +	{0x4309, 0xff},
+> +	{0x430d, 0x00},
+> +	{0x4806, 0x00},
+> +	{0x4813, 0x00},
+> +	{0x4837, 0x10},
+> +	{0x4857, 0x05},
+> +	{0x4500, 0x07},
+> +	{0x4501, 0x00},
+> +	{0x4503, 0x00},
+> +	{0x450a, 0x04},
+> +	{0x450e, 0x00},
+> +	{0x450f, 0x00},
+> +	{0x4900, 0x00},
+> +	{0x4901, 0x00},
+> +	{0x4902, 0x01},
+> +	{0x5001, 0x50},
+> +	{0x5006, 0x00},
+> +	{0x5080, 0x40},
+> +	{0x5181, 0x2b},
+> +	{0x5202, 0xa3},
+> +	{0x5206, 0x01},
+> +	{0x5207, 0x00},
+> +	{0x520a, 0x01},
+> +	{0x520b, 0x00},
+> +	{0x365d, 0x00},
+> +	{0x4815, 0x40},
+> +	{0x4816, 0x12},
+> +	{0x4f00, 0x01},
+> +};
+> +
+> +static const struct reg_sequence sensor_1928x1092_30fps_1lane_setting[] = {
+> +	{0x301b, 0xd2},
+> +	{0x3027, 0xe1},
+> +	{0x380c, 0x08},
+> +	{0x380d, 0xe8},
+> +	{0x380e, 0x04},
+> +	{0x380f, 0x8c},
+> +	{0x394e, 0x0b},
+> +	{0x4800, 0x24},
+> +	{0x5000, 0xf5},
+> +	/* plls */
+> +	{0x0303, 0x05},
+> +	{0x0305, 0x90},
+> +	{0x0316, 0x90},
+> +	{0x3016, 0x12},
+> +};
+> +
+> +static const struct reg_sequence sensor_1928x1092_30fps_2lane_setting[] = {
+> +	{0x301b, 0xf0},
+> +	{0x3027, 0xf1},
+> +	{0x380c, 0x04},
+> +	{0x380d, 0x74},
+> +	{0x380e, 0x09},
+> +	{0x380f, 0x18},
+> +	{0x394e, 0x0a},
+> +	{0x4041, 0x20},
+> +	{0x4884, 0x04},
+> +	{0x4800, 0x64},
+> +	{0x4d00, 0x03},
+> +	{0x4d01, 0xd8},
+> +	{0x4d02, 0xba},
+> +	{0x4d03, 0xa0},
+> +	{0x4d04, 0xb7},
+> +	{0x4d05, 0x34},
+> +	{0x4d0d, 0x00},
+> +	{0x5000, 0xfd},
+> +	{0x481f, 0x30},
+> +	/* plls */
+> +	{0x0303, 0x05},
+> +	{0x0305, 0x90},
+> +	{0x0316, 0x90},
+> +	{0x3016, 0x32},
+> +};
+> +
+> +static const char * const ov02c10_test_pattern_menu[] = {
+> +	"Disabled",
+> +	"Color Bar",
+> +	"Top-Bottom Darker Color Bar",
+> +	"Right-Left Darker Color Bar",
+> +	"Color Bar type 4",
+> +};
+> +
+> +static const s64 link_freq_menu_items[] = {
+> +	OV02C10_LINK_FREQ_400MHZ,
+> +};
+> +
+> +static const struct ov02c10_mode supported_modes[] = {
+> +	{
+> +		.width = 1928,
+> +		.height = 1092,
+> +		.hts = 2280,
+> +		.vts_min = 1164,
+> +		.reg_sequence = sensor_1928x1092_30fps_setting,
+> +		.sequence_length = ARRAY_SIZE(sensor_1928x1092_30fps_setting),
+> +		.lane_settings = {
+> +			sensor_1928x1092_30fps_1lane_setting,
+> +			sensor_1928x1092_30fps_2lane_setting
+> +		},
+> +		.lane_settings_length = {
+> +			ARRAY_SIZE(sensor_1928x1092_30fps_1lane_setting),
+> +			ARRAY_SIZE(sensor_1928x1092_30fps_2lane_setting),
+> +		},
+> +	},
+> +};
+> +
+> +static const char * const ov02c10_supply_names[] = {
+> +	"dovdd",	/* Digital I/O power */
+> +	"avdd",		/* Analog power */
+> +	"dvdd",		/* Digital core power */
+> +};
+> +
+> +struct ov02c10 {
+> +	struct v4l2_subdev sd;
+> +	struct media_pad pad;
+> +	struct v4l2_ctrl_handler ctrl_handler;
+> +	struct regmap *regmap;
+> +
+> +	/* V4L2 Controls */
+> +	struct v4l2_ctrl *link_freq;
+> +	struct v4l2_ctrl *pixel_rate;
+> +	struct v4l2_ctrl *vblank;
+> +	struct v4l2_ctrl *hblank;
+> +	struct v4l2_ctrl *exposure;
+> +
+> +	struct clk *img_clk;
+> +	struct gpio_desc *reset;
+> +	struct regulator_bulk_data supplies[ARRAY_SIZE(ov02c10_supply_names)];
+> +
+> +	/* MIPI lane info */
+> +	u32 link_freq_index;
+> +	u8 mipi_lanes;
+> +};
+> +
+> +static inline struct ov02c10 *to_ov02c10(struct v4l2_subdev *subdev)
+> +{
+> +	return container_of(subdev, struct ov02c10, sd);
+> +}
+> +
+> +static int ov02c10_test_pattern(struct ov02c10 *ov02c10, int pattern)
+> +{
+> +	int ret = 0;
+> +
+> +	if (!pattern)
+> +		return cci_update_bits(ov02c10->regmap, OV02C10_REG_TEST_PATTERN,
+> +				       BIT(7), 0, NULL);
+> +
+> +	cci_update_bits(ov02c10->regmap, OV02C10_REG_TEST_PATTERN,
+> +			0x03, pattern - 1, &ret);
+> +	cci_update_bits(ov02c10->regmap, OV02C10_REG_TEST_PATTERN,
+> +			BIT(7), OV02C10_TEST_PATTERN_ENABLE, &ret);
+> +	return ret;
+> +}
+> +
+> +static int ov02c10_set_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	struct ov02c10 *ov02c10 = container_of(ctrl->handler,
+> +					     struct ov02c10, ctrl_handler);
+> +	struct i2c_client *client = v4l2_get_subdevdata(&ov02c10->sd);
+> +	const u32 height = supported_modes[0].height;
+> +	s64 exposure_max;
+> +	int ret = 0;
+> +
+> +	/* Propagate change of current control to all related controls */
+> +	if (ctrl->id == V4L2_CID_VBLANK) {
+> +		/* Update max exposure while meeting expected vblanking */
+> +		exposure_max = height + ctrl->val - OV02C10_EXPOSURE_MAX_MARGIN;
+> +		__v4l2_ctrl_modify_range(ov02c10->exposure,
+> +					 ov02c10->exposure->minimum,
+> +					 exposure_max, ov02c10->exposure->step,
+> +					 exposure_max);
+> +	}
+> +
+> +	/* V4L2 controls values will be applied only when power is already up */
+> +	if (!pm_runtime_get_if_in_use(&client->dev))
+> +		return 0;
+> +
+> +	switch (ctrl->id) {
+> +	case V4L2_CID_ANALOGUE_GAIN:
+> +		cci_write(ov02c10->regmap, OV02C10_REG_ANALOG_GAIN,
+> +			  ctrl->val << 4, &ret);
+> +		break;
+> +
+> +	case V4L2_CID_DIGITAL_GAIN:
+> +		cci_write(ov02c10->regmap, OV02C10_REG_DIGITAL_GAIN,
+> +			  ctrl->val << 6, &ret);
+> +		break;
+> +
+> +	case V4L2_CID_EXPOSURE:
+> +		cci_write(ov02c10->regmap, OV02C10_REG_EXPOSURE,
+> +			  ctrl->val, &ret);
+> +		break;
+> +
+> +	case V4L2_CID_VBLANK:
+> +		cci_write(ov02c10->regmap, OV02C10_REG_VTS, height + ctrl->val,
+> +			  &ret);
+> +		break;
+> +
+> +	case V4L2_CID_TEST_PATTERN:
+> +		ret = ov02c10_test_pattern(ov02c10, ctrl->val);
+> +		break;
+> +
+> +	default:
+> +		ret = -EINVAL;
+> +		break;
+> +	}
+> +
+> +	pm_runtime_put(&client->dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct v4l2_ctrl_ops ov02c10_ctrl_ops = {
+> +	.s_ctrl = ov02c10_set_ctrl,
+> +};
+> +
+> +static int ov02c10_init_controls(struct ov02c10 *ov02c10)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(&ov02c10->sd);
+> +	struct v4l2_ctrl_handler *ctrl_hdlr = &ov02c10->ctrl_handler;
+> +	const struct ov02c10_mode *mode = &supported_modes[0];
+> +	u32 vblank_min, vblank_max, vblank_default, vts_def;
+> +	struct v4l2_fwnode_device_properties props;
+> +	s64 exposure_max, h_blank, pixel_rate;
+> +	int ret;
+> +
+> +	v4l2_ctrl_handler_init(ctrl_hdlr, 10);
+> +
+> +	ov02c10->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr,
+> +						    &ov02c10_ctrl_ops,
+> +						    V4L2_CID_LINK_FREQ,
+> +						    ov02c10->link_freq_index, 0,
+> +						    link_freq_menu_items);
+> +	if (ov02c10->link_freq)
+> +		ov02c10->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> +
+> +	/* MIPI lanes are DDR -> use link-freq * 2 */
+> +	pixel_rate = link_freq_menu_items[ov02c10->link_freq_index] * 2 *
+> +		     ov02c10->mipi_lanes / OV02C10_RGB_DEPTH;
+> +
+> +	ov02c10->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &ov02c10_ctrl_ops,
+> +						V4L2_CID_PIXEL_RATE, 0,
+> +						pixel_rate, 1, pixel_rate);
+> +
+> +	/*
+> +	 * For default multiple min by number of lanes to keep the default
+> +	 * FPS the same indepenedent of the lane count.
+> +	 */
+> +	vts_def = mode->vts_min * ov02c10->mipi_lanes;
+> +
+> +	vblank_min = mode->vts_min - mode->height;
+> +	vblank_max = OV02C10_VTS_MAX - mode->height;
+> +	vblank_default = vts_def - mode->height;
+> +	ov02c10->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &ov02c10_ctrl_ops,
+> +					    V4L2_CID_VBLANK, vblank_min,
+> +					    vblank_max, 1, vblank_default);
+> +
+> +	h_blank = mode->hts - mode->width;
+> +	ov02c10->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &ov02c10_ctrl_ops,
+> +					    V4L2_CID_HBLANK, h_blank, h_blank,
+> +					    1, h_blank);
+> +	if (ov02c10->hblank)
+> +		ov02c10->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> +
+> +	v4l2_ctrl_new_std(ctrl_hdlr, &ov02c10_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
+> +			  OV02C10_ANAL_GAIN_MIN, OV02C10_ANAL_GAIN_MAX,
+> +			  OV02C10_ANAL_GAIN_STEP, OV02C10_ANAL_GAIN_DEFAULT);
+> +	v4l2_ctrl_new_std(ctrl_hdlr, &ov02c10_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
+> +			  OV02C10_DGTL_GAIN_MIN, OV02C10_DGTL_GAIN_MAX,
+> +			  OV02C10_DGTL_GAIN_STEP, OV02C10_DGTL_GAIN_DEFAULT);
+> +	exposure_max = vts_def - OV02C10_EXPOSURE_MAX_MARGIN;
+> +	ov02c10->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &ov02c10_ctrl_ops,
+> +					      V4L2_CID_EXPOSURE,
+> +					      OV02C10_EXPOSURE_MIN,
+> +					      exposure_max,
+> +					      OV02C10_EXPOSURE_STEP,
+> +					      exposure_max);
+> +	v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &ov02c10_ctrl_ops,
+> +				     V4L2_CID_TEST_PATTERN,
+> +				     ARRAY_SIZE(ov02c10_test_pattern_menu) - 1,
+> +				     0, 0, ov02c10_test_pattern_menu);
+> +
+> +	ret = v4l2_fwnode_device_parse(&client->dev, &props);
+> +	if (ret)
+> +		return ret;
+> +
+> +	v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &ov02c10_ctrl_ops, &props);
+> +
+> +	if (ctrl_hdlr->error)
+> +		return ctrl_hdlr->error;
+> +
+> +	ov02c10->sd.ctrl_handler = ctrl_hdlr;
+> +
+> +	return 0;
+> +}
+> +
+> +static void ov02c10_update_pad_format(const struct ov02c10_mode *mode,
+> +				      struct v4l2_mbus_framefmt *fmt)
+> +{
+> +	fmt->width = mode->width;
+> +	fmt->height = mode->height;
+> +	fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+> +	fmt->field = V4L2_FIELD_NONE;
+> +}
+> +
+> +static int ov02c10_enable_streams(struct v4l2_subdev *sd,
+> +				  struct v4l2_subdev_state *state,
+> +				  u32 pad, u64 streams_mask)
+> +{
+> +	const struct ov02c10_mode *mode = &supported_modes[0];
+> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> +	struct ov02c10 *ov02c10 = to_ov02c10(sd);
+> +	const struct reg_sequence *reg_sequence;
+> +	int ret, sequence_length;
+> +
+> +	ret = pm_runtime_resume_and_get(&client->dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	reg_sequence = mode->reg_sequence;
+> +	sequence_length = mode->sequence_length;
+> +	ret = regmap_multi_reg_write(ov02c10->regmap,
+> +				     reg_sequence, sequence_length);
+> +	if (ret) {
+> +		dev_err(&client->dev, "failed to set mode\n");
+> +		goto out;
+> +	}
+> +
+> +	reg_sequence = mode->lane_settings[ov02c10->mipi_lanes - 1];
+> +	sequence_length = mode->lane_settings_length[ov02c10->mipi_lanes - 1];
+> +	ret = regmap_multi_reg_write(ov02c10->regmap,
+> +				     reg_sequence, sequence_length);
+> +	if (ret) {
+> +		dev_err(&client->dev, "failed to write lane settings\n");
+> +		goto out;
+> +	}
+> +
+> +	ret = __v4l2_ctrl_handler_setup(ov02c10->sd.ctrl_handler);
+> +	if (ret)
+> +		goto out;
+> +
+> +	ret = cci_write(ov02c10->regmap, OV02C10_REG_STREAM_CONTROL, 1, NULL);
+> +out:
+> +	if (ret)
+> +		pm_runtime_put(&client->dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static int ov02c10_disable_streams(struct v4l2_subdev *sd,
+> +				   struct v4l2_subdev_state *state,
+> +				   u32 pad, u64 streams_mask)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
+> +	struct ov02c10 *ov02c10 = to_ov02c10(sd);
+> +
+> +	cci_write(ov02c10->regmap, OV02C10_REG_STREAM_CONTROL, 0, NULL);
+> +	pm_runtime_put(&client->dev);
+> +
+> +	return 0;
+> +}
+> +
+> +/* This function tries to get power control resources */
+> +static int ov02c10_get_pm_resources(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct ov02c10 *ov02c10 = to_ov02c10(sd);
+> +	int i;
+> +
+> +	ov02c10->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
+> +	if (IS_ERR(ov02c10->reset))
+> +		return dev_err_probe(dev, PTR_ERR(ov02c10->reset),
+> +				     "failed to get reset gpio\n");
+> +
+> +	for (i = 0; i < ARRAY_SIZE(ov02c10_supply_names); i++)
+> +		ov02c10->supplies[i].supply = ov02c10_supply_names[i];
+> +
+> +	return devm_regulator_bulk_get(dev, ARRAY_SIZE(ov02c10_supply_names),
+> +				       ov02c10->supplies);
+> +}
+> +
+> +static int ov02c10_power_off(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct ov02c10 *ov02c10 = to_ov02c10(sd);
+> +
+> +	gpiod_set_value_cansleep(ov02c10->reset, 1);
+> +
+> +	regulator_bulk_disable(ARRAY_SIZE(ov02c10_supply_names),
+> +			       ov02c10->supplies);
+> +
+> +	clk_disable_unprepare(ov02c10->img_clk);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov02c10_power_on(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct ov02c10 *ov02c10 = to_ov02c10(sd);
+> +	int ret;
+> +
+> +	ret = clk_prepare_enable(ov02c10->img_clk);
+> +	if (ret < 0) {
+> +		dev_err(dev, "failed to enable imaging clock: %d", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = regulator_bulk_enable(ARRAY_SIZE(ov02c10_supply_names),
+> +				    ov02c10->supplies);
+> +	if (ret < 0) {
+> +		dev_err(dev, "failed to enable regulators: %d", ret);
+> +		clk_disable_unprepare(ov02c10->img_clk);
+> +		return ret;
+> +	}
+> +
+> +	if (ov02c10->reset) {
+> +		/* Assert reset for at least 2ms on back to back off-on */
+> +		usleep_range(2000, 2200);
+> +		gpiod_set_value_cansleep(ov02c10->reset, 0);
+> +		usleep_range(5000, 5100);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov02c10_set_format(struct v4l2_subdev *sd,
+> +			      struct v4l2_subdev_state *sd_state,
+> +			      struct v4l2_subdev_format *fmt)
+> +{
+> +	const struct ov02c10_mode *mode = &supported_modes[0];
+> +	struct ov02c10 *ov02c10 = to_ov02c10(sd);
+> +	s32 vblank_def, h_blank;
+> +
+> +	ov02c10_update_pad_format(mode, &fmt->format);
+> +	*v4l2_subdev_state_get_format(sd_state, fmt->pad) = fmt->format;
+> +
+> +	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
+> +		return 0;
+> +
+> +	/* Update limits and set FPS to default */
+> +	vblank_def = mode->vts_min * ov02c10->mipi_lanes - mode->height;
+> +	__v4l2_ctrl_modify_range(ov02c10->vblank, mode->vts_min - mode->height,
+> +				 OV02C10_VTS_MAX - mode->height, 1, vblank_def);
+> +	__v4l2_ctrl_s_ctrl(ov02c10->vblank, vblank_def);
+> +	h_blank = mode->hts - mode->width;
+> +	__v4l2_ctrl_modify_range(ov02c10->hblank, h_blank, h_blank, 1, h_blank);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov02c10_enum_mbus_code(struct v4l2_subdev *sd,
+> +				  struct v4l2_subdev_state *sd_state,
+> +				  struct v4l2_subdev_mbus_code_enum *code)
+> +{
+> +	if (code->index > 0)
+> +		return -EINVAL;
+> +
+> +	code->code = MEDIA_BUS_FMT_SGRBG10_1X10;
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov02c10_enum_frame_size(struct v4l2_subdev *sd,
+> +				   struct v4l2_subdev_state *sd_state,
+> +				   struct v4l2_subdev_frame_size_enum *fse)
+> +{
+> +	if (fse->index >= ARRAY_SIZE(supported_modes))
+> +		return -EINVAL;
+> +
+> +	if (fse->code != MEDIA_BUS_FMT_SGRBG10_1X10)
+> +		return -EINVAL;
+> +
+> +	fse->min_width = supported_modes[fse->index].width;
+> +	fse->max_width = fse->min_width;
+> +	fse->min_height = supported_modes[fse->index].height;
+> +	fse->max_height = fse->min_height;
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov02c10_init_state(struct v4l2_subdev *sd,
+> +			      struct v4l2_subdev_state *sd_state)
+> +{
+> +	ov02c10_update_pad_format(&supported_modes[0],
+> +				  v4l2_subdev_state_get_format(sd_state, 0));
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_subdev_video_ops ov02c10_video_ops = {
+> +	.s_stream = v4l2_subdev_s_stream_helper,
+> +};
+> +
+> +static const struct v4l2_subdev_pad_ops ov02c10_pad_ops = {
+> +	.set_fmt = ov02c10_set_format,
+> +	.get_fmt = v4l2_subdev_get_fmt,
+> +	.enum_mbus_code = ov02c10_enum_mbus_code,
+> +	.enum_frame_size = ov02c10_enum_frame_size,
+> +	.enable_streams = ov02c10_enable_streams,
+> +	.disable_streams = ov02c10_disable_streams,
+> +};
+> +
+> +static const struct v4l2_subdev_ops ov02c10_subdev_ops = {
+> +	.video = &ov02c10_video_ops,
+> +	.pad = &ov02c10_pad_ops,
+> +};
+> +
+> +static const struct media_entity_operations ov02c10_subdev_entity_ops = {
+> +	.link_validate = v4l2_subdev_link_validate,
+> +};
+> +
+> +static const struct v4l2_subdev_internal_ops ov02c10_internal_ops = {
+> +	.init_state = ov02c10_init_state,
+> +};
+> +
+> +static int ov02c10_identify_module(struct ov02c10 *ov02c10)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(&ov02c10->sd);
+> +	u64 chip_id;
+> +	int ret;
+> +
+> +	ret = cci_read(ov02c10->regmap, OV02C10_REG_CHIP_ID, &chip_id, NULL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (chip_id != OV02C10_CHIP_ID) {
+> +		dev_err(&client->dev, "chip id mismatch: %x!=%llx",
+> +			OV02C10_CHIP_ID, chip_id);
+> +		return -ENXIO;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov02c10_check_hwcfg(struct device *dev, struct ov02c10 *ov02c10)
+> +{
+> +	struct v4l2_fwnode_endpoint bus_cfg = {
+> +		.bus_type = V4L2_MBUS_CSI2_DPHY
+> +	};
+> +	struct fwnode_handle *ep, *fwnode = dev_fwnode(dev);
+> +	unsigned long link_freq_bitmap;
+> +	u32 mclk;
+> +	int ret;
+> +
+> +	/*
+> +	 * Sometimes the fwnode graph is initialized by the bridge driver,
+> +	 * wait for this.
+> +	 */
+> +	ep = fwnode_graph_get_endpoint_by_id(fwnode, 0, 0, 0);
+> +	if (!ep)
+> +		return dev_err_probe(dev, -EPROBE_DEFER,
+> +				     "waiting for fwnode graph endpoint\n");
+> +
+> +	ov02c10->img_clk = devm_clk_get_optional(dev, NULL);
+> +	if (IS_ERR(ov02c10->img_clk)) {
+> +		fwnode_handle_put(ep);
+> +		return dev_err_probe(dev, PTR_ERR(ov02c10->img_clk),
+> +				     "failed to get imaging clock\n");
+> +	}
+> +
+> +	if (ov02c10->img_clk) {
+> +		mclk = clk_get_rate(ov02c10->img_clk);
+> +	} else {
+> +		ret = fwnode_property_read_u32(fwnode, "clock-frequency", &mclk);
+> +		if (ret) {
+> +			fwnode_handle_put(ep);
+> +			return dev_err_probe(dev, ret,
+> +					     "reading clock-frequency property\n");
+> +		}
+> +	}
+> +
+> +	if (mclk != OV02C10_MCLK) {
+> +		fwnode_handle_put(ep);
+> +		return dev_err_probe(dev, -EINVAL,
+> +				     "external clock %u is not supported\n",
+> +				     mclk);
+> +	}
+> +
+> +	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+> +	fwnode_handle_put(ep);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "parsing endpoint failed\n");
+> +
+> +	ret = v4l2_link_freq_to_bitmap(dev, bus_cfg.link_frequencies,
+> +				       bus_cfg.nr_of_link_frequencies,
+> +				       link_freq_menu_items,
+> +				       ARRAY_SIZE(link_freq_menu_items),
+> +				       &link_freq_bitmap);
+> +	if (ret)
+> +		goto check_hwcfg_error;
+> +
+> +	/* v4l2_link_freq_to_bitmap() guarantees at least 1 bit is set */
+> +	ov02c10->link_freq_index = ffs(link_freq_bitmap) - 1;
+> +
+> +	if (bus_cfg.bus.mipi_csi2.num_data_lanes != 1 &&
+> +	    bus_cfg.bus.mipi_csi2.num_data_lanes != 2) {
+> +		ret = dev_err_probe(dev, -EINVAL,
+> +				    "number of CSI2 data lanes %u is not supported\n",
+> +				    bus_cfg.bus.mipi_csi2.num_data_lanes);
+> +		goto check_hwcfg_error;
+> +	}
+> +
+> +	ov02c10->mipi_lanes = bus_cfg.bus.mipi_csi2.num_data_lanes;
+> +
+> +check_hwcfg_error:
+> +	v4l2_fwnode_endpoint_free(&bus_cfg);
+> +	return ret;
+> +}
+> +
+> +static void ov02c10_remove(struct i2c_client *client)
+> +{
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +
+> +	v4l2_async_unregister_subdev(sd);
+> +	v4l2_subdev_cleanup(sd);
+> +	media_entity_cleanup(&sd->entity);
+> +	v4l2_ctrl_handler_free(sd->ctrl_handler);
+> +	pm_runtime_disable(&client->dev);
+> +	if (!pm_runtime_status_suspended(&client->dev)) {
+> +		ov02c10_power_off(&client->dev);
+> +		pm_runtime_set_suspended(&client->dev);
+> +	}
+> +}
+> +
+> +static int ov02c10_probe(struct i2c_client *client)
+> +{
+> +	struct ov02c10 *ov02c10;
+> +	int ret;
+> +
+> +	ov02c10 = devm_kzalloc(&client->dev, sizeof(*ov02c10), GFP_KERNEL);
+> +	if (!ov02c10)
+> +		return -ENOMEM;
+> +
+> +	v4l2_i2c_subdev_init(&ov02c10->sd, client, &ov02c10_subdev_ops);
+> +
+> +	/* Check HW config */
+> +	ret = ov02c10_check_hwcfg(&client->dev, ov02c10);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ov02c10_get_pm_resources(&client->dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ov02c10->regmap = devm_cci_regmap_init_i2c(client, 16);
+> +	if (IS_ERR(ov02c10->regmap))
+> +		return PTR_ERR(ov02c10->regmap);
+> +
+> +	ret = ov02c10_power_on(&client->dev);
+> +	if (ret) {
+> +		dev_err_probe(&client->dev, ret, "failed to power on\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = ov02c10_identify_module(ov02c10);
+> +	if (ret) {
+> +		dev_err(&client->dev, "failed to find sensor: %d", ret);
+> +		goto probe_error_power_off;
+> +	}
+> +
+> +	ret = ov02c10_init_controls(ov02c10);
+> +	if (ret) {
+> +		dev_err(&client->dev, "failed to init controls: %d", ret);
+> +		goto probe_error_v4l2_ctrl_handler_free;
+> +	}
+> +
+> +	ov02c10->sd.internal_ops = &ov02c10_internal_ops;
+> +	ov02c10->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +	ov02c10->sd.entity.ops = &ov02c10_subdev_entity_ops;
+> +	ov02c10->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> +	ov02c10->pad.flags = MEDIA_PAD_FL_SOURCE;
+> +	ret = media_entity_pads_init(&ov02c10->sd.entity, 1, &ov02c10->pad);
+> +	if (ret) {
+> +		dev_err(&client->dev, "failed to init entity pads: %d", ret);
+> +		goto probe_error_v4l2_ctrl_handler_free;
+> +	}
+> +
+> +	ov02c10->sd.state_lock = ov02c10->ctrl_handler.lock;
+> +	ret = v4l2_subdev_init_finalize(&ov02c10->sd);
+> +	if (ret < 0) {
+> +		dev_err(&client->dev, "failed to init subdev: %d", ret);
+> +		goto probe_error_media_entity_cleanup;
+> +	}
+> +
+> +	pm_runtime_set_active(&client->dev);
+> +	pm_runtime_enable(&client->dev);
+> +
+> +	ret = v4l2_async_register_subdev_sensor(&ov02c10->sd);
+> +	if (ret < 0) {
+> +		dev_err(&client->dev, "failed to register V4L2 subdev: %d",
+> +			ret);
+> +		goto probe_error_v4l2_subdev_cleanup;
+> +	}
+> +
+> +	pm_runtime_idle(&client->dev);
+> +	return 0;
+> +
+> +probe_error_v4l2_subdev_cleanup:
+> +	pm_runtime_disable(&client->dev);
+> +	pm_runtime_set_suspended(&client->dev);
+> +	v4l2_subdev_cleanup(&ov02c10->sd);
+> +
+> +probe_error_media_entity_cleanup:
+> +	media_entity_cleanup(&ov02c10->sd.entity);
+> +
+> +probe_error_v4l2_ctrl_handler_free:
+> +	v4l2_ctrl_handler_free(ov02c10->sd.ctrl_handler);
+> +
+> +probe_error_power_off:
+> +	ov02c10_power_off(&client->dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static DEFINE_RUNTIME_DEV_PM_OPS(ov02c10_pm_ops, ov02c10_power_off,
+> +				 ov02c10_power_on, NULL);
+> +
+> +#ifdef CONFIG_ACPI
+> +static const struct acpi_device_id ov02c10_acpi_ids[] = {
+> +	{ "OVTI02C1" },
+> +	{ /* sentinel */ }
+> +};
+> +
+> +MODULE_DEVICE_TABLE(acpi, ov02c10_acpi_ids);
+> +#endif
+> +
+> +static const struct of_device_id ov02c10_of_match[] = {
+> +	{ .compatible = "ovti,ov02c10" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, ov02c10_of_match);
+> +
+> +static struct i2c_driver ov02c10_i2c_driver = {
+> +	.driver = {
+> +		.name = "ov02c10",
+> +		.pm = pm_sleep_ptr(&ov02c10_pm_ops),
+> +		.acpi_match_table = ACPI_PTR(ov02c10_acpi_ids),
+> +		.of_match_table = ov02c10_of_match,
+> +	},
+> +	.probe = ov02c10_probe,
+> +	.remove = ov02c10_remove,
+> +};
+> +
+> +module_i2c_driver(ov02c10_i2c_driver);
+> +
+> +MODULE_AUTHOR("Hao Yao <hao.yao@intel.com>");
+> +MODULE_AUTHOR("Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>");
+> +MODULE_AUTHOR("Hans de Goede <hansg@kernel.org>");
+> +MODULE_DESCRIPTION("OmniVision OV02C10 sensor driver");
+> +MODULE_LICENSE("GPL");
 
-You can add me to the final option=2E I think it makes most sense 
+Needs a MAINTAINERS entry, I'd like +R on this to make sure nothing 
+breaks for the Qcom laptops.
+
++OMNIVISION OV08C10 SENSOR DRIVER
++M:     Hans de Goede <hansg@kernel.org>
++R:     Bryan O'Donoghue <bod@kernel.org>
++L:     linux-media@vger.kernel.org
++S:     Maintained
++T:     git git://linuxtv.org/media.git
++F:     drivers/media/i2c/ov08c10.c
++
+
+---
+bod
 
