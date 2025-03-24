@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-28633-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28634-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1331A6D9BC
-	for <lists+linux-media@lfdr.de>; Mon, 24 Mar 2025 13:03:40 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BA8CEA6D9C6
+	for <lists+linux-media@lfdr.de>; Mon, 24 Mar 2025 13:05:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B5C811894293
-	for <lists+linux-media@lfdr.de>; Mon, 24 Mar 2025 12:03:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3DC8B3B3D02
+	for <lists+linux-media@lfdr.de>; Mon, 24 Mar 2025 12:03:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C26225E826;
-	Mon, 24 Mar 2025 12:02:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A87B25F79D;
+	Mon, 24 Mar 2025 12:02:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qbLc9Myr"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GXz63yTZ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 285DC25DD13;
-	Mon, 24 Mar 2025 12:02:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5423325F792;
+	Mon, 24 Mar 2025 12:02:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742817748; cv=none; b=oCviotU/4Q5gPhOxrJW68eMEPG+Q69pMEZhr8gBg6uahe6CAvymGDgxX1xDYaqb457/2Fg2nJhr9B3LvH8Bn56G/9o79ITjbRVDqM5kwXruibDs/KJ2y5Z+hZz7TkrZk1YOIHrkj1RD7zgCtl34tBMicaphxtCfDIMeea90qBqc=
+	t=1742817753; cv=none; b=ZYvyDzChsNUYVa9ZKI2BrSOcMMhNeMIn6484Y2ktiGzOAseVfk37RX1GLi9LmxCWuJXe21CpZo4LJkqcnkVP9PQjZe93AWKjzpJIZ/M0OxwRr6EUCN8F2Ub3aIMSE6+OYmpOlDDRHAStKj4ADtODxplAMpxP/ig/eWYcmzrRqaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742817748; c=relaxed/simple;
-	bh=VG6p0zp7KXcoRUkpdVL0kcmAzSJA6yO4uBBaE7jlmUk=;
+	s=arc-20240116; t=1742817753; c=relaxed/simple;
+	bh=nO06MvROhvIV3lyFBXov2VZJkg+K/7hCEqnCnTBzYNs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Qn36FFdYJN+0JqTj7VLHdkw814mIZGHOmMhd5IBoXnmr4BJbqw18jJJWCn1gM2UXAOOs+VPHqRIa0YdN8C3qETN+D6r6sXN81cSkb4Le9qgA98FStpscTfJKUI5br/MoGEUxxNSAKHAmvXWyBBSHVod5zrqcJe0Aa8aBRy9KyKw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qbLc9Myr; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=WfzpgfuaLn0IcI1p63IIKN5W0xrk8toNXgMyUveo6JclCYPaT3vNpQ/qwnMkbaXSyMrrmgHmhLizFM/6EBQUe2kakgVCV3ZQ4ZtB8obm719D+sflFdhmcposPorud+qNPr0cJHTeCYZheE55DzH9kGHc5/G0BTlnmcxtjGMHpjc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GXz63yTZ; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:904a:b2d:8d57:4705:738e])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1F0C61059;
-	Mon, 24 Mar 2025 13:00:38 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 41FBC455;
+	Mon, 24 Mar 2025 13:00:43 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1742817639;
-	bh=VG6p0zp7KXcoRUkpdVL0kcmAzSJA6yO4uBBaE7jlmUk=;
+	s=mail; t=1742817643;
+	bh=nO06MvROhvIV3lyFBXov2VZJkg+K/7hCEqnCnTBzYNs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=qbLc9MyrhDMJXaKUEWLuSLWZFLADLOBnEhcmZBlLkRqOvU8qAebYSHWL97Nx8Mr04
-	 0G4Qkxz34gZfhClebOlYtH/Dwe3YdT/XpZs2yCrsuynNLMpF9RuPw82PUzSciOl9ow
-	 fy1qmWD18LMTzmg8nquwCbkYFzkDmLLDLsHyVMNE=
+	b=GXz63yTZXs8/RmudswsztHLBHZ6k+F/IZ6bnpRyvGP+YpPtCs9jCyiLFHntN9v87Z
+	 ADJCN4PLaJ34zrlSIIvUYaBcDgxz9RWefGTJDr20UccRnKyMN/sggki7kxnH2iUPwD
+	 1D4fqBtBKEjKIWbTS6BOVUdirVs5jCRE+ZX0zMas=
 From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Mon, 24 Mar 2025 17:31:41 +0530
-Subject: [PATCH 5/6] media: cadence: cdns-csi2rx: Support multiple pixels
- per clock cycle
+Date: Mon, 24 Mar 2025 17:31:42 +0530
+Subject: [PATCH 6/6] media: ti: j721e-csi2rx: Support multiple pixels per
+ clock
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,7 +53,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250324-probe_fixes-v1-5-5cd5b9e1cfac@ideasonboard.com>
+Message-Id: <20250324-probe_fixes-v1-6-5cd5b9e1cfac@ideasonboard.com>
 References: <20250324-probe_fixes-v1-0-5cd5b9e1cfac@ideasonboard.com>
 In-Reply-To: <20250324-probe_fixes-v1-0-5cd5b9e1cfac@ideasonboard.com>
 To: Jai Luthra <jai.luthra@linux.dev>, 
@@ -68,202 +68,151 @@ Cc: Devarsh Thakkar <devarsht@ti.com>,
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Jai Luthra <jai.luthra@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7074;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4663;
  i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=VG6p0zp7KXcoRUkpdVL0kcmAzSJA6yO4uBBaE7jlmUk=;
- b=kA0DAAgBQ96R+SSacUUByyZiAGfhSbGimX7+5BsjTvl+madDONRuV+jC1uGsS00evX+AYC/oB
- YkCMwQAAQgAHRYhBE3g2Bjl1XXo1FqvxUPekfkkmnFFBQJn4UmxAAoJEEPekfkkmnFFAuMP/jDY
- 9qbpQDxzamDO09gWyEbU+f1hx10sUiuSgT8T7NuCFpofP+aD9Dcit00J9z4dVZOcX4AttLFKt2t
- QbXRshzlb2G+hmyzw8p+iYLeePSzlsK4/IY3kZt+IFh2G2asRYQKg8coLSiAF8KlHfbR+J7HZOS
- AU/ka7iF29EpppStoXwxhhLK0mMB8eV85/lubL1mf2fQPk6OR63H+lcxrM7Y1P4V9GUs7f1E879
- XBVf6hs9aUAXGM7zx6KGwKkL1ltisPLZlExGy2QGVaVR4JTkZc3i6CIw03eUFowmQcOZH8QMjXS
- YoorFPG91Mq4B8Ca49klwD3+lR3nshjuT+Kd1tBmcpvSIdw2LJ2mSlbsDoGpZjE3ys1a3se+ljq
- AyfafGk9LBDfrc6YDwjIroTo2FiZF06XnXTP5YztawEl+4+wggFbZQ9Tz3Q4Kx7DwYIU41NhJQv
- D1Vcp66DLtRbqQB+QXRIbytTb76f4+4YKW/Bdya1s/3zgksR8Rg08L7vO7fuP9ZWSnxCY8egz1b
- rT9ZG9quOcaToXvsLdiig0juT2uADV+9+xb8Kg7xq/A7W1OYFSzanPA6SZJMoRASoXSG2snDF1H
- ZE2mG9Lkp8Ovmdens8RMWMHYszKUyvDStv1P/k7spmAHnav7HsUhZzT71yAcwA5l3uhFSadOu3P
- nvVop
+ bh=nO06MvROhvIV3lyFBXov2VZJkg+K/7hCEqnCnTBzYNs=;
+ b=owEBbQKS/ZANAwAIAUPekfkkmnFFAcsmYgBn4UmxLsOaLPaSUUSuhk7UqYZayUE5U28kB1LgO
+ SMEyARVhSKJAjMEAAEIAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCZ+FJsQAKCRBD3pH5JJpx
+ RTggEADFqq7N5lTqSTGKpKCTkaPDfWwUqwUD05/SnJkGDOchOGoX3kh4wAgywf3W5GzH/chSeDt
+ mBUlRNp7hERCtUs3DgjsET6an9ZLI06hzdk6twtn+EYEaf6DFEHTu2u8orNU+EbTpdg9nTaKZod
+ 8eo9HrA582Cs8Cs+OgawXeEAtZSiaFnRTJldlPe3li2VnkGXvuvMYdlIOGRLHfuC6OZEP/Zfw9Q
+ g6xFgDPcjM9ojST10cOgNPsidAeL6SmfarH+1CSEYJpbMLN+hXSV9MriFN7P7Papf5q2sk+ALZA
+ SP52o6Dws1BBUzQlo68kysNiyGO2mDS0tvjT62whp5jryfu4s+8zvZMlC6bY4R81M1qjP+glxuc
+ /t2vR/tgvQp99rlx6oJlQ3nn4Hqqcz0689BzUXawgynMQ5hzPzNtGdOygros6OLfuLkNJKKU3Ss
+ kdovkYBUUrHAkkP5qCBXoE2P3w1wVNvkbtm9b18OdGQYC2RiXrS9Hkfsst4MQ+c4ssVg0Lk7k02
+ H2RedjRZRf3u34Cudx444ALSzKf7VWdwJs5fLqDpjBgRpKeTosLksIVyfF60euwaiIP0aSbZGH6
+ UqxFPMrR5pL1zGo5v4Zn+hevvAA9o9jIj49/le4lfiSf0F6I+u9ZV6xWiQQpubDdfk1aDhya6yY
+ OUDKWLOygVZDnSQ==
 X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
  fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
-The output pixel interface is a parallel bus (32 bits), which
-supports sending multiple pixels (1, 2 or 4) per clock cycle for
-smaller pixel widths like RAW8-RAW16.
+Add support for negotiating the highest possible pixel mode (from
+single, dual, quad) with the Cadence CSI2RX bridge. This is required to
+drain the Cadence stream FIFOs without overflowing when the source is
+operating at a high link-frequency [1].
 
-Dual-pixel and Quad-pixel modes can be a requirement if the export rate
-of the Cadence IP in Single-pixel mode maxes out before the maximum
-supported DPHY-RX frequency, which is the case with TI's integration of
-this IP [1].
-
-So, we export a function that lets the downstream hardware block request
-a higher pixel-per-clock on a particular output pad.
-
-We check if we can support the requested pixels per clock given the
-known maximum for the currently configured format. If not, we set it
-to the highest feasible value and return this value to the caller.
+Also, update the Kconfig as this introduces a hard build-time dependency
+on the Cadence CSI2RX driver, even for a COMPILE_TEST.
 
 [1] Section 12.6.1.4.8.14 CSI_RX_IF Programming Restrictions of AM62 TRM
 
 Link: https://www.ti.com/lit/pdf/spruj16
 Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 ---
- drivers/media/platform/cadence/cdns-csi2rx.c | 74 +++++++++++++++++++++-------
- drivers/media/platform/cadence/cdns-csi2rx.h | 19 +++++++
- 2 files changed, 75 insertions(+), 18 deletions(-)
+ drivers/media/platform/ti/Kconfig                  |  3 +-
+ .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  | 38 ++++++++++++++++++++--
+ 2 files changed, 37 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-index b489967563cde96ac109c44a665b30e573125721..e394afe954fcdb7219dfd14df7a82e8e19cbd572 100644
---- a/drivers/media/platform/cadence/cdns-csi2rx.c
-+++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-@@ -22,6 +22,8 @@
- #include <media/v4l2-fwnode.h>
- #include <media/v4l2-subdev.h>
+diff --git a/drivers/media/platform/ti/Kconfig b/drivers/media/platform/ti/Kconfig
+index bab998c4179aca3b07372782b9be7de340cb8d45..3bc4aa35887e6edc9fa8749d9956a67714c59001 100644
+--- a/drivers/media/platform/ti/Kconfig
++++ b/drivers/media/platform/ti/Kconfig
+@@ -67,7 +67,8 @@ config VIDEO_TI_J721E_CSI2RX
+ 	tristate "TI J721E CSI2RX wrapper layer driver"
+ 	depends on VIDEO_DEV && VIDEO_V4L2_SUBDEV_API
+ 	depends on MEDIA_SUPPORT && MEDIA_CONTROLLER
+-	depends on (PHY_CADENCE_DPHY_RX && VIDEO_CADENCE_CSI2RX) || COMPILE_TEST
++	depends on VIDEO_CADENCE_CSI2RX
++	depends on PHY_CADENCE_DPHY_RX || COMPILE_TEST
+ 	depends on ARCH_K3 || COMPILE_TEST
+ 	select VIDEOBUF2_DMA_CONTIG
+ 	select V4L2_FWNODE
+diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+index ad51d033b6725426550578bdac1bae8443458f13..425324c3d6802cfda79d116d3967b61a2e7a015a 100644
+--- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
++++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+@@ -21,6 +21,8 @@
+ #include <media/v4l2-mc.h>
+ #include <media/videobuf2-dma-contig.h>
  
-+#include "cdns-csi2rx.h"
++#include "../../cadence/cdns-csi2rx.h"
 +
- #define CSI2RX_DEVICE_CFG_REG			0x000
+ #define TI_CSI2RX_MODULE_NAME		"j721e-csi2rx"
  
- #define CSI2RX_SOFT_RESET_REG			0x004
-@@ -53,6 +55,8 @@
+ #define SHIM_CNTL			0x10
+@@ -29,6 +31,7 @@
+ #define SHIM_DMACNTX			0x20
+ #define SHIM_DMACNTX_EN			BIT(31)
+ #define SHIM_DMACNTX_YUV422		GENMASK(27, 26)
++#define SHIM_DMACNTX_DUAL_PCK_CFG	BIT(24)
+ #define SHIM_DMACNTX_SIZE		GENMASK(21, 20)
+ #define SHIM_DMACNTX_FMT		GENMASK(5, 0)
+ #define SHIM_DMACNTX_YUV422_MODE_11	3
+@@ -40,6 +43,7 @@
+ #define SHIM_PSI_CFG0_SRC_TAG		GENMASK(15, 0)
+ #define SHIM_PSI_CFG0_DST_TAG		GENMASK(31, 16)
  
- #define CSI2RX_STREAM_CFG_REG(n)		(CSI2RX_STREAM_BASE(n) + 0x00c)
- #define CSI2RX_STREAM_CFG_FIFO_MODE_LARGE_BUF		(1 << 8)
-+#define CSI2RX_STREAM_CFG_NUM_PIXELS_MASK		GENMASK(5, 4)
-+#define CSI2RX_STREAM_CFG_NUM_PIXELS(n)			((n) >> 1)
- 
- #define CSI2RX_LANES_MAX	4
- #define CSI2RX_STREAMS_MAX	4
-@@ -68,7 +72,10 @@ enum csi2rx_pads {
- 
- struct csi2rx_fmt {
- 	u32				code;
-+	/* width of a single pixel on CSI-2 bus */
- 	u8				bpp;
-+	/* max pixels per clock supported on output bus */
-+	u8				max_pixels;
++#define TI_CSI2RX_MAX_PIX_PER_CLK	4
+ #define PSIL_WORD_SIZE_BYTES		16
+ /*
+  * There are no hard limits on the width or height. The DMA engine can handle
+@@ -110,6 +114,7 @@ struct ti_csi2rx_dev {
+ 	struct v4l2_format		v_fmt;
+ 	struct ti_csi2rx_dma		dma;
+ 	u32				sequence;
++	u8				pix_per_clk;
  };
  
- struct csi2rx_priv {
-@@ -90,6 +97,7 @@ struct csi2rx_priv {
- 	struct reset_control		*pixel_rst[CSI2RX_STREAMS_MAX];
- 	struct phy			*dphy;
- 
-+	u8				num_pixels[CSI2RX_STREAMS_MAX];
- 	u8				lanes[CSI2RX_LANES_MAX];
- 	u8				num_lanes;
- 	u8				max_lanes;
-@@ -106,22 +114,22 @@ struct csi2rx_priv {
- };
- 
- static const struct csi2rx_fmt formats[] = {
--	{ .code	= MEDIA_BUS_FMT_YUYV8_1X16, .bpp = 16, },
--	{ .code	= MEDIA_BUS_FMT_UYVY8_1X16, .bpp = 16, },
--	{ .code	= MEDIA_BUS_FMT_YVYU8_1X16, .bpp = 16, },
--	{ .code	= MEDIA_BUS_FMT_VYUY8_1X16, .bpp = 16, },
--	{ .code	= MEDIA_BUS_FMT_SBGGR8_1X8, .bpp = 8, },
--	{ .code	= MEDIA_BUS_FMT_SGBRG8_1X8, .bpp = 8, },
--	{ .code	= MEDIA_BUS_FMT_SGRBG8_1X8, .bpp = 8, },
--	{ .code	= MEDIA_BUS_FMT_SRGGB8_1X8, .bpp = 8, },
--	{ .code	= MEDIA_BUS_FMT_Y8_1X8,     .bpp = 8, },
--	{ .code	= MEDIA_BUS_FMT_SBGGR10_1X10, .bpp = 10, },
--	{ .code	= MEDIA_BUS_FMT_SGBRG10_1X10, .bpp = 10, },
--	{ .code	= MEDIA_BUS_FMT_SGRBG10_1X10, .bpp = 10, },
--	{ .code	= MEDIA_BUS_FMT_SRGGB10_1X10, .bpp = 10, },
--	{ .code	= MEDIA_BUS_FMT_RGB565_1X16,  .bpp = 16, },
--	{ .code	= MEDIA_BUS_FMT_RGB888_1X24,  .bpp = 24, },
--	{ .code	= MEDIA_BUS_FMT_BGR888_1X24,  .bpp = 24, },
-+	{ .code	= MEDIA_BUS_FMT_YUYV8_1X16, .bpp = 16, .max_pixels = 2, },
-+	{ .code	= MEDIA_BUS_FMT_UYVY8_1X16, .bpp = 16, .max_pixels = 2, },
-+	{ .code	= MEDIA_BUS_FMT_YVYU8_1X16, .bpp = 16, .max_pixels = 2, },
-+	{ .code	= MEDIA_BUS_FMT_VYUY8_1X16, .bpp = 16, .max_pixels = 2, },
-+	{ .code	= MEDIA_BUS_FMT_SBGGR8_1X8, .bpp = 8, .max_pixels = 4, },
-+	{ .code	= MEDIA_BUS_FMT_SGBRG8_1X8, .bpp = 8, .max_pixels = 4, },
-+	{ .code	= MEDIA_BUS_FMT_SGRBG8_1X8, .bpp = 8, .max_pixels = 4, },
-+	{ .code	= MEDIA_BUS_FMT_SRGGB8_1X8, .bpp = 8, .max_pixels = 4, },
-+	{ .code	= MEDIA_BUS_FMT_Y8_1X8,     .bpp = 8, .max_pixels = 4, },
-+	{ .code	= MEDIA_BUS_FMT_SBGGR10_1X10, .bpp = 10, .max_pixels = 2, },
-+	{ .code	= MEDIA_BUS_FMT_SGBRG10_1X10, .bpp = 10, .max_pixels = 2, },
-+	{ .code	= MEDIA_BUS_FMT_SGRBG10_1X10, .bpp = 10, .max_pixels = 2, },
-+	{ .code	= MEDIA_BUS_FMT_SRGGB10_1X10, .bpp = 10, .max_pixels = 2, },
-+	{ .code	= MEDIA_BUS_FMT_RGB565_1X16,  .bpp = 16, .max_pixels = 1, },
-+	{ .code	= MEDIA_BUS_FMT_RGB888_1X24,  .bpp = 24, .max_pixels = 1, },
-+	{ .code	= MEDIA_BUS_FMT_BGR888_1X24,  .bpp = 24, .max_pixels = 1, },
- };
- 
- static const struct csi2rx_fmt *csi2rx_get_fmt_by_code(u32 code)
-@@ -274,8 +282,10 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
- 
- 		reset_control_deassert(csi2rx->pixel_rst[i]);
- 
--		writel(CSI2RX_STREAM_CFG_FIFO_MODE_LARGE_BUF,
--		       csi2rx->base + CSI2RX_STREAM_CFG_REG(i));
-+		reg = CSI2RX_STREAM_CFG_FIFO_MODE_LARGE_BUF;
-+		reg |= FIELD_PREP(CSI2RX_STREAM_CFG_NUM_PIXELS_MASK,
-+				  csi2rx->num_pixels[i]);
-+		writel(reg, csi2rx->base + CSI2RX_STREAM_CFG_REG(i));
- 
- 		/*
- 		 * Enable one virtual channel. When multiple virtual channels
-@@ -456,6 +466,34 @@ static int csi2rx_init_state(struct v4l2_subdev *subdev,
- 	return csi2rx_set_fmt(subdev, state, &format);
+ static const struct ti_csi2rx_fmt ti_csi2rx_formats[] = {
+@@ -485,6 +490,26 @@ static int ti_csi2rx_notifier_register(struct ti_csi2rx_dev *csi)
+ 	return 0;
  }
  
-+int cdns_csi2rx_negotiate_ppc(struct v4l2_subdev *subdev, unsigned int pad,
-+			      u8 *ppc)
++/* Request maximum possible pixels per clock from the bridge */
++static void ti_csi2rx_request_max_ppc(struct ti_csi2rx_dev *csi)
 +{
-+	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
-+	const struct csi2rx_fmt *csi_fmt;
-+	struct v4l2_subdev_state *state;
-+	struct v4l2_mbus_framefmt *fmt;
-+	int ret = 0;
++	struct media_pad *pad;
++	int ret;
++	u8 ppc = TI_CSI2RX_MAX_PIX_PER_CLK;
 +
-+	if (!ppc || pad < CSI2RX_PAD_SOURCE_STREAM0 || pad >= CSI2RX_PAD_MAX)
-+		return -EINVAL;
++	pad = media_entity_remote_source_pad_unique(&csi->vdev.entity);
++	if (!pad)
++		return;
 +
-+	state = v4l2_subdev_lock_and_get_active_state(subdev);
-+	fmt = v4l2_subdev_state_get_format(state, pad);
-+	csi_fmt = csi2rx_get_fmt_by_code(fmt->code);
-+
-+	/* Reduce requested PPC if it is too high */
-+	*ppc = min(*ppc, csi_fmt->max_pixels);
-+
-+	v4l2_subdev_unlock_state(state);
-+
-+	csi2rx->num_pixels[pad - CSI2RX_PAD_SOURCE_STREAM0] =
-+		CSI2RX_STREAM_CFG_NUM_PIXELS(*ppc);
-+
-+	return ret;
++	ret = cdns_csi2rx_negotiate_ppc(csi->source, pad->index, &ppc);
++	if (ret) {
++		dev_warn(csi->dev, "NUM_PIXELS negotiation failed: %d\n", ret);
++		csi->pix_per_clk = 1;
++	} else {
++		csi->pix_per_clk = ppc;
++	}
 +}
-+EXPORT_SYMBOL(cdns_csi2rx_negotiate_ppc);
 +
- static const struct v4l2_subdev_pad_ops csi2rx_pad_ops = {
- 	.enum_mbus_code	= csi2rx_enum_mbus_code,
- 	.get_fmt	= v4l2_subdev_get_fmt,
-diff --git a/drivers/media/platform/cadence/cdns-csi2rx.h b/drivers/media/platform/cadence/cdns-csi2rx.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..128d47e8513c99c083f49e249e876be6d19389f6
---- /dev/null
-+++ b/drivers/media/platform/cadence/cdns-csi2rx.h
-@@ -0,0 +1,19 @@
-+/* SPDX-License-Identifier: GPL-2.0+ */
-+#ifndef CDNS_CSI2RX_H
-+#define CDNS_CSI2RX_H
+ static void ti_csi2rx_setup_shim(struct ti_csi2rx_dev *csi)
+ {
+ 	const struct ti_csi2rx_fmt *fmt;
+@@ -496,6 +521,9 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_dev *csi)
+ 	reg = SHIM_CNTL_PIX_RST;
+ 	writel(reg, csi->shim + SHIM_CNTL);
+ 
++	/* Negotiate pixel count from the source */
++	ti_csi2rx_request_max_ppc(csi);
 +
-+#include <media/v4l2-subdev.h>
-+
-+/**
-+ * cdns_csi2rx_negotiate_ppc - Negotiate pixel-per-clock on output interface
-+ *
-+ * @subdev: point to &struct v4l2_subdev
-+ * @pad: pad number of the source pad
-+ * @ppc: pointer to requested pixel-per-clock value
-+ *
-+ * Returns 0 on success, negative error code otherwise.
-+ */
-+int cdns_csi2rx_negotiate_ppc(struct v4l2_subdev *subdev, unsigned int pad,
-+			      u8 *ppc);
-+
-+#endif
+ 	reg = SHIM_DMACNTX_EN;
+ 	reg |= FIELD_PREP(SHIM_DMACNTX_FMT, fmt->csi_dt);
+ 
+@@ -524,14 +552,18 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_dev *csi)
+ 	case V4L2_PIX_FMT_YVYU:
+ 		reg |= FIELD_PREP(SHIM_DMACNTX_YUV422,
+ 				  SHIM_DMACNTX_YUV422_MODE_11);
++		/* Multiple pixels are handled differently for packed YUV */
++		if (csi->pix_per_clk == 2)
++			reg |= SHIM_DMACNTX_DUAL_PCK_CFG;
++		reg |= FIELD_PREP(SHIM_DMACNTX_SIZE, fmt->size);
+ 		break;
+ 	default:
+-		/* Ignore if not YUV 4:2:2 */
++		/* By default we change the shift size for multiple pixels */
++		reg |= FIELD_PREP(SHIM_DMACNTX_SIZE,
++				  fmt->size + (csi->pix_per_clk >> 1));
+ 		break;
+ 	}
+ 
+-	reg |= FIELD_PREP(SHIM_DMACNTX_SIZE, fmt->size);
+-
+ 	writel(reg, csi->shim + SHIM_DMACNTX);
+ 
+ 	reg = FIELD_PREP(SHIM_PSI_CFG0_SRC_TAG, 0) |
 
 -- 
 2.48.1
