@@ -1,185 +1,182 @@
-Return-Path: <linux-media+bounces-28602-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28603-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0E4DA6D506
-	for <lists+linux-media@lfdr.de>; Mon, 24 Mar 2025 08:25:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8590BA6D550
+	for <lists+linux-media@lfdr.de>; Mon, 24 Mar 2025 08:42:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E13043A5C5C
-	for <lists+linux-media@lfdr.de>; Mon, 24 Mar 2025 07:23:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3E4EF3B2D0F
+	for <lists+linux-media@lfdr.de>; Mon, 24 Mar 2025 07:40:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A9D62512F2;
-	Mon, 24 Mar 2025 07:23:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED0082580DF;
+	Mon, 24 Mar 2025 07:38:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ZY/ipM75"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i182jnZT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85EBB250C17;
-	Mon, 24 Mar 2025 07:23:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA6802580CC;
+	Mon, 24 Mar 2025 07:38:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742801005; cv=none; b=Ulfym+WtmLKCb44syBeTfskJ+cNp7Rnwv0V5RMI1ZY6Iyk/80Us/st3NnJIObOG1M5VsqMTHQlQA2N5D0DrUUV4frBqIv8p5e1jdSH/HQhv8yAw6d0lY8gUqAP3RERpRCzM/XSgkAOtJVObJkUSLiQuK91AUJerdY58kJ7cTajU=
+	t=1742801885; cv=none; b=be//CP5PmyYlnv9pQfa4xXGGiZ6Br8Cv7peuiUecRkNCaBQ+wDJMssdmce1fXLHYCdwospBWDIkhqE94b2xAbOb78z3AFsj88Pd4CjEW8AzojTa3EXMbIQFEzTwfLEaW3OiOfXLP+g8gzvWYbElxS7bRBxgup/46+PqzvnIP4LM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742801005; c=relaxed/simple;
-	bh=YXWjgc+LtkFVwK54Fq+jXzkI+tzud1ifstmjVonNXxM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=ISySjJaAjVqImEEK0xA8zOynXmDZBbQUZfipsYlMX9RhDSGGvLI1ttWQIjZqrIlRwof9TvuEeE/7+myFcQIi1sAJQyIrlqae4XURHC/KKaQTIJkAHimf4zVRY6PnyDnP+2hh5EvGQe8gtqi0wUSJvuIFqs22aCB9aAziRDgjm0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ZY/ipM75; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52O6d8sN001035;
-	Mon, 24 Mar 2025 07:23:15 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	JRHqQk8vUkI56yBzwoURTXxt6b+rm+AdYrcH5GWCykg=; b=ZY/ipM75hRxFjndJ
-	WRie34kRmlLI2ceLJYsZutZR8H4zwdhT5OvEY9vWQ2vkegMA2nJFGwmaKsVIWT/Y
-	amGijDHnVKlFenb7y5RllIK08iYONXuFfsQjtGxY618+YD6mvg4uqfgnbHIWvwu2
-	wip6pxpvuwSnb3E78wD/qfsULdvBPK+PKiEDUO6JlfutzTFnNeEnlCxhhL9S/LZW
-	w9JYqd730wAG3edcGDwyeXBnKtl2NxPHsanznF0F6zH7VDtrYMm0RbzctaQY1uwQ
-	vZju2rN/t4h7SWscE+kAYfR+R5hEPOLDTqIxw8rn03cnr5wUkZyrUczUyd6AaclJ
-	Cj63gA==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45hne5ucta-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 24 Mar 2025 07:23:14 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52O7NExn022764
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 24 Mar 2025 07:23:14 GMT
-Received: from [10.204.100.69] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 24 Mar
- 2025 00:23:10 -0700
-Message-ID: <b9f8dc30-7f6a-ecd5-16d1-678d9f2004cd@quicinc.com>
-Date: Mon, 24 Mar 2025 12:53:07 +0530
+	s=arc-20240116; t=1742801885; c=relaxed/simple;
+	bh=+zNwDvBHc6Iy+Bym23/g2A0Pz5hmPzXzTjB2AtRQzuc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BF7myiPg3vLZQGsJ2qYiY9R31phZUH4AjfxOodqZ+1GLY3DjV/7kzVMzAnZXc829aw4kkct5w9GYx3oH2QqUc7z/UBCgq9Oc34BYm9lA7jxT5C2bo4htsj2teQF72ajEiq1EOlfJSWDnMxJdjXqp88mdrqD9scq6AKXfRCUi6ms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i182jnZT; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1742801884; x=1774337884;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=+zNwDvBHc6Iy+Bym23/g2A0Pz5hmPzXzTjB2AtRQzuc=;
+  b=i182jnZTbd8HZEz7446QDXC4DHAcbw68tjO0zVvwJk+T65+/CNHAD8fo
+   iMy3D9IfEvOH+hmdh98RQXu1RCBUbK9y7meS1f803n2w+PgXEwTfKNVjk
+   EUbnq4cJcHozOHLjmgI0zViLO+MWjcIyyL60cRTTVpKsXdqdfthRuElMl
+   wBKMKlI2Lr7KZmDm/6/hEoxsxiTqrMof7CFWjNuKzDaE+lb6zo39dYs6E
+   YgUOb7lhyZ/1J3P8ub5bpGGZeiS0wqSEUrTSXdMMQqWPLBc8x0ZwqlbbQ
+   +d1VnLOd5OjNGNn/kpN1d2y93w/mgRriNqNt6yyBl2jitFbOS3ZAIzHIs
+   g==;
+X-CSE-ConnectionGUID: S5ASHaJkRqmPIQkL1JbMsA==
+X-CSE-MsgGUID: NeUkaGr1RsCuJLsevJlnig==
+X-IronPort-AV: E=McAfee;i="6700,10204,11382"; a="66459034"
+X-IronPort-AV: E=Sophos;i="6.14,271,1736841600"; 
+   d="scan'208";a="66459034"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 00:38:03 -0700
+X-CSE-ConnectionGUID: jzLYqVEJSuKkE0GJaXaozA==
+X-CSE-MsgGUID: eEFpxMbATiuaylW4BJHlXg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,271,1736841600"; 
+   d="scan'208";a="124125564"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 00:38:00 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 5A6CE120AB3;
+	Mon, 24 Mar 2025 09:37:57 +0200 (EET)
+Date: Mon, 24 Mar 2025 07:37:57 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Mehdi Djait <mehdi.djait@linux.intel.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
+	hverkuil@xs4all.nl, kieran.bingham@ideasonboard.com,
+	naush@raspberrypi.com, mchehab@kernel.org, hdegoede@redhat.com,
+	dave.stevenson@raspberrypi.com, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [RFC PATCH v3] media: v4l2-common: Add a helper for obtaining
+ the clock producer
+Message-ID: <Z-EL1Y9Fh_0Z8KBt@kekkonen.localdomain>
+References: <20250321093814.18159-1-mehdi.djait@linux.intel.com>
+ <20250321101124.GB25483@pendragon.ideasonboard.com>
+ <ryzkubgzndeyufi2i4vuwmgaekyapol36oln237ki4m3fh32yl@mpr7g5woiqcf>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2 1/7] dt-bindings: media: qcom,sm8550-iris: document
- SM8650 IRIS accelerator
-Content-Language: en-US
-To: Neil Armstrong <neil.armstrong@linaro.org>,
-        Dikshita Agarwal
-	<quic_dikshita@quicinc.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20250305-topic-sm8x50-iris-v10-v2-0-bd65a3fc099e@linaro.org>
- <20250305-topic-sm8x50-iris-v10-v2-1-bd65a3fc099e@linaro.org>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <20250305-topic-sm8x50-iris-v10-v2-1-bd65a3fc099e@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 30eiHm5MOBdHn0bwt5wRAuxAG4EPuWXS
-X-Proofpoint-ORIG-GUID: 30eiHm5MOBdHn0bwt5wRAuxAG4EPuWXS
-X-Authority-Analysis: v=2.4 cv=JvPxrN4C c=1 sm=1 tr=0 ts=67e10862 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8
- a=EHIPYe3-PrpxJ9E0mfMA:9 a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-24_03,2025-03-21_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
- malwarescore=0 priorityscore=1501 lowpriorityscore=0 bulkscore=0
- suspectscore=0 phishscore=0 impostorscore=0 adultscore=0 clxscore=1015
- mlxscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503240052
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ryzkubgzndeyufi2i4vuwmgaekyapol36oln237ki4m3fh32yl@mpr7g5woiqcf>
 
+Hi Laurent, Mehdi,
 
-On 3/6/2025 12:35 AM, Neil Armstrong wrote:
-> Document the IRIS video decoder and encoder accelerator found in the
-> SM8650 platform, it requires 2 more reset lines in addition to the
-> properties required for the SM8550 platform.
+On Fri, Mar 21, 2025 at 01:30:43PM +0100, Mehdi Djait wrote:
+> Hi Laurent,
 > 
-> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->  .../bindings/media/qcom,sm8550-iris.yaml           | 33 ++++++++++++++++++----
->  1 file changed, 28 insertions(+), 5 deletions(-)
+> thank you for the review!
 > 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-> index e424ea84c211f473a799481fd5463a16580187ed..536cf458dcb08141e5a1ec8c3df964196e599a57 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-> @@ -14,12 +14,11 @@ description:
->    The iris video processing unit is a video encode and decode accelerator
->    present on Qualcomm platforms.
->  
-> -allOf:
-> -  - $ref: qcom,venus-common.yaml#
-> -
->  properties:
->    compatible:
-> -    const: qcom,sm8550-iris
-> +    enum:
-> +      - qcom,sm8550-iris
-> +      - qcom,sm8650-iris
->  
->    power-domains:
->      maxItems: 4
-> @@ -49,11 +48,15 @@ properties:
->        - const: video-mem
->  
->    resets:
-> -    maxItems: 1
-> +    minItems: 1
-> +    maxItems: 3
->  
->    reset-names:
-> +    minItems: 1
->      items:
->        - const: bus
-> +      - const: xo
-> +      - const: core
->  
->    iommus:
->      maxItems: 2
-> @@ -75,6 +78,26 @@ required:
->    - iommus
->    - dma-coherent
->  
-> +allOf:
-> +  - $ref: qcom,venus-common.yaml#
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          enum:
-> +            - qcom,sm8650-iris
-> +    then:
-> +      properties:
-> +        resets:
-> +          minItems: 3
-> +        reset-names:
-> +          minItems: 3
-> +    else:
-> +      properties:
-> +        resets:
-> +          maxItems: 1
-> +        reset-names:
-> +          maxItems: 1
-> +
->  unevaluatedProperties: false
->  
->  examples:
+> On Fri, Mar 21, 2025 at 12:11:24PM +0200, Laurent Pinchart wrote:
+> > Hi Mehdi,
+> > 
+> > Thank you for the patch.
+> > 
+> > On Fri, Mar 21, 2025 at 10:38:14AM +0100, Mehdi Djait wrote:
 > 
-Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> SNIP
+> 
+> > > +
+> > > +struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id)
+> > > +{
+> > > +	struct clk_hw *clk_hw;
+> > > +	struct clk *clk;
+> > > +	u32 rate;
+> > > +	int ret;
+> > > +
+> > > +	clk = devm_clk_get_optional(dev, id);
+> > > +	if (clk)
+> > > +		return clk;
+> > > +
+> > > +#ifdef CONFIG_COMMON_CLK
+> > 
+> > This patch will cause warnings when CONFIG_COMMON_CLK is disabled. Could
+> > you use
+> > 
+> > 	if (IS_REACHABLE(CONFIG_COMMON_CLK)) {
+> > 		...
+> > 	}
+> > 
+> > instead ? It will also ensure that all code gets compile-tested, even
+> > when CONFIG_COMMON_CLK is disabled ?
+> > 
+> > If you want to minimize implementation, you could write
+> > 
+> > 	if (!IS_REACHABLE(CONFIG_COMMON_CLK))
+> > 		return ERR_PTR(-ENOENT);
+> > 
+> > and keep the code below as-is.
+> > 
+> 
+> this is indeed way better! I will change this in the v3
+
+This would work at the moment if devm_clk_hw_register_fixed_rate() was
+always available but it evaluates to __clk_hw_register_fixed_rate() that
+depends on COMMON_CLK.
+
+I think t he best option would be to add a stub for it for !COMMON_CLK
+case. It may take some time to get that merged and into the media tree. C99
+also allows declaring variables midst of a basic block so declaring rate
+and clkhw later should address the warning.
+
+> 
+> > > +	if (!is_acpi_node(dev_fwnode(dev)))
+> > > +		return ERR_PTR(-ENOENT);
+> > > +
+> > > +	ret = device_property_read_u32(dev, "clock-frequency", &rate);
+> > > +	if (ret)
+> > > +		return ERR_PTR(ret);
+> > > +
+> > > +	if (!id) {
+> > > +		id = devm_kasprintf(dev, GFP_KERNEL, "clk-%s", dev_name(dev));
+> > 
+> > As far as I understand, the name doesn't need to stay valid after
+> > devm_clk_hw_register_fixed_rate() returns. You can call kasprintf here,
+> > and call kfree after devm_clk_hw_register_fixed_rate(). You could use
+> > __free to manage the memory life time:
+> > 
+> > 	const char *clk_id __free(kfree) = NULL;
+> > 
+> > 	if (!id) {
+> > 		clk_id = kasprintf(GFP_KERNEL, "clk-%s", dev_name(dev));
+> > 		if (!clk_id)
+> > 			return ERR_PTR(-ENOMEM);
+> > 		id = clk_id;
+> > 	}
+> > 
+> 
+> Ack.
+> 
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
