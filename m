@@ -1,167 +1,136 @@
-Return-Path: <linux-media+bounces-28614-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28615-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65733A6D74E
-	for <lists+linux-media@lfdr.de>; Mon, 24 Mar 2025 10:29:10 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F062AA6D752
+	for <lists+linux-media@lfdr.de>; Mon, 24 Mar 2025 10:29:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A9F2816D1F0
-	for <lists+linux-media@lfdr.de>; Mon, 24 Mar 2025 09:29:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BA46C3AEBA0
+	for <lists+linux-media@lfdr.de>; Mon, 24 Mar 2025 09:29:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C641725D91A;
-	Mon, 24 Mar 2025 09:29:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC18E25DAFF;
+	Mon, 24 Mar 2025 09:29:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Whae2DUn"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XC2q6RJm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3DA425D8E7;
-	Mon, 24 Mar 2025 09:29:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A70D525D909;
+	Mon, 24 Mar 2025 09:29:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742808543; cv=none; b=eTrhaPfJ4Txk8M56JhqK1GbrxjhKT5fPFvC3MfLKUorO4hGfeu3bxP+Sq7t1W5YnCto3Un811Shxjy19kixoGZNWcf7OP+izyY3ZUpxRuwCS8Ka6Oy+UPv6ZHvVZlx3d7oygM247rLajU7TgwHfKmG169n/e6ezQ6HoQ4SXb8zY=
+	t=1742808585; cv=none; b=lijw3N8VLcDvshmxJYtgNwzV9jTHuT+iCKwvXjV9gJqHfL3OZgtJmjb0EWcalX4Q8eGUaCoqkdZ0mpx8oEaEv5IjzCAnV/zhxzAp2EB0O1Hg0DScZEEfYqvrz1zpb+QO+mWM3gYJXVjVGI1x8yzLirIh0l7RJCKa80y0+b26cCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742808543; c=relaxed/simple;
-	bh=/7lhOihOiF6LFmy/aky+kel/L5mJlt1vEBAezb7fuIE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KMoFJR1kS7E1HZ91muqx9XZNLyPKQWsHLcXlgRtMmD4YWNrLu/L20iUqyNEnbRN4kRKIMDNOa+PwV4iIbMyiviajZBEjuwmSjd9m1Ejy/DnWtrPjAWkX8WgJ2YYLodJc7mRYR01qbCtk3WH+pOBPhVbC7nUMpa2ToF9EjiEUr+o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Whae2DUn; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742808542; x=1774344542;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/7lhOihOiF6LFmy/aky+kel/L5mJlt1vEBAezb7fuIE=;
-  b=Whae2DUn5W65cuOETy7rLgIuUjecPv94boLVTKs0xmupGU2mdMCBt5DD
-   F3FpPoDoTERSl8hREjMe0sYkzFkAYxZly7HoQvgkn4LaR6PE/M+ddW5nj
-   xlrW42/IjdnS9d2rv7m8QJg0DgNbBus3cHXWJT9lPKZVpRnqJxiJnaq8r
-   JGK1DG5VtZ9xNXkhFAnvDycSQkblBek/rSmSPqlXvU3W0gp5E+4fvJCJS
-   ild863oRZ12+E9SLBdPeV7d8sYcRfo9Kkj4G22w2odmH8rGQGgeGUYV25
-   cv4iM95VItXKvIVNGNy8bTwDVmniLcaPfLK1BBZLicyu3/zpxi6TkBuCY
-   A==;
-X-CSE-ConnectionGUID: MdllRRkSSuuPWFC/Y7s5BQ==
-X-CSE-MsgGUID: kyT2WBDGS9aW1WpTZDaSrg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11382"; a="43733412"
-X-IronPort-AV: E=Sophos;i="6.14,271,1736841600"; 
-   d="scan'208";a="43733412"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 02:29:02 -0700
-X-CSE-ConnectionGUID: mkCKeAlfQCWAla3fCSuedA==
-X-CSE-MsgGUID: 5cRl6niPQHauZ4xHsws5qQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,271,1736841600"; 
-   d="scan'208";a="128811251"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 02:28:59 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 48899120AB3;
-	Mon, 24 Mar 2025 11:28:56 +0200 (EET)
-Date: Mon, 24 Mar 2025 09:28:56 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Matti Vaittinen <mazziesaccount@gmail.com>,
-	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	"Rafael J. Wysocki" <rjw@rjwysocki.net>
-Subject: Re: [PATCH v2] media: i2c: thp7312: use fwnode_for_each_child_node()
-Message-ID: <Z-El2EzbV5EFDA3Q@kekkonen.localdomain>
-References: <Z90qM33DvkTMGg_x@mva-rohm>
- <20250321104100.GC25483@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1742808585; c=relaxed/simple;
+	bh=Xo9nBCN6mL/Lwjg5NJIHhMumGF7/9tGqo46IKMyQtxg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=YpJfRK1eNKNuB+1RUmXat0dnRJxbIWZiCcwk7d3HygG/57LBY2vSXHPLxd7s7MpROS9ohmkv/Btq/jRJE4wFE7B7g4MIE0SPrGQ01ib08DnN1a/0E0ppBE5xiVCfxVthm398MRp0hqj0hjoaqy0faY04dEizjopuVqct4161Me4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XC2q6RJm; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C4293455;
+	Mon, 24 Mar 2025 10:27:54 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1742808475;
+	bh=Xo9nBCN6mL/Lwjg5NJIHhMumGF7/9tGqo46IKMyQtxg=;
+	h=From:Subject:Date:To:Cc:From;
+	b=XC2q6RJmMeV11n1voFHGyPiAUliCSrNcN8Id9FtWBQiOI0usr77wLjtpIPMavcizE
+	 Mrsu8gcXtUvCp3O2A/oXJvMUbd1D2eHXb0rmyoNnN3luGQTwmcxn5V2awo5tZgahou
+	 2HbUlBAoO8X2D5oegnKE/s+qxHHftqPMOCtMFvP0=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v6 0/3] media: ti: cal: Add streams support
+Date: Mon, 24 Mar 2025 11:29:16 +0200
+Message-Id: <20250324-cal-streams-v6-0-28c93fb8f0c9@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250321104100.GC25483@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAO0l4WcC/23OTW7DIBCG4atErIM1Y34MWfUeVRfEHmKUGCqwU
+ KvIdy/OJlKT5SfNPHrvrFAOVNjpcGeZaighxTb08cDG2cUL8TC1zXroBRgwfHQ3XtZMbin8bFE
+ Y6EdtvWTt4zuTDz8P7fOrbZ/Twte5HT8NAT0CDEp1aBG15MjXtISuutuVQqT4ESZyJcVzcnnqx
+ rTs8hzKmvLvI7PK3X9fVHcPvRg0AoGV+lXbw6p6Ehb/EYoDl0ahh0F4ZdwbYtu2P6zRnDA6AQA
+ A
+X-Change-ID: 20230808-cal-streams-b913802c69f4
+To: linux-media@vger.kernel.org, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+ Jai Luthra <jai.luthra@ideasonboard.com>, linux-kernel@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+X-Mailer: b4 0.15-dev-c25d1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1894;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=Xo9nBCN6mL/Lwjg5NJIHhMumGF7/9tGqo46IKMyQtxg=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn4SYAuBVMtjMleczSfGi06i+lOv88DzayuiEHD
+ 584OZ1M1RSJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ+EmAAAKCRD6PaqMvJYe
+ 9bpxEACHZuuL+B/fhe5f0a0nSf+ysgFYSgYav3979t3w65qe+NH3uhx0jSfD/jy/eCOLujKRwSz
+ C4zapNkUXJvjXWK8GgMw4+Iv0Lc9KhSfPsS7pq/UuOF4I4TzZuyeSOAREnJL6jXJNsM1hYwSd1g
+ vkyE+hrxRCgkg1nM2Ew4DnBHr9YuSI8ysnA1VMxxS4imNxZypHUUbFgwMJ0VC8lVynhxnhFvCA4
+ 2Ez4owR3fowPRvP6PDnXJa9lTPekKM2WJpYLNEgsieEf39GTllKinz/c9/lRV59k6HhBYKiACmR
+ 7jigZ4y/+y6oyrozWbcaGYEhH2WuMr9OzD/is4OSxidkx1AZIbTzJ+pQcGZ18vEmDm88DA0d4is
+ QPM0nJV3eCDTKRmAqb+/iWhjzcaDxsChKX7Oc+LmTWYzJyht8JrqhbTqyF/FED2Mx0RWXci40dw
+ 74Uw8ejQrM8NQDvRgzhQeo2h/1hx3hfSFq/lmcKVTHEa5RClIuInlQGIG9VnBrpFsC2zr/w73p4
+ x+uu0Fov8dnhaMGMxlIFhbFikerG95vmqOJZGHmVkkwGrFiQEnVfdCrgqzqlrVVtZfKHMOwD6xf
+ Nh5LilU0zB/jWvrdYXhCID2OTkl49JWRDEuNjpVvg4yNYWT+78uTKCLq1L5xuhAG5QwgVtO2Ntv
+ e9BFSsdg4HlkO6g==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-Hi Laurent,
+This adds streams support to TI CAL driver (and two minor improvements).
 
-On Fri, Mar 21, 2025 at 12:41:00PM +0200, Laurent Pinchart wrote:
-> Hi Matti,
-> 
-> Thank you for the patch.
-> 
-> On Fri, Mar 21, 2025 at 10:58:27AM +0200, Matti Vaittinen wrote:
-> > When fwnode_for_each_available_child_node() is used on the device-tree
-> > backed systems, it renders to same operation as the
-> > fwnode_for_each_child_node(), because the fwnode_for_each_child_node()
-> > does only iterate through those device-tree nodes which are available.
-> 
-> This makes me wonder why the OF backend implements
-> fwnode_for_each_child_node() as fwnode_for_each_available_child_node().
-> Is that on purpose, or is it a bug ?
+The previous version was sent in 2023, but there has been no changes
+except from rebasing to upstream.
 
-I went back to see where this came from,I understand
-<URL:https://lkml.org/lkml/2014/10/17/185> is the first version of the
-patch adding device_get_next_child_node(). Since then the behaviour has
-been carried forward.
+ Tomi
 
-Cc Rafael.
+---
+Changes in v6:
+- Rebase on top of v4.16-rc7
+- Add two small patches (not related to streams as such)
+- Dropper the metadata patch for now, to make the series apply to plain
+  upstream
+- Link to v5: https://lore.kernel.org/r/20230918-cal-streams-v5-0-4851f073f58a@ideasonboard.com
 
-> 
-> > The thp7312 uses the fwnode_for_each_available_child_node() to look up
-> > and handle nodes with specific names. This means the code is used only
-> > on the device-tree backed systems because the node names have little
-> > meaning on ACPI or swnode backed systems.
-> > 
-> > Use the fwnode_for_each_child_node() instead of the
-> > fwnode_for_each_available_child_node() In order to make it clearly
-> > visible that the 'availability' of the nodes does not need to be
-> > explicitly considered here. This will also make it clearly visible that
-> > the code in this driver is suitable candidate to be converted to use the
-> > new fwnode_for_each_named_child_node()[2] when it gets merged.
-> > 
-> > [1]: https://lore.kernel.org/all/Z9rhfJUlCbi7kA2m@kekkonen.localdomain/
-> > [2]: https://lore.kernel.org/all/9c3880f74476436f39d796b5c10c540ae50b722c.1742225817.git.mazziesaccount@gmail.com/
-> > 
-> > Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Signed-off-by: Matti Vaittinen <mazziesaccount@gmail.com>
-> > 
-> > ---
-> > Revision history:
-> > v1 => v2:
-> >  - rephrase the commit message to not claim the 'availability' has no
-> >    well defined meaning on the DT backed systems. Instead, explain that
-> >    the fwnode_for_each_available_child_node() only iterates through the
-> >    available nodes on the DT backed systems and is thus functionally
-> >    equivalent to the fwnode_for_each_child_node().
-> > 
-> > NOTE: The change is compile tested only! Proper testing and reviewing is
-> > highly appreciated (as always).
-> > ---
-> >  drivers/media/i2c/thp7312.c | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/i2c/thp7312.c b/drivers/media/i2c/thp7312.c
-> > index 8852c56431fe..4b66f64f8d65 100644
-> > --- a/drivers/media/i2c/thp7312.c
-> > +++ b/drivers/media/i2c/thp7312.c
-> > @@ -2067,7 +2067,7 @@ static int thp7312_parse_dt(struct thp7312_device *thp7312)
-> >  		return -EINVAL;
-> >  	}
-> >  
-> > -	fwnode_for_each_available_child_node(sensors, node) {
-> > +	fwnode_for_each_child_node(sensors, node) {
-> >  		if (fwnode_name_eq(node, "sensor")) {
-> >  			if (!thp7312_sensor_parse_dt(thp7312, node))
-> >  				num_sensors++;
-> > 
-> > base-commit: 7eb172143d5508b4da468ed59ee857c6e5e01da6
-> 
+Changes in v5:
+- Some improvements in the patch description of the first patch
+- Add "media: ti: cal: Add metadata streams support"
+- Link to v4: https://lore.kernel.org/r/20230808-cal-streams-v4-1-1f37610e0946@ideasonboard.com
 
+Changes in v4:
+- A few minor formatting changes
+- Small changes regarding how the code handles metadata formats.
+  No metadata formats are supported yet, but we do have some code to
+  ensure that metadata formats aren't allowed on video nodes in video
+  capture mode. A future patch will enable metadata capture, allowing
+  the runtime change of video nodes between video and meta capture.
+- Link to v3: https://lore.kernel.org/all/20230302100755.191164-6-tomi.valkeinen@ideasonboard.com/
+
+---
+Tomi Valkeinen (3):
+      media: ti: cal: Use printk's fourcc formatting
+      media: ti: cal: Fix wrong goto on error path
+      media: ti: cal: Add streams support
+
+ drivers/media/platform/ti/cal/cal-camerarx.c | 271 +++++++++++++++++++++------
+ drivers/media/platform/ti/cal/cal-video.c    | 157 ++++++++++------
+ drivers/media/platform/ti/cal/cal.c          |  45 +++--
+ drivers/media/platform/ti/cal/cal.h          |   3 +-
+ 4 files changed, 348 insertions(+), 128 deletions(-)
+---
+base-commit: 4701f33a10702d5fc577c32434eb62adde0a1ae1
+change-id: 20230808-cal-streams-b913802c69f4
+
+Best regards,
 -- 
-Kind regards,
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-Sakari Ailus
 
