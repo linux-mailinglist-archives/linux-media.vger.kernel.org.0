@@ -1,182 +1,122 @@
-Return-Path: <linux-media+bounces-28603-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28604-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8590BA6D550
-	for <lists+linux-media@lfdr.de>; Mon, 24 Mar 2025 08:42:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E137A6D5AB
+	for <lists+linux-media@lfdr.de>; Mon, 24 Mar 2025 09:00:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3E4EF3B2D0F
-	for <lists+linux-media@lfdr.de>; Mon, 24 Mar 2025 07:40:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D59B7167CBA
+	for <lists+linux-media@lfdr.de>; Mon, 24 Mar 2025 08:00:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED0082580DF;
-	Mon, 24 Mar 2025 07:38:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3650725C705;
+	Mon, 24 Mar 2025 08:00:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="i182jnZT"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kxl8tMhN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA6802580CC;
-	Mon, 24 Mar 2025 07:38:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A4F7DA6A;
+	Mon, 24 Mar 2025 08:00:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742801885; cv=none; b=be//CP5PmyYlnv9pQfa4xXGGiZ6Br8Cv7peuiUecRkNCaBQ+wDJMssdmce1fXLHYCdwospBWDIkhqE94b2xAbOb78z3AFsj88Pd4CjEW8AzojTa3EXMbIQFEzTwfLEaW3OiOfXLP+g8gzvWYbElxS7bRBxgup/46+PqzvnIP4LM=
+	t=1742803251; cv=none; b=jnkl+WqTy8k+h+Z0AwWJRIuYDwRg3iIF+e4UGeBevieds4V4o32Iz+s2UQ55VUUhnPTaC1Ok6iqPN7xbgN378A9mEgrRzidb9hxcgNnlhXRvY96ItIzySWC8s0vJgnzoBLz+slPEWIXZEltPcE+6E8Unf8RW1qJL57wVgmby8eE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742801885; c=relaxed/simple;
-	bh=+zNwDvBHc6Iy+Bym23/g2A0Pz5hmPzXzTjB2AtRQzuc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BF7myiPg3vLZQGsJ2qYiY9R31phZUH4AjfxOodqZ+1GLY3DjV/7kzVMzAnZXc829aw4kkct5w9GYx3oH2QqUc7z/UBCgq9Oc34BYm9lA7jxT5C2bo4htsj2teQF72ajEiq1EOlfJSWDnMxJdjXqp88mdrqD9scq6AKXfRCUi6ms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=i182jnZT; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1742801884; x=1774337884;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=+zNwDvBHc6Iy+Bym23/g2A0Pz5hmPzXzTjB2AtRQzuc=;
-  b=i182jnZTbd8HZEz7446QDXC4DHAcbw68tjO0zVvwJk+T65+/CNHAD8fo
-   iMy3D9IfEvOH+hmdh98RQXu1RCBUbK9y7meS1f803n2w+PgXEwTfKNVjk
-   EUbnq4cJcHozOHLjmgI0zViLO+MWjcIyyL60cRTTVpKsXdqdfthRuElMl
-   wBKMKlI2Lr7KZmDm/6/hEoxsxiTqrMof7CFWjNuKzDaE+lb6zo39dYs6E
-   YgUOb7lhyZ/1J3P8ub5bpGGZeiS0wqSEUrTSXdMMQqWPLBc8x0ZwqlbbQ
-   +d1VnLOd5OjNGNn/kpN1d2y93w/mgRriNqNt6yyBl2jitFbOS3ZAIzHIs
-   g==;
-X-CSE-ConnectionGUID: S5ASHaJkRqmPIQkL1JbMsA==
-X-CSE-MsgGUID: NeUkaGr1RsCuJLsevJlnig==
-X-IronPort-AV: E=McAfee;i="6700,10204,11382"; a="66459034"
-X-IronPort-AV: E=Sophos;i="6.14,271,1736841600"; 
-   d="scan'208";a="66459034"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 00:38:03 -0700
-X-CSE-ConnectionGUID: jzLYqVEJSuKkE0GJaXaozA==
-X-CSE-MsgGUID: eEFpxMbATiuaylW4BJHlXg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,271,1736841600"; 
-   d="scan'208";a="124125564"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Mar 2025 00:38:00 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 5A6CE120AB3;
-	Mon, 24 Mar 2025 09:37:57 +0200 (EET)
-Date: Mon, 24 Mar 2025 07:37:57 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Mehdi Djait <mehdi.djait@linux.intel.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
-	hverkuil@xs4all.nl, kieran.bingham@ideasonboard.com,
-	naush@raspberrypi.com, mchehab@kernel.org, hdegoede@redhat.com,
-	dave.stevenson@raspberrypi.com, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [RFC PATCH v3] media: v4l2-common: Add a helper for obtaining
- the clock producer
-Message-ID: <Z-EL1Y9Fh_0Z8KBt@kekkonen.localdomain>
-References: <20250321093814.18159-1-mehdi.djait@linux.intel.com>
- <20250321101124.GB25483@pendragon.ideasonboard.com>
- <ryzkubgzndeyufi2i4vuwmgaekyapol36oln237ki4m3fh32yl@mpr7g5woiqcf>
+	s=arc-20240116; t=1742803251; c=relaxed/simple;
+	bh=Xzcw1BtlkR/+iN7LtWJ22AtU6+0dkY0+i3jRmU9vpKk=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Rh5HzlP+G6iPFYo7HQ0oBnhaiKHCRgSQBZi1CwjuQcopeJzp40rf3dZrYli1ZmD7DUJDlRXMFlkEqleAnG3n90mjRjtsQN3N9qO+aawGhyjK0Y/R6Mrk+HeL8UGiWrGIlyUjmkbj8PqhIpQblQ02+NmWJy1WCHbjrC8eGdEtfO8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kxl8tMhN; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EAE7D455;
+	Mon, 24 Mar 2025 08:58:55 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1742803136;
+	bh=Xzcw1BtlkR/+iN7LtWJ22AtU6+0dkY0+i3jRmU9vpKk=;
+	h=From:Subject:Date:To:Cc:From;
+	b=kxl8tMhNBpJ8PXqU8ApT/7/C/EROl3dzS8SpynnKJhMOVIge24FgiTUjY8AwDC3lN
+	 rIu4lD26pTVLA3LQDTMvusi89feok9v/d0dbcUi/aVVNAsrFWUXM3lCIZW4oEAIEu7
+	 kPFClxXM012HYdElKaCTdn552dp/gIziSGsR0WpE=
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: [PATCH v3 0/3] media: subdev: Add v4l2_get_frame_desc_passthrough
+ and use it
+Date: Mon, 24 Mar 2025 10:00:10 +0200
+Message-Id: <20250324-frame-desc-passthrough-v3-0-993839a1f9b3@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ryzkubgzndeyufi2i4vuwmgaekyapol36oln237ki4m3fh32yl@mpr7g5woiqcf>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAAoR4WcC/4XNTQ6CMBCG4auQrq3pL6Ar72Fc1HagXUBJBxsN4
+ e4WVi40Lt8vmWcWgpACIDlXC0mQA4Y4lpCHilhvxh5ocKWJYEIzwVvaJTMAdYCWTgZx9ik+ek/
+ rumUaFJenRpFyPCXownOHr7fSPuAc02v/k/m2/iUzp4waKZRuOy0bri7BgcE43qNJ7mjjQDY5i
+ 0/t9FMTRdNcaqcbsK42X7R1Xd+KEONtEQEAAA==
+X-Change-ID: 20250218-frame-desc-passthrough-66805e413974
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+X-Mailer: b4 0.15-dev-c25d1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1386;
+ i=tomi.valkeinen+renesas@ideasonboard.com; h=from:subject:message-id;
+ bh=Xzcw1BtlkR/+iN7LtWJ22AtU6+0dkY0+i3jRmU9vpKk=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn4REltfkGugoeQqcue+21xj6jsuXTXjgBP9uZ3
+ M4FZ8sJMnuJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ+ERJQAKCRD6PaqMvJYe
+ 9a56D/wNh0gyCQdF1JFL7k4EHwYn6ktPDs9Qd5BzGQBwGqf+We2MBbSoG2VUzJMN9MttALxmCPm
+ 9KepmXPUIMn13UtqnluKq2iyi9ZN3IMy1rcovntxzudt1pzw5o4p6A/NEyZHVuqC0RYKoY0Jg2h
+ WCKDNOpxPUuV0sJrgcqJizzsB/nMhitMiZuNBaxVbcdvvoz5vg+uETyF/rUrAh8HDk8pbECyKUe
+ d7oCAfiZMbXoGgjKsEeqEsApgna9JAuH84pBjCD2McMyuYxiA6wLFDwZViO+OZ90cNWbes0VeaA
+ axwZdY5C0R7/8Jcro4FauOh3K/bAFPLbCWL/UX4XClrDdd12RadeTrN+pLGSe1JgcGbiMl2qjT8
+ 38XaCqHBgaba64RMx9xwfiX5jm4aItakZ3cQi1tXanNc9Mk/GnxsWFTjBbCbAgVV0RR5Qq5mhY/
+ JpmhLbnooGzcGddTM26RIcVmMexxWT1uO5s50QSuiiTooNE8A0SZE5VX7R9M/QyHKk33EGWA0MY
+ 187fW0pBobuBESnBXCt/BnzOftpgQWOlP1f44auz1oilwBVFI+5pn1uwZfg12L/FRwFzZ1zHNdi
+ u3zr87I5/WcZbkMJGUZW5+5w75rAxHHWQkzQI0VO1Lf9gEZpoEfysFLxX4R6efFKydl9LW4N9d3
+ oGyHKo9BOCyZiWw==
+X-Developer-Key: i=tomi.valkeinen+renesas@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-Hi Laurent, Mehdi,
+When writing the exact same code the third time for Renesas, I thought
+we probably need a helper.
 
-On Fri, Mar 21, 2025 at 01:30:43PM +0100, Mehdi Djait wrote:
-> Hi Laurent,
-> 
-> thank you for the review!
-> 
-> On Fri, Mar 21, 2025 at 12:11:24PM +0200, Laurent Pinchart wrote:
-> > Hi Mehdi,
-> > 
-> > Thank you for the patch.
-> > 
-> > On Fri, Mar 21, 2025 at 10:38:14AM +0100, Mehdi Djait wrote:
-> 
-> SNIP
-> 
-> > > +
-> > > +struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id)
-> > > +{
-> > > +	struct clk_hw *clk_hw;
-> > > +	struct clk *clk;
-> > > +	u32 rate;
-> > > +	int ret;
-> > > +
-> > > +	clk = devm_clk_get_optional(dev, id);
-> > > +	if (clk)
-> > > +		return clk;
-> > > +
-> > > +#ifdef CONFIG_COMMON_CLK
-> > 
-> > This patch will cause warnings when CONFIG_COMMON_CLK is disabled. Could
-> > you use
-> > 
-> > 	if (IS_REACHABLE(CONFIG_COMMON_CLK)) {
-> > 		...
-> > 	}
-> > 
-> > instead ? It will also ensure that all code gets compile-tested, even
-> > when CONFIG_COMMON_CLK is disabled ?
-> > 
-> > If you want to minimize implementation, you could write
-> > 
-> > 	if (!IS_REACHABLE(CONFIG_COMMON_CLK))
-> > 		return ERR_PTR(-ENOENT);
-> > 
-> > and keep the code below as-is.
-> > 
-> 
-> this is indeed way better! I will change this in the v3
+ Tomi
 
-This would work at the moment if devm_clk_hw_register_fixed_rate() was
-always available but it evaluates to __clk_hw_register_fixed_rate() that
-depends on COMMON_CLK.
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+---
+Changes in v3:
+- Rename the helper to v4l2_subdev_get_frame_desc_passthrough()
+- Check for fd->entry[] array overflow
+- Add error prints (with dev_dbg)
+- Link to v2: https://lore.kernel.org/r/20250219-frame-desc-passthrough-v2-0-5135d57ecd6a@ideasonboard.com
 
-I think t he best option would be to add a stub for it for !COMMON_CLK
-case. It may take some time to get that merged and into the media tree. C99
-also allows declaring variables midst of a basic block so declaring rate
-and clkhw later should address the warning.
+Changes in v2:
+- Fix "uninitialized symbol 'ret'"
+- Reorder local variables
+- Link to v1: https://lore.kernel.org/r/20250218-frame-desc-passthrough-v1-0-a32458f53714@ideasonboard.com
 
-> 
-> > > +	if (!is_acpi_node(dev_fwnode(dev)))
-> > > +		return ERR_PTR(-ENOENT);
-> > > +
-> > > +	ret = device_property_read_u32(dev, "clock-frequency", &rate);
-> > > +	if (ret)
-> > > +		return ERR_PTR(ret);
-> > > +
-> > > +	if (!id) {
-> > > +		id = devm_kasprintf(dev, GFP_KERNEL, "clk-%s", dev_name(dev));
-> > 
-> > As far as I understand, the name doesn't need to stay valid after
-> > devm_clk_hw_register_fixed_rate() returns. You can call kasprintf here,
-> > and call kfree after devm_clk_hw_register_fixed_rate(). You could use
-> > __free to manage the memory life time:
-> > 
-> > 	const char *clk_id __free(kfree) = NULL;
-> > 
-> > 	if (!id) {
-> > 		clk_id = kasprintf(GFP_KERNEL, "clk-%s", dev_name(dev));
-> > 		if (!clk_id)
-> > 			return ERR_PTR(-ENOMEM);
-> > 		id = clk_id;
-> > 	}
-> > 
-> 
-> Ack.
-> 
+---
+Tomi Valkeinen (3):
+      media: subdev: Add v4l2_get_frame_desc_passthrough helper
+      media: i2c: ds90ub953: Use v4l2_get_frame_desc_passthrough
+      media: i2c: ds90ub913: Use v4l2_get_frame_desc_passthrough
 
+ drivers/media/i2c/ds90ub913.c         |  59 +-----------------
+ drivers/media/i2c/ds90ub953.c         |  61 +-----------------
+ drivers/media/v4l2-core/v4l2-subdev.c | 113 ++++++++++++++++++++++++++++++++++
+ include/media/v4l2-subdev.h           |  22 +++++++
+ 4 files changed, 137 insertions(+), 118 deletions(-)
+---
+base-commit: f2151613e040973c868d28c8b00885dfab69eb75
+change-id: 20250218-frame-desc-passthrough-66805e413974
+
+Best regards,
 -- 
-Kind regards,
+Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-Sakari Ailus
 
