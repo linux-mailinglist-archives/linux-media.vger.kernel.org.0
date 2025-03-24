@@ -1,387 +1,185 @@
-Return-Path: <linux-media+bounces-28601-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28602-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9CD7A6D300
-	for <lists+linux-media@lfdr.de>; Mon, 24 Mar 2025 03:21:59 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0E4DA6D506
+	for <lists+linux-media@lfdr.de>; Mon, 24 Mar 2025 08:25:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C0AB13B39DC
-	for <lists+linux-media@lfdr.de>; Mon, 24 Mar 2025 02:21:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E13043A5C5C
+	for <lists+linux-media@lfdr.de>; Mon, 24 Mar 2025 07:23:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2019C1339A4;
-	Mon, 24 Mar 2025 02:21:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A9D62512F2;
+	Mon, 24 Mar 2025 07:23:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="f8WsQmv7"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ZY/ipM75"
 X-Original-To: linux-media@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 172C7EEB5;
-	Mon, 24 Mar 2025 02:21:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85EBB250C17;
+	Mon, 24 Mar 2025 07:23:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742782910; cv=none; b=N//DD9kPLO72HslVmU6jO0xVJUdvcQv8tLSO1ySzGDXDMwgkYH1B7oBFoo/ZczG+9jzrLFpKezhv+82JZ1NZySNgpuMm3lQzQNLc0qdCXkv5r3nDYFoolxeAj/sF5+ZwpWaQ2t7jCTvLsKFhOQPHGkyAOo+b6Y/hadi+AsPRwhc=
+	t=1742801005; cv=none; b=Ulfym+WtmLKCb44syBeTfskJ+cNp7Rnwv0V5RMI1ZY6Iyk/80Us/st3NnJIObOG1M5VsqMTHQlQA2N5D0DrUUV4frBqIv8p5e1jdSH/HQhv8yAw6d0lY8gUqAP3RERpRCzM/XSgkAOtJVObJkUSLiQuK91AUJerdY58kJ7cTajU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742782910; c=relaxed/simple;
-	bh=SaibDcarVKCiuhqLOVdjUcjQwj1i9uNQStT6yhBbAgA=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=udLcZMaWwWM+99THipPp9MVXofDBLxbqvS9IVPtC4nDszA3+TWFt6Qxt6jIa9IpZnL5385DAtUauewdLFroKT0ecdPZ1zQzMsCPTl+FVT7KcgvmhGPugdrJfYRpY5o/1kCqX9H5rA6cP5y6jhchaOOe744QU33+X5NGkyRILotU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=f8WsQmv7; arc=none smtp.client-ip=220.197.31.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=P6CYG
-	BJPb6RaDuJKBJXGr3EK35EOPfAERbVb6cCaG4s=; b=f8WsQmv7M4YzZ9IQWXqbZ
-	cJxGQw+JPkSCE6Uz1x7nIu1FGt1q9Tjox7yANfPcQXLcVEJY+eadUlITP3ccNt/k
-	gclOS0EAgx4d/evBlJxoTKSXhTvDoTj4TCmpjGAHOJCq4GOFIyeP5H94eFYPd5UI
-	cIC4QxpQxhWq41G4K2wG+I=
-Received: from localhost.localdomain (unknown [])
-	by gzsmtp1 (Coremail) with SMTP id PCgvCgCn5+iiweBnSqA6AA--.7312S2;
-	Mon, 24 Mar 2025 10:21:24 +0800 (CST)
-From: chenchangcheng <ccc194101@163.com>
-To: laurent.pinchart@ideasonboard.com,
-	hdegoede@redhat.com,
-	mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	chenchangcheng <chenchangcheng@kylinos.cn>
-Subject: [PATCH v6] media: uvcvideo: Fix bandwidth issue for Alcor camera
-Date: Mon, 24 Mar 2025 10:21:20 +0800
-Message-Id: <20250324022120.216923-1-ccc194101@163.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1742801005; c=relaxed/simple;
+	bh=YXWjgc+LtkFVwK54Fq+jXzkI+tzud1ifstmjVonNXxM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=ISySjJaAjVqImEEK0xA8zOynXmDZBbQUZfipsYlMX9RhDSGGvLI1ttWQIjZqrIlRwof9TvuEeE/7+myFcQIi1sAJQyIrlqae4XURHC/KKaQTIJkAHimf4zVRY6PnyDnP+2hh5EvGQe8gtqi0wUSJvuIFqs22aCB9aAziRDgjm0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ZY/ipM75; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52O6d8sN001035;
+	Mon, 24 Mar 2025 07:23:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	JRHqQk8vUkI56yBzwoURTXxt6b+rm+AdYrcH5GWCykg=; b=ZY/ipM75hRxFjndJ
+	WRie34kRmlLI2ceLJYsZutZR8H4zwdhT5OvEY9vWQ2vkegMA2nJFGwmaKsVIWT/Y
+	amGijDHnVKlFenb7y5RllIK08iYONXuFfsQjtGxY618+YD6mvg4uqfgnbHIWvwu2
+	wip6pxpvuwSnb3E78wD/qfsULdvBPK+PKiEDUO6JlfutzTFnNeEnlCxhhL9S/LZW
+	w9JYqd730wAG3edcGDwyeXBnKtl2NxPHsanznF0F6zH7VDtrYMm0RbzctaQY1uwQ
+	vZju2rN/t4h7SWscE+kAYfR+R5hEPOLDTqIxw8rn03cnr5wUkZyrUczUyd6AaclJ
+	Cj63gA==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45hne5ucta-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 24 Mar 2025 07:23:14 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52O7NExn022764
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 24 Mar 2025 07:23:14 GMT
+Received: from [10.204.100.69] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 24 Mar
+ 2025 00:23:10 -0700
+Message-ID: <b9f8dc30-7f6a-ecd5-16d1-678d9f2004cd@quicinc.com>
+Date: Mon, 24 Mar 2025 12:53:07 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PCgvCgCn5+iiweBnSqA6AA--.7312S2
-X-Coremail-Antispam: 1Uf129KBjvJXoWxKrWrKFyUGryftw47Gry3Jwb_yoWfJryrpw
-	1YyayvyryUJr4xXr48Aw48W3y5Xa1Skr4YkF47uw1Y9rn8tFWfX3W3tFyjvay2kF48Aw1j
-	qr18G34Y93yrKr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jnyCJUUUUU=
-X-CM-SenderInfo: 5fffimiurqiqqrwthudrp/1tbiGAwa3mfgwGcutAAAsq
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v2 1/7] dt-bindings: media: qcom,sm8550-iris: document
+ SM8650 IRIS accelerator
+Content-Language: en-US
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+        Dikshita Agarwal
+	<quic_dikshita@quicinc.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20250305-topic-sm8x50-iris-v10-v2-0-bd65a3fc099e@linaro.org>
+ <20250305-topic-sm8x50-iris-v10-v2-1-bd65a3fc099e@linaro.org>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <20250305-topic-sm8x50-iris-v10-v2-1-bd65a3fc099e@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 30eiHm5MOBdHn0bwt5wRAuxAG4EPuWXS
+X-Proofpoint-ORIG-GUID: 30eiHm5MOBdHn0bwt5wRAuxAG4EPuWXS
+X-Authority-Analysis: v=2.4 cv=JvPxrN4C c=1 sm=1 tr=0 ts=67e10862 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8
+ a=EHIPYe3-PrpxJ9E0mfMA:9 a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1093,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-24_03,2025-03-21_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999
+ malwarescore=0 priorityscore=1501 lowpriorityscore=0 bulkscore=0
+ suspectscore=0 phishscore=0 impostorscore=0 adultscore=0 clxscore=1015
+ mlxscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2503240052
 
-From: chenchangcheng <chenchangcheng@kylinos.cn>
 
-Some broken device return wrong dwMaxPayloadTransferSize fields,
-as follows:
-[  218.632537] [pid:20427,cpu6,guvcview,8]uvcvideo: Device requested 2752512 B/frame bandwidth.
-[  218.632598] [pid:20427,cpu6,guvcview,9]uvcvideo: No fast enough alt setting for requested bandwidth.
-
-The maximum packet size of the device is 3 * 1024, according to the
-logs above, the device needs to apply for a bandwidth of 0x2a0000.
-
-Bus 001 Device 008: ID 1b17:6684 Alcor Corp. Slave camera
-Device Descriptor:
-  bLength                18
-  bDescriptorType         1
-  bcdUSB               2.00
-  bDeviceClass          239 Miscellaneous Device
-  bDeviceSubClass         2
-  bDeviceProtocol         1 Interface Association
-  bMaxPacketSize0        64
-  idVendor           0x1b17
-  idProduct          0x6684
-  bcdDevice            1.05
-  iManufacturer           1 Alcor Corp.
-  iProduct                2 Slave camera
-  iSerial                 0
-  bNumConfigurations      1
-  Configuration Descriptor:
-    bLength                 9
-    bDescriptorType         2
-    wTotalLength       0x02ad
-    bNumInterfaces          2
-    bConfigurationValue     1
-    iConfiguration          0
-    bmAttributes         0x80
-      (Bus Powered)
-    MaxPower              200mA
-    Interface Association:
-      bLength                 8
-      bDescriptorType        11
-      bFirstInterface         0
-      bInterfaceCount         2
-      bFunctionClass         14 Video
-      bFunctionSubClass       3 Video Interface Collection
-      bFunctionProtocol       0
-      iFunction               4 Slave camera
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        0
-      bAlternateSetting       0
-      bNumEndpoints           1
-      bInterfaceClass        14 Video
-      bInterfaceSubClass      1 Video Control
-      bInterfaceProtocol      0
-      iInterface              4 Slave camera
-      VideoControl Interface Descriptor:
-
-      ....
-
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x81  EP 1 IN
-        bmAttributes            3
-          Transfer Type            Interrupt
-          Synch Type               None
-          Usage Type               Data
-        wMaxPacketSize     0x0010  1x 16 bytes
-        bInterval               7
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        1
-      bAlternateSetting       0
-      bNumEndpoints           0
-      bInterfaceClass        14 Video
-      bInterfaceSubClass      2 Video Streaming
-      bInterfaceProtocol      0
-      iInterface              0
-      VideoStreaming Interface Descriptor:
-        bLength                            14
-        bDescriptorType                    36
-        bDescriptorSubtype                  1 (INPUT_HEADER)
-        bNumFormats                         1
-        wTotalLength                   0x01ef
-        bEndPointAddress                  130
-        bmInfo                              0
-        bTerminalLink                       3
-        bStillCaptureMethod                 2
-        bTriggerSupport                     1
-        bTriggerUsage                       0
-        bControlSize                        1
-        bmaControls( 0)                     0
-      VideoStreaming Interface Descriptor:
-        bLength                            11
-        bDescriptorType                    36
-        bDescriptorSubtype                  6 (FORMAT_MJPEG)
-        bFormatIndex                        1
-        bNumFrameDescriptors                9
-        bFlags                              1
-          Fixed-size samples: Yes
-        bDefaultFrameIndex                  1
-        bAspectRatioX                       0
-        bAspectRatioY                       0
-        bmInterlaceFlags                 0x00
-          Interlaced stream or variable: No
-          Fields per frame: 1 fields
-          Field 1 first: No
-          Field pattern: Field 1 only
-        bCopyProtect                        0
-      VideoStreaming Interface Descriptor:
-        bLength                            50
-        bDescriptorType                    36
-        bDescriptorSubtype                  7 (FRAME_MJPEG)
-        bFrameIndex                         1
-        bmCapabilities                   0x00
-          Still image unsupported
-        wWidth                           1920
-        wHeight                          1080
-        dwMinBitRate                248832000
-        dwMaxBitRate                1492992000
-        dwMaxVideoFrameBufferSize     6220800
-        dwDefaultFrameInterval         333333
-        bFrameIntervalType                  6
-        dwFrameInterval( 0)            333333
-        dwFrameInterval( 1)            400000
-        dwFrameInterval( 2)            500000
-        dwFrameInterval( 3)            666666
-        dwFrameInterval( 4)           1000000
-        dwFrameInterval( 5)           2000000
-
-	......
-
-      VideoStreaming Interface Descriptor:
-        bLength                            42
-        bDescriptorType                    36
-        bDescriptorSubtype                  3 (STILL_IMAGE_FRAME)
-        bEndpointAddress                    0
-        bNumImageSizePatterns               9
-        wWidth( 0)                       1920
-        wHeight( 0)                      1080
-        wWidth( 1)                       2048
-        wHeight( 1)                      1536
-        wWidth( 2)                       1280
-        wHeight( 2)                       720
-        wWidth( 3)                       2592
-        wHeight( 3)                      1944
-        wWidth( 4)                       1280
-        wHeight( 4)                      1024
-        wWidth( 5)                       1280
-        wHeight( 5)                       960
-        wWidth( 6)                       1600
-        wHeight( 6)                      1200
-        wWidth( 7)                        800
-        wHeight( 7)                       600
-        wWidth( 8)                        640
-        wHeight( 8)                       480
-        bNumCompressionPatterns             0
-      VideoStreaming Interface Descriptor:
-        bLength                             6
-        bDescriptorType                    36
-        bDescriptorSubtype                 13 (COLORFORMAT)
-        bColorPrimaries                     1 (BT.709,sRGB)
-        bTransferCharacteristics            1 (BT.709)
-        bMatrixCoefficients                 4 (SMPTE 170M (BT.601))
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        1
-      bAlternateSetting       1
-      bNumEndpoints           1
-      bInterfaceClass        14 Video
-      bInterfaceSubClass      2 Video Streaming
-      bInterfaceProtocol      0
-      iInterface              0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x82  EP 2 IN
-        bmAttributes            5
-          Transfer Type            Isochronous
-          Synch Type               Asynchronous
-          Usage Type               Data
-        wMaxPacketSize     0x1400  3x 1024 bytes
-        bInterval               1
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        1
-      bAlternateSetting       2
-      bNumEndpoints           1
-      bInterfaceClass        14 Video
-      bInterfaceSubClass      2 Video Streaming
-      bInterfaceProtocol      0
-      iInterface              0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x82  EP 2 IN
-        bmAttributes            5
-          Transfer Type            Isochronous
-          Synch Type               Asynchronous
-          Usage Type               Data
-        wMaxPacketSize     0x0b84  2x 900 bytes
-        bInterval               1
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        1
-      bAlternateSetting       3
-      bNumEndpoints           1
-      bInterfaceClass        14 Video
-      bInterfaceSubClass      2 Video Streaming
-      bInterfaceProtocol      0
-      iInterface              0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x82  EP 2 IN
-        bmAttributes            5
-          Transfer Type            Isochronous
-          Synch Type               Asynchronous
-          Usage Type               Data
-        wMaxPacketSize     0x0c00  2x 1024 bytes
-        bInterval               1
-    Interface Descriptor:
-      bLength                 9
-      bDescriptorType         4
-      bInterfaceNumber        1
-      bAlternateSetting       4
-      bNumEndpoints           1
-      bInterfaceClass        14 Video
-      bInterfaceSubClass      2 Video Streaming
-      bInterfaceProtocol      0
-      iInterface              0
-      Endpoint Descriptor:
-        bLength                 7
-        bDescriptorType         5
-        bEndpointAddress     0x82  EP 2 IN
-        bmAttributes            5
-          Transfer Type            Isochronous
-          Synch Type               Asynchronous
-          Usage Type               Data
-        wMaxPacketSize     0x0c00  2x 1024 bytes
-        bInterval               1
-Device Qualifier (for other device speed):
-  bLength                10
-  bDescriptorType         6
-  bcdUSB               2.00
-  bDeviceClass          239 Miscellaneous Device
-  bDeviceSubClass         2
-  bDeviceProtocol         1 Interface Association
-  bMaxPacketSize0        64
-  bNumConfigurations      1
-Device Status:     0x0000
-  (Bus Powered)
-
-Signed-off-by: chenchangcheng <chenchangcheng@kylinos.cn>
----
- drivers/media/usb/uvc/uvc_driver.c |  9 +++++++++
- drivers/media/usb/uvc/uvc_video.c  | 10 ++++++++++
- drivers/media/usb/uvc/uvcvideo.h   |  1 +
- 3 files changed, 20 insertions(+)
-
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index deadbcea5e22..9b1dedf9773b 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -3023,6 +3023,15 @@ static const struct usb_device_id uvc_ids[] = {
- 	  .bInterfaceSubClass	= 1,
- 	  .bInterfaceProtocol	= 0,
- 	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_STATUS_INTERVAL) },
-+	/* Alcor Corp. Slave camera */
-+	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		= 0x1b17,
-+	  .idProduct		= 0x6684,
-+	  .bInterfaceClass	= USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	= 1,
-+	  .bInterfaceProtocol	= 0,
-+	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_OVERFLOW_BANDWIDTH) },
- 	/* MSI StarCam 370i */
- 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
- 				| USB_DEVICE_ID_MATCH_INT_INFO,
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index e3567aeb0007..56f23c363870 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -262,6 +262,16 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
- 
- 		ctrl->dwMaxPayloadTransferSize = bandwidth;
- 	}
-+
-+	if (stream->intf->num_altsetting > 1 &&
-+	    ctrl->dwMaxPayloadTransferSize > stream->maxpsize &&
-+	    stream->dev->quirks & UVC_QUIRK_OVERFLOW_BANDWIDTH) {
-+		dev_warn(&stream->intf->dev,
-+			 "the max payload transmission size (%d) exceededs the size of the ep max packet (%d). Using the max size.\n",
-+			 ctrl->dwMaxPayloadTransferSize,
-+			 stream->maxpsize);
-+		ctrl->dwMaxPayloadTransferSize = stream->maxpsize;
-+	}
- }
- 
- static size_t uvc_video_ctrl_size(struct uvc_streaming *stream)
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 5e388f05f3fc..8b43d725c259 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -77,6 +77,7 @@
- #define UVC_QUIRK_DISABLE_AUTOSUSPEND	0x00008000
- #define UVC_QUIRK_INVALID_DEVICE_SOF	0x00010000
- #define UVC_QUIRK_MJPEG_NO_EOF		0x00020000
-+#define UVC_QUIRK_OVERFLOW_BANDWIDTH	0x00040000
- 
- /* Format flags */
- #define UVC_FMT_FLAG_COMPRESSED		0x00000001
-
-base-commit: 4701f33a10702d5fc577c32434eb62adde0a1ae1
--- 
-2.25.1
-
+On 3/6/2025 12:35 AM, Neil Armstrong wrote:
+> Document the IRIS video decoder and encoder accelerator found in the
+> SM8650 platform, it requires 2 more reset lines in addition to the
+> properties required for the SM8550 platform.
+> 
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> ---
+>  .../bindings/media/qcom,sm8550-iris.yaml           | 33 ++++++++++++++++++----
+>  1 file changed, 28 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+> index e424ea84c211f473a799481fd5463a16580187ed..536cf458dcb08141e5a1ec8c3df964196e599a57 100644
+> --- a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+> +++ b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+> @@ -14,12 +14,11 @@ description:
+>    The iris video processing unit is a video encode and decode accelerator
+>    present on Qualcomm platforms.
+>  
+> -allOf:
+> -  - $ref: qcom,venus-common.yaml#
+> -
+>  properties:
+>    compatible:
+> -    const: qcom,sm8550-iris
+> +    enum:
+> +      - qcom,sm8550-iris
+> +      - qcom,sm8650-iris
+>  
+>    power-domains:
+>      maxItems: 4
+> @@ -49,11 +48,15 @@ properties:
+>        - const: video-mem
+>  
+>    resets:
+> -    maxItems: 1
+> +    minItems: 1
+> +    maxItems: 3
+>  
+>    reset-names:
+> +    minItems: 1
+>      items:
+>        - const: bus
+> +      - const: xo
+> +      - const: core
+>  
+>    iommus:
+>      maxItems: 2
+> @@ -75,6 +78,26 @@ required:
+>    - iommus
+>    - dma-coherent
+>  
+> +allOf:
+> +  - $ref: qcom,venus-common.yaml#
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          enum:
+> +            - qcom,sm8650-iris
+> +    then:
+> +      properties:
+> +        resets:
+> +          minItems: 3
+> +        reset-names:
+> +          minItems: 3
+> +    else:
+> +      properties:
+> +        resets:
+> +          maxItems: 1
+> +        reset-names:
+> +          maxItems: 1
+> +
+>  unevaluatedProperties: false
+>  
+>  examples:
+> 
+Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 
