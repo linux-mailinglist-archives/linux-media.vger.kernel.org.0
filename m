@@ -1,210 +1,245 @@
-Return-Path: <linux-media+bounces-28716-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28717-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24F7FA70205
-	for <lists+linux-media@lfdr.de>; Tue, 25 Mar 2025 14:36:16 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 306F3A702ED
+	for <lists+linux-media@lfdr.de>; Tue, 25 Mar 2025 14:57:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 259A3178A8C
-	for <lists+linux-media@lfdr.de>; Tue, 25 Mar 2025 13:28:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0D9407A3EB1
+	for <lists+linux-media@lfdr.de>; Tue, 25 Mar 2025 13:55:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C1B2264A88;
-	Tue, 25 Mar 2025 13:18:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A96C258CFA;
+	Tue, 25 Mar 2025 13:55:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="ImDeFIUl";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="AJbcpvEt"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="C2d+gLWk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from flow-b2-smtp.messagingengine.com (flow-b2-smtp.messagingengine.com [202.12.124.137])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f42.google.com (mail-oa1-f42.google.com [209.85.160.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4124255E30;
-	Tue, 25 Mar 2025 13:18:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.137
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED87A1DBB13
+	for <linux-media@vger.kernel.org>; Tue, 25 Mar 2025 13:55:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742908715; cv=none; b=OV+1a+U0blzJP2PP4eTRXfJoZpEH9j6pdlAMoNuSf59C81XafWKZUS6gSVGb0xHzsGcRozZDOT/SSLS5Ggm+7YDIlTHhgyh3Rt34Rj7NsTdVPb7N9f6RKz66we2EVukSyIce+kViQhmsflfdH9H+E5fuUvACopN6rc1vvZaWlkk=
+	t=1742910947; cv=none; b=adbgzUXskKUxW6ELrQSk9AkZzXWMTePFy/vYyM6Mw2QbTT4OIL17xk2loIv1/WJXvoGloKyal91Ue3x7gZMdO8sp9pOlm6uSxmGgTwp9Dwy7TJy/o1XMJYTbkAzUA3J/K0dPtAewCS1ImvUSAandqY+KEloITfbTZSDOLjqp7Rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742908715; c=relaxed/simple;
-	bh=C5mrfP7F3Jg/lt8fV5RKe+diz2c9+8VrzuXO+lZEKsk=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=ucXm544baYho5mQ9Sf7OzrqWrpDva+0+aS/QQ/vnRT+bvsQPMB4gtIhGwvq3/9ExszTdSWCScWJziH0SqAE9b/ftR1wVYgYxOH52lD7vogrD+3XZf9T51lPbqM57E6DyBZ3aW9Es7LoHpI0du1iVOXuCokmybN0yEcBoSrdkV4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=ImDeFIUl; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=AJbcpvEt; arc=none smtp.client-ip=202.12.124.137
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-07.internal (phl-compute-07.phl.internal [10.202.2.47])
-	by mailflow.stl.internal (Postfix) with ESMTP id 145781D41618;
-	Tue, 25 Mar 2025 09:18:31 -0400 (EDT)
-Received: from phl-imap-11 ([10.202.2.101])
-  by phl-compute-07.internal (MEProxy); Tue, 25 Mar 2025 09:18:31 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1742908710;
-	 x=1742915910; bh=7uJCsElQFNSpp9yzC8ZbXV0umGMGK1SA9vUHShT/4EA=; b=
-	ImDeFIUlaPDd5ArnPxULaKFYin+F0C7Ltwhhbiw4k7YJ41vuGpa4S0yQgq9xPsTe
-	uJRvlxGtCeN8CpZuIT8pDsErIP9+bN/T8wL1tp/ARdfFsLcv8Sc8Rcm2AAGU22J+
-	QDfsMB27MlJ7Fh/RgFUJCVCjIT3YZoGmX8veA4VhtWah8Pa2dOJDZNENO5efOhCF
-	m3Aj/gZEic8zK7xg5Ge5VcUq9SwT677DKgbhu4s+jchHqDCVBX26EBF+Jyr1L5C7
-	63jXD83O9CYKFI6eG//84unPYNTVnG6PBAwgNm0MSU3dz67bgY73jNJFOhGYl0LB
-	s8TJP3x2kc2XfX0NxWNPbA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1742908710; x=
-	1742915910; bh=7uJCsElQFNSpp9yzC8ZbXV0umGMGK1SA9vUHShT/4EA=; b=A
-	JbcpvEtDY5GIbS4yWE3NXqHeL6XvezyIp78DhI5UvjpRspYi/G9CdSAwYSUCtNWb
-	yZCSTBsfwYT3pBmPHiX1MLdzsCwNGdqTg8pOqvQ1H2TQErjO20YnrvBIqr/9DMiS
-	N/aEn/bfBhxGa3yoge377x6x7UBRw+o2D2Qg6mmJ3KKWHRDwG4n8FjXRe5ziwEm/
-	wUGvAXF0t7FBZIYI28jJqmK/q7kzLry7J34szfZlVS+GOBQDtwkcol+hbMPCqvOl
-	aXXG9vwK4i1gpOxa8dIUlIDZzNMjb3dauDasxJL1NU5UvnvM0wrjeuV397H1C8sF
-	5R0FPcBeip3Dcp0RsoYDg==
-X-ME-Sender: <xms:Jq3iZ2T8JTz-jbX0ypdu8XvymSl6Ha60DCRSyE3kfaeDEsEdhgXRHQ>
-    <xme:Jq3iZ7xqFGmiYIgqeQgAYIE6NT795DUlcZ5oRdxvyZLcCtNjxwf5apWHvH69UlzU0
-    90ZNR5B4xx83SxrA2s>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduiedvjeehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
-    tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnug
-    gsrdguvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeet
-    fefggfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
-    hmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohep
-    vddupdhmohguvgepshhmthhpohhuthdprhgtphhtthhopeihohhnghiguhgrnhdrfigrnh
-    hgsehsihhfihhvvgdrtghomhdprhgtphhtthhopehqihhnghhfrghnghdruggvnhhgsehs
-    ihhflhhofigvrhdrtghomhdrtghnpdhrtghpthhtohepughsthgvrhgsrgesshhushgvrd
-    gtohhmpdhrtghpthhtohepjhhoshgvfhesthhogihitghprghnuggrrdgtohhmpdhrtghp
-    thhtohepsghpfhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehkvhhmse
-    hvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrghrtghhsehv
-    ghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqsghtrhhfshesvh
-    hgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdgtrhihphhtohes
-    vhhgvghrrdhkvghrnhgvlhdrohhrgh
-X-ME-Proxy: <xmx:Jq3iZz2yRnqhHEw1IF85xMNxg4AIr2suK_Z7V6TXceVVmAzSa6K9mA>
-    <xmx:Jq3iZyAeXA8oa-5WGTCdkkC63QtF5vTYRHuh5qi7ccyHz9ZFy6uGWQ>
-    <xmx:Jq3iZ_hXDQ-VIXP0Zn7YnVUgAq0b19IaMLt4GaWKi3jJzguZr_HdUA>
-    <xmx:Jq3iZ-rgPQ_c8apCNrICWaw237kvlBRA58SynDoqVL6QMmwWVWyA2Q>
-    <xmx:Jq3iZ-U7_q_MN5COfgfdsTStOp5gWRt0SJfrgmunU_hcwDOxH-bYhAym>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id DF35E2220071; Tue, 25 Mar 2025 09:18:29 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1742910947; c=relaxed/simple;
+	bh=Xo2iU9kz5ZfSUKvwoiTyRsIWDgU8IAHazUbpND4gTAs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ZmdYVWx1+aPBtgVpRjQiCxTnCK4Ep+k+AQxLAZQNmhi3M8ln2kt+npnG1njGKSVK2pHiB5wVh8ZcTiQAQqUBvghmxM/7Gs9RvMVhf+lvsXrAfj6IVz6UqqeO7NatEdPJDDxEh9oc3h9ZcaDSdvqi34tyQwR39UXLkyYHxECNLy0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=C2d+gLWk; arc=none smtp.client-ip=209.85.160.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-oa1-f42.google.com with SMTP id 586e51a60fabf-2b2b6019a74so2799323fac.0
+        for <linux-media@vger.kernel.org>; Tue, 25 Mar 2025 06:55:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1742910944; x=1743515744; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HfXW1tINyjybFH59i2/tceSOuMsWCGxf0dWvSOQSE9Q=;
+        b=C2d+gLWk22FLZ8ZVj8d1UndfkHSdlMSq7NycPwbOQ4vVkRQNh7us1PYmBdugOXnZox
+         yXAUWLotljI1Kip5ido+6/pdWWFYsW6aKPWXPMYb1ik5Td34BwibBeSEVSAuq7CNcv7g
+         8nWVUg2iOD6AMevche/2rVhEYe5ThJSj0OKCm7D1a33i4ZACN24Be3+MFhr57RVFr/0Y
+         PSQNY2JhuQfLdF85DUIc8x5jDFhrTyxFv1i83bGETZbUj24bD5tnUUm37MM1Ta1uhxj5
+         e99daG2CyyhO4kghQCTsqzQb2wH0hrj7i1tl9j3bnWOGJwYJKnALBIfq+YbAN8rqaC0l
+         6R0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742910944; x=1743515744;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HfXW1tINyjybFH59i2/tceSOuMsWCGxf0dWvSOQSE9Q=;
+        b=sB9mUGACN04zTMy7nYXZf9lNuyB2LrygQq/8z74CU5YVUBkE6vTb/EfGETvF55Ygqu
+         /KmA4xcf9Ez0Sn1UiRWA1fmcaHwsTwka2TxHjwbk6Ip1MZWn8wZpNVj5lJABnDzSkwvX
+         F22D3enjv4xqPpfaejJpSHtXiwMimV4wWtOh3+ydH9JQYxHUjvV72C7HNR3trdqlzIC9
+         WBeqCWv8ENHm4IBCWUi2Joj4vE/8Xwmf9Od7g4ZDhZurmvlhIxTmyk6lgg+6sl+eHNeH
+         um/UIphUj4zAJ4os/1KGCGlsUwjUXVrZ2LD4ljI9/RgzHQ3TtNxTMGkrnHLuMVMju7QO
+         4xOA==
+X-Forwarded-Encrypted: i=1; AJvYcCWG0lu6OzQzZ+jDFiCn4jpTWuMAy0B2mhlcIeZrX2QX7H22e71bNUlEEK6+QVU40ul25stXBDXSG1M4Bg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxE3dXDxmG7u6YXGfOrEocZ4YdgPP3DUY44vzYFgTpw/1YPVyDa
+	2wQaIbBUaYvsgCTMwsZWByxsxyriiCNWGt1ARs+M9K95anRsuTAJllGux4ShysI109Y1FEqadRl
+	O3uwTmbsHYzD8RcadmcV5id4Ai+h7i4OE88uhfg==
+X-Gm-Gg: ASbGncsbxrxnQLLReCV9DHtN0Nf8WAfRGyZrPM7ltDTSOpmCag8Jo/74nnvo9DN8kuF
+	ZAxgjDRPPm7aLqVd53Iu6wipB84ex7QXTIomCMkAH9ktRKlMSoLCt61eJzAJtqDGPQiaBvMR1Jy
+	kQv6Z8EQBK0zhceUU4anZLjYctrSs=
+X-Google-Smtp-Source: AGHT+IEwBPPwUVoRos1sVNedvDmYTl2oPMhg6qa7EWRFlVhYT0/1fPMMFcZLaxlXCLhryoazT9mEtzOs9FsiBb8tVPo=
+X-Received: by 2002:a05:6870:f80b:b0:296:bbc8:4a82 with SMTP id
+ 586e51a60fabf-2c780495379mr12124356fac.27.1742910943713; Tue, 25 Mar 2025
+ 06:55:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: T218a0d8b70d1a53d
-Date: Tue, 25 Mar 2025 14:17:44 +0100
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Peter Zijlstra" <peterz@infradead.org>, guoren <guoren@kernel.org>
-Cc: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Linus Torvalds" <torvalds@linux-foundation.org>,
- "Paul Walmsley" <paul.walmsley@sifive.com>,
- "Palmer Dabbelt" <palmer@dabbelt.com>,
- "Anup Patel" <anup@brainfault.org>,
- "Atish Patra" <atishp@atishpatra.org>, "Oleg Nesterov" <oleg@redhat.com>,
- "Kees Cook" <kees@kernel.org>, "Thomas Gleixner" <tglx@linutronix.de>,
- "Will Deacon" <will@kernel.org>, "Mark Rutland" <mark.rutland@arm.com>,
- "Christian Brauner" <brauner@kernel.org>,
- "Andrew Morton" <akpm@linux-foundation.org>,
- "Steven Rostedt" <rostedt@goodmis.org>,
- "Eric Dumazet" <edumazet@google.com>,
- "Chen Wang" <unicorn_wang@outlook.com>,
- "Inochi Amaoto" <inochiama@outlook.com>, gaohan@iscas.ac.cn,
- shihua@iscas.ac.cn, jiawei@iscas.ac.cn, wuwei2016@iscas.ac.cn,
- "Drew Fustini" <drew@pdp7.com>, "Lad,
- Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- ctsai390@andestech.com, wefu@redhat.com,
- "Jakub Kicinski" <kuba@kernel.org>, "Paolo Abeni" <pabeni@redhat.com>,
- "Josef Bacik" <josef@toxicpanda.com>, "David Sterba" <dsterba@suse.com>,
- "Ingo Molnar" <mingo@redhat.com>, "Boqun Feng" <boqun.feng@gmail.com>,
- "Xiao W Wang" <xiao.w.wang@intel.com>, qingfang.deng@siflower.com.cn,
- "Leonardo Bras" <leobras@redhat.com>,
- "Jisheng Zhang" <jszhang@kernel.org>,
- "Conor.Dooley" <conor.dooley@microchip.com>,
- "Samuel Holland" <samuel.holland@sifive.com>, yongxuan.wang@sifive.com,
- "Xu Lu" <luxu.kernel@bytedance.com>,
- "David Hildenbrand" <david@redhat.com>,
- "Ruan Jinjie" <ruanjinjie@huawei.com>,
- "Yunhui Cui" <cuiyunhui@bytedance.com>,
- "Kefeng Wang" <wangkefeng.wang@huawei.com>, qiaozhe@iscas.ac.cn,
- "Ard Biesheuvel" <ardb@kernel.org>,
- "Alexei Starovoitov" <ast@kernel.org>, linux-kernel@vger.kernel.org,
- linux-riscv@lists.infradead.org, kvm@vger.kernel.org,
- kvm-riscv@lists.infradead.org, linux-mm@kvack.org,
- linux-crypto@vger.kernel.org, bpf@vger.kernel.org,
- linux-input@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-serial@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Linux-Arch <linux-arch@vger.kernel.org>, maple-tree@lists.infradead.org,
- linux-trace-kernel@vger.kernel.org, Netdev <netdev@vger.kernel.org>,
- linux-atm-general@lists.sourceforge.net, linux-btrfs@vger.kernel.org,
- netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
- linux-nfs@vger.kernel.org, linux-sctp@vger.kernel.org,
- linux-usb@vger.kernel.org, linux-media@vger.kernel.org
-Message-Id: <db3c9923-8800-4ed3-a352-4ee9ef79c0b7@app.fastmail.com>
-In-Reply-To: <20250325122640.GK36322@noisy.programming.kicks-ass.net>
-References: <20250325121624.523258-1-guoren@kernel.org>
- <20250325122640.GK36322@noisy.programming.kicks-ass.net>
-Subject: Re: [RFC PATCH V3 00/43] rv64ilp32_abi: Build CONFIG_64BIT kernel-self with
- ILP32 ABI
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
+ <20250305130634.1850178-9-jens.wiklander@linaro.org> <Z-JWIyd8cKyXQR0H@sumit-X1>
+In-Reply-To: <Z-JWIyd8cKyXQR0H@sumit-X1>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Tue, 25 Mar 2025 14:55:32 +0100
+X-Gm-Features: AQ5f1Jp3D7eSeWP8gWeTN_I1pHWpPzOxKysZVMBSQkU1nox7ff2kFajLYyiQcek
+Message-ID: <CAHUa44FXjG1hC9v18Yx1ENPX_Bc9sZW1Z2=+m6+KUsxPMvDE+w@mail.gmail.com>
+Subject: Re: [PATCH v6 08/10] optee: support restricted memory allocation
+To: Sumit Garg <sumit.garg@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
+	Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Mar 25, 2025, at 13:26, Peter Zijlstra wrote:
-> On Tue, Mar 25, 2025 at 08:15:41AM -0400, guoren@kernel.org wrote:
->> From: "Guo Ren (Alibaba DAMO Academy)" <guoren@kernel.org>
->> 
->> Since 2001, the CONFIG_64BIT kernel has been built with the LP64 ABI,
->> but this patchset allows the CONFIG_64BIT kernel to use an ILP32 ABI
+On Tue, Mar 25, 2025 at 8:07=E2=80=AFAM Sumit Garg <sumit.garg@kernel.org> =
+wrote:
 >
-> Please, don't do this. This adds a significant maintenance burden on all
-> of us.
+> On Wed, Mar 05, 2025 at 02:04:14PM +0100, Jens Wiklander wrote:
+> > Add support in the OP-TEE backend driver for restricted memory
+> > allocation. The support is limited to only the SMC ABI and for secure
+> > video buffers.
+> >
+> > OP-TEE is probed for the range of restricted physical memory and a
+> > memory pool allocator is initialized if OP-TEE have support for such
+> > memory.
+> >
+> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > ---
+> >  drivers/tee/optee/core.c    |  1 +
+> >  drivers/tee/optee/smc_abi.c | 44 +++++++++++++++++++++++++++++++++++--
+> >  2 files changed, 43 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/tee/optee/core.c b/drivers/tee/optee/core.c
+> > index c75fddc83576..c7fd8040480e 100644
+> > --- a/drivers/tee/optee/core.c
+> > +++ b/drivers/tee/optee/core.c
+> > @@ -181,6 +181,7 @@ void optee_remove_common(struct optee *optee)
+> >       tee_device_unregister(optee->supp_teedev);
+> >       tee_device_unregister(optee->teedev);
+> >
+> > +     tee_device_unregister_all_dma_heaps(optee->teedev);
+> >       tee_shm_pool_free(optee->pool);
+> >       optee_supp_uninit(&optee->supp);
+> >       mutex_destroy(&optee->call_queue.mutex);
+> > diff --git a/drivers/tee/optee/smc_abi.c b/drivers/tee/optee/smc_abi.c
+> > index cfdae266548b..a14ff0b7d3b3 100644
+> > --- a/drivers/tee/optee/smc_abi.c
+> > +++ b/drivers/tee/optee/smc_abi.c
+> > @@ -1620,6 +1620,41 @@ static inline int optee_load_fw(struct platform_=
+device *pdev,
+> >  }
+> >  #endif
+> >
+> > +static int optee_sdp_pool_init(struct optee *optee)
+> > +{
+> > +     enum tee_dma_heap_id heap_id =3D TEE_DMA_HEAP_SECURE_VIDEO_PLAY;
+> > +     struct tee_rstmem_pool *pool;
+> > +     int rc;
+> > +
+> > +     if (optee->smc.sec_caps & OPTEE_SMC_SEC_CAP_SDP) {
+>
+> Is this SDP capability an ABI yet since we haven't supported it in
+> upstream kernel? If no then can we rename it as
+> OPTEE_SMC_SEC_CAP_RSTMEM?
 
-It would be easier to this with CONFIG_64BIT disabled and continue
-treating CONFIG_64BIT to be the same as BITS_PER_LONG=64, but I still
-think it's fundamentally a bad idea to support this in mainline
-kernels in any variation, other than supporting regular 32-bit
-compat mode tasks on a regular 64-bit kernel.
+No problem. We can rename it.
 
->> The patchset targets RISC-V and is built on the RV64ILP32 ABI, which
->> was introduced into RISC-V's psABI in January 2025 [1]. This patchset
->> equips an rv64ilp32-abi kernel with all the functionalities of a
->> traditional lp64-abi kernel, yet restricts the address space to 2GiB.
->> Hence, the rv64ilp32-abi kernel simultaneously supports lp64-abi
->> userspace and ilp32-abi (compat) userspace, the same as the
->> traditional lp64-abi kernel.
+>
+> > +             union {
+> > +                     struct arm_smccc_res smccc;
+> > +                     struct optee_smc_get_sdp_config_result result;
+> > +             } res;
+> > +
+> > +             optee->smc.invoke_fn(OPTEE_SMC_GET_SDP_CONFIG, 0, 0, 0, 0=
+, 0, 0,
+> > +                                  0, &res.smccc);
+> > +             if (res.result.status !=3D OPTEE_SMC_RETURN_OK) {
+> > +                     pr_err("Secure Data Path service not available\n"=
+);
+> > +                     return 0;
+> > +             }
+> > +
+> > +             pool =3D tee_rstmem_static_pool_alloc(res.result.start,
+> > +                                                 res.result.size);
+> > +             if (IS_ERR(pool))
+> > +                     return PTR_ERR(pool);
+> > +
+> > +             rc =3D tee_device_register_dma_heap(optee->teedev, heap_i=
+d, pool);
+> > +             if (rc)
+> > +                     goto err;
+> > +     }
+> > +
+> > +     return 0;
+> > +err:
+> > +     pool->ops->destroy_pool(pool);
+> > +     return rc;
+> > +}
+> > +
+> >  static int optee_probe(struct platform_device *pdev)
+> >  {
+> >       optee_invoke_fn *invoke_fn;
+> > @@ -1715,7 +1750,7 @@ static int optee_probe(struct platform_device *pd=
+ev)
+> >       optee =3D kzalloc(sizeof(*optee), GFP_KERNEL);
+> >       if (!optee) {
+> >               rc =3D -ENOMEM;
+> > -             goto err_free_pool;
+> > +             goto err_free_shm_pool;
+> >       }
+> >
+> >       optee->ops =3D &optee_ops;
+> > @@ -1788,6 +1823,10 @@ static int optee_probe(struct platform_device *p=
+dev)
+> >               pr_info("Asynchronous notifications enabled\n");
+> >       }
+> >
+> > +     rc =3D optee_sdp_pool_init(optee);
+>
+> s/optee_sdp_pool_init/optee_rstmem_pool_init/
 
-You declare the syscall ABI to be the native 64-bit ABI, but this
-is fundamentally not true because a many uapi structures are
-defined in terms of 'long' or pointer values, in particular in
-the ioctl call. This might work for an rv64ilp32 userspace that
-uses the same headers and the same types, but you explicitly
-say that the goal is to run native rv64 or compat rv32 tasks,
-not rv64ilp32 (thanks!).
+OK
 
-As far as I can tell, there is no way to rectify this design flaw
-other than to drop support for 64-bit userspace and only support
-regular rv32 userspace. I'm also skeptical that supporting rv64
-userspace helps in practice other than for testing, since
-generally most memory overhead is in userspace rather than the
-kernel, and there is much more to gain from shrinking the larger
-userspace by running rv32 compat mode binaries on a 64-bit kernel
-than the other way round.
+Cheers,
+Jens
 
-If you remove the CONFIG_64BIT changes that Peter mentioned and
-the support for ilp64 userland from your series, you end up
-with a kernel that is very similar to a native rv32 kernel
-but executes as rv64ilp32 and runs rv32 userspace. I don't have
-any objections to that approach, and the same thing has come
-up on arm64 as a possible idea as well, but I don't know if
-that actually brings any notable advantage over an rv32 kernel.
-
-Are there CPUs that can run rv64 kernels and rv32 userspace
-but not rv32 kernels, similar to what we have on Arm Cortex-A76
-and Cortex-A510?
-
-       Arnd
+>
+> -Sumit
+>
+> > +     if (rc)
+> > +             goto err_notif_uninit;
+> > +
+> >       /*
+> >        * Ensure that there are no pre-existing shm objects before enabl=
+ing
+> >        * the shm cache so that there's no chance of receiving an invali=
+d
+> > @@ -1823,6 +1862,7 @@ static int optee_probe(struct platform_device *pd=
+ev)
+> >               optee_disable_shm_cache(optee);
+> >       optee_smc_notif_uninit_irq(optee);
+> >       optee_unregister_devices();
+> > +     tee_device_unregister_all_dma_heaps(optee->teedev);
+> >  err_notif_uninit:
+> >       optee_notif_uninit(optee);
+> >  err_close_ctx:
+> > @@ -1839,7 +1879,7 @@ static int optee_probe(struct platform_device *pd=
+ev)
+> >       tee_device_unregister(optee->teedev);
+> >  err_free_optee:
+> >       kfree(optee);
+> > -err_free_pool:
+> > +err_free_shm_pool:
+> >       tee_shm_pool_free(pool);
+> >       if (memremaped_shm)
+> >               memunmap(memremaped_shm);
+> > --
+> > 2.43.0
+> >
 
