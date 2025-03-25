@@ -1,229 +1,157 @@
-Return-Path: <linux-media+bounces-28661-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28662-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A80A6EBF8
-	for <lists+linux-media@lfdr.de>; Tue, 25 Mar 2025 09:53:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B985CA6EC02
+	for <lists+linux-media@lfdr.de>; Tue, 25 Mar 2025 09:57:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D387E1887FA8
-	for <lists+linux-media@lfdr.de>; Tue, 25 Mar 2025 08:54:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C9D563AC180
+	for <lists+linux-media@lfdr.de>; Tue, 25 Mar 2025 08:56:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 918B61AAA1B;
-	Tue, 25 Mar 2025 08:53:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE1181DB34C;
+	Tue, 25 Mar 2025 08:57:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="a8AXfXwq"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CzQYtn4C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2043.outbound.protection.outlook.com [40.107.243.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61DCD8460
-	for <linux-media@vger.kernel.org>; Tue, 25 Mar 2025 08:53:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.43
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742892831; cv=fail; b=IITf3RGGup9EgedSjBJGoqUiELK2cjI7WtOWQZAemRaB9pROFLsuW9rzxJdjmFZmdPlvbFlZU8U8XDwBgE9zO2lW+sESVHwkSOLVk/3oI6DR36nhfDcHMUuI3256WkLYsY0a9ZxUIqM1rgZQ2ChHG72FOasggUzip+ziB213Q5I=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742892831; c=relaxed/simple;
-	bh=quuASvZ2HZvdj+HjlvDpJGKmzLl7shw8bptr1Mwo+Rc=;
-	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=SgR8T5vyKNVE2fqIQ2Vw9g2k/oGhTHj6r09qpAxrOrJdwHVF0lLlzifKnEcSzqyFhJc+jT2w9GD3+IgdsFPDR1mQTdd7nR/M8JSNMgGMgMx1UfgT0gKqtJ/YNlQGhLQZ9C/b6puDjEk8/p16QNs28pAVB6ucABWxeSmRf+stjmA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=a8AXfXwq; arc=fail smtp.client-ip=40.107.243.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FkklFw8kNVrJdasNCZsQ2n/fNHKDD2EyRd7cpaKpD61Kr/gLgKzgxcTf7M7qvEhQ6kg6e8NQn5YwrYCvw9+geHuJAHPtqmwsfDl/+XRGXfrPWwaqlYQFNk6V9lSelaaEoatd5xWXFKptoyhLXg/RKFyMQMfRLGNMfnrMc+Y7CZkFADtVd5ZFHNK0z8pIac01k0xTTcTmogBrldfefhJ/rQlbefoZF7m4RwNDayTl542w3sqOSOrZPD7VTUmo1uJDZWk0uY/qlONgtux3JiqgF2zcHeVQlXiR4sx3jK3kaI1pdZxfJThEpRyr/x47vjNOGS0tabh7KqVayUjWUiPPrA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aVGhXo/B9a/d4bF9177Xo6kxwPvCE+f160IrQJPXnV0=;
- b=hOT/z07p2iXcuL/tY/NBEyRIgExI4yzgLwng0+Rg77w2WButvIfR9fBZQ6Za0jWekBbakQOkkgNjUjTC7nMOJ7mfSdw+zAnota8OCYCzTfC9Nv/YZE+bGMJsq3VQfm8Y95/Q7/+DsvZKl7d/PnHlnO3zQQW0YwGPv2Njue3L2Rjfn/nOvy9/74xMm6l7N0AoRM00rpO4rvOl4egmY5JOYBHlwHfcfKR01Hzi1dMgfKNAwCC43Vny2nSQRhD3X56etcSVe1YG9CvyPTjJsH+NxeYpxvds9zRiTPYlueqwRjaOAripIK+hsrmnR96Vh3EsowePCwcWDaq8u7nSDJtKaQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aVGhXo/B9a/d4bF9177Xo6kxwPvCE+f160IrQJPXnV0=;
- b=a8AXfXwqrv0rsI9uvkRNhSpL9eCL+uc3BITVYY39niWslEVBXyfm531hTpL5WFb7XlXNuf3G6r62cQsBdDHblV6ERSUqNy7mhEaSyQa8iNPtUjPwmjuXzJupIhMeSy+rNk9oFzNB0mirkV9Zc4eZ74YU0jU8Qgx0tLhNIw3OjF0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS7PR12MB5840.namprd12.prod.outlook.com (2603:10b6:8:7b::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.42; Tue, 25 Mar
- 2025 08:53:47 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8511.026; Tue, 25 Mar 2025
- 08:53:46 +0000
-Message-ID: <099dbff3-42fb-4445-b5a0-1c4031bb9e7c@amd.com>
-Date: Tue, 25 Mar 2025 09:53:41 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] udmabuf: fix a buf size overflow issue during udmabuf
- creation
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- "Xiaogang.Chen" <xiaogang.chen@amd.com>,
- "kraxel@redhat.com" <kraxel@redhat.com>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>
-References: <20250321164126.329638-1-xiaogang.chen@amd.com>
- <555feb70-5d80-4a36-818f-f00fbc3dff23@amd.com>
- <IA0PR11MB718563F5C571E07F1314F152F8A72@IA0PR11MB7185.namprd11.prod.outlook.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <IA0PR11MB718563F5C571E07F1314F152F8A72@IA0PR11MB7185.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR5P281CA0054.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f0::7) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 675D11B4234
+	for <linux-media@vger.kernel.org>; Tue, 25 Mar 2025 08:56:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1742893021; cv=none; b=jb8+GolSfp74rSebxtj9HhGuViKX1pruE2F0DjQl7K1MbnRqU3TAZRnUO1VePxeMpygo3yF7upnpbBlrfqCZdsZc566BnVrjEUeFyIB7WtX4olIJVANnHU8NkUUbNuR65fRGfSM+jIFUavlnJIcjqLBKiHMTF0uqL+nYgw2SXzM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1742893021; c=relaxed/simple;
+	bh=vshuMyCYFLJDvNpL15NUMHq/rID0RlGfkcQcA8Uhlf4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Y5QtAj8ngq/JKpSdPn+rMGQYK+k6Tyvo01k6J+5M9FDlXm3dmQDd2be0RiR4ypvafmOt76liNiwEOzZaARA9potb2S0hYhrVCIXogaA+y9wywDJHK6NyFozTIqiAphifQEi0ywQR9jSJ5ouZxCdE/cG8Zy6x0GAnBpAVwTB/VFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=CzQYtn4C; arc=none smtp.client-ip=209.85.208.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-30bfb6ab47cso51885071fa.3
+        for <linux-media@vger.kernel.org>; Tue, 25 Mar 2025 01:56:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1742893017; x=1743497817; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=pekDRC5ZiCfjtVPCurs814x3fMwzvDjR3anDXf5w15E=;
+        b=CzQYtn4CUAFPz+Vlgl7EyeMkCq0HY4n25vcD5VrspQUwOctGoYOwllnr5Qc3d4apg/
+         Ec08bTvQbc2E/06MJLI7iWrHQq/rhg/R5EgcQqWQy8FKwYs2MCooKBz4RQ3t1SQvqWhk
+         TUQ3DZJtqNu9OLpGrxa6IJxtedi3WyjRgqpBI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742893017; x=1743497817;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pekDRC5ZiCfjtVPCurs814x3fMwzvDjR3anDXf5w15E=;
+        b=sfpOmgW6AbjICXvZPobwQkp5RqZKaPjgcTRS00Z5Xqj08vnKdDN4kE6Jm85l7uyYJO
+         Cs+q+mel5giFfvXOW72XexFHdvdM5Otd/KPTkdUcNk0fazjLPi9loPUxPub0jC+HdIWt
+         U0isf+dMe66mP2kGyyDLomE6/AmCVjDtmlwyUSC05bcTb2+AozEm1f4qzjekhL9Q5ltn
+         X/X6k9i//xryZdYs/bvN+5aHRknuQQ4uyYYQnSi9dX+30nrXTUaC8GdDozZud+9MoZee
+         v52eJ2QZetOIpwlaaruq13hO8BQxxGUF0nDSLHbPGHmz8csRtEDa7X2a5JaZKyu6s+1F
+         LP+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUqqGRtMPKoOhbzstujzU5VQTFi/QMHpPIlhLus3TdAq0/PHX7i3lu6bAa57RSMVcSUJmKNSdRsers/9g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzKX2WK7MUe2Yc4F6h2B+uMWxkl0BJIy5L+kI3CDAsExqDQ0sXc
+	vn5yC+mlnnKPEZuavoZ8NZ+tgSeXS9MzR4CFoNU1VcQU/BUQ/qGiNxzGcy8BjNZC6wTSV/HMIQk
+	=
+X-Gm-Gg: ASbGncuIqeMdpte2xfxajur/5krCebvshHKm+TceVLgzoAPTXrQ6GObYnACwG2oA4IT
+	Y3A4XMoFXYUbRhODO2Nf1eaGYyNiNf/XMY3/PEALsxC3pIrRKbhZS2D7pfSPQlN/DszbgZrOlxM
+	3zfcw2usV3iJj2yMUzjdrgxDw6QzWKl47vtXPF1lEPFQuUBzT6KxWDu8HF8m8J4n5/GJY0dcEfj
+	0ZY6314gnLpygn97vdLOIYLRd2cwr2EvM3/7wxTD3Y9IjFHkP5OY/a8uI31i5wggUzT7NjxL8W3
+	JIdbeLlAFRpGwK6EQQ5X+zMnZRDBOTOwl90LyRJ2IhJVLcPPOnL0dx4AkOm39BR2USTK2IYe1Ke
+	NW6sTp4o=
+X-Google-Smtp-Source: AGHT+IE1sBbHrprwg1rEgZedWWRYzPg1F92bvA43fTYTpFoSsRcPK8+wCWQkzOJCL+Zfwin65LNg/Q==
+X-Received: by 2002:a2e:9087:0:b0:30b:f924:357c with SMTP id 38308e7fff4ca-30d7e223dd1mr52582941fa.15.1742893017305;
+        Tue, 25 Mar 2025 01:56:57 -0700 (PDT)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com. [209.85.167.53])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30d7d7c181asm17235371fa.14.2025.03.25.01.56.56
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Mar 2025 01:56:56 -0700 (PDT)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-549b159c84cso5979196e87.3
+        for <linux-media@vger.kernel.org>; Tue, 25 Mar 2025 01:56:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVXfpxxVAUynIzTfZxHNZUvM/qddtQQopeyk9uSegjkEZRrSTUKDjTiVoR0XCYF2EFA/nNWSPlzFU5NSg==@vger.kernel.org
+X-Received: by 2002:a05:6512:3401:b0:545:56c:36c7 with SMTP id
+ 2adb3069b0e04-54ad64f58a6mr6508739e87.41.1742893015961; Tue, 25 Mar 2025
+ 01:56:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS7PR12MB5840:EE_
-X-MS-Office365-Filtering-Correlation-Id: f7d5acd7-6a02-4843-0422-08dd6b7a8db0
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MzdqTXFaQ2lZUnhzTnFaM0wyeERnbytKSVdJNGpEVkJ2TjFrTWdaYjQ4ZWFl?=
- =?utf-8?B?WmJyMkZhZFlkcysxbHd3bW9NSkNURTZMZFlTc0pqVE1LOU9CSVZrbldYTVBL?=
- =?utf-8?B?dERONDlQejNZbEhpbERzZGRjN3hFR2d5c3BTUGJlcG5JbjJWK3RzcXFrS2lN?=
- =?utf-8?B?dU40M1ZCL1VBSVBsdkJqZEpCRjJMaW9EbHBzbStaOC8waWpZZE5YaWZMZlpS?=
- =?utf-8?B?OGw4RVk2WkoyREtDa25UOG8wZjUrM2c2UU1mRUp4Tmx4ODVsMXM1bmhVTHkr?=
- =?utf-8?B?THk4Tm5yQWptYU5vZGVudTU3OC9xSFhjbklJWGJzbkNYMUsvcmZBc3ErUXFW?=
- =?utf-8?B?OXo3bk1SaFVtQmtKcEFleU91YXl2cmhFdlhYaHo5WVRPSVpJV2h5S1FlWVc0?=
- =?utf-8?B?aWJDRGRPVUJveExvazZRa3I5Z3d4YzVTUDFZYXA5T3huMFZzUWdKU0trNjB5?=
- =?utf-8?B?N0Z1OENueXl3U1hocGorY21WdXIyd0wxa2NlNTdSakZ2SWZ0cGVJNmFHeFg2?=
- =?utf-8?B?emFFTEdFVXY2dFRTUXcvZGUxNkQ3bm1MV3FNUTFtcUpERHdLemZWSjVwL3Fu?=
- =?utf-8?B?UGMrdDFmYlp0N1g3ajR5TkJndDJmWDd2OTNBeEJNMzQ0TWRMcDNIRjBxb2Zq?=
- =?utf-8?B?Z201ZXJGZHBXaHhTYWsvV0JFSlpKbkozTWRTZFpmVmovczd2cGdtQm90TjZT?=
- =?utf-8?B?UE9CS3dtYU5GS2F1a2ZCaWlDbEpuekVGZktLeFpSUlgzRnpPQXlPYU4rdFRH?=
- =?utf-8?B?V3d5MHMzakZ1cENhQXJSZ0t6L2RZR3lqTFNBNTUyaC8zaUJFT2I0OG1ka3dK?=
- =?utf-8?B?QXpjL1RlMkxTaGo4eUgxaTI4V0ZGQnRzQkJ1Z0tpeHB1bUNOd3VtcHRhV0w3?=
- =?utf-8?B?TlBCRWF0NHBVSmplazlsYjFGZElXUjNKc3FXamtQd1pEY2p5b3didUdiSXRY?=
- =?utf-8?B?R091UHdsZnNBUDBWRkVwUFU3QlVDeFc0OGJLR3ZZS0NiZFVkdnNWZzBrcmE1?=
- =?utf-8?B?eFBsMlVUejR4NzdKSnMwTlhheEh2clRDcGRyaElXNkJQblhEMGRnRTBlTmJ3?=
- =?utf-8?B?b2tJQWFqcGVicEMxbm1KbXZWTnJQMDBLZ0J5dWFBUUhuYnRWQ1pwdHJkOXVi?=
- =?utf-8?B?WHNnT2gvbmw4QkNValFtbG1JVmt3MGdaSXBQaW1YYU5qYVJjdlJiS1RjMURx?=
- =?utf-8?B?NXlWZXdoZGgxWU9ra3hQd0FVeXJhSE5jTUUxc3RHdkJCdGNmaGFQbDkvSFAx?=
- =?utf-8?B?b2g1VHNzK1ZoSGk2SWhNRHpMRUREcUlvNktzTkQwU0p2SmFJRGZhdXU2TFJk?=
- =?utf-8?B?VUxvOWFBOUNyb0FOaFhGcmhFWG1uVkRPNGxQbS9GZFp1NzhOalhFRElrQ3F1?=
- =?utf-8?B?V0YyZnQ5TTlxb0h4TWpsbHp3UGZoZStxbFh0cTNta0NLd0VLazB4NWhYd0U1?=
- =?utf-8?B?WjZ2eG5wK090UnkzaGJvVlZYUU03dkJQSTE5TWZMbitrZnV4Wi9hcURZQ3hG?=
- =?utf-8?B?UndYUzhBNktaMmpQdW81c2ZvUjJUZmhreUVtYkt2UWRsak00Z1dXaWZsb1Fv?=
- =?utf-8?B?dlNLTUM0M2xqUkFsUjRDelV4NnNCWlF2QUovWFpwSXFIeTJnQVZ5eTQ2c0Fa?=
- =?utf-8?B?SUJQVE9Kc2hOQW81YkdMbWNmcjF2QlMwaW1iZUoxdTYwTGRJZ3Q1WmpPK3RI?=
- =?utf-8?B?NGRGdFNXMURHSUszY2pWdzVRNTZ2WjBDVTR6UUZ5aXRzUllEYlVETXFrQXRP?=
- =?utf-8?B?dVoyTXRBQXQ2TXpETzBZSmp3Nnd4ZHZqbUNuY1BxYUZ4QlF6Sm5VMHpTMkNl?=
- =?utf-8?B?b1pVVTBlaitEbTE2MnI1Q1V0aDhIYWlCQ1NFNTI3V2tFcEx0MlFwM0lJRFhZ?=
- =?utf-8?Q?KXXMQDq/Hc2Gn?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TllUaDN2Z0VNYUd6dW5KVE9lTWg3NTA5YVRKbjRXbnU3NWVTc2J4bkVPd2h5?=
- =?utf-8?B?NUt6amY3aEM4b2tQaFZLMHY5aE9MdW1ZN2VsdU5PTUl4ZWl5YVQzV0M1bEVz?=
- =?utf-8?B?K3NzS0twTzgvYmtUVG0zNmZ4TlgxRlBoTlh5N0ZHalpZRURCZHh4a29BOWt1?=
- =?utf-8?B?VVRDUWRaZy82UzZZckZwY2RZNFErbnV0VEFOTndjT2xUaHM1NUkrZzRsZnhN?=
- =?utf-8?B?M3N6ZVRadlZ4Wnc4T2pFbDZaUzkxam9Za0s4cmNRbmg1enBSOXl2enVLenhZ?=
- =?utf-8?B?V1pJeWVnbXd5ZWZqMTV1a3JQblNmQUxObi9BUWlrYWNONGdQQU83dDlkbFF4?=
- =?utf-8?B?SzFNMC96U2Q0NklsdmdQemlwVjRJU3JUM1ZOekgwcy9VWXU2ZXFObWhrYStn?=
- =?utf-8?B?SlVCaFRGM1F2aHlEa1MveUpOQzJtenczZTdsQUZhZGF5ZlJ2WWxTeXdXYXh1?=
- =?utf-8?B?VFJUaUpSTUZtekp2VytONEhXL0Y1RFpSTVlRT0dNNXhhaTdPajhpSzhBM1lh?=
- =?utf-8?B?OUZFZE1xMkNnZi9JZ09KR3VEUjQ4SXkvWDNSN05sb0RpRkVsaURVanB5QTNh?=
- =?utf-8?B?Y2FMMmZxaDl4NkpkTzhXd2kzdS9MdWtBemhEZ29UOStiUTVjY3RBeWphOXIv?=
- =?utf-8?B?LzZEakU1UnMwK1l4WHEwR1g0STduazBoNEw2M0luTUxmTkpUNlBteHRpbVZ1?=
- =?utf-8?B?QU9MTkhxVy9ZN2x2YkhXaEpwN0V4Ukp0emtvU3RQSUx2K1VuQXA0dTVXR2lk?=
- =?utf-8?B?b0NPSGJGMjVoUER6ejR5YzZmQWlTZDRkUnFIUFlPMjQ3VW1TcE8wWU5xdEZO?=
- =?utf-8?B?RjZ4a3RaUTEzWnlXZ3FLbXJUQjczUXFtczF4OVF6MkpLNHd6S1k2cTVsTktx?=
- =?utf-8?B?NXQwVElzRll0dXZncXFYSGRkRXJlZDlOTVk1M0ZUcmxzSHUrcTR3WTFTejJp?=
- =?utf-8?B?NmdYQ0hFOUFZTnQ2YlExTnFHc2NQeTRrdS9MbmswZWVkbnEzazdUVW5EYjdP?=
- =?utf-8?B?WUx5R0x3eVZKTnhYd254TE16cHphOFFyNUlJYlBmaUdVbk9kaUI3Tk8zUVdB?=
- =?utf-8?B?OTlUaytMV3c4YUM1R0pZSlZiYzVzQnQ2TWkxTlQ5SVl0eXZENjJHTVNSUzVX?=
- =?utf-8?B?eXllbWE1REYyZlk0dkd4b0lpMHBJVkhTYUEzWFJBZEFSQUhlcmV0NS9Ra0wx?=
- =?utf-8?B?SmVmVnlUWDRHcE1PWU9ET3hGOUdCaUVDU3I0ekwvdHF6d1F1WVVUVnM1Y0w4?=
- =?utf-8?B?VklSLy9NcExqWnNQSm9iK0RhSGw5bVRaRFlBbWF0UTYwZGtxaVR3OXVhMDRH?=
- =?utf-8?B?Z1FXYlhOZzhHWEZaSlRQYnNOQjBsT1VrMlZNWmYxNGFhQjRFN3lPUEgzZENI?=
- =?utf-8?B?YXppRTVqazJCWXVEbThXZk5NMGlkNHoxU2JBblg1anE1ZTFQcWZPbjZXK0NV?=
- =?utf-8?B?WkgxdjI2ZnlCWFQxdkxNblFrYUd2a0dWYkdEc0d3QnB3ZC9ISzFHMndXNFhn?=
- =?utf-8?B?WTEvUzNXRlRDelY5QXI3TTYwTC9VYS9BT1JBbmIvVG1BRGxWV2RINlJ0SzlN?=
- =?utf-8?B?WFRxeFNVZUp3NDNIaFFrWHh3dXl3OUpFcjNvRDUzN01KR25FR2Vsdi9welV5?=
- =?utf-8?B?cE0ra1BEU2w5ZEc3UXJ5ZmYweks0WWw5dHFGeXEvRFRWeXdkdmlWalNYQzBk?=
- =?utf-8?B?MEZBbDV1UzFNM09oUEt1YWZxcXRkWktOWVcybjlXY0h5WDRmS1BJZlBSbytP?=
- =?utf-8?B?TTAyRGh2R25JV1hnME9yaUJxNm8vcTZQMEU0b2tpaFY5Mi90b0JhVXMxUUs0?=
- =?utf-8?B?eXZxRFRNZTh6RmdsemprTUwrZjl0Q2R3NUhsN040UnQ2RDBJM29sbHp3Y096?=
- =?utf-8?B?aDZ3M21UYkNQb0pwT3lVWHZEVjF5dVFYNG9iQ0taeE5jVmh0TVNTMTlwVWhN?=
- =?utf-8?B?Q0k1ZUpnU3hLa2Z6K1l1dkp5RlBTcTRYTEtyRzY0dm5pYlZjcXNmU2RUQ3Jp?=
- =?utf-8?B?TjlJSnRrMjdNdUxrMWVoc3BZS3FySmNlZStkTVI3SEVFN3lCWXYzUU9kbkMv?=
- =?utf-8?B?eGlHNTBNTlozdnkrU3JsY2VPTkl1U0xHcHo4S1lOOTVjTWNhRzRRb1pmY0xH?=
- =?utf-8?Q?eLCXSr4sdMQrUr9CTKDO3DiHa?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f7d5acd7-6a02-4843-0422-08dd6b7a8db0
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Mar 2025 08:53:46.5107
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: YbvpojbtNmDUuQVTMBwVoPtZ7XjEtAPXOAHz9V3Cdt9APPKUdN0JEYdH7v3iQ3Z7
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5840
+References: <67e26157.0c0a0220.36adcd.506e@mx.google.com>
+In-Reply-To: <67e26157.0c0a0220.36adcd.506e@mx.google.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Tue, 25 Mar 2025 09:56:43 +0100
+X-Gmail-Original-Message-ID: <CANiDSCsvEke31SAgXhs_sXEN7d6fXrwuhJFsi2mzESq1Jc8pxA@mail.gmail.com>
+X-Gm-Features: AQ5f1Jp8blAGxVvtPz5mzFh1PiUzr5gC4lO_rNwm9J5fxVQkAwlMwA1GEUsRJ4M
+Message-ID: <CANiDSCsvEke31SAgXhs_sXEN7d6fXrwuhJFsi2mzESq1Jc8pxA@mail.gmail.com>
+Subject: Re: [PATCH] media: Fix invalid link creation when source entity has 0 pads
+To: gshahrouzi@gmail.com
+Cc: laurent.pinchart@ideasonboard.com, hdegoede@redhat.com, mchehab@kernel.org, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	syzbot+701fc9cc0cb44e2b0fe9@syzkaller.appspotmail.com, 
+	skhan@linuxfoundation.org, kernelmentees@lists.linuxfoundation.org
+Content-Type: text/plain; charset="UTF-8"
 
-Am 25.03.25 um 07:23 schrieb Kasireddy, Vivek:
-> Hi Christian,
+Hi Gabriel
+
+On Tue, 25 Mar 2025 at 08:55, <gshahrouzi@gmail.com> wrote:
 >
->> Am 21.03.25 um 17:41 schrieb Xiaogang.Chen:
->>> From: Xiaogang Chen <xiaogang.chen@amd.com>
->>>
->>> by casting size_limit_mb to u64  when calculate pglimit.
->>>
->>> Signed-off-by: Xiaogang Chen<Xiaogang.Chen@amd.com>
->> Reviewed-by: Christian König <christian.koenig@amd.com>
->>
->> If nobody objects I'm going to push that to drm-misc-fixes.
-> No objection but I wish the author would have added more details in the commit
-> message particularly the value they have used to trigger the overflow. I guess
-> Xiaogang can still comment here and briefly describe the exact use-case/test-case
-> they are running where they encountered this issue.
-
-Isn't that obvious? At least it was for me.
-
-As soon as you have a value larger than 4095 the 32bit multiplication overflows, resulting in incorrectly limiting the buffer size.
-
-Regards,
-Christian.
-
+> >From 307209d175be0145e36b9cf95944e2e62afeab11 Mon Sep 17 00:00:00 2001
+> From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+> Date: Mon, 24 Mar 2025 19:45:55 -0400
+> Subject: [PATCH] media: Fix invalid link creation when source entity has 0
+>  pads
 >
-> Thanks,
-> Vivek
+> This patch addresses the warning triggered in the media_create_pad_link()
+> function, specifically related to the check WARN_ON(source_pad >=
+> source->num_pads). The fix proposed adds an additional check to ensure that
+> source->num_pads is non-zero before proceeding with the
+> media_create_pad_link() function.
 >
->> Regards,
->> Christian.
->>
->>> ---
->>>  drivers/dma-buf/udmabuf.c | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
->>> index 8ce1f074c2d3..e99e3a65a470 100644
->>> --- a/drivers/dma-buf/udmabuf.c
->>> +++ b/drivers/dma-buf/udmabuf.c
->>> @@ -398,7 +398,7 @@ static long udmabuf_create(struct miscdevice
->> *device,
->>>  	if (!ubuf)
->>>  		return -ENOMEM;
->>>
->>> -	pglimit = (size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
->>> +	pglimit = ((u64)size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
->>>  	for (i = 0; i < head->count; i++) {
->>>  		pgoff_t subpgcnt;
->>>
+> Reported-by: syzbot+701fc9cc0cb44e2b0fe9@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=701fc9cc0cb44e2b0fe9
+I cannot reach that URL
+> Tested-by: syzbot+701fc9cc0cb44e2b0fe9@syzkaller.appspotmail.com
+> Fixes: a3fbc2e6bb05 ("media: mc-entity.c: use WARN_ON, validate link pads")
+Shouldn't it be? :
+Fixes: 4ffc2d89f38a ("[media] uvcvideo: Register subdevices for each entity")
 
+> Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+> ---
+>  drivers/media/usb/uvc/uvc_entity.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/usb/uvc/uvc_entity.c b/drivers/media/usb/uvc/uvc_entity.c
+> index cc68dd24eb42..5397ce76c218 100644
+> --- a/drivers/media/usb/uvc/uvc_entity.c
+> +++ b/drivers/media/usb/uvc/uvc_entity.c
+> @@ -43,7 +43,7 @@ static int uvc_mc_create_links(struct uvc_video_chain *chain,
+>                 source = (UVC_ENTITY_TYPE(remote) == UVC_TT_STREAMING)
+>                        ? (remote->vdev ? &remote->vdev->entity : NULL)
+>                        : &remote->subdev.entity;
+> -               if (source == NULL)
+> +               if (source == NULL || source->num_pads == 0)
+Shouldn't source->num_pads be the same as remote->num_pads?
+
+Are you sure that your kernel does not contain?
+https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/media/usb/uvc/uvc_entity.c?id=41ddb251c68ac75c101d3a50a68c4629c9055e4c
+
+Regards!
+
+>                         continue;
+>
+>                 remote_pad = remote->num_pads - 1;
+> --
+> 2.43.0
+>
+
+
+-- 
+Ricardo Ribalda
 
