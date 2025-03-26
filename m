@@ -1,79 +1,177 @@
-Return-Path: <linux-media+bounces-28757-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28758-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFABFA70FE0
-	for <lists+linux-media@lfdr.de>; Wed, 26 Mar 2025 05:17:36 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27A44A70FF4
+	for <lists+linux-media@lfdr.de>; Wed, 26 Mar 2025 05:53:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AE2C4179DD8
-	for <lists+linux-media@lfdr.de>; Wed, 26 Mar 2025 04:16:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9565F7A4E0C
+	for <lists+linux-media@lfdr.de>; Wed, 26 Mar 2025 04:52:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A99B518C002;
-	Wed, 26 Mar 2025 04:15:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fQ8W8Crd"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72D7716DEB1;
+	Wed, 26 Mar 2025 04:53:44 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10C49149E00;
-	Wed, 26 Mar 2025 04:15:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from zewer.dizum.com (zewer.dizum.com [45.66.35.219])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34F9AEEBB
+	for <linux-media@vger.kernel.org>; Wed, 26 Mar 2025 04:53:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.66.35.219
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742962555; cv=none; b=Qjp3xx0SI4FAOjwHDW+IkXkkY8m1+OW3WQOZChaAUBiJlqvGYgroX8gfYYOsBwSI1yY1NRfIPLALlvSWi7e35ujrBFOZs46GcTNVzP+m9nkkUS6aSepyTku8Xn/0HSccTlnmogZcMrBPhFsdaxtLAf02TRqK7Ek1EH7v5qpJ0/s=
+	t=1742964824; cv=none; b=TKxDsEssi4cswMeiGKMkMOvuvnaxDmuJXyWgFbdFHt6YycEGyR6Oeg2prGsZL+wrP8HR4n4wj+Ndzxigt1VLUjN+pMPiWabfVAvKsvjbhVPTUr/vuNk3QYysVB/42K2W6AsX0n7f0QEum45PQu/WPzijDVh54eNy18HNXJDMv2A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742962555; c=relaxed/simple;
-	bh=Xkmq1f2mJw0JBexDnfltm7GO5NmxsSIEMfxi109scPs=;
-	h=Subject:From:In-Reply-To:References:Message-Id:Date:To:Cc; b=SH2QPRpAnnqUDIU7XUMnsbCF/vlHjUJ1HV66mEZzHz7Y12JPmgYlR3MssJgPeUGcDsh79ERsnkAnR4yWdIBMAyneTEPHyFb5jo4xmUb7FFBrEHhSWz8kDLE6o7tgR5irYkCFzgCk2NO3BOoQislMoOsPgG4v+WnkkUIqzmeMjCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fQ8W8Crd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E623AC4CEE2;
-	Wed, 26 Mar 2025 04:15:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742962554;
-	bh=Xkmq1f2mJw0JBexDnfltm7GO5NmxsSIEMfxi109scPs=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=fQ8W8CrdVoeFXpCB7/rOvMynKsz4Xi3CKXPtQ0R3Rm6iXtIH3J/Ih8sWfMo19wkQq
-	 obQ897D1o65xOihhm260vazKHlZeaCu6YE1f81iadf/wOrfKdpmhZMh+pycJWFFDiJ
-	 BHRpwQ5U7iCThE6SnD0uFhKOFzCcU2v7e9tED7SnOmWROywHiDGce3EZQeCOyKu4zp
-	 /gcXrEJxYJVL5Am6e57+uT/rmeU++xdto9ijqYYnLnFFlRoC/1ocG8TLJJuOqDhtRN
-	 83RG+JTZc2DN427kwX0JCTiLq8gyTVBX7eCVRGwfe1L4GP94PZ+9NYCQOXFPkgaiiU
-	 Aqnau3cksqKfw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 711CF380DBFD;
-	Wed, 26 Mar 2025 04:16:32 +0000 (UTC)
-Subject: Re: [GIT PULL for v6.15] media updates
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20250319192338.043dde45@foz.lan>
-References: <20250319192338.043dde45@foz.lan>
-X-PR-Tracked-List-Id: <linux-media.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20250319192338.043dde45@foz.lan>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media.git media/v6.15-1
-X-PR-Tracked-Commit-Id: f2151613e040973c868d28c8b00885dfab69eb75
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: 1e26c5e28ca5821a824e90dd359556f5e9e7b89f
-Message-Id: <174296259088.845243.18341350387989282661.pr-tracker-bot@kernel.org>
-Date: Wed, 26 Mar 2025 04:16:30 +0000
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, Linux Media Mailing List <linux-media@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	s=arc-20240116; t=1742964824; c=relaxed/simple;
+	bh=EOxF4fCcoTdbA2tQWVrxtKNA+BuQ707pfQUWKLhxf2E=;
+	h=From:To:Subject:Message-ID:Date; b=tAUsBnm5XRj6BqoBcUOF6OrRGzI2811n4yIOBhbYPDqSoNWQrLzegX/VCYlRNJmU9pj9nFlAUf7Z5o6vFV8FkLPijVGXljjg5sxcCIqzlr9T2UaEByMzHwTSEUJc/JztAMJFY2c28WU02vL4LBTDtCxVMk27H/XPEg7znjQvpmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dizum.com; spf=none smtp.mailfrom=dizum.com; arc=none smtp.client-ip=45.66.35.219
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=dizum.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=dizum.com
+Received: from sewer.dizum.com (remailer [10.10.252.221])
+	by zewer.dizum.com (Postfix) with ESMTP id BED9120160
+	for <linux-media@vger.kernel.org>; Wed, 26 Mar 2025 05:43:50 +0100 (CET)
+Received: by sewer.dizum.com (Postfix, from userid 1001)
+	id 361B66012E; Wed, 26 Mar 2025 05:43:50 +0100 (CET)
+From: Nomen Nescio <nobody@dizum.com>
+Comments: This message did not originate from the Sender address above.
+	It was remailed automatically by anonymizing remailer software.
+	Please report problems or inappropriate use to the
+	remailer administrator at <abuse@dizum.com>.
+To: linux-media@vger.kernel.org
+Subject: New DVB-T Scan File - au-Gold_Coast-Mount_Tamborine
+Message-ID: <7096b9e7b48236789fc0a297ace40892@dizum.com>
+Date: Wed, 26 Mar 2025 05:43:50 +0100 (CET)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 
-The pull request you sent on Wed, 19 Mar 2025 19:23:38 +0100:
+Sorry about using an anonymous email address.
+I didn't want to risk having my real one made public.
+I hope that you understand.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media.git media/v6.15-1
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/1e26c5e28ca5821a824e90dd359556f5e9e7b89f
+au-Gold_Coast-Mount_Tamborine
 
-Thank you!
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+# DVB-T frequencies & modulation for the Gold Coast, Australia (Mt Tamborine)
+# See http://www.dba.org.au/index.asp?sectionID=22&recLocation=Gold+Coast
+# and http://www.dba.org.au/index.asp?sectionID=120
+#
+# Updated 2024-09-21 based on this:
+# https://ozdigitaltv.com/transmitters/QLD/165-Mount-Tamborine
+# SBS	SBS40	613.500 Mhz
+# ABC	ABC41	620.500 Mhz
+# Seven	BTQ42	627.500 Mhz
+# Ten	TVQ44	641.500 Mhz
+# Nine	QTQ45	648.500 Mhz
+# Seven	NEN46	655.500 Mhz
+# Nine	NBN47	662.500 Mhz
+# Ten	NRN48	669.500 Mhz
+#
+# SBS-SBS40 (UHF 40)
+[CHANNEL]
+	DELIVERY_SYSTEM = DVBT
+	FREQUENCY = 613500000
+	BANDWIDTH_HZ = 7000000
+	CODE_RATE_HP = 3/4
+	CODE_RATE_LP = NONE
+	MODULATION = QAM/64
+	TRANSMISSION_MODE = 8K
+	GUARD_INTERVAL = 1/16
+	HIERARCHY = NONE
+	INVERSION = AUTO
+
+# ABC-ABC41 (UHF 41)
+[CHANNEL]
+	DELIVERY_SYSTEM = DVBT
+	FREQUENCY = 620500000
+	BANDWIDTH_HZ = 7000000
+	CODE_RATE_HP = 3/4
+	CODE_RATE_LP = NONE
+	MODULATION = QAM/64
+	TRANSMISSION_MODE = 8K
+	GUARD_INTERVAL = 1/16
+	HIERARCHY = NONE
+	INVERSION = AUTO
+
+# Seven-BTQ42 (UHF 42)
+[CHANNEL]
+	DELIVERY_SYSTEM = DVBT
+	FREQUENCY = 627500000
+	BANDWIDTH_HZ = 7000000
+	CODE_RATE_HP = 3/4
+	CODE_RATE_LP = NONE
+	MODULATION = QAM/64
+	TRANSMISSION_MODE = 8K
+	GUARD_INTERVAL = 1/16
+	HIERARCHY = NONE
+	INVERSION = AUTO
+
+# Ten-TVQ44 (UHF 44)
+[CHANNEL]
+	DELIVERY_SYSTEM = DVBT
+	FREQUENCY = 641500000
+	BANDWIDTH_HZ = 7000000
+	CODE_RATE_HP = 3/4
+	CODE_RATE_LP = NONE
+	MODULATION = QAM/64
+	TRANSMISSION_MODE = 8K
+	GUARD_INTERVAL = 1/16
+	HIERARCHY = NONE
+	INVERSION = AUTO
+
+# Nine-QTQ45 (UHF 45)
+[CHANNEL]
+	DELIVERY_SYSTEM = DVBT
+	FREQUENCY = 648500000
+	BANDWIDTH_HZ = 7000000
+	CODE_RATE_HP = 3/4
+	CODE_RATE_LP = NONE
+	MODULATION = QAM/64
+	TRANSMISSION_MODE = 8K
+	GUARD_INTERVAL = 1/16
+	HIERARCHY = NONE
+	INVERSION = AUTO
+
+# Prime-NEN46 (UHF 46)
+[CHANNEL]
+	DELIVERY_SYSTEM = DVBT
+	FREQUENCY = 655500000
+	BANDWIDTH_HZ = 7000000
+	CODE_RATE_HP = 3/4
+	CODE_RATE_LP = NONE
+	MODULATION = QAM/64
+	TRANSMISSION_MODE = 8K
+	GUARD_INTERVAL = 1/16
+	HIERARCHY = NONE
+	INVERSION = AUTO
+
+# NBN-NBN47 (UHF 47)
+[CHANNEL]
+	DELIVERY_SYSTEM = DVBT
+	FREQUENCY = 662500000
+	BANDWIDTH_HZ = 7000000
+	CODE_RATE_HP = 3/4
+	CODE_RATE_LP = NONE
+	MODULATION = QAM/64
+	TRANSMISSION_MODE = 8K
+	GUARD_INTERVAL = 1/16
+	HIERARCHY = NONE
+	INVERSION = AUTO
+
+# Ten-NRN48 (UHF 48)
+[CHANNEL]
+	DELIVERY_SYSTEM = DVBT
+	FREQUENCY = 669500000
+	BANDWIDTH_HZ = 7000000
+	CODE_RATE_HP = 3/4
+	CODE_RATE_LP = NONE
+	MODULATION = QAM/64
+	TRANSMISSION_MODE = 8K
+	GUARD_INTERVAL = 1/16
+	HIERARCHY = NONE
+	INVERSION = AUTO
+
+
 
