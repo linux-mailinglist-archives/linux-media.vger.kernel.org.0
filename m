@@ -1,139 +1,166 @@
-Return-Path: <linux-media+bounces-28766-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28767-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D097A71390
-	for <lists+linux-media@lfdr.de>; Wed, 26 Mar 2025 10:23:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D811A71556
+	for <lists+linux-media@lfdr.de>; Wed, 26 Mar 2025 12:11:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 513A918925EC
-	for <lists+linux-media@lfdr.de>; Wed, 26 Mar 2025 09:23:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 79F01188ACD1
+	for <lists+linux-media@lfdr.de>; Wed, 26 Mar 2025 11:10:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 709EC1B043C;
-	Wed, 26 Mar 2025 09:22:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B95C91D86F6;
+	Wed, 26 Mar 2025 11:10:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EF6XbPGe"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="J3FyAhXH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B54182899;
-	Wed, 26 Mar 2025 09:22:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8472320311;
+	Wed, 26 Mar 2025 11:10:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742980977; cv=none; b=mGR5bnMetfPQr2YQus+t9YLcE2Bca5g/OZpFBErzqqy0p0Z0vGrpJCPgxgxjh3HcTx0fu0fm94ozQo2JGr/YeADIiCPmHcRrjj+OvkjibpL1cCRXZn0KZ/4zD/CDAHsO7rsDAvSPY1IIznzRx91w0KoKWVjXSnj4jR01IrImaCI=
+	t=1742987423; cv=none; b=YJxJZj7zVnOQhuSh3PKCrDpY9YGP2nqDiPVeWf+EC5ruB0cRbZME4ceL34n9wvdlAHyCE+W73tm8hyuJoAktzALzUhU9nUm44bYX/o3zX01Vm8BZfhQpfwmBJoTzsnRKe6u37xJnx0DuUyGGoT6s2ynF1bpll0eLoaN1vNCkQKU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742980977; c=relaxed/simple;
-	bh=qxtF6khLwId9LK15aaIK1R6QxhmJS+7IKsOAe3rcYSQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bX6ZRxDQ2Y/BJW612gg2WtSVWWKR6apYXjqlIvfreuGT5JkDy+zUqxcvdOwZBeDy52pc3p0DFzj6fguB4ZNxd2+vMWNKdjXheawpuEc1ArT2Kst6DRGL9pyy5AvFgMo6xVnsSLyAOP1x4eulSukgBJr2gQb1NQiBzqGDUwzw6wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EF6XbPGe; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFF39C4CEF0;
-	Wed, 26 Mar 2025 09:22:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1742980977;
-	bh=qxtF6khLwId9LK15aaIK1R6QxhmJS+7IKsOAe3rcYSQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=EF6XbPGeROx9ck2/wMy52MgkOBBSN6jJZgg+Qn7v2SpbfIjs3lPg5064JNPk7o+XB
-	 G1Tew5HffEconjh69vqk0mkBcJUkflqrA4iEgj8SLwf/seTS5HNbir1OII2p80HCq1
-	 +P6MGiOjaR7a5JVZ74K7sotrO+OjvMlB+74YwpsUUz/VCy+aqYWnTo4aU1OuAb4FgW
-	 0GHvjOa2MnJWvc/1Jq3iLVDexkOqxI841MEL1MoUTcRS71vj+1AwOZNNPn/RpUSODi
-	 EeA4LrZKsWryeAiFK73Wxu0fFqyV2Xsa003JAYcobxqu52MLjTaulBGXlKIgFqvHzf
-	 xi9mxcCv6ROpQ==
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-39141ffa9fcso5503473f8f.0;
-        Wed, 26 Mar 2025 02:22:56 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUc8gByDTA+y4jLrjnVT+D+NajkB6he05uMv2siTpZxYgUsfz5seIbGyva/6K0kTmszR3MMfOs91Agby2QuE029@vger.kernel.org, AJvYcCUcfMaoghdRcWHxzUVWOOPTrMi05nysSMoQ7VUXD4CNJNAqLES7JqBnC3XjqiAa2rD8xmEXJOM320jSwgKl@vger.kernel.org, AJvYcCUeKjUiGkWE+hed4XnAkV4zzvhvv1Oz0PWRfbB6tzFf360XqQ1A/2YqTmy7I1xFfSdwKVxkiZSo7zw8/fOyd/JrDQ==@vger.kernel.org, AJvYcCUqSjWDspjv89ZFAHNz/hsnKqT3GivklTcHUxTK7ACZRhPZ6NidplaS06nrmNZBhfYfO7mjkr3efI4h@vger.kernel.org, AJvYcCUzoucVGMxUVMGid7ICQEIsvTxDAsKf4Fstk/HUjHZI2QiRRmRWt70ILDF3t45Qh7oa9/JQuIqjQwte@vger.kernel.org, AJvYcCV7l/amYKZAlCn9WE8y/HWNGD5yKiskPL31/cPx1lVX7PxSQqOY2cJjKNYKOGh057r2LuuHf2R0uFf2+FFb@vger.kernel.org, AJvYcCVLEpjBmJKKs+tzOKGsWVC8siYoRVJSZofrDdnU0VqNde2j+m4o/0ai7UFnm9aG/3H43TMGfJnU4IDNpA==@vger.kernel.org, AJvYcCVMijWAPnjoL4ebc/BiOwwncKCxl+QMPzs6xZOkuil+GgDi6syib5l7VWaJB7GcQdcsISg4caqmoaazc0CW@vger.kernel.org, AJvYcCVQ9mvQu1CKA31sd7ieo5GezpS2fkQ8h0t+gQdgNaNMR/TZB3yrIKRb5Y1eBj0P8DCmFBfu28sqIuwi9IynxQ==@vger.kernel.org, AJvYcCVk
- ByU2/arJn9n2P89h30P7eB2tBsB00l1AVTiZUVdjEqVz1sXJVEFwa9gu1QEA+bRirNXfEs7S@vger.kernel.org, AJvYcCVphGFTcH3OhfTweELZxIK5DflZp5lSEZgBJLmc2cDiukmXz1X6rGj15JW6DstYBnm0Q14=@vger.kernel.org, AJvYcCVtFk2dgMm9TiCEGhSzjKeEGU+llGh9YSzLT2wjsnar4nnBc6R4S8C5+i8R/yNMN6FK8IkKHRJ29aXLucq9xi99Xazi@vger.kernel.org, AJvYcCWyOeU1NO4cL27kHRCjyGZk+KB/BW7DrMaa/OfRFtpbJlIx8NDkdJEQWg+mUhyVyMVrm9MNfXnahdXvFQ==@vger.kernel.org, AJvYcCXQSKqv9X80fSM1PwiHgr3SGSAqS1eWJx3Cs4c3kBIIug5R8gdVn3v+5s7mRIjYqJYUJBEHBGFTMFpBwbY=@vger.kernel.org, AJvYcCXWpl539WuYSorncZC1i5EzXF0joC4CdmXh7T2XbRbaOdNTqbsTa31d3iAoEXKvvotCYexQ@vger.kernel.org, AJvYcCXXaRW4ZXnGHO0YAPZhjcQMdUTVzJkNIN5sNdNuqgyLYCUKHO5AVg/ilPUu9AicoM3h51yGOkwKAHJ14rM=@vger.kernel.org, AJvYcCXoYW+ZRkn9iifUedaybAZwpA9Mlj7s/BYGFl//TJUxAgllnbrmgXnQLOZLNlkP/7UAmhj9ZHzDEujhExs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwdGiSNqHeHeWPgTZxC+sskj2+8tkqkh/TbxgyRyZJNskn1E61G
-	jvEh57bFmd8Yhp0AQrYFy1pLlaclsM+Hw/fnYVrMz7im2iUO9VdZNFHHFxfWfwcPG3FMTDwry9m
-	+hr1hgVqdd4cprwHNTZI+9fzdARk=
-X-Google-Smtp-Source: AGHT+IF3jZFlaB+ZbNTy99aWKHRW0ahCYMSSdgm6iKEF0x/RcYEZFdBlnTMpJzR5i/QwTCeteoihHBZi+8MLpfxSmpw=
-X-Received: by 2002:a05:6000:2a6:b0:391:20ef:6300 with SMTP id
- ffacd0b85a97d-3997f93962dmr16836387f8f.37.1742980974678; Wed, 26 Mar 2025
- 02:22:54 -0700 (PDT)
+	s=arc-20240116; t=1742987423; c=relaxed/simple;
+	bh=4YD/16LtjFiupou4GxoQ1WtgqCE6rS/iXLVUYiMRDjA=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=oov0mzgAT+S91QuxjmgIVBiFbjUWvioooZcKkHxnqNrn0woX2eHA4ai7bvyVR0hp52VjKK+ReLLKZINl/1SCYjWD1GDuRuN5ZvclQT6PjwShxPaLNnmGsXm2zenFfKv17Yx+OYh9v2Om7Nujyep/J6PhmABsHxJCMvLq+cTXQUw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=J3FyAhXH; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [127.0.1.1] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E639A3A4;
+	Wed, 26 Mar 2025 12:08:25 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1742987306;
+	bh=4YD/16LtjFiupou4GxoQ1WtgqCE6rS/iXLVUYiMRDjA=;
+	h=From:Subject:Date:To:Cc:From;
+	b=J3FyAhXHgriv9OMlX/EIH45LyuVmZrkz7rBgn1SyMGgNsefi+LmBG9bN+9P9Tejyj
+	 wHqCpw7NxrIRgYf8SxX81LUvAQT8PLQcZCsXCfq88etK+bBjOjWST3bCXaOV+FhEEt
+	 HmA0T6vKtBt0vOnMiNCJs3KPiULbf4N6/Ppsw/DY=
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+Subject: [PATCH v2 00/15] media: rcar: Streams support
+Date: Wed, 26 Mar 2025 13:09:22 +0200
+Message-Id: <20250326-rcar-streams-v2-0-d0d7002c641f@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250325121624.523258-1-guoren@kernel.org> <20250325121624.523258-26-guoren@kernel.org>
- <05fec753-cdaa-45a5-a029-b6435c30eb07@omp.ru>
-In-Reply-To: <05fec753-cdaa-45a5-a029-b6435c30eb07@omp.ru>
-From: Guo Ren <guoren@kernel.org>
-Date: Wed, 26 Mar 2025 17:22:41 +0800
-X-Gmail-Original-Message-ID: <CAJF2gTQTfD3yVCePWi_Jxu6Vc878K4P-quy4ZKw1OOF0X30UwQ@mail.gmail.com>
-X-Gm-Features: AQ5f1Joqx3oO-95jEhIdt3VHkcZ-PNWMEgaxjEOC2faFZmARHVgyLTPNu3C9X9I
-Message-ID: <CAJF2gTQTfD3yVCePWi_Jxu6Vc878K4P-quy4ZKw1OOF0X30UwQ@mail.gmail.com>
-Subject: Re: [RFC PATCH V3 25/43] rv64ilp32_abi: exec: Adapt 64lp64 env and argv
-To: Sergey Shtylyov <s.shtylyov@omp.ru>
-Cc: arnd@arndb.de, gregkh@linuxfoundation.org, torvalds@linux-foundation.org, 
-	paul.walmsley@sifive.com, palmer@dabbelt.com, anup@brainfault.org, 
-	atishp@atishpatra.org, oleg@redhat.com, kees@kernel.org, tglx@linutronix.de, 
-	will@kernel.org, mark.rutland@arm.com, brauner@kernel.org, 
-	akpm@linux-foundation.org, rostedt@goodmis.org, edumazet@google.com, 
-	unicorn_wang@outlook.com, inochiama@outlook.com, gaohan@iscas.ac.cn, 
-	shihua@iscas.ac.cn, jiawei@iscas.ac.cn, wuwei2016@iscas.ac.cn, drew@pdp7.com, 
-	prabhakar.mahadev-lad.rj@bp.renesas.com, ctsai390@andestech.com, 
-	wefu@redhat.com, kuba@kernel.org, pabeni@redhat.com, josef@toxicpanda.com, 
-	dsterba@suse.com, mingo@redhat.com, peterz@infradead.org, 
-	boqun.feng@gmail.com, xiao.w.wang@intel.com, qingfang.deng@siflower.com.cn, 
-	leobras@redhat.com, jszhang@kernel.org, conor.dooley@microchip.com, 
-	samuel.holland@sifive.com, yongxuan.wang@sifive.com, 
-	luxu.kernel@bytedance.com, david@redhat.com, ruanjinjie@huawei.com, 
-	cuiyunhui@bytedance.com, wangkefeng.wang@huawei.com, qiaozhe@iscas.ac.cn, 
-	ardb@kernel.org, ast@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-riscv@lists.infradead.org, kvm@vger.kernel.org, 
-	kvm-riscv@lists.infradead.org, linux-mm@kvack.org, 
-	linux-crypto@vger.kernel.org, bpf@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-perf-users@vger.kernel.org, 
-	linux-serial@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	linux-arch@vger.kernel.org, maple-tree@lists.infradead.org, 
-	linux-trace-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-atm-general@lists.sourceforge.net, linux-btrfs@vger.kernel.org, 
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org, 
-	linux-nfs@vger.kernel.org, linux-sctp@vger.kernel.org, 
-	linux-usb@vger.kernel.org, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGTg42cC/22QzW6DMBCEXwX52i6yDTY/qqq8R5XDAkuwEiDdJ
+ bRVlHevSXroIcdZab6ZnasS4kCi6uSqmNYgYZ6isK+JagecDgShi1pZbZ22pgJukUEWJhwFTN8
+ RlqXX5EhFy5mpD9933Mf+oZk+L5G6PI5qJBG8U+vk7Q+qTeG8canxpXe2AgNTOJ5QUpk74tNl6
+ l6YJhKUHeNhwoXaIRV6V/9Lxs4bLbP5o2LsAYxf0BaVL/q+dF1G9WqeeawpoWccCTqSFs4osgw
+ 8Xw4DeF9qR7nJqiKv13xzNygE7TyOYamT3hpnvMlI51ptHw9Blpl/7nvGtO3l59OtBjT0pqkyy
+ gqN2OxC3FLmqZmRuzQGqP3tdvsFWT5W76EBAAA=
+X-Change-ID: 20250219-rcar-streams-1fdea8860e5e
+To: =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+ Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+X-Mailer: b4 0.15-dev-c25d1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3687;
+ i=tomi.valkeinen+renesas@ideasonboard.com; h=from:subject:message-id;
+ bh=4YD/16LtjFiupou4GxoQ1WtgqCE6rS/iXLVUYiMRDjA=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBn4+CMk1K34BytShUzKWdpCYP7oWlf5EbooVkWV
+ ohXCO8HZGeJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZ+PgjAAKCRD6PaqMvJYe
+ 9V2AEACaG+edWcxavzx5xTjd9GySnUhGZ01bBp2J3p0xPVymCoOds3t9347sgwgIeu8TjHZ5eAh
+ b0gIHzPw3l/Fx04tEoS+5M6PsAWVEJhSJn8zoeYT3R1Lq8Z/oWIL3hDyrgvf3ignxZOTe1XGOqh
+ ioZP7YXwLLBnaVquCQemDXladaxNkizHgP+J5K8U1D0vWdX3cXl/Y6b1RFaYx+LkJAI2D+Sql01
+ T0ot+Z10TqyTBPHxsP7jG+lIpXP5Wxdw0cBGe2dAblIxG8OeribkZfArhGQ7/DCVUVE5m7/47Vy
+ FSRnDb7K/fM9eDP6Bf9ON4W4DgxHgTUwzyizeDMHvp7ySg3wB/F4bpgXE00z4+zBEhg2xMEDcHu
+ 3zem71yZKMFLw3hE7PrbX9A92S1AOBHEYDIqMaKYyKEVrb5WSRDp8DYE5QtHERG8lOhqH5Sz9Gu
+ ZIaIqBxU4qkzmzkoN1bfZGLhS+7Ph5Eba5MGSRVIkaEbnOdUkOc3UQ06QovkvIPldVACMj85RBp
+ guIEXXGMMuy2dxqhBbT3OicDDyby458cWYVTd3/7lOKnLuqH0sGoG+FmwMBcvHzpvnrwXAowH3D
+ 9QnB2z7Fzx1QAI8vSoQVtCZpLHuzz/YnzXXwrtak2TeM1I6VdSr59YV6uA2IllmyH9lOjTLaHMt
+ AvLuNnBWryrdChA==
+X-Developer-Key: i=tomi.valkeinen+renesas@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-On Wed, Mar 26, 2025 at 1:19=E2=80=AFAM Sergey Shtylyov <s.shtylyov@omp.ru>=
- wrote:
->
-> On 3/25/25 3:16 PM, guoren@kernel.org wrote:
->
-> > From: "Guo Ren (Alibaba DAMO Academy)" <guoren@kernel.org>
-> >
-> > The rv64ilp32 abi reuses the env and argv memory layout of the
-> > lp64 abi, so leave the space to fit the lp64 struct layout.
-> >
-> > Signed-off-by: Guo Ren (Alibaba DAMO Academy) <guoren@kernel.org>
-> > ---
-> >  fs/exec.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/fs/exec.c b/fs/exec.c
-> > index 506cd411f4ac..548d18b7ae92 100644
-> > --- a/fs/exec.c
-> > +++ b/fs/exec.c
-> > @@ -424,6 +424,10 @@ static const char __user *get_user_arg_ptr(struct =
-user_arg_ptr argv, int nr)
-> >       }
-> >  #endif
-> >
-> > +#if defined(CONFIG_64BIT) && (BITS_PER_LONG =3D=3D 32)
-okay, #if defined(CONFIG_64BIT) && BITS_PER_LONG =3D=3D 32
+Add streams support to Renesas rcar platform driver.
 
->
->    Parens don't seem necessary...
->
-> > +     nr =3D nr * 2;
->
->    Why not nr *=3D 2?
-okay, nr *=3D 2;
+The series attempts to keep compatibility with the current upstream.
+However, in upstream there's some kind of custom multi-stream support
+implemented to the rcar driver, which breaks at patch "media: rcar-csi2:
+Simplify rcsi2_calc_mbps()".
 
---=20
-Best Regards
- Guo Ren
+The behavior should not change when using a single stream.
+
+Testing is problematic, as the only way currently for me to get multiple
+streams is by using the GMSL2 deserializer add-on board with GMSL2
+serializers. These are not supported in upstream. If someone has the
+hardware and wants to test, I can share the very-WIP branch that
+contains the missing pieces.
+
+ Tomi
+
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+---
+Changes in v2:
+- Rebased on top of latest upstream, and updated the dependencies to
+  match the latest serieses sent.
+- Add new patch "media: rcar-csi2: Use the pad version of v4l2_get_link_freq()"
+- Drop "media: rcar-csi2: Fix typo" (it was not a typo)
+- Update the code in calc_mbps(). The previous method relied on
+  V4L2_CID_LINK_FREQ, but that's not available if the link-freq is
+  provided via get_mbus_config().
+- Dropped dependencies to Niklas' old series which doesn't apply
+  cleanly. It's needed for multi-stream, but not for the current
+  upstream which only has a single stream use case.
+- Link to v1: https://lore.kernel.org/r/20250219-rcar-streams-v1-0-f1b93e370aab@ideasonboard.com
+
+---
+Tomi Valkeinen (15):
+      media: rcar-csi2: Use the pad version of v4l2_get_link_freq()
+      media: rcar-isp: Improve ISPPROCMODE_DT_PROC_MODE_VC
+      media: rcar-isp: Move {enable|disable}_streams() calls
+      media: rcar-csi2: Move {enable|disable}_streams() calls
+      media: rcar-csi2: Move rcar2_calc_mbps()
+      media: rcar-csi2: Simplify rcsi2_calc_mbps()
+      media: rcar-csi2: Optimize rcsi2_calc_mbps()
+      media: rcar-csi2: Switch to Streams API
+      media: rcar-isp: Switch to Streams API
+      media: rcar-csi2: Add .get_frame_desc op
+      media: rcar-isp: Call get_frame_desc to find out VC & DT
+      media: rcar-csi2: Add more stream support to rcsi2_calc_mbps()
+      media: rcar-csi2: Call get_frame_desc to find out VC & DT (Gen3)
+      media: rcar-csi2: Add full streams support
+      media: rcar-isp: Add full streams support
+
+ drivers/media/platform/renesas/rcar-csi2.c | 426 ++++++++++++++++++++---------
+ drivers/media/platform/renesas/rcar-isp.c  | 228 +++++++++++----
+ 2 files changed, 479 insertions(+), 175 deletions(-)
+---
+base-commit: f2151613e040973c868d28c8b00885dfab69eb75
+change-id: 20250219-rcar-streams-1fdea8860e5e
+prerequisite-message-id: <20250210175615.1686529-1-niklas.soderlund+renesas@ragnatech.se>
+prerequisite-patch-id: a4aa6a184c6a21fc4536c11e14d9b5cc61f13346
+prerequisite-patch-id: 1b0091875529d392b142814005baa38b2ef77f98
+prerequisite-patch-id: 4c960ae93b1e663b11194903ed1810e0ed1e4f59
+prerequisite-patch-id: a5641e1dcad0f39baef8996b6731a471046f18f9
+prerequisite-patch-id: 481317ba4b987cbb069c31f3372686a59c0fcb67
+prerequisite-change-id: 20250324-rcar-fix-raw-c7967ff85d3e:v1
+prerequisite-patch-id: b21819aa41855942f3474ff8135daccc9c7c652d
+prerequisite-patch-id: af375b9da2a977ea10d1fee2d500de5a2dbe53dd
+prerequisite-patch-id: 2278b5cd1de5008ef35f9c9f34e3a53bb98147da
+prerequisite-change-id: 20250218-frame-desc-passthrough-66805e413974:v4
+prerequisite-patch-id: bce4a915a29a64f88ed1bb600c08df37d2ba20c6
+prerequisite-patch-id: 69b75e7dad9ced905cb39a72f18bebbf3e8f998a
+prerequisite-patch-id: 58463f6944c76acd6cf203b14a2836cdb0db2461
+
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+
 
