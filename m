@@ -1,328 +1,156 @@
-Return-Path: <linux-media+bounces-28890-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28892-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7319DA73F61
-	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 21:38:34 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6EE0A73FC8
+	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 22:05:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5E2523B4F43
-	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 20:38:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 977B17A36C9
+	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 21:04:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D34F61D63FD;
-	Thu, 27 Mar 2025 20:38:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D55D1D6DD8;
+	Thu, 27 Mar 2025 21:05:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="h97UIUa4"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="nMrY91Tq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAEE51C84CA;
-	Thu, 27 Mar 2025 20:38:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DEF619DF75
+	for <linux-media@vger.kernel.org>; Thu, 27 Mar 2025 21:05:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743107905; cv=none; b=FOKIVRM1ErRCMzs/86o1BXBr9qFrGz3TgJXJ1ifVeC1MRkVZkD6tfPEMn9VZvYHEdVYIQKHNKSh/71lNR07m92gyOpLw3TfBpv1RtZpchKh946rsuISn5AudJAg4XSzBmA83bhTST/wfSGjgd81gyC5MOcN0iGFNPXMj9el87dM=
+	t=1743109531; cv=none; b=mmcTVJvevAlnw+xWV4zkWZW9/V/tGI6EjPef4DWmuInVgj4FzYCp0EfLRzhrzYaamR15ZYpbVg0p5lSmQH2HXC73JhEUJum7cmkmpmM4HQHyjfJcKC7CSpUGU5qbpUP/yxI6j4KiSye8wgvI/fI+9a8DnNdGgPfUHf7YiWx8crM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743107905; c=relaxed/simple;
-	bh=f6qiU0TTN8DbNGhESYoBoKB9gEQkrw2fmpHiaRdsTr4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oe+bGOicjCwX9KhalD54U7UnSHoVkSNF/HbGxYEesxjYRZ6sZRCk8zRVT0wOplIvmrCViA/+ZcrEP5Kk7alk8yQniK2c0F+MH8hw9S+FBroacHmA91cPHbY9vJZUXdOaejR4i+c449wEVr4ZJflnNGOCcfBygUzW479lhK1Tv/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=h97UIUa4; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2C2CAF6;
-	Thu, 27 Mar 2025 21:36:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1743107793;
-	bh=f6qiU0TTN8DbNGhESYoBoKB9gEQkrw2fmpHiaRdsTr4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=h97UIUa4pWMGm0/XORSAZlozBPK0I6cjCAyI0IdDFucSxUb6z+w0eAG+/CTgRlZgO
-	 rB88L8JUO5iI/x2PnU9vsK7EVyCIkFsnkWsFIkHgFmJe0jBNAGya3G3ttWzwrjwUqj
-	 GvLBBMGO7xAe998sv6S7jxsAELJXYsgrmkLC4xKk=
-Date: Thu, 27 Mar 2025 22:37:59 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Dong Aisheng <aisheng.dong@nxp.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	Robert Chiras <robert.chiras@nxp.com>,
-	"Guoniu.zhou" <guoniu.zhou@nxp.com>
-Subject: Re: [PATCH v3 08/12] media: imx8mq-mipi-csi2: Add support for
- i.MX8QXP
-Message-ID: <20250327203759.GB22295@pendragon.ideasonboard.com>
-References: <20250210-8qxp_camera-v3-0-324f5105accc@nxp.com>
- <20250210-8qxp_camera-v3-8-324f5105accc@nxp.com>
+	s=arc-20240116; t=1743109531; c=relaxed/simple;
+	bh=MAaDOHpVk8l5y3Bvz9xUmbXMFyQputnUsTd8zkUItDE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=StlK+8G84cnAwxduBz+nwhesQ4PwnyK8JAQbtxjItogYO4gDauwLjo4lK9KZXItIi+6aALdIaM1UzzIJizB55J8Hu98ubhUS7igtSsMSpfVNWZ+f16kS+Srk+zLGWuuVaEwp4vaUakc78nw8l9spg11VWfdq+LCimtgJ7krSVhg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=nMrY91Tq; arc=none smtp.client-ip=209.85.160.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4775ce8a4b0so24958231cf.1
+        for <linux-media@vger.kernel.org>; Thu, 27 Mar 2025 14:05:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1743109529; x=1743714329; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AMYLMropbZCSC63vr44ogB0dG7buG5/6/cXoTt5SubM=;
+        b=nMrY91TqdLHbONpYUdn1xVBQ/Q4UWkiMP+YpCe3hU51p27y0YbirGOMVwjKh9hygW4
+         TXvxAB1YsDS6tnIKBVHbCE7V2St1W4I/oSYtlOGDXFRvYJSktY9czhJWkknD3/gvaYF2
+         pigNyEAHpskkgQP72kS1zbIT/uDw9YPezH+j0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743109529; x=1743714329;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AMYLMropbZCSC63vr44ogB0dG7buG5/6/cXoTt5SubM=;
+        b=WjwNtnyBFGv8XkuthBp/whSNEiiBd6OAPHXA4PpX2nDlyrClX6yxjXmmFIYQtcrTX6
+         fJDQGko49droRYI05QROwu3ftbsdE3u1Gni2rRR/8zAuKrTapmLdKRgqOV7tPnZxRxHw
+         qRkHas+4pPUJDaf46L3AFg/m5upLF7zst1qzc8FEJkA+t5RaCpHsZYjN0ON7/Dtd8C/0
+         /fP5PGVCnbJuY4C3UbpJuXbg2JSDyqcm6Mex3UBL8YPkTmb4HylYJ3K3d/pj4CliN83W
+         mZ1INX+8jIMX8hej4KWLJuscS/TavsaELHVOPXEbosEMB4py2qUVcUhOzFnQV1NvrOwA
+         HFWg==
+X-Gm-Message-State: AOJu0YzN/UWfTa6HVtkRXXKDmf6lqbsOC6KHe4RpGVbpzIZYfDa/tWIG
+	YzlryioZzRhFrdNH15mXGE3kQjfHVTgKQVJjBRVYl7r5IQ/rlpHwHxoIoSxljA==
+X-Gm-Gg: ASbGncvPsAuLj2W7hyRMDgt3eY1+8UEi1FuNp9jG7AwR7ykqrFaDpt2FRFhCDd/kpWr
+	xw7io3m/eqnfaMRwA457XR4BxPFshbdErpQRjn5dRASqjgtVHqfLDW5YQMseGqg8Nhez0LLsI2S
+	YoFHZrORD3QkySgjCcssBHbAMOVSVU0gMSt+4kELcS5Tch4pTUwiF6Uas5uyCzJxXkTPxNsocJO
+	WPlBbjb2h25t9UNRy1o3qkedcv59OlSuxGPw0FNPCWin7nRmicFmAZHfXHnlroBZLxpWsa7IaR7
+	NfBHZcxrJJKNXZPaPxLd3fEnNxhcEFj4DFPFW5f7civ+vRczQRJ0WOiYjHNlNJaHbQgmvwsssmF
+	GVjkvaqFCbvOZByu4c0/1EA==
+X-Google-Smtp-Source: AGHT+IGxrFio8vLeHzf4wv6jvGI2BMAIrzLkUQHAsBHF+m1IKzHOTH/P1z2k+W/U3eea8RgAMDwHRA==
+X-Received: by 2002:a05:622a:40cd:b0:476:af54:5038 with SMTP id d75a77b69052e-4776e0ed305mr81222221cf.22.1743109528984;
+        Thu, 27 Mar 2025 14:05:28 -0700 (PDT)
+Received: from denia.c.googlers.com (249.240.85.34.bc.googleusercontent.com. [34.85.240.249])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47782a1070csm2275421cf.9.2025.03.27.14.05.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Mar 2025 14:05:28 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v6 0/5] media: uvcvideo: Implement Granular Power Saving
+Date: Thu, 27 Mar 2025 21:05:26 +0000
+Message-Id: <20250327-uvc-granpower-ng-v6-0-35a2357ff348@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250210-8qxp_camera-v3-8-324f5105accc@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJa95WcC/33PTW7DIBAF4KtErEs1DD8OWfUeVRcGBptFTIQb2
+ iry3YsjVY0q1OUbab6Zd2MrlUQrOx1urFBNa8pLC+bpwPw8LhPxFFpmCKiEQMOv1fOpjMslf1D
+ hy8TBWHHUowlqUKytXQrF9HknX99antP6nsvX/UIV+/QfrAoO3EiBLqLRyvoXP5d8Ttfzcy4T2
+ 72KP4YGBNkxsBmOonJa0+DM0DHko9H7QzZDYoAwOPA6HDuGejC6XdRukLeOLBhQPUP/GrLbRTd
+ jlCE6QhvJij/Gtm3fBRVZqsMBAAA=
+X-Change-ID: 20241126-uvc-granpower-ng-069185a6d474
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>, 
+ Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.14.2
 
-Hi Frank,
+Right now we power-up the device when a user open() the device and we
+power it off when the last user close() the first video node.
 
-Thank you for the patch.
+This behaviour affects the power consumption of the device is multiple
+use cases, such as:
+- Polling the privacy gpio
+- udev probing the device
 
-On Mon, Feb 10, 2025 at 03:59:27PM -0500, Frank Li wrote:
-> Add support for i.MX8QXP, which has a dedicated control and status register
-> (csr) space. Enable obtaining the second register space and initializing
+This patchset introduces a more granular power saving behaviour where
+the camera is only awaken when needed. It is compatible with
+asynchronous controls.
 
-s/csr/CSR/
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Changes in v6:
+- Improve error handling
+- Use __free instead of guards()
+- Rename uvc_v4l2_unlocked_ioctl
+- Link to v5: https://lore.kernel.org/r/20250303-uvc-granpower-ng-v5-0-a3dfbe29fe91@chromium.org
 
-> PHY and link settings accordingly.
-> 
-> Add reset delay for i.MX8QXP. It needs a delay after toggle reset.
-> 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
-> change from v2 to v3
-> - use dedicate csr reg to control phy and link settings.
-> 
-> Change from v1 to v2
-> - change 8QM go 8QXP, 8QM will failback to 8QXP to keep consisense with
-> phy drivers
-> ---
->  drivers/media/platform/nxp/imx8mq-mipi-csi2.c | 119 ++++++++++++++++++++++++++
->  1 file changed, 119 insertions(+)
-> 
-> diff --git a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-> index b5eae56d92f49..788dabe5a0870 100644
-> --- a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-> +++ b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-> @@ -89,6 +89,8 @@ struct imx8mq_plat_data {
->  	const char *name;
->  	int (*enable)(struct csi_state *state, u32 hs_settle);
->  	void (*disable)(struct csi_state *state);
-> +	bool use_reg_csr: 1;
+Changes in v5:
+- Improve "media: uvcvideo: Make power management granular" commit
+  message.
+- Link to v4: https://lore.kernel.org/r/20250226-uvc-granpower-ng-v4-0-3ec9be906048@chromium.org
 
-Drop :1.
+Changes in v4:
+- CodeStyle
+- Create uvc_pm_ functions
+- Link to v3: https://lore.kernel.org/r/20250206-uvc-granpower-ng-v3-0-32d0d7b0c5d8@chromium.org
 
-> +	int reset_delay;
+Changes in v3:
+- Fix build error on sh4.
+- Link to v2: https://lore.kernel.org/r/20250203-uvc-granpower-ng-v2-0-bef4b55e7b67@chromium.org
 
-	unsigned int reset_delay_us;
+Changes in v2:
+- Add missing semicolon.
+- Rebase on top of media-committers/next
+- Link to v1: https://lore.kernel.org/r/20241126-uvc-granpower-ng-v1-0-6312bf26549c@chromium.org
 
-as it can't be negative, and to have more clarity on the unit.
+---
+Ricardo Ribalda (5):
+      media: uvcvideo: Keep streaming state in the file handle
+      media: uvcvideo: Create uvc_pm_(get|put) functions
+      media: uvcvideo: Increase/decrease the PM counter per IOCTL
+      media: uvcvideo: Make power management granular
+      media: uvcvideo: Do not turn on the camera for some ioctls
 
->  };
->  
->  /*
-> @@ -169,6 +171,101 @@ static const struct imx8mq_plat_data imx8mq_data = {
->  	.enable = imx8mq_gpr_enable,
->  };
->  
-> +/* -----------------------------------------------------------------------------
-> + * i.MX8QXP
-> + */
-> +
-> +#define CSI2SS_PL_CLK_INTERVAL_US		10000
-> +#define CSI2SS_PL_CLK_TIMEOUT_US		100000
-> +
-> +#define CSI2SS_PLM_CTRL				0x0
-> +#define CSI2SS_PLM_CTRL_PL_CLK_RUN		BIT(31)
-> +#define CSI2SS_PLM_CTRL_VSYNC_OVERRIDE		BIT(9)
-> +#define CSI2SS_PLM_CTRL_HSYNC_OVERRIDE		BIT(10)
-> +#define CSI2SS_PLM_CTRL_VALID_OVERRIDE		BIT(11)
-> +#define CSI2SS_PLM_CTRL_POLARITY_MASK		BIT(12)
+ drivers/media/usb/uvc/uvc_ctrl.c |  37 +++++++++----
+ drivers/media/usb/uvc/uvc_v4l2.c | 115 +++++++++++++++++++++++++++++++--------
+ drivers/media/usb/uvc/uvcvideo.h |   5 ++
+ 3 files changed, 123 insertions(+), 34 deletions(-)
+---
+base-commit: f2151613e040973c868d28c8b00885dfab69eb75
+change-id: 20241126-uvc-granpower-ng-069185a6d474
 
-#define CSI2SS_PLM_CTRL_POLARITY		BIT(12)
-
-or POLARITY_HIGH if you prefer.
-
-> +#define CSI2SS_PLM_CTRL_ENABLE_PL		BIT(0)
-
-Sort the bits in numerical order, the middle ones are swapped.
-
-> +
-> +#define CSI2SS_PHY_CTRL				0x4
-> +#define CSI2SS_PHY_CTRL_PD			BIT(22)
-> +#define CSI2SS_PHY_CTRL_RTERM_SEL		BIT(21)
-> +#define CSI2SS_PLM_CTRL_POLARITY		BIT(12)
-
-PLM ? Bit 12 is documented as reserved in PHY_CTRL. Is this a bad copy &
-paste ?
-
-> +#define CSI2SS_PHY_CTRL_RX_HS_SETTLE_MASK	GENMASK(9, 4)
-> +#define CSI2SS_PHY_CTRL_CONT_CLK_MODE		BIT(3)
-> +#define CSI2SS_PHY_CTRL_DDRCLK_EN		BIT(2)
-> +#define CSI2SS_PHY_CTRL_AUTO_PD_EN		BIT(1)
-> +#define CSI2SS_PHY_CTRL_RX_ENABLE		BIT(0)
-> +
-> +#define CSI2SS_DATA_TYPE			0x38
-
-According to the reference manual, the register is called
-DATA_TYPE_DISABLE_BF.
-
-> +#define CSI2SS_DATA_TYPE_MASK			GENMASK(23, 0)
-> +
-> +#define CSI2SS_CTRL_CLK_RESET			0x44
-> +#define CSI2SS_CTRL_CLK_RESET_EN		BIT(0)
-> +
-> +static int imx8qxp_gpr_enable(struct csi_state *state, u32 hs_settle)
-> +{
-> +	int ret;
-> +	u32 val;
-> +
-> +	/* clear format */
-
-s/clear/Clear/
-
-Same where applicable elsewhere.
-
-> +	regmap_clear_bits(state->phy_gpr, CSI2SS_DATA_TYPE, CSI2SS_DATA_TYPE_MASK);
-> +
-> +	/* clear polarity */
-> +	regmap_clear_bits(state->phy_gpr, CSI2SS_PLM_CTRL,
-> +			  CSI2SS_PLM_CTRL_VSYNC_OVERRIDE |
-> +			  CSI2SS_PLM_CTRL_HSYNC_OVERRIDE |
-> +			  CSI2SS_PLM_CTRL_VALID_OVERRIDE |
-> +			  CSI2SS_PLM_CTRL_POLARITY_MASK);
-
-Given that you write the full register to 0 in imx8qxp_gpr_disable(), I
-think you can use regmap_write() here.
-
-> +
-> +	regmap_update_bits(state->phy_gpr, CSI2SS_PHY_CTRL, CSI2SS_PHY_CTRL_RX_HS_SETTLE_MASK,
-> +			   FIELD_PREP(CSI2SS_PHY_CTRL_RX_HS_SETTLE_MASK, hs_settle));
-
-You need to include linux/bitfield.h for this. It can probably use
-regmap_write() too, combining it with the next line.
-
-> +
-> +	regmap_set_bits(state->phy_gpr, CSI2SS_PHY_CTRL,
-> +			CSI2SS_PHY_CTRL_RX_ENABLE | CSI2SS_PHY_CTRL_DDRCLK_EN |
-> +			CSI2SS_PHY_CTRL_CONT_CLK_MODE | CSI2SS_PHY_CTRL_PD |
-> +			CSI2SS_PHY_CTRL_RTERM_SEL | CSI2SS_PHY_CTRL_AUTO_PD_EN);
-> +
-> +	ret = regmap_read_poll_timeout(state->phy_gpr, CSI2SS_PLM_CTRL,
-> +				       val, !(val & CSI2SS_PLM_CTRL_PL_CLK_RUN),
-> +				       CSI2SS_PL_CLK_INTERVAL_US,
-> +				       CSI2SS_PL_CLK_TIMEOUT_US);
-
-How many iterations does this typically require ?
-
-> +
-> +	if (ret) {
-> +		dev_err(state->dev, "Timeout waiting for Pixel-Link clock");
-> +		return ret;
-> +	}
-> +
-> +	/* Enable Pixel link Master*/
-
-s/Master/Master /
-
-> +	regmap_set_bits(state->phy_gpr, CSI2SS_PLM_CTRL,
-> +			CSI2SS_PLM_CTRL_ENABLE_PL | CSI2SS_PLM_CTRL_VALID_OVERRIDE);
-> +
-> +	/* PHY Enable */
-> +	regmap_clear_bits(state->phy_gpr, CSI2SS_PHY_CTRL,
-> +			  CSI2SS_PHY_CTRL_PD | CSI2SS_PLM_CTRL_POLARITY);
-> +
-> +	/* Release Reset */
-> +	regmap_set_bits(state->phy_gpr, CSI2SS_CTRL_CLK_RESET, CSI2SS_CTRL_CLK_RESET_EN);
-
-No need to clear this bit in imx8qxp_gpr_disable() ?
-
-> +
-> +	return ret;
-> +}
-> +
-> +static void imx8qxp_gpr_disable(struct csi_state *state)
-> +{
-> +	/* Disable Pixel Link */
-> +	regmap_write(state->phy_gpr, CSI2SS_PLM_CTRL, 0x0);
-> +
-> +	/* Disable  PHY */
-
-s/  / /
-
-> +	regmap_write(state->phy_gpr, CSI2SS_PHY_CTRL, 0x0);
-> +};
-> +
-> +static const struct imx8mq_plat_data imx8qxp_data = {
-> +	.name = "i.MX8QXP",
-> +	.enable = imx8qxp_gpr_enable,
-> +	.disable = imx8qxp_gpr_disable,
-> +	.use_reg_csr = 1,
-
-s/1/true/
-
-> +	.reset_delay = 10000,
-
-Is this documented somewhere ?
-
-> +};
-> +
->  static const struct csi2_pix_format imx8mq_mipi_csi_formats[] = {
->  	/* RAW (Bayer and greyscale) formats. */
->  	{
-> @@ -273,6 +370,8 @@ static int imx8mq_mipi_csi_sw_reset(struct csi_state *state)
->  		return ret;
->  	}
->  
-> +	fsleep(state->pdata->reset_delay);
-> +
->  	return 0;
->  }
->  
-> @@ -860,6 +959,25 @@ static int imx8mq_mipi_csi_parse_dt(struct csi_state *state)
->  		return PTR_ERR(state->rst);
->  	}
->  
-> +	if (state->pdata->use_reg_csr) {
-> +		const struct regmap_config regmap_config = {
-> +			.reg_bits = 32,
-> +			.val_bits = 32,
-> +			.reg_stride = 4,
-> +		};
-> +		void __iomem *base;
-> +
-> +		base = devm_platform_ioremap_resource(to_platform_device(dev), 1);
-> +		if (IS_ERR(base))
-> +			return dev_err_probe(dev, IS_ERR(base), "missed csr register\n");
-
-s/missed csr/Missing CSR/
-
-> +
-> +		state->phy_gpr = devm_regmap_init_mmio(dev, base, &regmap_config);
-> +		if (IS_ERR(state->phy_gpr))
-> +			return dev_err_probe(dev, PTR_ERR(state->phy_gpr),
-> +					     "Fail to init mmio regmap\n");
-
-"Failed to init CSI MMIO regmap\n"
-
-> +		return 0;
-> +	}
-> +
->  	ret = of_property_read_u32_array(np, "fsl,mipi-phy-gpr", out_val,
->  					 ARRAY_SIZE(out_val));
->  	if (ret) {
-> @@ -979,6 +1097,7 @@ static void imx8mq_mipi_csi_remove(struct platform_device *pdev)
->  
->  static const struct of_device_id imx8mq_mipi_csi_of_match[] = {
->  	{ .compatible = "fsl,imx8mq-mipi-csi2", .data = &imx8mq_data },
-> +	{ .compatible = "fsl,imx8qxp-mipi-csi2", .data = &imx8qxp_data },
->  	{ /* sentinel */ },
->  };
->  MODULE_DEVICE_TABLE(of, imx8mq_mipi_csi_of_match);
-
+Best regards,
 -- 
-Regards,
+Ricardo Ribalda <ribalda@chromium.org>
 
-Laurent Pinchart
 
