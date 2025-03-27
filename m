@@ -1,178 +1,219 @@
-Return-Path: <linux-media+bounces-28848-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28849-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A02CFA732A7
-	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 13:53:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99A06A73326
+	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 14:16:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BD8CF189C433
-	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 12:53:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C5D7A175D63
+	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 13:14:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 861FA214A96;
-	Thu, 27 Mar 2025 12:53:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C764215F6A;
+	Thu, 27 Mar 2025 13:13:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fbT3GBFn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rucCoEpK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6FB4F21480F
-	for <linux-media@vger.kernel.org>; Thu, 27 Mar 2025 12:53:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DBA72147F1;
+	Thu, 27 Mar 2025 13:13:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743079994; cv=none; b=RlOtS+PwWDCSme1v3XxdL2NUE0464gRZ8iPfazQwR/sjUFNrY2kabi8zQ7ME+YBYFRyMSS8RAXln2hOQt5TsorNvxscb2fQKVTSmO7f1dfzla0G1qjQKph2MKB8Xm1lzPbkkCSJT145TYb6MJx9b5/NsmN4L2BZvqRShzzvH0/8=
+	t=1743081237; cv=none; b=nmOho+1L1imQilhtyO4S8cPLiNHbrdsGCxpHOAZCDxy3zRtfAmJ/ojkLsYrII1k9Q+W3iS0mPTXZVaTH+MefECXcuXWL8bq0ts855TlW1fyw2NHs4gQvz8HPVxBC5a6tZX6SnEADG1rAv8hSkaUXSUtwZxrx1cOwH7lr712y4Eo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743079994; c=relaxed/simple;
-	bh=9EtOz5caTVxdgsDnx5q6HonAsQ8MKzqR2Y605sNsvQE=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=VZ8JaP19CYr48AoRk6/WE439P/UJ47Da7eWxc3MR9ucLcDbtI7Bd60gCVzqL18kLCswj62HVrYE3Jej78nMttDyrB7kYCEQXYK+iswJ1ZWaZ7gaDi2kOI+D+Tj+6D1LqQCpQdj/WknspY0JJ9/bIjVL6bnm4nNtZM38idSBZ6g8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fbT3GBFn; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52R5jEu9002256
-	for <linux-media@vger.kernel.org>; Thu, 27 Mar 2025 12:53:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=RmXdPQNwlnY89lmzeqzU/0CL6mj1O6uTRJj
-	DbIABUoA=; b=fbT3GBFnoOzAPZGYbyKMVcKqkAaKHX+gwH0TP5TBpSKN7dRVrxm
-	d34kVO0wmk5zZ63N3HNBXRVtKPs8nZQ6EdJpJhs3MD7dpOEKL1G36KKdG4mMo+TK
-	QgZiBaCHqudD9Xb0E5PCtbb6x1cghs9dZ2IvfY6xblAU1qpG7FjuychqQfT8xfQJ
-	6/OdM2jqipQVmYQ37/BnVReHADti/iXVar6XHhPbKhBuS5k9JbBtZRdeAlKEwl/b
-	htMgGOrAT+fGZd4T3+mqcaE1plPCL0C51qBBvLmfNvzcULKdR4SQFTBOpvzHwnMu
-	hK77S2AZPlA0lhkM58MSkwCFS0K9sFpGgsw==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45m0xdx7j8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 27 Mar 2025 12:53:12 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-22410b910b0so15306685ad.2
-        for <linux-media@vger.kernel.org>; Thu, 27 Mar 2025 05:53:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743079991; x=1743684791;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RmXdPQNwlnY89lmzeqzU/0CL6mj1O6uTRJjDbIABUoA=;
-        b=FSVzvvrY6HQUUvPKd67KBs4aBXsaFL8WtpaO5FP0l+KVRg4ivmkL2worqSjCmXhTSP
-         4xq7KqgQQEk8Urm3T8CbX25UYZj8Q7WM1Xdu1KydJGJnccOOyaHraWdrAmEHdpYU+uxd
-         t9G9zgjlNqH18KA+5SBs2ikSz1tYc+IazOsb3OSwtbADiP14B+ERm6FuOslYGl0BCsMv
-         pxa7Idq+q3BjEEWXDeAth0M1Ug/A/dXghIUCFIAwA7xMcI+04tHucWyD42Yn5TOhO53H
-         gLRBl6/rekF4YUs51t9fp3kd/71k3CKYDM+g7qjV7dV48PgkTolk+PhSUPWifk5cgJXy
-         n4oQ==
-X-Gm-Message-State: AOJu0Yx1MWtKA7bMjnct7K6YY4GZXqzolvO6TvJlCxCgvYBZqvKxuE6J
-	kKTnML9qtcrkvuiwNmFwc1sM6Ddg/zgLkQ5nhfodVPu1EhqEafSaw6l5xnSnKa2ZLJrt5PkAw5J
-	+1w3vflsNYPs3BWT/x8mjxaLs4+XCMXJGH0nUrki+WwK4IooD7VMo5FrNQvjDDA==
-X-Gm-Gg: ASbGnctrGxZA0GQEnU5khn9ouoDbuprFoPvo/Va+qASdL1sJMhZaPbrMw+jg8Lozp4D
-	6IyAi4gFmWewcVLFaMwH7MLrsHUbLdTA2XIrdQjt4sCwCzs3EiofpxEL8QSPsfpXt6rsqRR3Y02
-	o9MDpKibViZ/ahTho6hX+XQzaA7GBJHvUANgC+wCybGJHR+3f9h6FfJ+7AZer3yuWJz1PSu4bld
-	v4Kg6FZt/syEuGLVFVV5CXlLM99Ik3TpdF43LJB/tjEfzjYkHc6dOYpRJZ8p+TXOTvxH+0uPgBg
-	U17uhHewCf7TlfBqo8zxfP7ZLb36fWJdOIPOLjelFEbyk4LfB2Q=
-X-Received: by 2002:a17:902:c951:b0:229:1619:ab58 with SMTP id d9443c01a7336-2291628f28bmr20716535ad.43.1743079990649;
-        Thu, 27 Mar 2025 05:53:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHzVymH3GRqRHqqQV+fxPEG4HA9j7ZymE7eJ5MzwjhA3P8fnFxCELAO8MhFXETiRhTnij1RSg==
-X-Received: by 2002:a17:902:c951:b0:229:1619:ab58 with SMTP id d9443c01a7336-2291628f28bmr20716165ad.43.1743079990117;
-        Thu, 27 Mar 2025 05:53:10 -0700 (PDT)
-Received: from QCOM-eG0v1AUPpu.qualcomm.com ([2a01:e0a:82c:5f0:7062:5f5a:bf69:400d])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22780f45879sm127458025ad.65.2025.03.27.05.53.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Mar 2025 05:53:09 -0700 (PDT)
-From: Loic Poulain <loic.poulain@oss.qualcomm.com>
-To: quic_vgarodia@quicinc.com, stanimir.k.varbanov@gmail.com
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        bryan.odonoghue@linaro.org,
-        Loic Poulain <loic.poulain@oss.qualcomm.com>
-Subject: [PATCH] media: venus: Fix probe error handling
-Date: Thu, 27 Mar 2025 13:53:04 +0100
-Message-Id: <20250327125304.1090805-1-loic.poulain@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1743081237; c=relaxed/simple;
+	bh=fKz9pnQ+RHCIb1EIYOpjNQk9UHkPlQZ8YelVCnzImCE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ed/A+/Wjt2/Rl79hcr4/tsoUPRhJ/hY7f8wxkUOeTj8mVbMlwqGASF2xjGugX54dhK8pIcttExhJQvjLGk4m8vXsf+l+kLjcfVwc5W1NGpIMRFCPz3Ix5uflbohCenbM76BUS+uulfL2xFvaB/D92k/5OKudDWRvhwI6wgtul+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rucCoEpK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 97A54C4CEF2;
+	Thu, 27 Mar 2025 13:13:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743081236;
+	bh=fKz9pnQ+RHCIb1EIYOpjNQk9UHkPlQZ8YelVCnzImCE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=rucCoEpKD2uKA82npuUHc2IlG2oWnwqgT8U9tN8DMOP4U1dwkgyyYXgAIKPFMuNMW
+	 Mr/rysi/pjy41dJOAzljBbZzg72+mfpEOGGzhjDTx6c9rxCGjmC5SMyEbWJ2N0+oWF
+	 Xl99PlkGVupFWkqkqPnK/n7IH270nzZea0M/gmSRDQXN9qd9osa7eI+CFXdg5DLHuu
+	 1M2pbO4Lh5olO8JonWgiuDrCf/0OvRFMkhALjgLziXzN6dyFchrENnGietvVrKXS4A
+	 SEpLCltJiXG4chUafZNqd/4THrfGNnJIQszxbPkTKIenmMOlkgpgrOYysOf2geIYRL
+	 xyGI4KognAkFg==
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43ce70f9afbso9907195e9.0;
+        Thu, 27 Mar 2025 06:13:56 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU2rHYbsSoYALOqwNl+LyeGIXHPf/b7Hx5OBUC9w2azC9c0hEq6q1A7YV5CONjcTZstr3s/6TX/a6UGkaHN@vger.kernel.org, AJvYcCUAZCStn3bQIQUYHFT1ZJCZL8w4m3D4TXm/cKD9xLEaU19ACPf6+2AETge+UhwQdM/i/CXz34NZ0G6yuGVTesD3tA==@vger.kernel.org, AJvYcCUELgBhaY1jk7n9YD6L5IY6qRH7wKIPJogQZuZAAovzx2Hxyph/+wBrI47Hi8bhkHpnJPYkjsCKs+7yIgUIZS3oVIRf@vger.kernel.org, AJvYcCUKanLLvmZ4li3OmCWCyTCixdpqApDTm8nR/snTeCo5Op+Yxd82EC7fcdlLzTpsQQ9ZALMnYOaDioo4HD24@vger.kernel.org, AJvYcCUP7Xrb/zIIcggnQcvdZ8TB4HDO5kSh8uwhR1zsRpqeQ2Ha6rQ+puuAmcYw59f2CDJFMBZz2AlIUa2K0ig=@vger.kernel.org, AJvYcCUxp3BBaGBr7W2jzq/L/Z4K5KEl8JpV8JkBATkQuhmYLH85Otl6gI/xNDeWRb3iLQkZkf+U@vger.kernel.org, AJvYcCV9v2gSAeYHLCFpjTMYwr3Q8Iii79Ltmqrt2Oo/5jB2czj55HDLtIEqIQbHZ/+RXF8gyi/sbFqSmBvmpSkJBQ==@vger.kernel.org, AJvYcCVCESevdvNm+d0y4Ds0WJykCwDXTNJfvlMKnYVx/h6oqWPoVKScPEbQ05/hqFMStfPL/xA=@vger.kernel.org, AJvYcCVsaB84xARMIS68Iw6z+alSFQNFbRCP59YXqQ2sZLZkT6L5dcGrrmCcb2Xk/0wxH+ZBa7JMciFnw9Vw@vger.kernel.org, AJvYcCVxHoc2XCjDk2K1L++k
+ q+O9OUEPuZzpQPFxOqLd/UO1CjJJOnLnfwg1Fu9uyN/wq6WDl7oDCpLNuumOEw==@vger.kernel.org, AJvYcCW/wzG9fxNKHDwf9sSRv3xZhNJT1qkhHhz62ydfz7gWaS1qtJDLExnbH5TQ45Tj/YaXSpLU/L/DwLONL6M=@vger.kernel.org, AJvYcCWBlybRWOtFWwx5OBsngOOrnh3lX9Q23VY4im+KeAoJx3+N+z56tKGnJ/MPLp7OnxcTgIEgMlHIrvZOtA==@vger.kernel.org, AJvYcCWX6DTFnzZ7QSVr2C+VWuqKNy7PGwytH/oTtLQHesYb6X8pEcXmw1K4y2tTKQX2CnngBZTkEe9VKtBzpBALTU2z@vger.kernel.org, AJvYcCX8Jur3EAlHTbMwSMiFh7/kUf/WygJAq9XTG62wVlkHNnMkMF2OrfE2QPEMZSG7BKNLeRELJPWQ@vger.kernel.org, AJvYcCXGfp0IFaSFKeXK20hDoElxEzViOGEO+egiBp0V9zAAlJalbatFhQiyF/nOWyZRgubAapPuLdC8W704QGg=@vger.kernel.org, AJvYcCXhrp3xcCkT7Vs6cJmniu4gWoeZW55jHPO0om4Od7XCqxD2Ch3rMPtT+eIZZ8xAeAPbahvaIdgMC4/1O1g4@vger.kernel.org, AJvYcCXujID1aVANCNeBM6SX7S7u6PPffTQq8mOPWcAKV2KHzXWLg6PvS7najW9J3LhOKeC+tePPTmmh2fcM@vger.kernel.org
+X-Gm-Message-State: AOJu0Yws3XeMuyGY6AFmN/pySrCXspUqGVyjqsc98fswN8ZoixDsLEe0
+	BqBolDfMViEAo80nKs6eKGxseCJXtifHHgyDpO/Axn9vAtsgbLgh2CU7TXJh7DDKtGy4Goq63rl
+	BCVtbcQJFY6Nr8nanYXtdfaEU77I=
+X-Google-Smtp-Source: AGHT+IEY5BSiBwNXEMT+eJeprlWhvYaVjud2VavXTPTPRvbe/6IFqzcZmwQqb+uo+KChSyUJAdyAvfkgwaIRQv6W9xk=
+X-Received: by 2002:a05:6000:1ace:b0:391:29f:4f70 with SMTP id
+ ffacd0b85a97d-39ad17544e8mr3039357f8f.3.1743081235006; Thu, 27 Mar 2025
+ 06:13:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: JkmQd4y2aaF7AzMTXHm9kI5_S-1QfB9Q
-X-Proofpoint-GUID: JkmQd4y2aaF7AzMTXHm9kI5_S-1QfB9Q
-X-Authority-Analysis: v=2.4 cv=Q43S452a c=1 sm=1 tr=0 ts=67e54a38 cx=c_pps a=IZJwPbhc+fLeJZngyXXI0A==:117 a=xqWC_Br6kY4A:10 a=Vs1iUdzkB0EA:10 a=QcRrIoSkKhIA:10 a=EUspDBNiAAAA:8 a=TreJGfwvmoV3RPO-XusA:9 a=uG9DUKGECoFWVXl0Dc02:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-27_01,2025-03-26_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 impostorscore=0
- lowpriorityscore=0 bulkscore=0 spamscore=0 suspectscore=0 adultscore=0
- mlxlogscore=999 malwarescore=0 mlxscore=0 priorityscore=1501 clxscore=1011
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503270089
+References: <20250325121624.523258-1-guoren@kernel.org> <20250325122640.GK36322@noisy.programming.kicks-ass.net>
+ <db3c9923-8800-4ed3-a352-4ee9ef79c0b7@app.fastmail.com> <CAJF2gTSHpZMyUk+8HL0=bevCd4XZYRAkrPM600qLPCKxG+bfrg@mail.gmail.com>
+ <a9dddc3d-d03d-4614-9d55-1ce48c6ad5ef@app.fastmail.com>
+In-Reply-To: <a9dddc3d-d03d-4614-9d55-1ce48c6ad5ef@app.fastmail.com>
+From: Guo Ren <guoren@kernel.org>
+Date: Thu, 27 Mar 2025 21:13:43 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTQtdKzq2Qc6s2qQs3pwMS79Re3vRY735kLM31qNFQD=rg@mail.gmail.com>
+X-Gm-Features: AQ5f1JrgAJHOCdrriP16_V_QmEg1YQ85TRRC6Mrmapp2zXhvmV1mwcc9X_F3CrI
+Message-ID: <CAJF2gTQtdKzq2Qc6s2qQs3pwMS79Re3vRY735kLM31qNFQD=rg@mail.gmail.com>
+Subject: Re: [RFC PATCH V3 00/43] rv64ilp32_abi: Build CONFIG_64BIT
+ kernel-self with ILP32 ABI
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Peter Zijlstra <peterz@infradead.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	Linus Torvalds <torvalds@linux-foundation.org>, Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>, 
+	Atish Patra <atishp@atishpatra.org>, Oleg Nesterov <oleg@redhat.com>, Kees Cook <kees@kernel.org>, 
+	Thomas Gleixner <tglx@linutronix.de>, Will Deacon <will@kernel.org>, 
+	Mark Rutland <mark.rutland@arm.com>, Christian Brauner <brauner@kernel.org>, 
+	Andrew Morton <akpm@linux-foundation.org>, Steven Rostedt <rostedt@goodmis.org>, 
+	Eric Dumazet <edumazet@google.com>, Chen Wang <unicorn_wang@outlook.com>, 
+	Inochi Amaoto <inochiama@outlook.com>, gaohan@iscas.ac.cn, shihua@iscas.ac.cn, 
+	jiawei@iscas.ac.cn, wuwei2016@iscas.ac.cn, Drew Fustini <drew@pdp7.com>, 
+	"Lad, Prabhakar" <prabhakar.mahadev-lad.rj@bp.renesas.com>, ctsai390@andestech.com, 
+	wefu@redhat.com, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Josef Bacik <josef@toxicpanda.com>, David Sterba <dsterba@suse.com>, Ingo Molnar <mingo@redhat.com>, 
+	Boqun Feng <boqun.feng@gmail.com>, Xiao W Wang <xiao.w.wang@intel.com>, 
+	qingfang.deng@siflower.com.cn, Leonardo Bras <leobras@redhat.com>, 
+	Jisheng Zhang <jszhang@kernel.org>, "Conor.Dooley" <conor.dooley@microchip.com>, 
+	Samuel Holland <samuel.holland@sifive.com>, yongxuan.wang@sifive.com, 
+	Xu Lu <luxu.kernel@bytedance.com>, David Hildenbrand <david@redhat.com>, 
+	Ruan Jinjie <ruanjinjie@huawei.com>, Yunhui Cui <cuiyunhui@bytedance.com>, 
+	Kefeng Wang <wangkefeng.wang@huawei.com>, qiaozhe@iscas.ac.cn, 
+	Ard Biesheuvel <ardb@kernel.org>, Alexei Starovoitov <ast@kernel.org>, linux-kernel@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, kvm@vger.kernel.org, 
+	kvm-riscv@lists.infradead.org, linux-mm@kvack.org, 
+	linux-crypto@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Linux-Arch <linux-arch@vger.kernel.org>, maple-tree@lists.infradead.org, 
+	linux-trace-kernel@vger.kernel.org, Netdev <netdev@vger.kernel.org>, 
+	linux-atm-general@lists.sourceforge.net, linux-btrfs@vger.kernel.org, 
+	netfilter-devel@vger.kernel.org, coreteam@netfilter.org, 
+	linux-nfs@vger.kernel.org, linux-sctp@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Video device registering has been moved earlier in the probe function,
-but the new order has not been propagated to error handling. This means
-we can end with unreleased resources on error (e.g dangling video device
-on missing firmware probe aborting).
+On Wed, Mar 26, 2025 at 2:56=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> wrote=
+:
+>
+> On Wed, Mar 26, 2025, at 07:07, Guo Ren wrote:
+> > On Tue, Mar 25, 2025 at 9:18=E2=80=AFPM Arnd Bergmann <arnd@arndb.de> w=
+rote:
+> >> On Tue, Mar 25, 2025, at 13:26, Peter Zijlstra wrote:
+> >> > On Tue, Mar 25, 2025 at 08:15:41AM -0400, guoren@kernel.org wrote:
+> >>
+> >> You declare the syscall ABI to be the native 64-bit ABI, but this
+> >> is fundamentally not true because a many uapi structures are
+> >> defined in terms of 'long' or pointer values, in particular in
+> >> the ioctl call.
+> >
+> > I modified uapi with
+> > void __user *msg_name;
+> > ->
+> > union {void __user *msg_name; u64 __msg_name;};
+> > to make native 64-bit ABI.
+> >
+> > I would look at compat stuff instead of using __riscv_xlen macro.
+>
+> The problem I see here is that there are many more drivers
+> that you did not modify than drivers that you did change this
+> way.  The union is particularly ugly, but even if you find
+> a nicer method of doing this, you now also put the burden
+> on future driver writers to do this right for your platform.
+Got it.
 
-Fixes: 08b1cf474b7f7 ("media: venus: core, venc, vdec: Fix probe dependency error")
-Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
----
- drivers/media/platform/qcom/venus/core.c | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+>
+> >> As far as I can tell, there is no way to rectify this design flaw
+> >> other than to drop support for 64-bit userspace and only support
+> >> regular rv32 userspace. I'm also skeptical that supporting rv64
+> >> userspace helps in practice other than for testing, since
+> >> generally most memory overhead is in userspace rather than the
+> >> kernel, and there is much more to gain from shrinking the larger
+> >> userspace by running rv32 compat mode binaries on a 64-bit kernel
+> >> than the other way round.
+> >
+> > The lp64-abi userspace rootfs works fine in this patch set, which
+> > proves the technique is valid. But the modification on uapi is raw,
+> > and I'm looking at compat stuff.
+>
+> There is a big difference between making it work for a particular
+> set of userspace binaries and making it correct for the entire
+> kernel ABI.
+>
+> I agree that limiting the hacks to the compat side while keeping
+> the native ABI as ilp32 as in your previous versions is better,
+> but I also don't think this can be easily done without major
+> changes to how compat mode works in general, and that still
+> seems like a show-stopper for two reasons:
+>
+> - it still puts the burden on driver writers to get it right
+>   for your platform. The scope is a bit smaller than in the
+>   current version because that would be limited to the compat
+>   handlers and not change the native codepath, but that's
+>   still a lot of drivers.
+>
+> - the way that I would imagine this to be implemented in
+>   practice would require changing the compat code in a way that
+>   allows multiple compat ABIs, so drivers can separate the
+>   normal 32-on-64 handling from the 64-on-32 version you need.
+>   We have discussed something like this in the past, but Linus
+>   has already made it very clear that he doesn't want it done
+>   that way. Whichever way you do it, this is unlikely to
+>   find consensus.
+Got it, thanks for analysing.
 
-diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-index c4438e4b2d9b..103afda799ed 100644
---- a/drivers/media/platform/qcom/venus/core.c
-+++ b/drivers/media/platform/qcom/venus/core.c
-@@ -438,7 +438,7 @@ static int venus_probe(struct platform_device *pdev)
- 
- 	ret = v4l2_device_register(dev, &core->v4l2_dev);
- 	if (ret)
--		goto err_core_deinit;
-+		goto err_hfi_destroy;
- 
- 	platform_set_drvdata(pdev, core);
- 
-@@ -476,24 +476,24 @@ static int venus_probe(struct platform_device *pdev)
- 
- 	ret = venus_enumerate_codecs(core, VIDC_SESSION_TYPE_DEC);
- 	if (ret)
--		goto err_venus_shutdown;
-+		goto err_core_deinit;
- 
- 	ret = venus_enumerate_codecs(core, VIDC_SESSION_TYPE_ENC);
- 	if (ret)
--		goto err_venus_shutdown;
-+		goto err_core_deinit;
- 
- 	ret = pm_runtime_put_sync(dev);
- 	if (ret) {
- 		pm_runtime_get_noresume(dev);
--		goto err_dev_unregister;
-+		goto err_core_deinit;
- 	}
- 
- 	venus_dbgfs_init(core);
- 
- 	return 0;
- 
--err_dev_unregister:
--	v4l2_device_unregister(&core->v4l2_dev);
-+err_core_deinit:
-+	hfi_core_deinit(core, false);
- err_venus_shutdown:
- 	venus_shutdown(core);
- err_firmware_deinit:
-@@ -506,9 +506,9 @@ static int venus_probe(struct platform_device *pdev)
- 	pm_runtime_put_noidle(dev);
- 	pm_runtime_disable(dev);
- 	pm_runtime_set_suspended(dev);
-+	v4l2_device_unregister(&core->v4l2_dev);
-+err_hfi_destroy:
- 	hfi_destroy(core);
--err_core_deinit:
--	hfi_core_deinit(core, false);
- err_core_put:
- 	if (core->pm_ops->core_put)
- 		core->pm_ops->core_put(core);
--- 
-2.34.1
+>
+> > Supporting lp64-abi userspace is essential because riscv lp64-abi and
+> > ilp32-abi userspace are hybrid deployments when the target is
+> > ilp32-abi userspace. The lp64-abi provides a good supplement to
+> > ilp32-abi which eases the development.
+>
+> I'm not following here, please clarify. I do understand that
+> having a mixed 32/64 userspace can help for development, but
+> that can already be done on a 64-bit kernel and it doesn't
+> seem to be useful for deployment because having two sets of
+> support libraries makes this counterproductive for the goal
+> of saving RAM.
+In my case, most binaries and libraries are based on 32-bit, but a
+small part would remain on 64-bit, which may be statically linked.
+For RISC-V, the rv64 ecosystem is more complete than the rv32's. So,
+rv64-abi is always necessary, and rv32-abi is a supplement.
 
+>
+> >> If you remove the CONFIG_64BIT changes that Peter mentioned and
+> >> the support for ilp64 userland from your series, you end up
+> >> with a kernel that is very similar to a native rv32 kernel
+> >> but executes as rv64ilp32 and runs rv32 userspace. I don't have
+> >> any objections to that approach, and the same thing has come
+> >> up on arm64 as a possible idea as well, but I don't know if
+> >> that actually brings any notable advantage over an rv32 kernel.
+> >>
+> >> Are there CPUs that can run rv64 kernels and rv32 userspace
+> >> but not rv32 kernels, similar to what we have on Arm Cortex-A76
+> >> and Cortex-A510?
+> >
+> > Yes, there is, and it only supports rv32 userspace, not rv32 kernel.
+> > https://www.xrvm.com/product/xuantie/C908
+>
+> Ok, thanks for the link.
+>
+>        Arnd
+>
+
+
+--=20
+Best Regards
+ Guo Ren
 
