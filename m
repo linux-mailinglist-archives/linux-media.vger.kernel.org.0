@@ -1,305 +1,202 @@
-Return-Path: <linux-media+bounces-28824-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28825-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C5C3A72B75
-	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 09:27:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DD99A72BBF
+	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 09:45:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0B7771888CF7
-	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 08:27:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EE005179180
+	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 08:44:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38EB3205503;
-	Thu, 27 Mar 2025 08:27:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89F022080ED;
+	Thu, 27 Mar 2025 08:44:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LWE69Ri4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jL5ZmlWf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f44.google.com (mail-oo1-f44.google.com [209.85.161.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB77203716
-	for <linux-media@vger.kernel.org>; Thu, 27 Mar 2025 08:27:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E47182080CB;
+	Thu, 27 Mar 2025 08:44:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743064045; cv=none; b=DXiJ54khUx+JLpa6065A0sXoX8/ET9VRyj7s8cUXsdZhZmcDAdmmYk6J7aw2kJLlWwjDIhKlskxhSc44pAoTyRw+mhNxpGDmployUq0iNpRhc9qAZXmNHYQpc9lcsizGK6FD6SP0GdppBdmSpUS49HjaE1JcJlq3HTVLaOzS1ho=
+	t=1743065090; cv=none; b=IIg79ePsLuP2IjoBcKqRqvumZO00XGD2w7G52FsiISQdk76PzmI1pkIO9YuVwReGa2JTgflS7Nd1r+PnMYh3QsM676YKI8HiVVfo2Tr4p93DcD10b8PQB8n5e1QbWt17/p9Uk8lynYHNygGqii9Lsb+j6PoesjB353KCeiSnmJU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743064045; c=relaxed/simple;
-	bh=KKjvFjiCDlreKGmOBQSgx/CVZHNmcBmUEl9JtLu4KYE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZklN0Sknzo8KL0nR1DK9+e1DM8DsuQnDrEJ+z8wvob+mz4alB/dr8SkRU8IzxZBUXCAjwmUtttVBRZZGy+J9Vo8YOGDrQohE7AqVYKfWQ4KccUWSUIGrIyu5eVdvDRA3DF1C6GP5AOmS6PdYB35o3o+d9f1lLvbFMmiP1yCNjR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LWE69Ri4; arc=none smtp.client-ip=209.85.161.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-oo1-f44.google.com with SMTP id 006d021491bc7-602513d2201so396832eaf.0
-        for <linux-media@vger.kernel.org>; Thu, 27 Mar 2025 01:27:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743064043; x=1743668843; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZNaFBHARD8RYWQkk61EfntzC+oHyDk/Nf1u/x+30pAY=;
-        b=LWE69Ri4IRxNo+QPex++mmm18+Ziw6sIELVh7auPWYHAHd99c04N7CSBL21o2OQFmj
-         goYN+b7TAkc5bltJ3F3seZvtPGHuSYXPLEja6h4uiL/EoqT2s5OI1m93aT+fHZdntNYK
-         oZ4iamCNYa6VM8Jtnzs0xcM0rWlZxQuHp297msRw8yKjNlDlMJvQlHzpBYU4R00Grauk
-         iqnJjRc9Z6Wk6gi6hhbDbLVYyVxUfTOekY43sHiXC7Wv0XEMeCraqYeTZQJT7y1mCWQO
-         YmCrhl04cPZaYyUX24wmcnX308CJuiXqsaAgN4w+bywoJ3q2oBpAofzQUb9kR0hcL4f7
-         6Row==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743064043; x=1743668843;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZNaFBHARD8RYWQkk61EfntzC+oHyDk/Nf1u/x+30pAY=;
-        b=RblZoueCnI4gznttDDe55e12GsZnl+PKyWnJOdiHDHCzpD8yAAV4TAU0mfFCOmyQjh
-         xKiLSK7dpSlZVM3EYTniX2Rg6FP/QObLu9bL+ie9JxZE81TpQpDDBzIP5/jf+PqP4ok8
-         oGxsOtjTRoJuG1ogOHj+012MiIAa3rvDOMZMHZ6DszZZnQ5K8S8dT6W8wWwI2DVwnvl+
-         nEk64nadzuPMnd70ZYMS64Ypsy7NRrMGcJFjoqDqr52WujcTalfgrjfFhmD06AadznLm
-         6tdyihREpxknEXidTdRI46obo5zGDM+SFsyfMmospoQ4ateim4d3NWE9rHm3vfxMmEoU
-         3pDA==
-X-Forwarded-Encrypted: i=1; AJvYcCUmeS7ejyp/XEw6cW0H9At7dWsd0HYP8wVbsx40Vavto3buJVybm1mFqa4EJGNmrINSzzpO/cjUR3GfCA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7Yp4j2QEwMgjXXX1K+XnAu58O7/iXRiGOZAtzYp4GYS+cjaRD
-	qvuN0BA4VNzBV+POJ8T7dCJEFpcuspphmVBOeAgVvXcqkYgE8Ns/CqVvmkvXPaOyPCd+e5XJbjB
-	PN2kE4OaDgXrapTmSULNCC2NtlkxyIo5jQSlQPw==
-X-Gm-Gg: ASbGnctd+rAbLuApxahAoxpLPtFCKtsqJ6nc95lC1UL3HJrm3qjfh0D5cJ1qkyq3Mwj
-	fbl3BmmMGjsac6owE/t+m4LTUFmdHDjj2PG3/Z39LLPehF6Csj9r0kQjjTFDSQQOXxBbK4B62yf
-	iK2S2qHUyZxyus8LqBmJVKSQaUXaE=
-X-Google-Smtp-Source: AGHT+IE4Y73Pz4N1BwH9vcQsjd8miSlNYWKQ9DjG4P07KcqUpTb0YMUN/u49Pwe5re+n/OV+igA1ripHNomVy4YAKtk=
-X-Received: by 2002:a05:6870:56a9:b0:2b7:d3d2:ba53 with SMTP id
- 586e51a60fabf-2c847f850famr1469213fac.12.1743064042412; Thu, 27 Mar 2025
- 01:27:22 -0700 (PDT)
+	s=arc-20240116; t=1743065090; c=relaxed/simple;
+	bh=30nxOy0/5vmflmamL0miLsXkRxuXtHblR/KuRi7mRLg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Dv4isvVfOcsaHpYZZ5Lv/V7dIwqbEl3VGKFOOA/zycWZY1kfRieLg/cxy0w0yp5z0dXzMgwHU4Y2ldqming+OnJCxWlHJGtmkWdHneBfQtssE4tFJgXMDPTRgrC8GQzYp4Lxen6GPbVhkxHLAGbmbYWMT0UA7bXPy9x3ghadSF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jL5ZmlWf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34FACC4CEDD;
+	Thu, 27 Mar 2025 08:44:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743065089;
+	bh=30nxOy0/5vmflmamL0miLsXkRxuXtHblR/KuRi7mRLg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jL5ZmlWfSXM0Rwdhwb1TSadMqwmUtMzsS01aABGf31W9r2q5+y1V2Nt/EUYYapJ9c
+	 dVvuc63LIALfAyYWQzFS14Ro4JeSZO3JnsRs4RdadWDzONNjtpSBxCIUn3jxoq1mtz
+	 mZW11MhIy2OmitUrpiO2GCNTW8x+8PhEal1r4m1oUJKpHYESLxbvjaoFxnijOajoYP
+	 1yGs+02MwgiOnGBYUmolfNqljyPcGZubefyklVV8jXbNXep4ukgH7aoIBtsAsrA1iv
+	 9VTWoVPLfqyxV4egpeefQ9b5AE98bUXtyaiOTHTm7vEXG7ak4az7g1T6HXb+gAJBa5
+	 6cW20OyfN4MMw==
+From: Philipp Stanner <phasta@kernel.org>
+To: Lyude Paul <lyude@redhat.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org,
+	nouveau@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	Philipp Stanner <phasta@kernel.org>,
+	stable@vger.kernel.org
+Subject: [PATCH] drm/nouveau: Prevent signalled fences in pending list
+Date: Thu, 27 Mar 2025 09:42:57 +0100
+Message-ID: <20250327084256.11201-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
-In-Reply-To: <20250305130634.1850178-1-jens.wiklander@linaro.org>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Thu, 27 Mar 2025 09:27:11 +0100
-X-Gm-Features: AQ5f1JrlH0shoTWzAhW6qEWQAlS0oouzF_cE5El7sl3-QfofSRRMGfXh-_QnuWM
-Message-ID: <CAHUa44F7HYQ8uR1vpu5XfR+Ag89JPpttW7hUvGROcXbPvXBXVA@mail.gmail.com>
-Subject: Re: [PATCH v6 00/10] TEE subsystem for restricted dma-buf allocations
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org
-Cc: Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Sumit Garg <sumit.garg@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
-	Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Nouveau currently relies on the assumption that dma_fences will only
+ever get signalled through nouveau_fence_signal(), which takes care of
+removing a signalled fence from the list nouveau_fence_chan.pending.
 
-On Wed, Mar 5, 2025 at 2:06=E2=80=AFPM Jens Wiklander <jens.wiklander@linar=
-o.org> wrote:
->
-> Hi,
->
-> This patch set allocates the restricted DMA-bufs from a DMA-heap
-> instantiated from the TEE subsystem.
->
-> The TEE subsystem handles the DMA-buf allocations since it is the TEE
-> (OP-TEE, AMD-TEE, TS-TEE, or perhaps a future QTEE) which sets up the
-> restrictions for the memory used for the DMA-bufs.
->
-> The DMA-heap uses a restricted memory pool provided by the backend TEE
-> driver, allowing it to choose how to allocate the restricted physical
-> memory.
->
-> The allocated DMA-bufs must be imported with a new TEE_IOC_SHM_REGISTER_F=
-D
-> before they can be passed as arguments when requesting services from the
-> secure world.
->
-> Three use-cases (Secure Video Playback, Trusted UI, and Secure Video
-> Recording) has been identified so far to serve as examples of what can be
-> expected. The use-cases has predefined DMA-heap names,
-> "restricted,secure-video", "restricted,trusted-ui", and
-> "restricted,secure-video-record". The backend driver registers restricted
-> memory pools for the use-cases it supports.
+This self-imposed rule is violated in nouveau_fence_done(), where
+dma_fence_is_signaled() can signal the fence without removing it from
+the list. This enables accesses to already signalled fences through the
+list, which is a bug.
 
-When preparing a v7 of this patch set, I'll switch to "protected"
-instead of "restricted" based on Nicolas Dufresne's comment [1],
-unless someone objects.
+Furthermore, it must always be possible to use standard dma_fence
+methods an a dma_fence and observe valid behavior. The canonical way of
+ensuring that signalling a fence has additional effects is to add those
+effects to a callback and register it on the fence.
 
-[1] https://lore.kernel.org/lkml/32c29526416c07c37819aedabcbf1e562ee98bf2.c=
-amel@ndufresne.ca/
+Move the code from nouveau_fence_signal() into a dma_fence callback.
+Register that callback when creating the fence.
 
-Cheers,
-Jens
+Cc: <stable@vger.kernel.org> # 4.10+
+Fixes: f54d1867005c ("dma-buf: Rename struct fence to dma_fence")
+Signed-off-by: Philipp Stanner <phasta@kernel.org>
+---
+I'm not entirely sure what Fixes-Tag is appropriate. The last time the
+line causing the signalled fence in the list was touched is the commit
+listed above.
+---
+ drivers/gpu/drm/nouveau/nouveau_fence.c | 41 ++++++++++++++++---------
+ drivers/gpu/drm/nouveau/nouveau_fence.h |  1 +
+ 2 files changed, 27 insertions(+), 15 deletions(-)
 
->
-> Each use-case has it's own restricted memory pool since different use-cas=
-es
-> requires isolation from different parts of the system. A restricted memor=
-y
-> pool can be based on a static carveout instantiated while probing the TEE
-> backend driver, or dynamically allocated from CMA and made restricted as
-> needed by the TEE.
->
-> This can be tested on a RockPi 4B+ with the following steps:
-> repo init -u https://github.com/jenswi-linaro/manifest.git -m rockpi4.xml=
- \
->         -b prototype/sdp-v6
-> repo sync -j8
-> cd build
-> make toolchains -j$(nproc)
-> make all -j$(nproc)
-> # Copy ../out/rockpi4.img to an SD card and boot the RockPi from that
-> # Connect a monitor to the RockPi
-> # login and at the prompt:
-> gst-launch-1.0 videotestsrc ! \
->         aesenc key=3D1f9423681beb9a79215820f6bda73d0f \
->                 iv=3De9aa8e834d8d70b7e0d254ff670dd718 serialize-iv=3Dtrue=
- ! \
->         aesdec key=3D1f9423681beb9a79215820f6bda73d0f ! \
->         kmssink
->
-> The aesdec module has been hacked to use an OP-TEE TA to decrypt the stre=
-am
-> into restricted DMA-bufs which are consumed by the kmssink.
->
-> The primitive QEMU tests from previous patch set can be tested on RockPi
-> in the same way with:
-> xtest --sdp-basic
->
-> The primitive test are tested on QEMU with the following steps:
-> repo init -u https://github.com/jenswi-linaro/manifest.git -m qemu_v8.xml=
- \
->         -b prototype/sdp-v6
-> repo sync -j8
-> cd build
-> make toolchains -j$(nproc)
-> make SPMC_AT_EL=3D1 all -j$(nproc)
-> make SPMC_AT_EL=3D1 run-only
-> # login and at the prompt:
-> xtest --sdp-basic
->
-> The SPMC_AT_EL=3D1 parameter configures the build with FF-A and an SPMC a=
-t
-> S-EL1 inside OP-TEE. The parameter can be changed into SPMC_AT_EL=3Dn to =
-test
-> without FF-A using the original SMC ABI instead. Please remember to do
-> %rm -rf ../trusted-firmware-a/build/qemu
-> for TF-A to be rebuilt properly using the new configuration.
->
-> https://optee.readthedocs.io/en/latest/building/prerequisites.html
-> list dependencies needed to build the above.
->
-> The tests are pretty basic, mostly checking that a Trusted Application in
-> the secure world can access and manipulate the memory. There are also som=
-e
-> negative tests for out of bounds buffers etc.
->
-> Thanks,
-> Jens
->
-> Changes since V5:
-> * Removing "tee: add restricted memory allocation" and
->   "tee: add TEE_IOC_RSTMEM_FD_INFO"
-> * Adding "tee: implement restricted DMA-heap",
->   "tee: new ioctl to a register tee_shm from a dmabuf file descriptor",
->   "tee: add tee_shm_alloc_cma_phys_mem()",
->   "optee: pass parent device to tee_device_alloc()", and
->   "tee: tee_device_alloc(): copy dma_mask from parent device"
-> * The two TEE driver OPs "rstmem_alloc()" and "rstmem_free()" are replace=
-d
->   with a struct tee_rstmem_pool abstraction.
-> * Replaced the the TEE_IOC_RSTMEM_ALLOC user space API with the DMA-heap =
-API
->
-> Changes since V4:
-> * Adding the patch "tee: add TEE_IOC_RSTMEM_FD_INFO" needed by the
->   GStreamer demo
-> * Removing the dummy CPU access and mmap functions from the dma_buf_ops
-> * Fixing a compile error in "optee: FF-A: dynamic restricted memory alloc=
-ation"
->   reported by kernel test robot <lkp@intel.com>
->
-> Changes since V3:
-> * Make the use_case and flags field in struct tee_shm u32's instead of
->   u16's
-> * Add more description for TEE_IOC_RSTMEM_ALLOC in the header file
-> * Import namespace DMA_BUF in module tee, reported by lkp@intel.com
-> * Added a note in the commit message for "optee: account for direction
->   while converting parameters" why it's needed
-> * Factor out dynamic restricted memory allocation from
->   "optee: support restricted memory allocation" into two new commits
->   "optee: FF-A: dynamic restricted memory allocation" and
->   "optee: smc abi: dynamic restricted memory allocation"
-> * Guard CMA usage with #ifdef CONFIG_CMA, effectively disabling dynamic
->   restricted memory allocate if CMA isn't configured
->
-> Changes since the V2 RFC:
-> * Based on v6.12
-> * Replaced the flags for SVP and Trusted UID memory with a u32 field with
->   unique id for each use case
-> * Added dynamic allocation of restricted memory pools
-> * Added OP-TEE ABI both with and without FF-A for dynamic restricted memo=
-ry
-> * Added support for FF-A with FFA_LEND
->
-> Changes since the V1 RFC:
-> * Based on v6.11
-> * Complete rewrite, replacing the restricted heap with TEE_IOC_RSTMEM_ALL=
-OC
->
-> Changes since Olivier's post [2]:
-> * Based on Yong Wu's post [1] where much of dma-buf handling is done in
->   the generic restricted heap
-> * Simplifications and cleanup
-> * New commit message for "dma-buf: heaps: add Linaro restricted dmabuf he=
-ap
->   support"
-> * Replaced the word "secure" with "restricted" where applicable
->
-> Etienne Carriere (1):
->   tee: new ioctl to a register tee_shm from a dmabuf file descriptor
->
-> Jens Wiklander (9):
->   tee: tee_device_alloc(): copy dma_mask from parent device
->   optee: pass parent device to tee_device_alloc()
->   optee: account for direction while converting parameters
->   optee: sync secure world ABI headers
->   tee: implement restricted DMA-heap
->   tee: add tee_shm_alloc_cma_phys_mem()
->   optee: support restricted memory allocation
->   optee: FF-A: dynamic restricted memory allocation
->   optee: smc abi: dynamic restricted memory allocation
->
->  drivers/tee/Makefile              |   1 +
->  drivers/tee/optee/Makefile        |   1 +
->  drivers/tee/optee/call.c          |  10 +-
->  drivers/tee/optee/core.c          |   1 +
->  drivers/tee/optee/ffa_abi.c       | 194 +++++++++++-
->  drivers/tee/optee/optee_ffa.h     |  27 +-
->  drivers/tee/optee/optee_msg.h     |  65 ++++-
->  drivers/tee/optee/optee_private.h |  55 +++-
->  drivers/tee/optee/optee_smc.h     |  71 ++++-
->  drivers/tee/optee/rpc.c           |  31 +-
->  drivers/tee/optee/rstmem.c        | 329 +++++++++++++++++++++
->  drivers/tee/optee/smc_abi.c       | 190 ++++++++++--
->  drivers/tee/tee_core.c            | 147 +++++++---
->  drivers/tee/tee_heap.c            | 470 ++++++++++++++++++++++++++++++
->  drivers/tee/tee_private.h         |   7 +
->  drivers/tee/tee_shm.c             | 199 ++++++++++++-
->  include/linux/tee_core.h          |  67 +++++
->  include/linux/tee_drv.h           |  10 +
->  include/uapi/linux/tee.h          |  29 ++
->  19 files changed, 1781 insertions(+), 123 deletions(-)
->  create mode 100644 drivers/tee/optee/rstmem.c
->  create mode 100644 drivers/tee/tee_heap.c
->
->
-> base-commit: 7eb172143d5508b4da468ed59ee857c6e5e01da6
-> --
-> 2.43.0
->
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
+index 7cc84472cece..b2c2241a8803 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fence.c
++++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+@@ -50,24 +50,22 @@ nouveau_fctx(struct nouveau_fence *fence)
+ 	return container_of(fence->base.lock, struct nouveau_fence_chan, lock);
+ }
+ 
+-static int
+-nouveau_fence_signal(struct nouveau_fence *fence)
++static void
++nouveau_fence_cleanup_cb(struct dma_fence *dfence, struct dma_fence_cb *cb)
+ {
+-	int drop = 0;
++	struct nouveau_fence_chan *fctx;
++	struct nouveau_fence *fence;
++
++	fence = container_of(dfence, struct nouveau_fence, base);
++	fctx = nouveau_fctx(fence);
+ 
+-	dma_fence_signal_locked(&fence->base);
+ 	list_del(&fence->head);
+ 	rcu_assign_pointer(fence->channel, NULL);
+ 
+-	if (test_bit(DMA_FENCE_FLAG_USER_BITS, &fence->base.flags)) {
+-		struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
+-
+-		if (!--fctx->notify_ref)
+-			drop = 1;
+-	}
++	if (test_bit(DMA_FENCE_FLAG_USER_BITS, &fence->base.flags))
++		--fctx->notify_ref;
+ 
+ 	dma_fence_put(&fence->base);
+-	return drop;
+ }
+ 
+ static struct nouveau_fence *
+@@ -93,7 +91,8 @@ nouveau_fence_context_kill(struct nouveau_fence_chan *fctx, int error)
+ 		if (error)
+ 			dma_fence_set_error(&fence->base, error);
+ 
+-		if (nouveau_fence_signal(fence))
++		dma_fence_signal_locked(&fence->base);
++		if (fctx->notify_ref == 0)
+ 			nvif_event_block(&fctx->event);
+ 	}
+ 	fctx->killed = 1;
+@@ -131,7 +130,6 @@ static int
+ nouveau_fence_update(struct nouveau_channel *chan, struct nouveau_fence_chan *fctx)
+ {
+ 	struct nouveau_fence *fence;
+-	int drop = 0;
+ 	u32 seq = fctx->read(chan);
+ 
+ 	while (!list_empty(&fctx->pending)) {
+@@ -140,10 +138,10 @@ nouveau_fence_update(struct nouveau_channel *chan, struct nouveau_fence_chan *fc
+ 		if ((int)(seq - fence->base.seqno) < 0)
+ 			break;
+ 
+-		drop |= nouveau_fence_signal(fence);
++		dma_fence_signal_locked(&fence->base);
+ 	}
+ 
+-	return drop;
++	return fctx->notify_ref == 0 ? 1 : 0;
+ }
+ 
+ static void
+@@ -235,6 +233,19 @@ nouveau_fence_emit(struct nouveau_fence *fence)
+ 			       &fctx->lock, fctx->context, ++fctx->sequence);
+ 	kref_get(&fctx->fence_ref);
+ 
++	fence->cb.func = nouveau_fence_cleanup_cb;
++	/* Adding a callback runs into __dma_fence_enable_signaling(), which will
++	 * ultimately run into nouveau_fence_no_signaling(), where a WARN_ON
++	 * would fire because the refcount can be dropped there.
++	 *
++	 * Increment the refcount here temporarily to work around that.
++	 */
++	dma_fence_get(&fence->base);
++	ret = dma_fence_add_callback(&fence->base, &fence->cb, nouveau_fence_cleanup_cb);
++	dma_fence_put(&fence->base);
++	if (ret)
++		return ret;
++
+ 	ret = fctx->emit(fence);
+ 	if (!ret) {
+ 		dma_fence_get(&fence->base);
+diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.h b/drivers/gpu/drm/nouveau/nouveau_fence.h
+index 8bc065acfe35..e6b2df7fdc42 100644
+--- a/drivers/gpu/drm/nouveau/nouveau_fence.h
++++ b/drivers/gpu/drm/nouveau/nouveau_fence.h
+@@ -10,6 +10,7 @@ struct nouveau_bo;
+ 
+ struct nouveau_fence {
+ 	struct dma_fence base;
++	struct dma_fence_cb cb;
+ 
+ 	struct list_head head;
+ 
+-- 
+2.48.1
+
 
