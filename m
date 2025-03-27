@@ -1,255 +1,255 @@
-Return-Path: <linux-media+bounces-28900-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28901-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 639E4A74047
-	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 22:28:37 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FC1EA74058
+	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 22:36:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 306FF3B6C85
-	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 21:27:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 98B5C7A6B5D
+	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 21:35:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 183D21DE3AB;
-	Thu, 27 Mar 2025 21:27:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C66861DDC21;
+	Thu, 27 Mar 2025 21:36:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mvbobJ0O"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l/zdHmMA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEABF1DC9AB;
-	Thu, 27 Mar 2025 21:27:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E93D8462;
+	Thu, 27 Mar 2025 21:36:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743110870; cv=none; b=X+GLgAiR6IngU/41E68SaVCbk+UgZv7LWGBv48LGfPaRCXY6mLByy9KmVc/+mtdKMep9YrMwMJvvbxZRhHyxkDL2a/QjPfD3uT1vrRzIDVXX5Wo3zXJPpoTZhC6uEWlREytRaWMUbX5daRl3d/HryWafUq1sMmiDO2l9hk4uon4=
+	t=1743111398; cv=none; b=IFTo/hX69i9CtXSBYT6Vf2swYZgBg8EPcPhidnlpjm/AtKYMx/xEPFCYWraKOKP76IDFbrvLYDyY3GMQhgtKqAsL7AAm0BM9d8eV84O2aVF+RoKHTUKKjzGjfPUKymUHqxST5zgmrnQl5eTZjfHTd8RZi/fr3Gr7rNCyzNIDQrg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743110870; c=relaxed/simple;
-	bh=7RXkqp81KBdIAicdr75oBK9qT7u/v0v2sn0hGhtTWpA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LoGvRWztg4HYo/tpka7/7r3Ro+MGm3R5ZmtmAVlFvHyb+9XypZa6ZYGx/WA3Kt/r39YLV3dalHG4NX8Ew3bHBkXLcufx3a8dnbAYZIxPzvk49TwjTe2GtnrAoBmx9hy21JlMBo2M3nur0DISrUVoPMNI8cbr+Qrs97vSYagG9OA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mvbobJ0O; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0958EF6;
-	Thu, 27 Mar 2025 22:25:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1743110758;
-	bh=7RXkqp81KBdIAicdr75oBK9qT7u/v0v2sn0hGhtTWpA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mvbobJ0OT5rI3eWPuEFyXAHhFbjjOKeiXEN+6/+Ijt5G9MDPisWIQ6s85xIFndWGB
-	 iwAEl1Awq7IRNZwCXOBOCdhNBKRTk0qg8zHPFjGGJEoCC/zmES2I26zOB8+ZpcoONA
-	 sJzcsp1BdN+5Tq/lf+52wgRPAENtAkAo8pFQ+LhQ=
-Date: Thu, 27 Mar 2025 23:27:23 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
-Subject: Re: [PATCH v5 3/5] media: uvcvideo: Increase/decrease the PM counter
- per IOCTL
-Message-ID: <20250327212723.GK4861@pendragon.ideasonboard.com>
-References: <20250303-uvc-granpower-ng-v5-0-a3dfbe29fe91@chromium.org>
- <20250303-uvc-granpower-ng-v5-3-a3dfbe29fe91@chromium.org>
- <20250327175225.GA11416@pendragon.ideasonboard.com>
- <20250327175706.GC11416@pendragon.ideasonboard.com>
- <CANiDSCvCDxqUCzeOOtneesGiBpXeyqHffT0pHrO4_FwBvkn0dA@mail.gmail.com>
+	s=arc-20240116; t=1743111398; c=relaxed/simple;
+	bh=vFfzh+qJ2E/Fg6LhILBUm2b8dYY0+APHMTusxqNHpsU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iW1xRRzoou1tISO1Haj8bIW6EHO+qsguxJmTk5/WEBVzUCJH5tJuV3Ijp1roV6zsOf1Sjhe0ISgghEPgnKB/N25E7r49DrGXyKlBF3J4jAnmR9SckKuD8UUuNOnLdY0glva5GPWbVC9i006mW14z4UHfx4M1e8cYdq/L9gg22NU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l/zdHmMA; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-226185948ffso33186585ad.0;
+        Thu, 27 Mar 2025 14:36:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743111396; x=1743716196; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vt+RjYIF5jBbl4jDavT5AkEfIOndEZDQELaBJfix0fM=;
+        b=l/zdHmMAz+pPs8/L62KyiOoUMGjIURJWRWZ9+BFU6drU1cHFtmnPh2NkQBDHVdJYbz
+         eAeTC41DzjgTHHaVWUtADSYO1YUbEYG19QXZ2Lf6AuPv9SKUV9TBgP0KuDzHFUdUQHw/
+         LKCWssH0rWPAbP8vvF1SXWAU6UrrlqzBS6YHzGxyyh72WxmvG6NAUOldsW7a0iIp1xvX
+         FS5m9cZW5vgLvXb1qWJ9wjo6cAcMyuYYb5ruyZa4PeNstcqMtvk5u82dhA767+U97pIX
+         BKozEKXLRkq1KOvBj1z5TmbObPH1J4oklfcui5/Q709SfbzgdalIYhjLF/RGbsveFL9s
+         NE6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743111396; x=1743716196;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Vt+RjYIF5jBbl4jDavT5AkEfIOndEZDQELaBJfix0fM=;
+        b=SeomoOvg7JDKBGOTiDRgPn3Lx5R0//yGJsF90lkolURaa4kE45G0pDOYitCE2ZJsn+
+         Weo85fHKrbOUaAIKl7ESc4BlOZN+lfRb6LgWaMl/9O4nbhMFWbTkXavQCoQdlLiNB+F6
+         +VQcYt8OAURyl1SY5KQ5yTIMIfWJOnsjBqANo4fgGRwxuIQVf50AOMNbWvAosbXCpr/b
+         zKxhvhCCqinWFMLwdNukcL1Cbh0sNnyDJSFxjZXxAqL/3ccB9cfPb5n+3+LscqSyV8zl
+         4MGhMzLBbIPk7mRFA/ZttNw3lvXsFFe/C4XsPbAjMefoh4NAicQ4n+C6mMy7uo+6gE2n
+         tmcA==
+X-Forwarded-Encrypted: i=1; AJvYcCWEL6ukJEVbPSYe0vLYcHyHigVhs2OfyaB69uookU9oC31Flib4gmSTapQMmnZL1JwW1x6jJva5CgSO9Bk=@vger.kernel.org, AJvYcCXWq2TEp1IV0ZRbjmPl3YtD9aJ3eKjKGyEdA2LLqibYOKzAp86HdpJfElMy9SOwZLtQILLpDoPS39S2PMM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQBscVAd1RLLIAOehAgo3FgNeak3lqpyTTzwWzHAXzDanNZj6H
+	pGjwdcULFnIfU8+gvkN0l8isryYxnY8/AISwKK/mdt2DxPWg687X
+X-Gm-Gg: ASbGncu93LKvqyVofEK6g0R5rs2Fb8MV4k4KFlGYGFUzTTztbBQLPhRrfMOGhoJEnRg
+	5t94foHsAOj1nF6TINYRmUIrDq+apBwhgN5uC7Jyz2s4I3kOZbxL7coFEfHm1QjtMXVGv1mawkF
+	a9DSdBBe4/ox9uMkXNYdXmfJ6istk02kToCmdRcyU0LJvDOliIcoQqEVI+ewGBks7ZcwsLE5oD0
+	WLXX6edGNrp+1/wh12Qm4818gybK3dPh1F3ZXaVTGyO1qIQKjncTBaUdD3cPbk6Vo95Hedrnzsu
+	i/ab9pNDkLlzakS27hVSE30bUmC7dLVWoFmJbcIfobJ78ObVWJlfxSmzo1cbfk9gcNgE0Q2i9th
+	yQDP6cHNRkqsLo61IyCU=
+X-Google-Smtp-Source: AGHT+IE/TvMoCvEldYyvJ56ojLgJ9oJM2lccu4CA0dZo8Nu6+T4LJbrERdbFlF3GeV84s+HWM5AJeQ==
+X-Received: by 2002:a17:902:e745:b0:227:e980:919d with SMTP id d9443c01a7336-22804968a98mr64293775ad.47.1743111395511;
+        Thu, 27 Mar 2025 14:36:35 -0700 (PDT)
+Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2291eee0d37sm4823235ad.91.2025.03.27.14.36.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Mar 2025 14:36:34 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+	Rob Clark <robdclark@chromium.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	linux-kernel@vger.kernel.org (open list),
+	linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b),
+	linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b)
+Subject: [PATCH v4] drm/syncobj: Extend EXPORT_SYNC_FILE for timeline syncobjs
+Date: Thu, 27 Mar 2025 14:36:31 -0700
+Message-ID: <20250327213632.7903-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCvCDxqUCzeOOtneesGiBpXeyqHffT0pHrO4_FwBvkn0dA@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Mar 27, 2025 at 10:05:19PM +0100, Ricardo Ribalda wrote:
-> On Thu, 27 Mar 2025 at 18:57, Laurent Pinchart wrote:
-> > On Thu, Mar 27, 2025 at 07:52:27PM +0200, Laurent Pinchart wrote:
-> > > On Mon, Mar 03, 2025 at 07:13:40PM +0000, Ricardo Ribalda wrote:
-> > > > Now we call uvc_pm_get/put from the device open/close. This low
-> > > > level of granularity might leave the camera powered on in situations
-> > > > where it is not needed.
-> > > >
-> > > > Increase the granularity by increasing and decreasing the Power
-> > >
-> > > You're decreasing the granularity, not increasing it.
-> > >
-> > > > Management counter per ioctl. There are two special cases where the
-> > > > power management outlives the ioctl: async controls and streamon. Handle
-> > > > those cases as well.
-> > > >
-> > > > In a future patch, we will remove the uvc_pm_get/put from open/close.
-> > > >
-> > > > Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > ---
-> > > >  drivers/media/usb/uvc/uvc_ctrl.c | 13 +++++++++++--
-> > > >  drivers/media/usb/uvc/uvc_v4l2.c | 23 +++++++++++++++++++++--
-> > > >  drivers/media/usb/uvc/uvcvideo.h |  1 +
-> > > >  3 files changed, 33 insertions(+), 4 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > index 4e58476d305e..47188c7f96c7 100644
-> > > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > @@ -1594,12 +1594,15 @@ static void uvc_ctrl_set_handle(struct uvc_fh *handle, struct uvc_control *ctrl,
-> > > >
-> > > >             if (ctrl->handle) {
-> > > >                     WARN_ON(!ctrl->handle->pending_async_ctrls);
-> > > > -                   if (ctrl->handle->pending_async_ctrls)
-> > > > +                   if (ctrl->handle->pending_async_ctrls) {
-> > > >                             ctrl->handle->pending_async_ctrls--;
-> > > > +                           uvc_pm_put(handle->chain->dev);
-> > >
-> > > Shouldn't this be
-> > >
-> > >                               uvc_pm_put(ctrl->handle->chain->dev);
-> > >
-> > > ? In practice it won't make a difference as dev will be the same for
-> > > both, but it seems clearer.
-> > >
-> > > > +                   }
-> > > >             }
-> > > >
-> > > >             ctrl->handle = new_handle;
-> > > >             handle->pending_async_ctrls++;
-> > > > +           uvc_pm_get(handle->chain->dev);
-> > >
-> > > Similarly, we should use ctrl->handle here too (including for the
-> > > pending_async_ctrls++).
-> > >
-> > > >             return;
-> > > >     }
-> > > >
-> > > > @@ -1611,6 +1614,7 @@ static void uvc_ctrl_set_handle(struct uvc_fh *handle, struct uvc_control *ctrl,
-> > > >     if (WARN_ON(!handle->pending_async_ctrls))
-> > > >             return;
-> > > >     handle->pending_async_ctrls--;
-> > > > +   uvc_pm_put(handle->chain->dev);
-> > > >  }
-> > > >
-> > > >  void uvc_ctrl_status_event(struct uvc_video_chain *chain,
-> > > > @@ -2815,6 +2819,7 @@ int uvc_ctrl_init_device(struct uvc_device *dev)
-> > > >  void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
-> > > >  {
-> > > >     struct uvc_entity *entity;
-> > > > +   int i;
-> > > >
-> > > >     guard(mutex)(&handle->chain->ctrl_mutex);
-> > > >
-> > > > @@ -2829,7 +2834,11 @@ void uvc_ctrl_cleanup_fh(struct uvc_fh *handle)
-> > > >             }
-> > > >     }
-> > > >
-> > > > -   WARN_ON(handle->pending_async_ctrls);
-> > > > +   if (!WARN_ON(handle->pending_async_ctrls))
-> > > > +           return;
-> > > > +
-> > > > +   for (i = 0; i < handle->pending_async_ctrls; i++)
-> > > > +           uvc_pm_put(handle->stream->dev);
-> > > >  }
-> > > >
-> > > >  /*
-> > > > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> > > > index de1e105f7263..1c9ac72be58a 100644
-> > > > --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> > > > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> > > > @@ -691,6 +691,9 @@ static int uvc_v4l2_release(struct file *file)
-> > > >     if (uvc_has_privileges(handle))
-> > > >             uvc_queue_release(&stream->queue);
-> > > >
-> > > > +   if (handle->is_streaming)
-> > > > +           uvc_pm_put(stream->dev);
-> > > > +
-> > > >     /* Release the file handle. */
-> > > >     uvc_dismiss_privileges(handle);
-> > > >     v4l2_fh_del(&handle->vfh);
-> > > > @@ -857,6 +860,7 @@ static int uvc_ioctl_streamon(struct file *file, void *fh,
-> > > >             return ret;
-> > > >
-> > > >     handle->is_streaming = true;
-> > > > +   uvc_pm_get(stream->dev);
-> >
-> > Another comment: shouldn't you handle the return value (here and
-> > elsewhere, including where you use guards) ?
-> 
-> Good point... I guess I got excited trying to use the guards :)
+From: Rob Clark <robdclark@chromium.org>
 
-I like them too :-)
+Add support for exporting a dma_fence fd for a specific point on a
+timeline.  This is needed for vtest/vpipe[1][2] to implement timeline
+syncobj support, as it needs a way to turn a point on a timeline back
+into a dma_fence fd.  It also closes an odd omission from the syncobj
+UAPI.
 
-> > > >
-> > > >     return 0;
-> > > >  }
-> > > > @@ -873,7 +877,10 @@ static int uvc_ioctl_streamoff(struct file *file, void *fh,
-> > > >     guard(mutex)(&stream->mutex);
-> > > >
-> > > >     uvc_queue_streamoff(&stream->queue, type);
-> > > > -   handle->is_streaming = false;
-> > > > +   if (handle->is_streaming) {
-> > > > +           handle->is_streaming = false;
-> > > > +           uvc_pm_put(stream->dev);
-> > > > +   }
-> > > >
-> > > >     return 0;
-> > > >  }
-> > > > @@ -1410,6 +1417,8 @@ static long uvc_v4l2_compat_ioctl32(struct file *file,
-> > > >     void __user *up = compat_ptr(arg);
-> > > >     long ret;
-> > > >
-> > > > +   guard(uvc_pm)(handle->stream->dev);
-> > > > +
-> > > >     switch (cmd) {
-> > > >     case UVCIOC_CTRL_MAP32:
-> > > >             ret = uvc_v4l2_get_xu_mapping(&karg.xmap, up);
-> > > > @@ -1444,6 +1453,16 @@ static long uvc_v4l2_compat_ioctl32(struct file *file,
-> > > >  }
-> > > >  #endif
-> > > >
-> > > > +static long uvc_v4l2_video_ioctl2(struct file *file,
-> > > > +                             unsigned int cmd, unsigned long arg)
-> > > > +{
-> > > > +   struct uvc_fh *handle = file->private_data;
-> > > > +
-> > > > +   guard(uvc_pm)(handle->stream->dev);
-> > > > +
-> > > > +   return video_ioctl2(file, cmd, arg);
-> > > > +}
-> > > > +
-> > > >  static ssize_t uvc_v4l2_read(struct file *file, char __user *data,
-> > > >                 size_t count, loff_t *ppos)
-> > > >  {
-> > > > @@ -1529,7 +1548,7 @@ const struct v4l2_file_operations uvc_fops = {
-> > > >     .owner          = THIS_MODULE,
-> > > >     .open           = uvc_v4l2_open,
-> > > >     .release        = uvc_v4l2_release,
-> > > > -   .unlocked_ioctl = video_ioctl2,
-> > > > +   .unlocked_ioctl = uvc_v4l2_video_ioctl2,
-> > >
-> > > I'd have named this uvc_v4l2_unlocked_ioctl.
-> > >
-> > > >  #ifdef CONFIG_COMPAT
-> > > >     .compat_ioctl32 = uvc_v4l2_compat_ioctl32,
-> > > >  #endif
-> > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > > > index fbe3649c7cd6..eb8e374fa4c5 100644
-> > > > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > > > @@ -766,6 +766,7 @@ void uvc_status_put(struct uvc_device *dev);
-> > > >  /* PM */
-> > > >  int uvc_pm_get(struct uvc_device *dev);
-> > > >  void uvc_pm_put(struct uvc_device *dev);
-> > > > +DEFINE_GUARD(uvc_pm, struct uvc_device *, uvc_pm_get(_T), uvc_pm_put(_T))
-> > > >
-> > > >  /* Controls */
-> > > >  extern const struct v4l2_subscribed_event_ops uvc_ctrl_sub_ev_ops;
+[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33433
+[2] https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/805
 
+v2: Add DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE
+v3: Add unstaged uabi header hunk
+v4: Also handle IMPORT_SYNC_FILE case
+
+Signed-off-by: Rob Clark <robdclark@chromium.org>
+---
+ drivers/gpu/drm/drm_syncobj.c | 41 ++++++++++++++++++++++++++---------
+ include/uapi/drm/drm.h        |  4 ++++
+ 2 files changed, 35 insertions(+), 10 deletions(-)
+
+diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+index 4f2ab8a7b50f..58d8a9035f7d 100644
+--- a/drivers/gpu/drm/drm_syncobj.c
++++ b/drivers/gpu/drm/drm_syncobj.c
+@@ -741,7 +741,7 @@ static int drm_syncobj_fd_to_handle(struct drm_file *file_private,
+ }
+ 
+ static int drm_syncobj_import_sync_file_fence(struct drm_file *file_private,
+-					      int fd, int handle)
++					      int fd, int handle, u64 point)
+ {
+ 	struct dma_fence *fence = sync_file_get_fence(fd);
+ 	struct drm_syncobj *syncobj;
+@@ -755,14 +755,18 @@ static int drm_syncobj_import_sync_file_fence(struct drm_file *file_private,
+ 		return -ENOENT;
+ 	}
+ 
+-	drm_syncobj_replace_fence(syncobj, fence);
++	if (point) {
++		drm_syncobj_add_point(syncobj, dma_fence_chain_alloc(), fence, point);
++	} else {
++		drm_syncobj_replace_fence(syncobj, fence);
++	}
+ 	dma_fence_put(fence);
+ 	drm_syncobj_put(syncobj);
+ 	return 0;
+ }
+ 
+ static int drm_syncobj_export_sync_file(struct drm_file *file_private,
+-					int handle, int *p_fd)
++					int handle, u64 point, int *p_fd)
+ {
+ 	int ret;
+ 	struct dma_fence *fence;
+@@ -772,7 +776,7 @@ static int drm_syncobj_export_sync_file(struct drm_file *file_private,
+ 	if (fd < 0)
+ 		return fd;
+ 
+-	ret = drm_syncobj_find_fence(file_private, handle, 0, 0, &fence);
++	ret = drm_syncobj_find_fence(file_private, handle, point, 0, &fence);
+ 	if (ret)
+ 		goto err_put_fd;
+ 
+@@ -869,6 +873,9 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
+ 				   struct drm_file *file_private)
+ {
+ 	struct drm_syncobj_handle *args = data;
++	unsigned valid_flags = DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE |
++			       DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE;
++	u64 point = 0;
+ 
+ 	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
+ 		return -EOPNOTSUPP;
+@@ -876,13 +883,18 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
+ 	if (args->pad)
+ 		return -EINVAL;
+ 
+-	if (args->flags != 0 &&
+-	    args->flags != DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
++	if (args->flags != 0 && (args->flags & ~valid_flags))
+ 		return -EINVAL;
+ 
++	if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE)
++		point = args->point;
++
+ 	if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
+ 		return drm_syncobj_export_sync_file(file_private, args->handle,
+-						    &args->fd);
++						    point, &args->fd);
++
++	if (args->point)
++		return -EINVAL;
+ 
+ 	return drm_syncobj_handle_to_fd(file_private, args->handle,
+ 					&args->fd);
+@@ -893,6 +905,9 @@ drm_syncobj_fd_to_handle_ioctl(struct drm_device *dev, void *data,
+ 				   struct drm_file *file_private)
+ {
+ 	struct drm_syncobj_handle *args = data;
++	unsigned valid_flags = DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE |
++			       DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE;
++	u64 point = 0;
+ 
+ 	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
+ 		return -EOPNOTSUPP;
+@@ -900,14 +915,20 @@ drm_syncobj_fd_to_handle_ioctl(struct drm_device *dev, void *data,
+ 	if (args->pad)
+ 		return -EINVAL;
+ 
+-	if (args->flags != 0 &&
+-	    args->flags != DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE)
++	if (args->flags != 0 && (args->flags & ~valid_flags))
+ 		return -EINVAL;
+ 
++	if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE)
++		point = args->point;
++
+ 	if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE)
+ 		return drm_syncobj_import_sync_file_fence(file_private,
+ 							  args->fd,
+-							  args->handle);
++							  args->handle,
++							  point);
++
++	if (args->point)
++		return -EINVAL;
+ 
+ 	return drm_syncobj_fd_to_handle(file_private, args->fd,
+ 					&args->handle);
+diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+index 7fba37b94401..e63a71d3c607 100644
+--- a/include/uapi/drm/drm.h
++++ b/include/uapi/drm/drm.h
+@@ -905,13 +905,17 @@ struct drm_syncobj_destroy {
+ };
+ 
+ #define DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE (1 << 0)
++#define DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE         (1 << 1)
+ #define DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE (1 << 0)
++#define DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE         (1 << 1)
+ struct drm_syncobj_handle {
+ 	__u32 handle;
+ 	__u32 flags;
+ 
+ 	__s32 fd;
+ 	__u32 pad;
++
++	__u64 point;
+ };
+ 
+ struct drm_syncobj_transfer {
 -- 
-Regards,
+2.49.0
 
-Laurent Pinchart
 
