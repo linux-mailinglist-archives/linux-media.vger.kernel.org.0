@@ -1,288 +1,782 @@
-Return-Path: <linux-media+bounces-28821-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28822-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61AD8A72B14
-	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 09:08:01 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD1D4A72B18
+	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 09:08:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6B95C173DA6
-	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 08:07:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9B2573B8178
+	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 08:07:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8E8C1FFC6E;
-	Thu, 27 Mar 2025 08:07:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3207200126;
+	Thu, 27 Mar 2025 08:07:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="J6Lb9Ysu"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="u2iqYdbw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2071.outbound.protection.outlook.com [40.107.21.71])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f51.google.com (mail-oa1-f51.google.com [209.85.160.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 005EE1C861A;
-	Thu, 27 Mar 2025 08:07:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.21.71
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743062865; cv=fail; b=lulN4zw9derNe7dQ+HrhXLci+rfScIf7C7M2lMUIqzbN/ct+u3Y5mft1NwqFSebxwn9VcB/cRz3w42GDwjuhgFtu6VZyydBkowT1Mo26FzOloUGLObL75m7vUEnbrM5mx9gK6Jj5ubpfpwYeYu8frIslUTHqwmKJvJYZbAJFrtE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743062865; c=relaxed/simple;
-	bh=jAE7uC/pnWwyf805Gri5A8nz4ivfmn7LvcPUmGz65AA=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=mBDY9eAFvFVUfE7he3Q6Ml1fpw+ogHUv8U4fOaqBVHW05ziGrX6vgbmRKIyeWYbgBj/Dtu2EyItrfZXZk0hrQc0wlEHpCLo2nqFkI0CFNotCVU5uQFXvshzA1l+7PdJlNBfh3i+/HndAOf7lok+z/KTbrgLZ08phvqEcsiNqniM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=J6Lb9Ysu; arc=fail smtp.client-ip=40.107.21.71
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=itcUyTZ5cqwD0otW7BZpxYyjk3pqAo2JpNQTqE7mIJEx6i5YbomvbOKiw6DQxiFGgZ5ONK5tLJC6ff3MMnN90F+N79k57OtN+uvq4b+UfvqvsPTAOhmZQ+uf5Ar1D1GBz4pETgIzCmx8HCaHnoVfGdcLAO9mSNtX2kKFjnn47fWdZKWroY1hNcInxch6Ws8zPNeUW8819ObeC4ZQgH4GdC/HgXJH22nDlOOd92/VP/XJN/y37vVTKzfWWkdVKDVcV3L17gXh8f84GBMVda+q4dTZob43tOT5xyN3FvVPD0dwMdhZ3/Opk6O64m4+kd4t8IQ/xmD1rYv2YLhRdya7HA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=t/Uj5+juRoX4L038jRwRPtD4nxwpUotptwitT5LJ8x8=;
- b=d7z7n4c+tlF9JQkr/FpI+VZ6OvdXwJKH3OZzoQVnfG4qFZL1RHhKAErLY8YBOYmd+VTSa2+P0dVNx1dby2t3sUKixifHUPriIYIJfKRPiA906TicuuAh5CG0NR7NOrXq//pZy2dEBW8Jb2jlSyC6x3bLNaCX1QYkLiYqeFvPqkI7xhr3C0qbYrWeCwR9Q4uimngED73YlI4xzKNgH4uDrkD/LgPkVuOsMPKGhIshPx79qN162lfLCf8x23Ryvt1tPMY991/BvpKSRcbHDhuglZ0PbANs2myC7AagcY6XEKrlOhk0Me9Yxpgh9z5jb/c74speGbsVXdM0kEghdGtF0Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=t/Uj5+juRoX4L038jRwRPtD4nxwpUotptwitT5LJ8x8=;
- b=J6Lb9Ysujy5DsriDU3K5jbLSg4GaBzTx6vM1323uIoOmkZ/BiJxDzKWvxo2xWBcAWwMI4cbZ5cxA8JWv/dpMUe7aQkXRrwWmwD0YqgKJyw1/XtgM9nHmG2JrgW25ktCJ6dcnynCzR1v8SfWsGXinlaiJz5899EjPeYe1Wb3dyjI7EHkCVwO5x2rLUA8AKrv9hAkh7WFc1E9ALjGy9S2OuyH6rvczjgYnZfc+YyewYFxnnh7RPPIts8Fw5HjNXzBxIIRk0wpV70ozSWj+h7CdXyeQCx97gumkWpMqk7+MZgnQAVU31RF/kciqKs/pCofTvYjIX+JE266bn3NHwuJlJw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com (2603:10a6:102:1cd::24)
- by PAXPR04MB8654.eurprd04.prod.outlook.com (2603:10a6:102:21d::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Thu, 27 Mar
- 2025 08:07:37 +0000
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87]) by PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87%4]) with mapi id 15.20.8534.043; Thu, 27 Mar 2025
- 08:07:37 +0000
-Message-ID: <b02c4af0-d42e-43fd-acdc-b0674eed0a92@oss.nxp.com>
-Date: Thu, 27 Mar 2025 16:07:25 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] media: amphion: Add a frame flush mode for decoder
-To: Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl, nicolas@ndufresne.ca,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, linux-imx@nxp.com, xiahong.bao@nxp.com,
- eagle.zhou@nxp.com, imx@lists.linux.dev, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20250305062630.2329032-1-ming.qian@oss.nxp.com>
- <20250305062630.2329032-2-ming.qian@oss.nxp.com>
- <20250327074835.r47kaabtwu5jqvxf@basti-XPS-13-9310>
-From: "Ming Qian(OSS)" <ming.qian@oss.nxp.com>
-In-Reply-To: <20250327074835.r47kaabtwu5jqvxf@basti-XPS-13-9310>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SI1PR02CA0060.apcprd02.prod.outlook.com
- (2603:1096:4:1f5::17) To PAXPR04MB8254.eurprd04.prod.outlook.com
- (2603:10a6:102:1cd::24)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF0601FF7DB
+	for <linux-media@vger.kernel.org>; Thu, 27 Mar 2025 08:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743062870; cv=none; b=XRBLNB1oQKDr6WoNiHLkwElU7965myLCGy06/SyWvbLGpiD5a2Ndu9nMLx/q2Gbl6pD6igLz0mGCr2OIUE3WUKlikHugEJ3u0bzGO5pIi4o6vXIo+NdxlC5ryxOtb1SFIBHIl6z3uuOA6wicq/ZY6m8hfu9P1+UZW97iPI8i2WI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743062870; c=relaxed/simple;
+	bh=Ku5L5a7CxnKu2uHm16MJPm5TOjwcdGIsYjch+SV+/CQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ii5mThTC4Q2B0yEceX9fl1PokZ6KNKxwM+KT7ob+irpWBY4XCPZoDuAQLCPIiVCH98puN8t2H80zgJ4snr74Tr27t5umd2uP6PZhNYlU+jDG/38gfJAg8x4DviQppuUzXeyccM8w12mdGAd4gEXoID2YqQ9dhoZdZEnqoRV35YY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=u2iqYdbw; arc=none smtp.client-ip=209.85.160.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-2c1caacc1f7so352436fac.3
+        for <linux-media@vger.kernel.org>; Thu, 27 Mar 2025 01:07:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1743062867; x=1743667667; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yW/rPqMaQYO++Jra95+GXZ4ryGXVI5xEVfUlInzZyQk=;
+        b=u2iqYdbwFnQQ6sJeKmwUnGnl5PA3mh+EaFGxqSWiiiJvJrwtnI760QkCdxy8glTcl4
+         SRfJczRuEA/I8kkGnWXJE8qY2xYzIWHL569SrDtG5znZUtlLJSOb9LZMsgxt/hDFnbF3
+         +FqAivq0B+tODSpOlQzem9eEzT1OS+1LkZM/GwDxzTd1q4IXdz/vfq4W5c8JTktGGrbj
+         iYdIf+soxTyPAXKt9VPWnBrRsq6vQAhasSd0D5I61jqi96Q41v3dhZolsluWQ4lnK78p
+         C4MOhq+mYTELvtlrIbJhbRMVeL3m5hNqTFlTsES8vH2N2/8iG/zQ1YHG/oxQpFIyp6L4
+         9Mcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743062867; x=1743667667;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yW/rPqMaQYO++Jra95+GXZ4ryGXVI5xEVfUlInzZyQk=;
+        b=WS81AhmuTSHOoTzI8Oqj3Jykg7I3ZsB0HTc8MUoKQJT8FeIiqYINJCU8omsElaLQhZ
+         PDctf/1zQA/ocnICYVuAcGjLsrCrk+VxLy43t/u3d/ZlTkr8hYojjhZEY1ut/uUHNm4P
+         u3BGaKhIfNjMSlUA6/VXkPC0lLVp3e2gz1h1FW384xKEa22ywv+LvyYEcgCDgxvRzD57
+         H6Uxuo7GHtSeLQQTwZefa36lhyMnLKlndSjZpTxXbA5HAZlg3iqW/jfCEC1JVX1ofUHK
+         5MxiiKW+darmz9+DLP2dxaaSky+XKNOGZz6d2jaOISHERi+kGeJfIvlfYoL+7E6XnRE9
+         6rfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWt6WKyOOmDmqph72LzODuzknRPEX5SfDEQNUWZHap3UOodNNPicewDPdjeXuTL49ZIXbVV/LRG1xD4RA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzawviTArsLG81JSpXPNgijIQo88AU8yP4NBearihzSxQtPYPzt
+	hTQr2NwVMnhSvTgyzSlQPvYYxmwPO/mGr6cxqfJB6EryedSMICY8fohrOyW5UoOJDsPKCHblywy
+	cXESSvCMEUJNVyijdy0h+yRpfz3M5bXywKDDiOQ==
+X-Gm-Gg: ASbGncsYJreQtCmYSBaZj0l/DldvuCdxZw51z0EJPejszTz1EgvKeeumSvROkL/qawG
+	vQgVa7JZM3ahUfQsL7J//c37KY3M2NQfhLQ2BOgXfX+yUN3KvIG3c/SBVPNbegSv3b0pDty1PVw
+	ozUqx8nm8Vs4metaclU+8JByOTd00=
+X-Google-Smtp-Source: AGHT+IFpKxFdXa+dS7JJc6lYypDPPv/a/m6scvVyvApT1Xkg3JGdzmY/q1ztXjPj4LI2rQZ5U/ap6G4ataIX4XSi6Wg=
+X-Received: by 2002:a05:6870:1686:b0:296:5928:7a42 with SMTP id
+ 586e51a60fabf-2c848018a60mr1410260fac.22.1743062866656; Thu, 27 Mar 2025
+ 01:07:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8254:EE_|PAXPR04MB8654:EE_
-X-MS-Office365-Filtering-Correlation-Id: 09174c91-2698-4b1f-9a48-08dd6d066fc4
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WEwvbjBBdkdNaGJXOVhkZWJ5UTByRWRFRmtmcU45UWVraXZXa2EyOEp4eFdn?=
- =?utf-8?B?YUphSFAxTlRBbG5iYmN2V2kxM3Vxdy9mMDlRK08wVWNHZ2dtZ2Q2aWhLKzFk?=
- =?utf-8?B?NW0xWThiNlFQVVlDWFBjLzlidjZEdHdhZk9oRmg3QjVPSTdZV2JRTnRwcVJW?=
- =?utf-8?B?Z0VadFVmM2NUUnlkdmQ1c0JzSGdmMSt3aVdoU1FLTmh3R2NScWlobG4rdzVj?=
- =?utf-8?B?L2JJT3ZhSS9hdVlic3pEQmszMXgwTDlEeXh1ajVHTzk1OW5aZGZkNFZSMzR4?=
- =?utf-8?B?SEpoNW9YZmJUaG9VTEp2NDhZN1AvR1FZVTZubjZlYi96SXF0WnVvOXFDckMx?=
- =?utf-8?B?SjlPd2hIVVdNNHYydExOeW54NkE1K09wa2hjT3BMY2VSQXQrZGVJYmlZS1Jz?=
- =?utf-8?B?VTFCenlQdWp5OEdtaXNTT0hSWmcrVWdFR0t2bmQ3Z09Yd1hpZXE5V0syTUhh?=
- =?utf-8?B?TkdXUHU1VVVDNy9kcHlDRDd4Q1U4Rk0yd3BKOW1jWmYrV3VVY0p3cmRzOFZr?=
- =?utf-8?B?WXg1bGRXbC9YS1dER1plbzBrbXB1ZnRrNzRGNXJsWElZTnhLRHo3YVM0TXBC?=
- =?utf-8?B?cmlrMExJaytIblBHc0RuRExQd2gzTDN3T2x4SWhpaUpiV2VtWExrU2lmTzY4?=
- =?utf-8?B?d3JDVDJmMjU1M25XUnNTU3UzRlp5WEJ0QWtDeDFCTmU5QlBuQlVkakZGY1Q0?=
- =?utf-8?B?OVBTNjRvcDl0VGhmcnJDUFY2b0NVNkluWmFES1U2RVF6YjFZbUtaMFY2MGpy?=
- =?utf-8?B?dytRZzFHS201TDdjY2V4Q0taamRKWkJDNEhTM3RWSTlZTk9MSWpOaDR1R1Az?=
- =?utf-8?B?ZjJqdEZNM0YraEVBYXlpR0twZktud2ZlYkdrMlZoMXVFS2gzVldRUHhldDJl?=
- =?utf-8?B?ektNc2I5ODNQZzJVU292RjhPclJOUndIVlY4dnpxZGZEZUovS3Y5Nm11Q2p4?=
- =?utf-8?B?UmJ6dEpRNDhwcWVjY2lwK2lMNy9rM1hNSTUrM3lMM2l6MGVCMzR1eDd3bG1C?=
- =?utf-8?B?TmJNQ29uY1BIU3JHSlFTTWE1b0RFcXRZTFpWSENFUWdSbFpBOHhqMk1DUU9M?=
- =?utf-8?B?R2VWUHhaNDRtUEJpaERNVXVaVFhMajQ0TDFTQWpjbUhvWHFpZDZRN2FnWUhM?=
- =?utf-8?B?d3FrMEpPSWhIZmRycHh0OE1teGhUZlo0NXg4WlVqMUh5WDFYTXFjNEw5ckx4?=
- =?utf-8?B?eUExV0N3NG5Vc3hMb2hrUktGOHh5c29LZnF6TVhZanhpUDFTNlJDblpsRHF0?=
- =?utf-8?B?VStLOEFRbTEvYkxSRERKdUNCRzc4eWtSdGdLbWFHdlhpdWR3cGdSUktINmxI?=
- =?utf-8?B?M2pOY0YrN1JwRTZxYVVvdlQ5b3d2aDk4WU9nUHkwTHA2NHo4LzVvK1VWSEkx?=
- =?utf-8?B?TG15dDZmTVRiNm9lU3U5REZWOHRWZ0syVjNQQkF4V0pobkcrZkNqZ05yY2dM?=
- =?utf-8?B?MnlFSk1XbUUwQkc1MWtvRjVOaXVrckE5TW9Gd2ZaVml4TmVsUnlOMi9MamFQ?=
- =?utf-8?B?ZDN5ajNySWhTYmV1UWgvSUUzN0t4YjU1ZVp0Q0MrejA0Q3hRWWxHcjNvREU1?=
- =?utf-8?B?bWE2R3JOMi9zd1RFZGhWdVdiSXkvczZyQ1N5UnM5YUdZVWsrSTFpNVBlbTcv?=
- =?utf-8?B?aFVXcG9QRzNLRkRUdll1OU9TL1NGeEY1MXdFQXNyVk16Q2xRZFBjRkdXaWN0?=
- =?utf-8?B?QnB5TUNXdWpZRDlQUk1QS0V3VDBvU250dGI5SUhlUXFlaGVpYXlYNmN6SERu?=
- =?utf-8?B?WmVEQm5OZjIxOTE4NGhOV1U4c2RHMm8xQzNib2JwVkNrZk9nWnM4QU1yRTgv?=
- =?utf-8?B?bDB0WDV3R1FvRXhnVVBTSXpOa3gwWEh6cDludGU2d3pCTUtKSU9RSitsR1lJ?=
- =?utf-8?Q?pyeAi98kGwL+N?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8254.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?d3EyOERjMlorQTR0K2xCVGZtRXVBcVhIalNSWEJKNWV5MXd4aVRobnJ0dmRi?=
- =?utf-8?B?S0VMeXUyZTlBTlBrRVN1QmcvL0lJYXNBSUk0dUN4cko1d3RHSmd6dFcwZlBB?=
- =?utf-8?B?VmMwRFZMNmpVMCtnQUVkY002WWpsVWROODM0NktYVWJaY3YrRzJaMXhWb3gw?=
- =?utf-8?B?S280dnNtQldUTWZPRGJTbGlwaWlOMGcvd1pUKzRMSjIzSE5Mem5lMG5uQTFY?=
- =?utf-8?B?VUxSODNacU9mVWIvTjRrQjdlWVJFTFg2c04zWXE0YXVQUURGa0k0THR0UDE3?=
- =?utf-8?B?Z1lHY0x0V3NIa281YXdtdENtVFgxMXR2YjFUR3N0eGVkaGxJaTdjeGNWZDk5?=
- =?utf-8?B?UVAySDdHOVpxcllnQk9oaFU3TlRwREtRczJXY0RGU04rNjBwZE16RWhlU3Rx?=
- =?utf-8?B?eEFBNFdnRlZQSTU0Mk1McVNuSTVyekk5dUJVclZPa2xtWG1lV1dJZVlXL0h6?=
- =?utf-8?B?WFBhTVhPeGVuQjI0cDlTdEFSeExLT3E1T09nc1lscmFIV3Bmb2J4KzRhdWRL?=
- =?utf-8?B?cDBsTlJ4N2t0WXQrZS9wY3JPdFl1bHo2b2Rta3dGb2ZpVWdVdkNGUnFyeklV?=
- =?utf-8?B?ODJ1bFlEMzdUN1M2Z1F4YUR5bk5nUUNvU2Q0a2kvWlFxdmpzZWFtT1l0ekpw?=
- =?utf-8?B?cWprRnl0MUozWnhXL2FHTTk5eFV6NjNpQjJ5Tml2QzF0dzdDMEQ3M2RKRWVR?=
- =?utf-8?B?TVl4Zm9rUEhFcG56YllOeGpxKzZXRSsrS0Iyd1ZQU2o3RFl1UkZwcThPSVpl?=
- =?utf-8?B?OWRUUjYzcEhLMkg4OVNFZHJwWlAxemY1VWRoMCtPNmw5OHREQW9nNmlNVm1D?=
- =?utf-8?B?NlZzSDRiYnlsSEc2MENyOHZyK09mbVdXaE9WUWpyZmYwZzE2dUdxSlAyNUVC?=
- =?utf-8?B?c0Z1R3plck83MUc1N3JaL0F4TkpZbXd5UHE5NU9TMUVuUHpPeEZwNThsczBY?=
- =?utf-8?B?b05Xc1dZcEdYTUxPNHQyVjFNN1A0d2dteWFrTW00OHcxNU5ibjI0aTdwOVgv?=
- =?utf-8?B?WityZkluMCtxdEU0T0Faa1lJcUl4c3d0eERHdmVER1dCcmdINWlRbGpQN3RM?=
- =?utf-8?B?a2c4dzZnZDNyT0oyYk9BQjVGUGpLbjVZUlFnbnRJenRha2NHQUQ5a2liVnhj?=
- =?utf-8?B?b1pqMjc3L3lTbTF1aEgybmdEeW1ic3B5L3NIVmtpRXVFMnlMS3drOERrblV6?=
- =?utf-8?B?MGVNRmFuUkRQdklLTFhtcHBWUklRZmVRR0tJaFQ1TVZneGVnbUZrN3pWNGdC?=
- =?utf-8?B?TEhMdW1TOHUzZHd4YUxBRGZXNHB2a1crbzRSbjNHb0xZdjZaYjJOZDJwQTRa?=
- =?utf-8?B?SVVqY21EdHBuU1U2b3JtRmRTejdiTXYwbTZmTGtvZnZNdWNvU1hRN2ZRdHYr?=
- =?utf-8?B?Zlc0bHpaY2R4VHY0OW95S2JZd1NQRjFJUVVkR1FTSjRHeGpZeWo5Z0JSZU1t?=
- =?utf-8?B?Z1RZT0o3Z0h2K2JUdUF1bEV1bTFFTGxRRXJleGx5Nk8ySGVMTk9xTVhCcWpG?=
- =?utf-8?B?cUQ5Vi95VGRFVk9mVGZLMTF6TG5UdFhYek0xN2x1QTFXSDZTZ1FYZDMxQTlL?=
- =?utf-8?B?eG00Z0RmOUduUFFONGNJWEFhNExUbTJpdHJVZHB6UlFoZ3ltSlpwSFJXYVRK?=
- =?utf-8?B?QXVWUXMzNkduejBQZ0syWkgzeTVPeTBWU1A0L2JIM3QvbHQ5NW1vNTREVmtw?=
- =?utf-8?B?Q1B6czFTQ29DUVFmS2NRcWZZbkc2alI4cVpuWUhINjJqcjdqaUlVR2lXSExP?=
- =?utf-8?B?QkViem5nSVhIM1BDd3pJSS9zSmd3b3YwaC94QnYvL0pBSjhrdkdHdjZoU0tI?=
- =?utf-8?B?bExlL3dQZjRFc0o0c2laZE9zbTdhbC9HeGhHa1kyS3k5L1ZoQTdtb0h4Tkxy?=
- =?utf-8?B?eXVTWGF0RVg2M01td3J4ODVDRjVKT1VHcGovKzRlZ3N1K0pmRVVqb1E1MWtr?=
- =?utf-8?B?b2dYVzRVK0loWE5EVmNLb2Jnd253S1NsYjhKLzRXZDlxV3Z4TTIyODYzK2g2?=
- =?utf-8?B?TVI4ZUZnT0thblNXdU9PQWZ1RThhejN6YktVYnNGZ3dyZDBkVkQzTzZiQklI?=
- =?utf-8?B?WnlwMG8rVkdHWVR3YkpCY2RMN2pkWnNESXZSY1Q5MXFDUWNvVEllYmRidkJU?=
- =?utf-8?Q?QOzudYRxPJDYvgjXojOLOUrdA?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 09174c91-2698-4b1f-9a48-08dd6d066fc4
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8254.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Mar 2025 08:07:37.2805
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CcECuGDQDuFa/BxgJ7Pzx5rjACg1zGjQlKT1aP8rGKO8901Nw0B8Bq56iFu75AuyNb2bALSo3lNmW3JX7pq90A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8654
+References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
+ <20250305130634.1850178-10-jens.wiklander@linaro.org> <Z-JePo6yGlUgrZkw@sumit-X1>
+In-Reply-To: <Z-JePo6yGlUgrZkw@sumit-X1>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Thu, 27 Mar 2025 09:07:34 +0100
+X-Gm-Features: AQ5f1Jp54lVrnE022cU59o4vbCIVjjmsLFsi6lr1wKrHBavH3SciHiNwg4RqH28
+Message-ID: <CAHUa44H1MzBLBM+Oeawca52C8PF3uAT0ggbL-zRdnBqj4LYrZg@mail.gmail.com>
+Subject: Re: [PATCH v6 09/10] optee: FF-A: dynamic restricted memory allocation
+To: Sumit Garg <sumit.garg@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
+	Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Sebastian ,
+Hi Sumit,
 
-On 2025/3/27 15:48, Sebastian Fricke wrote:
-> Hey Ming,
-> 
-> On 05.03.2025 14:26, ming.qian@oss.nxp.com wrote:
->> From: Ming Qian <ming.qian@oss.nxp.com>
->>
->> By default the amphion decoder will pre-parse 3 frames before starting
->> to decode the first frame. Alternatively, a block of flush padding data
->> can be appended to the frame, which will ensure that the decoder can
->> start decoding immediately after parsing the flush padding data, thus
->> potentially reducing decoding latency.
->>
->> This mode was previously only enabled, when the display delay was set to
->> 0. Allow the user to manually toggle the use of that mode via a module
->> parameter called frame_flush_mode, which enables the mode without
->> changing the display order.
->>
->> Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
->> ---
->> v3
->> - Improve commit message as recommended
->> - Add some comments to avoid code looks cryptic
->>
->> drivers/media/platform/amphion/vpu_malone.c | 14 +++++++++++++-
->> 1 file changed, 13 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/media/platform/amphion/vpu_malone.c 
->> b/drivers/media/platform/amphion/vpu_malone.c
->> index 1d9e10d9bec1..4ef9810d8142 100644
->> --- a/drivers/media/platform/amphion/vpu_malone.c
->> +++ b/drivers/media/platform/amphion/vpu_malone.c
->> @@ -25,6 +25,10 @@
->> #include "vpu_imx8q.h"
->> #include "vpu_malone.h"
->>
->> +static bool frame_flush_mode;
->> +module_param(frame_flush_mode, bool, 0644);
->> +MODULE_PARM_DESC(frame_flush_mode, "Set low latency flush mode: 0 
->> (disable) or 1 (enable)");
->> +
->> #define CMD_SIZE            25600
->> #define MSG_SIZE            25600
->> #define CODEC_SIZE            0x1000
->> @@ -1579,7 +1583,15 @@ static int vpu_malone_input_frame_data(struct 
->> vpu_malone_str_buffer __iomem *str
->>
->>     vpu_malone_update_wptr(str_buf, wptr);
->>
->> -    if (disp_imm && !vpu_vb_is_codecconfig(vbuf)) {
->> +    /*
->> +     * Enable the low latency flush mode if display delay is set to 0
->> +     * or parameter frame_flush_mode is set to 1.
-> 
-> s/or parameter frame_flush_mode is set to 1./
->    or the frame flush mode if it is set to 1./
-> 
-I will apply your suggestion.
+On Tue, Mar 25, 2025 at 8:42=E2=80=AFAM Sumit Garg <sumit.garg@kernel.org> =
+wrote:
+>
+> On Wed, Mar 05, 2025 at 02:04:15PM +0100, Jens Wiklander wrote:
+> > Add support in the OP-TEE backend driver dynamic restricted memory
+> > allocation with FF-A.
+> >
+> > The restricted memory pools for dynamically allocated restrict memory
+> > are instantiated when requested by user-space. This instantiation can
+> > fail if OP-TEE doesn't support the requested use-case of restricted
+> > memory.
+> >
+> > Restricted memory pools based on a static carveout or dynamic allocatio=
+n
+> > can coexist for different use-cases. We use only dynamic allocation wit=
+h
+> > FF-A.
+> >
+> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > ---
+> >  drivers/tee/optee/Makefile        |   1 +
+> >  drivers/tee/optee/ffa_abi.c       | 143 ++++++++++++-
+> >  drivers/tee/optee/optee_private.h |  13 +-
+> >  drivers/tee/optee/rstmem.c        | 329 ++++++++++++++++++++++++++++++
+> >  4 files changed, 483 insertions(+), 3 deletions(-)
+> >  create mode 100644 drivers/tee/optee/rstmem.c
+> >
+> > diff --git a/drivers/tee/optee/Makefile b/drivers/tee/optee/Makefile
+> > index a6eff388d300..498969fb8e40 100644
+> > --- a/drivers/tee/optee/Makefile
+> > +++ b/drivers/tee/optee/Makefile
+> > @@ -4,6 +4,7 @@ optee-objs +=3D core.o
+> >  optee-objs +=3D call.o
+> >  optee-objs +=3D notif.o
+> >  optee-objs +=3D rpc.o
+> > +optee-objs +=3D rstmem.o
+> >  optee-objs +=3D supp.o
+> >  optee-objs +=3D device.o
+> >  optee-objs +=3D smc_abi.o
+> > diff --git a/drivers/tee/optee/ffa_abi.c b/drivers/tee/optee/ffa_abi.c
+> > index e4b08cd195f3..6a55114232ef 100644
+> > --- a/drivers/tee/optee/ffa_abi.c
+> > +++ b/drivers/tee/optee/ffa_abi.c
+> > @@ -672,6 +672,123 @@ static int optee_ffa_do_call_with_arg(struct tee_=
+context *ctx,
+> >       return optee_ffa_yielding_call(ctx, &data, rpc_arg, system_thread=
+);
+> >  }
+> >
+> > +static int do_call_lend_rstmem(struct optee *optee, u64 cookie, u32 us=
+e_case)
+> > +{
+> > +     struct optee_shm_arg_entry *entry;
+> > +     struct optee_msg_arg *msg_arg;
+> > +     struct tee_shm *shm;
+> > +     u_int offs;
+> > +     int rc;
+> > +
+> > +     msg_arg =3D optee_get_msg_arg(optee->ctx, 1, &entry, &shm, &offs)=
+;
+> > +     if (IS_ERR(msg_arg))
+> > +             return PTR_ERR(msg_arg);
+> > +
+> > +     msg_arg->cmd =3D OPTEE_MSG_CMD_ASSIGN_RSTMEM;
+> > +     msg_arg->params[0].attr =3D OPTEE_MSG_ATTR_TYPE_VALUE_INPUT;
+> > +     msg_arg->params[0].u.value.a =3D cookie;
+> > +     msg_arg->params[0].u.value.b =3D use_case;
+> > +
+> > +     rc =3D optee->ops->do_call_with_arg(optee->ctx, shm, offs, false)=
+;
+> > +     if (rc)
+> > +             goto out;
+> > +     if (msg_arg->ret !=3D TEEC_SUCCESS) {
+> > +             rc =3D -EINVAL;
+> > +             goto out;
+> > +     }
+> > +
+> > +out:
+> > +     optee_free_msg_arg(optee->ctx, entry, offs);
+> > +     return rc;
+> > +}
+> > +
+> > +static int optee_ffa_lend_rstmem(struct optee *optee, struct tee_shm *=
+rstmem,
+> > +                              u16 *end_points, unsigned int ep_count,
+> > +                              u32 use_case)
+> > +{
+> > +     struct ffa_device *ffa_dev =3D optee->ffa.ffa_dev;
+> > +     const struct ffa_mem_ops *mem_ops =3D ffa_dev->ops->mem_ops;
+> > +     const struct ffa_msg_ops *msg_ops =3D ffa_dev->ops->msg_ops;
+> > +     struct ffa_send_direct_data data;
+> > +     struct ffa_mem_region_attributes *mem_attr;
+> > +     struct ffa_mem_ops_args args =3D {
+> > +             .use_txbuf =3D true,
+> > +             .tag =3D use_case,
+> > +     };
+> > +     struct page *page;
+> > +     struct scatterlist sgl;
+> > +     unsigned int n;
+> > +     int rc;
+> > +
+> > +     mem_attr =3D kcalloc(ep_count, sizeof(*mem_attr), GFP_KERNEL);
+> > +     for (n =3D 0; n < ep_count; n++) {
+> > +             mem_attr[n].receiver =3D end_points[n];
+> > +             mem_attr[n].attrs =3D FFA_MEM_RW;
+> > +     }
+> > +     args.attrs =3D mem_attr;
+> > +     args.nattrs =3D ep_count;
+> > +
+> > +     page =3D phys_to_page(rstmem->paddr);
+> > +     sg_init_table(&sgl, 1);
+> > +     sg_set_page(&sgl, page, rstmem->size, 0);
+> > +
+> > +     args.sg =3D &sgl;
+> > +     rc =3D mem_ops->memory_lend(&args);
+> > +     kfree(mem_attr);
+> > +     if (rc)
+> > +             return rc;
+> > +
+> > +     rc =3D do_call_lend_rstmem(optee, args.g_handle, use_case);
+> > +     if (rc)
+> > +             goto err_reclaim;
+> > +
+> > +     rc =3D optee_shm_add_ffa_handle(optee, rstmem, args.g_handle);
+> > +     if (rc)
+> > +             goto err_unreg;
+> > +
+> > +     rstmem->sec_world_id =3D args.g_handle;
+> > +
+> > +     return 0;
+> > +
+> > +err_unreg:
+> > +     data =3D (struct ffa_send_direct_data){
+> > +             .data0 =3D OPTEE_FFA_RELEASE_RSTMEM,
+> > +             .data1 =3D (u32)args.g_handle,
+> > +             .data2 =3D (u32)(args.g_handle >> 32),
+> > +     };
+> > +     msg_ops->sync_send_receive(ffa_dev, &data);
+> > +err_reclaim:
+> > +     mem_ops->memory_reclaim(args.g_handle, 0);
+> > +     return rc;
+> > +}
+> > +
+> > +static int optee_ffa_reclaim_rstmem(struct optee *optee, struct tee_sh=
+m *rstmem)
+> > +{
+> > +     struct ffa_device *ffa_dev =3D optee->ffa.ffa_dev;
+> > +     const struct ffa_msg_ops *msg_ops =3D ffa_dev->ops->msg_ops;
+> > +     const struct ffa_mem_ops *mem_ops =3D ffa_dev->ops->mem_ops;
+> > +     u64 global_handle =3D rstmem->sec_world_id;
+> > +     struct ffa_send_direct_data data =3D {
+> > +             .data0 =3D OPTEE_FFA_RELEASE_RSTMEM,
+> > +             .data1 =3D (u32)global_handle,
+> > +             .data2 =3D (u32)(global_handle >> 32)
+> > +     };
+> > +     int rc;
+> > +
+> > +     optee_shm_rem_ffa_handle(optee, global_handle);
+> > +     rstmem->sec_world_id =3D 0;
+> > +
+> > +     rc =3D msg_ops->sync_send_receive(ffa_dev, &data);
+> > +     if (rc)
+> > +             pr_err("Release SHM id 0x%llx rc %d\n", global_handle, rc=
+);
+> > +
+> > +     rc =3D mem_ops->memory_reclaim(global_handle, 0);
+> > +     if (rc)
+> > +             pr_err("mem_reclaim: 0x%llx %d", global_handle, rc);
+> > +
+> > +     return rc;
+> > +}
+> > +
+> >  /*
+> >   * 6. Driver initialization
+> >   *
+> > @@ -833,6 +950,8 @@ static const struct optee_ops optee_ffa_ops =3D {
+> >       .do_call_with_arg =3D optee_ffa_do_call_with_arg,
+> >       .to_msg_param =3D optee_ffa_to_msg_param,
+> >       .from_msg_param =3D optee_ffa_from_msg_param,
+> > +     .lend_rstmem =3D optee_ffa_lend_rstmem,
+> > +     .reclaim_rstmem =3D optee_ffa_reclaim_rstmem,
+> >  };
+> >
+> >  static void optee_ffa_remove(struct ffa_device *ffa_dev)
+> > @@ -941,7 +1060,7 @@ static int optee_ffa_probe(struct ffa_device *ffa_=
+dev)
+> >                                 optee->pool, optee);
+> >       if (IS_ERR(teedev)) {
+> >               rc =3D PTR_ERR(teedev);
+> > -             goto err_free_pool;
+> > +             goto err_free_shm_pool;
+> >       }
+> >       optee->teedev =3D teedev;
+> >
+> > @@ -988,6 +1107,24 @@ static int optee_ffa_probe(struct ffa_device *ffa=
+_dev)
+> >                              rc);
+> >       }
+> >
+> > +     if (IS_ENABLED(CONFIG_CMA) && !IS_MODULE(CONFIG_OPTEE) &&
+>
+> The CMA dependency should be managed via Kconfig.
 
->> +     * The low latency flush mode requires some padding data to be 
->> appended after each frame,
-> 
-> s/appended after each/appended to each/
-> (the word append implies that something is added after something else)
-> 
-Got it
->> +     * but don't put it in between the sequence header and frame.
-> 
-> s/but don't put it in between the sequence header and frame./
->    but there must not be any padding data between the sequence header 
-> and the frame./
-> 
-> (As this is not a suggestion for the developer but a description of what
-> the code does)
-> 
-Got it
->> +     * Only H264 and HEVC decoder support this module yet,
-> 
-> s/decoder/formats/
-> 
-> I'd rewrite this part:
-> This module is currently only supported for the H264 and HEVC formats,
-> 
-> but that is only because this sounds more natural to me.
-> 
-I will apply your suggestion.
+Yes, I'll fix it.
 
->> +     * for other formats, vpu_malone_add_scode() will return 0.
->> +     */
->> +    if ((disp_imm || frame_flush_mode) && 
->> !vpu_vb_is_codecconfig(vbuf)) {
->>         ret = vpu_malone_add_scode(inst->core->iface,
->>                        inst->id,
->>                        &inst->stream_buffer,
->> -- 
->> 2.43.0-rc1
->>
->>
-> 
-> Thank you!
-> 
-> Regards,
-> Sebastian Fricke
+>
+> > +         (sec_caps & OPTEE_FFA_SEC_CAP_RSTMEM)) {
+> > +             enum tee_dma_heap_id id =3D TEE_DMA_HEAP_SECURE_VIDEO_PLA=
+Y;
+> > +             struct tee_rstmem_pool *pool;
+> > +
+> > +             pool =3D optee_rstmem_alloc_cma_pool(optee, id);
+> > +             if (IS_ERR(pool)) {
+> > +                     rc =3D PTR_ERR(pool);
+> > +                     goto err_notif_uninit;
+> > +             }
+> > +
+> > +             rc =3D tee_device_register_dma_heap(optee->teedev, id, po=
+ol);
+> > +             if (rc) {
+> > +                     pool->ops->destroy_pool(pool);
+> > +                     goto err_notif_uninit;
+> > +             }
+> > +     }
+> > +
+> >       rc =3D optee_enumerate_devices(PTA_CMD_GET_DEVICES);
+> >       if (rc)
+> >               goto err_unregister_devices;
+> > @@ -1001,6 +1138,8 @@ static int optee_ffa_probe(struct ffa_device *ffa=
+_dev)
+> >
+> >  err_unregister_devices:
+> >       optee_unregister_devices();
+> > +     tee_device_unregister_all_dma_heaps(optee->teedev);
+> > +err_notif_uninit:
+> >       if (optee->ffa.bottom_half_value !=3D U32_MAX)
+> >               notif_ops->notify_relinquish(ffa_dev,
+> >                                            optee->ffa.bottom_half_value=
+);
+> > @@ -1018,7 +1157,7 @@ static int optee_ffa_probe(struct ffa_device *ffa=
+_dev)
+> >       tee_device_unregister(optee->supp_teedev);
+> >  err_unreg_teedev:
+> >       tee_device_unregister(optee->teedev);
+> > -err_free_pool:
+> > +err_free_shm_pool:
+> >       tee_shm_pool_free(pool);
+> >  err_free_optee:
+> >       kfree(optee);
+> > diff --git a/drivers/tee/optee/optee_private.h b/drivers/tee/optee/opte=
+e_private.h
+> > index 20eda508dbac..faab31ad7c52 100644
+> > --- a/drivers/tee/optee/optee_private.h
+> > +++ b/drivers/tee/optee/optee_private.h
+> > @@ -174,9 +174,14 @@ struct optee;
+> >   * @do_call_with_arg:        enters OP-TEE in secure world
+> >   * @to_msg_param:    converts from struct tee_param to OPTEE_MSG param=
+eters
+> >   * @from_msg_param:  converts from OPTEE_MSG parameters to struct tee_=
+param
+> > + * @lend_rstmem:     lends physically contiguous memory as restricted
+> > + *                   memory, inaccessible by the kernel
+> > + * @reclaim_rstmem:  reclaims restricted memory previously lent with
+> > + *                   @lend_rstmem() and makes it accessible by the
+> > + *                   kernel again
+> >   *
+> >   * These OPs are only supposed to be used internally in the OP-TEE dri=
+ver
+> > - * as a way of abstracting the different methogs of entering OP-TEE in
+> > + * as a way of abstracting the different methods of entering OP-TEE in
+> >   * secure world.
+> >   */
+> >  struct optee_ops {
+> > @@ -191,6 +196,10 @@ struct optee_ops {
+> >                             size_t num_params,
+> >                             const struct optee_msg_param *msg_params,
+> >                             bool update_out);
+> > +     int (*lend_rstmem)(struct optee *optee, struct tee_shm *rstmem,
+> > +                        u16 *end_points, unsigned int ep_count,
+> > +                        u32 use_case);
+> > +     int (*reclaim_rstmem)(struct optee *optee, struct tee_shm *rstmem=
+);
+> >  };
+> >
+> >  /**
+> > @@ -285,6 +294,8 @@ u32 optee_supp_thrd_req(struct tee_context *ctx, u3=
+2 func, size_t num_params,
+> >  void optee_supp_init(struct optee_supp *supp);
+> >  void optee_supp_uninit(struct optee_supp *supp);
+> >  void optee_supp_release(struct optee_supp *supp);
+> > +struct tee_rstmem_pool *optee_rstmem_alloc_cma_pool(struct optee *opte=
+e,
+> > +                                                 enum tee_dma_heap_id =
+id);
+> >
+> >  int optee_supp_recv(struct tee_context *ctx, u32 *func, u32 *num_param=
+s,
+> >                   struct tee_param *param);
+> > diff --git a/drivers/tee/optee/rstmem.c b/drivers/tee/optee/rstmem.c
+> > new file mode 100644
+> > index 000000000000..ea27769934d4
+> > --- /dev/null
+> > +++ b/drivers/tee/optee/rstmem.c
+> > @@ -0,0 +1,329 @@
+> > +// SPDX-License-Identifier: GPL-2.0-only
+> > +/*
+> > + * Copyright (c) 2025, Linaro Limited
+> > + */
+> > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> > +
+> > +#include <linux/errno.h>
+> > +#include <linux/genalloc.h>
+> > +#include <linux/slab.h>
+> > +#include <linux/string.h>
+> > +#include <linux/tee_core.h>
+> > +#include <linux/types.h>
+> > +#include "optee_private.h"
+> > +
+> > +struct optee_rstmem_cma_pool {
+> > +     struct tee_rstmem_pool pool;
+> > +     struct gen_pool *gen_pool;
+> > +     struct optee *optee;
+> > +     size_t page_count;
+> > +     u16 *end_points;
+> > +     u_int end_point_count;
+> > +     u_int align;
+> > +     refcount_t refcount;
+> > +     u32 use_case;
+> > +     struct tee_shm *rstmem;
+> > +     /* Protects when initializing and tearing down this struct */
+> > +     struct mutex mutex;
+> > +};
+> > +
+> > +static struct optee_rstmem_cma_pool *
+> > +to_rstmem_cma_pool(struct tee_rstmem_pool *pool)
+> > +{
+> > +     return container_of(pool, struct optee_rstmem_cma_pool, pool);
+> > +}
+> > +
+> > +static int init_cma_rstmem(struct optee_rstmem_cma_pool *rp)
+> > +{
+> > +     int rc;
+> > +
+> > +     rp->rstmem =3D tee_shm_alloc_cma_phys_mem(rp->optee->ctx, rp->pag=
+e_count,
+> > +                                             rp->align);
+> > +     if (IS_ERR(rp->rstmem)) {
+> > +             rc =3D PTR_ERR(rp->rstmem);
+> > +             goto err_null_rstmem;
+> > +     }
+> > +
+> > +     /*
+> > +      * TODO unmap the memory range since the physical memory will
+> > +      * become inaccesible after the lend_rstmem() call.
+> > +      */
+>
+> What's your plan for this TODO? I think we need a CMA allocator here
+> which can allocate un-mapped memory such that any cache speculation
+> won't lead to CPU hangs once the memory restriction comes into picture.
 
-Thank you very much for your help in expressing.
+What happens is platform-specific. For some platforms, it might be
+enough to avoid explicit access. Yes, a CMA allocator with unmapped
+memory or where memory can be unmapped is one option.
 
-Regards,
-Ming
+>
+> > +     rc =3D rp->optee->ops->lend_rstmem(rp->optee, rp->rstmem, rp->end=
+_points,
+> > +                                      rp->end_point_count, rp->use_cas=
+e);
+> > +     if (rc)
+> > +             goto err_put_shm;
+> > +     rp->rstmem->flags |=3D TEE_SHM_DYNAMIC;
+> > +
+> > +     rp->gen_pool =3D gen_pool_create(PAGE_SHIFT, -1);
+> > +     if (!rp->gen_pool) {
+> > +             rc =3D -ENOMEM;
+> > +             goto err_reclaim;
+> > +     }
+> > +
+> > +     rc =3D gen_pool_add(rp->gen_pool, rp->rstmem->paddr,
+> > +                       rp->rstmem->size, -1);
+> > +     if (rc)
+> > +             goto err_free_pool;
+> > +
+> > +     refcount_set(&rp->refcount, 1);
+> > +     return 0;
+> > +
+> > +err_free_pool:
+> > +     gen_pool_destroy(rp->gen_pool);
+> > +     rp->gen_pool =3D NULL;
+> > +err_reclaim:
+> > +     rp->optee->ops->reclaim_rstmem(rp->optee, rp->rstmem);
+> > +err_put_shm:
+> > +     tee_shm_put(rp->rstmem);
+> > +err_null_rstmem:
+> > +     rp->rstmem =3D NULL;
+> > +     return rc;
+> > +}
+> > +
+> > +static int get_cma_rstmem(struct optee_rstmem_cma_pool *rp)
+> > +{
+> > +     int rc =3D 0;
+> > +
+> > +     if (!refcount_inc_not_zero(&rp->refcount)) {
+> > +             mutex_lock(&rp->mutex);
+> > +             if (rp->gen_pool) {
+> > +                     /*
+> > +                      * Another thread has already initialized the poo=
+l
+> > +                      * before us, or the pool was just about to be to=
+rn
+> > +                      * down. Either way we only need to increase the
+> > +                      * refcount and we're done.
+> > +                      */
+> > +                     refcount_inc(&rp->refcount);
+> > +             } else {
+> > +                     rc =3D init_cma_rstmem(rp);
+> > +             }
+> > +             mutex_unlock(&rp->mutex);
+> > +     }
+> > +
+> > +     return rc;
+> > +}
+> > +
+> > +static void release_cma_rstmem(struct optee_rstmem_cma_pool *rp)
+> > +{
+> > +     gen_pool_destroy(rp->gen_pool);
+> > +     rp->gen_pool =3D NULL;
+> > +
+> > +     rp->optee->ops->reclaim_rstmem(rp->optee, rp->rstmem);
+> > +     rp->rstmem->flags &=3D ~TEE_SHM_DYNAMIC;
+> > +
+> > +     WARN(refcount_read(&rp->rstmem->refcount) !=3D 1, "Unexpected ref=
+count");
+> > +     tee_shm_put(rp->rstmem);
+> > +     rp->rstmem =3D NULL;
+> > +}
+> > +
+> > +static void put_cma_rstmem(struct optee_rstmem_cma_pool *rp)
+> > +{
+> > +     if (refcount_dec_and_test(&rp->refcount)) {
+> > +             mutex_lock(&rp->mutex);
+> > +             if (rp->gen_pool)
+> > +                     release_cma_rstmem(rp);
+> > +             mutex_unlock(&rp->mutex);
+> > +     }
+> > +}
+> > +
+> > +static int rstmem_pool_op_cma_alloc(struct tee_rstmem_pool *pool,
+> > +                                 struct sg_table *sgt, size_t size,
+> > +                                 size_t *offs)
+> > +{
+> > +     struct optee_rstmem_cma_pool *rp =3D to_rstmem_cma_pool(pool);
+> > +     size_t sz =3D ALIGN(size, PAGE_SIZE);
+> > +     phys_addr_t pa;
+> > +     int rc;
+> > +
+> > +     rc =3D get_cma_rstmem(rp);
+> > +     if (rc)
+> > +             return rc;
+> > +
+> > +     pa =3D gen_pool_alloc(rp->gen_pool, sz);
+> > +     if (!pa) {
+> > +             rc =3D -ENOMEM;
+> > +             goto err_put;
+> > +     }
+> > +
+> > +     rc =3D sg_alloc_table(sgt, 1, GFP_KERNEL);
+> > +     if (rc)
+> > +             goto err_free;
+> > +
+> > +     sg_set_page(sgt->sgl, phys_to_page(pa), size, 0);
+> > +     *offs =3D pa - rp->rstmem->paddr;
+> > +
+> > +     return 0;
+> > +err_free:
+> > +     gen_pool_free(rp->gen_pool, pa, size);
+> > +err_put:
+> > +     put_cma_rstmem(rp);
+> > +
+> > +     return rc;
+> > +}
+> > +
+> > +static void rstmem_pool_op_cma_free(struct tee_rstmem_pool *pool,
+> > +                                 struct sg_table *sgt)
+> > +{
+> > +     struct optee_rstmem_cma_pool *rp =3D to_rstmem_cma_pool(pool);
+> > +     struct scatterlist *sg;
+> > +     int i;
+> > +
+> > +     for_each_sgtable_sg(sgt, sg, i)
+> > +             gen_pool_free(rp->gen_pool, sg_phys(sg), sg->length);
+> > +     sg_free_table(sgt);
+> > +     put_cma_rstmem(rp);
+> > +}
+> > +
+> > +static int rstmem_pool_op_cma_update_shm(struct tee_rstmem_pool *pool,
+> > +                                      struct sg_table *sgt, size_t off=
+s,
+> > +                                      struct tee_shm *shm,
+> > +                                      struct tee_shm **parent_shm)
+> > +{
+> > +     struct optee_rstmem_cma_pool *rp =3D to_rstmem_cma_pool(pool);
+> > +
+> > +     *parent_shm =3D rp->rstmem;
+> > +
+> > +     return 0;
+> > +}
+> > +
+> > +static void pool_op_cma_destroy_pool(struct tee_rstmem_pool *pool)
+> > +{
+> > +     struct optee_rstmem_cma_pool *rp =3D to_rstmem_cma_pool(pool);
+> > +
+> > +     mutex_destroy(&rp->mutex);
+> > +     kfree(rp);
+> > +}
+> > +
+> > +static struct tee_rstmem_pool_ops rstmem_pool_ops_cma =3D {
+> > +     .alloc =3D rstmem_pool_op_cma_alloc,
+> > +     .free =3D rstmem_pool_op_cma_free,
+> > +     .update_shm =3D rstmem_pool_op_cma_update_shm,
+> > +     .destroy_pool =3D pool_op_cma_destroy_pool,
+> > +};
+> > +
+> > +static int get_rstmem_config(struct optee *optee, u32 use_case,
+> > +                          size_t *min_size, u_int *min_align,
+> > +                          u16 *end_points, u_int *ep_count)
+>
+> I guess this end points terminology is specific to FF-A ABI. Is there
+> any relevance for this in the common APIs?
+
+Yes, endpoints are specific to FF-A ABI. The list of end-points must
+be presented to FFA_MEM_LEND. We're relying on the secure world to
+know which endpoints are needed for a specific use case.
+
+Cheers,
+Jens
+
+>
+> -Sumit
+>
+> > +{
+> > +     struct tee_param params[2] =3D {
+> > +             [0] =3D {
+> > +                     .attr =3D TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT,
+> > +                     .u.value.a =3D use_case,
+> > +             },
+> > +             [1] =3D {
+> > +                     .attr =3D TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT=
+,
+> > +             },
+> > +     };
+> > +     struct optee_shm_arg_entry *entry;
+> > +     struct tee_shm *shm_param =3D NULL;
+> > +     struct optee_msg_arg *msg_arg;
+> > +     struct tee_shm *shm;
+> > +     u_int offs;
+> > +     int rc;
+> > +
+> > +     if (end_points && *ep_count) {
+> > +             params[1].u.memref.size =3D *ep_count * sizeof(*end_point=
+s);
+> > +             shm_param =3D tee_shm_alloc_priv_buf(optee->ctx,
+> > +                                                params[1].u.memref.siz=
+e);
+> > +             if (IS_ERR(shm_param))
+> > +                     return PTR_ERR(shm_param);
+> > +             params[1].u.memref.shm =3D shm_param;
+> > +     }
+> > +
+> > +     msg_arg =3D optee_get_msg_arg(optee->ctx, ARRAY_SIZE(params), &en=
+try,
+> > +                                 &shm, &offs);
+> > +     if (IS_ERR(msg_arg)) {
+> > +             rc =3D PTR_ERR(msg_arg);
+> > +             goto out_free_shm;
+> > +     }
+> > +     msg_arg->cmd =3D OPTEE_MSG_CMD_GET_RSTMEM_CONFIG;
+> > +
+> > +     rc =3D optee->ops->to_msg_param(optee, msg_arg->params,
+> > +                                   ARRAY_SIZE(params), params,
+> > +                                   false /*!update_out*/);
+> > +     if (rc)
+> > +             goto out_free_msg;
+> > +
+> > +     rc =3D optee->ops->do_call_with_arg(optee->ctx, shm, offs, false)=
+;
+> > +     if (rc)
+> > +             goto out_free_msg;
+> > +     if (msg_arg->ret && msg_arg->ret !=3D TEEC_ERROR_SHORT_BUFFER) {
+> > +             rc =3D -EINVAL;
+> > +             goto out_free_msg;
+> > +     }
+> > +
+> > +     rc =3D optee->ops->from_msg_param(optee, params, ARRAY_SIZE(param=
+s),
+> > +                                     msg_arg->params, true /*update_ou=
+t*/);
+> > +     if (rc)
+> > +             goto out_free_msg;
+> > +
+> > +     if (!msg_arg->ret && end_points &&
+> > +         *ep_count < params[1].u.memref.size / sizeof(u16)) {
+> > +             rc =3D -EINVAL;
+> > +             goto out_free_msg;
+> > +     }
+> > +
+> > +     *min_size =3D params[0].u.value.a;
+> > +     *min_align =3D params[0].u.value.b;
+> > +     *ep_count =3D params[1].u.memref.size / sizeof(u16);
+> > +
+> > +     if (msg_arg->ret =3D=3D TEEC_ERROR_SHORT_BUFFER) {
+> > +             rc =3D -ENOSPC;
+> > +             goto out_free_msg;
+> > +     }
+> > +
+> > +     if (end_points)
+> > +             memcpy(end_points, tee_shm_get_va(shm_param, 0),
+> > +                    params[1].u.memref.size);
+> > +
+> > +out_free_msg:
+> > +     optee_free_msg_arg(optee->ctx, entry, offs);
+> > +out_free_shm:
+> > +     if (shm_param)
+> > +             tee_shm_free(shm_param);
+> > +     return rc;
+> > +}
+> > +
+> > +struct tee_rstmem_pool *optee_rstmem_alloc_cma_pool(struct optee *opte=
+e,
+> > +                                                 enum tee_dma_heap_id =
+id)
+> > +{
+> > +     struct optee_rstmem_cma_pool *rp;
+> > +     u32 use_case =3D id;
+> > +     size_t min_size;
+> > +     int rc;
+> > +
+> > +     rp =3D kzalloc(sizeof(*rp), GFP_KERNEL);
+> > +     if (!rp)
+> > +             return ERR_PTR(-ENOMEM);
+> > +     rp->use_case =3D use_case;
+> > +
+> > +     rc =3D get_rstmem_config(optee, use_case, &min_size, &rp->align, =
+NULL,
+> > +                            &rp->end_point_count);
+> > +     if (rc) {
+> > +             if (rc !=3D -ENOSPC)
+> > +                     goto err;
+> > +             rp->end_points =3D kcalloc(rp->end_point_count,
+> > +                                      sizeof(*rp->end_points), GFP_KER=
+NEL);
+> > +             if (!rp->end_points) {
+> > +                     rc =3D -ENOMEM;
+> > +                     goto err;
+> > +             }
+> > +             rc =3D get_rstmem_config(optee, use_case, &min_size, &rp-=
+>align,
+> > +                                    rp->end_points, &rp->end_point_cou=
+nt);
+> > +             if (rc)
+> > +                     goto err_kfree_eps;
+> > +     }
+> > +
+> > +     rp->pool.ops =3D &rstmem_pool_ops_cma;
+> > +     rp->optee =3D optee;
+> > +     rp->page_count =3D min_size / PAGE_SIZE;
+> > +     mutex_init(&rp->mutex);
+> > +
+> > +     return &rp->pool;
+> > +
+> > +err_kfree_eps:
+> > +     kfree(rp->end_points);
+> > +err:
+> > +     kfree(rp);
+> > +     return ERR_PTR(rc);
+> > +}
+> > --
+> > 2.43.0
+> >
 
