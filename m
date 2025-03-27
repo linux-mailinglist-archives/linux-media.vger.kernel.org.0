@@ -1,150 +1,206 @@
-Return-Path: <linux-media+bounces-28846-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28847-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C07A72E9D
-	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 12:15:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3369AA7328B
+	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 13:49:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8842118889AC
-	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 11:15:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DAAAD3BA66C
+	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 12:47:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA94D21019C;
-	Thu, 27 Mar 2025 11:15:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FA5D215064;
+	Thu, 27 Mar 2025 12:47:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ikzRHz8i"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ry+3lJ4j"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B013A1B043C;
-	Thu, 27 Mar 2025 11:15:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7023B4C96;
+	Thu, 27 Mar 2025 12:47:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743074116; cv=none; b=pD+auu9nQS9NOkiVR9Yt+t82jqBI38XrpVqvMsukOWIZ+QDJP41K1wJML5Gr37jXKZhA2EsdtO92zRUWxQYogXfsERIzFWP8phoJEO4myRWTCd/r2YLgg0EklCMIFee7MYiYT8YjDvVwpetDb7sXewFIkbjw9CMe7FMA95UayVw=
+	t=1743079651; cv=none; b=EvAQMG5VESu7WGFcANCMq8XWSQ2ypSObJdG/8OQivYqTeVgXP5HzTziTSfSvJvtE6aRRLtqKFSiOFasws7eHyo1ZD+k90BQ/Df+zYjHLVpZFQMsqWTGXY434u1C9jksHTrCR9jzi/jmZygMgejsKlUaO4Vb8kp6qhT7q6N/e1/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743074116; c=relaxed/simple;
-	bh=2uDf9IAvebipTelbZqwvKpfbJf3eeOD3huz8PpZn0fE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aQM6BKndc/lHjXnf2MX0w+H9vbzvPIEv8qnvkpmscOYCMlVT5C2taU+6g282uPS0Alf56ZCsaGGIOJcZGbrXel2e0mpnAc1PItWHxLZiZWzNTSsyNzYO23bN6mdw3FyuMiA2FBq8o/BCmTvWQDmMPJJIubCYGmIqpeZi8sjy49E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ikzRHz8i; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743074115; x=1774610115;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=2uDf9IAvebipTelbZqwvKpfbJf3eeOD3huz8PpZn0fE=;
-  b=ikzRHz8i44rxifiCfi3ZjpLT9DI7R7t26NraNjltUsACQkorh+vEn7m8
-   UaZohIAIz6XXTny7c3HwaNT6trJ2pjf4mleUZYAyjSfHogfuQTVspQ/kL
-   bSk4MVbH48VAbRlrtvvzSTAW+Af3+WIaWx5Qw9b/gkzYH/CGv1AS1snYG
-   RztABIxO3qr2vQ0tv4DVp5ekJdk9NtgD+BGN1y7PgbeIVmOXznhqG3VXX
-   T+lSgUAHjYYblBIh1u5LuQMpqLR/LP0W7BbxV9pOjyixsGZTTdc3Mn5XV
-   L9taSgReSoF/kyYFGRNIBqC364SbLm7+ffRoXdQzdh8c5RGpv6IcE2V/v
-   A==;
-X-CSE-ConnectionGUID: uzy/ZamuSlCGa+IzFS+H1Q==
-X-CSE-MsgGUID: k6IV5vFeTb6KAIdIV0sxnw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11385"; a="44289437"
-X-IronPort-AV: E=Sophos;i="6.14,280,1736841600"; 
-   d="scan'208";a="44289437"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 04:14:33 -0700
-X-CSE-ConnectionGUID: sCvCB3/DSESR0Eo8PTjdXQ==
-X-CSE-MsgGUID: +Ux1168vRiamQdaR7ZNbWQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,280,1736841600"; 
-   d="scan'208";a="130306039"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 04:14:29 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 2A21C1201BC;
-	Thu, 27 Mar 2025 13:14:26 +0200 (EET)
-Date: Thu, 27 Mar 2025 11:14:26 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Tarang Raval <tarang.raval@siliconsignals.io>
-Cc: "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
-	"Shravan.Chippa@microchip.com" <Shravan.Chippa@microchip.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Julien Massot <julien.massot@collabora.com>,
-	Zhi Mao <zhi.mao@mediatek.com>,
-	Mikhail Rudenko <mike.rudenko@gmail.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Luis Garcia <git@luigi311.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 6/6] media: i2c: imx334: Enable runtime PM before
- sub-device registration
-Message-ID: <Z-UzEnagFzWTnt_k@kekkonen.localdomain>
-References: <20250310071751.151382-1-tarang.raval@siliconsignals.io>
- <20250310071751.151382-7-tarang.raval@siliconsignals.io>
- <Z-UjLSsATevtLT2k@kekkonen.localdomain>
- <PN3P287MB1829B0776EF3D34D0CA78CB18BA12@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+	s=arc-20240116; t=1743079651; c=relaxed/simple;
+	bh=tWRtgxQFfYLGIe+M3bP4npfrIUeWm1/2DsIIszdvZ1Y=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Content-Type; b=k4S+jnDoUCWuvrSHqjDtgq+sqlvtRW/6KtExIwqX7DNH2wgZF2T25JuLZL4BJ+S3D77oX9pgflFDjXTpJS+i0f0kmBsSbhIzTdwX6YMKnAKJo9jEBl2pLn0ItHPJmkKzK3eApkIEqFphg4iD84nXNJgt5aGXasmbTRs6aOxaKuE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ry+3lJ4j; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA731C4CEF5;
+	Thu, 27 Mar 2025 12:47:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743079650;
+	bh=tWRtgxQFfYLGIe+M3bP4npfrIUeWm1/2DsIIszdvZ1Y=;
+	h=References:In-Reply-To:From:Date:Subject:To:From;
+	b=ry+3lJ4jOXxi94y5mI1NbXnalzo+G/pnZhSjrID66dTcLVpvSN5jxYLjoTFSpm8t2
+	 RVmKewcN7zdZNd9LKSrvUmI7Bitb6RSvE7xtBxsyaXOJotG+IzA+4cSiX8s5XJcd4a
+	 Gflk19wroRN6hPkMWa+MtGfvaJAZL2ppLItlCErXCvjy0HVn2BGenZE8FkLMdyZJYX
+	 btnwncSVrJy5++ND3g+6x3gmSehP4lsafQ7UigXG8+8I+Idsw/U+sgz5n2nwr8zWSp
+	 H++QkUGRCbXL4b+bUxPVKQyPP9wfeJA4D52pvQD5Qmb8PrgNvDFT5Gco7rpxg0Rv5D
+	 +Xv0BqRwjjbZg==
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3913d129c1aso661635f8f.0;
+        Thu, 27 Mar 2025 05:47:30 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU5hcNep0PjlWuCjj4NMUHFm818rHYcrYyQ+DkL6NGKfFUJ4v/BcyFUrkel3sqzxPC+7UF4Gw0g7dKhWw==@vger.kernel.org, AJvYcCUpRF0LMC3Q/GxxnFl/SikHq8Eg1luCylG1nbvLCJPcP1H53E4fn+LAE7K8vpNsMPpG/fJCB/D7+PaJPcWB@vger.kernel.org, AJvYcCVsX2WU+aFIb+EtrTeOVhAhki8Xl8hnQccFte3jiXy7c+SoP336Isp5FOeu28FBGIlB2ROIeI3963eLc8op175jdLwY@vger.kernel.org, AJvYcCVsk9ryKBUmTtDTK3JMNACZZtZh3qUdTXBK9AUM7MpPooozj33rGfhHocYseLf3Hdvnbmv5iThAw60eV2s=@vger.kernel.org, AJvYcCW47Pl062oNYCMWE8maqYFeRsEBRX/OxIBtYxI+7yUwLObmkUp5z0ZRT6ORYTgwSsjyqPGDyRK1@vger.kernel.org, AJvYcCWMFNhPKyVBg8HzwapRAVSxnRnVozy30gmOACtgCyfhUIQf8mrsaEm6Sr0iSgGBOwVXrSe4RcIX6ekyUeg=@vger.kernel.org, AJvYcCWfBcnAb8xTLS1kbS+egemf7Ox6oWbJw8R88CXPeQ0Glbkxo3FEAp9vMhTnXT5oEvMPFPp8IajlFhVU@vger.kernel.org, AJvYcCWiTPAJ35xrAthksX8h3zgALJzAxpvYYIzj4lBvCXKn6jSapgtIYpu8ec64/MPLpAN6Lk/O4smDXiCYNlWYHlZrng==@vger.kernel.org, AJvYcCXAaymzApg5BY0elxAd++hiveDmgW/TXCPDnh29ZmDTNqH2o51O7w2VXjIPXhfRsvNGxrY=@vger.kernel.org, AJvYcCXHDwYP6ZaCTiL9My6z
+ 7yC6suW8qxpYc6dfkuhtoE/tOzDutoWCp0ns7baqRFBrVHzAXoQZ0151LFwp1WvP@vger.kernel.org, AJvYcCXL7YZFQf+f7P0qMC6EyEWiFbU79B0NU19DRu6ijcezGqQaBzbRmZ5mucWTZSA6w/8E70sTbVqSWZUdpnw=@vger.kernel.org, AJvYcCXbhSiKRWI9uyLNQQIsOEaFgZ/HxBAa7FVwybOlYAZASlseozeXHHaatK5zgAC488cNoZTwVseTG0h4VovH@vger.kernel.org, AJvYcCXc6FX30ucCj0pToZvuhkKqueU0sQe1vh6WfGO6OeFMjQYGCKQ709smTtbZe+9HllwgggFsuYuz695hqA==@vger.kernel.org, AJvYcCXd8kfvoPg1KTWlkTs6C90VCMZcmZaq9dnCLd/cBTgsqBFc5W0Cbbsci/9CyNUK3B65G5+bbV3X0RKSJF8U4ACe@vger.kernel.org, AJvYcCXgDYubmSZhvljBWKbJvpmcObj9oe/3BqtnZEQzuGIRwSlPUW2zpRQConp7qmzVn5I3i6VYXSB9+8ITYsFDTA==@vger.kernel.org, AJvYcCXjVLv+hm+wtOOo17m+XfrZWp3wVaANCLv+x+sHaEYWHFOqWt6rWdfRrUC8LpXl+CWVf08r@vger.kernel.org, AJvYcCXmUOIyGgfZKIULNMQLTqLSv8rJGp/ez2BeSn9pjUHExJDst1Bcq5xifH/YedVQF4xWXsxckkx1bYzA@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJoiSfrI8TdhC5XKmUGK85XKg9Y46zYQOWy/j6Hv+i2J0vqjyE
+	eSR/rKOCuNSh8OsxjIXx1kSpDAAggC3xYT7ED8pCXthmRDFmY4F1Whz1DfDNzZMcDuRKcQa6C4W
+	p0wmuvj1AH6Wi7z+BkqbF/M8p9Ss=
+X-Google-Smtp-Source: AGHT+IHmUYVhD/X+fFCk9mo6iUY3GGy6zSlwPlvt9V5E3bXgq4+AzDcNpwzxGBSsif+BeffRslEST7FtUwPlgXmmxiQ=
+X-Received: by 2002:a5d:5f43:0:b0:391:65c:1b05 with SMTP id
+ ffacd0b85a97d-39c099cd2bbmr115764f8f.11.1743079648810; Thu, 27 Mar 2025
+ 05:47:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <PN3P287MB1829B0776EF3D34D0CA78CB18BA12@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+References: <20250325121624.523258-1-guoren@kernel.org> <20250325121624.523258-32-guoren@kernel.org>
+ <4gph4xikdbg6loy2id72uyxgldsldecc7gquhymusl3vreiw3a@ephk5ahhrdw7>
+In-Reply-To: <4gph4xikdbg6loy2id72uyxgldsldecc7gquhymusl3vreiw3a@ephk5ahhrdw7>
+From: Guo Ren <guoren@kernel.org>
+Date: Thu, 27 Mar 2025 20:47:15 +0800
+X-Gmail-Original-Message-ID: <CAJF2gTSR+jh04BT7rCjALL6eWek=VWm7nFTW57vzwshkTbrtVg@mail.gmail.com>
+X-Gm-Features: AQ5f1JoN57xvarY3Pp887PY64wPP4HS8fDT1YiKKfNiabWlzF5M2aRc4_YpAz7M
+Message-ID: <CAJF2gTSR+jh04BT7rCjALL6eWek=VWm7nFTW57vzwshkTbrtVg@mail.gmail.com>
+Subject: Re: [RFC PATCH V3 31/43] rv64ilp32_abi: maple_tree: Use BITS_PER_LONG
+ instead of CONFIG_64BIT
+To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, guoren@kernel.org, arnd@arndb.de, 
+	gregkh@linuxfoundation.org, torvalds@linux-foundation.org, 
+	paul.walmsley@sifive.com, palmer@dabbelt.com, anup@brainfault.org, 
+	atishp@atishpatra.org, oleg@redhat.com, kees@kernel.org, tglx@linutronix.de, 
+	will@kernel.org, mark.rutland@arm.com, brauner@kernel.org, 
+	akpm@linux-foundation.org, rostedt@goodmis.org, edumazet@google.com, 
+	unicorn_wang@outlook.com, inochiama@outlook.com, gaohan@iscas.ac.cn, 
+	shihua@iscas.ac.cn, jiawei@iscas.ac.cn, wuwei2016@iscas.ac.cn, drew@pdp7.com, 
+	prabhakar.mahadev-lad.rj@bp.renesas.com, ctsai390@andestech.com, 
+	wefu@redhat.com, kuba@kernel.org, pabeni@redhat.com, josef@toxicpanda.com, 
+	dsterba@suse.com, mingo@redhat.com, peterz@infradead.org, 
+	boqun.feng@gmail.com, xiao.w.wang@intel.com, qingfang.deng@siflower.com.cn, 
+	leobras@redhat.com, jszhang@kernel.org, conor.dooley@microchip.com, 
+	samuel.holland@sifive.com, yongxuan.wang@sifive.com, 
+	luxu.kernel@bytedance.com, david@redhat.com, ruanjinjie@huawei.com, 
+	cuiyunhui@bytedance.com, wangkefeng.wang@huawei.com, qiaozhe@iscas.ac.cn, 
+	ardb@kernel.org, ast@kernel.org, linux-kernel@vger.kernel.org, 
+	linux-riscv@lists.infradead.org, kvm@vger.kernel.org, 
+	kvm-riscv@lists.infradead.org, linux-mm@kvack.org, 
+	linux-crypto@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-perf-users@vger.kernel.org, 
+	linux-serial@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, maple-tree@lists.infradead.org, 
+	linux-trace-kernel@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-atm-general@lists.sourceforge.net, linux-btrfs@vger.kernel.org, 
+	netfilter-devel@vger.kernel.org, coreteam@netfilter.org, 
+	linux-nfs@vger.kernel.org, linux-sctp@vger.kernel.org, 
+	linux-usb@vger.kernel.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 27, 2025 at 11:02:33AM +0000, Tarang Raval wrote:
-> Hi Sakari,
-> 
-> Thanks for the review.
-> 
-> > On Mon, Mar 10, 2025 at 12:47:48PM +0530, Tarang Raval wrote:
-> > > Runtime PM is fully initialized before calling
-> > > v4l2_async_register_subdev_sensor(). Moving the runtime PM initialization
-> > > earlier prevents potential access to an uninitialized or powered-down device.
-> > >
-> > > Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>
-> > > ---
-> > >  drivers/media/i2c/imx334.c | 5 +++--
-> > >  1 file changed, 3 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-> > > index ffa39bb317f7..8964d60324e2 100644
-> > > --- a/drivers/media/i2c/imx334.c
-> > > +++ b/drivers/media/i2c/imx334.c
-> > > @@ -1295,6 +1295,9 @@ static int imx334_probe(struct i2c_client *client)
-> > >               goto error_handler_free;
-> > >       }
-> > >
-> > > +     pm_runtime_set_active(imx334->dev);
-> > > +     pm_runtime_enable(imx334->dev);
-> > > +
-> > >       ret = v4l2_async_register_subdev_sensor(&imx334->sd);
-> > >       if (ret < 0) {
-> > >               dev_err(imx334->dev,
-> > > @@ -1302,8 +1305,6 @@ static int imx334_probe(struct i2c_client *client)
-> > >               goto error_media_entity;
-> > >       }
-> > >
-> > > -     pm_runtime_set_active(imx334->dev);
-> > > -     pm_runtime_enable(imx334->dev);
-> > 
-> > Please also change error handling accordingly.
-> 
-> Oh, I missed that.
->   
-> > Btw. the remove function calls pm_runtime_suspended() that does nothing
-> > (use pm_runtime_set_suspended() instead). Could you add a patch to fix it?
->  
-> Should I include these changes in this patch, or should I create a separate 
-> patch for them.
+On Wed, Mar 26, 2025 at 3:10=E2=80=AFAM Liam R. Howlett <Liam.Howlett@oracl=
+e.com> wrote:
+>
+> * guoren@kernel.org <guoren@kernel.org> [250325 08:24]:
+> > From: "Guo Ren (Alibaba DAMO Academy)" <guoren@kernel.org>
+> >
+> > The Maple tree algorithm uses ulong type for each element. The
+> > number of slots is based on BITS_PER_LONG for RV64ILP32 ABI, so
+> > use BITS_PER_LONG instead of CONFIG_64BIT.
+> >
+> > Signed-off-by: Guo Ren (Alibaba DAMO Academy) <guoren@kernel.org>
+> > ---
+> >  include/linux/maple_tree.h | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/include/linux/maple_tree.h b/include/linux/maple_tree.h
+> > index cbbcd18d4186..ff6265b6468b 100644
+> > --- a/include/linux/maple_tree.h
+> > +++ b/include/linux/maple_tree.h
+> > @@ -24,7 +24,7 @@
+> >   *
+> >   * Nodes in the tree point to their parent unless bit 0 is set.
+> >   */
+> > -#if defined(CONFIG_64BIT) || defined(BUILD_VDSO32_64)
+> > +#if (BITS_PER_LONG =3D=3D 64) || defined(BUILD_VDSO32_64)
+>
+> This will break my userspace testing, if you do not update the testing as
+> well.  This can be found in tools/testing/radix-tree.  Please also look
+> at the Makefile as well since it will generate a build flag for the
+> userspace.
+I think you are talking about the following:
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+../shared/shared.mk:
+ifndef LONG_BIT
+LONG_BIT :=3D $(shell getconf LONG_BIT)
+endif
 
-A separate patch would be better as it could be cc'd to stable as well.
-Probably this issue has been there all along...
+generated/bit-length.h: FORCE
+        @mkdir -p generated
+        @if ! grep -qws CONFIG_$(LONG_BIT)BIT generated/bit-length.h; then =
+  \
+                echo "Generating $@";                                      =
+  \
+                echo "#define CONFIG_$(LONG_BIT)BIT 1" > $@;               =
+  \
+                echo "#define CONFIG_PHYS_ADDR_T_$(LONG_BIT)BIT 1" >> $@;  =
+  \
+        fi
 
--- 
-Sakari Ailus
+$ grep CONFIG_64BIT * -r -A 2
+generated/bit-length.h:#define CONFIG_64BIT 1
+generated/bit-length.h-#define CONFIG_PHYS_ADDR_T_64BIT 1
+--
+maple.c:#if defined(CONFIG_64BIT)
+maple.c-static noinline void __init check_erase2_testset(struct maple_tree =
+*mt,
+maple.c-                const unsigned long *set, unsigned long size)
+--
+maple.c:#if CONFIG_64BIT
+maple.c-        MT_BUG_ON(mt, data_end !=3D mas_data_end(&mas));
+maple.c-#endif
+--
+maple.c:#if CONFIG_64BIT
+maple.c-        MT_BUG_ON(mt, data_end - 2 !=3D mas_data_end(&mas));
+maple.c-#endif
+--
+maple.c:#if CONFIG_64BIT
+maple.c-        MT_BUG_ON(mt, data_end - 4 !=3D mas_data_end(&mas));
+maple.c-#endif
+--
+maple.c:#if defined(CONFIG_64BIT)
+maple.c-        /* Captures from VMs that found previous errors */
+maple.c-        mt_init_flags(&tree, 0);
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+
+First, we don't introduce rv64ilp32-abi user space, which means these
+testing codes can't run on rv64ilp32-abi userspace currently. So, the
+problem you mentioned doesn't exist.
+
+Second, CONFIG_32BIT is determined by LONG_BIT, so there's no issue in
+maple.c with future rv64ilp32-abi userspace.
+That means rv64ilp32-abi userspace would use CONFIG_32BIT to test
+radix-tree. It's okay.
+
+>
+> This raises other concerns as the code is found with a grep command, so
+> I'm not sure why it was missed and if anything else is missed?
+>
+> If you consider this email to be the (unasked) question about what to do
+> here, then please CC me, the maintainer of the files including the one
+> you are updating here.
+>
+> Thank you,
+> Liam
+>
+
+
+--=20
+Best Regards
+ Guo Ren
 
