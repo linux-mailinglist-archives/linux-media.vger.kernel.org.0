@@ -1,156 +1,131 @@
-Return-Path: <linux-media+bounces-28811-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28812-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91E2A72A31
-	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 07:32:18 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20D65A72A53
+	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 08:00:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B9CC41895138
-	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 06:32:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 523AB3B86C9
+	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 06:59:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1744B18C01D;
-	Thu, 27 Mar 2025 06:32:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FE651C8625;
+	Thu, 27 Mar 2025 06:59:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="j5KU+76P"
+	dkim=pass (2048-bit key) header.d=quanta-corp-partner-google-com.20230601.gappssmtp.com header.i=@quanta-corp-partner-google-com.20230601.gappssmtp.com header.b="VnXUtEUl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2B7BA48;
-	Thu, 27 Mar 2025 06:32:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59A881C6FF7
+	for <linux-media@vger.kernel.org>; Thu, 27 Mar 2025 06:59:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743057129; cv=none; b=B+Xw1t7VtC2vQtB6VOYpuBv4FLUSjIjmb9JlKgbCIMPwMIUzW5h8Q+gnA2wihrRfgod/jY7dKQqgvpN2QJMIR3VH/gZhhXoSzSq03D3a/42akgGIvq6Zy6X7HfvdLQlkNR/PjwP9qh7vI4PzdMt31D/GmphfTUUSRi/ILpjEf+w=
+	t=1743058796; cv=none; b=jbqWF+HJzgghdLVYURVcqoeTWiX6S64MerPohh2+INr7haOSpngMFAHhdHr+HO5Rq7j/y421Y71KzRZ9RG8TG7uwtjahXraSLIWTRMG3j5FgD7Es4KKICsL+BbENMReIZgV6tPkufE89TS27plTps3ykWiOPRGAYw6vUwQbfhlY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743057129; c=relaxed/simple;
-	bh=GDIN5A5gWg8FSi7r3k2nXwunmt7cGUfbO+lbx6esFFQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=kPSi9lmlqHPOYhSAdxvDDrxM9UhckwoaYx0KSDnWG8vwoflfOYVjxhaxiEtkNXY9SiBlmlPbs/gZZ/clshsoAYSr8F4H5TW/TicIFO4qXW6v/1oKdZVm8QGmOtPyn4zshisEOWzg82Fg9NvlmtKdDVfkFRLxOZNRuqRg41vZmQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=j5KU+76P; arc=none smtp.client-ip=198.47.23.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 52R6VflH2310500
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Thu, 27 Mar 2025 01:31:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1743057101;
-	bh=DSMX1viPjvHdMhDZWQjOOTAlYbRWHPDKDxdpL/NTsVA=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=j5KU+76PIZuj1vEGtSW9DuTFeNIKtz+Bb1nSGS8K/v9HXS31IF2GvFu5F/YoKGKbz
-	 o58wNXgP6J7GfGs1qSd0izw8b7RBVzbOBvLcFgCHsSa8jJsHoLIMpfvOQhSGtGd3Tz
-	 8Hm+uhdNdEfksUa56/RC98ja+8W6fyzhPsHN/NjI=
-Received: from DFLE113.ent.ti.com (dfle113.ent.ti.com [10.64.6.34])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTP id 52R6VfnV074675;
-	Thu, 27 Mar 2025 01:31:41 -0500
-Received: from DFLE107.ent.ti.com (10.64.6.28) by DFLE113.ent.ti.com
- (10.64.6.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 27
- Mar 2025 01:31:41 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE107.ent.ti.com
- (10.64.6.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 27 Mar 2025 01:31:41 -0500
-Received: from [172.24.227.193] (devarsh-precision-tower-3620.dhcp.ti.com [172.24.227.193])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 52R6VbTj048655;
-	Thu, 27 Mar 2025 01:31:38 -0500
-Message-ID: <671ccf0e-7b98-405f-b973-4ffb6996092b@ti.com>
-Date: Thu, 27 Mar 2025 12:01:36 +0530
+	s=arc-20240116; t=1743058796; c=relaxed/simple;
+	bh=mZk1/g6K9/xfZWWHQNM53p/aOxDqD8e73imdnMmnNKA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=mYTur1qRIwKs/loSLx6sbd9aUIHIduL1PTNV3pciK7wprBlpaHMKhRc92yDarM6FvWG/vRgM35hNK9N4TfOF+9PmZ5nWX4EO9GZjURpWkSnJgF7NKQfSmq3+3IISlnmcorfsP852tiA8slGNcaHutS8SwKH2QFGWa5qjJnEZTkc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=quanta.corp-partner.google.com; spf=pass smtp.mailfrom=quanta.corp-partner.google.com; dkim=pass (2048-bit key) header.d=quanta-corp-partner-google-com.20230601.gappssmtp.com header.i=@quanta-corp-partner-google-com.20230601.gappssmtp.com header.b=VnXUtEUl; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=quanta.corp-partner.google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quanta.corp-partner.google.com
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-2ff615a114bso2753680a91.0
+        for <linux-media@vger.kernel.org>; Wed, 26 Mar 2025 23:59:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=quanta-corp-partner-google-com.20230601.gappssmtp.com; s=20230601; t=1743058793; x=1743663593; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=L4to77tfN2Uh/XXo3c+lIPR6s2qFb1tp5+3tSOChySQ=;
+        b=VnXUtEUlnYuZngItHJzLd29wQYqVA++VmxZQ9jp6kUwqM4aH5hOOuEUfBVpVgZLBXv
+         Vu9Coi2+QDT14EXvOJON6YozB6X+CX3/OQSiAQINcQP9FA/kuMmb6WbKTtDiwwWnKc5x
+         tL6YrVe6Zj9SPcDwDsxw6qPczRaOpHJrpjl9rrc5uYOSKDA5tedZDM3k3FErjvEJHrJ2
+         xVTlsfPJpAUuCrKH0+phS5oS0CLGJRnquUFB0bh472/VOhmCSQ6EGvEXvkrcSwXHwBty
+         gp8ECYpP7J/+5i16BRI4d5Dy5mo9Bato5TfVDp65nU4nXvRQNqN3jhZ8oLZvRsuRsZ5Y
+         ZllA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743058793; x=1743663593;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=L4to77tfN2Uh/XXo3c+lIPR6s2qFb1tp5+3tSOChySQ=;
+        b=QkZwDvcEN+bK8AWl6RAsE4xArpyA//4qCr5NqfBt/unr4/qvfZxWkw9j20aEKeMdwc
+         rmmfBIyR+HLnzEeRfJKTrRDXq1VgGfjJNBpr+8Pyab5Nxaoj9etQiVjmie8ti7PhxmjR
+         BoCnd+F3oYVoHKEXR0XIBokiZNhzyM9cteH6J90SbvDbMIvgy2UCSaoQDK1eaOqiYXAI
+         QuSkJ+y3q5UB/DyuoJSFklPelKKi68D+rW2DMsUHqR5Vfg9Xv7yUENhpmIO9XehMaK4p
+         xwhr59fVgAto+vy0I+m9uTt3LyR/06gnUY4cpAp48NSUL9BK884pXLwurtLc169N5RNx
+         1ESA==
+X-Forwarded-Encrypted: i=1; AJvYcCVJB3JFBAn8zV9KALTncFfykIDWve0V2OGCGXcLb2ZoTqb8BrFvipMSdxqT9CvIE8Cmc4fsaZcOZV8BmA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3Dhiql5TIqmuh/iUIt3GYi+F+0P0PL0R3J8BTOj239T7EAnAI
+	xjmNZbkfCxhM/siZyzXgaUWDGVSFy76owep9eOij+wypp/uYg8uFZjxOaU8de6w=
+X-Gm-Gg: ASbGncv9sHJTecWw3FDFO6UR5p4WKVs3N9e1aEHxciM7hq7JFJg2Wqp7CxmX6j0S3bN
+	azwl8nJUsdj8F5EV+AiM6q5H/IwHk6/mowQmrFiQMGeA5KlSy+ZfY7fvYvuQ+hnZfRLG/SvBC/D
+	2yKHm0zqG4pK2jDMjreJWavT7dCR7IEK5Ms+ECegfRBsy9LvFK+RcigScuv5cALf44I6827BFvu
+	DPpBX56mZC7wL7SI2lwGPd2jQlMKFdJ+GRrBWnZ4fxbp5QE8rkURWszFDQUTSP3v35BEdsb7T6S
+	JkRyqgdgI2t7xJ3r6HJ1gKqlhR65HdL1F9htbOLPrA+ws0i+sWZ3puXWsOhFYbFimEx7lt8Q20R
+	hYTVxq828XZyXiRJXgJKI4Ia3/8Ry91HrMrNxMSM4m0Deu04tPE0oMWOPmdo4rpmVTYp64rbcpj
+	L0VpA8BCJ9kGU/kQ==
+X-Google-Smtp-Source: AGHT+IHnETWyyanBiU2twDZ1VaieT35/Fur+NGUXFQac0h6cHFF/+Ft9G2H9gQIlqjGEPWZaiJQG1A==
+X-Received: by 2002:a05:6a00:35c3:b0:736:aea8:c9b7 with SMTP id d2e1a72fcca58-739514c4fc8mr11981390b3a.2.1743058793466;
+        Wed, 26 Mar 2025 23:59:53 -0700 (PDT)
+Received: from localhost.localdomain (2001-b400-e33a-bfe3-6468-2896-023a-3689.emome-ip6.hinet.net. [2001:b400:e33a:bfe3:6468:2896:23a:3689])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73905fe33d0sm13513053b3a.70.2025.03.26.23.59.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Mar 2025 23:59:53 -0700 (PDT)
+From: Ken Lin <kenlin5@quanta.corp-partner.google.com>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: groeck@chromium.org,
+	Benson Leung <bleung@chromium.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Tzung-Bi Shih <tzungbi@kernel.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	chrome-platform@lists.linux.dev,
+	linux-media@vger.kernel.org
+Subject: [PATCH] [v2] media: platform: cros-ec: Add Moxie to the match table
+Date: Thu, 27 Mar 2025 14:59:00 +0800
+Message-Id: <20250327145729.1.I04b964661552ce532dbefd1ee5999fb0a0641a07@changeid>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] media: ti: j721e-csi2rx: Use
- fwnode_get_named_child_node
-To: Jai Luthra <jai.luthra@ideasonboard.com>,
-        Jai Luthra
-	<jai.luthra@linux.dev>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans
- Verkuil <hverkuil@xs4all.nl>,
-        Tomi Valkeinen
-	<tomi.valkeinen@ideasonboard.com>,
-        Sakari Ailus
-	<sakari.ailus@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>
-CC: Rishikesh Donadkar <r-donadkar@ti.com>,
-        Vaishnav Achath
-	<vaishnav.a@ti.com>,
-        Changhuang Liang <changhuang.liang@starfivetech.com>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20250324-probe_fixes-v1-0-5cd5b9e1cfac@ideasonboard.com>
- <20250324-probe_fixes-v1-2-5cd5b9e1cfac@ideasonboard.com>
-Content-Language: en-US
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <20250324-probe_fixes-v1-2-5cd5b9e1cfac@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Transfer-Encoding: 8bit
 
-On 24/03/25 17:31, Jai Luthra wrote:
-> Simplify notifier registration logic. Instead of first getting the
-> device node, get the fwnode of the child directly.
-> 
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+The Google Moxie device uses the same approach as the Google Brask
+which enables the HDMI CEC via the cros-ec-cec driver.
 
-Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
+           Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+           Mauro Carvalho Chehab <mchehab@kernel.org>,
+           Reka Norman <rekanorman@chromium.org>,
+           Stefan Adolfsson <sadolfsson@chromium.org>,
 
-Regards
-Devarsh
-> ---
->   drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c | 19 +++++++++----------
->   1 file changed, 9 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> index a066024bf745450e2ba01d06c0fec4e6bdbfa97e..6d406925e092660cb67c04cc2a7e1e10c14e295e 100644
-> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> @@ -13,6 +13,7 @@
->   #include <linux/module.h>
->   #include <linux/of_platform.h>
->   #include <linux/platform_device.h>
-> +#include <linux/property.h>
->   
->   #include <media/mipi-csi2.h>
->   #include <media/v4l2-device.h>
-> @@ -450,25 +451,23 @@ static int ti_csi2rx_notifier_register(struct ti_csi2rx_dev *csi)
->   {
->   	struct fwnode_handle *fwnode;
->   	struct v4l2_async_connection *asc;
-> -	struct device_node *node;
->   	int ret;
->   
-> -	node = of_get_child_by_name(csi->dev->of_node, "csi-bridge");
-> -	if (!node)
-> +	fwnode = fwnode_get_named_child_node(csi->dev->fwnode, "csi-bridge");
-> +	if (!fwnode)
->   		return -EINVAL;
->   
-> -	fwnode = of_fwnode_handle(node);
-> -	if (!fwnode) {
-> -		of_node_put(node);
-> -		return -EINVAL;
-> -	}
-> -
->   	v4l2_async_nf_init(&csi->notifier, &csi->v4l2_dev);
->   	csi->notifier.ops = &csi_async_notifier_ops;
->   
->   	asc = v4l2_async_nf_add_fwnode(&csi->notifier, fwnode,
->   				       struct v4l2_async_connection);
-> -	of_node_put(node);
-> +	/*
-> +	 * Calling v4l2_async_nf_add_fwnode grabs a refcount,
-> +	 * so drop the one we got in fwnode_get_named_child_node
-> +	 */
-> +	fwnode_handle_put(fwnode);
-> +
->   	if (IS_ERR(asc)) {
->   		v4l2_async_nf_cleanup(&csi->notifier);
->   		return PTR_ERR(asc);
-> 
+Signed-off-by: Ken Lin <kenlin5@quanta.corp-partner.google.com>
+---
+
+Change in v2:
+ - modify commit messages
+---
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+index 12b73ea0f31d..1de5799a0579 100644
+--- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
++++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+@@ -329,6 +329,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
+ 	{ "Google", "Dexi", "0000:00:02.0", port_db_conns },
+ 	/* Google Dita */
+ 	{ "Google", "Dita", "0000:00:02.0", port_db_conns },
++	/* Google Moxie */
++	{ "Google", "Moxie", "0000:00:02.0", port_b_conns },
+ };
+ 
+ static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
+-- 
+2.25.1
+
 
