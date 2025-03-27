@@ -1,148 +1,205 @@
-Return-Path: <linux-media+bounces-28838-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28839-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0294A72D88
-	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 11:15:08 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D7C5A72D9B
+	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 11:16:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 78BA53B1499
-	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 10:14:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 41E433B2D10
+	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 10:16:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8090520E71B;
-	Thu, 27 Mar 2025 10:14:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9FE6211479;
+	Thu, 27 Mar 2025 10:15:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="H9BSvqmm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IF/yDhX4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C43FF20E6FB;
-	Thu, 27 Mar 2025 10:14:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2589720F095;
+	Thu, 27 Mar 2025 10:15:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743070485; cv=none; b=CrGiG925HQuoKR1fZozIyVKsWWjakOAkkbujJ4lsmyDBPW0trTo8ZBSV2cB4uri9DC3gKSRwDmTkAcdV/QLg+v12cbZXNUcrKuOP0Aa+QwdNGEFKDsm+etOiCAEImk2qZenOMPsqJDPLoWgeKqFTyhusga+r4IuTP8RNEQAVyt0=
+	t=1743070525; cv=none; b=NTFUEq4nhLQFBSuT3QnTwcuzVsvVC+k8soiAPDZvL39R0ZsWcj8XI+JAn+usIECqzQnHkDCLjxaPxear1FlUXhsd9QfILhdSj84qYxoxm711a6/ZwrO5mTEYJVj/oaoidNqAlBtf7QwijVQ7xkruIf43i4IINAZYJjbFhmO4JLA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743070485; c=relaxed/simple;
-	bh=rnzBvdRbSTyIG6cy6l+uIjLmvLq18jqXRfIor1Iq/hI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=NhzCAJTtUiSqrNjUedPtKXTi/NPZ8ZJ+xRHLDKhoIFO4G33m8goMH807bZq89k0+fBV6efRYAk5HSg91/8MXyLHasM+Qwq2xYK4lFr6toxttYy77orEzj5PCFP2Au7MP+5uSWCAiLCbtnGwGWTNLdS1D3J7Rp+A3kS2RO7NvEdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=H9BSvqmm; arc=none smtp.client-ip=198.47.23.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 52RAEEx22362126
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 27 Mar 2025 05:14:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1743070454;
-	bh=X9teR79IJRxW3SQmh9ToGw/nunmVP9SzQFNAQN9VgFI=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=H9BSvqmmEyWsWMn3L2ssLCJHJPF2vfzqmRaEY7qtbvYc6QUFro12AhoQf3CJcKqiZ
-	 GlGqs0yP4Ky0QNl1NzgYsUOiwZpta3ABZ+WWiFmZpuKy5jH+Y5TqLrUMntqOy8GkDA
-	 mFlJ322ej1oO72C4dtoqDP572Ojsk4sGSERx46iY=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 52RAEEqL111973
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 27 Mar 2025 05:14:14 -0500
-Received: from DFLE104.ent.ti.com (10.64.6.25) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 27
- Mar 2025 05:14:13 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE104.ent.ti.com
- (10.64.6.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 27 Mar 2025 05:14:13 -0500
-Received: from [172.24.227.193] (devarsh-precision-tower-3620.dhcp.ti.com [172.24.227.193])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 52RAE9Zj131057;
-	Thu, 27 Mar 2025 05:14:10 -0500
-Message-ID: <7a6966e8-dbbe-49de-84e4-127c22c7ca33@ti.com>
-Date: Thu, 27 Mar 2025 15:44:09 +0530
+	s=arc-20240116; t=1743070525; c=relaxed/simple;
+	bh=UzJiYS3JI1YoDbd0y1pICIatHn+gHECMIdSbHA/EmNA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WoJgxrtXSVs8EOshYqzDsvNRcvw5ZRvkRjQEHVOnUuUqa7aF4FTRezm5NIDyScbbIFvr/LPAkvQSv30T8hcAsXP2boVU4V3ncqMjH5Uq6hReOfSLqEi8dGpzXSJEDk4NCMkuL6qhkqZ16HUnhylwmLX1yNMqmRs1sHbAzplBmmk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IF/yDhX4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DF91C4CEDD;
+	Thu, 27 Mar 2025 10:15:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743070524;
+	bh=UzJiYS3JI1YoDbd0y1pICIatHn+gHECMIdSbHA/EmNA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IF/yDhX4zMqBX+2n/33ESUGZKPBxUOxclq/H7/KyL31PlithIZmAadrar2WfKieru
+	 kwWURPZqMj4DfHpEZUK1DPUiHjP1pFeEUup3Zoqw7Fo5P56LJI8G87JiUsSCVi4Zba
+	 E5v/BVtlvZl5s7rLPpFiUsDD2v3/AU/BegTiFEk6eXj6UwmSct5lPJqftbr08h8c14
+	 U88bbZcZl8cIZOlzu9MppbqXFM4V7LdXkRFdEPcOWoGfCJ7cKQfy5woFoiTd1HI5eZ
+	 08grf+TTozHVLwNwkjysOVjYwA6PS5wYnrFKVrBL6MqNX1I5We5Hit8Rd77nKk6wrh
+	 blQxlBGR3PmUg==
+Date: Thu, 27 Mar 2025 11:15:19 +0100
+From: Danilo Krummrich <dakr@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Philipp Stanner <phasta@kernel.org>, Lyude Paul <lyude@redhat.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, stable@vger.kernel.org
+Subject: Re: [PATCH] drm/nouveau: Prevent signalled fences in pending list
+Message-ID: <Z-UlN4pIwct-q83Y@pollux>
+References: <20250327084256.11201-2-phasta@kernel.org>
+ <8882f3d5-6e00-4aae-af3f-7df447158fda@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/6] media: ti: j721e-csi2rx: Fix source subdev link
- creation
-To: Jai Luthra <jai.luthra@ideasonboard.com>,
-        Jai Luthra
-	<jai.luthra@linux.dev>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans
- Verkuil <hverkuil@xs4all.nl>,
-        Tomi Valkeinen
-	<tomi.valkeinen@ideasonboard.com>,
-        Sakari Ailus
-	<sakari.ailus@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>
-CC: Rishikesh Donadkar <r-donadkar@ti.com>,
-        Vaishnav Achath
-	<vaishnav.a@ti.com>,
-        Changhuang Liang <changhuang.liang@starfivetech.com>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <stable@vger.kernel.org>
-References: <20250324-probe_fixes-v1-0-5cd5b9e1cfac@ideasonboard.com>
- <20250324-probe_fixes-v1-3-5cd5b9e1cfac@ideasonboard.com>
-Content-Language: en-US
-From: Devarsh Thakkar <devarsht@ti.com>
-In-Reply-To: <20250324-probe_fixes-v1-3-5cd5b9e1cfac@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <8882f3d5-6e00-4aae-af3f-7df447158fda@amd.com>
 
-On 24/03/25 17:31, Jai Luthra wrote:
-> We don't use OF ports and remote-endpoints to connect the CSI2RX bridge
-> and this device in the device tree, thus it is wrong to use
-> v4l2_create_fwnode_links_to_pad() to create the media graph link between
-> the two.
+On Thu, Mar 27, 2025 at 09:56:01AM +0100, Christian König wrote:
+> Am 27.03.25 um 09:42 schrieb Philipp Stanner:
+> > Nouveau currently relies on the assumption that dma_fences will only
+> > ever get signalled through nouveau_fence_signal(), which takes care of
+> > removing a signalled fence from the list nouveau_fence_chan.pending.
+> >
+> > This self-imposed rule is violated in nouveau_fence_done(), where
+> > dma_fence_is_signaled() can signal the fence without removing it from
+> > the list. This enables accesses to already signalled fences through the
+> > list, which is a bug.
+> >
+> > Furthermore, it must always be possible to use standard dma_fence
+> > methods an a dma_fence and observe valid behavior. The canonical way of
+> > ensuring that signalling a fence has additional effects is to add those
+> > effects to a callback and register it on the fence.
 > 
-> It works out on accident, as neither the source nor the sink implement
-> the .get_fwnode_pad() callback, and the framework helper falls back on
-> using the first source and sink pads to create the link between them.
+> Good catch.
 > 
-> Instead, manually create the media link from the first source pad of the
-> bridge to the first sink pad of the J721E CSI2RX.
+> >
+> > Move the code from nouveau_fence_signal() into a dma_fence callback.
+> > Register that callback when creating the fence.
 > 
-> Fixes: b4a3d877dc92 ("media: ti: Add CSI2RX support for J721E")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> But that's a really ugly approach.
+> 
+> Either nouveau shouldn't implement the signaled callback or make sure that when returning true from the signaled callback the fence is also removed from the pending list.
 
-Reviewed-by: Devarsh Thakkar <devarsht@ti.com>
+I think the idea of the fix is to not cover one additional case (i.e.
+dma_fence_is_signaled()), but all cases.
 
-Regards
-Devarsh
-> ---
->   drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c | 7 +++++--
->   1 file changed, 5 insertions(+), 2 deletions(-)
+For instance, what if only dma_fence_signal() is called on this fence? Then it
+would still not be removed from the pending list, etc.
+
+I'm all for a better solution, but I think it should cover all cases.
+
 > 
-> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> index 6d406925e092660cb67c04cc2a7e1e10c14e295e..ad51d033b6725426550578bdac1bae8443458f13 100644
-> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> @@ -53,6 +53,8 @@
->   #define DRAIN_TIMEOUT_MS		50
->   #define DRAIN_BUFFER_SIZE		SZ_32K
->   
-> +#define CSI2RX_BRIDGE_SOURCE_PAD	1
-> +
->   struct ti_csi2rx_fmt {
->   	u32				fourcc;	/* Four character code. */
->   	u32				code;	/* Mbus code. */
-> @@ -427,8 +429,9 @@ static int csi_async_notifier_complete(struct v4l2_async_notifier *notifier)
->   	if (ret)
->   		return ret;
->   
-> -	ret = v4l2_create_fwnode_links_to_pad(csi->source, &csi->pad,
-> -					      MEDIA_LNK_FL_IMMUTABLE | MEDIA_LNK_FL_ENABLED);
-> +	ret = media_create_pad_link(&csi->source->entity, CSI2RX_BRIDGE_SOURCE_PAD,
-> +				    &vdev->entity, csi->pad.index,
-> +				    MEDIA_LNK_FL_IMMUTABLE | MEDIA_LNK_FL_ENABLED);
->   
->   	if (ret) {
->   		video_unregister_device(vdev);
+> >
+> > Cc: <stable@vger.kernel.org> # 4.10+
+> > Fixes: f54d1867005c ("dma-buf: Rename struct fence to dma_fence")
+> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> > ---
+> > I'm not entirely sure what Fixes-Tag is appropriate. The last time the
+> > line causing the signalled fence in the list was touched is the commit
+> > listed above.
+
+You could search for the commit that introduced the code before commit
+f54d1867005c. This one is surely not correct.
+
+However, in cases where you can't find the commit that introduced the problem,
+since the bug was always present, you can also drop Fixes: and Cc stable only.
+
 > 
+> Yeah, that's most likely not correct. My educated guess is that the bug was always there just never discovered.
+> 
+> Regards,
+> Christian.
+> 
+> > ---
+> >  drivers/gpu/drm/nouveau/nouveau_fence.c | 41 ++++++++++++++++---------
+> >  drivers/gpu/drm/nouveau/nouveau_fence.h |  1 +
+> >  2 files changed, 27 insertions(+), 15 deletions(-)
+> >
+> > diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
+> > index 7cc84472cece..b2c2241a8803 100644
+> > --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
+> > +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+> > @@ -50,24 +50,22 @@ nouveau_fctx(struct nouveau_fence *fence)
+> >  	return container_of(fence->base.lock, struct nouveau_fence_chan, lock);
+> >  }
+> >  
+> > -static int
+> > -nouveau_fence_signal(struct nouveau_fence *fence)
+> > +static void
+> > +nouveau_fence_cleanup_cb(struct dma_fence *dfence, struct dma_fence_cb *cb)
+> >  {
+> > -	int drop = 0;
+> > +	struct nouveau_fence_chan *fctx;
+> > +	struct nouveau_fence *fence;
+> > +
+> > +	fence = container_of(dfence, struct nouveau_fence, base);
+> > +	fctx = nouveau_fctx(fence);
+> >  
+> > -	dma_fence_signal_locked(&fence->base);
+> >  	list_del(&fence->head);
+> >  	rcu_assign_pointer(fence->channel, NULL);
+> >  
+> > -	if (test_bit(DMA_FENCE_FLAG_USER_BITS, &fence->base.flags)) {
+> > -		struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
+> > -
+> > -		if (!--fctx->notify_ref)
+> > -			drop = 1;
+> > -	}
+> > +	if (test_bit(DMA_FENCE_FLAG_USER_BITS, &fence->base.flags))
+> > +		--fctx->notify_ref;
+> >  
+> >  	dma_fence_put(&fence->base);
+> > -	return drop;
+> >  }
+> >  
+> >  static struct nouveau_fence *
+> > @@ -93,7 +91,8 @@ nouveau_fence_context_kill(struct nouveau_fence_chan *fctx, int error)
+> >  		if (error)
+> >  			dma_fence_set_error(&fence->base, error);
+> >  
+> > -		if (nouveau_fence_signal(fence))
+> > +		dma_fence_signal_locked(&fence->base);
+> > +		if (fctx->notify_ref == 0)
+> >  			nvif_event_block(&fctx->event);
+> >  	}
+> >  	fctx->killed = 1;
+> > @@ -131,7 +130,6 @@ static int
+> >  nouveau_fence_update(struct nouveau_channel *chan, struct nouveau_fence_chan *fctx)
+> >  {
+> >  	struct nouveau_fence *fence;
+> > -	int drop = 0;
+> >  	u32 seq = fctx->read(chan);
+> >  
+> >  	while (!list_empty(&fctx->pending)) {
+> > @@ -140,10 +138,10 @@ nouveau_fence_update(struct nouveau_channel *chan, struct nouveau_fence_chan *fc
+> >  		if ((int)(seq - fence->base.seqno) < 0)
+> >  			break;
+> >  
+> > -		drop |= nouveau_fence_signal(fence);
+> > +		dma_fence_signal_locked(&fence->base);
+> >  	}
+> >  
+> > -	return drop;
+> > +	return fctx->notify_ref == 0 ? 1 : 0;
+
+This seems to introduce a new bug.
+
+Since the fence is removed from the pending list through the callback, we may
+not enter the code paths calling nouveau_fence_update() anymore. In fact, I
+think you can remove nouveau_fence_update() entirely and just call
+
+	nvif_event_block(&fctx->event);
+
+directly from the callback if !--fctx->notify_ref.
 
