@@ -1,94 +1,50 @@
-Return-Path: <linux-media+bounces-28901-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28902-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FC1EA74058
-	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 22:36:50 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A5C2A74088
+	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 22:58:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 98B5C7A6B5D
-	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 21:35:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8272A17407D
+	for <lists+linux-media@lfdr.de>; Thu, 27 Mar 2025 21:58:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C66861DDC21;
-	Thu, 27 Mar 2025 21:36:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4824E1E1E00;
+	Thu, 27 Mar 2025 21:57:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l/zdHmMA"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B6COfFjl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E93D8462;
-	Thu, 27 Mar 2025 21:36:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B4C81DED45;
+	Thu, 27 Mar 2025 21:57:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743111398; cv=none; b=IFTo/hX69i9CtXSBYT6Vf2swYZgBg8EPcPhidnlpjm/AtKYMx/xEPFCYWraKOKP76IDFbrvLYDyY3GMQhgtKqAsL7AAm0BM9d8eV84O2aVF+RoKHTUKKjzGjfPUKymUHqxST5zgmrnQl5eTZjfHTd8RZi/fr3Gr7rNCyzNIDQrg=
+	t=1743112671; cv=none; b=GAIsXX3/hHT2FF1SSUrip23/8Dyt8rvWPaiZu0rw7z6Z2xtHnpM/kfSkQAygiZxJRdviZdBo7rQNr+X5HfKHdbtPFbPfmpzLxLKXJB9mBQGh2vmeEHwi6gOEyPgfBxPMYZ2kYa/O3x4fXgYbQa7JaFWxa4SiTqd6SIl29oNk4T8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743111398; c=relaxed/simple;
-	bh=vFfzh+qJ2E/Fg6LhILBUm2b8dYY0+APHMTusxqNHpsU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iW1xRRzoou1tISO1Haj8bIW6EHO+qsguxJmTk5/WEBVzUCJH5tJuV3Ijp1roV6zsOf1Sjhe0ISgghEPgnKB/N25E7r49DrGXyKlBF3J4jAnmR9SckKuD8UUuNOnLdY0glva5GPWbVC9i006mW14z4UHfx4M1e8cYdq/L9gg22NU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l/zdHmMA; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-226185948ffso33186585ad.0;
-        Thu, 27 Mar 2025 14:36:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743111396; x=1743716196; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vt+RjYIF5jBbl4jDavT5AkEfIOndEZDQELaBJfix0fM=;
-        b=l/zdHmMAz+pPs8/L62KyiOoUMGjIURJWRWZ9+BFU6drU1cHFtmnPh2NkQBDHVdJYbz
-         eAeTC41DzjgTHHaVWUtADSYO1YUbEYG19QXZ2Lf6AuPv9SKUV9TBgP0KuDzHFUdUQHw/
-         LKCWssH0rWPAbP8vvF1SXWAU6UrrlqzBS6YHzGxyyh72WxmvG6NAUOldsW7a0iIp1xvX
-         FS5m9cZW5vgLvXb1qWJ9wjo6cAcMyuYYb5ruyZa4PeNstcqMtvk5u82dhA767+U97pIX
-         BKozEKXLRkq1KOvBj1z5TmbObPH1J4oklfcui5/Q709SfbzgdalIYhjLF/RGbsveFL9s
-         NE6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743111396; x=1743716196;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Vt+RjYIF5jBbl4jDavT5AkEfIOndEZDQELaBJfix0fM=;
-        b=SeomoOvg7JDKBGOTiDRgPn3Lx5R0//yGJsF90lkolURaa4kE45G0pDOYitCE2ZJsn+
-         Weo85fHKrbOUaAIKl7ESc4BlOZN+lfRb6LgWaMl/9O4nbhMFWbTkXavQCoQdlLiNB+F6
-         +VQcYt8OAURyl1SY5KQ5yTIMIfWJOnsjBqANo4fgGRwxuIQVf50AOMNbWvAosbXCpr/b
-         zKxhvhCCqinWFMLwdNukcL1Cbh0sNnyDJSFxjZXxAqL/3ccB9cfPb5n+3+LscqSyV8zl
-         4MGhMzLBbIPk7mRFA/ZttNw3lvXsFFe/C4XsPbAjMefoh4NAicQ4n+C6mMy7uo+6gE2n
-         tmcA==
-X-Forwarded-Encrypted: i=1; AJvYcCWEL6ukJEVbPSYe0vLYcHyHigVhs2OfyaB69uookU9oC31Flib4gmSTapQMmnZL1JwW1x6jJva5CgSO9Bk=@vger.kernel.org, AJvYcCXWq2TEp1IV0ZRbjmPl3YtD9aJ3eKjKGyEdA2LLqibYOKzAp86HdpJfElMy9SOwZLtQILLpDoPS39S2PMM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQBscVAd1RLLIAOehAgo3FgNeak3lqpyTTzwWzHAXzDanNZj6H
-	pGjwdcULFnIfU8+gvkN0l8isryYxnY8/AISwKK/mdt2DxPWg687X
-X-Gm-Gg: ASbGncu93LKvqyVofEK6g0R5rs2Fb8MV4k4KFlGYGFUzTTztbBQLPhRrfMOGhoJEnRg
-	5t94foHsAOj1nF6TINYRmUIrDq+apBwhgN5uC7Jyz2s4I3kOZbxL7coFEfHm1QjtMXVGv1mawkF
-	a9DSdBBe4/ox9uMkXNYdXmfJ6istk02kToCmdRcyU0LJvDOliIcoQqEVI+ewGBks7ZcwsLE5oD0
-	WLXX6edGNrp+1/wh12Qm4818gybK3dPh1F3ZXaVTGyO1qIQKjncTBaUdD3cPbk6Vo95Hedrnzsu
-	i/ab9pNDkLlzakS27hVSE30bUmC7dLVWoFmJbcIfobJ78ObVWJlfxSmzo1cbfk9gcNgE0Q2i9th
-	yQDP6cHNRkqsLo61IyCU=
-X-Google-Smtp-Source: AGHT+IE/TvMoCvEldYyvJ56ojLgJ9oJM2lccu4CA0dZo8Nu6+T4LJbrERdbFlF3GeV84s+HWM5AJeQ==
-X-Received: by 2002:a17:902:e745:b0:227:e980:919d with SMTP id d9443c01a7336-22804968a98mr64293775ad.47.1743111395511;
-        Thu, 27 Mar 2025 14:36:35 -0700 (PDT)
-Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2291eee0d37sm4823235ad.91.2025.03.27.14.36.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Mar 2025 14:36:34 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Dmitry Osipenko <dmitry.osipenko@collabora.com>,
-	Rob Clark <robdclark@chromium.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	linux-kernel@vger.kernel.org (open list),
-	linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b),
-	linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b)
-Subject: [PATCH v4] drm/syncobj: Extend EXPORT_SYNC_FILE for timeline syncobjs
-Date: Thu, 27 Mar 2025 14:36:31 -0700
-Message-ID: <20250327213632.7903-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1743112671; c=relaxed/simple;
+	bh=2JaAn98f3WVVTUV4zPmAkU4cOoVTOpFjAd0eloNL26s=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=YJ5vre7eXNJFfEvNwaT+5miCpoKrVIgUV8UR+OrPDhGH6UVNrMQe1SW1EewZlee7yan9tI228JVc6EGGysZqONndwPlcTXeOyaoYB7EcFiIkr0wOPRGXWlascJANjD+uqmm+CdF+xW2J2jdK3kT0XHjyvOqz82NwWtBqC8ywoSk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B6COfFjl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E0BF0C4CEDD;
+	Thu, 27 Mar 2025 21:57:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743112670;
+	bh=2JaAn98f3WVVTUV4zPmAkU4cOoVTOpFjAd0eloNL26s=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=B6COfFjlmv44H/k8P+/lDonPywmqiVsjydXWYBGmwJNHXItK56LsIYYCHHQsNCi4m
+	 c8rDyU3SMmrjRXWXb4ZOTIUkAjf05A0hKeJKoHpRLXReBDGuzUUW/eZaSoDTyRK3BK
+	 Khjkc7cJSoPNhaOvjjnbXbD02ffpLYPlRS6fC9xq8J88o17qUC+1K/ophEYU+IZCQJ
+	 iv1KIjQaCTnZm+pVc/Q5fL2DhtGYEeQcDDS7ejfsxW3Ab5DPvDhRvhFhRTA17cABWY
+	 KgAGz2fwz++ipPkeXUlTM6Vzuk/lcC0EZZ4SLuQabCgAHXkMoLioP57G+iE7wt0m0Z
+	 +AB0AExum5kcA==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 7109C380AAFD;
+	Thu, 27 Mar 2025 21:58:28 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -96,160 +52,50 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [f2fs-dev] [RFC v2 00/38] Improve ABI documentation generation
+From: patchwork-bot+f2fs@kernel.org
+Message-Id: 
+ <174311270700.2230226.6627341491675246186.git-patchwork-notify@kernel.org>
+Date: Thu, 27 Mar 2025 21:58:27 +0000
+References: <cover.1738020236.git.mchehab+huawei@kernel.org>
+In-Reply-To: <cover.1738020236.git.mchehab+huawei@kernel.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linux-doc@vger.kernel.org, corbet@lwn.net, gregkh@linuxfoundation.org,
+ linux-pm@vger.kernel.org, netdev@vger.kernel.org, coresight@lists.linaro.org,
+ linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-f2fs-devel@lists.sourceforge.net,
+ linux-block@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-hardening@vger.kernel.org, workflows@vger.kernel.org,
+ bpf@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
 
-From: Rob Clark <robdclark@chromium.org>
+Hello:
 
-Add support for exporting a dma_fence fd for a specific point on a
-timeline.  This is needed for vtest/vpipe[1][2] to implement timeline
-syncobj support, as it needs a way to turn a point on a timeline back
-into a dma_fence fd.  It also closes an odd omission from the syncobj
-UAPI.
+This patch was applied to jaegeuk/f2fs.git (dev)
+by Jonathan Corbet <corbet@lwn.net>:
 
-[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33433
-[2] https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/805
+On Tue, 28 Jan 2025 01:05:49 +0100 you wrote:
+> Hi Jon/Greg,
+> 
+> That's the second version of my RFC patches meant to modenize the ABI
+> parser that I wrote in Perl.
+> 
+> I originally started it due to some issues I noticed when searching for
+> ABI symbols. While I could just go ahead and fix the already existing
+> script, I noticed that the script maintainance didn't have much care over
+> all those years, probably because it is easier to find Python programmers
+> those days.
+> 
+> [...]
 
-v2: Add DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE
-v3: Add unstaged uabi header hunk
-v4: Also handle IMPORT_SYNC_FILE case
+Here is the summary with links:
+  - [f2fs-dev,RFC,v2,10/38] ABI: sysfs-fs-f2fs: fix date tags
+    https://git.kernel.org/jaegeuk/f2fs/c/90800df0da78
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/drm_syncobj.c | 41 ++++++++++++++++++++++++++---------
- include/uapi/drm/drm.h        |  4 ++++
- 2 files changed, 35 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-index 4f2ab8a7b50f..58d8a9035f7d 100644
---- a/drivers/gpu/drm/drm_syncobj.c
-+++ b/drivers/gpu/drm/drm_syncobj.c
-@@ -741,7 +741,7 @@ static int drm_syncobj_fd_to_handle(struct drm_file *file_private,
- }
- 
- static int drm_syncobj_import_sync_file_fence(struct drm_file *file_private,
--					      int fd, int handle)
-+					      int fd, int handle, u64 point)
- {
- 	struct dma_fence *fence = sync_file_get_fence(fd);
- 	struct drm_syncobj *syncobj;
-@@ -755,14 +755,18 @@ static int drm_syncobj_import_sync_file_fence(struct drm_file *file_private,
- 		return -ENOENT;
- 	}
- 
--	drm_syncobj_replace_fence(syncobj, fence);
-+	if (point) {
-+		drm_syncobj_add_point(syncobj, dma_fence_chain_alloc(), fence, point);
-+	} else {
-+		drm_syncobj_replace_fence(syncobj, fence);
-+	}
- 	dma_fence_put(fence);
- 	drm_syncobj_put(syncobj);
- 	return 0;
- }
- 
- static int drm_syncobj_export_sync_file(struct drm_file *file_private,
--					int handle, int *p_fd)
-+					int handle, u64 point, int *p_fd)
- {
- 	int ret;
- 	struct dma_fence *fence;
-@@ -772,7 +776,7 @@ static int drm_syncobj_export_sync_file(struct drm_file *file_private,
- 	if (fd < 0)
- 		return fd;
- 
--	ret = drm_syncobj_find_fence(file_private, handle, 0, 0, &fence);
-+	ret = drm_syncobj_find_fence(file_private, handle, point, 0, &fence);
- 	if (ret)
- 		goto err_put_fd;
- 
-@@ -869,6 +873,9 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
- 				   struct drm_file *file_private)
- {
- 	struct drm_syncobj_handle *args = data;
-+	unsigned valid_flags = DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE |
-+			       DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE;
-+	u64 point = 0;
- 
- 	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
- 		return -EOPNOTSUPP;
-@@ -876,13 +883,18 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
- 	if (args->pad)
- 		return -EINVAL;
- 
--	if (args->flags != 0 &&
--	    args->flags != DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
-+	if (args->flags != 0 && (args->flags & ~valid_flags))
- 		return -EINVAL;
- 
-+	if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE)
-+		point = args->point;
-+
- 	if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
- 		return drm_syncobj_export_sync_file(file_private, args->handle,
--						    &args->fd);
-+						    point, &args->fd);
-+
-+	if (args->point)
-+		return -EINVAL;
- 
- 	return drm_syncobj_handle_to_fd(file_private, args->handle,
- 					&args->fd);
-@@ -893,6 +905,9 @@ drm_syncobj_fd_to_handle_ioctl(struct drm_device *dev, void *data,
- 				   struct drm_file *file_private)
- {
- 	struct drm_syncobj_handle *args = data;
-+	unsigned valid_flags = DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE |
-+			       DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE;
-+	u64 point = 0;
- 
- 	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
- 		return -EOPNOTSUPP;
-@@ -900,14 +915,20 @@ drm_syncobj_fd_to_handle_ioctl(struct drm_device *dev, void *data,
- 	if (args->pad)
- 		return -EINVAL;
- 
--	if (args->flags != 0 &&
--	    args->flags != DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE)
-+	if (args->flags != 0 && (args->flags & ~valid_flags))
- 		return -EINVAL;
- 
-+	if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE)
-+		point = args->point;
-+
- 	if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE)
- 		return drm_syncobj_import_sync_file_fence(file_private,
- 							  args->fd,
--							  args->handle);
-+							  args->handle,
-+							  point);
-+
-+	if (args->point)
-+		return -EINVAL;
- 
- 	return drm_syncobj_fd_to_handle(file_private, args->fd,
- 					&args->handle);
-diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-index 7fba37b94401..e63a71d3c607 100644
---- a/include/uapi/drm/drm.h
-+++ b/include/uapi/drm/drm.h
-@@ -905,13 +905,17 @@ struct drm_syncobj_destroy {
- };
- 
- #define DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE (1 << 0)
-+#define DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE         (1 << 1)
- #define DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE (1 << 0)
-+#define DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE         (1 << 1)
- struct drm_syncobj_handle {
- 	__u32 handle;
- 	__u32 flags;
- 
- 	__s32 fd;
- 	__u32 pad;
-+
-+	__u64 point;
- };
- 
- struct drm_syncobj_transfer {
+You are awesome, thank you!
 -- 
-2.49.0
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
 
 
