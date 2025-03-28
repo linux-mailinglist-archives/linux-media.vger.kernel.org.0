@@ -1,142 +1,189 @@
-Return-Path: <linux-media+bounces-28955-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28956-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C93CA75149
-	for <lists+linux-media@lfdr.de>; Fri, 28 Mar 2025 21:10:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81734A751E3
+	for <lists+linux-media@lfdr.de>; Fri, 28 Mar 2025 22:09:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E32F916EF40
-	for <lists+linux-media@lfdr.de>; Fri, 28 Mar 2025 20:10:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8712818947C7
+	for <lists+linux-media@lfdr.de>; Fri, 28 Mar 2025 21:09:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CAC01E51F9;
-	Fri, 28 Mar 2025 20:10:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 541711EF369;
+	Fri, 28 Mar 2025 21:09:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="FaUQLC1P"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="geX4sRzp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 059EC19AA5D
-	for <linux-media@vger.kernel.org>; Fri, 28 Mar 2025 20:10:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0031BE86E;
+	Fri, 28 Mar 2025 21:09:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743192621; cv=none; b=bL+aXHWM+9OLytRvmg6Hfs+yKKRTIWmzG7HpIo0PASsFghZNiQKEkiKptp5MXOA2WAy91mus7Ojjc2VRn/b3o3SAUQHM6RMKpojTGfG6PCmHYcn+Xh41df/hf288Sy4xESJD6/v60ymXkVgrgmIhqu70Xj0yGJHd8HefaZsqIbk=
+	t=1743196166; cv=none; b=CRP8QTN/o0scrVFIncv1DgUGX/fA9L4ckFoGTVCw3CYuS4WdNjF7zYUB4t2xkP49puiixyWC0qd00rOjJZGVWzLy1tvFUkDG5CV/E4Za5CP7i0G0mkO/dJl7XYK+ruvsnRZdDtg6DVVRfW/JG2FF5DVecwDOauqvAHTi65sgr/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743192621; c=relaxed/simple;
-	bh=Bo0MvhUfgmX8AHGtnuvjG7ebaJMbSTOK4rGTfPtnCbg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cGJA3CrSfOhwryo4ZUI+Cs/YfzZxUz5XIAQKI7QcSoMwl2fN3lAvoH//rGZfs5kIMxf0oxL7H56Z56EN8iDr4MJlnwaBCD38grfzxGE7+lkZNhMx9Huc2oqdecfzd1FCkRMJXkwVNKtGA2c2zm7MjbZlpxTTmKcdMAUdDzR0O5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=FaUQLC1P; arc=none smtp.client-ip=209.85.219.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-6e8fce04655so24366346d6.3
-        for <linux-media@vger.kernel.org>; Fri, 28 Mar 2025 13:10:17 -0700 (PDT)
+	s=arc-20240116; t=1743196166; c=relaxed/simple;
+	bh=LboS8TQ6QkgeY6sglCIVCClzvsM5P58IqfwxTUiDJv4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rbMlN58SrpBiaia70GKNK9N+KvoGEwWsfmVxvn6ze9gUefZdhp5P2tR82OO2OVB7b5THPDRnpXk7NqcXkNQLnjh46CvzGX6R1Mlyy6+KA0VT2EU+f0oVqYM29ap8lutEekqZP2jolxTGAanofG+jDIU6MGAB97e7UMRweSjPvjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=geX4sRzp; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-22409077c06so79777705ad.1;
+        Fri, 28 Mar 2025 14:09:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1743192617; x=1743797417; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Bo0MvhUfgmX8AHGtnuvjG7ebaJMbSTOK4rGTfPtnCbg=;
-        b=FaUQLC1PqHkPLMKJP40nlfhe1vxtIwk6Vd2CruQH0MZkjJTtRXjKWtW3D3ZARLB1zm
-         91NEWOjzn7M3yfIJad9ZGamxWlb5xkMrH25sy5xW52xr6NCtw85dMJ+2JYgJMQuAaR55
-         9x6TB2cWIv0qXUay0YHku9VFOWkmR7wrBw9dIvFSpZz6atTzVDj4yJFi/vi03ZtQcdcw
-         ZJ+9IXiyRPH+O+2ejne95j7pHsCzfyEOyMvz0o/ec7ZZwd+crug45fiQRQiHL6zMzjQR
-         h8+y3lmWMD1j4a3ilWpX78N0fn20ZReCJ6tu4fqqDVcXkbVCLGTNtmcywxFoUQ6ccPPg
-         d00A==
+        d=gmail.com; s=20230601; t=1743196164; x=1743800964; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=hwl4NdWNLA+WiZCnf70iMDLkFwdpvil0W/uJAOBiirY=;
+        b=geX4sRzpEDdszyAsaG1bRpY5qEHZfU+wZNBj6IMHNfRxD3nKgx20WcAZt74dgbQNwt
+         5zfm2bT8ZwrOY3JyEaeJSZCZ0ApsNHELI0rIJWJNSZ5kflqfK6gEHzPqX/Y6t5OOxaRm
+         t8P7v/bx51taN+YBpnSP5ciDeI52qN8nnIuk13XOVhWq88oEineO6YisZmy+ZiXzZEs7
+         LxufmHHDqtUefA5mvUjUEcjjE1OOVk9foDUkrY9UGTKZVpW0iZe3MuxzEr5cKj/RAIX/
+         ltClcQfpNUrrdclWk8ghd9LUu2+pBfH32mUE2WXr9ecKIsq5ZzGzIoPVMymMF7Jbod3D
+         GBFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743192617; x=1743797417;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Bo0MvhUfgmX8AHGtnuvjG7ebaJMbSTOK4rGTfPtnCbg=;
-        b=HQ/HmlvMsvYIRoAxsCLulnK4aMfoU+PSpMe52QdkrpPAZ89R66cn8d9xhXBoEEZqze
-         fVYnuQNnCSFGbhqcfiN4Yx3whXj0zcAWyUviPY6zjeRIN0ydAqgEKHi8OaFF6ug4BOfH
-         03gL1wSQeDNaNdreQAkbPr5jkG7BTRzlwfjJ4rS9NrIxR9RhmqutS4Bdp4/FbAL9j5xd
-         Q+YP8QIzcV2X4fRsmG4iyn8OX6s/VbGaunLLbfaJaQdyVCmAYpLSyPOPw2gVEZaU5Dfo
-         Dk4Htq4HSDNPnEdnHyGUhN0Nn4KEYyHYpYSFO9FPp1lMpu3MDgxtd0RSaumh4Y8JAGI6
-         gTHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUjEw3/s80prmUCH8oW3FvpfByrogAm90flG5GakJK0NvLesWrxfSzg7HhdJG02w6ZyK5WS6cIB/aE/WA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0iCRJkXNlSGqy28ud0ypzG41vz6H5x7bo6cJwWOETRg22f6aO
-	MeHkBipPDrJC4b4u+UTRyCCMRGn4y+qPWqdcg7j7oXyJ6Mzo0X/ymMvNXcs3JO0=
-X-Gm-Gg: ASbGncuYbQSd+iubPXw3Rac55tf+URICNmADMAdMvQolbg3uvL+Zgw137dRlXFeHoJj
-	zNMK/Cro/Mhc8odO0/rDWLrjDLb25HahN9n4WcSxa84l8Bx7p9JwJfjIKVajMYJJ4s0MkMcBhLd
-	xxCDjHmEoC+EhvHMaBbATxvxdakTTe3kB4d2ZLdPh3ZuJujS43baWbXdZSmNAo+yXC+vG0Wsnlm
-	BybV5psELEu3Hk6AJ+P9Ik4gQGVY7bn9WAS5BwvlPOXFiRQzE4kSBFCJq8jowE0FECRhw4h/hJn
-	WjZ4XXOIAjz0ZxSu35bCDfoPqNhs3cMXDb4F2JUu4P/ss/PxLw==
-X-Google-Smtp-Source: AGHT+IGY3/yeWHUdX83AfDfc4gZf/5UfX/+h1QNXCAMEtrH6poe80Sg4oMpR0ix62KbGIATouMZn+g==
-X-Received: by 2002:a05:6214:403:b0:6e8:ebc6:fd5f with SMTP id 6a1803df08f44-6eed6058b2bmr7584886d6.20.1743192616660;
-        Fri, 28 Mar 2025 13:10:16 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:11:e976::5ac? ([2606:6d00:11:e976::5ac])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6eec9627a16sm15108726d6.20.2025.03.28.13.10.15
+        d=1e100.net; s=20230601; t=1743196164; x=1743800964;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hwl4NdWNLA+WiZCnf70iMDLkFwdpvil0W/uJAOBiirY=;
+        b=SID62Pq0QOEWdsfTS+ZBje4n22u0TMIJQDBGz0QlMAJ5hKFBbOqRqanM5hSo7UtPp6
+         i0hcpjaSLn9Zvu7zUeRMHiu+y6yRjj1oL6Rm9OZbaZZr61Gc8QjmhuMY+UVuBcfJ4Zwu
+         CShSCLpOSpji/Ub2bkLBbiDb3VXiLP18ghVorR2uddvjAJZ77hV8sPRySzvg4o+p9Z7g
+         ej8INeOxzGyZ37+UPla48m6Lj5ZFx6fFeBEXOWUYotxLxPIaoGi6n+ETsOhnew6Y8o6F
+         Dl4pamPMMvJD7wN4LuzP90UWboTpjHG+Wsq4grl8pt0J8bjS34STs8CqZ/Q046cb2Jhf
+         sMSg==
+X-Forwarded-Encrypted: i=1; AJvYcCVAzjawwQdAiN9BjfmkXzBr/c1ORRpyqwUW491tXefanqVx+IcMEDAYfVsGTLbb81EgmT0weITNk0OvFPoZOGQL@vger.kernel.org, AJvYcCVxGGKJG3IQE01ZQa5yIf6KEht5G5+OCbq5fjLVRjvTZR5cLPDwCTK4ha1fgEHGZupGvxQf4A069agkmLs=@vger.kernel.org, AJvYcCW2sbP+RCglBXFOkH6AUbeb2g2BEn1x7BfL87K3VvrvQSGGbZlDaPPNnXbqUGbC+tMC6bhK+kYZu00r570=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwpDBt/OU/YEZblq/L82uXm7++TyNAxCODtukkFmTdXzRDfKPtx
+	ncHM0g9yMk2cBlRA8s0SmL5Xabv/H+Yqz4uCe/qbKsFrLOoWVHlI
+X-Gm-Gg: ASbGnctC90RbJ3Uv2G4kvF8qibiK9MydutHBiZsiHS8TR9dN7mT/aOuplGMKhENz214
+	BEEKRaoBAA1UbqBbXUS2oKej1ahSxNIXHWUnAGnjWsPOi0UgAqxNAGf8tb4358dVf50a0qiUmM/
+	ppsufGnQlXcwovS0Ab6XpTmsvZYjYmR0jD45eUs8ABcbOGUKED0WQXQEu1n+uMcH384xelq3H7A
+	atX9wIt43Bh2P3kzn4XHDy89zFGORdnNF+PhhvDMEZYv46xLR4pbxZP0csbnlWmXxxRbzgZcCGZ
+	oMb85BdtAwftjxc08+c+963h40CcZninqWN3YJJi3jZIXmvrPnI2k3JEWj9FCq+XXKZDoLCJf/m
+	Y
+X-Google-Smtp-Source: AGHT+IHd9fQtVFVVgph9WnMxD+yvA2cH9ftmKIA/aV/HJRnRVCXLI90/TItx7A2zuPaJnIRPAtH+Uw==
+X-Received: by 2002:a17:903:2ce:b0:220:e5be:29c7 with SMTP id d9443c01a7336-2292f9f64fbmr10191425ad.39.1743196164150;
+        Fri, 28 Mar 2025 14:09:24 -0700 (PDT)
+Received: from fedora (c-67-164-59-41.hsd1.ca.comcast.net. [67.164.59.41])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2291eee22a2sm23351755ad.81.2025.03.28.14.09.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Mar 2025 13:10:15 -0700 (PDT)
-Message-ID: <6a8d0130a4d1fb898e66647b637006759ddc2e32.camel@ndufresne.ca>
-Subject: Re: [ANNOUNCEMENT] libcamera workshop 2025 - Nice, May 16th
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org, Kieran
- Bingham	 <kieran.bingham@ideasonboard.com>
-Date: Fri, 28 Mar 2025 16:10:14 -0400
-In-Reply-To: <6by25cpfspvgcejsq663vvq6y5po2mau7r7z6p4ux6wqiwgv5p@vyxpbzwpsrhh>
-References: <20250325102750.GE20035@pendragon.ideasonboard.com>
-	 <aec691edc21205dead06f4ce76ad225662ee60dd.camel@ndufresne.ca>
-	 <6by25cpfspvgcejsq663vvq6y5po2mau7r7z6p4ux6wqiwgv5p@vyxpbzwpsrhh>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
+        Fri, 28 Mar 2025 14:09:23 -0700 (PDT)
+Date: Fri, 28 Mar 2025 14:09:20 -0700
+From: "Vishal Moola (Oracle)" <vishal.moola@gmail.com>
+To: Huan Yang <link@vivo.com>
+Cc: bingbu.cao@linux.intel.com, Matthew Wilcox <willy@infradead.org>,
+	Christoph Hellwig <hch@lst.de>, Gerd Hoffmann <kraxel@redhat.com>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Uladzislau Rezki <urezki@gmail.com>, Shuah Khan <shuah@kernel.org>,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
+	opensource.kernel@vivo.com
+Subject: Re: [RFC PATCH 0/6] Deep talk about folio vmap
+Message-ID: <Z-cQAIsh3dAhaT6s@fedora>
+References: <20250327092922.536-1-link@vivo.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250327092922.536-1-link@vivo.com>
 
-Le mercredi 26 mars 2025 =C3=A0 09:13 +0100, Jacopo Mondi a =C3=A9crit=C2=
-=A0:
-> Hi Nicolas
->=20
-> On Tue, Mar 25, 2025 at 02:12:16PM -0400, Nicolas Dufresne wrote:
-> > Hello,
-> >=20
-> > Le mardi 25 mars 2025 =C3=A0 12:27 +0200, Laurent Pinchart a =C3=A9crit=
-=C2=A0:
-> > > If you would like to attend, please register your interest by replyin=
-g
-> > > to this e-mail, and indicate if you have any discussion topics you wo=
-uld
-> > > like to include in the schedule.
-> >=20
-> > I'll be happy to participate. Topic, nothing big, maybe we can spend 20
-> > min, I can share an update on the state of the GStreamer support, and
-> > what is missing, and I'd ask for feedback to complete and prioritized
-> > that part.
-> >=20
-> > I'm also interested in an update from Jacopo around multi-context MC, I
->=20
-> Indeed, it was something I'm planning to propose as a discussion topic
-> for linux-media and I was specifically looking at discussing this with
-> you. Do you plan to attend linux-media, or should we set some time
-> aside outside of the meeting ?
+On Thu, Mar 27, 2025 at 05:28:27PM +0800, Huan Yang wrote:
+> Bingbu reported an issue in [1] that udmabuf vmap failed and in [2], we
+> discussed the scenario of folio vmap due to the misuse of vmap_pfn
+> in udmabuf.
+> 
+> We reached the conclusion that vmap_pfn prohibits the use of page-based
+> PFNs:
+> Christoph Hellwig : 'No, vmap_pfn is entirely for memory not backed by
+> pages or folios, i.e. PCIe BARs and similar memory.  This must not be
+> mixed with proper folio backed memory.'
+> 
+> But udmabuf still need consider HVO based folio's vmap, and need fix
+> vmap issue. This RFC code want to show the two point that I mentioned
+> in [2], and more deep talk it:
+> 
+> Point1. simple copy vmap_pfn code, don't bother common vmap_pfn, use by
+> itself and remove pfn_valid check.
+> 
+> Point2. implement folio array based vmap(vmap_folios), which can given a
+> range of each folio(offset, nr_pages), so can suit HVO folio's vmap.
+> 
+> Patch 1-2 implement point1, and add a test simple set in udmabuf driver.
+> Patch 3-5 implement point2, also can test it.
+> 
+> Kasireddy also show that 'another option is to just limit udmabuf's vmap()
+> to only shmem folios'(This I guess folio_test_hugetlb_vmemmap_optimized
+> can help.)
+> 
+> But I prefer point2 to solution this issue, and IMO, folio based vmap still
+> need.
+> 
+> Compare to page based vmap(or pfn based), we need split each large folio
+> into single page struct, this need more large array struct and more longer
+> iter. If each tail page struct not exist(like HVO), can only use pfn vmap,
+> but there are no common api to do this.
+> 
+> In [2], we talked that udmabuf can use hugetlb as the memory
+> provider, and can give a range use. So if HVO used in hugetlb, each folio's
+> tail page may freed, so we can't use page based vmap, only can use pfn
+> based, which show in point1.
+> 
+> Further more, Folio based vmap only need record each folio(and offset,
+> nr_pages if range need). For 20MB vmap, page based need 5120 pages(40KB),
+> 2MB folios only need 10 folio(80Byte).
+> 
+> Matthew show that Vishal also offered a folio based vmap - vmap_file[3].
+> This RFC patch want a range based folio, not only a full folio's map(like
+> file's folio), to resolve some problem like HVO's range folio vmap.
 
-Yes I will also be at the Linux Media meeting too.
+Hmmm, I should've been more communicative, sorry about that. V1 was
+poorly implemented, and I've had a V2 sitting around that does Exactly
+what you want.
 
->=20
-> > don't feel to dive into sensor configuration, its pretty clear this is
-> > what it is and will be exposed as-is through the abstractions such are
-> > Gst (I'll make patch as soon as I have the time).
->=20
-> Thanks, looking forward to it
+I'll send V2 to the mailing list and you can take a look at it;
+preferrably you integrate that into this patchset instead (it would
+make both the udma and vmalloc code much neater).
 
-And will be around till Sunday as GStreamer spring hackfest continues
-over the weekend.
-
->=20
-> >=20
-> > regards,
-> > Nicolas
-> >=20
-
+> Please give me more suggestion.
+> 
+> Test case:
+> //enable/disable HVO
+> 1. echo [1|0] > /proc/sys/vm/hugetlb_optimize_vmemmap
+> //prepare HUGETLB
+> 2. echo 10 > /sys/kernel/mm/hugepages/hugepages-2048kB/nr_hugepages
+> 3. ./udmabuf_vmap
+> 4. check output, and dmesg if any warn.
+> 
+> [1] https://lore.kernel.org/all/9172a601-c360-0d5b-ba1b-33deba430455@linux.intel.com/
+> [2] https://lore.kernel.org/lkml/20250312061513.1126496-1-link@vivo.com/
+> [3] https://lore.kernel.org/linux-mm/20250131001806.92349-1-vishal.moola@gmail.com/
+> 
+> Huan Yang (6):
+>   udmabuf: try fix udmabuf vmap
+>   udmabuf: try udmabuf vmap test
+>   mm/vmalloc: try add vmap folios range
+>   udmabuf: use vmap_range_folios
+>   udmabuf: vmap test suit for pages and pfns compare
+>   udmabuf: remove no need code
+> 
+>  drivers/dma-buf/udmabuf.c | 29 +++++++++-----------
+>  include/linux/vmalloc.h   | 57 +++++++++++++++++++++++++++++++++++++++
+>  mm/vmalloc.c              | 47 ++++++++++++++++++++++++++++++++
+>  3 files changed, 117 insertions(+), 16 deletions(-)
+> 
+> --
+> 2.48.1
+> 
 
