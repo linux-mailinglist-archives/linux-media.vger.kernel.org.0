@@ -1,116 +1,80 @@
-Return-Path: <linux-media+bounces-28953-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28954-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01AC1A75022
-	for <lists+linux-media@lfdr.de>; Fri, 28 Mar 2025 19:08:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86D35A750DB
+	for <lists+linux-media@lfdr.de>; Fri, 28 Mar 2025 20:38:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7AD2716C355
-	for <lists+linux-media@lfdr.de>; Fri, 28 Mar 2025 18:08:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7CD4C3B22F2
+	for <lists+linux-media@lfdr.de>; Fri, 28 Mar 2025 19:38:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F865186294;
-	Fri, 28 Mar 2025 18:08:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gyTdR5lk"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8090E1E3780;
+	Fri, 28 Mar 2025 19:38:26 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from hosting.gsystem.sk (hosting.gsystem.sk [212.5.213.30])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC657C2FA;
-	Fri, 28 Mar 2025 18:08:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD521E1DED;
+	Fri, 28 Mar 2025 19:38:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.5.213.30
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743185300; cv=none; b=geFbFHELPtm/9PaiamhKUc1bmPvz4wLSQXs+MyZR+kY0hvpQqP3yevixsCs7rFOKfdOmiEFuZkDRy0fP1NSA1DopWBOE3rADzoxU8UM9rjE8xUiYOhaSvE6FfDNemDo/Xy6BkUXAInXCYw8L7jmtNrj/sw4KcGA2wJNY2OdRgmU=
+	t=1743190706; cv=none; b=n3W3pspZPAPe1oMtviMgK3AUrLfFp/qjetaX/7WHauIVjXhZUJ2O8Ae1fnAFOUeU2UrMUhTgmh9dBSmzcQG2b6B4qvuaSNFPhBvQG73sbwjk3W8SJlbssaCm3i2lYUWHWcx2RKSrTkrzu0W23vQiei/s92ea+3g3iIfb3LtItNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743185300; c=relaxed/simple;
-	bh=F56ZuT/aFD/W5ny+YhT0YUCeoNkuOsSqzkEo4/2+J1c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BEw7TzyogOuJ2k2bVzTcRe1EWCdT/NTHzWG86UPMZaEgyychOaduXPbZqmYCIGiBgFsSEChlGaF28MLcMSM8hv0/RISXwHK+/xcKHqeO1XxES1808X+Ck2hEvf3z0UsY8hoBYlfUybpTloB0maEzz68b9RfBU40/eTnDnzrVD9I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gyTdR5lk; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743185297; x=1774721297;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=F56ZuT/aFD/W5ny+YhT0YUCeoNkuOsSqzkEo4/2+J1c=;
-  b=gyTdR5lk7Ut5hEaTa35zRvn4xBWyVdBLBIJmbJy13am3PJBvetue5O0F
-   NWL4fFvHWF7aFKjshW2avlf2KaDQavqxEwBmczflzVMqnLJLN/Oo28SJ7
-   DAuKMNo2PQdZi2cX+HWVNLJrJ1bDsiEXpV8oRr1a5j4IWHZn4Be5PZt9R
-   iPN8GJOlmSJegiV0WB2rtmsjZ/hFzHTT0MUdSHcfPh7hSCnlJiFDnqq2/
-   3vrtAAxiTxbiF65qhSbbP9TN0zAuSTFS0YbQNwJuDm4Wa3HGCIWEEpso1
-   onEOZ3IQu2/9b9kRt4X0QPgb6ge5fDJccxBVPc55IcaE/gHhSEexFrxQl
-   w==;
-X-CSE-ConnectionGUID: soLj2Bg7RRylMrDnermWkg==
-X-CSE-MsgGUID: anAE24gfRMilMkcbpizAWA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="48429396"
-X-IronPort-AV: E=Sophos;i="6.14,284,1736841600"; 
-   d="scan'208";a="48429396"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 11:08:17 -0700
-X-CSE-ConnectionGUID: ZUzXqq+HScaj2lWSyxngbQ==
-X-CSE-MsgGUID: XUjL2sE7Q/+r3Dahith76A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,284,1736841600"; 
-   d="scan'208";a="126431158"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by orviesa008.jf.intel.com with ESMTP; 28 Mar 2025 11:08:14 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tyE7n-0007cg-0w;
-	Fri, 28 Mar 2025 18:08:11 +0000
-Date: Sat, 29 Mar 2025 02:07:15 +0800
-From: kernel test robot <lkp@intel.com>
-To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: i2c: Add driver for ST VD55G1 camera sensor
-Message-ID: <202503290148.tTZNa6UU-lkp@intel.com>
-References: <20250328-b4-vd55g1-v1-2-8d16b4a79f29@foss.st.com>
+	s=arc-20240116; t=1743190706; c=relaxed/simple;
+	bh=siqPYrz2788wZ7ex4lg7uV0feLA9b/0wjs+ncyIRvJY=;
+	h=From:To:Subject:Date:Cc:MIME-Version:Content-Disposition:
+	 Content-Type:Message-Id; b=EkFrPmAfs9ja6bgTi9GVCU+HIqXkqVwjfVHGuXFoOHxq14yHqZzGpwyyZMuwRciVUEyEi7IQ7pBI47H0Q+V9VU7rRU7EDuuqV7tmf0jRbs60s+JT5sCx+s+OuIY5RO3fgR6LBsn1076JXfraq1QHZZR2I3B+gDZztlmzJZuTTzo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zary.sk; spf=pass smtp.mailfrom=zary.sk; arc=none smtp.client-ip=212.5.213.30
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zary.sk
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zary.sk
+Received: from [192.168.0.2] (188-167-58-202.dynamic.chello.sk [188.167.58.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hosting.gsystem.sk (Postfix) with ESMTPSA id A597E7A010F;
+	Fri, 28 Mar 2025 20:28:25 +0100 (CET)
+From: Ondrej Zary <linux@zary.sk>
+To: linux-media@vger.kernel.org
+Subject: [ANNOUNCE] Firmware loader for Samsung TV cameras
+Date: Fri, 28 Mar 2025 20:28:22 +0100
+User-Agent: KMail/1.9.10
+Cc: linux-kernel@vger.kernel.org
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250328-b4-vd55g1-v1-2-8d16b4a79f29@foss.st.com>
+X-Length: 760
+X-UID: 13
+Content-Type: Text/Plain;
+  charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+Message-Id: <202503282028.22292.linux@zary.sk>
 
-Hi Benjamin,
+Hello,
+I'm announcing samsung-tvcam-fwloader - Firmware loader for Samsung TV cameras that allows Samsung TV cameras to be used in Linux (and possibly other OSs).
 
-kernel test robot noticed the following build errors:
+Samsung used to sell webcams for their smart TVs for the purpose of running Skype. Skype was discontinued on these TVs in 2016 and these cameras became useless.
 
-[auto build test ERROR on b2c4bf0c102084e77ed1b12090d77a76469a6814]
+Model list:
+CY-STC1100 - 04e8:2058
+VG-STC2000 - 04e8:2059
+VG-STC3000 - 04e8:205c
+VG-STC4000 - 04e8:2061
+VG-STC5000 - 04e8:2065
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Mugnier/media-dt-bindings-Add-ST-VD55G1-camera-sensor-binding/20250328-215939
-base:   b2c4bf0c102084e77ed1b12090d77a76469a6814
-patch link:    https://lore.kernel.org/r/20250328-b4-vd55g1-v1-2-8d16b4a79f29%40foss.st.com
-patch subject: [PATCH 2/2] media: i2c: Add driver for ST VD55G1 camera sensor
-config: csky-randconfig-002-20250329 (https://download.01.org/0day-ci/archive/20250329/202503290148.tTZNa6UU-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250329/202503290148.tTZNa6UU-lkp@intel.com/reproduce)
+When connected to a PC, the camera identifies as unknown device or as an UVC webcam but does not work. That's because it's missing firmware. Camera contains only a bootloader and TV uploads firmware to camera's RAM each time it's plugged in.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503290148.tTZNa6UU-lkp@intel.com/
+VG-STC2000, VG-STC4000 and VG-STC5000 are tested to work.
+VG-STC3000 should work as it should use the same code as 4000 and 5000.
+CY-STC1100 is completely different, probably not UVC compatible even with firmware loaded and thus would require a driver.
 
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
-WARNING: modpost: missing MODULE_DESCRIPTION() in lib/slub_kunit.o
->> ERROR: modpost: "__udivdi3" [drivers/media/i2c/vd55g1.ko] undefined!
+https://github.com/ondrej-zary/samsung-tvcam-fwloader/
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Ondrej Zary
 
