@@ -1,206 +1,140 @@
-Return-Path: <linux-media+bounces-28964-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28965-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B05FA752C6
-	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 00:10:28 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86FFCA753D5
+	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 02:18:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5CCC5188FFAF
-	for <lists+linux-media@lfdr.de>; Fri, 28 Mar 2025 23:10:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 08DCA3B604D
+	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 01:18:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C6231F3FDC;
-	Fri, 28 Mar 2025 23:10:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A599517BA5;
+	Sat, 29 Mar 2025 01:18:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="peZbvp+u"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="X535yHZn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-170.mta1.migadu.com (out-170.mta1.migadu.com [95.215.58.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 307381DD9A8
-	for <linux-media@vger.kernel.org>; Fri, 28 Mar 2025 23:10:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506E936B
+	for <linux-media@vger.kernel.org>; Sat, 29 Mar 2025 01:18:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743203421; cv=none; b=q+UDSjMUZmmtySd9n6/R7otF481iU8xybRnhlnpYga1D4w0XbqXI1E/UOcjYOZ6x1mN9yqBYs0wM5ff6F6wF0aJcQtlJ+TDe5qiPWmKej6Zd6l0CHtjOJYVrLJdWVlvOQHi2TXH8Ki2qBTEZXZm+UxnMJ2CXly+HJA5Mu6sr3hI=
+	t=1743211127; cv=none; b=uAoORb0z5LIwhmZGaB4K6uVpo7YPNOD4IDghTxtkb4+ZQwxHLeECKyaog6uky+dVnaOhaUTWBPbHnFgYpUlkIeS/SRo3J4PoJuQzObHE+RBICxd9V02CQOQKx4I0WlWeQSVOCZfxogLXLXhRPtGSb+iJkpmb7TnVNTd+V08Wto4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743203421; c=relaxed/simple;
-	bh=ZtFrf+mzUkTrV1Qx3IOHEMKDoqy5hET8ni7VLNqWj8Q=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=SF+4iYPznwsTWSZICet0YVot9nfmzAa8fTbpNEeJjOWEv0VjUzbm95wBvIKwdz/8f18wmT+/Ra4Vq7w1WRNKA4yDh7BTtLYOrD3fj6EXB8aj4f4Uv2f199p/Opxs+LRidTnsD7aMMjIqfcGUOhgupiLNAE6UugnUVwDsb2+fdhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=peZbvp+u; arc=none smtp.client-ip=95.215.58.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
+	s=arc-20240116; t=1743211127; c=relaxed/simple;
+	bh=B6WXFv42WibloTinEG3stIHOn2nFdQfJskknML+aNxk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JZdHsK/3VH8U4kNEK094pBhMtOW3pZt6hahQFv8O/LTiuKKVtRkKnB0WV51gnpKdyRXBVcirMIY9v7fqz/RA+SryoPwfMV+w6+WSikWFyBc9zh8qE1PwAjVQb+HFX8OhziYK/3v7TsnZxNyhJmXrwAiCXTGROTfFRfBK5VEwYEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=X535yHZn; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-399749152b4so932641f8f.3
+        for <linux-media@vger.kernel.org>; Fri, 28 Mar 2025 18:18:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1743211122; x=1743815922; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rpne36gCiaUf/vOcHEmQCMmIt/bPKT4qWHgc4yEtsfA=;
+        b=X535yHZnjDUOa4beakAT6hhV9jRva/k7GCoMpmIwoHgGSZJX1MtSg6RKRXjzXyOcrM
+         FHh48ol0DBcStf06WfxlVuAIgsXVNWKZVPhRn0JqA8wJWCuPhYhRFe7KfMScZojUvO3J
+         RgaE9CttjtLGXOWwZGXO396neipjCWfZWY8biTZ18x6fTnGG74NprPB4qdxAeBMkOr5R
+         48lPCXrACiV5S5+zYwevL3QqSZd/S2nKMC6pG2/XEHnuKyWGpLMRnNp1Mlur3fz9OY4K
+         2wyKLrhF987HdsHNDWlurwduNtjXCzdrtD6w8sy/E40bus2pRgFLhD7b4isSlL8VSzJo
+         nd3A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743211122; x=1743815922;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rpne36gCiaUf/vOcHEmQCMmIt/bPKT4qWHgc4yEtsfA=;
+        b=QBGyJHGBrhkBlL4X9JrBh2WywlU9RewReS3YGBpOIX22QRuGArN6+kshNf0aFcwQC3
+         foihSmBXA630aEPg+FH3B7bz0ERRpc3x/nsiQab+HYaW2o+7MFrLkqGTJTvX6RpN+MF5
+         OGQI+uhZ/ph84lidHj8+92NiWOOUuJBpIeXOLCoBOy9UgFVPboJU5W9bsJriSZvb6ERo
+         3GIBUJgC9Jp/XjB+emjuIylFcz4kgCL/if4BW+75kpfFVtGpCQutSsG/YeElVj7CZA9h
+         r7SmunovLEUX0xob1Qr+jeTVJ7voOvFwtAMIHRFL/PUPO7lgyhKPtMSw6s6nDz0G9ARe
+         3JyA==
+X-Gm-Message-State: AOJu0YwPeZ9o/VWio+ZLjq1s4xulgIr2Y3ToJ4Ct03vmlo5mCzddFMO/
+	K0u73awgIOHqjZ3InwDhmXXPOzf5gv+xTxOt6Mz4a6euRLumwhJwG+HMvbYZIls=
+X-Gm-Gg: ASbGncsAZ4xNQPK4y9klDCwT6jHl1g0XbRHxofFktyydl7I4boJTsAwWZo8EIVf6X8e
+	13vbZKMRAsIDJApudPLNSL+3M3yLyrIjEFbURTY+gsnSkckMrI3V9Vsr7xjCrzb2FjSjdbBvVNq
+	DNpsPWg+FiqHjWm/3nJ0jIbAG9LbzKZ+s1ygLj6M7z+88KfXeaZxZWScOu0oiUyWT2UdbsJTamG
+	s5spBATOFR3kZ9aCqjHkhoVwmmJpWeNdv0u8i2xEPHCZIGuEmZP+GD0zz3FwAVgslOUb1cuFrzH
+	c96+tTa4Odm63kiOTG26ldtVPo8IoDZRIuD3Yh+Im4vjiriPhqijS7A0+FatrtyPWRgnlu3ep7m
+	EvgciDYKosw==
+X-Google-Smtp-Source: AGHT+IGgq3lN2khHUfxvzTLLGRHiPLTs5+vkkxGV/MOmv/iCHJ4zdsJUQ6EeZEdYriKuTFWbLbYrNg==
+X-Received: by 2002:a05:6000:40cd:b0:38f:38eb:fcfc with SMTP id ffacd0b85a97d-39c120ca794mr739070f8f.7.1743211122572;
+        Fri, 28 Mar 2025 18:18:42 -0700 (PDT)
+Received: from [192.168.0.34] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c0b662c11sm4252858f8f.31.2025.03.28.18.18.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Mar 2025 18:18:41 -0700 (PDT)
+Message-ID: <fef11ce6-b3b6-4677-9387-13332b9a9d43@linaro.org>
+Date: Sat, 29 Mar 2025 01:18:39 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
-	t=1743203414;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=STZ5FqUicffkrJ/L4Iet8L5svtmsV0SOVrQ2kmJ0+Bs=;
-	b=peZbvp+uX7RO7KoL4c5LkiMV9GUERmSid94u0cMFjbQaGFwSN2DSW1OpH1skNxvhkURo1A
-	jkRtr5yBcOCnJmSgWrw9Co3B0VdJ6u8y2RHP1+vpYoxZFStx1ZFVVelXjAe3Ngy7GVdL8c
-	sU5xd+qeBvnfJUH68MmOS8Qlx/oHez74A2izAtEDSVJfTD4Jj3VsTM3KLmrdP59ofcc/ig
-	MvkIz9QP/dgniHvjNifvgwaikCR1ZLkpxMPaQxn/bFsSgSO1BW6cvNDU7bDm3zPyTS5rcq
-	2m7l6bOb01EHQ4Jr7Bk80AsAO/1IfMSt2m9MUCzpb1As6R477TQ1Rsiq21gCmA==
-Content-Type: multipart/signed;
- boundary=7c928e379149c708ec657bfbf13635c86dc30623af4f2b5a98f0c352d1dd;
- micalg=pgp-sha256; protocol="application/pgp-signature"
-Date: Sat, 29 Mar 2025 00:09:37 +0100
-Message-Id: <D8SA0W2ZEAQ3.3BO4NMONFJCRC@cknow.org>
-Cc: "Ezequiel Garcia" <ezequiel@vanguardiasur.com.ar>, "Mauro Carvalho
- Chehab" <mchehab@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
- Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
- "Heiko Stuebner" <heiko@sntech.de>, "Greg Kroah-Hartman"
- <gregkh@linuxfoundation.org>, "Hans Verkuil" <hverkuil@xs4all.nl>, "Nicolas
- Dufresne" <nicolas.dufresne@collabora.com>, "Andrzej Pietrasiewicz"
- <andrzej.p@collabora.com>, "Jonas Karlman" <jonas@kwiboo.se>, "Sebastian
- Reichel" <sebastian.reichel@collabora.com>, "Niklas Cassel"
- <cassel@kernel.org>, "Alexey Charkov" <alchark@gmail.com>, "Dragan Simic"
- <dsimic@manjaro.org>, "Jianfeng Liu" <liujianfeng1994@gmail.com>, "Jacopo
- Mondi" <jacopo.mondi@ideasonboard.com>, "Sakari Ailus"
- <sakari.ailus@linux.intel.com>, "Kieran Bingham"
- <kieran.bingham@ideasonboard.com>, "Laurent Pinchart"
- <laurent.pinchart@ideasonboard.com>, "Umang Jain"
- <umang.jain@ideasonboard.com>, "Naushir Patuck" <naush@raspberrypi.com>,
- "Jean-Michel Hautbois" <jeanmichel.hautbois@ideasonboard.com>, "Dmitry
- Perchanov" <dmitry.perchanov@intel.com>, "Tomi Valkeinen"
- <tomi.valkeinen@ideasonboard.com>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-staging@lists.linux.dev>,
- <kernel@collabora.com>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 1/6] media: v4l2: Add NV15 and NV20 pixel formats
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Diederik de Haas" <didi.debian@cknow.org>
-To: "Detlev Casanova" <detlev.casanova@collabora.com>,
- <linux-media@vger.kernel.org>, <linux-rockchip@lists.infradead.org>
-References: <20250325213303.826925-1-detlev.casanova@collabora.com>
- <20250325213303.826925-2-detlev.casanova@collabora.com>
-In-Reply-To: <20250325213303.826925-2-detlev.casanova@collabora.com>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] media: i2c: Add OV05C10 camera sensor driver
+To: Pratap Nirujogi <pratap.nirujogi@amd.com>, mchehab@kernel.org,
+ sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
+ laurent.pinchart@ideasonboard.com, dave.stevenson@raspberrypi.com,
+ krzk@kernel.org, dan.carpenter@linaro.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com, king.li@amd.com,
+ dantony@amd.com, Venkata Narendra Kumar Gutta <vengutta@amd.com>
+References: <MhUYQD7uWnfZQAPq7VslFWPHOmx2B2UfAIpbMhLq1-7GC_i5bI2hhns_-ov_AAVpEH_VmDDFYkS5aOKBwnY61g==@protonmail.internalid>
+ <20250328214706.1516566-1-pratap.nirujogi@amd.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20250328214706.1516566-1-pratap.nirujogi@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---7c928e379149c708ec657bfbf13635c86dc30623af4f2b5a98f0c352d1dd
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On 28/03/2025 21:42, Pratap Nirujogi wrote:
+> From: Bin Du <Bin.Du@amd.com>
 
-Hi Detlev,
+> +static const struct i2c_device_id ov05c10_id[] = {
+> +	{"ov05c10", 0 },
+> +	{ }
+> +};
 
-On Tue Mar 25, 2025 at 10:22 PM CET, Detlev Casanova wrote:
-> From: Jonas Karlman <jonas@kwiboo.se>
->
-> Add NV15 and NV20 pixel formats used by the Rockchip Video Decoder for
-> 10-bit buffers.
->
-> NV15 and NV20 is 10-bit 4:2:0/4:2:2 semi-planar YUV formats similar to
-> NV12 and NV16, using 10-bit components with no padding between each
-> component. Instead, a group of 4 luminance/chrominance samples are
-> stored over 5 bytes in little endian order:
->
-> YYYY =3D UVUV =3D 4 * 10 bits =3D 40 bits =3D 5 bytes
->
-> The '15' and '20' suffix refers to the optimum effective bits per pixel
-> which is achieved when the total number of luminance samples is a
-> multiple of 8 for NV15 and 4 for NV20.
->
-> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Tested-by: Christopher Obbard <chris.obbard@collabora.com>
-> ---
->  .../media/v4l/pixfmt-yuv-planar.rst           | 128 ++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-common.c         |   2 +
->  drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
->  include/uapi/linux/videodev2.h                |   2 +
->  4 files changed, 134 insertions(+)
->
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst =
-b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> index b788f69338554..22cad8c9726bf 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> @@ -79,6 +79,13 @@ All components are stored with the same number of bits=
- per component.
->        - Cr, Cb
->        - Yes
->        - Linear
-> +    * - V4L2_PIX_FMT_NV15
-> +      - 'NV15'
-> +      - 10
-> +      - 4:2:0
-> +      - Cb, Cr
-> +      - Yes
-> +      - Linear
+There's an IPU6/IPU7 version of this driver.
 
-In your cover letter you mentioned:
-Imported improvements from [1]
-[1]: https://lore.kernel.org/linux-media/20250225-rkvdec_h264_high10_and_42=
-2_support-v7-2-7992a68a4910@collabora.com/
+https://github.com/intel/ipu6-drivers/blob/master/drivers/media/i2c/ov05c10.c
 
-The changelog of "media: rkvdec: Add H.264 High 10 and 4:2:2 profile
-support" v7 had this:
-- Move V4L2_PIX_FMT_NV15/V4L2_PIX_FMT_NV20 documentation as suggested
+Perhaps you could import the Intel ACPI name contained in there too.
 
-Following a comment on v6 of that series.
-
-But it seems these blocks are now placed at the location as it was in
-the v6 series, thus NOT importing its improvements?
-
->      * - V4L2_PIX_FMT_NV12M
->        - 'NM12'
->        - 8
-> @@ -172,6 +179,13 @@ All components are stored with the same number of bi=
-ts per component.
->        - Cr, Cb
->        - Yes
->        - Linear
-> +    * - V4L2_PIX_FMT_NV20
-> +      - 'NV20'
-> +      - 10
-> +      - 4:2:2
-> +      - Cb, Cr
-> +      - Yes
-> +      - Linear
->      * - V4L2_PIX_FMT_NV16M
->        - 'NM16'
->        - 8
-
-The same thing seemed to have happened here?
-
-Cheers,
-  Diederik
-
-> @@ -302,6 +316,57 @@ of the luma plane.
->        - Cr\ :sub:`11`
-> =20
-> =20
-> +.. _V4L2-PIX-FMT-NV15:
 > +
-> +NV15
-> +----
+> +MODULE_DEVICE_TABLE(i2c, ov05c10_id);
 > +
-> +Semi-planar 10-bit YUV 4:2:0 format similar to NV12, using 10-bit compon=
-ents
-> +with no padding between each component. A group of 4 components are stor=
-ed over
-> +5 bytes in little endian order.
+> +static struct i2c_driver ov05c10_i2c_driver = {
+> +	.driver = {
+> +		.name = DRV_NAME,
+> +		.pm = pm_ptr(&ov05c10_pm_ops),
+> +	},
+> +	.id_table = ov05c10_id,
+> +	.probe = ov05c10_probe,
+> +	.remove = ov05c10_remove,
+> +};
 > +
-> +.. flat-table:: Sample 4x4 NV15 Image (1 byte per cell)
-> +    :header-rows:  0
-> +    :stub-columns: 0
+> +module_i2c_driver(ov05c10_i2c_driver);
+> +
+> +MODULE_AUTHOR("Pratap Nirujogi <pratap.nirujogi@amd.com>");
+> +MODULE_AUTHOR("Venkata Narendra Kumar Gutta <vengutta@amd.com>");
+> +MODULE_AUTHOR("Bin Du <bin.du@amd.com>");
+> +MODULE_DESCRIPTION("OmniVision OV05C1010 sensor driver");
+> +MODULE_LICENSE("GPL v2");
 
---7c928e379149c708ec657bfbf13635c86dc30623af4f2b5a98f0c352d1dd
-Content-Type: application/pgp-signature; name="signature.asc"
+Why v2 ? Checkpatch will complain about v2 and BTW the IPU6 driver above 
+is GPL not GPL v2.
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCZ+csSwAKCRDXblvOeH7b
-bnEaAQDRs0XJAsCh5SV9NORF9yiBN4xK9/ksqMZ7dptPRBqK+wEA6MAvdIFDX8KV
-IsH2OmXqqcmhBEjMEtZRNbYrv/vtFQM=
-=JnIi
------END PGP SIGNATURE-----
-
---7c928e379149c708ec657bfbf13635c86dc30623af4f2b5a98f0c352d1dd--
+---
+bod
 
