@@ -1,120 +1,106 @@
-Return-Path: <linux-media+bounces-28984-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28985-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E94C9A75566
-	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 10:17:21 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC76A755B1
+	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 11:15:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 942C716DBD3
-	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 09:17:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BD25E188FDA5
+	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 10:15:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 803061AD3E5;
-	Sat, 29 Mar 2025 09:17:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 456DF18BC36;
+	Sat, 29 Mar 2025 10:15:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EMPxvv5D"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="athZkoKi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from sender3-op-o12.zoho.com (sender3-op-o12.zoho.com [136.143.184.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BC5A158538;
-	Sat, 29 Mar 2025 09:17:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743239834; cv=none; b=X3vZ9P1npOwXXiWtfaDgdnKrHUFsw6u+/fwtebWOuK4bAaz+LMl0lpZMrzFvgNx07Mc/zG3sCCyjg+h7395d/7tsj5q5ETIwFR8k/wVK7fyZv5R1iaeBvDdRxX5iv7zQ3s/RnqY6FR41E9b53w8Zr/LS4BVRqYUxBw4UwmzGNvg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743239834; c=relaxed/simple;
-	bh=eW6OCfNj36ra5M1ny2lKubEtu+e+UHN6ZzivUob2ulc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PyX2lDgoqbjOrCq6A7Cx6vplQMoeMsePH/u45WoHT6pj3TwRkLbd8/Jw2Ga9r8fhyEQCn1WTSVJm6+6G8Puf2/N7uepN1LwJSkSlgUjP+Y+NmJzOJ9EoGF2lSXR9Lk+8PUTilgNflWpwHibck7aCpD0slUoDiIN1XutZKiYccMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EMPxvv5D; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743239833; x=1774775833;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eW6OCfNj36ra5M1ny2lKubEtu+e+UHN6ZzivUob2ulc=;
-  b=EMPxvv5DCqY5o0Jj46S9YrkZUGuh0DuOnlg2D/FfZH540mMk55Rrsvie
-   DebNiImaTCg95oRGALrWkzYZ9z17q9JruGL+fqlE2LigqduYOdgb9xSjI
-   J8y0FPVMZcnbzGnowPYb6XEVcMHJh6xfK85VGAVhg+/POpvjwLmul8Vjy
-   27t+QDFN3RV5aanqez1UMuJLSuD2kaob1GdrYS2a0hFwy0A1+nD6nFb18
-   qKhPNPt7/muXwfNDJ0NzuF0webojxzc01vjhD/eV0Kb7qbSBHPGh/+ZtI
-   1faB+C9hvi2ylKHroah+gDAqHdoJpNHoZWx1av7WVQjprgcib8BKD32Fy
-   g==;
-X-CSE-ConnectionGUID: ZUHjtbktTA6QEuwErU+c3Q==
-X-CSE-MsgGUID: AXFxSg22RCywzSWsLzxlEA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="67075053"
-X-IronPort-AV: E=Sophos;i="6.14,285,1736841600"; 
-   d="scan'208";a="67075053"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Mar 2025 02:17:13 -0700
-X-CSE-ConnectionGUID: IjnCrNK2TxqngatVN6weoA==
-X-CSE-MsgGUID: 6yt3rtmYSjG1z8hvofugZA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,285,1736841600"; 
-   d="scan'208";a="125649884"
-Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
-  by fmviesa007.fm.intel.com with ESMTP; 29 Mar 2025 02:17:10 -0700
-Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1tySJP-000818-2J;
-	Sat, 29 Mar 2025 09:17:07 +0000
-Date: Sat, 29 Mar 2025 17:16:38 +0800
-From: kernel test robot <lkp@intel.com>
-To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: i2c: Add driver for ST VD55G1 camera sensor
-Message-ID: <202503291609.9gCJpjjk-lkp@intel.com>
-References: <20250328-b4-vd55g1-v1-2-8d16b4a79f29@foss.st.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE6A542048
+	for <linux-media@vger.kernel.org>; Sat, 29 Mar 2025 10:14:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.184.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743243301; cv=pass; b=R1PU6SZMJ112dMoOFevRUm/abfd0WwsEZlTScdRLAjtVhJ3jIDkimutRIClEzjC9sJLJ3AMxikmDzw3GxDjIuLeqLPhChd4YX4Lgz7FqgSyFbKZGQY5/s5A0z/XsupP7DJKGhKGUtLAoU+92xwirbHkGWxF/vzqwMrB6HZGlCyg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743243301; c=relaxed/simple;
+	bh=7m3wEaqBTFjG5bdVHr5Sd3Pn0jQ2g7dFPZWCN0BOHP0=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=bz4Bub3OaIvCGu6gZUgRQZkROmYRTxizZnEJ+YltcbM3rnnZ9boc6re1Wi4BVWflrl4O54EcNZRdwm7koLSYEv+vezCIBTL4PvEejaJZnuLs/ho62hABgwEHGhBx+KB+48xHt50YQ/Ux1Q/jZOOwqNk+OKoUtAPmllTF0jUIYRI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=athZkoKi; arc=pass smtp.client-ip=136.143.184.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1743243296; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=LSkUYIAQbPY+U0r385K/xQsapjOw0sYqcGPQT/V9FW4auIIZCNNxyB+ZM0sBGTPLGLJNi/kF1Thptb7o4svvHGs1VLy6+GfYaNWUBJUdUUxUrqY68qESOpBOmuZ/u2WEtJh+CpA9lHhlJcoDZo0UD0V1HaHoWdXaTL1aOIkWh2E=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1743243296; h=Content-Type:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To:Cc; 
+	bh=btnN7c5RD8o0t0tRxWFh7mlUcWkCQ7+UTGUO2yM8AG8=; 
+	b=DNteMXsIcksExpMM4DeFPgQt9cEi+LaYt7Bx6+6fP5aCXdIyGFWEml+v9mvi1CUE7zMelTyCuW3ZYIPYHui3purVT0lEwVH8MBk0VPGfT4KHTfuXKurfQgKDZJ8tA8m/qcCq0Sd5WSVqxAoYnrCZeOTv+Kaqrw04DUDEbxFu33c=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
+	dmarc=pass header.from=<sebastian.fricke@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1743243296;
+	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
+	h=Date:Date:From:From:To:To:Subject:Subject:Message-ID:MIME-Version:Content-Type:Message-Id:Reply-To:Cc;
+	bh=btnN7c5RD8o0t0tRxWFh7mlUcWkCQ7+UTGUO2yM8AG8=;
+	b=athZkoKiuZ08d7sKPGawChstRKlId3D1wAgz3oppjjr60BIGJldB2UnTudbZEhcq
+	rVLIpBgDTk8Q7GhrTnfWcqXa1wYUs6skvXPFCq1o+hBDhYtwigFRSb2/72eoXRxjaJ7
+	OZohrsGofVWS33QnNDj/CXXfskF9p2GekvayfnwM=
+Received: by mx.zohomail.com with SMTPS id 1743243294369733.3202349791505;
+	Sat, 29 Mar 2025 03:14:54 -0700 (PDT)
+Date: Sat, 29 Mar 2025 11:14:50 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: linux-media@vger.kernel.org
+Subject: [GIT PULL FOR 6.16] Change V4L2_TYPE_IS_CAPTURE condition
+Message-ID: <20250329101450.wzq67scm7t3sdysl@basti-XPS-13-9310>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20250328-b4-vd55g1-v1-2-8d16b4a79f29@foss.st.com>
+X-ZohoMailClient: External
 
-Hi Benjamin,
+Hey Hans & Mauro,
 
-kernel test robot noticed the following build errors:
+please pull the following changes, these are core changes.
 
-[auto build test ERROR on b2c4bf0c102084e77ed1b12090d77a76469a6814]
+For some reason the virtme tests consistently ran out of time and as I
+ran the tests multiple times I thought it is better to send the
+patches as the rest looks good.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Benjamin-Mugnier/media-dt-bindings-Add-ST-VD55G1-camera-sensor-binding/20250328-215939
-base:   b2c4bf0c102084e77ed1b12090d77a76469a6814
-patch link:    https://lore.kernel.org/r/20250328-b4-vd55g1-v1-2-8d16b4a79f29%40foss.st.com
-patch subject: [PATCH 2/2] media: i2c: Add driver for ST VD55G1 camera sensor
-config: sh-allyesconfig (https://download.01.org/0day-ci/archive/20250329/202503291609.9gCJpjjk-lkp@intel.com/config)
-compiler: sh4-linux-gcc (GCC) 14.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250329/202503291609.9gCJpjjk-lkp@intel.com/reproduce)
+---
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202503291609.9gCJpjjk-lkp@intel.com/
+The following changes since commit f2151613e040973c868d28c8b00885dfab69eb75:
 
-All errors (new ones prefixed by >>):
+   media: pci: mgb4: include linux/errno.h (2025-03-07 12:05:42 +0100)
 
-   sh4-linux-ld: drivers/media/i2c/tc358746.o: in function `tc358746_probe':
-   tc358746.c:(.text+0x1bc0): undefined reference to `devm_clk_hw_register'
-   sh4-linux-ld: tc358746.c:(.text+0x1bcc): undefined reference to `devm_of_clk_add_hw_provider'
-   sh4-linux-ld: tc358746.c:(.text+0x1bd0): undefined reference to `of_clk_hw_simple_get'
-   sh4-linux-ld: drivers/media/i2c/vd55g1.o: in function `vd55g1_probe':
->> vd55g1.c:(.text+0x1e38): undefined reference to `__udivdi3'
+are available in the Git repository at:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+   https://gitlab.freedesktop.org/linux-media/users/sebastianfricke.git tags/for-6.16-v4l2-type-is-capture
+
+for you to fetch changes up to f24d1169af4b8ad9cc4f5054d3d7278460a70df5:
+
+   media: uapi: v4l: Fix V4L2_TYPE_IS_OUTPUT condition (2025-03-28 11:28:20 +0100)
+
+----------------------------------------------------------------
+New macro for the V4L2 API
+
+----------------------------------------------------------------
+Nas Chung (3):
+       media: uapi: v4l: Change V4L2_TYPE_IS_CAPTURE condition
+       media: qcom: venus: Fix uninitialized variable warning
+       media: uapi: v4l: Fix V4L2_TYPE_IS_OUTPUT condition
+
+  drivers/media/platform/qcom/venus/vdec.c |  4 ++--
+  include/uapi/linux/videodev2.h           | 12 ++++++++++--
+  2 files changed, 12 insertions(+), 4 deletions(-)
+
+Regards,
+Sebastian
 
