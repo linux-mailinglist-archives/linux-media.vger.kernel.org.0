@@ -1,63 +1,48 @@
-Return-Path: <linux-media+bounces-28969-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28970-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 825A1A753E9
-	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 02:38:26 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63203A75422
+	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 05:26:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 271251777BC
-	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 01:38:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EFEF21893973
+	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 04:26:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A03A1DFFD;
-	Sat, 29 Mar 2025 01:38:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FD3C13DDB9;
+	Sat, 29 Mar 2025 04:25:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="YuLUDbeQ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SyVOJEbY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 104FC801;
-	Sat, 29 Mar 2025 01:38:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC8029A5;
+	Sat, 29 Mar 2025 04:25:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743212296; cv=none; b=NNkcAYOe4O+6OI3OroKq6W451s1NZxQrKcI1UuP5gTR31lVGh44qsklwIxNs9mq53rmnIZgqhaGDgyG+kQmM8j+JMta8O5NqT1bZ2I1fRcccqjpkGcJ0D2ReW5QZ+5xB+FffSEVcDanTnZaAUZS6HZicWTI4ztFNNdPF+ZnS+Z0=
+	t=1743222350; cv=none; b=usjQSO9DY9YnYgQ7QSyDPnJL3w5vv7ue1J3JyTJNxJwfiU6y/cZsXqQwyEo2yocRM0+92g9gD2EgK7zbc74ATjmsM3W7kNGyNsyP09Af7PDD5thg08cUcf7G2XymqOpkc/Ma0Xub4txC1Cw18nfoN/WctSc7MznNLIv80GeQXVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743212296; c=relaxed/simple;
-	bh=ViLgvxXs0dFjM/U4lLxIubGaPTwphfVMNa0V07ntbXc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=ZhQhxUmKVQR7lT/01s7Tz2aO+7MHKlPrtRvJsuUyPZ2YpHIT1BYynJMr9j2tuzzpByoMzetnvHaBz4x///4BTLCwPayp5xhmERUxvLI1O7taRXGc06XA7Xx6XIXO5XEUhxvpWNsSM0W1hehEY5nXNvOJ6uhiCx+neA/DAPzE6qY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=YuLUDbeQ; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52SNpnm4018104;
-	Sat, 29 Mar 2025 01:38:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	6sdR2/NKiowrxDOl6hTJDkor5SKF+aK7B5d3HSV1/jI=; b=YuLUDbeQCyfZdIH/
-	l+Qk434ZH1CmDidS3DZ++fRjoFKRkkjcYWJkuTBoHm3r0Ssl8vAH4VXrQAYK+GIX
-	l8KZ4clRRI7PlQ80XbJrUmIK2Aakg97+c8S/ej7j784MCtNmegDx8smR2hEazM6Z
-	uSXq27R58ZCa1lr2G6Xjn53G1u6lRgQsqYyH5bgO8oYnpuqh06io/2/nVVA/hro+
-	ghMYUiSaBDAOywrqEfuxf4L8/yTyLxuDGXCH6oGik/58G50b1onzqbsq2M0cEWl3
-	nn64IAe+j0n0rV+nsx9baa0S300AYmQaZF2zZeJBsWmO6cQPAFdGA6WEXe1LU/o9
-	LoizaQ==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45p2yu0evr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 29 Mar 2025 01:38:10 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 52T1c9T2022373
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sat, 29 Mar 2025 01:38:09 GMT
-Received: from [10.110.121.93] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 28 Mar
- 2025 18:38:08 -0700
-Message-ID: <93ca218a-71a2-4751-860c-025ec29b9180@quicinc.com>
-Date: Fri, 28 Mar 2025 18:38:07 -0700
+	s=arc-20240116; t=1743222350; c=relaxed/simple;
+	bh=MDFIaZsnKiaO2sMRiXwW6IbfLfg4w1EmA+l8yH+ZZfs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=JtU3ULH4HC1pAaxKVmLiR6B36jpMlwUNbHvYw9Nioy/vPwczsCGi2JANUcKDFICyDvlm/QEv4bJxxeMCaUKfBRk2djE6RqxIllCDSYlkEerqEbPjXutfRxX7M7U7duOkUq0iCY/67M/hUQ56EB57HNKEq3MqdB0fELNryuM66Dk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SyVOJEbY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5A13C4CEE2;
+	Sat, 29 Mar 2025 04:25:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743222350;
+	bh=MDFIaZsnKiaO2sMRiXwW6IbfLfg4w1EmA+l8yH+ZZfs=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SyVOJEbYVRkxra/o2RP5SkFZCH5Uwhce8JjThWIaEX3da4wL+Nfgv4JwGEwm+7E8U
+	 /UWSeya5jbiwpdcfsyi78C7sSdb634c3x8sj++2kFYu8G2jBd5qbIYZR+UA5bYDyjj
+	 hsO4wSlTUk/TenqLPJ+KTDkdbhVGCpHUoJjUXhNySim2OQXVlKlseyuFneM+xKMVLy
+	 FlgzQ8iaEQL+/xMXrBO076EG5CmvrfDydlmo0GpEBvBdfGPqS/ZlvE62M5Kqn3MKyY
+	 GkPRzuI9aqc9xZX57KXrlc8r7Agq4K/XL+963GBcVYD9TWXc2FL8fQUgQWaDEIDSwf
+	 wwdG4pSQ/79gw==
+Message-ID: <8f9863af-61bd-44c3-937b-e8a9a5410556@kernel.org>
+Date: Sat, 29 Mar 2025 05:25:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,65 +50,209 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] media: MAINTAINERS: Switch from venus Reviewer to
- Maintainer
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        <stanimir.k.varbanov@gmail.com>, <hverkuil@xs4all.nl>,
-        <quic_vgarodia@quicinc.com>, <quic_dikshita@quicinc.com>,
-        <mchehab@kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20250329-b4-25-03-29-media-committers-venus-iris-maintainers-v1-0-0ec1007fde3c@linaro.org>
- <20250329-b4-25-03-29-media-committers-venus-iris-maintainers-v1-1-0ec1007fde3c@linaro.org>
+Subject: Re: [PATCH] media: i2c: Add OV05C camera sensor driver
+To: "Nirujogi, Pratap" <pnirujog@amd.com>,
+ Pratap Nirujogi <pratap.nirujogi@amd.com>, mchehab@kernel.org,
+ sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
+ laurent.pinchart@ideasonboard.com, dave.stevenson@raspberrypi.com
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ benjamin.chan@amd.com, bin.du@amd.com, gjorgji.rosikopulos@amd.com,
+ king.li@amd.com, dominic.antony@amd.com
+References: <20250228165317.3468075-1-pratap.nirujogi@amd.com>
+ <03c3e6bf-9688-446d-9b45-5b186a1d5b0e@kernel.org>
+ <4f85e24e-4bd9-4cde-ad33-075cfcb2b7c0@amd.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Trilok Soni <quic_tsoni@quicinc.com>
-In-Reply-To: <20250329-b4-25-03-29-media-committers-venus-iris-maintainers-v1-1-0ec1007fde3c@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <4f85e24e-4bd9-4cde-ad33-075cfcb2b7c0@amd.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=d8r1yQjE c=1 sm=1 tr=0 ts=67e74f02 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=Vs1iUdzkB0EA:10 a=KKAkSRfTAAAA:8 a=pGLkceISAAAA:8 a=COk6AnOGAAAA:8
- a=VwQbUJbxAAAA:8 a=I9BTf0qdugiClMELNpcA:9 a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: xzjM2AgMn4sf6YBTw_BgwTJV9wgGk5se
-X-Proofpoint-ORIG-GUID: xzjM2AgMn4sf6YBTw_BgwTJV9wgGk5se
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-28_12,2025-03-27_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 bulkscore=0
- spamscore=0 phishscore=0 lowpriorityscore=0 mlxscore=0 adultscore=0
- suspectscore=0 impostorscore=0 malwarescore=0 priorityscore=1501
- mlxlogscore=826 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2503290010
 
-On 3/28/2025 6:26 PM, Bryan O'Donoghue wrote:
-> I'd like to volunteer my help in keeping venus maintained upstream.
+On 28/03/2025 23:19, Nirujogi, Pratap wrote:
+> Hi Krzysztof,
 > 
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->  MAINTAINERS | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Thanks for reviewing and extremely sorry for the delayed response.
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 29b4471574982bf3f8d03158cd5edcb94bc9fab9..5ccddd2030efd96324e53fcee8048120990a85d5 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -19592,7 +19592,7 @@ F:	drivers/usb/typec/tcpm/qcom/
->  QUALCOMM VENUS VIDEO ACCELERATOR DRIVER
->  M:	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
-
-Is Stanimir still an active maintainer here? 
-
->  M:	Vikash Garodia <quic_vgarodia@quicinc.com>
-> -R:	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> +M:	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->  L:	linux-media@vger.kernel.org
->  L:	linux-arm-msm@vger.kernel.org
->  S:	Maintained
+> We have submitted V2 patch based on the review feedback. Can you please 
+> help to review latest V2 patch and let us know your feedback.
 > 
+> Thanks,
+> Pratap
+> 
+> On 3/1/2025 8:30 AM, Krzysztof Kozlowski wrote:
+>> Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
+>>
+>>
+>> On 28/02/2025 17:53, Pratap Nirujogi wrote:
+>>> Add driver for OmniVision 5.2M OV05C10 sensor. This driver
+>>> supports only the full size normal 2888x1808@30fps 2-lane
+>>> sensor profile.
+>>>
+>>> Signed-off-by: Pratap Nirujogi <pratap.nirujogi@amd.com>
+>>> ---
+>>>   drivers/media/i2c/Kconfig  |   10 +
+>>>   drivers/media/i2c/Makefile |    1 +
+>>>   drivers/media/i2c/ov05c.c  | 1031 ++++++++++++++++++++++++++++++++++++
+>>>   3 files changed, 1042 insertions(+)
+>>>   create mode 100644 drivers/media/i2c/ov05c.c
+>>>
+>>> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+>>> index 8ba096b8ebca..fd160feabc41 100644
+>>> --- a/drivers/media/i2c/Kconfig
+>>> +++ b/drivers/media/i2c/Kconfig
+>>> @@ -337,6 +337,16 @@ config VIDEO_OG01A1B
+>>>          To compile this driver as a module, choose M here: the
+>>>          module will be called og01a1b.
+>>>
+>>> +config VIDEO_OV05C
+>>> +     tristate "OmniVision OV05 sensor support"
+>>> +     select V4L2_CCI_I2C
+>>> +     help
+>>> +       This is a Video4Linux2 sensor driver for the OmniVision
+>>> +       OV05C camera.
+>>> +
+>>> +       To compile this driver as a module, choose M here: the
+>>> +       module will be called OV05C.
+>>> +
+>>>   config VIDEO_OV01A10
+>>>        tristate "OmniVision OV01A10 sensor support"
+>>>        help
+>>> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+>>> index fbb988bd067a..08bfc2d59be2 100644
+>>> --- a/drivers/media/i2c/Makefile
+>>> +++ b/drivers/media/i2c/Makefile
+>>> @@ -80,6 +80,7 @@ obj-$(CONFIG_VIDEO_MT9V011) += mt9v011.o
+>>>   obj-$(CONFIG_VIDEO_MT9V032) += mt9v032.o
+>>>   obj-$(CONFIG_VIDEO_MT9V111) += mt9v111.o
+>>>   obj-$(CONFIG_VIDEO_OG01A1B) += og01a1b.o
+>>> +obj-$(CONFIG_VIDEO_OV05C) += ov05c.o
+>>>   obj-$(CONFIG_VIDEO_OV01A10) += ov01a10.o
+>>>   obj-$(CONFIG_VIDEO_OV02A10) += ov02a10.o
+>>>   obj-$(CONFIG_VIDEO_OV08D10) += ov08d10.o
+>>> diff --git a/drivers/media/i2c/ov05c.c b/drivers/media/i2c/ov05c.c
+>>> new file mode 100644
+>>> index 000000000000..96c4f74af4a9
+>>> --- /dev/null
+>>> +++ b/drivers/media/i2c/ov05c.c
+>>> @@ -0,0 +1,1031 @@
+>>> +/* SPDX-License-Identifier: MIT */
+>>> +/*
+>>> + * Copyright (C) 2025 Advanced Micro Devices, Inc. All rights reserved.
+>>> + * All Rights Reserved.
+>>> + *
+>>> + * Permission is hereby granted, free of charge, to any person obtaining a
+>>> + * copy of this software and associated documentation files (the
+>>> + * "Software"), to deal in the Software without restriction, including
+>>> + * without limitation the rights to use, copy, modify, merge, publish,
+>>> + * distribute, sub license, and/or sell copies of the Software, and to
+>>> + * permit persons to whom the Software is furnished to do so, subject to
+>>> + * the following conditions:
+>>> + *
+>>> + * The above copyright notice and this permission notice (including the
+>>> + * next paragraph) shall be included in all copies or substantial portions
+>>> + * of the Software.
+>>> + *
+>>> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+>>> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+>>> + * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
+>>> + * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
+>>> + * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+>>> + * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+>>> + * USE OR OTHER DEALINGS IN THE SOFTWARE.
+>>
+>> What's with AMD? Second patch that day, same issues.
+>>
+>> Drop license boilerplate.
+>>
+> Done. Updated copyright header and license in V2.
+> 
+>>> + *
+>>> + */
+>>> +
+>>> +#include <linux/acpi.h>
+>>> +#include <linux/i2c.h>
+>>> +#include <linux/module.h>
+>>> +#include <linux/delay.h>
+>>> +#include <linux/units.h>
+>>> +#include <linux/pm_runtime.h>
+>>> +#include <linux/gpio.h>
+>>> +#include <media/v4l2-ctrls.h>
+>>> +#include <media/v4l2-device.h>
+>>> +#include <media/v4l2-fwnode.h>
+>>> +#include <media/v4l2-cci.h>
+>>
+>>
+>> ...
+>>
+>>> +
+>>> +static int ov05c_probe(struct i2c_client *client)
+>>> +{
+>>> +     struct ov05c *ov05c;
+>>> +     int i, ret;
+>>> +
+>>> +     ov05c = devm_kzalloc(&client->dev, sizeof(*ov05c), GFP_KERNEL);
+>>> +     if (!ov05c)
+>>> +             return -ENOMEM;
+>>> +
+>>> +     client->dev.init_name = DRV_NAME;
+>>> +
+>>> +     /* create sensor enable gpio control */
+>>> +     ov05c->enable_gpio = devm_gpiod_get(&client->dev, "sensor0_enable", GPIOD_OUT_LOW);
+>>
+>>
+>> s/sensor0_enable/enable/
+>>
+> Is it okay to use "sensor0_enabled" as connection id? We used this name 
+> to differentiate the two GPIO PINs that has to be programmed for RGB 
+> streaming to work with this sensor.
 
+How much time did you give me to respond here? 20 minutes. In the middle
+of my night. And then you send v2, without waiting for my answer.
 
--- 
----Trilok Soni
+That's not acceptable for me.
+
+Best regards,
+Krzysztof
 
