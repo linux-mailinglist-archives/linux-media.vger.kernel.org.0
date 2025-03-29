@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-28970-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28971-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63203A75422
-	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 05:26:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FA45A75424
+	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 05:30:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EFEF21893973
-	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 04:26:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DF1583B03C1
+	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 04:30:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FD3C13DDB9;
-	Sat, 29 Mar 2025 04:25:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DC6E12CDAE;
+	Sat, 29 Mar 2025 04:30:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SyVOJEbY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S74VnvRl"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC8029A5;
-	Sat, 29 Mar 2025 04:25:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4E2F33E7;
+	Sat, 29 Mar 2025 04:30:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743222350; cv=none; b=usjQSO9DY9YnYgQ7QSyDPnJL3w5vv7ue1J3JyTJNxJwfiU6y/cZsXqQwyEo2yocRM0+92g9gD2EgK7zbc74ATjmsM3W7kNGyNsyP09Af7PDD5thg08cUcf7G2XymqOpkc/Ma0Xub4txC1Cw18nfoN/WctSc7MznNLIv80GeQXVc=
+	t=1743222624; cv=none; b=LPkW3UIuRGLGlVFLJ8w1dBglQbJ+IYbp2OaDlOsbgYWss1daGBKRb503QmsM3hI/mAHV1rtDIiZ9CAs4XzL2MoWylpiWV5orJ4RtoGXT41pQL5RkTw/tF91U1zOEUNfc6XKs8f0KOd5m2GinzBRLeUrIaRU1PbsSKt9cTiCCq2w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743222350; c=relaxed/simple;
-	bh=MDFIaZsnKiaO2sMRiXwW6IbfLfg4w1EmA+l8yH+ZZfs=;
+	s=arc-20240116; t=1743222624; c=relaxed/simple;
+	bh=rkDYb1Sdmwv6LkGrTvcA37qxtJGwqLOkeIh2yI3P0Pc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JtU3ULH4HC1pAaxKVmLiR6B36jpMlwUNbHvYw9Nioy/vPwczsCGi2JANUcKDFICyDvlm/QEv4bJxxeMCaUKfBRk2djE6RqxIllCDSYlkEerqEbPjXutfRxX7M7U7duOkUq0iCY/67M/hUQ56EB57HNKEq3MqdB0fELNryuM66Dk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SyVOJEbY; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5A13C4CEE2;
-	Sat, 29 Mar 2025 04:25:44 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=mzfwjpSUi7XokvkRE/43V5WMGJZWksjeAq8ayJWiR7pwfNoff1Bm3xUP2ytE8tX1iK8JcsxnJhbx3GLmD/C//f7usfOeWQisTa1Nkp687/scHPE/QO6H/qkiqflBNPs9J8j2W/MSbxxDU++5u4/ETJRivNClz2SxZJPN5ZO8g58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S74VnvRl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6292C4CEE2;
+	Sat, 29 Mar 2025 04:30:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743222350;
-	bh=MDFIaZsnKiaO2sMRiXwW6IbfLfg4w1EmA+l8yH+ZZfs=;
+	s=k20201202; t=1743222624;
+	bh=rkDYb1Sdmwv6LkGrTvcA37qxtJGwqLOkeIh2yI3P0Pc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SyVOJEbYVRkxra/o2RP5SkFZCH5Uwhce8JjThWIaEX3da4wL+Nfgv4JwGEwm+7E8U
-	 /UWSeya5jbiwpdcfsyi78C7sSdb634c3x8sj++2kFYu8G2jBd5qbIYZR+UA5bYDyjj
-	 hsO4wSlTUk/TenqLPJ+KTDkdbhVGCpHUoJjUXhNySim2OQXVlKlseyuFneM+xKMVLy
-	 FlgzQ8iaEQL+/xMXrBO076EG5CmvrfDydlmo0GpEBvBdfGPqS/ZlvE62M5Kqn3MKyY
-	 GkPRzuI9aqc9xZX57KXrlc8r7Agq4K/XL+963GBcVYD9TWXc2FL8fQUgQWaDEIDSwf
-	 wwdG4pSQ/79gw==
-Message-ID: <8f9863af-61bd-44c3-937b-e8a9a5410556@kernel.org>
-Date: Sat, 29 Mar 2025 05:25:41 +0100
+	b=S74VnvRlrodTY5MvDdyo2QLtEgWVql533yHtqFt4fqP3Tx5oOoGqEtOAw8u/CLg1Y
+	 nsALio/8CjJ2+5nim33wGvfZGLJbuCcjLj/elW6KWkbe6/52GJfEUw0KQsjeCvXA+e
+	 XWzWxGNLQo/mDOvsdPPKclDlNeOwtT/QFAgnkUKcpghkdBFZi9pXJkd6n8OzYZXfpw
+	 sxIMBmQs1lsDqfAxI8I7f/wjswbJDPQT0WmFuH6aLZOua0ufMyeZDjN6joTlszmwdN
+	 i42Ua5mPjZEL/XQhf4pbQ+2E9IHftSEbJa/d4ZAioa4jnzhf4Z8qa7jT+Us98FV1ly
+	 +fh9QNQRSWGTw==
+Message-ID: <e94d3ba7-78ad-453a-86c0-a71662e02922@kernel.org>
+Date: Sat, 29 Mar 2025 05:30:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,17 +50,15 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: i2c: Add OV05C camera sensor driver
-To: "Nirujogi, Pratap" <pnirujog@amd.com>,
- Pratap Nirujogi <pratap.nirujogi@amd.com>, mchehab@kernel.org,
+Subject: Re: [PATCH v2] media: i2c: Add OV05C10 camera sensor driver
+To: Pratap Nirujogi <pratap.nirujogi@amd.com>, mchehab@kernel.org,
  sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
- laurent.pinchart@ideasonboard.com, dave.stevenson@raspberrypi.com
+ laurent.pinchart@ideasonboard.com, dave.stevenson@raspberrypi.com,
+ dan.carpenter@linaro.org
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- benjamin.chan@amd.com, bin.du@amd.com, gjorgji.rosikopulos@amd.com,
- king.li@amd.com, dominic.antony@amd.com
-References: <20250228165317.3468075-1-pratap.nirujogi@amd.com>
- <03c3e6bf-9688-446d-9b45-5b186a1d5b0e@kernel.org>
- <4f85e24e-4bd9-4cde-ad33-075cfcb2b7c0@amd.com>
+ benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com, king.li@amd.com,
+ dantony@amd.com, Venkata Narendra Kumar Gutta <vengutta@amd.com>
+References: <20250328214706.1516566-1-pratap.nirujogi@amd.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,152 +104,52 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <4f85e24e-4bd9-4cde-ad33-075cfcb2b7c0@amd.com>
+In-Reply-To: <20250328214706.1516566-1-pratap.nirujogi@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 28/03/2025 23:19, Nirujogi, Pratap wrote:
-> Hi Krzysztof,
-> 
-> Thanks for reviewing and extremely sorry for the delayed response.
-> 
-> We have submitted V2 patch based on the review feedback. Can you please 
-> help to review latest V2 patch and let us know your feedback.
-> 
-> Thanks,
-> Pratap
-> 
-> On 3/1/2025 8:30 AM, Krzysztof Kozlowski wrote:
->> Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
->>
->>
->> On 28/02/2025 17:53, Pratap Nirujogi wrote:
->>> Add driver for OmniVision 5.2M OV05C10 sensor. This driver
->>> supports only the full size normal 2888x1808@30fps 2-lane
->>> sensor profile.
->>>
->>> Signed-off-by: Pratap Nirujogi <pratap.nirujogi@amd.com>
->>> ---
->>>   drivers/media/i2c/Kconfig  |   10 +
->>>   drivers/media/i2c/Makefile |    1 +
->>>   drivers/media/i2c/ov05c.c  | 1031 ++++++++++++++++++++++++++++++++++++
->>>   3 files changed, 1042 insertions(+)
->>>   create mode 100644 drivers/media/i2c/ov05c.c
->>>
->>> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
->>> index 8ba096b8ebca..fd160feabc41 100644
->>> --- a/drivers/media/i2c/Kconfig
->>> +++ b/drivers/media/i2c/Kconfig
->>> @@ -337,6 +337,16 @@ config VIDEO_OG01A1B
->>>          To compile this driver as a module, choose M here: the
->>>          module will be called og01a1b.
->>>
->>> +config VIDEO_OV05C
->>> +     tristate "OmniVision OV05 sensor support"
->>> +     select V4L2_CCI_I2C
->>> +     help
->>> +       This is a Video4Linux2 sensor driver for the OmniVision
->>> +       OV05C camera.
->>> +
->>> +       To compile this driver as a module, choose M here: the
->>> +       module will be called OV05C.
->>> +
->>>   config VIDEO_OV01A10
->>>        tristate "OmniVision OV01A10 sensor support"
->>>        help
->>> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
->>> index fbb988bd067a..08bfc2d59be2 100644
->>> --- a/drivers/media/i2c/Makefile
->>> +++ b/drivers/media/i2c/Makefile
->>> @@ -80,6 +80,7 @@ obj-$(CONFIG_VIDEO_MT9V011) += mt9v011.o
->>>   obj-$(CONFIG_VIDEO_MT9V032) += mt9v032.o
->>>   obj-$(CONFIG_VIDEO_MT9V111) += mt9v111.o
->>>   obj-$(CONFIG_VIDEO_OG01A1B) += og01a1b.o
->>> +obj-$(CONFIG_VIDEO_OV05C) += ov05c.o
->>>   obj-$(CONFIG_VIDEO_OV01A10) += ov01a10.o
->>>   obj-$(CONFIG_VIDEO_OV02A10) += ov02a10.o
->>>   obj-$(CONFIG_VIDEO_OV08D10) += ov08d10.o
->>> diff --git a/drivers/media/i2c/ov05c.c b/drivers/media/i2c/ov05c.c
->>> new file mode 100644
->>> index 000000000000..96c4f74af4a9
->>> --- /dev/null
->>> +++ b/drivers/media/i2c/ov05c.c
->>> @@ -0,0 +1,1031 @@
->>> +/* SPDX-License-Identifier: MIT */
->>> +/*
->>> + * Copyright (C) 2025 Advanced Micro Devices, Inc. All rights reserved.
->>> + * All Rights Reserved.
->>> + *
->>> + * Permission is hereby granted, free of charge, to any person obtaining a
->>> + * copy of this software and associated documentation files (the
->>> + * "Software"), to deal in the Software without restriction, including
->>> + * without limitation the rights to use, copy, modify, merge, publish,
->>> + * distribute, sub license, and/or sell copies of the Software, and to
->>> + * permit persons to whom the Software is furnished to do so, subject to
->>> + * the following conditions:
->>> + *
->>> + * The above copyright notice and this permission notice (including the
->>> + * next paragraph) shall be included in all copies or substantial portions
->>> + * of the Software.
->>> + *
->>> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
->>> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
->>> + * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
->>> + * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
->>> + * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
->>> + * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
->>> + * USE OR OTHER DEALINGS IN THE SOFTWARE.
->>
->> What's with AMD? Second patch that day, same issues.
->>
->> Drop license boilerplate.
->>
-> Done. Updated copyright header and license in V2.
-> 
->>> + *
->>> + */
->>> +
->>> +#include <linux/acpi.h>
->>> +#include <linux/i2c.h>
->>> +#include <linux/module.h>
->>> +#include <linux/delay.h>
->>> +#include <linux/units.h>
->>> +#include <linux/pm_runtime.h>
->>> +#include <linux/gpio.h>
->>> +#include <media/v4l2-ctrls.h>
->>> +#include <media/v4l2-device.h>
->>> +#include <media/v4l2-fwnode.h>
->>> +#include <media/v4l2-cci.h>
->>
->>
->> ...
->>
->>> +
->>> +static int ov05c_probe(struct i2c_client *client)
->>> +{
->>> +     struct ov05c *ov05c;
->>> +     int i, ret;
->>> +
->>> +     ov05c = devm_kzalloc(&client->dev, sizeof(*ov05c), GFP_KERNEL);
->>> +     if (!ov05c)
->>> +             return -ENOMEM;
->>> +
->>> +     client->dev.init_name = DRV_NAME;
->>> +
->>> +     /* create sensor enable gpio control */
->>> +     ov05c->enable_gpio = devm_gpiod_get(&client->dev, "sensor0_enable", GPIOD_OUT_LOW);
->>
->>
->> s/sensor0_enable/enable/
->>
-> Is it okay to use "sensor0_enabled" as connection id? We used this name 
-> to differentiate the two GPIO PINs that has to be programmed for RGB 
-> streaming to work with this sensor.
+On 28/03/2025 22:42, Pratap Nirujogi wrote:
+> +static int ov05c10_probe(struct i2c_client *client)
+> +{
+> +	struct ov05c10 *ov05c10;
+> +	u32 refclk;
+> +	int ret;
+> +
+> +	ov05c10 = devm_kzalloc(&client->dev, sizeof(*ov05c10), GFP_KERNEL);
+> +	if (!ov05c10)
+> +		return -ENOMEM;
+> +
+> +	struct fwnode_handle *fwnode = dev_fwnode(&client->dev);
+> +
+> +	ret = fwnode_property_read_u32(fwnode, "refclk", &refclk);
 
-How much time did you give me to respond here? 20 minutes. In the middle
-of my night. And then you send v2, without waiting for my answer.
+Use existing properties, like clock-frequency. refclk means this is the
+clock, not it's frequency.
 
-That's not acceptable for me.
+> +	if (ret)
+> +		return  dev_err_probe(&client->dev, -EINVAL,
+> +				      "fail to get refclk\n");
+> +	if (refclk != OV05C10_REF_CLK)
+> +		return dev_err_probe(&client->dev, -EINVAL,
+> +				     "failbad refclk %u, %lu expected\n",
+> +				     refclk, OV05C10_REF_CLK);
+> +
+> +	ret = ov05c10_parse_endpoint(&client->dev, fwnode);
+> +	if (ret)
+> +		return dev_err_probe(&client->dev, -EINVAL,
+> +				     "fail to parse endpoint\n");
+> +
+> +	ov05c10->enable_gpio = devm_gpiod_get(&client->dev, "sensor0_enable",
+> +					      GPIOD_OUT_LOW);
+
+Nothing improved and you did not bothered to wait for my feedback. You
+just sent v2.
+
+There is no second GPIO, otherwise would be present here.
+
+NAK.
+
+
 
 Best regards,
 Krzysztof
