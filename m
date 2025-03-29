@@ -1,41 +1,41 @@
-Return-Path: <linux-media+bounces-28977-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28978-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A4E2A7545A
-	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 06:46:41 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38872A7545B
+	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 06:46:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 859251895C73
-	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 05:46:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D1E0A3B26B3
+	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 05:46:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EC6319DF98;
-	Sat, 29 Mar 2025 05:45:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF8EE1A9B34;
+	Sat, 29 Mar 2025 05:45:39 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11021083.outbound.protection.outlook.com [40.107.51.83])
+Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11020100.outbound.protection.outlook.com [52.101.225.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF917170826;
-	Sat, 29 Mar 2025 05:45:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.51.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054F9170826;
+	Sat, 29 Mar 2025 05:45:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.225.100
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743227134; cv=fail; b=gHmConpxwmHL3Sa7QJrGtn+8xAoy4He61+multoTIgNztO7i1+L/6k9cfOMfIr79cGxbYqBih33OKLa0WXHYrsWw3j03in70uXWUSqpuoWuhw2Iu0WbrZJgIKV1EYxhvUSYMpIb/3Cqq1yqnwug+OGrDq0KzfQMaiTZ9wUzlev0=
+	t=1743227139; cv=fail; b=SAzdKWkI0t5MmdbyFLIfHqkmuDt6nDgk8ZJYxPlKpx9vxOpAJsx+zRjg2MWYMNg6D9dSikzdHUkbWweFjApomdaCszoy7KtP7dOgex13PxqJo7rX9DfL2iQBusYa0sCOtuhTrk4JKHQ3h7OM/BhIbBxqqrq/dqOFMTQstFhZjK8=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743227134; c=relaxed/simple;
-	bh=anM1RwVm9wyECGFhf9KFUf/MmiNC+Jq4V+xYLiZ5I0g=;
+	s=arc-20240116; t=1743227139; c=relaxed/simple;
+	bh=Ol9AhUaxJkBFxV9lc782zKS/1hDPgKKFnmQsCn/eZYQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=FOYiQ2PBg6GrybjVATOVysHgNAeCEu/ri90tc2LSNdlQlQIVJXKJ+SPBGkpk3m/NiCi5tmW4q+oaLUrwAOfftEofI+H8FMccCgwSqgv6lEldNa9Rt2JiK4y1v/x9NdhgJC4e0nnnsV7K2qUV9aaPqrcYTFHkBiIuu7HLi5ifhTs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=40.107.51.83
+	 Content-Type:MIME-Version; b=F5potvPQE27hHwiq90RpcgQAsOxamvUI53fAwkt/CmBskPCb7k8nby5ASKZ07lbZdnd4YMNctVh5E7M1Bbu3uqLOYwfbhT3dMMPz9PBM/vOxZSlWfAkYYhTR/xHurSOpxPevhpnWS7qa45yXW20RS50jhPSJo/uvJymbii9VWhY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=52.101.225.100
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rlWP+dIMoOmT2U0ZlZivbG0/5q1F9wLcGXtJKFdMjdNtEZg/cUK9JA82Lwd/PIgc6P4SI3bDkUeto5H4VnTYtSlR04A4H1G+LQtAL54+FIxM+xysWdAdXRnRh/kbUV7RvN7RX7sMyQpH3n/ccO0eLIttwEsCuKlb4EYeOjGKW2y7JB9DvnTlSs60qm+JK2K15dsSpkZG6Rl8sbR9v5kQysDmxcmPKRy3/Wm2T7oIchXoa/hY54z0XMMc9LT5wdzVFpV/TAOzgRxKc8VnmpP0j6q6BQF2TKT0NFfrZAgqrLQUeBjIykKotxbzpXopBgO+Y2YF07O2oscQOL2+yn10bg==
+ b=u4WHINbQDR5TFJ0GOqzEEVFOZ8+O4NyT8TNA/ia+xy3VVrH12uEQI487PGw2g9IBK0gJtD5QcWQVGAHWTNXfzT3riZiUJTejdtfVDOK/98wMCTfJNT6YOZv1lA7GHGl32fNHUYNHWRFiwZRTWQju7YkMhJIQSnb9hnxzKHRc8GLT4YPGWW1gnuIteQ0TNAPp/hi8xyiUOJE4Ewu/tbKwaqCuLbARj079u19d3wQL0sZtp6o2jz46S4zbwpW8yPGC/0BXQ4XNQoh9gUV5LMRuc6neqYT8fZSvaruuzvBsiJ8yX1Y1Y0sWPg5Z2utBG0prjtaO7RJjTF3CjoEz2SzHOA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GqPMZOtX56B3Til9vyQTDVTiqW6ByjccrfuRKr7juuU=;
- b=c+V5fJHTLOcKqGS8+mT24eHs9rkBEYo1x4I7tZ6CW1J6E6p0aq8Q0Swa+HHigDkU1hxjpm5wJ/ikN4CkiHWmtb3fMlPV98YyXvPWAGMO2/dy+OkZD2Qrn2H/CRB8LVeY876SLS0Ne9hPB/R3Lwk+60evasyAAvzfq46mgO3rCdKZaIqxBURnC9O2N78mOoabUIZd8r6QMpDmF2EiwwimyZcdMSsVate3CD1PMZMP5mcSjdm13mJX7iFFLSqZ2nwPtGLPRoVYzA82rlARFXj7potJrxcWOI6nt8xVjsl6cG5stmy7mg5BZRdRqWHpDAP7KBa+pBLSb9+SfRZUnxEJQA==
+ bh=wL0cBrVAExfr0JuvHg+L2+SXJchR+lc65nRDoN1W/tU=;
+ b=FHyH8Dn1pNwgfDvpdxGZPXqFw6KJDFMAb/hGbnYehelX+FZajqJiRouNZbkd479EDfShhz9FGi2uDjjt2BXExARGLZnNbodeNyaoz8QigiXPgW9zzIyAxlg9FGMw2X9/CEmqCT0X3Gb6+ixPjOgJFbvN+YwATxN6/lx/GP9e4L6jPwwbVe2taYgGarGDYw1s9K6t3Cxmb9RixUjbkIKqlj3w/zq3dtpQEnJ9GxLjH/+rmFFo3ENhmzJmJteQGChsrZAmInPRRs2jYo+sd2s2VecnPx3CdqNKvx+MECz+OTf9kCAIjf4SJyecZzIMr4vjpedV7rLK0Mpcz44DQtQI5A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
  header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
@@ -45,11 +45,11 @@ Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
  by PN0P287MB1842.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:18f::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.46; Sat, 29 Mar
- 2025 05:45:29 +0000
+ 2025 05:45:34 +0000
 Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
  ([fe80::58ec:81a0:9454:689f]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
  ([fe80::58ec:81a0:9454:689f%4]) with mapi id 15.20.8534.048; Sat, 29 Mar 2025
- 05:45:29 +0000
+ 05:45:34 +0000
 From: Tarang Raval <tarang.raval@siliconsignals.io>
 To: sakari.ailus@linux.intel.com,
 	kieran.bingham@ideasonboard.com
@@ -61,14 +61,15 @@ Cc: Shravan.Chippa@microchip.com,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
 	Zhi Mao <zhi.mao@mediatek.com>,
 	Julien Massot <julien.massot@collabora.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
 	Luis Garcia <git@luigi311.com>,
 	Umang Jain <umang.jain@ideasonboard.com>,
 	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 4/9] media: i2c: imx334: Configure lane mode Dynamically
-Date: Sat, 29 Mar 2025 11:13:26 +0530
-Message-Id: <20250329054335.19931-5-tarang.raval@siliconsignals.io>
+Subject: [PATCH v2 5/9] media: i2c: imx334: Fix power management and control handling
+Date: Sat, 29 Mar 2025 11:13:27 +0530
+Message-Id: <20250329054335.19931-6-tarang.raval@siliconsignals.io>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250329054335.19931-1-tarang.raval@siliconsignals.io>
 References: <20250329054335.19931-1-tarang.raval@siliconsignals.io>
@@ -85,124 +86,154 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PN3P287MB1829:EE_|PN0P287MB1842:EE_
-X-MS-Office365-Filtering-Correlation-Id: f0b366d3-b218-4443-5293-08dd6e84e9f7
+X-MS-Office365-Filtering-Correlation-Id: 57298481-21ec-4c3a-d5a1-08dd6e84ecf6
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|376014|7416014|52116014|366016|1800799024|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?UshwayqnxjS+VWkyHn+0SM9x13Kw+kujhhbp5uDeN2b4wd3vC9hDEttKnuJg?=
- =?us-ascii?Q?nB07AlIAbBma2+0yHLz/dcW+ufE3MftPplTL58Bq0ZOc7D2NwGohQBMZqHE5?=
- =?us-ascii?Q?QJs/+xKOzcv/9Qg+INkxkV2MRxaIioUAjsJU9CIAuLa+XuVAhyHZSc7TvPXo?=
- =?us-ascii?Q?mCCNRXpQPzowSPJR1RF96RAySmzeh0YJ1hHqfg+0MzKvA3RViuci83VhNxH4?=
- =?us-ascii?Q?kVdb/BmSC1SSd+VcZoMQO5u2UnEn8pDzryowQ06J07BTSZeiUH/Pid7K18CC?=
- =?us-ascii?Q?oaPvdR5WEQKVE7CC4SxHkK9l27JjM3AjBgpvsgSJrxCR0TfXWOPV+hJ4JJO8?=
- =?us-ascii?Q?Qye6ycUp39T/kWc0XhyZU/SctWT3vqwWoTYO6yTB162aepRMRikBpOaTmi03?=
- =?us-ascii?Q?r0bTMIDUxYACZ/Zn+I06oSMRr2ODce+Unl7C1UvLVfRHrI9Ku+oMrqiodnQj?=
- =?us-ascii?Q?T35tgCOIc6KPmhJ42+lbhGJLX5nOhZJTa2ITQXLUayI4w6At61xkQwwrjbF3?=
- =?us-ascii?Q?IfWh9+v2usmuXnc3Z14fHHm4zKw7wwf5230NM3riAGs4Yy46SMAZZwMEpCKO?=
- =?us-ascii?Q?Asewr14u+O9qsFBRin7dsFG9tfOJ4Cne1Vq/TUBnsZ/spRaJR+ihhgE+FxaZ?=
- =?us-ascii?Q?Vw85sUeSSYsXZWQmr4NGArxzIYvb/PZLELRaS8/hI/BJWaNnFhmX0xpp/98A?=
- =?us-ascii?Q?MF1g5ztx2IjrYlh9wHlEI1iGjRCvOW5PEzLZJzkSdvcrLtsMhUIDVTUdQygC?=
- =?us-ascii?Q?b8dPVet2oMVkcBKfV2yOlbcCJEH9JkIkasyn/q5zC0VtFv7jObQ6+PnAj24E?=
- =?us-ascii?Q?YYj6PNuDkx44RRkgqy427z/fgPTkafvYhUftkEjXr6CCtnn6w3zl6g4/AUKP?=
- =?us-ascii?Q?JL70tWp6zDw/bPsHY/1c4+5RtWFT5mbCIvEc/19K4BcCKtCPuKrDY82hC85g?=
- =?us-ascii?Q?4702Mup6ud5czlOej6s+tTbL8YnG46oOUFcxI8kyvsdUypU928GFI5vRa5gt?=
- =?us-ascii?Q?Rw0Z5lWjBAEwrUUgzaEbrx9VGdLbaZOGHqrwQpSejNDYiXkbRciV5dkqK8I0?=
- =?us-ascii?Q?7QjAPOZ+ArziTGanOSfoG4wbYwXK3nNIFaCRG1MJIVxqy9T8speaOZS86/WZ?=
- =?us-ascii?Q?5i+c91vvO9JQaF0Oyx3gsiDv/OY3iYSpHErKw/pyQ62CWB4/qeDDH4ViG88u?=
- =?us-ascii?Q?mHQcGdM6wawrPqsrXLgnbdGdFkVP+VE1rHtHsb/Gnl9gZECjs5jcKFDez8F5?=
- =?us-ascii?Q?8T15n8qSg/IowLqnlb6kL2RMLa2Fn+wn6j2nID7zNU9D21fdw20L3jhxtD5e?=
- =?us-ascii?Q?w9b/vaiN4XZeroEB+CHY5G3Cc97S4q1Uo1+dro/+6pPAmAoo6q/ASxWx0DQg?=
- =?us-ascii?Q?zDH437fSQOKursvNGfrt5201yujZ4TWLs5QxLHp6KFSwIsclDm+L/5sEbeFA?=
- =?us-ascii?Q?rmC06iRJ95kgY9HuvM8lVCeozH7JJPeDE/tM+NwckZGT2MUqMbBKxw=3D=3D?=
+	=?us-ascii?Q?6v3m4h0Fc9FW6sNwdosqb0XyH9YDQMyc8gS/vgWiMpfT10Cckc/hYdyEPUiD?=
+ =?us-ascii?Q?p9RnEBU2DnsijjVceEn1aG3uFZrz5+AMKizGfmpLQAwxC7ZcQ1FNTu4QS+oU?=
+ =?us-ascii?Q?vxPbg5uLomMJctDAwyMSi1rmngtosrtx7eimx5DTM1UUukPa/SHM8grBia7/?=
+ =?us-ascii?Q?Ad/727JYuvBIJDUMgsQo7/t/fFCLViIUyubgUKCgTEl2sQVdg2+K7h089q0+?=
+ =?us-ascii?Q?3cAiVzsulxydJ9Pkc1znFwFIne6R/uxVKplMN5y2tzoDV0+XUaSyFmxbat3e?=
+ =?us-ascii?Q?m0TXicDHPBkTnz339PZX8i3F+ou8zbc1rKUP/WW1ZZICi6k5pVvNXYaR97gX?=
+ =?us-ascii?Q?CMm3AAy9kW1qKc0Z9wGp4NIb8oMV45gbxX5mYUpX+ZngW6cKaKcUuu5/t81B?=
+ =?us-ascii?Q?fSaMXmUKB57Id+9lYB6ylrxCkBUUKj00pX9aTS4fINPSQQzJlC5lyoKvddUq?=
+ =?us-ascii?Q?aj9A30tnpTfGlFf6TepBlE95mxkCYjZoLbKFwm9wZ/AyM3/DpnA1piziKugU?=
+ =?us-ascii?Q?QuCuO5rSg+0of1wrhCRs/YxXioyI5kA+Y2oVbBMFL0wZlCcQqIr8OWYYPt6B?=
+ =?us-ascii?Q?vmbj/McynfToulVv8BLXbKmY9ZdcVE8ALtTWhGQUcL3+Qp2mNa0LgJZ4yQVT?=
+ =?us-ascii?Q?l0p3fkFBPWHAbS3eWkfcOVDVzQVsRW2WQCgU+Bbd4fP00HfSKiqCF7kbxQTw?=
+ =?us-ascii?Q?wCzOTili26C5OQYiUKkBjxrVWok57oHBpwMBI5uJzeVMb0MHbMpQjnBll64g?=
+ =?us-ascii?Q?NEMRC693IToa82wOYvR0a1VivXDEACPyzoI+jsKZepWsSeMWemClU/fEjM62?=
+ =?us-ascii?Q?4fDB2tvP+AeygEnzVlJdzLne3RdVYyJqlSPIvJsDJSP1cXoWNmTODli86EIu?=
+ =?us-ascii?Q?rWFSnJz5IE8jZdIAJvimds+2dUdBeIP/XJDq3JaLGWXYyrRmM0Mb+q483HSc?=
+ =?us-ascii?Q?00TzVvwtlEc0mmaP7eXgdv4e0t4f2pT5NRm+eW4okHXOKcRZ3nfrMa1JA+3Y?=
+ =?us-ascii?Q?uAsT2YLKU4p2AQOs+J1cOm9M+Sw7c3pF2EeyhG+SjvCEICwlOgAVLBeBd0uI?=
+ =?us-ascii?Q?yI9E3Zo19xBFsUMR8SPdI9Mxi0PQuusJfbNNVDJ4xLI5UIYjC724Mqy6fWuN?=
+ =?us-ascii?Q?tTQVNR0EAmCWNjyJ8VK15h9bvDT2LKCi+4gVDp3cNmh2SHKNGNFZElqPpl0/?=
+ =?us-ascii?Q?IN+XUmlbLtU591k8xW78xrlmyJqR9f4y1t1BEeec8WWsZo4Afxr1BF/2Dmbz?=
+ =?us-ascii?Q?w6pC7gXec5aMpHFA3CQBdHELTEvXwg6Qzw9Gk9vol/fyamJ2YGNTjpMy+G+R?=
+ =?us-ascii?Q?x51J9Rddm8QB0AtjkQJwOi90H7OSiPuUOvcAJVXor0K1DyKOhSBlgfKNn3sk?=
+ =?us-ascii?Q?ss5OgkpWDgUR8HdH+E4H8fR/pteLgdGjk/t6UnOoANyclPGc0xUrCnUfzRKg?=
+ =?us-ascii?Q?GkOG+NSFFuyEEU19Njgql23Tu/Ss/S1mNd2jfCW3fsII/GJ+ZJgtjg=3D=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?I++uHN9BEm/EW6puIyqj+wII+p5rQQCFAMdWjFsGcr/GHOSafhkPkwY0xHYK?=
- =?us-ascii?Q?2zLvSKvW9uH0tkt2V0JKBAuORLEDPH7XcUw6OV7RGJ0+6+zVdyvoEBeNyu49?=
- =?us-ascii?Q?cKch72KGkC47EXqCQH81NNUiSILQNmv2WBngC+VSCQXIKCe3aaHBQKo4C/fT?=
- =?us-ascii?Q?W9Kv1vN2HgtisIZq3HLLVGOdnfwO1QLbPAFUmGLt9u4HJo5oH1mewzj0S7TN?=
- =?us-ascii?Q?tAOYjfV5N7aHd0JrGpJORftrA7fuVwvlNQOgNMLhavW4yMhLzKNJIAcPCbdH?=
- =?us-ascii?Q?Ry0D4ueezfXvoMVI7OCVje62Mke7At3abDnt0uGw3gYytP2/6nITW7s4xSdD?=
- =?us-ascii?Q?668EqamlcvRF5bcifVoblBGHIj6+9556es6vojjYcwWkv6iU+lhhAX/t+CUI?=
- =?us-ascii?Q?vBlCKHSDKdaZz4o4x9S3Dc4bwywPMnFMNehengswqh5Uc1AA8upyl9hObyff?=
- =?us-ascii?Q?i0aqWUmbe42/eXto5h4Hh59S6faT/BwnqO650Yaq4D3Pb4lXARJOReKA1G2n?=
- =?us-ascii?Q?dgsR7C1sWJJs3+A8YhnYv0Ob8+JmVP6dKwnreo6tnXfPpSL/u3ySRqF0GAPP?=
- =?us-ascii?Q?5ziVU1wOhqbZ6kZOkel27pMHrCTpQWDSjLFZMiazRgfRt8FS2by0XjzCCAgG?=
- =?us-ascii?Q?7YtDfO4SEm7wX3hlG62XgLb3nI5NR1kcL3URU/xz45UNbFSQcvvJPDeoUHk/?=
- =?us-ascii?Q?Fa5PvL20R6FCQo7Oacc08dMFFHMI79o4Nht6AEIUIhFP8dwhXoBE3KChDAvu?=
- =?us-ascii?Q?Vs3mklI25RnXfo19kgal7Kg4e2hRXXfyIv6BEyZDIfCWB91HsafdpxLQTZrB?=
- =?us-ascii?Q?6TQqcPGSXGissAMMBE8HHGv47sjmZc50i4MgJn6vCWOnXIsZfQFFi3w3x9m3?=
- =?us-ascii?Q?ZOaGzEgmdvlM1WJDIbkp+RfZwzhK1h0YMbZHED5LAaAPORp92Lydz/5ep2RR?=
- =?us-ascii?Q?TRKRC5TSN11bJU6hY+kpzvHqKMcpDbFaoFgqeU2KhF35VwZ4XLZmvuqHNOTJ?=
- =?us-ascii?Q?L67GfuRRqOcbi7oagfF1UH2JE0etCpm+jh7xj78t+uAJ8TLW//q9ECTB0BJ9?=
- =?us-ascii?Q?Td5ov8mJhwFPol7nNNxCwAg1byG8hSZRMg7Sf+YumZmbF6F1dOg38SLNeORG?=
- =?us-ascii?Q?B1BvVKs+a2smpMn/sr7AtRXHfne2Njb2NgPF0SEz9NlQh0tQ+7foQpldMJmA?=
- =?us-ascii?Q?nNIyQNCwamCBtM4dtmBvWCbknjNMN+rN+xD9og+1x/FExG3UBCMiq0v88bLm?=
- =?us-ascii?Q?lZ5N3ieiUxDf/mGpXbvCBF6zHXUhXrI1/jVxsxCtv9owke0G2ShepQqwW97J?=
- =?us-ascii?Q?ljvndqWTwYa+7XcImAUXdqGgCMUW/xQypQ/blWfI+JkNL1zoX1x6KEl9R+1n?=
- =?us-ascii?Q?7jy5RWrzjZp0L5td4tGSjLrNEoOca2lj5PDWSHH67vhn0te693C7AF20pko/?=
- =?us-ascii?Q?fu/2p7vqGOH0Fi2SfbIt3DfZiUTruCN6xsfgrIANXa1GXgfxvZnyCjPhOuVN?=
- =?us-ascii?Q?jLmJAzd1N4kZ6zWt+Cv94BikcUwSZ2pIPbo1dqqidF0F+Lv4eww7/h6CYDyQ?=
- =?us-ascii?Q?52/SRvrV5lIyiuXK+MFcS300ZSv6yF+rhj110OwMPj4WPpU1yPHg9/bfrgDw?=
- =?us-ascii?Q?4g=3D=3D?=
+	=?us-ascii?Q?U3iqxSIdIAhM8EuVMlaQZpw8+Htjl0mUvBJYUa5+KozundXQXmOLX7yODIpi?=
+ =?us-ascii?Q?OH/32rin1fZCr0kEPWA4Y2WTd9CHk+j/JijGu7LFJWJqtcLpSCCf7hWUW+9G?=
+ =?us-ascii?Q?yG8WEpiklrntH3KVOzUVDpR+I9Gq83SU51GasFZ8MAxeeZxeXBZvQhjFr/kb?=
+ =?us-ascii?Q?JIbDFzi0uhA6sG/bTnOK/6waq3/by3GDZ0CxtC31TtBMryP9E/0XoFvVESgI?=
+ =?us-ascii?Q?/3oXaXYD16nBLaQfRk3QXkGxvgR+p2lOGD8qThUKFWBqZ+jqnzsVjY7JdKu6?=
+ =?us-ascii?Q?TM2JKZwJ1hN+TdeUlin3PGN6nyFHfc9GxawC+ErtGCk3j04jvDHC2J0xJ+aF?=
+ =?us-ascii?Q?VXe+IT6LRLmX0zYrHp+eLUI3SxYQul+G6fnOu1gV89VySxw59bQNWw8tykmo?=
+ =?us-ascii?Q?6+ZwedK+5kGi0d/+POJ4F7SLkVIb3iK7UJrq1c3xQ2p0a6CuRbEEMuzFP9li?=
+ =?us-ascii?Q?duzk3tZdRcMNQq4TywbU0nQfUibCa0Of7b3L5mSLq8Osxu96iRBsQS0lEcuc?=
+ =?us-ascii?Q?66mFnVkv3VIdmaq2JuBAOvqRK4ataGHm9VPlhFpj+wKKIOPpTycKdnyyssc8?=
+ =?us-ascii?Q?a4mGotj1leRLwu5zxbviDhOPRI+1r1kl3E6F4wmtPf3f5/tDYnx+f8kNs0w4?=
+ =?us-ascii?Q?J1sgRPyvBF1RDif+pXC4dHzBk500J7nzVeTKUYF9lX+EkPFKcxWJcYCQ3eDH?=
+ =?us-ascii?Q?cWZFObXdYuu+pAAkPCDAhMu9LXcOA/BjnLX90wtcNwG/Cg5ilhIHguQfwGtI?=
+ =?us-ascii?Q?TRvnDLOv27mcJV9No5GIA3o4KKP93yLykG5shG4oOWCFozeWCrrQcIUdNttG?=
+ =?us-ascii?Q?8z3McTgzqyMezgQdy8T6oxDY5OBuRko5Ha3+F/+D2ewXMc17seszZ+iapfZQ?=
+ =?us-ascii?Q?mTw4cIkQ57/C/6+JdsGRrfz8uaD1bpOKA2I9t2qDmSUvO4EIKQqGh7RRtndE?=
+ =?us-ascii?Q?lkxR4qK4bxaC3GWcoXppadEUgEKV36wRfYF//JCqRgal3PUNWaomts48OY7w?=
+ =?us-ascii?Q?Ujp5Xf0wRXQiUSvBTfrbIQkHu1np3Coeq2j9bel7SK8yetG7V2wg817RMOks?=
+ =?us-ascii?Q?XSqHfzCFN2FPk/V2zPGmwryI/xckeFvc2lm8pPkodjIdZNvh6/Xxcfrzth/3?=
+ =?us-ascii?Q?x7AYITXsy8QV9ackHjohYrF/GommvGuv0Yu2057aof4driI0acs7JLyWcCbJ?=
+ =?us-ascii?Q?AdKc6JufK/l04+tuMsJcJIukfTLkoOFUC9T9AfFZAXu6hHpwPz/Y0ciZoRqc?=
+ =?us-ascii?Q?53QQj8PU0gSiuvOEJXudIdxCe33kLlrcYw46FqcyDP0mOmG/rKYxnZWuj94y?=
+ =?us-ascii?Q?EMVmQSEnUbss9iYAN9ngZiXUXwp9OTW6bFMwuu/cb31hnLy+SnQcmYu/YokT?=
+ =?us-ascii?Q?mGB8hPNPI5nK1ktYtbLrCjiCi1Q7bCPz3gy1Bl1sxxrIV3vClK9mca38za06?=
+ =?us-ascii?Q?dlwcItLyVfNHTfOLfnu+Ngo/3q/wxV8fdHAMx3I28c0tGozMsSzsXByZbcIO?=
+ =?us-ascii?Q?y/Y6IKg+BzYSS72/72ove9l8FKHKZ0RSks1QXMh42Ia4rTLWhhtF9ed3SZ/z?=
+ =?us-ascii?Q?GiDo4QuvqDc6tMJHc5FGzrdXWg/uBLnfHbGsvNRDABIHQpQKHw5A77RSiPNN?=
+ =?us-ascii?Q?ow=3D=3D?=
 X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-Network-Message-Id: f0b366d3-b218-4443-5293-08dd6e84e9f7
+X-MS-Exchange-CrossTenant-Network-Message-Id: 57298481-21ec-4c3a-d5a1-08dd6e84ecf6
 X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2025 05:45:29.7908
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2025 05:45:34.8027
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EJcVoXxdm4YwmHVHK3N6TpEBJuAUM9SXvVeo0hHdAcSnKRli+fgKa8G8YN8FhOlcD5PhHpcbqR+QdVKHlTxf0zTqKPN0U5ZWHSEcJPtPs30=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 32C4wqW594LD774ozudViT7JEYjJv/jb83WpXPQLfPvPlulMpTAEbPlYUmX6cS32TE4dF3BAK9Ol2PEypLrtuqruN+XFuIolJQfRkWsXn3Y=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0P287MB1842
 
-Configure the lane mode dynamically from the streaming
-function instead of using a hardcoded value.
+Some controls may need the sensor to be powered on to update their
+values. Currently, only the exposure control does this. To ensure
+proper handling, the power-up sequence is moved outside the switch-case.
+
+Additionally, VBLANK control is now processed earlier so its changes
+can correctly affect other controls.
 
 Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>
 ---
- drivers/media/i2c/imx334.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ drivers/media/i2c/imx334.c | 26 ++++++++++++++++++--------
+ 1 file changed, 18 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-index 9d4d15df8dcf..f7be303af024 100644
+index f7be303af024..56d5576ccf94 100644
 --- a/drivers/media/i2c/imx334.c
 +++ b/drivers/media/i2c/imx334.c
-@@ -47,6 +47,8 @@
- #define IMX334_EXPOSURE_DEFAULT		0x0648
+@@ -578,8 +578,7 @@ static int imx334_set_ctrl(struct v4l2_ctrl *ctrl)
+ 	u32 exposure;
+ 	int ret;
  
- #define IMX334_REG_LANEMODE		CCI_REG8(0x3a01)
-+#define IMX334_CSI_4_LANE_MODE         	3
-+#define IMX334_CSI_8_LANE_MODE         	7
+-	switch (ctrl->id) {
+-	case V4L2_CID_VBLANK:
++	if (ctrl->id == V4L2_CID_VBLANK) {
+ 		imx334->vblank = imx334->vblank_ctrl->val;
  
- /* Window cropping Settings */
- #define IMX334_REG_AREA3_ST_ADR_1	CCI_REG16_LE(0x3074)
-@@ -240,7 +242,6 @@ static const struct cci_reg_sequence common_mode_regs[] = {
- 	{ IMX334_REG_HADD_VADD,		0x00 },
- 	{ IMX334_REG_VALID_EXPAND,	0x03 },
- 	{ IMX334_REG_TCYCLE,		0x00 },
--	{ IMX334_REG_LANEMODE,		0x03 },
- 	{ IMX334_REG_TCLKPOST,		0x007f },
- 	{ IMX334_REG_TCLKPREPARE,	0x0037 },
- 	{ IMX334_REG_TCLKTRAIL,		0x0037 },
-@@ -876,6 +877,13 @@ static int imx334_start_streaming(struct imx334 *imx334)
- 		return ret;
- 	}
- 
-+	ret = cci_write(imx334->cci, IMX334_REG_LANEMODE,
-+			IMX334_CSI_4_LANE_MODE, NULL);
-+	if (ret) {
-+		dev_err(imx334->dev, "failed to configure lanes\n");
-+		return ret;
+ 		dev_dbg(imx334->dev, "Received vblank %u, new lpfr %u\n",
+@@ -592,13 +591,24 @@ static int imx334_set_ctrl(struct v4l2_ctrl *ctrl)
+ 					       imx334->cur_mode->height -
+ 					       IMX334_EXPOSURE_OFFSET,
+ 					       1, IMX334_EXPOSURE_DEFAULT);
++		if (ret)
++			return ret;
 +	}
 +
- 	ret = imx334_set_framefmt(imx334);
- 	if (ret) {
- 		dev_err(imx334->dev, "%s failed to set frame format: %d\n",
++	/* Set controls only if sensor is in power on state */
++	if (!pm_runtime_get_if_in_use(imx334->dev))
++		return 0;
++
++	switch (ctrl->id) {
++	case V4L2_CID_VBLANK:
++		exposure = imx334->exp_ctrl->val;
++		analog_gain = imx334->again_ctrl->val;
++
++		ret = imx334_update_exp_gain(imx334, exposure, analog_gain);
++
+ 		break;
+ 	case V4L2_CID_EXPOSURE:
+ 
+-		/* Set controls only if sensor is in power on state */
+-		if (!pm_runtime_get_if_in_use(imx334->dev))
+-			return 0;
+-
+ 		exposure = ctrl->val;
+ 		analog_gain = imx334->again_ctrl->val;
+ 
+@@ -607,8 +617,6 @@ static int imx334_set_ctrl(struct v4l2_ctrl *ctrl)
+ 
+ 		ret = imx334_update_exp_gain(imx334, exposure, analog_gain);
+ 
+-		pm_runtime_put(imx334->dev);
+-
+ 		break;
+ 	case V4L2_CID_PIXEL_RATE:
+ 	case V4L2_CID_LINK_FREQ:
+@@ -640,6 +648,8 @@ static int imx334_set_ctrl(struct v4l2_ctrl *ctrl)
+ 		ret = -EINVAL;
+ 	}
+ 
++	pm_runtime_put(imx334->dev);
++
+ 	return ret;
+ }
+ 
 -- 
 2.34.1
 
