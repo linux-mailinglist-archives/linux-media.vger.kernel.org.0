@@ -1,41 +1,41 @@
-Return-Path: <linux-media+bounces-28981-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-28982-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF07BA75465
-	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 06:49:19 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8679A75460
+	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 06:48:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C93207A7DA2
-	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 05:46:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E4DE93B0F15
+	for <lists+linux-media@lfdr.de>; Sat, 29 Mar 2025 05:47:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C89D149DFF;
-	Sat, 29 Mar 2025 05:45:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6A751C3308;
+	Sat, 29 Mar 2025 05:46:01 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazon11021079.outbound.protection.outlook.com [40.107.57.79])
+Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11021086.outbound.protection.outlook.com [40.107.51.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F3A63594E;
-	Sat, 29 Mar 2025 05:45:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.57.79
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3C4C1C32FF;
+	Sat, 29 Mar 2025 05:45:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.51.86
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743227155; cv=fail; b=MQgWpvak0Lkq+NxPVOnj8ssiIZtpqXSqip7PkdEZufBAhH7lkM1QukIsXJNpdZ8YNcd/klj9JECSedmRxiiOWSVIXzz6RCqTRIYB3dlD9hPc5NrXUqGoTP8596hUNrRcjqI2IZv/QhMnbuS7+lcSh6va3meXCsS62PlbzSSapEY=
+	t=1743227161; cv=fail; b=rO2d+jNuXeRt8qI0Coejmpz0HHs9kLgqwn8yngGfH4Sv7Ak3Ab5ts5IelPHpStGIFzrhypbyZcOFe3Vn5CdRXfPSc2sM+crae44iEU/ph9HCTqqJ8qd2k0lEuu8OssWyYOBiXCGQCWlKnACbCKf99sVqzw8eDGMz0wYsYeCBikI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743227155; c=relaxed/simple;
-	bh=+EtqznvfnvXwkMwFwK+jSBH543Ihb56Bg4ZZnJPQ2IA=;
+	s=arc-20240116; t=1743227161; c=relaxed/simple;
+	bh=R2E6UWbsdTBXGeGv2pFRHXMAI96iJpyyemv8Ojm1/BA=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=CQBFf34Civr5gwtbJitvQj5j5iRNZmUVBslhJeTNo8c4nThrXX3GTe/q4jAIUxxNOcEl7oXJv9AxBrNTN0LqGE1rkTTIAMNxp41svCxi6g50V6Pe2DwcP7ob7L9NzS1YuF/97zr3+w16zpY/V5jnWkPtK8JpfsB9kIjR9hSV1TM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=40.107.57.79
+	 Content-Type:MIME-Version; b=MywD09168Mtzd3SOmW0XrIW0P9R97muQEOtgGsF8KikA57o85ZHniDvoPRJddbaHOjXdqqEveWQjWRfIZYzwF6gj7q/gT2AojMqQOWwfjlQMqFSsBIwhXIZ7qjcD3e+zCv1shDWMMjUSMbq5fg+EMQgTBTumZGS6zZeXLIouyXU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=40.107.51.86
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fk8yUORsQb/aYpbLRaGQB3TFRxEXIsHvYCqHJHD/oxL7S6XymszYfxZ7rY2/CEYSvU/uhO8Ugijl2xeN3anGZmA1U22N3z47Q9T7+z83ImKu8J3zW0PIG3d4E67FlbMGkcfw8u65lzQQmECN2OWXhr67olNK8ItaaBS4vnqjdS42fXzqdufz1+Ig60OXyYMHJnQlL3xR7X5+zhCkdJ9C/kVBi7DaNg1cWvEHss0D3vwkhdf18kpArv8HLhN1AKN8RtwRPmi1rzQTrLYq5aWMstIX1P2lNqBYhp4gJO7oG/VKIaIzgRzlf0NkYNr3zSs0CI88hWwSYntmqVGQo5WwZA==
+ b=Rd61oSPHRh4kwi7K+uIzrSIXrAf3ijZ9jqgCt4h/v3gwfu6us/eDVGetiFkfzIIcGUIAY2UegAJBti2XthMdTy+GI+sIsAc3jJ1WATkgWfQFP5IcrvCR7t6kseb5f5kGnBT0laGQH+B09gSJE2SDfWdULjTCI0suBy2prgQoAjEelf7lESO178NOmnNIxXi6iKxB7PSdGf0DA15YvdcSHCsA30jPKpc+3/1IEfzSg54f9ni0+/nuVwhJ5nkJQ6F4iefmYMVIxVVDAUEBaQ/Cslgs/e5I08OMvzZN1QHSHmhEeOdBQ+Zz7YBYOB1yxarSV3jqnwJqzmDwG9VBvc3xmQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DHLcdMCNn/yeuA467vTb56UvRf9bafNJHUU/94+bsQ0=;
- b=S+fyUw9qN4On4GI4jm6hyle54FFHao6U7HNev0VUH1r+0Otrh/QrNLtnG5CABMB9pDRZO/nw+X+fgVkl4l7PfnG2IS2JZjqavqYKmX1gx719g+ePt+TCnfbKuVo0DvSnbkDnf+MNfbhRcyB7iwkUNs9UcYIpz0wq49o+kLuirv9tbHhTQvZ8z3nMYk87Bf64n5gyGlllscPNWju8tng9emPG4Fm3GiW9T0xXQ+UeYPvSy63YE/aQ0oZEdg428ECgGA/GiumT9G5542v2FRCaKRY67gY5LClkZSFs7vw0yYqBG2dVR8h5dqVRjH+ze4YdbyZTTKECwfdupTXdaf64mw==
+ bh=TYRwZqbOrsMSpEOh9pkDkH5zF6rzHfxTJVD60HzvQbk=;
+ b=ES8K7TOsCBaVsPlo130OPpSlr45cmwcUDstxJvPHhhkhGOtTWnisWof7PTDCcjI1P1iHQVB/xe7jLyyXCnk1/AXcIu4t2gbx5zlW9W/ZyO/C0N4+DtDfcYHPLDvqVL+AaGIfSpbfX+cAD3i76RlPPfQWIbR3zkPg6m74EXnLN+kNqYjAOruwPau6ypC9i2aB+E2fZVHclfLWE7cTI7psgoK1DdfNO1Fi1Eki9iIVdpHe05vuFLTXSnHd4qkoZKtFUa9DSjkuhco2vP4LhtFauTUg48otIgAgH1hp5If43QUOXrkWbLi3W4RkyJMj+I6eVaYes/WHZ6KRR4sC3NDkPQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
  header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
@@ -45,11 +45,11 @@ Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
  by PN0P287MB1842.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:18f::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.46; Sat, 29 Mar
- 2025 05:45:51 +0000
+ 2025 05:45:56 +0000
 Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
  ([fe80::58ec:81a0:9454:689f]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
  ([fe80::58ec:81a0:9454:689f%4]) with mapi id 15.20.8534.048; Sat, 29 Mar 2025
- 05:45:51 +0000
+ 05:45:56 +0000
 From: Tarang Raval <tarang.raval@siliconsignals.io>
 To: sakari.ailus@linux.intel.com,
 	kieran.bingham@ideasonboard.com
@@ -58,16 +58,16 @@ Cc: Shravan.Chippa@microchip.com,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Zhi Mao <zhi.mao@mediatek.com>,
 	Julien Massot <julien.massot@collabora.com>,
-	Luis Garcia <git@luigi311.com>,
 	Umang Jain <umang.jain@ideasonboard.com>,
+	Zhi Mao <zhi.mao@mediatek.com>,
+	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
 	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
 	linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 8/9] media: i2c: imx334: Use subdev state lock for synchronization
-Date: Sat, 29 Mar 2025 11:13:30 +0530
-Message-Id: <20250329054335.19931-9-tarang.raval@siliconsignals.io>
+Subject: [PATCH v2 9/9] media: i2c: imx334: switch to {enable,disable}_streams
+Date: Sat, 29 Mar 2025 11:13:31 +0530
+Message-Id: <20250329054335.19931-10-tarang.raval@siliconsignals.io>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250329054335.19931-1-tarang.raval@siliconsignals.io>
 References: <20250329054335.19931-1-tarang.raval@siliconsignals.io>
@@ -84,284 +84,250 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PN3P287MB1829:EE_|PN0P287MB1842:EE_
-X-MS-Office365-Filtering-Correlation-Id: b8a657f9-d7e5-4e4d-e20c-08dd6e84f6c9
+X-MS-Office365-Filtering-Correlation-Id: d692fdd2-6698-4d3e-4208-08dd6e84fa17
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|376014|7416014|52116014|366016|1800799024|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?3imdyihFJYlLGwjvpldA0OHfg6dFBq1Eg+QKXY0fRmFXRw0HPfxYdtwPUp11?=
- =?us-ascii?Q?vVhUhUEtpBxMTdcEmN/RVhwV0QAC04SRG6NTW1mZvEnQgraLhhWM1D6cZ0tL?=
- =?us-ascii?Q?q3MMhIUiGEIVLtb24K0qL/iOOuvoaOuGZoIpPUQIR8Vat6D3UjHioydqocNc?=
- =?us-ascii?Q?T001GxE5M/ykrzS4KQmmOzuJBWHkK5rKdsmRFNvhaFD4W6iLqGe0J/A5hpxz?=
- =?us-ascii?Q?6/Ygeg2SM4CwwU3M+7CfT/wo0ryMBAodgZ0xPCOhmrgfHoStIwljjH7j23sh?=
- =?us-ascii?Q?0E2su+ufMvonxrW26F0/vk9zGmnFFAwBu6RQuUXg7GXfp98l+jHWMVcN6HAW?=
- =?us-ascii?Q?UU9KyTIgHUfF5PDPVUEjjekvVtyaGiTJoXuYJMcciQEQMOwLJvMtnYyql/7V?=
- =?us-ascii?Q?vVaoYz2th33YVv0k5v+5GZVeDoKarHwRYGsfMVXanL2Zuj3USG8AUGJhs+U2?=
- =?us-ascii?Q?HUCOKs+Of/rovWk/LkTvQGEpCSmMuoPtIDYY6RZUuK8f2WibQqLVjPnWwm/X?=
- =?us-ascii?Q?9nHjQnhY8RRQ4+RSQtRLwdul0DaixzF37CARtL9Yqvy+3C490forHIhIY4Lb?=
- =?us-ascii?Q?35Oug2bFjbCpYVNHkjP9IfaXsi2bMmHxF/j6aKeWgjwak9W9oQS1GaJ2jRMN?=
- =?us-ascii?Q?fYGFwiKoabWd4BoXvwVj0aVeFlcnEYXcH5myv27uNLTjlSGMCXg7nU40pMEW?=
- =?us-ascii?Q?Iw+zvQD1guNLpIfje1daRQb7A4mdLJ0DDQQxfNxKAAxagqEDRdX7h3AuPokh?=
- =?us-ascii?Q?tU8w0zRiezZcU4HAPw8E5wqnjb9ji4nQnOq2GJCVmuJ0D9wDHMIs1qYf/3Dj?=
- =?us-ascii?Q?kCjoR0VIjYv8/g6uJc12TbUGiGR1yUxxo4zZ/q6JZjaVDL51L4qe7AyqorxL?=
- =?us-ascii?Q?ylvzyYQEdCZLliSgjKcw17TgmzdtqSyo6iMdFTkODMR7S9uEosrbC0L7aqdf?=
- =?us-ascii?Q?HNjseXJ4UrzkwG27SMIUhh4Zwvh2v1HwE+Bs2/8cgbFGLTeIcq7brbnXtYuc?=
- =?us-ascii?Q?mNd6UZu2HCCc3SpPh+dPIgz+2xMYbyZBCJXKEjRGxObAmDdl523KcIJuX7u6?=
- =?us-ascii?Q?2zvUVTTczuQ+MRF6p4RtwXjuB5fDm+jeonwA4+WM3JYN+3V7wmDjN6OWp1xr?=
- =?us-ascii?Q?la3Eiv19nxtSGsXpNft/Yul0k2PrUA6VKAfYoasAPqo3WTLWDxFo/J9xhqmg?=
- =?us-ascii?Q?68A2d2DVdREYDhGcn2BCv1bfwMKPWii2Jlb4IztIyIpYzuYaTqgXYxEfdd/h?=
- =?us-ascii?Q?XfvtLnfAbK0AxjoUhVNQtUT2sVlfIBb6D5aSHmUNePD9p9iYGYEobeJ1vsAs?=
- =?us-ascii?Q?YMGmqj+T+Z2gR8d8ExSLV5Zqs7chgaoZIEBW2A4yXigD2N2reqXHHuOXwUif?=
- =?us-ascii?Q?ofE+1VcrVlmg3cUz7gqM8FPNWn2TH3WtptQJHR+LLuAz/7tgb9OZrKg4LzY9?=
- =?us-ascii?Q?xZHLcQpBu+pecCwqIIm05sQZqW3bNTKx2UaL8yYVsDaOn7FCPjNPdA=3D=3D?=
+	=?us-ascii?Q?cJdRZVNLgoUsQlxwp2obg+Xy3/lm3NLa5aMwmBiXW4PynkLIhXAxHXEigk8u?=
+ =?us-ascii?Q?uSrtjY8nL35OPwo0aVOSmxngE718A4F0jzPM5xjFBsT2wHAMPJhKNrOVBt7B?=
+ =?us-ascii?Q?WjH7N+usGYn6OmuYTafCf4g2S4w03Xz04YX7jhg8ubkoKYWIVx8ND5yBTxyk?=
+ =?us-ascii?Q?HZzttFndVarbwg3IsVLIFryPwnwgHukV/J+5J4Q1nH55wWky5RzTU/oIZ6TY?=
+ =?us-ascii?Q?YhenwI4uH/+96Dncp5/Vynr8KHPxkAX0a6d/esgWpEE4HhVPd11P8NUWeBJK?=
+ =?us-ascii?Q?wcEzXeF5Ed85Ie1kCz0K+KPtGYF1CzmXwQ299WC4wjrN5DCqLxVHAaQXWeSY?=
+ =?us-ascii?Q?jE7xOiF6mrhJgHFyfggR51CYj/92AqMPTatJDHi2f5cSTpvfqfyQNAVmkurK?=
+ =?us-ascii?Q?YPfCyRrirCYRPaLh7Mn7UBSimBC4buQMq8atl5Mo2b509/hZiQI5sI79U9up?=
+ =?us-ascii?Q?eWZ6Bv5FdMwoGA0IdHIiU0jg7+2fNsvpQfGQ1eeD0Mw++KkwZI6dnNTyiDGN?=
+ =?us-ascii?Q?50WVKaFqMap5L6WzuoSnArfDMOTp3DWiLS07cKxcKeJ1+7waN7gvUCQnHEk9?=
+ =?us-ascii?Q?NKaaN9RjefSSXpsw9g9YLZibu9Swp0VnbDJMnV91ZQfGJKe2FTTYacZ6M9QA?=
+ =?us-ascii?Q?RX3qcAzc710C4ZSdanZJwxVWLM2XRSNVtd92YzM6xFkr1kiMAjDp9w5rS18c?=
+ =?us-ascii?Q?W+7R8Pk76kFelQrMH3FZjJKPWOBWd+kjZ213JfWhYeLzoeUKerN3m1jZ3B74?=
+ =?us-ascii?Q?rPeY0s488F0tMydvmHfv5sg/4tifF4jhP3Ve7VKvz33t2SCa4ai8TQd85vxh?=
+ =?us-ascii?Q?NK2iCMiwTSItVCEZ8HKSYaklepHJSjiYPK8iCNgrx8TU7UvvqyUw/CqNPuKb?=
+ =?us-ascii?Q?2SS7Lz2w1/Ey4y7ndJM/YG+gclbProVj9m4YPt3GsBfzcjDPtY79bCgoX42t?=
+ =?us-ascii?Q?KVzHNjDAJ8kTnyK4Jf0/7Im1KFTZ3r0icD+gRy06efzKWrkoojAlTxl8K9PQ?=
+ =?us-ascii?Q?4nv1DmdYeXB80/L3EuK5bPL1ZtmSpDP1DKDZenPl/yL5a/9WsGb6PwyghO37?=
+ =?us-ascii?Q?SBmhc1LVQUglzGidpBJ0taeWu1M8NhYv4hKdnF/NAS7Ef78XhP2bDFRJYkAO?=
+ =?us-ascii?Q?JT6WJxW+QLbakmXAQTgEcQztkhnn4S6Nsril+CII8KOavZzED6cM5cdDTZE4?=
+ =?us-ascii?Q?2IRKow9KxmhKah7gOQxtBZRCwJiU6amqbgReqFzqOdddEbc3O4LlBwBpaqhP?=
+ =?us-ascii?Q?sEujxe60DyGyvt0sNxPYCVrFIz+MyVOoJ8c9gm/7DL7qatozUo+mb1SqMiEJ?=
+ =?us-ascii?Q?88/kzh3HQ2IZ4ZOL8Z4lDCwVtE8lkGoEXIVSal9WVa4jlmD3mjd3nSMkkxMS?=
+ =?us-ascii?Q?oDRarQGquN/4MrXcfM7Qq76q1SqdclwMkVmzFpOZ5KOGIhlPLEeluv2uOACJ?=
+ =?us-ascii?Q?9fWlm/NuXLX4fTiqH3QW3TIv8G0gWxru5aTFKmI1gbKU9XpopniBdw=3D=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?e3I3Kev7yQ6y3RSj8liS4NfkdUiFdHUu8rqW1L3F74kHyibpBYKFZbXm9PUR?=
- =?us-ascii?Q?zdSyPr+sGmMDPawxH+aCzhXYgzMfnFgQP8gty7E6tp/GaMaWZpEkw+HmQnjc?=
- =?us-ascii?Q?nThkOhwswmVVR2pjgxbMmnExciqy2w8uReomhld+NEfyJ3HdC66Od+W/vdai?=
- =?us-ascii?Q?WBOAI+8UvHm/hw9Hz6PgxJ9AgIaN3ORsijjcaSXLTNeGuklwigH9eKkWOpwl?=
- =?us-ascii?Q?lwhyXSS5/REp39lXk0ktIRadKg1HKUOIVdDpA/704FrvuIcewDtjRJ4Fa9Dn?=
- =?us-ascii?Q?/OIIYVKEmxo26tZrzIlN3xY8VDAtjn+tF/Sk/iuE0rWyzqY6dfV2OBOyOafb?=
- =?us-ascii?Q?OMqOm73VNywsYNgCvZnQqxDtA6QaVaq7IVsWHSrst5OWiWaxGAWjmYtBQ0TZ?=
- =?us-ascii?Q?MATvnCRgvytSY3hqqm2DyaEgj6or+vZKrOzNKuDyKAzoQFPCjc9hIbEI5dzO?=
- =?us-ascii?Q?G23FcCHWkQgQb76xBYdRlS6F70FW8kR6I35WdT5xq6cSjnx/9tcPgWH7zfci?=
- =?us-ascii?Q?HyiH3I3Y8afOMtDXT4SakpwGobf/UWMRnXB110iGmAC4WjR7bbUSiwCOM7K8?=
- =?us-ascii?Q?1etJ4z2DeXXXQjIRo8MN428xfcHrTx6KDQEoGMQ3usMM1x4WGEskVv4+nIMD?=
- =?us-ascii?Q?peccdyxy81zV8TsbVhkhZWCzdp3YFLi5efFMsPGAd4xNu07oImPPi1bYE7QW?=
- =?us-ascii?Q?FwuJ0am1KBFMt0ieYHpHLsepv/L1rLyYLHW2rGGGm++Yz8qD6h4BMJZIcIcE?=
- =?us-ascii?Q?jjguj5i/T+n4HriRUm5v35ZbKhxggrDOuw1vamLJfNTpqShI5r9FLPNLHIH2?=
- =?us-ascii?Q?FQooCOqx9a93ht+XPZGbFsprWGW/EYN8J3wu+LUqVLXCmjntJVsrg1sfoZK6?=
- =?us-ascii?Q?KszrKX/bqITLh5Ajvee/pPlrZcaBOkc9/CQ5kPCE3ziiQ79uBENuEu9fojFl?=
- =?us-ascii?Q?E0aUpsN1/8K7G7kEn74IJTKJFNYJft88XOMqkYGH+2QnZIHrv+sOEv450NnP?=
- =?us-ascii?Q?2vL13GGSQ0jeHJNsH3Cg3jYS186pYNQ7jbHUCdc3xaQTK9IJpwNlOzMRUp0A?=
- =?us-ascii?Q?kUnfw8T0kXfzm10NIO8hu2yO2A8JufaUYswhtWsiHBLH7G7xCKJRFos8vV9S?=
- =?us-ascii?Q?J8MaU7sAnAEG18CYr/SJhV7kd/cFPj0wCFQBsV/XnK1OnpLGz8o5/o5meJxW?=
- =?us-ascii?Q?uJpRQBSAMeI80+zrEVe4TFws0jCMROsx3PZOadIk9wSqUOcij7Owks5r09cO?=
- =?us-ascii?Q?gVqmzh63dg00ox14RW/YiJ0TYFQeAf6EEkVoGMfIcUI02kHsdSawt3UoLHL2?=
- =?us-ascii?Q?wYr+7GZqOoJ9fRwNOdf55di3uKR4J+tPlYjWqdK6IWLiBTFicxDFCiP4jPIn?=
- =?us-ascii?Q?h7njJYaiuYnL5u7XNFaJja3GnSFlJGoyT3izhrCsEvG5sj02CEKjrea4j3Rj?=
- =?us-ascii?Q?jLjp9MTL9z3kTd08FpK5VkGULZZBx4DTWaCXxHhbJV2rn6kgQ7nIhZvKzie9?=
- =?us-ascii?Q?wDet+2bkqi22yxdr89zEbeezj5a3wl+vNiGU1euYVBBdooBkFF2ocvIQSAk9?=
- =?us-ascii?Q?jfSvu3XJg1cI33P6DnN1DoXiJ23N5OvAbfTikO/gFQSz8YOx8GJwVynqGl7y?=
- =?us-ascii?Q?pg=3D=3D?=
+	=?us-ascii?Q?AHTZgzGViZ7qAmh44Ru1Ce0e4cyMDEN+E+VY4glvTpeIM63JOBj1VeUQCQ7O?=
+ =?us-ascii?Q?BXA+i1cGzSf8MqK2PWDJAm4Z6l6+2YJNrYiS9vB0FFxMPj8DuQp10ayCbMe8?=
+ =?us-ascii?Q?nd8Vap4jHZK+j/kHh+GxpjwEFlGf+s7CunwUgGyGkW6S3o0c9uYpHZeFFu39?=
+ =?us-ascii?Q?i4c6NrR30iAiM4lIxdJxvZYUDjBjtyUZYTbDNHScyyXITynfmi14C+FGQ0lE?=
+ =?us-ascii?Q?BaOKb50Mv4en8JDPXu7KufpnPhj/UA5NeHydaibtNBRARA6nkAYRnjGTePas?=
+ =?us-ascii?Q?CgICpe0+gzUObZjifxnVdXXsuw+o+k7K3I5Ffmdo2tnS3wAIsjteXyhsDIm5?=
+ =?us-ascii?Q?n0dLG3ZDi6nwWkDVIc4whKAa2h7UicZVqfzCSspqZfr/Z4jePSvNs8lu94Xn?=
+ =?us-ascii?Q?W7L1Gumrh+Ok77F7DdtZ8/jZS89X/w7AQsAlGQWoFoedGmCKMtQsDUtzCKyN?=
+ =?us-ascii?Q?w8RKGxdeHsW8XdTMUINKYQj/P9rNHSxeFMzh97+Ce61iL0JOXokpjy0jHb9I?=
+ =?us-ascii?Q?gCt7pNls2c33Y5Qj+AP0EnpZCnjF1CGIwMxyPVG/wSThCZpB2qYZJ4yj0JZE?=
+ =?us-ascii?Q?1WZtPhIEHqxLmOLfXeyTYpse1xxgF2cGXDyZUnVl7IKsSiMvao5A24IGgu4h?=
+ =?us-ascii?Q?i0Ro2+/Stq6yud4VKbN4+URZfkEOHraDXs04T6hTwizTO0Yz+ZxcfrcRDP7O?=
+ =?us-ascii?Q?bqA0gRE696w07Ffx8nM5piCTKKxsvwjm0QFtz4xvwrgFQBPpnYQ0i5FGTZQO?=
+ =?us-ascii?Q?cFfEiPbKjI3jj5ocvErSP+75FLmSYuQoAep9jYkw55xcIOSl8XR9Y4JzPQJz?=
+ =?us-ascii?Q?I3/dtH2seNszSZldbXQCV+IiU4UdysttiIBUPapHx8Gy7cS4E/aYqrSxLo2U?=
+ =?us-ascii?Q?QlhQGaEiytXEbOdClLH9KzBVQUs/ww/6Bysck0GDGJlZrjJ5FL6nuxN6+Mp7?=
+ =?us-ascii?Q?q7LJLQR7Ypd7QGz3TQpRS7f5ibJi3zZFEcUiB0fElrhOq6ZEl7kwU6W/ZyrI?=
+ =?us-ascii?Q?bo3VrBXwGrO/QfU3qbqInm9KVQ61QuUiQLOUz/znoW7Jtg8E57/dcRoiT2GM?=
+ =?us-ascii?Q?FCvoX+u+U5IYCOm17OeVlw6RBGXLCNwaJtft3+rSa3pJvxKZFhfiGg0QLSVy?=
+ =?us-ascii?Q?R9B+HyYpQzR/5a28ANmLYDA5duqq7f8j5Ah59HSCf+1JNxj7JG/AHtHuZuAJ?=
+ =?us-ascii?Q?kKBV1ctqkbG5uR43w0WchqdGpjEAQJmCA4x26LuXvS8UqOrkBPKk1iGiTqIh?=
+ =?us-ascii?Q?HIWGa2lThS2E3VzbBkL2k6UdGHLXYFaeR59D9gHu7gzsXPRgne2Xv+NmeXkX?=
+ =?us-ascii?Q?La+VtA0UbKtPZhUY/WmUcq49JjFAtvsJ9oVW5HNP+j0yqcD4dvkGMjQjjLXZ?=
+ =?us-ascii?Q?mq8MaDscuTnJzutyhkfWIkFTTa2gH7z1vmi2jNP0hIPXZ7skfcpMACujGEct?=
+ =?us-ascii?Q?Or7VfoAbfNTStF/qSXHvktbbjkiahfHeUiTobYQZh5wuEV9zZ+aZryli9P0m?=
+ =?us-ascii?Q?MoF12RtkPVVDUbwwhih+CG30eGXah3xvXxB/UJlRkC11RgPgyOzR0/HpJAWl?=
+ =?us-ascii?Q?47O2aM17VtOF5PqlevhIAf6WHewTDEIVTm2VZk9bMk9DI6Fmq+mA0dj2PakU?=
+ =?us-ascii?Q?oA=3D=3D?=
 X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8a657f9-d7e5-4e4d-e20c-08dd6e84f6c9
+X-MS-Exchange-CrossTenant-Network-Message-Id: d692fdd2-6698-4d3e-4208-08dd6e84fa17
 X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2025 05:45:51.3433
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Mar 2025 05:45:56.8350
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JVRYft0TXSVOJUZEuVmJ5kqOAtCrLuCVcSckrcLMlAGH9e2SP2elRwzZ1B4NRUrDAMoqwaUBvG0PuTzW9mHs7+5i0iclFRHNvThMNwj1sjs=
+X-MS-Exchange-CrossTenant-UserPrincipalName: pBwvPXK7AjGIPgdZtV9yErWWfWlk7ZIZy2GANnme3ATWp4HK7DB9Vslv4kpK8cJ37papVgdhXTRCibJfunvyL6U+iTAjbYUXDT/igfIFjAU=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0P287MB1842
 
-Replace the custom mutex in the imx334 driver with the V4L2 subdev state
-lock for control synchronization. Initialize the subdev with
-v4l2_subdev_init_finalize in imx334_probe, adding proper cleanup in error
-paths and imx334_remove. This aligns the driver with V4L2 standards.
+Switch from s_stream to enable_streams and disable_streams callbacks.
 
 Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>
 ---
- drivers/media/i2c/imx334.c | 52 +++++++++++++-------------------------
- 1 file changed, 17 insertions(+), 35 deletions(-)
+ drivers/media/i2c/imx334.c | 78 +++++++++++++++++++-------------------
+ 1 file changed, 38 insertions(+), 40 deletions(-)
 
 diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-index 169c3c4ca9eb..29eec4dd28cc 100644
+index 29eec4dd28cc..fe4e9155bca8 100644
 --- a/drivers/media/i2c/imx334.c
 +++ b/drivers/media/i2c/imx334.c
-@@ -184,7 +184,6 @@ struct imx334_mode {
-  * @again_ctrl: Pointer to analog gain control
-  * @vblank: Vertical blanking in lines
-  * @cur_mode: Pointer to current selected sensor mode
-- * @mutex: Mutex for serializing sensor controls
-  * @link_freq_bitmap: Menu bitmap for link_freq_ctrl
-  * @cur_code: current selected format code
+@@ -847,21 +847,31 @@ static int imx334_set_framefmt(struct imx334 *imx334)
+ }
+ 
+ /**
+- * imx334_start_streaming() - Start sensor stream
+- * @imx334: pointer to imx334 device
++ * imx334_enable_streams() - Enable specified streams for the sensor
++ * @sd: pointer to the V4L2 subdevice
++ * @state: pointer to the subdevice state
++ * @pad: pad number for which streams are enabled
++ * @streams_mask: bitmask specifying the streams to enable
+  *
+  * Return: 0 if successful, error code otherwise.
   */
-@@ -207,7 +206,6 @@ struct imx334 {
- 	};
- 	u32 vblank;
- 	const struct imx334_mode *cur_mode;
--	struct mutex mutex;
- 	unsigned long link_freq_bitmap;
- 	u32 cur_code;
- };
-@@ -755,8 +753,6 @@ static int imx334_get_pad_format(struct v4l2_subdev *sd,
+-static int imx334_start_streaming(struct imx334 *imx334)
++static int imx334_enable_streams(struct v4l2_subdev *sd,
++				 struct v4l2_subdev_state *state, u32 pad,
++				 u64 streams_mask)
  {
- 	struct imx334 *imx334 = to_imx334(sd);
++	struct imx334 *imx334 = to_imx334(sd);
+ 	const struct imx334_reg_list *reg_list;
+ 	int ret;
  
--	mutex_lock(&imx334->mutex);
--
- 	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
- 		struct v4l2_mbus_framefmt *framefmt;
- 
-@@ -767,8 +763,6 @@ static int imx334_get_pad_format(struct v4l2_subdev *sd,
- 		imx334_fill_pad_format(imx334, imx334->cur_mode, fmt);
++	ret = pm_runtime_resume_and_get(imx334->dev);
++	if (ret < 0)
++		return ret;
++
+ 	ret = cci_multi_reg_write(imx334->cci, common_mode_regs,
+ 				  ARRAY_SIZE(common_mode_regs), NULL);
+ 	if (ret) {
+ 		dev_err(imx334->dev, "fail to write common registers\n");
+-		return ret;
++		goto err_rpm_put;
  	}
  
--	mutex_unlock(&imx334->mutex);
--
+ 	/* Write sensor mode registers */
+@@ -870,28 +880,28 @@ static int imx334_start_streaming(struct imx334 *imx334)
+ 				  reg_list->num_of_regs, NULL);
+ 	if (ret) {
+ 		dev_err(imx334->dev, "fail to write initial registers\n");
+-		return ret;
++		goto err_rpm_put;
+ 	}
+ 
+ 	ret = cci_write(imx334->cci, IMX334_REG_LANEMODE,
+ 			IMX334_CSI_4_LANE_MODE, NULL);
+ 	if (ret) {
+ 		dev_err(imx334->dev, "failed to configure lanes\n");
+-		return ret;
++		goto err_rpm_put;
+ 	}
+ 
+ 	ret = imx334_set_framefmt(imx334);
+ 	if (ret) {
+ 		dev_err(imx334->dev, "%s failed to set frame format: %d\n",
+ 			__func__, ret);
+-		return ret;
++		goto err_rpm_put;
+ 	}
+ 
+ 	/* Setup handler will write actual exposure and gain */
+ 	ret =  __v4l2_ctrl_handler_setup(imx334->sd.ctrl_handler);
+ 	if (ret) {
+ 		dev_err(imx334->dev, "fail to setup handler\n");
+-		return ret;
++		goto err_rpm_put;
+ 	}
+ 
+ 	/* Start streaming */
+@@ -899,53 +909,39 @@ static int imx334_start_streaming(struct imx334 *imx334)
+ 			IMX334_MODE_STREAMING, NULL);
+ 	if (ret) {
+ 		dev_err(imx334->dev, "fail to start streaming\n");
+-		return ret;
++		goto err_rpm_put;
+ 	}
+ 
  	return 0;
+-}
+ 
+-/**
+- * imx334_stop_streaming() - Stop sensor stream
+- * @imx334: pointer to imx334 device
+- *
+- * Return: 0 if successful, error code otherwise.
+- */
+-static int imx334_stop_streaming(struct imx334 *imx334)
+-{
+-	return cci_write(imx334->cci, IMX334_REG_MODE_SELECT,
+-			IMX334_MODE_STANDBY, NULL);
++err_rpm_put:
++	pm_runtime_put(imx334->dev);
++	return ret;
  }
  
-@@ -788,8 +782,6 @@ static int imx334_set_pad_format(struct v4l2_subdev *sd,
- 	const struct imx334_mode *mode;
- 	int ret = 0;
- 
--	mutex_lock(&imx334->mutex);
--
- 	mode = v4l2_find_nearest_size(supported_modes,
- 				      ARRAY_SIZE(supported_modes),
- 				      width, height,
-@@ -810,8 +802,6 @@ static int imx334_set_pad_format(struct v4l2_subdev *sd,
- 			imx334->cur_mode = mode;
- 	}
- 
--	mutex_unlock(&imx334->mutex);
--
- 	return ret;
- }
- 
-@@ -830,8 +820,6 @@ static int imx334_init_state(struct v4l2_subdev *sd,
- 
- 	fmt.which = sd_state ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
- 
--	mutex_lock(&imx334->mutex);
--
- 	imx334_fill_pad_format(imx334, imx334->cur_mode, &fmt);
- 
- 	__v4l2_ctrl_modify_range(imx334->link_freq_ctrl, 0,
-@@ -839,8 +827,6 @@ static int imx334_init_state(struct v4l2_subdev *sd,
- 				 ~(imx334->link_freq_bitmap),
- 				 __ffs(imx334->link_freq_bitmap));
- 
--	mutex_unlock(&imx334->mutex);
--
- 	return imx334_set_pad_format(sd, sd_state, &fmt);
- }
- 
-@@ -943,12 +929,10 @@ static int imx334_set_stream(struct v4l2_subdev *sd, int enable)
+ /**
+- * imx334_set_stream() - Enable sensor streaming
+- * @sd: pointer to imx334 subdevice
+- * @enable: set to enable sensor streaming
++ * imx334_disable_streams() - Enable specified streams for the sensor
++ * @sd: pointer to the V4L2 subdevice
++ * @state: pointer to the subdevice state
++ * @pad: pad number for which streams are disabled
++ * @streams_mask: bitmask specifying the streams to disable
+  *
+  * Return: 0 if successful, error code otherwise.
+  */
+-static int imx334_set_stream(struct v4l2_subdev *sd, int enable)
++static int imx334_disable_streams(struct v4l2_subdev *sd,
++				  struct v4l2_subdev_state *state, u32 pad,
++				  u64 streams_mask)
+ {
  	struct imx334 *imx334 = to_imx334(sd);
  	int ret;
  
--	mutex_lock(&imx334->mutex);
+-	if (enable) {
+-		ret = pm_runtime_resume_and_get(imx334->dev);
+-		if (ret < 0)
+-			return ret;
 -
- 	if (enable) {
- 		ret = pm_runtime_resume_and_get(imx334->dev);
- 		if (ret < 0)
--			goto error_unlock;
-+			return ret;
- 
- 		ret = imx334_start_streaming(imx334);
- 		if (ret)
-@@ -958,15 +942,10 @@ static int imx334_set_stream(struct v4l2_subdev *sd, int enable)
- 		pm_runtime_put(imx334->dev);
- 	}
- 
--	mutex_unlock(&imx334->mutex);
+-		ret = imx334_start_streaming(imx334);
+-		if (ret)
+-			goto error_power_off;
+-	} else {
+-		imx334_stop_streaming(imx334);
+-		pm_runtime_put(imx334->dev);
+-	}
 -
- 	return 0;
+-	return 0;
++	ret = cci_write(imx334->cci, IMX334_REG_MODE_SELECT,
++			IMX334_MODE_STANDBY, NULL);
++	if (ret)
++		dev_err(imx334->dev, "%s failed to stop stream\n", __func__);
  
- error_power_off:
+-error_power_off:
  	pm_runtime_put(imx334->dev);
--error_unlock:
--	mutex_unlock(&imx334->mutex);
--
++
  	return ret;
  }
  
-@@ -1145,9 +1124,6 @@ static int imx334_init_controls(struct imx334 *imx334)
- 	if (ret)
- 		return ret;
+@@ -1040,7 +1036,7 @@ static int imx334_parse_hw_config(struct imx334 *imx334)
  
--	/* Serialize controls with sensor device */
--	ctrl_hdlr->lock = &imx334->mutex;
--
- 	/* Initialize exposure and gain */
- 	lpfr = mode->vblank + mode->height;
- 	imx334->exp_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
-@@ -1249,12 +1225,10 @@ static int imx334_probe(struct i2c_client *client)
- 		return dev_err_probe(imx334->dev, ret,
- 					"HW configuration is not supported\n");
+ /* V4l2 subdevice ops */
+ static const struct v4l2_subdev_video_ops imx334_video_ops = {
+-	.s_stream = imx334_set_stream,
++	.s_stream = v4l2_subdev_s_stream_helper,
+ };
  
--	mutex_init(&imx334->mutex);
--
- 	ret = imx334_power_on(imx334->dev);
- 	if (ret) {
- 		dev_err_probe(imx334->dev, ret, "failed to power-on the sensor\n");
--		goto error_mutex_destroy;
-+		return ret;
- 	}
+ static const struct v4l2_subdev_pad_ops imx334_pad_ops = {
+@@ -1048,6 +1044,8 @@ static const struct v4l2_subdev_pad_ops imx334_pad_ops = {
+ 	.enum_frame_size = imx334_enum_frame_size,
+ 	.get_fmt = imx334_get_pad_format,
+ 	.set_fmt = imx334_set_pad_format,
++	.enable_streams = imx334_enable_streams,
++	.disable_streams = imx334_disable_streams,
+ };
  
- 	/* Check module identity */
-@@ -1287,6 +1261,13 @@ static int imx334_probe(struct i2c_client *client)
- 		goto error_handler_free;
- 	}
- 
-+	imx334->sd.state_lock = imx334->ctrl_handler.lock;
-+	ret = v4l2_subdev_init_finalize(&imx334->sd);
-+	if (ret < 0) {
-+		dev_err(imx334->dev, "subdev init error: %d\n", ret);
-+		goto error_media_entity;
-+	}
-+
- 	pm_runtime_set_active(imx334->dev);
- 	pm_runtime_enable(imx334->dev);
- 
-@@ -1294,23 +1275,26 @@ static int imx334_probe(struct i2c_client *client)
- 	if (ret < 0) {
- 		dev_err(imx334->dev,
- 			"failed to register async subdev: %d\n", ret);
--		goto error_media_entity;
-+		goto error_subdev_cleanup;
- 	}
- 
- 	pm_runtime_idle(imx334->dev);
- 
- 	return 0;
- 
--error_media_entity:
-+error_subdev_cleanup:
-+	v4l2_subdev_cleanup(&imx334->sd);
- 	pm_runtime_disable(imx334->dev);
- 	pm_runtime_set_suspended(imx334->dev);
-+
-+error_media_entity:
- 	media_entity_cleanup(&imx334->sd.entity);
-+
- error_handler_free:
- 	v4l2_ctrl_handler_free(imx334->sd.ctrl_handler);
-+
- error_power_off:
- 	imx334_power_off(imx334->dev);
--error_mutex_destroy:
--	mutex_destroy(&imx334->mutex);
- 
- 	return ret;
- }
-@@ -1324,9 +1308,9 @@ static int imx334_probe(struct i2c_client *client)
- static void imx334_remove(struct i2c_client *client)
- {
- 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
--	struct imx334 *imx334 = to_imx334(sd);
- 
- 	v4l2_async_unregister_subdev(sd);
-+	v4l2_subdev_cleanup(sd);
- 	media_entity_cleanup(&sd->entity);
- 	v4l2_ctrl_handler_free(sd->ctrl_handler);
- 
-@@ -1335,8 +1319,6 @@ static void imx334_remove(struct i2c_client *client)
- 		imx334_power_off(&client->dev);
- 		pm_runtime_set_suspended(&client->dev);
- 	}
--
--	mutex_destroy(&imx334->mutex);
- }
- 
- static const struct dev_pm_ops imx334_pm_ops = {
+ static const struct v4l2_subdev_ops imx334_subdev_ops = {
 -- 
 2.34.1
 
