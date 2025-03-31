@@ -1,114 +1,121 @@
-Return-Path: <linux-media+bounces-29028-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29029-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CABCA760E4
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 10:06:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1551A76128
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 10:16:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4B798164D78
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 08:06:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E5745188616B
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 08:16:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A65251D54E3;
-	Mon, 31 Mar 2025 08:06:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3AA71D5AB7;
+	Mon, 31 Mar 2025 08:16:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="S+9VlLSR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LSGrLJEd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8911D1CEEBB
-	for <linux-media@vger.kernel.org>; Mon, 31 Mar 2025 08:06:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C48EC13C9C4;
+	Mon, 31 Mar 2025 08:16:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743408396; cv=none; b=ciro9kj5oIGC7yBM3IXk6cBN8tHRVm2cf8xga0IE4FzCIWwJJUtqns+e33bWgkWG/XE5793zyI5rJ1vjtbQ2yIFaYNRaWQphXTPp8P1uahEZ/sG4zXPYL6fjmL3+5tNP5cEGsCdVl1lbeCH7GIIRbrqt8R6RAF/4yGEIJnZG2HU=
+	t=1743408993; cv=none; b=Kxjwuy+WSNJQ9bbGskliMF7nciQ1IVP+oOaRAHmIPeuH3vEUqjhGcsILAYk2kwP1csilJdJ+68JPF0hljz3aInM4x3hBUfEoIv1lv2gcxvZ4Qo8H1kOY5qNGrCX+KkcWga9l95BlWuBo+bzBtlKrOLErnqkQ1mLyN6SlwrsVYP8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743408396; c=relaxed/simple;
-	bh=JC8Zg3k4pC52T8cAoWmTNYtFIZ7gUokrLPXLeAcQJaM=;
+	s=arc-20240116; t=1743408993; c=relaxed/simple;
+	bh=QGqKdfPSBPoe0ePQ6nTPzXqBmsVZuUhxOCBg+SqfvXg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o7o9YNqJD4e6I5afRiZ0bK5pCq+Uw4R61BIR8tNq+tQuW+67iAVNZSa9h2f4EEo82RgRMdpNxtpDEoqxKQZZ/vUAX903XDrZmvCDB/9OwaBncPsKRzXA++1IHvtHw4aQfFDaS0bL2XpWMozKFyPB5Qw3V5bSRDpFjMmrMykxJJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=S+9VlLSR; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=3nRs
-	WqYey+s0j/QT7G3DREiK6uEnPRgjBICjOA9hk64=; b=S+9VlLSRomaZYcHQgsX3
-	Wux4mPdqcViLMbqIyKoNHstMrGzAmEJhnuixDYgZrNrubNdtXGK89S1X6wps8Dv8
-	IqKZmcwVGy23LrPPdEgZBols+Saib5mRG5kCz9jMZbOctEd0VU71NaEo+ic8TsOM
-	zfEUgkyNgWmTN0HC2RMTCxDN7X4N3NMikPZ1xkC5mK7uz7rc2LAaQsLZcw+y3GZl
-	fO5WKMXgfWyySoCvOzcwATkVxET5PxFCw3ZJRC3Tu4jCHb29Vo6v1T/bIxiaV07j
-	rdlm+T24/UA/CkRaILG3haz1SbByN+fV1Nitztg3Dw35th1saSEwzsbST4+2Vzf+
-	Mw==
-Received: (qmail 1149535 invoked from network); 31 Mar 2025 10:06:28 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 31 Mar 2025 10:06:28 +0200
-X-UD-Smtp-Session: l3s3148p1@A6Sw5Z4xHslQ8qei
-Date: Mon, 31 Mar 2025 10:06:28 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Christian Hewitt <christianshewitt@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Peter Rosin <peda@axentia.se>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Heiner Kallweit <hkallweit1@gmail.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: si2168: increase cmd execution timeout value
-Message-ID: <Z-pNBAVhUwrcwDQe@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Christian Hewitt <christianshewitt@gmail.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=dyased7tdRRsz/6W6r+xz1CDDZRxCaGJpYJe6sA1aCu0codkyw0rDlMl7DYcbxw3FDiYxkAoiGHu8V6Xc777ZZ5QP2Qq/OspTg1HJRxcIcdyU8UYiX8+IAujXoMCQvJ3p8D8UMVLr/Z5g+G8evw0368iNQI31w8ziNHy/ZO9VAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LSGrLJEd; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743408990; x=1774944990;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=QGqKdfPSBPoe0ePQ6nTPzXqBmsVZuUhxOCBg+SqfvXg=;
+  b=LSGrLJEdB3mmXmkPNeheflDyKNofWu4JjzA78Hpg8tnTF8ph/aQX+Cem
+   X4a2CR4189ZRvmBEWPl0V062QKN5vQMkqkhKzNIWb4nY7qAJGg15+hqUL
+   +c9fBF3A5a4Nyc9nBHgjBq2sPtG66+8VBpAXniG25oAWy/q9/1CcO3Jin
+   k1ISyKNoI9qRlFgTYsCRBzXqVr5Ao0e3i9rj2KTF9WMU8hhSnQx3Hvy87
+   MAMpfhVlgd5tIzpJIVXEusPrlJ8kNT1cCr3D6BOtNBxLetb5k25MkMMGw
+   jba1BJWHTwViEf4rp4AFQTs/YFI/cf2t8TzP4srsi6IDpzf9Vgwxb0enP
+   Q==;
+X-CSE-ConnectionGUID: WYLdVE9wQ6O6nAl1J06ggw==
+X-CSE-MsgGUID: U15QznmsQkajbn3Jperi6w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11389"; a="48350876"
+X-IronPort-AV: E=Sophos;i="6.14,290,1736841600"; 
+   d="scan'208";a="48350876"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2025 01:16:30 -0700
+X-CSE-ConnectionGUID: 9FkABt1SRSqJZ+qcfb5pog==
+X-CSE-MsgGUID: tY7RLoEiRtijHRLb6HPV3w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,290,1736841600"; 
+   d="scan'208";a="126932615"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by orviesa008.jf.intel.com with ESMTP; 31 Mar 2025 01:16:27 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tzAJk-00098A-0h;
+	Mon, 31 Mar 2025 08:16:24 +0000
+Date: Mon, 31 Mar 2025 16:15:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Peter Rosin <peda@axentia.se>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Heiner Kallweit <hkallweit1@gmail.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-References: <20250331075838.3444332-1-christianshewitt@gmail.com>
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, kernel@collabora.com,
+	Sebastian Fricke <sebastian.fricke@collabora.com>
+Subject: Re: [PATCH 4/5] media: vcodec: Implement manual request completion
+Message-ID: <202503311620.hhbFrG8T-lkp@intel.com>
+References: <20250314-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v1-4-5e277a3d695b@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7jQwbF4Vt10NnymL"
-Content-Disposition: inline
-In-Reply-To: <20250331075838.3444332-1-christianshewitt@gmail.com>
-
-
---7jQwbF4Vt10NnymL
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250314-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v1-4-5e277a3d695b@collabora.com>
 
+Hi Sebastian,
 
->  	if (cmd->rlen) {
->  		/* wait cmd execution terminate */
-> -		#define TIMEOUT 70
-> +		#define TIMEOUT 200
+kernel test robot noticed the following build errors:
 
-While we are here, can we rename it to CMD_TIMEOUT and put it next to
-the #includes?
+[auto build test ERROR on f2151613e040973c868d28c8b00885dfab69eb75]
 
+url:    https://github.com/intel-lab-lkp/linux/commits/Sebastian-Fricke/media-mc-add-manual-request-completion/20250314-213005
+base:   f2151613e040973c868d28c8b00885dfab69eb75
+patch link:    https://lore.kernel.org/r/20250314-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v1-4-5e277a3d695b%40collabora.com
+patch subject: [PATCH 4/5] media: vcodec: Implement manual request completion
+config: mips-allyesconfig (https://download.01.org/0day-ci/archive/20250331/202503311620.hhbFrG8T-lkp@intel.com/config)
+compiler: mips-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250331/202503311620.hhbFrG8T-lkp@intel.com/reproduce)
 
---7jQwbF4Vt10NnymL
-Content-Type: application/pgp-signature; name="signature.asc"
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503311620.hhbFrG8T-lkp@intel.com/
 
------BEGIN PGP SIGNATURE-----
+All errors (new ones prefixed by >>):
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmfqTQAACgkQFA3kzBSg
-Kbaxsw/+LiWXwEi5DP8ySDnUQow4WCV8AOCBbJK7m7dzvfvS63RJGikiQmSsZkRr
-zK/q87dinUM8k5ZKwONpC0YqdE6gpxPE7wHKyQDHWKvHVUko8FmWf6N+IMrTeHEU
-LsVtKOMLcfPEOyuqiMwy8TJRB28zksNqhnkFF7q0nYpcsl8D/UR8Mo+IQeExUF6p
-XSOP6jiKrTCkwluRKXWh7uekE5qiLgdRUvmqhOIq/xwpgmNyjZa32pRHXHkv8abx
-g6s03WrmLMnxaTHdr2QG3zHis1BnhaHgP/Bg64RV+nBu3wcVYZncJdsKZi3OTtlA
-/5tGGmJUjouV2NDHTvN67xSDA9F25PtImTSW9H3FcfAhsNRACAHzHwDY0QJjGNYP
-bYOdr5FLiJ1++VjdjlpA/5wkpanIiv6xwxwKiRzet/55cvghCljZgbUsXReJ3UMh
-UCpHUUwc1Ah5JHop50dyNsNzTpUBOw8ZIz5tfgYyjQn68zQO7h7zYaOx4dInHn4g
-/s+V4hlIyPDrdQ0UMdFvpr49IohxDCWOlrpwzcUVo2luOcNvaHydjmvZOp4GReTI
-1WVb+wiIYKEqKhdNPj6DmvAUgvWnUpDm73nCiFRJbRGFPawQ7HdNvLH1CXf5rjP2
-zP59fj5ofnsRKyUxicHrCrlQRxixzSj19MhDjo76ArxXerL2akA=
-=noqq
------END PGP SIGNATURE-----
+   mips-linux-ld: drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.o: in function `state_to_str':
+>> mtk_vcodec_dec_drv.c:(.text.state_to_str+0x0): multiple definition of `state_to_str'; drivers/media/platform/chips-media/wave5/wave5-helper.o:wave5-helper.c:(.text.state_to_str+0x0): first defined here
 
---7jQwbF4Vt10NnymL--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
