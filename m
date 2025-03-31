@@ -1,1175 +1,476 @@
-Return-Path: <linux-media+bounces-29075-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29076-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71FFFA76B48
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 17:53:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60294A76B2C
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 17:49:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 93C883B5BAE
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 15:44:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 65D09188C730
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 15:44:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2757214228;
-	Mon, 31 Mar 2025 15:42:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 352532147EB;
+	Mon, 31 Mar 2025 15:42:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YnbgaFFs"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Hf2+liF7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013043.outbound.protection.outlook.com [40.107.162.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 026EE20299E;
-	Mon, 31 Mar 2025 15:42:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743435748; cv=none; b=ZR85Q43VJpY9/lVdE0iardnhyrpMf9+Xuz1UFI8uu6GCQCb05a3USjz90LXBcwUgkmcRf3AvfrRGG0CCHW3lGMzQuv7bF8Ebsa5pBXb8MlQkAYxhmFafz+LEqcbFxUEH2ZBcYU/1T3y27z1SVcshL5I5WsxCXQ701FvSWKqAF54=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743435748; c=relaxed/simple;
-	bh=0G1HoYz8INLJVRcUs40eFquzFLJODWO5MXzcyMKEN3Q=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F/ztF9TR3X0twrxflFYer4nBLggScgTDPx0YCHws6Ryfko3RRJz0UljjP7tnSwzLY7OfwGSk5gfHsOX0EFoDI3jrSdsf7eDCfUb/FwdzEj7k3JC62oOYHYPuWR5C4UXy+qhrU6HLA6+7zr5/a5bsRMMidP6re2e1dcFfE2oIR8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YnbgaFFs; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5B4B9703;
-	Mon, 31 Mar 2025 17:40:31 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1743435631;
-	bh=0G1HoYz8INLJVRcUs40eFquzFLJODWO5MXzcyMKEN3Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YnbgaFFspV2bQAq7N8plkto5Yasn2XM7YmQMcsGFIYysI7E8/uTN4w3xSHRG9UzSY
-	 GD5gJclGrrvYZAcqo/dZayFtQIFPtnEf5KuyqALjI1e5HJERj58kto99lDqMquf0T2
-	 iyIRzL3dLKcIK3zxRayg4nu7zUfSHAxKyAzUxBvQ=
-Date: Mon, 31 Mar 2025 17:42:19 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2] media: vsp1: Add VSPX support
-Message-ID: <l66abedxegtlgh5ajhyfkmnc7i3bq6gjgixuvfksfkqw5zrz4d@ycxorhufdo7t>
-References: <20250319-v4h-vspx-v2-1-33b0e659a5f8@ideasonboard.com>
- <20250324172658.GL22890@pendragon.ideasonboard.com>
- <cwlqzlwpjfthun5lhiaua6e3xt3ta3xzwtltsaxlgqsle2dyw4@d7xfgwvwjk67>
- <20250331152843.GQ4861@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3FAB2144BB;
+	Mon, 31 Mar 2025 15:42:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743435767; cv=fail; b=QdSaMVy5WDu7keKLHwU9ZMjVRIxncfAg75yaamGZaurwxuR51YzREpb3kUCXfaDnzGbYb6luGe3VAxSXCWdRVL06olSGb0M3WWhZ1mEay7GLHRQO4yFE8dvIBwzgyksX5jvD+4F7/9x9M1E/ZIlVZQmKiZCpYovsAFsSRb7swtM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743435767; c=relaxed/simple;
+	bh=UeVoWGC5iOnBKz+BUzbjEjtNyoD34EWxs5NK0NPuwcs=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=YOesoJWrm/q3u0KXybLoMCUXoEKU1Rfd42pr++4c6bwK48uav9RJJpZ9kCsCD9W/FXlJIzvpCL34K9pRgwbU3RgTuMl1x1h6ac2aw1ZH9Eg0BxFnjbHAkAdSBwGo2dBBDHw70N6V9fy1VqtIm8Zrfaqgx3TfIe6+9BCq7ObLsqU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Hf2+liF7; arc=fail smtp.client-ip=40.107.162.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=kf1lVl/zfa6oBSQpDUpAJnXT6uP1c30PRveRs1DfxnvYYYwVzf5lNL38nsWfi116wDytdiWigkKjSQ8Vk2eZNlf6dQxwUzcJUm2v3heaVDmB11pS8rljeJRzUHZR4Ioxma/jUEcRgJ5dyw2zkDKH2Sn3gfs8bFRBghyAN2XSFLZHOaYyHM+qaXY8FrVQJSojFGs6ULy6A9Tr2wayMWmwg69XZzUvyY5xFwvoyhPsKTnBJw4GdbMewbxXcVTu6xX3lzM9vQozarIB7yvZGlAMcAS3xgd++/KdrX3dk+Lkkq7DqKKlsrlkxiAVB2YZfjZu42pirQuzlHLpHiB75ZOPRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mPxNQcrY3Wnga7/ZYNb5SpJ/nhGDnR+xyV7GONTvi28=;
+ b=ocIVvYSUB10uzJBDmH3Q8HiMLw5/NeNANG+MQqTqg+N4NfrzOyu7kq+KzPBJUjmaJZuupsoTAoJaUSNKn3OYxlt4j890kSV2PbHl7T1PhNAB85ap4yIBvRzB2cPCkXsWRizyHgajW14VomL5HB2irJzlS2Ks6Qf7n9Rv3OKJEt7FYBIZEIrf5Fn1VaO+NEylxu3t412nsuV/ie0SNeKoA54fFa0Bl3Q4Xs3cgmvmMJ5r3qfJpZ4PsWU+JhhWsvwcVm3563b87d0LmZ6C5Q048TMo6lIrdfMdBQEhK2r3jxTfA3wtwJPQZERkVk5ZdZ6nBdshvzwffjf/3Qle4cDxHg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mPxNQcrY3Wnga7/ZYNb5SpJ/nhGDnR+xyV7GONTvi28=;
+ b=Hf2+liF7vO6pWQqORMrzqVHIc82nECq2EkLS7J9nG5kUg09vKFmj4KVPHO5h8tjwQ3Tn+6DE179G4dHZrDFg4Ku6WHne9gicrxUGfjOnly/FcFEcjuF2/VVBZJFA3BKIAwkII1IQLAD4YA9IMDL7xZRmhoTNTdwq/8+RBTxj3OJ49OS2K+n7LnrUisrDTv3yDyipm+RIC3cMKDsAKeMXULLIvRCsxU5+/AdK0Bbm77vffKP7U9REz2Y16sT5tBjis44rF4vpDqYUGYh8gq3itD99E2f84/Xy4Fd/thbGFdoyFiWpeZ0hI1iK/Mpxn9EHvSbZEVlYJ7tSjbYgC+JJRg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AS4PR04MB9244.eurprd04.prod.outlook.com (2603:10a6:20b:4e3::9)
+ by PAXPR04MB8237.eurprd04.prod.outlook.com (2603:10a6:102:1cc::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.49; Mon, 31 Mar
+ 2025 15:42:42 +0000
+Received: from AS4PR04MB9244.eurprd04.prod.outlook.com
+ ([fe80::7303:2cc8:d109:d7c1]) by AS4PR04MB9244.eurprd04.prod.outlook.com
+ ([fe80::7303:2cc8:d109:d7c1%3]) with mapi id 15.20.8534.048; Mon, 31 Mar 2025
+ 15:42:41 +0000
+Message-ID: <2fc622c4-04a3-4069-93d9-0b2388226fb4@nxp.com>
+Date: Mon, 31 Mar 2025 18:42:31 +0300
+User-Agent: Mozilla Thunderbird
+Subject: Re: [EXT] Re: [PATCH v4 2/4] media: ox05b1s: Add omnivision OX05B1S
+ raw sensor driver
+To: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: "mchehab@kernel.org" <mchehab@kernel.org>,
+ "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+ "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+ "laurent.pinchart+renesas@ideasonboard.com"
+ <laurent.pinchart+renesas@ideasonboard.com>,
+ "robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
+ <krzk+dt@kernel.org>, "bryan.odonoghue@linaro.org"
+ <bryan.odonoghue@linaro.org>, Laurentiu Palcu <laurentiu.palcu@nxp.com>,
+ Robert Chiras <robert.chiras@nxp.com>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ LnxRevLi <LnxRevLi@nxp.com>,
+ "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
+ "hdegoede@redhat.com" <hdegoede@redhat.com>,
+ "dave.stevenson@raspberrypi.com" <dave.stevenson@raspberrypi.com>,
+ "mike.rudenko@gmail.com" <mike.rudenko@gmail.com>,
+ "alain.volmat@foss.st.com" <alain.volmat@foss.st.com>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "alexander.stein@ew.tq-group.com" <alexander.stein@ew.tq-group.com>,
+ "umang.jain@ideasonboard.com" <umang.jain@ideasonboard.com>,
+ "zhi.mao@mediatek.com" <zhi.mao@mediatek.com>,
+ "festevam@denx.de" <festevam@denx.de>,
+ Julien Vuillaumier <julien.vuillaumier@nxp.com>,
+ "devarsht@ti.com" <devarsht@ti.com>, "r-donadkar@ti.com"
+ <r-donadkar@ti.com>, Oliver Brown <oliver.brown@nxp.com>
+References: <20250305094359.299895-1-mirela.rabulea@nxp.com>
+ <20250305094359.299895-3-mirela.rabulea@nxp.com>
+ <46eescbpdyjr3ljlhyv7fwzxksuln5s57xqgv7nim4yon57im3@22slmk45taf2>
+ <6f0168b5-6f79-470e-a8f8-bed8d2495826@nxp.com>
+ <pzbbtaltu7wcrsjvjg6n2x33uwm3us4uwpykektc7xlj47s7pz@odqzjc64db2i>
+ <9e4e8d6d-f4f0-4332-a30c-ab0429e1526d@nxp.com>
+ <qzgdjeogowudvtrd5p7heank2puifzsppcovo2bctysfzt7u7t@kakpfjj5mm23>
+Content-Language: en-US
+From: Mirela Rabulea <mirela.rabulea@nxp.com>
+In-Reply-To: <qzgdjeogowudvtrd5p7heank2puifzsppcovo2bctysfzt7u7t@kakpfjj5mm23>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: AM0PR02CA0146.eurprd02.prod.outlook.com
+ (2603:10a6:20b:28d::13) To AS4PR04MB9244.eurprd04.prod.outlook.com
+ (2603:10a6:20b:4e3::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250331152843.GQ4861@pendragon.ideasonboard.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4PR04MB9244:EE_|PAXPR04MB8237:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6e1b14f6-0345-4e84-9dd6-08dd706aac2e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?dktYeGU5VTBrOE16emc1d2phZ2daUjRsT0VzdTZqVlI0aTllN0Ntd1k4TGNN?=
+ =?utf-8?B?TGxNaU16VXdTaWc0T0JCTUlnUExpeGo0a0RoUDRaZS82clRPWThRc3VDNU85?=
+ =?utf-8?B?T3NCRDU4bFhCQUxBYWlhblJxOUpZV2x3VklwaktOQUR3cFdlSjAzS0V1aTFw?=
+ =?utf-8?B?N1JaQUZTUmpnTEREU3FPZW9mVmpTbnN1Mkw5L2xVOEoxLzBrUHNxWGd2UkJS?=
+ =?utf-8?B?T0hEZ3UyRmFPbUlPTlJqN2tVMTNVdlpBdnA4Y25Sc0tGMGZuTnk1Q2w2ZVdT?=
+ =?utf-8?B?TXJWT3lhZnVjK0Y1WURHZXZ0Y1IrUStOVXVpbVRkQ0tpQzJLNmZQK3BmUHhx?=
+ =?utf-8?B?Q1F0V000Zlg4ZGpsNXVPUU51amRESXUrM3hPRTJZeFNOR3dGdUNQSUd6Y010?=
+ =?utf-8?B?YmdVeFJvUE8zQVdNNko5K2UyOG9tSlRLVERvMkhGRTRZa0MydEFjRkNpUitT?=
+ =?utf-8?B?SGNGUEtIWTdOL1cyTU5Ha0dJa2RmOHcrR3RkRW1RRm5wd1gybkNtclpUNUw0?=
+ =?utf-8?B?VElKekwxL0hUb1RYeW43OTlnb3RYRmZQOXIvUHQrdi9aWWtuUXJQRE5DZzQ3?=
+ =?utf-8?B?ZTFkK1RGZXpVdmZ4bW9CY0RtZDJwTVNTZklmcUNmSjdYMjJBbFc4bmJoOGlQ?=
+ =?utf-8?B?ODV4cVk4TVRmOWRSQVRRTEN2L1dSREtEU0tLaVFFelpDZFhBUXhCbHI2cGpW?=
+ =?utf-8?B?c2pWbmt0S0VZTW8vVzBMUWtHcFFzOTc1L1ptSXlaempYYTVVQW0wQ0M2SDAw?=
+ =?utf-8?B?eXlCZVBKWlJlNGNKUGs4eFNWL01maDJYcG1kK0ovQVE1c1lOdE1DcEExdzRy?=
+ =?utf-8?B?SW01dmREVy90WGJ2Si9MTXJwRVducENXblZUajFjdGlxSmswVE02WHkxbXpB?=
+ =?utf-8?B?QUMvMFVkVnR1cGdQdXBzRWRKWFhzUDM0QWhjbnZ0dXk4UWxJZW1zTlZYREZn?=
+ =?utf-8?B?YklJU1JhVm0xNlRFQXE0RkhZRGlNakxXckdPUHhGTk12RTUrVjFNZzdsM2ND?=
+ =?utf-8?B?dm92YnR4QkdDSUE3eXp0dGxSNzVZVWIvMDQ4TWM5VUxaNnpKWE1qVW1NRVFP?=
+ =?utf-8?B?R1A0SFdWdGYraFVrZzB0MGtoeVVibnRVT1Vhdm1xdVNCenRGeU5vMzEwZVN6?=
+ =?utf-8?B?ZXYrdm9wellyKzFScWdjc2NqRnhEMlp1LzYyUHZUaC9uSFRJRndOaFR6MmNp?=
+ =?utf-8?B?Tkg3L3BzenJtY3c3VG11SDdBS09oMzU1bUY5N2o3dVY2VWNsSUNOcXJ3YmpU?=
+ =?utf-8?B?L3lUWFdRWEt4RFVJb2t5VmpWdStTRC90UEF5aWtpVXNjdDh2Q2FKbnN5b05x?=
+ =?utf-8?B?NlBuK04wUjYvbEIzZnZCWk9wRnhZVmNEWGNmcFQ4ZnY2TDFOSW0zY1V2MjRq?=
+ =?utf-8?B?eEw0V3VnUU8wdHRBUmNpa0RWNC9XZG5YSjVpdkdZUmptUXNuQjd2WlJkNDAy?=
+ =?utf-8?B?RlpMMXZYVkhZeW15dGsvWlRlMm5XOWpMbENQUHc4K1dvQU9xc2szTy9CTEx6?=
+ =?utf-8?B?MjB5cXg5Smk5OGl2blpRUkNKVnI5MTRra0VLYW1jNHZCYnFhWkVKTkVINVF5?=
+ =?utf-8?B?alFDU0xaUmVWeTlZQnAyUzNDT1lQOTZscjNiN0JveVBvaHJ1bk83bU9MSFZr?=
+ =?utf-8?B?UUoxVnlheXRETGl6cHRualdSR21VU2h3ODlDSURIdFFwd1BkY3plYnVUSjhR?=
+ =?utf-8?B?MEV5NUtQWTkvTEFwSTBoUFFqUGRTbThITmlxTlNXclN5S1lNTFhVeUtkUldG?=
+ =?utf-8?B?SGdMdTBHY1p4cDNKeFdlOGt2UDZDcHpxNlBnN0FmVVo4MjF3U01taGJ0eVh0?=
+ =?utf-8?B?V1lnWUIxcnFaMEoxaFZOdz09?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9244.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SjdBUzh5cmlmMmxIZ3lQSWlYajEwWS9kejNBbWZDSDdKVUFVWjQ4MHZrNlBo?=
+ =?utf-8?B?b2x2dXdSaFBTOG1uVjh6U29CTkJab0VnWjVwdFl2NzNKbDBLY2pSZ2Vlc3FU?=
+ =?utf-8?B?NURiR1ZlTHFTdDYyQnZFdmJ3TlJkQ0pFTFBPR0U2WFQ1V29kVTFXeFBCZ2tZ?=
+ =?utf-8?B?ZW16ZTBWMlpjWlJBN2EyaFNOc1o5WEIxTzRlVGFRWVRyWVJSbXB2WDhLaVVW?=
+ =?utf-8?B?dWZmY2haRDNOZ3N3d1N4TmkwNXliVWNrM0RIa0JoNTdrZXZTNXJjVGFLckZj?=
+ =?utf-8?B?dzIyekVuVitxUjZsdXdKR1lIaUVRUFFZKzhMaVNFYmFnWkRoYWRpd3UzQ3dy?=
+ =?utf-8?B?bU1nVG96Ty9FTTdYaldEYU02Mm16WEY0a0Y2VHlLV3c1MlV6bU1YSGd1NERR?=
+ =?utf-8?B?bUg3Q05adXJoV1B3MW5ObXFMSWdzeEJXOTdDdHBuUUEyc1Vhbk9MeGJRZ0xV?=
+ =?utf-8?B?WXpiVnJRK1dWc1phQjNmSjZ5YjgzVlYzZmp1eWRyd3FmVEUxdzhkWFJpQTBu?=
+ =?utf-8?B?SW53dmI2eURBTktWOU5Fd2ZENmFkcnZWVkNBNWNJdkQxU2NzTXphaVp1RkpP?=
+ =?utf-8?B?eFcxYWNEUFVxelpiL3VGTTVnMGwyekJhZjc4d3RYV3BGd3pKUDg3VUFqOTda?=
+ =?utf-8?B?SU9KM1RtVGpiV2xUalQ3UFhBRXVvdmFpRWF1NllpRVR2Q2ZKc0JWS3JJMzNi?=
+ =?utf-8?B?Y1Y5NE1UeHptTGFseVVEdzdyamFQWDU0aHJtTlFZd3dTNjVJQmRoUmJ0bVZp?=
+ =?utf-8?B?dGd6K09xVlplTTdzRjlFOVBzd3JoZHY5aU01UG5Walc1dVk0dkszekNBVEVF?=
+ =?utf-8?B?MXBObnJmU2VGR1diME4rTDA0a0lxRnp5ZHM5U1F3bng4UlppUlI4UENnTFZ4?=
+ =?utf-8?B?cCttcC9SRmZhcnh2QjZweEszaEwwbERZLzdadk1TZ0FYeWQ0UEtJSlR3Rzgr?=
+ =?utf-8?B?OW0vZnFyd3o5SkhlOEtNcXlZd1lQZ25BV2VsT0dwNmw0Q3ptY3Jxb29peHlX?=
+ =?utf-8?B?UTVKb0x2SUNPcytzTmNGOHRVWEFxbEd2TVR2Mm9WbFFlTFdha2I1SkJ3TWI0?=
+ =?utf-8?B?Y1MrOHN2cStKNElka2hmOXd3MzNrTUVnMC9TUTY1bDRvWk9DRFloNFF6MkR5?=
+ =?utf-8?B?OHd6dmt5L0tKdDV4dDhHbUxvQi9qRmR2Y1dCeFVZSWdIaWt5b21qdzc2anhw?=
+ =?utf-8?B?aGhyWi9uOGZrZkJST0E4UkdqWjhNL1lmUlhXVnRsTmlka1JxTmp6a2N3UGNI?=
+ =?utf-8?B?YUZGZ3BEWVJQKzRMdDE3VFUvbW9PUHBqa3Y3YVl2NzR5eWlvZWlrUkwyY0V2?=
+ =?utf-8?B?UkM1WkZPYldHSXNhblJxQ29ja2t3VFJzZFZnS3ZKTDNQTkQ0ZXZNZVFDaXdM?=
+ =?utf-8?B?dUR3ZmdnSWNDb2k4MkIxcFBDSjk2RWxYU1JpWjgxQzJFcithWldyRGRKdVEx?=
+ =?utf-8?B?YkVxU3BJcGVqcFlTam1ZMmNxdjhmWTExNlg3TytJYm5ManlNQlpBN0hGTzFR?=
+ =?utf-8?B?d1o0SkVMMXNhdTNJRkcycm1FYUdDZnVvZmVLNk1kcWVKeUdjZ2VzZmllTXlw?=
+ =?utf-8?B?L0hDM3pEWFUwaDRUbkJ3d1BWSGYxVjlRRitEdkErWk5TK0JhRi9LcFB4SjE2?=
+ =?utf-8?B?bGZpa2pBbG5oem5uRG1JaG92SGhQT1pxVWRURU53U2dJdVZzSHkwVXdBUEFD?=
+ =?utf-8?B?YndITG9ReGhqcytVbm9NaU5qZ0xYaDZhOFEzLzRXUFludDh5cEFmN05NOUNG?=
+ =?utf-8?B?UkNHdmR5a0lsR002aUtPbkxtWHlaY2k2R2FDbm1LSy9GMndsWjAySWdheXNF?=
+ =?utf-8?B?cy9CaVFVL2JPOWk1UnBHWnZDcWJITzBvRExkQ1YvS21FK2RkcURibCtvOHNz?=
+ =?utf-8?B?Z2hiRmk4bGVFL05oc0xCb0VpNDMrTTJUNmE0eGIyVGpPekN2bW01YjZoTy9P?=
+ =?utf-8?B?ZVRMQnRvcUNvdWVFWG12L3hSYnBJVEJpRHFMLzczZHNiY2IycGFyanY0VXQ1?=
+ =?utf-8?B?NkxaVHE2TVlub0VKZDdyV0U1cUpic0FwcjZicU51WHJ0QnhQZTE3Q1VUOVBY?=
+ =?utf-8?B?ak4yNzRockc1RVJoSzYrMzRkNGRYWWNVVnAvZGtzNHIxd1JUMnVWMm5vMldx?=
+ =?utf-8?Q?UGNdKVjl9vJHvs0IZUY/XoGw0?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6e1b14f6-0345-4e84-9dd6-08dd706aac2e
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9244.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2025 15:42:41.8652
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: f7bNi4tzFcabo30uFBN+AhDtbjq3pwv+lkMerF9Ok9j+FDTAgIWswcOMxLDyEy+jHGYcos+jZHSMTj0P+/S0Mg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB8237
 
-Hi Laurent
+Hi Jai,
 
-On Mon, Mar 31, 2025 at 06:28:43PM +0300, Laurent Pinchart wrote:
-> On Mon, Mar 31, 2025 at 05:16:52PM +0200, Jacopo Mondi wrote:
-> > On Mon, Mar 24, 2025 at 07:26:58PM +0200, Laurent Pinchart wrote:
-> > > On Wed, Mar 19, 2025 at 04:36:56PM +0100, Jacopo Mondi wrote:
-> > > > Add support for VSPX, a specialized version of the VSP2 that
-> > > > transfer data to the ISP. The VSPX is composed by two RPF units
-> > >
-> > > s/transfer/transfers/
-> > > s/composed by/composed of/
-> > >
-> > > > to read data from external memory and an IIF instance that performs
-> > > > transfer towards the ISP.
-> > > >
-> > > > The VSPX is supported through a newly introduced vsp1_vspx.c file that
-> > > > exposes two interfaces: vsp1_vspx interface, declared in vsp1_vspx.h
-> > > > for the vsp1 core to initialize and cleanup the VSPX, and a vsp1_isp
-> > > > interface, declared in include/media/vsp1.h for the ISP driver to
-> > > > control the VSPX operations.
-> > >
-> > > I have a bit of a hard time reviewing the API exposed to the ISP without
-> > > seeing how it gets used, so I'll start with a partial review.
-> > >
-> > > > Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> > > > ---
-> > > > Add a driver for Rensas VSP2 VSPX function.
-> > > > The VSPX transfer image and config data to the ISP.
-> > > > ---
-> > > > Changes in v2:
-> > > > - Completed documentation of vspx ISP interface in vsp1.h
-> > > > - Link to v1: https://lore.kernel.org/r/20250319-v4h-vspx-v1-1-83761280071b@ideasonboard.com
-> > > > ---
-> > > >  drivers/media/platform/renesas/vsp1/Makefile    |   1 +
-> > > >  drivers/media/platform/renesas/vsp1/vsp1.h      |   1 +
-> > > >  drivers/media/platform/renesas/vsp1/vsp1_drv.c  |  13 +-
-> > > >  drivers/media/platform/renesas/vsp1/vsp1_pipe.c |   6 +
-> > > >  drivers/media/platform/renesas/vsp1/vsp1_regs.h |   1 +
-> > > >  drivers/media/platform/renesas/vsp1/vsp1_vspx.c | 526 ++++++++++++++++++++++++
-> > > >  drivers/media/platform/renesas/vsp1/vsp1_vspx.h |  76 ++++
-> > > >  include/media/vsp1.h                            | 138 +++++++
-> > > >  8 files changed, 761 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/media/platform/renesas/vsp1/Makefile b/drivers/media/platform/renesas/vsp1/Makefile
-> > > > index de8c802e1d1a..2057c8f7be47 100644
-> > > > --- a/drivers/media/platform/renesas/vsp1/Makefile
-> > > > +++ b/drivers/media/platform/renesas/vsp1/Makefile
-> > > > @@ -6,5 +6,6 @@ vsp1-y					+= vsp1_clu.o vsp1_hsit.o vsp1_lut.o
-> > > >  vsp1-y					+= vsp1_brx.o vsp1_sru.o vsp1_uds.o
-> > > >  vsp1-y					+= vsp1_hgo.o vsp1_hgt.o vsp1_histo.o
-> > > >  vsp1-y					+= vsp1_iif.o vsp1_lif.o vsp1_uif.o
-> > > > +vsp1-y					+= vsp1_vspx.o
-> > > >
-> > > >  obj-$(CONFIG_VIDEO_RENESAS_VSP1)	+= vsp1.o
-> > > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1.h b/drivers/media/platform/renesas/vsp1/vsp1.h
-> > > > index 263024639dd2..1872e403f26b 100644
-> > > > --- a/drivers/media/platform/renesas/vsp1/vsp1.h
-> > > > +++ b/drivers/media/platform/renesas/vsp1/vsp1.h
-> > > > @@ -110,6 +110,7 @@ struct vsp1_device {
-> > > >  	struct media_entity_operations media_ops;
-> > > >
-> > > >  	struct vsp1_drm *drm;
-> > > > +	struct vsp1_vspx *vspx;
-> > > >  };
-> > > >
-> > > >  int vsp1_device_get(struct vsp1_device *vsp1);
-> > > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> > > > index d13e9b31aa7c..e338ab8af292 100644
-> > > > --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> > > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> > > > @@ -38,6 +38,7 @@
-> > > >  #include "vsp1_uds.h"
-> > > >  #include "vsp1_uif.h"
-> > > >  #include "vsp1_video.h"
-> > > > +#include "vsp1_vspx.h"
-> > > >
-> > > >  /* -----------------------------------------------------------------------------
-> > > >   * Interrupt Handling
-> > > > @@ -488,7 +489,10 @@ static int vsp1_create_entities(struct vsp1_device *vsp1)
-> > > >
-> > > >  		ret = media_device_register(mdev);
-> > > >  	} else {
-> > > > -		ret = vsp1_drm_init(vsp1);
-> > > > +		if (vsp1->info->version == VI6_IP_VERSION_MODEL_VSPX_GEN4)
-> > > > +			ret = vsp1_vspx_init(vsp1);
-> > > > +		else
-> > > > +			ret = vsp1_drm_init(vsp1);
-> > > >  	}
-> > > >
-> > > >  done:
-> > > > @@ -846,6 +850,13 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
-> > > >  		.uif_count = 2,
-> > > >  		.wpf_count = 1,
-> > > >  		.num_bru_inputs = 5,
-> > > > +	}, {
-> > > > +		.version = VI6_IP_VERSION_MODEL_VSPX_GEN4,
-> > > > +		.model = "VSP2-X",
-> > > > +		.gen = 4,
-> > > > +		.features = VSP1_HAS_IIF,
-> > > > +		.rpf_count = 2,
-> > > > +		.wpf_count = 1,
-> > > >  	},
-> > > >  };
-> > > >
-> > > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> > > > index a51061738edc..12ede30e0af7 100644
-> > > > --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> > > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> > > > @@ -24,6 +24,7 @@
-> > > >  #include "vsp1_pipe.h"
-> > > >  #include "vsp1_rwpf.h"
-> > > >  #include "vsp1_uds.h"
-> > > > +#include "vsp1_vspx.h"
-> > > >
-> > > >  /* -----------------------------------------------------------------------------
-> > > >   * Helper Functions
-> > > > @@ -100,6 +101,11 @@ static const struct vsp1_format_info vsp1_video_formats[] = {
-> > > >  	  VI6_RPF_DSWAP_P_WDS,
-> > > >  	  1, { 16, 0, 0 }, false, false, 1, 1, false },
-> > > >
-> > > > +	/* R-Car V4H Metadata format: Maps on ARGB888 */
-> > >
-> > > s/Maps on/Maps to/
-> > >
-> > > > +	{ V4L2_META_FMT_RCAR_V4H, MEDIA_BUS_FMT_METADATA_FIXED,
-> > > > +	  VI6_FMT_ARGB_8888, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS,
-> > > > +	  1, { 32, 0, 0 }, false, false, 1, 1, false },
-> > > > +
-> > > >  	{ V4L2_PIX_FMT_RGB332, MEDIA_BUS_FMT_ARGB8888_1X32,
-> > > >  	  VI6_FMT_RGB_332, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-> > > >  	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-> > > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_regs.h b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-> > > > index 86e47c2d991f..10cfbcd1b6e0 100644
-> > > > --- a/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-> > > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_regs.h
-> > > > @@ -799,6 +799,7 @@
-> > > >  #define VI6_IP_VERSION_MODEL_VSPDL_GEN3	(0x19 << 8)
-> > > >  #define VI6_IP_VERSION_MODEL_VSPBS_GEN3	(0x1a << 8)
-> > > >  #define VI6_IP_VERSION_MODEL_VSPD_GEN4	(0x1c << 8)
-> > > > +#define VI6_IP_VERSION_MODEL_VSPX_GEN4	(0x1d << 8)
-> > > >  /* RZ/G2L SoCs have no version register, So use 0x80 as the model version */
-> > > >  #define VI6_IP_VERSION_MODEL_VSPD_RZG2L	(0x80 << 8)
-> > > >
-> > > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_vspx.c b/drivers/media/platform/renesas/vsp1/vsp1_vspx.c
-> > > > new file mode 100644
-> > > > index 000000000000..b6dce5f50fed
-> > > > --- /dev/null
-> > > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_vspx.c
-> > > > @@ -0,0 +1,526 @@
-> > > > +// SPDX-License-Identifier: GPL-2.0+
-> > > > +/*
-> > > > + * vsp1_vspx.c  --  R-Car Gen 4 VSPX
-> > > > + *
-> > > > + * Copyright (C) 2025 Ideas On Board Oy
-> > > > + * Copyright (C) 2025 Renesas Electronics Corporation
-> > > > + */
-> > > > +
-> > > > +#include "vsp1_vspx.h"
-> > > > +
-> > > > +#include <linux/cleanup.h>
-> > > > +#include <linux/device.h>
-> > > > +#include <linux/dma-mapping.h>
-> > > > +#include <linux/slab.h>
-> > > > +#include <linux/spinlock.h>
-> > > > +
-> > > > +#include <media/media-entity.h>
-> > > > +#include <media/v4l2-subdev.h>
-> > > > +#include <media/vsp1.h>
-> > > > +
-> > > > +#include "vsp1.h"
-> > > > +#include "vsp1_dl.h"
-> > > > +#include "vsp1_iif.h"
-> > > > +#include "vsp1_pipe.h"
-> > > > +#include "vsp1_rwpf.h"
-> > > > +
-> > > > +#define VSPX_RPF_SINK_PAD_IMG		0
-> > > > +#define VSPX_RPF_SINK_PAD_CONFIG	2
-> > > > +
-> > > > +static const struct v4l2_pix_format_mplane vspx_default_fmt = {
-> > > > +	.width = 1920,
-> > > > +	.height = 1080,
-> > > > +	.pixelformat = V4L2_PIX_FMT_SRGGB8,
-> > > > +	.field = V4L2_FIELD_NONE,
-> > > > +	.num_planes = 1,
-> > > > +	.plane_fmt = {
-> > > > +		[0] = {
-> > > > +			.sizeimage = 1920 * 1080,
-> > > > +			.bytesperline = 1920,
-> > > > +		},
-> > > > +	},
-> > > > +};
-> > > > +
-> > > > +/*
-> > > > + * Apply the given width, height and fourcc to the subdevice inside the
-> > > > + * VSP1 entity.
-> > > > + */
-> > > > +static int vsp1_vspx_rwpf_set_subdev_fmt(struct vsp1_device *vsp1,
-> > > > +					 struct vsp1_rwpf *rwpf, u32 fourcc,
-> > > > +					 unsigned int width,
-> > > > +					 unsigned int height)
-> > > > +{
-> > > > +	struct vsp1_entity *ent = &rwpf->entity;
-> > > > +	const struct vsp1_format_info *fmtinfo;
-> > > > +	struct v4l2_subdev_format format = {};
-> > > > +	int ret;
-> > > > +
-> > > > +	fmtinfo = vsp1_get_format_info(vsp1, fourcc);
-> > > > +	if (!fmtinfo) {
-> > > > +		dev_dbg(vsp1->dev, "Unsupported pixel format %08x\n", fourcc);
-> > > > +		return -EINVAL;
-> > > > +	}
-> > > > +
-> > > > +	rwpf->fmtinfo = fmtinfo;
-> > > > +
-> > > > +	format.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-> > > > +	format.pad = RWPF_PAD_SINK;
-> > > > +	format.format.width = width;
-> > > > +	format.format.height = height;
-> > > > +	format.format.field = V4L2_FIELD_NONE;
-> > > > +	format.format.code = fmtinfo->mbus;
-> > > > +
-> > > > +	ret = v4l2_subdev_call(&ent->subdev, pad, set_fmt, NULL, &format);
-> > > > +	if (ret < 0)
-> > > > +		return ret;
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > > +/*
-> > > > + * Configure RPF0 for ConfigDMA or RAW image transfer.
-> > > > + */
-> > > > +static int vsp1_vspx_rpf0_configure(struct vsp1_device *vsp1,
-> > > > +				    dma_addr_t addr, u32 fourcc,
-> > > > +				    unsigned int width, unsigned int height,
-> > > > +				    unsigned int rpf_sink_pad,
-> > >
-> > > The variable name is a bit misleading, this is the sink pad of the
-> > > entity connected to the RPF output, i.e. the IIF. I'd name it
-> > > iif_sink_pad, and rename the VSPX_RPF_SINK_PAD_* macros. Those macros
-> > > should be moved to vsp1_iif.h (probably in patch "[PATCH v6 1/7] media:
-> > > vsp1: Add support IIF ISP Interface").
-> > >
-> > > > +				    struct vsp1_dl_list *dl,
-> > > > +				    struct vsp1_dl_body *dlb)
-> > > > +{
-> > > > +	const struct vsp1_format_info *fmtinfo;
-> > > > +	struct vsp1_vspx_pipeline *vspx_pipe;
-> > > > +	struct vsp1_pipeline *pipe;
-> > > > +	struct vsp1_rwpf *rpf0;
-> > >
-> > > You can write
-> > >
-> > > 	struct vsp1_pipeline *pipe = &vsp1->vspx->pipe.pipe;
-> > > 	struct vsp1_rwpf *rpf0 = pipe->inputs[0];
-> > > 	const struct vsp1_format_info *fmtinfo;
-> > >
-> > > > +	int ret;
-> > > > +
-> > > > +	vspx_pipe = &vsp1->vspx->pipe;
-> > > > +	pipe = &vspx_pipe->pipe;
-> > > > +	rpf0 = pipe->inputs[0];
-> > >
-> > > And drop this.
-> > >
-> > > > +
-> > > > +	ret = vsp1_vspx_rwpf_set_subdev_fmt(vsp1, rpf0, fourcc, width, height);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	/*
-> > > > +	 * The RPF0 sink pad is used to configure the entity routing table
-> > > > +	 * and compute stride.
-> > >
-> > > This should also be updated, maybe to
-> > >
-> > > 	 * Connect RPF0 to the IIF sink pad corresponding to the config or image
-> > > 	 * path.
-> > >
-> > > > +	 */
-> > > > +	rpf0->entity.sink_pad = rpf_sink_pad;
-> > > > +
-> > > > +	if (rpf_sink_pad == VSPX_RPF_SINK_PAD_CONFIG) {
-> > > > +		/* ConfigDMA is a 1-D buffer with 4 bytes entries. */
-> > > > +		rpf0->format.plane_fmt[0].bytesperline = 4;
-> > >
-> > > This doesn't seem right.
-> >
-> > Stride doesn't seem to make a difference for ConfigDMA.
-> >
-> > As the ConfigDMA buffer is logically a sequence of u32 it felt 4 bytes
-> > was a natural choice.
-> >
-> > Otherwise I should set this to pairs * 2 + 2 (the whole size of the
-> > ConfigDMA buffer), but this feels a tad weird ?
+On 28.03.2025 10:37, Jai Luthra wrote:
+> On Mar 26, 2025 at 17:32:55 +0200, Mirela Rabulea wrote:
+>> Hi Jai,
+>>
+>> On 25.03.2025 18:02, Jai Luthra wrote:
+>>> On Mar 24, 2025 at 17:32:01 +0200, Mirela Rabulea wrote:
+>>>> Hi Jai and all,
+>>>>
+>>>> On Mar 19, 2025 at 16:40:30 +0530, Jai Luthra wrote:
+>>>>> Hi Mirela,
+>>>>>
+>>>>> Thanks a lot for your patch/series.
+>>>>>
+>>>>> On Mar 05, 2025 at 11:43:57 +0200, Mirela Rabulea wrote:
+>>>>>> Add a v4l2 subdevice driver for the Omnivision OX05B1S RGB-IR sensor.
+>>>>>>
+>>>>>> The Omnivision OX05B1S is a 1/2.5-Inch CMOS image sensor with an
+>>>>>> active array size of 2592 x 1944.
+>>>>>>
+>>>>>> The following features are supported for OX05B1S:
+>>>>>> - Manual exposure an gain control support
+>>>>>> - vblank/hblank control support
+>>>>>> - Supported resolution: 2592 x 1944 @ 30fps (SGRBG10)
+>>>>>>
+>>>>>> Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+>>>>>> ---
+>>>>>> Changes in v4:
+>>>>>> 	Switch to Y media bus codes. The CFA pattern control will be implemented when patches get merged, or maybe separatelly as RFC?
+>>>>>> 	Add pixel_rate member to mode struct, remove fps member. We do not have information how to calculate the pixel rate from the PLL parameters that can be made public.
+>>>>>> 	Use register macros for the registers that are documented. User register group macros, where individual registers are not documented
+>>>>>> 	Remove some uneeded local variable initialisations
+>>>>>> 	Fix extra/missing spaces
+>>>>>> 	Add missing ending \n
+>>>>>> 	Use return -ENODEV & return 0 to ease reading
+>>>>>> 	Rename retval to ret in probe for consistency
+>>>>>> 	Use devm_mutex_init instead of mutex_init
+>>>>>> 	Replace more dev_err's with dev_err_probe
+>>>>>> 	Constify more structs
+>>>>>> 	Remove some unneded ending commas after a terminator
+>>>>>> 	Fix smatch error in ox05b1s_s_ctrl: error: typename in expression
+>>>>>> 	Fix a seeries of smatch warnings like: warning: symbol 'ovx5b_init_setting_2592x1944' was not declared. Should it be static?
+>>>>>> 	Shorten some more lines to 80 columns
+>>>>>>
+>>>>>> Changes in v3:
+>>>>>> 	Use helpers from v4l2-cci.h (drop ox05b1s_write_reg, ox05b1s_read_reg, ox05b1s_set_hts/vts/exp/analog_gain, ox05b1s_regmap_config)
+>>>>>> 	Don't hardcode timing registers: remove timing registers x_output_size/y_output_size from register configuration list, add them to ox05b1s_apply_current_mode
+>>>>>> 	Remove HTS,VTS from register config list as they are written by HBLANK and VBLANK controls through __v4l2_ctrl_handler_setup
+>>>>>> 	ox05b1s register config cleaning (remove all registers that were at their default value, and more, keep only what seems mandatory to be able to stream)
+>>>>>> 	Use const for ox05b1s_supported_modes
+>>>>>> 	Device should be silent on success, use dev_dbg.
+>>>>>> 	Drop unneeded {}
+>>>>>> 	Fixed an error introduced in v2 in ox05b1s_nearest_size (set_fmt for 4k BGGR12 mode was stuck)
+>>>>>> 	Fix an issue in ox05b1s_set_fmt, the format was saved in subdev state only for _TRY, save it also for _ACTIVE
+>>>>>>
+>>>>>> Changes in v2:
+>>>>>> 	Use dev_err_probe for missing clock, since it is now required property, and use NULL for devm_clk_get (no name for single clock), remove check for non NULL sensor->sensor_clk
+>>>>>> 	Remove dev_err message for devm_regmap_init_i2c allocation error
+>>>>>> 	Added spaces inside brackets, wrap lines to 80
+>>>>>> 	Remove some redundant initializations
+>>>>>> 	Add regulators
+>>>>>> 	Make "sizes" a pointer
+>>>>>> 		Use struct v4l2_area instead of u32[2] array
+>>>>>> 		Remove the count for supported_modes[] and supported_codes[], instead use sentinel element at the end
+>>>>>> 		Consequently, update ox05b1s_enum_mbus_code, ox05b1s_enum_frame_size, ox05b1s_nearest_size, ox05b1s_find_code, to not use the count
+>>>>>> 	Remove .h files for modes, however did not move this code in the driver file but added a separate c file for all supported modes
+>>>>>> 	Refactor register lists to allow multiple register arrays per mode
+>>>>>> 	Use GPL-2.0-only instead of GPL-2.0
+>>>>>>
+>>>>>>    drivers/media/i2c/Kconfig                 |   1 +
+>>>>>>    drivers/media/i2c/Makefile                |   1 +
+>>>>>>    drivers/media/i2c/ox05b1s/Kconfig         |  10 +
+>>>>>>    drivers/media/i2c/ox05b1s/Makefile        |   2 +
+>>>>>>    drivers/media/i2c/ox05b1s/ox05b1s.h       |  22 +
+>>>>>>    drivers/media/i2c/ox05b1s/ox05b1s_mipi.c  | 951 ++++++++++++++++++++++
+>>>>>>    drivers/media/i2c/ox05b1s/ox05b1s_modes.c |  77 ++
+>>>>>>    7 files changed, 1064 insertions(+)
+>>>>>>    create mode 100644 drivers/media/i2c/ox05b1s/Kconfig
+>>>>>>    create mode 100644 drivers/media/i2c/ox05b1s/Makefile
+>>>>>>    create mode 100644 drivers/media/i2c/ox05b1s/ox05b1s.h
+>>>>>>    create mode 100644 drivers/media/i2c/ox05b1s/ox05b1s_mipi.c
+>>>>>>    create mode 100644 drivers/media/i2c/ox05b1s/ox05b1s_modes.c
+>>>>>>
+>>>>> [snip]
+>>>>>> diff --git a/drivers/media/i2c/ox05b1s/ox05b1s_mipi.c
+>>>>>> b/drivers/media/i2c/ox05b1s/ox05b1s_mipi.c
+>>>>>> new file mode 100644
+>>>>>> index 000000000000..1026216ddd5b
+>>>>>> --- /dev/null
+>>>>>> +++ b/drivers/media/i2c/ox05b1s/ox05b1s_mipi.c
+>>>>>> @@ -0,0 +1,951 @@
+>>>>>> +// SPDX-License-Identifier: GPL-2.0-only
+>>>>>> +/*
+>>>>>> + * A V4L2 driver for Omnivision OX05B1S RGB-IR camera.
+>>>>>> + * Copyright (C) 2024, NXP
+>>>>>> + *
+>>>>>> + * Inspired from Sony imx219, imx290, imx214 and imx334 camera drivers
+>>>>>> + *
+>>>>>> + */
+>>>>>> +
+>>>>>> +#include <linux/clk.h>
+>>>>>> +#include <linux/pm_runtime.h>
+>>>>>> +#include <linux/regmap.h>
+>>>>>> +#include <linux/regulator/consumer.h>
+>>>>>> +#include <media/v4l2-cci.h>
+>>>>>> +#include <media/mipi-csi2.h>
+>>>>>> +#include <media/v4l2-ctrls.h>
+>>>>>> +#include <media/v4l2-device.h>
+>>>>>> +#include <media/v4l2-fwnode.h>
+>>>>>> +
+>>>>>> +#include "ox05b1s.h"
+>>>>>> +
+>>>>>> +#define OX05B1S_SENS_PAD_SOURCE	0
+>>>>>> +#define OX05B1S_SENS_PADS_NUM	1
+>>>>>> +
+>>>>>> +#define OX05B1S_REG_SW_STB		CCI_REG8(0x0100)
+>>>>>> +#define OX05B1S_REG_SW_RST		CCI_REG8(0x0103)
+>>>>>> +#define OX05B1S_REG_CHIP_ID		CCI_REG24(0x300a)
+>>>>>> +#define OX05B1S_REG_TIMING_HTS		CCI_REG16(0x380c)
+>>>>>> +#define OX05B1S_REG_TIMING_VTS		CCI_REG16(0x380e)
+>>>>>> +#define OX05B1S_REG_EXPOSURE		CCI_REG16(0x3501)
+>>>>>> +#define OX05B1S_REG_GAIN		CCI_REG16(0x3508)
+>>>>> There is a non-trivial overlap of registers between this driver and
+>>>>> ov9282.c which supports OV9281/OV9282 (1MP Mono).
+>>>>>
+>>>>> There are two other Omnivision sensors, OV2311 (2MP Mono) and OV2312
+>>>>> (2MP 4x4 RGB-IR Bayer) with an even larger register overlap with OX05B1S
+>>>>> and OS08A20. Unfortunately those two have separate downstream drivers in
+>>>>> RPi and TI linux downstream trees respectively, and haven't yet been
+>>>>> posted upstream.
+>>>> Thanks for sharing this information, I was unaware. The question of
+>>>> how much similarity should two sensors share, in order to stay in the
+>>>> same driver, was also on my mind for some time, and I’d be glad to
+>>>> hear more opinions on it ;)
+>>>>
+>>> Same here :)
+>>>
+>>>>> It would be ideal to have a single driver for all of these Omnivision
+>>>>> sensors, or if not, at least a common C module that can implement the
+>>>>> shared functionality like gain, exposure, blanking (vts & hts) in a
+>>>>> single place, as this will make maintenance much easier.
+>>>> I would need to get more information on the sensors you mentioned in order
+>>>> to issue an informed opinion. So far, with the OX05B1S and OS08A20, I have
+>>>> found some small differences regarding exposure and digital gain registers,
+>>>> so the overlap is not perfect, I expect it will also not be a perfect
+>>>> overlap with the other sensors you mentioned.
+>>>>
+>>> Sure, I had some experience with supporting OV2312 and OX05B1S in the
+>>> downstream TI linux tree, and while they share the registers for
+>>> exposure and gain, there are some other differences in features, aside
+>>> from the 2MP vs 5MP resolution.
+>>>
+>>>>> My question here to you and the maintainers is, would it be okay to use
+>>>>> this driver as a baseline to integrate all these different sensors
+>>>>> together? And secondly, would you like to take a look at supporting
+>>>>> ov9282, so the other driver can be dropped?
+>>>>>
+>>>> For the first question, I don't know what to say, and I cannot tell if
+>>>> we are far or close for this patch-set to be accepted. Also, I am
+>>>> unsure about how maintenance would go on a driver claiming to support
+>>>> a multitude of sensors, who could test them all, whenever something
+>>>> changes? Are you thinking to add ov2311/12 as other compatibles to
+>>>> this driver?
+>>>>
+>>> While it would be ideal to have OV2312 support within this driver if
+>>> there is a significant register overlap, it might still require some
+>>> effort, as TI's downstream drivers for the RGBIR sensors capture two
+>>> streams with different exposure, gain and IR flash values, and different
+>>> MIPI CSI virtual channels, using the group hold functionality. Which
+>>> IIUC may be quite different from what your patches implement, and will
+>>> require adding streams/routing support so the userspace can configure.
+>> You are not alone on this ;)
+>>
+>> We have an internal solution for adding streams/routing support to this
+>> driver, we used it both for ox05b1s (AB mode with 2 pixel streams on
+>> separate virtual channels) and for os08a20 (staggered hdr mode with 2 pixel
+>> streams on separate virtual channels), and also a separate stream for
+>> embedded data (same VC but a different mipi data type). I did not post these
+>> patches because of 2 reasons:
+> Ah that's good to know that you also use AB mode, as combining the
+> drivers makes even more sense now.
 >
-> The RPF has no idea that the buffer contains configuration data. You
-> should set the stride to width * "bpp".
+>> 1. We are waiting for internal pads to be accepted, and possibly the common
+>> raw sensor model
+> I wasn't aware of the raw sensor model series, will read up more on that
+> as that also seems to have an easier way to represent RGB-Ir bayer
+> formats.
 >
-
-So that would be "pairs * 2 + 2 * 4"
-
-> > > > +	} else {
-> > > > +		/* fmtinfo is valid as per vsp1_vspx_rwpf_set_subdev_fmt(). */
-> > > > +		fmtinfo = vsp1_get_format_info(vsp1, fourcc);
-> > > > +		rpf0->format.plane_fmt[0].bytesperline = width *
-> > > > +					       (7 + fmtinfo->bpp[0]) / 8;
-> > >
-> > > The stride should be passed by the caller, likely using
-> > > job->img.fmt.fmt.pix_mp.bytesperline. For symmetry, I would also pass
-> > > the config stride from the caller to this function, as you pass the
-> > > width.
-> >
-> > Doesn't this have enough parameters ?
-> >
-> > 	ret = vsp1_vspx_rpf0_configure(vsp1, desc->img.mem,
-> > 				       desc->img.fmt.fmt.pix_mp.pixelformat,
-> > 				       desc->img.fmt.fmt.pix_mp.width,
-> > 				       desc->img.fmt.fmt.pix_mp.height,
-> > 				       VSPX_RPF_SINK_PAD_IMG, dl, dlb);
-> >
-> > I would keep the trivial calculation of stride here, we have
-> > everything we need to perform it in this function.
+>> 2. There are issues with the individual control (exposure, analog and
+>> digital gain) per exposure/context, with the current available standard
+>> controls. This is an entire topic on its own, maybe I should start a
+>> separate discussion thread on that.
+>>
+> Yes individual controls, be it for internal pads or per-stream, will be
+> a requirement for multi-stream sensor drivers. I have proposed a topic
+> to discuss this with the rest of the community at the Media Summit being
+> held on May 13 in Nice. [1]
 >
-> No, for image data the stride needs to be configurable by userspace.
+> Do you have plans to attend the summit? In any case, please feel free to
+> start a RFC discussion thread on it :)
 >
-
-Ah you meant the caller as in the ISP caller, not the vspx functions
-that call vsp1_vspx_rpf0_configure ?
-
-That could work for images but not for config data as the userspace
-format is different than the one between the ISP driver and the vspx.
-I'm not even sure what 'bytesperline' should be set to when using the
-extensible parameters format from the rkisp1 driver...
-
-
-> > > > +	}
-> > > > +
-> > > > +	pipe->part_table[0].rpf[0].width = width;
-> > > > +	pipe->part_table[0].rpf[0].height = height;
-> > > > +
-> > > > +	rpf0->mem.addr[0] = addr;
-> > > > +	rpf0->mem.addr[1] = 0;
-> > > > +	rpf0->mem.addr[2] = 0;
-> > > > +
-> > > > +	vsp1_entity_route_setup(&rpf0->entity, pipe, dlb);
-> > > > +	vsp1_entity_configure_stream(&rpf0->entity, rpf0->entity.state, pipe,
-> > > > +				     dl, dlb);
-> > > > +	vsp1_entity_configure_partition(&rpf0->entity, pipe,
-> > > > +					&pipe->part_table[0], dl, dlb);
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > > +static int vsp1_vspx_job_schedule(struct vsp1_device *vsp1)
-> > > > +{
-> > > > +	struct vsp1_dl_list *second_dl = NULL;
-> > > > +	struct vsp1_vspx_pipeline *vspx_pipe;
-> > > > +	struct vsp1_dl_list *first_dl;
-> > > > +	struct vsp1_isp_job_desc *job;
-> > > > +	struct vsp1_pipeline *pipe;
-> > > > +	struct vsp1_dl_body *dlb;
-> > > > +	struct vsp1_dl_list *dl;
-> > > > +	unsigned long flags;
-> > > > +	int ret = 0;
-> > > > +
-> > > > +	vspx_pipe = &vsp1->vspx->pipe;
-> > > > +	pipe = &vspx_pipe->pipe;
-> > > > +
-> > > > +	mutex_lock(&vspx_pipe->vspx_lock);
-> > >
-> > > I think you can use
-> > >
-> > > 	guard(mutex, &vspx_pipe->vspx_lock);
-> > >
-> > > and drop the error_unlock_and_return label. Similary, with
-> > >
-> > > 	struct vsp1_isp_job_desc *job  __free(kfree) = NULL;
-> > >
-> > > you could drop the error_free_and_unlock label. The ret variable
-> > > wouldn't need to be initialized in that case.
-> > >
-> > > This being said, as Niklas pointed out, this function is called from
-> > > interrupt context, so you need a spinlock instead. There's lots of work
-> > > being done here to be run in an interrupt handler. It would be better to
-> > > create the display list in user context (from vsp1_isp_queue_job()) and
-> > > only commit it in this function.
-> >
-> > I've split display list creation and commit to two different
-> > functions.
-> >
-> > > > +	if (vspx_pipe->processing)
-> > > > +		goto error_unlock_and_return;
-> > > > +
-> > > > +	/* Extract one job, if available, from the jobs list. */
-> > > > +	scoped_guard(mutex, &vspx_pipe->jobs_lock) {
-> > > > +		job = list_first_entry_or_null(&vspx_pipe->jobs,
-> > > > +					       struct vsp1_isp_job_desc,
-> > > > +					       job_queue);
-> > > > +		if (!job)
-> > > > +			goto error_unlock_and_return;
-> > > > +
-> > > > +		list_del(&job->job_queue);
-> > > > +	}
-> > > > +
-> > > > +	/*
-> > > > +	 * Transfer the buffers described in the job: (optional) ConfigDMA and
-> > > > +	 * RAW image.
-> > > > +	 */
-> > > > +
-> > > > +	first_dl = vsp1_dl_list_get(pipe->output->dlm);
-> > > > +
-> > > > +	dl = first_dl;
-> > > > +	dlb = vsp1_dl_list_get_body0(dl);
-> > > > +
-> > > > +	/* Disable RPF1. */
-> > > > +	vsp1_dl_body_write(dlb, vsp1->rpf[1]->entity.route->reg,
-> > > > +			   VI6_DPR_NODE_UNUSED);
-> > > > +
-> > > > +	/* Configure IIF routing and enable IIF function */
-> > > > +	vsp1_entity_route_setup(pipe->iif, pipe, dlb);
-> > > > +	vsp1_entity_configure_stream(pipe->iif, pipe->iif->state, pipe,
-> > > > +				     first_dl, dlb);
-> > > > +
-> > > > +	/* Configure WPF0 to enable RPF0 as source*/
-> > > > +	vsp1_entity_route_setup(&pipe->output->entity, pipe, dlb);
-> > > > +	vsp1_entity_configure_stream(&pipe->output->entity,
-> > > > +				     pipe->output->entity.state, pipe,
-> > > > +				     first_dl, dlb);
-> > > > +
-> > > > +	if (job->config.pairs) {
-> > > > +		/*
-> > > > +		 * Configure RPF0 for config data. Transfer the number of
-> > > > +		 * configuration pairs plus 2 words for the header.
-> > > > +		 */
-> > > > +		ret = vsp1_vspx_rpf0_configure(vsp1, job->config.mem,
-> > > > +					       V4L2_META_FMT_RCAR_V4H,
-> > > > +					       job->config.pairs * 2 + 2, 1,
-> > > > +					       VSPX_RPF_SINK_PAD_CONFIG,
-> > > > +					       dl, dlb);
-> > > > +		if (ret)
-> > > > +			goto error_free_and_unlock;
-> > > > +
-> > > > +		second_dl = vsp1_dl_list_get(pipe->output->dlm);
-> > > > +
-> > > > +		dl = second_dl;
-> > > > +		dlb = vsp1_dl_list_get_body0(dl);
-> > > > +	}
-> > > > +
-> > > > +	/* Configure RPF0 for RAW image transfer. */
-> > > > +	ret = vsp1_vspx_rpf0_configure(vsp1, job->img.mem,
-> > > > +				       job->img.fmt.fmt.pix_mp.pixelformat,
-> > > > +				       job->img.fmt.fmt.pix_mp.width,
-> > > > +				       job->img.fmt.fmt.pix_mp.height,
-> > > > +				       VSPX_RPF_SINK_PAD_IMG, dl, dlb);
-> > > > +	if (ret)
-> > > > +		goto error_free_and_unlock;
-> > > > +
-> > > > +	if (second_dl)
-> > > > +		vsp1_dl_list_add_chain(first_dl, second_dl);
-> > > > +
-> > > > +	vsp1_dl_list_commit(first_dl, 0);
-> > > > +
-> > > > +	vspx_pipe->processing = true;
-> > > > +	mutex_unlock(&vspx_pipe->vspx_lock);
-> > > > +
-> > > > +	kfree(job);
-> > > > +
-> > > > +	/* Trigger VSPX processing by setting VI6_CMD[STRCMD]. */
-> > > > +	spin_lock_irqsave(&pipe->irqlock, flags);
-> > > > +	vsp1_pipeline_run(pipe);
-> > > > +	spin_unlock_irqrestore(&pipe->irqlock, flags);
-> > >
-> > > You can use a scoped guard. Same below.
-> > >
-> > > > +
-> > > > +	return 0;
-> > > > +
-> > > > +error_free_and_unlock:
-> > > > +	kfree(job);
-> > > > +error_unlock_and_return:
-> > > > +	mutex_unlock(&vspx_pipe->vspx_lock);
-> > > > +
-> > > > +	return ret;
-> > > > +}
-> > > > +
-> > > > +/*******************************************************************************
-> > > > + * Interrupt handling
-> > > > + */
-> > >
-> > > Following the driver coding style,
-> > >
-> > > /* -----------------------------------------------------------------------------
-> > >  * Interrupt handling
-> > >  */
-> > >
-> > > Same below.
-> > >
-> > > > +static void vsp1_vspx_pipeline_frame_end(struct vsp1_pipeline *pipe,
-> > > > +					 unsigned int completion)
-> > > > +{
-> > > > +	struct vsp1_vspx_pipeline *vspx_pipe = to_vsp1_vspx_pipeline(pipe);
-> > > > +	struct vsp1_vspx *vspx = to_vsp1_vspx(vspx_pipe);
-> > > > +	struct vsp1_device *vsp1 = vspx->vsp1;
-> > >
-> > > This is used in a single place below, where you can use vspx->vsp1
-> > > without declaring a local variable.
-> > >
-> > > > +	unsigned long flags;
-> > > > +
-> > > > +	if (vspx_pipe->vspx_frame_end)
-> > > > +		vspx_pipe->vspx_frame_end(vspx_pipe->frame_end_data);
-> > > > +
-> > > > +	/*
-> > > > +	 * Set the pipeline state to stopped to ensure the next call to
-> > > > +	 * vsp1_pipeline_run() actually starts the VSPX.
-> > > > +	 */
-> > > > +	spin_lock_irqsave(&pipe->irqlock, flags);
-> > > > +	pipe->state = VSP1_PIPELINE_STOPPED;
-> > > > +	spin_unlock_irqrestore(&pipe->irqlock, flags);
-> > > > +
-> > > > +	scoped_guard(mutex, &vspx_pipe->vspx_lock)
-> > > > +		vspx_pipe->processing = false;
-> > >
-> > > As this is a relatively new construct we'll need to figure out the
-> > > coding style. The absence of curly braces looks weird to me, I would
-> > > have written
-> > >
-> > > 	scoped_guard(mutex, &vspx_pipe->vspx_lock) {
-> > > 		vspx_pipe->processing = false;
-> > > 	}
-> > >
-> > > > +
-> > > > +	/* Try schedule a new job from the queue. */
-> > > > +	vsp1_vspx_job_schedule(vsp1);
-> > > > +}
-> > > > +
-> > > > +/*******************************************************************************
-> > > > + * vsp1_isp interface (include/media/vsp1.h)
-> > >
-> > > I'd write "ISP Driver API" to match vsp1_drm.c.
-> > >
-> > > > + */
-> > > > +
-> > > > +int vsp1_isp_init(struct device *dev)
-> > > > +{
-> > > > +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
-> > > > +
-> > > > +	if (!vsp1)
-> > > > +		return -EPROBE_DEFER;
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +EXPORT_SYMBOL_GPL(vsp1_isp_init);
-> > > > +
-> > > > +struct device *vsp1_isp_get_bus_master(struct device *dev)
-> > > > +{
-> > > > +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
-> > > > +
-> > > > +	if (!vsp1)
-> > > > +		return ERR_PTR(-ENODEV);
-> > > > +
-> > > > +	return vsp1->bus_master;
-> > > > +}
-> > > > +EXPORT_SYMBOL_GPL(vsp1_isp_get_bus_master);
-> > > > +
-> > > > +int vsp1_isp_alloc_buffers(struct device *dev, size_t size,
-> > > > +			   struct vsp1_isp_buffer_desc *buffer_desc)
-> > > > +{
-> > > > +	struct device *bus_master = vsp1_isp_get_bus_master(dev);
-> > > > +
-> > > > +	if (IS_ERR_OR_NULL(bus_master))
-> > > > +		return -ENODEV;
-> > > > +
-> > > > +	buffer_desc->cpu_addr = dma_alloc_coherent(bus_master, size,
-> > > > +						   &buffer_desc->dma_addr,
-> > > > +						   GFP_KERNEL);
-> > > > +	if (IS_ERR_OR_NULL(buffer_desc->cpu_addr))
-> > > > +		return -EINVAL;
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +EXPORT_SYMBOL_GPL(vsp1_isp_alloc_buffers);
-> > > > +
-> > > > +int vsp1_isp_configure(struct device *dev,
-> > > > +		       const struct v4l2_pix_format_mplane *fmt)
-> > > > +{
-> > > > +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
-> > > > +	struct vsp1_vspx_pipeline *vspx_pipe;
-> > > > +	struct vsp1_pipeline *pipe;
-> > > > +	int ret;
-> > > > +
-> > > > +	vspx_pipe = &vsp1->vspx->pipe;
-> > > > +	pipe = &vspx_pipe->pipe;
-> > > > +
-> > > > +	guard(mutex)(&vspx_pipe->vspx_lock);
-> > > > +
-> > > > +	/*
-> > > > +	 * Apply the same format to the RPF0 and WPF0 so that the partition
-> > > > +	 * calculation results in a single partition.
-> > > > +	 */
-> > > > +	ret = vsp1_vspx_rwpf_set_subdev_fmt(vsp1, pipe->inputs[0],
-> > > > +					    fmt->pixelformat, fmt->width,
-> > > > +					    fmt->height);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	ret = vsp1_vspx_rwpf_set_subdev_fmt(vsp1, pipe->output, fmt->pixelformat,
-> > > > +					    fmt->width, fmt->height);
-> > > > +	if (ret)
-> > > > +		return ret;
-> > > > +
-> > > > +	vsp1_pipeline_calculate_partition(pipe, &pipe->part_table[0],
-> > > > +					  fmt->width, 0);
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +EXPORT_SYMBOL_GPL(vsp1_isp_configure);
-> > > > +
-> > > > +static void vsp1_vspx_release_jobs(struct vsp1_device *vsp1)
-> > > > +{
-> > > > +	struct vsp1_isp_job_desc *job, *tmp;
-> > > > +	struct vsp1_vspx_pipeline *vspx_pipe;
-> > > > +
-> > > > +	vspx_pipe = &vsp1->vspx->pipe;
-> > > > +
-> > > > +	guard(mutex)(&vspx_pipe->jobs_lock);
-> > > > +
-> > > > +	list_for_each_entry_safe(job, tmp, &vspx_pipe->jobs, job_queue) {
-> > > > +		list_del(&job->job_queue);
-> > > > +		kfree(job);
-> > > > +	}
-> > > > +}
-> > > > +
-> > > > +static void vsp1_isp_stop_streaming(struct vsp1_device *vsp1)
-> > > > +{
-> > > > +	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
-> > > > +	struct vsp1_pipeline *pipe = &vspx_pipe->pipe;
-> > > > +
-> > > > +	pipe->state = VSP1_PIPELINE_STOPPED;
-> > > > +	vsp1_pipeline_stop(pipe);
-> > > > +	vsp1_vspx_release_jobs(vsp1);
-> > > > +	vspx_pipe->processing = false;
-> > > > +	vspx_pipe->vspx_frame_end = NULL;
-> > > > +	vsp1_device_put(vsp1);
-> > > > +}
-> > > > +
-> > > > +int vsp1_isp_start_streaming(struct device *dev,
-> > > > +			     struct vsp1_vspx_frame_end *frame_end,
-> > > > +			     bool enable)
-> > > > +{
-> > > > +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
-> > > > +	struct vsp1_vspx_pipeline *vspx_pipe;
-> > > > +	struct vsp1_pipeline *pipe;
-> > > > +	u32 value;
-> > > > +	int ret;
-> > > > +
-> > > > +	vspx_pipe = &vsp1->vspx->pipe;
-> > > > +	pipe = &vspx_pipe->pipe;
-> > > > +
-> > > > +	guard(mutex)(&vspx_pipe->vspx_lock);
-> > > > +
-> > > > +	if (!enable) {
-> > > > +		vsp1_isp_stop_streaming(vsp1);
-> > > > +		return 0;
-> > > > +	}
-> > > > +
-> > > > +	if (!frame_end)
-> > > > +		return -EINVAL;
-> > > > +
-> > > > +	vspx_pipe->vspx_frame_end = frame_end->vspx_frame_end;
-> > > > +	vspx_pipe->frame_end_data = frame_end->frame_end_data;
-> > > > +
-> > > > +	/* Make sure VSPX is not active. */
-> > > > +	value = vsp1_read(vsp1, VI6_CMD(0));
-> > > > +	if (value & VI6_CMD_STRCMD) {
-> > > > +		dev_err(vsp1->dev,
-> > > > +			"%s: Starting of WPF0 already reserved\n", __func__);
-> > > > +		return -EBUSY;
-> > > > +	}
-> > > > +
-> > > > +	value = vsp1_read(vsp1, VI6_STATUS);
-> > > > +	if (value & VI6_STATUS_SYS_ACT(0)) {
-> > > > +		dev_err(vsp1->dev,
-> > > > +			"%s: WPF0 has not entered idle state\n", __func__);
-> > > > +		return -EBUSY;
-> > > > +	}
-> > > > +
-> > > > +	/* Enable the VSP1 and prepare for streaming. */
-> > > > +	vsp1_pipeline_dump(pipe, "VSPX job");
-> > > > +
-> > > > +	ret = vsp1_device_get(vsp1);
-> > > > +	if (ret < 0)
-> > > > +		return ret;
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +EXPORT_SYMBOL_GPL(vsp1_isp_start_streaming);
-> > > > +
-> > > > +int vsp1_isp_queue_job(struct device *dev, const struct vsp1_isp_job_desc *job)
-> > > > +{
-> > > > +	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
-> > > > +	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
-> > > > +	struct vsp1_isp_job_desc *newjob;
-> > > > +
-> > > > +	/*
-> > > > +	 * Copy the job description and append it to the jobs queue.
-> > > > +	 * Memory is released when the job is consumed.
-> > > > +	 */
-> > > > +	newjob = kmalloc(sizeof(*newjob), GFP_KERNEL);
-> > > > +	if (!newjob)
-> > > > +		return -ENOMEM;
-> > > > +
-> > > > +	*newjob = *job;
-> > > > +
-> > > > +	scoped_guard(mutex, &vspx_pipe->jobs_lock)
-> > > > +		list_add_tail(&newjob->job_queue, &vspx_pipe->jobs);
-> > > > +
-> > > > +	vsp1_vspx_job_schedule(vsp1);
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +EXPORT_SYMBOL(vsp1_isp_queue_job);
-> > >
-> > > Any reason for this one not being GPL ?
-> >
-> > Ofc course not.
-> >
-> > I'll fix the rest and send the driver on top of IIF support patches
-> > listed as pre-requisites here.
-> >
-> > > > +
-> > > > +/*******************************************************************************
-> > > > + * vsp1_vspx interface (drivers/media/platform/renesas/vsp1/vsp1_vspx.h)
-> > >
-> > > I'd just write "Initialization & cleanup".
-> > >
-> > > > + */
-> > > > +
-> > > > +int vsp1_vspx_init(struct vsp1_device *vsp1)
-> > > > +{
-> > > > +	struct vsp1_vspx_pipeline *vspx_pipe;
-> > > > +	struct vsp1_pipeline *pipe;
-> > > > +
-> > > > +	vsp1->vspx = devm_kzalloc(vsp1->dev, sizeof(*vsp1->vspx), GFP_KERNEL);
-> > > > +	if (!vsp1->vspx)
-> > > > +		return -ENOMEM;
-> > > > +
-> > > > +	vsp1->vspx->vsp1 = vsp1;
-> > > > +
-> > > > +	vspx_pipe = &vsp1->vspx->pipe;
-> > > > +	vspx_pipe->processing = false;
-> > > > +
-> > > > +	pipe = &vspx_pipe->pipe;
-> > > > +
-> > > > +	vsp1_pipeline_init(pipe);
-> > > > +
-> > > > +	pipe->partitions = 1;
-> > > > +	pipe->part_table = &vspx_pipe->partition;
-> > > > +	pipe->interlaced = 0;
-> > >
-> > > This is a boolean field, you can use false.
-> > >
-> > > > +	pipe->frame_end = vsp1_vspx_pipeline_frame_end;
-> > > > +
-> > > > +	INIT_LIST_HEAD(&vspx_pipe->jobs);
-> > > > +	mutex_init(&vspx_pipe->vspx_lock);
-> > > > +	mutex_init(&vspx_pipe->jobs_lock);
-> > > > +
-> > > > +	pipe->output = vsp1->wpf[0];
-> > > > +	pipe->output->entity.pipe = pipe;
-> > > > +	vsp1_vspx_rwpf_set_subdev_fmt(vsp1, pipe->output,
-> > > > +				      vspx_default_fmt.pixelformat,
-> > > > +				      vspx_default_fmt.width,
-> > > > +				      vspx_default_fmt.height);
-> > > > +	list_add_tail(&pipe->output->entity.list_pipe, &pipe->entities);
-> > > > +
-> > > > +	pipe->iif = &vsp1->iif->entity;
-> > > > +	pipe->iif->pipe = pipe;
-> > > > +	pipe->iif->sink = &pipe->output->entity;
-> > >
-> > > 	pipe->iif->sink_pad = RWPF_PAD_SINK;
-> > >
-> > > for clarity.
-> > >
-> > > > +	list_add(&pipe->iif->list_pipe, &pipe->entities);
-> > > > +
-> > > > +	/*
-> > > > +	 * Initialize RPF0 as inputs for VSPX and use it unconditionally for
-> > > > +	 * now.
-> > > > +	 */
-> > > > +	pipe->inputs[0] = vsp1->rpf[0];
-> > > > +	pipe->inputs[0]->entity.pipe = pipe;
-> > > > +	pipe->inputs[0]->entity.sink = pipe->iif;
-> > > > +	vsp1_vspx_rwpf_set_subdev_fmt(vsp1, pipe->inputs[0],
-> > > > +				      vspx_default_fmt.pixelformat,
-> > > > +				      vspx_default_fmt.width,
-> > > > +				      vspx_default_fmt.height);
-> > > > +	list_add_tail(&pipe->inputs[0]->entity.list_pipe, &pipe->entities);
-> > >
-> > > I think you can use list_add() for all three entities, to have the
-> > > pipe->entities list sorted in source to sink order.
-> > >
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> > > > +
-> > > > +void vsp1_vspx_cleanup(struct vsp1_device *vsp1)
-> > > > +{
-> > > > +	struct vsp1_vspx_pipeline *vspx_pipe;
-> > > > +
-> > > > +	vspx_pipe = &vsp1->vspx->pipe;
-> > >
-> > > 	struct vsp1_vspx_pipeline *vspx_pipe = &vsp1->vspx->pipe;
-> > >
-> > > > +
-> > > > +	vsp1_vspx_release_jobs(vsp1);
-> > > > +
-> > > > +	mutex_destroy(&vspx_pipe->jobs_lock);
-> > >
-> > > You should also destroy vspx_lock.
-> > >
-> > > > +}
-> > > > diff --git a/drivers/media/platform/renesas/vsp1/vsp1_vspx.h b/drivers/media/platform/renesas/vsp1/vsp1_vspx.h
-> > > > new file mode 100644
-> > > > index 000000000000..69f73e1addba
-> > > > --- /dev/null
-> > > > +++ b/drivers/media/platform/renesas/vsp1/vsp1_vspx.h
-> > > > @@ -0,0 +1,76 @@
-> > > > +/* SPDX-License-Identifier: GPL-2.0+ */
-> > > > +/*
-> > > > + * vsp1_vspx.h  --  R-Car Gen 4 VSPX
-> > > > + *
-> > > > + * Copyright (C) 2025 Ideas On Board Oy
-> > > > + * Copyright (C) 2025 Renesas Electronics Corporation
-> > > > + */
-> > > > +#ifndef __VSP1_VSPX_H__
-> > > > +#define __VSP1_VSPX_H__
-> > > > +
-> > > > +#include <linux/container_of.h>
-> > > > +#include <linux/device.h>
-> > >
-> > > Is device.h needed ?
-> > >
-> > > > +#include <linux/list.h>
-> > > > +#include <linux/mutex.h>
-> > > > +
-> > > > +#include <media/vsp1.h>
-> > >
-> > > This header doesn't seem needed either.
-> > >
-> > > > +
-> > > > +#include "vsp1.h"
-> > > > +#include "vsp1_pipe.h"
-> > > > +
-> > > > +/* Pixel format for ConfigDMA buffers. */
-> > > > +#define V4L2_META_FMT_RCAR_V4H	v4l2_fourcc('R', 'C', 'A', '4')
-> > >
-> > > V4L2 formats belong to UAPI headers. I understand the format is used
-> > > internally only though. The commit message, or the comment above, should
-> > > explain why this is fine.
-> > >
-> > > You should include the header that defines v4l2_fourcc.
-> > >
-> > > Thinking more about this, we could simply avoid adding this new formats,
-> > > and instead use V4L2_PIX_FMT_XBGR32 in vsp1_vspx_job_schedule() with an
-> > > appropriate comment.
-> > >
-> > > > +
-> > > > +/*
-> > > > + * struct vsp1_vspx_pipeline - VSPX pipeline
-> > > > + * @pipe: the VSP1 pipeline
-> > > > + * @partition: the pre-calculated partition used by the pipeline
-> > > > + * @vspx_lock: protect access to the VSPX configuration
-> > > > + * @processing: VSPX busy flag
-> > > > + * @jobs_lock: protect the jobs queue
-> > > > + * @jobs: jobs queue
-> > > > + * @vspx_frame_end: frame end callback
-> > > > + * @frame_end_data: data for the frame end callback
-> > > > + */
-> > > > +struct vsp1_vspx_pipeline {
-> > > > +	struct vsp1_pipeline pipe;
-> > > > +	struct vsp1_partition partition;
-> > > > +
-> > > > +	/* Protects the pipeline configuration */
-> > > > +	struct mutex vspx_lock;
-> > > > +	bool processing;
-> > > > +
-> > > > +	/* Protects the jobs list */
-> > > > +	struct mutex jobs_lock;
-> > > > +	struct list_head jobs;
-> > > > +
-> > > > +	void (*vspx_frame_end)(void *frame_end_data);
-> > > > +	void *frame_end_data;
-> > > > +};
-> > > > +
-> > > > +static inline struct vsp1_vspx_pipeline *
-> > > > +to_vsp1_vspx_pipeline(struct vsp1_pipeline *pipe)
-> > > > +{
-> > > > +	return container_of(pipe, struct vsp1_vspx_pipeline, pipe);
-> > > > +}
-> > > > +
-> > > > +/*
-> > > > + * struct vsp1_vspx - VSPX device
-> > > > + * @vsp1: the VSP1 device
-> > > > + * @pipe: the VSPX pipeline
-> > > > + */
-> > > > +struct vsp1_vspx {
-> > > > +	struct vsp1_device *vsp1;
-> > > > +	struct vsp1_vspx_pipeline pipe;
-> > > > +};
-> > > > +
-> > > > +static inline struct vsp1_vspx *
-> > > > +to_vsp1_vspx(struct vsp1_vspx_pipeline *vspx_pipe)
-> > > > +{
-> > > > +	return container_of(vspx_pipe, struct vsp1_vspx, pipe);
-> > > > +}
-> > >
-> > > I think all of the above could be moved to vsp1_vspx.c to provide better
-> > > encapsulation and avoid exposing internals. I know vsp1_drm.h has a
-> > > similar structure, which should probably be fixed too (not as part of
-> > > this patch).
-> > >
-> > > > +
-> > > > +int vsp1_vspx_init(struct vsp1_device *vsp1);
-> > > > +void vsp1_vspx_cleanup(struct vsp1_device *vsp1);
-> > > > +
-> > > > +#endif /* __VSP1_VSPX_H__ */
-> > > > diff --git a/include/media/vsp1.h b/include/media/vsp1.h
-> > > > index 48f4a5023d81..668f5896503b 100644
-> > > > --- a/include/media/vsp1.h
-> > > > +++ b/include/media/vsp1.h
-> > > > @@ -9,12 +9,17 @@
-> > > >  #ifndef __MEDIA_VSP1_H__
-> > > >  #define __MEDIA_VSP1_H__
-> > > >
-> > > > +#include <linux/list.h>
-> > > >  #include <linux/scatterlist.h>
-> > > >  #include <linux/types.h>
-> > > >  #include <linux/videodev2.h>
-> > > >
-> > > >  struct device;
-> > > >
-> > > > +/*******************************************************************************
-> > > > + * VSP1 DU interface
-> > > > + */
-> > > > +
-> > > >  int vsp1_du_init(struct device *dev);
-> > > >
-> > > >  #define VSP1_DU_STATUS_COMPLETE		BIT(0)
-> > > > @@ -117,4 +122,137 @@ void vsp1_du_atomic_flush(struct device *dev, unsigned int pipe_index,
-> > > >  int vsp1_du_map_sg(struct device *dev, struct sg_table *sgt);
-> > > >  void vsp1_du_unmap_sg(struct device *dev, struct sg_table *sgt);
-> > > >
-> > > > +/*******************************************************************************
-> > > > + * VSP1 ISP interface
-> > > > + */
-> > > > +
-> > > > +/**
-> > > > + * struct vsp1_isp_buffer_desc - Describe a buffer allocated by VSPX
-> > > > + *
-> > > > + * @cpu_addr: CPU-mapped address of a buffer allocated by VSPX
-> > > > + * @dma_addr: bus address of a buffer allocated by VSPX
-> > > > + */
-> > > > +struct vsp1_isp_buffer_desc {
-> > > > +	void *cpu_addr;
-> > > > +	dma_addr_t dma_addr;
-> > > > +};
-> > > > +
-> > > > +/**
-> > > > + * struct vsp1_isp_job_desc - Describe a VSPX buffer transfer request
-> > > > + *
-> > > > + * Describe a transfer request for the VSPX to perform on behalf of the ISP.
-> > > > + * The transfer job descriptor contains an optional ConfigDMA buffer and
-> > > > + * one RAW image buffer. Set config.pairs to 0 if no ConfigDMA buffer should
-> > > > + * be transferred.
-> > > > + *
-> > > > + * @config: ConfigDMA buffer
-> > > > + * @config.pairs: number of reg-value pairs in the ConfigDMA buffer
-> > > > + * @config.mem: bus address of the ConfigDMA buffer
-> > > > + * @img: RAW image buffer
-> > > > + * @img.fmt: RAW image format
-> > > > + * @img.mem: bus address of the RAW image buffer
-> > > > + * @job_queue: list handle
-> > > > + */
-> > > > +struct vsp1_isp_job_desc {
-> > > > +	struct {
-> > > > +		unsigned int pairs;
-> > > > +		dma_addr_t mem;
-> > > > +	} config;
-> > > > +	struct {
-> > > > +		struct v4l2_format fmt;
-> > > > +		dma_addr_t mem;
-> > > > +	} img;
-> > > > +	struct list_head job_queue;
-> > > > +};
-> > > > +
-> > > > +/**
-> > > > + * struct vsp1_vspx_frame_end - VSPX frame end callback data
-> > > > + *
-> > > > + * @vspx_frame_end: Frame end callback. Called after a transfer job has been
-> > > > + *		    completed. If the job includes both a ConfigDMA and a
-> > > > + *		    RAW image, the callback is called after both have been
-> > > > + *		    transferred
-> > > > + * @frame_end_data: Frame end callback data, passed to vspx_frame_end
-> > > > + */
-> > > > +struct vsp1_vspx_frame_end {
-> > > > +	void (*vspx_frame_end)(void *data);
-> > > > +	void *frame_end_data;
-> > > > +};
-> > > > +
-> > > > +/**
-> > > > + * vsp1_isp_init() - Initialize the VSPX
-> > > > + *
-> > > > + * @dev: The VSP1 struct device
-> > > > + *
-> > > > + * Return: %0 on success or a negative error code on failure
-> > > > + */
-> > >
-> > > Functions for the DU API are documented in vsp1_drm.c, I would do the
-> > > same for the ISP API and move the documentation to vsp1_vspx.c.
-> > >
-> > > > +int vsp1_isp_init(struct device *dev);
-> > > > +
-> > > > +/**
-> > > > + * vsp1_isp_get_bus_master - Get VSPX bus master
-> > > > + *
-> > > > + * The VSPX access memory through an FCPX instance. When allocating memory
-> > > > + * buffers that will have to be accessed by the VSPX the 'struct device' of
-> > > > + * the FCPX should be used. Use this function to get a reference to it.
-> > > > + *
-> > > > + * @dev: The VSP1 struct device
-> > > > + *
-> > > > + * Return: a pointer to the bus master's device
-> > > > + */
-> > > > +struct device *vsp1_isp_get_bus_master(struct device *dev);
-> > > > +
-> > > > +/**
-> > > > + * vsp1_isp_alloc_buffers - Allocate buffers in the VSPX address space
-> > > > + *
-> > > > + * Allocate buffers that will be later accessed by the VSPX.
-> > > > + *
-> > > > + * @dev: The VSP1 struct device
-> > > > + * @size: The size of the buffer to be allocated by the VSPX
-> > > > + * @buffer_desc: The allocated buffer description, will be filled with the
-> > > > + *		 buffer CPU-mapped address and the bus address
-> > > > + *
-> > > > + * Return: %0 on success or a negative error code on failure
-> > > > + */
-> > > > +int vsp1_isp_alloc_buffers(struct device *dev, size_t size,
-> > > > +			   struct vsp1_isp_buffer_desc *buffer_desc);
-> > > > +
-> > > > +/**
-> > > > + * vsp1_isp_configure - Configure the VSPX with the RAW image format
-> > > > + *
-> > > > + * Apply to the VSPX RPF/WPF the size of the RAW image that will be transferred
-> > > > + * to the ISP.
-> > > > + *
-> > > > + * @dev: The VSP1 struct device
-> > > > + * @fmt: The RAW image format description
-> > > > + *
-> > > > + * Return: %0 on success or a negative error code on failure
-> > > > + */
-> > > > +int vsp1_isp_configure(struct device *dev,
-> > > > +		       const struct v4l2_pix_format_mplane *fmt);
-> > > > +
-> > > > +/**
-> > > > + * vsp1_isp_start_streaming - Start processing VSPX jobs
-> > > > + *
-> > > > + * Start the VSPX and prepare for accepting buffer transfer job requests.
-> > > > + *
-> > > > + * @dev: The VSP1 struct device
-> > > > + * @frame_end: The frame end callback description
-> > > > + * @enable: The enable/disable streaming flag
-> > > > + *
-> > > > + * Return: %0 on success or a negative error code on failure
-> > > > + */
-> > > > +int vsp1_isp_start_streaming(struct device *dev,
-> > > > +			     struct vsp1_vspx_frame_end *frame_end,
-> > > > +			     bool enable);
-> > > > +
-> > > > +/**
-> > > > + * vsp1_isp_queue_job - Queue a buffer transfer job request
-> > > > + *
-> > > > + * @dev: The VSP1 struct device
-> > > > + * @job: The job description
-> > > > + *
-> > > > + * Return: %0 on success or a negative error code on failure
-> > > > + */
-> > > > +int vsp1_isp_queue_job(struct device *dev, const struct vsp1_isp_job_desc *job);
-> > > > +
-> > > >  #endif /* __MEDIA_VSP1_H__ */
-> > > >
-> > > > ---
-> > > > base-commit: f2151613e040973c868d28c8b00885dfab69eb75
-> > > > change-id: 20250228-v4h-vspx-6a537fc83806
-> > > > prerequisite-change-id: 20250123-v4h-iif-a1dda640c95d:v5
-> > > > prerequisite-patch-id: 700c4bf62e4d8fbd61bf2d7f0289ad6a62ff37d1
-> > > > prerequisite-patch-id: 4af28f0fe9d553b6834c9340969dc9b1c69ceeb9
-> > > > prerequisite-patch-id: ce124996dcd23a437d4d6e1d8e8511a2381ef7b2
-> > > > prerequisite-patch-id: 1aef52a94a4b67ac092e1d182110cfaad573fec2
-> > > > prerequisite-patch-id: 51b2930186407e748f27042bdc314d3ecadd5b2c
-> > > > prerequisite-patch-id: bbdd47075847923c82dbf7a547d0cf8e6b145677
-> > > > prerequisite-patch-id: 91ae1a6a845e756ca98e35e1902fd223f1c5ec3d
+> One idea is to move the controls in the v4l2_subdev_state, which would
+> make it easier to specify pad/stream combinations, but I am not yet sure
+> on what the userspace ioctls will look like for that.
 >
-> --
-> Regards,
+> [1] https://lore.kernel.org/linux-media/sbhsskq7kzrl5bkbqbijxszz7hfg34pjajgdmw23x7aseztyy3@26zcjwnjkpl4/
+
+Thanks for letting me know, yes that is interesting, I will participate, 
+if not in person, at least remotely. I will reply to the indicated 
+thread, after we decide on our agenda.
+
+Regards,
+
+Mirela
+
 >
-> Laurent Pinchart
+>>>> I agree there is a great deal of similarity shared across many raw,
+>>>> mode-based sensor drivers, and it sounds good to have some common framework.
+>>>> Some steps were done with the common raw sensor model. I would definitely
+>>>> also like to hear more expert opinions on this.
+>>>>
+>>>> For the second question, as of now, we do not have any of the sensors you
+>>>> mentioned, unfortunately. I could help in the future to test patches for
+>>>> this driver on the sensors that we already have, but cannot make any
+>>>> promises for what I do not have, best effort if we find these sensors in a
+>>>> form factor that will work for our boards.
+>>>>
+>>> I agree, having a single maintainer would not be feasible given
+>>> different sensor modules may have incompatible connectors. But yes it
+>>> should be okay to provide a T-By tag or a Nack on the shared driver if a
+>>> patch breaks your particular hardware or usecase, similar to how other
+>>> popular sensor drivers are maintained like IMX219 or OV5640.
+>> Sounds ok to me, we cannot guarantee to test the other sensors, but having
+>> T-by tag from other users will hopefully cover it.
+> Thanks.
+>
+>>>>> Anyway thanks again for your series, hopefully this will give a good
+>>>>> starting point for upstreaming OV2311 and OV2312 soon.
+>>>>>
+>>>> I would like to know more about the OV2312 (RGB-Ir) sensor and if it
+>>>> has many similarities with OX05B1S.  What hardware are you using to
+>>>> test this sensor? And what interface to connect the sensor? We are
+>>>> working with MIPI-CSI on most imx boards, and also RPI on imx93.
+>>> For OV2312 I have used this FPDLink module [1] with the Arducam V3Link
+>>> board [2] that connects to the EVM using 22-pin FFC MIPI-CSI connector
+>>> that is pin-compatible with the RPi5 connector.
+>>>
+>>> [1]: https://leopardimaging.com/wp-content/uploads/2024/03/LI-OV2312-FPDLINKIII_Datasheet.pdf
+>>> [2]: https://www.arducam.com/downloads/datasheet/Arducam_V3Link_Datasheet.pdf
+>> Thanks, we don't have any ser/des involved in the ox05b1s/os08a20 case, if
+>> we will ever get into the position to try ov2312, probably we will look for
+>> some solution for imx95-15x15 board, on the RPi connector (22-pin), cannot
+>> tell if it will work, one can never tell what may go wrong.
+> Makes sense.
+>
+>>>>    Regards,
+>>>>
+>>>> Mirela
+>>> PS: Your mail client broke the quotations on your reply. I have fixed
+>>> those here, but might be a good idea to double-check your client
+>>> settings.
+>> Sorry about that, I may have edited the draft from both Thunderbird and
+>> Outlook. Hope this will be ok, sending from Thunderbird now as plain text
+>> only.
+>>
+> No problem, this mail looks okay.
+>
+>> Regards,
+>>
+>> Mirela
+>>
+> Thanks,
+> Jai
 
