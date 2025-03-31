@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-29037-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29038-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92A78A761FD
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 10:29:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC59FA76250
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 10:32:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EB05D3A56F1
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 08:28:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E6FCC1887972
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 08:32:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 234B31EDA02;
-	Mon, 31 Mar 2025 08:24:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B8521D90C8;
+	Mon, 31 Mar 2025 08:26:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WP+q0ABs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MP4E4HdU"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BEC31DE3D6;
-	Mon, 31 Mar 2025 08:24:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3CF21D63E1;
+	Mon, 31 Mar 2025 08:26:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743409465; cv=none; b=duU+o99ObVR3ppUTWKydaxCdl4KB3e0ArDaH9Y6ZjeAupyR8LmbB4qsmeGvtXzJ0YmU9VAqjcpbHykhmXFTtFipOPiDIb0w5EXbCRUA6pe2SvRFMjOfzaBAdSWIVw2N/N6UmhJfiOeGuzM20+RIAXv4r13lTdx8YrkLJ80ih54E=
+	t=1743409563; cv=none; b=rx/xbWB0QwSMohweiqUh3VPqmMSIO2FmTBmjMhPCcnvetoiNx2BYhMBPSP1dhWsVtNw0HBswR+buhMfMo3kDdYemDH47UORbuW/TpbJb0rFq2VVJ6TY5y7iCOYNHnnmLuwGHRcZ3IR1O8ZvV5DGMg3stLat6PLBJ1jLNcMzw028=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743409465; c=relaxed/simple;
-	bh=fh801EUr5W0nJg6lJwAd46r4+NeqMdqOyfLq8d9tPGg=;
+	s=arc-20240116; t=1743409563; c=relaxed/simple;
+	bh=8Cy8YmM0NqtDt9ezgKqrLsWXyVFzNFmpG9efPfz1U5g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hVIpHDf0dMkebtI9TWp1cmPX8S733D7Wyo9TEWYqHxiyNbucsrYu9j/1gIuUQX85+4AG0cp2q17Py0HMzW7BosfvgWf2EU9iQLzUGlhkyHaljEn1GAtXw/rYsxYffFO8FqUq4jsYEyaVJrvzOe5l3rQbMBmggxE7NsY+CxH1ImE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WP+q0ABs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 025D6C4CEE3;
-	Mon, 31 Mar 2025 08:24:23 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kgo+9BOyCtcSqoGze9JVGlvuMvycOrON6phfi+b3z+OStWSkqP1DselzpIKu3LvsiohQ8y1WmtlBQAGFDXF8VtwHgFA3f2PW4vQFMLVqd/gQdxHDLseLRwwF85aSP0bGSmSXyonyw7hC/bSc+fLGs0WoZG9GesoycS2tUjne8hI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MP4E4HdU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C283C4CEE3;
+	Mon, 31 Mar 2025 08:26:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743409464;
-	bh=fh801EUr5W0nJg6lJwAd46r4+NeqMdqOyfLq8d9tPGg=;
+	s=k20201202; t=1743409563;
+	bh=8Cy8YmM0NqtDt9ezgKqrLsWXyVFzNFmpG9efPfz1U5g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WP+q0ABswBFIiTCRSuWtBFHeO9HmjDQj4SJWl4GwU+P6PGWcvr44g9Fvfu2DwFkfU
-	 yM9uQtKEKJTS1lN2zOIxlnnRpNnX2kkqKuE+1bPGcFCkN7tl6QLziiWYep6iwO1Nqa
-	 8ZYQnrnZpiliDNBoWgNORNeNzAynUPdq1mPT45Q4o4s6H2VzIV5GH7mXYpE34e+/mf
-	 k8rDcPLEVG0qpQ4xk0izblYshJxywPy9a9bQBm28E+nyMB+coSZBSDoN9ZmWAyCjN2
-	 8vBGz0vOsZqOiSwvVDWrx9POVETUCNqJTsIo/0SNpW+J7NgfiYwwSrMmHhr5BQVfLu
-	 yVfwlukDc3FHQ==
-Date: Mon, 31 Mar 2025 10:24:21 +0200
+	b=MP4E4HdUHu3Rlasq4UF1FfFak+GWBnYNX0tnPDFr57qy7cICyj36aJPslZDmPSWlt
+	 3RQjRg8OguOM0CN1r720k2HrtoHYLi8Q+IREJkCjTrlkYtnslQEZaZueCP2mYh7Fr9
+	 3RcXlcpUFiz+txRWtkOS1SKs+AQT/bM0vaNw7qvrDr3s1ycH3OASKhf0kVEbojyQn0
+	 cVBIfSvGpwqfn/oHrcb+RjdjWLW/jAqG8s+it/sTKn6gcZIHb9l7w19lfZCX/I0IGC
+	 DPS64vFqal0joZUZ/A0VtA1JsNMp+6HopG5hQmZsrFP0jLJvzgtmXI0oTn+SywKK/S
+	 zyZW+jzNCGQZg==
+Date: Mon, 31 Mar 2025 10:25:59 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Prabhakar <prabhakar.csengg@gmail.com>
 Cc: Geert Uytterhoeven <geert+renesas@glider.be>, 
@@ -57,11 +57,11 @@ Cc: Geert Uytterhoeven <geert+renesas@glider.be>,
 	Philipp Zabel <p.zabel@pengutronix.de>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-renesas-soc@vger.kernel.org, linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
 	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: Re: [PATCH 05/17] dt-bindings: display: renesas,rzg2l-du: Add
+Subject: Re: [PATCH 06/17] dt-bindings: display: bridge: renesas,dsi: Add
  support for RZ/V2H(P) SoC
-Message-ID: <20250331-magic-buzzard-from-valhalla-af88e3@krzk-bin>
+Message-ID: <20250331-unselfish-spiffy-cobra-a36c7f@krzk-bin>
 References: <20250330210717.46080-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250330210717.46080-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250330210717.46080-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -70,52 +70,56 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250330210717.46080-6-prabhakar.mahadev-lad.rj@bp.renesas.com>
+In-Reply-To: <20250330210717.46080-7-prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-On Sun, Mar 30, 2025 at 10:07:01PM +0100, Prabhakar wrote:
->  allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,r9a07g044-du
-
-This goes probably after the if: block for renesas,r9a07g043u-du to keep
-sorting (if I get numbers correctly).
-
-> +    then:
-> +      properties:
-> +        ports:
-> +          properties:
-> +            port@0:
-> +              description: DSI
-> +            port@1:
-> +              description: DPI
-> +
-> +          required:
-> +            - port@0
-> +            - port@1
->    - if:
->        properties:
->          compatible:
-> @@ -101,18 +119,20 @@ allOf:
+On Sun, Mar 30, 2025 at 10:07:02PM +0100, Prabhakar wrote:
+> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> 
+> The MIPI DSI interface on the RZ/V2H(P) SoC is nearly identical to that of
+> the RZ/G2L SoC. While the LINK registers are the same for both SoCs, the
+> D-PHY registers differ. Additionally, the number of resets for DSI on
+> RZ/V2H(P) is two compared to three on the RZ/G2L.
+> 
+> To accommodate these differences, a SoC-specific
+> `renesas,r9a09g057-mipi-dsi` compatible string has been added for the
+> RZ/V2H(P) SoC.
+> 
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> ---
+>  .../bindings/display/bridge/renesas,dsi.yaml  | 117 +++++++++++++-----
+>  1 file changed, 87 insertions(+), 30 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+> index e08c24633926..501239f7adab 100644
+> --- a/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+> +++ b/Documentation/devicetree/bindings/display/bridge/renesas,dsi.yaml
+> @@ -14,16 +14,16 @@ description: |
+>    RZ/G2L alike family of SoC's. The encoder can operate in DSI mode, with
+>    up to four data lanes.
 >  
->            required:
->              - port@0
-> -    else:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: renesas,r9a09g057-du
-> +    then:
->        properties:
->          ports:
->            properties:
->              port@0:
->                description: DSI
+> -allOf:
+> -  - $ref: /schemas/display/dsi-controller.yaml#
+> -
+>  properties:
+>    compatible:
+> -    items:
+> -      - enum:
+> -          - renesas,r9a07g044-mipi-dsi # RZ/G2{L,LC}
+> -          - renesas,r9a07g054-mipi-dsi # RZ/V2L
+> -      - const: renesas,rzg2l-mipi-dsi
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - renesas,r9a07g044-mipi-dsi # RZ/G2{L,LC}
+> +              - renesas,r9a07g054-mipi-dsi # RZ/V2L
+> +          - const: renesas,rzg2l-mipi-dsi
+> +
+> +      - const: renesas,r9a09g057-mipi-dsi # RZ/V2H(P)
 
-port@1: false
+I guess this will grow, so just use enum here. Otherwise people keep
+adding const every time they add new model.
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
