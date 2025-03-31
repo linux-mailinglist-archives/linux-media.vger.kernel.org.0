@@ -1,83 +1,82 @@
-Return-Path: <linux-media+bounces-29085-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29086-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E51CA76D73
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 21:18:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 535AEA76D77
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 21:19:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2A3DF188C8E5
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 19:18:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 58E863A8257
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 19:19:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03D6F215047;
-	Mon, 31 Mar 2025 19:18:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04480215771;
+	Mon, 31 Mar 2025 19:19:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="NUGZ2I3U"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="pw6VPBiP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2070.outbound.protection.outlook.com [40.107.243.70])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2044.outbound.protection.outlook.com [40.107.243.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B575B1B81DC;
-	Mon, 31 Mar 2025 19:18:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.70
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF7FD1DE4E3;
+	Mon, 31 Mar 2025 19:19:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.44
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743448701; cv=fail; b=r5JfCW6AeaTaVBn/gVMEbl5bQZv8b9cakdnQdby4+JiImTF+O+mMab4auEkd7jV++LG/rhLJrTK0TVRddjNwy247RT2uqztKNgQFFAkmDDJ0w4cA8b/X/SOEWIV+5iq5R8ubhx27jqHrgARG63ACWXYqqb8RF0x5IHcNfBFJkqI=
+	t=1743448768; cv=fail; b=JWTPP7K9QXC1lqiylEnE7sMLYyHPF9xCgFbVj1sMHQ+WOXfHahRONv8cY8vEN2m6aTipD3ZtcCV0l9O1CEt4qj0IjkFnu2SGWWh0pW4+5SlmO+AyDrEkaotByrdgEQPfo/+frVbmgLjwSa4dW3pPLjdBsGDdyQz9SYIuHCBNDMU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743448701; c=relaxed/simple;
-	bh=/7o6akq+YJdD9PFuj3E1AZ3WRfgJA024DpZ/8HmyLrQ=;
+	s=arc-20240116; t=1743448768; c=relaxed/simple;
+	bh=Ns6evJ+iWdEbIude3bIZJTcv6R0KruqwzWaPsQDcS4s=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=fvHISB5iA6p6nJyZ6xrcxVlqpD146OOTkXFFavontebvv4bgg00ELdemoT1rr0FpAthDiDUYGnR/mSKE5BKOG9FxXYhi5eR425RVX4jomtnqV0vzrK9zVy+KXCBLY3FJxSrlemRB7fBOOTxyTe3oFoIsm4cmBYAIatxToZuhjZk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=NUGZ2I3U; arc=fail smtp.client-ip=40.107.243.70
+	 Content-Type:MIME-Version; b=mxV4n+gVXcpnQv3x2oQbVHZESvNtV1jaF9Qou34IqM2IDl36IacfHafs2hW8evNRVyxjLAgvlmSbKY+jX5QWwbuyhoWvRaWr59PgVcY3jl+I7rARwy/aIIzb+tA9U5kaaV4eEAt+ogEQCluO10hTaobKluXBybnutU3uxxb1OoE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=pw6VPBiP; arc=fail smtp.client-ip=40.107.243.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OaIZX5J3impPy6f84mgGRcLyVMY/gVQTW/zXyDVcH03X0Hktwq1VVGMkZkpzcjxBAr2ZSq3S13/2IjyWAcW+/foN65tIw9kGsTJ3QPNwsA00voqgPD2KBCvmrVCTvDy+OLx5Gyco3Tr6qJNvW5xuOHPpxW9Tl0OaEtBCu8WgD+DjIkYIc8Tvxf29D1WeIbw6m5q5onfO0VCVN9+8Ycv1cOIa15BF3wIL/WCE8iN9gFoJTxT6ogXMUcq7KIJEBGLowq2a6i/71+hQ5y4FGE2sMpo16tdFQDb6PD6lAjHg5kTZv4Il4NAfKpQNU5EGcf1G02bQwrTYfymuY1NlGkJ1Hg==
+ b=WOijUjk+DcQbTqq987SH6ISitmLZmrEt1URWgAGePOWxOSBpBk0X/Cp8+WiS9vz1pWrbT406aHwTkD9twFZlHp+Z4iUOZLxBSE8lhAjUHZc10kChouJ9jAojU4nqt4qa+3id3m5C0EckAnRyXAOZLDpp46uZLCeDD3IzO5wfE9HoqQzW0I0099ACN1O6+R6wLL1JHrFgpeTlPTwwzqleUQmvfZlot9RUFFbb/0WV260qkuFeMdIfR1lAOkgavISCr0NWGsJJRdyVYKRgshagUK7u7FAdQvLpUSs4Rq2UXjPlBPwEJA4gbEH2WxYL7Ke4ufjxbyVbQeg+qS9ZAG3Jgw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XGCQAmy+CRI/56oHu5/9dR9Bcwkvw2MJCsoP5NGww6Q=;
- b=FicCPbjthvQN/7MnBNv8dC4FY+3iIvUlJjAOHdfqdIH4HXqBVFvq5BBA1MGkKcnacmcOm3urF2UHvqSSFNQ8IdTg9C2r96Z/lGMZhyAAFM9/XHi8thkIhnGq8jLt3w8S8AleIYi6foOYAaJEA7LoVsInm9KHjCTY2Es/f88TvOYv0eRKhVIb3rkajT1vv7e23Acfdla0SNYSQsQPJfZV7CXN4IQQRBj2YEl0CwDOHwsFEYJMehhwFXYlFPj+xwyURUTXS08g49YCJyFa+WVYENAEHqpwuIXzJZTYjVWiialvVGwJou179IhM05b/sWWTCwv3tmegkt3Sqpvzoxvidw==
+ bh=DRG06wFY/0O59myBfSfYC7Auw2VPYaCU8B/2kZZQBJ4=;
+ b=TKfAnVfzcVi6zrQ+Vs4H9v7BywpvP0Ma4JzT1qxkaTFoEuQr+tpkQKEaj9+9HOPw9GTpWOlUkBOeHf9bVi+2NA3CWKhRx76NlxRgrFN0gFhmlnMTy0mMVtW7CX5m8oRrumayaPyZBKicN4FvWsfpZdnyguBf/EGDylkcHmCEofeXEKWetBPsQ8qrNAsqA2XLjfZTArlTyJzK1YFhZgdWOU0Ntr0Kn1SQeFeB9VnD9bGSTlyEuiH1LdLVvB/Gvb70jIio/cNgBVuTRR/T0VR2yTw5NgsCC7ScTdMq6ebb8ZALCiSA+fTVS0KKOIV18fwjau9+5u2b7rUYo7otLMAAXA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XGCQAmy+CRI/56oHu5/9dR9Bcwkvw2MJCsoP5NGww6Q=;
- b=NUGZ2I3UeouG/dAE3qUd2ulWCV/v82VkuTe9Kp8VhE2216SEYYqQ+nPgUTHdx36w9sGRgY9UzB3Eodo+uQojS0iiWQdI7o83kxXc6c79UqI3NFTCSY9D0c6+Es07nqBvSC0TTQ+tSn1/tx894zWlxlRzCOn4usjoHOLxASAGjbc=
+ bh=DRG06wFY/0O59myBfSfYC7Auw2VPYaCU8B/2kZZQBJ4=;
+ b=pw6VPBiPEWVbxJ6SdpxNCGK0FPqpRKj42q56htLDKgAKxKApQMNQSmNU8TXGe5E2iWK71xsN2IP0wcMKx+QXTNIBlUuDmW/cGvc7KnZ+C8N3y4ktmaXQytgEKtRQOolv/VGrB/Qt7hbkF9lOpxwTaKdXqGy+MZhkLMYaco9z4WQ=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from CY5PR12MB6429.namprd12.prod.outlook.com (2603:10b6:930:3b::16)
  by MW4PR12MB7359.namprd12.prod.outlook.com (2603:10b6:303:222::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.46; Mon, 31 Mar
- 2025 19:18:16 +0000
+ 2025 19:19:24 +0000
 Received: from CY5PR12MB6429.namprd12.prod.outlook.com
  ([fe80::1b40:2f7f:a826:3fa0]) by CY5PR12MB6429.namprd12.prod.outlook.com
  ([fe80::1b40:2f7f:a826:3fa0%4]) with mapi id 15.20.8534.043; Mon, 31 Mar 2025
- 19:18:16 +0000
-Message-ID: <25cf1c91-0bd4-4ace-81e2-af190ef3d575@amd.com>
-Date: Mon, 31 Mar 2025 15:18:13 -0400
+ 19:19:23 +0000
+Message-ID: <2cce157d-eaba-44c1-89d1-7e5088ee361f@amd.com>
+Date: Mon, 31 Mar 2025 15:19:20 -0400
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: i2c: Add OV05C camera sensor driver
+Subject: Re: [PATCH v2] media: i2c: Add OV05C10 camera sensor driver
 Content-Language: en-GB
 To: Krzysztof Kozlowski <krzk@kernel.org>,
  Pratap Nirujogi <pratap.nirujogi@amd.com>, mchehab@kernel.org,
  sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
- laurent.pinchart@ideasonboard.com, dave.stevenson@raspberrypi.com
+ laurent.pinchart@ideasonboard.com, dave.stevenson@raspberrypi.com,
+ dan.carpenter@linaro.org
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- benjamin.chan@amd.com, bin.du@amd.com, gjorgji.rosikopulos@amd.com,
- king.li@amd.com, dominic.antony@amd.com
-References: <20250228165317.3468075-1-pratap.nirujogi@amd.com>
- <03c3e6bf-9688-446d-9b45-5b186a1d5b0e@kernel.org>
- <4f85e24e-4bd9-4cde-ad33-075cfcb2b7c0@amd.com>
- <8f9863af-61bd-44c3-937b-e8a9a5410556@kernel.org>
+ benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com, king.li@amd.com,
+ dantony@amd.com, Venkata Narendra Kumar Gutta <vengutta@amd.com>
+References: <20250328214706.1516566-1-pratap.nirujogi@amd.com>
+ <e94d3ba7-78ad-453a-86c0-a71662e02922@kernel.org>
 From: "Nirujogi, Pratap" <pnirujog@amd.com>
-In-Reply-To: <8f9863af-61bd-44c3-937b-e8a9a5410556@kernel.org>
+In-Reply-To: <e94d3ba7-78ad-453a-86c0-a71662e02922@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YQBPR0101CA0192.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:c01:f::35) To CY5PR12MB6429.namprd12.prod.outlook.com
+X-ClientProxiedBy: YQBPR0101CA0340.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c01:6b::17) To CY5PR12MB6429.namprd12.prod.outlook.com
  (2603:10b6:930:3b::16)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -87,246 +86,158 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: CY5PR12MB6429:EE_|MW4PR12MB7359:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1954e071-6bbc-4aba-cf64-08dd7088c9cd
+X-MS-Office365-Filtering-Correlation-Id: d89144cf-584b-43ad-f849-08dd7088f225
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?VGM0RHlpMXB1RTlxVGd3T0lXdGNUMkhXUGo3SnNsaTBZTmZXVHVqTlc5dEo1?=
- =?utf-8?B?WndZaFpqSm1jbUYxd3Y0VHBsTytxa3ByQWxWeWcybmN0Z2NQMFNaU0tMK3l2?=
- =?utf-8?B?bE90UjVQRkhNTERiRzVQKzBobVpHS2MrVUFUa1dmVXkzdHBWelBJUmJ1T055?=
- =?utf-8?B?bW4zQStzU1JXK1VUWlVGTmhONU5LRHdBdmphWFp3a1Z4czg4YU1QTGdmd1dv?=
- =?utf-8?B?aTIrWlVJdEMrMFNoUlpob1d0eDVTSm1hUG5yQVdEOXEvZ0VKNlN0a1hqMDdu?=
- =?utf-8?B?TnpuelgzYmNHbEZFTnZacmNTbm1HTHdOOC92WjhrajZTMzV4NXM3S2Rrb2Iz?=
- =?utf-8?B?NVB0TkJyeGZSRVhjUytaYSs2L3VMSUhmcVFtc2YwT2ZxeEJQeCt6anVmSDRX?=
- =?utf-8?B?Skt2aDNXYWRzZmh4SVAyMjdIOHMxZnIxU3hNbVFaamxsU01sRlpHb1BQMTNS?=
- =?utf-8?B?TTYrQzNFTVhBc3dSUWwzOUJGay9FTWFXMjV0UXdKK2pRYkZ6bFgxL2pCRW9U?=
- =?utf-8?B?V25VTThaczg1T05CYzFpRnVOM1hHWXlrRGhqTElYL0QvK2FMeDZOT1dkenkr?=
- =?utf-8?B?b1pNL092dnQyNmpsYWlCUEZMU0I3aW9sVFVLU3RRRG9hZmUwaWc5eDNSVUgy?=
- =?utf-8?B?d3F1S01DT2x6RkZBNFBLbzloblltU2lZOU50Vm9Jem1tNFJyd21DbFZ2NHRT?=
- =?utf-8?B?TEJ5dEtUVDdpc0E4cUNtYjROU3pvOUZ0cml3S3NHMGVtM2V5QjBFTFJuN2hh?=
- =?utf-8?B?Z09iWjJVYjhFSThGSTl4Q0J0ZnNVUHFQSVhJRkxaMUtZdk5LU3VCUXBuTFla?=
- =?utf-8?B?QkxIV2NscDFzVVorQW9GLzlTN2w1dTcranZYRmpzcGtiSmJ6OExPYVdlQmNk?=
- =?utf-8?B?R1ZCL200Z0gveFR5cTB2aUQ1bmlPSnpjczZFU1ZlS09TZ3ltUzNkWkIrZStX?=
- =?utf-8?B?ZFEvaTRQUDNSNjBJMzFFY1hCZitDcnBVZGZVVGxsVjMwWnRsREJuOXptcEhG?=
- =?utf-8?B?L2poRjlZcUV0dEVydVpoY3ZFS0I2RU1YdW5FWnJCVkNTQWlWTmVsZWd1ZzFG?=
- =?utf-8?B?cHpWZDV6L2VFWDJzcnFnTGFPTkdwZXBYYVk4UDZpTERGR2I5Yjl0RWtlKzZq?=
- =?utf-8?B?YUZUVGg2RTJuZDZ0Q3FmUFpyS1dQYUprMDkwdC9KNExVbElMNFR2dWduSmpY?=
- =?utf-8?B?Y3lMcGZTcDNnQjhKTnk3U09HWU1SU1RXNGZRQjN4K21sWXlVekhjYXJEU1FW?=
- =?utf-8?B?WEdRMGJ5N3Z1YklmWXgwK0pCMUpTeHVFL2p3Z29oVFZUM3RHTG9saUs5bDJi?=
- =?utf-8?B?YjBWNlJXV3ZPUEtqR05EZjlCVFBNQkhaUW0ya0tiVktpeWN5VHNZRHJJMk5n?=
- =?utf-8?B?OGZVSHBrQjNTd1Vxb3dEeUlPWTR1Wnp4OTNDTWRwNFAxdkNVSlVkbVI2ckFn?=
- =?utf-8?B?ZXM2MFl3Y0dRcjRDRTBIUU45eWNZM3U5TDVVMUoxQlJpZzJxYXVsU2QwN3Fi?=
- =?utf-8?B?YjNwWnppbmpiSzZVLy9BMnF5a25QclpTczUzT01aUVpFQ0JuN25ZeHY2R09M?=
- =?utf-8?B?Q0w5V2ZMVEg1UEMvMkV1WHcyVC90WnZnZEljUjN3RnRmWFFzQmlPYXBGUzFJ?=
- =?utf-8?B?RUgzOWVnTUNNU0RITWQxT2p3bXRycGhseUQvem9qOWsvS0tkU0taaHBSV2ts?=
- =?utf-8?B?ZlFvMUk2VmpRTE5TWFY5cm55ckFGQ3lpYlVmSUlucWZIZTRVL21ZZ01VSTFH?=
- =?utf-8?B?emJrN2RWQUJ0blNGdVNJRUp2bGxzUy83SWluenRaemhOekpuRC9pc0dsOElN?=
- =?utf-8?B?NksxR1cyU2UzNndOMXJtbjB5cTNWZlBpL3FjOEhLSU9MNTBxZjJoVUxjekRC?=
- =?utf-8?Q?1eZSK0fbUHjPS?=
+	=?utf-8?B?N1djL0l6Q242ZUhkL1lrSnBqMjIzUUdTWjZNYVlwTmMwWVFNUERyL2xpeDdq?=
+ =?utf-8?B?SFhtNVdweS9tckFoWGdHRkowdlk3MHNPTEtzU2xhN01FQmYzN21DUm83YVh1?=
+ =?utf-8?B?U05XYldBbC9yVzNhcG8yeWQ1N2V3c2ZHcWl2Wm9LaWxidll0cFVFT2JMcThi?=
+ =?utf-8?B?VDhpWHp2MUFhc2pGQzdrbGdqUlBlZVhVSDd2Y3QxdTdOeW44NWpvMGpCUnYr?=
+ =?utf-8?B?anJsRFdwbWl1bGpRZ08yUStwVGd6cGt5THFvampKNTRETnJCZUtlNTdpQW96?=
+ =?utf-8?B?cDlEQlZ4bTVza2hsdXAxY1VJR21obGo5VFg0Mi9UeGRRY2JRSnUrZCtTY2pM?=
+ =?utf-8?B?djd2YmcrbVMrTGczMVZicmErbGRXN1JWUlAxd2tLRVk1d016T2x1eUM2L3Ur?=
+ =?utf-8?B?SzJyZW5QbVQ1Mm5acDhMWGQ4Nm5DbFFKWlQxeWpGNWhwQ2pHWTFmMTI5NTRO?=
+ =?utf-8?B?cHowZ1FUOWZjUUE0L1Q1cDBOYjhpTExTSW5oQnBlb0ZTWko5blRhNXRPczFI?=
+ =?utf-8?B?YkwyNEpoTGxneGdiV0R4dEdGa0VhU3pNV3B1UHJwN0tBazBPc1ZRNDByOXRm?=
+ =?utf-8?B?U3NHRjNCSk8xSnRHRVlXTjBTdG1JNWZXTTB2Rk52b2RxNkNhMFJYOWNzSWpV?=
+ =?utf-8?B?WTZVb3hUWlo4YUR0NVQ1cnMxVkhhK2RubkZhN0VxK0NCdk9KU2FoVlQ4WUxx?=
+ =?utf-8?B?MDNScW1VejZweVUvWXJHRkhONklvQlNkVkdCZ3RmeThhMFllZWxrcjhSdkxF?=
+ =?utf-8?B?SVVzWkpkWXI3Y1l2TXFOQVQrSWRLOTArMjFGY0tvdk5OR3ZaOFFaNm9OT1NY?=
+ =?utf-8?B?UWgzblpQcWFYeDk1SGJpQmI0TTdlN2NqSENFR1RIOG5YUEFkUGliSE1nQm1l?=
+ =?utf-8?B?Z3lLZHQvVUgzNjlHamcrNTZCTjYvZnp3bVV0Szh6UXNHLzlGQVVXSUJ1WVZU?=
+ =?utf-8?B?NHRhbmFqcWVhTFFLc0ErdUd4TzNVY0JjNzdRTG1uU1NyczBsdEdEb3QxV3Na?=
+ =?utf-8?B?am92WFp4VUJ0QUxPaDhsNUF2RmpxV0VKMEt1VFZhMXFqa2lUQU9VcGY1R1JO?=
+ =?utf-8?B?NU5GeUNRV0RoM1hEcnFCMzNCUENCYjZDK2JZY1ZXY1hrVFJkZHQxR0tEeC81?=
+ =?utf-8?B?Y2dVWnJ2Nmp0Sll0STdLNkhNNEwrRmJMak0xTzJvZjY1RS92UzdoemVhMGxP?=
+ =?utf-8?B?dFd4Nzc4ei84M2pGRklMZzU2c3JIZzZaV1ZPdnNzOWFkQlpJd0xQNFR4d1cz?=
+ =?utf-8?B?S2EvRkoxNzludlpWUTNrTG4xclhXRHY1TVVZZmY5MVdpYXhQMWI0V1ZUMHN5?=
+ =?utf-8?B?dDNkaXFUWGtJcUEzYlQvdGtUTXpPaGFiUFFSNytaOU81WG9FMHhmR1Zqbzh4?=
+ =?utf-8?B?Qno3d2N1c0dlRlVpemptalZWWjZLNlBmd3JPbE1SQnJsT1M2Rnc4eTBqVzli?=
+ =?utf-8?B?b0pLSjF4SG84MDMxZTE4QUFJWlFpMHJWU1BIYTh0OXk1Y1JhQU5SR09xcHBn?=
+ =?utf-8?B?MWZ0anJNZnRQRXluZ1BoQTdXbkhBcGYyS2JzWVEvdjJPY1BLUmJVNWpHUzY0?=
+ =?utf-8?B?VzRML0Z5NmxmYkNqOXJuREFFUVJndElqYUw3Tm1WNHBTU3RjL3BsK0YvbjZy?=
+ =?utf-8?B?dkh6aHNCS2hPODBCd3plNFRlNFFFUGs0b04yakdFZGtFSnByS3BwU0x5WnZ1?=
+ =?utf-8?B?NFkvRHB2Wk5XTlBDYy9qSmduWjdKL0IxaEN1WklaZzNOc0VDV243Sm5OdEZr?=
+ =?utf-8?B?UENnODJzdUw2ZEdLL011djdwU2g5YS9BS0JNMi8zTDR0d2h4RlY2M2NYQjl5?=
+ =?utf-8?B?UktHNHBabzdHMXI0ZklYMXpaQnJSenRrb3NSVzJpd09rTmNtbU0wMDVHNk1s?=
+ =?utf-8?Q?AJhvRXLvUY9EU?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY5PR12MB6429.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YjdrU2laTFVIdzh4Z1B6ekcwTGM2bDdDcjRKM0w0VWZyZ0UvcGZWQStoRjhW?=
- =?utf-8?B?MUJRTmY2OUdLRVNpcTE4a3R6QWVtby9XV1hUeVZjWVNmKzV4LzBZS3E4L1dT?=
- =?utf-8?B?cVB4emlxL0M4Uzh3NmtiWFlDeHZvMVhML2FpT1lXb0g3bmMwbERvZHVubzQ2?=
- =?utf-8?B?Rmxnam1ETTREeG1MYWh0VUV6OWdzbVhjWjFIdVNjTENjZFhPRnVETDJndHFy?=
- =?utf-8?B?T1NCTFg0cTNUcUROcHlQeVpRUmFMQnRkc2N6VUNrd05IN3E1OHQ3K0ZVTlIy?=
- =?utf-8?B?Sms4Yk1FSkhuQTVnQVNYWkh4c1d5Nkpyd3JEdm5ZYUVyVlJ1SHh1bXl0bVJk?=
- =?utf-8?B?T05tVkJOWStXYWNuT2huSHRtaGtXNHU1b05ld1RvbVFDbGZZYjNiL3o1ZWR2?=
- =?utf-8?B?eSs5c25UeFRqU1lCNnQrcWJPUktmR1JaRUhqSlBNLzhiaHlUUEhObUZpaHFk?=
- =?utf-8?B?dkVmRW8vbzltMnRsc1FFMGhWWkJUczA3MTlpTWFPOE13dlBaSEx1aHlFRVZp?=
- =?utf-8?B?em9mUkhnVGpNWG5zWEMxVUZzdFdudnVEUmdONmJTN2pYSitKYnlxSVpkaG9K?=
- =?utf-8?B?MTBiUDhBa1RFVzVZK1VCSk9YUGkzWGJwZ21XQ2Q5S1RYWGxKNnpBMGdGellW?=
- =?utf-8?B?cmZoaXk0dm92VStocW0ydWZNUHJqczl2amF1dkdVOVFPNk8rYkdwUFVJbU0x?=
- =?utf-8?B?NUtuMW1lKzliN2RZUXlNSEdOQWFuQ2VydCtwMG5IOGtFaUlzZmZESXhxdHcy?=
- =?utf-8?B?cWRIOURNYSt3cEQ1QVBsUzFHZUJuWkYzYTdYZ2YwRDZzK2EvdVpUTzQ1dUdr?=
- =?utf-8?B?YTFwVDJlRnBBNDhsUDR3Q09kc05ZeC9zNllvaUJ0U1pYLys1ZjlEaDNwU0Js?=
- =?utf-8?B?bC8xSkdnQ1R0Z3RoamVBNXk4bG9ETlBlV1U4c1RiOCtQc0JhVW5IeS9LbG16?=
- =?utf-8?B?MjNIZ2FzY29tOGc4bDhGc2Z0SXB4cVBrTXQ0Lzc3bmpuN1psWFRRYXFLVEZp?=
- =?utf-8?B?WCsxK2ZSdzNxVlA2emxoT3RDZThheWF2T3pTK3NoNENnajdMb0U4WWFYRFZG?=
- =?utf-8?B?OXpZejI1T09kVjRXVG90TUNWRXlWMmMyMklVbmtSWTgxREdwRnREbHpWRGlp?=
- =?utf-8?B?UVBmSXZnNGtuUDArcWorZldHWWcvQ1RiamZha3B2WGVKL052eVVuTHRCY1Jk?=
- =?utf-8?B?eFFhNk9MQ2dMOVB0UUFWbHRyTUdhL1VJWmtmSy9nMXpkRGVERTBaLy9pWGQw?=
- =?utf-8?B?MmpGN0ZkeThFempvc21Hb2JOUENleGx1aUFJbzFnL01adTlZRllRS0VYeDVr?=
- =?utf-8?B?WEFwZEJqVlZtMXpqQzNtTnVwNlgzK2VmblpXVzNrN2ZETzViRkZPbUFJRWlW?=
- =?utf-8?B?RURrakt0bjlmZHd4YXRIVktqSDdSTjh2SFNsNytad3NNRFJYY0JjRzYwb1Qw?=
- =?utf-8?B?UkhYcmp0U2JOTW5HSHduak4xNzhiT2U1elp4WVBNbGZWWHZGZk5oOWtvMFgy?=
- =?utf-8?B?d0ROc0t1UkF1SmhQYUxrY3FUUjVqdW9VYXBLRHpXR1VqTWppMXhNb25SN1pE?=
- =?utf-8?B?UjV5dlNvUEQzaFhLWUNPekQxVlJQVU96M2hnQVJRRWxJSWUwRzdUU0ZXVmJY?=
- =?utf-8?B?L00rUXM4V0ZnWis1eTNIWXZaMjZQc1VTd05KRDNDNkFubFBJRnNLcUFwTi9P?=
- =?utf-8?B?dm1KSzdrZW54K2htNW9HaEgvWU1MRitkWGRhVmE0dGRVWmljRDdYS0lILzdj?=
- =?utf-8?B?ZnkrVTRVZzQrM01MT3NBZkhkOE5LMHhFTUhRWHNFcmE5UWFXOUxlQnhDdUZi?=
- =?utf-8?B?eTMvL2w5Y0k2cThPUWxQZ25XaW90MnN0bHJ4ckdjTGZzT0pRT2VkQ3MyRGZw?=
- =?utf-8?B?L0RpUzk3VHpKelpvWjNyNzdSSFBic3V6dzNOV2RvNUVtTnQ2YjBNU2dpRDEr?=
- =?utf-8?B?U05yZlpOb0xKRU5jeFBRUXdkbnZUOTVFLy92VTFmL2x1RlFxRlN2WTFGUjlu?=
- =?utf-8?B?bEJpWG1jRW1XcVRNWEwvcitaa1lKRjdQcXlGNUtvbEo1U0hhNkttM3pqVGZC?=
- =?utf-8?B?TWo0bHFSODhTNTUrdldNdGRlVERHZ0tTVndIMW1STE45NmVld28xK2E4dXcz?=
- =?utf-8?Q?U4fnQifmuvtaR2iGuKwK/E2Ya?=
+	=?utf-8?B?bjRPTlg3L1BBR0lmQ244MjQ2YVN0RW1odUJQWFltMElpUUZtcHg0dXE5bWhn?=
+ =?utf-8?B?MDBDUVFtYTluUGNZR2pjNEpYWUdhOERCSnNBeHVtZUU2cTYwL0Nrc0s2RUF0?=
+ =?utf-8?B?RkFxd3dPcU9zdEpGZTRDeThMTVJWVW9iSnNWMFUyZDlwU0s0UEhnN0JWVVBx?=
+ =?utf-8?B?Y0hZeGkyNGFiQWZhbGJsb3QrMEcxVHFhUFprcStPZXQ3aG8raHhYbGlHbUcy?=
+ =?utf-8?B?VlJXR1RHcE1VSjdyNTdsMFNJYkswa05hbEwyWW42UnlPbS9QZnFrRDRCY0Fq?=
+ =?utf-8?B?YnN5eTVBQ2lOS1JmOGVwZk9NeTgxNm9lcW5JbkpDZ1FiNkc0QnVpRldJTVdJ?=
+ =?utf-8?B?NkxaZjBKK2Y1ZXVRNVJsREdBWGRVYnBzNk5vclA0cXBBcXNiOXFWcWlCUngw?=
+ =?utf-8?B?RzFIMGxDa05RNi9BbjVwdFRZLy92S01LTXlybGFwZ3FYa3c5eWJGZEVzWFdn?=
+ =?utf-8?B?MTFYbVN5bE5SN3dWbVlHTGpBRXo3Um84OTRiMG1HSnJ6N0FIVitKNWE1QVJp?=
+ =?utf-8?B?K29lVVVrU2xuOFpsc3hFcUtGNjlBRUxONEp1S2h3bCthZUEzampUZTM0WGw5?=
+ =?utf-8?B?YVFrTG0yU0VJc2xxNmdiNUFtcWFHUC9MUjd0TlNEK2pLb2UrbFNZTnZSUUJs?=
+ =?utf-8?B?dE5zUEdKTWpLcFFadDI2blluZjdVdFhYeEJvbGFSZUo4MGJnclU2aUJmamFO?=
+ =?utf-8?B?TktRVHVIMEFCNDAwVVNLMmI2SDc5T3B4Q0VDM2xvTTZ5LzQvQ1ZteUIzeGNK?=
+ =?utf-8?B?clQxY1BYZXhXV3N2QjZ5Zi80M043UUJiZW5YNEJiTUNWNkUvVjQzcmxzQjNl?=
+ =?utf-8?B?WktIL1BXMVQwZXR3K3NFVEU1U2dxK1ZQR1JSMS9EQlhReUVaRlArbmthazdM?=
+ =?utf-8?B?YVBNcGtFRmZWeHUzMmpOZzQyM2drQ3NXL0ZBZENOSUhXNWJLSUw1RlE5Q3Jj?=
+ =?utf-8?B?eGhUWlgvc0k4VGtZSGNCdXJCYTduT1VvbHFjQnFManpBTnI1aHR3VjJmZzhQ?=
+ =?utf-8?B?dDVwb3ZoV2RhVHZ0a3NrVW51bU4xbEdhS3IwcjFMcEhnYmhSK1FhZ0g0dmsz?=
+ =?utf-8?B?LzVmZjNFZGxQcWh6VjNNcGxOZHYwcVhnUC80cEtHS2sxYlROeDlQb1JGMlBP?=
+ =?utf-8?B?NkVTaFI2MUZFWDJWSVExQ0UxVUM5SGdaTzdhV1BJczRERmUxWnB5MVpMbzBa?=
+ =?utf-8?B?ckJZWkQxaHo5cUwrNExXVjd1S2ZvWVJ2NGV1ckVGZzZvYi9vQ1VlRkFPMG1C?=
+ =?utf-8?B?cStoMVR0VThMQ0tvUk1hVEZIRXVIaU1MU1g2aXFiMjdlRENyaXNySFMwSmJS?=
+ =?utf-8?B?SCtXMzl6RUVURzU0cG9JT3E4RGhFY3d3SHQ0REtTQmF2aUJzVk8yaTErU1h5?=
+ =?utf-8?B?b2VrNmNPQUJ2aFg3dDN4R1ZabmJsM1BMelBYckM0WVNyMzhnWm1zQjdPZGlG?=
+ =?utf-8?B?SlJCekQ1dzQ3RWkxcVpVRzVmMzFtZkRpKy9iM0s5YW04ZmszT1B4aWFZaG90?=
+ =?utf-8?B?bU03WkRZU3FJVkhNV3dFemxpSEJ6dHNJWlhZa1dnbW9icEpjYW52eFVzdHM4?=
+ =?utf-8?B?UDJ2Y1NJaUJOQmxVZURINzJ5N21LcDJpSUdLNlVldEUyM3kzeVkyQW1BaW5a?=
+ =?utf-8?B?V0lIb1pPVy9ZWVBzdWF3TWhVaFpVN2EwbDk4VERXNTNPTFRkb0ovcmlSbTFB?=
+ =?utf-8?B?UmFLMElyYURmZnI2UjNGeW1ESjZOL3c5SGNXL2Z6STgzQnZRcFhtTW5pdHhP?=
+ =?utf-8?B?NEdML1lLWFNOMTBRcHdnUStVUXJnaTNlZC9NbXZ6UHJwaGZkaWR0NXJMbnUv?=
+ =?utf-8?B?SkFteVRzTDljSzI1N3hRa2h5cG81UnNiSTlKVVdlUDlGT0cxVzdoOWxaTktm?=
+ =?utf-8?B?cTYyeUZaNm5tYjh6TC9XTWxYeTVHUWZKVEhCd1hnaHo4bjljZ0RZdkJDVzFa?=
+ =?utf-8?B?UE5wTHNpTE9EUjNWSXRvaXJSN2U4SUxQUGlveTF3bzMxRXJ0SHIweVlQRWIv?=
+ =?utf-8?B?cXlQV0dKUDhQMXNIS20rM1pUMGpuM1laS1RXQmZNWkcrbnV4STI2czA3cjRw?=
+ =?utf-8?B?UnlwZGZsZFpkeFpuaVMyVGxWcVBoV3lqbUkxYjBPRUlBTUJOSTF2amllZitO?=
+ =?utf-8?Q?AqW0/XjBMRGBuogWDREE4VAMN?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1954e071-6bbc-4aba-cf64-08dd7088c9cd
+X-MS-Exchange-CrossTenant-Network-Message-Id: d89144cf-584b-43ad-f849-08dd7088f225
 X-MS-Exchange-CrossTenant-AuthSource: CY5PR12MB6429.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2025 19:18:16.1783
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Mar 2025 19:19:23.8798
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0ONnqTK8HUyQ+JuwNcIKN4FvryAKBJjQRcYyCnO6uEi6933A0I4lssyaeVrnQQRYn6CfzpRINoFFK665jmO19A==
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1XJZjcQdOaZxe9ebe78IMvBWpMkbNl3ydbp5dsG65Hkf2jeTVWD9khsTg+QASOxxsXWm0m2Wfq+n7lx5wvNH6A==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7359
 
+Hi Krzysztof,
 
+Thanks for the review.
 
-On 3/29/2025 12:25 AM, Krzysztof Kozlowski wrote:
+Thanks,
+Pratap
+
+On 3/29/2025 12:30 AM, Krzysztof Kozlowski wrote:
 > Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
 > 
 > 
-> On 28/03/2025 23:19, Nirujogi, Pratap wrote:
->> Hi Krzysztof,
->>
->> Thanks for reviewing and extremely sorry for the delayed response.
->>
->> We have submitted V2 patch based on the review feedback. Can you please
->> help to review latest V2 patch and let us know your feedback.
->>
->> Thanks,
->> Pratap
->>
->> On 3/1/2025 8:30 AM, Krzysztof Kozlowski wrote:
->>> Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
->>>
->>>
->>> On 28/02/2025 17:53, Pratap Nirujogi wrote:
->>>> Add driver for OmniVision 5.2M OV05C10 sensor. This driver
->>>> supports only the full size normal 2888x1808@30fps 2-lane
->>>> sensor profile.
->>>>
->>>> Signed-off-by: Pratap Nirujogi <pratap.nirujogi@amd.com>
->>>> ---
->>>>    drivers/media/i2c/Kconfig  |   10 +
->>>>    drivers/media/i2c/Makefile |    1 +
->>>>    drivers/media/i2c/ov05c.c  | 1031 ++++++++++++++++++++++++++++++++++++
->>>>    3 files changed, 1042 insertions(+)
->>>>    create mode 100644 drivers/media/i2c/ov05c.c
->>>>
->>>> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
->>>> index 8ba096b8ebca..fd160feabc41 100644
->>>> --- a/drivers/media/i2c/Kconfig
->>>> +++ b/drivers/media/i2c/Kconfig
->>>> @@ -337,6 +337,16 @@ config VIDEO_OG01A1B
->>>>           To compile this driver as a module, choose M here: the
->>>>           module will be called og01a1b.
->>>>
->>>> +config VIDEO_OV05C
->>>> +     tristate "OmniVision OV05 sensor support"
->>>> +     select V4L2_CCI_I2C
->>>> +     help
->>>> +       This is a Video4Linux2 sensor driver for the OmniVision
->>>> +       OV05C camera.
->>>> +
->>>> +       To compile this driver as a module, choose M here: the
->>>> +       module will be called OV05C.
->>>> +
->>>>    config VIDEO_OV01A10
->>>>         tristate "OmniVision OV01A10 sensor support"
->>>>         help
->>>> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
->>>> index fbb988bd067a..08bfc2d59be2 100644
->>>> --- a/drivers/media/i2c/Makefile
->>>> +++ b/drivers/media/i2c/Makefile
->>>> @@ -80,6 +80,7 @@ obj-$(CONFIG_VIDEO_MT9V011) += mt9v011.o
->>>>    obj-$(CONFIG_VIDEO_MT9V032) += mt9v032.o
->>>>    obj-$(CONFIG_VIDEO_MT9V111) += mt9v111.o
->>>>    obj-$(CONFIG_VIDEO_OG01A1B) += og01a1b.o
->>>> +obj-$(CONFIG_VIDEO_OV05C) += ov05c.o
->>>>    obj-$(CONFIG_VIDEO_OV01A10) += ov01a10.o
->>>>    obj-$(CONFIG_VIDEO_OV02A10) += ov02a10.o
->>>>    obj-$(CONFIG_VIDEO_OV08D10) += ov08d10.o
->>>> diff --git a/drivers/media/i2c/ov05c.c b/drivers/media/i2c/ov05c.c
->>>> new file mode 100644
->>>> index 000000000000..96c4f74af4a9
->>>> --- /dev/null
->>>> +++ b/drivers/media/i2c/ov05c.c
->>>> @@ -0,0 +1,1031 @@
->>>> +/* SPDX-License-Identifier: MIT */
->>>> +/*
->>>> + * Copyright (C) 2025 Advanced Micro Devices, Inc. All rights reserved.
->>>> + * All Rights Reserved.
->>>> + *
->>>> + * Permission is hereby granted, free of charge, to any person obtaining a
->>>> + * copy of this software and associated documentation files (the
->>>> + * "Software"), to deal in the Software without restriction, including
->>>> + * without limitation the rights to use, copy, modify, merge, publish,
->>>> + * distribute, sub license, and/or sell copies of the Software, and to
->>>> + * permit persons to whom the Software is furnished to do so, subject to
->>>> + * the following conditions:
->>>> + *
->>>> + * The above copyright notice and this permission notice (including the
->>>> + * next paragraph) shall be included in all copies or substantial portions
->>>> + * of the Software.
->>>> + *
->>>> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
->>>> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
->>>> + * FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL
->>>> + * THE COPYRIGHT HOLDERS, AUTHORS AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM,
->>>> + * DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
->>>> + * OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
->>>> + * USE OR OTHER DEALINGS IN THE SOFTWARE.
->>>
->>> What's with AMD? Second patch that day, same issues.
->>>
->>> Drop license boilerplate.
->>>
->> Done. Updated copyright header and license in V2.
->>
->>>> + *
->>>> + */
->>>> +
->>>> +#include <linux/acpi.h>
->>>> +#include <linux/i2c.h>
->>>> +#include <linux/module.h>
->>>> +#include <linux/delay.h>
->>>> +#include <linux/units.h>
->>>> +#include <linux/pm_runtime.h>
->>>> +#include <linux/gpio.h>
->>>> +#include <media/v4l2-ctrls.h>
->>>> +#include <media/v4l2-device.h>
->>>> +#include <media/v4l2-fwnode.h>
->>>> +#include <media/v4l2-cci.h>
->>>
->>>
->>> ...
->>>
->>>> +
->>>> +static int ov05c_probe(struct i2c_client *client)
->>>> +{
->>>> +     struct ov05c *ov05c;
->>>> +     int i, ret;
->>>> +
->>>> +     ov05c = devm_kzalloc(&client->dev, sizeof(*ov05c), GFP_KERNEL);
->>>> +     if (!ov05c)
->>>> +             return -ENOMEM;
->>>> +
->>>> +     client->dev.init_name = DRV_NAME;
->>>> +
->>>> +     /* create sensor enable gpio control */
->>>> +     ov05c->enable_gpio = devm_gpiod_get(&client->dev, "sensor0_enable", GPIOD_OUT_LOW);
->>>
->>>
->>> s/sensor0_enable/enable/
->>>
->> Is it okay to use "sensor0_enabled" as connection id? We used this name
->> to differentiate the two GPIO PINs that has to be programmed for RGB
->> streaming to work with this sensor.
+> On 28/03/2025 22:42, Pratap Nirujogi wrote:
+>> +static int ov05c10_probe(struct i2c_client *client)
+>> +{
+>> +     struct ov05c10 *ov05c10;
+>> +     u32 refclk;
+>> +     int ret;
+>> +
+>> +     ov05c10 = devm_kzalloc(&client->dev, sizeof(*ov05c10), GFP_KERNEL);
+>> +     if (!ov05c10)
+>> +             return -ENOMEM;
+>> +
+>> +     struct fwnode_handle *fwnode = dev_fwnode(&client->dev);
+>> +
+>> +     ret = fwnode_property_read_u32(fwnode, "refclk", &refclk);
 > 
-> How much time did you give me to respond here? 20 minutes. In the middle
-> of my night. And then you send v2, without waiting for my answer.
+> Use existing properties, like clock-frequency. refclk means this is the
+> clock, not it's frequency.
 > 
-> That's not acceptable for me.
-> 
-My apologies for the inconvenience caused.
+sure, will replace "refclk" with "clock-frequency" variable in the next 
+V3 patch.
 
+>> +     if (ret)
+>> +             return  dev_err_probe(&client->dev, -EINVAL,
+>> +                                   "fail to get refclk\n");
+>> +     if (refclk != OV05C10_REF_CLK)
+>> +             return dev_err_probe(&client->dev, -EINVAL,
+>> +                                  "failbad refclk %u, %lu expected\n",
+>> +                                  refclk, OV05C10_REF_CLK);
+>> +
+>> +     ret = ov05c10_parse_endpoint(&client->dev, fwnode);
+>> +     if (ret)
+>> +             return dev_err_probe(&client->dev, -EINVAL,
+>> +                                  "fail to parse endpoint\n");
+>> +
+>> +     ov05c10->enable_gpio = devm_gpiod_get(&client->dev, "sensor0_enable",
+>> +                                           GPIOD_OUT_LOW);
+> 
+> Nothing improved and you did not bothered to wait for my feedback. You
+> just sent v2.
+> 
+sorry, I should have waited for your feedback before submitting V2. I 
+will use the suggested name "enable" in the next V3 submission.
+
+> There is no second GPIO, otherwise would be present here.
+> 
+I rechecked both GPIOs. Only one is relevant for sensor driver and other 
+one is for the ISP driver. Sorry for the confusion caused.
+
+> NAK.
+> 
+> 
+> 
 > Best regards,
 > Krzysztof
 
