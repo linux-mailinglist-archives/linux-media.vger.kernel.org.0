@@ -1,158 +1,266 @@
-Return-Path: <linux-media+bounces-29052-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29053-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C853A765FD
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 14:31:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74190A7661D
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 14:36:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 838C13AC9D0
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 12:30:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1E91616B42F
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 12:36:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1970B1E5B7E;
-	Mon, 31 Mar 2025 12:29:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDA411E5B72;
+	Mon, 31 Mar 2025 12:35:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="1Kt6EFTy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f174.google.com (mail-vk1-f174.google.com [209.85.221.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3291B1E570D;
-	Mon, 31 Mar 2025 12:29:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD122AEFB;
+	Mon, 31 Mar 2025 12:35:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743424180; cv=none; b=MIEgJtKS5cIZeX7FKRS+vSlO2yFzKI0oy5WCuFVVEFuo1hswKGcbkCqBcVh9nnKSvwUwW/mUnytuRfWY8tE2rv1WWDF6aCjYhi0JMshcLhKbtt1j72XQ25WPOwRs5h68+6RvYamgE56Fh+oIKceCeRIgx/0LjMFm6K9LBT6HLZE=
+	t=1743424554; cv=none; b=lqRGJm6UOHNqWhE/5C8POdzL5b8s08T8LpSrfGhMJftwCux7SGbMMxJerOHjfWtFxh/6gsg5iQw/KaSA+umc77t9WNuA8jGnm7qBwT9S6RM9JRUsojs7F1rGVRUZok+UlGEWOM3H0/52umbG0GA+mT/e5fu+irEV53H451pIGFA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743424180; c=relaxed/simple;
-	bh=TY1jhOTEr3tWljFOOoITiNLFQXkN4A20pVuJGU9HBQM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=axEXRsp7r3vh7ZtrKNOVMi1RO6+CtD/gjTvWCtSAcy6CCmFWlwMWrIkB5SRi450Yemg1X8Lw9R27CpD1oKEh1omGKOUV05uM42BAXKmhuEm2bSWSFCu781VjqNznyBSdIkboPI1Ur3eT5gJrlc73xrBOkoStaD/ASdEN77DYDwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f174.google.com with SMTP id 71dfb90a1353d-5259331b31eso2103140e0c.0;
-        Mon, 31 Mar 2025 05:29:38 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743424176; x=1744028976;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=a/hvjEUFixlRsZXguCUr03tOmwYEQ41nqruFxXBAttY=;
-        b=SZ7FcrN18TFt4s68EToZkMy32VogA5TuNBMuyBj0Yw64DytTf9xg7n9lT1SMxHa5YY
-         U+ePtx2ykWKtbR2DlIJGVd/hK9HZQkorx2TLX3PxBcUXHdvCZ6uU0ht5kQcO39TePlmH
-         f2JKKIl0193ydETOg5jhDlt2EZEeXs/XcTGgGY9y27JGbU7eTBq2ab14B5KaYgpnVIdL
-         bd9+6+Paz35YAkKj1S8+/WdhtqrIFh5e6DJM+1UVwHPmXZeRV4t6kusYDOnMnNQTvtUK
-         bY0qJH4+MFfNpAIBQQwjLGPBBStLCuoAR1zhzVaH96Dm/rmpenzG/s487m+MEZcq5yiU
-         tSMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU6XH6AEpjhylbxkSyGfCPdXCNmvw3eUnzBbWCoHo+xfS6Tsw3yVIIOyjZHHmVvAQhNrh56vbw59BP2@vger.kernel.org, AJvYcCUtO6ntkRf6JHvMxgaRVA526ZFLMgIDiS2I4NWaUOp9n7QnB4yAo3e7B4sbX4+LVclpk+apc0EBvLI/GGz+Hbk1eoA=@vger.kernel.org, AJvYcCVFiNaEX7Fsd1JyJDA0LNjitta3UQNd3jN09oymoai6+3sT0cCGkId2ntoIs5PfjSjxtheHd0Kj1pkZuRIj@vger.kernel.org, AJvYcCVGlhsH1/1qMYHLsDo+bXRs/PWNksojWeME4I3lXoqH+cIZF0d/wff7MIDxVwyUpQ8LHTOwm1poNZrkP1I=@vger.kernel.org, AJvYcCW85uJGmu1KyuZq7X9InV0RYZ3EQct54LeyGct/VZCIMR/IMYyGriKw1zjYsRyD46dj3ptCDQMtv/UW@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxv/WFhF73GXwSAZwAfLssSqxhFtkA8iKMJ+SPJG0DYNCfiDneZ
-	AubXcHsg0jcv+Xwf/UEyPRluVghg1Y7cc6RyFm6seS4ZIc0Bi6v+EKghV01Q
-X-Gm-Gg: ASbGnct2XTKrQbFrEm38kJvVekhoDj1J3fqMyEx3L8YMTVK6QNETeq0MrrJB/kyiWze
-	k7mxf/F3/jqoL0hylfAEMWv/TeE/E0JIBN+mEIp5lWKEn4SVfWS/sZUXyU0jXy/bqa964962qCj
-	IjNjQh5rDzhUrP1rw8jMY68/kNrsvO7kA0lAD91UeBOCZJVw9wsXimY6fv0AhkA/ZLgLVifVA7n
-	Gj+/unSBwC6Rj0atAOKEkheTwPJL42Q/FEd+d3R/iGgGj1ThAyMuEfOuphym/hd0pbMwQl8V4qN
-	Fw/f8xX5IhHwsuxUaOm4g5VMSS47XqaAG5PAV1JaGFzWpz1Vjzrgvaxt3NV/Qm1D97RzFpSCBIL
-	T3ikh3y+GbXDxDWP5Dw==
-X-Google-Smtp-Source: AGHT+IGV9qrruQC8eD3r1v1TatdV7QAigdH5XkauM7J3ViCCNwHT2qsO4mEs8+7hu5HqXEL8XucMAg==
-X-Received: by 2002:a05:6122:2188:b0:520:64ea:c479 with SMTP id 71dfb90a1353d-5261d4adb01mr3822544e0c.10.1743424175976;
-        Mon, 31 Mar 2025 05:29:35 -0700 (PDT)
-Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com. [209.85.222.42])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5260e840eafsm1510772e0c.24.2025.03.31.05.29.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Mar 2025 05:29:35 -0700 (PDT)
-Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-86feb848764so1930859241.0;
-        Mon, 31 Mar 2025 05:29:34 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUh3LlE3Z/eqgMEUJDXo9HBNtevNXgB+sAKxhXKpAgWp6gdbck85r+k9TyiDn8QqS3pJmw7N6QWMIFzZrAX@vger.kernel.org, AJvYcCUvy42TWp4Gd7XZoTPQb0K1ADvuqGTBq+4rqC9AKY2AnHqUaCnxiZfVIt/P4FcZr0QAKxQ0nck1UvRzL0neMdtNC9I=@vger.kernel.org, AJvYcCVHDl/mR3OT7KZU5XIAz4FGDlTNctnOVHTOCj2VwYlvxwhO5tJkKgVFiljI6rmb+n1nmnC1NOH0mUhj@vger.kernel.org, AJvYcCVRZjaXOlS0YmZlqsD0gP/f7Mo2gxZi6EMWfWTw482j1RAtRVwPJh0Y10EMHSYKdKrWMpUV/kxZIVDu@vger.kernel.org, AJvYcCVbGxv2MfGE6ZQ56ApexcqguOaWQiJGg197pNzvS8M5IUawwZkUBZbIhCoIGWylLvkFTcUB33pL1wmjIFU=@vger.kernel.org
-X-Received: by 2002:a05:6102:291e:b0:4c4:f128:3abb with SMTP id
- ada2fe7eead31-4c6d399e628mr4308764137.25.1743424174473; Mon, 31 Mar 2025
- 05:29:34 -0700 (PDT)
+	s=arc-20240116; t=1743424554; c=relaxed/simple;
+	bh=3/t1iCg1+6GJDxjqoMTxXMUAYXyD0gbKLUeMXXAnNWo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=FnUSugBY5qE21dJehBnE5GWaUaWHs9ZcXUEnWoi1ZACYyzlyHaq11hhE6QmNIVI8pwRmOSAh/AzsSGLqXqX+MgAbaqIzTDyDYCbbWptCgQ+O8n+o1iF9YbZ02eY2aKznIZ6O9CrUYLJMP9HgLo6LmAgbNANrud6KeFY15NIIzK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=1Kt6EFTy; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52VBdmvv032351;
+	Mon, 31 Mar 2025 14:35:33 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	w87q9PnJmB9peQep5J2CgPni283zIpSSEYxQSxlcnXM=; b=1Kt6EFTy/c8tNYnw
+	Voam4b1ywVqa2EhNWslKjE08YwmkWvgnkmlpQK0QVJu3RLZlVGOjei3kIYJWhWLF
+	poDp1n5Zl8gGmYhVzxbGGOBll5P11pGDB5sgfsaIZVMhzvRJdchJB3bZEcc622gE
+	dczCY8yLa2Vy8jQEHmDQ3j9UYz3zse8ua1gPNxNqLoYjbE7OwNzio13hiPKNNori
+	pKhazDU20IhEDM+aFjcAg3Jafh8lZAWXehCNRiMc5i/tTjhI8ssaKu/ktU3vnlNf
+	oQ2PE2XDi3/i8BNeMp5yz3hTyqiMOCI0LUmC0NQlL2Au1vpdfi3cdhMSfTqGoBhY
+	F4wVaQ==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 45pua7nkjx-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 31 Mar 2025 14:35:32 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 4352340044;
+	Mon, 31 Mar 2025 14:34:43 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 44495898276;
+	Mon, 31 Mar 2025 14:34:06 +0200 (CEST)
+Received: from [10.130.73.167] (10.130.73.167) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 31 Mar
+ 2025 14:34:05 +0200
+Message-ID: <e00973c9-3817-415f-a724-faed0728cf5d@foss.st.com>
+Date: Mon, 31 Mar 2025 14:34:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250330210717.46080-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250330210717.46080-14-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250330210717.46080-14-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 31 Mar 2025 14:29:22 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdUO+mh79ExahTiW-hG26QfxrBfBFRipO_B6QWXvP-+wHg@mail.gmail.com>
-X-Gm-Features: AQ5f1Jp1eHcZ8sWmnLzl63q9yjCxoAPQRs9IgU0nL-PSWGK0iw87Vz5cicheX0E
-Message-ID: <CAMuHMdUO+mh79ExahTiW-hG26QfxrBfBFRipO_B6QWXvP-+wHg@mail.gmail.com>
-Subject: Re: [PATCH 13/17] drm: renesas: rz-du: mipi_dsi: Add feature flag for
- 16BPP support
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] media: dt-bindings: Add ST VD55G1 camera sensor
+ binding
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+        Sylvain Petinot
+	<sylvain.petinot@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Sakari Ailus
+	<sakari.ailus@linux.intel.com>
+CC: <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20250328-b4-vd55g1-v1-0-8d16b4a79f29@foss.st.com>
+ <20250328-b4-vd55g1-v1-1-8d16b4a79f29@foss.st.com>
+ <5c7b41bb-8e4e-44b2-9fd6-b5dd9258ee4e@kernel.org>
+Content-Language: en-US
+From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+In-Reply-To: <5c7b41bb-8e4e-44b2-9fd6-b5dd9258ee4e@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-03-31_05,2025-03-27_02,2024-11-22_01
 
-Hi Prabhakar,
+Hi Krzysztof,
 
-On Sun, 30 Mar 2025 at 23:08, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
->
-> Introduce the `RZ_MIPI_DSI_16BPP` feature flag in `rzg2l_mipi_dsi_hw_info`
-> to indicate support for 16BPP pixel formats. The RZ/V2H(P) SoC supports
-> 16BPP, whereas this feature is missing on the RZ/G2L SoC.
->
-> Update the `mipi_dsi_host_attach()` function to check this flag before
-> allowing 16BPP formats. If the SoC does not support 16BPP, return an error
-> to prevent incorrect format selection.
->
-> This change enables finer-grained format support control for different
-> SoC variants.
->
-> Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Thank you for your review. Consider everything done for V2.
 
-Thanks for your patch!
+On 3/29/25 06:42, Krzysztof Kozlowski wrote:
+> On 28/03/2025 14:40, Benjamin Mugnier wrote:
+>> +
+>> +allOf:
+>> +  - $ref: /schemas/media/video-interface-devices.yaml#
+>> +
+>> +properties:
+>> +  compatible:
+>> +    const: st,st-vd55g1
+> 
+> Drop st. See your filename how this should be called. Anyway, filename
+> must match the compatible.
+> 
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  clocks:
+>> +    maxItems: 1
+>> +
+>> +  vcore-supply:
+>> +    description: Digital core power supply (1.15V)
+>> +
+>> +  vddio-supply:
+>> +    description: Digital IO power supply (1.8V)
+>> +
+>> +  vana-supply:
+>> +    description: Analog power supply (2.8V)
+>> +
+>> +  reset-gpios:
+>> +    description: Sensor reset active low GPIO (XSHUTDOWN)
+>> +    maxItems: 1
+>> +
+>> +  st,leds:
+>> +    description:
+>> +      List sensor's GPIOs used to control strobe light sources during exposure
+>> +      time. The numbers identify the sensor pin on which the illumination
+>> +      system is connected. GPIOs are active-high.
+>> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+>> +    minItems: 1
+>> +    maxItems: 4
+>> +    items:
+>> +      minimum: 0
+>> +      maximum: 3
+>> +
+>> +  port:
+>> +    $ref: /schemas/graph.yaml#/$defs/port-base
+>> +    additionalProperties: false
+>> +
+>> +    properties:
+>> +      endpoint:
+>> +        $ref: /schemas/media/video-interfaces.yaml#
+>> +        unevaluatedProperties: false
+>> +
+>> +        properties:
+>> +          data-lanes:
+>> +            description:
+>> +              VD55G1 only has one data lane, and must be 1.
+>> +            maxItems: 1
+>> +            items:
+>> +              const: 1
+> 
+> Instead of five lines, just two:
+> 
+> items:
+>   - const: 1
+> 
+> Don't repeat constraints in free form text.
+> 
+> 
+>> +
+>> +          link-frequencies:
+>> +            maxItems: 1
+>> +            items:
+>> +              minimum: 125000000
+>> +              maximum: 600000000
+>> +
+>> +          lane-polarities:
+>> +            minItems: 1
+>> +            maxItems: 2
+>> +
+>> +        required:
+>> +          - data-lanes
+>> +          - link-frequencies
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - clocks
+>> +  - vcore-supply
+>> +  - vddio-supply
+>> +  - vana-supply
+>> +  - reset-gpios
+>> +  - port
+>> +
+>> +unevaluatedProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/gpio/gpio.h>
+>> +
+>> +    i2c {
+>> +        #address-cells = <1>;
+>> +        #size-cells = <0>;
+>> +
+>> +        camera-sensor@10 {
+>> +            compatible = "st,vd55g1";
+> 
+> And here another compatible...
+> 
+>> +            reg = <0x10>;
+>> +
+>> +            clocks = <&camera_clk_12M>;
+>> +
+>> +            vcore-supply = <&camera_vcore_v1v15>;
+>> +            vddio-supply = <&camera_vddio_v1v8>;
+>> +            vana-supply = <&camera_vana_v2v8>;
+>> +
+>> +            reset-gpios = <&gpio 5 GPIO_ACTIVE_LOW>;
+>> +            st,leds = <2>;
+>> +
+>> +            orientation = <2>;
+>> +            rotation = <0>;
+>> +
+>> +            port {
+>> +                endpoint {
+>> +                    data-lanes = <1>;
+>> +                    link-frequencies = /bits/ 64 <600000000>;
+>> +                    remote-endpoint = <&csiphy0_ep>;
+>> +                };
+>> +            };
+>> +        };
+>> +    };
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 2286200b355bde3604607be916ef09aa88feed0e..857af27ef392b6e6865d9a545061d1b012cce07e 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -22410,6 +22410,14 @@ S:	Maintained
+>>  F:	Documentation/hwmon/stpddc60.rst
+>>  F:	drivers/hwmon/pmbus/stpddc60.c
+>>  
+>> +ST VD55G1 DRIVER
+>> +M:	Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+>> +M:	Sylvain Petinot <sylvain.petinot@foss.st.com>
+>> +L:	linux-media@vger.kernel.org
+>> +S:	Maintained
+>> +T:	git git://linuxtv.org/media.git
+> 
+> Drop, unless you push patches there. Otherwise what is the point of
+> duplicating subsystem data?
+> 
+>> +F:	Documentation/devicetree/bindings/media/i2c/st,vd55g1.yaml
+>> +
+>>  ST VGXY61 DRIVER
+>>  M:	Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+>>  M:	Sylvain Petinot <sylvain.petinot@foss.st.com>
+>>
+> 
+> 
+> Best regards,
+> Krzysztof
 
-> --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
-> @@ -30,6 +30,8 @@
->
->  struct rzg2l_mipi_dsi;
->
-> +#define RZ_MIPI_DSI_16BPP      BIT(0)
-> +
->  struct rzg2l_mipi_dsi_hw_info {
->         int (*dphy_init)(struct rzg2l_mipi_dsi *dsi, unsigned long long hsfreq_mhz);
->         void (*dphy_exit)(struct rzg2l_mipi_dsi *dsi);
-> @@ -38,6 +40,7 @@ struct rzg2l_mipi_dsi_hw_info {
->         unsigned long max_dclk;
->         unsigned long min_dclk;
->         bool has_dphy_rstc;
-> +       u8 features;
-
-Please settle on a single solution for all features: either use a
-boolean flag to indicate 16bpp, or a feature bit to indicate the need
-for the DPHY reset signal.
-
->  };
->
->  struct rzg2l_mipi_dsi {
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
-
---
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+-- 
+Regards,
+Benjamin
 
