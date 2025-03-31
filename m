@@ -1,65 +1,65 @@
-Return-Path: <linux-media+bounces-29053-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29054-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74190A7661D
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 14:36:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CBD5A76620
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 14:36:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1E91616B42F
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 12:36:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B66FA188B7C5
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 12:36:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDA411E5B72;
-	Mon, 31 Mar 2025 12:35:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 056021E7C03;
+	Mon, 31 Mar 2025 12:35:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="1Kt6EFTy"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="KnU+BY1I"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BD122AEFB;
-	Mon, 31 Mar 2025 12:35:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AC8F1DED4B;
+	Mon, 31 Mar 2025 12:35:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743424554; cv=none; b=lqRGJm6UOHNqWhE/5C8POdzL5b8s08T8LpSrfGhMJftwCux7SGbMMxJerOHjfWtFxh/6gsg5iQw/KaSA+umc77t9WNuA8jGnm7qBwT9S6RM9JRUsojs7F1rGVRUZok+UlGEWOM3H0/52umbG0GA+mT/e5fu+irEV53H451pIGFA=
+	t=1743424555; cv=none; b=QtAf3elm0fxoMSW/y5sh9cYOsQfV3S+0wn9UHDjllbPgiE+k0euJXApSZXMK95nGzA5pPmHNx8O7hIOgywm1QMKSPc+P5PTVkcfe30yBCesl4+p3PO+ePKZljCRpoJc6o7Abg/heJoYpTt69y6VwjkhMa6wzr5bTapCCLvVmJlE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743424554; c=relaxed/simple;
-	bh=3/t1iCg1+6GJDxjqoMTxXMUAYXyD0gbKLUeMXXAnNWo=;
+	s=arc-20240116; t=1743424555; c=relaxed/simple;
+	bh=/LWQvYJHJQvzRwTpToozedDf4Rwh566PaoTjVDMd+Gk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=FnUSugBY5qE21dJehBnE5GWaUaWHs9ZcXUEnWoi1ZACYyzlyHaq11hhE6QmNIVI8pwRmOSAh/AzsSGLqXqX+MgAbaqIzTDyDYCbbWptCgQ+O8n+o1iF9YbZ02eY2aKznIZ6O9CrUYLJMP9HgLo6LmAgbNANrud6KeFY15NIIzK8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=1Kt6EFTy; arc=none smtp.client-ip=185.132.182.106
+	 In-Reply-To:Content-Type; b=Mpg1fGcXLz40OKEJqXxMApH46T3CpRJcA7DqgfjkFEOLwyIY7ldnXLMIsYJeRFkHXiH+Kaybp/8NMxYcnG4jaWWv0p57zrN5BwB+Dtor0F9JXFEAtgxlGbchWICcJDxDdujwJlOUQWbZ6PXxsCNLaUwLxzcQMypsEeihoN7FJqY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=KnU+BY1I; arc=none smtp.client-ip=185.132.182.106
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52VBdmvv032351;
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52VB7U1o018939;
 	Mon, 31 Mar 2025 14:35:33 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	w87q9PnJmB9peQep5J2CgPni283zIpSSEYxQSxlcnXM=; b=1Kt6EFTy/c8tNYnw
-	Voam4b1ywVqa2EhNWslKjE08YwmkWvgnkmlpQK0QVJu3RLZlVGOjei3kIYJWhWLF
-	poDp1n5Zl8gGmYhVzxbGGOBll5P11pGDB5sgfsaIZVMhzvRJdchJB3bZEcc622gE
-	dczCY8yLa2Vy8jQEHmDQ3j9UYz3zse8ua1gPNxNqLoYjbE7OwNzio13hiPKNNori
-	pKhazDU20IhEDM+aFjcAg3Jafh8lZAWXehCNRiMc5i/tTjhI8ssaKu/ktU3vnlNf
-	oQ2PE2XDi3/i8BNeMp5yz3hTyqiMOCI0LUmC0NQlL2Au1vpdfi3cdhMSfTqGoBhY
-	F4wVaQ==
+	xE/hUChwYiRZqoCKGksJkJaPeYpAMEtCB+9/+mp3xC4=; b=KnU+BY1IdU4je4+c
+	lxtQAR9PXi4IfPMZYzR9xzPPCtMSLdjPuT+06zZV5SZ80j/jCQgGJpRAFuMktxPn
+	ZS+VCWq92dzcDtrI/7xu0oB3vi7a74H3osXEQ010y+7XYlxrLxHHNXoY/xWaCaGE
+	XBoJ20edKrvmCw2ptxnfy16eXZVDyOJ2Bb99ADllmxw4Z3a6S8BsDkeNjj0RblBh
+	BN/9nBxvEkjfLa6FLwuZu+TwMJAwv0vgbLmdzSdwIkPolpVVgWWfh+js6l+9GEUq
+	yNfdqA0ZY3joj0m8leQYd6fRiWcSCoOMdS9t7Q+EV/tNrGhbtZHkfNOSWJspD9dW
+	85esHQ==
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 45pua7nkjx-1
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 45p75q0bjs-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
 	Mon, 31 Mar 2025 14:35:32 +0200 (MEST)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 4352340044;
-	Mon, 31 Mar 2025 14:34:43 +0200 (CEST)
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id E48094002D;
+	Mon, 31 Mar 2025 14:34:42 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 44495898276;
-	Mon, 31 Mar 2025 14:34:06 +0200 (CEST)
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 37E69898252;
+	Mon, 31 Mar 2025 14:34:10 +0200 (CEST)
 Received: from [10.130.73.167] (10.130.73.167) by SHFDAG1NODE1.st.com
  (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 31 Mar
- 2025 14:34:05 +0200
-Message-ID: <e00973c9-3817-415f-a724-faed0728cf5d@foss.st.com>
-Date: Mon, 31 Mar 2025 14:34:05 +0200
+ 2025 14:34:09 +0200
+Message-ID: <3cdc3771-c61e-427f-ad59-12bcb41e7e8d@foss.st.com>
+Date: Mon, 31 Mar 2025 14:34:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,8 +67,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] media: dt-bindings: Add ST VD55G1 camera sensor
- binding
+Subject: Re: [PATCH 2/2] media: i2c: Add driver for ST VD55G1 camera sensor
 To: Krzysztof Kozlowski <krzk@kernel.org>,
         Sylvain Petinot
 	<sylvain.petinot@foss.st.com>,
@@ -81,11 +80,11 @@ To: Krzysztof Kozlowski <krzk@kernel.org>,
 CC: <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
 References: <20250328-b4-vd55g1-v1-0-8d16b4a79f29@foss.st.com>
- <20250328-b4-vd55g1-v1-1-8d16b4a79f29@foss.st.com>
- <5c7b41bb-8e4e-44b2-9fd6-b5dd9258ee4e@kernel.org>
+ <20250328-b4-vd55g1-v1-2-8d16b4a79f29@foss.st.com>
+ <7556a0a8-47f3-4cf7-ae4d-9ea444d98c6b@kernel.org>
 Content-Language: en-US
 From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-In-Reply-To: <5c7b41bb-8e4e-44b2-9fd6-b5dd9258ee4e@kernel.org>
+In-Reply-To: <7556a0a8-47f3-4cf7-ae4d-9ea444d98c6b@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
@@ -96,166 +95,124 @@ X-Proofpoint-Virus-Version: vendor=baseguard
 
 Hi Krzysztof,
 
-Thank you for your review. Consider everything done for V2.
+Thank you for your review.
 
-On 3/29/25 06:42, Krzysztof Kozlowski wrote:
+On 3/29/25 06:46, Krzysztof Kozlowski wrote:
 > On 28/03/2025 14:40, Benjamin Mugnier wrote:
 >> +
->> +allOf:
->> +  - $ref: /schemas/media/video-interface-devices.yaml#
+>> +static void vd55g1_subdev_cleanup(struct vd55g1 *sensor)
+>> +{
+>> +	v4l2_async_unregister_subdev(&sensor->sd);
+>> +	v4l2_subdev_cleanup(&sensor->sd);
+>> +	media_entity_cleanup(&sensor->sd.entity);
+>> +	v4l2_ctrl_handler_free(sensor->sd.ctrl_handler);
+>> +}
 >> +
->> +properties:
->> +  compatible:
->> +    const: st,st-vd55g1
+>> +static int vd55g1_err_probe(struct device *dev, int ret, char *msg)
 > 
-> Drop st. See your filename how this should be called. Anyway, filename
-> must match the compatible.
+> Drop, it's really useless. Don't create own abstraction layers for other
+> systems.
 > 
+>> +{
+>> +	return dev_err_probe(dev, ret, msg);
+>> +}
 >> +
->> +  reg:
->> +    maxItems: 1
+>> +static int vd55g1_probe(struct i2c_client *client)
+>> +{
+>> +	struct device *dev = &client->dev;
+>> +	struct vd55g1 *sensor;
+>> +	int ret;
 >> +
->> +  clocks:
->> +    maxItems: 1
+>> +	sensor = devm_kzalloc(dev, sizeof(*sensor), GFP_KERNEL);
+>> +	if (!sensor)
+>> +		return -ENOMEM;
 >> +
->> +  vcore-supply:
->> +    description: Digital core power supply (1.15V)
+>> +	v4l2_i2c_subdev_init(&sensor->sd, client, &vd55g1_subdev_ops);
+>> +	sensor->i2c_client = client;
 >> +
->> +  vddio-supply:
->> +    description: Digital IO power supply (1.8V)
+>> +	ret = vd55g1_parse_dt(sensor);
+>> +	if (ret)
+>> +		return vd55g1_err_probe(dev, ret,
+>> +					"Failed to parse Device Tree.");
 >> +
->> +  vana-supply:
->> +    description: Analog power supply (2.8V)
+>> +	/* Get (and check) resources : power regs, ext clock, reset gpio */
+>> +	ret = vd55g1_get_regulators(sensor);
+>> +	if (ret)
+>> +		return vd55g1_err_probe(dev, ret, "Failed to get regulators.");
 >> +
->> +  reset-gpios:
->> +    description: Sensor reset active low GPIO (XSHUTDOWN)
->> +    maxItems: 1
->> +
->> +  st,leds:
->> +    description:
->> +      List sensor's GPIOs used to control strobe light sources during exposure
->> +      time. The numbers identify the sensor pin on which the illumination
->> +      system is connected. GPIOs are active-high.
->> +    $ref: /schemas/types.yaml#/definitions/uint32-array
->> +    minItems: 1
->> +    maxItems: 4
->> +    items:
->> +      minimum: 0
->> +      maximum: 3
->> +
->> +  port:
->> +    $ref: /schemas/graph.yaml#/$defs/port-base
->> +    additionalProperties: false
->> +
->> +    properties:
->> +      endpoint:
->> +        $ref: /schemas/media/video-interfaces.yaml#
->> +        unevaluatedProperties: false
->> +
->> +        properties:
->> +          data-lanes:
->> +            description:
->> +              VD55G1 only has one data lane, and must be 1.
->> +            maxItems: 1
->> +            items:
->> +              const: 1
+>> +	sensor->xclk = devm_clk_get(dev, NULL);
+>> +	if (IS_ERR(sensor->xclk)) {
 > 
-> Instead of five lines, just two:
+> Drop {}
 > 
-> items:
->   - const: 1
+> Please run scripts/checkpatch.pl on the patches and fix reported
+> warnings. After that, run also 'scripts/checkpatch.pl --strict' on the
+> patches and (probably) fix more warnings. Some warnings can be ignored,
+> especially from --strict run, but the code here looks like it needs a
+> fix. Feel free to get in touch if the warning is not clear.
 > 
-> Don't repeat constraints in free form text.
+
+While it should, checkpatch does not complain about that. Maybe because
+the function call is on two lines ? Anyway thanks a lot for pointing
+this. Fixed.
+
+>> +		return vd55g1_err_probe(dev, PTR_ERR(sensor->xclk),
 > 
+> No. Syntax is return dev_err_probe, not some custom wrappers over single
+> function.
 > 
+>> +					"Failed to get xclk.");
+>> +	}
+>> +	sensor->xclk_freq = clk_get_rate(sensor->xclk);
+>> +	ret = vd55g1_prepare_clock_tree(sensor);
+>> +	if (ret)
+>> +		return ret;
 >> +
->> +          link-frequencies:
->> +            maxItems: 1
->> +            items:
->> +              minimum: 125000000
->> +              maximum: 600000000
->> +
->> +          lane-polarities:
->> +            minItems: 1
->> +            maxItems: 2
->> +
->> +        required:
->> +          - data-lanes
->> +          - link-frequencies
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - clocks
->> +  - vcore-supply
->> +  - vddio-supply
->> +  - vana-supply
->> +  - reset-gpios
->> +  - port
->> +
->> +unevaluatedProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/gpio/gpio.h>
->> +
->> +    i2c {
->> +        #address-cells = <1>;
->> +        #size-cells = <0>;
->> +
->> +        camera-sensor@10 {
->> +            compatible = "st,vd55g1";
+>> +	sensor->reset_gpio =
+>> +		devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_HIGH);
 > 
-> And here another compatible...
+> Odd wrapping. This should be one line with optionally wrapped last argument.
 > 
->> +            reg = <0x10>;
+>> +	if (IS_ERR(sensor->reset_gpio))
+>> +		return vd55g1_err_probe(dev, PTR_ERR(sensor->reset_gpio),
+>> +					"Failed to get reset gpio.");
 >> +
->> +            clocks = <&camera_clk_12M>;
+>> +	sensor->regmap = devm_cci_regmap_init_i2c(client, 16);
+>> +	if (IS_ERR(sensor->regmap))
+>> +		return vd55g1_err_probe(dev, PTR_ERR(sensor->regmap),
+>> +					"Failed to init regmap.");
 >> +
->> +            vcore-supply = <&camera_vcore_v1v15>;
->> +            vddio-supply = <&camera_vddio_v1v8>;
->> +            vana-supply = <&camera_vana_v2v8>;
+>> +	/* Detect if sensor is present and if its revision is supported */
+>> +	ret = vd55g1_power_on(dev);
+>> +	if (ret)
+>> +		return ret;
 >> +
->> +            reset-gpios = <&gpio 5 GPIO_ACTIVE_LOW>;
->> +            st,leds = <2>;
+>> +	ret = vd55g1_subdev_init(sensor);
+>> +	if (ret) {
+>> +		dev_err(dev, "V4l2 init failed : %d", ret);
+>> +		goto err_power_off;
+>> +	}
 >> +
->> +            orientation = <2>;
->> +            rotation = <0>;
+>> +	ret = v4l2_async_register_subdev(&sensor->sd);
+>> +	if (ret) {
+>> +		dev_err(dev, "async subdev register failed %d", ret);
+>> +		goto err_subdev;
+>> +	}
 >> +
->> +            port {
->> +                endpoint {
->> +                    data-lanes = <1>;
->> +                    link-frequencies = /bits/ 64 <600000000>;
->> +                    remote-endpoint = <&csiphy0_ep>;
->> +                };
->> +            };
->> +        };
->> +    };
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 2286200b355bde3604607be916ef09aa88feed0e..857af27ef392b6e6865d9a545061d1b012cce07e 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -22410,6 +22410,14 @@ S:	Maintained
->>  F:	Documentation/hwmon/stpddc60.rst
->>  F:	drivers/hwmon/pmbus/stpddc60.c
->>  
->> +ST VD55G1 DRIVER
->> +M:	Benjamin Mugnier <benjamin.mugnier@foss.st.com>
->> +M:	Sylvain Petinot <sylvain.petinot@foss.st.com>
->> +L:	linux-media@vger.kernel.org
->> +S:	Maintained
->> +T:	git git://linuxtv.org/media.git
+>> +	/* Enable pm_runtime and power off the sensor */
+>> +	pm_runtime_set_active(dev);
+>> +	pm_runtime_get_noresume(dev);
+>> +	pm_runtime_enable(dev);
+>> +	pm_runtime_set_autosuspend_delay(dev, 4000);
+>> +	pm_runtime_use_autosuspend(dev);
+>> +	pm_runtime_mark_last_busy(dev);
+>> +
+>> +	dev_dbg(dev, "vd55g1 probe successfully");
 > 
-> Drop, unless you push patches there. Otherwise what is the point of
-> duplicating subsystem data?
-> 
->> +F:	Documentation/devicetree/bindings/media/i2c/st,vd55g1.yaml
->> +
->>  ST VGXY61 DRIVER
->>  M:	Benjamin Mugnier <benjamin.mugnier@foss.st.com>
->>  M:	Sylvain Petinot <sylvain.petinot@foss.st.com>
->>
-> 
+> Drop. Kernel already provides you such debugging/tracing.
+
+Interesting, do you know how to enable this kind of tracing ?
+
 > 
 > Best regards,
 > Krzysztof
