@@ -1,219 +1,133 @@
-Return-Path: <linux-media+bounces-29062-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29063-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5751EA768DD
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 16:56:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 064C7A769AD
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 17:15:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 098DB1883CBF
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 14:53:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 319F33B40C6
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 15:03:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E94D1214A7A;
-	Mon, 31 Mar 2025 14:44:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8E45226CFD;
+	Mon, 31 Mar 2025 14:53:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LM6nqHs6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jHeN4vO8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20AA2213E7E;
-	Mon, 31 Mar 2025 14:44:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EDA2226CE7;
+	Mon, 31 Mar 2025 14:53:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743432279; cv=none; b=DGT5b17GXvS/GWEZan5mpIbJBH3CaaBbf3upUJOxGzy29CGsIlAcEN6WO5iXj6Q30w8uSQt4L4pdokEuDoDAGrvas3vUpsWe9KfYNGxOMUwY5zd8scMX3azcA4XZClx/R59mp8VGbSnsWT89Pq3SMLRiokEMTcHsbypivRnNRpY=
+	t=1743432822; cv=none; b=WzVyqSHZcHzWZDQPWx9nDO3ghmVfqJj1dhLFYVO6gR2Abkqhs2Trq78W8H0O/j2WHywxHaw1+wz3CIiMkn0U+a4tPV8JVSrLYHjLaidTv1uVlkX/RK5b9mRRosUdMiHk/1/M7colNpLJhDqIF1soj06Zz4WVkr+H3Xu2C4D9ll4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743432279; c=relaxed/simple;
-	bh=24FU/xXZnbe7mAGXh1SGvJ4MS+RF1EE2UGeGc2TEBeY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QFbxlJWD40yM6J4d45zms3fQDbqAMqOimPbloIv9moc6Qi8kIz9CIhU2L/2VCpDI9mLpLcrVmSftkGOQtb4iaDtZ+r5ENrm/vTqFqGSXwXi7+WJMqG7vy5KhLOHBN80XXvmVk12U4YQUabVpLAzig9waLOAdSXqbFAH7EVTB6fQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LM6nqHs6; arc=none smtp.client-ip=209.85.221.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-52446b21cfdso1969950e0c.1;
-        Mon, 31 Mar 2025 07:44:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743432274; x=1744037074; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dsWN69Oas2uHGFGCrFlrYA31acYuruS7UWixk72+7CA=;
-        b=LM6nqHs6l80Z/8z64UlnQJilyZwvBgUzIBIXru2HmeRet7UKBuroM/LefJFY5vQwTu
-         3o+6EtMrpu0u/5NXJdRLQmt9DrVsITaPHfebee+72lDykRaaA9Ffi6WrOxwptvS6dnmg
-         nDMjdOAylSCF7nThcXOeL7zXMEvya3W8DsOI8fMFLuTKwmy0St7pNrvpZCFh8iCCVStP
-         mlMFBGIHUYzZShAHuYTz+mc6U8NZJy7NRfV832Bj6nONaUUxMGusHw6GtA42ZyI3m5BM
-         lx44YCT5HQUgClFTNOs27xT3kFS8PSYb79X/D0BV5qmADCnJpBldrcROctW/9pEbLXQH
-         ulOA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743432274; x=1744037074;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dsWN69Oas2uHGFGCrFlrYA31acYuruS7UWixk72+7CA=;
-        b=bTtrKj6qnWSiA53j2eGDzjawRlTuUCLpAyz2L3KkgCalP0sToHJyTDzJhGZn5lZBOH
-         /VEKjeh9HYj/tvX6vmHd+PxWJVQdjce19hDNh0i6p6bfGzliS+8l84lMSExfQNtqgk2W
-         7T8lh8p02vMM7vHNeiSfDgg+mNljF4ErcfWjyU6pjotSJcMkP0EPnTCcd3XkoRmMEhLG
-         H5cRy+LDpwcwBsb0ZfSa7P9lifa/ypDUgaMoN3bh78Yc+kwlefHa3ZZuX1xEQctGYkGb
-         1f5OCCWp2rHq6Jmv5jjbwgGYAg8QnQ/PKvO0czYjzFQsA5PvHT/Q37pg1Ovz5PhME6cN
-         ev7A==
-X-Forwarded-Encrypted: i=1; AJvYcCVbP0xDhqgkhjCuDXEAaUS86iVIlSOw6jJyt/hF/qbK3WyyhdIwAUqEArI0rw3bA2kmmlQC7EMLjkg3Rpk=@vger.kernel.org, AJvYcCVuxccrXmzF37vQ3yOq4qHf+m3B6VQkS483Sjfy9XFFJAKbrW2tmqr2gmChw+5gU9Q5/9nrNyUlpuHT@vger.kernel.org, AJvYcCWaormJnKRsCn4CoDMDzExUfhvFqRbdgOuyk4QHAea7ZmefyqTUwJaT4PCwD2kqZADiA9BhPpvioImX6yPN@vger.kernel.org, AJvYcCWnRmuppU2kGwOvT2bIyvAOFrx6iwIEYi99XTRw2Rug8geD/1llp3qPPMkOmlTQfaqctoEZcSGzTDgF@vger.kernel.org, AJvYcCXqoqOVxQ6SBb7OGFE+CX7QFh05+ZvgwMN9jL5cDdkw82CvMtrjosIraKCoOFI5s5IeO8H1mESae9+WbKvDsoxn89s=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyhR7ovvWMGJxQHZWB3twQE+7RoAxHhGLJmR4YWVg4sVwebmcDN
-	ZNdP0xfzIqaMmjbOXU/QhpaDcSqQnEC7/GK7EKIw9gJQpT2J6GOnC3pENJ+muy2lA7xDZn0VzoG
-	BJj6FYj/4DQNQ2RZ1cHn7MblHDKQ=
-X-Gm-Gg: ASbGncsuUgynI4MD7tCHh8+J7QKbkcsSGEdqq7DVOtalsRZQpGImi5PDlb9of+tCwVp
-	uHzy7AIr0RHZQlZFqD7TOtLMoi1pygtGE0qNYfCsn8yTTsSpwUneSniUROkNX4ZMfZx+9y4m9U8
-	yrGbwa+9ERExdd1dCphzsI1DUTAw==
-X-Google-Smtp-Source: AGHT+IGwzcTATzbSWO1JHZUfHWlcz6iufKFTXtwDV4cYQgVRAPm7Eci+hXIxgV/7/G05UnDRHAAek7P3SI/p8EKcgh4=
-X-Received: by 2002:a05:6122:8b8a:b0:526:1dde:c5 with SMTP id
- 71dfb90a1353d-5261dde014cmr4560583e0c.0.1743432273917; Mon, 31 Mar 2025
- 07:44:33 -0700 (PDT)
+	s=arc-20240116; t=1743432822; c=relaxed/simple;
+	bh=25fzOivX1IS/e+Qrezpogo5zOR6xf2mvYjkdN25r+Lc=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=N7bF4sqDVhR7a1qN4uZfCs0YPPxFheW/qB2nmc0RL2E0WZOGT9v3A4bblNUCy1ucNEhCys7tqCZE9tH7XnoBmsCRAxXM4dJ9qQh1P1FihOVOYgcHS8m+/6oVJL0Tx5KN7UZdaxxCEyRgsZvVUuWfgki7GF1ZSJmGFb0tPdhM0qs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jHeN4vO8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 83F0DC4CEE3;
+	Mon, 31 Mar 2025 14:53:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743432821;
+	bh=25fzOivX1IS/e+Qrezpogo5zOR6xf2mvYjkdN25r+Lc=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=jHeN4vO8XMj/DbBzvtgrhUmL6tKRXszpyWezYSa/OVLXjl/4p0lIiu+4jlO3HMWau
+	 2gNfFOxr1c1w5KZhoEiwuCfkg7K0tOBi/Wrjp32XhjIl0llw29BRemlLIDoVKzHx6g
+	 mflRtCuth9g5unN6uWh9bi0S3o3wZ7R3buXJjHqILcXuQNZ9BRmutm5o3KhfXMrMj/
+	 d0iS0KmzAaZa7QgJ9RR9IljUMjgjQ8hH4a/upnHUWKQvVFQ8c16eY7uXtXIJxkFgGF
+	 cjn69XzEJkZMADzgKkadDieiBi3RcLfxTuNmhmuwWJWn9QnaYIQULYDG+ydZHUzYTG
+	 j/MWB9a05ypiQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Ricardo Ribalda <ribalda@chromium.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sasha Levin <sashal@kernel.org>,
+	hdegoede@redhat.com,
+	mchehab@kernel.org,
+	linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.14 18/27] media: uvcvideo: Add quirk for Actions UVC05
+Date: Mon, 31 Mar 2025 10:52:36 -0400
+Message-Id: <20250331145245.1704714-18-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250331145245.1704714-1-sashal@kernel.org>
+References: <20250331145245.1704714-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250330210717.46080-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250330210717.46080-12-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <TY3PR01MB113463B37FE6B1AAE8CF0F51F86AD2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <CA+V-a8v0K_tWA=LnyHDptoBjtgPHSbgwpJp4L1rw4Uv6KC+-JA@mail.gmail.com> <TYCPR01MB11332F548F3770F0C70C9051A86AD2@TYCPR01MB11332.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYCPR01MB11332F548F3770F0C70C9051A86AD2@TYCPR01MB11332.jpnprd01.prod.outlook.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 31 Mar 2025 14:44:08 +0000
-X-Gm-Features: AQ5f1JqlkL2bTcSmgjhDRL8U7yExf7T5Y6DjBvt5tncmTVMGQonwHDocuYn9BM8
-Message-ID: <CA+V-a8tVQaDBzLXVJUonmV6eW3i_KLTTjVm3L0Kf2A1xrMoUHQ@mail.gmail.com>
-Subject: Re: [PATCH 11/17] drm: renesas: rz-du: mipi_dsi: Add OF data support
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	"laurent.pinchart" <laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
-	"linux-clk@vger.kernel.org" <linux-clk@vger.kernel.org>, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.14
+Content-Transfer-Encoding: 8bit
 
-Hi Biju,
+From: Ricardo Ribalda <ribalda@chromium.org>
 
-On Mon, Mar 31, 2025 at 3:14=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
-m> wrote:
->
->
->
-> > -----Original Message-----
-> > From: Lad, Prabhakar <prabhakar.csengg@gmail.com>
-> > Sent: 31 March 2025 14:59
-> > To: Biju Das <biju.das.jz@bp.renesas.com>
-> > Cc: Geert Uytterhoeven <geert+renesas@glider.be>; Andrzej Hajda <andrze=
-j.hajda@intel.com>; Neil
-> > Armstrong <neil.armstrong@linaro.org>; Robert Foss <rfoss@kernel.org>; =
-laurent.pinchart
-> > <laurent.pinchart@ideasonboard.com>; Jonas Karlman <jonas@kwiboo.se>; J=
-ernej Skrabec
-> > <jernej.skrabec@gmail.com>; David Airlie <airlied@gmail.com>; Simona Ve=
-tter <simona@ffwll.ch>; Maarten
-> > Lankhorst <maarten.lankhorst@linux.intel.com>; Maxime Ripard <mripard@k=
-ernel.org>; Thomas Zimmermann
-> > <tzimmermann@suse.de>; Rob Herring <robh@kernel.org>; Krzysztof Kozlows=
-ki <krzk+dt@kernel.org>; Conor
-> > Dooley <conor+dt@kernel.org>; Mauro Carvalho Chehab <mchehab@kernel.org=
->; Kieran Bingham
-> > <kieran.bingham+renesas@ideasonboard.com>; Stephen Boyd <sboyd@kernel.o=
-rg>; Philipp Zabel
-> > <p.zabel@pengutronix.de>; devicetree@vger.kernel.org; linux-kernel@vger=
-.kernel.org; linux-renesas-
-> > soc@vger.kernel.org; linux-media@vger.kernel.org; linux-clk@vger.kernel=
-.org; Fabrizio Castro
-> > <fabrizio.castro.jz@renesas.com>; Prabhakar Mahadev Lad <prabhakar.maha=
-dev-lad.rj@bp.renesas.com>
-> > Subject: Re: [PATCH 11/17] drm: renesas: rz-du: mipi_dsi: Add OF data s=
-upport
-> >
-> > Hi Biju,
-> >
-> > Thank you for the review.
-> >
-> > On Mon, Mar 31, 2025 at 1:38=E2=80=AFPM Biju Das <biju.das.jz@bp.renesa=
-s.com> wrote:
-> > >
-> > > Hi Prabhakar,
-> > >
-> > > Thanks for the patch.
-> > >
-> > > > -----Original Message-----
-> > > > From: Prabhakar <prabhakar.csengg@gmail.com>
-> > > > Sent: 30 March 2025 22:07
-> > > > Subject: [PATCH 11/17] drm: renesas: rz-du: mipi_dsi: Add OF data
-> > > > support
-> > > >
-> > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > >
-> > > > In preparation for adding support for the Renesas RZ/V2H(P) SoC,
-> > > > this patch introduces a mechanism to pass SoC-specific information
-> > > > via OF data in the DSI driver. This enables the driver to adapt dyn=
-amically to various SoC-
-> > specific requirements without hardcoding configurations.
-> > > >
-> > > > The MIPI DSI interface on the RZ/V2H(P) SoC is nearly identical to
-> > > > the one on the RZ/G2L SoC. While the LINK registers are shared
-> > > > between the two SoCs, the D-PHY registers differ. Also the VCLK
-> > > > range differs on both these SoCs. To accommodate these differences =
-`struct rzg2l_mipi_dsi_hw_info`
-> > is introduced and as now passed as OF data.
-> > > >
-> > > > These changes lay the groundwork for the upcoming RZ/V2H(P) SoC
-> > > > support by allowing SoC-specific data to be passed through OF.
-> > > >
-> > <snip>
-> > > > +
-> > > >       ret =3D drm_of_get_data_lanes_count_ep(dsi->dev->of_node, 1, =
-0, 1, 4);
-> > > >       if (ret < 0)
-> > > >               return dev_err_probe(dsi->dev, ret, @@ -729,10 +750,1=
-2
-> > > > @@ static int rzg2l_mipi_dsi_probe(struct platform_device *pdev)
-> > > >       if (IS_ERR(dsi->vclk))
-> > > >               return PTR_ERR(dsi->vclk);
-> > > >
-> > > > -     dsi->rstc =3D devm_reset_control_get_exclusive(dsi->dev, "rst=
-");
-> > > > -     if (IS_ERR(dsi->rstc))
-> > > > -             return dev_err_probe(dsi->dev, PTR_ERR(dsi->rstc),
-> > > > -                                  "failed to get rst\n");
-> > > > +     if (dsi->info->has_dphy_rstc) {
-> > > > +             dsi->rstc =3D devm_reset_control_get_exclusive(dsi->d=
-ev,
-> > > > + "rst");
-> > >
-> > > Maybe use devm_reset_control_get_optional_exclusive by dropping has_d=
-phy_rstc.
-> > >
-> > As the dtbs_check doesn't enforce this,  `has_dphy_rstc` flag was added=
-. Recently the same was done
-> > for the CRU [0] based on the recent comment received.
-> >
->
-> RZ/V2H has "arst" and "prst". So, If you add "rst" for RZ/V2H then you sh=
-ould get dtbs warning, right?
->
-No we dont [0], note DT binding is written based on the recent
-feedback received.
+[ Upstream commit 8c54e58f94ed3ff28643aefd2c0c2c98313ee770 ]
 
-[0] https://patchwork.kernel.org/project/linux-renesas-soc/patch/2025033021=
-0717.46080-7-prabhakar.mahadev-lad.rj@bp.renesas.com/
+Actions UVC05 is a HDMI to USB dongle that implements the UVC protocol.
 
-Cheers,
-Prabhakar
+When the device suspends, its firmware seems to enter a weird mode when it
+does not produce more frames.
+
+Add the device to the quirk list to disable autosuspend.
+
+Bus 001 Device 007: ID 1de1:f105 Actions Microelectronics Co. Display
+ capture-UVC05
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               2.00
+  bDeviceClass          239 Miscellaneous Device
+  bDeviceSubClass         2 [unknown]
+  bDeviceProtocol         1 Interface Association
+  bMaxPacketSize0        64
+  idVendor           0x1de1 Actions Microelectronics Co.
+  idProduct          0xf105 Display capture-UVC05
+  bcdDevice            4.09
+  iManufacturer           1 Actions Micro
+  iProduct                2 Display capture-UVC05
+  iSerial                 3 -1005308387
+  bNumConfigurations      1
+
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Link: https://lore.kernel.org/r/20241210-uvc-hdmi-suspend-v1-1-01f5dec023ea@chromium.org
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index deadbcea5e227..11b04f6f60cd1 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -3062,6 +3062,15 @@ static const struct usb_device_id uvc_ids[] = {
+ 	  .bInterfaceProtocol	= 0,
+ 	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_PROBE_MINMAX
+ 					| UVC_QUIRK_IGNORE_SELECTOR_UNIT) },
++	/* Actions Microelectronics Co. Display capture-UVC05 */
++	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
++				| USB_DEVICE_ID_MATCH_INT_INFO,
++	  .idVendor		= 0x1de1,
++	  .idProduct		= 0xf105,
++	  .bInterfaceClass	= USB_CLASS_VIDEO,
++	  .bInterfaceSubClass	= 1,
++	  .bInterfaceProtocol	= 0,
++	  .driver_info		= UVC_INFO_QUIRK(UVC_QUIRK_DISABLE_AUTOSUSPEND) },
+ 	/* NXP Semiconductors IR VIDEO */
+ 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+ 				| USB_DEVICE_ID_MATCH_INT_INFO,
+-- 
+2.39.5
+
 
