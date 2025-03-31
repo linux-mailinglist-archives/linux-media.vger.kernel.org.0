@@ -1,149 +1,117 @@
-Return-Path: <linux-media+bounces-29080-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29081-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 538A4A76BFC
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 18:33:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D820A76C14
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 18:38:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8896B188CCDA
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 16:34:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 403373A530C
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 16:38:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94EFE2147FE;
-	Mon, 31 Mar 2025 16:33:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4659D214A79;
+	Mon, 31 Mar 2025 16:38:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B/I4ST5v"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FNG4dzgH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BF111D63F5;
-	Mon, 31 Mar 2025 16:33:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC08B126C05
+	for <linux-media@vger.kernel.org>; Mon, 31 Mar 2025 16:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743438830; cv=none; b=t7SFK++IigWuwK65SDHcKppcERGQFtj/3rP5MZMeMiiQz6/TbUu5XVUy/ENYfi3X0cDUKdsDYO4cA4m2HSXZcH38cCu9yLpJIqfMXi3BNPuaYZ9oMdaPPIkWZ/3M1ReiopG6L63UFLm2wKNN1eJljj/JLf2Ik/8KL6Nv+8lJetA=
+	t=1743439127; cv=none; b=NdPhtLq+s4jlUx4jr0NB+29nXRbc8LraI4+dk7yV0ppYiRAHTwu/gT+hhYegoXFn5v6OopCxHgNrcftRIX5HZ0r0pEYiojzUts4cdV47HALEwrHx82CV4xlq+dzu2Q66PmRMBXZFWSjPIbcGFPF5+DAY6Qa6hScibi4eAdYsKhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743438830; c=relaxed/simple;
-	bh=7NzXcx1wagWszAjb/SFZHHrb7ZDuC7tcnfUiQt35+g4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=paL0hgCGOUsYbx2Av0Ld5E7pftkHEaiTyu/11E41qZjUKgnaikI0ESfGfIuuSlKqBytWwFCePPIrX92Xt7nYPZhqqM1ThZEGni8oSu0aE/Hg9wIF9IZYZgZot5ECRl42jrPet2f9jbSryQ7i4V0D2GA+WieNf7n29NwKigmMic8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B/I4ST5v; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743438828; x=1774974828;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7NzXcx1wagWszAjb/SFZHHrb7ZDuC7tcnfUiQt35+g4=;
-  b=B/I4ST5vA150uG9yGNq7VvI1iC4UuzD4s4c34nFkO2sxtqGd3H3Xnw0V
-   j5mLzpcT0U9cItoAGfQIKtnbN7ZL1zwwPf1JoN0ZxbZvYJbU8rp2S83zc
-   3JvQGKfaqoBQOeAMrnR9dWng4c5p5N/bd6ECSoYRzp0uJrSS0W2/XQwA/
-   2EIwSBX1kgn0jKg8YphlK6SRof3kmag7syeajgA0OrlVAEUC/1/1EV3V1
-   QGiWnRlWp407/1veKa/Nn3jU6r9Cyi8jf0BH6i/3T+DYWA6upJcXjti3J
-   qIxrzuajZevQYv6Vns1pPX0oM5/JVO+p3P6OIhj2dD38hABg6FbzC0q5s
-   Q==;
-X-CSE-ConnectionGUID: lTgnUcGCScqC/MuLFinxdQ==
-X-CSE-MsgGUID: /Vgs1PYpQxKC39ztD+7FQg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11390"; a="62267565"
-X-IronPort-AV: E=Sophos;i="6.14,291,1736841600"; 
-   d="scan'208";a="62267565"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2025 09:33:47 -0700
-X-CSE-ConnectionGUID: yztWpxOtTMCB8/juNKV2kA==
-X-CSE-MsgGUID: R7gWUPm6Rb6FF46SFI4yKw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,291,1736841600"; 
-   d="scan'208";a="157131896"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2025 09:33:39 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1tzI4u-00000007rb1-1qK8;
-	Mon, 31 Mar 2025 19:33:36 +0300
-Date: Mon, 31 Mar 2025 19:33:36 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	acopo Mondi <jacopo+renesas@jmondi.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v1 1/1] media: i2c: rdacm2x: Make use of device properties
-Message-ID: <Z-rD4PX6qRjoM0O6@smile.fi.intel.com>
-References: <20250331073435.3992597-1-andriy.shevchenko@linux.intel.com>
- <174340899625.3687388.14660711739063778026@ping.linuxembedded.co.uk>
- <20250331120748.GB28722@pendragon.ideasonboard.com>
- <Z-qJOeeHUgWCtkTv@smile.fi.intel.com>
- <20250331153435.GB14432@pendragon.ideasonboard.com>
- <Z-rBQ8tsDHW9clYh@smile.fi.intel.com>
- <20250331162739.GG14432@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1743439127; c=relaxed/simple;
+	bh=msHDyhQuwl0lyuk5ghM677h2CmEgt+ySvxiZKKREyPg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=PlcUkbqvV8+idz4c4r4gQLOg7EMaGQ62itMWkYZVn56LGcvG1bedS1u2zJBzljs1FKI3hfgXV+G7sTN8St5315H0Q3oOnaG9zv+RFDsTGPxy7P/JxP+3jQrBdt16S+VS+LU25x2DHn0Jrux/GUHRxwATOswwlryqogmKulUI+64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FNG4dzgH; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-54954fa61c9so2840240e87.1
+        for <linux-media@vger.kernel.org>; Mon, 31 Mar 2025 09:38:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1743439124; x=1744043924; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=zYZVbCynk+ZVoNdV3LVYecJQ72VIONJ5XFTXiXMNDn4=;
+        b=FNG4dzgHt2xxHHyHOZNu1h+B65ZO38dG3bXj9Ys6SPc4dMLyH4RnMfriOj3BtgxIBx
+         PQxrCbPAnmROFAYjqkMU8bUWnkSEUGQIkOHD46xTvhqIxe0ImNDd4xVB7thE45VelbbO
+         GINMRLWQK4etPKFw8e8f1es5YpwCyYCPv9hv8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743439124; x=1744043924;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zYZVbCynk+ZVoNdV3LVYecJQ72VIONJ5XFTXiXMNDn4=;
+        b=c488vMDksQ0WR6vU0S3hUOeHaKhhLqdjHkCoIT6n7++IidlnYJBVoVYt5TaMfFx2wM
+         s39HtemDf4n0Rx2xt7MtFYaW2kiYtbqdc5X0ShomDNfu53X+bTG5UJSp5odHHxjAX3Rb
+         rrogQYdmqtzcqG4vXZ5Vu3ewT//2a68TiyjKPBQ6kdbPjnKKOQkkNueycUUb+hmMRG7p
+         +GlGzHjA2Uo4YBSYnqkUoSWcCNWH4/juhsopvfCSgF5sV1HMiX2BDc9dWtakJQ/9dYB3
+         VrvFe72jj/XLnJ+9HJ+OCsWOZq+HcIC1UvdzUwKZDJhkJ2X4mK9xkKssXnl7MtBTUC1d
+         aF1Q==
+X-Gm-Message-State: AOJu0Yw4lMx+qQoAQ0tBYKxS6itoMiB+CLYD4y0iritN6wOFjDi7HnJe
+	U0br1w1fCB8pnfMljKG0h0xyLk7CnCrLnX0I8r0+My70ONjfRB1IJsXwACTI1g==
+X-Gm-Gg: ASbGncvRUsXkZh3+Gigp6Xlk3ekPNKMYjPzzRE5crQQHFXs4SO6ELyi1HHQO6GJCmu2
+	pLH7EtyWtfo9NY6FZwUoYN3XiqqE9OahPHJol3mxMhy4mJHreXZvMjAB+YHBCOU2TZNbGpKnUwa
+	TDRpOZWQsfEqJd+8vhP3w5Izs55YQ3UQfLEvlvh3o3e5Zzgrww9SHn9+z8JZPHENTtBElG386Kj
+	Ge+fuyqp2zhug3WqLgsDpHGs9hDkM30GFz/vLeg4YZDi8cN7V8h/sBPxe1iWWn883cin7oDiIeL
+	tBh9Yefe4hqFEkmWKdlXSoL2YUtQY3ItknREVdlwuF1HrX6n4LV4PYhSHQeEax8pocjtnnKoYOu
+	A3LMP9y1P8TB2xRwyyHQETVA4
+X-Google-Smtp-Source: AGHT+IG1r79q5xr7a/3BgTP+KtzgOsT7WxeTIDLFGXSCqIMLUKbuoKzIZY1SaNKhCamPJwufuwmDmQ==
+X-Received: by 2002:a05:6512:a95:b0:549:8cbb:5441 with SMTP id 2adb3069b0e04-54b10dc7c04mr2716480e87.15.1743439123919;
+        Mon, 31 Mar 2025 09:38:43 -0700 (PDT)
+Received: from ribalda.c.googlers.com (216.148.88.34.bc.googleusercontent.com. [34.88.148.216])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54b09590fd3sm1151796e87.188.2025.03.31.09.38.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Mar 2025 09:38:43 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH 0/2] media: Fix gcc8 warnings
+Date: Mon, 31 Mar 2025 16:38:41 +0000
+Message-Id: <20250331-v614-v1-0-9bc69a873720@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250331162739.GG14432@pendragon.ideasonboard.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABHF6mcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDY2ND3TIzQxNdCxML0xRjYwsjS2NTJaDSgqLUtMwKsDHRsbW1AL7UnAh
+ WAAAA
+X-Change-ID: 20250331-v614-8485d3382935
+To: Hans Verkuil <hverkuil@xs4all.nl>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Hans de Goede <hdegoede@redhat.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Andy Shevchenko <andy@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux-staging@lists.linux.dev, Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.14.2
 
-On Mon, Mar 31, 2025 at 07:27:39PM +0300, Laurent Pinchart wrote:
-> On Mon, Mar 31, 2025 at 07:22:27PM +0300, Andy Shevchenko wrote:
-> > On Mon, Mar 31, 2025 at 06:34:35PM +0300, Laurent Pinchart wrote:
-> > > On Mon, Mar 31, 2025 at 03:23:21PM +0300, Andy Shevchenko wrote:
-> > > > On Mon, Mar 31, 2025 at 03:07:48PM +0300, Laurent Pinchart wrote:
-> > > > > On Mon, Mar 31, 2025 at 09:16:36AM +0100, Kieran Bingham wrote:
-> > > > > > Quoting Andy Shevchenko (2025-03-31 08:34:35)
-> > > > > > > Convert the module to be property provider agnostic and allow
-> > > > > > > it to be used on non-OF platforms.
-> > > > > > 
-> > > > > > Looks reasonable to me.
-> > > > > 
-> > > > > Is that going to work out of the box though ? The calls below read the
-> > > > > "reg" property to get the device I2C addresses. AFAIK, ACPI handles I2C
-> > > > > addresses using ACPI-specific methods.
-> > > > > 
-> > > > > Andy, have you tested this patch on an ACPI system ?
-> > > > 
-> > > > Only compile-tested. But you are right, this is something different here
-> > > > between OF and ACPI.
-> > > > 
-> > > > I can rephrase the commit message to just point out that fwnode.h shouldn't
-> > > > be in the drivers and either converting to device property in an assumption
-> > > > that later it can be easier to support non-OF cases, or using of.h.
-> > > 
-> > > I wasn't aware that fwnode.h shouldn't be used in drivers, could you
-> > > explain that ?
-> > 
-> > The fwnode.h provides the data types and definitions that are meant
-> > to be used by the fwnode / device property API providers. The leaf drivers
-> > shouldn't have any business with those definitions. Everything the drivers
-> > need should be provided via property.h. property.h guarantees the necessary
-> > data types to be visible to the users, when required (mostly think of
-> > struct fwnode_reference_args). Yes, I am aware of v4l2-fwnode.h and it seems
-> > it falls into the category of special device property API provider.
-> > 
-> > > If this patch is part of an effort to eliminate usage of some APIs from
-> > > all drivers, I'm fine with it. Otherwise, I'm not sure it's worth
-> > > modifying the driver.
-> > 
-> > These drivers basically include the wrong header.
-> > If you insist, I can patch fwnode.h to add a comment summarizing the above.
-> 
-> No, it's fine. I mixed fwnode.h and property.h when writing my previous
-> reply, but I don't think it's a matter of lack of documentation, more
-> likely lack of sleep :-)
+Kernel 6.14 has increased its minimum gcc requirements. After bumping
+the "ancient" test in media-ci 2 new warnings have been found. Let's try
+to fix them.
 
-NP. but here we are: 20250331163227.280501-1-andriy.shevchenko@linux.intel.com
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+Ricardo Ribalda (2):
+      media: cec: extron-da-hd-4k-plus: Fix Wformat-truncation
+      media: atomisp: Fix Wformat-truncation warning
 
-The bottom line, can you give a tag for this patch and perhaps others of
-the same matter against drivers/media/* I sent today?
+ drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c  | 5 +++--
+ drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c | 2 +-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+---
+base-commit: 4e82c87058f45e79eeaa4d5bcc3b38dd3dce7209
+change-id: 20250331-v614-8485d3382935
 
+Best regards,
 -- 
-With Best Regards,
-Andy Shevchenko
-
+Ricardo Ribalda <ribalda@chromium.org>
 
 
