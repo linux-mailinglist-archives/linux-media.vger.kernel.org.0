@@ -1,162 +1,124 @@
-Return-Path: <linux-media+bounces-29042-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29043-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB514A762A3
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 10:44:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB6BDA76379
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 11:45:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4F0271681B4
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 08:44:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2F5291889C66
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 09:45:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7CC41DA0E1;
-	Mon, 31 Mar 2025 08:44:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB1AB1DEFE7;
+	Mon, 31 Mar 2025 09:45:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TnwFOV3c"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fK12p+UV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAE6A1D90A9;
-	Mon, 31 Mar 2025 08:44:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D4231953A1
+	for <linux-media@vger.kernel.org>; Mon, 31 Mar 2025 09:45:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743410685; cv=none; b=fYja0e94QWolP55E2nxOqeIhru3IHCy6qcIog+ic7/i3zWbGdnsHO8gPMxjvZMLTwyRjE8Ax9vqXWLBSS4J7NAUUFfzbu5jdouNRd9dX5oxfDNPybYBhDJTjFQx09fjSbr7kPrxI5s/xbCD0n7oKh1jdmsORORJ06zb1EQ8MXJM=
+	t=1743414318; cv=none; b=ADKhAHnPV25zukYGoP7g8bvVrrJ8WQm0c7gO/OzS2TUjDBpYklB9plLxm+qXLrAVDpvMfc9jaPlqdsKzypm84OMy88UvIVucj76hymekUzOBVPy+tebV5nOxy5ZonRJb0CaraKdWvsxJnd3a5X0twBp7LSFD9/aneW5f6pmQhJ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743410685; c=relaxed/simple;
-	bh=9Eo5YorzB1znbDgWJg/+008nXJznjveNUK50EHiJXHE=;
-	h=From:To:Subject:Date:Message-Id:MIME-Version; b=iGnK8rImtUfqM9cFMSt6C466MLGbeTVvSuyj+s7xUtpbBIKr6cQ9NMtyvk0kcggCy3ubvHcY/Uxyl8JrDqbeC19p2BCh6y6aOCB9e/08Fx/s14Y8yRFqoCJsL7wpSvwgIHQjSiUxCCANQDalcxcZK4Cgd3fnmg6nv26rSD31sIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TnwFOV3c; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43690d4605dso27324965e9.0;
-        Mon, 31 Mar 2025 01:44:43 -0700 (PDT)
+	s=arc-20240116; t=1743414318; c=relaxed/simple;
+	bh=eb5lElBQ52SQo2tJMBhxvP50tBy4RgLuAmk+7/7KVYM=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=LI5w9GpgpCU8fl0Po9j8javRpJvqJBpMd7TPcj1zvUJugJ7nYiBst2gk8Bkq4qkzPYXRWwUaen+FkLbZCKcFTHV/WbPP9hw8XYyA1KxpqWI4js1teUdd0LOeilzKXhciC/IP2Qju29nfm9I7fi9HhkJP4wHjg79c5WGThl+sL6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fK12p+UV; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4394a0c65fcso40579505e9.1
+        for <linux-media@vger.kernel.org>; Mon, 31 Mar 2025 02:45:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743410682; x=1744015482; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7k8QAqyn6gLKSVxlNTUb4WI8Fi44pPrnGBNadeFjOuw=;
-        b=TnwFOV3czeyYkaAbmCHzosqb1YAp/+EPKVvN0dHHS+VNO73dKygWRBbS54Lqf3j+Hh
-         98PgoNQXnaDavyV6KLg3cJA5T14hptHBDnHFGg5wEBX87Jh8ybeOvvImlRwGlF2B4eDL
-         L1rXNvu16mfClxfgk1BfkuyTLG0I2EJiZWWuW9+sX+FRJwE0s2l/lzv3BwDkuGw/DPGH
-         9I+TAX94tcwcY0tcrtGNO8RnG5YDmqv3BfqwUIJi9ERUCUMkhTlcrDUNk8q3FN0ZSsuZ
-         VXhgfsSpuszbaQG2GdLR38ejD5dY5CHop9tKJSDS27cFWN/P2l9ooSQTLso26vtV4GRl
-         0zyg==
+        d=linaro.org; s=google; t=1743414314; x=1744019114; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aKS0Fboa1dtHIDG4S6gLCYTAz2lAP8mKMrYFIOMeSw4=;
+        b=fK12p+UVwSTQk21hUWwQ9pWJpdybFLDovx4h8HgAAxGbV+KYv9uxvopVmmCjmWBUVk
+         ZG+Xb1Lqq69CWNWo5Fg7fHTp5bpncmAaHIrFwVYNyBsJ/hCMjtwttSSbsGz9lUbr/HyD
+         SXsvKe9xyLV7xVnyHZCBf0adqBzerEVTw2et0MxOWev4YnttYGifmg3Ysb8w8K+l7h2q
+         9WV2g7Xoz6Sz6s+YWTpV9ofJfjiEWcAow/fRwiiBLgj8XwYkDj9NZvZpfHHFtjqRFt6U
+         RMs0U/+gYNASifZF/IyEMkVV9OwWAAWwd/2r05A3kBDIQTGlSCe8GohO83BsI7l37stE
+         SqFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743410682; x=1744015482;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7k8QAqyn6gLKSVxlNTUb4WI8Fi44pPrnGBNadeFjOuw=;
-        b=OfwwGr0tcr5FN0KxGciH0mx5esDWfFeB4Os6ydeKyDgHn4HVIeLUcf8/uuhxSZ4CUQ
-         VEj10RjqPrDGpEPBzTGmmtwJwNNRJ2GnF8kZ+5lm7xmIiWKTFJDRCguYmhjYTtNTQTex
-         +h2xA1PGQzObB+ci78FpMW10isRJVrhvjoL/atZf+ekQA/c2f04AbBzp28zAODLTMnil
-         4vJYQJWvkfuSNSkSuMaFL/YjVPGg4G8DkVIoVIsH7NYnsVcNjq5rQ4EkW0N1nhSoFclb
-         A2Y22G1YhM/bvkbAlk3uUGnaO+SuTlgQ11ggbwBT0P85gfNm7D3pHR2Y2J9BTRt+p9wg
-         6d0w==
-X-Forwarded-Encrypted: i=1; AJvYcCWX2HZeAgJ9uOp4yPcIcQONVaZY9iJNBwyWVd4ekG27TPO+FM1Vr7Ze1ldFYsMjN5e4pGmnal4aW4larBo=@vger.kernel.org, AJvYcCWmMzOKNnwf1ck9t/WKblIDwY8IVtTJBsFK+aHpJjAeMHaVOZgRGhGNbet823X6qLPoZrxglTxzSBJMQIM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyL8zGcCpPg65B6VKvlspd1ZY9kmQv72btgeEvZR/x0USSQmNns
-	JLE+QsLVRIeLzxprmVXauLkwiSJUqqXyQ2p9uROjHz68HjbpuvyneBLPgLXIaEE=
-X-Gm-Gg: ASbGncsRk6f0Ale6rjyLU/WBjhYfOFhz+5MwP14sVsyLeT1yzBaW0ozpsyenkE32HAU
-	x6zq/An/q40TTNsYhOAlKgkguO7L6tBtkNIRXaNZz1UoGM/QX7moUYXpQv3LQyXRSdulHLCl40Y
-	IdkL0/yKmUEYVi13LhBepYoG2+MOwE/IJmcNpCWT4+oWBVIPEuKA1HTeRinTGNQUbgew+DM2fbQ
-	LUXvD/StdsPPNWwRh63SkLIO4MwUSqm7Zl2c6AxYEZCX1TkjNla2Y0/iMzqlLJs3QG4d2xgE6gp
-	Vh+2WMkueau4ibC2fDaCJgK5ELPqG/K6Pin3yCHexaEJss5tRwPms0+iuv+X
-X-Google-Smtp-Source: AGHT+IGqlAOUPlYMNJdvGKhA43+8DFYtcqrURoBfLI0cjmzp73RPTqDXDf90ynGOUdQDFxYR3VTfYw==
-X-Received: by 2002:a05:600c:3b9d:b0:43d:7588:6699 with SMTP id 5b1f17b1804b1-43db6221b07mr57375675e9.7.1743410681820;
-        Mon, 31 Mar 2025 01:44:41 -0700 (PDT)
-Received: from toolbox.. ([87.200.95.144])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d8fbc12bbsm114834015e9.13.2025.03.31.01.44.39
+        d=1e100.net; s=20230601; t=1743414314; x=1744019114;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aKS0Fboa1dtHIDG4S6gLCYTAz2lAP8mKMrYFIOMeSw4=;
+        b=c8dmazIVEyukHLd5UM8lx/Y66WZwSv01BUJJRGbNXY/OHqCQxdl/k92XCJg8mE/0xp
+         jmUCoZRDuYiz0MoQM7dZN+YdPRlu6AaiFdeGygE7QYaQe93ip9Y6Zuqa2IdipgpiL7kX
+         zNt2UW5DKlh63SI7oko+MMESDXFNq7aRPa1AqRZwiLuyO3mMwScas33EXk4i3BIoBuCU
+         NmVze4RnTar/93rHwPPuuZu8hUZVugGOVtVoSPKkeoGeSJUev+si5n96jE1Jn+ZPZGLN
+         ROE0nvnRbakgndRmAg6mf+uCp6Edr05362hDsyH09XNOqfW3rXctWbgSCcGLIl1wtqcD
+         xQ3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVGoOdDeF9kYfF/A+p+JCd4YVaJbGV7vWQHcl+CSaLGCtyYoCnEnMuH/guAvB7tWHQJVTdBF1YkESqZHg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxdk08Qusnqc9LYVi1krkFOck86WwujLpNo03BLp9ymnYOk1xaJ
+	v+jSg1f0XQHfORuTAAbG/wn57rmitTA2u3tY8HbP7Z5K2VBXal6nhKil/9WLxSY=
+X-Gm-Gg: ASbGncvkF8x99W55/wa/9NONkY+XH2Snbl7t1DmwCt7EncP6NYJOAGZQNRLj9ieX++2
+	GzmL7U5uWdiYVH3S3w+wGvnuc+79Um6ugYISp+vHklbYUOI4qp8qFFg4pL9MBgd1wGPSZF6RSH0
+	BmaGwv7A0Q4GmaNyRTpLI94nIdWk8R/ddJlm9STcbO+73avPAO3wjjRtNq8vwWfURSsS+zuwz+J
+	ttHcGZ5eYreEP4z8+6QgGBgaZV8QWzkZ8A6ApXqOqT8yfmth4A2D75WtyVOZA5qSONrKXRg0QS7
+	csB5hTYq7b98q+s5ZWJYd2+VmX+9I+c9sLhrJocqNm9u6Q1sDw==
+X-Google-Smtp-Source: AGHT+IFVzFpYmKBAGEXWi3zw7wUU5N+0+BO4pZCgxv4I35ZkC0wJP7yiqMMStfAjpc9DsFCTgkEtog==
+X-Received: by 2002:a05:600c:83c4:b0:43c:ec28:d31b with SMTP id 5b1f17b1804b1-43db62283d1mr102074565e9.10.1743414313954;
+        Mon, 31 Mar 2025 02:45:13 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43d8fbc10e1sm115778485e9.12.2025.03.31.02.45.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Mar 2025 01:44:41 -0700 (PDT)
-From: Christian Hewitt <christianshewitt@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Peter Rosin <peda@axentia.se>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] media: si2168: increase cmd execution timeout value
-Date: Mon, 31 Mar 2025 08:44:37 +0000
-Message-Id: <20250331084437.3974648-1-christianshewitt@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Mon, 31 Mar 2025 02:45:13 -0700 (PDT)
+Date: Mon, 31 Mar 2025 12:45:11 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Rob Clark <robdclark@chromium.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+	Gustavo Padovan <gustavo@padovan.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Pekka Paalanen <pekka.paalanen@collabora.com>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH] dma-buf/sw_sync: Decrement refcount on error in
+ sw_sync_ioctl_get_deadline()
+Message-ID: <5dbd6105-3acf-47ad-84d6-2920171916ac@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-Testing with a MyGica T230C v2 USB device (0572:c68a) shows occasional
-cmd timeouts that cause Tvheadend services to fail:
+Call dma_fence_put(fence) before returning an error on this error path.
 
-Jan 28 12:23:46.788180 LibreELEC kernel: si2168 1-0060: cmd execution took 0 ms
-Jan 28 12:23:46.790799 LibreELEC kernel: si2168 1-0060: cmd execution took 0 ms
-Jan 28 12:23:46.878158 LibreELEC kernel: si2168 1-0060: cmd execution took 80 ms
-Jan 28 12:23:46.879158 LibreELEC kernel: si2168 1-0060: failed=-110
-Jan 28 12:23:46.879908 LibreELEC kernel: si2168 1-0060: failed=-110
-Jan 28 12:23:46.948234 LibreELEC kernel: si2168 1-0060: cmd execution took 60 ms
-Jan 28 12:23:46.949121 LibreELEC kernel: si2168 1-0060: cmd execution took 0 ms
-Jan 28 12:23:46.949940 LibreELEC kernel: si2168 1-0060: cmd execution took 10 ms
-..
-Jan 28 12:23:57.457216 LibreELEC tvheadend[3126]: subscription: 009B: service instance is bad, reason: No input detected
-Jan 28 12:23:57.457392 LibreELEC tvheadend[3126]: linuxdvb: Silicon Labs Si2168 #0 : DVB-T #0 - stopping 778MHz in DVB-T Network
-..
-Jan 28 12:23:57.457584 LibreELEC tvheadend[3126]: subscription: 009B: No input source available for subscription "127.0.0.1 [ | Kodi Media Center ]" to channel "XXXXXXX"
-
-The original timeout of 50ms was extended to 70ms in commit 551c33e729f6
-("[media] Si2168: increase timeout to fix firmware loading") but testing
-shows there are other demux commands that take longer. The largest value
-observed from user reports/logs is 150ms so increase timeout to 200ms.
-
-Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Fixes: 70e67aaec2f4 ("dma-buf/sw_sync: Add fence deadline support")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
-Changes from v1 [0]:
-- Rename TIMEOUT to CMD_TIMEOUT and move below #include
-- Add Wolfram's review tag
+ drivers/dma-buf/sw_sync.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-[0] https://patchwork.linuxtv.org/project/linux-media/patch/20250331075838.3444332-1-christianshewitt@gmail.com/
-
- drivers/media/dvb-frontends/si2168.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/dvb-frontends/si2168.c b/drivers/media/dvb-frontends/si2168.c
-index d6b6b8bc7d4e..843f1e01318e 100644
---- a/drivers/media/dvb-frontends/si2168.c
-+++ b/drivers/media/dvb-frontends/si2168.c
-@@ -9,6 +9,8 @@
+diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+index f5905d67dedb..b7615c5c6cac 100644
+--- a/drivers/dma-buf/sw_sync.c
++++ b/drivers/dma-buf/sw_sync.c
+@@ -438,8 +438,10 @@ static int sw_sync_ioctl_get_deadline(struct sync_timeline *obj, unsigned long a
+ 		return -EINVAL;
  
- #include "si2168_priv.h"
+ 	pt = dma_fence_to_sync_pt(fence);
+-	if (!pt)
++	if (!pt) {
++		dma_fence_put(fence);
+ 		return -EINVAL;
++	}
  
-+#define CMD_TIMEOUT 200
-+
- static const struct dvb_frontend_ops si2168_ops;
- 
- static void cmd_init(struct si2168_cmd *cmd, const u8 *buf, int wlen, int rlen)
-@@ -40,8 +42,7 @@ static int si2168_cmd_execute(struct i2c_client *client, struct si2168_cmd *cmd)
- 
- 	if (cmd->rlen) {
- 		/* wait cmd execution terminate */
--		#define TIMEOUT 70
--		timeout = jiffies + msecs_to_jiffies(TIMEOUT);
-+		timeout = jiffies + msecs_to_jiffies(CMD_TIMEOUT);
- 		while (!time_after(jiffies, timeout)) {
- 			ret = i2c_master_recv(client, cmd->args, cmd->rlen);
- 			if (ret < 0) {
-@@ -58,7 +59,7 @@ static int si2168_cmd_execute(struct i2c_client *client, struct si2168_cmd *cmd)
- 
- 		dev_dbg(&client->dev, "cmd execution took %d ms\n",
- 				jiffies_to_msecs(jiffies) -
--				(jiffies_to_msecs(timeout) - TIMEOUT));
-+				(jiffies_to_msecs(timeout) - CMD_TIMEOUT));
- 
- 		/* error bit set? */
- 		if ((cmd->args[0] >> 6) & 0x01) {
+ 	spin_lock_irqsave(fence->lock, flags);
+ 	if (test_bit(SW_SYNC_HAS_DEADLINE_BIT, &fence->flags)) {
 -- 
-2.34.1
+2.47.2
 
 
