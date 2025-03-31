@@ -1,127 +1,156 @@
-Return-Path: <linux-media+bounces-29040-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29041-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9008CA76273
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 10:35:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 962A0A7627B
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 10:36:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CAC9F1887C85
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 08:36:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D09FC1889AA1
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 08:36:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C0C91D95A3;
-	Mon, 31 Mar 2025 08:34:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC4DF1DB122;
+	Mon, 31 Mar 2025 08:35:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="RvaMtatN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="liwDrSg7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01A7E13C816
-	for <linux-media@vger.kernel.org>; Mon, 31 Mar 2025 08:34:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B3D115624D;
+	Mon, 31 Mar 2025 08:35:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743410078; cv=none; b=dO73rBf3+/phjNcwK38eQNr0fxVxvR0jLi/sVxZS02OE4NWmXu5QBuNqyy+KG0sO9qs+SrWoQaPgeUD4iT97lzy9ZDQds3XwCDok2kYijQGf3lRLltXKBTZ8NPz9mQ/+AHxG0uR39oxBhRzMFmKEwd1KXcRkQyOIY4NvBm+Vyyc=
+	t=1743410118; cv=none; b=D7TGnx2ZtYTRj9aKZa4ETUJZ18knO2XMIJv7RVrGCLlFgkLRe3K+w2UDp0p8Db8rz9FGjeKhkc37Cd+sABHnkHoBqHMfvmGiBW74/vDOd43MgIwvTxqMlanZNQuK9CTSGxSx4KUtVrnyO3/bt7g/FdCv+SRFvypf8bUKS4KzGYw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743410078; c=relaxed/simple;
-	bh=nkc8yXiQaPb+iayptLaJUMi+sPOcZnTLBQBWtGMTQNA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ivvdKJ0NBxp+F3bd5f+w3K5+LhqP1DhYdimHeAOGs0O3Ur9qHXncc6HgNmU/qZw9i2S4rfgSDF4rmYJP7qt5j6ozd7jTPvH4B2JBS/xPYaUVKIo4p9QZwc3ZRvERNPuNJx6lMntUoY0yOuvC1DwZMR+3ZTb7F8fDjB9W5uR58yQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=RvaMtatN; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=nkc8
-	yXiQaPb+iayptLaJUMi+sPOcZnTLBQBWtGMTQNA=; b=RvaMtatNZh9bCclUcW56
-	QpUsmmhMtJMHbypRBoumHRdZe3RAi2AuXh+N9K1yr/s7TY/T7L+mNEkPjuI5m8Cb
-	wVV+z3q9VU83GHu5lbnSvDmuc5Da19+SJ4OCecjmHa6waxGeQDvpHdV+pPa40RRy
-	C4+U1EL67dynYhlt52JBY0E7U05RuJFQDM1niY/HP+rIPH3tDt7QgRilIV7ylzPw
-	6o1j7qrfJvHE8SamPf0WeMLVCH6AHAK41FPnUFYG5E6rxIV80hAf58TbB2+UdavA
-	PoYmx5gDeLexWK2U1wgUi1dk15VS26mCLa1f2b/7nEkGgDQ3aBFwt8w27NF8xqqa
-	zQ==
-Received: (qmail 1159115 invoked from network); 31 Mar 2025 10:34:33 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 31 Mar 2025 10:34:33 +0200
-X-UD-Smtp-Session: l3s3148p1@tMYdSp8xDtpQ8qei
-Date: Mon, 31 Mar 2025 10:34:33 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Christian Hewitt <christianshewitt@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Peter Rosin <peda@axentia.se>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Heiner Kallweit <hkallweit1@gmail.com>, linux-media@vger.kernel.org,
+	s=arc-20240116; t=1743410118; c=relaxed/simple;
+	bh=aGnYakvsH7xDDJtDY+W1CWo7Y/gpIZ5cGUAItgG1C1E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qztRQjrhC6Jl9dfeTvAmWtu9xZfXgV1LfUkRDsQq+8yswqdrJpjpokttz/QYRuEdru7LMH9bdFxhmTWYsiGt+GWYenxup+5LxlE51Vo3fiKwLAy87RlL5rT4Sjel/eNE2GrTo2g28XFGqhJmQTQy4VteTsCEiHsvDzY2upcA104=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=liwDrSg7; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743410117; x=1774946117;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=aGnYakvsH7xDDJtDY+W1CWo7Y/gpIZ5cGUAItgG1C1E=;
+  b=liwDrSg70SlItNo/RzFIeCTGnS+AjpiLVNnel8sALJc6GbbQnCQ85Ttj
+   byJGoAoHGBGtuZmY2Ku3CSX9XUdg7EQaUvdmQ5aq1HvRl04o7bH2RmQg8
+   Sj6a/lI1tLNO7JuPebtQJuk/yHsHvOMdt8Z6atkGIG39bZB02PBpibgq6
+   E5nFGfQOCFi0Edyyst3E2k2LK+KP+JZHehCekZhmQdNnRAtlk+RYn31iS
+   z2GzFSvL+pMEVg5QOoTAK5K1bMEZlU6G5JlxuAKmSlkSomH5olutEaUqp
+   UKCfXzNBQDMAo4G0iyBV382m6viP1xLHhtDG9LzQ3IruJhB/gdMDW0rEP
+   A==;
+X-CSE-ConnectionGUID: SYM5F76mSuqjKHngujLHGw==
+X-CSE-MsgGUID: e6PfTsiKTimzbIAkUmKlyg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11389"; a="44846878"
+X-IronPort-AV: E=Sophos;i="6.14,290,1736841600"; 
+   d="scan'208";a="44846878"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Mar 2025 01:35:16 -0700
+X-CSE-ConnectionGUID: rW1TUERJSAG6nR3NMTm4sw==
+X-CSE-MsgGUID: iru2veDNR3WQuH0GqtAvJw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,290,1736841600"; 
+   d="scan'208";a="130737944"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa005.fm.intel.com with ESMTP; 31 Mar 2025 01:35:14 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 782E81B2; Mon, 31 Mar 2025 11:35:12 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: si2168: increase cmd execution timeout value
-Message-ID: <Z-pTmaRpf_FUAlkk@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Christian Hewitt <christianshewitt@gmail.com>,
+Cc: acopo Mondi <jacopo+renesas@jmondi.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Peter Rosin <peda@axentia.se>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Heiner Kallweit <hkallweit1@gmail.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-References: <20250331075838.3444332-1-christianshewitt@gmail.com>
- <Z-pNBAVhUwrcwDQe@shikoro>
- <0073F061-994E-4DE6-AC0E-E7E03DD30275@gmail.com>
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v2 1/1] media: i2c: rdacm2x: Make use of device properties
+Date: Mon, 31 Mar 2025 11:35:04 +0300
+Message-ID: <20250331083511.4005934-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="XzZliXgLQrimYMfS"
-Content-Disposition: inline
-In-Reply-To: <0073F061-994E-4DE6-AC0E-E7E03DD30275@gmail.com>
+Content-Transfer-Encoding: 8bit
 
+Convert the module to be property provider agnostic and allow
+it to be used on non-OF platforms.
 
---XzZliXgLQrimYMfS
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
 
-On Mon, Mar 31, 2025 at 12:31:48PM +0400, Christian Hewitt wrote:
-> > On 31 Mar 2025, at 12:06=E2=80=AFpm, Wolfram Sang <wsa+renesas@sang-eng=
-ineering.com> wrote:
-> >=20
-> >=20
-> >> if (cmd->rlen) {
-> >> /* wait cmd execution terminate */
-> >> - #define TIMEOUT 70
-> >> + #define TIMEOUT 200
-> >=20
-> > While we are here, can we rename it to CMD_TIMEOUT and put it next to
-> > the #includes?
->=20
-> I=E2=80=99m at the novice end of kernel contributors, so like this?
+v2: fixed error message wording (Kieran)
 
-Exactly! Thank you. If you send v2 of this patch, you can already add:
+ drivers/media/i2c/rdacm20.c | 7 +++----
+ drivers/media/i2c/rdacm21.c | 7 +++----
+ 2 files changed, 6 insertions(+), 8 deletions(-)
 
-Reviewed-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
+index b8bd8354d100..52e8e2620b4d 100644
+--- a/drivers/media/i2c/rdacm20.c
++++ b/drivers/media/i2c/rdacm20.c
+@@ -16,10 +16,10 @@
+  */
+ 
+ #include <linux/delay.h>
+-#include <linux/fwnode.h>
+ #include <linux/init.h>
+ #include <linux/i2c.h>
+ #include <linux/module.h>
++#include <linux/property.h>
+ #include <linux/slab.h>
+ #include <linux/videodev2.h>
+ 
+@@ -575,10 +575,9 @@ static int rdacm20_probe(struct i2c_client *client)
+ 	dev->dev = &client->dev;
+ 	dev->serializer.client = client;
+ 
+-	ret = of_property_read_u32_array(client->dev.of_node, "reg",
+-					 dev->addrs, 2);
++	ret = device_property_read_u32_array(dev->dev, "reg", dev->addrs, 2);
+ 	if (ret < 0) {
+-		dev_err(dev->dev, "Invalid DT reg property: %d\n", ret);
++		dev_err(dev->dev, "Invalid FW reg property: %d\n", ret);
+ 		return -EINVAL;
+ 	}
+ 
+diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
+index 3e22df36354f..bcab462708c7 100644
+--- a/drivers/media/i2c/rdacm21.c
++++ b/drivers/media/i2c/rdacm21.c
+@@ -11,10 +11,10 @@
+  */
+ 
+ #include <linux/delay.h>
+-#include <linux/fwnode.h>
+ #include <linux/init.h>
+ #include <linux/i2c.h>
+ #include <linux/module.h>
++#include <linux/property.h>
+ #include <linux/slab.h>
+ #include <linux/videodev2.h>
+ 
+@@ -551,10 +551,9 @@ static int rdacm21_probe(struct i2c_client *client)
+ 	dev->dev = &client->dev;
+ 	dev->serializer.client = client;
+ 
+-	ret = of_property_read_u32_array(client->dev.of_node, "reg",
+-					 dev->addrs, 2);
++	ret = device_property_read_u32_array(dev->dev, "reg", dev->addrs, 2);
+ 	if (ret < 0) {
+-		dev_err(dev->dev, "Invalid DT reg property: %d\n", ret);
++		dev_err(dev->dev, "Invalid FW reg property: %d\n", ret);
+ 		return -EINVAL;
+ 	}
+ 
+-- 
+2.47.2
 
-
---XzZliXgLQrimYMfS
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmfqU5gACgkQFA3kzBSg
-KbY+gA/8CS6Jf81Um9K5Oc2V4wkAnxxChfhbaJTrMqp/W5SqfcllGDs8Pr9UGMnU
-Px99+cMeNNjft9bFx3NFUw1DLCNbARlQDK36pMXD94STo9Vqjc2AmXHn5/Mc0/wO
-6Q03apTlrC4ZNVdaKkc6BYk/i2PdAUa9DcGH0qugk38EmmphiwDodBEeRtwa774W
-vsoZHIVtVII5zXLW49+/Xh2+x5OwQNoPxp8J4q3VhGVnhu2RYjdNrb+5aMPArNoC
-48EANm72zhAFiHkM+LBjxlIlOs3kvXl/jhLOsz6kmoecJ1OTeitDYqpKOVgfs+3O
-VvRMkoL0it8K25aJaL4qsNgm5e+dFJJVwmiyJc3BqycCMBhIOCmM3h8hCE5BOoPW
-SxTJ9iJDNiIXb635U/oNQZzrUOdxBrXsM0WkV8MWwAA2DxsBOgYG+PAfUZoTAg3j
-FDIYcW5NXw1AngVho/xhK1UIQtbijJZM0PnlDOIFGkPIOJtEQOj5o5TNKxXwk+y8
-xGkdrJ14773R4OPx7lAwKR4kK11hFbzdpL3TQWe8wZ4Io0/eJkz6KBkpa0niHoPf
-MUp/07i52MhrodkWPHIVyw6IhBn3fkQeSGDKc009ac68Eim1UUgCSLtjKTczWUgR
-vhuYPDnWykUANgic+Bxj6RSam/4dfM2CQl0/bEfuQqVK8RKS2Sg=
-=5t2X
------END PGP SIGNATURE-----
-
---XzZliXgLQrimYMfS--
 
