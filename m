@@ -1,133 +1,176 @@
-Return-Path: <linux-media+bounces-29044-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29045-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F0A1A763BA
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 12:00:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FCB6A7644F
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 12:35:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 838D63A3EE9
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 10:00:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2ADC23AB3A9
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 10:34:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DECA1DF747;
-	Mon, 31 Mar 2025 10:00:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDCA21E0B91;
+	Mon, 31 Mar 2025 10:34:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="b+m+bsl3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7236A86338;
-	Mon, 31 Mar 2025 10:00:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 723291DFDB9
+	for <linux-media@vger.kernel.org>; Mon, 31 Mar 2025 10:34:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743415206; cv=none; b=QfBEpqmslf6J+j6EnB9VVZk4rh8xDarCn4qGd8ySRDumuN9r3i2iVFaUSEPUg+Sg8ZxGu0ZJKuJWLasH8ogkizxJ5V49X0HUzwmmGhu0VzNajz1r7efmMymB7Nd5HZQRznba2hb/Leg3QK+4Kg4izlycFJPHdcHYdfVRaimxcpA=
+	t=1743417242; cv=none; b=jj9mSeFA7nbXLFIFnzAT5qf7XEHuSJd+8wPzL+trJhjuI64+Sj3u/ZpP/EtIf3YZkYUrkjtiSKAMDiGzvdRmr4xfDu9Udu7TH5wsxn1yXq8Kx8wY6wGXD2UX6u7rQVgAvtNMggRUJxodQcEa758J53vNChsGcaq480bSVKexbX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743415206; c=relaxed/simple;
-	bh=RYhb5eHwn7GiR8GFxnjY8qU2kO/mpQDTuFA9lv5gM6s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mQfEr7M14tu2x4scIINt3nL/NasWptvM4J18hy5+cKEAa74jUXze5qarXYHfy+aCUTmFLN12Rmc9ErXHws/rf0ZGnOPYzHCTpmY0fvLePwzPffxc/O0BUzzlPd0Lh9GnTcZzzgrHm9moR8V+Y5SwfrWShW/DFn6NHtHsuywtjFw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-523d8c024dfso1726543e0c.3;
-        Mon, 31 Mar 2025 03:00:05 -0700 (PDT)
+	s=arc-20240116; t=1743417242; c=relaxed/simple;
+	bh=QdePJzntHBFPog0fZh36LJ0GzufJKGYvG0XKRdPn5FU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yl+4RrVlTVoLFbGJP3hy+FHz8N+YCfkW4MeaNi21qXxlu586Ilfy0/KoJiZdwB8mp922RKFsCz5EbC/W2EhhQImk1Gtjjdb3hL8BSUH4EIikvuM2aHxdFOa2lIzx7m7m+MKvNSa6DZJ9lFwOFpGSi2KokmuqVx9Mt073LvVjTgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=b+m+bsl3; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3913d45a148so3684770f8f.3
+        for <linux-media@vger.kernel.org>; Mon, 31 Mar 2025 03:34:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1743417239; x=1744022039; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VWZgGDwlAbPbiL5FveYelCRSDG0LmvCzE51A2ZLXHiM=;
+        b=b+m+bsl3nwarUItsAAGodeVUe8HNi2UptsAh7KzFGHPE2SC4hikGP7yWqDQy06Ubyp
+         SiVnSwGtlT2IZ71tGiwPyiLbtOEk38QeK4nfahiKIx8+d27hWwi6OVJzSfx6nUW5kVT7
+         5Omc4ATj76SkRyjOF4pjob1ZqdyaBtgLD3tnRnx+ZKgLp0XBHGMQTwM1sMc+UJeM+/vc
+         HRp3Cfq0wTHR0OSgqOPJhvIQKKtDwVby7nO1GIRgnoWjYoCJjahaTOHcCWEzzhDtBads
+         qksqGXlvEzWtEGkbZpN2RIpe6lslliN/+54jmbNkELc7XuvM3LOEIBfIWAP9pdmtUlY1
+         yc+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743415202; x=1744020002;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IHHpQ0fy6841VegCJOINr5C7Mb1mxyzeTX09RBlZJPE=;
-        b=qD4rGg+iNimkBj+bEySt1QAelmdUaLYamHXjDh2o5CbB4iPI5dN7o/GncrUInI3jcp
-         CcNKNmdWT6K9jk+5PRGyLFa9KoKBQrMdLkV+quAyLccmIoja0u0kS5B68kMTlkTksXia
-         0bnGhOrAiDBdJkpIWRjDt8LeKG9/BoayAdQ1KS/DHmEPs0kIZArzZB9qwMpPyuHS7aYJ
-         1SWPsD0F5TAMQ6DwNeHQo61BCpZGwRo55XsYu+M4n7MlXASGIj5er3SuO53YBPF9HTLz
-         wrbFtWw/d7yuOCMoJ2aimcGBkPXNCvPdq7mv6z9sy/NZAXb44o8Tn45qAawZd2ot6nBi
-         6Y4w==
-X-Forwarded-Encrypted: i=1; AJvYcCVHuNcqzyMC/gOT3nWbKOP7H7llqSLgWOwBYNyPB3WQYCL3vt+b8JK46305oJCK8ZKyhlgGN9e4OaxDyrot@vger.kernel.org, AJvYcCWTwYt6Lh64rX3raopibHWqnS7WYantcvrGC3Hvl4qBhofKMyYxeVzJSvXAZPWiGh2NRgQDZT6xlYzq@vger.kernel.org, AJvYcCX8WFkHRi1lax5vp6cjKQxzQilvcCcvN2fXb7aRQF7jYcbZO3UyVzfirRQUMp0ZhyvjMrtymynMgL8r@vger.kernel.org, AJvYcCXfpE0o11lFszimtLec/h26a2ACCSD2olbGL2LWxW17pe2eF88xqRY1K65Gtxyv0PkwORadXjwf3Di2Ji8=@vger.kernel.org, AJvYcCXk5x4voaOV9fJwzrYA4ZZsBrUZ9ey5RSmezOfpLBcvhC1weYyHbyjtJAJLFP5Chuy/E9b+rotikry/FkedwYDt8W8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQHU4SDWuMat539mNF5Pf/ozApl5McQVR1oVv9fC6hzLt/Src+
-	JLX7g8YIWXstdaLzpbbZQR2s9Ay/bOdJPzHDYnrb0BuRNX3Q9qiO1lbKJb5c
-X-Gm-Gg: ASbGnctOstp1W6yyUuGbYO3Rll64NvVU8XknL6RhZo/szxSczOofCXbt3wHWGRtBl8F
-	RV4LHPEGTo23vDvAT9OPvcfcLMXgzvZCZzId0kRdqKLhRIC+3BMLmm8J6eoPag8QX8aqrW8Iluk
-	WSeRt8enXgIwbPXsq31FZnE9TVQNtPAWufyBTcF0uADjQRhi1lSdZ8JiqU+BJOn3TM8k03fIzIF
-	iFdJq2LZbd5I4Mk00u9jwbrlNGllKSK572rGpINQ2oAgUtZ//RJSvRVCrz6+dhFH+ZwBM9/sRQO
-	/YPf/18kwYQOxRSyueh3rvoFt4GXj5iYADdROtJuxjuC+ngRPDyRfOWSyM+hg63WvEMT9aANJHh
-	wzyavyayPBqc=
-X-Google-Smtp-Source: AGHT+IGEHtbpeJpXxn1AP0GsA5A7d2oyCMLrXejHUj6Bez09FoVRmKBg86HI6ZZpQ6qPAKwKC+qmTw==
-X-Received: by 2002:a05:6102:2b88:b0:4bb:e8c5:b172 with SMTP id ada2fe7eead31-4c6d3887c1emr4533100137.8.1743415201914;
-        Mon, 31 Mar 2025 03:00:01 -0700 (PDT)
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com. [209.85.221.178])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-871a33b141fsm1495226241.28.2025.03.31.03.00.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Mar 2025 03:00:01 -0700 (PDT)
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-523ee30e0d4so2164511e0c.2;
-        Mon, 31 Mar 2025 03:00:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUGWbbiBYw5izBVSuenSH45hfwaHSphLOAkjmrhiFjcsDOOO4hLCLC9EL/Q5N86JGktCox27zncVP9arrb+@vger.kernel.org, AJvYcCURDvqAygdGCLVs2LAUNjAsRplEV0Y8iD49w5CnQFKyWXb4uFl1A82VbGzVJC8AOZUBMTGzB1Cou5TDC10=@vger.kernel.org, AJvYcCV/THnhSvAB5UDewnSSoXu4Ej/x8VWglzTtaVTVFrj85PL1SpjqF04IEsbm8JED27F289HjPcT+Bx7W@vger.kernel.org, AJvYcCVDAOi9NktOsgwpfy/FSYfVIYcabc4Nqn7ougWvFPyeQz/MhNf17zZOS3lh2kggUiXZql9zNg0Tm963@vger.kernel.org, AJvYcCVu2i5qbA2C5EYEP76UijMEnXxIYf8JyeFmkuPpu3bdhHiT1vUvivwqjzco3ivEGwdythRbQoreajU97S19kmd1GuY=@vger.kernel.org
-X-Received: by 2002:a05:6102:54a9:b0:4b9:bd00:454b with SMTP id
- ada2fe7eead31-4c6d38ce35emr3497230137.13.1743415200600; Mon, 31 Mar 2025
- 03:00:00 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743417239; x=1744022039;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VWZgGDwlAbPbiL5FveYelCRSDG0LmvCzE51A2ZLXHiM=;
+        b=KKbBHL+Zs8VcDO08iMqm7SL4ovul4Z/UF5mD7XXWGVWiFAQeVmCbCQyI+B1XnDEgu/
+         ie3T1Wl/Ihn+ojLL1dmUPyqqJI6R7DaSSQKx8eRrkCCllXLEEt4UqtgdEhE46pvaWTVi
+         sXLre6tsGrFqVGJmtb7SO9KqbH5LaAhTgNCSwMlyOq542ARIheLKlpuAcRV44EcKAD6q
+         sj3RazAE60oGGaq5VJBxfjlk3irHUZGCZq01PpaVkukkDRaqUcrMriGup4+RnC/lOLcf
+         U5nJCWotN9ADEz9bl/cGknjOXLRSAdtDpTxkeunVHFH/S0H9ETgKfE+MA/SQVhjUE4Eb
+         asbA==
+X-Forwarded-Encrypted: i=1; AJvYcCUi8RV5q9ClVx/z69crdP8LNNiexmp2mamLqVbAf+i/9Abt/0Wb+2BjbWRqE3e7VkqPl4reB0Nc7jQrdg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz4ZXkOsWr2j919ISpoS9FWGurVoyQNwl1MgBL6vg3+OszZl7lc
+	Bsf+I8FZk8ZRLMyixvoOhctc9XM1IiJpRdtBAAwXpDyxeV2otrHan7kGLwikLfY=
+X-Gm-Gg: ASbGncvNAZ6xS7VloXg3f+gy8aCrx1OL7LY2JlRgWdIzOB42/RqQi/jcpQWXTfQc/A9
+	uJ3y7EXgEezbRmxKlAgtw+ogBU9JW1i3iQI2PFOeb67UyghSF5+m731X1fuV2BH1TlQPWoofB3M
+	HW3tEXvbtWoOuZ1ypKMK9RZLQtf30k0w3CI/2j9RmQuJ16LsooTNrOmjrOXq/2hXU/YxN1RpBy0
+	tH2YSzS/hPTYbWy2bvAcL9jYVvOK+XDjGLI6VV2BJJCLcdr/jERQia5kl/KYVPNd5HMN8BvbiO+
+	eOEZCvW6FBJe2Q0MBUlg4dl0eMauEPa/n2KhE2wqLtfLEIhsT8dCJBZ0fTAA
+X-Google-Smtp-Source: AGHT+IHO9cBoSvB3iVCumQWnhZfL9iEojBiJlN66/O1EAjClqWvOe7pPJkr3sXgzdj/O31fvLFiy8A==
+X-Received: by 2002:a5d:47c1:0:b0:391:2995:5ef2 with SMTP id ffacd0b85a97d-39c12114e24mr6628557f8f.37.1743417238699;
+        Mon, 31 Mar 2025 03:33:58 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43d82efdffdsm159335275e9.18.2025.03.31.03.33.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 31 Mar 2025 03:33:58 -0700 (PDT)
+Date: Mon, 31 Mar 2025 13:33:55 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Bryan O'Donoghue <bod.linux@nxsw.ie>
+Cc: Naresh Kamboju <naresh.kamboju@linaro.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	lkft-triage@lists.linaro.org, rfoss@kernel.org,
+	Todor Tomov <todor.too@gmail.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Vinod Koul <vkoul@kernel.org>,
+	Srini Kandagatla <srinivas.kandagatla@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Anders Roxell <anders.roxell@linaro.org>
+Subject: Re: stable-rc-6.13.8-rc1: Dragonboard 845c: kernel NULL pointer
+ dereference - camss_find_sensor
+Message-ID: <0e3e469f-f8cd-410b-aac3-d7a9c7207411@stanley.mountain>
+References: <CA+G9fYuquxGrt81z4FBSEDuvAMpu2qYAoFXwYKpfSuw2YYNS0w@mail.gmail.com>
+ <b8624ef5-d806-4016-b51d-1f23ddb65054@nxsw.ie>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250330210717.46080-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-In-Reply-To: <20250330210717.46080-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 31 Mar 2025 11:59:48 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWVd0K_w+vPDBcmCzxFJ3JgyXfUd+h0OTCdcjmj8D0trA@mail.gmail.com>
-X-Gm-Features: AQ5f1JpCL3EXQypQSgdlAcFOZc5JnfHR7qY1OVfeJ2JHPtlkNAoLdw5F_dFliuY
-Message-ID: <CAMuHMdWVd0K_w+vPDBcmCzxFJ3JgyXfUd+h0OTCdcjmj8D0trA@mail.gmail.com>
-Subject: Re: [PATCH 00/17] Add support for DU and DSI on the Renesas RZ/V2H(P) SoC
-To: Prabhakar <prabhakar.csengg@gmail.com>
-Cc: Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b8624ef5-d806-4016-b51d-1f23ddb65054@nxsw.ie>
 
-Hi Prabhakar,
+On Thu, Mar 20, 2025 at 05:15:40PM +0000, Bryan O'Donoghue wrote:
+> On 20/03/2025 09:50, Naresh Kamboju wrote:
+> > Regressions on arm64 Dragonboard 845c boot failed with stable-rc 6.13.8-rc1
+> > 
+> > Regressions found on Dragonboard 845c :
+> >   - boot (debug Kconfigs)
+> > 
+> > Regression Analysis:
+> >   - New regression? Not sure. But the crash looks new.
+> >   - Reproducible? Intermittent
+> > 
+> > Since it is not easy to reproduce this crash, it is hard to bisect.
+> > 
+> > Boot regression: Dragonboard 845c kernel NULL pointer dereference
+> > Reported-by: Linux Kernel Functional Testing <lkft@linaro.org>
+> > 
+> > ## Boot log
+> > [    7.871211] xhci-pci-renesas 0000:01:00.0: failed to load firmware
+> > renesas_usb_fw.mem, fallback to ROM
+> > [    7.877652] CAN device driver interface
+> > [    7.879182] Bluetooth: hci0: setting up wcn399x
+> > [    7.884439] Bluetooth: HCI UART protocol Marvell registered
+> > [    7.890767] xhci-pci-renesas 0000:01:00.0: xHCI Host Controller
+> > [    7.938433] xhci-pci-renesas 0000:01:00.0: new USB bus registered,
+> > assigned bus number 3
+> > [    7.941274] spi_master spi0: will run message pump with realtime priority
+> > [    7.946642] xhci-pci-renesas 0000:01:00.0: Zeroing 64bit base
+> > registers, expecting fault
+> > [    7.969396] ath10k_snoc 18800000.wifi: Adding to iommu group 16
+> > [    7.983424] mcp251xfd spi0.0 can0: MCP2517FD rev0.0 (-RX_INT -PLL
+> > +MAB_NO_WARN +CRC_REG +CRC_RX +CRC_TX +ECC -HD o:40.00MHz c:40.00MHz
+> > m:10.00MHz rs:10.00MHz es:0.00MHz rf:10.00MHz ef:0.00MHz) successfully
+> > initialized.
+> > [    7.987793] Unable to handle kernel NULL pointer dereference at
+> > virtual address 0000000000000030
+                                  ^^
 
-Thanks for your series!
+drivers/media/platform/qcom/camss/camss.c
 
-On Sun, 30 Mar 2025 at 23:08, Prabhakar <prabhakar.csengg@gmail.com> wrote:
-> Note, the clock patches aplly on top of the following patch series:
-> - https://lore.kernel.org/all/20250228202655.491035-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
-> - https://lore.kernel.org/all/20250328200105.176129-1-prabhakar.mahadev-lad.rj@bp.renesas.com/
+  1700  struct media_entity *camss_find_sensor(struct media_entity *entity)
+  1701  {
+  1702          struct media_pad *pad;
+  1703  
+  1704          while (1) {
+  1705                  pad = &entity->pads[0];
+  1706                  if (!(pad->flags & MEDIA_PAD_FL_SINK))
 
-Same comment as on "[PATCH 0/6] clk: renesas: rzv2h: Add clock and
-reset entries for USB2 and GBETH".
 
-The first patch series was ultimately ignored because it was not clear how
-it related to other similar patches for the same driver; the
-second patch series is new, and depends on it.  So please coordinate
-and resend, based on renesas-clk-for-v6.16, or even better, v6.15-rc1
-next week.
+0x30 matches really nicely with a NULL entity->pad pointer.
 
-I may still review some clock patches (the ones that do not depend
-on pending new constructs) in this series this week, if time permits,
-but I won't apply them.
+  1707                          return NULL;
+  1708  
+  1710                  pad = media_pad_remote_pad_first(pad);
+  1710                  if (!pad || !is_media_entity_v4l2_subdev(pad->entity))
+  1711                          return NULL;
+  1712  
+  1713                  entity = pad->entity;
+  1714  
+  1715                  if (entity->function == MEDIA_ENT_F_CAM_SENSOR)
+  1716                          return entity;
+  1717          }
+  1718  }
 
-Thanks!
+Hand waving ensues:
 
-Gr{oetje,eeting}s,
+The fact that it's intermittent suggests that we're calling video open
+before the subdevices are registered.  So maybe either
+camss_subdev_notifier_bound() or camss_subdev_notifier_complete() needs
+to set a flag and then vfe_set_power() could do if (!everything_configured)
+return -EPROBE_DEFER or something.
 
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+regards,
+dan carpenter
 
