@@ -1,73 +1,73 @@
-Return-Path: <linux-media+bounces-29057-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29058-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C250A7673B
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 15:59:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60676A76744
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 16:01:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0833018865DF
-	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 13:59:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5CDFE188B355
+	for <lists+linux-media@lfdr.de>; Mon, 31 Mar 2025 14:01:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BC02213244;
-	Mon, 31 Mar 2025 13:59:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EF842135BB;
+	Mon, 31 Mar 2025 14:01:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bcmBW1tJ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mRSPXdRx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0B76211A3C;
-	Mon, 31 Mar 2025 13:59:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 301251BDCF;
+	Mon, 31 Mar 2025 14:01:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743429554; cv=none; b=gafJNywYIPNvrR0P/b4Q6/hybggULWL7GlnwTCXTxN4pxtdyflmUsyi8QgbMZuQeMVwsibnSits+a53qvFkY4skVzkmjGBHbR26OLotCVK6inPQpZp4FWllZUjQFkxWLHlOmNHvmpQf0qsPWjEhSqJt9PMQY6T5Zx9k13RjHpcA=
+	t=1743429676; cv=none; b=EvgWNsi93p5Fv74H266TpXguSyrPHuVTSzW8CXbyVJxNU6GnQqv1uMWeffm9ALGQHvdClyGf4e4NoAlaiQW0bwS2PGCYoWU5lKXutV1KnMpsk770jA6gFOmsPpEjIOV6ZPmI+2XGw92eUHSSnlu8SzliDnoDDofCL47t7iwiejo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743429554; c=relaxed/simple;
-	bh=MIqhvXp8WBemNHMJVHGEFEWnP75tcOPHwOSzbrpeq1A=;
+	s=arc-20240116; t=1743429676; c=relaxed/simple;
+	bh=czkGsZLdHxfBOeuovwxyjIgd6M1qTJyYazfrkVpMj4s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I4BsV1KphoQmc6SQpCw+YdIlcisXmLnQJfgKQ+t41Eybbn8GLVm7uDYYVUPhk1v9uZdplxXk3VNo4kcY8gY7jDbTIO51iQuM4anngURbOjhX8Iz5Q4KmapZ98ClS0sIay3wyd1FEv95defW73c5HXIhBY42YVXOaMoELgZu2RAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bcmBW1tJ; arc=none smtp.client-ip=209.85.221.177
+	 To:Cc:Content-Type; b=FXOIeXuPHCqxfYn2pE+p4z5MTvxwMzyeb4QXNvhkAb9ahOZV/aOFWy4i8sqZ4POUaHxnKLNAAkw2MsScj5OqozKNSt+iitQMGmA0ngMEHEcVNgOyPD8jEh+6l0j0ltGKcdPiA2TLV0EcQycMNIkPMtUPZeE+iGR5vU7utrjGagY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mRSPXdRx; arc=none smtp.client-ip=209.85.160.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-52413efd0d3so1848224e0c.2;
-        Mon, 31 Mar 2025 06:59:12 -0700 (PDT)
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-47686580529so46416951cf.2;
+        Mon, 31 Mar 2025 07:01:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743429552; x=1744034352; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1743429673; x=1744034473; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=DQ6luDwotyYfo3kU9jPDlx/S5Xe1wNYednwyw4Of/y4=;
-        b=bcmBW1tJJa5AZXfW6k+gFCrFTY8EuBoY0v7W8OvS/uG1YDiaxQ6eTB9BPLHaobpG+X
-         bKd5SY230Rl96fOODJ6Jm99pGr+jvYwSAb5Avi3l5P4PBW+XbDSUx96hgVEAtlqrhdoD
-         RMJ43NErqXBHS36V3n+AI0icrR/acdNK6uZjfZNb5co6Zxxln+RKmdYlPIzrkINZdlGH
-         5Ou85/InouoSU5gTJngFN2c2SYUNeofV0Bcy1mOi91jo1eC7sAvbLGeKkBy780bxORuW
-         goyQ22xwH/vN6xtm1mQPXQjcn+NLNoYc2YADTgqTsG0pact9epcmNCBeu8g3GzwPijPI
-         STvA==
+        bh=Cerp9RlMWGuZOXebiJLr88zSJ3nZkbJw4WxH3PYMHbw=;
+        b=mRSPXdRxwXfh13ISPP2Lv2hUgLIdz2F5v4EpfRsjtLSR2x6hTczWoV+pBravm9RCjZ
+         PRWrWWoc50++kgNd5dImFEzF9gt/lIkq+2TahRJ1/Lo/ZW4l6dLKpFp3ME36kXE2FLAw
+         wR0//IdtGKXj74sICCug+/+mVMSEfXAO8auGJNLM2RxlHQy+K+fOA/dCMonWjSgL6MNp
+         04mFlhld+9I41iQ7Ry06locN2U2/A7yV3Kv/9pBYyUQkciQHoJl+BsaaslRrXP1wFa6k
+         JVReasP50HM8SBsmYTNUcpvuNGBLQ/V+iO5flrAs/JUqrnyUoVmJKs25z/LXmPSEEQHE
+         GFrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743429552; x=1744034352;
+        d=1e100.net; s=20230601; t=1743429673; x=1744034473;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DQ6luDwotyYfo3kU9jPDlx/S5Xe1wNYednwyw4Of/y4=;
-        b=S2w4dm09BA9omrOc8AC6csbqQcb4unZIEgN7nqSGuswEesKR3Ls1oPmjKOiRIPoeUz
-         kj0BUtZ3D+Kdzwxl8hsp4dvhLmuX3SyXz4l0aMQ1C0QMCY5EALENRj/LWHZf3hC0JwTS
-         YsVueiVLRXon+DR8EFRXTOlgY4EYqrn6np+zI7yUTmJfe2TnRPQx5ENDGuveZBtraNGf
-         2qg9E/8gzhAtncgURa5yRVy26tOGTZXXbIl+kScSxfqvCscH+mhY+E9VgBHLONVZSsB+
-         oh/Fdb3xAozB6tiBb4olPkgoDRgbkALwhr0Q+lCE/iqOIsi8hMaBAaiy49QpBMJwm3vi
-         xysA==
-X-Forwarded-Encrypted: i=1; AJvYcCUICM7vSBccz/gsNQ6AKVPFT4mb9onVrGDcGiVavcLGff5C+/VmzAPvHyA+WuKPJvD3Sij7kfuNashIPd8=@vger.kernel.org, AJvYcCVSGHiM+oDVQs0UW786N5YC4+IZCbPOQUiG3dwP7f29stSedIOSKVYGHv0LppX4Kxs/PkZjx4KhJStq@vger.kernel.org, AJvYcCVTQOl8F+qnD8GI2nyAmsVG/TFkfWN4v9nM+8RPHVEQjpvs3e5eu4YbSvpnoXuHsNMPKUScDQMKgYJikvbr@vger.kernel.org, AJvYcCW47bMW7bthCDzk6jQXVUTqDVwlN22JUuHipzgVx6oSqlyRPJaj+cJ9pUhGtcwonTI9tqfFU1b1jmlI@vger.kernel.org, AJvYcCX11Eu0Fw1Wd6m5c/ZvYEFMHc5jOECZcWQkn4zsqtA26NBDbx86Td0RKg1GhGZCYGcHAquSCztXJm97YbOwdIY+f4M=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9IZlGjiME5mOlXi3XUSGDb2q0Irv8b/WLR7cILRAVDMpP/U2D
-	Bl2QedsjHCTslnNUrbmKNqHMSewo8KnmOCKfMiYANc6ZgwNJmOCPPwahIcgOmWQ50P5BmRn1vAq
-	d8Rf23l1uWFrmp+6FHI+HDErjehw=
-X-Gm-Gg: ASbGncv99ANX5ciBFbCI5M8A6mO38j400aNQBePOOT4VXczaTxmAjhN6/cNfvQLvFjG
-	vT9sH+bL+rlZ4W5ZnIUq0VtpaqCLQvQZsxPri9Ko6hoVWuPgN1gJC/xbOpBGeHWleXcQULdK09C
-	nZQ9cY89iUH//Q3sw9mr4OU/vL6Ez0TzEv1mzAkcMw2k2qmCGUQHEynN4Gqbg=
-X-Google-Smtp-Source: AGHT+IH59r7nYpgJqARq5/wRAz+E8Nw+DigL2d0icCNSxu3ah+ivplUwdQEz1tpyBsv376wnQEYXz8gTxipo+KxFz9c=
-X-Received: by 2002:ac5:c5cc:0:b0:526:1ddd:8953 with SMTP id
- 71dfb90a1353d-5261ddd899cmr3242361e0c.0.1743429551689; Mon, 31 Mar 2025
- 06:59:11 -0700 (PDT)
+        bh=Cerp9RlMWGuZOXebiJLr88zSJ3nZkbJw4WxH3PYMHbw=;
+        b=tjSiLn60NPKQtfMMYiuop7JC7wqOMtRP4Ax3iNHYcxtJgJ08t/fQEtHr75vYygg8ax
+         04A/KVdoWn+PxJMzIqCiennHNPYzcshYWVgZHZHhcp5ITEA4l+NxqlOdGuCFXv5LYudI
+         eZx22Pl6Hokl7V8TirzedrwRf1/q8Jug8WS2YY6ujAwMsIhkpqenCpDV9aFiijcvdbU3
+         fmyTmDfaBYr7N3XcnObA7YVj+MkMPtFaA8lbJ3hraZ5v/qEE7cXlsBCxiHWzQHT/bdgk
+         gqfSFkFVrJDPRsh9uy8jIdB5jqu4ULg/wtIfa4VXiq+gBnDlAfZB2041Ro1TWq9NNDBO
+         4nsg==
+X-Forwarded-Encrypted: i=1; AJvYcCUKglMFrOAGTVFTnoFipRyCFqpogVYTGTi49NWQVYG6J29qkrs7LE1w6nBNAzJ7oJif0MSVl+iworuV@vger.kernel.org, AJvYcCVNZ1pSnLqb4UmzMNSQrXVTzZA2E1GwIY4Qq1dDX/BTYhOtYCfYMJgqT+KxD1n/49XPkcmCAHNSY+Q4@vger.kernel.org, AJvYcCVjae5wgisQW7OZjLpxnvsRRpM079El9bqwFbVEoP7KP0Jp4oNFJ9tO7Vz33+3iSUuN24BbAPWYO0p4he0=@vger.kernel.org, AJvYcCWlLk8e3r+b8NNvIiXwKGsl/aTURMMFuCYYCiQCUhAIQCfMy4Nz7klWZkxhJyyYePzYwpyBesw4CLRfj2LOmQsSScs=@vger.kernel.org, AJvYcCXl8ZAYw3kRto1eDamZ5P6oUKh2yYsd7+7i7qQOfr2s8t0BAh11YmvpZmui4CKWS5H1pMg7lnBoTdGBqo3v@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVNc1tugvdlH5gZg5tk7tDTTF9a6ty9ye//nfHAeMyVXHQSZTZ
+	cUjRiAUu7GzOEBdANc+Fkp98074NaRMouo8Bum5qx538bnNEhRj0BTMo0HTo+ye40rmD82aa0c8
+	blB33QW7kWOuZn+4LvfKa1xNstjEY7KJLp30=
+X-Gm-Gg: ASbGncsonmCYw2c4goHiuw83DKRIKGiOYXPKdFNm0I5pmIckC1lZH9VUuQJTqH3DsRE
+	PEYB9mHVu5o7E3U0NgJcXtH3VTEmtAVEmbNW6hWrEF27w5RtJaUvWO7GEnZBErX4v+2gbS/0+59
+	JBXqqXdRiJO3920iJesNN5rKGfDLjzHIuZRgPN3WGKFP+6dvXRqyrIdqHHkFwQfqtITn87Mw==
+X-Google-Smtp-Source: AGHT+IHoL+hoFgBoT0ZrzW/DDYmgtDrmajjVaaPvdx+ESICpzTKMnenBa4ae3kIrj+FZtJE3ta694NQbtC+2QH8S6G4=
+X-Received: by 2002:a05:6122:d8f:b0:520:6773:e5ba with SMTP id
+ 71dfb90a1353d-5261d349e2amr4941393e0c.2.1743429662130; Mon, 31 Mar 2025
+ 07:01:02 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,13 +75,14 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250330210717.46080-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250330210717.46080-12-prabhakar.mahadev-lad.rj@bp.renesas.com> <TY3PR01MB113463B37FE6B1AAE8CF0F51F86AD2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB113463B37FE6B1AAE8CF0F51F86AD2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <20250330210717.46080-17-prabhakar.mahadev-lad.rj@bp.renesas.com> <TY3PR01MB11346216346EE729F1E5B200F86AD2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB11346216346EE729F1E5B200F86AD2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Mon, 31 Mar 2025 14:58:45 +0100
-X-Gm-Features: AQ5f1JoxVlVsRyhVzBsX-4t-Gwb33Vc72UiPSFj6heP-a0WBV-318MF2ERV85w4
-Message-ID: <CA+V-a8v0K_tWA=LnyHDptoBjtgPHSbgwpJp4L1rw4Uv6KC+-JA@mail.gmail.com>
-Subject: Re: [PATCH 11/17] drm: renesas: rz-du: mipi_dsi: Add OF data support
+Date: Mon, 31 Mar 2025 15:00:35 +0100
+X-Gm-Features: AQ5f1Jqil2i7rQCbwiFbpUPGBltxCBSJoh8IC958_-m-m0MI6dylXY7wx3GY9-8
+Message-ID: <CA+V-a8vdwYBnmh3aBR37QesGgkS6+4xbL--APx_r0JXMa1uFBA@mail.gmail.com>
+Subject: Re: [PATCH 16/17] drm: renesas: rz-du: mipi_dsi: Add support for
+ LPCLK handling
 To: Biju Das <biju.das.jz@bp.renesas.com>
 Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Andrzej Hajda <andrzej.hajda@intel.com>, 
 	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
@@ -107,7 +108,7 @@ Hi Biju,
 
 Thank you for the review.
 
-On Mon, Mar 31, 2025 at 1:38=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
+On Mon, Mar 31, 2025 at 1:44=E2=80=AFPM Biju Das <biju.das.jz@bp.renesas.co=
 m> wrote:
 >
 > Hi Prabhakar,
@@ -117,55 +118,66 @@ m> wrote:
 > > -----Original Message-----
 > > From: Prabhakar <prabhakar.csengg@gmail.com>
 > > Sent: 30 March 2025 22:07
-> > Subject: [PATCH 11/17] drm: renesas: rz-du: mipi_dsi: Add OF data suppo=
-rt
+> > Subject: [PATCH 16/17] drm: renesas: rz-du: mipi_dsi: Add support for L=
+PCLK handling
 > >
 > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > >
-> > In preparation for adding support for the Renesas RZ/V2H(P) SoC, this p=
-atch introduces a mechanism to
-> > pass SoC-specific information via OF data in the DSI driver. This enabl=
-es the driver to adapt
-> > dynamically to various SoC-specific requirements without hardcoding con=
-figurations.
+> > Introduce the `RZ_MIPI_DSI_HASLPCLK` feature flag in `rzg2l_mipi_dsi_hw=
+_info` to indicate the need for
+> > LPCLK configuration.
 > >
-> > The MIPI DSI interface on the RZ/V2H(P) SoC is nearly identical to the =
-one on the RZ/G2L SoC. While
-> > the LINK registers are shared between the two SoCs, the D-PHY registers=
- differ. Also the VCLK range
-> > differs on both these SoCs. To accommodate these differences `struct rz=
-g2l_mipi_dsi_hw_info` is
-> > introduced and as now passed as OF data.
+> > On the RZ/V2H(P) SoC, the LPCLK clock rate influences the required DPHY=
+ register configuration,
+> > whereas on the RZ/G2L SoC, this clock is not present. To accommodate th=
+is difference, add an `lpclk`
+> > clock handle in `rzg2l_mipi_dsi` and update the probe function to condi=
+tionally acquire LPCLK if the
+> > SoC supports it.
 > >
-> > These changes lay the groundwork for the upcoming RZ/V2H(P) SoC support=
- by allowing SoC-specific data
-> > to be passed through OF.
+> > Co-developed-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c | 8 ++++++++
+> >  1 file changed, 8 insertions(+)
 > >
-<snip>
-> > +
-> >       ret =3D drm_of_get_data_lanes_count_ep(dsi->dev->of_node, 1, 0, 1=
-, 4);
-> >       if (ret < 0)
-> >               return dev_err_probe(dsi->dev, ret,
-> > @@ -729,10 +750,12 @@ static int rzg2l_mipi_dsi_probe(struct platform_d=
-evice *pdev)
+> > diff --git a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c b/drivers/g=
+pu/drm/renesas/rz-
+> > du/rzg2l_mipi_dsi.c
+> > index 2ca725a2ccaf..26ec0f5d065a 100644
+> > --- a/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > +++ b/drivers/gpu/drm/renesas/rz-du/rzg2l_mipi_dsi.c
+> > @@ -31,6 +31,7 @@
+> >  struct rzg2l_mipi_dsi;
+> >
+> >  #define RZ_MIPI_DSI_16BPP    BIT(0)
+> > +#define RZ_MIPI_DSI_HASLPCLK BIT(1)
+> >
+> >  struct rzg2l_mipi_dsi_hw_info {
+> >       int (*dphy_init)(struct rzg2l_mipi_dsi *dsi, unsigned long long h=
+sfreq_mhz); @@ -63,6 +64,7 @@
+> > struct rzg2l_mipi_dsi {
+> >       struct drm_bridge *next_bridge;
+> >
+> >       struct clk *vclk;
+> > +     struct clk *lpclk;
+> >
+> >       enum mipi_dsi_pixel_format format;
+> >       unsigned int num_data_lanes;
+> > @@ -792,6 +794,12 @@ static int rzg2l_mipi_dsi_probe(struct platform_de=
+vice *pdev)
 > >       if (IS_ERR(dsi->vclk))
 > >               return PTR_ERR(dsi->vclk);
 > >
-> > -     dsi->rstc =3D devm_reset_control_get_exclusive(dsi->dev, "rst");
-> > -     if (IS_ERR(dsi->rstc))
-> > -             return dev_err_probe(dsi->dev, PTR_ERR(dsi->rstc),
-> > -                                  "failed to get rst\n");
-> > +     if (dsi->info->has_dphy_rstc) {
-> > +             dsi->rstc =3D devm_reset_control_get_exclusive(dsi->dev, =
-"rst");
+> > +     if (dsi->info->features & RZ_MIPI_DSI_HASLPCLK) {
+> > +             dsi->lpclk =3D devm_clk_get(dsi->dev, "lpclk");
 >
-> Maybe use devm_reset_control_get_optional_exclusive by dropping has_dphy_=
-rstc.
+> Maybe use devm_clk_get_optional and drop the check.
 >
-As the dtbs_check doesn't enforce this,  `has_dphy_rstc` flag was
-added. Recently the same was done for the CRU [0] based on the recent
-comment received.
+As the dtbs_check doesn't enforce this,  `RZ_MIPI_DSI_HASLPCLK` flag
+was added. Recently the same was done for the CRU [0] based on the
+recent comment received.
 
 [0] https://patchwork.kernel.org/project/linux-renesas-soc/patch/2025032817=
 3032.423322-10-tommaso.merciai.xr@bp.renesas.com/
