@@ -1,78 +1,79 @@
-Return-Path: <linux-media+bounces-29153-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29154-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59D3AA77D80
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 16:18:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FFE7A77D7F
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 16:18:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F2F423AC01F
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 14:18:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F110816C772
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 14:18:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92D58204C21;
-	Tue,  1 Apr 2025 14:18:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 720B1204F65;
+	Tue,  1 Apr 2025 14:18:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="GsDBJWo4"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="K6GZ63aE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5484D20408E
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282B22046B4
 	for <linux-media@vger.kernel.org>; Tue,  1 Apr 2025 14:18:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743517082; cv=none; b=SBHeM+FpTwhmSu48GmdPLFQc0VCGwDXzU1szTRvBhVzjpSjMkaoWFZkI+nb+BDTnK5m0iKZ3D7rJ8QAilzlVH9I2xHXptm4U013yIpd/fpB/QROGJicfjA5NeT9/oFWZWsiYRMOHDTJVFDMeUSn2hWyPnLFC+MyTi1Pwqo9Agzg=
+	t=1743517082; cv=none; b=Na8GLiTBFRactQPuHoMvTRclxrle7CDBMgAf78XrdsrLlSbhT1mO19JtPbZ++N5eDWKgvfiGJImEuvFFA50loa6p471Ftu/fwnnH8MV8F06Rgm2pseaggBKhRvhv5kqtv5BrBHR4nypOST2FKACoaTKzTiB+ewSQrJT9MdfYIwM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1743517082; c=relaxed/simple;
-	bh=JPDmnKUMglz+XsRlG2V69K0PwK6vqRugnwv8vO6nGUE=;
+	bh=qBYjcouQW6HReKbjdwqHeD5kVbmPx9ci9r+cFmpKKBM=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=M+DN1xOkeXym+Clw8a/iGejAK88g77mw4YNfVZ4XKdsoL+CTmqO7NiCYCWGIrlF1QQ4VZJEY8TMKHTPRBHfUaDXc2o7sGxOoj0YJc1rN74ebN5yLRB0n2X5oXnpoRjDgU3FDgxiXgcnQN0h1BAP1s/pehe9oE/FPCKnapfKZ2eo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=GsDBJWo4; arc=none smtp.client-ip=209.85.167.47
+	 In-Reply-To:To:Cc; b=R273GZYlJRFlo/xEio6qiKBMWTuLQ5g7SKLs46Aas0Z3cYPG6hRIkdDCt0EE3Ztd4eqr72vJe/yTlqwRaV7PsK31zp+HryvRRP+3NrfQGt5KHHlbBJcn2JaCB+29fC91c0W/peFFXIbImvcThRaChFpK4pHjflYv68gsng7FJaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=K6GZ63aE; arc=none smtp.client-ip=209.85.167.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-54afb5fcebaso6868988e87.3
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-54954fa61c9so3943404e87.1
         for <linux-media@vger.kernel.org>; Tue, 01 Apr 2025 07:18:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1743517078; x=1744121878; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1743517079; x=1744121879; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=It3zznYp54Cp1R2/qjZYQRWQWBFmdplnsGjJ5JvUQS8=;
-        b=GsDBJWo4jl5luPbc6WnSbtNJmpdZggAoecUqPlXA8psNkJTktPgq8FuhCmacOuTyBC
-         3yRpwYc+41o0MgjRfbYVt794JTIj9St1T1Fk0h+xVMYHtzw4xI1sklWqvBxnyPq+uZng
-         aDagdRSc+xUs/gqBW9zj7q1Vd2EFmvVnBB1is=
+        bh=11E24h0kkMUDJZI1H/PMbxoLXdKMo2wCD3aU6/q3qUU=;
+        b=K6GZ63aEYvuM2hcvSiuAQ2AlPgLWrzTA1dP4XCIAitms7cD3EHXQr2kkJ9ezN4EhRR
+         eyozYE7R//1LokcqcNSg+XzJXsK+BXMMVBttFKulx74sAwYqxsiNKRIOXOazxKVqCKq9
+         gfJqiRouGkGCxVG1heMqmKvleo85Qt9xa4uGE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743517078; x=1744121878;
+        d=1e100.net; s=20230601; t=1743517079; x=1744121879;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=It3zznYp54Cp1R2/qjZYQRWQWBFmdplnsGjJ5JvUQS8=;
-        b=KSHCspAAZLqSWDHUH+huwLo/oVyfmWqhWx1Vr98JU56asPdHSScTRJF/M+AOsXrbxX
-         +h30tvsG/YG1R9WTd2Eaj6QN9aSguLOh0bIWg3csc9qJxwXfUhUSjGWBIFxAACA0e92B
-         02UAAhxyYT8W0AjZ/huHT0ruFRk/mMe36W3nMbw9MZL4i4RTchCg8cMrQWT7jESpuY8R
-         wAaKtbJU+wWaFQRfoKZlIhAenJ8SJPE8a5F/0lqabKB4JEvJAliEX85riLNp1VxK4rhA
-         fDyxHfWjksPG/Cj/+PVUKkBLcC70aV835Xctt9IEBUEZj9HgFhc/QrN4Pe9axOLJav16
-         KnBg==
-X-Gm-Message-State: AOJu0YxICt9i65VMkszzxYURnnKVxBuxSxMLSn+RE9r1aV9F526z1OF2
-	c2EliN/IxP3mtejkOfXH+yDBMbYDy0w4ZHamsHNu2DADSPYQHDiuFnQ6/IAjjbW31pG32/QxF54
+        bh=11E24h0kkMUDJZI1H/PMbxoLXdKMo2wCD3aU6/q3qUU=;
+        b=T31yWaP2J5KUDbGb/EADua+/Rkn25jLGVevYzCzwTx21Y1inmUcXDvohk8bAp95bwC
+         98rAX6lDA/LM3MX3tn0eeiNCjtujshz29OdWM4uloopDsD8wA7Y3FAAbcFS/rWYxLPU1
+         oVDU8Wxd6tNZB9uS77NBRhXyYwZ4wlpKHLvsL/37HokdN6uMXs4xslqTbkcDYDTLgWeO
+         YGvblW1kyfel+EY7Fe5iv2PxJ2FhIza7+dHEvpyYbd0jHRwXKpp3e0xuEZkyOH4GmEMt
+         m7jde5caemcr0n87SN20Q2aL+RVVgR8QJL1prbuLUCWQ6lHF+E+PZchAiJ23Zvb8PHYj
+         K2JQ==
+X-Gm-Message-State: AOJu0YyxPOUKPWDf2oO0eJ0UPkHsIa2Bx/Rpf37T7S5VNwhthFBusR7J
+	mtEuSOLLprkVi6O319gy3JoTcRv10m8tY3JzYDgSubMJ1pUYhweVmEX90iBulLQY/rYZwap4jCY
 	=
-X-Gm-Gg: ASbGncu3zDtprtq/PsYkzrgPIh52oMBX3zYGU8AWILdw0BEbKsNbbYqzG7S3kCewmIe
-	Oys1tSKy+UvCr4ZlZBP3/yUePfBu2wLdJWuavJQ+u68JfFNGe7Y3C6DN5iIAUgpboCua4l49SHH
-	hxbpaZ7kzTEdizd7xn2yNIdPeyL7gXCFubVAI82lbDcyEYjf5v9JTohCRwFeYG5F9CwYYCTTvee
-	L4pk1h5eRx44z2UbexdmJDwlHWU1A3fdjeEYCgGjjkCBg5N3oBsn2kq4DhAKhXJTpgBe2Co9HZn
-	Vv8kRar49L5/0Wozqyi+Gkp0OnPVYlZSfB93YJjMbjIst/sedxZya1to5sMkQaJAZj0y3RsXyzs
-	3BQXFzL1v7+F+FsInQ3VPFC/y
-X-Google-Smtp-Source: AGHT+IFdyRka7MweflyBv5DeiJjMiC9PFaRXPwmxIKfE2/7XtM+eY+SzHCu4lHsET0WaqtAqx0xBlg==
-X-Received: by 2002:a05:6512:3090:b0:545:2ab1:3de with SMTP id 2adb3069b0e04-54b10dc7b75mr3430994e87.13.1743517078196;
+X-Gm-Gg: ASbGncs/By1UQTx95m5e3+Q+fjWV5tXmSd9XFY31MLT3LoyQMq3Yp81NUuek3oAntCA
+	R7/amc6mH3MPweKE84NvyqeoYIxQATw4oq5G/OW3uRLujMBGzDPZ4xyDX0ifLv034wbh7zLPF9Z
+	uswvXsMTZjEDF3fjayQE/sR7McJ3NAb+AYFGYNqm99HD1xLZKENvoF9ZSBnN2Qtzjx/qxEq7z4R
+	nR02i9KVqeU9y2eFzFy1wCfmKwRXZpVWiyuqpdukIaFWl9KnJIWOWHY5N1CtKaia1r/RlKZ2FoL
+	5c8Cj8WB2ZirIP4flYzN3jP+vLE9wsSjr/3EWOOcKLyjJbzlNcIobHMpb20yoqf9HR5u+mqQ0vi
+	yFVEOj75KImAZD8HZr40SkKOm
+X-Google-Smtp-Source: AGHT+IHN6U3rH8+fca2aINvuxvaQMLkM1cf4WYnPgGffYBfOrlVLilx3ccY/7R2tGC7KC/dIyogKJA==
+X-Received: by 2002:a05:6512:108d:b0:545:2b68:936e with SMTP id 2adb3069b0e04-54b10eca297mr3363397e87.25.1743517078964;
         Tue, 01 Apr 2025 07:17:58 -0700 (PDT)
 Received: from ribalda.c.googlers.com (216.148.88.34.bc.googleusercontent.com. [34.88.148.216])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54b094c19a3sm1377789e87.80.2025.04.01.07.17.57
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54b094c19a3sm1377789e87.80.2025.04.01.07.17.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Apr 2025 07:17:57 -0700 (PDT)
+        Tue, 01 Apr 2025 07:17:58 -0700 (PDT)
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 01 Apr 2025 14:17:54 +0000
-Subject: [PATCH v2 1/2] media: atomisp: Fix Wformat-truncation warning
+Date: Tue, 01 Apr 2025 14:17:55 +0000
+Subject: [PATCH v2 2/2] media: cec: extron-da-hd-4k-plus: Fix
+ Wformat-truncation
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -81,7 +82,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250401-v614-v2-1-53024c4fcdc7@chromium.org>
+Message-Id: <20250401-v614-v2-2-53024c4fcdc7@chromium.org>
 References: <20250401-v614-v2-0-53024c4fcdc7@chromium.org>
 In-Reply-To: <20250401-v614-v2-0-53024c4fcdc7@chromium.org>
 To: Hans Verkuil <hverkuil@xs4all.nl>, 
@@ -94,30 +95,35 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-staging@lists.linux.dev, Ricardo Ribalda <ribalda@chromium.org>
 X-Mailer: b4 0.14.2
 
-Gcc8 is convinced that we do not have enough space in dot_id_input_bin.
-Extend the variable 17 bytes which is just used for debugging.
+From: Hans Verkuil <hverkuil@xs4all.nl>
 
-drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1336:9: warning: '(pipe' directive output may be truncated writing 5 bytes into a region of size between 1 and 74 [-Wformat-truncation=]
+Fix gcc8 warning:
 
+drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:44: warning: 'DCEC' directive output may be truncated writing 4 bytes into a region of size between 0 and 53 [-Wformat-truncation=]
+
+Resizing the 'buf' and 'cmd' arrays fixed the warning.
+
+Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-index 9818771a35e550c0ce98da826caff5f834867e7c..84220359c9576b0021ea7ac7ba13548bd77e49fd 100644
---- a/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c
-@@ -121,7 +121,8 @@ static const char *const pipe_id_to_str[] = {
- 	/* [IA_CSS_PIPE_ID_YUVPP]     =*/ "yuvpp",
- };
+diff --git a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
+index cfbfc4c1b2e67fec9434aa6852ab465ad8c11225..41d019b01ec09d1d3e72c89155042888b7948463 100644
+--- a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
++++ b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
+@@ -1002,8 +1002,8 @@ static int extron_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
+ 				    u32 signal_free_time, struct cec_msg *msg)
+ {
+ 	struct extron_port *port = cec_get_drvdata(adap);
+-	char buf[CEC_MAX_MSG_SIZE * 3 + 1];
+-	char cmd[CEC_MAX_MSG_SIZE * 3 + 13];
++	char buf[(CEC_MAX_MSG_SIZE - 1) * 3 + 1];
++	char cmd[sizeof(buf) + 14];
+ 	unsigned int i;
  
--static char dot_id_input_bin[SH_CSS_MAX_BINARY_NAME + 10];
-+/* 27 is combined length of _stage%d(pipe%d)\0. */
-+static char dot_id_input_bin[SH_CSS_MAX_BINARY_NAME + 27];
- static char ring_buffer[200];
- 
- void ia_css_debug_dtrace(unsigned int level, const char *fmt, ...)
+ 	if (port->disconnected)
 
 -- 
 2.49.0.472.ge94155a9ec-goog
