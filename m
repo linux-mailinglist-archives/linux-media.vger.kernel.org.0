@@ -1,79 +1,49 @@
-Return-Path: <linux-media+bounces-29154-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29155-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FFE7A77D7F
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 16:18:35 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A47BA77D8E
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 16:22:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F110816C772
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 14:18:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 024AA7A4A93
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 14:21:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 720B1204F65;
-	Tue,  1 Apr 2025 14:18:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FFCB204C0A;
+	Tue,  1 Apr 2025 14:22:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="K6GZ63aE"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wfGcb9EW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 282B22046B4
-	for <linux-media@vger.kernel.org>; Tue,  1 Apr 2025 14:18:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3138189F56;
+	Tue,  1 Apr 2025 14:22:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743517082; cv=none; b=Na8GLiTBFRactQPuHoMvTRclxrle7CDBMgAf78XrdsrLlSbhT1mO19JtPbZ++N5eDWKgvfiGJImEuvFFA50loa6p471Ftu/fwnnH8MV8F06Rgm2pseaggBKhRvhv5kqtv5BrBHR4nypOST2FKACoaTKzTiB+ewSQrJT9MdfYIwM=
+	t=1743517342; cv=none; b=lAWTLwX7gvL/6a2pN4fA4KTS8jAG04x+B4ZUkgzP7raaao6jSkNvCGDHhD7T7KAaUgWhmLnv4yONm/Ypjq0K8cuwHVzDrKKTXxn96UiwNs0kGGH3sRW67IsJXs2PFwPZXcaBYNx8M4LUhyFrzk0RBq5q3Qe/A3zcahPE0sRz0UA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743517082; c=relaxed/simple;
-	bh=qBYjcouQW6HReKbjdwqHeD5kVbmPx9ci9r+cFmpKKBM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=R273GZYlJRFlo/xEio6qiKBMWTuLQ5g7SKLs46Aas0Z3cYPG6hRIkdDCt0EE3Ztd4eqr72vJe/yTlqwRaV7PsK31zp+HryvRRP+3NrfQGt5KHHlbBJcn2JaCB+29fC91c0W/peFFXIbImvcThRaChFpK4pHjflYv68gsng7FJaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=K6GZ63aE; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-54954fa61c9so3943404e87.1
-        for <linux-media@vger.kernel.org>; Tue, 01 Apr 2025 07:18:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1743517079; x=1744121879; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=11E24h0kkMUDJZI1H/PMbxoLXdKMo2wCD3aU6/q3qUU=;
-        b=K6GZ63aEYvuM2hcvSiuAQ2AlPgLWrzTA1dP4XCIAitms7cD3EHXQr2kkJ9ezN4EhRR
-         eyozYE7R//1LokcqcNSg+XzJXsK+BXMMVBttFKulx74sAwYqxsiNKRIOXOazxKVqCKq9
-         gfJqiRouGkGCxVG1heMqmKvleo85Qt9xa4uGE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743517079; x=1744121879;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=11E24h0kkMUDJZI1H/PMbxoLXdKMo2wCD3aU6/q3qUU=;
-        b=T31yWaP2J5KUDbGb/EADua+/Rkn25jLGVevYzCzwTx21Y1inmUcXDvohk8bAp95bwC
-         98rAX6lDA/LM3MX3tn0eeiNCjtujshz29OdWM4uloopDsD8wA7Y3FAAbcFS/rWYxLPU1
-         oVDU8Wxd6tNZB9uS77NBRhXyYwZ4wlpKHLvsL/37HokdN6uMXs4xslqTbkcDYDTLgWeO
-         YGvblW1kyfel+EY7Fe5iv2PxJ2FhIza7+dHEvpyYbd0jHRwXKpp3e0xuEZkyOH4GmEMt
-         m7jde5caemcr0n87SN20Q2aL+RVVgR8QJL1prbuLUCWQ6lHF+E+PZchAiJ23Zvb8PHYj
-         K2JQ==
-X-Gm-Message-State: AOJu0YyxPOUKPWDf2oO0eJ0UPkHsIa2Bx/Rpf37T7S5VNwhthFBusR7J
-	mtEuSOLLprkVi6O319gy3JoTcRv10m8tY3JzYDgSubMJ1pUYhweVmEX90iBulLQY/rYZwap4jCY
-	=
-X-Gm-Gg: ASbGncs/By1UQTx95m5e3+Q+fjWV5tXmSd9XFY31MLT3LoyQMq3Yp81NUuek3oAntCA
-	R7/amc6mH3MPweKE84NvyqeoYIxQATw4oq5G/OW3uRLujMBGzDPZ4xyDX0ifLv034wbh7zLPF9Z
-	uswvXsMTZjEDF3fjayQE/sR7McJ3NAb+AYFGYNqm99HD1xLZKENvoF9ZSBnN2Qtzjx/qxEq7z4R
-	nR02i9KVqeU9y2eFzFy1wCfmKwRXZpVWiyuqpdukIaFWl9KnJIWOWHY5N1CtKaia1r/RlKZ2FoL
-	5c8Cj8WB2ZirIP4flYzN3jP+vLE9wsSjr/3EWOOcKLyjJbzlNcIobHMpb20yoqf9HR5u+mqQ0vi
-	yFVEOj75KImAZD8HZr40SkKOm
-X-Google-Smtp-Source: AGHT+IHN6U3rH8+fca2aINvuxvaQMLkM1cf4WYnPgGffYBfOrlVLilx3ccY/7R2tGC7KC/dIyogKJA==
-X-Received: by 2002:a05:6512:108d:b0:545:2b68:936e with SMTP id 2adb3069b0e04-54b10eca297mr3363397e87.25.1743517078964;
-        Tue, 01 Apr 2025 07:17:58 -0700 (PDT)
-Received: from ribalda.c.googlers.com (216.148.88.34.bc.googleusercontent.com. [34.88.148.216])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54b094c19a3sm1377789e87.80.2025.04.01.07.17.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Apr 2025 07:17:58 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 01 Apr 2025 14:17:55 +0000
-Subject: [PATCH v2 2/2] media: cec: extron-da-hd-4k-plus: Fix
- Wformat-truncation
+	s=arc-20240116; t=1743517342; c=relaxed/simple;
+	bh=1/8ZCtjaM+7YnLlEr/r3k4a0f7jCQQwIrTsQcIWIFfY=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=pGicnVWgNDwJlUEj2cT3uY4GsbKm61XnIwYk5IUWXRdLZ8fHUTF03R5U7d3XNRHMJ0Jxbqe2x5EA5yNKHW8D+M4Tq2okNzJWltWyGdvRdvUgvhm4xw+4XIFJ7KoBpvm/lhspwvsaFlwitNc8ihOof5lQCycWEBLRGmnY8GPUVN4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wfGcb9EW; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.1.101] (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 260A66F9;
+	Tue,  1 Apr 2025 16:20:18 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1743517218;
+	bh=1/8ZCtjaM+7YnLlEr/r3k4a0f7jCQQwIrTsQcIWIFfY=;
+	h=From:Subject:Date:To:Cc:From;
+	b=wfGcb9EWGGtLR7aUghuWNN/KGRp6dKVvAK1MD1MjBcaVavLeHGkHbgBh5erGzjvMX
+	 qYcCgX1iW9i2/4HU6xVdnYTzX1r5HfBVEAuIwJ5A5lSgO3VP03r12zx4RC56XLHsJ/
+	 gEivRkE9KxmxldfwCTq9+80+fvUV7D7I9CIR6N8M=
+From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Subject: [PATCH v7 0/5] media: renesas: vsp1: Add support for VSPX and IIF
+Date: Tue, 01 Apr 2025 16:22:00 +0200
+Message-Id: <20250401-v4h-iif-v7-0-cc547c0bddd5@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,50 +52,117 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250401-v614-v2-2-53024c4fcdc7@chromium.org>
-References: <20250401-v614-v2-0-53024c4fcdc7@chromium.org>
-In-Reply-To: <20250401-v614-v2-0-53024c4fcdc7@chromium.org>
-To: Hans Verkuil <hverkuil@xs4all.nl>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Hans de Goede <hdegoede@redhat.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Andy Shevchenko <andy@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-staging@lists.linux.dev, Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.14.2
+X-B4-Tracking: v=1; b=H4sIAIj262cC/3XOTW7DIBCG4atErEs1M/zYdNV7RF1gGNcsaiK7Q
+ o0i3704Gyy1Xn4jnlc8xMpL4lW8XR5i4ZLWlOc6upeLCJOfP1mmWLcgIANIShY9yZRG6TFGbzU
+ EZ6Kor28Lj+nnWbp+1D2l9Tsv92e44H792ygoQXaDZkPOOeXG9xTZr3kesl/ia8hfYk8VapxIN
+ 06VgwLDKuDIFE+4alxh17iq3Crvh971NBg44frI+8Z15QgcddAY0JkTbo7cNW72z3sEbWzsHIU
+ Tbg+csHFbubLIDrQCsv4fvm3bL6i6rh3gAQAA
+X-Change-ID: 20250123-v4h-iif-a1dda640c95d
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-renesas-soc@vger.kernel.org, 
+ Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+X-Mailer: b4 0.15-dev-c25d1
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3354;
+ i=jacopo.mondi+renesas@ideasonboard.com; h=from:subject:message-id;
+ bh=1/8ZCtjaM+7YnLlEr/r3k4a0f7jCQQwIrTsQcIWIFfY=;
+ b=owEBbQKS/ZANAwAIAXI0Bo8WoVY8AcsmYgBn6/aRVBofGrmoV2ZA1kEaCKZW7XS+/fTPRuxoj
+ DOyfuiJPOaJAjMEAAEIAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCZ+v2kQAKCRByNAaPFqFW
+ PD/JD/9l28mhEdzcD0fMZ6MXXY02w4Q1tmKlcLEV74VPs1iZlM48+nRqm1xW2mDosYxTGPSEqrT
+ P9SDTPhUfue6XmSikF42bnv9Njr4ZTiMzeK82dqor8s76U99h1vBhuBYTqc9vtUP93rQ3+60xAD
+ tnWE1oXbmGxsbqqzyaQ2S+jzhHpnDk3mq0WL9IW3a4/IgNyW4GMj2QZIWWdFfOfg+/gCn4rG943
+ ZOnCS26XepjmIJ5nQLvO4ftb+U9YDzI1HCgxGPdpvawLW6ar+dIi8SqoI03E1I1OemvJEj6xzyJ
+ bJdckWXSheKT/wQ4m3pK6PsGsv7QTQFQqT1d4nZYs435GuR7CzrNmXwfoc0s7fFvLZF5BsTtPv5
+ I6owlfcv5WxmRzJcOXjYQm4P3Cga09Mhk5VuVCa9boszlbrK8vYPibjG+wbKAPIu/idUO0pZZfc
+ vAfwFJn5HPS/A2xdG8N02SDJ21uiPbCr9j2voOdYCuLMqaCY0pgBPb3xZJBGuf/pkkVEf/gWnzQ
+ NU8nRt7OiGRhVyN+gYH2Yc2LU3QWYV1nWfHyYFO7tjSHWb7gIdzv5l94a8EP648M6xhpKbDvnG0
+ EV0jycRQqsF5PhCO/Icz1ftuH4OjfqaIQnvsCn/aSn4iSglUM9iggqbt1uToq1V3fVU3E0s0Ya0
+ s9IZSLETBqMnBRw==
+X-Developer-Key: i=jacopo.mondi+renesas@ideasonboard.com; a=openpgp;
+ fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-From: Hans Verkuil <hverkuil@xs4all.nl>
+The VSPX is a VSP2 function that reads data from
+external memory using two RPF instances and feed it to the ISP.
 
-Fix gcc8 warning:
+The VSPX includes an IIF unit (ISP InterFace) modeled in the vsp1 driver
+as a new, simple, entity type.
 
-drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:44: warning: 'DCEC' directive output may be truncated writing 4 bytes into a region of size between 0 and 53 [-Wformat-truncation=]
+IIF is part of VSPX, a version of the VSP2 IP specialized for ISP
+interfacing. To prepare to support VSPX, support IIF first by
+introducing a new entity and by adjusting the RPF/WPF drivers to
+operate correctly when an IIF is present.
 
-Resizing the 'buf' and 'cmd' arrays fixed the warning.
-
-Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 ---
- drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Changes in v7:
+- Include VSPX driver in the series
+- Use existing VSP1 formats and remove patches extending formats on RPF
+- Rework VSPX driver to split jobs creation and scheduling in two
+  different API entry points
+- Fix VSPX stride using the user provided bytesperline and using the
+  buffer size for ConfigDMA buffers
+- Link to v6: https://lore.kernel.org/r/20250321-v4h-iif-v6-0-361e9043026a@ideasonboard.com
 
-diff --git a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-index cfbfc4c1b2e67fec9434aa6852ab465ad8c11225..41d019b01ec09d1d3e72c89155042888b7948463 100644
---- a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-+++ b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-@@ -1002,8 +1002,8 @@ static int extron_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
- 				    u32 signal_free_time, struct cec_msg *msg)
- {
- 	struct extron_port *port = cec_get_drvdata(adap);
--	char buf[CEC_MAX_MSG_SIZE * 3 + 1];
--	char cmd[CEC_MAX_MSG_SIZE * 3 + 13];
-+	char buf[(CEC_MAX_MSG_SIZE - 1) * 3 + 1];
-+	char cmd[sizeof(buf) + 14];
- 	unsigned int i;
- 
- 	if (port->disconnected)
+Changes in v6:
+- Little cosmetic change as suggested by Laurent
+- Collect tags
+- Link to v5: https://lore.kernel.org/r/20250319-v4h-iif-v5-0-0a10456d792c@ideasonboard.com
 
+Changes in v5:
+- Drop additional empty line 5/6
+- Link to v4: https://lore.kernel.org/r/20250318-v4h-iif-v4-0-10ed4c41c195@ideasonboard.com
+
+Changes in v4:
+- Fix SWAP bits for RAW10, RAW12 and RAW16
+- Link to v3: https://lore.kernel.org/r/20250317-v4h-iif-v3-0-63aab8982b50@ideasonboard.com
+
+Changes in v3:
+- Drop 2/6 from v2
+- Add 5/7 to prepare for a new implementation of 6/7
+- Individual changelog per patch
+- Add 7/7
+- Link to v2: https://lore.kernel.org/r/20250224-v4h-iif-v2-0-0305e3c1fe2d@ideasonboard.com
+
+Changes in v2:
+- Collect tags
+- Address review comments from Laurent, a lot of tiny changes here and
+  there but no major redesign worth an entry in the patchset changelog
+
+---
+Jacopo Mondi (5):
+      media: vsp1: Add support IIF ISP Interface
+      media: vsp1: dl: Use singleshot DL for VSPX
+      media: vsp1: wpf: Propagate vsp1_rwpf_init_ctrls()
+      media: vsp1: rwpf: Support operations with IIF
+      media: vsp1: Add VSPX support
+
+ drivers/media/platform/renesas/vsp1/Makefile      |   3 +-
+ drivers/media/platform/renesas/vsp1/vsp1.h        |   4 +
+ drivers/media/platform/renesas/vsp1/vsp1_dl.c     |   7 +-
+ drivers/media/platform/renesas/vsp1/vsp1_drv.c    |  24 +-
+ drivers/media/platform/renesas/vsp1/vsp1_entity.c |   8 +
+ drivers/media/platform/renesas/vsp1/vsp1_entity.h |   1 +
+ drivers/media/platform/renesas/vsp1/vsp1_iif.c    | 121 +++++
+ drivers/media/platform/renesas/vsp1/vsp1_iif.h    |  29 ++
+ drivers/media/platform/renesas/vsp1/vsp1_pipe.c   |   1 +
+ drivers/media/platform/renesas/vsp1/vsp1_pipe.h   |   1 +
+ drivers/media/platform/renesas/vsp1/vsp1_regs.h   |   9 +
+ drivers/media/platform/renesas/vsp1/vsp1_rpf.c    |   9 +-
+ drivers/media/platform/renesas/vsp1/vsp1_vspx.c   | 604 ++++++++++++++++++++++
+ drivers/media/platform/renesas/vsp1/vsp1_vspx.h   |  86 +++
+ drivers/media/platform/renesas/vsp1/vsp1_wpf.c    |  24 +-
+ include/media/vsp1.h                              |  73 +++
+ 16 files changed, 991 insertions(+), 13 deletions(-)
+---
+base-commit: f2151613e040973c868d28c8b00885dfab69eb75
+change-id: 20250123-v4h-iif-a1dda640c95d
+
+Best regards,
 -- 
-2.49.0.472.ge94155a9ec-goog
+Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
 
 
