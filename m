@@ -1,187 +1,134 @@
-Return-Path: <linux-media+bounces-29170-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29171-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92F06A7831E
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 22:08:22 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 141B7A78320
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 22:09:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4D11916B714
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 20:08:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C440B16B9CA
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 20:09:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E51B220FAB0;
-	Tue,  1 Apr 2025 20:08:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50ADC20F072;
+	Tue,  1 Apr 2025 20:09:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="LBNJXKua";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="c+DYI407"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="McxaLl9u"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D84D199943;
-	Tue,  1 Apr 2025 20:08:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.158
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F142036FA
+	for <linux-media@vger.kernel.org>; Tue,  1 Apr 2025 20:09:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743538095; cv=none; b=k3TmT3IMPPTY750x2wF711Q4c65oI0sZYFbZkmc6EeJB5arLHzP7lvwzodVbTg6QJ2vDJcFX+Oc0/y745b3DiaDgcqXZTGlJ6apGdZIoyjmgHc2r1jXXjsscMXR6Rp7PDSmicUT5AAjdobtx16iKZN8tZebSz+M5/CuCFKHzjBU=
+	t=1743538169; cv=none; b=Geww52u3PJrQpOYChxM0Ft4p+aus0zm489XIOKdSAQnkIxwzK6Djxk9Al9VndYvfY2qHOyqTughPnRNo1gp4MQHouFsP+W6XmQKvFuiun6Y39VUEnpJwhfqRYRz26aazlWARltTsXpFDb4b+N24A5ccEDhv1UatnBaQrb9nh3A0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743538095; c=relaxed/simple;
-	bh=6yAPTyTOxkeWZlWnRGYP7SoNjoMpLU5gcEOBILNPoR4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G/T6GJVYHw8f6D9f92PmuccmpjZedoCrZTWi+LTOI078kfWFW1EEohYFZDfuT2rDwroSqH8hHygsGVGWPopVppe06yt7m3PqI0yMO0sRAv63A7ijU17LCor5J6JAHql80ZQ6g3r/jwrbhmRuXE/7G2NsTIFp+Ybqw+IdqJrTwbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=LBNJXKua; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=c+DYI407; arc=none smtp.client-ip=103.168.172.158
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 5369F114002D;
-	Tue,  1 Apr 2025 16:08:12 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Tue, 01 Apr 2025 16:08:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1743538092;
-	 x=1743624492; bh=IroLAZPglAM7pFgkrdkyxi2ngFBYvJjGp+Nu95cgJlA=; b=
-	LBNJXKualZHiTwQFfuJKlAtEUY3hDluL1ToEN8npi3y7ly42ePfVGPGq9qg47jNe
-	2MSuMwco38VgYM5aEIv7+Wg+IQr7bpN8yJClRthLX8mqWgkVXqAdyAnATvTBFrwM
-	e6KRvjWqhW3MGoYzGU+9evO6IntHxQayzCnyDrb2EaboTkFG6KxrQcVkLxPMGOCe
-	Ewfb+OnDj608fL1OI9X73WJxOSzs5wi8NSn3i1yCtDFczo2slEolwTtLO4sXvuSS
-	ZAlFMTvWEJ3ZTDPh4OKvzIlLmTQGA495+jIsi1dbjwcU08uRQDqSF7sC7/rbdBP2
-	F69H0xgyZCqh3amMAIiFNg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1743538092; x=
-	1743624492; bh=IroLAZPglAM7pFgkrdkyxi2ngFBYvJjGp+Nu95cgJlA=; b=c
-	+DYI4074sU7Zywae4NYevjYiar1fyL4x0KxSlgB9P/Om7KZLVKwvljPUPPhrHTLW
-	cfH5fnHupdcmLOI29btrms3qRRZOmnWIaq32ywWEoFxNmJklZCfJgwwgh+Jp4AoI
-	EQ435NHFZV3owe66ey+1hD4tFMpkffqu+o+sl2ufERGm5ycDV0PvSW5miiDOVHSo
-	cKIwP1NHWbkuDg/QK4GyWgDyXUd+EpciCwJLSw5iqwGig8j7SJVB45sz5uMoOwZZ
-	9lUbk2/34bJSJbilVRJrfYiIoQN54lvuVJdYYi/z9hpfIpZF+C/lAeWnTpOtRlHc
-	8574J/DNKAXWdQQEiR4Dw==
-X-ME-Sender: <xms:rEfsZ-L5V-WJqceec1rxhwA_ZbcL2O77Pem1oj-vMrrRhYbkTO7Z6Q>
-    <xme:rEfsZ2KNRFFZEx2-wrxKxpwBX8wC5ip3bgjHxxKsCSkdRPk2PX56kiXd7JPFYTAqZ
-    6yJR1dcGreQhk6LNGI>
-X-ME-Received: <xmr:rEfsZ-uW7nr7b-WUYCbzFmmK_eLpP5Z7Iliym8sRysdqLIJQ0ib1mT-zosaipB2vHlm4s4I1zWgTou93TCUSKth2laMs6LvaXg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddukeefjedtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddt
-    tdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrsh
-    houggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeev
-    teegtddvvdfhtdekgefhfeefheetheekkeegfeejudeiudeuleegtdehkeekteenucevlh
-    hushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdr
-    shhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeeipd
-    hmohguvgepshhmthhpohhuthdprhgtphhtthhopehjrggtohhpohdrmhhonhguihdorhgv
-    nhgvshgrshesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhgruhhrvg
-    hnthdrphhinhgthhgrrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthho
-    pehkihgvrhgrnhdrsghinhhghhgrmhdorhgvnhgvshgrshesihguvggrshhonhgsohgrrh
-    gurdgtohhmpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdrkhgvrhhn
-    vghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnh
-    gvlhdrohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgv
-    rhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:rEfsZzbQtOL9eawTMUeBONIZpQk-mVQFTgmo41YBadLdVx_JbmSOuw>
-    <xmx:rEfsZ1bvGPzZUb9TjDXXoOE_h4Bjami4Po1UIfuIFyPYoK-CbL_1sQ>
-    <xmx:rEfsZ_DH03V0CViQ3j30rFjwf5G_Qo8t0NHkd6Eamk4FxqoNdxOlrw>
-    <xmx:rEfsZ7ZSq1RKM_DX3KiuQ_QAuGKMmI3AwNFFLur129gFqSJ1IHGcfQ>
-    <xmx:rEfsZ6ObH5FEWM6Nvo9bBtpuYF6DkTxgbCmKbPy_yhnpgiwl5JWL96ct>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 1 Apr 2025 16:08:11 -0400 (EDT)
-Date: Tue, 1 Apr 2025 22:08:09 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v7 3/5] media: vsp1: wpf: Propagate vsp1_rwpf_init_ctrls()
-Message-ID: <20250401200809.GH1240431@ragnatech.se>
-References: <20250401-v4h-iif-v7-0-cc547c0bddd5@ideasonboard.com>
- <20250401-v4h-iif-v7-3-cc547c0bddd5@ideasonboard.com>
+	s=arc-20240116; t=1743538169; c=relaxed/simple;
+	bh=hlC42dn4e4QbF7VkS+rGlrk9dU/4NCKyxYnulvn5lMk=;
+	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version; b=iq20rsnSDqbooKgVvxWWE+NJfLOOYqyXYtcFs9+0SmhbxGmPYkntYXxYWNp5MiXN7DWO7LY//4cTaHkBbsUlVxmfRm51bnflBIx8/5HsUmVgGR9rKho7ar+TdYfeszeLa24UwEEEJCcykggeGY1fKJU2aopH9ajQ0shsEyC1MC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=McxaLl9u; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1743538165;
+	bh=hlC42dn4e4QbF7VkS+rGlrk9dU/4NCKyxYnulvn5lMk=;
+	h=Subject:From:To:Date:From;
+	b=McxaLl9uSKX24Q5I5Yh1lMQu/NqiPCay3NTQiiZB/d7kA2YY6WIWF1+8ddDQboBPx
+	 MRflbYsVn+JHRrtQA2xPmMzhDdCJTKOXGvfbeH8RyG9EEbHxHsLZTUzGq8Ecjr2wqr
+	 alSyEhm3A6lssyqtAnhleXJeWE+zfSehmbaZQ/8UmYZ0DLzv3bU0XqH2r2SHXLB+02
+	 6WKYcWBfjeO0duM2bQmra5SSnRifGyvi0OV5N3JIjRgfAcJSB05JP+Kr6xqmKo3EQZ
+	 1pV0qET62NRJdxf4VRCvzsTCi1alSdGWh9hc+drTG/y+3M9tJpTjKOED9eG6yKgHMl
+	 NWEiqlyCcH8Eg==
+Received: from [IPv6:2606:6d00:11:e976::5ac] (unknown [IPv6:2606:6d00:11:e976::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4271B17E0B2D
+	for <linux-media@vger.kernel.org>; Tue,  1 Apr 2025 22:09:25 +0200 (CEST)
+Message-ID: <fc348bb52d60acaaa15d3221aaba8217d67d349c.camel@collabora.com>
+Subject: GIT PULL FOR 6.16] Enable 10bit and YCbCr 422 in RKVDEC H.264
+ decoder
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: linux-media@vger.kernel.org
+Date: Tue, 01 Apr 2025 16:09:23 -0400
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
+ oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
+ zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
+ TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
+ 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
+ 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
+ cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
+ tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
+ bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
+ qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
+ BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
+ tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
+ zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
+ 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
+ s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
+ An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
+ ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
+ AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
+ CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
+ 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
+ BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
+ +E7ItOqZEHAs+xabBgknYZIFPU=
+Organization: Collabora Canada
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250401-v4h-iif-v7-3-cc547c0bddd5@ideasonboard.com>
+Content-Transfer-Encoding: 7bit
 
-Hi Jacopo,
+Hey Hans & Mauro,
 
-Thanks for your patch.
+The following changes since commit f2151613e040973c868d28c8b00885dfab69eb75:
 
-On 2025-04-01 16:22:03 +0200, Jacopo Mondi wrote:
-> vsp1_wpf.c calls vsp1_rwpf_init_ctrls() to initialize controls that
-> are common between RPF and WPF.
-> 
-> However, the vsp1_wpf.c implementation does not check for the function
-> call return value. Fix this by propagating to the caller the return
-> value.
-> 
-> While at it, drop a duplicated error message in wpf_init_controls() as
-> the caller already report it.
-> 
-> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+  media: pci: mgb4: include linux/errno.h (2025-03-07 12:05:42 +0100)
 
-Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+are available in the Git repository at:
 
-> 
-> ---
-> v2->v3:
->   - New patch
-> ---
->  drivers/media/platform/renesas/vsp1/vsp1_wpf.c | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> index f176750ccd98..da651a882bbb 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
-> @@ -133,6 +133,7 @@ static int wpf_init_controls(struct vsp1_rwpf *wpf)
->  {
->  	struct vsp1_device *vsp1 = wpf->entity.vsp1;
->  	unsigned int num_flip_ctrls;
-> +	int ret;
->  
->  	spin_lock_init(&wpf->flip.lock);
->  
-> @@ -156,7 +157,9 @@ static int wpf_init_controls(struct vsp1_rwpf *wpf)
->  		num_flip_ctrls = 0;
->  	}
->  
-> -	vsp1_rwpf_init_ctrls(wpf, num_flip_ctrls);
-> +	ret = vsp1_rwpf_init_ctrls(wpf, num_flip_ctrls);
-> +	if (ret < 0)
-> +		return ret;
->  
->  	if (num_flip_ctrls >= 1) {
->  		wpf->flip.ctrls.vflip =
-> @@ -174,11 +177,8 @@ static int wpf_init_controls(struct vsp1_rwpf *wpf)
->  		v4l2_ctrl_cluster(3, &wpf->flip.ctrls.vflip);
->  	}
->  
-> -	if (wpf->ctrls.error) {
-> -		dev_err(vsp1->dev, "wpf%u: failed to initialize controls\n",
-> -			wpf->entity.index);
-> +	if (wpf->ctrls.error)
->  		return wpf->ctrls.error;
-> -	}
->  
->  	return 0;
->  }
-> 
-> -- 
-> 2.48.1
-> 
+  https://gitlab.freedesktop.org/linux-media/users/ndufresne.git tags/for-6.16-rkvdec-h264-high10-and-422
 
--- 
-Kind Regards,
-Niklas Söderlund
+for you to fetch changes up to 619d9391efd5ed93f805734279034fa34f537347:
+
+  media: rkvdec: Fix frame size enumeration (2025-04-01 15:25:07 -0400)
+
+----------------------------------------------------------------
+Enable 10bit and YCbCr 422 in RKVDEC H.264 decoder
+
+----------------------------------------------------------------
+Alex Bee (1):
+      media: rkvdec: h264: Don't hardcode SPS/PPS parameters
+
+Jonas Karlman (10):
+      media: v4l2-common: Add helpers to calculate bytesperline and sizeimage
+      media: v4l2: Add NV15 and NV20 pixel formats
+      media: rkvdec: h264: Use bytesperline and buffer height as virstride
+      media: rkvdec: Extract rkvdec_fill_decoded_pixfmt into helper
+      media: rkvdec: Move rkvdec_reset_decoded_fmt helper
+      media: rkvdec: Extract decoded format enumeration into helper
+      media: rkvdec: Add image format concept
+      media: rkvdec: Add get_image_fmt ops
+      media: rkvdec: h264: Support High 10 and 4:2:2 profiles
+      media: rkvdec: Fix frame size enumeration
+
+Sebastian Fricke (1):
+      media: rkvdec: h264: Limit minimum profile to constrained baseline
+
+ Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst | 128 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-common.c                       |  80 +++++++++++++++++++++++++++++++++++++-----------------------------------
+ drivers/media/v4l2-core/v4l2-ioctl.c                        |   2 ++
+ drivers/staging/media/rkvdec/rkvdec-h264.c                  |  64 ++++++++++++++++++++++++++++++++++++++--------------------
+ drivers/staging/media/rkvdec/rkvdec.c                       | 239 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------------------------------------------------------
+ drivers/staging/media/rkvdec/rkvdec.h                       |  18 ++++++++++++++++-
+ include/uapi/linux/videodev2.h                              |   2 ++
+ 7 files changed, 410 insertions(+), 123 deletions(-)
 
