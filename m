@@ -1,135 +1,156 @@
-Return-Path: <linux-media+bounces-29144-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29145-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA072A77B47
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 14:49:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94BD4A77B90
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 15:01:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7CB883AEB15
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 12:48:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 908E13AFAB7
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 13:00:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13B57203712;
-	Tue,  1 Apr 2025 12:47:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9497204581;
+	Tue,  1 Apr 2025 13:00:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QGHTG68b"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9789F203707
-	for <linux-media@vger.kernel.org>; Tue,  1 Apr 2025 12:47:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E079203707
+	for <linux-media@vger.kernel.org>; Tue,  1 Apr 2025 13:00:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743511651; cv=none; b=olwp7UceSZFeldjQTe6kOhrXo6w36uKeokpi1pXXaEAPEy85DWjzeMGx4oTBXrhZMMuNmqDt67lhnrJQZ7l0j9Ap9PhuMu/xpFh+FxbhHCwYo4durmF2q8JFzJ7zmC5n5HvNjT9YdLdckemGudqSj7IpkH0ARUr4BwOyGL6jeEU=
+	t=1743512422; cv=none; b=ruxdPgk41qaEoTR5avYRCcJKkzQqRl0GPz5CKHY0MIErzAwiaRrO7QPZTz0zxyd+WMOdbplknpGQuDvSPiJ7yA+OMJ9ptcjacngmIdjnVt74vV6ZJPKnACXdYaPg2T7R9NcDuBCCuXt+0KOCFWPPkAlB5TmnOZXsSkj3fZLtisQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743511651; c=relaxed/simple;
-	bh=nFoiRiRi/VByGBeTFcO86KepN0M6GE3c3PxM3ODIJS0=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=JJpeUK7b0yadztsSaYmLAhcTteDbZuYQDnjknLA04cxRfSK9kra7QdtCyDQNQvR/IR7Ki5So75PJinMh+bYFHlgHEn8GPpZ7W7yTY+wfjCQgYWxCMKHJABm3mvGi7b3bUGLmOZboFiBflcDX3Regs4N9hx+AtUtaJeglYGn8/cI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DA6DC4CEEE;
-	Tue,  1 Apr 2025 12:47:30 +0000 (UTC)
-Message-ID: <75a04abe-59d5-4835-a306-a63e5ff9d35f@xs4all.nl>
-Date: Tue, 1 Apr 2025 14:47:28 +0200
+	s=arc-20240116; t=1743512422; c=relaxed/simple;
+	bh=OjgI5+In7loHAVZbMdtRrfVDhF9WiqnryHICNUhoNK8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kFPPrmnpZJR2z7h6fDxMLyl6SQTRMNXoldwZSzEbN2GhJB6iG2uzT7qRfdXeEunT7/xJK3MP8UebGJ0ijHKr1jHzrIkAz6g8w27QKFUDxNC9y0VJUYGY1Nq4lGiJ6c62UbIgEGqty8eON81k6LVEi7RYLUh1+ja88tby6NFGvMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QGHTG68b; arc=none smtp.client-ip=209.85.208.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-30bfd4d4c63so52935251fa.2
+        for <linux-media@vger.kernel.org>; Tue, 01 Apr 2025 06:00:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1743512416; x=1744117216; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=+iRR6I3MRixn7v8uxjP6RrlRNlKpkOU3ts6hO7Pe5kY=;
+        b=QGHTG68bbSSdX49OPOqy6S+Kp5QH3ondnsobzcECrPFVtWaCiJhofvRhHZB2or53uE
+         2WJrnzNOFh2kFnoOM7Y1RPlPKEzQjdt+BcWcNi8dO4Bu+3LbMhzWwiVbaQd6KtFNPxsh
+         vAu7yvh28XXsrKhpqA3WfIkU9T6byCR4nIWO0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743512416; x=1744117216;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+iRR6I3MRixn7v8uxjP6RrlRNlKpkOU3ts6hO7Pe5kY=;
+        b=kkQiiyV7TK64QyPpNKRwTLamxDNkZzBiMSjYIW4dL00XyqCEJST1fgVcacaSMKyJnx
+         IQPZXK1souoZcyVXLoZ1lz2rTBjpxvb5/okE8FFSsJuemh22wbTFdhAZDJ0j2jRGvKeR
+         0/lNTcpbsnr0DPWW77VBWw2l9aHDPZHAOfC7GiSRFKRah1+JfzkbswAuccAnhMYFb5xQ
+         dBcD5a/ENZWAhohXCwxKKHfLrfSlpKJd0yt4qYw5uU5Kbgeb/5fQjGRrsJuQOvJJUfla
+         +PChRhchiIo23xq9FvapydDjYLOTcROBFxjxgd/5jZQKAKyowTrYJos3ftyG1DM0KJkj
+         QPvQ==
+X-Gm-Message-State: AOJu0Yx2VYLpegcngdSpQcXDD1Y5/HmNJEAkuNhIfQ1cfHTy6aCLgh0c
+	fMR/qwQSCb1jZgGXCLRoNSYYTE7r73rFi3LgXAJCoZernJsKjPGI1Pr1ihrXrQFl5xK1DVjttp8
+	=
+X-Gm-Gg: ASbGncuwn3XZxNXubvyDiVBwW7v4ez6IcKk4kNxvAXGxCR+1XlXr93wHLFE6ctKB+jf
+	INMKzSUqnXofTBGfharKFIono5KAZ2l4CbgPOUifSGbCn1xfjRgKSHnRcmZr0js05kH/zQhP45S
+	Lx8aRzMFnuT8336hEqUa/ti06spDz+TARh6GJng5XzIXFzprfuuO45gvk0Kg8/vr9V80ORELPqL
+	pBTFBBBdf56OZwmYewBQUlZZ9HOQ+4ghcHHbmLlF9D8sP75hVgbZpnnqvzrGUzG/5nlKGZkBJkM
+	NG5GKwHk3e5yvP2hw/wuNVQ95JaydqbTdvu0AzxjJ45iFQBOgVnQ8iv4nywWQ/1+tQw4Y6DgBGT
+	IzRbr+Uw=
+X-Google-Smtp-Source: AGHT+IEt9oGWRchf5J3sQ8E2meZSiDPVr3TWBw9mUuRyhb/QKCdo7aAAPPCLesvzKoeGz82b4LX0lA==
+X-Received: by 2002:a2e:a803:0:b0:30b:b908:ce06 with SMTP id 38308e7fff4ca-30eecd3b3fdmr11040971fa.19.1743512415856;
+        Tue, 01 Apr 2025 06:00:15 -0700 (PDT)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com. [209.85.167.53])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30dd2b5978bsm16888941fa.100.2025.04.01.06.00.15
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Apr 2025 06:00:15 -0700 (PDT)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-54c0fa6d455so465738e87.1
+        for <linux-media@vger.kernel.org>; Tue, 01 Apr 2025 06:00:15 -0700 (PDT)
+X-Received: by 2002:ac2:4e10:0:b0:549:8cbb:5443 with SMTP id
+ 2adb3069b0e04-54c0a535a5emr721119e87.47.1743512414729; Tue, 01 Apr 2025
+ 06:00:14 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Ricardo Ribalda <ribalda@chromium.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCHv3] media: cec: extron-da-hd-4k-plus: Fix Wformat-truncation
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <75a04abe-59d5-4835-a306-a63e5ff9d35f@xs4all.nl>
+In-Reply-To: <75a04abe-59d5-4835-a306-a63e5ff9d35f@xs4all.nl>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Tue, 1 Apr 2025 15:00:02 +0200
+X-Gmail-Original-Message-ID: <CANiDSCuxVxMn7a3CL4yDhLJY5_kSiHd9roC0t=+aC7uNQUPm5g@mail.gmail.com>
+X-Gm-Features: AQ5f1JqjT1iOcx9-FLxMvCw83UPaPwyb7IC8efdpONit3rnhsFbIB2GUnEly5Aw
+Message-ID: <CANiDSCuxVxMn7a3CL4yDhLJY5_kSiHd9roC0t=+aC7uNQUPm5g@mail.gmail.com>
+Subject: Re: [PATCHv3] media: cec: extron-da-hd-4k-plus: Fix Wformat-truncation
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Change the port type to u8 so gcc8 knows that the port fits in a single
-char.
+Hi Hans
 
-drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:44: warning: 'DCEC' directive output may be truncated writing 4 bytes into a region of size between 0 and 53 [-Wformat-truncation=]
+On Tue, 1 Apr 2025 at 14:47, Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+> Change the port type to u8 so gcc8 knows that the port fits in a single
+> char.
+You want to change this commit message
 
-Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-Reported-by: Ricardo Ribalda <ribalda@chromium.org>
----
-Change since v2:
+>
+> drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:44: warning: 'DCEC' directive output may be truncated writing 4 bytes into a region of size between 0 and 53 [-Wformat-truncation=]
+>
+> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+> Reported-by: Ricardo Ribalda <ribalda@chromium.org>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+> Change since v2:
+>
+> Redid the patch, fixing the buffer sizes. It turned out that was the problem.
+> It now passes build-ancient (I checked the logs this time).
+> ---
+>  .../cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c    | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
+> index cfbfc4c1b2e6..5ebd9d73fb15 100644
+> --- a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
+> +++ b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
+> @@ -1002,8 +1002,8 @@ static int extron_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
+>                                     u32 signal_free_time, struct cec_msg *msg)
+>  {
+>         struct extron_port *port = cec_get_drvdata(adap);
+> -       char buf[CEC_MAX_MSG_SIZE * 3 + 1];
+> -       char cmd[CEC_MAX_MSG_SIZE * 3 + 13];
+> +       char buf[(CEC_MAX_MSG_SIZE - 1) * 3 + 1];
+> +       char cmd[(CEC_MAX_MSG_SIZE - 1) * 3 + 15];
+Random idea, please ignore if you do not like it. What about ?:
+char cmd[sizeof(buf) + 14];
 
-Redid the patch, fixing the buffer sizes. It turned out that was the problem.
-It now passes build-ancient (I checked the logs this time).
----
- .../cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c    | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+>         unsigned int i;
+>
+>         if (port->disconnected)
+> @@ -1013,7 +1013,8 @@ static int extron_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
+>                 sprintf(buf + i * 3, "%%%02X", msg->msg[i + 1]);
+>         snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
+>                  port->direction, port->port.port,
+> -                cec_msg_initiator(msg), cec_msg_destination(msg), buf);
+> +                cec_msg_initiator(msg),
+> +                cec_msg_destination(msg), buf);
 
-diff --git a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-index cfbfc4c1b2e6..5ebd9d73fb15 100644
---- a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-+++ b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-@@ -1002,8 +1002,8 @@ static int extron_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
- 				    u32 signal_free_time, struct cec_msg *msg)
- {
- 	struct extron_port *port = cec_get_drvdata(adap);
--	char buf[CEC_MAX_MSG_SIZE * 3 + 1];
--	char cmd[CEC_MAX_MSG_SIZE * 3 + 13];
-+	char buf[(CEC_MAX_MSG_SIZE - 1) * 3 + 1];
-+	char cmd[(CEC_MAX_MSG_SIZE - 1) * 3 + 15];
- 	unsigned int i;
+You do not need to change the style here.
+>         return extron_send_and_wait(port->extron, port, cmd, NULL);
+>  }
+>
+> --
+> 2.47.2
+>
 
- 	if (port->disconnected)
-@@ -1013,7 +1013,8 @@ static int extron_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
- 		sprintf(buf + i * 3, "%%%02X", msg->msg[i + 1]);
- 	snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
- 		 port->direction, port->port.port,
--		 cec_msg_initiator(msg), cec_msg_destination(msg), buf);
-+		 cec_msg_initiator(msg),
-+		 cec_msg_destination(msg), buf);
- 	return extron_send_and_wait(port->extron, port, cmd, NULL);
- }
 
 -- 
-2.47.2
-
+Ricardo Ribalda
 
