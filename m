@@ -1,134 +1,293 @@
-Return-Path: <linux-media+bounces-29171-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29172-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 141B7A78320
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 22:09:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAD02A78361
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 22:41:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C440B16B9CA
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 20:09:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E58713ABEE9
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 20:40:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50ADC20F072;
-	Tue,  1 Apr 2025 20:09:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68AB0214202;
+	Tue,  1 Apr 2025 20:41:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="McxaLl9u"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PSxHJvSu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f48.google.com (mail-io1-f48.google.com [209.85.166.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2F142036FA
-	for <linux-media@vger.kernel.org>; Tue,  1 Apr 2025 20:09:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA0A3594F;
+	Tue,  1 Apr 2025 20:41:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743538169; cv=none; b=Geww52u3PJrQpOYChxM0Ft4p+aus0zm489XIOKdSAQnkIxwzK6Djxk9Al9VndYvfY2qHOyqTughPnRNo1gp4MQHouFsP+W6XmQKvFuiun6Y39VUEnpJwhfqRYRz26aazlWARltTsXpFDb4b+N24A5ccEDhv1UatnBaQrb9nh3A0=
+	t=1743540063; cv=none; b=hQUGHwdaq4f5zV07N8hGu/naTYRCEdrx167QhSAtqMd3DYQGrNqYfyxYCozz7VwUiDMy1dQNjovieVD2yc7vZxHm7M6BMI2sddiKftL7pt/+eTBOxtULeYvRiCQEONhfOJUl7X0eRvNxRW6VFrKNWahYUK6lxxYP28cUq4X/Low=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743538169; c=relaxed/simple;
-	bh=hlC42dn4e4QbF7VkS+rGlrk9dU/4NCKyxYnulvn5lMk=;
-	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version; b=iq20rsnSDqbooKgVvxWWE+NJfLOOYqyXYtcFs9+0SmhbxGmPYkntYXxYWNp5MiXN7DWO7LY//4cTaHkBbsUlVxmfRm51bnflBIx8/5HsUmVgGR9rKho7ar+TdYfeszeLa24UwEEEJCcykggeGY1fKJU2aopH9ajQ0shsEyC1MC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=McxaLl9u; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1743538165;
-	bh=hlC42dn4e4QbF7VkS+rGlrk9dU/4NCKyxYnulvn5lMk=;
-	h=Subject:From:To:Date:From;
-	b=McxaLl9uSKX24Q5I5Yh1lMQu/NqiPCay3NTQiiZB/d7kA2YY6WIWF1+8ddDQboBPx
-	 MRflbYsVn+JHRrtQA2xPmMzhDdCJTKOXGvfbeH8RyG9EEbHxHsLZTUzGq8Ecjr2wqr
-	 alSyEhm3A6lssyqtAnhleXJeWE+zfSehmbaZQ/8UmYZ0DLzv3bU0XqH2r2SHXLB+02
-	 6WKYcWBfjeO0duM2bQmra5SSnRifGyvi0OV5N3JIjRgfAcJSB05JP+Kr6xqmKo3EQZ
-	 1pV0qET62NRJdxf4VRCvzsTCi1alSdGWh9hc+drTG/y+3M9tJpTjKOED9eG6yKgHMl
-	 NWEiqlyCcH8Eg==
-Received: from [IPv6:2606:6d00:11:e976::5ac] (unknown [IPv6:2606:6d00:11:e976::5ac])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4271B17E0B2D
-	for <linux-media@vger.kernel.org>; Tue,  1 Apr 2025 22:09:25 +0200 (CEST)
-Message-ID: <fc348bb52d60acaaa15d3221aaba8217d67d349c.camel@collabora.com>
-Subject: GIT PULL FOR 6.16] Enable 10bit and YCbCr 422 in RKVDEC H.264
- decoder
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: linux-media@vger.kernel.org
-Date: Tue, 01 Apr 2025 16:09:23 -0400
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
- oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
- zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
- TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
- 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
- 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
- cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
- tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
- bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
- qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
- BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
- tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
- zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
- 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
- s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
- An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
- ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
- AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
- CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
- 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
- BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
- +E7ItOqZEHAs+xabBgknYZIFPU=
-Organization: Collabora Canada
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
+	s=arc-20240116; t=1743540063; c=relaxed/simple;
+	bh=mgoj2LmOzSdQWqzKSQIr6XK+nGpBkja3pWfiePVcXbk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fyuwRIF+nG5TN8t3FXdykYjwqfehER3LXWKFzNH6IDbqK3Ld1ihp4S4S+jCG4ZTrFpqpAwZxT6qgjFT11we983CkyZdiYok8deDdQeCxpAaLJdQK0qfxw1I+wPBvOuH2nFVMt/+Gtk80XVdfjL0r6jH5I2qj2hvQupelpF2FPOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PSxHJvSu; arc=none smtp.client-ip=209.85.166.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-io1-f48.google.com with SMTP id ca18e2360f4ac-85b5e49615aso566131639f.1;
+        Tue, 01 Apr 2025 13:41:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743540061; x=1744144861; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=siRhwdkGqZcq/rdLOAyWJygNm07mlGX8YXe+LkcnPjg=;
+        b=PSxHJvSuA23eN/jf925EuM9iPY+9sLIZ6dh/9KYCvagrUELj0YwUGbCfLkIbMxLdvT
+         mW2r9huh++HXxqpXUYZ3zmFyEeSUIZnMKlKE515VHOD4nXmySPZH0cAazPvZSUCiO/QS
+         /MQUsPWaof0W4ifWvkGX47+gpwLXm/0ItQaKiFWB07WfyaC0+T3EW2tFPvHJl35T7J6M
+         I8xd6W4IEzNAJig8Aj11v4v0aLvXrERIuEVqShZIX6XI49fVUERceBq1z/ESGZ8jLitr
+         GQ75HO3s4Z+m9l3T7bFeuiOiq/7rfsGfx3Lla82reFOP2+zswkFZFjzL++2hZrpMNtAQ
+         aDsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743540061; x=1744144861;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=siRhwdkGqZcq/rdLOAyWJygNm07mlGX8YXe+LkcnPjg=;
+        b=vGje2YErMSh0P9vmIYzo1OPI7EpeLdKNTuI20+6r8DPzEGB02AyF5TpCxweLCCwLiP
+         0ru/W+sDxveM7leSQVKTrg9iTIa8R+faPe+9YhO11taJxtlSOI45kfYRvLjbJhAA+vGn
+         pIsSCY9r2PudWxBch35Qb4y+PaLEnvj11ZpuJFkOLz8zVWwYpmbAAYfhMP2H9/JN9bhB
+         IcjNGjAhyLJXHKJrtnR3kcJkzaklLS6KR860lruWR36g7bbZbLf/O0cjl9Q6/TwZ3WFc
+         zyARFRxa5g2HGPEduKcIfA5+d+2uWyOTmIhQR4GVmvfLXON3ExySHs9jH7BiQqLDFBk3
+         E3ig==
+X-Forwarded-Encrypted: i=1; AJvYcCWVOzYC0a7DNLuzrUcofI/wou77yimXnkUKJPerXNlAmOLU9PNgYWlKgNk5370mHrsJ3qw1yzj0h++VMO0=@vger.kernel.org, AJvYcCWyrY1fQrnCHgqqkeKXE7hrRFuwaL0T9UV/lG/0Fh5x48aDdJYYVLT7w6jVtIz0fpbwwaQ9LledgFY9qo0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyMAOAG8wdMXk9z6am4dCdmsGwTzXS7bVnNV5z9a7WqTmmNcYC
+	7pm34wsAZGVWpP73HekwefgxDfTXJafSUHcYf0QIsqi4nyGLZRD8Sk8YjeHVEADwjeX5+gwZIV5
+	2munHnK7oM/1d6uyBS+V8ot06QMA=
+X-Gm-Gg: ASbGncskWiMendZzCxANAUcORY2Jf9D5wIxj3uTLSPAdnWAULuUyZwANUFzE2r0pGtY
+	qetIaQvqCITqLds96uJiTNgeb4goCiI+cO0vW0tI2LiYOU7vHDQUwEVVe2BbGFJkuBe+LRtMUsx
+	nF0t9c0A2LceTzBw9GBEwWj6rdr2hZBoXtfst5HML6Zrq8qQ5uZ7xouH/VkuSv
+X-Google-Smtp-Source: AGHT+IFLlhtX4Th4iaWF6gmgGrgmSI2sNYPTK5C3v32iqwrOki9gMq65N8YIiPUx2AS0QMSgiiHdclEstrrecxsEUTg=
+X-Received: by 2002:a05:6e02:330e:b0:3d4:2ea4:6b8a with SMTP id
+ e9e14a558f8ab-3d6ca680434mr58428335ab.22.1743540061217; Tue, 01 Apr 2025
+ 13:41:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20250401155758.48855-1-robdclark@gmail.com>
+In-Reply-To: <20250401155758.48855-1-robdclark@gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Tue, 1 Apr 2025 13:40:49 -0700
+X-Gm-Features: AQ5f1Jok8YMtfimcNM4pgU6iFDD8sQiU6mJe95HIx3itVvK4c_kQGvT5W1tTXT4
+Message-ID: <CAF6AEGsKbjq_q7ezQTn5vyAF1cjXahgbv84uYK35BJH1KBXSpw@mail.gmail.com>
+Subject: Re: [PATCH v6] drm/syncobj: Extend EXPORT_SYNC_FILE for timeline syncobjs
+To: dri-devel@lists.freedesktop.org
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Dmitry Osipenko <dmitry.osipenko@collabora.com>, Rob Clark <robdclark@chromium.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, open list <linux-kernel@vger.kernel.org>, 
+	"open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b" <linux-media@vger.kernel.org>, 
+	"moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b" <linaro-mm-sig@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hey Hans & Mauro,
+On Tue, Apr 1, 2025 at 8:58=E2=80=AFAM Rob Clark <robdclark@gmail.com> wrot=
+e:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> Add support for exporting a dma_fence fd for a specific point on a
+> timeline.  This is needed for vtest/vpipe[1][2] to implement timeline
+> syncobj support, as it needs a way to turn a point on a timeline back
+> into a dma_fence fd.  It also closes an odd omission from the syncobj
+> UAPI.
+>
+> [1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33433
+> [2] https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/8=
+05
+>
+> v2: Add DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE
+> v3: Add unstaged uabi header hunk
+> v4: Also handle IMPORT_SYNC_FILE case
+> v5: Address comments from Dmitry
+> v6: checkpatch.pl nits
+>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+> Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+> ---
+>  drivers/gpu/drm/drm_syncobj.c | 47 +++++++++++++++++++++++++++--------
+>  include/uapi/drm/drm.h        |  4 +++
+>  2 files changed, 41 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.=
+c
+> index 4f2ab8a7b50f..636cd83ca29e 100644
+> --- a/drivers/gpu/drm/drm_syncobj.c
+> +++ b/drivers/gpu/drm/drm_syncobj.c
+> @@ -741,7 +741,7 @@ static int drm_syncobj_fd_to_handle(struct drm_file *=
+file_private,
+>  }
+>
+>  static int drm_syncobj_import_sync_file_fence(struct drm_file *file_priv=
+ate,
+> -                                             int fd, int handle)
+> +                                             int fd, int handle, u64 poi=
+nt)
+>  {
+>         struct dma_fence *fence =3D sync_file_get_fence(fd);
+>         struct drm_syncobj *syncobj;
+> @@ -755,14 +755,24 @@ static int drm_syncobj_import_sync_file_fence(struc=
+t drm_file *file_private,
+>                 return -ENOENT;
+>         }
+>
+> -       drm_syncobj_replace_fence(syncobj, fence);
+> +       if (point) {
+> +               struct dma_fence_chain *chain =3D dma_fence_chain_alloc()=
+;
+> +
+> +               if (!chain)
+> +                       return -ENOMEM;
+> +
+> +               drm_syncobj_add_point(syncobj, chain, fence, point);
+> +       } else {
+> +               drm_syncobj_replace_fence(syncobj, fence);
+> +       }
+> +
+>         dma_fence_put(fence);
+>         drm_syncobj_put(syncobj);
+>         return 0;
+>  }
+>
+>  static int drm_syncobj_export_sync_file(struct drm_file *file_private,
+> -                                       int handle, int *p_fd)
+> +                                       int handle, u64 point, int *p_fd)
+>  {
+>         int ret;
+>         struct dma_fence *fence;
+> @@ -772,7 +782,7 @@ static int drm_syncobj_export_sync_file(struct drm_fi=
+le *file_private,
+>         if (fd < 0)
+>                 return fd;
+>
+> -       ret =3D drm_syncobj_find_fence(file_private, handle, 0, 0, &fence=
+);
+> +       ret =3D drm_syncobj_find_fence(file_private, handle, point, 0, &f=
+ence);
+>         if (ret)
+>                 goto err_put_fd;
+>
+> @@ -869,6 +879,9 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev=
+, void *data,
+>                                    struct drm_file *file_private)
+>  {
+>         struct drm_syncobj_handle *args =3D data;
+> +       unsigned int valid_flags =3D DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMEL=
+INE |
+> +                                  DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_=
+SYNC_FILE;
+> +       u64 point =3D 0;
+>
+>         if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
+>                 return -EOPNOTSUPP;
+> @@ -876,13 +889,18 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *d=
+ev, void *data,
+>         if (args->pad)
+>                 return -EINVAL;
+>
+> -       if (args->flags !=3D 0 &&
+> -           args->flags !=3D DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_F=
+ILE)
+> +       if (args->flags & ~valid_flags)
+>                 return -EINVAL;
+>
+> +       if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE)
+> +               point =3D args->point;
+> +
+>         if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE=
+)
+>                 return drm_syncobj_export_sync_file(file_private, args->h=
+andle,
+> -                                                   &args->fd);
+> +                                                   point, &args->fd);
+> +
+> +       if (args->point)
+> +               return -EINVAL;
+>
+>         return drm_syncobj_handle_to_fd(file_private, args->handle,
+>                                         &args->fd);
+> @@ -893,6 +911,9 @@ drm_syncobj_fd_to_handle_ioctl(struct drm_device *dev=
+, void *data,
+>                                    struct drm_file *file_private)
+>  {
+>         struct drm_syncobj_handle *args =3D data;
+> +       unsigned int valid_flags =3D DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMEL=
+INE |
+> +                                  DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_=
+SYNC_FILE;
+> +       u64 point =3D 0;
+>
+>         if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
+>                 return -EOPNOTSUPP;
 
-The following changes since commit f2151613e040973c868d28c8b00885dfab69eb75:
+oh, I suppose I should add a check for DRIVER_SYNCOBJ_TIMELINE?  I'll
+send a v7 a bit later
 
-  media: pci: mgb4: include linux/errno.h (2025-03-07 12:05:42 +0100)
+BR,
+-R
 
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/linux-media/users/ndufresne.git tags/for-6.16-rkvdec-h264-high10-and-422
-
-for you to fetch changes up to 619d9391efd5ed93f805734279034fa34f537347:
-
-  media: rkvdec: Fix frame size enumeration (2025-04-01 15:25:07 -0400)
-
-----------------------------------------------------------------
-Enable 10bit and YCbCr 422 in RKVDEC H.264 decoder
-
-----------------------------------------------------------------
-Alex Bee (1):
-      media: rkvdec: h264: Don't hardcode SPS/PPS parameters
-
-Jonas Karlman (10):
-      media: v4l2-common: Add helpers to calculate bytesperline and sizeimage
-      media: v4l2: Add NV15 and NV20 pixel formats
-      media: rkvdec: h264: Use bytesperline and buffer height as virstride
-      media: rkvdec: Extract rkvdec_fill_decoded_pixfmt into helper
-      media: rkvdec: Move rkvdec_reset_decoded_fmt helper
-      media: rkvdec: Extract decoded format enumeration into helper
-      media: rkvdec: Add image format concept
-      media: rkvdec: Add get_image_fmt ops
-      media: rkvdec: h264: Support High 10 and 4:2:2 profiles
-      media: rkvdec: Fix frame size enumeration
-
-Sebastian Fricke (1):
-      media: rkvdec: h264: Limit minimum profile to constrained baseline
-
- Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst | 128 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- drivers/media/v4l2-core/v4l2-common.c                       |  80 +++++++++++++++++++++++++++++++++++++-----------------------------------
- drivers/media/v4l2-core/v4l2-ioctl.c                        |   2 ++
- drivers/staging/media/rkvdec/rkvdec-h264.c                  |  64 ++++++++++++++++++++++++++++++++++++++--------------------
- drivers/staging/media/rkvdec/rkvdec.c                       | 239 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------------------------------------------------------
- drivers/staging/media/rkvdec/rkvdec.h                       |  18 ++++++++++++++++-
- include/uapi/linux/videodev2.h                              |   2 ++
- 7 files changed, 410 insertions(+), 123 deletions(-)
+> @@ -900,14 +921,20 @@ drm_syncobj_fd_to_handle_ioctl(struct drm_device *d=
+ev, void *data,
+>         if (args->pad)
+>                 return -EINVAL;
+>
+> -       if (args->flags !=3D 0 &&
+> -           args->flags !=3D DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_F=
+ILE)
+> +       if (args->flags & ~valid_flags)
+>                 return -EINVAL;
+>
+> +       if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE)
+> +               point =3D args->point;
+> +
+>         if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE=
+)
+>                 return drm_syncobj_import_sync_file_fence(file_private,
+>                                                           args->fd,
+> -                                                         args->handle);
+> +                                                         args->handle,
+> +                                                         point);
+> +
+> +       if (args->point)
+> +               return -EINVAL;
+>
+>         return drm_syncobj_fd_to_handle(file_private, args->fd,
+>                                         &args->handle);
+> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
+> index 7fba37b94401..e63a71d3c607 100644
+> --- a/include/uapi/drm/drm.h
+> +++ b/include/uapi/drm/drm.h
+> @@ -905,13 +905,17 @@ struct drm_syncobj_destroy {
+>  };
+>
+>  #define DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE (1 << 0)
+> +#define DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE         (1 << 1)
+>  #define DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE (1 << 0)
+> +#define DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE         (1 << 1)
+>  struct drm_syncobj_handle {
+>         __u32 handle;
+>         __u32 flags;
+>
+>         __s32 fd;
+>         __u32 pad;
+> +
+> +       __u64 point;
+>  };
+>
+>  struct drm_syncobj_transfer {
+> --
+> 2.49.0
+>
 
