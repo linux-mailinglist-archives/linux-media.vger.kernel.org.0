@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-29124-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29125-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6795A77748
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 11:10:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 373A9A77749
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 11:10:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A54B816862D
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 09:10:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C79E8188E097
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 09:10:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3ABC51EBFF8;
-	Tue,  1 Apr 2025 09:10:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D3E01EC011;
+	Tue,  1 Apr 2025 09:10:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H/7nLmvk"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AGWRlAZg"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201C12E3398
-	for <linux-media@vger.kernel.org>; Tue,  1 Apr 2025 09:10:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30D301EC00D
+	for <linux-media@vger.kernel.org>; Tue,  1 Apr 2025 09:10:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743498614; cv=none; b=F/EuJkRbUsElDDMRzmunweEV8F+nAmudMbUpRNmrKgUqoFY9rqr0VlRnTlxsQDINIbFUUbiICY9JNQDdIDvmfm9xfTvlpfwpWJ8yUABH57G+MSQr7CRwK8NF9lPJDjsA8iAbl+zU48YXkowTM9Lwowk3bNmC9DrbDqFA3/WKwds=
+	t=1743498617; cv=none; b=TDPwBvaKi+BWDtgGquuNJuYqmsK+mrol3i7hcpCOclZMnTzGayOf8nymSQmmYXWzTBqVdgRZmz7aWXHvJjlK4L+YGKtjGVN5mJCWBztDuwreNAUK3MdchTMeCxcOVttUd7cLgF4vOeJIpVBDsxpvLX6x5OpIve+MtJxQtu1GnhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743498614; c=relaxed/simple;
-	bh=EQUG8we1aAEk0s581t0crUPC292NpNDuATkzbo3iT8M=;
+	s=arc-20240116; t=1743498617; c=relaxed/simple;
+	bh=3IFTO41RffJ+iS/TOLX1vnSUBaOA4s4oLKBx/LdoVns=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=IAQdelUTGBpzT4bti5Z/90HGghIxFtbHt9wnRnCsxojYxFfLOe5kAP5IVd0TNYUdlMJ8AfG/t7EPg28tD1JpE9G8xlDcD01+w2vdGGhQb9TcWBjHcpw3BisGvgxfbXOIa2mwXJ27D7biQNcZ9m6jXtgIs9PlNkSvPKVcwmz1rKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H/7nLmvk; arc=none smtp.client-ip=192.198.163.13
+	 MIME-Version; b=Oj2Lp7CHsdNyNQU1IZF+oZORcRpnzSqRMPEnr4zbzsQX0lIZ2/p+pP9Ji7BH9hbYL53RYRR0TtnjU7AIq1AfHAU+Si8MEmqsj3Cw6unGQpufYnSKcp5M6qojwDGrnr1JKjkrJ5CQR84s1MQvG/sQjgV7OQ1XKeEF3zHb2wJZ00c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AGWRlAZg; arc=none smtp.client-ip=192.198.163.13
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743498613; x=1775034613;
+  t=1743498616; x=1775034616;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=EQUG8we1aAEk0s581t0crUPC292NpNDuATkzbo3iT8M=;
-  b=H/7nLmvkfhcs9irGfNWPyc4GyBzLObt7Yk+xw9e1c7mYP6ZfiygZZZhW
-   tK0o2C2iEHYe06rUYk6AspfAnAmX3fURuLoCLKPx8WCOy3gkCDx3+yq3Z
-   XOuFgIv2EhkCKWcKgO7Gc+SUuMs9VJBqmlN6JIt9BtkajBXP+c5UB2fcp
-   Lr/+fp7hwbky2SKl6jvR6yfpzJijP0XXH+uQ9jup1gXEQol5SbAyr+MDy
-   DbsEZb95w7CkpJjBXWhr8YG/dfvN2RfKB49272aGoQFhlOOj9SvJ8WOPU
-   vsMyT9GNBPjiZA8GysMvC0uU1D0wsUslFf406ObU12+3K2CFyvLkakjFG
-   w==;
-X-CSE-ConnectionGUID: jq0eORshRWS4QQuUVRkNPA==
-X-CSE-MsgGUID: +tBuX6/yS4SPIe6cAXLu+g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11390"; a="47532616"
+  bh=3IFTO41RffJ+iS/TOLX1vnSUBaOA4s4oLKBx/LdoVns=;
+  b=AGWRlAZgObSNkZStBZXVkuST0grcncRx8Us5XagkeOj1TKNERSCcHqHz
+   tWoApbGLPNPf8Fb0bITBuRfblh/gEwOiXOPjDnAO46d12D/bSed4/W0QL
+   oaIrAdjSoznobXh60nyra08iwI0cyegmTcMLypU1abt+fZEfAXdNIdXvT
+   SAfieWCgOT5iWyiIaMa1UQ7B6i9b/v2FPsHbE6EOnMzu7OM5XjAIykZih
+   A90LyHYk8MLiuP3fu9tc6DxyJ7sCfqXZZYbxvnPH0Rz+sTbSn8TfkNOGC
+   p1HA2CA1c6dHsnNCCIlfpXd9E1H4psHRGkbtzMiOfbpvNwxHaKxMtvNIP
+   g==;
+X-CSE-ConnectionGUID: NrECqmKRQ9OzCl8xpy66zA==
+X-CSE-MsgGUID: zEPR+3J8SBq85GHBvMUgkg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11390"; a="47532617"
 X-IronPort-AV: E=Sophos;i="6.14,292,1736841600"; 
-   d="scan'208";a="47532616"
+   d="scan'208";a="47532617"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 02:10:12 -0700
-X-CSE-ConnectionGUID: P/kj8eQyQS6s6Ki5K2AInA==
-X-CSE-MsgGUID: DunFwdxJQKakE3wZVP4o1A==
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 02:10:16 -0700
+X-CSE-ConnectionGUID: STspg4jNRaSlyaVjsW0AcA==
+X-CSE-MsgGUID: hxZSllCwT/6iG4mRFz+20Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; 
-   d="scan'208";a="126301162"
+   d="scan'208";a="126301246"
 Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.245.112.43])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 02:10:11 -0700
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 02:10:15 -0700
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Bingbu Cao <bingbu.cao@intel.com>
-Subject: [PATCH 3/5] media: intel/ipu6: Remove redundant ipu6_isys_subdev_to_csi2 macro
-Date: Tue,  1 Apr 2025 11:09:51 +0200
-Message-Id: <20250401090953.473339-5-stanislaw.gruszka@linux.intel.com>
+Subject: [PATCH 4/5] media: intel/ipu6: Rename ipu6_isys_subdev
+Date: Tue,  1 Apr 2025 11:09:52 +0200
+Message-Id: <20250401090953.473339-6-stanislaw.gruszka@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250401090953.473339-1-stanislaw.gruszka@linux.intel.com>
 References: <20250401090953.473339-1-stanislaw.gruszka@linux.intel.com>
@@ -76,88 +76,227 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-to_ipu6_isys_csi2 and ipu6_isys_subdev_to_csi2 are the same macros
-with different name, use the former one consequently.
+ipu6_isys_subdev structure will be shared with ipu7, to avoid confusion
+rename it to isys_subdev.
 
 Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 ---
- drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c  | 4 ++--
- drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h  | 3 ---
- drivers/media/pci/intel/ipu6/ipu6-isys-video.c | 4 ++--
- drivers/media/pci/intel/ipu6/ipu6-isys.c       | 2 +-
- 4 files changed, 5 insertions(+), 8 deletions(-)
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c |  4 ++--
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h |  4 +++-
+ .../media/pci/intel/ipu6/ipu6-isys-subdev.c   |  8 ++++----
+ .../media/pci/intel/ipu6/ipu6-isys-subdev.h   | 20 ++-----------------
+ .../media/pci/intel/ipu6/ipu6-isys-video.c    |  6 +++---
+ .../media/pci/intel/ipu6/ipu6-isys-video.h    |  4 ++--
+ drivers/media/pci/intel/ipu6/isys.h           | 14 +++++++++++++
+ 7 files changed, 30 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-index 531de32419c6..a59231d81f80 100644
+index a59231d81f80..2441f47e8742 100644
 --- a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
 +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-@@ -560,7 +560,7 @@ void ipu6_isys_csi2_sof_event_by_stream(struct ipu6_isys_stream *stream)
+@@ -224,7 +224,7 @@ static int ipu6_isys_csi2_set_stream(struct v4l2_subdev *sd,
+ 				     const struct ipu6_isys_csi2_timing *timing,
+ 				     unsigned int nlanes, int enable)
  {
- 	struct video_device *vdev = stream->asd->sd.devnode;
- 	struct device *dev = &stream->isys->adev->auxdev.dev;
--	struct ipu6_isys_csi2 *csi2 = ipu6_isys_subdev_to_csi2(stream->asd);
-+	struct ipu6_isys_csi2 *csi2 = to_ipu6_isys_csi2(stream->asd);
- 	struct v4l2_event ev = {
- 		.type = V4L2_EVENT_FRAME_SYNC,
- 	};
-@@ -575,7 +575,7 @@ void ipu6_isys_csi2_sof_event_by_stream(struct ipu6_isys_stream *stream)
- void ipu6_isys_csi2_eof_event_by_stream(struct ipu6_isys_stream *stream)
+-	struct ipu6_isys_subdev *asd = to_ipu6_isys_subdev(sd);
++	struct isys_subdev *asd = to_isys_subdev(sd);
+ 	struct ipu6_isys_csi2 *csi2 = to_ipu6_isys_csi2(asd);
+ 	struct ipu6_isys *isys = csi2->isys;
+ 	struct device *dev = &isys->adev->auxdev.dev;
+@@ -339,7 +339,7 @@ static int ipu6_isys_csi2_enable_streams(struct v4l2_subdev *sd,
+ 					 struct v4l2_subdev_state *state,
+ 					 u32 pad, u64 streams_mask)
  {
- 	struct device *dev = &stream->isys->adev->auxdev.dev;
--	struct ipu6_isys_csi2 *csi2 = ipu6_isys_subdev_to_csi2(stream->asd);
-+	struct ipu6_isys_csi2 *csi2 = to_ipu6_isys_csi2(stream->asd);
- 	u32 frame_sequence = atomic_read(&stream->sequence);
- 
- 	dev_dbg(dev, "eof_event::csi2-%i sequence: %i\n",
+-	struct ipu6_isys_subdev *asd = to_ipu6_isys_subdev(sd);
++	struct isys_subdev *asd = to_isys_subdev(sd);
+ 	struct ipu6_isys_csi2 *csi2 = to_ipu6_isys_csi2(asd);
+ 	struct ipu6_isys_csi2_timing timing = { };
+ 	struct v4l2_subdev *remote_sd;
 diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h
-index ce8eed91065c..24ed13b4a63f 100644
+index 24ed13b4a63f..7deafead66cf 100644
 --- a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h
 +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h
-@@ -57,9 +57,6 @@ struct ipu6_csi2_error {
- 	bool is_info_only;
+@@ -9,6 +9,8 @@
+ #include "ipu6-isys-subdev.h"
+ #include "ipu6-isys-video.h"
+ 
++#include "isys.h"
++
+ struct media_entity;
+ struct v4l2_mbus_frame_desc_entry;
+ 
+@@ -35,7 +37,7 @@ struct ipu6_isys_stream;
+ #define CSI2_CSI_RX_DLY_CNT_SETTLE_DLANE_B		-2
+ 
+ struct ipu6_isys_csi2 {
+-	struct ipu6_isys_subdev asd;
++	struct isys_subdev asd;
+ 	struct ipu6_isys *isys;
+ 	struct ipu6_isys_video av[NR_OF_CSI2_SRC_PADS];
+ 
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
+index 7c6125dc4af4..020c25925ca0 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
+@@ -141,7 +141,7 @@ int ipu6_isys_subdev_set_fmt(struct v4l2_subdev *sd,
+ 			     struct v4l2_subdev_state *state,
+ 			     struct v4l2_subdev_format *format)
+ {
+-	struct ipu6_isys_subdev *asd = to_ipu6_isys_subdev(sd);
++	struct isys_subdev *asd = to_isys_subdev(sd);
+ 	struct v4l2_mbus_framefmt *fmt;
+ 	struct v4l2_rect *crop;
+ 	u32 code = asd->supported_codes[0];
+@@ -209,7 +209,7 @@ int ipu6_isys_subdev_enum_mbus_code(struct v4l2_subdev *sd,
+ 				    struct v4l2_subdev_state *state,
+ 				    struct v4l2_subdev_mbus_code_enum *code)
+ {
+-	struct ipu6_isys_subdev *asd = to_ipu6_isys_subdev(sd);
++	struct isys_subdev *asd = to_isys_subdev(sd);
+ 	const u32 *supported_codes = asd->supported_codes;
+ 	u32 index;
+ 
+@@ -265,7 +265,7 @@ static const struct v4l2_subdev_internal_ops ipu6_isys_subdev_internal_ops = {
+ 	.init_state = ipu6_isys_subdev_init_state,
  };
  
--#define ipu6_isys_subdev_to_csi2(__sd) \
--	container_of(__sd, struct ipu6_isys_csi2, asd)
--
- #define to_ipu6_isys_csi2(__asd) container_of(__asd, struct ipu6_isys_csi2, asd)
+-int ipu6_isys_subdev_init(struct ipu6_isys_subdev *asd, struct device *dev,
++int ipu6_isys_subdev_init(struct isys_subdev *asd, struct device *dev,
+ 			  const struct v4l2_subdev_ops *ops,
+ 			  unsigned int nr_ctrls, unsigned int num_sink_pads,
+ 			  unsigned int num_source_pads)
+@@ -326,7 +326,7 @@ int ipu6_isys_subdev_init(struct ipu6_isys_subdev *asd, struct device *dev,
+ 	return ret;
+ }
  
- s64 ipu6_isys_csi2_get_link_freq(struct ipu6_isys_csi2 *csi2);
+-void ipu6_isys_subdev_cleanup(struct ipu6_isys_subdev *asd)
++void ipu6_isys_subdev_cleanup(struct isys_subdev *asd)
+ {
+ 	media_entity_cleanup(&asd->sd.entity);
+ 	v4l2_ctrl_handler_free(&asd->ctrl_handler);
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
+index 544537b4e3db..f3835d873991 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
+@@ -4,26 +4,10 @@
+ #ifndef IPU6_ISYS_SUBDEV_H
+ #define IPU6_ISYS_SUBDEV_H
+ 
+-#include <linux/container_of.h>
+-
+-#include <media/media-entity.h>
+-#include <media/v4l2-ctrls.h>
+ #include <media/v4l2-subdev.h>
+ 
+ #include "isys.h"
+ 
+-struct ipu6_isys_subdev {
+-	struct v4l2_subdev sd;
+-	u32 const *supported_codes;
+-	struct media_pad *pad;
+-	struct v4l2_ctrl_handler ctrl_handler;
+-	void (*ctrl_init)(struct v4l2_subdev *sd);
+-	int source;	/* SSI stream source; -1 if unset */
+-};
+-
+-#define to_ipu6_isys_subdev(__sd) \
+-	container_of(__sd, struct ipu6_isys_subdev, sd)
+-
+ unsigned int ipu6_isys_mbus_code_to_bpp(u32 code);
+ unsigned int ipu6_isys_mbus_code_to_mipi(u32 code);
+ bool ipu6_isys_is_bayer_format(u32 code);
+@@ -36,9 +20,9 @@ int ipu6_isys_subdev_enum_mbus_code(struct v4l2_subdev *sd,
+ 				    struct v4l2_subdev_state *state,
+ 				    struct v4l2_subdev_mbus_code_enum
+ 				    *code);
+-int ipu6_isys_subdev_init(struct ipu6_isys_subdev *asd, struct device *dev,
++int ipu6_isys_subdev_init(struct isys_subdev *asd, struct device *dev,
+ 			  const struct v4l2_subdev_ops *ops,
+ 			  unsigned int nr_ctrls, unsigned int num_sink_pads,
+ 			  unsigned int num_source_pads);
+-void ipu6_isys_subdev_cleanup(struct ipu6_isys_subdev *asd);
++void ipu6_isys_subdev_cleanup(struct isys_subdev *asd);
+ #endif /* IPU6_ISYS_SUBDEV_H */
 diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-index 2d3506d84922..17ae8bb55234 100644
+index 17ae8bb55234..e36a21aa9040 100644
 --- a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
 +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-@@ -729,7 +729,7 @@ int ipu6_isys_video_prepare_stream(struct ipu6_isys_video *av,
- 		return -EINVAL;
+@@ -869,7 +869,7 @@ void ipu6_isys_put_stream(struct ipu6_isys_stream *stream)
+ }
  
- 	stream->stream_source = stream->asd->source;
--	csi2 = ipu6_isys_subdev_to_csi2(stream->asd);
-+	csi2 = to_ipu6_isys_csi2(stream->asd);
- 	csi2->receiver_errors = 0;
- 	stream->source_entity = source_entity;
- 
-@@ -771,7 +771,7 @@ void ipu6_isys_configure_stream_watermark(struct ipu6_isys_video *av,
- 	else
- 		av->watermark.hblank = 0;
- 
--	csi2 = ipu6_isys_subdev_to_csi2(av->stream->asd);
-+	csi2 = to_ipu6_isys_csi2(av->stream->asd);
- 	link_freq = ipu6_isys_csi2_get_link_freq(csi2);
- 	if (link_freq > 0) {
- 		lanes = csi2->nlanes;
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys.c b/drivers/media/pci/intel/ipu6/ipu6-isys.c
-index 8df1d83a74b5..9b7ff5c440de 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys.c
-@@ -1266,7 +1266,7 @@ static int isys_isr_one(struct ipu6_bus_device *adev)
+ static struct ipu6_isys_stream *
+-ipu6_isys_get_stream(struct ipu6_isys_video *av, struct ipu6_isys_subdev *asd)
++ipu6_isys_get_stream(struct ipu6_isys_video *av, struct isys_subdev *asd)
+ {
+ 	struct ipu6_isys_stream *stream = NULL;
+ 	struct ipu6_isys *isys = av->isys;
+@@ -1174,7 +1174,7 @@ int ipu6_isys_setup_video(struct ipu6_isys_video *av,
+ 	struct v4l2_subdev_route *route = NULL;
+ 	struct v4l2_subdev_route *r;
+ 	struct v4l2_subdev_state *state;
+-	struct ipu6_isys_subdev *asd;
++	struct isys_subdev *asd;
+ 	struct v4l2_subdev *remote_sd;
+ 	struct media_pipeline *pipeline;
+ 	struct media_pad *source_pad, *remote_pad;
+@@ -1189,7 +1189,7 @@ int ipu6_isys_setup_video(struct ipu6_isys_video *av,
  	}
- 	stream->error = resp->error_info.error;
  
--	csi2 = ipu6_isys_subdev_to_csi2(stream->asd);
-+	csi2 = to_ipu6_isys_csi2(stream->asd);
+ 	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
+-	asd = to_ipu6_isys_subdev(remote_sd);
++	asd = to_isys_subdev(remote_sd);
+ 	source_pad = media_pad_remote_pad_first(&remote_pad->entity->pads[0]);
+ 	if (!source_pad) {
+ 		dev_dbg(dev, "No external source entity\n");
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-video.h b/drivers/media/pci/intel/ipu6/ipu6-isys-video.h
+index 0cfea78bbc3c..f4dee6120635 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys-video.h
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-video.h
+@@ -21,7 +21,7 @@
+ struct file;
+ struct ipu6_isys;
+ struct ipu6_isys_csi2;
+-struct ipu6_isys_subdev;
++struct isys_subdev;
  
- 	switch (resp->type) {
- 	case IPU6_FW_ISYS_RESP_TYPE_STREAM_OPEN_DONE:
+ struct ipu6_isys_pixelformat {
+ 	u32 pixelformat;
+@@ -55,7 +55,7 @@ struct ipu6_isys_stream {
+ 	int stream_source;
+ 	int stream_handle;
+ 	unsigned int nr_output_pins;
+-	struct ipu6_isys_subdev *asd;
++	struct isys_subdev *asd;
+ 
+ 	int nr_queues;	/* Number of capture queues */
+ 	int nr_streaming;
+diff --git a/drivers/media/pci/intel/ipu6/isys.h b/drivers/media/pci/intel/ipu6/isys.h
+index d822930e94bb..76f64439952b 100644
+--- a/drivers/media/pci/intel/ipu6/isys.h
++++ b/drivers/media/pci/intel/ipu6/isys.h
+@@ -4,8 +4,22 @@
+ #ifndef ISYS_H
+ #define ISYS_H
+ 
++#include <linux/container_of.h>
++
++#include <media/v4l2-ctrls.h>
+ #include <media/v4l2-subdev.h>
+ 
++struct isys_subdev {
++	struct v4l2_subdev sd;
++	u32 const *supported_codes;
++	struct media_pad *pad;
++	struct v4l2_ctrl_handler ctrl_handler;
++	void (*ctrl_init)(struct v4l2_subdev *sd);
++	int source; /* SSI stream source; -1 if unset */
++};
++
++#define to_isys_subdev(__sd) container_of(__sd, struct isys_subdev, sd)
++
+ int isys_get_stream_pad_fmt(struct v4l2_subdev *sd, u32 pad, u32 stream,
+ 			    struct v4l2_mbus_framefmt *format);
+ int isys_get_stream_pad_crop(struct v4l2_subdev *sd, u32 pad, u32 stream,
 -- 
 2.34.1
 
