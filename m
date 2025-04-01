@@ -1,80 +1,36 @@
-Return-Path: <linux-media+bounces-29140-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29141-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7765A7796A
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 13:18:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD77FA77A51
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 14:02:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 169E43AA610
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 11:18:29 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1F4D216274E
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 12:02:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44D331F17F7;
-	Tue,  1 Apr 2025 11:18:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KHbCbSAw"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01900202C5C;
+	Tue,  1 Apr 2025 12:02:41 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64A211E5B7E;
-	Tue,  1 Apr 2025 11:18:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EB08202C34
+	for <linux-media@vger.kernel.org>; Tue,  1 Apr 2025 12:02:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743506315; cv=none; b=cXphUiOYTnUxiHxTdNKKaE9hlbtwgQ2L5e0BdMNhMEHpWJdr5gERN6wK/Pehnx++RFyf8W1/+BD9NqHBmRZlzPWeJkewQn8ezXP3S7/S4LezCKWvQj1ogVxb5MigkDcrrSFnlfC/aHaqE6Eq/qHfpmsDDZDKhFebjG6HjM1Um3w=
+	t=1743508960; cv=none; b=IxfUkfHLHe2Nwsge0kaV7GV4bEzY6ydIbx3kobEyH15QzsaDQkLo9ZRKJ6dgBQPTSzs96rkJVMG1GsUXNN4snqwJpgQ+1A8q6fWznhvl7WO68xoUzrGLNKZJkJOOXiQFh+/cCkxi+qbYIGdi9358GEce8K6PPpbDnRdSvH2IW8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743506315; c=relaxed/simple;
-	bh=oLsWEROtM3VNERbcwSdXIndJfkcUD2LyFz5BAQhpfWg=;
+	s=arc-20240116; t=1743508960; c=relaxed/simple;
+	bh=KvzvLPnvhMeGGnQk48brUc3bUvaSb3aOxtr1jG+UmG8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KNn4noM1lWLnGjztIWmI6cgcq2g8ysGod/MZ5MU/2N/NX/8GEz2z+ca8hZbvlaO3fWJAAVa/UFI7qhBfq0q26pQ4e+S6QJjlJpvTaJ+o/MILAlUTK1HGOaeXvC5/Zftlv8PIt1yCPvUECPEzxwXvUvQ7jG7/PLWOOvQQ59Jf1ms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KHbCbSAw; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3912d2c89ecso4787461f8f.2;
-        Tue, 01 Apr 2025 04:18:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743506312; x=1744111112; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MHjLXZJ1cnpvspCUUy5TO+Zanl0UIrIyQt6fEAo5S/E=;
-        b=KHbCbSAwuTTpKHqThyn93AbYCAJ9ZxGgGpHVa7n4OtOjQ61K06qYeJOreZ/Y5onl3R
-         xZhXauhFsUTn1Vh2l9IFx8ZpiAlvNsurUIOzwQQNfgSOAxhDCOh3NLBvf5ourI/JzOYX
-         0Ai2t+f4RT5FJcqSBVEq0tGrBDjHBLVdk8fMiVyVKq4SkMyyML/uZqe0RA4EnMUu0Jn6
-         3VZVJGjXeZGTx+P1kPOnJQHHmucVb5sMWWdATMB03t7+xpPAxuBxVCVNTs3JOf0Bzy23
-         bbsFP2LaEbyU1Vr3JKlvdQu6nr8Z+SjwgtiNv2+WSlTtjgPVCT26kjcDCI0f9oS6G5Nt
-         /oQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743506312; x=1744111112;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MHjLXZJ1cnpvspCUUy5TO+Zanl0UIrIyQt6fEAo5S/E=;
-        b=GPxoMG+s1qTA/z80YjqElYnCJHmnNO0mPa3oORXqAUE7tzNbKoUefDi7ger9kxq+jR
-         ILRuL8f9bWDHoftqdKFihQe+s+uGQVIZ1lmy31G17Txs1oyz9MThv8ZgLv84+IO54RsD
-         xbl7RJfLXGYsQam4PKvk8yvdsreY18w0vKJv9mZs3+T2iuqvfvUEd8hBvOQ6S4+YGif2
-         BFdhR0CvtBSH/uX6jnrP1IwXOnKs6pe7L7+9ThcWJrqArOJSIl8cWhi0LgnkGujIEBp6
-         4zTJrn9Bf3tzxYuoxZtd0qqAW5uJW861X6sT6+IhVyq3uP+UxGm+F4KHWjBCGJpD8vWs
-         GvDw==
-X-Forwarded-Encrypted: i=1; AJvYcCW14kPkMe9GHI4kKgdX7ifvi7/Y92jtDNomCk8esYCk0IDkJkrYh7LOR+QUlXJTixMyg+XAjLmLmn/jOYk=@vger.kernel.org, AJvYcCWH0CZcUG4BjFFK3JgqwQaF3gLL51d9GLCn6CKyrSHQOvOeQQqDpqmBMsDkOn2wTswTnnbElcip9slv234=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfEeNPt2MUII8WnlVua4OuGLSnnj4NivYUcBrOrGZObU2KcUzL
-	0zCC3/Odx2TVXwFbToa2sMdJQ7INKuCamtRQUIPB+5PtIPM17JGE
-X-Gm-Gg: ASbGncuTxJQsxefu/C6qc8KTTx1dNzDRa2REUo0POT1eN1C4FIpKrzH8IL4dWLrag+9
-	Ab+5c616+wJ1VvS5yblKoKiPsi/VaR3+IgQkoNZ6sTNdsTOQeqbAQYRcgTV/InVNVk+P1RxwUBO
-	v+PH000jxZNQX/gmr4PBLysrm5tbWeO/2VCw9V2qn3R7hCOhKaluQNJ9xjMXYEV8NNbE1KiqrrQ
-	gpMK/lo6ODAylR9r95nm4i7R/nMuEuFy7chyi2ksrXySRucSwQxe8g6pQFxvcUboG3XM0nEgQJn
-	0kRVW8tPFvZvlJXszCts1oZANcY554yE9DcsqpvdOigDhoTPZdsd4f22uvNhtr0O+E5cMKjAxg=
-	=
-X-Google-Smtp-Source: AGHT+IHL7hdDkklKqbVxncDc8exnu0HuxmsEO5AkQ0x0L0l35X0qyjhrepIfjwYO28fP7NDX2ub+LQ==
-X-Received: by 2002:a5d:6daf:0:b0:391:4914:3c6a with SMTP id ffacd0b85a97d-39c120e34b1mr7985118f8f.29.1743506311481;
-        Tue, 01 Apr 2025 04:18:31 -0700 (PDT)
-Received: from [10.254.108.83] (munvpn.amd.com. [165.204.72.6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c0b663470sm13778422f8f.27.2025.04.01.04.18.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Apr 2025 04:18:31 -0700 (PDT)
-Message-ID: <593b5915-7148-446a-a240-7f7939025a5f@gmail.com>
-Date: Tue, 1 Apr 2025 13:18:28 +0200
+	 In-Reply-To:Content-Type; b=okXSBU5FtIS82TIJLEKinpyoybASwaRMIkj/Zpo/GRcPnQhJM9DFQdpAcBfMhzYB5Vj72SlDIr9P113YPp73aIumvkqZMsNvziqr4PhPX9A87Upv5UoUW2KV4/6C5j2M+giIi0aHpNBZFZh5LhAzydYrPVMrqHHtUPAjfTcyQXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8600BC4CEE5;
+	Tue,  1 Apr 2025 12:02:39 +0000 (UTC)
+Message-ID: <bc3886d0-6220-47c2-ab26-82cf0927facb@xs4all.nl>
+Date: Tue, 1 Apr 2025 14:02:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,196 +38,82 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [Linaro-mm-sig] [PATCH v5] drm/syncobj: Extend EXPORT_SYNC_FILE
- for timeline syncobjs
-To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
-Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Dmitry Osipenko <dmitry.osipenko@collabora.com>,
- Rob Clark <robdclark@chromium.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_?:buf|fence|resvb"
- <linux-media@vger.kernel.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_?:buf|fence|resvb"
- <linaro-mm-sig@lists.linaro.org>
-References: <20250331212333.16029-1-robdclark@gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
-In-Reply-To: <20250331212333.16029-1-robdclark@gmail.com>
+Subject: Re: [PATCH] media: tc358743: ignore video while HPD is low
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <de582d1f-700b-4d95-bd48-196413116455@xs4all.nl>
+ <20250401-aloof-vigorous-ringtail-927e0d@houat>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20250401-aloof-vigorous-ringtail-927e0d@houat>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Am 31.03.25 um 23:23 schrieb Rob Clark:
-> From: Rob Clark <robdclark@chromium.org>
->
-> Add support for exporting a dma_fence fd for a specific point on a
-> timeline.  This is needed for vtest/vpipe[1][2] to implement timeline
-> syncobj support, as it needs a way to turn a point on a timeline back
-> into a dma_fence fd.  It also closes an odd omission from the syncobj
-> UAPI.
->
-> [1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33433
-> [2] https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/805
->
-> v2: Add DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE
-> v3: Add unstaged uabi header hunk
-> v4: Also handle IMPORT_SYNC_FILE case
-> v5: Address comments from Dmitry
->
-> Signed-off-by: Rob Clark <robdclark@chromium.org>
-> ---
->  drivers/gpu/drm/drm_syncobj.c | 45 +++++++++++++++++++++++++++--------
->  include/uapi/drm/drm.h        |  4 ++++
->  2 files changed, 39 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
-> index 4f2ab8a7b50f..b0a4c58fe726 100644
-> --- a/drivers/gpu/drm/drm_syncobj.c
-> +++ b/drivers/gpu/drm/drm_syncobj.c
-> @@ -741,7 +741,7 @@ static int drm_syncobj_fd_to_handle(struct drm_file *file_private,
->  }
->  
->  static int drm_syncobj_import_sync_file_fence(struct drm_file *file_private,
-> -					      int fd, int handle)
-> +					      int fd, int handle, u64 point)
->  {
->  	struct dma_fence *fence = sync_file_get_fence(fd);
->  	struct drm_syncobj *syncobj;
-> @@ -755,14 +755,22 @@ static int drm_syncobj_import_sync_file_fence(struct drm_file *file_private,
->  		return -ENOENT;
->  	}
->  
-> -	drm_syncobj_replace_fence(syncobj, fence);
-> +	if (point) {
-> +		struct dma_fence_chain *chain = dma_fence_chain_alloc();
-> +		if (!chain)
-> +			return -ENOMEM;
-> +		drm_syncobj_add_point(syncobj, chain, fence, point);
+On 01/04/2025 13:10, Maxime Ripard wrote:
+> On Tue, Apr 01, 2025 at 11:54:17AM +0200, Hans Verkuil wrote:
+>> If the HPD is low (happens if there is no EDID or the
+>> EDID is being updated), then return -ENOLINK in
+>> tc358743_get_detected_timings() instead of detecting video.
+>>
+>> This avoids userspace thinking that it can start streaming when
+>> the HPD is low.
+>>
+>> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+>> Tested-by: Maxime Ripard <mripard@kernel.org>
+> 
+> Thanks for submitting it. It might be worth adding a Link: tag to the
+> initial discussion?
+> 
+> Maxime
 
-Just a nit pick but checkpatch.pl will complain about it: Empty line between declaration and code please.
+Good idea:
 
-Maybe double check if checpatch.pl is otherwise happy with the patch.
-
-With that done feel free to add Reviewed-by: Christian König <christian.koenig@amd.com>.
-
-Let me know if I should push it to drm-misc-next.
+Link: https://lore.kernel.org/linux-media/20240628-stoic-bettong-of-fortitude-e25611@houat/
 
 Regards,
-Christian.
 
-> +	} else {
-> +		drm_syncobj_replace_fence(syncobj, fence);
-> +	}
-> +
->  	dma_fence_put(fence);
->  	drm_syncobj_put(syncobj);
->  	return 0;
->  }
->  
->  static int drm_syncobj_export_sync_file(struct drm_file *file_private,
-> -					int handle, int *p_fd)
-> +					int handle, u64 point, int *p_fd)
->  {
->  	int ret;
->  	struct dma_fence *fence;
-> @@ -772,7 +780,7 @@ static int drm_syncobj_export_sync_file(struct drm_file *file_private,
->  	if (fd < 0)
->  		return fd;
->  
-> -	ret = drm_syncobj_find_fence(file_private, handle, 0, 0, &fence);
-> +	ret = drm_syncobj_find_fence(file_private, handle, point, 0, &fence);
->  	if (ret)
->  		goto err_put_fd;
->  
-> @@ -869,6 +877,9 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
->  				   struct drm_file *file_private)
->  {
->  	struct drm_syncobj_handle *args = data;
-> +	unsigned valid_flags = DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE |
-> +			       DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE;
-> +	u64 point = 0;
->  
->  	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
->  		return -EOPNOTSUPP;
-> @@ -876,13 +887,18 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
->  	if (args->pad)
->  		return -EINVAL;
->  
-> -	if (args->flags != 0 &&
-> -	    args->flags != DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
-> +	if (args->flags & ~valid_flags)
->  		return -EINVAL;
->  
-> +	if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE)
-> +		point = args->point;
-> +
->  	if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
->  		return drm_syncobj_export_sync_file(file_private, args->handle,
-> -						    &args->fd);
-> +						    point, &args->fd);
-> +
-> +	if (args->point)
-> +		return -EINVAL;
->  
->  	return drm_syncobj_handle_to_fd(file_private, args->handle,
->  					&args->fd);
-> @@ -893,6 +909,9 @@ drm_syncobj_fd_to_handle_ioctl(struct drm_device *dev, void *data,
->  				   struct drm_file *file_private)
->  {
->  	struct drm_syncobj_handle *args = data;
-> +	unsigned valid_flags = DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE |
-> +			       DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE;
-> +	u64 point = 0;
->  
->  	if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
->  		return -EOPNOTSUPP;
-> @@ -900,14 +919,20 @@ drm_syncobj_fd_to_handle_ioctl(struct drm_device *dev, void *data,
->  	if (args->pad)
->  		return -EINVAL;
->  
-> -	if (args->flags != 0 &&
-> -	    args->flags != DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE)
-> +	if (args->flags & ~valid_flags)
->  		return -EINVAL;
->  
-> +	if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE)
-> +		point = args->point;
-> +
->  	if (args->flags & DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE)
->  		return drm_syncobj_import_sync_file_fence(file_private,
->  							  args->fd,
-> -							  args->handle);
-> +							  args->handle,
-> +							  point);
-> +
-> +	if (args->point)
-> +		return -EINVAL;
->  
->  	return drm_syncobj_fd_to_handle(file_private, args->fd,
->  					&args->handle);
-> diff --git a/include/uapi/drm/drm.h b/include/uapi/drm/drm.h
-> index 7fba37b94401..e63a71d3c607 100644
-> --- a/include/uapi/drm/drm.h
-> +++ b/include/uapi/drm/drm.h
-> @@ -905,13 +905,17 @@ struct drm_syncobj_destroy {
->  };
->  
->  #define DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE (1 << 0)
-> +#define DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE         (1 << 1)
->  #define DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE (1 << 0)
-> +#define DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE         (1 << 1)
->  struct drm_syncobj_handle {
->  	__u32 handle;
->  	__u32 flags;
->  
->  	__s32 fd;
->  	__u32 pad;
-> +
-> +	__u64 point;
->  };
->  
->  struct drm_syncobj_transfer {
-
+	Hans
 
