@@ -1,156 +1,115 @@
-Return-Path: <linux-media+bounces-29145-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29146-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94BD4A77B90
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 15:01:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44518A77B9F
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 15:04:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 908E13AFAB7
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 13:00:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 09ACD16B833
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 13:04:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9497204581;
-	Tue,  1 Apr 2025 13:00:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 170A92036F0;
+	Tue,  1 Apr 2025 13:04:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QGHTG68b"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lfsp10gR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E079203707
-	for <linux-media@vger.kernel.org>; Tue,  1 Apr 2025 13:00:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E26B61F152E;
+	Tue,  1 Apr 2025 13:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743512422; cv=none; b=ruxdPgk41qaEoTR5avYRCcJKkzQqRl0GPz5CKHY0MIErzAwiaRrO7QPZTz0zxyd+WMOdbplknpGQuDvSPiJ7yA+OMJ9ptcjacngmIdjnVt74vV6ZJPKnACXdYaPg2T7R9NcDuBCCuXt+0KOCFWPPkAlB5TmnOZXsSkj3fZLtisQ=
+	t=1743512679; cv=none; b=lDozv1XnJ7jvs+B28AKW7QFoQUkKvuDSpPXkg3N4Dm03KsliMo4Qtn48SlBXlwvY4zhUMg5nsvg5rt/YRShOO8K00bTgVF91ALqA6cAoshXHpLch0b/aK2KXUm0bSoASaXMmfW6t+YpcYTnq0019/dvIf0ByVSZD2xvS+56IXoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743512422; c=relaxed/simple;
-	bh=OjgI5+In7loHAVZbMdtRrfVDhF9WiqnryHICNUhoNK8=;
+	s=arc-20240116; t=1743512679; c=relaxed/simple;
+	bh=vtatpFmzhU7xgjZhwA5PCJeITl2kEtzzcHrkI3h7zeI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kFPPrmnpZJR2z7h6fDxMLyl6SQTRMNXoldwZSzEbN2GhJB6iG2uzT7qRfdXeEunT7/xJK3MP8UebGJ0ijHKr1jHzrIkAz6g8w27QKFUDxNC9y0VJUYGY1Nq4lGiJ6c62UbIgEGqty8eON81k6LVEi7RYLUh1+ja88tby6NFGvMU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QGHTG68b; arc=none smtp.client-ip=209.85.208.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-30bfd4d4c63so52935251fa.2
-        for <linux-media@vger.kernel.org>; Tue, 01 Apr 2025 06:00:18 -0700 (PDT)
+	 To:Cc:Content-Type; b=R1tykF/USPKU8XizjpfC/E8JtFAaf27/rLw4k1KUANprxpTJAQUszWTF4/d/mE29yq7FiVpUxz4xEffMdd5C0/32z4XSR77gIebKM+wecG4N5k7MufGj4Q6w4scaLXfyDnEM2biqzLQkrcDlvxMvK+8IhoRpAc4duA5ASgvcBI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lfsp10gR; arc=none smtp.client-ip=209.85.218.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-ac289147833so931671666b.2;
+        Tue, 01 Apr 2025 06:04:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1743512416; x=1744117216; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+iRR6I3MRixn7v8uxjP6RrlRNlKpkOU3ts6hO7Pe5kY=;
-        b=QGHTG68bbSSdX49OPOqy6S+Kp5QH3ondnsobzcECrPFVtWaCiJhofvRhHZB2or53uE
-         2WJrnzNOFh2kFnoOM7Y1RPlPKEzQjdt+BcWcNi8dO4Bu+3LbMhzWwiVbaQd6KtFNPxsh
-         vAu7yvh28XXsrKhpqA3WfIkU9T6byCR4nIWO0=
+        d=gmail.com; s=20230601; t=1743512676; x=1744117476; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vtatpFmzhU7xgjZhwA5PCJeITl2kEtzzcHrkI3h7zeI=;
+        b=lfsp10gRm1Acu6rbC/PVMoopx6QBtX6RphRe93n/gKuGZUj/CDTtVyJPikSWCeNR+b
+         kK9Yqsw+zo+sAox7PBxlYgItWRp8lVcnZOqh21PrelzWEToO3rkYdiDAad4clvtVxTwF
+         53l3cUrfQIeHIoEIpozmi0hzzDtzvG5BPxrnZ87Jn6zTFKjuHYkjPY7MqDTf2Ih/4GLG
+         Mn9rgtqor2aCvCkAPiJ9Mg0rP4rNRnVkdjrp69uZiEFr9Dw5z30reDYO4jjocr6hABb8
+         vQCC0YnUeyrAchDH1LxdkXGzup2g3nYdvuj+7AaBuu8J8asIJ5fO8TZaSQr/0ZPnguzA
+         8NvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743512416; x=1744117216;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+iRR6I3MRixn7v8uxjP6RrlRNlKpkOU3ts6hO7Pe5kY=;
-        b=kkQiiyV7TK64QyPpNKRwTLamxDNkZzBiMSjYIW4dL00XyqCEJST1fgVcacaSMKyJnx
-         IQPZXK1souoZcyVXLoZ1lz2rTBjpxvb5/okE8FFSsJuemh22wbTFdhAZDJ0j2jRGvKeR
-         0/lNTcpbsnr0DPWW77VBWw2l9aHDPZHAOfC7GiSRFKRah1+JfzkbswAuccAnhMYFb5xQ
-         dBcD5a/ENZWAhohXCwxKKHfLrfSlpKJd0yt4qYw5uU5Kbgeb/5fQjGRrsJuQOvJJUfla
-         +PChRhchiIo23xq9FvapydDjYLOTcROBFxjxgd/5jZQKAKyowTrYJos3ftyG1DM0KJkj
-         QPvQ==
-X-Gm-Message-State: AOJu0Yx2VYLpegcngdSpQcXDD1Y5/HmNJEAkuNhIfQ1cfHTy6aCLgh0c
-	fMR/qwQSCb1jZgGXCLRoNSYYTE7r73rFi3LgXAJCoZernJsKjPGI1Pr1ihrXrQFl5xK1DVjttp8
-	=
-X-Gm-Gg: ASbGncuwn3XZxNXubvyDiVBwW7v4ez6IcKk4kNxvAXGxCR+1XlXr93wHLFE6ctKB+jf
-	INMKzSUqnXofTBGfharKFIono5KAZ2l4CbgPOUifSGbCn1xfjRgKSHnRcmZr0js05kH/zQhP45S
-	Lx8aRzMFnuT8336hEqUa/ti06spDz+TARh6GJng5XzIXFzprfuuO45gvk0Kg8/vr9V80ORELPqL
-	pBTFBBBdf56OZwmYewBQUlZZ9HOQ+4ghcHHbmLlF9D8sP75hVgbZpnnqvzrGUzG/5nlKGZkBJkM
-	NG5GKwHk3e5yvP2hw/wuNVQ95JaydqbTdvu0AzxjJ45iFQBOgVnQ8iv4nywWQ/1+tQw4Y6DgBGT
-	IzRbr+Uw=
-X-Google-Smtp-Source: AGHT+IEt9oGWRchf5J3sQ8E2meZSiDPVr3TWBw9mUuRyhb/QKCdo7aAAPPCLesvzKoeGz82b4LX0lA==
-X-Received: by 2002:a2e:a803:0:b0:30b:b908:ce06 with SMTP id 38308e7fff4ca-30eecd3b3fdmr11040971fa.19.1743512415856;
-        Tue, 01 Apr 2025 06:00:15 -0700 (PDT)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com. [209.85.167.53])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30dd2b5978bsm16888941fa.100.2025.04.01.06.00.15
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Apr 2025 06:00:15 -0700 (PDT)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-54c0fa6d455so465738e87.1
-        for <linux-media@vger.kernel.org>; Tue, 01 Apr 2025 06:00:15 -0700 (PDT)
-X-Received: by 2002:ac2:4e10:0:b0:549:8cbb:5443 with SMTP id
- 2adb3069b0e04-54c0a535a5emr721119e87.47.1743512414729; Tue, 01 Apr 2025
- 06:00:14 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743512676; x=1744117476;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vtatpFmzhU7xgjZhwA5PCJeITl2kEtzzcHrkI3h7zeI=;
+        b=NU+SpJKLR4quz4GDnCh7ZfuGDib/OETyL03+t2TClg9ztc/dNoVTDupjZTOLig5GWZ
+         6rpe3z30k3tpGUqfDhRW/Wp5pPnULzxXJ50b3CsqTIQttJnnirZHKOPt5bzWHHkmqZeg
+         FH/IyuOdSk9B2boxP5CMvdEyxUY54qbGSyYB/g/RGlU0H46olCKqe6Gk6uKiQ0LcDxw9
+         ntbSEsobqhyr7B6Uij9xJ7WNTwpid2NwGjSvtrTjs7RlWqBwZ5euwG6kdWIKFbUSN16Z
+         g2qRsuzsS1uD9tP+YYtMZrAPMiZR21jCIH63nOo9iqh7tJ5bhRuBk+BxFr/qMChaHbwR
+         3eEA==
+X-Forwarded-Encrypted: i=1; AJvYcCX3s1kaap54/eXo2ClZhrvlPB+yq+z8EkYdo/K2MLz3wIIGnFDRAhWuuByfOkf2/mJrqboLCb91hCjmMYI=@vger.kernel.org, AJvYcCXURUG8IJND67K9l3EOPS6iPxkGrBBvy7yUyG870KVR6oxcgseAWO2QFKVtVJKKiI6jk9/NCzfUzgDYAPA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxr0DhnpCtn7FkBIhAI0VJQV10vgVpupOmLH0BL0TzxYRVJodrl
+	5t49Uuxf7uNEnNpug3zaCT+mapr77oxLkH9dErVofnGgdeOLxzhZR9H7c+3QUoWdTHdwVofmmoR
+	SVkt+akFpk9RbNn9kU+pMzlBaUwA=
+X-Gm-Gg: ASbGncteWjxrBG7lHR0YWvM+ugx/6hHUBI0h7hrZ7mScn+HKaeWLIR+ohfmL63Su7nr
+	Tur/oxEIL2FRNoo6myvtL1fLqsHFyH1otSgEpJ337pI5nMVtTRMnOOMFHmtqeuvCUE4HbBB0tU4
+	gf5bVKbsRgXQhmXWrt8xxbfbWVOw==
+X-Google-Smtp-Source: AGHT+IHZsgzE/OgxX7vZ7ZnSjzcsPxeS13ob9nT5SmHeUEZ3jjaSl08nur2NnbGtlffi9m8wEAGUtFTlGED263jrJZs=
+X-Received: by 2002:a17:906:c148:b0:ac3:c7bd:e436 with SMTP id
+ a640c23a62f3a-ac738c6f2a9mr1016730066b.51.1743512675974; Tue, 01 Apr 2025
+ 06:04:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <75a04abe-59d5-4835-a306-a63e5ff9d35f@xs4all.nl>
-In-Reply-To: <75a04abe-59d5-4835-a306-a63e5ff9d35f@xs4all.nl>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 1 Apr 2025 15:00:02 +0200
-X-Gmail-Original-Message-ID: <CANiDSCuxVxMn7a3CL4yDhLJY5_kSiHd9roC0t=+aC7uNQUPm5g@mail.gmail.com>
-X-Gm-Features: AQ5f1JqjT1iOcx9-FLxMvCw83UPaPwyb7IC8efdpONit3rnhsFbIB2GUnEly5Aw
-Message-ID: <CANiDSCuxVxMn7a3CL4yDhLJY5_kSiHd9roC0t=+aC7uNQUPm5g@mail.gmail.com>
-Subject: Re: [PATCHv3] media: cec: extron-da-hd-4k-plus: Fix Wformat-truncation
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <20250331-v614-v1-0-9bc69a873720@chromium.org> <20250331-v614-v1-2-9bc69a873720@chromium.org>
+In-Reply-To: <20250331-v614-v1-2-9bc69a873720@chromium.org>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 1 Apr 2025 16:03:58 +0300
+X-Gm-Features: AQ5f1JoQAeiz8KzO0Ix3DeA2FFUbKTV02faYpr6Tug3l0lCiOJFfHWd5fqOwTTY
+Message-ID: <CAHp75VfVa5QYW9Srx1aDBFuvBp5OcWr1bnNUdhf6rJx_NemEqw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: atomisp: Fix Wformat-truncation warning
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Hans de Goede <hdegoede@redhat.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Hans
+On Mon, Mar 31, 2025 at 7:38=E2=80=AFPM Ricardo Ribalda <ribalda@chromium.o=
+rg> wrote:
+>
+> Gcc8 is convinced that we do not have enough space in dot_id_input_bin.
+> Extend the variable 17 bytes. It is just used for debugging.
+>
+> drivers/staging/media/atomisp/pci/runtime/debug/src/ia_css_debug.c:1336:9=
+: warning: '(pipe' directive output may be truncated writing 5 bytes into a=
+ region of size between 1 and 74 [-Wformat-truncation=3D]
 
-On Tue, 1 Apr 2025 at 14:47, Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> Change the port type to u8 so gcc8 knows that the port fits in a single
-> char.
-You want to change this commit message
+...
 
->
-> drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:44: warning: 'DCEC' directive output may be truncated writing 4 bytes into a region of size between 0 and 53 [-Wformat-truncation=]
->
-> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-> Reported-by: Ricardo Ribalda <ribalda@chromium.org>
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
-> Change since v2:
->
-> Redid the patch, fixing the buffer sizes. It turned out that was the problem.
-> It now passes build-ancient (I checked the logs this time).
-> ---
->  .../cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c    | 7 ++++---
->  1 file changed, 4 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-> index cfbfc4c1b2e6..5ebd9d73fb15 100644
-> --- a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-> +++ b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
-> @@ -1002,8 +1002,8 @@ static int extron_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
->                                     u32 signal_free_time, struct cec_msg *msg)
->  {
->         struct extron_port *port = cec_get_drvdata(adap);
-> -       char buf[CEC_MAX_MSG_SIZE * 3 + 1];
-> -       char cmd[CEC_MAX_MSG_SIZE * 3 + 13];
-> +       char buf[(CEC_MAX_MSG_SIZE - 1) * 3 + 1];
-> +       char cmd[(CEC_MAX_MSG_SIZE - 1) * 3 + 15];
-Random idea, please ignore if you do not like it. What about ?:
-char cmd[sizeof(buf) + 14];
+> -static char dot_id_input_bin[SH_CSS_MAX_BINARY_NAME + 10];
+> +static char dot_id_input_bin[SH_CSS_MAX_BINARY_NAME + 27];
 
->         unsigned int i;
->
->         if (port->disconnected)
-> @@ -1013,7 +1013,8 @@ static int extron_cec_adap_transmit(struct cec_adapter *adap, u8 attempts,
->                 sprintf(buf + i * 3, "%%%02X", msg->msg[i + 1]);
->         snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
->                  port->direction, port->port.port,
-> -                cec_msg_initiator(msg), cec_msg_destination(msg), buf);
-> +                cec_msg_initiator(msg),
-> +                cec_msg_destination(msg), buf);
+I'm okay with the approach, but can you also add a comment to explain
+27, please?
+(I mean something like "27 is the combined length of 'pipe' plus ...")
 
-You do not need to change the style here.
->         return extron_send_and_wait(port->extron, port, cmd, NULL);
->  }
->
-> --
-> 2.47.2
->
-
-
--- 
-Ricardo Ribalda
+--=20
+With Best Regards,
+Andy Shevchenko
 
