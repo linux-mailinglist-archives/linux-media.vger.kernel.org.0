@@ -1,501 +1,243 @@
-Return-Path: <linux-media+bounces-29134-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29135-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B5E3A7788E
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 12:13:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56F96A77945
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 13:04:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C88963A9F6C
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 10:13:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 18C373AC2C0
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 11:03:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFCD81F0982;
-	Tue,  1 Apr 2025 10:13:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37F1C1F1520;
+	Tue,  1 Apr 2025 11:03:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D5TMxz2L"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="UxTFPNTe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2065.outbound.protection.outlook.com [40.107.236.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 579D41A239B;
-	Tue,  1 Apr 2025 10:13:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743502397; cv=none; b=HvJUS3zWWE+9RyrJkbLm6q+mmIMP3dAZ7xSAz5ygTzwS+X4ORkJMMZg5NJKBAjkOB501+Bccd+XV08Ck1arbOg6RanfJtVfnP1t35RvwnQ/tBGexDcWoIQdUtNvjpToWjCJj1VPPV8N1lkJh0Im7uzdJQqUnvnjNXdbbtMTLk5M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743502397; c=relaxed/simple;
-	bh=ivTxn0hTBNFRHrw5B9krJdw5mAWDPBuasN1FU6mUvdY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vCbUoA4Zb3Dxvj8H6QhqQXPl5cdhT/oRWu7uCfI/xhKm9k8bq1tEYPwhIw/p0R1V30S55nKiNt0KWroh8ko1bY34tbYKCYg43RYVN7evnb10m635kB1/7Kqzf+5HTqxq+s5YBraPB+qEvisOmiLYDdF3cTczzLDf6zK6faITiVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D5TMxz2L; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81ADAC4CEE4;
-	Tue,  1 Apr 2025 10:13:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743502395;
-	bh=ivTxn0hTBNFRHrw5B9krJdw5mAWDPBuasN1FU6mUvdY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D5TMxz2LblaZOefkG+9mPTYiuHkfkNeDbTm3jWhTmBJlInjkb54B21tBEAgtRETiI
-	 E/MngD31JIK7Han0wAFx49L4O6hZMK1DDAgNEK/z/7PPjgykXzABeEdVn5g9vOI1nH
-	 22pfQ5qgAHbaDAzx5ZbZ2r52FVSIm1Z6oINugS6bChXCaqRteoQfIxJFkbz/uF6xMp
-	 /ebT/o71NNZp4daFLmc708qT2TaFzHkw1wcx8nGtkC1oJ5NLu8ITK7oNRYhKccMN7/
-	 oOQwlfIud5AIFa7kZMEXpwmRrogpvW05QaiX3PfK5GuJdN1znlvVWSE0mF1D5ylVry
-	 vW52CKGxaIzXg==
-Date: Tue, 1 Apr 2025 15:43:05 +0530
-From: Sumit Garg <sumit.garg@kernel.org>
-To: Jens Wiklander <jens.wiklander@linaro.org>, akpm@linux-foundation.org,
-	david@redhat.com, rppt@linux.ibm.com
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	op-tee@lists.trustedfirmware.org,
-	linux-arm-kernel@lists.infradead.org,
-	Olivier Masse <olivier.masse@nxp.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Yong Wu <yong.wu@mediatek.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
-	"T . J . Mercier" <tjmercier@google.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
-	Daniel Stone <daniel@fooishbar.org>, linux-mm@kvack.org
-Subject: Re: [PATCH v6 09/10] optee: FF-A: dynamic restricted memory
- allocation
-Message-ID: <Z-u8MWNVNy9lLbkK@sumit-X1>
-References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
- <20250305130634.1850178-10-jens.wiklander@linaro.org>
- <Z-JePo6yGlUgrZkw@sumit-X1>
- <CAHUa44H1MzBLBM+Oeawca52C8PF3uAT0ggbL-zRdnBqj4LYrZg@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9BD41F03E2;
+	Tue,  1 Apr 2025 11:03:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.65
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743505429; cv=fail; b=mk0pb+DK4xBHV2w5lfNO0iJllsCenq/xzlNytun/FHnafwt2/x/GacQIyKGSt2nbbZVzU/t9yZlxii9JunR/DSg2WtTu+x6cAIY8kEi7Xpnt809601Y4WphrevlW1bS2ekyAU15zzaRjQvp+OlPjO6uyvRuFfL7kO8q6fnptsdE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743505429; c=relaxed/simple;
+	bh=n0jdkrSUxkbvzJ4eiEo3Se/YQpwiF3vG/Bcp+ZAVlmc=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=BRZu9z4IZxh6UsrVNBdlk/HvxNeZzyNgJfT9QJqOumEUw38lTcJ4kx4FZ99fCb75JcnzNDOcxtsCUMkxydoFhdXP8dLuR8n1LPm3vKPzTSx90/o922fGPPGicKNGnMGxnHBmoxYSf+o5zgs+a+liDd2Zn+9lDu1OoHYBThtKJJ8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=UxTFPNTe; arc=fail smtp.client-ip=40.107.236.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KwtoeOcWPGgAcWVMfozNVDEe5ObpHXuYhsSpDK+xubPMVqjrTdzsVMQpslK6Z/UFEIRCTg/VGHlG5ayJvowbnqrDsNL12T21UeeTO/7VEO8L+7rw10tUAZ8oey0z7P7UtAgFcnrDzllXbMDaxpXn7oJZQjSlYKBXpRC1YZqrfCCgw1K4NtAa/UJmLA7rjKDKbPre+RlAmVZ+evXbwp8yd6A/vuGqdurtA1CvZ1NdUdyQWOfAC+OOEuRt+VxiTHhMkiBghFqlI6v3OW+84kzZ700VA3FL2i5IVOatEIMmqT319m9IGRcJKfIU2XCp/iVtyxr45Dtg5WS1LNvTy6fvSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=n0jdkrSUxkbvzJ4eiEo3Se/YQpwiF3vG/Bcp+ZAVlmc=;
+ b=xoHbUwAewsRA095zlrKwi8X9pil9bMLMULz1i639EdroIYFft2VRbR+JPEonxfCp3WUczsdRqTY6f0vKE/lrsH2P4fq8XFS9IwMzcE5j/XZO03DSeN/1idWua2yO/PRnHM5FF2/ZLuxfuwVBN2GImDnqTkGRXccfstgIwrVL3bFwtiTrHXFHHSd9HuW/x2ubEwnKXGtjKEY4Rnjq1USAVeGluiwWjypDEKWKPX/MBAppqsWvTAlMe4/zuN1POMjSGrFM8Yih96hlu20IMUGsxVfPZYyRK1NtdfXMxktxHL67V+dX+Yafnm0QnW2gt1dJHSUkeLzGQ0mCip/BF1Zbkw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=n0jdkrSUxkbvzJ4eiEo3Se/YQpwiF3vG/Bcp+ZAVlmc=;
+ b=UxTFPNTeKTx5NVhkYWtUJ/7AOpkwxzmwkABJ4GNh7n0x92vmsPj4yLr/kZqQlCCTqRxwazRpXw5k1c/VQ9HGVc7uQNMSLuUpfb5a0fTZMq5CgwMK15FvI75+4tE4nJkFt/emLQqQk6SxwTECqsXjuMJ1qK/OP/NjPhGU+eVRP0s=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DM4PR12MB6351.namprd12.prod.outlook.com (2603:10b6:8:a2::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8534.44; Tue, 1 Apr 2025 11:03:43 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8534.043; Tue, 1 Apr 2025
+ 11:03:42 +0000
+Message-ID: <e08f10da-b0cd-444b-8e0b-11009b05b161@amd.com>
+Date: Tue, 1 Apr 2025 13:03:29 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RFC 00/12] dma: Enable dmem cgroup tracking
+To: Dave Airlie <airlied@gmail.com>, Maxime Ripard <mripard@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T.J. Mercier" <tjmercier@google.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
+ Tomasz Figa <tfiga@chromium.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Ben Woodard <woodard@redhat.com>,
+ Hans Verkuil <hverkuil@xs4all.nl>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
+ <f5fdc666-dd72-4a4f-9270-b539a3179382@amd.com>
+ <20250310-eccentric-wonderful-puffin-ddbb26@houat>
+ <CAPM=9tzkLXOz=-3eujUbbjMHunR+_5JZ4oQaqNmbrWWF9WZJ0w@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CAPM=9tzkLXOz=-3eujUbbjMHunR+_5JZ4oQaqNmbrWWF9WZJ0w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0014.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:c8::12) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHUa44H1MzBLBM+Oeawca52C8PF3uAT0ggbL-zRdnBqj4LYrZg@mail.gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB6351:EE_
+X-MS-Office365-Filtering-Correlation-Id: 37874360-f8aa-4bf1-57a5-08dd710cdd75
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?cHo5WjdZZzYwbGZpdFpwb1F6Vm5HMjBBeGRFNSs4OVBlRzdac3dXWGRDL3RQ?=
+ =?utf-8?B?dXpSbDhXTGtlUG9qdHJyd3dYZWp2NFRCQk1DVWNqRklqSGJIOWIzRktTczFR?=
+ =?utf-8?B?V1RLQjIxSS9MeFZycEg0OWlmYW5OdUdlOWthbjV0WTl6QUE0U1FOWC9zdjN4?=
+ =?utf-8?B?NVhQVzNNWXNJT1NJRWdlQUY5SVY5RWkyd3hxamdoY2d4d0NmOHI5Njd2cTRi?=
+ =?utf-8?B?eUxMQTJsbTlYamJobWhTaXF4ajFYM29Ya3FyNDkzd0JpZ1NFRmZydzd0OHN5?=
+ =?utf-8?B?SXIyZlRiWDlOVUhXRkhYblVqWDhwNVAvWTJiaWhjRU1VMlJMbnQ3b3UyN0RQ?=
+ =?utf-8?B?N2FzUlZ1SGdIb3daTzRObTZpRkpYRktRT2h6Y2F3eTFzR1A0S1Zhc1UyVDAr?=
+ =?utf-8?B?Z0dTVE5qVFpQY1JxN3NaMjdMdkxPU3gwc09zNHJIQXY2SEZYclNGMS90dXRI?=
+ =?utf-8?B?YjA5cWpVd1BsWmxqQkIwK0dKQmRtbXdmcmY3Yms3Z3phejVpa0dVWU53djdQ?=
+ =?utf-8?B?Y0tlenVibnZrdUFHREhoZitJQUc4OHcxUHpwVkxobTlPOUhtS0doVk53eFZS?=
+ =?utf-8?B?ZlJpZk00bXl6bVpkYWZLZS91UjB1eUxFWWppN1NjUHlaYU9DVVJST2E5SHlS?=
+ =?utf-8?B?UmFzSC9vUTZub295R0tWNFZ6OG9nMXNjeWZYajVrNjhERGpiajBqTmJzeE1O?=
+ =?utf-8?B?SEx1c3kxT0ZubWlOZVJHK0NLdWxvZFVNbEM3UmFFbkMwdnhhRUNoOTdwbkRO?=
+ =?utf-8?B?djJSUU52UkdrKyswemZWZy9qZGNOaFh3bmtTRTB0cXQ0VEFzUitJb3JYamtv?=
+ =?utf-8?B?ampCZ0lncmh3K2FFQnprZVh2TWtycVFPZUFjS2w3YU9vV2UrK3Z6V01DM0hD?=
+ =?utf-8?B?aEI0Z2thSTBXRUpNUERVdkhXWWxtT0JzbWhHQXU0bXloOWlRZ0xQVW16Qi9I?=
+ =?utf-8?B?UW9lbWhBQ0VlZGxFeUxlWnR6YTJlM1gvaWhRTUp5dHBKOG9YRVZ3NW1FNG1E?=
+ =?utf-8?B?TXNSUXVrQlRkWnZ5MnlBQi8wWXlFTVY3MCtmeVZBbUFLb1Z0Ymo1RWZ4dTBj?=
+ =?utf-8?B?OE9NazZaTURPNjlZSEgwK1JRb2doK3FyQ0NOY1hqcy9UY2t0K0hBU2VuRzhE?=
+ =?utf-8?B?bndRMzBmVmRtUHFPUWtnNC9ZUzEvT0FiVGF3RGh5YXpJNk5HOFJtRkdnMUxr?=
+ =?utf-8?B?MkFHZVlkeHZGOXArS1o0a1NCcmJZSWpienNmcUNaQW1NMmhwNzlGNEtPQjln?=
+ =?utf-8?B?RmJVWVZrK0VhN3FXV0kwOG9YSXJMbERHOGpXRGpXNyt2NWhSMDEzUCtTREpj?=
+ =?utf-8?B?ZENIMVpGN3NaVzZ0blNtQ3ptUnE0dUROWFZFcmZ5bVhtZnFOVG9FVnR2MzJB?=
+ =?utf-8?B?eTI2bEdjaVNCOGhLRHdnYURXaEpCbndUNVVJWG9vUW0zM2hhRDB0aVNWLzhy?=
+ =?utf-8?B?OXYvNlNBMnFJSytpMUtxeFJCckhHTGNZQktybU9UZWdRWWwwdXBJUVM3cEZt?=
+ =?utf-8?B?Ykw0WlRhS3lqKzhZaU5yZ1B1aGZsNTcvVWhXNXN2c2h2azlOcUo3THUyeVgy?=
+ =?utf-8?B?dlZoQWpyeTAzUnp0M1M4M2lYUzdXK0tsbGZaaXhNVG9hYWIxT3lLMDl1UXJU?=
+ =?utf-8?B?RjhHT243dCtDbGNDQjVTVXZINU5zc2VtTW5KZTVtakIvZGNqQTlLWGR0Q3FC?=
+ =?utf-8?B?Q2puQmZJbmVTWmtHVGJPcGFuMjRRLytkRHpBRmJJVnRkN0RGek82cDArVHJG?=
+ =?utf-8?B?eGY0cGtyR1hHNkVUUk9mdTd6a3VuS1VtWEJ6VmpWWGVjZ1gwa0VzWEs1Y1lQ?=
+ =?utf-8?B?RGE4S2pMN2ZqTGFnUW1hcVVMUG4yS09KbFY3K1JWR1Bsa2prWGRoNzFuQTBo?=
+ =?utf-8?B?Rnltb0VnNmtESTc2a3ZhZWE3aDJpN2xQMkxiMzEzbEtVUjBzMWR1cW11Z0tx?=
+ =?utf-8?Q?wNDCpm1XqEY=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TkJvQS9WZ1V6Z015alNUZzdWbGovRGJHS2dCR3ZPZlIrT2gzZ05nc0o1VTlN?=
+ =?utf-8?B?c1BRWC93aXpxYlZZMjA3V2lNVlJhcFhSR0pibzkvbXBGaEp3eGY1YzJuSEFl?=
+ =?utf-8?B?UWZCR0ZsQWpZZ1p4bFNDbFdzeFZaSDQ0UVZrK0VwTDJDdHd0Mk92d21Ld2Ny?=
+ =?utf-8?B?NC8rTG1KRWJaN0p6SEp4Y0NCNUhKUkFKWTBrYzF5WjkrbFVXa0xCTWpDUXdO?=
+ =?utf-8?B?UjBncHFZODB6UzYyR2gzc295azA4MldkM1ZxT0poUEpBRmwxV2Y4SUxsbGQr?=
+ =?utf-8?B?Z2RUQ21hQlQyelhqQW12QXBrNTkyb1Zib0NETmRLSWorSnZWWDZveEhLZDd1?=
+ =?utf-8?B?WHRWZnY1bHFmYzd1WjVUYVhZRVRsTnV2NGxSbFNzSC9RZkkybE9hZ3pteHF3?=
+ =?utf-8?B?OGExTml6SEFiZmc3MXM0dFdWTkdCbFVFUDFoRnUzS2ZlckJFc0s5YWF4YTVT?=
+ =?utf-8?B?ODhXdndvZnNjU042b0hVTUZNbXgyNVNOM0syTEhQQklOdUdwZ21IRkJwbnpL?=
+ =?utf-8?B?VFdYblBHeVpsZTR1SU9rSTR2d1Erb0VqbC9KaGV0bGlDRmFlSHZ6MXkrMVo0?=
+ =?utf-8?B?QitrM2hZS05Lb25ETi9nWW0zdlZGOExubVA4UFo3SEl2RGh6V2hONHNFRXFD?=
+ =?utf-8?B?bzJUZW0xQitxS1pyakZ0cTRjR0gyU1FCM0xGVFAybkR4cHB4UHJtNy9hSWNQ?=
+ =?utf-8?B?b3I2T3Z4WUlnamxLMnRubjZwZ2UvWFJmRC9RRDh3QmxLT094cXF5dXFSTW8r?=
+ =?utf-8?B?N0JIVzFUWGx2RnlXUSsyUGtCUWVEY0t2UUpyZmhILzNuNmRoNnNsSmw5ZVV3?=
+ =?utf-8?B?ZWlYZW9CZ1hKMDhGTitueWs1SDNwZ2pkc2dXYk5BRGVFcWRnTkV0b1dneEht?=
+ =?utf-8?B?QnEzWWxGWUFWaC93d1FjakFOV0s5ejYxbWZ4OUd1cEVMeXNpWkVzSVdqODBs?=
+ =?utf-8?B?amhzLzhGT0x2clNway9ncEhVbFZiR2tSQWNjU2xvMFBlSFN3R2Q3Z0dNUjVZ?=
+ =?utf-8?B?TDJndUZnOGZ1UmZieFY1UjY3ZnpYQnpseUJuS3p3UzB2MDdsajNKZEJEck5J?=
+ =?utf-8?B?UlUyQm5qREZpSkFEaDBIam1iZVZWRlpxVjRmMXVwLzg3d3QxSml0MlZNczV1?=
+ =?utf-8?B?ZE01SUJ1Ui9QL0MweHkxS0NFcEJETG8reTNJeXNZaDY1UnFHcHR6MlhxVm5t?=
+ =?utf-8?B?OUx1eDJQT29SYTYwOTlVeWN1bzFKVEh6Wi84cEcyNEdubDl1SGhVeU1GeHlX?=
+ =?utf-8?B?blEveGZJd0xWMWdONDV5dlIyS244RFp3and1TlNhUXJEMFNWN3hhNjQvR0tt?=
+ =?utf-8?B?eEZwbHZvTDFVTUxodmp6QlhnUUNJdm5Yc24vWm9MbGE2L05FWHlyT3lxUGxo?=
+ =?utf-8?B?QW8xY1Y0QlZ3Sks5UUZVNlptbHJDQlRjcFdRZzEyZGczV3V0Zmp6ZjdFejRx?=
+ =?utf-8?B?ZVhqN0grTStpbXp3SVlrZmFPRUt5RlZ3a2NuRzdLTXNEUktXaWVPVDFBZW5V?=
+ =?utf-8?B?cmtCaVE3MEhjaHVsL3h1QTV0WEcrZmliK0N1MHdhWVgrRTZ2NTRuN1RkdHJi?=
+ =?utf-8?B?dGdLc2kyUFFPNDk5dnZJbEhzR0hveGQrVUxGaWtwd2EvbnlpY1ZCRjBpeVV5?=
+ =?utf-8?B?RGtFQWxVM2RUcVZ5SGRsd2VLRzJ5S1JCcTZLUERVa04xTEZDc01TOFhSRkhv?=
+ =?utf-8?B?eWtNVk5IclBsdjErOEhJVDZqQWRrSjlMOUUvdFRSOXhVaW1reHkwZGplU3RV?=
+ =?utf-8?B?VS9pOG9EdFlTMTg3QlFKYktwbzNTOTJFdjJWeGhEZU9vU0YyS1hKWmJVdTRC?=
+ =?utf-8?B?d20yT0hPN1MvY29VNUNDSHVveWxsdnBzanZxZ3hyM3R5cGZzVTVSYjhMeXNu?=
+ =?utf-8?B?cXY0NUZBM0FPZ0FHM3FXVHErclh0WFBEb1BjMm44WFJVejlpUU1nVkVwakpG?=
+ =?utf-8?B?R2JlWkxyMXlqaTdheXBiV3Zzb2ViVTU2Y2VwWU5pN25CZVUxMEdXR1FKM1Ev?=
+ =?utf-8?B?bkNJbU5Xb2VvZ2E1UVNibEJMUnhXVGRQanRCaW9yWndleEcxajZUaVhFcGpT?=
+ =?utf-8?B?Wm1hV1l5TXZnKzNRbTc0YzhPdVoyWU0rWEFPMHJQMC9Oelc2eDhxUFlEb25I?=
+ =?utf-8?Q?e+i5vgfD1idAayX+0KNqTzisI?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37874360-f8aa-4bf1-57a5-08dd710cdd75
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Apr 2025 11:03:42.8668
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Al4+liSQfiTTxF1+AAq7XZP+D5Sw7YW/m3U4hiIwIf0hj7XwrLgyETYit2WaCtmT
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6351
 
-+ MM folks to seek guidance here.
+Am 31.03.25 um 22:43 schrieb Dave Airlie:
+> On Tue, 11 Mar 2025 at 00:26, Maxime Ripard <mripard@kernel.org> wrote:
+>> Hi,
+>>
+>> On Mon, Mar 10, 2025 at 03:16:53PM +0100, Christian König wrote:
+>>> [Adding Ben since we are currently in the middle of a discussion
+>>> regarding exactly that problem]
+>>>
+>>> Just for my understanding before I deep dive into the code: This uses
+>>> a separate dmem cgroup and does not account against memcg, don't it?
+>> Yes. The main rationale being that it doesn't always make sense to
+>> register against memcg: a lot of devices are going to allocate from
+>> dedicated chunks of memory that are either carved out from the main
+>> memory allocator, or not under Linux supervision at all.
+>>
+>> And if there's no way to make it consistent across drivers, it's not the
+>> right tool.
+>>
+> While I agree on that, if a user can cause a device driver to allocate
+> memory that is also memory that memcg accounts, then we have to
+> interface with memcg to account that memory.
 
-On Thu, Mar 27, 2025 at 09:07:34AM +0100, Jens Wiklander wrote:
-> Hi Sumit,
-> 
-> On Tue, Mar 25, 2025 at 8:42 AM Sumit Garg <sumit.garg@kernel.org> wrote:
-> >
-> > On Wed, Mar 05, 2025 at 02:04:15PM +0100, Jens Wiklander wrote:
-> > > Add support in the OP-TEE backend driver dynamic restricted memory
-> > > allocation with FF-A.
-> > >
-> > > The restricted memory pools for dynamically allocated restrict memory
-> > > are instantiated when requested by user-space. This instantiation can
-> > > fail if OP-TEE doesn't support the requested use-case of restricted
-> > > memory.
-> > >
-> > > Restricted memory pools based on a static carveout or dynamic allocation
-> > > can coexist for different use-cases. We use only dynamic allocation with
-> > > FF-A.
-> > >
-> > > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > > ---
-> > >  drivers/tee/optee/Makefile        |   1 +
-> > >  drivers/tee/optee/ffa_abi.c       | 143 ++++++++++++-
-> > >  drivers/tee/optee/optee_private.h |  13 +-
-> > >  drivers/tee/optee/rstmem.c        | 329 ++++++++++++++++++++++++++++++
-> > >  4 files changed, 483 insertions(+), 3 deletions(-)
-> > >  create mode 100644 drivers/tee/optee/rstmem.c
-> > >
+This assumes that memcg should be in control of device driver allocated memory. Which in some cases is intentionally not done.
 
-<snip>
+E.g. a server application which allocates buffers on behalves of clients gets a nice deny of service problem if we suddenly start to account those buffers.
 
-> > > diff --git a/drivers/tee/optee/rstmem.c b/drivers/tee/optee/rstmem.c
-> > > new file mode 100644
-> > > index 000000000000..ea27769934d4
-> > > --- /dev/null
-> > > +++ b/drivers/tee/optee/rstmem.c
-> > > @@ -0,0 +1,329 @@
-> > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > +/*
-> > > + * Copyright (c) 2025, Linaro Limited
-> > > + */
-> > > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> > > +
-> > > +#include <linux/errno.h>
-> > > +#include <linux/genalloc.h>
-> > > +#include <linux/slab.h>
-> > > +#include <linux/string.h>
-> > > +#include <linux/tee_core.h>
-> > > +#include <linux/types.h>
-> > > +#include "optee_private.h"
-> > > +
-> > > +struct optee_rstmem_cma_pool {
-> > > +     struct tee_rstmem_pool pool;
-> > > +     struct gen_pool *gen_pool;
-> > > +     struct optee *optee;
-> > > +     size_t page_count;
-> > > +     u16 *end_points;
-> > > +     u_int end_point_count;
-> > > +     u_int align;
-> > > +     refcount_t refcount;
-> > > +     u32 use_case;
-> > > +     struct tee_shm *rstmem;
-> > > +     /* Protects when initializing and tearing down this struct */
-> > > +     struct mutex mutex;
-> > > +};
-> > > +
-> > > +static struct optee_rstmem_cma_pool *
-> > > +to_rstmem_cma_pool(struct tee_rstmem_pool *pool)
-> > > +{
-> > > +     return container_of(pool, struct optee_rstmem_cma_pool, pool);
-> > > +}
-> > > +
-> > > +static int init_cma_rstmem(struct optee_rstmem_cma_pool *rp)
-> > > +{
-> > > +     int rc;
-> > > +
-> > > +     rp->rstmem = tee_shm_alloc_cma_phys_mem(rp->optee->ctx, rp->page_count,
-> > > +                                             rp->align);
-> > > +     if (IS_ERR(rp->rstmem)) {
-> > > +             rc = PTR_ERR(rp->rstmem);
-> > > +             goto err_null_rstmem;
-> > > +     }
-> > > +
-> > > +     /*
-> > > +      * TODO unmap the memory range since the physical memory will
-> > > +      * become inaccesible after the lend_rstmem() call.
-> > > +      */
-> >
-> > What's your plan for this TODO? I think we need a CMA allocator here
-> > which can allocate un-mapped memory such that any cache speculation
-> > won't lead to CPU hangs once the memory restriction comes into picture.
-> 
-> What happens is platform-specific. For some platforms, it might be
-> enough to avoid explicit access. Yes, a CMA allocator with unmapped
-> memory or where memory can be unmapped is one option.
+That was one of the reasons why my OOM killer improvement patches never landed (e.g. you could trivially kill X/Wayland or systemd with that).
 
-Did you get a chance to enable real memory protection on RockPi board?
-This will atleast ensure that mapped restricted memory without explicit
-access works fine. Since otherwise once people start to enable real
-memory restriction in OP-TEE, there can be chances of random hang ups
-due to cache speculation.
+> The pathological case would be a single application wanting to use 90%
+> of RAM for device allocations, freeing it all, then using 90% of RAM
+> for normal usage. How to create a policy that would allow that with
+> dmem and memcg is difficult, since if you say you can do 90% on both
+> then the user can easily OOM the system.
 
-MM folks,
+Yeah, completely agree.
 
-Basically what we are trying to achieve here is a "no-map" DT behaviour
-[1] which is rather dynamic in  nature. The use-case here is that a memory
-block allocated from CMA can be marked restricted at runtime where we
-would like the Linux not being able to directly or indirectly (cache
-speculation) access it. Once memory restriction use-case has been
-completed, the memory block can be marked as normal and freed for
-further CMA allocation.
+That's why the GTT size limit we already have per device and the global 50% TTM limit doesn't work as expected. People also didn't liked those limits and because of that we even have flags to circumvent them, see AMDGPU_GEM_CREATE_PREEMPTIBLE and  TTM_TT_FLAG_EXTERNAL.
 
-It will be apprciated if you can guide us regarding the appropriate APIs
-to use for un-mapping/mamping CMA allocations for this use-case.
+Another problem is when and to which process we account things when eviction happens? For example process A wants to use VRAM that process B currently occupies. In this case we would give both processes a mix of VRAM and system memory, but how do we account that?
 
-[1] https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/reserved-memory/reserved-memory.yaml#L79
+If we account to process B then it can be that process A fails because of process Bs memcg limit. This creates a situation which is absolutely not traceable for a system administrator.
 
--Sumit
+But process A never asked for system memory in the first place, so we can't account the memory to it either or otherwise we make the process responsible for things it didn't do.
 
-> 
-> >
-> > > +     rc = rp->optee->ops->lend_rstmem(rp->optee, rp->rstmem, rp->end_points,
-> > > +                                      rp->end_point_count, rp->use_case);
-> > > +     if (rc)
-> > > +             goto err_put_shm;
-> > > +     rp->rstmem->flags |= TEE_SHM_DYNAMIC;
-> > > +
-> > > +     rp->gen_pool = gen_pool_create(PAGE_SHIFT, -1);
-> > > +     if (!rp->gen_pool) {
-> > > +             rc = -ENOMEM;
-> > > +             goto err_reclaim;
-> > > +     }
-> > > +
-> > > +     rc = gen_pool_add(rp->gen_pool, rp->rstmem->paddr,
-> > > +                       rp->rstmem->size, -1);
-> > > +     if (rc)
-> > > +             goto err_free_pool;
-> > > +
-> > > +     refcount_set(&rp->refcount, 1);
-> > > +     return 0;
-> > > +
-> > > +err_free_pool:
-> > > +     gen_pool_destroy(rp->gen_pool);
-> > > +     rp->gen_pool = NULL;
-> > > +err_reclaim:
-> > > +     rp->optee->ops->reclaim_rstmem(rp->optee, rp->rstmem);
-> > > +err_put_shm:
-> > > +     tee_shm_put(rp->rstmem);
-> > > +err_null_rstmem:
-> > > +     rp->rstmem = NULL;
-> > > +     return rc;
-> > > +}
-> > > +
-> > > +static int get_cma_rstmem(struct optee_rstmem_cma_pool *rp)
-> > > +{
-> > > +     int rc = 0;
-> > > +
-> > > +     if (!refcount_inc_not_zero(&rp->refcount)) {
-> > > +             mutex_lock(&rp->mutex);
-> > > +             if (rp->gen_pool) {
-> > > +                     /*
-> > > +                      * Another thread has already initialized the pool
-> > > +                      * before us, or the pool was just about to be torn
-> > > +                      * down. Either way we only need to increase the
-> > > +                      * refcount and we're done.
-> > > +                      */
-> > > +                     refcount_inc(&rp->refcount);
-> > > +             } else {
-> > > +                     rc = init_cma_rstmem(rp);
-> > > +             }
-> > > +             mutex_unlock(&rp->mutex);
-> > > +     }
-> > > +
-> > > +     return rc;
-> > > +}
-> > > +
-> > > +static void release_cma_rstmem(struct optee_rstmem_cma_pool *rp)
-> > > +{
-> > > +     gen_pool_destroy(rp->gen_pool);
-> > > +     rp->gen_pool = NULL;
-> > > +
-> > > +     rp->optee->ops->reclaim_rstmem(rp->optee, rp->rstmem);
-> > > +     rp->rstmem->flags &= ~TEE_SHM_DYNAMIC;
-> > > +
-> > > +     WARN(refcount_read(&rp->rstmem->refcount) != 1, "Unexpected refcount");
-> > > +     tee_shm_put(rp->rstmem);
-> > > +     rp->rstmem = NULL;
-> > > +}
-> > > +
-> > > +static void put_cma_rstmem(struct optee_rstmem_cma_pool *rp)
-> > > +{
-> > > +     if (refcount_dec_and_test(&rp->refcount)) {
-> > > +             mutex_lock(&rp->mutex);
-> > > +             if (rp->gen_pool)
-> > > +                     release_cma_rstmem(rp);
-> > > +             mutex_unlock(&rp->mutex);
-> > > +     }
-> > > +}
-> > > +
-> > > +static int rstmem_pool_op_cma_alloc(struct tee_rstmem_pool *pool,
-> > > +                                 struct sg_table *sgt, size_t size,
-> > > +                                 size_t *offs)
-> > > +{
-> > > +     struct optee_rstmem_cma_pool *rp = to_rstmem_cma_pool(pool);
-> > > +     size_t sz = ALIGN(size, PAGE_SIZE);
-> > > +     phys_addr_t pa;
-> > > +     int rc;
-> > > +
-> > > +     rc = get_cma_rstmem(rp);
-> > > +     if (rc)
-> > > +             return rc;
-> > > +
-> > > +     pa = gen_pool_alloc(rp->gen_pool, sz);
-> > > +     if (!pa) {
-> > > +             rc = -ENOMEM;
-> > > +             goto err_put;
-> > > +     }
-> > > +
-> > > +     rc = sg_alloc_table(sgt, 1, GFP_KERNEL);
-> > > +     if (rc)
-> > > +             goto err_free;
-> > > +
-> > > +     sg_set_page(sgt->sgl, phys_to_page(pa), size, 0);
-> > > +     *offs = pa - rp->rstmem->paddr;
-> > > +
-> > > +     return 0;
-> > > +err_free:
-> > > +     gen_pool_free(rp->gen_pool, pa, size);
-> > > +err_put:
-> > > +     put_cma_rstmem(rp);
-> > > +
-> > > +     return rc;
-> > > +}
-> > > +
-> > > +static void rstmem_pool_op_cma_free(struct tee_rstmem_pool *pool,
-> > > +                                 struct sg_table *sgt)
-> > > +{
-> > > +     struct optee_rstmem_cma_pool *rp = to_rstmem_cma_pool(pool);
-> > > +     struct scatterlist *sg;
-> > > +     int i;
-> > > +
-> > > +     for_each_sgtable_sg(sgt, sg, i)
-> > > +             gen_pool_free(rp->gen_pool, sg_phys(sg), sg->length);
-> > > +     sg_free_table(sgt);
-> > > +     put_cma_rstmem(rp);
-> > > +}
-> > > +
-> > > +static int rstmem_pool_op_cma_update_shm(struct tee_rstmem_pool *pool,
-> > > +                                      struct sg_table *sgt, size_t offs,
-> > > +                                      struct tee_shm *shm,
-> > > +                                      struct tee_shm **parent_shm)
-> > > +{
-> > > +     struct optee_rstmem_cma_pool *rp = to_rstmem_cma_pool(pool);
-> > > +
-> > > +     *parent_shm = rp->rstmem;
-> > > +
-> > > +     return 0;
-> > > +}
-> > > +
-> > > +static void pool_op_cma_destroy_pool(struct tee_rstmem_pool *pool)
-> > > +{
-> > > +     struct optee_rstmem_cma_pool *rp = to_rstmem_cma_pool(pool);
-> > > +
-> > > +     mutex_destroy(&rp->mutex);
-> > > +     kfree(rp);
-> > > +}
-> > > +
-> > > +static struct tee_rstmem_pool_ops rstmem_pool_ops_cma = {
-> > > +     .alloc = rstmem_pool_op_cma_alloc,
-> > > +     .free = rstmem_pool_op_cma_free,
-> > > +     .update_shm = rstmem_pool_op_cma_update_shm,
-> > > +     .destroy_pool = pool_op_cma_destroy_pool,
-> > > +};
-> > > +
-> > > +static int get_rstmem_config(struct optee *optee, u32 use_case,
-> > > +                          size_t *min_size, u_int *min_align,
-> > > +                          u16 *end_points, u_int *ep_count)
-> >
-> > I guess this end points terminology is specific to FF-A ABI. Is there
-> > any relevance for this in the common APIs?
-> 
-> Yes, endpoints are specific to FF-A ABI. The list of end-points must
-> be presented to FFA_MEM_LEND. We're relying on the secure world to
-> know which endpoints are needed for a specific use case.
-> 
-> Cheers,
-> Jens
-> 
-> >
-> > -Sumit
-> >
-> > > +{
-> > > +     struct tee_param params[2] = {
-> > > +             [0] = {
-> > > +                     .attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT,
-> > > +                     .u.value.a = use_case,
-> > > +             },
-> > > +             [1] = {
-> > > +                     .attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT,
-> > > +             },
-> > > +     };
-> > > +     struct optee_shm_arg_entry *entry;
-> > > +     struct tee_shm *shm_param = NULL;
-> > > +     struct optee_msg_arg *msg_arg;
-> > > +     struct tee_shm *shm;
-> > > +     u_int offs;
-> > > +     int rc;
-> > > +
-> > > +     if (end_points && *ep_count) {
-> > > +             params[1].u.memref.size = *ep_count * sizeof(*end_points);
-> > > +             shm_param = tee_shm_alloc_priv_buf(optee->ctx,
-> > > +                                                params[1].u.memref.size);
-> > > +             if (IS_ERR(shm_param))
-> > > +                     return PTR_ERR(shm_param);
-> > > +             params[1].u.memref.shm = shm_param;
-> > > +     }
-> > > +
-> > > +     msg_arg = optee_get_msg_arg(optee->ctx, ARRAY_SIZE(params), &entry,
-> > > +                                 &shm, &offs);
-> > > +     if (IS_ERR(msg_arg)) {
-> > > +             rc = PTR_ERR(msg_arg);
-> > > +             goto out_free_shm;
-> > > +     }
-> > > +     msg_arg->cmd = OPTEE_MSG_CMD_GET_RSTMEM_CONFIG;
-> > > +
-> > > +     rc = optee->ops->to_msg_param(optee, msg_arg->params,
-> > > +                                   ARRAY_SIZE(params), params,
-> > > +                                   false /*!update_out*/);
-> > > +     if (rc)
-> > > +             goto out_free_msg;
-> > > +
-> > > +     rc = optee->ops->do_call_with_arg(optee->ctx, shm, offs, false);
-> > > +     if (rc)
-> > > +             goto out_free_msg;
-> > > +     if (msg_arg->ret && msg_arg->ret != TEEC_ERROR_SHORT_BUFFER) {
-> > > +             rc = -EINVAL;
-> > > +             goto out_free_msg;
-> > > +     }
-> > > +
-> > > +     rc = optee->ops->from_msg_param(optee, params, ARRAY_SIZE(params),
-> > > +                                     msg_arg->params, true /*update_out*/);
-> > > +     if (rc)
-> > > +             goto out_free_msg;
-> > > +
-> > > +     if (!msg_arg->ret && end_points &&
-> > > +         *ep_count < params[1].u.memref.size / sizeof(u16)) {
-> > > +             rc = -EINVAL;
-> > > +             goto out_free_msg;
-> > > +     }
-> > > +
-> > > +     *min_size = params[0].u.value.a;
-> > > +     *min_align = params[0].u.value.b;
-> > > +     *ep_count = params[1].u.memref.size / sizeof(u16);
-> > > +
-> > > +     if (msg_arg->ret == TEEC_ERROR_SHORT_BUFFER) {
-> > > +             rc = -ENOSPC;
-> > > +             goto out_free_msg;
-> > > +     }
-> > > +
-> > > +     if (end_points)
-> > > +             memcpy(end_points, tee_shm_get_va(shm_param, 0),
-> > > +                    params[1].u.memref.size);
-> > > +
-> > > +out_free_msg:
-> > > +     optee_free_msg_arg(optee->ctx, entry, offs);
-> > > +out_free_shm:
-> > > +     if (shm_param)
-> > > +             tee_shm_free(shm_param);
-> > > +     return rc;
-> > > +}
-> > > +
-> > > +struct tee_rstmem_pool *optee_rstmem_alloc_cma_pool(struct optee *optee,
-> > > +                                                 enum tee_dma_heap_id id)
-> > > +{
-> > > +     struct optee_rstmem_cma_pool *rp;
-> > > +     u32 use_case = id;
-> > > +     size_t min_size;
-> > > +     int rc;
-> > > +
-> > > +     rp = kzalloc(sizeof(*rp), GFP_KERNEL);
-> > > +     if (!rp)
-> > > +             return ERR_PTR(-ENOMEM);
-> > > +     rp->use_case = use_case;
-> > > +
-> > > +     rc = get_rstmem_config(optee, use_case, &min_size, &rp->align, NULL,
-> > > +                            &rp->end_point_count);
-> > > +     if (rc) {
-> > > +             if (rc != -ENOSPC)
-> > > +                     goto err;
-> > > +             rp->end_points = kcalloc(rp->end_point_count,
-> > > +                                      sizeof(*rp->end_points), GFP_KERNEL);
-> > > +             if (!rp->end_points) {
-> > > +                     rc = -ENOMEM;
-> > > +                     goto err;
-> > > +             }
-> > > +             rc = get_rstmem_config(optee, use_case, &min_size, &rp->align,
-> > > +                                    rp->end_points, &rp->end_point_count);
-> > > +             if (rc)
-> > > +                     goto err_kfree_eps;
-> > > +     }
-> > > +
-> > > +     rp->pool.ops = &rstmem_pool_ops_cma;
-> > > +     rp->optee = optee;
-> > > +     rp->page_count = min_size / PAGE_SIZE;
-> > > +     mutex_init(&rp->mutex);
-> > > +
-> > > +     return &rp->pool;
-> > > +
-> > > +err_kfree_eps:
-> > > +     kfree(rp->end_points);
-> > > +err:
-> > > +     kfree(rp);
-> > > +     return ERR_PTR(rc);
-> > > +}
-> > > --
-> > > 2.43.0
-> > >
+There are good argument for all solutions and there are a couple of blocks which rule out one solution or another for a certain use case. To summarize I think the whole situation is a complete mess.
+
+Maybe there is not this one solution and we need to make it somehow configurable?
+
+Regards,
+Christian.
+
+>
+> Dave.
+>> Maxime
+
 
