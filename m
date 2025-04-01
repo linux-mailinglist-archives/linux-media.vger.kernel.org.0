@@ -1,277 +1,746 @@
-Return-Path: <linux-media+bounces-29150-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29151-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55084A77C3B
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 15:36:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8557FA77CD4
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 15:53:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 50C0C7A432A
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 13:35:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E055B1891168
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 13:51:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C1A5204F6F;
-	Tue,  1 Apr 2025 13:34:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 449F9204C02;
+	Tue,  1 Apr 2025 13:51:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UVyZ6LEn"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VuIDe06o"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0E7E204C28
-	for <linux-media@vger.kernel.org>; Tue,  1 Apr 2025 13:34:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAB2D2046B7
+	for <linux-media@vger.kernel.org>; Tue,  1 Apr 2025 13:51:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743514488; cv=none; b=ujCi69dAmt8JE4BEZTcSKWxbcK+kV7mQUt1lnL9HFFrQ1Q/9awP2QCv8MGJjCjD3I3rfXTKhJllzT7qw2/sI5a/tF4/W64pao08XwQCRZluSy1M4AZ/+l4BrkO6DkHNmvhQbHjUqO9zp+ciCQMM5pw+M43TjQ8s20Js0PXbF6p0=
+	t=1743515472; cv=none; b=rNHhxAuLo7Lsz+HE9HKaweyauOpFYx/vDoNDahhYxGPbSF+Ipz1YPqoyUdwwNSdXU8fZhfSeIwlUZxG1/WMaGk98Ad0yR60EBcFtSPHa1y6wvnrhQPXIa0uIFVeqmHVjTm+3jVdT9wNskV3jILBecKYMkIZ5yzVvch6VTVnj1i4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743514488; c=relaxed/simple;
-	bh=QuCzUjUOshwjUX4J/+q/WQAOdCCMqucsOFnCotlLctY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=E/ORNdl7sgdPKxARxf8k09qQFeshlGnl9eGj/BsHm60ZbprOXg04dalykqYa2Es32ugUdo15dbMR8cV44I84i/slaWYxQSOpGmJqtTYScEWlvEogiBXbqGeI4vsugIBNwZbJT0v4tujt2rZjM5b7Y2q2Bfb7qIiUmVWIyeNSXz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UVyZ6LEn; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1743514485;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5+voR8HB3cFzC8hIZVmJtHdmZr9+pgk6E3+WKAMDtKw=;
-	b=UVyZ6LEnZmXFDZCGYPkENaNSJLo+OciCtcXfu1wF9TckcnR+bQ4JBXVxXW/C8sLifMJOfe
-	05DQ1ZSEHUr6Hls00sMWWIc5GsmHS8Y1ygpR4M5xeUWOpnP7jawjfZTCJIT/wsMPtpPQbb
-	LTs9jzYAnLwCW4OE2HVRib5yW1cdSeA=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-355-a9ZCt5lzM1exq-2iiUUsTQ-1; Tue, 01 Apr 2025 09:34:42 -0400
-X-MC-Unique: a9ZCt5lzM1exq-2iiUUsTQ-1
-X-Mimecast-MFC-AGG-ID: a9ZCt5lzM1exq-2iiUUsTQ_1743514482
-Received: by mail-ej1-f69.google.com with SMTP id a640c23a62f3a-ac27f00a8a5so392758966b.3
-        for <linux-media@vger.kernel.org>; Tue, 01 Apr 2025 06:34:42 -0700 (PDT)
+	s=arc-20240116; t=1743515472; c=relaxed/simple;
+	bh=cJHdw/SsXvwzTeojpzNk0Lii9hQwvDDM9GFbyohVqzU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=d3EUOr23arriS72H5vnhL6mnSXiRvdhFTTxag5ZORM65TeU6UkSgf+WhiBqtmq4bPK6ckTLAAfLbFFji0yVSqVKVn/Bsrfis0GoTX5hgY92lKX+P3Ic2NmVkQJjOmFi6YCZtXa1sgl3nOMm+Xzh0RPbSgtroZsToQq61NkYW+68=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VuIDe06o; arc=none smtp.client-ip=209.85.161.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-6021d118877so2932893eaf.2
+        for <linux-media@vger.kernel.org>; Tue, 01 Apr 2025 06:51:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1743515468; x=1744120268; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zIusq3t3q8ieulIg3RYZkwZIMxw/wJQCVWu56ex/OJA=;
+        b=VuIDe06o2P3Fd47S5hBXjNgn14qmGkK6z8kMh2nsjKtGXtXS5n3Kf+G6tFvdqOf8Cl
+         VRlJVEkiI/MA71YwlOCeY+9w3Df5R+HDAfnbZ19K0NAJs5Zknz2VQTi9l3hg5BrBIab6
+         W0+QtPVAyZhiUuqvRH6VhITNXd+YTHTtqsitl52L90pjbnxuqgAGT7BLLcoTcv4l2m64
+         vVxKONy2jbTJJyEHVG+gfxi5DPe7Y/eieGcthdmuo1vnzwGcMu67Uhn3qVxlxYsdOf4z
+         Uo+LTiLVH1+UUERCldh/40etq8Iyw7ZMaIhCPmR+b/I0RLQOMxDAwUfNYGjBGMdsXaRi
+         quAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743514481; x=1744119281;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5+voR8HB3cFzC8hIZVmJtHdmZr9+pgk6E3+WKAMDtKw=;
-        b=DJxhcZjd9FVqmzMp7dVbspwDzMcsHbPOmAG0Ivoeh2l5CpYjvFr9BsO/N2i6DHYU0g
-         dWb2E+XbPaRNnUvTTceBH1vF9XyJC/QKcYR7cJUmf64UFkXcJkaCO25FZXTtxtibal/6
-         5JmzZAzhD1/2Qtk1ayKJtOFBPQE32Tg366V4KNVDFWdbKIMvlbQ9ntg/A88n0M+IeOEn
-         Ip8/tL68vlxsSBUNpG4ToaKsd4Y6sf+AdcTRiJJITeN094WEbrXe0SIAayy/CrrioCqc
-         x8SwXRXzw3AYejh5dbqjeBqWaneBoX0KIqAdmrrVHFZYVjpIgv7BtZd3bbiQ5FSi+UTA
-         6Zag==
-X-Forwarded-Encrypted: i=1; AJvYcCVNWk8aEotBaQi6X9viXhdOF0lfIYKkgFR0Y5p2egK0L91hUur5NcbC3QSdXOC2z1LRmv18t3HA30kd7w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwsOA6xVJ93GQbMowBpuqecRpbHSJiBqxtFrP5ATe9r04j21ybQ
-	QK/EUvXvrFzC0Z418UtXVHkw2tGEWGtl1wAwQ9gk+ndV5WDi2o5fvz8YUfpPI7az3RmS9tFtb+a
-	52FhmcqPMhRZJBrKpW44opoGp6TSYHXQt1TIlUSgVEMA733Nrj9rOykZgWQCK
-X-Gm-Gg: ASbGncuXr+PKKlaUH28Avr4BWE9iCzCP89ytlKYG6gAG/pMwz7cdAlAM3zgqRJdQmcv
-	ebC16lSliTFD14NGucmEQQ86oGtSwW8mDS9v8ivBbjKPFQ2KRDWrN4FUeDHcCYE7sE8mecKFoRo
-	tN/SJEAK708d239SZlxqIrJccsQel/82HgeeC1y16Vq/QfyHw8Z6K3k1RDokXFixIqdwU57OBDS
-	D1LwZlR23WfMWO3MvHFhfMQEFrilriMi+rxmwgudoVl0OjBAiIYQtsn6tnnUclz3BSgtCtKfE1V
-	ZXRXb/vquYrrdZKtudQdKh4FgqKusjEcSr0g8u0wiJ1EhJe0UpNGQFaJqnt40qpBLzgoq/648zI
-	x+QI34q5yLdt931SNCnM0k/lglo+XfTIf5MT4QYNl4L7ntSKw2l7AlWivcdMQ1tAIZQ==
-X-Received: by 2002:a17:907:6095:b0:ac2:a50a:51ad with SMTP id a640c23a62f3a-ac738a3fb66mr1367135166b.14.1743514481493;
-        Tue, 01 Apr 2025 06:34:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEWc/PMTpv7KpTgLIObE3nweU3U3wlOcyKWQ2itqUjsaX7REIskVKPaI0rm24NIXU4h/zTp4w==
-X-Received: by 2002:a17:907:6095:b0:ac2:a50a:51ad with SMTP id a640c23a62f3a-ac738a3fb66mr1367131766b.14.1743514481009;
-        Tue, 01 Apr 2025 06:34:41 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac718f7159bsm767945766b.0.2025.04.01.06.34.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Apr 2025 06:34:40 -0700 (PDT)
-Message-ID: <6cf8d6db-c24e-461b-bd7d-a3dad25e4945@redhat.com>
-Date: Tue, 1 Apr 2025 15:34:39 +0200
+        d=1e100.net; s=20230601; t=1743515468; x=1744120268;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zIusq3t3q8ieulIg3RYZkwZIMxw/wJQCVWu56ex/OJA=;
+        b=WXbrB2nq7Xc42A72wU66F7nZ4b1N1Qp9bD7rGfbbn4c5DXHROvWiKD3EhSwaMEANYE
+         pKvYmo91jSawFLniAVK0uM31SzcLXIbcVHfotObOcb4tp8/DimOTX+PRCFkd8XTDEBQl
+         HBwD4nU/sCt1BnOzoaB1oe40k1wAaP8R16KxsFGglOC+clFKMk2ZZOxdOy4xZMGyETUP
+         A8E+3H0FNuBrCKOEI+NtXwYfkMW7bgNUn4feCMuzXMnAL/5DmZphTTeaYqtWbuMMn+3t
+         sQObtG7kumZMGwqnbsobMgtqYFbu3721H9gXiMvmE1OFscf4GUOa6tgp57OrRIbaLaBw
+         b4tQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWRALY36PHzN3tHUx1x/i7bDqtdgmOk9WnK8IZ6GFd8STaCdqf1cpG1DD+eJDt4NbrmRpWYohZcnCwdwA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCFS2dZraqVd5//ZT2+6QVc2XxhmoDW3461y7yHVwIOAez7ruI
+	r5cAkl8caBm+ZFGdX/UTdx/mtBtPPwM7M650353DIcabgOyPplM5NyaSoMQ7VCK0w3q7Dm8ViYe
+	vXJQBRZQKZt+KRLPCtH5nyvwOMPHVTcR+ef+VSA==
+X-Gm-Gg: ASbGncsSY61zfpFao9DfAeW2DX94efsdmKNRjFOKb+FbF2Igy1Mkq4FCI1ilR7YmNN6
+	skNhC4N8g5Yo+/NZZguankX0c5amUMOTPqn+lpHeWDSq2PHmZADdjbnCo/GCXuFdrdCokxn2E4z
+	70pDYBamqg4nV/fcQMwhAkE1wMLMs=
+X-Google-Smtp-Source: AGHT+IHhKU7zM7FnAe1ACnMG0P5I0HmZ0lANvcNQ6103vOjL0vgT9JbztJ1GF5YXgWkzMVl8uyuwCNmODb+yo2T0GrE=
+X-Received: by 2002:a05:6871:151:b0:2bc:7811:5bb8 with SMTP id
+ 586e51a60fabf-2cbcf5599a4mr6753646fac.18.1743515467552; Tue, 01 Apr 2025
+ 06:51:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] media: i2c: ov02e10: add OV02E10 image sensor
- driver
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Bryan O'Donoghue <bod@kernel.org>,
- Hans de Goede <hansg@kernel.org>, Jingjing Xiong <jingjing.xiong@intel.com>,
- Hao Yao <hao.yao@intel.com>, Jim Lai <jim.lai@intel.com>,
- You-Sheng Yang <vicamo.yang@canonical.com>,
- Alan Stern <stern@rowland.harvard.edu>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org
-References: <20250325-b4-media-comitters-next-25-03-13-ov02e10-v2-0-4d933ac8cff6@linaro.org>
- <20250325-b4-media-comitters-next-25-03-13-ov02e10-v2-2-4d933ac8cff6@linaro.org>
- <Z-UAFkshOgeytfB4@kekkonen.localdomain>
- <47dd7daa-cce4-4ad0-ab57-4c76304b0aa6@linaro.org>
- <5fd2253f-0acb-4c95-b3bb-e7e065c92dd5@redhat.com>
- <Z-u09dfEYfjqKhDQ@kekkonen.localdomain>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <Z-u09dfEYfjqKhDQ@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
+ <20250305130634.1850178-7-jens.wiklander@linaro.org> <Z-JSNoALMOoyfOXu@sumit-X1>
+ <CAHUa44FMou3O+2MeRtEe+WDjoGdB_3U56Z0RUpFLMFR1ebTkKQ@mail.gmail.com> <Z-un1sJNHUKiOoFf@sumit-X1>
+In-Reply-To: <Z-un1sJNHUKiOoFf@sumit-X1>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Tue, 1 Apr 2025 15:50:55 +0200
+X-Gm-Features: AQ5f1Jo75X7IJFBt6HmdmHpnPTXqv8pVc2-cWa8DxOUCyGj4bRoJ0Jn-E4eACkc
+Message-ID: <CAHUa44Gg4hpGMTwZpm5PVJLc5QHo5dWSu+=umyoH77gv-N4n=g@mail.gmail.com>
+Subject: Re: [PATCH v6 06/10] tee: new ioctl to a register tee_shm from a
+ dmabuf file descriptor
+To: Sumit Garg <sumit.garg@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
+	Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
+	Etienne Carriere <etienne.carriere@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Sakari,
+On Tue, Apr 1, 2025 at 10:46=E2=80=AFAM Sumit Garg <sumit.garg@kernel.org> =
+wrote:
+>
+> On Tue, Mar 25, 2025 at 12:17:20PM +0100, Jens Wiklander wrote:
+> > Hi Sumit,
+> >
+> > On Tue, Mar 25, 2025 at 7:50=E2=80=AFAM Sumit Garg <sumit.garg@kernel.o=
+rg> wrote:
+> > >
+> > > Hi Jens,
+> > >
+> > > On Wed, Mar 05, 2025 at 02:04:12PM +0100, Jens Wiklander wrote:
+> > > > From: Etienne Carriere <etienne.carriere@linaro.org>
+> > > >
+> > > > Enable userspace to create a tee_shm object that refers to a dmabuf
+> > > > reference.
+> > > >
+> > > > Userspace registers the dmabuf file descriptor as in a tee_shm obje=
+ct.
+> > > > The registration is completed with a tee_shm file descriptor return=
+ed to
+> > > > userspace.
+> > > >
+> > > > Userspace is free to close the dmabuf file descriptor now since all=
+ the
+> > > > resources are now held via the tee_shm object.
+> > > >
+> > > > Closing the tee_shm file descriptor will release all resources used=
+ by the
+> > > > tee_shm object.
+> > > >
+> > > > This change only support dmabuf references that relates to physical=
+ly
+> > > > contiguous memory buffers.
+>
+> Let's try to reframe this commit message to say that new ioctl allows to
+> register DMA buffers allocated from restricted/protected heaps with TEE
+> subsystem.
+>
+> > > >
+> > > > New tee_shm flag to identify tee_shm objects built from a registere=
+d
+> > > > dmabuf, TEE_SHM_DMA_BUF.
+> > > >
+> > > > Signed-off-by: Etienne Carriere <etienne.carriere@linaro.org>
+> > > > Signed-off-by: Olivier Masse <olivier.masse@nxp.com>
+> > > > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > > > ---
+> > > >  drivers/tee/tee_core.c    | 145 ++++++++++++++++++++++++++--------=
+---
+> > > >  drivers/tee/tee_private.h |   1 +
+> > > >  drivers/tee/tee_shm.c     | 146 ++++++++++++++++++++++++++++++++++=
+++--
+> > > >  include/linux/tee_core.h  |   1 +
+> > > >  include/linux/tee_drv.h   |  10 +++
+> > > >  include/uapi/linux/tee.h  |  29 ++++++++
+> > > >  6 files changed, 288 insertions(+), 44 deletions(-)
+> > > >
+> > >
+> > > I am still trying to find if we really need a separate IOCTL to regis=
+ter
+> > > DMA heap with TEE subsystem. Can't we initialize tee_shm as a member =
+of
+> > > struct tee_heap_buffer in tee_dma_heap_alloc() where the allocation
+> > > happens?
+> >
+> > No, that's not possible since we don't have a tee_context availble so
+> > we can't assign an ID that userspace can use for this shm object.
+> >
+> > We could add new attribute types TEE_IOCTL_PARAM_ATTR_TYPE_MEMFD_*,
+> > but it's a bit more complicated than that since we'd also need to
+> > update for the life cycle.
+>
+> Okay, that's fair enough. Lets take this new IOCTL approach then.
+>
+> >
+> >
+> > > We can always find a reference back to tee_shm object from DMA
+> > > buffer.
+> >
+> > Yes
+> >
+> > Cheers,
+> > Jens
+> >
+> > >
+> > > -Sumit
+> > >
+> > > > diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
+> > > > index 685afcaa3ea1..3a71643766d5 100644
+> > > > --- a/drivers/tee/tee_core.c
+> > > > +++ b/drivers/tee/tee_core.c
+> > > > @@ -353,6 +353,103 @@ tee_ioctl_shm_register(struct tee_context *ct=
+x,
+> > > >       return ret;
+> > > >  }
+> > > >
+> > > > +static int
+> > > > +tee_ioctl_shm_register_fd(struct tee_context *ctx,
+> > > > +                       struct tee_ioctl_shm_register_fd_data __use=
+r *udata)
+> > > > +{
+> > > > +     struct tee_ioctl_shm_register_fd_data data;
+> > > > +     struct tee_shm *shm;
+> > > > +     long ret;
+> > > > +
+> > > > +     if (copy_from_user(&data, udata, sizeof(data)))
+> > > > +             return -EFAULT;
+> > > > +
+> > > > +     /* Currently no input flags are supported */
+> > > > +     if (data.flags)
+> > > > +             return -EINVAL;
+> > > > +
+> > > > +     shm =3D tee_shm_register_fd(ctx, data.fd);
+> > > > +     if (IS_ERR(shm))
+> > > > +             return -EINVAL;
+> > > > +
+> > > > +     data.id =3D shm->id;
+> > > > +     data.flags =3D shm->flags;
+> > > > +     data.size =3D shm->size;
+> > > > +
+> > > > +     if (copy_to_user(udata, &data, sizeof(data)))
+> > > > +             ret =3D -EFAULT;
+> > > > +     else
+> > > > +             ret =3D tee_shm_get_fd(shm);
+> > > > +
+> > > > +     /*
+> > > > +      * When user space closes the file descriptor the shared memo=
+ry
+> > > > +      * should be freed or if tee_shm_get_fd() failed then it will
+> > > > +      * be freed immediately.
+> > > > +      */
+> > > > +     tee_shm_put(shm);
+> > > > +     return ret;
+> > > > +}
+> > > > +
+> > > > +static int param_from_user_memref(struct tee_context *ctx,
+> > > > +                               struct tee_param_memref *memref,
+> > > > +                               struct tee_ioctl_param *ip)
+> > > > +{
+> > > > +     struct tee_shm *shm;
+> > > > +     size_t offs =3D 0;
+> > > > +
+> > > > +     /*
+> > > > +      * If a NULL pointer is passed to a TA in the TEE,
+> > > > +      * the ip.c IOCTL parameters is set to TEE_MEMREF_NULL
+> > > > +      * indicating a NULL memory reference.
+> > > > +      */
+> > > > +     if (ip->c !=3D TEE_MEMREF_NULL) {
+> > > > +             /*
+> > > > +              * If we fail to get a pointer to a shared
+> > > > +              * memory object (and increase the ref count)
+> > > > +              * from an identifier we return an error. All
+> > > > +              * pointers that has been added in params have
+> > > > +              * an increased ref count. It's the callers
+> > > > +              * responibility to do tee_shm_put() on all
+> > > > +              * resolved pointers.
+> > > > +              */
+> > > > +             shm =3D tee_shm_get_from_id(ctx, ip->c);
+> > > > +             if (IS_ERR(shm))
+> > > > +                     return PTR_ERR(shm);
+> > > > +
+> > > > +             /*
+> > > > +              * Ensure offset + size does not overflow
+> > > > +              * offset and does not overflow the size of
+> > > > +              * the referred shared memory object.
+> > > > +              */
+> > > > +             if ((ip->a + ip->b) < ip->a ||
+> > > > +                 (ip->a + ip->b) > shm->size) {
+> > > > +                     tee_shm_put(shm);
+> > > > +                     return -EINVAL;
+> > > > +             }
+> > > > +
+> > > > +             if (shm->flags & TEE_SHM_DMA_BUF) {
+>
+> This check is already done within tee_shm_get_parent_shm(), is it
+> redundant here?
 
-On 1-Apr-25 11:42 AM, Sakari Ailus wrote:
-> Hi Hans, Bryan,
-> 
-> On Tue, Apr 01, 2025 at 10:12:35AM +0200, Hans de Goede wrote:
->> Hi Bryan, Sakari,
->>
->> On 1-Apr-25 2:34 AM, Bryan O'Donoghue wrote:
->>> On 27/03/2025 07:36, Sakari Ailus wrote:
->>>>> +static u64 to_pixel_rate(u32 f_index)
->>>>> +{
->>>>> +    u64 pixel_rate = link_freq_menu_items[f_index] * 2 * OV02E10_DATA_LANES;
->>>>> +
->>>>> +    do_div(pixel_rate, OV02E10_RGB_DEPTH);
->>>> The pixel rate control is for the pixel rate on the pixel array, not on the
->>>> CSI-2 interface. Without binning or sub-sampling these may the same still,
->>>> but this only works in special cases really.
->>>
->>> Hmm computer says no, I don't think I have understood this comment..
->>>
->>> Looking at other drivers, I'd say the above pattern is pretty common - taking ov8856 as an example that's pretty much equivalent logic to the above, ov08x40 does something similar.
->>>
->>> =>
->>>
->>> pixel_rate == link_freq * 2 * #oflanes / RGB_DEPTH
->>>            => 360MHz * 2 * 2 / 10
->>>            => 360000000 * 2 * 2 / 10
->>>            => 144000000
->>>
->>> If I'm understanding you though you mean the pixel rate for the control V4L2_CID_PIXEL_RATE expressed here should be the resolution * the FPS / bits_per_pixel
->>
->> I have to agree with Bryan here that the pixelrate typically is const
->> and directly derived from the link-frequency. Even the
->> __v4l2_get_link_freq_ctrl() helper from drivers/media/v4l2-core/v4l2-common.c
->> assumes this.
-> 
-> That is there to support old drivers that don't use the LINK_FREQ control.
-> All new ones do.
-> 
->>
->> binning / subsampling does not change anything wrt the pixelrate it
->> just means that either the blanking becomes much bigger keeping
->> vts / hts the same, or that the FPS becomes much higher.
->>
->> It is not like the sensor is sending an empty pixel on the CSI
->> link every other pixel when binning, since there is no such
->> thing as an empty pixel. So the sensor must go faster when doing
->> horizontal binning to keep the CSI link filled effectively
->> doubling the FPS, or requiring a much larger hblank after having
->> taken only half the time sending pixels.
-> 
-> Please see
-> <URL:https://hverkuil.home.xs4all.nl/spec/userspace-api/drivers/camera-sensor.html#raw-camera-sensors>
-> and
-> <URL:https://hverkuil.home.xs4all.nl/spec/userspace-api/v4l/ext-ctrls-image-process.html#image-process-control-ids>.
-> 
-> As noted, this may be correct if the sensor doesn't use binning or
-> sub-sampling, but conceptually pixel rate on the pixel array and on the
-> CSI-2 bus are different. The PIXEL_RATE control is for the former albeit in
-> the past some drivers have presumably used it for the latter as well.
+Yes, I'll remove it.
 
-Ok, so here is what is written there:
+>
+> > > > +                     struct tee_shm *parent_shm;
+> > > > +
+> > > > +                     parent_shm =3D tee_shm_get_parent_shm(shm, &o=
+ffs);
+> > > > +                     if (parent_shm) {
+> > > > +                             tee_shm_put(shm);
+> > > > +                             shm =3D parent_shm;
+> > > > +                     }
+> > > > +             }
+> > > > +     } else if (ctx->cap_memref_null) {
+> > > > +             /* Pass NULL pointer to OP-TEE */
+> > > > +             shm =3D NULL;
+> > > > +     } else {
+> > > > +             return -EINVAL;
+> > > > +     }
+> > > > +
+> > > > +     memref->shm_offs =3D ip->a + offs;
+> > > > +     memref->size =3D ip->b;
+> > > > +     memref->shm =3D shm;
+> > > > +
+> > > > +     return 0;
+> > > > +}
+> > > > +
+> > > >  static int params_from_user(struct tee_context *ctx, struct tee_pa=
+ram *params,
+> > > >                           size_t num_params,
+> > > >                           struct tee_ioctl_param __user *uparams)
+> > > > @@ -360,8 +457,8 @@ static int params_from_user(struct tee_context =
+*ctx, struct tee_param *params,
+> > > >       size_t n;
+> > > >
+> > > >       for (n =3D 0; n < num_params; n++) {
+> > > > -             struct tee_shm *shm;
+> > > >               struct tee_ioctl_param ip;
+> > > > +             int rc;
+> > > >
+> > > >               if (copy_from_user(&ip, uparams + n, sizeof(ip)))
+> > > >                       return -EFAULT;
+> > > > @@ -384,45 +481,10 @@ static int params_from_user(struct tee_contex=
+t *ctx, struct tee_param *params,
+> > > >               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+> > > >               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+> > > >               case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+> > > > -                     /*
+> > > > -                      * If a NULL pointer is passed to a TA in the=
+ TEE,
+> > > > -                      * the ip.c IOCTL parameters is set to TEE_ME=
+MREF_NULL
+> > > > -                      * indicating a NULL memory reference.
+> > > > -                      */
+> > > > -                     if (ip.c !=3D TEE_MEMREF_NULL) {
+> > > > -                             /*
+> > > > -                              * If we fail to get a pointer to a s=
+hared
+> > > > -                              * memory object (and increase the re=
+f count)
+> > > > -                              * from an identifier we return an er=
+ror. All
+> > > > -                              * pointers that has been added in pa=
+rams have
+> > > > -                              * an increased ref count. It's the c=
+allers
+> > > > -                              * responibility to do tee_shm_put() =
+on all
+> > > > -                              * resolved pointers.
+> > > > -                              */
+> > > > -                             shm =3D tee_shm_get_from_id(ctx, ip.c=
+);
+> > > > -                             if (IS_ERR(shm))
+> > > > -                                     return PTR_ERR(shm);
+> > > > -
+> > > > -                             /*
+> > > > -                              * Ensure offset + size does not over=
+flow
+> > > > -                              * offset and does not overflow the s=
+ize of
+> > > > -                              * the referred shared memory object.
+> > > > -                              */
+> > > > -                             if ((ip.a + ip.b) < ip.a ||
+> > > > -                                 (ip.a + ip.b) > shm->size) {
+> > > > -                                     tee_shm_put(shm);
+> > > > -                                     return -EINVAL;
+> > > > -                             }
+> > > > -                     } else if (ctx->cap_memref_null) {
+> > > > -                             /* Pass NULL pointer to OP-TEE */
+> > > > -                             shm =3D NULL;
+> > > > -                     } else {
+> > > > -                             return -EINVAL;
+> > > > -                     }
+> > > > -
+> > > > -                     params[n].u.memref.shm_offs =3D ip.a;
+> > > > -                     params[n].u.memref.size =3D ip.b;
+> > > > -                     params[n].u.memref.shm =3D shm;
+> > > > +                     rc =3D param_from_user_memref(ctx, &params[n]=
+.u.memref,
+> > > > +                                                 &ip);
+> > > > +                     if (rc)
+> > > > +                             return rc;
+>
+> This looks more of a refactoring, can we split it as a separate commit?
 
-"V4L2_CID_PIXEL_RATE (64-bit integer)
+Sure
 
-    Pixel sampling rate in the device’s pixel array. This control is read-only and its unit is pixels / second.
+>
+> > > >                       break;
+> > > >               default:
+> > > >                       /* Unknown attribute */
+> > > > @@ -827,6 +889,8 @@ static long tee_ioctl(struct file *filp, unsign=
+ed int cmd, unsigned long arg)
+> > > >               return tee_ioctl_shm_alloc(ctx, uarg);
+> > > >       case TEE_IOC_SHM_REGISTER:
+> > > >               return tee_ioctl_shm_register(ctx, uarg);
+> > > > +     case TEE_IOC_SHM_REGISTER_FD:
+> > > > +             return tee_ioctl_shm_register_fd(ctx, uarg);
+> > > >       case TEE_IOC_OPEN_SESSION:
+> > > >               return tee_ioctl_open_session(ctx, uarg);
+> > > >       case TEE_IOC_INVOKE:
+> > > > @@ -1288,3 +1352,4 @@ MODULE_AUTHOR("Linaro");
+> > > >  MODULE_DESCRIPTION("TEE Driver");
+> > > >  MODULE_VERSION("1.0");
+> > > >  MODULE_LICENSE("GPL v2");
+> > > > +MODULE_IMPORT_NS("DMA_BUF");
+> > > > diff --git a/drivers/tee/tee_private.h b/drivers/tee/tee_private.h
+> > > > index 6c6ff5d5eed2..aad7f6c7e0f0 100644
+> > > > --- a/drivers/tee/tee_private.h
+> > > > +++ b/drivers/tee/tee_private.h
+> > > > @@ -24,6 +24,7 @@ void teedev_ctx_put(struct tee_context *ctx);
+> > > >  struct tee_shm *tee_shm_alloc_user_buf(struct tee_context *ctx, si=
+ze_t size);
+> > > >  struct tee_shm *tee_shm_register_user_buf(struct tee_context *ctx,
+> > > >                                         unsigned long addr, size_t =
+length);
+> > > > +struct tee_shm *tee_shm_get_parent_shm(struct tee_shm *shm, size_t=
+ *offs);
+> > > >
+> > > >  int tee_heap_update_from_dma_buf(struct tee_device *teedev,
+> > > >                                struct dma_buf *dmabuf, size_t *offs=
+et,
+> > > > diff --git a/drivers/tee/tee_shm.c b/drivers/tee/tee_shm.c
+> > > > index daf6e5cfd59a..8b79918468b5 100644
+> > > > --- a/drivers/tee/tee_shm.c
+> > > > +++ b/drivers/tee/tee_shm.c
+> > > > @@ -4,6 +4,7 @@
+> > > >   */
+> > > >  #include <linux/anon_inodes.h>
+> > > >  #include <linux/device.h>
+> > > > +#include <linux/dma-buf.h>
+> > > >  #include <linux/idr.h>
+> > > >  #include <linux/io.h>
+> > > >  #include <linux/mm.h>
+> > > > @@ -15,6 +16,16 @@
+> > > >  #include <linux/highmem.h>
+> > > >  #include "tee_private.h"
+> > > >
+> > > > +/* extra references appended to shm object for registered shared m=
+emory */
+> > > > +struct tee_shm_dmabuf_ref {
+> > > > +     struct tee_shm shm;
+> > > > +     size_t offset;
+> > > > +     struct dma_buf *dmabuf;
+> > > > +     struct dma_buf_attachment *attach;
+> > > > +     struct sg_table *sgt;
+> > > > +     struct tee_shm *parent_shm;
+> > > > +};
+> > > > +
+> > > >  static void shm_put_kernel_pages(struct page **pages, size_t page_=
+count)
+> > > >  {
+> > > >       size_t n;
+> > > > @@ -45,7 +56,23 @@ static void release_registered_pages(struct tee_=
+shm *shm)
+> > > >
+> > > >  static void tee_shm_release(struct tee_device *teedev, struct tee_=
+shm *shm)
+> > > >  {
+> > > > -     if (shm->flags & TEE_SHM_POOL) {
+> > > > +     struct tee_shm *parent_shm =3D NULL;
+> > > > +     void *p =3D shm;
+> > > > +
+> > > > +     if (shm->flags & TEE_SHM_DMA_BUF) {
+> > > > +             struct tee_shm_dmabuf_ref *ref;
+> > > > +
+> > > > +             ref =3D container_of(shm, struct tee_shm_dmabuf_ref, =
+shm);
+> > > > +             parent_shm =3D ref->parent_shm;
+> > > > +             p =3D ref;
+> > > > +             if (ref->attach) {
+> > > > +                     dma_buf_unmap_attachment(ref->attach, ref->sg=
+t,
+> > > > +                                              DMA_BIDIRECTIONAL);
+> > > > +
+> > > > +                     dma_buf_detach(ref->dmabuf, ref->attach);
+> > > > +             }
+> > > > +             dma_buf_put(ref->dmabuf);
+> > > > +     } else if (shm->flags & TEE_SHM_POOL) {
+> > > >               teedev->pool->ops->free(teedev->pool, shm);
+> > > >       } else if (shm->flags & TEE_SHM_DYNAMIC) {
+> > > >               int rc =3D teedev->desc->ops->shm_unregister(shm->ctx=
+, shm);
+> > > > @@ -57,9 +84,10 @@ static void tee_shm_release(struct tee_device *t=
+eedev, struct tee_shm *shm)
+> > > >               release_registered_pages(shm);
+> > > >       }
+> > > >
+> > > > -     teedev_ctx_put(shm->ctx);
+> > > > +     if (shm->ctx)
+> > > > +             teedev_ctx_put(shm->ctx);
+> > > >
+> > > > -     kfree(shm);
+> > > > +     kfree(p);
+> > > >
+> > > >       tee_device_put(teedev);
+> > > >  }
+> > > > @@ -169,7 +197,7 @@ struct tee_shm *tee_shm_alloc_user_buf(struct t=
+ee_context *ctx, size_t size)
+> > > >   * tee_client_invoke_func(). The memory allocated is later freed w=
+ith a
+> > > >   * call to tee_shm_free().
+> > > >   *
+> > > > - * @returns a pointer to 'struct tee_shm'
+> > > > + * @returns a pointer to 'struct tee_shm' on success, and ERR_PTR =
+on failure
+> > > >   */
+> > > >  struct tee_shm *tee_shm_alloc_kernel_buf(struct tee_context *ctx, =
+size_t size)
+> > > >  {
+> > > > @@ -179,6 +207,116 @@ struct tee_shm *tee_shm_alloc_kernel_buf(stru=
+ct tee_context *ctx, size_t size)
+> > > >  }
+> > > >  EXPORT_SYMBOL_GPL(tee_shm_alloc_kernel_buf);
+> > > >
+> > > > +struct tee_shm *tee_shm_register_fd(struct tee_context *ctx, int f=
+d)
+> > > > +{
+> > > > +     struct tee_shm_dmabuf_ref *ref;
+> > > > +     int rc;
+> > > > +
+> > > > +     if (!tee_device_get(ctx->teedev))
+> > > > +             return ERR_PTR(-EINVAL);
+> > > > +
+> > > > +     teedev_ctx_get(ctx);
+> > > > +
+> > > > +     ref =3D kzalloc(sizeof(*ref), GFP_KERNEL);
+> > > > +     if (!ref) {
+> > > > +             rc =3D -ENOMEM;
+> > > > +             goto err_put_tee;
+> > > > +     }
+> > > > +
+> > > > +     refcount_set(&ref->shm.refcount, 1);
+> > > > +     ref->shm.ctx =3D ctx;
+> > > > +     ref->shm.id =3D -1;
+> > > > +     ref->shm.flags =3D TEE_SHM_DMA_BUF;
+> > > > +
+> > > > +     ref->dmabuf =3D dma_buf_get(fd);
+> > > > +     if (IS_ERR(ref->dmabuf)) {
+> > > > +             rc =3D PTR_ERR(ref->dmabuf);
+> > > > +             goto err_kfree_ref;
+> > > > +     }
+> > > > +
+> > > > +     rc =3D tee_heap_update_from_dma_buf(ctx->teedev, ref->dmabuf,
+> > > > +                                       &ref->offset, &ref->shm,
+> > > > +                                       &ref->parent_shm);
+> > > > +     if (!rc)
+> > > > +             goto out;
+> > > > +     if (rc !=3D -EINVAL)
+> > > > +             goto err_put_dmabuf;
+> > > > +
+> > > > +     ref->attach =3D dma_buf_attach(ref->dmabuf, &ctx->teedev->dev=
+);
+> > > > +     if (IS_ERR(ref->attach)) {
+> > > > +             rc =3D PTR_ERR(ref->attach);
+> > > > +             goto err_put_dmabuf;
+> > > > +     }
+> > > > +
+> > > > +     ref->sgt =3D dma_buf_map_attachment(ref->attach, DMA_BIDIRECT=
+IONAL);
+> > > > +     if (IS_ERR(ref->sgt)) {
+> > > > +             rc =3D PTR_ERR(ref->sgt);
+> > > > +             goto err_detach;
+> > > > +     }
+> > > > +
+> > > > +     if (sg_nents(ref->sgt->sgl) !=3D 1) {
+> > > > +             rc =3D PTR_ERR(ref->sgt->sgl);
+> > > > +             goto err_unmap_attachement;
+> > > > +     }
+> > > > +
+> > > > +     ref->shm.paddr =3D page_to_phys(sg_page(ref->sgt->sgl));
+> > > > +     ref->shm.size =3D ref->sgt->sgl->length;
+> > > > +
+> > > > +out:
+> > > > +     mutex_lock(&ref->shm.ctx->teedev->mutex);
+> > > > +     ref->shm.id =3D idr_alloc(&ref->shm.ctx->teedev->idr, &ref->s=
+hm,
+> > > > +                             1, 0, GFP_KERNEL);
+> > > > +     mutex_unlock(&ref->shm.ctx->teedev->mutex);
+> > > > +     if (ref->shm.id < 0) {
+> > > > +             rc =3D ref->shm.id;
+> > > > +             if (ref->attach)
+> > > > +                     goto err_unmap_attachement;
+> > > > +             goto err_put_dmabuf;
+> > > > +     }
+> > > > +
+> > > > +     return &ref->shm;
+> > > > +
+> > > > +err_unmap_attachement:
+> > > > +     dma_buf_unmap_attachment(ref->attach, ref->sgt, DMA_BIDIRECTI=
+ONAL);
+> > > > +err_detach:
+> > > > +     dma_buf_detach(ref->dmabuf, ref->attach);
+> > > > +err_put_dmabuf:
+> > > > +     dma_buf_put(ref->dmabuf);
+> > > > +err_kfree_ref:
+> > > > +     kfree(ref);
+> > > > +err_put_tee:
+> > > > +     teedev_ctx_put(ctx);
+> > > > +     tee_device_put(ctx->teedev);
+> > > > +
+> > > > +     return ERR_PTR(rc);
+> > > > +}
+> > > > +EXPORT_SYMBOL_GPL(tee_shm_register_fd);
+> > > > +
+> > > > +struct tee_shm *tee_shm_get_parent_shm(struct tee_shm *shm, size_t=
+ *offs)
+> > > > +{
+> > > > +     struct tee_shm *parent_shm =3D NULL;
+> > > > +
+> > > > +     if (shm->flags & TEE_SHM_DMA_BUF) {
+> > > > +             struct tee_shm_dmabuf_ref *ref;
+> > > > +
+> > > > +             ref =3D container_of(shm, struct tee_shm_dmabuf_ref, =
+shm);
+> > > > +             if (ref->parent_shm) {
+> > > > +                     /*
+> > > > +                      * the shm already has one reference to
+> > > > +                      * ref->parent_shm so we should be clear of 0=
+.
+> > > > +                      * We're getting another reference since the =
+caller
+> > > > +                      * of this function expects to put the return=
+ed
+> > > > +                      * parent_shm when it's done with it.
+>
+> This seems a bit complicated, can we rather inline this API as I can't
+> see any other current user?
 
-    Some devices use horizontal and vertical blanking to configure the frame rate. The frame rate can be calculated from the pixel rate, analogue crop rectangle as well as horizontal and vertical blanking. The pixel rate control may be present in a different sub-device than the blanking controls and the analogue crop rectangle configuration.
+OK
 
-    The configuration of the frame rate is performed by selecting the desired horizontal and vertical blanking. The unit of this control is Hz."
+Cheers,
+Jens
 
-So when not bin-/skip-/averag-ing this matches with my understanding
-which is that:
-
-FPS = pixelrate / ((mode.width + hblank) * (mode.height + vblank))
-
-and also pixelrate = link_freq * 2 * #oflanes / RGB_DEPTH.
-
-Since the ov02e10 driver does not do bin-/skip-/avera-ging,
-this definitely is correct for the ov02e10, so I don't really
-think there is an issue with the ov02e10 driver here.
-
-I've been assuming in drivers which do do binning like the ov2680
-that this also holds true when binning. But what I'm hearing
-you say here is that the reported pixelrate should change when
-binning?
-
-I see how the calculation of the FPS should change, reading
-the V4L2 API using mode.width / mode.height is wrong and instead
-the analog crop should be used which is e.g. (2 * mode.width) x
-(2 * mode.height) when doing binning and I can see how this is
-sensible because this way when just disabling/enabling binning
-without changing the blanks the fps does not change.
-
-Except that we don't have a proper API to select binning and
-instead is done transparently by drivers like the ov2680 driver ...
-
-And I believe that e.g. libcamera atm simply implements:
-
-FPS = pixelrate / ((mode.width + hblank) * (mode.height + vblank))
-
-and thus assumes that the driver updates the hblank / vblank
-values it reports by adding width/height to the reported value
-to compensate for binning but I might be mistaken there.
-
-This also begs the question what a driver with arbitrary mode
-support like the ov2680 driver should do on a set_fmt() call
-where fmt.width / height don't match (either 1:1 or 1:2)
-with the analog crop. Should the driver then update the analog
-crop? ATM for modes smaller then the current analog crop,
-the ov2680 code simply adds extra in driver cropping on top of
-the selection API crop, without updating the selection API crop.
-Since the driver clamps the max accepted fmt width/height to
-the crop updating the selection API crop would be troublesome
-and break non selection API users when they want to switch back
-to a higher resolution mode ...
-
-I don't think we really have properly specified (as in written down)
-how all this is supposed to work, especially as soon as binning comes
-into play. I think discussing all possible corner cases and trying
-to hammer out how this all is supposed to fit together would be
-a good summit for the media maintainers summit in Nice ?
-
-Eitherway I believe that the current code in ov02e10 is fine as
-is for now since the ov02e10 driver only supports a single fixed
-mode with no binning.
-
-BTW the last sentence of the control description clearly needs work,
-framerate indeed is in Hz, but framerate is indirectly controlled through
-setting the blanking times, which are in pixels not Hz, so that last
-sentence is confusing.
-
-Regards,
-
-Hans
-
-
-
-
-> 
->>
->> (and the same applies to vts when vertical binning)
->>
->>> pixel_rate = wdith x height x fps / bpp
->>>            => 1928 * 1088 * 30 / 10
->>>            => 6292992
->>>
->>> i.e. the pixel rate not related to the CSI2 link frequency ?
->>
->> No the pixel-rate control includes vblank + hblank "pixels"
->> and is in pixels/sec so no dividing by bpp, iow it is:
->>
->> vts * hts * fps
->>
->> and this must match
->>
->> link_freq * 2 * #oflanes / RGB_DEPTH
-> 
-
+>
+> -Sumit
+>
+> > > > +                      */
+> > > > +                     parent_shm =3D ref->parent_shm;
+> > > > +                     refcount_inc(&parent_shm->refcount);
+> > > > +                     *offs =3D ref->offset;
+> > > > +             }
+> > > > +     }
+> > > > +
+> > > > +     return parent_shm;
+> > > > +}
+> > > > +
+> > > >  /**
+> > > >   * tee_shm_alloc_priv_buf() - Allocate shared memory for a private=
+ly shared
+> > > >   *                         kernel buffer
+> > > > diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
+> > > > index 16ef078247ae..6bd833b6d0e1 100644
+> > > > --- a/include/linux/tee_core.h
+> > > > +++ b/include/linux/tee_core.h
+> > > > @@ -28,6 +28,7 @@
+> > > >  #define TEE_SHM_USER_MAPPED  BIT(1)  /* Memory mapped in user spac=
+e */
+> > > >  #define TEE_SHM_POOL         BIT(2)  /* Memory allocated from pool=
+ */
+> > > >  #define TEE_SHM_PRIV         BIT(3)  /* Memory private to TEE driv=
+er */
+> > > > +#define TEE_SHM_DMA_BUF              BIT(4)  /* Memory with dma-bu=
+f handle */
+> > > >
+> > > >  #define TEE_DEVICE_FLAG_REGISTERED   0x1
+> > > >  #define TEE_MAX_DEV_NAME_LEN         32
+> > > > diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
+> > > > index a54c203000ed..824f1251de60 100644
+> > > > --- a/include/linux/tee_drv.h
+> > > > +++ b/include/linux/tee_drv.h
+> > > > @@ -116,6 +116,16 @@ struct tee_shm *tee_shm_alloc_kernel_buf(struc=
+t tee_context *ctx, size_t size);
+> > > >  struct tee_shm *tee_shm_register_kernel_buf(struct tee_context *ct=
+x,
+> > > >                                           void *addr, size_t length=
+);
+> > > >
+> > > > +/**
+> > > > + * tee_shm_register_fd() - Register shared memory from file descri=
+ptor
+> > > > + *
+> > > > + * @ctx:     Context that allocates the shared memory
+> > > > + * @fd:              Shared memory file descriptor reference
+> > > > + *
+> > > > + * @returns a pointer to 'struct tee_shm' on success, and ERR_PTR =
+on failure
+> > > > + */
+> > > > +struct tee_shm *tee_shm_register_fd(struct tee_context *ctx, int f=
+d);
+> > > > +
+> > > >  /**
+> > > >   * tee_shm_free() - Free shared memory
+> > > >   * @shm:     Handle to shared memory to free
+> > > > diff --git a/include/uapi/linux/tee.h b/include/uapi/linux/tee.h
+> > > > index d0430bee8292..1f9a4ac2b211 100644
+> > > > --- a/include/uapi/linux/tee.h
+> > > > +++ b/include/uapi/linux/tee.h
+> > > > @@ -118,6 +118,35 @@ struct tee_ioctl_shm_alloc_data {
+> > > >  #define TEE_IOC_SHM_ALLOC    _IOWR(TEE_IOC_MAGIC, TEE_IOC_BASE + 1=
+, \
+> > > >                                    struct tee_ioctl_shm_alloc_data)
+> > > >
+> > > > +/**
+> > > > + * struct tee_ioctl_shm_register_fd_data - Shared memory registeri=
+ng argument
+> > > > + * @fd:              [in] File descriptor identifying the shared m=
+emory
+> > > > + * @size:    [out] Size of shared memory to allocate
+> > > > + * @flags:   [in] Flags to/from allocation.
+> > > > + * @id:              [out] Identifier of the shared memory
+> > > > + *
+> > > > + * The flags field should currently be zero as input. Updated by t=
+he call
+> > > > + * with actual flags as defined by TEE_IOCTL_SHM_* above.
+> > > > + * This structure is used as argument for TEE_IOC_SHM_REGISTER_FD =
+below.
+> > > > + */
+> > > > +struct tee_ioctl_shm_register_fd_data {
+> > > > +     __s64 fd;
+> > > > +     __u64 size;
+> > > > +     __u32 flags;
+> > > > +     __s32 id;
+> > > > +};
+> > > > +
+> > > > +/**
+> > > > + * TEE_IOC_SHM_REGISTER_FD - register a shared memory from a file =
+descriptor
+> > > > + *
+> > > > + * Returns a file descriptor on success or < 0 on failure
+> > > > + *
+> > > > + * The returned file descriptor refers to the shared memory object=
+ in kernel
+> > > > + * land. The shared memory is freed when the descriptor is closed.
+> > > > + */
+> > > > +#define TEE_IOC_SHM_REGISTER_FD      _IOWR(TEE_IOC_MAGIC, TEE_IOC_=
+BASE + 8, \
+> > > > +                                  struct tee_ioctl_shm_register_fd=
+_data)
+> > > > +
+> > > >  /**
+> > > >   * struct tee_ioctl_buf_data - Variable sized buffer
+> > > >   * @buf_ptr: [in] A __user pointer to a buffer
+> > > > --
+> > > > 2.43.0
+> > > >
 
