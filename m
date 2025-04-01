@@ -1,536 +1,260 @@
-Return-Path: <linux-media+bounces-29126-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29127-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DB6AA7774F
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 11:11:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04CABA77754
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 11:12:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 531F33AB91E
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 09:11:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 404313AB282
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 09:11:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 692391EEA5D;
-	Tue,  1 Apr 2025 09:10:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96CC91EE019;
+	Tue,  1 Apr 2025 09:11:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="R9T3JqCB"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TGOrLlOy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C23381EE033
-	for <linux-media@vger.kernel.org>; Tue,  1 Apr 2025 09:10:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2D971EDA14
+	for <linux-media@vger.kernel.org>; Tue,  1 Apr 2025 09:11:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743498647; cv=none; b=qbmeaZcCdML5tWhfg/ijhx0pLRfgCm78LH901WC3aGzxWN2utTuir5WhkimudyVyeMFPXmdw9T+7OCvbAD8HOWb7kTvojo0Ot5d/npTs/ekfSWTxggHNO4bHq22gfd9FYt/IT6hIqq7fYKlIHUUsosoPsYzkofM70ydmGz0CQ2w=
+	t=1743498709; cv=none; b=a1P0H4e7ev5c2lxeOedDc6linglX5BzufxPEoywbR9G6R7/WHL/0x0ePK6tkmExanrJ+dryuErVLk5AsAfKjI7Y372mE3AShcTzoNzcuSBY1hZ89VWmLqg/1SKUEzjRVgMPq8RpfnWu/lJkFH/pHEQZdMw8acGd7bviTbxnyPqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743498647; c=relaxed/simple;
-	bh=OTteXWhNXu+GnUzBRi9nedbw46TBxO5MurN8SHWm86M=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=CC29qOEw+qq1OGgjUgV9Gu24YGOmOTBREzG0JaMW/DJUHcnyD0dhGBNtexNH6Tqp86K8H+ElKDwqOnFPuXZng/IykMjZTd67ID8npTPlzRqel2zbzAg3kYNX1EGW/sgf/7MWeFS07tNMQNFCtFsuD4aTXdInsuAWr6vsX710fU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=R9T3JqCB; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743498645; x=1775034645;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=OTteXWhNXu+GnUzBRi9nedbw46TBxO5MurN8SHWm86M=;
-  b=R9T3JqCB2CEj15bcRoT/T//TRuqRIPo0vrWpLkmjrgxcTmS1tyMGmMuu
-   0CaBikCeD2UG9f2vl2zmW25skKIzllS+U7+mDeHtiTDPp8wBZryc5XS0u
-   pySEPZcIlicOjHtiyI7pMi+32W5ScHSMNpAJG9DyRihFzodFHlU4MxKxY
-   H6ESPbZrQ5gA3htOGN7vuLRrYGobCuYIZqj09WZO/0GHa8jmWYy+sKPO2
-   DP/+EEoHbok2OIlYR2cQimSPYgGnOmT650min0c2vwG/KfbIj3CCqCmFI
-   SwAwyk5n3RE/qfW4gaTSxpoarNFzT00rxDGWkyAjuk1W2G8YSadRE8IrH
-   w==;
-X-CSE-ConnectionGUID: MpIz/+MfQaqJTsnG64BofA==
-X-CSE-MsgGUID: Is9VF11OT3m36uwKQ3h5zQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11390"; a="47532626"
-X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; 
-   d="scan'208";a="47532626"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 02:10:20 -0700
-X-CSE-ConnectionGUID: vFVTjoA+STuB4xVUupy28A==
-X-CSE-MsgGUID: nOEc57SERrGZhcfDzuQEjg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.14,293,1736841600"; 
-   d="scan'208";a="126301281"
-Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.245.112.43])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Apr 2025 02:10:19 -0700
-From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>
-Subject: [PATCH 5/5] media: intel/ipu6: Move isys_subdev functions to common code
-Date: Tue,  1 Apr 2025 11:09:53 +0200
-Message-Id: <20250401090953.473339-7-stanislaw.gruszka@linux.intel.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250401090953.473339-1-stanislaw.gruszka@linux.intel.com>
-References: <20250401090953.473339-1-stanislaw.gruszka@linux.intel.com>
+	s=arc-20240116; t=1743498709; c=relaxed/simple;
+	bh=p8DHTi3Za/tI6OPWKL2aIB6I/RThaYEdn657WfHnJxU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kjBkPpWzVR/I0TstErScVSAyAfDccVnrj01NzzOHijvItqW89Ec+O4aOfSIX15qmeiAaG6q0gGPHQi0dVUJRRA106nfoXk9kw9iV6v69+mJVrpXve87si/RTh4qLOGR8f3IGWfnE7IfZX9YNRGmJ2Y8yUThpEVbt+16xRBmcVWo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=TGOrLlOy; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5499e3ec54dso6026974e87.0
+        for <linux-media@vger.kernel.org>; Tue, 01 Apr 2025 02:11:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1743498705; x=1744103505; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=Y6G4HIBOXLcV4V0qXmz7XkYBnWOeypui+TDu06is8F8=;
+        b=TGOrLlOyEJtzOvePl1EOnzDoW4RNuUDpWoNrWFOTsUfTfYrss6hKba1dUb3fdWTXZs
+         y3A2SbniTTdIKxrmBaMptFpLdVItMde2AjJYk1K1c9mSqoEH65g3IX60oMQH+vhGDiGi
+         ZwOKsXGa6JUl064/WwJRZjY/O9gAKWpsxsLOc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743498705; x=1744103505;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Y6G4HIBOXLcV4V0qXmz7XkYBnWOeypui+TDu06is8F8=;
+        b=NNgcNUDsJEf6SgBtMVzfLo0EqRw9Sq8fwwYq/Jd04XKw/f2tidN5WA0EkCoI2ldYpB
+         +WalaDXwvn14bQXmCiNiKa96djyA4/rX1euaRKpL48BJPz0N4kPrCoFQsqXok5rLIk65
+         k/9lTiJlB439Iec6p7sWiPkJlFfcdbb4JimC2HlL30r2UAQcd5duCsXj4EaQIDJ/0iUQ
+         WlgKGeJZOW2iZOST3GPFLZfbIq+QGKwC3nI9a3QnpiAqM0ZgzJ4MfJj1llCC9Y57yaTk
+         A1cwg46ZXYmZS2nrd9XxqSeC1zgtbGtjstgo5EqYcXHN2EAmj29EnrbRa6GM+n0sf0vk
+         KeoQ==
+X-Gm-Message-State: AOJu0Yy84+Z1UiA2HT9FUOMjbFWvWdPS3S4OWlSkLZcPu7sfXvtB8mjc
+	i6GtNlkkpCw/GHZEeWkZtGCWA55gIlrbzyx4DBv3u4WMy0Bis5qH7icYrKpu1Bf+ONsikBCN1U8
+	=
+X-Gm-Gg: ASbGncvAdRLXkSSc28fDPRpVZC+O4RkwYO7Pr6dO6SH01yM/wP7vYp1wHffxb+5aJ26
+	cavJLPGSFPty5RcOJ4TFucH8AgFXtGdS2rfbcFWbXjghw9Mu/z47egWxC+Qkz/4SGvNk61bcrmd
+	iNdQmV17s2zzcGCUSbIhWVX96DlGl9Mo+hB7gvax0i7Hh6NnyipTv7sx+e0a2aJ0WHQQsok76Kb
+	tcyaNleWI/G3RZxvssxZ4nBRNz33JpsTVX3/7+boR4gan2ozqObJztKss83DfEtC9PqGqg9haQT
+	MFBTRUq4uMl2wp1/uZc4bB3g5/EQSgWnnVJrvNnBYpUxWimkWELVF9H6umXWcsGImwuZZwfv1Vm
+	ckkOtvbI=
+X-Google-Smtp-Source: AGHT+IGmSQUEo3RY2ejp9wNWeQ+0FWAiw5WQ9yKcT0hghxQZnQbRowJvPOJK6+8Lh6SpMOZPRBRkpw==
+X-Received: by 2002:a05:6512:3090:b0:545:22ec:8b6c with SMTP id 2adb3069b0e04-54b1110d5d2mr3506920e87.35.1743498704624;
+        Tue, 01 Apr 2025 02:11:44 -0700 (PDT)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com. [209.85.167.52])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54b094c1667sm1312662e87.67.2025.04.01.02.11.43
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Apr 2025 02:11:43 -0700 (PDT)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-549967c72bcso5719191e87.3
+        for <linux-media@vger.kernel.org>; Tue, 01 Apr 2025 02:11:43 -0700 (PDT)
+X-Received: by 2002:a05:6512:2305:b0:549:735f:f0f6 with SMTP id
+ 2adb3069b0e04-54b1113c49amr3739592e87.50.1743498703075; Tue, 01 Apr 2025
+ 02:11:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cee8080d-ea46-432c-8241-e7ec81ef691d@xs4all.nl>
+ <CANiDSCsrF-OAKg9OSTEwwGWq=6EgJ7MK6XahgONq_3UXuj8DFw@mail.gmail.com> <adf3386e-2029-4126-8b15-019240cd91ba@xs4all.nl>
+In-Reply-To: <adf3386e-2029-4126-8b15-019240cd91ba@xs4all.nl>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Tue, 1 Apr 2025 11:11:30 +0200
+X-Gmail-Original-Message-ID: <CANiDSCt7gjNK=MBgvg-yO+L7kdPPyDgoi4Y8Lyqb1fSnyLJaTg@mail.gmail.com>
+X-Gm-Features: AQ5f1Jp-tFC07HcW2O6Avs-q2d_xOWvbJk4TiCTf258cxTPNNoBHqPB_Es0RONk
+Message-ID: <CANiDSCt7gjNK=MBgvg-yO+L7kdPPyDgoi4Y8Lyqb1fSnyLJaTg@mail.gmail.com>
+Subject: Re: [PATCHv2] media: cec: extron-da-hd-4k-plus: Fix Wformat-truncation
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 
-Move more functions (those that utilize isys_subdev structure internally),
-to common code to be shared with ipu7 driver.
+Hi Hans
 
-Additionally use isd variable name for isys_subdevice, asd name is used
-for historical reason - precursor of the drier was atomisp driver, the
-variables names stayed unchanged, what is a little confusing.
+On Tue, 1 Apr 2025 at 10:43, Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+> On 01/04/2025 10:30, Ricardo Ribalda wrote:
+> > Hi Hans
+> >
+> > snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
+> >               port->direction, port->port.port,
+> >               cec_msg_initiator(msg), cec_msg_destination(msg), buf);
+> >
+> > Will need:
+> > W -> 1 byte
+> > %c -> 1 byte
+> > %u -> 1 byte port.port  (we might have to add %10 here in case gcc8 is
+> > not clever enough )
+> > * -> 1 byte
+> > %u -> 2 bytes cec_msg_initiator(msg)  (we might have to add %16 here
+> > in case gcc8 is not clever enough )
+> > * -> 1 byte
+> > %u -> 2 bytes  cec_msg_destination(msg) (we might have to add %16 here
+> > in case gcc8 is not clever enough )
+> > %s ->  CEC_MAX_MSG_SIZE * 3 buf
+>
+> Actually, this is at most (CEC_MAX_MSG_SIZE - 1) * 3, since the first byte
+> of the CEC message isn't included in the buffer.
+>
+> So this code is safe.
+>
+> I agree that it could be made a bit clearer, but something for another day.
+>
+> I ran this patch through the CI and it passed the build-ancient job.
 
-Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
----
- drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c |   8 +-
- .../media/pci/intel/ipu6/ipu6-isys-subdev.c   | 179 +-----------------
- .../media/pci/intel/ipu6/ipu6-isys-subdev.h   |  11 +-
- drivers/media/pci/intel/ipu6/isys-subdev.c    | 159 ++++++++++++++++
- drivers/media/pci/intel/ipu6/isys.h           |   9 +
- 5 files changed, 174 insertions(+), 192 deletions(-)
+Please check the  full log. I have already added the warning to the
+"allow-list" to move to 6.14
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-index 2441f47e8742..5c4baaffa092 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-@@ -487,7 +487,7 @@ static const struct v4l2_subdev_pad_ops csi2_sd_pad_ops = {
- 	.set_fmt = ipu6_isys_subdev_set_fmt,
- 	.get_selection = ipu6_isys_csi2_get_sel,
- 	.set_selection = ipu6_isys_csi2_set_sel,
--	.enum_mbus_code = ipu6_isys_subdev_enum_mbus_code,
-+	.enum_mbus_code = isys_subdev_enum_mbus_code,
- 	.set_routing = isys_subdev_set_routing,
- 	.enable_streams = ipu6_isys_csi2_enable_streams,
- 	.disable_streams = ipu6_isys_csi2_disable_streams,
-@@ -510,7 +510,7 @@ void ipu6_isys_csi2_cleanup(struct ipu6_isys_csi2 *csi2)
- 
- 	v4l2_device_unregister_subdev(&csi2->asd.sd);
- 	v4l2_subdev_cleanup(&csi2->asd.sd);
--	ipu6_isys_subdev_cleanup(&csi2->asd);
-+	isys_subdev_cleanup(&csi2->asd);
- 	csi2->isys = NULL;
- }
- 
-@@ -526,8 +526,8 @@ int ipu6_isys_csi2_init(struct ipu6_isys_csi2 *csi2,
- 	csi2->port = index;
- 
- 	csi2->asd.sd.entity.ops = &csi2_entity_ops;
--	ret = ipu6_isys_subdev_init(&csi2->asd, dev, &csi2_sd_ops, 0,
--				    NR_OF_CSI2_SINK_PADS, NR_OF_CSI2_SRC_PADS);
-+	ret = isys_subdev_init(&csi2->asd, dev, &csi2_sd_ops, 0,
-+			       NR_OF_CSI2_SINK_PADS, NR_OF_CSI2_SRC_PADS);
- 	if (ret)
- 		goto fail;
- 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
-index 020c25925ca0..655057d54785 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
-@@ -141,14 +141,6 @@ int ipu6_isys_subdev_set_fmt(struct v4l2_subdev *sd,
- 			     struct v4l2_subdev_state *state,
- 			     struct v4l2_subdev_format *format)
+drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c: In
+function 'extron_cec_adap_transmit':
+drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:44:
+warning: 'DCEC' directive output may be truncated writing 4 bytes into
+a region of size between 1 and 53 [-Wformat-truncation=]
+  snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
+                                            ^~~~
+drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:2:
+note: 'snprintf' output between 13 and 65 bytes into a destination of
+size 61
+  snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    port->direction, port->port.port,
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    cec_msg_initiator(msg), cec_msg_destination(msg), buf);
+
+This does the trick
+diff --git a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
+b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
+index cfbfc4c1b2e6..c56db19eaf16 100644
+--- a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
++++ b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
+@@ -1003,7 +1003,7 @@ static int extron_cec_adap_transmit(struct
+cec_adapter *adap, u8 attempts,
  {
--	struct isys_subdev *asd = to_isys_subdev(sd);
--	struct v4l2_mbus_framefmt *fmt;
--	struct v4l2_rect *crop;
--	u32 code = asd->supported_codes[0];
--	u32 other_pad, other_stream;
--	unsigned int i;
--	int ret;
--
- 	/* No transcoding, source and sink formats must match. */
- 	if ((sd->entity.pads[format->pad].flags & MEDIA_PAD_FL_SOURCE) &&
- 	    sd->entity.num_pads > 1)
-@@ -160,174 +152,5 @@ int ipu6_isys_subdev_set_fmt(struct v4l2_subdev *sd,
- 				      IPU6_ISYS_MIN_HEIGHT,
- 				      IPU6_ISYS_MAX_HEIGHT);
- 
--	for (i = 0; asd->supported_codes[i]; i++) {
--		if (asd->supported_codes[i] == format->format.code) {
--			code = asd->supported_codes[i];
--			break;
--		}
--	}
--	format->format.code = code;
--	format->format.field = V4L2_FIELD_NONE;
--
--	/* Store the format and propagate it to the source pad. */
--	fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
--	if (!fmt)
--		return -EINVAL;
--
--	*fmt = format->format;
--
--	if (!(sd->entity.pads[format->pad].flags & MEDIA_PAD_FL_SINK))
--		return 0;
--
--	/* propagate format to following source pad */
--	fmt = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
--							   format->stream);
--	if (!fmt)
--		return -EINVAL;
--
--	*fmt = format->format;
--
--	ret = v4l2_subdev_routing_find_opposite_end(&state->routing,
--						    format->pad,
--						    format->stream,
--						    &other_pad,
--						    &other_stream);
--	if (ret)
--		return -EINVAL;
--
--	crop = v4l2_subdev_state_get_crop(state, other_pad, other_stream);
--	/* reset crop */
--	crop->left = 0;
--	crop->top = 0;
--	crop->width = fmt->width;
--	crop->height = fmt->height;
--
--	return 0;
--}
--
--int ipu6_isys_subdev_enum_mbus_code(struct v4l2_subdev *sd,
--				    struct v4l2_subdev_state *state,
--				    struct v4l2_subdev_mbus_code_enum *code)
--{
--	struct isys_subdev *asd = to_isys_subdev(sd);
--	const u32 *supported_codes = asd->supported_codes;
--	u32 index;
--
--	for (index = 0; supported_codes[index]; index++) {
--		if (index == code->index) {
--			code->code = supported_codes[index];
--			return 0;
--		}
--	}
--
--	return -EINVAL;
--}
--
--static int subdev_set_routing(struct v4l2_subdev *sd,
--			      struct v4l2_subdev_state *state,
--			      struct v4l2_subdev_krouting *routing)
--{
--	static const struct v4l2_mbus_framefmt format = {
--		.width = 4096,
--		.height = 3072,
--		.code = MEDIA_BUS_FMT_SGRBG10_1X10,
--		.field = V4L2_FIELD_NONE,
--	};
--	int ret;
--
--	ret = v4l2_subdev_routing_validate(sd, routing,
--					   V4L2_SUBDEV_ROUTING_ONLY_1_TO_1);
--	if (ret)
--		return ret;
--
--	return v4l2_subdev_set_routing_with_fmt(sd, state, routing, &format);
--}
--
--static int ipu6_isys_subdev_init_state(struct v4l2_subdev *sd,
--				       struct v4l2_subdev_state *state)
--{
--	struct v4l2_subdev_route route = {
--		.sink_pad = 0,
--		.sink_stream = 0,
--		.source_pad = 1,
--		.source_stream = 0,
--		.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
--	};
--	struct v4l2_subdev_krouting routing = {
--		.num_routes = 1,
--		.routes = &route,
--	};
--
--	return subdev_set_routing(sd, state, &routing);
--}
--
--static const struct v4l2_subdev_internal_ops ipu6_isys_subdev_internal_ops = {
--	.init_state = ipu6_isys_subdev_init_state,
--};
--
--int ipu6_isys_subdev_init(struct isys_subdev *asd, struct device *dev,
--			  const struct v4l2_subdev_ops *ops,
--			  unsigned int nr_ctrls, unsigned int num_sink_pads,
--			  unsigned int num_source_pads)
--{
--	unsigned int num_pads = num_sink_pads + num_source_pads;
--	unsigned int i;
--	int ret;
--
--	v4l2_subdev_init(&asd->sd, ops);
--
--	asd->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
--			 V4L2_SUBDEV_FL_HAS_EVENTS |
--			 V4L2_SUBDEV_FL_STREAMS;
--	asd->sd.owner = THIS_MODULE;
--	asd->sd.dev = dev;
--	asd->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
--	asd->sd.internal_ops = &ipu6_isys_subdev_internal_ops;
--
--	asd->pad = devm_kcalloc(dev, num_pads, sizeof(*asd->pad), GFP_KERNEL);
--	if (!asd->pad)
--		return -ENOMEM;
--
--	for (i = 0; i < num_sink_pads; i++)
--		asd->pad[i].flags = MEDIA_PAD_FL_SINK |
--				    MEDIA_PAD_FL_MUST_CONNECT;
--
--	for (i = num_sink_pads; i < num_pads; i++)
--		asd->pad[i].flags = MEDIA_PAD_FL_SOURCE;
--
--	ret = media_entity_pads_init(&asd->sd.entity, num_pads, asd->pad);
--	if (ret)
--		return ret;
--
--	if (asd->ctrl_init) {
--		ret = v4l2_ctrl_handler_init(&asd->ctrl_handler, nr_ctrls);
--		if (ret)
--			goto out_media_entity_cleanup;
--
--		asd->ctrl_init(&asd->sd);
--		if (asd->ctrl_handler.error) {
--			ret = asd->ctrl_handler.error;
--			goto out_v4l2_ctrl_handler_free;
--		}
--
--		asd->sd.ctrl_handler = &asd->ctrl_handler;
--	}
--
--	asd->source = -1;
--
--	return 0;
--
--out_v4l2_ctrl_handler_free:
--	v4l2_ctrl_handler_free(&asd->ctrl_handler);
--
--out_media_entity_cleanup:
--	media_entity_cleanup(&asd->sd.entity);
--
--	return ret;
--}
--
--void ipu6_isys_subdev_cleanup(struct isys_subdev *asd)
--{
--	media_entity_cleanup(&asd->sd.entity);
--	v4l2_ctrl_handler_free(&asd->ctrl_handler);
-+	return isys_subdev_set_fmt(sd, state, format);
+        struct extron_port *port = cec_get_drvdata(adap);
+        char buf[CEC_MAX_MSG_SIZE * 3 + 1];
+-       char cmd[CEC_MAX_MSG_SIZE * 3 + 13];
++       char cmd[CEC_MAX_MSG_SIZE * 3 + 15];
+        unsigned int i;
+
+        if (port->disconnected)
+@@ -1012,7 +1012,7 @@ static int extron_cec_adap_transmit(struct
+cec_adapter *adap, u8 attempts,
+        for (i = 0; i < msg->len - 1; i++)
+                sprintf(buf + i * 3, "%%%02X", msg->msg[i + 1]);
+        snprintf(cmd, sizeof(cmd), "W%c%u*%u*%u*%sDCEC",
+-                port->direction, port->port.port,
++                port->direction, port->port.port % 10,
+                 cec_msg_initiator(msg), cec_msg_destination(msg), buf);
+        return extron_send_and_wait(port->extron, port, cmd, NULL);
  }
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
-index f3835d873991..e8d1ff181a9d 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
-@@ -1,5 +1,5 @@
- /* SPDX-License-Identifier: GPL-2.0-only */
--/* Copyright (C) 2013--2024 Intel Corporation */
-+/* Copyright (C) 2013-2025 Intel Corporation */
- 
- #ifndef IPU6_ISYS_SUBDEV_H
- #define IPU6_ISYS_SUBDEV_H
-@@ -16,13 +16,4 @@ u32 ipu6_isys_convert_bayer_order(u32 code, int x, int y);
- int ipu6_isys_subdev_set_fmt(struct v4l2_subdev *sd,
- 			     struct v4l2_subdev_state *state,
- 			     struct v4l2_subdev_format *fmt);
--int ipu6_isys_subdev_enum_mbus_code(struct v4l2_subdev *sd,
--				    struct v4l2_subdev_state *state,
--				    struct v4l2_subdev_mbus_code_enum
--				    *code);
--int ipu6_isys_subdev_init(struct isys_subdev *asd, struct device *dev,
--			  const struct v4l2_subdev_ops *ops,
--			  unsigned int nr_ctrls, unsigned int num_sink_pads,
--			  unsigned int num_source_pads);
--void ipu6_isys_subdev_cleanup(struct isys_subdev *asd);
- #endif /* IPU6_ISYS_SUBDEV_H */
-diff --git a/drivers/media/pci/intel/ipu6/isys-subdev.c b/drivers/media/pci/intel/ipu6/isys-subdev.c
-index 483d718f2ea4..7635d768067f 100644
---- a/drivers/media/pci/intel/ipu6/isys-subdev.c
-+++ b/drivers/media/pci/intel/ipu6/isys-subdev.c
-@@ -92,3 +92,162 @@ int isys_subdev_set_routing(struct v4l2_subdev *sd,
- {
- 	return subdev_set_routing(sd, state, routing);
- }
-+
-+int isys_subdev_set_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
-+			struct v4l2_subdev_format *format)
-+{
-+	struct isys_subdev *isd = to_isys_subdev(sd);
-+	struct v4l2_mbus_framefmt *fmt;
-+	struct v4l2_rect *crop;
-+	u32 code = isd->supported_codes[0];
-+	u32 other_pad, other_stream;
-+	unsigned int i;
-+	int ret;
-+
-+	for (i = 0; isd->supported_codes[i]; i++) {
-+		if (isd->supported_codes[i] == format->format.code) {
-+			code = isd->supported_codes[i];
-+			break;
-+		}
-+	}
-+	format->format.code = code;
-+	format->format.field = V4L2_FIELD_NONE;
-+
-+	/* Store the format and propagate it to the source pad. */
-+	fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
-+	if (!fmt)
-+		return -EINVAL;
-+
-+	*fmt = format->format;
-+
-+	if (!(sd->entity.pads[format->pad].flags & MEDIA_PAD_FL_SINK))
-+		return 0;
-+
-+	/* propagate format to following source pad */
-+	fmt = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
-+							   format->stream);
-+	if (!fmt)
-+		return -EINVAL;
-+
-+	*fmt = format->format;
-+
-+	ret = v4l2_subdev_routing_find_opposite_end(&state->routing,
-+						    format->pad, format->stream,
-+						    &other_pad, &other_stream);
-+	if (ret)
-+		return -EINVAL;
-+
-+	crop = v4l2_subdev_state_get_crop(state, other_pad, other_stream);
-+	/* reset crop */
-+	crop->left = 0;
-+	crop->top = 0;
-+	crop->width = fmt->width;
-+	crop->height = fmt->height;
-+
-+	return 0;
-+}
-+
-+int isys_subdev_enum_mbus_code(struct v4l2_subdev *sd,
-+			       struct v4l2_subdev_state *state,
-+			       struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	struct isys_subdev *isd = to_isys_subdev(sd);
-+	const u32 *supported_codes = isd->supported_codes;
-+	u32 index;
-+
-+	for (index = 0; supported_codes[index]; index++) {
-+		if (index == code->index) {
-+			code->code = supported_codes[index];
-+			return 0;
-+		}
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static int isys_subdev_init_state(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *state)
-+{
-+	struct v4l2_subdev_route route = {
-+		.sink_pad = 0,
-+		.sink_stream = 0,
-+		.source_pad = 1,
-+		.source_stream = 0,
-+		.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-+	};
-+	struct v4l2_subdev_krouting routing = {
-+		.num_routes = 1,
-+		.routes = &route,
-+	};
-+
-+	return subdev_set_routing(sd, state, &routing);
-+}
-+
-+static const struct v4l2_subdev_internal_ops isys_subdev_internal_ops = {
-+	.init_state = isys_subdev_init_state,
-+};
-+
-+int isys_subdev_init(struct isys_subdev *isd, struct device *dev,
-+		     const struct v4l2_subdev_ops *ops, unsigned int nr_ctrls,
-+		     unsigned int num_sink_pads, unsigned int num_source_pads)
-+{
-+	unsigned int num_pads = num_sink_pads + num_source_pads;
-+	unsigned int i;
-+	int ret;
-+
-+	v4l2_subdev_init(&isd->sd, ops);
-+
-+	isd->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-+			 V4L2_SUBDEV_FL_HAS_EVENTS | V4L2_SUBDEV_FL_STREAMS;
-+	isd->sd.owner = THIS_MODULE;
-+	isd->sd.dev = dev;
-+	isd->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-+	isd->sd.internal_ops = &isys_subdev_internal_ops;
-+
-+	isd->pad = devm_kcalloc(dev, num_pads, sizeof(*isd->pad), GFP_KERNEL);
-+	if (!isd->pad)
-+		return -ENOMEM;
-+
-+	for (i = 0; i < num_sink_pads; i++)
-+		isd->pad[i].flags = MEDIA_PAD_FL_SINK |
-+				    MEDIA_PAD_FL_MUST_CONNECT;
-+
-+	for (i = num_sink_pads; i < num_pads; i++)
-+		isd->pad[i].flags = MEDIA_PAD_FL_SOURCE;
-+
-+	ret = media_entity_pads_init(&isd->sd.entity, num_pads, isd->pad);
-+	if (ret)
-+		return ret;
-+
-+	if (isd->ctrl_init) {
-+		ret = v4l2_ctrl_handler_init(&isd->ctrl_handler, nr_ctrls);
-+		if (ret)
-+			goto out_media_entity_cleanup;
-+
-+		isd->ctrl_init(&isd->sd);
-+		if (isd->ctrl_handler.error) {
-+			ret = isd->ctrl_handler.error;
-+			goto out_v4l2_ctrl_handler_free;
-+		}
-+
-+		isd->sd.ctrl_handler = &isd->ctrl_handler;
-+	}
-+
-+	isd->source = -1;
-+
-+	return 0;
-+
-+out_v4l2_ctrl_handler_free:
-+	v4l2_ctrl_handler_free(&isd->ctrl_handler);
-+
-+out_media_entity_cleanup:
-+	media_entity_cleanup(&isd->sd.entity);
-+
-+	return ret;
-+}
-+
-+void isys_subdev_cleanup(struct isys_subdev *isd)
-+{
-+	media_entity_cleanup(&isd->sd.entity);
-+	v4l2_ctrl_handler_free(&isd->ctrl_handler);
-+}
-diff --git a/drivers/media/pci/intel/ipu6/isys.h b/drivers/media/pci/intel/ipu6/isys.h
-index 76f64439952b..4bde32f6d767 100644
---- a/drivers/media/pci/intel/ipu6/isys.h
-+++ b/drivers/media/pci/intel/ipu6/isys.h
-@@ -30,4 +30,13 @@ int isys_subdev_set_routing(struct v4l2_subdev *sd,
- 			    struct v4l2_subdev_state *state,
- 			    enum v4l2_subdev_format_whence which,
- 			    struct v4l2_subdev_krouting *routing);
-+int isys_subdev_set_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
-+			struct v4l2_subdev_format *format);
-+int isys_subdev_enum_mbus_code(struct v4l2_subdev *sd,
-+			       struct v4l2_subdev_state *state,
-+			       struct v4l2_subdev_mbus_code_enum *code);
-+int isys_subdev_init(struct isys_subdev *asd, struct device *dev,
-+		     const struct v4l2_subdev_ops *ops, unsigned int nr_ctrls,
-+		     unsigned int num_sink_pads, unsigned int num_source_pads);
-+void isys_subdev_cleanup(struct isys_subdev *asd);
- #endif
+
+
+>
+> Regards,
+>
+>         Hans
+>
+> > DCEC -> 4 bytes
+> > \0 -> 1 byte
+> >
+> > That is a total of CEC_MAX_MSG_SIZE * 3 + 14. Don't we need to add an
+> > extra byte to cmd?
+> >
+> > char cmd[CEC_MAX_MSG_SIZE * 3 + 14];
+> >
+> > Regards!
+> >
+> > On Tue, 1 Apr 2025 at 10:18, Hans Verkuil <hverkuil@xs4all.nl> wrote:
+> >>
+> >> Change the port type to u8 so gcc8 knows that the port fits in a single
+> >> char.
+> >>
+> >> drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c:1014:44: warning: 'DCEC' directive output may be truncated writing 4 bytes into a region of size between 0 and 53 [-Wformat-truncation=]
+> >>
+> >> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+> >> Reported-by: Ricardo Ribalda <ribalda@chromium.org>
+> >> ---
+> >>  drivers/media/cec/usb/extron-da-hd-4k-plus/cec-splitter.h   | 2 +-
+> >>  .../cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c     | 2 +-
+> >>  .../cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.h     | 6 +++---
+> >>  3 files changed, 5 insertions(+), 5 deletions(-)
+> >>
+> >> diff --git a/drivers/media/cec/usb/extron-da-hd-4k-plus/cec-splitter.h b/drivers/media/cec/usb/extron-da-hd-4k-plus/cec-splitter.h
+> >> index 7422f7c5719e..fa2e02b26565 100644
+> >> --- a/drivers/media/cec/usb/extron-da-hd-4k-plus/cec-splitter.h
+> >> +++ b/drivers/media/cec/usb/extron-da-hd-4k-plus/cec-splitter.h
+> >> @@ -14,7 +14,7 @@ struct cec_splitter;
+> >>  struct cec_splitter_port {
+> >>         struct cec_splitter *splitter;
+> >>         struct cec_adapter *adap;
+> >> -       unsigned int port;
+> >> +       u8 port;
+> >>         bool is_active_source;
+> >>         bool found_sink;
+> >>         ktime_t lost_sink_ts;
+> >> diff --git a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
+> >> index cfbfc4c1b2e6..c4add8f3f8b4 100644
+> >> --- a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
+> >> +++ b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.c
+> >> @@ -1692,7 +1692,7 @@ static int extron_setup_thread(void *_extron)
+> >>                         log_addrs.all_device_types[0] = CEC_OP_ALL_DEVTYPE_TV;
+> >>                 } else {
+> >>                         snprintf(log_addrs.osd_name, sizeof(log_addrs.osd_name),
+> >> -                                "Splitter Out%u", port->port.port);
+> >> +                                "Splitter Out%u", port->port.port % 10);
+> >>                         log_addrs.log_addr_type[0] = CEC_LOG_ADDR_TYPE_PLAYBACK;
+> >>                         log_addrs.primary_device_type[0] = CEC_OP_PRIM_DEVTYPE_PLAYBACK;
+> >>                         log_addrs.all_device_types[0] = CEC_OP_ALL_DEVTYPE_PLAYBACK;
+> >> diff --git a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.h b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.h
+> >> index b79f1253ab5d..cd07e90ea32a 100644
+> >> --- a/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.h
+> >> +++ b/drivers/media/cec/usb/extron-da-hd-4k-plus/extron-da-hd-4k-plus.h
+> >> @@ -83,9 +83,9 @@ struct extron {
+> >>         struct serio *serio;
+> >>         /* locks access to serio */
+> >>         struct mutex serio_lock;
+> >> -       unsigned int num_ports;
+> >> -       unsigned int num_in_ports;
+> >> -       unsigned int num_out_ports;
+> >> +       u8 num_ports;
+> >> +       u8 num_in_ports;
+> >> +       u8 num_out_ports;
+> >>         char unit_name[32];
+> >>         char unit_type[64];
+> >>         char unit_fw_version[32];
+> >> --
+> >> 2.47.2
+> >>
+> >
+> >
+>
+
+
 -- 
-2.34.1
-
+Ricardo Ribalda
 
