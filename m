@@ -1,229 +1,501 @@
-Return-Path: <linux-media+bounces-29133-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29134-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3BA0A77834
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 11:55:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B5E3A7788E
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 12:13:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7CD1D1692DD
-	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 09:55:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C88963A9F6C
+	for <lists+linux-media@lfdr.de>; Tue,  1 Apr 2025 10:13:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AB691EFFAB;
-	Tue,  1 Apr 2025 09:55:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFCD81F0982;
+	Tue,  1 Apr 2025 10:13:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D5TMxz2L"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237A5CA4B
-	for <linux-media@vger.kernel.org>; Tue,  1 Apr 2025 09:55:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 579D41A239B;
+	Tue,  1 Apr 2025 10:13:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743501331; cv=none; b=FczQOrGP/7KG1BPg7j55MGW2VTaeC8TgZ1dIMPzldl963hstaFR33OvqIDoj7a+ChHw+S/gL9kD6nt3RxG3EdSd41BXcf6L4+5wb5ngak0Cg4JCRJzzk+/ZppNeSs46Vb+xpqibjc3CWV9J9Qfc7huHuvQ/23rBghJ1bh4T8IEg=
+	t=1743502397; cv=none; b=HvJUS3zWWE+9RyrJkbLm6q+mmIMP3dAZ7xSAz5ygTzwS+X4ORkJMMZg5NJKBAjkOB501+Bccd+XV08Ck1arbOg6RanfJtVfnP1t35RvwnQ/tBGexDcWoIQdUtNvjpToWjCJj1VPPV8N1lkJh0Im7uzdJQqUnvnjNXdbbtMTLk5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743501331; c=relaxed/simple;
-	bh=GrxqzYWgp6VqMfngthBks5smmL++uBaOXDzRQE3as8o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZhtD8yzA8wcdZAWPJCGgl9UzPj61ry8SSTlvbcfrd/q1nZVubPS1VvNlHYt/hSFsiW0SwV9yUW8Um81iR5hFF0FTkIQfNtifaOx5RTxb/3bmVQW2HWyoU0U/epudq/TcW8L2lcoIB6XaM4ywSs6jt7Dm80l44o8+fz0xMumKxcw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E3800C4CEE4;
-	Tue,  1 Apr 2025 09:55:29 +0000 (UTC)
-Message-ID: <b12f7202-d718-4fab-8c13-1815e1a1789f@xs4all.nl>
-Date: Tue, 1 Apr 2025 11:55:28 +0200
+	s=arc-20240116; t=1743502397; c=relaxed/simple;
+	bh=ivTxn0hTBNFRHrw5B9krJdw5mAWDPBuasN1FU6mUvdY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=vCbUoA4Zb3Dxvj8H6QhqQXPl5cdhT/oRWu7uCfI/xhKm9k8bq1tEYPwhIw/p0R1V30S55nKiNt0KWroh8ko1bY34tbYKCYg43RYVN7evnb10m635kB1/7Kqzf+5HTqxq+s5YBraPB+qEvisOmiLYDdF3cTczzLDf6zK6faITiVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D5TMxz2L; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 81ADAC4CEE4;
+	Tue,  1 Apr 2025 10:13:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743502395;
+	bh=ivTxn0hTBNFRHrw5B9krJdw5mAWDPBuasN1FU6mUvdY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=D5TMxz2LblaZOefkG+9mPTYiuHkfkNeDbTm3jWhTmBJlInjkb54B21tBEAgtRETiI
+	 E/MngD31JIK7Han0wAFx49L4O6hZMK1DDAgNEK/z/7PPjgykXzABeEdVn5g9vOI1nH
+	 22pfQ5qgAHbaDAzx5ZbZ2r52FVSIm1Z6oINugS6bChXCaqRteoQfIxJFkbz/uF6xMp
+	 /ebT/o71NNZp4daFLmc708qT2TaFzHkw1wcx8nGtkC1oJ5NLu8ITK7oNRYhKccMN7/
+	 oOQwlfIud5AIFa7kZMEXpwmRrogpvW05QaiX3PfK5GuJdN1znlvVWSE0mF1D5ylVry
+	 vW52CKGxaIzXg==
+Date: Tue, 1 Apr 2025 15:43:05 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Jens Wiklander <jens.wiklander@linaro.org>, akpm@linux-foundation.org,
+	david@redhat.com, rppt@linux.ibm.com
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	op-tee@lists.trustedfirmware.org,
+	linux-arm-kernel@lists.infradead.org,
+	Olivier Masse <olivier.masse@nxp.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Yong Wu <yong.wu@mediatek.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>,
+	John Stultz <jstultz@google.com>,
+	"T . J . Mercier" <tjmercier@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
+	Daniel Stone <daniel@fooishbar.org>, linux-mm@kvack.org
+Subject: Re: [PATCH v6 09/10] optee: FF-A: dynamic restricted memory
+ allocation
+Message-ID: <Z-u8MWNVNy9lLbkK@sumit-X1>
+References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
+ <20250305130634.1850178-10-jens.wiklander@linaro.org>
+ <Z-JePo6yGlUgrZkw@sumit-X1>
+ <CAHUa44H1MzBLBM+Oeawca52C8PF3uAT0ggbL-zRdnBqj4LYrZg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: tc358743 EDID / hotplug bug?
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- linux-media@vger.kernel.org
-References: <20240628-stoic-bettong-of-fortitude-e25611@houat>
- <f780e747-0159-48d5-aef9-2ed324feeae2@xs4all.nl>
- <20240702-certain-lion-of-focus-692c12@houat>
- <6750a726-d02f-4da8-83ae-6badedcf35f7@xs4all.nl>
- <20250325-dynamic-sexy-bobcat-0b7d69@houat>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20250325-dynamic-sexy-bobcat-0b7d69@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHUa44H1MzBLBM+Oeawca52C8PF3uAT0ggbL-zRdnBqj4LYrZg@mail.gmail.com>
 
-On 25/03/2025 15:16, Maxime Ripard wrote:
-> Hi Hans,
-> 
-> Sorry, it took a while.
-> 
-> On Tue, Jul 02, 2024 at 06:01:41PM +0200, Hans Verkuil wrote:
->> On 02/07/2024 16:22, Maxime Ripard wrote:
->>> Hi,
->>>
->>> On Mon, Jul 01, 2024 at 10:29:55AM GMT, Hans Verkuil wrote:
->>>> Hi Maxime,
->>>>
->>>> On 28/06/2024 10:50, Maxime Ripard wrote:
->>>>> Hi Hans,
->>>>>
->>>>> I've been playing with the unicam driver and the TC358743 HDMI -> CSI
->>>>> bridge recently.
->>>>>
->>>>> The program I was testing it with had a (arguably suboptimal) pattern
->>>>> where it would (in a non-blocking way):
->>>>>
->>>>> In a loop:
->>>>>   - set EDID
->>>>>   - In a loop:
->>>>>     - call query_dv_timings
->>>>>     - if we have a timing matching the mode we expect:
->>>>>       - break the loop
->>>>>
->>>>>   - Call s_dv_timings
->>>>>   - Call s_fmt
->>>>>   - Call reqbufs
->>>>>   - Query and Queue all requested buffers
->>>>>   - Call streamon
->>>>>   - In a loop:
->>>>>     - Dequeue the events
->>>>>     - If there's a resolution change:
->>>>>       - Call streamoff
->>>>>       - Call reqbufs with 0 buffers to clear all buffers
->>>>>       - Restart the entire sequence
->>>>>     - Dequeue a buffer
->>>>>     - Queue it again
->>>>>
->>>>> This works mostly fine, but when trying to capture the boot of a device
->>>>> connected on the other end, I'm always getting at some point an
->>>>> resolution change event in the very first iteration.
->>>>>
->>>>> The event itself looks fine: there's no remaining events at any point,
->>>>> the sequence is correct, etc. However, this puts the s_edid call super
->>>>> close to streamoff and the next s_edid call.
->>>>>
->>>>> And it looks like the tc358743 driver doesn't like that very much and
->>>>> the HPD pin ends up in the wrong state on the next iteration: both the
->>>>> driver itself and the device at the other reports the hotplug pin as
->>>>> being low, and thus, not connected.
->>>>>
->>>>> I'm not entirely sure what is the reason, but I suspect a race in:
->>>>> https://elixir.bootlin.com/linux/v6.9.3/source/drivers/media/i2c/tc358743.c#L403
->>>>>
->>>>> Possibly due to the 100ms delay?
->>>>>
->>>>> I've attached a kernel log with debug logs from both v4l2 and the driver
->>>>> enabled.
->>
->> The relevant part is here:
->>
->> [  149.457319] Starting new Test
->> [  149.460387] tc358743 10-000f: tc358743_s_edid, pad 0, start block 0, blocks 2
->> [  149.460396] tc358743 10-000f: tc358743_disable_edid:
->>
->> HPD is pulled low here.
->>
->> [  149.486259] tc358743 10-000f: tc358743_enable_edid:
->> [  149.486268] tc358743 10-000f: tc358743_enable_interrupts: cable connected = 1
->>
->> Here the delayed work is started.
->>
->> [  149.488760] video0: VIDIOC_S_EDID
->> [  149.495353] tc358743 10-000f: tc358743_query_dv_timings: 1280x720p60.00 (1650x750)
->>
->> But here the tc358743 accepts a query_dv_timings call, even though the source
->> should have stopped transmitting because the HPD went low.
->>
->> [  149.502929] video0: VIDIOC_QUERY_DV_TIMINGS
->>
->> ...
->>
->> [  149.555039] Starting new Test
->>
->> And the new test started within 100 ms of the previous test, so we never saw the
->> tc358743_delayed_work_enable_hotplug call that pulls the HPD high.
->>
->> [  149.558153] tc358743 10-000f: tc358743_s_edid, pad 0, start block 0, blocks 2
->> [  149.558163] tc358743 10-000f: tc358743_disable_edid:
->>
->> HPD is pulled low here.
->>
->> [  149.584032] tc358743 10-000f: tc358743_enable_edid:
->> [  149.584041] tc358743 10-000f: tc358743_enable_interrupts: cable connected = 1
->> [  149.586526] video0: VIDIOC_S_EDID
->> [  149.587052] tc358743 10-000f: tc358743_get_detected_timings: no valid signal
->> [  149.587057] video0: VIDIOC_QUERY_DV_TIMINGS: error -67
->> [  149.687340] tc358743 10-000f: tc358743_delayed_work_enable_hotplug:
->>
->> HPD is pulled high here (about 100 ms later).
->>
->> I think the solution might be ensure that tc358743_get_detected_timings()
->> returns -ENOLINK if the HPD is low. So add:
->>
->> 	if (!(i2c_rd8(sd, HPD_CTL) & MASK_HPD_OUT0))
->> 		return -ENOLINK;
-> 
-> This fixes the issue indeed.
-> 
-> I still can't wrap my head around what the race condition leading to HPD
-> always being low is exactly. I tried to write a commit log and just failed :)
-> 
-> Can you send that patch with my Tested-by, or explain it some more?
++ MM folks to seek guidance here.
 
-I posted a patch with your Tested-by.
+On Thu, Mar 27, 2025 at 09:07:34AM +0100, Jens Wiklander wrote:
+> Hi Sumit,
+> 
+> On Tue, Mar 25, 2025 at 8:42 AM Sumit Garg <sumit.garg@kernel.org> wrote:
+> >
+> > On Wed, Mar 05, 2025 at 02:04:15PM +0100, Jens Wiklander wrote:
+> > > Add support in the OP-TEE backend driver dynamic restricted memory
+> > > allocation with FF-A.
+> > >
+> > > The restricted memory pools for dynamically allocated restrict memory
+> > > are instantiated when requested by user-space. This instantiation can
+> > > fail if OP-TEE doesn't support the requested use-case of restricted
+> > > memory.
+> > >
+> > > Restricted memory pools based on a static carveout or dynamic allocation
+> > > can coexist for different use-cases. We use only dynamic allocation with
+> > > FF-A.
+> > >
+> > > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > > ---
+> > >  drivers/tee/optee/Makefile        |   1 +
+> > >  drivers/tee/optee/ffa_abi.c       | 143 ++++++++++++-
+> > >  drivers/tee/optee/optee_private.h |  13 +-
+> > >  drivers/tee/optee/rstmem.c        | 329 ++++++++++++++++++++++++++++++
+> > >  4 files changed, 483 insertions(+), 3 deletions(-)
+> > >  create mode 100644 drivers/tee/optee/rstmem.c
+> > >
 
-Please check that it is OK.
+<snip>
 
-Regards,
+> > > diff --git a/drivers/tee/optee/rstmem.c b/drivers/tee/optee/rstmem.c
+> > > new file mode 100644
+> > > index 000000000000..ea27769934d4
+> > > --- /dev/null
+> > > +++ b/drivers/tee/optee/rstmem.c
+> > > @@ -0,0 +1,329 @@
+> > > +// SPDX-License-Identifier: GPL-2.0-only
+> > > +/*
+> > > + * Copyright (c) 2025, Linaro Limited
+> > > + */
+> > > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> > > +
+> > > +#include <linux/errno.h>
+> > > +#include <linux/genalloc.h>
+> > > +#include <linux/slab.h>
+> > > +#include <linux/string.h>
+> > > +#include <linux/tee_core.h>
+> > > +#include <linux/types.h>
+> > > +#include "optee_private.h"
+> > > +
+> > > +struct optee_rstmem_cma_pool {
+> > > +     struct tee_rstmem_pool pool;
+> > > +     struct gen_pool *gen_pool;
+> > > +     struct optee *optee;
+> > > +     size_t page_count;
+> > > +     u16 *end_points;
+> > > +     u_int end_point_count;
+> > > +     u_int align;
+> > > +     refcount_t refcount;
+> > > +     u32 use_case;
+> > > +     struct tee_shm *rstmem;
+> > > +     /* Protects when initializing and tearing down this struct */
+> > > +     struct mutex mutex;
+> > > +};
+> > > +
+> > > +static struct optee_rstmem_cma_pool *
+> > > +to_rstmem_cma_pool(struct tee_rstmem_pool *pool)
+> > > +{
+> > > +     return container_of(pool, struct optee_rstmem_cma_pool, pool);
+> > > +}
+> > > +
+> > > +static int init_cma_rstmem(struct optee_rstmem_cma_pool *rp)
+> > > +{
+> > > +     int rc;
+> > > +
+> > > +     rp->rstmem = tee_shm_alloc_cma_phys_mem(rp->optee->ctx, rp->page_count,
+> > > +                                             rp->align);
+> > > +     if (IS_ERR(rp->rstmem)) {
+> > > +             rc = PTR_ERR(rp->rstmem);
+> > > +             goto err_null_rstmem;
+> > > +     }
+> > > +
+> > > +     /*
+> > > +      * TODO unmap the memory range since the physical memory will
+> > > +      * become inaccesible after the lend_rstmem() call.
+> > > +      */
+> >
+> > What's your plan for this TODO? I think we need a CMA allocator here
+> > which can allocate un-mapped memory such that any cache speculation
+> > won't lead to CPU hangs once the memory restriction comes into picture.
+> 
+> What happens is platform-specific. For some platforms, it might be
+> enough to avoid explicit access. Yes, a CMA allocator with unmapped
+> memory or where memory can be unmapped is one option.
 
-	Hans
+Did you get a chance to enable real memory protection on RockPi board?
+This will atleast ensure that mapped restricted memory without explicit
+access works fine. Since otherwise once people start to enable real
+memory restriction in OP-TEE, there can be chances of random hang ups
+due to cache speculation.
+
+MM folks,
+
+Basically what we are trying to achieve here is a "no-map" DT behaviour
+[1] which is rather dynamic in  nature. The use-case here is that a memory
+block allocated from CMA can be marked restricted at runtime where we
+would like the Linux not being able to directly or indirectly (cache
+speculation) access it. Once memory restriction use-case has been
+completed, the memory block can be marked as normal and freed for
+further CMA allocation.
+
+It will be apprciated if you can guide us regarding the appropriate APIs
+to use for un-mapping/mamping CMA allocations for this use-case.
+
+[1] https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/reserved-memory/reserved-memory.yaml#L79
+
+-Sumit
 
 > 
-> Thanks again,
-> Maxime
-
+> >
+> > > +     rc = rp->optee->ops->lend_rstmem(rp->optee, rp->rstmem, rp->end_points,
+> > > +                                      rp->end_point_count, rp->use_case);
+> > > +     if (rc)
+> > > +             goto err_put_shm;
+> > > +     rp->rstmem->flags |= TEE_SHM_DYNAMIC;
+> > > +
+> > > +     rp->gen_pool = gen_pool_create(PAGE_SHIFT, -1);
+> > > +     if (!rp->gen_pool) {
+> > > +             rc = -ENOMEM;
+> > > +             goto err_reclaim;
+> > > +     }
+> > > +
+> > > +     rc = gen_pool_add(rp->gen_pool, rp->rstmem->paddr,
+> > > +                       rp->rstmem->size, -1);
+> > > +     if (rc)
+> > > +             goto err_free_pool;
+> > > +
+> > > +     refcount_set(&rp->refcount, 1);
+> > > +     return 0;
+> > > +
+> > > +err_free_pool:
+> > > +     gen_pool_destroy(rp->gen_pool);
+> > > +     rp->gen_pool = NULL;
+> > > +err_reclaim:
+> > > +     rp->optee->ops->reclaim_rstmem(rp->optee, rp->rstmem);
+> > > +err_put_shm:
+> > > +     tee_shm_put(rp->rstmem);
+> > > +err_null_rstmem:
+> > > +     rp->rstmem = NULL;
+> > > +     return rc;
+> > > +}
+> > > +
+> > > +static int get_cma_rstmem(struct optee_rstmem_cma_pool *rp)
+> > > +{
+> > > +     int rc = 0;
+> > > +
+> > > +     if (!refcount_inc_not_zero(&rp->refcount)) {
+> > > +             mutex_lock(&rp->mutex);
+> > > +             if (rp->gen_pool) {
+> > > +                     /*
+> > > +                      * Another thread has already initialized the pool
+> > > +                      * before us, or the pool was just about to be torn
+> > > +                      * down. Either way we only need to increase the
+> > > +                      * refcount and we're done.
+> > > +                      */
+> > > +                     refcount_inc(&rp->refcount);
+> > > +             } else {
+> > > +                     rc = init_cma_rstmem(rp);
+> > > +             }
+> > > +             mutex_unlock(&rp->mutex);
+> > > +     }
+> > > +
+> > > +     return rc;
+> > > +}
+> > > +
+> > > +static void release_cma_rstmem(struct optee_rstmem_cma_pool *rp)
+> > > +{
+> > > +     gen_pool_destroy(rp->gen_pool);
+> > > +     rp->gen_pool = NULL;
+> > > +
+> > > +     rp->optee->ops->reclaim_rstmem(rp->optee, rp->rstmem);
+> > > +     rp->rstmem->flags &= ~TEE_SHM_DYNAMIC;
+> > > +
+> > > +     WARN(refcount_read(&rp->rstmem->refcount) != 1, "Unexpected refcount");
+> > > +     tee_shm_put(rp->rstmem);
+> > > +     rp->rstmem = NULL;
+> > > +}
+> > > +
+> > > +static void put_cma_rstmem(struct optee_rstmem_cma_pool *rp)
+> > > +{
+> > > +     if (refcount_dec_and_test(&rp->refcount)) {
+> > > +             mutex_lock(&rp->mutex);
+> > > +             if (rp->gen_pool)
+> > > +                     release_cma_rstmem(rp);
+> > > +             mutex_unlock(&rp->mutex);
+> > > +     }
+> > > +}
+> > > +
+> > > +static int rstmem_pool_op_cma_alloc(struct tee_rstmem_pool *pool,
+> > > +                                 struct sg_table *sgt, size_t size,
+> > > +                                 size_t *offs)
+> > > +{
+> > > +     struct optee_rstmem_cma_pool *rp = to_rstmem_cma_pool(pool);
+> > > +     size_t sz = ALIGN(size, PAGE_SIZE);
+> > > +     phys_addr_t pa;
+> > > +     int rc;
+> > > +
+> > > +     rc = get_cma_rstmem(rp);
+> > > +     if (rc)
+> > > +             return rc;
+> > > +
+> > > +     pa = gen_pool_alloc(rp->gen_pool, sz);
+> > > +     if (!pa) {
+> > > +             rc = -ENOMEM;
+> > > +             goto err_put;
+> > > +     }
+> > > +
+> > > +     rc = sg_alloc_table(sgt, 1, GFP_KERNEL);
+> > > +     if (rc)
+> > > +             goto err_free;
+> > > +
+> > > +     sg_set_page(sgt->sgl, phys_to_page(pa), size, 0);
+> > > +     *offs = pa - rp->rstmem->paddr;
+> > > +
+> > > +     return 0;
+> > > +err_free:
+> > > +     gen_pool_free(rp->gen_pool, pa, size);
+> > > +err_put:
+> > > +     put_cma_rstmem(rp);
+> > > +
+> > > +     return rc;
+> > > +}
+> > > +
+> > > +static void rstmem_pool_op_cma_free(struct tee_rstmem_pool *pool,
+> > > +                                 struct sg_table *sgt)
+> > > +{
+> > > +     struct optee_rstmem_cma_pool *rp = to_rstmem_cma_pool(pool);
+> > > +     struct scatterlist *sg;
+> > > +     int i;
+> > > +
+> > > +     for_each_sgtable_sg(sgt, sg, i)
+> > > +             gen_pool_free(rp->gen_pool, sg_phys(sg), sg->length);
+> > > +     sg_free_table(sgt);
+> > > +     put_cma_rstmem(rp);
+> > > +}
+> > > +
+> > > +static int rstmem_pool_op_cma_update_shm(struct tee_rstmem_pool *pool,
+> > > +                                      struct sg_table *sgt, size_t offs,
+> > > +                                      struct tee_shm *shm,
+> > > +                                      struct tee_shm **parent_shm)
+> > > +{
+> > > +     struct optee_rstmem_cma_pool *rp = to_rstmem_cma_pool(pool);
+> > > +
+> > > +     *parent_shm = rp->rstmem;
+> > > +
+> > > +     return 0;
+> > > +}
+> > > +
+> > > +static void pool_op_cma_destroy_pool(struct tee_rstmem_pool *pool)
+> > > +{
+> > > +     struct optee_rstmem_cma_pool *rp = to_rstmem_cma_pool(pool);
+> > > +
+> > > +     mutex_destroy(&rp->mutex);
+> > > +     kfree(rp);
+> > > +}
+> > > +
+> > > +static struct tee_rstmem_pool_ops rstmem_pool_ops_cma = {
+> > > +     .alloc = rstmem_pool_op_cma_alloc,
+> > > +     .free = rstmem_pool_op_cma_free,
+> > > +     .update_shm = rstmem_pool_op_cma_update_shm,
+> > > +     .destroy_pool = pool_op_cma_destroy_pool,
+> > > +};
+> > > +
+> > > +static int get_rstmem_config(struct optee *optee, u32 use_case,
+> > > +                          size_t *min_size, u_int *min_align,
+> > > +                          u16 *end_points, u_int *ep_count)
+> >
+> > I guess this end points terminology is specific to FF-A ABI. Is there
+> > any relevance for this in the common APIs?
+> 
+> Yes, endpoints are specific to FF-A ABI. The list of end-points must
+> be presented to FFA_MEM_LEND. We're relying on the secure world to
+> know which endpoints are needed for a specific use case.
+> 
+> Cheers,
+> Jens
+> 
+> >
+> > -Sumit
+> >
+> > > +{
+> > > +     struct tee_param params[2] = {
+> > > +             [0] = {
+> > > +                     .attr = TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT,
+> > > +                     .u.value.a = use_case,
+> > > +             },
+> > > +             [1] = {
+> > > +                     .attr = TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT,
+> > > +             },
+> > > +     };
+> > > +     struct optee_shm_arg_entry *entry;
+> > > +     struct tee_shm *shm_param = NULL;
+> > > +     struct optee_msg_arg *msg_arg;
+> > > +     struct tee_shm *shm;
+> > > +     u_int offs;
+> > > +     int rc;
+> > > +
+> > > +     if (end_points && *ep_count) {
+> > > +             params[1].u.memref.size = *ep_count * sizeof(*end_points);
+> > > +             shm_param = tee_shm_alloc_priv_buf(optee->ctx,
+> > > +                                                params[1].u.memref.size);
+> > > +             if (IS_ERR(shm_param))
+> > > +                     return PTR_ERR(shm_param);
+> > > +             params[1].u.memref.shm = shm_param;
+> > > +     }
+> > > +
+> > > +     msg_arg = optee_get_msg_arg(optee->ctx, ARRAY_SIZE(params), &entry,
+> > > +                                 &shm, &offs);
+> > > +     if (IS_ERR(msg_arg)) {
+> > > +             rc = PTR_ERR(msg_arg);
+> > > +             goto out_free_shm;
+> > > +     }
+> > > +     msg_arg->cmd = OPTEE_MSG_CMD_GET_RSTMEM_CONFIG;
+> > > +
+> > > +     rc = optee->ops->to_msg_param(optee, msg_arg->params,
+> > > +                                   ARRAY_SIZE(params), params,
+> > > +                                   false /*!update_out*/);
+> > > +     if (rc)
+> > > +             goto out_free_msg;
+> > > +
+> > > +     rc = optee->ops->do_call_with_arg(optee->ctx, shm, offs, false);
+> > > +     if (rc)
+> > > +             goto out_free_msg;
+> > > +     if (msg_arg->ret && msg_arg->ret != TEEC_ERROR_SHORT_BUFFER) {
+> > > +             rc = -EINVAL;
+> > > +             goto out_free_msg;
+> > > +     }
+> > > +
+> > > +     rc = optee->ops->from_msg_param(optee, params, ARRAY_SIZE(params),
+> > > +                                     msg_arg->params, true /*update_out*/);
+> > > +     if (rc)
+> > > +             goto out_free_msg;
+> > > +
+> > > +     if (!msg_arg->ret && end_points &&
+> > > +         *ep_count < params[1].u.memref.size / sizeof(u16)) {
+> > > +             rc = -EINVAL;
+> > > +             goto out_free_msg;
+> > > +     }
+> > > +
+> > > +     *min_size = params[0].u.value.a;
+> > > +     *min_align = params[0].u.value.b;
+> > > +     *ep_count = params[1].u.memref.size / sizeof(u16);
+> > > +
+> > > +     if (msg_arg->ret == TEEC_ERROR_SHORT_BUFFER) {
+> > > +             rc = -ENOSPC;
+> > > +             goto out_free_msg;
+> > > +     }
+> > > +
+> > > +     if (end_points)
+> > > +             memcpy(end_points, tee_shm_get_va(shm_param, 0),
+> > > +                    params[1].u.memref.size);
+> > > +
+> > > +out_free_msg:
+> > > +     optee_free_msg_arg(optee->ctx, entry, offs);
+> > > +out_free_shm:
+> > > +     if (shm_param)
+> > > +             tee_shm_free(shm_param);
+> > > +     return rc;
+> > > +}
+> > > +
+> > > +struct tee_rstmem_pool *optee_rstmem_alloc_cma_pool(struct optee *optee,
+> > > +                                                 enum tee_dma_heap_id id)
+> > > +{
+> > > +     struct optee_rstmem_cma_pool *rp;
+> > > +     u32 use_case = id;
+> > > +     size_t min_size;
+> > > +     int rc;
+> > > +
+> > > +     rp = kzalloc(sizeof(*rp), GFP_KERNEL);
+> > > +     if (!rp)
+> > > +             return ERR_PTR(-ENOMEM);
+> > > +     rp->use_case = use_case;
+> > > +
+> > > +     rc = get_rstmem_config(optee, use_case, &min_size, &rp->align, NULL,
+> > > +                            &rp->end_point_count);
+> > > +     if (rc) {
+> > > +             if (rc != -ENOSPC)
+> > > +                     goto err;
+> > > +             rp->end_points = kcalloc(rp->end_point_count,
+> > > +                                      sizeof(*rp->end_points), GFP_KERNEL);
+> > > +             if (!rp->end_points) {
+> > > +                     rc = -ENOMEM;
+> > > +                     goto err;
+> > > +             }
+> > > +             rc = get_rstmem_config(optee, use_case, &min_size, &rp->align,
+> > > +                                    rp->end_points, &rp->end_point_count);
+> > > +             if (rc)
+> > > +                     goto err_kfree_eps;
+> > > +     }
+> > > +
+> > > +     rp->pool.ops = &rstmem_pool_ops_cma;
+> > > +     rp->optee = optee;
+> > > +     rp->page_count = min_size / PAGE_SIZE;
+> > > +     mutex_init(&rp->mutex);
+> > > +
+> > > +     return &rp->pool;
+> > > +
+> > > +err_kfree_eps:
+> > > +     kfree(rp->end_points);
+> > > +err:
+> > > +     kfree(rp);
+> > > +     return ERR_PTR(rc);
+> > > +}
+> > > --
+> > > 2.43.0
+> > >
 
