@@ -1,220 +1,156 @@
-Return-Path: <linux-media+bounces-29214-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29215-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81838A78B99
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 11:58:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0BB7A78C46
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 12:27:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 87B6A3AC703
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 09:57:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 15930189226C
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 10:27:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 874ED23644F;
-	Wed,  2 Apr 2025 09:57:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3E64236A84;
+	Wed,  2 Apr 2025 10:27:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="r5HTYuj9";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="oo+BcD0S"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j2SQj26u"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82AF72356B5;
-	Wed,  2 Apr 2025 09:57:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51FE8233D85;
+	Wed,  2 Apr 2025 10:27:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743587877; cv=none; b=WuPXggaNRy6T71LobKuR53TK8XkK9Hbw63NNbG/DOttGo5c0o8WpDgg7Un7mPv1jAvawZK/1C1XO1QDHqiAbZM/byPrOJufgxU6RWjfO+fe9P5CbCj7Oe25Amd5USvWD7iYbofltwYKUjQxdm9dIluOSEFFzRN0J3okT6QrtTpw=
+	t=1743589636; cv=none; b=grPtzeLopPKKZgnU5tPvBF7KlXCx4ADDWhRvmtFMeGFYMdBH0No9M7iU+nY2wDDxudmQckFdRkM/a5ohs8HXb5R4FzR5klkyPQ3tzwb+sUbmaCwCSiK1AmZil1AP2NUsttW4tUUaUQCsPUvZtO6fS7a0cJgvLPS9NptBkDi1uM8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743587877; c=relaxed/simple;
-	bh=Wzmiam7fC2XrJAx0ApWPltrQIlXQu8gNNfucIjVSzrs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ui3SFVqdZ3WY25x5rhGgN6mbTrgPHRL4OktVhLsHsmjjBwryhzCMZ215/lpJD0AVaNox2yyUIRV376kM/ykSEDheLWY9BwY44t0NCVoV+wDp5gKeLcJ+tTVMmmNXjRyXm8tkUSFRc52BTyfWa0kB1o4kVX4E2mMlibUED5uramM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=r5HTYuj9; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=oo+BcD0S; arc=none smtp.client-ip=103.168.172.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-10.internal (phl-compute-10.phl.internal [10.202.2.50])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 83CCE1140141;
-	Wed,  2 Apr 2025 05:57:53 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Wed, 02 Apr 2025 05:57:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1743587873;
-	 x=1743674273; bh=rak6b2Fa/8kffSjsRHf56Le1CRC43LwC4W2VuTrqGwE=; b=
-	r5HTYuj93IzPjwXpww5oC0WxIKuNrPueiuF75hPA6bFQ8YDPhtV544udfHIaCvty
-	pVcAX8z5pGjl7fBYZo/Q5N/cao8YkUQMcsqy/pxRX/pi1l9AHXMoBFFyP6vb+KqB
-	t33WXs5et3tq7RsuZWYkt6zu8tGfdDrVK/cadO+nXVfwqQ5vq8SXvaYg1q1flWQe
-	1ELifkijWyUB4neEHuY1X3PhFJcJ+tNH70iPAllEkBHHhcfKsxqxBkbLdisQUDqr
-	LxD1VSpWpYrRr7Ikz9SHY4dDQI+csnhZRGc64Yztjh8XkE4ArLUU0iKmsUcMdJXo
-	6mnVsLfSUlsmCP/6TTZ2Aw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1743587873; x=
-	1743674273; bh=rak6b2Fa/8kffSjsRHf56Le1CRC43LwC4W2VuTrqGwE=; b=o
-	o+BcD0S/UnhqG9r8DBpolomNhnM7ZzsU+CSqObWvIdInQ1doqScqh8/FQB6gxOku
-	5tVLRR7+SIxtcjD1iwT6mKNfYc1VpM5ufHCTqfXK5AFTL/Uepa9p0VcVgbYSCWPM
-	7jrQMt68xfuwjgBaBYpgpPr2aiw98MprwgFGybyDockFQdxm0hg0JfTkX6vcWEN2
-	1NVpBl1/u/QKwGtmXRcEFR6ZjZsC/6rUYKIoN+T2dtK5hMEF/O2Fb6/LnRNl1/2g
-	ki1LPzf+QseJJw3Acz7zsEU8616yD2Mb7fZx+B4JhjxjNxEa6WeoFl0L7AnqTV79
-	LBx8udlQD9BUZ06LrbnFQ==
-X-ME-Sender: <xms:IQrtZzrfM7sUGpPGhTzNGjp_jmtWO9GqMD-du44R5RJVw6zIBOObog>
-    <xme:IQrtZ9pDEq3kCqz10OcNYIM-8FuIeZwETUI3ml6wseRrejtcalR0lCjroqwhrYMsz
-    2kDeypO4EDhL_VdZmQ>
-X-ME-Received: <xmr:IQrtZwMYFareqeYCCX0SPiUiMGDSP5NDr_Zao2IpTc0bAc8Qrg9oNd5-oLrMxqsCGPia0B1uYM7tEScMNvcP606hGzTS0nFBkQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddukeehfeejucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddt
-    tdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrsh
-    houggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffr
-    rghtthgvrhhnpeefhfellefhffejgfefudfggeejlefhveehieekhfeulefgtdefueehff
-    dtvdelieenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
-    pehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthh
-    drshgvpdhnsggprhgtphhtthhopedugedpmhhouggvpehsmhhtphhouhhtpdhrtghpthht
-    ohepkhhriihksehkvghrnhgvlhdrohhrghdprhgtphhtthhopegurghvvgdrshhtvghvvg
-    hnshhonhesrhgrshhpsggvrhhrhihpihdrtghomhdprhgtphhtthhopehmtghhvghhrggs
-    sehkvghrnhgvlhdrohhrghdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpd
-    hrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheptgho
-    nhhorhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehshhgrfihnghhuoheskh
-    gvrhhnvghlrdhorhhgpdhrtghpthhtohepshdrhhgruhgvrhesphgvnhhguhhtrhhonhhi
-    gidruggvpdhrtghpthhtohepkhgvrhhnvghlsehpvghnghhuthhrohhnihigrdguvg
-X-ME-Proxy: <xmx:IQrtZ25XNWAt2JiLikQ61Hm1dbZeL42qEQtmpQJmZ0f2zRKZOyzDfg>
-    <xmx:IQrtZy7S7hyJxtl1GdJ9fmuvJ-FkDS6-U29Ch9-MrgbQAsS7X0uzXQ>
-    <xmx:IQrtZ-ht0wnqSzS4PM2T0kN7vyk6nCppkmtdosuCDXjuIN5yQbsrZQ>
-    <xmx:IQrtZ07NQRhBWKqx3sLq7bPZFwHpNnl2ugGoielE2NNaBGMy9VxfCQ>
-    <xmx:IQrtZ3IBkyDMLtbzpQVLWoLLTQ-kVmlWdREII44eNI7kh-f2HVSKGGJK>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 2 Apr 2025 05:57:52 -0400 (EDT)
-Date: Wed, 2 Apr 2025 11:57:49 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: media: i2c: imx219: Remove redundant
- description of data-lanes
-Message-ID: <20250402095749.GJ1240431@ragnatech.se>
-References: <20250401145759.3253736-1-niklas.soderlund+renesas@ragnatech.se>
- <20250402-real-enthusiastic-ostrich-dcc243@krzk-bin>
+	s=arc-20240116; t=1743589636; c=relaxed/simple;
+	bh=22GOmSy9cHJRmBtCcFnqULondLdLZ884cJRZadhqx1M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VDSPlGe6LiQiW+KzmRqTDAA64M43O0snvQTfJBwxsZl4ru5NZVvzgWH92InHAj3lLOtH3u3wycJuHhV1ZW+Bv0P0utOBlpS/MeNc8usuBvbhcSflXXQvBMrot7V+elUUclm8WecyfoWJYa5QiE4uiFa7IwZzAyhHrIfsQJPO7+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j2SQj26u; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 209CFC4CEDD;
+	Wed,  2 Apr 2025 10:27:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743589635;
+	bh=22GOmSy9cHJRmBtCcFnqULondLdLZ884cJRZadhqx1M=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=j2SQj26u55d9Dwmsudp1l32qjLhGtjFqs8SmW6dS9CJLfc2k9iMWhxNGQuQp5EiTq
+	 OPzFg7M8L5cd2qAM1jFUKk7aNqhQOSLGo6qS+EJaStgfznTvULR1WhmBw0SIjs12oJ
+	 X7/BPV6A4J4mtNfjX063k/4HJdJY3kLGxp3rxaLERsc3wufFsT/2NfwXb5kf5tY1iV
+	 75i7pUuSuB9tSduSu6kvJZ/CzjcHldaDaqmCOqfdIcfWPoTysk9XMcVT9ljF7rxeX8
+	 yCbFAKkskgEYmDUbDdEv4Af50j6wWR4GliGNKd6dMhrzWolVUqEqudh7zcOpw+Nz8q
+	 VPZdtmuUFNuZA==
+Message-ID: <9f128ce9-6a26-435c-b133-0da80120de2d@kernel.org>
+Date: Wed, 2 Apr 2025 12:27:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250402-real-enthusiastic-ostrich-dcc243@krzk-bin>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/2] media: dt-bindings: Add ST VD55G1 camera sensor
+ binding
+To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Cc: Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250401-b4-vd55g1-v2-0-0c8ab8a48c55@foss.st.com>
+ <20250401-b4-vd55g1-v2-1-0c8ab8a48c55@foss.st.com>
+ <20250402-curvy-seriema-of-blizzard-b1c4d9@krzk-bin>
+ <228ddf41-e1d0-4d06-9e0e-9e0dad841688@foss.st.com>
+ <fd874f4d-d68c-4443-8bb6-115246f4407b@kernel.org>
+ <a0c62797-3c4c-453c-938b-d43666f3b264@foss.st.com>
+ <7d501bf2-a017-4c02-a96f-184a7d648b6a@foss.st.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <7d501bf2-a017-4c02-a96f-184a7d648b6a@foss.st.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Krzysztof,
-
-Thanks for your feedback.
-
-On 2025-04-02 10:21:42 +0200, Krzysztof Kozlowski wrote:
-> On Tue, Apr 01, 2025 at 04:57:58PM +0200, Niklas Söderlund wrote:
-> > The bindings already reference video-interfaces.yaml in the endpoint
-> > node, there is no need to duplicate the description of the data-lanes
-> > property.
-> > 
-> >   An array of physical data lane indexes. Position of an entry determines
-> >   the logical lane number, while the value of an entry indicates physical
-> >   lane, e.g. for 2-lane MIPI CSI-2 bus we could have "data-lanes = <1 2>;",
-> >   assuming the clock lane is on hardware lane 0. If the hardware does not
-> >   support lane reordering, monotonically incremented values shall be used
-> >   from 0 or 1 onwards, depending on whether or not there is also a clock
-> >   lane. This property is valid for serial busses only (e.g. MIPI CSI-2).
+On 02/04/2025 11:41, Benjamin Mugnier wrote:
 > 
-> Please do not quote bindings in commit. It's never helpful.
 > 
-> > 
-> > What the generic binding do not cover is the behavior if the property
-> > would be omitted. But the imx219 driver have never agreed with the
-> > description neither. Before commit ceddfd4493b3 ("media: i2c: imx219:
+> On 4/2/25 11:38, Benjamin Mugnier wrote:
+>> On 4/2/25 11:11, Krzysztof Kozlowski wrote:
+>>> On 02/04/2025 10:34, Benjamin Mugnier wrote:
+>>>> Hi Krzysztof,
+>>>>
+>>>> On 4/2/25 09:08, Krzysztof Kozlowski wrote:
+>>>>> On Tue, Apr 01, 2025 at 01:05:58PM +0200, Benjamin Mugnier wrote:
+>>>>>> +    properties:
+>>>>>> +      endpoint:
+>>>>>> +        $ref: /schemas/media/video-interfaces.yaml#
+>>>>>> +        unevaluatedProperties: false
+>>>>>> +
+>>>>>> +        properties:
+>>>>>> +          data-lanes:
+>>>>>> +            items:
+>>>>>> +              const: 1
+>>>>>
+>>>>> Not what I asked. Now you miss number of items. Just use the syntax I
+>>>>> proposed. Or was there any issue with it?
+>>>>
+>>>> No issue I just misunderstood and thought const: 1 was impliying
+>>>> maxItems: 1. I'll add maxItems back.
+>>>
+>>> That's just longer way to express what I asked for. So I repeat the
+>>> question: why not using the syntax I asked for?
+>>
+>> I guess I didn't understand what you asked for.
+>> May I ask you to write it ? That will help me a lot.
 > 
-> It did not have to agree. See discussion for v3 of patch adding this binding.
+> By 'it' I mean the binding.
+I wrote it last time. I don't think that copying the same here would
+change anything. If I can look at v1, you can do as well.
 
-Thar discussion was in 2020, the common definition video-interfaces.yaml 
-was merged in 2021 AFIK.
-
-> 
-> > Support four-lane operation") the driver errored out if not 2 lanes
-> > where used, and after it if not 2 or 4 lanes where used.
-> 
-> Then... fix the driver?
-> 
-> This property describes hardware, not driver. Why current driver
-> implementation, e.g. 1 year ago or now, would change the hardware (so
-> the bindings)?
-
-I agree, I thought that here we have a case where the bindings predate 
-the standardisation. The driver do not match the bindings, in fact it 
-breaks if the imx219 specific instructions are followed. So the risk of 
-breaking stuff is likely low. And this was an opportunity to align the 
-imx219 with video-interfaces.yaml.
-
-I wasted time trying to use the imx219 bindings when bringing up a 
-device, only wanted to try to help others avoid that.
-
-> 
-> > 
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > ---
-> > Hello,
-> > 
-> > The data-lanes property is a common property and the driver have always
-> > operated as the common description, it seemed silly to break the driver
-> > to adhere to odd specification, then to correct the bindings. However a
-> > more correct solution would be to do the work on the driver of course.
-> > 
-> > This is just a drive-by fix in the hope of sparing others the time to
-> > discover this oddity themself. This is only tested by using the bindings
-> > themself and by 'make dt_binding_check'.
-> > ---
-> >  Documentation/devicetree/bindings/media/i2c/imx219.yaml | 9 ---------
-> >  1 file changed, 9 deletions(-)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/imx219.yaml b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> > index 07d088cf66e0..31beeb2be2ea 100644
-> > --- a/Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> > +++ b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> > @@ -55,15 +55,6 @@ properties:
-> >          unevaluatedProperties: false
-> >  
-> >          properties:
-> > -          data-lanes:
-> > -            description: |-
-> > -              The sensor supports either two-lane, or four-lane operation.
-> > -              If this property is omitted four-lane operation is assumed.
-> > -              For two-lane operation the property must be set to <1 2>.
-> > -            items:
-> > -              - const: 1
-> > -              - const: 2
-> 
-> So 1 lane is also fine? 8 lanes are as well? Previously lack of the
-> property in DTS meant 4 lanes, now lack of property means anything.
-
-Good point, if this patch where to be followed the data-lanes should be 
-made a required property.
-
-> 
-> Best regards,
-> Krzysztof
-> 
-
--- 
-Kind Regards,
-Niklas Söderlund
+Best regards,
+Krzysztof
 
