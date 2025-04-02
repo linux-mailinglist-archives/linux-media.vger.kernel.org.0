@@ -1,86 +1,86 @@
-Return-Path: <linux-media+bounces-29271-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29272-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0843BA79713
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 23:05:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D04CA79736
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 23:08:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 725FC1893A2F
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 21:05:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD4B4170ACD
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 21:08:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35F181F3B89;
-	Wed,  2 Apr 2025 21:05:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 836331F3BA9;
+	Wed,  2 Apr 2025 21:08:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ICxkprF5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d6vSiDTJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1870119ABB6;
-	Wed,  2 Apr 2025 21:05:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6336B19ABB6;
+	Wed,  2 Apr 2025 21:08:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743627927; cv=none; b=eWXLAJBQo73MQT2GJNww0ldLCVuqcB+YgneUbSkb+ldRB6KErv694Xs8O/sN8cKB95gbkm82ApkLgrUmYi1wMlFo6rjedO3lqSrIUxQYRF70oJ8jojRNLsXKGQcAnlzhXZRiUIxzY9ioqyKgskWr8p4j6P2qzP944DFPGvRy42A=
+	t=1743628122; cv=none; b=mVW9ghxPoT0GugmB3Q0AO/OxlJRo0tTmF8bzOKYGOISjn9LS+o9HN5tTZg5jAeNvn/+dqHGJ5V/wbIlvfjME0PqyonTQdK0wNwhQ/vp2W2QljcYUbJhTtJ4ZyoECt37+148mpxHiOgfa70D+JXhdKUsB8s3VHkIJvbg8ispp1HI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743627927; c=relaxed/simple;
-	bh=U//9wy/+NhgWXL7IC0MqbiPHBN2i8djRmoCN4KGzWsw=;
+	s=arc-20240116; t=1743628122; c=relaxed/simple;
+	bh=F7HL0y/zfsqBNb6XykbzgkKIAC8f1sRaaFgXsmdNq4Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=juVqoGcmO74nB31ZTfYwNtzU4uhBuXuoPUp0f8SG6xMDP5slKP+5ditDWuXq+S+JEiSlfe80ZxPo4sUHXUw7rDvIOeQU8jbuqAo74mIPsM/vXWEJahBtJt+kN7oOhNCDg4mP0RM1SeARoTsfjlIw4jvHp3PPl/fLEgHHJSbLjbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ICxkprF5; arc=none smtp.client-ip=209.85.208.50
+	 To:Cc:Content-Type; b=ru2Fc7jr/rF0ws8qFWwpR4UeDDCrJ72JsEIzrjzP/zozxZucRyF1H3z5mWAdfRQKm5V5cDkiUNKe/JYxHeNEnrTGEoHh/8k9IIWEXSeUH4M+ZTkjtaJsqTx3Qr3dmvq8igNhqM745wZEq+PVDaDRi9OIsyYd4lKNeS2Ie2AY+kI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=d6vSiDTJ; arc=none smtp.client-ip=209.85.208.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5efe8d9eb12so390984a12.1;
-        Wed, 02 Apr 2025 14:05:25 -0700 (PDT)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-5e61da95244so433923a12.2;
+        Wed, 02 Apr 2025 14:08:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743627924; x=1744232724; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1743628119; x=1744232919; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=U//9wy/+NhgWXL7IC0MqbiPHBN2i8djRmoCN4KGzWsw=;
-        b=ICxkprF5p3Hc+DjE+Hnx1aXSXo6DqidSScasLSdZCDQ6kPmMO6CCDXKcC0IT34XMfS
-         dgm0zjMUlOb5AaodgPvEzjrQrUy0sI7Yv0mdK4+QXC1dAeEqE9G+l0n9ETqWhZRRz7DU
-         uAxLKBFml22C9OiQlvHdLhV0NEH+uPCHg6AVPcF0v4SJUMbmP3G1IKc0kuDR5v6UbkC0
-         QH4KPbYkhibRwxogLpiA6gn+2Vjl+2LQ0T7xJprdkBkwboTnN/wh7A7lzeLxl41aZSWi
-         6dY7BTgoXQhYVvNue/MoUXdL0WaOqyF6Ui+x+0rRM9teFyXkZE8+EheQBAoQJK8YquMG
-         gqHg==
+        bh=WAztVybJddT2puyJxDJlz12FV+391zEWO1Z6LgN+3ZE=;
+        b=d6vSiDTJZL+a+HG461X8i1gEOlz/VECikvpon3rTtIcRUXrfpGJl2S2eEKqktE9XHY
+         Xt7o79w7K5QTTUEkcMCab9nxRPsHLRCXFdp6SAOzmMnRx+AmcD4xisXQkE4X9cVgczRd
+         849i7ulosZpczati7n6uGDgF8lDv7q+/1SW4r9MLrwhgMzZ89sQQyDpSLIintr3P7Knp
+         jH6TzeCu/NmdfyxaGcbTKinAk6ykjv02ZqZGxGALsKTIzZMvmuec/m3cO4Q6kTTm0jur
+         2JBtAIy7Ustfs3KMzCmGzpiAi3ty8J3VYs1o/1TPM5UPmyl/4He/EAhpOWicZSadkvx7
+         5FOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743627924; x=1744232724;
+        d=1e100.net; s=20230601; t=1743628119; x=1744232919;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=U//9wy/+NhgWXL7IC0MqbiPHBN2i8djRmoCN4KGzWsw=;
-        b=Lzzs7pvfS0sCalrZlFdaUQCPMfBQk0j5+a1TWMAzTPUmHDJrwPg/QDY5AMnDdCKxUC
-         oxcmJYNEzxyjJivni43TedNqgI75JvziyhhivxZm6JyviY1IZItytdua1yKRp9ZcW5aR
-         RTFfKNVsqFEuo2jHWsUqFQYUFn/HJi2fsp45eSmNcsYJB7KI0Ut5kkwddsLn5mF8de1e
-         DwQLBYgsStw72nA+6LbnHoK1db+dcn592hvB4+Kv2u/IJsxhcSfCkZjNYelhzjJLv5hc
-         rql4jfJHeaIPUJbrzkKE5pv2ZN3YlzixzDKfiyw4/TAoU1K/mcOgb64ntw/l+wVde+rd
-         Klsg==
-X-Forwarded-Encrypted: i=1; AJvYcCUk8SqddM/4VYthRdYjbyve1neiJ1yJzhvPxZweuWt/sVBsAGgU+JiMd5+6tziZaG0qzN3aA57WhKmcfw==@vger.kernel.org, AJvYcCXxfJ/AK5G/FKzfjKXRMNUxLimBUj3uHKPVr0h0pln+Ey3U9cOQ9hRq+Mr2s17ViaQZ6PIKfx25bSS0p6CxNUWA4MCq8Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzxx72c1ksubjB82piv/cz510HBQ5wE4+OvjIa+iRoSJqDimNPw
-	w6cim3tLdfphORt04IunXaI2EmB3ZrctkOFhtxaDhUyktguDjJ82wSSKBUUQDCjGuysQ49aC2p2
-	Fq5ngRoExJphxxwl/xCCb0qRiJhI=
-X-Gm-Gg: ASbGnctz2dZUdqjJpYZqmnBKmN8VpsR6zHkCRePLv68L1inhcJwEZm4pEoZXf9120M1
-	Un9Bg5Ej7eNcvvQmu2oo3rB/T1Dz6r1HnqcGsM50NOCPB3ZLG3/vdPV9Yd83xr149c/P6ZU3Yrk
-	eHTN5bj9NECgHIZ780olF3kmfSDg==
-X-Google-Smtp-Source: AGHT+IHhf4dYdk9fI2QhNAgCC0vmEkMIh6q2dpIJPOK5KCw8EVlAOKqpFEUOdXp3nXiQhEpKx39KoickpD5fallY6tA=
-X-Received: by 2002:a17:907:7e95:b0:ac2:a473:4186 with SMTP id
- a640c23a62f3a-ac7bc176fd4mr17827666b.34.1743627924184; Wed, 02 Apr 2025
- 14:05:24 -0700 (PDT)
+        bh=WAztVybJddT2puyJxDJlz12FV+391zEWO1Z6LgN+3ZE=;
+        b=W2n9mGzmxxGp8h454gPbt9Zg8CBRuX3z3nrxCMnCzjtZ1L3rtB8BnIbQdzEHfGMtqo
+         SRTbej6v6q2VexrtFJJlEUcTVR853HW2Jg0JfsHOvOwD+gVvA1sXjv2x53DXIfKPnOVj
+         acE8hGrR0dEliJTcx5mVgCZSUv3TXWAfnIE4OkrpkFpAxeDNUit9/b3L6wszS85e8bTs
+         mOVdksHpyHlH/TvB3Ol4sYr7uF2Yl4qBBzyM7bdcdszQT1Kl8p1djd92R9ilCkomhbVI
+         TtaJnTzHts7IhP4SgPDUxQYoRYP4o2zgP7mZSoj2bgYFl6xIJtg3v/dYFFPytWjMQKWo
+         /LsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWBwSzmzsketYjvzXjgUabfg1yNocJP1dh3AqBeTCtgX0Sd8I0DadIeYsZ8kEaFhhoiiWg3sAdZf0DmeuPjVWdV48ea9g==@vger.kernel.org, AJvYcCWOL0HTY5q3RH2NtLpB2kpZ0oTedRxdm6C/bVYY34cKhldvOeu5L19HVM9+Ycn81dlJeZ4ad/jfMbEXGA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyuijSUXm291mGfw9/+BwLK8gpM7W6fX4GxgiJJ0R98Obx3rc5g
+	x3tQMK8IM8tyGVbIx8iZunFmVCNnikNv8Ru63CD5gnFLrWujLuKjP5mU+lMv4NyfqoCFYzVlO1O
+	Pwdk/t/Av7+oqdhrGXpY3zuaaCfE=
+X-Gm-Gg: ASbGnctHjwFQ1PjDgIb6l8CK374cUkucpKzxoN813oUWMCFuU024nsdimNB9Xk82fQ/
+	EWQto5lZMBeYRfQmTWkUNX6Oc6Nl8h1a8lghanG1K/foY0MLVDdIDKEnIU3rw25eDN69+Y/JCJo
+	rcPBcJm2b00zWlbh3Sajl2D1LXxg==
+X-Google-Smtp-Source: AGHT+IG98hI0tAbjEKdav3jq1sQCdQZhpbQF3Z+WVgwpGErv0vINe2FTpd7w6PHE6W3WeXwICjiviF7QwsuFdzNSr+A=
+X-Received: by 2002:a17:907:72cb:b0:ab7:1012:3ccb with SMTP id
+ a640c23a62f3a-ac7bc0cf31dmr21075966b.14.1743628118356; Wed, 02 Apr 2025
+ 14:08:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250402202510.432888-1-hdegoede@redhat.com> <20250402202510.432888-7-hdegoede@redhat.com>
-In-Reply-To: <20250402202510.432888-7-hdegoede@redhat.com>
+References: <20250402202510.432888-1-hdegoede@redhat.com> <20250402202510.432888-6-hdegoede@redhat.com>
+In-Reply-To: <20250402202510.432888-6-hdegoede@redhat.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Thu, 3 Apr 2025 00:04:48 +0300
-X-Gm-Features: AQ5f1JoyOs7BHk-fA3yMaJX9ZzAgjYLiPNQVsmLOk1AXMKVbIwuM_etc6GExyCs
-Message-ID: <CAHp75Vcok+-NPEGKFbZawiJcjhgJK5upbyfXfCEtezYiMspvRw@mail.gmail.com>
-Subject: Re: [PATCH v2 6/9] platform/x86: int3472: Avoid GPIO regulator spikes
+Date: Thu, 3 Apr 2025 00:08:01 +0300
+X-Gm-Features: AQ5f1JpxbwUBsZcOyMleCe9s--k83dQT8DW_GAkYIIeq43tC8YQ3FFq7IEZnwJU
+Message-ID: <CAHp75VdUtQTz-nArxX=seDgN46=2q4OAyrsq42jwXRomxDmedg@mail.gmail.com>
+Subject: Re: [PATCH v2 5/9] platform/x86: int3472: Make regulator supply name configurable
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
 	Andy Shevchenko <andy@kernel.org>, Dan Scally <djrscally@gmail.com>, 
@@ -93,15 +93,31 @@ Content-Transfer-Encoding: quoted-printable
 On Wed, Apr 2, 2025 at 11:25=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
  wrote:
 >
-> Avoid the GPIO controlling the avdd regulator being driven low or high
-> for a very short time leading to spikes by adding an enable delay of 2 ms
-> and a minimum off to on delay of also 2 ms.
+> This is a preparation patch for registering multiple regulators, which
+> requires a different supply-name for each regulator. Make supply-name
+> a parameter to skl_int3472_register_regulator() and use con-id to set it
+> so that the existing int3472_gpio_map remapping can be used with it.
+>
+> Since supply-name now is a parameter, drop the fixed
+> skl_int3472_regulator_map_supplies[] array and instead add lower- +
 
-How 2ms was derived? From experiments or is there any other hint
-(Intel published sources somewhere, etc)?
++ --> and ?
 
-The code looks good to me
-Reviewed-by: Andy Shevchenko <andy@kernel.org>
+> upper-case mappings of the passed in supply-name to the regulator.
+
+passed-in ?
+
+...
+
+Would be nice to have a comment explaining magic 12
+> +#define GPIO_REGULATOR_NAME_LENGTH                             (12 + GPI=
+O_SUPPPLY_NAME_LENGTH)
+
+...
+
+> +/* lower- + upper-case mapping */
+
++ --> and ?
 
 --=20
 With Best Regards,
