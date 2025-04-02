@@ -1,86 +1,87 @@
-Return-Path: <linux-media+bounces-29268-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29269-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FA1FA796ED
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 22:56:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC12BA796FB
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 22:59:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 751993B3011
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 20:56:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CB22416F947
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 20:59:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C00501F3B85;
-	Wed,  2 Apr 2025 20:56:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33EC81F3B9E;
+	Wed,  2 Apr 2025 20:59:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KZpG12h+"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UPSwHp8k"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8951C1F130E;
-	Wed,  2 Apr 2025 20:56:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12DAF1F03CE;
+	Wed,  2 Apr 2025 20:59:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743627401; cv=none; b=OAHhlZEd1hFs27ZFWPID4dRnm3LTBuu8BRii1yL8XeRrdFcmnFeqFdWk6fN/DP+6r6pQ7/mNGwAiikR0wLZ0opw1IlylPDo69oAwNHSvmlO1BX4VZRtlxIHsqbRx6TstKZ/YLdzgsPX/0VeiPqqs9XG+frNtums4O4utL2K64eQ=
+	t=1743627583; cv=none; b=fkVSuTet9bZubyPEgRSXdjlMd/HF7wW3nuqRWdU5DJAxvoRWaU9y18kaR8eUD5mHtVD75XRiacr19nUFKOdkf/n4gOBpABLBb60EPrzpN53xqIvzxElLaPnpoFSeniZXb+6y8+QmNXEbuiDnmuPCkiRdPL/+GUxmpgnGn4gM+Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743627401; c=relaxed/simple;
-	bh=kI+iKGwxfK6nTrApNRIpYAoq5CBwkWQyCrG9Yi3RuxA=;
+	s=arc-20240116; t=1743627583; c=relaxed/simple;
+	bh=x76jIDWcmrLGiq+jkcC1HUTy3bnoFZrSMaBwi92oUQY=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=taG6zFjgMjT5FYiqd/UwJtszlgs1pWQulaZLrjE504xbX0LFTv1N+S+ZwK3n/ERCetAZjkYBhcB8dCSp0scAFCdx5XMMLoBoU7hgvXbwGB7M1SVmGtzHPYSJ6f7UTR3CLGweQH2CkHsi27gUFQE/DImnDX09nHk3SKLj2AHxZvA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KZpG12h+; arc=none smtp.client-ip=209.85.218.48
+	 To:Cc:Content-Type; b=N652Tbnv59O2cxCXKE+P7H+lokuKNZ0t3rE4yXoexL0KYuT1n/vmLgmpDOvEaTqa88KSI6S3YAGjqMzgwSS0TWIstbAY9AhK/OLkTZCQB54oyadP0Yjgu8lK1uBVVIFnWaB+H4QN8dvhaeN6vWkFIhLi/Etbd/c29Vl2IKPXp5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UPSwHp8k; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ac28e66c0e1so30751466b.0;
-        Wed, 02 Apr 2025 13:56:39 -0700 (PDT)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5e686d39ba2so472002a12.2;
+        Wed, 02 Apr 2025 13:59:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743627398; x=1744232198; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1743627580; x=1744232380; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=7RtAoDacPWZ1WKrezpmrXH0fVtsTeL3P4GXU0dad7Vg=;
-        b=KZpG12h+ynZBoPYfj1I7QM2uH3JqXwP7PmtLI1WbZXHYIL/Vs/W/ASH57v3KYD678c
-         aXcxWx5oKi8nSKflcK1qWp2YQmyr8y1L6Wwij2mQwmjqqdbr13vjwWipDvDf4MTBhVH2
-         9v6mW/pdn22o8WqOOGrCYwaN20s2FBPO5BmuO4s79ZC8C3bQPsciPaFt4FHTn1f9i2fj
-         wtHwWYjYyerr0X9rTifkJcrP5PT5qo81xZ/euRpzJmGuGGwyvnKZ/dcT88TimL9BmNR3
-         67MGEpBEdvyqkn0+i9P4UE03ML/BFdMfuyXQqySGXE6OBvSHgf1xWF4R/KoC53ybBre9
-         tYOg==
+        bh=TmH1oBwkUnyfQCZ7YLSeAR6GTqIWKOsBnAc3YNsdYWw=;
+        b=UPSwHp8kYeHp1gWwFwf/tX9NCRm8HyJNQRxJETmE/5bHfbrSI5cAACLXoOPvSo3PlC
+         dSjzU2tizatoun2HnvjP/QNX6hKEUXU7oOJEHf04mGn0Er30rQ25mxCxNacXpACNOnfj
+         c4I4eO7cS2sc4+q6Loezap6LiTSf5D+Ir+qV/xAFWAiRPfchLaKg9jisjp58ZIFpjEAP
+         lFcjV8/msLZ1vCxq2Uy3uW4F3647jaSzUfZ950JvPEczA6ueDrctCuxB/UErjRJR5Bmc
+         7h8yiLge34qid/x3gR6OxRII/kTgcDxH4Cod922GJ1TmHz0s3cBCxgxRMOLfuuiZ7ABK
+         Hfqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743627398; x=1744232198;
+        d=1e100.net; s=20230601; t=1743627580; x=1744232380;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7RtAoDacPWZ1WKrezpmrXH0fVtsTeL3P4GXU0dad7Vg=;
-        b=WvPkSeShuPE8XnajR7j03FVhx+3yl2JctodMik6gC5JeSwMaYVCprU4BnBwvPAGUGH
-         9gGI3T1L9jL/8QY+ZcKXmgCWgAkjlCxj3PGNG/LPHAL9pmqdGj+w+9xtopFUgJhn4Adr
-         KG4W/3nZITcFb5v9x4GHob3O4pK9UtWaLDn9Ulu7N6AyluaRUmWXsVLBujM5W9sJVGwv
-         b+BL3v79TC83S7WymaNwO78OsjEUenwDmUZrWisaw5mdKatM2qCdUMvAzwTqs73yZ+78
-         aU6+FBqJCxQI6D/Jz6C4DoI1n+DjDZMUEHsN4I5EBQE21glvgn0cDLLDLJyrcK/WH2FU
-         Q0xQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWIyYuYuBqUmdfHUFDynvTR8ezUrueqjjtpPnP/fltpttwa/QiZX+o0BuNkuY36+ULWHUwqCE8ShDKAig==@vger.kernel.org, AJvYcCWQ2V7pHEoq8zsKl3NfKNX95fbiQIa+Cyu4aKAGYacRLdfJ5L7vZ29PUwBE8e1J6Xfa80c4LVNDfsL5TTtu936vkzRsvw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzoUXDgiexN9+AmEPZZsX1A0NEt8XL9VBMsL6twuv2DEs2b2j8U
-	Ngr7SatPjr5D/Q/+LkWZTIFsq+dj4QnE2oFA4XRQp+3sy4aGpvk8rshIT+m+ENKh0qZCUFru0NI
-	kK/upWIAi29xUVbksQr38qP4bt9E=
-X-Gm-Gg: ASbGncvmYvHxfqepw/5dEValp3AE5Yy4LLAs3RIqqiApaVKLnTTdvFddw+DlMxdSGtY
-	2//bHeCtrMEV3EGOAmBhIK/Lraqo1i/EIIcr7rqo7Wi9B82s6zEjeC8ckRWaoSbFvqbzTwZkDau
-	s7UYqMwQwyYyaHXJX2obK8q7cjjQ==
-X-Google-Smtp-Source: AGHT+IF1oefJxKRqa/M5YDdiNFEJh2G/DqMJwuE1ZMCrfrsvlJwrGK1BLfbv9xHYzCTjc022lX1E3JWeEHdbLp+9DRU=
-X-Received: by 2002:a17:906:794c:b0:ac2:fd70:dda3 with SMTP id
- a640c23a62f3a-ac738be3ca4mr1353145066b.35.1743627397652; Wed, 02 Apr 2025
- 13:56:37 -0700 (PDT)
+        bh=TmH1oBwkUnyfQCZ7YLSeAR6GTqIWKOsBnAc3YNsdYWw=;
+        b=Ai53FQcTdaKUmxgkbporbH2uRTeUQmlciqiwWb0VccBWo9paiUhXA+oB3gV3AqT3BB
+         oO9N2eSpPl9TzfvGZF9OD755oqsxJ1Men8SkeO8Qh517/eD8U4z4QSp/3nFYChj0NbXg
+         NbdFtggnOMzU5ONLnG8fTL6B/4Xsiz/q0dkvZDULQVl+Oj24eHUwDFYh8a7HQnZjXSzr
+         z0Kq1JWPx1kjO+rpmkkDqlU9LQa03kpBW4tkSe+m27JN5o6sVzAUk8uZIZFXExlrQehm
+         2zR+So5OEYb9/ebUZl/XMzt5HAKlzxhI6cqBPyA0s9yHxFJ/j7RJP4GsRmhq4IQb50VA
+         shvg==
+X-Forwarded-Encrypted: i=1; AJvYcCXT6cO4wkL2JMfncmu7TCQ2wn4pXup3BT3KOoBI5Yr/NFuAggvu3JFxayBuggja0v1eSKRRIWjZnD7qCEtABigo++Ow6A==@vger.kernel.org, AJvYcCXew2/aX1URM3LdwaeG19qjOyha/WbYmElpfZS0Sh1ddRuT3QxN1PWzKuYfUkzJ3FzWZOKfG5Hwi/AECQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxJDUwaJY4ByqVn5xZWCsB9Tvlx6XG4fwgR31Axjz+fccud2SYF
+	QaVxKx5yoaXRFOxwaoTqU++ddSmBkJ9Y9+124RrAxYrvCJoXR6CNx4L06K7ikOAdVMMdkw6tK/E
+	ZXLSA9OFvTO3icR5t0r0+Qek6mSo=
+X-Gm-Gg: ASbGncuCOdKgixWowdmUgzZr+dOYWbPPNYW/YRD3nWsAFAkMHddSFsjPNtd1PYXxzR1
+	ZVanjXLfXN1y4d4Mw7LwUrHlFxwokLwtZOFEyp115A/SBfrIrGjcQFD3gKFpaDi7lv72lGsixmv
+	V7/RSWF1EVP9FPG6AilFNDDQqiPA==
+X-Google-Smtp-Source: AGHT+IFnpWKtXIdGGIqHehtn3r7j6WQwTdvguW9pmHyEH44Fow2laSGKRC9KnObhFvGzIAhkxiftZsrddcqU3r+rg34=
+X-Received: by 2002:a17:906:6a19:b0:ac3:5c8e:d3f6 with SMTP id
+ a640c23a62f3a-ac782ead5ebmr800254366b.55.1743627580205; Wed, 02 Apr 2025
+ 13:59:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250402202510.432888-1-hdegoede@redhat.com> <20250402202510.432888-9-hdegoede@redhat.com>
-In-Reply-To: <20250402202510.432888-9-hdegoede@redhat.com>
+References: <20250402202510.432888-1-hdegoede@redhat.com> <20250402202510.432888-8-hdegoede@redhat.com>
+In-Reply-To: <20250402202510.432888-8-hdegoede@redhat.com>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 2 Apr 2025 23:56:01 +0300
-X-Gm-Features: AQ5f1JpZwKB9DG0doiAs59HBFWubtRYddr3TuUn2sM9q-bCVTygNZpStPClhXto
-Message-ID: <CAHp75VcJcPAEi2dhVnOL6Um78VEwT9DsvC+h20ZHZ0kdoPH--Q@mail.gmail.com>
-Subject: Re: [PATCH v2 8/9] platform/x86: int3472: Add handshake pin support
+Date: Wed, 2 Apr 2025 23:59:04 +0300
+X-Gm-Features: AQ5f1JryXAnqMKM_YAGO4_W1hnRtWkSRgWmJoa39srsXcZF-OZUioQ-3kKI5jPo
+Message-ID: <CAHp75VfUbTvJ1sQPMJ8mQdYtmcrLiet4O-LQv5A=fAxh6Fyrvw@mail.gmail.com>
+Subject: Re: [PATCH v2 7/9] platform/x86: int3472: Prepare for registering
+ more then 1 GPIO regulator
 To: Hans de Goede <hdegoede@redhat.com>
 Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
 	Andy Shevchenko <andy@kernel.org>, Dan Scally <djrscally@gmail.com>, 
@@ -93,62 +94,22 @@ Content-Transfer-Encoding: quoted-printable
 On Wed, Apr 2, 2025 at 11:25=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
  wrote:
 >
-> New Intel Meteor Lake based laptops with IPU6 cameras have a new type 0x1=
-2
-> pin defined in the INT3472 sensor companion device which describes
-> the sensor's GPIOs.
->
-> This pin is primarily used on designs with a Lattice FPGA chip which is
-> capable of running the sensor independently of the main CPU for features
-> like presence detection. This pin needs to be driven high to make the FPG=
-A
-> run the power-on sequence of the sensor. After driving the pin high
+> Prepare the discrete code for registering more then 1 GPIO regulator.
 
-high,
-
-(note comma) ?
-
-> the FPGA "firmware" needs 25ms to comlpete the power-on sequence.
-
-complete
-
-> Add support for this modelling the handshake pin as a GPIO driven "dvdd"
-> regulator with a 25 ms enable time. This model was chosen because:
->
-> 1. Sensor chips don't have a handshake pin, so we need to abstract this
->    in some way which does not require modification to the sensor drivers,
->    sensor drivers using the bulk-regulator API to get avdd + vddio + dvdd
->    is normal. So this will work to get the right value set to the handsha=
-ke
->    pin without requiring sensor driver modifications.
->
-> 2. Sensors typically wait only a small time for the sensor to power-on
->    after de-asserting reset. Not the 25ms the Lattice chip requires.
->    Using the regulator framework's enable_time allows hiding the need for
->    this delay from the sensor drivers.
+than
 
 ...
 
->                         if (ret)
->                                 err_msg =3D "Failed to map regulator to s=
-ensor\n";
->
-> +                       break;
-> +               case INT3472_GPIO_TYPE_HANDSHAKE:
-> +                       /* Setups using a handshake pin need 25 ms enable=
- delay */
-> +                       ret =3D skl_int3472_register_regulator(int3472, g=
-pio,
-> +                                                            25 * USEC_PE=
-R_MSEC,
-> +                                                            con_id, NULL=
-);
-> +                       if (ret)
-> +                               err_msg =3D "Failed to map regulator to s=
-ensor\n";
+>         unsigned int ngpios; /* how many GPIOs have we seen */
+>         unsigned int n_sensor_gpios; /* how many have we mapped to sensor=
+ */
+> +       unsigned int n_regulators; /* how many have we mapped to a regula=
+tor */
 
-A copy and paste mistake? Yes, I know that they are both represented
-as regulators, but don't we want a bit of uniqueness in the messages?
+Looking at the above and the comment I would expect the name to be
+n_regulator_gpios...
+
+>         struct gpiod_lookup_table gpios;
 
 --=20
 With Best Regards,
