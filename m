@@ -1,232 +1,173 @@
-Return-Path: <linux-media+bounces-29196-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29197-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B085A788E1
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 09:36:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 955F4A78953
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 09:59:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 550977A4CE7
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 07:34:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E4A023AE08F
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 07:58:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DF9E23314E;
-	Wed,  2 Apr 2025 07:35:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B04623372E;
+	Wed,  2 Apr 2025 07:58:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OXgDK0Jx"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="ZcRLQR3/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f171.google.com (mail-vk1-f171.google.com [209.85.221.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38DE22E336E;
-	Wed,  2 Apr 2025 07:35:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99C42F5A
+	for <linux-media@vger.kernel.org>; Wed,  2 Apr 2025 07:58:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743579355; cv=none; b=ck30fgoamnMz6nqNFxfGldWuJFenHgD4F1QnBjfGJLAXXwYVJ0SVH4HQlTSuF8lNtT8U5kizNHUeiM99Q9Uv8sYslisIHUvoNrYaydXvVYR4aHXBQ8SEQa8bP1D0Rsuks4w4uJrolCL0rk+FoUeg0JD8p7yg4xhov0UYkLhE9No=
+	t=1743580691; cv=none; b=KiRv0Zae/rPnGgq76tJIG0uKd96A+kRBbBr8/gIp1YniW3q3KMUUdWOWpYmORwHn+VicKkJ5UtcvlKNbbk2+T+a2F24Wqznqs9sO2Un8CZS5yge5iJWf9IZL+GT3MCYLiHPGWRE5L0AWTkq0Ui8/hps9JgqIxEe33mn/VuAeNYA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743579355; c=relaxed/simple;
-	bh=UdkrDqGVQENJ2NUUgndJpnHFPzT34y+CT5Ow52zPIog=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=todXTYC1yDL3lp7ZgwFScl75iDbZnpLMU4aSUH9EUj1bw9nBlL/5oPLNkOigZDmUPHqoMrv3ij7ewxSRNJYr/BBvWuB3w1VE13XvdN4RU7Y/SbV2nfb5wWTFYQjm2ZT2pa5QT/cnkMvGgvXlZAxFIJxl8niHkh+BxsKp0sYApzc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OXgDK0Jx; arc=none smtp.client-ip=209.85.221.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f171.google.com with SMTP id 71dfb90a1353d-5240a432462so523162e0c.1;
-        Wed, 02 Apr 2025 00:35:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743579352; x=1744184152; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hT57pCrBJh8f0NhZW8jlqS4usCi8ONUHwiXdsxXYTRw=;
-        b=OXgDK0JxSVJlTVe7D5WLo4J6khhyWXzYDRNXo0nEJSt+kxNNOPG/WHE6Vpp6pmb67n
-         w+YMtF2ZDL5ZFj8kwbzmr5fI8tQGJgt2+OH+2XoOo4W4mx5yFyYFyIb/njHiDJ+Uiyba
-         ZA9EMGQuQMtO/9ZrEsbzRSHNBXMoYPKn9LESVsAVBPEOjsuqPLlVTK0186XASRNuTHX3
-         TsQkaLAcMgpddzxJkViDq0zNPnmsF9+yQ1H+vV6gkuy49mqbTtobrQgqOuEbpd505gae
-         b3SvnRlcOxHDEPJ9t8kv4b+iWqRTtSB7TS03gQ4tKCBQWvknfOfyvfKoaOlx5NP9Z2jI
-         JeWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743579352; x=1744184152;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hT57pCrBJh8f0NhZW8jlqS4usCi8ONUHwiXdsxXYTRw=;
-        b=jUcl14W7/Z9vKFVjCUaI0rqRvtlK21gzVUU4SLMoanWb26qEXdw9NZ4XxTWnqtQ7MV
-         g5Yrp6R7digPmQppt3gVl1bgvNGGo3FNPw577w7/dAaJG2VG7e6XfaSjsRhnUhYInROU
-         5oedWBFnkoToNHg1hlpPntdPXPl2gCJehmUeY4usO3nlaax7tmjcjodCfxlyhpxA6M6t
-         wfb9RS4udvIBYEStw3oTgzVUUmZmxFzizUkG3E6vrPeWBuQAzNzVvfXJ9v2hN/ggmz/8
-         lc40quKuFysbn4A5Y0+8geBZTsRndGpnNHgsvedIWW4pZXXZnfaFC5ABXCjR5gNIbNEX
-         cDlA==
-X-Forwarded-Encrypted: i=1; AJvYcCUWzFsyMFt0q5Yr8UesAzz1sN6JRuT0cc5cPOlYV7QYaiIQWct9z4otG0x7yx0a5Lk9QAzK/FuPsTv+@vger.kernel.org, AJvYcCUjEoKrTaWMoANS5kdsYt2zJzNqv+Fj5T0m2NCPcOg1bVE25QVMcKh7kYIocAujt9syS2JfgGY9MUAe0TT8@vger.kernel.org, AJvYcCW6sXsyhxdu5QJouN0ltiznQgwtScqaKsK/618NLPDvaBzlPa4YUC6fGwuXzA1zLQl7jaY9DQCMrvefKWsB0ib700c=@vger.kernel.org, AJvYcCXmMJoKaOPbw8W0DPNFDhDUO19ILRjiGygSXZrRx9gM1PUvJjQxmt5Y9xP8ckRcPZml8kv2TKEnWJG4Sz0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywa0oaQnH1kfwYB6RZWwpkUD+3w8SLgrOAH61ZyHpqjcxYPluuB
-	UFiVnbfHT2pDXsUqlV96nZIijAW3ELwJpZHZqaJhv2fPZW0WR8Q8eFK3Gb4x09hMZNBF5ndbXhx
-	m6rTpeTSGTKzfKH01U9zk0dmigpY=
-X-Gm-Gg: ASbGncuHtEBFYangKSN2nkO7XLZ2TU8DGB2Uaz3fbha/Xh7yLJyK0qmR7iqctitmrwQ
-	5d5D+cMqP/gkJKqu3YjISctfFGc88Kf/7miHWldQV1IqO590FBbAJ52Rtb7lm05c8zp2i1PG3pS
-	/VKizGwHwwaae6WUrfEGdu0emTwQ==
-X-Google-Smtp-Source: AGHT+IEdTYC0s4S3VpURZQ2f7vxFy8vBgDmOAWMr3zm4bj62F+hU24dApE13GC9px5VsZNFNyJK57nY1IsAhwoyVFKE=
-X-Received: by 2002:a05:6122:17a0:b0:524:2fe0:61bc with SMTP id
- 71dfb90a1353d-5274ea87ce7mr373480e0c.5.1743579351814; Wed, 02 Apr 2025
- 00:35:51 -0700 (PDT)
+	s=arc-20240116; t=1743580691; c=relaxed/simple;
+	bh=YOyS/VRuzvF8wKR4NIEMF3nzFBcwRnHWrkEDr6R/J+c=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
+	 Content-Type:References; b=Mqe2CaZVZ/7g5wXe5+UcN5tcBhbIJsyZ0BbHfFaxsOTtDsBUbbGLffJYmSh/tUMNWJHkNjgyyGW2SaoL3KGmAhQNFeWgmtjKcA8colin+stJA35YfjIbZlQZE8GiRq1vnKZX7+FyWkRg1oqY6VfT5cBs6nBZHCO+eFmzSZsQ7h8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=ZcRLQR3/; arc=none smtp.client-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20250402075806euoutp02fe795bfb1e0763de9d431310e3e0854e~ycWWYp3Jx1844318443euoutp02n
+	for <linux-media@vger.kernel.org>; Wed,  2 Apr 2025 07:58:06 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20250402075806euoutp02fe795bfb1e0763de9d431310e3e0854e~ycWWYp3Jx1844318443euoutp02n
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1743580686;
+	bh=z4vQilOEpdI5stLozjq/NkL9wmzjCpAfpg9UZTbA8Mc=;
+	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+	b=ZcRLQR3/3d2m161DbX/gRKXvCcPnWPSMLsliYIkdjeAqy+7+lzwtgHWNhCYTzPmRZ
+	 2+aq/LvKnNqY6RPa3Cikt3yukHVo8kEUHoaxi1un9nWBnyReymIFQ57ZDueG6Bd/XU
+	 ufFXMXj5Aw32yhxAwCEsPiqoURk8mX0nQrTz6HqI=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+	eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+	20250402075806eucas1p17e6d76222dcd6ccfad30a8733a82ecb7~ycWWPgtR11675716757eucas1p1P;
+	Wed,  2 Apr 2025 07:58:06 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+	eusmges3new.samsung.com (EUCPMTA) with SMTP id 42.97.20397.E0EECE76; Wed,  2
+	Apr 2025 08:58:06 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20250402075806eucas1p2c5db45b8f1c1067d4c290ff1dfce9e16~ycWV8QxQ11764217642eucas1p2L;
+	Wed,  2 Apr 2025 07:58:06 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+	eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20250402075806eusmtrp19bc9846d231b16cefdb872afb4ec5d7b~ycWV7tpMq2986429864eusmtrp1W;
+	Wed,  2 Apr 2025 07:58:06 +0000 (GMT)
+X-AuditID: cbfec7f5-ed1d670000004fad-4c-67ecee0e90ac
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+	eusmgms1.samsung.com (EUCPMTA) with SMTP id C5.D5.19920.E0EECE76; Wed,  2
+	Apr 2025 08:58:06 +0100 (BST)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+	20250402075804eusmtip1ae0f37572ccc42d728f330f2d9c29d9a~ycWUmiPXM0712107121eusmtip1V;
+	Wed,  2 Apr 2025 07:58:04 +0000 (GMT)
+Message-ID: <27678ba6-20aa-4ba2-93e2-001a4434a7ea@samsung.com>
+Date: Wed, 2 Apr 2025 09:58:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250328173032.423322-1-tommaso.merciai.xr@bp.renesas.com>
- <20250328173032.423322-12-tommaso.merciai.xr@bp.renesas.com> <TY3PR01MB11346ECE31CB6C8DC33459C2486AF2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-In-Reply-To: <TY3PR01MB11346ECE31CB6C8DC33459C2486AF2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 2 Apr 2025 07:35:25 +0000
-X-Gm-Features: AQ5f1JoOTAY_FuDrd8gbd4_dnz012avh5auQ3Llx2ni7UijsTWeIv3OKEmDiFsk
-Message-ID: <CA+V-a8sJQnyJb_uq9yEcjHRW7ZFOw3g2XQyygcozWTgMjrYxRQ@mail.gmail.com>
-Subject: Re: [PATCH v5 11/17] media: rzg2l-cru: Add register mapping support
-To: Biju Das <biju.das.jz@bp.renesas.com>
-Cc: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
-	Tommaso Merciai <tomm.merciai@gmail.com>, 
-	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
-	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: videobuf2: check constants during build time
+To: =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>, Tomasz
+	Figa <tfiga@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Content-Language: en-US
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <f78d0c5d569d646717f31fbb2bc4e1a5812e40b5.1743199454.git.mirq-linux@rere.qmqm.pl>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuphleLIzCtJLcpLzFFi42LZduznOV2+d2/SDa6cULe4vGsOm0XPhq2s
+	Fss2/WGy+Pb8FKPF59Z/bA6sHrMbLrJ4bFrVyeYxq20fm8fnTXIBLFFcNimpOZllqUX6dglc
+	GZve7GMt2MFXsW37KrYGxnaeLkYODgkBE4mDi5O7GLk4hARWMEqc3XuAvYuRE8j5wijR/0Af
+	IvGZUWLNpo8sIAmQhutTlrFAJJYzSuz5dYwVwvnIKPFs+hw2kCpeATuJxTPXMYPYLAIqEjd2
+	LGCHiAtKnJz5BGySqIC8xP1bM8DiwgIeEvN2PmEEsUUE0iSe7/4NFmcWyJZY9nsjC4QtLnHr
+	yXwmEJtNwFCi620X2C5OgTiJ+9cOQNXLSzRvnc0McpCEwBEOiZcL57NA/Oki0fE7CuIDYYlX
+	x7ewQ9gyEqcn97BA1LczSiz4fZ8JwpnAKNHw/BYjRJW1xJ1zv9hABjELaEqs36UPMdNR4s7y
+	SAiTT+LGW0GIE/gkJm2bzgwR5pXoaBOCmKEmMev4OritBy9cYp7AqDQLKVBmIXlyFpJnZiGs
+	XcDIsopRPLW0ODc9tdg4L7Vcrzgxt7g0L10vOT93EyMwwZz+d/zrDsYVrz7qHWJk4mA8xCjB
+	wawkwlt09k26EG9KYmVValF+fFFpTmrxIUZpDhYlcd5F+1vThQTSE0tSs1NTC1KLYLJMHJxS
+	DUwb2nuOLThUfi+zpujtFa+75s/yolRMT3y+rzKROzZn1+Psiu3MXq9zruodYDtx0ffGpPkf
+	IzQOVq/xqj5V+i/p2O41S4TP1z1x/51+8mPtbp+CKYWcIv1qkp6HDoUXrt6+JS7vL+/rww0L
+	p1h9uMe2br3x2Z/zN/l75zU8/yhjlfjLffHv3wxRi7idn/v+mL28aENYQVy8NLP8wvNKfFUF
+	h3i+FWYFTfy9w+zy5V+1Xz6uX2Ap9n59Qb3oSrkVopuFfhy4v8/nOJ/lL29Jj6ONuunSjAWP
+	2HbZ32aL28T6YbVaS0vjE7M+XRmVrUpyeuEvivsqJtVVzunerDDr3ymjRduLphfvkPr95OaD
+	b00CSizFGYmGWsxFxYkA8zm3G58DAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrEIsWRmVeSWpSXmKPExsVy+t/xu7p8796kG0xvEbe4vGsOm0XPhq2s
+	Fss2/WGy+Pb8FKPF59Z/bA6sHrMbLrJ4bFrVyeYxq20fm8fnTXIBLFF6NkX5pSWpChn5xSW2
+	StGGFkZ6hpYWekYmlnqGxuaxVkamSvp2NimpOZllqUX6dgl6GZve7GMt2MFXsW37KrYGxnae
+	LkZODgkBE4nrU5axdDFycQgJLGWUOPK4hwUiISNxcloDK4QtLPHnWhcbRNF7RokNMxcxgSR4
+	BewkFs9cxwxiswioSNzYsYAdIi4ocXLmE7BBogLyEvdvzQCLCwt4SMzb+YQRxBYRSJNYu+w1
+	WJxZIFti5p0HjBALNjJKLJ39FyohLnHryXywZWwChhJdb0Gu4OTgFIiTuH/tAFSNmUTX1i5G
+	CFteonnrbOYJjEKzkNwxC8moWUhaZiFpWcDIsopRJLW0ODc9t9hQrzgxt7g0L10vOT93EyMw
+	srYd+7l5B+O8Vx/1DjEycTAeYpTgYFYS4S06+yZdiDclsbIqtSg/vqg0J7X4EKMpMDAmMkuJ
+	JucDYzuvJN7QzMDU0MTM0sDU0sxYSZzX7fL5NCGB9MSS1OzU1ILUIpg+Jg5OqQamNVrnln0+
+	3s47gf3/etbzHxod2jyfxwgsTbljsstGql/G56jMfMH3Ags+RvRu4PhhwxzGl9nF/nsNs+uf
+	qIxHj4zOc2a83p7dGFH011h4v63094Qrf7du50rwrjaXDn+wp0djQ/XurWcmei8OdtU9JHRB
+	iYPXXm+hmebFb9LZT+/4Lw1cvyqu5cyWs1oGPg51XM/uHf3CsKDzpYWVtv/So5ms2R99ZLtN
+	F1///58jX/fDLd7acCXNU7s+11gFr1VoVKuLCDj/zvCzgqtpVHvt/R+q5lstTQRzHUQcpgXW
+	Rl+eYvKt7XBUubWmSE7k6xShnNUbGZ0nT5/z58D+iR8vbur9v+/PwpeXDxYG675SYinOSDTU
+	Yi4qTgQAMwB9aDUDAAA=
+X-CMS-MailID: 20250402075806eucas1p2c5db45b8f1c1067d4c290ff1dfce9e16
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20250328220534eucas1p1cc5c334505d06f34a4eb01b8c1df27da
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20250328220534eucas1p1cc5c334505d06f34a4eb01b8c1df27da
+References: <CGME20250328220534eucas1p1cc5c334505d06f34a4eb01b8c1df27da@eucas1p1.samsung.com>
+	<f78d0c5d569d646717f31fbb2bc4e1a5812e40b5.1743199454.git.mirq-linux@rere.qmqm.pl>
 
-Hi Biju,
+On 28.03.2025 23:05, Michał Mirosław wrote:
+> There is nothing a driver author can do fix in the driver to make the
+> global constants match. Since the assertion can be verified at build
+> time, don't return EINVAL at runtime for it.
+>
+> Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+Acked-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> ---
+>   drivers/media/common/videobuf2/videobuf2-v4l2.c | 11 +++++------
+>   1 file changed, 5 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> index 9201d854dbcc..1cd26faee503 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> @@ -903,6 +903,11 @@ EXPORT_SYMBOL_GPL(vb2_expbuf);
+>   
+>   int vb2_queue_init_name(struct vb2_queue *q, const char *name)
+>   {
+> +	/* vb2_memory should match with v4l2_memory */
+> +	BUILD_BUG_ON(VB2_MEMORY_MMAP != (int)V4L2_MEMORY_MMAP);
+> +	BUILD_BUG_ON(VB2_MEMORY_USERPTR != (int)V4L2_MEMORY_USERPTR);
+> +	BUILD_BUG_ON(VB2_MEMORY_DMABUF != (int)V4L2_MEMORY_DMABUF);
+> +
+>   	/*
+>   	 * Sanity check
+>   	 */
+> @@ -916,12 +921,6 @@ int vb2_queue_init_name(struct vb2_queue *q, const char *name)
+>   	WARN_ON((q->timestamp_flags & V4L2_BUF_FLAG_TIMESTAMP_MASK) ==
+>   		V4L2_BUF_FLAG_TIMESTAMP_UNKNOWN);
+>   
+> -	/* Warn that vb2_memory should match with v4l2_memory */
+> -	if (WARN_ON(VB2_MEMORY_MMAP != (int)V4L2_MEMORY_MMAP)
+> -		|| WARN_ON(VB2_MEMORY_USERPTR != (int)V4L2_MEMORY_USERPTR)
+> -		|| WARN_ON(VB2_MEMORY_DMABUF != (int)V4L2_MEMORY_DMABUF))
+> -		return -EINVAL;
+> -
+>   	if (q->buf_struct_size == 0)
+>   		q->buf_struct_size = sizeof(struct vb2_v4l2_buffer);
+>   
 
-Thank you for the review.
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
-On Wed, Apr 2, 2025 at 7:31=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.com=
-> wrote:
->
-> Hi Tommaso,
->
-> Thanks for the patch.
->
-> > -----Original Message-----
-> > From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> > Sent: 28 March 2025 17:30
-> > Subject: [PATCH v5 11/17] media: rzg2l-cru: Add register mapping suppor=
-t
-> >
-> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> >
-> > Prepare for adding support for RZ/G3E and RZ/V2HP SoCs, which have a CR=
-U-IP that is mostly identical
-> > to RZ/G2L but with different register offsets and additional registers.=
- Introduce a flexible register
-> > mapping mechanism to handle these variations.
-> >
-> > Define the `rzg2l_cru_info` structure to store register mappings and pa=
-ss it as part of the OF match
-> > data. Update the read/write functions to check out-of-bound accesses an=
-d use indexed register offsets
-> > from `rzg2l_cru_info`, ensuring compatibility across different SoC vari=
-ants.
-> >
-> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Signed-off-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
-> > ---
-> > Changes since v2:
-> >  - Implemented new rzg2l_cru_write/read() that now are checking out-of-=
-bound
-> >    accesses as suggested by LPinchart.
-> >  - Fixed AMnMBxADDRL() and AMnMBxADDRH() as suggested by LPinchart.
-> >  - Update commit body
-> >
-> > Changes since v4:
-> >  - Mark __rzg2l_cru_write_constant/__rzg2l_cru_read_constant
-> >    as __always_inline
-> >
-> >  .../platform/renesas/rzg2l-cru/rzg2l-core.c   | 46 ++++++++++++-
-> >  .../renesas/rzg2l-cru/rzg2l-cru-regs.h        | 66 ++++++++++---------
-> >  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  4 ++
-> >  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 58 ++++++++++++++--
-> >  4 files changed, 139 insertions(+), 35 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> > b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> > index eed9d2bd08414..abc2a979833aa 100644
-> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
-> > @@ -22,6 +22,7 @@
-> >  #include <media/v4l2-mc.h>
-> >
-> >  #include "rzg2l-cru.h"
-> > +#include "rzg2l-cru-regs.h"
-> >
-> >  static inline struct rzg2l_cru_dev *notifier_to_cru(struct v4l2_async_=
-notifier *n)  { @@ -269,6
-> > +270,9 @@ static int rzg2l_cru_probe(struct platform_device *pdev)
-> >
-> >       cru->dev =3D dev;
-> >       cru->info =3D of_device_get_match_data(dev);
-> > +     if (!cru->info)
-> > +             return dev_err_probe(dev, -EINVAL,
-> > +                                  "Failed to get OF match data\n");
-> >
-> >       irq =3D platform_get_irq(pdev, 0);
-> >       if (irq < 0)
-> > @@ -317,8 +321,48 @@ static void rzg2l_cru_remove(struct platform_devic=
-e *pdev)
-> >       rzg2l_cru_dma_unregister(cru);
-> >  }
-> >
-> > +static const u16 rzg2l_cru_regs[] =3D {
-> > +     [CRUnCTRL] =3D 0x0,
-> > +     [CRUnIE] =3D 0x4,
-> > +     [CRUnINTS] =3D 0x8,
-> > +     [CRUnRST] =3D 0xc,
-> > +     [AMnMB1ADDRL] =3D 0x100,
-> > +     [AMnMB1ADDRH] =3D 0x104,
-> > +     [AMnMB2ADDRL] =3D 0x108,
-> > +     [AMnMB2ADDRH] =3D 0x10c,
-> > +     [AMnMB3ADDRL] =3D 0x110,
-> > +     [AMnMB3ADDRH] =3D 0x114,
-> > +     [AMnMB4ADDRL] =3D 0x118,
-> > +     [AMnMB4ADDRH] =3D 0x11c,
-> > +     [AMnMB5ADDRL] =3D 0x120,
-> > +     [AMnMB5ADDRH] =3D 0x124,
-> > +     [AMnMB6ADDRL] =3D 0x128,
-> > +     [AMnMB6ADDRH] =3D 0x12c,
-> > +     [AMnMB7ADDRL] =3D 0x130,
-> > +     [AMnMB7ADDRH] =3D 0x134,
-> > +     [AMnMB8ADDRL] =3D 0x138,
-> > +     [AMnMB8ADDRH] =3D 0x13c,
-> > +     [AMnMBVALID] =3D 0x148,
-> > +     [AMnMBS] =3D 0x14c,
-> > +     [AMnAXIATTR] =3D 0x158,
-> > +     [AMnFIFOPNTR] =3D 0x168,
-> > +     [AMnAXISTP] =3D 0x174,
-> > +     [AMnAXISTPACK] =3D 0x178,
-> > +     [ICnEN] =3D 0x200,
-> > +     [ICnMC] =3D 0x208,
-> > +     [ICnMS] =3D 0x254,
-> > +     [ICnDMR] =3D 0x26c,
-> > +};
->
-> Do we need enum, can't we use struct instead with all these entries inste=
-ad?
->
-What benefit do you foresee when using struct? With the current
-approach being used a minimal diff is generated when switched to
-struct there will be lots of changes.
-
-> > +
-> > +static const struct rzg2l_cru_info rzgl2_cru_info =3D {
-> > +     .regs =3D rzg2l_cru_regs,
-> > +};
->
-> For a single entry, why you need struct?
->
-This struct will grow further, see the later patches.
-
-Cheers,
-Prabhakar
 
