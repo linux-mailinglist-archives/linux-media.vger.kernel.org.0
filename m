@@ -1,142 +1,143 @@
-Return-Path: <linux-media+bounces-29230-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29229-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2DEBA78E62
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 14:30:22 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 52E56A78E6D
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 14:32:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 74EBD188E535
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 12:28:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 824BE3ADB77
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 12:28:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3822F23908C;
-	Wed,  2 Apr 2025 12:28:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 385942376E9;
+	Wed,  2 Apr 2025 12:28:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="McTJcU14"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Lm9i3+9V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EE2C235360;
-	Wed,  2 Apr 2025 12:28:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B72623817C;
+	Wed,  2 Apr 2025 12:28:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743596911; cv=none; b=KNEQPKG+xK2n2wCW5uMtGxdDSiBdavu73ATVNYWeTG7SyNFfi5sydNWpECbe4F6EgIpgs1e3G+Q97J3qVXTNO0gz0qq7HzFx3JCKgD7JNeXe9gtKxoi4oSu19pYXaPYoo1eDt09XuZ5/Aqztp47RFgqqs+rAlWicuB3wyovKfRo=
+	t=1743596898; cv=none; b=AfkXerO/mHvhy2FDuIdRckHQoa7tE6aj7C/QfV8csUG2/Oq4jnMWrN4ituyhpM9FI5t+8yAS493kvCYNxfKJMw+3U6XC50rY/+HKA5TpUSBMEACiUc9c5qGrAc/rHW4QtMJYWVaJaHEvfHWg3SPWDlev1/H3I/U1kK5hrS75d1Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743596911; c=relaxed/simple;
-	bh=3GJnv086E8giW2AgWyctw2s3hdsLylkH8BB7S+aQQ0A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=UVwUEKJU65i5NmcJjfl1WAcXOJQXQu9GI+PDwxEIbfbUQV//PUUwEJ/AKh0mCIVY31oYFpXOxhnUE63bhDRmVyed3HijVsQE8zLr+XFpgVIwvfvjD4SEGf5wPUHOvb7L+QKfI1edU2a3LrB7ooyu8oBHTODV/Y/C5GG7uvte1Aw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=McTJcU14; arc=none smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4775ce8a4b0so65380881cf.1;
-        Wed, 02 Apr 2025 05:28:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743596909; x=1744201709; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3GJnv086E8giW2AgWyctw2s3hdsLylkH8BB7S+aQQ0A=;
-        b=McTJcU14QT7H7vtWGpe9Qyu2DswOlnsHOrWN+zRGhQPsezl6X5MmHIgiEp5dp6HR+a
-         s7kyg3NdWUcbqdwE4Z7lK9lC8ES7rvoufCqXLmWKAgFaHgmVYH/UAwQDlrHLS4RYWxBK
-         NFJLAPGv8K9OibCRBRGJqVSSWGz9yr56kh/DALHKxACKa/z/gq0sRZ6pOCk1grjwp+fL
-         ayc2P3gSPZGN+j8OFsrVSAsXqBBOJNbZh8u4toSawH/diMkNciuq9qoAyjw/k4NnV5wG
-         9phGcYpkJ+bSslF/AQHE0FGo4gz1G+ugivcuLAk2c0JjbB5Dl6qzE40ss0uGnz3ztN/S
-         Kg8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743596909; x=1744201709;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3GJnv086E8giW2AgWyctw2s3hdsLylkH8BB7S+aQQ0A=;
-        b=kA7TEs7OZz9HJ0F06Qn6ZtaNhyx5FVJ8Z3l4u+5bUNb9MnpXb2nsWl1eqmC1vt+F2x
-         Ffexa2aOHYXUG867nFJJaD/1AO4oWHYa6gS1P+Gk2lGthFxkR09pkXl+Povqk1QuJdei
-         22Ecub5HopAnBZiktLcN6+/oaJ6EFn4vGOBJB3f6+cCMqOe0lGnOV3APiwnpRRoUxC7u
-         XUAPr03izXyHbjAsbgRwj+pXCGgxz4JlvkBQ95gYmCGxLg7unJARagVT9+/ftpCoore3
-         M+zjo4jV1m3T13TGggUbOCFhG6mzJw/cMz8qA55aTs+2P+090Ly3illKAqY2wZ1WQUcH
-         RnAQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXw9RtreJW+tjft5qnTq/SWp7KMrLoonaCqogZTMmENW55HZOcQc7IWV0NQjXhn4U6JS1hs5m9EfOKw0A4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5E4JyxbfW0z/kwq17UlaILpzJJUnMqZDr7RZ82iFsmLoHv+UU
-	nk3JRg5xwVJMOE2uLSJMGekxti6atWuAUGyQm2Kj8y+hH1y+shsN865LoDAX/RHnoVzKR32Khzt
-	j2/6tOdFq4KLiEusy8EuSB6QBU1Q=
-X-Gm-Gg: ASbGncu9J4QDsSao1VidG95/fwS888/KRvzCuHK6YKqyYwGZiDdSge1E5vcH9eBubXQ
-	hHkBHj09SJVn/c1LTQbkmowUdr7H2kWQZtBx68UYiT8xocouJzS0vJMd+J+F87sExOsKF6877Bu
-	MKuyXmo6qM+0KJEVQCwqvyFBos1LQxI+R9fA4LlNS0zxl43Dvpum5pTM/kpw==
-X-Google-Smtp-Source: AGHT+IEuUnjhwnbiKPNa2iql9SktgL1DtzPXqOEtIP0f4sok+TQAufPBAnt51aXcIpZAD242gbrDpZ9sN4sj8A+JfDA=
-X-Received: by 2002:a05:620a:171e:b0:7c5:44d0:7dbb with SMTP id
- af79cd13be357-7c69072f194mr2490451885a.28.1743596908669; Wed, 02 Apr 2025
- 05:28:28 -0700 (PDT)
+	s=arc-20240116; t=1743596898; c=relaxed/simple;
+	bh=2mm9KFjYjNf73RC5x1w602N1nefzxhdPIiqoHpUiVo0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=SjOuEstbgbnd5Mf5UATxPHhILm8PwOBbs7+eC/4OtrCJkJTKI4Oh+Ik3KFxuMnP7FQII36KnGCUJb/Jhwh3q6imxMd4Hi3CRzVuy5NmD71ff6djmrgH0OHmBTS/2NZdrsuSBNFiH1GWBCBAsyx1mISRLSUixrMKeO48mUa8+Kno=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Lm9i3+9V; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 532BA6RY014253;
+	Wed, 2 Apr 2025 12:28:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	dcDYKKitdpNOvO1VTTPjo/3sWBMoWldqeBnLnFSuCDY=; b=Lm9i3+9VKnXPYkuJ
+	PgpybJcCo5p7IwLRYVHXtSZeGKbkLchZ2KBMr8lM4Zc3SJuS0V5zIs2z53/AbnUZ
+	G0p778z8rvqrrCPu2infYOAcHloXnPi2tCLU+hqJVLToa+JUjYSbMlCK2J9TKwa/
+	DjMqfG2lmKgLbG5RAjH4Mc6Iqgwsdohq41yOyI1zFlrO46ecvjYwR4OpKZrqetaQ
+	bwtieOSs5VcOC7/biG30x4A+5f9U4cUxFtnjJ7GDrHqRrd7hPN0yuSBtPEx52Vpq
+	+qwOV71kyU0vS4Cr4DRiDRWkYwv1S+ZdNcFmlbKudZ1iPpI7eqUjs1apSG30Gm+T
+	t7B2ig==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45p7tvkd6g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 02 Apr 2025 12:28:12 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 532CSCLc029089
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 2 Apr 2025 12:28:12 GMT
+Received: from [10.50.50.175] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 2 Apr 2025
+ 05:28:08 -0700
+Message-ID: <15220033-ef42-a1bb-6cff-931efbb5cf62@quicinc.com>
+Date: Wed, 2 Apr 2025 17:58:05 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <67eca38a.d40a0220.22c3d5.88f3@mx.google.com> <CAHp75Vf4abzcNFwo2W-=-fOr1_j51RAUPxDbGNVX9F-Soxbs3A@mail.gmail.com>
-In-Reply-To: <CAHp75Vf4abzcNFwo2W-=-fOr1_j51RAUPxDbGNVX9F-Soxbs3A@mail.gmail.com>
-From: Gabriel <gshahrouzi@gmail.com>
-Date: Wed, 2 Apr 2025 08:27:00 -0400
-X-Gm-Features: AQ5f1JodykYOOexOE4Nc0cNNufpO84gEFflIgsTdTE8NE3csTAuFfwB702epNyA
-Message-ID: <CAKUZ0z+mqGwyEt8oem7gLMXbNp6D3MPPMXEH5GCdA4_768d=5g@mail.gmail.com>
-Subject: Re: [PATCH] staging: media: Fix indentation to use tabs instead of spaces
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: linux-media@vger.kernel.org, andy@kernel.org, hdegoede@redhat.com, 
-	mchehab@kernel.org, sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 1/2] media: MAINTAINERS: Amend venus Maintainers and
+ Reviewers
+Content-Language: en-US
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        <stanimir.k.varbanov@gmail.com>, <hverkuil@xs4all.nl>,
+        <quic_vgarodia@quicinc.com>, <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+CC: Neil Armstrong <neil.armstrong@linaro.org>
+References: <20250402-b4-25-03-29-media-committers-venus-iris-maintainers-v3-0-2b2434807ece@linaro.org>
+ <20250402-b4-25-03-29-media-committers-venus-iris-maintainers-v3-1-2b2434807ece@linaro.org>
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <20250402-b4-25-03-29-media-committers-venus-iris-maintainers-v3-1-2b2434807ece@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=OIon3TaB c=1 sm=1 tr=0 ts=67ed2d5c cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=KKAkSRfTAAAA:8 a=pGLkceISAAAA:8 a=COk6AnOGAAAA:8
+ a=VwQbUJbxAAAA:8 a=xuRo_m5TypiDwJUHZtcA:9 a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: aCqb6TSIeyP-4Umm5I6KhXUvjTp4aaOy
+X-Proofpoint-GUID: aCqb6TSIeyP-4Umm5I6KhXUvjTp4aaOy
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-02_05,2025-04-01_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ mlxlogscore=999 lowpriorityscore=0 malwarescore=0 mlxscore=0 clxscore=1015
+ adultscore=0 bulkscore=0 phishscore=0 suspectscore=0 impostorscore=0
+ spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504020079
 
-On Wed, Apr 2, 2025 at 3:12=E2=80=AFAM Andy Shevchenko
-<andy.shevchenko@gmail.com> wrote:
->
-> On Wed, Apr 2, 2025 at 5:40=E2=80=AFAM <gshahrouzi@gmail.com> wrote:
->
-> Is it your first patch to the Linux kernel? See my comments below.
-It's among the first patches I've submitted.
->
-> > >From d6a08153171ac52b438b6ddc1da50ebdd3550951 Mon Sep 17 00:00:00 2001
-> > From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-> > Date: Tue, 1 Apr 2025 22:04:25 -0400
-> > Subject: [PATCH] staging: media: Fix indentation to use tabs instead of=
- spaces
->
-> First of all, your patch is mangled. You want to use proper tools,
-> perhaps. One of which is `git format-patch ...` and another one is
-> `git send-email ...`
-I was using git format-patch but not git send-email which seems to
-have been the issue. The meta-data from the patch was getting appended to
-the top.
->
-> > Replace spaces with tab to comply with kernel coding style.
->
-> Change 'tab' to 'TAB'.
-Got it.
->
-> ...
->
-> Change itself is okay, but is this the only one case in the entire
-> driver (which is something like 100k LoCs long)? Even though, and
-> while for the training purposes this is fine, you can also think about
-> checking the common style of other functions, which may be shifted
-> with TABs, but still having not enough spaces or so.
-Good point. Regarding formatting, it probably makes the most sense to
-address these issues comprehensively in a single cleanup pass (similar
-to https://lore.kernel.org/linux-staging/cover.1743524096.git.karanja99eric=
-k@gmail.com/T/#t).
-This particular instance caught my attention because I initially
-thought the author might have accidentally used spaces instead of
-tabs. The line in question used 2 tabs + 8 spaces, while subsequent
-similarly-aligned lines used 3 tabs. However, after examining
-different files in the driver, I noticed that while the formatting
-appears inconsistent, it likely exists for specific reasons. It's
-probably better to avoid changing a single detail without considering
-the broader formatting approach, and to treat checkpatch.pl more as a
-guide than the final authority.
->
->
-> --
-> With Best Regards,
-> Andy Shevchenko
+
+
+On 4/2/2025 5:54 PM, Bryan O'Donoghue wrote:
+> Stan has stepped back from active venus development as a result I'd like to
+> volunteer my help in keeping venus maintained upstream.
+> 
+> Discussing with the qcom team on this we agreed
+> 
+> +M for Dikshita
+> +R for me
+> 
+> Many thanks to Stan for his hard work over the years from originating this
+> driver upstream to his many years of maintenance of it too.
+> 
+> Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 29b4471574982bf3f8d03158cd5edcb94bc9fab9..1d03530f3298703c5f3d025010511451f878f822 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -19590,8 +19590,8 @@ F:	Documentation/devicetree/bindings/usb/qcom,pmic-*.yaml
+>  F:	drivers/usb/typec/tcpm/qcom/
+>  
+>  QUALCOMM VENUS VIDEO ACCELERATOR DRIVER
+> -M:	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+>  M:	Vikash Garodia <quic_vgarodia@quicinc.com>
+> +M:	Dikshita Agarwal <quic_dikshita@quicinc.com>
+>  R:	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>  L:	linux-media@vger.kernel.org
+>  L:	linux-arm-msm@vger.kernel.org
+> 
+Thanks for the patch.
+
+Acked-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+
+Thanks,
+Dikshita
 
