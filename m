@@ -1,130 +1,104 @@
-Return-Path: <linux-media+bounces-29244-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29245-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E26F7A79082
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 15:59:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E608EA79155
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 16:37:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 732A916CCA3
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 13:59:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A52E316ED7E
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 14:37:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45CD323AE84;
-	Wed,  2 Apr 2025 13:58:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 061D823BF80;
+	Wed,  2 Apr 2025 14:37:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z8b6JHmc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DMeR2ELv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3832E2376EB
-	for <linux-media@vger.kernel.org>; Wed,  2 Apr 2025 13:58:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D401923A99C;
+	Wed,  2 Apr 2025 14:37:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743602338; cv=none; b=l6moTeeL9MMii3pjjiWwoNEnDJ28gj9sqFRjFsPNX+VfEfeFs9babmqoPi0gZUjiDzXi3Z0GAqTaUsOw9hgyr7oYqRams5KkTNIEKschS+S7GcetuZVGiYN0FvtnsJKWKZ1c+srw33/XYytdrvy7zuRDw2lfe/BS3AdUvZEfs3M=
+	t=1743604631; cv=none; b=sIzF96oeuynT9m4A9e9ZbGLic952CX8uEnL9pXUqaqov4FIeRjvrK8msEh4wl/8aidxq0pYjGtaSaLMc3sHk1oqzAsB53SMwDJItfHNv0FjGjg8aUlDKGFdMkXuHom9n6JI8F73gdm+urrDjLSz6W4ME8hjT14bgNH3+cqhAxts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743602338; c=relaxed/simple;
-	bh=E1RquFpLyZTYcfSNn+gPl7tMCMbmQmZDBrNyAAGg7mI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=tGaz8YEMlrMmCRqs24eXQCVanF+JSsmUS76ek1RY+WTBozYR+rk8IqFVT0XcgJv1utNIhozJDW5eTQrmJbe0mhMGGXNZe8wXsWIld2QfeKWiurMAERPDWIzc4s51T9I/ydPsVRs5SpdHp6FF4psF/7qJWcPEaOgCqJrMfej/npo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z8b6JHmc; arc=none smtp.client-ip=209.85.222.179
+	s=arc-20240116; t=1743604631; c=relaxed/simple;
+	bh=fujc+sesAjr5IIZE1HuxIUhTSSC46ThSreyEPcnf8NE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=apXDaKb5BebyrYOkbncKZomLRYaF6GfpcIDcdKvVKK1auGieZhHPyo5B8Xoq21zsBySTXq6qTOhtO10gCoEpOqUhNT0e2pKbmyB3nNnpQqQ/QqCgcTtnHjCMftWsFvTgSVAmSHqwGIMCnuoTuR+7r9eOdI8LsiJV3jUOPQSRnL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DMeR2ELv; arc=none smtp.client-ip=209.85.218.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7c6a59a515aso265354385a.0
-        for <linux-media@vger.kernel.org>; Wed, 02 Apr 2025 06:58:56 -0700 (PDT)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ac2af2f15d1so894212666b.1;
+        Wed, 02 Apr 2025 07:37:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743602336; x=1744207136; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=7RKlreFQivVxqrvuN1/QXrm7XVZTtvYdxyFro8fbbwo=;
-        b=Z8b6JHmc3GXqR3zSlXZx8aT3V8oAS2JYnchtS0MVYgFFv7xloIKs+isKR2eum0YN8t
-         nXWCqavVqBSX6xCcUv4YzsDrbTxcjyobWn32zp+P5P934kqqjR+RsBuN7RazC6nJhCyg
-         ZSdjaYNQZUu3Aiqx/76AWQNgOi9eU2bRgdazIB50+YRB9I5J+1GeXdBV6jNs/SmSw9VX
-         3jwZR+DYUkAccR7nixN9AtcyzZmkseoTEQYgNsUTMgExrugfiLCKzUnN3Da8hwfvarsu
-         xk996XRs4sG4uipOnyFocTXYJVRa43iiY1PUrZjxxwKh32xwmzQ2JjDmpuQqnhEYTuU4
-         vbew==
+        d=gmail.com; s=20230601; t=1743604628; x=1744209428; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fujc+sesAjr5IIZE1HuxIUhTSSC46ThSreyEPcnf8NE=;
+        b=DMeR2ELvnfrlbIL3dNDFF67CTof2DbfA7Kk7Vjq/9JnYs4ysGvhUC9iQGHus0pjccG
+         Euz+B4uNWwDsZC6FF2/N3Ch7eLr/LPnenUlJt1cdEUbTtKoAKBOtJT5W9CU2Q9Wj0XTg
+         toSl71Fy4W8yBa6PJeaTKxKZoActIOGfTOjyVfzZ7peHetbFM4371XtTcgZjP5MdPhAO
+         W3UmpHPB+fVuarXOP2bKYgkmTAc38SB3CvN8UdPgKtwkCVow39v9hpH8vrT3II4glhOH
+         qPYfrPMvwsXoANV/fWsuA+C1swyNSDE1EbCihiuAZJMyKiGVMaJ77v80cu9UTRvqIhQY
+         evdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743602336; x=1744207136;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7RKlreFQivVxqrvuN1/QXrm7XVZTtvYdxyFro8fbbwo=;
-        b=tYoqFNVrn6Tfd69b3tq6K9xFYMc10O8Ldxio1kv/GRm9e128R4x1hEB+GBIB9xOO3S
-         3wisyF5UWpqi6rdEjtXL3rAL4GAxsoEpejh0t1H/UtCM1UH30e9CvpqX4pYigo+QxhiP
-         fxuuhTvlMsfSnOrI670BUzzSe8Xdf/U3uBdZN0k7cAo8Ky8GSdL8qNWrODizyEf8kcEu
-         eI5PoODFktE3IotGRhQ9LvzRPUebkyGHWc8Jbr82xRoJo33u88L6TuGfvmjmTKypreLH
-         i9DFym23Tnhu5JGAi66+1fCn4EKVZzUH5NAnEsH3CkeFtcWgIKrvnjRLGRWiDKO75MQV
-         umUg==
-X-Gm-Message-State: AOJu0YwvfFi1hqJq5fWNFl/Zd9uRkUicNDbBUxpEzdH+lS0PqdHTwnhe
-	vszryyXiCYoPGVraDYNiT1jPjBUyXCIYbTGTtTqSz96mcwNQ8xYz+YlnFkMRHjU=
-X-Gm-Gg: ASbGncsiuXW+1O7s1Xcq+8W2LK8IAhqhzHOoP2up56JQ9PlkBPoUDIu/zqZizpmEMbm
-	ufoa3mgv6KAXhFBEBF9PT172yck++g1Z0leaN2HBAMrs3TwWFNOjBAwSSUrWEZ/kHLhAxiqgNWB
-	L6hYt3ESV2t/w6oaYnXbZ80oKPDDZHc66q0k8qK9sGWZFfTIR+tVAg5nnAJHh4n4UG3QhKWhnTj
-	dEQ2qfFHE3W8iFjxsr5Zu2vYwEk4rLZ1DRgkRhPkLxwDJEbKmIbXz+SflIDxgRgJiiumUAZF/wO
-	N/PtJBFd6V3ifEakECevdbSbeHz17tqPzE7AAr0xjxvjaLnSCZF1S7fy5D0GE81eneuG/snPoEe
-	LKDuTILAT8g5MK+SE5QJgIxM=
-X-Google-Smtp-Source: AGHT+IGhyWbX15a0Lzy3/ieWFeMzPPya3LsFi78CVOBfuojRqD/8rX3uad3QIOQrL2LX6wekR6vyvA==
-X-Received: by 2002:ae9:e71a:0:b0:7c5:9c38:ef6b with SMTP id af79cd13be357-7c69087de5dmr2107423985a.45.1743602335819;
-        Wed, 02 Apr 2025 06:58:55 -0700 (PDT)
-Received: from theriatric.mshome.net (c-73-123-232-110.hsd1.ma.comcast.net. [73.123.232.110])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c5f777e02bsm789748685a.110.2025.04.02.06.58.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Apr 2025 06:58:55 -0700 (PDT)
-From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: linux-staging@lists.linux.dev,
-	slongerbeam@gmail.com,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	skhan@linuxfoundation.org,
-	kernelmentees@lists.linuxfoundation.org,
-	gshahrouzi@gmail.com
-Subject: [PATCH v4] staging: media: Remove unnecessary braces for single statement block
-Date: Wed,  2 Apr 2025 09:58:51 -0400
-Message-ID: <20250402135851.13627-1-gshahrouzi@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1743604628; x=1744209428;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fujc+sesAjr5IIZE1HuxIUhTSSC46ThSreyEPcnf8NE=;
+        b=SZsN6GK9YcrEep9O2L2h0zo+hUCYCILlerFo+pCtibvWhGB+6BlFvavJtrHxCWnA3O
+         m88s0TraNMLYTnJwKBhtWBLqQLlJ3giSlJ9IJCwvg9JuszwUc2GCX0acRJX471CavdUq
+         fO+qdsUw81Nk80SK9rBDfsP8qHQ7NQc4LmEdWTxaJPOLijKF1P1R/+vIL2z2SN5LE4n2
+         eo0eWFbloXOawOKb7FyMwpkU9YcQQZCxnZwQcOUDMlUWJcn0VXpxA5n+KmYSahk5NP5s
+         Q15/+8H+bfDfmmjTIJE7I2uT1fg0ltFhqnhOVhIWkan4xuNeg+UHjbBow3b2TX0sJ5/A
+         wKXA==
+X-Forwarded-Encrypted: i=1; AJvYcCU/TwBI6FZ9mgvUC0LCMIXhPhITQ19Tl0KOar4lHphJcNTCi4QrB66ZlcNbsv2Qxk7mpaWgEggpA/W1FnY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxhN0rutSyGCz1rAuQiAnuW33Pa9XdXYUb/ydKKlpUrjqYNyAFx
+	2NleRUYaL4YWNEMZdXSAXejpIsINbLLwxbL8OGSpN6QPh62+u7Qn7oUKU2kYXL5fPFADFkF1yPc
+	R2sjnuFiMgarmvqK52PtRJ1l0ewPuLYmviWc=
+X-Gm-Gg: ASbGnct41JfqjbFcYXyw/lmFfulXPIFtewYnSzFZQbxpcC5rh7KR74in/Z3wEn9GgcS
+	3XGuo2njoc5aAiHClr79iR7tlPwMxHC/amYJ6gfQMoj39QYfcj2nY2Qw8RIrT9K8tGV6ZFtmrK9
+	zwA3IEYZfQ9pYwtHxgcdzIMTzi+ffZ
+X-Google-Smtp-Source: AGHT+IFocfbGvbzRK8aJWLdh4mDxaWThCgh1O/7EJbYZA2Z5T7PzMh3BE0hV1pYCJ5WPoTTREpFt+GzoE5do8798C38=
+X-Received: by 2002:a17:907:2d8a:b0:abf:6b14:6cfb with SMTP id
+ a640c23a62f3a-ac7a166da7fmr220944966b.5.1743604627939; Wed, 02 Apr 2025
+ 07:37:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250402135001.12475-1-gshahrouzi@gmail.com>
+In-Reply-To: <20250402135001.12475-1-gshahrouzi@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 2 Apr 2025 17:36:31 +0300
+X-Gm-Features: AQ5f1Jo4kfDBVwVLmOzNt69eaOoDoSqPas9WlpNS1Q_ZWTK_Vs669mQNNkUol0A
+Message-ID: <CAHp75Vc1nB8cDN=OcCJgeti3YNr0Dd4yeKgeSBvR95piLao1rg@mail.gmail.com>
+Subject: Re: [PATCH v2] staging: media: Fix indentation to use tabs instead of spaces
+To: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+Cc: linux-media@vger.kernel.org, andy@kernel.org, hdegoede@redhat.com, 
+	mchehab@kernel.org, sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Remove unnecessary braces in single statement block to comply with kernel
-coding style.
+On Wed, Apr 2, 2025 at 4:50=E2=80=AFPM Gabriel Shahrouzi <gshahrouzi@gmail.=
+com> wrote:
+>
+> Replace spaces with tab to comply with kernel coding style.
 
-Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
----
+Still 'tab'. please, capitalize it to be 'TAB'.
 
-Changes in v2:
-	- Add missing author.
-	- Fix title of email.
-Changes in v3:
-        - Resend using git send-email to fix formatting issues in email body.
-Changes in v4:
-	- Use correct patch version.
----
- drivers/staging/media/imx/imx-media-of.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+But wait a bit, the driver maintainer might do that for you whilst applying=
+.
 
-diff --git a/drivers/staging/media/imx/imx-media-of.c b/drivers/staging/media/imx/imx-media-of.c
-index bb28daa4d713..7413551052ae 100644
---- a/drivers/staging/media/imx/imx-media-of.c
-+++ b/drivers/staging/media/imx/imx-media-of.c
-@@ -57,9 +57,8 @@ int imx_media_add_of_subdevs(struct imx_media_dev *imxmd,
- 		of_node_put(csi_np);
- 		if (ret) {
- 			/* unavailable or already added is not an error */
--			if (ret == -ENODEV || ret == -EEXIST) {
-+			if (ret == -ENODEV || ret == -EEXIST)
- 				continue;
--			}
- 
- 			/* other error, can't continue */
- 			return ret;
--- 
-2.43.0
-
+--=20
+With Best Regards,
+Andy Shevchenko
 
