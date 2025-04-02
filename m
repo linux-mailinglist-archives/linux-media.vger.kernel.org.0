@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-29215-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29216-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0BB7A78C46
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 12:27:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06326A78C5C
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 12:29:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 15930189226C
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 10:27:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 696B01887F6C
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 10:29:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3E64236A84;
-	Wed,  2 Apr 2025 10:27:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0ADB233D85;
+	Wed,  2 Apr 2025 10:29:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j2SQj26u"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="k33toONX"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51FE8233D85;
-	Wed,  2 Apr 2025 10:27:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA4A23496B;
+	Wed,  2 Apr 2025 10:29:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743589636; cv=none; b=grPtzeLopPKKZgnU5tPvBF7KlXCx4ADDWhRvmtFMeGFYMdBH0No9M7iU+nY2wDDxudmQckFdRkM/a5ohs8HXb5R4FzR5klkyPQ3tzwb+sUbmaCwCSiK1AmZil1AP2NUsttW4tUUaUQCsPUvZtO6fS7a0cJgvLPS9NptBkDi1uM8=
+	t=1743589765; cv=none; b=W76ujwyyElb+pXr6r19K9jCOyYwAXTMhRR0lAK6uD2dztd1LhWEjrMhnSn2pGZMPINdDlRnNUka/egffik5aLTB9wg6+ZZVn/rDW/7iFBee16ddfiQWx93zbx1x/NjtcMJt77NbuMpEWJ6yQzrAVia2InYu2BlO4hhdTObvr+0Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743589636; c=relaxed/simple;
-	bh=22GOmSy9cHJRmBtCcFnqULondLdLZ884cJRZadhqx1M=;
+	s=arc-20240116; t=1743589765; c=relaxed/simple;
+	bh=wq9t4p/0e3SKoovLNHQmyQCYfBKOxcHqBT4NKrzawq8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VDSPlGe6LiQiW+KzmRqTDAA64M43O0snvQTfJBwxsZl4ru5NZVvzgWH92InHAj3lLOtH3u3wycJuHhV1ZW+Bv0P0utOBlpS/MeNc8usuBvbhcSflXXQvBMrot7V+elUUclm8WecyfoWJYa5QiE4uiFa7IwZzAyhHrIfsQJPO7+Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j2SQj26u; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 209CFC4CEDD;
-	Wed,  2 Apr 2025 10:27:11 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=gQEbbWHQdsuIZGGI+DIB0iekR+Rj17JQKL3NC05ENimWLxXkqM9CX+/jW860UIhIkXAyvHwbYZY4LHrT3ggZG3xkMuOIB8l82c8JWVKCHgNB8kLuJi6/bTWmmdA41Sgaz1ZUri+htwrqRXIJA9FZ/VTYycjYLeO66MA90m7nRg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=k33toONX; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5843C4CEDD;
+	Wed,  2 Apr 2025 10:29:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743589635;
-	bh=22GOmSy9cHJRmBtCcFnqULondLdLZ884cJRZadhqx1M=;
+	s=k20201202; t=1743589764;
+	bh=wq9t4p/0e3SKoovLNHQmyQCYfBKOxcHqBT4NKrzawq8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=j2SQj26u55d9Dwmsudp1l32qjLhGtjFqs8SmW6dS9CJLfc2k9iMWhxNGQuQp5EiTq
-	 OPzFg7M8L5cd2qAM1jFUKk7aNqhQOSLGo6qS+EJaStgfznTvULR1WhmBw0SIjs12oJ
-	 X7/BPV6A4J4mtNfjX063k/4HJdJY3kLGxp3rxaLERsc3wufFsT/2NfwXb5kf5tY1iV
-	 75i7pUuSuB9tSduSu6kvJZ/CzjcHldaDaqmCOqfdIcfWPoTysk9XMcVT9ljF7rxeX8
-	 yCbFAKkskgEYmDUbDdEv4Af50j6wWR4GliGNKd6dMhrzWolVUqEqudh7zcOpw+Nz8q
-	 VPZdtmuUFNuZA==
-Message-ID: <9f128ce9-6a26-435c-b133-0da80120de2d@kernel.org>
-Date: Wed, 2 Apr 2025 12:27:08 +0200
+	b=k33toONXVO/I6aI3BNil8rcGJioy2RMSp+ayO3KkFHLo8xUB5zKHIEVc6D0kwQuSY
+	 1VvsA6AJbqL7PYgOOgtWyR4yjLyLwffAM8FFW9RJhCYsoivfnRqS0WMCLX40bT+dc5
+	 XpOvmOPT3sHm6lJed2KHr0uaHc5G8bbShwI9X8nPSPRaDkhgfde4fb/5UYW6gkIyLl
+	 6K16uqHZpBv01mMu5u+LuKIgMXhDFZb9GOMpfdRJbhoMV3hTTSId6a7AZGuvHepUrU
+	 Gmq6zle9/Gs6tgF8JyFYr+tUXxW2KvDiHYDkjP121Hrn5T0EYTURvX43c+bW+X4Msl
+	 JOlR0NRlSL5rA==
+Message-ID: <32d36aba-9d7c-45f7-ab04-cb28ef31d159@kernel.org>
+Date: Wed, 2 Apr 2025 12:29:17 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,24 +50,22 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] media: dt-bindings: Add ST VD55G1 camera sensor
- binding
-To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Cc: Sylvain Petinot <sylvain.petinot@foss.st.com>,
+Subject: Re: [PATCH] dt-bindings: media: i2c: imx219: Remove redundant
+ description of data-lanes
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250401-b4-vd55g1-v2-0-0c8ab8a48c55@foss.st.com>
- <20250401-b4-vd55g1-v2-1-0c8ab8a48c55@foss.st.com>
- <20250402-curvy-seriema-of-blizzard-b1c4d9@krzk-bin>
- <228ddf41-e1d0-4d06-9e0e-9e0dad841688@foss.st.com>
- <fd874f4d-d68c-4443-8bb6-115246f4407b@kernel.org>
- <a0c62797-3c4c-453c-938b-d43666f3b264@foss.st.com>
- <7d501bf2-a017-4c02-a96f-184a7d648b6a@foss.st.com>
-Content-Language: en-US
+ <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, imx@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20250401145759.3253736-1-niklas.soderlund+renesas@ragnatech.se>
+ <20250402-real-enthusiastic-ostrich-dcc243@krzk-bin>
+ <20250402095749.GJ1240431@ragnatech.se>
 From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
  cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
@@ -111,45 +109,32 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <7d501bf2-a017-4c02-a96f-184a7d648b6a@foss.st.com>
+In-Reply-To: <20250402095749.GJ1240431@ragnatech.se>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 02/04/2025 11:41, Benjamin Mugnier wrote:
-> 
-> 
-> On 4/2/25 11:38, Benjamin Mugnier wrote:
->> On 4/2/25 11:11, Krzysztof Kozlowski wrote:
->>> On 02/04/2025 10:34, Benjamin Mugnier wrote:
->>>> Hi Krzysztof,
->>>>
->>>> On 4/2/25 09:08, Krzysztof Kozlowski wrote:
->>>>> On Tue, Apr 01, 2025 at 01:05:58PM +0200, Benjamin Mugnier wrote:
->>>>>> +    properties:
->>>>>> +      endpoint:
->>>>>> +        $ref: /schemas/media/video-interfaces.yaml#
->>>>>> +        unevaluatedProperties: false
->>>>>> +
->>>>>> +        properties:
->>>>>> +          data-lanes:
->>>>>> +            items:
->>>>>> +              const: 1
->>>>>
->>>>> Not what I asked. Now you miss number of items. Just use the syntax I
->>>>> proposed. Or was there any issue with it?
->>>>
->>>> No issue I just misunderstood and thought const: 1 was impliying
->>>> maxItems: 1. I'll add maxItems back.
->>>
->>> That's just longer way to express what I asked for. So I repeat the
->>> question: why not using the syntax I asked for?
+On 02/04/2025 11:57, Niklas Söderlund wrote:
 >>
->> I guess I didn't understand what you asked for.
->> May I ask you to write it ? That will help me a lot.
+>>> Support four-lane operation") the driver errored out if not 2 lanes
+>>> where used, and after it if not 2 or 4 lanes where used.
+>>
+>> Then... fix the driver?
+>>
+>> This property describes hardware, not driver. Why current driver
+>> implementation, e.g. 1 year ago or now, would change the hardware (so
+>> the bindings)?
 > 
-> By 'it' I mean the binding.
-I wrote it last time. I don't think that copying the same here would
-change anything. If I can look at v1, you can do as well.
+> I agree, I thought that here we have a case where the bindings predate 
+> the standardisation. The driver do not match the bindings, in fact it 
+> breaks if the imx219 specific instructions are followed. So the risk of 
+> breaking stuff is likely low. And this was an opportunity to align the 
+> imx219 with video-interfaces.yaml.
+
+I am sorry, but what breaks exactly?
+
+Is the device supporting two and four lanes setups? If yes, then the
+binding is correct.
+
 
 Best regards,
 Krzysztof
