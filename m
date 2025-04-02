@@ -1,80 +1,121 @@
-Return-Path: <linux-media+bounces-29194-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29195-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4A13A7889B
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 09:10:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DD2CA788B4
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 09:12:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7209418918EB
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 07:10:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DDBD116F865
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 07:12:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E0C320ADF8;
-	Wed,  2 Apr 2025 07:08:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 241FE233133;
+	Wed,  2 Apr 2025 07:12:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RRXeaYZk"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GqjfrDma"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 669E220CCE8;
-	Wed,  2 Apr 2025 07:08:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDD94230BD8;
+	Wed,  2 Apr 2025 07:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743577709; cv=none; b=lZhoc4YC6DGwvLC63ULmZVu5gaAuIMBn/me9h+OD0SINFwp48KHgypMWeDG9EO1NNGep79ZrKCNA7VfplKs8WvEwHaUsAKY9I69Czh7ot3nPvRioWOyrsIN4OzsWaJvDS6JUajEfiKVypiym1Pu0YJszNxfaYBK3rN8bR85z8R4=
+	t=1743577930; cv=none; b=tQLNtxXpJVVs1/Dm2fHsQrWr1p8h7uZVNaDRj6vzCSCKy8YxW0xgXqByPgDn3Vhusi+fGTeCT19aiUvRHCTRYP+Za5eB1/TDRZuRaf5vM5wOXiDRa55iBjd+8s43tlI6PjoE4lLa8/m8JPk8rrvXz17J/Erc306ZcQncY3p2+dw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743577709; c=relaxed/simple;
-	bh=V0fOz0lqv2C+VmGCRklE/5cDBz+lCE6+y+wyDB6Z5gE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bEWpVXxCVmyAkZVl9qJ0uWyCfrgXMgkATuG+gnBerHObeByQ4AHzoi00k9wWN9f5SPF6jwO2RjxZra2ghoN9T4LBm06NvdMClzFBPx6R1ypXhPupU91v+jpWdMHl3mOZyYqSZHZYVonDQgX/hFcOjY2KjVmKJiS+rTS6iDgCDIE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RRXeaYZk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C052C4CEDD;
-	Wed,  2 Apr 2025 07:08:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743577708;
-	bh=V0fOz0lqv2C+VmGCRklE/5cDBz+lCE6+y+wyDB6Z5gE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RRXeaYZkNROVdV6DDVqeivBdTPrM9rHSKD+Rk+DSRXqZEWcKJobQIU8uR/5xL0NB1
-	 WTyZoBTdexi9vMrATvf0DvlSYqmxb8J9hun+kCIrZSgzWYSI6irN13LelNKXLXASyY
-	 Qmmgu5Lksd4tOXJEaktSfYZrC2TEDoXYFYazMC59NKCf4CySihoTrGoJ80lGNJMYl0
-	 6HfFCBGx8ayBlwjSXXabb+KzDVnXJX5XcMH/1lyOU7EZYvRhAzr6m4H0/Evhfombm+
-	 b9nuBvpfkDUinDyvpLnKMCwY6n5FlNvKqHIxbsvJDAA9ogg9fpzc3R5ZXVlVgT7g2W
-	 6Ip047SRD3oTA==
-Date: Wed, 2 Apr 2025 09:08:25 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Cc: Sylvain Petinot <sylvain.petinot@foss.st.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] media: dt-bindings: Add ST VD55G1 camera sensor
- binding
-Message-ID: <20250402-glorious-olive-seahorse-eb505a@krzk-bin>
-References: <20250401-b4-vd55g1-v2-0-0c8ab8a48c55@foss.st.com>
- <20250401-b4-vd55g1-v2-1-0c8ab8a48c55@foss.st.com>
+	s=arc-20240116; t=1743577930; c=relaxed/simple;
+	bh=6iFnZi1P6witgBKpE/o6BqeB6+V8t3TakEte9t4WYx0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Tevm3I2MxsKAjHSyXcNiYbyVuTqDGMpCPsNs+zpgtl76JEINSgYKZiYLNOvAzAC3IlIojH141MpA4/tZi10BsWbQ76TT1+BOvGUMPPUaWfxc5wcZt0NjrT9//YapJJ28Ca3JmhRdR+JyJA1csFzkI991Eq0Dgc5PS+ZsN1ZZ25I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GqjfrDma; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-abec8b750ebso983975266b.0;
+        Wed, 02 Apr 2025 00:12:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743577927; x=1744182727; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6iFnZi1P6witgBKpE/o6BqeB6+V8t3TakEte9t4WYx0=;
+        b=GqjfrDmaaqPh0I4btJyuoQLIZYk1iIRQAefLFcaLh77sL2QICTv0Af2U2v3ZxUmXOe
+         ol/fPisFo7eDuoggoM8YA2X7gsKeLC1Da5tfNC6mDsHUSB1ZXxByFsQbljsBi2/g9W5Q
+         vwP78wV8Y/AxD7kEfHkHvmiE9yGx+p+rUQceE4Op3cDNhLocill7NXP+ecMG5B3smaek
+         hopZrnAHMjLfTwZSoJGgMst9dnrtVJPtmQir8AhmWzSu0Q0zyqvdMHVs++QdVFYpImWi
+         TgqAi32EYvd6pOYeVBqqLaD/GHS9qYMdloQ5hFIhd6a3JYlIoLeu6NsSTOLZY6RSz3K6
+         oyjA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743577927; x=1744182727;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6iFnZi1P6witgBKpE/o6BqeB6+V8t3TakEte9t4WYx0=;
+        b=uGqMOmSWhycuDL1tByRAqCBFC1zNXM0VBKWsAumgWokUWR3WEI8guzM7KoFo7Nrin3
+         vEekptAZPiU0sXVNQMZgCNI3OJw+5Nhfod9ygnEr39Sp+rQZtsN1uVcMhKwr+rfMu0/H
+         JswaSrpU9DZwyTSfDrP1XAgd/6pY/BkOBdg3YOcT0fNbFlx1+WljXoBKwktJ21HSqNl5
+         20ShnSwRANw6hGzNeACe5e5LqUqWMorc9wXZmga95Wa39Lb4vLEbjmQV/uIXFYyStOEz
+         sTrPXxeVWa2eimv1vxkP1Md+zhc79KB/m0W8oY5f/qoFAFi93gTUMq0fC+U4xRBKKhHY
+         o9Fw==
+X-Forwarded-Encrypted: i=1; AJvYcCWm6Gw67efvePR3Z0oXjkl7hIz0XIQw6AT+b6nq8euWAG1N/HkkUL5f4qmv9TPHeGQgm0yvTHvKl93FhE4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwGWz6blF1KNZWfg0v+1FO6687vIP8aDOV9Gwf6h8R9a0LTDokm
+	MAFYVzZOL4q+GfaHToz/acAY7TrSncBwMMkESR8RvJ37RtdgyK06e0sxmXV2xeavQeirZujEx3J
+	53y8rqc/QtBM0LOm/24q+agt0bW8=
+X-Gm-Gg: ASbGncuHlAOuBw7O0gF1jv78yDin3RqWtATEC+qymIjFXa7i5X/q1h5RH9bv8DLaerl
+	/yTJXAqnMa/tgu3QxeclE7l5rLd7+BeHCBWsWP3MC0SXIjVzMkY7y288OrHfCjm+7XlmwzaRROT
+	OZ2cFx1YcQ467zAGuBD3BUvHfbLA==
+X-Google-Smtp-Source: AGHT+IH3BWLD3tLCVWSUmZRZKrED9lsK1vHEHE8xL52TPa7BRnKW6uUV4Ea/o9T4grQl94+wGXUom+Ok0bulUsWSu9o=
+X-Received: by 2002:a17:907:d91:b0:ac3:c05d:3083 with SMTP id
+ a640c23a62f3a-ac7a1799930mr91105166b.35.1743577926958; Wed, 02 Apr 2025
+ 00:12:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250401-b4-vd55g1-v2-1-0c8ab8a48c55@foss.st.com>
+References: <67eca38a.d40a0220.22c3d5.88f3@mx.google.com>
+In-Reply-To: <67eca38a.d40a0220.22c3d5.88f3@mx.google.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 2 Apr 2025 10:11:30 +0300
+X-Gm-Features: AQ5f1Jr8U5LUwv4hCvfjsR9vrE7hdyKZzBftIfbzMD_OqPBdJ50H1aovTJj51OA
+Message-ID: <CAHp75Vf4abzcNFwo2W-=-fOr1_j51RAUPxDbGNVX9F-Soxbs3A@mail.gmail.com>
+Subject: Re: [PATCH] staging: media: Fix indentation to use tabs instead of spaces
+To: gshahrouzi@gmail.com
+Cc: linux-media@vger.kernel.org, andy@kernel.org, hdegoede@redhat.com, 
+	mchehab@kernel.org, sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, 
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 01, 2025 at 01:05:58PM +0200, Benjamin Mugnier wrote:
-> Also update MAINTAINERS file accordingly.
+On Wed, Apr 2, 2025 at 5:40=E2=80=AFAM <gshahrouzi@gmail.com> wrote:
 
-Since there will be one more version:
+Is it your first patch to the Linux kernel? See my comments below.
 
-A nit, subject: drop second/last, redundant "binding". The
-"dt-bindings" prefix is already stating that these are bindings.
-See also:
-https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+> >From d6a08153171ac52b438b6ddc1da50ebdd3550951 Mon Sep 17 00:00:00 2001
+> From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+> Date: Tue, 1 Apr 2025 22:04:25 -0400
+> Subject: [PATCH] staging: media: Fix indentation to use tabs instead of s=
+paces
 
-Best regards,
-Krzysztof
+First of all, your patch is mangled. You want to use proper tools,
+perhaps. One of which is `git format-patch ...` and another one is
+`git send-email ...`
 
+> Replace spaces with tab to comply with kernel coding style.
+
+Change 'tab' to 'TAB'.
+
+...
+
+Change itself is okay, but is this the only one case in the entire
+driver (which is something like 100k LoCs long)? Even though, and
+while for the training purposes this is fine, you can also think about
+checking the common style of other functions, which may be shifted
+with TABs, but still having not enough spaces or so.
+
+
+--=20
+With Best Regards,
+Andy Shevchenko
 
