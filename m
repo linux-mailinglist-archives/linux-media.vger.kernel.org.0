@@ -1,82 +1,85 @@
-Return-Path: <linux-media+bounces-29274-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29275-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 552C4A7980A
-	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 00:02:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDDCCA7980C
+	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 00:04:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 624591895EC6
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 22:02:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 064661895F36
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 22:04:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03D7F1F4CA7;
-	Wed,  2 Apr 2025 22:02:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FBE41F4CBC;
+	Wed,  2 Apr 2025 22:04:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="IGUU15TY"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="0hSBH7EN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2042.outbound.protection.outlook.com [40.107.95.42])
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2080.outbound.protection.outlook.com [40.107.100.80])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1620FC0A;
-	Wed,  2 Apr 2025 22:02:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE9FE1E8326;
+	Wed,  2 Apr 2025 22:04:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.80
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743631339; cv=fail; b=kHFS+R/tuYY/bgWP2aDvhCNkxhCoGuQuksbndRQiXBnHbQw8Ghdhs9o6vQw2C42RjMpiz6BJT9SAEQmcFg6URV+0MNCLCG9vgzmPOV9v9ppDT4YPmDhUabZIvjjisJScAQl30eFrxlK8vOuiqwTCREnbK+Zzhf/t0cfU1gYf8U4=
+	t=1743631466; cv=fail; b=i850f/o6BUOH2FJfEcOy7ZLwF0d9ofVt+SXSzSoLzr6JTfL3KgxsvlYbRWRShfXb8t9rppt2EaRXIHomT1B6IYStrcN88Cw67V/PYFYbTbRNzuZ271FuqV5QBItIAkvR1GJZwcs/fLawizgGtGVC4p/QfgehbNLPCaLQ5XXVoVA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743631339; c=relaxed/simple;
-	bh=Ofr/RrlBlpTx2zoB8eI3DMg74fXQG5n32hmz4I1+S1E=;
+	s=arc-20240116; t=1743631466; c=relaxed/simple;
+	bh=Cy4hrJEtwtsutx36prBI6lP5hba6+jJbh9JhHH/EzIc=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=JrqorHI0QSEtJr5FGhfgxY53/NPukK2yHn+H08Flml0uNioogYICrXwfdWiZiK61VHg/PNyUAKIFTDBL9I8F1H/Gu6pSviBjpJbwvVV2wHGFN+v/X8EAiVXo2wotcDzJr3r7kA7E6JuD9PF4SglP4UAPf1X8SLugjW1MjDQKHoM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=IGUU15TY; arc=fail smtp.client-ip=40.107.95.42
+	 Content-Type:MIME-Version; b=KOrscK56SF5Z5zExpUMvX1m/OtP1Ja/MZX/TR+KJff+kqLAb+x2fl9rxmwaN7HxmVn5I86eJDpFWmp1ett6pQS2XBPSijMK3JobYKG0gNSRw9P8fB+Pn+lG9QnwlB/B3n5eAy1OVgRQnD/xS3Uw0WH2QhuZn1AXR2LKk+/CjTh0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=0hSBH7EN; arc=fail smtp.client-ip=40.107.100.80
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RRa9gjEX7pFO8ckVdfOJsu/hOdjkPssdJLgnFSNpmgHVP8BEqstHRDHcrBYwpKaMlaKq2qpuCihJwgyjz3IUeKx4A2j6rOSmD4x9b5ZbGrmqQsqM3P+qRLk8+jHshnmY725sE16Vdl2uUIRFgh84HylT+jX6mUB/++ObVnzzFcIVm5PHKnrqjfh16uOTOAJ9UPzhwM/BH0BrX3nd1jIBuCtyjgCrdQfbQ0GSb62A62TAyf7dzXxQLWzIOrA1X0oASMY+jsqn05YOWwvsqtwEe8vY2N3vEcHLR24Itd4Xyt19ua8jO88eyIImm6Hijlt/d2SIZuP/d/vVhxf6atT4Aw==
+ b=rBhflaumbl0oNxxt9d62zjxqFT2ZWs+ZFDh250Lb71tQvJXHQwT0nmgZmQbOjTKQyXXcmVJ8i3r5nucrXKFMGGhplDNToD4sTn3Pqi9wMLdpqFKAibePOuUC1GuMCsAR4SvlM9J4Pxr6j3+jemzyE6oVh5nEFGM4HE6pgCEZ2AY3KZj9sUJ5cbP4L0FlNMS4G9CHOhfulHzMza1eZLfdSjDO2Uh/uXVxHpCW9YBdAeMwJyUBaXIPXViMWhvxtu7Jnm7fpweWMIiKVfftX+d3pp1wIVq3QGNDU1OMTKY+xyLlHmXrB6CRTf+/jVPLWkZEqAnfrMdkuvc9ZcTGSyHMkw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8igOegqQBxy4+vnxcXa5dhgwHutv5G/7KbGuXHUi3N0=;
- b=X4aDLWxbc43D0bdQEjbcjAbYDiFwAy5oRunyFZsZt+2yS786mhvxDM3RS89U7OFc9EMr8vsiZX7VEr2iLBlNqTaghHdx1Q1y1JgV3J3y/Oxiad7zp4TEe6p7p+ThYUQgJ4JwuSK52lLRLI6vSEw1lgWtjqACc5NCo+RqU7i4gomjzUv0/zyh4mjKdKOha0Qx97I5QKugEi2yBMKyscS2Dur9600YJe2S2nisH/OXBvxju9iFO2Vz64dF2ZoN+J7Khd7GjhRGzwU2L0x8lVKbFZmZniVyzr8BMDeXNd2YHroqvEmtRtaxdI2brzS8qr4tntG3NXYC/eVDiFwcGhmKpg==
+ bh=H8+VfJa4Z585kAt5E7I71ZG/BeIog5ExGHVkF/tlKyY=;
+ b=EW4hrDPQQjJkCcFUC90aC1Xl83zs0F0sNA6Jd7nDReg5nprkM2QBDMyydOjS78FP7IGm9QVaxINeSLWO/SFBENVmWX3MWkjgnqd047beWsUittZmGqG3xNLf6kE21G3HdlWlwBo9EHVMp2q1svqeJKCGY4U/kN15K67/w2ajjNutmu6TlZP2lAKiN9Uxa53epANxnagUbdz6AxyFFYGlLqJAiEOdqmq0cxvJh7KqP6EU/qLLyAYIH22C8r6l4l/WqbmLZ7tl7lY8tdTGT7qu0r0WWuKh4IqeDEm1njryk2s5Jv9f0EE7wNubnCOp+MF3UacrPS2qchyIYFY6F+bkGQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8igOegqQBxy4+vnxcXa5dhgwHutv5G/7KbGuXHUi3N0=;
- b=IGUU15TYq6fAvH1PDKoL19nENznB8YXLatDnwFaHtayI3WDu3CZqBYXDJnVdBYBzqtHeg6ZunpcCpHpVHfhCrnFmY9yc9F39nJ+WtaTAxcc56czTC2UcpNgbJ6TPqzDzi25GJ0A8AdAQQi48DMj63V7qz4dodnC0oe8vB22MjJI=
+ bh=H8+VfJa4Z585kAt5E7I71ZG/BeIog5ExGHVkF/tlKyY=;
+ b=0hSBH7ENhAnqM3KImF53ylErg/b6J8qmNZKc8+Cl/edTysong6d1c0G3xRVcqnEAF98X+dIMclHMzTgwEkIO86Lke7gGmBOCUvSx4d/63KR+NTDOQnjNkPQhzfHzf0TR+jvl+bO97peIr/JrlVKQRhU5nEsmnzYbZMAPTe9+N6s=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from DS0PR12MB6440.namprd12.prod.outlook.com (2603:10b6:8:c8::18) by
- MW4PR12MB5666.namprd12.prod.outlook.com (2603:10b6:303:188::20) with
+ PH7PR12MB6658.namprd12.prod.outlook.com (2603:10b6:510:211::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.49; Wed, 2 Apr
- 2025 22:02:11 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Wed, 2 Apr
+ 2025 22:04:19 +0000
 Received: from DS0PR12MB6440.namprd12.prod.outlook.com
  ([fe80::6576:7d84:1c66:1620]) by DS0PR12MB6440.namprd12.prod.outlook.com
  ([fe80::6576:7d84:1c66:1620%6]) with mapi id 15.20.8583.041; Wed, 2 Apr 2025
- 22:02:11 +0000
-Message-ID: <294624e2-cebe-4c77-9f05-f956b11741a5@amd.com>
-Date: Wed, 2 Apr 2025 18:02:09 -0400
+ 22:04:19 +0000
+Message-ID: <e14637fa-6116-4378-ace2-8343a1fc9165@amd.com>
+Date: Wed, 2 Apr 2025 18:04:17 -0400
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: i2c: Add OV05C camera sensor driver
+Subject: Re: [PATCH v2] media: i2c: Add OV05C10 camera sensor driver
 Content-Language: en-GB
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Pratap Nirujogi <pratap.nirujogi@amd.com>, mchehab@kernel.org,
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Pratap Nirujogi <pratap.nirujogi@amd.com>, mchehab@kernel.org,
  sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
- dave.stevenson@raspberrypi.com, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, benjamin.chan@amd.com, bin.du@amd.com,
- gjorgji.rosikopulos@amd.com, king.li@amd.com, dominic.antony@amd.com
-References: <20250228165317.3468075-1-pratap.nirujogi@amd.com>
- <20250228173556.GB14076@pendragon.ideasonboard.com>
- <844a1936-572b-476a-9cab-8797c7da2040@amd.com>
- <20250402001809.GB4845@pendragon.ideasonboard.com>
+ dave.stevenson@raspberrypi.com, krzk@kernel.org, dan.carpenter@linaro.org,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ benjamin.chan@amd.com, bin.du@amd.com, grosikop@amd.com, king.li@amd.com,
+ dantony@amd.com, Venkata Narendra Kumar Gutta <vengutta@amd.com>
+References: <MhUYQD7uWnfZQAPq7VslFWPHOmx2B2UfAIpbMhLq1-7GC_i5bI2hhns_-ov_AAVpEH_VmDDFYkS5aOKBwnY61g==@protonmail.internalid>
+ <20250328214706.1516566-1-pratap.nirujogi@amd.com>
+ <fef11ce6-b3b6-4677-9387-13332b9a9d43@linaro.org>
+ <6ba024ef-4757-4db0-b12a-d56622329bb0@amd.com>
+ <20250402012052.GG4845@pendragon.ideasonboard.com>
 From: "Nirujogi, Pratap" <pnirujog@amd.com>
-In-Reply-To: <20250402001809.GB4845@pendragon.ideasonboard.com>
+In-Reply-To: <20250402012052.GG4845@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: YT4P288CA0067.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:b01:d2::27) To DS0PR12MB6440.namprd12.prod.outlook.com
+X-ClientProxiedBy: YT4PR01CA0278.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:109::19) To DS0PR12MB6440.namprd12.prod.outlook.com
  (2603:10b6:8:c8::18)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -85,168 +88,378 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR12MB6440:EE_|MW4PR12MB5666:EE_
-X-MS-Office365-Filtering-Correlation-Id: 43c3185d-c8f5-4727-69d8-08dd723204e6
+X-MS-TrafficTypeDiagnostic: DS0PR12MB6440:EE_|PH7PR12MB6658:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1fc6db9e-2cd7-4316-5180-08dd72325112
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ejFkdjlMcDFnUFVKY1dHLy9DL1JzcnQrTXp5ZHRLV2RmYjdRWE1XcVJSQmha?=
- =?utf-8?B?UzBxQTdvejF0bis0UE14M0s5KzFFYzErdnM2TzhYZVp3V1RZK3hucndGQmZG?=
- =?utf-8?B?QjV6NVllN2tWbUJvOE1IYmhnR1RTSVNEMGloUkI5ZU9mVHdXOEVaOUpEdHNa?=
- =?utf-8?B?NHFUVnRlYk9JL2Y3RlVaY3VsMWtaOTBzclJEWHlCT0d3WlBSM1M4Mm5TTjBt?=
- =?utf-8?B?dS9rampKRU9JQVE0TG1TRTA2dlRZYjhDVHJleHAzRndYTlpxMmx4UTVQVHh2?=
- =?utf-8?B?TUZyQ1YyR3FwQWVjZXRRaFF4WDdQMStKZ3JaeUVva0pKL2EzdzV1NHU4OTV4?=
- =?utf-8?B?R2JpUVVheDN4NDZQOU92TnhLL1d4b2YySXdoUUdsTXIxblpXdGh0V1NYU2Ix?=
- =?utf-8?B?VHd2M0dRUHFLU29GT3p1UHgrYWYxemxJRWd1c01ZNDZVNEZxWWZLQ0ZuQ0ty?=
- =?utf-8?B?dVFsV1U0Z3JLTC9WVnV6dnJUYi95ZmFrNW9KTVEyYVdxM0gzOWFKU09YRUhQ?=
- =?utf-8?B?anNXcEJVZkZPRy9HUVVocFNRZ09EQTd0Y05TSnMyQS8xYkN1TEphR2hGTVFj?=
- =?utf-8?B?YXJ6STVjNSsrS1VEMU5qOExTY1NuREExSTdoVEpadVovZUNCRHRHMGE1cFZZ?=
- =?utf-8?B?RVBjd0ppeW1wTjJzaEY1aklhMFJsa0x0UHVLQ2JUYzc1MGpRdjkxME1weTc1?=
- =?utf-8?B?VmJNcTlabGJKK0xid1NVWXJTMmR1cWwxTFQ4K0d3Q1lWY2swczBSalBpZzRp?=
- =?utf-8?B?bTc5ek14Y2U2MlJOczVBc1N5TmZFQXdkTFl6WmhJK1NBM3BHQ2gxMkJZVGNm?=
- =?utf-8?B?Q0tad0I4R0h6WTAxQXYrWnYwb1NZS2J6S0tlWmFqMDlUYjlQTVE1OVM5V21V?=
- =?utf-8?B?dmd2eFU2ek10T0Z3aS9pMjJQZjlxdlY4Q1RLbnVmQjNBd1EwWHNtODFpTjRN?=
- =?utf-8?B?K3hJNGVlcVNwYlZXNmxzb0VaN0VsbXdyc0FmQUJnZ1ZScXd0Z0xHc1QvZkhC?=
- =?utf-8?B?ODc5eUFna083TjlodlgvSWFSdlB2d1pXV3dWOFFJdHNneUJuOUY0K2JUZEc1?=
- =?utf-8?B?UlYwazkyOFFjT0x0VVRoT2h1ODJzM0oxUncvVTV0UFJSamxLZGQ2eHZISGZi?=
- =?utf-8?B?cktucnZHNTdDeDA0REJTODB4d3E4TU13dFdsT3h2VzVTVUVSd3MxanBoS0pJ?=
- =?utf-8?B?ZHB5T09CY2N1YUUzZFRTNHdOOXp2T1BTLzZ1KzcrZUxlcEpEV0tOZW9hMWw0?=
- =?utf-8?B?SHZ6cmhlSFFnTlVCejFOcUJUWTlRaDVSY2dKUDdCeDhQUDF2c0ZkeVRZQnJa?=
- =?utf-8?B?UW5DODdSNUpmZUl1RVd6V2s0TVZyU0YwTmRtM3JCTWR4Ri80cUg5dit2Rldx?=
- =?utf-8?B?NnhjamxBTEsvMnE4VXFzSWVDL0V2Rm1QOGxRTWZWQzhpY21zVHNacnBMWWRm?=
- =?utf-8?B?R0xTM2xmc1M2STBrRmhtWW1nZFJ0L25lNlZxY3ZhUThOMk51T0t2YVZ6elUr?=
- =?utf-8?B?V2FtN3Zlb2ZFOFlmNGdnM01rTlBSSEM1ckh3ZGFROE40am9SeE9kTW11Y2lK?=
- =?utf-8?B?VEVZSVhiNHpYdW4zNklTVGI1QkRMWUZxOEJPcjFVVlNNMjZ3UTdjN3IzRzBu?=
- =?utf-8?B?MEJZcGpsd1UvNm5uUzBVSzY5d0MxclR5NmlGbDloNGFyVDFuQTltdVdlaFlJ?=
- =?utf-8?B?c2NOb3BqanJscWlUZXFpQWNGV0JWUjl0LzlITHRqWDZWVTYxSVpRenZBTVo0?=
- =?utf-8?B?YlJ0ZHloTFQxQlRFTW9JNlNCVCtPckNCODdRODBqandCWlc0U25MZkpGakh1?=
- =?utf-8?B?NkRXbDdBbWxTT3hJWGJjQm9nTUNHSGdzRVJpUEdUT3lDMVRQVVJCVkN2QTVp?=
- =?utf-8?Q?Q4rE7y+/zH0Vp?=
+	=?utf-8?B?TFNHSHlJTG9PL00yY2hFUnA3Z3ZXZkJlSllvL0JHL2d0QlRtQ0ZWTkdMajZH?=
+ =?utf-8?B?QXpQbE55RHVwUmp3MWZhZWJiV3JhaWlJdWZhZndDa25hWEhpQWF3a243SjAy?=
+ =?utf-8?B?MXVQMktZZjdsSERXUjhpNFRaL0QzRVRZeTRRQjRpbklnZUFZSitSTlJYU0FN?=
+ =?utf-8?B?Q0MxZjVOci9zczV6SzluS2FoZ05tMm5laksvZG9PZ0gveTRKaCs4ODFoQXR3?=
+ =?utf-8?B?aWh0eE84MlV1Nks0TlZjdzVWSHQxQW9zaUY4VHRkTFhtdExuK1hsYkdvQXpa?=
+ =?utf-8?B?eWkzZnNjT2NKRFFkdll3U3VxMDhsVGZTRVlYemlNVExyb1RPdEhmMG00YmhG?=
+ =?utf-8?B?cWdTQTlXVU05VTNLc0s1TFdQSWJxelZNSmZHRlhXSXJKbDN6SndHZW15Q0NI?=
+ =?utf-8?B?Y3hFQlhVdk5aS3VqTG9ibnpoMFMvRFp6SzBzWHpiQ0YvMEJ3NnE4LzlYZ2dO?=
+ =?utf-8?B?dlZXMUVGNlpmVmlmbFVXOEhOUFhLbWp5MmpIV0RtRDVRSE9HR3M4dzF1c2hK?=
+ =?utf-8?B?elh5T1p6SGlUSGlhbXV4YW42cllGSURrSEpjL2pyL3BDNjNhNmZuckpub2tz?=
+ =?utf-8?B?OVBlbTlIV1NMR3I2aENSOUFDT3g1Q1UrSC82VDR3dE8xUWNDRUhEK2NQZVZO?=
+ =?utf-8?B?NGN1cEx3MTh0OWU4RlVEUGtXTjNjWE9aeXg5a1NjM29OZURwb0h2Wk1XOXdP?=
+ =?utf-8?B?bStkeHdRMHY5US9POERHc09CbWpadUxKNEN2VTVkeThHOGdWYmFjN2laVmlP?=
+ =?utf-8?B?bU8ycEt1NnQxRmFqc3A0MkNOMmNzTUp3MWduQjN6eHFxb1V1c3JWTjVmMUtI?=
+ =?utf-8?B?Vlo0anVpOWpBdHA0c2N5U0Y1YUxFWFJua1orUW55ZU8wa0trUTF2Syt5TlM0?=
+ =?utf-8?B?dkY0TUpnZ2ZJT1dZNlA0VVJvcjNBOXU2bTU2dk14bVZqWnFNS1c4Z1plN3JF?=
+ =?utf-8?B?WGFFOGFpMStLbGhrQTZUeHZpek5yM1ZUL3hzMWRzRTQ3eUlGcmJ0UGxDaVc0?=
+ =?utf-8?B?YnZ5eGI3cGNBQXRxMlEvYm1GWjFRTkd2R1VVSnRlcUE4YkExdFNnZVVhaTJX?=
+ =?utf-8?B?TngvbDYraXFEUFpKSm5DSVJPSnJDTmVPNEVaYVhXVkRGSmpQNmJTZVBEN1JO?=
+ =?utf-8?B?NGxoSGRSTGxHLzJ3NjJwVjJ2SHBSL2VJejU4KzI2dHI0RTBEQ0VjYjF6dUgz?=
+ =?utf-8?B?QjV2eDFVTGkxZXJyTDBzOWJidEttY1JOVjV6ektJTjRWeks0ekltK01WK1Qw?=
+ =?utf-8?B?bFovU2JnRGxqMktHbnR1SzZ5L3B4YmV1RTFNV3YvZFNWaERpcmVPbUtZSGgz?=
+ =?utf-8?B?c3NoR0p3MktvREdKWis0LzVDS0pxQnlZTmNJYkQzWi9wN3cxOVI1Y3FoTGhQ?=
+ =?utf-8?B?Y0kwQjV6QnFtYUwwaFd2SHR4OTcxUnVSWTN0NktlSVRZRHVacmtKRm9rSUJX?=
+ =?utf-8?B?bVdjT0Z1ZkZEa0VGK0JJVUhSMWhIWkJyZk45R0kvVjBDTHlrWkVLL05tYUxp?=
+ =?utf-8?B?MGdhc1RXWjUraFlWWUc0RzBkOFMzaVgyQkU3VGorbWUvbmxmVlZncGZkclQ4?=
+ =?utf-8?B?MnJrZUlSUWVnZmZlSEZ1ZzRtMlYvVFJyUzlOZ1RKbW8zNTM1WnNGRWxyOHlW?=
+ =?utf-8?B?VHF5a1ZmaFZnek1iQzJwQ1E3Mmk5M0w2TWZQaW55cmxUWTMxOVAwUXFaVy9j?=
+ =?utf-8?B?UVFSSWZsQ2xIYTBSM0MxQzBQSHdsSjJmZ0x3ZlFVWGp1L205SnNBRUw3VXJ4?=
+ =?utf-8?B?SzkyWTJ0WXhrMm4wMDFsSnlMNjRZT2dZQlBhblhhRWFBQjVCWnF4dmRkait2?=
+ =?utf-8?B?djBlSUJSeUlZUFpYQVoydz09?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6440.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR12MB6440.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RW5xcGpOZUxqZDI2MmZKRjZMTi9PazRoYVE3TXVtNUEzK29GazlXTzFoYzlV?=
- =?utf-8?B?T285Wm1jaEtqNDI0RTNOVTNYRWc1WjJ3U1h4bVNFajcwRzZ4NmtSa1dkelFC?=
- =?utf-8?B?N2I1U0hXUXdud29nV2VrTFZadXBEeElCUEFleTcvOHhUbVMzZXdxTk1WY1kr?=
- =?utf-8?B?akFUcXdPUUhWWVpmMjFIc2JDR0JZWjdFc3ArODhrR3JPV3k1K0toc0pjZjF2?=
- =?utf-8?B?VGpIUyt3ZFM4SXVibHhEK2Q5ZVBPc3RLZFJNSmd1Vm14SCtpNUVSUnAwZGF2?=
- =?utf-8?B?NCtZbHYxRkh4Rjk5OW1abUFzNDJHSGlyZm13NXUxS29RdWNJdnBjUC93cUdi?=
- =?utf-8?B?NFQ4djRHZFR5cFlFd08xZEs0WEpIRUdDRGtGWEVlQ0Q3enVucnZKZ1A1b0ph?=
- =?utf-8?B?RWtPWGdGUGZ3b3dPbkJZSzZud1paTVRlY2V0T2ZzbHJtRkpuUHRPMzZmVHVm?=
- =?utf-8?B?SmwxSzI3MzR5T1dWQmVCTFlTVXV3bTRHdkk4eEZnQ0xoWXpITlFPV3VINDVD?=
- =?utf-8?B?OVpkbHEwNXRHRVE0Q3ZtN1l0NUFuR0JnT0tBSmVjNnVCcVZGNzZxaVlBcTly?=
- =?utf-8?B?dTdaZ204RUMvV3QvYUFKb1B4SWZlditvVng5SCtudG5jNDR0Y3dTSDJ4TlNW?=
- =?utf-8?B?VnIwSUl5aEtGQlZjaFd0TEIzK1N0eHJZWnVPanVFV0ROU0IwL2lNNElzTWd0?=
- =?utf-8?B?cVFPWWtYK0p3M1plbFBtME5oMmVQNDhKdkRjc2p1b1ZDN3JwWjh0ckFoU0l4?=
- =?utf-8?B?TmZWc2pSbENoVFdEMU9peWFhMG0zVEZRWXVZTnBZazYzaHZ0WlpGakJlUlFv?=
- =?utf-8?B?aUtFZ09RVnRtaDFRNTNKQnA3aitIT3ZaWE94N3dWbDZuaE5YbGdRS2NXMXc3?=
- =?utf-8?B?MmY2NS9iUmdPdXdXZGNSclhrL3BoRDE5cm5FSkQvNnl2VmMzbmpWR1JubmpG?=
- =?utf-8?B?YjBscFpHZCtTZEVWVjU3WVh5enVlMmtsSFRnTUh2cFVPNmhBRjRsOVJKa1VL?=
- =?utf-8?B?anFqcmhSZ3hZcGxGaFFQUFJCSW4zOU9samY4TWJNaVpab0RZbm1qZDM3WkIr?=
- =?utf-8?B?SkhKSmVXVEhqeStncGZHZlRUSDhnamdpdnk4NmhoL3lWNGhoOHZMWGVDbVFo?=
- =?utf-8?B?ZlU4ZkU1VVhFS0hubGVmRDBJSTZoUFEvWGd5VzM5d21oUlo1RHdFVkJmVlZ4?=
- =?utf-8?B?aDk0TkRReWdLczkxNURJNFlqZk9jRnhVbUZkKythRkY3MDdwRVFDSUc4K1hw?=
- =?utf-8?B?UUNsbkI0ZndkSXBMSm9ibDB3MnMybDQ3MGtMaUdac0lsWTJsb2FCeFZzRnpN?=
- =?utf-8?B?dlFWMXorS25DOVI3UWU0N0xFbEQxa2V2M2QyVWVFTlpKL3NCWnJrVDA4em1U?=
- =?utf-8?B?RnpKZFZ0WnBaQUxEV0JiK2l5ZUp0MFZBWDc1eEJ4WVFJUVhheVd5REJETW52?=
- =?utf-8?B?MUV6eDQ3dGFpanhGaktBUGdIMnU1ajJxR2ZzQzlQTlpPODMwNEIwQStiQThK?=
- =?utf-8?B?V2NFTXZZa0lZblNhM1VYOTNTM0d1Tko5T2ViRUZXbXdISVdmOEdDMHF3dFJl?=
- =?utf-8?B?RksrZDlrRjlGRVVXcTRwRDFMS2tFVittQmtRRHB0OUlvaWx4ZjlvZVJPd1A1?=
- =?utf-8?B?Rko4QlR5ZXdZc0p6MWtBYSt3VEUrWU14MGF0OHYrU0dUSUtRb3dmQUFOcFVI?=
- =?utf-8?B?bGFiQkZQN0NMemdjdkViNHZtUUM3WmJoeDhRZDVkSzhiWXNyT0hlWGc2WmZS?=
- =?utf-8?B?REovTG9NVXY4eDk4MDd2aS9WdDcvdFVkcm9MMGJ1N2ErQVRHZVI3MXA0cFFS?=
- =?utf-8?B?aXBab3dYU0prMTN0YkNpVnJNZ2VBdW84bnU2d1dNVGVkSGJlTGhLNEFQVnBy?=
- =?utf-8?B?R2V0SGJBeU1haGs3QXlmaU9HVUo5eVNESHpiNWRrejBjanRuTzZrcVNyTnNy?=
- =?utf-8?B?RUQzTjloaitycnlpS2R0ZWE2dHM5RDJ2T1VNMDlGcFdoaU4zQ3RJT3pCMGg5?=
- =?utf-8?B?KzZjN0xFeVA2ZWZWUzIrYXcrV1RKaDdlMTBrZXVRWFgxdTFpWEZqU2VIK2dk?=
- =?utf-8?B?dEZYZkNMWXlnK01UNlVWaENVcG9OazVEWXJ1REdMTyt5eFkxUmc1MUZNOXJE?=
- =?utf-8?Q?iIVH+xezcZjFcfrAgYPMJ8Hj5?=
+	=?utf-8?B?Yi9jZitnOWh3M2V0V1NrK09ybFJwYTlOdHZzeEp2S3F3cll4LzZDakxZNWhS?=
+ =?utf-8?B?T0dVWm9LNHZGMjZ2bDNCeGQvRm9jU3d6a0ordm83Q3FCVDgyUG8rbjkremJB?=
+ =?utf-8?B?dHF0QWhLa0lUU1RQUHpHTzRsSyttMlVVZUxScVpXTkxTL29KWjkwTkJSajZ4?=
+ =?utf-8?B?aVNhM3FjUjlHY1lVYVpDcW5xeXZqa1BrRDk1bmZFd2d4MHVKb0NWMTVCVnNa?=
+ =?utf-8?B?dzZ4OWhRVWxoRlVCZVpzTC9leTBhczdDYXZxZHpxVTJsR1VoYkRGRk5TK09Z?=
+ =?utf-8?B?bE1IYS9DUjVyRFRlTTBMNkYzUkQ0eXlxVmxiUUxXd2pQNktnaWFVQmJJQTJn?=
+ =?utf-8?B?ajdCV2hxMk45ekxxWmhia2JlV0o3bGR2VXNWVUc1dDg1OWRtcmY2dmRnQzdM?=
+ =?utf-8?B?MGZwMXJQUWNUcHg5N0JDTk12VDRtczZGUGRNVEwyWnRkaG1Rb3BhMUUvN04r?=
+ =?utf-8?B?c3JwS2xRL21za3JSOXJFZGdkQW01NElDbWJFTkhncWVBQTA2SWpYUlZWYjRT?=
+ =?utf-8?B?clZFUFVUVWxZcXlpSmU5ajNGaDN1anVUUlVtSktyOUtSS3hoL2FqNXJFNm5O?=
+ =?utf-8?B?TDRvVVZGdEFpa2hidXBuM3lXcE9ZcVhTckVhSmdmM3dOY2sya2p1VndOblgr?=
+ =?utf-8?B?V3daNzBOUVQ3N1BWR2RINmRycG5TY0RrditmRjFiSHF4TStOY3kzRWhuSDFT?=
+ =?utf-8?B?YVpkR0lRMWtlb3AvbW95dFFZbTZxVlo1MnhQdmgrbEw0VzhnQTEza2paNGNk?=
+ =?utf-8?B?YmdqblI5aEk4MmVCQzVJY3lHR0NibUNLVTBPSUVxNG15NjhZeng4U3ZXUGdk?=
+ =?utf-8?B?WW55OGxqNjE4RkUxZzhkSnExS0dYMW5haWJSdGFsWVRLNVI5TjRhbnVOYUxv?=
+ =?utf-8?B?Zk53QzRlQWFkNG5LWitzaktvZ2JnWExWZTdkUUI3N3lORGRnd0F2amQ1NHNl?=
+ =?utf-8?B?bWNBMGsxbEJ1TzI0ZlBiNzM0QUpkODNScGZQdGIxT1V1Y2toNUppeWl2a1VP?=
+ =?utf-8?B?T1dUNFJ5S2YwVkxMUHZUaVJQMm9IQlgvbzdNZDlQcjNURmNtQTAxZDFjTEhu?=
+ =?utf-8?B?U2F4V3V5OUduamY2ekxJVE5GSXZPcFVGKzhnVllwcS84UmhGN08rQmRwNFBt?=
+ =?utf-8?B?cy9MM2Njd0wrSC9EN0hYQlMvdnI1bmRIWGxKVVhNb0htUGFJLzhDT252L0xK?=
+ =?utf-8?B?Q0pwUEx1QitMbmpWZDIzNTVnZC9SQVMzd0dXT011cjRWZ0dxb3BHVkRmUFls?=
+ =?utf-8?B?UmEwQVgrNFhoYmYzN2FNMDNvN3htcHkxTS9NdHQ4eEZYeUlqMnNaaUhZdVVR?=
+ =?utf-8?B?aWUrNks2OWlHS0hqRFVJb2lydWk5dFF6T1Zzb0RWYWVwdmFhdVV5SWNCdmw1?=
+ =?utf-8?B?YlJEK2hiTXl3WHV3WThjbHFBc2tzQ0VZeVUvbGlId0hCRElWUUtMYUZ5VnY1?=
+ =?utf-8?B?UUNBa01sRlMya3p1TGlXaUhDeUpYMkJCQjFWdGlPODkyOXJRZFdaMHVOQzZP?=
+ =?utf-8?B?Y2ZUTzVEaTNOUWNOdFQ0R29vSHc4TUkvVnhLWnJsYTRnWHBvaWExK0tQc2F5?=
+ =?utf-8?B?RmVWWjFvRnlhdDVmcStBUGsxdzN2MzJ1TzRoR2Y0UDYxNi9RelU4QWdRbC9l?=
+ =?utf-8?B?cVBTbFBYNml6ejhHd1N6VzkzWTVaSjViVjJjbk9wek1GRCtlSEFJRnRnL0lC?=
+ =?utf-8?B?SVp1c20xSkwzS0ZQZFVIZFQwemNQcU15MGk2eHZoQ2FZL0xicjF1TTVmWUl2?=
+ =?utf-8?B?T3h6QXV0c2RlSjNtMWg4TFZveFozS2pPUDJsajdRdVFBb2dlRVIxSmduUzlV?=
+ =?utf-8?B?dGJBb090Wk0wTitaZ3JIMFh6SlRMTjJiQ2g0VmduSm9ueVFBVFlHZ1g3VUdO?=
+ =?utf-8?B?eGxRWXY1c1ErWldWUlpISnVKM2sxNGxKdDcwUHVBL2VKNW1MS0VkcGhsUldD?=
+ =?utf-8?B?aGVLZ05LK0h0SGU2VmIzUU5BeDlXRUN4MlRmWlRiaUhmL0YxQTBHQlh6ZlNh?=
+ =?utf-8?B?R1pKeHFWd0tSV1Y3R3hXazJUaEtXTEJLU2hWMHVKcUdMbGNGU1dQc3BKYm1r?=
+ =?utf-8?B?d25JanNPVWVCdzVZSkpaVURZUXdaekpINUFsY25GKzJqSkhGajd6clBrYzNI?=
+ =?utf-8?Q?wJ6Cnw+x0HH24ZsXzzVVS2SL+?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43c3185d-c8f5-4727-69d8-08dd723204e6
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1fc6db9e-2cd7-4316-5180-08dd72325112
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR12MB6440.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2025 22:02:11.5057
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2025 22:04:19.3012
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: phlCq3roLIfW8BbyXIColTCz6KCtNoiI9FcR7O6+UoGUQjeoLr/Ax9TY+NgAW/nVX0s0M00RIKLO+Rb5khx/kA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB5666
+X-MS-Exchange-CrossTenant-UserPrincipalName: 11ga5oTNC148QXPxDFokFWvlEcrL/eDB7hAV3wEO6YXYuNN/8QvkY4+h44zYdq2nLRFmX3ehZV0ZiICiBmy4Fw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6658
 
 Hi Laurent,
 
-Thanks for your response.
+Please see below v4l2-compliance test reports for:
+
+(a) ov05c10 device /dev/v4l-subdev0
+(b) amd_isp_capture device /dev/video0
+
+
+Compliance test for device /dev/v4l-subdev0:
+--------------------------------------------
+
+atg@isp-pv-linux:~/v4l-utils/build/utils/v4l2-compliance$ sudo 
+./v4l2-compliance -u 0
+v4l2-compliance 1.29.0-5348, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 75e3f0e2c2cb 2025-03-17 18:12:17
+
+Compliance test for device /dev/v4l-subdev0:
+
+Driver Info:
+         Driver version   : 6.14.0
+         Capabilities     : 0x00000000
+         Client Capabilities: 0x0000000000000002
+interval-uses-which
+Required ioctls:
+         test VIDIOC_SUDBEV_QUERYCAP: OK
+         test invalid ioctls: OK
+
+Allow for multiple opens:
+         test second /dev/v4l-subdev0 open: OK
+         test VIDIOC_SUBDEV_QUERYCAP: OK
+         test for unlimited opens: OK
+
+Debug ioctls:
+         test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+         test VIDIOC_ENUMAUDIO: OK (Not Supported)
+         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+         test VIDIOC_G/S_AUDIO: OK (Not Supported)
+         Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+         Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+         test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+         test VIDIOC_QUERYCTRL: OK
+         test VIDIOC_G/S_CTRL: OK
+         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+         Standard Controls: 11 Private Controls: 0
+
+Format ioctls:
+         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+         test VIDIOC_G/S_PARM: OK (Not Supported)
+         test VIDIOC_G_FBUF: OK (Not Supported)
+         test VIDIOC_G_FMT: OK (Not Supported)
+         test VIDIOC_TRY_FMT: OK (Not Supported)
+         test VIDIOC_S_FMT: OK (Not Supported)
+         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+         test Cropping: OK (Not Supported)
+         test Composing: OK (Not Supported)
+         test Scaling: OK (Not Supported)
+
+Codec ioctls:
+         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+         test CREATE_BUFS maximum buffers: OK
+         test VIDIOC_REMOVE_BUFS: OK
+         test VIDIOC_EXPBUF: OK (Not Supported)
+         test Requests: OK (Not Supported)
+         test blocking wait: OK (Not Supported)
+
+Total for device /dev/v4l-subdev0: 46, Succeeded: 46, Failed: 0, Warnings: 0
+atg@isp-pv-linux:~/v4l-utils/build/utils/v4l2-compliance$
+---
+
+Compliance test for amd_isp_capture device /dev/video0:
+-------------------------------------------------------
+atg@isp-pv-linux:~/test$ sudo ./v4l2-compliance -d /dev/video0
+[sudo] password for atg:
+v4l2-compliance 1.29.0-5348, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 75e3f0e2c2cb 2025-03-17 18:12:17
+
+Compliance test for amd_isp_capture device /dev/video0:
+
+Driver Info:
+         Driver name      : amd_isp_capture
+         Card type        : amd_isp_capture
+         Bus info         : platform:amd_isp_capture
+         Driver version   : 6.14.0
+         Capabilities     : 0xa4200001
+                 Video Capture
+                 I/O MC
+                 Streaming
+                 Extended Pix Format
+                 Device Capabilities
+         Device Caps      : 0x24200001
+                 Video Capture
+                 I/O MC
+                 Streaming
+                 Extended Pix Format
+Media Driver Info:
+         Driver name      : amd_isp_capture
+         Model            : amd_isp41_mdev
+         Serial           :
+         Bus info         : platform:amd_isp_capture
+         Media version    : 6.14.0
+         Hardware revision: 0x00000000 (0)
+         Driver version   : 6.14.0
+Interface Info:
+         ID               : 0x03000003
+         Type             : V4L Video
+Entity Info:
+         ID               : 0x00000001 (1)
+         Name             : Preview
+         Function         : V4L2 I/O
+         Pad 0x01000002   : 0: Sink
+           Link 0x02000007: from remote pad 0x1000006 of entity 'ov05c10 
+99-0010' (Camera Sensor): Data, Enabled, Immutable
+
+Required ioctls:
+         test MC information (see 'Media Driver Info' above): OK
+         test VIDIOC_QUERYCAP: OK
+         test invalid ioctls: OK
+
+Allow for multiple opens:
+         test second /dev/video0 open: OK
+         test VIDIOC_QUERYCAP: OK
+         test VIDIOC_G/S_PRIORITY: OK
+         test for unlimited opens: OK
+
+Debug ioctls:
+         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+         test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+         test VIDIOC_ENUMAUDIO: OK (Not Supported)
+         test VIDIOC_G/S/ENUMINPUT: OK
+         test VIDIOC_G/S_AUDIO: OK (Not Supported)
+         Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+         Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+         test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+         test VIDIOC_QUERYCTRL: OK (Not Supported)
+         test VIDIOC_G/S_CTRL: OK (Not Supported)
+         test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+         Standard Controls: 0 Private Controls: 0
+
+Format ioctls (Input 0):
+         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+         test VIDIOC_G/S_PARM: OK
+         test VIDIOC_G_FBUF: OK (Not Supported)
+         test VIDIOC_G_FMT: OK
+         test VIDIOC_TRY_FMT: OK
+         test VIDIOC_S_FMT: OK
+         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+         test Cropping: OK (Not Supported)
+         test Composing: OK (Not Supported)
+         test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 0):
+         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+         test CREATE_BUFS maximum buffers: OK
+         test VIDIOC_REMOVE_BUFS: OK
+         test VIDIOC_EXPBUF: OK
+         test Requests: OK (Not Supported)
+         test blocking wait: OK
+
+Total for amd_isp_capture device /dev/video0: 49, Succeeded: 49, Failed: 
+0, Warnings: 0
+atg@isp-pv-linux:~/test$
+---
 
 Thanks,
 Pratap
 
-On 4/1/2025 8:18 PM, Laurent Pinchart wrote:
+On 4/1/2025 9:20 PM, Laurent Pinchart wrote:
 > Caution: This message originated from an External Source. Use proper caution when opening attachments, clicking links, or responding.
 > 
 > 
-> Hello Pratap,
-> 
-> On Fri, Mar 28, 2025 at 06:10:41PM -0400, Nirujogi, Pratap wrote:
->> Hi Laurent,
+> On Mon, Mar 31, 2025 at 03:17:22PM -0400, Nirujogi, Pratap wrote:
+>> On 3/28/2025 9:18 PM, Bryan O'Donoghue wrote:
+>>> On 28/03/2025 21:42, Pratap Nirujogi wrote:
+>>>> From: Bin Du <Bin.Du@amd.com>
+>>>
+>>>> +static const struct i2c_device_id ov05c10_id[] = {
+>>>> +     {"ov05c10", 0 },
+>>>> +     { }
+>>>> +};
+>>>
+>>> There's an IPU6/IPU7 version of this driver.
+>>>
+>>> https://github.com/intel/ipu6-drivers/blob/master/drivers/media/i2c/
+>>> ov05c10.c
+>>>
+>>> Perhaps you could import the Intel ACPI name contained in there too.
+>>>
+>> sure, will add Intel ACPI names too in V3. To be specific, I'm going to
+>> add the below table in addition to the existing "struct i2c_device_id
+>> ov05c10_id[]" table:
 >>
->> Thanks for reviewing and extremely sorry for the delayed response. We
->> have submitted V2 patch based on your review feedback.
+>> static const struct acpi_device_id ov05c10_acpi_ids[] = {
+>>        { "OVTI05C1" },
+>>        {}
+>> };
+> 
+> You could drop the i2c_device_id table if you added an OF device ID
+> table, but you'll need DT bindings for that. Sakari, any best practice
+> rule in this area ?
+> 
+
+Sure, will wait for Sakari's feedback. We will also check if the driver 
+can work using acpi_device_id match instead of i2c_device_id.
+
+>>>> +
+>>>> +MODULE_DEVICE_TABLE(i2c, ov05c10_id);
+>>>> +
+>>>> +static struct i2c_driver ov05c10_i2c_driver = {
+>>>> +     .driver = {
+>>>> +             .name = DRV_NAME,
+>>>> +             .pm = pm_ptr(&ov05c10_pm_ops),
+>>>> +     },
+>>>> +     .id_table = ov05c10_id,
+>>>> +     .probe = ov05c10_probe,
+>>>> +     .remove = ov05c10_remove,
+>>>> +};
+>>>> +
+>>>> +module_i2c_driver(ov05c10_i2c_driver);
+>>>> +
+>>>> +MODULE_AUTHOR("Pratap Nirujogi <pratap.nirujogi@amd.com>");
+>>>> +MODULE_AUTHOR("Venkata Narendra Kumar Gutta <vengutta@amd.com>");
+>>>> +MODULE_AUTHOR("Bin Du <bin.du@amd.com>");
+>>>> +MODULE_DESCRIPTION("OmniVision OV05C1010 sensor driver");
+>>>> +MODULE_LICENSE("GPL v2");
+>>>
+>>> Why v2 ? Checkpatch will complain about v2 and BTW the IPU6 driver above
+>>> is GPL not GPL v2.
 >>
->> Can you please help to review latest V2 patch and let us know your feedback.
-> 
-> Sure. It will take a bit of time though, as my review backlog is big.
-
-Thanks for notifying us.
-
-> Please see below for additional comments.
-> 
->> On 2/28/2025 12:35 PM, Laurent Pinchart wrote:
->>>
->>> Hi Pratap,
->>>
->>> Thank you for the patch.
->>>
->>> A few assorted comments to start with, I'll try to do a more in-depth
->>> review later.
->>>
->>> On Fri, Feb 28, 2025 at 11:53:12AM -0500, Pratap Nirujogi wrote:
->>>> Add driver for OmniVision 5.2M OV05C10 sensor. This driver
->>>> supports only the full size normal 2888x1808@30fps 2-lane
->>>> sensor profile.
->>>
->>> What have you tested this driver with ? I see no OF device ID or ACPI
->>> device ID.
->>
->> We have tested this driver on the "AMD RYZEN AI MAX PRO 385 w/ Radeon
->> 8050S" target supporting ISP HW v4.1. OMNI5C10 is ACPI HID for this
->> sensor on the target.
-> 
-> That's interesting. Do you have plans to post a driver for the ISP ?
-> 
-yes, we are planning to post the ISP driver patches once the dependent 
-platform / sensor / i2c patches gets finalized after review.
-
->>> Please provide a v4l2-compliance report.
->>
->> Please refer the attached screenshot for the v4l2-compliance test
->> report. This test is ran with V2 patch. Fixed some of the compliance
->> test failures on V1 and ensured it is 100% compliant for the supported
->> IOCTLS.
-> 
-> Could you please post the v4l2-compliance report in a reply to v2, in
-> text format instead of a screenshot ?
-> 
-Sure, will share the report in text format in response to V2.
-
->>>> Signed-off-by: Pratap Nirujogi <pratap.nirujogi@amd.com>
->>>> ---
->>>>    drivers/media/i2c/Kconfig  |   10 +
->>>>    drivers/media/i2c/Makefile |    1 +
->>>>    drivers/media/i2c/ov05c.c  | 1031 ++++++++++++++++++++++++++++++++++++
-> 
-> [snip]
+>> sure, will replace "GPL v2" with "GPL" in V3.
 > 
 > --
 > Regards,
