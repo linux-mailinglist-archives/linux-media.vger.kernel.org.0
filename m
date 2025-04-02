@@ -1,136 +1,123 @@
-Return-Path: <linux-media+bounces-29178-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29179-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A46DFA785BA
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 02:30:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E77E5A785C1
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 02:38:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D85C4188CA99
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 00:30:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 140513AF78A
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 00:38:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 265AC8494;
-	Wed,  2 Apr 2025 00:30:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 516A62E3374;
+	Wed,  2 Apr 2025 00:38:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wCEvoDfH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nlzcb2uz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10ACA36D;
-	Wed,  2 Apr 2025 00:30:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52EFD36D
+	for <linux-media@vger.kernel.org>; Wed,  2 Apr 2025 00:38:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743553815; cv=none; b=Yny/BLIqj8SDfdOO7H9CY+23XDa2jNqgySCxpfQDTHnWe4UlVaDLdSoL8GI1h9RZAgAg9FWfLO6FLKGYMhEo+u7L+AB/rlgLndebe30pzb9BX4KWhjbN8xCD0ISYVgKasQhkMbUaEHD27ZaqJN9psmRH+GFV4zFa/bAj9aG7A+g=
+	t=1743554298; cv=none; b=KupYPvKQatXevPWyR780CjBFE/HiG1dpcn0WnfCba5l9Nh8kasadZbc7f451wQw2QoJW1pxHUfIbAKwrrvourg43TD7D1HjwMj/+baavU5ZB4WY3uN/sPN9SRvm54W9dKuqKk8sWrxyp0DX82IKKZPupVAJRcv6SOmhxjRoJmPk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743553815; c=relaxed/simple;
-	bh=ks3FoRalUy+GxNwqTzbVxz4t91WqPu5KkjffOTeY6aA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XHeaAe15O512n+eSWkMjN9S3d0V1FciTu89n92PiKrw+09JeY243zJUau6HyW5tYFF1VdQGcWy4iC7Rs/zU1XmQKfwSSgFLwzjCiCuopfskU8Iu8J8Cpms9BPXwweGrsejI4MICr+44XjrPQTNzlNJpKBYE6XYiQsYy6Z6XixYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wCEvoDfH; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B492B6A2;
-	Wed,  2 Apr 2025 02:28:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1743553699;
-	bh=ks3FoRalUy+GxNwqTzbVxz4t91WqPu5KkjffOTeY6aA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wCEvoDfH3i+sL9c97S9iDN820KbpDkbjjLJvVnklp0HKK53QYJd+2slu0y9TX5rh/
-	 BH/XcEBD6/NxNLmU1i0S+/UCyNoKYt5+qxOJ4+ZXYbOqoNbCKXskLPilF45wMRpn7I
-	 8IWX4CXtzRyyr9Xz4kqtdJGYHZtak+X5uSMMXk4I=
-Date: Wed, 2 Apr 2025 03:29:48 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Gabriel <gshahrouzi@gmail.com>
-Cc: Ricardo Ribalda <ribalda@chromium.org>, hdegoede@redhat.com,
-	mchehab@kernel.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+701fc9cc0cb44e2b0fe9@syzkaller.appspotmail.com,
-	skhan@linuxfoundation.org, kernelmentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] media: Fix invalid link creation when source entity has
- 0 pads
-Message-ID: <20250402002948.GC4845@pendragon.ideasonboard.com>
-References: <67e26157.0c0a0220.36adcd.506e@mx.google.com>
- <CANiDSCsvEke31SAgXhs_sXEN7d6fXrwuhJFsi2mzESq1Jc8pxA@mail.gmail.com>
- <CAKUZ0zJjdSDH3cw=8iKJauU5dmcq9TFhAaJX4yS5UQoiCUaguA@mail.gmail.com>
- <20250326001336.GA23984@pendragon.ideasonboard.com>
- <CAKUZ0zKDy47cQ0ZQo-=1c7wmazbutF=VF3qX09DfZFBz01hh-g@mail.gmail.com>
+	s=arc-20240116; t=1743554298; c=relaxed/simple;
+	bh=z0M9uNd/pSvVj6ex9nzvCEQD7uBUnyIhUAt3OMqzQHU=;
+	h=Message-ID:Date:Content-Type:MIME-Version:From:To:Cc:Subject; b=ZT2CKmppkZBe6ZpdRL8KaTbQcNx19m1NttzBnfCEYtM7+ItPLCtDoSIwPPTMMsfvnFul9MZkTAbztLwZHUS8LRqSuJQGwq1kMaTfeEpad/jN2jryQwDOhCCWMlEH53ufvBzsvI4Amen7E3rMCCBAKBSD6u+G4lP5eyJiFWNFJHs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nlzcb2uz; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6e8ec399427so50733496d6.2
+        for <linux-media@vger.kernel.org>; Tue, 01 Apr 2025 17:38:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743554294; x=1744159094; darn=vger.kernel.org;
+        h=subject:cc:to:from:mime-version:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=8AWwYoeLIRBS+7sAQHa//FhJUXYT9j+mlCuz/L01liI=;
+        b=Nlzcb2uzfBcJiaV1ak6+lQoCfBEtVWL9baAP7837aWWV6V0KjC0uDECuDtxB4+MJrL
+         vz50a5Yqw6/GQN9swxpFMbAGpi8no8HTDIJgwEHCYmkQUE+BxiXpZHY/Wfr94WaUuWFY
+         UsXQH/vHJpTUFl5oC+/+9Q3mcz5KlF35P5F07wVMtn8YU6734nmBqMiUvxufVDgI3VYo
+         +rPDsEUT/rvBw4YBzVjSbTOBIEEL0vVTFKAOapbY/bv4ERAqSoKD/icmuIh0CdwoVLIJ
+         ItrS7HdoHRzmdr4UydqvEDCRG3SPfktLBDeiEGQu+q9WZgU2NnZnkB7jxTFkR1cR+iRU
+         fkRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743554294; x=1744159094;
+        h=subject:cc:to:from:mime-version:date:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=8AWwYoeLIRBS+7sAQHa//FhJUXYT9j+mlCuz/L01liI=;
+        b=E+WvuuHx2Y9gqou0yofwXWFraUooivLT34IrwXr79l2ueWkOyIih37vSZoLxcNib+m
+         r3DlFs5Fmf9/kDzYyZIChuoEa4hgPqNU0KWVPMB/4ZBr5Oji6zsZxcEWJV76sNVpVV3z
+         155QOA6QIJdPM7s68Uu1kVMsQEe9Y7rwHeM0bf6UrPMaX9x6MEYel4tSTzEjsmDVIRCK
+         Cz6w9ITvjXDOv8jEYfD2aS8YF4m57eTFHDk06qb2AAu9sg6g45UF+6JY2CnEaRmC2cDZ
+         rHGVaWRQ4y8iQ4wMY9TZDpRBtNYuqsy8UQsGooVqHzzMs5pS1njKDicYP19sCu/VC5sd
+         Bahw==
+X-Gm-Message-State: AOJu0Yz1/+f5NC0O5cyA4DoZHVGhFBtQwst1zGVRCzGf9vGfWCM6juEY
+	ZcbFwZbP3xOuTIhbGbg/y68Swm5UoDlo8Oq3bk405iYsHXruabvOT35OYBB6BQs=
+X-Gm-Gg: ASbGnctkFqwmG0hwczWKX5gm3QWABNumL8ihqFHwid9OMlQaIOSvAP1de5K8Em+6vbf
+	adZ9oWTpn2V3CkISzNzSfVK2A0BCaFryKlck6jhIeNcULcFQUbbzt/3AuglIBv41Sw2V/kQjo9N
+	zPwbBZKNs5OHIuTGRewEfQRb456Pbh/ucFvHXsatP5KA4Xuh+Nzb2VzQE21FhpCyG1fbSCMs88q
+	K/INDvAJS1Kk/LmzrWKpBvwOAf6rVlO1fX2PJOyRGAWgk8ls4T8uOg+aLtMNOOcqedGWTi4P6+F
+	6onD1Uf5Fgjv8O05QjPSS3LhIXlolgMOvlg+3UqiyyiU9w==
+X-Google-Smtp-Source: AGHT+IFEhiCS8eCnq8NYUvlP8USM+0CMd1MK5pPBJtdugFm6EBu/miHksDoPGhJavjzTu8ZXzEqMxA==
+X-Received: by 2002:a05:6214:268f:b0:6e6:646e:a0f0 with SMTP id 6a1803df08f44-6ef02bc43c1mr10828756d6.12.1743554294073;
+        Tue, 01 Apr 2025 17:38:14 -0700 (PDT)
+Received: from [127.0.1.1] ([73.123.232.110])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6eec9627e9bsm68240356d6.15.2025.04.01.17.38.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Apr 2025 17:38:13 -0700 (PDT)
+Message-ID: <67ec86f5.d40a0220.2fb67c.97f0@mx.google.com>
+Date: Tue, 01 Apr 2025 17:38:13 -0700 (PDT)
+Content-Type: multipart/mixed; boundary="===============2284820769746903825=="
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKUZ0zKDy47cQ0ZQo-=1c7wmazbutF=VF3qX09DfZFBz01hh-g@mail.gmail.com>
+From: gshahrouzi@gmail.com
+To: linux-media@vger.kernel.org
+Cc: 
+ linux-staging@lists.linux.dev,slongerbeam@gmail.com,p.zabel@pengutronix.de,mchehab@kernel.org,gregkh@linuxfoundation.org,skhan@linuxfoundation.org,kernelmentees@lists.linuxfoundation.org
+Subject: [PATCH] staging: media: Remove unnecessary braces for single
 
-Hi Gabriel,
+--===============2284820769746903825==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-On Sat, Mar 29, 2025 at 01:50:00PM -0400, Gabriel wrote:
-> Hi Laurent,
-> 
-> I’ve analyzed the bug report, and the root cause of the
-> "WARNING-media_create_pad_link" issue is a mismatch in terminal
-> references in the USB descriptor.
-> 
-> The format type descriptor references terminal ID 6, while the audio
-> streaming interface descriptor points to terminal ID 5. This
-> discrepancy triggers the warning: "No streaming interface found for
-> terminal 6", followed by the media pad link warning.
+>From 2414aa327e8a2b2f8b7cb5673c20bcdea3c5763e Mon Sep 17 00:00:00 2001
+From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+Date: Tue, 1 Apr 2025 20:22:22 -0400
+Subject: [PATCH] staging: media: Remove unnecessary braces for single
+ statement block
 
-Can you share the USB descriptors.
+Remove unnecessary braces in single statement block to comply with kernel
+coding style.
+---
+ drivers/staging/media/imx/imx-media-of.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-> I confirmed this by changing the terminal ID in the format descriptor
-> from 6 to 5, which eliminates both warnings. This shows the warning is
-> correctly identifying an invalid descriptor configuration, not a
-> kernel bug.
-
-There's still something not quite right. uvc_entity->num_pads should
-always be equal to the corresponding media_entity->num_pads. That's not
-the case here, and I think it indicates a bug.
-
-> Since the USB descriptor is invalid, I believe the warning is
-> necessary and should remain. The code should stay as is.
-
-There should be a warning, but I think it needs to be caught in a
-different place, earlier.
-
-> On Tue, Mar 25, 2025 at 8:13 PM Laurent Pinchart wrote:
-> >
-> > On Tue, Mar 25, 2025 at 06:05:00PM -0400, Gabriel wrote:
-> > > Hi Ricardo,
-> > >
-> > > > I cannot reach that URL
-> > > I was unable to access the URL from my email client when I initially
-> > > sent the email, but a couple of hours later, I was able to. Initially,
-> > > copying and pasting the URL into the browser provided a workaround.
-> > >
-> > > > Shouldn't it be?:
-> > > > Fixes: 4ffc2d89f38a ("[media] uvcvideo: Register subdevices for each entity")
-> > > You're right, I incorrectly referenced the wrong commit. However, I’m
-> > > not certain if it should reference a96aa5342d57 (Fixes: a96aa5342d57 -
-> > > '[media] uvcvideo: Ignore entities for terminals with no supported
-> > > format') as it's the latest commit affecting the line I'm changing or
-> > > the one you mentioned.
-> > >
-> > > > Shouldn't source->num_pads be the same as remote->num_pads?
-> > > The fuzzer (Syzkaller) that triggered the warning appears to have
-> > > encountered a case where source->num_pads and remote->num_pads were
-> > > different. When analyzing the case in GDB, remote->num_pads was 1,
-> > > while source->num_pads was 0.
-> >
-> > This seems like the real bug that should be fixed.
-> >
-> > > > Are you sure that your kernel does not contain?
-> > > > https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/media/usb/uvc/uvc_entity.c?id=41ddb251c68ac75c101d3a50a68c4629c9055e4c
-> > > Yes, it should be included since I am running the upstream kernel.
-
+diff --git a/drivers/staging/media/imx/imx-media-of.c b/drivers/staging/media/imx/imx-media-of.c
+index bb28daa4d713..7413551052ae 100644
+--- a/drivers/staging/media/imx/imx-media-of.c
++++ b/drivers/staging/media/imx/imx-media-of.c
+@@ -57,9 +57,8 @@ int imx_media_add_of_subdevs(struct imx_media_dev *imxmd,
+ 		of_node_put(csi_np);
+ 		if (ret) {
+ 			/* unavailable or already added is not an error */
+-			if (ret == -ENODEV || ret == -EEXIST) {
++			if (ret == -ENODEV || ret == -EEXIST)
+ 				continue;
+-			}
+ 
+ 			/* other error, can't continue */
+ 			return ret;
 -- 
-Regards,
+2.43.0
 
-Laurent Pinchart
+
+--===============2284820769746903825==--
 
