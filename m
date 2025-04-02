@@ -1,91 +1,92 @@
-Return-Path: <linux-media+bounces-29246-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29247-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CC24A7923D
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 17:35:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C3910A79243
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 17:38:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6B1F23B4211
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 15:35:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6FFA83A93E6
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 15:37:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E756513D8B2;
-	Wed,  2 Apr 2025 15:35:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1017A146A6F;
+	Wed,  2 Apr 2025 15:37:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="QrnQHdsa"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="JMOsNP21"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A49E3DDDC
-	for <linux-media@vger.kernel.org>; Wed,  2 Apr 2025 15:35:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 123232E3372
+	for <linux-media@vger.kernel.org>; Wed,  2 Apr 2025 15:37:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743608103; cv=none; b=Q97rY4T4C4alth4zVOiwH6uEnFBe0j9S+MWQ9V/lLmxIdUvrzOPQ6ipUXuh1DhikuHRq0qx5L/UHXndPNl0wY9rSsgQiF66qvRaK5rdeHDKKHdgFcX2cjlj2TP2BwmHNJgkGjQPLASYBtnwziwcY+0Y7kIjL80QxYRB/wIW1K/0=
+	t=1743608256; cv=none; b=h4pSEJvxM/UVkRhHimj0bFd3YKfe/G6DtMgvfRt+1VxjjPucWaO6OkoiLkKNUYHGqMLJjPVOBSNiZ/3320YK+LJK6d6dJDZ7lWQw9BiWDjQwiUSO+u+9KHqzBJiV3nImZzs6HtbKg481ENfqKytx4f8c7nu0tLiDD3kxpe33qcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743608103; c=relaxed/simple;
-	bh=K682Bd58fkkp1pJQ7mnKCEx8s1kZZBJxAHAaFRvYPxg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=odDXQC8Di//YLPsgnQ1r3dl8snxaHCCLadR1DcKyRgXOHCFKZniz65W5VRTXqzvnVBUZye/Ga9J+UDiwNDC6igCM4dULl76v9KWK5/t240diEXS8sFXSgfBvbo/2m5m/Zzm5SL17WYbNQReFwYQHj5g4SolpwBxxITX+d5avpXs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=QrnQHdsa; arc=none smtp.client-ip=209.85.160.176
+	s=arc-20240116; t=1743608256; c=relaxed/simple;
+	bh=qOAWHJJYiFzc3hDjDpDucfpGw87omsXRrilcS4Wt21s=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=OQG6Yg5JgwywR626KGoofnUHCPP1ZmzabN/LkB2VJeVhEM+IgYl20N59S2U36J+BJU9ZK8sib8Ksl6FMNjn7z5vxDgKVt1MOEU70NTjG/W7mAaufA5qve8dUUlLAe0BHX1ZKbt1KOJ7rOxThwB+t6LYaTGq0Y0IZEx526ETdVcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=JMOsNP21; arc=none smtp.client-ip=209.85.222.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-477296dce76so61355171cf.3
-        for <linux-media@vger.kernel.org>; Wed, 02 Apr 2025 08:35:00 -0700 (PDT)
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-7c54f67db99so100099385a.1
+        for <linux-media@vger.kernel.org>; Wed, 02 Apr 2025 08:37:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1743608099; x=1744212899; darn=vger.kernel.org;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1743608254; x=1744213054; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=TMIWEgwFtWafyi1/bv5jf0ov4gPA0B6DmtDQeyIS7xQ=;
-        b=QrnQHdsaqIs9LFfnwAsh+/jc2YYPcPd4gsCkxbzuILcL3t4qjjymITswk+RnXZrHIy
-         ZT91neAYxeTOQUeFHAVoTf5TBVtrUlfeb+bg6rAsqXeo77zVMpl2oVCBvrICfqv3ST6l
-         QtjcbFMsVXUL1iTA7Rwg9+vgnXbkzU+kXwLcoNcS2D7ipPRPnkKT7PN94A+h+G+YzWxY
-         +3iFP9GBdansaYlsl6jUXWYcOLCOK+X9R41zJb6BEI+uOO4Hu5H2lOLDKyqD8do4pYdH
-         dqwW1eQkEmt8YvMpW7/DyKfCZ0wIlZfZ3Xl/rYkN3DSmoC373mAq2JP/p5Tr871R1R3X
-         Wzaw==
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rhmKnF0oiTEPkeisoeZbaGPYtFNcuzXscDMztyaRd+w=;
+        b=JMOsNP21iHgoTZypjYxuN+YvoQlf522Q16Gopmu76pyK0c+0gS6821XPQ4QEF78nYR
+         nDYWhVJuL9bQtDj0qbr8gvCeimg2JjhLIcBUo+0vnP+4WIRdIoaMMCpDSjMnEZVl0s6D
+         1IeKwamApjeeSjzgkJ4L7zMukGQdKuw2LvXYoGYlUVYu2kM2cwCaof1RR4Gq1A2jsiF+
+         kPcYO7GJ21VuqyhxswKEIP3syC7iQjciRTjE+kqzooTsryYuTUFBKPcT2K42Y8Ggy5TN
+         sMWh8qKonarghxcEUbRibUcQMKmgx9taz/QTDRz4waKDf4/32ikwLe1R5bnN4IwroNBX
+         iS2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743608099; x=1744212899;
+        d=1e100.net; s=20230601; t=1743608254; x=1744213054;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TMIWEgwFtWafyi1/bv5jf0ov4gPA0B6DmtDQeyIS7xQ=;
-        b=nZuTuiq1ellvIdBx3IKmg8RQor9TgOJ4RGbjHJvClydomOJuMi2j0WTaICUj1t0UNw
-         0oAkfRa1ed7eTi+8AUOttIYkJmfM5qaks+WAGYq4fP6hLlHYlA9HJ5NLvMm+Kniz5/Y/
-         Q/3/MxbNyHmTlXdHHDdVHOp/I2j4z3eqHZYzh63Py65OiJahcBzyAhE7mYvSUWA9WgDj
-         Z5V/Qt5mrIGGZIkeIjpd3nRguUll9H3f6sjEsYab6vY1Xtzxw6wgift0AKvzzaMv4VaD
-         RoGp5ZtHLmbSZkddF2racq7DWSsQpr3vERujLM7jZs+nEcW24ClSoPC8XaKz0YEWTfBO
-         PgoA==
-X-Forwarded-Encrypted: i=1; AJvYcCWDzxQme2V/6LoHK0cPyCCkXT2EchnrU87FEAbOzQ3jAtj4JpCo7gdAccFebOAmSNuizse+vnQxWp24/w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3XYCHmJrgeyC2m3ZDyG/pUvHeo7nC3J2Qc0q+ZkkHmdwEIyP9
-	/O76hmdhBGaNEgpOR0m3S6jjn84QQtc+PyMFSEgfYMKM4w7y6l5YKogX68VPnd8=
-X-Gm-Gg: ASbGnctZIlxkFpoLmYtDGZ7qHEA/uUNxgYusokPOdsb3pvDdWcYoE7AGm9zMrwYRz9R
-	56mr7gI1nA1fnfAiK9zjS/+JDYHTkwZk2E1mL/dIxo6KEhEsee9EbcaR0vMElEZ+3u95Ezy0CwL
-	3IKYXVAmcnrbgNEd0yBzG44U1o2df7TD/EGSW5lzhrNq7y3vKwnF7+Z5iJ8VEJkGqbs5c1CxoKP
-	B90S608gQnzBcpbBpWblBKIQiU0clUltZU7D9tefZkIHVWrOU5NZt+pgBx540FwiM0z09WVJ7WY
-	1Mzd0+t8aTzP/dw6p4NtveipzjLHhPaKR3dAd/iEnQ2RrwPFig==
-X-Google-Smtp-Source: AGHT+IF86UTdqujtK2ylyC4iKj51JDYDBGg0ZkrtMCZ8qTcR6Ji/O+4OQfsimKWJomrOBg7nwZAemg==
-X-Received: by 2002:ac8:5991:0:b0:476:9e82:6515 with SMTP id d75a77b69052e-47909fa7e14mr42821291cf.23.1743608099524;
-        Wed, 02 Apr 2025 08:34:59 -0700 (PDT)
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=rhmKnF0oiTEPkeisoeZbaGPYtFNcuzXscDMztyaRd+w=;
+        b=ULPU0TodvOcBN2lNUMC2m01Jerhn3R+Qr9e/EjtdadDgTWzHC2RWwa6GvGyeLyduPm
+         RQmYaryXwQwAHzn9MD07Q6bsm+uHtBlo2zvXtIJcm1HqB1qWd6Oz4FA2l9iaANgYDnJX
+         fdJzqlc4BIRyYD9yNclBPrPIkaf9+PejLm6SmkXorJfrmkrkU5juOz6q/FdCMW9BSimU
+         +2Z1vsZiR+IkSIFIrv4FuySCC182/WjdbMXTE/z6tJvOViVOa05b8nkmblg054aBe+Y+
+         JxJcHZO6Glm6ZUI89NRuMBkb1fd5U8P/ymKeUCAVnW9uZ4sub3kMUA3G/EMog/DX5BM1
+         PNQg==
+X-Forwarded-Encrypted: i=1; AJvYcCWdWWLEvMAEfwrP+yxZ1fQo7E6nqwRjcgTxKMAtgC2VzdetFnInZ/jW8ohsvbL4r7BfMjwBN7GxAvkqQQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1eTDKtxRh9IM/gthgWdi/hKQcKXheNRvj3ujHS5FLXhd2N3Wa
+	kWyr9o5cUBVfY32AFHC6b2vVEWsnb6YkastUbtXk1k02Bvf2+Pa2HJhJZ2bsmtE=
+X-Gm-Gg: ASbGncsHxiHKfc7XkPFDIouYHbtWFwFEcNatlkBlzpJFmw1tj2m1dc1Lb54TQjUCoLZ
+	32qrqhxpE/AnKYkH6+BaAoe0aDiEg6TIXAZH+uCRvyDZyX5zI40eW+nyuNYS/j+ydw+Aklvaf9Y
+	Mv6Deu34Imnj9s5UIEMmr+mbNMR/GWXnv5n7tISNsHWhQ7DKg89g0XMbHAtuZk1bzTXSH57VswI
+	xFoTILca6u50pIpsrIxP8wfmAN382cMOji/TBNnG/e5GR8WfYM7Kc/kh3rE+/ednbHCO45TWpxd
+	hwZWqhWP4Z1Sw4hoveh0Jktek77qCqbTVPXeJein0R7/MK2BsQ==
+X-Google-Smtp-Source: AGHT+IGt12U4LeoNV08d0rSucCuL30UKo3Q/u+eYpiDfdZNZWOV5NQwkfWw/ZI52IiTuX89vZtkt/g==
+X-Received: by 2002:a05:620a:d89:b0:7c5:9452:4a60 with SMTP id af79cd13be357-7c76c970550mr2456785a.5.1743608253843;
+        Wed, 02 Apr 2025 08:37:33 -0700 (PDT)
 Received: from ?IPv6:2606:6d00:11:e976::5ac? ([2606:6d00:11:e976::5ac])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47782a7fbf4sm80192371cf.39.2025.04.02.08.34.58
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c5f77804a9sm796103585a.112.2025.04.02.08.37.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Apr 2025 08:34:59 -0700 (PDT)
-Message-ID: <8fe576366e52d530d0507d8475fb52210a27b6df.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: mediatek: vcodec: Correct vsi_core framebuffer
- size
+        Wed, 02 Apr 2025 08:37:33 -0700 (PDT)
+Message-ID: <cfc905988dda23078b5086f3eb0975863bbb6c2d.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: mtk-vcodec: Fix reference count leak in
+ mtk_vcodec_fw_scp_init
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Fei Shao <fshao@chromium.org>, Hans Verkuil <hverkuil@xs4all.nl>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>, Yunfei Dong
-	 <yunfei.dong@mediatek.com>, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org
-Date: Wed, 02 Apr 2025 11:34:57 -0400
-In-Reply-To: <20250314075703.4167532-1-fshao@chromium.org>
-References: <20250314075703.4167532-1-fshao@chromium.org>
+To: Miaoqian Lin <linmq006@gmail.com>, Tiffany Lin
+ <tiffany.lin@mediatek.com>,  Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>, Mauro Carvalho Chehab	
+ <mchehab@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ Fullway Wang <fullwaywang@outlook.com>, 	linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org
+Date: Wed, 02 Apr 2025 11:37:32 -0400
+In-Reply-To: <20250318110556.903-1-linmq006@gmail.com>
+References: <20250318110556.903-1-linmq006@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
@@ -98,48 +99,53 @@ MIME-Version: 1.0
 
 Hi,
 
-Le vendredi 14 mars 2025 =C3=A0 15:56 +0800, Fei Shao a =C3=A9crit=C2=A0:
-> The framebuffer size for decoder instances was being incorrectly set -
-> inst->vsi_core->fb.y.size was assigned twice consecutively.
+Le mardi 18 mars 2025 =C3=A0 19:05 +0800, Miaoqian Lin a =C3=A9crit=C2=A0:
+> scp_get() returns a reference that needs to be released with scp_put().
+> Add missing scp_put() before returning error in mtk_vcodec_fw_scp_init().
 >=20
-> Assign the second picinfo framebuffer size to the C framebuffer instead,
-> which appears to be the intended target based on the surrounding code.
->=20
-> Fixes: 2674486aac7d ("media: mediatek: vcodec: support stateless hevc dec=
-oder")
-> Signed-off-by: Fei Shao <fshao@chromium.org>
+> Fixes: 53dbe0850444 ("media: mtk-vcodec: potential null pointer deference=
+ in SCP")
+> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
 > ---
+> =C2=A0.../platform/mediatek/vcodec/common/mtk_vcodec_fw_scp.c=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 5 +++--
+> =C2=A01 file changed, 3 insertions(+), 2 deletions(-)
 >=20
-> =C2=A0.../mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hev=
-c_req_multi_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec=
-_hevc_req_multi_if.c
-> index aa721cc43647..2725db882e5b 100644
-> --- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_m=
-ulti_if.c
-> +++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_m=
-ulti_if.c
-> @@ -821,7 +821,7 @@ static int vdec_hevc_slice_setup_core_buffer(struct v=
-dec_hevc_slice_inst *inst,
-> =C2=A0	inst->vsi_core->fb.y.dma_addr =3D y_fb_dma;
-> =C2=A0	inst->vsi_core->fb.y.size =3D ctx->picinfo.fb_sz[0];
-> =C2=A0	inst->vsi_core->fb.c.dma_addr =3D c_fb_dma;
-> -	inst->vsi_core->fb.y.size =3D ctx->picinfo.fb_sz[1];
-> +	inst->vsi_core->fb.c.size =3D ctx->picinfo.fb_sz[1];
+> diff --git a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_=
+scp.c b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_scp.c
+> index ff23b225db70..11ab3bc60217 100644
+> --- a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_scp.c
+> +++ b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_scp.c
+> @@ -71,7 +71,6 @@ struct mtk_vcodec_fw *mtk_vcodec_fw_scp_init(void *priv=
+, enum mtk_vcodec_fw_use
+> =C2=A0		pr_err("Invalid fw_use %d (use a reasonable fw id here)\n", fw_us=
+e);
+> =C2=A0		return ERR_PTR(-EINVAL);
+> =C2=A0	}
+> -
 
-To Yunfei, this information is copied to be passed to the CORE, is that
-value not used by the firmware ? I can see that everything else in the
-driver uses the picinfo structure. I'm simply trying to understand why
-that didn't break anything and what is the implication before this fix,
-so I can determin is that's more or less cosmetic at the moment. That
-being asked, I'll give it my:
+Might sound nit-picky, but don't do style fixes in patches intended for
+backports. It increases the chance of conflicts.
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
+> =C2=A0	scp =3D scp_get(plat_dev);
+> =C2=A0	if (!scp) {
+> =C2=A0		dev_err(&plat_dev->dev, "could not get vdec scp handle");
+> @@ -79,8 +78,10 @@ struct mtk_vcodec_fw *mtk_vcodec_fw_scp_init(void *pri=
+v, enum mtk_vcodec_fw_use
+> =C2=A0	}
 > =C2=A0
-> =C2=A0	inst->vsi_core->dec.vdec_fb_va =3D (unsigned long)fb;
-> =C2=A0
+> =C2=A0	fw =3D devm_kzalloc(&plat_dev->dev, sizeof(*fw), GFP_KERNEL);
+> -	if (!fw)
+> +	if (!fw) {
+> +		scp_put(scp);
+> =C2=A0		return ERR_PTR(-ENOMEM);
+> +	}
+
+With the above style change removed:
+
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@colllabora.com>
+
+> =C2=A0	fw->type =3D SCP;
+> =C2=A0	fw->ops =3D &mtk_vcodec_rproc_msg;
+> =C2=A0	fw->scp =3D scp;
 
