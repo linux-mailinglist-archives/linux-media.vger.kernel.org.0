@@ -1,280 +1,318 @@
-Return-Path: <linux-media+bounces-29191-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29192-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08815A78845
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 08:46:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 680BCA78864
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 08:55:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C2271888CFE
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 06:46:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9E28B188C26C
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 06:55:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BCD6233704;
-	Wed,  2 Apr 2025 06:46:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0302523314E;
+	Wed,  2 Apr 2025 06:55:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="Dylzw60N"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="jg7hdu3F"
 X-Original-To: linux-media@vger.kernel.org
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03on2089.outbound.protection.outlook.com [40.107.105.89])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2075.outbound.protection.outlook.com [40.107.237.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8572219049B;
-	Wed,  2 Apr 2025 06:46:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.105.89
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E2B1EFFB8;
+	Wed,  2 Apr 2025 06:55:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.75
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743576368; cv=fail; b=W9UCgIo6mJNfk+nm6BJ3fWUoXS7yYnZqL+y8BaXCNu8Qv/hCNSVY7Cbygds27kOC1NfI218oiDidk/lFX+Fz1g7Tkj/6WV0Onu5O1DoJufW3sz8+v+nf6tvUpEqEujsOaBjo1ZeW1O8prBgsCe/Q2T9zR3vxyP1UR/zDYN2RtPE=
+	t=1743576925; cv=fail; b=OzzLrh7SGrlZn5Rz8o8ucgXIwcgiwAEEa3bBCmYaAa5XAlKor3GEsv3exbPKeHJjrTx8ujNxpGXWc4f/THp8XiV9vxk4xZiL4FJIAG6tqszQgJGkHHWdHBZT76qEUl77rmgLmWeq4a3Lgbxd688Cm8mtLcb2A5RI1ejKMP3WfgU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743576368; c=relaxed/simple;
-	bh=h7icQ/AKVwkIqxoEBRooyV2M7KQItzNgL7DmuxBfCNU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=nuQXMCpCgZAKu+BJg8NWLG59tTdjdGBNoOZ+6tT73C0lSyireK9+mTCPBOk0PaS51dZ6lnOg5eml/il+efItQWfipHH4lBGyCS+YL9zkD0YD+sBcTo80EGbHFAAoqUPsunU6+2mpheQvhZhZg7MPnxN8x32qWryYI5r7GkX+cok=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=Dylzw60N; arc=fail smtp.client-ip=40.107.105.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+	s=arc-20240116; t=1743576925; c=relaxed/simple;
+	bh=x+Dg3DxgS7nEFKvz4t2wy6XcHgO7N3BDXZkgL6/7cbY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=tF6eQkuTHP82yXOnl82EWarg8li4rkW5hTLRyJvKvaCQxDA5xvvefPdAgE26VnwKxJLojx6gIEZfRB6mZha2abfRQQ2GdEEK3hrpti5SKzQHHrdkTCeNVcIQWuMO93WwVi25rCKaRGD5cHcxIQa+Dx3r0fn3C+rKfJSnKXRQBpQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=jg7hdu3F; arc=fail smtp.client-ip=40.107.237.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xLZceiLEWAcFCfMHGS1RsfdGhG5Rg7gQsLi7nLxNJ2wTNEBcwA4ssYjmMURXuTO7EwrrP8Vhq+lW0Y3rPKlz/rIB+ov8sqGQuFMiSRBQ8WdYkUop3JSoKQerYVe60euLx5E+n+Yf88svuZEGxwCcr7f6Aj4Y3L4QRoSyL49kn/odW3pHm+cdg87BiDULPZM8/px+EOwcTFZtQn4E11pKer/IaCrBGRGJrM1AEVre3uwohtgfw9+R+MHDtnVoVKWroC8258nlRLBM1SXH/ESKRu5k1gOBFsuSp7PMQtOPBEibDWJmFPSavuYEngrK1U0u0SBxXxFoYBwXBbsNE5h3pg==
+ b=LImXpwi9DhiGzmxi7459/RNAAsIhE6uMx0/pR+hywR3MsUmggk5Ihxx0o5LfrntO23aTwLcGjMaVUdw/lZz+0CLwei6Nwol0Y5UxCv/whN/6tIuq1n/oXknmn+N7A1wEE08b/x1CWTwRciW87ex4n8DiHb33krcVv47nbkgCu3a2BwkC46ajYB4d7yOL+f+v/U2UI+bGK54adYPFXsinq6gAjlkL4pcUSkP58jt6ie3i/DiuLJi33uNc24nyLK5S0FBzsJyUFXrun/qvh2DLQ+YBcC/LL/z8sil8NQN8CVxyijGLNeXpJUE5Auyyl+oKiGiDrvh2VzyDdSro1QEItw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=r3XGTKSe3xYx1rA0yGDMdiCfM+I4pINvQWbfIsyRqbE=;
- b=AAUnL5lVeyzaxzISw/1fGqS1J7K0Lly6MC+NNKa8ooDz79FHdjLaaumGKivU7w5MjTUb7nD8Wkaad9FahG5rkX5g+/7H1gUQIhaT1AN96nENhsbEYo8yYn+xlgsmfbZ9urqpO5HTwHCPvBDDR+S+z6qKiN8TrBarAgN7/sYMdZgQtTMxeh15BOZfgzMubUwqgJdhmWj8UXvucEPSk5UxeMjpFtGdPqri4QJahpPFmZek1eWlj0+mrpUGUJY4wB1aQnluuIBNr5cOLJ16sZjR03XeZz5D0fcn2Im5eaVLndaNwPir2bXRscnonGoXoZcurwJ0LYSK8qMxpZkIu7mbYg==
+ bh=3mZcEHH2DqEa02GY3M32pX5rVocJ1d74cs0948Olvb8=;
+ b=J8IyVIC9kg9+x7xgDllIzaJsz7YrO7kRtj4fWUSK8M+4iF08/6IF7AqCIflcuDaxV7RAt9vpo+oagMLGUEdrOMVqU5Ex0TfGB658j5B4UNwgfwuiFwgOkzrG425Jg4s5PIkBvfF4AsI0O/oBgAJOo4td31HJ6Z/mTGWU0cZQCP0Sj1uf7Rs2hJuxXnTWC9l7Ku717v0zcgQoXgPHsLjdcyndilPFmWUdbXshI/p+lDSihrvsLmVJxfqEjKr53Xw1Zqz8/7tPj/KPoArmdsk/cegc3jawOmYMO7aleE0UIDwXUE4U7hpwG1lwLItA6CLWcMJIDVv3p8vRhxpoiSvb/w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=r3XGTKSe3xYx1rA0yGDMdiCfM+I4pINvQWbfIsyRqbE=;
- b=Dylzw60NsEgHdpE8H84K7EFe2RHqtt6Cv97RXDw0Bl1ukWPz2u8BXjenMKiG1KPcUzmjz2kNjSLzyHgNLVsuk1iIFjXZv4G4A2C4vdfu4xGUrJgV7Sl2RF5uiLruNVSGYRw+Q3Ng1O8HFkWnWytoIMHGzDYy4DZ2Kmk2qEx5thVMu4Xlf3Q/P1nuDl24XuxC26NuEomlzwEIhFtpGieRz3BwoLwB6jhtWaGJBbr/i3GXrIbcSEcNGV5P2cUY3II7I6m0VhN/FWnxPf6+dAyVTOifqnTPqwAPYJC2ns/JyU5Q3GBlVSQdTcN3NJwsmvIBque/5IqHbcIhfWYGDlBq1w==
+ bh=3mZcEHH2DqEa02GY3M32pX5rVocJ1d74cs0948Olvb8=;
+ b=jg7hdu3F2rZHOb2a/MkuWSbGF96K8BXi/6I4JgWg114hXqYokNiOhoOPjniDVrR+TN16utfbIfD2hdMe0RmtNLpzycXGJj4b4yHRJD378fMEWM/zWIIRVxpbe4N4AyEb2B7gR2cMRVQk0sugB//B12IvwO+xqlvJLSrdn8S/Cfc=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from AS4PR04MB9576.eurprd04.prod.outlook.com (2603:10a6:20b:4fe::12)
- by AS8PR04MB9048.eurprd04.prod.outlook.com (2603:10a6:20b:443::11) with
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DS5PPF6BCF148B6.namprd12.prod.outlook.com (2603:10b6:f:fc00::652) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Wed, 2 Apr
- 2025 06:46:02 +0000
-Received: from AS4PR04MB9576.eurprd04.prod.outlook.com
- ([fe80::9cf2:8eae:c3d1:2f30]) by AS4PR04MB9576.eurprd04.prod.outlook.com
- ([fe80::9cf2:8eae:c3d1:2f30%5]) with mapi id 15.20.8534.043; Wed, 2 Apr 2025
- 06:46:02 +0000
-Date: Wed, 2 Apr 2025 09:45:57 +0300
-From: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	Dong Aisheng <aisheng.dong@nxp.com>, Jacopo Mondi <jacopo@jmondi.org>, 
-	Christian Hemp <c.hemp@phytec.de>, Guoniu Zhou <guoniu.zhou@nxp.com>, 
-	Stefan Riedmueller <s.riedmueller@phytec.de>, linux-media@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] media: nxp: imx8-isi: better handle the m2m
- usage_count
-Message-ID: <uie4tvosmzq63qpi4fgengjfuodkzoy3th5zhurt4j4yt772ml@rpplzhmbiky5>
-References: <20241023085643.978729-1-laurentiu.palcu@oss.nxp.com>
- <20250206203749.GD7524@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250206203749.GD7524@pendragon.ideasonboard.com>
-X-ClientProxiedBy: AM0P190CA0004.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:208:190::14) To AS4PR04MB9576.eurprd04.prod.outlook.com
- (2603:10a6:20b:4fe::12)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8583.41; Wed, 2 Apr
+ 2025 06:55:20 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8534.043; Wed, 2 Apr 2025
+ 06:55:20 +0000
+Message-ID: <b636faa5-ab31-41d6-b957-4dfe89a2b47d@amd.com>
+Date: Wed, 2 Apr 2025 08:55:15 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6] drm/syncobj: Extend EXPORT_SYNC_FILE for timeline
+ syncobjs
+To: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
+ Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: Rob Clark <robdclark@chromium.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
+ <linux-media@vger.kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
+ <linaro-mm-sig@lists.linaro.org>
+References: <20250401155758.48855-1-robdclark@gmail.com>
+ <CAF6AEGsKbjq_q7ezQTn5vyAF1cjXahgbv84uYK35BJH1KBXSpw@mail.gmail.com>
+ <ff614cb7-94ca-4d74-9bbb-f97c95893113@collabora.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <ff614cb7-94ca-4d74-9bbb-f97c95893113@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR4P281CA0285.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:e6::19) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR04MB9576:EE_|AS8PR04MB9048:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3e632009-1bea-492e-a285-08dd71b2087f
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS5PPF6BCF148B6:EE_
+X-MS-Office365-Filtering-Correlation-Id: 443945f3-b028-4a7b-cc8f-08dd71b3558d
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
- BCL:0;ARA:13230040|7416014|376014|366016|1800799024|7053199007;
+	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|7053199007;
 X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?WeVAzOy+W1YrSpSze8ElT0szsZD15mPZIvxw3ZzdxLVdaHASyHWeokamwpLE?=
- =?us-ascii?Q?2AvFlfZamloMBU7oACtHDyJCFJP2xogiIBhEzXuoijExe70r62XVLc610Hhn?=
- =?us-ascii?Q?X7RJcSGLapUjHzC/Ejukcn4VHWggaCvirZDxdaxThmYtmaoKU1p7JthDrvW3?=
- =?us-ascii?Q?0RJBlZn1Jp2vjZkwmzG7UeeLQsi1EO/kv8k/kJedWxrTQNlPbgPaewIr1KCM?=
- =?us-ascii?Q?NL9RiTd7K9/miZdxa8Qgp6+JAmN9Um171iZqdXgbG9/67ztWoPh/z211Ld9X?=
- =?us-ascii?Q?fj4Et1JJGGbLXwFxzjs9SULVZe3Ygy/BToQBXq5vBuuga27+18w9cbB2TWyg?=
- =?us-ascii?Q?uJbkdDquPHwupvmb5QhuA1fEt0mgw6AO4ECz+T2yz5Z1u1vD4dlCuWOI/0xp?=
- =?us-ascii?Q?5HUyBobUr8eQHEdArpeck3BhfrGkTYdAwB22WVjoF99nQcPKhfDq9vYxsUzM?=
- =?us-ascii?Q?pN/uEIsZhagemA04QoZE1DFOAHvquprQEu5HP8Ksec/tvCiWE717TOGe2so0?=
- =?us-ascii?Q?D8pHdHOF7fQQl7SwoujaxaEyhFT/o4qfjdjbEhapUyumecV6PC24ojaSZm/T?=
- =?us-ascii?Q?Hp6Z/fMhuKa6f36OFJqVNL1dNXy24T2dlDsHVNfk1lIMTZXt1JPjvREL2VlH?=
- =?us-ascii?Q?aIReTCy6P/Z/y2UrQvKa7QtUQ1uY7V2ycBSCGLh1nahFNvNREmLAABMSAHjP?=
- =?us-ascii?Q?ZlNlTU5yLH448Mne3JCgSXbcHopM1hSJWtO7a8NLSQEAVEBfPHjM3OoPdYEk?=
- =?us-ascii?Q?no9+v72a+voAFhoZFiSt0G5GzMw0Dn79dSKdV28Ljq0jGZzEmWLqTyL/IkPC?=
- =?us-ascii?Q?etrxB1VTkh5s/mvmkgUnZ2+WTvicDZONF0Qt+BtoDQvjoRaz2EM81K24n+va?=
- =?us-ascii?Q?D8gfjyHFvWQEWhVS+hzMZlc9i4q3s0J1TBf+oLqxPUTvgcFUeF4H7ltslfqu?=
- =?us-ascii?Q?k9QN+BfiMjp1Xv4UOO/88vn2/V8hmSaKn3lkTiSwcTq9ARCi27C59q9JFcDm?=
- =?us-ascii?Q?nz5K1HL1eoERkKskTzOYqGWAgaJurcRLx7wCrnyX2Lj8rXOIQ8/WrWS3W0Ax?=
- =?us-ascii?Q?mFbjcpQALs65T67IUBMhWDztSojcQpOJ/8U5Jdunupqwsd16cWw6nEGnHQmr?=
- =?us-ascii?Q?tdHTPAbTejnDz45psTMjWreU2ml/sbyahhMiYPOid0YzVnOXvwfgDdHE+I+w?=
- =?us-ascii?Q?k+V4vXyAvcnDEY4+uF1NvxytNVyTTXyONrUgsPwr/2BbtSdsXMVmjlL27AM2?=
- =?us-ascii?Q?sudS8gdsNdv8MzcDmGv3/IKOKWCR+AfPC4mby9RauApoEPei9s0ALR9QjRxx?=
- =?us-ascii?Q?mJFL8PjXR9dR/bubdEO5itkbJCZ2UTJowwGf/jrlcjcO8EfK5whAro4bJGkw?=
- =?us-ascii?Q?57vxmAJhV2CIGQ8St3/+RsajsYQY?=
+	=?utf-8?B?eTRwRERxNzJrQlJvamJCbWIzOThISDU2S1g2WVc3OWxRNHE2ZzlEWVNQb0Z4?=
+ =?utf-8?B?VDQxZXpVc0xMQmtaRlljeVVQY1B0T3JVUUhYb2NObWkycnRZcC9ocjF3OVFQ?=
+ =?utf-8?B?Z3hFQnlwT3Y0emc1MWxhT1pMQ1llY0FHRWI5YXgyZlAxbjJIcnh4NnplUldh?=
+ =?utf-8?B?aUxWdDRrZW14c1JFL2cwd1FySGd1ZXgzeE5KTlVpZ2owTWZuek1XQ3F0aG8z?=
+ =?utf-8?B?UXl0NE9MMzhUdEU4SEtmcHZBS0t2amVFaEJWWXl5OEczUEJNYXFUaHpseC9w?=
+ =?utf-8?B?WGY3aHBJcUhzbDFVbmF4cHlKaHVJcDl6eUtBdU56T3pGTUIyMm5oY2JMVmZG?=
+ =?utf-8?B?b0NKR1QreHdlcXJkVldCZVY5dzBJbWVIK2ZaYjhPa1kvaFZva0V4MmxmYXV5?=
+ =?utf-8?B?Q01xb1ZGRFFQQ1NzTlpZM0s1bHFLLzBnZ0N5YkZBR1dkQ29Cbk1HTTM0VDA1?=
+ =?utf-8?B?MUFJT2RORllPMWRNbHJpWklEQUtXQ0dZdjA0Wm1PNVh0RXlkbjFiOVIrLzhS?=
+ =?utf-8?B?K00yY2s3Uk1TWDZLRWNDL1FOUDdrVUhPNmhoVGFYSEkzQ25pR1NlamZyc3hG?=
+ =?utf-8?B?VW1nZndUaVRyTVFUVXFUZ3NmOEsvVmFHWFM3dE9wRHpZUkcwU1VMM2tEeE1N?=
+ =?utf-8?B?M21uTzk2K05HUXRNek5yWXBOaG1TaHJrbXVSODdlN3VCWG1pNmFPQ2YveGRR?=
+ =?utf-8?B?N2NtWldHb3FwcllyMkZ5NHluQkY0TFB5SnNhT1VVbHY5WlYzTXhWVU5VVHBv?=
+ =?utf-8?B?b1JYRzBPUnNYUlZhSFBxd0l3aCtyT0lFWklIRytZajkvdkNjbmViSjViUXZF?=
+ =?utf-8?B?a1lnK3VqRXJJVGY3ZDE0OWJ4ZTVJaVBJT2w3Nm94R2hDbHJHMm8vZGdpWFhq?=
+ =?utf-8?B?dHRKMTc0N3pSVjE1UUE4Vzk1OW94a2F5dmRKck5lTEJnaVVNeDhTR3RwOVVD?=
+ =?utf-8?B?eEgxRlZSOENyVXlNMDRlVmhxTWUzY3hWY1pEREFjOTdNanVNZDBUNEdTTGNx?=
+ =?utf-8?B?Zi9ja0tneEFwOE5BenB1MlBzRk9TbVlRd1gzdGRJNXZYRmNXVjlLMXN4d0VZ?=
+ =?utf-8?B?RkxKRXNjeG0wd3UxMldCWFErbndITG04eE04WHh3dEpyTUp6dGtqRkpxMGp5?=
+ =?utf-8?B?Wldwc3B0T1M1aDJGYlNETEI1dGdNcjdocG0yTVU3N3Q2KzlEY3N0VGRzZnBt?=
+ =?utf-8?B?VGI1VE1SUkNVVjhaeEI3UVNlWjZMTUlCTHZ4MndpazZNUWFPQlpLNGhOQndV?=
+ =?utf-8?B?K3RSM2FRZkcvSzBjUHlwYjAxTmsrZDdyL1dPdHZ3dEJZSG1RQUZJbE1ueU5j?=
+ =?utf-8?B?allMSGx5aGtYWUNQMFZ1QWdPd092aWsvUzdXTy85RXZUakY3aXlRcldpZGFv?=
+ =?utf-8?B?a25Vd0tSS1k1NDV1RVNHYmEvK0VKbHR1WG9OcVUxR1p5eTArZmFGNUR1ZDg2?=
+ =?utf-8?B?cnNpSUxYTnhWNkxNQW5HdHp6Ymo4MXV6Z1JjaS9oeFRNc3RsVWhnSElKZnhn?=
+ =?utf-8?B?YkErMlh0QUxzekVwNXR4SlpqdjM4OGhtSFEvcUlKd21NZTBWN1E0UWFNNCtX?=
+ =?utf-8?B?NTQwZEJKelBVVTBVQ245YjdPeUUzTDMxNGt4K3VYeFVPUTlFTk5KTTBTNGVk?=
+ =?utf-8?B?VmtobzF3eDE2SkVWNEE3UnBPMTdSdjJNWTlhUjBicFRKVjgyVGZwNDdKelJy?=
+ =?utf-8?B?RTZVQTZnOU01cDlkc2YvTkd0YzYxMVY5SnZIZU9PWDVSTWZRbEs4RDA0NTQ3?=
+ =?utf-8?B?L2Q0aW5oNWVKZTRRSE1SUTl4c2pVUk5xWHJZc0NJYWJJMGJJT3pYUzVnUnJs?=
+ =?utf-8?B?dHN4S0R1bEQ3OWZZblhXQT09?=
 X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9576.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(7053199007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?cskkePzMBOKkxvxV9s6cVokZce+3DLjfqjFvINPZ7bjBYgYtqqaPgVfn6sKj?=
- =?us-ascii?Q?lolA63KbVQdDGGYmU9yj65W0f4YoSF3qug/WIj7uX45WhkwFF8tiyPEgK4W6?=
- =?us-ascii?Q?I2tqsUFIL0e1fbNeanyYb5z3hn/ax49sOxYKl+TE4g1zS3IpG/xBhrz9+Ubf?=
- =?us-ascii?Q?JL/8nwztsG7HAD88wmMVtGJ3GYlaU4ESv+nvZvriU4S4F0izsw55QkMRhlsB?=
- =?us-ascii?Q?jHptM8xsAFVDAGZLtFB4Pgd37vi2YfTAVVRxYa/ZtCL2jM+4+21neGgNc6rQ?=
- =?us-ascii?Q?nYCB0YWdxNlFKe+KPHYTjK39saOGSqrQmwfvyJ9ARaWy/R5XhlhNP58ep2QO?=
- =?us-ascii?Q?IMz6WwwBJJCzaSXa9U4s4vv7laA4veizOKqNElUA/v+RcTFX+u9wwWgl1AYB?=
- =?us-ascii?Q?SmBmlMAGuXCckmO0XLzJRjl+5vT+O3uA3GD62AGZYDtflm+u6ugvbMaSvwQA?=
- =?us-ascii?Q?5Rcdret8g2SzM4ia7puXiKB8PLTiwKXcajKNEl4KeDF0F9Yb1fQH9+Dfk3zy?=
- =?us-ascii?Q?3ZtsKH6Orz1Exn58YFFbsf9Czww0M+37IgxAJAXxecC/pFxmPLRiXobXzHh6?=
- =?us-ascii?Q?6dzTjVaseRRdQwTUlGlixmp44kIjE1qA0QREl2TqB/XIIBiPywTpB9XzpOnb?=
- =?us-ascii?Q?Qd3YdCS3PA13XMKf9s/xenVlq/QXPWyqR9ifMHToh1LVAx8g03O4PO4NVFlp?=
- =?us-ascii?Q?QvKTID9YbcopbWhIzx3ge8743k/LQnt+rkj68nrNnJMwLl93V5qbZzb0IWjE?=
- =?us-ascii?Q?55cg40jsyHoUp9OnHMJJ095H5ejPxADFbsc9949gQS8mPiO9G2nfG7fGn2L5?=
- =?us-ascii?Q?LRwMe++IblBDyIgo1WXB5tCzkw50RjEFklDSINul8ln7wAOKHgs/K6IO/GXS?=
- =?us-ascii?Q?kY0hHf9adr5T1inV6CsQa9orM6HruAKUf+XzPd6q5bMzLtFC/YgsN2qGdHDi?=
- =?us-ascii?Q?1fpCxltobRxvGlIjWSHrJL56qHjytu63AXrL1v8TXxYCxjsu5wojtJBjDM5j?=
- =?us-ascii?Q?NJ7zYucTtAIBL1zM+56DetCC13qPErdpm0ToZ+5z45/ogpjcvea64eXxQWSq?=
- =?us-ascii?Q?LESnpwVOneyYIML01KvGmVbxHnPm6Kle71PECuA5kg98NTvwg6tftL3LyxnQ?=
- =?us-ascii?Q?1zdZIig7L1BJiJsKOhG93/YhvghNHBRT1tRmucMqvvALBtsKDWXoRvSLe3nU?=
- =?us-ascii?Q?ijE/Vas6eoY4ad2uarBa5JAs47VT5dSppR/omnNoc3e69Xh9a740f9FfiRCS?=
- =?us-ascii?Q?dXvv4dxBx98C2Y4fwzKPIxgI9SjO/3C7M7P8DQElcMpvdv49gdhMVskRQy0M?=
- =?us-ascii?Q?Y2i4hNVNYA1WxG7ajT0AA/QTyGa4Sr3WCqJpyDP0gaDrphWxN12PRHdv/mhY?=
- =?us-ascii?Q?bqgDd+e28ie/T96rPWgQzHIQmYVO4D3w7dEkZ+57HyDkMqSHoqugtL7B8JMa?=
- =?us-ascii?Q?ckeUp2J/+otRmkA1a8YxplDa0iATf4UxfeEs6IDq8xyGj26upcZu6rq1tAJ/?=
- =?us-ascii?Q?gTLzgFdDzcp/gYZLaP2NYUpP5DvF3L7Y44CN1FqSUhnO1AW8h0bEajjp5Owv?=
- =?us-ascii?Q?rVr1X2HtVrG1ZAAxP3fI6PZaeOYXIPaBaVsq0u4DOHz9mDIhazamKMj4ILz/?=
- =?us-ascii?Q?bw=3D=3D?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3e632009-1bea-492e-a285-08dd71b2087f
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9576.eurprd04.prod.outlook.com
+	=?utf-8?B?M2YzNFpYUEJUQURSWXhQcCtzZjB5YmkxeU1tbU8wdGROcUphNVVTKzVGN0lQ?=
+ =?utf-8?B?aWh6YWd1UGVBVWY5SUhtbUtQQm1Lek5RMWVlQVBXWVZCTXBMOU1LZDZvZS9s?=
+ =?utf-8?B?WExLWksrQUxpUjlWWDdzV3Y5SmZpVUcvNmwxTitrVkFkSGh3elpnTk5GeWxV?=
+ =?utf-8?B?OVJEdncxRHhSWXF6Tmx3RGVvVDBOaGNndjNOZFlKUHhrL3VvTXIxQlFXYm5T?=
+ =?utf-8?B?a0lEbjQ1cmx4TGprU284SlJiRWJVbHBVbHI0eGZCNzhYNmVoZnpJRzdlWWdI?=
+ =?utf-8?B?cWwzWGoyeDVTU1VXeTBxTUdVbTUwOWJDcy91VE02akVCbUNGREk0TzhBNmRs?=
+ =?utf-8?B?dlEyOUZ5NU5tYUxNc0dMeWxodmJ0Lzh3OVZNaktJL1JtYXhiMDEzMkVjbjRT?=
+ =?utf-8?B?cUNRMjFPc1F6cWhublN4c1JaUENUTGdaTTFPUzFxUEtuNHJycHN6amM3Vk1o?=
+ =?utf-8?B?ZmRWNEVyU2JlR1BVdXFlMHNRSm4reWlaSG5QR2NqKzlFQ0c1ZjlybThHcmlO?=
+ =?utf-8?B?TWdnb25pK3I5Q3VROWVTVFFVVUw0bENCaDNEcFJwb0ZYejFUVTRWYjVzUHVl?=
+ =?utf-8?B?RGNqbWd1VmFBaFlMS0FaOHlNT3ArTVprNnQvYVVMWmZHdzRLN3VzOWJCQVNJ?=
+ =?utf-8?B?N2JJY0s0ZE9hK0JqazNNUjZYVHFxNk1IbFpwZnhyaTVUZG03L3Z1VWk0SVpa?=
+ =?utf-8?B?T0RMMXJJcitOVXBFaXl2RWZxeTI2VXp1MkxTTDdWdUwyWVdLd2pqeTlGYTlj?=
+ =?utf-8?B?bUI3bWJBem40T1RMM1MxSFVtSFJ2RkhNL3BBdE16bFJ5ZE5CQ2VHL0p6eGha?=
+ =?utf-8?B?cWdzSkVSSkcrUlVSdVIvbmw5TXgzNjl1a2J1bmpzbGNGOVFnYk1GTmxMZEdz?=
+ =?utf-8?B?QnZqajFNSDd0Q2d6VVNBRWlBV1ZQam5BQitMVkxJelpRVXU2dXVGdzNPUERB?=
+ =?utf-8?B?czFyREUwUHIydklTaFJpT0d0MVI4ZHdDUDd6R3FkeEtrdFNHclJIZzIyY1ZK?=
+ =?utf-8?B?dDFqcFZ0S0xraGtkY3VCUmFyWGJadW1BZG1meGIyQ2tGRkgxVkJMdFFRcFhu?=
+ =?utf-8?B?QkREM1JhRyt4QmRrYkFoV214RVpsVzYrL3RHSVF0SlJZdjNYdmdQMkdCRm1D?=
+ =?utf-8?B?MU95MXBXSjc4ZzY2cm1IL3RUdVBMRWFYTUZWT2pud3labzZwWllQRElwZGZx?=
+ =?utf-8?B?S1ZxWWZLSkdiaEVUc2NGbXVIdXpLYlArdEQzdmpQbExZeHlmckVWcDNWeURJ?=
+ =?utf-8?B?Y1V4SktNVHpoK3hPdlhmRFZBMUJsNjhqYUU3ajlSMUNGcEVHOEJvRmNKaEpN?=
+ =?utf-8?B?dmw2bWpsZ0h1cy9pQmZIVU5OK3dITVVwRTFDQ3g3U0N1QTR2TFZRRkxoeVNv?=
+ =?utf-8?B?SHFyaWxRREhYdktWSHJkbkNSQmlabnNEY2hxK3JjSUU4cmtPY1NQT3hRcnZN?=
+ =?utf-8?B?U3hUQ2NuQmVhbk5pUU5EN1RMMHM2a2h1a1VFTmJFaEs2SkdrOXRqTnpWdFg5?=
+ =?utf-8?B?SGdlbTMwVFBvOXZlcGZyWURsSGptL0FIc09aU2loaWhIck0zc3dWQnZZamh1?=
+ =?utf-8?B?WDVQR1RTMW9GUFkyR3NRQXh0TFNndkRZeVB4MDllL0xhSE9HdzB6ZXc0TEhK?=
+ =?utf-8?B?OFpOdVpkcS9yVm4xVDdsL21jN3YwRjQ4N1JVWGNBVkdIR20rQWNLcHpIU3ZW?=
+ =?utf-8?B?ZjdzTnhqS3lkZjB1UkRETmFrVkUwbVVJY2ZIaUVzaFR1aGpkUThSRzZNVGsz?=
+ =?utf-8?B?R21sRFZwbkhzRHh5WDZocFJoZG9KQU1PaFN5TS90cWZoL21wOWs1eG9WT1dr?=
+ =?utf-8?B?NFFEd2cxNW1rRmRSVHFMeElVU1dsaStxbWpZRmdOZkhzUGo5aFIrMTZFcHZF?=
+ =?utf-8?B?emNKcXU1aXpuYXk3U3l1QUlVN3lEM3ZqVVpqdHBPaFpPTTlSVlpKcUR6eXBa?=
+ =?utf-8?B?clUzNER0U3RjeVFvN0s1NW40aitFWFh2Ui9FN1Uwd1I1d1hSRitRWGErZ1ND?=
+ =?utf-8?B?WW1WYVZmZFJYMTBZeXR6K3VpbGdERktubkRmRndmQVpyT1dTRENYRDhuVzB0?=
+ =?utf-8?B?Q1JJMUVrMzFYSWpXK2dEWjFIM1lFOTVxZndwNzl5eFVYMXd5MTJzc2EyQ21U?=
+ =?utf-8?Q?SvntuFwpOUHP1rHgfYc2XLHhn?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 443945f3-b028-4a7b-cc8f-08dd71b3558d
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2025 06:46:02.0698
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Apr 2025 06:55:20.7495
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: K4Uz7Cwa3bOr6YWuIkERuDZcbYtc6WdFTA/wDXBkciXchXre7KsaMKlApQ2Bc41DPAzg/JITFrjIpTd9cFxxdg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB9048
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6Pgu1+A0Rv2UTxaoIViXYWMPH7tcC31U1Ta9V8qspe8/3axv1Otkd61i6GP3rnjr
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PPF6BCF148B6
 
-Hi Laurent,
+Am 01.04.25 um 22:46 schrieb Dmitry Osipenko:
+> On 4/1/25 23:40, Rob Clark wrote:
+>> On Tue, Apr 1, 2025 at 8:58 AM Rob Clark <robdclark@gmail.com> wrote:
+>>> From: Rob Clark <robdclark@chromium.org>
+>>>
+>>> Add support for exporting a dma_fence fd for a specific point on a
+>>> timeline.  This is needed for vtest/vpipe[1][2] to implement timeline
+>>> syncobj support, as it needs a way to turn a point on a timeline back
+>>> into a dma_fence fd.  It also closes an odd omission from the syncobj
+>>> UAPI.
+>>>
+>>> [1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33433
+>>> [2] https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/805
+>>>
+>>> v2: Add DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE
+>>> v3: Add unstaged uabi header hunk
+>>> v4: Also handle IMPORT_SYNC_FILE case
+>>> v5: Address comments from Dmitry
+>>> v6: checkpatch.pl nits
+>>>
+>>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+>>> Reviewed-by: Christian König <christian.koenig@amd.com>
+>>> Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>>> ---
+>>>  drivers/gpu/drm/drm_syncobj.c | 47 +++++++++++++++++++++++++++--------
+>>>  include/uapi/drm/drm.h        |  4 +++
+>>>  2 files changed, 41 insertions(+), 10 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/drm_syncobj.c b/drivers/gpu/drm/drm_syncobj.c
+>>> index 4f2ab8a7b50f..636cd83ca29e 100644
+>>> --- a/drivers/gpu/drm/drm_syncobj.c
+>>> +++ b/drivers/gpu/drm/drm_syncobj.c
+>>> @@ -741,7 +741,7 @@ static int drm_syncobj_fd_to_handle(struct drm_file *file_private,
+>>>  }
+>>>
+>>>  static int drm_syncobj_import_sync_file_fence(struct drm_file *file_private,
+>>> -                                             int fd, int handle)
+>>> +                                             int fd, int handle, u64 point)
+>>>  {
+>>>         struct dma_fence *fence = sync_file_get_fence(fd);
+>>>         struct drm_syncobj *syncobj;
+>>> @@ -755,14 +755,24 @@ static int drm_syncobj_import_sync_file_fence(struct drm_file *file_private,
+>>>                 return -ENOENT;
+>>>         }
+>>>
+>>> -       drm_syncobj_replace_fence(syncobj, fence);
+>>> +       if (point) {
+>>> +               struct dma_fence_chain *chain = dma_fence_chain_alloc();
+>>> +
+>>> +               if (!chain)
+>>> +                       return -ENOMEM;
+>>> +
+>>> +               drm_syncobj_add_point(syncobj, chain, fence, point);
+>>> +       } else {
+>>> +               drm_syncobj_replace_fence(syncobj, fence);
+>>> +       }
+>>> +
+>>>         dma_fence_put(fence);
+>>>         drm_syncobj_put(syncobj);
+>>>         return 0;
+>>>  }
+>>>
+>>>  static int drm_syncobj_export_sync_file(struct drm_file *file_private,
+>>> -                                       int handle, int *p_fd)
+>>> +                                       int handle, u64 point, int *p_fd)
+>>>  {
+>>>         int ret;
+>>>         struct dma_fence *fence;
+>>> @@ -772,7 +782,7 @@ static int drm_syncobj_export_sync_file(struct drm_file *file_private,
+>>>         if (fd < 0)
+>>>                 return fd;
+>>>
+>>> -       ret = drm_syncobj_find_fence(file_private, handle, 0, 0, &fence);
+>>> +       ret = drm_syncobj_find_fence(file_private, handle, point, 0, &fence);
+>>>         if (ret)
+>>>                 goto err_put_fd;
+>>>
+>>> @@ -869,6 +879,9 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
+>>>                                    struct drm_file *file_private)
+>>>  {
+>>>         struct drm_syncobj_handle *args = data;
+>>> +       unsigned int valid_flags = DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE |
+>>> +                                  DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE;
+>>> +       u64 point = 0;
+>>>
+>>>         if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
+>>>                 return -EOPNOTSUPP;
+>>> @@ -876,13 +889,18 @@ drm_syncobj_handle_to_fd_ioctl(struct drm_device *dev, void *data,
+>>>         if (args->pad)
+>>>                 return -EINVAL;
+>>>
+>>> -       if (args->flags != 0 &&
+>>> -           args->flags != DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
+>>> +       if (args->flags & ~valid_flags)
+>>>                 return -EINVAL;
+>>>
+>>> +       if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_TIMELINE)
+>>> +               point = args->point;
+>>> +
+>>>         if (args->flags & DRM_SYNCOBJ_HANDLE_TO_FD_FLAGS_EXPORT_SYNC_FILE)
+>>>                 return drm_syncobj_export_sync_file(file_private, args->handle,
+>>> -                                                   &args->fd);
+>>> +                                                   point, &args->fd);
+>>> +
+>>> +       if (args->point)
+>>> +               return -EINVAL;
+>>>
+>>>         return drm_syncobj_handle_to_fd(file_private, args->handle,
+>>>                                         &args->fd);
+>>> @@ -893,6 +911,9 @@ drm_syncobj_fd_to_handle_ioctl(struct drm_device *dev, void *data,
+>>>                                    struct drm_file *file_private)
+>>>  {
+>>>         struct drm_syncobj_handle *args = data;
+>>> +       unsigned int valid_flags = DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_TIMELINE |
+>>> +                                  DRM_SYNCOBJ_FD_TO_HANDLE_FLAGS_IMPORT_SYNC_FILE;
+>>> +       u64 point = 0;
+>>>
+>>>         if (!drm_core_check_feature(dev, DRIVER_SYNCOBJ))
+>>>                 return -EOPNOTSUPP;
+>> oh, I suppose I should add a check for DRIVER_SYNCOBJ_TIMELINE?  I'll
+>> send a v7 a bit later
+> Christian already applied to misc-test, please rebase and make it as a
+> new patch
 
-I'm really sorry to keep bugging you about this patch but it looks like
-this one fell through the cracks again... :/
+Yeah, sorry I was a bit to quick obviously.
 
-Thanks,
-Laurentiu
+On the other hand I don't see an immediate need for a check for DRIVER_SYNCOBJ_TIMELINE here.
 
-On Thu, Feb 06, 2025 at 10:37:49PM +0200, Laurent Pinchart wrote:
-> Hi Laurentiu,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Oct 23, 2024 at 11:56:43AM +0300, Laurentiu Palcu wrote:
-> > Currently, if streamon/streamoff calls are imbalanced we can either end up
-> > with a negative ISI m2m usage_count (if streamoff() is called more times
-> > than streamon()) in which case we'll not be able to restart the ISI pipe
-> > next time, or the usage_count never gets to 0 and the pipe is never
-> > switched off.
-> > 
-> > To avoid that, add a 'streaming' flag to mxc_isi_m2m_ctx_queue_data and use it
-> > in the streamon/streamoff to avoid incrementing/decrementing the usage_count
-> > uselessly, if called multiple times from the same context.
-> > 
-> > Fixes: cf21f328fcafac ("media: nxp: Add i.MX8 ISI driver")
-> > Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Signed-off-by: Laurentiu Palcu <laurentiu.palcu@oss.nxp.com>
-> > ---
-> > v3:
-> >  * Changed the implementation as suggested by Laurent and add a Suggested-by
-> >    tag to reflect that;
-> > 
-> > v2:
-> >  * Changed the way 'usage_count' is incremented/decremented by taking
-> >    into account the context the streamon/streamoff functions are called
-> >    from;
-> >  * Changed the commit message and subject to reflect the changes;
-> > 
-> >  drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c | 13 +++++++++++++
-> >  1 file changed, 13 insertions(+)
-> > 
-> > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
-> > index 9745d6219a166..dc10e1a9f27c1 100644
-> > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
-> > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
-> > @@ -43,6 +43,7 @@ struct mxc_isi_m2m_ctx_queue_data {
-> >  	struct v4l2_pix_format_mplane format;
-> >  	const struct mxc_isi_format_info *info;
-> >  	u32 sequence;
-> > +	bool streaming;
-> >  };
-> >  
-> >  struct mxc_isi_m2m_ctx {
-> > @@ -486,6 +487,7 @@ static int mxc_isi_m2m_streamon(struct file *file, void *fh,
-> >  				enum v4l2_buf_type type)
-> >  {
-> >  	struct mxc_isi_m2m_ctx *ctx = to_isi_m2m_ctx(fh);
-> > +	struct mxc_isi_m2m_ctx_queue_data *q = mxc_isi_m2m_ctx_qdata(ctx, type);
-> >  	const struct v4l2_pix_format_mplane *out_pix = &ctx->queues.out.format;
-> >  	const struct v4l2_pix_format_mplane *cap_pix = &ctx->queues.cap.format;
-> >  	const struct mxc_isi_format_info *cap_info = ctx->queues.cap.info;
-> > @@ -495,6 +497,9 @@ static int mxc_isi_m2m_streamon(struct file *file, void *fh,
-> >  
-> 
-> While at it I'll drop the blank line here when applying the patch.
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> >  	int ret;
-> >  
-> > +	if (q->streaming)
-> > +		return 0;
-> > +
-> >  	mutex_lock(&m2m->lock);
-> >  
-> >  	if (m2m->usage_count == INT_MAX) {
-> > @@ -547,6 +552,8 @@ static int mxc_isi_m2m_streamon(struct file *file, void *fh,
-> >  		goto unchain;
-> >  	}
-> >  
-> > +	q->streaming = true;
-> > +
-> >  	return 0;
-> >  
-> >  unchain:
-> > @@ -569,10 +576,14 @@ static int mxc_isi_m2m_streamoff(struct file *file, void *fh,
-> >  				 enum v4l2_buf_type type)
-> >  {
-> >  	struct mxc_isi_m2m_ctx *ctx = to_isi_m2m_ctx(fh);
-> > +	struct mxc_isi_m2m_ctx_queue_data *q = mxc_isi_m2m_ctx_qdata(ctx, type);
-> >  	struct mxc_isi_m2m *m2m = ctx->m2m;
-> >  
-> >  	v4l2_m2m_ioctl_streamoff(file, fh, type);
-> >  
-> > +	if (!q->streaming)
-> > +		return 0;
-> > +
-> >  	mutex_lock(&m2m->lock);
-> >  
-> >  	/*
-> > @@ -598,6 +609,8 @@ static int mxc_isi_m2m_streamoff(struct file *file, void *fh,
-> >  
-> >  	mutex_unlock(&m2m->lock);
-> >  
-> > +	q->streaming = false;
-> > +
-> >  	return 0;
-> >  }
-> >  
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+The functions should work even when the driver doesn't handle timeline syncobj on it's own.
+
+Regards,
+Christian.
+
+
 
