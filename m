@@ -1,122 +1,147 @@
-Return-Path: <linux-media+bounces-29240-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29241-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EA45A79040
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 15:51:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 239F0A79078
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 15:57:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6A1271722F1
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 13:50:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2E4E81890C2F
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 13:51:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3122D23A9A3;
-	Wed,  2 Apr 2025 13:50:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A649E23BCFC;
+	Wed,  2 Apr 2025 13:51:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kFG7Op67"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="hA3P+25o"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2548F43AA4;
-	Wed,  2 Apr 2025 13:50:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 60CAC23BCEF;
+	Wed,  2 Apr 2025 13:51:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743601810; cv=none; b=FXDPdlXeQNVXeUMdp1m5Ra4c3oP6CvfBSpcjgyT2iMsquR8roXTm+lI4uCP6hr2XccJGJ2GW6Yo1P5sNkyVj7jShLqN9h3fLGFJnE8V1QQqY3LHDRReDKekcgnB8WVLDgphwTUH38/TGQTEKBE9SJ1jJf7TV8u2qReVkmFe+YRg=
+	t=1743601880; cv=none; b=AYMnnte4rPdeQYMCnAsUb3Fut3UQpnUmLyBB/E28zXHUN5ixq5p3GMS2VPdussBcbz2oVee5e304HKfnSOen0cCoKOo2gXffjaDcIJEPpduFf33uSjuY++uI9YSMhutnyOCcdK5dKLubuPMx8+PZKyXbtXa0Vf4Ca1L67gUkGjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743601810; c=relaxed/simple;
-	bh=khdQRjKa1cJsLk+at6y8zDWPs5nydHHfCistC3DVK/M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=D4JG1B+h9e8VqS0MryLjXmeT/C6ibCvwvlfgFVhH4FTrU8u4LicRgKtc9A7SRuOVqC246plCzGGGW9KAMcRyp+y/Hna/HfBGylKxJqw3QnyaBTIO1yfgsFPVbN7jeUvG7cuGqEM7O1N66sccPWO96YBJ+g0beK/hWzp6EDq3LAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kFG7Op67; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-47662449055so35340911cf.1;
-        Wed, 02 Apr 2025 06:50:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743601808; x=1744206608; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=UpIRlo9dkfMDRtvBdGX/Xo5MPiwW/uzBzcuJlURA8sM=;
-        b=kFG7Op67of3JC5g93uxYdcBXpotzEPzFynlMmmD8Q2TPs/yQnKllmXm8u448UwP0RD
-         RMvvrpFKPdJu3UzIubXSfa1+jRmx/f76Ko6mk5wMFTvDCIRhKizCM4Ptbr3h8a3PQpYS
-         tK4tkULyK9B8luYCZp9v1xnMwQSOGKnnx3FpC/piKG31bU7Q9ifgIOqecBy8Lv6EJPYv
-         wyqlaGV7r07wz4Z9Gzaay9P+mrUjrwEB5w4uUDmjDP4kFss7QQ/UgomZtby9xLBBsNhD
-         BenJlQeH6LhC33HBdyYCdlQuQkoVNRkHVvKPPWLm/DQxAfbDwggywMjuyvbzO5bbICoN
-         ehBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743601808; x=1744206608;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UpIRlo9dkfMDRtvBdGX/Xo5MPiwW/uzBzcuJlURA8sM=;
-        b=oCEbUqiwt3eHJHTutWs0lSJ8A6P+adQFOWmPdiEr+8HBFRQDKB+Pv+OOFIbCftvaow
-         WIsuvsxL82ZGOaQJdU7jzmilb/+pdaMkwgYzzyiiNztC7CxRSlpv6P7eHlPc8mlkj7dN
-         v+A1DPxCBROY56TJB0MAlfgV2hxMQeTQ3fOx7BVSrdHXgir4qHUH/7KyC21sETq02GmU
-         5Scw/JODtnRDsWFvqRIwHbhfcPiaBVSV/kn5kPUl6LI6ubP+lTm/poJXLY/u0noNImtY
-         BG/WhtyjeGNp6EbEyoxGzdI4aOtWGlyCf70hVcf6jOXL7dShMtk57A61cCryQ+BMf2ZK
-         lReg==
-X-Forwarded-Encrypted: i=1; AJvYcCXcDOQirFuzPTzeSw/wl0BcwMWtZD/8WLuomDbWODnVt4LHN6EF6hJGcHxTScmM24va1yR6pBWlsncx8ss=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9zkMPN0cPEQ3zo2U7Kr33QhiopED2zU5Yr04l2cHG8XwVmrN9
-	1tMNj26ZVr3C7ILGkr2ID4a3B7DOLxWqyzy5UN1WTk+oSIWRw8vFdbLoRXRpZD8=
-X-Gm-Gg: ASbGnctpj4VxB8yRtWjJCZ2RXrmU15gvR7l6N3tIhVp8khO/l9ng8v2E3oS1oUZqBNw
-	rblZcKm8dhf7dl2UB3hgbTaxzo/vVd6wRaYfd+r805+/7UzBs7fMx6pgI2Niy+gLFC7FOYVZF1G
-	361cOJ1Ar9kbHTVva9PLMFliMkDjbBtJpiU01JMhRvLXaV4mGb8Yq+W/7TmjaULJDIq2gEGyoG4
-	nYkxmVdcLm4lkHLoPMulujhoKcASbcU3jJspn99TnYeWVkdAqSusbxsBsl3l9vz20EA2dFNUJyw
-	smIZc2QAryK8Q415Qy3OOSN4EPo1fgRhEF/oMNAIRzrVLy3scx+oYAZ99js8tGkejE5lLfLNXWv
-	cTC9pm1bJCULPCOWqAVEKK8k=
-X-Google-Smtp-Source: AGHT+IGO8ahOi/G3jO/2cQgbGPiOCEtcsk4bHdTRa6rUhoN3n0aVnWghLd31gahPKyxhXN71T2kuCw==
-X-Received: by 2002:a05:6214:dab:b0:6e8:f88f:b96b with SMTP id 6a1803df08f44-6eed5f616e6mr292528906d6.9.1743601807617;
-        Wed, 02 Apr 2025 06:50:07 -0700 (PDT)
-Received: from theriatric.mshome.net (c-73-123-232-110.hsd1.ma.comcast.net. [73.123.232.110])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6eec97bc7besm74799826d6.122.2025.04.02.06.50.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Apr 2025 06:50:07 -0700 (PDT)
-From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: andy@kernel.org,
-	hdegoede@redhat.com,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	gshahrouzi@gmail.com
-Subject: [PATCH v2] staging: media: Fix indentation to use tabs instead of spaces
-Date: Wed,  2 Apr 2025 09:50:01 -0400
-Message-ID: <20250402135001.12475-1-gshahrouzi@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1743601880; c=relaxed/simple;
+	bh=A9O5eS2l16DBgPICaEtUFjgi9RkWq9x3wPNStnQioQk=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=bsCYF08pNW4xpHgDQoxD8s2YxFm7l4H1SXLIIWuurwuXSUA6jmy4mlDklxX/ARP2O2C77u1ZBQjBCEYtO+Gjkkt047AAVUES2uRhuE/Pe0pr+U0UdAaZNu+IeLpmq8RzNfnNwKnnyk3LNkiZBYGrl5JomJ3FKBqsNiFpaqo189U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=hA3P+25o; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 532CO6Ra018957;
+	Wed, 2 Apr 2025 15:51:10 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=selector1; bh=r5AsdiYb24Au02+ZUD6TST
+	XwjJB6opLYfwASWD9NJAY=; b=hA3P+25oCetwJT8rY+/0zlX9KvUu+rK8k9sBi/
+	K0L623ly7mlVcxJtOuQDsav9dYpXGKnAePJ9oVu8LdqTDRtLw96tbBpdE+dm902g
+	eIV18CjEySeYnIBKbTDdKfconKD4X5uLAD7pnyYTrrAc3ebTOGXVjW38g7zjPaUq
+	9B3iLyiNVN9HxxPlWtpZu7lA/GH3T6EypvM1cYYOhYvtk1fBDXhqKvP0vIPUZ4xN
+	EPKBQZL8CY9v3O8jQs9LLUCaWrKP0VAEWJeTIwYCrbGJPk1GgLPqgxWHBO8jliAU
+	xmBXOBusZ9ZgVNNxa6B3j+oXh9VgI6ikfMCJFdHYlpu1FY7g==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 45p75qbtd5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 02 Apr 2025 15:51:10 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id AA88040051;
+	Wed,  2 Apr 2025 15:50:22 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 7E8C085F21C;
+	Wed,  2 Apr 2025 15:50:09 +0200 (CEST)
+Received: from localhost (10.252.30.87) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 2 Apr
+ 2025 15:50:09 +0200
+From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Subject: [PATCH v4 0/2] media: Add support for ST VD55G1 camera sensor
+Date: Wed, 2 Apr 2025 15:50:05 +0200
+Message-ID: <20250402-b4-vd55g1-v4-0-84b1f54c670c@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAI1A7WcC/23OQQ7CIBAF0KsY1tIMA6PgynsYF1BAWWhNMURje
+ ndpN9bq8k94//NiOfQpZLZbvVgfSsqpu9ag1ivWnu31FHjyNTMEJEAk7hQvnugkuPPOgHdBGid
+ ZfX/rQ0yPqetwrPmc8r3rn1N1EeP1X0sRHLj0ZEFjhGjNPnY5N/netN1lrJ2MRL002ouNU3ZrI
+ n6bcbvgZ0+BmFusFlptnbZKt0S/Vs4tzq0c/2qk0aRAbWmxOwzDGwXpRw1QAQAA
+X-Change-ID: 20250225-b4-vd55g1-bdb90dbe39b3
+To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Sylvain Petinot
+	<sylvain.petinot@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Sakari Ailus
+	<sakari.ailus@linux.intel.com>
+CC: <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+X-Mailer: b4 0.14.2
+X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-02_05,2025-04-02_02,2024-11-22_01
 
-Replace spaces with tab to comply with kernel coding style.
+Hi,
 
-Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+This serie adds support for the STMicroelectronics VD55G1 camera sensor.
+The VD55G1 is a monochrome global shutter camera with a 804x704 maximum
+resolution with RAW8 and RAW10 bytes per pixel.
+Datasheets and other documentation can be found at st.com [1].
+A lot of inspiration was taken from the imx219 and the vd56g3 serie.
+It is compatible with libcamera. Tested on Raspberry Pi 4 and 5, with and
+without libcamera.
+
+[1] https://www.st.com/en/imaging-and-photonics-solutions/vd55g1.html#documentation
+
+Regards,
+Benjamin
+
 ---
+Changes in v4:
+- Fix data-lanes syntax in binding
+- Link to v3: https://lore.kernel.org/r/20250402-b4-vd55g1-v3-0-393985404759@foss.st.com
+
+Changes in v3:
+- Add maxItems to data-lanes in binding
+- Drop redondant 'binding' in binding commit message
+- Link to v2: https://lore.kernel.org/r/20250401-b4-vd55g1-v2-0-0c8ab8a48c55@foss.st.com
+
 Changes in v2:
-	- Resend using git send-email to fix formatting issues in email body.
----
- .../media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+- Fix device tree binding mistakes
+- Drop linux media git from MAINTAINERS file
+- Fix coding style mistakes
+- Drop vd55g1_err_probe wrapper
+- Fix 32bits build
+- Fix config symbol help paragraph being too short for checkpatch
+- Link to v1: https://lore.kernel.org/r/20250328-b4-vd55g1-v1-0-8d16b4a79f29@foss.st.com
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-index ece5e3da34ee..127f12ba2214 100644
---- a/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-+++ b/drivers/staging/media/atomisp/pci/isp/kernels/vf/vf_1.0/ia_css_vf.host.c
-@@ -114,7 +114,7 @@ configure_dma(
- }
- 
- int ia_css_vf_configure(const struct ia_css_binary *binary,
--		        const struct ia_css_frame_info *out_info,
-+			const struct ia_css_frame_info *out_info,
- 			struct ia_css_frame_info *vf_info,
- 			unsigned int *downscale_log2)
- {
+---
+Benjamin Mugnier (2):
+      media: dt-bindings: Add ST VD55G1 camera sensor
+      media: i2c: Add driver for ST VD55G1 camera sensor
+
+ .../devicetree/bindings/media/i2c/st,vd55g1.yaml   |  132 ++
+ MAINTAINERS                                        |    9 +
+ drivers/media/i2c/Kconfig                          |   11 +
+ drivers/media/i2c/Makefile                         |    1 +
+ drivers/media/i2c/vd55g1.c                         | 1993 ++++++++++++++++++++
+ 5 files changed, 2146 insertions(+)
+---
+base-commit: b2c4bf0c102084e77ed1b12090d77a76469a6814
+change-id: 20250225-b4-vd55g1-bdb90dbe39b3
+
+Best regards,
 -- 
-2.43.0
+Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 
 
