@@ -1,81 +1,82 @@
-Return-Path: <linux-media+bounces-29226-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29227-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD194A78E5B
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 14:29:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8803A78E4F
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 14:28:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3F763B67B6
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 12:24:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 76A721890313
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 12:25:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDC4123A98F;
-	Wed,  2 Apr 2025 12:24:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C041D23A9A7;
+	Wed,  2 Apr 2025 12:24:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sGYF0GSe"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="esSmra/x"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AD8A2356AB
-	for <linux-media@vger.kernel.org>; Wed,  2 Apr 2025 12:24:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0ED23909E
+	for <linux-media@vger.kernel.org>; Wed,  2 Apr 2025 12:24:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743596660; cv=none; b=RsZcd2Qoe5lylIXZhWZrcWaDL+hzuHr2nSXx927rSTrvYi/RmUsYXVDEK3fh44bqmlW0CNwQmK/pVmjxPZm7nyxyIfCLAqJq/hzRWJw11ypYbXSnWJY96pII00Q9a7YqrvNGu7nfnGqNuEd6E20NXd5BIeno4dzJkRViQGFRbWU=
+	t=1743596661; cv=none; b=jxpfXDwvLYWeToVlIiSVaVfjUg+3v09KjrPPuv2xRYaWFCKbYjPUBNvztMIGxVg4JMc0EvcEZVRPyKNq4p3pM9422BDA00JOvjwV2CmPTt2Y921eLiKo0duZ+lTcVLMDiDdLArTLH4Dg2srsAECuMjmRXX7cLQJZazn3mOB0wtI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743596660; c=relaxed/simple;
-	bh=0v2URiG8esdkRgUTyd3SngcEHuSOj0Zafp4N84xHkg4=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hOG1TXg2a++OkFnk/5qKZ28EReqAHQ47Zs1ndAwZz6/iHo5umK8Hd6FcRxLhtvQqmOkmq5ITZqAfGEvaPLYb4WdF5Hsabq2d0uud2cicOqHao/0+oKLrYoMQu3s3xofPGT1kPyRTN/btSgxdxKPy9DFxQ9NuGVbBUebEw3pfV/A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=sGYF0GSe; arc=none smtp.client-ip=209.85.128.45
+	s=arc-20240116; t=1743596661; c=relaxed/simple;
+	bh=pd3p1EOQeH1JIt4Udq9z6hzw43geRI4pY+FfLwoeNyA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=mts63mCWvPmteFJKxhvdPCePhmTRmXLHypx8GcmmIp2H8R/X41fXBjzUVbWwr44rP4dw28JW3TrlpYty5/CiSwyKZKOBGAS3m4gj1z0p6mEmnliFYSYGbXkWmc3IQfhfS9thJLLRRNs536yUtByeKQ8QTNpHxeqNItkGHBr8olA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=esSmra/x; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43cfe574976so46236645e9.1
-        for <linux-media@vger.kernel.org>; Wed, 02 Apr 2025 05:24:18 -0700 (PDT)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43d04dc73b7so72382755e9.3
+        for <linux-media@vger.kernel.org>; Wed, 02 Apr 2025 05:24:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743596657; x=1744201457; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ztK8X1ZBqwTpCQZgzQx75WiIn9I1zX9gTe47p5OjGL8=;
-        b=sGYF0GSeNVXXFwNIelq2JcE7p2k9EUARs3S/FzjucEFbRNJDZO+iNusSH6DpNHfUYh
-         7Oci/JxglJ/EjAVKagJ1msMF51SxzoM93l9mXOMhlnUDiFOdCVzy2DLbj4tE/zcbe2HU
-         5ucqlbzBTmsjUxxIe2eFF6r8A7xIExAr4unP03Uy1Ja9pETHp5Scl4MQaXAFMDz8ww7Z
-         pUd1SHOL1rRIB4B1IJK5Jw1DlPP7Qz0DbVEnfrf0bwPixpLK/8Q0RTWyDYTvkrJKHTCW
-         SFgHqqiphChv/gBlnTfueNWEB6F4AGrp3qDH6ElaLsaaNyyrqdpLoU4zt2vRgQ3ylyrD
-         JuLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743596657; x=1744201457;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linaro.org; s=google; t=1743596658; x=1744201458; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ztK8X1ZBqwTpCQZgzQx75WiIn9I1zX9gTe47p5OjGL8=;
-        b=WGNQMOw8vAEviSaV6K3wGIfADfIJbHPhOhwZ53tBZFBR6P6GBWRLY2b9X/73FGXOmg
-         rkpDnH0rwBP2a922KvwTx0UueJlCDYY4q6kRCpp1JXKM9fmeGjBuTRgM8y/kZkBqYj+p
-         jpT0/VtA16gDEutBGRSMqyAZz7wjkioqprW93gm04AqOff8OqXLel33Q3I8FewSQ2ca+
-         yFVugaZGJnEkb1nRLbgrSYO4JCM+OfgKlgrb0QX/+6vsm15idPjEq9Y+v4qq5HHhnPQK
-         cxRT5x+iJ0MNfyGPB3PeJHg62JcuGeT7Fm4c2MueisEwL4cdJCmctjXsDDfdXf1Ln6jR
-         nssQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWh5Gv4Uo9xBxXSD05OaPJQe0q5UycFK3WWSYs31RNau+wLLNT0Um+kGPVut6dgw3bCzE11dKhEhVpH5A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YynK/TVsDNINfUzAec4hggeZIC5gV5LIDs+8HBmlmGx+EdFjrgV
-	kKKo9gz7fX+GldzeCSUlVqpjADaWgp8QJtbMTpRexsHfaw2Tey1uXQ0B4yFRyK4=
-X-Gm-Gg: ASbGncsv/mm9gcK38fvELBbd6VSWwTNJfWeGJg30nL9uW3JlTKb0rTckuXh8wXdxKKy
-	Axwt07pOYqXre4NQzP0LALppOxzcrLr+wZM1QWBh1Zca7LgSa5BclRF/y+g0pAse5rQhl6ptzqQ
-	MpOGSWoC1U6fHVpUIdvOygS0oJUxw+P/VjeLvBqoxDqhQ3M+YkMAuY0otD2LsQecqYZbo3Abd2a
-	J55poZ580NvgqLWi/xufs6fCaV1Niu8SvOYiVqWCjy5lUoXUdGpYOPcoKsQNnpnTbfjnVf9jmDt
-	tOIVe6elAHuC0lSYDvFo0EgPC1C5CuPdqjWQ6Xhox5zNSh+GLtWuWeuRWpqbIVVqo3w/o49rSiB
-	pWXU0qRi+5aLaxHdxYzdb
-X-Google-Smtp-Source: AGHT+IF40EzUUmGVd0zd7rqUsdkDiAiIczPUOCxpw6qKHK2XBj0/TDqOPqbFk3OkguXZaFpVMQXW9A==
-X-Received: by 2002:a05:600c:450a:b0:43d:ed:ad07 with SMTP id 5b1f17b1804b1-43ea7cdfdf8mr50511585e9.29.1743596656675;
-        Wed, 02 Apr 2025 05:24:16 -0700 (PDT)
+        bh=ag+qe36rtOH7BLdLDFRBy4D28dCl/fsM+SZOhDkhdl0=;
+        b=esSmra/xoXXUbxKb420hDYnq3/8ceIa/4QK0SyVejyi6Ifp05e++k3tcg0oXGkjIl6
+         ActRxgW7R5MUG19CfuyVfoYDX4oi7Oic7cKKU1QbXmZ3bn1kAh0l/APCH2O2sMTM3UcI
+         MP8Lipb9nZnA9VmQNoeAvcDA9RvZlqMVGcXq+aWw4mrWHIiA0QXT+TKyLwBinMncmESm
+         qVPXZG4YuMydJ9h0IxnloYakY9MeFVx0HYTGwuNtA3fL/teaYnye04AeMPbD52FCFoPZ
+         Id1kvZNeqjYfpdWcIvtHW9xxZZQ74HOsvzDKE/7CCC600Bd0dpO2lNdyDJIl6pUg7Lgz
+         6k7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743596658; x=1744201458;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ag+qe36rtOH7BLdLDFRBy4D28dCl/fsM+SZOhDkhdl0=;
+        b=OzIq2Xv8DtR0xMRmZ5bhc/SG81lirixQ6YgRDIFJSWo1wq0C+POUlcUTzyMVUoj4pi
+         x7WLSibPC7K1MUGs+ZxdaaFULWJnxbBvKd3luAWLG1DljWhg9NXu7wbiXf+CrXpoUb/S
+         OEEqIy+Z09Nk/iYtoUUEwiFENGc0qyXng8za+3oiWmYfBekxV8xokV6nnhY6Kk32sxy3
+         VPgRXOWYJVM3KDLalYQHM8hxylIF3qtvZnbcepRNvgaRfgjJqxVAclUr5JO/d5+jQ/OI
+         raOf8g5dwSiPo/U8S5YGVj4MKg8sRtTkwFV6nCrIfZUlO6Z1IM53gUtUbmzfYF/HzMEE
+         FJoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXtwCjX5zTiEaT4iDB4WGzkb9Pnz9G/RZGO8n9CyOZUjknji1mLsgy5i38uLZ6K+d1CgIg06Nj/c7/ZVA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNtHcX+7rBrJ0ats5wQGrV1hZaAW+3B0l4aOSyAPwgMZ0SSJMR
+	yMM5PkC3qfK+2lgTOuTtHwN3nXh7Tds9tkmGpt6WVXKf9nHbhOIHJYdqPwCZ84g=
+X-Gm-Gg: ASbGncuqYssnD1oAg6wtxrPPMh2/mJ3SSWzf9eKYfETX17xJj95SSDSkRP2yvPwjLAK
+	9+xd8ZHTdQMqbc7SN+elofcMNdDcpQsSekl2YFY4eKMt8jGOJo/p60MYbHF56xA0MwrVEIVbDod
+	6zyPY3V82/S4MAJFHcZv9gFYCBXgh+uJkyJlmqCYrBBiCOUfw23qUdMzYgjDJJ6Rn3pCmIxag3T
+	X7tSELnlaSVfl4CkIJEdIGapOp/ibUr9Z8dkPLR5F6Wogix4P9z08nRbBa4OV+9UJOP6QUms87Y
+	TGJjH+SUUefn54rm0xm6PYmEfKEYslmpE4F6PDVWhiZxdkgJZh3VaHC5IxsgixNDuc4ckrBU3kU
+	C0vncfHdOIg==
+X-Google-Smtp-Source: AGHT+IGZ2A+/X2i0m4nqT4WW0eKZBN0Bs5Jmua4vnLJ9sVRHmwsIh+X6Rzu6YnRHs9vcyXyorAWz4Q==
+X-Received: by 2002:a05:600c:474a:b0:43d:7588:6688 with SMTP id 5b1f17b1804b1-43db622a023mr164334985e9.12.1743596657700;
+        Wed, 02 Apr 2025 05:24:17 -0700 (PDT)
 Received: from [192.168.0.34] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43eb60ccc66sm19418675e9.24.2025.04.02.05.24.15
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43eb60ccc66sm19418675e9.24.2025.04.02.05.24.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Apr 2025 05:24:16 -0700 (PDT)
+        Wed, 02 Apr 2025 05:24:17 -0700 (PDT)
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [PATCH v3 0/2] media: MAINTAINERS: Update venus/iris reviewers and
- maintainers list
-Date: Wed, 02 Apr 2025 13:24:13 +0100
-Message-Id: <20250402-b4-25-03-29-media-committers-venus-iris-maintainers-v3-0-2b2434807ece@linaro.org>
+Date: Wed, 02 Apr 2025 13:24:14 +0100
+Subject: [PATCH v3 1/2] media: MAINTAINERS: Amend venus Maintainers and
+ Reviewers
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -84,11 +85,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAG0s7WcC/6XOPQ7CMAwF4KugzBilNv8T90AMaeq2lmiCkhKBq
- t6dhAlWGCz5vcGfJxU5CEd1XEwqcJIo3uVAy4WyvXEdgzQ5K9S40YQHqNeAG9AEeR+4EQPWD4O
- MI4cIid09ggSJMBhxY55Sc017Xh8au93VKl++BW7l8VbPl5x7iaMPz/cTqSrtf16qQINmW2m9a
- xsme7qKM8GvfOhUARN+IFT9hmBBaIuIraE9mS9knucX4+8NGlwBAAA=
-X-Change-ID: 20250329-b4-25-03-29-media-committers-venus-iris-maintainers-eb38e49dc67b
+Message-Id: <20250402-b4-25-03-29-media-committers-venus-iris-maintainers-v3-1-2b2434807ece@linaro.org>
+References: <20250402-b4-25-03-29-media-committers-venus-iris-maintainers-v3-0-2b2434807ece@linaro.org>
+In-Reply-To: <20250402-b4-25-03-29-media-committers-venus-iris-maintainers-v3-0-2b2434807ece@linaro.org>
 To: stanimir.k.varbanov@gmail.com, hverkuil@xs4all.nl, 
  quic_vgarodia@quicinc.com, quic_dikshita@quicinc.com, mchehab@kernel.org, 
  linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
@@ -96,40 +95,39 @@ To: stanimir.k.varbanov@gmail.com, hverkuil@xs4all.nl,
 Cc: Neil Armstrong <neil.armstrong@linaro.org>
 X-Mailer: b4 0.14.2
 
-V3:
-- Was: Add myself into venus/iris to maintain/review
-- I'll be helping to pickup patches for camss, venus and iris so
-  +R to make sure checkpatch.pl includes me.
-- +M Dikshita as she is an expert in this area.
-- Link to v2: https://lore.kernel.org/r/20250331-b4-25-03-29-media-committers-venus-iris-maintainers-v2-0-036222fa383a@linaro.org
+Stan has stepped back from active venus development as a result I'd like to
+volunteer my help in keeping venus maintained upstream.
 
-V2:
-- Remove Stan from venus +M per his indication he can't continue
-  due to lack of appropriate test hardware.
-- Apply trailers from Neil on patch #2
-- Link to v1: https://lore.kernel.org/r/20250329-b4-25-03-29-media-committers-venus-iris-maintainers-v1-0-0ec1007fde3c@linaro.org
+Discussing with the qcom team on this we agreed
 
-V1:
-I'd like to help out getting patches reviewed and merged for both of these
-drivers.
++M for Dikshita
++R for me
 
-+M for venus
-+R for iris
+Many thanks to Stan for his hard work over the years from originating this
+driver upstream to his many years of maintenance of it too.
 
+Acked-by: Neil Armstrong <neil.armstrong@linaro.org>
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
-Bryan O'Donoghue (2):
-      media: MAINTAINERS: Amend venus Maintainers and Reviewers
-      media: MAINTAINERS: Add myself to iris Reviewers
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- MAINTAINERS | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
----
-base-commit: f2151613e040973c868d28c8b00885dfab69eb75
-change-id: 20250329-b4-25-03-29-media-committers-venus-iris-maintainers-eb38e49dc67b
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 29b4471574982bf3f8d03158cd5edcb94bc9fab9..1d03530f3298703c5f3d025010511451f878f822 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -19590,8 +19590,8 @@ F:	Documentation/devicetree/bindings/usb/qcom,pmic-*.yaml
+ F:	drivers/usb/typec/tcpm/qcom/
+ 
+ QUALCOMM VENUS VIDEO ACCELERATOR DRIVER
+-M:	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+ M:	Vikash Garodia <quic_vgarodia@quicinc.com>
++M:	Dikshita Agarwal <quic_dikshita@quicinc.com>
+ R:	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+ L:	linux-media@vger.kernel.org
+ L:	linux-arm-msm@vger.kernel.org
 
-Best regards,
 -- 
-Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+2.49.0
 
 
