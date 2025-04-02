@@ -1,106 +1,131 @@
-Return-Path: <linux-media+bounces-29185-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29186-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2C42A78683
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 04:42:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A770BA786BF
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 05:10:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 164733AA3EC
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 02:42:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B2FF61892381
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 03:10:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B8181339A4;
-	Wed,  2 Apr 2025 02:42:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2255F221F09;
+	Wed,  2 Apr 2025 03:10:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RTbzasGv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2F9B23A9;
-	Wed,  2 Apr 2025 02:42:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C99A221F00
+	for <linux-media@vger.kernel.org>; Wed,  2 Apr 2025 03:10:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743561731; cv=none; b=ORZwKtzZXBD1GBE1ZYYsvPBdJhqb/y1LruDKrWRjQ0KJWTkQ1JFrxevJ3edcb+ZFZMx00FJ5dqGLeEcxl+lQZ7iblLrp/dtJsaBwTcDTPAcpj6s0PwdiG14pMTxFtV8h55xSLNnKc5NQAbE1o6nM7yxPbYLY0wOLWsPjxa8Q+8k=
+	t=1743563424; cv=none; b=bsObQfvr4jZVowbgR52p+LAsBAbYjzu/kp7ZOq2nnZA46iYkFG6Kh/xyiWmS4bvcIMD3UuaD7O7OXnwievoWFv+Lb8J2nVZw9vWrurFSNovbrTw0UUPfVlbMVt4OdYYULjVv8euqgcLcnjQvakqqv/sLTyppdRB74DfTmkXwyVw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743561731; c=relaxed/simple;
-	bh=7tPfO4YljEpw7kJklhNj2drCqG4KDq+vh0zUeK403dg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kCtEhUr0Ha5lXRXPOJ+BqwfXQD6Hy1wGjU77UXVA5Ws+jb6cuA9VGssLPZAuqq0HZggzQ+SGifXbfx41YQKal7IvY3ZQ1ICQFzoYNZHxvUQHEDcqX5/Je2xcRLeRSVl/wVcK+eEM0mdzW0zUdr+pRP+9NU7HtvY0RgHyAXFJIEE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
-Received: from localhost.localdomain (unknown [124.16.141.245])
-	by APP-05 (Coremail) with SMTP id zQCowACHvwf5o+xnYpT9BA--.59661S2;
-	Wed, 02 Apr 2025 10:42:02 +0800 (CST)
-From: Wentao Liang <vulab@iscas.ac.cn>
-To: hverkuil@xs4all.nl,
-	mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Wentao Liang <vulab@iscas.ac.cn>,
-	stable@vger.kernel.org
-Subject: [PATCH] media: gspca: Add error handling for stv06xx_read_sensor()
-Date: Wed,  2 Apr 2025 10:41:41 +0800
-Message-ID: <20250402024141.2936-1-vulab@iscas.ac.cn>
-X-Mailer: git-send-email 2.42.0.windows.2
+	s=arc-20240116; t=1743563424; c=relaxed/simple;
+	bh=75JSVBxHpSQVDa/XROC96mZNfDQP9/YKybNn743+vOE=;
+	h=Message-ID:Date:Content-Type:MIME-Version:From:To:Cc:Subject; b=ixvB/UCKPeUJMuB3fEb4dnGH2zeMM2i73OSqgw43MZYdyyYWx8cy7tqm7nbsgjgZN0eBB/5qCX9CZvYeQcYuZvm7u8zWaqY/JoFUEoP9EbO2CyoqgPygLjTI0sB39rSA8pWsJJ7N6Z1vIcVg6rRj1iTrP/p8z9tdH7oj2NB+hgY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RTbzasGv; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-476a720e806so56969191cf.0
+        for <linux-media@vger.kernel.org>; Tue, 01 Apr 2025 20:10:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743563422; x=1744168222; darn=vger.kernel.org;
+        h=subject:cc:to:from:mime-version:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=xSzTQ/0TpLC3197jpm26Y3dFldQ/EqZ/RckXCir2ipg=;
+        b=RTbzasGvCDrVX4u7IIYcIdZdcYLr1SintEWH7t5VxWb/URsj2yEDA86ed5LlviRQpO
+         Edat3xX29YvBOPclqsFgAOZaVbBrEAF1lcjYLgjQqZgSSNJZhvfDBfKBvC8wGRDXG+IB
+         f9x0P31547IeWXyGGTVgAfmvpIpZgLtAw0jQJ6IkZOeM05y1C3xsSdrcLRBSACr6lqiB
+         BDe/G5YPUkSz0t6JJKTFmHI/XgKQIYsrKiOkTQr15ka66Knf28aeF/+2ORyWC0AS1jJ1
+         c3+OTFsPobyzYFqFOktT6az4Za33xlMwLL1ZJWqPQ1VDmiVBev2QIoapECLk7nD9Xlpa
+         Tnlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743563422; x=1744168222;
+        h=subject:cc:to:from:mime-version:date:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xSzTQ/0TpLC3197jpm26Y3dFldQ/EqZ/RckXCir2ipg=;
+        b=SHc4qbhRgJ0V3pQfzkLTKbHZ4UObrqGT/lnlTeAS0Yn+ddJWNBiMxK0141Jz5qeNC9
+         FIBRzSjMvBM+Lfp4yEeTJtLAXIbxaFBZDWaJgIoQBWO376puOcJo+doauU1rRZpscLgs
+         ujUcVewybeJCMeeesE3EeBjiqCkHoqBbZyjY1gnGqB51OJoUhxkvZOgQ6DrCwu1M6U3j
+         /IKTGMtjG6DYyLeFqOnpwzAgp2cbEPALwPl/6ZhAk1KQ5qoYf6iT+QFWyfEEgtNocx0o
+         s8F4DNnRkvb9i/3ny6IzkOA03343OBfo1UjgWFMmuPF9LDfjJz/7dfA2g+p9f4oOexpf
+         4vug==
+X-Gm-Message-State: AOJu0YwvZqJGC0gQXE6s7fr/RuotuRkuzmyZ3JSzPgr26wSkkZhfmY9o
+	Q6iGnag5+BdybE/BrPnGomFbehg8UaXa0xYFrhYLfpN627wx6k6KDmSL6w0htBY=
+X-Gm-Gg: ASbGnctfUAMbVSjLupfDPg4STxisftxnpWgWucF9rumtNySsyhzyZ2Gwavh0MN8kyOJ
+	Q/QimONUz1qms6CMNmFX0DBfLj55Oe2dFsij+NYq3E+5M1Mzn70gK/h0aFJcakLG5HLUK/f/CIq
+	1Mk+nrL0k97vrdCQn7swxJCPtKCPtgyIr4rGzNPkBSZI4bbMHAhQNJOW9jJcuLhCL2xZTwvogmO
+	QbzKQtY8yN0JecClv2locFrPDeNLVTmZLSGKiU0sxnP6A7AQlASQemnhMTi5Zxe5m30k7HMQRkR
+	/NIuumKYIC+hGqxtv5xpTzUwS5jO+YRx3sCjw/wTd2hQLw==
+X-Google-Smtp-Source: AGHT+IHplFjrxjDMYagBcdC5wahRlljQSFTPb8RSmU6UlmQoJYFzdjRZxJfovtpXEnEuRvDLsVw4Pg==
+X-Received: by 2002:a05:622a:148e:b0:477:1e66:7442 with SMTP id d75a77b69052e-478f6c421f5mr94200061cf.5.1743563421784;
+        Tue, 01 Apr 2025 20:10:21 -0700 (PDT)
+Received: from [127.0.1.1] ([73.123.232.110])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47782a7faa9sm73951971cf.33.2025.04.01.20.10.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Apr 2025 20:10:21 -0700 (PDT)
+Message-ID: <67ecaa9d.c80a0220.978d0.8852@mx.google.com>
+Date: Tue, 01 Apr 2025 20:10:21 -0700 (PDT)
+Content-Type: multipart/mixed; boundary="===============9012084329957985044=="
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowACHvwf5o+xnYpT9BA--.59661S2
-X-Coremail-Antispam: 1UD129KBjvJXoWrtw4xKrykGFy5tFW8AF18Krg_yoW8JF4rpF
-	WfWryFv3yjya17WF1UJw1v93W5t3ySyFW5Cr9Fqwn5Zw17JrsFvFyFy3W0vws7GF9xC3Wf
-	trn5KayUWas7AaUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDU0xBIdaVrnRJUUUkG14x267AKxVWUJVW8JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
-	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
-	1l84ACjcxK6xIIjxv20xvE14v26r1j6r1xM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r1j
-	6r4UM28EF7xvwVC2z280aVAFwI0_Cr0_Gr1UM28EF7xvwVC2z280aVCY1x0267AKxVWxJr
-	0_GcWle2I262IYc4CY6c8Ij28IcVAaY2xG8wAqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E
-	2Ix0cI8IcVAFwI0_Jr0_Jr4lYx0Ex4A2jsIE14v26r1j6r4UMcvjeVCFs4IE7xkEbVWUJV
-	W8JwACjcxG0xvY0x0EwIxGrwACjI8F5VA0II8E6IAqYI8I648v4I1lc7CjxVAaw2AFwI0_
-	JF0_Jw1l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67
-	AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r126r1DMIIY
-	rxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14
-	v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVWUJVW8
-	JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x0JUSNtxUUU
-	UU=
-X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiDAcTA2fsHqyzxwABsX
+From: gshahrouzi@gmail.com
+To: linux-media@vger.kernel.org
+Cc: 
+ linux-staging@lists.linux.dev,slongerbeam@gmail.com,p.zabel@pengutronix.de,mchehab@kernel.org,gregkh@linuxfoundation.org,skhan@linuxfoundation.org,kernelmentees@lists.linuxfoundation.org
+Subject: [PATCH v2] staging: media: Remove unnecessary braces for single
+ statement block
 
-In hdcs_init(), the return value of stv06xx_read_sensor() needs to be
-checked. A proper implementation can be found in vv6410_dump(). Add a
-check in loop condition and propergate error code to fix this issue.
+--===============9012084329957985044==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Fixes: 4c98834addfe ("V4L/DVB (10048): gspca - stv06xx: New subdriver.")
-Cc: stable@vger.kernel.org # v2.6+
-Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+>From b1b00ec8defda73d871d02dd606286404e42ac00 Mon Sep 17 00:00:00 2001
+From: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+Date: Tue, 1 Apr 2025 20:22:22 -0400
+Subject: [PATCH v2] staging: media: Remove unnecessary braces for single
+ statement block
+
+Remove unnecessary braces in single statement block to comply with kernel
+coding style.
+
+Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
 ---
- drivers/media/usb/gspca/stv06xx/stv06xx_hdcs.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/usb/gspca/stv06xx/stv06xx_hdcs.c b/drivers/media/usb/gspca/stv06xx/stv06xx_hdcs.c
-index 5a47dcbf1c8e..303b055fefea 100644
---- a/drivers/media/usb/gspca/stv06xx/stv06xx_hdcs.c
-+++ b/drivers/media/usb/gspca/stv06xx/stv06xx_hdcs.c
-@@ -520,12 +520,13 @@ static int hdcs_init(struct sd *sd)
- static int hdcs_dump(struct sd *sd)
- {
- 	u16 reg, val;
-+	int err = 0;
+Changes since v2:
+	* Add missing author
+	* Fix title of email
+---
+ drivers/staging/media/imx/imx-media-of.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/drivers/staging/media/imx/imx-media-of.c b/drivers/staging/media/imx/imx-media-of.c
+index bb28daa4d713..7413551052ae 100644
+--- a/drivers/staging/media/imx/imx-media-of.c
++++ b/drivers/staging/media/imx/imx-media-of.c
+@@ -57,9 +57,8 @@ int imx_media_add_of_subdevs(struct imx_media_dev *imxmd,
+ 		of_node_put(csi_np);
+ 		if (ret) {
+ 			/* unavailable or already added is not an error */
+-			if (ret == -ENODEV || ret == -EEXIST) {
++			if (ret == -ENODEV || ret == -EEXIST)
+ 				continue;
+-			}
  
- 	pr_info("Dumping sensor registers:\n");
- 
--	for (reg = HDCS_IDENT; reg <= HDCS_ROWEXPH; reg++) {
--		stv06xx_read_sensor(sd, reg, &val);
-+	for (reg = HDCS_IDENT; reg <= HDCS_ROWEXPH && !err; reg++) {
-+		err = stv06xx_read_sensor(sd, reg, &val);
- 		pr_info("reg 0x%02x = 0x%02x\n", reg, val);
- 	}
--	return 0;
-+	return (err < 0) ? err : 0;
- }
+ 			/* other error, can't continue */
+ 			return ret;
 -- 
-2.42.0.windows.2
+2.43.0
 
+
+--===============9012084329957985044==--
 
