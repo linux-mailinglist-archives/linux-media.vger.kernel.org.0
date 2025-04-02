@@ -1,121 +1,169 @@
-Return-Path: <linux-media+bounces-29203-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29204-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43828A78A28
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 10:39:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5E63A78A6D
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 10:58:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8DB7E3B1F69
-	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 08:38:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7D6E51893252
+	for <lists+linux-media@lfdr.de>; Wed,  2 Apr 2025 08:58:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46B71235BE1;
-	Wed,  2 Apr 2025 08:37:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00B0F2356DF;
+	Wed,  2 Apr 2025 08:57:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="0TP0tPWI"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="R4SukI91"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C02ED23536B;
-	Wed,  2 Apr 2025 08:37:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA0122356C0;
+	Wed,  2 Apr 2025 08:57:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743583078; cv=none; b=oyKOmc26T+LuvRd5qcjUBr23Tjma9xKA33/VYdauAgnGJAB0pzM/Wrh1QQroNv/Ri1haQyvz/UK7hKkA3JV+cebqOhQs8ynNZU44vP79iVSidhxbi74Vg8CetYG/cTPuf/i1wTzPQV97FGRL7D9RM9US08RdqIRzXoHTiEUJid4=
+	t=1743584266; cv=none; b=ZG0DsENrJ6pd2KmkJgOusIKE+nC0pXe0oOL8Ocx6ygIWwDQ4dKyu1IbKaC+Yk/AL1OTO7F1dEaqqowzlyGswqT2BlrV0p84VAigXWcCoPBM2On77ZK2PvkORCPA8jnHKikI4WMBDFju3QXCKoOljp5MtKTaGkB5OFKRaIa+dehU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743583078; c=relaxed/simple;
-	bh=kMrRmIjYkOY3Me+cHWkmmh95rd7rxSxbOFbEeA0+4g4=;
+	s=arc-20240116; t=1743584266; c=relaxed/simple;
+	bh=r1KKBgni/++fspKZySjm53OLp1tr0xYLfUnJcEQU6SE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=FL3Qg6TDC/wy9wBactaTCAxtc4tdcvMVP9YmgvnbTk8IeNd5E9zJXTFPlZdjWIeUXJcfmNL4r3eMV/6JFJWqMUSi+FxbTtVpnWA/N5rBffrFfgO2adMTCTvv80LiUBHwzAn6YTXPThZM6BexB6aqF4bU+tVrpH++qmhmIjSHVfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=0TP0tPWI; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5324oilu018147;
-	Wed, 2 Apr 2025 10:37:40 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	 In-Reply-To:Content-Type; b=XQyRGlnXiCxQGaY/o3fYQAnIyl5PiJYBAAAAghAlBj55OHt77C4o+wJcRMnBvRa8MbX/JgvxB6x2h50h7XtHs4oUYHjWWYtHAlLdp85jLmWfGkGqwNMk/CPFPUVm9uOT2egHK2WzPQRHBGvOlmfABPpK+YZscijUfYfLHFA6pqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=R4SukI91; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5324YD80007487;
+	Wed, 2 Apr 2025 08:57:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	8IQ4tQGgtZMD0SHftf9oqpXfKTIVTJ1Q4LX5qbG3iO0=; b=0TP0tPWIyrbJtonS
-	StgDnlQuIIlwML9FqDuBBOJqXTK4O5Mp26CHMk7enIwpfWJIDHDHlqB6YJHyST5K
-	c0nnbgkjxntUU45zOOVxz+KPuqDz5x9DqwsyI2ktbgqzMKvps0F5ULI0BxlFv2X9
-	Yu2629JAxlX1l44ud/zAfvHvYacfRiWMLG4njD7QU/TSttklkRWaTQ7yDkcR5+4o
-	CBPTBdPu0NBHHF2aUPF2JNDBXE6PulLBkuko8FfQtq/6UeNHS+9EHJ2SFNZqqIYw
-	dRAhKK4tM7qFF6BUxtwsMfymytYb6aDx8mTBKq0C2CjeZ1i5WNDapg1TdrlOfEt3
-	i2+pIQ==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 45p6vd9bgj-1
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Fmew/SsZ9muf9NKlkX8yDqwVjDsi0uSZ4ssXK6FyxKI=; b=R4SukI91xcBy4tyP
+	sNhaej6SpxRe0Tgyr10JYQmc3OrWaQQd+fu4lUz1lbvWx9i0IDcGtu6sxfMhefI9
+	YDXOoeTOkEnB4Gup+Fl+08acn6t3o+KxQ0scHN4O8pok1kgZRkKWWkliUFRFCATV
+	+NBN63NUkGDMu/JGBduqCeyF8WNNKvFsIlNuTwhswcEXK0rouhzMOVRqe53L4WY0
+	ro2uEJn8oO6c2Hj/3WQ1wA/eM5T7CFvfN422aaS55/ceXPM3hWCP3QgL6P0wwug5
+	q9qVBWD3dYQ4AJLp+9R2DnqL9s54/h58heTHD5MeVLaTMBLtZ3VZuenfcgTEFfl1
+	OAv1lg==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45rxb00pf7-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 02 Apr 2025 10:37:40 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id BAB6140080;
-	Wed,  2 Apr 2025 10:36:38 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 350878F3C0C;
-	Wed,  2 Apr 2025 10:35:28 +0200 (CEST)
-Received: from [10.252.30.87] (10.252.30.87) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 2 Apr
- 2025 10:35:27 +0200
-Message-ID: <faaebc8c-6e86-4052-96c6-f0927e4dc8a4@foss.st.com>
-Date: Wed, 2 Apr 2025 10:35:26 +0200
+	Wed, 02 Apr 2025 08:57:42 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5328vfSO002278
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 2 Apr 2025 08:57:41 GMT
+Received: from [10.204.101.50] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 2 Apr 2025
+ 01:57:39 -0700
+Message-ID: <261c6a30-3bdd-d09a-c3bf-a246a3b638bf@quicinc.com>
+Date: Wed, 2 Apr 2025 14:27:36 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] media: dt-bindings: Add ST VD55G1 camera sensor
- binding
-To: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Sylvain Petinot <sylvain.petinot@foss.st.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Sakari Ailus
-	<sakari.ailus@linux.intel.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20250401-b4-vd55g1-v2-0-0c8ab8a48c55@foss.st.com>
- <20250401-b4-vd55g1-v2-1-0c8ab8a48c55@foss.st.com>
- <20250402-glorious-olive-seahorse-eb505a@krzk-bin>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH] media: venus: Fix probe error handling
 Content-Language: en-US
-From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-In-Reply-To: <20250402-glorious-olive-seahorse-eb505a@krzk-bin>
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>, <quic_vgarodia@quicinc.com>,
+        <stanimir.k.varbanov@gmail.com>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <bryan.odonoghue@linaro.org>
+References: <20250327125304.1090805-1-loic.poulain@oss.qualcomm.com>
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <20250327125304.1090805-1-loic.poulain@oss.qualcomm.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EQNCAS1NODE3.st.com (10.75.129.80) To SHFDAG1NODE1.st.com
- (10.75.129.69)
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: 0zFo-C12tXp1D0Jv1SLNrrht0OFEUewy
+X-Proofpoint-GUID: 0zFo-C12tXp1D0Jv1SLNrrht0OFEUewy
+X-Authority-Analysis: v=2.4 cv=BavY0qt2 c=1 sm=1 tr=0 ts=67ecfc06 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8 a=KQUAxvDtW3CbXZ-pW3sA:9
+ a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-04-02_03,2025-04-01_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 phishscore=0
+ impostorscore=0 priorityscore=1501 bulkscore=0 adultscore=0 spamscore=0
+ malwarescore=0 lowpriorityscore=0 mlxscore=0 suspectscore=0 clxscore=1011
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504020056
 
-Hi Krzysztof,
 
-On 4/2/25 09:08, Krzysztof Kozlowski wrote:
-> On Tue, Apr 01, 2025 at 01:05:58PM +0200, Benjamin Mugnier wrote:
->> Also update MAINTAINERS file accordingly.
+
+On 3/27/2025 6:23 PM, Loic Poulain wrote:
+> Video device registering has been moved earlier in the probe function,
+> but the new order has not been propagated to error handling. This means
+> we can end with unreleased resources on error (e.g dangling video device
+> on missing firmware probe aborting).
 > 
-> Since there will be one more version:
+> Fixes: 08b1cf474b7f7 ("media: venus: core, venc, vdec: Fix probe dependency error")
+> Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+> ---
+>  drivers/media/platform/qcom/venus/core.c | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 > 
-> A nit, subject: drop second/last, redundant "binding". The
-> "dt-bindings" prefix is already stating that these are bindings.
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+> index c4438e4b2d9b..103afda799ed 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -438,7 +438,7 @@ static int venus_probe(struct platform_device *pdev)
+>  
+>  	ret = v4l2_device_register(dev, &core->v4l2_dev);
+>  	if (ret)
+> -		goto err_core_deinit;
+> +		goto err_hfi_destroy;
+>  
+>  	platform_set_drvdata(pdev, core);
+>  
+> @@ -476,24 +476,24 @@ static int venus_probe(struct platform_device *pdev)
+>  
+>  	ret = venus_enumerate_codecs(core, VIDC_SESSION_TYPE_DEC);
+>  	if (ret)
+> -		goto err_venus_shutdown;
+> +		goto err_core_deinit;
+>  
+>  	ret = venus_enumerate_codecs(core, VIDC_SESSION_TYPE_ENC);
+>  	if (ret)
+> -		goto err_venus_shutdown;
+> +		goto err_core_deinit;
+>  
+>  	ret = pm_runtime_put_sync(dev);
+>  	if (ret) {
+>  		pm_runtime_get_noresume(dev);
+> -		goto err_dev_unregister;
+> +		goto err_core_deinit;
+>  	}
+>  
+>  	venus_dbgfs_init(core);
+>  
+>  	return 0;
+>  
+> -err_dev_unregister:
+> -	v4l2_device_unregister(&core->v4l2_dev);
+> +err_core_deinit:
+> +	hfi_core_deinit(core, false);
+>  err_venus_shutdown:
+>  	venus_shutdown(core);
+>  err_firmware_deinit:
+> @@ -506,9 +506,9 @@ static int venus_probe(struct platform_device *pdev)
+>  	pm_runtime_put_noidle(dev);
+>  	pm_runtime_disable(dev);
+>  	pm_runtime_set_suspended(dev);
+> +	v4l2_device_unregister(&core->v4l2_dev);
+> +err_hfi_destroy:
+>  	hfi_destroy(core);
+> -err_core_deinit:
+> -	hfi_core_deinit(core, false);
+>  err_core_put:
+>  	if (core->pm_ops->core_put)
+>  		core->pm_ops->core_put(core);
 
-Thanks for pointing this out, I'll remove the spurious "binding" then.
-
-> See also:
-> https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
-> 
-> Best regards,
-> Krzysztof
-> 
-
--- 
-Regards,
-Benjamin
+Reviewed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 
