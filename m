@@ -1,89 +1,61 @@
-Return-Path: <linux-media+bounces-29319-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29320-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B825BA7A2F7
-	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 14:36:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DB73A7A306
+	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 14:42:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 727A37A4135
-	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 12:35:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 90AA93B1D4E
+	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 12:41:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 824D824DFE7;
-	Thu,  3 Apr 2025 12:36:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB44F24DFE8;
+	Thu,  3 Apr 2025 12:41:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zU5uvTML"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dUq2VjJu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19CFC24C664
-	for <linux-media@vger.kernel.org>; Thu,  3 Apr 2025 12:36:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B45F35942;
+	Thu,  3 Apr 2025 12:41:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743683794; cv=none; b=g0mD0ut6aowMGzQZb7S17ECaxkB2gSIThzn14HTwomT34Xx0mpYtr+2gmARlSBAcksLtdxQL/9groKB++dhEvX7u0VPmWlemgihoTSqlO0xUt4NTcd6YBLdUXr1CKL5Gs8+gVNvIWgIHB386YInyPDkJ+0dyJ2owktNI3DnqteI=
+	t=1743684113; cv=none; b=he3Igdty8Aq609ecx8L0XscX77mlvrUp0vYJYgh9j96w6CoOVxYkUsk5CTadcEgmPC3DFhXHz1z9J2qnVvzTnUYXflIVRMFFsOMolG1WpmOmLinxOpSt8uraAb0+rb2n7Y9A0aCQfxfXeP0iXUFEgBOaUh4zRMLHycft0PB3s3I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743683794; c=relaxed/simple;
-	bh=EC+jRXJYLFQfR1XxsI3t01FqkNMfotqtYy85kAcqX9s=;
+	s=arc-20240116; t=1743684113; c=relaxed/simple;
+	bh=LGx8mY/z+MPgpys1YPn8RJrMFyUgaEpjAl6F2S4oY7c=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UeAI0mbp5qLFc98g5w0oXQkWFyjyRdtkrEe/lYIpoDshV69PDJvAQ2bIXPSt1Y/37MnCFy5JrqZFt91H8gBUeT5Imn/7D2/sai5YHpm71HEwkhvKv4ihjDUKGZnMLdx60vwKyaccfWAev8Bs4ljvcW/o1YZ9zDk8wrnKeWpE0VM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zU5uvTML; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43cf0d787eeso7927175e9.3
-        for <linux-media@vger.kernel.org>; Thu, 03 Apr 2025 05:36:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743683791; x=1744288591; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=C+kjsh0yi0FCSevxaKtD2+LbGqyeUYLAkNUlbwLow8o=;
-        b=zU5uvTMLBrKxLHI21JB8z+lFe16YB4/84QOEGh1jo+MDV5tqntQQ5Sdk1Svxq310w4
-         6TVDh/aXZ583ziNfklSP6Noj8SypGxgpA6zvog7npxpBVt+ezaVxfHUjmk5y7hfQsptI
-         tJt6mwqQkzIQg7ecK2qtZjNYh2UtB9PDXJONVHaUcGJWf7qR8L0NtKcoAKUHKagCwojT
-         th5P3bYcgssta8epMAQiFepUDctEhbDVI6IxhM3ORL3Qjp5srurZLbWLy7c7FRsCJnIZ
-         4D1Bc5zBiLpz5pb5FxyiX6uBOiLA/s8vRT5XzwpOOsElAJb4O25b5tFHVNrMeaZmZb4o
-         Seqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743683791; x=1744288591;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=C+kjsh0yi0FCSevxaKtD2+LbGqyeUYLAkNUlbwLow8o=;
-        b=B2Th78J+mqUMpBixmhH5GLG03LE/pEzp75BsDbrhWId8vZ2IzAVyLk3QsHceTRDksV
-         zwQz10t1ase9BTsTvlfQuO12aBzm913z/wVnTjWnQJw5NMwtoG4MpdTo6NWdanW2wm6D
-         GUXTud6HZ/UjjNrcUGpe3E13u+BkHkSHXx7twt/Hxq6z25vHyxTfE7NylgcjNq3OElCV
-         H/4h9/Lbh6yM2EW3TitJaHoPD2BHVOgKU6HUfvoAk39h2JCP8xkJhYQjSG8yk2EL5HRv
-         d6fmKVUy3BuhjgGFJKjWqpnB7BIyu1KAtZWMJS5Jg7xjjGjYDFi3rmxzF9WMSe/BMrCa
-         wx1A==
-X-Forwarded-Encrypted: i=1; AJvYcCWS+8ySUW6MQU5tzY7QnUNbAr2XPNjPOCP4BbXaZca+tgNr2Z7FJrz6c+K4NcVGbtalgqJ5uS4zbQE12w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUHElayq6XFhuQxeatuM8x6amQEQtMIMnNFWIPn0adfwizbV1I
-	/jHGZoE21W2pH1Ht9NU7YYki0NfMqbl74PXuy1nSfo2z5WyZeUPWhK3jreP/uoM=
-X-Gm-Gg: ASbGnctAXAMBTu7bjifQrdnoK+pHH75tvhA1dOzE8Y1LVLWLdHxZZCft8JA/aYYl00o
-	wCaIHTyW1c2nRgVOieNartxupDo2Ek/FfGdOy5vsLBdCvaynWNGTNjiutKVa1PalwgQFes+k5b9
-	kY1wOEaKfn8SuOMIUcXDTZ+kGK76K25VmvvWDQug+G8QQKSbaGDQiW5aVd6FK1pYo+rhO3izG9z
-	LUiHB2iX2xzr53fjFoyhNLbBCpJ2DuHqgr9yR6VkWAYZnAHzHeQDaJvM0YtbT9bngj+Lv+hLjix
-	ItarshnpDTVPUxBwZxTrl0bdfTuiUN+867csECbN/k6WhMZlVw==
-X-Google-Smtp-Source: AGHT+IEm78dzW009E77mGS/XMpvwRtJc+F+zhJbHZ/MmX0Htx6azwvDUIts46v7UeKdoeXtVIBNeSA==
-X-Received: by 2002:a05:600c:6dca:b0:43d:fa59:a685 with SMTP id 5b1f17b1804b1-43dfa59a802mr128749085e9.33.1743683791239;
-        Thu, 03 Apr 2025 05:36:31 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43ec34af0e6sm17579015e9.16.2025.04.03.05.36.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Apr 2025 05:36:30 -0700 (PDT)
-Date: Thu, 3 Apr 2025 15:36:27 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: Gabriel Shahrouzi <gshahrouzi@gmail.com>, linux-media@vger.kernel.org,
-	andy@kernel.org, hdegoede@redhat.com, mchehab@kernel.org,
-	sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2] staging: media: Fix indentation to use tabs instead
- of spaces
-Message-ID: <Z-6Ay7T3n1vXfAO9@stanley.mountain>
-References: <20250402135001.12475-1-gshahrouzi@gmail.com>
- <CAHp75Vc1nB8cDN=OcCJgeti3YNr0Dd4yeKgeSBvR95piLao1rg@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=uV5emc+Oe5kquymFJN/rdw1OaVz7R38fuu7+BfU5615LWXmwzyGYg5TsDfMwGbUZnXxZgkcKjizWqE7eQYa6Uj/oshgqqPnnAbcukb9qt8xCTfDOt+EZjR7wk0s/aoJ7KjbGEAJdDsdLhBMa3gQRZQ3VL16ut8Az4+2ayidIlAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dUq2VjJu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FB6EC4CEE3;
+	Thu,  3 Apr 2025 12:41:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743684112;
+	bh=LGx8mY/z+MPgpys1YPn8RJrMFyUgaEpjAl6F2S4oY7c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=dUq2VjJu/2ZzI8SQwxnUdPnRgdLfkx1cCduzqAr4hMck8JkhiERImrf+Kb4uhBHx7
+	 GogTOyt+MuGoLpyhKBXBCdewR6+RntWeSrOJ9UawXVVqO8Ai4z7pGG8+D+QODOV6v4
+	 bYhdLQ7tgngK7k6boNzaaPr6Ds0o3xjzozvt5cg3SPuhxEBdwMvNypZ1XFhnHZjQpx
+	 z4L1s1uZyGq+HZ5fWE7AVa+h4t/5IBIh7mPpzllUjk6f2iwgq5/oN2tplM6UhG919e
+	 C9OHXj/aMdmd29c22D+PmSlC1IXHBUV1Vpaivdl0+R9RLGDO/FFQTJEHkqvfTtwnnA
+	 zMU+OQftMMjXw==
+Date: Thu, 3 Apr 2025 14:41:47 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: phasta@kernel.org, Lyude Paul <lyude@redhat.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, stable@vger.kernel.org
+Subject: Re: [PATCH v2] drm/nouveau: Prevent signalled fences in pending list
+Message-ID: <Z-6CC3TFfXTrkQGY@pollux>
+References: <20250403101353.42880-2-phasta@kernel.org>
+ <84b0db2de7a26aab00778bcaca15a0dffaa9c32a.camel@mailbox.org>
+ <Z-5iK-mIYPIhanX-@pollux>
+ <28343002-1a64-4409-b6c5-f9764705d939@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -93,21 +65,67 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHp75Vc1nB8cDN=OcCJgeti3YNr0Dd4yeKgeSBvR95piLao1rg@mail.gmail.com>
+In-Reply-To: <28343002-1a64-4409-b6c5-f9764705d939@amd.com>
 
-On Wed, Apr 02, 2025 at 05:36:31PM +0300, Andy Shevchenko wrote:
-> On Wed, Apr 2, 2025 at 4:50 PM Gabriel Shahrouzi <gshahrouzi@gmail.com> wrote:
+On Thu, Apr 03, 2025 at 02:22:41PM +0200, Christian König wrote:
+> Am 03.04.25 um 12:25 schrieb Danilo Krummrich:
+> > On Thu, Apr 03, 2025 at 12:17:29PM +0200, Philipp Stanner wrote:
+> >> On Thu, 2025-04-03 at 12:13 +0200, Philipp Stanner wrote:
+> >>> -static int
+> >>> -nouveau_fence_signal(struct nouveau_fence *fence)
+> >>> +static void
+> >>> +nouveau_fence_cleanup_cb(struct dma_fence *dfence, struct
+> >>> dma_fence_cb *cb)
+> >>>  {
+> >>> -	int drop = 0;
+> >>> +	struct nouveau_fence_chan *fctx;
+> >>> +	struct nouveau_fence *fence;
+> >>> +
+> >>> +	fence = container_of(dfence, struct nouveau_fence, base);
+> >>> +	fctx = nouveau_fctx(fence);
+> >>>  
+> >>> -	dma_fence_signal_locked(&fence->base);
+> >>>  	list_del(&fence->head);
+> >>>  	rcu_assign_pointer(fence->channel, NULL);
+> >>>  
+> >>>  	if (test_bit(DMA_FENCE_FLAG_USER_BITS, &fence->base.flags))
+> >>> {
+> >>> -		struct nouveau_fence_chan *fctx =
+> >>> nouveau_fctx(fence);
+> >>> -
+> >>>  		if (!--fctx->notify_ref)
+> >>> -			drop = 1;
+> >>> +			nvif_event_block(&fctx->event);
+> >>>  	}
+> >>>  
+> >>>  	dma_fence_put(&fence->base);
+> >> What I realized while coding this v2 is that we might want to think
+> >> about whether we really want the dma_fence_put() in the fence callback?
+> >>
+> >> It should work fine, since it's exactly identical to the previous
+> >> code's behavior – but effectively it means that the driver's reference
+> >> will be dropped whenever it signals that fence.
+> > Not quite, it's the reference of the fence context's pending list.
 > >
-> > Replace spaces with tab to comply with kernel coding style.
+> > When the fence is emitted, dma_fence_init() is called, which initializes the
+> > reference count to 1. Subsequently, another reference is taken, when the fence
+> > is added to the pending list. Once the fence is signaled and hence removed from
+> > the pending list, we can (and have to) drop this reference.
 > 
-> Still 'tab'. please, capitalize it to be 'TAB'.
+> The general idea is that the caller must hold the reference until the signaling is completed.
 > 
-> But wait a bit, the driver maintainer might do that for you whilst applying.
+> So for signaling from the interrupt handler it means that you need to call dma_fence_put() for the list reference *after* you called dma_fence_signal_locked().
+> 
+> For signaling from the .enable_signaling or .signaled callback you need to remove the fence from the linked list and call dma_fence_put() *before* you return (because the caller is holding the potential last reference).
+> 
+> That's why I'm pretty sure that the approach with installing the callback won't work. As far as I know no other DMA fence implementation is doing that.
 
-It's not an acronym so it shouldn't be capitalized.  It should be either
-"a tab" or "tabs".
+I think it works as long as no one calls dma_fence_singnal(), but only
+dma_fence_signal_locked() on this fence (which is what nouveau does). For
+dma_fence_signal_locked() it doesn't seem to matter if the last reference is
+dropped from a callback. There also can't be other callbacks that suffer from
+this, because they'd need to have their own reference.
 
-regards,
-dan carpenter
-
+But either way, as mentioned in my other reply, I agree that we should avoid the
+callback approach in favor of your proposal, since it has its own footgun.
 
