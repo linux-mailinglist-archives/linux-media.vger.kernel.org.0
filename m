@@ -1,497 +1,307 @@
-Return-Path: <linux-media+bounces-29281-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29282-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4687A79BE9
-	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 08:24:20 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0D38A79C76
+	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 09:01:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C3C13B0C92
-	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 06:23:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 729BF7A5699
+	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 07:00:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B6E519F416;
-	Thu,  3 Apr 2025 06:23:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="fWkQqjzl"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E7B8224B16;
+	Thu,  3 Apr 2025 07:01:10 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013021.outbound.protection.outlook.com [40.107.162.21])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 281752907;
-	Thu,  3 Apr 2025 06:23:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.21
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743661413; cv=fail; b=RLbEOCRdPGNsIP0zDwkTopzUYYoh7VJsacqsfbnOdwLgm2cLBzVQiIukIBkGfBYK598VyrSP6SAWgsc7dQlJwRkeZ3wOLJbuek4YAwSf6jgbg6Euldo2wMoNTpNc4Mtj5BD/sptXwaCYTGbzulh2A/l2WxXQKA3yKAmK6sLvvYw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743661413; c=relaxed/simple;
-	bh=vpwZ7uUu5fQncbyYIvWK4QqBdX7piBaNFwimXyFivRw=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ny8I0S1238hSqc7rdmh1OcC65WGBqdko6zeTaoEpCz+tgmN69Miv0HGMp7ipT1h5z4QFBl7pzpx5iXoVVa/PPQ7Trw8LxB4j0w+h3BtzBHNorGApANO0qJ8QCZztwhd8DjsVmaO0FrtVZ6cFmCnUmk2SRLt1I9A2QQ6FCvf0xN0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=fWkQqjzl; arc=fail smtp.client-ip=40.107.162.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DLWjn/q2XMg6KM+Q/n4Bhoz734Un0hraje+ikajCCVME/1TF8V4cntOrZNiwNqHdMxubMdySRMg91yA9xVwBDmbflALSNWb0vmIENta67ZQj6U8hmgGoXuLXp6i7+2of3Q+KQva2iTFYL6b75JqnOobiy1e9r4hAbLFajbsSsVQy9KG6wgkPMhpplxEk0KoCz/qg5Kxp9jvKc6sgm8dq5ViKsarQeUOFa5rq/tMF9896cslDFUQpNjO8tMGET+rVXVnG4F2wBfGzZKw4sz77g3P14hLg02eIa53MDjAWVa0bqlWRzrGnFzjTsYW3HVFooBCdzss4DLhXVkZAqaH3GA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PPR3MyF7keRVFpNEspdzTHzSH2dHcOZdfSbXNdAJRkg=;
- b=J7JokhaPVKLne0FaMLk8PGe7Jrz6MVLhXzuLRIuUMujdJ9/CNfZsVfkt1C20NGn0IupJ71i75tteKE0IOIpM4FwsF6xQNQ9kY60Z6jWY11Sh56ivO9kof3zJ8oN7s55q+3cYTKdus4Dx/1UlidtLJfcdV/crU7IWEqT8HNwDsjFCtTbEFkifQEtfR70kqPxtsAxDwNU3ybfIPQutwW0cZBu8R9P/xrcCetK4T9x+h5xw+7cWsQvzB7cpstmnuM3cDLzNEa3izuHKvusewvW6Et3xzpQzJmv5jAAKSAZtZPwE+j1ZQjxDdCz/Gqd7LsEq5Fe3BKtUPMd3BzhI6D9O8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PPR3MyF7keRVFpNEspdzTHzSH2dHcOZdfSbXNdAJRkg=;
- b=fWkQqjzlFWQsCrtmwdBajGnSMjZIfgIAhgDtEH6ByUf6XXybovxDSQgHKdpb6CDf4T1yt9Z98J6hiC8McOpc9+8KN34XSBxA/quC3IOeh5dU+s2bgV2sAGfa5s+DExudntTXZ6k3Ohtftb8HG1olqrQ8AhJvZqT39FK1NOzev2fLbBKGjgmgabwNGn1gLvIFXJJgU6en+L5VghYXdk1cT+rhW6k2oa1gj68ngTaWVDbC3M3OtGr81exaahlPE9D3hebT0LePNbVkk06cQRBjWv1rz+xyKDpkG6xIFr+ZzhfCj+2oCRuY68qD+xGzAFMiCFCi21H3tqUnzRC9tcdYSQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com (2603:10a6:102:1cd::24)
- by DU2PR04MB8789.eurprd04.prod.outlook.com (2603:10a6:10:2e0::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.49; Thu, 3 Apr
- 2025 06:23:25 +0000
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87]) by PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87%4]) with mapi id 15.20.8534.052; Thu, 3 Apr 2025
- 06:23:25 +0000
-Message-ID: <c97c6fab-cc13-4fb9-a91c-58ce0bb5e593@oss.nxp.com>
-Date: Thu, 3 Apr 2025 14:23:15 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] media: imx-jpeg: Check decoding is ongoing for
- motion-jpeg
-To: Frank Li <Frank.li@nxp.com>
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl, mirela.rabulea@oss.nxp.com,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, xiahong.bao@nxp.com, eagle.zhou@nxp.com,
- linux-imx@nxp.com, imx@lists.linux.dev, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20250328063056.762-1-ming.qian@oss.nxp.com>
- <20250328063056.762-4-ming.qian@oss.nxp.com>
- <Z+a2G5We38cQw3UD@lizhi-Precision-Tower-5810>
- <99aa5db6-eb75-4fcf-ada7-cc6d519a40cc@oss.nxp.com>
- <Z+qnln8qbHCYVH+e@lizhi-Precision-Tower-5810>
- <22fd3087-6832-4b61-8c78-bc8dd3ac808b@oss.nxp.com>
- <Z+v6Q1TRpJUkF2oh@lizhi-Precision-Tower-5810>
- <3b212947-0495-41fc-a143-c695c0c92269@oss.nxp.com>
- <Z+17+YucWkGUMIZJ@lizhi-Precision-Tower-5810>
-From: "Ming Qian(OSS)" <ming.qian@oss.nxp.com>
-In-Reply-To: <Z+17+YucWkGUMIZJ@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SG2PR02CA0024.apcprd02.prod.outlook.com
- (2603:1096:3:17::36) To PAXPR04MB8254.eurprd04.prod.outlook.com
- (2603:10a6:102:1cd::24)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4593224B15;
+	Thu,  3 Apr 2025 07:01:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743663669; cv=none; b=rzwEVPlb0UA+GXotyhr/zfBBRaenBv1ce5PLnT07FjgJa+IwqpSVdp/Vg+GQYkIza2GHK0hrSogqvhYk7Xv2MMwobnD9/LZIqP/RSjig9kWz5G8GF0tq/3HjLXUYGfr3CPh5DfzTb12YUekhNh1KeSzhCosgOuhogp91aJb6wro=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743663669; c=relaxed/simple;
+	bh=A7HYwQIaKbJK66wgZlgHdSiWDHIMD4c9XaZdbf3qF9M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HVO8QUEuupdyXa6Sn952suuPE1rXnsOF7X5R6RSMmtx61JpkQkQkek/YiJLgEeQj9seru/dNZ4vZeCCzxU/wVszO4DiD3rstOO8y4lNVHRXH5iZZ7Xzi+tp+5S1hzcxUGAO56onWw6lb9z0n7wUoUWtKFPG+pvhmVBSS8VrCf1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2155C4CEE3;
+	Thu,  3 Apr 2025 07:01:07 +0000 (UTC)
+Message-ID: <332fce27-8a11-4c70-9753-1da968c3e45a@xs4all.nl>
+Date: Thu, 3 Apr 2025 09:01:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8254:EE_|DU2PR04MB8789:EE_
-X-MS-Office365-Filtering-Correlation-Id: 54d2f06d-79ef-4baf-9824-08dd72780a20
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?eTA2L0FxS0VUQmZUcW9jTTNDV1ZadThZMzNjcHpJSDhqL21sd3RmeWcrOXdl?=
- =?utf-8?B?M3kweHdvYTdxb09zZklqcklHZmpSSU1UNnF6U3hEVUZXd3RZYlc3dXo5Z3lZ?=
- =?utf-8?B?cE1SM0RmQUlSYXpoMjc5WERaS0huVmhSOWZPUSs3b1AyWWRjd0dmcVNkRHlV?=
- =?utf-8?B?T2lpRDhwVnp5K0JCb2pBZ0o0aFd5Wkd1WDVXUS8wNSt6ckE0d0xNZENuTll4?=
- =?utf-8?B?MndLWkN1VGlCYlppWjV1UXlSNjRNVlBacmxzOHVzeHpyQlREcHpxNnIxbjBs?=
- =?utf-8?B?a0NFVGo1amEzelRGVjRFMDRsYVZCbWgrNURFaWpJNVV6Rzlzb3MvL0dUdE1H?=
- =?utf-8?B?aCtkRW9HdTFBUS9ZMlFUbHI4NStuelNtc04yeDY3QitYazAxelZUOEVPUUFO?=
- =?utf-8?B?cmtpeDlUcWEzbmxhWjN1M1YvUDgzNWY2eWhLZE1ZcFkvSnFia1hJZ3NoTVJJ?=
- =?utf-8?B?MDM2TEpaR0tvc1Vmc1hWejdoRGwwOS9BSVlqeW03ZVpmSHV3OVFjMHplTisy?=
- =?utf-8?B?Tmx1ZnV1M3ExNWN0U0lpQ2piSGZkak0vV25uOFlQbDZxY3o0TlY3UVBpQlYv?=
- =?utf-8?B?UVZXK3J6RXRkVTlGL29RRExFL1NVbnRJUzVhZ0JEZ0FQeit0bGRLYkw5aS9j?=
- =?utf-8?B?ejNWMEFDdC85OEgwMDVva0x0R2d1eDBQV3l5b05VRGpIVkc4UkxOZTBkdzM4?=
- =?utf-8?B?S29DbzFSOTlIVThnK1ZvZ1hDdnBXc1gwamxMcnJxeGxYNmw2dDRQdVhvWkZD?=
- =?utf-8?B?TzNXMmlpTlVyY0VOb05GS2VRTVpjWU9xdHQxV2J1VVV1dkdabFBYdnVueU83?=
- =?utf-8?B?aHdhNlg5bzhGV2l6QTNhNEN0NlhxMkpmczJjM096V1QwdGJ3elFxWEJpc0Ux?=
- =?utf-8?B?anBiM3ZIWjdXTlBHeUZEQmZHbXJVeHBSRkdkSDV1czd6RjZ4MnBIYUNJZkp5?=
- =?utf-8?B?bTJGMmI1d0tabzhnVUc5VWVrSWk0UUtrUElUZXVjZ1g5MlJQblhtZnhIaFRo?=
- =?utf-8?B?RUMvYXI0L3IzQlFMQUhGVWpaSWJVTWZ6YTdiS1JJSmtLZmNJT25JMHJaNDln?=
- =?utf-8?B?NU9yZjZjbzVZTm5kZDZDZUNtZURTMUZhbnhFWVVFWjVCbXcxT3pieTNEQXVh?=
- =?utf-8?B?Q3VkNGxQUGVpOU1LQnp1aWZKc3UwWFk3SU96dzlEbTAwMXYwZ3REbW9CZzQ0?=
- =?utf-8?B?cnBkNzhCMFdUalFhTXI2ci8yeFo2emZDNVM5dEZhdVhjUWNzbGVtYVhTeDFI?=
- =?utf-8?B?SDREV1JSWkZ5RnV0UERlZTNRSUVKNjRYZXhUbVhQanhGSG5DUXgyczA4M1hJ?=
- =?utf-8?B?clpVN2xNNFRpa1JSRTdIODI5c2c1SS9DZ2Q0MmdxWmZLeEZDdzl6Vmp2MGxC?=
- =?utf-8?B?R2V5d2gzYmVJUkFRYm1qQVdIYSthN3dEMnFvK252c0U4WUVsaURRclBjTHBU?=
- =?utf-8?B?TjdHT1VVU1ZsRFgzRHhYUzVhU1dLNjdFbks0NEdsM3cxcDBDazBpOGZjb0gr?=
- =?utf-8?B?WFJOSTQ5UEkvMFIxb3hUZ2hIQzdsb2Vrcmt5dDVmOTgwK242eS9FMEVPejBy?=
- =?utf-8?B?eFRsSHpOcFlCWm9kcC9xRWtwUVY1QnlCQ25jdmdPWkc4T25jTEMxS1ZRaFNL?=
- =?utf-8?B?RmJyWU1EZFM5UXhKcHdCY0JsZkFkazNaOTM3dnZEKzkybXZiWlpUVmFJOHgz?=
- =?utf-8?B?YjRsVW5UeDVaSjlXbUg2SGRaYTBEMzVMbzRLTmxnNkRaV0NwQUlaUGVlaTN0?=
- =?utf-8?B?dlcxeFB2U2hQbHN4c0lKeVVsK2lJMFk1UXJDWFFXbDF6WnBQd2cyTk02d2dm?=
- =?utf-8?B?OXRoc3hKdWxheWJXUUxjUT09?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8254.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OHdmWE5YOGQwR2w1UmQ5bUV1WVRQWTRYNVA3dElsKzZCREtUdVJnSG9reXNv?=
- =?utf-8?B?czRKeDlpUkozSWZVZ2VqdFpjWkxSbUtNYTVldXJQZlAxQlRqVkJWMktlSXpn?=
- =?utf-8?B?ellIclYzNVgzNldFZjVSNHUvRDVrV3FGMUkwdVNLR2cya1RHUkpQS2VQYUg5?=
- =?utf-8?B?NFVXVUt2Z0F6L3BCZ1lpZytabklabnFsdmVORzBMUzlSZm1IK0kwRTlKdzdK?=
- =?utf-8?B?WmdYY29VN09NNFhQaTVDbkZvYTBJWld1UmRiQ3EzRml3Vmc1L3BJNVozb2li?=
- =?utf-8?B?elN4ZDNsaVVqZUwwQ1VUT3Jwa2tENkpVVFBIWURjVjlTSWFoKzFGY1lsaXY2?=
- =?utf-8?B?VFBQeVNuWUhtUDEzSytMR1lNZHZ1TTNIcUo0eGdkNkEzc3dnVkhSZVlTS3JF?=
- =?utf-8?B?SHUrdDZLMDdNRzJubWJ4ZG1qcWFtRGNsaS9vNEJkQWdIdS90Y3NTaERZOW5w?=
- =?utf-8?B?TzRvSVpLTzh2Tjdyeit1NXdPL1BieG9KSFpYd2c2dDFzY1pUTE56b3YzV3lo?=
- =?utf-8?B?bWF3TnZka0ZSaE1FQytxbVI4eTNjYldJVkdySm9SK1RUWUloWDVwQStFZTVG?=
- =?utf-8?B?UUxja0haQkNEem4wMFFvMlNwNVBEZXkrZ2xqbnRuN09nM0Zic1ltQWRuSW1U?=
- =?utf-8?B?QWo3WUtRN0NjODFRT2xxVGw0QUFnc0FuK2svNE81T1RMejQ1YVZpWnVidnZ3?=
- =?utf-8?B?UjVQdExiaEQrOGFwaml6VFNQZ0d3cDFUUmNyTEVQNTJpRmd0b29uR016c2JO?=
- =?utf-8?B?Wk9sOWdRMllIRWpxaWdJVWYvVXc2VXVxN0MwZ3J2eEZrbzV3RkxnMzVlTHI0?=
- =?utf-8?B?Rkx2Z0tvVnBCejkrL1BDU2ladGlwRGJZZmVmdGZib2hoc1BCTWhqZXZZOWNL?=
- =?utf-8?B?NmNVc015Q2E3YkdZSEJOdURYNzNGR3VBZ25LVUtIQ2wzWDE5b0xKN1B3YXdM?=
- =?utf-8?B?L1BIZ0REdUs2bzV5RGw3ejllMGVIMWdDc09yK1dOKzFVamZaWXZWaFlSZmNE?=
- =?utf-8?B?UDB1U0J5SGxEM0dCTURWSWpkR2JMaGZ1RTFZZSt6M1lDSDN0aDJYQVNzOWZh?=
- =?utf-8?B?Vnk0UE5CVDExQlQzek1hd2FtN2lzWDNRL1daS0kyR0RLWDJMRGxFRnF2bmJm?=
- =?utf-8?B?Yjc0bkRlKzhqNW44S2hJQ0hHaWp6RWlvRDFnRUl6M2N5OXM0M1JmN1ppRmRD?=
- =?utf-8?B?a3FnRDBWRzZOWUVMSWx4blFVWDZCVlNHTDlrUDVGaEVCaGtUUFdqTmdTY3M1?=
- =?utf-8?B?ZTJLaEJKMUlHcUpvVExPcWRxZ1o4Yk1KcTJlRTRON0FtNURJbEptVlR6ZUl3?=
- =?utf-8?B?eEFlSENTWEtGRUxzZEtzNXd1NjhnaXZrMUNJb0hyODJJcm4zTitmRUpudXVL?=
- =?utf-8?B?NWVxN3VRbENGTzhvTENaOGw1TWlYTnR6alkwaDNub0hQa2hJU2owWU9tQnlt?=
- =?utf-8?B?c2FLVUNIM0Q4eVcrK0VSODV0MlRnQ04vTlY4TUJiUlVOcnY2MThPZFpLMHpT?=
- =?utf-8?B?QWFVY2FSOEppSXh3VWdoQVl2T2EvZnhXaFJwSWR3VU5GRjhEWEZYbGtQTjJK?=
- =?utf-8?B?TEJEbkdBSEFmbCtWbk5uVzFnK2ZpeGhSc2dhdG9KNXRNZU9jS1JWZCtyYmZO?=
- =?utf-8?B?ejl5eVVhRUZlK3lHc1JjVFVHVk9zQnE4UnNEb1JEUGpzOVVPczJoVDh5WlYz?=
- =?utf-8?B?WW9OcTBQN3V1dE91SFcyMmQ4aklOZzNsUlQyZlE4NmtjdjVzNy9BTXlaYWMz?=
- =?utf-8?B?WGNpdm1YWkdhZHRqOXc0TUNaM2NSVXFYYWJBZFVFY2tCTU5NUW00WUxWMEE2?=
- =?utf-8?B?L1JmK1lmMWUvbGIzRkdOeFZQa0xjZTNTRVQwS2p0TU8rdGdPL1E3YW1mazlo?=
- =?utf-8?B?N1JHbGY4eDZjNjlscjBnNnBlSUFnVHZkTlpZcmx4WVlqV2loc1BFQUF3THhN?=
- =?utf-8?B?Z3lIY08yOURna1FkY080dEtlUlVzUWttWWxkeTFtamlkczMvcjBmUUlkLysr?=
- =?utf-8?B?c1dHVHdZeHB0aGJObk5IWVRPSlU1TGh6UExlM20vcjBiZ3hwN0VMaVh6VDV5?=
- =?utf-8?B?VE1wc213ME15VjAvckJxeitEYWxuaWRvZEJJWWNIRjY1QU1HYk42d3ZMSm5l?=
- =?utf-8?Q?vcj35pUcIoN51f47+tGde3yXN?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 54d2f06d-79ef-4baf-9824-08dd72780a20
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8254.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Apr 2025 06:23:25.3182
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ZRH/ahDZClPQhEjzALGpJD9a9GIkxZX35y4zfy0+e1/9SAcKSCKGGPYpgy5oR7q3sdY+JPWWVrSdwib28r3L0Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB8789
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6] media: uvcvideo: Set V4L2_CTRL_FLAG_DISABLED during
+ queryctrl errors
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250310-uvc-eaccess-v6-1-bf4562f7cabd@chromium.org>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20250310-uvc-eaccess-v6-1-bf4562f7cabd@chromium.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Frank,
-
-On 2025/4/3 2:03, Frank Li wrote:
-> On Wed, Apr 02, 2025 at 01:34:00PM +0800, Ming Qian(OSS) wrote:
->> Hi Frank,
->>
->>
->> On 2025/4/1 22:37, Frank Li wrote:
->>> On Tue, Apr 01, 2025 at 11:17:36AM +0800, Ming Qian(OSS) wrote:
->>>>
->>>> Hi Frank,
->>>>
->>>> On 2025/3/31 22:32, Frank Li wrote:
->>>>> On Mon, Mar 31, 2025 at 11:10:20AM +0800, Ming Qian(OSS) wrote:
->>>>>>
->>>>>> Hi Frank,
->>>>>>
->>>>>> On 2025/3/28 22:45, Frank Li wrote:
->>>>>>> On Fri, Mar 28, 2025 at 02:30:52PM +0800, ming.qian@oss.nxp.com wrote:
->>>>>>>> From: Ming Qian <ming.qian@oss.nxp.com>
->>>>>>>>
->>>>>>>> To support decoding motion-jpeg without DHT, driver will try to decode a
->>>>>>>> pattern jpeg before actual jpeg frame by use of linked descriptors
->>>>>>>> (This is called "repeat mode"), then the DHT in the pattern jpeg can be
->>>>>>>> used for decoding the motion-jpeg.
->>>>>>>>
->>>>>>>> In other words, 2 frame done interrupts will be triggered, driver will
->>>>>>>> ignore the first interrupt,
->>>>>>>
->>>>>>> Does any field in linked descriptors to control if issue irq? Generally
->>>>>>> you needn't enable first descriptors's irq and only enable second one.
->>>>>>>
->>>>>>
->>>>>> Unfortunately, we cannot configure interrupts for each descriptor.
->>>>>> So we can't only enable the second irq.
->>>>>>
->>>>>>
->>>>>>>> and wait for the second interrupt.
->>>>>>>> If the resolution is small, and the 2 interrupts may be too close,
->>>>>>>
->>>>>>> It also possible two irqs combine to 1 irqs. If I understand correct, your
->>>>>>> irq handle only handle one descriptors per irq.
->>>>>>>
->>>>>>> Another words,
->>>>>>>
->>>>>>> If second irq already happen just before 1,
->>>>>>>
->>>>>>> 1. dec_ret = readl(reg + MXC_SLOT_OFFSET(slot, SLOT_STATUS));
->>>>>>> 2. writel(dec_ret, reg + MXC_SLOT_OFFSET(slot, SLOT_STATUS)); /* w1c */
->>>>>>>
->>>>>>> Does your driver wait forever because no second irq happen?
->>>>>>>
->>>>>>> Frank
->>>>>>
->>>>>> Before this patch, the answer is yes, the driver will wait 2 seconds
->>>>>> until timeout.
->>>>>> In fact, this is the problem that this patch wants to avoid.
->>>>>> Now I think there are 3 cases for motion-jpeg decoding:
->>>>>> 1. The second irq happens before the first irq status check, the on-going
->>>>>> check
->>>>>> help to hanle this case.
->>>>>> 2. The second irq happens after the first irq status check, but before
->>>>>> on-going check, this on-going check can help handle it, fisnish the
->>>>>> current decoding and reset the jpeg decoder.
->>>>>> 3. The second irq happens after the on-going check, this is the normal
->>>>>> process before. No additional processing required.
->>>>>
->>>>> Okay, not sure if hardware provide current_descript position. Generally
->>>>> descriptor queue irq handle is like
->>>>>
->>>>> cur = queue_header;
->>>>> while(cur != read_hardware_currunt_pos())
->>>>> {
->>>>> 	handle(cur);
->>>>> 	cur = cur->next;
->>>>> 	queue_header = cur;
->>>>> }
->>>>>
->>>>> with above logic, even you queue new request during irq handler, it should
->>>>> work correctly.
->>>>>
->>>>> But it is depend on if hardware can indicate current working queue
->>>>> position, some time, hardware stop last queue posistion when handle last
->>>>> one.
->>>>>
->>>>> Frank
->>>>>
->>>>
->>>> I think it doesn't matter, the 2 descriptors are the cfg descriptor and
->>>> then the image descriptor.
->>>> If the current descriptor register remains the last image descriptor,
->>>> the ongoing check works.
->>>>
->>>> And I guess your concern is as below.
->>>> If the current descriptor register is still the cfg descriptor, but the
->>>> hardware has finished decoding the next image descriptor.
->>>>
->>>> I confirmed with our hardware engineer. This can't happen.
->>>> The first cfg decriptor has a next_descpt_ptr that is pointing to the
->>>> image descriptor, when the hardware read tne next_descpt_ptr, the
->>>> current descriptor register is updated, before the actual decoding.
->>>
->>> Maybe off topic,
->>>
->>> CFG->next = Image
->>>
->>> Image->next = NULL;
->>>
->>> If hardware finish image descriptior, current descriptor is 'Image' or 'NULL'
->>>
->>> If it is 'Image', need extra status bit show 'done'
->>>
->>> 1:	slot_status = readl(jpeg->base_reg + MXC_SLOT_OFFSET(ctx->slot, SLOT_STATUS));
->>>
->>> I suppose it should be DONE status if just finish CFG description.
->>>
->>> 2: 	curr_desc = readl(jpeg->base_reg + MXC_SLOT_OFFSET(ctx->slot, SLOT_CUR_DESCPT_PTR));
->>>
->>> It is possible curr_desc already was 'Image' after 1.
->>>
->>>    if (curr_desc == jpeg->slot_data.cfg_desc_handle)  //not hit this
->>>           return true;
->>>
->>>    if (slot_status & SLOT_STATUS_ONGOING)  // not hit this
->>>           return true;
->>>
->>> fake false may return.
->>>
->>> check two aync condition "slot_status" and "curr_desc" always be risk. But
->>> I don't know what's happen if fake false return here.
->>>
->>> for this type check
->>> 	do {
->>> 		slot_status = readl();
->>> 		curr_desc = readl();
->>> 	} while (slot_status != read());
->>>
->>> to make sure slot_status and cur_desc indicate the hardware status
->>> correctly.
->>
->> I confirmed with the hardware engineer, the curr_desc register is set
->> when hardware load next_descpt_ptr,
+On 10/03/2025 14:21, Ricardo Ribalda wrote:
+> To implement VIDIOC_QUERYCTRL, we need to know the minimum, maximum,
+> step and flags of the control. For some of the controls, this involves
+> querying the actual hardware.
 > 
-> The key is last one, does last one set curr_desc to NULL when it done.
-> If yes, the whole logic will be much simple. You just need check
-> curr_desc.
-
-No, the curr_desc will remain the last image descripor even after done.
-
+> Some non-compliant cameras produce errors when we query them. These
+> error can be triggered every time, sometimes, or when other controls do
+> not have the "right value". Right now, we populate that error to userspace.
+> When an error happens, the v4l2 framework does not copy the v4l2_queryctrl
+> struct to userspace. Also, userspace apps are not ready to handle any
+> other error than -EINVAL.
 > 
->> but the ongoing bit is set when
->> hardware finish loading the content of the descriptor, the size is 32
->> bytes.
->> So you are right, the slot_status and curr_desc is not synchronous,
->> but the gap time will be very short
+> One of the main usecases of VIDIOC_QUERYCTRL is enumerating the controls
+> of a device. This is done using the V4L2_CTRL_FLAG_NEXT_CTRL flag. In
+> that usecase, a non-compliant control will make it almost impossible to
+> enumerate all controls of the device.
 > 
-> Yes, it will be really hard to debug it if met once.
+> A control with an invalid max/min/step/flags is better than non being
+> able to enumerate the rest of the controls.
 > 
-
-I think we can read the slot_status twice to reduce the probability to
-almost 0.
-
-
-
->>
->> This patch is a workaround that hardware finish 2 descriptors too soon,
->> irq() is not scheduled on time, the driver keeps waiting until timeout.
->>
->> And I agree there is still some risk that the ongoing check may return
->> fake false, even if the probability of occurrence is extremely low.
->>
->> When the fake false return, the driver will finish current decoding
->> early, and the decoded image is incomplete.
->>
->> But we don't want to change to poll the done status.
+> This patch:
+> - Retries for an extra attempt to read the control, to avoid spurious
+>   errors. More attempts do not seem to produce better results in the
+>   tested hardware.
+> - Makes VIDIOC_QUERYCTRL return 0 in all the error cases different than
+>   -EINVAL.
+> - Introduces a warning in dmesg so we can have a trace of what has happened
+>   and sets the V4L2_CTRL_FLAG_DISABLED.
+> - Makes sure we keep returning V4L2_CTRL_FLAG_DISABLED for all the next
+>   attempts to query that control (other operations have the same
+>   functionality as now).
 > 
-> It is not poll the done. It's compare if status is the same by twice read.
-> Most time needn't retry.
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+> Hi 2*Hans and Laurent!
 > 
-> The basic idea is the same as
-> https://elixir.bootlin.com/linux/v6.14-rc6/source/drivers/clocksource/arm_global_timer.c#L73
+> I came around a device that was listing just a couple of controls when
+> it should be listing much more.
 > 
+> Some debugging latter I found that the device was returning -EIO when
+> all the focal controls were read.
+> 
+> Lots of good arguments in favor/against this patch in the v1. Please
+> check!
+> 
+> Without this patch:
+> $ v4l2-ctl --list-ctrls
+>                   auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
+>          exposure_time_absolute 0x009a0902 (int)    : min=50 max=10000 step=1 default=166 value=166 flags=inactive
+>      exposure_dynamic_framerate 0x009a0903 (bool)   : default=0 value=0
+> region_of_interest_auto_control 0x009a1902 (bitmask): max=0x00000001 default=0x00000001 value=1
+> 
+> With this patch:
+> $ v4l2-ctl --list-ctrls
+>                   auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
+>          exposure_time_absolute 0x009a0902 (int)    : min=50 max=10000 step=1 default=166 value=166 flags=inactive
+>      exposure_dynamic_framerate 0x009a0903 (bool)   : default=0 value=0
+> error 5 getting ext_ctrl Focus, Absolute
+> error 5 getting ext_ctrl Focus, Automatic Continuous
+>    region_of_interest_rectangle 0x009a1901 (unknown): type=107 value=unsupported payload type flags=has-payload
+> region_of_interest_auto_control 0x009a1902 (bitmask): max=0x00000001 default=0x00000001 value=1
 
-I checked the _gt_counter_read(), But I think its usage scenario is
-different from here.
+This output still refers to the result from the v1 patch (I think).
+Can you redo this test with this v6 applied? You probably want to update these
+comments anyway.
 
-In _gt_counter_read(), its purpose is to ensure that the upper 32-bits
-do not change when reading the lower 32-bits.
-1. Read the upper 32-bit timer counter register
-2. Read the lower 32-bit timer counter register
-3. Read the upper 32-bit timer counter register again.
-If the value in step 1 is equal to step 3, it means the upper 32 bits
-are not changed, and the lower 32-bits are right.
+> --
+> ---
+> Changes in v6:
+> - Keep returning V4L2_CTRL_FLAG_DISABLED in future control queries.
+> - Link to v5: https://lore.kernel.org/r/20250224-uvc-eaccess-v5-1-690d73bcef28@chromium.org
+> 
+> Changes in v5:
+> - Explain the retry in the commit message (Thanks Laurent).
+> - Link to v4: https://lore.kernel.org/r/20250111-uvc-eaccess-v4-1-c7759bfd1bd4@chromium.org
+> 
+> Changes in v4:
+> - Display control name (Thanks Hans)
+> - Link to v3: https://lore.kernel.org/r/20250107-uvc-eaccess-v3-1-99f3335d5133@chromium.org
+> 
+> Changes in v3:
+> - Add a retry mechanism during error.
+> - Set V4L2_CTRL_FLAG_DISABLED flag.
+> - Link to v2: https://lore.kernel.org/r/20241219-uvc-eaccess-v2-1-bf6520c8b86d@chromium.org
+> 
+> Changes in v2:
+> - Never return error, even if we are not enumerating the controls
+> - Improve commit message.
+> - Link to v1: https://lore.kernel.org/r/20241213-uvc-eaccess-v1-1-62e0b4fcc634@chromium.org
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c | 46 +++++++++++++++++++++++++++++++++-------
+>  drivers/media/usb/uvc/uvcvideo.h |  2 ++
+>  2 files changed, 40 insertions(+), 8 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index 4e58476d305efddac331417feda8cb064e340a13..4b282ac714220b26581fe468d9ecb1109a28483f 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -1280,6 +1280,8 @@ static u32 uvc_get_ctrl_bitmap(struct uvc_control *ctrl,
+>  	return ~0;
+>  }
+>  
+> +#define MAX_QUERY_RETRIES 2
 
-But here, we don't expect the slot_status is the same by twice read.
-Now the case is:
-1. curr_desc is switched to the image descriptor.
-2. the ongoing bit is set after the 32 bytes descriptor is loaded.
-The 2 steps are not synchronized.
+As you mentioned in the commit log, trying more times didn't make a difference.
+Add that as a comment here as well, it is good to have that documented in the code.
 
-If slot_status is read twice between step 1 and 2, the value is same,
-but still return fake false.
+> +
+>  static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+>  	struct uvc_control *ctrl,
+>  	struct uvc_control_mapping *mapping,
+> @@ -1305,19 +1307,44 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+>  		__uvc_find_control(ctrl->entity, mapping->master_id,
+>  				   &master_map, &master_ctrl, 0);
+>  	if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
+> +		unsigned int retries;
+>  		s32 val;
+> -		int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
+> -		if (ret < 0)
+> -			return ret;
+> +		int ret;
+>  
+> -		if (val != mapping->master_manual)
+> -				v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
+> +		for (retries = 0; retries < MAX_QUERY_RETRIES; retries++) {
+> +			ret = __uvc_ctrl_get(chain, master_ctrl, master_map,
+> +					     &val);
+> +			if (ret >= 0)
+> +				break;
 
-I'd like to check the slot_status twice and add a delay:
+This retries regardless of the error code. Isn't a retry only needed for -EIO?
+Are there other error codes that need a retry? Or, perhaps easier, are there
+errors codes for which a retry is *not* appropriate? E.g. -EACCESS, -ERANGE.
 
-slot_status = readl(jpeg->base_reg + MXC_SLOT_OFFSET(ctx->slot, 
-SLOT_STATUS));
-if (slot_status & SLOT_STATUS_ONGOING)
-	return true;
+> +		}
+> +
+> +		if (ret < 0) {
+> +			dev_warn_ratelimited(&chain->dev->udev->dev,
+> +					     "UVC non compliance: Error %d querying master control %x (%s)\n",
+> +					     ret, master_map->id,
+> +					     uvc_map_get_name(master_map));
 
-udelay(10);
+Shouldn't you mark this control as disabled and return here instead of
+continuing?
 
-slot_status = readl(jpeg->base_reg + MXC_SLOT_OFFSET(ctx->slot, 
-SLOT_STATUS));
-if (slot_status & SLOT_STATUS_ONGOING)
-	return true;
+> +		} else if (val != mapping->master_manual) {
+> +			v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
+> +		}
+>  	}
+>  
+>  	if (!ctrl->cached) {
+> -		int ret = uvc_ctrl_populate_cache(chain, ctrl);
+> -		if (ret < 0)
+> -			return ret;
+> +		unsigned int retries;
+> +		int ret;
+> +
+> +		for (retries = 0; retries < MAX_QUERY_RETRIES; retries++) {
+> +			ret = uvc_ctrl_populate_cache(chain, ctrl);
+> +			if (ret >= 0)
+> +				break;
 
-return false;
+Same question about the error code as above.
 
-This delay should be able to avoid stepping into the intermediate state
-between steps 1 and 2.
+> +		}
+> +
+> +		if (ret < 0) {
+> +			dev_warn_ratelimited(&chain->dev->udev->dev,
+> +					     "UVC non compliance: permanently disabling control %x (%s), due to error %d\n",
+> +					     mapping->id,
+> +					     uvc_map_get_name(mapping), ret);
+> +			mapping->disabled = true;
+> +		}
+>  	}
+>  
+>  	if (ctrl->info.flags & UVC_CTRL_FLAG_GET_DEF) {
+> @@ -1325,6 +1352,9 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+>  				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_DEF));
+>  	}
+>  
+> +	if (mapping->disabled)
+> +		v4l2_ctrl->flags |= V4L2_CTRL_FLAG_DISABLED;
+> +
+>  	switch (mapping->v4l2_type) {
+>  	case V4L2_CTRL_TYPE_MENU:
+>  		v4l2_ctrl->minimum = ffs(mapping->menu_mask) - 1;
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 5e388f05f3fcaf0e4c503a34745d05837ecb0184..63687d7e97738a50d037b1f456f5215241909c13 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -129,6 +129,8 @@ struct uvc_control_mapping {
+>  	s32 master_manual;
+>  	u32 slave_ids[2];
+>  
+> +	bool disabled;
+> +
+>  	const struct uvc_control_mapping *(*filter_mapping)
+>  				(struct uvc_video_chain *chain,
+>  				struct uvc_control *ctrl);
+> 
+> ---
+> base-commit: c2b96a6818159fba8a3bcc38262da9e77f9b3ec7
+> change-id: 20241213-uvc-eaccess-755cc061a360
+> 
+> Best regards,
 
-Thanks,
-Ming
+Regards,
 
->>
->> Considering the probability of occurrence and the respective
->> consequences, I think this patch still makes sense.
->>
->> Maybe we can check the slot_status register twice and add a short delay
->> in between. Then the probability of returning fake false is basically
->> reduced to 0.
->>
->> Thanks,
->> Ming
->>
->>>
->>> Frank
->>>>
->>>> Thanks,
->>>> Ming
->>>>
->>>>>>
->>>>>> Thanks,
->>>>>> Ming
->>>>>>
->>>>>>>>
->>>>>>>> when driver is handling the first interrupt, two frames are done, then
->>>>>>>> driver will fail to wait for the second interrupt.
->>>>>>>>
->>>>>>>> In such case, driver can check whether the decoding is still ongoing,
->>>>>>>> if not, just done the current decoding.
->>>>>>>>
->>>>>>>> Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
->>>>>>>> ---
->>>>>>>>      .../media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h |  1 +
->>>>>>>>      .../media/platform/nxp/imx-jpeg/mxc-jpeg.c    | 20 ++++++++++++++++++-
->>>>>>>>      2 files changed, 20 insertions(+), 1 deletion(-)
->>>>>>>>
->>>>>>>> diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h
->>>>>>>> index d579c804b047..adb93e977be9 100644
->>>>>>>> --- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h
->>>>>>>> +++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h
->>>>>>>> @@ -89,6 +89,7 @@
->>>>>>>>      /* SLOT_STATUS fields for slots 0..3 */
->>>>>>>>      #define SLOT_STATUS_FRMDONE			(0x1 << 3)
->>>>>>>>      #define SLOT_STATUS_ENC_CONFIG_ERR		(0x1 << 8)
->>>>>>>> +#define SLOT_STATUS_ONGOING			(0x1 << 31)
->>>>>>>>
->>>>>>>>      /* SLOT_IRQ_EN fields TBD */
->>>>>>>>
->>>>>>>> diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
->>>>>>>> index 45705c606769..e6bb45633a19 100644
->>>>>>>> --- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
->>>>>>>> +++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
->>>>>>>> @@ -910,6 +910,23 @@ static u32 mxc_jpeg_get_plane_size(struct mxc_jpeg_q_data *q_data, u32 plane_no)
->>>>>>>>      	return size;
->>>>>>>>      }
->>>>>>>>
->>>>>>>> +static bool mxc_dec_is_ongoing(struct mxc_jpeg_ctx *ctx)
->>>>>>>> +{
->>>>>>>> +	struct mxc_jpeg_dev *jpeg = ctx->mxc_jpeg;
->>>>>>>> +	u32 curr_desc;
->>>>>>>> +	u32 slot_status;
->>>>>>>> +
->>>>>>>> +	slot_status = readl(jpeg->base_reg + MXC_SLOT_OFFSET(ctx->slot, SLOT_STATUS));
->>>>>>>> +	curr_desc = readl(jpeg->base_reg + MXC_SLOT_OFFSET(ctx->slot, SLOT_CUR_DESCPT_PTR));
->>>>>>>> +
->>>>>>>> +	if (curr_desc == jpeg->slot_data.cfg_desc_handle)
->>>>>>>> +		return true;
->>>>>>>> +	if (slot_status & SLOT_STATUS_ONGOING)
->>>>>>>> +		return true;
->>>>>>>> +
->>>>>>>> +	return false;
->>>>>>>> +}
->>>>>>>> +
->>>>>>>>      static irqreturn_t mxc_jpeg_dec_irq(int irq, void *priv)
->>>>>>>>      {
->>>>>>>>      	struct mxc_jpeg_dev *jpeg = priv;
->>>>>>>> @@ -979,7 +996,8 @@ static irqreturn_t mxc_jpeg_dec_irq(int irq, void *priv)
->>>>>>>>      		mxc_jpeg_enc_mode_go(dev, reg, mxc_jpeg_is_extended_sequential(q_data->fmt));
->>>>>>>>      		goto job_unlock;
->>>>>>>>      	}
->>>>>>>> -	if (jpeg->mode == MXC_JPEG_DECODE && jpeg_src_buf->dht_needed) {
->>>>>>>> +	if (jpeg->mode == MXC_JPEG_DECODE && jpeg_src_buf->dht_needed &&
->>>>>>>> +	    mxc_dec_is_ongoing(ctx)) {
->>>>>>>>      		jpeg_src_buf->dht_needed = false;
->>>>>>>>      		dev_dbg(dev, "Decoder DHT cfg finished. Start decoding...\n");
->>>>>>>>      		goto job_unlock;
->>>>>>>> --
->>>>>>>> 2.43.0-rc1
->>>>>>>>
+	Hans
 
