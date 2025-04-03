@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-29296-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29297-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C756A79DC9
-	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 10:15:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E371A79DDC
+	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 10:19:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5FF207A6642
-	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 08:14:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6C8711891571
+	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 08:19:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE171242906;
-	Thu,  3 Apr 2025 08:15:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D15A2417E6;
+	Thu,  3 Apr 2025 08:18:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uSuzEmO7"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="k+D95KDv"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84687241CBA;
-	Thu,  3 Apr 2025 08:15:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DEEC241691;
+	Thu,  3 Apr 2025 08:18:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743668111; cv=none; b=s/d7mpd6j9VX70FaZXjhxuqgnRGMVX6xTMofDErBTcQdV+IPH1uw1o87fv+ui101a/EXmookllNyyuevxfQ1apKTMZdzlOsJjgvUdyyr2vBMSbJdDJH8jDoWh39lktUJwHZvpYIQSqME86K5LZhwQ16ttsSlQpEnpFrQH4G7w1g=
+	t=1743668332; cv=none; b=nDZcHnAVs13OTJsIM/QGvAUYfAvM7yPAC6FXDONHuapUpiRnBoUvd+nosltQVhWSYiBpj3phlZ+j8yijV+Yoq+p2YGbNcQ8NbaDPxx9lxBVlkG+tMevriT7ORkSL7yM0HKaKpbcImRZ8e5vPApSeaaCN+S3dLslZGFOfYHFSaJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743668111; c=relaxed/simple;
-	bh=ICN54ZvU91J/SfI9DgZT4PwZfQ2vgRqWzhU29u8932M=;
+	s=arc-20240116; t=1743668332; c=relaxed/simple;
+	bh=s6j21HcEMBF6v4lEmeuyhKZT66Img10/Z2kkgWSa1t4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qxgHmJgfn7Hx2DZGb/GKOrkSEhhgHqWsQmq76DNBk4NdMq27a8JzPIcU2nH/9jsJ/1Q4LmOMmrBa8J/zZbfVCLNFxSjFm8I+FNgLmfBLH4arEWBX36/2uOd/0AshWdwITPgW337AnQ3J4ZNlhq4YrZfOPq4NnEbWiD3An09CdUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uSuzEmO7; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=PBEE5jQE8JVanco7HDgyKonD1mi1NFoK+ggh3mrtdQcaO0ThkkGYFlaGZQ53t1uP1S0v3zRBa/8sG8g7VpsgjOrDkCtyZtLL2HYHE0Y8hMmULkrzLa2x8cFZwg1CbNxXSdXPqFsAmOaYkRYBg5AFY43eBrCb2Gpv6Ows29KUA58=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=k+D95KDv; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2647F105D;
-	Thu,  3 Apr 2025 10:13:14 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D80A0105D;
+	Thu,  3 Apr 2025 10:16:55 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1743667994;
-	bh=ICN54ZvU91J/SfI9DgZT4PwZfQ2vgRqWzhU29u8932M=;
+	s=mail; t=1743668216;
+	bh=s6j21HcEMBF6v4lEmeuyhKZT66Img10/Z2kkgWSa1t4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uSuzEmO7E/+sntwX5cwD2gORtgdy66VZcNtMOfX9LWE66vxOk4aAzVw5wGtvQg4Tv
-	 EofNXBRVR/Xyx2vNv0bz4S3AWjQYvX1i4dFuS4u4LuGHlwU9EXJHc05Hc9Uy7xwmxv
-	 aGnjj9qIKylkHDXXrup/JOPbEZRqayDVz2pITxQY=
-Message-ID: <5ebccf6a-3860-4643-9f92-735163552b7e@ideasonboard.com>
-Date: Thu, 3 Apr 2025 11:15:04 +0300
+	b=k+D95KDvLSkKCZA4UaXYyl7nmOv5qByQQ/KO7BL0dMLZaREJg0h04VIXpJKRDgZ88
+	 HeBaVBzNzRB1hmDJN7xmIz8i39Ur++kXZNkgygcnfHR1r+Sgmehq15P5aXREBbFp1U
+	 lF6TXKNLCT7AEmfM8QGrxkuoWNoW2PT2dmb7pAcM=
+Message-ID: <c037c38d-1056-4ced-b411-c3b8f04162f2@ideasonboard.com>
+Date: Thu, 3 Apr 2025 11:18:46 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -92,7 +92,12 @@ On 01/04/2025 00:11, Niklas Söderlund wrote:
 > needed a similar fix for VNMC_INF_RAW8 check below to get it to work on
 > Gen4.
 
-Why is that? What is VNMC_INF_RAW8 overlapping with?
+Also, I think it's fine to be a bit hacky to have a small fix for a 
+feature already in upstream, instead of doing a bigger restructuring to 
+fix it.
+
+All this should be cleaned up, but in my opinion it's better to do that 
+on top of a working upstream.
 
   Tomi
 
