@@ -1,151 +1,159 @@
-Return-Path: <linux-media+bounces-29283-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29284-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C53E8A79C86
-	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 09:04:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95471A79CBD
+	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 09:17:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1D4C01895900
-	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 07:04:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A7CE6173ECF
+	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 07:16:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A479E23F291;
-	Thu,  3 Apr 2025 07:04:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98DE4241139;
+	Thu,  3 Apr 2025 07:16:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DULEKQOb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XDDHqp/g"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05F1219F41C;
-	Thu,  3 Apr 2025 07:04:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F97C23F42D;
+	Thu,  3 Apr 2025 07:16:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743663872; cv=none; b=WGZfqjf2ARtrM+I34dx6boJa3u4yAb+mIyiZr+QZhgad3Au38Whpx6dMe9WxH31JxG24HnraQP9us2W/Ux2YEbaARsB+La0v5fpD3/6ew2r+ZhmunU5kyCZ2ynnh79yO1r3onlwWzBzcC8yYT8e7s+5QmhIBOYRgHnfB23EaPe0=
+	t=1743664566; cv=none; b=OyMTy4DN2jNSZGXaEnmG2jWnYpi85ys3mng7wooNRXJL6Ht5Er5SYH/SvqhGWuEaAKbraRKpwPcpNfard+a40Ya/Iv5r1c9uSNEEuw4bMp/QlLSbinecq0trEijh8lNE2VZPrGcnU5/xSb9PRqp4sXFMUHXhrviovoEk6m4JeQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743663872; c=relaxed/simple;
-	bh=axQRKKtAZkQVbK9Zn3xtCbGhWKRBGumuitQB4lzISSI=;
+	s=arc-20240116; t=1743664566; c=relaxed/simple;
+	bh=ihOoeHUJojDpzJ37i9jH2w0uU3hPfFAThQCAxznA68Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VP9N7ePJxYnRvbuw9dcxtPu+V56At8eGsDgDKDYJGM0blYJP7HLOm6q38IUZ/EJb9NzbEoRByUDj0cz6b8FHSK3Q0d5MRaGyuN/UcY9PUfSUjyHTjhj/aKLQqNGpWeDBu9eOFvYN8mj4nvqO/7PtQAXe0i9B6dgHkKvTjk3wSkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DULEKQOb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3B13C4CEE3;
-	Thu,  3 Apr 2025 07:04:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743663871;
-	bh=axQRKKtAZkQVbK9Zn3xtCbGhWKRBGumuitQB4lzISSI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DULEKQObjDOFleA0YwEKsQL8DNbEOgLvR49c2+gBEbLdWdpMCC1f9Dox3JsG2cD4+
-	 CV3eOs9orM6i4QNYHz12Zecw3Z9+h4Dgzm80uRCIBMcWoIHOlRE+VzwRqIuXI0rm+c
-	 VCi8vphgVRQzfnRBN3j390MUQJaMVBuKRUZjhXQgoyi9KBeGz3t5ovMFMm4SOty2Ic
-	 3j9rE379MF+9Asvbzy/W/w/7ubfZeTleHOGhUzHqVWdguzHRwCdRGfab9unGqXDH9P
-	 p06I3hpccJ1Qn1ACFCrYaLOU1N5guo6q8NKKDB+qdkH+gmFgtdPhQgsvrhKsSPpST1
-	 h4Ly07jbRBj4g==
-Date: Thu, 3 Apr 2025 09:04:28 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>
-Cc: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
-	"T.J. Mercier" <tjmercier@google.com>, Mattijs Korpershoek <mkorpershoek@kernel.org>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2 1/2] dma-buf: heaps: system: Remove global variable
-Message-ID: <20250403-elated-cinnamon-tortoise-7b6cb8@houat>
-References: <20250401-dma-buf-ecc-heap-v2-0-043fd006a1af@kernel.org>
- <20250401-dma-buf-ecc-heap-v2-1-043fd006a1af@kernel.org>
- <e268d75d-c75a-499e-872d-09f91defed6b@amd.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=mzei3VQz0x7Y+D4Wo1mi3FPo/Upmy66LdQV/8o+j+QZVwkhibuy/WSLPB0om+jXLnRPPUGlNBVNbKCHRlWaZl/3F4idypoALa/54iUwgKO7ZFkEecj76V/Sul3TaPaz7oMoZqXFVCnMuTmHOpfarv7Y0hksPaYY5hy5DRdGGGDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XDDHqp/g; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743664563; x=1775200563;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ihOoeHUJojDpzJ37i9jH2w0uU3hPfFAThQCAxznA68Y=;
+  b=XDDHqp/gpAZkAanl3e/lfQH5OfGHQzm6I/jLLLJDu6ElQz4W1nWDdHd3
+   1/GRoYLuLEGCgJbd4Oxo4K+mURV19tz7cQu7iZXEJNisHRVoLuaHDv4Mn
+   +WF4jFFR79gEYs67dVHNjEIhqIDZGBYkB0q0Ifq7fpFgNmKF7dbU/AHrx
+   UXLyDOvn6LIlOtPkZL9YdRbE1MWU1XgbqUUBkyvpWQxDASDQb3qi6idvU
+   79JC7tiU+n3qVZ0qv1SJ7k/z6b4fMbF1MGxF0/QTkI8xDaxxB/XPxJQQ7
+   ORTL5icA4v4X6dqXktXTdSw9DQI4muikZ2UKLDjFYPKu43LKuTN99WxC9
+   Q==;
+X-CSE-ConnectionGUID: bkGTezQ+TieglxgEyK/9zA==
+X-CSE-MsgGUID: 6Q3Oj+s/R3ysvqns8i4UQg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="44766757"
+X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; 
+   d="scan'208";a="44766757"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 00:16:02 -0700
+X-CSE-ConnectionGUID: VWaLX/FKTvC8r+pa992Feg==
+X-CSE-MsgGUID: q+YsHhhZSumJYvL15eASnw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; 
+   d="scan'208";a="127781557"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 00:15:59 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 984BD11FAD8;
+	Thu,  3 Apr 2025 10:15:56 +0300 (EEST)
+Date: Thu, 3 Apr 2025 07:15:56 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Richard Leitner <richard.leitner@linux.dev>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org
+Subject: Re: [PATCH v2 4/8] Documentation: uAPI: media: add
+ V4L2_CID_FLASH_DURATION
+Message-ID: <Z-41rHITfEe6tJQc@kekkonen.localdomain>
+References: <20250314-ov9282-flash-strobe-v2-0-14d7a281342d@linux.dev>
+ <20250314-ov9282-flash-strobe-v2-4-14d7a281342d@linux.dev>
+ <d14b8c18-55b9-472c-897d-3a481892b080@xs4all.nl>
+ <4w7s6g32rol2ptkchczhyhgvytyeq6baqvz4h7ikurzg2tygnr@a3q7cgeagzk4>
+ <0fd2cbfa-8804-456f-891d-ecd06e828bc6@xs4all.nl>
+ <p7dar3qvajkaq6y4mxahxh2g5vkxzavjjchkwvh32hhkptona2@mzgo4vf4ni7e>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="gld5fz6ykqjpt6sc"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <e268d75d-c75a-499e-872d-09f91defed6b@amd.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <p7dar3qvajkaq6y4mxahxh2g5vkxzavjjchkwvh32hhkptona2@mzgo4vf4ni7e>
 
+Hi Richard,
 
---gld5fz6ykqjpt6sc
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2 1/2] dma-buf: heaps: system: Remove global variable
-MIME-Version: 1.0
+On Tue, Mar 25, 2025 at 09:24:18AM +0100, Richard Leitner wrote:
+> Hi Hans, Hi Sakari,
+> 
+> On Fri, Mar 14, 2025 at 11:36:12AM +0100, Hans Verkuil wrote:
+> > On 14/03/2025 11:28, Richard Leitner wrote:
+> > > Hi Hans,
+> > > 
+> > > thanks for your quick feedback!
+> > > 
+> > > On Fri, Mar 14, 2025 at 10:41:04AM +0100, Hans Verkuil wrote:
+> > >> On 14/03/2025 09:49, Richard Leitner wrote:
+> > >>> Add the new strobe_duration control to v4l uAPI documentation.
+> > >>>
+> > >>> Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+> > >>> ---
+> > >>>  Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst | 5 +++++
+> > >>>  1 file changed, 5 insertions(+)
+> > >>>
+> > >>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
+> > >>> index d22c5efb806a183a3ad67ec3e6550b002a51659a..03a58ef94be7c870f55d5a9bb09503995dbfb402 100644
+> > >>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
+> > >>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
+> > >>> @@ -186,3 +186,8 @@ Flash Control IDs
+> > >>>      charged before strobing. LED flashes often require a cooldown period
+> > >>>      after strobe during which another strobe will not be possible. This
+> > >>>      is a read-only control.
+> > >>> +
+> > >>> +``V4L2_CID_FLASH_DURATION (integer)``
+> > >>> +    Duration the flash should be on when the flash LED is in flash mode
+> > >>> +    (V4L2_FLASH_LED_MODE_FLASH). The unit should be microseconds (µs)
+> > >>> +    if possible.
+> > >>>
+> > >>
+> > >> If this control is present, does that mean that the flash duration always have
+> > >> to be set manually? Or can there be an 'Auto' mode as well? And if so, how is
+> > >> that set?
+> > > 
+> > > To be honest I haven't thought about automatic flash duration. Is this
+> > > something which is required?
+> > 
+> > No idea, it was just something I was wondering about. Sakari probably knows a lot
+> > more about this.
+> 
+> Sakari, should I add something like an auto/manual flash duration
+> control to this series?
+> 
+> Personally I think as long as we have no user of such an "auto" control
+> it's not really necessary. Or are there any drivers doing "auto"
+> flash/strobe duration already?
 
-On Tue, Apr 01, 2025 at 05:28:43PM +0200, Christian K=F6nig wrote:
->=20
->=20
-> Am 01.04.25 um 17:12 schrieb Maxime Ripard:
-> > The system heap has been using its struct dma_heap pointer but wasn't
-> > using it anywhere.
-> >
-> > Since we'll need additional parameters to attach to that heap type,
-> > let's create a private structure and set it as the dma_heap drvdata,
-> > removing the global variable in the process.
-> >
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> >  drivers/dma-buf/heaps/system_heap.c | 17 ++++++++++++-----
-> >  1 file changed, 12 insertions(+), 5 deletions(-)
-> >
-> > diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heap=
-s/system_heap.c
-> > index 26d5dc89ea1663a0d078e3a5723ca3d8d12b935f..adf422eaa33a52794f952d9=
-d4260b8743d37f421 100644
-> > --- a/drivers/dma-buf/heaps/system_heap.c
-> > +++ b/drivers/dma-buf/heaps/system_heap.c
-> > @@ -19,11 +19,13 @@
-> >  #include <linux/module.h>
-> >  #include <linux/scatterlist.h>
-> >  #include <linux/slab.h>
-> >  #include <linux/vmalloc.h>
-> > =20
-> > -static struct dma_heap *sys_heap;
-> > +struct system_heap {
-> > +	struct dma_heap *heap;
-> > +};
-> > =20
-> >  struct system_heap_buffer {
-> >  	struct dma_heap *heap;
-> >  	struct list_head attachments;
-> >  	struct mutex lock;
-> > @@ -422,17 +424,22 @@ static const struct dma_heap_ops system_heap_ops =
-=3D {
-> >  };
-> > =20
-> >  static int __init system_heap_create(void)
-> >  {
-> >  	struct dma_heap_export_info exp_info;
-> > +	struct system_heap *sys_heap;
-> > +
-> > +	sys_heap =3D kzalloc(sizeof(*sys_heap), GFP_KERNEL);
-> > +	if (!sys_heap)
-> > +		return -ENOMEM;
-> > =20
-> >  	exp_info.name =3D "system";
-> >  	exp_info.ops =3D &system_heap_ops;
-> > -	exp_info.priv =3D NULL;
-> > +	exp_info.priv =3D sys_heap;
->=20
-> Why do you even need this?
+I think the only other drivers that support controlling the flash currently
+are CCS and vgxy61. The CCS calculates the timing in the driver and the
+vgxy61 appears to be doing that all in firmware.
 
-Urgh, sorry. I'm not even sure how I ended up with that patch, but
-you're correct. I'll send a much simpler version.
+I'd add a control to select between auto / manual if there's a need to
+support both. CCS could be a case for this as the user space might know
+better what it wants from the flash.
 
-Maxime
+-- 
+Regards,
 
---gld5fz6ykqjpt6sc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ+4y+wAKCRDj7w1vZxhR
-xYtuAP9h8qpbfSL8QdI6gkSoBqCm6iJd/D34aA/O+lgHIZmeZAEA8kN4XsbG3As+
-6Hk8D0ZvINLOC3KUYPipNQqNfDSiewQ=
-=QlbU
------END PGP SIGNATURE-----
-
---gld5fz6ykqjpt6sc--
+Sakari Ailus
 
