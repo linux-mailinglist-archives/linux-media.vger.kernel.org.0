@@ -1,338 +1,189 @@
-Return-Path: <linux-media+bounces-29291-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29300-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B721DA79D87
-	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 09:59:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86102A79E73
+	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 10:49:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0F76318977F0
-	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 07:59:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A78B118939A0
+	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 08:49:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80DEE241668;
-	Thu,  3 Apr 2025 07:59:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ECE31C860E;
+	Thu,  3 Apr 2025 08:48:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="TvuPARe3"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="piDfCy/D"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0CC8DDA9
-	for <linux-media@vger.kernel.org>; Thu,  3 Apr 2025 07:59:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F99243364;
+	Thu,  3 Apr 2025 08:48:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743667166; cv=none; b=fSnMmLwQWj6Ep1HduFs5S+qdtRgo+gOyX+DB5pFqADCSdwPEe3iRlptGNhlYCyFYzwgWZkXDu4Rvwd87b+HGQK/4jarygc967H9X3oMKR6Esw8TcT2TTR5Uvas9Est6Dtv7GqzGCQown+8OPvEH5zRKxVCorfA94RkkJPJf6sEE=
+	t=1743670127; cv=none; b=c2atGShQct/pw0QTVn3c0K6AAIy1vEjps8H9loDIhfjhaVAHSdTBYtrAphzIjTlGHs/8M/WYTJw+f8l2H62ZVfrszp011cCOJdeuKkW8GpSIsA981fLd7n9Gcg1XBNKYTtLQErHGeEMHKP6Q/gYfpy/pH5JMLXcyv3KOTqBkEqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743667166; c=relaxed/simple;
-	bh=kBIqwYp+0OoHkcTQzAgsD+dEZ+4mg3cDogdBCyvQ+KE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mk+lCjtJhHU2w/GGfxw/d7kAkzqfHOFmmlu/F5HefStSybeGVHnJfBduyNgUioyhKVYeT58s+odCM6tj9K/CiB7JslWxTHrn1FGfzbiJpTMzZdk6bf31Z4ViOS3l9dFAM4kNoi3ay+Yn8XM1D8qGvK1H55WKZXnOwM/lyhmZskc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=TvuPARe3; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-54b0d638e86so671581e87.1
-        for <linux-media@vger.kernel.org>; Thu, 03 Apr 2025 00:59:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1743667163; x=1744271963; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=pQ3zw43gKxJ1YlZXX9E0k3Czk4zWzQQQoC/QeCSB+uw=;
-        b=TvuPARe35b6eYmgIm2Vmu7+o0jfyw1li77qwYXxScuGVkFhgrNulqjSoLyaYWdcdsV
-         A5qb0E4mv9Ij9RwXN5UrBdrvGQrmdQydNo4LaOdSzYFgXXUuk6XApzBax8v3/7exbEQA
-         E74w3NrJSkpkwNC/TgezMtY7yxSEyJQzc9zio=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743667163; x=1744271963;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=pQ3zw43gKxJ1YlZXX9E0k3Czk4zWzQQQoC/QeCSB+uw=;
-        b=hflF6NB/o5BlOn8OQXQz4LJmUaFJS6Yb0NEcrM20tn7cnHN/FHszHaQIili/aAFAiT
-         O2XRPmHJpTHTJs7IiOAHSM/PeHcpGxk3QDYOYhmsJF2cXDRU3xZIlTOWrVsmmAMq3rsQ
-         aX1KVaWkz7Ug58F2ZdFMvEJJlwq4q6JG01c87symQE02hewZWnwUkH3pDJ6g+pO9U4j9
-         lnmGuxT2be3CGSUBuaANAQYKz8/1DkPOc3l4Ll5/NlqOqtVNRb1Ga23OQLI2P1VmGs3M
-         g3YKgnk0lpQX7abi5uR0CRpl2VD9mxQqo3Va3p52iJ+H0/fPmIBWf9gZnxYj1i6IjmIM
-         foiQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVGnOvDokn8YMWYPRWCaX9w3uBy+yIWVdZsWwwq2uL5LZPYF+6vCqd27Jw2Lg/ZtWoJJLwcoZTKTIs/jg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBvB00zs9Clfzi0GjkOKjeVdoT2lWofDvWmgjLCp++apc5FNj9
-	kzi+bD5GKvwPKJAwU+s9GIcAX7al2UgamL11xlR1E6kerG9569sYoNxhoCyCSUp976mfkRDyRNQ
-	=
-X-Gm-Gg: ASbGncuptRRe39NB1BNvW7y49VeSV5Ow/ZHp0Prw7b1kCma9o3oa7P5tDqcbDy7AL+Y
-	yFydiCEcd3XMznxlmANkxiue3AKSgBK/H/VW9GXDFnWcWbriNyoUEjw+AcnCtFsydoDCIKa1khP
-	aGakgcJLHSwAm9Hxm7TLYQsl5RnaiRWaoFpJZJRkXkARy4ctyGFgTHKnYBXxS0oo8JFJKuaZUki
-	M8QPHPYe81N4+1bXS/FwXi/HCzxxS9f4hJ0oMP+ftmENbFWPFiU1XHsD0hmr9GkHos9eZA1ww2b
-	7V2faqeKhcbfcwqLQmT5towSFZ7DKNKJC+DtxZSeIOVaMGuT4Ff1NwMhN7s6S6K1L9aYnpOXkcv
-	hAzRrH3uqLDg=
-X-Google-Smtp-Source: AGHT+IGIaWBJrQIdCd2OyKQxlaEcJmXA34LRamgf8zlsMIG9UPVeLcJjoaNaQhd8KrIp/sTKNiyTtQ==
-X-Received: by 2002:a05:6512:b15:b0:54a:f66b:e938 with SMTP id 2adb3069b0e04-54c1d8f450dmr453392e87.45.1743667162449;
-        Thu, 03 Apr 2025 00:59:22 -0700 (PDT)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com. [209.85.208.181])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54c1e663d9asm74424e87.210.2025.04.03.00.59.21
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Apr 2025 00:59:21 -0700 (PDT)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-30dd5a93b49so5429001fa.0
-        for <linux-media@vger.kernel.org>; Thu, 03 Apr 2025 00:59:21 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVvhoNAoTRozxUQzrfdJunVMxQya0GrmmM7VGHgPJfxdccyDdBv+QiBP1kBKkKhp1+NP6Jz2AfiUovSQA==@vger.kernel.org
-X-Received: by 2002:a05:651c:1478:b0:30d:e104:a497 with SMTP id
- 38308e7fff4ca-30f021ae014mr5251721fa.41.1743667161105; Thu, 03 Apr 2025
- 00:59:21 -0700 (PDT)
+	s=arc-20240116; t=1743670127; c=relaxed/simple;
+	bh=+XooyGt2dVGYls6E9SKzRgwsMgitmpBTzCfrtXBTXy8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Jv5suAJifJr4Egp+/P84cATzrkGn64LWJsWKADo+uF6T22vuWRtUaxvuJP95d+uzdUqbNoAKZS7Rd1eU7OQ8dQ2WJQiVkeFb4ebt84C5z/YUivlhSIRNN4SrWkX9x4hmyKGa+0/xEwY5mzAQ/1jfvmdcsLmNrMn+Dg9JoqZmolE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=piDfCy/D; arc=none smtp.client-ip=168.119.41.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
+	 s=mail; h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=r6I4XiqtVZt7DBJ14nT+0Clr3qn22US5uA2n7iNkMF4=; b=piDfCy/DyzHi7w/J3z/2vaQbGJ
+	v8Jr2pLhgE/6qk3HbK3/oFHq6kFpUZRNZcvYB4kfoUgNwf2EggU9Cdb5J5p1o8+ePebESIKSTV19s
+	0lvLP0YcH6pqIjQnjsika5bJhegBIJCCuxPq7GLIwtd9fuH8c+aIttEX1TFrFMQfCcFs=;
+Received: from 194-208-208-245.tele.net ([194.208.208.245]:60368 helo=[127.0.1.1])
+	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <matthias.fend@emfend.at>)
+	id 1u0Fbv-008Iud-HC; Thu, 03 Apr 2025 10:07:40 +0200
+From: Matthias Fend <matthias.fend@emfend.at>
+Subject: [PATCH 0/2] media: add Himax HM1246 image sensor
+Date: Thu, 03 Apr 2025 10:07:34 +0200
+Message-Id: <20250403-hm1246-v1-0-30990d71bc42@emfend.at>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250310-uvc-eaccess-v6-1-bf4562f7cabd@chromium.org> <332fce27-8a11-4c70-9753-1da968c3e45a@xs4all.nl>
-In-Reply-To: <332fce27-8a11-4c70-9753-1da968c3e45a@xs4all.nl>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 3 Apr 2025 09:59:08 +0200
-X-Gmail-Original-Message-ID: <CANiDSCsGH5SM-odxUbGnT0pOKvX+J2tsSqF_7ightF_TqwHJ_g@mail.gmail.com>
-X-Gm-Features: AQ5f1Jpx5ERt4Z14SS3nIQREy9ENmA-oiCBv2P2PlFS77sONYcyvizK2h_rSXpY
-Message-ID: <CANiDSCsGH5SM-odxUbGnT0pOKvX+J2tsSqF_7ightF_TqwHJ_g@mail.gmail.com>
-Subject: Re: [PATCH v6] media: uvcvideo: Set V4L2_CTRL_FLAG_DISABLED during
- queryctrl errors
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hdegoede@redhat.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAMZB7mcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDEwNj3YxcQyMTM11LsySD5JTEJHNz42QloOKCotS0zAqwQdGxtbUAOCp
+ m/FgAAAA=
+X-Change-ID: 20250403-hm1246-96b0cdab773c
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Matthias Fend <matthias.fend@emfend.at>, 
+ bsp-development.geo@leica-geosystems.com
+X-Mailer: b4 0.14.2
+X-Spam-Score: 
+X-Spam-Bar: 
+X-Spam-Report: 
 
-On Thu, 3 Apr 2025 at 09:01, Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> On 10/03/2025 14:21, Ricardo Ribalda wrote:
-> > To implement VIDIOC_QUERYCTRL, we need to know the minimum, maximum,
-> > step and flags of the control. For some of the controls, this involves
-> > querying the actual hardware.
-> >
-> > Some non-compliant cameras produce errors when we query them. These
-> > error can be triggered every time, sometimes, or when other controls do
-> > not have the "right value". Right now, we populate that error to userspace.
-> > When an error happens, the v4l2 framework does not copy the v4l2_queryctrl
-> > struct to userspace. Also, userspace apps are not ready to handle any
-> > other error than -EINVAL.
-> >
-> > One of the main usecases of VIDIOC_QUERYCTRL is enumerating the controls
-> > of a device. This is done using the V4L2_CTRL_FLAG_NEXT_CTRL flag. In
-> > that usecase, a non-compliant control will make it almost impossible to
-> > enumerate all controls of the device.
-> >
-> > A control with an invalid max/min/step/flags is better than non being
-> > able to enumerate the rest of the controls.
-> >
-> > This patch:
-> > - Retries for an extra attempt to read the control, to avoid spurious
-> >   errors. More attempts do not seem to produce better results in the
-> >   tested hardware.
-> > - Makes VIDIOC_QUERYCTRL return 0 in all the error cases different than
-> >   -EINVAL.
-> > - Introduces a warning in dmesg so we can have a trace of what has happened
-> >   and sets the V4L2_CTRL_FLAG_DISABLED.
-> > - Makes sure we keep returning V4L2_CTRL_FLAG_DISABLED for all the next
-> >   attempts to query that control (other operations have the same
-> >   functionality as now).
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> > Hi 2*Hans and Laurent!
-> >
-> > I came around a device that was listing just a couple of controls when
-> > it should be listing much more.
-> >
-> > Some debugging latter I found that the device was returning -EIO when
-> > all the focal controls were read.
-> >
-> > Lots of good arguments in favor/against this patch in the v1. Please
-> > check!
-> >
-> > Without this patch:
-> > $ v4l2-ctl --list-ctrls
-> >                   auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
-> >          exposure_time_absolute 0x009a0902 (int)    : min=50 max=10000 step=1 default=166 value=166 flags=inactive
-> >      exposure_dynamic_framerate 0x009a0903 (bool)   : default=0 value=0
-> > region_of_interest_auto_control 0x009a1902 (bitmask): max=0x00000001 default=0x00000001 value=1
-> >
-> > With this patch:
-> > $ v4l2-ctl --list-ctrls
-> >                   auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
-> >          exposure_time_absolute 0x009a0902 (int)    : min=50 max=10000 step=1 default=166 value=166 flags=inactive
-> >      exposure_dynamic_framerate 0x009a0903 (bool)   : default=0 value=0
-> > error 5 getting ext_ctrl Focus, Absolute
-> > error 5 getting ext_ctrl Focus, Automatic Continuous
-> >    region_of_interest_rectangle 0x009a1901 (unknown): type=107 value=unsupported payload type flags=has-payload
-> > region_of_interest_auto_control 0x009a1902 (bitmask): max=0x00000001 default=0x00000001 value=1
->
-> This output still refers to the result from the v1 patch (I think).
-> Can you redo this test with this v6 applied? You probably want to update these
-> comments anyway.
+Hello,
 
-I do not have access to the broken device right now. But I will fake a
--EIO error.
+this series adds support for the Himax HM1246 image sensor.
+The Himax HM1246-AWD is a 1/3.7-Inch CMOS image sensor SoC with an active
+array size of 1296 x 976. The datasheet can b
+Currently, only the native RAW mode is supported. Other modes and the
+internal image signal processing pipeline are not currently supported.
+The data sheet is available on the manufacturer’s website [1].
+Tested on i.MX8MP hardware. A Toshiba TC358746 bridge was used to convert
+the sensor's parallel video output into MIPI signals for the i.MX8MP.
 
->
-> > --
-> > ---
-> > Changes in v6:
-> > - Keep returning V4L2_CTRL_FLAG_DISABLED in future control queries.
-> > - Link to v5: https://lore.kernel.org/r/20250224-uvc-eaccess-v5-1-690d73bcef28@chromium.org
-> >
-> > Changes in v5:
-> > - Explain the retry in the commit message (Thanks Laurent).
-> > - Link to v4: https://lore.kernel.org/r/20250111-uvc-eaccess-v4-1-c7759bfd1bd4@chromium.org
-> >
-> > Changes in v4:
-> > - Display control name (Thanks Hans)
-> > - Link to v3: https://lore.kernel.org/r/20250107-uvc-eaccess-v3-1-99f3335d5133@chromium.org
-> >
-> > Changes in v3:
-> > - Add a retry mechanism during error.
-> > - Set V4L2_CTRL_FLAG_DISABLED flag.
-> > - Link to v2: https://lore.kernel.org/r/20241219-uvc-eaccess-v2-1-bf6520c8b86d@chromium.org
-> >
-> > Changes in v2:
-> > - Never return error, even if we are not enumerating the controls
-> > - Improve commit message.
-> > - Link to v1: https://lore.kernel.org/r/20241213-uvc-eaccess-v1-1-62e0b4fcc634@chromium.org
-> > ---
-> >  drivers/media/usb/uvc/uvc_ctrl.c | 46 +++++++++++++++++++++++++++++++++-------
-> >  drivers/media/usb/uvc/uvcvideo.h |  2 ++
-> >  2 files changed, 40 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > index 4e58476d305efddac331417feda8cb064e340a13..4b282ac714220b26581fe468d9ecb1109a28483f 100644
-> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > @@ -1280,6 +1280,8 @@ static u32 uvc_get_ctrl_bitmap(struct uvc_control *ctrl,
-> >       return ~0;
-> >  }
-> >
-> > +#define MAX_QUERY_RETRIES 2
->
-> As you mentioned in the commit log, trying more times didn't make a difference.
-> Add that as a comment here as well, it is good to have that documented in the code.
->
-> > +
-> >  static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
-> >       struct uvc_control *ctrl,
-> >       struct uvc_control_mapping *mapping,
-> > @@ -1305,19 +1307,44 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
-> >               __uvc_find_control(ctrl->entity, mapping->master_id,
-> >                                  &master_map, &master_ctrl, 0);
-> >       if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
-> > +             unsigned int retries;
-> >               s32 val;
-> > -             int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
-> > -             if (ret < 0)
-> > -                     return ret;
-> > +             int ret;
-> >
-> > -             if (val != mapping->master_manual)
-> > -                             v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
-> > +             for (retries = 0; retries < MAX_QUERY_RETRIES; retries++) {
-> > +                     ret = __uvc_ctrl_get(chain, master_ctrl, master_map,
-> > +                                          &val);
-> > +                     if (ret >= 0)
-> > +                             break;
->
-> This retries regardless of the error code. Isn't a retry only needed for -EIO?
-> Are there other error codes that need a retry? Or, perhaps easier, are there
-> errors codes for which a retry is *not* appropriate? E.g. -EACCESS, -ERANGE.
+Best regards
+ ~Matthias
+ 
+[1] https://www.himax.com.tw/wp-content/uploads/2024/03/HM1246-AWD_DS_v01.pdf
 
-So far I have only seen -EIO, so i will start with -EIO, if we see
-other behaviour we can fix this later.
+v4l2-compliance 1.28.1, 64 bits, 64-bit time_t
 
+Compliance test for device /dev/v4l-subdev4:
 
->
-> > +             }
-> > +
-> > +             if (ret < 0) {
-> > +                     dev_warn_ratelimited(&chain->dev->udev->dev,
-> > +                                          "UVC non compliance: Error %d querying master control %x (%s)\n",
-> > +                                          ret, master_map->id,
-> > +                                          uvc_map_get_name(master_map));
->
-> Shouldn't you mark this control as disabled and return here instead of
-> continuing?
+Driver Info:
+        Driver version   : 6.12.0
+        Capabilities     : 0x00000000
+        Client Capabilities: 0x0000000000000003
+streams interval-uses-which
+Required ioctls:
+        test VIDIOC_SUDBEV_QUERYCAP: OK
+        test invalid ioctls: OK
 
-Do you mean marking as disabled the master control or the actual control?
+Allow for multiple opens:
+        test second /dev/v4l-subdev4 open: OK
+        test VIDIOC_SUBDEV_QUERYCAP: OK
+        test for unlimited opens: OK
 
-I think there might be cases where the master control is "disabled",
-but the actual control works.
-Semantically could be similar to cameras that do not have the
-master_control, and we support that usecase today.
+Debug ioctls:
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
 
-I am marking the master_map as disabled.
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
 
->
-> > +             } else if (val != mapping->master_manual) {
-> > +                     v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
-> > +             }
-> >       }
-> >
-> >       if (!ctrl->cached) {
-> > -             int ret = uvc_ctrl_populate_cache(chain, ctrl);
-> > -             if (ret < 0)
-> > -                     return ret;
-> > +             unsigned int retries;
-> > +             int ret;
-> > +
-> > +             for (retries = 0; retries < MAX_QUERY_RETRIES; retries++) {
-> > +                     ret = uvc_ctrl_populate_cache(chain, ctrl);
-> > +                     if (ret >= 0)
-> > +                             break;
->
-> Same question about the error code as above.
->
-> > +             }
-> > +
-> > +             if (ret < 0) {
-> > +                     dev_warn_ratelimited(&chain->dev->udev->dev,
-> > +                                          "UVC non compliance: permanently disabling control %x (%s), due to error %d\n",
-> > +                                          mapping->id,
-> > +                                          uvc_map_get_name(mapping), ret);
-> > +                     mapping->disabled = true;
-> > +             }
-> >       }
-> >
-> >       if (ctrl->info.flags & UVC_CTRL_FLAG_GET_DEF) {
-> > @@ -1325,6 +1352,9 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
-> >                               uvc_ctrl_data(ctrl, UVC_CTRL_DATA_DEF));
-> >       }
-> >
-> > +     if (mapping->disabled)
-> > +             v4l2_ctrl->flags |= V4L2_CTRL_FLAG_DISABLED;
-> > +
-> >       switch (mapping->v4l2_type) {
-> >       case V4L2_CTRL_TYPE_MENU:
-> >               v4l2_ctrl->minimum = ffs(mapping->menu_mask) - 1;
-> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > index 5e388f05f3fcaf0e4c503a34745d05837ecb0184..63687d7e97738a50d037b1f456f5215241909c13 100644
-> > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > @@ -129,6 +129,8 @@ struct uvc_control_mapping {
-> >       s32 master_manual;
-> >       u32 slave_ids[2];
-> >
-> > +     bool disabled;
-> > +
-> >       const struct uvc_control_mapping *(*filter_mapping)
-> >                               (struct uvc_video_chain *chain,
-> >                               struct uvc_control *ctrl);
-> >
-> > ---
-> > base-commit: c2b96a6818159fba8a3bcc38262da9e77f9b3ec7
-> > change-id: 20241213-uvc-eaccess-755cc061a360
-> >
-> > Best regards,
->
-> Regards,
->
->         Hans
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
 
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
 
-Thanks :)
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 15 Private Controls: 0
 
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK (Not Supported)
+        test VIDIOC_TRY_FMT: OK (Not Supported)
+        test VIDIOC_S_FMT: OK (Not Supported)
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
 
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_REMOVE_BUFS: OK
+        test VIDIOC_EXPBUF: OK (Not Supported)
+        test Requests: OK (Not Supported)
+
+Total for device /dev/v4l-subdev4: 45, Succeeded: 45, Failed: 0, Warnings: 0
+
+Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
+---
+Matthias Fend (2):
+      media: dt-bindings: i2c: add Himax HM1246 image sensor
+      media: i2c: add Himax HM1246 image sensor driver
+
+ .../bindings/media/i2c/himax,hm1246.yaml           |  111 ++
+ MAINTAINERS                                        |    8 +
+ drivers/media/i2c/Kconfig                          |    9 +
+ drivers/media/i2c/Makefile                         |    1 +
+ drivers/media/i2c/hm1246.c                         | 1417 ++++++++++++++++++++
+ 5 files changed, 1546 insertions(+)
+---
+base-commit: a2cc6ff5ec8f91bc463fd3b0c26b61166a07eb11
+change-id: 20250403-hm1246-96b0cdab773c
+
+Best regards,
 -- 
-Ricardo Ribalda
+Matthias Fend <matthias.fend@emfend.at>
+
 
