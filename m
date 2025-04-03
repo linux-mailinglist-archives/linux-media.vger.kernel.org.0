@@ -1,161 +1,161 @@
-Return-Path: <linux-media+bounces-29338-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29339-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02204A7A850
-	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 18:59:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0A87A7ACAA
+	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 21:47:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 91880177934
-	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 16:58:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 93F2F188F723
+	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 19:42:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 186DD251781;
-	Thu,  3 Apr 2025 16:58:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AAE127EC6E;
+	Thu,  3 Apr 2025 19:07:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WNU+qUAW"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gZu8bJG1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DFF02512FC
-	for <linux-media@vger.kernel.org>; Thu,  3 Apr 2025 16:58:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B820E2586F6;
+	Thu,  3 Apr 2025 19:07:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743699518; cv=none; b=P37Rzdi6eEZOABRl0nNYoELJsJxI43Llhcl+ePvCpNWAeym7UpOxOQtaN/cwiKR3a6q/F44VkSMlTu3Byu8Kkf+yv+O9IkRXp39FhR5qGYW9RwObtNpSQjns+3zEdiAMSaswK18CbdjrQPnDpCpOlzvs4O+sA99ScVkfUXnYiEE=
+	t=1743707278; cv=none; b=HSKvlb8Eo+nrznxhiYoYUyX8M9SAi7xc50KCSNsckgECSlUWBQ88PyG2FQ5OqEtf0Zn0SwcsoUt8DE1BW6hbyXwCH5Z7ekJMuzM7rONGmC4/qfEfr7N3uTw0Cet4+w/r2y5j8qAxHU4KQjrAma7X0ZVrvzCZgyMGWd018j28mJk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743699518; c=relaxed/simple;
-	bh=0NqP9DX0HIFTHJ5NTqQ8NX8tz7pAXi+EU0H/s3W11A8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RPeaM27n+MtwEMHTAF/L7PapbnpBx723vxbOPcq6Isi4eQg6cJa1wvuQNJktpZlJpaJon5UrpwVcuMnSwyg+oJGbzB8BBnBinSWybMdy9biKUa2/r9szmHqHN5/zVr0AGYghHpCHS3BB3SlQ5vI4N3Zm8Xe8NtxCsad2HMz92yY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WNU+qUAW; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 533FV74W020962
-	for <linux-media@vger.kernel.org>; Thu, 3 Apr 2025 16:58:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=2dgaYl8vSEyVZKfiY5f6DaHX
-	ABEmfyq9Tw+8HuhnSmA=; b=WNU+qUAWNmje9omgjXxYfLmJQw/XEVK54lJ5+htd
-	TLOmOcIDoOmVxS3SgmBPWSw3mTm8NEerfMeAQtSzfQrnVjX/DNYOcy4JxTrP2x4l
-	8EDKsBLLbpWUH1dY/yQr+lC/acpEfWIl8rT52C0cSnMFsb1iWyM8R8viDwwcVs3j
-	9g8jDIRNCZ/9ZK1Hemo7Ogr8PQKFrDHinY/ovo8cIxrxu+76goS7IukHc05YZikW
-	9M4PeeISRA3FNt68j6rncXGnyz4pmsbnc8w+aycMuX8vjJBjvyhpMC9C0ibHHpeh
-	vgNXAyJFinY2jg/lDquunC09vi1zp77HBrBSTObvm1Ed4g==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45rxapwa6d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 03 Apr 2025 16:58:36 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7c5f7210995so227288285a.1
-        for <linux-media@vger.kernel.org>; Thu, 03 Apr 2025 09:58:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743699515; x=1744304315;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2dgaYl8vSEyVZKfiY5f6DaHXABEmfyq9Tw+8HuhnSmA=;
-        b=lIVTLoGaVizIsjGMzJI9p3HTY7XrGgl5i/J5CLLKdH/GNxwf5yDtNJwYaM13503mA8
-         h2wnsJvBDvjCs+6mrRwrj4vhs2AweXCihDRKMJv4pL+EpKb+VRjV0O6oPo22YSU843vH
-         cSGfzMDQ/sYwLKfBVzlIzxS3c7h6SX7rYVU9KYV8z+FIf0cajtwGczpgFn0BBAzFxHpS
-         /oJ4lutN102HhmWV0m/ZJBEUfCfXiBLDHeFNNXLKF0/uG6FmU2m+wdUbE7aFTwfnZBO3
-         wuDHfv6Fs9H+qw5zQhcnVXFccrBm2cLmzMpnT0Zlm1JrROF+CreZrLsjR/eSssewJ046
-         wM3A==
-X-Forwarded-Encrypted: i=1; AJvYcCVq8F7tRrxSCsZO92NNpO93saNBLM3jcd0timVUeEUYwMYn67OLcL9FwYQ6+H2eEqS6MqOmzhgCzfokYA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHzlxS07T1btOocPy6pY91gLDHv3GXMq36TR3LJl8pQhanj7D4
-	PvEW30TFaxNvwFOkepHMEFYAvTX9/ORPWyXysKct1GxLTZD6OLfEOHY1JJvjMrDTp0JxaXbr8dv
-	1EhT1o7d3sBjwqqoNEY1jFCc/MvBFiZaMSvOVP9bOeRH1hMt6Q2wJOO6rBH9B9w==
-X-Gm-Gg: ASbGncvxSiwoFa7wjOOE00cFvM52e5gKwdoIezozyX3KCtrXdk+tvQUSWCp5d/S9G7E
-	qRKGOYZZxOh3SXHEjFDs0R+9wS4dAa+P/15k5R9vjSxPxzYQLzMzMEgOZAcCtD+miN+2ieFCaT+
-	0+TmuF9O2RoWBuQRZN55lS5aQqqsv8wLCUnE2WhS9QF8l7dCi5lR1Bg5ugSM/948EWXs84lBT9R
-	C6TZvCjQXMmrqF/Blj3HsswEI3NpO11HVlscHz7Dxw4usEGjx8zUi41jJ7Kybb4xHJG4UE6HGeu
-	A5NbdTfboyzjlDO4F185vGtl8fH3QwSPKyYtfAFXh1ypZyPIGXyDhLQHj3FgFPRVQl1f1DdYDyt
-	lAVQ=
-X-Received: by 2002:a05:620a:bc9:b0:7c0:a9ee:e6c1 with SMTP id af79cd13be357-7c76c97dd00mr614497885a.7.1743699514701;
-        Thu, 03 Apr 2025 09:58:34 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG0uBZIG3jHzySQ8GZoSAjqLW25E9Q0leBX85z1dcbzKDboOpsSrNL7fP8dDkKIc7LiUKdHBw==
-X-Received: by 2002:a05:620a:bc9:b0:7c0:a9ee:e6c1 with SMTP id af79cd13be357-7c76c97dd00mr614494685a.7.1743699514351;
-        Thu, 03 Apr 2025 09:58:34 -0700 (PDT)
-Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54c1e635c25sm204051e87.115.2025.04.03.09.58.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Apr 2025 09:58:32 -0700 (PDT)
-Date: Thu, 3 Apr 2025 19:58:30 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Vikash Garodia <quic_vgarodia@quicinc.com>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Johan Hovold <johan+linaro@kernel.org>
-Subject: Re: [PATCH 0/8] Reup: SM8350 and SC8280XP venus support
-Message-ID: <it3njgklhnedjzojafuxpjy3o5zfulgdclweyobv7kjgtpjmzx@6opje7yms4yg>
-References: <20250304-b4-linux-media-comitters-sc8280xp-venus-v1-0-279c7ea55493@linaro.org>
- <8cfaeb25-2657-9df4-5cea-018aad62f579@quicinc.com>
+	s=arc-20240116; t=1743707278; c=relaxed/simple;
+	bh=VTL6kwicHLjBdwQujCV+DK1vWwhdgxmpdH1NQF6da1E=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=W3lgPxMXAxOa+MswNlE5V/uq99tHwjMdlyEak2ZnJI/esTn796JVU/Aqo4btZSLTCBESAQ46GLOmCnSg8GBVTFwxN/dH9OMsOByrxY37BI+QRah+ONl3LliIuoNFePl8zZaWC8varCxNu4J/g1uINM/21BZfTogYfo3k8EIjGkY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gZu8bJG1; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1743707273;
+	bh=VTL6kwicHLjBdwQujCV+DK1vWwhdgxmpdH1NQF6da1E=;
+	h=From:Date:Subject:To:Cc:From;
+	b=gZu8bJG15cTU399eLCzOpANebfp7k9ztWQups7U5IhmjYheShf76XMC8sHDE67VPM
+	 TD8HEa4KNldWr9R/wUlifxmA5BiItb73thWPoLs+0ShcugHohou5vKcYnRTTr8RgnE
+	 JCeJVJ0ol+2g7IQjR/ZoTOqUGC6QBtoCUeM+FsY9xuIPdYlrhmn+KEEIum8b3bq2Hz
+	 8puGRaNDKz4J7NuJPUlZyxrZYnkWz1fVgXMpFj/ueYPkjepOM4w9mMohpaVySyW67e
+	 PEVe6HtkLlBu7DekNVpmH71NgREqFw3Y3IFOEQ2NpMbUHD+0L/j2uPAu8/IUNlWnz3
+	 qUuzRgZ4vyTAw==
+Received: from [192.168.13.180] (unknown [IPv6:2606:6d00:11:e976::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9888417E0865;
+	Thu,  3 Apr 2025 21:07:52 +0200 (CEST)
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Date: Thu, 03 Apr 2025 15:07:41 -0400
+Subject: [PATCH] media: verisilicon: Enable wide 4K in AV1 decoder
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8cfaeb25-2657-9df4-5cea-018aad62f579@quicinc.com>
-X-Authority-Analysis: v=2.4 cv=Vbj3PEp9 c=1 sm=1 tr=0 ts=67eebe3c cx=c_pps a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=ICs8RiL17kISZ0AAbrgA:9 a=CjuIK1q_8ugA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: pqV745ILZfVum1sk2lIYg4qbUIJdPNd0
-X-Proofpoint-GUID: pqV745ILZfVum1sk2lIYg4qbUIJdPNd0
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-03_07,2025-04-03_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
- suspectscore=0 clxscore=1015 mlxscore=0 phishscore=0 bulkscore=0
- priorityscore=1501 spamscore=0 lowpriorityscore=0 mlxlogscore=994
- impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504030085
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250403-hantro-av1-wuhd-v1-1-334629cb7f63@collabora.com>
+X-B4-Tracking: v=1; b=H4sIAHzc7mcC/x2MQQqAIBAAvxJ7bsG1vPSV6GC55V40tCyI/p50n
+ IGZBzIn4QxD80DiIlliqEBtA4u3YWMUVxm00kb1qsMqjxTRFsLr9A6JWC+rmZlsD7XaE69y/8d
+ xet8PtfnTcmEAAAA=
+X-Change-ID: 20250403-hantro-av1-wuhd-11e2cf5be1a4
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Heiko Stuebner <heiko@sntech.de>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ kernel@collabora.com, Nicolas Dufresne <nicolas.dufresne@collabora.com>
+X-Mailer: b4 0.14.2
 
-On Wed, Mar 05, 2025 at 08:49:37AM +0530, Vikash Garodia wrote:
-> 
-> On 3/4/2025 6:37 PM, Bryan O'Donoghue wrote:
-> > This series is a re-up of Konrad's original venus series for sc8280xp and
-> > sm8350.Why this is enabled on venus driver ? Why not iris driver ? This needs an
-> explanation on was this even tried to bring up on iris driver.
-> 
-> How different is this from sm8250 which is already enabled on iris driver ?
+Tested on RK3588, this decoder is capable of handling WUHD, so bump the
+maximum width and height accordingly.
 
-As far as I remember, SM8250 support in Iris did not reach
-feature-parity yet. So in my opinion it is fine to add new platforms to
-the Venus driver, that will later migrate to the Iris driver.
+Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+---
+ drivers/media/platform/verisilicon/rockchip_vpu_hw.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-Otherwise users of SC8280XP either have to use external patchsets (like
-this one) or a non-full-featured driver (and still possibly external
-patchsets, I didn't check if these two platforms can use
-qcom,sm8250-venus as a fallback compat string).
+diff --git a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
+index 964122e7c355934cd80eb442219f6ba51bba8b71..b64f0658f7f1e77b3efd960b35cd54dec4edf4ef 100644
+--- a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
++++ b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
+@@ -85,10 +85,10 @@ static const struct hantro_fmt rockchip_vpu981_postproc_fmts[] = {
+ 		.postprocessed = true,
+ 		.frmsize = {
+ 			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
+-			.max_width = FMT_UHD_WIDTH,
++			.max_width = FMT_4K_WIDTH,
+ 			.step_width = MB_DIM,
+ 			.min_height = ROCKCHIP_VPU981_MIN_SIZE,
+-			.max_height = FMT_UHD_HEIGHT,
++			.max_height = FMT_4K_HEIGHT,
+ 			.step_height = MB_DIM,
+ 		},
+ 	},
+@@ -99,10 +99,10 @@ static const struct hantro_fmt rockchip_vpu981_postproc_fmts[] = {
+ 		.postprocessed = true,
+ 		.frmsize = {
+ 			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
+-			.max_width = FMT_UHD_WIDTH,
++			.max_width = FMT_4K_WIDTH,
+ 			.step_width = MB_DIM,
+ 			.min_height = ROCKCHIP_VPU981_MIN_SIZE,
+-			.max_height = FMT_UHD_HEIGHT,
++			.max_height = FMT_4K_HEIGHT,
+ 			.step_height = MB_DIM,
+ 		},
+ 	},
+@@ -318,10 +318,10 @@ static const struct hantro_fmt rockchip_vpu981_dec_fmts[] = {
+ 		.match_depth = true,
+ 		.frmsize = {
+ 			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
+-			.max_width = FMT_UHD_WIDTH,
++			.max_width = FMT_4K_WIDTH,
+ 			.step_width = MB_DIM,
+ 			.min_height = ROCKCHIP_VPU981_MIN_SIZE,
+-			.max_height = FMT_UHD_HEIGHT,
++			.max_height = FMT_4K_HEIGHT,
+ 			.step_height = MB_DIM,
+ 		},
+ 	},
+@@ -331,10 +331,10 @@ static const struct hantro_fmt rockchip_vpu981_dec_fmts[] = {
+ 		.match_depth = true,
+ 		.frmsize = {
+ 			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
+-			.max_width = FMT_UHD_WIDTH,
++			.max_width = FMT_4K_WIDTH,
+ 			.step_width = MB_DIM,
+ 			.min_height = ROCKCHIP_VPU981_MIN_SIZE,
+-			.max_height = FMT_UHD_HEIGHT,
++			.max_height = FMT_4K_HEIGHT,
+ 			.step_height = MB_DIM,
+ 		},
+ 	},
+@@ -344,10 +344,10 @@ static const struct hantro_fmt rockchip_vpu981_dec_fmts[] = {
+ 		.max_depth = 2,
+ 		.frmsize = {
+ 			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
+-			.max_width = FMT_UHD_WIDTH,
++			.max_width = FMT_4K_WIDTH,
+ 			.step_width = MB_DIM,
+ 			.min_height = ROCKCHIP_VPU981_MIN_SIZE,
+-			.max_height = FMT_UHD_HEIGHT,
++			.max_height = FMT_4K_HEIGHT,
+ 			.step_height = MB_DIM,
+ 		},
+ 	},
 
-Bryan, Konrad, in my opinion, let's get these patches merged :-)
+---
+base-commit: f2151613e040973c868d28c8b00885dfab69eb75
+change-id: 20250403-hantro-av1-wuhd-11e2cf5be1a4
 
-> 
-> > Link: https://lore.kernel.org/all/20230731-topic-8280_venus-v1-0-8c8bbe1983a5@linaro.org/
-> > 
-> > The main obstacle to merging that series at the time was the longstanding
-> > but invalid usage of "video-encoder" and "video-decoder" which is a
-> > driver level configuration option not a description of hardware.
-> > 
-> > Following on from that discussion a backwards compatible means of
-> > statically selecting transcoder mode was upstreamed
-> > 
-> > commit: 687bfbba5a1c ("media: venus: Add support for static video encoder/decoder declarations")
-> > 
-> > Reworking this series from Konrad to incorporate this simple change
-> > 
-
+Best regards,
 -- 
-With best wishes
-Dmitry
+Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
 
