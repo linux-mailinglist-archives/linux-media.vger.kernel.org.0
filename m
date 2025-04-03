@@ -1,36 +1,48 @@
-Return-Path: <linux-media+bounces-29295-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29296-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D410A79DBA
-	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 10:12:25 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C756A79DC9
+	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 10:15:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 384E5188B56A
-	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 08:12:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5FF207A6642
+	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 08:14:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 169E5241698;
-	Thu,  3 Apr 2025 08:12:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE171242906;
+	Thu,  3 Apr 2025 08:15:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uSuzEmO7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0F3D54F81;
-	Thu,  3 Apr 2025 08:12:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84687241CBA;
+	Thu,  3 Apr 2025 08:15:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743667927; cv=none; b=SBaMqxJYdHaUiofliBPDYbI0JhgZFnfCqQcI9gsTbp/3Hc0+w+lASQ/se83AjoGgOAVx8sLHusUc5QLW5MXyUbyrJVaREEPLgIWIC6Iy52hFZ4HAfixX+Qs/nvwoR3bZvbu9KkQ0PkOBUeOt1y5+yrh3hR5VlLhvJmQM7KHISR4=
+	t=1743668111; cv=none; b=s/d7mpd6j9VX70FaZXjhxuqgnRGMVX6xTMofDErBTcQdV+IPH1uw1o87fv+ui101a/EXmookllNyyuevxfQ1apKTMZdzlOsJjgvUdyyr2vBMSbJdDJH8jDoWh39lktUJwHZvpYIQSqME86K5LZhwQ16ttsSlQpEnpFrQH4G7w1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743667927; c=relaxed/simple;
-	bh=zrYfpIjd8JTAG6oottBPiC/P6tTJkEQcV7sSBtjBeZk=;
+	s=arc-20240116; t=1743668111; c=relaxed/simple;
+	bh=ICN54ZvU91J/SfI9DgZT4PwZfQ2vgRqWzhU29u8932M=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KYxiLNmZLfCWTO/OHSxYP6eRsTEb2LPcBjbdgupx2x9Nqjf2zdm9OLepDokaLCchxHFijAfGwphYP5vSJWyyUp686F6e32XtcKz89CUrBn56R+zK6LOTPOt+1Y3gbErJWXKAZVDc7W7V9zKXXVsX6CHig7tq2OG1A9D2/nsKkG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C2CEC4CEEB;
-	Thu,  3 Apr 2025 08:12:05 +0000 (UTC)
-Message-ID: <003d5c4d-d277-4555-82aa-0d21dce64577@xs4all.nl>
-Date: Thu, 3 Apr 2025 10:12:03 +0200
+	 In-Reply-To:Content-Type; b=qxgHmJgfn7Hx2DZGb/GKOrkSEhhgHqWsQmq76DNBk4NdMq27a8JzPIcU2nH/9jsJ/1Q4LmOMmrBa8J/zZbfVCLNFxSjFm8I+FNgLmfBLH4arEWBX36/2uOd/0AshWdwITPgW337AnQ3J4ZNlhq4YrZfOPq4NnEbWiD3An09CdUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uSuzEmO7; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2647F105D;
+	Thu,  3 Apr 2025 10:13:14 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1743667994;
+	bh=ICN54ZvU91J/SfI9DgZT4PwZfQ2vgRqWzhU29u8932M=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=uSuzEmO7E/+sntwX5cwD2gORtgdy66VZcNtMOfX9LWE66vxOk4aAzVw5wGtvQg4Tv
+	 EofNXBRVR/Xyx2vNv0bz4S3AWjQYvX1i4dFuS4u4LuGHlwU9EXJHc05Hc9Uy7xwmxv
+	 aGnjj9qIKylkHDXXrup/JOPbEZRqayDVz2pITxQY=
+Message-ID: <5ebccf6a-3860-4643-9f92-735163552b7e@ideasonboard.com>
+Date: Thu, 3 Apr 2025 11:15:04 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,308 +50,124 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6] media: uvcvideo: Set V4L2_CTRL_FLAG_DISABLED during
- queryctrl errors
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Hans de Goede <hdegoede@redhat.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250310-uvc-eaccess-v6-1-bf4562f7cabd@chromium.org>
- <332fce27-8a11-4c70-9753-1da968c3e45a@xs4all.nl>
- <CANiDSCsGH5SM-odxUbGnT0pOKvX+J2tsSqF_7ightF_TqwHJ_g@mail.gmail.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <CANiDSCsGH5SM-odxUbGnT0pOKvX+J2tsSqF_7ightF_TqwHJ_g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [PATCH 3/3] media: rcar-vin: Fix RAW10
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+References: <20250324-rcar-fix-raw-v1-0-ae56c1c7a2f6@ideasonboard.com>
+ <20250324-rcar-fix-raw-v1-3-ae56c1c7a2f6@ideasonboard.com>
+ <20250331211122.GA1240431@ragnatech.se>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+In-Reply-To: <20250331211122.GA1240431@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 03/04/2025 09:59, Ricardo Ribalda wrote:
-> On Thu, 3 Apr 2025 at 09:01, Hans Verkuil <hverkuil@xs4all.nl> wrote:
->>
->> On 10/03/2025 14:21, Ricardo Ribalda wrote:
->>> To implement VIDIOC_QUERYCTRL, we need to know the minimum, maximum,
->>> step and flags of the control. For some of the controls, this involves
->>> querying the actual hardware.
->>>
->>> Some non-compliant cameras produce errors when we query them. These
->>> error can be triggered every time, sometimes, or when other controls do
->>> not have the "right value". Right now, we populate that error to userspace.
->>> When an error happens, the v4l2 framework does not copy the v4l2_queryctrl
->>> struct to userspace. Also, userspace apps are not ready to handle any
->>> other error than -EINVAL.
->>>
->>> One of the main usecases of VIDIOC_QUERYCTRL is enumerating the controls
->>> of a device. This is done using the V4L2_CTRL_FLAG_NEXT_CTRL flag. In
->>> that usecase, a non-compliant control will make it almost impossible to
->>> enumerate all controls of the device.
->>>
->>> A control with an invalid max/min/step/flags is better than non being
->>> able to enumerate the rest of the controls.
->>>
->>> This patch:
->>> - Retries for an extra attempt to read the control, to avoid spurious
->>>   errors. More attempts do not seem to produce better results in the
->>>   tested hardware.
->>> - Makes VIDIOC_QUERYCTRL return 0 in all the error cases different than
->>>   -EINVAL.
->>> - Introduces a warning in dmesg so we can have a trace of what has happened
->>>   and sets the V4L2_CTRL_FLAG_DISABLED.
->>> - Makes sure we keep returning V4L2_CTRL_FLAG_DISABLED for all the next
->>>   attempts to query that control (other operations have the same
->>>   functionality as now).
->>>
->>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->>> ---
->>> Hi 2*Hans and Laurent!
->>>
->>> I came around a device that was listing just a couple of controls when
->>> it should be listing much more.
->>>
->>> Some debugging latter I found that the device was returning -EIO when
->>> all the focal controls were read.
->>>
->>> Lots of good arguments in favor/against this patch in the v1. Please
->>> check!
->>>
->>> Without this patch:
->>> $ v4l2-ctl --list-ctrls
->>>                   auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
->>>          exposure_time_absolute 0x009a0902 (int)    : min=50 max=10000 step=1 default=166 value=166 flags=inactive
->>>      exposure_dynamic_framerate 0x009a0903 (bool)   : default=0 value=0
->>> region_of_interest_auto_control 0x009a1902 (bitmask): max=0x00000001 default=0x00000001 value=1
->>>
->>> With this patch:
->>> $ v4l2-ctl --list-ctrls
->>>                   auto_exposure 0x009a0901 (menu)   : min=0 max=3 default=3 value=3 (Aperture Priority Mode)
->>>          exposure_time_absolute 0x009a0902 (int)    : min=50 max=10000 step=1 default=166 value=166 flags=inactive
->>>      exposure_dynamic_framerate 0x009a0903 (bool)   : default=0 value=0
->>> error 5 getting ext_ctrl Focus, Absolute
->>> error 5 getting ext_ctrl Focus, Automatic Continuous
->>>    region_of_interest_rectangle 0x009a1901 (unknown): type=107 value=unsupported payload type flags=has-payload
->>> region_of_interest_auto_control 0x009a1902 (bitmask): max=0x00000001 default=0x00000001 value=1
->>
->> This output still refers to the result from the v1 patch (I think).
->> Can you redo this test with this v6 applied? You probably want to update these
->> comments anyway.
-> 
-> I do not have access to the broken device right now. But I will fake a
-> -EIO error.
-> 
->>
->>> --
->>> ---
->>> Changes in v6:
->>> - Keep returning V4L2_CTRL_FLAG_DISABLED in future control queries.
->>> - Link to v5: https://lore.kernel.org/r/20250224-uvc-eaccess-v5-1-690d73bcef28@chromium.org
->>>
->>> Changes in v5:
->>> - Explain the retry in the commit message (Thanks Laurent).
->>> - Link to v4: https://lore.kernel.org/r/20250111-uvc-eaccess-v4-1-c7759bfd1bd4@chromium.org
->>>
->>> Changes in v4:
->>> - Display control name (Thanks Hans)
->>> - Link to v3: https://lore.kernel.org/r/20250107-uvc-eaccess-v3-1-99f3335d5133@chromium.org
->>>
->>> Changes in v3:
->>> - Add a retry mechanism during error.
->>> - Set V4L2_CTRL_FLAG_DISABLED flag.
->>> - Link to v2: https://lore.kernel.org/r/20241219-uvc-eaccess-v2-1-bf6520c8b86d@chromium.org
->>>
->>> Changes in v2:
->>> - Never return error, even if we are not enumerating the controls
->>> - Improve commit message.
->>> - Link to v1: https://lore.kernel.org/r/20241213-uvc-eaccess-v1-1-62e0b4fcc634@chromium.org
->>> ---
->>>  drivers/media/usb/uvc/uvc_ctrl.c | 46 +++++++++++++++++++++++++++++++++-------
->>>  drivers/media/usb/uvc/uvcvideo.h |  2 ++
->>>  2 files changed, 40 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
->>> index 4e58476d305efddac331417feda8cb064e340a13..4b282ac714220b26581fe468d9ecb1109a28483f 100644
->>> --- a/drivers/media/usb/uvc/uvc_ctrl.c
->>> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
->>> @@ -1280,6 +1280,8 @@ static u32 uvc_get_ctrl_bitmap(struct uvc_control *ctrl,
->>>       return ~0;
->>>  }
->>>
->>> +#define MAX_QUERY_RETRIES 2
->>
->> As you mentioned in the commit log, trying more times didn't make a difference.
->> Add that as a comment here as well, it is good to have that documented in the code.
->>
->>> +
->>>  static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
->>>       struct uvc_control *ctrl,
->>>       struct uvc_control_mapping *mapping,
->>> @@ -1305,19 +1307,44 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
->>>               __uvc_find_control(ctrl->entity, mapping->master_id,
->>>                                  &master_map, &master_ctrl, 0);
->>>       if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
->>> +             unsigned int retries;
->>>               s32 val;
->>> -             int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
->>> -             if (ret < 0)
->>> -                     return ret;
->>> +             int ret;
->>>
->>> -             if (val != mapping->master_manual)
->>> -                             v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
->>> +             for (retries = 0; retries < MAX_QUERY_RETRIES; retries++) {
->>> +                     ret = __uvc_ctrl_get(chain, master_ctrl, master_map,
->>> +                                          &val);
->>> +                     if (ret >= 0)
->>> +                             break;
->>
->> This retries regardless of the error code. Isn't a retry only needed for -EIO?
->> Are there other error codes that need a retry? Or, perhaps easier, are there
->> errors codes for which a retry is *not* appropriate? E.g. -EACCESS, -ERANGE.
-> 
-> So far I have only seen -EIO, so i will start with -EIO, if we see
-> other behaviour we can fix this later.
-> 
-> 
->>
->>> +             }
->>> +
->>> +             if (ret < 0) {
->>> +                     dev_warn_ratelimited(&chain->dev->udev->dev,
->>> +                                          "UVC non compliance: Error %d querying master control %x (%s)\n",
->>> +                                          ret, master_map->id,
->>> +                                          uvc_map_get_name(master_map));
->>
->> Shouldn't you mark this control as disabled and return here instead of
->> continuing?
-> 
-> Do you mean marking as disabled the master control or the actual control?
-> 
-> I think there might be cases where the master control is "disabled",
-> but the actual control works.
-> Semantically could be similar to cameras that do not have the
-> master_control, and we support that usecase today.
-> 
-> I am marking the master_map as disabled.
+Hi,
 
-Ah, I missed that there are two different controls here. Just ignore
-my comment.
+On 01/04/2025 00:11, Niklas Söderlund wrote:
+> Hi Tomi,
+> 
+> Thanks for your work.
+> 
+> On 2025-03-24 13:48:54 +0200, Tomi Valkeinen wrote:
+>> Fix the following to get RAW10 formats working:
+>>
+>> In rvin_formats, the bpp is set to 4 for RAW10. As VIN unpacks RAW10 to
+>> 16-bit containers, the bpp should be 2.
+>>
+>> Don't set VNDMR_YC_THR to the VNDMR register. The YC_THR is "YC Data
+>> Through Mode", used for YUV formats and should not be set for RAW10.
+>>
+>> Fix the check related to the RGB666 format and CSI-2 mode. The
+>> VNMC_INF_RGB666 define is the same as used for RAW10 on Gen4, and RAW10
+>> is allowed on CSI-2 (whereas RGB666 is not allowed on Gen3 on CSI-2).
+>> This feels a bit hacky, though, and the formats should really have been
+>> verified already earlier.
+> 
+> I agree, it feels hacky. I would rather just remove the while switch
+> then try to "fix" it by extending it more. When testing this series I
+> needed a similar fix for VNMC_INF_RAW8 check below to get it to work on
+> Gen4.
 
-Regards,
+Why is that? What is VNMC_INF_RAW8 overlapping with?
 
-	Hans
+  Tomi
 
-> 
 >>
->>> +             } else if (val != mapping->master_manual) {
->>> +                     v4l2_ctrl->flags |= V4L2_CTRL_FLAG_INACTIVE;
->>> +             }
->>>       }
->>>
->>>       if (!ctrl->cached) {
->>> -             int ret = uvc_ctrl_populate_cache(chain, ctrl);
->>> -             if (ret < 0)
->>> -                     return ret;
->>> +             unsigned int retries;
->>> +             int ret;
->>> +
->>> +             for (retries = 0; retries < MAX_QUERY_RETRIES; retries++) {
->>> +                     ret = uvc_ctrl_populate_cache(chain, ctrl);
->>> +                     if (ret >= 0)
->>> +                             break;
+>> Fixes: 1b7e7240eaf3 ("media: rcar-vin: Add support for RAW10")
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
+>> ---
+>>   drivers/media/platform/renesas/rcar-vin/rcar-dma.c  | 9 +++++++--
+>>   drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c | 8 ++++----
+>>   2 files changed, 11 insertions(+), 6 deletions(-)
 >>
->> Same question about the error code as above.
+>> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+>> index 53046614f7a1..f8394be8a922 100644
+>> --- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+>> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+>> @@ -811,12 +811,17 @@ static int rvin_setup(struct rvin_dev *vin)
+>>   		case VNMC_INF_YUV8_BT656:
+>>   		case VNMC_INF_YUV10_BT656:
+>>   		case VNMC_INF_YUV16:
+>> -		case VNMC_INF_RGB666:
+>>   			if (vin->is_csi) {
+>>   				vin_err(vin, "Invalid setting in MIPI CSI2\n");
+>>   				return -EINVAL;
+>>   			}
+>>   			break;
+>> +		case VNMC_INF_RGB666:
+>> +			if (vin->info->model == RCAR_GEN3 && vin->is_csi) {
+>> +				vin_err(vin, "Invalid setting in MIPI CSI2\n");
+>> +				return -EINVAL;
+>> +			}
+>> +			break;
+>>   		case VNMC_INF_RAW8:
+>>   			if (!vin->is_csi) {
+>>   				vin_err(vin, "Invalid setting in Digital Pins\n");
+>> @@ -913,7 +918,7 @@ static int rvin_setup(struct rvin_dev *vin)
+>>   	case V4L2_PIX_FMT_SGBRG10:
+>>   	case V4L2_PIX_FMT_SGRBG10:
+>>   	case V4L2_PIX_FMT_SRGGB10:
+>> -		dmr = VNDMR_RMODE_RAW10 | VNDMR_YC_THR;
+>> +		dmr = VNDMR_RMODE_RAW10;
+>>   		break;
+>>   	default:
+>>   		vin_err(vin, "Invalid pixelformat (0x%x)\n",
+>> diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+>> index 756fdfdbce61..65da8d513b52 100644
+>> --- a/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+>> +++ b/drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c
+>> @@ -88,19 +88,19 @@ static const struct rvin_video_format rvin_formats[] = {
+>>   	},
+>>   	{
+>>   		.fourcc			= V4L2_PIX_FMT_SBGGR10,
+>> -		.bpp			= 4,
+>> +		.bpp			= 2,
+>>   	},
+>>   	{
+>>   		.fourcc			= V4L2_PIX_FMT_SGBRG10,
+>> -		.bpp			= 4,
+>> +		.bpp			= 2,
+>>   	},
+>>   	{
+>>   		.fourcc			= V4L2_PIX_FMT_SGRBG10,
+>> -		.bpp			= 4,
+>> +		.bpp			= 2,
+>>   	},
+>>   	{
+>>   		.fourcc			= V4L2_PIX_FMT_SRGGB10,
+>> -		.bpp			= 4,
+>> +		.bpp			= 2,
+>>   	},
+>>   };
+>>   
 >>
->>> +             }
->>> +
->>> +             if (ret < 0) {
->>> +                     dev_warn_ratelimited(&chain->dev->udev->dev,
->>> +                                          "UVC non compliance: permanently disabling control %x (%s), due to error %d\n",
->>> +                                          mapping->id,
->>> +                                          uvc_map_get_name(mapping), ret);
->>> +                     mapping->disabled = true;
->>> +             }
->>>       }
->>>
->>>       if (ctrl->info.flags & UVC_CTRL_FLAG_GET_DEF) {
->>> @@ -1325,6 +1352,9 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
->>>                               uvc_ctrl_data(ctrl, UVC_CTRL_DATA_DEF));
->>>       }
->>>
->>> +     if (mapping->disabled)
->>> +             v4l2_ctrl->flags |= V4L2_CTRL_FLAG_DISABLED;
->>> +
->>>       switch (mapping->v4l2_type) {
->>>       case V4L2_CTRL_TYPE_MENU:
->>>               v4l2_ctrl->minimum = ffs(mapping->menu_mask) - 1;
->>> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
->>> index 5e388f05f3fcaf0e4c503a34745d05837ecb0184..63687d7e97738a50d037b1f456f5215241909c13 100644
->>> --- a/drivers/media/usb/uvc/uvcvideo.h
->>> +++ b/drivers/media/usb/uvc/uvcvideo.h
->>> @@ -129,6 +129,8 @@ struct uvc_control_mapping {
->>>       s32 master_manual;
->>>       u32 slave_ids[2];
->>>
->>> +     bool disabled;
->>> +
->>>       const struct uvc_control_mapping *(*filter_mapping)
->>>                               (struct uvc_video_chain *chain,
->>>                               struct uvc_control *ctrl);
->>>
->>> ---
->>> base-commit: c2b96a6818159fba8a3bcc38262da9e77f9b3ec7
->>> change-id: 20241213-uvc-eaccess-755cc061a360
->>>
->>> Best regards,
+>> -- 
+>> 2.43.0
 >>
->> Regards,
->>
->>         Hans
-> 
-> 
-> Thanks :)
-> 
 > 
 
 
