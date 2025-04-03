@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-29293-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29294-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4494FA79DAB
-	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 10:10:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12FE0A79DB0
+	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 10:11:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 280193B1D1E
-	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 08:10:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F6D717490A
+	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 08:11:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C0A6241696;
-	Thu,  3 Apr 2025 08:10:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D779D241CA3;
+	Thu,  3 Apr 2025 08:10:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hs3KMu7F"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pMFe3lPK"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A171804A;
-	Thu,  3 Apr 2025 08:10:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92E252417C6;
+	Thu,  3 Apr 2025 08:10:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743667832; cv=none; b=jU9QSqid3M/tk3b4iHMugxrWQqmxtsVhLXnkl10t3jjU5ASHoWnLNoOuOuZMMUFc7+vrfOoihkrS9BexU9PxIY5S7Vh2ePv61LSPeMi6whSgXpgbpe70OMJid3Z4TZNccPsaEw06uoK5CJ/BViVXdkHhZtf6T8ejsY7uipp1tfA=
+	t=1743667849; cv=none; b=l0WnCriOLNGN+yqGyIzTuZiw/xEcJOD7Yp/0fLhGHp4fTe8AblGH1hptVPuLI6Za/VOhr6R/HEEyfBRi270orpXky3V1MkSNzF4B4eEmwpAOzFWUFj9nFV565jI+1T0X03XW3RLd3Y8IH1D925UXFQq9v/5w799a71eut798NOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743667832; c=relaxed/simple;
-	bh=q+1vSLaVvRARLvOZRBIkgsfUeAb9DxCbossusCpxjfc=;
+	s=arc-20240116; t=1743667849; c=relaxed/simple;
+	bh=z60w+DphelW0CgWaQAuT/XDrDt717S8oEiq1ECnyDDU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HPOSEzHZaqaensmFTOCZGbBSNmiZKzlly4UNmVe9fqzlydH7C3LRvi7m3x17On2E+u7BQPQh+bXGzbv7X9Pt54/QKttycMiXXgMcovu78TSbzEuIk/rgtLVtFIQH1gUoJGvWkQsK9JG2+UWuc/KE7w6eY2DX386FLzs1TvbviE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hs3KMu7F; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=cV6ZbOJZgW98tuqMqSG5OcUWiIFMuhiOctmq0lRn+VXhxRnOnhHE4r3W8udiSmOjKjzy83gKHE2AOHhChXdP9kvagEF80ckTCfdbUqYP0r52iBOPMiQiWh+UIr/owfQA4qb9bsBsCNOz6TrhwQ6mL4a7p2XO8Qx9OyCf/EW8tAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pMFe3lPK; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E11F105D;
-	Thu,  3 Apr 2025 10:08:34 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5F495105D;
+	Thu,  3 Apr 2025 10:08:52 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1743667714;
-	bh=q+1vSLaVvRARLvOZRBIkgsfUeAb9DxCbossusCpxjfc=;
+	s=mail; t=1743667732;
+	bh=z60w+DphelW0CgWaQAuT/XDrDt717S8oEiq1ECnyDDU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hs3KMu7Fo01ZSxlsvjLhCfOk68vJ9y6Xo4B/VIvOJIuwIXSjWA1mro/rmo4S46z0A
-	 Zvq6wze4xbJaLjq+dHYGZ2a3pNT9sA0kRJhcomiaF2jKQfGjz+qfZRKsl1EZMh5mMv
-	 b92ec4nw+5Iqs+JS/Qj7dBpIzkXW3SNxrcLdw9BA=
-Message-ID: <66918495-e6fd-4565-a344-edf786b5aba0@ideasonboard.com>
-Date: Thu, 3 Apr 2025 11:10:24 +0300
+	b=pMFe3lPKmAXw3xaS7eNDtfnT2B3K3ttnurscPXAKiomVks1WO3FDgXU6VmrCIZLKy
+	 eHfOlB0qlA4MLRoGzKFZ5Mc57XCJoRgYwQCGDgtS+YNqlcCvmGBuN6/4p8hxnf9f6+
+	 0QvQzQGpadmRMgIYdLBV3VbYUNVFVzIcmzmFfLdo=
+Message-ID: <e966c2df-330b-4897-a7e4-4e711bb809de@ideasonboard.com>
+Date: Thu, 3 Apr 2025 11:10:43 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,17 +50,12 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/1] media: raspberrypi: rp1-cfe: Remove (explicitly)
- unused header
+Subject: Re: [PATCH v1 1/1] media: i2c: ds90ub9x3: Remove (explicitly) unused
+ header
 To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-Cc: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Florian Fainelli <florian.fainelli@broadcom.com>,
- Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
-References: <20250331072136.3987653-1-andriy.shevchenko@linux.intel.com>
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20250331072507.3988372-1-andriy.shevchenko@linux.intel.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -106,13 +101,13 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20250331072136.3987653-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20250331072507.3988372-1-andriy.shevchenko@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 31/03/2025 10:21, Andy Shevchenko wrote:
+On 31/03/2025 10:25, Andy Shevchenko wrote:
 > The fwnode.h is not supposed to be used by the drivers as it
 > has the definitions for the core parts for different device
 > property provider implementations. Drop it.
@@ -122,21 +117,34 @@ On 31/03/2025 10:21, Andy Shevchenko wrote:
 > 
 > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > ---
->   drivers/media/platform/raspberrypi/rp1-cfe/cfe.c | 1 -
->   1 file changed, 1 deletion(-)
+>   drivers/media/i2c/ds90ub913.c | 1 -
+>   drivers/media/i2c/ds90ub953.c | 1 -
+>   2 files changed, 2 deletions(-)
 > 
-> diff --git a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
-> index 69a5f23e7954..fcadb2143c88 100644
-> --- a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
-> +++ b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+> diff --git a/drivers/media/i2c/ds90ub913.c b/drivers/media/i2c/ds90ub913.c
+> index 834df8d508e6..352b3d26f376 100644
+> --- a/drivers/media/i2c/ds90ub913.c
+> +++ b/drivers/media/i2c/ds90ub913.c
 > @@ -12,7 +12,6 @@
->   #include <linux/device.h>
->   #include <linux/dma-mapping.h>
->   #include <linux/err.h>
+>   #include <linux/clk-provider.h>
+>   #include <linux/clk.h>
+>   #include <linux/delay.h>
 > -#include <linux/fwnode.h>
->   #include <linux/init.h>
->   #include <linux/interrupt.h>
->   #include <linux/io.h>
+>   #include <linux/gpio/driver.h>
+>   #include <linux/i2c-atr.h>
+>   #include <linux/i2c.h>
+> diff --git a/drivers/media/i2c/ds90ub953.c b/drivers/media/i2c/ds90ub953.c
+> index 1cd5ac7157e4..dc50517fd228 100644
+> --- a/drivers/media/i2c/ds90ub953.c
+> +++ b/drivers/media/i2c/ds90ub953.c
+> @@ -11,7 +11,6 @@
+>   #include <linux/clk-provider.h>
+>   #include <linux/clk.h>
+>   #include <linux/delay.h>
+> -#include <linux/fwnode.h>
+>   #include <linux/gpio/driver.h>
+>   #include <linux/i2c-atr.h>
+>   #include <linux/i2c.h>
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
