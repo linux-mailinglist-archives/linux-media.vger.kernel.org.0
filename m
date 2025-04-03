@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-29312-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29313-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A64F0A7A185
-	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 13:01:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 06052A7A19D
+	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 13:07:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B2C393B5BBF
-	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 11:01:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B4EEF175F72
+	for <lists+linux-media@lfdr.de>; Thu,  3 Apr 2025 11:07:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E642124BC04;
-	Thu,  3 Apr 2025 11:01:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00E4224BD00;
+	Thu,  3 Apr 2025 11:07:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="C6GLhmjD"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QCKxcYRA"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDDF01DF975;
-	Thu,  3 Apr 2025 11:01:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9BC1DF975;
+	Thu,  3 Apr 2025 11:07:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743678108; cv=none; b=tx5dSryfRFvxYj3nF7kVnw31IcsWQrjFxXq5FnUbSBnF+y5MpJJKO++fCKQta7CBaXrjeVhR/LZ3sVASpJbj+ceIASvy+qlbWbUbk5fTqM/qjV80Clk/Ke8XbgYExb6ubYg5/fa7QxXUk1lMn0PmBjrjj2nFB3DWi7/tpcyXNwc=
+	t=1743678473; cv=none; b=iMBEwraGSib7P8j/BPo0eGTVZ3BvCxJCH+otEYKOWypkbBvZSAVbaMAZcNhTILHpL1ZC9pUpCU+oBq9qYqf171yPE2oRij56WlmH6a3WzXFfvsDS7yRUsbIHYBB2O5FjlOjC96d0B1nBXcppCf6B/bsHmmQY5ZZvsKEN6wa9cc0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743678108; c=relaxed/simple;
-	bh=PP9g6jzvIPxAlf87q3KdMWuq2oEhYVAfdIMHTSalPLg=;
+	s=arc-20240116; t=1743678473; c=relaxed/simple;
+	bh=A8Hwsi1G44gJPIiOLa/AHXgO9LNoAUdRYyjByFNRNMw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CyBKuJiKTiXiqgCnbt2X9gWX7FO2DP/eq4OZDB9X6oIT3OxSTH5rGJjYqqK6rZMjHWvwJrU7yQDiAdYBkRITT5+VJMb/DG/MN+UdpfvJdaZ7RnDd1m0nR6pE9B4VeuNC7BXWCWC/s8iu28n5Upaesn3ewKpRc6UD5SHneYslxc4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=C6GLhmjD; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=l4QWe6J6L1Mx5wUyHpSxIUKjudpYT3egCKUItXAtHUv34O5d5j4jnTLt8vhPy0gl6506ZXRzAmV5DJfaw+cEn/ludWnxgYWtoL5IOXBlc9bSbNlioST73PJmGDxMjMzdpSI4fIq4WLXbmaj7N6Xd3Px5xeA24oBYeYbjhVC9IOI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=QCKxcYRA; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CB1D5105D;
-	Thu,  3 Apr 2025 12:59:50 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 970A38FA;
+	Thu,  3 Apr 2025 13:05:55 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1743677991;
-	bh=PP9g6jzvIPxAlf87q3KdMWuq2oEhYVAfdIMHTSalPLg=;
+	s=mail; t=1743678356;
+	bh=A8Hwsi1G44gJPIiOLa/AHXgO9LNoAUdRYyjByFNRNMw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=C6GLhmjDTVMRi8kssWq8hv8j7gZfcWhEwJVq7J1mRmum7OID69Ufz2NxPJJW0Z5QY
-	 uNydEn6xKDDgIyWv3uSTtAc8L1mjO5vxb5X0NTXt0PL0iIHyD9qbo6U7EPZEIQjiI3
-	 wxotLItXzLbZKgHDq2yfGFutPnlaz1vc8j4VasfE=
-Message-ID: <2e6599fd-0b79-430b-9e94-f731b60e1705@ideasonboard.com>
-Date: Thu, 3 Apr 2025 14:01:40 +0300
+	b=QCKxcYRAke3UFBF1TpHnYaEckNce5LH8dCrsFGgPDr3YcNzf63rm7WuYmHLCIJwIb
+	 TD3IokCmcKuh3Is5LHZC8ia6/9hEUijZxXOCDmCzF9whIwCp8pMYZxPp+lLPCgsndW
+	 BdbQuYWF7cFhJWKdPjLrj+CY6JzrQcK0oMdB4kYI=
+Message-ID: <40f559cc-7d56-4e81-a6d8-6870d6df9fb5@ideasonboard.com>
+Date: Thu, 3 Apr 2025 14:07:45 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,14 +50,21 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/1] media: i2c: ds90ub960: Remove of_node assignment
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+Subject: Re: [PATCH] media: platform: rpi1-cfe: fix pad in call to
+ get_mbus_config()
+To: Cosmin Tanislav <demonsingur@gmail.com>
+Cc: Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Hans Verkuil <hverkuil@xs4all.nl>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Jai Luthra <jai.luthra@ideasonboard.com>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20250312174123.4111661-1-andriy.shevchenko@linux.intel.com>
+ Naushir Patuck <naush@raspberrypi.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ linux-media@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20250225212031.188987-1-demonsingur@gmail.com>
+ <04572f32-4203-4a9d-96dd-7974708f4088@gmail.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -103,41 +110,52 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20250312174123.4111661-1-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <04572f32-4203-4a9d-96dd-7974708f4088@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
 Hi,
 
-On 12/03/2025 19:41, Andy Shevchenko wrote:
-> Remove of_node assignment which duplicates fwnode in struct i2c_board_info.
-> In general drivers must not set both, it's quite confusing. The I²C core
-> will consider fwnode with a priority and of_node is subject to remove from
-> above mentioned data structure.
+On 25/02/2025 23:25, Cosmin Tanislav wrote:
 > 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->   drivers/media/i2c/ds90ub960.c | 1 -
->   1 file changed, 1 deletion(-)
 > 
-> diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-> index 5dde8452739b..5afdbbad9ff4 100644
-> --- a/drivers/media/i2c/ds90ub960.c
-> +++ b/drivers/media/i2c/ds90ub960.c
-> @@ -1682,7 +1682,6 @@ static int ub960_rxport_add_serializer(struct ub960_data *priv, u8 nport)
->   	struct device *dev = &priv->client->dev;
->   	struct ds90ub9xx_platform_data *ser_pdata = &rxport->ser.pdata;
->   	struct i2c_board_info ser_info = {
-> -		.of_node = to_of_node(rxport->ser.fwnode),
->   		.fwnode = rxport->ser.fwnode,
->   		.platform_data = ser_pdata,
->   	};
+> On 2/25/25 11:20 PM, Cosmin Tanislav wrote:
+>> The source subdevice might be using a source pad not equal to 0.
+>>
+>> Use the already existing source_pad field of cfe.
+>>
+>> Fixes: e7bad98c205d ("media: v4l: Convert the users of 
+>> v4l2_get_link_freq to call it on a pad")
+> 
+> I used the wrong Fixes tag, this is the correct one:
+> Fixes: 6edb685abb2a ("media: raspberrypi: Add support for RP1-CFE")
+> 
+>> Signed-off-by: Cosmin Tanislav <demonsingur@gmail.com>
+>> ---
+>>   drivers/media/platform/raspberrypi/rp1-cfe/cfe.c | 4 ++--
+>>   1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c b/ 
+>> drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+>> index 69a5f23e7954..7db4fe5e0fd4 100644
+>> --- a/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+>> +++ b/drivers/media/platform/raspberrypi/rp1-cfe/cfe.c
+>> @@ -1206,8 +1206,8 @@ static int cfe_start_streaming(struct vb2_queue 
+>> *vq, unsigned int count)
+>>       cfg_reg_write(cfe, MIPICFG_INTE,
+>>                 MIPICFG_INT_CSI_DMA | MIPICFG_INT_PISP_FE);
+>> -    ret = v4l2_subdev_call(cfe->source_sd, pad, get_mbus_config, 0,
+>> -                   &mbus_config);
+>> +    ret = v4l2_subdev_call(cfe->source_sd, pad, get_mbus_config,
+>> +                   cfe->source_pad, &mbus_config);
+>>       if (ret < 0 && ret != -ENOIOCTLCMD) {
+>>           cfe_err(cfe, "g_mbus_config failed\n");
+>>           goto err_clear_inte;
+> 
 
-This sounds logical, but breaks the driver for me. I also couldn't find 
-this documented and didn't immediately find this from the i2c core 
-implementation side.
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-Or am I missing some patch (running on v6.14)?
+Please send a v2 with corrected description.
 
   Tomi
 
