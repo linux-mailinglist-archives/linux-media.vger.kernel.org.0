@@ -1,354 +1,187 @@
-Return-Path: <linux-media+bounces-29417-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29418-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC446A7C148
-	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 18:09:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04318A7C185
+	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 18:25:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 624601799C8
-	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 16:09:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 12DA6189946F
+	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 16:25:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB64C207A32;
-	Fri,  4 Apr 2025 16:09:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05E7420C478;
+	Fri,  4 Apr 2025 16:25:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="dLLqTbxc"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="lIFG05Ly"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.smtpout.orange.fr (smtp-81.smtpout.orange.fr [80.12.242.81])
-	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 970B41FE44D;
-	Fri,  4 Apr 2025 16:09:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 417B120ADD5;
+	Fri,  4 Apr 2025 16:25:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743782980; cv=none; b=u8p1pvM0YcERYpuZqO2ilAl8I1gtW024J6+vaYzgIHtm3CMtVqEaWrrX0JDqbOU37SCe94S1vkR1u4IGsX3jGVS+E3V72bD75VD210c8/KTBOZiuhWrlWha1KK3I/O/tdiJfdNl5bqw2aB3kwUUXsxrT/NS8lYVKjiEl/iTPxYE=
+	t=1743783925; cv=none; b=EOvCQ+C9Nf6KM4snE/eeCSNDmSqUAU0+p/pr8tiCIi+ozqNYBBvTrDs/F9NuTfxTLtWrSKT08d98/yrxIvn2Ot1rRYlOSKIVNXigT9kK7ZOyu1TTo/Vzr8T3XO6+QlrZG5JCq4f9DxflXbyFt3MRJ4nTaN7GBR8H6vWwZIJhDi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743782980; c=relaxed/simple;
-	bh=eyNWkamsIncNPiOt+xFesAmuq5FxdHvBFGZeakFV6So=;
-	h=Message-ID:Date:MIME-Version:Subject:References:From:To:Cc:
-	 In-Reply-To:Content-Type; b=CuzyKrV/Ldpa5y20qmnC+uArKVdZsdlRjpjlJyGld6ZErwy6+EvbExAOUlwKycIPtqZ7+a3z2PU/xbA4hsFzwje+4kN0XQzixzs+bGHjU1A/L3tDJvRm14Vf1sJyDgRMtqoGRcT6w5OPPyfQvLsZ/OQY7RJsPbVVuZ4j5LvVnYc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=dLLqTbxc; arc=none smtp.client-ip=80.12.242.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id 0jbkuwMu44ggN0jbnuYpd4; Fri, 04 Apr 2025 18:09:33 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1743782973;
-	bh=R2NkmJsMvfh4t8otA7eSeQVdLEM/vde8d4/VGclQcLs=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To;
-	b=dLLqTbxcwUVOGYTEzDVHbOmMMlbDiBoKpgYdPy1su929m121GKESlgFo8/8HmB1sH
-	 VLY2KILrj0l6bkhabMpmBApSul2DA8QOzi3PX3wRxw10T+GxySyJx9m2s+bsdfbaRu
-	 ZnYG62goaMdy/KB7NtumNB+htSbw1PKt3dRsdWn+8yVgB1ZYFys+GZcAMQA5A9s6Up
-	 C1V/wIaWG8VskIABVdPtGUj9cTGbwJS/MWLVCZrkzGa6py3LWKP9AJIrXy6Y62CQZZ
-	 P8evZVD0VpypPWsjH4prncS7IBbkJ9sPgov60i6sB1+fvyYsIRyWohDUGlbLJu8jys
-	 MSBlM+tMOl3GA==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Fri, 04 Apr 2025 18:09:33 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <33abd6fc-9ab3-497e-b421-0816a32b8141@wanadoo.fr>
-Date: Fri, 4 Apr 2025 18:09:28 +0200
+	s=arc-20240116; t=1743783925; c=relaxed/simple;
+	bh=DPKesb5zEufm5ZzxHksY/n1wcad6WX+VWC9xfDlF+90=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=syqgUkz37z3tCBnTqK6m5PIdRDZuEq6vFZ+GwidlDhsO3gtmEb45G0tIVGSnmZ5xV9YVfLiGIV1Xk+0pDCUCvTKBNY/6c3LVCSVQvL/lhm2f/1el4qpWD+BtZyLglfaHto9HEKdNcxlSgZAkKR7kw+jK6BsqOq23Nt3ySJLZvj4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=lIFG05Ly; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1743783921;
+	bh=DPKesb5zEufm5ZzxHksY/n1wcad6WX+VWC9xfDlF+90=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=lIFG05LyoSoDkuiDxZiNPzbpH10QW9uId0znLHEjJuSF4coYTaTDP7fDogFee97IW
+	 O+kszdWoEd+qrdaoVTFfIitY7/Px4UFPItdD6/pq5rhVnl8zLGMaJwWYwngtGlNrgp
+	 ymlqE0l1aNhGLYMKD7xCAVE24/6TMNthG5CZUITG+asvK8QSiW9QlKIyK98CFge1bb
+	 93lglrT+4MwWf1N0uV5iBUd+xWCDPVvTRhy2dNgzjrcQUJO3HM72WU1dru/xK6j9fp
+	 8bwDvXqfFR06fdsIpDFmt7/kW4VoggFyr1oOem+S7Xyqeh6QgC8xgALER9XIaKRkGJ
+	 Cr0Kdin3DCYmQ==
+Received: from [192.168.42.160] (mtl.collabora.ca [66.171.169.34])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9678D17E07F2;
+	Fri,  4 Apr 2025 18:25:17 +0200 (CEST)
+Message-ID: <91799a0e05deadc34b9aa688ba44c43c67011a0f.camel@collabora.com>
+Subject: Re: [PATCH v13 0/6] Add Synopsys DesignWare HDMI RX Controller
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Tim Surber <me@timsurber.de>, Dmitry Osipenko	
+ <dmitry.osipenko@collabora.com>, Hans Verkuil <hverkuil@xs4all.nl>, Shreeya
+ Patel <shreeya.patel@collabora.com>, Heiko Stuebner <heiko@sntech.de>,
+ Mauro Carvalho Chehab	 <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, 	jose.abreu@synopsys.com, nelson.costa@synopsys.com,
+ shawn.wen@rock-chips.com,  Sebastian Reichel
+ <sebastian.reichel@collabora.com>
+Cc: kernel@collabora.com, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, Christophe JAILLET
+	 <christophe.jaillet@wanadoo.fr>, Diederik de Haas <didi.debian@cknow.org>
+Date: Fri, 04 Apr 2025 12:25:16 -0400
+In-Reply-To: <e0e144be-5cf9-4a79-a602-2ab2b7cd9aa1@timsurber.de>
+References: <20250304085819.108067-1-dmitry.osipenko@collabora.com>
+	 <78ff36f6-01a7-4df4-b653-c4509fb93af4@timsurber.de>
+	 <1039aca7-89b9-44ef-9775-e7852e956362@timsurber.de>
+	 <9b4b1e65-127d-422b-a359-a1d8e25652f9@xs4all.nl>
+	 <88054acf-3051-414c-aef7-4c0f085d5182@collabora.com>
+	 <47e022f4-1c1b-43c4-8f6c-bc1ff23ad39f@collabora.com>
+	 <e0e144be-5cf9-4a79-a602-2ab2b7cd9aa1@timsurber.de>
+Organization: Collabora Canada
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/2] media: i2c: Add driver for ST VD55G1 camera sensor
-References: <20250404-b4-vd55g1-v5-0-98f2f02eec59@foss.st.com>
- <20250404-b4-vd55g1-v5-2-98f2f02eec59@foss.st.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Cc: conor+dt@kernel.org, devicetree@vger.kernel.org, krzk+dt@kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- mchehab@kernel.org, robh@kernel.org, sakari.ailus@linux.intel.com,
- sylvain.petinot@foss.st.com
-In-Reply-To: <20250404-b4-vd55g1-v5-2-98f2f02eec59@foss.st.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Le 04/04/2025 à 16:50, Benjamin Mugnier a écrit :
-> The VD55G1 is a monochrome global shutter camera with a 804x704 maximum
-> resolution with RAW8 and RAW10 bytes per pixel.
-> The driver supports :
-> - Auto exposure from the sensor, or manual exposure mode
-> - HDR subtraction mode, allowing edge detection and background removal
-> - Auto exposure cold start, using configuration values from last stream
-> to start the next one
-> - LED GPIOs for illumination
-> - Most standard camera sensor features (hblank, vblank, test patterns,
-> again, dgain, hflip, vflip, auto exposure bias, etc.)
-> Add driver source code to MAINTAINERS file.
+Hi Tim,
 
-Hi, a few nitpicks below, should they make sense.
+Le mercredi 05 mars 2025 à 11:41 +0100, Tim Surber a écrit :
+> Hi,
+> 
+> so the 4:4:4 issue was just a gstreamer bug and it worked when I
+> applied 
+> an experimental fix [1].
+> 
+> So everything works for me using the default EDID now.
+> 
+> Tested-by: Tim Surber <me@timsurber.de>
+> 
+> [1]: 
+> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8534
 
-...
+Thanks, I'll try and get this fix moving soon. I now have a RK3588 with
+hacks that let me force YUV in the 3 subsampling, so I can easily
+reproduce now.
 
-> +static int vd55g1_prepare_clock_tree(struct vd55g1 *sensor)
-> +{
-> +	struct i2c_client *client = sensor->i2c_client;
-> +	/* Double data rate */
-> +	u32 mipi_freq = sensor->link_freq * 2;
-> +	u32 sys_clk, mipi_div, pixel_div;
-> +	int ret = 0;
-> +
-> +	if (sensor->xclk_freq < 6 * HZ_PER_MHZ ||
-> +	    sensor->xclk_freq > 27 * HZ_PER_MHZ) {
-> +		dev_err(&client->dev,
-> +			"Only 6Mhz-27Mhz clock range supported. Provided %lu MHz\n",
-> +			sensor->xclk_freq / HZ_PER_MHZ);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (mipi_freq < 250 * HZ_PER_MHZ ||
-> +	    mipi_freq > 1200 * HZ_PER_MHZ) {
-> +		dev_err(&client->dev,
-> +			"Only 250Mhz-1200Mhz link frequency range supported. Provided %lu MHz\n",
-> +			mipi_freq / HZ_PER_MHZ);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (mipi_freq <= 300 * HZ_PER_MHZ)
-> +		mipi_div = 4;
-> +	else if (mipi_freq <= 600 * HZ_PER_MHZ)
-> +		mipi_div = 2;
-> +	else
-> +		mipi_div = 1;
-> +
-> +	sys_clk = mipi_freq * mipi_div;
-> +
-> +	if (sys_clk <= 780 * HZ_PER_MHZ)
-> +		pixel_div = 5;
-> +	else if (sys_clk <= 900 * HZ_PER_MHZ)
-> +		pixel_div = 6;
-> +	else
-> +		pixel_div = 8;
-> +
-> +	sensor->pixel_clock = sys_clk / pixel_div;
-> +	/* Frequency to data rate is 1:1 ratio for MIPI */
-> +	sensor->data_rate_in_mbps = mipi_freq;
-> +
-> +	return ret;
+Nicolas
 
-Could be return 0, and ret could be removed.
+p.s. I also hit some buffer starvation issues (inside GStreamer), for
+which I will be sending a fix to this driver so GStreamer is aware of
+the lost frames.
 
-> +}
+> 
+> On 3/5/25 10:09, Dmitry Osipenko wrote:
+> > On 3/5/25 12:03, Dmitry Osipenko wrote:
+> > > On 3/5/25 11:10, Hans Verkuil wrote:
+> > > > On 05/03/2025 01:59, Tim Surber wrote:
+> > > > > Hi Dmitry,
+> > > > > 
+> > > > > I did some more testing. That the Apple TV did not work was a
+> > > > > bit
+> > > > > misleading.
+> > > > > 
+> > > > > It was just, that the Apple TV defaulted to 4:4:4 Chroma
+> > > > > which does not
+> > > > > work at all for me. (The same happens using the vendor
+> > > > > driver).
+> > > > > 
+> > > > > When I changed the EDID to match the vendor driver the HDMI
+> > > > > handshake
+> > > > > happened with 4:2:0 chroma, where I could verify even 4k60fps
+> > > > > using your
+> > > > > driver, nice!
+> > > > > 
+> > > > > So the remaining problems I see are:
+> > > > > - 4:4:4 chroma not working in any resolution
+> > > > > - 4:2:2 and RGB not working in 4k60fps (is this a hardware
+> > > > > limitation?)
+> > > > > 
+> > > > > A possible workaround could be to disable these non supported
+> > > > > formats in
+> > > > > the default EDID.
+> > > > I would like to merge this driver this week, since otherwise it
+> > > > will likely
+> > > > slip to v6.16. So if there is a working EDID, perhaps it can be
+> > > > used for now,
+> > > > and later on it can be patched if there is a better EDID.
+> > > > 
+> > > > Would this EDID work? Tim, can you try this?
+> > > > 
+> > > > v4l2-ctl --set-edid type=hdmi-4k-600mhz,ycbcr444,ycbcr422
+> > > > 
+> > > > Alternatively, if there is indeed a HW limitation that prevents
+> > > > 4kp60 to work,
+> > > > try this:
+> > > > 
+> > > > v4l2-ctl --set-edid type=hdmi-4k-300mhz,ycbcr444,ycbcr422
+> > > > 
+> > > > Whichever of the two works is what we can use as default EDID.
+> > > 
+> > > Disabling 444 and 422 is an option. Though, they work on my setup
+> > > at
+> > > 4k@60p.
+> > > 
+> > > In general, it often a challenge to get 4k@60p properly with any
+> > > of
+> > > these small board devices. 4k@60p works only using a short HDMI
+> > > cable
+> > > for me. Also, not everyone aware that the micro HDMI adapter
+> > > needs to be
+> > > compliant with HDMI 2.0 for 4k@60, that's why 300MHz is the
+> > > default.
+> > > 
+> > > Will be nice to have the good EDID enabled by default in the
+> > > defconfig.
+> > > Dealing with problems like that will be a headache for majority
+> > > of
+> > > people, IMO.
+> > 
+> > BTW, I don't see it as a blocker. Driver works in general, new
+> > issues
+> > can be resolved with additional patches.
+> > 
 
-...
-
-> +static int vd55g1_enable_streams(struct v4l2_subdev *sd,
-> +				 struct v4l2_subdev_state *state, u32 pad,
-> +				 u64 streams_mask)
-> +{
-> +	struct vd55g1 *sensor = to_vd55g1(sd);
-> +	struct i2c_client *client = v4l2_get_subdevdata(&sensor->sd);
-> +	int ret = 0;
-
-Un-needed init, it is set just the line after.
-
-> +
-> +	ret = pm_runtime_resume_and_get(&client->dev);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	vd55g1_write(sensor, VD55G1_REG_EXT_CLOCK, sensor->xclk_freq, &ret);
-> +
-> +	/* configure output */
-> +	vd55g1_write(sensor, VD55G1_REG_MIPI_DATA_RATE,
-> +		     sensor->data_rate_in_mbps, &ret);
-> +	vd55g1_write(sensor, VD55G1_REG_OIF_CTRL, sensor->oif_ctrl, &ret);
-> +	vd55g1_write(sensor, VD55G1_REG_ISL_ENABLE, 0, &ret);
-> +	if (ret)
-> +		goto err_rpm_put;
-> +
-> +	ret = vd55g1_set_framefmt(sensor);
-> +	if (ret)
-> +		goto err_rpm_put;
-> +
-> +	/* Setup default GPIO values; could be overridden by V4L2 ctrl setup */
-> +	ret = vd55g1_update_gpios(sensor, GENMASK(VD55G1_NB_GPIOS - 1, 0));
-> +	if (ret)
-> +		goto err_rpm_put;
-> +
-> +	ret = vd55g1_apply_cold_start(sensor);
-> +	if (ret)
-> +		goto err_rpm_put;
-> +
-> +	/* Apply settings from V4L2 ctrls */
-> +	ret = __v4l2_ctrl_handler_setup(&sensor->ctrl_handler);
-> +	if (ret)
-> +		goto err_rpm_put;
-> +
-> +	/* Also apply settings from read-only V4L2 ctrls */
-> +	ret = vd55g1_ro_ctrls_setup(sensor);
-> +	if (ret)
-> +		goto err_rpm_put;
-> +
-> +	/* Start streaming */
-> +	vd55g1_write(sensor, VD55G1_REG_STBY, VD55G1_STBY_START_STREAM, &ret);
-> +	vd55g1_poll_reg(sensor, VD55G1_REG_STBY, 0, &ret);
-> +	vd55g1_wait_state(sensor, VD55G1_SYSTEM_FSM_STREAMING, &ret);
-> +	if (ret)
-> +		goto err_rpm_put;
-> +
-> +	vd55g1_lock_ctrls(sensor, true);
-> +
-> +	return ret;
-
-return 0?
-
-> +
-> +err_rpm_put:
-> +	pm_runtime_put(&client->dev);
-> +	return ret;
-> +}
-
-
-...
-
-> +static int vd55g1_check_csi_conf(struct vd55g1 *sensor,
-> +				 struct fwnode_handle *endpoint)
-> +{
-> +	struct i2c_client *client = sensor->i2c_client;
-> +	struct v4l2_fwnode_endpoint ep = { .bus_type = V4L2_MBUS_CSI2_DPHY };
-> +	u8 n_lanes;
-> +	int ret = 0;
-
-Un-needed init, it is set just the line after.
-
-> +
-> +	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &ep);
-> +	if (ret)
-> +		return -EINVAL;
-> +
-> +	/* Check lanes number */
-> +	n_lanes = ep.bus.mipi_csi2.num_data_lanes;
-> +	if (n_lanes != 1) {
-> +		dev_err(&client->dev, "Sensor only supports 1 lane, found %d\n",
-> +			n_lanes);
-> +		ret = -EINVAL;
-> +		goto done;
-> +	}
-> +
-> +	/* Clock lane must be first */
-> +	if (ep.bus.mipi_csi2.clock_lane != 0) {
-> +		dev_err(&client->dev, "Clock lane must be mapped to lane 0\n");
-> +		ret = -EINVAL;
-> +		goto done;
-> +	}
-> +
-> +	/* Handle polarities in sensor configuration */
-> +	sensor->oif_ctrl = (ep.bus.mipi_csi2.lane_polarities[0] << 3) |
-> +			   (ep.bus.mipi_csi2.lane_polarities[1] << 6);
-> +
-> +	/* Check the link frequency set in device tree */
-> +	if (!ep.nr_of_link_frequencies) {
-> +		dev_err(&client->dev, "link-frequency property not found in DT\n");
-> +		ret = -EINVAL;
-> +		goto done;
-> +	}
-> +	if (ep.nr_of_link_frequencies != 1) {
-> +		dev_err(&client->dev, "Multiple link frequencies not supported\n");
-> +		ret = -EINVAL;
-> +		goto done;
-> +	}
-> +	sensor->link_freq = ep.link_frequencies[0];
-> +
-> +done:
-> +	v4l2_fwnode_endpoint_free(&ep);
-> +
-> +	return ret;
-> +}
-...
-
-> +static int vd55g1_parse_dt(struct vd55g1 *sensor)
-> +{
-> +	struct i2c_client *client = sensor->i2c_client;
-> +	struct device *dev = &client->dev;
-> +	struct fwnode_handle *endpoint;
-> +	int ret;
-> +
-> +	endpoint = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0, 0);
-> +	if (!endpoint) {
-> +		dev_err(dev, "Endpoint node not found\n");
-
-The usage of trailing \n with dev_err() and dev_err_probe() is not 
-consistant in this driver.
-
-I would go for \n everywhere, but some people argue that it is no more 
-necessary.
-
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = vd55g1_check_csi_conf(sensor, endpoint);
-> +	fwnode_handle_put(endpoint);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return vd55g1_parse_dt_gpios(sensor);
-> +}
-> +
-> +static int vd55g1_subdev_init(struct vd55g1 *sensor)
-> +{
-> +	struct i2c_client *client = sensor->i2c_client;
-> +	int ret;
-> +
-> +	/* Init sub device */
-> +	sensor->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	sensor->sd.internal_ops = &vd55g1_internal_ops;
-> +
-> +	/* Init source pad */
-> +	sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
-> +	sensor->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> +	ret = media_entity_pads_init(&sensor->sd.entity, 1, &sensor->pad);
-> +	if (ret) {
-> +		dev_err(&client->dev, "Failed to init media entity : %d", ret);
-
-Unneeded space before : (to be consitant with code below)
-
-> +		return ret;
-> +	}
-> +
-> +	sensor->sd.state_lock = sensor->ctrl_handler.lock;
-> +	ret = v4l2_subdev_init_finalize(&sensor->sd);
-> +	if (ret) {
-> +		dev_err(&client->dev, "Subdev init error: %d", ret);
-> +		goto err_ctrls;
-> +	}
-> +
-> +	/*
-> +	 * Initiliaze controls after v4l2_subdev_init_finalize() to make sure
-
-Initialize?
-
-> +	 * default values are set.
-> +	 */
-> +	ret = vd55g1_init_ctrls(sensor);
-> +	if (ret) {
-> +		dev_err(&client->dev, "Controls initialization failed %d", ret);
-> +		goto err_media;
-> +	}
-> +
-> +	return ret;
-
-return 0?
-
-> +
-> +err_ctrls:
-> +	v4l2_ctrl_handler_free(sensor->sd.ctrl_handler);
-> +
-> +err_media:
-> +	media_entity_cleanup(&sensor->sd.entity);
-> +	return ret;
-> +}
-
-...
-
-CJ
-
+-- 
+Nicolas Dufresne
+Principal Engineer at Collabora
 
