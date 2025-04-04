@@ -1,73 +1,103 @@
-Return-Path: <linux-media+bounces-29380-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29382-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1E85A7B971
-	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 11:01:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 514DFA7B984
+	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 11:03:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 85C1317903B
-	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 09:01:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B105B17A11C
+	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 09:03:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C3A81A2642;
-	Fri,  4 Apr 2025 09:01:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 637301A840A;
+	Fri,  4 Apr 2025 09:02:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RqqiIGmV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C0C611E;
-	Fri,  4 Apr 2025 09:01:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B18B81A265E;
+	Fri,  4 Apr 2025 09:02:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743757283; cv=none; b=tEXUSb9A1luoFgLZhR5sHIZ8UlFnB3eZjbGwCzT/NBn8saZqghCDJroqdYZHevqfJtzeN2eMgzR/DWGE7ZJQDitB5U6vJoaVGaYaegnV+mTHHfuz8OYZfCDd/+RpGkI6UKgMFFaVmeBywHyq4c5AA+GV0xNdwjyznZ7V/u66/WA=
+	t=1743757372; cv=none; b=HpOoV40v0BCY7vcPuuJTaaVP5YzxNzehw1vlzPvOZ2ck4FebGFOrxAZF/170M/L1S+KxKEwvUj2yPjcyrCXn6K/NN4pXr4ONu1gypy+KGSt1NA0JxdeJ3mlCqnzGmzEElh2dy9epV3Kwp3NPW0xbDmautkNIRqFi0SyCXqxPNZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743757283; c=relaxed/simple;
-	bh=FUkQE59vOl2KrCQ+b2YhVodynXOMSSv8eih8WYtzQlM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HFvkJLvY3FQacUkc9wwC9kARp52fm8QfIRoFdJ9FUh7OZwM7tGzqNiO9u3IhA9eXTbWJByyf0uATEfsPB8QwgnGt61kDV5IVpC7IRivQfdw8WMX5FdslZ+FoGvRXIcQsvBURnOiUD5DGDvgPYxdyowB8v99GgIJvF/804t06O78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 04C5168B05; Fri,  4 Apr 2025 11:01:12 +0200 (CEST)
-Date: Fri, 4 Apr 2025 11:01:11 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Huan Yang <link@vivo.com>
-Cc: bingbu.cao@linux.intel.com, Matthew Wilcox <willy@infradead.org>,
-	Christoph Hellwig <hch@lst.de>, Gerd Hoffmann <kraxel@redhat.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Uladzislau Rezki <urezki@gmail.com>, Shuah Khan <shuah@kernel.org>,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	linux-mm@kvack.org, linux-kselftest@vger.kernel.org,
-	opensource.kernel@vivo.com, Muchun Song <muchun.song@linux.dev>
-Subject: CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP is broken, was Re: [RFC PATCH
- 0/6] Deep talk about folio vmap
-Message-ID: <20250404090111.GB11105@lst.de>
-References: <20250327092922.536-1-link@vivo.com>
+	s=arc-20240116; t=1743757372; c=relaxed/simple;
+	bh=wm44pMRxSMtVrJZ9//WbNLyZvf+/VMaxa9Bl2u1h3DU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gETNNL1zuDMHRkrgn8hWucuQRql3bUsQMPpqZYJZOy8PduWZfvpaML0vyfKxwl/kR+NUIMhgV0UsucSuGeu44vDJFq66isX3PT7USG4wVuLm/fe7EcSozuHldSZtAgDEJORNt/vfIpc3R2Z22dbgZz5nKMJ5L5t3h3eWK8Y6EB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RqqiIGmV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C705C4CEDD;
+	Fri,  4 Apr 2025 09:02:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743757372;
+	bh=wm44pMRxSMtVrJZ9//WbNLyZvf+/VMaxa9Bl2u1h3DU=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=RqqiIGmVdSKS3ZhKoSM/x0QlgQ23XAWfSOYUsnl1O0R+0B8JuyU2o4hdmFBG+mxUK
+	 /QZmusJroU1fGCg6PjHm6r3xE/Xsl7b4IWFHWrz6AOSisgMB7DuPITh/7g5En3TSw6
+	 yXObcPqrcDXbZ43RKEcSUOWkPIfns6PuMUkYuExLz8kJIwNUQF2Cv4cZW4sW5Oqpm2
+	 b8XgdgJQDgkWuW/IjQGAaXjMgDts9OrxnQhONT99hlIiaU7cvEKchOJ7wRKOJ/aAFf
+	 mqU4ea+FIXpaeG3kQe0OBq/Dj4N7hn7mOn8/FO5FpoveryTtk4OU1ziaE8RULWhZcw
+	 l0/oESDsSHIxg==
+Message-ID: <70891a99-d2ca-4fd3-a88d-2f66a9a78f66@kernel.org>
+Date: Fri, 4 Apr 2025 10:02:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250327092922.536-1-link@vivo.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/8] Reup: SM8350 and SC8280XP venus support
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Johan Hovold <johan+linaro@kernel.org>
+References: <20250304-b4-linux-media-comitters-sc8280xp-venus-v1-0-279c7ea55493@linaro.org>
+ <8cfaeb25-2657-9df4-5cea-018aad62f579@quicinc.com>
+ <it3njgklhnedjzojafuxpjy3o5zfulgdclweyobv7kjgtpjmzx@6opje7yms4yg>
+ <1dd6e03d-09be-4853-741a-4fb47b7619a0@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bod@kernel.org>
+In-Reply-To: <1dd6e03d-09be-4853-741a-4fb47b7619a0@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-After the btrfs compressed bio discussion I think the hugetlb changes that
-skip the tail pages are fundamentally unsafe in the current kernel.
+On 04/04/2025 06:24, Vikash Garodia wrote:
+>>> How different is this from sm8250 which is already enabled on iris driver ?
+>> As far as I remember, SM8250 support in Iris did not reach
+>> feature-parity yet. So in my opinion it is fine to add new platforms to
+>> the Venus driver, that will later migrate to the Iris driver.
+> I would say, from decoder side all codecs are there now on Iris. H264 merged,
+> while h265 and VP9 dec are posted as RFC, there is one compliance failure which
+> is under debug to post them as regular patches.
+> If we are mainly looking for decode usecases, then we should be on Iris.
+> Preference would be to stay on Iris, otherwise we would have that extra ask to
+> port it later from venus to iris.
 
-That is because the bio_vec representation assumes tail pages do exist, so
-as soon as you are doing direct I/O that generates a bvec starting beyond
-the present head page things will blow up.  Other users of bio_vecs might
-do the same, but the way the block bio_vecs are generated are very suspect
-to that.  So we'll first need to sort that out and a few other things
-before we can even think of enabling such a feature.
+Right now venus represents 9/20 - 45% of the patches being churned for 
+sc8280xp.
 
+https://github.com/jhovold/linux/tree/wip/sc8280xp-6.14-rc7
+
+This is a good debate to have, however my memory of what we collectively 
+agreed both in public and private was to continue to merge new silicon 
+<= HFI6XX into venus unless and until iris hit feature parity for HFI6XX 
+and to continue with venus at that point for < HFI6XX.
+
+So merging sc8280xp - HFI6XX is consistent with our agreement, the right 
+thing to do for our users and a big win in terms of technical debt 
+reduction.
+
+I will post an update to this series ASAP.
+
+---
+bod
 
