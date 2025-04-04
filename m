@@ -1,264 +1,266 @@
-Return-Path: <linux-media+bounces-29377-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29378-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F873A7B93D
-	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 10:49:50 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8002A7B941
+	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 10:50:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2F3981791DF
-	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 08:49:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 71FFA7A93C2
+	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 08:48:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 706CD1AD41F;
-	Fri,  4 Apr 2025 08:47:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4A5C1ACED7;
+	Fri,  4 Apr 2025 08:48:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ptcgaVxZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c/tABtJg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2088.outbound.protection.outlook.com [40.107.244.88])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3377C1A9B4A;
-	Fri,  4 Apr 2025 08:47:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.88
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743756438; cv=fail; b=ZXPfUvpW2CTmV8TxvZCrWbDWzDaSiiCxP3usMI09aJQExv9c2T1/6wsn/z0hctg+oeXtOdBFvJGJ1pe5sqR44uVmGiry6snfhTDfMksrVytnyDnwjBrCHJymtbfV0id5TLlLXwf/J5f4u9W0wGeMwYa2S9MrYpcbEmWQkirzLvo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743756438; c=relaxed/simple;
-	bh=QDC9U91G6SOURJBFk8ZZtDFeWtvU9AnpAAE9fve4PDg=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=tU3azEbf18NzqwT8cAq4l875AvlCkRNqoWVxBkayJetnCEmxA4cblyNdodTXPp4XjlqtU94lJ589tLwSaIdJ7yvGC0cx6RwA86EUjsq92A1dGTP/osLtp0BUoCOFbjcAEpBJvvo/grnYkupNLvH1cg26Q1iVa5DSM6u9DV50gVs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ptcgaVxZ; arc=fail smtp.client-ip=40.107.244.88
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uUrGS8id5ZKuYdlr9Gr6LVCphU1RXKVbNiFfFxfRQQ9zWSos26nRstXkiENmcidbpkQkUAoo6w6qFTd6zUcvj+p0juDwYrObjJ4R+5qsbcdBPMD4DMOf9yuXMv9nOA+BiZIXSoNy16GZ7X6OF92T8errz5oLm/hTZcofnnZovd4obAtRQILYhpWkujGd5V87HpXrXEv2QSon7iSewozw255wxXFQ6jVj/hVJT4WphRwH8vXjlRklYmCZEe0z5O3bIjkj/Z53u0UAA4XL4ZFeAMYKxDU52lRKu2GsvL5AEoDb9AiaqlbLTPhPO79S8x8MFSJRs3OkisvbVAZcQdlBoA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QDC9U91G6SOURJBFk8ZZtDFeWtvU9AnpAAE9fve4PDg=;
- b=L1vYac5ZKlcLIdcQJ/rkOXAWD0pBwmldXFE64x/eosnHdwL8MBR0Ek+ltVvO8KitR1SghyREXVptPyICCQcu4ZKBOkPUkceSIZ3gDIlVrxn7D0bvDAv+rbcYpNn0s3YJCO7KPWU5AiY/EJXGPsrk6E4oooPL6vife5h1Q3xJmwmP/GPbOUwwobF/Z91cxPKLryfJryzT7KxA6QpUBMDxio0m1wWjiAu5TuwNVC1EXnyvYBjvfnWb+CQDi5mUnCTHi3muyeStfKWs80/D/r+Yw/imZGEkYUmkNOtCPxwTcBB+A7cQ7hJSyztai5LHTMiT2l7zYl+VNpp38mp5LKQJ6Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QDC9U91G6SOURJBFk8ZZtDFeWtvU9AnpAAE9fve4PDg=;
- b=ptcgaVxZUINN6Rzzj+Ivry448Ev5HmSSOIXnBYY1qhLm2hRdZoblde1vDfYCbf8RIfdgIfrHSjrEeq6OKgPVXXpR3P2d8EmfXAzcAGWCWE/bjPLL11VY8j6wSYEUKWqWlEAW5dkA7w5u7O/kvyzGkXD2uGJdWC+S3rP0s9lkzBk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY5PR12MB9053.namprd12.prod.outlook.com (2603:10b6:930:37::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.50; Fri, 4 Apr
- 2025 08:47:13 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8583.041; Fri, 4 Apr 2025
- 08:47:13 +0000
-Message-ID: <202c3a58-97a3-489c-b3f2-b1fd2735bd19@amd.com>
-Date: Fri, 4 Apr 2025 10:47:05 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RFC 00/12] dma: Enable dmem cgroup tracking
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Dave Airlie <airlied@gmail.com>, Andrew Morton
- <akpm@linux-foundation.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
- Robin Murphy <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, Simona Vetter <simona@ffwll.ch>,
- Tomasz Figa <tfiga@chromium.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Ben Woodard <woodard@redhat.com>,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-mm@kvack.org, linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <20250310-dmem-cgroups-v1-0-2984c1bc9312@kernel.org>
- <f5fdc666-dd72-4a4f-9270-b539a3179382@amd.com>
- <20250310-eccentric-wonderful-puffin-ddbb26@houat>
- <CAPM=9tzkLXOz=-3eujUbbjMHunR+_5JZ4oQaqNmbrWWF9WZJ0w@mail.gmail.com>
- <e08f10da-b0cd-444b-8e0b-11009b05b161@amd.com>
- <CAPM=9twgFt43OKqUY0TNopTmibnR_d891xmV=wFM91n604NUCw@mail.gmail.com>
- <5ed87c80-6fe3-4f8c-bb98-ca07f1db8c34@amd.com>
- <20250403-quick-salamander-of-charisma-cab289@houat>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250403-quick-salamander-of-charisma-cab289@houat>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR0P281CA0173.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b4::20) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99AAC1A2393;
+	Fri,  4 Apr 2025 08:48:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743756491; cv=none; b=G9dDbGhBWmHUdyEjlTAh8Bs6bSsREuMA4pDKhrKWFokkPV5vnCZsZ3Pvid/KpQCLFpsSg9784PHZGBR+2EdEGG39dvJzOrZ8BfUtBHXXVAu6NMu+Ps6X7eRF2WyUlsFf5jncS40iN3GF89v9K3eWKU4TldAiTubitsz/B9VBF/U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743756491; c=relaxed/simple;
+	bh=ZQOEb8u3RDoF68oLgxFL7DOVXtidnbHC/aIeLuWknxs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gBO1+pw0Qoxxg/DOcNpLqs6+oizHJq9aFxSEhOoTKCAYCxao7qNKPnogdIHoFwVcMAU2GmnZM1AmdaAHGlVh6Z9/06CxRQ3Sy4r/F85HWM18Lw32IRwO2ovL+RTqZsEGQVIqey5NhVZo1aHjtc2DqOG6syhLIfA+zpqxK9QorRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c/tABtJg; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-af51596da56so1611299a12.0;
+        Fri, 04 Apr 2025 01:48:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743756489; x=1744361289; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=GKYFZl2hMBVvq/tGTvaEyWP0BJSuPsnZGbFqpvTq3m8=;
+        b=c/tABtJgu+1wJsUkjKrBPvwHxlYzTfKx5KLtxrrgzhfwGhnw/6hl78TLrW9GE5gZLN
+         mI+cdtbZozoF4ENePLzbBuob6zSGuyzOVZZ8R0iPpoPK0HqMi0HGj6ryOTfeqfIGSfTK
+         pAMxja0NTobZT/w/Lgg//t9A4/GjDCkldDNK+MVjaz5/VjZLw4G991iQZdAIQJ7XfODq
+         TNp7/9IjOkmeqRr0gleYDD8SWOYuZgPpFTMqoR9vmorBYSfMczWP+9qes8FCBX8ZMkZ4
+         8Wgc6IU/4UzzS5HWxTplc1N3HEIDlsfproGpT5rDScNdUu5vDDlvxrsI51+288VcWt79
+         Q9pw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743756489; x=1744361289;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GKYFZl2hMBVvq/tGTvaEyWP0BJSuPsnZGbFqpvTq3m8=;
+        b=gbT87ZTSv41xMXleiQCkS52QCQ/SguaEStLV2SMtdBL2LCVmHEOTZqLknQsdv41uKU
+         zAb0Ucer2fbARH/u25UKUYyg9QjGnm9dJQ8o78hbYDA56DW4MVLxW+EU4rvRDpiUMFm8
+         036pckZg0Y6yvVjiUglpHOfSsHCP/mb7QEhwOBNjqRV/hjE6suCrrAKPKyoZGMALDlqa
+         u7bpG3i6XRIVnFYo8EKjzmRY4CqeU5GJYAJjE2xOAoFWEO9NAmsxjmcB2y/tooc3V4q/
+         2U70dVingvqB6zCeHUQhb/ykg1+fzoS4wcw2MtRyfswAgoM3+NgizgnaoFPXjJ1ebxhi
+         sq4A==
+X-Forwarded-Encrypted: i=1; AJvYcCUOtJPBRc5IioM0MW3jFu0MMGXcFrb28zqqD7OckVHxBF8crXx9ww8zsToeBpKF85NtGI23/Vuf3j694bw=@vger.kernel.org, AJvYcCV0TrUz1p8A53RwzcsYcJXW8pfivWu8Yt85TGBd4S3hjzRzm7ixpc70T+17hO4p+1I5Wj0=@vger.kernel.org, AJvYcCW0b3wu7OK+/DWh0/EB65e3kBCAroWppkRrG65nqNUThRS3ZtNeAeQkfMQhGUTUYl2MAXFxbBrSxMJaJAJA@vger.kernel.org, AJvYcCWBIyiuXGIrWc6fLzF1IxJMvw3+0LUNFwnO4Ud4/QWiHh+e8RxMeaOo/6rVExCggf5iNxW9F9ZD2JXsnh98@vger.kernel.org, AJvYcCWJQ/bFk24O5Hp0JZV0XFJhNR4kxbJYnBgRCuzlm2K/5tmLXvLybylL2HJ+yV2TZsYwqKRfssoRwFON4f7vfp8=@vger.kernel.org, AJvYcCWVX06+Jmb1/qFd+FIYYK49QQriTeK0e+YunmPqYugJYDo9NIDl6+zXA+ZeLXAitjjhoBlhNb9w@vger.kernel.org, AJvYcCX/mZk2ieEmy+t92MdHcUygsboq5iZ0SqdlX5kc7F8HcLb9DpCS1zzaTPNKFKGzpusSRSmfr7hcSoBsuSE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzT7zSbRSPqDnGUtSv16T1bKfA6vLhno9VQU5t1+t6taJeB69yD
+	/2gnWmPEGDHklhEr417S7xiG6j4mIeb+JGc+RfRa5saC6MKupRSH
+X-Gm-Gg: ASbGncvTfwN7HF3F4A+oXR2eUK2jaHcm+kJMIDrK4fE8i1QuufdBRgpjzUah5prUH5Y
+	iGg/EXVCunVVxag0mIAospw0i5XmUUkZb8GBMpuqP/aSTgjqXASHNNlc8reLwMCTU9+Z5Ud1pZn
+	q5XVL7LUScxUKksRra62grNeCIGmS3DqSNrYNHLecDuTdy7LJaVeozJ8Qb2KAIpiIBCWnsTy7i4
+	BR0Uqi/EZQeIpWvgrY4xyc2dhJEle+As2TPY//wKAZSvYNXu98GuVYpsNLtPiCz5CjvBuIGa3hN
+	i/Egu+iZOIER5Wxvr0/a94tNVHjZEodRT7EhVJLKFHk2cw+E+opN+6UrhvjwVOYMTPgtQ3ZN
+X-Google-Smtp-Source: AGHT+IHQy54LZ/NyiSvEoks7UryUue+uQARWbnhEUMyhIJqZeMH+xfpWnZ/jGnglOqtjlSonVKNhIw==
+X-Received: by 2002:a05:6a21:999d:b0:1f5:8748:76cc with SMTP id adf61e73a8af0-20108188cdemr3659983637.31.1743756488698;
+        Fri, 04 Apr 2025 01:48:08 -0700 (PDT)
+Received: from visitorckw-System-Product-Name ([140.113.216.168])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af9bc32c999sm2377463a12.19.2025.04.04.01.47.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Apr 2025 01:48:07 -0700 (PDT)
+Date: Fri, 4 Apr 2025 16:47:58 +0800
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: "H. Peter Anvin" <hpa@zytor.com>,
+	David Laight <david.laight.linux@gmail.com>,
+	Andrew Cooper <andrew.cooper3@citrix.com>,
+	Laurent.pinchart@ideasonboard.com, airlied@gmail.com,
+	akpm@linux-foundation.org, alistair@popple.id.au,
+	andrew+netdev@lunn.ch, andrzej.hajda@intel.com,
+	arend.vanspriel@broadcom.com, awalls@md.metrocast.net, bp@alien8.de,
+	bpf@vger.kernel.org, brcm80211-dev-list.pdl@broadcom.com,
+	brcm80211@lists.linux.dev, dave.hansen@linux.intel.com,
+	davem@davemloft.net, dmitry.torokhov@gmail.com,
+	dri-devel@lists.freedesktop.org, eajames@linux.ibm.com,
+	edumazet@google.com, eleanor15x@gmail.com,
+	gregkh@linuxfoundation.org, hverkuil@xs4all.nl,
+	jernej.skrabec@gmail.com, jirislaby@kernel.org, jk@ozlabs.org,
+	joel@jms.id.au, johannes@sipsolutions.net, jonas@kwiboo.se,
+	jserv@ccns.ncku.edu.tw, kuba@kernel.org, linux-fsi@lists.ozlabs.org,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+	linux-serial@vger.kernel.org, linux-wireless@vger.kernel.org,
+	linux@rasmusvillemoes.dk, louis.peens@corigine.com,
+	maarten.lankhorst@linux.intel.com, mchehab@kernel.org,
+	mingo@redhat.com, miquel.raynal@bootlin.com, mripard@kernel.org,
+	neil.armstrong@linaro.org, netdev@vger.kernel.org,
+	oss-drivers@corigine.com, pabeni@redhat.com,
+	parthiban.veerasooran@microchip.com, rfoss@kernel.org,
+	richard@nod.at, simona@ffwll.ch, tglx@linutronix.de,
+	tzimmermann@suse.de, vigneshr@ti.com, x86@kernel.org
+Subject: Re: [PATCH v3 00/16] Introduce and use generic parity16/32/64 helper
+Message-ID: <Z++cvrLOz2VAaUkO@visitorckw-System-Product-Name>
+References: <Z824SgB9Dt5zdWYc@visitorckw-System-Product-Name>
+ <Z9CyuowYsZyez36c@thinkpad>
+ <80771542-476C-493E-858A-D2AF6A355CC1@zytor.com>
+ <Z9GtcNJie8TRKywZ@thinkpad>
+ <Z9G2Tyypb3iLoBjn@visitorckw-System-Product-Name>
+ <Z9KMKwnZXA2mkD2s@visitorckw-System-Product-Name>
+ <Z+AlyB461xwMxMtG@visitorckw-System-Product-Name>
+ <eec0dfd7-5e4f-4a08-928c-b7714dbc4a17@zytor.com>
+ <Z+6dh1ZVIKWWOKaP@visitorckw-System-Product-Name>
+ <Z-6zzP2O-Q7zvTLt@thinkpad>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY5PR12MB9053:EE_
-X-MS-Office365-Filtering-Correlation-Id: 251ad719-98b2-4299-6250-08dd73554b3d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?NFQ3UGs0R28xYjlVV1ZkNHh4N2krSnV3cmNueFgyNS93S01KeEZPMFlraHNU?=
- =?utf-8?B?d0FLV2pUQTl6QjNYNWhCVkYyV3RmTVh1enNhNWJoMkRJU2FGQlB3eXR5dWhI?=
- =?utf-8?B?U3RoQXd0TVVrUTFnWGY2NlY1NGR3Y05iajliblMzcFJBKzlHK2dUWnZnT0V2?=
- =?utf-8?B?eVVtVzdlZzJQYjlFdlkwNVBaczBoNHVpNjFPRFR6RGZYcTBYMDl4MVZGL2ls?=
- =?utf-8?B?WWg5bmtVT0VESlVYRWN6NXR0ZW5KaHI5d3dZREdoMnZLc3Evc0h4NElMOVJq?=
- =?utf-8?B?R3dIdnZiOWRqSUlTamFYcDBnZllKdFRXVnN3bXhkMzFTbmZSQkt2LzJ6eTBF?=
- =?utf-8?B?Y2J5K1JuN3Y3ME1sVVRkc05wa0VSWHVOSVBDa0RSc1NETUpQdm1VTi9qVU5S?=
- =?utf-8?B?TEtmL2ZjeU5PaDRzWW5uLytnSmdWRStPNG1pekNKb3c1VTNzSis4bDBZVk5P?=
- =?utf-8?B?L1FWL1RDem1LcTB3SWR0UnRJekJORjZkb3BEUDZsQ3ZST3MrbVNQYkgySXFI?=
- =?utf-8?B?dHhGcTRScFhCL0p6ekhqcE9IR3JTWUtVWU1KRzdmcDNraE9kam5pbitLbUJl?=
- =?utf-8?B?NHVpT0xzc3lDZVJCK2FSMmpTNWNoU05EV25nMVlwSlYrbU1kT0Q3TTNzRXYw?=
- =?utf-8?B?dFZoR09JL0thTmQyNWg5WGtPQzVqeHpxM2Nvbkl4TTZHVWM0T0RmbXdUYzlS?=
- =?utf-8?B?RE4yOEE5ekFHQ3AvVEFMcWpGcnY5YXA1V1h0NFBEQ0hua2VmNG5uK25GRzNv?=
- =?utf-8?B?bFBRbldVUnloSzlDa2JjYS9BVHJEZldndEYxVlZaTENSRTdNbXBtRkZpeDNu?=
- =?utf-8?B?T1MzVVZEUEF1c1diSnp6SitZMWZiL1hLeE1kKzFTb2xrVE5hcTZkL1NuM0pZ?=
- =?utf-8?B?L0JhMWF4OVRtMzViRmVwWmhwT0pIM3craHRhU05zNkJ1RXFzSGhLR2FVcFJP?=
- =?utf-8?B?aURZeDJNTGt2STlnc0RjL2tmZEVuS05XWEZBdHE3Vm15UGxPZ25JR05PemZL?=
- =?utf-8?B?QzE4MXF6d2NJQS9RZnBMSHJyOEJQdUpFVEhWMnJ5Z0txR3I0dTlYaEFjOSsv?=
- =?utf-8?B?c1NhT1ZVcTFsb2FEdHRiUlBFWkE0K3EvVVBNeGFrMlBBUDIwVHV3RW5TMWRt?=
- =?utf-8?B?MmxQSUVLWmIwcmhSR2RNSnE2ZTdqWVNnZnVFMnlEdHVyY1lQQzlnWHhldU9z?=
- =?utf-8?B?cXNxV0wrWEtJQm9CbnhMUVlOYXdVRU1rWXdxb0ZXY0Y2b3dOUDhBM1c2V0s5?=
- =?utf-8?B?OFpGVWV1SDVqaHlxbXY0M0NhdlRwUTd1Znl3azA2aXVHT3RHRkI2UHMwbkxj?=
- =?utf-8?B?eUFCUHRaSzRRVUlwZDVDK0NIZXZQMmRGb0M0QUV3ODhtOVhpWmlUbm5UQXMx?=
- =?utf-8?B?aGpaS3NLRnBDcmZMTkl0bWdPUW5PaEpUU3pzdGc4K3FWSzJTVitpeCtDc0FP?=
- =?utf-8?B?dmFDaEtaWFZnMzVxQkpaM2xUcWxaU0xGaXVhWVBiREoyODkyVHFZNzFmUEli?=
- =?utf-8?B?ZEpkZnBTZi90czNZMlRMRHJ0SVpRK0x5b2svdDNDK1hpWVBzQUhWcEZLVWUw?=
- =?utf-8?B?VXc2Q3VUYURNWGVvaGxrTUhIYmNRMi81dE1NQVhtS25adFdhRmFITVUxSGd2?=
- =?utf-8?B?Tk51ckdObVo1SWNvTmxQUm90UGQ1a3psdE9rcng2TVRMZmJUMXVOSGxyTjJ5?=
- =?utf-8?B?N3Zrd0t5WkI5UUZaUXU1S1B0Q1ZmR0ZUOXE1YUV1a1RZNXNweXFUM2FqYUl2?=
- =?utf-8?B?T3kvR1k4SnlaTlJjTTZza0IxdTd3azJ3ZzdDM3B3MXA2UlVtMnJnRWRXZjAr?=
- =?utf-8?B?enFVdkNUUlVSWExNOG45aHU1TUpESDl5QUxIbzBxa1RHNDRzYVRRd05xb2dy?=
- =?utf-8?Q?QkNU23a9priN4?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Zlo3K29FeFFJZ0ZhUGxzYUp6OGxYdTYyZm9JMGI2Z2haL2IweWpQS2ZpY3Vm?=
- =?utf-8?B?L1BwN3UrNHFOMEVJV05pZElmYmQvWjBrWUg3a2I4NjM0WXhyREVIYVg5UUU0?=
- =?utf-8?B?VmZJWklmRzBXeGovR0hmZXVSb1dsTitmZENLamNjM0FmNHFLR1I3S2pSTzl1?=
- =?utf-8?B?UFhBY1F4QkRla3ZoTDZIeGNNNElIWEl2Qy83dTBZd1NTaVdFV1VXWC9WS013?=
- =?utf-8?B?SDg0TzR2OU0ySk5kQmkreHdBb3JYRkNTR3QzRUQxQk5TbWtYL2EzVUhpZklU?=
- =?utf-8?B?MUNvS29FbXRTS0srcnVCclpJQTlTMHdTblZUL1RLM0ZFNkpMY0xZNkkyZXdz?=
- =?utf-8?B?d0VPVEFvVVIrVTJkN25lcFJQOW1TRDB1OUluNndScFZWanYva3dyUjY4UG1B?=
- =?utf-8?B?d3o2ajNBMjA4T282L2wxc2NxaVdTVG1ObTRUMnpMWlNNL3BXZGp3aWVJSkti?=
- =?utf-8?B?VEJUa3R5MjhJbmh0WVVyQUFyKzltbXpldXFHTDNUUzAxZXd6cU1jb2VFVU1N?=
- =?utf-8?B?YS9iemozRkJta0ZyMnZsK2g0c3VicGJ6aXdtanV2N1FrSElNRkNBeXJBLzZw?=
- =?utf-8?B?TkNSaVdBbkIxeVVSVUZwd2RJRTh2ejNka3lnS1NZM1ZodkFrSkpMZVQ3dUlM?=
- =?utf-8?B?V1JFYmp2TkVCZlhZREVmZkZwNkxVVW9WL3hMWUkybU1MMHFvdE8zVXNHeFRq?=
- =?utf-8?B?RVBYdTdZYU9MQWZwM0phdC92bU80Zk43RitoTG5ieTlRcmNWZWpKNkZyUkYx?=
- =?utf-8?B?NytWcDdnNVFHdURIQlpjRjFWQ0U1bG1jSGswU0RKcDZmc1VSdFpzRTRyM3ZP?=
- =?utf-8?B?NWpxVU5JcEI4WmJZMHFqWUJRSDBIVGRySGlPZDNnOHptNldHdnlNSEd1Rm05?=
- =?utf-8?B?VkYyRSt3NlJOb3JWNE1Ec1I4ZFNjbkt2NExHZVVEZEJ2T21QUmRGRWlMY1A0?=
- =?utf-8?B?d0UvU0xvdGN2dFFUbkxYOUZrT2hNZUN5OFZIQzd3OUpuRk9Cc2J1T0JENUZP?=
- =?utf-8?B?dm0vQUdRc2ZoSzdtZkhocW0rV0hyTmloU0gzYWNXM1JvWTEweFZUMEF5OTJt?=
- =?utf-8?B?QlF6ZmRvWENvaUc0aXNDR1lZaytWZGduNzdKem5hTGRYTzMyQW4rMUpkOExS?=
- =?utf-8?B?SzJ0dnBGUUtRQTc5UXk3M0lRWjN0V3dPSmQ0a0NqR0V4VFFGSExnRjdLK3ZB?=
- =?utf-8?B?YWVvZGEyVlN4VUhmV2RUbHJlVFRjUkhoVjlTYmJDQW05TS9kU1gyK2hLczM1?=
- =?utf-8?B?bmQvaTlRVmNyOEttczhMQ3VFTm5uWFZOUFJOaFdPbE9xa3czVnQrM0NxK1d0?=
- =?utf-8?B?bGRVZVEyTWdsYzMranNOTCtqamRrRXFKeE9kWnZHRFE2b3ZXUUM0c3lURk9h?=
- =?utf-8?B?U3QwWEpscDNNUGdhcnlLd29KdUd0WndHcjdGNkFwd0hONlE0RlZEa2dDQmxF?=
- =?utf-8?B?SDVpUEEwVkp2djlhN3N2REtTYmJlc21JUlNiSHFvZndGTTRBeDhJd1NnY1R4?=
- =?utf-8?B?bTI4NmQwTjlLaUNURnZVeDd0Vm1DV1BiWFZsSEcvTU85d3dZekM5Y3pxbkFL?=
- =?utf-8?B?MU5MSEtabXBQdnUyczl4bXd6NndLc3VDT1pkSE9jNGtTa1Zra2RzRFhCelVx?=
- =?utf-8?B?QnltdGtuOFJQVmxUWEczNTBVTGM5d01OdmdBS2pHWmFheHJIUFFSQldqWThE?=
- =?utf-8?B?ZStmUnpvOUJ6RE9RalZjMU5hcE4wdExLR0Fqc2hvY1k1azVyTy9VK3NtQ2RM?=
- =?utf-8?B?MWFhb2U3Q0c1U0ZYTjQ1RTJxZVk2ZHZNRFY3QnNpeGxtNHhkUCtkS1BZZVdG?=
- =?utf-8?B?MGVCZE8wQTgvU0VtSk1maWRtcEMvcnVFWjJIazFXa3l5QUFCTHRLUllHU1dM?=
- =?utf-8?B?ME95enFrU3Vzb0dLekJ6WUU4am95UHVyUXlmTU1KS29FVTlFK2hrT2tlTzF6?=
- =?utf-8?B?SDl5NzdxclIxNWZDZ3F2akp3bGxuK1Vxb0M5M2RUbDkycUd0Sks4OU84c3VY?=
- =?utf-8?B?blhwVWllK0JIbW5PdTJQTTRZSHB4Q2JyL3FmYmwvcWx6YnBDR045aXJXVUd3?=
- =?utf-8?B?TUZwMHdHWHNqRTFIWVc1NisrZWdyV3Eyd1FqbTk3VmV3R2tJdzllZXFiL0Mr?=
- =?utf-8?Q?iaRvu3gGWG9b7barguubZgYTf?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 251ad719-98b2-4299-6250-08dd73554b3d
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2025 08:47:13.0304
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cdU8xAEBFWr8XiDlMZ/39FVMYwOXeecuoFmHYN2ukMrD+EMy0WvYhpL7GYcaK8pH
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB9053
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z-6zzP2O-Q7zvTLt@thinkpad>
 
-Hi Maxime,
+On Thu, Apr 03, 2025 at 12:14:04PM -0400, Yury Norov wrote:
+> On Thu, Apr 03, 2025 at 10:39:03PM +0800, Kuan-Wei Chiu wrote:
+> > On Tue, Mar 25, 2025 at 12:43:25PM -0700, H. Peter Anvin wrote:
+> > > On 3/23/25 08:16, Kuan-Wei Chiu wrote:
+> > > > 
+> > > > Interface 3: Multiple Functions
+> > > > Description: bool parity_odd8/16/32/64()
+> > > > Pros: No need for explicit casting; easy to integrate
+> > > >        architecture-specific optimizations; except for parity8(), all
+> > > >        functions are one-liners with no significant code duplication
+> > > > Cons: More functions may increase maintenance burden
+> > > > Opinions: Only I support this approach
+> > > > 
+> > > 
+> > > OK, so I responded to this but I can't find my reply or any of the
+> > > followups, so let me go again:
+> > > 
+> > > I prefer this option, because:
+> > > 
+> > > a. Virtually all uses of parity is done in contexts where the sizes of the
+> > > items for which parity is to be taken are well-defined, but it is *really*
+> > > easy for integer promotion to cause a value to be extended to 32 bits
+> > > unnecessarily (sign or zero extend, although for parity it doesn't make any
+> > > difference -- if the compiler realizes it.)
+> > > 
+> > > b. It makes it easier to add arch-specific implementations, notably using
+> > > __builtin_parity on architectures where that is known to generate good code.
+> > > 
+> > > c. For architectures where only *some* parity implementations are
+> > > fast/practical, the generic fallbacks will either naturally synthesize them
+> > > from components via shift-xor, or they can be defined to use a larger
+> > > version; the function prototype acts like a cast.
+> > > 
+> > > d. If there is a reason in the future to add a generic version, it is really
+> > > easy to do using the size-specific functions as components; this is
+> > > something we do literally all over the place, using a pattern so common that
+> > > it, itself, probably should be macroized:
+> > > 
+> > > #define parity(x) 				\
+> > > ({						\
+> > > 	typeof(x) __x = (x);			\
+> > > 	bool __y;				\
+> > > 	switch (sizeof(__x)) {			\
+> > > 		case 1:				\
+> > > 			__y = parity8(__x);	\
+> > > 			break;			\
+> > > 		case 2:				\
+> > > 			__y = parity16(__x);	\
+> > > 			break;			\
+> > > 		case 4:				\
+> > > 			__y = parity32(__x);	\
+> > > 			break;			\
+> > > 		case 8:				\
+> > > 			__y = parity64(__x);	\
+> > > 			break;			\
+> > > 		default:			\
+> > > 			BUILD_BUG();		\
+> > > 			break;			\
+> > > 	}					\
+> > > 	__y;					\
+> > > })
+> > >
+> > Thank you for your detailed response and for explaining the rationale
+> > behind your preference. The points you outlined in (a)–(d) all seem
+> > quite reasonable to me.
+> > 
+> > Yury,
+> > do you have any feedback on this?
+> > Thank you.
+> 
+> My feedback to you:
+> 
+> I asked you to share any numbers about each approach. Asm listings,
+> performance tests, bloat-o-meter. But you did nothing or very little
+> in that department. You move this series, and it means you should be
+> very well aware of alternative solutions, their pros and cons.
+> 
+It seems the concern is that I didn't provide assembly results and
+performance numbers. While I believe that listing these numbers alone
+cannot prove which users really care about parity efficiency, I have
+included the assembly results and my initial observations below. Some
+differences, like mov vs movzh, are likely difficult to measure.
 
-Am 03.04.25 um 17:47 schrieb Maxime Ripard:
-> On Thu, Apr 03, 2025 at 09:39:52AM +0200, Christian König wrote:
->>> For the UMA GPU case where there is no device memory or eviction
->>> problem, perhaps a configurable option to just say account memory in
->>> memcg for all allocations done by this process, and state yes you can
->>> work around it with allocation servers or whatever but the behaviour
->>> for well behaved things is at least somewhat defined.
->> We can have that as a workaround, but I think we should approach that
->> differently.
->>
->> With upcoming CXL even coherent device memory is exposed to the core
->> OS as NUMA memory with just a high latency.
->>
->> So both in the CXL and UMA case it actually doesn't make sense to
->> allocate the memory through the driver interfaces any more. With
->> AMDGPU for example we are just replicating mbind()/madvise() within
->> the driver.
->>
->> Instead what the DRM subsystem should aim for is to allocate memory
->> using the normal core OS functionality and then import it into the
->> driver.
->>
->> AMD, NVidia and Intel have HMM working for quite a while now but it
->> has some limitations, especially on the performance side.
->>
->> So for AMDGPU we are currently evaluating udmabuf as alternative. That
->> seems to be working fine with different NUMA nodes, is perfectly memcg
->> accounted and gives you a DMA-buf which can be imported everywhere.
->>
->> The only show stopper might be the allocation performance, but even if
->> that's the case I think the ongoing folio work will properly resolve
->> that.
-> I mean, no, the showstopper to that is that using udmabuf has the
-> assumption that you have an IOMMU for every device doing DMA, which is
-> absolutely not true on !x86 platforms.
->
-> It might be true for all GPUs, but it certainly isn't for display
-> controllers, and it's not either for codecs, ISPs, and cameras.
->
-> And then there's the other assumption that all memory is under the
-> memory allocator control, which isn't the case on most recent platforms
-> either.
->
-> We *need* to take CMA into account there, all the carved-out, device
-> specific memory regions, and the memory regions that aren't even under
-> Linux supervision like protected memory that is typically handled by the
-> firmware and all you get is a dma-buf.
->
-> Saying that it's how you want to workaround it on AMD is absolutely
-> fine, but DRM as a whole should certainly not aim for that, because it
-> can't.
+Compilation on x86-64 using GCC 14.2 with O2 Optimization:
 
-A bunch of good points you bring up here but it sounds like you misunderstood me a bit.
+Link to Godbolt: https://godbolt.org/z/EsqPMz8cq
 
-I'm certainly *not* saying that we should push for udmabuf for everything, that is clearly use case specific.
+For u8 Input:
+- #2 and #3 generate exactly the same assembly code, while #1 replaces
+  one `mov` instruction with `movzh`, which may slightly slow down the
+  performance due to zero extension.
+- Efficiency: #2 = #3 > #1
 
-For use cases like CMA or protected carve-out the question what to do doesn't even arise in the first place.
+For u16 Input:
+- As with u8 input, #1 performs an unnecessary zero extension, while #3
+  replaces one of the `shr` instructions in #2 with a `mov`, making it
+  slightly faster.
+- Efficiency: #3 > #2 > #1
 
-When you have CMA which dynamically steals memory from the core OS then of course it should be accounted to memcg.
+For u32 Input:
+- #1 has an additional `mov` instruction compared to #2, and #2 has an
+  extra `shr` instruction compared to #3.
+- Efficiency: #3 > #2 > #1
 
-When you have carve-out which the core OS memory management doesn't even know about then it should certainly be handled by dmem.
+For u64 Input:
+- #1 and #2 generate the same code, but #3 has one less `shr`
+  instruction compared to the others.
+- Efficiency: #3 > #1 = #2
 
-The problematic use cases are the one where a buffer can sometimes be backed by system memory and sometime by something special. For this we don't have a good approach what to do since every approach seems to have a draw back for some use case.
+---
+
+Adding -m32 Flag to View Assembly for 32-bit Machine:
+
+Link to Godbolt: https://godbolt.org/z/GrPa86Eq5
+
+For u8 Input:
+- #2 and #3 generate identical assembly code, whereas #1 has additional
+  `mov`, `shr`, and `push/pop` instructions.
+- Efficiency: #2 = #3 > #1
+
+For u16 Input:
+- #1 uses a lot of `xmm` register operations, making it slower than #2
+  and #3. Additionally, #2 has an extra `shr` instruction compared to #3.
+- Efficiency: #3 > #2 > #1
+
+For u32 Input:
+- #1 again uses a lot of `xmm` register operations, so it is slower
+  than #2 and #3, and #2 has an additional `shr` instruction compared to #3.
+- Efficiency: #3 > #2 > #1
+
+For u64 Input:
+- Both #1 and #2 use `xmm` register operations, but #1 has a few extra
+  `movdqa` instructions. #3 is more concise, using a few `shr`, `xor`,
+  and `mov` instructions to complete the operation.
+- Efficiency: #3 > #2 > #1
 
 Regards,
-Christian.
-
->
-> Maxime
-
+Kuan-Wei
 
