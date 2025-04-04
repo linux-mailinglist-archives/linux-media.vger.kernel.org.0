@@ -1,167 +1,122 @@
-Return-Path: <linux-media+bounces-29383-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29384-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C592A7B9A4
-	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 11:11:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E967CA7BA17
+	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 11:40:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 08E3D1778F0
-	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 09:11:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5E4963B347A
+	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 09:39:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BED761A3149;
-	Fri,  4 Apr 2025 09:10:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B11551B4232;
+	Fri,  4 Apr 2025 09:39:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b="E44qa2+1"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Fmnwubo2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F3711C68F;
-	Fri,  4 Apr 2025 09:10:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743757858; cv=pass; b=WIvawIYmtFbJCdLfaJ+CaG+ZfUjW6Ln/7gs5Qut3mQnvAuRfRt1MhnuDPDrV2h9XYzGBcDpSpYMzLDcOXOJnPTuR5XMmjTmDQuDJ50YZdaBdlA3eXhrTaxOY5Xx94kHBwOZsyvs5ZK9QSKvTMy8KXwdsPslrUSGNkFoauMI5kkU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743757858; c=relaxed/simple;
-	bh=CeoWnqKLX7CR9OiKGTeTIa5UuDAMEp9+9zthQZ3BQ2w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D48GH6rBK6/xiai+/VVUFnCYmw+LJDE3UiCjepw7uKK6U8UJyZYZA3t4OWvhIWOOvzasLY5fca2z2JylyXIZlpAHpOk0wgGIvjNr1T02tMLx3VjV741WIPZd9NGHTbQWxAB7qxMBO5R7H/Usp8TdEfoYMlVF/+uET8fQUlx3KHU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b=E44qa2+1; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1743757830; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=lUShNtcKP1QxHgS4zTd/vp7ntLnSv7ce/K//cMKvdkE+oeS+qBHF7vuMBBWk8Uw4iK1EqD7l/fOn+KFpR9s4HREZ9mrFHyaq/TIjq9Aj24C1zjQunajzXJ3piXyyLNDAmfVjXd+paiG6lDNsIuoA6Anp73qbGEe8oqjA8yKvyPQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1743757830; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=V7vYC1DmOY7g/IbhaQA2XCL8pgap2RluhVGOxgHTG9M=; 
-	b=laSlUDswAfoz779JiV1FURK9iKl0vfezQNSgAe3e5nTU+9mZW19jKnIPeU5NOsjljlV3e3u3uHj+W7MyrJR7HaY0MKwQ43/GanaCdVQM0t+OuzRiUim42ZSZ1NQAc9zZcIe3XoCpIMEzgaoOPc7SoulFJb+l5ZbJR3aCqBgiW38=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=benjamin.gaignard@collabora.com;
-	dmarc=pass header.from=<benjamin.gaignard@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1743757830;
-	s=zohomail; d=collabora.com; i=benjamin.gaignard@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=V7vYC1DmOY7g/IbhaQA2XCL8pgap2RluhVGOxgHTG9M=;
-	b=E44qa2+1o1cOfxADZeHmQ/I6MSeEi+WlMmoO+Hbbt8vFwQdzCKSQatPq4tBP/hjx
-	IrtF49UKs5kx/TU5k7GStPdlySyhxwxMOJoztqymr/CK3mVKRLQsCVWP5DeLojEdCoU
-	TkYJhh6rYuPjnhxp1AcBHyg5g2q6GX47CiqA+qQk=
-Received: by mx.zohomail.com with SMTPS id 1743757829476256.0475616658215;
-	Fri, 4 Apr 2025 02:10:29 -0700 (PDT)
-Message-ID: <133924c6-57ca-47ed-9e32-87b75b975f1c@collabora.com>
-Date: Fri, 4 Apr 2025 11:10:25 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2459516132F
+	for <linux-media@vger.kernel.org>; Fri,  4 Apr 2025 09:39:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743759563; cv=none; b=AGAv003cz/ajaiaVXG8xSaz83B6Wr6H0t9UM3bQBiIpK2IJraAHmuyaaa6aXhn49LvwXG2r8lQRn8HDMRi1K8UHcR3QpxejvdsOpOdA38zijAlZN0SUaX/IVnBLTh4VK5o6DRSgKrb/LUDBGOCdp86Czk/Z9CCv/uPjohQ4Q1CM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743759563; c=relaxed/simple;
+	bh=JsO2DCBi+8esMKHuOLikLhu2OLtnCeJi3aVwUcFStVo=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=s/T8BI9wGljNbgZoqHuUYSHoSSmfSEQJIfwTSecJMtq5a6jaN8v0j+T9cnxIhD/uAxnkHeuaSEUqNOi388A1dGVKKoBSAD6xQps/oJdkF0IQR6+F3owL5Kkojk6Gvrx7tCM3eit9vfLuOhNdC4+XjXrwxoXgYdhZQm0GYf/tP0s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Fmnwubo2; arc=none smtp.client-ip=91.218.175.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Content-Type: text/plain;
+	charset=us-ascii
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1743759557;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HvCbJgJnFGne+TAMBgY6cQ6iJ4WbAlnhHeP54hSBG3U=;
+	b=Fmnwubo2TjnwNa23ZsXq1DE1aQDCxDMZQTSrFaDHVwxBUA4J7T93QPMm4Mpo25S6FDBWbe
+	hXnzoy6iMBRZc/lE9/ZTBBkQdIyDbrfWZG45bfRlKvTTSNLK55OyHl+b9lko2taHXfZnfn
+	MDBdQ6PxRyGu3r5IhprHpajQ+cgmImM=
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: verisilicon: Enable wide 4K in AV1 decoder
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- kernel@collabora.com
-References: <20250403-hantro-av1-wuhd-v1-1-334629cb7f63@collabora.com>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <20250403-hantro-av1-wuhd-v1-1-334629cb7f63@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.400.131.1.6\))
+Subject: Re: CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP is broken, was Re: [RFC
+ PATCH 0/6] Deep talk about folio vmap
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Muchun Song <muchun.song@linux.dev>
+In-Reply-To: <20250404090111.GB11105@lst.de>
+Date: Fri, 4 Apr 2025 17:38:35 +0800
+Cc: Huan Yang <link@vivo.com>,
+ bingbu.cao@linux.intel.com,
+ Matthew Wilcox <willy@infradead.org>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Uladzislau Rezki <urezki@gmail.com>,
+ Shuah Khan <shuah@kernel.org>,
+ linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org,
+ linux-mm@kvack.org,
+ linux-kselftest@vger.kernel.org,
+ opensource.kernel@vivo.com
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <9A899641-BDED-4773-B349-56AF1DD58B21@linux.dev>
+References: <20250327092922.536-1-link@vivo.com>
+ <20250404090111.GB11105@lst.de>
+To: Christoph Hellwig <hch@lst.de>
+X-Migadu-Flow: FLOW_OUT
 
 
-Le 03/04/2025 à 21:07, Nicolas Dufresne a écrit :
-> Tested on RK3588, this decoder is capable of handling WUHD, so bump the
-> maximum width and height accordingly.
->
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-Thanks for the patch.
+> On Apr 4, 2025, at 17:01, Christoph Hellwig <hch@lst.de> wrote:
+>=20
+> After the btrfs compressed bio discussion I think the hugetlb changes =
+that
+> skip the tail pages are fundamentally unsafe in the current kernel.
+>=20
+> That is because the bio_vec representation assumes tail pages do =
+exist, so
+> as soon as you are doing direct I/O that generates a bvec starting =
+beyond
+> the present head page things will blow up.  Other users of bio_vecs =
+might
+> do the same, but the way the block bio_vecs are generated are very =
+suspect
+> to that.  So we'll first need to sort that out and a few other things
+> before we can even think of enabling such a feature.
+>=20
 
-Reviewed-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+I would like to express my gratitude to Christoph for including me in =
+the
+thread. I have carefully read the cover letter in [1], which indicates
+that an issue has arisen due to the improper use of `vmap_pfn()`. I'm
+wondering if we could consider using `vmap()` instead. In the HVO =
+scenario,
+the tail struct pages do **exist**, but they are read-only. I've =
+examined
+the code of `vmap()`, and it appears that it only reads the struct page.
+Therefore, it seems feasible for us to use `vmap()` (I am not a expert =
+in
+udmabuf.). Right?
 
-> ---
->   drivers/media/platform/verisilicon/rockchip_vpu_hw.c | 20 ++++++++++----------
->   1 file changed, 10 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
-> index 964122e7c355934cd80eb442219f6ba51bba8b71..b64f0658f7f1e77b3efd960b35cd54dec4edf4ef 100644
-> --- a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
-> +++ b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
-> @@ -85,10 +85,10 @@ static const struct hantro_fmt rockchip_vpu981_postproc_fmts[] = {
->   		.postprocessed = true,
->   		.frmsize = {
->   			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
-> -			.max_width = FMT_UHD_WIDTH,
-> +			.max_width = FMT_4K_WIDTH,
->   			.step_width = MB_DIM,
->   			.min_height = ROCKCHIP_VPU981_MIN_SIZE,
-> -			.max_height = FMT_UHD_HEIGHT,
-> +			.max_height = FMT_4K_HEIGHT,
->   			.step_height = MB_DIM,
->   		},
->   	},
-> @@ -99,10 +99,10 @@ static const struct hantro_fmt rockchip_vpu981_postproc_fmts[] = {
->   		.postprocessed = true,
->   		.frmsize = {
->   			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
-> -			.max_width = FMT_UHD_WIDTH,
-> +			.max_width = FMT_4K_WIDTH,
->   			.step_width = MB_DIM,
->   			.min_height = ROCKCHIP_VPU981_MIN_SIZE,
-> -			.max_height = FMT_UHD_HEIGHT,
-> +			.max_height = FMT_4K_HEIGHT,
->   			.step_height = MB_DIM,
->   		},
->   	},
-> @@ -318,10 +318,10 @@ static const struct hantro_fmt rockchip_vpu981_dec_fmts[] = {
->   		.match_depth = true,
->   		.frmsize = {
->   			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
-> -			.max_width = FMT_UHD_WIDTH,
-> +			.max_width = FMT_4K_WIDTH,
->   			.step_width = MB_DIM,
->   			.min_height = ROCKCHIP_VPU981_MIN_SIZE,
-> -			.max_height = FMT_UHD_HEIGHT,
-> +			.max_height = FMT_4K_HEIGHT,
->   			.step_height = MB_DIM,
->   		},
->   	},
-> @@ -331,10 +331,10 @@ static const struct hantro_fmt rockchip_vpu981_dec_fmts[] = {
->   		.match_depth = true,
->   		.frmsize = {
->   			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
-> -			.max_width = FMT_UHD_WIDTH,
-> +			.max_width = FMT_4K_WIDTH,
->   			.step_width = MB_DIM,
->   			.min_height = ROCKCHIP_VPU981_MIN_SIZE,
-> -			.max_height = FMT_UHD_HEIGHT,
-> +			.max_height = FMT_4K_HEIGHT,
->   			.step_height = MB_DIM,
->   		},
->   	},
-> @@ -344,10 +344,10 @@ static const struct hantro_fmt rockchip_vpu981_dec_fmts[] = {
->   		.max_depth = 2,
->   		.frmsize = {
->   			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
-> -			.max_width = FMT_UHD_WIDTH,
-> +			.max_width = FMT_4K_WIDTH,
->   			.step_width = MB_DIM,
->   			.min_height = ROCKCHIP_VPU981_MIN_SIZE,
-> -			.max_height = FMT_UHD_HEIGHT,
-> +			.max_height = FMT_4K_HEIGHT,
->   			.step_height = MB_DIM,
->   		},
->   	},
->
-> ---
-> base-commit: f2151613e040973c868d28c8b00885dfab69eb75
-> change-id: 20250403-hantro-av1-wuhd-11e2cf5be1a4
->
-> Best regards,
+[1] =
+https://lore.kernel.org/linux-mm/20250327092922.536-1-link@vivo.com/T/#m05=
+5b34978cf882fd44d2d08d929b50292d8502b4
+
+Thanks,
+Muchun.
+
 
