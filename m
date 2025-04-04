@@ -1,531 +1,1156 @@
-Return-Path: <linux-media+bounces-29415-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29416-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64866A7C0B5
-	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 17:38:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A1FFA7C128
+	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 18:00:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8732817ABAD
-	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 15:38:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6DF8E17CD22
+	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 16:00:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE75E1F561D;
-	Fri,  4 Apr 2025 15:38:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15408201021;
+	Fri,  4 Apr 2025 16:00:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="fPBNzaEr"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="fxBVXwG6"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA03C282EE;
-	Fri,  4 Apr 2025 15:38:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 120AE20100C;
+	Fri,  4 Apr 2025 16:00:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743781090; cv=none; b=iKqITIsbxioyHzx6Py2vXb+8KnMWfzNEF06BSGkPhhvlbBhGp0LAadqJxzNeJN5NU3NuQfkyDetNe2XirELwgKWBOXQftrZFiUaM9p84xpC0z6Z19WvEr5Ao5Lfxx30Vn82CHW+8aEih18vdsJpcK1zLiJ7q306JlqgDCUojqns=
+	t=1743782412; cv=none; b=UHRoaSrY85JQqmMtGnDtC1AYUAQnIEwLCI7bhcWMDhJaGoM9m31LFARYPTjaY9ZuRmR/IOji62uzz5Ep1dRC164H62+bJeZaxXe/hy3o7ujDKUWBf5Sgu2soe57PvYd6miXqkdVXSBGUX647l0q2REmPo1lCZp4t70z9XjZEXP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743781090; c=relaxed/simple;
-	bh=gbIykWe4fzepIDe0YwQ2VSk/51H1RW4tv6OJdF3JyuM=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Pza9F7x5Fmj1T80tcdoWcIUTMIANdQzTwizOsikUYiPIbTzbEZ3YBOXpJlk/T+TnqDewBVnW+RPtqMxwjWWZwbOLf6TS1WbiPT3Sp9ZreaT0wBYcdA47Byms3FgKyAyvLFZlo1YoV4vboZyUCHlNIKs/4qVirrKB5iJJMrDsaQY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=fPBNzaEr; arc=none smtp.client-ip=148.251.105.195
+	s=arc-20240116; t=1743782412; c=relaxed/simple;
+	bh=edp4JCqbnIYmscJUGaDUJqLWoBZ/eC547lsA4ylG5qQ=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Yc4beDwPMy65IdzRSr5EYwkcd10OV/YRJQ0A5p1Zxrqh8CPdlv2wQCwPAThqAuQlEmHYAAb9ClqKBj/i2t9p03JCHQcvvqdGMo//Up6D8BchGJ8WvRKj8n+ebGKDUPe8oOn0ThTcdbAKPBLE0QlCZTG4A/MBA/9NkGE6p1eTFQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=fxBVXwG6; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1743781083;
-	bh=gbIykWe4fzepIDe0YwQ2VSk/51H1RW4tv6OJdF3JyuM=;
-	h=From:Date:Subject:To:Cc:From;
-	b=fPBNzaErOsuYBXdwp9N98h51jPNfvKrSh891Aqs8kAir2IMzIILnEKUz2R4yBoNoF
-	 T3sjO3aD17LC3OTy6i7w+wEwP49PptoKKjq3oiicymZZAC/phtg4izrXv1SMgfxRVK
-	 or5JRG9Fq7oz38nCatTHH1TMjPVMcTAkXP0moRqSBlKknfbicBTUZ57Wsbu7QtxFsT
-	 W7KVJP56xmS2c+pvFp6T9YU2ZmDOczI9VeD5uPR9K588+uhReIdPHbEdHPtff11+aS
-	 KuzljhPraUTrsc7uxd84E541EtwnQXFCf/5SoxYNRpvEPltsaxIlddd21b0FN7x7xS
-	 Chdu8fN0uFFug==
-Received: from [192.168.1.63] (unknown [70.107.117.78])
+	s=mail; t=1743782407;
+	bh=edp4JCqbnIYmscJUGaDUJqLWoBZ/eC547lsA4ylG5qQ=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=fxBVXwG6HkZg9j2swGn7G7bSKtwVyyDdH8+y1/H4tx7HV34nVEsgwIakTnUkgcbIF
+	 Ty0muSzmrusFQrQFPbnvLC5ZzrL29BzyWMtrdTJFZDwHFkBe8CjPlmNxf9SxugDUPy
+	 4Rqtnoby0ZPsxGNUyT7SQUn/8h2glrm2HMsN7i/8bFlQjhCdpFJu+WnpE7RFYe+P9M
+	 o4gQMjab+HwtCa1n2y7FUBmRKNG2GmZp/OXVRYociTqr9f5v5GnmCd658oQmyV1yBO
+	 U019AN1QpX8DtJn4YSwsCGt7EkfRHvDVWHPIAvGKCWTgvSfo9iP4gTixbBv23e11T+
+	 bqGJYw+P+Q0rg==
+Received: from [192.168.42.160] (mtl.collabora.ca [66.171.169.34])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 6D87017E00AC;
-	Fri,  4 Apr 2025 17:37:57 +0200 (CEST)
-From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-Date: Fri, 04 Apr 2025 11:37:28 -0400
-Subject: [PATCH] docs: Remove literal markup from Documentation/ paths
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 5FB9317E00AC;
+	Fri,  4 Apr 2025 18:00:04 +0200 (CEST)
+Message-ID: <137d2b73a0c5aab6bf1b1bef6925f84356dbfd98.camel@collabora.com>
+Subject: Re: [RESEND PATCH v0 1/3] media: chips-media: wave5: Improve
+ performance of decoder
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: "jackson.lee" <jackson.lee@chipsnmedia.com>, "mchehab@kernel.org"	
+ <mchehab@kernel.org>, "hverkuil-cisco@xs4all.nl"
+ <hverkuil-cisco@xs4all.nl>,  "sebastian.fricke@collabora.com"	
+ <sebastian.fricke@collabora.com>, "bob.beckett@collabora.com"	
+ <bob.beckett@collabora.com>, "dafna.hirschfeld@collabora.com"	
+ <dafna.hirschfeld@collabora.com>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org"	 <linux-kernel@vger.kernel.org>,
+ "lafley.kim" <lafley.kim@chipsnmedia.com>,  "b-brnich@ti.com"	
+ <b-brnich@ti.com>, "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>, Nas Chung	
+ <nas.chung@chipsnmedia.com>
+Date: Fri, 04 Apr 2025 12:00:01 -0400
+In-Reply-To: <SE1P216MB1303E72CA4B13142761E9035EDA92@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+References: <20250319035034.111-1-jackson.lee@chipsnmedia.com>
+		 <20250319035034.111-2-jackson.lee@chipsnmedia.com>
+	 <25a338e0be5395d2cf2170cc432b5a72efb5d089.camel@collabora.com>
+	 <SE1P216MB1303E72CA4B13142761E9035EDA92@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+Organization: Collabora Canada
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20250404-doc-paths-unliteral-v1-1-74718785444e@collabora.com>
-X-B4-Tracking: v=1; b=H4sIALf872cC/x3MQQqAIBBA0avErBsws0VdJVpoM+VAWGhFEN49a
- fkW/7+QOAonGKoXIt+SZA8FTV3B7G1YGYWKQSvdKaMM0j7jYU+f8AqbnBzthq4n7ahprXEEpTw
- iL/L813HK+QOZ/yl4ZQAAAA==
-X-Change-ID: 20250404-doc-paths-unliteral-b9d2bd13a4bd
-To: Andrew Morton <akpm@linux-foundation.org>, 
- Jonathan Corbet <corbet@lwn.net>, Vinod Koul <vkoul@kernel.org>, 
- Eric Biggers <ebiggers@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>, 
- Jaegeuk Kim <jaegeuk@kernel.org>, Jonathan Cameron <jic23@kernel.org>, 
- Lars-Peter Clausen <lars@metafoo.de>, 
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
- Simon Horman <horms@kernel.org>, 
- Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- James Bottomley <James.Bottomley@HansenPartnership.com>, 
- Jarkko Sakkinen <jarkko@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>, 
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Richard Weinberger <richard@nod.at>, 
- Anton Ivanov <anton.ivanov@cambridgegreys.com>, 
- Johannes Berg <johannes@sipsolutions.net>
-Cc: kernel@collabora.com, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org, 
- linux-fscrypt@vger.kernel.org, linux-iio@vger.kernel.org, 
- netdev@vger.kernel.org, workflows@vger.kernel.org, 
- linux-integrity@vger.kernel.org, keyrings@vger.kernel.org, 
- linux-sound@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-um@lists.infradead.org, 
- =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
-X-Mailer: b4 0.14.2
 
-Given that the automarkup Sphinx plugin cross-references
-"Documentation/*.rst" strings in the text to the corresponding
-documents, surrounding those strings with the literal markup (``) not
-only adds unnecessary markup in the source files, but actually prevents
-the automatic cross-referencing to happen (as it doesn't happen in
-literal blocks).
+Hi,
 
-Remove all the occurrences of the literal markup in
-"Documentation/*.rst" paths, except when the actual source file is being
-referred. Also change the surrounding text when needed so it reads well
-both in the source and the web page (eg. 'see file Doc...' -> 'see
-Doc...').
+Le vendredi 04 avril 2025 à 04:16 +0000, jackson.lee a écrit :
+> Hi Nicolas
+> 
+> Thanks for your review.
+> Can you check my comment for your review?
+> 
+> 
+> > -----Original Message-----
+> > From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > Sent: Thursday, April 3, 2025 3:03 AM
+> > To: jackson.lee <jackson.lee@chipsnmedia.com>; mchehab@kernel.org;
+> > hverkuil-cisco@xs4all.nl; sebastian.fricke@collabora.com;
+> > bob.beckett@collabora.com; dafna.hirschfeld@collabora.com
+> > Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org;
+> > lafley.kim
+> > <lafley.kim@chipsnmedia.com>; b-brnich@ti.com; hverkuil@xs4all.nl;
+> > Nas
+> > Chung <nas.chung@chipsnmedia.com>
+> > Subject: Re: [RESEND PATCH v0 1/3] media: chips-media: wave5:
+> > Improve
+> > performance of decoder
+> > 
+> > Le mercredi 19 mars 2025 à 12:50 +0900, Jackson.lee a écrit :
+> > > From: Jackson Lee <jackson.lee@chipsnmedia.com>
+> > > 
+> > > The existing way for decoding frames was to wait until each frame
+> > > was
+> > 
+> > Suggestion:
+> >   The current decoding method was to...
+> > 
+> > > decoded after feeding a bitstream. As a result, performance was
+> > > low
+> > > and Wave5 could not achieve max pixel processing rate.
+> > > 
+> > > Update driver to use an asynchronous approach for decoding and
+> > > feeding
+> > > a
+> >   Update the driver ..
+> > 
+> > > bitstream in order to achieve full capabilities of the device.
+> > 
+> > This second part lacks the technical design choices needed for your
+> > reviewer ;-P I did read the patch once, and am under the impression
+> > that
+> > your approach is to not finish the job anymore.
+> > 
+> > > 
+> > > Signed-off-by: Jackson Lee <jackson.lee@chipsnmedia.com>
+> > > Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
+> > > ---
+> > >  .../chips-media/wave5/wave5-vpu-dec.c         | 344
+> > > ++++++++++--------
+> > >  .../chips-media/wave5/wave5-vpu-enc.c         |   3 -
+> > >  .../platform/chips-media/wave5/wave5-vpuapi.c |  25 +-
+> > >  .../platform/chips-media/wave5/wave5-vpuapi.h |   5 +-
+> > >  4 files changed, 211 insertions(+), 166 deletions(-)
+> > > 
+> > > diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-
+> > > dec.c
+> > > b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> > > index fd71f0c43ac3..cc47da509703 100644
+> > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> > > @@ -230,12 +230,147 @@ static int start_decode(struct
+> > > vpu_instance *inst,
+> > u32 *fail_res)
+> > >  		switch_state(inst, VPU_INST_STATE_STOP);
+> > > 
+> > >  		dev_dbg(inst->dev->dev, "%s: pic run failed /
+> > > finish job",
+> > __func__);
+> > > -		v4l2_m2m_job_finish(inst->v4l2_m2m_dev,
+> > > m2m_ctx);
+> > >  	}
+> > > 
+> > >  	return ret;
+> > >  }
+> > > 
+> > > +static int write_to_ringbuffer(struct vpu_instance *inst, void
+> > > *buffer,
+> > size_t buffer_size,
+> > > +			       struct vpu_buf *ring_buffer,
+> > > dma_addr_t wr_ptr)
+> > {
+> > 
+> > It seems that from now on this needs to be called with the
+> > feed_lock, so
+> > add:
+> > 
+> > 	 lockdep_assert_held(&inst->feed_lock);
+> > 
+> 
+> 
+> The "feed_lock" mutex is for protecting "inst->avail_src_bufs" this
+> list, so the feed_lock should be used when "static int
+> fill_ringbuffer(struct vpu_instance *inst)" is called, not the
+> write_to_ringbuffer.
+> So I think the feed_lock should not be added in the
+> write_to_ringbuffer function.
 
-Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
----
- Documentation/admin-guide/mm/numa_memory_policy.rst       | 2 +-
- Documentation/admin-guide/serial-console.rst              | 2 +-
- Documentation/driver-api/dmaengine/client.rst             | 2 +-
- Documentation/driver-api/nvdimm/security.rst              | 2 +-
- Documentation/filesystems/fscrypt.rst                     | 4 ++--
- Documentation/iio/adis16475.rst                           | 4 ++--
- Documentation/iio/adis16480.rst                           | 4 ++--
- Documentation/iio/adis16550.rst                           | 4 ++--
- Documentation/iio/adxl380.rst                             | 4 ++--
- Documentation/kernel-hacking/hacking.rst                  | 6 +++---
- Documentation/kernel-hacking/locking.rst                  | 2 +-
- Documentation/networking/dsa/b53.rst                      | 2 +-
- Documentation/networking/dsa/bcm_sf2.rst                  | 2 +-
- Documentation/networking/dsa/dsa.rst                      | 2 +-
- Documentation/networking/dsa/lan9303.rst                  | 2 +-
- Documentation/networking/phy-link-topology.rst            | 2 +-
- Documentation/process/adding-syscalls.rst                 | 2 +-
- Documentation/process/submit-checklist.rst                | 7 ++++---
- Documentation/security/keys/trusted-encrypted.rst         | 4 ++--
- Documentation/sound/kernel-api/writing-an-alsa-driver.rst | 2 +-
- Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst  | 2 +-
- Documentation/userspace-api/media/v4l/diff-v4l.rst        | 2 +-
- Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 4 ++--
- Documentation/virt/uml/user_mode_linux_howto_v2.rst       | 2 +-
- 24 files changed, 36 insertions(+), 35 deletions(-)
+This is called from "fill_ringbuffer()" and both calls to that seems to
+take that lock, my comment was just to make it explicit with lockdep. 
+This is called from CMD_STOP and from device_run() which can be
+concurrent. I think the code effectively protecting the ring buffer
+state with.
 
-diff --git a/Documentation/admin-guide/mm/numa_memory_policy.rst b/Documentation/admin-guide/mm/numa_memory_policy.rst
-index a70f20ce1ffb4ffd0cdcb8e575dce5547c76e73a..e431a93c82a6ac0be1ea2504c727565293f3be77 100644
---- a/Documentation/admin-guide/mm/numa_memory_policy.rst
-+++ b/Documentation/admin-guide/mm/numa_memory_policy.rst
-@@ -13,7 +13,7 @@ document attempts to describe the concepts and APIs of the 2.6 memory policy
- support.
- 
- Memory policies should not be confused with cpusets
--(``Documentation/admin-guide/cgroup-v1/cpusets.rst``)
-+(Documentation/admin-guide/cgroup-v1/cpusets.rst)
- which is an administrative mechanism for restricting the nodes from which
- memory may be allocated by a set of processes. Memory policies are a
- programming interface that a NUMA-aware application can take advantage of.  When
-diff --git a/Documentation/admin-guide/serial-console.rst b/Documentation/admin-guide/serial-console.rst
-index 1609e7479249f0721fd0b4fbbd70eda13ffc09e4..70c067aad724e08fc11457b9a792da965809f116 100644
---- a/Documentation/admin-guide/serial-console.rst
-+++ b/Documentation/admin-guide/serial-console.rst
-@@ -86,7 +86,7 @@ You will need to create a new device to use ``/dev/console``. The official
- ``/dev/console`` is now character device 5,1.
- 
- (You can also use a network device as a console.  See
--``Documentation/networking/netconsole.rst`` for information on that.)
-+Documentation/networking/netconsole.rst for information on that.)
- 
- Here's an example that will use ``/dev/ttyS1`` (COM2) as the console.
- Replace the sample values as needed.
-diff --git a/Documentation/driver-api/dmaengine/client.rst b/Documentation/driver-api/dmaengine/client.rst
-index d491e385d61a98b8a804cd823caf254a2dc62cf4..884b96bdf90081ad17a315b15132a7e5ada07e37 100644
---- a/Documentation/driver-api/dmaengine/client.rst
-+++ b/Documentation/driver-api/dmaengine/client.rst
-@@ -5,7 +5,7 @@ DMA Engine API Guide
- Vinod Koul <vinod dot koul at intel.com>
- 
- .. note:: For DMA Engine usage in async_tx please see:
--          ``Documentation/crypto/async-tx-api.rst``
-+          Documentation/crypto/async-tx-api.rst
- 
- 
- Below is a guide to device driver writers on how to use the Slave-DMA API of the
-diff --git a/Documentation/driver-api/nvdimm/security.rst b/Documentation/driver-api/nvdimm/security.rst
-index eb3d35e6a95c9faf683fd9591d0ea10a1264ec49..6bb732d08fc698b1c3d37263e78ad194081d46f2 100644
---- a/Documentation/driver-api/nvdimm/security.rst
-+++ b/Documentation/driver-api/nvdimm/security.rst
-@@ -51,7 +51,7 @@ all the keys are in the kernel user keyring for unlock.
- A nvdimm encrypted-key of format enc32 has the description format of:
- nvdimm:<bus-provider-specific-unique-id>
- 
--See file ``Documentation/security/keys/trusted-encrypted.rst`` for creating
-+See Documentation/security/keys/trusted-encrypted.rst for creating
- encrypted-keys of enc32 format. TPM usage with a master trusted key is
- preferred for sealing the encrypted-keys.
- 
-diff --git a/Documentation/filesystems/fscrypt.rst b/Documentation/filesystems/fscrypt.rst
-index e803299085492217f946fafd79f2bbaf85a7f974..7aae828ae9040586bbd0bde009386855c11e1645 100644
---- a/Documentation/filesystems/fscrypt.rst
-+++ b/Documentation/filesystems/fscrypt.rst
-@@ -873,7 +873,7 @@ as follows:
-   hash of the key.  To add this type of key, the calling process does
-   not need any privileges.  However, the number of keys that can be
-   added is limited by the user's quota for the keyrings service (see
--  ``Documentation/security/keys/core.rst``).
-+  Documentation/security/keys/core.rst).
- 
- - ``raw_size`` must be the size of the ``raw`` key provided, in bytes.
-   Alternatively, if ``key_id`` is nonzero, this field must be 0, since
-@@ -955,7 +955,7 @@ access encrypted files.
- 
- Nevertheless, to add a key to one of the process-subscribed keyrings,
- the add_key() system call can be used (see:
--``Documentation/security/keys/core.rst``).  The key type must be
-+Documentation/security/keys/core.rst).  The key type must be
- "logon"; keys of this type are kept in kernel memory and cannot be
- read back by userspace.  The key description must be "fscrypt:"
- followed by the 16-character lower case hex representation of the
-diff --git a/Documentation/iio/adis16475.rst b/Documentation/iio/adis16475.rst
-index 4bf0998be36efced97ecb93372df84790351e36b..89a388490ab735f6f4bc1c4dda10a87881ae82aa 100644
---- a/Documentation/iio/adis16475.rst
-+++ b/Documentation/iio/adis16475.rst
-@@ -374,11 +374,11 @@ Obtain buffered data:
-         00001740  01 1a 00 00 ff ff fe 31  00 00 46 aa 00 03 37 f7  |.......1..F...7.|
-         ...
- 
--See ``Documentation/iio/iio_devbuf.rst`` for more information about how buffered
-+See Documentation/iio/iio_devbuf.rst for more information about how buffered
- data is structured.
- 
- 4. IIO Interfacing Tools
- ========================
- 
--See ``Documentation/iio/iio_tools.rst`` for the description of the available IIO
-+See Documentation/iio/iio_tools.rst for the description of the available IIO
- interfacing tools.
-diff --git a/Documentation/iio/adis16480.rst b/Documentation/iio/adis16480.rst
-index 4a2d40e0daa7989dd9dc7c1991de24ac6184fb0c..cce5f3e0174158cf20f12e96bff5c79bced84aab 100644
---- a/Documentation/iio/adis16480.rst
-+++ b/Documentation/iio/adis16480.rst
-@@ -436,11 +436,11 @@ Obtain buffered data::
-   00006b60  09 63 00 00 00 00 1b 13  00 00 22 2f 00 03 23 91  |.c........"/..#.|
-   ...
- 
--See ``Documentation/iio/iio_devbuf.rst`` for more information about how buffered
-+See Documentation/iio/iio_devbuf.rst for more information about how buffered
- data is structured.
- 
- 4. IIO Interfacing Tools
- ========================
- 
--See ``Documentation/iio/iio_tools.rst`` for the description of the available IIO
-+See Documentation/iio/iio_tools.rst for the description of the available IIO
- interfacing tools.
-diff --git a/Documentation/iio/adis16550.rst b/Documentation/iio/adis16550.rst
-index 25db7b8060c42153f9acbc1b5dd689c79f8da70b..c9bbc0a857b03bc1894e3fbba792bba705966636 100644
---- a/Documentation/iio/adis16550.rst
-+++ b/Documentation/iio/adis16550.rst
-@@ -366,11 +366,11 @@ Obtain buffered data:
-         0000ceb0  00 00 0d 2f 00 00 05 25  00 00 07 8d 00 00 a2 ce  |.../...%........|
-         ...
- 
--See ``Documentation/iio/iio_devbuf.rst`` for more information about how buffered
-+See Documentation/iio/iio_devbuf.rst for more information about how buffered
- data is structured.
- 
- 4. IIO Interfacing Tools
- ========================
- 
--See ``Documentation/iio/iio_tools.rst`` for the description of the available IIO
-+See Documentation/iio/iio_tools.rst for the description of the available IIO
- interfacing tools.
-diff --git a/Documentation/iio/adxl380.rst b/Documentation/iio/adxl380.rst
-index 66c8a4d4f767e5a6faa20b1c0fad57b954624a95..61cafa2f98bf36e4c1b035fc4ffd73fab6b2058d 100644
---- a/Documentation/iio/adxl380.rst
-+++ b/Documentation/iio/adxl380.rst
-@@ -223,11 +223,11 @@ Obtain buffered data:
-         002bc3c0  f7 fd 00 cb fb 94 24 80  f7 e3 00 f2 fb b8 24 80  |......$.......$.|
-         ...
- 
--See ``Documentation/iio/iio_devbuf.rst`` for more information about how buffered
-+See Documentation/iio/iio_devbuf.rst for more information about how buffered
- data is structured.
- 
- 4. IIO Interfacing Tools
- ========================
- 
--See ``Documentation/iio/iio_tools.rst`` for the description of the available IIO
-+See Documentation/iio/iio_tools.rst for the description of the available IIO
- interfacing tools.
-diff --git a/Documentation/kernel-hacking/hacking.rst b/Documentation/kernel-hacking/hacking.rst
-index 0042776a9e17cfc5d09b5de043cd4131b54192a9..53cf502ccf3706b15b7c1da177cc28d6decee2b3 100644
---- a/Documentation/kernel-hacking/hacking.rst
-+++ b/Documentation/kernel-hacking/hacking.rst
-@@ -736,7 +736,7 @@ make a neat patch, there's administrative work to be done:
- -  Usually you want a configuration option for your kernel hack. Edit
-    ``Kconfig`` in the appropriate directory. The Config language is
-    simple to use by cut and paste, and there's complete documentation in
--   ``Documentation/kbuild/kconfig-language.rst``.
-+   Documentation/kbuild/kconfig-language.rst.
- 
-    In your description of the option, make sure you address both the
-    expert user and the user who knows nothing about your feature.
-@@ -746,7 +746,7 @@ make a neat patch, there's administrative work to be done:
- 
- -  Edit the ``Makefile``: the CONFIG variables are exported here so you
-    can usually just add a "obj-$(CONFIG_xxx) += xxx.o" line. The syntax
--   is documented in ``Documentation/kbuild/makefiles.rst``.
-+   is documented in Documentation/kbuild/makefiles.rst.
- 
- -  Put yourself in ``CREDITS`` if you consider what you've done
-    noteworthy, usually beyond a single file (your name should be at the
-@@ -755,7 +755,7 @@ make a neat patch, there's administrative work to be done:
-    it implies a more-than-passing commitment to some part of the code.
- 
- -  Finally, don't forget to read
--   ``Documentation/process/submitting-patches.rst``
-+   Documentation/process/submitting-patches.rst
- 
- Kernel Cantrips
- ===============
-diff --git a/Documentation/kernel-hacking/locking.rst b/Documentation/kernel-hacking/locking.rst
-index dff0646a717bff27f6b82d3a8090876e99d23cec..d479c2459895cd8cd5df5b2c9180aafb19f8b7fb 100644
---- a/Documentation/kernel-hacking/locking.rst
-+++ b/Documentation/kernel-hacking/locking.rst
-@@ -1370,7 +1370,7 @@ Futex API reference
- Further reading
- ===============
- 
---  ``Documentation/locking/spinlocks.rst``: Linus Torvalds' spinlocking
-+-  Documentation/locking/spinlocks.rst: Linus Torvalds' spinlocking
-    tutorial in the kernel sources.
- 
- -  Unix Systems for Modern Architectures: Symmetric Multiprocessing and
-diff --git a/Documentation/networking/dsa/b53.rst b/Documentation/networking/dsa/b53.rst
-index 1cb3ff648f8890ea1063789672f19a1fea9f01e5..51fd39ca52019c84ab558332138e94f34aa3c293 100644
---- a/Documentation/networking/dsa/b53.rst
-+++ b/Documentation/networking/dsa/b53.rst
-@@ -14,7 +14,7 @@ Implementation details
- ======================
- 
- The driver is located in ``drivers/net/dsa/b53/`` and is implemented as a
--DSA driver; see ``Documentation/networking/dsa/dsa.rst`` for details on the
-+DSA driver; see Documentation/networking/dsa/dsa.rst for details on the
- subsystem and what it provides.
- 
- The switch is, if possible, configured to enable a Broadcom specific 4-bytes
-diff --git a/Documentation/networking/dsa/bcm_sf2.rst b/Documentation/networking/dsa/bcm_sf2.rst
-index d2571435696f6b777fa682660b9e5310bad765c1..ba7371aad142408a9d95644c47813cba968affc2 100644
---- a/Documentation/networking/dsa/bcm_sf2.rst
-+++ b/Documentation/networking/dsa/bcm_sf2.rst
-@@ -39,7 +39,7 @@ Implementation details
- ======================
- 
- The driver is located in ``drivers/net/dsa/bcm_sf2.c`` and is implemented as a DSA
--driver; see ``Documentation/networking/dsa/dsa.rst`` for details on the subsystem
-+driver; see Documentation/networking/dsa/dsa.rst for details on the subsystem
- and what it provides.
- 
- The SF2 switch is configured to enable a Broadcom specific 4-bytes switch tag
-diff --git a/Documentation/networking/dsa/dsa.rst b/Documentation/networking/dsa/dsa.rst
-index 7b2e69cd7ef0b92f1da4666581c03d07928e6e1b..6e185a08396b91ea8bbfeec31302527555df0cfd 100644
---- a/Documentation/networking/dsa/dsa.rst
-+++ b/Documentation/networking/dsa/dsa.rst
-@@ -1110,7 +1110,7 @@ interface with a physical switch port does not produce the expected result).
- 
- A driver which is able of offloading certain functions of a DANP or DANH should
- declare the corresponding netdev features as indicated by the documentation at
--``Documentation/networking/netdev-features.rst``. Additionally, the following
-+Documentation/networking/netdev-features.rst. Additionally, the following
- methods must be implemented:
- 
- - ``port_hsr_join``: function invoked when a given switch port is added to a
-diff --git a/Documentation/networking/dsa/lan9303.rst b/Documentation/networking/dsa/lan9303.rst
-index ab81b4e0139e340e7025c7b1e1fb0ddd65b232ff..97456316a8d9ec42ef7eb347736d6a9e0de08869 100644
---- a/Documentation/networking/dsa/lan9303.rst
-+++ b/Documentation/networking/dsa/lan9303.rst
-@@ -10,7 +10,7 @@ host conduit network interface (e.g. fixed link).
- Driver details
- ==============
- 
--The driver is implemented as a DSA driver, see ``Documentation/networking/dsa/dsa.rst``.
-+The driver is implemented as a DSA driver, see Documentation/networking/dsa/dsa.rst.
- 
- See ``Documentation/devicetree/bindings/net/dsa/lan9303.txt`` for device tree
- binding.
-diff --git a/Documentation/networking/phy-link-topology.rst b/Documentation/networking/phy-link-topology.rst
-index 4dec5d7d6513d9946ccdabd6733228aa61ff1ea1..ff01d70ef61b42909ec4b3ab6730a08c4b271505 100644
---- a/Documentation/networking/phy-link-topology.rst
-+++ b/Documentation/networking/phy-link-topology.rst
-@@ -98,7 +98,7 @@ UAPI
- ====
- 
- There exist a set of netlink commands to query the link topology from userspace,
--see ``Documentation/networking/ethtool-netlink.rst``.
-+see Documentation/networking/ethtool-netlink.rst.
- 
- The whole point of having a topology representation is to assign the phyindex
- field in :c:type:`struct phy_device <phy_device>`. This index is reported to
-diff --git a/Documentation/process/adding-syscalls.rst b/Documentation/process/adding-syscalls.rst
-index 906c47f1a9e5086a1c5f451b1d8bebe19b0c6ff0..5e6d26ef31eb937f43e74e9193dbecb8bfa5ae14 100644
---- a/Documentation/process/adding-syscalls.rst
-+++ b/Documentation/process/adding-syscalls.rst
-@@ -33,7 +33,7 @@ interface.
-        to a somewhat opaque API.
- 
-  - If you're just exposing runtime system information, a new node in sysfs
--   (see ``Documentation/filesystems/sysfs.rst``) or the ``/proc`` filesystem may
-+   (see Documentation/filesystems/sysfs.rst) or the ``/proc`` filesystem may
-    be more appropriate.  However, access to these mechanisms requires that the
-    relevant filesystem is mounted, which might not always be the case (e.g.
-    in a namespaced/sandboxed/chrooted environment).  Avoid adding any API to
-diff --git a/Documentation/process/submit-checklist.rst b/Documentation/process/submit-checklist.rst
-index beb7f94279fdb6a1d9b4aa86b2bea031f140732b..3ae31c5af2cb5c374658c1fb7125e70bf36e911c 100644
---- a/Documentation/process/submit-checklist.rst
-+++ b/Documentation/process/submit-checklist.rst
-@@ -30,7 +30,8 @@ Review Kconfig changes
- 
- 1) Any new or modified ``CONFIG`` options do not muck up the config menu and
-    default to off unless they meet the exception criteria documented in
--   ``Documentation/kbuild/kconfig-language.rst`` Menu attributes: default value.
-+   Documentation/kbuild/kconfig-language.rst, under "Menu attributes", "default
-+   value".
- 
- 2) All new ``Kconfig`` options have help text.
- 
-@@ -47,7 +48,7 @@ Provide documentation
- 2) All new ``/proc`` entries are documented under ``Documentation/``
- 
- 3) All new kernel boot parameters are documented in
--   ``Documentation/admin-guide/kernel-parameters.rst``.
-+   Documentation/admin-guide/kernel-parameters.rst.
- 
- 4) All new module parameters are documented with ``MODULE_PARM_DESC()``
- 
-@@ -58,7 +59,7 @@ Provide documentation
-    linux-api@vger.kernel.org.
- 
- 6) If any ioctl's are added by the patch, then also update
--   ``Documentation/userspace-api/ioctl/ioctl-number.rst``.
-+   Documentation/userspace-api/ioctl/ioctl-number.rst.
- 
- Check your code with tools
- ==========================
-diff --git a/Documentation/security/keys/trusted-encrypted.rst b/Documentation/security/keys/trusted-encrypted.rst
-index f4d7e162d5e475bf01baafcd4dbbd9dfda9f5e6f..7eef16778ae4f43f6ee538ae4317f0c3d48c3c7f 100644
---- a/Documentation/security/keys/trusted-encrypted.rst
-+++ b/Documentation/security/keys/trusted-encrypted.rst
-@@ -107,7 +107,7 @@ safe.
-      (2) TEE
- 
-          TEEs have well-documented, standardized client interface and APIs. For
--         more details refer to ``Documentation/driver-api/tee.rst``.
-+         more details refer to Documentation/driver-api/tee.rst.
- 
-      (3) CAAM
- 
-@@ -407,7 +407,7 @@ Other uses for trusted and encrypted keys, such as for disk and file encryption
- are anticipated.  In particular the new format 'ecryptfs' has been defined
- in order to use encrypted keys to mount an eCryptfs filesystem.  More details
- about the usage can be found in the file
--``Documentation/security/keys/ecryptfs.rst``.
-+Documentation/security/keys/ecryptfs.rst.
- 
- Another new format 'enc32' has been defined in order to support encrypted keys
- with payload size of 32 bytes. This will initially be used for nvdimm security
-diff --git a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-index 895752cbcedd6b1202ff481cbae6f5001dd3d903..975e9dfb29009f481e7bae243285d2a93a82f5dc 100644
---- a/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-+++ b/Documentation/sound/kernel-api/writing-an-alsa-driver.rst
-@@ -2466,7 +2466,7 @@ Mic boost
- Mic-boost switch is set as “Mic Boost” or “Mic Boost (6dB)”.
- 
- More precise information can be found in
--``Documentation/sound/designs/control-names.rst``.
-+Documentation/sound/designs/control-names.rst.
- 
- Access Flags
- ------------
-diff --git a/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst b/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
-index 42cdb0a9f786066a2d4b8ebc2c72a9318dabebf5..d7524b65a2fccc5ce16abcac7aae3ae0f9f461c7 100644
---- a/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst
-@@ -430,7 +430,7 @@ MPEG stream.
- *Historical context*: This format specification originates from a
- custom, embedded, sliced VBI data format used by the ``ivtv`` driver.
- This format has already been informally specified in the kernel sources
--in the file ``Documentation/userspace-api/media/drivers/cx2341x-uapi.rst`` . The
-+in Documentation/userspace-api/media/drivers/cx2341x-uapi.rst. The
- maximum size of the payload and other aspects of this format are driven
- by the CX23415 MPEG decoder's capabilities and limitations with respect
- to extracting, decoding, and displaying sliced VBI data embedded within
-diff --git a/Documentation/userspace-api/media/v4l/diff-v4l.rst b/Documentation/userspace-api/media/v4l/diff-v4l.rst
-index 33243ecb50336abe845aa44232917134b21280f7..b087835a147fc0a2285992b8d2bc9a56e83b1cb7 100644
---- a/Documentation/userspace-api/media/v4l/diff-v4l.rst
-+++ b/Documentation/userspace-api/media/v4l/diff-v4l.rst
-@@ -634,7 +634,7 @@ devices is documented in :ref:`extended-controls`.
-    compatible with V4L or V4L2.
- 
- .. [#f2]
--   According to ``Documentation/admin-guide/devices.rst`` a symbolic link to
-+   According to Documentation/admin-guide/devices.rst a symbolic link to
-    ``/dev/radio0``.
- 
- .. [#f3]
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-index 4a379bd9e3fbdb78dfda8e7bc4b25de079d61208..7b463d1ffc906a6b519cc7c2f2d6526c3e53eae5 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-@@ -108,8 +108,8 @@ enum v4l2_mpeg_stream_vbi_fmt -
-       - No VBI in the MPEG stream
-     * - ``V4L2_MPEG_STREAM_VBI_FMT_IVTV``
-       - VBI in private packets, IVTV format (documented in the kernel
--	sources in the file
--	``Documentation/userspace-api/media/drivers/cx2341x-uapi.rst``)
-+	sources in
-+	Documentation/userspace-api/media/drivers/cx2341x-uapi.rst)
- 
- 
- 
-diff --git a/Documentation/virt/uml/user_mode_linux_howto_v2.rst b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-index 584000b743f381747f7bced26d60f0d92b6c1fbe..71d1258a5002acb4716221351b60579892862cca 100644
---- a/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-+++ b/Documentation/virt/uml/user_mode_linux_howto_v2.rst
-@@ -1118,7 +1118,7 @@ new feature, please send it to ``linux-um@lists.infradead.org``.
- 
- Please follow all standard Linux patch guidelines such as cc-ing
- relevant maintainers and run ``./scripts/checkpatch.pl`` on your patch.
--For more details see ``Documentation/process/submitting-patches.rst``
-+For more details see Documentation/process/submitting-patches.rst
- 
- Note - the list does not accept HTML or attachments, all emails must
- be formatted as plain text.
 
----
-base-commit: 405e2241def89c88f008dcb899eb5b6d4be8b43c
-change-id: 20250404-doc-paths-unliteral-b9d2bd13a4bd
++	mutex_lock(&inst->feed_lock);
++	ret = fill_ringbuffer(inst);
++	mutex_unlock(&inst->feed_lock);
 
-Best regards,
+note that there is bunch of random locking too in the abstraction, this
+driver will need some cleanup in the long run imho.
+
+> 
+> 
+> > > +	size_t size;
+> > > +	size_t offset = wr_ptr - ring_buffer->daddr;
+> > > +	int ret;
+> > > +
+> > > +	if (wr_ptr + buffer_size > ring_buffer->daddr +
+> > > ring_buffer->size)
+> > {
+> > > +		size = ring_buffer->daddr + ring_buffer->size -
+> > > wr_ptr;
+> > > +		ret = wave5_vdi_write_memory(inst->dev,
+> > > ring_buffer, offset,
+> > (u8 *)buffer, size);
+> > > +		if (ret < 0)
+> > > +			return ret;
+> > > +
+> > > +		ret = wave5_vdi_write_memory(inst->dev,
+> > > ring_buffer, 0, (u8
+> > *)buffer + size,
+> > > +					     buffer_size -
+> > > size);
+> > > +		if (ret < 0)
+> > > +			return ret;
+> > > +	} else {
+> > > +		ret = wave5_vdi_write_memory(inst->dev,
+> > > ring_buffer, offset,
+> > (u8 *)buffer,
+> > > +					     buffer_size);
+> > > +		if (ret < 0)
+> > > +			return ret;
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > 
+> > I have a pretty strong preference in seeing code being moved around
+> > in
+> > seperate patch documented as "non functional changes". This way I
+> > know I
+> > don't have to review again that code.
+> 
+> I will do it.
+> 
+> 
+> > 
+> > > +
+> > > +static int fill_ringbuffer(struct vpu_instance *inst) {
+> > 
+> > Same, I don't want to have to do back and fourth to check if you
+> > changed
+> > anything. Also, after the refactoring, the lockdeup assert can be
+> > added in
+> > the new patch, which makes the introduction of the new lock very
+> > obvious.
+> > 
+> > > +	struct v4l2_m2m_ctx *m2m_ctx = inst->v4l2_fh.m2m_ctx;
+> > > +	struct vpu_src_buffer *vpu_buf;
+> > > +	int ret = 0;
+> > > +
+> > > +	if (m2m_ctx->last_src_buf)  {
+> > > +		struct vpu_src_buffer *vpu_buf =
+> > > +wave5_to_vpu_src_buf(m2m_ctx->last_src_buf);
+> > > +
+> > > +		if (vpu_buf->consumed) {
+> > > +			dev_dbg(inst->dev->dev, "last src buffer
+> > > already
+> > written\n");
+> > > +			return 0;
+> > > +		}
+> > > +	}
+> > > +
+> > > +	list_for_each_entry(vpu_buf, &inst->avail_src_bufs,
+> > > list) {
+> > > +		struct vb2_v4l2_buffer *vbuf = &vpu_buf-
+> > > >v4l2_m2m_buf.vb;
+> > > +		struct vpu_buf *ring_buffer = &inst-
+> > > >bitstream_vbuf;
+> > > +		size_t src_size = vb2_get_plane_payload(&vbuf-
+> > > >vb2_buf, 0);
+> > > +		void *src_buf = vb2_plane_vaddr(&vbuf->vb2_buf,
+> > > 0);
+> > > +		dma_addr_t rd_ptr = 0;
+> > > +		dma_addr_t wr_ptr = 0;
+> > > +		size_t remain_size = 0;
+> > > +
+> > > +		if (vpu_buf->consumed) {
+> > > +			dev_dbg(inst->dev->dev, "already copied
+> > > src buf (%u)
+> > to the ring buffer\n",
+> > > +				vbuf->vb2_buf.index);
+> > > +			continue;
+> > > +		}
+> > > +
+> > > +		if (!src_buf) {
+> > > +			dev_dbg(inst->dev->dev,
+> > > +				"%s: Acquiring kernel pointer to
+> > > src buf (%u),
+> > fail\n",
+> > > +				__func__, vbuf->vb2_buf.index);
+> > > +			break;
+> > > +		}
+> > > +
+> > > +		ret = wave5_vpu_dec_get_bitstream_buffer(inst,
+> > > &rd_ptr,
+> > &wr_ptr, &remain_size);
+> > > +		if (ret) {
+> > > +			/* Unable to acquire the mutex */
+> > 
+> > Might want to fix that comment in a separate patch, perhaps even
+> > remove
+> > that ?
+> > 
+> 
+> Do you want to remove the comment in a separate patch ?
+
+Yes please.
+
+> 
+> 
+> 
+> > > +			dev_err(inst->dev->dev, "Getting the
+> > > bitstream buffer,
+> > fail: %d\n",
+> > > +				ret);
+> > > +			return ret;
+> > > +		}
+> > > +
+> > > +		dev_dbg(inst->dev->dev, "%s: rd_ptr %pad wr_ptr
+> > > %pad",
+> > __func__,
+> > > +&rd_ptr, &wr_ptr);
+> > > +
+> > > +		if (remain_size < src_size) {
+> > > +			dev_dbg(inst->dev->dev,
+> > > +				"%s: remaining size: %zu <
+> > > source size: %zu for
+> > src buf (%u)\n",
+> > > +				__func__, remain_size, src_size,
+> > > vbuf-
+> > > vb2_buf.index);
+> > > +			break;
+> > > +		}
+> > > +
+> > > +		ret = write_to_ringbuffer(inst, src_buf,
+> > > src_size,
+> > ring_buffer, wr_ptr);
+> > > +		if (ret) {
+> > > +			dev_err(inst->dev->dev, "Write src buf
+> > > (%u) to ring
+> > buffer, fail: %d\n",
+> > > +				vbuf->vb2_buf.index, ret);
+> > > +			return ret;
+> > > +		}
+> > > +
+> > > +		ret =
+> > > wave5_vpu_dec_update_bitstream_buffer(inst, src_size);
+> > > +		if (ret) {
+> > > +			dev_dbg(inst->dev->dev,
+> > > +				"update_bitstream_buffer fail:
+> > > %d for src buf
+> > (%u)\n",
+> > > +				ret, vbuf->vb2_buf.index);
+> > > +			break;
+> > > +		}
+> > > +
+> > > +		vpu_buf->consumed = true;
+> > > +
+> > > +		/* Don't write buffers passed the last one while
+> > > draining.
+> > */
+> > > +		if (v4l2_m2m_is_last_draining_src_buf(m2m_ctx,
+> > > vbuf)) {
+> > > +			dev_dbg(inst->dev->dev, "last src buffer
+> > > written to
+> > the ring buffer\n");
+> > > +			break;
+> > > +		}
+> > > +
+> > > +		inst->queuing_num++;
+> > > +		list_del_init(&vpu_buf->list);
+> > > +		break;
+> > > +	}
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +static void wave5_vpu_dec_feed_remaining(struct vpu_instance
+> > > *inst) {
+> > > +	int ret = 0;
+> > > +	struct v4l2_m2m_ctx *m2m_ctx = inst->v4l2_fh.m2m_ctx;
+> > > +	u32 fail_res = 0;
+> > > +
+> > > +	mutex_lock(&inst->feed_lock);
+> > > +	ret = fill_ringbuffer(inst);
+> > > +	mutex_unlock(&inst->feed_lock);
+> > > +	if (ret) {
+> > > +		dev_warn(inst->dev->dev, "Filling ring buffer
+> > > failed\n");
+> > > +		return;
+> > 
+> > I don't think the error handling is correct. What will happen with
+> > the
+> > job ?
+> > 
+> > > +	}
+> > > +
+> > > +	ret = start_decode(inst, &fail_res);
+> > 
+> > I'm a little worried seeing this called outside of device_run()
+> > context.
+> > 
+> > > +	if (ret) {
+> > > +		dev_err(inst->dev->dev,
+> > > +			"Frame decoding on m2m context (%p),
+> > > fail: %d
+> > (result: %d)\n",
+> > > +			m2m_ctx, ret, fail_res);
+> > > +	}
+> > > +
+> > > +	v4l2_m2m_job_finish(inst->v4l2_m2m_dev, m2m_ctx);
+> > 
+> > 
+> > 
+> > > +}
+> > > +
+> > >  static void flag_last_buffer_done(struct vpu_instance *inst)
+> > >  {
+> > >  	struct v4l2_m2m_ctx *m2m_ctx = inst->v4l2_fh.m2m_ctx; @@
+> > > -347,7
+> > > +482,6 @@ static void wave5_vpu_dec_finish_decode(struct
+> > > vpu_instance
+> > *inst)
+> > >  	struct vb2_v4l2_buffer *dec_buf = NULL;
+> > >  	struct vb2_v4l2_buffer *disp_buf = NULL;
+> > >  	struct vb2_queue *dst_vq = v4l2_m2m_get_dst_vq(m2m_ctx);
+> > > -	struct queue_status_info q_status;
+> > > 
+> > >  	dev_dbg(inst->dev->dev, "%s: Fetch output info from
+> > > firmware.",
+> > > __func__);
+> > > 
+> > > @@ -441,20 +575,6 @@ static void
+> > > wave5_vpu_dec_finish_decode(struct
+> > vpu_instance *inst)
+> > >  		}
+> > >  		spin_unlock_irqrestore(&inst->state_spinlock,
+> > > flags);
+> > >  	}
+> > > -
+> > > -	/*
+> > > -	 * During a resolution change and while draining, the
+> > > firmware may
+> > flush
+> > > -	 * the reorder queue regardless of having a matching
+> > > decoding
+> > operation
+> > > -	 * pending. Only terminate the job if there are no more
+> > > IRQ coming.
+> > > -	 */
+> > > -	wave5_vpu_dec_give_command(inst, DEC_GET_QUEUE_STATUS,
+> > > &q_status);
+> > > -	if (q_status.report_queue_count == 0 &&
+> > > -	    (q_status.instance_queue_count == 0 ||
+> > dec_info.sequence_changed)) {
+> > > -		dev_dbg(inst->dev->dev, "%s: finishing job.\n",
+> > > __func__);
+> > > -		pm_runtime_mark_last_busy(inst->dev->dev);
+> > > -		pm_runtime_put_autosuspend(inst->dev->dev);
+> > > -		v4l2_m2m_job_finish(inst->v4l2_m2m_dev,
+> > > m2m_ctx);
+> > > -	}
+> > 
+> > This removal is why I believe some seek stress testing are needed.
+> > I'll
+> > try and find some tests file I crafted last year.
+> > 
+> > >  }
+> > > 
+> > >  static int wave5_vpu_dec_querycap(struct file *file, void *fh,
+> > > struct
+> > > v4l2_capability *cap) @@ -794,11 +914,21 @@ static int
+> > wave5_vpu_dec_stop(struct vpu_instance *inst)
+> > >  	}
+> > > 
+> > >  	if (inst->state != VPU_INST_STATE_NONE) {
+> > > +		struct vb2_v4l2_buffer *vbuf;
+> > > +		struct vpu_src_buffer *vpu_buf;
+> > > +
+> > >  		/*
+> > >  		 * Temporarily release the state_spinlock so
+> > > that subsequent
+> > >  		 * calls do not block on a mutex while inside
+> > > this spinlock.
+> > >  		 */
+> > >  		spin_unlock_irqrestore(&inst->state_spinlock,
+> > > flags);
+> > > +		vbuf = v4l2_m2m_last_src_buf(m2m_ctx);
+> > > +		if (vbuf) {
+> > > +			vpu_buf = wave5_to_vpu_src_buf(vbuf);
+> > > +			if (!vpu_buf->consumed)
+> > > +				wave5_vpu_dec_feed_remaining(ins
+> > > t);
+> > > +		}
+> > > +
+> > 
+> > Do you really need to add all these checks ? Shouldn't you just
+> > "feed_remaining()" and move on ? I also don't think its a good idea
+> > to
+> > call v4l2_m2m_job_finish() in code that can run concurrently with
+> > the
+> > device_run() function. This should only happen if you are certain
+> > the VPU
+> > instance is stopped already.
+> > 
+> 
+> While testing fluster,  stop command is sometimes called  before the
+> last bitstream queued  is handled.
+> The stop command sets EOS before handling the last bitstream, so
+> sometimes mismatch happens.
+> I think the code should be add in the wave5_vpu_dec_stop.
+
+This would be a regression, we took good care of handling before and
+after case correctly.
+> 
+> 
+> > 
+> > >  		ret = wave5_vpu_dec_set_eos_on_firmware(inst);
+> > >  		if (ret)
+> > >  			return ret;
+> > > @@ -1116,115 +1246,6 @@ static int wave5_prepare_fb(struct
+> > > vpu_instance
+> > *inst)
+> > >  	return 0;
+> > >  }
+> > > 
+> > > -static int write_to_ringbuffer(struct vpu_instance *inst, void
+> > > *buffer,
+> > size_t buffer_size,
+> > > -			       struct vpu_buf *ring_buffer,
+> > > dma_addr_t wr_ptr)
+> > > -{
+> > > -	size_t size;
+> > > -	size_t offset = wr_ptr - ring_buffer->daddr;
+> > > -	int ret;
+> > > -
+> > > -	if (wr_ptr + buffer_size > ring_buffer->daddr +
+> > > ring_buffer->size)
+> > {
+> > > -		size = ring_buffer->daddr + ring_buffer->size -
+> > > wr_ptr;
+> > > -		ret = wave5_vdi_write_memory(inst->dev,
+> > > ring_buffer, offset,
+> > (u8 *)buffer, size);
+> > > -		if (ret < 0)
+> > > -			return ret;
+> > > -
+> > > -		ret = wave5_vdi_write_memory(inst->dev,
+> > > ring_buffer, 0, (u8
+> > *)buffer + size,
+> > > -					     buffer_size -
+> > > size);
+> > > -		if (ret < 0)
+> > > -			return ret;
+> > > -	} else {
+> > > -		ret = wave5_vdi_write_memory(inst->dev,
+> > > ring_buffer, offset,
+> > (u8 *)buffer,
+> > > -					     buffer_size);
+> > > -		if (ret < 0)
+> > > -			return ret;
+> > > -	}
+> > > -
+> > > -	return 0;
+> > > -}
+> > > -
+> > > -static int fill_ringbuffer(struct vpu_instance *inst) -{
+> > > -	struct v4l2_m2m_ctx *m2m_ctx = inst->v4l2_fh.m2m_ctx;
+> > > -	struct v4l2_m2m_buffer *buf, *n;
+> > > -	int ret;
+> > > -
+> > > -	if (m2m_ctx->last_src_buf)  {
+> > > -		struct vpu_src_buffer *vpu_buf =
+> > wave5_to_vpu_src_buf(m2m_ctx->last_src_buf);
+> > > -
+> > > -		if (vpu_buf->consumed) {
+> > > -			dev_dbg(inst->dev->dev, "last src buffer
+> > > already
+> > written\n");
+> > > -			return 0;
+> > > -		}
+> > > -	}
+> > > -
+> > > -	v4l2_m2m_for_each_src_buf_safe(m2m_ctx, buf, n) {
+> > > -		struct vb2_v4l2_buffer *vbuf = &buf->vb;
+> > > -		struct vpu_src_buffer *vpu_buf =
+> > > wave5_to_vpu_src_buf(vbuf);
+> > > -		struct vpu_buf *ring_buffer = &inst-
+> > > >bitstream_vbuf;
+> > > -		size_t src_size = vb2_get_plane_payload(&vbuf-
+> > > >vb2_buf, 0);
+> > > -		void *src_buf = vb2_plane_vaddr(&vbuf->vb2_buf,
+> > > 0);
+> > > -		dma_addr_t rd_ptr = 0;
+> > > -		dma_addr_t wr_ptr = 0;
+> > > -		size_t remain_size = 0;
+> > > -
+> > > -		if (vpu_buf->consumed) {
+> > > -			dev_dbg(inst->dev->dev, "already copied
+> > > src buf (%u)
+> > to the ring buffer\n",
+> > > -				vbuf->vb2_buf.index);
+> > > -			continue;
+> > > -		}
+> > > -
+> > > -		if (!src_buf) {
+> > > -			dev_dbg(inst->dev->dev,
+> > > -				"%s: Acquiring kernel pointer to
+> > > src buf (%u),
+> > fail\n",
+> > > -				__func__, vbuf->vb2_buf.index);
+> > > -			break;
+> > > -		}
+> > > -
+> > > -		ret = wave5_vpu_dec_get_bitstream_buffer(inst,
+> > > &rd_ptr,
+> > &wr_ptr, &remain_size);
+> > > -		if (ret) {
+> > > -			/* Unable to acquire the mutex */
+> > > -			dev_err(inst->dev->dev, "Getting the
+> > > bitstream buffer,
+> > fail: %d\n",
+> > > -				ret);
+> > > -			return ret;
+> > > -		}
+> > > -
+> > > -		dev_dbg(inst->dev->dev, "%s: rd_ptr %pad wr_ptr
+> > > %pad",
+> > __func__, &rd_ptr, &wr_ptr);
+> > > -
+> > > -		if (remain_size < src_size) {
+> > > -			dev_dbg(inst->dev->dev,
+> > > -				"%s: remaining size: %zu <
+> > > source size: %zu for
+> > src buf (%u)\n",
+> > > -				__func__, remain_size, src_size,
+> > > vbuf-
+> > > vb2_buf.index);
+> > > -			break;
+> > > -		}
+> > > -
+> > > -		ret = write_to_ringbuffer(inst, src_buf,
+> > > src_size,
+> > ring_buffer, wr_ptr);
+> > > -		if (ret) {
+> > > -			dev_err(inst->dev->dev, "Write src buf
+> > > (%u) to ring
+> > buffer, fail: %d\n",
+> > > -				vbuf->vb2_buf.index, ret);
+> > > -			return ret;
+> > > -		}
+> > > -
+> > > -		ret =
+> > > wave5_vpu_dec_update_bitstream_buffer(inst, src_size);
+> > > -		if (ret) {
+> > > -			dev_dbg(inst->dev->dev,
+> > > -				"update_bitstream_buffer fail:
+> > > %d for src buf
+> > (%u)\n",
+> > > -				ret, vbuf->vb2_buf.index);
+> > > -			break;
+> > > -		}
+> > > -
+> > > -		vpu_buf->consumed = true;
+> > > -
+> > > -		/* Don't write buffers passed the last one while
+> > > draining.
+> > */
+> > > -		if (v4l2_m2m_is_last_draining_src_buf(m2m_ctx,
+> > > vbuf)) {
+> > > -			dev_dbg(inst->dev->dev, "last src buffer
+> > > written to
+> > the ring buffer\n");
+> > > -			break;
+> > > -		}
+> > > -	}
+> > > -
+> > > -	return 0;
+> > > -}
+> > > -
+> > >  static void wave5_vpu_dec_buf_queue_src(struct vb2_buffer *vb)
+> > >  {
+> > >  	struct vpu_instance *inst = vb2_get_drv_priv(vb-
+> > > >vb2_queue); @@
+> > > -1236,6 +1257,11 @@ static void
+> > > wave5_vpu_dec_buf_queue_src(struct
+> > vb2_buffer *vb)
+> > >  	vbuf->sequence = inst->queued_src_buf_num++;
+> > > 
+> > >  	v4l2_m2m_buf_queue(m2m_ctx, vbuf);
+> > > +
+> > > +	INIT_LIST_HEAD(&vpu_buf->list);
+> > > +	mutex_lock(&inst->feed_lock);
+> > > +	list_add_tail(&vpu_buf->list, &inst->avail_src_bufs);
+> > > +	mutex_unlock(&inst->feed_lock);
+> > 
+> > This lack documentation, you didn't even mention the introduction
+> > of a new
+> > src buf list in the commit message.
+> > 
+> > >  }
+> > > 
+> > >  static void wave5_vpu_dec_buf_queue_dst(struct vb2_buffer *vb)
+> > > @@
+> > > -1362,7 +1388,6 @@ static int
+> > > wave5_vpu_dec_start_streaming(struct
+> > vb2_queue *q, unsigned int count
+> > >  				goto return_buffers;
+> > >  			}
+> > >  		}
+> > > -
+> > >  	}
+> > >  	pm_runtime_mark_last_busy(inst->dev->dev);
+> > >  	pm_runtime_put_autosuspend(inst->dev->dev);
+> > > @@ -1385,6 +1410,13 @@ static int streamoff_output(struct
+> > > vb2_queue *q)
+> > >  	dma_addr_t new_rd_ptr;
+> > >  	struct dec_output_info dec_info;
+> > >  	unsigned int i;
+> > > +	struct vpu_src_buffer *vpu_buf, *tmp;
+> > > +
+> > > +	inst->retry = false;
+> > > +	inst->queuing_num = 0;
+> > > +
+> > > +	list_for_each_entry_safe(vpu_buf, tmp, &inst-
+> > > >avail_src_bufs, list)
+> > > +		list_del_init(&vpu_buf->list);
+> > > 
+> > >  	for (i = 0; i < v4l2_m2m_num_dst_bufs_ready(m2m_ctx);
+> > > i++) {
+> > >  		ret = wave5_vpu_dec_set_disp_flag(inst, i); @@ -
+> > > 1481,10
+> > +1513,8 @@
+> > > static void wave5_vpu_dec_stop_streaming(struct vb2_queue *q)
+> > > 
+> > >  		wave5_vpu_dec_give_command(inst,
+> > > DEC_GET_QUEUE_STATUS,
+> > &q_status);
+> > > 
+> > > -		if (q_status.report_queue_count == 0)
+> > > -			break;
+> > > -
+> > > -		if (wave5_vpu_wait_interrupt(inst,
+> > > VPU_DEC_TIMEOUT) < 0)
+> > > +		if ((inst->state == VPU_INST_STATE_STOP ||
+> > > +q_status.instance_queue_count == 0) &&
+> > 
+> > State should be read with appropriate locking.
+> > 
+> > > +		    q_status.report_queue_count == 0)
+> > >  			break;
+> > 
+> > This loop have nothing to wait on anymore. It just actively pool on
+> > the HW.
+> > I noticed your third patch, but if this is what you address there,
+> > squash
+> > it somehow, this would break bisects.
+> > 
+> > The goal of that code was to ensure that this code will never run
+> > concurrently to finish_decode() once out of that while loop. I
+> > don't think
+> > you break that, but that will cause possibly high CPU load.
+> > 
+> 
+> 
+> The code is not related with the third patch, there was sometimes HW
+> interrupt misses since changing to asynchronous, so an infinite wait
+> happened when closed
+> So I removed it, but I think there is no high CPU load because it
+> runs very short time.
+
+If the firmware get stuck, Linux can spin, this cannot be done that way
+I'm sorry. That its most of the time spinning only few times does not
+seems like valid justification. We need a limit, we need some
+preemption, etc.
+
+> 
+> > > 
+> > >  		if (wave5_vpu_dec_get_output_info(inst,
+> > > &dec_output_info))
+> > @@
+> > > -1577,13 +1607,23 @@ static void wave5_vpu_dec_device_run(void
+> > > *priv)
+> > >  	struct queue_status_info q_status;
+> > >  	u32 fail_res = 0;
+> > >  	int ret = 0;
+> > > +	unsigned long flags;
+> > > 
+> > >  	dev_dbg(inst->dev->dev, "%s: Fill the ring buffer with
+> > > new
+> > bitstream data", __func__);
+> > >  	pm_runtime_resume_and_get(inst->dev->dev);
+> > > -	ret = fill_ringbuffer(inst);
+> > > -	if (ret) {
+> > > -		dev_warn(inst->dev->dev, "Filling ring buffer
+> > > failed\n");
+> > > -		goto finish_job_and_return;
+> > > +	if (!inst->retry) {
+> > > +		mutex_lock(&inst->feed_lock);
+> > > +		ret = fill_ringbuffer(inst);
+> > > +		mutex_unlock(&inst->feed_lock);
+> > > +		if (ret < 0) {
+> > > +			dev_warn(inst->dev->dev, "Filling ring
+> > > buffer
+> > failed\n");
+> > > +			goto finish_job_and_return;
+> > > +		} else if (!inst->eos &&
+> > > +			   inst->queuing_num == 0 &&
+> > > +			   inst->state ==
+> > > VPU_INST_STATE_PIC_RUN) {
+> > > +			dev_dbg(inst->dev->dev, "%s: no
+> > > bitstream for feeding,
+> > so skip ", __func__);
+> > > +			goto finish_job_and_return;
+> > > +		}
+> > 
+> > There is quite some overlap between that local src buffer queue and
+> > all
+> > the code that depends on v4l2_m2m_num_src_bufs_ready(). Are you
+> > sure you
+> > aren't re-implementing something ? Also, this code belong to the
+> > PIC_RUN
+> > case in the below switch.
+> > 
+> 
+> 
+> After src buffer was queued, v4l2_m2m_num_src_bufs_ready() always
+> returns true until src buffer was removed in the finish_decode since
+> get_result.
+> So checking if there is buffer or not in the src bufs list was needed
+> in the device_run.
+
+Ack.
+
+> 
+> 
+> 
+> > >  	}
+> > > 
+> > >  	switch (inst->state) {
+> > > @@ -1619,7 +1659,9 @@ static void wave5_vpu_dec_device_run(void
+> > > *priv)
+> > >  		 * we had a chance to switch, which leads to an
+> > > invalid state
+> > >  		 * change.
+> > >  		 */
+> > > +		spin_lock_irqsave(&inst->state_spinlock, flags);
+> > >  		switch_state(inst, VPU_INST_STATE_PIC_RUN);
+> > > +		spin_unlock_irqrestore(&inst->state_spinlock,
+> > > flags);
+> > 
+> > Should be its own patch, and fixed everywhere. Add missing lockdep
+> > assert
+> > (if there is a spinlock version of it).
+> > 
+> > > 
+> > >  		/*
+> > >  		 * During DRC, the picture decoding remains
+> > > pending, so just
+> > leave
+> > > the job @@ -1634,12 +1676,14 @@ static void
+> > wave5_vpu_dec_device_run(void *priv)
+> > >  		ret = wave5_prepare_fb(inst);
+> > >  		if (ret) {
+> > >  			dev_warn(inst->dev->dev, "Framebuffer
+> > > preparation,
+> > fail: %d\n",
+> > > ret);
+> > > +			spin_lock_irqsave(&inst->state_spinlock,
+> > > flags);
+> > >  			switch_state(inst, VPU_INST_STATE_STOP);
+> > > +			spin_unlock_irqrestore(&inst-
+> > > >state_spinlock, flags);
+> > 
+> > Same, this is separate fix.
+> > 
+> > >  			break;
+> > >  		}
+> > > 
+> > >  		if (q_status.instance_queue_count) {
+> > > -			dev_dbg(inst->dev->dev, "%s: leave with
+> > > active job",
+> > __func__);
+> > > +			v4l2_m2m_job_finish(inst->v4l2_m2m_dev,
+> > > m2m_ctx);
+> > >  			return;
+> > >  		}
+> > > 
+> > > @@ -1650,14 +1694,22 @@ static void wave5_vpu_dec_device_run(void
+> > > *priv)
+> > >  			dev_err(inst->dev->dev,
+> > >  				"Frame decoding on m2m context
+> > > (%p), fail: %d
+> > (result: %d)\n",
+> > >  				m2m_ctx, ret, fail_res);
+> > > -			break;
+> > > +			goto finish_job_and_return;
+> > > +		}
+> > > +
+> > > +		if (fail_res == WAVE5_SYSERR_QUEUEING_FAIL) {
+> > > +			inst->retry = true;
+> > > +		} else {
+> > > +			inst->retry = false;
+> > > +			if (!inst->eos)
+> > > +				inst->queuing_num--;
+> > >  		}
+> > > -		/* Return so that we leave this job active */
+> > > -		dev_dbg(inst->dev->dev, "%s: leave with active
+> > > job",
+> > __func__);
+> > > -		return;
+> > > -	default:
+> > > -		WARN(1, "Execution of a job in state %s
+> > > illegal.\n",
+> > state_to_str(inst->state));
+> > >  		break;
+> > > +	default:
+> > > +		if (!v4l2_m2m_has_stopped(m2m_ctx))
+> > > +			WARN(1, "Execution of a job in state %s
+> > > illegal.\n",
+> > > +			     state_to_str(inst->state));
+> > > +		return;
+> > >  	}
+> > > 
+> > >  finish_job_and_return:
+> > > @@ -1676,10 +1728,7 @@ static void wave5_vpu_dec_job_abort(void
+> > > *priv)
+> > >  	if (ret)
+> > >  		return;
+> > > 
+> > > -	ret = wave5_vpu_dec_set_eos_on_firmware(inst);
+> > > -	if (ret)
+> > > -		dev_warn(inst->dev->dev,
+> > > -			 "Setting EOS for the bitstream, fail:
+> > > %d\n", ret);
+> > > +	v4l2_m2m_job_finish(inst->v4l2_m2m_dev, inst-
+> > > >v4l2_fh.m2m_ctx);
+> > >  }
+> > > 
+> > >  static int wave5_vpu_dec_job_ready(void *priv) @@ -1755,6
+> > > +1804,8 @@
+> > > static int wave5_vpu_open_dec(struct file *filp)
+> > >  	inst->ops = &wave5_vpu_dec_inst_ops;
+> > > 
+> > >  	spin_lock_init(&inst->state_spinlock);
+> > > +	mutex_init(&inst->feed_lock);
+> > > +	INIT_LIST_HEAD(&inst->avail_src_bufs);
+> > > 
+> > >  	inst->codec_info = kzalloc(sizeof(*inst->codec_info),
+> > > GFP_KERNEL);
+> > >  	if (!inst->codec_info)
+> > > @@ -1830,9 +1881,6 @@ static int wave5_vpu_open_dec(struct file
+> > > *filp)
+> > >  	if (ret)
+> > >  		goto cleanup_inst;
+> > > 
+> > > -	if (list_empty(&dev->instances))
+> > > -		pm_runtime_use_autosuspend(inst->dev->dev);
+> > > -
+> > >  	list_add_tail(&inst->list, &dev->instances);
+> > > 
+> > >  	mutex_unlock(&dev->dev_lock);
+> > > diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-
+> > > enc.c
+> > > b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> > > index 1e5fc5f8b856..cf20f774ed1b 100644
+> > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> > > @@ -1774,9 +1774,6 @@ static int wave5_vpu_open_enc(struct file
+> > > *filp)
+> > >  	if (ret)
+> > >  		goto cleanup_inst;
+> > > 
+> > > -	if (list_empty(&dev->instances))
+> > > -		pm_runtime_use_autosuspend(inst->dev->dev);
+> > > -
+> > >  	list_add_tail(&inst->list, &dev->instances);
+> > > 
+> > >  	mutex_unlock(&dev->dev_lock);
+> > > diff --git a/drivers/media/platform/chips-media/wave5/wave5-
+> > > vpuapi.c
+> > > b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+> > > index e5e879a13e8b..c1737fac6edd 100644
+> > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+> > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+> > > @@ -207,8 +207,6 @@ int wave5_vpu_dec_close(struct vpu_instance
+> > > *inst,
+> > u32 *fail_res)
+> > >  	int retry = 0;
+> > >  	struct vpu_device *vpu_dev = inst->dev;
+> > >  	int i;
+> > > -	int inst_count = 0;
+> > > -	struct vpu_instance *inst_elm;
+> > > 
+> > >  	*fail_res = 0;
+> > >  	if (!inst->codec_info)
+> > > @@ -233,6 +231,16 @@ int wave5_vpu_dec_close(struct vpu_instance
+> > > *inst,
+> > u32 *fail_res)
+> > >  		    retry++ >= MAX_FIRMWARE_CALL_RETRY) {
+> > >  			ret = -ETIMEDOUT;
+> > >  			goto unlock_and_return;
+> > > +		} else if (*fail_res ==
+> > > WAVE5_SYSERR_VPU_STILL_RUNNING) {
+> > > +			struct dec_output_info dec_info;
+> > > +
+> > > +			mutex_unlock(&vpu_dev->hw_lock);
+> > > +			wave5_vpu_dec_get_output_info(inst,
+> > > &dec_info);
+> > > +			ret = mutex_lock_interruptible(&vpu_dev-
+> > > >hw_lock);
+> > > +			if (ret) {
+> > > +				pm_runtime_put_sync(inst->dev-
+> > > >dev);
+> > > +				return ret;
+> > > +			}
+> > 
+> > Please try and simplify all the branches. Something like:
+> > 
+> > 			if (ret == 0)
+> > 				break;
+> > 
+> > 			if (*fail_res !=
+> > WAVE5_SYSERR_VPU_STILL_RUNNING) {
+> > 					dev_warn(inst->dev->dev,
+> > "dec_finish_seq
+> > timed out\n");
+> > 					goto unlock_and_return;
+> > 			}
+> > 
+> > 			if (retry++ >= MAX_FIRMWARE_CALL_RETRY) {
+> > 					ret = -ETIMEDOUT;
+> > 					goto unlock_and_return;
+> > 			}
+> > 
+> > 			mutex_unlock(&vpu_dev->hw_lock);
+> > 			wave5_vpu_dec_get_output_info(inst,
+> > &dec_info);
+> > 			ret = mutex_lock_interruptible(&vpu_dev-
+> > >hw_lock);
+> > 			if (ret) {
+> > 				pm_runtime_put_sync(inst->dev-
+> > >dev);
+> > 				return ret;
+> > 			}
+> > 
+> > My impression on that change is that it is independent and could be
+> > introduced separately.
+> > 
+> > >  		}
+> > >  	} while (ret != 0);
+> > > 
+> > > @@ -249,11 +257,7 @@ int wave5_vpu_dec_close(struct vpu_instance
+> > > *inst,
+> > u32 *fail_res)
+> > >  	}
+> > > 
+> > >  	wave5_vdi_free_dma_memory(vpu_dev, &p_dec_info-
+> > > >vb_task);
+> > > -
+> > > -	list_for_each_entry(inst_elm, &vpu_dev->instances, list)
+> > > -		inst_count++;
+> > > -	if (inst_count == 1)
+> > > -		pm_runtime_dont_use_autosuspend(vpu_dev->dev);
+> > 
+> > This seems like some other fix, that should be in its own commit.
+> > 
+> > > +	mutex_destroy(&inst->feed_lock);
+> > > 
+> > >  unlock_and_return:
+> > >  	mutex_unlock(&vpu_dev->hw_lock);
+> > > @@ -720,8 +724,6 @@ int wave5_vpu_enc_close(struct vpu_instance
+> > > *inst,
+> > u32 *fail_res)
+> > >  	int ret;
+> > >  	int retry = 0;
+> > >  	struct vpu_device *vpu_dev = inst->dev;
+> > > -	int inst_count = 0;
+> > > -	struct vpu_instance *inst_elm;
+> > > 
+> > >  	*fail_res = 0;
+> > >  	if (!inst->codec_info)
+> > > @@ -765,11 +767,6 @@ int wave5_vpu_enc_close(struct vpu_instance
+> > > *inst, u32 *fail_res)
+> > > 
+> > >  	wave5_vdi_free_dma_memory(vpu_dev, &p_enc_info-
+> > > >vb_task);
+> > > 
+> > > -	list_for_each_entry(inst_elm, &vpu_dev->instances, list)
+> > > -		inst_count++;
+> > > -	if (inst_count == 1)
+> > > -		pm_runtime_dont_use_autosuspend(vpu_dev->dev);
+> > > -
+> > 
+> > Same.
+> > 
+> > >  	mutex_unlock(&vpu_dev->hw_lock);
+> > >  	pm_runtime_put_sync(inst->dev->dev);
+> > > 
+> > > diff --git a/drivers/media/platform/chips-media/wave5/wave5-
+> > > vpuapi.h
+> > > b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> > > index 45615c15beca..6ca1ddc67c64 100644
+> > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
+> > > @@ -163,7 +163,7 @@ enum set_param_option {
+> > > 
+> > >  #define BUFFER_MARGIN				4096
+> > > 
+> > > -#define MAX_FIRMWARE_CALL_RETRY			10
+> > > +#define MAX_FIRMWARE_CALL_RETRY			30
+> > 
+> > I thought 10s was already very long, am I right this means it can
+> > get
+> > stuck for 30s now ?
+> > 
+> > > 
+> > >  #define VDI_LITTLE_ENDIAN	0x0
+> > > 
+> > > @@ -812,6 +812,9 @@ struct vpu_instance {
+> > >  	bool cbcr_interleave;
+> > >  	bool nv21;
+> > >  	bool eos;
+> > > +	bool retry;
+> > > +	int queuing_num;
+> > 
+> > Some comment would be helpful. What does "retry" stand for, and how
+> > is
+> > queing_num different from v4l2_m2m_num_src_bufs_ready() ?
+> > 
+> > > +	struct mutex feed_lock; /* lock for feeding bitstream
+> > > buffers */
+> > >  	struct vpu_buf bitstream_vbuf;
+> > >  	dma_addr_t last_rd_ptr;
+> > >  	size_t remaining_consumed_bytes;
+> > 
+> > --
+> > Nicolas Dufresne
+> > Principal Engineer at Collabora
+> 
+> Thanks
+> Jackson
+
 -- 
-Nícolas F. R. A. Prado <nfraprado@collabora.com>
-
+Nicolas Dufresne
+Principal Engineer at Collabora
 
