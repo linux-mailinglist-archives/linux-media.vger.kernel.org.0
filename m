@@ -1,199 +1,203 @@
-Return-Path: <linux-media+bounces-29372-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29374-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09D81A7B7DF
-	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 08:38:29 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1BE4A7B8D6
+	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 10:27:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5712117845C
-	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 06:38:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 22126188F556
+	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 08:28:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EDC5199FB0;
-	Fri,  4 Apr 2025 06:37:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2498199385;
+	Fri,  4 Apr 2025 08:27:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Ivw09rEs"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eVY6lAo7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93A82191F95
-	for <linux-media@vger.kernel.org>; Fri,  4 Apr 2025 06:37:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44CB718B463
+	for <linux-media@vger.kernel.org>; Fri,  4 Apr 2025 08:27:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743748667; cv=none; b=CH5lu0+fU9soQWOYd5PzfIvSmjL3N1dpLJpLKexMzJO1Mq2B3D220jTcJEEaWfYr8/mdayHEYtNdz0zslgoF3OXOuCzRCX6Q42GR1qO9QAKZ2QmZaR9GL5YJQSqI8W3+H/bIsAI3mD9GxtJI6Qx0QwUeX3qeRepVyUgnsDCS5eU=
+	t=1743755267; cv=none; b=fvaQwEPt9Ay6ZIPGmnLY30DBjD5oT7PMsecgXIG5uJeYyI+LVqkQg7chKG5+/50Bh5VFmrYbIR8+RIw++kUQZ43dzY4HcM8N99ZSk2obumHLd0iBXUERd+l6p5IPvcQ64B+aqq2g3xJVI1gGcaUh1sC1ZbHUKZ4YRL8oVXhI6Ec=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743748667; c=relaxed/simple;
-	bh=+KkdZxdqvHIlFaUxnw0T/2vUmNZjxcvggpVmgCAVYT0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gLBGPynJ85fPRY4ehtk4YOjFoBW8EMjAS4NgSrg7JOiVpmTEhz5Wpfq1jmovfqsJq8favCBMvcOXenphQbCbT/mFebyrLUbvJJNv9393mww9jgul1dDs5wnrynBqIfqA1w+FbGYXfSpfXec5HWgz7uD8JfuZpj6FcUodZeowxJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=Ivw09rEs; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5499bd3084aso1501607e87.0
-        for <linux-media@vger.kernel.org>; Thu, 03 Apr 2025 23:37:45 -0700 (PDT)
+	s=arc-20240116; t=1743755267; c=relaxed/simple;
+	bh=6J59qiE2/DyR8bp12iRSJ3b4eCHXTbUSaacflaSE4Jk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=c625hQdbYh2vQo6mGSiiBUPFqGw4uBpjHD9Sl3DhtV+fcGml5Tkxdc3D9PrMKNN5qVaZnk96Ye5X6dhnhH2e8oHi+fP3k0QOitiBP8lPshMKmA/4UeM7daB3Li37XyzqviVeTv2MeXvS0BrmhFD6ZUyp8bkcJ3ii2AfgJ7Kgq9Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eVY6lAo7; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-39c266c2dd5so1517901f8f.3
+        for <linux-media@vger.kernel.org>; Fri, 04 Apr 2025 01:27:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1743748664; x=1744353464; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jfKei41NeiW8d42lUMUhoCILXY12OhST2R+tJl7Txyg=;
-        b=Ivw09rEsNhTPbGfMN+6Geejw3Q802OsZA1khp0IBkRAmpKdoAmk2HFu3eldwrvCX/R
-         dCoUrZDs/g/Rz7lIvc8N9w/CxUqgNlmyJCZfNnVBkvRX6fqIZm/OYHQqm/PGtEZwyynF
-         0cWFp36qnWUrTFHtBv14OdYQOaak+BKZUA59Q=
+        d=linaro.org; s=google; t=1743755263; x=1744360063; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=DJa0y5uHqB+uXYxg4Ee5P8Mqg/g0/KhhIdf1SuA6v4A=;
+        b=eVY6lAo7hqueymdGO2mdjSexjzxtDzQEKqNPrKBPhgQBYIvNNaw8XHuRFY6p+ZYoo2
+         QFnOfowEhaBIQNj3DrG4iUIc5ckQRfNrVn28dvpYCCwAhBGmsVMNTP5ggBGdTpVtjV7X
+         FgMpVAnsGlH/t4LqAQlY4FTmRaONUV5yuIgRnhB5kLa3DaMtQqW/VXuRcy6LUWVp157/
+         eVb2F2P9xgDLZtcwhhHL5X4oabKmoWkr88QC5KXwncM8nPgxzStN5yNYjHH+nPvLBOM9
+         d1qCy5b1A7ZCZqBKqMWpPdc4tpP8feSrJ/RDV2ygKOKB0dnapGzV69iqmOn+xfDN1c5a
+         EcqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743748664; x=1744353464;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jfKei41NeiW8d42lUMUhoCILXY12OhST2R+tJl7Txyg=;
-        b=Z8ZPrOqtqwoFjU2I3fzqrcXs7M0cnSGw85wdIGnLZXt07j+N+gacnzl7yKGV5n7tKd
-         G304zovqV7NBZWusuFYTJdRTxC9Bhg3mNniO10Ew7IBeFK7vvqQts3gZpIwC6OWi3UTR
-         df9b/DJyhWFFwJ5mxkjKgIE/uTx4oNZ3yYyQRyfNo1M6RCGNBENYNXpLO0/rzsipBNda
-         KT/zoA0IflvSZq2ybKH2v6gvd0T9WMqq2l7oANZbwozNlH3NmKhSV/um8EeljXGm5Udh
-         GuON5pwNKgCCyZsNS3LAxTdYxeAAP/+NH9tlzAsTjqlEdrFrWk1+cYIya8fFCaC0EhO2
-         zj0w==
-X-Gm-Message-State: AOJu0YzzImbGIFxL7/++9LE7CuF9SadcbBZ320GUNVII/exUh3Ylx3Nm
-	QLDRVoDZjU8X19uMZgxHXZA/pUwdfhB27G9LgzirJHWTsY2kJDetcgImbNT7mMWzXPwvxcb9BQM
-	=
-X-Gm-Gg: ASbGncuoOrHnqGEBShoaKhesP0wUwfZfBafyJ2zQSlORwofKXHEd5nhAKYrwfdGKG+W
-	N/3MuLhkU10gKAxQGQ3CRD4t9htQmzSNoVxCQ07DqXfRDRVVsJFJ1EJSvqUMYKyWmr2UHOQ5SX0
-	1LaC7ZaNDw3PtCdiZ1CQ/wgx/ZQoGl3RgzhhFp9tkvWp7w08DKgpynG7cDdvFlDSQUQE6U9ieqU
-	QcxpkpyXDtppNIVssWzXnwnMKmXxL5NdFatgo9wKxcSwP1RHGWnYlpccuOeWk2G3ixZVKLs5Qy8
-	jjizMKFIH+R4b4b75UxnmPm0FSt4gZc2UisivGDt/OiSdQGHHnUitwKqYRHWvWIufY2vfDYgXN1
-	VlPoya3xdUz1zyus1hdiKG6+9tWAWKIZdsGU=
-X-Google-Smtp-Source: AGHT+IGiEq5HAfK9gznqpOik3UfipLmtacM6oeNSqlOetaI/lji+MiW2P1IKEgszzXgZO7Lyb2+qvQ==
-X-Received: by 2002:a05:6512:3da1:b0:545:2871:7cd5 with SMTP id 2adb3069b0e04-54c22776fc6mr564255e87.15.1743748663628;
-        Thu, 03 Apr 2025 23:37:43 -0700 (PDT)
-Received: from ribalda.c.googlers.com (216.148.88.34.bc.googleusercontent.com. [34.88.148.216])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54c1e672444sm338275e87.251.2025.04.03.23.37.42
+        d=1e100.net; s=20230601; t=1743755263; x=1744360063;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DJa0y5uHqB+uXYxg4Ee5P8Mqg/g0/KhhIdf1SuA6v4A=;
+        b=N2XOe9FYEHB6ZHvYWdDSS3OlfwcNVuQn8YkTqLtrXub/SwsJmmF4vRtSBQSEdIFtJj
+         7jICVHkmHu2w4JMwHgSvqFjMzjlVCqzgpzG6LDIXLftS4nFpAXxX8jSKEebTfNoT42GL
+         xrKgFWWvSRMocu/IEKPPbkERMeK/HhLrIfJgraVyo46KDl6cC8Bg1dsz64aRwOKXbIPU
+         8HKnt5RMns+lvBmg15SkUwlsXdMd2tj9bCohQ4sBJlOney2WgrpaUcMGlqcn0dt0cHnZ
+         B2pHp/91H7ORNzZcX3nen1sDB/mTd1Nud/aUmA1K4vyU1CkIGGgK6mXNGOwN+CmBLeNH
+         s+Aw==
+X-Forwarded-Encrypted: i=1; AJvYcCWB0vYn8JlwZIG0N/xVKRWxvcfBycdogwgVo91lHIokr1dqdRRrSeHoD5hET23nSTP5iBA7XlXPvufbDA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YycE6azUTIoi5SV/5cnsbJGXphsum6MWFQjWLHP7z3CngLd3wPj
+	rJyfsCFePrTP3KkctkNBw0PrA/C90sIv3VvbKCZDn6bsRUXrWyvbR5hblQc8yR8=
+X-Gm-Gg: ASbGncs3heAnGN6ajVuMqgb91MzUsuyVBSeuanqBBg5kt7m6ZqzWA0kBc7QbUqnpdRq
+	G6zPhFDT18LJhcjPamlknyYthby14LpAT+HeSDw/lmH83i3fhCrs9UHF8nLjDPtYlT+GkD9t0s+
+	dGfzIZ4vjxCuL7PgOfBDEHk1QimAO1k4MIBlCc1dIbROiN8fx+ZRpIXbJmx5RTUSTu+HtKja+01
+	i7pRArQD+xDypLAqU1lI1Hp4UO3fwCJ7e1h8tjwd5jJcU53YGcHslPcD9193Xxpvw9xsU/qKcQh
+	QYRfqf8YiuN29uR4Y4Eh1VDzCCqbbRhBVcnDa/JZFWi6LeVtyA==
+X-Google-Smtp-Source: AGHT+IG+NDQDuY7wpbCJM2rLv7MTUqbCkkmKdHj5rYcXcQpcsNWGZu7a+1mkk53652ueI0HgxX47pg==
+X-Received: by 2002:a05:6000:250a:b0:391:12a5:3cb3 with SMTP id ffacd0b85a97d-39d0873fd19mr1619780f8f.3.1743755263387;
+        Fri, 04 Apr 2025 01:27:43 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-39c3020dacfsm3780694f8f.72.2025.04.04.01.27.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Apr 2025 23:37:42 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 04 Apr 2025 06:37:37 +0000
-Subject: [PATCH v5 4/4] media: uvcvideo: Auto-set UVC_QUIRK_MSXU_META
+        Fri, 04 Apr 2025 01:27:42 -0700 (PDT)
+Date: Fri, 4 Apr 2025 11:27:39 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Rob Clark <robdclark@chromium.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Gustavo Padovan <gustavo@padovan.org>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Pekka Paalanen <pekka.paalanen@collabora.com>,
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] dma-buf/sw_sync: Decrement refcount on error in
+ sw_sync_ioctl_get_deadline()
+Message-ID: <03c838ab-3bc8-4e5a-9f0a-331254701b0c@stanley.mountain>
+References: <5dbd6105-3acf-47ad-84d6-2920171916ac@stanley.mountain>
+ <0e832ed8-9692-43ba-869d-8db3b419f3a9@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250404-uvc-meta-v5-4-f79974fc2d20@chromium.org>
-References: <20250404-uvc-meta-v5-0-f79974fc2d20@chromium.org>
-In-Reply-To: <20250404-uvc-meta-v5-0-f79974fc2d20@chromium.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Hans de Goede <hdegoede@redhat.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0e832ed8-9692-43ba-869d-8db3b419f3a9@amd.com>
 
-If the camera supports the MSXU_CONTROL_METADATA control, auto set the
-MSXU_META quirk.
+On Mon, Mar 31, 2025 at 02:02:44PM +0200, Christian König wrote:
+> Am 31.03.25 um 11:45 schrieb Dan Carpenter:
+> > Call dma_fence_put(fence) before returning an error on this error path.
+> >
+> > Fixes: 70e67aaec2f4 ("dma-buf/sw_sync: Add fence deadline support")
+> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > ---
+> >  drivers/dma-buf/sw_sync.c | 4 +++-
+> >  1 file changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+> > index f5905d67dedb..b7615c5c6cac 100644
+> > --- a/drivers/dma-buf/sw_sync.c
+> > +++ b/drivers/dma-buf/sw_sync.c
+> > @@ -438,8 +438,10 @@ static int sw_sync_ioctl_get_deadline(struct sync_timeline *obj, unsigned long a
+> >  		return -EINVAL;
+> >  
+> >  	pt = dma_fence_to_sync_pt(fence);
+> > -	if (!pt)
+> > +	if (!pt) {
+> > +		dma_fence_put(fence);
+> >  		return -EINVAL;
+> > +	}
+> 
+> Good catch.
+> 
+> I think it would be cleaner if we add an error label and then use "ret = -EINVAL; goto error;" here as well as a few lines below when ret is set to -ENOENT.
+> 
+> This way we can also avoid the ret = 0 in the declaration and let the compiler actually check the lifetime of the assignment.
+> 
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_metadata.c | 54 ++++++++++++++++++++++++++++++++++++
- include/linux/usb/uvc.h              |  3 ++
- 2 files changed, 57 insertions(+)
+I had some issues with my email and it silently ate a bunch of outgoing
+email without saving a single trace of anything I had sent.  I see
+this was one that was eaten.
 
-diff --git a/drivers/media/usb/uvc/uvc_metadata.c b/drivers/media/usb/uvc/uvc_metadata.c
-index fe2678fc795d7fd5a64e8113199012f34c419176..776d280f34afad515594a873acf075acf0438304 100644
---- a/drivers/media/usb/uvc/uvc_metadata.c
-+++ b/drivers/media/usb/uvc/uvc_metadata.c
-@@ -10,6 +10,7 @@
- #include <linux/list.h>
- #include <linux/module.h>
- #include <linux/usb.h>
-+#include <linux/usb/uvc.h>
- #include <linux/videodev2.h>
+Unwind ladders don't work really well for things where you just take it
+for a little while and then drop it a few lines later.  Such as here you
+take reference and then drop it or you take a lock and then drop it.
+Normally, you can add things to anywere in the unwind ladder but if you
+add an unlock to the ladder than you to add a weird bunny hop if the goto
+isn't holding the lock.  It ends up getting confusing.  With that kind of
+thing, I prefer to do the unlock before the goto.
+
+free_c:
+	free(c);
+	goto free_b;  <-- bunny hop;
+unlock:
+	unlock();
+free_b:
+	free(b);
+free_a:
+	free(a);
+
+	return ret;
+
+regards,
+dan carpenter
+
+diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+index f5905d67dedb..22a808995f10 100644
+--- a/drivers/dma-buf/sw_sync.c
++++ b/drivers/dma-buf/sw_sync.c
+@@ -438,15 +438,17 @@ static int sw_sync_ioctl_get_deadline(struct sync_timeline *obj, unsigned long a
+ 		return -EINVAL;
  
- #include <media/v4l2-ioctl.h>
-@@ -187,11 +188,64 @@ static const struct v4l2_file_operations uvc_meta_fops = {
- 	.mmap = vb2_fop_mmap,
- };
- 
-+static const u8 uvc_msxu_guid[16] = UVC_GUID_MSXU_1_5;
-+
-+#define MSXU_CONTROL_METADATA 0x9
-+static int uvc_enable_msxu(struct uvc_device *dev)
-+{
-+	u32 *data __free(kfree) = NULL;
-+	struct uvc_entity *entity;
-+
-+	list_for_each_entry(entity, &dev->entities, list) {
-+		int ret;
-+
-+		if (memcmp(entity->guid, uvc_msxu_guid, sizeof(entity->guid)))
-+			continue;
-+
-+		if (!data)
-+			data = kmalloc(sizeof(*data), GFP_KERNEL);
-+		if (!data)
-+			return -ENOMEM;
-+
-+		ret = uvc_query_ctrl(dev, UVC_GET_CUR, entity->id,
-+				     dev->intfnum, MSXU_CONTROL_METADATA,
-+				     data, sizeof(*data));
-+		if (ret)
-+			continue;
-+
-+		if (*data) {
-+			dev->quirks |= UVC_QUIRK_MSXU_META;
-+			return 0;
-+		}
-+
-+		ret = uvc_query_ctrl(dev, UVC_GET_MAX, entity->id,
-+				     dev->intfnum, MSXU_CONTROL_METADATA,
-+				     data, sizeof(*data));
-+		if (ret || !*data)
-+			continue;
-+
-+		ret = uvc_query_ctrl(dev, UVC_SET_CUR, entity->id,
-+				     dev->intfnum, MSXU_CONTROL_METADATA,
-+				     data, sizeof(*data));
-+		if (!ret) {
-+			dev->quirks |= UVC_QUIRK_MSXU_META;
-+			return 0;
-+		}
+ 	pt = dma_fence_to_sync_pt(fence);
+-	if (!pt)
+-		return -EINVAL;
++	if (!pt) {
++		ret = -EINVAL;
++		goto put_fence;
 +	}
-+
-+	return 0;
-+}
-+
- int uvc_meta_register(struct uvc_streaming *stream)
- {
- 	struct uvc_device *dev = stream->dev;
- 	struct video_device *vdev = &stream->meta.vdev;
- 	struct uvc_video_queue *queue = &stream->meta.queue;
-+	int ret;
-+
-+	ret = uvc_enable_msxu(dev);
-+	if (ret)
-+		return ret;
  
- 	stream->meta.format = V4L2_META_FMT_UVC;
+ 	spin_lock_irqsave(fence->lock, flags);
+-	if (test_bit(SW_SYNC_HAS_DEADLINE_BIT, &fence->flags)) {
+-		data.deadline_ns = ktime_to_ns(pt->deadline);
+-	} else {
++	if (!test_bit(SW_SYNC_HAS_DEADLINE_BIT, &fence->flags)) {
+ 		ret = -ENOENT;
++		goto unlock;
+ 	}
++	data.deadline_ns = ktime_to_ns(pt->deadline);
+ 	spin_unlock_irqrestore(fence->lock, flags);
  
-diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
-index bce95153e5a65613a710d7316fc17cf5462b5bce..ee19e9f915b8370c333c426dc1ee4202c7b75c5b 100644
---- a/include/linux/usb/uvc.h
-+++ b/include/linux/usb/uvc.h
-@@ -29,6 +29,9 @@
- #define UVC_GUID_EXT_GPIO_CONTROLLER \
- 	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
- 	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x03}
-+#define UVC_GUID_MSXU_1_5 \
-+	{0xdc, 0x95, 0x3f, 0x0f, 0x32, 0x26, 0x4e, 0x4c, \
-+	 0x92, 0xc9, 0xa0, 0x47, 0x82, 0xf4, 0x3b, 0xc8}
+ 	dma_fence_put(fence);
+@@ -458,6 +460,13 @@ static int sw_sync_ioctl_get_deadline(struct sync_timeline *obj, unsigned long a
+ 		return -EFAULT;
  
- #define UVC_GUID_FORMAT_MJPEG \
- 	{ 'M',  'J',  'P',  'G', 0x00, 0x00, 0x10, 0x00, \
+ 	return 0;
++
++unlock:
++	spin_unlock_irqrestore(fence->lock, flags);
++put_fence:
++	dma_fence_put(fence);
++
++	return ret;
+ }
+ 
+ static long sw_sync_ioctl(struct file *file, unsigned int cmd,
 
--- 
-2.49.0.504.g3bcea36a83-goog
 
 
