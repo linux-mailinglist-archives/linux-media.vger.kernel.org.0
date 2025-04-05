@@ -1,188 +1,245 @@
-Return-Path: <linux-media+bounces-29432-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29433-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5B0FA7C9BE
-	for <lists+linux-media@lfdr.de>; Sat,  5 Apr 2025 16:49:29 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7504A7C9E2
+	for <lists+linux-media@lfdr.de>; Sat,  5 Apr 2025 17:27:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A18623B9EA3
-	for <lists+linux-media@lfdr.de>; Sat,  5 Apr 2025 14:48:59 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8D68E7A8726
+	for <lists+linux-media@lfdr.de>; Sat,  5 Apr 2025 15:26:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4BED1D90D7;
-	Sat,  5 Apr 2025 14:49:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 999A814B07A;
+	Sat,  5 Apr 2025 15:27:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ic6VdYU9"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="SAH+0v2w"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDF42C9D
-	for <linux-media@vger.kernel.org>; Sat,  5 Apr 2025 14:49:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743864544; cv=none; b=fF3bJyR59GAaRf8tvtkM0CnG49ZE+qecNXYQxFfTWPVo7GVldZF3U4BOFXf1AIM13cET0kh8CKGUHN/XbacbdiJrc0eOEEhwtO2xrU6B6pqp2c3Xc2tW0adrVkVcUz1MLEi09iCYu89rQh15a8zCDIM6JMklAoQO5HjTEdolS64=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743864544; c=relaxed/simple;
-	bh=cMQjM++Dxc5Sp0/UX+qLKMmSrpRpvoeH0ZmSjyYi0+s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gmw1U0NjbRGp+FwlfdUOlbtiE1b9izGWkg6/9w69Vjzitwnvi7qa5kdVixpPxPWvKfsumWBZeEZUt0EzmhsFoIZgBsJL12w6T873SHHlMIVotTGkIJJPez7FsTE84lnF5/xRum3RxLxoFmm5rnkzJiEu5uIj53AhIC8omrUH+gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ic6VdYU9; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 535EHqvt010920
-	for <linux-media@vger.kernel.org>; Sat, 5 Apr 2025 14:49:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	M+PEihR5tW26XOtjKkNuGBixh9BPxadJqebcLYBJWDI=; b=ic6VdYU9A10z6CuU
-	UoeHanu6cMwKCA3TYWexR5qTJ25J0UdLeur+q3ttTzYaSW7ZluL176OQnn4oVhHq
-	gWLON3KUFtL/3wSgg2l1cZvhGmMf0XZ5vCmAt+rm8c6ocgs+CgM0QAAkXROW/w9T
-	MnldOjyiloX1KHqp1vVYrHAEBztXepmsN/bBYxYnMz47POU+S0u+lYPLfBXv4uu2
-	mbYwjABSSw4yNJrodffY33eItMuDT84Yu2sMSsQGuogry0bUx+bZrBAEWCXLxmc2
-	gm1q4eDi4c98BrKVYETAk1wQBnXta6dhcghRP4r4UZn8m8XGYRsr/fzb13oaNucL
-	VbrA7w==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twbu8mdw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Sat, 05 Apr 2025 14:49:01 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7c5f876bfe0so516798985a.3
-        for <linux-media@vger.kernel.org>; Sat, 05 Apr 2025 07:49:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743864540; x=1744469340;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=M+PEihR5tW26XOtjKkNuGBixh9BPxadJqebcLYBJWDI=;
-        b=lcWNftcQHxky6eJt0rw9RQsK5GouU5zJAJs3UbrRWlEslsAHIoerwNL2gLWjQinAMz
-         GuFyCASUfXnAbJTJ4dJgfTCNIsPSiEleIG5dJButPvOCu2AshHFqdayv8ywhm2lrmev4
-         +4m6mjtP6+qcQDmW+GTu4brhJsIUJTVTy/OCd0eXoimffcKNj1gLczXNdZL1ST9Gruia
-         jz9J2Ssh8vLyepUBmbr72wdwaMcy/SZV09LpgoAGBuA7CmOQLuwAO115SaryYnIJmnqo
-         cvxyUikAqx8TdXuqlfsWtsMPSLIdDZlwWL+zpCOPd5GK+b9x4pkJx7S5lcfnTPRrbpJx
-         9lMg==
-X-Forwarded-Encrypted: i=1; AJvYcCVjkrh+WJMsWY+uoMuizXIhkG67gAItUAYyvuIIuIEzfmetgmErW0DpDyB65Bj8+Hsy1pZakzQEKVzk4w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZrK6PHX8o3I3FZZqofzb6hEL6FYLJHeEfZtBii6d18BaVqM1J
-	/m68T/Ay/zBaOhmja3sHwPvVDGqHtzH6eKusFe7WJqGqs46/n6zllEZm+JTC4bdAG7YrI3i9KBf
-	u/70GLUOkGrFflszkElH33pE4Y8vOiyq7JVWupZPS7XKYa+3wOgJdQaL5W5S8Zw==
-X-Gm-Gg: ASbGnctXQxSVNsSYlCPBGKRELvGn/oCu75HUIAeyhjVlTTjZKmrUpDdfypY8gNfd8x3
-	/5XfEkiBnyhma2eUDefe5T1jVoM1vkXqwho8vkOdXbD1so5iMtXbJN/S8Ef8KdbAlYKYQeQJGnV
-	TeNDdJVvbz2hJ52ZP87LMXperzEuVx49V0fe0/twmsOrR8PtAcJfDxBd4ySENfy4q6GcHA3Niz6
-	A8vwDznyofB3dDNeKJLIUnyz5w+BQ1uMOSctYg7UNyXe5hGpq9KAdcSH9tOFhnsuZJ1qmi6sNaY
-	o7E8wvK88gs4iSql2z+0wbEOALKKL52AyqTV7nUepCkkTmRsisCqO03H/A4/d3FzmVlSDQO1lFx
-	um+ccbwyqVOuRTPY/3bOCWsO/pG8jp6C0LuXDvzs+q3yriXx1wPiH9KyGGWdq/qWN1HXx
-X-Received: by 2002:a05:620a:28ca:b0:7c5:d72b:1a00 with SMTP id af79cd13be357-7c77dd61ac1mr391249885a.15.1743864540356;
-        Sat, 05 Apr 2025 07:49:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEutc1kNv9JQea/tmH5cHUtkD2IZVayC2pgcE7eKc+f/LQTGUDJVkqGd0AbWMhRe0FcVGQgsg==
-X-Received: by 2002:a05:620a:28ca:b0:7c5:d72b:1a00 with SMTP id af79cd13be357-7c77dd61ac1mr391246485a.15.1743864539939;
-        Sat, 05 Apr 2025 07:48:59 -0700 (PDT)
-Received: from ?IPV6:2001:14bb:c4:a6bd:f097:4050:9ce6:5d7f? (2001-14bb-c4-a6bd-f097-4050-9ce6-5d7f.rev.dnainternet.fi. [2001:14bb:c4:a6bd:f097:4050:9ce6:5d7f])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54c1e670d1bsm730472e87.214.2025.04.05.07.48.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 05 Apr 2025 07:48:59 -0700 (PDT)
-Message-ID: <bdd47a5a-c9d3-484e-b2ff-2167c54dfb20@oss.qualcomm.com>
-Date: Sat, 5 Apr 2025 17:48:57 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 227582E62C;
+	Sat,  5 Apr 2025 15:27:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743866823; cv=pass; b=iV5PCtQopMixi57eWu5ZknrsfWZNl291XcRggjsmx4BvH728AEhXW1JGFGgFZLKsXg8/XHbWBmDV6Nc3ul1eXuvujwV7UrdKBEU47FTThNH390wHv1G/iYI1OTy9ZievvaOxe7zhvk7d9K8V6z9BK6rMaeaLpbt/yGXuxaoYWfo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743866823; c=relaxed/simple;
+	bh=81R8hcDuXNZXFBByfRqUJBW7Zl3bfLaSfhF8twQruvk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=W+Nf1qCal5stMTtlPj82m6YLKxoKIuBThhvK/WDtSfsSrWbSOnNnQDyTAM4vYqLprCOsuyOup9s6Fa6mNF+9YSME+Swu+qHuPAq6m34PzTmUzf0hmVDkmNuDy1Gl7umDGz3AHkLXfsQZ8asdoieHdjIT5uQ4gB6P6OI5HgCY1oc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=SAH+0v2w; arc=pass smtp.client-ip=136.143.188.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1743866792; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=MoS8Jz1hhaALz29iYgPf+kAxJ5sjtO/8hAqhjIJs5LIy5qfjBN7FBRfRpskvI6nQVJFk946OAbBAYAf3p27nryKb5h68vztGrNC4/K1Msgx58P+peOqIKBwVaOy8ZiGeALAnXdzz4AZH/4AQTYzdoEucpXdpoorFVDnm49N2gko=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1743866792; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=a6STbV+NwzNcHIr/JnBgDeICaBXLJ4QoQ1ZaZwuZ1t0=; 
+	b=Zydx8zmaSZn3ebG76vrRs3tjCsSF/KCIo/pse2+N/RDmTxuCRErEi3NluCuNY3hdgU2J4qbBLjHNxsNLYtIKoX3WzTVobt8BdnI/OEL5wVvLfBtEDMRlek9an6fQc3rnIM8PlOSvyeDTVZb2l3rsN00BkAq0muovi1ZBlk8Pqks=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
+	dmarc=pass header.from=<sebastian.fricke@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1743866792;
+	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
+	bh=a6STbV+NwzNcHIr/JnBgDeICaBXLJ4QoQ1ZaZwuZ1t0=;
+	b=SAH+0v2wJskYvfjcWHaJjHkHjHI/92k/+QeZ26a6Ofe9aeUySgjbLJ8oqY2Pf0u6
+	X0p57p9Y31T9NNzluN1tpIKJkNIpoK5P0d+Em+rGZUlxXL2yH2gu9U4IoakStgedTVV
+	/rUYw4Ruc7dSgc+u/AiLIz0nfYlfR4wuaJXyp5VU=
+Received: by mx.zohomail.com with SMTPS id 1743866790660738.8941385178805;
+	Sat, 5 Apr 2025 08:26:30 -0700 (PDT)
+Date: Sat, 5 Apr 2025 17:26:22 +0200
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: ming.qian@oss.nxp.com
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+	mirela.rabulea@oss.nxp.com, shawnguo@kernel.org,
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+	xiahong.bao@nxp.com, eagle.zhou@nxp.com, linux-imx@nxp.com,
+	imx@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 2/3] media: imx-jpeg: Change the pattern size to 128x64
+Message-ID: <20250405152622.2nvwultytxnvqcki@basti-XPS-13-9310>
+References: <20250328063056.762-1-ming.qian@oss.nxp.com>
+ <20250328063056.762-3-ming.qian@oss.nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/8] Reup: SM8350 and SC8280XP venus support
-To: Vikash Garodia <quic_vgarodia@quicinc.com>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Johan Hovold <johan+linaro@kernel.org>
-References: <20250304-b4-linux-media-comitters-sc8280xp-venus-v1-0-279c7ea55493@linaro.org>
- <8cfaeb25-2657-9df4-5cea-018aad62f579@quicinc.com>
- <it3njgklhnedjzojafuxpjy3o5zfulgdclweyobv7kjgtpjmzx@6opje7yms4yg>
- <1dd6e03d-09be-4853-741a-4fb47b7619a0@quicinc.com>
-Content-Language: en-US
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-In-Reply-To: <1dd6e03d-09be-4853-741a-4fb47b7619a0@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: Sa5v-n2fSCRLoFBI8yGbtqNWJMYBXJJ4
-X-Proofpoint-ORIG-GUID: Sa5v-n2fSCRLoFBI8yGbtqNWJMYBXJJ4
-X-Authority-Analysis: v=2.4 cv=dbeA3WXe c=1 sm=1 tr=0 ts=67f142dd cx=c_pps a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=fIlTlRh94wJvY906GsMA:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-05_06,2025-04-03_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- suspectscore=0 mlxlogscore=999 phishscore=0 mlxscore=0 spamscore=0
- malwarescore=0 clxscore=1015 adultscore=0 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502280000 definitions=main-2504050093
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20250328063056.762-3-ming.qian@oss.nxp.com>
+X-ZohoMailClient: External
 
-On 04/04/2025 08:24, Vikash Garodia wrote:
-> Hi Dmitry,
-> 
-> On 4/3/2025 10:28 PM, Dmitry Baryshkov wrote:
->> On Wed, Mar 05, 2025 at 08:49:37AM +0530, Vikash Garodia wrote:
->>>
->>> On 3/4/2025 6:37 PM, Bryan O'Donoghue wrote:
->>>> This series is a re-up of Konrad's original venus series for sc8280xp and
->>>> sm8350.Why this is enabled on venus driver ? Why not iris driver ? This needs an
->>> explanation on was this even tried to bring up on iris driver.
->>>
->>> How different is this from sm8250 which is already enabled on iris driver ?
->>
->> As far as I remember, SM8250 support in Iris did not reach
->> feature-parity yet. So in my opinion it is fine to add new platforms to
->> the Venus driver, that will later migrate to the Iris driver.
-> I would say, from decoder side all codecs are there now on Iris. H264 merged,
-> while h265 and VP9 dec are posted as RFC, there is one compliance failure which
-> is under debug to post them as regular patches.
-> If we are mainly looking for decode usecases, then we should be on Iris.
+Hey Ming,
 
-No, we are not limited to the decode use case.
+On 28.03.2025 14:30, ming.qian@oss.nxp.com wrote:
+>From: Ming Qian <ming.qian@oss.nxp.com>
+>
+>To support decoding motion-jpeg without DHT, driver will try to decode a
+>pattern jpeg before actual jpeg frame by use of linked descriptors
+>(This is called "repeat mode"), then the DHT in the pattern jpeg can be
+>used for decoding the motion-jpeg.
+>
+>To avoid performance loss, use the smallest supported resolution 64x64
+>as the pattern jpeg size.
+>
+>But there is a hardware issue: when the JPEG decoded frame with a
+>resolution that is no larger than 64x64 and it is followed by a next
+>decoded frame with a larger resolution but not 64 aligned, then this
+>next decoded frame may be corrupted.
+>
+>To avoid corruption of the decoded image, we change the pattern jpeg
+>size to 128x64, as we confirmed with the hardware designer that this is
+>a safe size.
+>
+>Besides, we also need to allocate a dma buffer to store the decoded
+>picture for the pattern image.
 
-> Preference would be to stay on Iris, otherwise we would have that extra ask to
-> port it later from venus to iris.
+Why is that related to the change of the pattern size? Like why wasn't
+that needed for 64x64? And if this solves a different issue, can you put
+that into an extra patch?
 
-Yes, but that would (hopefully) be easy to handle.
+This is a bit hard to understand, maybe this is better:
 
->>
->> Otherwise users of SC8280XP either have to use external patchsets (like
->> this one) or a non-full-featured driver (and still possibly external
->> patchsets, I didn't check if these two platforms can use
->> qcom,sm8250-venus as a fallback compat string).
-> It should, atleast from the hardware spec perspective, AFAIK.
->>
->> Bryan, Konrad, in my opinion, let's get these patches merged :-)
->>
->>>
->>>> Link: https://lore.kernel.org/all/20230731-topic-8280_venus-v1-0-8c8bbe1983a5@linaro.org/
->>>>
->>>> The main obstacle to merging that series at the time was the longstanding
->>>> but invalid usage of "video-encoder" and "video-decoder" which is a
->>>> driver level configuration option not a description of hardware.
->>>>
->>>> Following on from that discussion a backwards compatible means of
->>>> statically selecting transcoder mode was upstreamed
->>>>
->>>> commit: 687bfbba5a1c ("media: venus: Add support for static video encoder/decoder declarations")
->>>>
->>>> Reworking this series from Konrad to incorporate this simple change
->>>>
->>
-> Regards,
-> Vikash
+In order to decode a motion-jpeg bitstream, which doesn't provide a DHT,
+the driver will first decode a pattern jpeg and use the DHT found in the
+pattern to decode the first actual frame. This mode is called
+"repeat-mode" and it utilizes linked descriptors.
+The smallest supported resolution of 64x64 was used for that pattern to
+not cause unneeded performance delay. This choice, however, can cause a
+corrupted decoded picture of the first frame after the pattern, when the
+resolution of that frame is larger than the pattern and is not aligned
+to 64.
+By altering the pattern size to 128x64, this corruption can be avoided.
+That size has been confirmed to be safe by the hardware designers.
+Additionally, a DMA buffer needs to be allocated to store the decoded
+picture of the pattern image.
 
+The rest looks good.
 
--- 
-With best wishes
-Dmitry
+Regards,
+Sebastian
+
+>
+>Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
+>---
+> .../media/platform/nxp/imx-jpeg/mxc-jpeg.c    | 42 +++++++++++++++----
+> .../media/platform/nxp/imx-jpeg/mxc-jpeg.h    |  5 +++
+> 2 files changed, 39 insertions(+), 8 deletions(-)
+>
+>diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+>index 12661c177f5a..45705c606769 100644
+>--- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+>+++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+>@@ -535,7 +535,18 @@ static const unsigned char jpeg_sos_maximal[] = {
+> };
+>
+> static const unsigned char jpeg_image_red[] = {
+>-	0xFC, 0x5F, 0xA2, 0xBF, 0xCA, 0x73, 0xFE, 0xFE,
+>+	0xF9, 0xFE, 0x8A, 0xFC, 0x34, 0xFD, 0xC4, 0x28,
+>+	0xA0, 0x02, 0x8A, 0x00, 0x28, 0xA0, 0x02, 0x8A,
+>+	0x00, 0x28, 0xA0, 0x02, 0x8A, 0x00, 0x28, 0xA0,
+>+	0x02, 0x8A, 0x00, 0x28, 0xA0, 0x02, 0x8A, 0x00,
+>+	0x28, 0xA0, 0x02, 0x8A, 0x00, 0x28, 0xA0, 0x02,
+>+	0x8A, 0x00, 0x28, 0xA0, 0x02, 0x8A, 0x00, 0x28,
+>+	0xA0, 0x02, 0x8A, 0x00, 0x28, 0xA0, 0x02, 0x8A,
+>+	0x00, 0x28, 0xA0, 0x02, 0x8A, 0x00, 0x28, 0xA0,
+>+	0x02, 0x8A, 0x00, 0x28, 0xA0, 0x02, 0x8A, 0x00,
+>+	0x28, 0xA0, 0x02, 0x8A, 0x00, 0x28, 0xA0, 0x02,
+>+	0x8A, 0x00, 0x28, 0xA0, 0x0F, 0xFF, 0xD0, 0xF9,
+>+	0xFE, 0x8A, 0xFC, 0x34, 0xFD, 0xC4, 0x28, 0xA0,
+> 	0x02, 0x8A, 0x00, 0x28, 0xA0, 0x02, 0x8A, 0x00,
+> 	0x28, 0xA0, 0x02, 0x8A, 0x00, 0x28, 0xA0, 0x02,
+> 	0x8A, 0x00, 0x28, 0xA0, 0x02, 0x8A, 0x00, 0x28,
+>@@ -545,7 +556,7 @@ static const unsigned char jpeg_image_red[] = {
+> 	0x28, 0xA0, 0x02, 0x8A, 0x00, 0x28, 0xA0, 0x02,
+> 	0x8A, 0x00, 0x28, 0xA0, 0x02, 0x8A, 0x00, 0x28,
+> 	0xA0, 0x02, 0x8A, 0x00, 0x28, 0xA0, 0x02, 0x8A,
+>-	0x00, 0x28, 0xA0, 0x02, 0x8A, 0x00
+>+	0x00, 0x28, 0xA0, 0x0F
+> };
+>
+> static const unsigned char jpeg_eoi[] = {
+>@@ -775,6 +786,13 @@ static void mxc_jpeg_free_slot_data(struct mxc_jpeg_dev *jpeg)
+> 	jpeg->slot_data.cfg_stream_vaddr = NULL;
+> 	jpeg->slot_data.cfg_stream_handle = 0;
+>
+>+	dma_free_coherent(jpeg->dev, jpeg->slot_data.cfg_dec_size,
+>+			  jpeg->slot_data.cfg_dec_vaddr,
+>+			  jpeg->slot_data.cfg_dec_daddr);
+>+	jpeg->slot_data.cfg_dec_size = 0;
+>+	jpeg->slot_data.cfg_dec_vaddr = NULL;
+>+	jpeg->slot_data.cfg_dec_daddr = 0;
+>+
+> 	jpeg->slot_data.used = false;
+> }
+>
+>@@ -814,6 +832,14 @@ static bool mxc_jpeg_alloc_slot_data(struct mxc_jpeg_dev *jpeg)
+> 		goto err;
+> 	jpeg->slot_data.cfg_stream_vaddr = cfg_stm;
+>
+>+	jpeg->slot_data.cfg_dec_size = MXC_JPEG_PATTERN_WIDTH * MXC_JPEG_PATTERN_HEIGHT * 2;
+>+	jpeg->slot_data.cfg_dec_vaddr = dma_alloc_coherent(jpeg->dev,
+>+							   jpeg->slot_data.cfg_dec_size,
+>+							   &jpeg->slot_data.cfg_dec_daddr,
+>+							   GFP_ATOMIC);
+>+	if (!jpeg->slot_data.cfg_dec_vaddr)
+>+		goto err;
+>+
+> skip_alloc:
+> 	jpeg->slot_data.used = true;
+>
+>@@ -1216,14 +1242,14 @@ static void mxc_jpeg_config_dec_desc(struct vb2_buffer *out_buf,
+> 	 */
+> 	*cfg_size = mxc_jpeg_setup_cfg_stream(cfg_stream_vaddr,
+> 					      V4L2_PIX_FMT_YUYV,
+>-					      MXC_JPEG_MIN_WIDTH,
+>-					      MXC_JPEG_MIN_HEIGHT);
+>+					      MXC_JPEG_PATTERN_WIDTH,
+>+					      MXC_JPEG_PATTERN_HEIGHT);
+> 	cfg_desc->next_descpt_ptr = desc_handle | MXC_NXT_DESCPT_EN;
+>-	cfg_desc->buf_base0 = vb2_dma_contig_plane_dma_addr(dst_buf, 0);
+>+	cfg_desc->buf_base0 = jpeg->slot_data.cfg_dec_daddr;
+> 	cfg_desc->buf_base1 = 0;
+>-	cfg_desc->imgsize = MXC_JPEG_MIN_WIDTH << 16;
+>-	cfg_desc->imgsize |= MXC_JPEG_MIN_HEIGHT;
+>-	cfg_desc->line_pitch = MXC_JPEG_MIN_WIDTH * 2;
+>+	cfg_desc->imgsize = MXC_JPEG_PATTERN_WIDTH << 16;
+>+	cfg_desc->imgsize |= MXC_JPEG_PATTERN_HEIGHT;
+>+	cfg_desc->line_pitch = MXC_JPEG_PATTERN_WIDTH * 2;
+> 	cfg_desc->stm_ctrl = STM_CTRL_IMAGE_FORMAT(MXC_JPEG_YUV422);
+> 	cfg_desc->stm_ctrl |= STM_CTRL_BITBUF_PTR_CLR(1);
+> 	cfg_desc->stm_bufbase = cfg_stream_handle;
+>diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h
+>index 86e324b21aed..fdde45f7e163 100644
+>--- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h
+>+++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h
+>@@ -28,6 +28,8 @@
+> #define MXC_JPEG_W_ALIGN		3
+> #define MXC_JPEG_MAX_SIZEIMAGE		0xFFFFFC00
+> #define MXC_JPEG_MAX_PLANES		2
+>+#define MXC_JPEG_PATTERN_WIDTH		128
+>+#define MXC_JPEG_PATTERN_HEIGHT		64
+>
+> enum mxc_jpeg_enc_state {
+> 	MXC_JPEG_ENCODING	= 0, /* jpeg encode phase */
+>@@ -117,6 +119,9 @@ struct mxc_jpeg_slot_data {
+> 	dma_addr_t desc_handle;
+> 	dma_addr_t cfg_desc_handle; // configuration descriptor dma address
+> 	dma_addr_t cfg_stream_handle; // configuration bitstream dma address
+>+	dma_addr_t cfg_dec_size;
+>+	void *cfg_dec_vaddr;
+>+	dma_addr_t cfg_dec_daddr;
+> };
+>
+> struct mxc_jpeg_dev {
+>-- 
+>2.43.0-rc1
+>
+>
 
