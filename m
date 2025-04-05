@@ -1,187 +1,139 @@
-Return-Path: <linux-media+bounces-29430-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29431-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C2CA7C8EF
-	for <lists+linux-media@lfdr.de>; Sat,  5 Apr 2025 13:40:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A8F9A7C907
+	for <lists+linux-media@lfdr.de>; Sat,  5 Apr 2025 14:02:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5F1143BBC64
-	for <lists+linux-media@lfdr.de>; Sat,  5 Apr 2025 11:40:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 12413173E44
+	for <lists+linux-media@lfdr.de>; Sat,  5 Apr 2025 12:02:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42C6B1E1E04;
-	Sat,  5 Apr 2025 11:40:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB9961E5211;
+	Sat,  5 Apr 2025 12:01:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b="N5V51+Jb"
+	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="ARHxiVY/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from out162-62-58-211.mail.qq.com (out162-62-58-211.mail.qq.com [162.62.58.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 771F81A23AD;
-	Sat,  5 Apr 2025 11:40:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743853217; cv=pass; b=nMrIdU6DiLg6VO8BUESuiaHyDNIUYEXHClbuJR41XfzgApqBKdIPr7o2KbT6nWh7nnrdcpzBlebQArCAU4s2NLCqdmvZ/1lnmHaOHyE68SYaWnaSrcKChhFX2rOQ8qAEtxhTgHJFihbP12pvuO5Nm8zz+jmUxHxJfUDmzsIudZI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743853217; c=relaxed/simple;
-	bh=YZadl+yLPrZm8P8cf6VUmKDW6UATrz99dXVhQSX50Ms=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j/RyrW+Ea+mUGd5gRDVbrySpZCFO7SaN5h/QinhqaqbFt7TyI23K+Joz3x1GQc6DwaSVMAh6va/1MxKxLRSso/Lm9sGRGyAKuHf0f/bml+Uggn82FSAHn2YX/Bvj+HvHFjqdkXpa89rLjIKyrxqz6UDBpoD/auNz+s5hY/GCjwc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.fricke@collabora.com header.b=N5V51+Jb; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1743853187; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Aa6oaPo1O8q5AnU3Y1pDWWTPdKizSQIPiPsuolBj0+UXeYqsgn0k47Anir04kue1g6//wjVUP2WdE5A5T1jazvVJ+dRrp+PeVACtY7tDohXss+Dy6KSxROCdjHxfq138OoQ6nk540GNEiVO7kf2DWUPZnlSLqiEOS0lVvGQkv5Y=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1743853187; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=u22/p801QpjbmO2uhuEVgNGBkidyKPFcQ/iS9BFuS5s=; 
-	b=C6tx3IbtjTxMSj1ltGQIdc0SqC41cRFACrYH6ttVX+mZ0bAu/JRCUlY7SDnMlzS/F2uPl+b1I+67ID/JPyyVD0iYag6OvfmnT6n/X3T0X8P54b+wFS0VN8XDL0BzEheNhrUPzaEud8+Nxc7sLGGI2w0w8VTNFzFuBkAIaAVs0ck=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.fricke@collabora.com;
-	dmarc=pass header.from=<sebastian.fricke@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1743853187;
-	s=zohomail; d=collabora.com; i=sebastian.fricke@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=u22/p801QpjbmO2uhuEVgNGBkidyKPFcQ/iS9BFuS5s=;
-	b=N5V51+Jb9Oh2VGeiRlqjxid+joMaQTSEkiQ9MwACEgsC7n39G9abF4/SBpLXjn+3
-	k0EBFHBIzQ+Buelbr5cpB2kxwFQ9i0zv3t7mUBJZlUFlcZf01TgEZNpBYSPdaG5HCLD
-	8NQpC9CzYLcbnkQBXVUcc0bjmGU7L9QQal3l2dO0=
-Received: by mx.zohomail.com with SMTPS id 1743853184816112.34259230527698;
-	Sat, 5 Apr 2025 04:39:44 -0700 (PDT)
-Date: Sat, 5 Apr 2025 13:39:36 +0200
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: ming.qian@oss.nxp.com
-Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-	mirela.rabulea@oss.nxp.com, shawnguo@kernel.org,
-	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-	xiahong.bao@nxp.com, eagle.zhou@nxp.com, linux-imx@nxp.com,
-	imx@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 1/3] media: imx-jpeg: Enhance error handling in buffer
- allocation
-Message-ID: <20250405113936.oepkmoz2czytbuxy@basti-XPS-13-9310>
-References: <20250328063056.762-1-ming.qian@oss.nxp.com>
- <20250328063056.762-2-ming.qian@oss.nxp.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E331CD214;
+	Sat,  5 Apr 2025 12:01:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=162.62.58.211
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743854514; cv=none; b=MPKXgpsgHVcgDUOT75tMNNIlm7cgYMfVtSYnySaSttFQjlYm2w0BZHLjogGp3VZHO17W4zInxmO2slKZzzbk0C0shv4P4n+EDIzKKJCFuiV7pELxAyr7j0s1j/pHkHum49TSRkgER5iNrZw+SVsd2B1kFKc5QQOslbnCMXibvi0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743854514; c=relaxed/simple;
+	bh=6EgSyRMcEGqP4MEsuH9QR2SAFAp5pShyBpqZNMMRBao=;
+	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
+	 MIME-Version; b=eHImoi/7Y/dO+V9Eiz27s4HWJVnv56Ck+w59Snzz5k9LEUOYPG6aP+ow+gTH+t8+qL5c+up4ZPa4ZEa1kk0QNwYtIFcg0ms26i8dTXJt89XAkcpbVLhkGGSRsnu2ODS3mryY7sIlUa5mwhp3omIzlfokldY8ai429aRi4y0xKzI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=ARHxiVY/; arc=none smtp.client-ip=162.62.58.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
+	t=1743854203; bh=7v0YQDAhkBk5atcWCctMfqVcEUPpo3+PMG0K6Qjjqug=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=ARHxiVY/SdcUOEY6cNwyxd8vINpnJzPSfcxBrQ6c6xB85MHWZxSz6WzOlsHU83ZZS
+	 VBxJBuUrGCWtC9UKEBMtLYjHOKtcj72dzY+65+wo4eyI1tc3s8JMS4Tqa7wp9d+m8V
+	 AhPSmc4iF44XnCx+QlW6dM/oxuVmHVOCYsicSbIk=
+Received: from pek-lxu-l1.wrs.com ([114.244.57.157])
+	by newxmesmtplogicsvrszb20-0.qq.com (NewEsmtp) with SMTP
+	id E2920ABA; Sat, 05 Apr 2025 19:56:41 +0800
+X-QQ-mid: xmsmtpt1743854201tirvyekva
+Message-ID: <tencent_DCC6C1B37B437AC965C3A2845B5779D76305@qq.com>
+X-QQ-XMAILINFO: MesT5uKpDagV62TDMYu9XmaSM4yrHPkuCTbYg/gNWsUcY7gpdwI3Sxdcx+yW/x
+	 4cErvqVx5fnOCT9uuGgq0V4v4Hj4PrQuz4nnaJi2UlKsujwsqRfzrYQEA90qsx01qFrsZW8Iji2O
+	 0z4FI02ogodC88/L6UugkRTmJjNtgLV0mjL1J7iq0bLruwuEN1GYULjqJur3GrwiwST9Euv5xVCV
+	 +XJAICy/AvM+8NCSc63mvCmpXTqa6Jj3NGpMoJkWkjDs9sRHA4djodQLXU4IjC+91U5YLKAl2PGz
+	 DR+E6VuzEt3PY3k8jUMJs4jFdFFz9nJ6FYhv0PRS+KcRZNAyjOO/IwxLVLwyNTYO1B/L0Wf4lrWp
+	 SEekAbA70Z2PMC3aMsYin30IGid4eSMd1oOeKaNmb4s3DHi5z72P5kMnznb/WFKrbbIri+sKcFjR
+	 Na8S5bDiNZXEPG/Y2JXEzNAvG57D+7/HC9BVtuQ5IgdF48RxLL8DWQyUoARpXT8XPPpYkLvHbKxD
+	 P5C5Ky3DmmyYJqGxlqnU2auZTGQ1DIC2441cahRj/xWHhJgRXBnL5EaUsmqMNeavMEEPlooVNOV7
+	 oUa7SJ2SvD97jIj0fTrwAxbEXsBfCh2RdfSokyYTBED7AZOgpNkP0GfT9794O1KkOd2Z5vUUr09h
+	 AsCLy9IWb7nE99Gh6PrkL0c00fGTSPEnS2mddeJs4KfhPZ4bbSndoVD/O6NII8/TfSIFI8/fqcwc
+	 bSj71JMFCYxjNq1iHDJdfNvsuBdBz+2JNy2Yo7MJ4525JcZGhFkviPInFsBkpfnjzqwRJzHqCpSG
+	 hK9EsmSqGvv/mEUOBeAJ+iRVqFmsIL5qyWrS5bK6ry+1qIsFlBWdSCEIUrAK8+dXR/Ff3krZDClB
+	 1uX9cyUSZb2xYS2Yarbcc7u5F/PQq4zcSq1kPLkT0unx+uc4mVpFQ=
+X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
+From: Edward Adam Davis <eadavis@qq.com>
+To: syzbot+526bd95c0ec629993bf3@syzkaller.appspotmail.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	mchehab@kernel.org,
+	mkrufky@linuxtv.org,
+	syzkaller-bugs@googlegroups.com
+Subject: [PATCH] media: cxusb: no longer judge rbuf when the write fails
+Date: Sat,  5 Apr 2025 19:56:41 +0800
+X-OQ-MSGID: <20250405115640.3875245-2-eadavis@qq.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <67f092b5.050a0220.0a13.0229.GAE@google.com>
+References: <67f092b5.050a0220.0a13.0229.GAE@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20250328063056.762-2-ming.qian@oss.nxp.com>
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
 
-Hey Ming,
+syzbot reported a uninit-value in cxusb_i2c_xfer. [1]
 
-In the title I'd suggest:
-media: imx-jpeg: Cleanup after an allocation error
+Only when the write operation of usb_bulk_msg() in dvb_usb_generic_rw()
+succeeds and rlen is greater than 0, the read operation of usb_bulk_msg()
+will be executed to read rlen bytes of data from the dvb device into the
+rbuf.
 
-To be a bit more concrete, enhance error handling can mean pretty much
-anything.
+In this case, although rlen is 1, the write operation failed which resulted
+in the dvb read operation not being executed, and ultimately variable i was
+not initialized.
 
-On 28.03.2025 14:30, ming.qian@oss.nxp.com wrote:
->From: Ming Qian <ming.qian@oss.nxp.com>
->
->In function mxc_jpeg_alloc_slot_data, driver will allocate some dma
->buffer, but only return error if certain allocation failed.
->
->Without cleanup the allocation failure, the next time it will return
->success directly, but let some buffer be uninitialized.
->It may result in accessing a null pointer.
->
->Clean up if error occurs in the allocation.
+[1]
+BUG: KMSAN: uninit-value in cxusb_gpio_tuner drivers/media/usb/dvb-usb/cxusb.c:124 [inline]
+BUG: KMSAN: uninit-value in cxusb_i2c_xfer+0x153a/0x1a60 drivers/media/usb/dvb-usb/cxusb.c:196
+ cxusb_gpio_tuner drivers/media/usb/dvb-usb/cxusb.c:124 [inline]
+ cxusb_i2c_xfer+0x153a/0x1a60 drivers/media/usb/dvb-usb/cxusb.c:196
+ __i2c_transfer+0xe25/0x3150 drivers/i2c/i2c-core-base.c:-1
+ i2c_transfer+0x317/0x4a0 drivers/i2c/i2c-core-base.c:2315
+ i2c_transfer_buffer_flags+0x125/0x1e0 drivers/i2c/i2c-core-base.c:2343
+ i2c_master_send include/linux/i2c.h:109 [inline]
+ i2cdev_write+0x210/0x280 drivers/i2c/i2c-dev.c:183
+ do_loop_readv_writev fs/read_write.c:848 [inline]
+ vfs_writev+0x963/0x14e0 fs/read_write.c:1057
+ do_writev+0x247/0x5c0 fs/read_write.c:1101
+ __do_sys_writev fs/read_write.c:1169 [inline]
+ __se_sys_writev fs/read_write.c:1166 [inline]
+ __x64_sys_writev+0x98/0xe0 fs/read_write.c:1166
+ x64_sys_call+0x2229/0x3c80 arch/x86/include/generated/asm/syscalls_64.h:21
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xcd/0x1e0 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
 
-I'd suggest:
+Reported-by: syzbot+526bd95c0ec629993bf3@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=526bd95c0ec629993bf3
+Tested-by: syzbot+526bd95c0ec629993bf3@syzkaller.appspotmail.com
+Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+---
+ drivers/media/usb/dvb-usb/cxusb.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-When allocation failures are not cleaned up by the driver, further allocation
-errors will be false-positives, which will cause buffers to remain
-uninitialized and cause NULL pointer dereferences.
-Clean up the errors accordingly.
+diff --git a/drivers/media/usb/dvb-usb/cxusb.c b/drivers/media/usb/dvb-usb/cxusb.c
+index f44529b40989..d0501c1e81d6 100644
+--- a/drivers/media/usb/dvb-usb/cxusb.c
++++ b/drivers/media/usb/dvb-usb/cxusb.c
+@@ -119,9 +119,8 @@ static void cxusb_gpio_tuner(struct dvb_usb_device *d, int onoff)
+ 
+ 	o[0] = GPIO_TUNER;
+ 	o[1] = onoff;
+-	cxusb_ctrl_msg(d, CMD_GPIO_WRITE, o, 2, &i, 1);
+ 
+-	if (i != 0x01)
++	if (!cxusb_ctrl_msg(d, CMD_GPIO_WRITE, o, 2, &i, 1) && i != 0x01)
+ 		dev_info(&d->udev->dev, "gpio_write failed.\n");
+ 
+ 	st->gpio_write_state[GPIO_TUNER] = onoff;
+-- 
+2.43.0
 
->
->Fixes: 2db16c6ed72c ("media: imx-jpeg: Add V4L2 driver for i.MX8 JPEG Encoder/Decoder")
->Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
->---
->v2
->- Add the Fixes tag
->
-> .../media/platform/nxp/imx-jpeg/mxc-jpeg.c    | 47 +++++++++++--------
-> 1 file changed, 27 insertions(+), 20 deletions(-)
->
->diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
->index 0e6ee997284b..12661c177f5a 100644
->--- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
->+++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
->@@ -752,6 +752,32 @@ static int mxc_get_free_slot(struct mxc_jpeg_slot_data *slot_data)
-> 	return -1;
-> }
->
->+static void mxc_jpeg_free_slot_data(struct mxc_jpeg_dev *jpeg)
->+{
->+	/* free descriptor for decoding/encoding phase */
->+	dma_free_coherent(jpeg->dev, sizeof(struct mxc_jpeg_desc),
->+			  jpeg->slot_data.desc,
->+			  jpeg->slot_data.desc_handle);
->+	jpeg->slot_data.desc = NULL;
->+	jpeg->slot_data.desc_handle = 0;
->+
->+	/* free descriptor for encoder configuration phase / decoder DHT */
->+	dma_free_coherent(jpeg->dev, sizeof(struct mxc_jpeg_desc),
->+			  jpeg->slot_data.cfg_desc,
->+			  jpeg->slot_data.cfg_desc_handle);
->+	jpeg->slot_data.cfg_desc_handle = 0;
->+	jpeg->slot_data.cfg_desc = NULL;
->+
->+	/* free configuration stream */
->+	dma_free_coherent(jpeg->dev, MXC_JPEG_MAX_CFG_STREAM,
->+			  jpeg->slot_data.cfg_stream_vaddr,
->+			  jpeg->slot_data.cfg_stream_handle);
->+	jpeg->slot_data.cfg_stream_vaddr = NULL;
->+	jpeg->slot_data.cfg_stream_handle = 0;
->+
->+	jpeg->slot_data.used = false;
->+}
->+
-> static bool mxc_jpeg_alloc_slot_data(struct mxc_jpeg_dev *jpeg)
-> {
-> 	struct mxc_jpeg_desc *desc;
->@@ -794,30 +820,11 @@ static bool mxc_jpeg_alloc_slot_data(struct mxc_jpeg_dev *jpeg)
-> 	return true;
-> err:
-> 	dev_err(jpeg->dev, "Could not allocate descriptors for slot %d", jpeg->slot_data.slot);
->+	mxc_jpeg_free_slot_data(jpeg);
->
-> 	return false;
-> }
->
->-static void mxc_jpeg_free_slot_data(struct mxc_jpeg_dev *jpeg)
->-{
->-	/* free descriptor for decoding/encoding phase */
->-	dma_free_coherent(jpeg->dev, sizeof(struct mxc_jpeg_desc),
->-			  jpeg->slot_data.desc,
->-			  jpeg->slot_data.desc_handle);
->-
->-	/* free descriptor for encoder configuration phase / decoder DHT */
->-	dma_free_coherent(jpeg->dev, sizeof(struct mxc_jpeg_desc),
->-			  jpeg->slot_data.cfg_desc,
->-			  jpeg->slot_data.cfg_desc_handle);
->-
->-	/* free configuration stream */
->-	dma_free_coherent(jpeg->dev, MXC_JPEG_MAX_CFG_STREAM,
->-			  jpeg->slot_data.cfg_stream_vaddr,
->-			  jpeg->slot_data.cfg_stream_handle);
->-
->-	jpeg->slot_data.used = false;
->-}
 
-Can you split the moving of the code from the changes you do?
-Otherwise the reviewer is forced to get the diff manually.
-
-Regards,
-Sebastian Fricke
 
