@@ -1,205 +1,178 @@
-Return-Path: <linux-media+bounces-29424-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29425-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D659A7C4F1
-	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 22:32:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B8364A7C737
+	for <lists+linux-media@lfdr.de>; Sat,  5 Apr 2025 03:17:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B0AAB189F95C
-	for <lists+linux-media@lfdr.de>; Fri,  4 Apr 2025 20:31:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CAD95189ECFC
+	for <lists+linux-media@lfdr.de>; Sat,  5 Apr 2025 01:17:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A228822068D;
-	Fri,  4 Apr 2025 20:31:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44EAE22615;
+	Sat,  5 Apr 2025 01:17:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="BpegDKBt"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YRnurKuH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5465B21C9F9
-	for <linux-media@vger.kernel.org>; Fri,  4 Apr 2025 20:31:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1155F2E62C1;
+	Sat,  5 Apr 2025 01:17:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743798691; cv=none; b=BbAun6EgkWfNaRN4q/QxKx4TlN7h7zgleSIaLUndXLIHVOwMvb2TJCeYQWN9EH4nh7dRpeIMeBNPR/BgwRIIUv2K8mqI2VF0zcGchshBR+XOXEs+oB6+0aEXQMwsrD1j6sim4v/KU/+/OtwuHteOjA42OlU0PitnJguK7Hopy5w=
+	t=1743815848; cv=none; b=Sc8gzpWqGIh2GS44P+bmhBD5J/psYQwr1jz92yZbcmmnpAzHY4TIA2mTTH0+slwtKLeVykYubqD4PJUwmjbmKcxxdkgkNKA9Z3okfAVKGfApwo82BOLVjxXzuQep/xMofsjOckYNx8FdO/VJuafemIGBlJ/v7VPxTxt5tNkqJqo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743798691; c=relaxed/simple;
-	bh=K+GdwcY2qpId+FVrrOCPmblpwWNGwzjXOxhMwE/cWk0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=I6ZV8pv6vlZXTqSxRyh9N7m/4MidT1Sw9N+6WF8kdL5uUnx/3uKlef4PWkHm4RqzfQ/zx/EuUcTnUezHJHvRSRuZt82n7b4QpEMCF1X1l+lGl/0eITCVITZqjx6Xs65ZKinCMk6BohbeiMhl5VgAx8/VQ8fa/zHRUyBIT1ZOeEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=BpegDKBt; arc=none smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-307325f2436so24763221fa.0
-        for <linux-media@vger.kernel.org>; Fri, 04 Apr 2025 13:31:28 -0700 (PDT)
+	s=arc-20240116; t=1743815848; c=relaxed/simple;
+	bh=f3i7y9qJZMSTYCRTNPf2EJF6SHSdbXnOdImAqF1W99g=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=KwPRGuLq/r+uRRcMvlsTrxmbpue912LVugJGBSjOPteHARpxK9tWjQv5yEweZEvtSe8MIHzH7gzFDjanseh9fQjpegP717+rSbRtzZOBNFSI31ZgZNlDPIIndWyY+wRdeBt0BR32l7XrDg101n5CzI8Fu7VyRomrYH8+S8UsRRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YRnurKuH; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2243803b776so37806955ad.0;
+        Fri, 04 Apr 2025 18:17:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1743798687; x=1744403487; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IJt1e+3GaxJCHQhJ/qyD9KJwcLWIhx1/tmMP/uk1paM=;
-        b=BpegDKBtUvmMIDHI2V9LL1TsQ1ZgZBVYVrml0LwKEOeWFgCkvfneHAFe72JRNkpl5f
-         jrOWwx2rCD3uP6675+OWJf5n2nKaafD6LBXVCRYNAjuz9Q7goakdJg7NSVGBg/nzcJZC
-         0O3ogYgO+nXUwKzHGw8bIfxUEj5/BlEv337hY=
+        d=gmail.com; s=20230601; t=1743815846; x=1744420646; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NRiuL4Sy1s+c/lXgB3vFyCUJTB29r4cpXB4vQmrcmqI=;
+        b=YRnurKuH0qf8QZ1KCUwm5y0Za2vb8zsJBV5R9jIeOPcHdOS2Y1x2cC9u18+sOLLm3V
+         Vgao4vJjL7NF1PUiRYzGDDwSvbsJr4iEgNRAvvUwKQQFPg4FDRGXPwf9vwatDsYut9RP
+         r2RgB7tx8Pm3ecjNlusVzcWtgXYg2tisennGcVuDQt64BV4jGjFT8ebw3CJ6k7/fTscF
+         5p0rHmXQd3P0JUGdGGtvjjYZeeALHHVJoHFSa8Xdpy+8IULCU2KrSfJp6fPSLbhmaYRd
+         Pr9jo7SrBt3qoQ24Bf4Oi48YcL6Lu5sXehSxcZmBDNkR7kRLSt2c+dow5tDaUrr/TFNg
+         bZLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743798687; x=1744403487;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IJt1e+3GaxJCHQhJ/qyD9KJwcLWIhx1/tmMP/uk1paM=;
-        b=SfOLmEfw/YbRw9okWprP07S7W222Eo/BVeKYBb7aIvQQwXrvGDo6QsAj5+b+AA0BfQ
-         jpKFqpCQpHZEmvxzywMNKJYa85/cH7sF3ubYd68uCuUZF+2r0pZEqtVDOhKGgk5YwtDM
-         Kot/96g83jY577I/HIWWSlw+5AejaS12VcriZhV5+KDRaG5HZ+3wHm4DNUzjQXX8+9jr
-         v5erJTFdjHb7gMW6j2wWY18MaHFrBEw4aV7GLdl+B9msjWJ2fJztCcCivZhMQX5BXPK3
-         SbUq+JTfkcTs6w8zVWjF3T8ogDNF1FxDVvE4tqziZgxFUX/VCu/Rk9pvf6JqiBl61ZXN
-         lGCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUWxawk4HfQxF334Jn8f2gSiZXOLeNx2/wtEZrp+HK0Zdl/I+olBggCBzb/MmGKYgDJMSoSG3onJ5GltQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yycyi0GdCi+jXNDTyIdkWzLTsfAichZI9tMmV/35iaz9QMnNidK
-	Jz6hgcw00ocWncFWnS2+/p/d4bPqOMdTgf/39lMZaAfyhoFAHBMrZwekl5j9OifO3CJOL7Ey0Wo
-	=
-X-Gm-Gg: ASbGncvX3smf0/z/BIP1N4fCapMwsYU1KLvVA82jgImhsaWbU+DNXUcXemijpFCiUK1
-	9uMDyZeaHNvQkhHuaPIXLQ8H+y1l8OIseKIXXwku1Lef0Mj342zff50ZCj4PB9mlPEXiM8voQGm
-	o+2/d+480DJYJKo2P8yuoSf0IfG/7u15i30Te3lk8V91q6eU+jL1Pxicv2Dw8ctqGEGcYmJA8WX
-	ReE0wHnGpTu2wGw1/IFttAVzhXGfZZYwKllYWsSHHdReaeoHSlsahx42blC1hD8iH1WT7lYV7ti
-	vp3r/dXz3CNuT3Amj1VBTmnYw8sI3E41dYJaVVsSh0gZi0baaa+5ZUjBI+n6Jv5zbNtVTDTyZxt
-	g1LJ154Bn8Bo=
-X-Google-Smtp-Source: AGHT+IEPauDedQfYltPgZrAI4PKQM3n+7xXK+un0fSMJp+6F4m0t09IY6tQcbLIvZnTIGCbz16Ijbg==
-X-Received: by 2002:a2e:a58e:0:b0:30d:b25d:72d0 with SMTP id 38308e7fff4ca-30f0bf4711bmr11335771fa.17.1743798687277;
-        Fri, 04 Apr 2025 13:31:27 -0700 (PDT)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com. [209.85.208.178])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30f031ce93bsm6554041fa.103.2025.04.04.13.31.25
-        for <linux-media@vger.kernel.org>
+        d=1e100.net; s=20230601; t=1743815846; x=1744420646;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=NRiuL4Sy1s+c/lXgB3vFyCUJTB29r4cpXB4vQmrcmqI=;
+        b=JHLrp3NVp/SMPJ1GTJaDcfNB78Xr9OvSse6kWADJGEKlTf+RjJA4Fkah4epIGQigGH
+         juqh0LlakK+D162kGm6hXKSfssMM2WiN7E9f85+2WcGqghwhZOlmBUGpE5FkozdTA16G
+         qALNOwgIk0ImH9vVPCXQ75LvqAhnBwwOpnC+Ob8J7+VIA/r0KXSB7EzwBczecF9l5wSi
+         0vmu/KbwAK/u78Vi8gm84GIsrn6ACreBXE/a9J/YeA5fTkEJj9mGawIz+yvzy62ZqP3t
+         /82nn5WLqy+h2roZoTvsAlzFq/TLSW1RrwrwRJJAyF6e1OFAM8RMNvRwlP2lOg9JOo8r
+         6OwA==
+X-Forwarded-Encrypted: i=1; AJvYcCUWlDFizJ72L4JaLpGMGIXwPVkkry0CxprxOxHRciM+kbDmneQ/BvwS/4Z9t6b6hHswwZsZIhEUcr66SQ9s@vger.kernel.org, AJvYcCV5YymNw437k3DF6kKFAwfK3U2exxJWUISpUaX+DQIMatGKsTnW7b51mOoli9iXf8Jm6BVqH9MY483MU/YGLg==@vger.kernel.org, AJvYcCV73uF6MlopNrW2+1X8virrsE1CN1EbJ82LQ3FfZSkFJ+ek2Ms0nesputnSByKTAhpkx+yT0XK/@vger.kernel.org, AJvYcCVMi0tnSlpsyUu9NCHb33HIHlEWwl25WXGtTP0H5l19Gh81q5ug1vd/CfdjApdJoCuSvRjAiSm7Zw4tAssV6DBY@vger.kernel.org, AJvYcCVNCQVqTlSFPXisH9bZc4eTOctWFTgsksSkc3GHeu/NuKsr3Qzkgwi2Te2fYJKcQ5BaPZ+1wgdVWCLw@vger.kernel.org, AJvYcCWhZFY9l4lNdSkHoLCWyE3EuOFxfqkiLQah38cNgKePAtSELcneThA51vDR3UHagmV8RSQZaQfCGSc=@vger.kernel.org, AJvYcCWlrI/JSZ/JuzS25BJBuyhHkRldgpr04/5qaY/YnqEBG1YHrboHaYDpqGjpmTgrNJP3ChrkytKYAEs=@vger.kernel.org, AJvYcCX6Ssa8979EneFfYhtaAKodjajDjHOfsHL5SXVQjWL+Wpt/AirlpUm/5S9S3MkohbdN32hAInPZsS3k@vger.kernel.org, AJvYcCXGOZOkI9lE0ylnkW0ktt7aPVyh/RRvJqqZibl8nWD0+nU5bBc4/Jn50bSdtN32AQibAfnZmQxuLyTG/XU=@vger.kernel.org, AJvYcCXMMuu1sTDouy7+bUG/G9YWJANt
+ U5x7ZyVtgwZpr347i2TCa6jfm7ldLE32U0FxTgjN+pO4rSUPcf7Iew0=@vger.kernel.org, AJvYcCXRKSALrXbi3YbfbNZTUz7Ps+pdGKDPFa5OCJciAmpTHN3Su5BptmzAObQG6GDmH08H2h7+Q9Vhm0vp@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxr3CPhGm8W4iDr6QTqTstL9azX+Uw+8RfXnyLamw8fGI/bUBtC
+	YUmaEC7MECJEamEdzBjCIxA++D9v2aQD7VB7huqGNe63OUgohkpK
+X-Gm-Gg: ASbGnct0KFiIGSMKavchuzIRbJohlzYkeVSZP914WZK+mCplAHw3Yoy/mlyvKfJsgye
+	Cf2C4Bs4B2WNfX6Cnqvwo6zR1/QValY51yjC3Sg3KrsJ58GwlOJzW/5y8SJriFsdgnVnqMhZTL3
+	PTfsq25FUzSCX9ZzIUin0Z/QwIKZ3lenAGyKYxGF/KBrKjNd3IE6uZ5ynP5BeCriY4Rg7VxjH83
+	Hrf1ArhW4TpfLkSJ8AO9YujF7wAVjYscCfZCHxq0g+OX/Tb+mTI6RlVEfoyj7fLQyv+dVJwn5K5
+	wI9ck+8z03mRtxCCet1nvTA97oh58E89BEywJeZaMHosMno2zLF53pJHEiS2coOqaWJ1h5ZeqXQ
+	4LekjcPW+js7527c=
+X-Google-Smtp-Source: AGHT+IGrKFiapGLIEGHnSEZIAujUvj6ZJLSj064m/nFeE0wcOjOeNVFt0u8EmZ8qnV5tFeQau4dR7A==
+X-Received: by 2002:a17:903:3c6b:b0:224:24d3:6103 with SMTP id d9443c01a7336-22a955734f5mr25800795ad.35.1743815846125;
+        Fri, 04 Apr 2025 18:17:26 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-229785b352esm39374225ad.18.2025.04.04.18.17.18
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Apr 2025 13:31:26 -0700 (PDT)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-30bf5d7d107so19505081fa.2
-        for <linux-media@vger.kernel.org>; Fri, 04 Apr 2025 13:31:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXd9QzkjnpzrDSTR1uYAM8mZSNo8KRH656mV44/Vaa1Nd4vkKtt5oZUyrZmYBjs0w37LY4cw+dhIkpzpQ==@vger.kernel.org
-X-Received: by 2002:a05:651c:1581:b0:30d:7c12:5725 with SMTP id
- 38308e7fff4ca-30f0c064658mr16422321fa.33.1743798685456; Fri, 04 Apr 2025
- 13:31:25 -0700 (PDT)
+        Fri, 04 Apr 2025 18:17:25 -0700 (PDT)
+Message-ID: <811c4103-08b1-4288-9a15-bd9795bc59f4@gmail.com>
+Date: Sat, 5 Apr 2025 10:17:16 +0900
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250403-uvc-orientation-v1-0-1a0cc595a62d@chromium.org>
- <20250403-uvc-orientation-v1-5-1a0cc595a62d@chromium.org> <20250404193655.GA158858-robh@kernel.org>
-In-Reply-To: <20250404193655.GA158858-robh@kernel.org>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 4 Apr 2025 22:31:11 +0200
-X-Gmail-Original-Message-ID: <CANiDSCuD=vR7xT41sdyHU4Sci+q27_5cEYUsAOT3jmHBMOfixA@mail.gmail.com>
-X-Gm-Features: ATxdqUGWjyuS5jbxrI5_afZO8VPXlqKA2MK8tNbiaf5xCWtDa_Llt0RuBZ7yskM
-Message-ID: <CANiDSCuD=vR7xT41sdyHU4Sci+q27_5cEYUsAOT3jmHBMOfixA@mail.gmail.com>
-Subject: Re: [PATCH 5/8] dt-bindings: usb: usb-device: Add orientation
-To: Rob Herring <robh@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hdegoede@redhat.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Bartosz Golaszewski <brgl@bgdev.pl>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-usb@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+To: nfraprado@collabora.com
+Cc: James.Bottomley@HansenPartnership.com, akpm@linux-foundation.org,
+ anton.ivanov@cambridgegreys.com, corbet@lwn.net, davem@davemloft.net,
+ dmaengine@vger.kernel.org, ebiggers@kernel.org, edumazet@google.com,
+ horms@kernel.org, jaegeuk@kernel.org, jarkko@kernel.org, jic23@kernel.org,
+ johannes@sipsolutions.net, kernel@collabora.com, keyrings@vger.kernel.org,
+ kuba@kernel.org, lars@metafoo.de, linux-doc@vger.kernel.org,
+ linux-fscrypt@vger.kernel.org, linux-iio@vger.kernel.org,
+ linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mm@kvack.org,
+ linux-sound@vger.kernel.org, linux-um@lists.infradead.org,
+ maxime.chevallier@bootlin.com, mchehab@kernel.org, netdev@vger.kernel.org,
+ pabeni@redhat.com, perex@perex.cz, richard@nod.at, tiwai@suse.com,
+ tytso@mit.edu, vkoul@kernel.org, workflows@vger.kernel.org,
+ zohar@linux.ibm.com, Akira Yokosawa <akiyks@gmail.com>
+References: <20250404-doc-paths-unliteral-v1-1-74718785444e@collabora.com>
+Subject: Re: [PATCH] docs: Remove literal markup from Documentation/ paths
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20250404-doc-paths-unliteral-v1-1-74718785444e@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Rob
+Hi,
 
-On Fri, 4 Apr 2025 at 21:36, Rob Herring <robh@kernel.org> wrote:
->
-> On Thu, Apr 03, 2025 at 07:16:16PM +0000, Ricardo Ribalda wrote:
-> > For some devices, such as cameras, the OS needs to know where they are
-> > mounted.
->
-> Do you have a usecase that's not a camera?
+Nícolas F. R. A. Prado wrote:
+> Given that the automarkup Sphinx plugin cross-references
+> "Documentation/*.rst" strings in the text to the corresponding
+> documents, surrounding those strings with the literal markup (``) not
+> only adds unnecessary markup in the source files, but actually prevents
+> the automatic cross-referencing to happen (as it doesn't happen in
+> literal blocks).
+> 
+> Remove all the occurrences of the literal markup in
+> "Documentation/*.rst" paths, except when the actual source file is being
+> referred. Also change the surrounding text when needed so it reads well
+> both in the source and the web page (eg. 'see file Doc...' -> 'see
+> Doc...').
+> 
+> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> ---
+[...]
 
-I personally do not have other use cases, but I suspect that it could
-be useful for more people.
+>  Documentation/process/submit-checklist.rst                | 7 ++++---
 
-The original proposal was more generic and "inspired" in _PLD:
-https://lore.kernel.org/linux-devicetree/20241212-usb-orientation-v1-1-0b69adf05f37@chromium.org/
+I have updated ja_JP translation of this recently.
 
-You suggested using the camera's orientation.
+> diff --git a/Documentation/process/submit-checklist.rst b/Documentation/process/submit-checklist.rst
+> index beb7f94279fdb6a1d9b4aa86b2bea031f140732b..3ae31c5af2cb5c374658c1fb7125e70bf36e911c 100644
+> --- a/Documentation/process/submit-checklist.rst
+> +++ b/Documentation/process/submit-checklist.rst
+> @@ -30,7 +30,8 @@ Review Kconfig changes
+>  
+>  1) Any new or modified ``CONFIG`` options do not muck up the config menu and
+>     default to off unless they meet the exception criteria documented in
+> -   ``Documentation/kbuild/kconfig-language.rst`` Menu attributes: default value.
+> +   Documentation/kbuild/kconfig-language.rst, under "Menu attributes", "default
+> +   value".
 
+I have made the same change in the translation, but failed to submit a patch...
 
->
-> >
-> > ACPI has a property for this purpose, which is parsed by
-> > acpi_get_physical_device_location():
-> > https://uefi.org/htmlspecs/ACPI_Spec_6_4_html/06_Device_Configuration/Device_Configuration.html#pld-physical-location-of-device
-> >
-> > In DT we have similar property for video-interface-devices called
-> > orientation:
-> > Documentation/devicetree/bindings/media/video-interface-devices.yaml
-> >
-> > Add a new property orientation for usb-devices that matches the already
-> > existing orientation property of video-interface-devices.
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  Documentation/devicetree/bindings/usb/usb-device.yaml | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> >
-> > diff --git a/Documentation/devicetree/bindings/usb/usb-device.yaml b/Documentation/devicetree/bindings/usb/usb-device.yaml
-> > index da890ee60ce6e71a11910c565b6f805470782e4f..bbcda28ec7d5695307efa797f57180044afda77f 100644
-> > --- a/Documentation/devicetree/bindings/usb/usb-device.yaml
-> > +++ b/Documentation/devicetree/bindings/usb/usb-device.yaml
->
-> This is a binding for *all* USB devices. This property should only be
-> added for devices where it makes sense.
+>  
+>  2) All new ``Kconfig`` options have help text.
+>  
+> @@ -47,7 +48,7 @@ Provide documentation
+>  2) All new ``/proc`` entries are documented under ``Documentation/``
+>  
+>  3) All new kernel boot parameters are documented in
+> -   ``Documentation/admin-guide/kernel-parameters.rst``.
+> +   Documentation/admin-guide/kernel-parameters.rst.
 
-Can you provide some examples of how I can do this?
+Hmm, this item is asking "Have you documented the new params in that
+particular file?", so I don't think this change should be made.
 
+>  
+>  4) All new module parameters are documented with ``MODULE_PARM_DESC()``
+>  
+> @@ -58,7 +59,7 @@ Provide documentation
+>     linux-api@vger.kernel.org.
+>  
+>  6) If any ioctl's are added by the patch, then also update
+> -   ``Documentation/userspace-api/ioctl/ioctl-number.rst``.
+> +   Documentation/userspace-api/ioctl/ioctl-number.rst.
 
->
-> > @@ -42,6 +42,10 @@ properties:
-> >        port to which this device is attached. The range is 1-255.
-> >      maxItems: 1
-> >
-> > +  orientation:
-> > +    description: If present, specifies the orientation of the usb device.
-> > +    $ref: /schemas/media/video-interface-devices.yaml#/properties/orientation
->
-> Reference the schema from the top level and drop
-> '/properties/orientation'.
->
-> What about 'rotation'? Seems like you'd want that too.
+Ditto.
 
-At this moment I do not have a usecase for that. But sure, once I need
-it I will add it the same way.
+        Thanks, Akira
 
-In the last thread I proposed Sakari to use:
+>  
+>  Check your code with tools
+>  ==========================
 
-+      image-sensor:
-+        description: Video interface properties associated to USB cameras,
-+          typically UVC compliant.
-+        allOf:
-+          - $ref: /schemas/media/video-interface-devices.yaml#
-+
-
-But he preferred to add orientation instead. Either ways work for me.
-
-
->
-> > +
-> >    "#address-cells":
-> >      description: should be 1 for hub nodes with device nodes,
-> >        should be 2 for device nodes with interface nodes.
-> > @@ -101,6 +105,7 @@ examples:
-> >          device@2 {
-> >              compatible = "usb123,4567";
-> >              reg = <2>;
-> > +            orientation = <0>;
-> >          };
-> >
-> >          device@3 {
-> >
-> > --
-> > 2.49.0.504.g3bcea36a83-goog
-> >
-
-
-
--- 
-Ricardo Ribalda
 
