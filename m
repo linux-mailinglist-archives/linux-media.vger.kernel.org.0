@@ -1,36 +1,85 @@
-Return-Path: <linux-media+bounces-29496-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29497-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77F9BA7DC28
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 13:23:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 147CAA7DC94
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 13:41:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B73D3171C18
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 11:23:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9A4663A7132
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 11:41:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE34023AE64;
-	Mon,  7 Apr 2025 11:23:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E562A23ED71;
+	Mon,  7 Apr 2025 11:41:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aCtiMOu+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5138320E6FB;
-	Mon,  7 Apr 2025 11:23:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B380623372D
+	for <linux-media@vger.kernel.org>; Mon,  7 Apr 2025 11:41:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744025016; cv=none; b=Q0AStD5lLmffXyVbL5eEJdInGZKpgR21WsDS4NGSzl7+DrP8H9BFRNrnUE+42wVgGWmPMBW6pCDb7qhmtHzQBxq8/5G2lWHexV7TEN/y4CO3Y7AFNJ/VTfkw0I87HWLSXCNtdAkpNLAqsEjyYb0jMxD8OYg2hnpbphggma+ElJw=
+	t=1744026106; cv=none; b=Hvy5w16U/f8fvSfxp0kzt2hs7F2uaXFpVjolxtHcLOtQ6Cd3a+EtqmBiHxkGPtJQYY46K/iwK/cwEKwvbl85h5hr9pr24ZGX1J0socrwPtHu+vjZ0VVO6DHOAsy4gnHkG/gmjSlxzIUsj72KwWWLcXAq80w51kgt9XWFjaHI46s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744025016; c=relaxed/simple;
-	bh=fIZHsJ51DWzGtk520igDciQplBUlURiv01XJ1XOLsHY=;
+	s=arc-20240116; t=1744026106; c=relaxed/simple;
+	bh=T1Gc1WsYyy+thC5pufNRIsi57oTBLKU11v4occxYB9A=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iglArFugw5FXvzILEamt7AcCnLb6Q1aMME1G20W5YWD3yngy6GGnm3IFTJfRz9D/+lAnPtsjDcPUENqvVd89X0gxaR3VDpWy1lkrCkWqBedLOmrrsxlqkMUAa1ehKlLmNZQti4aFK/gi32sY4YlDB4GYzY+q+0lIMjLFN5hSSlQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1648C4CEDD;
-	Mon,  7 Apr 2025 11:23:33 +0000 (UTC)
-Message-ID: <1a973afd-0ac7-4ba6-8b00-818d1405ebac@xs4all.nl>
-Date: Mon, 7 Apr 2025 13:23:32 +0200
+	 In-Reply-To:Content-Type; b=iCxjRFOoJHIqRuABSaPehZRMKY1yskW5HlHvnQFyBX1ESghv4rEjwBWgRHSjrFlIs1Rigq7+UFcb90PTfYLra2wgs2+dNAaasWeJn0cp4dr/0w7Y9xkBnBJr6dtPl4IEPLfm3lwo1IUncOJX82LT3rSJBCwrkVRd6+ohcqpk9Io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aCtiMOu+; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1744026103;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/18Tl/tFX6iSKG+VYUdH9MARKh6n7GdxvTDO5NcIXq0=;
+	b=aCtiMOu+SaqNrndLEKAH2BnYfM7J+hlItx2RQwkADbUzPVZHUOUtXYy4uVQ6c5X3IA7U/L
+	o8v0e2P4dNeH2myG76yriKLqkFemWUmWhMCxlNDBsojC8hAlmFZIMKVMpIFX3kiJWFS7/c
+	9nUXRP/pd7bt6XV420M2AEzxConGFVM=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-118-vRhuUnV7MZ68XYsQHFf8PA-1; Mon, 07 Apr 2025 07:41:42 -0400
+X-MC-Unique: vRhuUnV7MZ68XYsQHFf8PA-1
+X-Mimecast-MFC-AGG-ID: vRhuUnV7MZ68XYsQHFf8PA_1744026101
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3912a0439afso1822035f8f.3
+        for <linux-media@vger.kernel.org>; Mon, 07 Apr 2025 04:41:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744026101; x=1744630901;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/18Tl/tFX6iSKG+VYUdH9MARKh6n7GdxvTDO5NcIXq0=;
+        b=Ogr1lcxpaKimo7td2gaE3kSKaG+8r0NUIdKPe/SkO1kzHUF6NaDubEW+wrubPZJnNg
+         hw5gj3u/OwASbUJuDmdLBZhMe+1wVqZArWCaRMm/rXEbvuLlcogXf9GodOP7hrm1NGYW
+         190i5VsxaE2kfJAWDbUyiXNA1tCrSOFbtFOTE8ZHhGDuGZGX2U1uXUkPBWGuVQt900Sx
+         GNKFzX/zDeYRdQSLcN3f7gUsb+6LjQ8X07YLd4dt7vYoJqvE8PR83aNT3AgaP5FOXy2q
+         llFl8nceXht8lTIqJXks5OuoLB/dT6NmBKHzE77MYxurqEDTgQjDe8RW3G8/xx6RRPeY
+         N8lw==
+X-Gm-Message-State: AOJu0Yx9E2iWELZwnrh1tqBlcyt/cA82wboagQqvBFPNRXr1TID6w43r
+	cWB5eGsFZn8rUxVarAlilhkjOr1chOOUpKR7sUUXk7yqKn+CumdHTlLlSQlXn48uhgSR9ms1WZ6
+	4Sc0q4mkpY21Fi6AojkuQZM16klpZ2i9nxy+SuReSAtu8LySVGqgELpuU4HlJ
+X-Gm-Gg: ASbGnct9TxEd10QGnGGymyp/ncQT6/Yx53TH3ysMjwfhtQaPW63aig/4Y+WtzzXysdD
+	nXj0iroC1FbCVuNzCx2pVxhbObI9rFV8F9aeeCzQZjh/+HQoRdWCjG8SYhWwTMY2241VnJQ5bYF
+	lCgw6KuMB90Zq5QLC7VTvbYqkCn6iOiXNVIvmlSt2ehV9adIzpkp8K6TpfLNpqbAS5aIOqHCXrG
+	L4lreEXhS+obeBQiua2HH/UyaEVuZb1lfDrc+6/jlOA1JeqVuV67WOuISIn2sAi1UA6xU6VJ3K8
+	r71GWvVBMImmj7gH2j8=
+X-Received: by 2002:a5d:6da9:0:b0:391:2f2f:818 with SMTP id ffacd0b85a97d-39d6fc00b4dmr6938037f8f.9.1744026100973;
+        Mon, 07 Apr 2025 04:41:40 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE5I8mCiAb1eBIzaa69eqs7IXjcg7TUnCrCJ0nVq8RtXubncMnApUfmUN9ILHJhvMKIwwyQQQ==
+X-Received: by 2002:a5d:6da9:0:b0:391:2f2f:818 with SMTP id ffacd0b85a97d-39d6fc00b4dmr6938012f8f.9.1744026100616;
+        Mon, 07 Apr 2025 04:41:40 -0700 (PDT)
+Received: from [10.40.98.122] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec1795630sm133704795e9.29.2025.04.07.04.41.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Apr 2025 04:41:40 -0700 (PDT)
+Message-ID: <14319e01-e7b8-4ab6-bc27-a2b02b755c10@redhat.com>
+Date: Mon, 7 Apr 2025 13:41:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,105 +87,90 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4] staging: media: Remove unnecessary braces for single
- statement block
-To: Gabriel Shahrouzi <gshahrouzi@gmail.com>, linux-media@vger.kernel.org
-Cc: linux-staging@lists.linux.dev, slongerbeam@gmail.com,
- p.zabel@pengutronix.de, mchehab@kernel.org, gregkh@linuxfoundation.org,
- skhan@linuxfoundation.org, kernelmentees@lists.linuxfoundation.org
-References: <20250402135851.13627-1-gshahrouzi@gmail.com>
+Subject: Re: [PATCH v6 0/5] media: uvcvideo: Implement Granular Power Saving
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
+References: <20250327-uvc-granpower-ng-v6-0-35a2357ff348@chromium.org>
 Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20250402135851.13627-1-gshahrouzi@gmail.com>
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20250327-uvc-granpower-ng-v6-0-35a2357ff348@chromium.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 02/04/2025 15:58, Gabriel Shahrouzi wrote:
-> Remove unnecessary braces in single statement block to comply with kernel
-> coding style.
+Hi Ricardo,
 
-Please add the driver in the subject line. So:
+On 27-Mar-25 22:05, Ricardo Ribalda wrote:
+> Right now we power-up the device when a user open() the device and we
+> power it off when the last user close() the first video node.
+> 
+> This behaviour affects the power consumption of the device is multiple
+> use cases, such as:
+> - Polling the privacy gpio
+> - udev probing the device
+> 
+> This patchset introduces a more granular power saving behaviour where
+> the camera is only awaken when needed. It is compatible with
+> asynchronous controls.
+> 
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+> Changes in v6:
+> - Improve error handling
+> - Use __free instead of guards()
+> - Rename uvc_v4l2_unlocked_ioctl
+> - Link to v5: https://lore.kernel.org/r/20250303-uvc-granpower-ng-v5-0-a3dfbe29fe91@chromium.org
 
-[PATCH v4] staging: media: imx: Remove unnecessary braces for single statement block
+Thank you for the new version.
 
-That way it is clear that this is a patch for a specific driver.
+I've pushed 6.15-rc1 + the entire v6 series merged on top to:
+https://gitlab.freedesktop.org/linux-media/users/uvc/ -next now.
 
 Regards,
 
-	Hans
+Hans
 
+
+
+
+> Changes in v5:
+> - Improve "media: uvcvideo: Make power management granular" commit
+>   message.
+> - Link to v4: https://lore.kernel.org/r/20250226-uvc-granpower-ng-v4-0-3ec9be906048@chromium.org
 > 
-> Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
-> ---
+> Changes in v4:
+> - CodeStyle
+> - Create uvc_pm_ functions
+> - Link to v3: https://lore.kernel.org/r/20250206-uvc-granpower-ng-v3-0-32d0d7b0c5d8@chromium.org
+> 
+> Changes in v3:
+> - Fix build error on sh4.
+> - Link to v2: https://lore.kernel.org/r/20250203-uvc-granpower-ng-v2-0-bef4b55e7b67@chromium.org
 > 
 > Changes in v2:
-> 	- Add missing author.
-> 	- Fix title of email.
-> Changes in v3:
->         - Resend using git send-email to fix formatting issues in email body.
-> Changes in v4:
-> 	- Use correct patch version.
-> ---
->  drivers/staging/media/imx/imx-media-of.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
+> - Add missing semicolon.
+> - Rebase on top of media-committers/next
+> - Link to v1: https://lore.kernel.org/r/20241126-uvc-granpower-ng-v1-0-6312bf26549c@chromium.org
 > 
-> diff --git a/drivers/staging/media/imx/imx-media-of.c b/drivers/staging/media/imx/imx-media-of.c
-> index bb28daa4d713..7413551052ae 100644
-> --- a/drivers/staging/media/imx/imx-media-of.c
-> +++ b/drivers/staging/media/imx/imx-media-of.c
-> @@ -57,9 +57,8 @@ int imx_media_add_of_subdevs(struct imx_media_dev *imxmd,
->  		of_node_put(csi_np);
->  		if (ret) {
->  			/* unavailable or already added is not an error */
-> -			if (ret == -ENODEV || ret == -EEXIST) {
-> +			if (ret == -ENODEV || ret == -EEXIST)
->  				continue;
-> -			}
->  
->  			/* other error, can't continue */
->  			return ret;
+> ---
+> Ricardo Ribalda (5):
+>       media: uvcvideo: Keep streaming state in the file handle
+>       media: uvcvideo: Create uvc_pm_(get|put) functions
+>       media: uvcvideo: Increase/decrease the PM counter per IOCTL
+>       media: uvcvideo: Make power management granular
+>       media: uvcvideo: Do not turn on the camera for some ioctls
+> 
+>  drivers/media/usb/uvc/uvc_ctrl.c |  37 +++++++++----
+>  drivers/media/usb/uvc/uvc_v4l2.c | 115 +++++++++++++++++++++++++++++++--------
+>  drivers/media/usb/uvc/uvcvideo.h |   5 ++
+>  3 files changed, 123 insertions(+), 34 deletions(-)
+> ---
+> base-commit: f2151613e040973c868d28c8b00885dfab69eb75
+> change-id: 20241126-uvc-granpower-ng-069185a6d474
+> 
+> Best regards,
 
 
