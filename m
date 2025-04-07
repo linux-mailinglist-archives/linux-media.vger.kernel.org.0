@@ -1,189 +1,260 @@
-Return-Path: <linux-media+bounces-29558-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29559-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA64A7E944
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 20:03:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2067A7ED91
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 21:38:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C8C21188FC31
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 18:01:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5186F421E25
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 19:31:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 284EC214A7C;
-	Mon,  7 Apr 2025 18:01:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE2AD221D90;
+	Mon,  7 Apr 2025 19:29:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="UaAlCC/s"
+	dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b="LlKTXg+d"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www637.your-server.de (www637.your-server.de [168.119.26.117])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C21217663
-	for <linux-media@vger.kernel.org>; Mon,  7 Apr 2025 18:01:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334BD1FF5F7;
+	Mon,  7 Apr 2025 19:29:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.26.117
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744048874; cv=none; b=q1u/6eyB0VuGhJJ4R6LvT2l4EmqxP8NqClYZ6Z6OEzXy2dJU8VxkxDmX7EBfG8+KeRRbK4mnJWr4eGGIuPGIRFnnc6dn/ZWcIHaBMApD2M9JxUtRamZ9jXKNPG3UpnIn+yLHLd5AIvqUEXzs/KEmMKrF6Fxa3Ny8LbiqP45aXP0=
+	t=1744054196; cv=none; b=njTLQEswtlFNCHe7A2xdEgI57YZoGgbnFVIAT87gmtqCI1JB6rtYyPh8b4dRuryHD4feL5fM7leWzpLeJp+XDV9GqJfxjIOCycPvcuygfdt+ofC599L+clWGg7KZI4IQU8odoS9OtysEsIcZzNSzXaqP5fOg+CtPm1hQB6lmS20=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744048874; c=relaxed/simple;
-	bh=/sCS8P3oFfkM8Y2joQwtk/+GhkDfttep80wMIA9Oi6I=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=TryvryR37/L3Y4FwEiBKOreDPmWF5OtjANgk0CgvWKkF1uEFJvTZGhwFGVrT+ZxSnSgkHGtSWWly55hIz7xSa7g+eoE9lMa8XIi2RvVeAWTQy2MkbjvkakIfoTrYpM3Yy/Zaexcr8NdtNztnCxHe32/Fm+eRb9x9ElCYiDnRh/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=UaAlCC/s; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3914a5def6bso2764493f8f.1
-        for <linux-media@vger.kernel.org>; Mon, 07 Apr 2025 11:01:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744048871; x=1744653671; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dQN6XEoSUCzS4EezoIiiguwwZ733hElp98GvikZveLg=;
-        b=UaAlCC/ssZRpuNqnybDl1wxtEI3s4qVn/UvY8jRV7ExlXN+0QFhpLs41mGwToOvvnI
-         NbtBUXIlHKMxeMVaa86iOzapveOJ3xvyuxuRM87ZrpWvkOGlKTz6l7XMLXJo6kwXsMmx
-         ufSH20gDsA7Ga5Iw7yrp71qtKJ0+xmB0YePw9JD0SoTeGi/8RY0AcAdtvl/B/YH/vq1n
-         w5ueJNP6B7KnvH5nkRev5W7+Bnxl88vuDarQsEiJ0GJOVeGp0aIN7vF1PGdVhUYzCWN7
-         pwAFQXFeWCL0XH6mX+CL0Re9PGKxKx9tvBJoJO03CdC9HAXLy7i14jl6Gbma5YBcqSyf
-         rYrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744048871; x=1744653671;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=dQN6XEoSUCzS4EezoIiiguwwZ733hElp98GvikZveLg=;
-        b=uY0Gx/et/kSb9oW1oX3H9tS5jj9b2Wf2gaDd8sG2aoY40zdyYfXPtNhe0MXUV05m/I
-         i9zL6iP0HQOESNu/oOKVFD8gknrr7Aj1O4M36Aa/f5y5cAVf//RAx3pG+bGpMIwVGdNh
-         j+VdLpFMYf2Cn9t455EoZuUkODULpytlVmqR8HT8MUqhr/EsVctSxpNiIZZejsCu5PIa
-         1gMuU3Pl1z9MBnP+Uns+Q21k5hSXAivPAPNPRPiWaqA59Idcmh1zGXwrzZSRdnYsuH5d
-         1YWgqNx/Mx5KlMAygpk0BLInnCUycSugV0xSX/63yX6gDqEhHglWDiwM8SNCEJzT/qVJ
-         lRgA==
-X-Gm-Message-State: AOJu0YytKV3aaJj3ZV88ocdzMUL1FLtZnOS9W5BBAzLSX1hq42SMPjQ0
-	WvLJiPyf79VxTR1BRBBdOyUk/GqzR5Lj00nYlUHDeJYtTw4xTfmL1WKvSFA/EAA=
-X-Gm-Gg: ASbGncu0Tjw6x+yI/Ukv9Q9/GSnhu6GcVPogrgfCRa9bPAs/UXNFUq+fNVo1Hwewt+Y
-	RnKu9ov17O6VQD1U0dy1qniBV0ac+tZYcNgjce4UZ2v57A4tcDBTTBpE4Uz6qCAj/1JAtnY7aSh
-	qTxgM4ju80xpSooe+aZtDt1ZqRaeiTy/ixZ1RYU+mhECbBvG6w6gHOI0J+GWG+XurF3n205RZzn
-	Qe1aGtXovA/n0u8vt8TRo4uk++59MgqM+LYUTaNmGOCH1Nuhh7ZfphwD7bQTvGbWbZpTgAw8uhX
-	98s0AO/z9MdQH8EouafNnszXMbbYHRPncIXhZsHCFoGQavmmcK3yACzh0+A76ZdifhShq12ecOi
-	Bsn++KJcgxfTHFBG4SYZZ0A==
-X-Google-Smtp-Source: AGHT+IFF2Y1FxHLGIXFsVRY7QrXVRey4g/u9EJsx9mznd/SmL2dCJdrLW+gsYJud45OzuRqxEedf1A==
-X-Received: by 2002:a05:6000:1a8d:b0:391:487f:282a with SMTP id ffacd0b85a97d-39cba93cdd3mr11366157f8f.50.1744048870736;
-        Mon, 07 Apr 2025 11:01:10 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:f2a4:b974:cba3:a605? ([2a01:e0a:3d9:2080:f2a4:b974:cba3:a605])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c301b6321sm12508357f8f.44.2025.04.07.11.01.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Apr 2025 11:01:10 -0700 (PDT)
-Message-ID: <f0821547-8f0e-4235-b196-1c8a680fa5c0@linaro.org>
-Date: Mon, 7 Apr 2025 20:01:09 +0200
+	s=arc-20240116; t=1744054196; c=relaxed/simple;
+	bh=QxbJUQj494NJu8ZjgJ05X2q3+gIgGLIBqzCnPxe0YBw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Wo84BRp0LV/HOS6qVyIcLVXYQfloMAc/L/tQmgbwfOaVZ+7VYTHL54wEciZHPvMwzShfOReXYD5JAV5coy5j2z0Ur37AZiA1Rb7iW7HTJ48O12EC0xsSCIdslRSuOzxRoDKl5hXw7lQ4OE0xdKaAQ22HnMJj5A/GIsx6c9sBLR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b=LlKTXg+d; arc=none smtp.client-ip=168.119.26.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=apitzsch.eu
+	; s=default2410; h=MIME-Version:Content-Transfer-Encoding:Content-Type:
+	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=O40M1F4FENumpeawEN/zW0HV0k/GzWMb+PW3MS2kdeI=; b=LlKTXg+dXXhUmVPx2ZyqdR1/3W
+	dAq7E8QCV8RWayeTm/0ESqnhvcMKoys7h6YK0dWBvztEzbOpkwm3AM0qSCUES7j+vjOGhGL3CycUG
+	j3vwSJC7liLPPL+PFrZE/QAIEuwd7MNC6nvJxxxKqb0G+Z/gVcmBXdF8K1Vy+BbZwNEfMP6zR92Q4
+	h84rzZChgAWx8HoKjK5LeuEl3gUTypBP+CaQKau6Wp6yOxulbt/LaaWMGKwCcHqQrWVxQ5vkp2Nwv
+	L9scyRvxvqXTkHYamJD+YYB4rRpS6nj6kgYapvIiUcueXenErGHJJjMOKD/Pko5aLZHxlvZBm6R/h
+	24ZeZNzQ==;
+Received: from sslproxy04.your-server.de ([78.46.152.42])
+	by www637.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <git@apitzsch.eu>)
+	id 1u1rrg-000MKL-05;
+	Mon, 07 Apr 2025 21:10:36 +0200
+Received: from [92.206.190.59] (helo=framework.lan)
+	by sslproxy04.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <git@apitzsch.eu>)
+	id 1u1rrf-000OkW-1w;
+	Mon, 07 Apr 2025 21:10:35 +0200
+Message-ID: <29677b7d5ceb07693d0b530c88a5aa9bde6c04dd.camel@apitzsch.eu>
+Subject: Re: [PATCH RESEND 0/4] media: i2c: imx214: Problem with CCS PLL
+ calculator
+From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Ricardo Ribalda <ribalda@kernel.org>, Mauro Carvalho Chehab
+	 <mchehab@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht, 
+	phone-devel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Mon, 07 Apr 2025 21:10:34 +0200
+In-Reply-To: <4c62bb9d5575e9075b39500917e09687d37cf7ca.camel@apitzsch.eu>
+References: <20250308-imx214_clk_freq-v1-0-467a4c083c35@apitzsch.eu>
+		 <Z87I2xh0HY-YD_tZ@kekkonen.localdomain>
+	 <4c62bb9d5575e9075b39500917e09687d37cf7ca.camel@apitzsch.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH v3 5/5] media: platform: qcom/iris: add sm8650 support
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250407-topic-sm8x50-iris-v10-v3-0-63569f6d04aa@linaro.org>
- <6zCwYEsWlyaz8z8Elw573sfjWDZBB46nc0IA4Eu_-pKdy3O1WzYh2sr0jdSPRr0uBHqfgMaK3WC5d9sN6-O6cA==@protonmail.internalid>
- <20250407-topic-sm8x50-iris-v10-v3-5-63569f6d04aa@linaro.org>
- <ecb193d1-2bf1-4d99-b9c6-9b5cde1e936e@linaro.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <ecb193d1-2bf1-4d99-b9c6-9b5cde1e936e@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Authenticated-Sender: andre@apitzsch.eu
+X-Virus-Scanned: Clear (ClamAV 1.0.7/27601/Mon Apr  7 10:42:24 2025)
 
-On 07/04/2025 17:52, Bryan O'Donoghue wrote:
-> On 07/04/2025 16:24, Neil Armstrong wrote:
->> Add support for the SM8650 platform by re-using the SM8550
->> definitions and using the vpu33 ops.
->>
->> The SM8650/vpu33 requires more reset lines, but the H.284
-> 
-> h264.
-> 
->> decoder capabilities are identical.
->>
->> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->> ---
->>   .../platform/qcom/iris/iris_platform_common.h      |  1 +
->>   .../platform/qcom/iris/iris_platform_sm8550.c      | 64 ++++++++++++++++++++++
->>   drivers/media/platform/qcom/iris/iris_probe.c      |  4 ++
->>   3 files changed, 69 insertions(+)
->>
->> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
->> index fdd40fd80178c4c66b37e392d07a0a62f492f108..6bc3a7975b04d612f6c89206eae95dac678695fc 100644
->> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
->> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
->> @@ -35,6 +35,7 @@ enum pipe_type {
->>
->>   extern struct iris_platform_data sm8250_data;
->>   extern struct iris_platform_data sm8550_data;
->> +extern struct iris_platform_data sm8650_data;
->>
->>   enum platform_clk_type {
->>       IRIS_AXI_CLK,
->> diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
->> index 35d278996c430f2856d0fe59586930061a271c3e..d0f8fa960d53367023e41bc5807ba3f8beae2efc 100644
->> --- a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
->> +++ b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
->> @@ -144,6 +144,10 @@ static const struct icc_info sm8550_icc_table[] = {
->>
->>   static const char * const sm8550_clk_reset_table[] = { "bus" };
->>
->> +static const char * const sm8650_clk_reset_table[] = { "bus", "core" };
->> +
->> +static const char * const sm8650_controller_reset_table[] = { "xo" };
-> 
-> 
-> At the risk of asking a stupid question, where are these resets in your dts ?
-> 
-> You're missing core here ?
-> 
-> 20250407-topic-sm8x50-upstream-iris-8550-dt-v1-1-1f7ab3083f49@linaro.org
+Am Montag, dem 10.03.2025 um 23:35 +0100 schrieb Andr=C3=A9 Apitzsch:
+> Hi Sakari,
+>=20
+> Am Montag, dem 10.03.2025 um 11:11 +0000 schrieb Sakari Ailus:
+> > Hi Andr=C3=A9,
+> >=20
+> > On Sat, Mar 08, 2025 at 10:47:54PM +0100, Andr=C3=A9 Apitzsch via B4
+> > Relay
+> > wrote:
+> > > The imx214 driver currently supports only a 24MHz external clock.
+> > > But
+> > > there are devices, like Qualcomm-MSM8916-based phones, which
+> > > cannot
+> > > provide this frequency. To make the sensor usable by those
+> > > devices,
+> > > add
+> > > support for 23.88MHz clock.
+> > >=20
+> > > Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
+> > > ---
+> > > Andr=C3=A9 Apitzsch (4):
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Calculate link bit=
+ rate from clock
+> > > frequency
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Prepare for variab=
+le clock frequency
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Read clock frequen=
+cy from device tree
+> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Add support for 23=
+.88MHz clock
+> > >=20
+> > > =C2=A0drivers/media/i2c/imx214.c | 188
+> > > +++++++++++++++++++++++++++++++++++----------
+> > > =C2=A01 file changed, 146 insertions(+), 42 deletions(-)
+> >=20
+> > Thanks for the patches.
+> >=20
+> > Do you think the driver could use the CCS PLL calculator? The PLL
+> > appears to be compliant. The AR0234 driver will do the same. (The
+> > sensor might just work with the CCS driver, too, but that's another
+> > discussion.)
+> >=20
+> Using the CCS PLL calculator seems quite complicated compared to
+> switching to the CCS driver. That's why I looked at the later first.
+> But for it to work, quirks already need to be applied in
+> ccs_power_on(), to disable writing to COMPRESSION_MODE, and in
+> ccs_identify_module(), to change the MODULE_MANUFACTURER_ID register.
+>=20
+> I'll check if CCS PLL calculator could be used.
+>=20
+> Best regards,
+> Andr=C3=A9
 
-This one if for sm8550, this very patch is adding support for sm8650 which needs core & xo in addition to bus
+Hi Sakari,
 
-Neil
+the CCS PLL calculator seems to work (up to one problem) and to be a
+more elegant way forward.
+The problem is, that the pixel rate is too small by a factor of 10 and
+I cannot figure out why. Any help would be appreciated.
 
-> 
-> ---
-> bod
+My devices uses a clock-frequency of 24000000 and a link-frequency of
+600000000. There are four data lanes.
+The calculator returns a pixel rate of 480.000.000. The expected value
+is 4800.000.000.
 
+You can find the PLL input parameters in [1] and the generated debug
+output below.
+
+Best regards,
+Andr=C3=A9
+
+[1] https://github.com/a-andre/linux/blob/58e10a814985f700579847ac7c99468a6=
+5cb55bb/drivers/media/i2c/imx214.c#L1116-L1196
+
+$ dmesg | grep imx
+[   17.851215] imx214 4-0010: vt_lanes: 4
+[   17.851245] imx214 4-0010: op_lanes: 4
+[   17.851254] imx214 4-0010: binning: 1x1
+[   17.851262] imx214 4-0010: min / max op_pre_pll_clk_div: 1 / 15
+[   17.851272] imx214 4-0010: pre-pll check: min / max op_pre_pll_clk_div: =
+1 / 15
+[   17.851281] imx214 4-0010: mul 50 / div 1
+[   17.851290] imx214 4-0010: pll_op check: min / max op_pre_pll_clk_div: 1=
+ / 15
+[   17.851300] imx214 4-0010: op_pre_pll_clk_div 1
+[   17.851308] imx214 4-0010: more_mul_max: max_op_pll_multiplier check: 24
+[   17.851317] imx214 4-0010: more_mul_max: max_pll_op_clk_freq_hz check: 1
+[   17.851325] imx214 4-0010: more_mul_max: max_op_sys_clk_div check: 1
+[   17.851333] imx214 4-0010: more_mul_max: min_pll_multiplier check: 1
+[   17.851341] imx214 4-0010: more_mul_min: min_op_pll_op_clk_freq_hz check=
+: 1
+[   17.851349] imx214 4-0010: more_mul_min: min_op_pll_multiplier check: 1
+[   17.851357] imx214 4-0010: more_mul_factor: 1
+[   17.851365] imx214 4-0010: more_mul_factor: min_op_sys_clk_div: 1
+[   17.851373] imx214 4-0010: final more_mul: 1
+[   17.851381] imx214 4-0010: op_sys_clk_div: 1
+[   17.851389] imx214 4-0010: op_pix_clk_div: 10
+[   17.851398] imx214 4-0010: min_vt_div: 10
+[   17.851406] imx214 4-0010: min_vt_div: max_vt_pix_clk_freq_hz: 10
+[   17.851414] imx214 4-0010: min_vt_div: min_vt_clk_div: 10
+[   17.851422] imx214 4-0010: max_vt_div: 40
+[   17.851486] imx214 4-0010: max_vt_div: min_vt_pix_clk_freq_hz: 40
+[   17.851502] imx214 4-0010: min_sys_div: 2
+[   17.851510] imx214 4-0010: min_sys_div: max_vt_pix_clk_div: 2
+[   17.851518] imx214 4-0010: min_sys_div: max_pll_op_clk_freq_hz: 2
+[   17.851526] imx214 4-0010: min_sys_div: one or even: 2
+[   17.851534] imx214 4-0010: max_sys_div: 4
+[   17.851541] imx214 4-0010: max_sys_div: min_vt_pix_clk_div: 4
+[   17.851549] imx214 4-0010: max_sys_div: min_vt_pix_clk_freq_hz: 4
+[   17.851557] imx214 4-0010: pix_div 3 too small or too big (5--10)
+[   17.851568] imx214 4-0010: ext_clk_freq_hz		24000000
+[   17.851578] imx214 4-0010: vt_pre_pll_clk_div		1
+[   17.851587] imx214 4-0010: vt_pll_multiplier		50
+[   17.851595] imx214 4-0010: vt_pll_ip_clk_freq_hz	24000000
+[   17.851603] imx214 4-0010: vt_pll_op_clk_freq_hz	1200000000
+[   17.851612] imx214 4-0010: vt_sys_clk_div		2
+[   17.851620] imx214 4-0010: vt_pix_clk_div		5
+[   17.851629] imx214 4-0010: vt_sys_clk_freq_hz	600000000
+[   17.851637] imx214 4-0010: vt_pix_clk_freq_hz	120000000
+[   17.851645] imx214 4-0010: op_sys_clk_div		1
+[   17.851653] imx214 4-0010: op_pix_clk_div		10
+[   17.851661] imx214 4-0010: op_sys_clk_freq_hz	1200000000
+[   17.851669] imx214 4-0010: op_pix_clk_freq_hz	120000000
+[   17.851677] imx214 4-0010: pixel rate in pixel array:	480000000
+[   17.851685] imx214 4-0010: pixel rate on CSI-2 bus:	480000000
+[   17.851694] imx214 4-0010: flags lane-speed
+[   17.869313] imx214 4-0010: vt_lanes: 4
+[   17.869342] imx214 4-0010: op_lanes: 4
+[   17.869352] imx214 4-0010: binning: 1x1
+[   17.869361] imx214 4-0010: min / max op_pre_pll_clk_div: 1 / 15
+[   17.869372] imx214 4-0010: pre-pll check: min / max op_pre_pll_clk_div: =
+1 / 15
+[   17.869382] imx214 4-0010: mul 50 / div 1
+[   17.869391] imx214 4-0010: pll_op check: min / max op_pre_pll_clk_div: 1=
+ / 15
+[   17.869400] imx214 4-0010: op_pre_pll_clk_div 1
+[   17.869409] imx214 4-0010: more_mul_max: max_op_pll_multiplier check: 24
+[   17.869417] imx214 4-0010: more_mul_max: max_pll_op_clk_freq_hz check: 1
+[   17.869426] imx214 4-0010: more_mul_max: max_op_sys_clk_div check: 1
+[   17.869435] imx214 4-0010: more_mul_max: min_pll_multiplier check: 1
+[   17.869443] imx214 4-0010: more_mul_min: min_op_pll_op_clk_freq_hz check=
+: 1
+[   17.869451] imx214 4-0010: more_mul_min: min_op_pll_multiplier check: 1
+[   17.869460] imx214 4-0010: more_mul_factor: 1
+[   17.869468] imx214 4-0010: more_mul_factor: min_op_sys_clk_div: 1
+[   17.869476] imx214 4-0010: final more_mul: 1
+[   17.869483] imx214 4-0010: op_sys_clk_div: 1
+[   17.869491] imx214 4-0010: op_pix_clk_div: 10
+[   17.869501] imx214 4-0010: min_vt_div: 10
+[   17.869509] imx214 4-0010: min_vt_div: max_vt_pix_clk_freq_hz: 10
+[   17.869517] imx214 4-0010: min_vt_div: min_vt_clk_div: 10
+[   17.869525] imx214 4-0010: max_vt_div: 40
+[   17.869533] imx214 4-0010: max_vt_div: min_vt_pix_clk_freq_hz: 40
+[   17.869541] imx214 4-0010: min_sys_div: 2
+[   17.869549] imx214 4-0010: min_sys_div: max_vt_pix_clk_div: 2
+[   17.869557] imx214 4-0010: min_sys_div: max_pll_op_clk_freq_hz: 2
+[   17.869565] imx214 4-0010: min_sys_div: one or even: 2
+[   17.869572] imx214 4-0010: max_sys_div: 4
+[   17.869580] imx214 4-0010: max_sys_div: min_vt_pix_clk_div: 4
+[   17.869588] imx214 4-0010: max_sys_div: min_vt_pix_clk_freq_hz: 4
+[   17.869596] imx214 4-0010: pix_div 3 too small or too big (5--10)
+[   17.869607] imx214 4-0010: ext_clk_freq_hz		24000000
+[   17.869616] imx214 4-0010: vt_pre_pll_clk_div		1
+[   17.869624] imx214 4-0010: vt_pll_multiplier		50
+[   17.869633] imx214 4-0010: vt_pll_ip_clk_freq_hz	24000000
+[   17.869642] imx214 4-0010: vt_pll_op_clk_freq_hz	1200000000
+[   17.869651] imx214 4-0010: vt_sys_clk_div		2
+[   17.869659] imx214 4-0010: vt_pix_clk_div		5
+[   17.869667] imx214 4-0010: vt_sys_clk_freq_hz	600000000
+[   17.869675] imx214 4-0010: vt_pix_clk_freq_hz	120000000
+[   17.869684] imx214 4-0010: op_sys_clk_div		1
+[   17.869692] imx214 4-0010: op_pix_clk_div		10
+[   17.869699] imx214 4-0010: op_sys_clk_freq_hz	1200000000
+[   17.869707] imx214 4-0010: op_pix_clk_freq_hz	120000000
+[   17.869716] imx214 4-0010: pixel rate in pixel array:	480000000
+[   17.869724] imx214 4-0010: pixel rate on CSI-2 bus:	480000000
+[   17.869732] imx214 4-0010: flags lane-speed
 
