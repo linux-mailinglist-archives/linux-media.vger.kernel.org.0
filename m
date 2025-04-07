@@ -1,489 +1,269 @@
-Return-Path: <linux-media+bounces-29555-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29556-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40BDCA7E6BE
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 18:36:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B28A7E7A7
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 19:02:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6E367188AF4A
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 16:30:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E42203A7CD4
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 16:56:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26B8F20CCCD;
-	Mon,  7 Apr 2025 16:29:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 387B8215F50;
+	Mon,  7 Apr 2025 16:56:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tHYLFz9r"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YULG6aPE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7D0FD20D50E;
-	Mon,  7 Apr 2025 16:29:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB77520A5FC;
+	Mon,  7 Apr 2025 16:56:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744043360; cv=none; b=Ot4hzMRKnnSh/sIL8P0CMv403KPlVOsG7y+PYyco6v4rAmua2XtLVYEPxuJyufgoIH34P4VKQg5SE+3ijPtAYZcWnsjmHE/b8/GnigTeBtjbOZzDrlLlIf9iS1ukWBD5cmtTWTZh5Db4qGoWkoaCOeSW4kMWRoYEMKNj34y1GwA=
+	t=1744044962; cv=none; b=PReoetPgkl1UnbGds3AHpwfpECJqDeC07DdMDQyGiVdVHzrxEpdTme2gXEduUMTkJPAm7v7X9j9o518MpEbOz4JHby7SobYKP3WtJevtpGa5O4SoMdHM5+xe1YwzhzajsjfoalslXm59KY28uIHVCxQVQYyH8h5jn2c/VpL2LOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744043360; c=relaxed/simple;
-	bh=y9uUCO5LiRtQLj6Fsm+YQo4CsMyHiN/s5Cd299WnI0c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=bx7kZWxZ2VZbooyRyKZChVHq64mgBOJ/HrJHSkC3pbzThRYZxO5H7wieTk52HcbewubtwfhvmmH20p1Mt3ATJgIPfA78x9XMlQuSYv+76jwPN3cDQ9JlPo2HQOWTCGMq/0FhYL8McIbyRwn+4heXSc73Ju935k+6I5/iEdsKqaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tHYLFz9r; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0DF99C4CEE9;
-	Mon,  7 Apr 2025 16:29:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744043360;
-	bh=y9uUCO5LiRtQLj6Fsm+YQo4CsMyHiN/s5Cd299WnI0c=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=tHYLFz9rTubs/OO1rSbWuQiYtjhxuhCajimdG5YHCHpwUUjZsKuMXqtGzKk0Mh+ah
-	 JiIMYPsBMEOCpTVrnAtYyID7kI8tELiAOEocYVmqjMOXlQ+MYql+mMvvu1s0IIYPyD
-	 tJXzY7H4j0Fytgm74jDgE8xj+GWsXMkCVD2z+Ia/fIlXND7xMehBcn2HRWEz/YBP3Q
-	 HARczcsYzspU6CxUN33TZEvWY8jbvyBARWu55dS4THt33pRfy38nfKCPo96cgyGTjK
-	 1lh5XfrGVnO4C+hIoxv7t1EEDs/w7yUjFOfIGAs/kPZ1ZgxIOu4AShT8K6aNrMZtMk
-	 N3Z6NspnhN3OQ==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 07 Apr 2025 18:29:08 +0200
-Subject: [PATCH v3 2/2] dma-buf: heaps: Introduce a new heap for reserved
- memory
+	s=arc-20240116; t=1744044962; c=relaxed/simple;
+	bh=ycKZWL3iqPFb9bCn+6AZQXHefn1xucbuceSUbwq8nfY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rZwp2mIeVDr75tzzC/iEyUIA6OAHFawaRpEhD8pdiDuAmWN1N66+g18In9sRX6QnVNPv6YpxhTCqoyCANBRW4lkL5MvP/+Pr+Gv27eACl7Ks4bDbzzQ0AMCYV9GzlAufv00eF/QkjB8cBhzoc96sZFxwqrlxt0aL1H49Fqi0v/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YULG6aPE; arc=none smtp.client-ip=209.85.221.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-51eb1818d4fso5647346e0c.1;
+        Mon, 07 Apr 2025 09:56:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744044959; x=1744649759; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LKKPtP1Ze4dcUvLG7meGKWMsO5xW3JTdudD+gUOkK+E=;
+        b=YULG6aPEinhrTUuyacL5nIHfjZ+7CawH79imJdVToBzNY+GEreJnSPdwX+D6mv3mME
+         B8E+n93+AEOXgafPAYIy30rUPW95EkXAcGWFJCN/ZoGc9gEF08rV0Z0YCgmhwwezAh8K
+         IZUeoqGY9g9PoxB6g3fjWFz6+kyc7b31Jf3IcXe7Ww28XQ6aH81Q4Rksro8mrnKbT4+E
+         RX2tC/gL56jit/9mtXrWQRbZUPPvCzwaik3Wdai3AUCC6ppgX6YdsBcySJG0pEwqfwzs
+         RYqGralieBscNkqQbKv1hAu9X8GgFcIx43mGMRBoRS8YJP58gl1AUXA6H44la+Rhzl5m
+         Httg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744044959; x=1744649759;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LKKPtP1Ze4dcUvLG7meGKWMsO5xW3JTdudD+gUOkK+E=;
+        b=mXqIvxJFiP/qzn+AH3e+Jn1QRvP8eCOaCq4C5KhSiqHdywc6WmCUt7WrrZDxXV5tv1
+         RcXir5zIDGzIENCOvphrnUjkfVy3b5KK08u2IL1V3vI/3VdOwH9nnfpoP3FEQqt5kgEt
+         4UOWEQllypcxuvQRQDEVsrUK5OWvsonmadHXy8IbFM9pVPv1ei5D8bSkS/Cdy9sqLMGj
+         37HP9fT4zy9oR8OhR6auHCpqmM3GpuGJYETZilD0C5MGEd8jD6zK6WS9b/rCl2LP0831
+         hWl1EkC8HLP9uB68ynbyKx2btj+NjgvUlDBl+EQsRFlrCxRoEVCylm3lhFNteBxT60qq
+         SHfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU731Y+0RPcqAIt07c39FovMQAp0wQaqpv9acZy7z6sWS+5r3O0qtTKXcR7WFOFIOEsyM5JBlaOcHxvrlcDdLyDkfY=@vger.kernel.org, AJvYcCVZHql5XCHshiWe6th42XPEi1QuvK1v0sOgsYNaSB8D0zoqcfKfQc4wDTHB4fV5o2fzl8nBBtEqLp1cLPZr@vger.kernel.org, AJvYcCVndgrqW8q9bi4R3S17qH6RD6k/cLsjOKSsBahjgeEGQju02HP9NG8nVSF0U6jonzw7wopkRh4Tl0pB9cw=@vger.kernel.org, AJvYcCXuvc/FXeaZGbG4MFy+2LVS2LvHhSZBRJm5kVx2+Z16rDwm/69CGTgsp8RPNbSkIYkPBz/vTh4JgFwB@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHDW7BLnfp3pZGFQW6NSPJr9+KjkdHiQ4YCFjBzw86CqW4u7Hi
+	ryDFtc87+X8y2YSHPj1KnV5rCtHloS/cX11Gq9byl3iLZxzfGSUVlc7hWYmem697DF1v/O0+GWs
+	Z2hMD0WdhJJ81YkNKHQ/CZF8Hvdw=
+X-Gm-Gg: ASbGncvz3OtkKs33TIFr/HWsfo/L0zWutxFwJdZVHC7S0ElMFNdNnvSrqrsvtK8f1m+
+	DI1VhDbZrc3eRBxjOHuQKThDbFXweaR/HWdmZoJ24QEWxElBC+qcRSru9B+Vw725BaqKz+MChMw
+	1UJn8Nvj1sKT4kmKxGSNJvtCC3ug==
+X-Google-Smtp-Source: AGHT+IGb5XHw8eSlJLNsywMYLjPLLzyuTfahEyI0Ou0+8doEEMlJXAaMbp6QL3lgNhdGgWWo8Qk1dC9Hm9l9qwxhtTY=
+X-Received: by 2002:a05:6122:828d:b0:516:1ab2:9955 with SMTP id
+ 71dfb90a1353d-52765d2d52amr10142189e0c.6.1744044959573; Mon, 07 Apr 2025
+ 09:55:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250407-dma-buf-ecc-heap-v3-2-97cdd36a5f29@kernel.org>
-References: <20250407-dma-buf-ecc-heap-v3-0-97cdd36a5f29@kernel.org>
-In-Reply-To: <20250407-dma-buf-ecc-heap-v3-0-97cdd36a5f29@kernel.org>
-To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
- "T.J. Mercier" <tjmercier@google.com>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Mattijs Korpershoek <mkorpershoek@kernel.org>, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linaro-mm-sig@lists.linaro.org, Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=10813; i=mripard@kernel.org;
- h=from:subject:message-id; bh=y9uUCO5LiRtQLj6Fsm+YQo4CsMyHiN/s5Cd299WnI0c=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDOmf/4b/+cT3WHj+BuZIo5cfDwVylwQf73MImN3+peeT6
- sv0zL/vOkpZGMS4GGTFFFlihM2XxJ2a9bqTjW8ezBxWJpAhDFycAjCR3acYGV492WRU77v46Iae
- XjmP/1r2x7MTchVqfQ/vMtngsHmevhzDP+0FF4s9/xukzbmhsCZ64jauJn3zzKe7Ny2ernB/03s
- RRn4A
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+References: <20250328173032.423322-1-tommaso.merciai.xr@bp.renesas.com>
+ <20250328173032.423322-12-tommaso.merciai.xr@bp.renesas.com>
+ <TY3PR01MB11346ECE31CB6C8DC33459C2486AF2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <CA+V-a8sJQnyJb_uq9yEcjHRW7ZFOw3g2XQyygcozWTgMjrYxRQ@mail.gmail.com>
+ <TY3PR01MB113462DC897E0DB681B1C020F86AF2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <CA+V-a8ukJ+_Bhy-4nU_CFD4rMoTRxEY-q+bXHHZ-9Mz8gQ362A@mail.gmail.com>
+ <20250402092618.GH4845@pendragon.ideasonboard.com> <TY3PR01MB11346DF814762C667FF97074286AF2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+In-Reply-To: <TY3PR01MB11346DF814762C667FF97074286AF2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 7 Apr 2025 16:55:33 +0000
+X-Gm-Features: ATxdqUGFjhLgeZ0v2jvFG_IArxKoa4IPhtvrnXbPOV5UKmC-C1o_c6Pol7qeZKA
+Message-ID: <CA+V-a8tsCEhmhNSbMMiuN6b2rJCoSekf+-e6EHr5wE5C000ZxQ@mail.gmail.com>
+Subject: Re: [PATCH v5 11/17] media: rzg2l-cru: Add register mapping support
+To: "laurent.pinchart" <laurent.pinchart@ideasonboard.com>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>, 
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
+	Tommaso Merciai <tomm.merciai@gmail.com>, 
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>, 
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <u.kleine-koenig@baylibre.com>, 
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Some reserved memory regions might have particular memory setup or
-attributes that make them good candidates for heaps.
+Hi Laurent,
 
-Let's provide a heap type that will create a new heap for each reserved
-memory region flagged as such.
+On Wed, Apr 2, 2025 at 10:39=E2=80=AFAM Biju Das <biju.das.jz@bp.renesas.co=
+m> wrote:
+>
+> Hi Laurent,
+>
+> > -----Original Message-----
+> > From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Sent: 02 April 2025 10:26
+> > Subject: Re: [PATCH v5 11/17] media: rzg2l-cru: Add register mapping su=
+pport
+> >
+> > On Wed, Apr 02, 2025 at 08:25:06AM +0000, Lad, Prabhakar wrote:
+> > > On Wed, Apr 2, 2025 at 9:20=E2=80=AFAM Biju Das wrote:
+> > > > On 02 April 2025 08:35, Lad, Prabhakar wrote:
+> > > > > On Wed, Apr 2, 2025 at 7:31=E2=80=AFAM Biju Das wrote:
+> > > > > > > On 28 March 2025 17:30, Tommaso Merciai wrote:
+> > > > > > > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > > >
+> > > > > > > Prepare for adding support for RZ/G3E and RZ/V2HP SoCs, which
+> > > > > > > have a CRU-IP that is mostly identical to RZ/G2L but with
+> > > > > > > different register offsets and additional registers. Introduc=
+e
+> > > > > > > a flexible register mapping mechanism to handle these
+> > > > > > > variations.
+> > > > > > >
+> > > > > > > Define the `rzg2l_cru_info` structure to store register
+> > > > > > > mappings and pass it as part of the OF match data. Update the
+> > > > > > > read/write functions to check out-of-bound accesses and use
+> > > > > > > indexed register offsets from `rzg2l_cru_info`, ensuring
+> > > > > > > compatibility across different SoC variants.
+> > > > > > >
+> > > > > > > Signed-off-by: Lad Prabhakar
+> > > > > > > <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > > > Signed-off-by: Tommaso Merciai
+> > > > > > > <tommaso.merciai.xr@bp.renesas.com>
+> > > > > > > ---
+> > > > > > > Changes since v2:
+> > > > > > >  - Implemented new rzg2l_cru_write/read() that now are checki=
+ng out-of-bound
+> > > > > > >    accesses as suggested by LPinchart.
+> > > > > > >  - Fixed AMnMBxADDRL() and AMnMBxADDRH() as suggested by LPin=
+chart.
+> > > > > > >  - Update commit body
+> > > > > > >
+> > > > > > > Changes since v4:
+> > > > > > >  - Mark __rzg2l_cru_write_constant/__rzg2l_cru_read_constant
+> > > > > > >    as __always_inline
+> > > > > > >
+> > > > > > >  .../platform/renesas/rzg2l-cru/rzg2l-core.c   | 46 +++++++++=
++++-
+> > > > > > >  .../renesas/rzg2l-cru/rzg2l-cru-regs.h        | 66 +++++++++=
++---------
+> > > > > > >  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  4 ++
+> > > > > > >  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 58
+> > > > > > > ++++++++++++++--
+> > > > > > >  4 files changed, 139 insertions(+), 35 deletions(-)
+> > > > > > >
+> > > > > > > diff --git
+> > > > > > > a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+> > > > > > > b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+> > > > > > > index eed9d2bd08414..abc2a979833aa 100644
+> > > > > > > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+> > > > > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+> > > > > > > @@ -22,6 +22,7 @@
+> > > > > > >  #include <media/v4l2-mc.h>
+> > > > > > >
+> > > > > > >  #include "rzg2l-cru.h"
+> > > > > > > +#include "rzg2l-cru-regs.h"
+> > > > > > >
+> > > > > > >  static inline struct rzg2l_cru_dev *notifier_to_cru(struct
+> > > > > > > v4l2_async_notifier *n)  { @@ -269,6 +270,9 @@ static int
+> > > > > > > rzg2l_cru_probe(struct platform_device *pdev)
+> > > > > > >
+> > > > > > >       cru->dev =3D dev;
+> > > > > > >       cru->info =3D of_device_get_match_data(dev);
+> > > > > > > +     if (!cru->info)
+> > > > > > > +             return dev_err_probe(dev, -EINVAL,
+> > > > > > > +                                  "Failed to get OF match
+> > > > > > > + data\n");
+> > > > > > >
+> > > > > > >       irq =3D platform_get_irq(pdev, 0);
+> > > > > > >       if (irq < 0)
+> > > > > > > @@ -317,8 +321,48 @@ static void rzg2l_cru_remove(struct plat=
+form_device *pdev)
+> > > > > > >       rzg2l_cru_dma_unregister(cru);  }
+> > > > > > >
+> > > > > > > +static const u16 rzg2l_cru_regs[] =3D {
+> > > > > > > +     [CRUnCTRL] =3D 0x0,
+> > > > > > > +     [CRUnIE] =3D 0x4,
+> > > > > > > +     [CRUnINTS] =3D 0x8,
+> > > > > > > +     [CRUnRST] =3D 0xc,
+> > > > > > > +     [AMnMB1ADDRL] =3D 0x100,
+> > > > > > > +     [AMnMB1ADDRH] =3D 0x104,
+> > > > > > > +     [AMnMB2ADDRL] =3D 0x108,
+> > > > > > > +     [AMnMB2ADDRH] =3D 0x10c,
+> > > > > > > +     [AMnMB3ADDRL] =3D 0x110,
+> > > > > > > +     [AMnMB3ADDRH] =3D 0x114,
+> > > > > > > +     [AMnMB4ADDRL] =3D 0x118,
+> > > > > > > +     [AMnMB4ADDRH] =3D 0x11c,
+> > > > > > > +     [AMnMB5ADDRL] =3D 0x120,
+> > > > > > > +     [AMnMB5ADDRH] =3D 0x124,
+> > > > > > > +     [AMnMB6ADDRL] =3D 0x128,
+> > > > > > > +     [AMnMB6ADDRH] =3D 0x12c,
+> > > > > > > +     [AMnMB7ADDRL] =3D 0x130,
+> > > > > > > +     [AMnMB7ADDRH] =3D 0x134,
+> > > > > > > +     [AMnMB8ADDRL] =3D 0x138,
+> > > > > > > +     [AMnMB8ADDRH] =3D 0x13c,
+> > > > > > > +     [AMnMBVALID] =3D 0x148,
+> > > > > > > +     [AMnMBS] =3D 0x14c,
+> > > > > > > +     [AMnAXIATTR] =3D 0x158,
+> > > > > > > +     [AMnFIFOPNTR] =3D 0x168,
+> > > > > > > +     [AMnAXISTP] =3D 0x174,
+> > > > > > > +     [AMnAXISTPACK] =3D 0x178,
+> > > > > > > +     [ICnEN] =3D 0x200,
+> > > > > > > +     [ICnMC] =3D 0x208,
+> > > > > > > +     [ICnMS] =3D 0x254,
+> > > > > > > +     [ICnDMR] =3D 0x26c,
+> > > > > > > +};
+> > > > > >
+> > > > > > Do we need enum, can't we use struct instead with all these ent=
+ries instead?
+> > > > > >
+> > > > > What benefit do you foresee when using struct? With the current
+> > > > > approach being used a minimal diff is generated when switched to =
+struct there will be lots of
+> > changes.
+> > > >
+> > > > The mapping is convinient when you want to iterate throught it.
+> > > > Here, if you just want to access the offset value from its name, a
+> > > > structure looks more appropriate.
+> > >
+> > > Thanks, as this patch has been reviewed by Laurent a couple of times
+> > > we will change this to struct If he insists.
+> >
+> > How would a struct look like ? I'm not sure what is being proposed.
+>
+>
+> It will be
+>
+> struct rzg2l_cru_regs {
+>         u16 cru_n_ctrl;
+>         u16 cru_n_ie;
+>         u16 cru_n_ints;
+>         u16 cru_n_rst;
+> };
+>
+> static const struct rzg2l_cru_regs rzg2l_cru_regs =3D {
+>         .cru_n_ctrl =3D 0x0,
+>         .cru_n_ie =3D 0x4,
+>         .cru_n_ints =3D 0x8,
+>         .cru_n_rst =3D 0xc,
+> };
+>
+> You can access it using info->regs->cru_n_ctrl instead of info->regs[CRUn=
+CTRL]
+> This is proposal.
+>
+Are you OK with the above proposal?
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/dma-buf/heaps/Kconfig         |   8 +
- drivers/dma-buf/heaps/Makefile        |   1 +
- drivers/dma-buf/heaps/carveout_heap.c | 360 ++++++++++++++++++++++++++++++++++
- 3 files changed, 369 insertions(+)
-
-diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-index a5eef06c422644e8aadaf5aff2bd9a33c49c1ba3..c6981d696733b4d8d0c3f6f5a37d967fd6a1a4a2 100644
---- a/drivers/dma-buf/heaps/Kconfig
-+++ b/drivers/dma-buf/heaps/Kconfig
-@@ -1,5 +1,13 @@
-+config DMABUF_HEAPS_CARVEOUT
-+	bool "Carveout Heaps"
-+	depends on DMABUF_HEAPS
-+	help
-+	  Choose this option to enable the carveout dmabuf heap. The carveout
-+	  heap is backed by pages from reserved memory regions flagged as
-+	  exportable. If in doubt, say Y.
-+
- config DMABUF_HEAPS_SYSTEM
- 	bool "DMA-BUF System Heap"
- 	depends on DMABUF_HEAPS
- 	help
- 	  Choose this option to enable the system dmabuf heap. The system heap
-diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
-index 974467791032ffb8a7aba17b1407d9a19b3f3b44..b734647ad5c84f449106748160258e372f153df2 100644
---- a/drivers/dma-buf/heaps/Makefile
-+++ b/drivers/dma-buf/heaps/Makefile
-@@ -1,3 +1,4 @@
- # SPDX-License-Identifier: GPL-2.0
-+obj-$(CONFIG_DMABUF_HEAPS_CARVEOUT)	+= carveout_heap.o
- obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)	+= system_heap.o
- obj-$(CONFIG_DMABUF_HEAPS_CMA)		+= cma_heap.o
-diff --git a/drivers/dma-buf/heaps/carveout_heap.c b/drivers/dma-buf/heaps/carveout_heap.c
-new file mode 100644
-index 0000000000000000000000000000000000000000..f7198b781ea57f4f60e554d917c9277e9a716b16
---- /dev/null
-+++ b/drivers/dma-buf/heaps/carveout_heap.c
-@@ -0,0 +1,360 @@
-+// SPDX-License-Identifier: GPL-2.0
-+
-+#include <linux/dma-buf.h>
-+#include <linux/dma-heap.h>
-+#include <linux/genalloc.h>
-+#include <linux/highmem.h>
-+#include <linux/of_reserved_mem.h>
-+
-+struct carveout_heap_priv {
-+	struct dma_heap *heap;
-+	struct gen_pool *pool;
-+};
-+
-+struct carveout_heap_buffer_priv {
-+	struct mutex lock;
-+	struct list_head attachments;
-+
-+	unsigned long num_pages;
-+	struct carveout_heap_priv *heap;
-+	dma_addr_t daddr;
-+	void *vaddr;
-+	unsigned int vmap_cnt;
-+};
-+
-+struct carveout_heap_attachment {
-+	struct list_head head;
-+	struct sg_table table;
-+
-+	struct device *dev;
-+	bool mapped;
-+};
-+
-+static int carveout_heap_attach(struct dma_buf *buf,
-+				struct dma_buf_attachment *attachment)
-+{
-+	struct carveout_heap_buffer_priv *priv = buf->priv;
-+	struct carveout_heap_attachment *a;
-+	struct sg_table *sgt;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+	int ret;
-+
-+	a = kzalloc(sizeof(*a), GFP_KERNEL);
-+	if (!a)
-+		return -ENOMEM;
-+	INIT_LIST_HEAD(&a->head);
-+	a->dev = attachment->dev;
-+	attachment->priv = a;
-+
-+	sgt = &a->table;
-+	ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
-+	if (ret)
-+		goto err_cleanup_attach;
-+
-+	sg_dma_address(sgt->sgl) = priv->daddr;
-+	sg_dma_len(sgt->sgl) = len;
-+
-+	mutex_lock(&priv->lock);
-+	list_add(&a->head, &priv->attachments);
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+
-+err_cleanup_attach:
-+	kfree(a);
-+	return ret;
-+}
-+
-+static void carveout_heap_detach(struct dma_buf *dmabuf,
-+				 struct dma_buf_attachment *attachment)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	struct carveout_heap_attachment *a = attachment->priv;
-+
-+	mutex_lock(&priv->lock);
-+	list_del(&a->head);
-+	mutex_unlock(&priv->lock);
-+
-+	sg_free_table(&a->table);
-+	kfree(a);
-+}
-+
-+static struct sg_table *
-+carveout_heap_map_dma_buf(struct dma_buf_attachment *attachment,
-+			  enum dma_data_direction direction)
-+{
-+	struct carveout_heap_attachment *a = attachment->priv;
-+	struct sg_table *table = &a->table;
-+	int ret;
-+
-+	ret = dma_map_sgtable(a->dev, table, direction, 0);
-+	if (ret)
-+		return ERR_PTR(-ENOMEM);
-+
-+	a->mapped = true;
-+
-+	return table;
-+}
-+
-+static void carveout_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
-+					struct sg_table *table,
-+					enum dma_data_direction direction)
-+{
-+	struct carveout_heap_attachment *a = attachment->priv;
-+
-+	a->mapped = false;
-+	dma_unmap_sgtable(a->dev, table, direction, 0);
-+}
-+
-+static int
-+carveout_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
-+				       enum dma_data_direction direction)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	struct carveout_heap_attachment *a;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+
-+	mutex_lock(&priv->lock);
-+
-+	if (priv->vmap_cnt > 0)
-+		invalidate_kernel_vmap_range(priv->vaddr, len);
-+
-+	list_for_each_entry(a, &priv->attachments, head) {
-+		if (!a->mapped)
-+			continue;
-+
-+		dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
-+	}
-+
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+}
-+
-+static int
-+carveout_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
-+				     enum dma_data_direction direction)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	struct carveout_heap_attachment *a;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+
-+	mutex_lock(&priv->lock);
-+
-+	if (priv->vmap_cnt > 0)
-+		flush_kernel_vmap_range(priv->vaddr, len);
-+
-+	list_for_each_entry(a, &priv->attachments, head) {
-+		if (!a->mapped)
-+			continue;
-+
-+		dma_sync_sgtable_for_device(a->dev, &a->table, direction);
-+	}
-+
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+}
-+
-+static int carveout_heap_mmap(struct dma_buf *dmabuf,
-+			      struct vm_area_struct *vma)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+	unsigned long len = priv->num_pages * PAGE_SIZE;
-+	struct page *page = virt_to_page(priv->vaddr);
-+
-+	return remap_pfn_range(vma, vma->vm_start, page_to_pfn(page),
-+			       len, vma->vm_page_prot);
-+}
-+
-+static int carveout_heap_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+
-+	mutex_lock(&priv->lock);
-+
-+	iosys_map_set_vaddr(map, priv->vaddr);
-+	priv->vmap_cnt++;
-+
-+	mutex_unlock(&priv->lock);
-+
-+	return 0;
-+}
-+
-+static void carveout_heap_vunmap(struct dma_buf *dmabuf, struct iosys_map *map)
-+{
-+	struct carveout_heap_buffer_priv *priv = dmabuf->priv;
-+
-+	mutex_lock(&priv->lock);
-+
-+	priv->vmap_cnt--;
-+	mutex_unlock(&priv->lock);
-+
-+	iosys_map_clear(map);
-+}
-+
-+static void carveout_heap_dma_buf_release(struct dma_buf *buf)
-+{
-+	struct carveout_heap_buffer_priv *buffer_priv = buf->priv;
-+	struct carveout_heap_priv *heap_priv = buffer_priv->heap;
-+	unsigned long len = buffer_priv->num_pages * PAGE_SIZE;
-+
-+	gen_pool_free(heap_priv->pool, (unsigned long)buffer_priv->vaddr, len);
-+	kfree(buffer_priv);
-+}
-+
-+static const struct dma_buf_ops carveout_heap_buf_ops = {
-+	.attach		= carveout_heap_attach,
-+	.detach		= carveout_heap_detach,
-+	.map_dma_buf	= carveout_heap_map_dma_buf,
-+	.unmap_dma_buf	= carveout_heap_unmap_dma_buf,
-+	.begin_cpu_access	= carveout_heap_dma_buf_begin_cpu_access,
-+	.end_cpu_access	= carveout_heap_dma_buf_end_cpu_access,
-+	.mmap		= carveout_heap_mmap,
-+	.vmap		= carveout_heap_vmap,
-+	.vunmap		= carveout_heap_vunmap,
-+	.release	= carveout_heap_dma_buf_release,
-+};
-+
-+static struct dma_buf *carveout_heap_allocate(struct dma_heap *heap,
-+					      unsigned long len,
-+					      u32 fd_flags,
-+					      u64 heap_flags)
-+{
-+	struct carveout_heap_priv *heap_priv = dma_heap_get_drvdata(heap);
-+	struct carveout_heap_buffer_priv *buffer_priv;
-+	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-+	struct dma_buf *buf;
-+	dma_addr_t daddr;
-+	size_t size = PAGE_ALIGN(len);
-+	void *vaddr;
-+	int ret;
-+
-+	buffer_priv = kzalloc(sizeof(*buffer_priv), GFP_KERNEL);
-+	if (!buffer_priv)
-+		return ERR_PTR(-ENOMEM);
-+
-+	INIT_LIST_HEAD(&buffer_priv->attachments);
-+	mutex_init(&buffer_priv->lock);
-+
-+	vaddr = gen_pool_dma_zalloc(heap_priv->pool, size, &daddr);
-+	if (!vaddr) {
-+		ret = -ENOMEM;
-+		goto err_free_buffer_priv;
-+	}
-+
-+	buffer_priv->vaddr = vaddr;
-+	buffer_priv->daddr = daddr;
-+	buffer_priv->heap = heap_priv;
-+	buffer_priv->num_pages = size >> PAGE_SHIFT;
-+
-+	/* create the dmabuf */
-+	exp_info.exp_name = dma_heap_get_name(heap);
-+	exp_info.ops = &carveout_heap_buf_ops;
-+	exp_info.size = size;
-+	exp_info.flags = fd_flags;
-+	exp_info.priv = buffer_priv;
-+
-+	buf = dma_buf_export(&exp_info);
-+	if (IS_ERR(buf)) {
-+		ret = PTR_ERR(buf);
-+		goto err_free_buffer;
-+	}
-+
-+	return buf;
-+
-+err_free_buffer:
-+	gen_pool_free(heap_priv->pool, (unsigned long)vaddr, len);
-+err_free_buffer_priv:
-+	kfree(buffer_priv);
-+
-+	return ERR_PTR(ret);
-+}
-+
-+static const struct dma_heap_ops carveout_heap_ops = {
-+	.allocate = carveout_heap_allocate,
-+};
-+
-+static int __init carveout_heap_setup(struct device_node *node)
-+{
-+	struct dma_heap_export_info exp_info = {};
-+	const struct reserved_mem *rmem;
-+	struct carveout_heap_priv *priv;
-+	struct dma_heap *heap;
-+	struct gen_pool *pool;
-+	void *base;
-+	int ret;
-+
-+	rmem = of_reserved_mem_lookup(node);
-+	if (!rmem)
-+		return -EINVAL;
-+
-+	priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-+	if (!priv)
-+		return -ENOMEM;
-+
-+	pool = gen_pool_create(PAGE_SHIFT, NUMA_NO_NODE);
-+	if (!pool) {
-+		ret = -ENOMEM;
-+		goto err_cleanup_heap;
-+	}
-+	priv->pool = pool;
-+
-+	base = memremap(rmem->base, rmem->size, MEMREMAP_WB);
-+	if (!base) {
-+		ret = -ENOMEM;
-+		goto err_release_mem_region;
-+	}
-+
-+	ret = gen_pool_add_virt(pool, (unsigned long)base, rmem->base,
-+				rmem->size, NUMA_NO_NODE);
-+	if (ret)
-+		goto err_unmap;
-+
-+	exp_info.name = node->full_name;
-+	exp_info.ops = &carveout_heap_ops;
-+	exp_info.priv = priv;
-+
-+	heap = dma_heap_add(&exp_info);
-+	if (IS_ERR(heap)) {
-+		ret = PTR_ERR(heap);
-+		goto err_cleanup_pool_region;
-+	}
-+	priv->heap = heap;
-+
-+	return 0;
-+
-+err_cleanup_pool_region:
-+	gen_pool_free(pool, (unsigned long)base, rmem->size);
-+err_unmap:
-+	memunmap(base);
-+err_release_mem_region:
-+	gen_pool_destroy(pool);
-+err_cleanup_heap:
-+	kfree(priv);
-+	return ret;
-+}
-+
-+static int __init carveout_heap_init(void)
-+{
-+	struct device_node *rmem_node;
-+	struct device_node *node;
-+	int ret;
-+
-+	rmem_node = of_find_node_by_path("/reserved-memory");
-+	if (!rmem_node)
-+		return 0;
-+
-+	for_each_child_of_node(rmem_node, node) {
-+		if (!of_property_read_bool(node, "export"))
-+			continue;
-+
-+		ret = carveout_heap_setup(node);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+module_init(carveout_heap_init);
-
--- 
-2.49.0
-
+Cheers,
+Prabhakar
 
