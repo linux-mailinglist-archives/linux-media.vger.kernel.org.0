@@ -1,80 +1,48 @@
-Return-Path: <linux-media+bounces-29485-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29486-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8C45A7DA82
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 11:59:08 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9814BA7DA9A
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 12:02:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 43A1618895B3
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 09:59:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 80D1A7A5206
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 10:01:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A9C922FF4C;
-	Mon,  7 Apr 2025 09:58:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 328B022F388;
+	Mon,  7 Apr 2025 10:02:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="edUxBtwS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EGL2FK0r"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9CF1230242
-	for <linux-media@vger.kernel.org>; Mon,  7 Apr 2025 09:58:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FE667DA7F;
+	Mon,  7 Apr 2025 10:02:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744019938; cv=none; b=BmqHv6MTPuUj0Hqs4Azf6uImWpV9RrvzWbNZCMDNmZ3F3alVDSfdrbi9/FaotEi4SCYSirIy1aZdDMrCZj1Z91TrIiFnSiejxeEehCw5sS9S/5qm15VQmHJ61AlAwWks0ET1AT+SxsdLI8XQPS/vydjxvYDhVyGx+dTJGiPM80Q=
+	t=1744020124; cv=none; b=Ebm5eWJi2vqUjqluFqaEuTers8FXpUehOnhIpipe40KoyGK64X+lhUt/kRZ3DBaIy1VNorDMAhjed80qHN77HVSOblNnz+X7oR1EaA9XFm5GASraBNc85sF/iyR+GIOzFLgKfQTAeZfpXJ1pNgmQF+lmwF2JIlY3aYGYT0fD1rk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744019938; c=relaxed/simple;
-	bh=v29T1FbGbcKeRMuW0VbePwisgAp9BsYkH9UNPlwsybg=;
+	s=arc-20240116; t=1744020124; c=relaxed/simple;
+	bh=rKZ/6WAjoBuHXoOD4i+p9W+oq/5Mz26bPr4EKFlhYz8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NrtkQObcXuzvZ0+uw8ThpUgaurErfJBdzxz9FkBkuomsLRnrYsViD/SLW6mP1gZ7+iFRMd4r5w6GL4TlEmTVVEgsouJr53Kmtznk9A8NpItIVeIfxUjPaBOz2zXNm7O7/kxEWbnCv+e3/3hxOa7hZjxQxeP1SLClbz+WlfDlV1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=edUxBtwS; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43cf848528aso34161195e9.2
-        for <linux-media@vger.kernel.org>; Mon, 07 Apr 2025 02:58:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744019934; x=1744624734; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vrZNuJsrn23JwdNkrVTHfCKc6rDwAMWYvk+A+tg7J78=;
-        b=edUxBtwSu7i/SE+y974xBKU7Qag3//f751DnkXuDgDX+m1K0oqJVGORzJp93HQLVSd
-         IkQAx24itg9gtodyNqslx3hs0cSoqnkYtLCXxMV5ve6KqQ2ox094C+LJetqVrSh8vaLz
-         n/7f/jeRAhulHHiCgZ+OE1n9lwWA5DDWZqzUJ8Q6il1y0HRXd0PTPisacW1CqwWt5JLy
-         0swNsLTyvDLxt3eIai/SDpSCxCVIb4cx47lmycvhC+1sxi8QcDzML7rA6+OmD4sdIfaa
-         xptKySFE6NhwX8TgbJvR2GLxbm1+TP9B1huK/uSqNsgQBWoEF6rqthIOFzHfeaovFWUg
-         c9vA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744019934; x=1744624734;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vrZNuJsrn23JwdNkrVTHfCKc6rDwAMWYvk+A+tg7J78=;
-        b=Pi6nSLbzF4AtWXCmDSBkQtzIpFpkW5L38XRIUktiCiympa1J7EiijL16WMyS3sIC8n
-         g0B4/AjQdHQTKFUB/J5iLBzZiSYGel7gIRjuL7xRXwsVA5gPT9UaFhZKUWiSObrU2x0c
-         skl3dKal7u7ucKrmFFWeWWTaUn8X9FwJt1X1zIeTOb8Fn/TuGAa7/h3QIK+9FUWr6Fxv
-         3l8Pmsh/jat6J6U2DCQ4CjFCs1srjOh1c6ZYux2C+Ey30wYh28WHiyGg4CBjCdqnL4uU
-         TiIsos+339A3+VsHSoMbLa9c7t1jSRelW8AgvfPx59VHiGInrD+uziI+NQ3AVQu0NQOT
-         bSZg==
-X-Forwarded-Encrypted: i=1; AJvYcCVq1PgOscbKAR6xtuWcbrDwS/Y7K6w8o8Fjxzscoy/sHXdb+GLVXsmzkjACsuXYtwep666RHF+Qz/E3Ag==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1YU0sCNwwU+l/89ZVQ2sXG7EyrOQxq5S77qczdQKzNxAQnt5i
-	rU2cZBs7q55D0eL8/kQK/LPSXzRd8erQBxrWrBX+DoHMqJNkVcxAvkGx0LWT1qA=
-X-Gm-Gg: ASbGnctXqhDBsDeF4zHDzlJwbEYRl+IHBdxDopDdnHIXz3uAV1DUyXyYEVmpP8xUv3N
-	K/11yp+DsmystUD8f9z27Wer4EKpx6SjlT1FmM2WoLto6eO2eFbPL7DDJTEkfayk4PYKD6c/xm+
-	nvcLpjGgUFAZpgcE2XpyAUgznK/YFA0nYIU00WNjfZAeS6pzADOGpG3O7dIjvPioqGyOEZHs9+A
-	Hd9bb7L2W6s97dFoC1VFmRbTkbTl7OYPeJjV3yZg25r91OrTIcZAWrK7McnKAm8yQTn2yCsd3HW
-	ShS9x0N6Y7auNb6fGTdqqri+TFFYBklsFSPphq0UgUvpV3wOu4/j8j4Z8S1+202IJ5w5DLFsmqy
-	Qt7AXzHP/Yg==
-X-Google-Smtp-Source: AGHT+IFa6RmlxDVU+Z/fAcwEEKxjPn906JwxGNMAIQ21GqtzU5bzQldRFT4YWzFFJnbZpVCs+q7ukw==
-X-Received: by 2002:a05:600c:4754:b0:43c:eec7:eab7 with SMTP id 5b1f17b1804b1-43ee0640054mr78338955e9.11.1744019934216;
-        Mon, 07 Apr 2025 02:58:54 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c3020d938sm11679731f8f.65.2025.04.07.02.58.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 07 Apr 2025 02:58:53 -0700 (PDT)
-Message-ID: <778e2cd0-5371-424f-809d-20f7c3ae5343@linaro.org>
-Date: Mon, 7 Apr 2025 10:58:52 +0100
+	 In-Reply-To:Content-Type; b=dp0jCHy0FApCzjmO9j1W1LJlzNLl/j+AIJGFueDa9jgJEbfxiMcI5ltSjGgkViKUM4G6L7ruBXSwNBJUjfuhXkgE2z9nX+epHqcxU7rw689q5IU+SNHkQLY2JWpUh0zGR5qoE7UrPCnGO1QsHHGG9BGztqD+DsOfyXAvhsB+FlE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EGL2FK0r; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BB9DC4CEDD;
+	Mon,  7 Apr 2025 10:01:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744020124;
+	bh=rKZ/6WAjoBuHXoOD4i+p9W+oq/5Mz26bPr4EKFlhYz8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=EGL2FK0rSI0J2kiHNBlNlYgkE9ZkJGI4ta8fvRDqgqxTDTaqfB2OcvTpPdOuZjWEB
+	 Wi6F6M40jZUfL/w0qT/dgciRRJajlEMvlVhxiQz/bUFdn49aMd3RwlbKV7MxIIKcUL
+	 flOCqE7ByDM/wiyPpjyQDsXzGQJGbZ9aNzE20Hg+S2DZzCkwKaX1woFY7NzTs7OoDC
+	 RfWZfzthwcaQi0HWZq2Bz5wJOMm9u7P49znUlT8fkrCaLrnCQBokwH9wHMifyE8cQO
+	 h/f1t4+jEs1qL6+xfIf99P6mg6b22eciBRsFRb0x1maWgXR655oPlT4AhaELm7rbUH
+	 fvcHdHADPMyrw==
+Message-ID: <5555c2e5-029f-4c77-8c6b-3ded2b2f9d33@kernel.org>
+Date: Mon, 7 Apr 2025 11:01:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,168 +50,68 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: camss NULL-deref on power on with 6.12-rc2
-To: Johan Hovold <johan@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>
-Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <Zwjw6XfVWcufMlqM@hovoldconsulting.com>
- <Z_OXELLDIfQII6wV@hovoldconsulting.com>
+Subject: Re: [PATCH 0/2] Some small preparations around CAMSS D-PHY / C-PHY
+ support
+To: Luca Weiss <luca.weiss@fairphone.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Robert Foss
+ <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Barnabas Czeman <barnabas.czeman@mainlining.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>,
+ Caleb Connolly <caleb.connolly@linaro.org>, David Heidelberg
+ <david@ixit.cz>, Hans Verkuil <hverkuil@xs4all.nl>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241209-camss-dphy-v1-0-5f1b6f25ed92@fairphone.com>
+ <D82FU3SIX5RZ.1Y525GJO0UOAA@fairphone.com>
+ <eb06daf1-3cc3-4b31-a0bf-bc450cd0f041@linaro.org>
+ <7bt-fuRycoJhLN28Wf0QCaz_rljIKilGsNyYSzjHz9Ig8AOEs94AlKMko__dGbNp1SgGCdHvaVZ6tU_9hCvj3Q==@protonmail.internalid>
+ <D8IDHJAC4BJ1.WNTMQEJXD2R2@fairphone.com>
 Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <Z_OXELLDIfQII6wV@hovoldconsulting.com>
+From: Bryan O'Donoghue <bod@kernel.org>
+In-Reply-To: <D8IDHJAC4BJ1.WNTMQEJXD2R2@fairphone.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 07/04/2025 10:12, Johan Hovold wrote:
-> On Fri, Oct 11, 2024 at 11:33:30AM +0200, Johan Hovold wrote:
-> 
->> This morning I hit the below NULL-deref in camss when booting a 6.12-rc2
->> kernel on the Lenovo ThinkPad X13s.
+On 17/03/2025 07:45, Luca Weiss wrote:
+> On Wed Feb 26, 2025 at 3:47 PM CET, Bryan O'Donoghue wrote:
+>> On 26/02/2025 14:13, Luca Weiss wrote:
+>>> Hi all,
+>>>
+>>> On Mon Dec 9, 2024 at 1:01 PM CET, Luca Weiss wrote:
+>>>> Since the hardware blocks on the SoCs generally support both D-PHY and
+>>>> C-PHY standards for camera, but the camss driver currently is only
+>>>> supporting D-PHY, do some preparations in order to add C-PHY support at
+>>>> some point.
+>>>>
+>>>> Make the dt bindings explicit that the hardware supports both (except
+>>>> for MSM8916) but also add a check to the driver that errors out in case
+>>>> a dt tries to use C-PHY since that's not supported yet.
+>>>>
+>>>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+>>>> ---
+>>>> Luca Weiss (2):
+>>>>         media: dt-bindings: media: camss: Restrict bus-type property
+>>>>         media: qcom: camss: Restrict endpoint bus-type to D-PHY
+>>>
+>>> This series is still pending, both patches got reviews and no pending
+>>> comments from what I can see.
+>>>
+>>> Would be nice to get it in for 6.15.
+>>>
+>> Yes this should be merged.
 >>
->> I booted the same kernel another 50 times without hitting it again it so
->> it may not be a regression, but simply an older, hard to hit bug.
->>
->> Hopefully you can figure out what went wrong from just staring at the
->> oops and code.
+>> Thanks for following up.
 > 
-> Hit the NULL-pointer dereference during boot that I reported back in
-> October again today with 6.15-rc1.
+> Hi Bryan, hi Hans,
 > 
-> The camss_find_sensor_pad() function was renamed in 6.15-rc1, but
-> otherwise it looks identical.
+> 6.15 merge window is approaching fast, I wonder if this series was
+> missed still.
 > 
-> Johan
-> 
-> 
-> [    5.740833] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000030
-> [    5.741162] Mem abort info:
-> [    5.741435]   ESR = 0x0000000096000004
-> [    5.741707]   EC = 0x25: DABT (current EL), IL = 32 bits
-> [    5.741980]   SET = 0, FnV = 0
-> [    5.742249]   EA = 0, S1PTW = 0
-> [    5.742253]   FSC = 0x04: level 0 translation fault
-> [    5.742255] Data abort info:
-> [    5.742257]   ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
-> [    5.743264]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
-> [    5.743267]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
-> [    5.743269] user pgtable: 4k pages, 48-bit VAs, pgdp=000000010fb98000
-> [    5.743272] [0000000000000030] pgd=0000000000000000, p4d=0000000000000000
-> [    5.744064] Internal error: Oops: 0000000096000004 [#1]  SMP
-> 
-> [    5.744645] CPU: 3 UID: 0 PID: 442 Comm: v4l_id Not tainted 6.15.0-rc1 #106 PREEMPT
-> [    5.744647] Hardware name: LENOVO 21BYZ9SRUS/21BYZ9SRUS, BIOS N3HET87W (1.59 ) 12/05/2023
-> [    5.744649] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-> [    5.744651] pc : camss_find_sensor_pad+0x20/0x74 [qcom_camss]
-> [    5.744661] lr : camss_get_pixel_clock+0x18/0x64 [qcom_camss]
-> [    5.744666] sp : ffff800082dfb8e0
-> [    5.744667] x29: ffff800082dfb8e0 x28: ffff800082dfbc68 x27: ffff143e80404618
-> [    5.744671] x26: 0000000000000000 x25: 0000000000000000 x24: ffff143e9398baa8
-> [    5.744675] x23: ffff800082dfb998 x22: ffff143e9398d9a0 x21: ffff800082dfb9a8
-> [    5.744678] x20: 0000000000000002 x19: 0000000000020001 x18: 0000000000000020
-> [    5.744682] x17: 3030613563613a33 x16: ffffac4db3ccf814 x15: 706e65672f6b6e69
-> [    5.744686] x14: 0000000000000000 x13: ffff143e80b39180 x12: 30613563613a333a
-> [    5.744690] x11: ffffac4db50a8920 x10: 0000000000000000 x9 : 0000000000000000
-> [    5.744693] x8 : ffffac4db4992000 x7 : ffff800082dfb8e0 x6 : ffff800082dfb870
-> [    5.744697] x5 : ffff800082dfc000 x4 : ffff143e9398cc70 x3 : ffff143e9398cb40
-> [    5.744701] x2 : ffff143e9398be00 x1 : ffff143e9398d9a0 x0 : 0000000000000000
-> [    5.744704] Call trace:
-> [    5.744706]  camss_find_sensor_pad+0x20/0x74 [qcom_camss] (P)
-> [    5.744711]  camss_get_pixel_clock+0x18/0x64 [qcom_camss]
-> [    5.744716]  vfe_get+0xb8/0x504 [qcom_camss]
-> [    5.744724]  vfe_set_power+0x30/0x58 [qcom_camss]
-> [    5.744731]  pipeline_pm_power_one+0x13c/0x150 [videodev]
-> [    5.744745]  pipeline_pm_power.part.0+0x58/0xf4 [videodev]
-> [    5.744754]  v4l2_pipeline_pm_use+0x58/0x94 [videodev]
-> [    5.744762]  v4l2_pipeline_pm_get+0x14/0x20 [videodev]
-> [    5.744771]  video_open+0x78/0xf4 [qcom_camss]
-> [    5.744776]  v4l2_open+0x80/0x120 [videodev]
-> [    5.755711]  chrdev_open+0xb4/0x204
-> [    5.755716]  do_dentry_open+0x138/0x4d0
-> [    5.756271]  vfs_open+0x2c/0xe8
-> [    5.756274]  path_openat+0x2b8/0x9fc
-> [    5.756276]  do_filp_open+0x8c/0x144
-> [    5.756277]  do_sys_openat2+0x80/0xdc
-> [    5.756279]  __arm64_sys_openat+0x60/0xb0
-> [    5.757830]  invoke_syscall+0x48/0x110
-> [    5.757834]  el0_svc_common.constprop.0+0xc0/0xe0
-> [    5.758369]  do_el0_svc+0x1c/0x28
-> [    5.758372]  el0_svc+0x48/0x114
-> [    5.758889]  el0t_64_sync_handler+0xc8/0xcc
-> [    5.759184]  el0t_64_sync+0x198/0x19c
-> [    5.759475] Code: f9000bf3 52800033 72a00053 f9402420 (f9401801)
->   
->   
->> [    5.657860] ov5675 24-0010: failed to get HW configuration: -517
->> [    5.676183] vreg_l6q: Bringing 2800000uV into 1800000-1800000uV
->>
->> [    6.517689] qcom-camss ac5a000.camss: Adding to iommu group 22
->>
->> [    6.589201] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000030
->> [    6.589625] Mem abort info:
->> [    6.589960]   ESR = 0x0000000096000004
->> [    6.590293]   EC = 0x25: DABT (current EL), IL = 32 bits
->> [    6.590630]   SET = 0, FnV = 0
->> [    6.591619]   EA = 0, S1PTW = 0
->> [    6.591968]   FSC = 0x04: level 0 translation fault
->> [    6.592298] Data abort info:
->> [    6.592621]   ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
->> [    6.593112]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
->> [    6.593450]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
->> [    6.593783] user pgtable: 4k pages, 48-bit VAs, pgdp=000000010daef000
->> [    6.594139] [0000000000000030] pgd=0000000000000000, p4d=0000000000000000
->> [    6.594214] Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
-> 
->> [    6.594868] CPU: 0 UID: 0 PID: 557 Comm: v4l_id Not tainted 6.12.0-rc2 #165
->> [    6.594871] Hardware name: LENOVO 21BYZ9SRUS/21BYZ9SRUS, BIOS N3HET87W (1.59 ) 12/05/2023
->> [    6.594872] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
->> [    6.594874] pc : camss_find_sensor+0x20/0x74 [qcom_camss]
->> [    6.594885] lr : camss_get_pixel_clock+0x18/0x60 [qcom_camss]
->> [    6.594889] sp : ffff800082d538f0
->> [    6.594890] x29: ffff800082d538f0 x28: ffff800082d53c70 x27: ffff670cc0404618
->> [    6.594893] x26: 0000000000000000 x25: 0000000000000000 x24: ffff670cd33173d0
->> [    6.594895] x23: ffff800082d539a8 x22: ffff670cd33192c8 x21: ffff800082d539b8
->> [    6.594898] x20: 0000000000000002 x19: 0000000000020001 x18: 0000000000000000
->> [    6.594900] x17: 0000000000000000 x16: ffffbf0bffbecdd0 x15: 0000000000000001
->> [    6.594902] x14: ffff670cc5c95300 x13: ffff670cc0b38980 x12: ffff670cc5c95ba8
->> [    6.594905] x11: ffffbf0c00f73000 x10: 0000000000000000 x9 : 0000000000000000
->> [    6.594907] x8 : ffffbf0c0085d000 x7 : 0000000000000000 x6 : 0000000000000078
->> [    6.594910] x5 : 0000000000000000 x4 : ffff670cd3318598 x3 : ffff670cd3318468
->> [    6.594912] x2 : ffff670cd3317728 x1 : ffff800082d539b8 x0 : 0000000000000000
->> [    6.594915] Call trace:
->> [    6.594915]  camss_find_sensor+0x20/0x74 [qcom_camss]
->> [    6.594920]  camss_get_pixel_clock+0x18/0x60 [qcom_camss]
->> [    6.594924]  vfe_get+0xb8/0x504 [qcom_camss]
->> [    6.594931]  vfe_set_power+0x30/0x58 [qcom_camss]
->> [    6.594936]  pipeline_pm_power_one+0x13c/0x150 [videodev]
->> [    6.594951]  pipeline_pm_power.part.0+0x58/0xf4 [videodev]
->> [    6.594960]  v4l2_pipeline_pm_use+0x58/0x94 [videodev]
->> [    6.594969]  v4l2_pipeline_pm_get+0x14/0x20 [videodev]
->> [    6.594978]  video_open+0x78/0xf4 [qcom_camss]
->> [    6.594982]  v4l2_open+0x80/0x120 [videodev]
->> [    6.594991]  chrdev_open+0xb4/0x204
->> [    6.594996]  do_dentry_open+0x138/0x4d0
->> [    6.595000]  vfs_open+0x2c/0xe4
->> [    6.595003]  path_openat+0x2b4/0x9fc
->> [    6.595005]  do_filp_open+0x80/0x130
->> [    6.595007]  do_sys_openat2+0xb4/0xe8
->> [    6.595010]  __arm64_sys_openat+0x64/0xac
->> [    6.595012]  invoke_syscall+0x48/0x110
->> [    6.595016]  el0_svc_common.constprop.0+0xc0/0xe0
->> [    6.595018]  do_el0_svc+0x1c/0x28
->> [    6.595021]  el0_svc+0x48/0x114
->> [    6.595023]  el0t_64_sync_handler+0xc0/0xc4
->> [    6.595025]  el0t_64_sync+0x190/0x194
->> [    6.595028] Code: 52800033 72a00053 d503201f f9402400 (f9401801)
->> [    6.595029] ---[ end trace 0000000000000000 ]---
-
-I've never seen this myself.
-
-I wonder, are you building camcc, camss and the sensor driver into your 
-initrd ?
+As soon as possible.
 
 ---
 bod
-
 
