@@ -1,121 +1,143 @@
-Return-Path: <linux-media+bounces-29483-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29484-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4E98A7DA3C
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 11:49:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39E94A7DA56
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 11:55:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9408F3AADD8
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 09:49:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CFE0B3ADED0
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 09:54:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1988322FF58;
-	Mon,  7 Apr 2025 09:49:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Ioe0kTZU"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBE38234966;
+	Mon,  7 Apr 2025 09:54:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B811E22A808
-	for <linux-media@vger.kernel.org>; Mon,  7 Apr 2025 09:49:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8559D230BCD;
+	Mon,  7 Apr 2025 09:54:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744019351; cv=none; b=sf//wPdkyNwQPxCe1O5nB+z5s0GxIYm9OOvSEObJy5u3WeYyiAQh4PJmXEyZAUCMC03qL6W61jxwDLHDsxJgFgYKEzTxBw0sipQolLMLOavK3vEIeYxe/yiKSyTMM23qYLMCRonO2Fg/9el16qdHwqg/bAz8hXh6xss4xpig6is=
+	t=1744019649; cv=none; b=n9SZP3URSJwPol0BP/ezfAHpQiUh9umb798rsXJmItFMetf0GJviJy/UjcgqeD4KnJ8kXl1Yaii9L32CnHv8tNYB2xpBTSI20itYM2Map5UO/HTu3l+yPWulNMyTfCr8/MPN/qHG/peQIO/peHY6eGbq2qOdZTXYEv3eI4E1mUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744019351; c=relaxed/simple;
-	bh=DZ63rrAsGHtRItIF9LO8Z69pVpRXdsG0UIOS3yY/ZAw=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=gSZZlX5wDlmtPEgwOWGaxykVIlz1TKJKDy4HmHLaRrNIY9Qqqol1Hl9B/zwO8RfBvFkvPzA7Rn3q2ZCNXbxVmoOpHuv0V16HCTQsHLDZPuHto/dYMx8hpnigA3FPD8gEN50Hon5FhU3QGrYFZNHSKYlewCyGpgvd6THLcPxOu50=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Ioe0kTZU; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Content-Type: text/plain;
-	charset=us-ascii
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1744019347;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xY51UqUYs+eWoTOCBh+Jna/CIahu4dovjoMPFMGK+94=;
-	b=Ioe0kTZUDluJBwKyn71CrZez9rDEMB6zSMKpo+dmuXKcVyV5HkxteDiPlNtuTXAxXh/YCr
-	+tbcirKNDPJAdHtNsPEF1atCVV+4DI5qhgzgJZ4zN4T0Zb/lhbjyS94pgHzTZEKgOPARLl
-	daq/dx6lgL303v132nfYFpVxFTfuwUI=
+	s=arc-20240116; t=1744019649; c=relaxed/simple;
+	bh=XFvfvv7QetTQVtT65VitPXl9f9r55NGlzqiql5VK65o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=c8xbr1nwSSsXLRhD0VM3wS1q8Ag+rXtDbTOpqLQ4bn4wwG/lBZcJ4E0GylSt1a5qbNf02rqYiNLK4hVR2RlzOSKo1EfcUPUO/6ObFqD9bI9aNk7NsPgg/fBxsFJps8Qno36PmM06k26ULfwagcAFkJlBsNGcmFhf0/ZZPOI46sY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4A5DC4CEDD;
+	Mon,  7 Apr 2025 09:54:05 +0000 (UTC)
+Message-ID: <3e5f003a-f689-4f5a-ac75-6bf95379637b@xs4all.nl>
+Date: Mon, 7 Apr 2025 11:54:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.400.131.1.6\))
-Subject: Re: CONFIG_HUGETLB_PAGE_OPTIMIZE_VMEMMAP is broken, was Re: [RFC
- PATCH 0/6] Deep talk about folio vmap
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Muchun Song <muchun.song@linux.dev>
-In-Reply-To: <20250407085943.GA27481@lst.de>
-Date: Mon, 7 Apr 2025 17:48:27 +0800
-Cc: Huan Yang <link@vivo.com>,
- bingbu.cao@linux.intel.com,
- Matthew Wilcox <willy@infradead.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?utf-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Andrew Morton <akpm@linux-foundation.org>,
- Uladzislau Rezki <urezki@gmail.com>,
- Shuah Khan <shuah@kernel.org>,
- linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org,
- linux-mm@kvack.org,
- linux-kselftest@vger.kernel.org,
- opensource.kernel@vivo.com
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/4] media: v4l: dev-decoder: Add source change
+ V4L2_EVENT_SRC_CH_COLORSPACE
+To: Ming Qian <ming.qian@oss.nxp.com>, mchehab@kernel.org
+Cc: nicolas@ndufresne.ca, shawnguo@kernel.org, robh+dt@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ linux-imx@nxp.com, xiahong.bao@nxp.com, eagle.zhou@nxp.com,
+ tao.jiang_2@nxp.com, imx@lists.linux.dev, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20250117061938.3923516-1-ming.qian@oss.nxp.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20250117061938.3923516-1-ming.qian@oss.nxp.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <3DC6E604-3CE9-49E3-A688-DC7F424382DA@linux.dev>
-References: <20250327092922.536-1-link@vivo.com>
- <20250404090111.GB11105@lst.de>
- <9A899641-BDED-4773-B349-56AF1DD58B21@linux.dev>
- <43DD699A-5C5D-429B-A2B5-61FBEAE2E252@linux.dev>
- <e9f44d16-fd9a-4d82-b40e-c173d068676a@vivo.com>
- <E4D6E02F-BC82-4630-8CB8-CD1A0163ABCF@linux.dev>
- <6f76a497-248b-4f92-9448-755006c732c8@vivo.com>
- <FDB7F930-8537-4B79-BAA6-AA782B39943A@linux.dev>
- <35D26C00-952F-481C-8345-E339F0ED770B@linux.dev>
- <20250407085943.GA27481@lst.de>
-To: Christoph Hellwig <hch@lst.de>
-X-Migadu-Flow: FLOW_OUT
 
-
-
-> On Apr 7, 2025, at 16:59, Christoph Hellwig <hch@lst.de> wrote:
+On 17/01/2025 07:19, Ming Qian wrote:
+> Add a new source change V4L2_EVENT_SRC_CH_COLORSPACE that
+> indicates colorspace change in the stream.
+> The change V4L2_EVENT_SRC_CH_RESOLUTION will always affect
+> the allocation, but V4L2_EVENT_SRC_CH_COLORSPACE won't.
 > 
-> On Mon, Apr 07, 2025 at 02:43:20PM +0800, Muchun Song wrote:
->> By the way, in case you truly struggle to comprehend the fundamental
->> aspects of HVO, I would like to summarize for you the user-visible
->> behaviors in comparison to the situation where HVO is disabled.
->> 
->> HVO Status Tail Page Structures Head Page Structures
->> Enabled Read-Only (RO) Read-Write (RW)
->> Disabled Read-Write (RW) Read-Write (RW)
->> 
->> The sole distinction between the two scenarios lies in whether the
->> tail page structures are allowed to be written or not. Please refrain
->> from getting bogged down in the details of the implementation of HVO.
+> Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
+> ---
+>  Documentation/userspace-api/media/v4l/vidioc-dqevent.rst | 9 +++++++++
+>  .../userspace-api/media/videodev2.h.rst.exceptions       | 1 +
+>  include/uapi/linux/videodev2.h                           | 1 +
+>  3 files changed, 11 insertions(+)
 > 
-> This feels extremely fragile to me.  I doubt many people know what
-> operations needs read vs write access to tail pages.  Or for higher
-> level operations if needs access to tail pages at all.
-> 
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+> index 8db103760930..91e6b86c976d 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+> @@ -369,6 +369,15 @@ call.
+>  	loss of signal and so restarting streaming I/O is required in order for
+>  	the hardware to synchronize to the video signal.
+>  
+> +    * - ``V4L2_EVENT_SRC_CH_COLORSPACE``
+> +      - 0x0002
+> +      - This event gets triggered when a colorsapce change is detected at
 
-A compound page should modify its head page structure (e.g., refcount),
-which is why `compound_head()` is widely used. Modifying its tail page
-structures is incorrect. Users needn't worry about whether to modify
-tail page structures. They should use `compound_head(tail)` to get the
-head page structure and update it. All users must follow this rule (I
-think folio-infrastructure also requires this). If a user tries to write
-to a HugeTLB page's tail page, an exception will be raised as these tail
-pages are read-only mapped to catch invalid operations.
+colorsapce -> colorspace
+
+> +	an input. This can come from a video decoder. Applications will query
+
+It can also come from a video receiver. E.g. an HDMI source changes colorspace
+signaling, but not the resolution.
+
+> +	the new colorspace information (if any, the signal may also have been
+> +	lost)
+
+Missing . at the end. Also, if the signal is lost, then that is a CH_RESOLUTION
+change, not CH_COLORSPACE.
+
+> +
+> +	For stateful decoders follow the guidelines in :ref:`decoder`.
+
+I think this should emphasize that if CH_COLORSPACE is set, but not CH_RESOLUTION,
+then only the colorspace changed and there is no need to reallocate buffers.
+
+I also wonder if the description of CH_RESOLUTION should be enhanced to explain
+that this might also imply a colorspace change. I'm not sure what existing codec
+drivers do if there is a colorspace change but no resolution change.
+
+I'm a bit concerned about backwards compatibility issues: if a userspace application
+doesn't understand this new flag and just honors CH_RESOLUTION, then it would
+never react to just a colorspace change.
+
+Nicolas, does gstreamer look at these flags?
+
+Regards,
+
+	Hans
+
+> +
+>  Return Value
+>  ============
+>  
+> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> index 35d3456cc812..ac47c6d9448b 100644
+> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> @@ -526,6 +526,7 @@ replace define V4L2_EVENT_CTRL_CH_RANGE ctrl-changes-flags
+>  replace define V4L2_EVENT_CTRL_CH_DIMENSIONS ctrl-changes-flags
+>  
+>  replace define V4L2_EVENT_SRC_CH_RESOLUTION src-changes-flags
+> +replace define V4L2_EVENT_SRC_CH_COLORSPACE src-changes-flags
+>  
+>  replace define V4L2_EVENT_MD_FL_HAVE_FRAME_SEQ :c:type:`v4l2_event_motion_det`
+>  
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index c8cb2796130f..242242c8e57b 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -2559,6 +2559,7 @@ struct v4l2_event_frame_sync {
+>  };
+>  
+>  #define V4L2_EVENT_SRC_CH_RESOLUTION		(1 << 0)
+> +#define V4L2_EVENT_SRC_CH_COLORSPACE		(1 << 1)
+>  
+>  struct v4l2_event_src_change {
+>  	__u32 changes;
 
 
