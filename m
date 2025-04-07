@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-29494-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29495-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AE10A7DBED
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 13:11:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FE4FA7DC03
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 13:16:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2357B16C242
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 11:11:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A77143B45A7
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 11:14:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19F6323A9BA;
-	Mon,  7 Apr 2025 11:11:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4918723BD02;
+	Mon,  7 Apr 2025 11:13:49 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B759017A2F2
-	for <linux-media@vger.kernel.org>; Mon,  7 Apr 2025 11:11:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E547023C8B9
+	for <linux-media@vger.kernel.org>; Mon,  7 Apr 2025 11:13:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744024268; cv=none; b=Ks5z2RA1A8AAA59pEU0rpfVdy2+uXSFG/AI4fDXgl1oaUgPDIfgWvfyPtnrLPW7rwpSfrt6wUQzgJyItXm9y3I+bjPrx8g2ZRrbrnMgUCuT7WKd+cvgcMSL3Xjx8nrXx7Dyv5eoyi5/RI21x8d9eXPurhxz3MdijDOTWftA2S8I=
+	t=1744024428; cv=none; b=VTGrcEkowomF5sV6xAuhrTNUgAb09N00x212MiqCLtbkBo9yU41yiTV/oKB+Ayl+EiAxS3gJcP91X4fIJLPQ4nUsUwgUefheJ2XDu5T2SAoyahqxtNGfZ1v4hMBVIExrjoc1FnE8wj3MVPBLtWRwZ67O8AzoAR7wezcz2QQ1YUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744024268; c=relaxed/simple;
-	bh=WgKUKTYlGlnQBqOBCgY7hVBa2ZHvgMkJcgXRNc+0lOw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=LiiNFGnnbN7+zM+yB208Ma2hxTIRcIqwtQPRDCpvbKXn5kUa3A7idMbU2d0DcQcRivNOFIUPvar8J+aIbL8V2jZ7E1jymSsswsX2nUDK9rBhqnFdQNWjkdJbjWliFeDXGolqKT2Z+ZWXj9h7um7rjBMjUCiA3Rluf8HQ7ZGvIws=
+	s=arc-20240116; t=1744024428; c=relaxed/simple;
+	bh=Yn/j9OoGDhhYZwQumq0UWKmW3C8ZXJPNhEEhT2MRtOs=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
+	 In-Reply-To:Content-Type; b=SRmLc+YE783QshlMaJwq1dFYhn9vWZ/1lguwEzNjhMfEQLQV8vVLO1/JxOgbcYpDqbZGKc3xZyZx8T8WMG7rCXv5r7+n5SrRvR/rNiQVeG/FTPPMqAHZEgbmr8UQP4Opa22+fx6XmuBQ59GGoflKnt3YLp/VUdnXBE0eZwwE1JI=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A30DBC4CEDD;
-	Mon,  7 Apr 2025 11:11:07 +0000 (UTC)
-Message-ID: <1b7c3c7a-69b6-4a40-9345-f52e18d07b18@xs4all.nl>
-Date: Mon, 7 Apr 2025 13:11:06 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02554C4CEDD;
+	Mon,  7 Apr 2025 11:13:47 +0000 (UTC)
+Message-ID: <7e4add79-dca2-42ec-a221-df089f6472e6@xs4all.nl>
+Date: Mon, 7 Apr 2025 13:13:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -40,11 +40,12 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: GIT PULL FOR 6.16] Enable 10bit and YCbCr 422 in RKVDEC H.264
  decoder
+From: Hans Verkuil <hverkuil@xs4all.nl>
 To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
  linux-media@vger.kernel.org
 References: <fc348bb52d60acaaa15d3221aaba8217d67d349c.camel@collabora.com>
+ <1b7c3c7a-69b6-4a40-9345-f52e18d07b18@xs4all.nl>
 Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
  BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
@@ -88,68 +89,78 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <fc348bb52d60acaaa15d3221aaba8217d67d349c.camel@collabora.com>
+In-Reply-To: <1b7c3c7a-69b6-4a40-9345-f52e18d07b18@xs4all.nl>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 01/04/2025 22:09, Nicolas Dufresne wrote:
-> Hey Hans & Mauro,
+On 07/04/2025 13:11, Hans Verkuil wrote:
+> On 01/04/2025 22:09, Nicolas Dufresne wrote:
+>> Hey Hans & Mauro,
+>>
+>> The following changes since commit f2151613e040973c868d28c8b00885dfab69eb75:
+>>
+>>   media: pci: mgb4: include linux/errno.h (2025-03-07 12:05:42 +0100)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://gitlab.freedesktop.org/linux-media/users/ndufresne.git tags/for-6.16-rkvdec-h264-high10-and-422
+>>
+>> for you to fetch changes up to 619d9391efd5ed93f805734279034fa34f537347:
+>>
+>>   media: rkvdec: Fix frame size enumeration (2025-04-01 15:25:07 -0400)
+>>
+>> ----------------------------------------------------------------
+>> Enable 10bit and YCbCr 422 in RKVDEC H.264 decoder
+>>
+>> ----------------------------------------------------------------
+>> Alex Bee (1):
+>>       media: rkvdec: h264: Don't hardcode SPS/PPS parameters
+>>
+>> Jonas Karlman (10):
+>>       media: v4l2-common: Add helpers to calculate bytesperline and sizeimage
+>>       media: v4l2: Add NV15 and NV20 pixel formats
+>>       media: rkvdec: h264: Use bytesperline and buffer height as virstride
+>>       media: rkvdec: Extract rkvdec_fill_decoded_pixfmt into helper
+>>       media: rkvdec: Move rkvdec_reset_decoded_fmt helper
+>>       media: rkvdec: Extract decoded format enumeration into helper
+>>       media: rkvdec: Add image format concept
+>>       media: rkvdec: Add get_image_fmt ops
 > 
-> The following changes since commit f2151613e040973c868d28c8b00885dfab69eb75:
+> So this patch needs more work.
 > 
->   media: pci: mgb4: include linux/errno.h (2025-03-07 12:05:42 +0100)
+>>       media: rkvdec: h264: Support High 10 and 4:2:2 profiles
 > 
-> are available in the Git repository at:
+> and this depends on the previous patch.
 > 
->   https://gitlab.freedesktop.org/linux-media/users/ndufresne.git tags/for-6.16-rkvdec-h264-high10-and-422
-> 
-> for you to fetch changes up to 619d9391efd5ed93f805734279034fa34f537347:
-> 
->   media: rkvdec: Fix frame size enumeration (2025-04-01 15:25:07 -0400)
-> 
-> ----------------------------------------------------------------
-> Enable 10bit and YCbCr 422 in RKVDEC H.264 decoder
-> 
-> ----------------------------------------------------------------
-> Alex Bee (1):
->       media: rkvdec: h264: Don't hardcode SPS/PPS parameters
-> 
-> Jonas Karlman (10):
->       media: v4l2-common: Add helpers to calculate bytesperline and sizeimage
->       media: v4l2: Add NV15 and NV20 pixel formats
->       media: rkvdec: h264: Use bytesperline and buffer height as virstride
->       media: rkvdec: Extract rkvdec_fill_decoded_pixfmt into helper
->       media: rkvdec: Move rkvdec_reset_decoded_fmt helper
->       media: rkvdec: Extract decoded format enumeration into helper
->       media: rkvdec: Add image format concept
->       media: rkvdec: Add get_image_fmt ops
+>>       media: rkvdec: Fix frame size enumeration
+>>
+>> Sebastian Fricke (1):
+>>       media: rkvdec: h264: Limit minimum profile to constrained baseline
 
-So this patch needs more work.
-
->       media: rkvdec: h264: Support High 10 and 4:2:2 profiles
-
-and this depends on the previous patch.
-
->       media: rkvdec: Fix frame size enumeration
-> 
-> Sebastian Fricke (1):
->       media: rkvdec: h264: Limit minimum profile to constrained baseline
-
-I can take all other patches except those two. Would that work for you, Nicolas?
+Ah, this also depends on the change. I'll have to skip this one too.
 
 Regards,
 
 	Hans
 
 > 
->  Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst | 128 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-common.c                       |  80 +++++++++++++++++++++++++++++++++++++-----------------------------------
->  drivers/media/v4l2-core/v4l2-ioctl.c                        |   2 ++
->  drivers/staging/media/rkvdec/rkvdec-h264.c                  |  64 ++++++++++++++++++++++++++++++++++++++--------------------
->  drivers/staging/media/rkvdec/rkvdec.c                       | 239 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------------------------------------------------------
->  drivers/staging/media/rkvdec/rkvdec.h                       |  18 ++++++++++++++++-
->  include/uapi/linux/videodev2.h                              |   2 ++
->  7 files changed, 410 insertions(+), 123 deletions(-)
+> I can take all other patches except those two. Would that work for you, Nicolas?
+> 
+> Regards,
+> 
+> 	Hans
+> 
+>>
+>>  Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst | 128 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>>  drivers/media/v4l2-core/v4l2-common.c                       |  80 +++++++++++++++++++++++++++++++++++++-----------------------------------
+>>  drivers/media/v4l2-core/v4l2-ioctl.c                        |   2 ++
+>>  drivers/staging/media/rkvdec/rkvdec-h264.c                  |  64 ++++++++++++++++++++++++++++++++++++++--------------------
+>>  drivers/staging/media/rkvdec/rkvdec.c                       | 239 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------------------------------------------------------
+>>  drivers/staging/media/rkvdec/rkvdec.h                       |  18 ++++++++++++++++-
+>>  include/uapi/linux/videodev2.h                              |   2 ++
+>>  7 files changed, 410 insertions(+), 123 deletions(-)
+>>
+> 
 > 
 
 
