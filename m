@@ -1,48 +1,56 @@
-Return-Path: <linux-media+bounces-29538-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29539-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4982CA7E4D1
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 17:40:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 824D2A7E536
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 17:51:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EBAA07A3324
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 15:39:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F1CC218901D8
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 15:44:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3665202973;
-	Mon,  7 Apr 2025 15:39:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57E29202F92;
+	Mon,  7 Apr 2025 15:44:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aBxrsI2W"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="GlNFrWD+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0117F200BB3;
-	Mon,  7 Apr 2025 15:39:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E73D52010E8
+	for <linux-media@vger.kernel.org>; Mon,  7 Apr 2025 15:44:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=149.28.215.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744040372; cv=none; b=ruFPVXY2idlpM8ZSu6GWuaAjA5OLBqYhOncQHGzkNbjrB0ID7DWhYlKQeiB8mLiX5Cs084p8NNOqc3xxPqBHUjNzemPfvXAXo+MdNNlQs2ZnD10cctD3a7FCDCWIaEz2xuY0qACeAhWx1WiFFCtE1ydzVSuXpmrq4y3xzto2Q0I=
+	t=1744040660; cv=none; b=nd2AzKaUBtGJWdTxb+eCr3xbnwpkjzMs4AHtLkNBWRSLc3UnGp3Ie0Trgwho0GCn+qY26C1d+KvMqo9bcqoTeWg10BRvCu4ywzjFstPmPdM5dEdNfj8pDaMkj7CHPGIIdcNPLJPW+NjdbVWcESs5pwfsecE2OMwvumUzsknxnR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744040372; c=relaxed/simple;
-	bh=M3y8hJh48p4El0IfUM4vjOfPCS0bV3egS3RqF+kA6FE=;
+	s=arc-20240116; t=1744040660; c=relaxed/simple;
+	bh=FtmmBaO4+onx8CeAjNITXa9Vkcpzdb+RzGWilaecrQk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=g1ZxwabH3npwJKr/2nzN0lJQWmbB4qSNTmXLSy07+MQXRCvmrBfQePnwoADO2xXNSfHh9mNQ7N86ibHP28xn/nE17zAII0KojcaV5JFroirjEIYyqldo3knBYY8WM/oAB76OZCo1dpCFM4PQEbrK79rxVeZKFxv+YRN/X/3ZmgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aBxrsI2W; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85A8FC4CEDD;
-	Mon,  7 Apr 2025 15:39:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744040371;
-	bh=M3y8hJh48p4El0IfUM4vjOfPCS0bV3egS3RqF+kA6FE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aBxrsI2W50l74Pn58A5m09CxNRjYDxThYlA4abxzg1FuCkQLDYCef4ag7qNVKeB2q
-	 n+/KNjBJIssz7yA7e0Ieog2KN+tRSmsFZIfWa8Mj2c8yuTgw7E6hz75Nw/R+4tAOZi
-	 W435MIUXI+JJrfusrjiVxUvWoSCFUzlrNKpA1yEarvidLHwyPmuclXz/kc75tYBkFi
-	 jgxMLeI7Zj7fNBoDSdJGiskOBrYUwFV7Ccv7lJ6I2Nz0OmXsq34Gdoacw668icvxy4
-	 3H5sAdM69wef4rmbPYWGJFWf9aCf9Yf1qory0BOxvQmA96BnHPwZ+iTTfkd2xqoiha
-	 UL9F3Sg0MeyWA==
-Message-ID: <6f11921a-4ee8-4f40-9131-529f548f681a@kernel.org>
-Date: Mon, 7 Apr 2025 16:39:26 +0100
+	 In-Reply-To:Content-Type; b=uvQv/7K1AryXIAEiluWMwswlWjbE5FFkMgk1b34/motIZOsaNgWcJ0Xp8isBOXpdR+J5n/KOfLncU40oULcPPNLy7Kp7jRRh4iYIBwUCz03UUrjqcIW1suAQ41X37kRwYGEu2dLmZ8xL5NBtO9uVB3rnMguHeQzZ+++hsbzyHEw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=GlNFrWD+; arc=none smtp.client-ip=149.28.215.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1744040658;
+ bh=gCalekwlSurJhV5Kj0pqnoJtmNpCZuFpEjMF/Gd/SFA=;
+ b=GlNFrWD+MyFJw5wMu2S6Dw6KzHN6k0+JCpdNNvzKu2Pa/tl5h7RVkfpOi5XzORy+jHM4WuQV+
+ tRpQeC0BXDevQBGqa1gaacj+eUiQin1Yd+I51LbZV7zXb3TnOnL+1UAWqEQPvzX5aAqGUsXgmH8
+ VIxb/2YAsfr4r2xXRMH0zijtTICN0rgjYuu0XDoJo7GrTc5aBvxuJyCe/MV1jSsDz+U8DpWmvxh
+ sJtiLNIVrhqjkV3ppGe9+fEAqcwiXv+eAf3w5R1IDxu1nELz/wdPsnZmykWO/+67EzyQcRCnRfI
+ khsWr7Frryb7FOJ7pgSiWye6RH2yLw9+bMCSF5/6G9MA==
+X-Forward-Email-ID: 67f3f2c9fa8ccfb37ffb1972
+X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 149.28.215.223
+X-Forward-Email-Version: 1.0.0
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
+Message-ID: <9ce1c2bd-39aa-428b-af32-6c686b897cdf@kwiboo.se>
+Date: Mon, 7 Apr 2025 17:44:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,99 +58,271 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/4] media: venus: pm_helpers: use opp-table for the
- frequency
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Renjiang Han <quic_renjiang@quicinc.com>,
- Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20241219-add-venus-for-qcs615-v6-0-e9a74d3b003d@quicinc.com>
- <20241219-add-venus-for-qcs615-v6-2-e9a74d3b003d@quicinc.com>
- <fde279ad-27ed-4947-a408-23139bcd270a@oss.qualcomm.com>
- <351a9654-ffa1-4727-b772-95d4ed113c81@quicinc.com>
- <ac145c57-1db3-4747-88e2-02825f958d5a@oss.qualcomm.com>
+Subject: Re: [PATCH v7 09/12] media: rkvdec: Add get_image_fmt ops
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Alex Bee <knaerzche@gmail.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Detlev Casanova <detlev.casanova@collabora.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Christopher Obbard <christopher.obbard@linaro.org>
+References: <20250225-rkvdec_h264_high10_and_422_support-v7-0-7992a68a4910@collabora.com>
+ <20250225-rkvdec_h264_high10_and_422_support-v7-9-7992a68a4910@collabora.com>
+ <e6b99109-bd35-46ff-a4e2-eb69b549dcbc@xs4all.nl>
+ <77bdada5dce991842e377759c8e173ada115694f.camel@collabora.com>
+ <47c0011f-693d-4c94-8a1b-f0174f3d5b89@xs4all.nl>
+ <19a11d429d9078b82f27e108aa5ac80cc4041bef.camel@collabora.com>
+ <cc53dbbf-405b-452b-b007-00588d6c8839@kwiboo.se>
+ <c020b5d7dffba6238763a3b82e941a8c218e4dad.camel@collabora.com>
 Content-Language: en-US
-From: Bryan O'Donoghue <bod@kernel.org>
-In-Reply-To: <ac145c57-1db3-4747-88e2-02825f958d5a@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <c020b5d7dffba6238763a3b82e941a8c218e4dad.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 09/01/2025 13:05, Konrad Dybcio wrote:
-> On 2.01.2025 6:38 AM, Renjiang Han wrote:
->>
->> On 12/23/2024 10:17 PM, Konrad Dybcio wrote:
->>> On 19.12.2024 6:41 AM, Renjiang Han wrote:
->>>> The frequency value in the opp-table in the device tree and the freq_tbl
->>>> in the driver are the same.
+On 2025-04-07 17:35, Nicolas Dufresne wrote:
+> Le lundi 07 avril 2025 à 17:07 +0200, Jonas Karlman a écrit :
+>> On 2025-04-07 16:59, Nicolas Dufresne wrote:
+>>> Le lundi 07 avril 2025 à 16:17 +0200, Hans Verkuil a écrit :
+>>>> On 07/04/2025 15:52, Nicolas Dufresne wrote:
+>>>>> Le lundi 07 avril 2025 à 13:09 +0200, Hans Verkuil a écrit :
+>>>>>> On 25/02/2025 10:40, Sebastian Fricke wrote:
+>>>>>>> From: Jonas Karlman <jonas@kwiboo.se>
+>>>>>>>
+>>>>>>> Add support for a get_image_fmt() ops that returns the required image
+>>>>>>> format.
+>>>>>>>
+>>>>>>> The CAPTURE format is reset when the required image format changes and
+>>>>>>> the buffer queue is not busy.
+>>>>>>>
+>>>>>>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+>>>>>>> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>>>>>>> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>>>>>>> Tested-by: Christopher Obbard <chris.obbard@collabora.com>
+>>>>>>> ---
+>>>>>>>  drivers/staging/media/rkvdec/rkvdec.c | 49 +++++++++++++++++++++++++++++++++--
+>>>>>>>  drivers/staging/media/rkvdec/rkvdec.h |  2 ++
+>>>>>>>  2 files changed, 49 insertions(+), 2 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+>>>>>>> index 70154948b4e32e2c439f259b0f1e1bbc8b52b063..5394079509305c619f1d0c1f542bfc409317c3b7 100644
+>>>>>>> --- a/drivers/staging/media/rkvdec/rkvdec.c
+>>>>>>> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+>>>>>>> @@ -111,15 +111,60 @@ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
+>>>>>>>  {
+>>>>>>>  	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
+>>>>>>>  	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
+>>>>>>> +	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
+>>>>>>> +	enum rkvdec_image_fmt image_fmt;
+>>>>>>> +	struct vb2_queue *vq;
+>>>>>>> +	int ret;
+>>>>>>> +
+>>>>>>> +	if (desc->ops->try_ctrl) {
+>>>>>>> +		ret = desc->ops->try_ctrl(ctx, ctrl);
+>>>>>>> +		if (ret)
+>>>>>>> +			return ret;
+>>>>>>> +	}
+>>>>>>> +
+>>>>>>> +	if (!desc->ops->get_image_fmt)
+>>>>>>> +		return 0;
+>>>>>>>  
+>>>>>>> -	if (desc->ops->try_ctrl)
+>>>>>>> -		return desc->ops->try_ctrl(ctx, ctrl);
+>>>>>>> +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
+>>>>>>> +	if (ctx->image_fmt == image_fmt)
+>>>>>>> +		return 0;
+>>>>>>> +
+>>>>>>> +	if (rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, image_fmt))
+>>>>>>> +		return 0;
+>>>>>>> +
+>>>>>>> +	/* format change not allowed when queue is busy */
+>>>>>>> +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+>>>>>>> +			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+>>>>>>> +	if (vb2_is_busy(vq))
+>>>>>>> +		return -EINVAL;
 >>>>
->>>> Therefore, update pm_helpers.c to use the opp-table for frequency values
->>>> for the v4 core.
->>>> If getting data from the opp table fails, fall back to using the frequency
->>>> table.
->>>>
->>>> Signed-off-by: Renjiang Han<quic_renjiang@quicinc.com>
->>>> ---
->>>>    drivers/media/platform/qcom/venus/pm_helpers.c | 53 +++++++++++++++++++-------
->>>>    1 file changed, 39 insertions(+), 14 deletions(-)
->>>>
->>>> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
->>>> index 33a5a659c0ada0ca97eebb5522c5f349f95c49c7..b61c0ad152878870b7223efa274e137d3636433b 100644
->>>> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
->>>> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
->>>> @@ -43,14 +43,20 @@ static int core_clks_enable(struct venus_core *core)
->>>>        const struct venus_resources *res = core->res;
->>>>        const struct freq_tbl *freq_tbl = core->res->freq_tbl;
->>>>        unsigned int freq_tbl_size = core->res->freq_tbl_size;
->>>> +    struct device *dev = core->dev;
->>>> +    struct dev_pm_opp *opp;
->>>>        unsigned long freq;
->>>>        unsigned int i;
->>>>        int ret;
->>>>    -    if (!freq_tbl)
->>>> -        return -EINVAL;
->>>> -
->>>> -    freq = freq_tbl[freq_tbl_size - 1].freq;
->>>> +    opp = dev_pm_opp_find_freq_ceil(dev, &freq);
->>>> +    if (IS_ERR(opp)) {
->>>> +        if (!freq_tbl)
->>>> +            return -EINVAL;
->>>> +        freq = freq_tbl[freq_tbl_size - 1].freq;
->>>> +    } else {
->>>> +        dev_pm_opp_put(opp);
->>>> +    }
->>> I'm not super convinced how this could have ever worked without
->>> scaling voltage levels, by the way. Perhaps this will squash some
->>> random bugs :|
+>>>> Looking closer, this code is just wrong. It does these format change
+>>>> tests for any control, so if more controls are added in the future, then
+>>>> those will be checked the same way, which makes no sense.
 >>>
->>> Konrad
->>   Thanks for your comment.
->>   The default value of freq is 0, and then dev_pm_opp_find_freq_ceil is
->>   used to match freq to the maximum value in opp-table that is close to
->>   0. The frequency values ​​in opp-table and freq_tbl are the same, and
->>   dev_pm_opp_find_freq_ceil is used to assign the minimum value in
->>   opp-table to freq. So the logic is the same as before. I'm not sure if
->>   I've answered your concern.
+>>> "Just wrong" should be kept for code that is semantically incorrect,
+>>> just a suggestion for choice of wording.
+>>>
+>>>>
+>>>> These tests belong to the actual control that you 'try'. In this case
+>>>> rkvdec_h264_validate_sps(). This function already checks the width and
+>>>> height, but it should also check the image format. It is all in the
+>>>> wrong place.
+>>
+>> Keep in mind that rkvdec_try_ctrl and rkvdec_s_ctrl are only used for
+>> CID_STATELESS_H264_SPS (and in future also CID_STATELESS_HEVC_SPS) not
+>> any other control, so this is already in the correct place?
+>>
+>> Maybe the naming of the functions are too generic, they could be named
+>> rkvdec_sps_try_ctrl and rkvdec_sps_s_ctrl or similar if that makes more
+>> sense?
 > 
-> We talked offline, but for the record: my concern here was about
-> clk_set_rate() not scaling RPM/h voltage corners, which this patch
-> fixes
+> So we are missing that check for VP9? It will be needed for AV1 when
+> rkvdec2 support gets added.
+
+Correct, it was not needed for VP9 on rkvdec1 as it only support a
+single image fmt (NV12 / YUV420_8BIT).
+
+In the code you only see rkvdec_ctrl_ops referenced once (or possible a
+second time with HEVC work-in-progress patches).
+
+	.cfg.id = V4L2_CID_STATELESS_H264_SPS,
+	.cfg.ops = &rkvdec_ctrl_ops,
+
+Regards,
+Jonas
+
 > 
-> Konrad
+> Nicolas
+> 
+>>
+>> Regards,
+>> Jonas
+>>
+>>>
+>>> We can do that too. Though, this was generalized since once you enable
+>>> the other codecs, you endup with code duplication. I know this series
+>>> is an extract from a larger one.
+>>>
+>>> So let's suggest to make a helper that combines rkvdec_is_valid_fmt()
+>>> and the busy check. Though on that, please reply to my comment below
+>>> (which you skipped).
+>>>
+>>>>
+>>>>>>
+>>>>>> This makes no sense to me. This just tries a control, and that should just
+>>>>>> work, regardless of vb2_is_busy(). It's a 'try', so you are not actually
+>>>>>> changing anything.
+>>>>>
+>>>>> See comment below, notice that this code is only reached if the control
+>>>>> introduce parameters that are not compatible with the current capture
+>>>>> queue fmt. The entire function uses "success" early exit, so the
+>>>>> further down you get in the function, the less likely your control is
+>>>>> valid.
+>>>>>
+>>>>>>
+>>>>>>> +
+>>>>>>> +	return 0;
+>>>>>>> +}
+>>>>>>> +
+>>>>>>> +static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
+>>>>>>> +{
+>>>>
+>>>> If there is a try_ctrl op specified, then the control framework
+>>>> will call that first before calling s_ctrl. So any validation that
+>>>> try_ctrl did does not need to be done again in s_ctrl.
+>>>>
+>>>> The same comment with try_ctrl is valid here as well: if there are
+>>>> image format checks that need to be done, then those need to be done
+>>>> per control and not as a generic check. If new controls are added in
+>>>> the future, then you don't want the same checks to apply to the new
+>>>> controls as well.
+>>>
+>>> I don't think the behaviour of try_ctrl and that being embedded in set
+>>> calls was being questioned by anyone. Can you reply to the last
+>>> paragraph below ?
+>>>
+>>>>
+>>>> Regards,
+>>>>
+>>>> 	Hans
+>>>>
+>>>>>>> +	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
+>>>>>>> +	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
+>>>>>>> +	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
+>>>>>>> +	enum rkvdec_image_fmt image_fmt;
+>>>>>>> +
+>>>>>>> +	if (!desc->ops->get_image_fmt)
+>>>>>>> +		return 0;
+>>>>>>> +
+>>>>>>> +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
+>>>>>>> +	if (ctx->image_fmt == image_fmt)
+>>>>>>> +		return 0;
+>>>>>>
+>>>>>> If you really can't set a control when the queue is busy, then that should
+>>>>>> be tested here, not in try_ctrl. And then you return -EBUSY.
+>>>>>>
+>>>>>> Am I missing something here?
+>>>>>
+>>>>> When I reviewed, I had imagine that s_ctrl on a request would just run
+>>>>> a try. Now that I read that more careful, I see that it does a true set
+>>>>> on separate copy. So yes, this can safely be moved here.
+>>>>>
+>>>>> Since you seem wondering "If you really can't set a control", let me
+>>>>> explain what Jonas wants to protect against. RKVdec does not have any
+>>>>> color conversion code, the header compound control (which header
+>>>>> depends on the codec), contains details such as sub-sampling and color
+>>>>> depth. Without color conversion, when the image format is locked (the
+>>>>> busy queue), you can't request the HW to decode a frame witch does not
+>>>>> fit. This could otherwise lead to buffer overflow in the HW,
+>>>>> fortunately protected by the iommu, but you don't really want to depend
+>>>>> on the mmu.
+>>>>>
+>>>>> I've never used try_ctrl in my decade of v4l2, so obviously, now that I
+>>>>> know that s_ctrl on request is not a try, I'm fine with rejecting this
+>>>>> PR, sending a new version and making a PR again. But if I was to use
+>>>>> this API in userspace, my intuitive expectation would be that this
+>>>>> should fail try(), even if its very rarely valid to check the queue
+>>>>> state in try control.
+>>>
+>>> Here, since we seem to disagree on the behaviour try should have for
+>>> this specific validation. What you asked on first pass is to make it so
+>>> that TRY will succeed, and SET will fail. I don't really like that
+>>> suggestion.
+>>>
+>>> Nicolas
+>>>
+>>>>>
+>>>>> Nicolas
+>>>>>
+>>>>>>
+>>>>>> Regards,
+>>>>>>
+>>>>>> 	Hans
+>>>>>>
+>>>>>>> +
+>>>>>>> +	ctx->image_fmt = image_fmt;
+>>>>>>> +	if (!rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, ctx->image_fmt))
+>>>>>>> +		rkvdec_reset_decoded_fmt(ctx);
+>>>>>>>  
+>>>>>>>  	return 0;
+>>>>>>>  }
+>>>>>>>  
+>>>>>>>  static const struct v4l2_ctrl_ops rkvdec_ctrl_ops = {
+>>>>>>>  	.try_ctrl = rkvdec_try_ctrl,
+>>>>>>> +	.s_ctrl = rkvdec_s_ctrl,
+>>>>>>>  };
+>>>>>>>  
+>>>>>>>  static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
+>>>>>>> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
+>>>>>>> index 6f8cf50c5d99aad2f52e321f54f3ca17166ddf98..e466a2753ccfc13738e0a672bc578e521af2c3f2 100644
+>>>>>>> --- a/drivers/staging/media/rkvdec/rkvdec.h
+>>>>>>> +++ b/drivers/staging/media/rkvdec/rkvdec.h
+>>>>>>> @@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
+>>>>>>>  		     struct vb2_v4l2_buffer *dst_buf,
+>>>>>>>  		     enum vb2_buffer_state result);
+>>>>>>>  	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
+>>>>>>> +	enum rkvdec_image_fmt (*get_image_fmt)(struct rkvdec_ctx *ctx,
+>>>>>>> +					       struct v4l2_ctrl *ctrl);
+>>>>>>>  };
+>>>>>>>  
+>>>>>>>  enum rkvdec_image_fmt {
+>>>>>>>
+>>>>>
+>>>
+> 
 
-Konrad is this an RB from you, do you have any other concerns with this 
-code ?
-
-Dikshita, Vikash ?
-
-I'll give it a test myself ASAP but any other comments or R/B would be 
-helpful.
-
----
-bod
 
