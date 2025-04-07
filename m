@@ -1,141 +1,164 @@
-Return-Path: <linux-media+bounces-29523-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29524-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85986A7E0AB
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 16:12:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33E90A7E0D4
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 16:17:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D76781889128
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 14:05:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 725D216B9E7
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 14:14:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F3C81CAA82;
-	Mon,  7 Apr 2025 14:03:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE0CA1CAA97;
+	Mon,  7 Apr 2025 14:14:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="XbK+zNlm"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Z+36GkS7"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E19B1B87CE;
-	Mon,  7 Apr 2025 14:03:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFDAA1D4356
+	for <linux-media@vger.kernel.org>; Mon,  7 Apr 2025 14:13:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744034619; cv=none; b=YhiusNlpa9lruvkylJeCH8j6rtlTHk6kNQ/tpTbkl+Lzu5b5BvqPIu/4kKBmZrp2n9EPVWF7nwC5glWzOuNHGE8iIc5x4CjjQ4AJ9IYUdp+LJ/urWhJFiQBNip0msw255o0YyP5cee/Zeufzr1rvMQhp4F177REfME8CAvqJ6H0=
+	t=1744035240; cv=none; b=OdShBI+F6J6EPNsOxfLZWCbr47Nc5J2HGhiJ1Y4ExyliyhpKmaIU+eeLEplfGsO4gatXWs3+jLH9u1fGI87W2i5likQt4JuMtI7r3VFoNpbN41+J8Nh4DAXUD6yjk0JxBrIxuAdSgafgVqfqoXPgt0NALffDKgrRl/UUvwLExTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744034619; c=relaxed/simple;
-	bh=LwpFHqtTF6aiM+1soPf8ma0ZkEP2mzQ1iN1O5ga09M4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SoKZAzSxpyXi6K/mK1ClctWGRkxEJcYn0Lqp7jtgzQMTwguD5SX9iY+eWbww8DK8bd4HZYDGeb2MemFW82XKTccC9Qwz5T0qdTBesy5+PUOROJtP2p2BaQnXuFL4cphnyPdsq9g8QvgUBHxgU5RiWlknRUe3Jdxg3tk2RDiMFGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=XbK+zNlm; arc=none smtp.client-ip=148.251.105.195
+	s=arc-20240116; t=1744035240; c=relaxed/simple;
+	bh=rJWW+hRErOu0q7smwoCDx5wqQQ9FudwS36deRvjLlqI=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ddUdlhK6HnEm9uWoj8NtpTL0P2Im6gNdMNf7E3rFQHXVFJHk+8FEk/ft+LhXreZsVhlh1Nd5quf2ylLMTaNTYkvyq0X6/fQH7nz/tLB2tjwAcxnuPtHzPUjRYcwWuwIvLAVAo6xVf7hMvj9mfvM8U8GwpqCo6MN5ZM1xKzivPj8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Z+36GkS7; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1744034614;
-	bh=LwpFHqtTF6aiM+1soPf8ma0ZkEP2mzQ1iN1O5ga09M4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XbK+zNlmEYMyXgy9EE+nYDPMS6CNvfQvS4m8Ns622tsZ+iUYZZUmQVKBc+XlC+Ex0
-	 LaVUBaVnuHyN4MmHQRM5lw75L9OtxOhDCkjuYODTe+qjTI/m5+AMTxT0Gka7jc0QE8
-	 IifRhyjZZYK5QvnI+mMIhrnYhTnAo9KP5sABY5mQ6fcU6WPvsT9xj3IKWxPUaa7KsX
-	 WNf9C7FVgUYYMwv/V1hMAOJBiisS+blTU874Zclxv4aFp9RB6gJyAyCkEp32WSgf2b
-	 YGO6OexvWQ9aiFyaesw8sjta8FGk9hz0lRUCH2EruQhXMFQ6T/BIolXXN9TstLXeHQ
-	 P+ItjRt/WHB3Q==
-Received: from notapiano (unknown [70.107.117.78])
+	s=mail; t=1744035236;
+	bh=rJWW+hRErOu0q7smwoCDx5wqQQ9FudwS36deRvjLlqI=;
+	h=Subject:From:To:Date:In-Reply-To:References:From;
+	b=Z+36GkS7H+tx6GV1A3rkvbuOuQV8B/giYurIE/POQxSA5DFmmduaNymEUOHz6toRi
+	 AgK0XiSwwAm5mwKnYF5wjUtWXyi6Btg/J6L0JwbQGKBWrlDffcLN6qEddKrRfS4ELu
+	 Sd3l/hoNYV3Lyo0eQBFmaILDJLGngnn7NWqjJnUq8+Z1W+TK78SbgRG5KTbBhqjNNd
+	 YU2EiZVYMmeEo7wjmgtS3N5qlA3tYM49tXaeRn+vJhEKYSuyZ7W+CsMaImMNMEHuSw
+	 AoPQwvWMNqvSFoQP7Z8k6LfQXwSNXTAM8iD93J66aluRjclwQrNdy+0HeSAivJzbmN
+	 PNIl/zt+XFhvg==
+Received: from [IPv6:2606:6d00:11:e976::c41] (unknown [IPv6:2606:6d00:11:e976::c41])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: nfraprado)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id D60C917E02BE;
-	Mon,  7 Apr 2025 16:03:28 +0200 (CEST)
-Date: Mon, 7 Apr 2025 10:03:26 -0400
-From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: James.Bottomley@hansenpartnership.com, akpm@linux-foundation.org,
-	anton.ivanov@cambridgegreys.com, corbet@lwn.net,
-	davem@davemloft.net, dmaengine@vger.kernel.org, ebiggers@kernel.org,
-	edumazet@google.com, horms@kernel.org, jaegeuk@kernel.org,
-	jarkko@kernel.org, jic23@kernel.org, johannes@sipsolutions.net,
-	kernel@collabora.com, keyrings@vger.kernel.org, kuba@kernel.org,
-	lars@metafoo.de, linux-doc@vger.kernel.org,
-	linux-fscrypt@vger.kernel.org, linux-iio@vger.kernel.org,
-	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-mm@kvack.org,
-	linux-sound@vger.kernel.org, linux-um@lists.infradead.org,
-	maxime.chevallier@bootlin.com, mchehab@kernel.org,
-	netdev@vger.kernel.org, pabeni@redhat.com, perex@perex.cz,
-	richard@nod.at, tiwai@suse.com, tytso@mit.edu, vkoul@kernel.org,
-	workflows@vger.kernel.org, zohar@linux.ibm.com
-Subject: Re: [PATCH] docs: Remove literal markup from Documentation/ paths
-Message-ID: <9bc7b77b-73a7-4d6d-9187-ac452f8cad23@notapiano>
-References: <20250404-doc-paths-unliteral-v1-1-74718785444e@collabora.com>
- <811c4103-08b1-4288-9a15-bd9795bc59f4@gmail.com>
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id B4EDF17E0EC0;
+	Mon,  7 Apr 2025 16:13:55 +0200 (CEST)
+Message-ID: <f695086274d6207b7cfe7735b51cddb57aa52a74.camel@collabora.com>
+Subject: Re: GIT PULL FOR 6.16] Enable 10bit and YCbCr 422 in RKVDEC H.264
+ decoder
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+Date: Mon, 07 Apr 2025 10:13:54 -0400
+In-Reply-To: <7e4add79-dca2-42ec-a221-df089f6472e6@xs4all.nl>
+References: <fc348bb52d60acaaa15d3221aaba8217d67d349c.camel@collabora.com>
+	 <1b7c3c7a-69b6-4a40-9345-f52e18d07b18@xs4all.nl>
+	 <7e4add79-dca2-42ec-a221-df089f6472e6@xs4all.nl>
+Organization: Collabora Canada
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <811c4103-08b1-4288-9a15-bd9795bc59f4@gmail.com>
 
-On Sat, Apr 05, 2025 at 10:17:16AM +0900, Akira Yokosawa wrote:
-> Hi,
-> 
-> N�colas F. R. A. Prado wrote:
-> > Given that the automarkup Sphinx plugin cross-references
-> > "Documentation/*.rst" strings in the text to the corresponding
-> > documents, surrounding those strings with the literal markup (``) not
-> > only adds unnecessary markup in the source files, but actually prevents
-> > the automatic cross-referencing to happen (as it doesn't happen in
-> > literal blocks).
+Le lundi 07 avril 2025 à 13:13 +0200, Hans Verkuil a écrit :
+> On 07/04/2025 13:11, Hans Verkuil wrote:
+> > On 01/04/2025 22:09, Nicolas Dufresne wrote:
+> > > Hey Hans & Mauro,
+> > > 
+> > > The following changes since commit f2151613e040973c868d28c8b00885dfab69eb75:
+> > > 
+> > >   media: pci: mgb4: include linux/errno.h (2025-03-07 12:05:42 +0100)
+> > > 
+> > > are available in the Git repository at:
+> > > 
+> > >   https://gitlab.freedesktop.org/linux-media/users/ndufresne.git tags/for-6.16-rkvdec-h264-high10-and-422
+> > > 
+> > > for you to fetch changes up to 619d9391efd5ed93f805734279034fa34f537347:
+> > > 
+> > >   media: rkvdec: Fix frame size enumeration (2025-04-01 15:25:07 -0400)
+> > > 
+> > > ----------------------------------------------------------------
+> > > Enable 10bit and YCbCr 422 in RKVDEC H.264 decoder
+> > > 
+> > > ----------------------------------------------------------------
+> > > Alex Bee (1):
+> > >       media: rkvdec: h264: Don't hardcode SPS/PPS parameters
+> > > 
+> > > Jonas Karlman (10):
+> > >       media: v4l2-common: Add helpers to calculate bytesperline and sizeimage
+> > >       media: v4l2: Add NV15 and NV20 pixel formats
+> > >       media: rkvdec: h264: Use bytesperline and buffer height as virstride
+> > >       media: rkvdec: Extract rkvdec_fill_decoded_pixfmt into helper
+> > >       media: rkvdec: Move rkvdec_reset_decoded_fmt helper
+> > >       media: rkvdec: Extract decoded format enumeration into helper
+> > >       media: rkvdec: Add image format concept
+> > >       media: rkvdec: Add get_image_fmt ops
 > > 
-> > Remove all the occurrences of the literal markup in
-> > "Documentation/*.rst" paths, except when the actual source file is being
-> > referred. Also change the surrounding text when needed so it reads well
-> > both in the source and the web page (eg. 'see file Doc...' -> 'see
-> > Doc...').
+> > So this patch needs more work.
 > > 
-> > Signed-off-by: N�colas F. R. A. Prado <nfraprado@collabora.com>
-> > ---
-[..]
-> >  
-> >  2) All new ``Kconfig`` options have help text.
-> >  
-> > @@ -47,7 +48,7 @@ Provide documentation
-> >  2) All new ``/proc`` entries are documented under ``Documentation/``
-> >  
-> >  3) All new kernel boot parameters are documented in
-> > -   ``Documentation/admin-guide/kernel-parameters.rst``.
-> > +   Documentation/admin-guide/kernel-parameters.rst.
+> > >       media: rkvdec: h264: Support High 10 and 4:2:2 profiles
+> > 
+> > and this depends on the previous patch.
+> > 
+> > >       media: rkvdec: Fix frame size enumeration
+> > > 
+> > > Sebastian Fricke (1):
+> > >       media: rkvdec: h264: Limit minimum profile to constrained baseline
 > 
-> Hmm, this item is asking "Have you documented the new params in that
-> particular file?", so I don't think this change should be made.
+> Ah, this also depends on the change. I'll have to skip this one too.
 
-Right, that makes sense. I'll drop this and the below change for v2.
-
-Thanks,
-N�colas
+Just let me know if you can't fix the merge conflict, it has no
+"semantic" dependency though, and is minor change that can be re-added
+later in any case.
 
 > 
-> >  
-> >  4) All new module parameters are documented with ``MODULE_PARM_DESC()``
-> >  
-> > @@ -58,7 +59,7 @@ Provide documentation
-> >     linux-api@vger.kernel.org.
-> >  
-> >  6) If any ioctl's are added by the patch, then also update
-> > -   ``Documentation/userspace-api/ioctl/ioctl-number.rst``.
-> > +   Documentation/userspace-api/ioctl/ioctl-number.rst.
+> Regards,
 > 
-> Ditto.
+> 	Hans
 > 
->         Thanks, Akira
-> 
-> >  
-> >  Check your code with tools
-> >  ==========================
-> 
+> > 
+> > I can take all other patches except those two. Would that work for you, Nicolas?
+
+Please have a look at my reply on the patch review. Though, yes, it
+would be helpful to take some of it, just let me know what applied
+cleanly, I'll make sure the rest is picked later. The NV15 format, will
+allow some Hantro change to happen, and will reduce the on-going
+rkvdec2 work (1).
+
+Nicolas
+
+(1) RKVDEC2 might endup being merged back into rkvdec since it
+duplicates quite a lot, if we do that, we'll unstage rkvdec first, so
+you'll have a chance to check for more things you don't like.
+
+> > 
+> > Regards,
+> > 
+> > 	Hans
+> > 
+> > > 
+> > >  Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst | 128 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+> > >  drivers/media/v4l2-core/v4l2-common.c                       |  80 +++++++++++++++++++++++++++++++++++++-----------------------------------
+> > >  drivers/media/v4l2-core/v4l2-ioctl.c                        |   2 ++
+> > >  drivers/staging/media/rkvdec/rkvdec-h264.c                  |  64 ++++++++++++++++++++++++++++++++++++++--------------------
+> > >  drivers/staging/media/rkvdec/rkvdec.c                       | 239 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------------------------------------------------------
+> > >  drivers/staging/media/rkvdec/rkvdec.h                       |  18 ++++++++++++++++-
+> > >  include/uapi/linux/videodev2.h                              |   2 ++
+> > >  7 files changed, 410 insertions(+), 123 deletions(-)
+> > > 
+> > 
+> > 
+
+-- 
+Nicolas Dufresne
+Principal Engineer at Collabora
 
