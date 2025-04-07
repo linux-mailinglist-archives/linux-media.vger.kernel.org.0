@@ -1,164 +1,283 @@
-Return-Path: <linux-media+bounces-29524-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29525-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33E90A7E0D4
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 16:17:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18E7DA7E17C
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 16:28:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 725D216B9E7
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 14:14:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D04993A7EC7
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 14:17:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE0CA1CAA97;
-	Mon,  7 Apr 2025 14:14:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Z+36GkS7"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4B4F1DE2A1;
+	Mon,  7 Apr 2025 14:17:17 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFDAA1D4356
-	for <linux-media@vger.kernel.org>; Mon,  7 Apr 2025 14:13:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 748891D63ED;
+	Mon,  7 Apr 2025 14:17:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744035240; cv=none; b=OdShBI+F6J6EPNsOxfLZWCbr47Nc5J2HGhiJ1Y4ExyliyhpKmaIU+eeLEplfGsO4gatXWs3+jLH9u1fGI87W2i5likQt4JuMtI7r3VFoNpbN41+J8Nh4DAXUD6yjk0JxBrIxuAdSgafgVqfqoXPgt0NALffDKgrRl/UUvwLExTU=
+	t=1744035437; cv=none; b=Wy9jFB7Kwp8Dv9ktQZmwy+w+PptK0za8oybKtankR6N38QWPUDYAlhLPYPyUm7l9cAJPVtbb0FTcSUvaSvQQTEVvsExSi67Z5MXg+SJeiSccEDUgQMOqxcql3rfuCt4GeeFeKZABvhy8DLkZqx3Jpmv9Cazsn+abqdL31egsPag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744035240; c=relaxed/simple;
-	bh=rJWW+hRErOu0q7smwoCDx5wqQQ9FudwS36deRvjLlqI=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ddUdlhK6HnEm9uWoj8NtpTL0P2Im6gNdMNf7E3rFQHXVFJHk+8FEk/ft+LhXreZsVhlh1Nd5quf2ylLMTaNTYkvyq0X6/fQH7nz/tLB2tjwAcxnuPtHzPUjRYcwWuwIvLAVAo6xVf7hMvj9mfvM8U8GwpqCo6MN5ZM1xKzivPj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Z+36GkS7; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1744035236;
-	bh=rJWW+hRErOu0q7smwoCDx5wqQQ9FudwS36deRvjLlqI=;
-	h=Subject:From:To:Date:In-Reply-To:References:From;
-	b=Z+36GkS7H+tx6GV1A3rkvbuOuQV8B/giYurIE/POQxSA5DFmmduaNymEUOHz6toRi
-	 AgK0XiSwwAm5mwKnYF5wjUtWXyi6Btg/J6L0JwbQGKBWrlDffcLN6qEddKrRfS4ELu
-	 Sd3l/hoNYV3Lyo0eQBFmaILDJLGngnn7NWqjJnUq8+Z1W+TK78SbgRG5KTbBhqjNNd
-	 YU2EiZVYMmeEo7wjmgtS3N5qlA3tYM49tXaeRn+vJhEKYSuyZ7W+CsMaImMNMEHuSw
-	 AoPQwvWMNqvSFoQP7Z8k6LfQXwSNXTAM8iD93J66aluRjclwQrNdy+0HeSAivJzbmN
-	 PNIl/zt+XFhvg==
-Received: from [IPv6:2606:6d00:11:e976::c41] (unknown [IPv6:2606:6d00:11:e976::c41])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id B4EDF17E0EC0;
-	Mon,  7 Apr 2025 16:13:55 +0200 (CEST)
-Message-ID: <f695086274d6207b7cfe7735b51cddb57aa52a74.camel@collabora.com>
-Subject: Re: GIT PULL FOR 6.16] Enable 10bit and YCbCr 422 in RKVDEC H.264
- decoder
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
-Date: Mon, 07 Apr 2025 10:13:54 -0400
-In-Reply-To: <7e4add79-dca2-42ec-a221-df089f6472e6@xs4all.nl>
-References: <fc348bb52d60acaaa15d3221aaba8217d67d349c.camel@collabora.com>
-	 <1b7c3c7a-69b6-4a40-9345-f52e18d07b18@xs4all.nl>
-	 <7e4add79-dca2-42ec-a221-df089f6472e6@xs4all.nl>
-Organization: Collabora Canada
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
+	s=arc-20240116; t=1744035437; c=relaxed/simple;
+	bh=H/gvqRE307W2jl0cRfIC5mFG7KFrRSzuf+uZPp/oHzg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dJp6kbZG10qtcCZeiBFL/Jvx5G03xiKqMp1xXkYp1hvkCLCFk6WiffFS6qXwdAkv9pt/7D+NkVr+ExH0CCGWgX6EV+kVXFZa3jn9/sFmzgJKmvCTuzhXssgdcVUHYEIw7grIe7jPeUdfxma1LbUwrkSDOLG6dxfSUBS09vXhx8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2259C4CEE9;
+	Mon,  7 Apr 2025 14:17:13 +0000 (UTC)
+Message-ID: <47c0011f-693d-4c94-8a1b-f0174f3d5b89@xs4all.nl>
+Date: Mon, 7 Apr 2025 16:17:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 09/12] media: rkvdec: Add get_image_fmt ops
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Alex Bee <knaerzche@gmail.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Detlev Casanova <detlev.casanova@collabora.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Christopher Obbard <christopher.obbard@linaro.org>
+References: <20250225-rkvdec_h264_high10_and_422_support-v7-0-7992a68a4910@collabora.com>
+ <20250225-rkvdec_h264_high10_and_422_support-v7-9-7992a68a4910@collabora.com>
+ <e6b99109-bd35-46ff-a4e2-eb69b549dcbc@xs4all.nl>
+ <77bdada5dce991842e377759c8e173ada115694f.camel@collabora.com>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <77bdada5dce991842e377759c8e173ada115694f.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Le lundi 07 avril 2025 à 13:13 +0200, Hans Verkuil a écrit :
-> On 07/04/2025 13:11, Hans Verkuil wrote:
-> > On 01/04/2025 22:09, Nicolas Dufresne wrote:
-> > > Hey Hans & Mauro,
-> > > 
-> > > The following changes since commit f2151613e040973c868d28c8b00885dfab69eb75:
-> > > 
-> > >   media: pci: mgb4: include linux/errno.h (2025-03-07 12:05:42 +0100)
-> > > 
-> > > are available in the Git repository at:
-> > > 
-> > >   https://gitlab.freedesktop.org/linux-media/users/ndufresne.git tags/for-6.16-rkvdec-h264-high10-and-422
-> > > 
-> > > for you to fetch changes up to 619d9391efd5ed93f805734279034fa34f537347:
-> > > 
-> > >   media: rkvdec: Fix frame size enumeration (2025-04-01 15:25:07 -0400)
-> > > 
-> > > ----------------------------------------------------------------
-> > > Enable 10bit and YCbCr 422 in RKVDEC H.264 decoder
-> > > 
-> > > ----------------------------------------------------------------
-> > > Alex Bee (1):
-> > >       media: rkvdec: h264: Don't hardcode SPS/PPS parameters
-> > > 
-> > > Jonas Karlman (10):
-> > >       media: v4l2-common: Add helpers to calculate bytesperline and sizeimage
-> > >       media: v4l2: Add NV15 and NV20 pixel formats
-> > >       media: rkvdec: h264: Use bytesperline and buffer height as virstride
-> > >       media: rkvdec: Extract rkvdec_fill_decoded_pixfmt into helper
-> > >       media: rkvdec: Move rkvdec_reset_decoded_fmt helper
-> > >       media: rkvdec: Extract decoded format enumeration into helper
-> > >       media: rkvdec: Add image format concept
-> > >       media: rkvdec: Add get_image_fmt ops
-> > 
-> > So this patch needs more work.
-> > 
-> > >       media: rkvdec: h264: Support High 10 and 4:2:2 profiles
-> > 
-> > and this depends on the previous patch.
-> > 
-> > >       media: rkvdec: Fix frame size enumeration
-> > > 
-> > > Sebastian Fricke (1):
-> > >       media: rkvdec: h264: Limit minimum profile to constrained baseline
+On 07/04/2025 15:52, Nicolas Dufresne wrote:
+> Le lundi 07 avril 2025 à 13:09 +0200, Hans Verkuil a écrit :
+>> On 25/02/2025 10:40, Sebastian Fricke wrote:
+>>> From: Jonas Karlman <jonas@kwiboo.se>
+>>>
+>>> Add support for a get_image_fmt() ops that returns the required image
+>>> format.
+>>>
+>>> The CAPTURE format is reset when the required image format changes and
+>>> the buffer queue is not busy.
+>>>
+>>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+>>> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>>> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>>> Tested-by: Christopher Obbard <chris.obbard@collabora.com>
+>>> ---
+>>>  drivers/staging/media/rkvdec/rkvdec.c | 49 +++++++++++++++++++++++++++++++++--
+>>>  drivers/staging/media/rkvdec/rkvdec.h |  2 ++
+>>>  2 files changed, 49 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+>>> index 70154948b4e32e2c439f259b0f1e1bbc8b52b063..5394079509305c619f1d0c1f542bfc409317c3b7 100644
+>>> --- a/drivers/staging/media/rkvdec/rkvdec.c
+>>> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+>>> @@ -111,15 +111,60 @@ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
+>>>  {
+>>>  	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
+>>>  	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
+>>> +	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
+>>> +	enum rkvdec_image_fmt image_fmt;
+>>> +	struct vb2_queue *vq;
+>>> +	int ret;
+>>> +
+>>> +	if (desc->ops->try_ctrl) {
+>>> +		ret = desc->ops->try_ctrl(ctx, ctrl);
+>>> +		if (ret)
+>>> +			return ret;
+>>> +	}
+>>> +
+>>> +	if (!desc->ops->get_image_fmt)
+>>> +		return 0;
+>>>  
+>>> -	if (desc->ops->try_ctrl)
+>>> -		return desc->ops->try_ctrl(ctx, ctrl);
+>>> +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
+>>> +	if (ctx->image_fmt == image_fmt)
+>>> +		return 0;
+>>> +
+>>> +	if (rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, image_fmt))
+>>> +		return 0;
+>>> +
+>>> +	/* format change not allowed when queue is busy */
+>>> +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+>>> +			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+>>> +	if (vb2_is_busy(vq))
+>>> +		return -EINVAL;
+
+Looking closer, this code is just wrong. It does these format change
+tests for any control, so if more controls are added in the future, then
+those will be checked the same way, which makes no sense.
+
+These tests belong to the actual control that you 'try'. In this case
+rkvdec_h264_validate_sps(). This function already checks the width and
+height, but it should also check the image format. It is all in the
+wrong place.
+
+>>
+>> This makes no sense to me. This just tries a control, and that should just
+>> work, regardless of vb2_is_busy(). It's a 'try', so you are not actually
+>> changing anything.
 > 
-> Ah, this also depends on the change. I'll have to skip this one too.
-
-Just let me know if you can't fix the merge conflict, it has no
-"semantic" dependency though, and is minor change that can be re-added
-later in any case.
-
+> See comment below, notice that this code is only reached if the control
+> introduce parameters that are not compatible with the current capture
+> queue fmt. The entire function uses "success" early exit, so the
+> further down you get in the function, the less likely your control is
+> valid.
 > 
-> Regards,
+>>
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
+>>> +{
+
+If there is a try_ctrl op specified, then the control framework
+will call that first before calling s_ctrl. So any validation that
+try_ctrl did does not need to be done again in s_ctrl.
+
+The same comment with try_ctrl is valid here as well: if there are
+image format checks that need to be done, then those need to be done
+per control and not as a generic check. If new controls are added in
+the future, then you don't want the same checks to apply to the new
+controls as well.
+
+Regards,
+
+	Hans
+
+>>> +	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
+>>> +	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
+>>> +	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
+>>> +	enum rkvdec_image_fmt image_fmt;
+>>> +
+>>> +	if (!desc->ops->get_image_fmt)
+>>> +		return 0;
+>>> +
+>>> +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
+>>> +	if (ctx->image_fmt == image_fmt)
+>>> +		return 0;
+>>
+>> If you really can't set a control when the queue is busy, then that should
+>> be tested here, not in try_ctrl. And then you return -EBUSY.
+>>
+>> Am I missing something here?
 > 
-> 	Hans
+> When I reviewed, I had imagine that s_ctrl on a request would just run
+> a try. Now that I read that more careful, I see that it does a true set
+> on separate copy. So yes, this can safely be moved here.
 > 
-> > 
-> > I can take all other patches except those two. Would that work for you, Nicolas?
+> Since you seem wondering "If you really can't set a control", let me
+> explain what Jonas wants to protect against. RKVdec does not have any
+> color conversion code, the header compound control (which header
+> depends on the codec), contains details such as sub-sampling and color
+> depth. Without color conversion, when the image format is locked (the
+> busy queue), you can't request the HW to decode a frame witch does not
+> fit. This could otherwise lead to buffer overflow in the HW,
+> fortunately protected by the iommu, but you don't really want to depend
+> on the mmu.
+> 
+> I've never used try_ctrl in my decade of v4l2, so obviously, now that I
+> know that s_ctrl on request is not a try, I'm fine with rejecting this
+> PR, sending a new version and making a PR again. But if I was to use
+> this API in userspace, my intuitive expectation would be that this
+> should fail try(), even if its very rarely valid to check the queue
+> state in try control.
+> 
+> Nicolas
+> 
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+>>> +
+>>> +	ctx->image_fmt = image_fmt;
+>>> +	if (!rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, ctx->image_fmt))
+>>> +		rkvdec_reset_decoded_fmt(ctx);
+>>>  
+>>>  	return 0;
+>>>  }
+>>>  
+>>>  static const struct v4l2_ctrl_ops rkvdec_ctrl_ops = {
+>>>  	.try_ctrl = rkvdec_try_ctrl,
+>>> +	.s_ctrl = rkvdec_s_ctrl,
+>>>  };
+>>>  
+>>>  static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
+>>> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
+>>> index 6f8cf50c5d99aad2f52e321f54f3ca17166ddf98..e466a2753ccfc13738e0a672bc578e521af2c3f2 100644
+>>> --- a/drivers/staging/media/rkvdec/rkvdec.h
+>>> +++ b/drivers/staging/media/rkvdec/rkvdec.h
+>>> @@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
+>>>  		     struct vb2_v4l2_buffer *dst_buf,
+>>>  		     enum vb2_buffer_state result);
+>>>  	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
+>>> +	enum rkvdec_image_fmt (*get_image_fmt)(struct rkvdec_ctx *ctx,
+>>> +					       struct v4l2_ctrl *ctrl);
+>>>  };
+>>>  
+>>>  enum rkvdec_image_fmt {
+>>>
+> 
 
-Please have a look at my reply on the patch review. Though, yes, it
-would be helpful to take some of it, just let me know what applied
-cleanly, I'll make sure the rest is picked later. The NV15 format, will
-allow some Hantro change to happen, and will reduce the on-going
-rkvdec2 work (1).
-
-Nicolas
-
-(1) RKVDEC2 might endup being merged back into rkvdec since it
-duplicates quite a lot, if we do that, we'll unstage rkvdec first, so
-you'll have a chance to check for more things you don't like.
-
-> > 
-> > Regards,
-> > 
-> > 	Hans
-> > 
-> > > 
-> > >  Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst | 128 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-> > >  drivers/media/v4l2-core/v4l2-common.c                       |  80 +++++++++++++++++++++++++++++++++++++-----------------------------------
-> > >  drivers/media/v4l2-core/v4l2-ioctl.c                        |   2 ++
-> > >  drivers/staging/media/rkvdec/rkvdec-h264.c                  |  64 ++++++++++++++++++++++++++++++++++++++--------------------
-> > >  drivers/staging/media/rkvdec/rkvdec.c                       | 239 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------------------------------------------------------
-> > >  drivers/staging/media/rkvdec/rkvdec.h                       |  18 ++++++++++++++++-
-> > >  include/uapi/linux/videodev2.h                              |   2 ++
-> > >  7 files changed, 410 insertions(+), 123 deletions(-)
-> > > 
-> > 
-> > 
-
--- 
-Nicolas Dufresne
-Principal Engineer at Collabora
 
