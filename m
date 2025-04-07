@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-29495-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29496-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FE4FA7DC03
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 13:16:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77F9BA7DC28
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 13:23:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A77143B45A7
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 11:14:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B73D3171C18
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 11:23:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4918723BD02;
-	Mon,  7 Apr 2025 11:13:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE34023AE64;
+	Mon,  7 Apr 2025 11:23:36 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E547023C8B9
-	for <linux-media@vger.kernel.org>; Mon,  7 Apr 2025 11:13:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5138320E6FB;
+	Mon,  7 Apr 2025 11:23:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744024428; cv=none; b=VTGrcEkowomF5sV6xAuhrTNUgAb09N00x212MiqCLtbkBo9yU41yiTV/oKB+Ayl+EiAxS3gJcP91X4fIJLPQ4nUsUwgUefheJ2XDu5T2SAoyahqxtNGfZ1v4hMBVIExrjoc1FnE8wj3MVPBLtWRwZ67O8AzoAR7wezcz2QQ1YUA=
+	t=1744025016; cv=none; b=Q0AStD5lLmffXyVbL5eEJdInGZKpgR21WsDS4NGSzl7+DrP8H9BFRNrnUE+42wVgGWmPMBW6pCDb7qhmtHzQBxq8/5G2lWHexV7TEN/y4CO3Y7AFNJ/VTfkw0I87HWLSXCNtdAkpNLAqsEjyYb0jMxD8OYg2hnpbphggma+ElJw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744024428; c=relaxed/simple;
-	bh=Yn/j9OoGDhhYZwQumq0UWKmW3C8ZXJPNhEEhT2MRtOs=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
-	 In-Reply-To:Content-Type; b=SRmLc+YE783QshlMaJwq1dFYhn9vWZ/1lguwEzNjhMfEQLQV8vVLO1/JxOgbcYpDqbZGKc3xZyZx8T8WMG7rCXv5r7+n5SrRvR/rNiQVeG/FTPPMqAHZEgbmr8UQP4Opa22+fx6XmuBQ59GGoflKnt3YLp/VUdnXBE0eZwwE1JI=
+	s=arc-20240116; t=1744025016; c=relaxed/simple;
+	bh=fIZHsJ51DWzGtk520igDciQplBUlURiv01XJ1XOLsHY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=iglArFugw5FXvzILEamt7AcCnLb6Q1aMME1G20W5YWD3yngy6GGnm3IFTJfRz9D/+lAnPtsjDcPUENqvVd89X0gxaR3VDpWy1lkrCkWqBedLOmrrsxlqkMUAa1ehKlLmNZQti4aFK/gi32sY4YlDB4GYzY+q+0lIMjLFN5hSSlQ=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02554C4CEDD;
-	Mon,  7 Apr 2025 11:13:47 +0000 (UTC)
-Message-ID: <7e4add79-dca2-42ec-a221-df089f6472e6@xs4all.nl>
-Date: Mon, 7 Apr 2025 13:13:46 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D1648C4CEDD;
+	Mon,  7 Apr 2025 11:23:33 +0000 (UTC)
+Message-ID: <1a973afd-0ac7-4ba6-8b00-818d1405ebac@xs4all.nl>
+Date: Mon, 7 Apr 2025 13:23:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,14 +38,15 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: GIT PULL FOR 6.16] Enable 10bit and YCbCr 422 in RKVDEC H.264
- decoder
-From: Hans Verkuil <hverkuil@xs4all.nl>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- linux-media@vger.kernel.org
-References: <fc348bb52d60acaaa15d3221aaba8217d67d349c.camel@collabora.com>
- <1b7c3c7a-69b6-4a40-9345-f52e18d07b18@xs4all.nl>
+Subject: Re: [PATCH v4] staging: media: Remove unnecessary braces for single
+ statement block
+To: Gabriel Shahrouzi <gshahrouzi@gmail.com>, linux-media@vger.kernel.org
+Cc: linux-staging@lists.linux.dev, slongerbeam@gmail.com,
+ p.zabel@pengutronix.de, mchehab@kernel.org, gregkh@linuxfoundation.org,
+ skhan@linuxfoundation.org, kernelmentees@lists.linuxfoundation.org
+References: <20250402135851.13627-1-gshahrouzi@gmail.com>
 Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
  BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
@@ -89,78 +90,53 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <1b7c3c7a-69b6-4a40-9345-f52e18d07b18@xs4all.nl>
+In-Reply-To: <20250402135851.13627-1-gshahrouzi@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 07/04/2025 13:11, Hans Verkuil wrote:
-> On 01/04/2025 22:09, Nicolas Dufresne wrote:
->> Hey Hans & Mauro,
->>
->> The following changes since commit f2151613e040973c868d28c8b00885dfab69eb75:
->>
->>   media: pci: mgb4: include linux/errno.h (2025-03-07 12:05:42 +0100)
->>
->> are available in the Git repository at:
->>
->>   https://gitlab.freedesktop.org/linux-media/users/ndufresne.git tags/for-6.16-rkvdec-h264-high10-and-422
->>
->> for you to fetch changes up to 619d9391efd5ed93f805734279034fa34f537347:
->>
->>   media: rkvdec: Fix frame size enumeration (2025-04-01 15:25:07 -0400)
->>
->> ----------------------------------------------------------------
->> Enable 10bit and YCbCr 422 in RKVDEC H.264 decoder
->>
->> ----------------------------------------------------------------
->> Alex Bee (1):
->>       media: rkvdec: h264: Don't hardcode SPS/PPS parameters
->>
->> Jonas Karlman (10):
->>       media: v4l2-common: Add helpers to calculate bytesperline and sizeimage
->>       media: v4l2: Add NV15 and NV20 pixel formats
->>       media: rkvdec: h264: Use bytesperline and buffer height as virstride
->>       media: rkvdec: Extract rkvdec_fill_decoded_pixfmt into helper
->>       media: rkvdec: Move rkvdec_reset_decoded_fmt helper
->>       media: rkvdec: Extract decoded format enumeration into helper
->>       media: rkvdec: Add image format concept
->>       media: rkvdec: Add get_image_fmt ops
-> 
-> So this patch needs more work.
-> 
->>       media: rkvdec: h264: Support High 10 and 4:2:2 profiles
-> 
-> and this depends on the previous patch.
-> 
->>       media: rkvdec: Fix frame size enumeration
->>
->> Sebastian Fricke (1):
->>       media: rkvdec: h264: Limit minimum profile to constrained baseline
+On 02/04/2025 15:58, Gabriel Shahrouzi wrote:
+> Remove unnecessary braces in single statement block to comply with kernel
+> coding style.
 
-Ah, this also depends on the change. I'll have to skip this one too.
+Please add the driver in the subject line. So:
+
+[PATCH v4] staging: media: imx: Remove unnecessary braces for single statement block
+
+That way it is clear that this is a patch for a specific driver.
 
 Regards,
 
 	Hans
 
 > 
-> I can take all other patches except those two. Would that work for you, Nicolas?
+> Signed-off-by: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+> ---
 > 
-> Regards,
+> Changes in v2:
+> 	- Add missing author.
+> 	- Fix title of email.
+> Changes in v3:
+>         - Resend using git send-email to fix formatting issues in email body.
+> Changes in v4:
+> 	- Use correct patch version.
+> ---
+>  drivers/staging/media/imx/imx-media-of.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
 > 
-> 	Hans
-> 
->>
->>  Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst | 128 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
->>  drivers/media/v4l2-core/v4l2-common.c                       |  80 +++++++++++++++++++++++++++++++++++++-----------------------------------
->>  drivers/media/v4l2-core/v4l2-ioctl.c                        |   2 ++
->>  drivers/staging/media/rkvdec/rkvdec-h264.c                  |  64 ++++++++++++++++++++++++++++++++++++++--------------------
->>  drivers/staging/media/rkvdec/rkvdec.c                       | 239 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------------------------------------------------------
->>  drivers/staging/media/rkvdec/rkvdec.h                       |  18 ++++++++++++++++-
->>  include/uapi/linux/videodev2.h                              |   2 ++
->>  7 files changed, 410 insertions(+), 123 deletions(-)
->>
-> 
-> 
+> diff --git a/drivers/staging/media/imx/imx-media-of.c b/drivers/staging/media/imx/imx-media-of.c
+> index bb28daa4d713..7413551052ae 100644
+> --- a/drivers/staging/media/imx/imx-media-of.c
+> +++ b/drivers/staging/media/imx/imx-media-of.c
+> @@ -57,9 +57,8 @@ int imx_media_add_of_subdevs(struct imx_media_dev *imxmd,
+>  		of_node_put(csi_np);
+>  		if (ret) {
+>  			/* unavailable or already added is not an error */
+> -			if (ret == -ENODEV || ret == -EEXIST) {
+> +			if (ret == -ENODEV || ret == -EEXIST)
+>  				continue;
+> -			}
+>  
+>  			/* other error, can't continue */
+>  			return ret;
 
 
