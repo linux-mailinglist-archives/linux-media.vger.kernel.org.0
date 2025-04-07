@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-29493-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29494-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87996A7DBEA
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 13:09:21 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AE10A7DBED
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 13:11:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0B26C3A4E5B
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 11:09:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2357B16C242
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 11:11:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50B3823AE67;
-	Mon,  7 Apr 2025 11:09:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19F6323A9BA;
+	Mon,  7 Apr 2025 11:11:09 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E054517A2F2;
-	Mon,  7 Apr 2025 11:09:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B759017A2F2
+	for <linux-media@vger.kernel.org>; Mon,  7 Apr 2025 11:11:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744024153; cv=none; b=FrvdD+2ozBxP3dqgCN2bgzjSUukH8JoYiNcVVbbTyx3Oxv6JzXcbZHsIMxa7kiAcrm9+I+nGC9ydsz04005STWw1zy+1So/RU5E2faHScY6OSamFSN1NqOL2XJo6BpJO9PvivJzU7s8IzIP55jo/r/3xpoV6izVfmE3+pjAgzjI=
+	t=1744024268; cv=none; b=Ks5z2RA1A8AAA59pEU0rpfVdy2+uXSFG/AI4fDXgl1oaUgPDIfgWvfyPtnrLPW7rwpSfrt6wUQzgJyItXm9y3I+bjPrx8g2ZRrbrnMgUCuT7WKd+cvgcMSL3Xjx8nrXx7Dyv5eoyi5/RI21x8d9eXPurhxz3MdijDOTWftA2S8I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744024153; c=relaxed/simple;
-	bh=U4RlLwhEhicMrCVjeU/+RZJ4p7sSxEhU0FP9lBlGubI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=P96QtHysqd3tiFU1pnML+/mpiSKed9dDZazc35gN0FRZaz9LxmupJR5abEXB4eJO7DvvAF2Grm7Eq9uRBhLYYKrav+rf013TK0xE5JWK6gDkNuHWE0jaIdP6g5I3kdgYuQdmUoodufBiHmVrRBEqZEkSe8/7wyou2+PCpUGEpX8=
+	s=arc-20240116; t=1744024268; c=relaxed/simple;
+	bh=WgKUKTYlGlnQBqOBCgY7hVBa2ZHvgMkJcgXRNc+0lOw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=LiiNFGnnbN7+zM+yB208Ma2hxTIRcIqwtQPRDCpvbKXn5kUa3A7idMbU2d0DcQcRivNOFIUPvar8J+aIbL8V2jZ7E1jymSsswsX2nUDK9rBhqnFdQNWjkdJbjWliFeDXGolqKT2Z+ZWXj9h7um7rjBMjUCiA3Rluf8HQ7ZGvIws=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFEA1C4CEDD;
-	Mon,  7 Apr 2025 11:09:08 +0000 (UTC)
-Message-ID: <e6b99109-bd35-46ff-a4e2-eb69b549dcbc@xs4all.nl>
-Date: Mon, 7 Apr 2025 13:09:07 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A30DBC4CEDD;
+	Mon,  7 Apr 2025 11:11:07 +0000 (UTC)
+Message-ID: <1b7c3c7a-69b6-4a40-9345-f52e18d07b18@xs4all.nl>
+Date: Mon, 7 Apr 2025 13:11:06 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,23 +38,11 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 09/12] media: rkvdec: Add get_image_fmt ops
-To: Sebastian Fricke <sebastian.fricke@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Boris Brezillon <boris.brezillon@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Alex Bee <knaerzche@gmail.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Dan Carpenter <dan.carpenter@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- Christopher Obbard <christopher.obbard@linaro.org>
-References: <20250225-rkvdec_h264_high10_and_422_support-v7-0-7992a68a4910@collabora.com>
- <20250225-rkvdec_h264_high10_and_422_support-v7-9-7992a68a4910@collabora.com>
+Subject: Re: GIT PULL FOR 6.16] Enable 10bit and YCbCr 422 in RKVDEC H.264
+ decoder
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ linux-media@vger.kernel.org
+References: <fc348bb52d60acaaa15d3221aaba8217d67d349c.camel@collabora.com>
 Content-Language: en-US, nl
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
@@ -100,123 +88,68 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
-In-Reply-To: <20250225-rkvdec_h264_high10_and_422_support-v7-9-7992a68a4910@collabora.com>
+In-Reply-To: <fc348bb52d60acaaa15d3221aaba8217d67d349c.camel@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 25/02/2025 10:40, Sebastian Fricke wrote:
-> From: Jonas Karlman <jonas@kwiboo.se>
+On 01/04/2025 22:09, Nicolas Dufresne wrote:
+> Hey Hans & Mauro,
 > 
-> Add support for a get_image_fmt() ops that returns the required image
-> format.
+> The following changes since commit f2151613e040973c868d28c8b00885dfab69eb75:
 > 
-> The CAPTURE format is reset when the required image format changes and
-> the buffer queue is not busy.
+>   media: pci: mgb4: include linux/errno.h (2025-03-07 12:05:42 +0100)
 > 
-> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Tested-by: Christopher Obbard <chris.obbard@collabora.com>
-> ---
->  drivers/staging/media/rkvdec/rkvdec.c | 49 +++++++++++++++++++++++++++++++++--
->  drivers/staging/media/rkvdec/rkvdec.h |  2 ++
->  2 files changed, 49 insertions(+), 2 deletions(-)
+> are available in the Git repository at:
 > 
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> index 70154948b4e32e2c439f259b0f1e1bbc8b52b063..5394079509305c619f1d0c1f542bfc409317c3b7 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.c
-> +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -111,15 +111,60 @@ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
->  {
->  	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
->  	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
-> +	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
-> +	enum rkvdec_image_fmt image_fmt;
-> +	struct vb2_queue *vq;
-> +	int ret;
-> +
-> +	if (desc->ops->try_ctrl) {
-> +		ret = desc->ops->try_ctrl(ctx, ctrl);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	if (!desc->ops->get_image_fmt)
-> +		return 0;
->  
-> -	if (desc->ops->try_ctrl)
-> -		return desc->ops->try_ctrl(ctx, ctrl);
-> +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
-> +	if (ctx->image_fmt == image_fmt)
-> +		return 0;
-> +
-> +	if (rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, image_fmt))
-> +		return 0;
-> +
-> +	/* format change not allowed when queue is busy */
-> +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-> +			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
-> +	if (vb2_is_busy(vq))
-> +		return -EINVAL;
+>   https://gitlab.freedesktop.org/linux-media/users/ndufresne.git tags/for-6.16-rkvdec-h264-high10-and-422
+> 
+> for you to fetch changes up to 619d9391efd5ed93f805734279034fa34f537347:
+> 
+>   media: rkvdec: Fix frame size enumeration (2025-04-01 15:25:07 -0400)
+> 
+> ----------------------------------------------------------------
+> Enable 10bit and YCbCr 422 in RKVDEC H.264 decoder
+> 
+> ----------------------------------------------------------------
+> Alex Bee (1):
+>       media: rkvdec: h264: Don't hardcode SPS/PPS parameters
+> 
+> Jonas Karlman (10):
+>       media: v4l2-common: Add helpers to calculate bytesperline and sizeimage
+>       media: v4l2: Add NV15 and NV20 pixel formats
+>       media: rkvdec: h264: Use bytesperline and buffer height as virstride
+>       media: rkvdec: Extract rkvdec_fill_decoded_pixfmt into helper
+>       media: rkvdec: Move rkvdec_reset_decoded_fmt helper
+>       media: rkvdec: Extract decoded format enumeration into helper
+>       media: rkvdec: Add image format concept
+>       media: rkvdec: Add get_image_fmt ops
 
-This makes no sense to me. This just tries a control, and that should just
-work, regardless of vb2_is_busy(). It's a 'try', so you are not actually
-changing anything.
+So this patch needs more work.
 
-> +
-> +	return 0;
-> +}
-> +
-> +static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
-> +	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
-> +	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
-> +	enum rkvdec_image_fmt image_fmt;
-> +
-> +	if (!desc->ops->get_image_fmt)
-> +		return 0;
-> +
-> +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
-> +	if (ctx->image_fmt == image_fmt)
-> +		return 0;
+>       media: rkvdec: h264: Support High 10 and 4:2:2 profiles
 
-If you really can't set a control when the queue is busy, then that should
-be tested here, not in try_ctrl. And then you return -EBUSY.
+and this depends on the previous patch.
 
-Am I missing something here?
+>       media: rkvdec: Fix frame size enumeration
+> 
+> Sebastian Fricke (1):
+>       media: rkvdec: h264: Limit minimum profile to constrained baseline
+
+I can take all other patches except those two. Would that work for you, Nicolas?
 
 Regards,
 
 	Hans
 
-> +
-> +	ctx->image_fmt = image_fmt;
-> +	if (!rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, ctx->image_fmt))
-> +		rkvdec_reset_decoded_fmt(ctx);
->  
->  	return 0;
->  }
->  
->  static const struct v4l2_ctrl_ops rkvdec_ctrl_ops = {
->  	.try_ctrl = rkvdec_try_ctrl,
-> +	.s_ctrl = rkvdec_s_ctrl,
->  };
->  
->  static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
-> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
-> index 6f8cf50c5d99aad2f52e321f54f3ca17166ddf98..e466a2753ccfc13738e0a672bc578e521af2c3f2 100644
-> --- a/drivers/staging/media/rkvdec/rkvdec.h
-> +++ b/drivers/staging/media/rkvdec/rkvdec.h
-> @@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
->  		     struct vb2_v4l2_buffer *dst_buf,
->  		     enum vb2_buffer_state result);
->  	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
-> +	enum rkvdec_image_fmt (*get_image_fmt)(struct rkvdec_ctx *ctx,
-> +					       struct v4l2_ctrl *ctrl);
->  };
->  
->  enum rkvdec_image_fmt {
+> 
+>  Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst | 128 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-common.c                       |  80 +++++++++++++++++++++++++++++++++++++-----------------------------------
+>  drivers/media/v4l2-core/v4l2-ioctl.c                        |   2 ++
+>  drivers/staging/media/rkvdec/rkvdec-h264.c                  |  64 ++++++++++++++++++++++++++++++++++++++--------------------
+>  drivers/staging/media/rkvdec/rkvdec.c                       | 239 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-------------------------------------------------------
+>  drivers/staging/media/rkvdec/rkvdec.h                       |  18 ++++++++++++++++-
+>  include/uapi/linux/videodev2.h                              |   2 ++
+>  7 files changed, 410 insertions(+), 123 deletions(-)
 > 
 
 
