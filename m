@@ -1,36 +1,80 @@
-Return-Path: <linux-media+bounces-29484-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29485-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39E94A7DA56
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 11:55:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8C45A7DA82
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 11:59:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CFE0B3ADED0
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 09:54:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 43A1618895B3
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 09:59:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBE38234966;
-	Mon,  7 Apr 2025 09:54:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A9C922FF4C;
+	Mon,  7 Apr 2025 09:58:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="edUxBtwS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8559D230BCD;
-	Mon,  7 Apr 2025 09:54:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9CF1230242
+	for <linux-media@vger.kernel.org>; Mon,  7 Apr 2025 09:58:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744019649; cv=none; b=n9SZP3URSJwPol0BP/ezfAHpQiUh9umb798rsXJmItFMetf0GJviJy/UjcgqeD4KnJ8kXl1Yaii9L32CnHv8tNYB2xpBTSI20itYM2Map5UO/HTu3l+yPWulNMyTfCr8/MPN/qHG/peQIO/peHY6eGbq2qOdZTXYEv3eI4E1mUg=
+	t=1744019938; cv=none; b=BmqHv6MTPuUj0Hqs4Azf6uImWpV9RrvzWbNZCMDNmZ3F3alVDSfdrbi9/FaotEi4SCYSirIy1aZdDMrCZj1Z91TrIiFnSiejxeEehCw5sS9S/5qm15VQmHJ61AlAwWks0ET1AT+SxsdLI8XQPS/vydjxvYDhVyGx+dTJGiPM80Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744019649; c=relaxed/simple;
-	bh=XFvfvv7QetTQVtT65VitPXl9f9r55NGlzqiql5VK65o=;
+	s=arc-20240116; t=1744019938; c=relaxed/simple;
+	bh=v29T1FbGbcKeRMuW0VbePwisgAp9BsYkH9UNPlwsybg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c8xbr1nwSSsXLRhD0VM3wS1q8Ag+rXtDbTOpqLQ4bn4wwG/lBZcJ4E0GylSt1a5qbNf02rqYiNLK4hVR2RlzOSKo1EfcUPUO/6ObFqD9bI9aNk7NsPgg/fBxsFJps8Qno36PmM06k26ULfwagcAFkJlBsNGcmFhf0/ZZPOI46sY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4A5DC4CEDD;
-	Mon,  7 Apr 2025 09:54:05 +0000 (UTC)
-Message-ID: <3e5f003a-f689-4f5a-ac75-6bf95379637b@xs4all.nl>
-Date: Mon, 7 Apr 2025 11:54:04 +0200
+	 In-Reply-To:Content-Type; b=NrtkQObcXuzvZ0+uw8ThpUgaurErfJBdzxz9FkBkuomsLRnrYsViD/SLW6mP1gZ7+iFRMd4r5w6GL4TlEmTVVEgsouJr53Kmtznk9A8NpItIVeIfxUjPaBOz2zXNm7O7/kxEWbnCv+e3/3hxOa7hZjxQxeP1SLClbz+WlfDlV1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=edUxBtwS; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43cf848528aso34161195e9.2
+        for <linux-media@vger.kernel.org>; Mon, 07 Apr 2025 02:58:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744019934; x=1744624734; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vrZNuJsrn23JwdNkrVTHfCKc6rDwAMWYvk+A+tg7J78=;
+        b=edUxBtwSu7i/SE+y974xBKU7Qag3//f751DnkXuDgDX+m1K0oqJVGORzJp93HQLVSd
+         IkQAx24itg9gtodyNqslx3hs0cSoqnkYtLCXxMV5ve6KqQ2ox094C+LJetqVrSh8vaLz
+         n/7f/jeRAhulHHiCgZ+OE1n9lwWA5DDWZqzUJ8Q6il1y0HRXd0PTPisacW1CqwWt5JLy
+         0swNsLTyvDLxt3eIai/SDpSCxCVIb4cx47lmycvhC+1sxi8QcDzML7rA6+OmD4sdIfaa
+         xptKySFE6NhwX8TgbJvR2GLxbm1+TP9B1huK/uSqNsgQBWoEF6rqthIOFzHfeaovFWUg
+         c9vA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744019934; x=1744624734;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vrZNuJsrn23JwdNkrVTHfCKc6rDwAMWYvk+A+tg7J78=;
+        b=Pi6nSLbzF4AtWXCmDSBkQtzIpFpkW5L38XRIUktiCiympa1J7EiijL16WMyS3sIC8n
+         g0B4/AjQdHQTKFUB/J5iLBzZiSYGel7gIRjuL7xRXwsVA5gPT9UaFhZKUWiSObrU2x0c
+         skl3dKal7u7ucKrmFFWeWWTaUn8X9FwJt1X1zIeTOb8Fn/TuGAa7/h3QIK+9FUWr6Fxv
+         3l8Pmsh/jat6J6U2DCQ4CjFCs1srjOh1c6ZYux2C+Ey30wYh28WHiyGg4CBjCdqnL4uU
+         TiIsos+339A3+VsHSoMbLa9c7t1jSRelW8AgvfPx59VHiGInrD+uziI+NQ3AVQu0NQOT
+         bSZg==
+X-Forwarded-Encrypted: i=1; AJvYcCVq1PgOscbKAR6xtuWcbrDwS/Y7K6w8o8Fjxzscoy/sHXdb+GLVXsmzkjACsuXYtwep666RHF+Qz/E3Ag==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz1YU0sCNwwU+l/89ZVQ2sXG7EyrOQxq5S77qczdQKzNxAQnt5i
+	rU2cZBs7q55D0eL8/kQK/LPSXzRd8erQBxrWrBX+DoHMqJNkVcxAvkGx0LWT1qA=
+X-Gm-Gg: ASbGnctXqhDBsDeF4zHDzlJwbEYRl+IHBdxDopDdnHIXz3uAV1DUyXyYEVmpP8xUv3N
+	K/11yp+DsmystUD8f9z27Wer4EKpx6SjlT1FmM2WoLto6eO2eFbPL7DDJTEkfayk4PYKD6c/xm+
+	nvcLpjGgUFAZpgcE2XpyAUgznK/YFA0nYIU00WNjfZAeS6pzADOGpG3O7dIjvPioqGyOEZHs9+A
+	Hd9bb7L2W6s97dFoC1VFmRbTkbTl7OYPeJjV3yZg25r91OrTIcZAWrK7McnKAm8yQTn2yCsd3HW
+	ShS9x0N6Y7auNb6fGTdqqri+TFFYBklsFSPphq0UgUvpV3wOu4/j8j4Z8S1+202IJ5w5DLFsmqy
+	Qt7AXzHP/Yg==
+X-Google-Smtp-Source: AGHT+IFa6RmlxDVU+Z/fAcwEEKxjPn906JwxGNMAIQ21GqtzU5bzQldRFT4YWzFFJnbZpVCs+q7ukw==
+X-Received: by 2002:a05:600c:4754:b0:43c:eec7:eab7 with SMTP id 5b1f17b1804b1-43ee0640054mr78338955e9.11.1744019934216;
+        Mon, 07 Apr 2025 02:58:54 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c3020d938sm11679731f8f.65.2025.04.07.02.58.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 07 Apr 2025 02:58:53 -0700 (PDT)
+Message-ID: <778e2cd0-5371-424f-809d-20f7c3ae5343@linaro.org>
+Date: Mon, 7 Apr 2025 10:58:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,106 +82,168 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/4] media: v4l: dev-decoder: Add source change
- V4L2_EVENT_SRC_CH_COLORSPACE
-To: Ming Qian <ming.qian@oss.nxp.com>, mchehab@kernel.org
-Cc: nicolas@ndufresne.ca, shawnguo@kernel.org, robh+dt@kernel.org,
- s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
- linux-imx@nxp.com, xiahong.bao@nxp.com, eagle.zhou@nxp.com,
- tao.jiang_2@nxp.com, imx@lists.linux.dev, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-References: <20250117061938.3923516-1-ming.qian@oss.nxp.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20250117061938.3923516-1-ming.qian@oss.nxp.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: camss NULL-deref on power on with 6.12-rc2
+To: Johan Hovold <johan@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>
+Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <Zwjw6XfVWcufMlqM@hovoldconsulting.com>
+ <Z_OXELLDIfQII6wV@hovoldconsulting.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <Z_OXELLDIfQII6wV@hovoldconsulting.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 17/01/2025 07:19, Ming Qian wrote:
-> Add a new source change V4L2_EVENT_SRC_CH_COLORSPACE that
-> indicates colorspace change in the stream.
-> The change V4L2_EVENT_SRC_CH_RESOLUTION will always affect
-> the allocation, but V4L2_EVENT_SRC_CH_COLORSPACE won't.
+On 07/04/2025 10:12, Johan Hovold wrote:
+> On Fri, Oct 11, 2024 at 11:33:30AM +0200, Johan Hovold wrote:
 > 
-> Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
-> ---
->  Documentation/userspace-api/media/v4l/vidioc-dqevent.rst | 9 +++++++++
->  .../userspace-api/media/videodev2.h.rst.exceptions       | 1 +
->  include/uapi/linux/videodev2.h                           | 1 +
->  3 files changed, 11 insertions(+)
+>> This morning I hit the below NULL-deref in camss when booting a 6.12-rc2
+>> kernel on the Lenovo ThinkPad X13s.
+>>
+>> I booted the same kernel another 50 times without hitting it again it so
+>> it may not be a regression, but simply an older, hard to hit bug.
+>>
+>> Hopefully you can figure out what went wrong from just staring at the
+>> oops and code.
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
-> index 8db103760930..91e6b86c976d 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
-> @@ -369,6 +369,15 @@ call.
->  	loss of signal and so restarting streaming I/O is required in order for
->  	the hardware to synchronize to the video signal.
->  
-> +    * - ``V4L2_EVENT_SRC_CH_COLORSPACE``
-> +      - 0x0002
-> +      - This event gets triggered when a colorsapce change is detected at
+> Hit the NULL-pointer dereference during boot that I reported back in
+> October again today with 6.15-rc1.
+> 
+> The camss_find_sensor_pad() function was renamed in 6.15-rc1, but
+> otherwise it looks identical.
+> 
+> Johan
+> 
+> 
+> [    5.740833] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000030
+> [    5.741162] Mem abort info:
+> [    5.741435]   ESR = 0x0000000096000004
+> [    5.741707]   EC = 0x25: DABT (current EL), IL = 32 bits
+> [    5.741980]   SET = 0, FnV = 0
+> [    5.742249]   EA = 0, S1PTW = 0
+> [    5.742253]   FSC = 0x04: level 0 translation fault
+> [    5.742255] Data abort info:
+> [    5.742257]   ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
+> [    5.743264]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+> [    5.743267]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+> [    5.743269] user pgtable: 4k pages, 48-bit VAs, pgdp=000000010fb98000
+> [    5.743272] [0000000000000030] pgd=0000000000000000, p4d=0000000000000000
+> [    5.744064] Internal error: Oops: 0000000096000004 [#1]  SMP
+> 
+> [    5.744645] CPU: 3 UID: 0 PID: 442 Comm: v4l_id Not tainted 6.15.0-rc1 #106 PREEMPT
+> [    5.744647] Hardware name: LENOVO 21BYZ9SRUS/21BYZ9SRUS, BIOS N3HET87W (1.59 ) 12/05/2023
+> [    5.744649] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [    5.744651] pc : camss_find_sensor_pad+0x20/0x74 [qcom_camss]
+> [    5.744661] lr : camss_get_pixel_clock+0x18/0x64 [qcom_camss]
+> [    5.744666] sp : ffff800082dfb8e0
+> [    5.744667] x29: ffff800082dfb8e0 x28: ffff800082dfbc68 x27: ffff143e80404618
+> [    5.744671] x26: 0000000000000000 x25: 0000000000000000 x24: ffff143e9398baa8
+> [    5.744675] x23: ffff800082dfb998 x22: ffff143e9398d9a0 x21: ffff800082dfb9a8
+> [    5.744678] x20: 0000000000000002 x19: 0000000000020001 x18: 0000000000000020
+> [    5.744682] x17: 3030613563613a33 x16: ffffac4db3ccf814 x15: 706e65672f6b6e69
+> [    5.744686] x14: 0000000000000000 x13: ffff143e80b39180 x12: 30613563613a333a
+> [    5.744690] x11: ffffac4db50a8920 x10: 0000000000000000 x9 : 0000000000000000
+> [    5.744693] x8 : ffffac4db4992000 x7 : ffff800082dfb8e0 x6 : ffff800082dfb870
+> [    5.744697] x5 : ffff800082dfc000 x4 : ffff143e9398cc70 x3 : ffff143e9398cb40
+> [    5.744701] x2 : ffff143e9398be00 x1 : ffff143e9398d9a0 x0 : 0000000000000000
+> [    5.744704] Call trace:
+> [    5.744706]  camss_find_sensor_pad+0x20/0x74 [qcom_camss] (P)
+> [    5.744711]  camss_get_pixel_clock+0x18/0x64 [qcom_camss]
+> [    5.744716]  vfe_get+0xb8/0x504 [qcom_camss]
+> [    5.744724]  vfe_set_power+0x30/0x58 [qcom_camss]
+> [    5.744731]  pipeline_pm_power_one+0x13c/0x150 [videodev]
+> [    5.744745]  pipeline_pm_power.part.0+0x58/0xf4 [videodev]
+> [    5.744754]  v4l2_pipeline_pm_use+0x58/0x94 [videodev]
+> [    5.744762]  v4l2_pipeline_pm_get+0x14/0x20 [videodev]
+> [    5.744771]  video_open+0x78/0xf4 [qcom_camss]
+> [    5.744776]  v4l2_open+0x80/0x120 [videodev]
+> [    5.755711]  chrdev_open+0xb4/0x204
+> [    5.755716]  do_dentry_open+0x138/0x4d0
+> [    5.756271]  vfs_open+0x2c/0xe8
+> [    5.756274]  path_openat+0x2b8/0x9fc
+> [    5.756276]  do_filp_open+0x8c/0x144
+> [    5.756277]  do_sys_openat2+0x80/0xdc
+> [    5.756279]  __arm64_sys_openat+0x60/0xb0
+> [    5.757830]  invoke_syscall+0x48/0x110
+> [    5.757834]  el0_svc_common.constprop.0+0xc0/0xe0
+> [    5.758369]  do_el0_svc+0x1c/0x28
+> [    5.758372]  el0_svc+0x48/0x114
+> [    5.758889]  el0t_64_sync_handler+0xc8/0xcc
+> [    5.759184]  el0t_64_sync+0x198/0x19c
+> [    5.759475] Code: f9000bf3 52800033 72a00053 f9402420 (f9401801)
+>   
+>   
+>> [    5.657860] ov5675 24-0010: failed to get HW configuration: -517
+>> [    5.676183] vreg_l6q: Bringing 2800000uV into 1800000-1800000uV
+>>
+>> [    6.517689] qcom-camss ac5a000.camss: Adding to iommu group 22
+>>
+>> [    6.589201] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000030
+>> [    6.589625] Mem abort info:
+>> [    6.589960]   ESR = 0x0000000096000004
+>> [    6.590293]   EC = 0x25: DABT (current EL), IL = 32 bits
+>> [    6.590630]   SET = 0, FnV = 0
+>> [    6.591619]   EA = 0, S1PTW = 0
+>> [    6.591968]   FSC = 0x04: level 0 translation fault
+>> [    6.592298] Data abort info:
+>> [    6.592621]   ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
+>> [    6.593112]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+>> [    6.593450]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+>> [    6.593783] user pgtable: 4k pages, 48-bit VAs, pgdp=000000010daef000
+>> [    6.594139] [0000000000000030] pgd=0000000000000000, p4d=0000000000000000
+>> [    6.594214] Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
+> 
+>> [    6.594868] CPU: 0 UID: 0 PID: 557 Comm: v4l_id Not tainted 6.12.0-rc2 #165
+>> [    6.594871] Hardware name: LENOVO 21BYZ9SRUS/21BYZ9SRUS, BIOS N3HET87W (1.59 ) 12/05/2023
+>> [    6.594872] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+>> [    6.594874] pc : camss_find_sensor+0x20/0x74 [qcom_camss]
+>> [    6.594885] lr : camss_get_pixel_clock+0x18/0x60 [qcom_camss]
+>> [    6.594889] sp : ffff800082d538f0
+>> [    6.594890] x29: ffff800082d538f0 x28: ffff800082d53c70 x27: ffff670cc0404618
+>> [    6.594893] x26: 0000000000000000 x25: 0000000000000000 x24: ffff670cd33173d0
+>> [    6.594895] x23: ffff800082d539a8 x22: ffff670cd33192c8 x21: ffff800082d539b8
+>> [    6.594898] x20: 0000000000000002 x19: 0000000000020001 x18: 0000000000000000
+>> [    6.594900] x17: 0000000000000000 x16: ffffbf0bffbecdd0 x15: 0000000000000001
+>> [    6.594902] x14: ffff670cc5c95300 x13: ffff670cc0b38980 x12: ffff670cc5c95ba8
+>> [    6.594905] x11: ffffbf0c00f73000 x10: 0000000000000000 x9 : 0000000000000000
+>> [    6.594907] x8 : ffffbf0c0085d000 x7 : 0000000000000000 x6 : 0000000000000078
+>> [    6.594910] x5 : 0000000000000000 x4 : ffff670cd3318598 x3 : ffff670cd3318468
+>> [    6.594912] x2 : ffff670cd3317728 x1 : ffff800082d539b8 x0 : 0000000000000000
+>> [    6.594915] Call trace:
+>> [    6.594915]  camss_find_sensor+0x20/0x74 [qcom_camss]
+>> [    6.594920]  camss_get_pixel_clock+0x18/0x60 [qcom_camss]
+>> [    6.594924]  vfe_get+0xb8/0x504 [qcom_camss]
+>> [    6.594931]  vfe_set_power+0x30/0x58 [qcom_camss]
+>> [    6.594936]  pipeline_pm_power_one+0x13c/0x150 [videodev]
+>> [    6.594951]  pipeline_pm_power.part.0+0x58/0xf4 [videodev]
+>> [    6.594960]  v4l2_pipeline_pm_use+0x58/0x94 [videodev]
+>> [    6.594969]  v4l2_pipeline_pm_get+0x14/0x20 [videodev]
+>> [    6.594978]  video_open+0x78/0xf4 [qcom_camss]
+>> [    6.594982]  v4l2_open+0x80/0x120 [videodev]
+>> [    6.594991]  chrdev_open+0xb4/0x204
+>> [    6.594996]  do_dentry_open+0x138/0x4d0
+>> [    6.595000]  vfs_open+0x2c/0xe4
+>> [    6.595003]  path_openat+0x2b4/0x9fc
+>> [    6.595005]  do_filp_open+0x80/0x130
+>> [    6.595007]  do_sys_openat2+0xb4/0xe8
+>> [    6.595010]  __arm64_sys_openat+0x64/0xac
+>> [    6.595012]  invoke_syscall+0x48/0x110
+>> [    6.595016]  el0_svc_common.constprop.0+0xc0/0xe0
+>> [    6.595018]  do_el0_svc+0x1c/0x28
+>> [    6.595021]  el0_svc+0x48/0x114
+>> [    6.595023]  el0t_64_sync_handler+0xc0/0xc4
+>> [    6.595025]  el0t_64_sync+0x190/0x194
+>> [    6.595028] Code: 52800033 72a00053 d503201f f9402400 (f9401801)
+>> [    6.595029] ---[ end trace 0000000000000000 ]---
 
-colorsapce -> colorspace
+I've never seen this myself.
 
-> +	an input. This can come from a video decoder. Applications will query
+I wonder, are you building camcc, camss and the sensor driver into your 
+initrd ?
 
-It can also come from a video receiver. E.g. an HDMI source changes colorspace
-signaling, but not the resolution.
-
-> +	the new colorspace information (if any, the signal may also have been
-> +	lost)
-
-Missing . at the end. Also, if the signal is lost, then that is a CH_RESOLUTION
-change, not CH_COLORSPACE.
-
-> +
-> +	For stateful decoders follow the guidelines in :ref:`decoder`.
-
-I think this should emphasize that if CH_COLORSPACE is set, but not CH_RESOLUTION,
-then only the colorspace changed and there is no need to reallocate buffers.
-
-I also wonder if the description of CH_RESOLUTION should be enhanced to explain
-that this might also imply a colorspace change. I'm not sure what existing codec
-drivers do if there is a colorspace change but no resolution change.
-
-I'm a bit concerned about backwards compatibility issues: if a userspace application
-doesn't understand this new flag and just honors CH_RESOLUTION, then it would
-never react to just a colorspace change.
-
-Nicolas, does gstreamer look at these flags?
-
-Regards,
-
-	Hans
-
-> +
->  Return Value
->  ============
->  
-> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> index 35d3456cc812..ac47c6d9448b 100644
-> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> @@ -526,6 +526,7 @@ replace define V4L2_EVENT_CTRL_CH_RANGE ctrl-changes-flags
->  replace define V4L2_EVENT_CTRL_CH_DIMENSIONS ctrl-changes-flags
->  
->  replace define V4L2_EVENT_SRC_CH_RESOLUTION src-changes-flags
-> +replace define V4L2_EVENT_SRC_CH_COLORSPACE src-changes-flags
->  
->  replace define V4L2_EVENT_MD_FL_HAVE_FRAME_SEQ :c:type:`v4l2_event_motion_det`
->  
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index c8cb2796130f..242242c8e57b 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -2559,6 +2559,7 @@ struct v4l2_event_frame_sync {
->  };
->  
->  #define V4L2_EVENT_SRC_CH_RESOLUTION		(1 << 0)
-> +#define V4L2_EVENT_SRC_CH_COLORSPACE		(1 << 1)
->  
->  struct v4l2_event_src_change {
->  	__u32 changes;
+---
+bod
 
 
