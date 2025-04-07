@@ -1,408 +1,208 @@
-Return-Path: <linux-media+bounces-29471-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29472-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B555A7D90F
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 11:11:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id ECA34A7D91C
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 11:12:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 11CAB3AD5A3
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 09:09:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1A419188A138
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 09:13:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAB3322F17C;
-	Mon,  7 Apr 2025 09:09:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D032922FDF3;
+	Mon,  7 Apr 2025 09:12:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="AmSThOXL"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aLm1UH3g"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2660B23AD;
-	Mon,  7 Apr 2025 09:09:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EFEC22A7EC;
+	Mon,  7 Apr 2025 09:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744016963; cv=none; b=NkLcqiotTaf+qlPL1U08ew+Q3bTjn9w6HwmtjutEQiNJosE9fC7X8Gr4O5JR4dt7RdtGmCX9+tJUJvyBzqB3C3v4E9FwzTyJYvC9Fd77CJckv1VhuFMP2ItpFYdzt0VAEOvPrYsz6conjq9P1h8r+ncLBzw67gMzv1bdd+5u8+g=
+	t=1744017164; cv=none; b=ffMQYx9mr+hZH32pRATvlGuScCDAqXKrIpt7wslflBt8O38LPn9onoS+dyuPb3n9syrraHlM6+jMR3zCAXXQDp4D7Izfs4MCJRZ9WmOTS7XvfyNVieKpH67Hp5Gd7F7mUdCFBxy4WdFHwvdVNx9Efmp/E/OAtTzrxIlsjEZC6gE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744016963; c=relaxed/simple;
-	bh=dliYsE7n5323VjM9vSoaOnrWvaPOVFyyEVRVGf9LVqw=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
-	 In-Reply-To:Content-Type; b=S7Bl1SplWGiN7RAy/S2kFUA6tWLmXiGtLXmTwSBGFDG2D6jNPbZdHBBTEyumRfjPdcnpFWUeyjSCPrCiDg7XtdLaXF/ObI22EtwqFmboskzVkKFQdFD0X6uTBkTsFTvL4rEvrfVD2rXCzxbIeqfyAOyd3jbvY+rp4YKvHtkCu/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=AmSThOXL; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5377sk6W008420;
-	Mon, 7 Apr 2025 11:09:10 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	yjNTI6HpbR/Krk2pbRd+sNgVSbqvShHKCwB5LTuynic=; b=AmSThOXLdL1mNC3f
-	qy5xwe9b5rljXeWNuilXxT/CFlL6b93QYb84NMZJH4cZRnWdVRy/E7G5Q9WW3JBE
-	dUeAtmdZEdUH0Liu5ixwyr86tnxRMaHFAApgoxERvPjx/ztnxhRkDA7jORpdPvHw
-	nRAl5t0fBGbNOd4mJ75LTFVmeDOxb0O1X2o3gZVFmWHhg/PmVxG7xWR1AIX8gtUo
-	t+2TL1ytxfvqHHvNx6zRIsxUkEUYtVKKBelTaG9qBKyw7y2BcKz1ODF53/DHaiJP
-	zVJ4iFZ08SzhZ1IghXM+yZ4XtrG8DPwnss124cf7mIX/PBjYfMbAax0nUFjDwVIZ
-	SVpdKw==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 45ue33vmeu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 07 Apr 2025 11:09:10 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id F2D8340046;
-	Mon,  7 Apr 2025 11:08:15 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id A30CC94635E;
-	Mon,  7 Apr 2025 11:07:42 +0200 (CEST)
-Received: from [10.252.1.150] (10.252.1.150) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 7 Apr
- 2025 11:07:41 +0200
-Message-ID: <27a0989a-8cb6-4b21-b94b-8cec86f2c6d1@foss.st.com>
-Date: Mon, 7 Apr 2025 11:07:40 +0200
+	s=arc-20240116; t=1744017164; c=relaxed/simple;
+	bh=vqpVaxHXc7PLd5O0C9EcLS336Tg/Cor6GujYWsntLqQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rAA8QH40Z0J+BrKuJtMQS73userAUw5aWl0/Os7G3inZi1f1Sum3Z6JmveNaMCx07dO2iuksnn+gxNXWcu/wXy6BoNfremx7zZD8OZXXOHpOpsuYhX3vsm4kvhBGh266rTlgSLRzpcr8S2MOpewO6SmxxEP6X2D8ynwW4l+v/kM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aLm1UH3g; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79B84C4CEDD;
+	Mon,  7 Apr 2025 09:12:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744017163;
+	bh=vqpVaxHXc7PLd5O0C9EcLS336Tg/Cor6GujYWsntLqQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aLm1UH3gQlo5+sE76VMhgUbvEtQzNiO5R4nD2VKuYSKdv8XLOqPip8+bDGJ42s2b/
+	 5ktxospmg9fuV5LyR8XWc3AJooQqQsYivPdKyocnclkht64YCEVATbv1oW2E4Fhldx
+	 r+IQXm513rp4cFQHLlXVhLuTwQAHhYgFzxevivP0bo4W95dpB+FSGk+wyIZLJ/jeTR
+	 JZ4W4XlG+4EshZn3xs/BPELuQZYyRd6/kr+Pkl7fd22+TIId0C1Z4WIovd0iq40TRy
+	 B2G6gkN5p+Ee1U1kQ6H5N9g5eMDKRiLlOQoofTtCgaojiGCCEwXTdTjuc0TmdiNoaX
+	 8M/3wg3+dwxBw==
+Received: from johan by xi.lan with local (Exim 4.97.1)
+	(envelope-from <johan@kernel.org>)
+	id 1u1iXA-000000006Q3-3NIW;
+	Mon, 07 Apr 2025 11:12:49 +0200
+Date: Mon, 7 Apr 2025 11:12:48 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: camss NULL-deref on power on with 6.12-rc2
+Message-ID: <Z_OXELLDIfQII6wV@hovoldconsulting.com>
+References: <Zwjw6XfVWcufMlqM@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Subject: Re: [PATCH v5 2/2] media: i2c: Add driver for ST VD55G1 camera sensor
-To: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-CC: <conor+dt@kernel.org>, <devicetree@vger.kernel.org>, <krzk+dt@kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <mchehab@kernel.org>, <robh@kernel.org>,
-        <sakari.ailus@linux.intel.com>, <sylvain.petinot@foss.st.com>
-References: <20250404-b4-vd55g1-v5-0-98f2f02eec59@foss.st.com>
- <20250404-b4-vd55g1-v5-2-98f2f02eec59@foss.st.com>
- <33abd6fc-9ab3-497e-b421-0816a32b8141@wanadoo.fr>
-Content-Language: en-US
-In-Reply-To: <33abd6fc-9ab3-497e-b421-0816a32b8141@wanadoo.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-07_02,2025-04-03_03,2024-11-22_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Zwjw6XfVWcufMlqM@hovoldconsulting.com>
 
-Hi Christophe
+On Fri, Oct 11, 2024 at 11:33:30AM +0200, Johan Hovold wrote:
 
-Thank you for your review.
+> This morning I hit the below NULL-deref in camss when booting a 6.12-rc2
+> kernel on the Lenovo ThinkPad X13s.
+> 
+> I booted the same kernel another 50 times without hitting it again it so
+> it may not be a regression, but simply an older, hard to hit bug.
+> 
+> Hopefully you can figure out what went wrong from just staring at the
+> oops and code.
 
-On 4/4/25 18:09, Christophe JAILLET wrote:
-> Le 04/04/2025 à 16:50, Benjamin Mugnier a écrit :
->> The VD55G1 is a monochrome global shutter camera with a 804x704 maximum
->> resolution with RAW8 and RAW10 bytes per pixel.
->> The driver supports :
->> - Auto exposure from the sensor, or manual exposure mode
->> - HDR subtraction mode, allowing edge detection and background removal
->> - Auto exposure cold start, using configuration values from last stream
->> to start the next one
->> - LED GPIOs for illumination
->> - Most standard camera sensor features (hblank, vblank, test patterns,
->> again, dgain, hflip, vflip, auto exposure bias, etc.)
->> Add driver source code to MAINTAINERS file.
-> 
-> Hi, a few nitpicks below, should they make sense.
-> 
-> ...
-> 
->> +static int vd55g1_prepare_clock_tree(struct vd55g1 *sensor)
->> +{
->> +    struct i2c_client *client = sensor->i2c_client;
->> +    /* Double data rate */
->> +    u32 mipi_freq = sensor->link_freq * 2;
->> +    u32 sys_clk, mipi_div, pixel_div;
->> +    int ret = 0;
->> +
->> +    if (sensor->xclk_freq < 6 * HZ_PER_MHZ ||
->> +        sensor->xclk_freq > 27 * HZ_PER_MHZ) {
->> +        dev_err(&client->dev,
->> +            "Only 6Mhz-27Mhz clock range supported. Provided %lu MHz\n",
->> +            sensor->xclk_freq / HZ_PER_MHZ);
->> +        return -EINVAL;
->> +    }
->> +
->> +    if (mipi_freq < 250 * HZ_PER_MHZ ||
->> +        mipi_freq > 1200 * HZ_PER_MHZ) {
->> +        dev_err(&client->dev,
->> +            "Only 250Mhz-1200Mhz link frequency range supported.
->> Provided %lu MHz\n",
->> +            mipi_freq / HZ_PER_MHZ);
->> +        return -EINVAL;
->> +    }
->> +
->> +    if (mipi_freq <= 300 * HZ_PER_MHZ)
->> +        mipi_div = 4;
->> +    else if (mipi_freq <= 600 * HZ_PER_MHZ)
->> +        mipi_div = 2;
->> +    else
->> +        mipi_div = 1;
->> +
->> +    sys_clk = mipi_freq * mipi_div;
->> +
->> +    if (sys_clk <= 780 * HZ_PER_MHZ)
->> +        pixel_div = 5;
->> +    else if (sys_clk <= 900 * HZ_PER_MHZ)
->> +        pixel_div = 6;
->> +    else
->> +        pixel_div = 8;
->> +
->> +    sensor->pixel_clock = sys_clk / pixel_div;
->> +    /* Frequency to data rate is 1:1 ratio for MIPI */
->> +    sensor->data_rate_in_mbps = mipi_freq;
->> +
->> +    return ret;
-> 
-> Could be return 0, and ret could be removed.
+Hit the NULL-pointer dereference during boot that I reported back in
+October again today with 6.15-rc1.
 
-Yes, I replaced all valid return paths by return 0.
+The camss_find_sensor_pad() function was renamed in 6.15-rc1, but
+otherwise it looks identical.
 
-> 
->> +}
-> 
-> ...
-> 
->> +static int vd55g1_enable_streams(struct v4l2_subdev *sd,
->> +                 struct v4l2_subdev_state *state, u32 pad,
->> +                 u64 streams_mask)
->> +{
->> +    struct vd55g1 *sensor = to_vd55g1(sd);
->> +    struct i2c_client *client = v4l2_get_subdevdata(&sensor->sd);
->> +    int ret = 0;
-> 
-> Un-needed init, it is set just the line after.
+Johan
 
-I always wonder if it is worth removing the initialization if it is
-redundant. I find myself spending time debugging issues happening
-because I modified the flow of a function and now the return value
-needs to be initialized.
-You're absolutely correct in these initializations being unnecessary
-though, and I removed them for v6, but I'll gladly take your thinking on
-my comment :)
 
-> 
->> +
->> +    ret = pm_runtime_resume_and_get(&client->dev);
->> +    if (ret < 0)
->> +        return ret;
->> +
->> +    vd55g1_write(sensor, VD55G1_REG_EXT_CLOCK, sensor->xclk_freq, &ret);
->> +
->> +    /* configure output */
->> +    vd55g1_write(sensor, VD55G1_REG_MIPI_DATA_RATE,
->> +             sensor->data_rate_in_mbps, &ret);
->> +    vd55g1_write(sensor, VD55G1_REG_OIF_CTRL, sensor->oif_ctrl, &ret);
->> +    vd55g1_write(sensor, VD55G1_REG_ISL_ENABLE, 0, &ret);
->> +    if (ret)
->> +        goto err_rpm_put;
->> +
->> +    ret = vd55g1_set_framefmt(sensor);
->> +    if (ret)
->> +        goto err_rpm_put;
->> +
->> +    /* Setup default GPIO values; could be overridden by V4L2 ctrl
->> setup */
->> +    ret = vd55g1_update_gpios(sensor, GENMASK(VD55G1_NB_GPIOS - 1, 0));
->> +    if (ret)
->> +        goto err_rpm_put;
->> +
->> +    ret = vd55g1_apply_cold_start(sensor);
->> +    if (ret)
->> +        goto err_rpm_put;
->> +
->> +    /* Apply settings from V4L2 ctrls */
->> +    ret = __v4l2_ctrl_handler_setup(&sensor->ctrl_handler);
->> +    if (ret)
->> +        goto err_rpm_put;
->> +
->> +    /* Also apply settings from read-only V4L2 ctrls */
->> +    ret = vd55g1_ro_ctrls_setup(sensor);
->> +    if (ret)
->> +        goto err_rpm_put;
->> +
->> +    /* Start streaming */
->> +    vd55g1_write(sensor, VD55G1_REG_STBY, VD55G1_STBY_START_STREAM,
->> &ret);
->> +    vd55g1_poll_reg(sensor, VD55G1_REG_STBY, 0, &ret);
->> +    vd55g1_wait_state(sensor, VD55G1_SYSTEM_FSM_STREAMING, &ret);
->> +    if (ret)
->> +        goto err_rpm_put;
->> +
->> +    vd55g1_lock_ctrls(sensor, true);
->> +
->> +    return ret;
-> 
-> return 0?
-> 
->> +
->> +err_rpm_put:
->> +    pm_runtime_put(&client->dev);
->> +    return ret;
->> +}
-> 
-> 
-> ...
-> 
->> +static int vd55g1_check_csi_conf(struct vd55g1 *sensor,
->> +                 struct fwnode_handle *endpoint)
->> +{
->> +    struct i2c_client *client = sensor->i2c_client;
->> +    struct v4l2_fwnode_endpoint ep = { .bus_type =
->> V4L2_MBUS_CSI2_DPHY };
->> +    u8 n_lanes;
->> +    int ret = 0;
-> 
-> Un-needed init, it is set just the line after.
-> 
->> +
->> +    ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &ep);
->> +    if (ret)
->> +        return -EINVAL;
->> +
->> +    /* Check lanes number */
->> +    n_lanes = ep.bus.mipi_csi2.num_data_lanes;
->> +    if (n_lanes != 1) {
->> +        dev_err(&client->dev, "Sensor only supports 1 lane, found %d\n",
->> +            n_lanes);
->> +        ret = -EINVAL;
->> +        goto done;
->> +    }
->> +
->> +    /* Clock lane must be first */
->> +    if (ep.bus.mipi_csi2.clock_lane != 0) {
->> +        dev_err(&client->dev, "Clock lane must be mapped to lane 0\n");
->> +        ret = -EINVAL;
->> +        goto done;
->> +    }
->> +
->> +    /* Handle polarities in sensor configuration */
->> +    sensor->oif_ctrl = (ep.bus.mipi_csi2.lane_polarities[0] << 3) |
->> +               (ep.bus.mipi_csi2.lane_polarities[1] << 6);
->> +
->> +    /* Check the link frequency set in device tree */
->> +    if (!ep.nr_of_link_frequencies) {
->> +        dev_err(&client->dev, "link-frequency property not found in
->> DT\n");
->> +        ret = -EINVAL;
->> +        goto done;
->> +    }
->> +    if (ep.nr_of_link_frequencies != 1) {
->> +        dev_err(&client->dev, "Multiple link frequencies not
->> supported\n");
->> +        ret = -EINVAL;
->> +        goto done;
->> +    }
->> +    sensor->link_freq = ep.link_frequencies[0];
->> +
->> +done:
->> +    v4l2_fwnode_endpoint_free(&ep);
->> +
->> +    return ret;
->> +}
-> ...
-> 
->> +static int vd55g1_parse_dt(struct vd55g1 *sensor)
->> +{
->> +    struct i2c_client *client = sensor->i2c_client;
->> +    struct device *dev = &client->dev;
->> +    struct fwnode_handle *endpoint;
->> +    int ret;
->> +
->> +    endpoint = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0,
->> 0);
->> +    if (!endpoint) {
->> +        dev_err(dev, "Endpoint node not found\n");
-> 
-> The usage of trailing \n with dev_err() and dev_err_probe() is not
-> consistant in this driver.
-> 
-> I would go for \n everywhere, but some people argue that it is no more
-> necessary.
+[    5.740833] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000030
+[    5.741162] Mem abort info:
+[    5.741435]   ESR = 0x0000000096000004
+[    5.741707]   EC = 0x25: DABT (current EL), IL = 32 bits
+[    5.741980]   SET = 0, FnV = 0
+[    5.742249]   EA = 0, S1PTW = 0
+[    5.742253]   FSC = 0x04: level 0 translation fault
+[    5.742255] Data abort info:
+[    5.742257]   ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
+[    5.743264]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+[    5.743267]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+[    5.743269] user pgtable: 4k pages, 48-bit VAs, pgdp=000000010fb98000
+[    5.743272] [0000000000000030] pgd=0000000000000000, p4d=0000000000000000
+[    5.744064] Internal error: Oops: 0000000096000004 [#1]  SMP
 
-I prefer \n everywhere too. Added.
+[    5.744645] CPU: 3 UID: 0 PID: 442 Comm: v4l_id Not tainted 6.15.0-rc1 #106 PREEMPT
+[    5.744647] Hardware name: LENOVO 21BYZ9SRUS/21BYZ9SRUS, BIOS N3HET87W (1.59 ) 12/05/2023
+[    5.744649] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[    5.744651] pc : camss_find_sensor_pad+0x20/0x74 [qcom_camss]
+[    5.744661] lr : camss_get_pixel_clock+0x18/0x64 [qcom_camss]
+[    5.744666] sp : ffff800082dfb8e0
+[    5.744667] x29: ffff800082dfb8e0 x28: ffff800082dfbc68 x27: ffff143e80404618
+[    5.744671] x26: 0000000000000000 x25: 0000000000000000 x24: ffff143e9398baa8
+[    5.744675] x23: ffff800082dfb998 x22: ffff143e9398d9a0 x21: ffff800082dfb9a8
+[    5.744678] x20: 0000000000000002 x19: 0000000000020001 x18: 0000000000000020
+[    5.744682] x17: 3030613563613a33 x16: ffffac4db3ccf814 x15: 706e65672f6b6e69
+[    5.744686] x14: 0000000000000000 x13: ffff143e80b39180 x12: 30613563613a333a
+[    5.744690] x11: ffffac4db50a8920 x10: 0000000000000000 x9 : 0000000000000000
+[    5.744693] x8 : ffffac4db4992000 x7 : ffff800082dfb8e0 x6 : ffff800082dfb870
+[    5.744697] x5 : ffff800082dfc000 x4 : ffff143e9398cc70 x3 : ffff143e9398cb40
+[    5.744701] x2 : ffff143e9398be00 x1 : ffff143e9398d9a0 x0 : 0000000000000000
+[    5.744704] Call trace:
+[    5.744706]  camss_find_sensor_pad+0x20/0x74 [qcom_camss] (P)
+[    5.744711]  camss_get_pixel_clock+0x18/0x64 [qcom_camss]
+[    5.744716]  vfe_get+0xb8/0x504 [qcom_camss]
+[    5.744724]  vfe_set_power+0x30/0x58 [qcom_camss]
+[    5.744731]  pipeline_pm_power_one+0x13c/0x150 [videodev]
+[    5.744745]  pipeline_pm_power.part.0+0x58/0xf4 [videodev]
+[    5.744754]  v4l2_pipeline_pm_use+0x58/0x94 [videodev]
+[    5.744762]  v4l2_pipeline_pm_get+0x14/0x20 [videodev]
+[    5.744771]  video_open+0x78/0xf4 [qcom_camss]
+[    5.744776]  v4l2_open+0x80/0x120 [videodev]
+[    5.755711]  chrdev_open+0xb4/0x204
+[    5.755716]  do_dentry_open+0x138/0x4d0
+[    5.756271]  vfs_open+0x2c/0xe8
+[    5.756274]  path_openat+0x2b8/0x9fc
+[    5.756276]  do_filp_open+0x8c/0x144
+[    5.756277]  do_sys_openat2+0x80/0xdc
+[    5.756279]  __arm64_sys_openat+0x60/0xb0
+[    5.757830]  invoke_syscall+0x48/0x110
+[    5.757834]  el0_svc_common.constprop.0+0xc0/0xe0
+[    5.758369]  do_el0_svc+0x1c/0x28
+[    5.758372]  el0_svc+0x48/0x114
+[    5.758889]  el0t_64_sync_handler+0xc8/0xcc
+[    5.759184]  el0t_64_sync+0x198/0x19c
+[    5.759475] Code: f9000bf3 52800033 72a00053 f9402420 (f9401801)
+ 
+ 
+> [    5.657860] ov5675 24-0010: failed to get HW configuration: -517
+> [    5.676183] vreg_l6q: Bringing 2800000uV into 1800000-1800000uV
+> 
+> [    6.517689] qcom-camss ac5a000.camss: Adding to iommu group 22
+> 
+> [    6.589201] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000030
+> [    6.589625] Mem abort info:
+> [    6.589960]   ESR = 0x0000000096000004
+> [    6.590293]   EC = 0x25: DABT (current EL), IL = 32 bits
+> [    6.590630]   SET = 0, FnV = 0
+> [    6.591619]   EA = 0, S1PTW = 0
+> [    6.591968]   FSC = 0x04: level 0 translation fault
+> [    6.592298] Data abort info:
+> [    6.592621]   ISV = 0, ISS = 0x00000004, ISS2 = 0x00000000
+> [    6.593112]   CM = 0, WnR = 0, TnD = 0, TagAccess = 0
+> [    6.593450]   GCS = 0, Overlay = 0, DirtyBit = 0, Xs = 0
+> [    6.593783] user pgtable: 4k pages, 48-bit VAs, pgdp=000000010daef000
+> [    6.594139] [0000000000000030] pgd=0000000000000000, p4d=0000000000000000
+> [    6.594214] Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
 
-> 
->> +        return -EINVAL;
->> +    }
->> +
->> +    ret = vd55g1_check_csi_conf(sensor, endpoint);
->> +    fwnode_handle_put(endpoint);
->> +    if (ret)
->> +        return ret;
->> +
->> +    return vd55g1_parse_dt_gpios(sensor);
->> +}
->> +
->> +static int vd55g1_subdev_init(struct vd55g1 *sensor)
->> +{
->> +    struct i2c_client *client = sensor->i2c_client;
->> +    int ret;
->> +
->> +    /* Init sub device */
->> +    sensor->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
->> +    sensor->sd.internal_ops = &vd55g1_internal_ops;
->> +
->> +    /* Init source pad */
->> +    sensor->pad.flags = MEDIA_PAD_FL_SOURCE;
->> +    sensor->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
->> +    ret = media_entity_pads_init(&sensor->sd.entity, 1, &sensor->pad);
->> +    if (ret) {
->> +        dev_err(&client->dev, "Failed to init media entity : %d", ret);
-> 
-> Unneeded space before : (to be consitant with code below)
-
-My french betrays me. Thank you.
-
-> 
->> +        return ret;
->> +    }
->> +
->> +    sensor->sd.state_lock = sensor->ctrl_handler.lock;
->> +    ret = v4l2_subdev_init_finalize(&sensor->sd);
->> +    if (ret) {
->> +        dev_err(&client->dev, "Subdev init error: %d", ret);
->> +        goto err_ctrls;
->> +    }
->> +
->> +    /*
->> +     * Initiliaze controls after v4l2_subdev_init_finalize() to make
->> sure
-> 
-> Initialize?
-
-Nice catch.
-
-> 
->> +     * default values are set.
->> +     */
->> +    ret = vd55g1_init_ctrls(sensor);
->> +    if (ret) {
->> +        dev_err(&client->dev, "Controls initialization failed %d", ret);
->> +        goto err_media;
->> +    }
->> +
->> +    return ret;
-> 
-> return 0?
-> 
->> +
->> +err_ctrls:
->> +    v4l2_ctrl_handler_free(sensor->sd.ctrl_handler);
->> +
->> +err_media:
->> +    media_entity_cleanup(&sensor->sd.entity);
->> +    return ret;
->> +}
-> 
-> ...
-> 
-> CJ
-> 
-
--- 
-Regards,
-Benjamin
+> [    6.594868] CPU: 0 UID: 0 PID: 557 Comm: v4l_id Not tainted 6.12.0-rc2 #165
+> [    6.594871] Hardware name: LENOVO 21BYZ9SRUS/21BYZ9SRUS, BIOS N3HET87W (1.59 ) 12/05/2023
+> [    6.594872] pstate: 80400005 (Nzcv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+> [    6.594874] pc : camss_find_sensor+0x20/0x74 [qcom_camss]
+> [    6.594885] lr : camss_get_pixel_clock+0x18/0x60 [qcom_camss]
+> [    6.594889] sp : ffff800082d538f0
+> [    6.594890] x29: ffff800082d538f0 x28: ffff800082d53c70 x27: ffff670cc0404618
+> [    6.594893] x26: 0000000000000000 x25: 0000000000000000 x24: ffff670cd33173d0
+> [    6.594895] x23: ffff800082d539a8 x22: ffff670cd33192c8 x21: ffff800082d539b8
+> [    6.594898] x20: 0000000000000002 x19: 0000000000020001 x18: 0000000000000000
+> [    6.594900] x17: 0000000000000000 x16: ffffbf0bffbecdd0 x15: 0000000000000001
+> [    6.594902] x14: ffff670cc5c95300 x13: ffff670cc0b38980 x12: ffff670cc5c95ba8
+> [    6.594905] x11: ffffbf0c00f73000 x10: 0000000000000000 x9 : 0000000000000000
+> [    6.594907] x8 : ffffbf0c0085d000 x7 : 0000000000000000 x6 : 0000000000000078
+> [    6.594910] x5 : 0000000000000000 x4 : ffff670cd3318598 x3 : ffff670cd3318468
+> [    6.594912] x2 : ffff670cd3317728 x1 : ffff800082d539b8 x0 : 0000000000000000
+> [    6.594915] Call trace:
+> [    6.594915]  camss_find_sensor+0x20/0x74 [qcom_camss]
+> [    6.594920]  camss_get_pixel_clock+0x18/0x60 [qcom_camss]
+> [    6.594924]  vfe_get+0xb8/0x504 [qcom_camss]
+> [    6.594931]  vfe_set_power+0x30/0x58 [qcom_camss]
+> [    6.594936]  pipeline_pm_power_one+0x13c/0x150 [videodev]
+> [    6.594951]  pipeline_pm_power.part.0+0x58/0xf4 [videodev]
+> [    6.594960]  v4l2_pipeline_pm_use+0x58/0x94 [videodev]
+> [    6.594969]  v4l2_pipeline_pm_get+0x14/0x20 [videodev]
+> [    6.594978]  video_open+0x78/0xf4 [qcom_camss]
+> [    6.594982]  v4l2_open+0x80/0x120 [videodev]
+> [    6.594991]  chrdev_open+0xb4/0x204
+> [    6.594996]  do_dentry_open+0x138/0x4d0
+> [    6.595000]  vfs_open+0x2c/0xe4
+> [    6.595003]  path_openat+0x2b4/0x9fc
+> [    6.595005]  do_filp_open+0x80/0x130
+> [    6.595007]  do_sys_openat2+0xb4/0xe8
+> [    6.595010]  __arm64_sys_openat+0x64/0xac
+> [    6.595012]  invoke_syscall+0x48/0x110
+> [    6.595016]  el0_svc_common.constprop.0+0xc0/0xe0
+> [    6.595018]  do_el0_svc+0x1c/0x28
+> [    6.595021]  el0_svc+0x48/0x114
+> [    6.595023]  el0t_64_sync_handler+0xc0/0xc4
+> [    6.595025]  el0t_64_sync+0x190/0x194
+> [    6.595028] Code: 52800033 72a00053 d503201f f9402400 (f9401801)
+> [    6.595029] ---[ end trace 0000000000000000 ]---
 
