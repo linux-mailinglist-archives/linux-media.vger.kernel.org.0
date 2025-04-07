@@ -1,126 +1,111 @@
-Return-Path: <linux-media+bounces-29490-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29491-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23727A7DB76
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 12:49:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D144A7DBBD
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 13:01:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 638BD3AD2BB
-	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 10:48:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8BE45166BCC
+	for <lists+linux-media@lfdr.de>; Mon,  7 Apr 2025 11:01:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9034238148;
-	Mon,  7 Apr 2025 10:48:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16A0023A98D;
+	Mon,  7 Apr 2025 11:01:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="go80UEkZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pxD/VeJm"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B9F22206AA;
-	Mon,  7 Apr 2025 10:48:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E35734CF5;
+	Mon,  7 Apr 2025 11:01:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744022939; cv=none; b=cpYlzVvBcxOTYSn4x8zsC0BDzOACGvXAL6O0xI5MQqd2/9Zwd5id219hFhYGw7s6YuCxI3/7n0hQHjIiLi4ivtTwjLO4m7j/HW9uT3WYNcE75cteu+oVwm0CgzcjbpGXQIARyWowIyPhe6QQeFT8MghlrEMM95EA9sbtFM9z018=
+	t=1744023663; cv=none; b=qWxgCDJHIeyG2xtXFXbO+T/f9G9BZPGYD3S+vM8BoDeqt0qFC+PISonOaAOuCZhYI5VvUC1tpGHy+U7wAVmvllFlH7+y+730TVzn2EQJzou2VUFqVM4zNef3hkySKHAbikCmzhfvT8piS0/M/IEIHngo+yu9joXLHWAELKa8LTE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744022939; c=relaxed/simple;
-	bh=aru6FQIfXm84CVtd9q10ngK8MDAfOPZu7cl1tqiA6YY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WFyN0xxsGkZPrIwEdlr5VfREVq5FIwKDyC/N4m0quDhv4RZONJpBPyIyefMEocW3DKqEWuebCuIUHb8o0ER3tRAefVZnPpJUt8ZwRlrCu0eBskAfhMhPw6aqThtnKmjyITE1SwmwHWRiieAw/N5es/VIx6WIm8BqJtEFRAGkw0Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=go80UEkZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CACAAC4CEDD;
-	Mon,  7 Apr 2025 10:48:58 +0000 (UTC)
+	s=arc-20240116; t=1744023663; c=relaxed/simple;
+	bh=Nnk6OYZfIvOhCMybpmmi5TH57BIjPZ5Rw8wESi+FkRQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SCd952t9RXcv6Cv+X6ocG0r0u9vYexs27CpbbPREvaqlrn5Z6VuT8Z7sbH1XUrTknRF/Ml1f35JnxtV2WqeV6dzdVGydj8WKBCmIOqubEcIjXK68yJZ321lMKPrTjT+msTXktClZaoCRPyCiVNnm8rerJ6RspfhTsSAEnbAl9jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pxD/VeJm; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D21BCC4CEDD;
+	Mon,  7 Apr 2025 11:01:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744022938;
-	bh=aru6FQIfXm84CVtd9q10ngK8MDAfOPZu7cl1tqiA6YY=;
-	h=From:To:Cc:Subject:Date:From;
-	b=go80UEkZUxP35WWrXzEaA8P0xuDWkNvQigcpC7BiYe774Yij7VwTQYhcAKVDymyjl
-	 v06a4XedfjsENSkkNkh2iEFFfYh1nQoL+jYfng1QkewLjAT46XB/nonU+6S1PAaTEE
-	 CKVnunTZCFYxgFSpg5HytxgaxSVNhErvbDiJNArmC/Vr7JJi4aKFttP0GG/vgqLJk9
-	 ukVK6d8DehRhE9J+0nJ3L38DXSEA3EKYuGjIpgjYePuazbYTcNZBgm4+W0B1oFmxfk
-	 sMazPSgkLfTtwWvBrbXWB6AHnqv1foh/7du2AaZGCxY4om8eYk69ahEsTlSusuDlC5
-	 rDyRedovAYl+g==
+	s=k20201202; t=1744023662;
+	bh=Nnk6OYZfIvOhCMybpmmi5TH57BIjPZ5Rw8wESi+FkRQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pxD/VeJmyzVnZkvWivxjW3rhgeLKbsYyTo4UIbrkvrHjLWSCOCNci6uuBa5loCfCj
+	 H1IP1nqqij3Qa7QgAdgMMIhtjY4tLWjTvyx6/ZLiV5w0H3DapcEpB1mOYibhUR/WBA
+	 EXuZqbJOK6SeEVvc+N3mpOMA5WoZUSC8eeBVSUpdKH+istCNxoQ2NGOl6obhdkpb8l
+	 AKKvnfFGgLYGWbwXfmLk9c/+sENUCtNd95rRkNsYtRK/l9kBHj0LVvnEIDIw3unyvP
+	 vS918NvwMS7fLQYcG5vPFK34jJl/0W7GXw+SGj4o8IHIxSO1NzgL8P5mJ/2OaY2U45
+	 B4gVDbGGGw0zA==
 Received: from johan by xi.lan with local (Exim 4.97.1)
-	(envelope-from <johan+linaro@kernel.org>)
-	id 1u1k2K-0000000010c-2Qtj;
-	Mon, 07 Apr 2025 12:49:05 +0200
-From: Johan Hovold <johan+linaro@kernel.org>
-To: Robert Foss <rfoss@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>,
-	Bryan ODonoghue <bryan.odonoghue@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
-	linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan+linaro@kernel.org>,
-	Depeng Shao <quic_depengs@quicinc.com>
-Subject: [PATCH v2] media: qcom: camss: vfe: suppress VFE version log spam
-Date: Mon,  7 Apr 2025 12:48:28 +0200
-Message-ID: <20250407104828.3833-1-johan+linaro@kernel.org>
-X-Mailer: git-send-email 2.49.0
+	(envelope-from <johan@kernel.org>)
+	id 1u1kE1-000000001N5-1Qxr;
+	Mon, 07 Apr 2025 13:01:09 +0200
+Date: Mon, 7 Apr 2025 13:01:09 +0200
+From: Johan Hovold <johan@kernel.org>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: camss NULL-deref on power on with 6.12-rc2
+Message-ID: <Z_OwdYtSyFDhkYMa@hovoldconsulting.com>
+References: <Zwjw6XfVWcufMlqM@hovoldconsulting.com>
+ <Z_OXELLDIfQII6wV@hovoldconsulting.com>
+ <778e2cd0-5371-424f-809d-20f7c3ae5343@linaro.org>
+ <Z_OrQGspD79k1Mg4@hovoldconsulting.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z_OrQGspD79k1Mg4@hovoldconsulting.com>
 
-A recent commit refactored the printing of the VFE hardware version, but
-(without it being mentioned) also changed the log level from debug to
-info.
+On Mon, Apr 07, 2025 at 12:38:56PM +0200, Johan Hovold wrote:
+> On Mon, Apr 07, 2025 at 10:58:52AM +0100, Bryan O'Donoghue wrote:
+> > On 07/04/2025 10:12, Johan Hovold wrote:
 
-This results in several hundred lines of repeated log spam during boot
-and use, for example, on the Lenovo ThinkPad X13s:
+> > > [    5.740833] Unable to handle kernel NULL pointer dereference at virtual address 0000000000000030
+> 
+> > > [    5.744704] Call trace:
+> > > [    5.744706]  camss_find_sensor_pad+0x20/0x74 [qcom_camss] (P)
+> > > [    5.744711]  camss_get_pixel_clock+0x18/0x64 [qcom_camss]
+> > > [    5.744716]  vfe_get+0xb8/0x504 [qcom_camss]
+> > > [    5.744724]  vfe_set_power+0x30/0x58 [qcom_camss]
+> > > [    5.744731]  pipeline_pm_power_one+0x13c/0x150 [videodev]
+> > > [    5.744745]  pipeline_pm_power.part.0+0x58/0xf4 [videodev]
+> > > [    5.744754]  v4l2_pipeline_pm_use+0x58/0x94 [videodev]
+> > > [    5.744762]  v4l2_pipeline_pm_get+0x14/0x20 [videodev]
+> > > [    5.744771]  video_open+0x78/0xf4 [qcom_camss]
+> > > [    5.744776]  v4l2_open+0x80/0x120 [videodev]
 
-	qcom-camss ac5a000.camss: VFE:1 HW Version = 1.2.2
-	qcom-camss ac5a000.camss: VFE:0 HW Version = 1.2.2
-	qcom-camss ac5a000.camss: VFE:2 HW Version = 1.2.2
-	qcom-camss ac5a000.camss: VFE:2 HW Version = 1.2.2
-	qcom-camss ac5a000.camss: VFE:3 HW Version = 1.2.2
-	qcom-camss ac5a000.camss: VFE:5 HW Version = 1.3.0
-	qcom-camss ac5a000.camss: VFE:6 HW Version = 1.3.0
-	qcom-camss ac5a000.camss: VFE:4 HW Version = 1.3.0
-	qcom-camss ac5a000.camss: VFE:5 HW Version = 1.3.0
-	qcom-camss ac5a000.camss: VFE:6 HW Version = 1.3.0
-	qcom-camss ac5a000.camss: VFE:7 HW Version = 1.3.0
-	qcom-camss ac5a000.camss: VFE:7 HW Version = 1.3.0
-	qcom-camss ac5a000.camss: VFE:7 HW Version = 1.3.0
-	...
+> I've only seen it twice myself (that I've noticed, at least this time it
+> prevented the display from probing so I knew something was wrong).
 
-Suppress the version logging by demoting to debug level again.
+Just hit this again with 6.15-rc1 after the third reboot so timing has
+likely changed slightly which now makes it easier to hit this.
 
-Fixes: 10693fed125d ("media: qcom: camss: vfe: Move common code into vfe core")
-Cc: Depeng Shao <quic_depengs@quicinc.com>
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Signed-off-by: Johan Hovold <johan+linaro@kernel.org>
----
+> Since it's obviously a race condition I think you'll need to analyse the
+> code to try to figure out where the bug is. With an hypothesis you may
+> be able to instrument a reliable reproducer (e.g. by adding appropriate
+> delays to extend the race window).
 
-Changes in v2:
- - align continuation line to open parenthesis as instructed by the
-   media patchwork hooks
+It's apparently udev which powers up the camera when running v4l_id:
 
+[    5.859741] CPU: 4 UID: 0 PID: 420 Comm: v4l_id Not tainted 6.15.0-rc1 #106 PREEMPT
 
- drivers/media/platform/qcom/camss/camss-vfe.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+So this looks like the classic bug of drivers registering their devices
+before they have been fully set up.
 
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-index cf0e8f5c004a..91bc0cb7781e 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-@@ -428,8 +428,8 @@ u32 vfe_hw_version(struct vfe_device *vfe)
- 	u32 rev = (hw_version >> HW_VERSION_REVISION) & 0xFFF;
- 	u32 step = (hw_version >> HW_VERSION_STEPPING) & 0xFFFF;
- 
--	dev_info(vfe->camss->dev, "VFE:%d HW Version = %u.%u.%u\n",
--		 vfe->id, gen, rev, step);
-+	dev_dbg(vfe->camss->dev, "VFE:%d HW Version = %u.%u.%u\n",
-+		vfe->id, gen, rev, step);
- 
- 	return hw_version;
- }
--- 
-2.49.0
+> The fact that the sensor driver is probe deferring may also be relevant
+> here.
 
+Johan
 
