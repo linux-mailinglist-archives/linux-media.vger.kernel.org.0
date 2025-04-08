@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-29571-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29572-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB541A7F3B8
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 06:40:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2DB3A7F3BF
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 06:40:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3E49B1898AF2
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 04:40:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BD3973B1E95
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 04:40:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C811325F97D;
-	Tue,  8 Apr 2025 04:40:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0386425F999;
+	Tue,  8 Apr 2025 04:40:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oYbIMuFV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JOcmEBF6"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F7FC1F8725;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4438920897E;
 	Tue,  8 Apr 2025 04:40:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744087205; cv=none; b=m2P7lSBmx+BYdj2jFLEfM0xq1y0hiRKb5pMGALRgfVygsvlyzampzgANxbnsTBUIUvYa176XgmUqkFzvYCkqwXIm+dYaB0uwGvRzEYI0gaKEUFry4o2LGOZv+LLFuGbTl7OpNGzemGIMc7TVtB1gBNZNDjdPL1Kr1ivjOv+ypYY=
+	t=1744087205; cv=none; b=bYidAg0AUiMqfMWC0DpacSETBlVk5qHC4Imp7eGIbsmno8zevmsoP0orQW4eCe2uW1LZMyrsmcuPjWykc9PP+HiZw1U1zhU9CuNYieT4+qGbx2ajIdXgt0iQNXcjeS2GlH9N04shkHCbyfm/IUaa/XJfEsMeL4Pp0abhjFwUftg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1744087205; c=relaxed/simple;
-	bh=yhMKEV0cCXxqfGp4QpUkRtWTz9lltxPGH8xVqkkKk6U=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TVKKiGqgEEvvIDo4MAfeABx9dnfbgROpiKq9cAQSXcd3udpyh6vcvt4rWy0+5bnxV8rWUZaMLliWmdCH6s8WTPFkcHyRROvUO1+1YrSLSlH1/GdC7G2QuA+jXtB+PiyRs4zhw9OFhBz6ChEYNiGE/LE84JEAMH7x5EnUXfAn8xo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oYbIMuFV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 79F9DC4CEE5;
+	bh=RNcRiM7n8szI07JS6f/BwWB0N8Q1bvbkV8to3cBk5/o=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Fe7XMrGe05F2zcM6l1o1D+JZPOdeBBOv7Qqn0qteikA4PhSxXy0sHisWOyCcVVeyS2OeOnhVfMO/J1BLYO8GYig533TKdP6cNduNRZSviiKrjmK/0jwziibdvX293D3OXJHRqtxRioqAH57b7DojkEkL90Dh9fr6h4r3zAGKqqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JOcmEBF6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9B03EC4CEE9;
 	Tue,  8 Apr 2025 04:40:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1744087204;
-	bh=yhMKEV0cCXxqfGp4QpUkRtWTz9lltxPGH8xVqkkKk6U=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=oYbIMuFV7ceLFvB8/96Xvpp0VPtG4kopOOPjJaG4djYfuycI2k0VcryLjlotvxqa4
-	 fFUzJ2xw1NLgoxzhsNqjzGu1jMchabmj0wGPocSwPjp8Mon6qKXQ/P0y5NyNXcVa6b
-	 iu7/F91o79GG9UE9mK9Yclt4+LDcwG9MpHXVyReUoea7pSrnzYlrNR9lYnVSBJaStT
-	 B+lni8n5dieA7cqFe54mn1zBLYIF3s/aQp6TSBLU6Vl77TJ5Q2UiL9AkNN/4ep5jBz
-	 Z1SrzZfjp4J7VJgqI0S2S3IHutwkJkCggWTDWAL7rKiudNt0zmufDSHTDYWrzMmu4Y
-	 1K6f+X3kUjPLA==
+	bh=RNcRiM7n8szI07JS6f/BwWB0N8Q1bvbkV8to3cBk5/o=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
+	b=JOcmEBF6Oh73inGdnv4NUfuJ337ThIhUbxBgA3vNGteoXNdqUVAjMHCNNb5N0NhCe
+	 IrvEyZdSS7zdMpF2WH1fF/ZhHbmx6e2Z0GRxcP1dgFAlUChQxi+v/adYrKICMPlDkR
+	 X3qNFJtplFt9MAo4RvTf4Dw749WfQkouQcFIjNuvUOyg8a3qcoZWEh6DGB1KQVW64G
+	 DYDmrfvhm4FJwk514+lhMzYqSneNQXiYMYqxOVbShdHyyFggvc6Ga1tWoqMHxZw3iN
+	 kUTe5yRL75hwh4qUpj9sBGINWMu3w0wWzJUxgVSYsZ4df4PEbPpd+uDLs6CgriocYX
+	 loxPEuVJWJsnA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E52FC36010;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7FF93C369A1;
 	Tue,  8 Apr 2025 04:40:04 +0000 (UTC)
 From: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>
-Subject: [PATCH 0/4] Tegra CEC Updates
-Date: Mon, 07 Apr 2025 23:39:47 -0500
-Message-Id: <20250407-tegra-cec-v1-0-e25dd9577b5f@gmail.com>
+Date: Mon, 07 Apr 2025 23:39:48 -0500
+Subject: [PATCH 1/4] media: dt-bindings: Document Tegra186 and Tegra194 cec
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,10 +55,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAJOo9GcC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDEwNz3ZLU9KJE3eTUZF3zVONE86TUNBNTszQloPqCotS0zAqwWdGxtbU
- A6RE18lsAAAA=
-X-Change-ID: 20250407-tegra-cec-7e3a7bef456f
+Message-Id: <20250407-tegra-cec-v1-1-e25dd9577b5f@gmail.com>
+References: <20250407-tegra-cec-v1-0-e25dd9577b5f@gmail.com>
+In-Reply-To: <20250407-tegra-cec-v1-0-e25dd9577b5f@gmail.com>
 To: Hans Verkuil <hverkuil@xs4all.nl>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -69,11 +68,11 @@ Cc: linux-tegra@vger.kernel.org, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Aaron Kling <webgeek1234@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1744087203; l=1291;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1744087203; l=869;
  i=webgeek1234@gmail.com; s=20250217; h=from:subject:message-id;
- bh=yhMKEV0cCXxqfGp4QpUkRtWTz9lltxPGH8xVqkkKk6U=;
- b=JNmTCowIP6MS6wzfw9GGZGXQ0MW2dzlpWAzLQlRfvO1TQja1n8lxqpsC0oIgP+KoF4O49VeWF
- qkgbthdLa0FAZzcQssXjf9m1RNjsJlbzPposr4TiSM4rSsghTM+4K/J
+ bh=1LwAlwBIrxvyrSHNHTaA4FD6ANtCDiiKoFzrjcG+iF0=;
+ b=BkXp7FZHAp75/VkFExYSoFSW9H4qv3hZDcLpOkXp7q2vPZTFSzPUG9IYIR3xZMvj97+Sk1Tv+
+ 6gbBU9V+E1JAM/Bg/RH/j8zq90awjVFB9mwgI9ddybjU9D0RjUVOc04
 X-Developer-Key: i=webgeek1234@gmail.com; a=ed25519;
  pk=TQwd6q26txw7bkK7B8qtI/kcAohZc7bHHGSD7domdrU=
 X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
@@ -81,34 +80,31 @@ X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
 X-Original-From: Aaron Kling <webgeek1234@gmail.com>
 Reply-To: webgeek1234@gmail.com
 
-This series updates Tegra hdmi cec support to be usable out of the box
-on Tegra210 through Tegra194.
+From: Aaron Kling <webgeek1234@gmail.com>
+
+These are already used in device trees, so describe them here.
 
 Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
 ---
-Aaron Kling (4):
-      media: dt-bindings: Document Tegra186 and Tegra194 cec
-      media: tegra-cec: Support Tegra186 and Tegra194
-      arm64: tegra: Add CEC controller on Tegra210
-      arm64: tegra: Wire up cec to devkits
+ Documentation/devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml | 2 ++
+ 1 file changed, 2 insertions(+)
 
- .../devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml       | 2 ++
- arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts               | 6 ++++++
- arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dts    | 6 ++++++
- arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts               | 6 ++++++
- arch/arm64/boot/dts/nvidia/tegra194-p3509-0000.dtsi              | 6 ++++++
- arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts               | 6 ++++++
- arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts               | 6 ++++++
- arch/arm64/boot/dts/nvidia/tegra210.dtsi                         | 9 +++++++++
- drivers/media/cec/platform/tegra/tegra_cec.c                     | 2 ++
- 9 files changed, 49 insertions(+)
----
-base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
-change-id: 20250407-tegra-cec-7e3a7bef456f
+diff --git a/Documentation/devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml b/Documentation/devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml
+index a6b73498bc217a2e884e31af91e9d8845c9b1d76..27987bc428ea1a0db8dba4910727e1ce3fa3dab3 100644
+--- a/Documentation/devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml
++++ b/Documentation/devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml
+@@ -18,6 +18,8 @@ properties:
+       - nvidia,tegra114-cec
+       - nvidia,tegra124-cec
+       - nvidia,tegra210-cec
++      - nvidia,tegra186-cec
++      - nvidia,tegra194-cec
+ 
+   clocks:
+     maxItems: 1
 
-Best regards,
 -- 
-Aaron Kling <webgeek1234@gmail.com>
+2.48.1
 
 
 
