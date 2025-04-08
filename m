@@ -1,213 +1,202 @@
-Return-Path: <linux-media+bounces-29674-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29675-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F5E8A81766
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 23:06:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E6D6A8176C
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 23:10:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C36EC8A4B4B
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 21:06:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 634D13AB029
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 21:08:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C718624501C;
-	Tue,  8 Apr 2025 21:06:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6CA2254867;
+	Tue,  8 Apr 2025 21:08:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bUYQVNPN"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="IlTUpTVu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8781F417F
-	for <linux-media@vger.kernel.org>; Tue,  8 Apr 2025 21:06:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34C3D253F23;
+	Tue,  8 Apr 2025 21:08:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744146405; cv=none; b=Sr9NM0yfWhHU+fbEzcloEt8DJzVeHh54nxOc5ylpT1xnzieVd3zhXZZYtvPkJqTFJY0nBEkNnhzFn1hMnOEO3H/4XrHTEE1vE2csFnTps7EFVmD5PDVsmkfUaaM+POYaPjwCEeKCAiymk33ICv5G1fnEvYRRs1v5GRyucDFJGDU=
+	t=1744146502; cv=none; b=dM2FbZ2bil6E01Thcvj9tCfEyNUREzFcUAdPP4nbdehynL9iuLBuqrcUHvZZU8iFwtOsgGHb8r6DOoPUSDIVyCTHUPsdZDBk1ZhFufz2ki/xUnCcdxdmmDwU1NRSL97k36Qp0oGCd+2KMguowrnpiwBG3CXIXZdnKd0bVjeQyAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744146405; c=relaxed/simple;
-	bh=seJ0itVPChjCXzHyNYmmxVsY1OmJxyFgVndIqcyspqw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Xnrt5Le/3Wa2sPyID7zKBYPsD8TRCrgldusLSn3CD+NwDLigAYTVvx+pAvfIIqa9wYahkR8f+n2z8qb1lcIPMuLbdcohPiXKTVlsMG4ixJ+bOjp2EQ7mNELgBFzK1VSc7IIdRr++eqmD021VwNtU1K8cHSzJkoSuGE/098Wf/l0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bUYQVNPN; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5499659e669so6298286e87.3
-        for <linux-media@vger.kernel.org>; Tue, 08 Apr 2025 14:06:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1744146401; x=1744751201; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=SBdmCF8pThOsuVXFbo+87gcUOD5tsz8smal5lCLLYTQ=;
-        b=bUYQVNPNShGMQy6320sxlBdhU7lshWBsnSeTjIxDrp0uBqZwQ//fh4t2slLHsajXZl
-         SQ4GJqA654qJ5I1w659lnoZQf6+jUlsRDutXj9s1CDbp1rxlXibLQpOBq8jQ9SIzsql8
-         GvPWh1aP2C4AUUXdqPV0B35o1FVo93sTghv4Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744146401; x=1744751201;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SBdmCF8pThOsuVXFbo+87gcUOD5tsz8smal5lCLLYTQ=;
-        b=CUoCtkjC/ay+wVuQYfx9G6fideljLr4s4W88zSicTNbn6OWI+vRPX7goRX/QkA3RF/
-         QQRoRBytvBiOfGM6eutC5lFJ3UIW8ORZmkjdJHhj19RaDzDL1i1zhExzy5qbZTFxFR2j
-         nW41MzK9WBzwPLQV0g+vCdTgDpm2cww9iRoY2nVyEYtd+9Wzuzs+O5DeT9R0HkyrHNGW
-         bOHK7cgIiUskPzgR/X/2gkKriQWSRCBMhajLtvavBU7SnF79cxx1QMQw1lbmkyAprccE
-         +9FIGNi214U99Fu/b7mZG616izRg7yE+Az3q9a2tppE6pEKI7AxYLsS3rpCcVx5w7ZCJ
-         Gw/Q==
-X-Gm-Message-State: AOJu0YzHpZ3WENnmPpKMw21/rsWbrMGyWkbfMtCupXUcLHtyOmrEjd7v
-	me56AG747cvd7vz0gzB6VpNi9+6/GLPL3QolR6YQBPxO9ESmQCq6+fbMhqVOD6XjBZ51G1uWtLs
-	=
-X-Gm-Gg: ASbGncsz65BysiTHxVTFoX7oZ5N54CJsGm14GTWGV3Xk7y3POX3fL0F1ZS8EUtiD1/w
-	DBAhQM9ONu2Qf3uOXEJSbDCb6ovnilINklrM4D8QjicJu+GDO5zARPcb+SyqN0m9sFDf3iMmqrd
-	g/Lr437yWs0dEQJAfSG4RUwAN75kz6oO2I9HdKdt7BfeovErBV+90q0YFHNeZ4XkaLTV9vyKYfb
-	B3SLJkV63PLarvkTCbLw8QqKyi+ylmn7M8ztPmMVy25GFVVTEy9Ec4vzR8NQldf62RMF0GgCZPF
-	SgWRRp6pgSm386yyUOFi+Dy+NJShXrb2o/hIMkPDdSazl9OG6eMXZGEEU7OmeDiC1fB1ItxEbaV
-	e2lNNdti+R7/v4lQ1seUuxg==
-X-Google-Smtp-Source: AGHT+IHSAPR/vgSywtm6454RSf5DEkAhcHEPAsW68ce17g8F0cNLbCnZKMP8pShU1ej/M2d8SM4qnA==
-X-Received: by 2002:a05:6512:4010:b0:549:7d6e:fe84 with SMTP id 2adb3069b0e04-54c437c02fcmr128120e87.53.1744146401285;
-        Tue, 08 Apr 2025 14:06:41 -0700 (PDT)
-Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com. [209.85.208.173])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30f03141cddsm19603791fa.41.2025.04.08.14.06.39
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Apr 2025 14:06:39 -0700 (PDT)
-Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-30c2d427194so57761751fa.0
-        for <linux-media@vger.kernel.org>; Tue, 08 Apr 2025 14:06:39 -0700 (PDT)
-X-Received: by 2002:a05:651c:210c:b0:30d:b31e:2628 with SMTP id
- 38308e7fff4ca-30f4389fb43mr1201091fa.27.1744146399310; Tue, 08 Apr 2025
- 14:06:39 -0700 (PDT)
+	s=arc-20240116; t=1744146502; c=relaxed/simple;
+	bh=btv7qpy1infRfUdBialPoFlIqUVev+DgGGoAYqlmeoA=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=ndMzdyBocGL0xBJnQ4l8jurzIEzCutk+pjbETy61LzCCQ/H8uv7ros1GJoiWvZWydih4yQ+mupg8JrGVMEanPKIC9CxFGUyrPS4hgmC//isjOupHp9hU/4roDo6+hVvOT7jFJEfQrIBohGcQrfB6GjdM12zLiIbUlbOT8zfDki8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=IlTUpTVu; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1744146498;
+	bh=btv7qpy1infRfUdBialPoFlIqUVev+DgGGoAYqlmeoA=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=IlTUpTVuDoSHh8D2w8BBHEwqNEthjw8u8veSmEE5tDglQdaxC8deyyDC84l6LTV5K
+	 MIyLlFJn8iMsLrDc4SbEPwO0wdetGq10/OCMXH2RdISAEZL0TnNihDvTHFpK9o92Nk
+	 5U9OYg6mE5ROd6aSczX1fx0NePLlG0Ui5jSmTv2r1W7PnL0YzExT2ACE0SnCmwaZ8X
+	 wG57b4tguLmc0piw0nAqPUMlMMG4yrCpWLnRdygjnMCdjfvAeRL6tjJr//aE25X/Sg
+	 0y4lqvrzteQGXlxXgNZqJoe6fbmZ116euundZtaq50/KHorTFNLl+ZCiu4+Q9afkJS
+	 GQDq7NOGwGH8Q==
+Received: from [IPv6:2606:6d00:11:e976::5ac] (unknown [IPv6:2606:6d00:11:e976::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id A01F517E0EB8;
+	Tue,  8 Apr 2025 23:08:14 +0200 (CEST)
+Message-ID: <fd471fe44a57e1b0c74505f2a7122b62241809d5.camel@collabora.com>
+Subject: Re: [PATCH v4 1/6] media: v4l2: Add NV15 and NV20 pixel formats
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Diederik de Haas <didi.debian@cknow.org>, Detlev Casanova
+	 <detlev.casanova@collabora.com>, linux-media@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab	
+ <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski	
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner	
+ <heiko@sntech.de>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans
+ Verkuil <hverkuil@xs4all.nl>, Andrzej Pietrasiewicz
+ <andrzej.p@collabora.com>, Jonas Karlman	 <jonas@kwiboo.se>, Sebastian
+ Reichel <sebastian.reichel@collabora.com>,  Niklas Cassel
+ <cassel@kernel.org>, Alexey Charkov <alchark@gmail.com>, Dragan Simic
+ <dsimic@manjaro.org>,  Jianfeng Liu <liujianfeng1994@gmail.com>, Jacopo
+ Mondi <jacopo.mondi@ideasonboard.com>, Sakari Ailus	
+ <sakari.ailus@linux.intel.com>, Kieran Bingham
+ <kieran.bingham@ideasonboard.com>,  Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Umang Jain
+ <umang.jain@ideasonboard.com>, Naushir Patuck	 <naush@raspberrypi.com>,
+ Jean-Michel Hautbois	 <jeanmichel.hautbois@ideasonboard.com>, Dmitry
+ Perchanov	 <dmitry.perchanov@intel.com>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, 	devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, 	linux-staging@lists.linux.dev,
+ kernel@collabora.com, 	linux-kernel@vger.kernel.org
+Date: Tue, 08 Apr 2025 17:08:13 -0400
+In-Reply-To: <D8SA0W2ZEAQ3.3BO4NMONFJCRC@cknow.org>
+References: <20250325213303.826925-1-detlev.casanova@collabora.com>
+	 <20250325213303.826925-2-detlev.casanova@collabora.com>
+	 <D8SA0W2ZEAQ3.3BO4NMONFJCRC@cknow.org>
+Organization: Collabora Canada
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <044f2fa6-a245-4ae5-b9de-7a2e8831ccd6@xs4all.nl> <18ac3f06-58c2-4121-86a5-f8a2b5d1e47c@xs4all.nl>
-In-Reply-To: <18ac3f06-58c2-4121-86a5-f8a2b5d1e47c@xs4all.nl>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 8 Apr 2025 23:06:27 +0200
-X-Gmail-Original-Message-ID: <CANiDSCtqa0uzXMidCWuikc+6JfA75LTRMqyq=kn2ou4MnXL-qQ@mail.gmail.com>
-X-Gm-Features: ATxdqUEjozGDmb2BjnlfO_Ab4TPeC_IJkd02cr-zZQo7dDmEHgd3ZJxybs3B4P8
-Message-ID: <CANiDSCtqa0uzXMidCWuikc+6JfA75LTRMqyq=kn2ou4MnXL-qQ@mail.gmail.com>
-Subject: Re: [ANN] Registration and Request for Topics for the Media Summit on
- May 13th in Nice, France
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sean Young <sean@mess.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Sebastian Fricke <sebastian.fricke@collabora.com>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Alain Volmat <alain.volmat@foss.st.com>, 
-	"stanimir.k.varbanov@gmail.com" <stanimir.k.varbanov@gmail.com>, 
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Michael Tretter <m.tretter@pengutronix.de>, 
-	Tomasz Figa <tfiga@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>, 
-	Steve Cho <stevecho@chromium.org>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Kevin Hilman <khilman@baylibre.com>, Paul Kocialkowski <paulk@sys-base.io>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Hans
+Le samedi 29 mars 2025 à 00:09 +0100, Diederik de Haas a écrit :
+> Hi Detlev,
+> 
+> On Tue Mar 25, 2025 at 10:22 PM CET, Detlev Casanova wrote:
+> > From: Jonas Karlman <jonas@kwiboo.se>
+> > 
+> > Add NV15 and NV20 pixel formats used by the Rockchip Video Decoder for
+> > 10-bit buffers.
+> > 
+> > NV15 and NV20 is 10-bit 4:2:0/4:2:2 semi-planar YUV formats similar to
+> > NV12 and NV16, using 10-bit components with no padding between each
+> > component. Instead, a group of 4 luminance/chrominance samples are
+> > stored over 5 bytes in little endian order:
+> > 
+> > YYYY = UVUV = 4 * 10 bits = 40 bits = 5 bytes
+> > 
+> > The '15' and '20' suffix refers to the optimum effective bits per pixel
+> > which is achieved when the total number of luminance samples is a
+> > multiple of 8 for NV15 and 4 for NV20.
+> > 
+> > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> > Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > Tested-by: Christopher Obbard <chris.obbard@collabora.com>
+> > ---
+> >  .../media/v4l/pixfmt-yuv-planar.rst           | 128 ++++++++++++++++++
+> >  drivers/media/v4l2-core/v4l2-common.c         |   2 +
+> >  drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
+> >  include/uapi/linux/videodev2.h                |   2 +
+> >  4 files changed, 134 insertions(+)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> > index b788f69338554..22cad8c9726bf 100644
+> > --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+> > @@ -79,6 +79,13 @@ All components are stored with the same number of bits per component.
+> >        - Cr, Cb
+> >        - Yes
+> >        - Linear
+> > +    * - V4L2_PIX_FMT_NV15
+> > +      - 'NV15'
+> > +      - 10
+> > +      - 4:2:0
+> > +      - Cb, Cr
+> > +      - Yes
+> > +      - Linear
+> 
+> In your cover letter you mentioned:
+> Imported improvements from [1]
+> [1]: https://lore.kernel.org/linux-media/20250225-rkvdec_h264_high10_and_422_support-v7-2-7992a68a4910@collabora.com/
+> 
+> The changelog of "media: rkvdec: Add H.264 High 10 and 4:2:2 profile
+> support" v7 had this:
+> - Move V4L2_PIX_FMT_NV15/V4L2_PIX_FMT_NV20 documentation as suggested
+> 
+> Following a comment on v6 of that series.
+> 
+> But it seems these blocks are now placed at the location as it was in
+> the v6 series, thus NOT importing its improvements?
 
-Thanks for organizing this.
+The other series have been partially accepted into media-commiters next
+branch, including this patch. Meaning you can simply remove that patch
+in your next submission.
 
-I would like the following topic:
+regards,
+Nicolas
 
-Openness Framework for ISPs
--------------------------------------------
-
-Different people have different feelings of what is open and what is
-not. I would like to propose a framework to harmonize the criteria
-among the subsystem.
-Yeah... it is a very abstract title with a very bad description... but
-it is also a very abstract topic that I believe has been dragging us.
-Face to face time could be of great use here.
-
-guesstimate: difficult one to guess
-
-Best regards!
-
-
-On Fri, 28 Mar 2025 at 14:58, Hans Verkuil <hverkuil@xs4all.nl> wrote:
->
-> Hi all,
->
-> Just a gentle reminder! If you plan to attend and haven't emailed me yet, please
-> do so.
->
-> I currently have 7 confirmed in-person attendees, and 3 remote attendees.
->
-> I have three proposed topics as well.
->
-> It's early days yet, so I hope we'll get more attendees and topics to discuss.
->
-> The plan is to post a first draft agenda by mid-April, so more topics are welcome!
->
-> Regards,
->
->         Hans
->
-> On 14/03/2025 10:59, Hans Verkuil wrote:
-> > Hi all,
-> >
-> > We will organize another Media Summit on Tuesday May 13th to coincide with
-> > the Embedded Recipes Conference in Nice, France:
-> >
-> > https://embedded-recipes.org/2025/
-> >
-> > Note that there are also some workshops held after this conference:
-> >
-> > https://embedded-recipes.org/2025/workshops/
-> >
-> > And apparently a gStreamer event during the weekend. If anyone has more
-> > details about this, please reply to this post.
-> >
-> > The Media Summit will be held at Hotel Campanile:
-> >
-> > https://nice-aeroport.campanile.com/en-us/
-> >
-> > It is close to the Airport and to the Embedded Recipes venue.
-> >
-> > The meeting room can hold up to 30 people and has video conferencing support.
-> >
-> > That said, I want to keep remote participation to a minimum. This yearly summit is meant
-> > for active media developers to meet up face-to-face and to discuss media subsystem issues.
-> > But if you are an active media developer and are really not able to attend in person, then
-> > remote participation is an option.
-> >
-> > If you want to attend the meeting (either in person or remote), then send an email to me
-> > directly. The deadline for that is May 2nd as the hotel needs to know the final number of
-> > attendees by then. We have more seats available than last year, so I do not expect to run out.
-> > In the unlikely case that this becomes a problem, then I will revisit this.
-> >
-> > There is no registration fee.
-> >
-> > If you have a topic that you want to discuss, just 'Reply All' to this announcement.
-> > It would be very much appreciated if you can also add a guesstimate of the time
-> > you need for your topic.
-> >
-> > See last year's Media Summit Report as an example of what to expect:
-> >
-> > https://lore.kernel.org/linux-media/45e4f5d4-f6c4-4f0b-96b5-f5e1125b0845@xs4all.nl/
-> >
-> > There are two topics already for the upcoming Media Summit:
-> >
-> > Paul Kocialkowski:
-> > Stateless video encoding uAPI
-> >
-> > Hans Verkuil:
-> > Status of Media CI/Multi-committers
-> > Duration guesstimate: 1 hour
-> >
-> > Regards,
-> >
-> >       Hans
-> >
->
-
+> 
+> >      * - V4L2_PIX_FMT_NV12M
+> >        - 'NM12'
+> >        - 8
+> > @@ -172,6 +179,13 @@ All components are stored with the same number of bits per component.
+> >        - Cr, Cb
+> >        - Yes
+> >        - Linear
+> > +    * - V4L2_PIX_FMT_NV20
+> > +      - 'NV20'
+> > +      - 10
+> > +      - 4:2:2
+> > +      - Cb, Cr
+> > +      - Yes
+> > +      - Linear
+> >      * - V4L2_PIX_FMT_NV16M
+> >        - 'NM16'
+> >        - 8
+> 
+> The same thing seemed to have happened here?
+> 
+> Cheers,
+>   Diederik
+> 
+> > @@ -302,6 +316,57 @@ of the luma plane.
+> >        - Cr\ :sub:`11`
+> >  
+> >  
+> > +.. _V4L2-PIX-FMT-NV15:
+> > +
+> > +NV15
+> > +----
+> > +
+> > +Semi-planar 10-bit YUV 4:2:0 format similar to NV12, using 10-bit components
+> > +with no padding between each component. A group of 4 components are stored over
+> > +5 bytes in little endian order.
+> > +
+> > +.. flat-table:: Sample 4x4 NV15 Image (1 byte per cell)
+> > +    :header-rows:  0
+> > +    :stub-columns: 0
 
 -- 
-Ricardo Ribalda
+Nicolas Dufresne
+Principal Engineer at Collabora
 
