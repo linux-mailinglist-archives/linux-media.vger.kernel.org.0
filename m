@@ -1,270 +1,213 @@
-Return-Path: <linux-media+bounces-29673-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29674-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8578CA81760
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 23:03:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F5E8A81766
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 23:06:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DF4E37B1238
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 21:02:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C36EC8A4B4B
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 21:06:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E7C7254AF2;
-	Tue,  8 Apr 2025 21:03:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C718624501C;
+	Tue,  8 Apr 2025 21:06:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="u8YgKA/w"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="bUYQVNPN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95C37254878
-	for <linux-media@vger.kernel.org>; Tue,  8 Apr 2025 21:03:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8781F417F
+	for <linux-media@vger.kernel.org>; Tue,  8 Apr 2025 21:06:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744146218; cv=none; b=tfbHSiDtPj0Hs8TTU+H/Os3jiInyvHoo5FIH3mxDYYhIx7tFUMn9RGhRVJ1PIwy0MPE/JmUQkevIyI9uUPgD1nb+ZBQ+QTm8GrbtTZ7C7EvZPVhME1L7yHk3YhNSv8dfigOUzNuNP1WByBeuRlsh8Yw7upwAm/DP1dwSa6elThE=
+	t=1744146405; cv=none; b=Sr9NM0yfWhHU+fbEzcloEt8DJzVeHh54nxOc5ylpT1xnzieVd3zhXZZYtvPkJqTFJY0nBEkNnhzFn1hMnOEO3H/4XrHTEE1vE2csFnTps7EFVmD5PDVsmkfUaaM+POYaPjwCEeKCAiymk33ICv5G1fnEvYRRs1v5GRyucDFJGDU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744146218; c=relaxed/simple;
-	bh=y8zs7myUh/XxhHHshPzfVZ+iRzf6l2Y4xTvulmW7Yco=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=gImF+1UzE+xd5sBhGNZQrDmrNJJ8VWNz2Jx2+juIo9M5IUeIZ1ZhtEAdlTLj/ioqQnlqI1DL0IWzoW0IVUlkgmQ/fRtya/i6Nc0CQb8p3SFHfOlJc5fH6aBRL5vSYBHbapKCy6pBzcdiMG5n81uDSz8poiFvcm8v1zQBsjCy08E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=u8YgKA/w; arc=none smtp.client-ip=209.85.222.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7c5e39d1db2so352875285a.3
-        for <linux-media@vger.kernel.org>; Tue, 08 Apr 2025 14:03:36 -0700 (PDT)
+	s=arc-20240116; t=1744146405; c=relaxed/simple;
+	bh=seJ0itVPChjCXzHyNYmmxVsY1OmJxyFgVndIqcyspqw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Xnrt5Le/3Wa2sPyID7zKBYPsD8TRCrgldusLSn3CD+NwDLigAYTVvx+pAvfIIqa9wYahkR8f+n2z8qb1lcIPMuLbdcohPiXKTVlsMG4ixJ+bOjp2EQ7mNELgBFzK1VSc7IIdRr++eqmD021VwNtU1K8cHSzJkoSuGE/098Wf/l0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=bUYQVNPN; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5499659e669so6298286e87.3
+        for <linux-media@vger.kernel.org>; Tue, 08 Apr 2025 14:06:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1744146215; x=1744751015; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=StXUt2o98UrEzmCyhxaifjhbyPqbhX1WlryMmKDUzOY=;
-        b=u8YgKA/ww9uHmNvtSsCGJNDTayimiHx2tIIdLYBGWh6leSRXKZnPt0VfI6wmBKRpn2
-         BYixmK5f73+tHLAUJl7CMpj3GMfIs1F5YiuKOz9o9LVgVJYfYKMlQuIX2umh3PmKKJPm
-         I6aGMvt9umkdxeXQljPJt9L4M9jX3ZMEmUb/ay2sbG2a8GkzwJMomQfYy98nWT66NT5Z
-         nCpJZAvWwe6STSOE6gRpCGsTDbOPm0RZDX7AJmspiltQ2V6UYcQJEodcBWaspf4pV3WZ
-         69+Ub8a5assvIkujAs+eZJvNQaSFFIvwY580mr4QBGbTOpU/HwtTpKcrU4Y7MTKEh2st
-         YqJA==
+        d=chromium.org; s=google; t=1744146401; x=1744751201; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=SBdmCF8pThOsuVXFbo+87gcUOD5tsz8smal5lCLLYTQ=;
+        b=bUYQVNPNShGMQy6320sxlBdhU7lshWBsnSeTjIxDrp0uBqZwQ//fh4t2slLHsajXZl
+         SQ4GJqA654qJ5I1w659lnoZQf6+jUlsRDutXj9s1CDbp1rxlXibLQpOBq8jQ9SIzsql8
+         GvPWh1aP2C4AUUXdqPV0B35o1FVo93sTghv4Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744146215; x=1744751015;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=StXUt2o98UrEzmCyhxaifjhbyPqbhX1WlryMmKDUzOY=;
-        b=Us7ap8DtYDvzzi9+RVxlVLFt3V/ydoy91MN4Pia1Ug10p8eaQYInytEOqbSJq38Yfr
-         04ZyzrAliLkeIK3RbHmasFitBA2ecvh8ji3kldB4tSZ+jdr2uDweyOuNdACedlMPLOcy
-         k8zkMJEwrnUZJOG4IiFeTplqQobaR8/lPvcnL/8dXZ6Jvi0F2nES0FP7V7cgRYzOyNIm
-         VAOK9424n0wUnPq3b287p8amkjDGZGy4/KrGEaucxO33OUv/87QZHHx6LGLfylLCk3xL
-         Se3DCWhLuOy+ylRiqNif5Gs6JMkvoFPwHi++Ap2iR2lGNpe1urfYG4ZileSFtb+QkwaS
-         HK+A==
-X-Forwarded-Encrypted: i=1; AJvYcCUVx4DGNLGx9ICLpIckBeWEjVoe7anccc1sQPbE7OVR0fg8aqiF62k/kjbUIgOMFJtYPC0xv8jDue9MWQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLMRVuJZJdiFNKb6XpON94/1J9l+0s7Tu6CdOdwH2B6Fv4AnN2
-	tCvvjs+UGwHSmoLPceFBymJIDs0+EhTrpyv/Jmw3Y0VJMuTD0lDppxOrl1pNMcM=
-X-Gm-Gg: ASbGncugppq4MM6OymF6xPosxVt7MOB6pwrAegTE10OhMQeou1Y/Zu+y6z8+kIGox5G
-	Zz/r8keyRrAxibeRbQl48QNgkus4IKxwcmtEkojT3P850nuVFvjEIk+7eQ50XkYadwv9ruIyu+0
-	WlSsFc/GY5XuT0HXnR7qh77nWMxcGbBS/B66KxqMEbeU2N9ICuO8F7/Qp6iPrDWiX8z/9sbO30m
-	ZQowGf35NiB28Jggi7s2+HtPBhyN8QhYy+BBDOV75wW2PsaGmeGdGAa9BPaM4jhvbCQABRChqtQ
-	oEquADOoo0YjR9jhQjUZ5JSMako0Ik/PzOXL9N2BVfPD29+fztuDBZswRT7R
-X-Google-Smtp-Source: AGHT+IFgnJHxAWsuf+QM5cxegWPMvcG8OTlQh/+tfcVS0Sbd6RBnpzz0kQLkyoaYTeZ2+H1M6atR2A==
-X-Received: by 2002:a05:620a:40c8:b0:7c5:6375:144c with SMTP id af79cd13be357-7c79cbd7654mr96683485a.23.1744146215399;
-        Tue, 08 Apr 2025 14:03:35 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:11:e976::5ac? ([2606:6d00:11:e976::5ac])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c76e75bcbesm803695785a.38.2025.04.08.14.03.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Apr 2025 14:03:34 -0700 (PDT)
-Message-ID: <d4515a3dbbba33a45c0dc1c68e47b9a1f0dbbb6e.camel@ndufresne.ca>
-Subject: Re: [PATCH v2 1/4] media: v4l: dev-decoder: Add source change
- V4L2_EVENT_SRC_CH_COLORSPACE
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Ming Qian
- <ming.qian@oss.nxp.com>, 	mchehab@kernel.org
-Cc: shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de, 
-	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
- xiahong.bao@nxp.com, 	eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
- imx@lists.linux.dev, 	linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, 	linux-arm-kernel@lists.infradead.org
-Date: Tue, 08 Apr 2025 17:03:33 -0400
-In-Reply-To: <3e5f003a-f689-4f5a-ac75-6bf95379637b@xs4all.nl>
-References: <20250117061938.3923516-1-ming.qian@oss.nxp.com>
-	 <3e5f003a-f689-4f5a-ac75-6bf95379637b@xs4all.nl>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
- oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
- zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
- TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
- 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
- 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
- cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
- tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
- bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
- qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
- BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
- tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
- zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
- 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
- s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
- An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
- ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
- AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
- CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
- 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
- BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
- +E7ItOqZEHAs+xabBgknYZIFPU=
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
+        d=1e100.net; s=20230601; t=1744146401; x=1744751201;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SBdmCF8pThOsuVXFbo+87gcUOD5tsz8smal5lCLLYTQ=;
+        b=CUoCtkjC/ay+wVuQYfx9G6fideljLr4s4W88zSicTNbn6OWI+vRPX7goRX/QkA3RF/
+         QQRoRBytvBiOfGM6eutC5lFJ3UIW8ORZmkjdJHhj19RaDzDL1i1zhExzy5qbZTFxFR2j
+         nW41MzK9WBzwPLQV0g+vCdTgDpm2cww9iRoY2nVyEYtd+9Wzuzs+O5DeT9R0HkyrHNGW
+         bOHK7cgIiUskPzgR/X/2gkKriQWSRCBMhajLtvavBU7SnF79cxx1QMQw1lbmkyAprccE
+         +9FIGNi214U99Fu/b7mZG616izRg7yE+Az3q9a2tppE6pEKI7AxYLsS3rpCcVx5w7ZCJ
+         Gw/Q==
+X-Gm-Message-State: AOJu0YzHpZ3WENnmPpKMw21/rsWbrMGyWkbfMtCupXUcLHtyOmrEjd7v
+	me56AG747cvd7vz0gzB6VpNi9+6/GLPL3QolR6YQBPxO9ESmQCq6+fbMhqVOD6XjBZ51G1uWtLs
+	=
+X-Gm-Gg: ASbGncsz65BysiTHxVTFoX7oZ5N54CJsGm14GTWGV3Xk7y3POX3fL0F1ZS8EUtiD1/w
+	DBAhQM9ONu2Qf3uOXEJSbDCb6ovnilINklrM4D8QjicJu+GDO5zARPcb+SyqN0m9sFDf3iMmqrd
+	g/Lr437yWs0dEQJAfSG4RUwAN75kz6oO2I9HdKdt7BfeovErBV+90q0YFHNeZ4XkaLTV9vyKYfb
+	B3SLJkV63PLarvkTCbLw8QqKyi+ylmn7M8ztPmMVy25GFVVTEy9Ec4vzR8NQldf62RMF0GgCZPF
+	SgWRRp6pgSm386yyUOFi+Dy+NJShXrb2o/hIMkPDdSazl9OG6eMXZGEEU7OmeDiC1fB1ItxEbaV
+	e2lNNdti+R7/v4lQ1seUuxg==
+X-Google-Smtp-Source: AGHT+IHSAPR/vgSywtm6454RSf5DEkAhcHEPAsW68ce17g8F0cNLbCnZKMP8pShU1ej/M2d8SM4qnA==
+X-Received: by 2002:a05:6512:4010:b0:549:7d6e:fe84 with SMTP id 2adb3069b0e04-54c437c02fcmr128120e87.53.1744146401285;
+        Tue, 08 Apr 2025 14:06:41 -0700 (PDT)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com. [209.85.208.173])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30f03141cddsm19603791fa.41.2025.04.08.14.06.39
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Apr 2025 14:06:39 -0700 (PDT)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-30c2d427194so57761751fa.0
+        for <linux-media@vger.kernel.org>; Tue, 08 Apr 2025 14:06:39 -0700 (PDT)
+X-Received: by 2002:a05:651c:210c:b0:30d:b31e:2628 with SMTP id
+ 38308e7fff4ca-30f4389fb43mr1201091fa.27.1744146399310; Tue, 08 Apr 2025
+ 14:06:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <044f2fa6-a245-4ae5-b9de-7a2e8831ccd6@xs4all.nl> <18ac3f06-58c2-4121-86a5-f8a2b5d1e47c@xs4all.nl>
+In-Reply-To: <18ac3f06-58c2-4121-86a5-f8a2b5d1e47c@xs4all.nl>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Tue, 8 Apr 2025 23:06:27 +0200
+X-Gmail-Original-Message-ID: <CANiDSCtqa0uzXMidCWuikc+6JfA75LTRMqyq=kn2ou4MnXL-qQ@mail.gmail.com>
+X-Gm-Features: ATxdqUEjozGDmb2BjnlfO_Ab4TPeC_IJkd02cr-zZQo7dDmEHgd3ZJxybs3B4P8
+Message-ID: <CANiDSCtqa0uzXMidCWuikc+6JfA75LTRMqyq=kn2ou4MnXL-qQ@mail.gmail.com>
+Subject: Re: [ANN] Registration and Request for Topics for the Media Summit on
+ May 13th in Nice, France
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sean Young <sean@mess.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Sebastian Fricke <sebastian.fricke@collabora.com>, 
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Alain Volmat <alain.volmat@foss.st.com>, 
+	"stanimir.k.varbanov@gmail.com" <stanimir.k.varbanov@gmail.com>, 
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Daniel Almeida <daniel.almeida@collabora.com>, Michael Tretter <m.tretter@pengutronix.de>, 
+	Tomasz Figa <tfiga@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>, 
+	Steve Cho <stevecho@chromium.org>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	Kevin Hilman <khilman@baylibre.com>, Paul Kocialkowski <paulk@sys-base.io>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Hans,
+Hi Hans
 
-Le lundi 07 avril 2025 =C3=A0 11:54 +0200, Hans Verkuil a =C3=A9crit=C2=A0:
-> On 17/01/2025 07:19, Ming Qian wrote:
-> > Add a new source change V4L2_EVENT_SRC_CH_COLORSPACE that
-> > indicates colorspace change in the stream.
-> > The change V4L2_EVENT_SRC_CH_RESOLUTION will always affect
-> > the allocation, but V4L2_EVENT_SRC_CH_COLORSPACE won't.
-> >=20
-> > Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
-> > ---
-> > =C2=A0Documentation/userspace-api/media/v4l/vidioc-dqevent.rst | 9 ++++=
-+++++
-> > =C2=A0.../userspace-api/media/videodev2.h.rst.exceptions=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 | 1 +
-> > =C2=A0include/uapi/linux/videodev2.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 +
-> > =C2=A03 files changed, 11 insertions(+)
-> >=20
-> > diff --git a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst b=
-/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
-> > index 8db103760930..91e6b86c976d 100644
-> > --- a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
-> > +++ b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
-> > @@ -369,6 +369,15 @@ call.
-> > =C2=A0	loss of signal and so restarting streaming I/O is required in or=
-der for
-> > =C2=A0	the hardware to synchronize to the video signal.
-> > =C2=A0
-> > +=C2=A0=C2=A0=C2=A0 * - ``V4L2_EVENT_SRC_CH_COLORSPACE``
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - 0x0002
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - This event gets triggered when a colo=
-rsapce change is detected at
->=20
-> colorsapce -> colorspace
->=20
-> > +	an input. This can come from a video decoder. Applications will query
->=20
-> It can also come from a video receiver. E.g. an HDMI source changes color=
-space
-> signaling, but not the resolution.
->=20
-> > +	the new colorspace information (if any, the signal may also have been
-> > +	lost)
->=20
-> Missing . at the end. Also, if the signal is lost, then that is a CH_RESO=
-LUTION
-> change, not CH_COLORSPACE.
->=20
-> > +
-> > +	For stateful decoders follow the guidelines in :ref:`decoder`.
->=20
-> I think this should emphasize that if CH_COLORSPACE is set, but not CH_RE=
-SOLUTION,
-> then only the colorspace changed and there is no need to reallocate buffe=
-rs.
->=20
-> I also wonder if the description of CH_RESOLUTION should be enhanced to e=
-xplain
-> that this might also imply a colorspace change. I'm not sure what existin=
-g codec
-> drivers do if there is a colorspace change but no resolution change.
->=20
-> I'm a bit concerned about backwards compatibility issues: if a userspace =
-application
-> doesn't understand this new flag and just honors CH_RESOLUTION, then it w=
-ould
-> never react to just a colorspace change.
->=20
-> Nicolas, does gstreamer look at these flags?
+Thanks for organizing this.
 
-So its used in two places:
+I would like the following topic:
 
-At runtime (shared between HDMI receiver and decoders):
+Openness Framework for ISPs
+-------------------------------------------
 
-    if ((event.u.src_change.changes & V4L2_EVENT_SRC_CH_RESOLUTION) =3D=3D
-0) {
-      GST_DEBUG_OBJECT (v4l2object->dbg_obj,
-          "Received non-resolution source-change, ignoring.");
-      goto again;
-    }
+Different people have different feelings of what is open and what is
+not. I would like to propose a framework to harmonize the criteria
+among the subsystem.
+Yeah... it is a very abstract title with a very bad description... but
+it is also a very abstract topic that I believe has been dragging us.
+Face to face time could be of great use here.
+
+guesstimate: difficult one to guess
+
+Best regards!
 
 
-Meaning we currently completely ignore the event if it does not have
-the flag. And the second usage is while waiting for the initial
-resolution:
-
-      if (event.type =3D=3D V4L2_EVENT_SOURCE_CHANGE &&
-          (event.u.src_change.changes & V4L2_EVENT_SRC_CH_RESOLUTION))
-{
-        GST_DEBUG_OBJECT (v4l2object->dbg_obj,
-            "Can't streamon capture as the resolution have changed.");
-        ret =3D GST_V4L2_FLOW_RESOLUTION_CHANGE;
-      }
-
-
-
-I remember some doc explaining that once we receive that even we must
-cycle through streamoff/on, but can't find it now, I'll check further
-tomorrow. I wanted to check if that was specific to
-V4L2_EVENT_SRC_CH_RESOLUTION or global to V4L2_EVENT_SOURCE_CHANGE.
-Also, there is likely some difference between codec and HDMI.
-
-I think backward compatibility will be difficult on that one. I'm happy
-that you find the time to have a look, and looking for good ideas.
-
-Nicolas
-
-
->=20
+On Fri, 28 Mar 2025 at 14:58, Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+> Hi all,
+>
+> Just a gentle reminder! If you plan to attend and haven't emailed me yet, please
+> do so.
+>
+> I currently have 7 confirmed in-person attendees, and 3 remote attendees.
+>
+> I have three proposed topics as well.
+>
+> It's early days yet, so I hope we'll get more attendees and topics to discuss.
+>
+> The plan is to post a first draft agenda by mid-April, so more topics are welcome!
+>
 > Regards,
->=20
-> 	Hans
->=20
-> > +
-> > =C2=A0Return Value
-> > =C2=A0=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> > =C2=A0
-> > diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptio=
-ns b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> > index 35d3456cc812..ac47c6d9448b 100644
-> > --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> > +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> > @@ -526,6 +526,7 @@ replace define V4L2_EVENT_CTRL_CH_RANGE ctrl-change=
-s-flags
-> > =C2=A0replace define V4L2_EVENT_CTRL_CH_DIMENSIONS ctrl-changes-flags
-> > =C2=A0
-> > =C2=A0replace define V4L2_EVENT_SRC_CH_RESOLUTION src-changes-flags
-> > +replace define V4L2_EVENT_SRC_CH_COLORSPACE src-changes-flags
-> > =C2=A0
-> > =C2=A0replace define V4L2_EVENT_MD_FL_HAVE_FRAME_SEQ :c:type:`v4l2_even=
-t_motion_det`
-> > =C2=A0
-> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videod=
-ev2.h
-> > index c8cb2796130f..242242c8e57b 100644
-> > --- a/include/uapi/linux/videodev2.h
-> > +++ b/include/uapi/linux/videodev2.h
-> > @@ -2559,6 +2559,7 @@ struct v4l2_event_frame_sync {
-> > =C2=A0};
-> > =C2=A0
-> > =C2=A0#define V4L2_EVENT_SRC_CH_RESOLUTION		(1 << 0)
-> > +#define V4L2_EVENT_SRC_CH_COLORSPACE		(1 << 1)
-> > =C2=A0
-> > =C2=A0struct v4l2_event_src_change {
-> > =C2=A0	__u32 changes;
+>
+>         Hans
+>
+> On 14/03/2025 10:59, Hans Verkuil wrote:
+> > Hi all,
+> >
+> > We will organize another Media Summit on Tuesday May 13th to coincide with
+> > the Embedded Recipes Conference in Nice, France:
+> >
+> > https://embedded-recipes.org/2025/
+> >
+> > Note that there are also some workshops held after this conference:
+> >
+> > https://embedded-recipes.org/2025/workshops/
+> >
+> > And apparently a gStreamer event during the weekend. If anyone has more
+> > details about this, please reply to this post.
+> >
+> > The Media Summit will be held at Hotel Campanile:
+> >
+> > https://nice-aeroport.campanile.com/en-us/
+> >
+> > It is close to the Airport and to the Embedded Recipes venue.
+> >
+> > The meeting room can hold up to 30 people and has video conferencing support.
+> >
+> > That said, I want to keep remote participation to a minimum. This yearly summit is meant
+> > for active media developers to meet up face-to-face and to discuss media subsystem issues.
+> > But if you are an active media developer and are really not able to attend in person, then
+> > remote participation is an option.
+> >
+> > If you want to attend the meeting (either in person or remote), then send an email to me
+> > directly. The deadline for that is May 2nd as the hotel needs to know the final number of
+> > attendees by then. We have more seats available than last year, so I do not expect to run out.
+> > In the unlikely case that this becomes a problem, then I will revisit this.
+> >
+> > There is no registration fee.
+> >
+> > If you have a topic that you want to discuss, just 'Reply All' to this announcement.
+> > It would be very much appreciated if you can also add a guesstimate of the time
+> > you need for your topic.
+> >
+> > See last year's Media Summit Report as an example of what to expect:
+> >
+> > https://lore.kernel.org/linux-media/45e4f5d4-f6c4-4f0b-96b5-f5e1125b0845@xs4all.nl/
+> >
+> > There are two topics already for the upcoming Media Summit:
+> >
+> > Paul Kocialkowski:
+> > Stateless video encoding uAPI
+> >
+> > Hans Verkuil:
+> > Status of Media CI/Multi-committers
+> > Duration guesstimate: 1 hour
+> >
+> > Regards,
+> >
+> >       Hans
+> >
+>
+
+
+-- 
+Ricardo Ribalda
 
