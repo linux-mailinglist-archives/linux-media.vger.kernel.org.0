@@ -1,229 +1,233 @@
-Return-Path: <linux-media+bounces-29596-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29598-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 938C7A7F949
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 11:20:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F302A7F989
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 11:31:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3C32F1735A1
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 09:20:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB9B8189E8ED
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 09:29:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C95D264FA0;
-	Tue,  8 Apr 2025 09:20:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Xm+As+b9"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DB03265CB6;
+	Tue,  8 Apr 2025 09:29:13 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 659CB1990CD;
-	Tue,  8 Apr 2025 09:20:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 941BF265CC4
+	for <linux-media@vger.kernel.org>; Tue,  8 Apr 2025 09:29:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744104024; cv=none; b=BYZxPNwP5voQGavtGX+HlfzzCV9+oo8u1QYtinK8ni1GZehN6mMoBCLPUpPKHiui7DKNMK/5n/2zkAALkvCmYifLZyPFKF6I9TmrnsnRsghRwhBdTXhZ+uJ9Uge8slyO6VM8Q/sNYMu/6u5gilLH7GBF/cEYTxIRPpJCI/qd1/o=
+	t=1744104552; cv=none; b=rbRaG5XN+LLZIoXX5V//c2WZR/QAYvgwoNu9BjzFbIPpN1XR1KNJmf3lYvmXGGpRtaFs/KQdyjZZaJi78RIz+rP0h3bADC8ZiNYnBfFl/LMt/qK6vienyjLrNZr1UoulzlVi62rqRWksJH4/zuoSJmqtN+PBJSnjQFpwStjd4XA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744104024; c=relaxed/simple;
-	bh=oPws6XXa1Q7PyoXErXwLGgOjoJSswMaricVXHxQU9Do=;
+	s=arc-20240116; t=1744104552; c=relaxed/simple;
+	bh=Ku3j/0YEMwOy8G5E5cU/VZ6GVFGXf/YzPm7WN48eHyE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mxCN3XcOMEInh8LqxGBqveYWENQ2bl2oyBltLTLUiQxUltObVwKE2AxJ97rBa9b0wlyJHshiywbWqTxXTF/kH3hfvJiy+qyfvVA9hacGChUMpcwUlrDoRl3LV7RQ7z6oL43Jw5OCbZa4nyYgFXdj/hYEZ1mPzS39wuFzlfQ51wA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Xm+As+b9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5E1B0C4CEE8;
-	Tue,  8 Apr 2025 09:20:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744104023;
-	bh=oPws6XXa1Q7PyoXErXwLGgOjoJSswMaricVXHxQU9Do=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Xm+As+b9UdgYv/Vwn+Ce+i9sfrkGk17Y9klQ6NCFQJ27qHYHPZPVTJ6cizsC97m6l
-	 jsxG8tf+ShISAEgZYJGEFHXKQHRFrfk8EDxFfYvQtRMQ+xH4cJNcX6Jq/Gp0hr4d3Q
-	 2Qns0WjrHSTdjW4z+m+7NyDWRCq6+VDUUrTOR/tykowjfr5AgBVCMs8W/h2txv+XK4
-	 bSfD5neJNSHpkjOlIrfYq/MrXxZs//V5HXvLXbCgsObUkwme7s7yOaHvNqp+sLpirU
-	 l6ndy/YReXkpL+EFvfxCa5qHEWjsJ59tlmfxV33V9i2sBltwI6n8dd06ZTpsqJ2rbw
-	 nyl390aUzvCpw==
-Date: Tue, 8 Apr 2025 14:50:13 +0530
-From: Sumit Garg <sumit.garg@kernel.org>
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: akpm@linux-foundation.org, david@redhat.com, rppt@linux.ibm.com,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	op-tee@lists.trustedfirmware.org,
-	linux-arm-kernel@lists.infradead.org,
-	Olivier Masse <olivier.masse@nxp.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Yong Wu <yong.wu@mediatek.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Brian Starkey <Brian.Starkey@arm.com>,
-	John Stultz <jstultz@google.com>,
-	"T . J . Mercier" <tjmercier@google.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	azarrabi@qti.qualcomm.com, Simona Vetter <simona.vetter@ffwll.ch>,
-	Daniel Stone <daniel@fooishbar.org>, linux-mm@kvack.org
-Subject: Re: [PATCH v6 09/10] optee: FF-A: dynamic restricted memory
- allocation
-Message-ID: <Z_TqTUpGhz1s-F8h@sumit-X1>
-References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
- <20250305130634.1850178-10-jens.wiklander@linaro.org>
- <Z-JePo6yGlUgrZkw@sumit-X1>
- <CAHUa44H1MzBLBM+Oeawca52C8PF3uAT0ggbL-zRdnBqj4LYrZg@mail.gmail.com>
- <Z-u8MWNVNy9lLbkK@sumit-X1>
- <CAHUa44GGEypYfiVz5E1aBsZ0TOK0UoeDBVRYB8_dUYJLhrSyUg@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=LcoFy+Ehf5sj6OZ+dC60P4PeMoCCIbMM/j1pXYbMxYbTCCYrK5J+sdFMgSbYCobLhSWAgTRvkpF2jXt7JzwKwBMrhKF3VryvKdSzHR4h8hm2Sqx+RMsYzAmUKRd0tPvQwNwSsxhF2O5rDRKY6NyRRPUCWWFPq4LwR/kbq5rry4U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 8AE9F1F00058
+	for <linux-media@vger.kernel.org>; Tue,  8 Apr 2025 09:20:31 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id 3C210AC0F60; Tue,  8 Apr 2025 09:20:28 +0000 (UTC)
+X-Spam-Level: 
+Received: from collins (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id EFAFEAC0F5E;
+	Tue,  8 Apr 2025 09:20:24 +0000 (UTC)
+Date: Tue, 8 Apr 2025 11:20:23 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sean Young <sean@mess.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	"stanimir.k.varbanov@gmail.com" <stanimir.k.varbanov@gmail.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Tomasz Figa <tfiga@chromium.org>,
+	"Hu, Jerry W" <jerry.w.hu@intel.com>,
+	Steve Cho <stevecho@chromium.org>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Subject: Re: [ANN] Registration and Request for Topics for the Media Summit
+ on May 13th in Nice, France
+Message-ID: <Z_TqV2FhIq88sNRW@collins>
+References: <044f2fa6-a245-4ae5-b9de-7a2e8831ccd6@xs4all.nl>
+ <20250407193909.GA17385@pendragon.ideasonboard.com>
+ <20250408133142.030bd1cf@sal.lan>
+ <CAGb2v64JXggyR26q2M7h+E3pDKqccuQF8gJpBvR4p1uuYndUOQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="qMyANM1MnOX5HoB2"
+Content-Disposition: inline
+In-Reply-To: <CAGb2v64JXggyR26q2M7h+E3pDKqccuQF8gJpBvR4p1uuYndUOQ@mail.gmail.com>
+
+
+--qMyANM1MnOX5HoB2
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAHUa44GGEypYfiVz5E1aBsZ0TOK0UoeDBVRYB8_dUYJLhrSyUg@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 01, 2025 at 02:26:59PM +0200, Jens Wiklander wrote:
-> On Tue, Apr 1, 2025 at 12:13 PM Sumit Garg <sumit.garg@kernel.org> wrote:
+Hi,
+
+Le Tue 08 Apr 25, 14:32, Chen-Yu Tsai a =C3=A9crit :
+> On Tue, Apr 8, 2025 at 1:32=E2=80=AFPM Mauro Carvalho Chehab
+> <mchehab+huawei@kernel.org> wrote:
 > >
-> > + MM folks to seek guidance here.
+> > Em Mon, 7 Apr 2025 22:39:09 +0300
+> > Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 > >
-> > On Thu, Mar 27, 2025 at 09:07:34AM +0100, Jens Wiklander wrote:
-> > > Hi Sumit,
+> > > I would like to propose the following topic.
 > > >
-> > > On Tue, Mar 25, 2025 at 8:42 AM Sumit Garg <sumit.garg@kernel.org> wrote:
-> > > >
-> > > > On Wed, Mar 05, 2025 at 02:04:15PM +0100, Jens Wiklander wrote:
-> > > > > Add support in the OP-TEE backend driver dynamic restricted memory
-> > > > > allocation with FF-A.
-> > > > >
-> > > > > The restricted memory pools for dynamically allocated restrict memory
-> > > > > are instantiated when requested by user-space. This instantiation can
-> > > > > fail if OP-TEE doesn't support the requested use-case of restricted
-> > > > > memory.
-> > > > >
-> > > > > Restricted memory pools based on a static carveout or dynamic allocation
-> > > > > can coexist for different use-cases. We use only dynamic allocation with
-> > > > > FF-A.
-> > > > >
-> > > > > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > > > > ---
-> > > > >  drivers/tee/optee/Makefile        |   1 +
-> > > > >  drivers/tee/optee/ffa_abi.c       | 143 ++++++++++++-
-> > > > >  drivers/tee/optee/optee_private.h |  13 +-
-> > > > >  drivers/tee/optee/rstmem.c        | 329 ++++++++++++++++++++++++++++++
-> > > > >  4 files changed, 483 insertions(+), 3 deletions(-)
-> > > > >  create mode 100644 drivers/tee/optee/rstmem.c
-> > > > >
-> >
-> > <snip>
-> >
-> > > > > diff --git a/drivers/tee/optee/rstmem.c b/drivers/tee/optee/rstmem.c
-> > > > > new file mode 100644
-> > > > > index 000000000000..ea27769934d4
-> > > > > --- /dev/null
-> > > > > +++ b/drivers/tee/optee/rstmem.c
-> > > > > @@ -0,0 +1,329 @@
-> > > > > +// SPDX-License-Identifier: GPL-2.0-only
-> > > > > +/*
-> > > > > + * Copyright (c) 2025, Linaro Limited
-> > > > > + */
-> > > > > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
-> > > > > +
-> > > > > +#include <linux/errno.h>
-> > > > > +#include <linux/genalloc.h>
-> > > > > +#include <linux/slab.h>
-> > > > > +#include <linux/string.h>
-> > > > > +#include <linux/tee_core.h>
-> > > > > +#include <linux/types.h>
-> > > > > +#include "optee_private.h"
-> > > > > +
-> > > > > +struct optee_rstmem_cma_pool {
-> > > > > +     struct tee_rstmem_pool pool;
-> > > > > +     struct gen_pool *gen_pool;
-> > > > > +     struct optee *optee;
-> > > > > +     size_t page_count;
-> > > > > +     u16 *end_points;
-> > > > > +     u_int end_point_count;
-> > > > > +     u_int align;
-> > > > > +     refcount_t refcount;
-> > > > > +     u32 use_case;
-> > > > > +     struct tee_shm *rstmem;
-> > > > > +     /* Protects when initializing and tearing down this struct */
-> > > > > +     struct mutex mutex;
-> > > > > +};
-> > > > > +
-> > > > > +static struct optee_rstmem_cma_pool *
-> > > > > +to_rstmem_cma_pool(struct tee_rstmem_pool *pool)
-> > > > > +{
-> > > > > +     return container_of(pool, struct optee_rstmem_cma_pool, pool);
-> > > > > +}
-> > > > > +
-> > > > > +static int init_cma_rstmem(struct optee_rstmem_cma_pool *rp)
-> > > > > +{
-> > > > > +     int rc;
-> > > > > +
-> > > > > +     rp->rstmem = tee_shm_alloc_cma_phys_mem(rp->optee->ctx, rp->page_count,
-> > > > > +                                             rp->align);
-> > > > > +     if (IS_ERR(rp->rstmem)) {
-> > > > > +             rc = PTR_ERR(rp->rstmem);
-> > > > > +             goto err_null_rstmem;
-> > > > > +     }
-> > > > > +
-> > > > > +     /*
-> > > > > +      * TODO unmap the memory range since the physical memory will
-> > > > > +      * become inaccesible after the lend_rstmem() call.
-> > > > > +      */
-> > > >
-> > > > What's your plan for this TODO? I think we need a CMA allocator here
-> > > > which can allocate un-mapped memory such that any cache speculation
-> > > > won't lead to CPU hangs once the memory restriction comes into picture.
+> > > Review of the status of staging drivers
 > > >
-> > > What happens is platform-specific. For some platforms, it might be
-> > > enough to avoid explicit access. Yes, a CMA allocator with unmapped
-> > > memory or where memory can be unmapped is one option.
+> > > We have a set of 11 drivers in drivers/staging/media/, with various
+> > > states of maturity and development activity.
 > >
-> > Did you get a chance to enable real memory protection on RockPi board?
-> 
-> No, I don't think I have access to the needed documentation for the
-> board to set it up for relevant peripherals.
-> 
-> > This will atleast ensure that mapped restricted memory without explicit
-> > access works fine. Since otherwise once people start to enable real
-> > memory restriction in OP-TEE, there can be chances of random hang ups
-> > due to cache speculation.
-> 
-> A hypervisor in the normal world can also make the memory inaccessible
-> to the kernel. That shouldn't cause any hangups due to cache
-> speculation.
+> > On a quick look, we have there:
+> >
+> > 1. source "drivers/staging/media/atomisp/Kconfig"
+> > 2. source "drivers/staging/media/av7110/Kconfig"
+> > 3. source "drivers/staging/media/imx/Kconfig"
+> > 4. source "drivers/staging/media/ipu3/Kconfig"
+> > 5. source "drivers/staging/media/max96712/Kconfig"
+> > 6. source "drivers/staging/media/meson/vdec/Kconfig"
+> > 7. source "drivers/staging/media/rkvdec/Kconfig"
+> > 8. source "drivers/staging/media/starfive/Kconfig"
+> > 9. source "drivers/staging/media/sunxi/Kconfig"
+>=20
+> This actually has two drivers:
+>=20
+> a. cedrus
+>=20
+> IIRC Paul has some more patches that are part of the stateless encoding
+> work. Those would finish the remaining TODO items. Even without those
+> I believe the existing decoding functionality is working fine.
 
-The hypervisor should unmap the memory from EL2 translation tables which
-I think should disallow the cache speculation to take place. However,
-without hypervisor here the memory remains mapped in normal world which
-can lead to cache speculation for restricted buffers. That's why we
-should atleast test on one platform with real memory protection enabled
-to rule out any assumptions we make.
+Yes I did not get to that point yet but it's on my tasks list.
 
--Sumit
+On the other hand I was told that it is displeasing and worrying for some
+people to see the staging warning when the driver is loaded and so that it
+would be good to unstage it ASAP, since indeed decode works well.
 
-> 
-> Cheers,
-> Jens
-> 
+I feel like it's best to keep it in staging before its architecture is rewo=
+rked.
+But if everyone agrees that it makes no difference (i.e. architecture rework
+patches would be accepted after unstaging) then it makes sense to unstage it
+without waiting.
+
+> b. sun6i-isp
+>=20
+> This was also done by Paul during his time at Bootlin. However I don't
+> think anyone is using it, since the DT parts never landed.
+
+I was pretty sure the patches were ready to go at this point.
+I can respin them, it would be a shame to trash all this work.
+
+And people are definitely using it, I got a bunch of private emails about
+the driver and know of a few companies/products using it.
+
+Cheers,
+
+Paul
+
+>=20
+> ChenYu
+>=20
+> > 10. source "drivers/staging/media/tegra-video/Kconfig"
+> > 11. source "drivers/staging/media/deprecated/atmel/Kconfig"
 > >
-> > MM folks,
+> > > drivers/staging/ is not meant as a place for drivers to die,
 > >
-> > Basically what we are trying to achieve here is a "no-map" DT behaviour
-> > [1] which is rather dynamic in  nature. The use-case here is that a memory
-> > block allocated from CMA can be marked restricted at runtime where we
-> > would like the Linux not being able to directly or indirectly (cache
-> > speculation) access it. Once memory restriction use-case has been
-> > completed, the memory block can be marked as normal and freed for
-> > further CMA allocation.
+> > It is, actually: we usually move things there before dropping,
+> > because, on most cases, they could be salvaged if someone is
+> > interested on it.
 > >
-> > It will be apprciated if you can guide us regarding the appropriate APIs
-> > to use for un-mapping/mamping CMA allocations for this use-case.
+> > > we should nudge the relevant
+> > > maintainers and consider dropping drivers that show no hope of
+> > > progressing.
 > >
-> > [1] https://github.com/devicetree-org/dt-schema/blob/main/dtschema/schemas/reserved-memory/reserved-memory.yaml#L79
+> > Fully agreed.
 > >
-> > -Sumit
+> > -
+> >
+> > Yet, while it makes sense to have action plans for drivers on staging,
+> > I don't think that the Media Summit is the best place to discuss,
+> > as people that might be involved with them may not be able to
+> > participate there.
+> >
+> > See, there are different situations there, like:
+> >
+> > - platform drivers: at worse case, those should be removed when
+> >   the core/DT support for such platform is removed. We removed
+> >   several such drivers in the past. We can also remove them earlier,
+> >   if there are reasons for doing that and nobody is complaining;
+> >
+> > - drivers like atomisp that takes a lot of efforts to be promoted.
+> >   As long as I see some progress (and we've been seeing progress
+> >   on every kernel version), I can't see any reason why removing it.
+> >
+> > - drivers like ipu3, which is for an entire family of PC CPUs.
+> >   I prefer not dropping drivers like these unless we have very good
+> >   reasons to do so. On the other hand, we are seeing very little
+> >   progress on those.
+> >
+> > Anyway, better to split this into different threads, copying
+> > the people involved on the recent changes for such drivers.
+> >
+> > Regards,
+> > Mauro
+> >
+
+--=20
+Paul Kocialkowski,
+
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
+
+Expert in multimedia, graphics and embedded hardware support with Linux.
+
+--qMyANM1MnOX5HoB2
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmf06lcACgkQhP3B6o/u
+lQydvA/8CDviZ1cWLB1RG28MqmKlXhK/p0QLOmCgceGkrAylfIbS8gwtZasFTK0R
+FqyPvT0HM6jiX1nAHvYV+CdBQvJrjnj7d6clETIsgT/AbIfS+NPDK6hTyh+1w32U
+NRHKjYa63qiXibfFmfLU8IZDuLuN7wpFOXnkPuptqB17Cvyfd81TY5w6axWXj3fV
+e7uJejfPEZrnxS2fQjiLldMVYDI4tKdaVDUgey+ejGkr7QJ8WGYipEPzEcIQqKVV
+u9551/VJcsX4gZjk3w2K+AbMvzEPWsU1DdKke+OLP5OKXfEoP4Zmry1fdhUzKPfM
+ovSUIZQ8pUrUmiYQlDEzoHAC2ssWBVEp3MPKLRIP2vMDmYly9QivHggWunMxmF9s
+tGgeE+rd1F/qLM6OejBXOT50fz497oOIt3VjKs4EZVikKs4M4Mg5vcpeNVcERrgT
+sfNBZkg7ENaiqkX5GIoO7xAxZP2RUgLgXS81QdjTZ2oUKQgyXGUPx59D0/ngbsXU
+qeNY6GACqoPUiWdj8uz6bmTvlsAtk1fVJF9NYNl8yB/rOF1NOPUawtbv9FD8AUQv
+/WIETiV1EC81h6H6YsqG3uq+zOhHxQ0sbAti17AukS1bbMBt5f+z62dlgaMg4OAs
+HsFuhLOyjn6/qFdmIxsmGbIGNQjwns4Z2RUX3QB1dNyjIjdPUQI=
+=9Rh+
+-----END PGP SIGNATURE-----
+
+--qMyANM1MnOX5HoB2--
 
