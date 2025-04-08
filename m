@@ -1,36 +1,36 @@
-Return-Path: <linux-media+bounces-29587-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29588-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C95E7A7F7D7
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 10:29:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C09EA7F7E2
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 10:31:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7FCDA3AD602
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 08:28:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 29F363AB3D7
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 08:30:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55931263F4D;
-	Tue,  8 Apr 2025 08:28:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85696263F5E;
+	Tue,  8 Apr 2025 08:30:58 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC66F26158A;
-	Tue,  8 Apr 2025 08:28:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F2D25FA28;
+	Tue,  8 Apr 2025 08:30:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744100897; cv=none; b=OpkqDmOIuICGxv+5dyPv6stSeIkG6pefPrg2N1q0S1tPXmoCMCv+qL+UiuPCfugzn4c065hB02ad+lVOKYYfJ/Q/2CrveWsP+6beYFY5jQb4Tvsb7agMNA7l6CRX3eGWR1sWxCPj4TbB6/HoefvMch1hVywuPc0ththMuCpXlao=
+	t=1744101058; cv=none; b=tU+CMzi1O1nhJn80aCRDHGvcu0xHh8fMveglOft1TcB787+eDnLZXJy1Uock4g5MvkfQwREmish9TC8X9vpP9fIimi2I+jQhQqJTmAmQECMqALvq0uYfh+a3h6OHmETbjiRNJng89gmobfmkHbwjMqmdO7lHBdn6l//wJkJqays=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744100897; c=relaxed/simple;
-	bh=EkKiSAtgFr61y35dU/f1mICxwqmrAazqIVX6h5yiewk=;
+	s=arc-20240116; t=1744101058; c=relaxed/simple;
+	bh=eLQzjpSO4MHKix4gVwbfKJTffPTPxcs1300whTEGdqc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ry4rtvYBWFr7kNPhki7SAA00wUWQu1jpw7zgrejd2ykNzRC5cXqeJde1EiUSTTxH8SrQSHxDzpj6LXSSX+abCvpfhgYUoMz5mmfbUQ5Thn54xlgR9Y/V6dW+zAj+owht7EnMUgDsm3LgnL3xxRF9IEMhK7XSVTld5pABgkKEpws=
+	 In-Reply-To:Content-Type; b=I9VXQtd98LgIJEwAyigDpfX27HrTY2Vlk/iabAn6Y4ovfDtIhsmC7R3TqfC+ec2GHcOHZRHtLcOcakRBcYNH0qtN6mywB4+CvztYaSpI772/ngz7CklMEjTch6+LRCnutp04XlNbDhIPQEdSfJ8Yh0YagVX3+tpBRZ6n7NGWb9I=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDC28C4CEED;
-	Tue,  8 Apr 2025 08:28:12 +0000 (UTC)
-Message-ID: <35d34100-7013-4acb-a5a6-3408e0f45d9d@xs4all.nl>
-Date: Tue, 8 Apr 2025 10:28:11 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87130C4CEE5;
+	Tue,  8 Apr 2025 08:30:54 +0000 (UTC)
+Message-ID: <d5a8988f-1038-4a8b-8478-968ceca37879@xs4all.nl>
+Date: Tue, 8 Apr 2025 10:30:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -38,330 +38,148 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 09/12] media: rkvdec: Add get_image_fmt ops
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Boris Brezillon <boris.brezillon@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Alex Bee <knaerzche@gmail.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Dan Carpenter <dan.carpenter@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- Christopher Obbard <christopher.obbard@linaro.org>
-References: <20250225-rkvdec_h264_high10_and_422_support-v7-0-7992a68a4910@collabora.com>
- <20250225-rkvdec_h264_high10_and_422_support-v7-9-7992a68a4910@collabora.com>
- <e6b99109-bd35-46ff-a4e2-eb69b549dcbc@xs4all.nl>
- <77bdada5dce991842e377759c8e173ada115694f.camel@collabora.com>
- <47c0011f-693d-4c94-8a1b-f0174f3d5b89@xs4all.nl>
- <19a11d429d9078b82f27e108aa5ac80cc4041bef.camel@collabora.com>
+Subject: Re: [PATCH v2 1/4] media: v4l: dev-decoder: Add source change
+ V4L2_EVENT_SRC_CH_COLORSPACE
+To: "Ming Qian(OSS)" <ming.qian@oss.nxp.com>, mchehab@kernel.org
+Cc: nicolas@ndufresne.ca, shawnguo@kernel.org, robh+dt@kernel.org,
+ s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+ linux-imx@nxp.com, xiahong.bao@nxp.com, eagle.zhou@nxp.com,
+ tao.jiang_2@nxp.com, imx@lists.linux.dev, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+References: <20250117061938.3923516-1-ming.qian@oss.nxp.com>
+ <3e5f003a-f689-4f5a-ac75-6bf95379637b@xs4all.nl>
+ <50ce67b7-ef06-4e8e-bf4f-f4b0d5e40961@oss.nxp.com>
 Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <19a11d429d9078b82f27e108aa5ac80cc4041bef.camel@collabora.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <50ce67b7-ef06-4e8e-bf4f-f4b0d5e40961@oss.nxp.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 07/04/2025 16:59, Nicolas Dufresne wrote:
-> Le lundi 07 avril 2025 à 16:17 +0200, Hans Verkuil a écrit :
->> On 07/04/2025 15:52, Nicolas Dufresne wrote:
->>> Le lundi 07 avril 2025 à 13:09 +0200, Hans Verkuil a écrit :
->>>> On 25/02/2025 10:40, Sebastian Fricke wrote:
->>>>> From: Jonas Karlman <jonas@kwiboo.se>
->>>>>
->>>>> Add support for a get_image_fmt() ops that returns the required image
->>>>> format.
->>>>>
->>>>> The CAPTURE format is reset when the required image format changes and
->>>>> the buffer queue is not busy.
->>>>>
->>>>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
->>>>> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->>>>> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->>>>> Tested-by: Christopher Obbard <chris.obbard@collabora.com>
->>>>> ---
->>>>>  drivers/staging/media/rkvdec/rkvdec.c | 49 +++++++++++++++++++++++++++++++++--
->>>>>  drivers/staging/media/rkvdec/rkvdec.h |  2 ++
->>>>>  2 files changed, 49 insertions(+), 2 deletions(-)
->>>>>
->>>>> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
->>>>> index 70154948b4e32e2c439f259b0f1e1bbc8b52b063..5394079509305c619f1d0c1f542bfc409317c3b7 100644
->>>>> --- a/drivers/staging/media/rkvdec/rkvdec.c
->>>>> +++ b/drivers/staging/media/rkvdec/rkvdec.c
->>>>> @@ -111,15 +111,60 @@ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
->>>>>  {
->>>>>  	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
->>>>>  	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
->>>>> +	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
->>>>> +	enum rkvdec_image_fmt image_fmt;
->>>>> +	struct vb2_queue *vq;
->>>>> +	int ret;
->>>>> +
->>>>> +	if (desc->ops->try_ctrl) {
->>>>> +		ret = desc->ops->try_ctrl(ctx, ctrl);
->>>>> +		if (ret)
->>>>> +			return ret;
->>>>> +	}
->>>>> +
->>>>> +	if (!desc->ops->get_image_fmt)
->>>>> +		return 0;
->>>>>  
->>>>> -	if (desc->ops->try_ctrl)
->>>>> -		return desc->ops->try_ctrl(ctx, ctrl);
->>>>> +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
->>>>> +	if (ctx->image_fmt == image_fmt)
->>>>> +		return 0;
->>>>> +
->>>>> +	if (rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, image_fmt))
->>>>> +		return 0;
->>>>> +
->>>>> +	/* format change not allowed when queue is busy */
->>>>> +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
->>>>> +			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
->>>>> +	if (vb2_is_busy(vq))
->>>>> +		return -EINVAL;
->>
->> Looking closer, this code is just wrong. It does these format change
->> tests for any control, so if more controls are added in the future, then
->> those will be checked the same way, which makes no sense.
+On 08/04/2025 08:34, Ming Qian(OSS) wrote:
+> Hi Hans,
 > 
-> "Just wrong" should be kept for code that is semantically incorrect,
-> just a suggestion for choice of wording.
-
-Having vb2_is_busy in a try function (whether trying a control or a format)
-is simply wrong. Having these checks at a high level (i.e. being done for
-any control) is asking for problems in the future. It only works right
-now because there is just one control.
-
-> 
->>
->> These tests belong to the actual control that you 'try'. In this case
->> rkvdec_h264_validate_sps(). This function already checks the width and
->> height, but it should also check the image format. It is all in the
->> wrong place.
-> 
-> We can do that too. Though, this was generalized since once you enable
-> the other codecs, you endup with code duplication. I know this series
-> is an extract from a larger one.
-> 
-> So let's suggest to make a helper that combines rkvdec_is_valid_fmt()
-> and the busy check. Though on that, please reply to my comment below
-> (which you skipped).
-
-Absolutely, this needs a helper function.
-
-> 
->>
->>>>
->>>> This makes no sense to me. This just tries a control, and that should just
->>>> work, regardless of vb2_is_busy(). It's a 'try', so you are not actually
->>>> changing anything.
+> On 2025/4/7 17:54, Hans Verkuil wrote:
+>> On 17/01/2025 07:19, Ming Qian wrote:
+>>> Add a new source change V4L2_EVENT_SRC_CH_COLORSPACE that
+>>> indicates colorspace change in the stream.
+>>> The change V4L2_EVENT_SRC_CH_RESOLUTION will always affect
+>>> the allocation, but V4L2_EVENT_SRC_CH_COLORSPACE won't.
 >>>
->>> See comment below, notice that this code is only reached if the control
->>> introduce parameters that are not compatible with the current capture
->>> queue fmt. The entire function uses "success" early exit, so the
->>> further down you get in the function, the less likely your control is
->>> valid.
+>>> Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
+>>> ---
+>>>   Documentation/userspace-api/media/v4l/vidioc-dqevent.rst | 9 +++++++++
+>>>   .../userspace-api/media/videodev2.h.rst.exceptions       | 1 +
+>>>   include/uapi/linux/videodev2.h                           | 1 +
+>>>   3 files changed, 11 insertions(+)
 >>>
->>>>
->>>>> +
->>>>> +	return 0;
->>>>> +}
->>>>> +
->>>>> +static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
->>>>> +{
+>>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+>>> index 8db103760930..91e6b86c976d 100644
+>>> --- a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+>>> +++ b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+>>> @@ -369,6 +369,15 @@ call.
+>>>   	loss of signal and so restarting streaming I/O is required in order for
+>>>   	the hardware to synchronize to the video signal.
+>>>   
+>>> +    * - ``V4L2_EVENT_SRC_CH_COLORSPACE``
+>>> +      - 0x0002
+>>> +      - This event gets triggered when a colorsapce change is detected at
 >>
->> If there is a try_ctrl op specified, then the control framework
->> will call that first before calling s_ctrl. So any validation that
->> try_ctrl did does not need to be done again in s_ctrl.
+>> colorsapce -> colorspace
 >>
->> The same comment with try_ctrl is valid here as well: if there are
->> image format checks that need to be done, then those need to be done
->> per control and not as a generic check. If new controls are added in
->> the future, then you don't want the same checks to apply to the new
->> controls as well.
 > 
-> I don't think the behaviour of try_ctrl and that being embedded in set
-> calls was being questioned by anyone. Can you reply to the last
-> paragraph below ?
+> Will fix in v3
 > 
+>>> +	an input. This can come from a video decoder. Applications will query
 >>
->> Regards,
+>> It can also come from a video receiver. E.g. an HDMI source changes colorspace
+>> signaling, but not the resolution.
 >>
->> 	Hans
+>>> +	the new colorspace information (if any, the signal may also have been
+>>> +	lost)
 >>
->>>>> +	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
->>>>> +	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
->>>>> +	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
->>>>> +	enum rkvdec_image_fmt image_fmt;
->>>>> +
->>>>> +	if (!desc->ops->get_image_fmt)
->>>>> +		return 0;
->>>>> +
->>>>> +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
->>>>> +	if (ctx->image_fmt == image_fmt)
->>>>> +		return 0;
->>>>
->>>> If you really can't set a control when the queue is busy, then that should
->>>> be tested here, not in try_ctrl. And then you return -EBUSY.
->>>>
->>>> Am I missing something here?
->>>
->>> When I reviewed, I had imagine that s_ctrl on a request would just run
->>> a try. Now that I read that more careful, I see that it does a true set
->>> on separate copy. So yes, this can safely be moved here.
->>>
->>> Since you seem wondering "If you really can't set a control", let me
->>> explain what Jonas wants to protect against. RKVdec does not have any
->>> color conversion code, the header compound control (which header
->>> depends on the codec), contains details such as sub-sampling and color
->>> depth. Without color conversion, when the image format is locked (the
->>> busy queue), you can't request the HW to decode a frame witch does not
->>> fit. This could otherwise lead to buffer overflow in the HW,
->>> fortunately protected by the iommu, but you don't really want to depend
->>> on the mmu.
->>>
->>> I've never used try_ctrl in my decade of v4l2, so obviously, now that I
->>> know that s_ctrl on request is not a try, I'm fine with rejecting this
->>> PR, sending a new version and making a PR again. But if I was to use
->>> this API in userspace, my intuitive expectation would be that this
->>> should fail try(), even if its very rarely valid to check the queue
->>> state in try control.
+>> Missing . at the end. Also, if the signal is lost, then that is a CH_RESOLUTION
+>> change, not CH_COLORSPACE.
+>>
+> OK, will fix in v3
+>>> +
+>>> +	For stateful decoders follow the guidelines in :ref:`decoder`.
+>>
+>> I think this should emphasize that if CH_COLORSPACE is set, but not CH_RESOLUTION,
+>> then only the colorspace changed and there is no need to reallocate buffers.
+>>
 > 
-> Here, since we seem to disagree on the behaviour try should have for
-> this specific validation. What you asked on first pass is to make it so
-> that TRY will succeed, and SET will fail. I don't really like that
-> suggestion.
+> OK, will add in v3
+> 
+>> I also wonder if the description of CH_RESOLUTION should be enhanced to explain
+>> that this might also imply a colorspace change. I'm not sure what existing codec
+>> drivers do if there is a colorspace change but no resolution change.
+> 
+> I think there is no uniform behavior at the moment, it depends on the
+> behavior of the decoder. Maybe most decoders ignore this.
 
-Ah, no, that's not what I asked.
-
-There are two independent issues:
-
-1) The tests for a valid image format are done for all controls instead of
-   just the control that really needs it. That's asking for problems, and
-   that needs to be addressed by creating a helper function and using it
-   in the relevant control code. Alternatively, just check against the
-   control id in try_ctrl/s_ctrl explicitly. That's fine too, although I
-   prefer a helper function.
-
-2) vb2_is_busy() does not belong in try_ctrl. 'try' should never depend
-   on whether buffers are allocated. You have two options here:
-
-   a) try_ctrl checks if the image_fmt is valid for the current format,
-      and it returns -EINVAL if it isn't. This requires that userspace
-      then selects a different format first. No call to vb2_is_busy is
-      needed.
-
-   b) try_ctrl doesn't check image_fmt against the current format, it just
-      accepts any value. Instead s_ctrl does the check: if it invalid, then
-      it returns -EBUSY if vb2_is_busy() is true, or it updates the format.
-
-I see that cedrus also has vb2_is_busy() in try_ctrl, and worse, it actually
-updates the capture format in the try_ctrl, which is definitely a cedrus bug
-(try should never have side-effects).
-
-The core question is whether changing the V4L2_CID_STATELESS_H264_SPS should
-make format changes. I can't off-hand think of any other control that does
-that. It is certainly not documented.
-
-The only control that comes close is V4L2_CID_ROTATE, and I think that control
-was a huge mistake. It was also never properly documented how it should behave.
-
-My preference is option a. Controls shouldn't change the format, it is really
-confusing. If you do want option b, then all drivers that use this control
-have to be checked first to ensure that they all behave the same, and the
-control documentation must be updated.
+Can you try to do a quick analysis of this? Don't spend too much time on this,
+but it is helpful to have an idea of how existing codecs handle this.
 
 Regards,
 
 	Hans
 
 > 
-> Nicolas
+>>
+>> I'm a bit concerned about backwards compatibility issues: if a userspace application
+>> doesn't understand this new flag and just honors CH_RESOLUTION, then it would
+>> never react to just a colorspace change.
+>>
+>> Nicolas, does gstreamer look at these flags?
 > 
->>>
->>> Nicolas
->>>
->>>>
->>>> Regards,
->>>>
->>>> 	Hans
->>>>
->>>>> +
->>>>> +	ctx->image_fmt = image_fmt;
->>>>> +	if (!rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, ctx->image_fmt))
->>>>> +		rkvdec_reset_decoded_fmt(ctx);
->>>>>  
->>>>>  	return 0;
->>>>>  }
->>>>>  
->>>>>  static const struct v4l2_ctrl_ops rkvdec_ctrl_ops = {
->>>>>  	.try_ctrl = rkvdec_try_ctrl,
->>>>> +	.s_ctrl = rkvdec_s_ctrl,
->>>>>  };
->>>>>  
->>>>>  static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
->>>>> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
->>>>> index 6f8cf50c5d99aad2f52e321f54f3ca17166ddf98..e466a2753ccfc13738e0a672bc578e521af2c3f2 100644
->>>>> --- a/drivers/staging/media/rkvdec/rkvdec.h
->>>>> +++ b/drivers/staging/media/rkvdec/rkvdec.h
->>>>> @@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
->>>>>  		     struct vb2_v4l2_buffer *dst_buf,
->>>>>  		     enum vb2_buffer_state result);
->>>>>  	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
->>>>> +	enum rkvdec_image_fmt (*get_image_fmt)(struct rkvdec_ctx *ctx,
->>>>> +					       struct v4l2_ctrl *ctrl);
->>>>>  };
->>>>>  
->>>>>  enum rkvdec_image_fmt {
->>>>>
->>>
+> I checked the gstreamer code, it does check this flag:
+> 
+> if (event.type == V4L2_EVENT_SOURCE_CHANGE &&
+>      (event.u.src_change.changes & V4L2_EVENT_SRC_CH_RESOLUTION)) {
+>    GST_DEBUG_OBJECT (v4l2object->dbg_obj,
+>        "Can't streamon capture as the resolution have changed.");
+>    ret = GST_V4L2_FLOW_RESOLUTION_CHANGE;
+> }
+> 
+> Currently the gstreamer can't handle the CH_COLORSPACE flag.
+> 
+> Thanks,
+> Ming
+> 
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+>>> +
+>>>   Return Value
+>>>   ============
+>>>   
+>>> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>>> index 35d3456cc812..ac47c6d9448b 100644
+>>> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>>> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>>> @@ -526,6 +526,7 @@ replace define V4L2_EVENT_CTRL_CH_RANGE ctrl-changes-flags
+>>>   replace define V4L2_EVENT_CTRL_CH_DIMENSIONS ctrl-changes-flags
+>>>   
+>>>   replace define V4L2_EVENT_SRC_CH_RESOLUTION src-changes-flags
+>>> +replace define V4L2_EVENT_SRC_CH_COLORSPACE src-changes-flags
+>>>   
+>>>   replace define V4L2_EVENT_MD_FL_HAVE_FRAME_SEQ :c:type:`v4l2_event_motion_det`
+>>>   
+>>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>>> index c8cb2796130f..242242c8e57b 100644
+>>> --- a/include/uapi/linux/videodev2.h
+>>> +++ b/include/uapi/linux/videodev2.h
+>>> @@ -2559,6 +2559,7 @@ struct v4l2_event_frame_sync {
+>>>   };
+>>>   
+>>>   #define V4L2_EVENT_SRC_CH_RESOLUTION		(1 << 0)
+>>> +#define V4L2_EVENT_SRC_CH_COLORSPACE		(1 << 1)
+>>>   
+>>>   struct v4l2_event_src_change {
+>>>   	__u32 changes;
+>>
 > 
 
 
