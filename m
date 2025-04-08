@@ -1,161 +1,137 @@
-Return-Path: <linux-media+bounces-29604-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29605-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6CBBA7FC6E
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 12:42:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACA6EA7FC51
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 12:38:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA0CD1895720
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 10:37:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 264F8171266
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 10:37:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE7262686AA;
-	Tue,  8 Apr 2025 10:36:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C71A0267AF0;
+	Tue,  8 Apr 2025 10:36:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OmPziao6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CpGcMGfo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A30A267AF0;
-	Tue,  8 Apr 2025 10:36:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 763A8267B89;
+	Tue,  8 Apr 2025 10:36:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744108598; cv=none; b=gf/L5v1G09z58Cy49F9vj9ZgRIwB+FWzoyUe2zjNOb5cvieRUDnMMrTAw02tzyIRQHvauz6jGVe5NENlVvHXVW4H6uShIzVqMhCeZYfMswg9amjA72NWdZRsHs8RKiQJ+K7RIFJX2s8+DDJY/wZnuxCBRmCWf1iz5thZVBSIXrE=
+	t=1744108606; cv=none; b=C7D1rYWMIGleCWwh1RLpe3Et3OOIHBIKc+gxI1XfT8zNiXjiMA9pS5CzPjdsNv8x3oCNOMXZC9rsEZHagNX5t+XHHyOPIY+d4g/78uy7iCxhX4BI5sXYk7wut2+VPcdorJJWAgyWKkpK1PiRvMOxlkY4vb9AHvKuTo2tBFv4M+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744108598; c=relaxed/simple;
-	bh=/UphR4APFcK/PozCoAhhjfIcAkajuJZKr5WV2+8cQPc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bCWiZrwrGg3Dh3INCILuxfIApQdDtgX6CoFOhxl5wXU3Qpafv0dfrR7o0raL8yzmcsQ9lVqqQvPj7cKE/JFVBYmdi9gur5D3avodO460YdTrAFEJjLj5S8XHc8r+IxPFMD3EtKyAiaKaO7jXZVwL+JqsEPxf10cppi0Dqhg004Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OmPziao6; arc=none smtp.client-ip=209.85.221.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-523f721bc63so5611863e0c.0;
-        Tue, 08 Apr 2025 03:36:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744108595; x=1744713395; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KgmG0wqQuAR9ll3NJT03Os1B09ohhoP7nPRoSHR6bKo=;
-        b=OmPziao6wFNS8qvNYI7EMNZG9Ih1bHKoMPQos8gV1JtViB01pBRmD+AFOOGIqOemsz
-         qIy79u6sgNuUoP8ENcxQclcCXHaU4s19utH9kzdu8N6v08SMBq2TRT/VZCgFZr9tvLZL
-         /NH/j4tgEkNRd7URdCy3iZkY+hyBHjaV0L8oZv6zhf69GHTvz+3VOJ/btQ2JLtuyyfyW
-         ONWy0yx51KXuh5w6qlNjiSoNyqF/Kk6N3fT7cjxvLX4bBBI2Bz38Z77hgAAiqo4JN2Yc
-         li5g8lnIuarYhKYhqEO/S+6NDtWxqf6XUe8vKi7vFdmYLNiveUZ2oypxLtkdNpllZWW0
-         6NGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744108595; x=1744713395;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KgmG0wqQuAR9ll3NJT03Os1B09ohhoP7nPRoSHR6bKo=;
-        b=PIlKiVCZDoV8otHO1MLelt+fZUK0x/mJubWOCH/P3FcADiUE+4IiesALH1IXZLx9AX
-         tCozZ1K5GVLnJTcG8iPoba+l2ha8c5FRMziMX2M7IpFL4zOUdg6F0CItBH/itXOf8ETL
-         XhYCg1k5hCc644QUfhpcCGuMZp3s0gHHhperZxN3yqk582qCyL4LkwvkeKFltG8X19rR
-         5RIkvVZ1gBh5XZ9vyNyCYDEav+lhJygsWHAc0RcNe6h4TUK/yzsm7k+eSgviiA2m0Vvi
-         AICnSyxRmQnlu3bXhYbr44xG38yWq7khOoeMTPsd+Ggeo9iD1pmLmNsTtr+mLIZ5cGN9
-         T7sQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUQOSTFXSXQbvs77ls8j1bm4ECaa4aAtU3bTYnHQcGFtq4HxUh7VPcdb2coRAkG+I/loUI6dibLoEoy@vger.kernel.org, AJvYcCUmNX1uKanDenIl0pp4Gxku2x/0Aexgg4wCUBtWUXodUVnXlEiavMbQ6u29VIHJMXdf/3Mr5kUlW1F9pLQR@vger.kernel.org, AJvYcCV8pnbZRpj1vF4oTEbynCTopve3416J3DfcobahdRllzrsvOeIfy027+BtTrYd4ebBcvinoww5cZ/ky@vger.kernel.org, AJvYcCVeSxDUksHXQHyEml1ojnATRGzjOIJjzp+oQEj+BNDCehNmoOd0Odw9PpRa3i+6+zIo6/F1CttbtbDgTq8=@vger.kernel.org, AJvYcCXkTsgIyFTV4X2LK0WMC8XpX/hcaDN8ndYhRXiw5PSXjxyywEAIDwFH1LPHXpXKQwl4sJk+zPALgQ4CjLCYtiWnRPs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YykvkwR3kGIJtwXxBmdFs24lOputP351v4/MkIXgKjiYZXqdI1C
-	ckD6MubN+dIsb9+wDlnqYv0l7UNvxpKVxgxYT4fZS0dWJj9Z5oXA5JSdt0Aaq1E0KvfHvkgSqKo
-	Q6Q9ss3ic6V2w9VY9hhlBlILg8MQ=
-X-Gm-Gg: ASbGncuR+/3BcGkKScHseBn8k4S8oFo+ouAFsfcWJgI5OYv/ESoelKWOOiqC5wzVd6z
-	GEv4HInEHq9Dz91xPcgQIITmPacdxyl/SKl9sJQ0yrObN4LVhmafRCdJnxa3MRkmGpf1ljBz3Eo
-	RIIT4EYvlFMJlqZ3Wa3pBLOC3eIfog9Olw38pklyaz7udy3J/sQKoRt7G2Fw==
-X-Google-Smtp-Source: AGHT+IGMyNP2No7AuI19CdTtXFJE8koZoGDmQoARojlwrt1NccfGqz2JVp+QE7meuv23NLp5JcjsnmRCoc4VHK/gGxk=
-X-Received: by 2002:a05:6122:894:b0:523:771e:8b81 with SMTP id
- 71dfb90a1353d-5279acd553cmr1706106e0c.7.1744108595413; Tue, 08 Apr 2025
- 03:36:35 -0700 (PDT)
+	s=arc-20240116; t=1744108606; c=relaxed/simple;
+	bh=2p/2K+aLV0YuC6N+J7a78gjspSREhrhlMv2YPySSBDA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hZpz6kj9ub7ywAOYe16KHPcIE4gOkzOCrnLWeUKzJoDDjAQQTBN5aFf/yahiVhfeRZ42cgDAHQQOOajvT34CLcy+3ondznW2bY2SE/NTI5XViA+Gu6dTDQHC4IZH6dWfzNA4j4/ax1gg4yMyU0qOC49kwm8lWFRls+TGyDlfXJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CpGcMGfo; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744108604; x=1775644604;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2p/2K+aLV0YuC6N+J7a78gjspSREhrhlMv2YPySSBDA=;
+  b=CpGcMGfoEvy4N6k12O34gEgjAYyJg54q9U9L5qELFWABM0dEX7TATzpD
+   zXeEltpU4rurMLHxoFPGiO2wNU2cBmzLEQi6D9rYazCmD5cH7Ee06b5DR
+   Xh0wY3vCNw6tbOKOaEtK6ty/L3Dnt9QX7E/es0FY7WrnqgTTMLcx60yAr
+   nG7dqVC61hqRxJfpY9bQLD64GPRtHcYew9dFzEVL8HqhLp+iLeWgojUDK
+   3lg72e99qPmhSYX4zsRyT7Zud6IPihZBt2SgG2TvAK+EVpYsVcMHnzxsE
+   12+n1HjvqBALYDfNpxHR73JBZDpUFkWWEMvDecenpGX5DtOvExmHSWyMl
+   w==;
+X-CSE-ConnectionGUID: k66hc8MCSKOMR1UVWguJ7w==
+X-CSE-MsgGUID: 4wmSfwmhTtWvOP8UXWz5uA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="49329875"
+X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
+   d="scan'208";a="49329875"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 03:36:44 -0700
+X-CSE-ConnectionGUID: 5EaMhe4aQxyQdZTnNP3gsQ==
+X-CSE-MsgGUID: RBhMOcMpQXSc2p0qdjmKJw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
+   d="scan'208";a="151413235"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 03:36:42 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 5F3EE11FB1F;
+	Tue,  8 Apr 2025 13:36:39 +0300 (EEST)
+Date: Tue, 8 Apr 2025 10:36:39 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Matti Vaittinen <mazziesaccount@gmail.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: i2c: thp7312: use fwnode_for_each_child_node()
+Message-ID: <Z_T8N8aHR-2OzHAO@kekkonen.localdomain>
+References: <Z90qM33DvkTMGg_x@mva-rohm>
+ <20250321104100.GC25483@pendragon.ideasonboard.com>
+ <Z_Ti7aQK2_OlrUee@kekkonen.localdomain>
+ <20250408101252.GB31475@pendragon.ideasonboard.com>
+ <3d8546b9-92bd-40da-a61a-4534ba7779db@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250330210717.46080-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20250330210717.46080-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250331-magic-buzzard-from-valhalla-af88e3@krzk-bin>
-In-Reply-To: <20250331-magic-buzzard-from-valhalla-af88e3@krzk-bin>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 8 Apr 2025 11:36:09 +0100
-X-Gm-Features: ATxdqUEzNQOXPjrLjLavlNGBXC7oKKUbhfJS_OUOhwmcc79SQzhslZo05twijCQ
-Message-ID: <CA+V-a8tDfqH_utn7k0j=6s8HkjkLFrAanwZD8m8LpBxpWXO1QA@mail.gmail.com>
-Subject: Re: [PATCH 05/17] dt-bindings: display: renesas,rzg2l-du: Add support
- for RZ/V2H(P) SoC
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Andrzej Hajda <andrzej.hajda@intel.com>, 
-	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
-	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
-	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Biju Das <biju.das.jz@bp.renesas.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Stephen Boyd <sboyd@kernel.org>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
-	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3d8546b9-92bd-40da-a61a-4534ba7779db@gmail.com>
 
-Hi Krzysztof,
+Hei Laurent, Matti,
 
-Thank you for the review.
+On Tue, Apr 08, 2025 at 01:26:42PM +0300, Matti Vaittinen wrote:
+> On 08/04/2025 13:12, Laurent Pinchart wrote:
+> > Hi Sakari,
+> > 
+> > On Tue, Apr 08, 2025 at 08:48:45AM +0000, Sakari Ailus wrote:
+> > > On Fri, Mar 21, 2025 at 12:41:00PM +0200, Laurent Pinchart wrote:
+> > > > On Fri, Mar 21, 2025 at 10:58:27AM +0200, Matti Vaittinen wrote:
+> > > > > When fwnode_for_each_available_child_node() is used on the device-tree
+> > > > > backed systems, it renders to same operation as the
+> > > > > fwnode_for_each_child_node(), because the fwnode_for_each_child_node()
+> > > > > does only iterate through those device-tree nodes which are available.
+> > > > 
+> > > > This makes me wonder why the OF backend implements
+> > > > fwnode_for_each_child_node() as fwnode_for_each_available_child_node().
+> > > > Is that on purpose, or is it a bug ?
+> > > 
+> > > I discussed this with Rafael and he didn't recall why the original
+> > > implementation was like that. The general direction later on has been not
+> > > to present unavailable nodes over the fwnode interface.
+> > > 
+> > > So I'd say:
+> > > 
+> > > Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > 
+> > > We should also change the documentation of the fwnode API accordingly.
+> > 
+> > Does that also mean that the fwnode_for_each_available_child_node()
+> > function will be dropped ? It's used by few drivers (5 in addition to
+> > the thp7312 driver, plus 3 call sites in drivers/base/core.c), so a
+> > patch series to drop it should be easy.
+> > 
+> 
+> I assume the fwnode_for_each_available_child_node() still makes sense for
+> ACPI backed users, no?
 
-On Mon, Mar 31, 2025 at 9:24=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
->
-> On Sun, Mar 30, 2025 at 10:07:01PM +0100, Prabhakar wrote:
-> >  allOf:
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            const: renesas,r9a07g044-du
->
-> This goes probably after the if: block for renesas,r9a07g043u-du to keep
-> sorting (if I get numbers correctly).
->
-Agreed, I'll maintain the sort order here.
+Not really (see my earlier explanation in
+<Z9mQPJwnKAkPHriT@kekkonen.localdomain>). I think all the *available* stuff
+should be removed from include/linux/property.h, apart from
+fwnode_device_is_availble(), which should be turned to work on struct
+device to signal its availability for device nodes only.
 
-> > +    then:
-> > +      properties:
-> > +        ports:
-> > +          properties:
-> > +            port@0:
-> > +              description: DSI
-> > +            port@1:
-> > +              description: DPI
-> > +
-> > +          required:
-> > +            - port@0
-> > +            - port@1
-> >    - if:
-> >        properties:
-> >          compatible:
-> > @@ -101,18 +119,20 @@ allOf:
-> >
-> >            required:
-> >              - port@0
-> > -    else:
-> > +  - if:
-> > +      properties:
-> > +        compatible:
-> > +          contains:
-> > +            const: renesas,r9a09g057-du
-> > +    then:
-> >        properties:
-> >          ports:
-> >            properties:
-> >              port@0:
-> >                description: DSI
->
-> port@1: false
-Agreed, more validation.
+-- 
+Terveisin,
 
-Cheers,
-Prabhakar
+Sakari Ailus
 
