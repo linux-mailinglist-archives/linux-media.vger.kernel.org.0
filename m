@@ -1,149 +1,144 @@
-Return-Path: <linux-media+bounces-29575-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29576-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B8E2A7F428
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 07:31:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A848A7F429
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 07:32:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2A257173A77
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 05:31:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B6CC51892B22
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 05:32:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABB13204583;
-	Tue,  8 Apr 2025 05:31:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 449ED207A03;
+	Tue,  8 Apr 2025 05:32:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="Pq4sp7BE";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UtweT6Hi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="acBdSL3h"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC0E188587
-	for <linux-media@vger.kernel.org>; Tue,  8 Apr 2025 05:31:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.146
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6AD20330
+	for <linux-media@vger.kernel.org>; Tue,  8 Apr 2025 05:32:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744090284; cv=none; b=twCWGo+kpjZkoNbcPSN2m5MgeE1T3pVjVXm0PIFltW/Jr6muyAb4RRpjDKmqvJc+JhKeAAUgbbTMpekvqPTO81UVtzpt+R/umj1cFXphldKsJtrzIzZyB9TdHJtFrWXatt+Fa+5bj3+M8lqXq9HvIngAxcfAgWJ0zYwWCx8sIfg=
+	t=1744090332; cv=none; b=jHsQRLiKRPuPKRBkG7LF0wAhFNBssyqw1XhBOtFhXi9m29XckAU3mjQ6ri4D89ju1Tv1W756PjzUI6unY2b42KVtj15+7MsHooVlY/QoHuGXo/kCPwwXNgbX8F1bVAG+B9vNmmaf4p+I/OOTd4ylSY4Bsly7KtyfGbpro5X9LVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744090284; c=relaxed/simple;
-	bh=23L0OtVZSIOtKaSiMfUEPnEXxROSB88X8cKWP8/xjdY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XPtyqdRSV7THk5GUqawJk6++Yx3iqfFrSjCbNeml/PTLGDmB8+Y471XomHA++H1rGtZf2/wVoVWU+qHf2fYkSBuETItlFyEdkbW7RUWaZCSjxECB7rTYgDb0vGQZ9uxfI00AWGHX0h0Jz74x2i3Oxzik75EskrBmqGqUSVIpTdc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=Pq4sp7BE; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UtweT6Hi; arc=none smtp.client-ip=103.168.172.146
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
-	by mailfout.phl.internal (Postfix) with ESMTP id ACD3013800DC;
-	Tue,  8 Apr 2025 01:31:18 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Tue, 08 Apr 2025 01:31:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1744090278;
-	 x=1744176678; bh=s2JgpUWybszUKKzoYZUcXJfBulmKrzd4sthQgJn43us=; b=
-	Pq4sp7BERVig3VZYCB+AG5adjt2jpDVq+ea/CM4iHnscGIlDnRF1ITNPesKq606V
-	h5O9KnPeUDRSs7isATJiTSUhbYp3xl306SKjqPhhIveFtQrlsdgnB/Op0DOXS562
-	let/MgsYJXBD490+3AI0KGhz9FqXHKmVj0k6ud+OhQUT76atOU8KN4htjt0m9xWm
-	6VZrL2kBfPwAhsBbxXLMyKzUKL869VgFtkpGeRQY5lwgnKoQ2eHh4ngOckCV73FD
-	+bp3zUUAPTHQQG3vmFekHVVDU4I36BiKj7XtrCijUH2Es5HsWixedGv0LbiRE93c
-	T2CeBuT1VUw5YTsMSU8P9w==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1744090278; x=
-	1744176678; bh=s2JgpUWybszUKKzoYZUcXJfBulmKrzd4sthQgJn43us=; b=U
-	tweT6Hii15/4T3TnY4FEyHA9iYq19c/pjcr2cbfp27m4INxGMZ3uTYPN3Ryv/wjB
-	XbIFIme+Hx3DMDhPYvF/H206DQ/kBxut7uUwAd8JvrsKlqN6LqRfMOaT5Tat9Kya
-	P4SCXPEgNOjCItquyBvR0aO7V9kfzCFvF4aXctMb9JVLkKeU0lnVCVzwp6RriAwS
-	b0R2U0eoouoOrzHZ3HeHhXmwfEZu8l7p6gp+IAsHm84plnxjhcrPpCf5vq2QgHo8
-	vlwcWFIUu8LLklyU5t2E7ziM6gRc11FYY4d29dZ/L8SQ+EXl/S1B/6nQUTpQzaDy
-	Fdtv9IaChJaJq9pN52ZEQ==
-X-ME-Sender: <xms:prT0Z9IzY1FFsSA_lk6_dXlC7B5iZY2yteRR888ZCyOuqOukAiZ0mw>
-    <xme:prT0Z5LYWfE2TfaTe2emXREN9QtOzZHdUED3JDU1T7OO49bKiL5j1zxKmEULDnn4p
-    nIpkId8EXt3DGif428>
-X-ME-Received: <xmr:prT0Z1u6zLUPh14yL_MvcHWb8ys0rczGMRt4UpY3toWIC-XF21bBROQxjFnjrcl1JOJOA6_b0nKAfQ-8Oui5vgtfp79mooa9Sw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtddvvdehucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddt
-    tdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrsh
-    houggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpedu
-    hedtkeefjeetffehteegtefflefgudeuhffggeegieetffdtvefhjedthfefudenucffoh
-    hmrghinhepvghmsggvugguvgguqdhrvggtihhpvghsrdhorhhgpdhkvghrnhgvlhdrohhr
-    ghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnih
-    hklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphht
-    thhopeegpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehlrghurhgvnhhtrdhpih
-    hntghhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhisggt
-    rghmvghrrgdquggvvhgvlheslhhishhtshdrlhhisggtrghmvghrrgdrohhrghdprhgtph
-    htthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghp
-    thhtohepkhhivghrrghnrdgsihhnghhhrghmsehiuggvrghsohhnsghorghrugdrtghomh
-X-ME-Proxy: <xmx:prT0Z-aGYFKvOqIFpNAGATpzYQbruHU6eUe3bZ2RzNLf2-l52k-AIw>
-    <xmx:prT0Z0bYl9iYP_Veq46JY34fxLbGxTpuJ2rT5pn-7qDnYWG0Euay8w>
-    <xmx:prT0ZyCWZDrN7fQtI_ensNPIslXFNJGFjVeqFrzFyPw_WeEI2JhsgA>
-    <xmx:prT0ZyY90tMkDffMyQvWziUvOaAQjqkND__nPSxjDnoL1rUt6HoQAA>
-    <xmx:prT0ZwLm3jbvf2mkWflSFVgqL5dSPLw2TCK1tTb21GzobRQg-1vdjiUc>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 8 Apr 2025 01:31:17 -0400 (EDT)
-Date: Tue, 8 Apr 2025 07:31:14 +0200
-From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+	s=arc-20240116; t=1744090332; c=relaxed/simple;
+	bh=IqjOptwZRCSeZeXlS1DNchDAuzxFH6VUs9W4IbdjPA8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=K3cQMQWM8fZCRMTGoa/wDR6WkDKwo5oa6YXZTsnrWldLz2vCekDRE0flXDiUM5SQJCjNDhYL900rSd61CVGRNh46lub/6KnPLkmRFQm+y8JIGskasOgMkRsv9xedzYjddWb8BRNIyhkxFjwJ0OWr8TTlXFVsLNBA/Ge+aE/FAV8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=acBdSL3h; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18F59C4CEE5;
+	Tue,  8 Apr 2025 05:31:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744090332;
+	bh=IqjOptwZRCSeZeXlS1DNchDAuzxFH6VUs9W4IbdjPA8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=acBdSL3haDOFLXRiTtmwt8Nrw08PLq8sqZTeIdjb6IRo1rXMF9bYHKKSMNJSH9mu5
+	 PxVGjUF4sCILmy3CgeQ4xtLq5X2AvKqbXViXIy/EAKQL5LfgdBDLcWgH4/XALZAHeh
+	 e4lCM/AWbwlukIEJ6jK7qUH9ORJgBZPukuM9fDW+upqKdkBFWPRVaIcIUsFeEw8zmA
+	 2vFKuMii9yPCP5h9p/9DFO4uDXE9qyTcL8U0SufXOZBD6rOvdA7saOmvOQnUm/6AEl
+	 biKOMusAmwxWsCFtVFyRfnt0SvCsbg8UBK8fLJP+4ot54XtdAzNFOgyg2jyZxe4/69
+	 M77NWo6EZ24LA==
+Date: Tue, 8 Apr 2025 13:31:42 +0800
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: libcamera-devel@lists.libcamera.org, linux-media@vger.kernel.org,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [ANNOUNCEMENT] libcamera workshop 2025 - Nice, May 16th
-Message-ID: <20250408053114.GA3734987@ragnatech.se>
-References: <20250325102750.GE20035@pendragon.ideasonboard.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Linux Media Mailing List
+ <linux-media@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sean Young <sean@mess.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>, Ricardo Ribalda
+ <ribalda@chromium.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Niklas =?UTF-8?B?U8O2ZGVy?=
+ =?UTF-8?B?bHVuZA==?= <niklas.soderlund@ragnatech.se>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Alain Volmat <alain.volmat@foss.st.com>,
+ "stanimir.k.varbanov@gmail.com" <stanimir.k.varbanov@gmail.com>, Bryan
+ O'Donoghue <bryan.odonoghue@linaro.org>, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>, Daniel Almeida
+ <daniel.almeida@collabora.com>, Michael Tretter <m.tretter@pengutronix.de>,
+ Tomasz Figa <tfiga@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>,
+ Steve Cho <stevecho@chromium.org>, Kieran Bingham
+ <kieran.bingham@ideasonboard.com>, Kevin Hilman <khilman@baylibre.com>,
+ Paul Kocialkowski <paulk@sys-base.io>, Benjamin Mugnier
+ <benjamin.mugnier@foss.st.com>
+Subject: Re: [ANN] Registration and Request for Topics for the Media Summit
+ on May 13th in Nice, France
+Message-ID: <20250408133142.030bd1cf@sal.lan>
+In-Reply-To: <20250407193909.GA17385@pendragon.ideasonboard.com>
+References: <044f2fa6-a245-4ae5-b9de-7a2e8831ccd6@xs4all.nl>
+	<20250407193909.GA17385@pendragon.ideasonboard.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250325102750.GE20035@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi,
+Em Mon, 7 Apr 2025 22:39:09 +0300
+Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
 
-On 2025-03-25 12:27:50 +0200, Laurent Pinchart wrote:
-> Hello everybody,
+> I would like to propose the following topic.
 > 
-> Another year, another libcamera workshop. After the previous editions in
-> Paris, Brussels and Vienna, we will organize the next workshop in Nice
-> on Friday the 16th of May. The event will be hosted by Embedded Recipes
-> ([1]) as part of their workshops day ([2]).
+> Review of the status of staging drivers
 > 
-> This year, our workshop will be colocated with the Pipewire workshop on
-> the same day and at the same venue (but a different room), to facilitate
-> discussions about topics that span libcamera and Pipewire. The Linux
-> Media Summit will also be organized in a nearby location on Tuesday the
-> 13th ([3]).
-> 
-> If you would like to attend, please register your interest by replying
-> to this e-mail, and indicate if you have any discussion topics you would
-> like to include in the schedule. We will draft and circulate an agenda
-> in the next few weeks after receiving topic proposals. If registrations
-> exceed our capacity, priority will be given based on topic submissions.
+> We have a set of 11 drivers in drivers/staging/media/, with various
+> states of maturity and development activity.
 
-If there are still seats available I would like to attend.
+On a quick look, we have there:
 
-> 
-> The event will be free of charge for attendees.
-> 
-> [1] https://embedded-recipes.org/2025/
-> [2] https://embedded-recipes.org/2025/workshops/
-> [3] https://lore.kernel.org/r/044f2fa6-a245-4ae5-b9de-7a2e8831ccd6@xs4all.nl
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+1. source "drivers/staging/media/atomisp/Kconfig"
+2. source "drivers/staging/media/av7110/Kconfig"
+3. source "drivers/staging/media/imx/Kconfig"
+4. source "drivers/staging/media/ipu3/Kconfig"
+5. source "drivers/staging/media/max96712/Kconfig"
+6. source "drivers/staging/media/meson/vdec/Kconfig"
+7. source "drivers/staging/media/rkvdec/Kconfig"
+8. source "drivers/staging/media/starfive/Kconfig"
+9. source "drivers/staging/media/sunxi/Kconfig"
+10. source "drivers/staging/media/tegra-video/Kconfig"
+11. source "drivers/staging/media/deprecated/atmel/Kconfig"
 
--- 
-Kind Regards,
-Niklas Söderlund
+> drivers/staging/ is not meant as a place for drivers to die,
+
+It is, actually: we usually move things there before dropping,
+because, on most cases, they could be salvaged if someone is
+interested on it.
+
+> we should nudge the relevant
+> maintainers and consider dropping drivers that show no hope of
+> progressing.
+
+Fully agreed.
+
+-
+
+Yet, while it makes sense to have action plans for drivers on staging,
+I don't think that the Media Summit is the best place to discuss,
+as people that might be involved with them may not be able to
+participate there.
+
+See, there are different situations there, like:
+
+- platform drivers: at worse case, those should be removed when
+  the core/DT support for such platform is removed. We removed
+  several such drivers in the past. We can also remove them earlier,
+  if there are reasons for doing that and nobody is complaining;
+
+- drivers like atomisp that takes a lot of efforts to be promoted.
+  As long as I see some progress (and we've been seeing progress
+  on every kernel version), I can't see any reason why removing it.
+
+- drivers like ipu3, which is for an entire family of PC CPUs.
+  I prefer not dropping drivers like these unless we have very good
+  reasons to do so. On the other hand, we are seeing very little
+  progress on those.
+
+Anyway, better to split this into different threads, copying
+the people involved on the recent changes for such drivers.
+
+Regards,
+Mauro
 
