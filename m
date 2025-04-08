@@ -1,119 +1,296 @@
-Return-Path: <linux-media+bounces-29634-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29635-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52618A80F74
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 17:14:22 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0868A80FFF
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 17:30:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 58BA38A0285
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 15:09:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C0E3A188F8B0
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 15:26:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0905B225779;
-	Tue,  8 Apr 2025 15:09:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30C7522A7F0;
+	Tue,  8 Apr 2025 15:26:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="N03VHVOj"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JAPahznK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C510A1A314B;
-	Tue,  8 Apr 2025 15:09:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17FCD1B4236;
+	Tue,  8 Apr 2025 15:26:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744124948; cv=none; b=hJum2mI0pSSHOMfk1QY4Okt5VVKR9i2NgSW+PaIyueNH7YaUDkKeOBHFh90aXL5bKV8Ua5PW5meG6u4BdzpVxAzUZ0ffvurzq+TStGVpk5pa9VD2EGCo0ppmI7hmErhwHt48WSM/SWmZ1RDQposxPx31UG5TXlcBtNWiKZp9iHc=
+	t=1744125979; cv=none; b=ZFLIlZjCWoB7GL+MW3rXlNaDNEGbD86S3WPFgSkStOTOwmMLiupXrWGvTkuY0FvGtlwBxv2zaU+6jMdcUFFxjP4ukVigjjaqUSSDPbQwRDS7ZMHdRxVOcRRSHLoHRRpfk5x5AfE/Xy+SznVg6WJvu2ktCLnqgaGrdKSlU7kTpvA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744124948; c=relaxed/simple;
-	bh=RwfNPKuGr/tX+bUekrqMT5Ymihw+pvrVdeKlfUSlglE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ulB5MXpJoYYvXMOxhtgsAUNx9ANpkYM6XHT3XSYwNTpwFXr0ze6BFqlfgAQUo7gPXYIzwuYEHJLJFZH1XYL0qIFSpz5GdcQM/MeVO1H1b4Qg5DieKYZPxA+9CXAYVhwJtirlL3zIedImjmgxgNPlTsU51GY1GNs/Wq+2sMRhgcg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=N03VHVOj; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744124946; x=1775660946;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=RwfNPKuGr/tX+bUekrqMT5Ymihw+pvrVdeKlfUSlglE=;
-  b=N03VHVOjLCyTZombvPXl9gkmS5hpRLcNNaz/ND82RSD1iw246bI7vPHo
-   zWo9iSY9S3iS9zTbbuuPmDJqVOFGjCTgfHHgKwb9pAXJvqpFFT3gqn0Ek
-   lPhMmcWKTCNDD8EBBfrSbrFDnZztXLfpZZMbP788j1htxpKpl1xM0vNXS
-   Azvo9AlQKN1AZJqCFLDMxcfuYUpmXHwL/JI9oUUqcktTCFSctthPwOudN
-   wsJP7Ikh8jYQWv59YD23Tr5CPuuUHOMKeOfADtrEXaERMYgKgsDSNtVxl
-   Eyp5RLw4jymSGP9tIGvW0gMHW0JBozGrwq/hZefEKUXxnCDwj7t1V3r8x
-   A==;
-X-CSE-ConnectionGUID: Glbk309LQd+3Y1BDEHll3w==
-X-CSE-MsgGUID: whOk/wlcRymBtDyprakbpg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="56544745"
-X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
-   d="scan'208";a="56544745"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 08:09:02 -0700
-X-CSE-ConnectionGUID: 7C9t1J2oS/G97wxH9g3xuw==
-X-CSE-MsgGUID: HtCzBwWlRxGqC8wI5qS2Zw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
-   d="scan'208";a="132432567"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 08:08:58 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 1FF9811F74E;
-	Tue,  8 Apr 2025 18:08:55 +0300 (EEST)
-Date: Tue, 8 Apr 2025 15:08:55 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v3 0/7] i2c: core: Move client towards fwnode
-Message-ID: <Z_U8Bza932tsZO66@kekkonen.localdomain>
-References: <20250407154937.744466-1-andriy.shevchenko@linux.intel.com>
- <Z_U2HLZN4XrbB-ly@kekkonen.localdomain>
- <Z_U3VcFg0ZtSnLcg@smile.fi.intel.com>
+	s=arc-20240116; t=1744125979; c=relaxed/simple;
+	bh=/kGtS8/BtmaNVNliS+L8soxs5sdtkhO9WztZgJbV9t8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=XZop2geLSFMt/dOl2SFPpKGs5IrYZcl7fyotJzUfyPqPVssyl3uwGwnUqpEzdo2Ieh+mL+arRjWnWHu370uyQnqpOOReLgZ2Z4PbRfG5VtnyBX6HLxKxns+yzeDzVBOwrJFG43B3Z0blA5TXIJctwyXgHmbDFySSDDD6rF9sCnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=JAPahznK; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1744125975;
+	bh=/kGtS8/BtmaNVNliS+L8soxs5sdtkhO9WztZgJbV9t8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=JAPahznKpbfsqrB8MbGLRGL6q6jT45uotHSYCPtg1ADGJmpOQ/SnGFCs01g0wLu/u
+	 ZEdaQkMsR3KEC7kgzonuqqXBjcaDdN0Nn4G2dmHhrDvLk8LNjZeZxBBo02k2CERw/R
+	 UZbeeVsazM4tJCGc+BfOcwal1gbRTCTkAJX7mRKHhYpNf6k7u4bwziyXKiN3zLFCeS
+	 Zm8jPO/BxL8jZ4xUjCP6FOCGXLuN3b6O8/L1u+M6BxTxGHKBQ3DAeLh9hKrljjniGn
+	 xmR9b3I5BxygaWPpQjQvXrR9HAIigrenayOs/lmhjruZATjfUZ66VHJIgtK/JrR6ug
+	 3hAmuMgm4YTtg==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9B6C117E0D13;
+	Tue,  8 Apr 2025 17:26:14 +0200 (CEST)
+Date: Tue, 8 Apr 2025 17:26:10 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v4 4/4] drm/panthor: show device-wide list of DRM GEM
+ objects over DebugFS
+Message-ID: <20250408172610.428f689d@collabora.com>
+In-Reply-To: <20250402115432.1469703-5-adrian.larumbe@collabora.com>
+References: <20250402115432.1469703-1-adrian.larumbe@collabora.com>
+	<20250402115432.1469703-5-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z_U3VcFg0ZtSnLcg@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 08, 2025 at 05:48:53PM +0300, Andy Shevchenko wrote:
-> On Tue, Apr 08, 2025 at 02:43:40PM +0000, Sakari Ailus wrote:
-> > On Mon, Apr 07, 2025 at 06:44:56PM +0300, Andy Shevchenko wrote:
-> > > The struct i2c_board_info has of_node and fwnode members. This is quite
-> > > confusing as they are of the same semantics and it's tend to have an issue
-> > > if user assigns both. Luckily there is only a single driver that does this
-> > > and fix is provided in the last patch. Nevertheless the series moves
-> > > the client handling code to use fwnode and deprecates the of_node member
-> > > in the respective documentation.
-> > > 
-> > > Tomi tested the last patch, but since it was separate there is no tag (yet).
-> > 
-> > Apart from the two minor commit message comments:
-> > 
-> > Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> Thank you for your review!
-> Does it imply that media patch can go via I²C subsystem?
+On Wed,  2 Apr 2025 12:54:29 +0100
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-Good point. Yes, and you can use this for the last patch:
+> +static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
+> +					 struct seq_file *m,
+> +					 struct gem_size_totals *totals)
+> +{
+> +	unsigned int refcount =3D kref_read(&bo->base.base.refcount);
+> +	char creator_info[32] =3D {};
+> +	bool has_flags =3D false;
+> +	size_t resident_size;
+> +
+> +	/* Skip BOs being destroyed. */
+> +	if (!refcount)
+> +		return;
+> +
+> +	resident_size =3D bo->base.pages !=3D NULL ? bo->base.base.size : 0;
+> +
+> +	snprintf(creator_info, sizeof(creator_info),
+> +		 "%s/%d", bo->debugfs.creator.process_name, bo->debugfs.creator.tgid);
+> +	seq_printf(m, "%-32s%-16d%-16d%-16zd%-16zd%-16lx",
+> +		   creator_info,
+> +		   bo->base.base.name,
+> +		   refcount,
+> +		   bo->base.base.size,
+> +		   resident_size,
+> +		   drm_vma_node_start(&bo->base.base.vma_node));
+> +
+> +	seq_puts(m, "(");
+> +	has_flags =3D panfrost_gem_print_flag("imported", bo->base.base.import_=
+attach !=3D NULL,
+> +					    has_flags, m);
+> +	has_flags =3D panfrost_gem_print_flag("exported", bo->base.base.dma_buf=
+ !=3D NULL,
+> +					    has_flags, m);
+> +	if (bo->base.madv < 0)
+> +		has_flags =3D panfrost_gem_print_flag("purged", true, has_flags, m);
+> +	else if (bo->base.madv > 0)
+> +		has_flags =3D panfrost_gem_print_flag("purgeable", true, has_flags, m);
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+I would probably go:
 
-I wonder if Tomi would still be able to test (or at least ack) it. I see he
-has tested the rest but this one is missing hist Tested-by:.
+	has_flags =3D panfrost_gem_print_flag("purged", bo->base.madv < 0, has_fla=
+gs, m);
+	has_flags =3D panfrost_gem_print_flag("purgeable", bo->base.madv > 0, has_=
+flags, m);
 
--- 
-Sakari Ailus
+to keep it one line per flag.
+
+BTW, most of those flags are encoding the GEM state, so maybe the column
+should be named state, and the helper panfrost_gem_print_state_flag().
+
+> +	if (!has_flags)
+> +		seq_puts(m, "none");
+> +	seq_puts(m, ")");
+> +
+> +	seq_printf(m, "%-6s0x%-2x", "", bo->debugfs.bo_mask);
+
+It's probably better if we print the debugfs flags like the GEM flags
+(one string per flag, with a ',' separator). We can even make it a
+helper function taking a list of flags and their associated strings so
+we can use it for both panthor_gem_object::flags and
+panthor_gem_object::debugfs::flags.
+
+static void
+panthor_gem_debugfs_print_flags(const char *names,
+				u32 name_count,
+				u32 flags)
+{
+	bool first =3D true;
+
+	seq_puts(m, "(");
+
+	if (!flags)
+		seq_puts(m, "none");
+
+	while (flags) {
+		u32 bit =3D fls(flags) - 1;
+
+		if (!first)
+			seq_puts(m, ",");
+
+		if (bit >=3D name_count || !names[bit])
+			seq_printf(m, "unknown-bit%d", bit);
+		else
+			seq_puts(m, name);
+
+		first =3D false;
+		flags &=3D ~BIT(bit);
+	}
+
+	seq_puts(m, ")");
+}
+
+> +
+> +	mutex_lock(&bo->label.lock);
+> +	seq_printf(m, "%-6s%-60s", "", bo->label.str ? : NULL);
+> +	mutex_unlock(&bo->label.lock);
+> +	seq_puts(m, "\n");
+> +
+> +	totals->size +=3D bo->base.base.size;
+> +	totals->resident +=3D resident_size;
+> +	if (bo->base.madv > 0)
+> +		totals->reclaimable +=3D resident_size;
+> +}
+> +
+> +void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+> +				   struct seq_file *m)
+> +{
+> +	struct gem_size_totals totals =3D {0};
+> +	struct panthor_gem_object *bo;
+> +
+> +	seq_puts(m, "created-by                      global-name     refcount  =
+      size            resident-size   file-offset     flags     kflags     =
+label\n");
+> +	seq_puts(m, "----------------------------------------------------------=
+---------------------------------------------------------------------------=
+-----------\n");
+> +
+> +	scoped_guard(mutex, &ptdev->gems.lock) {
+> +		list_for_each_entry(bo, &ptdev->gems.node, debugfs.node)
+> +			panthor_gem_debugfs_bo_print(bo, m, &totals);
+> +	}
+> +
+> +	seq_puts(m, "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D\n");
+> +	seq_printf(m, "Total size: %zd, Total resident: %zd, Total reclaimable:=
+ %zd\n",
+> +		   totals.size, totals.resident, totals.reclaimable);
+> +}
+> +#endif
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/pant=
+hor/panthor_gem.h
+> index 49daa5088a0d..22ecc0d39d5e 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> @@ -15,6 +15,32 @@ struct panthor_vm;
+> =20
+>  #define PANTHOR_BO_LABEL_MAXLEN	PAGE_SIZE
+> =20
+> +#define PANTHOR_BO_KERNEL	BIT(0)
+
+s/PANTHOR_BO_KERNEL/PANTHOR_DEBUGFS_BO_FLAG_KERNEL/
+
+> +#define PANTHOR_BO_FW_MAPPED	BIT(1)
+
+s/PANTHOR_BO_FW_MAPPED/PANTHOR_DEBUGFS_BO_FLAG_FW_MAPPED/
+
+And it'd be better if those flags were documented.
+
+I would also add a
+
+#define PANTHOR_DEBUGFS_BO_FLAG_INITIALIZED BIT(0)
+
+and move the other flags one bit left.
+
+> +
+> +/**
+> + * struct panthor_gem_debugfs - GEM object's DebugFS list information
+> + */
+> +struct panthor_gem_debugfs {
+> +	/**
+> +	 * @node: Node used to insert the object in the device-wide list of
+> +	 * GEM objects, to display information about it through a DebugFS file.
+> +	 */
+> +	struct list_head node;
+> +
+> +	/** @creator: Information about the UM process which created the GEM. */
+> +	struct {
+> +		/** @creator.process_name: Group leader name in owning thread's proces=
+s */
+> +		char process_name[TASK_COMM_LEN];
+> +
+> +		/** @creator.tgid: PID of the thread's group leader within its process=
+ */
+> +		pid_t tgid;
+> +	} creator;
+> +
+> +	/** @bo_mask: Bitmask encoding BO type as {USER, KERNEL} x {GPU, FW} */
+> +	u32 bo_mask;
+
+s/bo_mask/flags/ and mention that it's a combination of
+PANTHOR_DEBUGFS_BO_FLAG_xxx in the doc.
+
+> +};
+> +
+>  /**
+>   * struct panthor_gem_object - Driver specific GEM object.
+>   */
+> @@ -62,6 +88,10 @@ struct panthor_gem_object {
+>  		/** @lock.str: Protects access to the @label.str field. */
+>  		struct mutex lock;
+>  	} label;
+> +
+> +#ifdef CONFIG_DEBUG_FS
+> +	struct panthor_gem_debugfs debugfs;
+> +#endif
+>  };
+> =20
+>  /**
+> @@ -157,4 +187,9 @@ panthor_kernel_bo_create(struct panthor_device *ptdev=
+, struct panthor_vm *vm,
+> =20
+>  void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
+> =20
+> +#ifdef CONFIG_DEBUG_FS
+> +void panthor_gem_debugfs_print_bos(struct panthor_device *pfdev,
+> +				   struct seq_file *m);
+> +#endif
+> +
+>  #endif /* __PANTHOR_GEM_H__ */
+
 
