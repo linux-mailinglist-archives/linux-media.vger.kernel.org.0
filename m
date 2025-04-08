@@ -1,137 +1,161 @@
-Return-Path: <linux-media+bounces-29603-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29604-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B77EDA7FC1E
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 12:34:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6CBBA7FC6E
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 12:42:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C56D04407FF
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 10:31:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA0CD1895720
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 10:37:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F1A3269AFB;
-	Tue,  8 Apr 2025 10:26:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE7262686AA;
+	Tue,  8 Apr 2025 10:36:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SPMrLEea"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OmPziao6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EB541E1E04;
-	Tue,  8 Apr 2025 10:26:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A30A267AF0;
+	Tue,  8 Apr 2025 10:36:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744108008; cv=none; b=nfLrAwxgWkmzlxkawbA6hipoSXRnKkhLP/4FGDMhBDz5eN4/8jt984wYxuF24GATIFe8a6pyvPWKemyMlnf51iLcPfsqez7ZuvtpAO2pdgZ71Utj9K6pHZMf+i1pY3wpAmPF/Cdv8kEEW8CwI1krs9B6GTr1HZxNycTdLcOlI7o=
+	t=1744108598; cv=none; b=gf/L5v1G09z58Cy49F9vj9ZgRIwB+FWzoyUe2zjNOb5cvieRUDnMMrTAw02tzyIRQHvauz6jGVe5NENlVvHXVW4H6uShIzVqMhCeZYfMswg9amjA72NWdZRsHs8RKiQJ+K7RIFJX2s8+DDJY/wZnuxCBRmCWf1iz5thZVBSIXrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744108008; c=relaxed/simple;
-	bh=wbk3IxyghO2N+vPGqFUJSWI7EZaT+oIbACmk+kE/tKA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=smQfIzVX4E4//DVfxoMOJuGZ9r+pWJjdakYB3XzDdj4SkUsvpXeiUasBC84Pfb4GvVDAhzPCvjmoILxiFJW3Ko/el1uWuQSmIBTxEg27e7Ew3KXrNSWC9Gz2+tnJ9oWZ0DXe2iQ1Hbfw4g0e0tR/slRs98/idjcB9dhSRRV7pGk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SPMrLEea; arc=none smtp.client-ip=209.85.208.175
+	s=arc-20240116; t=1744108598; c=relaxed/simple;
+	bh=/UphR4APFcK/PozCoAhhjfIcAkajuJZKr5WV2+8cQPc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=bCWiZrwrGg3Dh3INCILuxfIApQdDtgX6CoFOhxl5wXU3Qpafv0dfrR7o0raL8yzmcsQ9lVqqQvPj7cKE/JFVBYmdi9gur5D3avodO460YdTrAFEJjLj5S8XHc8r+IxPFMD3EtKyAiaKaO7jXZVwL+JqsEPxf10cppi0Dqhg004Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OmPziao6; arc=none smtp.client-ip=209.85.221.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-30bfd4d4c63so47052461fa.2;
-        Tue, 08 Apr 2025 03:26:45 -0700 (PDT)
+Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-523f721bc63so5611863e0c.0;
+        Tue, 08 Apr 2025 03:36:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744108004; x=1744712804; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=U/aafXXtS1pJTfXUJnYrRD1/oosIVbIYxn3rEdTX4jE=;
-        b=SPMrLEeah68LbppK0tO70NK+eYLOrbAmJ+eNWuESjG8D7jD+qc/lkZUh4V5TZNmi1L
-         LJLpuXxdupN8naAmlW7TecKczxUt1ujXSUA+qdLHyaPeWruggwd32YBWh+zW9Yb7bURK
-         kUt40lP+FTHPAfjwE3WWgpokbkP/PvIxi0jBbWXF+m0RFacWq9Q+TNOukjf0SvzGS/9l
-         +NADhPhnyJuXdmRVYe1XJw/GrMpPUy1R9RfeROF/XofAci8Qxh8HUiG/RfWMM91FLN/g
-         LhoK6ENlcZbBoUA/SJqLQGNKNzMGvDlRX8eD6k2Gva+i6qbg4ElXb8PjNsh37W2RwCgh
-         dRzw==
+        d=gmail.com; s=20230601; t=1744108595; x=1744713395; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KgmG0wqQuAR9ll3NJT03Os1B09ohhoP7nPRoSHR6bKo=;
+        b=OmPziao6wFNS8qvNYI7EMNZG9Ih1bHKoMPQos8gV1JtViB01pBRmD+AFOOGIqOemsz
+         qIy79u6sgNuUoP8ENcxQclcCXHaU4s19utH9kzdu8N6v08SMBq2TRT/VZCgFZr9tvLZL
+         /NH/j4tgEkNRd7URdCy3iZkY+hyBHjaV0L8oZv6zhf69GHTvz+3VOJ/btQ2JLtuyyfyW
+         ONWy0yx51KXuh5w6qlNjiSoNyqF/Kk6N3fT7cjxvLX4bBBI2Bz38Z77hgAAiqo4JN2Yc
+         li5g8lnIuarYhKYhqEO/S+6NDtWxqf6XUe8vKi7vFdmYLNiveUZ2oypxLtkdNpllZWW0
+         6NGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744108004; x=1744712804;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=U/aafXXtS1pJTfXUJnYrRD1/oosIVbIYxn3rEdTX4jE=;
-        b=c6zIt4ujHf4qfu8U31bjzMNWqw6ggWmoA2axhclxlzzil4hm+uPPXUil2W4coZydZn
-         KZSnfdG+2V2NT14BKMu3aH3SkTJiETJ40Wl5/R1P1Mh74DZh3cJipfY0k/nSwo0ExKkA
-         ThNGYTLoOsWfKpwxgw6AFQ9bpaIKJZPRbi4rnD6hncM45PsukGFQAZr1qf7doewbFP7x
-         9GCTWFVCy8BFc62qcss3IgRH/LbmRZcIVEMqXKq79XVqvfrT3gR8J7ZebPXru9zEyyqu
-         aOBE2WopdXKfnLi2fNpYzuOLb0+1VdarplMX7Pgmkw5hwBviKRboVZGRUfGdUs8vKXiF
-         juow==
-X-Forwarded-Encrypted: i=1; AJvYcCWdFdACt5iw2KCPtTGv92KOMISa4uzcgNCZowd1zvcVZyIKn2xP0R44OqOX3r6nGxB0dGc+vsyFdyCdAHU=@vger.kernel.org, AJvYcCX7AC6dHMhyf6IcmZfr5MvFSp/K+jUfvHp9vK304QSS2vwzzeBEz3Kb/NF9VaOwsG87SJeIs/FoVGZNjzI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YywuHOtSWdnnvQQlknqygPNv/LC9FoCzbtz1XGdRu5rn8dKvICL
-	DYOb/UdCeYDJGvzgZkSkGdEe8IZ1ATXFmWCudIYi+N4cbjyuiG3o
-X-Gm-Gg: ASbGnct+1u9Qg//8zBgEGnWFGqGkXRDuqF1mDEDb9GtXO9qZmhKM4uRKxHTlPnfrdkA
-	1k/261xJwRUznUIQaA4X2qmKgNBnJMalqAHEzTxjgTmWHv7Jhoh+elXHF/l06j8OmNkHfBVMT7j
-	dgXsSS6Khu8LeF/3gdQhpJS5qFvHjoVFfge++lXuLToXdc3PmMPj8O+hrCH6Po3VorC/LDcFy5h
-	pHaGBttSEqCTumC7js9IwVt156Tn08BTlBgVDsx+ij8Tt/TxSxDFRKdYsKsOfSaAzntrkrviVH9
-	nxFxO/R1gXWrBH4hv+HmpVUKezLTM1NpwPIigZnzF6iGB+uaYvpIk3zt6Q==
-X-Google-Smtp-Source: AGHT+IGHtrBUihRy6bJ4u3z8Jeg9COOirDuEB6qTLwJJHWzK2pkJ9TuRXePn53PqpYbFx3piSEFadw==
-X-Received: by 2002:a2e:a548:0:b0:30b:963e:9b1a with SMTP id 38308e7fff4ca-30f0a12f55cmr50823981fa.23.1744108003922;
-        Tue, 08 Apr 2025 03:26:43 -0700 (PDT)
-Received: from [172.16.183.207] ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30f0314b7efsm19058541fa.62.2025.04.08.03.26.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Apr 2025 03:26:43 -0700 (PDT)
-Message-ID: <3d8546b9-92bd-40da-a61a-4534ba7779db@gmail.com>
-Date: Tue, 8 Apr 2025 13:26:42 +0300
+        d=1e100.net; s=20230601; t=1744108595; x=1744713395;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KgmG0wqQuAR9ll3NJT03Os1B09ohhoP7nPRoSHR6bKo=;
+        b=PIlKiVCZDoV8otHO1MLelt+fZUK0x/mJubWOCH/P3FcADiUE+4IiesALH1IXZLx9AX
+         tCozZ1K5GVLnJTcG8iPoba+l2ha8c5FRMziMX2M7IpFL4zOUdg6F0CItBH/itXOf8ETL
+         XhYCg1k5hCc644QUfhpcCGuMZp3s0gHHhperZxN3yqk582qCyL4LkwvkeKFltG8X19rR
+         5RIkvVZ1gBh5XZ9vyNyCYDEav+lhJygsWHAc0RcNe6h4TUK/yzsm7k+eSgviiA2m0Vvi
+         AICnSyxRmQnlu3bXhYbr44xG38yWq7khOoeMTPsd+Ggeo9iD1pmLmNsTtr+mLIZ5cGN9
+         T7sQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUQOSTFXSXQbvs77ls8j1bm4ECaa4aAtU3bTYnHQcGFtq4HxUh7VPcdb2coRAkG+I/loUI6dibLoEoy@vger.kernel.org, AJvYcCUmNX1uKanDenIl0pp4Gxku2x/0Aexgg4wCUBtWUXodUVnXlEiavMbQ6u29VIHJMXdf/3Mr5kUlW1F9pLQR@vger.kernel.org, AJvYcCV8pnbZRpj1vF4oTEbynCTopve3416J3DfcobahdRllzrsvOeIfy027+BtTrYd4ebBcvinoww5cZ/ky@vger.kernel.org, AJvYcCVeSxDUksHXQHyEml1ojnATRGzjOIJjzp+oQEj+BNDCehNmoOd0Odw9PpRa3i+6+zIo6/F1CttbtbDgTq8=@vger.kernel.org, AJvYcCXkTsgIyFTV4X2LK0WMC8XpX/hcaDN8ndYhRXiw5PSXjxyywEAIDwFH1LPHXpXKQwl4sJk+zPALgQ4CjLCYtiWnRPs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YykvkwR3kGIJtwXxBmdFs24lOputP351v4/MkIXgKjiYZXqdI1C
+	ckD6MubN+dIsb9+wDlnqYv0l7UNvxpKVxgxYT4fZS0dWJj9Z5oXA5JSdt0Aaq1E0KvfHvkgSqKo
+	Q6Q9ss3ic6V2w9VY9hhlBlILg8MQ=
+X-Gm-Gg: ASbGncuR+/3BcGkKScHseBn8k4S8oFo+ouAFsfcWJgI5OYv/ESoelKWOOiqC5wzVd6z
+	GEv4HInEHq9Dz91xPcgQIITmPacdxyl/SKl9sJQ0yrObN4LVhmafRCdJnxa3MRkmGpf1ljBz3Eo
+	RIIT4EYvlFMJlqZ3Wa3pBLOC3eIfog9Olw38pklyaz7udy3J/sQKoRt7G2Fw==
+X-Google-Smtp-Source: AGHT+IGMyNP2No7AuI19CdTtXFJE8koZoGDmQoARojlwrt1NccfGqz2JVp+QE7meuv23NLp5JcjsnmRCoc4VHK/gGxk=
+X-Received: by 2002:a05:6122:894:b0:523:771e:8b81 with SMTP id
+ 71dfb90a1353d-5279acd553cmr1706106e0c.7.1744108595413; Tue, 08 Apr 2025
+ 03:36:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: i2c: thp7312: use fwnode_for_each_child_node()
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
- Paul Elder <paul.elder@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <Z90qM33DvkTMGg_x@mva-rohm>
- <20250321104100.GC25483@pendragon.ideasonboard.com>
- <Z_Ti7aQK2_OlrUee@kekkonen.localdomain>
- <20250408101252.GB31475@pendragon.ideasonboard.com>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <20250408101252.GB31475@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250330210717.46080-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20250330210717.46080-6-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250331-magic-buzzard-from-valhalla-af88e3@krzk-bin>
+In-Reply-To: <20250331-magic-buzzard-from-valhalla-af88e3@krzk-bin>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Tue, 8 Apr 2025 11:36:09 +0100
+X-Gm-Features: ATxdqUEzNQOXPjrLjLavlNGBXC7oKKUbhfJS_OUOhwmcc79SQzhslZo05twijCQ
+Message-ID: <CA+V-a8tDfqH_utn7k0j=6s8HkjkLFrAanwZD8m8LpBxpWXO1QA@mail.gmail.com>
+Subject: Re: [PATCH 05/17] dt-bindings: display: renesas,rzg2l-du: Add support
+ for RZ/V2H(P) SoC
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Geert Uytterhoeven <geert+renesas@glider.be>, Andrzej Hajda <andrzej.hajda@intel.com>, 
+	Neil Armstrong <neil.armstrong@linaro.org>, Robert Foss <rfoss@kernel.org>, 
+	Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>, 
+	Jernej Skrabec <jernej.skrabec@gmail.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Biju Das <biju.das.jz@bp.renesas.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 08/04/2025 13:12, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> On Tue, Apr 08, 2025 at 08:48:45AM +0000, Sakari Ailus wrote:
->> On Fri, Mar 21, 2025 at 12:41:00PM +0200, Laurent Pinchart wrote:
->>> On Fri, Mar 21, 2025 at 10:58:27AM +0200, Matti Vaittinen wrote:
->>>> When fwnode_for_each_available_child_node() is used on the device-tree
->>>> backed systems, it renders to same operation as the
->>>> fwnode_for_each_child_node(), because the fwnode_for_each_child_node()
->>>> does only iterate through those device-tree nodes which are available.
->>>
->>> This makes me wonder why the OF backend implements
->>> fwnode_for_each_child_node() as fwnode_for_each_available_child_node().
->>> Is that on purpose, or is it a bug ?
->>
->> I discussed this with Rafael and he didn't recall why the original
->> implementation was like that. The general direction later on has been not
->> to present unavailable nodes over the fwnode interface.
->>
->> So I'd say:
->>
->> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->>
->> We should also change the documentation of the fwnode API accordingly.
-> 
-> Does that also mean that the fwnode_for_each_available_child_node()
-> function will be dropped ? It's used by few drivers (5 in addition to
-> the thp7312 driver, plus 3 call sites in drivers/base/core.c), so a
-> patch series to drop it should be easy.
-> 
+Hi Krzysztof,
 
-I assume the fwnode_for_each_available_child_node() still makes sense 
-for ACPI backed users, no?
+Thank you for the review.
 
-Yours,
-	-- Matti
+On Mon, Mar 31, 2025 at 9:24=E2=80=AFAM Krzysztof Kozlowski <krzk@kernel.or=
+g> wrote:
+>
+> On Sun, Mar 30, 2025 at 10:07:01PM +0100, Prabhakar wrote:
+> >  allOf:
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            const: renesas,r9a07g044-du
+>
+> This goes probably after the if: block for renesas,r9a07g043u-du to keep
+> sorting (if I get numbers correctly).
+>
+Agreed, I'll maintain the sort order here.
+
+> > +    then:
+> > +      properties:
+> > +        ports:
+> > +          properties:
+> > +            port@0:
+> > +              description: DSI
+> > +            port@1:
+> > +              description: DPI
+> > +
+> > +          required:
+> > +            - port@0
+> > +            - port@1
+> >    - if:
+> >        properties:
+> >          compatible:
+> > @@ -101,18 +119,20 @@ allOf:
+> >
+> >            required:
+> >              - port@0
+> > -    else:
+> > +  - if:
+> > +      properties:
+> > +        compatible:
+> > +          contains:
+> > +            const: renesas,r9a09g057-du
+> > +    then:
+> >        properties:
+> >          ports:
+> >            properties:
+> >              port@0:
+> >                description: DSI
+>
+> port@1: false
+Agreed, more validation.
+
+Cheers,
+Prabhakar
 
