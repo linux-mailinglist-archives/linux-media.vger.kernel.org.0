@@ -1,587 +1,486 @@
-Return-Path: <linux-media+bounces-29625-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29626-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33D34A80D22
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 16:00:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4C0DA80E6B
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 16:39:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 04C55441AEF
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 13:57:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1883388299E
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 14:32:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 141D21BC09A;
-	Tue,  8 Apr 2025 13:57:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="zQMZDdlp"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9932A1EB5C3;
+	Tue,  8 Apr 2025 14:32:11 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7096919E96A
-	for <linux-media@vger.kernel.org>; Tue,  8 Apr 2025 13:57:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7CE1581F0;
+	Tue,  8 Apr 2025 14:32:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744120629; cv=none; b=DRiWsjkyRdsgIqt3qduF0+g+SQzzEseroFJvYJCDy96DLdHXpqXW2MAHHeATA29IKg5BJsbiTHzysNaytu/WuGS+PJFErSlvOvYvC14dOpb96A7TFEvtpKUhVJuvrzgjqSI5Y7iApE1vvfHfkqcoQTMDIIW/YFKK66zXd4otoB0=
+	t=1744122731; cv=none; b=U1i16w4JjfhpT8W0aaeCseIeANEQJWd3JRue1ub9mXgbCJfmhFvrKG0357SHSVWVFdYDEy7F97SR3VWWkhrrjLbSJekAQ3lbfJJM+qUhKWqsRIlXOq+w68RBlyh0Ip4lswRkg6jGXkJHwQiMwwytr8gb7WZgoTpdCxExPeIaOUY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744120629; c=relaxed/simple;
-	bh=2so92eGIuLP/Dz48O8WH4Wzz5lLMtSv7e/gqN2nblHw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BaMOqQFc2W5me3anV4dirLeaxmy492gpzLAzfOB2Hr6dOwRrr3Cr7M9iqpRav9b7RJxfxIX8L10kv2L53HNTMfQYOhfpuv9UZw+fmlwJuR++lR360RnWBzhS//nIxwfTN7XIHWeHJMzsGjQVST4s3TfDJsXlBoenbg9wmZTs6IA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=zQMZDdlp; arc=none smtp.client-ip=209.85.218.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ac2bdea5a38so935598566b.0
-        for <linux-media@vger.kernel.org>; Tue, 08 Apr 2025 06:57:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1744120625; x=1744725425; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=eKjdH4Pw3NpQPLkg+gCbs76LHGbj5tkScdwQ0i1YzGA=;
-        b=zQMZDdlproWmSYuoyr3TRVkvE6oQJrUFM+F1je0Gfp/mzWBvym3oxxE24F+XzPRHyx
-         nYWx1I086PHSufzp2DlG21J0CCcpPK1GVppy62mPZ9NBcBxp1Jpv0PoTVYEg+SknyuRq
-         yo9MAUqhTkQV9NVc1sAly3SFK/pVFiu86OOvMw5H4gCGlRQ/ElK56m26Dw4QvXNidPc+
-         /ADtCNAd2VRUYKEtF8Gmm0NEnVlTk+uAXdEk/qKyiw1S6hxf527axHSc8AW6k/hcTcgG
-         Hno2WTTmq1IkVRXErHdaFSvkKX2Q9bluGeZ3CGS2uRS3PNeWeL3MW5h66IJ7N3TsjDCc
-         IRug==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744120625; x=1744725425;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=eKjdH4Pw3NpQPLkg+gCbs76LHGbj5tkScdwQ0i1YzGA=;
-        b=xOECV90pqn/r4J2xAJl9DstiDrboom1QJ2N3QK0yQPJrlzmDAYrrx7mv3PpGvKWabw
-         yPG3277+Zr8XETGZUS6BASU6+auTOtXn0hrxdiJB3xYzDXFtmr80AonA7lQUl7d3XsOY
-         pj6paEfSMo/3Z7qLuCmhkwzLHG6Hr2SBq2T+Xw2Z7xoIIxL428pH/3OTy7CNNqja5mbY
-         rf5iwpMC1B1ekopKhF3MZM8E+vpsACEe4mmcltiAQM+xGyeLHJKuZHPGNwXGjCMhpQYm
-         32LbwOYk+ja5nddF6bzZygIA2hz09lG1P5oYhjJaOmfKJM53TDcztt4KBHtq6r0+1ce5
-         fCnw==
-X-Forwarded-Encrypted: i=1; AJvYcCWpnJNIlFYwdgZgRUEMGJv8ugyQNeD/12hLvgs+FDg50q/gQdZgEZCocamy2B3lLm0MMV92Y13IGoCn0g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyF9R8r6U8R7o2pwck7nCdNy5l/BfM0OrOhP/qu+KvHnGNGJuGS
-	ZjdN4obwY/kgjztC972n3J194ZzmhhMjvE2N93iU0ncvXsTW7DI0RO1s8gGAtAP8DhlyfEr53CJ
-	RWqQoGTtdaK7QWNEHmNUCZhFHqlBRDOr4nz8MwQ==
-X-Gm-Gg: ASbGncvQ4ZAda8hcbyaPkDeKs8/nprlv2oWd7zREOQ8DwwkkUHdZhcz4TG/URixgr8u
-	vh7rPIVMhIrR2njme1N0xU2kuemk8nyvLepZdexnTUO21SInE7UhQz7I7urHxdXELLh2f4/MHs9
-	tqfreNKqGKHb9hgqrKtN44EtbFx74IVLhd5zpMxJ3NQYWB3hgoaFAVgWHh0svD
-X-Google-Smtp-Source: AGHT+IF48flZYNk+YO92lTcI4xK0KZJsxFwCMsBP9ivkrbDJj57LOF+fPF5jQfMsA9Cn6stG3kjzEOQY6ms+eoLQc1s=
-X-Received: by 2002:a17:906:f587:b0:ac1:e881:8997 with SMTP id
- a640c23a62f3a-ac7d6c9f74fmr1690319666b.3.1744120624595; Tue, 08 Apr 2025
- 06:57:04 -0700 (PDT)
+	s=arc-20240116; t=1744122731; c=relaxed/simple;
+	bh=QLIWQ2JkuQMA+HF6IM3VjoGCCP5NHg9txONutBTSqnA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=kkaGma1GJHHqKoFhyiG/1t/AnICJN8SEMIBcGct+NNByBT2PDtfGbgF9o2QR5LH1dzHCxY00Qj3h0qBpxGZwVHJ8jsn/cqopVCE7jFrYd1EQPfzB2dHTfo4LYTyKSrljUQ8Llx6XQNBmfk9EunnRvBhXozWqDfr0Cig4pzTeco0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F22CBC4CEE7;
+	Tue,  8 Apr 2025 14:32:06 +0000 (UTC)
+Message-ID: <5cd6e8d3-fa51-4225-a3b8-9727cfd95062@xs4all.nl>
+Date: Tue, 8 Apr 2025 16:32:05 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250122-add-mtk-isp-3-0-support-v8-0-a3d3731eef45@baylibre.com>
- <20250122-add-mtk-isp-3-0-support-v8-4-a3d3731eef45@baylibre.com> <b68208ea56f297fab0a0c290e73a8671366735b6.camel@mediatek.com>
-In-Reply-To: <b68208ea56f297fab0a0c290e73a8671366735b6.camel@mediatek.com>
-From: Julien Stephan <jstephan@baylibre.com>
-Date: Tue, 8 Apr 2025 15:56:51 +0200
-X-Gm-Features: ATxdqUFS9UWyQm5VlU8vEK9QeSLji9-pVMuKN2hnPjsQ_fZ62HhsLvXH6NYRKbg
-Message-ID: <CAEHHSvYcet16TrWRbE=nkyS-0jXNbB+=knL0zUKLbnqcYBaSpA@mail.gmail.com>
-Subject: Re: [PATCH v8 4/5] media: platform: mediatek: isp: add mediatek
- ISP3.0 camsv
-To: =?UTF-8?B?Q0sgSHUgKOiDoeS/iuWFiSk=?= <ck.hu@mediatek.com>
-Cc: "laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>, 
-	=?UTF-8?B?QW5keSBIc2llaCAo6Kyd5pm655qTKQ==?= <Andy.Hsieh@mediatek.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	"robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>, 
-	"mchehab@kernel.org" <mchehab@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>, 
-	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>, 
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, 
-	"paul.elder@ideasonboard.com" <paul.elder@ideasonboard.com>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"fsylvestre@baylibre.com" <fsylvestre@baylibre.com>, 
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, 
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>, 
-	"pnguyen@baylibre.com" <pnguyen@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 09/12] media: rkvdec: Add get_image_fmt ops
+Content-Language: en-US
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Boris Brezillon <boris.brezillon@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Alex Bee <knaerzche@gmail.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Detlev Casanova <detlev.casanova@collabora.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
+ Christopher Obbard <christopher.obbard@linaro.org>
+References: <20250225-rkvdec_h264_high10_and_422_support-v7-0-7992a68a4910@collabora.com>
+ <20250225-rkvdec_h264_high10_and_422_support-v7-9-7992a68a4910@collabora.com>
+ <e6b99109-bd35-46ff-a4e2-eb69b549dcbc@xs4all.nl>
+ <77bdada5dce991842e377759c8e173ada115694f.camel@collabora.com>
+ <47c0011f-693d-4c94-8a1b-f0174f3d5b89@xs4all.nl>
+ <19a11d429d9078b82f27e108aa5ac80cc4041bef.camel@collabora.com>
+ <35d34100-7013-4acb-a5a6-3408e0f45d9d@xs4all.nl>
+ <1747c9d2f653a07418422157f4b1613246f39a6c.camel@collabora.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <1747c9d2f653a07418422157f4b1613246f39a6c.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Le jeu. 20 mars 2025 =C3=A0 03:18, CK Hu (=E8=83=A1=E4=BF=8A=E5=85=89) <ck.=
-hu@mediatek.com> a =C3=A9crit :
->
-> On Wed, 2025-01-22 at 14:59 +0100, Julien Stephan wrote:
-> > External email : Please do not click links or open attachments until yo=
-u have verified the sender or the content.
-> >
-> >
-> > From: Phi-bang Nguyen <pnguyen@baylibre.com>
-> >
-> > This driver provides a path to bypass the SoC ISP so that image data
-> > coming from the SENINF can go directly into memory without any image
-> > processing. This allows the use of an external ISP.
-> >
-> > Signed-off-by: Phi-bang Nguyen <pnguyen@baylibre.com>
-> > Signed-off-by: Florian Sylvestre <fsylvestre@baylibre.com>
-> > [Paul Elder fix irq locking]
-> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> > Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Co-developed-by: Julien Stephan <jstephan@baylibre.com>
-> > Signed-off-by: Julien Stephan <jstephan@baylibre.com>
-> > ---
->
-> [snip]
->
-> > +
-> > +void mtk_camsv_setup(struct mtk_cam_dev *cam_dev, unsigned int count,
-> > +                    u32 w, u32 h, u32 bpl, u32 mbus_fmt)
-> > +{
-> > +       const struct mtk_cam_conf *conf =3D cam_dev->conf;
-> > +       const struct mtk_cam_format_info *fmtinfo;
-> > +       struct mtk_cam_dev_buffer *buf;
-> > +       unsigned long flags;
-> > +       unsigned int i;
-> > +       u32 tmp;
-> > +
-> > +       for (i =3D 0; i < count; i++)
-> > +               mtk_camsv_fbc_inc(cam_dev);
->
-> I think you should call mtk_camsv_fbc_inc() only after mtk_camsv_update_b=
-uffers_add().
->
-> > +
-> > +       fmtinfo =3D mtk_cam_format_info_by_code(mbus_fmt);
-> > +
-> > +       mtk_camsv_tg_write(cam_dev, CAMSV_TG_SEN_MODE, conf->tg_sen_mod=
-e);
-> > +
-> > +       mtk_camsv_tg_write(cam_dev, CAMSV_TG_SEN_GRAB_PXL,
-> > +                            (w * fmtinfo->w_factor) << 16U);
-> > +
-> > +       mtk_camsv_tg_write(cam_dev, CAMSV_TG_SEN_GRAB_LIN, h << 16U);
-> > +
-> > +       /* YUV_U2S_DIS: disable YUV sensor unsigned to signed */
-> > +       mtk_camsv_tg_write(cam_dev, CAMSV_TG_PATH_CFG, 0x1000U);
-> > +
-> > +       /* Reset cam */
-> > +       mtk_camsv_write(cam_dev, CAMSV_SW_CTL, CAMSV_SW_RST);
-> > +       mtk_camsv_write(cam_dev, CAMSV_SW_CTL, 0x0U);
-> > +       mtk_camsv_write(cam_dev, CAMSV_SW_CTL, CAMSV_IMGO_RST_TRIG);
-> > +
-> > +       readl_poll_timeout_atomic(cam_dev->regs + CAMSV_SW_CTL, tmp,
-> > +                                 (tmp =3D=3D (CAMSV_IMGO_RST_TRIG |
-> > +                                          CAMSV_IMGO_RST_ST)), 10, 200=
-);
-> > +
-> > +       mtk_camsv_write(cam_dev, CAMSV_SW_CTL, 0x0U);
-> > +
-> > +       mtk_camsv_write(cam_dev, CAMSV_INT_EN, INT_ST_MASK_CAMSV);
-> > +
-> > +       mtk_camsv_write(cam_dev, CAMSV_MODULE_EN,
-> > +                         conf->module_en | fmtinfo->module_en_pak);
-> > +       mtk_camsv_write(cam_dev, CAMSV_FMT_SEL, fmtinfo->fmt_sel);
-> > +       mtk_camsv_write(cam_dev, CAMSV_PAK, fmtinfo->pak);
-> > +
-> > +       mtk_camsv_img0_write(cam_dev, CAMSV_IMGO_SV_XSIZE, bpl - 1U);
-> > +       mtk_camsv_img0_write(cam_dev, CAMSV_IMGO_SV_YSIZE, h - 1U);
-> > +
-> > +       mtk_camsv_img0_write(cam_dev, CAMSV_IMGO_SV_STRIDE,
-> > +                              fmtinfo->imgo_stride | bpl);
-> > +
-> > +       mtk_camsv_img0_write(cam_dev, CAMSV_IMGO_SV_CON, conf->imgo_con=
-);
-> > +       mtk_camsv_img0_write(cam_dev, CAMSV_IMGO_SV_CON2, conf->imgo_co=
-n2);
-> > +
-> > +       /* Set buf addr */
-> > +       spin_lock_irqsave(&cam_dev->buf_list_lock, flags);
-> > +       buf =3D list_first_entry_or_null(&cam_dev->buf_list,
-> > +                                      struct mtk_cam_dev_buffer,
-> > +                                      list);
-> > +       if (buf)
-> > +               mtk_camsv_update_buffers_add(cam_dev, buf);
-> > +       spin_unlock_irqrestore(&cam_dev->buf_list_lock, flags);
-> > +
-> > +       /* CMOS_EN first */
-> > +       mtk_camsv_tg_write(cam_dev, CAMSV_TG_SEN_MODE,
-> > +                            mtk_camsv_tg_read(cam_dev, CAMSV_TG_SEN_MO=
-DE) |
-> > +                            CAMSV_TG_SEN_MODE_CMOS_EN);
-> > +
-> > +       /* finally, CAMSV_MODULE_EN : IMGO_EN */
-> > +       mtk_camsv_write(cam_dev, CAMSV_MODULE_EN,
-> > +                         mtk_camsv_read(cam_dev, CAMSV_MODULE_EN) |
-> > +                         CAMSV_MODULE_EN_IMGO_EN);
-> > +}
-> > +
->
-> [snip]
->
-> > +
-> > +static int mtk_camsv_runtime_resume(struct device *dev)
-> > +{
-> > +       struct mtk_cam_dev *cam_dev =3D dev_get_drvdata(dev);
-> > +       struct vb2_queue *vbq =3D &cam_dev->vdev.vbq;
-> > +       struct mtk_cam_dev_buffer *buf;
-> > +       unsigned long flags =3D 0;
-> > +       int ret;
-> > +
-> > +       ret =3D clk_bulk_prepare_enable(cam_dev->num_clks, cam_dev->clk=
-s);
-> > +       if (ret) {
-> > +               dev_err(dev, "failed to enable clock:%d\n", ret);
-> > +               return ret;
-> > +       }
-> > +
-> > +       if (vb2_is_streaming(vbq)) {
-> > +
-> > +               spin_lock_irqsave(&cam_dev->buf_list_lock, flags);
-> > +               buf =3D list_first_entry_or_null(&cam_dev->buf_list,
-> > +                                              struct mtk_cam_dev_buffe=
-r,
-> > +                                              list);
-> > +               if (buf)
-> > +                       mtk_camsv_update_buffers_add(cam_dev, buf);
->
-> I don't know, when suspend, the register value would be kept or not.
-> If register is not kept, I think you should re-program all register in mt=
-k_camsv_setup().
-> But it seems it's not necessary, so the register is kept and you don't ne=
-ed to set register again.
-> So this mtk_camsv_update_buffers_add() is redundant.
->
-> > +
-> > +               spin_unlock_irqrestore(&cam_dev->buf_list_lock, flags);
-> > +
-> > +               /* Stream on the sub-device */
-> > +               ret =3D v4l2_subdev_enable_streams(&cam_dev->subdev,
-> > +                                                cam_dev->subdev_pads[M=
-TK_CAM_CIO_PAD_VIDEO].index,
-> > +                                                BIT(0));
-> > +
-> > +               if (ret)
-> > +                       goto fail_no_stream;
-> > +       }
-> > +
-> > +       return 0;
-> > +
-> > +fail_no_stream:
-> > +       mtk_cam_vb2_return_all_buffers(cam_dev, VB2_BUF_STATE_QUEUED);
-> > +       return ret;
-> > +}
-> > +
-> > +static const struct dev_pm_ops mtk_camsv_pm_ops =3D {
-> > +       SET_SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend,
-> > +                               pm_runtime_force_resume)
-> > +       SET_RUNTIME_PM_OPS(mtk_camsv_runtime_suspend,
-> > +                          mtk_camsv_runtime_resume, NULL)
-> > +};
-> > +#endif
-> > +
->
-> [snip]
->
-> > +/* -------------------------------------------------------------------=
-----------
-> > + * Format Information
-> > + */
-> > +
-> > +static const struct mtk_cam_format_info mtk_cam_format_info[] =3D {
-> > +       {
-> > +               .fourcc =3D V4L2_PIX_FMT_SBGGR8,
-> > +               .code =3D MEDIA_BUS_FMT_SBGGR8_1X8,
-> > +               .bpp =3D 8,
-> > +               .w_factor =3D 1,
-> > +               .module_en_pak =3D CAMSV_MODULE_EN_PAK_EN,
-> > +               .pak =3D CAMSV_PAK_PAK_MODE_RAW_8
-> > +                       | CAMSV_PAK_PAK_DBL_MODE_2_PIXELS,
-> > +               .fmt_sel =3D CAMSV_FMT_SEL_TG1_FMT_RAW_8,
-> > +               .imgo_stride =3D CAMSV_IMGO_SV_STRIDE_BUS_SIZE_EN
-> > +                       | CAMSV_IMGO_SV_STRIDE_BUS_SIZE_32,
-> > +       }, {
-> > +               .fourcc =3D V4L2_PIX_FMT_SGBRG8,
-> > +               .code =3D MEDIA_BUS_FMT_SGBRG8_1X8,
-> > +               .bpp =3D 8,
-> > +               .w_factor =3D 1,
-> > +               .module_en_pak =3D CAMSV_MODULE_EN_PAK_EN,
-> > +               .pak =3D CAMSV_PAK_PAK_MODE_RAW_8
-> > +                       | CAMSV_PAK_PAK_DBL_MODE_2_PIXELS,
-> > +               .fmt_sel =3D CAMSV_FMT_SEL_TG1_FMT_RAW_8,
-> > +               .imgo_stride =3D CAMSV_IMGO_SV_STRIDE_BUS_SIZE_EN
-> > +                       | CAMSV_IMGO_SV_STRIDE_BUS_SIZE_32,
-> > +       }, {
-> > +               .fourcc =3D V4L2_PIX_FMT_SGRBG8,
-> > +               .code =3D MEDIA_BUS_FMT_SGRBG8_1X8,
-> > +               .bpp =3D 8,
-> > +               .w_factor =3D 1,
-> > +               .module_en_pak =3D CAMSV_MODULE_EN_PAK_EN,
-> > +               .pak =3D CAMSV_PAK_PAK_MODE_RAW_8
-> > +                       | CAMSV_PAK_PAK_DBL_MODE_2_PIXELS,
-> > +               .fmt_sel =3D CAMSV_FMT_SEL_TG1_FMT_RAW_8,
-> > +               .imgo_stride =3D CAMSV_IMGO_SV_STRIDE_BUS_SIZE_EN
-> > +                       | CAMSV_IMGO_SV_STRIDE_BUS_SIZE_32,
-> > +       }, {
-> > +               .fourcc =3D V4L2_PIX_FMT_SRGGB8,
-> > +               .code =3D MEDIA_BUS_FMT_SRGGB8_1X8,
-> > +               .bpp =3D 8,
-> > +               .w_factor =3D 1,
-> > +               .module_en_pak =3D CAMSV_MODULE_EN_PAK_EN,
-> > +               .pak =3D CAMSV_PAK_PAK_MODE_RAW_8
-> > +                       | CAMSV_PAK_PAK_DBL_MODE_2_PIXELS,
-> > +               .fmt_sel =3D CAMSV_FMT_SEL_TG1_FMT_RAW_8,
-> > +               .imgo_stride =3D CAMSV_IMGO_SV_STRIDE_BUS_SIZE_EN
-> > +                       | CAMSV_IMGO_SV_STRIDE_BUS_SIZE_32,
-> > +       }, {
-> > +               .fourcc =3D V4L2_PIX_FMT_SBGGR10,
->
-> In stream_out_fmts[], it does not declare V4L2_PIX_FMT_SBGGR10.
-> So you may remove it in mtk_cam_format_info[], or add it in stream_out_fm=
-ts[].
->
-> > +               .code =3D MEDIA_BUS_FMT_SBGGR10_1X10,
-> > +               .bpp =3D 10,
-> > +               .w_factor =3D 1,
-> > +               .module_en_pak =3D CAMSV_MODULE_EN_PAK_EN,
-> > +               .pak =3D CAMSV_PAK_PAK_MODE_RAW_10
-> > +                       | CAMSV_PAK_PAK_DBL_MODE_2_PIXELS,
-> > +               .fmt_sel =3D CAMSV_FMT_SEL_TG1_FMT_RAW_10,
-> > +               .imgo_stride =3D CAMSV_IMGO_SV_STRIDE_BUS_SIZE_EN
-> > +                       | CAMSV_IMGO_SV_STRIDE_BUS_SIZE_32,
-> > +       }, {
-> > +               .fourcc =3D V4L2_PIX_FMT_SGBRG10,
->
-> Ditto.
->
-> > +               .code =3D MEDIA_BUS_FMT_SGBRG10_1X10,
-> > +               .bpp =3D 10,
-> > +               .w_factor =3D 1,
-> > +               .module_en_pak =3D CAMSV_MODULE_EN_PAK_EN,
-> > +               .pak =3D CAMSV_PAK_PAK_MODE_RAW_10
-> > +                       | CAMSV_PAK_PAK_DBL_MODE_2_PIXELS,
-> > +               .fmt_sel =3D CAMSV_FMT_SEL_TG1_FMT_RAW_10,
-> > +               .imgo_stride =3D CAMSV_IMGO_SV_STRIDE_BUS_SIZE_EN
-> > +                       | CAMSV_IMGO_SV_STRIDE_BUS_SIZE_32,
-> > +       }, {
-> > +               .fourcc =3D V4L2_PIX_FMT_SGRBG10,
->
-> Ditto.
->
-> > +               .code =3D MEDIA_BUS_FMT_SGRBG10_1X10,
-> > +               .bpp =3D 10,
-> > +               .w_factor =3D 1,
-> > +               .module_en_pak =3D CAMSV_MODULE_EN_PAK_EN,
-> > +               .pak =3D CAMSV_PAK_PAK_MODE_RAW_10
-> > +                       | CAMSV_PAK_PAK_DBL_MODE_2_PIXELS,
-> > +               .fmt_sel =3D CAMSV_FMT_SEL_TG1_FMT_RAW_10,
-> > +               .imgo_stride =3D CAMSV_IMGO_SV_STRIDE_BUS_SIZE_EN
-> > +                       | CAMSV_IMGO_SV_STRIDE_BUS_SIZE_32,
-> > +       }, {
-> > +               .fourcc =3D V4L2_PIX_FMT_SRGGB10,
->
-> Ditto.
->
-> > +               .code =3D MEDIA_BUS_FMT_SRGGB10_1X10,
-> > +               .bpp =3D 10,
-> > +               .w_factor =3D 1,
-> > +               .module_en_pak =3D CAMSV_MODULE_EN_PAK_EN,
-> > +               .pak =3D CAMSV_PAK_PAK_MODE_RAW_10
-> > +                       | CAMSV_PAK_PAK_DBL_MODE_2_PIXELS,
-> > +               .fmt_sel =3D CAMSV_FMT_SEL_TG1_FMT_RAW_10,
-> > +               .imgo_stride =3D CAMSV_IMGO_SV_STRIDE_BUS_SIZE_EN
-> > +                       | CAMSV_IMGO_SV_STRIDE_BUS_SIZE_32,
-> > +       }, {
-> > +               .fourcc =3D V4L2_PIX_FMT_SBGGR12,
->
-> Ditto.
->
-> > +               .code =3D MEDIA_BUS_FMT_SBGGR12_1X12,
-> > +               .bpp =3D 12,
-> > +               .w_factor =3D 1,
-> > +               .module_en_pak =3D CAMSV_MODULE_EN_PAK_EN,
-> > +               .pak =3D CAMSV_PAK_PAK_MODE_RAW_12
-> > +                       | CAMSV_PAK_PAK_DBL_MODE_2_PIXELS,
-> > +               .fmt_sel =3D CAMSV_FMT_SEL_TG1_FMT_RAW_12,
-> > +               .imgo_stride =3D CAMSV_IMGO_SV_STRIDE_BUS_SIZE_EN
-> > +                       | CAMSV_IMGO_SV_STRIDE_BUS_SIZE_32,
-> > +       }, {
-> > +               .fourcc =3D V4L2_PIX_FMT_SGBRG12,
->
-> Ditto.
->
-> > +               .code =3D MEDIA_BUS_FMT_SGBRG12_1X12,
-> > +               .bpp =3D 12,
-> > +               .w_factor =3D 1,
-> > +               .module_en_pak =3D CAMSV_MODULE_EN_PAK_EN,
-> > +               .pak =3D CAMSV_PAK_PAK_MODE_RAW_12
-> > +                       | CAMSV_PAK_PAK_DBL_MODE_2_PIXELS,
-> > +               .fmt_sel =3D CAMSV_FMT_SEL_TG1_FMT_RAW_12,
-> > +               .imgo_stride =3D CAMSV_IMGO_SV_STRIDE_BUS_SIZE_EN
-> > +                       | CAMSV_IMGO_SV_STRIDE_BUS_SIZE_32,
-> > +       }, {
-> > +               .fourcc =3D V4L2_PIX_FMT_SGRBG12,
->
-> Ditto.
->
-> > +               .code =3D MEDIA_BUS_FMT_SGRBG12_1X12,
-> > +               .bpp =3D 12,
-> > +               .w_factor =3D 1,
-> > +               .module_en_pak =3D CAMSV_MODULE_EN_PAK_EN,
-> > +               .pak =3D CAMSV_PAK_PAK_MODE_RAW_12
-> > +                       | CAMSV_PAK_PAK_DBL_MODE_2_PIXELS,
-> > +               .fmt_sel =3D CAMSV_FMT_SEL_TG1_FMT_RAW_12,
-> > +               .imgo_stride =3D CAMSV_IMGO_SV_STRIDE_BUS_SIZE_EN
-> > +                       | CAMSV_IMGO_SV_STRIDE_BUS_SIZE_32,
-> > +       }, {
-> > +               .fourcc =3D V4L2_PIX_FMT_SRGGB12,
->
-> Ditto.
->
-> > +               .code =3D MEDIA_BUS_FMT_SRGGB12_1X12,
-> > +               .bpp =3D 12,
-> > +               .w_factor =3D 1,
-> > +               .module_en_pak =3D CAMSV_MODULE_EN_PAK_EN,
-> > +               .pak =3D CAMSV_PAK_PAK_MODE_RAW_12
-> > +                       | CAMSV_PAK_PAK_DBL_MODE_2_PIXELS,
-> > +               .fmt_sel =3D CAMSV_FMT_SEL_TG1_FMT_RAW_12,
-> > +               .imgo_stride =3D CAMSV_IMGO_SV_STRIDE_BUS_SIZE_EN
-> > +                       | CAMSV_IMGO_SV_STRIDE_BUS_SIZE_32,
-> > +       }, {
-> > +               .fourcc =3D V4L2_PIX_FMT_UYVY,
-> > +               .code =3D MEDIA_BUS_FMT_UYVY8_1X16,
-> > +               .bpp =3D 16,
-> > +               .w_factor =3D 2,
-> > +               .module_en_pak =3D CAMSV_MODULE_EN_PAK_SEL,
-> > +               .pak =3D 0, /* ignored */
-> > +               .fmt_sel =3D CAMSV_FMT_SEL_IMGO_BUS_SIZE_16
-> > +                       | CAMSV_FMT_SEL_TG1_FMT_YUV422,
-> > +               .imgo_stride =3D CAMSV_IMGO_SV_STRIDE_BUS_SIZE_EN
-> > +                       | CAMSV_IMGO_SV_STRIDE_BUS_SIZE_16,
-> > +       }, {
-> > +               .fourcc =3D V4L2_PIX_FMT_VYUY,
-> > +               .code =3D MEDIA_BUS_FMT_VYUY8_1X16,
-> > +               .bpp =3D 16,
-> > +               .w_factor =3D 2,
-> > +               .module_en_pak =3D CAMSV_MODULE_EN_PAK_SEL,
-> > +               .pak =3D 0, /* ignored */
-> > +               .fmt_sel =3D CAMSV_FMT_SEL_IMGO_BUS_SIZE_16
-> > +                       | CAMSV_FMT_SEL_TG1_FMT_YUV422,
-> > +               .imgo_stride =3D CAMSV_IMGO_SV_STRIDE_BUS_SIZE_EN
-> > +                       | CAMSV_IMGO_SV_STRIDE_BUS_SIZE_16,
-> > +       }, {
-> > +               .fourcc =3D V4L2_PIX_FMT_YUYV,
-> > +               .code =3D MEDIA_BUS_FMT_YUYV8_1X16,
-> > +               .bpp =3D 16,
-> > +               .w_factor =3D 2,
-> > +               .module_en_pak =3D CAMSV_MODULE_EN_PAK_SEL,
-> > +               .pak =3D 0, /* ignored */
-> > +               .fmt_sel =3D CAMSV_FMT_SEL_IMGO_BUS_SIZE_16
-> > +                       | CAMSV_FMT_SEL_TG1_FMT_YUV422,
-> > +               .imgo_stride =3D CAMSV_IMGO_SV_STRIDE_BUS_SIZE_EN
-> > +                       | CAMSV_IMGO_SV_STRIDE_BUS_SIZE_16,
-> > +       }, {
-> > +               .fourcc =3D V4L2_PIX_FMT_YVYU,
-> > +               .code =3D MEDIA_BUS_FMT_YVYU8_1X16,
-> > +               .bpp =3D 16,
-> > +               .w_factor =3D 2,
-> > +               .module_en_pak =3D CAMSV_MODULE_EN_PAK_SEL,
-> > +               .pak =3D 0, /* ignored */
-> > +               .fmt_sel =3D CAMSV_FMT_SEL_IMGO_BUS_SIZE_16
-> > +                       | CAMSV_FMT_SEL_TG1_FMT_YUV422,
-> > +               .imgo_stride =3D CAMSV_IMGO_SV_STRIDE_BUS_SIZE_EN
-> > +                       | CAMSV_IMGO_SV_STRIDE_BUS_SIZE_16,
-> > +       },
-> > +};
-> > +
->
-> [snip]
->
-> > +
-> > +static void mtk_cam_vb2_buf_queue(struct vb2_buffer *vb)
-> > +{
-> > +       struct mtk_cam_dev *cam =3D vb2_get_drv_priv(vb->vb2_queue);
-> > +       struct mtk_cam_dev_buffer *buf =3D to_mtk_cam_dev_buffer(vb);
-> > +       unsigned long flags;
-> > +
-> > +       /* Add the buffer into the tracking list */
-> > +       spin_lock_irqsave(&cam->buf_list_lock, flags);
-> > +       if (vb2_start_streaming_called(vb->vb2_queue) && list_empty(&ca=
-m->buf_list))
-> > +               mtk_camsv_update_buffers_add(cam, buf);
-> > +
-> > +       list_add_tail(&buf->list, &cam->buf_list);
-> > +       spin_unlock_irqrestore(&cam->buf_list_lock, flags);
-> > +       if (vb2_start_streaming_called(vb->vb2_queue))
-> > +               mtk_camsv_fbc_inc(cam);
->
-> I think you should call mtk_camsv_fbc_inc() just after mtk_camsv_update_b=
-uffers_add();
->
+On 4/8/25 15:36, Nicolas Dufresne wrote:
+> Hi Hans,
+> 
+> Le mardi 08 avril 2025 à 10:28 +0200, Hans Verkuil a écrit :
+>> On 07/04/2025 16:59, Nicolas Dufresne wrote:
+>>> Le lundi 07 avril 2025 à 16:17 +0200, Hans Verkuil a écrit :
+>>>> On 07/04/2025 15:52, Nicolas Dufresne wrote:
+>>>>> Le lundi 07 avril 2025 à 13:09 +0200, Hans Verkuil a écrit :
+>>>>>> On 25/02/2025 10:40, Sebastian Fricke wrote:
+>>>>>>> From: Jonas Karlman <jonas@kwiboo.se>
+>>>>>>>
+>>>>>>> Add support for a get_image_fmt() ops that returns the required image
+>>>>>>> format.
+>>>>>>>
+>>>>>>> The CAPTURE format is reset when the required image format changes and
+>>>>>>> the buffer queue is not busy.
+>>>>>>>
+>>>>>>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+>>>>>>> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>>>>>>> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>>>>>>> Tested-by: Christopher Obbard <chris.obbard@collabora.com>
+>>>>>>> ---
+>>>>>>>  drivers/staging/media/rkvdec/rkvdec.c | 49 +++++++++++++++++++++++++++++++++--
+>>>>>>>  drivers/staging/media/rkvdec/rkvdec.h |  2 ++
+>>>>>>>  2 files changed, 49 insertions(+), 2 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+>>>>>>> index 70154948b4e32e2c439f259b0f1e1bbc8b52b063..5394079509305c619f1d0c1f542bfc409317c3b7 100644
+>>>>>>> --- a/drivers/staging/media/rkvdec/rkvdec.c
+>>>>>>> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+>>>>>>> @@ -111,15 +111,60 @@ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
+>>>>>>>  {
+>>>>>>>  	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
+>>>>>>>  	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
+>>>>>>> +	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
+>>>>>>> +	enum rkvdec_image_fmt image_fmt;
+>>>>>>> +	struct vb2_queue *vq;
+>>>>>>> +	int ret;
+>>>>>>> +
+>>>>>>> +	if (desc->ops->try_ctrl) {
+>>>>>>> +		ret = desc->ops->try_ctrl(ctx, ctrl);
+>>>>>>> +		if (ret)
+>>>>>>> +			return ret;
+>>>>>>> +	}
+>>>>>>> +
+>>>>>>> +	if (!desc->ops->get_image_fmt)
+>>>>>>> +		return 0;
+>>>>>>>  
+>>>>>>> -	if (desc->ops->try_ctrl)
+>>>>>>> -		return desc->ops->try_ctrl(ctx, ctrl);
+>>>>>>> +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
+>>>>>>> +	if (ctx->image_fmt == image_fmt)
+>>>>>>> +		return 0;
+>>>>>>> +
+>>>>>>> +	if (rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, image_fmt))
+>>>>>>> +		return 0;
+>>>>>>> +
+>>>>>>> +	/* format change not allowed when queue is busy */
+>>>>>>> +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
+>>>>>>> +			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
+>>>>>>> +	if (vb2_is_busy(vq))
+>>>>>>> +		return -EINVAL;
+>>>>
+>>>> Looking closer, this code is just wrong. It does these format change
+>>>> tests for any control, so if more controls are added in the future, then
+>>>> those will be checked the same way, which makes no sense.
+>>>
+>>> "Just wrong" should be kept for code that is semantically incorrect,
+>>> just a suggestion for choice of wording.
+>>
+>> Having vb2_is_busy in a try function (whether trying a control or a format)
+>> is simply wrong. Having these checks at a high level (i.e. being done for
+>> any control) is asking for problems in the future. It only works right
+>> now because there is just one control.
+> 
+> Your main rejection argument has been that this is done for any
+> control. Jonas invalidated your argument yesterday:
+> 
+>> Please elaborate how this code is just wrong, it is only called for sps
+>> ctrl, as intended, try will report an error as suggested in docs and set
+>> will reset the decoded fmt to match the new sps ctrl value.
 
-Hi CK,
+1) it is confusing since in this function there is no indication that there
+   is just one control.
+2) it is not future proof in case more controls are added.
 
-Is there any particular reason? I moved it at the bottom, to reduce
-the spinlock region as you requested in v7.. OR maybe I am missing
-something ?
+When I was reviewing this I had to dig into the code before I realized that
+there really was just one control.
 
-Cheers
-Julien
+So while this code is 'correct' in that it won't break, it is really hard
+to understand.
 
-> > +}
-> > +
->
-> [snip]
->
-> > +
-> > +static int mtk_cam_vidioc_try_fmt(struct file *file, void *fh,
-> > +                                 struct v4l2_format *f)
-> > +{
-> > +       struct mtk_cam_video_device *vdev =3D file_to_mtk_cam_video_dev=
-ice(file);
-> > +       struct v4l2_pix_format_mplane *pix_mp =3D &f->fmt.pix_mp;
-> > +       const struct mtk_cam_format_info *fmtinfo;
-> > +
-> > +       /* Validate pixelformat */
-> > +       if (!mtk_cam_dev_find_fmt(vdev->desc, pix_mp->pixelformat))
-> > +               pix_mp->pixelformat =3D vdev->desc->fmts[0];
->
-> In [1], it says return EINVAL when driver not support this buffer format.
->
-> [1] https://docs.kernel.org/userspace-api/media/v4l/vidioc-g-fmt.html#des=
-cription
->
-> Regards,
-> CK
->
-> > +
-> > +       pix_mp->width =3D clamp_val(pix_mp->width, IMG_MIN_WIDTH, IMG_M=
-AX_WIDTH);
-> > +       pix_mp->height =3D clamp_val(pix_mp->height, IMG_MIN_HEIGHT,
-> > +                                  IMG_MAX_HEIGHT);
-> > +
-> > +       pix_mp->num_planes =3D 1;
-> > +
-> > +       fmtinfo =3D mtk_cam_format_info_by_fourcc(pix_mp->pixelformat);
-> > +       calc_bpl_size_pix_mp(fmtinfo, pix_mp);
-> > +
-> > +       /* Constant format fields */
-> > +       pix_mp->colorspace =3D V4L2_COLORSPACE_SRGB;
-> > +       pix_mp->field =3D V4L2_FIELD_NONE;
-> > +       pix_mp->ycbcr_enc =3D V4L2_YCBCR_ENC_DEFAULT;
-> > +       pix_mp->quantization =3D V4L2_QUANTIZATION_DEFAULT;
-> > +       pix_mp->xfer_func =3D V4L2_XFER_FUNC_DEFAULT;
-> > +
-> > +       return 0;
-> > +}
-> > +
->
->
-> ************* MEDIATEK Confidentiality Notice ********************
-> The information contained in this e-mail message (including any
-> attachments) may be confidential, proprietary, privileged, or otherwise
-> exempt from disclosure under applicable laws. It is intended to be
-> conveyed only to the designated recipient(s). Any use, dissemination,
-> distribution, printing, retaining or copying of this e-mail (including it=
-s
-> attachments) by unintended recipient(s) is strictly prohibited and may
-> be unlawful. If you are not an intended recipient of this e-mail, or beli=
-eve
-> that you have received this e-mail in error, please notify the sender
-> immediately (by replying to this e-mail), delete any and all copies of
-> this e-mail (including any attachments) from your system, and do not
-> disclose the content of this e-mail to any other person. Thank you!
+> 
+>>
+>>>
+>>>>
+>>>> These tests belong to the actual control that you 'try'. In this case
+>>>> rkvdec_h264_validate_sps(). This function already checks the width and
+>>>> height, but it should also check the image format. It is all in the
+>>>> wrong place.
+>>>
+>>> We can do that too. Though, this was generalized since once you enable
+>>> the other codecs, you endup with code duplication. I know this series
+>>> is an extract from a larger one.
+>>>
+>>> So let's suggest to make a helper that combines rkvdec_is_valid_fmt()
+>>> and the busy check. Though on that, please reply to my comment below
+>>> (which you skipped).
+>>
+>> Absolutely, this needs a helper function.
+> 
+> In the next version, We should ake sure this is renamed, so readers
+> understand its already a helper, and is only called for specific CID.
+> Jonas comment also invalid my wrong suggestion here.
+> 
+>>
+>>>
+>>>>
+>>>>>>
+>>>>>> This makes no sense to me. This just tries a control, and that should just
+>>>>>> work, regardless of vb2_is_busy(). It's a 'try', so you are not actually
+>>>>>> changing anything.
+>>>>>
+>>>>> See comment below, notice that this code is only reached if the control
+>>>>> introduce parameters that are not compatible with the current capture
+>>>>> queue fmt. The entire function uses "success" early exit, so the
+>>>>> further down you get in the function, the less likely your control is
+>>>>> valid.
+>>>>>
+>>>>>>
+>>>>>>> +
+>>>>>>> +	return 0;
+>>>>>>> +}
+>>>>>>> +
+>>>>>>> +static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
+>>>>>>> +{
+>>>>
+>>>> If there is a try_ctrl op specified, then the control framework
+>>>> will call that first before calling s_ctrl. So any validation that
+>>>> try_ctrl did does not need to be done again in s_ctrl.
+>>>>
+>>>> The same comment with try_ctrl is valid here as well: if there are
+>>>> image format checks that need to be done, then those need to be done
+>>>> per control and not as a generic check. If new controls are added in
+>>>> the future, then you don't want the same checks to apply to the new
+>>>> controls as well.
+>>>
+>>> I don't think the behaviour of try_ctrl and that being embedded in set
+>>> calls was being questioned by anyone. Can you reply to the last
+>>> paragraph below ?
+>>>
+>>>>
+>>>> Regards,
+>>>>
+>>>> 	Hans
+>>>>
+>>>>>>> +	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
+>>>>>>> +	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
+>>>>>>> +	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
+>>>>>>> +	enum rkvdec_image_fmt image_fmt;
+>>>>>>> +
+>>>>>>> +	if (!desc->ops->get_image_fmt)
+>>>>>>> +		return 0;
+>>>>>>> +
+>>>>>>> +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
+>>>>>>> +	if (ctx->image_fmt == image_fmt)
+>>>>>>> +		return 0;
+>>>>>>
+>>>>>> If you really can't set a control when the queue is busy, then that should
+>>>>>> be tested here, not in try_ctrl. And then you return -EBUSY.
+>>>>>>
+>>>>>> Am I missing something here?
+>>>>>
+>>>>> When I reviewed, I had imagine that s_ctrl on a request would just run
+>>>>> a try. Now that I read that more careful, I see that it does a true set
+>>>>> on separate copy. So yes, this can safely be moved here.
+>>>>>
+>>>>> Since you seem wondering "If you really can't set a control", let me
+>>>>> explain what Jonas wants to protect against. RKVdec does not have any
+>>>>> color conversion code, the header compound control (which header
+>>>>> depends on the codec), contains details such as sub-sampling and color
+>>>>> depth. Without color conversion, when the image format is locked (the
+>>>>> busy queue), you can't request the HW to decode a frame witch does not
+>>>>> fit. This could otherwise lead to buffer overflow in the HW,
+>>>>> fortunately protected by the iommu, but you don't really want to depend
+>>>>> on the mmu.
+>>>>>
+>>>>> I've never used try_ctrl in my decade of v4l2, so obviously, now that I
+>>>>> know that s_ctrl on request is not a try, I'm fine with rejecting this
+>>>>> PR, sending a new version and making a PR again. But if I was to use
+>>>>> this API in userspace, my intuitive expectation would be that this
+>>>>> should fail try(), even if its very rarely valid to check the queue
+>>>>> state in try control.
+>>>
+>>> Here, since we seem to disagree on the behaviour try should have for
+>>> this specific validation. What you asked on first pass is to make it so
+>>> that TRY will succeed, and SET will fail. I don't really like that
+>>> suggestion.
+>>
+>> Ah, no, that's not what I asked.
+>>
+>> There are two independent issues:
+>>
+>> 1) The tests for a valid image format are done for all controls instead of
+>>    just the control that really needs it. That's asking for problems, and
+>>    that needs to be addressed by creating a helper function and using it
+>>    in the relevant control code. Alternatively, just check against the
+>>    control id in try_ctrl/s_ctrl explicitly. That's fine too, although I
+>>    prefer a helper function.
+> 
+> This is false, this is done only the the relevant controls as explained
+> by Jonas.
+
+See my comment above. It's not at all obvious that there is just one control,
+it is just bad coding practice. All I ask is that it is made explicit in the
+code that it is just for one control.
+
+> 
+>>
+>> 2) vb2_is_busy() does not belong in try_ctrl. 'try' should never depend
+>>    on whether buffers are allocated. You have two options here:
+> 
+> I read this statement as try_ctrl cannot fail when setting an SPS while
+> the queue is active. Since you don't have rationale for it, but really
+> want to see that, we will sacrifice the symmetry of TRY/SET in the next
+> version. TRY will pass, and SET will reset the capture format if the
+> queue is not busy, and return busy otherwise. Nobody ever wanted
+> try_ctrl for stateless decoders, its not even mention in the specific
+> documentation. This is effectively option b) below.
+
+VIDIOC_TRY_EXT_CTRLS is always available. Typically it just validates controls
+(i.e. make sure the values are in range, etc). It is really rare that drivers
+need to implement try_ctrl.
+
+It is also called by VIDIOC_S_EXT_CTRLS: this avoids that the same validation code is
+implemented in both the try_ctrl and s_ctrl callbacks.
+
+Unless otherwise stated, controls are independent of whether you have buffers
+allocate or are streaming, you can get/set them any time.
+
+> 
+>>
+>>    a) try_ctrl checks if the image_fmt is valid for the current format,
+>>       and it returns -EINVAL if it isn't. This requires that userspace
+>>       then selects a different format first. No call to vb2_is_busy is
+>>       needed.
+> 
+> That shows you don't really know what this is about. Please read how
+> the initialization process works, up to point 2. A call to
+
+You are absolutely right. I should know how it works, but because I rarely
+use it, I forget the details.
+
+> S_FMT(CAPTURE) is optional. Its the driver that select the CAPTURE
+> format based on the bitstream parameters (and bitstream format /
+> CAPTURE). Everything is design with input and output in mind. The
+> application sets the input format and parameters, the driver choses the
+> output (CAPTURE queue) format. With the very strict rule that nothing
+> in the parameters that can be against the locked capture format can
+> ever be set.
+> 
+> https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-stateless-decoder.html#initialization
+> 
+> 
+>>
+>>    b) try_ctrl doesn't check image_fmt against the current format, it just
+>>       accepts any value. Instead s_ctrl does the check: if it invalid, then
+>>       it returns -EBUSY if vb2_is_busy() is true, or it updates the format.
+> 
+> That contradicts slightly your answer "Ah, no, that's not what I
+> asked.". But can be done without any spec violation like option a)
+> includes.
+> 
+>>
+>> I see that cedrus also has vb2_is_busy() in try_ctrl, and worse, it actually
+>> updates the capture format in the try_ctrl, which is definitely a cedrus bug
+>> (try should never have side-effects).
+> 
+> I think looking at another work-in-progress driver is distraction. We
+> all know that try should not change the driver state (regardless the
+> type of try). If you are correct, then it should be fixed there too,
+> you should inform Jernej and Paul.
+
+And I will. Cedrus is not really a work-in-progress driver, I think it should
+be moved out of staging. See the topic for the media summit.
+
+In any case, if we can agree on the right approach for rkvdec, then I can make
+a patch for cedrus.
+
+> 
+>>
+>> The core question is whether changing the V4L2_CID_STATELESS_H264_SPS should
+>> make format changes. I can't off-hand think of any other control that does
+>> that. It is certainly not documented.
+> 
+> That is also wrong, it is well documented. Its not because you don't
+> understand a problem that its by definition wrong.
+
+It's documented in the stateless decoder doc:
+
+https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/dev-stateless-decoder.html
+
+But not with the control documentation itself:
+
+https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/ext-ctrls-codec-stateless.html
+
+I was looking at that, and doesn't mention it. I'll see if I can make a patch for that.
+
+> 
+>>
+>> The only control that comes close is V4L2_CID_ROTATE, and I think that control
+>> was a huge mistake. It was also never properly documented how it should behave.
+> 
+> Documentation says:
+>> Rotating the image to 90 and 270 will reverse the height and
+>> width of the display window.
+> 
+>> It is necessary to set the new height
+>> and width of the picture using the
+>> :ref:`VIDIOC_S_FMT <VIDIOC_G_FMT>` ioctl according to the
+>>  rotation angle selected.
+> 
+> The link is confusing, but S_ and G_ share the same link. So its well
+> documented that the users must call S_FMT and manually flip the width
+> and height.
+
+Not really, if you look at how it is implemented in various drivers, then
+they don't match this doc in at least several cases. In any case, just forget
+about this control. It's all water under the bridge.
+
+> 
+> I was never involved with that one, but its a very different approach.
+> I think its written with single queue in mind (not M2M). It means you
+> can have pending control state. This for stateless CODEC would be so
+> complex to handle. For request based driver, we should probably never
+> allow that kind of API. If you need to set a control in the future, use
+> a request. This, when that control should be applied becomes very
+> explicit and can be synchronized across multiple queues.
+> 
+>>
+>> My preference is option a. Controls shouldn't change the format, it is really
+>> confusing. If you do want option b, then all drivers that use this control
+>> have to be checked first to ensure that they all behave the same, and the
+>> control documentation must be updated.
+> 
+> Option b) it is, since there is no option a).
+
+So can we agree on the following (I think):
+
+1) rkvdec_try_ctrl no longer checks the image_fmt. Effectively this means that there
+   is no longer any need to change rkvdec_try_ctrl in this patch.
+
+2) in rkvdec_s_ctrl we do the image_fmt check: if it changes, but vb2_is_busy is true,
+   then return -EBUSY, otherwise call rkvdec_reset_decoded_fmt(). This code is specific
+   for V4L2_CID_STATELESS_H264_SPS, so just make sure it is under an if/switch for that
+   control ID.
+
+3) I'll see if I can make a patch to clarify in the control documentation that setting
+   it can change the format.
+
+4) I'll make a patch for the cedrus driver as well to align with the approach in rkvdec.
+
+Regards,
+
+	Hans
+
+> 
+> Nicolas
+> 
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+>>>
+>>> Nicolas
+>>>
+>>>>>
+>>>>> Nicolas
+>>>>>
+>>>>>>
+>>>>>> Regards,
+>>>>>>
+>>>>>> 	Hans
+>>>>>>
+>>>>>>> +
+>>>>>>> +	ctx->image_fmt = image_fmt;
+>>>>>>> +	if (!rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, ctx->image_fmt))
+>>>>>>> +		rkvdec_reset_decoded_fmt(ctx);
+>>>>>>>  
+>>>>>>>  	return 0;
+>>>>>>>  }
+>>>>>>>  
+>>>>>>>  static const struct v4l2_ctrl_ops rkvdec_ctrl_ops = {
+>>>>>>>  	.try_ctrl = rkvdec_try_ctrl,
+>>>>>>> +	.s_ctrl = rkvdec_s_ctrl,
+>>>>>>>  };
+>>>>>>>  
+>>>>>>>  static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
+>>>>>>> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
+>>>>>>> index 6f8cf50c5d99aad2f52e321f54f3ca17166ddf98..e466a2753ccfc13738e0a672bc578e521af2c3f2 100644
+>>>>>>> --- a/drivers/staging/media/rkvdec/rkvdec.h
+>>>>>>> +++ b/drivers/staging/media/rkvdec/rkvdec.h
+>>>>>>> @@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
+>>>>>>>  		     struct vb2_v4l2_buffer *dst_buf,
+>>>>>>>  		     enum vb2_buffer_state result);
+>>>>>>>  	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
+>>>>>>> +	enum rkvdec_image_fmt (*get_image_fmt)(struct rkvdec_ctx *ctx,
+>>>>>>> +					       struct v4l2_ctrl *ctrl);
+>>>>>>>  };
+>>>>>>>  
+>>>>>>>  enum rkvdec_image_fmt {
+>>>>>>>
+>>>>>
+>>>
+
 
