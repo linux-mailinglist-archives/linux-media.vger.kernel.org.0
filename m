@@ -1,487 +1,285 @@
-Return-Path: <linux-media+bounces-29622-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29623-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84F3FA80CBD
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 15:45:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A11C3A80CCC
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 15:48:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1EF148C4BAC
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 13:39:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9392E4C7AC6
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 13:40:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C82B188CDB;
-	Tue,  8 Apr 2025 13:39:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A945B18DF6E;
+	Tue,  8 Apr 2025 13:39:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="ETtyLDU6"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lbZayWTY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DBF712BF24;
-	Tue,  8 Apr 2025 13:39:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744119560; cv=pass; b=MHWJEiXnR/m5n+u439aUib0g65qUVWs+3SDnW83tna+7gJ85d8Yz6+Cgxq/bpIOr6mFUybcHU4vN1G/l3XpeXJM3gH6KKSOEWhRSXm8Udj6J56SzdhhlL7rhNjn/iDtFvMftN2SVIsfqjuz9D3h8nPhf+HdQU0RWPF8wIe6qWao=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744119560; c=relaxed/simple;
-	bh=uo2nYJQwA9XxizfuUPw+d1s0GozbzLf5qBpnB9QW8lk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eOQleis/qSSM3VyPmxumpoD3ayg/6YojDgrEtlcqVujOfojzWvpai+NY7B/dfu+Tddm/6cC9AQMIWIpjpe8nqCS7EO+eh7ajeoa+mepNc/8hGcNkIvQYy2eZIHKlwKx5DVXXJ76SCXI2XSwlqtRhu639erFPoYoq1o7xNesVn1A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=ETtyLDU6; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1744119532; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=CYO5PJJFS/PLO8H/pn6Jjy2HOqKhSWwBPZ6nJdzsRDJf21cE0o5UvGLU9DeZhxcaHKVrfl4VAMnRmXzQsg2E8jRz01CwsA/Uqn3SvS+EA2F1rw0wfs5a1pTa9rvJz8sgPd71EF3CE2z1J2NHIfxoq2AwROqYxlX4YNbMuRkg+xc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1744119532; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=4xoEaBbHIafbdAv9irL0lpw2U63g5zk2/4XtLF2aXM4=; 
-	b=KgEqOl7KfYgGHl8HJ9LVZd4s3ILe+K97ALehnZA7Fud8Y5Sp9ZCLuQ4UfpGgNn+dOcuteDI67liZ4UGgaI0McRokjRBhxKu6jvzifpcBp1RV1RKMizxXlCcjzPmEZrLr6ppjbJz1Rm0cBS8b6/KfebV4bNC1g1OXctqCYAhEboo=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
-	dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744119532;
-	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
-	bh=4xoEaBbHIafbdAv9irL0lpw2U63g5zk2/4XtLF2aXM4=;
-	b=ETtyLDU6eWfC/o3j6XlguN5HKOq33yeBJNaMgqGcClzogheDxgsDFdwUCxxbu3jT
-	QANQIhPGWajOh7GRCvo/T1HhIAZkqim5YUWE6eZoM3GeJBc2AZ7UrofMoEgGCnRgUyQ
-	TH+1ZZTXiuNwjleY/YrnUJ/gH9dFLjTxivMdIeFc=
-Received: by mx.zohomail.com with SMTPS id 1744119529535939.1384117482067;
-	Tue, 8 Apr 2025 06:38:49 -0700 (PDT)
-Date: Tue, 8 Apr 2025 14:38:44 +0100
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, kernel@collabora.com, dri-devel@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v4 4/4] drm/panthor: show device-wide list of DRM GEM
- objects over DebugFS
-Message-ID: <s66dyt32ukr37p24zjgbatm6sk5lzw5ujx2n7p2pr2ixrq3jf4@byemjauyp2mv>
-References: <20250402115432.1469703-1-adrian.larumbe@collabora.com>
- <20250402115432.1469703-5-adrian.larumbe@collabora.com>
- <20250402145804.5cf07f5e@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2575F84D13
+	for <linux-media@vger.kernel.org>; Tue,  8 Apr 2025 13:39:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.43
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744119588; cv=none; b=HAFvBvg1xa6p2+ShigZoREJJqYQeewojJr0/QOf26x+iPjoXiNPhdbEePtJ5pP4CVVIQYLD/B2xZcjGJv+tMm3jPA9z76kC22SQyJ2tC8w2rQjjTRDvfTr7h4Opk9WvjX8+ehSkjUFmLotlBj7D7i9yl3qA/KINEVH5yjo2C4OY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744119588; c=relaxed/simple;
+	bh=CZCrfXUui6VYpt7IL2lGsT58sZt2BG0XemsiaElHqiM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=u1eybtQOaKAeCof8Dgxb/OdBoWNZQq9K5wHnyHs+1PXbEUvk+zSfvY5sPLZTsv1oz+LEFKF21PsqNUrRZS8+YCh5Q9So9EXeCICS2i9h1izQCDVVapQUxIUsAo1Wy97qAtEH8FQad1Lrnq1JoepbyqK4DNTia+24GwEEqu05SyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lbZayWTY; arc=none smtp.client-ip=209.85.160.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-2b8e2606a58so3000086fac.0
+        for <linux-media@vger.kernel.org>; Tue, 08 Apr 2025 06:39:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744119585; x=1744724385; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KHOdC/Vml2+FnzmLfGzflP63fCypDI+MruYpwHo3lNA=;
+        b=lbZayWTYx3gypGKzDGTDkaR+CN3nCSMz2CgeMspigs/7m0CHA+ktJ80tQkvC9/YI1L
+         fBoPCzkLfuEMZHGNc01QghSMqnAT54R3W6nM5WsxYBhMepYEl2tjmMfR8tkykCREP+w4
+         Lz9Y2dwXLLE/pOCaBQ8rsYNlvWGq8/ydiKJcKY1tjeGVOKZsaS0iOb4N+VLjOKXrKbt7
+         7JtSI1EjyP9irwjWW7oGL27cqNDlrCWe65NX7NL6W+UDCAnhOV3L2z+VgHdSzXTuu+F7
+         AYoyg8hLBXEnPVWx8AojG+ZeM7/mstx2BYs5zSPQ/plzZVNNBW5eJIbID8dVg3rO1XuA
+         2OQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744119585; x=1744724385;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KHOdC/Vml2+FnzmLfGzflP63fCypDI+MruYpwHo3lNA=;
+        b=qQGSL6NJtOqHOcQ3TCmmR6t6odAinNUaLU18kafZgjom8LlVArTsjP0D16vAYiId6E
+         C0DJ3xJt8id5OZ5GDF0UeQifXV/N8tqEmPZliM3KjPooHWpKO6kCnwQ1JQLqFqOTMD6t
+         sC25SzD2xEnI2l0JRlY5jgL5+2+vJ/Bx69rNQhCU4YJN4iE3P4C/gw/YYgeWjWbl7k4R
+         M6r5RDQ0QKm5gIM3yIbxfDXxzQ4bSn9X7SaHEBiy2Px6zWltRk4oI+EuJnvs2vr/ADm8
+         eKUF+AtG81xFuYMtzdWZ5a2CMk8rG63vGxxAP+Km1ShY8bFHShsLB9wetYeH+NKo70D+
+         V1Eg==
+X-Forwarded-Encrypted: i=1; AJvYcCUI9Oes1W9/J8fTovg8w80N36xIhp2eOBFWh7i4md21Ty1lYsqzcWAECLrPDL0O8upVRsy0bteoexThyA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxzg5zpGEajUyqjc1O3JJehnCTYvomXWaop4bZU38LmNT3bKc1w
+	EM5JBXQ7KUGeiDSJeHfItI2hrK7s4m4LSkp0Y/UfYweLfQ4GnZhnSqb5i5iyHKvDGyNziDfMqGC
+	KETjjRr7WhTdFyTFD4ArFU6D//oNE7lZT72he1w==
+X-Gm-Gg: ASbGncs0wN01PG62IsEn4ojNiqYH0fLuTZ4SVYiNszJtc75oBCM9y1lXNyI1K2T5UJD
+	+v/5tcIk1lrJEhiX7yhUmpt7KY7KMEUXZDxF1Jj4Z+1e71jT8I+qtcZAjiRBDOU9j59qQc0y36D
+	nfTxCTU7OlW/U6rlKAFUAMoRayB88=
+X-Google-Smtp-Source: AGHT+IFDzPIFIE+uzUvKzwMFVIPM56PzO88jEFUON9fAPcL/eNFR02o6bcfZi6WAQ34EoSMSHnDr8Fk6F3d560XOiCg=
+X-Received: by 2002:a05:6870:2b10:b0:295:eb96:9fd4 with SMTP id
+ 586e51a60fabf-2cc9e59d03amr9326894fac.11.1744119585123; Tue, 08 Apr 2025
+ 06:39:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250402145804.5cf07f5e@collabora.com>
+References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
+ <20250305130634.1850178-10-jens.wiklander@linaro.org> <Z-JePo6yGlUgrZkw@sumit-X1>
+ <CAHUa44H1MzBLBM+Oeawca52C8PF3uAT0ggbL-zRdnBqj4LYrZg@mail.gmail.com>
+ <Z-u8MWNVNy9lLbkK@sumit-X1> <CAHUa44GGEypYfiVz5E1aBsZ0TOK0UoeDBVRYB8_dUYJLhrSyUg@mail.gmail.com>
+ <Z_TqTUpGhz1s-F8h@sumit-X1>
+In-Reply-To: <Z_TqTUpGhz1s-F8h@sumit-X1>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Tue, 8 Apr 2025 15:39:33 +0200
+X-Gm-Features: ATxdqUFlhhnGRONqCMm9Feg_Wns0J0dqc4_QCcuIsEY1x6VIJsUuiFEXYdjvaKs
+Message-ID: <CAHUa44EV=q35i-anXkAF2N7mY8gmWqfMbU0YXARHHOas5iKxHw@mail.gmail.com>
+Subject: Re: [PATCH v6 09/10] optee: FF-A: dynamic restricted memory allocation
+To: Sumit Garg <sumit.garg@kernel.org>
+Cc: akpm@linux-foundation.org, david@redhat.com, rppt@linux.ibm.com, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
+	Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, linux-mm@kvack.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 02.04.2025 14:58, Boris Brezillon wrote:
-> On Wed,  2 Apr 2025 12:54:29 +0100
-> Adrián Larumbe <adrian.larumbe@collabora.com> wrote:
+On Tue, Apr 8, 2025 at 11:20=E2=80=AFAM Sumit Garg <sumit.garg@kernel.org> =
+wrote:
 >
-> > Add a device DebugFS file that displays a complete list of all the DRM
-> > GEM objects that are exposed to UM through a DRM handle.
+> On Tue, Apr 01, 2025 at 02:26:59PM +0200, Jens Wiklander wrote:
+> > On Tue, Apr 1, 2025 at 12:13=E2=80=AFPM Sumit Garg <sumit.garg@kernel.o=
+rg> wrote:
+> > >
+> > > + MM folks to seek guidance here.
+> > >
+> > > On Thu, Mar 27, 2025 at 09:07:34AM +0100, Jens Wiklander wrote:
+> > > > Hi Sumit,
+> > > >
+> > > > On Tue, Mar 25, 2025 at 8:42=E2=80=AFAM Sumit Garg <sumit.garg@kern=
+el.org> wrote:
+> > > > >
+> > > > > On Wed, Mar 05, 2025 at 02:04:15PM +0100, Jens Wiklander wrote:
+> > > > > > Add support in the OP-TEE backend driver dynamic restricted mem=
+ory
+> > > > > > allocation with FF-A.
+> > > > > >
+> > > > > > The restricted memory pools for dynamically allocated restrict =
+memory
+> > > > > > are instantiated when requested by user-space. This instantiati=
+on can
+> > > > > > fail if OP-TEE doesn't support the requested use-case of restri=
+cted
+> > > > > > memory.
+> > > > > >
+> > > > > > Restricted memory pools based on a static carveout or dynamic a=
+llocation
+> > > > > > can coexist for different use-cases. We use only dynamic alloca=
+tion with
+> > > > > > FF-A.
+> > > > > >
+> > > > > > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
+> > > > > > ---
+> > > > > >  drivers/tee/optee/Makefile        |   1 +
+> > > > > >  drivers/tee/optee/ffa_abi.c       | 143 ++++++++++++-
+> > > > > >  drivers/tee/optee/optee_private.h |  13 +-
+> > > > > >  drivers/tee/optee/rstmem.c        | 329 ++++++++++++++++++++++=
+++++++++
+> > > > > >  4 files changed, 483 insertions(+), 3 deletions(-)
+> > > > > >  create mode 100644 drivers/tee/optee/rstmem.c
+> > > > > >
+> > >
+> > > <snip>
+> > >
+> > > > > > diff --git a/drivers/tee/optee/rstmem.c b/drivers/tee/optee/rst=
+mem.c
+> > > > > > new file mode 100644
+> > > > > > index 000000000000..ea27769934d4
+> > > > > > --- /dev/null
+> > > > > > +++ b/drivers/tee/optee/rstmem.c
+> > > > > > @@ -0,0 +1,329 @@
+> > > > > > +// SPDX-License-Identifier: GPL-2.0-only
+> > > > > > +/*
+> > > > > > + * Copyright (c) 2025, Linaro Limited
+> > > > > > + */
+> > > > > > +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> > > > > > +
+> > > > > > +#include <linux/errno.h>
+> > > > > > +#include <linux/genalloc.h>
+> > > > > > +#include <linux/slab.h>
+> > > > > > +#include <linux/string.h>
+> > > > > > +#include <linux/tee_core.h>
+> > > > > > +#include <linux/types.h>
+> > > > > > +#include "optee_private.h"
+> > > > > > +
+> > > > > > +struct optee_rstmem_cma_pool {
+> > > > > > +     struct tee_rstmem_pool pool;
+> > > > > > +     struct gen_pool *gen_pool;
+> > > > > > +     struct optee *optee;
+> > > > > > +     size_t page_count;
+> > > > > > +     u16 *end_points;
+> > > > > > +     u_int end_point_count;
+> > > > > > +     u_int align;
+> > > > > > +     refcount_t refcount;
+> > > > > > +     u32 use_case;
+> > > > > > +     struct tee_shm *rstmem;
+> > > > > > +     /* Protects when initializing and tearing down this struc=
+t */
+> > > > > > +     struct mutex mutex;
+> > > > > > +};
+> > > > > > +
+> > > > > > +static struct optee_rstmem_cma_pool *
+> > > > > > +to_rstmem_cma_pool(struct tee_rstmem_pool *pool)
+> > > > > > +{
+> > > > > > +     return container_of(pool, struct optee_rstmem_cma_pool, p=
+ool);
+> > > > > > +}
+> > > > > > +
+> > > > > > +static int init_cma_rstmem(struct optee_rstmem_cma_pool *rp)
+> > > > > > +{
+> > > > > > +     int rc;
+> > > > > > +
+> > > > > > +     rp->rstmem =3D tee_shm_alloc_cma_phys_mem(rp->optee->ctx,=
+ rp->page_count,
+> > > > > > +                                             rp->align);
+> > > > > > +     if (IS_ERR(rp->rstmem)) {
+> > > > > > +             rc =3D PTR_ERR(rp->rstmem);
+> > > > > > +             goto err_null_rstmem;
+> > > > > > +     }
+> > > > > > +
+> > > > > > +     /*
+> > > > > > +      * TODO unmap the memory range since the physical memory =
+will
+> > > > > > +      * become inaccesible after the lend_rstmem() call.
+> > > > > > +      */
+> > > > >
+> > > > > What's your plan for this TODO? I think we need a CMA allocator h=
+ere
+> > > > > which can allocate un-mapped memory such that any cache speculati=
+on
+> > > > > won't lead to CPU hangs once the memory restriction comes into pi=
+cture.
+> > > >
+> > > > What happens is platform-specific. For some platforms, it might be
+> > > > enough to avoid explicit access. Yes, a CMA allocator with unmapped
+> > > > memory or where memory can be unmapped is one option.
+> > >
+> > > Did you get a chance to enable real memory protection on RockPi board=
+?
 > >
-> > Since leaking object identifiers that might belong to a different NS is
-> > inadmissible, this functionality is only made available in debug builds
-> > with DEBUGFS support enabled.
+> > No, I don't think I have access to the needed documentation for the
+> > board to set it up for relevant peripherals.
 > >
-> > File format is that of a table, with each entry displaying a variety of
-> > fields with information about each GEM object.
+> > > This will atleast ensure that mapped restricted memory without explic=
+it
+> > > access works fine. Since otherwise once people start to enable real
+> > > memory restriction in OP-TEE, there can be chances of random hang ups
+> > > due to cache speculation.
 > >
-> > Each GEM object entry in the file displays the following information
-> > fields: Client PID, BO's global name, reference count, BO virtual size,
-> > BO resize size, VM address in its DRM-managed range, BO label and a flag
-> > bitmask.
-> >
-> > There's also a kflags field for the type of BO. Bit 0 tells us whether
-> > it's a kernel BO, and bit 1 means the BO is mapped onto the FW's address
-> > space.
-> >
-> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> > ---
-> >  drivers/gpu/drm/panthor/panthor_device.c |   5 +
-> >  drivers/gpu/drm/panthor/panthor_device.h |  11 ++
-> >  drivers/gpu/drm/panthor/panthor_drv.c    |  26 ++++
-> >  drivers/gpu/drm/panthor/panthor_gem.c    | 149 +++++++++++++++++++++++
-> >  drivers/gpu/drm/panthor/panthor_gem.h    |  35 ++++++
-> >  5 files changed, 226 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> > index a9da1d1eeb70..b776e1a2e4f3 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_device.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> > @@ -184,6 +184,11 @@ int panthor_device_init(struct panthor_device *ptdev)
-> >  	if (ret)
-> >  		return ret;
-> >
-> > +#ifdef CONFIG_DEBUG_FS
-> > +	drmm_mutex_init(&ptdev->base, &ptdev->gems.lock);
-> > +	INIT_LIST_HEAD(&ptdev->gems.node);
-> > +#endif
-> > +
-> >  	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
-> >  	p = alloc_page(GFP_KERNEL | __GFP_ZERO);
-> >  	if (!p)
-> > diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-> > index da6574021664..86206a961b38 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_device.h
-> > +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> > @@ -205,6 +205,17 @@ struct panthor_device {
-> >
-> >  	/** @fast_rate: Maximum device clock frequency. Set by DVFS */
-> >  	unsigned long fast_rate;
-> > +
-> > +#ifdef CONFIG_DEBUG_FS
-> > +	/** @gems: Device-wide list of GEM objects owned by at least one file. */
-> > +	struct {
-> > +		/** @gems.lock: Protects the device-wide list of GEM objects. */
-> > +		struct mutex lock;
-> > +
-> > +		/** @node: Used to keep track of all the device's DRM objects */
-> > +		struct list_head node;
-> > +	} gems;
-> > +#endif
-> >  };
-> >
-> >  struct panthor_gpu_usage {
-> > diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> > index d5277284fe27..3e870ed2ad90 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> > @@ -1534,9 +1534,35 @@ static const struct file_operations panthor_drm_driver_fops = {
-> >  };
-> >
-> >  #ifdef CONFIG_DEBUG_FS
-> > +static int panthor_gems_show(struct seq_file *m, void *data)
-> > +{
-> > +	struct drm_info_node *node = m->private;
-> > +	struct drm_device *dev = node->minor->dev;
-> > +	struct panthor_device *ptdev = container_of(dev, struct panthor_device, base);
-> > +
-> > +	panthor_gem_debugfs_print_bos(ptdev, m);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +
-> > +static struct drm_info_list panthor_debugfs_list[] = {
-> > +	{"gems", panthor_gems_show, 0, NULL},
-> > +};
-> > +
-> > +static int panthor_gems_debugfs_init(struct drm_minor *minor)
-> > +{
-> > +	drm_debugfs_create_files(panthor_debugfs_list,
-> > +				 ARRAY_SIZE(panthor_debugfs_list),
-> > +				 minor->debugfs_root, minor);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static void panthor_debugfs_init(struct drm_minor *minor)
-> >  {
-> >  	panthor_mmu_debugfs_init(minor);
-> > +	panthor_gems_debugfs_init(minor);
-> >  }
-> >  #endif
-> >
-> > diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> > index 44d027e6d664..2fc87be9b700 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> > @@ -2,6 +2,7 @@
-> >  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
-> >  /* Copyright 2023 Collabora ltd. */
-> >
-> > +#include <linux/cleanup.h>
-> >  #include <linux/dma-buf.h>
-> >  #include <linux/dma-mapping.h>
-> >  #include <linux/err.h>
-> > @@ -10,14 +11,65 @@
-> >  #include <drm/panthor_drm.h>
-> >
-> >  #include "panthor_device.h"
-> > +#include "panthor_fw.h"
-> >  #include "panthor_gem.h"
-> >  #include "panthor_mmu.h"
-> >
-> > +#ifdef CONFIG_DEBUG_FS
-> > +static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo, u32 type_mask)
-> > +{
-> > +	INIT_LIST_HEAD(&bo->debugfs.node);
+> > A hypervisor in the normal world can also make the memory inaccessible
+> > to the kernel. That shouldn't cause any hangups due to cache
+> > speculation.
 >
-> This should be called when the GEM object is created, otherwise the
-> list_empty() test done in panthor_gem_debugfs_bo_rm() will only work if
-> panthor_gem_debugfs_bo_add() is called, and depending on when this
-> happens, or whether it happens at all, the error path will do a NULL
-> deref.
+> The hypervisor should unmap the memory from EL2 translation tables which
+> I think should disallow the cache speculation to take place. However,
+> without hypervisor here the memory remains mapped in normal world which
+> can lead to cache speculation for restricted buffers. That's why we
+> should atleast test on one platform with real memory protection enabled
+> to rule out any assumptions we make.
 
-I'll be moving panthor_gem_debugfs_bo_add() back into panthor_gem_create_object() and
-inline panthor_gem_debugfs_bo_init() into it.
+Do I hear a volunteer? ;-)
 
-> > +
-> > +	if (!(type_mask & PANTHOR_BO_FW_MAPPED)) {
-> > +		bo->debugfs.creator.tgid = current->group_leader->pid;
-> > +		get_task_comm(bo->debugfs.creator.process_name, current->group_leader);
+Anyway, this isn't something that can be enabled in the kernel alone.
+Only platforms where the firmware has been updated will be affected.
+If this can't be supported on a particular platform, there's still the
+option with a static carveout.
+
+Cheers,
+Jens
+
 >
-> I don't think that's good to assume that FW-mapped BOs have been
-> created by the kernel without userspace directly or indirectly asking
-> for the allocation. For instance, per-group memory allocated for the
-> USER_CS interfaces are indirectly triggered by a GROUP_CREATE ioctl(),
-> and should IMO be flagged as being created by the process that
-> created the group. Don't we have another way to check if we're called
-> from a kernel thread?
-
-True, I completely missed this. I did some research of the kernel API and apparently
-is_kthread() might do the job.
-
-> > +	} else {
-> > +		bo->debugfs.creator.tgid = 0;
-> > +		snprintf(bo->debugfs.creator.process_name,
-> > +			 sizeof(bo->debugfs.creator.process_name),
-> > +			 "kernel");
-> > +	}
-> > +
-> > +	bo->debugfs.bo_mask = type_mask;
+> -Sumit
 >
-> Why not do that directly in panthor_gem_debugfs_bo_add()? The only bits
-> that might be useful to do early is the INIT_LIST_HEAD(), and I think
-> it can be inlined in panthor_gem_create_object().
-
-I'll be doing in this in the next revision, but because I've no access to the BO
-type mask from inside Panthor's drm_driver::gem_create_object() binding, then
-I'll have to assign the mask right after the object has been created.
-
-I think this means there might be a short window after the object's been added to
-the DebugFS GEMs list in which it could be shown with the kernel mask field still
-set to 0, but I guess that's not too important either.
-
-> > +}
-> > +
-> > +static void panthor_gem_debugfs_bo_add(struct panthor_gem_object *bo, u32 type_mask)
-> > +{
-> > +	struct panthor_device *ptdev =  container_of(bo->base.base.dev,
-> > +						     struct panthor_device, base);
-> > +
-> > +	panthor_gem_debugfs_bo_init(bo, type_mask);
-> > +
-> > +	mutex_lock(&ptdev->gems.lock);
-> > +	list_add_tail(&bo->debugfs.node, &ptdev->gems.node);
-> > +	mutex_unlock(&ptdev->gems.lock);
-> > +}
-> > +
-> > +static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo)
-> > +{
-> > +	struct panthor_device *ptdev = container_of(bo->base.base.dev,
-> > +						    struct panthor_device, base);
-> > +
-> > +	if (list_empty(&bo->debugfs.node))
-> > +		return;
-> > +
-> > +	mutex_lock(&ptdev->gems.lock);
-> > +	list_del_init(&bo->debugfs.node);
-> > +	mutex_unlock(&ptdev->gems.lock);
-> > +}
-> > +
-> > +#else
-> > +static void panthor_gem_debugfs_bo_add(struct panthor_gem_object *bo, u32 type_mask) {}
-> > +static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo) {}
-> > +#endif
-> > +
-> >  static void panthor_gem_free_object(struct drm_gem_object *obj)
-> >  {
-> >  	struct panthor_gem_object *bo = to_panthor_bo(obj);
-> >  	struct drm_gem_object *vm_root_gem = bo->exclusive_vm_root_gem;
 > >
-> > +	panthor_gem_debugfs_bo_rm(bo);
-> > +
-> >  	/*
-> >  	 * Label might have been allocated with kstrdup_const(),
-> >  	 * we need to take that into account when freeing the memory
-> > @@ -86,6 +138,7 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
-> >  	struct drm_gem_shmem_object *obj;
-> >  	struct panthor_kernel_bo *kbo;
-> >  	struct panthor_gem_object *bo;
-> > +	u32 type_mask = PANTHOR_BO_KERNEL;
-> >  	int ret;
+> > Cheers,
+> > Jens
 > >
-> >  	if (drm_WARN_ON(&ptdev->base, !vm))
-> > @@ -105,7 +158,12 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
-> >  	kbo->obj = &obj->base;
-> >  	bo->flags = bo_flags;
-> >
-> > +	if (vm == panthor_fw_vm(ptdev))
-> > +		type_mask |= PANTHOR_BO_FW_MAPPED;
-> > +
-> >  	panthor_gem_kernel_bo_set_label(kbo, name);
-> > +	panthor_gem_debugfs_bo_add(to_panthor_bo(kbo->obj), type_mask);
-> > +
-> >  	/* The system and GPU MMU page size might differ, which becomes a
-> >  	 * problem for FW sections that need to be mapped at explicit address
-> >  	 * since our PAGE_SIZE alignment might cover a VA range that's
-> > @@ -255,6 +313,8 @@ panthor_gem_create_with_handle(struct drm_file *file,
-> >  	/* drop reference from allocate - handle holds it now. */
-> >  	drm_gem_object_put(&shmem->base);
-> >
-> > +	panthor_gem_debugfs_bo_add(bo, 0);
-> > +
-> >  	return ret;
-> >  }
-> >
-> > @@ -286,3 +346,92 @@ panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
-> >
-> >  	panthor_gem_bo_set_label(bo->obj, kstrdup_const(str, GFP_KERNEL));
-> >  }
-> > +
-> > +#ifdef CONFIG_DEBUG_FS
-> > +static bool panfrost_gem_print_flag(const char *name,
-> > +				    bool is_set,
-> > +				    bool other_flags_printed,
-> > +				    struct seq_file *m)
-> > +{
-> > +	if (is_set)
-> > +		seq_printf(m, "%s%s", other_flags_printed ? "," : "", name);
-> > +
-> > +	return is_set | other_flags_printed;
-> > +}
-> > +
-> > +struct gem_size_totals {
-> > +	size_t size;
-> > +	size_t resident;
-> > +	size_t reclaimable;
-> > +};
-> > +
-> > +static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
-> > +					 struct seq_file *m,
-> > +					 struct gem_size_totals *totals)
-> > +{
-> > +	unsigned int refcount = kref_read(&bo->base.base.refcount);
-> > +	char creator_info[32] = {};
-> > +	bool has_flags = false;
-> > +	size_t resident_size;
-> > +
-> > +	/* Skip BOs being destroyed. */
-> > +	if (!refcount)
-> > +		return;
-> > +
-> > +	resident_size = bo->base.pages != NULL ? bo->base.base.size : 0;
-> > +
-> > +	snprintf(creator_info, sizeof(creator_info),
-> > +		 "%s/%d", bo->debugfs.creator.process_name, bo->debugfs.creator.tgid);
-> > +	seq_printf(m, "%-32s%-16d%-16d%-16zd%-16zd%-16lx",
-> > +		   creator_info,
-> > +		   bo->base.base.name,
-> > +		   refcount,
-> > +		   bo->base.base.size,
-> > +		   resident_size,
-> > +		   drm_vma_node_start(&bo->base.base.vma_node));
-> > +
-> > +	seq_puts(m, "(");
-> > +	has_flags = panfrost_gem_print_flag("imported", bo->base.base.import_attach != NULL,
-> > +					    has_flags, m);
-> > +	has_flags = panfrost_gem_print_flag("exported", bo->base.base.dma_buf != NULL,
-> > +					    has_flags, m);
-> > +	if (bo->base.madv < 0)
-> > +		has_flags = panfrost_gem_print_flag("purged", true, has_flags, m);
-> > +	else if (bo->base.madv > 0)
-> > +		has_flags = panfrost_gem_print_flag("purgeable", true, has_flags, m);
-> > +	if (!has_flags)
-> > +		seq_puts(m, "none");
-> > +	seq_puts(m, ")");
-> > +
-> > +	seq_printf(m, "%-6s0x%-2x", "", bo->debugfs.bo_mask);
-> > +
-> > +	mutex_lock(&bo->label.lock);
-> > +	seq_printf(m, "%-6s%-60s", "", bo->label.str ? : NULL);
-> > +	mutex_unlock(&bo->label.lock);
-> > +	seq_puts(m, "\n");
-> > +
-> > +	totals->size += bo->base.base.size;
-> > +	totals->resident += resident_size;
-> > +	if (bo->base.madv > 0)
-> > +		totals->reclaimable += resident_size;
-> > +}
-> > +
-> > +void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
-> > +				   struct seq_file *m)
-> > +{
-> > +	struct gem_size_totals totals = {0};
-> > +	struct panthor_gem_object *bo;
-> > +
-> > +	seq_puts(m, "created-by                      global-name     refcount        size            resident-size   file-offset     flags     kflags     label\n");
-> > +	seq_puts(m, "------------------------------------------------------------------------------------------------------------------------------------------------\n");
-> > +
-> > +	scoped_guard(mutex, &ptdev->gems.lock) {
-> > +		list_for_each_entry(bo, &ptdev->gems.node, debugfs.node)
-> > +			panthor_gem_debugfs_bo_print(bo, m, &totals);
-> > +	}
-> > +
-> > +	seq_puts(m, "==========================================================================================================================================================\n");
-> > +	seq_printf(m, "Total size: %zd, Total resident: %zd, Total reclaimable: %zd\n",
-> > +		   totals.size, totals.resident, totals.reclaimable);
-> > +}
-> > +#endif
-> > diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-> > index 49daa5088a0d..22ecc0d39d5e 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_gem.h
-> > +++ b/drivers/gpu/drm/panthor/panthor_gem.h
-> > @@ -15,6 +15,32 @@ struct panthor_vm;
-> >
-> >  #define PANTHOR_BO_LABEL_MAXLEN	PAGE_SIZE
-> >
-> > +#define PANTHOR_BO_KERNEL	BIT(0)
-> > +#define PANTHOR_BO_FW_MAPPED	BIT(1)
-> > +
-> > +/**
-> > + * struct panthor_gem_debugfs - GEM object's DebugFS list information
-> > + */
-> > +struct panthor_gem_debugfs {
-> > +	/**
-> > +	 * @node: Node used to insert the object in the device-wide list of
-> > +	 * GEM objects, to display information about it through a DebugFS file.
-> > +	 */
-> > +	struct list_head node;
-> > +
-> > +	/** @creator: Information about the UM process which created the GEM. */
-> > +	struct {
-> > +		/** @creator.process_name: Group leader name in owning thread's process */
-> > +		char process_name[TASK_COMM_LEN];
-> > +
-> > +		/** @creator.tgid: PID of the thread's group leader within its process */
-> > +		pid_t tgid;
-> > +	} creator;
-> > +
-> > +	/** @bo_mask: Bitmask encoding BO type as {USER, KERNEL} x {GPU, FW} */
-> > +	u32 bo_mask;
-> > +};
-> > +
-> >  /**
-> >   * struct panthor_gem_object - Driver specific GEM object.
-> >   */
-> > @@ -62,6 +88,10 @@ struct panthor_gem_object {
-> >  		/** @lock.str: Protects access to the @label.str field. */
-> >  		struct mutex lock;
-> >  	} label;
-> > +
-> > +#ifdef CONFIG_DEBUG_FS
-> > +	struct panthor_gem_debugfs debugfs;
-> > +#endif
-> >  };
-> >
-> >  /**
-> > @@ -157,4 +187,9 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
-> >
-> >  void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
-> >
-> > +#ifdef CONFIG_DEBUG_FS
-> > +void panthor_gem_debugfs_print_bos(struct panthor_device *pfdev,
-> > +				   struct seq_file *m);
-> > +#endif
-> > +
-> >  #endif /* __PANTHOR_GEM_H__ */
-
-
-Adrian Larumbe
+> > >
+> > > MM folks,
+> > >
+> > > Basically what we are trying to achieve here is a "no-map" DT behavio=
+ur
+> > > [1] which is rather dynamic in  nature. The use-case here is that a m=
+emory
+> > > block allocated from CMA can be marked restricted at runtime where we
+> > > would like the Linux not being able to directly or indirectly (cache
+> > > speculation) access it. Once memory restriction use-case has been
+> > > completed, the memory block can be marked as normal and freed for
+> > > further CMA allocation.
+> > >
+> > > It will be apprciated if you can guide us regarding the appropriate A=
+PIs
+> > > to use for un-mapping/mamping CMA allocations for this use-case.
+> > >
+> > > [1] https://github.com/devicetree-org/dt-schema/blob/main/dtschema/sc=
+hemas/reserved-memory/reserved-memory.yaml#L79
+> > >
+> > > -Sumit
 
