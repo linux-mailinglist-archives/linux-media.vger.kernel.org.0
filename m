@@ -1,205 +1,163 @@
-Return-Path: <linux-media+bounces-29671-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29672-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 611E0A816F0
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 22:31:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7429AA816F9
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 22:32:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 919A14A5110
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 20:31:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4D40A4A498A
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 20:32:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91BA3255243;
-	Tue,  8 Apr 2025 20:30:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B92A6254856;
+	Tue,  8 Apr 2025 20:31:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lxuVBUPE"
+	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="ZdnBZYSJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05olkn2072.outbound.protection.outlook.com [40.92.90.72])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3EC1253331;
-	Tue,  8 Apr 2025 20:30:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744144222; cv=none; b=LHBukOguoUcInt5/AprYBuxYQovQVUcPVEoe3PQxYG9riVhR3+8dRT7OkQlF50CjpSaDpYcnjVzMlGI4yfwMN5S4mAlVx/rpChS0tqFTLDDb17sWUwwHtfB1zhYkb5PALaxLsUvDEeBT52cS4uLMJXTtvcWj0ovGEgPugMBpIF0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744144222; c=relaxed/simple;
-	bh=VLSMlFX8MHlSUtQUTu5mk0CYrZpnr3KFN4CqZqLwFhk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=mE9W4g3H1F4dK6PXHhP9U7UwEV6JlAprZkbNQvkdV8w3ic0k0Nw5wfdy7UwG/av0cy1d5HJcQSpKgwC6unwrHrXhR0EWzNMGXZ7PDDu07rkFSkmWn8c/JWzY0/zm5eOuiv1BgwMnW9/l/vZkq4iu01CVaY+jqVl469adiDRwwhw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lxuVBUPE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4F86AC4CEF0;
-	Tue,  8 Apr 2025 20:30:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744144222;
-	bh=VLSMlFX8MHlSUtQUTu5mk0CYrZpnr3KFN4CqZqLwFhk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=lxuVBUPE/2yNgwdZKDjbI4KgbOyBQI7hO9OJMd+JRBXoTO6kMg69iPwcJx8Ks9p8u
-	 hfjzAcGH2a8jW1gThMpyJ4E+/OUHQUUmyr+oB6GUpzg9NQnZwrOrhsRHdpz7sSRLyr
-	 awDSdJaWGFekc1ou0gSMYpcH5gHAb7AFj1Z1MXzhjMpdz7dUXdmGy5N/vtHz6AlIW8
-	 n+NrpfIJx4mTO3+7ep9lCg0z3ZzeGdVGSGpwmKCaOJTK2asP3qXm+ytnzdw28Eu0bp
-	 ZdmL5g07r9pdv230uBje4nTM4PxQOmH2bkGKUPGzZKLVzziiqIi9IisLMH5ZFUNQ+S
-	 fdHDQ5yeJ6m0g==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47312C369A6;
-	Tue,  8 Apr 2025 20:30:22 +0000 (UTC)
-From: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>
-Date: Tue, 08 Apr 2025 15:30:01 -0500
-Subject: [PATCH v2 4/4] arm64: tegra: Wire up cec to devkits
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EC16253F1B;
+	Tue,  8 Apr 2025 20:31:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.92.90.72
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744144307; cv=fail; b=Xbp2M8OrtB8jBXrW4eYrvie914ol7xnhxvRUIKFQn9rKBD8l75OKx3AtiyCfWfypdQzzsWXGYEja59+upUOUpRiwCiMaZqs1JkB3T8zaRURqbnS6ozpGOctXoGNcarFjHB9p7hnMQAF+e7qhNzU6eFbcp+jMJ06X7JXQqhmg7Xc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744144307; c=relaxed/simple;
+	bh=t5ThA1kM/SIMshxKgFaMONO3dUFOy4EZgYGqRzOqrEo=;
+	h=Date:From:To:Cc:Subject:Message-ID:Content-Type:
+	 Content-Disposition:MIME-Version; b=c97fjuma+7s98+h/vfJcALg8vEyZYnLzAf0JiHikP826Lr49NPD/hEh54693v/4IjC2/Ld8Bu40jxpC0YUzkcdQlgix69CGqQBTYEYsWRRvnqrEVp9FbgHsMQMs8xbY/h3BZvSgYoQVhmKfOuQwZBHfMTwmBDpwJjARUmJVueJQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com; spf=pass smtp.mailfrom=hotmail.com; dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b=ZdnBZYSJ; arc=fail smtp.client-ip=40.92.90.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=hotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hotmail.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iGlufAptMajQN8ibMsnoHojNn9QNfkKJ3IRBabxFkSnymRtMBZrWeJdk/7VUVJwr0SkFBnfp1kJzfQcdexc2JlI+3Kx9dQV85x806WDtrMXOBZ4sz4xoEw+So81lV5NfPbHP2K93U3WZOvPHJjiLLpsAjw4y2NM5wJfx12KnRoAGgiXrYjE5FE/CYS+Gd1rE2tR0klv2s0h39g+LvNK6MMV2hj8VXmuSCVAFIZ5N4MzrL6dZGS6p8u1Ir2abuS6EO9TUJ/l4jW5l9FcZmnm5mWFt4uRfK08KrX9g2GSheHK7gpMK5fsajo9tzr07j3ueosdVYPE86CibGqMhJrP39w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IAmLwbfxyLCToAs8T5Ll0bxlX+U1hO9PEI89xu4fyVo=;
+ b=UT5KJ5QC8mG3K0hcwZ5PrNly1t8kiLMFcJZ52J6xPnSjS1JVsl4qJ9Q8EyO782ziNhbeKbJ/1im8fe1PZ7rspGk+ThYWmvVuWgZp7O+PrWwvfq0j52am7GGX80KXL7uvphGO70sAdyD6XDId9jsZBRFWtSVO2GR60aSAlE61bU7rGDA5jzdht2PKtWNyh19Z0R6TM3vKhXjKxwxzW5ESnHTiYcli63smUB4LfAijlU9iEQK34IY54rZFkoSnXB+o93uBw0nU3YPjnqbCvXPVxBtP5KO80GRopKSIA7fywj/a7TpivT2VpiZI3juieYZTF7Rz9S9lxsGDi8PTLQTonQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IAmLwbfxyLCToAs8T5Ll0bxlX+U1hO9PEI89xu4fyVo=;
+ b=ZdnBZYSJhVg0bXYgUlvKl8/VCKsokw57jF6xX5BgKXkQZFZt3q/XtEKakoM77PfJF3WEwZdsZLSzXN0YSqqCTtOPzUJO6vlXEfzl3+9J431HpQcGJuyzbQEmts9tmuXNw2g9ALYuKPvfWjikFrf3bUMfipBv5fikD40SrJCqgNlHiuAuZLfjjIn4JmPWjP18uOBh2lqdGRnpqZuxc72YbslJ+5Ebjw9w1gTEdMisiAMQf2Rqvah8nDrswEC+EEQPShJvoo8bXNzYP++Tjwxyze8RNHkBcXk5eTnt2EhiTDIuPGCQxoYoUC/+sujUb2sLScJeWjH1HCXLYVvM1T6SDw==
+Received: from GV1P250MB0716.EURP250.PROD.OUTLOOK.COM (2603:10a6:150:8c::8) by
+ GV2P250MB1047.EURP250.PROD.OUTLOOK.COM (2603:10a6:150:d1::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8632.13; Tue, 8 Apr 2025 20:31:39 +0000
+Received: from GV1P250MB0716.EURP250.PROD.OUTLOOK.COM
+ ([fe80::fa5:9fcd:cd66:534c]) by GV1P250MB0716.EURP250.PROD.OUTLOOK.COM
+ ([fe80::fa5:9fcd:cd66:534c%5]) with mapi id 15.20.8632.017; Tue, 8 Apr 2025
+ 20:31:39 +0000
+Date: Tue, 8 Apr 2025 21:31:25 +0100
+From: Chris Green <chris.e.green@hotmail.com>
+To: mchehab@kernel.org
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: v4l: subdev: Fix coverity issue: Logically dead code
+Message-ID:
+ <GV1P250MB0716680153B0E06CA96AD94AB2B52@GV1P250MB0716.EURP250.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-ClientProxiedBy: LO4P123CA0017.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:150::22) To GV1P250MB0716.EURP250.PROD.OUTLOOK.COM
+ (2603:10a6:150:8c::8)
+X-Microsoft-Original-Message-ID: <Z_WHnTcdLm3iPpdN@chris.chris>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250408-tegra-cec-v2-4-2f004fdf84e8@gmail.com>
-References: <20250408-tegra-cec-v2-0-2f004fdf84e8@gmail.com>
-In-Reply-To: <20250408-tegra-cec-v2-0-2f004fdf84e8@gmail.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>
-Cc: linux-tegra@vger.kernel.org, linux-media@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Aaron Kling <webgeek1234@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1744144221; l=4050;
- i=webgeek1234@gmail.com; s=20250217; h=from:subject:message-id;
- bh=/KKv/TYqLGMeib4RLCtBAkuSb2lVtoCy1X50R5bg7FY=;
- b=hxvO21PIrWljF/jP5m1TrN/R4morWIR0YmOLoLcWs64IwHg47+h7mATHDUYzxU90M+Qx/5Jmp
- Ynl/Qm2J8VlD2xayhwHfec7kjug4XeIPqfyJX+unxLZPLfGWduDzSLo
-X-Developer-Key: i=webgeek1234@gmail.com; a=ed25519;
- pk=TQwd6q26txw7bkK7B8qtI/kcAohZc7bHHGSD7domdrU=
-X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
- auth_id=342
-X-Original-From: Aaron Kling <webgeek1234@gmail.com>
-Reply-To: webgeek1234@gmail.com
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GV1P250MB0716:EE_|GV2P250MB1047:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0b1ea136-9f01-4f48-e161-08dd76dc5d86
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|15080799006|5072599009|8060799006|7092599003|19110799003|6090799003|461199028|5062599005|41001999003|440099028|3412199025;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?MJk7t00SEeS7rSudv8sAQ9FWr3mV16SVNxnKdiq/+K3a7ekyVzRs41tPOJmi?=
+ =?us-ascii?Q?qbKy5E+KMwV/cbRDEEFrmyKL4R6SGhm+WVRC3dt3BULUXICT1eWeNZuEnGlR?=
+ =?us-ascii?Q?fOVsHxpBXIWeQSZKO9lTeG9zGhwyrW+zjMGo8O+Xs2HB/cHwWxAhx5WfTdqM?=
+ =?us-ascii?Q?p7CL822Lf0UXicNwwkNHoOVykeecf7NtSfDtGljWxLz8fbZyUUod8JVthp4N?=
+ =?us-ascii?Q?H0MpzJV3OQsEeanw3v+x0x4GRROW77MEULle+z/l+Y6OJZsyJ8aSbRdm3jNd?=
+ =?us-ascii?Q?5ph8Qrej1pO5L6gePcVwuXH+VFadsaIPN46Vd+qGk74XTXVOvt6Ctz3oyvhH?=
+ =?us-ascii?Q?1F1c48hUI00eYjWtPwZAmE0ye6okpHlWTYjtlfZbAZni8DqMCdIlzQf5GvHC?=
+ =?us-ascii?Q?TzgC1Gysj6kWXdCpiVyQDjrVgWhHDnCV/o6O16RhtFdQtkiMPThmT3eC3LNW?=
+ =?us-ascii?Q?h+dIddx0LrEaBeB7eLSDZhuyz4yR4526TLkCpUbtrkhmpfMf5aKDyyPhVtC4?=
+ =?us-ascii?Q?7quS5DFMdewQuKj91Kv6CHeHXPljXFNu8zBaB7xY0ElgeRf0LOPpi/BX9Zh/?=
+ =?us-ascii?Q?pnhwaWvZMCcH5Ovq4N/pNKMowsRKOzdM6EGk0mmFNbOpcKsVm5rnSB3s3YQe?=
+ =?us-ascii?Q?L/jXno+OASs2AqZE9+sAjVIf9sSSkDxZQBvyPjcnOCBDctxx3FT3r+VDhihE?=
+ =?us-ascii?Q?Apq8rKApOatE4zXR8nfhmVMt/dKxdLMzPL/aVPk1a2axmI1YfugaH3RrAn05?=
+ =?us-ascii?Q?VuL91V3OYjbIX9J5aSiD4ekGbVKcwis3N6HYNieikD2wJZ0pELnlEUryhXrp?=
+ =?us-ascii?Q?giHc2OpvUI03f5mKd5tpZTJtpIPWeqSg+GiZbq23gVu1U2XCcARKHsNcbSWs?=
+ =?us-ascii?Q?kGQtXrUzf6x6ovap7+UkrBvgraRIeT7ELBSY0UnIyzEpyf9prR2Vd286RiKE?=
+ =?us-ascii?Q?BXQs4YkNybOsBs/zj+3w98DhdQUM/OZOiz0x1zckxGjhAGexvO8tjdLlwTMv?=
+ =?us-ascii?Q?REfFKd+mZkcCXpPJXdzFAQ3SsJlvTpeqoxBTMlz9lEnmC2tBi8lKd6GmPAMe?=
+ =?us-ascii?Q?IIGFzBzssOzQCmIF5dru7SkzlIDslrIXyjPWM3EKx5I/kgKDxfKOfg4JYVZP?=
+ =?us-ascii?Q?NIakdgaux+SNK0D9OOhczRphdsRrTBhOI1wNsnpgkm3D4GSOKorwJKGd717o?=
+ =?us-ascii?Q?iQfUhK2JD+31WfvMe48rCnj+CsP/mtOyf5KBqg=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?yxuyDX1uwkyUhKMN6kqkj/vW4ZQDDAKcfsfZzh2vSM490HiKSHGFqwOIC8Gy?=
+ =?us-ascii?Q?xP6ae6bKEZTgJSAzCWU0utiDw+dbkTBNoQ2c6h451AI0GUp9h8VpgnFXla2I?=
+ =?us-ascii?Q?l+Mxdw1PN7QHUc1aJAQaD+M6c9Nof40+b7k56iaxg8LYZLzl0z02h1y1A6nk?=
+ =?us-ascii?Q?B7SsJRa4XdplpspuJQtYtuL4/f8E4lQEnuhZ07/vzQ3He56fRfzVxLPUeeRt?=
+ =?us-ascii?Q?py1R0L1lHi82185ieoYDm1L7WaoyNDs+2eD75eavtWWADKJcJcAQYsHgHCT6?=
+ =?us-ascii?Q?XUwny/g8tvUnNZHFbXrxBrIIx6p9wGIZFOz00nmPzvG2ELgFluCgKn5kCG0U?=
+ =?us-ascii?Q?lSnVf3NF0aDmPTHp3BWvpH5yvSCyJI9XfgOiI8zIcYgJ4dbbzhAdjx2rocFt?=
+ =?us-ascii?Q?zv3m316zHjgXV/fBxEKS8dhMk78qvpF5OnbGN/txXvNrBTO4sn9n1sPzKlUF?=
+ =?us-ascii?Q?SDtbL08qhy0mnKGb1RgKwJRXuN2HEiZ2VMSdqvj2YHB4vvTvHBr/spm/Fmn8?=
+ =?us-ascii?Q?pKaHvNSPVUv1/YYt6qngrfBoAZmOlnbjqv+bh7Oq0EnNvFVrg5e0EKB1W5wl?=
+ =?us-ascii?Q?AQRBQ9uzHva9ztrGV/wqIzUjOF0Lkp82nuZLXhiSnD4F5EylHn5E7vRHIvMK?=
+ =?us-ascii?Q?IcN32RvnV9ZjERMJ5NW4Chv7GBFMz0thSHHYlVaFokfcTwN8n222VGLg+Hzt?=
+ =?us-ascii?Q?MzXqLCAmEIcWHenK/KlcgNIYM1DJgR+FTXw1Fq0nyD83n/Iv/KOPh1S/nPwu?=
+ =?us-ascii?Q?Uq7sAR/56ZveYHiPj44Oy0BTm+OSwOx7iCS9z71cjadiEmf/tQQ0uJs+VEL9?=
+ =?us-ascii?Q?RTw7cf6Ni8Vz1QKYvJJovUn5COrVmEo05Jhw3SiQvBDwxcT6U9znEAwDcKgh?=
+ =?us-ascii?Q?6S+XWJMVbGH7mogwu9Guh5kScdJmcYeOUGgp+/ValimGoS1lOai5UgA6IR5g?=
+ =?us-ascii?Q?Ub7RRS9T/ronOfJLhthHcXa2iIcDjzUQosBE0FrqvWvnuNVQBftiEfQ2TrvK?=
+ =?us-ascii?Q?77YP0QINpcIO9WGEQ94D9ug+e7gUreXjlTB4Tihf4UvoPrDQU69iPNfPyRmC?=
+ =?us-ascii?Q?wdhvsbaoN12Z7zG9nEeTxaD8Iqci/e18BiAd31qmHqHj1kUQ5C+WxxqFOB6Q?=
+ =?us-ascii?Q?j+0m8QPf4YgRu9xUtQz0/Vrj9e3J836hTlQBu8vBhDWVjxmar9WZ9ESiU0ss?=
+ =?us-ascii?Q?BLxAMkrCmPnWA/MNsthTP4BIT/qPtJ5pzQ6kbcAjyYNkLatwqHvXreNlOEms?=
+ =?us-ascii?Q?wMrf64PUdgLbImEkBZA6?=
+X-OriginatorOrg: sct-15-20-7784-11-msonline-outlook-95b76.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0b1ea136-9f01-4f48-e161-08dd76dc5d86
+X-MS-Exchange-CrossTenant-AuthSource: GV1P250MB0716.EURP250.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Apr 2025 20:31:39.3832
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2P250MB1047
 
-From: Aaron Kling <webgeek1234@gmail.com>
+The conditional (type == V4L2_TUNER_RADIO) always evaluates true due to the
+earlier check for (type != V4L2_TUNER_RADIO) (line 2826)
 
-This enables hdmi cec and routes it to the hdmi port on all supported
-Tegra210, Tegra186, and Tegra194 devkits.
+CID: 1226742
 
-Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
+Signed-off-by: Chris Green <chris.e.green@hotmail.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts            | 6 ++++++
- arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dts | 6 ++++++
- arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts            | 6 ++++++
- arch/arm64/boot/dts/nvidia/tegra194-p3509-0000.dtsi           | 6 ++++++
- arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts            | 6 ++++++
- arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts            | 6 ++++++
- 6 files changed, 36 insertions(+)
+ drivers/media/v4l2-core/v4l2-ioctl.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-index 15aa49fc450399c7bd525adcdb6e92a27a185805..90155e4ff1feb609f79416a410c3666ebef8b634 100644
---- a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-@@ -2394,6 +2394,12 @@ usb@3550000 {
- 		phy-names = "usb2-0";
- 	};
- 
-+	cec@3960000 {
-+		status = "okay";
-+
-+		hdmi-phandle = <&sor1>;
-+	};
-+
- 	i2c@c250000 {
- 		/* carrier board ID EEPROM */
- 		eeprom@57 {
-diff --git a/arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dts b/arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dts
-index 26f71651933d1d8ef32bbd1645cac1820bd2e104..a6d7fec2e84fb917018aff843845b02c34fede33 100644
---- a/arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dts
-@@ -712,6 +712,12 @@ usb@3550000 {
- 		phy-names = "usb2-0";
- 	};
- 
-+	cec@3960000 {
-+		status = "okay";
-+
-+		hdmi-phandle = <&sor1>;
-+	};
-+
- 	hsp@3c00000 {
- 		status = "okay";
- 	};
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-index c32876699a43e9f57b3888c5bc0f5da73c5b95b5..ea6f397a27926e3dcd54002177f68749bc1cc309 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-@@ -2121,6 +2121,12 @@ usb@3610000 {
- 			phy-names = "usb2-0", "usb2-1", "usb2-3", "usb3-0", "usb3-2", "usb3-3";
- 		};
- 
-+		cec@3960000 {
-+			status = "okay";
-+
-+			hdmi-phandle = <&sor2>;
-+		};
-+
- 		i2c@c240000 {
- 			typec@8 {
- 				compatible = "cypress,cypd4226";
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000.dtsi b/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000.dtsi
-index 4a17ea5e40fd034c6f4acb023cd7908d6800f710..16cf4414de599baea96362b494be40c800a8197f 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000.dtsi
-@@ -2174,6 +2174,12 @@ usb@3610000 {
- 			phy-names = "usb2-1", "usb2-2", "usb3-2";
- 		};
- 
-+		cec@3960000 {
-+			status = "okay";
-+
-+			hdmi-phandle = <&sor1>;
-+		};
-+
- 		host1x@13e00000 {
- 			display-hub@15200000 {
- 				status = "okay";
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts b/arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts
-index a6a58e51822d90f8815df880ea7e668caff1b1ec..627abf51a5a472ddcc42fdc1d783876b0a03da47 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts
-@@ -90,6 +90,12 @@ eeprom@57 {
- 		};
- 	};
- 
-+	cec@70015000 {
-+		status = "okay";
-+
-+		hdmi-phandle = <&sor1>;
-+	};
-+
- 	clock@70110000 {
- 		status = "okay";
- 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-index 0ecdd7243b2eb1abba9adbe9a404b226c29b85ef..ec0e84cb83ef9bf8f0e52e2958db33666813917c 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-@@ -419,6 +419,12 @@ pmc@7000e400 {
- 		nvidia,sys-clock-req-active-high;
- 	};
- 
-+	cec@70015000 {
-+		status = "okay";
-+
-+		hdmi-phandle = <&sor1>;
-+	};
-+
- 	hda@70030000 {
- 		nvidia,model = "NVIDIA Jetson Nano HDA";
- 
-
--- 
-2.48.1
-
-
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index a16fb44c7246..275846a6850d 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -2833,8 +2833,7 @@ static int v4l_enum_freq_bands(const struct v4l2_ioctl_ops *ops,
+ 		p->capability = m.capability | V4L2_TUNER_CAP_FREQ_BANDS;
+ 		p->rangelow = m.rangelow;
+ 		p->rangehigh = m.rangehigh;
+-		p->modulation = (type == V4L2_TUNER_RADIO) ?
+-			V4L2_BAND_MODULATION_FM : V4L2_BAND_MODULATION_VSB;
++		p->modulation = V4L2_BAND_MODULATION_FM;
+ 		return 0;
+ 	}
+ 	return -ENOTTY;
 
