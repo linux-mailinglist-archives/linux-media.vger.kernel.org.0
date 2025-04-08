@@ -1,161 +1,130 @@
-Return-Path: <linux-media+bounces-29606-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29607-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5DC3A7FCB9
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 12:48:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A46A4A7FCFA
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 12:53:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 99FFE3A63DE
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 10:42:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 25724189DF90
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 10:50:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 159ED267B10;
-	Tue,  8 Apr 2025 10:42:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lSgif8ro"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8CFC267AF2;
+	Tue,  8 Apr 2025 10:49:29 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5742266EFA;
-	Tue,  8 Apr 2025 10:42:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C082F267731;
+	Tue,  8 Apr 2025 10:49:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.14.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744108938; cv=none; b=iugQwUPjBchb+t0i6PmmX4VvSAQuZajxJ2WlaR0PRnCtDgRQjCqMRxfvYBSOK3LujfJPCTfryGqfqJqU5ElXqjTDNPDr7fUc1NvbyBJJQAPGWoCqAjrxOJdjluTHDOG10zx9aKSKo+4iiavTDN5FTEko2D8bieTgDDEQVIypg5o=
+	t=1744109369; cv=none; b=cn8RI3D9flK22gKglZKWk/xp41UeOPi5yRDzo56YWTUUBDDTppBaiPpAkg5/QsC/T3d2dLFry1LkYQnSx9ySANixZCzbKwPuBf47YNh9o3PRO5fiw3Bd0L3ksVYY8JwUvskKOBS8y9GP/coX3mGJbsdllwcvPjdt32CR65ijyq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744108938; c=relaxed/simple;
-	bh=KF6FPa5ukU03kNzrVnuzq3Y1dL14x0ThIwInftlnjlw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YHPJ7P01l0cABAKShTxV100gD2lfNpX/karbT8NrGpXOV/RrJHq3JUiHoMq/FTvwTis6mS8APE0HpHPtRjHbRrzRt9bc6FMmWl9Y69jMEhXQhsgqlrfOVJHxdjMfRnK+rxfAPl+CGWRFDd58o49nX06iVNN+eze9PPbPvP7EOVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lSgif8ro; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-30bf1d48843so47156721fa.2;
-        Tue, 08 Apr 2025 03:42:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744108934; x=1744713734; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+CyhRhd2dM84GfelfuAF9y0FVmQr9y2b3jxxIDrknhc=;
-        b=lSgif8ro4dSmJPl6F2RepaTAfTQ1rb3jC9VwlTYNO4wE9AeUxAEJVGiCA9InOOPP/M
-         OOXO+rnt32yWeRK8WGmjEhG5fJF1brlfhDq6UxCQE1U7Ft3nU3go5lTwxx/yqytyXQM+
-         crenm8e9wmi4d5fNmEH5qXIaeg7ow4zp5YhYiiKySkIHjZMMmSjjDOgDFB1zcI3fRrta
-         9jTJH/GueDLQCc4NodIv9qKMDWJ+CUytGIM8ioFaUcmyoWC9Y0RoZteOy00Fl3nnvfTJ
-         +8ZIs89LReaGjYBn6UyVTEE0p7paD3aFFZ1jDcrk1YL8BPT6DmQpdYM7IfJMOhXQWNWz
-         ekYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744108934; x=1744713734;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+CyhRhd2dM84GfelfuAF9y0FVmQr9y2b3jxxIDrknhc=;
-        b=ZA/QDQRH+CHygUPsxV9wWrq89jd98+9o4B1G/vUH9fb/2C6mGmnGbSBIAoz/p25V5j
-         Gxic+0jyK9R2WLvtCnpbDhUxpAvUkNbrhguqw3clbuXE/w3Dql8UdGYBDpfl/vcgUdpc
-         W4wTw3kqqyD/HFMhIBLjObZdVlvqM9QiaR1by2leKU+tZOJvPZykXL+HjkNjGs3zLHfA
-         wq1YjF6suqgjdcCHDdhW3HcMdN3iCIXtkUfh1JVbVOpYzYpGsH8h4QJissAs/FJuzxfC
-         9wJclxRlDCeOdReFQZMTuHRt2b8F1K31ZT1R2vlT7+nmmEZ+r2JVu/SedYH1QL5Z6rtA
-         9bCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVxHmfjTj9eOkykl1LOZBLZLIryKX3t/F8U+iizdxX+g4iGJwY4XnGUO5tvJgtE3AYw0FVCSx+UKXIc8gY=@vger.kernel.org, AJvYcCWzdu6Vpdf7kmv/GXIoWG5boEXIKYBVTmQEwa36lwVFk16mkfb7FT49kTnxUsdOdeTo6gyTz6akVCaAfr4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSSQ/DufGZuNA6Y4Y1EwCII0cWAwfIElJm7HxWMyd3O0lyZLw5
-	xhdGJIv93E6KVDCWuSMx0xqXzJCYMqgr56tGMG9JF/+FI6Q46lOD
-X-Gm-Gg: ASbGncslfWsh6WY0ubzz3LAh+Uxjmgak3Cfj2bJ8GeLYWTuJDMJmhirHkxNYiz7SJCA
-	a79gTYRbHhf2L5OkFH5qrX3c/EXxVTvzR5bYMQhtJMxVG8f1ChhvuB65RwWRwajnbx4IZtDfvjF
-	+lI4xV1TZO94LuCRUmx04v7/RQ8tFtiedu5WRj7hYAqZHyXho2A5OCS26vhFGn0Pi7qljpTC/d7
-	Nzd1QHZLQmK7JxTYhhtSr66LeeE9bI7cxPySx6oHEWcluWPArpJTv/rU25yigouPRVKO7MFPphW
-	Y3jSHTwXfw6xIQOo2DKzCgXqToiqWhPVqYWippk6YAQNhoAt6GWVTT0PAQ==
-X-Google-Smtp-Source: AGHT+IGb39lKVdBVUtZAlz6Az0P+SuKCnWMid+raIpiA+LlOh9DSRMzwwyahUsewbQ0j+0jav3yChQ==
-X-Received: by 2002:a05:651c:30d6:b0:308:f0c9:c4cf with SMTP id 38308e7fff4ca-30f0c085ee6mr60112641fa.33.1744108933411;
-        Tue, 08 Apr 2025 03:42:13 -0700 (PDT)
-Received: from [172.16.183.207] ([213.255.186.46])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30f031246a1sm19099301fa.1.2025.04.08.03.42.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Apr 2025 03:42:12 -0700 (PDT)
-Message-ID: <6f6a0ade-09fd-49eb-a8ae-ac8849b8ce92@gmail.com>
-Date: Tue, 8 Apr 2025 13:42:12 +0300
+	s=arc-20240116; t=1744109369; c=relaxed/simple;
+	bh=Wro/QQ/Y7WUVrtEFE+aw8JXvs1Rqp/cELrPaRNiFwhQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ikwkf1e5Cx3mUSjqAFkSSJQweZJ0aKWbhaodlWj+RpSsV2FtBGHoLcI0R//VDBvXTeH0UHdaPEDGOXEgzbFK1JQXnmi9aCSiR1d3UPPHWweSdKEAUFDs1KiPrDardFYEvQLot51PQxAsf7ViuhJpMcAR4fgEslldQW1JFy/B3yY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org; spf=pass smtp.mailfrom=gpxsee.org; arc=none smtp.client-ip=37.205.14.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gpxsee.org
+Received: from mgb4.. (unknown [62.77.71.229])
+	by mx.gpxsee.org (Postfix) with ESMTPSA id 4DAD521E96;
+	Tue, 08 Apr 2025 12:49:23 +0200 (CEST)
+From: tumic@gpxsee.org
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	=?UTF-8?q?Martin=20T=C5=AFma?= <martin.tuma@digiteqautomotive.com>
+Subject: [PATCH] media: mgb4: Enumerate only the available timings
+Date: Tue,  8 Apr 2025 12:49:12 +0200
+Message-ID: <20250408104912.2476-1-tumic@gpxsee.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: i2c: thp7312: use fwnode_for_each_child_node()
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>,
- Paul Elder <paul.elder@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <Z90qM33DvkTMGg_x@mva-rohm>
- <20250321104100.GC25483@pendragon.ideasonboard.com>
- <Z_Ti7aQK2_OlrUee@kekkonen.localdomain>
- <20250408101252.GB31475@pendragon.ideasonboard.com>
- <3d8546b9-92bd-40da-a61a-4534ba7779db@gmail.com>
- <Z_T8N8aHR-2OzHAO@kekkonen.localdomain>
-Content-Language: en-US, en-AU, en-GB, en-BW
-From: Matti Vaittinen <mazziesaccount@gmail.com>
-In-Reply-To: <Z_T8N8aHR-2OzHAO@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 08/04/2025 13:36, Sakari Ailus wrote:
-> Hei Laurent, Matti,
-> 
-> On Tue, Apr 08, 2025 at 01:26:42PM +0300, Matti Vaittinen wrote:
->> On 08/04/2025 13:12, Laurent Pinchart wrote:
->>> Hi Sakari,
->>>
->>> On Tue, Apr 08, 2025 at 08:48:45AM +0000, Sakari Ailus wrote:
->>>> On Fri, Mar 21, 2025 at 12:41:00PM +0200, Laurent Pinchart wrote:
->>>>> On Fri, Mar 21, 2025 at 10:58:27AM +0200, Matti Vaittinen wrote:
->>>>>> When fwnode_for_each_available_child_node() is used on the device-tree
->>>>>> backed systems, it renders to same operation as the
->>>>>> fwnode_for_each_child_node(), because the fwnode_for_each_child_node()
->>>>>> does only iterate through those device-tree nodes which are available.
->>>>>
->>>>> This makes me wonder why the OF backend implements
->>>>> fwnode_for_each_child_node() as fwnode_for_each_available_child_node().
->>>>> Is that on purpose, or is it a bug ?
->>>>
->>>> I discussed this with Rafael and he didn't recall why the original
->>>> implementation was like that. The general direction later on has been not
->>>> to present unavailable nodes over the fwnode interface.
->>>>
->>>> So I'd say:
->>>>
->>>> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->>>>
->>>> We should also change the documentation of the fwnode API accordingly.
->>>
->>> Does that also mean that the fwnode_for_each_available_child_node()
->>> function will be dropped ? It's used by few drivers (5 in addition to
->>> the thp7312 driver, plus 3 call sites in drivers/base/core.c), so a
->>> patch series to drop it should be easy.
->>>
->>
->> I assume the fwnode_for_each_available_child_node() still makes sense for
->> ACPI backed users, no?
-> 
-> Not really (see my earlier explanation in
-> <Z9mQPJwnKAkPHriT@kekkonen.localdomain>).
+From: Martin Tůma <martin.tuma@digiteqautomotive.com>
 
-I capture that the _named_ available nodes don't have value as ACPI 
-names aren't really what is expected by the _named_ callers. What I 
-didn't pick is that the fwnode_for_each_available_child_node() - which 
-should iterate all available child nodes ignoring the name - wouldn't be 
-useful.
+Enumerate and allow setting only the available (as given by the input
+source) timings, not all theoretically possible.
 
-> I think all the *available* stuff
-> should be removed from include/linux/property.h, apart from
-> fwnode_device_is_availble(), which should be turned to work on struct
-> device to signal its availability for device nodes only.
+The "complete" set is misleading for user SW (including qv4l) and
+the missing check on set even allowed timings leading to completely broken
+video streams.
 
-I am not saying I have any understanding of the uses of the 
-'unavailable' nodes. As such I am not arguing over what you say here :)
+Signed-off-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
+---
+ drivers/media/pci/mgb4/mgb4_vin.c | 38 +++++++++++++++++++++++++------
+ 1 file changed, 31 insertions(+), 7 deletions(-)
 
-Yours,
-	-- Matti
+diff --git a/drivers/media/pci/mgb4/mgb4_vin.c b/drivers/media/pci/mgb4/mgb4_vin.c
+index 434eaf0440e2..c3b82bd366dd 100644
+--- a/drivers/media/pci/mgb4/mgb4_vin.c
++++ b/drivers/media/pci/mgb4/mgb4_vin.c
+@@ -604,14 +604,31 @@ static int vidioc_s_dv_timings(struct file *file, void *fh,
+ 			       struct v4l2_dv_timings *timings)
+ {
+ 	struct mgb4_vin_dev *vindev = video_drvdata(file);
+-
+-	if (timings->bt.width < video_timings_cap.bt.min_width ||
+-	    timings->bt.width > video_timings_cap.bt.max_width ||
+-	    timings->bt.height < video_timings_cap.bt.min_height ||
+-	    timings->bt.height > video_timings_cap.bt.max_height)
++	struct v4l2_dv_timings active_timings;
++
++	if (get_timings(vindev, &active_timings) < 0)
++		return -ENODATA;
++	if (timings->bt.width != active_timings.bt.width ||
++	    timings->bt.height != active_timings.bt.height ||
++	    timings->bt.polarities != active_timings.bt.polarities ||
++	    timings->bt.pixelclock != active_timings.bt.pixelclock ||
++	    timings->bt.hfrontporch != active_timings.bt.hfrontporch ||
++	    timings->bt.hsync != active_timings.bt.hsync ||
++	    timings->bt.hbackporch != active_timings.bt.hbackporch ||
++	    timings->bt.vfrontporch != active_timings.bt.vfrontporch ||
++	    timings->bt.vsync != active_timings.bt.vsync ||
++	    timings->bt.vbackporch != active_timings.bt.vbackporch)
+ 		return -EINVAL;
+ 	if (timings->bt.width == vindev->timings.bt.width &&
+-	    timings->bt.height == vindev->timings.bt.height)
++	    timings->bt.height == vindev->timings.bt.height &&
++	    timings->bt.polarities == vindev->timings.bt.polarities &&
++	    timings->bt.pixelclock == vindev->timings.bt.pixelclock &&
++	    timings->bt.hfrontporch == vindev->timings.bt.hfrontporch &&
++	    timings->bt.hsync == vindev->timings.bt.hsync &&
++	    timings->bt.hbackporch == vindev->timings.bt.hbackporch &&
++	    timings->bt.vfrontporch == vindev->timings.bt.vfrontporch &&
++	    timings->bt.vsync == vindev->timings.bt.vsync &&
++	    timings->bt.vbackporch == vindev->timings.bt.vbackporch)
+ 		return 0;
+ 	if (vb2_is_busy(&vindev->queue))
+ 		return -EBUSY;
+@@ -641,7 +658,14 @@ static int vidioc_query_dv_timings(struct file *file, void *fh,
+ static int vidioc_enum_dv_timings(struct file *file, void *fh,
+ 				  struct v4l2_enum_dv_timings *timings)
+ {
+-	return v4l2_enum_dv_timings_cap(timings, &video_timings_cap, NULL, NULL);
++	struct mgb4_vin_dev *vindev = video_drvdata(file);
++
++	if (timings->index != 0)
++		return -EINVAL;
++	if (get_timings(vindev, &timings->timings) < 0)
++		return -ENODATA;
++
++	return 0;
+ }
+ 
+ static int vidioc_dv_timings_cap(struct file *file, void *fh,
+
+base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+-- 
+2.48.1
 
 
