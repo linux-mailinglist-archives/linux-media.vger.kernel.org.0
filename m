@@ -1,486 +1,156 @@
-Return-Path: <linux-media+bounces-29626-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29627-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C0DA80E6B
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 16:39:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1847AA80EAA
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 16:44:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1883388299E
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 14:32:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 188624E2FA1
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 14:39:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9932A1EB5C3;
-	Tue,  8 Apr 2025 14:32:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B2881EB195;
+	Tue,  8 Apr 2025 14:38:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="YtQ6Wfbm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C7CE1581F0;
-	Tue,  8 Apr 2025 14:32:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744122731; cv=none; b=U1i16w4JjfhpT8W0aaeCseIeANEQJWd3JRue1ub9mXgbCJfmhFvrKG0357SHSVWVFdYDEy7F97SR3VWWkhrrjLbSJekAQ3lbfJJM+qUhKWqsRIlXOq+w68RBlyh0Ip4lswRkg6jGXkJHwQiMwwytr8gb7WZgoTpdCxExPeIaOUY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744122731; c=relaxed/simple;
-	bh=QLIWQ2JkuQMA+HF6IM3VjoGCCP5NHg9txONutBTSqnA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kkaGma1GJHHqKoFhyiG/1t/AnICJN8SEMIBcGct+NNByBT2PDtfGbgF9o2QR5LH1dzHCxY00Qj3h0qBpxGZwVHJ8jsn/cqopVCE7jFrYd1EQPfzB2dHTfo4LYTyKSrljUQ8Llx6XQNBmfk9EunnRvBhXozWqDfr0Cig4pzTeco0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F22CBC4CEE7;
-	Tue,  8 Apr 2025 14:32:06 +0000 (UTC)
-Message-ID: <5cd6e8d3-fa51-4225-a3b8-9727cfd95062@xs4all.nl>
-Date: Tue, 8 Apr 2025 16:32:05 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D5B118E75A;
+	Tue,  8 Apr 2025 14:38:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744123137; cv=pass; b=gQGAh0B508m8YMBg2OvZufRMXozQTubbOO/fykE9rYE68Rf9lXBM1r4BDG1zK1Y+t0m1P6I4k/jvX+5ZxZj5JPBCz2SZvYYoR3zzNEzYIBGFGcoHk3Hc37al7j4lXZu1sjiB2F03nIYzpd7Wb6UE53p86KcyeWJ6FHKfYFoMBIw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744123137; c=relaxed/simple;
+	bh=bQIx/AE9WqiXKXhD1qSsHX2GVZU7x/G7IT+x5PASwOQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JS8pFU1KhuGBCUZy33yyl1trH230H4uZieWmXSS9saapWsPa40C4kE017QxzPAoTmJKXNdn7qKiUEc3MBl/wJwu3Cr9qX4AazCmHFbp3aHwsI6BkfLaG7SBm8tDuK7CmFh9vMDx606AyVVhTF6EIfTaxEMcAmFHV8NwbawPuyIU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=YtQ6Wfbm; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1744123106; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=UIJbpd3Je7VE/22JP22ATgzhOov58v+4+9Xft0BsfcsOcXhziDc9W6mComkTRMjPw9kXV6BY2T9g7uDaWc4wlhl10fkyIhYQaBl1Zu/U+k4q1GT8KINu0B9qOLH/BpFzpdmMBVgUejkkFVbdTlS/9CN4jCqX+prHHcGzNDFSTYI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1744123106; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=B8NT4vlOQRlx6/HGXEefSUCFtwKkqSEbEk6F1ZBggQQ=; 
+	b=TKDC6HeEqVQ+Ngwxe7LuD8BpgIxXEqgLuqSzkruawGqWwql4f3KMVGVhCZHNdvzeLY63c4AcXwKmf5QwQRxWQVOHKNtXgX6X19ioMbqaJm5W82EdIgSnv1YEpCzXk7tyZ1XjeINFaBWB8SwaI93rzX4dFDTrauLkKULBtHjfnJY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+	dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744123106;
+	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+	bh=B8NT4vlOQRlx6/HGXEefSUCFtwKkqSEbEk6F1ZBggQQ=;
+	b=YtQ6Wfbm9jLxE5EO3hTtVtwEoM8tAzdJ6oMhIWwhgQc0EjX76aKfdlzN5wpJnQv3
+	IcW96YBC6tTKulDc6OL8hYVrBpovzubUHZVqqay5SxXZlvyAbKaaeaoKW9vANqYbdAc
+	LxoQjQMRx/YVqnIgtNKFx+Ci3jCYOIC6HOf3KWYk=
+Received: by mx.zohomail.com with SMTPS id 1744123103481976.8695522962561;
+	Tue, 8 Apr 2025 07:38:23 -0700 (PDT)
+Date: Tue, 8 Apr 2025 15:38:18 +0100
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v4 4/4] drm/panthor: show device-wide list of DRM GEM
+ objects over DebugFS
+Message-ID: <k5pf4wkpaeuahdg5vasxo226jppjxtndkswoi2g72eezecttic@vrdnyjxbqont>
+References: <20250402115432.1469703-1-adrian.larumbe@collabora.com>
+ <20250402115432.1469703-5-adrian.larumbe@collabora.com>
+ <20250402145804.5cf07f5e@collabora.com>
+ <s66dyt32ukr37p24zjgbatm6sk5lzw5ujx2n7p2pr2ixrq3jf4@byemjauyp2mv>
+ <20250408154755.0d45b54b@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 09/12] media: rkvdec: Add get_image_fmt ops
-Content-Language: en-US
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Boris Brezillon <boris.brezillon@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
- Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- Alex Bee <knaerzche@gmail.com>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Detlev Casanova <detlev.casanova@collabora.com>,
- Dan Carpenter <dan.carpenter@linaro.org>, Jonas Karlman <jonas@kwiboo.se>,
- Christopher Obbard <christopher.obbard@linaro.org>
-References: <20250225-rkvdec_h264_high10_and_422_support-v7-0-7992a68a4910@collabora.com>
- <20250225-rkvdec_h264_high10_and_422_support-v7-9-7992a68a4910@collabora.com>
- <e6b99109-bd35-46ff-a4e2-eb69b549dcbc@xs4all.nl>
- <77bdada5dce991842e377759c8e173ada115694f.camel@collabora.com>
- <47c0011f-693d-4c94-8a1b-f0174f3d5b89@xs4all.nl>
- <19a11d429d9078b82f27e108aa5ac80cc4041bef.camel@collabora.com>
- <35d34100-7013-4acb-a5a6-3408e0f45d9d@xs4all.nl>
- <1747c9d2f653a07418422157f4b1613246f39a6c.camel@collabora.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <1747c9d2f653a07418422157f4b1613246f39a6c.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250408154755.0d45b54b@collabora.com>
 
-On 4/8/25 15:36, Nicolas Dufresne wrote:
-> Hi Hans,
-> 
-> Le mardi 08 avril 2025 à 10:28 +0200, Hans Verkuil a écrit :
->> On 07/04/2025 16:59, Nicolas Dufresne wrote:
->>> Le lundi 07 avril 2025 à 16:17 +0200, Hans Verkuil a écrit :
->>>> On 07/04/2025 15:52, Nicolas Dufresne wrote:
->>>>> Le lundi 07 avril 2025 à 13:09 +0200, Hans Verkuil a écrit :
->>>>>> On 25/02/2025 10:40, Sebastian Fricke wrote:
->>>>>>> From: Jonas Karlman <jonas@kwiboo.se>
->>>>>>>
->>>>>>> Add support for a get_image_fmt() ops that returns the required image
->>>>>>> format.
->>>>>>>
->>>>>>> The CAPTURE format is reset when the required image format changes and
->>>>>>> the buffer queue is not busy.
->>>>>>>
->>>>>>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
->>>>>>> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->>>>>>> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->>>>>>> Tested-by: Christopher Obbard <chris.obbard@collabora.com>
->>>>>>> ---
->>>>>>>  drivers/staging/media/rkvdec/rkvdec.c | 49 +++++++++++++++++++++++++++++++++--
->>>>>>>  drivers/staging/media/rkvdec/rkvdec.h |  2 ++
->>>>>>>  2 files changed, 49 insertions(+), 2 deletions(-)
->>>>>>>
->>>>>>> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
->>>>>>> index 70154948b4e32e2c439f259b0f1e1bbc8b52b063..5394079509305c619f1d0c1f542bfc409317c3b7 100644
->>>>>>> --- a/drivers/staging/media/rkvdec/rkvdec.c
->>>>>>> +++ b/drivers/staging/media/rkvdec/rkvdec.c
->>>>>>> @@ -111,15 +111,60 @@ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
->>>>>>>  {
->>>>>>>  	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
->>>>>>>  	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
->>>>>>> +	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
->>>>>>> +	enum rkvdec_image_fmt image_fmt;
->>>>>>> +	struct vb2_queue *vq;
->>>>>>> +	int ret;
->>>>>>> +
->>>>>>> +	if (desc->ops->try_ctrl) {
->>>>>>> +		ret = desc->ops->try_ctrl(ctx, ctrl);
->>>>>>> +		if (ret)
->>>>>>> +			return ret;
->>>>>>> +	}
->>>>>>> +
->>>>>>> +	if (!desc->ops->get_image_fmt)
->>>>>>> +		return 0;
->>>>>>>  
->>>>>>> -	if (desc->ops->try_ctrl)
->>>>>>> -		return desc->ops->try_ctrl(ctx, ctrl);
->>>>>>> +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
->>>>>>> +	if (ctx->image_fmt == image_fmt)
->>>>>>> +		return 0;
->>>>>>> +
->>>>>>> +	if (rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, image_fmt))
->>>>>>> +		return 0;
->>>>>>> +
->>>>>>> +	/* format change not allowed when queue is busy */
->>>>>>> +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
->>>>>>> +			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
->>>>>>> +	if (vb2_is_busy(vq))
->>>>>>> +		return -EINVAL;
->>>>
->>>> Looking closer, this code is just wrong. It does these format change
->>>> tests for any control, so if more controls are added in the future, then
->>>> those will be checked the same way, which makes no sense.
->>>
->>> "Just wrong" should be kept for code that is semantically incorrect,
->>> just a suggestion for choice of wording.
->>
->> Having vb2_is_busy in a try function (whether trying a control or a format)
->> is simply wrong. Having these checks at a high level (i.e. being done for
->> any control) is asking for problems in the future. It only works right
->> now because there is just one control.
-> 
-> Your main rejection argument has been that this is done for any
-> control. Jonas invalidated your argument yesterday:
-> 
->> Please elaborate how this code is just wrong, it is only called for sps
->> ctrl, as intended, try will report an error as suggested in docs and set
->> will reset the decoded fmt to match the new sps ctrl value.
+On 08.04.2025 15:47, Boris Brezillon wrote:
+On Tue, 8 Apr 2025 14:38:44 +0100
+Adrián Larumbe <adrian.larumbe@collabora.com> wrote:
 
-1) it is confusing since in this function there is no indication that there
-   is just one control.
-2) it is not future proof in case more controls are added.
+> > > > diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> > > > index 44d027e6d664..2fc87be9b700 100644
+> > > > --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> > > > +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> > > > @@ -2,6 +2,7 @@
+> > > >  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
+> > > >  /* Copyright 2023 Collabora ltd. */
+> > > >
+> > > > +#include <linux/cleanup.h>
+> > > >  #include <linux/dma-buf.h>
+> > > >  #include <linux/dma-mapping.h>
+> > > >  #include <linux/err.h>
+> > > > @@ -10,14 +11,65 @@
+> > > >  #include <drm/panthor_drm.h>
+> > > >
+> > > >  #include "panthor_device.h"
+> > > > +#include "panthor_fw.h"
+> > > >  #include "panthor_gem.h"
+> > > >  #include "panthor_mmu.h"
+> > > >
+> > > > +#ifdef CONFIG_DEBUG_FS
+> > > > +static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo, u32 type_mask)
+> > > > +{
+> > > > +	INIT_LIST_HEAD(&bo->debugfs.node);
+> > >
+> > > This should be called when the GEM object is created, otherwise the
+> > > list_empty() test done in panthor_gem_debugfs_bo_rm() will only work if
+> > > panthor_gem_debugfs_bo_add() is called, and depending on when this
+> > > happens, or whether it happens at all, the error path will do a NULL
+> > > deref.
+> >
+> > I'll be moving panthor_gem_debugfs_bo_add() back into panthor_gem_create_object() and
+> > inline panthor_gem_debugfs_bo_init() into it.
+>
+> You mean moving the panthor_gem_debugfs_bo_add() call to
+> panthor_gem_create_object(), not inlining its content, right?
 
-When I was reviewing this I had to dig into the code before I realized that
-there really was just one control.
+Yes, inlining panthor_gem_debugfs_bo_init() into panthor_gem_debugfs_bo_add() and moving
+panthor_gem_debugfs_bo_add() into panthor_gem_create_object().
 
-So while this code is 'correct' in that it won't break, it is really hard
-to understand.
+> > > > +	} else {
+> > > > +		bo->debugfs.creator.tgid = 0;
+> > > > +		snprintf(bo->debugfs.creator.process_name,
+> > > > +			 sizeof(bo->debugfs.creator.process_name),
+> > > > +			 "kernel");
+> > > > +	}
+> > > > +
+> > > > +	bo->debugfs.bo_mask = type_mask;
+> > >
+> > > Why not do that directly in panthor_gem_debugfs_bo_add()? The only bits
+> > > that might be useful to do early is the INIT_LIST_HEAD(), and I think
+> > > it can be inlined in panthor_gem_create_object().
+> >
+> > I'll be doing in this in the next revision, but because I've no access to the BO
+> > type mask from inside Panthor's drm_driver::gem_create_object() binding, then
+> > I'll have to assign the mask right after the object has been created.
+> >
+> > I think this means there might be a short window after the object's been added to
+> > the DebugFS GEMs list in which it could be shown with the kernel mask field still
+> > set to 0, but I guess that's not too important either.
+>
+> I think it's okay, as long as you don't crash when printing partially
+> initialized objects. Another solution would be to have a flag encoding
+> when the obj is initialized, so you can skip objects that don't have
+> this flag set yet.
 
-> 
->>
->>>
->>>>
->>>> These tests belong to the actual control that you 'try'. In this case
->>>> rkvdec_h264_validate_sps(). This function already checks the width and
->>>> height, but it should also check the image format. It is all in the
->>>> wrong place.
->>>
->>> We can do that too. Though, this was generalized since once you enable
->>> the other codecs, you endup with code duplication. I know this series
->>> is an extract from a larger one.
->>>
->>> So let's suggest to make a helper that combines rkvdec_is_valid_fmt()
->>> and the busy check. Though on that, please reply to my comment below
->>> (which you skipped).
->>
->> Absolutely, this needs a helper function.
-> 
-> In the next version, We should ake sure this is renamed, so readers
-> understand its already a helper, and is only called for specific CID.
-> Jonas comment also invalid my wrong suggestion here.
-> 
->>
->>>
->>>>
->>>>>>
->>>>>> This makes no sense to me. This just tries a control, and that should just
->>>>>> work, regardless of vb2_is_busy(). It's a 'try', so you are not actually
->>>>>> changing anything.
->>>>>
->>>>> See comment below, notice that this code is only reached if the control
->>>>> introduce parameters that are not compatible with the current capture
->>>>> queue fmt. The entire function uses "success" early exit, so the
->>>>> further down you get in the function, the less likely your control is
->>>>> valid.
->>>>>
->>>>>>
->>>>>>> +
->>>>>>> +	return 0;
->>>>>>> +}
->>>>>>> +
->>>>>>> +static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
->>>>>>> +{
->>>>
->>>> If there is a try_ctrl op specified, then the control framework
->>>> will call that first before calling s_ctrl. So any validation that
->>>> try_ctrl did does not need to be done again in s_ctrl.
->>>>
->>>> The same comment with try_ctrl is valid here as well: if there are
->>>> image format checks that need to be done, then those need to be done
->>>> per control and not as a generic check. If new controls are added in
->>>> the future, then you don't want the same checks to apply to the new
->>>> controls as well.
->>>
->>> I don't think the behaviour of try_ctrl and that being embedded in set
->>> calls was being questioned by anyone. Can you reply to the last
->>> paragraph below ?
->>>
->>>>
->>>> Regards,
->>>>
->>>> 	Hans
->>>>
->>>>>>> +	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
->>>>>>> +	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
->>>>>>> +	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
->>>>>>> +	enum rkvdec_image_fmt image_fmt;
->>>>>>> +
->>>>>>> +	if (!desc->ops->get_image_fmt)
->>>>>>> +		return 0;
->>>>>>> +
->>>>>>> +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
->>>>>>> +	if (ctx->image_fmt == image_fmt)
->>>>>>> +		return 0;
->>>>>>
->>>>>> If you really can't set a control when the queue is busy, then that should
->>>>>> be tested here, not in try_ctrl. And then you return -EBUSY.
->>>>>>
->>>>>> Am I missing something here?
->>>>>
->>>>> When I reviewed, I had imagine that s_ctrl on a request would just run
->>>>> a try. Now that I read that more careful, I see that it does a true set
->>>>> on separate copy. So yes, this can safely be moved here.
->>>>>
->>>>> Since you seem wondering "If you really can't set a control", let me
->>>>> explain what Jonas wants to protect against. RKVdec does not have any
->>>>> color conversion code, the header compound control (which header
->>>>> depends on the codec), contains details such as sub-sampling and color
->>>>> depth. Without color conversion, when the image format is locked (the
->>>>> busy queue), you can't request the HW to decode a frame witch does not
->>>>> fit. This could otherwise lead to buffer overflow in the HW,
->>>>> fortunately protected by the iommu, but you don't really want to depend
->>>>> on the mmu.
->>>>>
->>>>> I've never used try_ctrl in my decade of v4l2, so obviously, now that I
->>>>> know that s_ctrl on request is not a try, I'm fine with rejecting this
->>>>> PR, sending a new version and making a PR again. But if I was to use
->>>>> this API in userspace, my intuitive expectation would be that this
->>>>> should fail try(), even if its very rarely valid to check the queue
->>>>> state in try control.
->>>
->>> Here, since we seem to disagree on the behaviour try should have for
->>> this specific validation. What you asked on first pass is to make it so
->>> that TRY will succeed, and SET will fail. I don't really like that
->>> suggestion.
->>
->> Ah, no, that's not what I asked.
->>
->> There are two independent issues:
->>
->> 1) The tests for a valid image format are done for all controls instead of
->>    just the control that really needs it. That's asking for problems, and
->>    that needs to be addressed by creating a helper function and using it
->>    in the relevant control code. Alternatively, just check against the
->>    control id in try_ctrl/s_ctrl explicitly. That's fine too, although I
->>    prefer a helper function.
-> 
-> This is false, this is done only the the relevant controls as explained
-> by Jonas.
+I think what I'll do is set the mask to a poison value, maybe 0xFF, and only when
+it's overwritten with a legitimate value, display the object in the DebugFS GEMS file.
 
-See my comment above. It's not at all obvious that there is just one control,
-it is just bad coding practice. All I ask is that it is made explicit in the
-code that it is just for one control.
-
-> 
->>
->> 2) vb2_is_busy() does not belong in try_ctrl. 'try' should never depend
->>    on whether buffers are allocated. You have two options here:
-> 
-> I read this statement as try_ctrl cannot fail when setting an SPS while
-> the queue is active. Since you don't have rationale for it, but really
-> want to see that, we will sacrifice the symmetry of TRY/SET in the next
-> version. TRY will pass, and SET will reset the capture format if the
-> queue is not busy, and return busy otherwise. Nobody ever wanted
-> try_ctrl for stateless decoders, its not even mention in the specific
-> documentation. This is effectively option b) below.
-
-VIDIOC_TRY_EXT_CTRLS is always available. Typically it just validates controls
-(i.e. make sure the values are in range, etc). It is really rare that drivers
-need to implement try_ctrl.
-
-It is also called by VIDIOC_S_EXT_CTRLS: this avoids that the same validation code is
-implemented in both the try_ctrl and s_ctrl callbacks.
-
-Unless otherwise stated, controls are independent of whether you have buffers
-allocate or are streaming, you can get/set them any time.
-
-> 
->>
->>    a) try_ctrl checks if the image_fmt is valid for the current format,
->>       and it returns -EINVAL if it isn't. This requires that userspace
->>       then selects a different format first. No call to vb2_is_busy is
->>       needed.
-> 
-> That shows you don't really know what this is about. Please read how
-> the initialization process works, up to point 2. A call to
-
-You are absolutely right. I should know how it works, but because I rarely
-use it, I forget the details.
-
-> S_FMT(CAPTURE) is optional. Its the driver that select the CAPTURE
-> format based on the bitstream parameters (and bitstream format /
-> CAPTURE). Everything is design with input and output in mind. The
-> application sets the input format and parameters, the driver choses the
-> output (CAPTURE queue) format. With the very strict rule that nothing
-> in the parameters that can be against the locked capture format can
-> ever be set.
-> 
-> https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-stateless-decoder.html#initialization
-> 
-> 
->>
->>    b) try_ctrl doesn't check image_fmt against the current format, it just
->>       accepts any value. Instead s_ctrl does the check: if it invalid, then
->>       it returns -EBUSY if vb2_is_busy() is true, or it updates the format.
-> 
-> That contradicts slightly your answer "Ah, no, that's not what I
-> asked.". But can be done without any spec violation like option a)
-> includes.
-> 
->>
->> I see that cedrus also has vb2_is_busy() in try_ctrl, and worse, it actually
->> updates the capture format in the try_ctrl, which is definitely a cedrus bug
->> (try should never have side-effects).
-> 
-> I think looking at another work-in-progress driver is distraction. We
-> all know that try should not change the driver state (regardless the
-> type of try). If you are correct, then it should be fixed there too,
-> you should inform Jernej and Paul.
-
-And I will. Cedrus is not really a work-in-progress driver, I think it should
-be moved out of staging. See the topic for the media summit.
-
-In any case, if we can agree on the right approach for rkvdec, then I can make
-a patch for cedrus.
-
-> 
->>
->> The core question is whether changing the V4L2_CID_STATELESS_H264_SPS should
->> make format changes. I can't off-hand think of any other control that does
->> that. It is certainly not documented.
-> 
-> That is also wrong, it is well documented. Its not because you don't
-> understand a problem that its by definition wrong.
-
-It's documented in the stateless decoder doc:
-
-https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/dev-stateless-decoder.html
-
-But not with the control documentation itself:
-
-https://linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/v4l/ext-ctrls-codec-stateless.html
-
-I was looking at that, and doesn't mention it. I'll see if I can make a patch for that.
-
-> 
->>
->> The only control that comes close is V4L2_CID_ROTATE, and I think that control
->> was a huge mistake. It was also never properly documented how it should behave.
-> 
-> Documentation says:
->> Rotating the image to 90 and 270 will reverse the height and
->> width of the display window.
-> 
->> It is necessary to set the new height
->> and width of the picture using the
->> :ref:`VIDIOC_S_FMT <VIDIOC_G_FMT>` ioctl according to the
->>  rotation angle selected.
-> 
-> The link is confusing, but S_ and G_ share the same link. So its well
-> documented that the users must call S_FMT and manually flip the width
-> and height.
-
-Not really, if you look at how it is implemented in various drivers, then
-they don't match this doc in at least several cases. In any case, just forget
-about this control. It's all water under the bridge.
-
-> 
-> I was never involved with that one, but its a very different approach.
-> I think its written with single queue in mind (not M2M). It means you
-> can have pending control state. This for stateless CODEC would be so
-> complex to handle. For request based driver, we should probably never
-> allow that kind of API. If you need to set a control in the future, use
-> a request. This, when that control should be applied becomes very
-> explicit and can be synchronized across multiple queues.
-> 
->>
->> My preference is option a. Controls shouldn't change the format, it is really
->> confusing. If you do want option b, then all drivers that use this control
->> have to be checked first to ensure that they all behave the same, and the
->> control documentation must be updated.
-> 
-> Option b) it is, since there is no option a).
-
-So can we agree on the following (I think):
-
-1) rkvdec_try_ctrl no longer checks the image_fmt. Effectively this means that there
-   is no longer any need to change rkvdec_try_ctrl in this patch.
-
-2) in rkvdec_s_ctrl we do the image_fmt check: if it changes, but vb2_is_busy is true,
-   then return -EBUSY, otherwise call rkvdec_reset_decoded_fmt(). This code is specific
-   for V4L2_CID_STATELESS_H264_SPS, so just make sure it is under an if/switch for that
-   control ID.
-
-3) I'll see if I can make a patch to clarify in the control documentation that setting
-   it can change the format.
-
-4) I'll make a patch for the cedrus driver as well to align with the approach in rkvdec.
-
-Regards,
-
-	Hans
-
-> 
-> Nicolas
-> 
->>
->> Regards,
->>
->> 	Hans
->>
->>>
->>> Nicolas
->>>
->>>>>
->>>>> Nicolas
->>>>>
->>>>>>
->>>>>> Regards,
->>>>>>
->>>>>> 	Hans
->>>>>>
->>>>>>> +
->>>>>>> +	ctx->image_fmt = image_fmt;
->>>>>>> +	if (!rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, ctx->image_fmt))
->>>>>>> +		rkvdec_reset_decoded_fmt(ctx);
->>>>>>>  
->>>>>>>  	return 0;
->>>>>>>  }
->>>>>>>  
->>>>>>>  static const struct v4l2_ctrl_ops rkvdec_ctrl_ops = {
->>>>>>>  	.try_ctrl = rkvdec_try_ctrl,
->>>>>>> +	.s_ctrl = rkvdec_s_ctrl,
->>>>>>>  };
->>>>>>>  
->>>>>>>  static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
->>>>>>> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
->>>>>>> index 6f8cf50c5d99aad2f52e321f54f3ca17166ddf98..e466a2753ccfc13738e0a672bc578e521af2c3f2 100644
->>>>>>> --- a/drivers/staging/media/rkvdec/rkvdec.h
->>>>>>> +++ b/drivers/staging/media/rkvdec/rkvdec.h
->>>>>>> @@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
->>>>>>>  		     struct vb2_v4l2_buffer *dst_buf,
->>>>>>>  		     enum vb2_buffer_state result);
->>>>>>>  	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
->>>>>>> +	enum rkvdec_image_fmt (*get_image_fmt)(struct rkvdec_ctx *ctx,
->>>>>>> +					       struct v4l2_ctrl *ctrl);
->>>>>>>  };
->>>>>>>  
->>>>>>>  enum rkvdec_image_fmt {
->>>>>>>
->>>>>
->>>
-
+Adrian Larumbe
 
