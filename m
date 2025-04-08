@@ -1,428 +1,487 @@
-Return-Path: <linux-media+bounces-29621-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29622-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE466A80CAE
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 15:43:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84F3FA80CBD
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 15:45:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3A4EA17E665
-	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 13:36:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1EF148C4BAC
+	for <lists+linux-media@lfdr.de>; Tue,  8 Apr 2025 13:39:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1E64145B24;
-	Tue,  8 Apr 2025 13:36:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C82B188CDB;
+	Tue,  8 Apr 2025 13:39:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="lF4gQM5z"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="ETtyLDU6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48191139CE3;
-	Tue,  8 Apr 2025 13:36:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744119381; cv=none; b=TuqEcJmkgb53FZL3uOS8nu7DWxlTb3Yp4UaQfl5W1itljFSYMrBSd5pXL+bXDOpyvtB7NZ3jB6irxCo9BQg5cLBqktCX68Cqzet5Rhq2x4SxvbOVXmeYtffes47x22X+E6D1zS8NVLRePXJZ4X8y0eBb6aJvVJSFWxyPGYs3Koo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744119381; c=relaxed/simple;
-	bh=H2PscPWunraiBg0ScO12ZaZc0uwQWNSJKj9yV4CHsN4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ej7e4KIA6T7Y4r7pNdvJKhThQHifeJIQ4hRB6OUTjPEe055PhWdCjWTvotwPS8I6TrUN+b4aig0d6R1RhP3jKsxzXN8Dz5fWKHF1zK/v4F5n6jA8W3SwQ/Bw8vVE5OqsLapPPJ7ExMgcs5Pkw7uPtzqccmXX2ONh621LxLH4fR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=lF4gQM5z; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DBF712BF24;
+	Tue,  8 Apr 2025 13:39:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744119560; cv=pass; b=MHWJEiXnR/m5n+u439aUib0g65qUVWs+3SDnW83tna+7gJ85d8Yz6+Cgxq/bpIOr6mFUybcHU4vN1G/l3XpeXJM3gH6KKSOEWhRSXm8Udj6J56SzdhhlL7rhNjn/iDtFvMftN2SVIsfqjuz9D3h8nPhf+HdQU0RWPF8wIe6qWao=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744119560; c=relaxed/simple;
+	bh=uo2nYJQwA9XxizfuUPw+d1s0GozbzLf5qBpnB9QW8lk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eOQleis/qSSM3VyPmxumpoD3ayg/6YojDgrEtlcqVujOfojzWvpai+NY7B/dfu+Tddm/6cC9AQMIWIpjpe8nqCS7EO+eh7ajeoa+mepNc/8hGcNkIvQYy2eZIHKlwKx5DVXXJ76SCXI2XSwlqtRhu639erFPoYoq1o7xNesVn1A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=ETtyLDU6; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1744119376;
-	bh=H2PscPWunraiBg0ScO12ZaZc0uwQWNSJKj9yV4CHsN4=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=lF4gQM5zOFKoM6M+Ko3FykuNEQrtrHRekNO9X4ytNLouekBn3lrHkC4of1XVbQ9o8
-	 sO9XiuMmbpBjx1MCBhCQzVnl1aHhM0MuFjQL0NxfrDCwEOp8dwb/1oP4ZGj7Eh9Ai8
-	 X0cZuOzYtwjDn9mojS0wcqI4gpoeigQoEMekFjFu9I48HZFtHKyVfbQBlUw3yuXWxi
-	 Ih+dJHKS2hDqjGOL68lrb9s+HRm7Ui/p3pUnVkK6I8x03THJqvHC/wePF3MqzZkshF
-	 UMmwl4EZEI/b7W7EnvffNwTQDXtO8+ML0ZNgHTfbnPoSK1C/pzMW+RYVG3oJfoF3Dh
-	 QILFPEgn1AcDA==
-Received: from [IPv6:2606:6d00:11:e976::5ac] (unknown [IPv6:2606:6d00:11:e976::5ac])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 4B8FE17E1068;
-	Tue,  8 Apr 2025 15:36:14 +0200 (CEST)
-Message-ID: <1747c9d2f653a07418422157f4b1613246f39a6c.camel@collabora.com>
-Subject: Re: [PATCH v7 09/12] media: rkvdec: Add get_image_fmt ops
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>, Sebastian Fricke	
- <sebastian.fricke@collabora.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>,  Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Boris Brezillon	
- <boris.brezillon@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, Mauro
- Carvalho Chehab <mchehab+huawei@kernel.org>, Alex Bee
- <knaerzche@gmail.com>, Benjamin Gaignard	
- <benjamin.gaignard@collabora.com>, Detlev Casanova	
- <detlev.casanova@collabora.com>, Dan Carpenter <dan.carpenter@linaro.org>, 
- Jonas Karlman <jonas@kwiboo.se>, Christopher Obbard
- <christopher.obbard@linaro.org>
-Date: Tue, 08 Apr 2025 09:36:11 -0400
-In-Reply-To: <35d34100-7013-4acb-a5a6-3408e0f45d9d@xs4all.nl>
-References: 
-	<20250225-rkvdec_h264_high10_and_422_support-v7-0-7992a68a4910@collabora.com>
-	 <20250225-rkvdec_h264_high10_and_422_support-v7-9-7992a68a4910@collabora.com>
-	 <e6b99109-bd35-46ff-a4e2-eb69b549dcbc@xs4all.nl>
-	 <77bdada5dce991842e377759c8e173ada115694f.camel@collabora.com>
-	 <47c0011f-693d-4c94-8a1b-f0174f3d5b89@xs4all.nl>
-	 <19a11d429d9078b82f27e108aa5ac80cc4041bef.camel@collabora.com>
-	 <35d34100-7013-4acb-a5a6-3408e0f45d9d@xs4all.nl>
-Organization: Collabora Canada
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
+ARC-Seal: i=1; a=rsa-sha256; t=1744119532; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=CYO5PJJFS/PLO8H/pn6Jjy2HOqKhSWwBPZ6nJdzsRDJf21cE0o5UvGLU9DeZhxcaHKVrfl4VAMnRmXzQsg2E8jRz01CwsA/Uqn3SvS+EA2F1rw0wfs5a1pTa9rvJz8sgPd71EF3CE2z1J2NHIfxoq2AwROqYxlX4YNbMuRkg+xc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1744119532; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=4xoEaBbHIafbdAv9irL0lpw2U63g5zk2/4XtLF2aXM4=; 
+	b=KgEqOl7KfYgGHl8HJ9LVZd4s3ILe+K97ALehnZA7Fud8Y5Sp9ZCLuQ4UfpGgNn+dOcuteDI67liZ4UGgaI0McRokjRBhxKu6jvzifpcBp1RV1RKMizxXlCcjzPmEZrLr6ppjbJz1Rm0cBS8b6/KfebV4bNC1g1OXctqCYAhEboo=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+	dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744119532;
+	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+	bh=4xoEaBbHIafbdAv9irL0lpw2U63g5zk2/4XtLF2aXM4=;
+	b=ETtyLDU6eWfC/o3j6XlguN5HKOq33yeBJNaMgqGcClzogheDxgsDFdwUCxxbu3jT
+	QANQIhPGWajOh7GRCvo/T1HhIAZkqim5YUWE6eZoM3GeJBc2AZ7UrofMoEgGCnRgUyQ
+	TH+1ZZTXiuNwjleY/YrnUJ/gH9dFLjTxivMdIeFc=
+Received: by mx.zohomail.com with SMTPS id 1744119529535939.1384117482067;
+	Tue, 8 Apr 2025 06:38:49 -0700 (PDT)
+Date: Tue, 8 Apr 2025 14:38:44 +0100
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, kernel@collabora.com, dri-devel@lists.freedesktop.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v4 4/4] drm/panthor: show device-wide list of DRM GEM
+ objects over DebugFS
+Message-ID: <s66dyt32ukr37p24zjgbatm6sk5lzw5ujx2n7p2pr2ixrq3jf4@byemjauyp2mv>
+References: <20250402115432.1469703-1-adrian.larumbe@collabora.com>
+ <20250402115432.1469703-5-adrian.larumbe@collabora.com>
+ <20250402145804.5cf07f5e@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250402145804.5cf07f5e@collabora.com>
 
-Hi Hans,
+On 02.04.2025 14:58, Boris Brezillon wrote:
+> On Wed,  2 Apr 2025 12:54:29 +0100
+> Adrián Larumbe <adrian.larumbe@collabora.com> wrote:
+>
+> > Add a device DebugFS file that displays a complete list of all the DRM
+> > GEM objects that are exposed to UM through a DRM handle.
+> >
+> > Since leaking object identifiers that might belong to a different NS is
+> > inadmissible, this functionality is only made available in debug builds
+> > with DEBUGFS support enabled.
+> >
+> > File format is that of a table, with each entry displaying a variety of
+> > fields with information about each GEM object.
+> >
+> > Each GEM object entry in the file displays the following information
+> > fields: Client PID, BO's global name, reference count, BO virtual size,
+> > BO resize size, VM address in its DRM-managed range, BO label and a flag
+> > bitmask.
+> >
+> > There's also a kflags field for the type of BO. Bit 0 tells us whether
+> > it's a kernel BO, and bit 1 means the BO is mapped onto the FW's address
+> > space.
+> >
+> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> > ---
+> >  drivers/gpu/drm/panthor/panthor_device.c |   5 +
+> >  drivers/gpu/drm/panthor/panthor_device.h |  11 ++
+> >  drivers/gpu/drm/panthor/panthor_drv.c    |  26 ++++
+> >  drivers/gpu/drm/panthor/panthor_gem.c    | 149 +++++++++++++++++++++++
+> >  drivers/gpu/drm/panthor/panthor_gem.h    |  35 ++++++
+> >  5 files changed, 226 insertions(+)
+> >
+> > diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> > index a9da1d1eeb70..b776e1a2e4f3 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_device.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> > @@ -184,6 +184,11 @@ int panthor_device_init(struct panthor_device *ptdev)
+> >  	if (ret)
+> >  		return ret;
+> >
+> > +#ifdef CONFIG_DEBUG_FS
+> > +	drmm_mutex_init(&ptdev->base, &ptdev->gems.lock);
+> > +	INIT_LIST_HEAD(&ptdev->gems.node);
+> > +#endif
+> > +
+> >  	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
+> >  	p = alloc_page(GFP_KERNEL | __GFP_ZERO);
+> >  	if (!p)
+> > diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> > index da6574021664..86206a961b38 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_device.h
+> > +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> > @@ -205,6 +205,17 @@ struct panthor_device {
+> >
+> >  	/** @fast_rate: Maximum device clock frequency. Set by DVFS */
+> >  	unsigned long fast_rate;
+> > +
+> > +#ifdef CONFIG_DEBUG_FS
+> > +	/** @gems: Device-wide list of GEM objects owned by at least one file. */
+> > +	struct {
+> > +		/** @gems.lock: Protects the device-wide list of GEM objects. */
+> > +		struct mutex lock;
+> > +
+> > +		/** @node: Used to keep track of all the device's DRM objects */
+> > +		struct list_head node;
+> > +	} gems;
+> > +#endif
+> >  };
+> >
+> >  struct panthor_gpu_usage {
+> > diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> > index d5277284fe27..3e870ed2ad90 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> > @@ -1534,9 +1534,35 @@ static const struct file_operations panthor_drm_driver_fops = {
+> >  };
+> >
+> >  #ifdef CONFIG_DEBUG_FS
+> > +static int panthor_gems_show(struct seq_file *m, void *data)
+> > +{
+> > +	struct drm_info_node *node = m->private;
+> > +	struct drm_device *dev = node->minor->dev;
+> > +	struct panthor_device *ptdev = container_of(dev, struct panthor_device, base);
+> > +
+> > +	panthor_gem_debugfs_print_bos(ptdev, m);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +
+> > +static struct drm_info_list panthor_debugfs_list[] = {
+> > +	{"gems", panthor_gems_show, 0, NULL},
+> > +};
+> > +
+> > +static int panthor_gems_debugfs_init(struct drm_minor *minor)
+> > +{
+> > +	drm_debugfs_create_files(panthor_debugfs_list,
+> > +				 ARRAY_SIZE(panthor_debugfs_list),
+> > +				 minor->debugfs_root, minor);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> >  static void panthor_debugfs_init(struct drm_minor *minor)
+> >  {
+> >  	panthor_mmu_debugfs_init(minor);
+> > +	panthor_gems_debugfs_init(minor);
+> >  }
+> >  #endif
+> >
+> > diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> > index 44d027e6d664..2fc87be9b700 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> > @@ -2,6 +2,7 @@
+> >  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
+> >  /* Copyright 2023 Collabora ltd. */
+> >
+> > +#include <linux/cleanup.h>
+> >  #include <linux/dma-buf.h>
+> >  #include <linux/dma-mapping.h>
+> >  #include <linux/err.h>
+> > @@ -10,14 +11,65 @@
+> >  #include <drm/panthor_drm.h>
+> >
+> >  #include "panthor_device.h"
+> > +#include "panthor_fw.h"
+> >  #include "panthor_gem.h"
+> >  #include "panthor_mmu.h"
+> >
+> > +#ifdef CONFIG_DEBUG_FS
+> > +static void panthor_gem_debugfs_bo_init(struct panthor_gem_object *bo, u32 type_mask)
+> > +{
+> > +	INIT_LIST_HEAD(&bo->debugfs.node);
+>
+> This should be called when the GEM object is created, otherwise the
+> list_empty() test done in panthor_gem_debugfs_bo_rm() will only work if
+> panthor_gem_debugfs_bo_add() is called, and depending on when this
+> happens, or whether it happens at all, the error path will do a NULL
+> deref.
 
-Le mardi 08 avril 2025 à 10:28 +0200, Hans Verkuil a écrit :
-> On 07/04/2025 16:59, Nicolas Dufresne wrote:
-> > Le lundi 07 avril 2025 à 16:17 +0200, Hans Verkuil a écrit :
-> > > On 07/04/2025 15:52, Nicolas Dufresne wrote:
-> > > > Le lundi 07 avril 2025 à 13:09 +0200, Hans Verkuil a écrit :
-> > > > > On 25/02/2025 10:40, Sebastian Fricke wrote:
-> > > > > > From: Jonas Karlman <jonas@kwiboo.se>
-> > > > > > 
-> > > > > > Add support for a get_image_fmt() ops that returns the required image
-> > > > > > format.
-> > > > > > 
-> > > > > > The CAPTURE format is reset when the required image format changes and
-> > > > > > the buffer queue is not busy.
-> > > > > > 
-> > > > > > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> > > > > > Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > > > > > Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > > > > > Tested-by: Christopher Obbard <chris.obbard@collabora.com>
-> > > > > > ---
-> > > > > >  drivers/staging/media/rkvdec/rkvdec.c | 49 +++++++++++++++++++++++++++++++++--
-> > > > > >  drivers/staging/media/rkvdec/rkvdec.h |  2 ++
-> > > > > >  2 files changed, 49 insertions(+), 2 deletions(-)
-> > > > > > 
-> > > > > > diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-> > > > > > index 70154948b4e32e2c439f259b0f1e1bbc8b52b063..5394079509305c619f1d0c1f542bfc409317c3b7 100644
-> > > > > > --- a/drivers/staging/media/rkvdec/rkvdec.c
-> > > > > > +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> > > > > > @@ -111,15 +111,60 @@ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
-> > > > > >  {
-> > > > > >  	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
-> > > > > >  	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
-> > > > > > +	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
-> > > > > > +	enum rkvdec_image_fmt image_fmt;
-> > > > > > +	struct vb2_queue *vq;
-> > > > > > +	int ret;
-> > > > > > +
-> > > > > > +	if (desc->ops->try_ctrl) {
-> > > > > > +		ret = desc->ops->try_ctrl(ctx, ctrl);
-> > > > > > +		if (ret)
-> > > > > > +			return ret;
-> > > > > > +	}
-> > > > > > +
-> > > > > > +	if (!desc->ops->get_image_fmt)
-> > > > > > +		return 0;
-> > > > > >  
-> > > > > > -	if (desc->ops->try_ctrl)
-> > > > > > -		return desc->ops->try_ctrl(ctx, ctrl);
-> > > > > > +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
-> > > > > > +	if (ctx->image_fmt == image_fmt)
-> > > > > > +		return 0;
-> > > > > > +
-> > > > > > +	if (rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, image_fmt))
-> > > > > > +		return 0;
-> > > > > > +
-> > > > > > +	/* format change not allowed when queue is busy */
-> > > > > > +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
-> > > > > > +			     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
-> > > > > > +	if (vb2_is_busy(vq))
-> > > > > > +		return -EINVAL;
-> > > 
-> > > Looking closer, this code is just wrong. It does these format change
-> > > tests for any control, so if more controls are added in the future, then
-> > > those will be checked the same way, which makes no sense.
-> > 
-> > "Just wrong" should be kept for code that is semantically incorrect,
-> > just a suggestion for choice of wording.
-> 
-> Having vb2_is_busy in a try function (whether trying a control or a format)
-> is simply wrong. Having these checks at a high level (i.e. being done for
-> any control) is asking for problems in the future. It only works right
-> now because there is just one control.
+I'll be moving panthor_gem_debugfs_bo_add() back into panthor_gem_create_object() and
+inline panthor_gem_debugfs_bo_init() into it.
 
-Your main rejection argument has been that this is done for any
-control. Jonas invalidated your argument yesterday:
+> > +
+> > +	if (!(type_mask & PANTHOR_BO_FW_MAPPED)) {
+> > +		bo->debugfs.creator.tgid = current->group_leader->pid;
+> > +		get_task_comm(bo->debugfs.creator.process_name, current->group_leader);
+>
+> I don't think that's good to assume that FW-mapped BOs have been
+> created by the kernel without userspace directly or indirectly asking
+> for the allocation. For instance, per-group memory allocated for the
+> USER_CS interfaces are indirectly triggered by a GROUP_CREATE ioctl(),
+> and should IMO be flagged as being created by the process that
+> created the group. Don't we have another way to check if we're called
+> from a kernel thread?
 
-> Please elaborate how this code is just wrong, it is only called for sps
-> ctrl, as intended, try will report an error as suggested in docs and set
-> will reset the decoded fmt to match the new sps ctrl value.
+True, I completely missed this. I did some research of the kernel API and apparently
+is_kthread() might do the job.
 
-> 
-> > 
-> > > 
-> > > These tests belong to the actual control that you 'try'. In this case
-> > > rkvdec_h264_validate_sps(). This function already checks the width and
-> > > height, but it should also check the image format. It is all in the
-> > > wrong place.
-> > 
-> > We can do that too. Though, this was generalized since once you enable
-> > the other codecs, you endup with code duplication. I know this series
-> > is an extract from a larger one.
-> > 
-> > So let's suggest to make a helper that combines rkvdec_is_valid_fmt()
-> > and the busy check. Though on that, please reply to my comment below
-> > (which you skipped).
-> 
-> Absolutely, this needs a helper function.
+> > +	} else {
+> > +		bo->debugfs.creator.tgid = 0;
+> > +		snprintf(bo->debugfs.creator.process_name,
+> > +			 sizeof(bo->debugfs.creator.process_name),
+> > +			 "kernel");
+> > +	}
+> > +
+> > +	bo->debugfs.bo_mask = type_mask;
+>
+> Why not do that directly in panthor_gem_debugfs_bo_add()? The only bits
+> that might be useful to do early is the INIT_LIST_HEAD(), and I think
+> it can be inlined in panthor_gem_create_object().
 
-In the next version, We should ake sure this is renamed, so readers
-understand its already a helper, and is only called for specific CID.
-Jonas comment also invalid my wrong suggestion here.
+I'll be doing in this in the next revision, but because I've no access to the BO
+type mask from inside Panthor's drm_driver::gem_create_object() binding, then
+I'll have to assign the mask right after the object has been created.
 
-> 
-> > 
-> > > 
-> > > > > 
-> > > > > This makes no sense to me. This just tries a control, and that should just
-> > > > > work, regardless of vb2_is_busy(). It's a 'try', so you are not actually
-> > > > > changing anything.
-> > > > 
-> > > > See comment below, notice that this code is only reached if the control
-> > > > introduce parameters that are not compatible with the current capture
-> > > > queue fmt. The entire function uses "success" early exit, so the
-> > > > further down you get in the function, the less likely your control is
-> > > > valid.
-> > > > 
-> > > > > 
-> > > > > > +
-> > > > > > +	return 0;
-> > > > > > +}
-> > > > > > +
-> > > > > > +static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
-> > > > > > +{
-> > > 
-> > > If there is a try_ctrl op specified, then the control framework
-> > > will call that first before calling s_ctrl. So any validation that
-> > > try_ctrl did does not need to be done again in s_ctrl.
-> > > 
-> > > The same comment with try_ctrl is valid here as well: if there are
-> > > image format checks that need to be done, then those need to be done
-> > > per control and not as a generic check. If new controls are added in
-> > > the future, then you don't want the same checks to apply to the new
-> > > controls as well.
-> > 
-> > I don't think the behaviour of try_ctrl and that being embedded in set
-> > calls was being questioned by anyone. Can you reply to the last
-> > paragraph below ?
-> > 
-> > > 
-> > > Regards,
-> > > 
-> > > 	Hans
-> > > 
-> > > > > > +	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
-> > > > > > +	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
-> > > > > > +	struct v4l2_pix_format_mplane *pix_mp = &ctx->decoded_fmt.fmt.pix_mp;
-> > > > > > +	enum rkvdec_image_fmt image_fmt;
-> > > > > > +
-> > > > > > +	if (!desc->ops->get_image_fmt)
-> > > > > > +		return 0;
-> > > > > > +
-> > > > > > +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
-> > > > > > +	if (ctx->image_fmt == image_fmt)
-> > > > > > +		return 0;
-> > > > > 
-> > > > > If you really can't set a control when the queue is busy, then that should
-> > > > > be tested here, not in try_ctrl. And then you return -EBUSY.
-> > > > > 
-> > > > > Am I missing something here?
-> > > > 
-> > > > When I reviewed, I had imagine that s_ctrl on a request would just run
-> > > > a try. Now that I read that more careful, I see that it does a true set
-> > > > on separate copy. So yes, this can safely be moved here.
-> > > > 
-> > > > Since you seem wondering "If you really can't set a control", let me
-> > > > explain what Jonas wants to protect against. RKVdec does not have any
-> > > > color conversion code, the header compound control (which header
-> > > > depends on the codec), contains details such as sub-sampling and color
-> > > > depth. Without color conversion, when the image format is locked (the
-> > > > busy queue), you can't request the HW to decode a frame witch does not
-> > > > fit. This could otherwise lead to buffer overflow in the HW,
-> > > > fortunately protected by the iommu, but you don't really want to depend
-> > > > on the mmu.
-> > > > 
-> > > > I've never used try_ctrl in my decade of v4l2, so obviously, now that I
-> > > > know that s_ctrl on request is not a try, I'm fine with rejecting this
-> > > > PR, sending a new version and making a PR again. But if I was to use
-> > > > this API in userspace, my intuitive expectation would be that this
-> > > > should fail try(), even if its very rarely valid to check the queue
-> > > > state in try control.
-> > 
-> > Here, since we seem to disagree on the behaviour try should have for
-> > this specific validation. What you asked on first pass is to make it so
-> > that TRY will succeed, and SET will fail. I don't really like that
-> > suggestion.
-> 
-> Ah, no, that's not what I asked.
-> 
-> There are two independent issues:
-> 
-> 1) The tests for a valid image format are done for all controls instead of
->    just the control that really needs it. That's asking for problems, and
->    that needs to be addressed by creating a helper function and using it
->    in the relevant control code. Alternatively, just check against the
->    control id in try_ctrl/s_ctrl explicitly. That's fine too, although I
->    prefer a helper function.
+I think this means there might be a short window after the object's been added to
+the DebugFS GEMs list in which it could be shown with the kernel mask field still
+set to 0, but I guess that's not too important either.
 
-This is false, this is done only the the relevant controls as explained
-by Jonas.
+> > +}
+> > +
+> > +static void panthor_gem_debugfs_bo_add(struct panthor_gem_object *bo, u32 type_mask)
+> > +{
+> > +	struct panthor_device *ptdev =  container_of(bo->base.base.dev,
+> > +						     struct panthor_device, base);
+> > +
+> > +	panthor_gem_debugfs_bo_init(bo, type_mask);
+> > +
+> > +	mutex_lock(&ptdev->gems.lock);
+> > +	list_add_tail(&bo->debugfs.node, &ptdev->gems.node);
+> > +	mutex_unlock(&ptdev->gems.lock);
+> > +}
+> > +
+> > +static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo)
+> > +{
+> > +	struct panthor_device *ptdev = container_of(bo->base.base.dev,
+> > +						    struct panthor_device, base);
+> > +
+> > +	if (list_empty(&bo->debugfs.node))
+> > +		return;
+> > +
+> > +	mutex_lock(&ptdev->gems.lock);
+> > +	list_del_init(&bo->debugfs.node);
+> > +	mutex_unlock(&ptdev->gems.lock);
+> > +}
+> > +
+> > +#else
+> > +static void panthor_gem_debugfs_bo_add(struct panthor_gem_object *bo, u32 type_mask) {}
+> > +static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo) {}
+> > +#endif
+> > +
+> >  static void panthor_gem_free_object(struct drm_gem_object *obj)
+> >  {
+> >  	struct panthor_gem_object *bo = to_panthor_bo(obj);
+> >  	struct drm_gem_object *vm_root_gem = bo->exclusive_vm_root_gem;
+> >
+> > +	panthor_gem_debugfs_bo_rm(bo);
+> > +
+> >  	/*
+> >  	 * Label might have been allocated with kstrdup_const(),
+> >  	 * we need to take that into account when freeing the memory
+> > @@ -86,6 +138,7 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+> >  	struct drm_gem_shmem_object *obj;
+> >  	struct panthor_kernel_bo *kbo;
+> >  	struct panthor_gem_object *bo;
+> > +	u32 type_mask = PANTHOR_BO_KERNEL;
+> >  	int ret;
+> >
+> >  	if (drm_WARN_ON(&ptdev->base, !vm))
+> > @@ -105,7 +158,12 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+> >  	kbo->obj = &obj->base;
+> >  	bo->flags = bo_flags;
+> >
+> > +	if (vm == panthor_fw_vm(ptdev))
+> > +		type_mask |= PANTHOR_BO_FW_MAPPED;
+> > +
+> >  	panthor_gem_kernel_bo_set_label(kbo, name);
+> > +	panthor_gem_debugfs_bo_add(to_panthor_bo(kbo->obj), type_mask);
+> > +
+> >  	/* The system and GPU MMU page size might differ, which becomes a
+> >  	 * problem for FW sections that need to be mapped at explicit address
+> >  	 * since our PAGE_SIZE alignment might cover a VA range that's
+> > @@ -255,6 +313,8 @@ panthor_gem_create_with_handle(struct drm_file *file,
+> >  	/* drop reference from allocate - handle holds it now. */
+> >  	drm_gem_object_put(&shmem->base);
+> >
+> > +	panthor_gem_debugfs_bo_add(bo, 0);
+> > +
+> >  	return ret;
+> >  }
+> >
+> > @@ -286,3 +346,92 @@ panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
+> >
+> >  	panthor_gem_bo_set_label(bo->obj, kstrdup_const(str, GFP_KERNEL));
+> >  }
+> > +
+> > +#ifdef CONFIG_DEBUG_FS
+> > +static bool panfrost_gem_print_flag(const char *name,
+> > +				    bool is_set,
+> > +				    bool other_flags_printed,
+> > +				    struct seq_file *m)
+> > +{
+> > +	if (is_set)
+> > +		seq_printf(m, "%s%s", other_flags_printed ? "," : "", name);
+> > +
+> > +	return is_set | other_flags_printed;
+> > +}
+> > +
+> > +struct gem_size_totals {
+> > +	size_t size;
+> > +	size_t resident;
+> > +	size_t reclaimable;
+> > +};
+> > +
+> > +static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
+> > +					 struct seq_file *m,
+> > +					 struct gem_size_totals *totals)
+> > +{
+> > +	unsigned int refcount = kref_read(&bo->base.base.refcount);
+> > +	char creator_info[32] = {};
+> > +	bool has_flags = false;
+> > +	size_t resident_size;
+> > +
+> > +	/* Skip BOs being destroyed. */
+> > +	if (!refcount)
+> > +		return;
+> > +
+> > +	resident_size = bo->base.pages != NULL ? bo->base.base.size : 0;
+> > +
+> > +	snprintf(creator_info, sizeof(creator_info),
+> > +		 "%s/%d", bo->debugfs.creator.process_name, bo->debugfs.creator.tgid);
+> > +	seq_printf(m, "%-32s%-16d%-16d%-16zd%-16zd%-16lx",
+> > +		   creator_info,
+> > +		   bo->base.base.name,
+> > +		   refcount,
+> > +		   bo->base.base.size,
+> > +		   resident_size,
+> > +		   drm_vma_node_start(&bo->base.base.vma_node));
+> > +
+> > +	seq_puts(m, "(");
+> > +	has_flags = panfrost_gem_print_flag("imported", bo->base.base.import_attach != NULL,
+> > +					    has_flags, m);
+> > +	has_flags = panfrost_gem_print_flag("exported", bo->base.base.dma_buf != NULL,
+> > +					    has_flags, m);
+> > +	if (bo->base.madv < 0)
+> > +		has_flags = panfrost_gem_print_flag("purged", true, has_flags, m);
+> > +	else if (bo->base.madv > 0)
+> > +		has_flags = panfrost_gem_print_flag("purgeable", true, has_flags, m);
+> > +	if (!has_flags)
+> > +		seq_puts(m, "none");
+> > +	seq_puts(m, ")");
+> > +
+> > +	seq_printf(m, "%-6s0x%-2x", "", bo->debugfs.bo_mask);
+> > +
+> > +	mutex_lock(&bo->label.lock);
+> > +	seq_printf(m, "%-6s%-60s", "", bo->label.str ? : NULL);
+> > +	mutex_unlock(&bo->label.lock);
+> > +	seq_puts(m, "\n");
+> > +
+> > +	totals->size += bo->base.base.size;
+> > +	totals->resident += resident_size;
+> > +	if (bo->base.madv > 0)
+> > +		totals->reclaimable += resident_size;
+> > +}
+> > +
+> > +void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+> > +				   struct seq_file *m)
+> > +{
+> > +	struct gem_size_totals totals = {0};
+> > +	struct panthor_gem_object *bo;
+> > +
+> > +	seq_puts(m, "created-by                      global-name     refcount        size            resident-size   file-offset     flags     kflags     label\n");
+> > +	seq_puts(m, "------------------------------------------------------------------------------------------------------------------------------------------------\n");
+> > +
+> > +	scoped_guard(mutex, &ptdev->gems.lock) {
+> > +		list_for_each_entry(bo, &ptdev->gems.node, debugfs.node)
+> > +			panthor_gem_debugfs_bo_print(bo, m, &totals);
+> > +	}
+> > +
+> > +	seq_puts(m, "==========================================================================================================================================================\n");
+> > +	seq_printf(m, "Total size: %zd, Total resident: %zd, Total reclaimable: %zd\n",
+> > +		   totals.size, totals.resident, totals.reclaimable);
+> > +}
+> > +#endif
+> > diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+> > index 49daa5088a0d..22ecc0d39d5e 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> > +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> > @@ -15,6 +15,32 @@ struct panthor_vm;
+> >
+> >  #define PANTHOR_BO_LABEL_MAXLEN	PAGE_SIZE
+> >
+> > +#define PANTHOR_BO_KERNEL	BIT(0)
+> > +#define PANTHOR_BO_FW_MAPPED	BIT(1)
+> > +
+> > +/**
+> > + * struct panthor_gem_debugfs - GEM object's DebugFS list information
+> > + */
+> > +struct panthor_gem_debugfs {
+> > +	/**
+> > +	 * @node: Node used to insert the object in the device-wide list of
+> > +	 * GEM objects, to display information about it through a DebugFS file.
+> > +	 */
+> > +	struct list_head node;
+> > +
+> > +	/** @creator: Information about the UM process which created the GEM. */
+> > +	struct {
+> > +		/** @creator.process_name: Group leader name in owning thread's process */
+> > +		char process_name[TASK_COMM_LEN];
+> > +
+> > +		/** @creator.tgid: PID of the thread's group leader within its process */
+> > +		pid_t tgid;
+> > +	} creator;
+> > +
+> > +	/** @bo_mask: Bitmask encoding BO type as {USER, KERNEL} x {GPU, FW} */
+> > +	u32 bo_mask;
+> > +};
+> > +
+> >  /**
+> >   * struct panthor_gem_object - Driver specific GEM object.
+> >   */
+> > @@ -62,6 +88,10 @@ struct panthor_gem_object {
+> >  		/** @lock.str: Protects access to the @label.str field. */
+> >  		struct mutex lock;
+> >  	} label;
+> > +
+> > +#ifdef CONFIG_DEBUG_FS
+> > +	struct panthor_gem_debugfs debugfs;
+> > +#endif
+> >  };
+> >
+> >  /**
+> > @@ -157,4 +187,9 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+> >
+> >  void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
+> >
+> > +#ifdef CONFIG_DEBUG_FS
+> > +void panthor_gem_debugfs_print_bos(struct panthor_device *pfdev,
+> > +				   struct seq_file *m);
+> > +#endif
+> > +
+> >  #endif /* __PANTHOR_GEM_H__ */
 
-> 
-> 2) vb2_is_busy() does not belong in try_ctrl. 'try' should never depend
->    on whether buffers are allocated. You have two options here:
 
-I read this statement as try_ctrl cannot fail when setting an SPS while
-the queue is active. Since you don't have rationale for it, but really
-want to see that, we will sacrifice the symmetry of TRY/SET in the next
-version. TRY will pass, and SET will reset the capture format if the
-queue is not busy, and return busy otherwise. Nobody ever wanted
-try_ctrl for stateless decoders, its not even mention in the specific
-documentation. This is effectively option b) below.
-
-> 
->    a) try_ctrl checks if the image_fmt is valid for the current format,
->       and it returns -EINVAL if it isn't. This requires that userspace
->       then selects a different format first. No call to vb2_is_busy is
->       needed.
-
-That shows you don't really know what this is about. Please read how
-the initialization process works, up to point 2. A call to
-S_FMT(CAPTURE) is optional. Its the driver that select the CAPTURE
-format based on the bitstream parameters (and bitstream format /
-CAPTURE). Everything is design with input and output in mind. The
-application sets the input format and parameters, the driver choses the
-output (CAPTURE queue) format. With the very strict rule that nothing
-in the parameters that can be against the locked capture format can
-ever be set.
-
-https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-stateless-decoder.html#initialization
-
-
-> 
->    b) try_ctrl doesn't check image_fmt against the current format, it just
->       accepts any value. Instead s_ctrl does the check: if it invalid, then
->       it returns -EBUSY if vb2_is_busy() is true, or it updates the format.
-
-That contradicts slightly your answer "Ah, no, that's not what I
-asked.". But can be done without any spec violation like option a)
-includes.
-
-> 
-> I see that cedrus also has vb2_is_busy() in try_ctrl, and worse, it actually
-> updates the capture format in the try_ctrl, which is definitely a cedrus bug
-> (try should never have side-effects).
-
-I think looking at another work-in-progress driver is distraction. We
-all know that try should not change the driver state (regardless the
-type of try). If you are correct, then it should be fixed there too,
-you should inform Jernej and Paul.
-
-> 
-> The core question is whether changing the V4L2_CID_STATELESS_H264_SPS should
-> make format changes. I can't off-hand think of any other control that does
-> that. It is certainly not documented.
-
-That is also wrong, it is well documented. Its not because you don't
-understand a problem that its by definition wrong.
-
-> 
-> The only control that comes close is V4L2_CID_ROTATE, and I think that control
-> was a huge mistake. It was also never properly documented how it should behave.
-
-Documentation says:
-> Rotating the image to 90 and 270 will reverse the height and
-> width of the display window.
-
-> It is necessary to set the new height
-> and width of the picture using the
-> :ref:`VIDIOC_S_FMT <VIDIOC_G_FMT>` ioctl according to the
->  rotation angle selected.
-
-The link is confusing, but S_ and G_ share the same link. So its well
-documented that the users must call S_FMT and manually flip the width
-and height.
-
-I was never involved with that one, but its a very different approach.
-I think its written with single queue in mind (not M2M). It means you
-can have pending control state. This for stateless CODEC would be so
-complex to handle. For request based driver, we should probably never
-allow that kind of API. If you need to set a control in the future, use
-a request. This, when that control should be applied becomes very
-explicit and can be synchronized across multiple queues.
-
-> 
-> My preference is option a. Controls shouldn't change the format, it is really
-> confusing. If you do want option b, then all drivers that use this control
-> have to be checked first to ensure that they all behave the same, and the
-> control documentation must be updated.
-
-Option b) it is, since there is no option a).
-
-Nicolas
-
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> > 
-> > Nicolas
-> > 
-> > > > 
-> > > > Nicolas
-> > > > 
-> > > > > 
-> > > > > Regards,
-> > > > > 
-> > > > > 	Hans
-> > > > > 
-> > > > > > +
-> > > > > > +	ctx->image_fmt = image_fmt;
-> > > > > > +	if (!rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat, ctx->image_fmt))
-> > > > > > +		rkvdec_reset_decoded_fmt(ctx);
-> > > > > >  
-> > > > > >  	return 0;
-> > > > > >  }
-> > > > > >  
-> > > > > >  static const struct v4l2_ctrl_ops rkvdec_ctrl_ops = {
-> > > > > >  	.try_ctrl = rkvdec_try_ctrl,
-> > > > > > +	.s_ctrl = rkvdec_s_ctrl,
-> > > > > >  };
-> > > > > >  
-> > > > > >  static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
-> > > > > > diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
-> > > > > > index 6f8cf50c5d99aad2f52e321f54f3ca17166ddf98..e466a2753ccfc13738e0a672bc578e521af2c3f2 100644
-> > > > > > --- a/drivers/staging/media/rkvdec/rkvdec.h
-> > > > > > +++ b/drivers/staging/media/rkvdec/rkvdec.h
-> > > > > > @@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
-> > > > > >  		     struct vb2_v4l2_buffer *dst_buf,
-> > > > > >  		     enum vb2_buffer_state result);
-> > > > > >  	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
-> > > > > > +	enum rkvdec_image_fmt (*get_image_fmt)(struct rkvdec_ctx *ctx,
-> > > > > > +					       struct v4l2_ctrl *ctrl);
-> > > > > >  };
-> > > > > >  
-> > > > > >  enum rkvdec_image_fmt {
-> > > > > > 
-> > > > 
-> > 
+Adrian Larumbe
 
