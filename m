@@ -1,144 +1,138 @@
-Return-Path: <linux-media+bounces-29803-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29806-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10B0AA83337
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 23:20:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 697F3A8334D
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 23:24:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9A21C3AE80F
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 21:17:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D56B4175E29
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 21:23:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 796DD215162;
-	Wed,  9 Apr 2025 21:17:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9139219A7D;
+	Wed,  9 Apr 2025 21:23:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U6kAg0M2"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="Ccb2jbKs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76AFD202C40;
-	Wed,  9 Apr 2025 21:17:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744233468; cv=none; b=YYYiSS2qAHeyrGXry8bzYbOuVTpKIXYJa0kSarWSt4LGIwzZFKK5IdkEN/fikGXamYJ+SB09cneAkY5m+PF/USw9j6eeHdmKUBPDjkIQP4TJEDAarr3B8DRmBeifZnGjLWWTEZYicCy/7OnDLFCUgub6ga9IqFqqAu7obbXFdY8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744233468; c=relaxed/simple;
-	bh=JVLsErMm1lbZgGTUGBXuZBa0TVE6alCzPguq9pnhM9I=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hkL1cuQcvYHyzqgP52ImBc/6kFpcujTi18jGydeqMqdZ9vrduIuTV6gYzJva5XQsAyCHbGtVnepiLVTyLCpqnZ5z5Jo1ovrwkepWZaXVZBqtAiqC5DxXfh/JLGM7sjdk0FNxXckKcJHWX+bgPGHMwl5sTXX12guoPRy8OnyW5VY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U6kAg0M2; arc=none smtp.client-ip=209.85.210.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f195.google.com with SMTP id d2e1a72fcca58-736c1138ae5so61107b3a.3;
-        Wed, 09 Apr 2025 14:17:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744233466; x=1744838266; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6pVlwzrEmx32p/oFLtQxJLU3h+GY6t/2EgH6uv7p6PI=;
-        b=U6kAg0M2Ip5KpP5w2LtDKD05MfmghlG4Zt878OtU9/mKiQIO9d0VXs2pJmGyQHTDt3
-         BsNYPPL2uLBLkOg2HVkaFJJk2mNvRrYREK9Fa1RyOEYHdmGWPXH4GP3xDFfNXCEluUpq
-         bj0kfZplfoosvkOAV7xCfm2JT1Q/dKdEvxStxAqVRKZe2DGYsv0G03LV6j+whL6kYaqt
-         cJDnJcdfd+gRbgknGKvcnGMERv3/KaYNov3F+RzzxYnoli481fkUZfMFXBz3WSBWyfm2
-         0M2AUlSXjhzy5yT+NxETqUYo/Qy3fm4Bc4YHq4U6dtq4+qNVEwD2yWA/oQr4s0ANrUam
-         gdJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744233466; x=1744838266;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6pVlwzrEmx32p/oFLtQxJLU3h+GY6t/2EgH6uv7p6PI=;
-        b=Fo+DE46RHIbqbne4mmMko41RkHjhPph9Ccn/q7AcPH40uGit5OujwSa4kNfmlbNJRf
-         uaJ5zTlDN+AaB6Isr4UQ2rk+bloxu4OVDjqEXf53MLVpfqrrgQ9TTq8A6ILyBc0lGHBd
-         owrfjscaVDpX1rFkZUV55KT0aT+43cSDgnnSjtH8lKGwjun+VrxMyQfuITiwhUoU2uwh
-         FJnTmNbw8NEA6f4kEjxWsSfv4SDrYPw/E/OiMVEzwiqeFsknQouBvISQPBjFlMmu2kqb
-         y2qtDnvjCL4IOFP9FluVueCk0rw9h5VWYxNxEkOeh3DbgWPlYiWj6PCVdchFOQVgmsHC
-         pLlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWIjZGmwxjZy78bbJed2rDLYqtdBY4sOIi/EmZxH7wa3X6Z9Bx1ozcwwG5d4mkWQvNZ8tzMIv4TLladknU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yynmrn5kAwUmqXLqA4FpM5UN635Ky8pAWuBmT6gqCzevFGjlRED
-	zhuI5DBZH5vhoTUf87cjQkCIUCjod7lbw6BaFdlIVqX0pK7jqomM
-X-Gm-Gg: ASbGncvkIdLndgOw3jKmPh80goULWAPSi3wwYAxa578L5+qQAPVPJbc9A7LsUeQxhcU
-	E/NpI6Pxnyj0uDaLbEyllAB66Q8J5m9SRkrCZHMoJgAEniciSEamvJS6uxVogLlebeS/E6yidyD
-	oHkeDswdiVmfYTY3R4VnMppDPDvOjcHyn8Uz9hGyHS5dbpLjBkADFssDbIN5a2JdYN47rFskdwf
-	OsTCau43FyqLHKWtHGXnPHf7jv/0BGi5IPO2uvPpapGjdKumdm9AVjpxK+PiH1CPxMXYFWer4fk
-	p30JlhpX4FFb9qXroS76cpLi3IhhaS+oHkZu0Jj12hT5Anx1FgKy2NCYtfc=
-X-Google-Smtp-Source: AGHT+IGmPmWoSu8tga2SfVkZJNouE0+nOCKOrGe4roKu39WWRmF9KPusYmzx3vw22zaprVmqFp/tNw==
-X-Received: by 2002:a05:6a20:94c7:b0:1f3:3c5d:cd86 with SMTP id adf61e73a8af0-20169480cf3mr905809637.11.1744233466357;
-        Wed, 09 Apr 2025 14:17:46 -0700 (PDT)
-Received: from sid-Inspiron-15-3525.. ([106.222.229.33])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b02a2d3abffsm1475046a12.48.2025.04.09.14.17.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Apr 2025 14:17:45 -0700 (PDT)
-From: Siddarth G <siddarthsgml@gmail.com>
-To: slongerbeam@gmail.com,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25A282144B0;
+	Wed,  9 Apr 2025 21:23:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744233810; cv=pass; b=jWwh7h1VKkyTABtoFp7u24MSJnMZlJ2YfGsq6TtkAh5OV6H1VZhocD0NvGgPhH1Sj/huEZkDAEs1CXu30yA0UJLenb6khzTI2pJU6/9BipwWLwiz5m1XL332psjIKBYJ/BmR9QeZHL10Pu7j5+wspRofOwbyzvS9oAmdEPA1Cyw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744233810; c=relaxed/simple;
+	bh=/OHk8acnz8cW0VYDt/bTZP39BdRTGq3ZOtIifYd959U=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Dtetx7MWISXFHj54BJn8qLfQE3VRC/wpsyDJGqZk7O5t8ofPGDEnOXrV9K36f2Tg0Ii/ByB4SE+FB0+sG+fq3yhBC0kzZ2zq2RlfV7cmktBlbXQr3OaZmFPJCR4vE4dWoqxW8idvTr5Fo70a2NwoMQhKZ08zscaIye8wbdeE9Kg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=Ccb2jbKs; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1744233774; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=RjHKEp8WSHtySVTIZL1UHaAi9p+b3pD2hRw8KNv/ZiQQUNeqnfGEWgIMJTJJUZs8bSa9Lcy99lT/O8RVGBFIJSS6Cn7PTSGBFoLjZUS4UyD1XSWrpKhXmLs8j4L27JXtunu75L7wgYNVP4l1JMkPdBzAqLnyYsLLoEPRw1gcSNU=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1744233774; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:MIME-Version:Message-ID:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=V5FUjgoiTygqR7CMcv8uAi3udMBMdnQJxLq1c2Z+zEU=; 
+	b=V7hDf2jL8RZ2GWpnFUp85dxd0lq+o1MRZKTjSX17h5lIe4BgBwC0OpZJqs04qFzfCQl07/1a3oNtcUNEjKHjaCOTNgCrOS1dwPLc2qWYXo18Y6uPk9/Zf7f62B0p5pGjBmYyhZGRHsrTDZ4kcOigIfgC7iryRniPKSr6xh8GOeE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+	dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744233774;
+	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=V5FUjgoiTygqR7CMcv8uAi3udMBMdnQJxLq1c2Z+zEU=;
+	b=Ccb2jbKsq+Y5Jr2aIc9EKqujtwQw5PXLgmIk4U/zsx6F86iuAb8M4eZ7F1nVy3uB
+	3y7F6wAqBvwgglZjc6uo6sSNUYBBUECc1lKe4f0kPbJ7wUrB0xsjb/r31kr1ZOQNnpC
+	EVOrE/oUhhKiaFN41wRlPHoZau8k6An6KlVMB/Tw=
+Received: by mx.zohomail.com with SMTPS id 1744233772379460.9766127739156;
+	Wed, 9 Apr 2025 14:22:52 -0700 (PDT)
+From: =?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>
+To: Boris Brezillon <boris.brezillon@collabora.com>,
+	Steven Price <steven.price@arm.com>,
+	Liviu Dudau <liviu.dudau@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: kernel@collabora.com,
+	=?UTF-8?q?Adri=C3=A1n=20Larumbe?= <adrian.larumbe@collabora.com>,
+	dri-devel@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	Siddarth G <siddarthsgml@gmail.com>
-Subject: [PATCH] staging/media/imx: fix null pointer dereference
-Date: Thu, 10 Apr 2025 02:47:27 +0530
-Message-ID: <20250409211727.62710-1-siddarthsgml@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: [PATCH v6 0/4] Panthor BO tagging and GEMS debug display
+Date: Wed,  9 Apr 2025 22:22:18 +0100
+Message-ID: <20250409212233.2036154-1-adrian.larumbe@collabora.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Cppcheck warnings:
+This patch series is aimed at providing UM with detailed memory profiling
+information in debug builds. It is achieved through a device-wide list of
+DRM GEM objects, and also implementing the ability to label BO's from UM
+through a new IOCTL.
 
-drivers/staging/media/imx/imx-media-fim.c:79:6:
-error: Null pointer dereference: fi [ctunullpointer]
-  if (fi->denominator == 0) {
+The new debugfs file shows a list of driver DRM GEM objects in tabular mode.
+To visualise it, cat sudo cat /sys/kernel/debug/dri/*.gpu/gems.
+To test this functionality from UM, please refer to this Mesa patch series:
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/34224
 
-drivers/staging/media/imx/imx-media-csi.c:795:27:
-note: Calling function imx_media_fim_set_stream, 2nd argument is null
-  imx_media_fim_set_stream(priv->fim, NULL, false);
+Discussion of previous revision of this patch series can be found at:
+https://lore.kernel.org/dri-devel/20250408222427.1214330-1-adrian.larumbe@collabora.com/T/#t
 
-drivers/staging/media/imx/imx-media-fim.c:388:3:
-note: Calling function update_fim_nominal, 2nd argument is null
-  update_fim_nominal(fim, fi);
+Changelog:
+v6:
+ - Replaced some mutex calls with scoped guards
+ - Documented data size limits in the label ioctl
+ - Simplified GEMS status flags treatment (Panthor doesn't use madvise)
+ - Fixed some array size and string bugs
+ - Improved the naming of GEM status and usage flags to reflect their meaning
+ - Improved the formatting of the output table
 
-drivers/staging/media/imx/imx-media-fim.c:79:6:
-note: Dereferencing argument fi that is null
-  if (fi->denominator == 0) {
+v5:
+ - Kept case and naming of kernel BO's consistent
+ - Increased the driver minor after new ioctl
+ - Now adds BO to debugfs GEMs list at GEM object creation time
+ - No longer try to hide BO creator's name when it's a workqueue or modprobe
+ - Reworked the procedure for printing GEM state and kernel BO flags
+ - Turned kernel BO flags and GEM state flags into bit enums
+ - Wait until BO state is marked as initialied for debugfs display
 
-To fix the issue, add a check to validate that the 'fi' is not
-null before accessing its members.
+v4:
+ - Labelled all kernel BO's, not just heap chunks.
+ - Refactored DebugGFs GEMs list handling functions
+ - Added debugfs GEMS node mask to tell different kinds of BO's
 
-Signed-off-by: Siddarth G <siddarthsgml@gmail.com>
----
- drivers/staging/media/imx/imx-media-fim.c | 3 +++
- 1 file changed, 3 insertions(+)
+Adrián Larumbe (4):
+  drm/panthor: Introduce BO labeling
+  drm/panthor: Add driver IOCTL for setting BO labels
+  drm/panthor: Label all kernel BO's
+  drm/panthor: show device-wide list of DRM GEM objects over DebugFS
 
-diff --git a/drivers/staging/media/imx/imx-media-fim.c b/drivers/staging/media/imx/imx-media-fim.c
-index ccbc0371fba2..25f79d0f87b9 100644
---- a/drivers/staging/media/imx/imx-media-fim.c
-+++ b/drivers/staging/media/imx/imx-media-fim.c
-@@ -76,6 +76,9 @@ static bool icap_enabled(struct imx_media_fim *fim)
- static void update_fim_nominal(struct imx_media_fim *fim,
- 			       const struct v4l2_fract *fi)
- {
-+	if (!fi)
-+		return;
-+
- 	if (fi->denominator == 0) {
- 		dev_dbg(fim->sd->dev, "no frame interval, FIM disabled\n");
- 		fim->enabled = false;
--- 
-2.43.0
+ drivers/gpu/drm/panthor/panthor_device.c |   5 +
+ drivers/gpu/drm/panthor/panthor_device.h |  11 ++
+ drivers/gpu/drm/panthor/panthor_drv.c    |  68 ++++++-
+ drivers/gpu/drm/panthor/panthor_fw.c     |   8 +-
+ drivers/gpu/drm/panthor/panthor_gem.c    | 229 ++++++++++++++++++++++-
+ drivers/gpu/drm/panthor/panthor_gem.h    |  80 +++++++-
+ drivers/gpu/drm/panthor/panthor_heap.c   |   6 +-
+ drivers/gpu/drm/panthor/panthor_sched.c  |   9 +-
+ include/uapi/drm/panthor_drm.h           |  23 +++
+ 9 files changed, 428 insertions(+), 11 deletions(-)
 
+--
+2.48.1
 
