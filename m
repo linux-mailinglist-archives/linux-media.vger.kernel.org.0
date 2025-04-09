@@ -1,57 +1,64 @@
-Return-Path: <linux-media+bounces-29801-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29802-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7ADEA831D9
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 22:23:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86002A832D5
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 22:55:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9DEE8179485
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 20:23:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C59588A097D
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 20:54:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1E9520FA9E;
-	Wed,  9 Apr 2025 20:23:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B67442135AD;
+	Wed,  9 Apr 2025 20:54:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LnOEnTsk"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mGstyAOy"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61EB41C5F25
-	for <linux-media@vger.kernel.org>; Wed,  9 Apr 2025 20:23:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5321DDC04;
+	Wed,  9 Apr 2025 20:54:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744230210; cv=none; b=KyZ6Dt0IkPiNH+tSupw4ie+HNxDcHZhaojXillYQeFcg/jUbB/mpqmVrtRw+bU8OV4WmTsrx8HLAnFxsseJpgovQcO4Zno3ctntfWi06v2qNBjdUoTgJwrbdloCEwkTjvf1CoI4V2cPramUjNb0CcA694r2d0WqBPKom5ZUJ3JI=
+	t=1744232096; cv=none; b=YuelhCaX0DwGjvmcGXlQNiy8tAkFzTUUXhoexWSQjeZzjorXGA0uz8eVlsvpB/sF7wG3w9NtB7yCEmTb2mzXTPsBMpGChrVqea5Hg+mGEIcQ2BuBRNANaTzstTpDoTM+dOzT+0dvGJaO39n9JG8USR19oanZmu7vrVJHArQdBqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744230210; c=relaxed/simple;
-	bh=kQ717V4tTVjc0EE8EAFgfTR7J4BpyB3OEtPYCOglf84=;
+	s=arc-20240116; t=1744232096; c=relaxed/simple;
+	bh=4oSZZwhw7PQhTzXV7fjqEVHEgheLJg48XzbYnFxp19A=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jPmaLf4w9vX0yBQNyAIbED5zf5ys6qT+ctQWfQ19QtNsVcEhBBt+Mu2qw+5bXQAJuvV+6r60hf6L2wc7/JAOiDv7po22KdZls7lOcgZmtvdNvNAHlhe7aqwl6vS/V7di0iPzM9M7L1MBsQMQVbF/p0VOTicq4bEVu7B+l6pRYgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LnOEnTsk; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=g3yed8oJqxBLV5x53NAbPhbt1LQ/9dvJyHOYuZkyuGVRQpOCZcgwNCLelYLapYB+SdYZXciqzeAoBZtbqLyetaDCBVCiyq4gLaCSvPI1aJIeIpDNhwP/dhL80YBOBp1/Fr4egUy9C3z4dxxlMDKMawAJVGgLaI1q3UnEis7UJqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mGstyAOy; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2D92E9CE;
-	Wed,  9 Apr 2025 22:21:28 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E407C9CE;
+	Wed,  9 Apr 2025 22:52:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1744230088;
-	bh=kQ717V4tTVjc0EE8EAFgfTR7J4BpyB3OEtPYCOglf84=;
+	s=mail; t=1744231974;
+	bh=4oSZZwhw7PQhTzXV7fjqEVHEgheLJg48XzbYnFxp19A=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LnOEnTskc0Bck214UnZTVvV1Dc5e5pW7ui1pgQTww9zAM3Ef01Ov4CTFDNhbsPPjA
-	 dz//O6ODYOqdSBBKVupbLYGysWeJeOd8R3JCjuNpy5gDABWawqsRWaTxiD/hn6J0kM
-	 31NPxRIZksqUcZvBw7AEswOMH1fj62ryf62qBllg=
-Date: Wed, 9 Apr 2025 23:23:00 +0300
+	b=mGstyAOyr2ER8aIjbnelGwUaEIXExrU8SkzTl0SiFDCR0/0Vpxyyh111y7QRl5KP+
+	 BuBRnjR/iYwYjDiDNRhSwRgunXVbwt+mU9jCORSjzqJEIWMh6DS2m29h6w7jgNd1sO
+	 +RUq2Nlqioxr+PKJ6tkx7LtbmxPDcR9tuCG+PzFw=
+Date: Wed, 9 Apr 2025 23:54:26 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: bingbu.cao@intel.com, linux-media@vger.kernel.org, hdegoede@redhat.com,
-	hans@hansg.org, stanislaw.gruszka@linux.intel.com,
-	jerry.w.hu@intel.com, tian.shu.qiu@intel.com, daxing.li@intel.com,
-	hao.yao@intel.com, bingbu.cao@linux.intel.com
-Subject: Re: [RFC PATCH 0/7] Intel IPU7 PCI and input system device drivers
-Message-ID: <20250409202300.GE24388@pendragon.ideasonboard.com>
-References: <20250221075252.3347582-1-bingbu.cao@intel.com>
- <Z7h3rUrwX8i3a-My@kekkonen.localdomain>
+To: Gabriel Shahrouzi <gshahrouzi@gmail.com>
+Cc: Ricardo Ribalda <ribalda@chromium.org>, hdegoede@redhat.com,
+	mchehab@kernel.org, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	syzbot+701fc9cc0cb44e2b0fe9@syzkaller.appspotmail.com,
+	skhan@linuxfoundation.org, kernelmentees@lists.linuxfoundation.org
+Subject: Re: [PATCH] media: Fix invalid link creation when source entity has
+ 0 pads
+Message-ID: <20250409205426.GA12162@pendragon.ideasonboard.com>
+References: <67e26157.0c0a0220.36adcd.506e@mx.google.com>
+ <CANiDSCsvEke31SAgXhs_sXEN7d6fXrwuhJFsi2mzESq1Jc8pxA@mail.gmail.com>
+ <CAKUZ0zJjdSDH3cw=8iKJauU5dmcq9TFhAaJX4yS5UQoiCUaguA@mail.gmail.com>
+ <20250326001336.GA23984@pendragon.ideasonboard.com>
+ <CAKUZ0zKDy47cQ0ZQo-=1c7wmazbutF=VF3qX09DfZFBz01hh-g@mail.gmail.com>
+ <20250402002948.GC4845@pendragon.ideasonboard.com>
+ <CAKUZ0z+V0pBvAf1VRGcWf_QcROZFsTUcHmNM1T1=DpBw56yi8A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,161 +67,144 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <Z7h3rUrwX8i3a-My@kekkonen.localdomain>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKUZ0z+V0pBvAf1VRGcWf_QcROZFsTUcHmNM1T1=DpBw56yi8A@mail.gmail.com>
 
-Hi Sakari,
+Hi Gabriel,
 
-On Fri, Feb 21, 2025 at 12:55:09PM +0000, Sakari Ailus wrote:
-> On Fri, Feb 21, 2025 at 03:52:45PM +0800, bingbu.cao@intel.com wrote:
-> > From: Bingbu Cao <bingbu.cao@intel.com>
-> > 
-> > This patch series adds a driver for Intel IPU7 input system.
-> > IPU7 is the seventh generation of Imaging Processing Unit, it is a
-> > PCI device which can be found in some Intel Client Platforms such as
-> > Intel Lunar Lake and Panther Lake, etc.
-> > User can use IPU7 to capture images from MIPI camera sensors, support
-> > both MIPI CSI DPHY and CPHY.
-> > 
-> > IPU7 input system driver uses MC and V4L2 sub-device APIs besides V4L2.
-> > 
-> >  - ipu7.c: the IPU7 PCI device driver probe, basic hardware
-> >    configuration and initialization
-> >  - ipu7-bus: Initialise and register the auxiliary device for IS
-> >  - ipu7-buttress: Hardware buttress interfaces to allow driver to
-> >    program to enable the power, firmware authentication and interrupt
-> >    handling.
-> >  - ipu7-mmu and ipu7-dma: IPU MMU table setup and IPU DMA mapping APIs
-> >  - ipu7-cpd and ipu7-boot: firmware format parse and firmware boot flow
-> >  - abi: a series of ABI headers used by driver and firmware
-> >  - ipu7-syscom: syscom communication interfaces used by driver to queue
-> >    commands to firmware
-> >  - ipu7-isys: main IPU7 input system driver, it registers CSI2 as v4l2
-> >    sub-devices and the capture as video devices.
-> 
-> Given that much of the driver code is the same than in the IPU6 driver (in
-> particular split into devices, DMA, MMU and V4L2 / MC API related code), we
-> should share at least that instead of looking to maintain two copies of it
-> separately. The IPU7 driver probably has had a different starting point for
-> development than the current IPU6 driver so there are a fair amount of
-> differences in that code now but it is largely not due to differences in
-> the hardware itself, for instance, the lack of metadata or multiple virtual
-> channel support you listed below.
+On Tue, Apr 08, 2025 at 01:35:00AM -0400, Gabriel Shahrouzi wrote:
+> On Tue, Apr 1, 2025 at 8:30 PM Laurent Pinchart wrote:
+> > On Sat, Mar 29, 2025 at 01:50:00PM -0400, Gabriel wrote:
+> > > Hi Laurent,
+> > >
+> > > I’ve analyzed the bug report, and the root cause of the
+> > > "WARNING-media_create_pad_link" issue is a mismatch in terminal
+> > > references in the USB descriptor.
+> > >
+> > > The format type descriptor references terminal ID 6, while the audio
+> > > streaming interface descriptor points to terminal ID 5. This
+> > > discrepancy triggers the warning: "No streaming interface found for
+> > > terminal 6", followed by the media pad link warning.
+> >
+> > Can you share the USB descriptors.
+>
+> The USB descriptors via the Syzkaller reproducer:
+>          "\x12\x01\x00\x00\xfb\x5d\x7d\x08\x6d\x04\xc3\x08\x16\x6b\x01\x02\x03"
+>          "\x01\x09\x02\x50\x00\x01\x00\x00\x00\x00\x09\x04\x1f\x00\x00\xff\x01"
+>          "\x00\x00\x0a\x24\x02\x00\x00\x05\x02\x01\x02\x07\x24\x07\x05\x00\x00"
+>          "\x18\xc2\x24\x08\x05\x04\x00\x04\x96\x0d\x24\x06\x01\x01\x03\x02\x00"
+>          "\x01\x00\x06\x00\x06\x09\x24\x03\x05\x05\x03\x06\x05\x81\x09\x24\x03"
+>          "\x06\x01\x01\x04\x05\x05\x07\x24\x04\x05\x01\x00\x9c\xbd\x89"
 
-Merging the two drivers in one seems a good idea to me, with lots of
-upsides, and very few downsides, if any. If there are strong technical
-reasons why this can't be done we should discuss them.
+If I haven't made any mistake in the manual decode process (is there any
+Linux tool that can decode a binary descriptors dump the same way lsusb
+decodes descriptors from a device ?), the relevant UVC descriptors there
+are
 
-> > TODO list:
-> >  1. ABI headers cleanup (currently a copy from firmware as it is
-> >     still in development and updating regularly, need cleanup to unifiy
-> >     the headers)
-> >  2. add metadata capture support
-> >  3. add multiple virtual-channels capture support
-> >  4. remove unsecure mode code as secure mode is force to enabled in
-> >     product
-> > 
-> > Bingbu Cao (7):
-> >   media: Rename the IPU PCI device table header and add IPU7 PCI IDs
-> >   media: ipu7: add Intel IPU7 PCI device driver
-> >   media: ipu7: add IPU7 DMA APIs and MMU mapping
-> >   media: ipu7: add firmware parse, syscom interface and boot sequence
-> >   media: ipu7: add IPU7 firmware ABI headers
-> >   media: ipu7: add IPU7 input system device driver
-> >   media: ipu7: add Makefile and Kconfig for IPU7
-> > 
-> >  drivers/media/pci/intel/Kconfig               |    1 +
-> >  drivers/media/pci/intel/Makefile              |    1 +
-> >  drivers/media/pci/intel/ipu6/ipu6.c           |    2 +-
-> >  drivers/media/pci/intel/ipu7/Kconfig          |   18 +
-> >  drivers/media/pci/intel/ipu7/Makefile         |   23 +
-> >  .../pci/intel/ipu7/abi/ipu7_fw_boot_abi.h     |  164 +
-> >  .../pci/intel/ipu7/abi/ipu7_fw_common_abi.h   |  243 ++
-> >  .../pci/intel/ipu7/abi/ipu7_fw_config_abi.h   |   19 +
-> >  .../intel/ipu7/abi/ipu7_fw_insys_config_abi.h |   19 +
-> >  .../pci/intel/ipu7/abi/ipu7_fw_isys_abi.h     |  495 +++
-> >  .../pci/intel/ipu7/abi/ipu7_fw_msg_abi.h      |  509 +++
-> >  .../intel/ipu7/abi/ipu7_fw_psys_config_abi.h  |   22 +
-> >  .../pci/intel/ipu7/abi/ipu7_fw_syscom_abi.h   |   60 +
-> >  drivers/media/pci/intel/ipu7/ipu7-boot.c      |  434 +++
-> >  drivers/media/pci/intel/ipu7/ipu7-boot.h      |   21 +
-> >  drivers/media/pci/intel/ipu7/ipu7-bus.c       |  158 +
-> >  drivers/media/pci/intel/ipu7/ipu7-bus.h       |   69 +
-> >  .../media/pci/intel/ipu7/ipu7-buttress-regs.h |  465 +++
-> >  drivers/media/pci/intel/ipu7/ipu7-buttress.c  | 1187 +++++++
-> >  drivers/media/pci/intel/ipu7/ipu7-buttress.h  |   84 +
-> >  drivers/media/pci/intel/ipu7/ipu7-cpd.c       |  230 ++
-> >  drivers/media/pci/intel/ipu7/ipu7-cpd.h       |   62 +
-> >  drivers/media/pci/intel/ipu7/ipu7-dma.c       |  509 +++
-> >  drivers/media/pci/intel/ipu7/ipu7-dma.h       |   50 +
-> >  drivers/media/pci/intel/ipu7/ipu7-fw-isys.c   |  300 ++
-> >  drivers/media/pci/intel/ipu7/ipu7-fw-isys.h   |   39 +
-> >  .../media/pci/intel/ipu7/ipu7-isys-csi-phy.c  | 1051 +++++++
-> >  .../media/pci/intel/ipu7/ipu7-isys-csi-phy.h  |   16 +
-> >  .../pci/intel/ipu7/ipu7-isys-csi2-regs.h      | 1197 +++++++
-> >  drivers/media/pci/intel/ipu7/ipu7-isys-csi2.c |  565 ++++
-> >  drivers/media/pci/intel/ipu7/ipu7-isys-csi2.h |   73 +
-> >  .../media/pci/intel/ipu7/ipu7-isys-queue.c    |  836 +++++
-> >  .../media/pci/intel/ipu7/ipu7-isys-queue.h    |   79 +
-> >  .../media/pci/intel/ipu7/ipu7-isys-subdev.c   |  381 +++
-> >  .../media/pci/intel/ipu7/ipu7-isys-subdev.h   |   55 +
-> >  .../media/pci/intel/ipu7/ipu7-isys-video.c    | 1130 +++++++
-> >  .../media/pci/intel/ipu7/ipu7-isys-video.h    |  117 +
-> >  drivers/media/pci/intel/ipu7/ipu7-isys.c      | 1170 +++++++
-> >  drivers/media/pci/intel/ipu7/ipu7-isys.h      |  150 +
-> >  drivers/media/pci/intel/ipu7/ipu7-mmu.c       |  853 +++++
-> >  drivers/media/pci/intel/ipu7/ipu7-mmu.h       |  414 +++
-> >  .../media/pci/intel/ipu7/ipu7-platform-regs.h |  146 +
-> >  drivers/media/pci/intel/ipu7/ipu7-syscom.c    |   79 +
-> >  drivers/media/pci/intel/ipu7/ipu7-syscom.h    |   36 +
-> >  drivers/media/pci/intel/ipu7/ipu7.c           | 2791 +++++++++++++++++
-> >  drivers/media/pci/intel/ipu7/ipu7.h           |  244 ++
-> >  drivers/media/pci/intel/ivsc/mei_csi.c        |    2 +-
-> >  .../{ipu6-pci-table.h => ipu-pci-table.h}     |   14 +-
-> >  48 files changed, 16578 insertions(+), 5 deletions(-)
-> >  create mode 100644 drivers/media/pci/intel/ipu7/Kconfig
-> >  create mode 100644 drivers/media/pci/intel/ipu7/Makefile
-> >  create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_boot_abi.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_common_abi.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_config_abi.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_insys_config_abi.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_isys_abi.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_msg_abi.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_psys_config_abi.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/abi/ipu7_fw_syscom_abi.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-boot.c
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-boot.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-bus.c
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-bus.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-buttress-regs.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-buttress.c
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-buttress.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-cpd.c
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-cpd.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-dma.c
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-dma.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-fw-isys.c
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-fw-isys.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-csi-phy.c
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-csi-phy.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-csi2-regs.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-csi2.c
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-csi2.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-queue.c
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-queue.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-subdev.c
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-subdev.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-video.c
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys-video.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys.c
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-isys.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-mmu.c
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-mmu.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-platform-regs.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-syscom.c
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7-syscom.h
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7.c
-> >  create mode 100644 drivers/media/pci/intel/ipu7/ipu7.h
-> >  rename include/media/{ipu6-pci-table.h => ipu-pci-table.h} (68%)
+0x0a		bLength
+0x24		bDescriptorType USB_DT_CS_INTERFACE
+0x02		bDescriptorSubtype VC_INPUT_TERMINAL
+0x00		bTerminalID 0 (invalid)
+0x00, 0x05	bTerminalType 0x0500 (invalid)
+0x02		bAssocTerminal 2 (invalid)
+0x01		iTerminal 1 
+0x02, 0x07
+
+0x09		bLength
+0x24		bDescriptorType USB_DT_CS_INTERFACE
+0x03		bDescriptorSubtype VC_OUTPUT_TERMINAL 
+0x06		bTerminalID 6 
+0x01, 0x01	bTerminalType TT_STREAMING
+0x04		bAssocTerminal 4 (invalid)
+0x05		bSourceID 5 
+0x05		iTerminal 5
+
+0x07		bLength
+0x24		bDescriptorType USB_DT_CS_INTERFACE
+0x04		bDescriptorSubtype VC_SELECTOR_UNIT 
+0x05		bUnitID 5 
+0x01		bNrInPins 1 
+0x00		baSourceID(1) 0 
+0x9c		iSelector 156
+
+Ignoring a few invalid values (bTerminalID shouldb't be 0, bTerminalType
+0x0500 is defined by the specification, and the two bAssocTerminal ids
+are also invalid), this creates the following chain:
+
+VC_INPUT_TERMINAL (0) -> VC_SELECTOR_UNIT (5) -> VC_OUTPUT_TERMINAL (6)
+
+Looking at uvc_mc_init_entity() where the media_entity->num_pads field
+gets assigned by calling media_entity_pads_init(), a media entity is
+only initialized when the entity type is not TT_STREAMING (so it's a
+subdev), or when the entity has an associated video device. I think
+that what is happening here is that the second entity in the above list
+(VC_OUTPUT_TERMINAL, id 6) fails to initialize properly in
+uvc_register_terms() is there is no corresponding streaming interface in
+the device. This is confirmed by the
+
+usb 1-1: No streaming interface found for terminal 6.
+
+message in the syzbot kernel log. No video device is created for the
+terminal, and no media_entity is initialized. Trying to later link the
+entity in uvc_mc_create_links() then fails.
+
+I don't want to address this in uvc_mc_create_links() as the invalid
+terminal in the chain means we could have other issues elsewhere. One
+option is to fail turn the missing streaming interface check in a hard
+failure, at least for the chain being registered. The driver could still
+proceed to registering other chains.
+
+There's a small risk of regression for buggy devices. If that's a
+problem, we could instead remove invalid terminals from the device
+entities list before we proceed to scanning chains.
+
+> > > I confirmed this by changing the terminal ID in the format descriptor
+> > > from 6 to 5, which eliminates both warnings. This shows the warning is
+> > > correctly identifying an invalid descriptor configuration, not a
+> > > kernel bug.
+> >
+> > There's still something not quite right. uvc_entity->num_pads should
+> > always be equal to the corresponding media_entity->num_pads. That's not
+> > the case here, and I think it indicates a bug.
+>
+> Ah ok - the mismatch itself shouldn't happen regardless of the descriptor
+>
+> > > Since the USB descriptor is invalid, I believe the warning is
+> > > necessary and should remain. The code should stay as is.
+> >
+> > There should be a warning, but I think it needs to be caught in a
+> > different place, earlier.
+>
+> Got it.
+>
+> > > On Tue, Mar 25, 2025 at 8:13 PM Laurent Pinchart wrote:
+> > > > On Tue, Mar 25, 2025 at 06:05:00PM -0400, Gabriel wrote:
+> > > > > Hi Ricardo,
+> > > > >
+> > > > > > I cannot reach that URL
+> > > > > I was unable to access the URL from my email client when I initially
+> > > > > sent the email, but a couple of hours later, I was able to. Initially,
+> > > > > copying and pasting the URL into the browser provided a workaround.
+> > > > >
+> > > > > > Shouldn't it be?:
+> > > > > > Fixes: 4ffc2d89f38a ("[media] uvcvideo: Register subdevices for each entity")
+> > > > > You're right, I incorrectly referenced the wrong commit. However, I’m
+> > > > > not certain if it should reference a96aa5342d57 (Fixes: a96aa5342d57 -
+> > > > > '[media] uvcvideo: Ignore entities for terminals with no supported
+> > > > > format') as it's the latest commit affecting the line I'm changing or
+> > > > > the one you mentioned.
+> > > > >
+> > > > > > Shouldn't source->num_pads be the same as remote->num_pads?
+> > > > > The fuzzer (Syzkaller) that triggered the warning appears to have
+> > > > > encountered a case where source->num_pads and remote->num_pads were
+> > > > > different. When analyzing the case in GDB, remote->num_pads was 1,
+> > > > > while source->num_pads was 0.
+> > > >
+> > > > This seems like the real bug that should be fixed.
+> > > >
+> > > > > > Are you sure that your kernel does not contain?
+> > > > > > https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/media/usb/uvc/uvc_entity.c?id=41ddb251c68ac75c101d3a50a68c4629c9055e4c
+> > > > > Yes, it should be included since I am running the upstream kernel.
 
 -- 
 Regards,
