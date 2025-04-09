@@ -1,376 +1,1030 @@
-Return-Path: <linux-media+bounces-29748-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29749-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B76C5A8274F
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 16:11:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B43A827E3
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 16:30:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 14D4B3BE007
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 14:10:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3B4248C22DE
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 14:30:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A63A265613;
-	Wed,  9 Apr 2025 14:10:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7721F26562A;
+	Wed,  9 Apr 2025 14:30:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="E4EBVk4V"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dOhA0+2G"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2062.outbound.protection.outlook.com [40.107.220.62])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 207BA264FAE;
-	Wed,  9 Apr 2025 14:10:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.62
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744207851; cv=fail; b=UQs2H/YzErbc4GbZJDB+yf6oRJDpbi2zAjp9U6ojS1KDpTFKkwoM6d8nBXWIvwMBPEv1URnrAQVZJadPe6VNpNZY8/rTkxGFopuxmKOCUNBANf1kOeKrXi7ltrS1mckX4uuBI2CT540vNrMDGE1eHG40MdSyUoOZIYeHXGLkSZg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744207851; c=relaxed/simple;
-	bh=J5gm/pWGj+7ED1yjql1cFf353+H6d1DolAXK/7P2vQM=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=BJLE2WgyB8oH88rQIe+sl9bit0Hz9RuskUtL3elPumCZhPgpzlnQ5Sn4sfPL4WIqE6gB63COjEo5yknlgkLOg28JFNvLIgYvcYRuwFkVnOkdc0cuArJufDp3EUmORsVDqf2JQ6XjiVrEke7BV9Qv1TRMintmhhPigSLo4I26ynI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=E4EBVk4V; arc=fail smtp.client-ip=40.107.220.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n5lRKNBT4ze5CBSfVFcsTlPPa7rXk9Nq4RACOQ4A90ZqtLyCRuKk2Uor/FWEt7YoyD2NrlHCLbFWZ3l2O5YShd8ErmLz7rDYIUl/UynEs1Un06zSn5F4ZMVl9jyrAfnkdI4W+F2TLRa6u/HvGsnVzUr7Qaxc1214frvAdL42/s2tgjZwzlYgCDMCuOq1OQS8y2SvMS5K7OP80WgBwdYBVOTKF5Ygxn+rZXpnmINx1deg/06Jm0RbkeeF2bPxUdFiU2FZ9GPLFgcXGxrUsmb2m9gPp0vnvgXsDnwqMdeu/ILLkMmIYvcIYvSiYKqjtXCn/pfq/fNzuqQI+erL+AlTow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J5gm/pWGj+7ED1yjql1cFf353+H6d1DolAXK/7P2vQM=;
- b=r0h60jFqQd48CkfPjL7eCDDFwKF7g16Nwvj4N7RgGnJe7Rp3BmvjtN0CB9sHd2ASi6staBFfWsAkLdqpziA35sLpmwLdSD6Tt8Zt7xL4uJEJbSWHjciPGVGTezmdebvuB1WfCFcI1Sc8AgIkEsWxqVIcj1dGoRUgyuBDak31NJavw7Cno4vYK7GSxW77EhSxdEVwAMHmZohlFvPSbuLDLT3HT7W1IrbYxjb1k7ChhoDC2WGc8sdKLv+v5yK4i27r5IYJ5Kngn1omjtd2zveF0s2e9ZXnKdXD/YCQ/iInfUQtmXspToWWxetqhhJrfEKVyZXizHoBRJAKb+yOsNkIYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J5gm/pWGj+7ED1yjql1cFf353+H6d1DolAXK/7P2vQM=;
- b=E4EBVk4VPNNoTU/u7S9QuLBzdaYTEX808PsYYBGU8FG1X4R4QjB2qdLkJ7xrxwN6HzFCyh5XHGFf7aXXuQA1TLoqT1LSpBN2bOBUM/oe7kMqpApmWfz6CKApRccWcY8x6W/qaKz3LdzSpxzsapn9cmlBuUPetFtnCdDiVhQryTE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH8PR12MB7181.namprd12.prod.outlook.com (2603:10b6:510:22a::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.21; Wed, 9 Apr
- 2025 14:10:46 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8632.021; Wed, 9 Apr 2025
- 14:10:46 +0000
-Message-ID: <334e843c-d7fe-4e33-b4fc-f3d18226465a@amd.com>
-Date: Wed, 9 Apr 2025 16:10:25 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dma-fence: Rename dma_fence_is_signaled()
-To: phasta@kernel.org, Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- Felix Kuehling <Felix.Kuehling@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Lucas Stach <l.stach@pengutronix.de>,
- Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,
- Jani Nikula <jani.nikula@linux.intel.com>,
- Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Tvrtko Ursulin
- <tursulin@ursulin.net>, Frank Binns <frank.binns@imgtec.com>,
- Matt Coster <matt.coster@imgtec.com>, Qiang Yu <yuq825@gmail.com>,
- Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Marijn Suijten <marijn.suijten@somainline.org>, Lyude Paul
- <lyude@redhat.com>, Danilo Krummrich <dakr@kernel.org>,
- Rob Herring <robh@kernel.org>, Steven Price <steven.price@arm.com>,
- Dave Airlie <airlied@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
- Matthew Brost <matthew.brost@intel.com>, Huang Rui <ray.huang@amd.com>,
- Matthew Auld <matthew.auld@intel.com>, Melissa Wen <mwen@igalia.com>,
- =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
- Zack Rusin <zack.rusin@broadcom.com>,
- Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>,
- Lucas De Marchi <lucas.demarchi@intel.com>,
- =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
- Bas Nieuwenhuizen <bas@basnieuwenhuizen.nl>,
- Yang Wang <kevinyang.wang@amd.com>, Jesse Zhang <jesse.zhang@amd.com>,
- Tim Huang <tim.huang@amd.com>,
- Sathishkumar S <sathishkumar.sundararaju@amd.com>,
- Saleemkhan Jamadar <saleemkhan.jamadar@amd.com>,
- Sunil Khatri <sunil.khatri@amd.com>, Lijo Lazar <lijo.lazar@amd.com>,
- Hawking Zhang <Hawking.Zhang@amd.com>, Ma Jun <Jun.Ma2@amd.com>,
- Yunxiang Li <Yunxiang.Li@amd.com>, Eric Huang <jinhuieric.huang@amd.com>,
- Asad Kamal <asad.kamal@amd.com>,
- Srinivasan Shanmugam <srinivasan.shanmugam@amd.com>,
- Jack Xiao <Jack.Xiao@amd.com>, Friedrich Vock <friedrich.vock@gmx.de>,
- =?UTF-8?Q?Michel_D=C3=A4nzer?= <mdaenzer@redhat.com>,
- Geert Uytterhoeven <geert@linux-m68k.org>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>,
- Thomas Gleixner <tglx@linutronix.de>,
- Frederic Weisbecker <frederic@kernel.org>,
- Dan Carpenter <dan.carpenter@linaro.org>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, amd-gfx@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- lima@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- virtualization@lists.linux.dev, spice-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org
-References: <20250409120640.106408-2-phasta@kernel.org>
- <20250409120640.106408-3-phasta@kernel.org>
- <20250409143917.31303d22@collabora.com>
- <73d41cd84c73b296789b654e45125bfce88e0dbf.camel@mailbox.org>
- <72eb974dfea8fa1167cf97e29848672223f6fc5b.camel@mailbox.org>
- <ab7d1937-d0e9-45f8-8f7d-ddd7a1a9d3d5@amd.com>
- <9a90f7f14c22c01aa28d89aa91bf4dfa4049c062.camel@mailbox.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <9a90f7f14c22c01aa28d89aa91bf4dfa4049c062.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR3P281CA0154.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:a2::7) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C0C9265CA0
+	for <linux-media@vger.kernel.org>; Wed,  9 Apr 2025 14:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744209010; cv=none; b=UGlxFjP1xS0hgMiOimeCzO7xz/IxhsU9gzniWlyC2qCYo9vb17/NbUghARnV0cI8yEk+CD+9K9LHUh/P6FJMKiEPo/ltwjaxqFkbDo72zB/qbA0rql0DbjzUaZuL8VlhWeT68dQo4oqa+D2fnPArmWysMOBJBnIoefxj5g/SPD8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744209010; c=relaxed/simple;
+	bh=npvT8j+Cs70iH2DxnARKFvJlnZdjWmfYrmcQAPjcgmc=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=lPoDZ6Qv6dT8TbsPANG6Jc6TYzS3YTEC/0wkoD9aT49mPgj/UKf9V7n/QUC6zePn9UYixzXu/RAxK3ljlyotRw+PoVvIKUGb3mPkMyjGVRxl0nfBH50qTHLHdHDEJt5jfF5RTstU96HZ4jVhp7kFbLELwPL2CEXJE8s+cTnlgtA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dOhA0+2G; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4394a0c65fcso63831765e9.1
+        for <linux-media@vger.kernel.org>; Wed, 09 Apr 2025 07:30:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744209004; x=1744813804; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=GkQuOeVn2ONhN5CNwRv9/7F9pJsr6h7ntpJG/RM6z/s=;
+        b=dOhA0+2GJCN7x9F80L95SdYNvAe89zsta2S3pRTCAgVcBqkA8Ddnf5E9a3XY5aic5d
+         PJRP7/Jgaw8WH6RscfuYvqjq/bkAQwYnCizofryRGe04XQaADQ81BIWmp8hWKPUfno8o
+         o7UQBiF5NVRSxFR6iTVkswHXAQjzGmXHkIHtNocpNU1RL87xbENmV8kIt5HMFPHTo9Tk
+         44QSsXKpxJG3rgoCgKnEhnz40BiRwHXFFavUPbnlF1OtRRG0ttnOxNEmGNtOZjOgXDef
+         z0KmUDfovNQ08QZSTg6SSps5WVUWkuqSh8hMt6ynaOOMYwqZVwUafGEqOi6QHRDThfL4
+         b0Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744209004; x=1744813804;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GkQuOeVn2ONhN5CNwRv9/7F9pJsr6h7ntpJG/RM6z/s=;
+        b=fTGLWp901MOIiSBinZH6tnZ0gg4tepeX5boZ1OavOHonySuoRybQCcMlmTLzfrkZnC
+         t2X6zmcqn0TR7RDn8Ead3vQ/9yJWTgibU0NXuEF9pRKyI8So2bki5oPbb5lqGkU6/qsb
+         ScZPYIhru1U4MLUIHXum9QeHeZEIxzGB11pbLeJB8eHQfB0wi/WfgDgTknvpsXDiLU+R
+         WIKs47O1yrXWL3CJUyjhBdr7RoIvGJhtd/gpZXIDSilUSg6lZ/NQb3uGiYl1ZtX4Fo6k
+         JabspatwnQ6Ug47h/N0WQgBPuiC7iLMfFAjbpvZ3aZGvfGWL/S81/urj8Atno+EoW5vE
+         i6IA==
+X-Forwarded-Encrypted: i=1; AJvYcCXElqWKnoyfgd/wTYKTx0vpsoCFJWur+yo6gMiR3I6VyzssieByHHgIJVSugD0XPJnrsi/pBENOcLWwSw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+x1Mg9OilmlCsViEWDDNY4wv0qBeVqK0jhruPX0gHW1SedRFc
+	K060QXxWkhwsggHbthWq9huciRwk9OvLosi7DfHYp46g4qTUQeqWm/7KcyLXtLU=
+X-Gm-Gg: ASbGncu/4DuG5nVudRo6dqip44R8JJrOfipDkXLyVwwqWUg+PHpOVzbNiYR5ekcp4YD
+	VsxEjCAKmxIG///AgnQW0TYWyRaIJp6vU8Oj54+2na2A9gPyyuPx/yMHydLDX2fWNrJWqE2j4JD
+	6PEYFmRhAhesWLim1NJD/IP9DQomTgXtqjuPjKvZw2TlGwJwTVRwuPJenSIJdFqwR0IUOP0LI4e
+	i/yMgHLMQHMBO2j7SHxNJSNYtmhAvMhl1PbraJPM5CqRkLu+ZDW+EdVf0xqzfKh65RpKE6mmZDC
+	KcnX2hy++FLStJQhEngK/W+RlPf6eJkXu404kAXlWCPNezIPJqw8jGP+GfwaKfDAWFskWvtLiSf
+	EDBPkQQ==
+X-Google-Smtp-Source: AGHT+IEcqK0kNqp/Jqf2Mwb7lJryZqIEsydrSxZYZD4Leq8qbft0xXSYD2Z4wp+Wiot2TvYaL0oUQQ==
+X-Received: by 2002:a05:600c:138b:b0:43c:fb95:c752 with SMTP id 5b1f17b1804b1-43f1fdc3ae7mr29526015e9.3.1744209004191;
+        Wed, 09 Apr 2025 07:30:04 -0700 (PDT)
+Received: from [192.168.0.34] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f2066d109sm22086535e9.20.2025.04.09.07.29.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Apr 2025 07:30:03 -0700 (PDT)
+Message-ID: <801511ac-78db-476b-8f1d-a478b0b64bcb@linaro.org>
+Date: Wed, 9 Apr 2025 15:29:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH8PR12MB7181:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9cd019ed-815f-482c-1a46-08dd7770525e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ekVCK1Z4aUc1R0pmQ0ZYaVlJVmx1UVFheVMycFgyNEh3RVAvdFUycTkzRlJY?=
- =?utf-8?B?bVR6TDF1KytKUkMyUlVFQzYxTDBUYXg5MHhUUlF1QjE2OGh2bk9MWnJUVHFy?=
- =?utf-8?B?c1ptbDhsUFp2eS9ndHoxbllaS2hnZUFCV2s3c1BWMFd4aHY1dUdwbGJLVVhq?=
- =?utf-8?B?Q05zOTlpbEFsTjd1WDhRWHRRUFJVR2pFWkQ2M0l4ZnhjWnNJZnh3aldBUmhM?=
- =?utf-8?B?d0lJMFdFSVNESWowa1Zoem13MlkvZXhjRVRGajhUcVp2dHZkNE13VFEvakpQ?=
- =?utf-8?B?cVdQaHBSSjUySktwNmY0Rllxd2htdHR5bWs0ZElhMmNIajl5UGhCOHdGVnVY?=
- =?utf-8?B?Z1owZ2hZYWZ3bmd4U29kcjZORXEyQ2UvalJrNi9zRzdZUzlIVUxuN05yU3BZ?=
- =?utf-8?B?R1F0VUloRTdKN0t5MWlFM3diWXg1ZW8vTTVKeEVFeURLK0pEVmN2d3cwVzkr?=
- =?utf-8?B?d0xHNUhJYzJUdG9mY240RXNBb3pNQWRxSmV1d1lNQ2JlK3JRVi9IUWY4d3Vu?=
- =?utf-8?B?bDZXdG1ZM0tZd05CN09VaiszUVlKNWQvRXc0NmZTeUs4YWlhMldJb2x3WjdQ?=
- =?utf-8?B?YXJPOHNIKzdreVpBcEh1UkNkZzAvVGhOWTZPZFFQL3pIRE1xK1Q4ZDR1b0l1?=
- =?utf-8?B?dUhZK3NqS1dPQ0tXYmdMMWRIRFZSSmFYeFRyN0tWRUxFZ2V3UEFqRHArck9s?=
- =?utf-8?B?aU1iWUYyTnRMOFlQWDNRbHB0MHBPb29rSW9xQVBWdngrdXJxb1FlNUs2Yk9B?=
- =?utf-8?B?STE3SHp4MlBVaDZJZkJCZFFsMnVWcnZPdGhxNHM0R3BkVk1ETnFlUHpFSTNI?=
- =?utf-8?B?QWFLQnNSVGFPa3U4bWR3UGQyL2JxaDhvK05YTHo1UEVTWEhHVk1ad0x4UW12?=
- =?utf-8?B?TmpiNEg0TTVDd3JVYU9DQnlleXlyVUFhc2hlQ1daTVdXMEFXMWdKaUhkZjBQ?=
- =?utf-8?B?VDd5VUpJYVVMTHBMdThnaTRTNWJ6MGtMUFV1RlowS2Q3eXIrUFJTMVlFenNO?=
- =?utf-8?B?M1BLTFBaZGgrb3Z6dk1HL0Ivb01RbitmYmo2Z3Bac09MN1lFcTVlc215ank1?=
- =?utf-8?B?QndjTFF3bEc0a203Zy96UnNLbHYrTGdoZTlzNDhxTzlrSFBySDVlcGpNbzlt?=
- =?utf-8?B?RXB0bGZwUjNHdmJldjl3ZkVJcmFlS2NSV012T24vZStLM2pUUGNOUWFkek1O?=
- =?utf-8?B?ditBV29GNkwzNzNTRGdSOXUvUUFaa0tPZjd0cmZKQ3ltN2VLUWJQUjZwWkdK?=
- =?utf-8?B?clhIQlZ5QmVJQjFZc29oSlQvNWtVdGVET1FGMjZ1MXVWV1NaZXVMRllHc0dl?=
- =?utf-8?B?dWthL1FabHJjazRLTk45QWV4Y0JUaWdxcVlwOXJZTnltWXc5VFFoV0lKUFc2?=
- =?utf-8?B?RXh4UHpRK2paL0h4THJUalFyL3JGSGw2NCt3RTh6WHZTQ3cwaFJESmp0RTFq?=
- =?utf-8?B?R3kwc2JTaEFHbERwbjkraFk2bURubVIyeGZ1Zjk4c3BMQmgyYzE5MzNpZjAv?=
- =?utf-8?B?aDBWS3RydWhSNnRaRWp0Vk1pa3RUUll4NzBjN2lRWFZOOWpveTQ0VUFvT3BN?=
- =?utf-8?B?YmlURTg2dDE1bDEwL1JNZXJZbnl2djdmbGF2Z252OWVJMWVhWkhvUWRCZFhk?=
- =?utf-8?B?cG5qcVFCcVJBeW9zeG9Td0Zvd3RSd2p2S0xiMWZ6bElQUE4ybVg3VllrdTZ0?=
- =?utf-8?B?eGxBQmIybStYcStwdHh0MDI3R0ZTVTRNNVh5T0NuOHgzdXRXOWhYeWxINThS?=
- =?utf-8?B?V1pUS2ZiMnlOaml2ZGhudW41T1BuSFlNek1kRDFZNytIKzZ6TFg3aXVFL052?=
- =?utf-8?B?eTlGQzhibHkvRWdNQWt2T002R3dvMy8vVDdTZGFHNENWanlGZ0t3RllPWlR3?=
- =?utf-8?Q?xBo2M35OcowmX?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RlJOMEttOFh6b29oMDVSdTNBd2Z5bGlCSTNXR3g0cldqenNEUUM0dFBGbkpp?=
- =?utf-8?B?c3pVcnl4RmhHVDdNUS85L0FvY3BubUo1OFlDV2pOd1NXY2I5bnFtcmdGenMr?=
- =?utf-8?B?SVllWE1RRGp5a0MraXdMc2Zsa3F4KzV6VFB5YU4yckhvVDNJcFVqR3ZPOHB0?=
- =?utf-8?B?clY5TTBXKzJMTHBnd0dhT0NrbUZEeFk2d2I5KzJaZTZRNC9zTld4L3kvRHVK?=
- =?utf-8?B?d1Y3UFA1elIxS0pDVktyVkVSWS9HQXRncjZqSmppQThHVTFCRG9jS2dYZTJW?=
- =?utf-8?B?aVBuemF3dFdxaU81aURVNTEwV3F3cmVJV096ektSK3pSY2R3MjFlU1RUSlJB?=
- =?utf-8?B?K1RPQVlodlBWN3l4V29zdnZOWitzd0xUaUlZdUttbnFYQzZaWmdTaGxhQ1Nk?=
- =?utf-8?B?eGk4NDVaNmphUlV2STN0MkZYenZrQ2pzOFQyMFUxeDRpQk5zWG9EYnBrUTFN?=
- =?utf-8?B?WVpkUGE4ZDd5QUhOcGJFamFORVZ6NkhudytvT1d6bk1uNkFXNiswenhUMElm?=
- =?utf-8?B?M0k3bGhMNnNnS3dkYVRrRGtnWTRaZkdHQUQvWGVGQnNkUEpUL1ViakFOTVZW?=
- =?utf-8?B?TFpwZG5ON0ZZRmhMQU5RS0EyWjVKYlB2ZmpseG5DdnVmNWs0dE5EYmU1SFh3?=
- =?utf-8?B?T2xlQzVBRG8xZisrREowWExHTWpiVWs2T2Z5bVBRNzNScGRpcWNwUEZrUEpD?=
- =?utf-8?B?V2xodFl2OFYydFUwbHRRTmxIbjF2VTB5RDRvZm1JbXBFa3lLMk8rWkcxQjk4?=
- =?utf-8?B?UGNENHJIMmQvN25oT053MVJMbzZwQ0tEd3BrVXRlYXYyRnNFVW82RXBHWDhJ?=
- =?utf-8?B?MlNEOURNZmI4TFlpY0JXdTJ6Z0hKbXhkNFVidlJvWDRDOVZQenZLbXZWZWZP?=
- =?utf-8?B?bDJsWmV2MDl2YlNUc1BuYVJ4Rk1YSXljZjJhdDQ1UHNxL09qL3gxbFhKQ0VR?=
- =?utf-8?B?cmswTTRYQUhNSGMreG9uYStMTjJuWVBrOEFSWjlEM05oQzZzUzhneXd0WmIx?=
- =?utf-8?B?TzV1eFUvemRzcUZtUHdkU09BeDdBUmhxZ3JYcXpvZW5SRk44cmhpU1JtQWk4?=
- =?utf-8?B?RnlJdHE2VHg5R1ZxaEFDOGd2dUxaYkROaVZINCtuOEt4SEZmWGhocWQxbksv?=
- =?utf-8?B?Tk1rYWlWOFZJaVoxM2Ewd0pSL21FTG4wZ0JHL1RPYzlTVFVxTEg0ekRvOXZa?=
- =?utf-8?B?eXRUYjhaYyszcnRQRGhQR1RpY2dNNG5YaGMyZHlHM1l1YlhxY2ZxOFNGUlE5?=
- =?utf-8?B?NGpuanp0bXVLbVN6N0hGV3NyRko0VXRWYnhsbENybENVTUdmU2RzUnQ3YlVQ?=
- =?utf-8?B?blBSREphSEVyTThTUkt5eFVsVkZNZUIzakxDWHI4cTArbDk5MHR3REFtUVdt?=
- =?utf-8?B?U2toa2YwSVhxbmoxQTVIcjZzM2pWL3lML0IzZUxHOEg2SjBFL1BZQ0krajhy?=
- =?utf-8?B?bXY1TzBsUm1yTHlHakdkaW9KWGNXVGxCY3dNeHAvc2Y3UkpxcC83NWZKNGli?=
- =?utf-8?B?T2c2YnF5UFRURXdtOHRvQWEwZWJNQlJpQm9jUytIeGc2cGs3elRNd2JBU08y?=
- =?utf-8?B?MWI2SVFIbnBxVS9wbEh0Ykh2RFp5eDNiQkdNeS9Eemk4R3J2TGNFOGFMVFdi?=
- =?utf-8?B?RzFGWnI3emYyRnEvRTV3WTdGbkV1akc3eUVmQkloTUZXSDEzZE9DSnZhNVFj?=
- =?utf-8?B?My9kZTc5MXU5WW1mZ3czYUN3QlRiQStLL0hwUHk2TUhQcmMxN3FUTVMrYkhB?=
- =?utf-8?B?bU43ancyYkhNd3doeURsOHo4ZUtwYTdkODdqYllWMStoOGswQ1VBLzRZMDlq?=
- =?utf-8?B?Y1hnYnZWQWc1azF0L2MyN0VUbHZXc0NmMi9uYWJ4TzJVaWUrYkZCK0ljMFhF?=
- =?utf-8?B?UHhac1ZtekdrQi9odXBjZ2pHbFQ3blIvMTVRYVNBU2NYTkEzUGZHci9sREJ0?=
- =?utf-8?B?c2VIeFIzK2RPWi80eC9MRHlGK2JTQzQvc2gxZVZmcGloMCt1TjBGQnJzcE42?=
- =?utf-8?B?N3NBRHg0TUhRYWdWK0NmZWg1VG1vYllNWGp5MldXd1BwM2dQakNWTmtxWkFK?=
- =?utf-8?B?ZkhTR243ZERuemxTaTZPM1F6eFJZM0NLUlNMd2prNkhqcEp3VXBkbWltNUJJ?=
- =?utf-8?Q?tsMzOE4IsmVFn6Tzkqy+AJENV?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9cd019ed-815f-482c-1a46-08dd7770525e
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2025 14:10:46.1606
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BqkYUP04hlzALEOAK1ebLVP68+FMla8PSl7i430KrBlKO3HgVv+npQmgci0yszC7
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7181
+User-Agent: Mozilla Thunderbird
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: Re: [PATCH 00/20] Add support for HEVC and VP9 codecs in decoder
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Stefan Schmidt <stefan.schmidt@linaro.org>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+ devicetree@vger.kernel.org, stable@vger.kernel.org,
+ Dan Carpenter <dan.carpenter@linaro.org>
+References: <20250408-iris-dec-hevc-vp9-v1-0-acd258778bd6@quicinc.com>
+Content-Language: en-US
+In-Reply-To: <20250408-iris-dec-hevc-vp9-v1-0-acd258778bd6@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Am 09.04.25 um 16:01 schrieb Philipp Stanner:
-> On Wed, 2025-04-09 at 15:14 +0200, Christian König wrote:
->> Am 09.04.25 um 14:56 schrieb Philipp Stanner:
->>> On Wed, 2025-04-09 at 14:51 +0200, Philipp Stanner wrote:
->>>> On Wed, 2025-04-09 at 14:39 +0200, Boris Brezillon wrote:
->>>>> Hi Philipp,
->>>>>
->>>>> On Wed,  9 Apr 2025 14:06:37 +0200
->>>>> Philipp Stanner <phasta@kernel.org> wrote:
->>>>>
->>>>>> dma_fence_is_signaled()'s name strongly reads as if this
->>>>>> function
->>>>>> were
->>>>>> intended for checking whether a fence is already signaled.
->>>>>> Also
->>>>>> the
->>>>>> boolean it returns hints at that.
->>>>>>
->>>>>> The function's behavior, however, is more complex: it can
->>>>>> check
->>>>>> with a
->>>>>> driver callback whether the hardware's sequence number
->>>>>> indicates
->>>>>> that
->>>>>> the fence can already be treated as signaled, although the
->>>>>> hardware's /
->>>>>> driver's interrupt handler has not signaled it yet. If that's
->>>>>> the
->>>>>> case,
->>>>>> the function also signals the fence.
->>>>>>
->>>>>> (Presumably) this has caused a bug in Nouveau (unknown
->>>>>> commit),
->>>>>> where
->>>>>> nouveau_fence_done() uses the function to check a fence,
->>>>>> which
->>>>>> causes a
->>>>>> race.
->>>>>>
->>>>>> Give the function a more obvious name.
->>>>> This is just my personal view on this, but I find the new name
->>>>> just
->>>>> as
->>>>> confusing as the old one. It sounds like something is checked,
->>>>> but
->>>>> it's
->>>>> clear what, and then the fence is forcibly signaled like it
->>>>> would
->>>>> be
->>>>> if
->>>>> you call drm_fence_signal(). Of course, this clarified by the
->>>>> doc,
->>>>> but
->>>>> given the goal was to make the function name clearly reflect
->>>>> what
->>>>> it
->>>>> does, I'm not convinced it's significantly better.
->>>>>
->>>>> Maybe dma_fence_check_hw_state_and_propagate(), though it might
->>>>> be
->>>>> too long of name. Oh well, feel free to ignore this comments if
->>>>> a
->>>>> majority is fine with the new name.
->>>> Yoa, the name isn't perfect (the perfect name describing the
->>>> whole
->>>> behavior would be
->>>> dma_fence_check_if_already_signaled_then_check_hardware_state_and
->>>> _pro
->>>> pa
->>>> gate() ^^'
->>>>
->>>> My intention here is to have the reader realize "watch out, the
->>>> fence
->>>> might get signaled here!", which is probably the most important
->>>> event
->>>> regarding fences, which can race, invoke the callbacks and so on.
->>>>
->>>> For details readers will then check the documentation.
->>>>
->>>> But I'm of course open to see if there's a majority for this or
->>>> that
->>>> name.
->>> how about:
->>>
->>> dma_fence_check_hw_and_signal() ?
->> I don't think that renaming the function is a good idea in the first
->> place.
->>
->> What the function does internally is an implementation detail of the
->> framework.
->>
->> For the code using this function it's completely irrelevant if the
->> function might also signal the fence, what matters for the caller is
->> the returned status of the fence. I think this also counts for the
->> dma_fence_is_signaled() documentation.
-> It does obviously matter. As it's currently implemented, a lot of
-> important things happen implicitly.
+On 08/04/2025 16:54, Dikshita Agarwal wrote:
+> Hi All,
+> 
+> This patch series adds initial support for the HEVC(H.265) and VP9
+> codecs in iris decoder. The objective of this work is to extend the
+> decoder's capabilities to handle HEVC and VP9 codec streams,
+> including necessary format handling and buffer management.
+> In addition, the series also includes a set of fixes to address issues
+> identified during testing of these additional codecs.
+> 
+> These patches also address the comments and feedback received from the
+> RFC patches previously sent. I have made the necessary improvements
+> based on the community's suggestions.
+> 
+> Changes sinces RFC:
+> - Added additional fixes to address issues identified during further
+> testing.
+> - Moved typo fix to a seperate patch [Neil]
+> - Reordered the patches for better logical flow and clarity [Neil,
+> Dmitry]
+> - Added fixes tag wherever applicable [Neil, Dmitry]
+> - Removed the default case in the switch statement for codecs [Bryan]
+> - Replaced if-else statements with switch-case [Bryan]
+> - Added comments for mbpf [Bryan]
+> - RFC: https://lore.kernel.org/linux-media/20250305104335.3629945-1-quic_dikshita@quicinc.com/
+> 
+> These patches are tested on SM8250 and SM8550 with v4l2-ctl and
+> Gstreamer for HEVC and VP9 decoders, at the same time ensured that
+> the existing H264 decoder functionality remains uneffected.
+> 
+> Note: 1 of the fluster compliance test is fixed with firmware [1]
+> [1]: https://lore.kernel.org/linux-firmware/1a511921-446d-cdc4-0203-084c88a5dc1e@quicinc.com/T/#u
+> 
+> The result of fluster test on SM8550:
+>   131/147 testcases passed while testing JCT-VC-HEVC_V1 with
+>   GStreamer-H.265-V4L2-Gst1.0.
+>   The failing test case:
+>   - 10 testcases failed due to unsupported 10 bit format.
+>     - DBLK_A_MAIN10_VIXS_4
+>     - INITQP_B_Main10_Sony_1
+>     - TSUNEQBD_A_MAIN10_Technicolor_2
+>     - WP_A_MAIN10_Toshiba_3
+>     - WP_MAIN10_B_Toshiba_3
+>     - WPP_A_ericsson_MAIN10_2
+>     - WPP_B_ericsson_MAIN10_2
+>     - WPP_C_ericsson_MAIN10_2
+>     - WPP_E_ericsson_MAIN10_2
+>     - WPP_F_ericsson_MAIN10_2
+>   - 4 testcase failed due to unsupported resolution
+>     - PICSIZE_A_Bossen_1
+>     - PICSIZE_B_Bossen_1
+>     - WPP_D_ericsson_MAIN10_2
+>     - WPP_D_ericsson_MAIN_2
+>   - 1 testcase failed as bitstream is invalid (this fails with reference
+>     as well)
+>     - RAP_B_Bossen_2
+>   - 1 testcase failed due to CRC mismatch
+>     - RAP_A_docomo_6
+>       Analysis - First few frames in this discarded by firmware and are
+>       sent to driver with 0 filled length. Driver send such buffers to
+>       client with timestamp 0 and payload set to 0 and
+>       make buf state to VB2_BUF_STATE_ERROR. Such buffers should be
+>       dropped by GST. But instead, the first frame displayed as green
+>       frame and when a valid buffer is sent to client later with same 0
+>       timestamp, its dropped, leading to CRC mismatch for first frame.
+> 
+>   235/305 testcases passed while testing VP9-TEST-VECTORS with
+>   GStreamer-VP9-V4L2-Gst1.0.
+>   The failing test case:
+>   - 64 testcases failed due to unsupported resolution
+>     - vp90-2-02-size-08x08.webm
+>     - vp90-2-02-size-08x10.webm
+>     - vp90-2-02-size-08x16.webm
+>     - vp90-2-02-size-08x18.webm
+>     - vp90-2-02-size-08x32.webm
+>     - vp90-2-02-size-08x34.webm
+>     - vp90-2-02-size-08x64.webm
+>     - vp90-2-02-size-08x66.webm
+>     - vp90-2-02-size-10x08.webm
+>     - vp90-2-02-size-10x10.webm
+>     - vp90-2-02-size-10x16.webm
+>     - vp90-2-02-size-10x18.webm
+>     - vp90-2-02-size-10x32.webm
+>     - vp90-2-02-size-10x34.webm
+>     - vp90-2-02-size-10x64.webm
+>     - vp90-2-02-size-10x66.webm
+>     - vp90-2-02-size-16x08.webm
+>     - vp90-2-02-size-16x10.webm
+>     - vp90-2-02-size-16x16.webm
+>     - vp90-2-02-size-16x18.webm
+>     - vp90-2-02-size-16x32.webm
+>     - vp90-2-02-size-16x34.webm
+>     - vp90-2-02-size-16x64.webm
+>     - vp90-2-02-size-16x66.webm
+>     - vp90-2-02-size-18x08.webm
+>     - vp90-2-02-size-18x10.webm
+>     - vp90-2-02-size-18x16.webm
+>     - vp90-2-02-size-18x18.webm
+>     - vp90-2-02-size-18x32.webm
+>     - vp90-2-02-size-18x34.webm
+>     - vp90-2-02-size-18x64.webm
+>     - vp90-2-02-size-18x66.webm
+>     - vp90-2-02-size-32x08.webm
+>     - vp90-2-02-size-32x10.webm
+>     - vp90-2-02-size-32x16.webm
+>     - vp90-2-02-size-32x18.webm
+>     - vp90-2-02-size-32x32.webm
+>     - vp90-2-02-size-32x34.webm
+>     - vp90-2-02-size-32x64.webm
+>     - vp90-2-02-size-32x66.webm
+>     - vp90-2-02-size-34x08.webm
+>     - vp90-2-02-size-34x10.webm
+>     - vp90-2-02-size-34x16.webm
+>     - vp90-2-02-size-34x18.webm
+>     - vp90-2-02-size-34x32.webm
+>     - vp90-2-02-size-34x34.webm
+>     - vp90-2-02-size-34x64.webm
+>     - vp90-2-02-size-34x66.webm
+>     - vp90-2-02-size-64x08.webm
+>     - vp90-2-02-size-64x10.webm
+>     - vp90-2-02-size-64x16.webm
+>     - vp90-2-02-size-64x18.webm
+>     - vp90-2-02-size-64x32.webm
+>     - vp90-2-02-size-64x34.webm
+>     - vp90-2-02-size-64x64.webm
+>     - vp90-2-02-size-64x66.webm
+>     - vp90-2-02-size-66x08.webm
+>     - vp90-2-02-size-66x10.webm
+>     - vp90-2-02-size-66x16.webm
+>     - vp90-2-02-size-66x18.webm
+>     - vp90-2-02-size-66x32.webm
+>     - vp90-2-02-size-66x34.webm
+>     - vp90-2-02-size-66x64.webm
+>     - vp90-2-02-size-66x66.webm
+>   - 2 testcases failed due to unsupported format
+>     - vp91-2-04-yuv422.webm
+>     - vp91-2-04-yuv444.webm
+>   - 1 testcase failed with CRC mismatch (fails with ref decoder as well)
+>     - vp90-2-22-svc_1280x720_3.ivf
+>   - 2 testcase failed due to unsupported resolution after sequence change
+>     - vp90-2-21-resize_inter_320x180_5_1-2.webm
+>     - vp90-2-21-resize_inter_320x180_7_1-2.webm
+>   - 1 testcase failed due to unsupported stream
+>     - vp90-2-16-intra-only.webm
+>   Note: There is a timing issue with the clips having multiple resolution
+>   change. Where firmware returned all the buffers with previous sequence
+>   and has no buffer left to attach the LAST flag to. At the same time,
+>   client is not queueing any further buffers, so there is deadlock where
+>   client is waiting for LAST flag, while firmware doesn't have any
+>   capture buffer to attach LAST flag to.
+>   Ideally client should keep queueing the buffers on capture queue untill
+>   the LAST flag is received.
+> 
+> The result of fluster test on SM8250:
+>   132/147 testcases passed while testing JCT-VC-HEVC_V1 with
+>   GStreamer-H.265-V4L2-Gst1.0.
+>   The failing test case:
+>   - 10 testcases failed due to unsupported 10 bit format.
+>     - DBLK_A_MAIN10_VIXS_4
+>     - INITQP_B_Main10_Sony_1
+>     - TSUNEQBD_A_MAIN10_Technicolor_2
+>     - WP_A_MAIN10_Toshiba_3
+>     - WP_MAIN10_B_Toshiba_3
+>     - WPP_A_ericsson_MAIN10_2
+>     - WPP_B_ericsson_MAIN10_2
+>     - WPP_C_ericsson_MAIN10_2
+>     - WPP_E_ericsson_MAIN10_2
+>     - WPP_F_ericsson_MAIN10_2
+>   - 4 testcase failed due to unsupported resolution
+>     - PICSIZE_A_Bossen_1
+>     - PICSIZE_B_Bossen_1
+>     - WPP_D_ericsson_MAIN10_2
+>     - WPP_D_ericsson_MAIN_2
+>   - 1 testcase failed as bitstream is invalid (this fails with reference
+>     as well)
+>     - RAP_B_Bossen_2
+> 
+>   232/305 testcases passed while testing VP9-TEST-VECTORS with
+>   GStreamer-VP9-V4L2-Gst1.0.
+>   The failing test case:
+>   - 64 testcases failed due to unsupported resolution
+>     - vp90-2-02-size-08x08.webm
+>     - vp90-2-02-size-08x10.webm
+>     - vp90-2-02-size-08x16.webm
+>     - vp90-2-02-size-08x18.webm
+>     - vp90-2-02-size-08x32.webm
+>     - vp90-2-02-size-08x34.webm
+>     - vp90-2-02-size-08x64.webm
+>     - vp90-2-02-size-08x66.webm
+>     - vp90-2-02-size-10x08.webm
+>     - vp90-2-02-size-10x10.webm
+>     - vp90-2-02-size-10x16.webm
+>     - vp90-2-02-size-10x18.webm
+>     - vp90-2-02-size-10x32.webm
+>     - vp90-2-02-size-10x34.webm
+>     - vp90-2-02-size-10x64.webm
+>     - vp90-2-02-size-10x66.webm
+>     - vp90-2-02-size-16x08.webm
+>     - vp90-2-02-size-16x10.webm
+>     - vp90-2-02-size-16x16.webm
+>     - vp90-2-02-size-16x18.webm
+>     - vp90-2-02-size-16x32.webm
+>     - vp90-2-02-size-16x34.webm
+>     - vp90-2-02-size-16x64.webm
+>     - vp90-2-02-size-16x66.webm
+>     - vp90-2-02-size-18x08.webm
+>     - vp90-2-02-size-18x10.webm
+>     - vp90-2-02-size-18x16.webm
+>     - vp90-2-02-size-18x18.webm
+>     - vp90-2-02-size-18x32.webm
+>     - vp90-2-02-size-18x34.webm
+>     - vp90-2-02-size-18x64.webm
+>     - vp90-2-02-size-18x66.webm
+>     - vp90-2-02-size-32x08.webm
+>     - vp90-2-02-size-32x10.webm
+>     - vp90-2-02-size-32x16.webm
+>     - vp90-2-02-size-32x18.webm
+>     - vp90-2-02-size-32x32.webm
+>     - vp90-2-02-size-32x34.webm
+>     - vp90-2-02-size-32x64.webm
+>     - vp90-2-02-size-32x66.webm
+>     - vp90-2-02-size-34x08.webm
+>     - vp90-2-02-size-34x10.webm
+>     - vp90-2-02-size-34x16.webm
+>     - vp90-2-02-size-34x18.webm
+>     - vp90-2-02-size-34x32.webm
+>     - vp90-2-02-size-34x34.webm
+>     - vp90-2-02-size-34x64.webm
+>     - vp90-2-02-size-34x66.webm
+>     - vp90-2-02-size-64x08.webm
+>     - vp90-2-02-size-64x10.webm
+>     - vp90-2-02-size-64x16.webm
+>     - vp90-2-02-size-64x18.webm
+>     - vp90-2-02-size-64x32.webm
+>     - vp90-2-02-size-64x34.webm
+>     - vp90-2-02-size-64x64.webm
+>     - vp90-2-02-size-64x66.webm
+>     - vp90-2-02-size-66x08.webm
+>     - vp90-2-02-size-66x10.webm
+>     - vp90-2-02-size-66x16.webm
+>     - vp90-2-02-size-66x18.webm
+>     - vp90-2-02-size-66x32.webm
+>     - vp90-2-02-size-66x34.webm
+>     - vp90-2-02-size-66x64.webm
+>     - vp90-2-02-size-66x66.webm
+>   - 2 testcases failed due to unsupported format
+>     - vp91-2-04-yuv422.webm
+>     - vp91-2-04-yuv444.webm
+>   - 1 testcase failed with CRC mismatch (fails with ref decoder as well)
+>     - vp90-2-22-svc_1280x720_3.ivf
+>   - 5 testcase failed due to unsupported resolution after sequence change
+>     - vp90-2-21-resize_inter_320x180_5_1-2.webm
+>     - vp90-2-21-resize_inter_320x180_7_1-2.webm
+>     - vp90-2-21-resize_inter_320x240_5_1-2.webm
+>     - vp90-2-21-resize_inter_320x240_7_1-2.webm
+>     - vp90-2-18-resize.ivf
+>   - 1 testcase failed with CRC mismatch
+>     - vp90-2-16-intra-only.webm
+>     Analysis: First few frames are marked by firmware as NO_SHOW frame.
+>     Driver make buf state to VB2_BUF_STATE_ERROR for such frames.
+>     Such buffers should be dropped by GST. But instead, the first frame
+>     is being displayed and when a valid buffer is sent to client later
+>     with same timestamp, its dropped, leading to CRC mismatch for first
+>     frame.
+>   Note: Same timing issue as observed on SM8550 is seen on SM8250 as
+>   well.
+> 
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> ---
+> Dikshita Agarwal (20):
+>        media: iris: Skip destroying internal buffer if not dequeued
+>        media: iris: Update CAPTURE format info based on OUTPUT format
+>        media: iris: Add handling for corrupt and drop frames
+>        media: iris: Avoid updating frame size to firmware during reconfig
+>        media: iris: Send V4L2_BUF_FLAG_ERROR for buffers with 0 filled length
+>        media: iris: Add handling for no show frames
+>        media: iris: Improve last flag handling
+>        media: iris: Skip flush on first sequence change
+>        media: iris: Prevent HFI queue writes when core is in deinit state
+>        media: iris: Remove redundant buffer count check in stream off
+>        media: iris: Remove deprecated property setting to firmware
+>        media: iris: Fix missing function pointer initialization
+>        media: iris: Fix NULL pointer dereference
+>        media: iris: Fix typo in depth variable
+>        media: iris: Add a comment to explain usage of MBPS
+>        media: iris: Add HEVC and VP9 formats for decoder
+>        media: iris: Add platform capabilities for HEVC and VP9 decoders
+>        media: iris: Set mandatory properties for HEVC and VP9 decoders.
+>        media: iris: Add internal buffer calculation for HEVC and VP9 decoders
+>        media: iris: Add codec specific check for VP9 decoder drain handling
+> 
+>   drivers/media/platform/qcom/iris/iris_buffer.c     |  22 +-
+>   drivers/media/platform/qcom/iris/iris_ctrls.c      |  35 +-
+>   drivers/media/platform/qcom/iris/iris_hfi_common.h |   1 +
+>   .../platform/qcom/iris/iris_hfi_gen1_command.c     |  44 ++-
+>   .../platform/qcom/iris/iris_hfi_gen1_defines.h     |   5 +-
+>   .../platform/qcom/iris/iris_hfi_gen1_response.c    |  22 +-
+>   .../platform/qcom/iris/iris_hfi_gen2_command.c     | 143 +++++++-
+>   .../platform/qcom/iris/iris_hfi_gen2_defines.h     |   5 +
+>   .../platform/qcom/iris/iris_hfi_gen2_response.c    |  57 ++-
+>   drivers/media/platform/qcom/iris/iris_hfi_queue.c  |   2 +-
+>   drivers/media/platform/qcom/iris/iris_instance.h   |   6 +
+>   .../platform/qcom/iris/iris_platform_common.h      |  28 +-
+>   .../platform/qcom/iris/iris_platform_sm8250.c      |  15 +-
+>   .../platform/qcom/iris/iris_platform_sm8550.c      | 143 +++++++-
+>   drivers/media/platform/qcom/iris/iris_vb2.c        |   3 +-
+>   drivers/media/platform/qcom/iris/iris_vdec.c       | 113 +++---
+>   drivers/media/platform/qcom/iris/iris_vdec.h       |  11 +
+>   drivers/media/platform/qcom/iris/iris_vidc.c       |   3 -
+>   drivers/media/platform/qcom/iris/iris_vpu_buffer.c | 397 ++++++++++++++++++++-
+>   drivers/media/platform/qcom/iris/iris_vpu_buffer.h |  46 ++-
+>   20 files changed, 948 insertions(+), 153 deletions(-)
+> ---
+> base-commit: 7824b91d23e9f255f0e9d2acaa74265c9cac2e9c
+> change-id: 20250402-iris-dec-hevc-vp9-2654a1fc4d0d
+> 
+> Best regards,
 
-Yeah, but that's ok.
+Assuming we merge Neils sm8650 stuff first, which I think we should 
+merge first, you'll have a subsequent build error to fix [1]
 
-The code who calls this is the consumer of the interface and so shouldn't need to know this. That's why we have created the DMA fence framework in the first place.
+https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linaro/arm-laptop/wip/x1e80100-6.15-rc1-dell-inspiron14-camss-ov02c10-ov02e10-audio-iris?ref_type=heads
 
-For the provider side when a driver or similar implements the interface the relevant documentation is the dma_fence_ops structure.
+Testing your series in isolation. I can confirm vp9 decodes also getting 
+some strange prinouts which we need to follow up to see if they exist 
+with the baseline driver [2].
 
-> I only see improvement by making things more obvious.
->
-> In any case, how would you call a wrapper that just does
-> test_bit(IS_SIGNALED, …) ?
+https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linaro/arm-laptop/wip/x1e80100-6.15-rc1-dell-inspiron14-camss-ov02c10-ov02e10-audio-iris-20250408-iris-dec-hevc-vp9-v1-0-acd258778bd6@quicinc.com?ref_type=heads
 
-Broken, that was very intentionally removed quite shortly after we created the framework.
+[1]
 
-We have a few cases were implementations do check that for their fences, but consumers should never be allowed to touch such internals.
+  CC [M]  drivers/media/platform/qcom/iris/iris_vdec.o
+/home/deckard/Development/linux/drivers/media/platform/qcom/iris/iris_platform_sm8550.c:432:10: 
+error: ‘struct iris_platform_data’ has no member named 
+‘input_config_params’; did you mean ‘output_config_params’?
+   432 |         .input_config_params =
+       |          ^~~~~~~~~~~~~~~~~~~
+       |          output_config_params
+/home/deckard/Development/linux/drivers/media/platform/qcom/iris/iris_platform_sm8550.c:433:17: 
+error: ‘sm8550_vdec_input_config_params’ undeclared here (not in a 
+function); did you mean ‘sm8550_vdec_output_config_params’?
+   433 |                 sm8550_vdec_input_config_params,
+       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |                 sm8550_vdec_output_config_params
+/home/deckard/Development/linux/drivers/media/platform/qcom/iris/iris_platform_sm8550.c:434:10: 
+error: ‘struct iris_platform_data’ has no member named 
+‘input_config_params_size’; did you mean ‘output_config_params_size’?
+   434 |         .input_config_params_size =
+       |          ^~~~~~~~~~~~~~~~~~~~~~~~
+       |          output_config_params_size
+In file included from 
+/home/deckard/Development/linux/include/linux/dev_printk.h:14,
+                  from 
+/home/deckard/Development/linux/include/linux/device.h:15,
+                  from 
+/home/deckard/Development/linux/include/linux/pm_domain.h:11,
+                  from 
+/home/deckard/Development/linux/drivers/media/platform/qcom/iris/iris_core.h:10,
+                  from 
+/home/deckard/Development/linux/drivers/media/platform/qcom/iris/iris_platform_sm8550.c:6:
+/home/deckard/Development/linux/include/linux/compiler.h:197:77: error: 
+expression in static assertion is not an integer
+   197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct 
+{_Static_assert(!(e), msg);}))
+       |             ^
+/home/deckard/Development/linux/include/linux/compiler.h:202:33: note: 
+in expansion of macro ‘__BUILD_BUG_ON_ZERO_MSG’
+   202 | #define __must_be_array(a) 
+__BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+       |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+/home/deckard/Development/linux/include/linux/array_size.h:11:59: note: 
+in expansion of macro ‘__must_be_array’
+    11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + 
+__must_be_array(arr))
+       | ^~~~~~~~~~~~~~~
+/home/deckard/Development/linux/drivers/media/platform/qcom/iris/iris_platform_sm8550.c:435:17: 
+note: in expansion of macro ‘ARRAY_SIZE’
+   435 |                 ARRAY_SIZE(sm8550_vdec_input_config_params),
+       |                 ^~~~~~~~~~
+/home/deckard/Development/linux/drivers/media/platform/qcom/iris/iris_platform_sm8550.c:442:10: 
+error: ‘struct iris_platform_data’ has no member named 
+‘dec_output_prop’; did you mean ‘dec_input_prop’?
+   442 |         .dec_output_prop = sm8550_vdec_subscribe_output_properties,
+       |          ^~~~~~~~~~~~~~~
+       |          dec_input_prop
+   CC [M]  drivers/media/platform/qcom/iris/iris_vpu3x.o
+/home/deckard/Development/linux/drivers/media/platform/qcom/iris/iris_platform_sm8550.c:442:28: 
+error: ‘sm8550_vdec_subscribe_output_properties’ undeclared here (not in 
+a function); did you mean ‘sm8550_vdec_subscribe_input_properties’?
+   442 |         .dec_output_prop = sm8550_vdec_subscribe_output_properties,
+       |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |                            sm8550_vdec_subscribe_input_properties
+/home/deckard/Development/linux/drivers/media/platform/qcom/iris/iris_platform_sm8550.c:443:10: 
+error: ‘struct iris_platform_data’ has no member named 
+‘dec_output_prop_size’; did you mean ‘dec_input_prop_size’?
+   443 |         .dec_output_prop_size = 
+ARRAY_SIZE(sm8550_vdec_subscribe_output_properties),
+       |          ^~~~~~~~~~~~~~~~~~~~
+       |          dec_input_prop_size
+/home/deckard/Development/linux/include/linux/compiler.h:197:77: error: 
+expression in static assertion is not an integer
+   197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct 
+{_Static_assert(!(e), msg);}))
+       |             ^
+/home/deckard/Development/linux/include/linux/compiler.h:202:33: note: 
+in expansion of macro ‘__BUILD_BUG_ON_ZERO_MSG’
+   202 | #define __must_be_array(a) 
+__BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+       |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+/home/deckard/Development/linux/include/linux/array_size.h:11:59: note: 
+in expansion of macro ‘__must_be_array’
+    11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + 
+__must_be_array(arr))
+       | ^~~~~~~~~~~~~~~
+/home/deckard/Development/linux/drivers/media/platform/qcom/iris/iris_platform_sm8550.c:443:33: 
+note: in expansion of macro ‘ARRAY_SIZE’
+   443 |         .dec_output_prop_size = 
+ARRAY_SIZE(sm8550_vdec_subscribe_output_properties),
+       |                                 ^~~~~~~~~~
+make[8]: *** 
+[/home/deckard/Development/linux/scripts/Makefile.build:203: 
+drivers/media/platform/qcom/iris/iris_platform_sm8550.o] Error 1
+make[8]: *** Waiting for unfinished jobs....
+make[7]: *** 
+[/home/deckard/Development/linux/scripts/Makefile.build:461: 
+drivers/media/platform/qcom/iris] Error 2
+make[6]: *** 
+[/home/deckard/Development/linux/scripts/Makefile.build:461: 
+drivers/media/platform/qcom] Error 2
+make[5]: *** 
+[/home/deckard/Development/linux/scripts/Makefile.build:461: 
+drivers/media/platform] Error 2
+make[4]: *** 
+[/home/deckard/Development/linux/scripts/Makefile.build:461: 
+drivers/media] Error 2
+make[3]: *** 
+[/home/deckard/Development/linux/scripts/Makefile.build:461: drivers] 
+Error 2
+make[2]: *** [/home/deckard/Development/linux/Makefile:2006: .] Error 2
+make[1]: *** [/home/deckard/Development/linux/Makefile:248: __sub-make] 
+Error 2
+make[1]: Leaving directory 
+'/home/deckard/Development/linux-tools/qlt-kernel/build/x1e80100-crd_qlt_integration'
+make: *** [Makefile:248: __sub-make] Error 2
+make[1]: Entering directory 
+'/home/deckard/Development/linux-tools/qlt-kernel/build/x1e80100-crd_qlt_integration'
+   GEN     Makefile
+   CALL    /home/deckard/Development/linux/scripts/checksyscalls.sh
+   CC [M]  drivers/media/platform/qcom/iris/iris_platform_sm8550.o
+   CC [M]  drivers/media/platform/qcom/iris/iris_vpu_buffer.o
+   CC [M]  drivers/media/platform/qcom/iris/iris_vpu_common.o
+/home/deckard/Development/linux/drivers/media/platform/qcom/iris/iris_platform_sm8550.c:432:10: 
+error: ‘struct iris_platform_data’ has no member named 
+‘input_config_params’; did you mean ‘output_config_params’?
+   432 |         .input_config_params =
+       |          ^~~~~~~~~~~~~~~~~~~
+       |          output_config_params
+/home/deckard/Development/linux/drivers/media/platform/qcom/iris/iris_platform_sm8550.c:433:17: 
+error: ‘sm8550_vdec_input_config_params’ undeclared here (not in a 
+function); did you mean ‘sm8550_vdec_output_config_params’?
+   433 |                 sm8550_vdec_input_config_params,
+       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |                 sm8550_vdec_output_config_params
+/home/deckard/Development/linux/drivers/media/platform/qcom/iris/iris_platform_sm8550.c:434:10: 
+error: ‘struct iris_platform_data’ has no member named 
+‘input_config_params_size’; did you mean ‘output_config_params_size’?
+   434 |         .input_config_params_size =
+       |          ^~~~~~~~~~~~~~~~~~~~~~~~
+       |          output_config_params_size
+In file included from 
+/home/deckard/Development/linux/include/linux/dev_printk.h:14,
+                  from 
+/home/deckard/Development/linux/include/linux/device.h:15,
+                  from 
+/home/deckard/Development/linux/include/linux/pm_domain.h:11,
+                  from 
+/home/deckard/Development/linux/drivers/media/platform/qcom/iris/iris_core.h:10,
+                  from 
+/home/deckard/Development/linux/drivers/media/platform/qcom/iris/iris_platform_sm8550.c:6:
+/home/deckard/Development/linux/include/linux/compiler.h:197:77: error: 
+expression in static assertion is not an integer
+   197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct 
+{_Static_assert(!(e), msg);}))
+       |             ^
+/home/deckard/Development/linux/include/linux/compiler.h:202:33: note: 
+in expansion of macro ‘__BUILD_BUG_ON_ZERO_MSG’
+   202 | #define __must_be_array(a) 
+__BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+       |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+/home/deckard/Development/linux/include/linux/array_size.h:11:59: note: 
+in expansion of macro ‘__must_be_array’
+    11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + 
+__must_be_array(arr))
+       | ^~~~~~~~~~~~~~~
+/home/deckard/Development/linux/drivers/media/platform/qcom/iris/iris_platform_sm8550.c:435:17: 
+note: in expansion of macro ‘ARRAY_SIZE’
+   435 |                 ARRAY_SIZE(sm8550_vdec_input_config_params),
+       |                 ^~~~~~~~~~
+/home/deckard/Development/linux/drivers/media/platform/qcom/iris/iris_platform_sm8550.c:442:10: 
+error: ‘struct iris_platform_data’ has no member named 
+‘dec_output_prop’; did you mean ‘dec_input_prop’?
+   442 |         .dec_output_prop = sm8550_vdec_subscribe_output_properties,
+       |          ^~~~~~~~~~~~~~~
+       |          dec_input_prop
+/home/deckard/Development/linux/drivers/media/platform/qcom/iris/iris_platform_sm8550.c:442:28: 
+error: ‘sm8550_vdec_subscribe_output_properties’ undeclared here (not in 
+a function); did you mean ‘sm8550_vdec_subscribe_input_properties’?
+   442 |         .dec_output_prop = sm8550_vdec_subscribe_output_properties,
+       |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       |                            sm8550_vdec_subscribe_input_properties
+/home/deckard/Development/linux/drivers/media/platform/qcom/iris/iris_platform_sm8550.c:443:10: 
+error: ‘struct iris_platform_data’ has no member named 
+‘dec_output_prop_size’; did you mean ‘dec_input_prop_size’?
+   443 |         .dec_output_prop_size = 
+ARRAY_SIZE(sm8550_vdec_subscribe_output_properties),
+       |          ^~~~~~~~~~~~~~~~~~~~
+       |          dec_input_prop_size
+/home/deckard/Development/linux/include/linux/compiler.h:197:77: error: 
+expression in static assertion is not an integer
+   197 | #define __BUILD_BUG_ON_ZERO_MSG(e, msg) ((int)sizeof(struct 
+{_Static_assert(!(e), msg);}))
+       |             ^
+/home/deckard/Development/linux/include/linux/compiler.h:202:33: note: 
+in expansion of macro ‘__BUILD_BUG_ON_ZERO_MSG’
+   202 | #define __must_be_array(a) 
+__BUILD_BUG_ON_ZERO_MSG(!__is_array(a), \
+       |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+/home/deckard/Development/linux/include/linux/array_size.h:11:59: note: 
+in expansion of macro ‘__must_be_array’
+    11 | #define ARRAY_SIZE(arr) (sizeof(arr) / sizeof((arr)[0]) + 
+__must_be_array(arr))
+       | ^~~~~~~~~~~~~~~
+/home/deckard/Development/linux/drivers/media/platform/qcom/iris/iris_platform_sm8550.c:443:33: 
+note: in expansion of macro ‘ARRAY_SIZE’
+   443 |         .dec_output_prop_size = 
+ARRAY_SIZE(sm8550_vdec_subscribe_output_properties),
+       |                                 ^~~~~~~~~~
+make[8]: *** 
+[/home/deckard/Development/linux/scripts/Makefile.build:203: 
+drivers/media/platform/qcom/iris/iris_platform_sm8550.o] Error 1
+make[8]: *** Waiting for unfinished jobs....
+make[7]: *** 
+[/home/deckard/Development/linux/scripts/Makefile.build:461: 
+drivers/media/platform/qcom/iris] Error 2
+make[6]: *** 
+[/home/deckard/Development/linux/scripts/Makefile.build:461: 
+drivers/media/platform/qcom] Error 2
+make[5]: *** 
+[/home/deckard/Development/linux/scripts/Makefile.build:461: 
+drivers/media/platform] Error 2
+make[4]: *** 
+[/home/deckard/Development/linux/scripts/Makefile.build:461: 
+drivers/media] Error 2
+make[3]: *** 
+[/home/deckard/Development/linux/scripts/Makefile.build:461: drivers] 
+Error 2
 
-Regards,
-Christian.
 
->
-> P.
->
->> What we should improve is the documentation of the dma_fence_ops-
->>> enable_signaling and dma_fence_ops->signaled callbacks.
->> Especially see the comment about reference counts on enable_signaling
->> which is missing on the signaled callback. That is most likely the
->> root cause why nouveau implemented enable_signaling correctly but not
->> the other one.
->>
->> But putting that aside I think we should make nails with heads and
->> let the framework guarantee that the fences stay alive until they are
->> signaled (one way or another). This completely removes the burden to
->> keep a reference on unsignaled fences from the drivers /
->> implementations and make things more over all more defensive.
->>
->> Regards,
->> Christian.
->>
->>> P.
->>>
->>>> P.
->>>>
->>>>
->>>>> Regards,
->>>>>
->>>>> Boris
+[2]
 
+[   58.165118] qcom-iris aa00000.video-codec: invalid plane
+[   58.165721] ------------[ cut here ]------------
+[   58.165727] WARNING: CPU: 1 PID: 1209 at 
+drivers/media/common/videobuf2/videobuf2-core.c:2222 
+__vb2_queue_cancel+0x238/0x2d0 [videobuf2_common]
+[   58.165749] Modules linked in: rfcomm michael_mic reset_gpio 
+snd_soc_wsa884x q6prm_clocks q6apm_lpass_dais snd_q6dsp_common q6apm_dai 
+q6prm algif_hash algif_skcipher af_alg qrtr_mhi ntfs3 ath12k mac80211 
+ov02e10 v4l2_cci snd_q6apm snd_soc_x1e80100 hci_uart snd_soc_qcom_common 
+btqca bluetooth snd_soc_qcom_sdw ps883x ecdh_generic pwrseq_qcom_wcn ecc 
+regmap_i2c phy_nxp_ptn3222 rtc_pm8xxx snd_soc_wcd938x snd_soc_wcd_classh 
+snd_soc_wcd938x_sdw regmap_sdw qcom_iris videobuf2_dma_contig qcom_camss 
+snd_soc_wcd_mbhc v4l2_mem2mem videobuf2_dma_sg snd_soc_lpass_rx_macro 
+snd_soc_lpass_tx_macro snd_soc_lpass_va_macro snd_soc_lpass_wsa_macro 
+soundwire_qcom snd_soc_hdmi_codec mux_core v4l2_fwnode 
+snd_soc_lpass_macro_common videobuf2_memops videobuf2_v4l2 
+videobuf2_common v4l2_async snd_soc_core videocc_sm8550 i2c_qcom_cci 
+videodev snd_compress mc phy_qcom_qmp_usb rpmsg_ctrl apr fastrpc snd_pcm 
+qcom_pd_mapper rpmsg_char pci_pwrctrl_pwrseq pci_pwrctrl_core qrtr_smd 
+pwrseq_core snd_timer cfg80211 snd soundwire_bus rfkill i2c_dev
+[   58.165914]  ip_tables x_tables autofs4 ipv6 fuse socinfo 
+qcom_cpucp_mbox icc_bwmon leds_gpio phy_qcom_qmp_pcie arm_smccc_trng 
+rng_core gpucc_x1e80100 pcie_qcom crc8 soundcore tcsrcc_x1e80100 
+pinctrl_sm8550_lpass_lpi pinctrl_lpass_lpi lpasscc_sc8280xp 
+hid_multitouch i2c_qcom_geni dispcc_x1e80100 phy_qcom_edp qcom_stats 
+phy_qcom_snps_eusb2 sha512_ce sha512_arm64 nvmem_qcom_spmi_sdam 
+qcom_spmi_temp_alarm industrialio sha3_ce phy_qcom_qmp_combo aux_bridge 
+phy_qcom_eusb2_repeater qcom_pon reboot_mode sm3_ce sm3 ucsi_glink 
+pmic_glink_altmode typec_ucsi qcom_battmgr aux_hpd_bridge pmic_glink 
+pdr_interface qcom_pdr_msg typec msm drm_client_lib drm_exec llcc_qcom 
+gpu_sched i2c_hid_of i2c_hid qrtr qcom_q6v5_pas qcom_pil_info 
+qcom_common qcom_glink_smem qcom_glink qcom_q6v5 qcom_sysmon mdt_loader 
+rpmsg_core qmi_helpers input_leds panel_edp drm_display_helper 
+drm_dp_aux_bus drm_kms_helper drm i2c_core mhi libarc4 nvme nvme_core 
+usb_storage r8152 mii libphy led_class dm_crypt dm_mod
+[   58.166115] CPU: 1 UID: 1001 PID: 1209 Comm: GstPlay Tainted: G 
+  W           6.15.0-rc1 #69 PREEMPT
+[   58.166125] Tainted: [W]=WARN
+[   58.166129] Hardware name: Dell Inc. Inspiron 14 Plus 7441/0YWPR3, 
+BIOS 2.5.0 12/16/2024
+[   58.166133] pstate: 61400005 (nZCv daif +PAN -UAO -TCO +DIT -SSBS 
+BTYPE=--)
+[   58.166140] pc : __vb2_queue_cancel+0x238/0x2d0 [videobuf2_common]
+[   58.166146] lr : __vb2_queue_cancel+0x2c/0x2d0 [videobuf2_common]
+[   58.166152] sp : ffff800083f9bb00
+[   58.166155] x29: ffff800083f9bb00 x28: ffff6ad64770c020 x27: 
+0000000000000000
+[   58.166165] x26: 0000000040045613 x25: 0000000000000000 x24: 
+ffffac02677a6bc8
+[   58.166174] x23: ffff6ad64770c060 x22: ffff6ad68e60c780 x21: 
+ffff6ad679c36428
+[   58.166183] x20: 0000000000000009 x19: ffff6ad679c36428 x18: 
+0000000000000000
+[   58.166192] x17: 0000000000000000 x16: ffffac027ba13408 x15: 
+0000ffff000304b0
+[   58.166200] x14: 0000000000000000 x13: 0000000000000000 x12: 
+0000000000000000
+[   58.166208] x11: 0000000000000000 x10: 0000000000000000 x9 : 
+0000000000000000
+[   58.166216] x8 : ffff800083f9bd48 x7 : ffffac02677a6e28 x6 : 
+ffffac02677a6e28
+[   58.166226] x5 : 0000000000000000 x4 : 0000000000000001 x3 : 
+0000000000000000
+[   58.166233] x2 : ffffac0267986fb0 x1 : 0000000000000000 x0 : 
+0000000000000008
+[   58.166242] Call trace:
+[   58.166246]  __vb2_queue_cancel+0x238/0x2d0 [videobuf2_common] (P)
+[   58.166254]  vb2_core_streamoff+0x24/0xc8 [videobuf2_common]
+[   58.166260]  vb2_streamoff+0x18/0x64 [videobuf2_v4l2]
+[   58.166267]  v4l2_m2m_streamoff+0x78/0x144 [v4l2_mem2mem]
+[   58.166273]  v4l2_m2m_ioctl_streamoff+0x18/0x24 [v4l2_mem2mem]
+[   58.166279]  v4l_streamoff+0x24/0x30 [videodev]
+[   58.166289]  __video_do_ioctl+0x40c/0x4a0 [videodev]
+[   58.166298]  video_usercopy+0x2bc/0x688 [videodev]
+[   58.166307]  video_ioctl2+0x18/0x38 [videodev]
+[   58.166315]  v4l2_ioctl+0x40/0x60 [videodev]
+[   58.166323]  __arm64_sys_ioctl+0xb4/0xf4
+[   58.166335]  invoke_syscall+0x48/0x104
+[   58.166346]  el0_svc_common.constprop.0+0x40/0xe0
+[   58.166355]  do_el0_svc+0x1c/0x28
+[   58.166363]  el0_svc+0x30/0xcc
+[   58.166373]  el0t_64_sync_handler+0x10c/0x138
+[   58.166381]  el0t_64_sync+0x198/0x19c
+[   58.166386] ---[ end trace 0000000000000000 ]---
+[   58.166390] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 0 in active state
+[   58.166395] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 1 in active state
+[   58.166398] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 2 in active state
+[   58.166401] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 3 in active state
+[   58.166404] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 5 in active state
+[   58.166407] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 6 in active state
+[   58.166410] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 7 in active state
+[   58.166413] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 8 in active state
+[   58.169738] qcom-iris aa00000.video-codec: invalid plane
+[   61.517138] ------------[ cut here ]------------
+[   61.517147] WARNING: CPU: 1 PID: 1209 at 
+drivers/media/common/videobuf2/videobuf2-core.c:2222 
+__vb2_queue_cancel+0x238/0x2d0 [videobuf2_common]
+[   61.517157] Modules linked in: rfcomm michael_mic reset_gpio 
+snd_soc_wsa884x q6prm_clocks q6apm_lpass_dais snd_q6dsp_common q6apm_dai 
+q6prm algif_hash algif_skcipher af_alg qrtr_mhi ntfs3 ath12k mac80211 
+ov02e10 v4l2_cci snd_q6apm snd_soc_x1e80100 hci_uart snd_soc_qcom_common 
+btqca bluetooth snd_soc_qcom_sdw ps883x ecdh_generic pwrseq_qcom_wcn ecc 
+regmap_i2c phy_nxp_ptn3222 rtc_pm8xxx snd_soc_wcd938x snd_soc_wcd_classh 
+snd_soc_wcd938x_sdw regmap_sdw qcom_iris videobuf2_dma_contig qcom_camss 
+snd_soc_wcd_mbhc v4l2_mem2mem videobuf2_dma_sg snd_soc_lpass_rx_macro 
+snd_soc_lpass_tx_macro snd_soc_lpass_va_macro snd_soc_lpass_wsa_macro 
+soundwire_qcom snd_soc_hdmi_codec mux_core v4l2_fwnode 
+snd_soc_lpass_macro_common videobuf2_memops videobuf2_v4l2 
+videobuf2_common v4l2_async snd_soc_core videocc_sm8550 i2c_qcom_cci 
+videodev snd_compress mc phy_qcom_qmp_usb rpmsg_ctrl apr fastrpc snd_pcm 
+qcom_pd_mapper rpmsg_char pci_pwrctrl_pwrseq pci_pwrctrl_core qrtr_smd 
+pwrseq_core snd_timer cfg80211 snd soundwire_bus rfkill i2c_dev
+[   61.517210]  ip_tables x_tables autofs4 ipv6 fuse socinfo 
+qcom_cpucp_mbox icc_bwmon leds_gpio phy_qcom_qmp_pcie arm_smccc_trng 
+rng_core gpucc_x1e80100 pcie_qcom crc8 soundcore tcsrcc_x1e80100 
+pinctrl_sm8550_lpass_lpi pinctrl_lpass_lpi lpasscc_sc8280xp 
+hid_multitouch i2c_qcom_geni dispcc_x1e80100 phy_qcom_edp qcom_stats 
+phy_qcom_snps_eusb2 sha512_ce sha512_arm64 nvmem_qcom_spmi_sdam 
+qcom_spmi_temp_alarm industrialio sha3_ce phy_qcom_qmp_combo aux_bridge 
+phy_qcom_eusb2_repeater qcom_pon reboot_mode sm3_ce sm3 ucsi_glink 
+pmic_glink_altmode typec_ucsi qcom_battmgr aux_hpd_bridge pmic_glink 
+pdr_interface qcom_pdr_msg typec msm drm_client_lib drm_exec llcc_qcom 
+gpu_sched i2c_hid_of i2c_hid qrtr qcom_q6v5_pas qcom_pil_info 
+qcom_common qcom_glink_smem qcom_glink qcom_q6v5 qcom_sysmon mdt_loader 
+rpmsg_core qmi_helpers input_leds panel_edp drm_display_helper 
+drm_dp_aux_bus drm_kms_helper drm i2c_core mhi libarc4 nvme nvme_core 
+usb_storage r8152 mii libphy led_class dm_crypt dm_mod
+[   61.517282] CPU: 1 UID: 1001 PID: 1209 Comm: GstPlay Tainted: G 
+  W           6.15.0-rc1 #69 PREEMPT
+[   61.517286] Tainted: [W]=WARN
+[   61.517288] Hardware name: Dell Inc. Inspiron 14 Plus 7441/0YWPR3, 
+BIOS 2.5.0 12/16/2024
+[   61.517289] pstate: 61400005 (nZCv daif +PAN -UAO -TCO +DIT -SSBS 
+BTYPE=--)
+[   61.517291] pc : __vb2_queue_cancel+0x238/0x2d0 [videobuf2_common]
+[   61.517293] lr : __vb2_queue_cancel+0x2c/0x2d0 [videobuf2_common]
+[   61.517295] sp : ffff800083f9bb00
+[   61.517296] x29: ffff800083f9bb00 x28: ffff6ad64770c020 x27: 
+0000000000000000
+[   61.517299] x26: 0000000040045613 x25: 0000000000000000 x24: 
+ffffac02677a6bc8
+[   61.517301] x23: ffff6ad64770c060 x22: ffff6ad68e60c780 x21: 
+ffff6ad679c36428
+[   61.517304] x20: 0000000000000009 x19: ffff6ad679c36428 x18: 
+0000000000000000
+[   61.517306] x17: 0000000000000000 x16: ffffac027ba13408 x15: 
+0000ffff000304b0
+[   61.517309] x14: 0000000000000000 x13: 0000000000000000 x12: 
+0000000000000000
+[   61.517311] x11: 0000000000000000 x10: 0000000000000000 x9 : 
+0000000000000000
+[   61.517314] x8 : ffff800083f9bd48 x7 : ffffac02677a6e28 x6 : 
+ffffac02677a6e28
+[   61.517316] x5 : 0000000000000000 x4 : 0000000000000001 x3 : 
+0000000000000000
+[   61.517319] x2 : ffffac0267986fb0 x1 : 0000000000000000 x0 : 
+0000000000000008
+[   61.517321] Call trace:
+[   61.517323]  __vb2_queue_cancel+0x238/0x2d0 [videobuf2_common] (P)
+[   61.517325]  vb2_core_streamoff+0x24/0xc8 [videobuf2_common]
+[   61.517327]  vb2_streamoff+0x18/0x64 [videobuf2_v4l2]
+[   61.517330]  v4l2_m2m_streamoff+0x78/0x144 [v4l2_mem2mem]
+[   61.517332]  v4l2_m2m_ioctl_streamoff+0x18/0x24 [v4l2_mem2mem]
+[   61.517334]  v4l_streamoff+0x24/0x30 [videodev]
+[   61.517338]  __video_do_ioctl+0x40c/0x4a0 [videodev]
+[   61.517341]  video_usercopy+0x2bc/0x688 [videodev]
+[   61.517343]  video_ioctl2+0x18/0x38 [videodev]
+[   61.517346]  v4l2_ioctl+0x40/0x60 [videodev]
+[   61.517348]  __arm64_sys_ioctl+0xb4/0xf4
+[   61.517355]  invoke_syscall+0x48/0x104
+[   61.517359]  el0_svc_common.constprop.0+0x40/0xe0
+[   61.517362]  do_el0_svc+0x1c/0x28
+[   61.517364]  el0_svc+0x30/0xcc
+[   61.517368]  el0t_64_sync_handler+0x10c/0x138
+[   61.517371]  el0t_64_sync+0x198/0x19c
+[   61.517372] ---[ end trace 0000000000000000 ]---
+[   61.517375] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 0 in active state
+[   61.517377] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 1 in active state
+[   61.517378] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 2 in active state
+[   61.517379] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 3 in active state
+[   61.517381] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 5 in active state
+[   61.517382] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 6 in active state
+[   61.517383] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 7 in active state
+[   61.517384] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 8 in active state
+[   84.239087] ------------[ cut here ]------------
+[   84.239099] WARNING: CPU: 0 PID: 1283 at 
+drivers/media/common/videobuf2/videobuf2-core.c:2222 
+__vb2_queue_cancel+0x238/0x2d0 [videobuf2_common]
+[   84.239110] Modules linked in: rfcomm michael_mic reset_gpio 
+snd_soc_wsa884x q6prm_clocks q6apm_lpass_dais snd_q6dsp_common q6apm_dai 
+q6prm algif_hash algif_skcipher af_alg qrtr_mhi ntfs3 ath12k mac80211 
+ov02e10 v4l2_cci snd_q6apm snd_soc_x1e80100 hci_uart snd_soc_qcom_common 
+btqca bluetooth snd_soc_qcom_sdw ps883x ecdh_generic pwrseq_qcom_wcn ecc 
+regmap_i2c phy_nxp_ptn3222 rtc_pm8xxx snd_soc_wcd938x snd_soc_wcd_classh 
+snd_soc_wcd938x_sdw regmap_sdw qcom_iris videobuf2_dma_contig qcom_camss 
+snd_soc_wcd_mbhc v4l2_mem2mem videobuf2_dma_sg snd_soc_lpass_rx_macro 
+snd_soc_lpass_tx_macro snd_soc_lpass_va_macro snd_soc_lpass_wsa_macro 
+soundwire_qcom snd_soc_hdmi_codec mux_core v4l2_fwnode 
+snd_soc_lpass_macro_common videobuf2_memops videobuf2_v4l2 
+videobuf2_common v4l2_async snd_soc_core videocc_sm8550 i2c_qcom_cci 
+videodev snd_compress mc phy_qcom_qmp_usb rpmsg_ctrl apr fastrpc snd_pcm 
+qcom_pd_mapper rpmsg_char pci_pwrctrl_pwrseq pci_pwrctrl_core qrtr_smd 
+pwrseq_core snd_timer cfg80211 snd soundwire_bus rfkill i2c_dev
+[   84.239190]  ip_tables x_tables autofs4 ipv6 fuse socinfo 
+qcom_cpucp_mbox icc_bwmon leds_gpio phy_qcom_qmp_pcie arm_smccc_trng 
+rng_core gpucc_x1e80100 pcie_qcom crc8 soundcore tcsrcc_x1e80100 
+pinctrl_sm8550_lpass_lpi pinctrl_lpass_lpi lpasscc_sc8280xp 
+hid_multitouch i2c_qcom_geni dispcc_x1e80100 phy_qcom_edp qcom_stats 
+phy_qcom_snps_eusb2 sha512_ce sha512_arm64 nvmem_qcom_spmi_sdam 
+qcom_spmi_temp_alarm industrialio sha3_ce phy_qcom_qmp_combo aux_bridge 
+phy_qcom_eusb2_repeater qcom_pon reboot_mode sm3_ce sm3 ucsi_glink 
+pmic_glink_altmode typec_ucsi qcom_battmgr aux_hpd_bridge pmic_glink 
+pdr_interface qcom_pdr_msg typec msm drm_client_lib drm_exec llcc_qcom 
+gpu_sched i2c_hid_of i2c_hid qrtr qcom_q6v5_pas qcom_pil_info 
+qcom_common qcom_glink_smem qcom_glink qcom_q6v5 qcom_sysmon mdt_loader 
+rpmsg_core qmi_helpers input_leds panel_edp drm_display_helper 
+drm_dp_aux_bus drm_kms_helper drm i2c_core mhi libarc4 nvme nvme_core 
+usb_storage r8152 mii libphy led_class dm_crypt dm_mod
+[   84.239292] CPU: 0 UID: 1001 PID: 1283 Comm: GstPlay Tainted: G 
+  W           6.15.0-rc1 #69 PREEMPT
+[   84.239297] Tainted: [W]=WARN
+[   84.239299] Hardware name: Dell Inc. Inspiron 14 Plus 7441/0YWPR3, 
+BIOS 2.5.0 12/16/2024
+[   84.239301] pstate: 61400005 (nZCv daif +PAN -UAO -TCO +DIT -SSBS 
+BTYPE=--)
+[   84.239304] pc : __vb2_queue_cancel+0x238/0x2d0 [videobuf2_common]
+[   84.239307] lr : __vb2_queue_cancel+0x2c/0x2d0 [videobuf2_common]
+[   84.239309] sp : ffff800082333b00
+[   84.239311] x29: ffff800082333b00 x28: ffff6ad65e9d5020 x27: 
+0000000000000000
+[   84.239315] x26: 0000000040045613 x25: 0000000000000000 x24: 
+ffffac02677a6bc8
+[   84.239319] x23: ffff6ad65e9d5060 x22: ffff6ad646d64d80 x21: 
+ffff6ad65f005028
+[   84.239324] x20: 0000000000000009 x19: ffff6ad65f005028 x18: 
+0000000000000000
+[   84.239328] x17: 0000000000000000 x16: ffffac027ba13408 x15: 
+0000ffff20030410
+[   84.239332] x14: 0000000000000000 x13: 0000000000000000 x12: 
+0000000000000000
+[   84.239335] x11: 0000000000000000 x10: 0000000000000000 x9 : 
+0000000000000000
+[   84.239339] x8 : ffff800082333d48 x7 : ffffac02677a6e28 x6 : 
+ffffac02677a6e28
+[   84.239343] x5 : 0000000000000000 x4 : 0000000000000001 x3 : 
+0000000000000000
+[   84.239347] x2 : ffffac0267986fb0 x1 : 0000000000000000 x0 : 
+0000000000000016
+[   84.239351] Call trace:
+[   84.239353]  __vb2_queue_cancel+0x238/0x2d0 [videobuf2_common] (P)
+[   84.239357]  vb2_core_streamoff+0x24/0xc8 [videobuf2_common]
+[   84.239360]  vb2_streamoff+0x18/0x64 [videobuf2_v4l2]
+[   84.239364]  v4l2_m2m_streamoff+0x78/0x144 [v4l2_mem2mem]
+[   84.239368]  v4l2_m2m_ioctl_streamoff+0x18/0x24 [v4l2_mem2mem]
+[   84.239370]  v4l_streamoff+0x24/0x30 [videodev]
+[   84.239376]  __video_do_ioctl+0x40c/0x4a0 [videodev]
+[   84.239380]  video_usercopy+0x2bc/0x688 [videodev]
+[   84.239384]  video_ioctl2+0x18/0x38 [videodev]
+[   84.239388]  v4l2_ioctl+0x40/0x60 [videodev]
+[   84.239392]  __arm64_sys_ioctl+0xb4/0xf4
+[   84.239400]  invoke_syscall+0x48/0x104
+[   84.239407]  el0_svc_common.constprop.0+0x40/0xe0
+[   84.239411]  do_el0_svc+0x1c/0x28
+[   84.239415]  el0_svc+0x30/0xcc
+[   84.239421]  el0t_64_sync_handler+0x10c/0x138
+[   84.239425]  el0t_64_sync+0x198/0x19c
+[   84.239428] ---[ end trace 0000000000000000 ]---
+[   84.239430] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 0 in active state
+[   84.239432] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 1 in active state
+[   84.239433] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 2 in active state
+[   84.239435] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 3 in active state
+[   84.239436] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 4 in active state
+[   84.239438] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 5 in active state
+[   84.239439] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 7 in active state
+[   84.239440] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 8 in active state
+[   84.239442] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 9 in active state
+[   84.239443] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 10 in active state
+[   84.239445] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 11 in active state
+[   84.239446] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 14 in active state
+[   84.239447] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 15 in active state
+[   84.239449] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 16 in active state
+[   84.239450] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 17 in active state
+[   84.239452] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 18 in active state
+[   84.239453] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 19 in active state
+[   84.239454] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 20 in active state
+[   84.239456] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 21 in active state
+[   84.239457] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 22 in active state
+[   84.239459] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 23 in active state
+[   84.239460] videobuf2_common: driver bug: stop_streaming operation is 
+leaving buffer 24 in active state
+[   84.245873] qcom-iris aa00000.video-codec: invalid plane
+[  126.573593] qcom-iris aa00000.video-codec: session error received 
+0x1000009: unknown
+[  126.573638] qcom-iris aa00000.video-codec: session error received 
+0x4000004: invalid operation for current state
+[  126.573644] qcom-iris aa00000.video-codec: session error received 
+0x4000004: invalid operation for current state
+[  126.573649] qcom-iris aa00000.video-codec: session error received 
+0x1000009: unknown
+[  126.573654] qcom-iris aa00000.video-codec: session error received 
+0x4000004: invalid operation for current state
+[  126.573659] qcom-iris aa00000.video-codec: session error received 
+0x1000009: unknown
+[  126.573664] qcom-iris aa00000.video-codec: session error received 
+0x4000004: invalid operation for current state
+[  126.573668] qcom-iris aa00000.video-codec: session error received 
+0x1000009: unknown
+[  126.573670] qcom-iris aa00000.video-codec: session error received 
+0x4000004: invalid operation for current state
+[  126.582134] qcom-iris aa00000.video-codec: session error received 
+0x1000006: unknown
+[  126.582142] qcom-iris aa00000.video-codec: session error received 
+0x4000004: invalid operation for current state
+[  126.582147] qcom-iris aa00000.video-codec: session error received 
+0x4000004: invalid operation for current state
+[  126.582152] qcom-iris aa00000.video-codec: session error received 
+0x1000006: unknown
+[  126.582156] qcom-iris aa00000.video-codec: session error received 
+0x4000004: invalid operation for current state
+[  126.582161] qcom-iris aa00000.video-codec: session error received 
+0x1000006: unknown
+[  126.582166] qcom-iris aa00000.video-codec: session error received 
+0x4000004: invalid operation for current state
+[  126.582170] qcom-iris aa00000.video-codec: session error received 
+0x1000006: unknown
+[  126.582177] qcom-iris aa00000.video-codec: session error received 
+0x4000004: invalid operation for current state
 
