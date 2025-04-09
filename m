@@ -1,249 +1,279 @@
-Return-Path: <linux-media+bounces-29777-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29778-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00FA5A82CF6
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 18:58:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F9B9A82D00
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 19:00:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D605B1791FC
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 16:58:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 79B291B654F6
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 16:59:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 506D426FD9E;
-	Wed,  9 Apr 2025 16:58:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3B2C27603E;
+	Wed,  9 Apr 2025 16:59:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="QxYOljP1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iF5bBSTx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01CA75D477;
-	Wed,  9 Apr 2025 16:58:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55B0926B2CF;
+	Wed,  9 Apr 2025 16:59:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744217888; cv=none; b=nC8yzZoL9yt9NnrQWoR63eBMgO+ZPiCbgBzRFz/chRKdudgC72dbu2Zb7vSeqtyf52EM0KIHzsJK2X2SqI0MEvf0fjv2P78XiPWcLzlflV2ahcEPjWWryYZJI3PUH3C/K3K8P2R2u3oiU9do68nLjR+PQ0+0l8/PkGrVV4O480g=
+	t=1744217960; cv=none; b=l7m8gSxqjLaaoTk5MLcTNDJSWGyzwv7QEFxbcunsnyu0a+iZBLX4RnOMbi2w3N4Mo9r0cpKmHCdVT1EchoygfV/SrpjG45UVafc+bpFbM6IH8OmK055Gy/HlyCSyTd+FwsdlcqcSa9x8YxV+GbfsHha7+Yq5KcxMdYYl2a8UWOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744217888; c=relaxed/simple;
-	bh=BqbS+xTeBjeFzSWyNexB8paeBTUjxOKDq0qqYZX7Hjs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=RDMe55h00dMAsTvI4yrkF+ebWRMOawNC9Fx/hCYN6ZVeh2JIkl/936QHpkrNUpbRrtvN0lbNtRNKhZNePZHwn+rYwAzIC65FE1nJk717/ll3jAEMCcfDyEhborJ274LokHkKhf2geO9xW+Z2aMz3b1c2EUtQei/OJFB1extlrqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=QxYOljP1; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53982hC8014995;
-	Wed, 9 Apr 2025 16:57:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	IKdjsHHFQg585qFdm8cKTxAZdpJT0lSymvy+Pztxax4=; b=QxYOljP1+jYk8jn6
-	R7xJklEEZYbP01rIs2CQ6k/JDk7b9wx8bM1I9BvXvk18c0tXc2he3F4+WImoTF6L
-	cBONuXe5UEQWzm9Y/eu1s41YRG3Dd9JdKi7Ymcrjf9f7CfRCOcgaJYq4Mt3HUEpZ
-	jtBDBXGgZ0QmEmug6yZY8pRhLQ1ZiLbHS4jcEWwrUDA5AJpC/UvSyQU0ed0nCJ6M
-	QP1VP5LrljIWlxYt8ItdhviRqZCv3oxNkVAmoXcarm0G2HphGbarDjIDgV6riz82
-	azdEPJR9NOB7EvaqH6Tdd9u0WdpzwVIWNOwRlDd9nU/qszDiy4O/UqiM/h5R7VOT
-	yTzjGA==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twbum3rj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 09 Apr 2025 16:57:56 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 539Gvuwo017951
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 9 Apr 2025 16:57:56 GMT
-Received: from [10.216.18.165] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 9 Apr 2025
- 09:57:52 -0700
-Message-ID: <36e25d6e-36de-fec6-e54d-0683503c7a09@quicinc.com>
-Date: Wed, 9 Apr 2025 22:27:49 +0530
+	s=arc-20240116; t=1744217960; c=relaxed/simple;
+	bh=OtaPy++2GETtHdiAR0bYP6R+1Hb66Am024W27yLGsl4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fq+wqhzJ6ivW05ZdLDVtaAkINxHfr9m4TfBBkYtWkaj4KtuMhM6r6Vwr/O2YYMFmZkOXFBWpUakdn/97tB5O9KCZVgrvl3QamKcsTjGSVGJJL+vCWCzXgN0FoeuC04TmRCSEiLHkE84/Q/B5qVhd1vNLzfP5SR2PkeZvTblODx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iF5bBSTx; arc=none smtp.client-ip=209.85.215.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-af9065f0fc0so4869429a12.2;
+        Wed, 09 Apr 2025 09:59:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744217957; x=1744822757; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=UF0piylxy01Y9o78lp9CSclPliCcrf/Gy/Xprs9X0Fc=;
+        b=iF5bBSTxLwTLFMdLtCArWgRO9uxbnYIx++nPXoEkSok0bNVvFP+4W2RHjmTguiw086
+         rptySvEjZ+gl1BKkhuAOv+jvl9+WSfEJdg//Wv38uGPePgc8gyao7p1ZDAcfYFdtoWZd
+         aiyZRyq4oWTsO5O9WWwpIslyRdkzN92JLKILJWOqFWp7uqdrp2EK0Uqt69j0RfmSgetb
+         Mqbe9K9By1nRSc6y/IF/C4Qp0lD4A8mpwNRTUyg/pZbBTSk/j3MPVHUiy8xmE247muZL
+         I0C13l3FOCZEdC9BGRlGfRQvd0ho0x28mopgqBa+JzSxXZZQuIdC0aYwdAAkR4mFtCT8
+         zZyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744217957; x=1744822757;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UF0piylxy01Y9o78lp9CSclPliCcrf/Gy/Xprs9X0Fc=;
+        b=RJAlGuwbc+V0Ntp+xomeTduv6i9u3fx3vrBvrXlkg7/AEETXkVWINInV7hhwYwQEH1
+         b5gOcR3MbbllTQGc/SbupzcuPiaQ5h/DrMRfODiG0cNtI4MCB6X/fd9/Kul1XwgxFleI
+         2AzGoXFFOBWRuAxS3YMpkA9q/SF31lsFXEuP9hhQTUHsNBGynWhT6cqYs1kz4T/v+SAP
+         tnIccxTYV5MOcak8onxdOEXrXZvxy0rbKiZNyo3CNBvWkp3agw3rKPZthndFroo2nLHf
+         TPNfzoPZ2vOYF4r0VDkEnYnGmmAcyzDGF4gQlD29p+eBRjNGygJ2IH9/fkDx1zrSlVW3
+         FUPw==
+X-Forwarded-Encrypted: i=1; AJvYcCUcM7YQ4wfUIjZcaaUx7a846od4UOsE0RM8pjLRYSq9qW7rk8QohqsI+jDIv8GubYZqq9ImXGxENxXYHmxr@vger.kernel.org, AJvYcCUee3icRwaA/iSWKAdPYMHjlNzFg/SSgQDRFp9yi0CQy8rcpYAy2p43d9v6O4LjRejhQ8c=@vger.kernel.org, AJvYcCVHw/qkxwNhfNVBW5GFzkM554pVUDApWMWKyCKoHUvcXJojO+m9LSFHQNo6D45bYNM2Ab+dxjp2jxLXdbO8@vger.kernel.org, AJvYcCW7PChK2Ys13TWVzWVmlwqcJTSu/w3y0AXo7AmmCMr9/fs5wcyR0uA7u1A3pePs6lKXF3b2rmeSEnQ1Kyc=@vger.kernel.org, AJvYcCWx1TWgK0pIqN130UZMQ9akB8YSKqeRTlI4oHk5NI9vshawEmn/ULGh0ZEBVI3+QMZ7f6KuiG9u6P2Z2iMxKZQ=@vger.kernel.org, AJvYcCX70wAc6/p36waJDcu+WouACIHe8sytqlRA2ABvAtYtP6Ao2NWKeINyoBnJiPkxoL9p79S3jlqp@vger.kernel.org, AJvYcCXDIHhuYNjUc7Ivue3N9kk3/vVnIlxvUX3DswdRF7T9S/owCgg2xuj8rB5fidmT3Uuy62uNkTdOtbcphRU=@vger.kernel.org, AJvYcCXDiZp/ThZ7ea5CqpWLxQryYTDZENpyzDBV2fwEiBudUph7LthEE49GJP64bM7AgujqlluKli8f/QQ+viA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxzpmi00TPtEBPc4Nar5RrgI7Lwk5i/dFvsJcnpcklnxCOVjT5I
+	qsinm4ZWb2lZO0LaOfYN6hNpiHX24d1uNIW08KwfoVPgbQJB7ILt
+X-Gm-Gg: ASbGncvowz+9Sal+yJjMqLPgMubBErU/o6d+jEQaYptNsNlfz/zVtLBksn7K/MMk9mO
+	dc/SdGIJ+0ySk93ccvDVfKQ9pb+eioqZfMPPE8rkAwF7LIEvT9B+Zi8cdfHzseAPDBie38yjjwN
+	AFtT5hXUao/kyIiuJBc2hBsopqI1Qf8usSPncAaUCnNJKi1ucavOir4MDDTq4A8yB45wgf5R5jr
+	UZIwWngzAcLBLOeUHcYIimTSJwGYm4X2Da4Kxj4m4iy37qhHtGXD0P/VNifuMkGMIwdLQC+gbAX
+	FbHlIa1OUcMCvWVwk8pC2hwmg5pWHumEUd5+k1LX
+X-Google-Smtp-Source: AGHT+IE+ebVDkjWM2U+vTuxOaEi2gePK7lA6ZcliczZ6QreHuVJL0X/7gkTIx9gAEQ4c3jyrVxUT+Q==
+X-Received: by 2002:a05:6a21:9211:b0:1f5:7710:fd18 with SMTP id adf61e73a8af0-2015aeca12bmr4752416637.17.1744217957454;
+        Wed, 09 Apr 2025 09:59:17 -0700 (PDT)
+Received: from localhost ([216.228.127.131])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b02a11d298esm1284868a12.34.2025.04.09.09.59.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Apr 2025 09:59:16 -0700 (PDT)
+Date: Wed, 9 Apr 2025 12:59:14 -0400
+From: Yury Norov <yury.norov@gmail.com>
+To: Kuan-Wei Chiu <visitorckw@gmail.com>
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
+	joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org, rfoss@kernel.org,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+	dmitry.torokhov@gmail.com, mchehab@kernel.org,
+	awalls@md.metrocast.net, hverkuil@xs4all.nl,
+	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+	louis.peens@corigine.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+	johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+	jirislaby@kernel.org, akpm@linux-foundation.org, jdelvare@suse.com,
+	linux@roeck-us.net, alexandre.belloni@bootlin.com, pgaj@cadence.com,
+	hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
+	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+	jernej.skrabec@gmail.com, kuba@kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+	oss-drivers@corigine.com, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw, Frank.Li@nxp.com,
+	linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
+	david.laight.linux@gmail.com, andrew.cooper3@citrix.com,
+	Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH v4 01/13] bitops: Change parity8() to parity_odd() with
+ u64 input and bool return type
+Message-ID: <Z_anYpZw_E8ehN21@yury>
+References: <20250409154356.423512-1-visitorckw@gmail.com>
+ <20250409154356.423512-2-visitorckw@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v4 6/6] media: platform: qcom/iris: add sm8650 support
-Content-Language: en-US
-To: Neil Armstrong <neil.armstrong@linaro.org>,
-        Dikshita Agarwal
-	<quic_dikshita@quicinc.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        "Bryan
- O'Donoghue" <bryan.odonoghue@linaro.org>
-References: <20250409-topic-sm8x50-iris-v10-v4-0-40e411594285@linaro.org>
- <20250409-topic-sm8x50-iris-v10-v4-6-40e411594285@linaro.org>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <20250409-topic-sm8x50-iris-v10-v4-6-40e411594285@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: lURXReXnOLDQwFVMN2frD2VBUkgMZ3H_
-X-Proofpoint-ORIG-GUID: lURXReXnOLDQwFVMN2frD2VBUkgMZ3H_
-X-Authority-Analysis: v=2.4 cv=dbeA3WXe c=1 sm=1 tr=0 ts=67f6a714 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=KKAkSRfTAAAA:8 a=L6TRgVCy50KPOmexG9wA:9 a=QEXdDO2ut3YA:10
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-09_05,2025-04-08_04,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- suspectscore=0 mlxlogscore=999 phishscore=0 mlxscore=0 spamscore=0
- malwarescore=0 clxscore=1015 adultscore=0 priorityscore=1501
- lowpriorityscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502280000 definitions=main-2504090109
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250409154356.423512-2-visitorckw@gmail.com>
 
-Hi Neil,
-
-On 4/9/2025 8:08 PM, Neil Armstrong wrote:
-> Add support for the SM8650 platform by re-using the SM8550
-> definitions and using the vpu33 ops.
+On Wed, Apr 09, 2025 at 11:43:44PM +0800, Kuan-Wei Chiu wrote:
+> Redesign the parity8() helper as parity_odd(), changing its input type
+> from u8 to u64 to support broader use cases and its return type from
+> int to bool to clearly reflect the function's binary output. The
+> function now returns true for odd parity and false for even parity,
+> making its behavior more intuitive based on the name.
 > 
-> The SM8650/vpu33 requires more reset lines, but the H.264
-> decoder capabilities are identical.
+> Also mark the function with __attribute_const__ to enable better
+> compiler optimization, as the result depends solely on its input and
+> has no side effects.
 > 
-> Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org> # x1e Dell
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+> While more efficient implementations may exist, further optimization is
+> postponed until a use case in performance-critical paths arises.
+> 
+> Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
 > ---
->  .../platform/qcom/iris/iris_platform_common.h      |  1 +
->  .../platform/qcom/iris/iris_platform_sm8550.c      | 64 ++++++++++++++++++++++
->  drivers/media/platform/qcom/iris/iris_probe.c      |  4 ++
->  3 files changed, 69 insertions(+)
+>  arch/x86/kernel/bootflag.c               |  4 ++--
+>  drivers/hwmon/spd5118.c                  |  2 +-
+>  drivers/i3c/master/dw-i3c-master.c       |  2 +-
+>  drivers/i3c/master/i3c-master-cdns.c     |  2 +-
+>  drivers/i3c/master/mipi-i3c-hci/dat_v1.c |  2 +-
+>  include/linux/bitops.h                   | 19 ++++++++++++-------
+>  6 files changed, 18 insertions(+), 13 deletions(-)
 > 
-> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
-> index fdd40fd80178c4c66b37e392d07a0a62f492f108..6bc3a7975b04d612f6c89206eae95dac678695fc 100644
-> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
-> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
-> @@ -35,6 +35,7 @@ enum pipe_type {
+> diff --git a/arch/x86/kernel/bootflag.c b/arch/x86/kernel/bootflag.c
+> index 73274d76ce16..86aae4b2bfd5 100644
+> --- a/arch/x86/kernel/bootflag.c
+> +++ b/arch/x86/kernel/bootflag.c
+> @@ -26,7 +26,7 @@ static void __init sbf_write(u8 v)
+>  	unsigned long flags;
 >  
->  extern struct iris_platform_data sm8250_data;
->  extern struct iris_platform_data sm8550_data;
-> +extern struct iris_platform_data sm8650_data;
+>  	if (sbf_port != -1) {
+> -		if (!parity8(v))
+> +		if (!parity_odd(v))
+>  			v ^= SBF_PARITY;
 >  
->  enum platform_clk_type {
->  	IRIS_AXI_CLK,
-> diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-> index 35d278996c430f2856d0fe59586930061a271c3e..d0f8fa960d53367023e41bc5807ba3f8beae2efc 100644
-> --- a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-> +++ b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-> @@ -144,6 +144,10 @@ static const struct icc_info sm8550_icc_table[] = {
+>  		printk(KERN_INFO "Simple Boot Flag at 0x%x set to 0x%x\n",
+> @@ -57,7 +57,7 @@ static bool __init sbf_value_valid(u8 v)
+>  {
+>  	if (v & SBF_RESERVED)		/* Reserved bits */
+>  		return false;
+> -	if (!parity8(v))
+> +	if (!parity_odd(v))
+>  		return false;
 >  
->  static const char * const sm8550_clk_reset_table[] = { "bus" };
+>  	return true;
+> diff --git a/drivers/hwmon/spd5118.c b/drivers/hwmon/spd5118.c
+> index 358152868d96..15761f2ca4e9 100644
+> --- a/drivers/hwmon/spd5118.c
+> +++ b/drivers/hwmon/spd5118.c
+> @@ -298,7 +298,7 @@ static umode_t spd5118_is_visible(const void *_data, enum hwmon_sensor_types typ
+>   */
+>  static bool spd5118_vendor_valid(u8 bank, u8 id)
+>  {
+> -	if (parity8(bank) == 0 || parity8(id) == 0)
+> +	if (!parity_odd(bank) || !parity_odd(id))
+>  		return false;
 >  
-> +static const char * const sm8650_clk_reset_table[] = { "bus", "core" };
-> +
-> +static const char * const sm8650_controller_reset_table[] = { "xo" };
-> +
->  static const struct bw_info sm8550_bw_table_dec[] = {
->  	{ ((4096 * 2160) / 256) * 60, 1608000 },
->  	{ ((4096 * 2160) / 256) * 30,  826000 },
-> @@ -264,3 +268,63 @@ struct iris_platform_data sm8550_data = {
->  	.dec_op_int_buf_tbl = sm8550_dec_op_int_buf_tbl,
->  	.dec_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_op_int_buf_tbl),
->  };
-> +
-> +/*
-> + * Shares most of SM8550 data except:
-> + * - vpu_ops to iris_vpu33_ops
-> + * - clk_rst_tbl to sm8650_clk_reset_table
-> + * - controller_rst_tbl to sm8650_controller_reset_table
-> + * - fwname to "qcom/vpu/vpu33_p4.mbn"
-> + */
-> +struct iris_platform_data sm8650_data = {
-> +	.get_instance = iris_hfi_gen2_get_instance,
-> +	.init_hfi_command_ops = iris_hfi_gen2_command_ops_init,
-> +	.init_hfi_response_ops = iris_hfi_gen2_response_ops_init,
-> +	.vpu_ops = &iris_vpu33_ops,
-> +	.set_preset_registers = iris_set_sm8550_preset_registers,
-> +	.icc_tbl = sm8550_icc_table,
-> +	.icc_tbl_size = ARRAY_SIZE(sm8550_icc_table),
-> +	.clk_rst_tbl = sm8650_clk_reset_table,
-> +	.clk_rst_tbl_size = ARRAY_SIZE(sm8650_clk_reset_table),
-> +	.controller_rst_tbl = sm8650_controller_reset_table,
-> +	.controller_rst_tbl_size = ARRAY_SIZE(sm8650_controller_reset_table),
-> +	.bw_tbl_dec = sm8550_bw_table_dec,
-> +	.bw_tbl_dec_size = ARRAY_SIZE(sm8550_bw_table_dec),
-> +	.pmdomain_tbl = sm8550_pmdomain_table,
-> +	.pmdomain_tbl_size = ARRAY_SIZE(sm8550_pmdomain_table),
-> +	.opp_pd_tbl = sm8550_opp_pd_table,
-> +	.opp_pd_tbl_size = ARRAY_SIZE(sm8550_opp_pd_table),
-> +	.clk_tbl = sm8550_clk_table,
-> +	.clk_tbl_size = ARRAY_SIZE(sm8550_clk_table),
-> +	/* Upper bound of DMA address range */
-> +	.dma_mask = 0xe0000000 - 1,
-> +	.fwname = "qcom/vpu/vpu33_p4.mbn",
-> +	.pas_id = IRIS_PAS_ID,
-> +	.inst_caps = &platform_inst_cap_sm8550,
-> +	.inst_fw_caps = inst_fw_cap_sm8550,
-> +	.inst_fw_caps_size = ARRAY_SIZE(inst_fw_cap_sm8550),
-> +	.tz_cp_config_data = &tz_cp_config_sm8550,
-> +	.core_arch = VIDEO_ARCH_LX,
-> +	.hw_response_timeout = HW_RESPONSE_TIMEOUT_VALUE,
-> +	.ubwc_config = &ubwc_config_sm8550,
-> +	.num_vpp_pipe = 4,
-> +	.max_session_count = 16,
-> +	.max_core_mbpf = ((8192 * 4352) / 256) * 2,
-> +	.input_config_params =
-> +		sm8550_vdec_input_config_params,
-> +	.input_config_params_size =
-> +		ARRAY_SIZE(sm8550_vdec_input_config_params),
-> +	.output_config_params =
-> +		sm8550_vdec_output_config_params,
-> +	.output_config_params_size =
-> +		ARRAY_SIZE(sm8550_vdec_output_config_params),
-> +	.dec_input_prop = sm8550_vdec_subscribe_input_properties,
-> +	.dec_input_prop_size = ARRAY_SIZE(sm8550_vdec_subscribe_input_properties),
-> +	.dec_output_prop = sm8550_vdec_subscribe_output_properties,
-> +	.dec_output_prop_size = ARRAY_SIZE(sm8550_vdec_subscribe_output_properties),
-> +
-> +	.dec_ip_int_buf_tbl = sm8550_dec_ip_int_buf_tbl,
-> +	.dec_ip_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_ip_int_buf_tbl),
-> +	.dec_op_int_buf_tbl = sm8550_dec_op_int_buf_tbl,
-> +	.dec_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_op_int_buf_tbl),
-> +};
-While i was extending the data for QCS8300 (one another iris-v3 variant), i
-realize that this file iris_platform_sm8550.c is getting dumped with all SOC
-platform data. It would be a good idea at this point to split it into something
-like this
-1. Introduce SOC specific c file and move the respective SOC platform data to
-it, for ex, in this case sm8650_data
-2. Move the common structs from iris_platform_sm8550.c to
-iris_platform_common.h. This way more SOCs getting added in future, can include
-the common header to reuse them, otherwise it would end up using 8550.c for all
-future SOC.
+>  	id &= 0x7f;
+> diff --git a/drivers/i3c/master/dw-i3c-master.c b/drivers/i3c/master/dw-i3c-master.c
+> index 611c22b72c15..dc61d87fcd94 100644
+> --- a/drivers/i3c/master/dw-i3c-master.c
+> +++ b/drivers/i3c/master/dw-i3c-master.c
+> @@ -867,7 +867,7 @@ static int dw_i3c_master_daa(struct i3c_master_controller *m)
+>  		master->devs[pos].addr = ret;
+>  		last_addr = ret;
+>  
+> -		ret |= parity8(ret) ? 0 : BIT(7);
+> +		ret |= parity_odd(ret) ? 0 : BIT(7);
+>  
+>  		writel(DEV_ADDR_TABLE_DYNAMIC_ADDR(ret),
+>  		       master->regs +
+> diff --git a/drivers/i3c/master/i3c-master-cdns.c b/drivers/i3c/master/i3c-master-cdns.c
+> index fd3752cea654..df14f978a388 100644
+> --- a/drivers/i3c/master/i3c-master-cdns.c
+> +++ b/drivers/i3c/master/i3c-master-cdns.c
+> @@ -889,7 +889,7 @@ static u32 prepare_rr0_dev_address(u32 addr)
+>  	ret |= (addr & GENMASK(9, 7)) << 6;
+>  
+>  	/* RR0[0] = ~XOR(addr[6:0]) */
+> -	ret |= parity8(addr & 0x7f) ? 0 : BIT(0);
+> +	ret |= parity_odd(addr & 0x7f) ? 0 : BIT(0);
+>  
+>  	return ret;
+>  }
+> diff --git a/drivers/i3c/master/mipi-i3c-hci/dat_v1.c b/drivers/i3c/master/mipi-i3c-hci/dat_v1.c
+> index 85c4916972e4..d692a299607d 100644
+> --- a/drivers/i3c/master/mipi-i3c-hci/dat_v1.c
+> +++ b/drivers/i3c/master/mipi-i3c-hci/dat_v1.c
+> @@ -114,7 +114,7 @@ static void hci_dat_v1_set_dynamic_addr(struct i3c_hci *hci,
+>  	dat_w0 = dat_w0_read(dat_idx);
+>  	dat_w0 &= ~(DAT_0_DYNAMIC_ADDRESS | DAT_0_DYNADDR_PARITY);
+>  	dat_w0 |= FIELD_PREP(DAT_0_DYNAMIC_ADDRESS, address) |
+> -		  (parity8(address) ? 0 : DAT_0_DYNADDR_PARITY);
+> +		  (parity_odd(address) ? 0 : DAT_0_DYNADDR_PARITY);
+>  	dat_w0_write(dat_idx, dat_w0);
+>  }
+>  
+> diff --git a/include/linux/bitops.h b/include/linux/bitops.h
+> index c1cb53cf2f0f..7c4c8afccef1 100644
+> --- a/include/linux/bitops.h
+> +++ b/include/linux/bitops.h
+> @@ -230,35 +230,40 @@ static inline int get_count_order_long(unsigned long l)
+>  }
+>  
+>  /**
+> - * parity8 - get the parity of an u8 value
+> - * @value: the value to be examined
+> + * parity_odd - get the parity of an u64 value
+> + * @val: the value to be examined
+>   *
+> - * Determine the parity of the u8 argument.
+> + * Determine the parity of the u64 argument.
+>   *
+>   * Returns:
+> - * 0 for even parity, 1 for odd parity
+> + * false for even parity, true for odd parity
+>   *
+>   * Note: This function informs you about the current parity. Example to bail
+>   * out when parity is odd:
+>   *
+> - *	if (parity8(val) == 1)
+> + *	if (parity_odd(val))
+>   *		return -EBADMSG;
+>   *
+>   * If you need to calculate a parity bit, you need to draw the conclusion from
+>   * this result yourself. Example to enforce odd parity, parity bit is bit 7:
+>   *
+> - *	if (parity8(val) == 0)
+> + *	if (!parity_odd(val))
+>   *		val ^= BIT(7);
+>   */
+> -static inline int parity8(u8 val)
+> +#ifndef parity_odd
 
-Share your comments if you have any better approach to manage/re-use these
-platform data considering more SOCs getting added.
+Please don't add this guard. We've got no any arch implementations
+so far, and this is a dead code. Those adding arch code will also
+add the ifdefery.
 
-Regards,
-Vikash
-
-> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
-> index 4f8bce6e2002bffee4c93dcaaf6e52bf4e40992e..7cd8650fbe9c09598670530103e3d5edf32953e7 100644
-> --- a/drivers/media/platform/qcom/iris/iris_probe.c
-> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
-> @@ -345,6 +345,10 @@ static const struct of_device_id iris_dt_match[] = {
->  			.data = &sm8250_data,
->  		},
->  #endif
-> +	{
-> +		.compatible = "qcom,sm8650-iris",
-> +		.data = &sm8650_data,
-> +	},
->  	{ },
->  };
->  MODULE_DEVICE_TABLE(of, iris_dt_match);
-> 
+> +static inline __attribute_const__ bool parity_odd(u64 val)
+>  {
+>  	/*
+>  	 * One explanation of this algorithm:
+>  	 * https://funloop.org/codex/problem/parity/README.html
+>  	 */
+> +	val ^= val >> 32;
+> +	val ^= val >> 16;
+> +	val ^= val >> 8;
+>  	val ^= val >> 4;
+>  	return (0x6996 >> (val & 0xf)) & 1;
+>  }
+> +#endif
+>  
+>  /**
+>   * __ffs64 - find first set bit in a 64 bit word
+> -- 
+> 2.34.1
 
