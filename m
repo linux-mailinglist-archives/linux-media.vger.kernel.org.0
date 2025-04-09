@@ -1,115 +1,106 @@
-Return-Path: <linux-media+bounces-29728-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29729-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7359A821CB
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 12:11:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C3CA821E8
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 12:20:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 06B9119E4F8E
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 10:11:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3605A1B871D4
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 10:20:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D0EE25D54A;
-	Wed,  9 Apr 2025 10:10:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAA2E25D52E;
+	Wed,  9 Apr 2025 10:20:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AdCD8Yje"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="X+KeTSGK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FBCE25D210
-	for <linux-media@vger.kernel.org>; Wed,  9 Apr 2025 10:10:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CAEA2B9CD
+	for <linux-media@vger.kernel.org>; Wed,  9 Apr 2025 10:20:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744193457; cv=none; b=qDbnC3glgBNy83plZWbKb8mlxrbINWh1knbqyjlDhzF/4ok0CGppIWU7BadA88v+VGbEHs0jAWHb3Mh7KZbzm4otQRmNwN9VKPjb34k4wQAPcXOzGozOTCsZiFGMqMF7O5Tt3j/wOdFZdLlA4Nt35TmWfvpCwm3Eh7+mV/l2I4g=
+	t=1744194034; cv=none; b=FYV69TTy8SvW4uRWLytCprnc8trq0oLktlPCKbJGWp/sIsWWEFAwm6BJKoKkpWw32aT+C4gj/1GJZXlVfaNyzMv/cAwxUQRf4v0+PszMpu3AzFsret0/69zZxN1onJa2+HP533O9qRR7EcyCk8D+mzBsIFM2gVnn5D0wOuHLBX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744193457; c=relaxed/simple;
-	bh=ydJiOQNmUVVsu+RJhdp6g9LD5gTO54+zKzKIoZmfDnA=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=XCeAyh4VZdknIYWIIZ/5mnKJ+ssIGfGrrO+1QCyY3wVZg8Uvcex6Z7p2CMc73KLoxtaxWYFoCtcCW0MzRq2eYi3AJ9ZHKJVNjzRvU/b1HejKIHzsJcKdmIZ6zb18h1x+oc0RHrfEJRorJBOh6FXyJOx6sZ5Ut7CcAAT+aPeuEbY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AdCD8Yje; arc=none smtp.client-ip=209.85.221.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-523f1b31cf8so2740411e0c.0
-        for <linux-media@vger.kernel.org>; Wed, 09 Apr 2025 03:10:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744193454; x=1744798254; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ydJiOQNmUVVsu+RJhdp6g9LD5gTO54+zKzKIoZmfDnA=;
-        b=AdCD8YjeKW/39VK57UeSLwxGBU4Qb3s7E5L1g35JUXDlSp85x6yA87upq644R3BFxf
-         a7ZWJvSZn4Mr54zKPCrA1SNeICSi36XzCDNZjw5PceJDvderI14IU6EMUJORTV4R4Dnt
-         1DtqdM6y25Mird8EWZk7imnkOc3jPdudWbN3pPufry3mYBaD3iS8OQ9MjJieHz1x8PbO
-         YrJG1RmT527NwDF/KFbe83z4bXz41u73qvpMapujqszJ6Q6+z1mRPBPybGKWoRugZ5ph
-         E2w1yuN5v69GRwMQkhczzrMqLSvtkPXxe1iQ43Wfa9oRPdWEWgIeozDUsCZdQz+UGISR
-         GhkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744193454; x=1744798254;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ydJiOQNmUVVsu+RJhdp6g9LD5gTO54+zKzKIoZmfDnA=;
-        b=l4uRmlM6kueXNAt5g41kUwpQ3Ugq/uAjokO7GZCEJLBXiXgie+Me7P64ioogSSVWPC
-         PhoNnQQqPTAkesR0aSbSdAfog6cmG+NGYQA8YSFHiuQb2YoUciPTEgyINlLrkD3Z90nD
-         CpvYLsUQLOoi4MKvmCP3m/bhng1DJX9xj3Ja7RzGkqEdt0Z22vjexSS7qnyw1f+UVspM
-         qKYcJheFXXTp3CNK7PcrmU0XiQcNFarg/bOrnzvpf+O4y7RbsGFDDMBYQ7m+GJZQIccK
-         BRnoESpLWpeQ1ZFP7INAURcdx+4cWZm+dxHyXz2LtdC8LbUvU90jMRWBzt2UvRJVwh6A
-         nI2w==
-X-Gm-Message-State: AOJu0Yw9wiMvJF0yUsHJls4noXroZOpbSvKawlc/UXk7MoQbthHOhtFc
-	7kwuyB5wcs+M6dSLOh20KVKRE3LFURy24UP0LCJI9oBaOISpMvn/fdjX8h0ZHvyPP4HrRdoBxfz
-	+d5e6eKVi3ccSohyRWoRshHDfuXz69ubH2lQ=
-X-Gm-Gg: ASbGnctZvD8DYi6sEANnaJPIn5y+Ce/jZSXTazDkXpjIYpRAsk7EITIL5KKE1oG2Pqc
-	XVUuMzA84hz1sWwWBsyFY3BfxXokcr1XTRSPC8UdXuCG7AlVbHjZl7qR3Vfd3b8mcNYyWYbMzJE
-	/TvRQ8l+Tf2NGD8a6IVBrfJw==
-X-Google-Smtp-Source: AGHT+IFRich9kED1HWBO5bNIsKBjV5oO7/cXF8YIZgz0M6oVFTBVp1UMC+7uGG819AV/GqAnD5t2PfQ098HhaHm0jP8=
-X-Received: by 2002:a05:6122:2207:b0:520:42d3:91c1 with SMTP id
- 71dfb90a1353d-527a92773cemr965361e0c.10.1744193453700; Wed, 09 Apr 2025
- 03:10:53 -0700 (PDT)
+	s=arc-20240116; t=1744194034; c=relaxed/simple;
+	bh=twGizWziTSGhIf/u7VfetwMjqczV5pVoGog4EQNK78k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fFHM517aDmmmRJ+iCi0e0nh0YIyUQyIdVxsutvKdXu/P/1ei2mLgj1kJE1qNVANfgprq5Cr1FhkRecWzZF9zrWtwOuLQX7xf7Os+4Tgg0246lUu3mexdc0EIQsA5zEF8G6NMjdFqJ5TM9GCHWCxDHLP4585l2As3zPGIe9VfXQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=X+KeTSGK; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744194032; x=1775730032;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=twGizWziTSGhIf/u7VfetwMjqczV5pVoGog4EQNK78k=;
+  b=X+KeTSGKZawLL7TE/fADmmlMffq1MLWofw1aCL/ox0NrbXSTKylG1NRc
+   dYFWJJjKeQQFR2yEXfU1y+GePx2Sai4GZGEP0OvR6V3epm8+bJzv7Jt0A
+   GaOJWagfBskdUYXic7bh8V50l931eVzzveBV0P8lobA6OiRDX0KPjHZix
+   hxLIAVHpWb0kduJUHbonCQUCPZqXEIm3dIuVX2MObkLG6aNnL0VhAu8MC
+   yr0XfI3heP88W8f/VhWPwufBC8yS9hXgIDb7OT8YGcT9xdYgmoupSR13d
+   v6kZxhSzlV1ykdyerZM5SWdjU3FkTcn6SpnuZ59mV9iOYxdAk/I0775zE
+   Q==;
+X-CSE-ConnectionGUID: fnNazsQvRYW+A/a3GxY83Q==
+X-CSE-MsgGUID: hGxGpEhIQpyBqvJPYUU/9g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="49505366"
+X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
+   d="scan'208";a="49505366"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 03:20:31 -0700
+X-CSE-ConnectionGUID: XeW8oCNOR1iiZk5e7jAYkw==
+X-CSE-MsgGUID: 0BFYwd9OT5yjYPlqoaNGgg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
+   d="scan'208";a="128453920"
+Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.245.254.14])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 03:20:31 -0700
+Date: Wed, 9 Apr 2025 12:20:27 +0200
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>
+Subject: Re: [PATCH] media: intel/ipu6: Fix dma mask for non-secure mode
+Message-ID: <Z/ZJ670pMe1f1gTB@linux.intel.com>
+References: <20250409095825.1014521-1-stanislaw.gruszka@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250408193158.80936-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <67f58996.050a0220.81e18.0f33@mx.google.com>
-In-Reply-To: <67f58996.050a0220.81e18.0f33@mx.google.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Wed, 9 Apr 2025 11:10:27 +0100
-X-Gm-Features: ATxdqUH_aEdB7XEE7gK6N8gVm8VKEVSmndRNclUKWgyPsRdSukaM2YIevXpgJdo
-Message-ID: <CA+V-a8uUzg=JUoQdqrBKbL2GvcosNCRXDXuyC2Vhd0mcvW7nGw@mail.gmail.com>
-Subject: Re: [v2,0/2] media: dt-bindings: Document VSP and FCP for RZ/V2H(P) SoC
-To: linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250409095825.1014521-1-stanislaw.gruszka@linux.intel.com>
 
-Hi,
+On Wed, Apr 09, 2025 at 11:58:25AM +0200, Stanislaw Gruszka wrote:
+> We use dma_get_mask() of auxdev device for calculate iova pfn limit.
+> This is always 32 bit mask as we do not initialize the mask (and we can
+> not do so, since dev->dev_mask is NULL anyways for auxdev).
+> 
+> Since we need 31 bit mask for non-secure mode create wrapper of
+> alloc_iova() which use mmu_info->aperture_end. This give us always
+> the correct mask.
+> 
+> Fixes: daabc5c64703 ("media: ipu6: not override the dma_ops of device in driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+<snip>
+>  			       void __iomem *base, int mmid,
+>  			       const struct ipu6_hw_variants *hw);
+> @@ -70,4 +76,11 @@ void ipu6_mmu_unmap(struct ipu6_mmu_info *mmu_info, unsigned long iova,
+>  		    size_t size);
+>  phys_addr_t ipu6_mmu_iova_to_phys(struct ipu6_mmu_info *mmu_info,
+>  				  dma_addr_t iova);
+> +
+> +static inline struct iova *ipu_alloc_iova(struct ipu6_mmu *mmu,
+> +					  unsigned long n_pages)
+Before posing one of my vim macro accidentally mangled this patch.
+Will send v2.
 
-On Tue, Apr 8, 2025 at 9:39=E2=80=AFPM Patchwork Integration
-<patchwork@media-ci.org> wrote:
->
-> Dear Prabhakar:
->
-> Thanks for your patches! Unfortunately the Media CI robot detected some
-> issues:
->
->
->
-> Please fix your series, and upload a new version. If you have a patchwork
-> account, do not forget to mark the current series as Superseded.
->
-> For more details, check the full report at:
-> https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/742401=
-85/artifacts/report.htm .
->
-All the errors reported here seem to be due to server issues and not
-relating to the patches. Can you please confirm.
-
-error: RPC failed; curl 92 HTTP/2 stream 5 was not closed cleanly:
-PROTOCOL_ERROR (err 1)
-17fatal: error processing shallow info: 4
-
-Cheers,
-Prabhakar
+Regards
+Stanislaw
 
