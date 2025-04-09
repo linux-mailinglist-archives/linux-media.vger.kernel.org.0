@@ -1,326 +1,258 @@
-Return-Path: <linux-media+bounces-29758-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29759-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4EF7A829C3
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 17:15:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AAD6A82B22
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 17:50:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 69911501DAB
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 15:09:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B1B1C19E50E2
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 15:45:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C995226FDB6;
-	Wed,  9 Apr 2025 15:04:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 355D4268FF4;
+	Wed,  9 Apr 2025 15:44:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="LS9up8sz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="P3grMWA+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3406626FD82;
-	Wed,  9 Apr 2025 15:04:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EADB025D556;
+	Wed,  9 Apr 2025 15:44:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744211069; cv=none; b=c6NMv5vIqyJOXwcKuehS5LVxoQGjmCLdwCVB/tDb3nGEdUp8pW8g1cyBUofuR8hRB9JAJAahLGWt5Z9ixFVQN57k8HWpuLAqjTfuJoom5pHcHH8L5fZul67iHF3vFdi8uwOqsVZHlG8VgnHm77EiwZfn2VoZT0zA6xUB4Xry21U=
+	t=1744213473; cv=none; b=F+k5zeGWqO6XobqXfGpziRvzdRFr5SmdcNvJUK0AZqbFNxLxzgHJn3gqm3VooKISDLN/pMw+O9RTjgfjUnOeUGn4EWYyKJ367HxoHQNoCga8vNlpIJ7W0qSz5rarxyuqHt8tGe5/R0wMNPKH1wgDOhnOkxorJlEZQUpd4M5YkDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744211069; c=relaxed/simple;
-	bh=vXNbrTLUQrlYNydORT5K+rP57dVB2oADM2jV2AgBth4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hANqiunfNiLMiZ5Roz7J4XNLzWR1U5UKXcZjlvxHGPyXmNxadVdNaUVenVq5cYKm6l3wX18rn5Qz0KzBlEZLdtuW/hbEAAQcV4jGh+1zBtiPNo+GwRc9zWfRjM4KVPDiY5mnh9kj5ordAMb80kbQpX0/mVo3drKho2rtmEyEinM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=LS9up8sz; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4ZXmSR19b9z9t7P;
-	Wed,  9 Apr 2025 17:04:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1744211063; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vXNbrTLUQrlYNydORT5K+rP57dVB2oADM2jV2AgBth4=;
-	b=LS9up8szfCpBJACvt4gXa2EtpB97sVavX67wzRPpNDGRm6AHGs0RWhd+AXtPqRnp9op8zM
-	yE04pWSHbv+2bVCH/VYb7yTY+oy+qVUAZ4WW9/6lnP3PpHLGzc4tcRtTF4O7CQkK3tXhvX
-	cCiMrZuEgIld1a2KfjtHsIUu/oAQCKCx7fGs11u4gWzMoATXWnWjLCYPUuT99rUvw0HFVE
-	FckYqYRVDbBSXy1btg0Kjd2aoH0hjFAIPruG1nC4IsLJddiCYtoMfHQpDpP9RKPQBOiAnR
-	HJHimkXP9tmHGGqthFRauJolLOimIaLd2csSieO9zeWinLAUXQxNFxqKta20mA==
-Message-ID: <0b2fc70d8fae566c8ca43bafc929e2bd19725924.camel@mailbox.org>
-Subject: Re: [PATCH 1/2] dma-fence: Rename dma_fence_is_signaled()
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
-	phasta@kernel.org, Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
- <gustavo@padovan.org>, Felix Kuehling <Felix.Kuehling@amd.com>, Alex
- Deucher <alexander.deucher@amd.com>, Xinhui Pan <Xinhui.Pan@amd.com>, David
- Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>,  Thomas Zimmermann <tzimmermann@suse.de>, Lucas Stach
- <l.stach@pengutronix.de>, Russell King <linux+etnaviv@armlinux.org.uk>,
- Christian Gmeiner <christian.gmeiner@gmail.com>,  Jani Nikula
- <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
- Tvrtko Ursulin <tursulin@ursulin.net>, Frank Binns
- <frank.binns@imgtec.com>, Matt Coster <matt.coster@imgtec.com>, Qiang Yu
- <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>, Sean Paul
- <sean@poorly.run>,  Konrad Dybcio <konradybcio@kernel.org>, Abhinav Kumar
- <quic_abhinavk@quicinc.com>, Dmitry Baryshkov
- <dmitry.baryshkov@linaro.org>, Marijn Suijten
- <marijn.suijten@somainline.org>,  Lyude Paul <lyude@redhat.com>, Danilo
- Krummrich <dakr@kernel.org>, Rob Herring <robh@kernel.org>,  Steven Price
- <steven.price@arm.com>, Dave Airlie <airlied@redhat.com>, Gerd Hoffmann
- <kraxel@redhat.com>,  Matthew Brost <matthew.brost@intel.com>, Huang Rui
- <ray.huang@amd.com>, Matthew Auld <matthew.auld@intel.com>,  Melissa Wen
- <mwen@igalia.com>, =?ISO-8859-1?Q?Ma=EDra?= Canal <mcanal@igalia.com>, Zack
- Rusin <zack.rusin@broadcom.com>, Broadcom internal kernel review list
- <bcm-kernel-feedback-list@broadcom.com>, Lucas De Marchi
- <lucas.demarchi@intel.com>, Thomas =?ISO-8859-1?Q?Hellstr=F6m?=
- <thomas.hellstrom@linux.intel.com>, Bas Nieuwenhuizen
- <bas@basnieuwenhuizen.nl>,  Yang Wang <kevinyang.wang@amd.com>, Jesse Zhang
- <jesse.zhang@amd.com>, Tim Huang <tim.huang@amd.com>,  Sathishkumar S
- <sathishkumar.sundararaju@amd.com>, Saleemkhan Jamadar
- <saleemkhan.jamadar@amd.com>, Sunil Khatri <sunil.khatri@amd.com>, Lijo
- Lazar <lijo.lazar@amd.com>, Hawking Zhang <Hawking.Zhang@amd.com>, Ma Jun
- <Jun.Ma2@amd.com>, Yunxiang Li <Yunxiang.Li@amd.com>, Eric Huang
- <jinhuieric.huang@amd.com>, Asad Kamal <asad.kamal@amd.com>, Srinivasan
- Shanmugam <srinivasan.shanmugam@amd.com>,  Jack Xiao <Jack.Xiao@amd.com>,
- Friedrich Vock <friedrich.vock@gmx.de>, Michel =?ISO-8859-1?Q?D=E4nzer?=
- <mdaenzer@redhat.com>, Geert Uytterhoeven <geert@linux-m68k.org>,
- Anna-Maria Behnsen <anna-maria@linutronix.de>, Thomas Gleixner
- <tglx@linutronix.de>, Frederic Weisbecker <frederic@kernel.org>, Dan
- Carpenter <dan.carpenter@linaro.org>,  linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org,  linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org,  amd-gfx@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org,  intel-gfx@lists.freedesktop.org,
- lima@lists.freedesktop.org,  linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org,  nouveau@lists.freedesktop.org,
- virtualization@lists.linux.dev,  spice-devel@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org
-Date: Wed, 09 Apr 2025 17:04:00 +0200
-In-Reply-To: <334e843c-d7fe-4e33-b4fc-f3d18226465a@amd.com>
-References: <20250409120640.106408-2-phasta@kernel.org>
-	 <20250409120640.106408-3-phasta@kernel.org>
-	 <20250409143917.31303d22@collabora.com>
-	 <73d41cd84c73b296789b654e45125bfce88e0dbf.camel@mailbox.org>
-	 <72eb974dfea8fa1167cf97e29848672223f6fc5b.camel@mailbox.org>
-	 <ab7d1937-d0e9-45f8-8f7d-ddd7a1a9d3d5@amd.com>
-	 <9a90f7f14c22c01aa28d89aa91bf4dfa4049c062.camel@mailbox.org>
-	 <334e843c-d7fe-4e33-b4fc-f3d18226465a@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1744213473; c=relaxed/simple;
+	bh=Dh2iCy49AlSFY/9nHd6Unte6BCO4NJ7RSIG0FCrmwLQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FeZLPmpmC8D9uUjx5P2+6tguray0g50sPc6/U9WGxEFRh1gcrAGsp0D/LpP2wnad8NRroBpjU3M4xHpfTqDSqF4TxdFJejrS/EerufpEW6R6w4+0M2pAgwbQzXxPmn+HPhmPssooPWzm6iyEdA2LwNBNrU35e0lZh+i0arZT5ak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=P3grMWA+; arc=none smtp.client-ip=209.85.215.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-af50f56b862so4885734a12.1;
+        Wed, 09 Apr 2025 08:44:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744213471; x=1744818271; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=MUUuTxOiF/e6pFbiGJ55Vd+VaZOP/yQaXFZJe/XlPzE=;
+        b=P3grMWA+e1iHD/x8gmr9RZaGKL+y35ts6TeeIjR2IueDnvP00TrdUPrUdzulmMe1xq
+         Q5L6qoBA7p8tXyuUmSoZmbDWbPp2eccSytVL7WRGeIdRW0bE1Ko+uo3Nb9WPC4l3zNlI
+         t17XGTYTHVabMOIbz8E77PKG95PQSXiNVe5Aa2/OvTh+OM0HkUxDiuyIX4bpZ0daU5nw
+         3tHcwqltaImNumjvXoztsSYqsjaCd5toL7ilw3auvhdm6cE8X0pVo7gg4UFU/34lbpvG
+         bJVdk81DGhBCOvRXN7RzyCp//oHgsklZjh0q8Uv3ToDWNT6XaaLgaCOw+cA6RGaTfwfv
+         PWpQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744213471; x=1744818271;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=MUUuTxOiF/e6pFbiGJ55Vd+VaZOP/yQaXFZJe/XlPzE=;
+        b=ezqe8+pyKUqnc+U7I4MsmixHZ/N62IHgLEqYlseKrBC0Sk7iR6zB45gFt7BgFK5a6i
+         SlSjkiQYIUApV5GBg+BuqzMUZCKqaU98mG9iiaZ9p8uWsLloAYlDdhkbNDYiplBLKDHD
+         4YU2aACzOw2DpLdC5X6+QAeshCPcA5icNfJSCcAmN2YzKBBH7zU/Lq1flvdHgdpr9zaA
+         Tf0AbgyIsORSWgzwMtrOBuciPwmOxYcctVOM6sFC/gIEOm9tbnq0yf4fnaL2J4jGvShm
+         sSaldz6GsCsJT23rA08oLMIJSd1hwijTyLceLyM5ut112rzKP1ZuOtAAS5ElBAx1ZnOk
+         WerA==
+X-Forwarded-Encrypted: i=1; AJvYcCV5Rkn4zKLojuF+En+gCnkt7gnvUEwbig8/nXjd43ZEHWwFSLZk5AQeu/WPOvEd8AF6eM8=@vger.kernel.org, AJvYcCVVQI3aGGedKFxdxgGuSwwcDF7dQuqBIkBH3kz2rqNTfHTCkLxBFMezKczODU1Z2xQXnJ9djtHSP722oNg=@vger.kernel.org, AJvYcCVbWCGtfoH09WTi/NT7ZM0mmr/BjbwywlW1sD8VUuagcR1NoU9vLRta5StAsnO/EQZ9FdnIaQIV@vger.kernel.org, AJvYcCVt+xlNsSzhjRCzuxojTpKGdLWm2pO5n+Obb9nmffh0lIePo6CIuOnEM2H3lfPyPzsWNDEygonAjF06b3RX@vger.kernel.org, AJvYcCW1MpgD++n9SKyqcFIhRlZ4ZxXpP19nXWgGVc4nxw5ytQBjr7s6TlG+2RxtUN2tKa5NCz0kvIDbuFi1T30=@vger.kernel.org, AJvYcCW5KvcnBShGwAdqpTKairRWKZLSUXjGARoyHsF786h8xuxcanLGPzyWY+WibXG795HK3rCz1SGhrTcWxPzKP2c=@vger.kernel.org, AJvYcCX0ebyTyZ5rFwbJOV5zf12p6QcxlRVb2nT5psEFWReaqaVXL/Assea5FL22YLFv5xn6ODy4izCvnl6TqxE=@vger.kernel.org, AJvYcCXb/E3Bfte9scP4x81Ru3Bu953vgtfS3YbKzXsJypAy881Zu39OqareJY1w/8/nc9m4C2xURHmnSFbHOjZj@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8fQ2h9tmGG0TTbeTc9aCQDUC8VTVQBjvJpzjMxIWVN/pkC3tV
+	l0F9gCb7Pf70zeuWWM4ZxEEVxFV4iOzLPthzyKGheK0T/hTbrmuh
+X-Gm-Gg: ASbGnctIjBmpRRcrd3OJMiFcbxMMMyahV5tvXuLqykimg08JBYIbJ6p1BRj/gtEZemT
+	5Z4S8QApXGlW9SoHRuBw50AUK3ycBpb5yFRSm/KKs6i8J1yPxN958EDXbuJtRLIYDc5DJP4h0NB
+	LQFX4mFIXN4CagYZtDuvEtlypC7vXc9/K/zPTbPSPH20Hp0Y7PD6SDbccyYsGRFJSBAJY3vTvPB
+	15zJAyrItCiXfSlVH1C9kzfWeGk+69QMUTVcQuEGEaU9kSVF3CtI86Kn25vcID62xd6AibmkVqj
+	qRKfetp7Dmdzy7zsBJpMOPOkwOw288afsfcGgDFJiSgcM90QSJhlNye6lnS8q4aUiJ8Llpk=
+X-Google-Smtp-Source: AGHT+IGnoEozOknyoC6We3L6wSu5LW5c8+l3K2S+PrKsnw7nWoi0Lt21fMnvhITP0Puz6RwfcrL34g==
+X-Received: by 2002:a17:90a:d884:b0:2f9:cf97:56ac with SMTP id 98e67ed59e1d1-306dd1719cfmr5116718a91.0.1744213470998;
+        Wed, 09 Apr 2025 08:44:30 -0700 (PDT)
+Received: from visitorckw-System-Product-Name.. ([140.113.216.168])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-306dd171991sm1952304a91.37.2025.04.09.08.44.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Apr 2025 08:44:30 -0700 (PDT)
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: tglx@linutronix.de,
+	mingo@redhat.com,
+	bp@alien8.de,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	jk@ozlabs.org,
+	joel@jms.id.au,
+	eajames@linux.ibm.com,
+	andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org,
+	rfoss@kernel.org,
+	maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org,
+	tzimmermann@suse.de,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	dmitry.torokhov@gmail.com,
+	mchehab@kernel.org,
+	awalls@md.metrocast.net,
+	hverkuil@xs4all.nl,
+	miquel.raynal@bootlin.com,
+	richard@nod.at,
+	vigneshr@ti.com,
+	louis.peens@corigine.com,
+	andrew+netdev@lunn.ch,
+	davem@davemloft.net,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	parthiban.veerasooran@microchip.com,
+	arend.vanspriel@broadcom.com,
+	johannes@sipsolutions.net,
+	gregkh@linuxfoundation.org,
+	jirislaby@kernel.org,
+	yury.norov@gmail.com,
+	akpm@linux-foundation.org,
+	jdelvare@suse.com,
+	linux@roeck-us.net,
+	alexandre.belloni@bootlin.com,
+	pgaj@cadence.com
+Cc: hpa@zytor.com,
+	alistair@popple.id.au,
+	linux@rasmusvillemoes.dk,
+	Laurent.pinchart@ideasonboard.com,
+	jonas@kwiboo.se,
+	jernej.skrabec@gmail.com,
+	kuba@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-fsi@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org,
+	linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mtd@lists.infradead.org,
+	oss-drivers@corigine.com,
+	netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org,
+	brcm80211@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com,
+	linux-serial@vger.kernel.org,
+	bpf@vger.kernel.org,
+	jserv@ccns.ncku.edu.tw,
+	Frank.Li@nxp.com,
+	linux-hwmon@vger.kernel.org,
+	linux-i3c@lists.infradead.org,
+	david.laight.linux@gmail.com,
+	andrew.cooper3@citrix.com,
+	Kuan-Wei Chiu <visitorckw@gmail.com>,
+	Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: [PATCH v4 00/13] Introduce parity_odd() and refactor redundant parity code
+Date: Wed,  9 Apr 2025 23:43:43 +0800
+Message-Id: <20250409154356.423512-1-visitorckw@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: 9wh48drngnos9i43y9zpcu5f5mrpihgx
-X-MBO-RS-ID: f0082fb0ff96fc9be99
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2025-04-09 at 16:10 +0200, Christian K=C3=B6nig wrote:
-> Am 09.04.25 um 16:01 schrieb Philipp Stanner:
-> > On Wed, 2025-04-09 at 15:14 +0200, Christian K=C3=B6nig wrote:
-> > > Am 09.04.25 um 14:56 schrieb Philipp Stanner:
-> > > > On Wed, 2025-04-09 at 14:51 +0200, Philipp Stanner wrote:
-> > > > > On Wed, 2025-04-09 at 14:39 +0200, Boris Brezillon wrote:
-> > > > > > Hi Philipp,
-> > > > > >=20
-> > > > > > On Wed,=C2=A0 9 Apr 2025 14:06:37 +0200
-> > > > > > Philipp Stanner <phasta@kernel.org> wrote:
-> > > > > >=20
-> > > > > > > dma_fence_is_signaled()'s name strongly reads as if this
-> > > > > > > function
-> > > > > > > were
-> > > > > > > intended for checking whether a fence is already
-> > > > > > > signaled.
-> > > > > > > Also
-> > > > > > > the
-> > > > > > > boolean it returns hints at that.
-> > > > > > >=20
-> > > > > > > The function's behavior, however, is more complex: it can
-> > > > > > > check
-> > > > > > > with a
-> > > > > > > driver callback whether the hardware's sequence number
-> > > > > > > indicates
-> > > > > > > that
-> > > > > > > the fence can already be treated as signaled, although
-> > > > > > > the
-> > > > > > > hardware's /
-> > > > > > > driver's interrupt handler has not signaled it yet. If
-> > > > > > > that's
-> > > > > > > the
-> > > > > > > case,
-> > > > > > > the function also signals the fence.
-> > > > > > >=20
-> > > > > > > (Presumably) this has caused a bug in Nouveau (unknown
-> > > > > > > commit),
-> > > > > > > where
-> > > > > > > nouveau_fence_done() uses the function to check a fence,
-> > > > > > > which
-> > > > > > > causes a
-> > > > > > > race.
-> > > > > > >=20
-> > > > > > > Give the function a more obvious name.
-> > > > > > This is just my personal view on this, but I find the new
-> > > > > > name
-> > > > > > just
-> > > > > > as
-> > > > > > confusing as the old one. It sounds like something is
-> > > > > > checked,
-> > > > > > but
-> > > > > > it's
-> > > > > > clear what, and then the fence is forcibly signaled like it
-> > > > > > would
-> > > > > > be
-> > > > > > if
-> > > > > > you call drm_fence_signal(). Of course, this clarified by
-> > > > > > the
-> > > > > > doc,
-> > > > > > but
-> > > > > > given the goal was to make the function name clearly
-> > > > > > reflect
-> > > > > > what
-> > > > > > it
-> > > > > > does, I'm not convinced it's significantly better.
-> > > > > >=20
-> > > > > > Maybe dma_fence_check_hw_state_and_propagate(), though it
-> > > > > > might
-> > > > > > be
-> > > > > > too long of name. Oh well, feel free to ignore this
-> > > > > > comments if
-> > > > > > a
-> > > > > > majority is fine with the new name.
-> > > > > Yoa, the name isn't perfect (the perfect name describing the
-> > > > > whole
-> > > > > behavior would be
-> > > > > dma_fence_check_if_already_signaled_then_check_hardware_state
-> > > > > _and
-> > > > > _pro
-> > > > > pa
-> > > > > gate() ^^'
-> > > > >=20
-> > > > > My intention here is to have the reader realize "watch out,
-> > > > > the
-> > > > > fence
-> > > > > might get signaled here!", which is probably the most
-> > > > > important
-> > > > > event
-> > > > > regarding fences, which can race, invoke the callbacks and so
-> > > > > on.
-> > > > >=20
-> > > > > For details readers will then check the documentation.
-> > > > >=20
-> > > > > But I'm of course open to see if there's a majority for this
-> > > > > or
-> > > > > that
-> > > > > name.
-> > > > how about:
-> > > >=20
-> > > > dma_fence_check_hw_and_signal() ?
-> > > I don't think that renaming the function is a good idea in the
-> > > first
-> > > place.
-> > >=20
-> > > What the function does internally is an implementation detail of
-> > > the
-> > > framework.
-> > >=20
-> > > For the code using this function it's completely irrelevant if
-> > > the
-> > > function might also signal the fence, what matters for the caller
-> > > is
-> > > the returned status of the fence. I think this also counts for
-> > > the
-> > > dma_fence_is_signaled() documentation.
-> > It does obviously matter. As it's currently implemented, a lot of
-> > important things happen implicitly.
->=20
-> Yeah, but that's ok.
->=20
-> The code who calls this is the consumer of the interface and so
-> shouldn't need to know this. That's why we have created the DMA fence
-> framework in the first place.
->=20
-> For the provider side when a driver or similar implements the
-> interface the relevant documentation is the dma_fence_ops structure.
->=20
-> > I only see improvement by making things more obvious.
-> >=20
-> > In any case, how would you call a wrapper that just does
-> > test_bit(IS_SIGNALED, =E2=80=A6) ?
->=20
-> Broken, that was very intentionally removed quite shortly after we
-> created the framework.
->=20
-> We have a few cases were implementations do check that for their
-> fences, but consumers should never be allowed to touch such
-> internals.
+Several parts of the kernel contain open-coded and redundant
+implementations of parity calculation. This patch series introduces
+a unified helper, parity_odd(), to simplify and standardize these
+cases.
 
-There is theory and there is practice. In practice, those internals are
-being used by Nouveau, i915, Xe, vmgfx and radeon.
+The first patch renames parity8() to parity_odd(), changes its argument
+type from u8 to u64 for broader applicability, and updates its return
+type from int to bool to make its usage and return semantics more
+intuitive-returning true for odd parity and false for even parity. It
+also adds __attribute_const__ to enable compiler optimizations.
 
-So it seems that we failed quite a bit at communicating clearly how the
-interface should be used.
+While more efficient implementations may exist, further optimization is
+postponed until a use case in performance-critical paths arises.
 
-And, to repeat myself, with both name and docu of that function, I
-think it is very easy to misunderstand what it's doing. You say that it
-shouldn't matter =E2=80=93 and maybe that's true, in theory. In practice, i=
-t
-does matter. In practice, APIs get misused and have side-effects. And
-making that harder is desirable.
+Subsequent patches refactor various kernel components to replace
+open-coded parity logic with the new helper, reducing code duplication
+and improving consistency.
 
-In any case, I might have to add another such call to Nouveau, because
-the solution preferred by you over the callback causes another race.
-Certainly one could solve this in a clean way, but someone has to do
-the work, and we're talking about more than a few hours here.
+Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+---
 
-In any case, be so kind and look at patch 2 and tell me there if you're
-at least OK with making the documentation more detailed.
+To H. Peter:
+I understand your preference for a parity8/16/32/64() style interface,
+and I agree that such a design would better accommodate potential
+arch-specific implementations. However, I suspect there are very few,
+if any, users who care about the performance of parity calculations
+enough to warrant such optimizations. So my inclination is to defer any
+arch-specific or optimized implementations until we see parity_odd()
+being used in hot paths.
 
-P.
+Changes in v4:
+- Rename parity8() to parity_odd().
+- Change the argument type from u8 to u64.
+- Use a single parity_odd() function.
 
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> > P.
-> >=20
-> > > What we should improve is the documentation of the dma_fence_ops-
-> > > > enable_signaling and dma_fence_ops->signaled callbacks.
-> > > Especially see the comment about reference counts on
-> > > enable_signaling
-> > > which is missing on the signaled callback. That is most likely
-> > > the
-> > > root cause why nouveau implemented enable_signaling correctly but
-> > > not
-> > > the other one.
-> > >=20
-> > > But putting that aside I think we should make nails with heads
-> > > and
-> > > let the framework guarantee that the fences stay alive until they
-> > > are
-> > > signaled (one way or another). This completely removes the burden
-> > > to
-> > > keep a reference on unsignaled fences from the drivers /
-> > > implementations and make things more over all more defensive.
-> > >=20
-> > > Regards,
-> > > Christian.
-> > >=20
-> > > > P.
-> > > >=20
-> > > > > P.
-> > > > >=20
-> > > > >=20
-> > > > > > Regards,
-> > > > > >=20
-> > > > > > Boris
->=20
+Changes in v3:
+- Avoid using __builtin_parity.
+- Change return type to bool.
+- Drop parity() macro.
+- Change parityXX() << y to !!parityXX() << y.
+
+Changes in v2:
+- Provide fallback functions for __builtin_parity() when the compiler
+  decides not to inline it
+- Use __builtin_parity() when no architecture-specific implementation
+  is available
+- Optimize for constant folding when val is a compile-time constant
+- Add a generic parity() macro
+- Drop the x86 bootflag conversion patch since it has been merged into
+  the tip tree
+
+v3: https://lore.kernel.org/lkml/20250306162541.2633025-1-visitorckw@gmail.com/
+v1: https://lore.kernel.org/lkml/20250223164217.2139331-1-visitorckw@gmail.com/
+v2: https://lore.kernel.org/lkml/20250301142409.2513835-1-visitorckw@gmail.com/
+
+Kuan-Wei Chiu (13):
+  bitops: Change parity8() to parity_odd() with u64 input and bool
+    return type
+  media: media/test_drivers: Replace open-coded parity calculation with
+    parity_odd()
+  media: pci: cx18-av-vbi: Replace open-coded parity calculation with
+    parity_odd()
+  media: saa7115: Replace open-coded parity calculation with
+    parity_odd()
+  serial: max3100: Replace open-coded parity calculation with
+    parity_odd()
+  lib/bch: Replace open-coded parity calculation with parity_odd()
+  Input: joystick - Replace open-coded parity calculation with
+    parity_odd()
+  net: ethernet: oa_tc6: Replace open-coded parity calculation with
+    parity_odd()
+  wifi: brcm80211: Replace open-coded parity calculation with
+    parity_odd()
+  drm/bridge: dw-hdmi: Replace open-coded parity calculation with
+    parity_odd()
+  mtd: ssfdc: Replace open-coded parity calculation with parity_odd()
+  fsi: i2cr: Replace open-coded parity calculation with parity_odd()
+  nfp: bpf: Replace open-coded parity calculation with parity_odd()
+
+ arch/x86/kernel/bootflag.c                    |  4 +--
+ drivers/fsi/fsi-master-i2cr.c                 | 20 +++------------
+ .../drm/bridge/synopsys/dw-hdmi-ahb-audio.c   |  8 ++----
+ drivers/hwmon/spd5118.c                       |  2 +-
+ drivers/i3c/master/dw-i3c-master.c            |  2 +-
+ drivers/i3c/master/i3c-master-cdns.c          |  2 +-
+ drivers/i3c/master/mipi-i3c-hci/dat_v1.c      |  2 +-
+ drivers/input/joystick/grip_mp.c              | 17 ++-----------
+ drivers/input/joystick/sidewinder.c           | 25 ++++---------------
+ drivers/media/i2c/saa7115.c                   | 12 ++-------
+ drivers/media/pci/cx18/cx18-av-vbi.c          | 12 ++-------
+ .../media/test-drivers/vivid/vivid-vbi-gen.c  |  8 ++----
+ drivers/mtd/ssfdc.c                           | 20 +++------------
+ drivers/net/ethernet/netronome/nfp/nfp_asm.c  |  7 +-----
+ drivers/net/ethernet/oa_tc6.c                 | 19 +++-----------
+ .../broadcom/brcm80211/brcmsmac/dma.c         | 18 ++-----------
+ drivers/tty/serial/max3100.c                  |  3 ++-
+ include/linux/bitops.h                        | 19 ++++++++------
+ lib/bch.c                                     | 14 +----------
+ 19 files changed, 49 insertions(+), 165 deletions(-)
+
+-- 
+2.34.1
 
 
