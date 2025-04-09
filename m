@@ -1,579 +1,272 @@
-Return-Path: <linux-media+bounces-29732-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29733-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D561A822BD
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 12:51:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CD0CA82320
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 13:10:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 95E4F4C3F0E
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 10:50:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 546FE444E1C
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 11:09:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFF4F25DAF4;
-	Wed,  9 Apr 2025 10:50:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FB652505A7;
+	Wed,  9 Apr 2025 11:09:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="ewq/fSU6"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pbCEdVHW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 427BE25D8EC;
-	Wed,  9 Apr 2025 10:50:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A095813C9A3;
+	Wed,  9 Apr 2025 11:09:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744195810; cv=none; b=Hw5hCIkXwk8vDQYeeyJWDQ+mgtDX3fF+rItxEfPzW4KZvmKF0xIoXePYxjDO/7Tm76a4ngDX1Envwg3o4kK0bHe8LUhqxWk0zFZDBtMPdHpOaFEuCzmgTwZG5AvpnJKKamb9uYE4W5YhZHf+l5Qz7iwLjhO6Mwu7EJixvF5g+Tw=
+	t=1744196954; cv=none; b=txvPpdIZ50mX/RrLyg9xwGnzN8BTLrE6ZV0pBhWDxri5SWQtk4qNuFe6MYh9IZkATs2FTndoiBNB4to8zBp4L1xv66775DxpCeKIVxWgnXhyu8GyUWOR0Cu8gDfwyKXgKGbF2IrroL+WceGOpUsOvDJsYu7h5Beyp2GSbapNVes=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744195810; c=relaxed/simple;
-	bh=/rNLSrEQSOpvZ7nwsDMuYt/FkXNNEdQSkznhwYn37SM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=DfTtuu/s0SYyET5NCNMojacfqpU/FBPUwSwAV7UqnSPIoOuAE16lpAydTx/QcdWbH40DLVmgQXKQOurZLZRpngSX7y003DDTEEHRZkKFK2bTV/UrQHM74tKkpxz6eZXtFc9q6iAQGCw2C+K5PgqtnzrKFHUrcqbwB7Bd65ki7Sw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=ewq/fSU6; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5398a5HG015866;
-	Wed, 9 Apr 2025 10:49:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	BvRoGFR35f/h0ADIFFSeWQTQxxC1ta+JOprFdLBdxzk=; b=ewq/fSU6KxPW2mzc
-	7obQnygvwuSWqjl8RKUkiIYjn76vhVremuc+/8tkTYW71CykNNyecgrepd0Xcxle
-	wwc/GC5+1Xi6xMNaHeOvjmPHgUpYo/N9qO7jhlAstk778Blu5ldYNgUyb97wkhOQ
-	hVjyK72Gmkh1vm/wdVX6EiHff6jIsu7ZI2/zJ9ItZ0xI59+7FK9ousmPqJQQMJ+u
-	tkwUIZzXWjVwTKmGTRzF3bnSNXHW0Hh/vigWZeLpZuGsSoMyivPaDNTEnokFlfd/
-	fLia35tlDwxq4zzI4CLvSMses/T4FSUTW+3x4AxmKXEKCQ8nwrafIFabUbKe3e4+
-	1FZa2w==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twd2u1g7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 09 Apr 2025 10:49:59 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 539Anw5C008784
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 9 Apr 2025 10:49:58 GMT
-Received: from [10.50.45.73] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 9 Apr 2025
- 03:49:54 -0700
-Message-ID: <808f48f4-ad4d-1afe-bf15-a8e57288f9d3@quicinc.com>
-Date: Wed, 9 Apr 2025 16:19:51 +0530
+	s=arc-20240116; t=1744196954; c=relaxed/simple;
+	bh=7wbQ3lchSkZZ5tdZaoI/xJxofwaC7PcGBCfb35Zk+lg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BFasJy3WEs4aZjuXv5IP3Uryf2XkwhwbFit2IzfEN6+60OusStEZtit5PgkftUYYTzCIplAcz1nRfMK6whidfR2OzYIYCxJcY6JMY22N3vK7xtOsnJkZt/LJ6eGoM7jyhAW9/HZ8bcS0loFOqCVzDC3DWIR3NFJAe5gfLxQf9j4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pbCEdVHW; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 24F6182E;
+	Wed,  9 Apr 2025 13:07:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1744196827;
+	bh=7wbQ3lchSkZZ5tdZaoI/xJxofwaC7PcGBCfb35Zk+lg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pbCEdVHW6aisqhSEnhUiViEGdyriqLYMvO7kiGWa/b3L7Yo5PltG4ukIQABSOsNxU
+	 a2RLxOhefl+JFnfCKCBU+yOHY39W60dnKWA7COKjMO4PhKBpoPkz5pniZvRSexppS2
+	 iTLjYtpnki94c8yGo2RK5omsakrSzPy/FhSG7B80=
+Date: Wed, 9 Apr 2025 14:08:40 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Biju Das <biju.das.jz@bp.renesas.com>
+Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v5 11/17] media: rzg2l-cru: Add register mapping support
+Message-ID: <20250409110840.GG31475@pendragon.ideasonboard.com>
+References: <20250328173032.423322-12-tommaso.merciai.xr@bp.renesas.com>
+ <TY3PR01MB11346ECE31CB6C8DC33459C2486AF2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <CA+V-a8sJQnyJb_uq9yEcjHRW7ZFOw3g2XQyygcozWTgMjrYxRQ@mail.gmail.com>
+ <TY3PR01MB113462DC897E0DB681B1C020F86AF2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <CA+V-a8ukJ+_Bhy-4nU_CFD4rMoTRxEY-q+bXHHZ-9Mz8gQ362A@mail.gmail.com>
+ <20250402092618.GH4845@pendragon.ideasonboard.com>
+ <TY3PR01MB11346DF814762C667FF97074286AF2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
+ <CA+V-a8tsCEhmhNSbMMiuN6b2rJCoSekf+-e6EHr5wE5C000ZxQ@mail.gmail.com>
+ <20250409012914.GD31475@pendragon.ideasonboard.com>
+ <TY3PR01MB11346A5CBFD05A51E351DCE6586B42@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v3 4/5] media: platform: qcom/iris: rename iris_vpu3 to
- iris_vpu3x
-Content-Language: en-US
-To: Neil Armstrong <neil.armstrong@linaro.org>,
-        Vikash Garodia
-	<quic_vgarodia@quicinc.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20250407-topic-sm8x50-iris-v10-v3-0-63569f6d04aa@linaro.org>
- <20250407-topic-sm8x50-iris-v10-v3-4-63569f6d04aa@linaro.org>
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <20250407-topic-sm8x50-iris-v10-v3-4-63569f6d04aa@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: CusLhOIKW2XGLqse1G2R7PYYIBSw-oNT
-X-Proofpoint-GUID: CusLhOIKW2XGLqse1G2R7PYYIBSw-oNT
-X-Authority-Analysis: v=2.4 cv=NaLm13D4 c=1 sm=1 tr=0 ts=67f650d7 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8 a=rVHiDwQOYXtOlGk_woMA:9
- a=QEXdDO2ut3YA:10 a=RVmHIydaz68A:10 a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-09_04,2025-04-08_04,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 impostorscore=0
- priorityscore=1501 adultscore=0 malwarescore=0 suspectscore=0
- lowpriorityscore=0 bulkscore=0 mlxlogscore=999 clxscore=1015 phishscore=0
- spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504090061
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <TY3PR01MB11346A5CBFD05A51E351DCE6586B42@TY3PR01MB11346.jpnprd01.prod.outlook.com>
 
+Hi Biju,
 
-
-On 4/7/2025 8:54 PM, Neil Armstrong wrote:
-> The vpu33 HW is very close to vpu3, and shares most of the
-> operations, so rename file to vpu3x since we'll handle all vpu3
-> variants in it.
+On Wed, Apr 09, 2025 at 07:25:43AM +0000, Biju Das wrote:
+> On 09 April 2025 02:29, Laurent Pinchart wrote:
+> > On Mon, Apr 07, 2025 at 04:55:33PM +0000, Lad, Prabhakar wrote:
+> > > On Wed, Apr 2, 2025 at 10:39 AM Biju Das wrote:
+> > > > On 02 April 2025 10:26, Laurent Pinchart wrote:
+> > > > > On Wed, Apr 02, 2025 at 08:25:06AM +0000, Lad, Prabhakar wrote:
+> > > > > > On Wed, Apr 2, 2025 at 9:20 AM Biju Das wrote:
+> > > > > > > On 02 April 2025 08:35, Lad, Prabhakar wrote:
+> > > > > > > > On Wed, Apr 2, 2025 at 7:31 AM Biju Das wrote:
+> > > > > > > > > > On 28 March 2025 17:30, Tommaso Merciai wrote:
+> > > > > > > > > > From: Lad Prabhakar
+> > > > > > > > > > <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > > > > > >
+> > > > > > > > > > Prepare for adding support for RZ/G3E and RZ/V2HP SoCs,
+> > > > > > > > > > which have a CRU-IP that is mostly identical to RZ/G2L
+> > > > > > > > > > but with different register offsets and additional
+> > > > > > > > > > registers. Introduce a flexible register mapping
+> > > > > > > > > > mechanism to handle these variations.
+> > > > > > > > > >
+> > > > > > > > > > Define the `rzg2l_cru_info` structure to store register
+> > > > > > > > > > mappings and pass it as part of the OF match data.
+> > > > > > > > > > Update the read/write functions to check out-of-bound
+> > > > > > > > > > accesses and use indexed register offsets from
+> > > > > > > > > > `rzg2l_cru_info`, ensuring compatibility across different SoC variants.
+> > > > > > > > > >
+> > > > > > > > > > Signed-off-by: Lad Prabhakar
+> > > > > > > > > > <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > > > > > > Signed-off-by: Tommaso Merciai
+> > > > > > > > > > <tommaso.merciai.xr@bp.renesas.com>
+> > > > > > > > > > ---
+> > > > > > > > > > Changes since v2:
+> > > > > > > > > >  - Implemented new rzg2l_cru_write/read() that now are checking out-of-bound
+> > > > > > > > > >    accesses as suggested by LPinchart.
+> > > > > > > > > >  - Fixed AMnMBxADDRL() and AMnMBxADDRH() as suggested by LPinchart.
+> > > > > > > > > >  - Update commit body
+> > > > > > > > > >
+> > > > > > > > > > Changes since v4:
+> > > > > > > > > >  - Mark __rzg2l_cru_write_constant/__rzg2l_cru_read_constant
+> > > > > > > > > >    as __always_inline
+> > > > > > > > > >
+> > > > > > > > > >  .../platform/renesas/rzg2l-cru/rzg2l-core.c   | 46 ++++++++++++-
+> > > > > > > > > >  .../renesas/rzg2l-cru/rzg2l-cru-regs.h        | 66 ++++++++++---------
+> > > > > > > > > >  .../platform/renesas/rzg2l-cru/rzg2l-cru.h    |  4 ++
+> > > > > > > > > >  .../platform/renesas/rzg2l-cru/rzg2l-video.c  | 58
+> > > > > > > > > > ++++++++++++++--
+> > > > > > > > > >  4 files changed, 139 insertions(+), 35 deletions(-)
+> > > > > > > > > >
+> > > > > > > > > > diff --git
+> > > > > > > > > > a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+> > > > > > > > > > b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+> > > > > > > > > > index eed9d2bd08414..abc2a979833aa 100644
+> > > > > > > > > > ---
+> > > > > > > > > > a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-core.c
+> > > > > > > > > > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-cor
+> > > > > > > > > > +++ e.c
+> > > > > > > > > > @@ -22,6 +22,7 @@
+> > > > > > > > > >  #include <media/v4l2-mc.h>
+> > > > > > > > > >
+> > > > > > > > > >  #include "rzg2l-cru.h"
+> > > > > > > > > > +#include "rzg2l-cru-regs.h"
+> > > > > > > > > >
+> > > > > > > > > >  static inline struct rzg2l_cru_dev
+> > > > > > > > > > *notifier_to_cru(struct v4l2_async_notifier *n)  { @@
+> > > > > > > > > > -269,6 +270,9 @@ static int rzg2l_cru_probe(struct
+> > > > > > > > > > platform_device *pdev)
+> > > > > > > > > >
+> > > > > > > > > >       cru->dev = dev;
+> > > > > > > > > >       cru->info = of_device_get_match_data(dev);
+> > > > > > > > > > +     if (!cru->info)
+> > > > > > > > > > +             return dev_err_probe(dev, -EINVAL,
+> > > > > > > > > > +                                  "Failed to get OF
+> > > > > > > > > > + match data\n");
+> > > > > > > > > >
+> > > > > > > > > >       irq = platform_get_irq(pdev, 0);
+> > > > > > > > > >       if (irq < 0)
+> > > > > > > > > > @@ -317,8 +321,48 @@ static void rzg2l_cru_remove(struct platform_device *pdev)
+> > > > > > > > > >       rzg2l_cru_dma_unregister(cru);  }
+> > > > > > > > > >
+> > > > > > > > > > +static const u16 rzg2l_cru_regs[] = {
+> > > > > > > > > > +     [CRUnCTRL] = 0x0,
+> > > > > > > > > > +     [CRUnIE] = 0x4,
+> > > > > > > > > > +     [CRUnINTS] = 0x8,
+> > > > > > > > > > +     [CRUnRST] = 0xc,
+> > > > > > > > > > +     [AMnMB1ADDRL] = 0x100,
+> > > > > > > > > > +     [AMnMB1ADDRH] = 0x104,
+> > > > > > > > > > +     [AMnMB2ADDRL] = 0x108,
+> > > > > > > > > > +     [AMnMB2ADDRH] = 0x10c,
+> > > > > > > > > > +     [AMnMB3ADDRL] = 0x110,
+> > > > > > > > > > +     [AMnMB3ADDRH] = 0x114,
+> > > > > > > > > > +     [AMnMB4ADDRL] = 0x118,
+> > > > > > > > > > +     [AMnMB4ADDRH] = 0x11c,
+> > > > > > > > > > +     [AMnMB5ADDRL] = 0x120,
+> > > > > > > > > > +     [AMnMB5ADDRH] = 0x124,
+> > > > > > > > > > +     [AMnMB6ADDRL] = 0x128,
+> > > > > > > > > > +     [AMnMB6ADDRH] = 0x12c,
+> > > > > > > > > > +     [AMnMB7ADDRL] = 0x130,
+> > > > > > > > > > +     [AMnMB7ADDRH] = 0x134,
+> > > > > > > > > > +     [AMnMB8ADDRL] = 0x138,
+> > > > > > > > > > +     [AMnMB8ADDRH] = 0x13c,
+> > > > > > > > > > +     [AMnMBVALID] = 0x148,
+> > > > > > > > > > +     [AMnMBS] = 0x14c,
+> > > > > > > > > > +     [AMnAXIATTR] = 0x158,
+> > > > > > > > > > +     [AMnFIFOPNTR] = 0x168,
+> > > > > > > > > > +     [AMnAXISTP] = 0x174,
+> > > > > > > > > > +     [AMnAXISTPACK] = 0x178,
+> > > > > > > > > > +     [ICnEN] = 0x200,
+> > > > > > > > > > +     [ICnMC] = 0x208,
+> > > > > > > > > > +     [ICnMS] = 0x254,
+> > > > > > > > > > +     [ICnDMR] = 0x26c,
+> > > > > > > > > > +};
+> > > > > > > > >
+> > > > > > > > > Do we need enum, can't we use struct instead with all these entries instead?
+> > > > > > > > >
+> > > > > > > > What benefit do you foresee when using struct? With the
+> > > > > > > > current approach being used a minimal diff is generated when
+> > > > > > > > switched to struct there will be lots of changes.
+> > > > > > >
+> > > > > > > The mapping is convinient when you want to iterate throught it.
+> > > > > > > Here, if you just want to access the offset value from its
+> > > > > > > name, a structure looks more appropriate.
+> > > > > >
+> > > > > > Thanks, as this patch has been reviewed by Laurent a couple of
+> > > > > > times we will change this to struct If he insists.
+> > > > >
+> > > > > How would a struct look like ? I'm not sure what is being proposed.
+> > > >
+> > > > It will be
+> > > >
+> > > > struct rzg2l_cru_regs {
+> > > >         u16 cru_n_ctrl;
+> > > >         u16 cru_n_ie;
+> > > >         u16 cru_n_ints;
+> > > >         u16 cru_n_rst;
+> > > > };
+> > > >
+> > > > static const struct rzg2l_cru_regs rzg2l_cru_regs = {
+> > > >         .cru_n_ctrl = 0x0,
+> > > >         .cru_n_ie = 0x4,
+> > > >         .cru_n_ints = 0x8,
+> > > >         .cru_n_rst = 0xc,
+> > > > };
+> > > >
+> > > > You can access it using info->regs->cru_n_ctrl instead of
+> > > > info->regs[CRUnCTRL] This is proposal.
+> > >
+> > > Are you OK with the above proposal?
+> > 
+> > I may be missing something, but I don't see why this would be a significantly better option. It seems
+> > it would make the callers more complex, and decrease readability.
 > 
-> Reviewed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
-> ---
->  drivers/media/platform/qcom/iris/Makefile          |   2 +-
->  drivers/media/platform/qcom/iris/iris_vpu3.c       | 123 ---------
->  drivers/media/platform/qcom/iris/iris_vpu3x.c      | 277 +++++++++++++++++++++
->  drivers/media/platform/qcom/iris/iris_vpu_common.h |   3 +
->  4 files changed, 281 insertions(+), 124 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/iris/Makefile b/drivers/media/platform/qcom/iris/Makefile
-> index 35390534534e93f4617c1036a05ca0921567ba1d..473aaf655448180ade917e642289677fc1277f99 100644
-> --- a/drivers/media/platform/qcom/iris/Makefile
-> +++ b/drivers/media/platform/qcom/iris/Makefile
-> @@ -20,7 +20,7 @@ qcom-iris-objs += \
->               iris_vb2.o \
->               iris_vdec.o \
->               iris_vpu2.o \
-> -             iris_vpu3.o \
-> +             iris_vpu3x.o \
->               iris_vpu_buffer.o \
->               iris_vpu_common.o \
->  
-> diff --git a/drivers/media/platform/qcom/iris/iris_vpu3.c b/drivers/media/platform/qcom/iris/iris_vpu3.c
-> deleted file mode 100644
-> index 13dab61427b8bd0491b69a9bc5f5144d27d17362..0000000000000000000000000000000000000000
-> --- a/drivers/media/platform/qcom/iris/iris_vpu3.c
-> +++ /dev/null
-> @@ -1,123 +0,0 @@
-> -// SPDX-License-Identifier: GPL-2.0-only
-> -/*
-> - * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-> - */
-> -
-> -#include <linux/iopoll.h>
-> -
-> -#include "iris_instance.h"
-> -#include "iris_vpu_common.h"
-> -#include "iris_vpu_register_defines.h"
-> -
-> -#define AON_MVP_NOC_RESET			0x0001F000
-> -
-> -#define WRAPPER_CORE_CLOCK_CONFIG		(WRAPPER_BASE_OFFS + 0x88)
-> -#define CORE_CLK_RUN				0x0
-> -
-> -#define CPU_CS_AHB_BRIDGE_SYNC_RESET		(CPU_CS_BASE_OFFS + 0x160)
-> -#define CORE_BRIDGE_SW_RESET			BIT(0)
-> -#define CORE_BRIDGE_HW_RESET_DISABLE		BIT(1)
-> -
-> -#define AON_WRAPPER_MVP_NOC_RESET_REQ		(AON_MVP_NOC_RESET + 0x000)
-> -#define VIDEO_NOC_RESET_REQ			(BIT(0) | BIT(1))
-> -
-> -#define AON_WRAPPER_MVP_NOC_RESET_ACK		(AON_MVP_NOC_RESET + 0x004)
-> -
-> -#define VCODEC_SS_IDLE_STATUSN			(VCODEC_BASE_OFFS + 0x70)
-> -
-> -static bool iris_vpu3_hw_power_collapsed(struct iris_core *core)
-> -{
-> -	u32 value, pwr_status;
-> -
-> -	value = readl(core->reg_base + WRAPPER_CORE_POWER_STATUS);
-> -	pwr_status = value & BIT(1);
-> -
-> -	return pwr_status ? false : true;
-> -}
-> -
-> -static void iris_vpu3_power_off_hardware(struct iris_core *core)
-> -{
-> -	u32 reg_val = 0, value, i;
-> -	int ret;
-> -
-> -	if (iris_vpu3_hw_power_collapsed(core))
-> -		goto disable_power;
-> -
-> -	dev_err(core->dev, "video hw is power on\n");
-> -
-> -	value = readl(core->reg_base + WRAPPER_CORE_CLOCK_CONFIG);
-> -	if (value)
-> -		writel(CORE_CLK_RUN, core->reg_base + WRAPPER_CORE_CLOCK_CONFIG);
-> -
-> -	for (i = 0; i < core->iris_platform_data->num_vpp_pipe; i++) {
-> -		ret = readl_poll_timeout(core->reg_base + VCODEC_SS_IDLE_STATUSN + 4 * i,
-> -					 reg_val, reg_val & 0x400000, 2000, 20000);
-> -		if (ret)
-> -			goto disable_power;
-> -	}
-> -
-> -	writel(VIDEO_NOC_RESET_REQ, core->reg_base + AON_WRAPPER_MVP_NOC_RESET_REQ);
-> -
-> -	ret = readl_poll_timeout(core->reg_base + AON_WRAPPER_MVP_NOC_RESET_ACK,
-> -				 reg_val, reg_val & 0x3, 200, 2000);
-> -	if (ret)
-> -		goto disable_power;
-> -
-> -	writel(0x0, core->reg_base + AON_WRAPPER_MVP_NOC_RESET_REQ);
-> -
-> -	ret = readl_poll_timeout(core->reg_base + AON_WRAPPER_MVP_NOC_RESET_ACK,
-> -				 reg_val, !(reg_val & 0x3), 200, 2000);
-> -	if (ret)
-> -		goto disable_power;
-> -
-> -	writel(CORE_BRIDGE_SW_RESET | CORE_BRIDGE_HW_RESET_DISABLE,
-> -	       core->reg_base + CPU_CS_AHB_BRIDGE_SYNC_RESET);
-> -	writel(CORE_BRIDGE_HW_RESET_DISABLE, core->reg_base + CPU_CS_AHB_BRIDGE_SYNC_RESET);
-> -	writel(0x0, core->reg_base + CPU_CS_AHB_BRIDGE_SYNC_RESET);
-> -
-> -disable_power:
-> -	iris_vpu_power_off_hw(core);
-> -}
-> -
-> -static u64 iris_vpu3_calculate_frequency(struct iris_inst *inst, size_t data_size)
-> -{
-> -	struct platform_inst_caps *caps = inst->core->iris_platform_data->inst_caps;
-> -	struct v4l2_format *inp_f = inst->fmt_src;
-> -	u32 height, width, mbs_per_second, mbpf;
-> -	u64 fw_cycles, fw_vpp_cycles;
-> -	u64 vsp_cycles, vpp_cycles;
-> -	u32 fps = DEFAULT_FPS;
-> -
-> -	width = max(inp_f->fmt.pix_mp.width, inst->crop.width);
-> -	height = max(inp_f->fmt.pix_mp.height, inst->crop.height);
-> -
-> -	mbpf = NUM_MBS_PER_FRAME(height, width);
-> -	mbs_per_second = mbpf * fps;
-> -
-> -	fw_cycles = fps * caps->mb_cycles_fw;
-> -	fw_vpp_cycles = fps * caps->mb_cycles_fw_vpp;
-> -
-> -	vpp_cycles = mult_frac(mbs_per_second, caps->mb_cycles_vpp, (u32)inst->fw_caps[PIPE].value);
-> -	/* 21 / 20 is minimum overhead factor */
-> -	vpp_cycles += max(div_u64(vpp_cycles, 20), fw_vpp_cycles);
-> -
-> -	/* 1.059 is multi-pipe overhead */
-> -	if (inst->fw_caps[PIPE].value > 1)
-> -		vpp_cycles += div_u64(vpp_cycles * 59, 1000);
-> -
-> -	vsp_cycles = fps * data_size * 8;
-> -	vsp_cycles = div_u64(vsp_cycles, 2);
-> -	/* VSP FW overhead 1.05 */
-> -	vsp_cycles = div_u64(vsp_cycles * 21, 20);
-> -
-> -	if (inst->fw_caps[STAGE].value == STAGE_1)
-> -		vsp_cycles = vsp_cycles * 3;
-> -
-> -	return max3(vpp_cycles, vsp_cycles, fw_cycles);
-> -}
-> -
-> -const struct vpu_ops iris_vpu3_ops = {
-> -	.power_off_hw = iris_vpu3_power_off_hardware,
-> -	.power_off_controller = iris_vpu_power_off_controller,
-> -	.calc_freq = iris_vpu3_calculate_frequency,
-> -};
-> diff --git a/drivers/media/platform/qcom/iris/iris_vpu3x.c b/drivers/media/platform/qcom/iris/iris_vpu3x.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..ea7be2e0a3a255f61e236740e1082e7c9207250d
-> --- /dev/null
-> +++ b/drivers/media/platform/qcom/iris/iris_vpu3x.c
-> @@ -0,0 +1,277 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#include <linux/iopoll.h>
-> +#include <linux/reset.h>
-> +
-> +#include "iris_instance.h"
-> +#include "iris_vpu_common.h"
-> +#include "iris_vpu_register_defines.h"
-> +
-> +#define WRAPPER_TZ_BASE_OFFS			0x000C0000
-> +#define AON_BASE_OFFS				0x000E0000
-> +#define AON_MVP_NOC_RESET			0x0001F000
-> +
-> +#define WRAPPER_DEBUG_BRIDGE_LPI_CONTROL	(WRAPPER_BASE_OFFS + 0x54)
-> +#define WRAPPER_DEBUG_BRIDGE_LPI_STATUS		(WRAPPER_BASE_OFFS + 0x58)
-> +#define WRAPPER_IRIS_CPU_NOC_LPI_CONTROL	(WRAPPER_BASE_OFFS + 0x5C)
-> +#define REQ_POWER_DOWN_PREP			BIT(0)
-> +#define WRAPPER_IRIS_CPU_NOC_LPI_STATUS		(WRAPPER_BASE_OFFS + 0x60)
-> +#define WRAPPER_CORE_CLOCK_CONFIG		(WRAPPER_BASE_OFFS + 0x88)
-> +#define CORE_CLK_RUN				0x0
-> +
-> +#define WRAPPER_TZ_CTL_AXI_CLOCK_CONFIG		(WRAPPER_TZ_BASE_OFFS + 0x14)
-> +#define CTL_AXI_CLK_HALT			BIT(0)
-> +#define CTL_CLK_HALT				BIT(1)
-> +
-> +#define WRAPPER_TZ_QNS4PDXFIFO_RESET		(WRAPPER_TZ_BASE_OFFS + 0x18)
-> +#define RESET_HIGH				BIT(0)
-> +
-> +#define CPU_CS_AHB_BRIDGE_SYNC_RESET		(CPU_CS_BASE_OFFS + 0x160)
-> +#define CORE_BRIDGE_SW_RESET			BIT(0)
-> +#define CORE_BRIDGE_HW_RESET_DISABLE		BIT(1)
-> +
-> +#define CPU_CS_X2RPMH				(CPU_CS_BASE_OFFS + 0x168)
-> +#define MSK_SIGNAL_FROM_TENSILICA		BIT(0)
-> +#define MSK_CORE_POWER_ON			BIT(1)
-> +
-> +#define AON_WRAPPER_MVP_NOC_RESET_REQ		(AON_MVP_NOC_RESET + 0x000)
-> +#define VIDEO_NOC_RESET_REQ			(BIT(0) | BIT(1))
-> +
-> +#define AON_WRAPPER_MVP_NOC_RESET_ACK		(AON_MVP_NOC_RESET + 0x004)
-> +
-> +#define VCODEC_SS_IDLE_STATUSN			(VCODEC_BASE_OFFS + 0x70)
-> +
-> +#define AON_WRAPPER_MVP_NOC_LPI_CONTROL		(AON_BASE_OFFS)
-> +#define AON_WRAPPER_MVP_NOC_LPI_STATUS		(AON_BASE_OFFS + 0x4)
-> +
-> +#define AON_WRAPPER_MVP_NOC_CORE_SW_RESET	(AON_BASE_OFFS + 0x18)
-> +#define SW_RESET				BIT(0)
-> +#define AON_WRAPPER_MVP_NOC_CORE_CLK_CONTROL	(AON_BASE_OFFS + 0x20)
-> +#define NOC_HALT				BIT(0)
-> +#define AON_WRAPPER_SPARE			(AON_BASE_OFFS + 0x28)
-> +
-> +static bool iris_vpu3x_hw_power_collapsed(struct iris_core *core)
-> +{
-> +	u32 value, pwr_status;
-> +
-> +	value = readl(core->reg_base + WRAPPER_CORE_POWER_STATUS);
-> +	pwr_status = value & BIT(1);
-> +
-> +	return pwr_status ? false : true;
-> +}
-> +
-> +static int iris_vpu3x_power_off_hardware_begin(struct iris_core *core)
-> +{
-> +	u32 reg_val = 0, value, i;
-> +	int ret;
-> +
-> +	if (iris_vpu3x_hw_power_collapsed(core))
-> +		return 1;
-> +
-> +	dev_err(core->dev, "video hw is power on\n");
-> +
-> +	value = readl(core->reg_base + WRAPPER_CORE_CLOCK_CONFIG);
-> +	if (value)
-> +		writel(CORE_CLK_RUN, core->reg_base + WRAPPER_CORE_CLOCK_CONFIG);
-> +
-> +	for (i = 0; i < core->iris_platform_data->num_vpp_pipe; i++) {
-> +		ret = readl_poll_timeout(core->reg_base + VCODEC_SS_IDLE_STATUSN + 4 * i,
-> +					 reg_val, reg_val & 0x400000, 2000, 20000);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void iris_vpu3x_power_off_hardware_end(struct iris_core *core)
-> +{
-> +	writel(CORE_BRIDGE_SW_RESET | CORE_BRIDGE_HW_RESET_DISABLE,
-> +	       core->reg_base + CPU_CS_AHB_BRIDGE_SYNC_RESET);
-> +	writel(CORE_BRIDGE_HW_RESET_DISABLE, core->reg_base + CPU_CS_AHB_BRIDGE_SYNC_RESET);
-> +	writel(0x0, core->reg_base + CPU_CS_AHB_BRIDGE_SYNC_RESET);
-> +}
-> +
-I'm not a big fan of splitting the API into begin/middle/end just for the
-sake of de-duplication of small part of code. It ends up introducing a lot
-of jumps in the code, which makes it harder to follow.
-Keeping it as a single flow, even with some duplication, would be more
-readable and maintainable.
-> +static void iris_vpu3_power_off_hardware(struct iris_core *core)
-> +{
-> +	u32 reg_val = 0;
-> +	int ret;
-> +
-> +	ret = iris_vpu3x_power_off_hardware_begin(core);
-> +	if (ret)
-> +		goto disable_power;
-> +
-> +	writel(VIDEO_NOC_RESET_REQ, core->reg_base + AON_WRAPPER_MVP_NOC_RESET_REQ);
-> +
-> +	ret = readl_poll_timeout(core->reg_base + AON_WRAPPER_MVP_NOC_RESET_ACK,
-> +				 reg_val, reg_val & 0x3, 200, 2000);
-> +	if (ret)
-> +		goto disable_power;
-> +
-> +	writel(0x0, core->reg_base + AON_WRAPPER_MVP_NOC_RESET_REQ);
-> +
-> +	ret = readl_poll_timeout(core->reg_base + AON_WRAPPER_MVP_NOC_RESET_ACK,
-> +				 reg_val, !(reg_val & 0x3), 200, 2000);
-> +	if (ret)
-> +		goto disable_power;
-> +
-> +	iris_vpu3x_power_off_hardware_end(core);
-> +
-> +disable_power:
-> +	iris_vpu_power_off_hw(core);
-> +}
-> +
-> +static void iris_vpu33_power_off_hardware(struct iris_core *core)
-> +{
-> +	u32 reg_val = 0;
-> +	int ret;
-> +
-> +	ret = iris_vpu3x_power_off_hardware_begin(core);
-> +	if (ret)
-> +		goto disable_power;
-> +
-> +	ret = readl_poll_timeout(core->reg_base + AON_WRAPPER_MVP_NOC_LPI_STATUS,
-> +			reg_val, reg_val & BIT(0), 200, 2000);
-> +	if (ret)
-> +		goto disable_power;
-> +
-> +	/* set MNoC to low power, set PD_NOC_QREQ (bit 0) */
-> +	writel(BIT(0), core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
-> +
-> +	iris_vpu3x_power_off_hardware_end(core);
-> +
-> +disable_power:
-> +	iris_vpu_power_off_hw(core);
-> +}
-> +
-> +static int iris_vpu33_power_off_controller(struct iris_core *core)
-> +{
-> +	u32 xo_rst_tbl_size = core->iris_platform_data->controller_rst_tbl_size;
-> +	u32 clk_rst_tbl_size = core->iris_platform_data->clk_rst_tbl_size;
-> +	u32 val = 0;
-> +	int ret;
-> +
-> +	writel(MSK_SIGNAL_FROM_TENSILICA | MSK_CORE_POWER_ON, core->reg_base + CPU_CS_X2RPMH);
-> +
-> +	writel(REQ_POWER_DOWN_PREP, core->reg_base + WRAPPER_IRIS_CPU_NOC_LPI_CONTROL);
-> +
-> +	ret = readl_poll_timeout(core->reg_base + WRAPPER_IRIS_CPU_NOC_LPI_STATUS,
-> +				 val, val & BIT(0), 200, 2000);
-> +	if (ret)
-> +		goto disable_power;
-> +
-> +	writel(0x0, core->reg_base + WRAPPER_DEBUG_BRIDGE_LPI_CONTROL);
-> +
-> +	ret = readl_poll_timeout(core->reg_base + WRAPPER_DEBUG_BRIDGE_LPI_STATUS,
-> +				 val, val == 0, 200, 2000);
-> +	if (ret)
-> +		goto disable_power;
-> +
-> +	writel(CTL_AXI_CLK_HALT | CTL_CLK_HALT,
-> +	       core->reg_base + WRAPPER_TZ_CTL_AXI_CLOCK_CONFIG);
-> +	writel(RESET_HIGH, core->reg_base + WRAPPER_TZ_QNS4PDXFIFO_RESET);
-> +	writel(0x0, core->reg_base + WRAPPER_TZ_QNS4PDXFIFO_RESET);
-> +	writel(0x0, core->reg_base + WRAPPER_TZ_CTL_AXI_CLOCK_CONFIG);
-> +
-> +	reset_control_bulk_reset(clk_rst_tbl_size, core->resets);
-> +
-> +	/* Disable MVP NoC clock */
-> +	val = readl(core->reg_base + AON_WRAPPER_MVP_NOC_CORE_CLK_CONTROL);
-> +	val |= NOC_HALT;
-> +	writel(val, core->reg_base + AON_WRAPPER_MVP_NOC_CORE_CLK_CONTROL);
-> +
-> +	/* enable MVP NoC reset */
-> +	val = readl(core->reg_base + AON_WRAPPER_MVP_NOC_CORE_SW_RESET);
-> +	val |= SW_RESET;
-> +	writel(val, core->reg_base + AON_WRAPPER_MVP_NOC_CORE_SW_RESET);
-> +
-> +	/* poll AON spare register bit0 to become zero with 50ms timeout */
-> +	ret = readl_poll_timeout(core->reg_base + AON_WRAPPER_SPARE,
-> +				 val, (val & BIT(0)) == 0, 1000, 50000);
-> +	if (ret)
-> +		goto disable_power;
-> +
-> +	/* enable bit(1) to avoid cvp noc xo reset */
-> +	val = readl(core->reg_base + AON_WRAPPER_SPARE);
-> +	val |= BIT(1);
-> +	writel(val, core->reg_base + AON_WRAPPER_SPARE);
-> +
-> +	reset_control_bulk_assert(xo_rst_tbl_size, core->controller_resets);
-> +
-> +	/* De-assert MVP NoC reset */
-> +	val = readl(core->reg_base + AON_WRAPPER_MVP_NOC_CORE_SW_RESET);
-> +	val &= ~SW_RESET;
-> +	writel(val, core->reg_base + AON_WRAPPER_MVP_NOC_CORE_SW_RESET);
-> +
-> +	usleep_range(80, 100);
-> +
-> +	reset_control_bulk_deassert(xo_rst_tbl_size, core->controller_resets);
-> +
-> +	/* reset AON spare register */
-> +	writel(0, core->reg_base + AON_WRAPPER_SPARE);
-> +
-> +	/* Enable MVP NoC clock */
-> +	val = readl(core->reg_base + AON_WRAPPER_MVP_NOC_CORE_CLK_CONTROL);
-> +	val &= ~NOC_HALT;
-> +	writel(val, core->reg_base + AON_WRAPPER_MVP_NOC_CORE_CLK_CONTROL);
-> +
-> +	iris_disable_unprepare_clock(core, IRIS_CTRL_CLK);
-> +
-> +disable_power:
-> +	iris_disable_power_domains(core, core->pmdomain_tbl->pd_devs[IRIS_CTRL_POWER_DOMAIN]);
-> +	iris_disable_unprepare_clock(core, IRIS_AXI_CLK);
-> +
-> +	return 0;
-> +}
-> +
-> +static u64 iris_vpu3x_calculate_frequency(struct iris_inst *inst, size_t data_size)
-> +{
-> +	struct platform_inst_caps *caps = inst->core->iris_platform_data->inst_caps;
-> +	struct v4l2_format *inp_f = inst->fmt_src;
-> +	u32 height, width, mbs_per_second, mbpf;
-> +	u64 fw_cycles, fw_vpp_cycles;
-> +	u64 vsp_cycles, vpp_cycles;
-> +	u32 fps = DEFAULT_FPS;
-> +
-> +	width = max(inp_f->fmt.pix_mp.width, inst->crop.width);
-> +	height = max(inp_f->fmt.pix_mp.height, inst->crop.height);
-> +
-> +	mbpf = NUM_MBS_PER_FRAME(height, width);
-> +	mbs_per_second = mbpf * fps;
-> +
-> +	fw_cycles = fps * caps->mb_cycles_fw;
-> +	fw_vpp_cycles = fps * caps->mb_cycles_fw_vpp;
-> +
-> +	vpp_cycles = mult_frac(mbs_per_second, caps->mb_cycles_vpp, (u32)inst->fw_caps[PIPE].value);
-> +	/* 21 / 20 is minimum overhead factor */
-> +	vpp_cycles += max(div_u64(vpp_cycles, 20), fw_vpp_cycles);
-> +
-> +	/* 1.059 is multi-pipe overhead */
-> +	if (inst->fw_caps[PIPE].value > 1)
-> +		vpp_cycles += div_u64(vpp_cycles * 59, 1000);
-> +
-> +	vsp_cycles = fps * data_size * 8;
-> +	vsp_cycles = div_u64(vsp_cycles, 2);
-> +	/* VSP FW overhead 1.05 */
-> +	vsp_cycles = div_u64(vsp_cycles * 21, 20);
-> +
-> +	if (inst->fw_caps[STAGE].value == STAGE_1)
-> +		vsp_cycles = vsp_cycles * 3;
-> +
-> +	return max3(vpp_cycles, vsp_cycles, fw_cycles);
-> +}
-> +
-> +const struct vpu_ops iris_vpu3_ops = {
-> +	.power_off_hw = iris_vpu3_power_off_hardware,
-> +	.power_off_controller = iris_vpu_power_off_controller,
-> +	.calc_freq = iris_vpu3x_calculate_frequency,
-> +};
-> +
-> +const struct vpu_ops iris_vpu33_ops = {
-> +	.power_off_hw = iris_vpu33_power_off_hardware,
-> +	.power_off_controller = iris_vpu33_power_off_controller,
-> +	.calc_freq = iris_vpu3x_calculate_frequency,
-> +};
-> diff --git a/drivers/media/platform/qcom/iris/iris_vpu_common.h b/drivers/media/platform/qcom/iris/iris_vpu_common.h
-> index f8965661c602f990d5a7057565f79df4112d097e..4af3cb0d44e00be498fc7ba648c68f1ef2cb0f20 100644
-> --- a/drivers/media/platform/qcom/iris/iris_vpu_common.h
-> +++ b/drivers/media/platform/qcom/iris/iris_vpu_common.h
-> @@ -10,6 +10,7 @@ struct iris_core;
->  
->  extern const struct vpu_ops iris_vpu2_ops;
->  extern const struct vpu_ops iris_vpu3_ops;
-> +extern const struct vpu_ops iris_vpu33_ops;
->  
->  struct vpu_ops {
->  	void (*power_off_hw)(struct iris_core *core);
-> @@ -23,6 +24,8 @@ void iris_vpu_clear_interrupt(struct iris_core *core);
->  int iris_vpu_watchdog(struct iris_core *core, u32 intr_status);
->  int iris_vpu_prepare_pc(struct iris_core *core);
->  int iris_vpu_power_on(struct iris_core *core);
-> +void iris_vpu_power_off_controller_begin(struct iris_core *core);
-> +int iris_vpu_power_off_controller_end(struct iris_core *core);
-These are unused, pls remove.
->  int iris_vpu_power_off_controller(struct iris_core *core);
->  void iris_vpu_power_off_hw(struct iris_core *core);
->  void iris_vpu_power_off(struct iris_core *core);
-> 
+> Basically,
+> I guess sruct  will allow us to avoid (WARN_ON(offset >= RZG2L_CRU_MAX_REG) and
+>    BUILD_BUG_ON(offset >= RZG2L_CRU_MAX_REG); checks as there is no array, so there is no
+>    buffer overrun condition and also we can drop enum aswell.
 
-Thanks,
-Dikshita
+That's right fpr the BUILD_BUG_ON(), but I don't think that would be an
+improvement. The BUILD_BUG_ON() catches at compile time the issues that
+are comparable to mistyping a struct field name, so incorrect code
+patterns will result in compile-time errors in both cases. The WARN_ON()
+is there for cases where the offset needs to be dynamically computed,
+and if we wanted to have similar safeguards with a struct, we would also
+need a runtime check.
+
+Using a struct would also prevent (I think) implementing additional
+safeguards. Not registers exist on all platforms (hence the need for
+this mapping mechanism), and it would be nice to catch attempts to
+access a register that does not exist. With the existing series, we
+could quite easily add a check in the read and write functions to ensure
+the regs array entry is not zero (except when the register is CRUnCTRL).
+With a struct-based approach, the read/write functions would get the
+offset but wouldn't know which register is being accessed, so the same
+logic can't be implemented.
+
+Last but not least, I think the current approach is more readable in the
+callers: lines are shorter, and register names match the documentation,
+including being uppercase.
+
+> So, if using struct decreases readability and makes the code complex,
+> then current patch is fine.
+
+-- 
+Regards,
+
+Laurent Pinchart
 
