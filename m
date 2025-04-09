@@ -1,339 +1,275 @@
-Return-Path: <linux-media+bounces-29783-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29784-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 587E3A82E1E
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 20:00:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 136A5A82E61
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 20:18:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BA4E83BB8FD
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 17:59:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 764774A0E0A
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 18:15:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F1CD277023;
-	Wed,  9 Apr 2025 17:59:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E94E2277800;
+	Wed,  9 Apr 2025 18:15:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="mqmqyOLP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NWP2D2py"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0942726FA5D;
-	Wed,  9 Apr 2025 17:59:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B12B727701B;
+	Wed,  9 Apr 2025 18:15:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744221599; cv=none; b=exf5rYKrPec3DrMBbwQqQnkIiQz2FBOihTxfra06H0CLtZPCCDHXvJhnnrnXXeVXDO4gs6Sn45XXLSAmwvAhtRcUXUKJRJklKZjdjBlhFDSKghTnazsSi8FB7AEGiXaCo0hVOepzpL/1YUiw58zcn7g1ctojHoYLy18MdAM8vyA=
+	t=1744222544; cv=none; b=lrhEH6YqLYBgcoDBFgbCQnIWfarYFCuQ2N62hdXXZkRGPh9pCzRID5El8s8gL5KPJDDU+uRdoGKRmuOHbcnX/wRrrcibvgJvFOKwjRMwPB8OyY/b2ULPEd2SB9oqsq6ldHxfcSOco2UOfFQxy1vFrxDMCNE70jf9j8nBhP7dOUk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744221599; c=relaxed/simple;
-	bh=7xfO8S5P70mtmNq6teszI7P5gFMBxJ5kBAQeuYM1XTM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=nPJKW1s00h4yyF11EYy0IBeqNRUVuhhzIIVpALGgmgt6/TGYybirvRu5Na1Bvth52YJZiWsI4sbxy5p76ZVm/B5JOrsSxcdJjgjo1FmVh1Ll6UbERtTj1+qi6Kohaj5O8a+JWs7kNY+dZ/fb/aBFWo/mE/9/CAn9Or7bvNboYS0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=mqmqyOLP; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 539AA3hX016808;
-	Wed, 9 Apr 2025 17:59:52 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	gFAsJZPpxtaEj1yMAH4zv7GRSSWRzyvYcL/0JMQxEkI=; b=mqmqyOLPtmd9zpES
-	Cfh6HF+4KyK9Ir1Q37DnRXMyh4BbzfZdAL0OzJqMFQ+l+gGWEk4z+BVsdKYTaLy5
-	W4iG/pgpuRq1eT3q32Auh81FENQDBoNCYry2dnU8zAtE11WDT2Ux2T8PWaBV3V1b
-	rXgkQt7+nQVqrdxpOnmt3NyVmLC4K3IZFewqAbFk5nTdb4JHFEU5s6/ZvHMNSo+/
-	Wt/HNfhbTNMByeKMnHhNPrbtDw+NZsZ+aZfyeLSH4xGDnuaDIv/uljZqvm+/9IA5
-	z22o0m0xG1FkZcdIBS1jkPT7fk8E0VjS6o55iTcK21NkhTC1+FK19vYq5IKllh8x
-	2bvacw==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twd2v9bu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 09 Apr 2025 17:59:52 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 539HxpDv004736
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 9 Apr 2025 17:59:51 GMT
-Received: from [10.216.18.165] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 9 Apr 2025
- 10:59:46 -0700
-Message-ID: <054c3ee4-78d3-68b2-0dca-8fc339cbea80@quicinc.com>
-Date: Wed, 9 Apr 2025 23:29:43 +0530
+	s=arc-20240116; t=1744222544; c=relaxed/simple;
+	bh=pTz8SR4y0nQIQ5L+V5YgaAfc7gRHs7i1nUyqBg3Fr+s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cckh4+d0z6eFBKSCcSpC3+98SIumoP7dmjjJs1z88qVPR4mRm23ko/cR8JumVp92scKd9pAvB5qJSi+qFhdV9vRfMf5lgUjsk1xAEr05SXRHG5LSUI3paS6rWT/J57OaNwkk9UabK+t9xdFdogBns+0zIls7vfbbfNpzbBFFT+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NWP2D2py; arc=none smtp.client-ip=209.85.210.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-72d3b48d2ffso7644136b3a.2;
+        Wed, 09 Apr 2025 11:15:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744222542; x=1744827342; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=RLlYeHtvUctAB5rHW2z6orExJGooSjFURuTNigxPPWQ=;
+        b=NWP2D2pyY7g+/TMwqNiz80RIJWfH9MHzMLnkYGloZlV56l1rewjQmU1xWoxdUxFONt
+         VnQ1X9aXQfqNFCVTLgbFWIVU3CDBVRwLDpy3/6FssyWloNwiulE5RLzI5WObGeyo5d6Z
+         ksFrmwGm6fhmMnOWWj4kRD0GqeY22M/hv4uC8h8jYEHOjQKkeBhVRz95IhdWVrNKOBdp
+         JR1LhAkcITCfvZykR0TNOoM5osd04GAY0RUcbVrQfpy4OIuRkrEvwTnIxSPuzD1vMfbK
+         ffXMFlKIN3RrkFcT0CZMQDvXXdnuVkgkOJjS2fKU+jDKv80JqOpGNfkyOUFEcd3pzYf0
+         sSaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744222542; x=1744827342;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RLlYeHtvUctAB5rHW2z6orExJGooSjFURuTNigxPPWQ=;
+        b=Mtu1LXVWCO9zcyxBizkmLJ+Zkaq9pa24yXu4bQ4CMCDdguDVrIfMkiHIxLuTS2I54p
+         vwHiJqBqkSe6g8pO3XoF6kUR3yLDS5KLu4iElbejt0ellApj/0nmxVbpTaEuqCJSdXcI
+         hw1RsaaUMAM+fFXyvwFOGBcBCRWvV5ZFP7LY5V/IsxCaoBSAaKfe6armNMjMztcUsWV3
+         WNk439eo0KecJjAniFx3rZMh7b879Tbf38rVp4gE00KkSRZ1QWXUBi59dbCuEFH9GD9l
+         Juq7YbhV1274nLY8AqdFOCxrSpsF+klbUK1PYEV+xRgKtuPDsMf2Akp8SPxLUy1+QkxD
+         2aeg==
+X-Forwarded-Encrypted: i=1; AJvYcCUE+hTMb8HLUBXjBoh2OT3Hex5rKmBtKHFN4NiXHqFsmSF0Vgya0W1VWbiJ/o7fDygRFZu5VJltrKDtRIw=@vger.kernel.org, AJvYcCUZJKhUUQJc13ljj7v1IanoddUscch+LTKQ3APsyCY0dWzVt4vNw3PEKDeS41M4qrnk5D0+smju@vger.kernel.org, AJvYcCUmhPod1qS23qYLhp7ogp0UYNm1N2JUfqoFIcP/HP97lHMQMMx14OrjNdRT6SZvidr0r6ygbxKpRuKmvfo=@vger.kernel.org, AJvYcCUxIL6zCBugICFKVz5dX4NmMZsJGaDTmphTXb6QkpQ7/9QJI0cmhJbC8H6TYyFVNpHfBw3fP8+3ArpcNbQ=@vger.kernel.org, AJvYcCW0Je4Q8wiWihe+yo+F83wZ89GYAkfxQxhGLL+faCX7fq4wv3MWcrlXXJC6lh3Wnzrdv12SVO3tOIyDNzizZsE=@vger.kernel.org, AJvYcCWEEEhFSH+3qqPXASGrE8e2AL8InU8wHCZHLF7AQrYkzxNWmtXL1Xj8gZU3Nb88QsEpXrU=@vger.kernel.org, AJvYcCWR/NGZc0NSYHCyNkVnEE077g4MWNF7GNmGk3WAjd7news77Dd7YAR7gm3tXFEdpSQPurzN5LA61Jj50UJX@vger.kernel.org, AJvYcCWlLOlKfXdYfhx7yUwwjG0r8L3NSeK8PmpNPWR6lQdP4MkDP8XVCcl9PbogBqAWDe8CmtdZ0cWwREgkOgIC@vger.kernel.org
+X-Gm-Message-State: AOJu0YxYX8DgMsC7lilTdGvxOnFZy6mNvlRxpU3iB9pCMiTvvBDY/Hea
+	/W/7khxkecK+IRnJdzVS29pfFqzj8iT9FOK5bFkboAO+i0x1XNFp
+X-Gm-Gg: ASbGnctVfuInBtXg0rYT7h9gNeR4BD7AwAQVtXvMtX1TSbzWwdzL4hivoj+DCmjzt7U
+	ta2MVX1K1gEPbzH+dVuYl9dAPLlxtFP9bQ2/NFeWYa1U3rpcbvLeGmJaiqkM5FPp4T9bddy/LzL
+	Kf+XPc3/cGtgVuZuWFS2HfZOLJ4c4l7tbiTDkKK25MGecOqcrTVabYHn8fCc2LSWaeCnCSLekqJ
+	/FlEOOhJmCim8lpYGlC4QvjnXCbBmpqhZ7mM3YbCoEJQ3+BMN+CLdm8LeB6puErmCIz9LyqkFnj
+	j0hugpFPDooP17MdFPJC+VR1XaDNJR9MteTwf/NsRa1T8iLJRdAnHe7b4EtDVfXyyAAY
+X-Google-Smtp-Source: AGHT+IGEA9hhRRBDeyzG4WkKt+49d7gFcuvCU6+XKMxeG2gY6BreZ4BlmPPM+Kdczsk2MzNQJdHAMw==
+X-Received: by 2002:a05:6a00:4606:b0:736:9fa2:bcbb with SMTP id d2e1a72fcca58-73bafd708c5mr4555757b3a.24.1744222541802;
+        Wed, 09 Apr 2025 11:15:41 -0700 (PDT)
+Received: from visitorckw-System-Product-Name ([140.113.216.168])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bb1d2ae8dsm1728722b3a.18.2025.04.09.11.15.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Apr 2025 11:15:41 -0700 (PDT)
+Date: Thu, 10 Apr 2025 02:15:30 +0800
+From: Kuan-Wei Chiu <visitorckw@gmail.com>
+To: Yury Norov <yury.norov@gmail.com>
+Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+	dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
+	joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
+	neil.armstrong@linaro.org, rfoss@kernel.org,
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
+	dmitry.torokhov@gmail.com, mchehab@kernel.org,
+	awalls@md.metrocast.net, hverkuil@xs4all.nl,
+	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
+	louis.peens@corigine.com, andrew+netdev@lunn.ch,
+	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
+	parthiban.veerasooran@microchip.com, arend.vanspriel@broadcom.com,
+	johannes@sipsolutions.net, gregkh@linuxfoundation.org,
+	jirislaby@kernel.org, akpm@linux-foundation.org, jdelvare@suse.com,
+	linux@roeck-us.net, alexandre.belloni@bootlin.com, pgaj@cadence.com,
+	hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
+	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
+	jernej.skrabec@gmail.com, kuba@kernel.org,
+	linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
+	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+	oss-drivers@corigine.com, netdev@vger.kernel.org,
+	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
+	brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
+	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw, Frank.Li@nxp.com,
+	linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
+	david.laight.linux@gmail.com, andrew.cooper3@citrix.com,
+	Yu-Chun Lin <eleanor15x@gmail.com>
+Subject: Re: [PATCH v4 00/13] Introduce parity_odd() and refactor redundant
+ parity code
+Message-ID: <Z/a5Qh/OeLT8JBS4@visitorckw-System-Product-Name>
+References: <20250409154356.423512-1-visitorckw@gmail.com>
+ <Z_amQp3gK5Dm8Qz3@yury>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 00/20] Add support for HEVC and VP9 codecs in decoder
-Content-Language: en-US
-To: <neil.armstrong@linaro.org>,
-        Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Stefan Schmidt <stefan.schmidt@linaro.org>,
-        "Hans
- Verkuil" <hverkuil@xs4all.nl>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Konrad Dybcio" <konradybcio@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>
-CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <stable@vger.kernel.org>, Dan Carpenter <dan.carpenter@linaro.org>
-References: <20250408-iris-dec-hevc-vp9-v1-0-acd258778bd6@quicinc.com>
- <801511ac-78db-476b-8f1d-a478b0b64bcb@linaro.org>
- <72a5b302-5c99-4457-86c8-5fa994c93c4a@linaro.org>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <72a5b302-5c99-4457-86c8-5fa994c93c4a@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: p3PfYbYQV7mbiC_x2qO09XwCjuxY0OXt
-X-Proofpoint-GUID: p3PfYbYQV7mbiC_x2qO09XwCjuxY0OXt
-X-Authority-Analysis: v=2.4 cv=NaLm13D4 c=1 sm=1 tr=0 ts=67f6b598 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=qC_FGOx9AAAA:8
- a=MtqB9aAArxYXyEGXeLUA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22 a=fsdK_YakeE02zTmptMdW:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-09_06,2025-04-08_04,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 impostorscore=0
- priorityscore=1501 adultscore=0 malwarescore=0 suspectscore=0
- lowpriorityscore=0 bulkscore=0 mlxlogscore=999 clxscore=1011 phishscore=0
- spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504090117
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z_amQp3gK5Dm8Qz3@yury>
 
+On Wed, Apr 09, 2025 at 12:54:35PM -0400, Yury Norov wrote:
+> On Wed, Apr 09, 2025 at 11:43:43PM +0800, Kuan-Wei Chiu wrote:
+> > Several parts of the kernel contain open-coded and redundant
+> > implementations of parity calculation. This patch series introduces
+> > a unified helper, parity_odd(), to simplify and standardize these
+> > cases.
+> > 
+> > The first patch renames parity8() to parity_odd(), changes its argument
+> 
+> Alright, if it's an extension of the area of applicability, it should be
+> renamed to just parity(). I already shared a table that summarized the
+> drivers authors' view on that, and they clearly prefer not to add the
+> suffix - 13 vs 2. The __builtin_parity() doesn't care of suffix as well. 
+> 
+> https://lore.kernel.org/all/Z9GtcNJie8TRKywZ@thinkpad/
+> 
+> Yes, the argument that boolean function should explain itself sounds
+> correct, but in this case, comment on top of the function looks enough
+> to me.
+> 
+> The existing codebase doesn't care about the suffix as well. If no
+> strong preference, let's just pick a short and sweet name?
+> 
+I don't have a strong preference for the name, but if I had to guess
+the return value from the function prototype, I would intuitively
+expect an int to return "0 for even and 1 for odd," and a bool to
+return "true for even, false for odd." I recall Jiri and Jacob shared
+similar thoughts, which is why I felt adding _odd could provide better
+clarity.
 
+However, I agree that if the kernel doc comment is clear, it might not
+be a big issue. But David previously mentioned that he doesn't want to
+rely on checking the function's documentation every time while reading
+the code.
 
-On 4/9/2025 9:56 PM, Neil Armstrong wrote:
-> On 09/04/2025 16:29, Bryan O'Donoghue wrote:
->> On 08/04/2025 16:54, Dikshita Agarwal wrote:
->>> Hi All,
->>>
->>> This patch series adds initial support for the HEVC(H.265) and VP9
->>> codecs in iris decoder. The objective of this work is to extend the
->>> decoder's capabilities to handle HEVC and VP9 codec streams,
->>> including necessary format handling and buffer management.
->>> In addition, the series also includes a set of fixes to address issues
->>> identified during testing of these additional codecs.
->>>
->>> These patches also address the comments and feedback received from the
->>> RFC patches previously sent. I have made the necessary improvements
->>> based on the community's suggestions.
->>>
->>> Changes sinces RFC:
->>> - Added additional fixes to address issues identified during further
->>> testing.
->>> - Moved typo fix to a seperate patch [Neil]
->>> - Reordered the patches for better logical flow and clarity [Neil,
->>> Dmitry]
->>> - Added fixes tag wherever applicable [Neil, Dmitry]
->>> - Removed the default case in the switch statement for codecs [Bryan]
->>> - Replaced if-else statements with switch-case [Bryan]
->>> - Added comments for mbpf [Bryan]
->>> - RFC:
->>> https://lore.kernel.org/linux-media/20250305104335.3629945-1-quic_dikshita@quicinc.com/
->>>
->>> These patches are tested on SM8250 and SM8550 with v4l2-ctl and
->>> Gstreamer for HEVC and VP9 decoders, at the same time ensured that
->>> the existing H264 decoder functionality remains uneffected.
->>>
->>> Note: 1 of the fluster compliance test is fixed with firmware [1]
->>> [1]:
->>> https://lore.kernel.org/linux-firmware/1a511921-446d-cdc4-0203-084c88a5dc1e@quicinc.com/T/#u
->>>
+Regardless, I'm flexible as long as we all reach a consensus on the
+naming.
+
+> > type from u8 to u64 for broader applicability, and updates its return
+> > type from int to bool to make its usage and return semantics more
+> > intuitive-returning true for odd parity and false for even parity. It
+> > also adds __attribute_const__ to enable compiler optimizations.
 > 
-> <snip>
+> That's correct and nice, but can you support it with a bloat-o-meter's
+> before/after and/or asm snippets? I also think it worth to be a separate
+> patch, preferably the last patch in the series.
 > 
->>> ---
->>> Dikshita Agarwal (20):
->>>        media: iris: Skip destroying internal buffer if not dequeued
->>>        media: iris: Update CAPTURE format info based on OUTPUT format
->>>        media: iris: Add handling for corrupt and drop frames
->>>        media: iris: Avoid updating frame size to firmware during reconfig
->>>        media: iris: Send V4L2_BUF_FLAG_ERROR for buffers with 0 filled length
->>>        media: iris: Add handling for no show frames
->>>        media: iris: Improve last flag handling
->>>        media: iris: Skip flush on first sequence change
->>>        media: iris: Prevent HFI queue writes when core is in deinit state
->>>        media: iris: Remove redundant buffer count check in stream off
->>>        media: iris: Remove deprecated property setting to firmware
->>>        media: iris: Fix missing function pointer initialization
->>>        media: iris: Fix NULL pointer dereference
->>>        media: iris: Fix typo in depth variable
->>>        media: iris: Add a comment to explain usage of MBPS
->>>        media: iris: Add HEVC and VP9 formats for decoder
->>>        media: iris: Add platform capabilities for HEVC and VP9 decoders
->>>        media: iris: Set mandatory properties for HEVC and VP9 decoders.
->>>        media: iris: Add internal buffer calculation for HEVC and VP9 decoders
->>>        media: iris: Add codec specific check for VP9 decoder drain handling
->>>
->>>   drivers/media/platform/qcom/iris/iris_buffer.c     |  22 +-
->>>   drivers/media/platform/qcom/iris/iris_ctrls.c      |  35 +-
->>>   drivers/media/platform/qcom/iris/iris_hfi_common.h |   1 +
->>>   .../platform/qcom/iris/iris_hfi_gen1_command.c     |  44 ++-
->>>   .../platform/qcom/iris/iris_hfi_gen1_defines.h     |   5 +-
->>>   .../platform/qcom/iris/iris_hfi_gen1_response.c    |  22 +-
->>>   .../platform/qcom/iris/iris_hfi_gen2_command.c     | 143 +++++++-
->>>   .../platform/qcom/iris/iris_hfi_gen2_defines.h     |   5 +
->>>   .../platform/qcom/iris/iris_hfi_gen2_response.c    |  57 ++-
->>>   drivers/media/platform/qcom/iris/iris_hfi_queue.c  |   2 +-
->>>   drivers/media/platform/qcom/iris/iris_instance.h   |   6 +
->>>   .../platform/qcom/iris/iris_platform_common.h      |  28 +-
->>>   .../platform/qcom/iris/iris_platform_sm8250.c      |  15 +-
->>>   .../platform/qcom/iris/iris_platform_sm8550.c      | 143 +++++++-
->>>   drivers/media/platform/qcom/iris/iris_vb2.c        |   3 +-
->>>   drivers/media/platform/qcom/iris/iris_vdec.c       | 113 +++---
->>>   drivers/media/platform/qcom/iris/iris_vdec.h       |  11 +
->>>   drivers/media/platform/qcom/iris/iris_vidc.c       |   3 -
->>>   drivers/media/platform/qcom/iris/iris_vpu_buffer.c | 397 ++++++++++++++++++++-
->>>   drivers/media/platform/qcom/iris/iris_vpu_buffer.h |  46 ++-
->>>   20 files changed, 948 insertions(+), 153 deletions(-)
->>> ---
->>> base-commit: 7824b91d23e9f255f0e9d2acaa74265c9cac2e9c
->>> change-id: 20250402-iris-dec-hevc-vp9-2654a1fc4d0d
->>>
->>> Best regards,
->>
->> Assuming we merge Neils sm8650 stuff first, which I think we should merge
->> first, you'll have a subsequent build error to fix [1]
-> 
-> I agree, it would be simpler, I prepared a fix to apply on top of this patchset.
-Lets sort out the platform data handling. More so, when i see that the patch you
-are adding more of 8650 specific data into 8550 file.
-> 
->>
->> https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linaro/arm-laptop/wip/x1e80100-6.15-rc1-dell-inspiron14-camss-ov02c10-ov02e10-audio-iris?ref_type=heads
->>
->> Testing your series in isolation. I can confirm vp9 decodes also getting some
->> strange prinouts which we need to follow up to see if they exist with the
->> baseline driver [2].
->>
->> https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linaro/arm-laptop/wip/x1e80100-6.15-rc1-dell-inspiron14-camss-ov02c10-ov02e10-audio-iris-20250408-iris-dec-hevc-vp9-v1-0-acd258778bd6@quicinc.com?ref_type=heads
->>
-> 
-> <snip>
-> 
->> [  126.582170] qcom-iris aa00000.video-codec: session error received
->> 0x1000006: unknown
->> [  126.582177] qcom-iris aa00000.video-codec: session error received
->> 0x4000004: invalid operation for current state
-> 
-> With the following on top of the last SM8650 patchet + this patchset, I have the
-> same HEVC errors on SM8650, but VP9 works fine:
-> [  115.185745] qcom-iris aa00000.video-codec: session error received 0x4000004:
-> invalid operation for current state
-> [  115.221058] qcom-iris aa00000.video-codec: session error received 0x1000006:
-> unknown
-> 
-> ==========================================><==============================================
-> diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-> b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-> index 65f3accc2fb2..7d5116528fca 100644
-> --- a/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-> +++ b/drivers/media/platform/qcom/iris/iris_platform_sm8550.c
-> @@ -213,6 +213,22 @@ static void iris_set_sm8550_preset_registers(struct
-> iris_core *core)
->      writel(0x0, core->reg_base + 0xB0088);
->  }
-> 
-> +static void iris_set_sm8650_preset_registers(struct iris_core *core)
-> +{
-> +    writel(0x0, core->reg_base + 0xB0088);
-> +    writel(0x33332222, core->reg_base + 0x13030);
-> +    writel(0x44444444, core->reg_base + 0x13034);
-> +    writel(0x1022, core->reg_base + 0x13038);
-> +    writel(0x0, core->reg_base + 0x13040);
-> +    writel(0xFFFF, core->reg_base + 0x13048);
-> +    writel(0x33332222, core->reg_base + 0x13430);
-> +    writel(0x44444444, core->reg_base + 0x13434);
-> +    writel(0x1022, core->reg_base + 0x13438);
-> +    writel(0x0, core->reg_base + 0x13440);
-> +    writel(0xFFFF, core->reg_base + 0x13448);
-> +    writel(0x99, core->reg_base + 0xA013C);
-> +}
-This is strange, h264 decoder does not need any of those while VP9 needed it to
-work. I could see the same set of registers in downstream code, but cannot
-recollect now on the need to add those.
+I quickly tested it with the x86 defconfig, and it appears that the
+generated code doesn't change. I forgot who requested the addition
+during the review process, but I initially thought it would either
+improve the generated code or leave it unchanged without significantly
+increasing the source code size.
+
+However, if there's no actual difference in the generated code, maybe
+let's just remove it?
 
 Regards,
-Vikash
-> +
->  static const struct icc_info sm8550_icc_table[] = {
->      { "cpu-cfg",    1000, 1000     },
->      { "video-mem",  1000, 15000000 },
-> @@ -390,6 +406,7 @@ struct iris_platform_data sm8550_data = {
+Kuan-Wei
+
+> > While more efficient implementations may exist, further optimization is
+> > postponed until a use case in performance-critical paths arises.
+> > 
+> > Subsequent patches refactor various kernel components to replace
+> > open-coded parity logic with the new helper, reducing code duplication
+> > and improving consistency.
+> > 
+> > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
+> > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
+> > ---
+> > 
+> > To H. Peter:
+> > I understand your preference for a parity8/16/32/64() style interface,
+> > and I agree that such a design would better accommodate potential
+> > arch-specific implementations. However, I suspect there are very few,
+> > if any, users who care about the performance of parity calculations
+> > enough to warrant such optimizations. So my inclination is to defer any
+> > arch-specific or optimized implementations until we see parity_odd()
+> > being used in hot paths.
+> > 
+> > Changes in v4:
+> > - Rename parity8() to parity_odd().
+> > - Change the argument type from u8 to u64.
+> > - Use a single parity_odd() function.
+> > 
+> > Changes in v3:
+> > - Avoid using __builtin_parity.
+> > - Change return type to bool.
+> > - Drop parity() macro.
+> > - Change parityXX() << y to !!parityXX() << y.
+> > 
+> > Changes in v2:
+> > - Provide fallback functions for __builtin_parity() when the compiler
+> >   decides not to inline it
+> > - Use __builtin_parity() when no architecture-specific implementation
+> >   is available
+> > - Optimize for constant folding when val is a compile-time constant
+> > - Add a generic parity() macro
+> > - Drop the x86 bootflag conversion patch since it has been merged into
+> >   the tip tree
+> > 
+> > v3: https://lore.kernel.org/lkml/20250306162541.2633025-1-visitorckw@gmail.com/
+> > v1: https://lore.kernel.org/lkml/20250223164217.2139331-1-visitorckw@gmail.com/
+> > v2: https://lore.kernel.org/lkml/20250301142409.2513835-1-visitorckw@gmail.com/
+> > 
+> > Kuan-Wei Chiu (13):
+> >   bitops: Change parity8() to parity_odd() with u64 input and bool
+> >     return type
+> >   media: media/test_drivers: Replace open-coded parity calculation with
+> >     parity_odd()
+> >   media: pci: cx18-av-vbi: Replace open-coded parity calculation with
+> >     parity_odd()
+> >   media: saa7115: Replace open-coded parity calculation with
+> >     parity_odd()
+> >   serial: max3100: Replace open-coded parity calculation with
+> >     parity_odd()
+> >   lib/bch: Replace open-coded parity calculation with parity_odd()
+> >   Input: joystick - Replace open-coded parity calculation with
+> >     parity_odd()
+> >   net: ethernet: oa_tc6: Replace open-coded parity calculation with
+> >     parity_odd()
+> >   wifi: brcm80211: Replace open-coded parity calculation with
+> >     parity_odd()
+> >   drm/bridge: dw-hdmi: Replace open-coded parity calculation with
+> >     parity_odd()
+> >   mtd: ssfdc: Replace open-coded parity calculation with parity_odd()
+> >   fsi: i2cr: Replace open-coded parity calculation with parity_odd()
+> >   nfp: bpf: Replace open-coded parity calculation with parity_odd()
+> > 
+> >  arch/x86/kernel/bootflag.c                    |  4 +--
+> >  drivers/fsi/fsi-master-i2cr.c                 | 20 +++------------
+> >  .../drm/bridge/synopsys/dw-hdmi-ahb-audio.c   |  8 ++----
+> >  drivers/hwmon/spd5118.c                       |  2 +-
+> >  drivers/i3c/master/dw-i3c-master.c            |  2 +-
+> >  drivers/i3c/master/i3c-master-cdns.c          |  2 +-
+> >  drivers/i3c/master/mipi-i3c-hci/dat_v1.c      |  2 +-
+> >  drivers/input/joystick/grip_mp.c              | 17 ++-----------
+> >  drivers/input/joystick/sidewinder.c           | 25 ++++---------------
+> >  drivers/media/i2c/saa7115.c                   | 12 ++-------
+> >  drivers/media/pci/cx18/cx18-av-vbi.c          | 12 ++-------
+> >  .../media/test-drivers/vivid/vivid-vbi-gen.c  |  8 ++----
+> >  drivers/mtd/ssfdc.c                           | 20 +++------------
+> >  drivers/net/ethernet/netronome/nfp/nfp_asm.c  |  7 +-----
+> >  drivers/net/ethernet/oa_tc6.c                 | 19 +++-----------
+> >  .../broadcom/brcm80211/brcmsmac/dma.c         | 18 ++-----------
+> >  drivers/tty/serial/max3100.c                  |  3 ++-
+> >  include/linux/bitops.h                        | 19 ++++++++------
+> >  lib/bch.c                                     | 14 +----------
+> >  19 files changed, 49 insertions(+), 165 deletions(-)
 > 
->  /*
->   * Shares most of SM8550 data except:
-> + * - set_preset_registers to iris_set_sm8650_preset_registers
->   * - vpu_ops to iris_vpu33_ops
->   * - clk_rst_tbl to sm8650_clk_reset_table
->   * - controller_rst_tbl to sm8650_controller_reset_table
-> @@ -400,7 +417,7 @@ struct iris_platform_data sm8650_data = {
->      .init_hfi_command_ops = iris_hfi_gen2_command_ops_init,
->      .init_hfi_response_ops = iris_hfi_gen2_response_ops_init,
->      .vpu_ops = &iris_vpu33_ops,
-> -    .set_preset_registers = iris_set_sm8550_preset_registers,
-> +    .set_preset_registers = iris_set_sm8650_preset_registers,
->      .icc_tbl = sm8550_icc_table,
->      .icc_tbl_size = ARRAY_SIZE(sm8550_icc_table),
->      .clk_rst_tbl = sm8650_clk_reset_table,
-> @@ -428,20 +445,34 @@ struct iris_platform_data sm8650_data = {
->      .ubwc_config = &ubwc_config_sm8550,
->      .num_vpp_pipe = 4,
->      .max_session_count = 16,
-> -    .max_core_mbpf = ((8192 * 4352) / 256) * 2,
-> -    .input_config_params =
-> -        sm8550_vdec_input_config_params,
-> -    .input_config_params_size =
-> -        ARRAY_SIZE(sm8550_vdec_input_config_params),
-> +    .max_core_mbpf = NUM_MBS_8K * 2,
-> +    .input_config_params_default =
-> +        sm8550_vdec_input_config_params_default,
-> +    .input_config_params_default_size =
-> +        ARRAY_SIZE(sm8550_vdec_input_config_params_default),
-> +    .input_config_params_hevc =
-> +        sm8550_vdec_input_config_param_hevc,
-> +    .input_config_params_hevc_size =
-> +        ARRAY_SIZE(sm8550_vdec_input_config_param_hevc),
-> +    .input_config_params_vp9 =
-> +        sm8550_vdec_input_config_param_vp9,
-> +    .input_config_params_vp9_size =
-> +        ARRAY_SIZE(sm8550_vdec_input_config_param_vp9),
->      .output_config_params =
->          sm8550_vdec_output_config_params,
->      .output_config_params_size =
->          ARRAY_SIZE(sm8550_vdec_output_config_params),
->      .dec_input_prop = sm8550_vdec_subscribe_input_properties,
->      .dec_input_prop_size = ARRAY_SIZE(sm8550_vdec_subscribe_input_properties),
-> -    .dec_output_prop = sm8550_vdec_subscribe_output_properties,
-> -    .dec_output_prop_size = ARRAY_SIZE(sm8550_vdec_subscribe_output_properties),
-> -
-> +    .dec_output_prop_avc = sm8550_vdec_subscribe_output_properties_avc,
-> +    .dec_output_prop_avc_size =
-> +        ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_avc),
-> +    .dec_output_prop_hevc = sm8550_vdec_subscribe_output_properties_hevc,
-> +    .dec_output_prop_hevc_size =
-> +        ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_hevc),
-> +    .dec_output_prop_vp9 = sm8550_vdec_subscribe_output_properties_vp9,
-> +    .dec_output_prop_vp9_size =
-> +        ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_vp9),
->      .dec_ip_int_buf_tbl = sm8550_dec_ip_int_buf_tbl,
->      .dec_ip_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_ip_int_buf_tbl),
->      .dec_op_int_buf_tbl = sm8550_dec_op_int_buf_tbl,
-> ==========================================><==============================================
+> OK, now it looks like a nice consolidation and simplification of code
+> base. Thanks for the work.
 > 
 > Thanks,
-> Neil
+> Yury
 
