@@ -1,166 +1,210 @@
-Return-Path: <linux-media+bounces-29716-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29717-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 43C78A81F08
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 10:01:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47B62A81F0C
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 10:01:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EA74D19E727D
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 07:59:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C0F468A361B
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 07:59:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 441C625A635;
-	Wed,  9 Apr 2025 07:58:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27BD825B662;
+	Wed,  9 Apr 2025 07:58:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=damsy.net header.i=@damsy.net header.b="slk6VF1v";
-	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="09y8o62Y"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Co6A1xRc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BD3825B686;
-	Wed,  9 Apr 2025 07:58:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.152.102
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 565BD25A64B;
+	Wed,  9 Apr 2025 07:58:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744185500; cv=none; b=AGxBkN+dKRsFG2eV9mVx/t6z26DdoMjsqyuaEI6jfiSrGJZbadFywehOw8GBy4and9L2JjucmQ3Vt3/1Oo/FFFRIgKGyJEf0jNQZr8QdB2+sN0uEj43cyqvgGIpuf31NocOMG8U6DN4ZtIH0nDdYlpc6f75PBiuSxe0Y34twICI=
+	t=1744185523; cv=none; b=EuRkFZ5vtaTKLZ4nX4Wz8LKMXd5a/5lvM67HBa7LGo24iwU6TvlDhzRBgtdVNgxXwxTRt35Z2n5x6QfOWEDwjv22GKpbEIntDtwLCHbrr2dmF7SiIQQcHFr5ylHIVapm9nVvNGHIBBaiM8uWmF7Vlu7Cy4+f7+qcS7t0b439YgM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744185500; c=relaxed/simple;
-	bh=fg3tvVR/uXNXSDvxZ4l+Z3LudKE1cRCcApc0gwkbxMY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kDrWcxTDvD8mvnhHdOG44Mi0jJlahxjloAr2gaXmwchWHbC9NylIVzn0GHbsvJHGk3uEpoo5CiAPz2OmTUj624kjF6oG8KELR2GuwYjbjCFx4N/qaDgpjLljvzEmEIlSzZwnxefvXelB/Z7nA+/X4IkUCAHD/WT+1YCJKC5nN5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=damsy.net; spf=pass smtp.mailfrom=damsy.net; dkim=pass (2048-bit key) header.d=damsy.net header.i=@damsy.net header.b=slk6VF1v; dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b=09y8o62Y; arc=none smtp.client-ip=51.159.152.102
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=damsy.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=damsy.net
-DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed;
-	h=From:To:Subject:Date:Message-ID; t=1744185144; bh=m0UnMasJN//idMnYkH7ZVnj
-	GqZ6c589EeVyBi7IEG6E=; b=slk6VF1v2JektGaPflcGO2CTCGnjVtConEYnMwNQuHIKv5GnZN
-	iKySxNzKqaqmMSGTHV2sD7e6p9JMM/bWwVV60dKGgbydrphz39R0nULHz7MEORNs5C/68+fh8hE
-	mlZ9b5Z88OSQ8xg9+VjAXpw/HRZzgwVLlWHsB8EiA5jMt5rjUUhF+Q/YRDNDgE1oqjF2JbvgPva
-	cS89tlOy4Apc6IPe8ZmM/vtazs3BSCEAEgUDzLIxcvGjev4kX2xaLfNCszaUERyyBxHykYumB+1
-	dBO7Dwa0yztI3rfuRieQ6sKhWOyoHaC9sv/tmFXCcrxeOxKvOvdgQCq577mnEJ+VpWw==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net; c=relaxed/relaxed;
-	h=From:To:Subject:Date:Message-ID; t=1744185144; bh=m0UnMasJN//idMnYkH7ZVnj
-	GqZ6c589EeVyBi7IEG6E=; b=09y8o62Y7U+ZSS7gXzumhfKXC15qDUDbHWKwRc+54MEVLT3ms7
-	XJzrgBE+FB+rwkzQeINVbFqIXq5dQESfANCg==;
-Message-ID: <f3416edf-46f8-4296-86bd-600ab629fe60@damsy.net>
-Date: Wed, 9 Apr 2025 09:52:23 +0200
+	s=arc-20240116; t=1744185523; c=relaxed/simple;
+	bh=9OwpPAtClWlMtvf7MBL7jZcCqTq/xq396C20+WSwSiU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Qknb59x0duBPyiMCSQjQaREP8Zv7ae8fXwV8ojZh4sWRPIwBzle6dHmgN9eyd5/KaNEWx6ZHzJpkNewG6PX4FQcn8b/xbOET/rHjd9uM7XTetAcETBVadZz1vVqd0dgSdGYOtwDr52GXKW+Iib4dvuF22EYsIr6MHB0A+LSj4Ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Co6A1xRc; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1744185519;
+	bh=9OwpPAtClWlMtvf7MBL7jZcCqTq/xq396C20+WSwSiU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Co6A1xRc5EeDeCYxUJxoeDF7OvCXTJE8jR5NmyLXNsxcK/4jcQWyiw2U6qPWyA3O8
+	 oVM3rl4XvAC64CpjNWDvYkuBYbHpyzsoZ4mVVYmcH6lidEY1Ft/GrgOYV84eF81ecc
+	 uKxjcXYUxzFcZ6Sm8wknkihjfdMk3ZXavwXA4djPt9KUlrgTUiIrwZlTQJL9PkxgFV
+	 XDUGVYgOV7oEjtweqBShsUwRvi7+afCwuzAJRYz8HZdrE8REsq9g3XoFR9LmIBz+7Z
+	 NUn29bkh7kHv2fFEHcjFaq6WO5NyhsSQCZWWKwwfgWbwz2jmTu95YChU1g6J+1GhO0
+	 tRit6wYXyLyhw==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9AB4917E0809;
+	Wed,  9 Apr 2025 09:58:38 +0200 (CEST)
+Date: Wed, 9 Apr 2025 09:58:34 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v5 1/4] drm/panthor: Introduce BO labeling
+Message-ID: <20250409095834.3d6a6206@collabora.com>
+In-Reply-To: <20250408222427.1214330-2-adrian.larumbe@collabora.com>
+References: <20250408222427.1214330-1-adrian.larumbe@collabora.com>
+	<20250408222427.1214330-2-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 00/10] Improve gpu_scheduler trace events + UAPI
-To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Tvrtko Ursulin <tvrtko.ursulin@igalia.com>,
- Philipp Stanner <phasta@kernel.org>, Danilo Krummrich <dakr@kernel.org>,
- Matthew Brost <matthew.brost@intel.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org,
- intel-xe@lists.freedesktop.org, lima@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-arm-msm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, nouveau@lists.freedesktop.org
-References: <20250320095818.40622-1-pierre-eric.pelloux-prayer@amd.com>
-Content-Language: en-US
-From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
-In-Reply-To: <20250320095818.40622-1-pierre-eric.pelloux-prayer@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Tue,  8 Apr 2025 23:24:21 +0100
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-I've rebased the series on top of drm-next, applied the minor tweaks suggested by Tvrtko on v8 and 
-the R-b tags. The result can be found on gitlab.fdo:
+> Add a new character string Panthor BO field, and a function that allows
+> setting it from within the driver.
+>=20
+> Driver takes care of freeing the string when it's replaced or no longer
+> needed at object destruction time, but allocating it is the responsibility
+> of callers.
+>=20
+> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
 
-https://gitlab.freedesktop.org/pepp/linux/-/commits/improve_gpu_scheduler_trace_v9
+One minor thing below, but this looks good otherwise
 
-I believe it's ready to be merged, unless I've missed something?
+Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Thanks,
-Pierre-Eric
+> ---
+>  drivers/gpu/drm/panthor/panthor_gem.c | 38 +++++++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_gem.h | 17 ++++++++++++
+>  2 files changed, 55 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/pant=
+hor/panthor_gem.c
+> index 8244a4e6c2a2..7d017f9d1d52 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -18,6 +18,14 @@ static void panthor_gem_free_object(struct drm_gem_obj=
+ect *obj)
+>  	struct panthor_gem_object *bo =3D to_panthor_bo(obj);
+>  	struct drm_gem_object *vm_root_gem =3D bo->exclusive_vm_root_gem;
+> =20
+> +	/*
+> +	 * Label might have been allocated with kstrdup_const(),
+> +	 * we need to take that into account when freeing the memory
+> +	 */
+> +	kfree_const(bo->label.str);
+> +
+> +	mutex_destroy(&bo->label.lock);
+> +
+>  	drm_gem_free_mmap_offset(&bo->base.base);
+>  	mutex_destroy(&bo->gpuva_list_lock);
+>  	drm_gem_shmem_free(&bo->base);
+> @@ -196,6 +204,7 @@ struct drm_gem_object *panthor_gem_create_object(stru=
+ct drm_device *ddev, size_t
+>  	obj->base.map_wc =3D !ptdev->coherent;
+>  	mutex_init(&obj->gpuva_list_lock);
+>  	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
+> +	mutex_init(&obj->label.lock);
+> =20
+>  	return &obj->base.base;
+>  }
+> @@ -247,3 +256,32 @@ panthor_gem_create_with_handle(struct drm_file *file,
+> =20
+>  	return ret;
+>  }
+> +
+> +void
+> +panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label)
+> +{
+> +	struct panthor_gem_object *bo =3D to_panthor_bo(obj);
+> +	const char *old_label;
+> +
+> +	mutex_lock(&bo->label.lock);
+> +	old_label =3D bo->label.str;
+> +	bo->label.str =3D label;
+> +	mutex_unlock(&bo->label.lock);
 
-Le 20/03/2025 à 10:57, Pierre-Eric Pelloux-Prayer a écrit :
-> Hi,
-> 
-> The initial goal of this series was to improve the drm and amdgpu
-> trace events to be able to expose more of the inner workings of
-> the scheduler and drivers to developers via tools.
-> 
-> Then, the series evolved to become focused only on gpu_scheduler.
-> The changes around vblank events will be part of a different
-> series, as well as the amdgpu ones.
-> 
-> Moreover Sima suggested to make some trace events stable uAPI,
-> so tools can rely on them long term.
-> 
-> The first patches extend and cleanup the gpu scheduler events,
-> then add a documentation entry in drm-uapi.rst.
-> 
-> The last 2 patches are new in v8. One is based on a suggestion
-> from Tvrtko and gets rid of drm_sched_job::id. The other is a
-> cleanup of amdgpu trace events to use the fence=%llu:%llu format.
-> 
-> The drm_sched_job patches don't affect gpuvis which has code to parse
-> the gpu_scheduler events but these events are not enabled.
-> 
-> Changes since v7:
-> * uint64_t -> u64
-> * reworked dependencies tracing (Tvrtko)
-> * use common name prefix for all events (Tvrtko)
-> * dropped drm_sched_job::id (Tvrtko)
-> 
-> Useful links:
-> - userspace tool using the updated events:
-> https://gitlab.freedesktop.org/tomstdenis/umr/-/merge_requests/37
-> - v7:
-> https://lists.freedesktop.org/archives/dri-devel/2025-January/488117.html
-> 
-> Pierre-Eric Pelloux-Prayer (10):
->    drm/debugfs: output client_id in in drm_clients_info
->    drm/sched: store the drm client_id in drm_sched_fence
->    drm/sched: add device name to the drm_sched_process_job event
->    drm/sched: cleanup gpu_scheduler trace events
->    drm/sched: trace dependencies for gpu jobs
->    drm/sched: add the drm_client_id to the drm_sched_run/exec_job events
->    drm/sched: cleanup event names
->    drm/doc: document some tracepoints as uAPI
->    drm: get rid of drm_sched_job::id
->    drm/amdgpu: update trace format to match gpu_scheduler_trace
-> 
->   Documentation/gpu/drm-uapi.rst                |  19 ++++
->   drivers/accel/amdxdna/aie2_ctx.c              |   3 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c    |   2 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |   3 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |   8 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_job.h       |   3 +-
->   drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h     |  32 ++----
->   drivers/gpu/drm/drm_debugfs.c                 |  10 +-
->   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c  |   2 +-
->   drivers/gpu/drm/imagination/pvr_job.c         |   2 +-
->   drivers/gpu/drm/imagination/pvr_queue.c       |   5 +-
->   drivers/gpu/drm/imagination/pvr_queue.h       |   2 +-
->   drivers/gpu/drm/lima/lima_gem.c               |   2 +-
->   drivers/gpu/drm/lima/lima_sched.c             |   6 +-
->   drivers/gpu/drm/lima/lima_sched.h             |   3 +-
->   drivers/gpu/drm/msm/msm_gem_submit.c          |   8 +-
->   drivers/gpu/drm/nouveau/nouveau_sched.c       |   3 +-
->   drivers/gpu/drm/panfrost/panfrost_drv.c       |   2 +-
->   drivers/gpu/drm/panthor/panthor_drv.c         |   3 +-
->   drivers/gpu/drm/panthor/panthor_mmu.c         |   2 +-
->   drivers/gpu/drm/panthor/panthor_sched.c       |   5 +-
->   drivers/gpu/drm/panthor/panthor_sched.h       |   3 +-
->   .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 103 +++++++++++++-----
->   drivers/gpu/drm/scheduler/sched_entity.c      |  16 ++-
->   drivers/gpu/drm/scheduler/sched_fence.c       |   4 +-
->   drivers/gpu/drm/scheduler/sched_internal.h    |   2 +-
->   drivers/gpu/drm/scheduler/sched_main.c        |  11 +-
->   drivers/gpu/drm/v3d/v3d_submit.c              |   2 +-
->   drivers/gpu/drm/xe/xe_sched_job.c             |   3 +-
->   include/drm/gpu_scheduler.h                   |  13 ++-
->   30 files changed, 186 insertions(+), 96 deletions(-)
-> 
+Since you started using scoped_guard, maybe use it here too:
+
+	scoped_guard(mutex, &bo->label.lock) {
+		old_label =3D bo->label.str;
+		bo->label.str =3D label;
+	}
+
+> +
+> +	kfree(old_label);
+> +}
+> +
+> +void
+> +panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char=
+ *label)
+> +{
+> +	const char *str;
+> +
+> +	str =3D kstrdup_const(label, GFP_KERNEL);
+> +	if (!str) {
+> +		/* Failing to allocate memory for a label isn't a fatal condition */
+> +		drm_warn(bo->obj->dev, "Not enough memory to allocate BO label");
+> +		return;
+> +	}
+> +
+> +	panthor_gem_bo_set_label(bo->obj, kstrdup_const(str, GFP_KERNEL));
+> +}
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/pant=
+hor/panthor_gem.h
+> index 5749ef2ebe03..0582826b341a 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> @@ -46,6 +46,20 @@ struct panthor_gem_object {
+> =20
+>  	/** @flags: Combination of drm_panthor_bo_flags flags. */
+>  	u32 flags;
+> +
+> +	/**
+> +	 * @label: BO tagging fields. The label can be assigned within the
+> +	 * driver itself or through a specific IOCTL.
+> +	 */
+> +	struct {
+> +		/**
+> +		 * @label.str: Pointer to NULL-terminated string,
+> +		 */
+> +		const char *str;
+> +
+> +		/** @lock.str: Protects access to the @label.str field. */
+> +		struct mutex lock;
+> +	} label;
+>  };
+> =20
+>  /**
+> @@ -91,6 +105,9 @@ panthor_gem_create_with_handle(struct drm_file *file,
+>  			       struct panthor_vm *exclusive_vm,
+>  			       u64 *size, u32 flags, uint32_t *handle);
+> =20
+> +void panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *la=
+bel);
+> +void panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const=
+ char *label);
+> +
+>  static inline u64
+>  panthor_kernel_bo_gpuva(struct panthor_kernel_bo *bo)
+>  {
 
 
