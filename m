@@ -1,165 +1,205 @@
-Return-Path: <linux-media+bounces-29794-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29795-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24F3AA82FE2
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 21:01:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 27995A83040
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 21:17:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6A9B4179AC1
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 19:00:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E06E01B64BE9
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 19:18:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 620EB27BF85;
-	Wed,  9 Apr 2025 18:59:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B44F21E3DED;
+	Wed,  9 Apr 2025 19:17:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AwT0vyUS"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="P1ZaGMYu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 45A36278140;
-	Wed,  9 Apr 2025 18:59:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 499231E0489
+	for <linux-media@vger.kernel.org>; Wed,  9 Apr 2025 19:17:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744225193; cv=none; b=D7ClpPcVh9STuUormj2hj/gU+5T8IWzxfzQ2TAGUzecmD8KymJACKMm/oaIelZsdcH5QqAk2+6ZjK1A5ZGqFZgBVc8cmd/+G809XmEQWhUZEy0PE1d5jupD/2qGV2S079qVY9BmS/esw666uMHSIrPKDBWeqsyjgp9UoAAR2QOU=
+	t=1744226264; cv=none; b=mKHqf5gHT6FkWY7HkEamPTHywdTTynGmo8Fbrj3lCNkzbXu2ymP2jZX/R41DVXSYNDgly6Z85qhk+cf620wnqZfQBbZdv2rLRQdfaXCSqt3VSH27F0uHXbQ5m2sIREwJ5q2Q6Gr+MaIVpLYIEicNLCzEyrM0LbpMvky18Kx6844=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744225193; c=relaxed/simple;
-	bh=fHNugPqL3BXm983hBsCCRppe6yhgx8ucgV3hPzNfx+o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EBRknq1Z1ThyZD1IYaz/Nt2/2j/xmsSaTuzgEzCh0oTKL7ZB8LiYODNEeorvBb+Dhmb0lZ7Cblt6SS4XmGbypt/xifIWmS/amUyT2uRT4vEAX5CqKbMpH9ZAYaz73qdQAOOOZlMBy7JIARi+m7QztoOICDHjCcIqtKcMm15TJqQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AwT0vyUS; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-736dd9c4b40so1029229b3a.0;
-        Wed, 09 Apr 2025 11:59:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744225191; x=1744829991; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=n1wi01EF8Z0TS5kAzJp4gC5MlmlCKp8z1jxkmp6i2uY=;
-        b=AwT0vyUSeHMVxMxGaqX85h5+Ycr3cchqWcwIPZFsvl7NqVw3M6oTiQKTkKpFD3nXvv
-         wJk+vP4LTW5PHzeNvGWRCbo2HuJoji7ebpq7oiVQFm/HnQW5A/DjnVgqBmkXM+V+HUou
-         M/PmFwETyOZfdRvbMFLxP6bfDKFSWcd8otC7pcGmSIQo9V3/mnB4Sc96Zrh4yapBd9C/
-         X8Enpts2d/ZmcpnT62AIzjPengeYJliEb2iypUFasFmtz/FHQ89AYXogmIEw+9XuYnRx
-         pUvMJdBhAbO9GDOsI5iI6H3fAJtpaAYC2jSMJ2pPfUrJyGbod/eSL5GhdpwfLRaeTfuG
-         wc9g==
+	s=arc-20240116; t=1744226264; c=relaxed/simple;
+	bh=9AOGJ16kRt3tVGIANi9OM2YSv2giRzrvMBRJunLNMic=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fD8vTNYZSBBOyIhtYOT/SYYHT5jLgC5U2CFzEfR7tJ9jVU6Pl51WCMbXIttEZhZG31Ax055i7vsn8JwX/4C+daUTq2giba9mPr4gEnCxPU6SXMew7WRVg93XCXYo6c6zmYr9k+iGJVqhjnit8yavyAx36jNBU7gecOes7zNceJE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=P1ZaGMYu; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 539IKLgp029024
+	for <linux-media@vger.kernel.org>; Wed, 9 Apr 2025 19:17:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	lqcvEHgtU6uy6Jy9R3xfK2JQeeSFv9Thsxw6q2/X9Mc=; b=P1ZaGMYuZPrZL5KR
+	XZiKtavnC4AyIYCh6dOxImZoZXu0m7BNx7H4elJ23PoihUL+Yuv1xQghUfUqO2yf
+	EKskcXY3S1OMlYHl4wwRuTX7zoGuXZzmGgDflk31KBTTRY+Vof/kGRj3+dduSnIe
+	VsUIZ+BbUoLuDCKXJ1OSj3p7XnoOaBPUgA+l6bsI5ihatCLcgzebo8Mqv7RYeBuS
+	vEshVJZfQa/qOQXvTmQTuD9U5qNFhJcfIneHe4AjsA7GH+LKOpjUiNlznAqXqLAB
+	w+rAT4Hsg5XGv7T0ykTAkm0d2S5jDG9F7IzVICI/v8yzG400QvZcxRBCWTIfUv6C
+	0MK32A==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twpmcf34-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 09 Apr 2025 19:17:40 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7c5530c2e01so941285a.0
+        for <linux-media@vger.kernel.org>; Wed, 09 Apr 2025 12:17:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744225191; x=1744829991;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=n1wi01EF8Z0TS5kAzJp4gC5MlmlCKp8z1jxkmp6i2uY=;
-        b=YLN5IsLSSUMakVOEpzm1RTsPsGLCOsHaSdrYLuak0VlkP1v49UUDoMFys933sCS/A5
-         WVmMl3dunwHF6sK85Pl217HfMbLOFgt+mqni8u5yu+w2nz+2nIiptGTOfW6PMI6o+8HL
-         029YYzENSHwCL+uJ6vpQjAG44Wx+4uMnpps1UPycoZbJIatRhTjBrE7vbH4C1DlzPDaP
-         orE4ZOPZ9Bv9EBtC+ztrgAa6ZWlHHIFmS+DtQJ1vrv+k1s4u0Oaq9EtDKfKaw6WNZdUj
-         sYmXdOo88VcKeOo8AfhjnJIplcxDIawUTeC364rJb3ROjFTN7BeJkfaFoniSYkskHz81
-         fgEw==
-X-Forwarded-Encrypted: i=1; AJvYcCU2FelnGjbus29wJNXi67yTXwWNbYCCxmnYOUOyMC8qqXRRAwnQBfJIvZNLUzeFIPDGIHryt0cFDF+ayFya@vger.kernel.org, AJvYcCUHZBZV6aYCzvcmutUgm+nydHjmUZUreCcqfEmm4Y2vUQ3uPkJBneOXoA4QcGB7WPz8ak7UkzDV8jouHpg=@vger.kernel.org, AJvYcCUcug4n1Y58esBgOa5ao9oFsakBUhHmYSijakeW8i18+H/zs9VoSNxS/74npG0UXtOSYVmlBLLSDqrHMZE=@vger.kernel.org, AJvYcCVdzGav0lmh54HtuoBbf0GJFV9FltSolQQA9USMTqfTJRShlHEyuXgoFxNEMKpm9c/nsMLm/ws86o4JiKJ0Kc8=@vger.kernel.org, AJvYcCVwIK8kCiBi1jLW4lYbe2sH+n+1cZcMMFM5bGDeI8dg7Ly4U1BP+49x4bY/6EwgSOacFPY=@vger.kernel.org, AJvYcCX9sSeBxegsDPjU1Pjm9YcNuZKSwFu9DV2dcGKovMK7BXh0JM/wSnL6S0ZYk4df1vWTJpY5Jad8@vger.kernel.org, AJvYcCXEMJ83qpThn4HUkyM/9v/5MDFLU78ifhGg4hSRbmPPRvGTMw4pTm0nYJtbK0FlqxTpx71F0gafDNVkDGkC@vger.kernel.org, AJvYcCXG/5SOyLIDs+IXCjJ4JKD+hBxUYdpo3r3THacTvJXAeBERQZDqnOn0SxumvYyKdh9zPdyM06u0w4F+zgQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwD+HpNf/oCVgs5BBDeLrmBA5Otcsbr1d67Cyyg/OpSEgd4igu9
-	r8yzbj6A5cNGkup89dIhhc4wbzgSmD4WE3D0Bv8wtcTTyHHw7Vxg
-X-Gm-Gg: ASbGncuMsp+EiD0LXxAV6VZ6Bex1YMDVTI1w7c9vMbCbA9VW/RF4llJ2nOSLXI0VYG+
-	5FU0P5bBLtx3qlRatWIYOUnjRZc58Abrxda/Fcky773X6kTSDbU3Q2wyGf46JHdiYQuJq9WU3X3
-	JIqxsSRqNfDM6QqyYfulIRvwS13bhMk1MUsDAdzWxO/8BdP4Eg0JCe3N1bEu2RAH0NtJxZogwg6
-	XP+dDtYLzd65LW+SBrqbc5OcHz1ryI98jGogKbWcX1n2F6plSsJVe3u1FVCvZ4sD7OwyMFqToga
-	z+Q4h+qNeorPqo2GavWFMAqKsdLSZJmm/YsV7gtLGCx9ra8cfkTTwVZwEyFmemLBnnjkN0B2Y/k
-	EU+A=
-X-Google-Smtp-Source: AGHT+IECCxkkYx11FRXflSmygxg09UKvf+V06wtQrEcsVk2bA1aQzXREqWD22vkpXtX6pPvgieHcAA==
-X-Received: by 2002:a05:6a00:22d4:b0:73b:ac3d:9d6b with SMTP id d2e1a72fcca58-73bbcc568a5mr921360b3a.4.1744225191359;
-        Wed, 09 Apr 2025 11:59:51 -0700 (PDT)
-Received: from visitorckw-System-Product-Name ([140.113.216.168])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bb1e53e92sm1699061b3a.156.2025.04.09.11.59.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Apr 2025 11:59:50 -0700 (PDT)
-Date: Thu, 10 Apr 2025 02:59:40 +0800
-From: Kuan-Wei Chiu <visitorckw@gmail.com>
-To: Arend van Spriel <arend.vanspriel@broadcom.com>
-Cc: tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, x86@kernel.org, jk@ozlabs.org,
-	joel@jms.id.au, eajames@linux.ibm.com, andrzej.hajda@intel.com,
-	neil.armstrong@linaro.org, rfoss@kernel.org,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, airlied@gmail.com, simona@ffwll.ch,
-	dmitry.torokhov@gmail.com, mchehab@kernel.org,
-	awalls@md.metrocast.net, hverkuil@xs4all.nl,
-	miquel.raynal@bootlin.com, richard@nod.at, vigneshr@ti.com,
-	louis.peens@corigine.com, andrew+netdev@lunn.ch,
-	davem@davemloft.net, edumazet@google.com, pabeni@redhat.com,
-	parthiban.veerasooran@microchip.com, johannes@sipsolutions.net,
-	gregkh@linuxfoundation.org, jirislaby@kernel.org,
-	yury.norov@gmail.com, akpm@linux-foundation.org, jdelvare@suse.com,
-	linux@roeck-us.net, alexandre.belloni@bootlin.com, pgaj@cadence.com,
-	hpa@zytor.com, alistair@popple.id.au, linux@rasmusvillemoes.dk,
-	Laurent.pinchart@ideasonboard.com, jonas@kwiboo.se,
-	jernej.skrabec@gmail.com, kuba@kernel.org,
-	linux-kernel@vger.kernel.org, linux-fsi@lists.ozlabs.org,
-	dri-devel@lists.freedesktop.org, linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
-	oss-drivers@corigine.com, netdev@vger.kernel.org,
-	linux-wireless@vger.kernel.org, brcm80211@lists.linux.dev,
-	brcm80211-dev-list.pdl@broadcom.com, linux-serial@vger.kernel.org,
-	bpf@vger.kernel.org, jserv@ccns.ncku.edu.tw, Frank.Li@nxp.com,
-	linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
-	david.laight.linux@gmail.com, andrew.cooper3@citrix.com,
-	Yu-Chun Lin <eleanor15x@gmail.com>
-Subject: Re: [PATCH v4 03/13] media: pci: cx18-av-vbi: Replace open-coded
- parity calculation with parity_odd()
-Message-ID: <Z/bDnLzcajzIxey3@visitorckw-System-Product-Name>
-References: <20250409154356.423512-1-visitorckw@gmail.com>
- <20250409154356.423512-4-visitorckw@gmail.com>
- <25b7888d-f704-493b-a2d7-c5e8fff9cfb4@broadcom.com>
+        d=1e100.net; s=20230601; t=1744226259; x=1744831059;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lqcvEHgtU6uy6Jy9R3xfK2JQeeSFv9Thsxw6q2/X9Mc=;
+        b=e7njuz9UNavg4niMTdIEnHLWu7W43QpggcrdDDOPBwyoFM5SHRJmPUoDszSUy+vTdl
+         uUSebMeADkPlgd1M39f6y+ks+gtSDFgOThvHvgJhI2nNOBip0d0ngWgJ7aRqAG3Ioy/A
+         LhJ0D5Lz1MiAIo2Rt/wNg9mGy697NWhBKsz+7VetGw3CZFlGqq0h2W6Vi71bpNGNRkif
+         80HH9yzmKtGHDEpIp4H9H6zQ88F5H9h+9pSVECpFo6jzkXECMOeH5wQXfLHOwj8DOA4h
+         YynxUuD36jLwbcGfeMpgvmHN8nfDZayWzluL+PeSf8O/Hgtmzo3JGqkedaCnZDYRiCZv
+         kFjQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVKA0lLQGD+Hy1tnDHaXGrmOfn7WRWoZV0UoSNGJxNNJm0GqSKQYrFbLsn1dID8reBPubPBlpmahJtROA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxrVs2HS811v09O08E/tqlUHethj18ERQhqzp1gymPIY0cjR8jg
+	R0BvTzXgEXjZxbGouUL89xKufoXhLjaLHfd2d589z02Z2UgrFZ7nlTFWYYtFVqAFHjAAVTIcwSe
+	J4h2DdjqZ4iecLKNBCLgFL9QIONpjwGPplZK1LvcrOFvhN03D6Xnh1rREMBZahQ==
+X-Gm-Gg: ASbGncuBdTqXz/EkCGZRZd+o6jTUGMdaB+PIkry3gtxVjvwwVoVyIZx33eWdq418zik
+	bWbf2skQJtQM30R87gJBnWkbkWfXw10PgjbmogQwoGuuqoZoVXpPX9WcpTN5hbqDwR5WHQBtSQf
+	uSWFwYQuRjqj42DxH3/wnrTcKlcn4XFnIYITcJSJM6v/QnqbnE0jr3b9evoFiloY+r0+8YbanL1
+	qQ5CICfQIJDZSPdX6E7xhP3fDHdsPttQZP6KOW8fAe0F8FN3A40+bEMUIB61vud95UFGbQcIfKY
+	ZOUCGxw6UsEiXZQrvoKvlugKKTeNm0gczZVMTXaex1MZ+I4/VUUvRsQ2qLdD9PBGGA==
+X-Received: by 2002:a05:620a:d93:b0:7c5:606d:dccd with SMTP id af79cd13be357-7c79cbbe2bbmr258668785a.1.1744226258820;
+        Wed, 09 Apr 2025 12:17:38 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFNs/f/dMR7v4+f3J7T8RQuT+APxl+MlHJ8DyM2bYtuDetjuAYExfOKY3Pr7QtPXMMvnZoJgQ==
+X-Received: by 2002:a05:620a:d93:b0:7c5:606d:dccd with SMTP id af79cd13be357-7c79cbbe2bbmr258665385a.1.1744226258315;
+        Wed, 09 Apr 2025 12:17:38 -0700 (PDT)
+Received: from [192.168.65.90] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acaa1bb3553sm140768266b.29.2025.04.09.12.17.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Apr 2025 12:17:37 -0700 (PDT)
+Message-ID: <e3faf128-6a36-428e-8e34-55d87d4686ac@oss.qualcomm.com>
+Date: Wed, 9 Apr 2025 21:17:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <25b7888d-f704-493b-a2d7-c5e8fff9cfb4@broadcom.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/4] media: venus: pm_helpers: use opp-table for the
+ frequency
+To: Bryan O'Donoghue <bod@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Renjiang Han <quic_renjiang@quicinc.com>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20241219-add-venus-for-qcs615-v6-0-e9a74d3b003d@quicinc.com>
+ <20241219-add-venus-for-qcs615-v6-2-e9a74d3b003d@quicinc.com>
+ <fde279ad-27ed-4947-a408-23139bcd270a@oss.qualcomm.com>
+ <351a9654-ffa1-4727-b772-95d4ed113c81@quicinc.com>
+ <ac145c57-1db3-4747-88e2-02825f958d5a@oss.qualcomm.com>
+ <6f11921a-4ee8-4f40-9131-529f548f681a@kernel.org>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <6f11921a-4ee8-4f40-9131-529f548f681a@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: olvnOzJ2L58CBdqD82XvKH0ojqcU9w5R
+X-Proofpoint-ORIG-GUID: olvnOzJ2L58CBdqD82XvKH0ojqcU9w5R
+X-Authority-Analysis: v=2.4 cv=MpRS63ae c=1 sm=1 tr=0 ts=67f6c7d4 cx=c_pps a=qKBjSQ1v91RyAK45QCPf5w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=6lrxKQdraE29tqtzjYYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-09_06,2025-04-08_04,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ mlxlogscore=999 clxscore=1015 priorityscore=1501 impostorscore=0
+ spamscore=0 bulkscore=0 suspectscore=0 malwarescore=0 adultscore=0
+ phishscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504090127
 
-On Wed, Apr 09, 2025 at 08:43:09PM +0200, Arend van Spriel wrote:
-> On 4/9/2025 5:43 PM, Kuan-Wei Chiu wrote:
-> > Refactor parity calculations to use the standard parity_odd() helper.
-> > This change eliminates redundant implementations.
-> > 
-> > Co-developed-by: Yu-Chun Lin <eleanor15x@gmail.com>
-> > Signed-off-by: Yu-Chun Lin <eleanor15x@gmail.com>
-> > Signed-off-by: Kuan-Wei Chiu <visitorckw@gmail.com>
-> > ---
-> >   drivers/media/pci/cx18/cx18-av-vbi.c | 12 ++----------
-> >   1 file changed, 2 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/drivers/media/pci/cx18/cx18-av-vbi.c b/drivers/media/pci/cx18/cx18-av-vbi.c
-> > index 65281d40c681..15b515b95956 100644
-> > --- a/drivers/media/pci/cx18/cx18-av-vbi.c
-> > +++ b/drivers/media/pci/cx18/cx18-av-vbi.c
+On 4/7/25 5:39 PM, Bryan O'Donoghue wrote:
+> On 09/01/2025 13:05, Konrad Dybcio wrote:
+>> On 2.01.2025 6:38 AM, Renjiang Han wrote:
+>>>
+>>> On 12/23/2024 10:17 PM, Konrad Dybcio wrote:
+>>>> On 19.12.2024 6:41 AM, Renjiang Han wrote:
+>>>>> The frequency value in the opp-table in the device tree and the freq_tbl
+>>>>> in the driver are the same.
+>>>>>
+>>>>> Therefore, update pm_helpers.c to use the opp-table for frequency values
+>>>>> for the v4 core.
+>>>>> If getting data from the opp table fails, fall back to using the frequency
+>>>>> table.
+>>>>>
+>>>>> Signed-off-by: Renjiang Han<quic_renjiang@quicinc.com>
+>>>>> ---
+>>>>>    drivers/media/platform/qcom/venus/pm_helpers.c | 53 +++++++++++++++++++-------
+>>>>>    1 file changed, 39 insertions(+), 14 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+>>>>> index 33a5a659c0ada0ca97eebb5522c5f349f95c49c7..b61c0ad152878870b7223efa274e137d3636433b 100644
+>>>>> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
+>>>>> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+>>>>> @@ -43,14 +43,20 @@ static int core_clks_enable(struct venus_core *core)
+>>>>>        const struct venus_resources *res = core->res;
+>>>>>        const struct freq_tbl *freq_tbl = core->res->freq_tbl;
+>>>>>        unsigned int freq_tbl_size = core->res->freq_tbl_size;
+>>>>> +    struct device *dev = core->dev;
+>>>>> +    struct dev_pm_opp *opp;
+>>>>>        unsigned long freq;
+>>>>>        unsigned int i;
+>>>>>        int ret;
+>>>>>    -    if (!freq_tbl)
+>>>>> -        return -EINVAL;
+>>>>> -
+>>>>> -    freq = freq_tbl[freq_tbl_size - 1].freq;
+>>>>> +    opp = dev_pm_opp_find_freq_ceil(dev, &freq);
+>>>>> +    if (IS_ERR(opp)) {
+>>>>> +        if (!freq_tbl)
+>>>>> +            return -EINVAL;
+>>>>> +        freq = freq_tbl[freq_tbl_size - 1].freq;
+>>>>> +    } else {
+>>>>> +        dev_pm_opp_put(opp);
+>>>>> +    }
+>>>> I'm not super convinced how this could have ever worked without
+>>>> scaling voltage levels, by the way. Perhaps this will squash some
+>>>> random bugs :|
+>>>>
+>>>> Konrad
+>>>   Thanks for your comment.
+>>>   The default value of freq is 0, and then dev_pm_opp_find_freq_ceil is
+>>>   used to match freq to the maximum value in opp-table that is close to
+>>>   0. The frequency values ​​in opp-table and freq_tbl are the same, and
+>>>   dev_pm_opp_find_freq_ceil is used to assign the minimum value in
+>>>   opp-table to freq. So the logic is the same as before. I'm not sure if
+>>>   I've answered your concern.
+>>
+>> We talked offline, but for the record: my concern here was about
+>> clk_set_rate() not scaling RPM/h voltage corners, which this patch
+>> fixes
+>>
+>> Konrad
 > 
-> [...]
-> 
-> > @@ -278,7 +270,7 @@ int cx18_av_decode_vbi_line(struct v4l2_subdev *sd,
-> >   		break;
-> >   	case 6:
-> >   		sdid = V4L2_SLICED_CAPTION_525;
-> > -		err = !odd_parity(p[0]) || !odd_parity(p[1]);
-> > +		err = !parity_odd(p[0]) || !parity_odd(p[1]);
-> 
-> No need to call parity_odd() twice here. Instead you could do:
-> 
-> 		err = !parity_odd(p[0] ^ p[1]);
-> 
-> This is orthogonal to the change to parity_odd() though. More specific to
-> the new parity_odd() you can now do following as parity_odd() argument is
-> u64:
-> 
-> 		err = !parity_odd(*(u16 *)p);
-> 
-> 
-Thanks for the feedback!
-Would you prefer this change to be part of the parity() conversion
-patch, or in a separate one?
+> Konrad is this an RB from you, do you have any other concerns with this code ?
 
-Regards,
-Kuan-Wei
+OK the comment above was misleading - back then I must have thought this patch
+changed clk_set_rate to dev_pm_opp_set_rate - which is not what it does
+
+I won't be blocking this, but I'm not super keen on thoroughly reviewing it
+either - there are a lot of raw clk_ calls that are hard to keep track of.. 
+
+Konrad
 
