@@ -1,148 +1,119 @@
-Return-Path: <linux-media+bounces-29798-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29799-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C492AA8308E
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 21:30:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE537A83186
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 22:04:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A96B3BB8DB
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 19:30:21 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD2E216EE25
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 19:59:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3902720765D;
-	Wed,  9 Apr 2025 19:30:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B9DE213E6A;
+	Wed,  9 Apr 2025 19:51:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JS6FVVeU"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="YMKcHakg"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61107202978;
-	Wed,  9 Apr 2025 19:30:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10F4143748
+	for <linux-media@vger.kernel.org>; Wed,  9 Apr 2025 19:51:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744227023; cv=none; b=WEe1pxwneY4jvU8rKb/OLCqLicRzhY9FcIM6ETfoRK7UEPttNtX3YJDTJJr0BXQsHAWsB/4IfzVtcI8D5Sk6hi/oe+1gGBKadmfpV6Ejzkd6OacRm/WjRVuMLQrKtuoCLIIosXOB/jvPsFownz2grNMR0HBmWxcqwTGMC8JRKQM=
+	t=1744228268; cv=none; b=kdl7vRieZ6dLmGWujDDK1MFKjXbLpz8nVbv5BXCBYb1fG3SE0qi6is5cVnsUv3lpP+LKnJZdUuNkgtKk0P1eGYv1OvMphF7Lg+tBT/jK6QbWds92sCzQIwJJRRPiKTJcYx95RfePljNEn/bGzUauTetUQrA1+gZhbjEaqM5XHGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744227023; c=relaxed/simple;
-	bh=t4u/q6sRSEWyUERde3llNPL9IiDRHYERj2C5djskamU=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=SwpOanGCKSHn+fIsR8cpgGTMhaNnvCd6W8IjUCjWvGqTSzsVIDUc/90sIoUkxhUY8v76Jn5NHlNZkAHi42ZlL1yOg8cVciTLEwWMzcSzSCg7BjmEKzzJXP0CGyNqN1U0590WDqcFRFed3CcdzNs8GlLWJlI50lnSNC1ljesurEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=JS6FVVeU; arc=none smtp.client-ip=148.251.105.195
+	s=arc-20240116; t=1744228268; c=relaxed/simple;
+	bh=cTou1VJ/90idVb2sBezowwt2I3ioQel1H/jChXVLtkc=;
+	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version; b=e+smd1ziaMshsg5gyhf0+lhdjx6hNEjUvCb/PSo6pnLXwUCNStUbeSGD4iJTBVJzP6kLUnlTfbhbzFiaDfHwk0IYYvOpnvce2ewhfiQkue8xUTx5/sYIn3O0F06uPdj73hwYO+7PupzszWqsUcGrl9BM5JYYp/TdZmLKdtyDFY8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=YMKcHakg; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1744227019;
-	bh=t4u/q6sRSEWyUERde3llNPL9IiDRHYERj2C5djskamU=;
-	h=From:Date:Subject:To:Cc:From;
-	b=JS6FVVeUIqgnOONv0XQvXmw23VuDLc0E+7Lvwj5TkaBPfw+pUJHu9qbA4mEX6PxO9
-	 JMJgAi/Rbky3lZHs8fI4/ZRrzUSzqB6sYmoPjPd7yPJ+hfGD2P139zBbIufjfAZw0o
-	 WT59HFDZgjW+uySU1J3fhYJHfmLsg+W+q++5+TIa57oK9RE6vO7mCPF96Ar9ra/R5E
-	 IuoS2wTFpjjrxRtzkapjpCcT7IjT3e5BCkZ94hpok3QtRanuTDKCYF+Maci7gZq8Wi
-	 yTtxNOPVZivIPGzHHQdbu/PIh2CBoZM1NCBvlb3LA8f8o4DafdDmpbSZo3iJG/YRE0
-	 OecnRd0sDQ9yQ==
-Received: from [192.168.13.180] (unknown [IPv6:2606:6d00:11:e976::5ac])
+	s=mail; t=1744228264;
+	bh=cTou1VJ/90idVb2sBezowwt2I3ioQel1H/jChXVLtkc=;
+	h=Subject:From:To:Date:From;
+	b=YMKcHakgk2W1wbD4OvMkXPD67OderEuXZr2egZPG7DR6PYqHKyJteedyXhoF0mgkX
+	 idSjD1u696nT5BZ0qGkWJwMkHsfj5XApjQ14zEfK2ZUha5/+nYglOtLpcWWw2mPQuR
+	 7XaxOoSNS8APOQzazaFehbuU2gPt+WstUsZqb1g6XvrEgFtdzvlVHQpgySVH+S1sOQ
+	 SWF9A6KlfxP3Vwhm2C4XOlLfJE1zq4l1tWqOVyahHqXNpTZP0/6tWJbWcQ8REvPxxb
+	 D0EWT0NVQSBBnSRp7sTSS5EcJJzFaLQV53zM+GkxQbqSLq7U1O1axA+L5T6KRHICCt
+	 zanos85+XRmuQ==
+Received: from [IPv6:2606:6d00:11:e976::5ac] (unknown [IPv6:2606:6d00:11:e976::5ac])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 19FBE17E0125;
-	Wed,  9 Apr 2025 21:30:17 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 961A017E09BF
+	for <linux-media@vger.kernel.org>; Wed,  9 Apr 2025 21:51:03 +0200 (CEST)
+Message-ID: <50f743e2e28c114cc85037f59d2fdeee02e02013.camel@collabora.com>
+Subject: [GIT PULL FOR 6.16]  MTK VCODEC fix and MT8188 support
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Date: Wed, 09 Apr 2025 15:30:09 -0400
-Subject: [PATCH] media: verisilicono: Enable NV15 support for Rockchip
- VDPU981
+To: linux-media@vger.kernel.org
+Date: Wed, 09 Apr 2025 15:51:00 -0400
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mQGiBEUQN0MRBACQYceNSezSdMjx7sx6gwKkMghrrODgl3B0eXBTgNp6c431IfOOEsdvk
+ oOh1kwoYcQgbg4MXw6beOltysX4e8fFWsiRkc2nvvRW9ir9kHDm49MkBLqaDjTqOkYKNMiurFW+go
+ zpr/lUW15QqT6v68RYe0zRdtwGZqeLzX2LVuukGwCg4AISzswrrYHNV7vQLcbaUhPgIl0D+gILYT9
+ TJgAEK4YHW+bFRcY+cgUFoLQqQayECMlctKoLOE69nIYOc/hDr9uih1wxrQ/yL0NJvQCohSPyoyLF
+ 9b2EuIGhQVp05XP7FzlTxhYvGO/DtO08ec85+bTfVBMV6eeY4MS3ZU+1z7ObD7Pf29YjyTehN2Dan
+ 6w1g2rBk5MoA/9nDocSlk4pbFpsYSFmVHsDiAOFje3+iY4ftVDKunKYWMhwRVBjAREOByBagmRau0
+ cLEcElpf4hX5f978GoxSGIsiKoDAlXX+ICDOWC1/EXhEEmBR1gL0QJgiVviNyLfGJlZWnPjw6xhhm
+ tHYWTDxBOP5peztyc2PqeKsLsLWzAr7QnTmljb2xhcyBEdWZyZXNuZSA8bmljb2xhc0BuZHVmcmVz
+ bmUuY2E+iGIEExECACIFAlXA3CACGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sB
+ qgcJngAnRDBTr8bhzuH0KQwFP1nEYtfgpKdAKCrQ/sJfuG/8zsd7J8wVl7y3e8ARbRDTmljb2xhcy
+ BEdWZyZXNuZSAoQi4gU2MuIEluZm9ybWF0aXF1ZSkgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29
+ tPohgBBMRAgAgBQJFlCyOAhsDBgsJCAcDAgQVAggDBBYCAwECHgECF4AACgkQcVMCLawGqBwhLQCg
+ zYlrLBj6KIAZ4gmsfjXD6ZtddT8AoIeGDicVq5WvMHNWign6ApQcZUihtElOaWNvbGFzIER1ZnJlc
+ 25lIChCLiBTYy4gSW5mb3JtYXRpcXVlKSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY28udW
+ s+iGIEExECACIFAkuzca8CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEHFTAi2sBqgcQX8
+ An2By6LDEeMxi4B9hUbpvRnzaaeNqAJ9Rox8rfqHZnSErw9bCHiBwvwJZ77QxTmljb2xhcyBEdWZy
+ ZXNuZSA8bmljb2xhcy5kdWZyZXNuZUBjb2xsYWJvcmEuY29tPohiBBMRAgAiBQJNzZzPAhsDBgsJC
+ AcDAgYVCAIJCgsEFgIDAQIeAQIXgAAKCRBxUwItrAaoHLlxAKCYAGf4JL7DYDLs/188CPMGuwLypw
+ CfWKc9DorA9f5pyYlD5pQo6SgSoiC0R05pY29sYXMgRHVmcmVzbmUgKEIgU2MuIEluZm9ybWF0aXF
+ 1ZSkgPG5pY29sYXMuZHVmcmVzbmVAdXNoZXJicm9va2UuY2E+iGAEExECACAFAkUQN0MCGwMGCwkI
+ BwMCBBUCCAMEFgIDAQIeAQIXgAAKCRBxUwItrAaoHPTnAJ0WGgJJVspoctAvEcI00mtp5WAFGgCgr
+ +E7ItOqZEHAs+xabBgknYZIFPU=
+Organization: Collabora Canada
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250409-b4-hantro-nv15-support-v1-1-7e11e47fd0c9@collabora.com>
-X-B4-Tracking: v=1; b=H4sIAMDK9mcC/x2MywqAIBAAfyX23IKZIvQr0aHHVntRWUsC6d+Tj
- jMwUyCRMCUYmgJCmRMHX6FrG1jP2R+EvFUGrbRVRvW4GKz+koA+dxbTHWOQC5XbaDfkZts7qHE
- U2vn5x+P0vh8u04MLaAAAAA==
-X-Change-ID: 20250403-b4-hantro-nv15-support-07def4e7a537
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Heiko Stuebner <heiko@sntech.de>
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- kernel@collabora.com, Nicolas Dufresne <nicolas.dufresne@collabora.com>
-X-Mailer: b4 0.14.2
 
-This is a "customer" format, though on Rockchip RK3588 it has been
-verified to be NV15 format, which matches what the GPU and display
-handles has 10bit pixel formats.
+Hey Hans & Mauro,
 
-Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
----
- drivers/media/platform/verisilicon/hantro_v4l2.c           |  1 +
- .../platform/verisilicon/rockchip_vpu981_hw_av1_dec.c      |  4 ++++
- drivers/media/platform/verisilicon/rockchip_vpu_hw.c       | 14 ++++++++++++++
- 3 files changed, 19 insertions(+)
+The following changes since commit 9ddc3d6c16ea2587898a315f20f7b8fbd791dc1b:
 
-diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
-index 2bce940a58227c2bfef2bc3343992e4588ab36a4..7c3515cf7d64a090adfb8d8aff368f9a617f8c8a 100644
---- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-+++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-@@ -77,6 +77,7 @@ int hantro_get_format_depth(u32 fourcc)
- 	switch (fourcc) {
- 	case V4L2_PIX_FMT_P010:
- 	case V4L2_PIX_FMT_P010_4L4:
-+	case V4L2_PIX_FMT_NV15:
- 	case V4L2_PIX_FMT_NV15_4L4:
- 		return 10;
- 	default:
-diff --git a/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c b/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
-index 69b5d9e12926fb408c08f8ba2139d05ba44389b7..e4703bb6be7c175a89c0b8868cf2eafb84a872ed 100644
---- a/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
-+++ b/drivers/media/platform/verisilicon/rockchip_vpu981_hw_av1_dec.c
-@@ -2202,6 +2202,10 @@ static void rockchip_vpu981_postproc_enable(struct hantro_ctx *ctx)
- 	case V4L2_PIX_FMT_NV12:
- 		hantro_reg_write(vpu, &av1_pp_out_format, 3);
- 		break;
-+	case V4L2_PIX_FMT_NV15:
-+		/* this mapping is RK specific */
-+		hantro_reg_write(vpu, &av1_pp_out_format, 10);
-+		break;
- 	default:
- 		hantro_reg_write(vpu, &av1_pp_out_format, 0);
- 	}
-diff --git a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
-index 964122e7c355934cd80eb442219f6ba51bba8b71..f7c4a176167b40fe79ec5a6759dff8a77e849ae3 100644
---- a/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
-+++ b/drivers/media/platform/verisilicon/rockchip_vpu_hw.c
-@@ -92,6 +92,20 @@ static const struct hantro_fmt rockchip_vpu981_postproc_fmts[] = {
- 			.step_height = MB_DIM,
- 		},
- 	},
-+	{
-+		.fourcc = V4L2_PIX_FMT_NV15,
-+		.codec_mode = HANTRO_MODE_NONE,
-+		.match_depth = true,
-+		.postprocessed = true,
-+		.frmsize = {
-+			.min_width = ROCKCHIP_VPU981_MIN_SIZE,
-+			.max_width = FMT_4K_WIDTH,
-+			.step_width = MB_DIM,
-+			.min_height = ROCKCHIP_VPU981_MIN_SIZE,
-+			.max_height = FMT_4K_HEIGHT,
-+			.step_height = MB_DIM,
-+		},
-+	},
- 	{
- 		.fourcc = V4L2_PIX_FMT_P010,
- 		.codec_mode = HANTRO_MODE_NONE,
+  media: mediatek: vcodec: Remove trailing space after \n newline (2025-04-08 07:21:21 +0000)
 
----
-base-commit: 9ddc3d6c16ea2587898a315f20f7b8fbd791dc1b
-change-id: 20250403-b4-hantro-nv15-support-07def4e7a537
+are available in the Git repository at:
 
-Best regards,
--- 
-Nicolas Dufresne <nicolas.dufresne@collabora.com>
+  https://gitlab.freedesktop.org/linux-media/users/ndufresne.git tags/for-6.16-mtk-vcodec-patches
 
+for you to fetch changes up to 07c8841fe44d674889ee932d15fc51e033080beb:
+
+  media: mediatek: vcodec: add description for vsi struct (2025-04-09 14:39:42 -0400)
+
+----------------------------------------------------------------
+MTK VCODEC fix and MT8188 support
+
+----------------------------------------------------------------
+Fei Shao (1):
+      media: mediatek: vcodec: Correct vsi_core framebuffer size
+
+Yunfei Dong (3):
+      media: mediatek: vcodec: remove vsi operation in common interface
+      media: mediatek: vcodec: support extended h264 decode
+      media: mediatek: vcodec: add description for vsi struct
+
+ drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h          |   2 +
+ drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c | 652 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----------------------------
+ drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c |   2 +-
+ 3 files changed, 563 insertions(+), 93 deletions(-)
 
