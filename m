@@ -1,336 +1,622 @@
-Return-Path: <linux-media+bounces-29714-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29715-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B063A81E3E
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 09:26:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 467EEA81E81
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 09:44:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0021D1BA10BC
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 07:26:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 778D142375B
+	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 07:43:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C556925A2BB;
-	Wed,  9 Apr 2025 07:25:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F42C25A336;
+	Wed,  9 Apr 2025 07:44:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="HGfKGnix"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="V+4cgHPa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from TY3P286CU002.outbound.protection.outlook.com (mail-japaneastazon11010015.outbound.protection.outlook.com [52.101.229.15])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32EF9259CBE;
-	Wed,  9 Apr 2025 07:25:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.229.15
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744183557; cv=fail; b=gC7sl1eGxNNHDtH+4gJMzvYbxIEiiNqvZd8s1f5P5vjD46oNgzNEx+n5BB7tLVcZTXLHyutIWFJI/R8c4oT0jbSouQ1n5nR9waUIEcooxBkXMFfTwj5CWW/fimcz7q9guBqEJfQyXGo2htqtMEObgyVp5pHEU4E+dFEgPdUM4kw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744183557; c=relaxed/simple;
-	bh=CFA7uEtj5Gu4btoN5aZU6Y8r/DRXB8uuS1ivQz995RA=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=d3erz7XfP3kWi46Y6IWKkwQjgmiFuRaNIMEtnrgCQnOQPkhhkiT99U4fTzI0Lfx7eBVry2a9a7YTgBoFnp5wjp22hnz+2LEdrnRqGOymKPIbY+TpicrGEmz6EtktUfPno6E12hh4Chub3GoTr9Tyc/UPMkE1UThITA4id/IepzA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=HGfKGnix; arc=fail smtp.client-ip=52.101.229.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GvHyGElTFpW1iLftAbZGkR2wAx5L8A2wZYPsedCfrYvdZ4LGf8GE4CvO0LEo4wWHfvto8d6zBQ73joCAonAP8zN32geW8J2E887Ro+vt3AFb0GsxI9kcUDGDcr3DSoQblA5jZnt+HSattF4CyMzppZNeaETqTjYLNOjmT7MF6+Fq3rfw85xkblvBCS6LB2ORmyimcB7WP3+mP9DA7QnEbVgdYTe4CxedmxjnbBRZ4t93F8I5Pq1BdnC5oMysA/Z8ZrMFFIE7KcBuk2gLN83we9dXYkvj0tQhLGNw2fyC9WAqrTQBcDEtTeCksWlI7Ok2A9iFudZpzmJaiIDdbe38Jg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CFA7uEtj5Gu4btoN5aZU6Y8r/DRXB8uuS1ivQz995RA=;
- b=l7fDpCWl+K8D6djPvDE2nQy54SFOKw/XRG5Hqe7KK54CDxsvOLVsOq2C6c0l5wCfJ3MXkzFtVLGrr97nc59gEmtCGPujr1YyGAUFMwH631p8ssA2rBbcvR4MlzZ8D8E1cNRIwx6GyuYGijBkmV4yKauwWVyiv9y1f/80m88sY6yBjuBgy0u/Zab+NN8WesmuzSzBjOZURjWc5PV6/WROm0g/cb54ZqmqqhmH1ADe3JszK71hIR35ea8l1aUr4FcVjHXZ6EfhOrhzkfpcE0NDCDEiJPnTpBz9yLZxjl+FD3F7P83PCSITyFzIve90L5c0izwRyX3hnsFZYw0NJH5V7g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
- header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CFA7uEtj5Gu4btoN5aZU6Y8r/DRXB8uuS1ivQz995RA=;
- b=HGfKGnixuj/9g79tt5JWNwXLXIR1YpedcpFz2Ew3R+UZTm50NlHBGGJNDlyXNN9u4QA9OG8KdYnLA9prR7tABh9nhtFoh7iGXbpzrEN9UQQYy65ZR9KIDiT1waS5nwAbsBU3TLVKsw39zD2fvlgoS2TW7uhrjhOrvmDpU6bsjwc=
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com (2603:1096:400:3d0::7)
- by TYRPR01MB15122.jpnprd01.prod.outlook.com (2603:1096:405:227::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.33; Wed, 9 Apr
- 2025 07:25:45 +0000
-Received: from TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1]) by TY3PR01MB11346.jpnprd01.prod.outlook.com
- ([fe80::86ef:ca98:234d:60e1%4]) with mapi id 15.20.8606.033; Wed, 9 Apr 2025
- 07:25:43 +0000
-From: Biju Das <biju.das.jz@bp.renesas.com>
-To: laurent.pinchart <laurent.pinchart@ideasonboard.com>, "Lad, Prabhakar"
-	<prabhakar.csengg@gmail.com>
-CC: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, Tommaso Merciai
-	<tomm.merciai@gmail.com>, "linux-renesas-soc@vger.kernel.org"
-	<linux-renesas-soc@vger.kernel.org>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, Prabhakar Mahadev Lad
-	<prabhakar.mahadev-lad.rj@bp.renesas.com>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Geert Uytterhoeven
-	<geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, Hans Verkuil
-	<hverkuil@xs4all.nl>, =?utf-8?B?VXdlIEtsZWluZS1Lw7ZuaWc=?=
-	<u.kleine-koenig@baylibre.com>, "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH v5 11/17] media: rzg2l-cru: Add register mapping support
-Thread-Topic: [PATCH v5 11/17] media: rzg2l-cru: Add register mapping support
-Thread-Index:
- AQHboAdhMLT6c7RZOkyzH0oxaSH/n7OP8RdwgAAScoCAAAvKoIAAAhgAgAARGQCAAAH3cIAIVzaAgAIh2wCAAGDdsA==
-Date: Wed, 9 Apr 2025 07:25:43 +0000
-Message-ID:
- <TY3PR01MB11346A5CBFD05A51E351DCE6586B42@TY3PR01MB11346.jpnprd01.prod.outlook.com>
-References: <20250328173032.423322-1-tommaso.merciai.xr@bp.renesas.com>
- <20250328173032.423322-12-tommaso.merciai.xr@bp.renesas.com>
- <TY3PR01MB11346ECE31CB6C8DC33459C2486AF2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <CA+V-a8sJQnyJb_uq9yEcjHRW7ZFOw3g2XQyygcozWTgMjrYxRQ@mail.gmail.com>
- <TY3PR01MB113462DC897E0DB681B1C020F86AF2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <CA+V-a8ukJ+_Bhy-4nU_CFD4rMoTRxEY-q+bXHHZ-9Mz8gQ362A@mail.gmail.com>
- <20250402092618.GH4845@pendragon.ideasonboard.com>
- <TY3PR01MB11346DF814762C667FF97074286AF2@TY3PR01MB11346.jpnprd01.prod.outlook.com>
- <CA+V-a8tsCEhmhNSbMMiuN6b2rJCoSekf+-e6EHr5wE5C000ZxQ@mail.gmail.com>
- <20250409012914.GD31475@pendragon.ideasonboard.com>
-In-Reply-To: <20250409012914.GD31475@pendragon.ideasonboard.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bp.renesas.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY3PR01MB11346:EE_|TYRPR01MB15122:EE_
-x-ms-office365-filtering-correlation-id: e047aa58-fe5e-4d02-14ab-08dd7737bd35
-x-ld-processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|1800799024|7416014|376014|366016|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?QUt1YVU5WXcrMmxYUTVtSnRnc0JCbGRDeWppSjRtQjh2UlowbHovWnNLKzFi?=
- =?utf-8?B?bkxMVnVFdnpUMGx5Q1lFRThLSkJDUFl5SnVsY0h0ZDdmVUw4REtCOXBIWkdW?=
- =?utf-8?B?SllzRXZrRVNlY01QR2dKTm43MVc5QjE4YU9YQSt5bW83djFoWFY5L2tXa1Nm?=
- =?utf-8?B?aWowa3FPWW5FVXVxSHhubVdCWTBoS3hIMWtjU0Y3d01QeC9ZcmpVRmZGY0ZM?=
- =?utf-8?B?ZmE3eXpoYWNRRm1xMWtUQ1ZuaFd4WHJpRUk2ZHIxaFU4dTQ1M0hZdEh2RUFU?=
- =?utf-8?B?cXQ1RzhlaUxTeStmeWlOT05OOHIxbFk1OW9TZXMxN0NtOWNISHRsWTlMNmNT?=
- =?utf-8?B?cEFXOTdRSmRlU2hsNnQ1VTJsUjN6aCtjL1hKS0FoZG8vYVFEdXlFRTNmNW5v?=
- =?utf-8?B?VTRkK1BEenB0UHlQbUhxakNrbmJzdUhjY2xtTTdvaCtYNGFicVI4WkY3cXl4?=
- =?utf-8?B?RWc3L01nelhpUFBkRnNydmhZUk5WTlp1dVZJNjNHQm0xQzJQZVpiK1BudE1N?=
- =?utf-8?B?dWx0anhwRGgxb2ZmUVh3Qm5WTExZemVVMGFMZnZHZ1Q3enZSbDhkRHE3VzZ6?=
- =?utf-8?B?S1F6QzlvRnVhWHZYejNjVjc5K1luNys4VGQwZ2tYZGJ2MnF3ekEyT2luNVo0?=
- =?utf-8?B?ZU9USFk0ZURHaENqMVMyQ2hLUWh0OUNWQ2ZhWHU2THpLblh1SkxiN0RDYUhy?=
- =?utf-8?B?WXhZQWNoV3ZDcmJVQmQ2Tnl2d3FUWHJGc0RpaGkxSGZmcmloNzkxeFBzWVNu?=
- =?utf-8?B?N1VNT05Eekd6dUY1aEhZaEozVTl6ajl4VmZFU2h2d1g5SzdQbDJGeHp3OUtn?=
- =?utf-8?B?RWFmQktVVVl5d2pWc3kvbUdQYmZnQUJmaG40a214bHIxRkRROWNhZHVjbXJa?=
- =?utf-8?B?WHlENkxJOFRFN3U4enQyQkJBMG9VQ1pLdkE0ZUN3aTFvcDNCNE9YQzhTcTNw?=
- =?utf-8?B?OGptWjQrWlVFQTNUSFhnUGU2WlR0MWs5SmdiaUJZMzVUeG4rclJua2pTZmI5?=
- =?utf-8?B?TUZrdHRadFFWbHYwc0wwaWFIMGxwY0Z3V2VQU0ZQNGg2anVDWjRZdDFXSXYz?=
- =?utf-8?B?eGZXdTBTZXo1R2MwWmJ0ZUFSZ0FSTWdPdEExemJCMkY2aWJ5dWx2WU55Qktu?=
- =?utf-8?B?VDZMOVRObUdIRFJGZk9YNjV4SytFSzdKNWk4SE51eFF0NEVqMnlFTHZRd3ZW?=
- =?utf-8?B?aDRLcXFub0RNeHorNmVmSk9yaE8vTDZHYTMzUXpNLzBkQzJrbHdkWEs1WTl1?=
- =?utf-8?B?dVFBemJkUzF5d3F0STZNR2lLK1pTckFDc1F1QXNmMHZyM1NNRnJnYUJQNVBL?=
- =?utf-8?B?QTl2VTZ6bVR2aUtkdHRGSFBYTG9vbzg2RHYyTGpVdUdXTVE2bFk3MHBPTmRC?=
- =?utf-8?B?S2pCelZyNmVjbEdHZXB5K1Z6ZGxHbGRkanhJKzRRS2VVcDhNL09yN1ljTnhp?=
- =?utf-8?B?Y0tPTmZ1WTZxU3lnSFhoc0lwbFFlYW5jMkovcjJRMVVRNTBja3JGVUo0RGdL?=
- =?utf-8?B?SFE0U0lrNE5rQ0cxZXV0K2l0RnMwZHQ3WW9LM0IrTm9iVU8vNkhOMStZUmll?=
- =?utf-8?B?dUpOYzZVT3pGY0RNNG83UW5wUjdOMjVsZ0FBT25mSnVXcmNzYUNrYWFzTG9T?=
- =?utf-8?B?enl5N0VhZHZRTlhicDNTUGd3d1dObkEwZ0FTZW93djZPV3JGZ1c4eXNXQ1ZW?=
- =?utf-8?B?dUhFT29GUFpoOFQrN3NVL21lZElGRWFBQW8xdFR2NVQ0WThyclB5Y3lYS00r?=
- =?utf-8?B?VHdsMXpSWllTc0hNSHdLSkh5dENvMFdVc2NtcTFUcXk5eHE0b1MyN0NwNDdG?=
- =?utf-8?B?UXJrR1Z6K1RTUlBxOHltd20xNlVwSVVNNUdvcUlHV2wzMTkrQXMwYjJrZjNL?=
- =?utf-8?B?VjlKMUpjc0F0RVVJR1dRdFg2eUt0M2lmdkdrYlY2dzZjVUxZSXJKb2pVRGVm?=
- =?utf-8?Q?+cbCpDObpQmxBTepnvrWBeR8BJYja/ZW?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11346.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?SFVpS3Z6ODVMblh2dW9jTmhrUmxXaWpTMGZPWDhMKzdYNjkvWnJSMFVMZEhC?=
- =?utf-8?B?Z2FLelN1aVVub0FIc3lqRVYyRnF1dmdYOXptaWFFbERFTWh0T0E2YUJPVnAr?=
- =?utf-8?B?di9lWEd3bGsycjZtTVZuYyt6ejNXUXcvZmtRRjZtWERuczBvQkU1N0Q5c3lS?=
- =?utf-8?B?dmJxK25FaytHcjREMDZrLzZVWXpsVHY0R3dRc3hzdmRkOEo5dWlKY1g2NnIw?=
- =?utf-8?B?eVRzRHoyVXB2K3Q5OVRGM01jaTNwQm01cUl5USthT21JdG0vN2VNMlE2b2sx?=
- =?utf-8?B?T3JzNFFlRG5yUWxBeHlDVHhIUmh1dTNqWWtFSk9TYWJXUkc0MEduYndBekdR?=
- =?utf-8?B?SHY0b0NZbkszdXhTam5oZC9lWnVzUWNXUEp5TDRXbnJrdE8vTytyMmFwTXB4?=
- =?utf-8?B?KzJEbjM4Y2xkNFNKdytpQUxCaGdpdTZneDZacys3L29Ba2xERUhYTEs5SUNi?=
- =?utf-8?B?MFJXR2pHT2dFY0Z2MzFWbVFkN2FtdnNhaFFmZkJCeFZsNFl6R0ZiMzRmQjRB?=
- =?utf-8?B?UlNyTG5JeGpsVEpFclNXUmJrMTFJcjFlNjVqRFR4R0VFdVZvdUJBZ1ZmUTJj?=
- =?utf-8?B?WDllalp1MXZ2OUhYQ3lmWGNpWU1NT1QwY05qS3NuR3pYYzlKUm13WU9iUDE5?=
- =?utf-8?B?QytoWVVnSDhNeVZlSmtTRllpdjhhSjczL0dSY0dSM3BsOTFFdWdCaDl3SkI4?=
- =?utf-8?B?cnV4Y2xRNzcwd25YSGF3OEdUQU5BT1lVc2Q2dU1zOC8relRqMEhmMDhhM2Ir?=
- =?utf-8?B?amZRSFN1QzJuOWw2RmVZRytRZExKTk92RU52Z3gxUFNZNlF0UGVISXMxbnlI?=
- =?utf-8?B?WTRwV0dGZ2NVVittS0FxZTRCeWFVd0hueDNZMExNV2FUTnNaZGJyWDNtSzZs?=
- =?utf-8?B?cWplaEF1Qlg3Z0s4LzdhSUtTVkRHN1BqU05sTGdJVFdWVFNPNUtBYy91Vlp1?=
- =?utf-8?B?MXFocGxtQ1ZQS0hEOHpjOFJKRm1TYkVraTZ3U1RiZ2JNQnA2bUFvdFVWcGQv?=
- =?utf-8?B?Y0RRWGFOSjJFd09JMEFzajJmREtaZXc0aEZrQWt4SENMcDJSQmJXWS9OczM3?=
- =?utf-8?B?NkVXUTd2eFZ2cC9FclcwMklHV2tTSWVXWEwySnlDVUhyNFBTeXFPQ2dSRXJm?=
- =?utf-8?B?WWlJNFptdm40T05CRUVkdDFHbUNER1JmMWthQmhjbjc3RzVERDh2bHBVbzRq?=
- =?utf-8?B?RjFTS2E3eUJ0NG82ayszdFBua0pzNnBSTXlRZVh6VEdTblJSaTQwUVNnR2ZD?=
- =?utf-8?B?Zkt1K3kwNld4ZUF1TFkxQlVSSmZWZHVNQUhtYlYrMTVGcVFYOHhZZys2V0NM?=
- =?utf-8?B?dE1qZFpOVGIvUUVGN0I1bW9PLzROend3b2VSMVJCUmtjaGJiMGdRM3AvNmZY?=
- =?utf-8?B?d3dJR2FrYm93Ynd6SmprTFdYcy9YVkx4dEJ2UjRod0ROZVgrVHFEV2J3R0J5?=
- =?utf-8?B?ajdHVEx2NDhVOXR0K05RSHNjSkcyRWZqUWJYUlpkb2RGd3BuZ3RaMDdyVHgz?=
- =?utf-8?B?a0MveGdZVnlhVFo5OUtsZVRUTG9va24zMkdtQVRtbnJzNHNLTXdVREJ3b0tS?=
- =?utf-8?B?M1gzdFpRRjRnT2l0R2hKVmhWN2dZempMQXJhcktXUTZtRmYwQ0tBQzYzcmNp?=
- =?utf-8?B?VE1rMEdYWkRZTllXT05RNHdMdmZDUVRRWXpxT041emhuOW50NStHdXo0VXVY?=
- =?utf-8?B?Z0RJVHhxVVhQYitML2EvN25aZkFHZWY5RHhEZTJIWlpjalVJcjJUR3RSclFG?=
- =?utf-8?B?T0NMM2NNK1F6L1pWVHg2aGFFV1FhUXNTclE5RW5LUVN4SFdLM1ZpL2t2ZVlw?=
- =?utf-8?B?TXVUbmtWNGxOQmE3dGhxaUFYTmpaOG1WQUVNZ0pjMUZxY1BXY2xIZ1BtTGlC?=
- =?utf-8?B?eHVGeEg2N3A1aEp0L2RmckluaFo0Mm9LZHZON296UUpIY25HcmhlVVd4THFw?=
- =?utf-8?B?L25YendkcXo2TU5lY3g2TVRJVEpkblphV3ZIWDhCbm14bmhsRjdTcVRMWmpr?=
- =?utf-8?B?OXpsQmJ4QmRhVjRCazNVK1R0UGJ1Z01GTG9MNHpzdGhndkN5WU5FcnJTQjhw?=
- =?utf-8?B?YzNuUGpMMEZWQzlPS2o1VDFOc2cxdDF6cTNqNFEzRVM5bkl1akJiUmFGWmt1?=
- =?utf-8?B?RUFIaGp5UmhBdDJwazR1eEtJMCswRWZVNXZ1NEdFQ2QzM1ZRci9VNTllNGpW?=
- =?utf-8?B?MWc9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F394782899;
+	Wed,  9 Apr 2025 07:44:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744184647; cv=none; b=f5sysNGd+9CvsI5Jy9C3NfB39FQ3CMsBmaqeho2iQraaHpR0k2P+eKDisLxgDYXWPAbHnraNhOhhUfMC2feak7WMoVpaWM6//21dFWq+7z35gi6VlIdYe+NtoYLDdTU3FSfIqZWmgk5bOOLKPk2nR8I1+oSTvl2CcML1o221WsY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744184647; c=relaxed/simple;
+	bh=kyNEcvYqmxzy9XeJsxmVp4AjvyT02rLIN9TG0cgY6k8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=W1U/ZdRJDMqEcc1pFGrUlE4hDeWWAlpsprqd30GpPUevYWIUMLjBI83C/Bg3NOS2DNB0ivdvtWY6AAAXOBVxbqxJsgP6vqtqxOA+P0DpLVVEayZeQZxStlYNjY6vYpUfrmww26Bm6+zvw4CEmwoAU+5+674wtu8MfbqULdEw25A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=V+4cgHPa; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1744184642;
+	bh=kyNEcvYqmxzy9XeJsxmVp4AjvyT02rLIN9TG0cgY6k8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=V+4cgHPaniv/RjehN8rEfqtdTmmf8plgQ2cpi9xHPie8Vfia02ssEA9l3WmP4Es9S
+	 sus484GTcy6MpWnSyZ+2/xNgqeP9s8T67fbdf7hw63rxiQPa8L/KFNGwUAV3URi/84
+	 qRAWuPTdel2HwjLp0CC4oiq5SN7AAEi+1p4Faveja/z3fOdWWzo1n/AtBoaJuL2UGS
+	 xZQuksMi463KSFhTB8Pv4yIxbcOWORWAm690r0LHBewisnrATyc5n8HO9bmj+zDhgC
+	 NQmr5syqULkFrnC9eKztOsIeo8riLM9pMQjZXivJ4V7QqgZUm/r91N8+LA2471HXPv
+	 uBPljzp7kcM5Q==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 64B3517E07F3;
+	Wed,  9 Apr 2025 09:44:02 +0200 (CEST)
+Date: Wed, 9 Apr 2025 09:43:58 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Steven Price <steven.price@arm.com>, Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
+ <sumit.semwal@linaro.org>, Christian =?UTF-8?B?S8O2bmln?=
+ <christian.koenig@amd.com>, kernel@collabora.com,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v5 4/4] drm/panthor: show device-wide list of DRM GEM
+ objects over DebugFS
+Message-ID: <20250409094358.79f5d1f6@collabora.com>
+In-Reply-To: <20250408222427.1214330-5-adrian.larumbe@collabora.com>
+References: <20250408222427.1214330-1-adrian.larumbe@collabora.com>
+	<20250408222427.1214330-5-adrian.larumbe@collabora.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: bp.renesas.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11346.jpnprd01.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e047aa58-fe5e-4d02-14ab-08dd7737bd35
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Apr 2025 07:25:43.7342
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: mpEKVwUFKZ7CUgLTB9e2bGEjizcpJ2Z3cAeCyZ+HnadiVO67vofRE7iwNAXL6k9HMMmGgyBn6ETP40D9R/W05OLy4YnFme9s/bmZEEZhC8U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYRPR01MB15122
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-SGkgTGF1cmVudCwNCg0KPiAtLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPiBGcm9tOiBMYXVy
-ZW50IFBpbmNoYXJ0IDxsYXVyZW50LnBpbmNoYXJ0QGlkZWFzb25ib2FyZC5jb20+DQo+IFNlbnQ6
-IDA5IEFwcmlsIDIwMjUgMDI6MjkNCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2NSAxMS8xN10gbWVk
-aWE6IHJ6ZzJsLWNydTogQWRkIHJlZ2lzdGVyIG1hcHBpbmcgc3VwcG9ydA0KPiANCj4gT24gTW9u
-LCBBcHIgMDcsIDIwMjUgYXQgMDQ6NTU6MzNQTSArMDAwMCwgTGFkLCBQcmFiaGFrYXIgd3JvdGU6
-DQo+ID4gT24gV2VkLCBBcHIgMiwgMjAyNSBhdCAxMDozOeKAr0FNIEJpanUgRGFzIHdyb3RlOg0K
-PiA+ID4gT24gMDIgQXByaWwgMjAyNSAxMDoyNiwgTGF1cmVudCBQaW5jaGFydCB3cm90ZToNCj4g
-PiA+ID4gT24gV2VkLCBBcHIgMDIsIDIwMjUgYXQgMDg6MjU6MDZBTSArMDAwMCwgTGFkLCBQcmFi
-aGFrYXIgd3JvdGU6DQo+ID4gPiA+ID4gT24gV2VkLCBBcHIgMiwgMjAyNSBhdCA5OjIw4oCvQU0g
-QmlqdSBEYXMgd3JvdGU6DQo+ID4gPiA+ID4gPiBPbiAwMiBBcHJpbCAyMDI1IDA4OjM1LCBMYWQs
-IFByYWJoYWthciB3cm90ZToNCj4gPiA+ID4gPiA+ID4gT24gV2VkLCBBcHIgMiwgMjAyNSBhdCA3
-OjMx4oCvQU0gQmlqdSBEYXMgd3JvdGU6DQo+ID4gPiA+ID4gPiA+ID4gPiBPbiAyOCBNYXJjaCAy
-MDI1IDE3OjMwLCBUb21tYXNvIE1lcmNpYWkgd3JvdGU6DQo+ID4gPiA+ID4gPiA+ID4gPiBGcm9t
-OiBMYWQgUHJhYmhha2FyDQo+ID4gPiA+ID4gPiA+ID4gPiA8cHJhYmhha2FyLm1haGFkZXYtbGFk
-LnJqQGJwLnJlbmVzYXMuY29tPg0KPiA+ID4gPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ID4gPiA+
-IFByZXBhcmUgZm9yIGFkZGluZyBzdXBwb3J0IGZvciBSWi9HM0UgYW5kIFJaL1YySFAgU29DcywN
-Cj4gPiA+ID4gPiA+ID4gPiA+IHdoaWNoIGhhdmUgYSBDUlUtSVAgdGhhdCBpcyBtb3N0bHkgaWRl
-bnRpY2FsIHRvIFJaL0cyTA0KPiA+ID4gPiA+ID4gPiA+ID4gYnV0IHdpdGggZGlmZmVyZW50IHJl
-Z2lzdGVyIG9mZnNldHMgYW5kIGFkZGl0aW9uYWwNCj4gPiA+ID4gPiA+ID4gPiA+IHJlZ2lzdGVy
-cy4gSW50cm9kdWNlIGEgZmxleGlibGUgcmVnaXN0ZXIgbWFwcGluZw0KPiA+ID4gPiA+ID4gPiA+
-ID4gbWVjaGFuaXNtIHRvIGhhbmRsZSB0aGVzZSB2YXJpYXRpb25zLg0KPiA+ID4gPiA+ID4gPiA+
-ID4NCj4gPiA+ID4gPiA+ID4gPiA+IERlZmluZSB0aGUgYHJ6ZzJsX2NydV9pbmZvYCBzdHJ1Y3R1
-cmUgdG8gc3RvcmUgcmVnaXN0ZXINCj4gPiA+ID4gPiA+ID4gPiA+IG1hcHBpbmdzIGFuZCBwYXNz
-IGl0IGFzIHBhcnQgb2YgdGhlIE9GIG1hdGNoIGRhdGEuDQo+ID4gPiA+ID4gPiA+ID4gPiBVcGRh
-dGUgdGhlIHJlYWQvd3JpdGUgZnVuY3Rpb25zIHRvIGNoZWNrIG91dC1vZi1ib3VuZA0KPiA+ID4g
-PiA+ID4gPiA+ID4gYWNjZXNzZXMgYW5kIHVzZSBpbmRleGVkIHJlZ2lzdGVyIG9mZnNldHMgZnJv
-bQ0KPiA+ID4gPiA+ID4gPiA+ID4gYHJ6ZzJsX2NydV9pbmZvYCwgZW5zdXJpbmcgY29tcGF0aWJp
-bGl0eSBhY3Jvc3MgZGlmZmVyZW50IFNvQyB2YXJpYW50cy4NCj4gPiA+ID4gPiA+ID4gPiA+DQo+
-ID4gPiA+ID4gPiA+ID4gPiBTaWduZWQtb2ZmLWJ5OiBMYWQgUHJhYmhha2FyDQo+ID4gPiA+ID4g
-PiA+ID4gPiA8cHJhYmhha2FyLm1haGFkZXYtbGFkLnJqQGJwLnJlbmVzYXMuY29tPg0KPiA+ID4g
-PiA+ID4gPiA+ID4gU2lnbmVkLW9mZi1ieTogVG9tbWFzbyBNZXJjaWFpDQo+ID4gPiA+ID4gPiA+
-ID4gPiA8dG9tbWFzby5tZXJjaWFpLnhyQGJwLnJlbmVzYXMuY29tPg0KPiA+ID4gPiA+ID4gPiA+
-ID4gLS0tDQo+ID4gPiA+ID4gPiA+ID4gPiBDaGFuZ2VzIHNpbmNlIHYyOg0KPiA+ID4gPiA+ID4g
-PiA+ID4gIC0gSW1wbGVtZW50ZWQgbmV3IHJ6ZzJsX2NydV93cml0ZS9yZWFkKCkgdGhhdCBub3cg
-YXJlIGNoZWNraW5nIG91dC1vZi1ib3VuZA0KPiA+ID4gPiA+ID4gPiA+ID4gICAgYWNjZXNzZXMg
-YXMgc3VnZ2VzdGVkIGJ5IExQaW5jaGFydC4NCj4gPiA+ID4gPiA+ID4gPiA+ICAtIEZpeGVkIEFN
-bk1CeEFERFJMKCkgYW5kIEFNbk1CeEFERFJIKCkgYXMgc3VnZ2VzdGVkIGJ5IExQaW5jaGFydC4N
-Cj4gPiA+ID4gPiA+ID4gPiA+ICAtIFVwZGF0ZSBjb21taXQgYm9keQ0KPiA+ID4gPiA+ID4gPiA+
-ID4NCj4gPiA+ID4gPiA+ID4gPiA+IENoYW5nZXMgc2luY2UgdjQ6DQo+ID4gPiA+ID4gPiA+ID4g
-PiAgLSBNYXJrIF9fcnpnMmxfY3J1X3dyaXRlX2NvbnN0YW50L19fcnpnMmxfY3J1X3JlYWRfY29u
-c3RhbnQNCj4gPiA+ID4gPiA+ID4gPiA+ICAgIGFzIF9fYWx3YXlzX2lubGluZQ0KPiA+ID4gPiA+
-ID4gPiA+ID4NCj4gPiA+ID4gPiA+ID4gPiA+ICAuLi4vcGxhdGZvcm0vcmVuZXNhcy9yemcybC1j
-cnUvcnpnMmwtY29yZS5jICAgfCA0NiArKysrKysrKysrKystDQo+ID4gPiA+ID4gPiA+ID4gPiAg
-Li4uL3JlbmVzYXMvcnpnMmwtY3J1L3J6ZzJsLWNydS1yZWdzLmggICAgICAgIHwgNjYgKysrKysr
-KysrKy0tLS0tLS0tLQ0KPiA+ID4gPiA+ID4gPiA+ID4gIC4uLi9wbGF0Zm9ybS9yZW5lc2FzL3J6
-ZzJsLWNydS9yemcybC1jcnUuaCAgICB8ICA0ICsrDQo+ID4gPiA+ID4gPiA+ID4gPiAgLi4uL3Bs
-YXRmb3JtL3JlbmVzYXMvcnpnMmwtY3J1L3J6ZzJsLXZpZGVvLmMgIHwgNTgNCj4gPiA+ID4gPiA+
-ID4gPiA+ICsrKysrKysrKysrKysrLS0NCj4gPiA+ID4gPiA+ID4gPiA+ICA0IGZpbGVzIGNoYW5n
-ZWQsIDEzOSBpbnNlcnRpb25zKCspLCAzNSBkZWxldGlvbnMoLSkNCj4gPiA+ID4gPiA+ID4gPiA+
-DQo+ID4gPiA+ID4gPiA+ID4gPiBkaWZmIC0tZ2l0DQo+ID4gPiA+ID4gPiA+ID4gPiBhL2RyaXZl
-cnMvbWVkaWEvcGxhdGZvcm0vcmVuZXNhcy9yemcybC1jcnUvcnpnMmwtY29yZS5jDQo+ID4gPiA+
-ID4gPiA+ID4gPiBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vcmVuZXNhcy9yemcybC1jcnUvcnpn
-MmwtY29yZS5jDQo+ID4gPiA+ID4gPiA+ID4gPiBpbmRleCBlZWQ5ZDJiZDA4NDE0Li5hYmMyYTk3
-OTgzM2FhIDEwMDY0NA0KPiA+ID4gPiA+ID4gPiA+ID4gLS0tDQo+ID4gPiA+ID4gPiA+ID4gPiBh
-L2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vcmVuZXNhcy9yemcybC1jcnUvcnpnMmwtY29yZS5jDQo+
-ID4gPiA+ID4gPiA+ID4gPiArKysgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL3JlbmVzYXMvcnpn
-MmwtY3J1L3J6ZzJsLWNvcg0KPiA+ID4gPiA+ID4gPiA+ID4gKysrIGUuYw0KPiA+ID4gPiA+ID4g
-PiA+ID4gQEAgLTIyLDYgKzIyLDcgQEANCj4gPiA+ID4gPiA+ID4gPiA+ICAjaW5jbHVkZSA8bWVk
-aWEvdjRsMi1tYy5oPg0KPiA+ID4gPiA+ID4gPiA+ID4NCj4gPiA+ID4gPiA+ID4gPiA+ICAjaW5j
-bHVkZSAicnpnMmwtY3J1LmgiDQo+ID4gPiA+ID4gPiA+ID4gPiArI2luY2x1ZGUgInJ6ZzJsLWNy
-dS1yZWdzLmgiDQo+ID4gPiA+ID4gPiA+ID4gPg0KPiA+ID4gPiA+ID4gPiA+ID4gIHN0YXRpYyBp
-bmxpbmUgc3RydWN0IHJ6ZzJsX2NydV9kZXYNCj4gPiA+ID4gPiA+ID4gPiA+ICpub3RpZmllcl90
-b19jcnUoc3RydWN0IHY0bDJfYXN5bmNfbm90aWZpZXIgKm4pICB7IEBADQo+ID4gPiA+ID4gPiA+
-ID4gPiAtMjY5LDYgKzI3MCw5IEBAIHN0YXRpYyBpbnQgcnpnMmxfY3J1X3Byb2JlKHN0cnVjdA0K
-PiA+ID4gPiA+ID4gPiA+ID4gcGxhdGZvcm1fZGV2aWNlICpwZGV2KQ0KPiA+ID4gPiA+ID4gPiA+
-ID4NCj4gPiA+ID4gPiA+ID4gPiA+ICAgICAgIGNydS0+ZGV2ID0gZGV2Ow0KPiA+ID4gPiA+ID4g
-PiA+ID4gICAgICAgY3J1LT5pbmZvID0gb2ZfZGV2aWNlX2dldF9tYXRjaF9kYXRhKGRldik7DQo+
-ID4gPiA+ID4gPiA+ID4gPiArICAgICBpZiAoIWNydS0+aW5mbykNCj4gPiA+ID4gPiA+ID4gPiA+
-ICsgICAgICAgICAgICAgcmV0dXJuIGRldl9lcnJfcHJvYmUoZGV2LCAtRUlOVkFMLA0KPiA+ID4g
-PiA+ID4gPiA+ID4gKyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAiRmFpbGVkIHRv
-IGdldCBPRg0KPiA+ID4gPiA+ID4gPiA+ID4gKyBtYXRjaCBkYXRhXG4iKTsNCj4gPiA+ID4gPiA+
-ID4gPiA+DQo+ID4gPiA+ID4gPiA+ID4gPiAgICAgICBpcnEgPSBwbGF0Zm9ybV9nZXRfaXJxKHBk
-ZXYsIDApOw0KPiA+ID4gPiA+ID4gPiA+ID4gICAgICAgaWYgKGlycSA8IDApDQo+ID4gPiA+ID4g
-PiA+ID4gPiBAQCAtMzE3LDggKzMyMSw0OCBAQCBzdGF0aWMgdm9pZCByemcybF9jcnVfcmVtb3Zl
-KHN0cnVjdCBwbGF0Zm9ybV9kZXZpY2UgKnBkZXYpDQo+ID4gPiA+ID4gPiA+ID4gPiAgICAgICBy
-emcybF9jcnVfZG1hX3VucmVnaXN0ZXIoY3J1KTsgIH0NCj4gPiA+ID4gPiA+ID4gPiA+DQo+ID4g
-PiA+ID4gPiA+ID4gPiArc3RhdGljIGNvbnN0IHUxNiByemcybF9jcnVfcmVnc1tdID0gew0KPiA+
-ID4gPiA+ID4gPiA+ID4gKyAgICAgW0NSVW5DVFJMXSA9IDB4MCwNCj4gPiA+ID4gPiA+ID4gPiA+
-ICsgICAgIFtDUlVuSUVdID0gMHg0LA0KPiA+ID4gPiA+ID4gPiA+ID4gKyAgICAgW0NSVW5JTlRT
-XSA9IDB4OCwNCj4gPiA+ID4gPiA+ID4gPiA+ICsgICAgIFtDUlVuUlNUXSA9IDB4YywNCj4gPiA+
-ID4gPiA+ID4gPiA+ICsgICAgIFtBTW5NQjFBRERSTF0gPSAweDEwMCwNCj4gPiA+ID4gPiA+ID4g
-PiA+ICsgICAgIFtBTW5NQjFBRERSSF0gPSAweDEwNCwNCj4gPiA+ID4gPiA+ID4gPiA+ICsgICAg
-IFtBTW5NQjJBRERSTF0gPSAweDEwOCwNCj4gPiA+ID4gPiA+ID4gPiA+ICsgICAgIFtBTW5NQjJB
-RERSSF0gPSAweDEwYywNCj4gPiA+ID4gPiA+ID4gPiA+ICsgICAgIFtBTW5NQjNBRERSTF0gPSAw
-eDExMCwNCj4gPiA+ID4gPiA+ID4gPiA+ICsgICAgIFtBTW5NQjNBRERSSF0gPSAweDExNCwNCj4g
-PiA+ID4gPiA+ID4gPiA+ICsgICAgIFtBTW5NQjRBRERSTF0gPSAweDExOCwNCj4gPiA+ID4gPiA+
-ID4gPiA+ICsgICAgIFtBTW5NQjRBRERSSF0gPSAweDExYywNCj4gPiA+ID4gPiA+ID4gPiA+ICsg
-ICAgIFtBTW5NQjVBRERSTF0gPSAweDEyMCwNCj4gPiA+ID4gPiA+ID4gPiA+ICsgICAgIFtBTW5N
-QjVBRERSSF0gPSAweDEyNCwNCj4gPiA+ID4gPiA+ID4gPiA+ICsgICAgIFtBTW5NQjZBRERSTF0g
-PSAweDEyOCwNCj4gPiA+ID4gPiA+ID4gPiA+ICsgICAgIFtBTW5NQjZBRERSSF0gPSAweDEyYywN
-Cj4gPiA+ID4gPiA+ID4gPiA+ICsgICAgIFtBTW5NQjdBRERSTF0gPSAweDEzMCwNCj4gPiA+ID4g
-PiA+ID4gPiA+ICsgICAgIFtBTW5NQjdBRERSSF0gPSAweDEzNCwNCj4gPiA+ID4gPiA+ID4gPiA+
-ICsgICAgIFtBTW5NQjhBRERSTF0gPSAweDEzOCwNCj4gPiA+ID4gPiA+ID4gPiA+ICsgICAgIFtB
-TW5NQjhBRERSSF0gPSAweDEzYywNCj4gPiA+ID4gPiA+ID4gPiA+ICsgICAgIFtBTW5NQlZBTElE
-XSA9IDB4MTQ4LA0KPiA+ID4gPiA+ID4gPiA+ID4gKyAgICAgW0FNbk1CU10gPSAweDE0YywNCj4g
-PiA+ID4gPiA+ID4gPiA+ICsgICAgIFtBTW5BWElBVFRSXSA9IDB4MTU4LA0KPiA+ID4gPiA+ID4g
-PiA+ID4gKyAgICAgW0FNbkZJRk9QTlRSXSA9IDB4MTY4LA0KPiA+ID4gPiA+ID4gPiA+ID4gKyAg
-ICAgW0FNbkFYSVNUUF0gPSAweDE3NCwNCj4gPiA+ID4gPiA+ID4gPiA+ICsgICAgIFtBTW5BWElT
-VFBBQ0tdID0gMHgxNzgsDQo+ID4gPiA+ID4gPiA+ID4gPiArICAgICBbSUNuRU5dID0gMHgyMDAs
-DQo+ID4gPiA+ID4gPiA+ID4gPiArICAgICBbSUNuTUNdID0gMHgyMDgsDQo+ID4gPiA+ID4gPiA+
-ID4gPiArICAgICBbSUNuTVNdID0gMHgyNTQsDQo+ID4gPiA+ID4gPiA+ID4gPiArICAgICBbSUNu
-RE1SXSA9IDB4MjZjLA0KPiA+ID4gPiA+ID4gPiA+ID4gK307DQo+ID4gPiA+ID4gPiA+ID4NCj4g
-PiA+ID4gPiA+ID4gPiBEbyB3ZSBuZWVkIGVudW0sIGNhbid0IHdlIHVzZSBzdHJ1Y3QgaW5zdGVh
-ZCB3aXRoIGFsbCB0aGVzZSBlbnRyaWVzIGluc3RlYWQ/DQo+ID4gPiA+ID4gPiA+ID4NCj4gPiA+
-ID4gPiA+ID4gV2hhdCBiZW5lZml0IGRvIHlvdSBmb3Jlc2VlIHdoZW4gdXNpbmcgc3RydWN0PyBX
-aXRoIHRoZQ0KPiA+ID4gPiA+ID4gPiBjdXJyZW50IGFwcHJvYWNoIGJlaW5nIHVzZWQgYSBtaW5p
-bWFsIGRpZmYgaXMgZ2VuZXJhdGVkIHdoZW4NCj4gPiA+ID4gPiA+ID4gc3dpdGNoZWQgdG8gc3Ry
-dWN0IHRoZXJlIHdpbGwgYmUgbG90cyBvZiBjaGFuZ2VzLg0KPiA+ID4gPiA+ID4NCj4gPiA+ID4g
-PiA+IFRoZSBtYXBwaW5nIGlzIGNvbnZpbmllbnQgd2hlbiB5b3Ugd2FudCB0byBpdGVyYXRlIHRo
-cm91Z2h0IGl0Lg0KPiA+ID4gPiA+ID4gSGVyZSwgaWYgeW91IGp1c3Qgd2FudCB0byBhY2Nlc3Mg
-dGhlIG9mZnNldCB2YWx1ZSBmcm9tIGl0cw0KPiA+ID4gPiA+ID4gbmFtZSwgYSBzdHJ1Y3R1cmUg
-bG9va3MgbW9yZSBhcHByb3ByaWF0ZS4NCj4gPiA+ID4gPg0KPiA+ID4gPiA+IFRoYW5rcywgYXMg
-dGhpcyBwYXRjaCBoYXMgYmVlbiByZXZpZXdlZCBieSBMYXVyZW50IGEgY291cGxlIG9mDQo+ID4g
-PiA+ID4gdGltZXMgd2Ugd2lsbCBjaGFuZ2UgdGhpcyB0byBzdHJ1Y3QgSWYgaGUgaW5zaXN0cy4N
-Cj4gPiA+ID4NCj4gPiA+ID4gSG93IHdvdWxkIGEgc3RydWN0IGxvb2sgbGlrZSA/IEknbSBub3Qg
-c3VyZSB3aGF0IGlzIGJlaW5nIHByb3Bvc2VkLg0KPiA+ID4NCj4gPiA+IEl0IHdpbGwgYmUNCj4g
-PiA+DQo+ID4gPiBzdHJ1Y3QgcnpnMmxfY3J1X3JlZ3Mgew0KPiA+ID4gICAgICAgICB1MTYgY3J1
-X25fY3RybDsNCj4gPiA+ICAgICAgICAgdTE2IGNydV9uX2llOw0KPiA+ID4gICAgICAgICB1MTYg
-Y3J1X25faW50czsNCj4gPiA+ICAgICAgICAgdTE2IGNydV9uX3JzdDsNCj4gPiA+IH07DQo+ID4g
-Pg0KPiA+ID4gc3RhdGljIGNvbnN0IHN0cnVjdCByemcybF9jcnVfcmVncyByemcybF9jcnVfcmVn
-cyA9IHsNCj4gPiA+ICAgICAgICAgLmNydV9uX2N0cmwgPSAweDAsDQo+ID4gPiAgICAgICAgIC5j
-cnVfbl9pZSA9IDB4NCwNCj4gPiA+ICAgICAgICAgLmNydV9uX2ludHMgPSAweDgsDQo+ID4gPiAg
-ICAgICAgIC5jcnVfbl9yc3QgPSAweGMsDQo+ID4gPiB9Ow0KPiA+ID4NCj4gPiA+IFlvdSBjYW4g
-YWNjZXNzIGl0IHVzaW5nIGluZm8tPnJlZ3MtPmNydV9uX2N0cmwgaW5zdGVhZCBvZg0KPiA+ID4g
-aW5mby0+cmVnc1tDUlVuQ1RSTF0gVGhpcyBpcyBwcm9wb3NhbC4NCj4gPg0KPiA+IEFyZSB5b3Ug
-T0sgd2l0aCB0aGUgYWJvdmUgcHJvcG9zYWw/DQo+IA0KPiBJIG1heSBiZSBtaXNzaW5nIHNvbWV0
-aGluZywgYnV0IEkgZG9uJ3Qgc2VlIHdoeSB0aGlzIHdvdWxkIGJlIGEgc2lnbmlmaWNhbnRseSBi
-ZXR0ZXIgb3B0aW9uLiBJdCBzZWVtcw0KPiBpdCB3b3VsZCBtYWtlIHRoZSBjYWxsZXJzIG1vcmUg
-Y29tcGxleCwgYW5kIGRlY3JlYXNlIHJlYWRhYmlsaXR5Lg0KDQoNCkJhc2ljYWxseSwNCkkgZ3Vl
-c3Mgc3J1Y3QgIHdpbGwgYWxsb3cgdXMgdG8gYXZvaWQgKFdBUk5fT04ob2Zmc2V0ID49IFJaRzJM
-X0NSVV9NQVhfUkVHKSBhbmQNCiAgIEJVSUxEX0JVR19PTihvZmZzZXQgPj0gUlpHMkxfQ1JVX01B
-WF9SRUcpOyBjaGVja3MgYXMgdGhlcmUgaXMgbm8gYXJyYXksIHNvIHRoZXJlIGlzIG5vDQogICBi
-dWZmZXIgb3ZlcnJ1biBjb25kaXRpb24gYW5kIGFsc28gd2UgY2FuIGRyb3AgZW51bSBhc3dlbGwu
-DQoNClNvLCBpZiB1c2luZyBzdHJ1Y3QgZGVjcmVhc2VzIHJlYWRhYmlsaXR5IGFuZCBtYWtlcyB0
-aGUgY29kZSBjb21wbGV4LA0KdGhlbiBjdXJyZW50IHBhdGNoIGlzIGZpbmUuDQoNCkNoZWVycywN
-CkJpanUNCg0KDQoNCg==
+On Tue,  8 Apr 2025 23:24:24 +0100
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+
+> Add a device DebugFS file that displays a complete list of all the DRM
+> GEM objects that are exposed to UM through a DRM handle.
+>=20
+> Since leaking object identifiers that might belong to a different NS is
+> inadmissible, this functionality is only made available in debug builds
+> with DEBUGFS support enabled.
+>=20
+> File format is that of a table, with each entry displaying a variety of
+> fields with information about each GEM object.
+>=20
+> Each GEM object entry in the file displays the following information
+> fields: Client PID, BO's global name, reference count, BO virtual size,
+> BO resize size, VM address in its DRM-managed range, BO label and a GEM
+> state flags.
+>=20
+> There's also a kflags field for the type of BO, which tells us whether
+> it's a kernel BO and/or mapped onto the FW's address space.
+>=20
+> Signed-off-by: Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com>
+> ---
+>  drivers/gpu/drm/panthor/panthor_device.c |   5 +
+>  drivers/gpu/drm/panthor/panthor_device.h |  11 ++
+>  drivers/gpu/drm/panthor/panthor_drv.c    |  26 ++++
+>  drivers/gpu/drm/panthor/panthor_gem.c    | 168 +++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_gem.h    |  65 +++++++++
+>  5 files changed, 275 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/p=
+anthor/panthor_device.c
+> index a9da1d1eeb70..b776e1a2e4f3 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -184,6 +184,11 @@ int panthor_device_init(struct panthor_device *ptdev)
+>  	if (ret)
+>  		return ret;
+> =20
+> +#ifdef CONFIG_DEBUG_FS
+> +	drmm_mutex_init(&ptdev->base, &ptdev->gems.lock);
+> +	INIT_LIST_HEAD(&ptdev->gems.node);
+> +#endif
+> +
+>  	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
+>  	p =3D alloc_page(GFP_KERNEL | __GFP_ZERO);
+>  	if (!p)
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/p=
+anthor/panthor_device.h
+> index da6574021664..86206a961b38 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -205,6 +205,17 @@ struct panthor_device {
+> =20
+>  	/** @fast_rate: Maximum device clock frequency. Set by DVFS */
+>  	unsigned long fast_rate;
+> +
+> +#ifdef CONFIG_DEBUG_FS
+> +	/** @gems: Device-wide list of GEM objects owned by at least one file. =
+*/
+> +	struct {
+> +		/** @gems.lock: Protects the device-wide list of GEM objects. */
+> +		struct mutex lock;
+> +
+> +		/** @node: Used to keep track of all the device's DRM objects */
+> +		struct list_head node;
+> +	} gems;
+> +#endif
+>  };
+> =20
+>  struct panthor_gpu_usage {
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/pant=
+hor/panthor_drv.c
+> index 163c027562aa..935ca9e6138e 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1534,9 +1534,35 @@ static const struct file_operations panthor_drm_dr=
+iver_fops =3D {
+>  };
+> =20
+>  #ifdef CONFIG_DEBUG_FS
+> +static int panthor_gems_show(struct seq_file *m, void *data)
+> +{
+> +	struct drm_info_node *node =3D m->private;
+> +	struct drm_device *dev =3D node->minor->dev;
+> +	struct panthor_device *ptdev =3D container_of(dev, struct panthor_devic=
+e, base);
+> +
+> +	panthor_gem_debugfs_print_bos(ptdev, m);
+> +
+> +	return 0;
+> +}
+> +
+> +
+> +static struct drm_info_list panthor_debugfs_list[] =3D {
+> +	{"gems", panthor_gems_show, 0, NULL},
+> +};
+> +
+> +static int panthor_gems_debugfs_init(struct drm_minor *minor)
+> +{
+> +	drm_debugfs_create_files(panthor_debugfs_list,
+> +				 ARRAY_SIZE(panthor_debugfs_list),
+> +				 minor->debugfs_root, minor);
+> +
+> +	return 0;
+> +}
+> +
+>  static void panthor_debugfs_init(struct drm_minor *minor)
+>  {
+>  	panthor_mmu_debugfs_init(minor);
+> +	panthor_gems_debugfs_init(minor);
+>  }
+>  #endif
+> =20
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/pant=
+hor/panthor_gem.c
+> index 742192c42f58..439f2ae4e6bb 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -2,6 +2,7 @@
+>  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
+>  /* Copyright 2023 Collabora ltd. */
+> =20
+> +#include <linux/cleanup.h>
+>  #include <linux/dma-buf.h>
+>  #include <linux/dma-mapping.h>
+>  #include <linux/err.h>
+> @@ -10,14 +11,51 @@
+>  #include <drm/panthor_drm.h>
+> =20
+>  #include "panthor_device.h"
+> +#include "panthor_fw.h"
+>  #include "panthor_gem.h"
+>  #include "panthor_mmu.h"
+> =20
+> +#ifdef CONFIG_DEBUG_FS
+> +static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
+> +				       struct panthor_gem_object *bo)
+> +{
+> +	INIT_LIST_HEAD(&bo->debugfs.node);
+> +
+> +	bo->debugfs.creator.tgid =3D current->group_leader->pid;
+> +	get_task_comm(bo->debugfs.creator.process_name, current->group_leader);
+> +
+> +	mutex_lock(&ptdev->gems.lock);
+> +	list_add_tail(&bo->debugfs.node, &ptdev->gems.node);
+> +	mutex_unlock(&ptdev->gems.lock);
+> +}
+> +
+> +static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo)
+> +{
+> +	struct panthor_device *ptdev =3D container_of(bo->base.base.dev,
+> +						    struct panthor_device, base);
+> +
+> +	if (list_empty(&bo->debugfs.node))
+> +		return;
+> +
+> +	mutex_lock(&ptdev->gems.lock);
+> +	list_del_init(&bo->debugfs.node);
+> +	mutex_unlock(&ptdev->gems.lock);
+> +}
+> +
+> +#else
+> +static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
+> +				       struct panthor_gem_object *bo)
+> +{}
+> +static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo) {}
+> +#endif
+> +
+>  static void panthor_gem_free_object(struct drm_gem_object *obj)
+>  {
+>  	struct panthor_gem_object *bo =3D to_panthor_bo(obj);
+>  	struct drm_gem_object *vm_root_gem =3D bo->exclusive_vm_root_gem;
+> =20
+> +	panthor_gem_debugfs_bo_rm(bo);
+> +
+>  	/*
+>  	 * Label might have been allocated with kstrdup_const(),
+>  	 * we need to take that into account when freeing the memory
+> @@ -86,6 +124,7 @@ panthor_kernel_bo_create(struct panthor_device *ptdev,=
+ struct panthor_vm *vm,
+>  	struct drm_gem_shmem_object *obj;
+>  	struct panthor_kernel_bo *kbo;
+>  	struct panthor_gem_object *bo;
+> +	u32 debug_flags =3D PANTHOR_DEBUGFS_BO_FLAGS_KERNEL;
+>  	int ret;
+> =20
+>  	if (drm_WARN_ON(&ptdev->base, !vm))
+> @@ -105,7 +144,11 @@ panthor_kernel_bo_create(struct panthor_device *ptde=
+v, struct panthor_vm *vm,
+>  	kbo->obj =3D &obj->base;
+>  	bo->flags =3D bo_flags;
+> =20
+> +	if (vm =3D=3D panthor_fw_vm(ptdev))
+> +		debug_flags |=3D PANTHOR_DEBUGFS_BO_FW_FLAG_MAPPED;
+> +
+>  	panthor_gem_kernel_bo_set_label(kbo, name);
+> +	panthor_gem_debugfs_bo_set_mask(to_panthor_bo(kbo->obj), debug_flags);
+> =20
+>  	/* The system and GPU MMU page size might differ, which becomes a
+>  	 * problem for FW sections that need to be mapped at explicit address
+> @@ -208,6 +251,8 @@ struct drm_gem_object *panthor_gem_create_object(stru=
+ct drm_device *ddev, size_t
+>  	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
+>  	mutex_init(&obj->label.lock);
+> =20
+> +	panthor_gem_debugfs_bo_add(ptdev, obj);
+> +
+>  	return &obj->base.base;
+>  }
+> =20
+> @@ -256,6 +301,8 @@ panthor_gem_create_with_handle(struct drm_file *file,
+>  	/* drop reference from allocate - handle holds it now. */
+>  	drm_gem_object_put(&shmem->base);
+> =20
+> +	panthor_gem_debugfs_bo_set_mask(bo, 0);
+
+Can we add a comment to explain why we need to
+explicitly set the flags to zero (panthor_gem_debugfs_bo_set_mask()
+also implicitly sets the INITIALIZED bit).
+
+> +
+>  	return ret;
+>  }
+> =20
+> @@ -287,3 +334,124 @@ panthor_gem_kernel_bo_set_label(struct panthor_kern=
+el_bo *bo, const char *label)
+> =20
+>  	panthor_gem_bo_set_label(bo->obj, kstrdup_const(str, GFP_KERNEL));
+>  }
+> +
+> +#ifdef CONFIG_DEBUG_FS
+> +static void
+> +panthor_gem_debugfs_print_flags(struct seq_file *m,
+> +				const char *names[],
+> +				u32 name_count,
+> +				u32 flags)
+> +{
+> +	bool first =3D true;
+> +
+> +	seq_puts(m, "(");
+> +
+> +	if (!flags)
+> +		seq_puts(m, "none");
+> +
+> +	while (flags) {
+> +		u32 bit =3D fls(flags) - 1;
+> +
+> +		if (!first)
+> +			seq_puts(m, ",");
+> +
+> +		if (bit >=3D name_count || !names[bit])
+> +			seq_printf(m, "unknown-bit%d", bit);
+> +		else
+> +			seq_printf(m, "%s", names[bit]);
+> +
+> +		first =3D false;
+> +		flags &=3D ~BIT(bit);
+> +	}
+> +
+> +	seq_puts(m, ")");
+> +}
+> +
+> +struct gem_size_totals {
+> +	size_t size;
+> +	size_t resident;
+> +	size_t reclaimable;
+> +};
+> +
+> +static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
+> +					 struct seq_file *m,
+> +					 struct gem_size_totals *totals)
+> +{
+> +	unsigned int refcount =3D kref_read(&bo->base.base.refcount);
+> +	char creator_info[32] =3D {};
+> +	u32 gem_state_flags =3D 0;
+> +	size_t resident_size;
+> +
+> +	static const char *gem_status_flags[] =3D {
+> +		"imported", "exported", "purged", "purgeable"
+> +	};
+
+Let's be explicit about the index -> string mapping so we don't
+rely on flags being properly ordered and consecutive:
+
+	static const char *gem_status_flags[] =3D {
+		[PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED] =3D "imported",
+		...
+	}
+
+> +
+> +	static const char *panthor_bo_flags[] =3D {
+> +		"kernel", "fw"
+> +	};
+
+Ditto.
+
+> +
+> +	/* Skip BOs being destroyed. */
+> +	if (!refcount)
+> +		return;
+> +
+> +	resident_size =3D bo->base.pages !=3D NULL ? bo->base.base.size : 0;
+> +
+> +	snprintf(creator_info, sizeof(creator_info),
+> +		 "%s/%d", bo->debugfs.creator.process_name, bo->debugfs.creator.tgid);
+> +	seq_printf(m, "%-32s%-16d%-16d%-16zd%-16zd%-16lx",
+> +		   creator_info,
+> +		   bo->base.base.name,
+> +		   refcount,
+> +		   bo->base.base.size,
+> +		   resident_size,
+> +		   drm_vma_node_start(&bo->base.base.vma_node));
+> +
+> +
+> +	if (bo->base.base.import_attach !=3D NULL)
+> +		gem_state_flags |=3D PANTHOR_DEBUGFS_GEM_IMPORTED;
+> +	if (bo->base.base.dma_buf !=3D NULL)
+> +		gem_state_flags |=3D PANTHOR_DEBUGFS_GEM_EXPORTED;
+> +	if (bo->base.madv < 0)
+> +		gem_state_flags |=3D PANTHOR_DEBUGFS_GEM_PURGED;
+> +	if (bo->base.madv)
+
+Either
+	else if (bo->base.madv)
+or
+	if (bo->base.madv > 0)
+
+otherwise a BO can be flagged as both purged and purgeable, which
+doesn't seem right.
+
+> +		gem_state_flags |=3D PANTHOR_DEBUGFS_GEM_PURGEABLE;
+
+BTW, we're not implementing the MADVISE ioctl() and probably never
+will be (we are going for a transparent mem reclaim mechanism where
+the user doesn't have to flag unused BOs), so I'm questioning
+the need for these state flags. It would make sense in panfrost,
+but not here, at least not until someone comes with a real use case
+for MADVISE.
+
+> +
+> +	panthor_gem_debugfs_print_flags(m, gem_status_flags,
+> +					sizeof(gem_status_flags), gem_state_flags);
+
+					ARRAY_SIZE(gem_status_flags)
+
+> +	seq_printf(m, "%-4s", "");
+> +	panthor_gem_debugfs_print_flags(m, panthor_bo_flags, sizeof(panthor_bo_=
+flags),
+
+Ditto, sizeof -> ARRAY_SIZE.
+
+> +					bo->debugfs.flags & (u32)~PANTHOR_DEBUGFS_BO_FLAG_INITIALISED);
+> +
+> +	mutex_lock(&bo->label.lock);
+> +	seq_printf(m, "%-6s%-60s", "", bo->label.str ? : NULL);
+
+What's the point of testing for NULL if you pass NULL eventually?
+I guess it was supposed to be
+
+	seq_printf(m, "%-6s%-60s", "", bo->label.str ? : "");
+
+> +	mutex_unlock(&bo->label.lock);
+
+Looks like a good candidate for a
+
+	scoped_guard(mutex, &bo->label.lock) {
+		seq_printf(m, "%-6s%-60s", "", bo->label.str ? : "");
+	}
+
+> +	seq_puts(m, "\n");
+> +
+> +	totals->size +=3D bo->base.base.size;
+> +	totals->resident +=3D resident_size;
+> +	if (bo->base.madv > 0)
+> +		totals->reclaimable +=3D resident_size;
+> +}
+> +
+> +void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+> +				   struct seq_file *m)
+> +{
+> +	struct gem_size_totals totals =3D {0};
+> +	struct panthor_gem_object *bo;
+> +
+> +	seq_puts(m, "created-by                      global-name     refcount  =
+      size            resident-size   file-offset     state     kflags     =
+label\n");
+
+																		^usage (see below)
+
+> +	seq_puts(m, "----------------------------------------------------------=
+---------------------------------------------------------------------------=
+-----------\n");
+> +
+> +	scoped_guard(mutex, &ptdev->gems.lock) {
+> +		list_for_each_entry(bo, &ptdev->gems.node, debugfs.node) {
+> +			if (bo->debugfs.flags & PANTHOR_DEBUGFS_BO_FLAG_INITIALISED)
+> +				panthor_gem_debugfs_bo_print(bo, m, &totals);
+> +		}
+> +
+> +	}
+> +
+> +	seq_puts(m, "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D\n");
+> +	seq_printf(m, "Total size: %zd, Total resident: %zd, Total reclaimable:=
+ %zd\n",
+> +		   totals.size, totals.resident, totals.reclaimable);
+> +}
+> +#endif
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/pant=
+hor/panthor_gem.h
+> index 49daa5088a0d..58575f38ee26 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> @@ -15,6 +15,54 @@ struct panthor_vm;
+> =20
+>  #define PANTHOR_BO_LABEL_MAXLEN	PAGE_SIZE
+> =20
+> +enum panthor_debugfs_gem_state_flags {
+> +	/** @PANTHOR_DEBUGFS_GEM_IMPORTED: GEM BO is PRIME imported. */
+> +	PANTHOR_DEBUGFS_GEM_IMPORTED =3D BIT(0),
+
+Let's prefix it with PANTHOR_DEBUGFS_GEM_STATE_ instead of
+PANTHOR_DEBUGFS_GEM_.
+
+> +
+> +	/** @PANTHOR_DEBUGFS_GEM_EXPORTED: GEM BO is PRIME exported. */
+> +	PANTHOR_DEBUGFS_GEM_EXPORTED =3D BIT(1),
+> +
+> +	/** @PANTHOR_DEBUGFS_GEM_PURGED: GEM BO was reclaimed by the shrinker. =
+*/
+> +	PANTHOR_DEBUGFS_GEM_PURGED =3D BIT(2),
+> +
+> +	/** @PANTHOR_DEBUGFS_GEM_PURGEABLE: GEM BO can be reclaimed by the shri=
+nker. */
+> +	PANTHOR_DEBUGFS_GEM_PURGEABLE =3D BIT(3),
+> +};
+> +
+> +enum panthor_debugfs_bo_flags {
+
+BOs and GEMs are the essentially the same thing, so let's try to use
+_gem_ to keep the naming consistent and find another discriminant for
+these flags. Since they seem to encode how the GEM is used (or by whom
+it's used), I would go for
+s/panthor_debugfs_bo_flags/panthor_debugfs_gem_usage_flags/
+
+> +	/** @PANTHOR_DEBUGFS_BO_KERNEL: BO is for kernel use only. */
+> +	PANTHOR_DEBUGFS_BO_FLAGS_KERNEL =3D BIT(0),
+
+s/PANTHOR_DEBUGFS_BO_FLAGS_KERNEL/PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL/
+
+> +
+> +	/** @PANTHOR_DEBUGFS_BO_FW_MAPPED: BO is mapped on the FW VM. */
+> +	PANTHOR_DEBUGFS_BO_FW_FLAG_MAPPED =3D BIT(1),
+
+s/PANTHOR_DEBUGFS_BO_FW_FLAG_MAPPED/PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPE=
+D/
+
+> +
+> +	/** @PANTHOR_DEBUGFS_BO_INITIALISED: BO is ready for DebugFS display. */
+> +	PANTHOR_DEBUGFS_BO_FLAG_INITIALISED =3D BIT(31),
+
+s/PANTHOR_DEBUGFS_BO_FLAG_INITIALISED/PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIA=
+LIZED/
+
+I know both initialized and initialised are correct, but
+
+# git grep INITIALIZED | wc -l
+885
+
+# git grep INITIALISED | wc -l
+17
+
+so I'd be tempted to go for the American spelling here :-).
+
+> +};
+> +
+> +/**
+> + * struct panthor_gem_debugfs - GEM object's DebugFS list information
+> + */
+> +struct panthor_gem_debugfs {
+> +	/**
+> +	 * @node: Node used to insert the object in the device-wide list of
+> +	 * GEM objects, to display information about it through a DebugFS file.
+> +	 */
+> +	struct list_head node;
+> +
+> +	/** @creator: Information about the UM process which created the GEM. */
+> +	struct {
+> +		/** @creator.process_name: Group leader name in owning thread's proces=
+s */
+> +		char process_name[TASK_COMM_LEN];
+> +
+> +		/** @creator.tgid: PID of the thread's group leader within its process=
+ */
+> +		pid_t tgid;
+> +	} creator;
+> +
+> +	/** @bo_mask: Combination of panthor_debugfs_bo_flags flags */
+> +	u32 flags;
+> +};
+> +
+>  /**
+>   * struct panthor_gem_object - Driver specific GEM object.
+>   */
+> @@ -62,6 +110,10 @@ struct panthor_gem_object {
+>  		/** @lock.str: Protects access to the @label.str field. */
+>  		struct mutex lock;
+>  	} label;
+> +
+> +#ifdef CONFIG_DEBUG_FS
+> +	struct panthor_gem_debugfs debugfs;
+> +#endif
+>  };
+> =20
+>  /**
+> @@ -157,4 +209,17 @@ panthor_kernel_bo_create(struct panthor_device *ptde=
+v, struct panthor_vm *vm,
+> =20
+>  void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
+> =20
+> +#ifdef CONFIG_DEBUG_FS
+> +void panthor_gem_debugfs_print_bos(struct panthor_device *pfdev,
+> +				   struct seq_file *m);
+> +static inline void
+> +panthor_gem_debugfs_bo_set_mask(struct panthor_gem_object *bo, u32 type_=
+mask)
+> +{
+> +	bo->debugfs.flags =3D type_mask | PANTHOR_DEBUGFS_BO_FLAG_INITIALISED;
+> +}
+> +
+> +#else
+> +void panthor_gem_debugfs_bo_set_mask(struct panthor_gem_object *bo, u32 =
+type_mask) {};
+> +#endif
+> +
+>  #endif /* __PANTHOR_GEM_H__ */
+
 
