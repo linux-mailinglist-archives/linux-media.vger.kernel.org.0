@@ -1,287 +1,491 @@
-Return-Path: <linux-media+bounces-29909-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29910-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C4FDA83FE0
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 12:04:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7104EA84032
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 12:11:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5102E1B82BEC
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 10:02:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D83C9E44C4
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 10:05:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9AD726B091;
-	Thu, 10 Apr 2025 10:00:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A53E26E151;
+	Thu, 10 Apr 2025 10:03:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="czqOtPAd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6091A202F88
-	for <linux-media@vger.kernel.org>; Thu, 10 Apr 2025 10:00:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 895B626B0AB
+	for <linux-media@vger.kernel.org>; Thu, 10 Apr 2025 10:03:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744279252; cv=none; b=fmHUxQnP4/tqz/1GK3uFG7XurjY+DCnOFHmm4V6ss8ByXtsNx4iHpibwB9os4LXEZUTr77AROQ8lQ4UDMfyOUSoiWEcnb/ozg5g/d5N/PCPBycAgwzdig6Kl4O7p6RQhkN4AA9kJ3i2zM2Ok9Nwt0+DRMWABMQtwz0uovbkzzZY=
+	t=1744279393; cv=none; b=FGnXZnIhBSTKEkX9xRP1TtW+uegE8y6v7I4NVFi1SJs7OI56OhEPGh4pciYVATuXz1/ZuHqZlvqUP/JY5uLjOfOEkyXUNdJPSEWh0GLl8iv4IXxmEZabBuwmjW0dDmq8yqQMmHgtlbPBhthbgw2nTXPJ5QJtqhDGEFhxDmPHYe8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744279252; c=relaxed/simple;
-	bh=TGsF/Oym7zb6b18U5sNebLaBOWscnegMlJd8mhxaOmk=;
-	h=Message-ID:Date:MIME-Version:To:From:Subject:Content-Type; b=HzD6td5RWhTlsLKMcq+2XEGfyfr2LFIt41IRsE0Cl9oiGTc1LqUSHOviCIOIN2bRQoUa0QfLTFYo4x3IIiTiHiY+uG1xiqirESQPo9u2BYBxg9gFkwUNl/xn0wjmA+ZL0ESShmFNBLmwc0sBKwdsoEeECswS5FcRV8w8u+x+SXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 917FFC4CEDD
-	for <linux-media@vger.kernel.org>; Thu, 10 Apr 2025 10:00:51 +0000 (UTC)
-Message-ID: <be86c4a6-33f1-4f1c-bdc3-0a60804d4ea3@xs4all.nl>
-Date: Thu, 10 Apr 2025 12:00:49 +0200
+	s=arc-20240116; t=1744279393; c=relaxed/simple;
+	bh=gTsgc+Ph18FbKu9Wj1raKMn5BPobWjsjsr4sPt1e5wI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=It4Qf3bjxQvAGcP96sdZ9OXKZy1CMVEFiLg5GWjhLcdyu/jrnOH2eMGwXp/Zr59j+t7guw3urdupsjVHZIPOhBKeGIgLqXR67iK8rDmNISEnMXCnQmArY5qV8enk8h27ORdZ5PzpmVGDOe+2W+IrLuCmk4jT8MdWdcqimVjwLUg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=czqOtPAd; arc=none smtp.client-ip=209.85.208.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-30bfc8faef9so5741151fa.1
+        for <linux-media@vger.kernel.org>; Thu, 10 Apr 2025 03:03:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1744279387; x=1744884187; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DitDOoXNurnUlKNLyUEr5AP/j6OhRSV+p02e35yZUxU=;
+        b=czqOtPAdU5rAM8HQdYZoBPnoNziFoEDewMXQZJXp7DK3+ndtAdxGPktwRxC53fpq1Z
+         u+CZPkhKA6waWJtbaLKEMP7Ml5u7NoAqVt67N/T502U8Eb41j6rC3EmSycUb0+7smEul
+         NFgtoXOtUFmh+EK1Df+xLm1JC0pWOl+nb46YU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744279387; x=1744884187;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DitDOoXNurnUlKNLyUEr5AP/j6OhRSV+p02e35yZUxU=;
+        b=gEjhzguJQEre5VvoZV26aLc2Ta1X3wynAAvfQckJX93XeH2XV2VT9A0M4xnWHEyYMz
+         2xC4ujFjLOcGbLXphS3GkJKgMdGalQb6VvIpv+CfFEyM6ZVxbiiLy0sy9cxQYoO5/EkS
+         xvpoqXSn4YS3KDaIDT8VuCVlRw48FfxWgqzc5L9JIb0JPZWJnM4b2KWkzCqMS4l3mTCS
+         TnwTLPJTAPxeEtSdYVI03ASz/YK3b9ddWeJ0cMWYXS/hPxsaeVRLCE2/0daZmar4LN/x
+         PiPXB+PkE/xcpudCnSBuGeNGmPG0VasjgPbpVY0vo1ejQl+EsT4hUIZczW8ZlWmUvi9T
+         6T0w==
+X-Forwarded-Encrypted: i=1; AJvYcCVEUXVCu5D7IKUVu6syc+6kx7sRqkM8EdnUhwux19MSTsE4BdYSrGxjVle6NnUv7iB3xFBfZnHKKIwV2A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyiHvE9jZ+pZLN2I4NSAkF/jZnn10CK8dmG4gEzNqxby9Q6QwWT
+	8qYEZI/LW1QpsdQX3A7m2/5KInfZB2emZt8rhGclzfC8f93CpT2yzdPTqV2Q6myruB37P3W2yQ9
+	LuA==
+X-Gm-Gg: ASbGncuitAg6uoEkXwArvJHy9GcH0iOxIJtd0BhxiE8lf5cpa4CCq9wqeloFRiia273
+	vQBjAACZ6Jz8T4m4NSRsZZuEB9oUdjYbPbq/UzA0Pw6BCWHYIWQsCAcLiJak1kjtZHCVBY5pTed
+	KheUZB1+LcbWe2HFrOmH0XURNwMuFc1hkhm0ZyWxs79Zg4aHKZUSRbcum2b4x8igsgdeX8+kTbB
+	IXm6kiheRulmQvtsduq3AlMditq5OxcxcGYUHnnOB2EGpj3+iBDuhs/0ECL/Mx941cR36cykkMq
+	ZG/IigwCzv5SoiN6u6WcBHWHtNpnibpFKZ1NDnuIMwpF8pS6HL2cdoZqvoFGYtFzqLb7MV5+kjv
+	cmWo=
+X-Google-Smtp-Source: AGHT+IF88gkHQzvn1p/sc5/9e0eZpO5yqylyBRfbsLRpb44VlbIgmU6PHo7krzmpzpluN5Wr55WNjQ==
+X-Received: by 2002:a05:651c:144b:b0:30b:ca48:1089 with SMTP id 38308e7fff4ca-30fa41a6aeemr7786961fa.2.1744279387309;
+        Thu, 10 Apr 2025 03:03:07 -0700 (PDT)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com. [209.85.167.46])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30f464cc461sm4215931fa.32.2025.04.10.03.03.05
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Apr 2025 03:03:05 -0700 (PDT)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-549b159c84cso737939e87.3
+        for <linux-media@vger.kernel.org>; Thu, 10 Apr 2025 03:03:05 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXcg+fChqVTgWYq4xoeNwAoaHMtjkbfDfSZBwEXIPYuDSn9WpNzjB/94vNOsJ+05R2j82D/5Ph/hjFozQ==@vger.kernel.org
+X-Received: by 2002:a05:6512:1149:b0:545:8a1:5379 with SMTP id
+ 2adb3069b0e04-54cb687869bmr786722e87.43.1744279385026; Thu, 10 Apr 2025
+ 03:03:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] media: uapi: cec-funcs.h: use CEC_LOG_ADDR_BROADCAST
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250324022120.216923-1-ccc194101@163.com> <20250410020715.GA15367@pendragon.ideasonboard.com>
+ <CANiDSCuGT=Yw9QeBQmWwa5hk6DULhwd557t-=HRQN+nPQq5b0w@mail.gmail.com> <20250410091437.GA24866@pendragon.ideasonboard.com>
+In-Reply-To: <20250410091437.GA24866@pendragon.ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Thu, 10 Apr 2025 12:02:52 +0200
+X-Gmail-Original-Message-ID: <CANiDSCsv3PEbsmrqZy7niiZczm_WmXt9qvqUVqwMS_WOJ2FvSQ@mail.gmail.com>
+X-Gm-Features: ATxdqUG-RZUeX9LwTPIeZyiSd4f2kz4Kpu-sVsxs-Fn1fvhf5XnyZVw7i9WzQPo
+Message-ID: <CANiDSCsv3PEbsmrqZy7niiZczm_WmXt9qvqUVqwMS_WOJ2FvSQ@mail.gmail.com>
+Subject: Re: [PATCH v6] media: uvcvideo: Fix bandwidth issue for Alcor camera
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: chenchangcheng <ccc194101@163.com>, hdegoede@redhat.com, mchehab@kernel.org, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	chenchangcheng <chenchangcheng@kylinos.cn>
+Content-Type: text/plain; charset="UTF-8"
 
-The cec-funcs.h header sets the destination to 0xf for those
-messages that can only be broadcast. Instead of writing:
+On Thu, 10 Apr 2025 at 11:15, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Thu, Apr 10, 2025 at 07:32:34AM +0200, Ricardo Ribalda wrote:
+> > Hi Laurent
+> >
+> > On Thu, 10 Apr 2025 at 04:07, Laurent Pinchart
+> > <laurent.pinchart@ideasonboard.com> wrote:
+> > >
+> > > On Mon, Mar 24, 2025 at 10:21:20AM +0800, chenchangcheng wrote:
+> > > > From: chenchangcheng <chenchangcheng@kylinos.cn>
+> > > >
+> > > > Some broken device return wrong dwMaxPayloadTransferSize fields,
+> > > > as follows:
+> > > > [  218.632537] [pid:20427,cpu6,guvcview,8]uvcvideo: Device requested 2752512 B/frame bandwidth.
+> > > > [  218.632598] [pid:20427,cpu6,guvcview,9]uvcvideo: No fast enough alt setting for requested bandwidth.
+> > > >
+> > > > The maximum packet size of the device is 3 * 1024, according to the
+> > > > logs above, the device needs to apply for a bandwidth of 0x2a0000.
+> > > >
+> > > > Bus 001 Device 008: ID 1b17:6684 Alcor Corp. Slave camera
+> > > > Device Descriptor:
+> > > >   bLength                18
+> > > >   bDescriptorType         1
+> > > >   bcdUSB               2.00
+> > > >   bDeviceClass          239 Miscellaneous Device
+> > > >   bDeviceSubClass         2
+> > > >   bDeviceProtocol         1 Interface Association
+> > > >   bMaxPacketSize0        64
+> > > >   idVendor           0x1b17
+> > > >   idProduct          0x6684
+> > > >   bcdDevice            1.05
+> > > >   iManufacturer           1 Alcor Corp.
+> > > >   iProduct                2 Slave camera
+> > > >   iSerial                 0
+> > > >   bNumConfigurations      1
+> > > >   Configuration Descriptor:
+> > > >     bLength                 9
+> > > >     bDescriptorType         2
+> > > >     wTotalLength       0x02ad
+> > > >     bNumInterfaces          2
+> > > >     bConfigurationValue     1
+> > > >     iConfiguration          0
+> > > >     bmAttributes         0x80
+> > > >       (Bus Powered)
+> > > >     MaxPower              200mA
+> > > >     Interface Association:
+> > > >       bLength                 8
+> > > >       bDescriptorType        11
+> > > >       bFirstInterface         0
+> > > >       bInterfaceCount         2
+> > > >       bFunctionClass         14 Video
+> > > >       bFunctionSubClass       3 Video Interface Collection
+> > > >       bFunctionProtocol       0
+> > > >       iFunction               4 Slave camera
+> > > >     Interface Descriptor:
+> > > >       bLength                 9
+> > > >       bDescriptorType         4
+> > > >       bInterfaceNumber        0
+> > > >       bAlternateSetting       0
+> > > >       bNumEndpoints           1
+> > > >       bInterfaceClass        14 Video
+> > > >       bInterfaceSubClass      1 Video Control
+> > > >       bInterfaceProtocol      0
+> > > >       iInterface              4 Slave camera
+> > > >       VideoControl Interface Descriptor:
+> > > >
+> > > >       ....
+> > > >
+> > > >       Endpoint Descriptor:
+> > > >         bLength                 7
+> > > >         bDescriptorType         5
+> > > >         bEndpointAddress     0x81  EP 1 IN
+> > > >         bmAttributes            3
+> > > >           Transfer Type            Interrupt
+> > > >           Synch Type               None
+> > > >           Usage Type               Data
+> > > >         wMaxPacketSize     0x0010  1x 16 bytes
+> > > >         bInterval               7
+> > > >     Interface Descriptor:
+> > > >       bLength                 9
+> > > >       bDescriptorType         4
+> > > >       bInterfaceNumber        1
+> > > >       bAlternateSetting       0
+> > > >       bNumEndpoints           0
+> > > >       bInterfaceClass        14 Video
+> > > >       bInterfaceSubClass      2 Video Streaming
+> > > >       bInterfaceProtocol      0
+> > > >       iInterface              0
+> > > >       VideoStreaming Interface Descriptor:
+> > > >         bLength                            14
+> > > >         bDescriptorType                    36
+> > > >         bDescriptorSubtype                  1 (INPUT_HEADER)
+> > > >         bNumFormats                         1
+> > > >         wTotalLength                   0x01ef
+> > > >         bEndPointAddress                  130
+> > > >         bmInfo                              0
+> > > >         bTerminalLink                       3
+> > > >         bStillCaptureMethod                 2
+> > > >         bTriggerSupport                     1
+> > > >         bTriggerUsage                       0
+> > > >         bControlSize                        1
+> > > >         bmaControls( 0)                     0
+> > > >       VideoStreaming Interface Descriptor:
+> > > >         bLength                            11
+> > > >         bDescriptorType                    36
+> > > >         bDescriptorSubtype                  6 (FORMAT_MJPEG)
+> > > >         bFormatIndex                        1
+> > > >         bNumFrameDescriptors                9
+> > > >         bFlags                              1
+> > > >           Fixed-size samples: Yes
+> > > >         bDefaultFrameIndex                  1
+> > > >         bAspectRatioX                       0
+> > > >         bAspectRatioY                       0
+> > > >         bmInterlaceFlags                 0x00
+> > > >           Interlaced stream or variable: No
+> > > >           Fields per frame: 1 fields
+> > > >           Field 1 first: No
+> > > >           Field pattern: Field 1 only
+> > > >         bCopyProtect                        0
+> > > >       VideoStreaming Interface Descriptor:
+> > > >         bLength                            50
+> > > >         bDescriptorType                    36
+> > > >         bDescriptorSubtype                  7 (FRAME_MJPEG)
+> > > >         bFrameIndex                         1
+> > > >         bmCapabilities                   0x00
+> > > >           Still image unsupported
+> > > >         wWidth                           1920
+> > > >         wHeight                          1080
+> > > >         dwMinBitRate                248832000
+> > > >         dwMaxBitRate                1492992000
+> > > >         dwMaxVideoFrameBufferSize     6220800
+> > > >         dwDefaultFrameInterval         333333
+> > > >         bFrameIntervalType                  6
+> > > >         dwFrameInterval( 0)            333333
+> > > >         dwFrameInterval( 1)            400000
+> > > >         dwFrameInterval( 2)            500000
+> > > >         dwFrameInterval( 3)            666666
+> > > >         dwFrameInterval( 4)           1000000
+> > > >         dwFrameInterval( 5)           2000000
+> > > >
+> > > >       ......
+> > > >
+> > > >       VideoStreaming Interface Descriptor:
+> > > >         bLength                            42
+> > > >         bDescriptorType                    36
+> > > >         bDescriptorSubtype                  3 (STILL_IMAGE_FRAME)
+> > > >         bEndpointAddress                    0
+> > > >         bNumImageSizePatterns               9
+> > > >         wWidth( 0)                       1920
+> > > >         wHeight( 0)                      1080
+> > > >         wWidth( 1)                       2048
+> > > >         wHeight( 1)                      1536
+> > > >         wWidth( 2)                       1280
+> > > >         wHeight( 2)                       720
+> > > >         wWidth( 3)                       2592
+> > > >         wHeight( 3)                      1944
+> > > >         wWidth( 4)                       1280
+> > > >         wHeight( 4)                      1024
+> > > >         wWidth( 5)                       1280
+> > > >         wHeight( 5)                       960
+> > > >         wWidth( 6)                       1600
+> > > >         wHeight( 6)                      1200
+> > > >         wWidth( 7)                        800
+> > > >         wHeight( 7)                       600
+> > > >         wWidth( 8)                        640
+> > > >         wHeight( 8)                       480
+> > > >         bNumCompressionPatterns             0
+> > > >       VideoStreaming Interface Descriptor:
+> > > >         bLength                             6
+> > > >         bDescriptorType                    36
+> > > >         bDescriptorSubtype                 13 (COLORFORMAT)
+> > > >         bColorPrimaries                     1 (BT.709,sRGB)
+> > > >         bTransferCharacteristics            1 (BT.709)
+> > > >         bMatrixCoefficients                 4 (SMPTE 170M (BT.601))
+> > > >     Interface Descriptor:
+> > > >       bLength                 9
+> > > >       bDescriptorType         4
+> > > >       bInterfaceNumber        1
+> > > >       bAlternateSetting       1
+> > > >       bNumEndpoints           1
+> > > >       bInterfaceClass        14 Video
+> > > >       bInterfaceSubClass      2 Video Streaming
+> > > >       bInterfaceProtocol      0
+> > > >       iInterface              0
+> > > >       Endpoint Descriptor:
+> > > >         bLength                 7
+> > > >         bDescriptorType         5
+> > > >         bEndpointAddress     0x82  EP 2 IN
+> > > >         bmAttributes            5
+> > > >           Transfer Type            Isochronous
+> > > >           Synch Type               Asynchronous
+> > > >           Usage Type               Data
+> > > >         wMaxPacketSize     0x1400  3x 1024 bytes
+> > > >         bInterval               1
+> > > >     Interface Descriptor:
+> > > >       bLength                 9
+> > > >       bDescriptorType         4
+> > > >       bInterfaceNumber        1
+> > > >       bAlternateSetting       2
+> > > >       bNumEndpoints           1
+> > > >       bInterfaceClass        14 Video
+> > > >       bInterfaceSubClass      2 Video Streaming
+> > > >       bInterfaceProtocol      0
+> > > >       iInterface              0
+> > > >       Endpoint Descriptor:
+> > > >         bLength                 7
+> > > >         bDescriptorType         5
+> > > >         bEndpointAddress     0x82  EP 2 IN
+> > > >         bmAttributes            5
+> > > >           Transfer Type            Isochronous
+> > > >           Synch Type               Asynchronous
+> > > >           Usage Type               Data
+> > > >         wMaxPacketSize     0x0b84  2x 900 bytes
+> > > >         bInterval               1
+> > > >     Interface Descriptor:
+> > > >       bLength                 9
+> > > >       bDescriptorType         4
+> > > >       bInterfaceNumber        1
+> > > >       bAlternateSetting       3
+> > > >       bNumEndpoints           1
+> > > >       bInterfaceClass        14 Video
+> > > >       bInterfaceSubClass      2 Video Streaming
+> > > >       bInterfaceProtocol      0
+> > > >       iInterface              0
+> > > >       Endpoint Descriptor:
+> > > >         bLength                 7
+> > > >         bDescriptorType         5
+> > > >         bEndpointAddress     0x82  EP 2 IN
+> > > >         bmAttributes            5
+> > > >           Transfer Type            Isochronous
+> > > >           Synch Type               Asynchronous
+> > > >           Usage Type               Data
+> > > >         wMaxPacketSize     0x0c00  2x 1024 bytes
+> > > >         bInterval               1
+> > > >     Interface Descriptor:
+> > > >       bLength                 9
+> > > >       bDescriptorType         4
+> > > >       bInterfaceNumber        1
+> > > >       bAlternateSetting       4
+> > > >       bNumEndpoints           1
+> > > >       bInterfaceClass        14 Video
+> > > >       bInterfaceSubClass      2 Video Streaming
+> > > >       bInterfaceProtocol      0
+> > > >       iInterface              0
+> > > >       Endpoint Descriptor:
+> > > >         bLength                 7
+> > > >         bDescriptorType         5
+> > > >         bEndpointAddress     0x82  EP 2 IN
+> > > >         bmAttributes            5
+> > > >           Transfer Type            Isochronous
+> > > >           Synch Type               Asynchronous
+> > > >           Usage Type               Data
+> > > >         wMaxPacketSize     0x0c00  2x 1024 bytes
+> > > >         bInterval               1
+> > > > Device Qualifier (for other device speed):
+> > > >   bLength                10
+> > > >   bDescriptorType         6
+> > > >   bcdUSB               2.00
+> > > >   bDeviceClass          239 Miscellaneous Device
+> > > >   bDeviceSubClass         2
+> > > >   bDeviceProtocol         1 Interface Association
+> > > >   bMaxPacketSize0        64
+> > > >   bNumConfigurations      1
+> > > > Device Status:     0x0000
+> > > >   (Bus Powered)
+> > > >
+> > > > Signed-off-by: chenchangcheng <chenchangcheng@kylinos.cn>
+> > > > ---
+> > > >  drivers/media/usb/uvc/uvc_driver.c |  9 +++++++++
+> > > >  drivers/media/usb/uvc/uvc_video.c  | 10 ++++++++++
+> > > >  drivers/media/usb/uvc/uvcvideo.h   |  1 +
+> > > >  3 files changed, 20 insertions(+)
+> > > >
+> > > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > > > index deadbcea5e22..9b1dedf9773b 100644
+> > > > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > > > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > > > @@ -3023,6 +3023,15 @@ static const struct usb_device_id uvc_ids[] = {
+> > > >         .bInterfaceSubClass   = 1,
+> > > >         .bInterfaceProtocol   = 0,
+> > > >         .driver_info          = UVC_INFO_QUIRK(UVC_QUIRK_STATUS_INTERVAL) },
+> > > > +     /* Alcor Corp. Slave camera */
+> > > > +     { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > > > +                             | USB_DEVICE_ID_MATCH_INT_INFO,
+> > > > +       .idVendor             = 0x1b17,
+> > > > +       .idProduct            = 0x6684,
+> > > > +       .bInterfaceClass      = USB_CLASS_VIDEO,
+> > > > +       .bInterfaceSubClass   = 1,
+> > > > +       .bInterfaceProtocol   = 0,
+> > > > +       .driver_info          = UVC_INFO_QUIRK(UVC_QUIRK_OVERFLOW_BANDWIDTH) },
+> > > >       /* MSI StarCam 370i */
+> > > >       { .match_flags          = USB_DEVICE_ID_MATCH_DEVICE
+> > > >                               | USB_DEVICE_ID_MATCH_INT_INFO,
+> > > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > > > index e3567aeb0007..56f23c363870 100644
+> > > > --- a/drivers/media/usb/uvc/uvc_video.c
+> > > > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > > > @@ -262,6 +262,16 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
+> > > >
+> > > >               ctrl->dwMaxPayloadTransferSize = bandwidth;
+> > > >       }
+> > > > +
+> > > > +     if (stream->intf->num_altsetting > 1 &&
+> > > > +         ctrl->dwMaxPayloadTransferSize > stream->maxpsize &&
+> > > > +         stream->dev->quirks & UVC_QUIRK_OVERFLOW_BANDWIDTH) {
+> > > > +             dev_warn(&stream->intf->dev,
+> > > > +                      "the max payload transmission size (%d) exceededs the size of the ep max packet (%d). Using the max size.\n",
+> > > > +                      ctrl->dwMaxPayloadTransferSize,
+> > > > +                      stream->maxpsize);
+> > > > +             ctrl->dwMaxPayloadTransferSize = stream->maxpsize;
+> > >
+> > > If the requested bandwidth exceed the maximum the device can use, it's
+> > > clearly a firmware bug. Why do we need a quirk for this, can't we use
+> > > the maximum usable bandwidth in that case, regardless of the particular
+> > > device ?
+> >
+> > Wouldn't that break devices with invalid max_bpi (maxp, maxp_mult,
+> > wBytesPerInterval)?
+>
+> I meant the maximum theoretical bandwidth available to the device,
+> corresponding to the maximum max_bpi value for the current speed. In
+> this case the device is requesting 2752512 B/frame.
 
-	msg->msg[0] |= 0xf; /* broadcast */
+I would not count on devices providing different USB descriptors based
+on the current_speed.
+Or if they provide different USB descriptors, they might not have
+tested them properly.
 
-just write:
+So I would be very careful about not breaking current devices. and the
+quirk is great for that.
 
-	msg->msg[0] |= CEC_LOG_ADDR_BROADCAST;
+But yeah 0x2A0000 is *pretty* big.. USB3 only has 2 bytes for BytesPerInterval
 
-which is more descriptive and allows us to drop the comment.
+What about?:
 
-Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
----
-diff --git a/include/uapi/linux/cec-funcs.h b/include/uapi/linux/cec-funcs.h
-index d58fa1cdcb08..189ecf0e13cd 100644
---- a/include/uapi/linux/cec-funcs.h
-+++ b/include/uapi/linux/cec-funcs.h
-@@ -14,7 +14,7 @@
- static inline void cec_msg_active_source(struct cec_msg *msg, __u16 phys_addr)
- {
- 	msg->len = 4;
--	msg->msg[0] |= 0xf; /* broadcast */
-+	msg->msg[0] |= CEC_LOG_ADDR_BROADCAST;
- 	msg->msg[1] = CEC_MSG_ACTIVE_SOURCE;
- 	msg->msg[2] = phys_addr >> 8;
- 	msg->msg[3] = phys_addr & 0xff;
-@@ -59,7 +59,7 @@ static inline void cec_msg_request_active_source(struct cec_msg *msg,
- 						 int reply)
- {
- 	msg->len = 2;
--	msg->msg[0] |= 0xf; /* broadcast */
-+	msg->msg[0] |= CEC_LOG_ADDR_BROADCAST;
- 	msg->msg[1] = CEC_MSG_REQUEST_ACTIVE_SOURCE;
- 	msg->reply = reply ? CEC_MSG_ACTIVE_SOURCE : 0;
- }
-@@ -68,7 +68,7 @@ static inline void cec_msg_routing_information(struct cec_msg *msg,
- 					       __u16 phys_addr)
- {
- 	msg->len = 4;
--	msg->msg[0] |= 0xf; /* broadcast */
-+	msg->msg[0] |= CEC_LOG_ADDR_BROADCAST;
- 	msg->msg[1] = CEC_MSG_ROUTING_INFORMATION;
- 	msg->msg[2] = phys_addr >> 8;
- 	msg->msg[3] = phys_addr & 0xff;
-@@ -86,7 +86,7 @@ static inline void cec_msg_routing_change(struct cec_msg *msg,
- 					  __u16 new_phys_addr)
- {
- 	msg->len = 6;
--	msg->msg[0] |= 0xf; /* broadcast */
-+	msg->msg[0] |= CEC_LOG_ADDR_BROADCAST;
- 	msg->msg[1] = CEC_MSG_ROUTING_CHANGE;
- 	msg->msg[2] = orig_phys_addr >> 8;
- 	msg->msg[3] = orig_phys_addr & 0xff;
-@@ -106,7 +106,7 @@ static inline void cec_ops_routing_change(const struct cec_msg *msg,
- static inline void cec_msg_set_stream_path(struct cec_msg *msg, __u16 phys_addr)
- {
- 	msg->len = 4;
--	msg->msg[0] |= 0xf; /* broadcast */
-+	msg->msg[0] |= CEC_LOG_ADDR_BROADCAST;
- 	msg->msg[1] = CEC_MSG_SET_STREAM_PATH;
- 	msg->msg[2] = phys_addr >> 8;
- 	msg->msg[3] = phys_addr & 0xff;
-@@ -791,7 +791,7 @@ static inline void cec_msg_report_physical_addr(struct cec_msg *msg,
- 					__u16 phys_addr, __u8 prim_devtype)
- {
- 	msg->len = 5;
--	msg->msg[0] |= 0xf; /* broadcast */
-+	msg->msg[0] |= CEC_LOG_ADDR_BROADCAST;
- 	msg->msg[1] = CEC_MSG_REPORT_PHYSICAL_ADDR;
- 	msg->msg[2] = phys_addr >> 8;
- 	msg->msg[3] = phys_addr & 0xff;
-@@ -817,7 +817,7 @@ static inline void cec_msg_set_menu_language(struct cec_msg *msg,
- 					     const char *language)
- {
- 	msg->len = 5;
--	msg->msg[0] |= 0xf; /* broadcast */
-+	msg->msg[0] |= CEC_LOG_ADDR_BROADCAST;
- 	msg->msg[1] = CEC_MSG_SET_MENU_LANGUAGE;
- 	memcpy(msg->msg + 2, language, 3);
- }
-@@ -850,7 +850,7 @@ static inline void cec_msg_report_features(struct cec_msg *msg,
- 				__u8 rc_profile, __u8 dev_features)
- {
- 	msg->len = 6;
--	msg->msg[0] |= 0xf; /* broadcast */
-+	msg->msg[0] |= CEC_LOG_ADDR_BROADCAST;
- 	msg->msg[1] = CEC_MSG_REPORT_FEATURES;
- 	msg->msg[2] = cec_version;
- 	msg->msg[3] = all_device_types;
-@@ -1092,7 +1092,7 @@ static inline void cec_msg_tuner_step_increment(struct cec_msg *msg)
- static inline void cec_msg_device_vendor_id(struct cec_msg *msg, __u32 vendor_id)
- {
- 	msg->len = 5;
--	msg->msg[0] |= 0xf; /* broadcast */
-+	msg->msg[0] |= CEC_LOG_ADDR_BROADCAST;
- 	msg->msg[1] = CEC_MSG_DEVICE_VENDOR_ID;
- 	msg->msg[2] = vendor_id >> 16;
- 	msg->msg[3] = (vendor_id >> 8) & 0xff;
-@@ -1655,7 +1655,7 @@ static inline void cec_msg_report_current_latency(struct cec_msg *msg,
- 						  __u8 audio_out_delay)
- {
- 	msg->len = 6;
--	msg->msg[0] |= 0xf; /* broadcast */
-+	msg->msg[0] |= CEC_LOG_ADDR_BROADCAST;
- 	msg->msg[1] = CEC_MSG_REPORT_CURRENT_LATENCY;
- 	msg->msg[2] = phys_addr >> 8;
- 	msg->msg[3] = phys_addr & 0xff;
-@@ -1687,7 +1687,7 @@ static inline void cec_msg_request_current_latency(struct cec_msg *msg,
- 						   __u16 phys_addr)
- {
- 	msg->len = 4;
--	msg->msg[0] |= 0xf; /* broadcast */
-+	msg->msg[0] |= CEC_LOG_ADDR_BROADCAST;
- 	msg->msg[1] = CEC_MSG_REQUEST_CURRENT_LATENCY;
- 	msg->msg[2] = phys_addr >> 8;
- 	msg->msg[3] = phys_addr & 0xff;
-@@ -1707,7 +1707,7 @@ static inline void cec_msg_cdc_hec_inquire_state(struct cec_msg *msg,
- 						 __u16 phys_addr2)
- {
- 	msg->len = 9;
--	msg->msg[0] |= 0xf; /* broadcast */
-+	msg->msg[0] |= CEC_LOG_ADDR_BROADCAST;
- 	msg->msg[1] = CEC_MSG_CDC_MESSAGE;
- 	/* msg[2] and msg[3] (phys_addr) are filled in by the CEC framework */
- 	msg->msg[4] = CEC_MSG_CDC_HEC_INQUIRE_STATE;
-@@ -1737,7 +1737,7 @@ static inline void cec_msg_cdc_hec_report_state(struct cec_msg *msg,
- 						__u16 hec_field)
- {
- 	msg->len = has_field ? 10 : 8;
--	msg->msg[0] |= 0xf; /* broadcast */
-+	msg->msg[0] |= CEC_LOG_ADDR_BROADCAST;
- 	msg->msg[1] = CEC_MSG_CDC_MESSAGE;
- 	/* msg[2] and msg[3] (phys_addr) are filled in by the CEC framework */
- 	msg->msg[4] = CEC_MSG_CDC_HEC_REPORT_STATE;
-@@ -1782,7 +1782,7 @@ static inline void cec_msg_cdc_hec_set_state(struct cec_msg *msg,
- 					     __u16 phys_addr5)
- {
- 	msg->len = 10;
--	msg->msg[0] |= 0xf; /* broadcast */
-+	msg->msg[0] |= CEC_LOG_ADDR_BROADCAST;
- 	msg->msg[1] = CEC_MSG_CDC_MESSAGE;
- 	/* msg[2] and msg[3] (phys_addr) are filled in by the CEC framework */
- 	msg->msg[4] = CEC_MSG_CDC_HEC_INQUIRE_STATE;
-@@ -1832,7 +1832,7 @@ static inline void cec_msg_cdc_hec_set_state_adjacent(struct cec_msg *msg,
- 						      __u8 hec_set_state)
- {
- 	msg->len = 8;
--	msg->msg[0] |= 0xf; /* broadcast */
-+	msg->msg[0] |= CEC_LOG_ADDR_BROADCAST;
- 	msg->msg[1] = CEC_MSG_CDC_MESSAGE;
- 	/* msg[2] and msg[3] (phys_addr) are filled in by the CEC framework */
- 	msg->msg[4] = CEC_MSG_CDC_HEC_SET_STATE_ADJACENT;
-@@ -1857,7 +1857,7 @@ static inline void cec_msg_cdc_hec_request_deactivation(struct cec_msg *msg,
- 							__u16 phys_addr3)
- {
- 	msg->len = 11;
--	msg->msg[0] |= 0xf; /* broadcast */
-+	msg->msg[0] |= CEC_LOG_ADDR_BROADCAST;
- 	msg->msg[1] = CEC_MSG_CDC_MESSAGE;
- 	/* msg[2] and msg[3] (phys_addr) are filled in by the CEC framework */
- 	msg->msg[4] = CEC_MSG_CDC_HEC_REQUEST_DEACTIVATION;
-@@ -1884,7 +1884,7 @@ static inline void cec_ops_cdc_hec_request_deactivation(const struct cec_msg *ms
- static inline void cec_msg_cdc_hec_notify_alive(struct cec_msg *msg)
- {
- 	msg->len = 5;
--	msg->msg[0] |= 0xf; /* broadcast */
-+	msg->msg[0] |= CEC_LOG_ADDR_BROADCAST;
- 	msg->msg[1] = CEC_MSG_CDC_MESSAGE;
- 	/* msg[2] and msg[3] (phys_addr) are filled in by the CEC framework */
- 	msg->msg[4] = CEC_MSG_CDC_HEC_NOTIFY_ALIVE;
-@@ -1899,7 +1899,7 @@ static inline void cec_ops_cdc_hec_notify_alive(const struct cec_msg *msg,
- static inline void cec_msg_cdc_hec_discover(struct cec_msg *msg)
- {
- 	msg->len = 5;
--	msg->msg[0] |= 0xf; /* broadcast */
-+	msg->msg[0] |= CEC_LOG_ADDR_BROADCAST;
- 	msg->msg[1] = CEC_MSG_CDC_MESSAGE;
- 	/* msg[2] and msg[3] (phys_addr) are filled in by the CEC framework */
- 	msg->msg[4] = CEC_MSG_CDC_HEC_DISCOVER;
-@@ -1916,7 +1916,7 @@ static inline void cec_msg_cdc_hpd_set_state(struct cec_msg *msg,
- 					     __u8 hpd_state)
- {
- 	msg->len = 6;
--	msg->msg[0] |= 0xf; /* broadcast */
-+	msg->msg[0] |= CEC_LOG_ADDR_BROADCAST;
- 	msg->msg[1] = CEC_MSG_CDC_MESSAGE;
- 	/* msg[2] and msg[3] (phys_addr) are filled in by the CEC framework */
- 	msg->msg[4] = CEC_MSG_CDC_HPD_SET_STATE;
-@@ -1938,7 +1938,7 @@ static inline void cec_msg_cdc_hpd_report_state(struct cec_msg *msg,
- 						__u8 hpd_error)
- {
- 	msg->len = 6;
--	msg->msg[0] |= 0xf; /* broadcast */
-+	msg->msg[0] |= CEC_LOG_ADDR_BROADCAST;
- 	msg->msg[1] = CEC_MSG_CDC_MESSAGE;
- 	/* msg[2] and msg[3] (phys_addr) are filled in by the CEC framework */
- 	msg->msg[4] = CEC_MSG_CDC_HPD_REPORT_STATE;
+#define MAX_BPI_SIXE 0xffff // BytesPerInterval can only hold 2 bytes
+if (stream->intf->num_altsetting > 1 && ctrl->dwMaxPayloadTransferSize
+> MAX_BPI_SIZE) {
+ dev_warn_ratelimit(&stream->intf->dev, "UVC non compliance:  the max
+payload ....");
+ ctrl->dwMaxPayloadTransferSize = stream->maxpsize;
+}
+
+
++       if (stream->intf->num_altsetting > 1 &&
++           ctrl->dwMaxPayloadTransferSize > stream->maxpsize &&
++           stream->dev->quirks & UVC_QUIRK_OVERFLOW_BANDWIDTH) {
++               dev_warn(&stream->intf->dev,
++                        "the max payload transmission size (%d)
+exceededs the size of the ep max packet (%d). Using the max size.\n",
++                        ctrl->dwMaxPayloadTransferSize,
++                        stream->maxpsize);
++               ctrl->dwMaxPayloadTransferSize = stream->maxpsize;
++       }
+
+
+>
+> > I think the approach taken by this patch is the most conservative one.
+> > If we get a good number of devices using this quirk we can implement
+> > an heuristic using the info from multiple descriptors.
+> >
+> > > > +     }
+> > > >  }
+> > > >
+> > > >  static size_t uvc_video_ctrl_size(struct uvc_streaming *stream)
+> > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > > > index 5e388f05f3fc..8b43d725c259 100644
+> > > > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > > > @@ -77,6 +77,7 @@
+> > > >  #define UVC_QUIRK_DISABLE_AUTOSUSPEND        0x00008000
+> > > >  #define UVC_QUIRK_INVALID_DEVICE_SOF 0x00010000
+> > > >  #define UVC_QUIRK_MJPEG_NO_EOF               0x00020000
+> > > > +#define UVC_QUIRK_OVERFLOW_BANDWIDTH 0x00040000
+> > > >
+> > > >  /* Format flags */
+> > > >  #define UVC_FMT_FLAG_COMPRESSED              0x00000001
+> > > >
+> > > > base-commit: 4701f33a10702d5fc577c32434eb62adde0a1ae1
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+
+
+-- 
+Ricardo Ribalda
 
