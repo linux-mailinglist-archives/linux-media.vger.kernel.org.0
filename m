@@ -1,147 +1,112 @@
-Return-Path: <linux-media+bounces-29840-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29841-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E56A83811
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 07:06:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11B45A8381B
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 07:11:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BFC2E443466
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 05:06:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8AA12446C59
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 05:09:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03F991F1515;
-	Thu, 10 Apr 2025 05:06:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1185C1FC10E;
+	Thu, 10 Apr 2025 05:09:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JmhJZVPx"
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="Nhyg+23K"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f195.google.com (mail-pf1-f195.google.com [209.85.210.195])
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 688CF1A3150;
-	Thu, 10 Apr 2025 05:06:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 740751F12FB
+	for <linux-media@vger.kernel.org>; Thu, 10 Apr 2025 05:09:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744261611; cv=none; b=oUG0BR0B5jd9akCz2ukXeK4/x3zkGGneL9THSCK5CtgTHbZe3oPFsPzEMpCc6/rluz0wufeLRp+t2Re6/IBlvdPrAS17lcKn+mlmzStgCYUdnfgNFXtUGKE/9Tntia77hn2uTgYoHbh7HclMG0wme4ID5h9nW8rd+/H1iiGnTJ4=
+	t=1744261760; cv=none; b=ZuSblHkrL6E4Jslt5NuZMJi7DRY+F3mUqCsFLO+a0p/H+e1nTmbeZqio8bXQMmnkE3nb4n/rmF9ECE77vh0/Jz1E0LmXxCcoInrwTDGgEIlU/btCBIfXff5xbN74wJcT0AaV3CbopR1qSpyTpFyFx3A8RE9X7tQPj53JgoR2b8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744261611; c=relaxed/simple;
-	bh=8rCqixOvDHQ5m3uWKiliryBjCwbDUjuhy/lmzWlucQo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=EW0Z4TOgyQ8sUDRv+p3Q4QGVmlwUs88ZJQnHIxW/Sthp5M8q52vpYFlYZqWM5UjPQhB1+5/8lnnwL6Vtb5//IofvdW6Wln5gQtNwBP408bZYv6CTKWqmE9nHhVjoPiZEYX1pkH1xObU4jWrVs9gfxvSe/gZhnneadO1+yVHD7Jw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JmhJZVPx; arc=none smtp.client-ip=209.85.210.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f195.google.com with SMTP id d2e1a72fcca58-736c3e7b390so302468b3a.2;
-        Wed, 09 Apr 2025 22:06:49 -0700 (PDT)
+	s=arc-20240116; t=1744261760; c=relaxed/simple;
+	bh=G16oVcschOk1bCBWwdD3ZsJUcsex2zjDzFXRZC7O9eo=;
+	h=From:To:CC:Date:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=fhUxBR27rahQz77ZGzQrdrcryOUdkUZHpgwot8x8RFnBj7SBRTf//ysydEeZne69NB65Xo+X2qf4zX0jPBa5YaC3KIsSaMEmMyLFtPw1zymQgMxW888A2YusBrWTt4GYH3zWl0iFrrQX7XG1bl3IedmVVrb+ei/W90NGcT/TE/g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=Nhyg+23K; arc=none smtp.client-ip=209.85.161.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-5fcd61e9bcdso212115eaf.0
+        for <linux-media@vger.kernel.org>; Wed, 09 Apr 2025 22:09:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744261609; x=1744866409; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=d46airT75vHv8EXQAD6iB9DXsZw0o96cfAedDj25Jsg=;
-        b=JmhJZVPxnoTEZWD3g0E8kv+IdVPl6Z7qly8k+c8p8FUHWfpcJOY/ROl6eT9YYC5AWj
-         xpZz/ZXL+PWE6Wwd78sLsFIDd2JspPlWxPWahVUOwvnu/Nw6In5FbrzGUNVdfLdfHBea
-         hambp4sIk6AgvHP1byttMdeMEvb//yKWigAu2TjtyrkfwcTRsgh+GWsXO84Q83bJhlU/
-         xbw1cf1HEbdthA+1wI0RCQJZVAcQNMrnyPwNUeBAkTmMTskDPq2nrMWProsXRkMCzZPT
-         UaFkCAuNdihoyX1EIYai6WF23csnweUdpc99guEOYCwOfOqTe/An11CoZ2MebiwVeh+x
-         +stg==
+        d=broadcom.com; s=google; t=1744261757; x=1744866557; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:subject:user-agent
+         :references:in-reply-to:message-id:date:cc:to:from:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=G16oVcschOk1bCBWwdD3ZsJUcsex2zjDzFXRZC7O9eo=;
+        b=Nhyg+23KIvdj2ds/dNoqaEQBtAsf+l8ko22/0+4jtvRN2tw9Xc7oxEI8f8BdnYDTiE
+         wy/7saWqUY6bU6A6WaAv1yLARvwdxE1XGz4cX1LXU3HkjRenBGaTqV/cwhECJall2SEs
+         b3T7jLsPsW0YtLGXBqKsEw1OfECpoBHejRrc8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744261609; x=1744866409;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=d46airT75vHv8EXQAD6iB9DXsZw0o96cfAedDj25Jsg=;
-        b=EYWuW34fvZW2jQtV4vjvokUbrGROUTBaLHT1ETy5FjUudb8FPNz8sOMA7olxjqJQJt
-         g6QBkErLiY0dg/4xoK3fnpQEHP06rH3pYrhcsatMDuHVMIdFvmf2MGwg741BDSViF7vF
-         YO0BiqkQCKDSaIsTrhKM3kTLdT92fpFmkJqs/M4CtcLoZNRh6zi8pdrqjvuRyFCcuOD2
-         KhRF1Vp/yWc2TMLyurYE9kM2sXT0TfagZUMhDNo/H/nZewjOXJrOsvKWpgc8jjbcPpIE
-         Mx06CQLCOxdzb67ebh1ASfrOOKCyoGjYq2w2G4cMk31Z75488QICb6QL7GXySHvfPZzL
-         sYHg==
-X-Forwarded-Encrypted: i=1; AJvYcCVvCSD1CbJC5nNvG3XAJaIWzTLo/QBwuYTU8IoX2JeV+Z4edG66erNKzufzvQcPvZs5M3mPhHr+XAg5EiA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLzKqZeOow8OJPH6TD7IxYkzlWL8q8Xs0XHB1cEFP0Q8DCvAvQ
-	nlY461iP0/UpngKPqJGw+jtkokhVLdIUev1QV1ELNPkZTXP1Nn57
-X-Gm-Gg: ASbGncuVGQy7ga5HIMr1zJtV/7rJ6hf+rTRKaUpeGrJgH6GhqLzko8aWP/57HyxCX5g
-	HNYxiztewJ7qdZ7V8C5HlFfmgsbCIB09Hw0V6DiJUCl1wOPmOhIw2tGNBbJX6E5vtbdCCcvJSyh
-	uOT4gzEGyUfcIXmmaaCjFOuwa7s/GXV5f760m4tCDyV+T2ziKaiD3rWOCPC7wyol6xOCiu8SBNj
-	qvnQ6Z/RQvvKVsrq0L5+jpAKbKU+bc2aScvOQ0gbJsjbum8rjzVFQL2GT8NV5t3Lyxdk5EdmBZV
-	DXw61Tb5++ulVqNNRJJmP7v84JSL7hJauzApr3aCMUYpDxFEGpMLZpSwDmM6
-X-Google-Smtp-Source: AGHT+IEyf/jfRZocce8XbsHKUc43T+JyTF/Sk4rwsW7yZtcHMwpngitvkGrHYV2zaS4TA5tWyxiyjA==
-X-Received: by 2002:a05:6a00:1310:b0:735:d89c:4b9f with SMTP id d2e1a72fcca58-73bc08129b6mr1309744b3a.0.1744261608589;
-        Wed, 09 Apr 2025 22:06:48 -0700 (PDT)
-Received: from sid-Inspiron-15-3525.. ([106.222.231.231])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bb1d6af12sm2320503b3a.80.2025.04.09.22.06.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Apr 2025 22:06:48 -0700 (PDT)
-From: Siddarth G <siddarthsgml@gmail.com>
-To: slongerbeam@gmail.com,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	Siddarth G <siddarthsgml@gmail.com>
-Subject: [PATCH v2] media: imx: Fix NULL pointer dereference
-Date: Thu, 10 Apr 2025 10:35:43 +0530
-Message-ID: <20250410050543.6963-1-siddarthsgml@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1744261757; x=1744866557;
+        h=content-transfer-encoding:mime-version:subject:user-agent
+         :references:in-reply-to:message-id:date:cc:to:from
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=G16oVcschOk1bCBWwdD3ZsJUcsex2zjDzFXRZC7O9eo=;
+        b=tDjvYuQ/KS8P5ZT/m7qxrVGndBxn1HgVy1l9AYPd0dT1PaoN9y0xygzfvOZTyI4+va
+         lPMMxUUkffsoKpHQEXSm9M90Ez3vsaMXa45QRxk+PgtnxFa/s889IAUgl+trHNLR0xQG
+         usdTA2B+hsJpMfpQJvQHHKFjwCdtw+h7U7fIc55mGt8CflQgr0eGjVJbUBElr00RAsxr
+         Ql+J/wG9GqS682o2g69b8q1PucOeeu5kJd4fIteV2YTMYemZGxobx69gQS2sNGdKPvZS
+         loZrmpuePOKsDnHOYqSGGt6FJQEHaFXs9NZN2wzgbtLR5uqCpuHPlb5plTUCFXvZI5rt
+         DYNg==
+X-Forwarded-Encrypted: i=1; AJvYcCVrQw0Eup6m6dZ+VWzc3GlkIMfiFGDqPpTVsYwA+s/+y0QrC6v3o+rEQzd2CEwGWhd2WYWJV8K27DCj6w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDfGD2KGH2fSBRbFO2D0bumO7pakc0p/tE2Zy0PG3Q8KALsjxx
+	nNKetNb4bdbrefG1/uKGY4CTX4tQ/LfO4nzhC+7EyVj9EzvXmNkqyWEytmFYYg==
+X-Gm-Gg: ASbGncscC2rt9bGgIfuYdu/69i773PxznHT/9+F1JBTyOPiYY0RRHS3vxut4CTXeJMx
+	FaLYCDxI6s6GRJq+k065r9bpYuezElwvXAa7mD7Jq7ugQrb5m6Ivh+UdO5oCPPkIG3iV+Mld08I
+	H3xEyJGykpMD92X+ACy2PXaYWfVRioMBCD0E6g0W4pbIlMzrlU+ECddQs+JZ6hP8fp9UIfJi3qA
+	VbwaOdMm1OQ6NM/HdBtTTdWbnFZvpObA6Ex7anDYD52doUdpt6lgsYJJISk33NzRNw3uH+eRDsM
+	Z8ai43a3t3OvdmbccU1z3M8bwmSq66DsRfIUwWHH2OKcaT50oLtGSmZTLb8vUHwBF5yZIncURrd
+	rgiU=
+X-Google-Smtp-Source: AGHT+IHf2dIBsgMwlqUxzHqfg0izmCh/XeIh4+y37IHWa4xRZwCt6+2s0H2VCnvp55v7eCTsGxhXjQ==
+X-Received: by 2002:a05:6871:3320:b0:27b:61df:2160 with SMTP id 586e51a60fabf-2d0b383616dmr840067fac.31.1744261757422;
+        Wed, 09 Apr 2025 22:09:17 -0700 (PDT)
+Received: from [192.168.178.39] (f215227.upc-f.chello.nl. [80.56.215.227])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2d096cd3764sm534917fac.31.2025.04.09.22.09.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Apr 2025 22:09:16 -0700 (PDT)
+From: Arend Van Spriel <arend.vanspriel@broadcom.com>
+To: Johannes Berg <johannes@sipsolutions.net>, "Kuan-Wei Chiu" <visitorckw@gmail.com>, <tglx@linutronix.de>, <mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>, <x86@kernel.org>, <jk@ozlabs.org>, <joel@jms.id.au>, <eajames@linux.ibm.com>, <andrzej.hajda@intel.com>, <neil.armstrong@linaro.org>, <rfoss@kernel.org>, <maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>, <tzimmermann@suse.de>, <airlied@gmail.com>, <simona@ffwll.ch>, <dmitry.torokhov@gmail.com>, <mchehab@kernel.org>, <awalls@md.metrocast.net>, <hverkuil@xs4all.nl>, <miquel.raynal@bootlin.com>, <richard@nod.at>, <vigneshr@ti.com>, <louis.peens@corigine.com>, <andrew+netdev@lunn.ch>, <davem@davemloft.net>, <edumazet@google.com>, <pabeni@redhat.com>, <parthiban.veerasooran@microchip.com>, <gregkh@linuxfoundation.org>, <jirislaby@kernel.org>, <yury.norov@gmail.com>, <akpm@linux-foundation.org>, <jdelvare@suse.com>, <linux@roeck-us.net>, <alexandre.belloni@bootlin.com>, <pgaj@cadence.com>
+CC: <hpa@zytor.com>, <alistair@popple.id.au>, <linux@rasmusvillemoes.dk>, <Laurent.pinchart@ideasonboard.com>, <jonas@kwiboo.se>, <jernej.skrabec@gmail.com>, <kuba@kernel.org>, <linux-kernel@vger.kernel.org>, <linux-fsi@lists.ozlabs.org>, <dri-devel@lists.freedesktop.org>, <linux-input@vger.kernel.org>, <linux-media@vger.kernel.org>, <linux-mtd@lists.infradead.org>, <oss-drivers@corigine.com>, <netdev@vger.kernel.org>, <linux-wireless@vger.kernel.org>, <brcm80211@lists.linux.dev>, <brcm80211-dev-list.pdl@broadcom.com>, <linux-serial@vger.kernel.org>, <bpf@vger.kernel.org>, <jserv@ccns.ncku.edu.tw>, <Frank.Li@nxp.com>, <linux-hwmon@vger.kernel.org>, <linux-i3c@lists.infradead.org>, <david.laight.linux@gmail.com>, <andrew.cooper3@citrix.com>, "Yu-Chun Lin" <eleanor15x@gmail.com>
+Date: Thu, 10 Apr 2025 07:08:58 +0200
+Message-ID: <1961e19ee10.279b.9b12b7fc0a3841636cfb5e919b41b954@broadcom.com>
+In-Reply-To: <740c7de894d39249665c6333aa3175762cfb13c6.camel@sipsolutions.net>
+References: <20250409154356.423512-1-visitorckw@gmail.com>
+ <20250409154356.423512-4-visitorckw@gmail.com>
+ <25b7888d-f704-493b-a2d7-c5e8fff9cfb4@broadcom.com>
+ <740c7de894d39249665c6333aa3175762cfb13c6.camel@sipsolutions.net>
+User-Agent: AquaMail/1.54.1 (build: 105401536)
+Subject: Re: [PATCH v4 03/13] media: pci: cx18-av-vbi: Replace open-coded parity calculation with parity_odd()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; format=flowed; charset="us-ascii"
 Content-Transfer-Encoding: 8bit
 
-Cppcheck warnings:
+On April 10, 2025 12:06:52 AM Johannes Berg <johannes@sipsolutions.net> wrote:
 
-drivers/staging/media/imx/imx-media-fim.c:79:6:
-error: Null pointer dereference: fi [ctunullpointer]
-  if (fi->denominator == 0) {
+> On Wed, 2025-04-09 at 20:43 +0200, Arend van Spriel wrote:
+>>
+>> This is orthogonal to the change to parity_odd() though. More specific
+>> to the new parity_odd() you can now do following as parity_odd()
+>> argument is u64:
+>>
+>> err = !parity_odd(*(u16 *)p);
+>
+> Can it though? Need to be careful with alignment with that, I'd think.
 
-drivers/staging/media/imx/imx-media-csi.c:795:27:
-note: Calling function imx_media_fim_set_stream, 2nd argument is null
-  imx_media_fim_set_stream(priv->fim, NULL, false);
+My bad. You are absolutely right.
 
-drivers/staging/media/imx/imx-media-fim.c:388:3:
-note: Calling function update_fim_nominal, 2nd argument is null
-  update_fim_nominal(fim, fi);
+Gr. AvS
+>
 
-drivers/staging/media/imx/imx-media-fim.c:79:6:
-note: Dereferencing argument fi that is null
-  if (fi->denominator == 0) {
-
-To fix the issue, add a check to validate that the 'fi' is not
-null before accessing its members.
-
-Signed-off-by: Siddarth G <siddarthsgml@gmail.com>
----
-Changes since v1:
-- added "media:" prefix in subject
-
- drivers/staging/media/imx/imx-media-fim.c | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/drivers/staging/media/imx/imx-media-fim.c b/drivers/staging/media/imx/imx-media-fim.c
-index ccbc0371fba2..25f79d0f87b9 100644
---- a/drivers/staging/media/imx/imx-media-fim.c
-+++ b/drivers/staging/media/imx/imx-media-fim.c
-@@ -76,6 +76,9 @@ static bool icap_enabled(struct imx_media_fim *fim)
- static void update_fim_nominal(struct imx_media_fim *fim,
- 			       const struct v4l2_fract *fi)
- {
-+	if (!fi)
-+		return;
-+
- 	if (fi->denominator == 0) {
- 		dev_dbg(fim->sd->dev, "no frame interval, FIM disabled\n");
- 		fim->enabled = false;
--- 
-2.43.0
 
 
