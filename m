@@ -1,163 +1,202 @@
-Return-Path: <linux-media+bounces-29925-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29926-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED3EAA84471
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 15:17:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61991A84477
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 15:18:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E07849A686C
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 13:11:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ABE424E2093
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 13:12:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 519D328D84D;
-	Thu, 10 Apr 2025 13:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="JLIa0Hqu"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF72628EA6F;
+	Thu, 10 Apr 2025 13:10:11 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A6F2857F8;
-	Thu, 10 Apr 2025 13:09:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91186284B51
+	for <linux-media@vger.kernel.org>; Thu, 10 Apr 2025 13:10:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744290595; cv=none; b=NgSu++5krTQNvodkP4s1GLwdznBsT9Ac27/o3UGTekjc7VW6wli0xD0DWQLUWpV321b0Zfm2d7KcAYfm3bMxZWI+KLq7LLdqK/X3RBatlwPWOHp2iwwki+Z12xBDfLnU/7e8d3lp/qii9hn3vb1W60iRU8sikcRfB5lDHOnOqKA=
+	t=1744290611; cv=none; b=TtaNCdUVeB+BdVkOfBLnlju9Svxiv5BBUTWmSoOT5gdj+JX9lG1drU6izMUVvGkfYraUgHo252QB0LntqmNr1feCK5GxkGS3Z7j8F4uxAy6MdQ7ENdD+l//rsJEIZBI0YMcArLDoKzWySOEEGDml7R0JM2Bi7lArtwCj/V+Fta4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744290595; c=relaxed/simple;
-	bh=ohKKNYP3dMZzy/Op3vn2DOLq02k/up894FUlQhaKHxQ=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=FM0kkmAkmNQcGgjq0ghdoY58BEFH3khYcJEoBX6JAhbG+A472l6BHht0UalAOWIYzaJRnLTxSZRM7/Q3WGW+MowRf5RaGPwthsp1p1JKOxZLi7w3ETZzonQdA7aMAEnDwcXsh84+MSHaZrHH8x8sbCG3QabP1iXYy5LcwrjdqG0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=JLIa0Hqu; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4ZYKsh20Kcz9sFb;
-	Thu, 10 Apr 2025 15:09:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1744290584; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tNo4RWbN6OOQmatSWnTpJ3Sh3OCGI8DiobFht1mvBP4=;
-	b=JLIa0HquJgjRKsl6VGI2sxxfZVuwKrlEnzrtHs2vUWdYskSAy4m8cWSpMDpMheH5h2Skgi
-	NlwbeHPHoHvO1XAT+3TBkM0DbFgEy4JPwFTVa/IVeHaLXUSdyJgTj4rKjzAOB01rmEvo/Q
-	5q+I26dMY3DK2iGsGaZM54MpPsnfj9WlPBcWukDoF2RC3WD25x4JZW8Zs1VGF5m5BSGTdo
-	QU+DL6NjbZk43TGAtKlQbIJO6q8pDuB7C5MJqGGqZzuSvW6qt+F8eblUpKQwDlEmGqpuey
-	/1E0zRPYbKgYOehnQNlPRH0XFt5yoOCEgiLppCE931Rq9Ml+Jf2cPEGgIV7kcA==
-Message-ID: <c737c89c7ce9174e349c61ab4e5712eee8946f13.camel@mailbox.org>
-Subject: Re: [PATCH 1/3] drm/nouveau: Prevent signaled fences in pending list
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Philipp
- Stanner <phasta@kernel.org>, Lyude Paul <lyude@redhat.com>, Danilo
- Krummrich <dakr@kernel.org>,  David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Sabrina Dubroca <sd@queasysnail.net>,  Sumit
- Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
-	stable@vger.kernel.org
-Date: Thu, 10 Apr 2025 15:09:39 +0200
-In-Reply-To: <8583665a-6886-4245-be49-fd8839cfe212@amd.com>
-References: <20250410092418.135258-2-phasta@kernel.org>
-	 <20250410092418.135258-3-phasta@kernel.org>
-	 <8583665a-6886-4245-be49-fd8839cfe212@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1744290611; c=relaxed/simple;
+	bh=FSkj+qfWLz4GnJZojx15aNKRylJWPim4AQal2A35YX8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V4bneX+KmMQfiDRP5vv3Kdab8rp/SBGFORppa4CBru56TJVwlS8iIsAZYywZEVzuNShPTw3GVLCfGi9RUxL7e4KwidPqrOHVX7b9Kyaa3LO24fYF6IUPDQmqR25vTCw1d0tllxC704Rb8XEbFqLkZJZIPrRfiHriKHeGM+bS9PM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CFB5D1E7D
+	for <linux-media@vger.kernel.org>; Thu, 10 Apr 2025 06:10:07 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8591A3F6A8
+	for <linux-media@vger.kernel.org>; Thu, 10 Apr 2025 06:10:07 -0700 (PDT)
+Date: Thu, 10 Apr 2025 14:09:52 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+	Steven Price <steven.price@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	kernel@collabora.com, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v6 1/4] drm/panthor: Introduce BO labeling
+Message-ID: <Z_fDIECHzkJjpwDQ@e110455-lin.cambridge.arm.com>
+References: <20250409212233.2036154-1-adrian.larumbe@collabora.com>
+ <20250409212233.2036154-2-adrian.larumbe@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: w17gddazuhiderzamj37mege4ojzpn7m
-X-MBO-RS-ID: d885f1ea80fc186b76b
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250409212233.2036154-2-adrian.larumbe@collabora.com>
 
-On Thu, 2025-04-10 at 14:58 +0200, Christian K=C3=B6nig wrote:
-> Am 10.04.25 um 11:24 schrieb Philipp Stanner:
-> > Nouveau currently relies on the assumption that dma_fences will
-> > only
-> > ever get signaled through nouveau_fence_signal(), which takes care
-> > of
-> > removing a signaled fence from the list nouveau_fence_chan.pending.
-> >=20
-> > This self-imposed rule is violated in nouveau_fence_done(), where
-> > dma_fence_is_signaled() (somewhat surprisingly, considering its
-> > name)
-> > can signal the fence without removing it from the list. This
-> > enables
-> > accesses to already signaled fences through the list, which is a
-> > bug.
-> >=20
-> > In particular, it can race with nouveau_fence_context_kill(), which
-> > would then attempt to set an error code on an already signaled
-> > fence,
-> > which is illegal.
-> >=20
-> > In nouveau_fence_done(), the call to nouveau_fence_update() already
-> > ensures to signal all ready fences. Thus, the signaling potentially
-> > performed by dma_fence_is_signaled() is actually not necessary.
->=20
-> Ah, I now got what you are trying to do here! But that won't help.
->=20
-> The problem is it is perfectly valid for somebody external (e.g.
-> other driver, TTM etc...) to call dma_fence_is_signaled() on a
-> nouveau fence.
->=20
-> This will then in turn still signal the fence and leave it on the
-> pending list and creating the problem you have.
+On Wed, Apr 09, 2025 at 10:22:19PM +0100, Adrián Larumbe wrote:
+> Add a new character string Panthor BO field, and a function that allows
+> setting it from within the driver.
+> 
+> Driver takes care of freeing the string when it's replaced or no longer
+> needed at object destruction time, but allocating it is the responsibility
+> of callers.
+> 
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
 
-Good to hear =E2=80=93 precisely that then is the use case for a dma_fence
-callback! ^_^ It guarantees that, no matter who signals a fence, no
-matter at what place, a certain action will always be performed.
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
-I can't think of any other mechanism which could guarantee that a
-signaled fence immediately gets removed from nouveau's pending list,
-other than the callbacks.
+Best regards,
+Liviu
 
-But seriously, I don't think that anyone does this currently, nor do I
-think that anyone could get away with doing it without the entire
-computer burning down.
+> ---
+>  drivers/gpu/drm/panthor/panthor_gem.c | 39 +++++++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_gem.h | 17 ++++++++++++
+>  2 files changed, 56 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> index 8244a4e6c2a2..af0ac17f357f 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -2,6 +2,7 @@
+>  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
+>  /* Copyright 2023 Collabora ltd. */
+>  
+> +#include <linux/cleanup.h>
+>  #include <linux/dma-buf.h>
+>  #include <linux/dma-mapping.h>
+>  #include <linux/err.h>
+> @@ -18,6 +19,14 @@ static void panthor_gem_free_object(struct drm_gem_object *obj)
+>  	struct panthor_gem_object *bo = to_panthor_bo(obj);
+>  	struct drm_gem_object *vm_root_gem = bo->exclusive_vm_root_gem;
+>  
+> +	/*
+> +	 * Label might have been allocated with kstrdup_const(),
+> +	 * we need to take that into account when freeing the memory
+> +	 */
+> +	kfree_const(bo->label.str);
+> +
+> +	mutex_destroy(&bo->label.lock);
+> +
+>  	drm_gem_free_mmap_offset(&bo->base.base);
+>  	mutex_destroy(&bo->gpuva_list_lock);
+>  	drm_gem_shmem_free(&bo->base);
+> @@ -196,6 +205,7 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
+>  	obj->base.map_wc = !ptdev->coherent;
+>  	mutex_init(&obj->gpuva_list_lock);
+>  	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
+> +	mutex_init(&obj->label.lock);
+>  
+>  	return &obj->base.base;
+>  }
+> @@ -247,3 +257,32 @@ panthor_gem_create_with_handle(struct drm_file *file,
+>  
+>  	return ret;
+>  }
+> +
+> +void
+> +panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label)
+> +{
+> +	struct panthor_gem_object *bo = to_panthor_bo(obj);
+> +	const char *old_label;
+> +
+> +	scoped_guard(mutex, &bo->label.lock) {
+> +		old_label = bo->label.str;
+> +		bo->label.str = label;
+> +	}
+> +
+> +	kfree(old_label);
+> +}
+> +
+> +void
+> +panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
+> +{
+> +	const char *str;
+> +
+> +	str = kstrdup_const(label, GFP_KERNEL);
+> +	if (!str) {
+> +		/* Failing to allocate memory for a label isn't a fatal condition */
+> +		drm_warn(bo->obj->dev, "Not enough memory to allocate BO label");
+> +		return;
+> +	}
+> +
+> +	panthor_gem_bo_set_label(bo->obj, str);
+> +}
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+> index 1a363bb814f4..af0d77338860 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> @@ -46,6 +46,20 @@ struct panthor_gem_object {
+>  
+>  	/** @flags: Combination of drm_panthor_bo_flags flags. */
+>  	u32 flags;
+> +
+> +	/**
+> +	 * @label: BO tagging fields. The label can be assigned within the
+> +	 * driver itself or through a specific IOCTL.
+> +	 */
+> +	struct {
+> +		/**
+> +		 * @label.str: Pointer to NULL-terminated string,
+> +		 */
+> +		const char *str;
+> +
+> +		/** @lock.str: Protects access to the @label.str field. */
+> +		struct mutex lock;
+> +	} label;
+>  };
+>  
+>  /**
+> @@ -91,6 +105,9 @@ panthor_gem_create_with_handle(struct drm_file *file,
+>  			       struct panthor_vm *exclusive_vm,
+>  			       u64 *size, u32 flags, uint32_t *handle);
+>  
+> +void panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label);
+> +void panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label);
+> +
+>  static inline u64
+>  panthor_kernel_bo_gpuva(struct panthor_kernel_bo *bo)
+>  {
+> -- 
+> 2.48.1
+> 
 
-P.
-
-
-
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> > Replace the call to dma_fence_is_signaled() with
-> > nouveau_fence_base_is_signaled().
-> >=20
-> > Cc: <stable@vger.kernel.org> # 4.10+, precise commit not to be
-> > determined
-> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> > ---
-> > =C2=A0drivers/gpu/drm/nouveau/nouveau_fence.c | 2 +-
-> > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c
-> > b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> > index 7cc84472cece..33535987d8ed 100644
-> > --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-> > +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> > @@ -274,7 +274,7 @@ nouveau_fence_done(struct nouveau_fence *fence)
-> > =C2=A0			nvif_event_block(&fctx->event);
-> > =C2=A0		spin_unlock_irqrestore(&fctx->lock, flags);
-> > =C2=A0	}
-> > -	return dma_fence_is_signaled(&fence->base);
-> > +	return test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence-
-> > >base.flags);
-> > =C2=A0}
-> > =C2=A0
-> > =C2=A0static long
->=20
-
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
 
