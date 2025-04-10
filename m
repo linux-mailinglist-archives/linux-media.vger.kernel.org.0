@@ -1,233 +1,100 @@
-Return-Path: <linux-media+bounces-29864-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29869-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34551A839E8
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 08:53:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20A17A839E5
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 08:53:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 60D7C8C0ADF
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 06:50:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AE68219E3523
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 06:51:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 843E52054E3;
-	Thu, 10 Apr 2025 06:49:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6CC9C204F60;
+	Thu, 10 Apr 2025 06:50:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YdTw5jaV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gqEnuwia"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F00204C3C
-	for <linux-media@vger.kernel.org>; Thu, 10 Apr 2025 06:49:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F3251CA84;
+	Thu, 10 Apr 2025 06:50:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744267793; cv=none; b=arDDhiH3TSS9YdYhTX8uMG7xgC30JINFz5n0gDuFREntQDjgArxJ/+LWFFMbQXTXcV2AljYy/0wRLQx8M93lqnJAICcTkfRslgsw/lPkXCtJjEWXYbdqtrumRcZEgESAz+Z+YwRkmVVZlH2Kr65J4A7sSXPe9q/Pv4ZrodFxvEQ=
+	t=1744267857; cv=none; b=QfTFml2tv7/Jtgy373DJVBdF1GS+kNRQuIW9sgX3IqAY5qKw97CUnAC3D4N6VsriEmKjco/2MuyPjGGNGgt0DYRSkp1DmT9DDQitoO13eqjjQ/OfgJOfisdNODbPzmjuEaLHVHRXNFU+YhntlvzlhYvHZKVBtLXN6V4mWdC35Sk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744267793; c=relaxed/simple;
-	bh=qKsDk9EZ2dacQJ71qnkeU1d5QGUNiU0xLXDxuP55mBQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qyrtslNFuo0ITvbe83c/SoQ7ciTdX+ZQ6bDN3OP/GQhqtdDaS6cKE0pb6Z05MtGdjefDgoOu8dYNX8bYKIMUjbWgs4sibHqPZ/m/UC/XXCgqY2I9l34LDpMYZBraZYf7Qsf284+6ACppYjvRDev3ehWEXnNNsdZSRdAGJkgNDZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YdTw5jaV; arc=none smtp.client-ip=209.85.160.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-2cc89c59cc0so938474fac.0
-        for <linux-media@vger.kernel.org>; Wed, 09 Apr 2025 23:49:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744267791; x=1744872591; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=FpF7wEE+1cJWx9zAtKf9QlygCmnNGJM9CNsxuBDedRk=;
-        b=YdTw5jaVbVvFDS+IIkiX5jXkIPFo9OSWKYMWyeu6FGDMlZO3wR/C3EkZmLkGpI4sAF
-         cMaONnpmZiqZzp+v6Ck+pFBivMkJX3+gr5/x+0oLtyl6F2nKAmU+QKdPUqNWo8WQOwm+
-         FBB0C8hMTOMdQz1lKqlnz0sethzBRjW1TBKI65ydbdTEtH9/le2M0iHBX2Ft6OrnsKHo
-         L+Rc2C4OkaVaYiAa8b6qMNPvV2CLT/iuGjBv5u+Mb2ea2REKDLFFdmh8kWAd5p0Nov7f
-         ZP3/Tk/6WiNifD16eKQM3qfkHJtL00CFl1OdWaViDMKzlx7rI4uumbPHFCoxwAx8mA4D
-         U6kA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744267791; x=1744872591;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FpF7wEE+1cJWx9zAtKf9QlygCmnNGJM9CNsxuBDedRk=;
-        b=lixsbknZlWQqjYOdmIu75ZH43zgZvvxAqcQpE7uF8uXiaBHw/cHDpSEaWU9brZ+e9b
-         cC9a9yCchZlB1AWCiJdPTdx3LipSCCGO21s+2jp5sZTRQzVLs9ebx946hErBu61fZ3rl
-         tShJQMre7n4Ctxn1aS/Jt52KV2FNWH/bolxCk5Ojll1eWJFNPbSsW+xCdAa2NmJUmXZZ
-         A58I+ga4TRXFsoYS2+gSfw1JKaLj3MPbhzucOBgD1zWGE4QVK+lCxR86SurSFYNbmXwu
-         SEdOKjAJg61tfeuH2QiU7cJz6VuDWGns+cQn+RyRkRojwOR/F8KVNQGcmH2c96mPB1a6
-         faMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV5U1oW21uIjasMFsgCI6cxP/EI+Qvl28FnxQKwycyz+tqgWm7J0+vrFzylUaCaUjiemfDzjY3q+vZfMA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjJJTelpBpMCV6xqKJr7162lOCnMCP9jS3T3pomjm6CQ0Eo+jJ
-	bri/Q+7SzKAsaLhAe+irHfhRYOVgwvGqPDKrrn77SgQgqEsguzwQ1JAOHwZqNc79rWeC6ETwk7W
-	MTK1p9jZ0vG8gOM7vUr6MKaBqB0MpFhNd645Jmg==
-X-Gm-Gg: ASbGnctEhNakTLiQqLazka12zcb6veG/DKTJSafEa37KXnN8kM3wUSSmJ8kPWZ79VyI
-	sblHpmQLplZsEkTkCCOgzf8O93nwW5A2WAKvG3vk710ZkktOEe2XU0kPryCzSf3n/pA08X6Li76
-	pWYxx2RQcxC/2NWeQb86TK6gc=
-X-Google-Smtp-Source: AGHT+IHI4FgOoH6eOg0ztL2Lx7hiXdosqXiiUD+d8J9IOEiCubchzZoLqMtVD0Mmvo3sJz+QQ7r84CVnm0uFw++DJDA=
-X-Received: by 2002:a05:6871:4009:b0:2c4:1b1c:42c3 with SMTP id
- 586e51a60fabf-2d0b3a2a298mr929589fac.9.1744267791101; Wed, 09 Apr 2025
- 23:49:51 -0700 (PDT)
+	s=arc-20240116; t=1744267857; c=relaxed/simple;
+	bh=oVVypfIZykbJEQUFj6tpG/UltoN/4XMwbZYbd2kQ7kI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mj6yagRU5mUPSRVfUuec8z2+xq9GZkuEL1gzP909xPQ9k8/qtelOOg0s+gtt3EpqhcFgmk6IMUEubSZ06NTc8Caw9cooViFcx2N0Pc9TP0K24y64yGV3+qbpUezFOTjooGgtINZIv1cC7dYHJHl7r0PjuPxyp1nWLxXmKGB6k5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gqEnuwia; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 140FBC4CEDD;
+	Thu, 10 Apr 2025 06:50:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744267857;
+	bh=oVVypfIZykbJEQUFj6tpG/UltoN/4XMwbZYbd2kQ7kI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=gqEnuwiaej19DrqZe+DtruKMOvFDBPrz1QRZkGnfR90J82xJFUK/V19L5osLCbaP+
+	 8J8881p+fwLJIpI6i7PeJ0ICDTnWhsaikSxkITW+wgsCG1vLtfEFCBSks8iIXcOVGj
+	 SvSqJvpID3Fh8JNzSgvKzFeBfgXVpA3qeZ/aAnnQ1PPtZVyYd8XmrNH/79BHrGM24l
+	 QaCUtSkXya7xNbjO+/Yh7dmQSjzoRAsqb3VEKiMExDrMEI1rxKJBCI8BKtzrsFgKvi
+	 MqT2Og637tuyWSzGO1UAaTWJMydMFn42WSciFXVtXS3iiWRXWWs4tt+XlJF0dl/TaQ
+	 6pkfMcPXOZClA==
+Date: Thu, 10 Apr 2025 08:50:52 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Aaron Kling <webgeek1234@gmail.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	linux-tegra@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/4] media: dt-bindings: Document Tegra186 and
+ Tegra194 cec
+Message-ID: <20250410-hallowed-poised-copperhead-eedc4d@shite>
+References: <20250409-tegra-cec-v3-0-91640131dfa2@gmail.com>
+ <20250409-tegra-cec-v3-1-91640131dfa2@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
- <20250305130634.1850178-6-jens.wiklander@linaro.org> <Z-JOPgcWlpTlskgd@sumit-X1>
- <CAHUa44GjpHT5Nqo+Ar5jNYNPV-YJQYpLTCf=7oJ1o0VjP-t0nA@mail.gmail.com>
- <Z-ucuPzwz4IqVTgb@sumit-X1> <CAHUa44FpsCVrbwj1=nsJVJFVJSF1kzKdWAkAMXRu6EdLrLvh8g@mail.gmail.com>
- <Z_To9V-JOKZ7ChhE@sumit-X1> <CAHUa44EGWuVPjoxpG-S66he=6dkvkwzxNewaGKVKXUxrO41ztg@mail.gmail.com>
- <Z_ZtDQQY4eouqBh8@sumit-X1>
-In-Reply-To: <Z_ZtDQQY4eouqBh8@sumit-X1>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Thu, 10 Apr 2025 08:49:39 +0200
-X-Gm-Features: ATxdqUEvXiuy3pdj5yJylN_i-qNjZAR_HHoPy2N2W57yI_8PinKhMCxfS6kRFGI
-Message-ID: <CAHUa44GFzG8dr1Kbapbjy77c-wJb4gQVVom24eLLueOK=gCq=A@mail.gmail.com>
-Subject: Re: [PATCH v6 05/10] tee: implement restricted DMA-heap
-To: Sumit Garg <sumit.garg@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
-	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
-	Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250409-tegra-cec-v3-1-91640131dfa2@gmail.com>
 
-On Wed, Apr 9, 2025 at 2:50=E2=80=AFPM Sumit Garg <sumit.garg@kernel.org> w=
-rote:
->
-> On Tue, Apr 08, 2025 at 03:28:45PM +0200, Jens Wiklander wrote:
-> > On Tue, Apr 8, 2025 at 11:14=E2=80=AFAM Sumit Garg <sumit.garg@kernel.o=
-rg> wrote:
-> > >
-> > > On Tue, Apr 01, 2025 at 10:33:04AM +0200, Jens Wiklander wrote:
-> > > > On Tue, Apr 1, 2025 at 9:58=E2=80=AFAM Sumit Garg <sumit.garg@kerne=
-l.org> wrote:
-> > > > >
-> > > > > On Tue, Mar 25, 2025 at 11:55:46AM +0100, Jens Wiklander wrote:
-> > > > > > Hi Sumit,
-> > > > > >
-> > > > >
-> > > > > <snip>
-> > > > >
-> > > > > >
-> > > > > > >
-> > > > > > > > +
-> > > > > > > > +#include "tee_private.h"
-> > > > > > > > +
-> > > > > > > > +struct tee_dma_heap {
-> > > > > > > > +     struct dma_heap *heap;
-> > > > > > > > +     enum tee_dma_heap_id id;
-> > > > > > > > +     struct tee_rstmem_pool *pool;
-> > > > > > > > +     struct tee_device *teedev;
-> > > > > > > > +     /* Protects pool and teedev above */
-> > > > > > > > +     struct mutex mu;
-> > > > > > > > +};
-> > > > > > > > +
-> > > > > > > > +struct tee_heap_buffer {
-> > > > > > > > +     struct tee_rstmem_pool *pool;
-> > > > > > > > +     struct tee_device *teedev;
-> > > > > > > > +     size_t size;
-> > > > > > > > +     size_t offs;
-> > > > > > > > +     struct sg_table table;
-> > > > > > > > +};
-> > > > > > > > +
-> > > > > > > > +struct tee_heap_attachment {
-> > > > > > > > +     struct sg_table table;
-> > > > > > > > +     struct device *dev;
-> > > > > > > > +};
-> > > > > > > > +
-> > > > > > > > +struct tee_rstmem_static_pool {
-> > > > > > > > +     struct tee_rstmem_pool pool;
-> > > > > > > > +     struct gen_pool *gen_pool;
-> > > > > > > > +     phys_addr_t pa_base;
-> > > > > > > > +};
-> > > > > > > > +
-> > > > > > > > +#if !IS_MODULE(CONFIG_TEE) && IS_ENABLED(CONFIG_DMABUF_HEA=
-PS)
-> > > > > > >
-> > > > > > > Can this dependency rather be better managed via Kconfig?
-> > > > > >
-> > > > > > This was the easiest yet somewhat flexible solution I could fin=
-d. If
-> > > > > > you have something better, let's use that instead.
-> > > > > >
-> > > > >
-> > > > > --- a/drivers/tee/optee/Kconfig
-> > > > > +++ b/drivers/tee/optee/Kconfig
-> > > > > @@ -5,6 +5,7 @@ config OPTEE
-> > > > >         depends on HAVE_ARM_SMCCC
-> > > > >         depends on MMU
-> > > > >         depends on RPMB || !RPMB
-> > > > > +       select DMABUF_HEAPS
-> > > > >         help
-> > > > >           This implements the OP-TEE Trusted Execution Environmen=
-t (TEE)
-> > > > >           driver.
-> > > >
-> > > > I wanted to avoid that since there are plenty of use cases where
-> > > > DMABUF_HEAPS aren't needed.
-> > >
-> > > Yeah, but how the users will figure out the dependency to enable DMA
-> > > heaps with TEE subsystem.
-> >
-> > I hope, without too much difficulty. They are after all looking for a
-> > way to allocate memory from a DMA heap.
-> >
-> > > So it's better we provide a generic kernel
-> > > Kconfig which enables all the default features.
-> >
-> > I disagree, it should be possible to configure without DMABUF_HEAPS if =
-desired.
->
-> It's hard to see a use-case for that additional compile time option. If
-> you are worried about kernel size then those can be built as modules. On
-> the other hand the benifit is that we avoid ifdefery and providing sane
-> TEE defaults where features can be detected and enabled at runtime
-> instead.
+On Wed, Apr 09, 2025 at 05:57:22PM GMT, Aaron Kling wrote:
+> These are already used in device trees, so describe them here. As the
+> driver only declares up through Tegra210, these must use a fallback
+> compatible of tegra210-cec.
+> 
+> Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
+> ---
+>  .../bindings/media/cec/nvidia,tegra114-cec.yaml           | 15 +++++++++++----
+>  1 file changed, 11 insertions(+), 4 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml b/Documentation/devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml
+> index a6b73498bc217a2e884e31af91e9d8845c9b1d76..3637fe2dfbd0dbb1baf265d7c128954df8faf740 100644
+> --- a/Documentation/devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml
+> +++ b/Documentation/devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml
+> @@ -14,10 +14,17 @@ allOf:
+>  
+>  properties:
+>    compatible:
+> -    enum:
+> -      - nvidia,tegra114-cec
+> -      - nvidia,tegra124-cec
+> -      - nvidia,tegra210-cec
+> +    oneOf:
+> +      - items:
 
-My primary concern isn't kernel size, even if it shouldn't be
-irrelevant. It doesn't seem right to enable features that are not
-asked for casually. In this case, it's not unreasonable or unexpected
-that DMABUF_HEAPS must be explicitly enabled in the config if a heap
-interface is needed. It's the same as before this patch set.
+That's just enum. Drop items and de-indent by two.
 
->
-> >
-> > >
-> > > > This seems to do the job:
-> > > > +config TEE_DMABUF_HEAP
-> > > > + bool
-> > > > + depends on TEE =3D y && DMABUF_HEAPS
-> > > >
-> > > > We can only use DMABUF_HEAPS if the TEE subsystem is compiled into =
-the kernel.
-> > >
-> > > Ah, I see. So we aren't exporting the DMA heaps APIs for TEE subsyste=
-m
-> > > to use. We should do that such that there isn't a hard dependency to
-> > > compile them into the kernel.
-> >
-> > I was saving that for a later patch set as a later problem. We may
-> > save some time by not doing it now.
-> >
->
-> But I think it's not a correct way to just reuse internal APIs from DMA
-> heaps subsystem without exporting them. It can be seen as a inter
-> subsystem API contract breach. I hope it won't be an issue with DMA heap
-> maintainers regarding export of those APIs.
+Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Fair enough. I'll add a patch in the next patch set for that. I guess
-the same goes for CMA.
+Best regards,
+Krzysztof
 
-Cheers,
-Jens
 
