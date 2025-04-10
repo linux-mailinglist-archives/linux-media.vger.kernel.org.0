@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-29903-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29904-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 528D2A83E9F
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 11:28:52 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CE16FA83EA3
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 11:29:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11FDC1B655E2
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 09:26:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 71D98443B6A
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 09:26:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A81DB2580F9;
-	Thu, 10 Apr 2025 09:24:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BDCE2571B9;
+	Thu, 10 Apr 2025 09:24:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G99ccvzB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GmhViSG+"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF063256C68;
-	Thu, 10 Apr 2025 09:24:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3A122571B1;
+	Thu, 10 Apr 2025 09:24:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744277094; cv=none; b=SEVZJE2jvRQZvzDsu5SYuJfW6XZGleMY7iz6jTt7J8BV5YT0ZcZqP8bcLDWuni3pES4ei42XGkBU1QVcHvww7maG0oWN39n6mbaJT2SHacMfAzBLci0E8QSRwFEkPKoIuyD/VtuuJ7PAA42blERD7WOADIAZjoO4ZrrRmG8HkQk=
+	t=1744277097; cv=none; b=F9aO9LSvEY9epQkvH2yRDe5ywAJjSs1uRhT8bS+cCXs6nXEWKlXMIxQ6ChpYe2YOsfn/kgaFagh/4iBbs+PRUTOWTodbBeyjoSAtZY/ZTHx0qgq1Y8ZKc1atQBqDuLHnFGsUb46zfnAUgGjEtLfmNhRXQQ29pVTNEBhGfE+dT88=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744277094; c=relaxed/simple;
-	bh=3P7s4nXmSskx7iFVqJGduWVlN7qiQQvgN5d+ysuJyiI=;
+	s=arc-20240116; t=1744277097; c=relaxed/simple;
+	bh=fFdMV2U0ELCA71kU/Js1/s2xdWAGWoCmvbLagHCp6Ps=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c6WAKrGTQhobSbwfKVe+eojL5thobZYhWeDcK5DQNKAREktpqnOLqlab3q/14wjTcSbZEZRITWhy2SII7tED4n4154yKJLSwvTj9fyZcB78qjn5ppSEfhbspNTEUumN8QplueiXnIfOs6PCm55krSDaap1ekJV4+QUcO7eMV85w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G99ccvzB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DF2DC4CEE9;
-	Thu, 10 Apr 2025 09:24:50 +0000 (UTC)
+	 MIME-Version; b=E3bJfY+iMYpHDWV++nsJcuAtpJosf61fvYLJVWZavPRnVuDliIg7YdB9tcO/5SJsw9XwHBn2DM/bxvkgAWuinMljGW4wmUsTyOs3uruGbw1C7qdHH07QM8jd6d6PlzhGGLGBNwxVztjPYqm6/7Lf7NotCoROSf8rDWGuZlbBQgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GmhViSG+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5C6D3C4CEEA;
+	Thu, 10 Apr 2025 09:24:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744277093;
-	bh=3P7s4nXmSskx7iFVqJGduWVlN7qiQQvgN5d+ysuJyiI=;
+	s=k20201202; t=1744277097;
+	bh=fFdMV2U0ELCA71kU/Js1/s2xdWAGWoCmvbLagHCp6Ps=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=G99ccvzBekwF9w28ZdrT3WI90UdaES2VHm6CttD7Z3rn10sY7nJBSVjBweaIBtSBz
-	 du7leLWJhVQRElmAZ+QWxL6MM1c9xjK9xurwfHmTWf4rBsj4SrqH2xgHTtlAWZyc8m
-	 R701q5aFobVxj/Mgn244Kus6EqysQ5ITd2sT8irG140N3vX3HC2pAOTTuWxHMfshsg
-	 mBlu5qQIy6UZ2fNtBOwi3YTUReLyAvIVmGzdC9LflXh5eVQxd5cgvDDFITTV54rUbS
-	 BJkuBdN6GqLzGBeGyrRlw1xTN/hy9hz7DywZyN0CAzHcpWBGAloL5P84pp2OYRwPf+
-	 jhIt5jr10fNmA==
+	b=GmhViSG+psu5bFsa1vh+rEKrjVmrud1pcWUvaM07hvbfUEK0ZH+1pQOCYEYvRbjqR
+	 XrOd70Kq5VGsayWgaSW+t4nP3sUK7A9PXrMUGluOvRM1beWmjJKmj6Xf4QRubGG5Os
+	 jqWNJPMMqg1LYn/ftvxwTajdA+WZQ2J8l9UPPnuSl3uYqrmWVJXbJMaWKDljrLw5fL
+	 nHG6o9VREB7b96AZRbMSZNfuG+zf1zE9PtumlnXx42OVDrdRJtjgqK78VLmzXC8hk1
+	 KCN6HRmJyTWdrepHbUG0zAqxKq5sTBrPAD51dD2rJyaAS3wwe0BL1tANs6UQu5AqCJ
+	 X3gVlSCd9cG3Q==
 From: Philipp Stanner <phasta@kernel.org>
 To: Lyude Paul <lyude@redhat.com>,
 	Danilo Krummrich <dakr@kernel.org>,
@@ -55,11 +55,10 @@ Cc: dri-devel@lists.freedesktop.org,
 	netdev@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linaro-mm-sig@lists.linaro.org,
-	Philipp Stanner <phasta@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH 1/3] drm/nouveau: Prevent signaled fences in pending list
-Date: Thu, 10 Apr 2025 11:24:17 +0200
-Message-ID: <20250410092418.135258-3-phasta@kernel.org>
+	Philipp Stanner <phasta@kernel.org>
+Subject: [PATCH 2/3] drm/nouveau: Remove surplus if-branch
+Date: Thu, 10 Apr 2025 11:24:18 +0200
+Message-ID: <20250410092418.135258-4-phasta@kernel.org>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250410092418.135258-2-phasta@kernel.org>
 References: <20250410092418.135258-2-phasta@kernel.org>
@@ -71,45 +70,56 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Nouveau currently relies on the assumption that dma_fences will only
-ever get signaled through nouveau_fence_signal(), which takes care of
-removing a signaled fence from the list nouveau_fence_chan.pending.
+nouveau_fence_done() contains an if-branch which checks for the
+existence of either of two fence backend ops. Those two are the only
+backend ops existing in Nouveau, however; and at least one backend ops
+must be in use for the entire driver to be able to work. The if branch
+is, therefore, surplus.
 
-This self-imposed rule is violated in nouveau_fence_done(), where
-dma_fence_is_signaled() (somewhat surprisingly, considering its name)
-can signal the fence without removing it from the list. This enables
-accesses to already signaled fences through the list, which is a bug.
+Remove the if-branch.
 
-In particular, it can race with nouveau_fence_context_kill(), which
-would then attempt to set an error code on an already signaled fence,
-which is illegal.
-
-In nouveau_fence_done(), the call to nouveau_fence_update() already
-ensures to signal all ready fences. Thus, the signaling potentially
-performed by dma_fence_is_signaled() is actually not necessary.
-
-Replace the call to dma_fence_is_signaled() with
-nouveau_fence_base_is_signaled().
-
-Cc: <stable@vger.kernel.org> # 4.10+, precise commit not to be determined
 Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- drivers/gpu/drm/nouveau/nouveau_fence.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/nouveau/nouveau_fence.c | 24 +++++++++++-------------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-index 7cc84472cece..33535987d8ed 100644
+index 33535987d8ed..db6f4494405c 100644
 --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
 +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-@@ -274,7 +274,7 @@ nouveau_fence_done(struct nouveau_fence *fence)
- 			nvif_event_block(&fctx->event);
- 		spin_unlock_irqrestore(&fctx->lock, flags);
- 	}
--	return dma_fence_is_signaled(&fence->base);
-+	return test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->base.flags);
+@@ -259,21 +259,19 @@ nouveau_fence_emit(struct nouveau_fence *fence)
+ bool
+ nouveau_fence_done(struct nouveau_fence *fence)
+ {
+-	if (fence->base.ops == &nouveau_fence_ops_legacy ||
+-	    fence->base.ops == &nouveau_fence_ops_uevent) {
+-		struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
+-		struct nouveau_channel *chan;
+-		unsigned long flags;
++	struct nouveau_fence_chan *fctx = nouveau_fctx(fence);
++	struct nouveau_channel *chan;
++	unsigned long flags;
+ 
+-		if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->base.flags))
+-			return true;
++	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->base.flags))
++		return true;
++
++	spin_lock_irqsave(&fctx->lock, flags);
++	chan = rcu_dereference_protected(fence->channel, lockdep_is_held(&fctx->lock));
++	if (chan && nouveau_fence_update(chan, fctx))
++		nvif_event_block(&fctx->event);
++	spin_unlock_irqrestore(&fctx->lock, flags);
+ 
+-		spin_lock_irqsave(&fctx->lock, flags);
+-		chan = rcu_dereference_protected(fence->channel, lockdep_is_held(&fctx->lock));
+-		if (chan && nouveau_fence_update(chan, fctx))
+-			nvif_event_block(&fctx->event);
+-		spin_unlock_irqrestore(&fctx->lock, flags);
+-	}
+ 	return test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->base.flags);
  }
  
- static long
 -- 
 2.48.1
 
