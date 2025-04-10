@@ -1,57 +1,57 @@
-Return-Path: <linux-media+bounces-29820-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29823-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E09D9A8356F
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 03:11:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E49DA8356E
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 03:11:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C8E5C1633D5
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 01:08:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7BF193BDEB6
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 01:08:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D265D137923;
-	Thu, 10 Apr 2025 01:08:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 777EE19007D;
+	Thu, 10 Apr 2025 01:08:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="Y4kSP1K+"
+	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="TMbHFNJM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SLXP216CU001.outbound.protection.outlook.com (mail-koreacentralazon11021123.outbound.protection.outlook.com [40.107.42.123])
+Received: from SLXP216CU001.outbound.protection.outlook.com (mail-koreacentralazon11021134.outbound.protection.outlook.com [40.107.42.134])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C418FC13B;
-	Thu, 10 Apr 2025 01:08:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.42.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E69EE13B58D;
+	Thu, 10 Apr 2025 01:08:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.42.134
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744247317; cv=fail; b=T9bNhR5tWLHYViDcpsogsnS86H7mCkuYN1C0SrloXyDmpbB0ZODQH2LrjSStdn/5O2P22ppPtvh3ttAbxbWWbaEi2IPNwjK/DXiCz39gL3hO0eYrb9jVrfDcZQeBBRm4sxTihldYW3Na+MoSMtWUJ3FBvuKixj7vNNMRor82HYU=
+	t=1744247319; cv=fail; b=JPw20OogWCCYmcYMdi0EmWFLFgINsiD55sF/Sxjx8U40w5l3eA0jGJNpE3MC07O2F1gasKnHDLI7qtWEXl5xX1LnJNF97OHw/AssUkmBCORsS+TneBmg2o9qRYSf5G5JHWeT+rSNjJdsNhS7t6rWg/lAV0M2YWksUz+Qkj6gnCM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744247317; c=relaxed/simple;
-	bh=YYyAeLpW4vipwI+e7DPZ+U2TdfP4pmNlVJ46ZE35GvA=;
+	s=arc-20240116; t=1744247319; c=relaxed/simple;
+	bh=YDtb6hA3MkXwhkAWMKx8x2lVe+YNO3jEo3ipHfMtjmg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=fmJMAlHG3bm/9vROpARqx2f7RlIAp0nfgmqrkheNheIkV996z77LXNVPw6BUBMW4GDuoxhIcUExnavBqDnfBsagVVVx6dniXx2X52OCvESl6Poc9A6hrifoqSZNGmytaQzJwe5QVnrogkEmKeVcBJth8pgFw9tpYkhuG8gyAY94=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=Y4kSP1K+; arc=fail smtp.client-ip=40.107.42.123
+	 Content-Type:MIME-Version; b=gW68TLCP9jI63fCIXd9ko16TeaohGlLgiYYTsbVKeWNwPXk2fQdaj29UmKdnivcJQkg7H4GY/ehjiJj3CdWs5jLtNZuoBIeoS/wIfghYh57Un1LMSlIfu0p1ur+n2RpRYjSUDZNdOooGJudi18JuymJ13uGTzqPwIcJDBweiBIU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=TMbHFNJM; arc=fail smtp.client-ip=40.107.42.134
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=chipsnmedia.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EFlPclVRR4TkVi0Z9xr0QVutDo2ic92dXflVB5APPFRA69FQrDjt+gMbtVbHHzkbKQ0gTE/NFS75wKmK3Ayf9te5wClh7ym9GESTlFixYZi3vCKew0iTeI5RwSvpLwUQRIyGhEzMNFtqziM/qbHew6IIQ0AtdeXxLBYO7vaU3vGhpVnRm2W/w+OFLK4Nn0CrbJImDdYXFtWoTvD7m9RyIIsFq5ggrqD8MWA7DfLHkKGEXhwOtZ/52KHKKPqNt+1ySCQF7SQLTT4cD4g+9DJdOKHP9TsGYFg+UzYJar0hwGUCWyLrnIRo8lNnrvtBBlh/i/9QL7TEkIYQw+yxg8lPag==
+ b=Kj73qlIbJSQ3WySnnnr347qEdDsk+YfPMSMRK7a6LiOZk/Xo0umVBLw1dilQHmi0KAxozY+RdpLXbR/ZOcS63+SzXJtIKBK8S/UNKdD6DL9HraD7YBlP7sEdXgHIFofyK2+65kgIC4BgxuNoEpORMTDLasLt43vJozWqgiI7EFneAKWf9pfiAs6fpAtm5LgsY1mbufyzvs7k/KsuVLvJaNPErj2yohhDvGcJXezeKu3VPwXG+dJg2ssXENPDtZ72+TyquRqQiEVS1g5G9O8b3bCPADmCbRqeCIZSpoVgcV9LPKvB2RIeWnjlh0zp+n0PATjJGEHWasahu0i18lMWTA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UEpcFnUz6GCo97dFlsyfZ2Ur8raX2EqapoLu7MGFadk=;
- b=Bv07h53HuPPFqyrV5JZx/a/me02BGulctY4zqU4J+mq6ErGfi4ds6RV+HESJXL52ixYp+ZBpIad83F0tjvHYRj7o3jGooF+4DHTyO8U04Mw6SnyNu7otLZlo7fQ+T8IqKCUrdPSLkZQOMyfj0SdUfkqyH/46BpuQx3LetC6hD+qnqojHysFUIM2wTdX/2nLEnZh2VsXqxdMPjUbPGM0N+qCvbgtnqBMPdecM/3pjtFVoNkb91diwR9BOidNowoywYcI+JlTLXI+TMJUbfT3Hp7jHmuzz7IxLf48TWsmz5bWjBLRd330FpfyRcpA851kkl7oj4rNcpDfYdyAjUkSx8w==
+ bh=EVzA4eS89mDZTmuHVNKAWpZdSLSEAjHSO4ywkKF5RC0=;
+ b=hdY8aav63hyYy+m4NrP0yf3T2y7cySJGMRG0ahaoBpI9O9R3B3kb+AxQE2etEWcW8wHCmBNLL+iEUccmWPyDbV6YUJtBd5WvRugKNAf+HLnrr5YvV/z0uH0xQQMjNS5Iqf34wD3xih7w4Lq2yat19Xyrc2iL+coXA7cR00z72NiZ68TX7dJrI0vuoJVro4N7+lykgq7tucLEG+/hun1YGbMcTTT70Brqg5hJ9ah30YV+pX7yo+KTDo5hkekXSD/p19qg6pUbeoVWBEgbzd94OBQzEN7h2uRlbJw73NqCxRswizD1iIpjNl1Foc8sIqsCowy1A2TwHnq62rjMGnxLBA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
  header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UEpcFnUz6GCo97dFlsyfZ2Ur8raX2EqapoLu7MGFadk=;
- b=Y4kSP1K+oQWGXp9/Y50LpHHFdl/wAkAlr2zQ+uBlQSE6keTDkztX72m+q5721KyXKPpoSPow57vF1qrZiYiXQ0XHGworgMlmKolaWFgR+YDhXnIo8ZA9gla8JuO7J1564A5DoKtzV1CKkO4woXdITC3axau52EaCzCv2y3JPrmg=
+ bh=EVzA4eS89mDZTmuHVNKAWpZdSLSEAjHSO4ywkKF5RC0=;
+ b=TMbHFNJMsqJJ0LZKkeI4kxDSLWbXVf0L0ICSUv0ifwqAZ3IHsAJ3NDDdAlkIlyV99NDq/IPbisQFIkOSoEoijwT47CQKZjkICyuR4FfumGXHhvYoDcbzWc9qBZMDm3EMFNHQ8FTqaHIHPFz9/fpBS493bBKAypHXRIbfc1c1Dz4=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
 Received: from PS2P216MB1297.KORP216.PROD.OUTLOOK.COM (2603:1096:301:73::13)
- by SL2P216MB2928.KORP216.PROD.OUTLOOK.COM (2603:1096:101:281::11) with
+ by SL2P216MB1403.KORP216.PROD.OUTLOOK.COM (2603:1096:101:32::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.23; Thu, 10 Apr
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.34; Thu, 10 Apr
  2025 01:08:31 +0000
 Received: from PS2P216MB1297.KORP216.PROD.OUTLOOK.COM
  ([fe80::d095:716:2d14:f386]) by PS2P216MB1297.KORP216.PROD.OUTLOOK.COM
@@ -71,9 +71,9 @@ Cc: linux-media@vger.kernel.org,
 	b-brnich@ti.com,
 	hverkuil@xs4all.nl,
 	nas.chung@chipsnmedia.com
-Subject: [PATCH v1 1/7] media: chips-media: wave5: Fix Null reference while testing fluster
-Date: Thu, 10 Apr 2025 10:08:15 +0900
-Message-Id: <20250410010821.52-2-jackson.lee@chipsnmedia.com>
+Subject: [PATCH v1 2/7] media: chips-media: wave5: Improve performance of decoder
+Date: Thu, 10 Apr 2025 10:08:16 +0900
+Message-Id: <20250410010821.52-3-jackson.lee@chipsnmedia.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250410010821.52-1-jackson.lee@chipsnmedia.com>
 References: <20250410010821.52-1-jackson.lee@chipsnmedia.com>
@@ -89,342 +89,318 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PS2P216MB1297:EE_|SL2P216MB2928:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4da95945-f4a5-4d21-8a78-08dd77cc356a
+X-MS-TrafficTypeDiagnostic: PS2P216MB1297:EE_|SL2P216MB1403:EE_
+X-MS-Office365-Filtering-Correlation-Id: edfd94b9-df44-4c81-2e58-08dd77cc35c2
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|7416014|38350700014;
+	BCL:0;ARA:13230040|366016|376014|52116014|7416014|1800799024|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?/WS8U6MzgNyPHuDfSK6bKP4kiXryK9M9GGMIeF0feUlTr0SetqvvNS4Q9aZy?=
- =?us-ascii?Q?7Qly3/qXMDs4HCaf5AO0OOUhD5TnKHKUyFKhNc7ju+TScLmU08tTZ6XZ57B9?=
- =?us-ascii?Q?RDXo3fQtTTWYifd/zmmb0HD9KL5f1r0p9H4nvUZVRBBc9ydCDbMKDTcKVGGW?=
- =?us-ascii?Q?QnLnn7u6b34mXegA0WEtHlxanoIDeQG7jKdOCIxAwr1w4uwX+rp71uocDRYj?=
- =?us-ascii?Q?jSysgmfEGKSE/uavxk0+jPezAwe6LymCjbzfeyG4+0xj5VsQ1HBTtVBU7h0t?=
- =?us-ascii?Q?JFYh6RGN1Zab85TRuXqVIh910VQbaAtwnb4CrMdiyb/AsGoZIUaKdJ9bcTYC?=
- =?us-ascii?Q?FktWKFO7gwpzoRL4SPT56MyFo5I45QjyXySylryivC+s65s5sHTYl5W9GYLi?=
- =?us-ascii?Q?GMjR6QPWN9Rj5SIAXhux941HfyymRdzFowk0FTbZPGeKF3vKOFTvHecyT+Ed?=
- =?us-ascii?Q?cPb46VQAD0MIH2TRd/z0aPsHiykfycJMPJf8CMRQ8VN3/y0iZMcpe3ENsehq?=
- =?us-ascii?Q?ODn+xh+CD0SRavHLj+dOdlufZZdaoDuXDnNJF1zqwDKCF66hJscFRc6bxA52?=
- =?us-ascii?Q?gdhYjeXhaHNeVcFTL6EvW+5sGGuibJSmMtBTxWdOGyGsa5C3Q1GF1Dp8lpy6?=
- =?us-ascii?Q?ZOE8klIwfzmSL0N2jrMijlxaYm20qFCRLVUz5t/EMghW1iI1aChh785zyY3k?=
- =?us-ascii?Q?ET/mIvGiRR3m2eTWOmYIEy5pFb9XPtPUE8oeAzegXz+vxeSAc3aq3OQGqgwP?=
- =?us-ascii?Q?uXPBZr9D+9NpMI4M+R32rguFx8wS9w+w2Yc4pWmWt5JsFBdN03IokBvO7ztV?=
- =?us-ascii?Q?CcUEJ7GqdUJ/5T7VotPgM+DEC2v9xbqdan1OhVO2rBsX13CvrHCZG2BnpUPS?=
- =?us-ascii?Q?jVnWRS3nQ6IkXX08NfdExLM5U2wrju4Msi8zHQ9zr5Sps1MteE6mpoGLpThf?=
- =?us-ascii?Q?ZwCbLda1tri/WEghAg3K1caRuH3UeF980D939eOYL5pX5IKxtH74NInfD5hD?=
- =?us-ascii?Q?9K+Vxz1GOFvaqh/JDyl068wpWowVIrZ/QGcvq5xi4y4ecUkLpIb4EqG/oWjD?=
- =?us-ascii?Q?F6p2ol9l6r6bvn+r4PUPOzLWCf8WdpUEvhML3axJjbfaKmdCM9i28mtpF5Tx?=
- =?us-ascii?Q?axmbkGEExIOiFSZe2vCtFWEQky2gq6vMcqhD0O6wvvYtAQmUpMTr9oev/1Bf?=
- =?us-ascii?Q?ouWc9cxk6JOTsIdGm3N02eD2IPrz/pPSKAER8wiw0MD89GQ09ZXh67RJE8Oh?=
- =?us-ascii?Q?/s9IARRsCKY1r6MPk0x4fyvMLbQhWb4aV1GNklsA9/5wigd+BJol6damJoki?=
- =?us-ascii?Q?0sAD9VtgVkEBkIrI+Bm6zFVS+B4j/vlsY9l4Gpz/XJx45cOu+u88CRMBbGUX?=
- =?us-ascii?Q?FaruEhTvf+jliRRr+LaXKIQQtIIllBV8UvyQXNGJJ6tpWGxyUjgh1FnMZrvQ?=
- =?us-ascii?Q?h0wh95Vw+lkZ+Ncq1FzkSLQ9bzMfMDrMvv7uQzm1OTDrHEg2xoWo8Q=3D=3D?=
+	=?us-ascii?Q?r3VNEji/EidI3E+91BGiMKSZhH82AEidp//dCtOGhM1uXGFjOqWAe0YSkiAI?=
+ =?us-ascii?Q?5n+YsqrFAE3zEndpskYkeLVOLOjJMAJY6dmv0e8sGJ+XxwwgQkofrNTng1NH?=
+ =?us-ascii?Q?ymR/zgD6QMVUSbkTk+Gyun40QDyDHeY4HcBsM625QjTU6ybExU/zkQ6xI5hM?=
+ =?us-ascii?Q?+SZ/YG1QDYDJ+o/Ucd13FCXLdnWtudcdknIguZej82Q8CfCh0XZ5Bquu+FoL?=
+ =?us-ascii?Q?1rNE5LWCd81OgCVwgd8dwWtnujPVKGIEV7UCjUYBa3i2uibddEhBldQ9QbVI?=
+ =?us-ascii?Q?EuGTmAFztNF/5E4T+ACfmUYbKbUVSlb0PEoPLQnPXX6OfQwB2hFFR7xRwbQs?=
+ =?us-ascii?Q?OSvOXeivRZnLmah+ok09V7d7p4bpNuLjCI+2m4EuCmuiu7mP+XMWlmM2MUWJ?=
+ =?us-ascii?Q?F6LQ2qe/v/lvKbj7YHbKheMhXWzqLdN++GN4fRVBpi4v0rOfV9Kq/hMU3Pyp?=
+ =?us-ascii?Q?rMhi+YWLrZ8Kixu5FAOqAh5mx0NLb5De4GxQgx2QeBqlFkuRmR0qaVvNpScx?=
+ =?us-ascii?Q?Lu+m3RFe72XvL6lLAiC5cLUmclQZD527GXJu5sACFFXSUxgOZdEb6+2L/UFt?=
+ =?us-ascii?Q?FRmKBlljNv9YZ/S4ufwpHuwOzJWS+xiUqh7dLz9OjW1ERvBUCKizUuel5jj9?=
+ =?us-ascii?Q?OOBzNDggPvwMcVrZpNmQUS+FNoU6HfHdWvJdTIdDFGyoE8+ZkVlLbQNnFJ3b?=
+ =?us-ascii?Q?G6/jiPy6x0tPODMqUpJFgsuPsncB8Eg/0IixYEymXg6G+erosI4O2PgrMuFb?=
+ =?us-ascii?Q?B2QMuPBUX1za0Y7/4RglzmZYSK6/wJ+U8U66TmuAoWQiogYz0lmpyBM7/0vC?=
+ =?us-ascii?Q?+fEDXg8ZCa0GY0a8045y7G/YDbzsKny/0wflBtWsUkj+XRcftUjXssnBN7Lz?=
+ =?us-ascii?Q?t0JGpaUnx0ZvlpMvhBriz9XZLnJIc9Y/yrOB8oRxpK+Igs2/ijDzJDC0vJB+?=
+ =?us-ascii?Q?Ng/uw8c1ijKEjqo6Xjo1AB7pgTLN4HtNFjFvOENHaHLJk0FHJfU2INGRXPhr?=
+ =?us-ascii?Q?cXKo1UstENo73FuXX70GLKR+Hmy7QxPI1iV9cXorjUyjyKoCsCIG7/mqgbWM?=
+ =?us-ascii?Q?u7Kh9kIWtdUh+rxWq4d+CPkIQOrLP6125aFVFkYFVcHDuBb87+z8vGurDQxw?=
+ =?us-ascii?Q?g9cIhQf1rmPZMEPGYoKbvmz2P9CvVD3KQhwWKR8bt2K7ziMbxdNqxxLQEecl?=
+ =?us-ascii?Q?3cJ5vvQYxFoYWLnnNX8WX5OwBffoi3C/qipq+cJMPEDKNO7Ed/SZSHkZKCDR?=
+ =?us-ascii?Q?wz7KLlwhdBTt8qVl0aJFbYMqJBXJo1i8SaUtQiZufyL4RmUc4L8gmyKVjOQv?=
+ =?us-ascii?Q?+SkOsAT5CKyMimQb6dJmuO2S5ax0qvyVzahlxavIS42tLoh+3Bt+2nFhG7co?=
+ =?us-ascii?Q?necbnuPlfPDxjmpEH6Sh1Z2YxJ4MfOWcOpQIq+7K3wq8eEDCVkHBBtW9kkuP?=
+ =?us-ascii?Q?uRgvthoKA70LvaRl6DEmY+JODUbwZtlGV8exjqHIIgh3a6rmPDlMXw=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PS2P216MB1297.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(7416014)(38350700014);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PS2P216MB1297.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(52116014)(7416014)(1800799024)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?UqVZyNq3scURsLqavc3pLYnscKk/ap0GJyud7coOri2gcoSLv/8X9cnoiGWt?=
- =?us-ascii?Q?RBxgqW7ARkiFR+2I9LGJGS06XE3dF62gJjOYdN8VjBes7xv9UGO2JRWF0/vI?=
- =?us-ascii?Q?299QZjGMdlkw6pRF426pVGFk3BT6RAyN09rE3YTGb6+/KU4AoRbn/67O2tHE?=
- =?us-ascii?Q?NhiTeT2CFrgocmDzXIIiXW2UY9H98KDScB3eFmZyMVfDfjhq3X7eczpr3R/n?=
- =?us-ascii?Q?5XMywCedNcv6GoS62BuTjLoHjki4PXPWuIpJj4hCGrJCeyKH4fxZwiirpoVQ?=
- =?us-ascii?Q?mXvuGeMwzbmzShLjgFQsTtVmiUwM8v6hoJF00UKzZovAElDAJEpBSL4eKoec?=
- =?us-ascii?Q?63oukWKTPX7QjArJfSEiE/hFAPBen3HAaA115qm32F2XQ7uMniANhnzL8ult?=
- =?us-ascii?Q?24QTBZTTzepumh8ICErVqF5iUjG1WurC1HZBogGqu7pUWl4L1NEkHoVd9oYO?=
- =?us-ascii?Q?cQKNCin5fjNvd0X8b4a0TUcQd8wODSRwgRm4DWsjk72ssr2mDyoYo/R+fY0Z?=
- =?us-ascii?Q?KIDW8NLr81a9b4HPmfb+R0yug9CCdVtPZeru/yzjml8JsgOIOyfysuCPHGWt?=
- =?us-ascii?Q?HtS2MGVbbDIqo0gxgpMp4tP1g1TXT4YKu522iOE4+4Xyk1JDbAN7S5RI3uhm?=
- =?us-ascii?Q?Y3YRrOjSkPZmjmxpzWqV+6UY/w5OXscEminJ54wPSe0ojhQ2QiXw+wUQ3jDV?=
- =?us-ascii?Q?fTOJnn4loQQ8Ef55tQgAD8CIuRA8uYERbkCjWuxFhFpPIkvJ9hAIeRjuiHUL?=
- =?us-ascii?Q?83fERM2aqGgLPg9eEAafItZ7oGvoe5yorOKGRehKFpAxBj62zcM6ekOpX+Xi?=
- =?us-ascii?Q?UWlUId5vMuZD8I8cq8iW4H9TPAn77CXKGXO/0/MD0n8XaoWrjpZbCCM8/dgJ?=
- =?us-ascii?Q?yJ+Qa0LaBHkixgF61adCJAlN5ca3HBcDTlMB10KNFD2PbKfsZsG9mOimuhSq?=
- =?us-ascii?Q?4lvzlFQf8kAYhvoFRUJeW8T0R8JsV1iEI4IbktnScIQvX3RmgHutdbdS4gNR?=
- =?us-ascii?Q?kxFffoT/272p/uvbX9MoLG6igmJqMNW8NZOR9BXGP51f3scnIhyeqrNk+61K?=
- =?us-ascii?Q?r8N/bTFcsa9rOcm37MEbCCmkbR5bkUlXUE+jRpMUuGsPbB4XxkG0rTzbSx39?=
- =?us-ascii?Q?3Z/Y5iOndgccOu2Muv7roGEay4cSH3LREEMKUwglVwr4RVj6hEyg/1CEz/0N?=
- =?us-ascii?Q?byKM4vsqToR2iMYnSn/ENcSVV82BQ9B7pGZcu6glkdPXsdNcmE61TFKinVJM?=
- =?us-ascii?Q?fEEA/XJ7kZGOkH/fb3cgsGSc8FjIgzZE1eQJiIL1XrNRIj1q0NI0c0h4fj5d?=
- =?us-ascii?Q?T1kqttAeP4Lv+e3JDpkUq1iIo25OfvQGHlVd692E2D4oYaR9FSG4nC8mXTU4?=
- =?us-ascii?Q?QtF5C5N11YZzjfsIG94Fc+ibPsEZUzqssZv7edU511KQUwGY0TXkpq5dugjb?=
- =?us-ascii?Q?vhOFPiVfVEWqJBXvKKWJeMHNRz1e6UZnqJfBx1QTofWfAkQ6s/QsxIEFWU+m?=
- =?us-ascii?Q?Sde8pB2mUi3XPKXv+NdrR92mRfuw/cjXNJ0tL96jn6KONmi+8w524h0mQ28U?=
- =?us-ascii?Q?nAkm3Yc1tsNX/zEfDEUUUU3kcs7DkuivtU4Nkb3tsy/P0nQ+xuN84CXWRhtf?=
- =?us-ascii?Q?Bg=3D=3D?=
+	=?us-ascii?Q?gXMtorRcMCJs+adLpmidgpPwBaWFC9h9LDjOrhwT9o9BKOZYTbrAC5ffxxWS?=
+ =?us-ascii?Q?8bv+sT9y7+BTx3N1jnUlg9TdiL0wPJ5bm2glwo8HdP52M0ou7hQ2437HHxyE?=
+ =?us-ascii?Q?HO16t8rJnX45c6huSxkxtKu26iObsHm7AOafdiILm2QMC97UTzmSZMP2VIFU?=
+ =?us-ascii?Q?euuPm88/tiKOtuIUIUW2CbBs/MQma5Z+tu7kGnDMqrZzgZxAJ8Z+kOSex5GJ?=
+ =?us-ascii?Q?fWl1NyPHNnAExZkYdJMYd1r3oNVg0pQs4VL2TtM8Vq0cOFAgr955Ym8JOFNp?=
+ =?us-ascii?Q?R7aJAQG4LJqLNVtX8RRKBCcUpklvUdE0/7jmjSTnaexVX0ceJZNUgO++xUNy?=
+ =?us-ascii?Q?0hFLLK+VN16Xw2+WphSI/pvLV6l+g5hMWWF3GNmom/XoFgbK6NYF2i+KlTXz?=
+ =?us-ascii?Q?/OtUS9J1JqZ49e078UJ6p3Vbv3T4XsetUWVz8p2BdKsWOsWy70dpfz/bhRAy?=
+ =?us-ascii?Q?xsWcJH+Ke8/0E4fcwgLAtQi2PaZFdvv5xo2RGVatN0uzB8cK9JS8k7Q5qzHT?=
+ =?us-ascii?Q?XgVTJUrk7cx0O2jv2If813wspFiWnxLvAWlcaSfSL8rFv40QUxjZX5Z5nFhN?=
+ =?us-ascii?Q?xgDdNZCFbBDJkFJimYGqhhZr+rdAc0T/AwBtid1hfLKFBRcypsWco+0Cva2r?=
+ =?us-ascii?Q?TKnsCmIW3zlu+zzgmBNddz2mUxpgA/kNxjZhqSM0cnKz67m5eXSRo4G4rDwB?=
+ =?us-ascii?Q?lJ0n6fUx8/JJoThBIYrKFNyF3UcIp/4B4YiKzzIgx+yr386xRnGHmkDUCahm?=
+ =?us-ascii?Q?AFu3RfpaLoGvoqDG7aJosORJr7SnvdlnWCy5E0FzLqdGXCm46jQ4s55neupY?=
+ =?us-ascii?Q?Ne3HJ7ZwIUrzdmDnxURkmDDiR1/nGFlxFqyQ3bnm0bpLz4Q9M0J2oFEnE6Ab?=
+ =?us-ascii?Q?KGzaqFhSy8IRMKkF/MbGnpfGhafV0MK733qzL+WnD+p73BHTb6zRuvmz6BtK?=
+ =?us-ascii?Q?uC6IZxzxiP5dMwCweZOAhRKnfGVl9mZjlpcEJIw2aFZUnv9wZmKiRapXK/wI?=
+ =?us-ascii?Q?XC32IOL12e4GdO05++5Fuo2kD6a6OlwFp45Is2blk1OUUbIYk4/9EWyf6v5j?=
+ =?us-ascii?Q?flUAQiZs/fyyoPh8RYb7rFtH7mTFdTK6Uh3/J2cdM4kMuuCZ2Q8EbYrhplqV?=
+ =?us-ascii?Q?uI2n8x+/Hi8C8BCJD+diQBJWbIP6uFLejipsmjIAo6nsX/wmEqHGSmPt6kXI?=
+ =?us-ascii?Q?plfHHA7bsIIN0Gn3lOHsXmEKblddOucUJg3gFm9ytGtc9uZs3q8FMXVpMSc0?=
+ =?us-ascii?Q?EwPrm3huOFPpIrzYH0FgldO7tI4ZmNGcwDmDi9nddywLFrabQzGZPEVq+vxS?=
+ =?us-ascii?Q?tJvlrppkGfDPudHDyRWcZJQCMMJQsnEBQ9SQML1GMYHw2nfGMlxYzFUauowO?=
+ =?us-ascii?Q?BypUr4lt9UBiKdihDMLe8rTlTBRIRUYPW1iteXS2skkmfVZ2ie/lncecb8Gy?=
+ =?us-ascii?Q?BTulj0tOj+isFKGnNf0l0bolafR51frzAOVbEqQPmBF2EKwbH0jvjR0/DS/I?=
+ =?us-ascii?Q?/1WHK3J4jrGr2IWz29OlIeq0Kqs992G9kAihJbO+bmi6U6Fh/r4PfntP/dAJ?=
+ =?us-ascii?Q?u3wLLWO4DvLALJGz2o40pu4mpcTxpQLCvJXMlbbtN4Dpyr209hi7x15pk2bw?=
+ =?us-ascii?Q?Yg=3D=3D?=
 X-OriginatorOrg: chipsnmedia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4da95945-f4a5-4d21-8a78-08dd77cc356a
+X-MS-Exchange-CrossTenant-Network-Message-Id: edfd94b9-df44-4c81-2e58-08dd77cc35c2
 X-MS-Exchange-CrossTenant-AuthSource: PS2P216MB1297.KORP216.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2025 01:08:31.2792
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2025 01:08:31.7133
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sfBR34PwiUkdLVMz19yRHsG1z8cMvAnyER87X/K+08s/80+GTJOCsHKbs4gTgQjDoErWha/qG02Uc3e5712FLx45b3FilVTKt5rVJBWz8Hk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SL2P216MB2928
+X-MS-Exchange-CrossTenant-UserPrincipalName: TokDn1sKlNiA+aH0ccmOE+36QX8BH52/dlzJg9gxWtmBwShwgccOnMbtW1OrAHgiACQZXwu/Q3YeODN96F4sspX6pOE3jPdLmb31xWG2WLg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SL2P216MB1403
 
 From: Jackson Lee <jackson.lee@chipsnmedia.com>
 
-When multi instances are created/destroyed, many interrupts happens
-or structures for decoder are removed.
-"struct vpu_instance" this structure is shared for all flow in decoder,
-so if the structure is not protected by lock, Null reference exception
-could happens sometimes.
-IRQ Handler was spilt to two phases and Lock was added as well.
+The current decoding method  was to wait until each frame was
+decoded after feeding a bitstream. As a result, performance was low
+and Wave5 could not achieve max pixel processing rate.
 
-Fixes: 9707a6254a8a ("media: chips-media: wave5: Add the v4l2 layer")
+Update driver to use an asynchronous approach for decoding and feeding a
+bitstream in order to achieve full capabilities of the device.
+
+WAVE5 supports command-queueing to maximize performance by pipelining
+internal commands and by hiding wait cycle taken to receive a command
+from Host processor.
+
+Instead of waiting for each command to be executed before sending the
+next command, Host processor just places all the commands in the
+command-queue and goes on doing other things while the commands in the
+queue are processed by VPU.
+
+While Host processor handles its own tasks, it can receive VPU interrupt
+request (IRQ).
+In this case, host processor can simply exit interrupt service routine
+(ISR) without accessing to host interface to read the result of the
+command reported by VPU.
+After host processor completed its tasks, host processor can read the
+command result when host processor needs the reports and does
+response processing.
+
+To archive this goal, the device_run() calls v4l2_m2m_job_finish
+so that next command can be sent to VPU continuously, if there is
+any result, then irq is triggered and gets decoded frames and returns
+them to upper layer.
+Theses processes work independently each other without waiting
+a decoded frame.
+
 Signed-off-by: Jackson Lee <jackson.lee@chipsnmedia.com>
 Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
 ---
- .../platform/chips-media/wave5/wave5-helper.c | 10 ++-
- .../chips-media/wave5/wave5-vpu-dec.c         |  5 ++
- .../chips-media/wave5/wave5-vpu-enc.c         |  5 ++
- .../platform/chips-media/wave5/wave5-vpu.c    | 68 ++++++++++++++++---
- .../platform/chips-media/wave5/wave5-vpuapi.h |  6 ++
- 5 files changed, 85 insertions(+), 9 deletions(-)
+ .../chips-media/wave5/wave5-vpu-dec.c         | 82 +++++++++++--------
+ .../platform/chips-media/wave5/wave5-vpuapi.c |  2 +
+ .../platform/chips-media/wave5/wave5-vpuapi.h |  3 +
+ 3 files changed, 55 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-helper.c b/drivers/media/platform/chips-media/wave5/wave5-helper.c
-index 2c9d8cbca6e4..5d9969bb7ada 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-helper.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-helper.c
-@@ -49,7 +49,7 @@ void wave5_cleanup_instance(struct vpu_instance *inst)
- 		v4l2_fh_del(&inst->v4l2_fh);
- 		v4l2_fh_exit(&inst->v4l2_fh);
- 	}
--	list_del_init(&inst->list);
-+	kfifo_free(&inst->irq_status);
- 	ida_free(&inst->dev->inst_ida, inst->id);
- 	kfree(inst->codec_info);
- 	kfree(inst);
-@@ -61,8 +61,16 @@ int wave5_vpu_release_device(struct file *filp,
- {
- 	struct vpu_instance *inst = wave5_to_vpu_inst(filp->private_data);
- 	int ret = 0;
-+	unsigned long flags;
- 
- 	v4l2_m2m_ctx_release(inst->v4l2_fh.m2m_ctx);
-+	ret = mutex_lock_interruptible(&inst->dev->irq_lock);
-+	if (ret)
-+		return ret;
-+	spin_lock_irqsave(&inst->dev->irq_spinlock, flags);
-+	list_del_init(&inst->list);
-+	spin_unlock_irqrestore(&inst->dev->irq_spinlock, flags);
-+	mutex_unlock(&inst->dev->irq_lock);
- 	if (inst->state != VPU_INST_STATE_NONE) {
- 		u32 fail_res;
- 
 diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-index fd71f0c43ac3..32de43de1870 100644
+index 32de43de1870..192556b91aaa 100644
 --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
 +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-@@ -1811,6 +1811,11 @@ static int wave5_vpu_open_dec(struct file *filp)
- 	inst->xfer_func = V4L2_XFER_FUNC_DEFAULT;
+@@ -347,7 +347,6 @@ static void wave5_vpu_dec_finish_decode(struct vpu_instance *inst)
+ 	struct vb2_v4l2_buffer *dec_buf = NULL;
+ 	struct vb2_v4l2_buffer *disp_buf = NULL;
+ 	struct vb2_queue *dst_vq = v4l2_m2m_get_dst_vq(m2m_ctx);
+-	struct queue_status_info q_status;
  
- 	init_completion(&inst->irq_done);
-+	ret = kfifo_alloc(&inst->irq_status, 16 * sizeof(int), GFP_KERNEL);
-+	if (ret) {
-+		dev_err(inst->dev->dev, "failed to allocate fifo\n");
-+		goto cleanup_inst;
-+	}
+ 	dev_dbg(inst->dev->dev, "%s: Fetch output info from firmware.", __func__);
  
- 	inst->id = ida_alloc(&inst->dev->inst_ida, GFP_KERNEL);
- 	if (inst->id < 0) {
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-index 1e5fc5f8b856..52a1a00fd9bb 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-@@ -1760,6 +1760,11 @@ static int wave5_vpu_open_enc(struct file *filp)
- 	inst->frame_rate = 30;
- 
- 	init_completion(&inst->irq_done);
-+	ret = kfifo_alloc(&inst->irq_status, 16 * sizeof(int), GFP_KERNEL);
-+	if (ret) {
-+		dev_err(inst->dev->dev, "failed to allocate fifo\n");
-+		goto cleanup_inst;
-+	}
- 
- 	inst->id = ida_alloc(&inst->dev->inst_ida, GFP_KERNEL);
- 	if (inst->id < 0) {
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-index e1715d3f43b0..c53ac9a5c1c2 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-@@ -51,8 +51,11 @@ static void wave5_vpu_handle_irq(void *dev_id)
- 	u32 seq_done;
- 	u32 cmd_done;
- 	u32 irq_reason;
--	struct vpu_instance *inst;
-+	u32 irq_subreason;
-+	struct vpu_instance *inst, *tmp;
- 	struct vpu_device *dev = dev_id;
-+	int val;
-+	unsigned long flags;
- 
- 	irq_reason = wave5_vdi_read_register(dev, W5_VPU_VINT_REASON);
- 	seq_done = wave5_vdi_read_register(dev, W5_RET_SEQ_DONE_INSTANCE_INFO);
-@@ -60,7 +63,8 @@ static void wave5_vpu_handle_irq(void *dev_id)
- 	wave5_vdi_write_register(dev, W5_VPU_VINT_REASON_CLR, irq_reason);
- 	wave5_vdi_write_register(dev, W5_VPU_VINT_CLEAR, 0x1);
- 
--	list_for_each_entry(inst, &dev->instances, list) {
-+	spin_lock_irqsave(&dev->irq_spinlock, flags);
-+	list_for_each_entry_safe(inst, tmp, &dev->instances, list) {
- 
- 		if (irq_reason & BIT(INT_WAVE5_INIT_SEQ) ||
- 		    irq_reason & BIT(INT_WAVE5_ENC_SET_PARAM)) {
-@@ -82,14 +86,22 @@ static void wave5_vpu_handle_irq(void *dev_id)
- 		    irq_reason & BIT(INT_WAVE5_ENC_PIC)) {
- 			if (cmd_done & BIT(inst->id)) {
- 				cmd_done &= ~BIT(inst->id);
--				wave5_vdi_write_register(dev, W5_RET_QUEUE_CMD_DONE_INST,
--							 cmd_done);
--				inst->ops->finish_process(inst);
-+				if (dev->irq >= 0) {
-+					irq_subreason =
-+						wave5_vdi_read_register(dev, W5_VPU_VINT_REASON);
-+					if (!(irq_subreason & BIT(INT_WAVE5_DEC_PIC)))
-+						wave5_vdi_write_register(dev,
-+									 W5_RET_QUEUE_CMD_DONE_INST,
-+									 cmd_done);
-+				}
-+				val = BIT(INT_WAVE5_DEC_PIC);
-+				kfifo_in(&inst->irq_status, &val, sizeof(int));
- 			}
+@@ -441,20 +440,6 @@ static void wave5_vpu_dec_finish_decode(struct vpu_instance *inst)
  		}
+ 		spin_unlock_irqrestore(&inst->state_spinlock, flags);
+ 	}
 -
--		wave5_vpu_clear_interrupt(inst, irq_reason);
- 	}
-+	spin_unlock_irqrestore(&dev->irq_spinlock, flags);
-+
-+	up(&dev->irq_sem);
+-	/*
+-	 * During a resolution change and while draining, the firmware may flush
+-	 * the reorder queue regardless of having a matching decoding operation
+-	 * pending. Only terminate the job if there are no more IRQ coming.
+-	 */
+-	wave5_vpu_dec_give_command(inst, DEC_GET_QUEUE_STATUS, &q_status);
+-	if (q_status.report_queue_count == 0 &&
+-	    (q_status.instance_queue_count == 0 || dec_info.sequence_changed)) {
+-		dev_dbg(inst->dev->dev, "%s: finishing job.\n", __func__);
+-		pm_runtime_mark_last_busy(inst->dev->dev);
+-		pm_runtime_put_autosuspend(inst->dev->dev);
+-		v4l2_m2m_job_finish(inst->v4l2_m2m_dev, m2m_ctx);
+-	}
  }
  
- static irqreturn_t wave5_vpu_irq_thread(int irq, void *dev_id)
-@@ -121,6 +133,35 @@ static enum hrtimer_restart wave5_vpu_timer_callback(struct hrtimer *timer)
- 	return HRTIMER_RESTART;
- }
- 
-+static int irq_thread(void *data)
-+{
-+	struct vpu_device *dev = (struct vpu_device *)data;
-+	struct vpu_instance *inst, *tmp;
-+	int irq_status, ret;
-+
-+	while (!kthread_should_stop()) {
-+		if (down_interruptible(&dev->irq_sem))
-+			continue;
-+
-+		if (kthread_should_stop())
-+			break;
-+
-+		mutex_lock(&dev->irq_lock);
-+		list_for_each_entry_safe(inst, tmp, &dev->instances, list) {
-+			while (kfifo_len(&inst->irq_status)) {
-+				ret = kfifo_out(&inst->irq_status, &irq_status, sizeof(int));
-+				if (!ret)
-+					break;
-+
-+				inst->ops->finish_process(inst);
-+			}
-+		}
-+		mutex_unlock(&dev->irq_lock);
-+	}
-+
-+	return 0;
-+}
-+
- static int wave5_vpu_load_firmware(struct device *dev, const char *fw_name,
- 				   u32 *revision)
+ static int wave5_vpu_dec_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
+@@ -1146,8 +1131,8 @@ static int write_to_ringbuffer(struct vpu_instance *inst, void *buffer, size_t b
+ static int fill_ringbuffer(struct vpu_instance *inst)
  {
-@@ -224,6 +265,8 @@ static int wave5_vpu_probe(struct platform_device *pdev)
+ 	struct v4l2_m2m_ctx *m2m_ctx = inst->v4l2_fh.m2m_ctx;
+-	struct v4l2_m2m_buffer *buf, *n;
+-	int ret;
++	struct vpu_src_buffer *vpu_buf;
++	int ret = 0;
  
- 	mutex_init(&dev->dev_lock);
- 	mutex_init(&dev->hw_lock);
-+	mutex_init(&dev->irq_lock);
-+	spin_lock_init(&dev->irq_spinlock);
- 	dev_set_drvdata(&pdev->dev, dev);
- 	dev->dev = &pdev->dev;
- 
-@@ -265,6 +308,9 @@ static int wave5_vpu_probe(struct platform_device *pdev)
- 		goto err_clk_dis;
- 	}
- 	dev->product = wave5_vpu_get_product_id(dev);
-+	sema_init(&dev->irq_sem, 1);
-+	INIT_LIST_HEAD(&dev->instances);
-+	dev->irq_thread = kthread_run(irq_thread, dev, "irq thread");
- 
- 	dev->irq = platform_get_irq(pdev, 0);
- 	if (dev->irq < 0) {
-@@ -288,7 +334,6 @@ static int wave5_vpu_probe(struct platform_device *pdev)
+ 	if (m2m_ctx->last_src_buf)  {
+ 		struct vpu_src_buffer *vpu_buf = wave5_to_vpu_src_buf(m2m_ctx->last_src_buf);
+@@ -1158,9 +1143,8 @@ static int fill_ringbuffer(struct vpu_instance *inst)
  		}
  	}
  
--	INIT_LIST_HEAD(&dev->instances);
- 	ret = v4l2_device_register(&pdev->dev, &dev->v4l2_dev);
- 	if (ret) {
- 		dev_err(&pdev->dev, "v4l2_device_register, fail: %d\n", ret);
-@@ -351,6 +396,12 @@ static void wave5_vpu_remove(struct platform_device *pdev)
- {
- 	struct vpu_device *dev = dev_get_drvdata(&pdev->dev);
- 
-+	if (dev->irq_thread) {
-+		kthread_stop(dev->irq_thread);
-+		up(&dev->irq_sem);
-+		dev->irq_thread = NULL;
-+	}
+-	v4l2_m2m_for_each_src_buf_safe(m2m_ctx, buf, n) {
+-		struct vb2_v4l2_buffer *vbuf = &buf->vb;
+-		struct vpu_src_buffer *vpu_buf = wave5_to_vpu_src_buf(vbuf);
++	list_for_each_entry(vpu_buf, &inst->avail_src_bufs, list) {
++		struct vb2_v4l2_buffer *vbuf = &vpu_buf->v4l2_m2m_buf.vb;
+ 		struct vpu_buf *ring_buffer = &inst->bitstream_vbuf;
+ 		size_t src_size = vb2_get_plane_payload(&vbuf->vb2_buf, 0);
+ 		void *src_buf = vb2_plane_vaddr(&vbuf->vb2_buf, 0);
+@@ -1220,9 +1204,13 @@ static int fill_ringbuffer(struct vpu_instance *inst)
+ 			dev_dbg(inst->dev->dev, "last src buffer written to the ring buffer\n");
+ 			break;
+ 		}
 +
- 	if (dev->irq < 0) {
- 		kthread_destroy_worker(dev->worker);
- 		hrtimer_cancel(&dev->hrtimer);
-@@ -361,6 +412,7 @@ static void wave5_vpu_remove(struct platform_device *pdev)
++		inst->queuing_num++;
++		list_del_init(&vpu_buf->list);
++		break;
+ 	}
  
- 	mutex_destroy(&dev->dev_lock);
- 	mutex_destroy(&dev->hw_lock);
-+	mutex_destroy(&dev->irq_lock);
- 	reset_control_assert(dev->resets);
- 	clk_bulk_disable_unprepare(dev->num_clks, dev->clks);
- 	wave5_vpu_enc_unregister_device(dev);
+-	return 0;
++	return ret;
+ }
+ 
+ static void wave5_vpu_dec_buf_queue_src(struct vb2_buffer *vb)
+@@ -1236,6 +1224,11 @@ static void wave5_vpu_dec_buf_queue_src(struct vb2_buffer *vb)
+ 	vbuf->sequence = inst->queued_src_buf_num++;
+ 
+ 	v4l2_m2m_buf_queue(m2m_ctx, vbuf);
++
++	INIT_LIST_HEAD(&vpu_buf->list);
++	mutex_lock(&inst->feed_lock);
++	list_add_tail(&vpu_buf->list, &inst->avail_src_bufs);
++	mutex_unlock(&inst->feed_lock);
+ }
+ 
+ static void wave5_vpu_dec_buf_queue_dst(struct vb2_buffer *vb)
+@@ -1385,6 +1378,13 @@ static int streamoff_output(struct vb2_queue *q)
+ 	dma_addr_t new_rd_ptr;
+ 	struct dec_output_info dec_info;
+ 	unsigned int i;
++	struct vpu_src_buffer *vpu_buf, *tmp;
++
++	inst->retry = false;
++	inst->queuing_num = 0;
++
++	list_for_each_entry_safe(vpu_buf, tmp, &inst->avail_src_bufs, list)
++		list_del_init(&vpu_buf->list);
+ 
+ 	for (i = 0; i < v4l2_m2m_num_dst_bufs_ready(m2m_ctx); i++) {
+ 		ret = wave5_vpu_dec_set_disp_flag(inst, i);
+@@ -1580,10 +1580,19 @@ static void wave5_vpu_dec_device_run(void *priv)
+ 
+ 	dev_dbg(inst->dev->dev, "%s: Fill the ring buffer with new bitstream data", __func__);
+ 	pm_runtime_resume_and_get(inst->dev->dev);
+-	ret = fill_ringbuffer(inst);
+-	if (ret) {
+-		dev_warn(inst->dev->dev, "Filling ring buffer failed\n");
+-		goto finish_job_and_return;
++	if (!inst->retry) {
++		mutex_lock(&inst->feed_lock);
++		ret = fill_ringbuffer(inst);
++		mutex_unlock(&inst->feed_lock);
++		if (ret < 0) {
++			dev_warn(inst->dev->dev, "Filling ring buffer failed\n");
++			goto finish_job_and_return;
++		} else if (!inst->eos &&
++				inst->queuing_num == 0 &&
++				inst->state == VPU_INST_STATE_PIC_RUN) {
++			dev_dbg(inst->dev->dev, "%s: no bitstream for feeding, so skip ", __func__);
++			goto finish_job_and_return;
++		}
+ 	}
+ 
+ 	switch (inst->state) {
+@@ -1639,7 +1648,7 @@ static void wave5_vpu_dec_device_run(void *priv)
+ 		}
+ 
+ 		if (q_status.instance_queue_count) {
+-			dev_dbg(inst->dev->dev, "%s: leave with active job", __func__);
++			v4l2_m2m_job_finish(inst->v4l2_m2m_dev, m2m_ctx);
+ 			return;
+ 		}
+ 
+@@ -1650,14 +1659,21 @@ static void wave5_vpu_dec_device_run(void *priv)
+ 			dev_err(inst->dev->dev,
+ 				"Frame decoding on m2m context (%p), fail: %d (result: %d)\n",
+ 				m2m_ctx, ret, fail_res);
+-			break;
++			goto finish_job_and_return;
++		}
++
++		if (fail_res == WAVE5_SYSERR_QUEUEING_FAIL) {
++			inst->retry = true;
++		} else {
++			inst->retry = false;
++			if (!inst->eos)
++				inst->queuing_num--;
+ 		}
+-		/* Return so that we leave this job active */
+-		dev_dbg(inst->dev->dev, "%s: leave with active job", __func__);
+-		return;
+-	default:
+-		WARN(1, "Execution of a job in state %s illegal.\n", state_to_str(inst->state));
+ 		break;
++	default:
++		if (!v4l2_m2m_has_stopped(m2m_ctx))
++			WARN(1, "Execution of a job in state %s illegal.\n",
++			     state_to_str(inst->state));
+ 	}
+ 
+ finish_job_and_return:
+@@ -1755,6 +1771,8 @@ static int wave5_vpu_open_dec(struct file *filp)
+ 	inst->ops = &wave5_vpu_dec_inst_ops;
+ 
+ 	spin_lock_init(&inst->state_spinlock);
++	mutex_init(&inst->feed_lock);
++	INIT_LIST_HEAD(&inst->avail_src_bufs);
+ 
+ 	inst->codec_info = kzalloc(sizeof(*inst->codec_info), GFP_KERNEL);
+ 	if (!inst->codec_info)
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+index e5e879a13e8b..68d86625538f 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+@@ -255,6 +255,8 @@ int wave5_vpu_dec_close(struct vpu_instance *inst, u32 *fail_res)
+ 	if (inst_count == 1)
+ 		pm_runtime_dont_use_autosuspend(vpu_dev->dev);
+ 
++	mutex_destroy(&inst->feed_lock);
++
+ unlock_and_return:
+ 	mutex_unlock(&vpu_dev->hw_lock);
+ 	pm_runtime_put_sync(inst->dev->dev);
 diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
-index 45615c15beca..f3c1ad6fb3be 100644
+index f3c1ad6fb3be..fd0aef0bac4e 100644
 --- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
 +++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.h
-@@ -8,6 +8,7 @@
- #ifndef VPUAPI_H_INCLUDED
- #define VPUAPI_H_INCLUDED
- 
-+#include <linux/kfifo.h>
- #include <linux/idr.h>
- #include <linux/genalloc.h>
- #include <media/v4l2-device.h>
-@@ -747,6 +748,7 @@ struct vpu_device {
- 	struct video_device *video_dev_enc;
- 	struct mutex dev_lock; /* lock for the src, dst v4l2 queues */
- 	struct mutex hw_lock; /* lock hw configurations */
-+	struct mutex irq_lock;
- 	int irq;
- 	enum product_id product;
- 	struct vpu_attr attr;
-@@ -764,7 +766,10 @@ struct vpu_device {
- 	struct kthread_worker *worker;
- 	int vpu_poll_interval;
- 	int num_clks;
-+	struct task_struct *irq_thread;
-+	struct semaphore irq_sem;
- 	struct reset_control *resets;
-+	spinlock_t irq_spinlock; /* protect instances list */
- };
- 
- struct vpu_instance;
-@@ -788,6 +793,7 @@ struct vpu_instance {
- 	enum v4l2_ycbcr_encoding ycbcr_enc;
- 	enum v4l2_quantization quantization;
- 
-+	struct kfifo irq_status;
- 	enum vpu_instance_state state;
- 	enum vpu_instance_type type;
- 	const struct vpu_instance_ops *ops;
+@@ -818,6 +818,9 @@ struct vpu_instance {
+ 	bool cbcr_interleave;
+ 	bool nv21;
+ 	bool eos;
++	bool retry; /* retry to feed bitstream if failure reason is WAVE5_SYSERR_QUEUEING_FAIL*/
++	int queuing_num; /* check if there is input buffer or not */
++	struct mutex feed_lock; /* lock for feeding bitstream buffers */
+ 	struct vpu_buf bitstream_vbuf;
+ 	dma_addr_t last_rd_ptr;
+ 	size_t remaining_consumed_bytes;
 -- 
 2.43.0
 
