@@ -1,219 +1,233 @@
-Return-Path: <linux-media+bounces-29868-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29864-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C022CA839DA
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 08:51:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 34551A839E8
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 08:53:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 639877B184D
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 06:50:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 60D7C8C0ADF
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 06:50:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61B1220B208;
-	Thu, 10 Apr 2025 06:50:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 843E52054E3;
+	Thu, 10 Apr 2025 06:49:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UR+56h7r"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YdTw5jaV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F84A20468C;
-	Thu, 10 Apr 2025 06:50:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22F00204C3C
+	for <linux-media@vger.kernel.org>; Thu, 10 Apr 2025 06:49:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744267811; cv=none; b=jgin0lyJXcQ7vadbZTy8rE19naolKSlapww26iqSGbmim0OsIwcIbnNOmjFsjIHdHntvMe74fa2E3OulDSon51p/tAxxqMCaXH0OhUQf6eld7+DQiGGFGTR0A8L69mFmYw4mJ57bXcyBQLKpq2F+Q2us3tZW/RHSDrlEEuIdxfQ=
+	t=1744267793; cv=none; b=arDDhiH3TSS9YdYhTX8uMG7xgC30JINFz5n0gDuFREntQDjgArxJ/+LWFFMbQXTXcV2AljYy/0wRLQx8M93lqnJAICcTkfRslgsw/lPkXCtJjEWXYbdqtrumRcZEgESAz+Z+YwRkmVVZlH2Kr65J4A7sSXPe9q/Pv4ZrodFxvEQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744267811; c=relaxed/simple;
-	bh=7CSFEhqIHstgVCRXuQHhQ+VWZRZj5jqLoBJkK2Okah8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=nSEo+o0yBlrya6yd+im/gye4jk1bgS+kZdm2iVJ3s6sbbxBxUXRm/7Vr4/In1texQoPWy0zg3bsTfOH2XBIjDR4BhtgmQvJ9BaeKu9/smVAvjLrat/uTa06uD30RWdMJvyXiTiScDMrKekchNBxE+dqce7G5G/UvwpyACibGrQ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UR+56h7r; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:389d:1fcb:c0f8:ff7c:208d])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 73C03EE4;
-	Thu, 10 Apr 2025 08:48:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1744267690;
-	bh=7CSFEhqIHstgVCRXuQHhQ+VWZRZj5jqLoBJkK2Okah8=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=UR+56h7rhH8+fhJhEPkLqIODKYRxxYgW6SZb5IdZoPT/Kaj8CaRdbfwtB0crQqZZk
-	 qnAdYUBmDl5JO1L89QhvTlD1Uw7hWHVjlJ4l+SOiYjx0aF12ZpxmEju7ogV9Sufuo6
-	 L4e1Co/8SJI6d8PdiO4ZPWsHys5S3uegY3XxRRGc=
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Thu, 10 Apr 2025 12:19:04 +0530
-Subject: [PATCH v2 6/6] media: ti: j721e-csi2rx: Support multiple pixels
- per clock
+	s=arc-20240116; t=1744267793; c=relaxed/simple;
+	bh=qKsDk9EZ2dacQJ71qnkeU1d5QGUNiU0xLXDxuP55mBQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qyrtslNFuo0ITvbe83c/SoQ7ciTdX+ZQ6bDN3OP/GQhqtdDaS6cKE0pb6Z05MtGdjefDgoOu8dYNX8bYKIMUjbWgs4sibHqPZ/m/UC/XXCgqY2I9l34LDpMYZBraZYf7Qsf284+6ACppYjvRDev3ehWEXnNNsdZSRdAGJkgNDZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YdTw5jaV; arc=none smtp.client-ip=209.85.160.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-2cc89c59cc0so938474fac.0
+        for <linux-media@vger.kernel.org>; Wed, 09 Apr 2025 23:49:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744267791; x=1744872591; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FpF7wEE+1cJWx9zAtKf9QlygCmnNGJM9CNsxuBDedRk=;
+        b=YdTw5jaVbVvFDS+IIkiX5jXkIPFo9OSWKYMWyeu6FGDMlZO3wR/C3EkZmLkGpI4sAF
+         cMaONnpmZiqZzp+v6Ck+pFBivMkJX3+gr5/x+0oLtyl6F2nKAmU+QKdPUqNWo8WQOwm+
+         FBB0C8hMTOMdQz1lKqlnz0sethzBRjW1TBKI65ydbdTEtH9/le2M0iHBX2Ft6OrnsKHo
+         L+Rc2C4OkaVaYiAa8b6qMNPvV2CLT/iuGjBv5u+Mb2ea2REKDLFFdmh8kWAd5p0Nov7f
+         ZP3/Tk/6WiNifD16eKQM3qfkHJtL00CFl1OdWaViDMKzlx7rI4uumbPHFCoxwAx8mA4D
+         U6kA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744267791; x=1744872591;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FpF7wEE+1cJWx9zAtKf9QlygCmnNGJM9CNsxuBDedRk=;
+        b=lixsbknZlWQqjYOdmIu75ZH43zgZvvxAqcQpE7uF8uXiaBHw/cHDpSEaWU9brZ+e9b
+         cC9a9yCchZlB1AWCiJdPTdx3LipSCCGO21s+2jp5sZTRQzVLs9ebx946hErBu61fZ3rl
+         tShJQMre7n4Ctxn1aS/Jt52KV2FNWH/bolxCk5Ojll1eWJFNPbSsW+xCdAa2NmJUmXZZ
+         A58I+ga4TRXFsoYS2+gSfw1JKaLj3MPbhzucOBgD1zWGE4QVK+lCxR86SurSFYNbmXwu
+         SEdOKjAJg61tfeuH2QiU7cJz6VuDWGns+cQn+RyRkRojwOR/F8KVNQGcmH2c96mPB1a6
+         faMQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV5U1oW21uIjasMFsgCI6cxP/EI+Qvl28FnxQKwycyz+tqgWm7J0+vrFzylUaCaUjiemfDzjY3q+vZfMA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjJJTelpBpMCV6xqKJr7162lOCnMCP9jS3T3pomjm6CQ0Eo+jJ
+	bri/Q+7SzKAsaLhAe+irHfhRYOVgwvGqPDKrrn77SgQgqEsguzwQ1JAOHwZqNc79rWeC6ETwk7W
+	MTK1p9jZ0vG8gOM7vUr6MKaBqB0MpFhNd645Jmg==
+X-Gm-Gg: ASbGnctEhNakTLiQqLazka12zcb6veG/DKTJSafEa37KXnN8kM3wUSSmJ8kPWZ79VyI
+	sblHpmQLplZsEkTkCCOgzf8O93nwW5A2WAKvG3vk710ZkktOEe2XU0kPryCzSf3n/pA08X6Li76
+	pWYxx2RQcxC/2NWeQb86TK6gc=
+X-Google-Smtp-Source: AGHT+IHI4FgOoH6eOg0ztL2Lx7hiXdosqXiiUD+d8J9IOEiCubchzZoLqMtVD0Mmvo3sJz+QQ7r84CVnm0uFw++DJDA=
+X-Received: by 2002:a05:6871:4009:b0:2c4:1b1c:42c3 with SMTP id
+ 586e51a60fabf-2d0b3a2a298mr929589fac.9.1744267791101; Wed, 09 Apr 2025
+ 23:49:51 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250410-probe_fixes-v2-6-801bc6eebdea@ideasonboard.com>
-References: <20250410-probe_fixes-v2-0-801bc6eebdea@ideasonboard.com>
-In-Reply-To: <20250410-probe_fixes-v2-0-801bc6eebdea@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Hans Verkuil <hverkuil@xs4all.nl>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>
-Cc: Devarsh Thakkar <devarsht@ti.com>, 
- Rishikesh Donadkar <r-donadkar@ti.com>, Vaishnav Achath <vaishnav.a@ti.com>, 
- Changhuang Liang <changhuang.liang@starfivetech.com>, 
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Jai Luthra <jai.luthra@ideasonboard.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4663;
- i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=7CSFEhqIHstgVCRXuQHhQ+VWZRZj5jqLoBJkK2Okah8=;
- b=owEBbQKS/ZANAwAIAUPekfkkmnFFAcsmYgBn92n4e+A2woCaYzS+8DXrNCUMIX+adStKKofAU
- oOAZmp0AV2JAjMEAAEIAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCZ/dp+AAKCRBD3pH5JJpx
- RRwID/9l5jxEg97SGAnZgGLD1cphoYNc7Jgsj5vOzmJ9bKAumn9sobr7Ty7cNttm6951TmeDDUf
- 5RSoZGpNNA+T+pV11VQWjVdRJYmUv3oXZ6jdhRNKsN/pkBZETrL+sncpFyV4a+9aMWdyBwR7CED
- CEfr+lbH2d+Q0oQIlNEYGZ9GrTGxTBcYIBJ9Kp7Y0nK28yZx9gire816DK1x1VKZL1Z5NjleWqo
- MbePTqwveWK1vYOwNgz7cQEcxaajQ90nvXVTgX6FVJ4Lk77tHBoaUVjLaQeHG0zO7jKAcXcN52o
- snQaxpQ8eoxlkASOsrqfG3fcBBW3JI6LWUco7at/rbawO3hw00MSd6HD/hCVeYaS3bAezYpNM8y
- KYjZjhEd2JJD6+RQS1vjPYSzXhvzBAvKuCEY0b094eNGIZWnCHPBIrmoI0swWavfFmXvYuknD04
- i5oaeYb0hyaWbkYpT3TmE8O82UENr4KfUMI1Vmc3pRFViAWVcAGvQBoVlq0epkYNtlATSyRCuLb
- HKetun0QD2UMrRSyOL6Mh+frMJ2tCBRJ6ZCFdI2uYJ8UQi7fuS9/qkPnmcgUYQrnArC4PkCKsR1
- NG2ZxeNEboj1HgHtn2seZ8EZCo4Z3YDd/IwwBm8D5IC/tIt15r/QN1E5BsZ65wgptg4mqh6A9WW
- IWuD5FUgKZZ5Vog==
-X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
- fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
+References: <20250305130634.1850178-1-jens.wiklander@linaro.org>
+ <20250305130634.1850178-6-jens.wiklander@linaro.org> <Z-JOPgcWlpTlskgd@sumit-X1>
+ <CAHUa44GjpHT5Nqo+Ar5jNYNPV-YJQYpLTCf=7oJ1o0VjP-t0nA@mail.gmail.com>
+ <Z-ucuPzwz4IqVTgb@sumit-X1> <CAHUa44FpsCVrbwj1=nsJVJFVJSF1kzKdWAkAMXRu6EdLrLvh8g@mail.gmail.com>
+ <Z_To9V-JOKZ7ChhE@sumit-X1> <CAHUa44EGWuVPjoxpG-S66he=6dkvkwzxNewaGKVKXUxrO41ztg@mail.gmail.com>
+ <Z_ZtDQQY4eouqBh8@sumit-X1>
+In-Reply-To: <Z_ZtDQQY4eouqBh8@sumit-X1>
+From: Jens Wiklander <jens.wiklander@linaro.org>
+Date: Thu, 10 Apr 2025 08:49:39 +0200
+X-Gm-Features: ATxdqUEvXiuy3pdj5yJylN_i-qNjZAR_HHoPy2N2W57yI_8PinKhMCxfS6kRFGI
+Message-ID: <CAHUa44GFzG8dr1Kbapbjy77c-wJb4gQVVom24eLLueOK=gCq=A@mail.gmail.com>
+Subject: Re: [PATCH v6 05/10] tee: implement restricted DMA-heap
+To: Sumit Garg <sumit.garg@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
+	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
+	Yong Wu <yong.wu@mediatek.com>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
+	Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add support for negotiating the highest possible pixel mode (from
-single, dual, quad) with the Cadence CSI2RX bridge. This is required to
-drain the Cadence stream FIFOs without overflowing when the source is
-operating at a high link-frequency [1].
+On Wed, Apr 9, 2025 at 2:50=E2=80=AFPM Sumit Garg <sumit.garg@kernel.org> w=
+rote:
+>
+> On Tue, Apr 08, 2025 at 03:28:45PM +0200, Jens Wiklander wrote:
+> > On Tue, Apr 8, 2025 at 11:14=E2=80=AFAM Sumit Garg <sumit.garg@kernel.o=
+rg> wrote:
+> > >
+> > > On Tue, Apr 01, 2025 at 10:33:04AM +0200, Jens Wiklander wrote:
+> > > > On Tue, Apr 1, 2025 at 9:58=E2=80=AFAM Sumit Garg <sumit.garg@kerne=
+l.org> wrote:
+> > > > >
+> > > > > On Tue, Mar 25, 2025 at 11:55:46AM +0100, Jens Wiklander wrote:
+> > > > > > Hi Sumit,
+> > > > > >
+> > > > >
+> > > > > <snip>
+> > > > >
+> > > > > >
+> > > > > > >
+> > > > > > > > +
+> > > > > > > > +#include "tee_private.h"
+> > > > > > > > +
+> > > > > > > > +struct tee_dma_heap {
+> > > > > > > > +     struct dma_heap *heap;
+> > > > > > > > +     enum tee_dma_heap_id id;
+> > > > > > > > +     struct tee_rstmem_pool *pool;
+> > > > > > > > +     struct tee_device *teedev;
+> > > > > > > > +     /* Protects pool and teedev above */
+> > > > > > > > +     struct mutex mu;
+> > > > > > > > +};
+> > > > > > > > +
+> > > > > > > > +struct tee_heap_buffer {
+> > > > > > > > +     struct tee_rstmem_pool *pool;
+> > > > > > > > +     struct tee_device *teedev;
+> > > > > > > > +     size_t size;
+> > > > > > > > +     size_t offs;
+> > > > > > > > +     struct sg_table table;
+> > > > > > > > +};
+> > > > > > > > +
+> > > > > > > > +struct tee_heap_attachment {
+> > > > > > > > +     struct sg_table table;
+> > > > > > > > +     struct device *dev;
+> > > > > > > > +};
+> > > > > > > > +
+> > > > > > > > +struct tee_rstmem_static_pool {
+> > > > > > > > +     struct tee_rstmem_pool pool;
+> > > > > > > > +     struct gen_pool *gen_pool;
+> > > > > > > > +     phys_addr_t pa_base;
+> > > > > > > > +};
+> > > > > > > > +
+> > > > > > > > +#if !IS_MODULE(CONFIG_TEE) && IS_ENABLED(CONFIG_DMABUF_HEA=
+PS)
+> > > > > > >
+> > > > > > > Can this dependency rather be better managed via Kconfig?
+> > > > > >
+> > > > > > This was the easiest yet somewhat flexible solution I could fin=
+d. If
+> > > > > > you have something better, let's use that instead.
+> > > > > >
+> > > > >
+> > > > > --- a/drivers/tee/optee/Kconfig
+> > > > > +++ b/drivers/tee/optee/Kconfig
+> > > > > @@ -5,6 +5,7 @@ config OPTEE
+> > > > >         depends on HAVE_ARM_SMCCC
+> > > > >         depends on MMU
+> > > > >         depends on RPMB || !RPMB
+> > > > > +       select DMABUF_HEAPS
+> > > > >         help
+> > > > >           This implements the OP-TEE Trusted Execution Environmen=
+t (TEE)
+> > > > >           driver.
+> > > >
+> > > > I wanted to avoid that since there are plenty of use cases where
+> > > > DMABUF_HEAPS aren't needed.
+> > >
+> > > Yeah, but how the users will figure out the dependency to enable DMA
+> > > heaps with TEE subsystem.
+> >
+> > I hope, without too much difficulty. They are after all looking for a
+> > way to allocate memory from a DMA heap.
+> >
+> > > So it's better we provide a generic kernel
+> > > Kconfig which enables all the default features.
+> >
+> > I disagree, it should be possible to configure without DMABUF_HEAPS if =
+desired.
+>
+> It's hard to see a use-case for that additional compile time option. If
+> you are worried about kernel size then those can be built as modules. On
+> the other hand the benifit is that we avoid ifdefery and providing sane
+> TEE defaults where features can be detected and enabled at runtime
+> instead.
 
-Also, update the Kconfig as this introduces a hard build-time dependency
-on the Cadence CSI2RX driver, even for a COMPILE_TEST.
+My primary concern isn't kernel size, even if it shouldn't be
+irrelevant. It doesn't seem right to enable features that are not
+asked for casually. In this case, it's not unreasonable or unexpected
+that DMABUF_HEAPS must be explicitly enabled in the config if a heap
+interface is needed. It's the same as before this patch set.
 
-[1] Section 12.6.1.4.8.14 CSI_RX_IF Programming Restrictions of AM62 TRM
+>
+> >
+> > >
+> > > > This seems to do the job:
+> > > > +config TEE_DMABUF_HEAP
+> > > > + bool
+> > > > + depends on TEE =3D y && DMABUF_HEAPS
+> > > >
+> > > > We can only use DMABUF_HEAPS if the TEE subsystem is compiled into =
+the kernel.
+> > >
+> > > Ah, I see. So we aren't exporting the DMA heaps APIs for TEE subsyste=
+m
+> > > to use. We should do that such that there isn't a hard dependency to
+> > > compile them into the kernel.
+> >
+> > I was saving that for a later patch set as a later problem. We may
+> > save some time by not doing it now.
+> >
+>
+> But I think it's not a correct way to just reuse internal APIs from DMA
+> heaps subsystem without exporting them. It can be seen as a inter
+> subsystem API contract breach. I hope it won't be an issue with DMA heap
+> maintainers regarding export of those APIs.
 
-Link: https://www.ti.com/lit/pdf/spruj16
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
----
- drivers/media/platform/ti/Kconfig                  |  3 +-
- .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  | 38 ++++++++++++++++++++--
- 2 files changed, 37 insertions(+), 4 deletions(-)
+Fair enough. I'll add a patch in the next patch set for that. I guess
+the same goes for CMA.
 
-diff --git a/drivers/media/platform/ti/Kconfig b/drivers/media/platform/ti/Kconfig
-index bab998c4179aca3b07372782b9be7de340cb8d45..3bc4aa35887e6edc9fa8749d9956a67714c59001 100644
---- a/drivers/media/platform/ti/Kconfig
-+++ b/drivers/media/platform/ti/Kconfig
-@@ -67,7 +67,8 @@ config VIDEO_TI_J721E_CSI2RX
- 	tristate "TI J721E CSI2RX wrapper layer driver"
- 	depends on VIDEO_DEV && VIDEO_V4L2_SUBDEV_API
- 	depends on MEDIA_SUPPORT && MEDIA_CONTROLLER
--	depends on (PHY_CADENCE_DPHY_RX && VIDEO_CADENCE_CSI2RX) || COMPILE_TEST
-+	depends on VIDEO_CADENCE_CSI2RX
-+	depends on PHY_CADENCE_DPHY_RX || COMPILE_TEST
- 	depends on ARCH_K3 || COMPILE_TEST
- 	select VIDEOBUF2_DMA_CONTIG
- 	select V4L2_FWNODE
-diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-index ad51d033b6725426550578bdac1bae8443458f13..425324c3d6802cfda79d116d3967b61a2e7a015a 100644
---- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-+++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-@@ -21,6 +21,8 @@
- #include <media/v4l2-mc.h>
- #include <media/videobuf2-dma-contig.h>
- 
-+#include "../../cadence/cdns-csi2rx.h"
-+
- #define TI_CSI2RX_MODULE_NAME		"j721e-csi2rx"
- 
- #define SHIM_CNTL			0x10
-@@ -29,6 +31,7 @@
- #define SHIM_DMACNTX			0x20
- #define SHIM_DMACNTX_EN			BIT(31)
- #define SHIM_DMACNTX_YUV422		GENMASK(27, 26)
-+#define SHIM_DMACNTX_DUAL_PCK_CFG	BIT(24)
- #define SHIM_DMACNTX_SIZE		GENMASK(21, 20)
- #define SHIM_DMACNTX_FMT		GENMASK(5, 0)
- #define SHIM_DMACNTX_YUV422_MODE_11	3
-@@ -40,6 +43,7 @@
- #define SHIM_PSI_CFG0_SRC_TAG		GENMASK(15, 0)
- #define SHIM_PSI_CFG0_DST_TAG		GENMASK(31, 16)
- 
-+#define TI_CSI2RX_MAX_PIX_PER_CLK	4
- #define PSIL_WORD_SIZE_BYTES		16
- /*
-  * There are no hard limits on the width or height. The DMA engine can handle
-@@ -110,6 +114,7 @@ struct ti_csi2rx_dev {
- 	struct v4l2_format		v_fmt;
- 	struct ti_csi2rx_dma		dma;
- 	u32				sequence;
-+	u8				pix_per_clk;
- };
- 
- static const struct ti_csi2rx_fmt ti_csi2rx_formats[] = {
-@@ -485,6 +490,26 @@ static int ti_csi2rx_notifier_register(struct ti_csi2rx_dev *csi)
- 	return 0;
- }
- 
-+/* Request maximum possible pixels per clock from the bridge */
-+static void ti_csi2rx_request_max_ppc(struct ti_csi2rx_dev *csi)
-+{
-+	struct media_pad *pad;
-+	int ret;
-+	u8 ppc = TI_CSI2RX_MAX_PIX_PER_CLK;
-+
-+	pad = media_entity_remote_source_pad_unique(&csi->vdev.entity);
-+	if (!pad)
-+		return;
-+
-+	ret = cdns_csi2rx_negotiate_ppc(csi->source, pad->index, &ppc);
-+	if (ret) {
-+		dev_warn(csi->dev, "NUM_PIXELS negotiation failed: %d\n", ret);
-+		csi->pix_per_clk = 1;
-+	} else {
-+		csi->pix_per_clk = ppc;
-+	}
-+}
-+
- static void ti_csi2rx_setup_shim(struct ti_csi2rx_dev *csi)
- {
- 	const struct ti_csi2rx_fmt *fmt;
-@@ -496,6 +521,9 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_dev *csi)
- 	reg = SHIM_CNTL_PIX_RST;
- 	writel(reg, csi->shim + SHIM_CNTL);
- 
-+	/* Negotiate pixel count from the source */
-+	ti_csi2rx_request_max_ppc(csi);
-+
- 	reg = SHIM_DMACNTX_EN;
- 	reg |= FIELD_PREP(SHIM_DMACNTX_FMT, fmt->csi_dt);
- 
-@@ -524,14 +552,18 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_dev *csi)
- 	case V4L2_PIX_FMT_YVYU:
- 		reg |= FIELD_PREP(SHIM_DMACNTX_YUV422,
- 				  SHIM_DMACNTX_YUV422_MODE_11);
-+		/* Multiple pixels are handled differently for packed YUV */
-+		if (csi->pix_per_clk == 2)
-+			reg |= SHIM_DMACNTX_DUAL_PCK_CFG;
-+		reg |= FIELD_PREP(SHIM_DMACNTX_SIZE, fmt->size);
- 		break;
- 	default:
--		/* Ignore if not YUV 4:2:2 */
-+		/* By default we change the shift size for multiple pixels */
-+		reg |= FIELD_PREP(SHIM_DMACNTX_SIZE,
-+				  fmt->size + (csi->pix_per_clk >> 1));
- 		break;
- 	}
- 
--	reg |= FIELD_PREP(SHIM_DMACNTX_SIZE, fmt->size);
--
- 	writel(reg, csi->shim + SHIM_DMACNTX);
- 
- 	reg = FIELD_PREP(SHIM_PSI_CFG0_SRC_TAG, 0) |
-
--- 
-2.49.0
-
+Cheers,
+Jens
 
