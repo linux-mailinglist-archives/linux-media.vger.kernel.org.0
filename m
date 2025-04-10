@@ -1,67 +1,70 @@
-Return-Path: <linux-media+bounces-29905-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29906-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E41DCA83EAA
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 11:30:08 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87898A83F49
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 11:47:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4DD711B63F64
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 09:27:04 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B041F7B76F6
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 09:46:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A338259CB5;
-	Thu, 10 Apr 2025 09:25:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4FB826A1C8;
+	Thu, 10 Apr 2025 09:47:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="C5snF0yF"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A2NU5XRf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E3E258CE5;
-	Thu, 10 Apr 2025 09:25:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B09F267701
+	for <linux-media@vger.kernel.org>; Thu, 10 Apr 2025 09:47:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744277101; cv=none; b=BY2eN0vBRmvGi7l3wPBR0FHcNW7fRY94Ne29f2vTtZc+dOacWkM3mfTJuQVzq30aAWVLSHTbYTMgAeSlAXSQ0Dzj5OY4iqgg713fwojM1paVuktv8fQtzTHte6cnQqLU9eIT/TIVsXa9svLn7wlbq0w0eBdbZkD6/Jnb1ScRlqo=
+	t=1744278433; cv=none; b=lihJiNN6obiPXfBz7Pd5fPd/NPCiDmCtonCmgiWQ52/xZI2IYShLHmtY5vHjhvRARBH7K/9eo1k6cngLSrklw/BxjCXblS3VoHAg/kg0B4ektzZfzPPU+8wJ/PHdc52WJ0e22tfdlfRfsP4Rntoj3uAmfWMwzXh+hjlZz5sHes8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744277101; c=relaxed/simple;
-	bh=wrafJtqld39LFoxCo2SLkSTX/FGJSOSUY67ueylsNZ0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SPzZKb+PIopqI5/Z17+VqR+yn5XavSO2y5/d/KpyFOAR8Dz4oE5rJTNOo/fJKScfBC9fWMJx2vwJWphxbrS28mm67AMK9mxKmv8lhca06NpUHzHUCRi+3ed7/1JApwaWA1SH1XVVu6gPDnzr5919Jr7YMtKI5JrHJHAxuBIrIS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=C5snF0yF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 101E6C4CEEE;
-	Thu, 10 Apr 2025 09:24:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744277101;
-	bh=wrafJtqld39LFoxCo2SLkSTX/FGJSOSUY67ueylsNZ0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=C5snF0yFfuHVhKnz4fzbkr7N2cym2tQmHOziG7+aRCRCWasD+/UnDEi925ipTORDP
-	 Wllj9EDzOrQkfEb3kkIdAgm760RdsWjtxZuezrG57jUYgIie2Z4zE6LovCxgPMKgjD
-	 mGRrykuwDjycfvx0rte/JH1LoiVw+WlhSdK7dcs19SCy9UohKXvfDGRgXwoNQTOsWe
-	 gq2klvgoxFUBcS6EWbcNLxeYTv2J5wGCScq0/4HHaPDDPuaj8DHcnaVqeAInHaBcQh
-	 oR+qu6Dl0/n8tt3KC/PX+a0yyjM7pt2grisyXo05OvExoyMrD/ZIZ43z/8Z/TojS1W
-	 dVQqt4Guny3Bg==
-From: Philipp Stanner <phasta@kernel.org>
-To: Lyude Paul <lyude@redhat.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Sabrina Dubroca <sd@queasysnail.net>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org,
-	nouveau@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	Philipp Stanner <phasta@kernel.org>
-Subject: [PATCH 3/3] drm/nouveau: Add helper to check base fence
-Date: Thu, 10 Apr 2025 11:24:19 +0200
-Message-ID: <20250410092418.135258-5-phasta@kernel.org>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250410092418.135258-2-phasta@kernel.org>
-References: <20250410092418.135258-2-phasta@kernel.org>
+	s=arc-20240116; t=1744278433; c=relaxed/simple;
+	bh=Aww/rAoS5KDn4EfTjsZMNFP1hrrJbiMj1WeJnvVydfI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qJkrSaVKpEUTLJnavecsRBjkBWTLkhD5/thJrMcqDo78FoImfRXwtc/PrR+uFZ41VS2dmGHZmSlQTxiJeRyAhCiv/DKJWvHmYsZ+30MqddA450r4I8a+ptDrIZ9oroGKMs59422A1ijUPOXwpdKrhPIhoxWZtWzOjIXZK182KqE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A2NU5XRf; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744278431; x=1775814431;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Aww/rAoS5KDn4EfTjsZMNFP1hrrJbiMj1WeJnvVydfI=;
+  b=A2NU5XRfiArduaMISDzqamWx0wEpSg53q5V1wBNpDskVbb4/zQxppDyd
+   lsGZW3P4yg4edhiDAdcbRXENh2w+p0tPZiOdl7x7I/KinIcgONRJeK7b4
+   s/TPuSQP7X7CZAZBRLTt7PhQCabWc2f84Vb/n8qoTZ+2jKsOKdnoygM9f
+   xRnXmcLpy83JrNKZSJLJRXBamgjD9BXHB30vTybuKnMHmu4gCjay0vitJ
+   zl3+uhUKq+fST2ZMnAUGG6bbyFgUtR/a8taF9o3C8KthkNgGhpqAKuEuz
+   aCe3L17xcKPqMUs3i3Zvnh0kBYf5MpAzZJDkVwslA44f3U3BPsjeoAGd9
+   A==;
+X-CSE-ConnectionGUID: h7bV6IJvQCC04Uof2KW1bg==
+X-CSE-MsgGUID: E88CasjMS8uVR34z1ETX0Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="33398052"
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
+   d="scan'208";a="33398052"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 02:47:10 -0700
+X-CSE-ConnectionGUID: bkN6o02fQdu5JfObROmFMA==
+X-CSE-MsgGUID: iJd15WrlSoexX6guufGo6Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
+   d="scan'208";a="129796385"
+Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.245.254.14])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 02:47:09 -0700
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: linux-media@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>
+Subject: [PATCH v2] media: intel/ipu6: Fix dma mask for non-secure mode
+Date: Thu, 10 Apr 2025 11:47:06 +0200
+Message-Id: <20250410094706.36958-1-stanislaw.gruszka@linux.intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -70,60 +73,45 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Nouveau, unfortunately, checks whether a dma_fence is already siganled
-at various different places with, at times, different methods. In
-nouveau_fence_update() it generally signals all fences the hardware is
-done with by evaluating the sequence number. That mechanism then has no
-way to tell the caller nouveau_fence_done() whether a particular fence
-is actually signaled, which is why the internal bits of the dma_fence
-get checked.
+We use dma_get_mask() of auxdev device for calculate iova pfn limit.
+This is always 32 bit mask as we do not initialize the mask (and we can
+not do so, since dev->dev_mask is NULL anyways for auxdev).
 
-This can be made more readable by providing a new wrapper, which can
-then later be helpful to solve an unrelated bug.
+Since we need 31 bit mask for non-secure mode use mmu_info->aperture_end
+which is properly initialized to correct mask for both modes.
 
-Add nouveau_fence_base_is_signaled().
-
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
+Fixes: daabc5c64703 ("media: ipu6: not override the dma_ops of device in driver")
+Cc: stable@vger.kernel.org
+Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 ---
- drivers/gpu/drm/nouveau/nouveau_fence.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+v1 -> v2: do not introduce wrapper
 
-diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-index db6f4494405c..0d58a81b3402 100644
---- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-+++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-@@ -256,6 +256,12 @@ nouveau_fence_emit(struct nouveau_fence *fence)
- 	return ret;
- }
+ drivers/media/pci/intel/ipu6/ipu6-dma.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-dma.c b/drivers/media/pci/intel/ipu6/ipu6-dma.c
+index 1ca60ca79dba..7296373d36b0 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-dma.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-dma.c
+@@ -172,7 +172,7 @@ void *ipu6_dma_alloc(struct ipu6_bus_device *sys, size_t size,
+ 	count = PHYS_PFN(size);
  
-+static inline bool
-+nouveau_fence_base_is_signaled(struct nouveau_fence *fence)
-+{
-+	return test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->base.flags);
-+}
-+
- bool
- nouveau_fence_done(struct nouveau_fence *fence)
- {
-@@ -263,7 +269,7 @@ nouveau_fence_done(struct nouveau_fence *fence)
- 	struct nouveau_channel *chan;
- 	unsigned long flags;
+ 	iova = alloc_iova(&mmu->dmap->iovad, count,
+-			  PHYS_PFN(dma_get_mask(dev)), 0);
++			  PHYS_PFN(mmu->dmap->mmu_info->aperture_end), 0);
+ 	if (!iova)
+ 		goto out_kfree;
  
--	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->base.flags))
-+	if (nouveau_fence_base_is_signaled(fence))
- 		return true;
+@@ -398,7 +398,7 @@ int ipu6_dma_map_sg(struct ipu6_bus_device *sys, struct scatterlist *sglist,
+ 		nents, npages);
  
- 	spin_lock_irqsave(&fctx->lock, flags);
-@@ -272,7 +278,7 @@ nouveau_fence_done(struct nouveau_fence *fence)
- 		nvif_event_block(&fctx->event);
- 	spin_unlock_irqrestore(&fctx->lock, flags);
+ 	iova = alloc_iova(&mmu->dmap->iovad, npages,
+-			  PHYS_PFN(dma_get_mask(dev)), 0);
++			  PHYS_PFN(mmu->dmap->mmu_info->aperture_end), 0);
+ 	if (!iova)
+ 		return 0;
  
--	return test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->base.flags);
-+	return nouveau_fence_base_is_signaled(fence);
- }
- 
- static long
 -- 
-2.48.1
+2.34.1
 
 
