@@ -1,216 +1,277 @@
-Return-Path: <linux-media+bounces-29970-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29971-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 698EAA84A5B
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 18:46:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6C87A84BAE
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 19:52:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4F9964C00D0
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 16:46:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 488574E10AB
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 17:50:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 849AB1EB9E1;
-	Thu, 10 Apr 2025 16:46:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C62502857D7;
+	Thu, 10 Apr 2025 17:50:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="wh4ReCx3"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PDX8KAwg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE74D1C1F13
-	for <linux-media@vger.kernel.org>; Thu, 10 Apr 2025 16:46:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744303600; cv=pass; b=F47wkzhYhldW1glEDWGLnDy7/WTbz3Cn7NX+qGQCn85GmQ78wpGRozj+GYZS7Sih//2iwk44nnNVwJpaA8cgCKQiKAL7410Xee8hqkh8Y9sMZw7w/lxLB5Fo2rqzRCFs27oCV1kvkeH6XjyxRQ8GuVZVrj3u3xWlye+9KFtFP1s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744303600; c=relaxed/simple;
-	bh=a5XhI3c9VjZbnZyPwOs9v7p7ztwj/IC+04vRIa+5yMI=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 153CC4503B;
+	Thu, 10 Apr 2025 17:50:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744307441; cv=none; b=l4zt7GjKA+FcG3sUQlcvmoBFupTf4Je4NKpZDz4esCFUKcnOdV01ebwOUX7aL9IZ2M3GHxM/ag8E2p0+EOsLF4FuOibwF3Bh0mcoTCz2Hj+k1cm+cHGQUV2mmimxceGFYd6z5kuYQeSnRZaKdHxmk1a+eCcOBq0BeSuJyHcFNVc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744307441; c=relaxed/simple;
+	bh=LU5dwri1TjU740CvlReL/wlTOs+9Az6hmBvzPrhh88E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hBA+IQj68J33YYPPDjYIePj3ITbHE4cjwRxvkYm/7WeOGEhew5KyAKKgMd/7OGmPnrOFe2sxCUMuul4TDA8h+xwYqqk+XIUGyS7nNd7hm5lfrLxSFiV1Nq9ANgX0kWNd6sWgN6sGFyWmUevoImSwPZFVVlLGyugywJiWn0pDEYk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=wh4ReCx3; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-127c-61ff-fee2-b97e.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:127c:61ff:fee2:b97e])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4ZYQgr0kkTz49Pxf;
-	Thu, 10 Apr 2025 19:46:32 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1744303592;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y/BULjYU+05EezM//RhKpqcpl86VInwwkgdUf0CmOl8=;
-	b=wh4ReCx3OIl7cIBMUnPDPpRblqi6/DMfpLBt3GZ3WtC4fdEQm6eFRTa7t4pCerP9FSWE73
-	glXYjLHyrNax4QMfcnLhlIaTai8WVrn+Yzf15OwmZLoD4kOonDlkRV3D23YNz0h7sZ9L44
-	Q2YTszjaqZ+3KfVlOxxoU3PftYp1fhOBmh/HVEpHi5+9i8PddfYqNOLOaHBnXJHoYY5a6i
-	6W34rJkrpN9+1RGai/BIMBtMcKrt7aEdBYP4WH6AgBTclKtYBro1WTo+JqtJ0Bysia/GHa
-	2mF4/Qawr6bEOVZYWS0MqLV6aZmJ+QZuR0dObVtiHcOu44eZjn0O8X9/OkubqA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1744303592;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y/BULjYU+05EezM//RhKpqcpl86VInwwkgdUf0CmOl8=;
-	b=htjICqWoA20JnU6KTauRs98eK01Mwwfct4dSkJHhEsXx4w3tbdX3bcgS4Eya9bbfJ6LA0d
-	68DSmCTUhgoVaxTRAky3Zh0NM9ggJD3/shr3eEk7W6UefHWONUC9/lUsyQyfNIUd6Q2t5C
-	L3CepNNnyu6Jj7UHXLQR6Ck5HfOp2GvXnK1nPa/YA8HJVIHqMpGQIVfhYo+VyS/BinMUvJ
-	sMm8f+7tEZYoIL0Y9hRHDQQ268T75lxFLGqMkNEbI1NjSE1EQBobvdcdiN3jFSleKpeJhb
-	npDHBQk9peLR7LaGKEOhePIpMYSWlo5r9NQvswIOvQpW1rgdDaa8TF3+SjVHhQ==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1744303592; a=rsa-sha256;
-	cv=none;
-	b=ZuQzcW6Pl5TUI0MKQopf1GJmDzN2b3XuGhswLxjMhhrwjsScnoIe6MHf3ADG6S1Vqmq/oB
-	X0nZfK+rbkOcoskCcxMgpV4fUPS8NkLktAJ6b261cmydpXKSPiJygbgkCegFzubDlqeV+F
-	QTSwFHHf4BldHI7+Ih5/u+tBtGPvX67m0D6c1Hr3cSIQI7HXqEtMc8chhYED4PYvy8LxHG
-	TKSCZRUnZZkDtFdeGAefSXuze3IWRFJUccGol/2+sDvqxkUhjwoZaegGldz/ww3WMEH3EG
-	JbbMJTnArgyoq4i2IbQPiav9TcRtYfU/HyPayAGnnbQ6c9N10Vf+T2MGLqaHvg==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 93B3F634C93;
-	Thu, 10 Apr 2025 19:46:31 +0300 (EEST)
-Date: Thu, 10 Apr 2025 16:46:31 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [PATCH] Use key_value to handle V4L2 field names
-Message-ID: <Z_f15yFItvQCAld2@valkosipuli.retiisi.eu>
-References: <20250410164251.15352-1-laurent.pinchart@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=FkQwjvG3X8GNXuDrVf4cyNorCRVzXuh3zTX5NyzRvnD2kQe6af35MvDsKmjx9Q69mZYUuVD8j44n94Xu3t9a2miY92lyd0+8GAxEnQknnWTp5uF9UJlT6vztCwjWoQIZnO/+XkZXK1xvBwvlkuDu7vrQMU2TyMRJyaAmoQZaIP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PDX8KAwg; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1ADA2352;
+	Thu, 10 Apr 2025 19:48:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1744307318;
+	bh=LU5dwri1TjU740CvlReL/wlTOs+9Az6hmBvzPrhh88E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PDX8KAwgi86ce2bRZRSSM1USB2zOndffk2GMIjRwwbDCSqGWV1F3a+IZni7iRoXln
+	 RYCqrRdwWQ2Y2IvcJWA/HS9azfvtog9PlEbC/ge0EEZyJUoa4DaurTI2AnfiVlXwoc
+	 sKXutYrzfCLnsHz2Rb4v83vflzuJZ4lomlBoCaFw=
+Date: Thu, 10 Apr 2025 20:50:10 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org, kernel@collabora.com,
+	linux-media@vger.kernel.org,
+	Sebastian Fricke <sebastian.fricke@collabora.com>
+Subject: Re: [PATCH v2 1/5] media: mc: add manual request completion
+Message-ID: <20250410175010.GF27870@pendragon.ideasonboard.com>
+References: <20250410-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v2-0-5b99ec0450e6@collabora.com>
+ <20250410-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v2-1-5b99ec0450e6@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250410164251.15352-1-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20250410-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v2-1-5b99ec0450e6@collabora.com>
 
-Hi Laurent,
+Hi Nicolas,
 
-On Thu, Apr 10, 2025 at 07:42:51PM +0300, Laurent Pinchart wrote:
-> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Thank you for the patch.
+
+On Thu, Apr 10, 2025 at 11:39:56AM -0400, Nicolas Dufresne wrote:
+> From: Hans Verkuil <hverkuil@xs4all.nl>
 > 
-> Extend the key_value helper with a function to retrieve the key
-> corresponding to a value, and use it to replace the manual
-> implementation of V4L2 field name lookup.
+> By default when the last request object is completed, the whole
+> request completes as well.
 > 
-> The name comparison needs to be made case-insensitive to avoid breaking
-> users, as yavta handles V4L2 field names in a case-insensitive way.
+> But sometimes you want to manually complete a request in a driver,
+> so add a manual complete mode for this.
+
+I didn't immediately understand this was about delaying completion of
+the request. It would be nice to make that more explicit in the commit
+message and in the documentation of
+media_request_mark_manual_completion(). A sample use case would also
+help.
+
+> In req_queue the driver marks the request for manual completion by
+> calling media_request_mark_manual_completion, and when the driver
+> wants to manually complete the request it calls
+> media_request_manual_complete().
 > 
-> Suggested-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 > ---
->  yavta.c | 50 +++++++++++++++++++++++---------------------------
->  1 file changed, 23 insertions(+), 27 deletions(-)
+>  drivers/media/mc/mc-request.c | 38 ++++++++++++++++++++++++++++++++++++--
+>  include/media/media-request.h | 36 +++++++++++++++++++++++++++++++++++-
+>  2 files changed, 71 insertions(+), 3 deletions(-)
 > 
-> diff --git a/yavta.c b/yavta.c
-> index b463f5841100..49f10c371aa6 100644
-> --- a/yavta.c
-> +++ b/yavta.c
-> @@ -199,7 +199,7 @@ static int __key_value_get(const struct key_value *values,
->  	unsigned int i;
->  
->  	for (i = 0; i < count; ++i) {
-> -		if (!strcmp(values[i].name, name))
-> +		if (!strcasecmp(values[i].name, name))
-
-Shouldn't this change be ing the previous patch?
-
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
->  			return values[i].value;
->  	}
->  
-> @@ -235,12 +235,29 @@ static void __key_value_list(const struct key_value *values,
->  	printf("\n");
+> diff --git a/drivers/media/mc/mc-request.c b/drivers/media/mc/mc-request.c
+> index 5edfc2791ce7c7485def5db675bbf53ee223d837..398d0806d1d274eb8c454fc5c37b77476abe1e74 100644
+> --- a/drivers/media/mc/mc-request.c
+> +++ b/drivers/media/mc/mc-request.c
+> @@ -54,6 +54,7 @@ static void media_request_clean(struct media_request *req)
+>  	req->access_count = 0;
+>  	WARN_ON(req->num_incomplete_objects);
+>  	req->num_incomplete_objects = 0;
+> +	req->manual_completion = false;
+>  	wake_up_interruptible_all(&req->poll_wait);
 >  }
 >  
-> +static const char *__key_value_name(const struct key_value *values,
-> +				    unsigned int count, unsigned int value,
-> +				    const char *def_value)
+> @@ -313,6 +314,7 @@ int media_request_alloc(struct media_device *mdev, int *alloc_fd)
+>  	req->mdev = mdev;
+>  	req->state = MEDIA_REQUEST_STATE_IDLE;
+>  	req->num_incomplete_objects = 0;
+> +	req->manual_completion = false;
+>  	kref_init(&req->kref);
+>  	INIT_LIST_HEAD(&req->objects);
+>  	spin_lock_init(&req->lock);
+> @@ -459,7 +461,7 @@ void media_request_object_unbind(struct media_request_object *obj)
+>  
+>  	req->num_incomplete_objects--;
+>  	if (req->state == MEDIA_REQUEST_STATE_QUEUED &&
+> -	    !req->num_incomplete_objects) {
+> +	    !req->num_incomplete_objects && !req->manual_completion) {
+>  		req->state = MEDIA_REQUEST_STATE_COMPLETE;
+>  		completed = true;
+>  		wake_up_interruptible_all(&req->poll_wait);
+> @@ -488,7 +490,7 @@ void media_request_object_complete(struct media_request_object *obj)
+>  	    WARN_ON(req->state != MEDIA_REQUEST_STATE_QUEUED))
+>  		goto unlock;
+>  
+> -	if (!--req->num_incomplete_objects) {
+> +	if (!--req->num_incomplete_objects && !req->manual_completion) {
+>  		req->state = MEDIA_REQUEST_STATE_COMPLETE;
+>  		wake_up_interruptible_all(&req->poll_wait);
+>  		completed = true;
+> @@ -499,3 +501,35 @@ void media_request_object_complete(struct media_request_object *obj)
+>  		media_request_put(req);
+>  }
+>  EXPORT_SYMBOL_GPL(media_request_object_complete);
+> +
+> +void media_request_manual_complete(struct media_request *req)
 > +{
-> +	unsigned int i;
+> +	unsigned long flags;
+> +	bool completed = false;
 > +
-> +	for (i = 0; i < count; ++i) {
-> +		if (values[i].value == value)
-> +			return values[i].name;
+> +	if (WARN_ON(!req))
+> +		return;
+> +	if (WARN_ON(!req->manual_completion))
+> +		return;
+> +
+> +	spin_lock_irqsave(&req->lock, flags);
+> +	if (WARN_ON(req->state != MEDIA_REQUEST_STATE_QUEUED))
+> +		goto unlock;
+> +
+> +	req->manual_completion = false;
+> +	/*
+> +	 * It is expected that all other objects in this request are
+> +	 * completed when this function is called. WARN if that is
+> +	 * not the case.
+> +	 */
+> +	if (!WARN_ON(req->num_incomplete_objects)) {
+> +		req->state = MEDIA_REQUEST_STATE_COMPLETE;
+> +		wake_up_interruptible_all(&req->poll_wait);
+> +		completed = true;
 > +	}
-> +
-> +	return def_value;
+> +unlock:
+> +	spin_unlock_irqrestore(&req->lock, flags);
+> +	if (completed)
+> +		media_request_put(req);
+> +}
+> +EXPORT_SYMBOL_GPL(media_request_manual_complete);
+> diff --git a/include/media/media-request.h b/include/media/media-request.h
+> index d4ac557678a78372222704400c8c96cf3150b9d9..645d18907be7148ca50dcc9248ff06bd8ccdf953 100644
+> --- a/include/media/media-request.h
+> +++ b/include/media/media-request.h
+> @@ -56,6 +56,10 @@ struct media_request_object;
+>   * @access_count: count the number of request accesses that are in progress
+>   * @objects: List of @struct media_request_object request objects
+>   * @num_incomplete_objects: The number of incomplete objects in the request
+> + * @manual_completion: if true, then the request won't be marked as completed
+> + * when @num_incomplete_objects reaches 0. Call media_request_manual_complete()
+> + * to set this field to false and complete the request
+
+I'd drop "set this field to false and " here.
+
+> + * if @num_incomplete_objects == 0.
+
+ * after @num_incomplete_objects reaches 0.
+
+>   * @poll_wait: Wait queue for poll
+>   * @lock: Serializes access to this struct
+>   */
+> @@ -68,6 +72,7 @@ struct media_request {
+>  	unsigned int access_count;
+>  	struct list_head objects;
+>  	unsigned int num_incomplete_objects;
+> +	bool manual_completion;
+>  	wait_queue_head_t poll_wait;
+>  	spinlock_t lock;
+>  };
+> @@ -218,6 +223,35 @@ media_request_get_by_fd(struct media_device *mdev, int request_fd);
+>  int media_request_alloc(struct media_device *mdev,
+>  			int *alloc_fd);
+>  
+> +/**
+> + * media_request_mark_manual_completion - Set manual_completion to true
+> + *
+> + * @req: The request
+> + *
+> + * Mark that the request has to be manually completed by calling
+> + * media_request_manual_complete().
+> + *
+> + * This function should be called in the req_queue callback.
+
+s/should/shall/ unless it's not a hard requirement. Any way to catch
+incorrect call patterns ?
+
+> + */
+> +static inline void
+> +media_request_mark_manual_completion(struct media_request *req)
+> +{
+> +	req->manual_completion = true;
 > +}
 > +
->  #define key_value_get(values, name) \
->  	__key_value_get(values, ARRAY_SIZE(values), name)
->  
->  #define key_value_list(values, type) \
->  	__key_value_list(values, ARRAY_SIZE(values), type)
->  
-> +#define key_value_name(values, value, def_value) \
-> +	__key_value_name(values, ARRAY_SIZE(values), value, def_value)
+> +/**
+> + * media_request_manual_complete - Set manual_completion to false
+
+The main purpose of the function is to complete the request, not setting
+manual_completion to false.
+
+> + *
+> + * @req: The request
+> + *
+> + * Set @manual_completion to false, and if @num_incomplete_objects
+> + * is 0, then mark the request as completed.
+> + *
+> + * If there are still incomplete objects in the request, then
+> + * WARN for that since that suggests a driver error.
+
+If that's an error then I'd document it more explicitly, as the first
+sentence makes it sound that both cases are valid. Maybe
+
+ * This function completes a request that was marked for manual completion by an
+ * earlier call to media_request_mark_manual_completion(). The request's
+ * @manual_completion flag is reset to false.
+ *
+ * All objects contained in the request must have been completed previously. It
+ * is an error to call this function otherwise. The request will not be
+ * completed in that case, and the function will WARN.
+
+> + */
+> +void media_request_manual_complete(struct media_request *req);
 > +
->  /* -----------------------------------------------------------------------------
->   * Format handling
->   */
-> @@ -466,10 +483,7 @@ static const char *v4l2_format_name(unsigned int fourcc)
->  	return name;
->  }
+>  #else
 >  
-> -static const struct {
-> -	const char *name;
-> -	enum v4l2_field field;
-> -} fields[] = {
-> +static const struct key_value v4l2_fields[] = {
->  	{ "any", V4L2_FIELD_ANY },
->  	{ "none", V4L2_FIELD_NONE },
->  	{ "top", V4L2_FIELD_TOP },
-> @@ -482,29 +496,11 @@ static const struct {
->  	{ "interlaced-bt", V4L2_FIELD_INTERLACED_BT },
->  };
->  
-> -static enum v4l2_field v4l2_field_from_string(const char *name)
-> -{
-> -	unsigned int i;
-> +#define v4l2_field_from_string(name) \
-> +	key_value_get(v4l2_fields, name)
->  
-> -	for (i = 0; i < ARRAY_SIZE(fields); ++i) {
-> -		if (strcasecmp(fields[i].name, name) == 0)
-> -			return fields[i].field;
-> -	}
-> -
-> -	return -1;
-> -}
-> -
-> -static const char *v4l2_field_name(enum v4l2_field field)
-> -{
-> -	unsigned int i;
-> -
-> -	for (i = 0; i < ARRAY_SIZE(fields); ++i) {
-> -		if (fields[i].field == field)
-> -			return fields[i].name;
-> -	}
-> -
-> -	return "unknown";
-> -}
-> +#define v4l2_field_name(field) \
-> +	key_value_name(v4l2_fields, field, "unknown")
->  
->  static const struct key_value v4l2_colorspaces[] = {
->  	{ "DEFAULT", V4L2_COLORSPACE_DEFAULT },
-> 
-> base-commit: 3e445c7855f8240d1f8473d127307dd967be2d25
+>  static inline void media_request_get(struct media_request *req)
+> @@ -336,7 +370,7 @@ void media_request_object_init(struct media_request_object *obj);
+>   * @req: The media request
+>   * @ops: The object ops for this object
+>   * @priv: A driver-specific priv pointer associated with this object
+> - * @is_buffer: Set to true if the object a buffer object.
+> + * @is_buffer: Set to true if the object is a buffer object.
+>   * @obj: The object
+>   *
+>   * Bind this object to the request and set the ops and priv values of
 
 -- 
-Kind regards,
+Regards,
 
-Sakari Ailus
+Laurent Pinchart
 
