@@ -1,425 +1,511 @@
-Return-Path: <linux-media+bounces-29931-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29932-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53F0CA84485
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 15:19:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BA6FA844AE
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 15:26:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7E23B7A8947
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 13:17:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4D3627A9F42
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 13:23:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6B6F2857DA;
-	Thu, 10 Apr 2025 13:18:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="iL5LDnZx"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6531D28A41F;
+	Thu, 10 Apr 2025 13:24:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 090142836BA;
-	Thu, 10 Apr 2025 13:18:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1B981EB5F7
+	for <linux-media@vger.kernel.org>; Thu, 10 Apr 2025 13:24:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744291133; cv=none; b=cC2QERaRkHhAP8hUa44v/X5VkUEYnCpVo3wVurd4/h4oRt3tNulICVnfg/EPruuA1bEmRZt25AMgUWJIiW40rfBRKgbqMNWbf8orOl9DY7mJmVLP84yrih0fN8bTMA0Xm4P7RusAQZ5naIW8yrWxzw1U8v7N9aCOyZgQfU3ZOCc=
+	t=1744291447; cv=none; b=WqQIdeasc58xhbTpoTqGtW7JMFYHJl3apOIQ7ZjdmPDQuWWbftqy+qyrb3ed5+5SgREXI+kSU1Ur4AbIgCCdFJgG9HAOUILDNbMyVthRa60w82YMseDkavWOD2bxTyyS3bykLRE/TIY8YAOIQJnR+IbWrEQllUyxf/OUNMM/DQk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744291133; c=relaxed/simple;
-	bh=Di12UIlVhobgoHnspy5XejWdRPf+a4jBs6939VP4VHc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=eMdk94Qwv3J0DsAue9MEkV9pXPNliO1ong7kFs7gqluo3i2pAgA4BQFrVcG1njuYtaNbqL/EUYTVvtF0l0B3h+sPkfiLHZTAuRePqQ6vGw2k13KKcdvSKE7vME8tlTKeqCZzRtXirLJyMcWbM5yYwBsFtCWj5vfQvsEhDHFxmeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=iL5LDnZx; arc=none smtp.client-ip=80.241.56.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4ZYL464lJXz9spM;
-	Thu, 10 Apr 2025 15:18:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1744291126; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Di12UIlVhobgoHnspy5XejWdRPf+a4jBs6939VP4VHc=;
-	b=iL5LDnZx1NJhnTKVgRDHv2veV6OUMzQ7spDxQa2ojPeNIHnpz6hhdfOLqY7eiQweyckfSV
-	gWOgOGg8Wh+v007+bsFhnhrdz+Vi54l1yu0lMvlv5AG4/soHGC9Mseonz9ZgMxrtC5UIH9
-	gAuA8ecgmxPRiD+/8Cv74ahcOtAe7qEOF1dxtDtKuNkwtClBYIQ7PjxqD1/X16iJl/4KBQ
-	VI1SWI5wLAfMdo8yvm1CMXUxF1WI46FUyBfD8NW8C3mM0P7hQbEoPCHnQCZC0eJ+H3I/7n
-	i4aeBxIZ2NP1fHd6XwZT2U9NgUtERr+8Qvqf71/csR/NqxA6QpyEvEssuVYo0A==
-Message-ID: <c91e8331993e367c962b5e01c74966528ed16239.camel@mailbox.org>
-Subject: Re: [PATCH 0/3] drm/nouveau: Fix & improve nouveau_fence_done()
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
-	phasta@kernel.org, Lyude Paul <lyude@redhat.com>, Danilo Krummrich
-	 <dakr@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
-	 <simona@ffwll.ch>, Sabrina Dubroca <sd@queasysnail.net>, Sumit Semwal
-	 <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Date: Thu, 10 Apr 2025 15:18:43 +0200
-In-Reply-To: <cf4717bd-6c1d-4f3a-a0ab-ceb2170c47f2@amd.com>
-References: <20250410092418.135258-2-phasta@kernel.org>
-	 <1cbb915240e5e09447ac8d04b5d2dc4165926de7.camel@mailbox.org>
-	 <cf4717bd-6c1d-4f3a-a0ab-ceb2170c47f2@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1744291447; c=relaxed/simple;
+	bh=oozaxFHwC4P/g06WESy5pTw+A44H/XxKaF3KaiWtRqo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=feX1oLEZ2GSmLKw5Z+4esoxkBr22Jfpn58boipuDJJ4qa0ehSq7/86BvG/HaTFYaDerYuJfV+7JOrF97BZ9ENBnU5JXth9TdwAuOPFaiXREMJie23AzuH3SWxxZSyd+8bPTBlHGmk3HAxpq0ydg1k3EihgjY/g410eobeywiH9M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4B1F71516
+	for <linux-media@vger.kernel.org>; Thu, 10 Apr 2025 06:24:04 -0700 (PDT)
+Received: from e110455-lin.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D796C3F6A8
+	for <linux-media@vger.kernel.org>; Thu, 10 Apr 2025 06:24:03 -0700 (PDT)
+Date: Thu, 10 Apr 2025 14:23:46 +0100
+From: Liviu Dudau <liviu.dudau@arm.com>
+To: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+	Steven Price <steven.price@arm.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	kernel@collabora.com, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v6 4/4] drm/panthor: show device-wide list of DRM GEM
+ objects over DebugFS
+Message-ID: <Z_fGYt-JG0zLtSqE@e110455-lin.cambridge.arm.com>
+References: <20250409212233.2036154-1-adrian.larumbe@collabora.com>
+ <20250409212233.2036154-5-adrian.larumbe@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: q33jtrq4heq7q7q5tm8ar8gz7i7xr7u1
-X-MBO-RS-ID: cabf72b507332c4abb0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250409212233.2036154-5-adrian.larumbe@collabora.com>
 
-On Thu, 2025-04-10 at 14:18 +0200, Christian K=C3=B6nig wrote:
-> Am 10.04.25 um 11:51 schrieb Philipp Stanner:
-> > On Thu, 2025-04-10 at 11:24 +0200, Philipp Stanner wrote:
-> > > Contains two patches improving nouveau_fence_done(), and one
-> > > addressing
-> > > an actual bug (race):
-> > Oops, that's the wrong calltrace. Here we go:
-> >=20
-> > [ 85.791794] Call Trace: [ 85.791796] <TASK> [ 85.791797] ?
-> > nouveau_fence_context_kill
-> > (/home/imperator/linux/./include/linux/dma-fence.h:587
-> > (discriminator 9)
-> > /home/imperator/linux/drivers/gpu/drm/nouveau/nouveau_fence.c:94
-> > (discriminator 9)) nouveau [ 85.791874] ? __warn.cold
-> > (/home/imperator/linux/kernel/panic.c:748) [ 85.791878] ?
-> > nouveau_fence_context_kill
-> > (/home/imperator/linux/./include/linux/dma-fence.h:587
-> > (discriminator 9)
-> > /home/imperator/linux/drivers/gpu/drm/nouveau/nouveau_fence.c:94
-> > (discriminator 9)) nouveau [ 85.791950] ? report_bug
-> > (/home/imperator/linux/lib/bug.c:180
-> > /home/imperator/linux/lib/bug.c:219) [ 85.791953] ? handle_bug
-> > (/home/imperator/linux/arch/x86/kernel/traps.c:260) [ 85.791956] ?
-> > exc_invalid_op (/home/imperator/linux/arch/x86/kernel/traps.c:309
-> > (discriminator 1)) [ 85.791957] ? asm_exc_invalid_op
-> > (/home/imperator/linux/./arch/x86/include/asm/idtentry.h:621) [
-> > 85.791960] ? nouveau_fence_context_kill
-> > (/home/imperator/linux/./include/linux/dma-fence.h:587
-> > (discriminator 9)
-> > /home/imperator/linux/drivers/gpu/drm/nouveau/nouveau_fence.c:94
-> > (discriminator 9)) nouveau [ 85.792028] drm_sched_fini.cold
-> > (/home/imperator/linux/./include/trace/../../drivers/gpu/drm/schedu
-> > ler/gpu_scheduler_trace.h:72 (discriminator 1)) gpu_sched [
-> > 85.792033] ? drm_sched_entity_kill.part.0
-> > (/home/imperator/linux/drivers/gpu/drm/scheduler/sched_entity.c:243
-> > (discriminator 2)) gpu_sched [ 85.792037] nouveau_sched_destroy
-> > (/home/imperator/linux/drivers/gpu/drm/nouveau/nouveau_sched.c:509
-> > /home/imperator/linux/drivers/gpu/drm/nouveau/nouveau_sched.c:518)
-> > nouveau [ 85.792122] nouveau_abi16_chan_fini.isra.0
-> > (/home/imperator/linux/drivers/gpu/drm/nouveau/nouveau_abi16.c:188)
-> > nouveau [ 85.792191] nouveau_abi16_fini
-> > (/home/imperator/linux/drivers/gpu/drm/nouveau/nouveau_abi16.c:224
-> > (discriminator 3)) nouveau [ 85.792263] nouveau_drm_postclose
-> > (/home/imperator/linux/drivers/gpu/drm/nouveau/nouveau_drm.c:1240)
-> > nouveau [ 85.792349] drm_file_free
-> > (/home/imperator/linux/drivers/gpu/drm/drm_file.c:255) [ 85.792353]
-> > drm_release
-> > (/home/imperator/linux/./arch/x86/include/asm/atomic.h:67
-> > (discriminator 1)
-> > /home/imperator/linux/./include/linux/atomic/atomic-arch-
-> > fallback.h:2278 (discriminator 1)
-> > /home/imperator/linux/./include/linux/atomic/atomic-
-> > instrumented.h:1384 (discriminator 1)
-> > /home/imperator/linux/drivers/gpu/drm/drm_file.c:428 (discriminator
-> > 1)) [ 85.792355] __fput (/home/imperator/linux/fs/file_table.c:464)
-> > [ 85.792357] task_work_run
-> > (/home/imperator/linux/kernel/task_work.c:227) [ 85.792360] do_exit
-> > (/home/imperator/linux/kernel/exit.c:939) [ 85.792362]
-> > do_group_exit (/home/imperator/linux/kernel/exit.c:1069) [
-> > 85.792364] get_signal (/home/imperator/linux/kernel/signal.c:3036)
-> > [ 85.792366] arch_do_signal_or_restart
-> > (/home/imperator/linux/./arch/x86/include/asm/syscall.h:38
-> > /home/imperator/linux/arch/x86/kernel/signal.c:264
-> > /home/imperator/linux/arch/x86/kernel/signal.c:339) [ 85.792369]
-> > syscall_exit_to_user_mode
-> > (/home/imperator/linux/kernel/entry/common.c:113
-> > /home/imperator/linux/./include/linux/entry-common.h:329
-> > /home/imperator/linux/kernel/entry/common.c:207
-> > /home/imperator/linux/kernel/entry/common.c:218) [ 85.792372]
-> > do_syscall_64
-> > (/home/imperator/linux/./arch/x86/include/asm/cpufeature.h:172
-> > /home/imperator/linux/arch/x86/entry/common.c:98) [ 85.792373] ?
-> > syscall_exit_to_user_mode_prepare
-> > (/home/imperator/linux/./include/linux/audit.h:357
-> > /home/imperator/linux/kernel/entry/common.c:166
-> > /home/imperator/linux/kernel/entry/common.c:200) [ 85.792376] ?
-> > syscall_exit_to_user_mode
-> > (/home/imperator/linux/./arch/x86/include/asm/paravirt.h:686
-> > /home/imperator/linux/./include/linux/entry-common.h:232
-> > /home/imperator/linux/kernel/entry/common.c:206
-> > /home/imperator/linux/kernel/entry/common.c:218) [ 85.792377] ?
-> > do_syscall_64
-> > (/home/imperator/linux/./arch/x86/include/asm/cpufeature.h:172
-> > /home/imperator/linux/arch/x86/entry/common.c:98) [ 85.792378]
-> > entry_SYSCALL_64_after_hwframe
-> > (/home/imperator/linux/arch/x86/entry/entry_64.S:130) [ 85.792381]
-> > RIP: 0033:0x7ff950b6af70 [ 85.792383] Code: Unable to access opcode
-> > bytes at 0x7ff950b6af46. objdump: '/tmp/tmp.sfPRl5k2te.o': No such
-> > file Code starting with the faulting instruction
-> > =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D [ 85.792383] R=
-SP:
-> > 002b:00007ff93cdfb6f0 EFLAGS: 00000293 ORIG_RAX: 000000000000010f [
-> > 85.792385] RAX: fffffffffffffdfe RBX: 000055d386d61870 RCX:
-> > 00007ff950b6af70 [ 85.792386] RDX: 0000000000000000 RSI:
-> > 0000000000000001 RDI: 00007ff928000b90 [ 85.792387] RBP:
-> > 00007ff93cdfb740 R08: 0000000000000008 R09: 0000000000000000 [
-> > 85.792388] R10: 0000000000000000 R11: 0000000000000293 R12:
-> > 0000000000000001 [ 85.792388] R13: 0000000000000000 R14:
-> > 0000000000000000 R15: 00007ff951b10b40 [ 85.792390] </TASK> [
-> > 85.792391] ---[ end trace 0000000000000000 ]---
->=20
-> I think I understand the problem now as well, but that backtrace is
-> completely mangled in the mail.
->=20
-> It would be nice if you could send that out again.
+On Wed, Apr 09, 2025 at 10:22:22PM +0100, Adrián Larumbe wrote:
+> Add a device DebugFS file that displays a complete list of all the DRM
+> GEM objects that are exposed to UM through a DRM handle.
+> 
+> Since leaking object identifiers that might belong to a different NS is
+> inadmissible, this functionality is only made available in debug builds
+> with DEBUGFS support enabled.
+> 
+> File format is that of a table, with each entry displaying a variety of
+> fields with information about each GEM object.
+> 
+> Each GEM object entry in the file displays the following information
+> fields: Client PID, BO's global name, reference count, BO virtual size,
+> BO resize size, VM address in its DRM-managed range, BO label and a GEM
+> state flags.
+> 
+> There's also a usage flags field for the type of BO, which tells us
+> whether it's a kernel BO and/or mapped onto the FW's address space.
+> 
+> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
 
+Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
 
-I really need to install Mutt soon..
+Best regards,
+Liviu
 
-Let's try it this way:
-https://paste.debian.net/1368679/
+> ---
+>  drivers/gpu/drm/panthor/panthor_device.c |   5 +
+>  drivers/gpu/drm/panthor/panthor_device.h |  11 ++
+>  drivers/gpu/drm/panthor/panthor_drv.c    |  26 ++++
+>  drivers/gpu/drm/panthor/panthor_gem.c    | 186 +++++++++++++++++++++++
+>  drivers/gpu/drm/panthor/panthor_gem.h    |  59 +++++++
+>  5 files changed, 287 insertions(+)
+> 
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+> index a9da1d1eeb70..b776e1a2e4f3 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.c
+> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+> @@ -184,6 +184,11 @@ int panthor_device_init(struct panthor_device *ptdev)
+>  	if (ret)
+>  		return ret;
+>  
+> +#ifdef CONFIG_DEBUG_FS
+> +	drmm_mutex_init(&ptdev->base, &ptdev->gems.lock);
+> +	INIT_LIST_HEAD(&ptdev->gems.node);
+> +#endif
+> +
+>  	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
+>  	p = alloc_page(GFP_KERNEL | __GFP_ZERO);
+>  	if (!p)
+> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+> index da6574021664..86206a961b38 100644
+> --- a/drivers/gpu/drm/panthor/panthor_device.h
+> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+> @@ -205,6 +205,17 @@ struct panthor_device {
+>  
+>  	/** @fast_rate: Maximum device clock frequency. Set by DVFS */
+>  	unsigned long fast_rate;
+> +
+> +#ifdef CONFIG_DEBUG_FS
+> +	/** @gems: Device-wide list of GEM objects owned by at least one file. */
+> +	struct {
+> +		/** @gems.lock: Protects the device-wide list of GEM objects. */
+> +		struct mutex lock;
+> +
+> +		/** @node: Used to keep track of all the device's DRM objects */
+> +		struct list_head node;
+> +	} gems;
+> +#endif
+>  };
+>  
+>  struct panthor_gpu_usage {
+> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> index 983b24f1236c..4d3f2eb29a47 100644
+> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> @@ -1535,9 +1535,35 @@ static const struct file_operations panthor_drm_driver_fops = {
+>  };
+>  
+>  #ifdef CONFIG_DEBUG_FS
+> +static int panthor_gems_show(struct seq_file *m, void *data)
+> +{
+> +	struct drm_info_node *node = m->private;
+> +	struct drm_device *dev = node->minor->dev;
+> +	struct panthor_device *ptdev = container_of(dev, struct panthor_device, base);
+> +
+> +	panthor_gem_debugfs_print_bos(ptdev, m);
+> +
+> +	return 0;
+> +}
+> +
+> +
+> +static struct drm_info_list panthor_debugfs_list[] = {
+> +	{"gems", panthor_gems_show, 0, NULL},
+> +};
+> +
+> +static int panthor_gems_debugfs_init(struct drm_minor *minor)
+> +{
+> +	drm_debugfs_create_files(panthor_debugfs_list,
+> +				 ARRAY_SIZE(panthor_debugfs_list),
+> +				 minor->debugfs_root, minor);
+> +
+> +	return 0;
+> +}
+> +
+>  static void panthor_debugfs_init(struct drm_minor *minor)
+>  {
+>  	panthor_mmu_debugfs_init(minor);
+> +	panthor_gems_debugfs_init(minor);
+>  }
+>  #endif
+>  
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+> index 3c5fc854356e..ca9baa7b43da 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+> @@ -11,14 +11,51 @@
+>  #include <drm/panthor_drm.h>
+>  
+>  #include "panthor_device.h"
+> +#include "panthor_fw.h"
+>  #include "panthor_gem.h"
+>  #include "panthor_mmu.h"
+>  
+> +#ifdef CONFIG_DEBUG_FS
+> +static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
+> +				       struct panthor_gem_object *bo)
+> +{
+> +	INIT_LIST_HEAD(&bo->debugfs.node);
+> +
+> +	bo->debugfs.creator.tgid = current->group_leader->pid;
+> +	get_task_comm(bo->debugfs.creator.process_name, current->group_leader);
+> +
+> +	mutex_lock(&ptdev->gems.lock);
+> +	list_add_tail(&bo->debugfs.node, &ptdev->gems.node);
+> +	mutex_unlock(&ptdev->gems.lock);
+> +}
+> +
+> +static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo)
+> +{
+> +	struct panthor_device *ptdev = container_of(bo->base.base.dev,
+> +						    struct panthor_device, base);
+> +
+> +	if (list_empty(&bo->debugfs.node))
+> +		return;
+> +
+> +	mutex_lock(&ptdev->gems.lock);
+> +	list_del_init(&bo->debugfs.node);
+> +	mutex_unlock(&ptdev->gems.lock);
+> +}
+> +
+> +#else
+> +static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
+> +				       struct panthor_gem_object *bo)
+> +{}
+> +static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo) {}
+> +#endif
+> +
+>  static void panthor_gem_free_object(struct drm_gem_object *obj)
+>  {
+>  	struct panthor_gem_object *bo = to_panthor_bo(obj);
+>  	struct drm_gem_object *vm_root_gem = bo->exclusive_vm_root_gem;
+>  
+> +	panthor_gem_debugfs_bo_rm(bo);
+> +
+>  	/*
+>  	 * Label might have been allocated with kstrdup_const(),
+>  	 * we need to take that into account when freeing the memory
+> @@ -87,6 +124,7 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+>  	struct drm_gem_shmem_object *obj;
+>  	struct panthor_kernel_bo *kbo;
+>  	struct panthor_gem_object *bo;
+> +	u32 debug_flags = PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL;
+>  	int ret;
+>  
+>  	if (drm_WARN_ON(&ptdev->base, !vm))
+> @@ -106,7 +144,11 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+>  	kbo->obj = &obj->base;
+>  	bo->flags = bo_flags;
+>  
+> +	if (vm == panthor_fw_vm(ptdev))
+> +		debug_flags |= PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED;
+> +
+>  	panthor_gem_kernel_bo_set_label(kbo, name);
+> +	panthor_gem_debugfs_bo_set_mask(to_panthor_bo(kbo->obj), debug_flags);
+>  
+>  	/* The system and GPU MMU page size might differ, which becomes a
+>  	 * problem for FW sections that need to be mapped at explicit address
+> @@ -209,6 +251,8 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
+>  	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
+>  	mutex_init(&obj->label.lock);
+>  
+> +	panthor_gem_debugfs_bo_add(ptdev, obj);
+> +
+>  	return &obj->base.base;
+>  }
+>  
+> @@ -257,6 +301,12 @@ panthor_gem_create_with_handle(struct drm_file *file,
+>  	/* drop reference from allocate - handle holds it now. */
+>  	drm_gem_object_put(&shmem->base);
+>  
+> +	/*
+> +	 * No explicit flags are needed in the call below, since the
+> +	 * function internally sets the INITIALIZED bit for us.
+> +	 */
+> +	panthor_gem_debugfs_bo_set_mask(bo, 0);
+> +
+>  	return ret;
+>  }
+>  
+> @@ -288,3 +338,139 @@ panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
+>  
+>  	panthor_gem_bo_set_label(bo->obj, str);
+>  }
+> +
+> +#ifdef CONFIG_DEBUG_FS
+> +static void
+> +panthor_gem_debugfs_format_flags(char flags_str[], int flags_len,
+> +				 const char * const names[], u32 name_count,
+> +				 u32 flags)
+> +{
+> +	bool first = true;
+> +	int offset = 0;
+> +
+> +#define ACC_FLAGS(...) \
+> +	({ \
+> +		offset += snprintf(flags_str + offset, flags_len - offset, ##__VA_ARGS__); \
+> +		if (offset == flags_len) \
+> +			return; \
+> +	})
+> +
+> +	ACC_FLAGS("%c", '(');
+> +
+> +	if (!flags)
+> +		ACC_FLAGS("%s", "none");
+> +
+> +	while (flags) {
+> +		u32 bit = fls(flags) - 1;
+> +		u32 idx = bit + 1;
+> +
+> +		if (!first)
+> +			ACC_FLAGS("%s", ",");
+> +
+> +		if (idx >= name_count || !names[idx])
+> +			ACC_FLAGS("unknown-bit%d", bit);
+> +		else
+> +			ACC_FLAGS("%s", names[idx]);
+> +
+> +		first = false;
+> +		flags &= ~BIT(bit);
+> +	}
+> +
+> +	ACC_FLAGS("%c", ')');
+> +
+> +#undef ACC_FLAGS
+> +}
+> +
+> +struct gem_size_totals {
+> +	size_t size;
+> +	size_t resident;
+> +	size_t reclaimable;
+> +};
+> +
+> +static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
+> +					 struct seq_file *m,
+> +					 struct gem_size_totals *totals)
+> +{
+> +	unsigned int refcount = kref_read(&bo->base.base.refcount);
+> +	char creator_info[32] = {};
+> +	size_t resident_size;
+> +	char gem_state_str[24] = {};
+> +	char gem_usage_str[24] = {};
+> +	u32 gem_usage_flags = bo->debugfs.flags & (u32)~PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED;
+> +	u32 gem_state_flags = 0;
+> +
+> +	static const char * const gem_state_flags_names[] = {
+> +		[PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED] = "imported",
+> +		[PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED] = "exported",
+> +	};
+> +
+> +	static const char * const gem_usage_flags_names[] = {
+> +		[PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL] = "kernel",
+> +		[PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED] = "fw-mapped",
+> +	};
+> +
+> +	/* Skip BOs being destroyed. */
+> +	if (!refcount)
+> +		return;
+> +
+> +	resident_size = bo->base.pages != NULL ? bo->base.base.size : 0;
+> +
+> +	snprintf(creator_info, sizeof(creator_info),
+> +		 "%s/%d", bo->debugfs.creator.process_name, bo->debugfs.creator.tgid);
+> +	seq_printf(m, "%-32s%-16d%-16d%-16zd%-16zd%-16lx",
+> +		   creator_info,
+> +		   bo->base.base.name,
+> +		   refcount,
+> +		   bo->base.base.size,
+> +		   resident_size,
+> +		   drm_vma_node_start(&bo->base.base.vma_node));
+> +
+> +
+> +	if (bo->base.base.import_attach != NULL)
+> +		gem_state_flags |= PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED;
+> +	if (bo->base.base.dma_buf != NULL)
+> +		gem_state_flags |= PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED;
+> +
+> +	panthor_gem_debugfs_format_flags(gem_state_str, sizeof(gem_state_str),
+> +					 gem_state_flags_names, ARRAY_SIZE(gem_state_flags_names),
+> +					 gem_state_flags);
+> +	panthor_gem_debugfs_format_flags(gem_usage_str, sizeof(gem_usage_str),
+> +					 gem_usage_flags_names, ARRAY_SIZE(gem_usage_flags_names),
+> +					 gem_usage_flags);
+> +
+> +	seq_printf(m, "%-24s%-24s", gem_state_str, gem_usage_str);
+> +
+> +	scoped_guard(mutex, &bo->label.lock) {
+> +		seq_printf(m, "%s", bo->label.str ? : "");
+> +	}
+> +
+> +	seq_puts(m, "\n");
+> +
+> +	totals->size += bo->base.base.size;
+> +	totals->resident += resident_size;
+> +	if (bo->base.madv > 0)
+> +		totals->reclaimable += resident_size;
+> +}
+> +
+> +void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+> +				   struct seq_file *m)
+> +{
+> +	struct gem_size_totals totals = {0};
+> +	struct panthor_gem_object *bo;
+> +
+> +	seq_puts(m, "created-by                      global-name     refcount        size            resident-size   file-offset     state                   usage                   label\n");
+> +	seq_puts(m, "---------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+> +
+> +	scoped_guard(mutex, &ptdev->gems.lock) {
+> +		list_for_each_entry(bo, &ptdev->gems.node, debugfs.node) {
+> +			if (bo->debugfs.flags & PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED)
+> +				panthor_gem_debugfs_bo_print(bo, m, &totals);
+> +		}
+> +
+> +	}
+> +
+> +	seq_puts(m, "=====================================================================================================================================================================\n");
+> +	seq_printf(m, "Total size: %zd, Total resident: %zd, Total reclaimable: %zd\n",
+> +		   totals.size, totals.resident, totals.reclaimable);
+> +}
+> +#endif
+> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+> index 62aea06dbc6d..8c56e0c0dc9c 100644
+> --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> @@ -15,6 +15,48 @@ struct panthor_vm;
+>  
+>  #define PANTHOR_BO_LABEL_MAXLEN	PAGE_SIZE
+>  
+> +enum panthor_debugfs_gem_state_flags {
+> +	/** @PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED: GEM BO is PRIME imported. */
+> +	PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED = BIT(0),
+> +
+> +	/** @PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED: GEM BO is PRIME exported. */
+> +	PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED = BIT(1),
+> +};
+> +
+> +enum panthor_debugfs_gem_usage_flags {
+> +	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL: BO is for kernel use only. */
+> +	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL = BIT(0),
+> +
+> +	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED: BO is mapped on the FW VM. */
+> +	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED = BIT(1),
+> +
+> +	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED: BO is ready for DebugFS display. */
+> +	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED = BIT(31),
+> +};
+> +
+> +/**
+> + * struct panthor_gem_debugfs - GEM object's DebugFS list information
+> + */
+> +struct panthor_gem_debugfs {
+> +	/**
+> +	 * @node: Node used to insert the object in the device-wide list of
+> +	 * GEM objects, to display information about it through a DebugFS file.
+> +	 */
+> +	struct list_head node;
+> +
+> +	/** @creator: Information about the UM process which created the GEM. */
+> +	struct {
+> +		/** @creator.process_name: Group leader name in owning thread's process */
+> +		char process_name[TASK_COMM_LEN];
+> +
+> +		/** @creator.tgid: PID of the thread's group leader within its process */
+> +		pid_t tgid;
+> +	} creator;
+> +
+> +	/** @flags: Combination of panthor_debugfs_gem_usage_flags flags */
+> +	u32 flags;
+> +};
+> +
+>  /**
+>   * struct panthor_gem_object - Driver specific GEM object.
+>   */
+> @@ -62,6 +104,10 @@ struct panthor_gem_object {
+>  		/** @lock.str: Protects access to the @label.str field. */
+>  		struct mutex lock;
+>  	} label;
+> +
+> +#ifdef CONFIG_DEBUG_FS
+> +	struct panthor_gem_debugfs debugfs;
+> +#endif
+>  };
+>  
+>  /**
+> @@ -157,4 +203,17 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+>  
+>  void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
+>  
+> +#ifdef CONFIG_DEBUG_FS
+> +void panthor_gem_debugfs_print_bos(struct panthor_device *pfdev,
+> +				   struct seq_file *m);
+> +static inline void
+> +panthor_gem_debugfs_bo_set_mask(struct panthor_gem_object *bo, u32 type_mask)
+> +{
+> +	bo->debugfs.flags = type_mask | PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED;
+> +}
+> +
+> +#else
+> +void panthor_gem_debugfs_bo_set_mask(struct panthor_gem_object *bo, u32 type_mask) {};
+> +#endif
+> +
+>  #endif /* __PANTHOR_GEM_H__ */
+> -- 
+> 2.48.1
+> 
 
-P.
-
->=20
-> Thanks,
-> Christian.
->=20
-> >=20
-> > By the way, for reference:
-> > I did try whether it could be done to have nouveau_fence_signal()
-> > incorporated into nouveau_fence_update() and nouveau_fence_done().
-> > This, however, would then cause a race with the list_del() in
-> > nouveau_fence_no_signaling(), WARNing because of the list poison.
-> >=20
-> > So the "solution" space is:
-> > =C2=A0* A cleanup callback on the dma_fence.
-> > =C2=A0* Keeping the current race or
-> > =C2=A0* replacing it with another race with another function.
-> > =C2=A0* Just preventing nouveau_fence_done() from signaling fences othe=
-r
-> > =C2=A0=C2=A0 than through nouveau_fence_update/signal
-> >=20
-> > The later seems clearly like the cleanest solution to me.
-> > Alternative
-> > would be a work-intensive rework of all the misdesigns broken in
-> > nouveau_fence.c
-> >=20
-> >=20
-> > P.
-> >=20
-> > > [=C2=A0=C2=A0 39.848463] WARNING: CPU: 21 PID: 1734 at
-> > > drivers/gpu/drm/nouveau/nouveau_fence.c:509
-> > > nouveau_fence_no_signaling+0xac/0xd0 [nouveau]
-> > > [=C2=A0=C2=A0 39.848551] Modules linked in: snd_seq_dummy snd_hrtimer
-> > > nf_conntrack_netbios_ns nf_conntrack_broadcast nft_fib_inet
-> > > nft_fib_ipv4 nft_fib_ipv6 nft_fib nft_reject_ine
-> > > t nf_reject_ipv4 nf_reject_ipv6 nft_reject nft_ct nft_chain_nat
-> > > nf_nat nf_conntrack nf_defrag_ipv6 nf_defrag_ipv4 rfkill ip_set
-> > > nf_tables qrtr sunrpc snd_sof_pci_intel_
-> > > tgl snd_sof_pci_intel_cnl snd_sof_intel_hda_generic snd_sof_pci
-> > > snd_sof_xtensa_dsp snd_sof_intel_hda_common snd_soc_hdac_hda
-> > > snd_sof_intel_hda snd_sof snd_sof_utils snd
-> > > _soc_acpi_intel_match snd_soc_acpi snd_soc_acpi_intel_sdca_quirks
-> > > snd_sof_intel_hda_mlink snd_soc_sdca snd_soc_avs snd_ctl_led
-> > > snd_soc_hda_codec intel_rapl_msr snd_hda_
-> > > codec_realtek snd_hda_ext_core intel_rapl_common
-> > > snd_hda_codec_generic snd_soc_core snd_hda_scodec_component
-> > > intel_uncore_frequency intel_uncore_frequency_common snd_hd
-> > > a_codec_hdmi intel_ifs snd_compress i10nm_edac skx_edac_common
-> > > nfit
-> > > snd_hda_intel snd_intel_dspcfg libnvdimm snd_hda_codec
-> > > binfmt_misc
-> > > snd_hwdep snd_hda_core snd_seq sn
-> > > d_seq_device dell_wmi
-> > > [=C2=A0=C2=A0 39.848575]=C2=A0 dell_pc x86_pkg_temp_thermal spi_nor
-> > > platform_profile
-> > > sparse_keymap intel_powerclamp dax_hmem snd_pcm cxl_acpi coretemp
-> > > cxl_port iTCO_wdt mtd rapl intel
-> > > _pmc_bxt pmt_telemetry cxl_core dell_wmi_sysman pmt_class
-> > > iTCO_vendor_support snd_timer isst_if_mmio vfat intel_cstate
-> > > dell_smbios dcdbas fat dell_wmi_ddv dell_smm_hwmo
-> > > n dell_wmi_descriptor firmware_attributes_class wmi_bmof
-> > > intel_uncore
-> > > einj pcspkr isst_if_mbox_pci atlantic snd isst_if_common
-> > > intel_vsec
-> > > e1000e macsec mei_me i2c_i801=20
-> > > spi_intel_pci soundcore i2c_smbus spi_intel mei joydev loop
-> > > nfnetlink
-> > > zram nouveau drm_ttm_helper ttm polyval_clmulni iaa_crypto
-> > > gpu_sched
-> > > polyval_generic rtsx_pci_sdmm
-> > > c ghash_clmulni_intel i2c_algo_bit mmc_core drm_gpuvm
-> > > sha512_ssse3
-> > > nvme drm_exec drm_display_helper sha256_ssse3 idxd sha1_ssse3 cec
-> > > nvme_core idxd_bus rtsx_pci nvme_au
-> > > th pinctrl_alderlake ip6_tables ip_tables fuse
-> > > [=C2=A0=C2=A0 39.848603] CPU: 21 UID: 42 PID: 1734 Comm: gnome-shell
-> > > Tainted:
-> > > G=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 W=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 6.14.0-rc4+ #11
-> > > [=C2=A0=C2=A0 39.848605] Tainted: [W]=3DWARN
-> > > [=C2=A0=C2=A0 39.848606] Hardware name: Dell Inc. Precision 7960
-> > > Tower/01G0M6,
-> > > BIOS 2.7.0 12/17/2024
-> > > [=C2=A0=C2=A0 39.848607] RIP: 0010:nouveau_fence_no_signaling+0xac/0x=
-d0
-> > > [nouveau]
-> > > [=C2=A0=C2=A0 39.848688] Code: db 74 17 48 8d 7b 38 b8 ff ff ff ff f0=
- 0f c1
-> > > 43
-> > > 38 83 f8 01 74 29 85 c0 7e 17 31 c0 5b 5d c3 cc cc cc cc e8 76 b2
-> > > c5
-> > > f0 eb 96 <0f> 0b e9 67 ff ff f
-> > > f be 03 00 00 00 e8 83 76 33 f1 31 c0 eb dd e8
-> > > [=C2=A0=C2=A0 39.848690] RSP: 0018:ff1cc1ffc5c039f0 EFLAGS: 00010046
-> > > [=C2=A0=C2=A0 39.848691] RAX: 0000000000000001 RBX: ff175a3b504da980 =
-RCX:
-> > > ff175a3b4801e008
-> > > [=C2=A0=C2=A0 39.848692] RDX: ff175a3b43e7bad0 RSI: ffffffffc09d3fda =
-RDI:
-> > > ff175a3b504da980
-> > > [=C2=A0=C2=A0 39.848693] RBP: ff175a3b504da9c0 R08: ffffffffc09e39df =
-R09:
-> > > 0000000000000001
-> > > [=C2=A0=C2=A0 39.848694] R10: 0000000000000001 R11: 0000000000000000 =
-R12:
-> > > ff175a3b6d97de00
-> > > [=C2=A0=C2=A0 39.848695] R13: 0000000000000246 R14: ff1cc1ffc5c03c60 =
-R15:
-> > > 0000000000000001
-> > > [=C2=A0=C2=A0 39.848696] FS:=C2=A0 00007fc5477846c0(0000)
-> > > GS:ff175a5a50280000(0000)
-> > > knlGS:0000000000000000
-> > > [=C2=A0=C2=A0 39.848698] CS:=C2=A0 0010 DS: 0000 ES: 0000 CR0: 000000=
-0080050033
-> > > [=C2=A0=C2=A0 39.848699] CR2: 000055cb7613d1a8 CR3: 000000012e5ce004 =
-CR4:
-> > > 0000000000f71ef0
-> > > [=C2=A0=C2=A0 39.848700] DR0: 0000000000000000 DR1: 0000000000000000 =
-DR2:
-> > > 0000000000000000
-> > > [=C2=A0=C2=A0 39.848701] DR3: 0000000000000000 DR6: 00000000fffe07f0 =
-DR7:
-> > > 0000000000000400
-> > > [=C2=A0=C2=A0 39.848702] PKRU: 55555554
-> > > [=C2=A0=C2=A0 39.848703] Call Trace:
-> > > [=C2=A0=C2=A0 39.848704]=C2=A0 <TASK>
-> > > [=C2=A0=C2=A0 39.848705]=C2=A0 ? nouveau_fence_no_signaling+0xac/0xd0=
- [nouveau]
-> > > [=C2=A0=C2=A0 39.848782]=C2=A0 ? __warn.cold+0x93/0xfa
-> > > [=C2=A0=C2=A0 39.848785]=C2=A0 ? nouveau_fence_no_signaling+0xac/0xd0=
- [nouveau]
-> > > [=C2=A0=C2=A0 39.848861]=C2=A0 ? report_bug+0xff/0x140
-> > > [=C2=A0=C2=A0 39.848863]=C2=A0 ? handle_bug+0x58/0x90
-> > > [=C2=A0=C2=A0 39.848865]=C2=A0 ? exc_invalid_op+0x17/0x70
-> > > [=C2=A0=C2=A0 39.848866]=C2=A0 ? asm_exc_invalid_op+0x1a/0x20
-> > > [=C2=A0=C2=A0 39.848870]=C2=A0 ? nouveau_fence_no_signaling+0xac/0xd0=
- [nouveau]
-> > > [=C2=A0=C2=A0 39.848943]=C2=A0 nouveau_fence_enable_signaling+0x32/0x=
-80
-> > > [nouveau]
-> > > [=C2=A0=C2=A0 39.849016]=C2=A0 ? __pfx_nouveau_fence_cleanup_cb+0x10/=
-0x10
-> > > [nouveau]
-> > > [=C2=A0=C2=A0 39.849088]=C2=A0 __dma_fence_enable_signaling+0x33/0xc0
-> > > [=C2=A0=C2=A0 39.849090]=C2=A0 dma_fence_add_callback+0x4b/0xd0
-> > > [=C2=A0=C2=A0 39.849093]=C2=A0 nouveau_fence_emit+0xa3/0x260 [nouveau=
-]
-> > > [=C2=A0=C2=A0 39.849166]=C2=A0 nouveau_fence_new+0x7d/0xf0 [nouveau]
-> > > [=C2=A0=C2=A0 39.849242]=C2=A0 nouveau_gem_ioctl_pushbuf+0xe8f/0x1300=
- [nouveau]
-> > > [=C2=A0=C2=A0 39.849338]=C2=A0 ? __pfx_nouveau_gem_ioctl_pushbuf+0x10=
-/0x10
-> > > [nouveau]
-> > > [=C2=A0=C2=A0 39.849431]=C2=A0 drm_ioctl_kernel+0xad/0x100
-> > > [=C2=A0=C2=A0 39.849433]=C2=A0 drm_ioctl+0x288/0x550
-> > > [=C2=A0=C2=A0 39.849435]=C2=A0 ? __pfx_nouveau_gem_ioctl_pushbuf+0x10=
-/0x10
-> > > [nouveau]
-> > > [=C2=A0=C2=A0 39.849526]=C2=A0 nouveau_drm_ioctl+0x57/0xb0 [nouveau]
-> > > [=C2=A0=C2=A0 39.849620]=C2=A0 __x64_sys_ioctl+0x94/0xc0
-> > > [=C2=A0=C2=A0 39.849621]=C2=A0 do_syscall_64+0x82/0x160
-> > > [=C2=A0=C2=A0 39.849623]=C2=A0 ? drm_ioctl+0x2b7/0x550
-> > > [=C2=A0=C2=A0 39.849625]=C2=A0 ? __pfx_nouveau_gem_ioctl_pushbuf+0x10=
-/0x10
-> > > [nouveau]
-> > > [=C2=A0=C2=A0 39.849719]=C2=A0 ? ktime_get_mono_fast_ns+0x38/0xd0
-> > > [=C2=A0=C2=A0 39.849721]=C2=A0 ? __pm_runtime_suspend+0x69/0xc0
-> > > [=C2=A0=C2=A0 39.849724]=C2=A0 ? syscall_exit_to_user_mode_prepare+0x=
-15e/0x1a0
-> > > [=C2=A0=C2=A0 39.849726]=C2=A0 ? syscall_exit_to_user_mode+0x10/0x200
-> > > [=C2=A0=C2=A0 39.849729]=C2=A0 ? do_syscall_64+0x8e/0x160
-> > > [=C2=A0=C2=A0 39.849730]=C2=A0 ? exc_page_fault+0x7e/0x1a0
-> > > [=C2=A0=C2=A0 39.849733]=C2=A0 entry_SYSCALL_64_after_hwframe+0x76/0x=
-7e
-> > > [=C2=A0=C2=A0 39.849735] RIP: 0033:0x7fc5576fe0ad
-> > > [=C2=A0=C2=A0 39.849736] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48=
- 8d 45
-> > > 10
-> > > c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00
-> > > 00
-> > > 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25
-> > > 28
-> > > 00 00 00
-> > > [=C2=A0=C2=A0 39.849737] RSP: 002b:00007ffc002688a0 EFLAGS: 00000246
-> > > ORIG_RAX:
-> > > 0000000000000010
-> > > [=C2=A0=C2=A0 39.849739] RAX: ffffffffffffffda RBX: 000055cb74e316c0 =
-RCX:
-> > > 00007fc5576fe0ad
-> > > [=C2=A0=C2=A0 39.849740] RDX: 00007ffc00268960 RSI: 00000000c0406481 =
-RDI:
-> > > 000000000000000e
-> > > [=C2=A0=C2=A0 39.849741] RBP: 00007ffc002688f0 R08: 0000000000000000 =
-R09:
-> > > 000055cb74e35560
-> > > [=C2=A0=C2=A0 39.849742] R10: 0000000000000014 R11: 0000000000000246 =
-R12:
-> > > 00007ffc00268960
-> > > [=C2=A0=C2=A0 39.849744] R13: 00000000c0406481 R14: 000000000000000e =
-R15:
-> > > 000055cb74e3cd10
-> > > [=C2=A0=C2=A0 39.849746]=C2=A0 </TASK>
-> > > [=C2=A0=C2=A0 39.849746] ---[ end trace 0000000000000000 ]---
-> > > [=C2=A0=C2=A0 39.849776] ------------[ cut here ]------------
-> > >=20
-> > >=20
-> > > This is the first WARN_ON() in dma_fence_set_error(), called by
-> > > nouveau_fence_context_kill().
-> > >=20
-> > > It's rare, but it is a bug, or rather: the archetype of a race,
-> > > since
-> > > (as Christian pointed out) nouveau_fence_update() later at some
-> > > point
-> > > will remove the signaled fence (by signaling it again).
-> > >=20
-> > >=20
-> > > P.
-> > >=20
-> > >=20
-> > > Philipp Stanner (3):
-> > > =C2=A0 drm/nouveau: Prevent signaled fences in pending list
-> > > =C2=A0 drm/nouveau: Remove surplus if-branch
-> > > =C2=A0 drm/nouveau: Add helper to check base fence
-> > >=20
-> > > =C2=A0drivers/gpu/drm/nouveau/nouveau_fence.c | 32 ++++++++++++++----=
--
-> > > ----
-> > > --
-> > > =C2=A01 file changed, 18 insertions(+), 14 deletions(-)
-> > >=20
->=20
-
+-- 
+====================
+| I would like to |
+| fix the world,  |
+| but they're not |
+| giving me the   |
+ \ source code!  /
+  ---------------
+    ¯\_(ツ)_/¯
 
