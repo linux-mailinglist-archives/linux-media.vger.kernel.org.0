@@ -1,205 +1,126 @@
-Return-Path: <linux-media+bounces-29815-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29819-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 14C24A8344B
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 00:58:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EBC5A83514
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 02:28:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A74BD1B654BC
-	for <lists+linux-media@lfdr.de>; Wed,  9 Apr 2025 22:58:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4B52C461FB8
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 00:28:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A95AE220681;
-	Wed,  9 Apr 2025 22:57:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 34F6B48CFC;
+	Thu, 10 Apr 2025 00:28:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FLrLNba6"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=163.com header.i=@163.com header.b="JMHP1iYr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F10EB215175;
-	Wed,  9 Apr 2025 22:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CBD03596F;
+	Thu, 10 Apr 2025 00:28:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744239448; cv=none; b=mTds+rmeQ3hSnLcmYU602aJ+7pkRt1zR3yBvOX7IhrHELpRGZawpZvdXrMgMm6zecW4oNrc8kchdp0NpF+thhuf76QjjCqhz41H0lAgF976/9q2qPNGZ/aCxyU1XuDc+Vuh2p9xjJ95KZkKKbI5kHQWk0B/Yprup7Ej1Aa1aF0I=
+	t=1744244908; cv=none; b=D5y0J0boBk3q72kESk2HEMd4MFgDz/m04uQUxemDJmD6k3LRl8l+r28UoVd0D7hjNuM1yFhSv3Ef2kmwyCOTaPbrerY6VnXltf1fPv3q7c+q51oZ0U+IzNrHQ4DN4Uqv+uiqtmgzshXnZ/opCxFsUCL/03+hcKAVOp17U9VWRvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744239448; c=relaxed/simple;
-	bh=VLSMlFX8MHlSUtQUTu5mk0CYrZpnr3KFN4CqZqLwFhk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=e2aqbaP8pM8wOXahJV5S8XOsba6iC70OG1pMzyCHs70UsydB/XwvWwfJU2I59EsUnhP7DQWRmESzNoLDbKtLFy04FpUfqIuOCcQ++ZZE67RPyi2r828dUdaoJF0VZ5wJnagvGKPD0Wi025VeRW3jytHjbf/jsHCTY6SDR+phmmo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FLrLNba6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id ADB58C4CEF4;
-	Wed,  9 Apr 2025 22:57:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744239447;
-	bh=VLSMlFX8MHlSUtQUTu5mk0CYrZpnr3KFN4CqZqLwFhk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=FLrLNba6mbRba0o8aAk1w1QRW9RvuB0Mnf5N38dHeseRB23lWidYepvwdEiaWJLFq
-	 rIYgHgmInZnBhUDgXNGgesDDggWvq5sWVaiVB7Io6ffrSZKqdAsbmJmNIHsTmzGc6B
-	 FI9JdyYex85of5ohY4Kk4xIGHm5VrU+cPpmFZNuOEutaCZ6xe2lvzJRjejtM96Re3A
-	 ZJtngDSg1bXGB4o6lS9WBIfFad1mQl8DusfqE80/Agu6fDHu7mXP0AMXu/Hk/nGMk5
-	 aGBv4HFJ6dWa4rPCLmC4F1cn8PBogV2UnkHGrwn9j0Qvw/xtPJOcntAxXSgbXolz9C
-	 Em9Arnm99q+7A==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FB1AC369A5;
-	Wed,  9 Apr 2025 22:57:27 +0000 (UTC)
-From: Aaron Kling via B4 Relay <devnull+webgeek1234.gmail.com@kernel.org>
-Date: Wed, 09 Apr 2025 17:57:25 -0500
-Subject: [PATCH v3 4/4] arm64: tegra: Wire up cec to devkits
+	s=arc-20240116; t=1744244908; c=relaxed/simple;
+	bh=urdk/C6cNo2xp8sTslRc5Ph6KdmwcBk1p7LFugSPaFI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:Content-Type:
+	 MIME-Version:Message-ID; b=r9BaxbgD0jY3WeM/uDAuxDylYWGOrQI2dTLJ3NwuGy5b2b7jXHXJDxgTf9on/gQniQaIXhTowMAaPjwZLnrUKqEXdRGX1XeDmHIe5W75lAnIStistZPrLU9BgjwA1Oz1r073nUyd5Xzydxn/IuL+wvu2HXnqMn7JnYtZFUBh4NA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=fail (1024-bit key) header.d=163.com header.i=@163.com header.b=JMHP1iYr reason="signature verification failed"; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:Subject:Content-Type:MIME-Version:
+	Message-ID; bh=FU89nmJGK3MmjRRDkrqt7x0SrwcewmRIp34YsV8rY2I=; b=J
+	MHP1iYrpD0s/uF5ggxfuUkGoVU9GPlmMFACuKSEnJP4OEXl3kzWhCAJ3OcjU+Rl6
+	cQsdzCuDmiR2E21CY5nYOZ2v6ukQVTvwMVylRbtCSqqSblSTLoEvaayxLC7NxNgg
+	NMvO+LrrCZy/Zs5frNwUgrcG42olsWYYWUJl1jRGeg=
+Received: from andyshrk$163.com ( [58.22.7.114] ) by
+ ajax-webmail-wmsvr-40-131 (Coremail) ; Thu, 10 Apr 2025 08:27:16 +0800
+ (CST)
+Date: Thu, 10 Apr 2025 08:27:16 +0800 (CST)
+From: "Andy Yan" <andyshrk@163.com>
+To: "Nicolas Dufresne" <nicolas.dufresne@collabora.com>
+Cc: "Benjamin Gaignard" <benjamin.gaignard@collabora.com>,
+	"Philipp Zabel" <p.zabel@pengutronix.de>,
+	"Mauro Carvalho Chehab" <mchehab@kernel.org>,
+	"Heiko Stuebner" <heiko@sntech.de>, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, kernel@collabora.com
+Subject: Re:[PATCH] media: verisilicono: Enable NV15 support for Rockchip
+ VDPU981
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT5.0.14 build 20240801(9da12a7b)
+ Copyright (c) 2002-2025 www.mailtech.cn 163com
+In-Reply-To: <20250409-b4-hantro-nv15-support-v1-1-7e11e47fd0c9@collabora.com>
+References: <20250409-b4-hantro-nv15-support-v1-1-7e11e47fd0c9@collabora.com>
+X-NTES-SC: AL_Qu2fBv6fu0Ao4CWfYelSzDJG5Lh7O6vv+JRShMQdW/AxqTHp1CMpUFZ4O3zE3sliJbM7Es2CSj5lxTzXEBWW
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250409-tegra-cec-v3-4-91640131dfa2@gmail.com>
-References: <20250409-tegra-cec-v3-0-91640131dfa2@gmail.com>
-In-Reply-To: <20250409-tegra-cec-v3-0-91640131dfa2@gmail.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Thierry Reding <thierry.reding@gmail.com>, 
- Jonathan Hunter <jonathanh@nvidia.com>
-Cc: linux-tegra@vger.kernel.org, linux-media@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Aaron Kling <webgeek1234@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1744239446; l=4050;
- i=webgeek1234@gmail.com; s=20250217; h=from:subject:message-id;
- bh=/KKv/TYqLGMeib4RLCtBAkuSb2lVtoCy1X50R5bg7FY=;
- b=YPJaju2J7Tn7D5hpK8f6IymUYsJ7VDzVfutTiWt02uXpwZgzb/B9sfWAXjL9tx5kEIq75eMqy
- EMxLib5WPcWCtFvh8h58DI5m+kg2/UkEur8J5Hg/0gvevJYPRaqyftX
-X-Developer-Key: i=webgeek1234@gmail.com; a=ed25519;
- pk=TQwd6q26txw7bkK7B8qtI/kcAohZc7bHHGSD7domdrU=
-X-Endpoint-Received: by B4 Relay for webgeek1234@gmail.com/20250217 with
- auth_id=342
-X-Original-From: Aaron Kling <webgeek1234@gmail.com>
-Reply-To: webgeek1234@gmail.com
+Message-ID: <7b70a71a.448.1961d1808e5.Coremail.andyshrk@163.com>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID:gygvCgDnT3lkEPdne_CRAA--.25738W
+X-CM-SenderInfo: 5dqg52xkunqiywtou0bp/1tbiqAkqXmf3AWfu2wABsX
+X-Coremail-Antispam: 1U5529EdanIXcx71UUUUU7vcSsGvfC2KfnxnUU==
 
-From: Aaron Kling <webgeek1234@gmail.com>
-
-This enables hdmi cec and routes it to the hdmi port on all supported
-Tegra210, Tegra186, and Tegra194 devkits.
-
-Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
----
- arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts            | 6 ++++++
- arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dts | 6 ++++++
- arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts            | 6 ++++++
- arch/arm64/boot/dts/nvidia/tegra194-p3509-0000.dtsi           | 6 ++++++
- arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts            | 6 ++++++
- arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts            | 6 ++++++
- 6 files changed, 36 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-index 15aa49fc450399c7bd525adcdb6e92a27a185805..90155e4ff1feb609f79416a410c3666ebef8b634 100644
---- a/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts
-@@ -2394,6 +2394,12 @@ usb@3550000 {
- 		phy-names = "usb2-0";
- 	};
- 
-+	cec@3960000 {
-+		status = "okay";
-+
-+		hdmi-phandle = <&sor1>;
-+	};
-+
- 	i2c@c250000 {
- 		/* carrier board ID EEPROM */
- 		eeprom@57 {
-diff --git a/arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dts b/arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dts
-index 26f71651933d1d8ef32bbd1645cac1820bd2e104..a6d7fec2e84fb917018aff843845b02c34fede33 100644
---- a/arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dts
-@@ -712,6 +712,12 @@ usb@3550000 {
- 		phy-names = "usb2-0";
- 	};
- 
-+	cec@3960000 {
-+		status = "okay";
-+
-+		hdmi-phandle = <&sor1>;
-+	};
-+
- 	hsp@3c00000 {
- 		status = "okay";
- 	};
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-index c32876699a43e9f57b3888c5bc0f5da73c5b95b5..ea6f397a27926e3dcd54002177f68749bc1cc309 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts
-@@ -2121,6 +2121,12 @@ usb@3610000 {
- 			phy-names = "usb2-0", "usb2-1", "usb2-3", "usb3-0", "usb3-2", "usb3-3";
- 		};
- 
-+		cec@3960000 {
-+			status = "okay";
-+
-+			hdmi-phandle = <&sor2>;
-+		};
-+
- 		i2c@c240000 {
- 			typec@8 {
- 				compatible = "cypress,cypd4226";
-diff --git a/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000.dtsi b/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000.dtsi
-index 4a17ea5e40fd034c6f4acb023cd7908d6800f710..16cf4414de599baea96362b494be40c800a8197f 100644
---- a/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra194-p3509-0000.dtsi
-@@ -2174,6 +2174,12 @@ usb@3610000 {
- 			phy-names = "usb2-1", "usb2-2", "usb3-2";
- 		};
- 
-+		cec@3960000 {
-+			status = "okay";
-+
-+			hdmi-phandle = <&sor1>;
-+		};
-+
- 		host1x@13e00000 {
- 			display-hub@15200000 {
- 				status = "okay";
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts b/arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts
-index a6a58e51822d90f8815df880ea7e668caff1b1ec..627abf51a5a472ddcc42fdc1d783876b0a03da47 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts
-@@ -90,6 +90,12 @@ eeprom@57 {
- 		};
- 	};
- 
-+	cec@70015000 {
-+		status = "okay";
-+
-+		hdmi-phandle = <&sor1>;
-+	};
-+
- 	clock@70110000 {
- 		status = "okay";
- 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-index 0ecdd7243b2eb1abba9adbe9a404b226c29b85ef..ec0e84cb83ef9bf8f0e52e2958db33666813917c 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-@@ -419,6 +419,12 @@ pmc@7000e400 {
- 		nvidia,sys-clock-req-active-high;
- 	};
- 
-+	cec@70015000 {
-+		status = "okay";
-+
-+		hdmi-phandle = <&sor1>;
-+	};
-+
- 	hda@70030000 {
- 		nvidia,model = "NVIDIA Jetson Nano HDA";
- 
-
--- 
-2.48.1
-
-
+CkhpIE5pY29sYXPvvIwKICAgICAgVHlwbyBpbiBzdWJqZWN077yfIHMvdmVyaXNpbGljb25vL3Zl
+cmlzaWxpY29uLyAgICAgIAoKQXQgMjAyNS0wNC0xMCAwMzozMDowOSwgIk5pY29sYXMgRHVmcmVz
+bmUiIDxuaWNvbGFzLmR1ZnJlc25lQGNvbGxhYm9yYS5jb20+IHdyb3RlOgo+VGhpcyBpcyBhICJj
+dXN0b21lciIgZm9ybWF0LCB0aG91Z2ggb24gUm9ja2NoaXAgUkszNTg4IGl0IGhhcyBiZWVuCj52
+ZXJpZmllZCB0byBiZSBOVjE1IGZvcm1hdCwgd2hpY2ggbWF0Y2hlcyB3aGF0IHRoZSBHUFUgYW5k
+IGRpc3BsYXkKPmhhbmRsZXMgaGFzIDEwYml0IHBpeGVsIGZvcm1hdHMuCj4KPlNpZ25lZC1vZmYt
+Ynk6IE5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAY29sbGFib3JhLmNvbT4KPi0t
+LQo+IGRyaXZlcnMvbWVkaWEvcGxhdGZvcm0vdmVyaXNpbGljb24vaGFudHJvX3Y0bDIuYyAgICAg
+ICAgICAgfCAgMSArCj4gLi4uL3BsYXRmb3JtL3ZlcmlzaWxpY29uL3JvY2tjaGlwX3ZwdTk4MV9o
+d19hdjFfZGVjLmMgICAgICB8ICA0ICsrKysKPiBkcml2ZXJzL21lZGlhL3BsYXRmb3JtL3Zlcmlz
+aWxpY29uL3JvY2tjaGlwX3ZwdV9ody5jICAgICAgIHwgMTQgKysrKysrKysrKysrKysKPiAzIGZp
+bGVzIGNoYW5nZWQsIDE5IGluc2VydGlvbnMoKykKPgo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVk
+aWEvcGxhdGZvcm0vdmVyaXNpbGljb24vaGFudHJvX3Y0bDIuYyBiL2RyaXZlcnMvbWVkaWEvcGxh
+dGZvcm0vdmVyaXNpbGljb24vaGFudHJvX3Y0bDIuYwo+aW5kZXggMmJjZTk0MGE1ODIyN2MyYmZl
+ZjJiYzMzNDM5OTJlNDU4OGFiMzZhNC4uN2MzNTE1Y2Y3ZDY0YTA5MGFkZmI4ZDhhZmYzNjhmOWE2
+MTdmOGM4YSAxMDA2NDQKPi0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vdmVyaXNpbGljb24v
+aGFudHJvX3Y0bDIuYwo+KysrIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS92ZXJpc2lsaWNvbi9o
+YW50cm9fdjRsMi5jCj5AQCAtNzcsNiArNzcsNyBAQCBpbnQgaGFudHJvX2dldF9mb3JtYXRfZGVw
+dGgodTMyIGZvdXJjYykKPiAJc3dpdGNoIChmb3VyY2MpIHsKPiAJY2FzZSBWNEwyX1BJWF9GTVRf
+UDAxMDoKPiAJY2FzZSBWNEwyX1BJWF9GTVRfUDAxMF80TDQ6Cj4rCWNhc2UgVjRMMl9QSVhfRk1U
+X05WMTU6Cj4gCWNhc2UgVjRMMl9QSVhfRk1UX05WMTVfNEw0Ogo+IAkJcmV0dXJuIDEwOwo+IAlk
+ZWZhdWx0Ogo+ZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vdmVyaXNpbGljb24v
+cm9ja2NoaXBfdnB1OTgxX2h3X2F2MV9kZWMuYyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vdmVy
+aXNpbGljb24vcm9ja2NoaXBfdnB1OTgxX2h3X2F2MV9kZWMuYwo+aW5kZXggNjliNWQ5ZTEyOTI2
+ZmI0MDhjMDhmOGJhMjEzOWQwNWJhNDQzODliNy4uZTQ3MDNiYjZiZTdjMTc1YTg5YzBiODg2OGNm
+MmVhZmI4NGE4NzJlZCAxMDA2NDQKPi0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vdmVyaXNp
+bGljb24vcm9ja2NoaXBfdnB1OTgxX2h3X2F2MV9kZWMuYwo+KysrIGIvZHJpdmVycy9tZWRpYS9w
+bGF0Zm9ybS92ZXJpc2lsaWNvbi9yb2NrY2hpcF92cHU5ODFfaHdfYXYxX2RlYy5jCj5AQCAtMjIw
+Miw2ICsyMjAyLDEwIEBAIHN0YXRpYyB2b2lkIHJvY2tjaGlwX3ZwdTk4MV9wb3N0cHJvY19lbmFi
+bGUoc3RydWN0IGhhbnRyb19jdHggKmN0eCkKPiAJY2FzZSBWNEwyX1BJWF9GTVRfTlYxMjoKPiAJ
+CWhhbnRyb19yZWdfd3JpdGUodnB1LCAmYXYxX3BwX291dF9mb3JtYXQsIDMpOwo+IAkJYnJlYWs7
+Cj4rCWNhc2UgVjRMMl9QSVhfRk1UX05WMTU6Cj4rCQkvKiB0aGlzIG1hcHBpbmcgaXMgUksgc3Bl
+Y2lmaWMgKi8KPisJCWhhbnRyb19yZWdfd3JpdGUodnB1LCAmYXYxX3BwX291dF9mb3JtYXQsIDEw
+KTsKPisJCWJyZWFrOwo+IAlkZWZhdWx0Ogo+IAkJaGFudHJvX3JlZ193cml0ZSh2cHUsICZhdjFf
+cHBfb3V0X2Zvcm1hdCwgMCk7Cj4gCX0KPmRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL3BsYXRm
+b3JtL3ZlcmlzaWxpY29uL3JvY2tjaGlwX3ZwdV9ody5jIGIvZHJpdmVycy9tZWRpYS9wbGF0Zm9y
+bS92ZXJpc2lsaWNvbi9yb2NrY2hpcF92cHVfaHcuYwo+aW5kZXggOTY0MTIyZTdjMzU1OTM0Y2Q4
+MGViNDQyMjE5ZjZiYTUxYmJhOGI3MS4uZjdjNGExNzYxNjdiNDBmZTc5ZWM1YTY3NTlkZmY4YTc3
+ZTg0OWFlMyAxMDA2NDQKPi0tLSBhL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vdmVyaXNpbGljb24v
+cm9ja2NoaXBfdnB1X2h3LmMKPisrKyBiL2RyaXZlcnMvbWVkaWEvcGxhdGZvcm0vdmVyaXNpbGlj
+b24vcm9ja2NoaXBfdnB1X2h3LmMKPkBAIC05Miw2ICs5MiwyMCBAQCBzdGF0aWMgY29uc3Qgc3Ry
+dWN0IGhhbnRyb19mbXQgcm9ja2NoaXBfdnB1OTgxX3Bvc3Rwcm9jX2ZtdHNbXSA9IHsKPiAJCQku
+c3RlcF9oZWlnaHQgPSBNQl9ESU0sCj4gCQl9LAo+IAl9LAo+Kwl7Cj4rCQkuZm91cmNjID0gVjRM
+Ml9QSVhfRk1UX05WMTUsCj4rCQkuY29kZWNfbW9kZSA9IEhBTlRST19NT0RFX05PTkUsCj4rCQku
+bWF0Y2hfZGVwdGggPSB0cnVlLAo+KwkJLnBvc3Rwcm9jZXNzZWQgPSB0cnVlLAo+KwkJLmZybXNp
+emUgPSB7Cj4rCQkJLm1pbl93aWR0aCA9IFJPQ0tDSElQX1ZQVTk4MV9NSU5fU0laRSwKPisJCQku
+bWF4X3dpZHRoID0gRk1UXzRLX1dJRFRILAo+KwkJCS5zdGVwX3dpZHRoID0gTUJfRElNLAo+KwkJ
+CS5taW5faGVpZ2h0ID0gUk9DS0NISVBfVlBVOTgxX01JTl9TSVpFLAo+KwkJCS5tYXhfaGVpZ2h0
+ID0gRk1UXzRLX0hFSUdIVCwKPisJCQkuc3RlcF9oZWlnaHQgPSBNQl9ESU0sCj4rCQl9LAo+Kwl9
+LAo+IAl7Cj4gCQkuZm91cmNjID0gVjRMMl9QSVhfRk1UX1AwMTAsCj4gCQkuY29kZWNfbW9kZSA9
+IEhBTlRST19NT0RFX05PTkUsCj4KPi0tLQo+YmFzZS1jb21taXQ6IDlkZGMzZDZjMTZlYTI1ODc4
+OThhMzE1ZjIwZjdiOGZiZDc5MWRjMWIKPmNoYW5nZS1pZDogMjAyNTA0MDMtYjQtaGFudHJvLW52
+MTUtc3VwcG9ydC0wN2RlZjRlN2E1MzcKPgo+QmVzdCByZWdhcmRzLAo+LS0gCj5OaWNvbGFzIER1
+ZnJlc25lIDxuaWNvbGFzLmR1ZnJlc25lQGNvbGxhYm9yYS5jb20+Cj4K
 
