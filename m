@@ -1,77 +1,77 @@
-Return-Path: <linux-media+bounces-29844-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29845-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60BD4A83904
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 08:17:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 565A3A83912
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 08:19:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A6CF3B7E8E
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 06:17:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 219DA1B63353
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 06:20:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F37B81FCFF3;
-	Thu, 10 Apr 2025 06:17:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C70C7202F79;
+	Thu, 10 Apr 2025 06:19:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XYrE7tlm"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="htEwGSK2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0982A1D9A54
-	for <linux-media@vger.kernel.org>; Thu, 10 Apr 2025 06:17:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BE26201033
+	for <linux-media@vger.kernel.org>; Thu, 10 Apr 2025 06:19:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744265868; cv=none; b=SXUFFrsNSRjpVVkWMqiFNAZI7QnundaLjDQdqgDThY8aRzQkarHTqeXKZ41Bwb9Q73grtsjy60AzA7MOvo36jarrn4vmfvzDgecM6uHsy1AsP+MvZ0mGisFkfF6nEzXhjIZZKJ7ybGP5zfvx2yiMqbgfJ9S1F0U1B77+PBm9GUU=
+	t=1744265987; cv=none; b=pqBuiptgFPTP+WiCPtl/TlkAAvFNsCiG6q4XpL35MtsMF4asQi84vOEvs8f2y0UPVbYaqdfV3OOi9Mfa7WAgGVackfC5+h2w08FRRK0tPaW/FKdAeViimTfrYfoc80bCY0VyLGhTIHcy6naUnalDCzn62E+Qwt6UW5ZdKwM6HB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744265868; c=relaxed/simple;
-	bh=RuJkx0SME0u7KQoXNcdSFo1kg/bczJSkO6Gfd1eD3s4=;
+	s=arc-20240116; t=1744265987; c=relaxed/simple;
+	bh=fNKcWfeOv5X1UZBWJNkpzhwgnAdoDWDmVg5nRct5t9Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GUzUuMaFl3WoDNl2GAgfmfRVWTQJi4CrED8qEtKH8iCPZZm07vJb1WZMy+V8v1w+dUD0Rbw3CDOuyy8Rf/aQ72e2qs3M4SnbU5tuBqGmtEs3GaWbignG8lWsMpl8XGF9glgKv4CU4ORkg1UAJ2H/1PpMF8Ge5N5/TDJ9g4iTHac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XYrE7tlm; arc=none smtp.client-ip=209.85.221.52
+	 Content-Type:Content-Disposition:In-Reply-To; b=a5FoHkyROZsEWLbAavFMVetXuc9l25sR7mwf2aHTy7unwE+ELiZAiBhRuPaW8r1NUBXW+qF0AvwPblTwAZ1NF0B80rsQvytoLNgjYNSHTSmGvelxrBFeE59BATiL07cgXJpKb3cI75PQPx9i3xYWleepz6oNaMOHrToxWs+7Q5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=htEwGSK2; arc=none smtp.client-ip=209.85.128.43
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-39129fc51f8so267771f8f.0
-        for <linux-media@vger.kernel.org>; Wed, 09 Apr 2025 23:17:45 -0700 (PDT)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43cf848528aso3287875e9.2
+        for <linux-media@vger.kernel.org>; Wed, 09 Apr 2025 23:19:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744265864; x=1744870664; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1744265984; x=1744870784; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jYStztFya2y5gjqP02BNpybAW9yRhWvY1XlPanf+Ykc=;
-        b=XYrE7tlm6lG/Qzu/17ww0gE1PiK3v9bUCi3qviV4EXV/+J7oehIVgOVUu+0I9iJd3u
-         g2RHdU4HwaL39OM3HjqeZLmydpz/Kkxw6maFRwNVRHetlDmd7gLFM1ok6qBnrKvH/viR
-         Amiky4lARgT1imbK+v4lJw3Rr2VIdM08fYsA/9esNG/Yjz15mVUir+gw0zbbRbQ5Rjmd
-         9wo7tIOeO2nnueSSyX04CDkpc72hv9L7RsMt/xlZEY717lG4OgLdxFNl6TXxPP8ENih6
-         rIq2JhowNMaZBM64vdo++5MgjxTkLrMSfxs2s/0wbTqM+srsld6/x6s74IV4SZ65I70Z
-         d34Q==
+        bh=fNKcWfeOv5X1UZBWJNkpzhwgnAdoDWDmVg5nRct5t9Y=;
+        b=htEwGSK2vTaIz8z9lllONirib9yEqiD5v/DZnd4q4o9BpuIaC3KgzNXckydokW0lEe
+         NAR392W9t4STF0jnCmN52u2421PR1SMbkM15nET3h1l2TJj1nUTvuRSX7gxOW3h5/qP3
+         62BgvUgneCIaJpWKDGSNed47+ML9q0wobqdVuZraRw1uChE8LKanoEvMGCBTHmKu9l9H
+         xxie6qDQptIb2l1Ad3idobgkwu9niKbRnwLk5QE/W7wpvbhuE9KmsSHnDMoTTUyZ3/39
+         iusfvqJk1r4Y06GTcB7C8bR6KWQaVArohb2f9XCLTuErSYPhIs8dTsUncCzfNK4jzHsW
+         PMBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744265864; x=1744870664;
+        d=1e100.net; s=20230601; t=1744265984; x=1744870784;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jYStztFya2y5gjqP02BNpybAW9yRhWvY1XlPanf+Ykc=;
-        b=at6WogpUBIuGS2eDBtKaLabV701CRplhysbc+Rc/TeS0Y022/+FOWvbWFhShVoUSk/
-         JhO8AxshJBN+T3RjAuTXyaT1x/BZNFC+KhnRIGoOkowdQQx4L1EdDy0EivvcQ7RWJR3N
-         A0M3F6wtG/e6XHYhs0rZutK28LEBlHeDJOh39mRki5yjIxUj/QpX3l/FC3FUNpGgZnGW
-         Z7Uk5P38As1Yra5+5uzUtj82oN8zykQvu1aOhOqPRHWHQzqq+7wUnUKqP1blv7PHb47e
-         2fgsam/Gu/TOK01Y8PuFTYBp6eTqeoIy3UNXKS7uWM/SQOKyb77A3mJF0bx+sHNz7PPG
-         bkKg==
-X-Forwarded-Encrypted: i=1; AJvYcCVERyKvemRaaS1ipu9ZQHNs4wd6nBBFb3okNs1qBV/UHvmJUXuOwXWU83MS2ijF3W8hcYzt13+ae6+6Nw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1DbZMvJxQu5w+1JEIgYDg98KgrT+2JTrYHCalQxrpP1un+0O5
-	xImhp4HDsJkysVjYDN6KlC9dyUswR/JhkBoBXJorA/bxT4mCcaXkF0nGyzzE6gA=
-X-Gm-Gg: ASbGnctSSV+tkCFujJmg1RosWpaFhPT7YqHR1bbenxxOg6b1HpQiKevbelFV0ZTvAf3
-	KEsUPhSS9XLQ+62HH1OMKVafHFFsC9WEp37Y9Szxf5YHbnLG7k0TkbWY6Sb7k7R7nmConrJdg8m
-	gR/entQrBvwQw6JVq19hfiA9TjGYzJTuyOH1AP2e75SajxLTrycMiesq3RW98ILhyRGfmTAcKFJ
-	rAHqtINyU19Ub6f3vU4+Kn+YGdgTsMclH41/YWJLETPeWUJpahvYbP1JvKsUo9yrGG8EBSImZkq
-	hB58uEsWnZvlQOk+8RitmwuGxXJHKIcyC1zRgGV1nNmqMlgoYMt6ZgmG
-X-Google-Smtp-Source: AGHT+IGPf0mN33Z8VXMC6vHoEgIYPUGu+ettg097AataOUXjxz6bSk1dsUcrvcjBIRQZplQw7qTkLw==
-X-Received: by 2002:a05:6000:18ae:b0:39c:2692:425a with SMTP id ffacd0b85a97d-39d8fd63d92mr746462f8f.6.1744265864279;
-        Wed, 09 Apr 2025 23:17:44 -0700 (PDT)
+        bh=fNKcWfeOv5X1UZBWJNkpzhwgnAdoDWDmVg5nRct5t9Y=;
+        b=DG29q5bjuJPXwNih2qL6IgwR2wlXtY01Q/TqmVPlf5HDruQcCA9srdTT1pG6hiGqE4
+         oTbBAPSR+JXIWEhsUqEHFLCSGrxIuUJGNVyRZUrSfAweXojh2yiHn9wKnP05HFe0/YYy
+         6Sq3baX/kDw4EaD4Xz6RZdCaXL6kuBsAgHsX30YYveWYwMJiPSvMYygKjqX+7lfIEh0v
+         BXY1yuQdn4IZmz0Pg9CIB/7fqqrbRThY8RnUsxZnilig7lv2xi3I0zDtTvGMC6cVocOZ
+         V45skR85xqjCpTwL4rwIQn7/KYkRPgYcT9yvYZGWWIJ5/55UR4RgwWDxbXlDqTZEuKY3
+         4cPw==
+X-Forwarded-Encrypted: i=1; AJvYcCXY/fqvZya+SDyhEChImiU4F4nrMeLbz73MGK3aoKosOo9xMpMHhWMtY0yZvSeNOYxwhgmAJ9X8Uf7hxA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEGg6kQvY4tPJcR9HNdOjPLrNmbLy4kxJghQvNvAekTI8Y9Xhq
+	oi38Iq7NTplv7m8525nBS5mVI9Hi4JQoAodEq4w/wl0+q388056R4Zg2eCXmAwA=
+X-Gm-Gg: ASbGncun9ZWDcPaHqkcUrPIudUD6qJsCthIbGZKzyNpfCGALOSMzVMk4paZv+9blX+d
+	LT32qymAcoum6Z3mGA+mq1gwN1S4wuehJv43GJhUcPWbYLf5QDxfr/5yHgg64IJR9zyq5Z1BqBO
+	mn4TU6PSK2ESYLAjn5cxFpXUdrCrPJeYVJTFzARiDRUTfSmp7AFdMjkSRGK+28zSJZJO5+hUhbc
+	bZP6bi65eFvoXDeXh8bVbLfZQBQoQqdSsgDpv05o4oBGoGHZR4nNw630y6twzCAWYGKXKQG24jt
+	VeFlnLtd/XKyqH7gYLbLFYYcacQdGSOmpK0xm4Q7eSwVV7FRdT++e1Ui
+X-Google-Smtp-Source: AGHT+IETxKgteFp+KK8rObwmu67CyaszSv6hN7I3pcGlN+mzeZYmJ4TDp+koJRpZX2WmH9ySINK8Og==
+X-Received: by 2002:a05:600c:b8b:b0:43d:4686:5cfb with SMTP id 5b1f17b1804b1-43f2d9604f3mr15862495e9.27.1744265983907;
+        Wed, 09 Apr 2025 23:19:43 -0700 (PDT)
 Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-39d893611d0sm3664353f8f.6.2025.04.09.23.17.43
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-43f23572bb2sm39720035e9.29.2025.04.09.23.19.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Apr 2025 23:17:43 -0700 (PDT)
-Date: Thu, 10 Apr 2025 09:17:40 +0300
+        Wed, 09 Apr 2025 23:19:43 -0700 (PDT)
+Date: Thu, 10 Apr 2025 09:19:40 +0300
 From: Dan Carpenter <dan.carpenter@linaro.org>
 To: Siddarth G <siddarthsgml@gmail.com>
 Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org,
@@ -80,9 +80,9 @@ Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, mchehab@kernel.org,
 	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
 	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org, skhan@linuxfoundation.org
-Subject: Re: [PATCH] staging/media/imx: fix null pointer dereference
-Message-ID: <0d496695-ce20-4774-8e86-4d5c98dc220b@stanley.mountain>
-References: <20250409211727.62710-1-siddarthsgml@gmail.com>
+Subject: Re: [PATCH v2] media: imx: Fix NULL pointer dereference
+Message-ID: <e4252054-69e0-4f65-bb75-54ba4a24e5d3@stanley.mountain>
+References: <20250410050543.6963-1-siddarthsgml@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -91,66 +91,11 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250409211727.62710-1-siddarthsgml@gmail.com>
+In-Reply-To: <20250410050543.6963-1-siddarthsgml@gmail.com>
 
-On Thu, Apr 10, 2025 at 02:47:27AM +0530, Siddarth G wrote:
-> Cppcheck warnings:
-> 
-> drivers/staging/media/imx/imx-media-fim.c:79:6:
-> error: Null pointer dereference: fi [ctunullpointer]
->   if (fi->denominator == 0) {
-> 
-> drivers/staging/media/imx/imx-media-csi.c:795:27:
-> note: Calling function imx_media_fim_set_stream, 2nd argument is null
->   imx_media_fim_set_stream(priv->fim, NULL, false);
-                                              ^^^^^
-This is a false positive.  The false means that we don't call
-update_fim_nominal().  Btw, Smatch parses this one correctly.
-
-> 
-> drivers/staging/media/imx/imx-media-fim.c:388:3:
-> note: Calling function update_fim_nominal, 2nd argument is null
->   update_fim_nominal(fim, fi);
-> 
-> drivers/staging/media/imx/imx-media-fim.c:79:6:
-> note: Dereferencing argument fi that is null
->   if (fi->denominator == 0) {
-> 
-> To fix the issue, add a check to validate that the 'fi' is not
-> null before accessing its members.
-> 
-> Signed-off-by: Siddarth G <siddarthsgml@gmail.com>
-
-Don't resend because we just ignore false positives instead of
-trying to silence them.  But if this were a real bug then it
-would need a Fixes tag.
-
-> ---
->  drivers/staging/media/imx/imx-media-fim.c | 3 +++
->  1 file changed, 3 insertions(+)
-> 
-> diff --git a/drivers/staging/media/imx/imx-media-fim.c b/drivers/staging/media/imx/imx-media-fim.c
-> index ccbc0371fba2..25f79d0f87b9 100644
-> --- a/drivers/staging/media/imx/imx-media-fim.c
-> +++ b/drivers/staging/media/imx/imx-media-fim.c
-> @@ -76,6 +76,9 @@ static bool icap_enabled(struct imx_media_fim *fim)
->  static void update_fim_nominal(struct imx_media_fim *fim,
->  			       const struct v4l2_fract *fi)
->  {
-> +	if (!fi)
-> +		return;
-
-If this were a real bug, then probably the NULL check would be better in
-the caller.
+The same comments apply.
 
 regards,
 dan carpenter
 
-> +
->  	if (fi->denominator == 0) {
->  		dev_dbg(fim->sd->dev, "no frame interval, FIM disabled\n");
->  		fim->enabled = false;
-> -- 
-> 2.43.0
-> 
 
