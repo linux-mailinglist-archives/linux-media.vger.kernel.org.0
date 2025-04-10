@@ -1,54 +1,54 @@
-Return-Path: <linux-media+bounces-29972-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29973-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08347A84C10
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 20:27:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81D6BA84C3D
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 20:41:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0B5831B62424
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 18:27:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C13A4C50D4
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 18:41:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB90E28D82F;
-	Thu, 10 Apr 2025 18:26:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 081F828EA68;
+	Thu, 10 Apr 2025 18:41:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="jPH7kwO5"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="H6GdLcbD"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B35BC1E8855;
-	Thu, 10 Apr 2025 18:26:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B04828F927;
+	Thu, 10 Apr 2025 18:41:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744309607; cv=none; b=GbCSJnZWQ9dU5AVRwvjKifZ+xliPBlVhPzPZD6rODqts84R6NF1zkAn8cFlWLkE6wEMgibqSgrLAZ0cbE+s8ePcGCwo2ybcp/Ueui1nYMOwjcltED7Ax6NUIQ7q6FLtPH/4lgtyM/00Mrh9PeCXzlRbYlOO148KoD/SRr68lAyk=
+	t=1744310503; cv=none; b=hb7Gyl1V9ua0bq+A9AA7I/ldV1htRpDATj5ZzVA+Nt0ZLwcSst4tYXyzHaz0P6QOrSUJI7tSy72X+RGTaHo9GC6c18QrZfetPbtrdkY/QukF7MOAuZ7yM6Qab61CwhsWq3fcbdvPPQcWw7UZKt1zns/d325f15ObR7JcLgdzlwo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744309607; c=relaxed/simple;
-	bh=yzqukFcSBxfJvBMDE85nnf6QDx+CjY7dKZRbUL3ocIc=;
+	s=arc-20240116; t=1744310503; c=relaxed/simple;
+	bh=OHc66BNM1K5FJWfbPzdM/pVHizQbT3EeAEGEeQTezsk=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=H1eY+VFIl0lEsoFPLy0VIvnLbXjybUqt1p/sV8loxJSStH6jvdjEGVzs72jQ7PyxW9V2qjzpr9ySHnIz3oMAlGAl9c0K6+zpygM3zRJHfZL6e+qQVLdJXv4hAnQFSn04dAmGSCX2EhkhhkTRDeqxc/J7BKNVT66T3Qp5WwoYyhk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=jPH7kwO5; arc=none smtp.client-ip=148.251.105.195
+	 Content-Type:MIME-Version; b=OQEIFqEYJMiFPSbN56a1+NBDfi8wOhFBa/Et9m9wRQKvBtN7PaJQlz/yzOUHGRYzGbhDQhUAy8k5IwE88wCY6N7aasuaE0+XIXaK0A7FVjDbf7e/jGuIszWn3eIZs/FUb4zCCtjR0882IMu9oP+v14ZHVib1/MwWaD2L/UYWVR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=H6GdLcbD; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1744309602;
-	bh=yzqukFcSBxfJvBMDE85nnf6QDx+CjY7dKZRbUL3ocIc=;
+	s=mail; t=1744310499;
+	bh=OHc66BNM1K5FJWfbPzdM/pVHizQbT3EeAEGEeQTezsk=;
 	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=jPH7kwO51hhoq2EFhbWp/pYBGWZKHY6EvWafXJ/GN9q+AZObuMqE/tMN5EshcWGBD
-	 rSgcFsCwP4g7Bmg53XFBMBo4NGxByUG9isoALf4gntgMp4cBoOGwIA1Ow1VFmmPRhI
-	 J1SA/6Z3bHYPAnougc0I9dt3i/gPQxjlJTXTuO0ibowWzOLL3WNBUw1GI2H2NHOcVK
-	 KkT1RkzGmQvOXvxJNaup6asw2ZY6I7GLBW0VJ1JWAL4lBu0JwG83lClGhZR3InA/Tz
-	 n1kVsYEp7MnlZoOAFcmPP75TMozwccn1okbmdo/DChdEXJV19AdHcajQaX5WbZPAZI
-	 2tLGqtHhDUc5w==
+	b=H6GdLcbDxSgb+0DcgH/h7C6z21ZoDw/PUpkZZEbC11u9ukeXzJpQOSHnwAjSSwwQE
+	 KIZL562uV+FZyPr7P+GQyhPvlCBVPwx0rtPPoxWpYeBKskIsvDcY4uVXrHqfgztejy
+	 wrUSG0qSDRFV7M9YHeqjhauGQmwewDKAXBlPYoblyX1XSAdd2Awur1etLbuGA7NsNI
+	 tIT3TQ52jNhOqgZd3QvlK/s1YmUh/ZI8i9+gdL/WiIk6ajJefLPVATaJD6rJNw0/wR
+	 I5WiJSx+CVKQ+bcmn4Hex6hR6EmU+vIm54zRz2eA8GGaqnrh10D6NEV48opUhqAM9p
+	 TQLW5h69HQKdg==
 Received: from [IPv6:2606:6d00:11:e976::5ac] (unknown [IPv6:2606:6d00:11:e976::5ac])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id E059817E03B6;
-	Thu, 10 Apr 2025 20:26:40 +0200 (CEST)
-Message-ID: <829f05dc918a9a8a1848ecb68d175c8d7f892584.camel@collabora.com>
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 411A117E07FD;
+	Thu, 10 Apr 2025 20:41:37 +0200 (CEST)
+Message-ID: <f6cd46032970dd696bbdb087b203b3bd49e7a161.camel@collabora.com>
 Subject: Re: [PATCH v2 1/5] media: mc: add manual request completion
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
@@ -61,7 +61,7 @@ Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab
 	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
 	kernel@collabora.com, linux-media@vger.kernel.org, Sebastian Fricke	
  <sebastian.fricke@collabora.com>
-Date: Thu, 10 Apr 2025 14:26:39 -0400
+Date: Thu, 10 Apr 2025 14:41:36 -0400
 In-Reply-To: <20250410175010.GF27870@pendragon.ideasonboard.com>
 References: 
 	<20250410-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v2-0-5b99ec0450e6@collabora.com>
@@ -78,9 +78,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Hi Hans, 
-
-another question for you below.
+Hi Laurent,
 
 Le jeudi 10 avril 2025 à 20:50 +0300, Laurent Pinchart a écrit :
 > Hi Nicolas,
@@ -97,41 +95,52 @@ Le jeudi 10 avril 2025 à 20:50 +0300, Laurent Pinchart a écrit :
 > > so add a manual complete mode for this.
 > 
 > I didn't immediately understand this was about delaying completion of
-> the request. It would be nice to make that more explicit in the
-> commit
+> the request. It would be nice to make that more explicit in the commit
 > message and in the documentation of
 > media_request_mark_manual_completion(). A sample use case would also
 > help.
-> 
+
+I have never considered this a "delay", but an explicit completion
+function. In short you want to use that if you are not satisfied with
+the existing implicit logic that currently delays and complete the
+request based on the media_request_object attachments.
+
+We can add this multi-core CODEC use case as an example.
+
+The only alternative to that would have been to allocate a driver
+specific media_request_object and store it in request. This is a rather
+expensive and complicated way to do this. I even got to a point I
+considered having a media_request_object in the driver specific
+media_request, so avoid the runtime allocs, but found the explicit
+completion a lot easier to read and think about.
+
+My only remaining thought, is why do we keep the complicated explicit
+completion in the first place, perhaps because its a lot of work to
+undo ? The request_object still have a purpose, since we still need to
+store data in the request. And it has some benefit, that instead of
+silently never completing, the complete() call will warn if you have
+left over objects at an unexpected point in time.
+
+Nicolas
+
+
 > > In req_queue the driver marks the request for manual completion by
 > > calling media_request_mark_manual_completion, and when the driver
 > > wants to manually complete the request it calls
 > > media_request_manual_complete().
 > > 
 > > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-The CI is not happy that the Sob did not match the author, shall we
-ignore the CI or edit one of the two ?
-
-Nicolas
-
 > > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 > > ---
-> >  drivers/media/mc/mc-request.c | 38
-> > ++++++++++++++++++++++++++++++++++++--
-> >  include/media/media-request.h | 36
-> > +++++++++++++++++++++++++++++++++++-
+> >  drivers/media/mc/mc-request.c | 38 ++++++++++++++++++++++++++++++++++++--
+> >  include/media/media-request.h | 36 +++++++++++++++++++++++++++++++++++-
 > >  2 files changed, 71 insertions(+), 3 deletions(-)
 > > 
-> > diff --git a/drivers/media/mc/mc-request.c b/drivers/media/mc/mc-
-> > request.c
-> > index
-> > 5edfc2791ce7c7485def5db675bbf53ee223d837..398d0806d1d274eb8c454fc5c
-> > 37b77476abe1e74 100644
+> > diff --git a/drivers/media/mc/mc-request.c b/drivers/media/mc/mc-request.c
+> > index 5edfc2791ce7c7485def5db675bbf53ee223d837..398d0806d1d274eb8c454fc5c37b77476abe1e74 100644
 > > --- a/drivers/media/mc/mc-request.c
 > > +++ b/drivers/media/mc/mc-request.c
-> > @@ -54,6 +54,7 @@ static void media_request_clean(struct
-> > media_request *req)
+> > @@ -54,6 +54,7 @@ static void media_request_clean(struct media_request *req)
 > >  	req->access_count = 0;
 > >  	WARN_ON(req->num_incomplete_objects);
 > >  	req->num_incomplete_objects = 0;
@@ -139,8 +148,7 @@ Nicolas
 > >  	wake_up_interruptible_all(&req->poll_wait);
 > >  }
 > >  
-> > @@ -313,6 +314,7 @@ int media_request_alloc(struct media_device
-> > *mdev, int *alloc_fd)
+> > @@ -313,6 +314,7 @@ int media_request_alloc(struct media_device *mdev, int *alloc_fd)
 > >  	req->mdev = mdev;
 > >  	req->state = MEDIA_REQUEST_STATE_IDLE;
 > >  	req->num_incomplete_objects = 0;
@@ -148,30 +156,25 @@ Nicolas
 > >  	kref_init(&req->kref);
 > >  	INIT_LIST_HEAD(&req->objects);
 > >  	spin_lock_init(&req->lock);
-> > @@ -459,7 +461,7 @@ void media_request_object_unbind(struct
-> > media_request_object *obj)
+> > @@ -459,7 +461,7 @@ void media_request_object_unbind(struct media_request_object *obj)
 > >  
 > >  	req->num_incomplete_objects--;
 > >  	if (req->state == MEDIA_REQUEST_STATE_QUEUED &&
 > > -	    !req->num_incomplete_objects) {
-> > +	    !req->num_incomplete_objects && !req-
-> > >manual_completion) {
+> > +	    !req->num_incomplete_objects && !req->manual_completion) {
 > >  		req->state = MEDIA_REQUEST_STATE_COMPLETE;
 > >  		completed = true;
 > >  		wake_up_interruptible_all(&req->poll_wait);
-> > @@ -488,7 +490,7 @@ void media_request_object_complete(struct
-> > media_request_object *obj)
+> > @@ -488,7 +490,7 @@ void media_request_object_complete(struct media_request_object *obj)
 > >  	    WARN_ON(req->state != MEDIA_REQUEST_STATE_QUEUED))
 > >  		goto unlock;
 > >  
 > > -	if (!--req->num_incomplete_objects) {
-> > +	if (!--req->num_incomplete_objects && !req-
-> > >manual_completion) {
+> > +	if (!--req->num_incomplete_objects && !req->manual_completion) {
 > >  		req->state = MEDIA_REQUEST_STATE_COMPLETE;
 > >  		wake_up_interruptible_all(&req->poll_wait);
 > >  		completed = true;
-> > @@ -499,3 +501,35 @@ void media_request_object_complete(struct
-> > media_request_object *obj)
+> > @@ -499,3 +501,35 @@ void media_request_object_complete(struct media_request_object *obj)
 > >  		media_request_put(req);
 > >  }
 > >  EXPORT_SYMBOL_GPL(media_request_object_complete);
@@ -192,8 +195,7 @@ Nicolas
 > > +
 > > +	req->manual_completion = false;
 > > +	/*
-> > +	 * It is expected that all other objects in this request
-> > are
+> > +	 * It is expected that all other objects in this request are
 > > +	 * completed when this function is called. WARN if that is
 > > +	 * not the case.
 > > +	 */
@@ -208,23 +210,16 @@ Nicolas
 > > +		media_request_put(req);
 > > +}
 > > +EXPORT_SYMBOL_GPL(media_request_manual_complete);
-> > diff --git a/include/media/media-request.h b/include/media/media-
-> > request.h
-> > index
-> > d4ac557678a78372222704400c8c96cf3150b9d9..645d18907be7148ca50dcc924
-> > 8ff06bd8ccdf953 100644
+> > diff --git a/include/media/media-request.h b/include/media/media-request.h
+> > index d4ac557678a78372222704400c8c96cf3150b9d9..645d18907be7148ca50dcc9248ff06bd8ccdf953 100644
 > > --- a/include/media/media-request.h
 > > +++ b/include/media/media-request.h
 > > @@ -56,6 +56,10 @@ struct media_request_object;
-> >   * @access_count: count the number of request accesses that are in
-> > progress
+> >   * @access_count: count the number of request accesses that are in progress
 > >   * @objects: List of @struct media_request_object request objects
-> >   * @num_incomplete_objects: The number of incomplete objects in
-> > the request
-> > + * @manual_completion: if true, then the request won't be marked
-> > as completed
-> > + * when @num_incomplete_objects reaches 0. Call
-> > media_request_manual_complete()
+> >   * @num_incomplete_objects: The number of incomplete objects in the request
+> > + * @manual_completion: if true, then the request won't be marked as completed
+> > + * when @num_incomplete_objects reaches 0. Call media_request_manual_complete()
 > > + * to set this field to false and complete the request
 > 
 > I'd drop "set this field to false and " here.
@@ -244,14 +239,12 @@ Nicolas
 > >  	wait_queue_head_t poll_wait;
 > >  	spinlock_t lock;
 > >  };
-> > @@ -218,6 +223,35 @@ media_request_get_by_fd(struct media_device
-> > *mdev, int request_fd);
+> > @@ -218,6 +223,35 @@ media_request_get_by_fd(struct media_device *mdev, int request_fd);
 > >  int media_request_alloc(struct media_device *mdev,
 > >  			int *alloc_fd);
 > >  
 > > +/**
-> > + * media_request_mark_manual_completion - Set manual_completion to
-> > true
+> > + * media_request_mark_manual_completion - Set manual_completion to true
 > > + *
 > > + * @req: The request
 > > + *
@@ -273,8 +266,7 @@ Nicolas
 > > +/**
 > > + * media_request_manual_complete - Set manual_completion to false
 > 
-> The main purpose of the function is to complete the request, not
-> setting
+> The main purpose of the function is to complete the request, not setting
 > manual_completion to false.
 > 
 > > + *
@@ -289,16 +281,12 @@ Nicolas
 > If that's an error then I'd document it more explicitly, as the first
 > sentence makes it sound that both cases are valid. Maybe
 > 
->  * This function completes a request that was marked for manual
-> completion by an
->  * earlier call to media_request_mark_manual_completion(). The
-> request's
+>  * This function completes a request that was marked for manual completion by an
+>  * earlier call to media_request_mark_manual_completion(). The request's
 >  * @manual_completion flag is reset to false.
 >  *
->  * All objects contained in the request must have been completed
-> previously. It
->  * is an error to call this function otherwise. The request will not
-> be
+>  * All objects contained in the request must have been completed previously. It
+>  * is an error to call this function otherwise. The request will not be
 >  * completed in that case, and the function will WARN.
 > 
 > > + */
@@ -307,18 +295,15 @@ Nicolas
 > >  #else
 > >  
 > >  static inline void media_request_get(struct media_request *req)
-> > @@ -336,7 +370,7 @@ void media_request_object_init(struct
-> > media_request_object *obj);
+> > @@ -336,7 +370,7 @@ void media_request_object_init(struct media_request_object *obj);
 > >   * @req: The media request
 > >   * @ops: The object ops for this object
-> >   * @priv: A driver-specific priv pointer associated with this
-> > object
+> >   * @priv: A driver-specific priv pointer associated with this object
 > > - * @is_buffer: Set to true if the object a buffer object.
 > > + * @is_buffer: Set to true if the object is a buffer object.
 > >   * @obj: The object
 > >   *
-> >   * Bind this object to the request and set the ops and priv values
-> > of
+> >   * Bind this object to the request and set the ops and priv values of
 
 -- 
 Nicolas Dufresne
