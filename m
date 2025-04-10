@@ -1,470 +1,237 @@
-Return-Path: <linux-media+bounces-29956-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29957-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F16EBA849C0
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 18:31:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1BDCA849CB
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 18:32:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C534C3B8EEC
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 16:27:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 80F5F9C4DA5
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 16:29:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F39A71EE010;
-	Thu, 10 Apr 2025 16:27:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1344C1EE03D;
+	Thu, 10 Apr 2025 16:29:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="dYO3/Rp+"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="k8QtCJqz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2065.outbound.protection.outlook.com [40.107.236.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0269A1E3780;
-	Thu, 10 Apr 2025 16:27:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 994DA12CDAE;
+	Thu, 10 Apr 2025 16:29:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.65
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744302476; cv=pass; b=ntL3A+/TKGmem3YVDB9HQZap+uEaFNORvZoHXkohryMSQqxfg6WhIvIEBm2PpFy1HANvhYiPn0+1Y3DShSA656Z1KaOxCD00yub2De1rHTnUvoQ9UzesRB8ay1s+/BOpHtylnjkg9muL44wA7T2Edmjo+L68EOQMvIdnWJV7pig=
+	t=1744302562; cv=fail; b=lW58Co9TLjvRdcKb+yqRLE/deRrN1U/E6yfX9TY+4zwGE16b391U6FzCFbDm+tXZUa/u786Vk7d2rrZ7oHXYgnKhf4yxRCrmjJhH7jCraok98rMG/rDZqyxgfuthPE+QqWql5TThtcqSwcvlkYiWs8CeuXQFSU4prnpYbElg6kY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744302476; c=relaxed/simple;
-	bh=xOdFbFHUMBmbX6rNQi65CougeA5d9LZMvbdkTvlinOU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sx0XgfPnlY5gEoJfzWAT908XcgYka+LAw1RNrDiZQyQ26deQ6QmBWCSd8srZ7Qpx+09jLRoecoSkq2Bcow6nba6mrZww1bIvSiuUYqGLCWBmK29uj3ZOOsb6bct+FrDCpRPDCj04ai6DbaEtEXYZFH5Le/E/2UKXsKedn5CfPjk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=dYO3/Rp+; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-127c-61ff-fee2-b97e.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:127c:61ff:fee2:b97e])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4ZYQG22fxZz49Psw;
-	Thu, 10 Apr 2025 19:27:38 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1744302458;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=w0QvXqOCEKHNwLlFxSExtlT8Nh2mSp/gDgD4va5NV40=;
-	b=dYO3/Rp+ii6sHVyGpqaw0kzGjyI/71dxNrYCK4X8X98y3CsYlL+SilzR/sDa4L/x5guEX7
-	eiXVS86oMt5bo7Aj7Y0wMhbTK7l3kiZcMPSSTh4jz8Oj6L+Yh6lqvVs6WUv0+9R0k3Hfoj
-	VlGb5/yUOCaqwKvEPZpAuLE5y1WEQ56TA2DYc+1LpOXtYeA+5pW4s/bMpg/BxXU0izHuvr
-	dnXTAw/nlnAog6Dx3wFq0Vbk5ISeOkHnRHAtAlZAtag/1KUsrf6F3JHTVjDYFm6np+tnWz
-	tChE3VwVNwsCLzhuyRi1J6FISBmnTQ0EhEspQ+5pQRky7i3ZdecznUifc8aTIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1744302458;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=w0QvXqOCEKHNwLlFxSExtlT8Nh2mSp/gDgD4va5NV40=;
-	b=HsUDWk5jfa3325EOehM16X0xArWcIORBrIQMhQ2KGdq1RaflLAhFpq6QHimxYAWRTAJGWl
-	+h2aPBo0ydpybc0ZrU3n1GteBJX1iOWs1vroAlbOkxGsWm8AysOBq1WpHDo6I5x7TEy53K
-	C2cN4uxSojo+qhARlmJxUbvjMHOXWdfF6BANtFgZYGxKGe1mseDynlFikWMZZSgp2PTgT4
-	cOKpGu6fBkEGjYr/SejfIYhXuIEbfIWXN2oIenc1hVtiNkwkajSuYtHZYZoASEKAXuY14l
-	qbbTP4FvzLbAJ7Ij6Xoeb2xeOkKXDCZDOCbU79Le99v1kblxJBaxjod/9kANCw==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1744302458; a=rsa-sha256;
-	cv=none;
-	b=WGNzqwjbZANdhZ1UXarowHoR+BbJ/VT0wumrVVb47PRTQGsO0f4Bjhl40CnMesOkCBz+WB
-	Cflw59o2OSu/CbORvVfY2DBSpwII0PNTmqej/6T3QC1UGeh9Cd4D7hmq3pMIPNKV8yVEr/
-	ZimF/mER94IRzVM/vHdAHb10lHNahT+YHQIQeY3cw96VXLy++I7Ye2CymTrp/eEhTBip2D
-	JgV00B81TO2AAVB1HdjKRiiGwkXk9zmTDAZ+CTWiE79C4b4i1r04p+K6QItbffQ/ccopt3
-	FnyScprRhEiQkntnTyCTyOTQE5lVE8bhuQyvdEOAHYHJIGrvPF4VTTCVz5VPAQ==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id BCF8B634C93;
-	Thu, 10 Apr 2025 19:27:37 +0300 (EEST)
-Date: Thu, 10 Apr 2025 16:27:37 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund@ragnatech.se>,
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: Re: [yavta] [PATCH 3/3] Add colorspace support
-Message-ID: <Z_fxeetrWfPqtoc5@valkosipuli.retiisi.eu>
-References: <20250408233323.7650-1-laurent.pinchart@ideasonboard.com>
- <20250408233323.7650-4-laurent.pinchart@ideasonboard.com>
+	s=arc-20240116; t=1744302562; c=relaxed/simple;
+	bh=ZADbPEv7ALkiv5B+hGbBHt97f0GgB4FnPcLHLklCTFY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ZWOvr+NFrUGk1tf8GThp+hdCTUaPwvvVrovHHrS3vnQi0YY3Z9x4ZRJeYFEoYCaZ9wSNNGn3Bi0fNzgBJbKIG7CxoXPidHltcS6EUVbmvOlRhGiE210ayWztIw7FlIZ4JM4pijaupdX02N8MREB0hAWYLyLUfOsOdMF9pRbW9ek=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=k8QtCJqz; arc=fail smtp.client-ip=40.107.236.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tOKnEOH52x6UXkS6TfqMEBs8ghMTDo49jE9fdiSGZ0xTELrIDnt4sYJebGz50dl060QMzMjL7IwCi/IyMztPF/G8vKGZVk55S7rmWQeafDPZqt/uJwcCupqX/WXenHQ9VX1Ao50egzOiJHfkIaW1dMapL24X3T/Nnwv9n4R+zsDU5GVCakPUv3SDqZJrJ9NX/P8wI7FgyRFzAl7hG26hk3BiA5VHgqpjGavUX6iGsXYmdAFuoAjrhYFYaRY6r0nuJ9dEUm4AWV/PMLepwCJI3GlVcpqn/dXkZRPvrhH1VFDmTvaqHHutvuSBv7m9FZQC23+pnyavfJKWgI/L4DAD4Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=r+wVqng9/9DHPVF4XKLpCChEK6dReYnV79fBkCEfYOM=;
+ b=WDaKn+2WkaNPdKcb4/aNtyf2ydx0D//55qDuy3gc/U5HpZ7JtPWl4RnS5f3yNZw2qELgeA5mAWsHbc31WUleXK+A3IRGR7ci8at20u72h/K1Fu2NnHmuxF8cssvLpXCItMzaZgoGQj9V+JDtWIdOUi/NXZ8j8oEEPwldIyB2vzegXMIcrLpi7OUdwsemOMk+Lpd2FJb3LR/6nrB6rtP93zcFEHj4YYiEFyzzYXYTq1A01izwLR+x8m23BvfYt5ZMELkmegZbe6YELd2RfJQoiztMpkY4F2rM+aksMf5uBua2epDm+RcFifCNaRPKIO0GnTgE9zW9ed5tR4yPo9Z+TQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=r+wVqng9/9DHPVF4XKLpCChEK6dReYnV79fBkCEfYOM=;
+ b=k8QtCJqzLHvPv0BnGRyKm/dYiLOh/QdekqvBD3/peQSaCsQzDFf4Smor4T1LzMjYvTs+CoiXnHiU24tZ5DAd+pGOKSxzfs7rFpmPGd7UV0J2GuQfu0gwAp9FexDeak0L/pIkzvwsJFJW8dYhi0AVw2HX8+ODbKc84urKmiZEpWY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH0PR12MB8797.namprd12.prod.outlook.com (2603:10b6:510:28d::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.23; Thu, 10 Apr
+ 2025 16:29:17 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8632.021; Thu, 10 Apr 2025
+ 16:29:16 +0000
+Message-ID: <09a5beeb-bae3-4a00-9aff-66adf68064e6@amd.com>
+Date: Thu, 10 Apr 2025 18:29:12 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] uio/dma-buf: Give UIO users access to DMA addresses.
+To: Bastien Curutchet <bastien.curutchet@bootlin.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20250410-uio-dma-v1-0-6468ace2c786@bootlin.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20250410-uio-dma-v1-0-6468ace2c786@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR4P281CA0172.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:b7::19) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250408233323.7650-4-laurent.pinchart@ideasonboard.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH0PR12MB8797:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6b28c717-130e-4601-bf28-08dd784cd678
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?RHlYbDVTS1piVEI2YklhTHBHc3RsdHAvVnlhZFlZemMrTmVVQjI4VWlhanZK?=
+ =?utf-8?B?d3U5U0NFNEJMczJwMGMzeDZkOTlqWGNWV0tPVnpuL05yNFRMTDN3U01yV1RM?=
+ =?utf-8?B?ckloQXhrc2FGMGxFNEtxc0JYa0lWRDVtY3B0UzQvQWJ3amU0WloyU3FtSlRt?=
+ =?utf-8?B?Nlp1b0pQT2F1S3VVZW9VeGNhYW0yNGg3S0VDSklnSyttcGtLdGVHZnBWU3pX?=
+ =?utf-8?B?MDZ2dURyU3JKeHBrK0w5L0JxeGppMUhvVUs4cWE3WmRHQzFoVTNDUkhlOWhD?=
+ =?utf-8?B?cmp4R0I3NDB6dk1CY3hLeWg0TlM1VHRDTzN1bnAzWVRORlJPZGVudGhCMHFD?=
+ =?utf-8?B?d2tsNEdEczRtdkdxSk5uSTc5SXNqZEExaG1zaHR2RDBqM0w3bkdoSHArUGlG?=
+ =?utf-8?B?TDBxZlRiSndFTkJydk9hRVpaVTlFNXBBbk84cFUxYWtERUZVSHF5Uy9ycXM4?=
+ =?utf-8?B?M3E4Z3dweWhDNE54bUlQY0RKdEsrSWg3dEJqWHFOSzcxeEhHdDF5Y20vcVdB?=
+ =?utf-8?B?QlV3dTZKMjZjYytpdy9aQnZ6OC9LcC85ckVINll0Q3Y0Q3V0L2w1K2tiV25n?=
+ =?utf-8?B?eXNpQTdZcXpZcHNoc2FWc0Flc1p0WkpjSEduUUlyWSs3YUFYMDl4MkN1T2Za?=
+ =?utf-8?B?N3czTnoyNi9rVjdtTFBOZ0d6UHBZbStGc1J0SDlvSGhhSUl5K1UrdERMU1M1?=
+ =?utf-8?B?TTlUaHRQTUFibEptQ2E2S2tzVEtGTFBsWXdDcElhWVFISFZScUUvdUx6bGtv?=
+ =?utf-8?B?cDNVWUk2WndpOFF5VlVGMlAyQW9QVmVidHQzcys4Uk9qTlhnN2ZjMHN5YWhj?=
+ =?utf-8?B?MUI0Z0dQUCthMFo0VmRwd3pXendaZWRrWVBGK2FXR04xRjdzcFNnTFVkTjZN?=
+ =?utf-8?B?YWdxQWZOZTFiMmJvRHdmcWNOOGpGM1Y0akhFYkJFaUtOODF2N1F6b1pxZFhS?=
+ =?utf-8?B?Q0tDaHZCeFlJWUk3K3dTVnh6dStXRGphM1dLR0dUS1FQa1VWUS9sZ1J1K0J2?=
+ =?utf-8?B?RmViQ05iYkNPRkl4OG1EU3ZRMlhYb3NKUHl0Qit5QmhxOFQwN1V1R0t6ekRR?=
+ =?utf-8?B?dGJzRCsyaG1XY3QyekloNlRMMUpyemh5K0dyTlB1cCtmdkRUb3UwTWhTd2R3?=
+ =?utf-8?B?c0x2d2Job2F6SDFEdXJvcThvcitwSFRzWFU5V0tZZkxOQUlkTHlTRFAxU1o0?=
+ =?utf-8?B?ZHBQckhGTFd3bFhGUzRMMDB0Vk9XWjM1NDFzMzV4dW5MU2Y0QzdvaUtrWWFR?=
+ =?utf-8?B?NFFxVm1QWGxFam5XZW14UndCaVdsdXBMVVJtckx1R1VRTFFVZGIwSllsZkpy?=
+ =?utf-8?B?ZFZzNkNMKzc5TXNoaGZLZE81djJtVlQzODJ6MEwyeVh6Myt0UnBvSm5HQTY5?=
+ =?utf-8?B?dEYxdHg1a3lqUytPOGgxaEthQmkwcktsZldScTA3QUgyOTNoVnBsUWRjVTBs?=
+ =?utf-8?B?SkZsa01VZXcyWllJQnFVUVBicTdhaU1Yb21lZEt1R0hnaDdXR2lYVkczWWVF?=
+ =?utf-8?B?MWRXbWZPVnBpeXd0d0MrVFNLM0c5ZmQyUGNNenh5ckUxcXltTnB5MWRoanpI?=
+ =?utf-8?B?ZjFWRFhZOVpQUExXVU9PMHV4SVAxaWlKMGRCdkEyK1ZMWFkvRnVKRG9OdGJn?=
+ =?utf-8?B?b1RKdWc3OXZ1Y0lNSTAvSDVCRkhTVHBjUHN5ai9MWE04L21hbEpiajlFRFg5?=
+ =?utf-8?B?Z3ZSanZMSjFodE9WbTA0MXJWWGMrRmJtMk4yVkljbEVud1h3Z1F5MVRRRm1a?=
+ =?utf-8?B?WGw0YWdEQnRqeWUrZllRY2oyTkFMS2YvRW0xZjcrcmFVcWRUSVc5RzZvWFpM?=
+ =?utf-8?B?M015QzFmTko0RG44R2pwSnRMZEFteEdwbFRPUmxNd1A4Q2x3ZHJSTVlsTjk4?=
+ =?utf-8?Q?w6JM+oQCWqOln?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?eVdHUUVhK2xWY3hVY1dYTnpIbWx0T0hSNlNsM0Z4aTJ3LzRMVTBMQ081UUYw?=
+ =?utf-8?B?RFJqQWRtT0VlTUVWRk5Ic1hLWDRpVHkxK1d2R0pYZzZhMzlweExaSGhFZ2J6?=
+ =?utf-8?B?dzBLM1FrMU4zQm1zUUx4ZlJMdFRndkR2WUJ0UjdoMVdjQXM3VVo5a2RnSjl4?=
+ =?utf-8?B?WkxrcEs4UG9iWVNwaDBUVmJaS3Vta0FLS0ZxQ2h1U212S3NkNWxNNEdjMUVT?=
+ =?utf-8?B?NlFnL051Q1dOdklYQTd6b1hGdVpTV2luN2dFeWVnc0xDT2pPVXBSaDA5MEhI?=
+ =?utf-8?B?Z2tyUm1MOTI1b0puWU5nZVRyeHpGSjZ1ZTlBaHI5U3RYbW55WnRjY3U5VXhp?=
+ =?utf-8?B?dTJ3QXlQR3l1WUx2dXIwS2lGcVhiRktoWTlwRFhBVzBDVHhJS1MwYllOS1NK?=
+ =?utf-8?B?WUltbDhlSE8xdFd6OSt2cDMycEFzelBFQ2J3d3RPQldqNnVSS2VQSVZ3QkFX?=
+ =?utf-8?B?RFpDOHJQNmh1eCtLSklsa3JpWS9seUdwR1NRUm1aUlRVMDU0dy9GejM3UWw4?=
+ =?utf-8?B?ZUZ6WEF6WWNlRjJhNGJoaFF6dG83N0FjZWZBb25DSytnK296UUYwbUZ1WjNl?=
+ =?utf-8?B?b2pXSHBJc01INXZsVzFzcjlDNXllRXAvSXhuR2NIaTlJZTZjZUdGRlRmUGNp?=
+ =?utf-8?B?NCszU0U5anB0WFZpOG04UXVBam12RmhacWZiTTJhdVdrT2l1b2dhKzRldjI0?=
+ =?utf-8?B?OGJsd3h0cFhnN3BjbDkxcnBCajd5c0dkb01MTDVVaTVzU0gvUmIreFFlOENJ?=
+ =?utf-8?B?OEZjSnEyT3NhdDJhdFpyUVcyYmV6cENDb01XMHBtcUY1b1I2VFI4Vm93UGI4?=
+ =?utf-8?B?ZG0xNE1KOFdhdHNjTDd2TjdoOHlqcDUweXdvL0JRdHliWXJsV081eE1GUTdH?=
+ =?utf-8?B?MVRiSU1tR3ZycG82ZmNTOW9WNlZtZjdheVhQSm0zeEdyUVV4cVh1Ny94OXd2?=
+ =?utf-8?B?MythS0t2ZXBNR1VSS053Z0x0SXhZMitTODdSZEo3cmxXeTN1Y2R5TUFyclBw?=
+ =?utf-8?B?Q1NpenJqaTRQVzVObDdRcVBkZGNZblo1VFFjQ2FSY1d3VDkydVhDZnd2eTZF?=
+ =?utf-8?B?THpwMHdtUlJuN2FsS1FHbFdYbmZ5dHhPbkJuK054eW5TRFpGdXBQRHZ3SktV?=
+ =?utf-8?B?cDIyQ1ZCOFhvaGhQalRBa0lsVWF3M1NlR1BkNWRRQVpoSmJMeDBORCt4akVU?=
+ =?utf-8?B?SFBsSmgxbGNiNk1Rbm9WMTY4bkN1bGlLODk2MW1OaWgzTHlZVCs3YnhHM21H?=
+ =?utf-8?B?M3VqUDFmemVGYmFsRkpBYXVvclplcnRzdGhPbUQzazU2d3dFZkc0UUZJOTlx?=
+ =?utf-8?B?UDJyc2wzdmtUVXhnT3B5MTRPOVVlVFcwNVpwVFBUa3U1K0U1dnBoUXJNOUJV?=
+ =?utf-8?B?MG9STm1BT2VpSEJLMnlYUXhJVXFGWkJsQjQvcFZzYUM3dHNLeW42N0t3YU1Z?=
+ =?utf-8?B?bWFmRkIvWkFRay9pVm80TEkyRDVnQTRoajZPSjN3UU9KKyt3eU5HaEFDVjdv?=
+ =?utf-8?B?TktqblFVT0xqSWMvNldvN2x4UEF5NWN5RmtXMFA5R2IzdElJOGJyMFkvclJr?=
+ =?utf-8?B?d0hTbGRIaVMwVERSWW5Ha0M2UUlxNUdJZ0diUlJLeDh6ZmRzYTBtbHJ2am9H?=
+ =?utf-8?B?dUxBd2RENExaS0p5bzdXYk1DSzE5ZzhiUFl1cDFrdi83anRzdldnR3hlMFMy?=
+ =?utf-8?B?S0IrOGwvNnNDMk84dFh2WVcvNEFreWswT0JYOXBtVCtHS3Rqa1o0SE5xNUk5?=
+ =?utf-8?B?NFlQLzhRSzN5T0hjc1dYNmkvZ2pGTlJDWHJhK1A3WEltb0I3Z2MrTm5jWVVp?=
+ =?utf-8?B?MEFnUXVRTHU0aGtqWDVXczg1aEQrWGxxKzdPQ3Brd0hGSnFkR0RscENUZXkv?=
+ =?utf-8?B?RjBaTkRvQXRPTExSMk5tSXozV0NKdWxmYVM1WTNuY2JXUlZ6L200OVRsZUtQ?=
+ =?utf-8?B?YWYvSWNzaWlLWmhpRnYyQkJaWVpiemljVlI1bkw3RjJJaW9VWTU0dzdRSGVu?=
+ =?utf-8?B?d2RacURRajRlOGRjWEROcW5LSHRXWUFkdkFvQXptamdNZTJMZjBiamVZL3Qy?=
+ =?utf-8?B?TWxaN0p6MVNVNFNMbFh3TVVVS2ZyL0tETFJrWmRYa0R4V0czbm03VjJiempn?=
+ =?utf-8?Q?RuPG89N7qTVNjiQQ9EXeMUqN9?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b28c717-130e-4601-bf28-08dd784cd678
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2025 16:29:16.9174
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7pJmA6WNTBzysnJbVxZ4/a36RvqOPV5NeBUvSjBzkNb9SnlbOz1XcbggVHyHaEP2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR12MB8797
 
-Hi Laurent,
+Am 10.04.25 um 16:53 schrieb Bastien Curutchet:
+> Hi all,
+>
+> Many UIO users performing DMA from their UIO device need to access the
+> DMA addresses of the allocated buffers. There are out-of-tree drivers
+> that allow to do it but nothing in the mainline.
 
-Thanks for the set.
+Well that basically disqualifies this patch set in the first paragraph.
 
-On Wed, Apr 09, 2025 at 02:33:23AM +0300, Laurent Pinchart wrote:
-> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> 
-> Add four command line options to support setting the colorspace,
-> transfer function, encoding and quantization.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To justify some kernel change we always need an in kernel user of the interface, since this is purely for out-of-tree drivers this is a no-go to begin with.
+
+> I know DMA shouldn't be handled by userspace but, IMHO, since UIO
+> drivers exist, it would be better if they offered a way of doing this.
+
+Leaking DMA addresses to userspace is usually seen as quite some security hole, but on the other hand with UIO you don't have much other choice.
+
+> This patch series use the dma-heap framework which already allows
+> userspace to allocate DMA buffers. I tried to avoid 'polluting' the
+> existing heaps to prevent inappropriate uses of this new feature by
+> introducing a new UIO heap, which is the only one implementing this
+> behavior.
+
+Yeah, that won't fly at all.
+
+What you could potentially do is to create an UIO driver which imports DMA-bufs, pins them and then provide the DMA addresses to userspace.
+
+But please be aware that DMA-fences are fundamentally incompatible with UIO. So you won't be able to do any form of synchronization which probably makes the implementation pretty limited.
+
+Regards,
+Christian.
+
+>
+> PATCH 1 allows the creation of heaps that don't implement map/unmap_buf
+> operations as UIO heap doesn't use them.
+> PATCH 2 adds the DMA_BUF_IOCTL_GET_DMA_ADDR which transmits the DMA
+> addresses to userspace.
+> PATCH 3 implements the UIO heap.
+>
+> It has been tested with the uio_pci_generic driver on a PowerPC.
+>
+> Signed-off-by: Bastien Curutchet <bastien.curutchet@bootlin.com>
 > ---
->  yavta.c | 205 +++++++++++++++++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 202 insertions(+), 3 deletions(-)
-> 
-> diff --git a/yavta.c b/yavta.c
-> index 4f7306daa0ce..b463f5841100 100644
-> --- a/yavta.c
-> +++ b/yavta.c
-> @@ -184,6 +184,63 @@ static int pause_init(void)
->  	return 0;
->  }
->  
-> +/* -----------------------------------------------------------------------------
-> + * Key-value pairs handling
-> + */
-> +
-> +struct key_value {
-> +	const char *name;
-> +	unsigned int value;
-> +};
-> +
-> +static int __key_value_get(const struct key_value *values,
-> +			   unsigned int count, const char *name)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < count; ++i) {
-> +		if (!strcmp(values[i].name, name))
-> +			return values[i].value;
-> +	}
-> +
-> +	return -EINVAL;
-> +}
-> +
-> +static void __key_value_list(const struct key_value *values,
-> +			     unsigned int count, const char *type)
-> +{
-> +	unsigned int chars;
-> +	unsigned int i;
-> +	bool first = true;
-> +
-> +	chars = printf("%s: ", type);
-> +
-> +	for (i = 0; i < count; ++i) {
-> +		unsigned int len = strlen(values[i].name);
-> +
-> +		if (chars + len >= 80) {
-> +			printf(",\n\t");
-> +			chars = 8;
-> +			first = true;
-> +		}
-> +
-> +		if (first)
-> +			first = false;
-> +		else
-> +			chars += printf(", ");
-> +
-> +		chars += printf("%s", values[i].name);
-> +	}
-> +
-> +	printf("\n");
-> +}
-> +
-> +#define key_value_get(values, name) \
-> +	__key_value_get(values, ARRAY_SIZE(values), name)
-> +
-> +#define key_value_list(values, type) \
-> +	__key_value_list(values, ARRAY_SIZE(values), type)
+> Bastien Curutchet (3):
+>       dma-buf: Allow heap that doesn't provide map_buf/unmap_buf
+>       dma-buf: Add DMA_BUF_IOCTL_GET_DMA_ADDR
+>       uio: Add UIO_DMABUF_HEAP
+>
+>  drivers/dma-buf/dma-buf.c    |  29 +++++++++--
+>  drivers/uio/Kconfig          |   9 ++++
+>  drivers/uio/Makefile         |   1 +
+>  drivers/uio/uio.c            |   4 ++
+>  drivers/uio/uio_heap.c       | 120 +++++++++++++++++++++++++++++++++++++++++++
+>  include/linux/dma-buf.h      |   1 +
+>  include/linux/uio_driver.h   |   2 +
+>  include/uapi/linux/dma-buf.h |   1 +
+>  8 files changed, 164 insertions(+), 3 deletions(-)
+> ---
+> base-commit: 5f13fa25acaa4f586aaed12efcf7436e004eeaf2
+> change-id: 20250408-uio-dma-9b011e9e7f0b
+>
+> Best regards,
 
-Could you use this in getting the field values as well? It should probably
-be a separate patch.
-
-Speaking of which -- field values are case-insensitive. How about using
-strcasecmp() for the keys as well?
-
-Either way, for the set,
-
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
-> +
->  /* -----------------------------------------------------------------------------
->   * Format handling
->   */
-> @@ -449,6 +506,73 @@ static const char *v4l2_field_name(enum v4l2_field field)
->  	return "unknown";
->  }
->  
-> +static const struct key_value v4l2_colorspaces[] = {
-> +	{ "DEFAULT", V4L2_COLORSPACE_DEFAULT },
-> +	{ "SMPTE170M", V4L2_COLORSPACE_SMPTE170M },
-> +	{ "SMPTE240M", V4L2_COLORSPACE_SMPTE240M },
-> +	{ "REC709", V4L2_COLORSPACE_REC709 },
-> +	{ "BT878", V4L2_COLORSPACE_BT878 },
-> +	{ "470_SYSTEM_M", V4L2_COLORSPACE_470_SYSTEM_M },
-> +	{ "470_SYSTEM_BG", V4L2_COLORSPACE_470_SYSTEM_BG },
-> +	{ "JPEG", V4L2_COLORSPACE_JPEG },
-> +	{ "SRGB", V4L2_COLORSPACE_SRGB },
-> +	{ "OPRGB", V4L2_COLORSPACE_OPRGB },
-> +	{ "BT2020", V4L2_COLORSPACE_BT2020 },
-> +	{ "RAW", V4L2_COLORSPACE_RAW },
-> +	{ "DCI_P3", V4L2_COLORSPACE_DCI_P3 },
-> +};
-> +
-> +static const struct key_value v4l2_xfer_funcs[] = {
-> +	{ "DEFAULT", V4L2_COLORSPACE_DEFAULT },
-> +	{ "709", V4L2_XFER_FUNC_709 },
-> +	{ "SRGB", V4L2_XFER_FUNC_SRGB },
-> +	{ "OPRGB", V4L2_XFER_FUNC_OPRGB },
-> +	{ "SMPTE240M", V4L2_XFER_FUNC_SMPTE240M },
-> +	{ "NONE", V4L2_XFER_FUNC_NONE },
-> +	{ "DCI_P3", V4L2_XFER_FUNC_DCI_P3 },
-> +	{ "SMPTE2084", V4L2_XFER_FUNC_SMPTE2084 },
-> +};
-> +
-> +static const struct key_value v4l2_encodings[] = {
-> +	/* enum v4l2_ycbcr_encoding */
-> +	{ "DEFAULT", V4L2_YCBCR_ENC_DEFAULT },
-> +	{ "601", V4L2_YCBCR_ENC_601 },
-> +	{ "709", V4L2_YCBCR_ENC_709 },
-> +	{ "XV601", V4L2_YCBCR_ENC_XV601 },
-> +	{ "XV709", V4L2_YCBCR_ENC_XV709 },
-> +	{ "SYCC", V4L2_YCBCR_ENC_SYCC },
-> +	{ "BT2020", V4L2_YCBCR_ENC_BT2020 },
-> +	{ "BT2020_CONST_LUM", V4L2_YCBCR_ENC_BT2020_CONST_LUM },
-> +	{ "SMPTE240M", V4L2_YCBCR_ENC_SMPTE240M },
-> +	/* enum v4l2_hsv_encoding */
-> +	{ "HSV180", V4L2_HSV_ENC_180 },
-> +	{ "HSV256", V4L2_HSV_ENC_256 },
-> +};
-> +
-> +static const struct key_value v4l2_quantizations[] = {
-> +	{ "DEFAULT", V4L2_QUANTIZATION_DEFAULT },
-> +	{ "FULL_RANGE", V4L2_QUANTIZATION_FULL_RANGE },
-> +	{ "LIM_RANGE", V4L2_QUANTIZATION_LIM_RANGE },
-> +};
-> +
-> +#define v4l2_colorspace_from_string(name) \
-> +	key_value_get(v4l2_colorspaces, name)
-> +#define v4l2_xfer_func_from_string(name) \
-> +	key_value_get(v4l2_xfer_funcs, name)
-> +#define v4l2_encoding_from_string(name) \
-> +	key_value_get(v4l2_encodings, name)
-> +#define v4l2_quantization_from_string(name) \
-> +	key_value_get(v4l2_quantizations, name)
-> +
-> +#define list_colorspaces() \
-> +	key_value_list(v4l2_colorspaces, "colorspace")
-> +#define list_xfer_funcs() \
-> +	key_value_list(v4l2_xfer_funcs, "xfer-func")
-> +#define list_encodings() \
-> +	key_value_list(v4l2_encodings, "encoding")
-> +#define list_quantizations() \
-> +	key_value_list(v4l2_quantizations, "quantization")
-> +
->  /* -----------------------------------------------------------------------------
->   *
->   */
-> @@ -797,6 +921,10 @@ static int video_get_format(struct device *dev)
->  static int video_set_format(struct device *dev, unsigned int w, unsigned int h,
->  			    unsigned int format, unsigned int stride,
->  			    unsigned int buffer_size, enum v4l2_field field,
-> +			    enum v4l2_colorspace colorspace,
-> +			    enum v4l2_xfer_func xfer_func,
-> +			    enum v4l2_ycbcr_encoding encoding,
-> +			    enum v4l2_quantization quantization,
->  			    unsigned int flags)
->  {
->  	struct v4l2_format fmt;
-> @@ -814,7 +942,11 @@ static int video_set_format(struct device *dev, unsigned int w, unsigned int h,
->  		fmt.fmt.pix_mp.pixelformat = format;
->  		fmt.fmt.pix_mp.field = field;
->  		fmt.fmt.pix_mp.num_planes = info->n_planes;
-> +		fmt.fmt.pix_mp.colorspace = colorspace;
->  		fmt.fmt.pix_mp.flags = flags;
-> +		fmt.fmt.pix_mp.ycbcr_enc = encoding;
-> +		fmt.fmt.pix_mp.quantization = quantization;
-> +		fmt.fmt.pix_mp.xfer_func = xfer_func;
->  
->  		for (i = 0; i < fmt.fmt.pix_mp.num_planes; i++) {
->  			fmt.fmt.pix_mp.plane_fmt[i].bytesperline = stride;
-> @@ -830,8 +962,12 @@ static int video_set_format(struct device *dev, unsigned int w, unsigned int h,
->  		fmt.fmt.pix.field = field;
->  		fmt.fmt.pix.bytesperline = stride;
->  		fmt.fmt.pix.sizeimage = buffer_size;
-> +		fmt.fmt.pix.colorspace = colorspace;
->  		fmt.fmt.pix.priv = V4L2_PIX_FMT_PRIV_MAGIC;
->  		fmt.fmt.pix.flags = flags;
-> +		fmt.fmt.pix.ycbcr_enc = encoding;
-> +		fmt.fmt.pix.quantization = quantization;
-> +		fmt.fmt.pix.xfer_func = xfer_func;
->  	}
->  
->  	ret = ioctl(dev->fd, VIDIOC_S_FMT, &fmt);
-> @@ -2298,6 +2434,8 @@ static void usage(const char *argv0)
->  	printf("    --buffer-size		Buffer size in bytes\n");
->  	printf("    --enum-formats		Enumerate formats\n");
->  	printf("    --enum-inputs		Enumerate inputs\n");
-> +	printf("    --colorspace colorspace	Set the colorspace\n");
-> +	printf("    --encoding encoding		Set the YCbCr encoding\n");
->  	printf("    --fd                        Use a numeric file descriptor insted of a device\n");
->  	printf("    --field field		Set the format field order\n");
->  	printf("\tValid values for field are none, top, bottom, interlaced, seq-tb, seq-bt,\n");
-> @@ -2306,6 +2444,7 @@ static void usage(const char *argv0)
->  	printf("    --no-query			Don't query capabilities on open\n");
->  	printf("    --offset			User pointer buffer offset from page start\n");
->  	printf("    --premultiplied		Color components are premultiplied by alpha value\n");
-> +	printf("    --quantization quantization	Set the quantization\n");
->  	printf("    --queue-late		Queue buffers after streamon, not before\n");
->  	printf("    --requeue-last		Requeue the last buffers before streamoff\n");
->  	printf("    --reset-controls		Reset all available controls to their default value\n");
-> @@ -2313,6 +2452,13 @@ static void usage(const char *argv0)
->  	printf("    --skip n			Skip the first n frames\n");
->  	printf("    --sleep-forever		Sleep forever after configuring the device\n");
->  	printf("    --stride value		Line stride in bytes\n");
-> +	printf("    --xfer-func xfer-func	Set the transfer function\n");
-> +
-> +	printf("\nValid fields values:\n");
-> +	list_colorspaces();
-> +	list_encodings();
-> +	list_quantizations();
-> +	list_xfer_funcs();
->  }
->  
->  #define OPT_ENUM_FORMATS	256
-> @@ -2332,14 +2478,20 @@ static void usage(const char *argv0)
->  #define OPT_QUEUE_LATE		270
->  #define OPT_DATA_PREFIX		271
->  #define OPT_RESET_CONTROLS	272
-> +#define OPT_COLORSPACE		273
-> +#define OPT_XFER_FUNC		274
-> +#define OPT_ENCODING		275
-> +#define OPT_QUANTIZATION	276
->  
->  static const struct option opts[] = {
->  	{"buffer-size", 1, 0, OPT_BUFFER_SIZE},
->  	{"buffer-type", 1, 0, 'B'},
->  	{"capture", 2, 0, 'c'},
->  	{"check-overrun", 0, 0, 'C'},
-> +	{"colorspace", 1, 0, OPT_COLORSPACE},
->  	{"data-prefix", 0, 0, OPT_DATA_PREFIX},
->  	{"delay", 1, 0, 'd'},
-> +	{"encoding", 1, 0, OPT_ENCODING},
->  	{"enum-formats", 0, 0, OPT_ENUM_FORMATS},
->  	{"enum-inputs", 0, 0, OPT_ENUM_INPUTS},
->  	{"fd", 1, 0, OPT_FD},
-> @@ -2357,6 +2509,7 @@ static const struct option opts[] = {
->  	{"pause", 2, 0, 'p'},
->  	{"premultiplied", 0, 0, OPT_PREMULTIPLIED},
->  	{"quality", 1, 0, 'q'},
-> +	{"quantization", 1, 0, OPT_QUANTIZATION},
->  	{"queue-late", 0, 0, OPT_QUEUE_LATE},
->  	{"get-control", 1, 0, 'r'},
->  	{"requeue-last", 0, 0, OPT_REQUEUE_LAST},
-> @@ -2370,6 +2523,7 @@ static const struct option opts[] = {
->  	{"time-per-frame", 1, 0, 't'},
->  	{"timestamp-source", 1, 0, OPT_TSTAMP_SRC},
->  	{"userptr", 0, 0, 'u'},
-> +	{"xfer-func", 1, 0, OPT_XFER_FUNC},
->  	{0, 0, 0, 0}
->  };
->  
-> @@ -2392,6 +2546,7 @@ int main(int argc, char *argv[])
->  	int do_sleep_forever = 0, do_requeue_last = 0;
->  	int do_rt = 0, do_log_status = 0;
->  	int no_query = 0, do_queue_late = 0;
-> +	int do_csc = 0;
->  	char *endptr;
->  	int c;
->  
-> @@ -2415,6 +2570,10 @@ int main(int argc, char *argv[])
->  	unsigned int pause_count = (unsigned int)-1;
->  	struct v4l2_fract time_per_frame = {1, 25};
->  	enum v4l2_field field = V4L2_FIELD_ANY;
-> +	enum v4l2_colorspace colorspace = V4L2_COLORSPACE_DEFAULT;
-> +	enum v4l2_xfer_func xfer_func = V4L2_XFER_FUNC_DEFAULT;
-> +	enum v4l2_ycbcr_encoding encoding = V4L2_YCBCR_ENC_DEFAULT;
-> +	enum v4l2_quantization quantization = V4L2_QUANTIZATION_DEFAULT;
->  
->  	/* Capture loop */
->  	enum buffer_fill_mode fill_mode = BUFFER_FILL_NONE;
-> @@ -2547,6 +2706,27 @@ int main(int argc, char *argv[])
->  		case OPT_BUFFER_SIZE:
->  			buffer_size = atoi(optarg);
->  			break;
-> +		case OPT_COLORSPACE:
-> +			ret = v4l2_colorspace_from_string(optarg);
-> +			if (ret < 0) {
-> +				printf("Invalid colorspace value '%s'\n", optarg);
-> +				return 1;
-> +			}
-> +			colorspace = ret;
-> +			do_csc = 1;
-> +			break;
-> +		case OPT_DATA_PREFIX:
-> +			dev.write_data_prefix = true;
-> +			break;
-> +		case OPT_ENCODING:
-> +			ret = v4l2_encoding_from_string(optarg);
-> +			if (ret < 0) {
-> +				printf("Invalid encoding value '%s'\n", optarg);
-> +				return 1;
-> +			}
-> +			encoding = ret;
-> +			do_csc = 1;
-> +			break;
->  		case OPT_ENUM_FORMATS:
->  			do_enum_formats = 1;
->  			break;
-> @@ -2578,6 +2758,15 @@ int main(int argc, char *argv[])
->  		case OPT_PREMULTIPLIED:
->  			fmt_flags |= V4L2_PIX_FMT_FLAG_PREMUL_ALPHA;
->  			break;
-> +		case OPT_QUANTIZATION:
-> +			ret = v4l2_quantization_from_string(optarg);
-> +			if (ret < 0) {
-> +				printf("Invalid quantization value '%s'\n", optarg);
-> +				return 1;
-> +			}
-> +			quantization = ret;
-> +			do_csc = 1;
-> +			break;
->  		case OPT_QUEUE_LATE:
->  			do_queue_late = 1;
->  			break;
-> @@ -2609,8 +2798,14 @@ int main(int argc, char *argv[])
->  		case OPT_USERPTR_OFFSET:
->  			userptr_offset = atoi(optarg);
->  			break;
-> -		case OPT_DATA_PREFIX:
-> -			dev.write_data_prefix = true;
-> +		case OPT_XFER_FUNC:
-> +			ret = v4l2_xfer_func_from_string(optarg);
-> +			if (ret < 0) {
-> +				printf("Invalid xfer-func value '%s'\n", optarg);
-> +				return 1;
-> +			}
-> +			xfer_func = ret;
-> +			do_csc = 1;
->  			break;
->  		default:
->  			printf("Invalid option -%c\n", c);
-> @@ -2702,8 +2897,12 @@ int main(int argc, char *argv[])
->  
->  	/* Set the video format. */
->  	if (do_set_format) {
-> +		if (do_csc && video_is_capture(&dev))
-> +			fmt_flags |= V4L2_PIX_FMT_FLAG_SET_CSC;
-> +
->  		if (video_set_format(&dev, width, height, pixelformat, stride,
-> -				     buffer_size, field, fmt_flags) < 0) {
-> +				     buffer_size, field, colorspace, xfer_func,
-> +				     encoding, quantization, fmt_flags) < 0) {
->  			video_close(&dev);
->  			return 1;
->  		}
-
--- 
-Kind regards,
-
-Sakari Ailus
 
