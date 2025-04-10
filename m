@@ -1,51 +1,56 @@
-Return-Path: <linux-media+bounces-29988-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-29989-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2F78A85021
-	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 01:30:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21496A8502E
+	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 01:43:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C07021B81351
-	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 23:30:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3077819E3AD4
+	for <lists+linux-media@lfdr.de>; Thu, 10 Apr 2025 23:43:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEDB020E037;
-	Thu, 10 Apr 2025 23:30:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC65E2144AC;
+	Thu, 10 Apr 2025 23:43:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="axL+Ajwd"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LDhcuY0U"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D5E215E90
-	for <linux-media@vger.kernel.org>; Thu, 10 Apr 2025 23:30:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61C2C1DED40;
+	Thu, 10 Apr 2025 23:43:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744327844; cv=none; b=R++prRgJ36CwId3xS2x+kkb8DXG88a6KZEjxmqoMyY0vqnExQi3gJwY+H/TbP/f6S/XC9kXe73/eqiO8/4BVp40gX9+aNbzMLgoyuDLbyAhRbSTOa5OCfbE7pJ254ZlrfmMEjv4Z8D85g6SJ2v2vMff15uiBLN2gwh78LQUBF74=
+	t=1744328592; cv=none; b=Av8be5uevzQBhy7xsNpBf/jq8/vVnHIc/yPkojxma+Y/WOiqsQmBelvPJ7b+Eqifj1hF0XWrHvBmQXqkEOADhFiKE86Ff7GIyxEcFfL//3PsHI2hLM8/HG4OtvYL81AkapBWzFp7F6p76NjcJ4JbgynwfgzPGE6QUl36np+egO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744327844; c=relaxed/simple;
-	bh=bRN6Xlo0BU4NAPp93QKj/ExVQbAUYW2WvsYV2D8NMx0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=iM3lV0mRRq/LdesHcHhlnKo9Z+Bovwcvm/7QOZOlk3hccUaQg2sEl2r/dEqIhe7DV1T1rp++500hZpJ3I7i/PLtrZXjgDd9jlDZNtZT8FVU0LqM1r7M29YPzYCw4XhVmG9FQI+BzpI5JYfOwYU48BMgF8czMGcko0zWHPXtHAlI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=axL+Ajwd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB4A2C4CEDD;
-	Thu, 10 Apr 2025 23:30:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744327843;
-	bh=bRN6Xlo0BU4NAPp93QKj/ExVQbAUYW2WvsYV2D8NMx0=;
+	s=arc-20240116; t=1744328592; c=relaxed/simple;
+	bh=TpqUVnVvF12n5pRwFSqv74hT0Ga5lBUcCWULIJwqNhs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m9AZCC2/MZ9RKr2Qwffw45dyLEF29VPl/DJFUa8Z24GQHDjrpmFa+K0Owv7J2r1KaCeKlas9NcChWWrKWWGuCKeM4D0+r+cTPtvsjT5P7DRakFfCEEt0znjYgdoTrrqVj4X9MWRjmPUYLAEMAYxFtJQ8O1rpD6cu6ze0OeJGHW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LDhcuY0U; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F2422669;
+	Fri, 11 Apr 2025 01:41:08 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1744328469;
+	bh=TpqUVnVvF12n5pRwFSqv74hT0Ga5lBUcCWULIJwqNhs=;
 	h=From:To:Cc:Subject:Date:From;
-	b=axL+AjwdNrIT+VKx2seTCnS9YD5D/BaehcrPvPiuuzgf1NJtTphYb4wq1xPSet7u0
-	 XEGq6LmlURXnPD4q79JU6hBd/+A4b5VzNtY32fEKqjKHjwwlAEi+d87p/GAQchVUR9
-	 0bPHtFhTmDF5m3OQnz0CtXMOTCqVDg7FelI1C7iSc5RscPJJ0cS/Usxg2zjcfJoQ/H
-	 DOvapt+q8oqboG6XafkG+iow4RSQBlHSUfPMZgYDIhrU01sNA2x6fxzDmOZxaoHxlD
-	 FvQj9dpnqQojRD2aqQTluhVBi65dTPUdtiMnc+oso/UTLTH6VmRiGX2++l7YvxOo+i
-	 xWLOKA449zdJA==
-From: bod@kernel.org
-To: linux-media@vger.kernel.org
-Cc: Bryan O'Donoghue <bod@kernel.org>
-Subject: [GIT PULL FOR 6.16] Please pull platform-qcom-media-for-6.16
-Date: Fri, 11 Apr 2025 00:29:47 +0100
-Message-ID: <20250410233039.77093-1-bod@kernel.org>
+	b=LDhcuY0U3y6O722mfl7TC/4cglUWDMNZAjx+WVXm4I2oG6koiro3iRxxMINlPDaaX
+	 2D+qeJwR3FVP7QdkdEwL/nMe4t/yAi29S2kAlJ8AaLvJiuExYO8nV6fQLkoNq9g60N
+	 cJH0Hmp/SoPdyozUt7TJrEEPJGsEzzYxBByTwrJw=
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To: linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Cc: linux-renesas-soc@vger.kernel.org,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>
+Subject: [PATCH 0/3] drm: rcar-du: Support plane color space properties
+Date: Fri, 11 Apr 2025 02:42:38 +0300
+Message-ID: <20250410234241.28123-1-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -55,105 +60,51 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Bryan O'Donoghue <bod@kernel.org>
+Hello,
 
-The following changes since commit 9ddc3d6c16ea2587898a315f20f7b8fbd791dc1b:
+This small patch series builds on top of the R-Car VSP1 color space
+support ("[PATCH 0/6] media: renesas: vsp1: Add colorspace support",
+posted as [1]) to implement the KMS plane color space properties in the
+R-Car DU driver.
 
-  media: mediatek: vcodec: Remove trailing space after \n newline (2025-04-08 07:21:21 +0000)
+The first two patches add support to specify plane color encoding and
+color range in the vsp1-du API. Patch 1/3 starts with a small
+refactoring, and patch 2/2 extends the in-kernel API with two new
+parameters, and wire them up to the VSP pipeline. Patch 3/3 then creates
+the color space properties in R-Car DU driver, and pass their values to
+the VSP driver.
 
-are available in the Git repository at:
+Given that only the last patch touches the DRM subsystem, while the 9
+patches it depends on touch the V4L2 subsystem, I would like to merge
+everything through V4L2. I don't expect conflicting changes to the
+rcar-du driver to be merged for v6.16. Dave, Sima, could I get your ack
+for this ?
 
-  https://gitlab.freedesktop.org/linux-media/users/bodonoghue.git tags/platform-qcom-media-for-6.16
+[1] https://lore.kernel.org/r/20250409003815.10253-1-laurent.pinchart+renesas@ideasonboard.com
 
-for you to fetch changes up to 803ad6d0a0e646c9f196c79d58f8aab90d1c84c3:
+Laurent Pinchart (3):
+  media: renesas: vsp1: Name nested structure in vsp1_drm
+  media: renesas: vsp1: Expose color space through the DRM API
+  drm: rcar-du: Create plane color properties
 
-  media: venus: pm_helpers: add compatibility for dev_pm_genpd_set_hwmode on V4 (2025-04-10 11:27:10 +0100)
+ drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c | 15 +++++++++++++
+ .../media/platform/renesas/vsp1/vsp1_drm.c    | 22 +++++++++++--------
+ .../media/platform/renesas/vsp1/vsp1_drm.h    |  8 ++++---
+ include/media/vsp1.h                          |  4 ++++
+ 4 files changed, 37 insertions(+), 12 deletions(-)
 
-----------------------------------------------------------------
-linux-media platform qcom for 6.16
 
-- Qcom media platform
-  Adds new +R and +M as appropriate
+base-commit: 9ddc3d6c16ea2587898a315f20f7b8fbd791dc1b
+prerequisite-patch-id: e3d9847d1da4398f1bf0b57f5ef4a612392c7255
+prerequisite-patch-id: 54ade6c92a08292f509ad0c42cc578e2b355e699
+prerequisite-patch-id: c2f29968199990b573d655ca9ea9ac0883842a9c
+prerequisite-patch-id: 96e1d3ee682a91153ecd32207a641274cdd88b7a
+prerequisite-patch-id: 221744f7a7fc757b67c32a1eb2160fb46cd59111
+prerequisite-patch-id: cf6b99de1ae04e635d14dd198b5bf918ef8f6213
+prerequisite-patch-id: 439fe909a37bc235622e8feacc2fc01429dcb4bb
+-- 
+Regards,
 
-- CAMSS
-  Adds new platform X1 Elite bindings and driver
-  Fixes boot logj spam
-  Prepares for CSIPHY C-PHY addition
+Laurent Pinchart
 
-- Venus
-  Adds new platform QCS615 bindgs
-  Adds ability to switch to hardware power rail control
-  Fixes buffer management and probe error unwinding
-
-- Iris
-  Adds new SA8775p bindings definition
-  Fixes error codes in firmware loading
-
-----------------------------------------------------------------
-Bryan O'Donoghue (10):
-      media: MAINTAINERS: Amend venus Maintainers and Reviewers
-      media: MAINTAINERS: Add myself to iris Reviewers
-      dt-bindings: media: Add qcom,x1e80100-camss
-      media: qcom: camss: Add an id property to struct resources
-      media: qcom: camss: Use the CSIPHY id property to find clock names
-      media: qcom: camss: Add CSID 680 support
-      media: qcom: camss: Add VFE680 support
-      media: qcom: camss: Add support for 3ph CSIPHY write settle delay
-      media: qcom: camss: csiphy-3ph: Add 4nm CSIPHY 2ph 5Gbps DPHY v2.1.2 init sequence
-      media: qcom: camss: Add x1e80100 specific support
-
-Dan Carpenter (1):
-      media: iris: fix error code in iris_load_fw_to_memory()
-
-Johan Hovold (2):
-      media: qcom: camss: csid: suppress CSID log spam
-      media: qcom: camss: vfe: suppress VFE version log spam
-
-Loic Poulain (1):
-      media: venus: Fix probe error handling
-
-Luca Weiss (2):
-      dt-bindings: media: camss: Restrict bus-type property
-      media: qcom: camss: Restrict endpoint bus-type to D-PHY
-
-Renjiang Han (3):
-      dt-bindings: media: add support for video hardware on QCS615 platform
-      media: venus: vdec: queue dpb buffers to firmware for video seek
-      media: venus: pm_helpers: add compatibility for dev_pm_genpd_set_hwmode on V4
-
-Vikash Garodia (1):
-      dt-bindings: media: qcom,sm8550-iris: document SA8775p IRIS accelerator
-
- .../bindings/media/qcom,msm8916-camss.yaml         |   8 +
- .../bindings/media/qcom,msm8953-camss.yaml         |  15 +
- .../bindings/media/qcom,msm8996-camss.yaml         |  20 +
- .../bindings/media/qcom,sc7180-venus.yaml          |   7 +-
- .../bindings/media/qcom,sc8280xp-camss.yaml        |  20 +
- .../bindings/media/qcom,sdm660-camss.yaml          |  20 +
- .../bindings/media/qcom,sdm845-camss.yaml          |  20 +
- .../bindings/media/qcom,sm8250-camss.yaml          |  30 ++
- .../bindings/media/qcom,sm8550-iris.yaml           |   7 +-
- .../bindings/media/qcom,x1e80100-camss.yaml        | 367 ++++++++++++++++++
- MAINTAINERS                                        |   3 +-
- drivers/media/platform/qcom/camss/Makefile         |   2 +
- drivers/media/platform/qcom/camss/camss-csid-680.c | 422 +++++++++++++++++++++
- drivers/media/platform/qcom/camss/camss-csid.c     |   4 +-
- drivers/media/platform/qcom/camss/camss-csid.h     |   1 +
- .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 131 ++++++-
- drivers/media/platform/qcom/camss/camss-csiphy.c   |  28 +-
- drivers/media/platform/qcom/camss/camss-csiphy.h   |   1 +
- drivers/media/platform/qcom/camss/camss-vfe-680.c  | 244 ++++++++++++
- drivers/media/platform/qcom/camss/camss-vfe.c      |   6 +-
- drivers/media/platform/qcom/camss/camss-vfe.h      |   1 +
- drivers/media/platform/qcom/camss/camss.c          | 359 +++++++++++++++++-
- drivers/media/platform/qcom/camss/camss.h          |   1 +
- drivers/media/platform/qcom/iris/iris_firmware.c   |   4 +-
- drivers/media/platform/qcom/venus/core.c           |  16 +-
- drivers/media/platform/qcom/venus/core.h           |   2 +
- drivers/media/platform/qcom/venus/pm_helpers.c     |  38 +-
- drivers/media/platform/qcom/venus/vdec.c           |  14 +-
- 28 files changed, 1739 insertions(+), 52 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
- create mode 100644 drivers/media/platform/qcom/camss/camss-csid-680.c
- create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-680.c
 
