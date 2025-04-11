@@ -1,348 +1,254 @@
-Return-Path: <linux-media+bounces-30028-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30029-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 519FFA8601B
-	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 16:12:22 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C52EA860C6
+	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 16:38:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7765E18967B5
-	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 14:11:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id ACB384A4C8E
+	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 14:37:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42FE31F4162;
-	Fri, 11 Apr 2025 14:10:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73EA920D51D;
+	Fri, 11 Apr 2025 14:37:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="P69RrHQ+"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="h1lJBKFF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013035.outbound.protection.outlook.com [40.107.159.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E58219D8BE;
-	Fri, 11 Apr 2025 14:10:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744380639; cv=none; b=d7F+55wk33il2JfB2rRuAMqxCygKdkIgwg9mD85KCiT1XY2qRCJk2aKclSBcocOpCFKL+vh/9iWvLTUnKAYucqOqFxwa+seXaCThf5H4NSa83B9tuRpSRY3gO3a8jwhpoGTmTjXHuDeEkw9JVh5D+OKh7xD7YotdutAWVO2JgYc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744380639; c=relaxed/simple;
-	bh=BajGVn2g2TEzF8e9b1EXNxTobPqKvrjj3Iq6YkO1MNM=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=QHQTJDrBdkHdayv13i0Qtom+4dxB0uqZQ1CLFVo6BKMufwcQnHXsL7rUUDGiAwuCrI16MiWSR0PSSOeMaXEfVvDWhbYAY46JT1n50j6lR2s1xAZzXNC4PSdLVQU3AAI9K1KEPjxAKkvPGjk0ED266YD28cMQ+xfluThsQtdbtss=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=P69RrHQ+; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp2.mailbox.org (smtp2.mailbox.org [10.196.197.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4ZYz9P26k0z9snv;
-	Fri, 11 Apr 2025 16:10:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1744380633; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KRhJW5jicPYJ3BT6+JTiDRHAzS7z/btQ3Ka6vbAdHmw=;
-	b=P69RrHQ+i34M14yVUZLq7X7ujch5aOr81j3uSNqO8Y8XtZ+M0yzgk7RK2Mw/oJRCRNC+2c
-	eQqlfEx+utW6E4KPuBZC+3fr/3LzB9ThFNKSfcFhj7PvqkIZ7rFZqRPKIAql9UCC6zLvT+
-	tw4ULLBNqv2s5MndRfv5LyCG4QKae77nvvVx0mQH+TVOdqwktldtYNha4+N5fKoyzhj0Ys
-	5dBkzuadgSwzaZFhGmT+KGS3l3rUjPQLae0IaAnSxyQjabIGAKuN6BDAOLKnbNFWB+sMk1
-	BqKtJqwl9f2OeZhxdpxffv+GLUhMNbYZuSSQTPOyJuTV3kFrQC1ccuwjFzXXUw==
-Message-ID: <1127db242503055b2e5e8d07db3aeae46cfb7a24.camel@mailbox.org>
-Subject: Re: [PATCH 1/3] drm/nouveau: Prevent signaled fences in pending list
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
-	phasta@kernel.org, Lyude Paul <lyude@redhat.com>, Danilo Krummrich
-	 <dakr@kernel.org>, David Airlie <airlied@gmail.com>, Simona Vetter
-	 <simona@ffwll.ch>, Sabrina Dubroca <sd@queasysnail.net>, Sumit Semwal
-	 <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org, 
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
-	stable@vger.kernel.org
-Date: Fri, 11 Apr 2025 16:10:29 +0200
-In-Reply-To: <45d66ca4-5390-42e9-869a-f5f9125d05b6@amd.com>
-References: <20250410092418.135258-2-phasta@kernel.org>
-	 <20250410092418.135258-3-phasta@kernel.org>
-	 <8583665a-6886-4245-be49-fd8839cfe212@amd.com>
-	 <c737c89c7ce9174e349c61ab4e5712eee8946f13.camel@mailbox.org>
-	 <50c9530d-e274-4f89-8620-16afe0981239@amd.com>
-	 <1a73e5fe4350d6ee4b7d807612264eb637c4f2a9.camel@mailbox.org>
-	 <d3dee321cd6b70d6ca98768fbcf6f1e6134c43a1.camel@mailbox.org>
-	 <81a70ba6-94b1-4bb3-a0b2-9e8890f90b33@amd.com>
-	 <aca00cb25b813da4fd2f215829f02337f05642f3.camel@mailbox.org>
-	 <45d66ca4-5390-42e9-869a-f5f9125d05b6@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD471F4CB3;
+	Fri, 11 Apr 2025 14:37:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.35
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744382226; cv=fail; b=esD9ppDP4KdJSplXsJ/kXA4kR3b/CICy4APHbvRoforXJUOAkDBGOqULr4sbBTllJdoH4g30I0JmX+eh5k6Lv6iMUBmWsR93e+suZHwFvaoeWq5hF9Wasu5jd5+6QzwdU/TSRmChxm2Xh1jfkv4dSEYLmrscK/qylTqzj4uiM2s=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744382226; c=relaxed/simple;
+	bh=k82EClH62TQbXkXwzFlUWhb1DKv+9jXj0EPnCUn4tOI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=W5Edf4jzof6uwJMtN5AdZcA+ADw4/yZTb2r7tMlyghKmCuwx7PkxMofYqg1fAjP7CRKVkfPJpe84q2kZqWJR/QB2rBUWukWY656Rw0EMlXwBPxR/JZ6DW2ay/3siYGCePHh+SMsT0g5PxOm1YGLsHQk4P0cxaaQwyb++Ed8UZIc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=h1lJBKFF; arc=fail smtp.client-ip=40.107.159.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LBxeD71KfWlQDub8+CqmaeaLdhWww0Clf3iHGNlih6cuilRfgDCg6LIQgVcw10CwVPjvXaX2srTe1jQk92xpKzx82PnXBn/HVgXqXrYXq8l5wIBn0XMw6qE/rMeNAYE1u1AdnoQq3JaiTrMNGqSM/F8opH5EFO4rV9luNHGL1QMAMws0zvLKjBkXgg/USBc5eyjqIPCVUqfG8EJ39DcEdMs6Du7ZZrtCr0YPCX/2zefVuqAbv1BWDyHGgwVTB1DkI24iDuix6R97n+I5HpiEFKBNdOx3i5QwCzhbR9dinbIDc/lKRvie+w7smibXbTmD2tKcrKh9X8DrCc8jbh0L0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=yKC2NWEFRh4Mg74B8DZ+LDLhKYuiWDMJnfj4IpNnt3s=;
+ b=k2ZB8HvEbuhmLFv5Uq747PpCl7Kw+S29U9u70kQH9snePi+VbZ/poHgyhYwPFph8QpU/iRgpov6e/s10p8Qd3e0nM8RBT+YnBdifn/lbTe/sw5WEo9TmLMy2s3zrErBQlvWvh1tjUfMFPjitNKnEsMF2GirFkX7hApxpq8LjabABFWHrVsEw3yXXHBou0RbNBEIYt5Uz7ZAZpG8+ADdlGVEh42bAyIY1nwA40GZw62oUs18zFNsMj/OgZkbfr21B/ETOK6syEkxPbN1F34biGr0Sr63clG2a9NbtHXcaI0jQ5tiIRU+qQwRhCfSxubhCV4Cp3xvMS8TkkhKzafINHw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yKC2NWEFRh4Mg74B8DZ+LDLhKYuiWDMJnfj4IpNnt3s=;
+ b=h1lJBKFFMx8the/XkBXYOx/zbY/wONIt0eZpbR50Cdqkv7obhI8KeFgmGLuK1L80c6XBedecsvg2uJZQJcEmmexVOw64zPPTdB/2TpbURSd8wcMGoGmIcSpjStmtomhMk1wqkT1MQe32/2aFpujf4Sr8sOasCm6wHrENWt7m0EG6CIKY6DX7z++4w0yTqV03izJoM89tgjl2Apz3mQB7rudAjf9lzJc161N60lqogJ/KKS10YwqGXvJIv8ZwBDMSSodtler1q49sLFxSS2tVafs+eSVgfpzq3RnqaJURXQ5BWoqjnhEKS1ufpm1s/SANpNFD90xTCpzMQkSxZyUGvg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from DB9PR04MB9626.eurprd04.prod.outlook.com (2603:10a6:10:309::18)
+ by PAWPR04MB9987.eurprd04.prod.outlook.com (2603:10a6:102:387::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.34; Fri, 11 Apr
+ 2025 14:37:01 +0000
+Received: from DB9PR04MB9626.eurprd04.prod.outlook.com
+ ([fe80::e81:b393:ebc5:bc3d]) by DB9PR04MB9626.eurprd04.prod.outlook.com
+ ([fe80::e81:b393:ebc5:bc3d%4]) with mapi id 15.20.8606.033; Fri, 11 Apr 2025
+ 14:37:01 +0000
+Date: Fri, 11 Apr 2025 10:36:53 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: ming.qian@oss.nxp.com
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+	mirela.rabulea@oss.nxp.com, shawnguo@kernel.org,
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+	xiahong.bao@nxp.com, eagle.zhou@nxp.com, linux-imx@nxp.com,
+	imx@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 1/4] media: imx-jpeg: Move mxc_jpeg_free_slot_data()
+ ahead
+Message-ID: <Z/kpBXvJe/n2YHg7@lizhi-Precision-Tower-5810>
+References: <20250411074347.809-1-ming.qian@oss.nxp.com>
+ <20250411074347.809-2-ming.qian@oss.nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250411074347.809-2-ming.qian@oss.nxp.com>
+X-ClientProxiedBy: SJ0PR05CA0209.namprd05.prod.outlook.com
+ (2603:10b6:a03:330::34) To DB9PR04MB9626.eurprd04.prod.outlook.com
+ (2603:10a6:10:309::18)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: c9c4ztxjf4myurkd7ymjqraayr6dm8uq
-X-MBO-RS-ID: 57e74fcf47f15cb7df3
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB9PR04MB9626:EE_|PAWPR04MB9987:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6edf4791-fa96-4462-b852-08dd790651f4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|52116014|7416014|376014|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?nJUn82gkQpZ8whrMZks4GW0Gc/AK4b1gUMFRASDhwauJqd86nq8yak2OomWl?=
+ =?us-ascii?Q?pxJWElRp0y8vuv5d2GMyQ4Mib8HH9MzCRbarELk8InMLmA7QaFB2fNYNekM3?=
+ =?us-ascii?Q?mMPbViBbSXrOsBcGrI2DOcmTUa1lC+41AFSqxJDTGzQ1QeyTMmeM+9mfqb8W?=
+ =?us-ascii?Q?EQjW3oa5QGeiiuvbNFOKrso+FnKLZS7hbEa69nq1uqxeeaHiLSVhV6FBYJ2Y?=
+ =?us-ascii?Q?t5nrlEcHKjXQqUOox6V3vi/AoCLj6znSRw9vZtc5h3+UW0GFKHnfloQRTNuU?=
+ =?us-ascii?Q?8GswWg5QiMxPdmkwcx+ki/zoCBgqdpqQbJmANwJNI6t2nYfDIcId9hq/eHH7?=
+ =?us-ascii?Q?LKS0U3f6b1Wue06RTGcJHh5DHbyTlGsWe14GP3Cbnszz87cEFMzzNik1jXvQ?=
+ =?us-ascii?Q?ja45S/B10qguT5qpH9hFliN1NbcofYJh4iuBc2iwFPqClilIWpMdkf62XUFV?=
+ =?us-ascii?Q?Qbhrx+ezxosIC3rfr8PQBOUom2chPmwmVwMXqHamsisYc6aDZ7ABA3+LKcRP?=
+ =?us-ascii?Q?V/V+SIQSZjrZDWoD+/sreHpuavn7SpaX+YJoGnoNSH78FBgn35hiMDH4bghX?=
+ =?us-ascii?Q?6DWipCpT3Oa7HAsJBmjaTY6S5UT4vMrQ93jotXHGCo9QFZ/j5yf5fGGMytGo?=
+ =?us-ascii?Q?zYWk6rpvfNYlXFsuQPYD19uFP8hFNluLRD0lN+JSoOUVJccRAJylYl8CY3nD?=
+ =?us-ascii?Q?H7FN4WabaWb4fbslOUAjsPQHQ8yBppFckbYAEY+T64WleOr/RKGNgA8kW1ZD?=
+ =?us-ascii?Q?rF+1I7Lnk1UWftHL14+3Pqo7bGWhyVKuoMrMvTykhHjsk4hC3A40o8v2592K?=
+ =?us-ascii?Q?8WnuV0gXKpMUbIsUYIE0Y3xRJMBosMoDy7D8wAQ2aqmz3JKIJb476oqbMJSe?=
+ =?us-ascii?Q?+YKy3FBGuww2fxLqYO84pywHqfAY8j06J+PnSCQWlE6xrLxm688lc51NU7SJ?=
+ =?us-ascii?Q?68gAyKaAD3dBLKlTeHn4BRaKPD4A2jD9IQ7JEw6kcDclbokcKDFO2ARbWuxu?=
+ =?us-ascii?Q?n7pX45HAgsr6J5Vs+yG7P5X1pFIjZnpB8P8y5P2tHGsU98o4TrY5Y9gYeiVF?=
+ =?us-ascii?Q?BOTRrEtF0+FaGIJrVZhyr3km+XbToOQmSUDRyy8rNQ4LkU15UEgB5/mcNPdA?=
+ =?us-ascii?Q?qdIEl00ZDpKdWUSmUzwNT2BI5boa/+vOibNrgEvjUr3JJoM1rE2QUOcoZPZG?=
+ =?us-ascii?Q?uTtPQbgH0Vzg8AP12qPd74yJj6Aq6Vm8V57/gkDnusViIwYWCxxTMRJ0OiqC?=
+ =?us-ascii?Q?sDslSP5qujIS1vbRjyKfP9oxvCmLFfgpR9iX9Im3pGysv8BJUqpzistaiZGz?=
+ =?us-ascii?Q?dG+cJ3CymtEQpRJOZY71S8HYcV4DoPTxJBOwYDPIWjE8HIr+8Ieyk/IBK9sh?=
+ =?us-ascii?Q?TH1rAgFRSt1D+xf/cK1O8mhrMzEgPysslr/GKPRc4w3/jYhuhj/qru7F8VvF?=
+ =?us-ascii?Q?M5MOHbXbjHQNDPJABBNUHzrSNJC+luv0RRQ7ggiPw341/LtUFforU97VHNX4?=
+ =?us-ascii?Q?3vWFd4pDQy8OWTQ=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9626.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(7416014)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?AFwjJ+cytVlqd+LTbbqCKB6HYaX6MokLTabvMUjPZzmHjQq6F0/A90ZZVXdB?=
+ =?us-ascii?Q?G5tvjMqqJFvNoqDTFLnmAQhtLyfqIV6nOJTzVESZeVfJ/p8uFxQON6Xk1K/I?=
+ =?us-ascii?Q?pbselAFQeBmvxXWcHOYvvKKaqVogPWHBZoGuXkQKlQ+hZaxLgnzmnW8oSE7T?=
+ =?us-ascii?Q?U+S8kkrUse6TlOpdq4q9+PnZ5lKV9eiukdzqaal6/BhuBO8eq3do3mKVspS2?=
+ =?us-ascii?Q?tT8hKYmIVGItfyN+lekkfHJMzDEl90c69EYiZfNVP4kJcQZLQ15RMOPi7B7j?=
+ =?us-ascii?Q?3gLE6PMtb1VuoWkGgwRuCv5XtFRBsQVCwsz7nHuq0JO08UfgEXnbz5gelgoa?=
+ =?us-ascii?Q?Ke4mQYWBz4ylsrNcgoIDE4YCqf6oCMNwbVO4YRXkktbzvy+xZad5BNB478Uk?=
+ =?us-ascii?Q?IqUbtNeY/2zk4JgdjFW/ESdPESV0fABM2VybIByages1NRa4UCeONpIBHApW?=
+ =?us-ascii?Q?XBYLuoFy4WtL+ZeH95Z6Y5aRrxa3Qyht2O/NTMttQG5B2DV4TQoLUQLsS35X?=
+ =?us-ascii?Q?ps4GPjMZItjpLTQmcWLFEq+KqpYGEPC/62vRJHWATEl/oLOdkpuuLw/WEwWc?=
+ =?us-ascii?Q?PKzpLa/dZaIJdNIeEYne/GEY4DKQkXmL9ZignAs45beBAbjxVfEI05k9s1tG?=
+ =?us-ascii?Q?Kj7ouNeHsobeS6T/NFbhCBMz+OSzhb4H075XE4B/v1yYLw3Gn72fkpFpGVAU?=
+ =?us-ascii?Q?Olt+LjLxTEcPFsyvi04vDMh2SG+y2D7eziEgg7jKZSP6JJPmHe5ADb4zhWNM?=
+ =?us-ascii?Q?OGZqKJrMbDK6AdIwRf+Y0OFAeIIuc+lPvEGF/FnnUrzno7BxEkUlm3Ei0Y3o?=
+ =?us-ascii?Q?89MMG2WM0PC0lXpmx8tg/mQVnMSKanq4kttVtDRYelUAavdcxYxWAO5g78ua?=
+ =?us-ascii?Q?vQ6wXOvlv/excz9l1Xrrpz1nWsfxaiLXgS8Own7SHPoDbvr7XofpqVYqyZU0?=
+ =?us-ascii?Q?cZ38Dmd9s5b0Bv4sPN1KxQDSycTSeUFQXqiJ3WDVgIaNl5bfQt3Juu5ywnSN?=
+ =?us-ascii?Q?t9Cz41L+sEjE1tlncyEocaMaYwocL5lti/ixnzoLjG2nvvej9UkrrwuSkPQF?=
+ =?us-ascii?Q?7V3o62mjWBs4JKBRuJsF8/THtsEYw6Ium6hs4cqRfvXntQz/Lu6Zch21jUDq?=
+ =?us-ascii?Q?q6sj8nBYH/jq7XpWQK7GegCGAgDdYgHNIYrcXZQclJZZc1nEigEbvkXHpoXe?=
+ =?us-ascii?Q?RR4g/xBWigcuM6YqxE5X4CsPlLHEIK/mr6q3fE5KN01Ihjq11LGyTs7XE3jd?=
+ =?us-ascii?Q?8/DCuAIoz14wiyUEJMTuS6jrDRfacKv5OZGFQg2OhYcKJgEGi7g5l2uAvHrI?=
+ =?us-ascii?Q?mZ2Z1zIeXBuiJQ7uGNpqiDIq8Kde7ZuGSHx+DZtbyDRiUj8ENwSNrZlyF6Lh?=
+ =?us-ascii?Q?zAQ1RCZ3FIcnECDea6FuT52C5N6Q2Ea2gRECRe59MnCjOtxQnUXUVHzIyFIq?=
+ =?us-ascii?Q?edJHBP5udmyr6yCIFp/GtdLaHAZVAoAqeHl/flExVZgCU9HmvWSqyU76k8a/?=
+ =?us-ascii?Q?5eIeYUzOnJBjRXML3b8AEhpmdxJ0KZ7fVEAbcixMw3QBL/eEyHJnePSLLVhj?=
+ =?us-ascii?Q?g8YaJo5DAI8IGe5xamUs7CVx7yE5yHNsp9u7/pwl?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6edf4791-fa96-4462-b852-08dd790651f4
+X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9626.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2025 14:37:01.2491
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MKnefvzLrwkMh5fFe0rj9libjqrV45UOwpJY9FtAzhMKqgbIM8R4g51a/L2wxGQtcSjgSxyH4yGHfapU+yShHA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR04MB9987
 
-On Fri, 2025-04-11 at 15:06 +0200, Christian K=C3=B6nig wrote:
-> Am 11.04.25 um 14:44 schrieb Philipp Stanner:
-> > On Fri, 2025-04-11 at 13:05 +0200, Christian K=C3=B6nig wrote:
-> > > =C2=A0Am 11.04.25 um 11:29 schrieb Philipp Stanner:
-> > > =C2=A0
-> > > > [SNIP]
-> > > > =C2=A0
-> > > > It could be, however, that at the same moment
-> > > > nouveau_fence_signal() is
-> > > > removing that entry, holding the appropriate lock.
-> > > >=20
-> > > > So we have a race. Again.
-> > > > =C2=A0
-> > > =C2=A0
-> > > =C2=A0Ah, yes of course. If signaled is called with or without the
-> > > lock is
-> > > actually undetermined.
-> > > =C2=A0
-> > > =C2=A0
-> > > > =C2=A0
-> > > > You see, fixing things in Nouveau is difficult :)
-> > > > It gets more difficult if you want to clean it up "properly",
-> > > > so it
-> > > > conforms to rules such as those from dma_fence.
-> > > >=20
-> > > > I have now provided two fixes that both work, but you are not
-> > > > satisfied
-> > > > with from the dma_fence-maintainer's perspective. I understand
-> > > > that,
-> > > > but please also understand that it's actually not my primary
-> > > > task
-> > > > to
-> > > > work on Nouveau. I just have to fix this bug to move on with my
-> > > > scheduler work.
-> > > > =C2=A0
-> > > =C2=A0
-> > > =C2=A0Well I'm happy with whatever solution as long as it works, but
-> > > as
-> > > far as I can see the approach with the callback simply doesn't.
-> > > =C2=A0
-> > > =C2=A0You just can't drop the fence reference for the list from the
-> > > callback.
-> > > =C2=A0
-> > > =C2=A0
-> > > > =C2=A0
-> > > > So if you have another idea, feel free to share it. But I'd
-> > > > like to
-> > > > know how we can go on here.
-> > > > =C2=A0
-> > > =C2=A0
-> > > =C2=A0Well the fence code actually works, doesn't it? The problem is
-> > > rather that setting the error throws a warning because it doesn't
-> > > expect signaled fences on the pending list.
-> > > =C2=A0
-> > > =C2=A0Maybe we should fix that instead.
-> > The fence code works as the author intended, but I would be happy
-> > if it
-> > were more explicitly documented.
-> >=20
-> > Regarding the WARN_ON: It occurs in dma_fence_set_error() because
-> > there
-> > is an attempt to set an error code on a signaled fence. I don't
-> > think
-> > that should be "fixed", it works as intended: You must not set an
-> > error
-> > code of a fence that was already signaled.
-> >=20
-> > The reason seems to be that once a fence is signaled, a third party
-> > might evaluate the error code.
->=20
-> Yeah, more or less correct. The idea is you can't declare an
-> operation as having an error after the operation has already
-> completed.
->=20
-> Because everyone will just wait for the completion and nobody checks
-> the status again after that.
->=20
-> >=20
-> > But I think this wasn't wat you meant with "fix".
->=20
-> The idea was to avoid calling dma_fence_set_error() on already
-> signaled fences. Something like this:
->=20
-> @@ -90,7 +90,7 @@ nouveau_fence_context_kill(struct
-> nouveau_fence_chan *fctx, int error)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 while (!list_empty(&fctx->pend=
-ing)) {
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 fence =3D list_entry(fctx->pending.next,
-> typeof(*fence), head);
-> =C2=A0
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 if (error)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 if (error & !dma_fence_is_signaled_locked(&fence-
-> >base))
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_fenc=
-e_set_error(&fence->base, error);
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 if (nouveau_fence_signal(fence))
->=20
-> That would also improve the handling quite a bit since we now don't
-> set errors on fences which are already completed even if we haven't
-> realized that they are already completed yet.
->=20
-> > In any case, there must not be signaled fences in nouveau's
-> > pending-
-> > list. They must be removed immediately once they signal, and this
-> > must
-> > not race.
->=20
-> Why actually? As far as I can see the pending list is not for the
-> unsignaled fences, but rather the pending interrupt processing.
+On Fri, Apr 11, 2025 at 03:43:40PM +0800, ming.qian@oss.nxp.com wrote:
+> From: Ming Qian <ming.qian@oss.nxp.com>
+>
+> Move function mxc_jpeg_free_slot_data() above mxc_jpeg_alloc_slot_data()
+> allowing to call that function during allocation failures.
+> No functional changes are made.
+>
+> Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
+> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> ---
+>  .../media/platform/nxp/imx-jpeg/mxc-jpeg.c    | 46 +++++++++++--------
+>  1 file changed, 26 insertions(+), 20 deletions(-)
+>
+> diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+> index 0e6ee997284b..b2f7e9ad1885 100644
+> --- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+> +++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+> @@ -752,6 +752,32 @@ static int mxc_get_free_slot(struct mxc_jpeg_slot_data *slot_data)
+>  	return -1;
+>  }
+>
+> +static void mxc_jpeg_free_slot_data(struct mxc_jpeg_dev *jpeg)
+> +{
+> +	/* free descriptor for decoding/encoding phase */
+> +	dma_free_coherent(jpeg->dev, sizeof(struct mxc_jpeg_desc),
+> +			  jpeg->slot_data.desc,
+> +			  jpeg->slot_data.desc_handle);
+> +	jpeg->slot_data.desc = NULL;
+> +	jpeg->slot_data.desc_handle = 0;
 
-That's a list of fences that are "in the air", i.e., whose jobs are
-currently being processed by the hardware. Once a job is done, its
-fence must be removed.
+You add above two lines, it is not simple move function. Move above two
+line change to next patch.
 
->=20
-> So having signaled fences on the pending list is perfectly possible.
+Frank
 
-It is possible, and that is a bug. The list is used by
-nouveau_fence_context_kill() to kill still pending jobs. It shall not
-try to kill and set error codes for fences that are already signaled.
+> +
+> +	/* free descriptor for encoder configuration phase / decoder DHT */
+> +	dma_free_coherent(jpeg->dev, sizeof(struct mxc_jpeg_desc),
+> +			  jpeg->slot_data.cfg_desc,
+> +			  jpeg->slot_data.cfg_desc_handle);
+> +	jpeg->slot_data.cfg_desc_handle = 0;
+> +	jpeg->slot_data.cfg_desc = NULL;
 
+The same here.
 
+> +
+> +	/* free configuration stream */
+> +	dma_free_coherent(jpeg->dev, MXC_JPEG_MAX_CFG_STREAM,
+> +			  jpeg->slot_data.cfg_stream_vaddr,
+> +			  jpeg->slot_data.cfg_stream_handle);
+> +	jpeg->slot_data.cfg_stream_vaddr = NULL;
+> +	jpeg->slot_data.cfg_stream_handle = 0;
 
-Anyways, forget about the "remove callbacks solution" it actually
-causes a MASSIVE performance regression. No idea why, AFAICS the fast
-path is only ever evaluated in nouveau_fence_done(), but maybe I missed
-something.
+The same here.
 
-Will re-iterate next week=E2=80=A6
-
-
-P.
-
-
->=20
-> Regards,
-> Christian.
->=20
-> >=20
-> > > =C2=A0
-> > > =C2=A0
-> > > > =C2=A0
-> > > > I'm running out of ideas. What I'm wondering if we couldn't
-> > > > just
-> > > > remove
-> > > > performance hacky fastpath functions such as
-> > > > nouveau_fence_is_signaled() completely. It seems redundant to
-> > > > me.
-> > > > =C2=A0
-> > > =C2=A0
-> > > =C2=A0That would work for me as well.
-> > I'll test this approach. Seems a bit like the nuclear approach, but
-> > if
-> > it works we'd at least clean up a lot of this mess.
-> >=20
-> >=20
-> > P.
-> >=20
-> >=20
-> > > =C2=A0
-> > > =C2=A0
-> > > > =C2=A0
-> > > >=20
-> > > > Or we might add locking to it, but IDK what was achieved with
-> > > > RCU
-> > > > here.
-> > > > In any case it's definitely bad that Nouveau has so many
-> > > > redundant
-> > > > and
-> > > > half-redundant mechanisms.
-> > > > =C2=A0
-> > > =C2=A0
-> > > =C2=A0Yeah, agree messing with the locks even more won't help us here=
-.
-> > > =C2=A0
-> > > =C2=A0Regards,
-> > > =C2=A0Christian.
-> > > =C2=A0
-> > > =C2=A0
-> > > > =C2=A0
-> > > >=20
-> > > >=20
-> > > > P.
-> > > >=20
-> > > > =C2=A0
-> > > > > =C2=A0
-> > > > >=20
-> > > > > P.
-> > > > >=20
-> > > > > =C2=A0
-> > > > > > =C2=A0
-> > > > > > Regards,
-> > > > > > Christian.
-> > > > > >=20
-> > > > > > =C2=A0
-> > > > > > > =C2=A0
-> > > > > > > P.
-> > > > > > >=20
-> > > > > > >=20
-> > > > > > >=20
-> > > > > > > =C2=A0
-> > > > > > > > =C2=A0
-> > > > > > > > Regards,
-> > > > > > > > Christian.
-> > > > > > > >=20
-> > > > > > > > =C2=A0
-> > > > > > > > > =C2=A0
-> > > > > > > > > Replace the call to dma_fence_is_signaled() with
-> > > > > > > > > nouveau_fence_base_is_signaled().
-> > > > > > > > >=20
-> > > > > > > > > Cc: <stable@vger.kernel.org> # 4.10+, precise commit
-> > > > > > > > > not
-> > > > > > > > > to
-> > > > > > > > > be
-> > > > > > > > > determined
-> > > > > > > > > Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> > > > > > > > > ---
-> > > > > > > > > =C2=A0drivers/gpu/drm/nouveau/nouveau_fence.c | 2 +-
-> > > > > > > > > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
-> > > > > > > > >=20
-> > > > > > > > > diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c
-> > > > > > > > > b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> > > > > > > > > index 7cc84472cece..33535987d8ed 100644
-> > > > > > > > > --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-> > > > > > > > > +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> > > > > > > > > @@ -274,7 +274,7 @@ nouveau_fence_done(struct
-> > > > > > > > > nouveau_fence
-> > > > > > > > > *fence)
-> > > > > > > > > =C2=A0			nvif_event_block(&fctx-
-> > > > > > > > > >event);
-> > > > > > > > > =C2=A0		spin_unlock_irqrestore(&fctx->lock,
-> > > > > > > > > flags);
-> > > > > > > > > =C2=A0	}
-> > > > > > > > > -	return dma_fence_is_signaled(&fence->base);
-> > > > > > > > > +	return test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
-> > > > > > > > > &fence-
-> > > > > > > > > =C2=A0
-> > > > > > > > > > =C2=A0
-> > > > > > > > > > base.flags);
-> > > > > > > > > > =C2=A0
-> > > > > > > > > =C2=A0
-> > > > > > > > > =C2=A0}
-> > > > > > > > > =C2=A0
-> > > > > > > > > =C2=A0static long
-> > > > > > > > > =C2=A0
-> > > > > > > > =C2=A0
-> > > > > > > =C2=A0
-> > > > > > =C2=A0
-> > > > > =C2=A0=C2=A0
-> > > > =C2=A0=C2=A0
-> > > =C2=A0
-> > > =C2=A0
->=20
-
+> +
+> +	jpeg->slot_data.used = false;
+> +}
+> +
+>  static bool mxc_jpeg_alloc_slot_data(struct mxc_jpeg_dev *jpeg)
+>  {
+>  	struct mxc_jpeg_desc *desc;
+> @@ -798,26 +824,6 @@ static bool mxc_jpeg_alloc_slot_data(struct mxc_jpeg_dev *jpeg)
+>  	return false;
+>  }
+>
+> -static void mxc_jpeg_free_slot_data(struct mxc_jpeg_dev *jpeg)
+> -{
+> -	/* free descriptor for decoding/encoding phase */
+> -	dma_free_coherent(jpeg->dev, sizeof(struct mxc_jpeg_desc),
+> -			  jpeg->slot_data.desc,
+> -			  jpeg->slot_data.desc_handle);
+> -
+> -	/* free descriptor for encoder configuration phase / decoder DHT */
+> -	dma_free_coherent(jpeg->dev, sizeof(struct mxc_jpeg_desc),
+> -			  jpeg->slot_data.cfg_desc,
+> -			  jpeg->slot_data.cfg_desc_handle);
+> -
+> -	/* free configuration stream */
+> -	dma_free_coherent(jpeg->dev, MXC_JPEG_MAX_CFG_STREAM,
+> -			  jpeg->slot_data.cfg_stream_vaddr,
+> -			  jpeg->slot_data.cfg_stream_handle);
+> -
+> -	jpeg->slot_data.used = false;
+> -}
+> -
+>  static void mxc_jpeg_check_and_set_last_buffer(struct mxc_jpeg_ctx *ctx,
+>  					       struct vb2_v4l2_buffer *src_buf,
+>  					       struct vb2_v4l2_buffer *dst_buf)
+> --
+> 2.43.0-rc1
+>
 
