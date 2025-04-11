@@ -1,175 +1,177 @@
-Return-Path: <linux-media+bounces-30067-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30068-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CF17A86818
-	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 23:20:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12083A8682B
+	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 23:26:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3A5161BA2675
-	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 21:20:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 71C9A8C0B29
+	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 21:23:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2C1C298CB7;
-	Fri, 11 Apr 2025 21:20:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91D9E29CB53;
+	Fri, 11 Apr 2025 21:23:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="zrdDUvV6"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="wiCBx8/N"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B77B42900B5
-	for <linux-media@vger.kernel.org>; Fri, 11 Apr 2025 21:20:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0998729C33F;
+	Fri, 11 Apr 2025 21:23:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744406428; cv=none; b=EBXPUct9+zXocQkkYuJDLVWVQhS5+vx/c8KyJNwDItyYGzqhrw2I9EK7aqBzbaEdPMuNXqFNlnsQJymP+dvpEYT4VeoaEQIF9pUMoGh5pleNcSVrzaGBGwdudrW2u/x3Faol1s8KYxUCVvXLuiZQNDhuQwYdw8VIhWGHORacUVQ=
+	t=1744406617; cv=none; b=WE+x7/bwiw6gvI3yPTkradDa8TVt+wHJRGTcOlE2h/u9bBoWc4TuRN862zmqJOpnij+0l9Je3jnkbfnvdCguyFLJkUTVHJcwGl6FcHNFo3V+XJc7SbgkE+/0Hw9xCh7agUSsZX8nngWhWu01BQFMFbLTG0H2ulcqUnPfRkUhOHw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744406428; c=relaxed/simple;
-	bh=xY+wD6CO4eg5fwLky4y4pK2q67D5hmJszuWK00qHcU4=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=eP2Svc7FBG7DPWvaYQAUANs4r2Wl9B6MI4U5qAdi9l8kweF6/gvxP3tQinA8NC5OrUMwVIah1WDHbSBhH0HX2O7kdg96d6j6LSNuJ0SLztlCKPSVW3W5YnhPR66xwrM3zFrZ68s0Uhil9vA2/jV4RZafIhf/xJ+27mzigxKu53g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=zrdDUvV6; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-476805acddaso22693301cf.1
-        for <linux-media@vger.kernel.org>; Fri, 11 Apr 2025 14:20:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1744406425; x=1745011225; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=ge+rtuaS1cQA+648boIc+VUK9JNEhk10mNpI44BbfJU=;
-        b=zrdDUvV6uES9aL6dFz76fdnIGB8omqvqXv1eL8QNxbq4BLYihsY209GYsfjjmHmFOF
-         DJClEd9X5H3tIcn3EeyAAWkMdZ52gVKX8oa8nc6peRI61bu5Ln5HkY+hn4j8olFFXqLN
-         DgvmDsGKDsZUOX1s9TczZmHcz72EJIQmdrCZPV+hQeibp4ZY4auD273jYZIg6Zyd+ZB7
-         Meit7I8nM8jKBBFh1XUdU3GS6ylJaiD6ZCpVlhlwxTjRaRr70Yt+DB8pwgOF9QdvzrpS
-         1mkvanyd9TLpvFZ5jqe21Aw+PVvwqB2WW9KvmXHoajSpWI44YvYK8yXZJXCYwSThsxm7
-         KJMA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744406425; x=1745011225;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ge+rtuaS1cQA+648boIc+VUK9JNEhk10mNpI44BbfJU=;
-        b=aSYKQcJW7AaEpTIeFmJKuI7/66z4Wd012x6+vGIZigA7eFFlHHc4laWr/ppuMwtJix
-         9/FlaQ07wnfaxakxtFK/SuTKa376xnTGH+dqTWp5Oybax12ZZWqm95ELgr30TqThuYmq
-         A70KHKBtSweMq2vlA15Cc791rUUPpN9fRIb1svA293qFYmSNnPL+viWHtJes5xuz0zxI
-         Wp7lumMFACFjkeP4iu3EtSDSbXpY4Y2dcmHcQapkQ1d24tt2XAEVVx7DkCisFjoAIHc3
-         BRvqIY6iD3tMcXJdSJUZ5Z3LGeOC1Vi1IaQPRaV6cZKF3jbPN8InhlblCZCLGFPXRznT
-         A7Lw==
-X-Gm-Message-State: AOJu0YwMfqkwtw+9rFGAw01M/vkhrpw1kMKyTSX74VHLBVllk+0Qo6FP
-	eYO5RBEnzDsvkZS62gGs5/yQQiiMnnDd3t3HSnYEYhGorpSO1oTyucYQFMTrNjM=
-X-Gm-Gg: ASbGncve4VkgYHQSw+9o1l7YK44MtlbK5+gKK9NUqODJksEGPM3hk2GhKnJnK8Zj5Ee
-	1JL6ryrgdoPfjGsP8kYSXLlDz3jKWEkngieH9JaBT3ibrDZy4Sm+BZlBhCjYfy//hvz0wJ53rXS
-	OjEtPEVOSJjGyI0fDMbPZeiqnEUxxdkKooFlbTPdAwQ5Qp+su4PWXPa85A2DpPceOnaHtd5xUVQ
-	EqPGDzhmog5I1QDzaRgQ3XV8Sayu7zGy94kZEq9pMw6/8VruUFO5UQ+NNXm5YTET96AqDkeiQiL
-	gdX+Sv2p7xEocLS4Tk5o/2zx/4q4EsVo4xCzumvk72o8KNCp6TEoJjV6
-X-Google-Smtp-Source: AGHT+IHvEH6g/qKPaYgXBQz5kFODetJuSxc3G6R2N7Mk7f8qqORX7DJ6Hc3IMRNzP+iZh+U5f4IesQ==
-X-Received: by 2002:a05:622a:13cf:b0:476:6b20:2cea with SMTP id d75a77b69052e-479775ccd29mr67429391cf.39.1744406425522;
-        Fri, 11 Apr 2025 14:20:25 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:11:e976::c41? ([2606:6d00:11:e976::c41])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c7a895181csm312986285a.32.2025.04.11.14.20.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Apr 2025 14:20:24 -0700 (PDT)
-Message-ID: <77ed36f63ec02156d480efebafb80f3af3ea50f0.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: amphion: fix potential NULL deref in
- vpu_core_parse_dt()
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Chenyuan Yang <chenyuan0y@gmail.com>, ming.qian@nxp.com,
- eagle.zhou@nxp.com, 	mchehab@kernel.org, shijie.qin@nxp.com,
- hverkuil@xs4all.nl
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Fri, 11 Apr 2025 17:20:23 -0400
-In-Reply-To: <20250411184356.2910366-1-chenyuan0y@gmail.com>
-References: <20250411184356.2910366-1-chenyuan0y@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
+	s=arc-20240116; t=1744406617; c=relaxed/simple;
+	bh=iFxx9QVi1qioAykaAcpGC6DwjbCRU0D8mYydZMKY3bo=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VXEHAenhwLVnDnnbsOy7M13FxxreUJRSuXHjysgG5//eriy2J5Jyv8lg7YmbjU/woUueESe6NffGxjMI/Ymj3m+utsg8FIcS/TpI6AMXjUloGbLfz64/FMOjr3N9P/HLuk04qZq7bO1q5QdBzjMNHK95WaY1uD4KTx9qOHZxcWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=wiCBx8/N; arc=none smtp.client-ip=185.132.182.106
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53BE7P82017838;
+	Fri, 11 Apr 2025 23:23:18 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-type:date:from:message-id:mime-version:subject:to; s=
+	selector1; bh=J7BjOJYk9Q4akDCVp61HNqzp0hmj4iFKT2h4AKj3nSc=; b=wi
+	CBx8/NKJ19dDFMuRw4q2Pri1zqxYdb5eqtFVg8pwgaBNz691j3KYbxRKS0eFCN9M
+	iudr+2jjRhKzNg/PbhAtyvMPDEu+x8NTEsE7GsGjA1rw1KnhtI0BOc8ZlCUjH1LP
+	mslHJdXpdx7SzZ04WHp1WPsAoA4VckBJhjM7Zu2kqHJQznm6HRwjY5CX/ymsjCfq
+	8F1dt+WA3lZwu0EpEYfZsRuAY3Q17gMLXNuy6u2Ulu5UP5Z3JrH+0x5AcF1BdwAe
+	Gmn3QNcunArMW/K+FKmzsyJMmoeu+8DfOhc8L0967OsGdtkN3Geztdti/B3AP+Jm
+	u7afpDwQbN5o0aRupVMw==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 45tw5gqn3e-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 11 Apr 2025 23:23:18 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 486EF40044;
+	Fri, 11 Apr 2025 23:22:24 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 6C16C9B7ECF;
+	Fri, 11 Apr 2025 23:21:46 +0200 (CEST)
+Received: from localhost (10.130.72.242) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Fri, 11 Apr
+ 2025 23:21:46 +0200
+From: Sylvain Petinot <sylvain.petinot@foss.st.com>
+To: <benjamin.mugnier@foss.st.com>, <sylvain.petinot@foss.st.com>,
+        <mchehab@kernel.org>, <robh@kernel.org>,
+        <krzysztof.kozlowski+dt@linaro.org>, <conor+dt@kernel.org>,
+        <sakari.ailus@linux.intel.com>
+CC: <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <tomm.merciai@gmail.com>
+Subject: [PATCH v5 0/2] media: Add driver for ST VD56G3 camera sensor
+Date: Fri, 11 Apr 2025 23:21:36 +0200
+Message-ID: <20250411212138.23059-1-sylvain.petinot@foss.st.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-11_08,2025-04-10_01,2024-11-22_01
 
-Hi,
+Hello,
 
-Le vendredi 11 avril 2025 =C3=A0 13:43 -0500, Chenyuan Yang a =C3=A9crit=C2=
-=A0:
-> The result of memremap() may be NULL on failure, leading to a null
-> dereference in the subsequent memset(). Add explicit checks after
-> each memremap() call: if the firmware region fails to map, return
-> immediately; if the RPC region fails, unmap the firmware window before
-> returning.
+This serie adds support for STMicroelectronics VD56G3 camera sensor.
+This is a 1.5M pixel global shutter camera available in both Mono (VD56G3) and
+colour (VD66GY) variants.
 
-Its hard to believe that its a coincidence that someone else sent a
-patch for this. A colleague, the same person ?
+The following features are supported:
+- Auto exposure with expo bias or
+- Manual exposure with analog / digital gain
+- H/V flip
+- vblank/hblank/link freq
+- Test pattern
+- Supported resolutions in both raw8/raw10 :
+   - 1124x1364
+   - 1120x1360
+   - 1024x1280
+   - 1024x768
+   - 768x1024
+   - 720x1280
+   - 640x480
+   - 480x640
+   - 320x240
 
-I do prefer this version though, the commits message is better, the
-code is nicer. If its you, adding a [PATCH v2], or just adding a
-comment that its a better version would be nice.
+This driver supports coldstart parameters for internal AE feature.
+To make it work, the driver save gain/expo values in ctrl's cur.val during
+poweroff phase. This implementation transgress V4L2 rules... Any advice to make
+it proper would be greatly appreciated.
 
->=20
-> This is similar to the commit 966d47e1f27c
-> ("efi: fix potential NULL deref in efi_mem_reserve_persistent").
->=20
-> This is found by our static analysis tool KNighter.
->=20
-> Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
-> Fixes: 9f599f351e86 ("media: amphion: add vpu core driver")
-> ---
-> =C2=A0drivers/media/platform/amphion/vpu_core.c | 11 +++++++++++
-> =C2=A01 file changed, 11 insertions(+)
->=20
-> diff --git a/drivers/media/platform/amphion/vpu_core.c b/drivers/media/pl=
-atform/amphion/vpu_core.c
-> index 8df85c14ab3f..26568987586d 100644
-> --- a/drivers/media/platform/amphion/vpu_core.c
-> +++ b/drivers/media/platform/amphion/vpu_core.c
-> @@ -586,7 +586,18 @@ static int vpu_core_parse_dt(struct vpu_core *core, =
-struct device_node *np)
-> =C2=A0	}
-> =C2=A0
-> =C2=A0	core->fw.virt =3D memremap(core->fw.phys, core->fw.length, MEMREMA=
-P_WC);
-> +	if (!core->fw.virt) {
-> +		dev_err(core->dev, "failed to remap fw region\n");
-> +		of_node_put(node);
+Driver tested on RB5 and RPI (with and without libcamera) for V1. V2, V3, V4
+and V5 mainly tested on RPI.
 
-nit: node and res are no longer used passed line 579. Meaning you could
-unref the node earlier, and remove the repeated of_node_put(node) call
-in the error conditions.
+---
 
-> +		return -ENOMEM;
-> +	}
-> =C2=A0	core->rpc.virt =3D memremap(core->rpc.phys, core->rpc.length, MEMR=
-EMAP_WC);
+v4 -> v5
+Following Sakari's comment on VD55G1 series [1], use device_property*()
+instead of of_property*() and drop OF dependency.
 
-I really enjoy blank lines after closing scope, even though its not a
-strict coding standard.
+[1] https://lore.kernel.org/r/20250402-b4-vd55g1-v4-0-84b1f54c670c@foss.st.com
 
-> +	if (!core->rpc.virt) {
-> +		dev_err(core->dev, "failed to remap rpc region\n");
-> +		memunmap(core->fw.virt);
+v3 -> v4:
+- driver: Revert to pm_runtime_put_autosuspend()
+- driver: Drop HAS_EVENTS and event handlers
+- driver: Make native resolution the default one
+- driver: Implements get_frame_desc() operation
+- driver: Use enable_streams and disable_streams ops
+- driver: Move asm/unaligned.h to linux/unaligned.h
+- driver: Variable data read using cci_read() doesn't require initialization
+- driver: Drop enum vd56g3_expo_state definition
 
-Its interesting that you thought of cleaning that up here, since its
-not being cleanup in the error case of "if (ret !=3D
-VPU_CORE_MEMORY_UNCACHED)".  And its also not being cleanup if the
-probe fails later for other reasons. Perhaps your chance to add more
-fixes to this driver.
+v2 -> v3:
+- driver: Unify PM vd56g3_resume/suspend functions with vd56g3_power_on/off
+- driver: Add v4l2_fwnode ctrls parse and addition
+- driver: Exposure is bounded by a minimum number of lines
+- driver: Minor improvements while handling return values
+- driver: Move to __pm_runtime_put_autosuspend()
+- driver: Follow rules and convention for driver naming
+- dt-bindings: Improve st-leds description
+- dt-bindings: Add missing additionnalProperties on 'port'
+- dt-bindings: vd56g3 is a video-interface-device type of device 
+- dt-bindings: Follow rules and convention for bindings naming
 
-> +		of_node_put(node);
-> +		return -ENOMEM;
-> +	}
-> =C2=A0	memset(core->rpc.virt, 0, core->rpc.length);
+v1 -> v2:
+- driver: Drop VD56G3_NUM_SUPPLIES
+- driver: Rename 'ext_clock' to 'xclk_freq'
+- driver: Make use of 'container_of_const' instead of 'container_of'
+- driver: Drop usage of WARN()
+- driver: Move a few variables to unsigned int
+- driver: Add defines for the different Cut revisions
+- driver: Replace dev_warn() by dev_err() in situation we're returning errors
+- driver: Ensure sensor has dedicated 3.5ms to boot after reset
+- driver: Take into account return value of __v4l2_ctrl_modify_range() and
+  __v4l2_ctrl_s_ctrl() functions
+- driver: Merge vd56g3_power_on() and vd56g3_boot()
+- dt-bindings: Lowercase power supply names
+- dt-bindings: Drop clock-lanes property
+- dt-bindings: Drop unecessary 'items' contraint for lane-polarities
+- dt-bindings: Drop unused labels
 
-Same, I like blank lines (but you are free to ignore me if Ming does
-not care).
+Sylvain Petinot (2):
+  media: dt-bindings: Add ST VD56G3 camera sensor
+  media: i2c: Add driver for ST VD56G3 camera sensor
 
-> =C2=A0
-> =C2=A0	ret =3D vpu_iface_check_memory_region(core, core->rpc.phys, core->=
-rpc.length);
+ .../bindings/media/i2c/st,vd56g3.yaml         |  139 ++
+ MAINTAINERS                                   |    9 +
+ drivers/media/i2c/Kconfig                     |   11 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/vd56g3.c                    | 1576 +++++++++++++++++
+ 5 files changed, 1736 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/st,vd56g3.yaml
+ create mode 100644 drivers/media/i2c/vd56g3.c
 
-regards,
-Nicolas
+-- 
+2.17.1
+
 
