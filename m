@@ -1,154 +1,241 @@
-Return-Path: <linux-media+bounces-30017-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30018-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8696CA85CA6
-	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 14:14:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD5BDA85D8C
+	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 14:47:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 386131B86E1E
-	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 12:12:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EE1AE1BC1D5A
+	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 12:44:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FBD429B23F;
-	Fri, 11 Apr 2025 12:10:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8E562367CD;
+	Fri, 11 Apr 2025 12:42:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lz+qo4Gn"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="im80Xj+o"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2072.outbound.protection.outlook.com [40.107.92.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B04AA29B20D
-	for <linux-media@vger.kernel.org>; Fri, 11 Apr 2025 12:10:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744373444; cv=none; b=Jj9AEdq3CZBSSFSO9xuIywh+1BBsdDuoIirpNmhJtfAkj5wNnQKiFRmJuhT/YmA9POsoPlgT7IiGMriK0SMa4NJgxrYnwZe42HgjStCFyXRKl8GJztqjHa4+BUceo/tklzfGJsYxTzOUUjH1SmCquBMD2jlEAL2yI1fmjpWAbBQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744373444; c=relaxed/simple;
-	bh=dGHld92vUVbOFD/u6AtKaP9uEUe1RGPsRpaLDsrOO/w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HTU0XKWr5U5L+A/NNXb2bEX0LMFNrCHN4LaWpcniYfNW2U/GMMaD8mVyzbvwZ2TIJu65idr9vOMAsz8AtX9UCLINXBxnrI9QUoKJ/+6I8Nsxg0lEAmp5iUz8oZxuQEEVmDnIHp3quP3LWIT+cZnXY4Z3uigv1+4LuzU/sG30W1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lz+qo4Gn; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43cf628cb14so20906485e9.1
-        for <linux-media@vger.kernel.org>; Fri, 11 Apr 2025 05:10:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744373441; x=1744978241; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/5LlnegqhXWYoYcLoLagqAZu+k870W60Ciw5agd+TQE=;
-        b=lz+qo4Gn3kxsri5qolrG9V6egeFebKxqHNRtcxRp6fWCmzfW4FAoajq3UGpmgRgng/
-         2DLUO1O+zTnXVHC9JjkzCEeQpRhlYw3itR8bft4dkKpWMmAz5AaFF5xIg/zdGdLYyO/+
-         IXKIZY9G0XYS8Gvkn7uXeWkGRY+2c11haossZo4tfkwEACVhjFgOZFgclUCwDf/aKERp
-         bXTwwmq+Ivnhqj0vk7BWK8q6NuQqxglmoQdel0fvH24TrKVUDpN7/5oV0ejnadY/thc2
-         eFxrf9dgSXSui6Jnu1CCSVm6YB+dzUf/oJbMsaYtwga/yjf8dBWU0qdS7X8KY1t7r5ZU
-         I+Qw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744373441; x=1744978241;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/5LlnegqhXWYoYcLoLagqAZu+k870W60Ciw5agd+TQE=;
-        b=hHwEF6VjJbdniY0+Y4bwBnvTv7T+Em7Gy+/4vAflWzh50cDSAbY6Oli0zRpJBQMhDg
-         k2jE5nyltrm+6XBd1Encrc4S9EW80H7/j/cJAWw2HNCF2+YNkH+6nM4lR4x1vd3N4I9n
-         f4kbZzm04fJKlf8veSWc9jJ8nmsKJFXNa4bKxaKVe6Poz0Bj2HWG+Y5W18UKUhe6xXf8
-         vvR0pJmxJxOyYTQRJWhW0Ykbnr4dGRGHenOL3D/zLXMuVHmacWNeEMug7wCWY3tDl+0T
-         LaD77wVVBd9u1pogWr4Z5AKsDu3GiwYz3O3/sV5Y5POPpptl91R6Ep+rhjTIMWiaHJUu
-         MP6w==
-X-Forwarded-Encrypted: i=1; AJvYcCUhzt9sGXrGaFrCs9SktQOCZQLmXFvZ4dIKp+WLvn4JdbvKaR59wNXbVQNk9gSkTtLcX/L1bZA7Mw4rOg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4+a0hWOef5BhZ2CPDljyIA71xU2bhVk5Zpbvk7Uulk6KVMSzV
-	LVaGqdojst+Fic5G6dvfJiFPB1icNXSpXlULJS2/pIZ4FU1YlfgDG6WDPF7HdR0=
-X-Gm-Gg: ASbGncv0pprY2zY2g1zClX8qnEn0UvjMB0HhmTyDa7Wqk3X/6OX7/4loOZ8kZcXc1pd
-	0CtdFxHlumzhMmoGQPM8xuHzGaDeH8m+9Tnskyhd5mvOw6UngzH+hVg1rTYEjWgPueaKwYExhxh
-	bVmUZCRSpAaNRN6w3GjmOHO1puzEY9zagiicRM2MGrarTaCHeG+18gw3P/jl9/2eXCzpxK63kgY
-	4SRn0yMy5i1n6UJVo0/r/m6biQK1jO+581R8ZybYf7IapBvlGWsxK4XdNRJmbazTjeJCxohrEEf
-	BYFSwIbW6cIww4qq419l6ERCRI39fkqdxbGJ4291vBCAd8glKOGzNYkMjlhE0d0eP1RLeLVRKk0
-	G4EFemw==
-X-Google-Smtp-Source: AGHT+IHlOq8/ca5REmCpBpkFoqbdN5SzfkW5Ay4uvrR7nOsyWNcTGKb621SxyZxe+WjLiuuz2iXeFA==
-X-Received: by 2002:a05:600c:4f50:b0:43c:ed33:a500 with SMTP id 5b1f17b1804b1-43f2eb51034mr62138375e9.10.1744373441065;
-        Fri, 11 Apr 2025 05:10:41 -0700 (PDT)
-Received: from [192.168.0.34] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f233c817dsm80436805e9.23.2025.04.11.05.10.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Apr 2025 05:10:40 -0700 (PDT)
-Message-ID: <811cd70e-dc27-4ce0-b7da-296fa5926f90@linaro.org>
-Date: Fri, 11 Apr 2025 13:10:39 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F3EB2367A0;
+	Fri, 11 Apr 2025 12:42:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.72
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744375327; cv=fail; b=XIXD5VQ/pcTPQitH/XbJDVNf9hUg+QyrsJZ3JgtW5r8FDGtqgt+4iD9Afa02hLqPgQ49O7ohN+lNmqENkGwqbdPdUk+biKcNPou1EoRUCA949pC8UrwUMxD45HQZUZvh43rUE438R2RmLp3mFfPR545mzGTf8rWx8CxUNGh20sU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744375327; c=relaxed/simple;
+	bh=LVloMfywI7oY8rSSG3aMmup/nyVD9+AsyNd3hclli/E=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=FVuQTdx10jn1fTsAuZ2hXK1HJElezuXC9pjCfYN9hzsGvoHWoa6JAChqe1XyA9IvJq8KTUuvvospUyIUdfcB2Eyr+lYHhkhAUrKd/k0H6JYTlyOjKVk/XzOxoa1FQ97qAiISNNIFHMj+spddZUr5uikHEESRtpVdOZqLGNSyoCs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=im80Xj+o; arc=fail smtp.client-ip=40.107.92.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TjknHhd3u8Vh1u/I/GDPgSDeUqf0GWrZ2aXFSJBt9pgrH8396yaT5PY2vv9pFNVtX4cFxa4Mpzl5sYcSXYSPzTn/VaIxXLORR9m01OO5nLcPUFyjdOUkEtoxdN7dJOTUlehZQUAZq3AMzofAygwy0HMbChh/R03VHFxOSCE3PXHSo2DgwM8f8jZmaeAL/sPzKXLBtfaW/KapCprm7pUtedbDh/HydJsgQb8RA6DMbkAXdBTGfZfvm5cD5bfe67TC1gDrrvRPRUwcifU7AtN07ATKzOX7P6/FOsCho0zz/0wzNZ9i+CaHVrk4KqX4Fagxrlecitz06u0XNymVVliZWQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LVloMfywI7oY8rSSG3aMmup/nyVD9+AsyNd3hclli/E=;
+ b=N5p39Y/Re+0PGN/GKyDmYK1G2okQub4K+uN1f4oPJ4mzGpLuvNGpD7YDiFsKR0KLxnxfMYVK/+ZltxT7uCq13hwyRRW2hq0aeXLzVEj1qWSEQvNdIz0I9kl/38EQ9yrRDWWBOuaLSzMkZp1U4KF/0+W6u9sY4cx/ngRnsQisXOu5O0LxaNkFbQ2Ax5izdZW/Jf3eMRFyOid3gBT40hTF3XTyNjV0tAVb6HbSVgBzbRULN0hpVUM28axeea5yW6VyuDG8yP8HWaj+k3rAr2WDdFG1hhd8rP3m3WztaShVGDbbm4xzZkq74K8F9LcD5sttYFUes/Ky+Jujp+urVI5W0w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=LVloMfywI7oY8rSSG3aMmup/nyVD9+AsyNd3hclli/E=;
+ b=im80Xj+o9ChRLIE/2aBl7jOrqzG4nYuafZ1Jd1xgGX4xsOkBQiGTUBwbQjXgn81bY6IY/ZL0G/E3Y/qWtvZm+z334EO/s98cOFwyoQlEA9KB1Plq1DoKUMH0nPBBUv0HzERRqHkEFF6+rt/NTySgavk9JT3kCQx2bsW+XMUBxqM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DS7PR12MB5839.namprd12.prod.outlook.com (2603:10b6:8:7a::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.27; Fri, 11 Apr
+ 2025 12:42:02 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8632.021; Fri, 11 Apr 2025
+ 12:42:02 +0000
+Message-ID: <45bbee88-0446-4773-a4b6-d19a1747c43f@amd.com>
+Date: Fri, 11 Apr 2025 14:41:56 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] uio/dma-buf: Give UIO users access to DMA addresses.
+To: Bastien Curutchet <bastien.curutchet@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+References: <20250410-uio-dma-v1-0-6468ace2c786@bootlin.com>
+ <09a5beeb-bae3-4a00-9aff-66adf68064e6@amd.com>
+ <20250410214307.361e373f@windsurf>
+ <b596c9af-c0e3-4557-b45a-462a33179235@amd.com>
+ <60e2d844-418a-4bde-b6ef-76d10448d5ec@bootlin.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <60e2d844-418a-4bde-b6ef-76d10448d5ec@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0147.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:96::11) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/20] media: iris: Skip destroying internal buffer if not
- dequeued
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Stefan Schmidt <stefan.schmidt@linaro.org>, Hans Verkuil
- <hverkuil@xs4all.nl>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
- Neil Armstrong <neil.armstrong@linaro.org>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, stable@vger.kernel.org
-References: <20250408-iris-dec-hevc-vp9-v1-0-acd258778bd6@quicinc.com>
- <20250408-iris-dec-hevc-vp9-v1-1-acd258778bd6@quicinc.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20250408-iris-dec-hevc-vp9-v1-1-acd258778bd6@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS7PR12MB5839:EE_
+X-MS-Office365-Filtering-Correlation-Id: 524597d9-7297-4523-85f7-08dd78f64234
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?aFZnVlU1L21pM1U2QlJkdGdBUFNzTTRCdCtsNGRSMVp6ZVNIZFhSQ1J2V1pa?=
+ =?utf-8?B?bmhxNlNaVDBNcHdUK1hIMDluT25XZ2t6bXh5dVgyNkMzV0Z4Y284QWp1UFJs?=
+ =?utf-8?B?K0R1bnFYY0lMNFZMYWQ3OXFoYVZyY1g3RXE2NGpKN2dsLzliLytOdjVTMTNB?=
+ =?utf-8?B?dHZYYWpOaUhSTjEwOW9ndXJmeDZHemJQQlYxdkxaNitqTTRueFBCZXptbG5s?=
+ =?utf-8?B?cWJ0cHlsemxNQVVPUG1uMytrcVdnWHlwdVdaLzdRSHZ6eXFYM2tDQjVPaWpm?=
+ =?utf-8?B?aTJXSE1lcWROdWU5RlAvcC96a2VXQnk4TUxZWDd5cmd5b0VFeXovdFFkbCtV?=
+ =?utf-8?B?NXJJOTVMWjduQUJWQVlpUkw0ZFEzWkNJbFE4Nk56di9vSktWOWFDN0dDOTBy?=
+ =?utf-8?B?dGhla3JNUUlhUXhhY0lFbzlmUWp5N1BoUmlIQTA4d3BPNWhKa2VMbjIwWjR1?=
+ =?utf-8?B?ZzE3a0ZQVnhKTDhab0FOdS8ySmFXdFovUjVDcU93U2tBeDRmTENXRWxzTFlG?=
+ =?utf-8?B?TWwrNkNJMlVzK05RcW9RTW1VZnN4VTBWc055NmlIblhqL3RDUWFEV1gyRTFD?=
+ =?utf-8?B?VGJ4WWsvdEMwdk54M3RMUXhRMXUvRDRHZ2V3RWNhZkszMEk4MHZNVHVidWlS?=
+ =?utf-8?B?UmRnVUdEL2dkOUUwNWpnS2l4em14UC8ySFFuRzJhcVkxakVNazMzOGRxWFM5?=
+ =?utf-8?B?N1N2dS9PVWdGMkNkYkF4T3U5MVh0Vk9XNGh4ajd4VFF3WVlzNENyTk5xWWQ2?=
+ =?utf-8?B?MEM4Qm1OaWg0NFVmQXJvWVdHT2xwM3ZScE1UVHQwZjByZlkySGR4L2pZSlBr?=
+ =?utf-8?B?UGJ5RHVuMGl3ZW5ySFRaWmRTZGRiRkt6T2I0aXlWSEpUaW01WWovQ1RwNHZo?=
+ =?utf-8?B?Q3FXSmRPc0FrMUVJOWlkY29ST0RsaFkzK2E2d21vTEUxQ3hYSHlJNUlzOFNz?=
+ =?utf-8?B?T3hUQWt3OG5uQUFnZ21ramNHdXhuY3VYbDdSQmhmTkdIQ0dHQ0I5Z3MwU2t3?=
+ =?utf-8?B?UEY2UFFINWpiM1FlTjhtZGpyV3VhUVRyNjc5dkZRbXVIYndSemVZODVidThJ?=
+ =?utf-8?B?aEpSMHY1am44VmY5bmtBVDR0cXVIMzQzRWwzaUx6UXgxZzI1blFoakhqRlhP?=
+ =?utf-8?B?U1FsYS93K0hoUldDYWZEQjZPcHJCR0dmcjg3d2UySFpBOEJSdGlEU2dweUM0?=
+ =?utf-8?B?OW0rZFFZd041K1JRZmhVRHpIZEJxcDRjWnlRaWR5UzY4N3JDQVducmlPMUg4?=
+ =?utf-8?B?RSttWU82SjRtcFBNL1ZaeHhqbms1OHdtUEdlVUpXSTJkMWU4d25qeGF2QjNN?=
+ =?utf-8?B?R1BXNGJVMGZjMHZQUG11WnZOM3d5SGsxaTNkNWRyNkpQdW5JS1M3WndpWXpP?=
+ =?utf-8?B?aEpUUHlqZjhON05EM0NjUTNTS1JCRUJ0L2pXWjFiWXJ6WW1WYjZEQ1lQaVA2?=
+ =?utf-8?B?Tnk4Q2EzRVJQcjh2RXZKMnNSWlNYV2IydS82RS9RT3J5RTZ4MFdWS3VtRENv?=
+ =?utf-8?B?WjBTUjVNaENTdWFQYjNJYkczMW5vVmJqbEFoakRvLzNzUEM1MEZ2QjV6UnVY?=
+ =?utf-8?B?V2R0cGM0WFM5U2p4dzhRZlZjMG45VnZTd2Fab01zMGJiRUlUelB0a1d0WDdj?=
+ =?utf-8?B?M3JZaDJ4bDUrbllQQWwvc0I0UUt4ektKOW5sZitDaUs0V2FPbkRoeEhpdTlr?=
+ =?utf-8?B?d2wwOUp3dVA1N2d5OUFGMzVyQ3ZaOHNRSC9nektUa0F3Qjc4VnhMRkc5Smto?=
+ =?utf-8?B?blJXbDBiZkNtUEkwVkVYWEY4dlYxdEpKV1dOdElRSzVWMTMxUXNZKzI2ZkJW?=
+ =?utf-8?B?a01vQzluZ1lQeTJQQ1A4U1pOb0ZFY2haNEU3cG5udDBVU1dIMHV5OW1yT1Fm?=
+ =?utf-8?B?dDQxTjNJazJ4Tng3S0ZEWk4ybXd6TG5SeDUxK2lTMkNNRmFSTFY2Nzl4SUJu?=
+ =?utf-8?Q?25muCPiXFOU=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?cE13eUR5Z2Q4TEFEbkJWV0FnTnFHNXFZUE84ODlaVXBOU2FEN3BYQkxpcUFS?=
+ =?utf-8?B?eVk4UFQ4MjM4Z0V5T3hpSmVQUGovRThuVS91Y0dZd1lPc3pBOWVYTGtyRlY3?=
+ =?utf-8?B?SFcyOEM5NVZENlRjbDBQbnJLQmFVTXRPTU85VUxDWm5oNUQyQWd0bUtYSDlM?=
+ =?utf-8?B?RFZuaDV0QW5kdFBJYUcyR2h0Q1dQNG9kQTJzQk5PeGxJbW01SDVsdHF2V3F1?=
+ =?utf-8?B?RmJNOWJQcWJ1TUcveTZsNTlHV0VJanJmTTNMc3hkcDA4ZmgxOW16YVpMbzBE?=
+ =?utf-8?B?dzZUSVZET1BHV1Jkd1NVcVB4eStpMlJFc0ZJajVFZFh1V1p0VGd3ZlVxejJ5?=
+ =?utf-8?B?M0FNUHRtL2Uwai9tMDhIUHMwc2hrNWNyRnhwSStCRjhZTnVOOHJFWG02VW9n?=
+ =?utf-8?B?b0ZvQzh5Ulk0eVJLcEpzekhwMWxaNHZpbDZPMklzK1JkVTJkbnhWcDNOYUd1?=
+ =?utf-8?B?emI1REZxZ2pYRjZaN2RxbTFOa1FjY0FhLzhVOFFQakptTEp4YjJVTitJanZ5?=
+ =?utf-8?B?N3g3bk5XYVFjdm9NMy9LWDJXR2xyOVFYY1dKby8rd1dDdmtYbnF0QnAzMVBF?=
+ =?utf-8?B?SDl5VlVUVmRBcHArNWZPUnkzbHBOeTVEdTZ4Z0FNczBRSmwwV25qSG5MOEt2?=
+ =?utf-8?B?Myszdy8xTk1QSGkzQVJITExlYlJ5SjR2eEpRM0YwK1FOb09DVDdKTzFNQ1VX?=
+ =?utf-8?B?blZTa2ltajViS01JZWk5OG1rTkZqVlROQUtGQXJwVTVCMUUyeDU2QXd6Uzdq?=
+ =?utf-8?B?cGtlbU4vYnBoNkJhWGlFSnlNWGMxaWZLYmg2M0d2Y1lnN2pId2FwT2xlZjVn?=
+ =?utf-8?B?WEkxVzA5cnVDQWlnNVN4WUQrM2VqVTVyVzlqc2IxUktkWDhXU2tRZU1ESzdm?=
+ =?utf-8?B?eDdBY1Q0SWNtWWRHQnllbUdPZGJoSWxZaGpCQmdvWkdabnRLSG1sVHZmU3hJ?=
+ =?utf-8?B?cmhDNUV1ZkdQSDFmeDVpRlZFZTBGL3VxSWlsYTRlTzRrZEFqeTkvZ0RRTXlV?=
+ =?utf-8?B?N3k0SnhXcnAwY0VmTHM4OVppMmNkV0pEYitubVZnZ3BiUWYvMUNtNVA0T3Fz?=
+ =?utf-8?B?c0hUa04xUHJUdnNBb3FnR1RJWHIvYW41VGZjK2NONVljeGVzN0pST2hlWE5p?=
+ =?utf-8?B?Q0x0Sk1Idm1TTlpYNm95NDFId0xVZVdob0lPWUxjd1YzNVBITGlxZUxhRVE1?=
+ =?utf-8?B?bldXYnJWeU9wanZ6N2NaeFZKTDBsWitVOGRGdXpmRHBlOVcwU0ZlR0FFT3lF?=
+ =?utf-8?B?QklUNHZpTWZ5MWJrSzVuZjNEZ1pkbGJDY0NaRFFWc25MYU1KYnpEYTFncUFN?=
+ =?utf-8?B?eVFXWUNiQ2g0VHdNNk5EUEw1Q2lTZFBSOHdZaENVVUFoSlZxTmpTTDBZaklI?=
+ =?utf-8?B?VWlXU2txNWlDWFJKTW9PRk9jMVhGdVlaV1I1Zlh3dy9sSWZMTXBNbUpITFhH?=
+ =?utf-8?B?dzVPVkdnbFY3ekJtemM3aVhSNy9KUU1BYi84dVdoa1BNYXdLNnZJYXc2MWEz?=
+ =?utf-8?B?R3pMeXFMdDRWOUZ1S1ZPYkEvUVBiZUNKUHU5NC8wQVhPZWRpcnh6QWhXU3FQ?=
+ =?utf-8?B?U1BpVGJQMkEzb3pSZEx1MUozNm1iK05iV2ZZTzhiU2xUNzN4Qnh0bEVGWHNm?=
+ =?utf-8?B?ZUltUFBPL2VJbDhGbW91L3JWckdHRkt1ZEVmYy9hbk5oZCtXZGlMVmhzN3J4?=
+ =?utf-8?B?bkpSVnV4cjhhS1RIaVpDVzJxWlZJOWQ4SFRsUm1zcXdIV3Nyb2dKa0JzSG9R?=
+ =?utf-8?B?c3B0VFhvd1BOVUZyNHl0cGNsWmd2bUVrK21oWkhEeTIyZXl3blVqeVNmY2pK?=
+ =?utf-8?B?TkhHOXlzV2h5cTBQVEhuUGFuMWp2SHBHNkFCYXNmOC9YYzEyOGVENE9LbUtS?=
+ =?utf-8?B?VWoyWTgyVGI4TzRCZ20wbCtDbHJ6Y3J4UmJRRVdGM2hQa3dpbEhrY2V5Snd1?=
+ =?utf-8?B?Z2lDNVBxdmEvOTR1N21KOTFscjlnTVhMSEorMlh0RUx5WWZHQWswS241VnVl?=
+ =?utf-8?B?eUg2WUFYdHVUbEVuZ2ZMKzcrSVBmbjUzWUoxd3dYNXVTbzJjYXhpMVN1YUVs?=
+ =?utf-8?B?NFJLZ2lQVlRoT0djVUdUT2ZnblpVRlhLa3QycXJtRmF2T2ZLazlVL2hrN0pP?=
+ =?utf-8?Q?vXTEUUhn/auTzUjBZbqUHCTEp?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 524597d9-7297-4523-85f7-08dd78f64234
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2025 12:42:02.5534
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +flMOIqZc/kghNkicMnbWO7FBs4rHmjC/ICv3B51fVTZrpLBz58WddTGHEA6YJdT
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5839
 
-On 08/04/2025 16:54, Dikshita Agarwal wrote:
-> Firmware might hold the DPB buffers for reference in case of sequence
-> change, so skip destroying buffers for which QUEUED flag is not removed.
-> 
-> Cc: stable@vger.kernel.org
-> Fixes: 73702f45db81 ("media: iris: allocate, initialize and queue internal buffers")
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> ---
->   drivers/media/platform/qcom/iris/iris_buffer.c | 7 +++++++
->   1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/media/platform/qcom/iris/iris_buffer.c b/drivers/media/platform/qcom/iris/iris_buffer.c
-> index e5c5a564fcb8..75fe63cc2327 100644
-> --- a/drivers/media/platform/qcom/iris/iris_buffer.c
-> +++ b/drivers/media/platform/qcom/iris/iris_buffer.c
-> @@ -396,6 +396,13 @@ int iris_destroy_internal_buffers(struct iris_inst *inst, u32 plane)
->   	for (i = 0; i < len; i++) {
->   		buffers = &inst->buffers[internal_buf_type[i]];
->   		list_for_each_entry_safe(buf, next, &buffers->list, list) {
-> +			/*
-> +			 * skip destroying internal(DPB) buffer if firmware
-> +			 * did not return it.
-> +			 */
-> +			if (buf->attr & BUF_ATTR_QUEUED)
-> +				continue;
-> +
->   			ret = iris_destroy_internal_buffer(inst, buf);
->   			if (ret)
->   				return ret;
-> 
+Hi Bastien,
 
-iris_destroy_internal_buffers() is called from
+Am 11.04.25 um 10:14 schrieb Bastien Curutchet:
+> Hi Christian,
+>
+> On 4/11/25 9:30 AM, Christian König wrote:
+>> Hi Thomas,
+>>
+>> Am 10.04.25 um 21:43 schrieb Thomas Petazzoni:
+>>> Hello Christian,
+>>>
+>>> Thanks for your feedback!
+>>>
+>>> On Thu, 10 Apr 2025 18:29:12 +0200
+>>> Christian König<christian.koenig@amd.com> wrote:
+>>>
+>>>>> Many UIO users performing DMA from their UIO device need to access the
+>>>>> DMA addresses of the allocated buffers. There are out-of-tree drivers
+>>>>> that allow to do it but nothing in the mainline.
+>>>> Well that basically disqualifies this patch set in the first paragraph.
+>>>>
+>>>> To justify some kernel change we always need an in kernel user of the
+>>>> interface, since this is purely for out-of-tree drivers this is a
+>>>> no-go to begin with.
+>>> I'm not sure to understand your comment here. This patch series is
+>>> about extending the UIO interface... which is a user-space interface.
+>>> So obviously it has no "in-kernel user" because it's meant to be used
+>>> from user-space. Could you clarify what you meant here?
+>>
+>> Bastien wrote about "out-of-tree drivers" which is something the upstream kernel explicitly does not support.
+>>
+>
+> Sorry maybe it wasn't clear, but what I meant is that the goal of this series is to replace 'out-of-tree drivers' with something upstream.
 
-- iris_vdec_streamon_output
-- iris_venc_streamon_output
-- iris_close
+Ah! Yeah that wasn't really clear from the description.
 
-So if we skip releasing the buffer here, when will the memory be released ?
+But anyway please note that when you want to create new UAPI you need to provide an open source user of it. E.g. link to a repository or something similar in the covert letter should do it.
 
-Particularly the kfree() in iris_destroy_internal_buffer() ?
+>> Well why do you then want to use DMA-buf in the first place? As far as I know what you describe can perfectly be done with the normal UIO memory management interfaces.
+>>
+>> DMA-buf is only interesting when you actually want to share something in between devices or between applications.
+>>
+>
+> I wanted to use DMA-buf because it allows to dynamically allocate/release coherent buffers from userspace. UIO doesn't provide such interface.
+> I'm aware that exposing DMA addresses to userspace isn't a good practice. That's why this series create a new heap specific to UIO that will be the only one implementing the new ioctl.
 
-iris_close -> iris_destroy_internal_buffers ! -> iris_destroy_buffer
+I don't know the UIO interfaces that well, but that is pretty clearly an abuse of DMA-buf and won't fly at all.
 
-Is a leak right ?
+If you want coherent memory for your device you should use dma_alloc_coherent() for that.
 
----
-bod
+Regards,
+Christian.
+
+>
+>
+> Best regards,
+> Bastien
+>
+>
+>
+
 
