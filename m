@@ -1,382 +1,242 @@
-Return-Path: <linux-media+bounces-30025-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30026-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57E50A85EBC
-	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 15:24:00 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DF07A85EC6
+	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 15:25:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DBA918C0904
-	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 13:20:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1CC1F9A64F3
+	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 13:21:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 457D619F40F;
-	Fri, 11 Apr 2025 13:18:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 492791917E4;
+	Fri, 11 Apr 2025 13:20:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gL/1K5zF"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="wt5hi2T5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2062.outbound.protection.outlook.com [40.107.94.62])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C681B19CC3A
-	for <linux-media@vger.kernel.org>; Fri, 11 Apr 2025 13:18:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744377506; cv=none; b=JRzZKpK1B6ylA3i7734D8ErfYg+FMQ7JBVynb+tcsD0qmQDvqpeuwXFrKb9KWGDONcxUgUqtZ/d1uN0YmnWiFhTfZSA6sCH1v2x20SiqddKAsZf5b4qznoLIbKOwr1NpO9Cf/wqyDUim5VMj+jO24zq938Haq00cpA9SpZYgnAM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744377506; c=relaxed/simple;
-	bh=BUjqMSGXFNAQCtSnMnZLc7ifXcyak1+IAzaJHHRD/+k=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=NE4lp7UyAsS4VDd5QBijOUjeSNoLWSZzBCE/nl+Y0dJv4tYhJg9V7wXJj4EXYuAIuNyARZ6GdERw5NwhW9nF6qRST9hlOfZe/fftA9vcrIcok7uZUv7aash/DOswSvGEMcz5mFqMl5whuLTmVMDFq84toHW2qFESo+6ENTTj6i4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gL/1K5zF; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-391342fc1f6so1506169f8f.1
-        for <linux-media@vger.kernel.org>; Fri, 11 Apr 2025 06:18:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744377502; x=1744982302; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bAgS7d7mQW64Ugh4mepLGUIYDIVFQL72jfWiNoLCjqQ=;
-        b=gL/1K5zFWzePesNp68srbCiau2LLI4vcxizrPT4LXwECcJhsBI/QUwILU3uPxdb9Yc
-         Kla6HWVW4Z5xXW/0XllmLX0I2zThkH1+oU7AZh0I1FIjlNJFBAl1gKsuy4+AWCck8gg8
-         VdQCdAIj7uyAvV1WBj9J4/g+thTHEZnWYWWoElUu08XNTZx22lb8Sg+/FzqDS3RNdr9y
-         KQVJ8ORUHtY0FB8n0slT2v5tfX3HIe7S3ZyJrX3JFiZ2pi47CM8o3/YQs2oHF5FNarrY
-         TxppeqL2dRGtHtYo8ReQ0B98/SKt1tBFoWdIQc/e5LG6ItXFVf99jxE1QAKVTrvhlkHC
-         IUIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744377502; x=1744982302;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=bAgS7d7mQW64Ugh4mepLGUIYDIVFQL72jfWiNoLCjqQ=;
-        b=uxmoD9dCF32IUNp/AJQySKAEpjrqrgN7m1u608TohjV+KRM1cawX8R+1PXOIRjQ7dP
-         jFGJm3PQD/g67HZJGC3id26OyzbmFxx3NQtUEsk8P1iZptVkrCmUpa68//OnqAlin4j0
-         RmyAxlk+QnmKJBtIAwVp9Nfiau6RVm9eHgQuHznoCUwTqyRBCd1TL0vm79HpHZTvEzsn
-         kPZ+hmUDlXaiqjpnYDZoeBn/yerYzM9h1gjPFFSI69Ct6MRJDR6NOCVYQPl9r37Dus32
-         tcoAUttlXsDwOxBS8Cd2VRCXcc/1E2ohG55qn/5qXh/OC3uxIEuo/3jWRIdso8R1ZOwz
-         dHtA==
-X-Forwarded-Encrypted: i=1; AJvYcCVirzXESjXPCrLPspbghF4u97f0rlAdYeT/XdX4AfAkiHs1cdNJ0KaBI/NpAC6Mhgm8z7dEdendAPAM6A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7rftyVeBtnFwYWJCPz1KOYgDFOfFI3ztqxDvkg9CmJVazdhq1
-	3K6u12wWTT6ZUVJwXzjaVSVI0wHz0LCRA+nGhBKbjoLr+nXjVQMaAjfJ2H8NO+M=
-X-Gm-Gg: ASbGncuCY5EIzIp0tSAeJPV18ARFZFUMF10gknW5ZDc4/JU9uGnAV8dpwp5aII/qgxb
-	zEaUaBLJZ9YkYR1BtfEjC/G6LixKNNsCEwdwykGk4hJJpbJCBGjqXfSCvxaOVitFTsPStlsv7M2
-	IRxk4UPaI6uChB0opuen+5Vfc8p7De/y8oe6iqBvn79ahcmwlFBlx86Ya9QezqvLPCjfAc7xTDE
-	uGGQxIJuZzFIIlE70e3UHyPJNXXppjyhiuc/qCVvnhtPbeutAhPm+KOKKF0SQRTz0AFyUSEVs6i
-	R4zyuWz9yNV2O2QOD5szHeymAK43hNoKA+0nXrBvmtVKAI/yvYwECeHW9u06QrytSfXd7bOfFPU
-	yo9kBZxUBgt339woo8Q==
-X-Google-Smtp-Source: AGHT+IHTemPYNTUynUWh83jsKhT4widmDCcaayD2CGUwpmZyqG/QggCO0fOH8ooS57JxWfPnFAgDDA==
-X-Received: by 2002:a05:6000:2507:b0:390:e311:a8c7 with SMTP id ffacd0b85a97d-39ea51ecbecmr2515462f8f.5.1744377501994;
-        Fri, 11 Apr 2025 06:18:21 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:f77b:949e:1d61:69a8? ([2a01:e0a:3d9:2080:f77b:949e:1d61:69a8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae978023sm2004192f8f.47.2025.04.11.06.18.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Apr 2025 06:18:21 -0700 (PDT)
-Message-ID: <9bc74360-a74c-47f4-b8ad-3153bf47ea06@linaro.org>
-Date: Fri, 11 Apr 2025 15:18:20 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C952367D1;
+	Fri, 11 Apr 2025 13:20:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.62
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744377614; cv=fail; b=NECHZrwL5yNNFncifzfHq8gpf6bfLtAd6x7+LEzFFUTHkGew3Piu6lDuM6l5sABxa0Q8MQhgohndfKJJNUiEmgz6Q1m8M5LHQvLkRCIewVEijV9xNLZEQpldZhmaDN05KC25CQ38V/aSgTbG2OtdqKat15N3Y28M+WC3JG5pbhg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744377614; c=relaxed/simple;
+	bh=iJx4TgYYczhS+XyWMHVYj4K8dsih2ZzMWCP3IEcFXCk=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=GzTwN2KeaXOjH7ms78G04mpCxH9k0vZdrLDhRJeRjA8wRofe9E7i2mBctN84ntXBnNnyzzzzjf5wT9pR2lH8ZhWtmjAU7ia5EfG+y5+LImzE7RpIKQHkEq8N4GxyRbDJfKeXOIRjKusUYUJoZu7MI2wKwG7E/HajQ49/eUMukQU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=wt5hi2T5; arc=fail smtp.client-ip=40.107.94.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KxZwE/yhrVmNnJS4xEF6xue24+sy8W46MZtyEaDsRvGlrT3cUf9ZRwhxwDQue4is0D+kljNdFsMuviRwtMcPUiapV+FITIYZG+PQwLmSUIcVlVi5WnZj8g+/HlI8IR/GyIySMLY/ZnFT4jKTkPgY+3iHXBaQxcqXI4vzJnswpWwX5DiO3LYqrCIVz85mkU9DwwD0zEvEv/Wq1hEtwx7P7d5hkU7h07YgHEj+UE6l9ZR5vYEyauKojJ9hHRiJ3Tub5ISi0W84jfNwLThwJLOyALlxVxS8P8kLhmVyqB1I+yJMzKl2eInvfYkw/AN/Gw1h/OB04v8ULcVH0vwFRaUwAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9ROP0nlxEq7mMxLcgXwpjhOZrG18+dsxjH9MjdwAUtk=;
+ b=vV5DaTzb4DOilp+gFKscPeVcqhVoivIXkhWPajlZO6jxicn2lL+PFX0TPqhjRaX4WFK5PvpA2C6tM5XDp3Yv9nM2ZeZGB8j69i2Q7ArJmn8EzixzLovU/v1Q09zjoK9BR5wdAXNR3Wz7XSNriXZAef7w72jkgoU0OmV089+q6T5HFOsqIwe38gP2tHhzUlk2SPAvjQVpBCe4mLbzKrKCCTbBGYbm03QH7CCRDTqYcjo5oyUxtgQrOjyUXy08EarIk5mC3BnG2Y/x0IWbsXOylzmxpmefy6XwDB+n/2tvEtCSec2cRT4WrkL31opZpoqaeBCg6hwG2M4RmvJU1HRN4g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9ROP0nlxEq7mMxLcgXwpjhOZrG18+dsxjH9MjdwAUtk=;
+ b=wt5hi2T5EZrj1qizLrJgCkSH06dCVM9I2sAeBgzaU7vic/+ivOcQU+FbQEZlSZRqQGjiwq5wUBVq5Co9HDvWPTYs5/hj18hfpfMWDCqj+z78647WnUFPdQvObN/8KUq2oVcd/6T6cQN9z9KH3mV+SajzG1NtOW0fYWN04Lbrl0Q=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by DS5PPF5FAA0E762.namprd12.prod.outlook.com (2603:10b6:f:fc00::651) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.23; Fri, 11 Apr
+ 2025 13:20:11 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8632.021; Fri, 11 Apr 2025
+ 13:20:11 +0000
+Message-ID: <f30552b0-36a7-4a56-a117-44e9eb3a14bf@amd.com>
+Date: Fri, 11 Apr 2025 15:20:06 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] dma-buf/sw_sync: Decrement refcount on error in
+ sw_sync_ioctl_get_deadline()
+To: Dan Carpenter <dan.carpenter@linaro.org>,
+ Rob Clark <robdclark@chromium.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>, Dmitry Baryshkov <lumag@kernel.org>,
+ Pekka Paalanen <pekka.paalanen@collabora.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
+References: <a010a1ac-107b-4fc0-a052-9fd3706ad690@stanley.mountain>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <a010a1ac-107b-4fc0-a052-9fd3706ad690@stanley.mountain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR5P281CA0045.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f3::12) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH RFC v5 1/8] media: qcom: iris: move sm8250 to gen1 catalog
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
-References: <20250410-topic-sm8x50-upstream-iris-catalog-v5-0-44a431574c25@linaro.org>
- <VyOGKudgZHGHSwAUc_c_syksKTaFJrgQwY5885fB812reMOnISG0ito3a9NquHCtVt9W2gENP3ioyZ7e0ne_Fw==@protonmail.internalid>
- <20250410-topic-sm8x50-upstream-iris-catalog-v5-1-44a431574c25@linaro.org>
- <a7f41eaa-74d0-42f6-ba80-afa62a521b7e@linaro.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <a7f41eaa-74d0-42f6-ba80-afa62a521b7e@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS5PPF5FAA0E762:EE_
+X-MS-Office365-Filtering-Correlation-Id: 851a83f8-f7bf-4c9b-f8e6-08dd78fb9640
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?WWJvSFVmUHZUSmJ1L0RMdGVHdWx3SVNvczZmTk9hWjNYWTY5R243Tk5OaW1W?=
+ =?utf-8?B?TWVibDdPYTk5b2R1WFpibktpMUkwcUdQY05vV0JzYWsxR2lUa09aM3lTS1FY?=
+ =?utf-8?B?R1k1Kzlpd3M1UlVqN1JWNDVlMFJ3VEpYamMxazVBNTZoWVFnUHVWVCs5bGNn?=
+ =?utf-8?B?RzRkbXl2UXByTTlsOGZ2SjhFT3l6T2oySktqWkJhaG54R3AyUzJxSW1NQzJw?=
+ =?utf-8?B?bXJucDNjb3FSNVVUNndYODlua1luQjVRbWJ3R2xNUms2cDdNekRrdGZwVDgz?=
+ =?utf-8?B?L2JzUXN2em5Gc2dnejVUNXhYcVYrdjJaT25xM1FSRXl1eEtCT3dlZlVIODBi?=
+ =?utf-8?B?Zk1YV3cxNHFVd1hjMkptaUJPRlhXUFB3MjArZWIvbmtma2VTeTVhaytFRWFW?=
+ =?utf-8?B?NklBK0hWSmUySDBxKzZ5ejZmeFkwMHZGNmZjWElENGpFNUpGWm5kN3RHK1dk?=
+ =?utf-8?B?ZjhGUHJKTVMwY0RENjNpS0F2TUIyM2lGY3dUQkl5NkxIWW90VHlQVTV3elRR?=
+ =?utf-8?B?WTJIVVd6SHdEMTF5MGRZSVJHNS9laUV2Y0NqMnJpYllhdlZrUnhNVW5YRjhv?=
+ =?utf-8?B?djdZR3ZUZGNPUTlCbXZNTUYzRThwazdWMGZqTCsxMnR5ZXZOeU85U1J6U3Ni?=
+ =?utf-8?B?UDFLT3JROEZUcXZvRld4Q0E0MlVIODdoWnpEMjZSV25ESG9jT0taUkdVTlRH?=
+ =?utf-8?B?UTNVYUx1QXpVOE1PNDdzSXdIbjRrZy9YS2JjU0l6N0owOEpZMUdTOHJNd09s?=
+ =?utf-8?B?SkxSNXVWc09qVktlbCt0TmY4dkdTakZwSXljZWFSYVIydGFIcXJGK1V1WTVZ?=
+ =?utf-8?B?YjRYaGVWeDlncDZsRmZnYk0vVnpJNFRRQmhVUHplR1o4VlE1eEt2aXJGdFNI?=
+ =?utf-8?B?WWEvcTVFWnRNRzNJbWViSS8yVUZNbUp5bkUxcnFDNmlRWkdsVDNLZEFqYVhH?=
+ =?utf-8?B?UVJIbUFYS1JIQkZnYWVrUmdtOHRmWVp2VmsvNVArUmUweDZUakIwdmwyeEZD?=
+ =?utf-8?B?ZWZYVjd0RVhxeWgxTG9kSHBEMDJLaWplSFFYa0d2MERPYTJUUTJEaVEzZjZI?=
+ =?utf-8?B?NG5IQ1dDN21vVGx2bUhHZmlWbURHZHQ0Y3p0aGFWaDF6SnhTWCtrbTh6dmds?=
+ =?utf-8?B?ZDVybnR3cllvczVqRExXeDhsWFVTY3cxclRjdm9mTWNPRzJIT1dHTjFOUHpk?=
+ =?utf-8?B?UVNTTGlXZjF0b2VrWDJDVHd6TzJmbm0rZE5qZHphUEVCRkhJNFRWTGZFS05l?=
+ =?utf-8?B?dXZKbUIzdHdOd3hIcmdtUUkyR2QxanIxWU84R1g0aHplNjc5cmU5d2FQMUFi?=
+ =?utf-8?B?QWZxKzlRUzRlS3NucFlRNXpWQjZuRkZGbXJXQ2w3cXpwTG9JY3dod2YrZmtz?=
+ =?utf-8?B?VEFwZXZYdWdMQUU3YnNXNEJhd1JuRDZ6NzViTjU1aVU2MVlDWmVvZlVJQTBR?=
+ =?utf-8?B?YTEwTEc0TGxFaGlvVmR0QWcrbW1kRm1jL1d3VDdDNmdKQzJLR1BDZWtBUFBX?=
+ =?utf-8?B?U0JGTGdlUTg3NU9vVmkrVHhHVjFQZWFOdUZVTzYyM2F2YlZNOUZBTTJPSnFN?=
+ =?utf-8?B?ZFF1eHRMM3JJTndjSzBUMkh4Vk00UDFjZTdZZFp1eGlBTTVjekdzMGE4aVZB?=
+ =?utf-8?B?T2RGVGhvT2xlMUQ0am5Vc1RYRTlodlpCOGZPbjR2WGFwdzVUWTFNZEovcXdx?=
+ =?utf-8?B?bHZVUlFENGtoRlRlMkpPS0RXM2Z4QkV0N0UvdjFBbzVocXZnV3NHcmVVSjU1?=
+ =?utf-8?B?Tkwvc0ROQkFBRk5XSzN4bHZnK1J0WE5Ia0xXdlEvWXUwUXM4ZEpwMjVtZjl2?=
+ =?utf-8?B?MFAxV2ZuczhwcmZMY1Q2SFdTNzBzOEVjbWdLN0tsb3J3dzZwTUpFT1htUUR5?=
+ =?utf-8?B?aHJ4UmNabkNncG1QRzhmOTF0eThXM3VPeXBRRjRmaU9HMVgwang4RVZyYUx2?=
+ =?utf-8?Q?I4h9NbjnSRI=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?WnZGWS83T2dCMEQ5bW5vck12cXhKdFZ5RXpiMUg4VURZYXh0bVZNelJRQVpn?=
+ =?utf-8?B?QVkrVW5EdlBudXlGaWlUZVc2VjNGUXIrMFVJV3d6QjdQMVBqZWphZ2hrZkxj?=
+ =?utf-8?B?d0wzOVp3TnMzVGVZMXFheU42aGtQNTNpVVFRcEh3Z0h0MUlyRUQyMUtrdFo3?=
+ =?utf-8?B?OEVHVE92bERIS25iMWNxVGsvallsYTFsdy9BdkRGWStCSElLQUlLcFBySmgr?=
+ =?utf-8?B?ZmFHMzgvSDdMVmtIYjRmWllEY3gxczhJN24wbjFZTWRrVlIxR0p3ZGswRzJo?=
+ =?utf-8?B?elJpMDVQeTJ2SGtPd1REYi9HaERyd3ZQaE03ajlPUGxJdEpPSXZnSDNTZzZa?=
+ =?utf-8?B?TkxHZC9iSE4zTHJDUGNLcnZmTllnVmhxUDJCMmM3eFdKUVlteGhNaHo1N1Bt?=
+ =?utf-8?B?NVBiaUZrN1I4aFVrMUlQYktUK0NidVhZeWVEM0o1L3pZZDVYbVloKzF1ZHp5?=
+ =?utf-8?B?anZMcGUxWDl4bitBRUlZWWh6bE5vbDV5alk4SUhUSkFPbE1Pdy9HQXcxNW9G?=
+ =?utf-8?B?VkpFTlgrNjgrZjd2bUZmb3ljSGdrWjlmcEJ6akw4Zks4R01WTkI0Rmt0bzBr?=
+ =?utf-8?B?WXB2TWJsY1VSSTZ1V1kwYlRGSEpmMjBPV2p3cjJZNGNSVEEwV29hNUN3Rmw1?=
+ =?utf-8?B?Nm5xczV0MW9GVHArampzclBnSEpEam9qUHNjQ21IU0Y1VjB6MEZKZUxaWFBH?=
+ =?utf-8?B?MU1VeUl0YTRDSlVLNm5IQ1g2YmVWVTZQaFVTZDFTaytYeTJDSktRU0dkVWRX?=
+ =?utf-8?B?SzJZM2pNaE0zbWV3NE1MdTV1M0c1dUdmTFBTdlhnTGZqRDRCcXV5WFZiSjFS?=
+ =?utf-8?B?cjZaMVQzcUlJWHVHR3VVZmtUQlc2Q0U0ajhYV1dvNmFWdzlQQzUySTgrNnQy?=
+ =?utf-8?B?dEQ2TThHb2VMeXJEQTJ5RE5HTkdlSU5nNTNEQ1hpUlgzZkdWbDduMWVySEtU?=
+ =?utf-8?B?b1BOb2paSEVUa3ZLVEV1Z25LZFZOZERzTGZ1aE4xdGFCMFFKS1FpRHVqdVlm?=
+ =?utf-8?B?bEtndDNUSXVqVytNREJCeG1TQmRKeHdnbTFXYWVRekxhbGlCdkJrQVhnd2tZ?=
+ =?utf-8?B?MkRYMkpBTXhka29XL1pSZXJubm52NGQ1aFR5dFJidzk5RHFMYjI5dTVZWVNL?=
+ =?utf-8?B?c1doZnU5NmR6akMrblFLYmY5Q0hHRE1MNXBrdk9RQk1TOWFMUjZPbFVCNFZX?=
+ =?utf-8?B?ak1odktEZUUwMW5mSFFRZWhvWlU4bURVdFlmV1Y1UzFERkU2QUNQdVZIOWk2?=
+ =?utf-8?B?djJ0ZFZuUmJpSDM0eFNTMmx4R2NIZjBKUXBPN0VDOFpIbE92TlNsMkdIOXVo?=
+ =?utf-8?B?YVBsQ0t5d2djcHlvblNhUTVRa1M3eFMxdEJuRjBoZ2Iyc0JlTjhhRmRMR24z?=
+ =?utf-8?B?TGRTeVJpckxhZU1Fejl4ZENHWGU2bjM5N1NhemptVHJSTk5va2hOTXdQQWFT?=
+ =?utf-8?B?VnZCc204OTQ0R1FPUUswN0xRNHJQVm5WWmZmR0p3Si84MnpQUWFKY3B5cTQw?=
+ =?utf-8?B?RTBBMXNDeU1sR3piRFdqWDlEWjRMQ3BrdWhHME90NHo1SVJxakozSTVOL0ZI?=
+ =?utf-8?B?cmpWNlpZRG41VktJR2tIUmZ5OWNFdlpWZC94NjBuUHBYeGdJMVdsT2hId2M1?=
+ =?utf-8?B?c21xZUZJRTBTOE9tY3haWW8wMUsxN29QbUo1Uy9acTgrS09aZGFEYy9lclFu?=
+ =?utf-8?B?QVRVSm5IS2dhSlNTalE5SjZGc2cybkl2d0w2dWphZy9vZWVrSUppakR2cUhR?=
+ =?utf-8?B?c3U0M1NwaXMzUEhncURIL1BDUktldjBsN3FnZmxRd3RiV2hXRTU5MXI2dU0x?=
+ =?utf-8?B?N2dzc2xuRjdTT3BwNFg4R0Jud3Z3SW9aOWNTa3BhbEdpODBjVDY2L1VKSU04?=
+ =?utf-8?B?WVRBeHJWcURmVjB2dVJEZVBJTHRBOWc5QVRiQjExSjFENC9VK3NjV01qYTZL?=
+ =?utf-8?B?QnEwZDFpTUpnUkFLUS9GVUdvRnpTTzhURFpkMG1VNkcxNUczZjd5NUUvSUdt?=
+ =?utf-8?B?Q0NlWm1NRVJtSFd6YWRsWVBsUjBKaXhlSzJHWmRXYWJncGtRUTVQR3VXRWdy?=
+ =?utf-8?B?Sk5FcklDNUdWMTEzbXNWUU1MaTlubWpJc05Ib3BOek9TMzhkbDRjUU5XT2Ry?=
+ =?utf-8?Q?5X/dgUM+UU/9gtgG6jkX4YIFd?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 851a83f8-f7bf-4c9b-f8e6-08dd78fb9640
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2025 13:20:11.1952
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: w2NlRSc27egy90h/oHPuzJ94+4EkaU6dEcDUBWvLfctPdbAqoniWCh+leGm1AJy1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PPF5FAA0E762
 
-On 11/04/2025 13:50, Bryan O'Donoghue wrote:
-> On 10/04/2025 17:30, Neil Armstrong wrote:
->> Re-organize the platform support core into a gen1 catalog C file
->> declaring common platform structure and include platform headers
->> containing platform specific entries and iris_platform_data
->> structure.
->>
->> The goal is to share most of the structure while having
->> clear and separate per-SoC catalog files.
->>
->> The organization is based on the current drm/msm dpu1 catalog
->> entries.
->>
->> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->> ---
->>   drivers/media/platform/qcom/iris/Makefile          |  2 +-
->>   .../media/platform/qcom/iris/iris_catalog_gen1.c   | 83 ++++++++++++++++++++++
->>   ...ris_platform_sm8250.c => iris_catalog_sm8250.h} | 80 ++-------------------
->>   3 files changed, 89 insertions(+), 76 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/iris/Makefile b/drivers/media/platform/qcom/iris/Makefile
->> index 35390534534e93f4617c1036a05ca0921567ba1d..7e7bc5ca81e0f0119846ccaff7f79fd17b8298ca 100644
->> --- a/drivers/media/platform/qcom/iris/Makefile
->> +++ b/drivers/media/platform/qcom/iris/Makefile
->> @@ -25,7 +25,7 @@ qcom-iris-objs += \
->>                iris_vpu_common.o \
->>
->>   ifeq ($(CONFIG_VIDEO_QCOM_VENUS),)
->> -qcom-iris-objs += iris_platform_sm8250.o
->> +qcom-iris-objs += iris_catalog_gen1.o
->>   endif
->>
->>   obj-$(CONFIG_VIDEO_QCOM_IRIS) += qcom-iris.o
->> diff --git a/drivers/media/platform/qcom/iris/iris_catalog_gen1.c b/drivers/media/platform/qcom/iris/iris_catalog_gen1.c
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..c4590f8996431eb5103d45f01c6bee2b38b848c2
->> --- /dev/null
->> +++ b/drivers/media/platform/qcom/iris/iris_catalog_gen1.c
->> @@ -0,0 +1,83 @@
->> +// SPDX-License-Identifier: GPL-2.0-only
->> +/*
->> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
->> + */
->> +
->> +#include "iris_core.h"
->> +#include "iris_ctrls.h"
->> +#include "iris_platform_common.h"
->> +#include "iris_resources.h"
->> +#include "iris_hfi_gen1.h"
->> +#include "iris_hfi_gen1_defines.h"
->> +#include "iris_vpu_common.h"
-> 
-> Any reason why these aren't alphabetised ?
+Am 08.04.25 um 13:01 schrieb Dan Carpenter:
+> Call dma_fence_put(fence) before returning an error if
+> dma_fence_to_sync_pt() fails.  Use an unwind ladder at the
+> end of the function to do the cleanup.
+>
+> Fixes: 70e67aaec2f4 ("dma-buf/sw_sync: Add fence deadline support")
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-Copied as-is, I guess the order can be important, especially the iris_core must be first.
+Reviewed and pushed to drm-misc-fixes.
 
-Neil
+Sorry for the delay, I was fighting a bit with dim after the migration.
 
-> 
-> Please do so unless there's some technical reason to have in this order.
-> 
->> +
->> +/* Common SM8250 & variants */
->> +static struct platform_inst_fw_cap inst_fw_cap_sm8250[] = {
->> +    {
->> +        .cap_id = PIPE,
->> +        .min = PIPE_1,
->> +        .max = PIPE_4,
->> +        .step_or_mask = 1,
->> +        .value = PIPE_4,
->> +        .hfi_id = HFI_PROPERTY_PARAM_WORK_ROUTE,
->> +        .set = iris_set_pipe,
->> +    },
->> +    {
->> +        .cap_id = STAGE,
->> +        .min = STAGE_1,
->> +        .max = STAGE_2,
->> +        .step_or_mask = 1,
->> +        .value = STAGE_2,
->> +        .hfi_id = HFI_PROPERTY_PARAM_WORK_MODE,
->> +        .set = iris_set_stage,
->> +    },
->> +    {
->> +        .cap_id = DEBLOCK,
->> +        .min = 0,
->> +        .max = 1,
->> +        .step_or_mask = 1,
->> +        .value = 0,
->> +        .hfi_id = HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER,
->> +        .set = iris_set_u32,
->> +    },
->> +};
->> +
->> +static struct platform_inst_caps platform_inst_cap_sm8250 = {
->> +    .min_frame_width = 128,
->> +    .max_frame_width = 8192,
->> +    .min_frame_height = 128,
->> +    .max_frame_height = 8192,
->> +    .max_mbpf = 138240,
->> +    .mb_cycles_vsp = 25,
->> +    .mb_cycles_vpp = 200,
->> +};
->> +
->> +static struct tz_cp_config tz_cp_config_sm8250 = {
->> +    .cp_start = 0,
->> +    .cp_size = 0x25800000,
->> +    .cp_nonpixel_start = 0x01000000,
->> +    .cp_nonpixel_size = 0x24800000,
->> +};
->> +
->> +static const u32 sm8250_vdec_input_config_param_default[] = {
->> +    HFI_PROPERTY_CONFIG_VIDEOCORES_USAGE,
->> +    HFI_PROPERTY_PARAM_UNCOMPRESSED_FORMAT_SELECT,
->> +    HFI_PROPERTY_PARAM_UNCOMPRESSED_PLANE_ACTUAL_CONSTRAINTS_INFO,
->> +    HFI_PROPERTY_PARAM_BUFFER_COUNT_ACTUAL,
->> +    HFI_PROPERTY_PARAM_VDEC_MULTI_STREAM,
->> +    HFI_PROPERTY_PARAM_FRAME_SIZE,
->> +    HFI_PROPERTY_PARAM_BUFFER_SIZE_ACTUAL,
->> +    HFI_PROPERTY_PARAM_BUFFER_ALLOC_MODE,
->> +};
->> +
->> +static const u32 sm8250_dec_ip_int_buf_tbl[] = {
->> +    BUF_BIN,
->> +    BUF_SCRATCH_1,
->> +};
->> +
->> +static const u32 sm8250_dec_op_int_buf_tbl[] = {
->> +    BUF_DPB,
->> +};
->> +
->> +/* platforms catalogs */
->> +#include "iris_catalog_sm8250.h"
->> diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8250.c b/drivers/media/platform/qcom/iris/iris_catalog_sm8250.h
->> similarity index 59%
->> rename from drivers/media/platform/qcom/iris/iris_platform_sm8250.c
->> rename to drivers/media/platform/qcom/iris/iris_catalog_sm8250.h
->> index 5c86fd7b7b6fd36dc2d57a1705d915308b4c0f92..4d2df669b3e1df2ef2b0d2f88fc5f309b27546db 100644
->> --- a/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
->> +++ b/drivers/media/platform/qcom/iris/iris_catalog_sm8250.h
->> @@ -1,55 +1,10 @@
->> -// SPDX-License-Identifier: GPL-2.0-only
->> +/* SPDX-License-Identifier: GPL-2.0-only */
->>   /*
->>    * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
->>    */
->>
->> -#include "iris_core.h"
->> -#include "iris_ctrls.h"
->> -#include "iris_platform_common.h"
->> -#include "iris_resources.h"
->> -#include "iris_hfi_gen1.h"
->> -#include "iris_hfi_gen1_defines.h"
->> -#include "iris_vpu_common.h"
->> -
->> -static struct platform_inst_fw_cap inst_fw_cap_sm8250[] = {
->> -    {
->> -        .cap_id = PIPE,
->> -        .min = PIPE_1,
->> -        .max = PIPE_4,
->> -        .step_or_mask = 1,
->> -        .value = PIPE_4,
->> -        .hfi_id = HFI_PROPERTY_PARAM_WORK_ROUTE,
->> -        .set = iris_set_pipe,
->> -    },
->> -    {
->> -        .cap_id = STAGE,
->> -        .min = STAGE_1,
->> -        .max = STAGE_2,
->> -        .step_or_mask = 1,
->> -        .value = STAGE_2,
->> -        .hfi_id = HFI_PROPERTY_PARAM_WORK_MODE,
->> -        .set = iris_set_stage,
->> -    },
->> -    {
->> -        .cap_id = DEBLOCK,
->> -        .min = 0,
->> -        .max = 1,
->> -        .step_or_mask = 1,
->> -        .value = 0,
->> -        .hfi_id = HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER,
->> -        .set = iris_set_u32,
->> -    },
->> -};
->> -
->> -static struct platform_inst_caps platform_inst_cap_sm8250 = {
->> -    .min_frame_width = 128,
->> -    .max_frame_width = 8192,
->> -    .min_frame_height = 128,
->> -    .max_frame_height = 8192,
->> -    .max_mbpf = 138240,
->> -    .mb_cycles_vsp = 25,
->> -    .mb_cycles_vpp = 200,
->> -};
->> +#ifndef _IRIS_CATALOG_SM8250_H
->> +#define _IRIS_CATALOG_SM8250_H
-> 
-> __IRIS_CATALOG_SM8250_H__ as with other header guards.
-> 
->>
->>   static void iris_set_sm8250_preset_registers(struct iris_core *core)
->>   {
->> @@ -80,33 +35,6 @@ static const struct platform_clk_data sm8250_clk_table[] = {
->>       {IRIS_HW_CLK,   "vcodec0_core" },
->>   };
->>
->> -static struct tz_cp_config tz_cp_config_sm8250 = {
->> -    .cp_start = 0,
->> -    .cp_size = 0x25800000,
->> -    .cp_nonpixel_start = 0x01000000,
->> -    .cp_nonpixel_size = 0x24800000,
->> -};
->> -
->> -static const u32 sm8250_vdec_input_config_param_default[] = {
->> -    HFI_PROPERTY_CONFIG_VIDEOCORES_USAGE,
->> -    HFI_PROPERTY_PARAM_UNCOMPRESSED_FORMAT_SELECT,
->> -    HFI_PROPERTY_PARAM_UNCOMPRESSED_PLANE_ACTUAL_CONSTRAINTS_INFO,
->> -    HFI_PROPERTY_PARAM_BUFFER_COUNT_ACTUAL,
->> -    HFI_PROPERTY_PARAM_VDEC_MULTI_STREAM,
->> -    HFI_PROPERTY_PARAM_FRAME_SIZE,
->> -    HFI_PROPERTY_PARAM_BUFFER_SIZE_ACTUAL,
->> -    HFI_PROPERTY_PARAM_BUFFER_ALLOC_MODE,
->> -};
->> -
->> -static const u32 sm8250_dec_ip_int_buf_tbl[] = {
->> -    BUF_BIN,
->> -    BUF_SCRATCH_1,
->> -};
->> -
->> -static const u32 sm8250_dec_op_int_buf_tbl[] = {
->> -    BUF_DPB,
->> -};
->> -
->>   struct iris_platform_data sm8250_data = {
->>       .get_instance = iris_hfi_gen1_get_instance,
->>       .init_hfi_command_ops = &iris_hfi_gen1_command_ops_init,
->> @@ -147,3 +75,5 @@ struct iris_platform_data sm8250_data = {
->>       .dec_op_int_buf_tbl = sm8250_dec_op_int_buf_tbl,
->>       .dec_op_int_buf_tbl_size = ARRAY_SIZE(sm8250_dec_op_int_buf_tbl),
->>   };
->> +
->> +#endif
->>
->> -- 
->> 2.34.1
->>
->>
-> Once done.
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Thanks,
+Christian.
+
+> ---
+> v2: style changes.
+>
+>  drivers/dma-buf/sw_sync.c | 19 ++++++++++++++-----
+>  1 file changed, 14 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+> index f5905d67dedb..22a808995f10 100644
+> --- a/drivers/dma-buf/sw_sync.c
+> +++ b/drivers/dma-buf/sw_sync.c
+> @@ -438,15 +438,17 @@ static int sw_sync_ioctl_get_deadline(struct sync_timeline *obj, unsigned long a
+>  		return -EINVAL;
+>  
+>  	pt = dma_fence_to_sync_pt(fence);
+> -	if (!pt)
+> -		return -EINVAL;
+> +	if (!pt) {
+> +		ret = -EINVAL;
+> +		goto put_fence;
+> +	}
+>  
+>  	spin_lock_irqsave(fence->lock, flags);
+> -	if (test_bit(SW_SYNC_HAS_DEADLINE_BIT, &fence->flags)) {
+> -		data.deadline_ns = ktime_to_ns(pt->deadline);
+> -	} else {
+> +	if (!test_bit(SW_SYNC_HAS_DEADLINE_BIT, &fence->flags)) {
+>  		ret = -ENOENT;
+> +		goto unlock;
+>  	}
+> +	data.deadline_ns = ktime_to_ns(pt->deadline);
+>  	spin_unlock_irqrestore(fence->lock, flags);
+>  
+>  	dma_fence_put(fence);
+> @@ -458,6 +460,13 @@ static int sw_sync_ioctl_get_deadline(struct sync_timeline *obj, unsigned long a
+>  		return -EFAULT;
+>  
+>  	return 0;
+> +
+> +unlock:
+> +	spin_unlock_irqrestore(fence->lock, flags);
+> +put_fence:
+> +	dma_fence_put(fence);
+> +
+> +	return ret;
+>  }
+>  
+>  static long sw_sync_ioctl(struct file *file, unsigned int cmd,
 
 
