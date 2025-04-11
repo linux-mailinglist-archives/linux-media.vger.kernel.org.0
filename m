@@ -1,242 +1,738 @@
-Return-Path: <linux-media+bounces-30026-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30027-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DF07A85EC6
-	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 15:25:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E98DA85EC4
+	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 15:24:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1CC1F9A64F3
-	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 13:21:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 493AE4E01C5
+	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 13:21:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 492791917E4;
-	Fri, 11 Apr 2025 13:20:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 860F113774D;
+	Fri, 11 Apr 2025 13:21:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="wt5hi2T5"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pz/rI/P9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2062.outbound.protection.outlook.com [40.107.94.62])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27C952367D1;
-	Fri, 11 Apr 2025 13:20:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.62
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744377614; cv=fail; b=NECHZrwL5yNNFncifzfHq8gpf6bfLtAd6x7+LEzFFUTHkGew3Piu6lDuM6l5sABxa0Q8MQhgohndfKJJNUiEmgz6Q1m8M5LHQvLkRCIewVEijV9xNLZEQpldZhmaDN05KC25CQ38V/aSgTbG2OtdqKat15N3Y28M+WC3JG5pbhg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744377614; c=relaxed/simple;
-	bh=iJx4TgYYczhS+XyWMHVYj4K8dsih2ZzMWCP3IEcFXCk=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=GzTwN2KeaXOjH7ms78G04mpCxH9k0vZdrLDhRJeRjA8wRofe9E7i2mBctN84ntXBnNnyzzzzjf5wT9pR2lH8ZhWtmjAU7ia5EfG+y5+LImzE7RpIKQHkEq8N4GxyRbDJfKeXOIRjKusUYUJoZu7MI2wKwG7E/HajQ49/eUMukQU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=wt5hi2T5; arc=fail smtp.client-ip=40.107.94.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KxZwE/yhrVmNnJS4xEF6xue24+sy8W46MZtyEaDsRvGlrT3cUf9ZRwhxwDQue4is0D+kljNdFsMuviRwtMcPUiapV+FITIYZG+PQwLmSUIcVlVi5WnZj8g+/HlI8IR/GyIySMLY/ZnFT4jKTkPgY+3iHXBaQxcqXI4vzJnswpWwX5DiO3LYqrCIVz85mkU9DwwD0zEvEv/Wq1hEtwx7P7d5hkU7h07YgHEj+UE6l9ZR5vYEyauKojJ9hHRiJ3Tub5ISi0W84jfNwLThwJLOyALlxVxS8P8kLhmVyqB1I+yJMzKl2eInvfYkw/AN/Gw1h/OB04v8ULcVH0vwFRaUwAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9ROP0nlxEq7mMxLcgXwpjhOZrG18+dsxjH9MjdwAUtk=;
- b=vV5DaTzb4DOilp+gFKscPeVcqhVoivIXkhWPajlZO6jxicn2lL+PFX0TPqhjRaX4WFK5PvpA2C6tM5XDp3Yv9nM2ZeZGB8j69i2Q7ArJmn8EzixzLovU/v1Q09zjoK9BR5wdAXNR3Wz7XSNriXZAef7w72jkgoU0OmV089+q6T5HFOsqIwe38gP2tHhzUlk2SPAvjQVpBCe4mLbzKrKCCTbBGYbm03QH7CCRDTqYcjo5oyUxtgQrOjyUXy08EarIk5mC3BnG2Y/x0IWbsXOylzmxpmefy6XwDB+n/2tvEtCSec2cRT4WrkL31opZpoqaeBCg6hwG2M4RmvJU1HRN4g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9ROP0nlxEq7mMxLcgXwpjhOZrG18+dsxjH9MjdwAUtk=;
- b=wt5hi2T5EZrj1qizLrJgCkSH06dCVM9I2sAeBgzaU7vic/+ivOcQU+FbQEZlSZRqQGjiwq5wUBVq5Co9HDvWPTYs5/hj18hfpfMWDCqj+z78647WnUFPdQvObN/8KUq2oVcd/6T6cQN9z9KH3mV+SajzG1NtOW0fYWN04Lbrl0Q=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS5PPF5FAA0E762.namprd12.prod.outlook.com (2603:10b6:f:fc00::651) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.23; Fri, 11 Apr
- 2025 13:20:11 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8632.021; Fri, 11 Apr 2025
- 13:20:11 +0000
-Message-ID: <f30552b0-36a7-4a56-a117-44e9eb3a14bf@amd.com>
-Date: Fri, 11 Apr 2025 15:20:06 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] dma-buf/sw_sync: Decrement refcount on error in
- sw_sync_ioctl_get_deadline()
-To: Dan Carpenter <dan.carpenter@linaro.org>,
- Rob Clark <robdclark@chromium.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>, Dmitry Baryshkov <lumag@kernel.org>,
- Pekka Paalanen <pekka.paalanen@collabora.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org
-References: <a010a1ac-107b-4fc0-a052-9fd3706ad690@stanley.mountain>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <a010a1ac-107b-4fc0-a052-9fd3706ad690@stanley.mountain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR5P281CA0045.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f3::12) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57C6E17BA1;
+	Fri, 11 Apr 2025 13:20:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744377662; cv=none; b=pPMkt1S4fGKWh6DT1JLlK9LJKnYysr8Axiqx8gy5x3K072LxNVMCjVGgs5S7B1UhHcx7yaSDh4QpiuHsdBrKu8edc1kWMBt0WB46dLJLZF7LaiJM10IzCqfo/0IvEHVLG1BQSXbDfAU3Cbquu2sr0c5hvgWyJb1xFOcHJLiqE/k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744377662; c=relaxed/simple;
+	bh=2NqqUZTsjRVylkfLWcmwH6i0O287i5+mihUtBt7T+LY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lL1rH+WqDUpSFs27sKVY1t87KObZAzbLe22Nhy1pOTUFO+J4dh20oMDlkGyL26f7e3E3OU2hElnPhtPIEUTxJPYv4HNTY5IbbAg2wh7FjbXla+cV50DdvB00w4c4LDsrYkEnoYdfrpHzNkfsxjWp0PIkR4Q+30kEaHY+4PJv3Ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pz/rI/P9; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:389d:1fcb:c0f8:ff7c:208d])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 37418667;
+	Fri, 11 Apr 2025 15:18:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1744377537;
+	bh=2NqqUZTsjRVylkfLWcmwH6i0O287i5+mihUtBt7T+LY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pz/rI/P9oBXrM136Cw230Obj3hTf14C7BQ0D3uaWtR9G54+/gOBPBjIYlt3kZwP0l
+	 Zzin8UBb56bAzZxPqRqSFTx1UCsmr8ha0RKoSxeAS4Eddaloh3OKgMtMq6YvmsplxH
+	 pVbrOs9DvfXuLzSAWCcqjGZKzHfFIDYTTICLFTH0=
+Date: Fri, 11 Apr 2025 18:50:51 +0530
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Dafna Hirschfeld <dafna@fastmail.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org, 
+	linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, Stefan Klug <stefan.klug@ideasonboard.com>
+Subject: Re: [PATCH v3 1/2] media: rockchip: rkisp1: Add support for Wide
+ Dynamic Range
+Message-ID: <j5n45u6s5li5wdawywedpxjvh2ggfc4k5u76typbqcn4m56cyj@uk3tabicwq3p>
+References: <20250225-awb64-v3-0-af29b1201e48@ideasonboard.com>
+ <20250225-awb64-v3-1-af29b1201e48@ideasonboard.com>
+ <20250410155126.GA27870@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS5PPF5FAA0E762:EE_
-X-MS-Office365-Filtering-Correlation-Id: 851a83f8-f7bf-4c9b-f8e6-08dd78fb9640
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|366016|376014|7416014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WWJvSFVmUHZUSmJ1L0RMdGVHdWx3SVNvczZmTk9hWjNYWTY5R243Tk5OaW1W?=
- =?utf-8?B?TWVibDdPYTk5b2R1WFpibktpMUkwcUdQY05vV0JzYWsxR2lUa09aM3lTS1FY?=
- =?utf-8?B?R1k1Kzlpd3M1UlVqN1JWNDVlMFJ3VEpYamMxazVBNTZoWVFnUHVWVCs5bGNn?=
- =?utf-8?B?RzRkbXl2UXByTTlsOGZ2SjhFT3l6T2oySktqWkJhaG54R3AyUzJxSW1NQzJw?=
- =?utf-8?B?bXJucDNjb3FSNVVUNndYODlua1luQjVRbWJ3R2xNUms2cDdNekRrdGZwVDgz?=
- =?utf-8?B?L2JzUXN2em5Gc2dnejVUNXhYcVYrdjJaT25xM1FSRXl1eEtCT3dlZlVIODBi?=
- =?utf-8?B?Zk1YV3cxNHFVd1hjMkptaUJPRlhXUFB3MjArZWIvbmtma2VTeTVhaytFRWFW?=
- =?utf-8?B?NklBK0hWSmUySDBxKzZ5ejZmeFkwMHZGNmZjWElENGpFNUpGWm5kN3RHK1dk?=
- =?utf-8?B?ZjhGUHJKTVMwY0RENjNpS0F2TUIyM2lGY3dUQkl5NkxIWW90VHlQVTV3elRR?=
- =?utf-8?B?WTJIVVd6SHdEMTF5MGRZSVJHNS9laUV2Y0NqMnJpYllhdlZrUnhNVW5YRjhv?=
- =?utf-8?B?djdZR3ZUZGNPUTlCbXZNTUYzRThwazdWMGZqTCsxMnR5ZXZOeU85U1J6U3Ni?=
- =?utf-8?B?UDFLT3JROEZUcXZvRld4Q0E0MlVIODdoWnpEMjZSV25ESG9jT0taUkdVTlRH?=
- =?utf-8?B?UTNVYUx1QXpVOE1PNDdzSXdIbjRrZy9YS2JjU0l6N0owOEpZMUdTOHJNd09s?=
- =?utf-8?B?SkxSNXVWc09qVktlbCt0TmY4dkdTakZwSXljZWFSYVIydGFIcXJGK1V1WTVZ?=
- =?utf-8?B?YjRYaGVWeDlncDZsRmZnYk0vVnpJNFRRQmhVUHplR1o4VlE1eEt2aXJGdFNI?=
- =?utf-8?B?WWEvcTVFWnRNRzNJbWViSS8yVUZNbUp5bkUxcnFDNmlRWkdsVDNLZEFqYVhH?=
- =?utf-8?B?UVJIbUFYS1JIQkZnYWVrUmdtOHRmWVp2VmsvNVArUmUweDZUakIwdmwyeEZD?=
- =?utf-8?B?ZWZYVjd0RVhxeWgxTG9kSHBEMDJLaWplSFFYa0d2MERPYTJUUTJEaVEzZjZI?=
- =?utf-8?B?NG5IQ1dDN21vVGx2bUhHZmlWbURHZHQ0Y3p0aGFWaDF6SnhTWCtrbTh6dmds?=
- =?utf-8?B?ZDVybnR3cllvczVqRExXeDhsWFVTY3cxclRjdm9mTWNPRzJIT1dHTjFOUHpk?=
- =?utf-8?B?UVNTTGlXZjF0b2VrWDJDVHd6TzJmbm0rZE5qZHphUEVCRkhJNFRWTGZFS05l?=
- =?utf-8?B?dXZKbUIzdHdOd3hIcmdtUUkyR2QxanIxWU84R1g0aHplNjc5cmU5d2FQMUFi?=
- =?utf-8?B?QWZxKzlRUzRlS3NucFlRNXpWQjZuRkZGbXJXQ2w3cXpwTG9JY3dod2YrZmtz?=
- =?utf-8?B?VEFwZXZYdWdMQUU3YnNXNEJhd1JuRDZ6NzViTjU1aVU2MVlDWmVvZlVJQTBR?=
- =?utf-8?B?YTEwTEc0TGxFaGlvVmR0QWcrbW1kRm1jL1d3VDdDNmdKQzJLR1BDZWtBUFBX?=
- =?utf-8?B?U0JGTGdlUTg3NU9vVmkrVHhHVjFQZWFOdUZVTzYyM2F2YlZNOUZBTTJPSnFN?=
- =?utf-8?B?ZFF1eHRMM3JJTndjSzBUMkh4Vk00UDFjZTdZZFp1eGlBTTVjekdzMGE4aVZB?=
- =?utf-8?B?T2RGVGhvT2xlMUQ0am5Vc1RYRTlodlpCOGZPbjR2WGFwdzVUWTFNZEovcXdx?=
- =?utf-8?B?bHZVUlFENGtoRlRlMkpPS0RXM2Z4QkV0N0UvdjFBbzVocXZnV3NHcmVVSjU1?=
- =?utf-8?B?Tkwvc0ROQkFBRk5XSzN4bHZnK1J0WE5Ia0xXdlEvWXUwUXM4ZEpwMjVtZjl2?=
- =?utf-8?B?MFAxV2ZuczhwcmZMY1Q2SFdTNzBzOEVjbWdLN0tsb3J3dzZwTUpFT1htUUR5?=
- =?utf-8?B?aHJ4UmNabkNncG1QRzhmOTF0eThXM3VPeXBRRjRmaU9HMVgwang4RVZyYUx2?=
- =?utf-8?Q?I4h9NbjnSRI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?WnZGWS83T2dCMEQ5bW5vck12cXhKdFZ5RXpiMUg4VURZYXh0bVZNelJRQVpn?=
- =?utf-8?B?QVkrVW5EdlBudXlGaWlUZVc2VjNGUXIrMFVJV3d6QjdQMVBqZWphZ2hrZkxj?=
- =?utf-8?B?d0wzOVp3TnMzVGVZMXFheU42aGtQNTNpVVFRcEh3Z0h0MUlyRUQyMUtrdFo3?=
- =?utf-8?B?OEVHVE92bERIS25iMWNxVGsvallsYTFsdy9BdkRGWStCSElLQUlLcFBySmgr?=
- =?utf-8?B?ZmFHMzgvSDdMVmtIYjRmWllEY3gxczhJN24wbjFZTWRrVlIxR0p3ZGswRzJo?=
- =?utf-8?B?elJpMDVQeTJ2SGtPd1REYi9HaERyd3ZQaE03ajlPUGxJdEpPSXZnSDNTZzZa?=
- =?utf-8?B?TkxHZC9iSE4zTHJDUGNLcnZmTllnVmhxUDJCMmM3eFdKUVlteGhNaHo1N1Bt?=
- =?utf-8?B?NVBiaUZrN1I4aFVrMUlQYktUK0NidVhZeWVEM0o1L3pZZDVYbVloKzF1ZHp5?=
- =?utf-8?B?anZMcGUxWDl4bitBRUlZWWh6bE5vbDV5alk4SUhUSkFPbE1Pdy9HQXcxNW9G?=
- =?utf-8?B?VkpFTlgrNjgrZjd2bUZmb3ljSGdrWjlmcEJ6akw4Zks4R01WTkI0Rmt0bzBr?=
- =?utf-8?B?WXB2TWJsY1VSSTZ1V1kwYlRGSEpmMjBPV2p3cjJZNGNSVEEwV29hNUN3Rmw1?=
- =?utf-8?B?Nm5xczV0MW9GVHArampzclBnSEpEam9qUHNjQ21IU0Y1VjB6MEZKZUxaWFBH?=
- =?utf-8?B?MU1VeUl0YTRDSlVLNm5IQ1g2YmVWVTZQaFVTZDFTaytYeTJDSktRU0dkVWRX?=
- =?utf-8?B?SzJZM2pNaE0zbWV3NE1MdTV1M0c1dUdmTFBTdlhnTGZqRDRCcXV5WFZiSjFS?=
- =?utf-8?B?cjZaMVQzcUlJWHVHR3VVZmtUQlc2Q0U0ajhYV1dvNmFWdzlQQzUySTgrNnQy?=
- =?utf-8?B?dEQ2TThHb2VMeXJEQTJ5RE5HTkdlSU5nNTNEQ1hpUlgzZkdWbDduMWVySEtU?=
- =?utf-8?B?b1BOb2paSEVUa3ZLVEV1Z25LZFZOZERzTGZ1aE4xdGFCMFFKS1FpRHVqdVlm?=
- =?utf-8?B?bEtndDNUSXVqVytNREJCeG1TQmRKeHdnbTFXYWVRekxhbGlCdkJrQVhnd2tZ?=
- =?utf-8?B?MkRYMkpBTXhka29XL1pSZXJubm52NGQ1aFR5dFJidzk5RHFMYjI5dTVZWVNL?=
- =?utf-8?B?c1doZnU5NmR6akMrblFLYmY5Q0hHRE1MNXBrdk9RQk1TOWFMUjZPbFVCNFZX?=
- =?utf-8?B?ak1odktEZUUwMW5mSFFRZWhvWlU4bURVdFlmV1Y1UzFERkU2QUNQdVZIOWk2?=
- =?utf-8?B?djJ0ZFZuUmJpSDM0eFNTMmx4R2NIZjBKUXBPN0VDOFpIbE92TlNsMkdIOXVo?=
- =?utf-8?B?YVBsQ0t5d2djcHlvblNhUTVRa1M3eFMxdEJuRjBoZ2Iyc0JlTjhhRmRMR24z?=
- =?utf-8?B?TGRTeVJpckxhZU1Fejl4ZENHWGU2bjM5N1NhemptVHJSTk5va2hOTXdQQWFT?=
- =?utf-8?B?VnZCc204OTQ0R1FPUUswN0xRNHJQVm5WWmZmR0p3Si84MnpQUWFKY3B5cTQw?=
- =?utf-8?B?RTBBMXNDeU1sR3piRFdqWDlEWjRMQ3BrdWhHME90NHo1SVJxakozSTVOL0ZI?=
- =?utf-8?B?cmpWNlpZRG41VktJR2tIUmZ5OWNFdlpWZC94NjBuUHBYeGdJMVdsT2hId2M1?=
- =?utf-8?B?c21xZUZJRTBTOE9tY3haWW8wMUsxN29QbUo1Uy9acTgrS09aZGFEYy9lclFu?=
- =?utf-8?B?QVRVSm5IS2dhSlNTalE5SjZGc2cybkl2d0w2dWphZy9vZWVrSUppakR2cUhR?=
- =?utf-8?B?c3U0M1NwaXMzUEhncURIL1BDUktldjBsN3FnZmxRd3RiV2hXRTU5MXI2dU0x?=
- =?utf-8?B?N2dzc2xuRjdTT3BwNFg4R0Jud3Z3SW9aOWNTa3BhbEdpODBjVDY2L1VKSU04?=
- =?utf-8?B?WVRBeHJWcURmVjB2dVJEZVBJTHRBOWc5QVRiQjExSjFENC9VK3NjV01qYTZL?=
- =?utf-8?B?QnEwZDFpTUpnUkFLUS9GVUdvRnpTTzhURFpkMG1VNkcxNUczZjd5NUUvSUdt?=
- =?utf-8?B?Q0NlWm1NRVJtSFd6YWRsWVBsUjBKaXhlSzJHWmRXYWJncGtRUTVQR3VXRWdy?=
- =?utf-8?B?Sk5FcklDNUdWMTEzbXNWUU1MaTlubWpJc05Ib3BOek9TMzhkbDRjUU5XT2Ry?=
- =?utf-8?Q?5X/dgUM+UU/9gtgG6jkX4YIFd?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 851a83f8-f7bf-4c9b-f8e6-08dd78fb9640
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2025 13:20:11.1952
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: w2NlRSc27egy90h/oHPuzJ94+4EkaU6dEcDUBWvLfctPdbAqoniWCh+leGm1AJy1
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PPF5FAA0E762
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="edi4knfh2xqu23lt"
+Content-Disposition: inline
+In-Reply-To: <20250410155126.GA27870@pendragon.ideasonboard.com>
 
-Am 08.04.25 um 13:01 schrieb Dan Carpenter:
-> Call dma_fence_put(fence) before returning an error if
-> dma_fence_to_sync_pt() fails.  Use an unwind ladder at the
-> end of the function to do the cleanup.
->
-> Fixes: 70e67aaec2f4 ("dma-buf/sw_sync: Add fence deadline support")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-Reviewed and pushed to drm-misc-fixes.
+--edi4knfh2xqu23lt
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 1/2] media: rockchip: rkisp1: Add support for Wide
+ Dynamic Range
+MIME-Version: 1.0
 
-Sorry for the delay, I was fighting a bit with dim after the migration.
+Hi Laurent,
 
+On Apr 10, 2025 at 18:51:26 +0300, Laurent Pinchart wrote:
+> Hi Jai,
+>=20
+> Thank you for the patch.
+>=20
+> On Tue, Feb 25, 2025 at 06:23:04PM +0530, Jai Luthra wrote:
+> > RKISP supports a basic Wide Dynamic Range (WDR) module since the first
+> > iteration (v1.0) of the ISP. Add support for enabling and configuring it
+> > using extensible parameters.
+> >=20
+> > Also, to ease programming, switch to using macro variables for defining
+> > the tonemapping curve register addresses.
+> >=20
+> > Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> > ---
+> > New patch in v3
+> > ---
+> >  .../media/platform/rockchip/rkisp1/rkisp1-params.c |  92 +++++++++++++=
+++++++
+> >  .../media/platform/rockchip/rkisp1/rkisp1-regs.h   |  99 +++++--------=
+-------
+> >  include/uapi/linux/rkisp1-config.h                 | 101 +++++++++++++=
+++++++++
+> >  3 files changed, 218 insertions(+), 74 deletions(-)
+> >=20
+> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/d=
+rivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> > index b28f4140c8a309a3231d44d825c6461e3ecb2a44..92a9aad79f6dca3c76d7692=
+421827234e7f06390 100644
+> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+> > @@ -60,6 +60,7 @@ union rkisp1_ext_params_config {
+> >  	struct rkisp1_ext_params_afc_config afc;
+> >  	struct rkisp1_ext_params_compand_bls_config compand_bls;
+> >  	struct rkisp1_ext_params_compand_curve_config compand_curve;
+> > +	struct rkisp1_ext_params_wdr_config wdr;
+> >  };
+> > =20
+> >  enum rkisp1_params_formats {
+> > @@ -1348,6 +1349,73 @@ rkisp1_compand_compress_config(struct rkisp1_par=
+ams *params,
+> >  				       arg->x);
+> >  }
+> > =20
+> > +static void rkisp1_wdr_config(struct rkisp1_params *params,
+> > +			      const struct rkisp1_cif_isp_wdr_config *arg)
+> > +{
+> > +	unsigned int i;
+> > +	u32 value =3D rkisp1_read(params->rkisp1, RKISP1_CIF_ISP_WDR_CTRL);
+> > +
+> > +	/* Colorspace and chrominance mapping */
+> > +	if (arg->use_rgb_colorspace)
+> > +		value |=3D RKISP1_CIF_ISP_WDR_COLOR_SPACE_SELECT;
+> > +	else
+> > +		value &=3D ~RKISP1_CIF_ISP_WDR_COLOR_SPACE_SELECT;
+> > +
+> > +	if (!arg->use_rgb_colorspace && arg->bypass_chroma_mapping)
+> > +		value |=3D RKISP1_CIF_ISP_WDR_CR_MAPPING_DISABLE;
+> > +	else
+> > +		value &=3D ~RKISP1_CIF_ISP_WDR_CR_MAPPING_DISABLE;
+> > +
+> > +	/* Illumination reference */
+> > +	if (arg->use_iref) {
+> > +		value =3D RKISP1_CIF_ISP_WDR_USE_IREF;
+>=20
+> You likely meant |=3D here.
+>=20
+
+Oops, will fix.
+
+> > +
+> > +		if (arg->iref_config.use_y9_8)
+> > +			value |=3D RKISP1_CIF_ISP_WDR_USE_Y9_8;
+> > +		else
+> > +			value &=3D ~RKISP1_CIF_ISP_WDR_USE_Y9_8;
+> > +
+> > +		if (arg->iref_config.use_rgb7_8)
+> > +			value |=3D RKISP1_CIF_ISP_WDR_USE_RGB7_8;
+> > +		else
+> > +			value &=3D ~RKISP1_CIF_ISP_WDR_USE_RGB7_8;
+> > +
+> > +		if (arg->iref_config.disable_transient)
+> > +			value |=3D RKISP1_CIF_ISP_WDR_DISABLE_TRANSIENT;
+> > +		else
+> > +			value &=3D ~RKISP1_CIF_ISP_WDR_DISABLE_TRANSIENT;
+> > +
+> > +		value |=3D min_t(u8, arg->iref_config.rgb_factor,
+> > +			       RKISP1_CIF_ISP_WDR_RGB_FACTOR_MAX)
+> > +			 << RKISP1_CIF_ISP_WDR_RGB_FACTOR_SHIFT;
+> > +	} else {
+> > +		value &=3D ~RKISP1_CIF_ISP_WDR_USE_IREF;
+> > +	}
+> > +
+> > +	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_WDR_CTRL, value);
+>=20
+> I think you can simplify this a bit.
+>=20
+> 	value =3D rkisp1_read(params->rkisp1, RKISP1_CIF_ISP_WDR_CTRL)
+> 	      & ~(RKISP1_CIF_ISP_WDR_COLOR_SPACE_SELECT |
+> 	          RKISP1_CIF_ISP_WDR_CR_MAPPING_DISABLE |
+> 		  RKISP1_CIF_ISP_WDR_USE_IREF |
+> 		  RKISP1_CIF_ISP_WDR_USE_Y9_8 |
+> 		  RKISP1_CIF_ISP_WDR_USE_RGB7_8 |
+> 		  RKISP1_CIF_ISP_WDR_DISABLE_TRANSIENT |
+> 		  RKISP1_CIF_ISP_WDR_RGB_FACTOR_MASK
+>=20
+> 	/* Colorspace and chrominance mapping */
+> 	if (arg->use_rgb_colorspace)
+> 		value |=3D RKISP1_CIF_ISP_WDR_COLOR_SPACE_SELECT;
+>=20
+> 	if (!arg->use_rgb_colorspace && arg->bypass_chroma_mapping)
+> 		value |=3D RKISP1_CIF_ISP_WDR_CR_MAPPING_DISABLE;
+>=20
+> 	/* Illumination reference */
+> 	if (arg->use_iref) {
+> 		value |=3D RKISP1_CIF_ISP_WDR_USE_IREF;
+>=20
+> 		if (arg->iref_config.use_y9_8)
+> 			value |=3D RKISP1_CIF_ISP_WDR_USE_Y9_8;
+>=20
+> 		if (arg->iref_config.use_rgb7_8)
+> 			value |=3D RKISP1_CIF_ISP_WDR_USE_RGB7_8;
+>=20
+> 		if (arg->iref_config.disable_transient)
+> 			value |=3D RKISP1_CIF_ISP_WDR_DISABLE_TRANSIENT;
+>=20
+> 		value |=3D min_t(u8, arg->iref_config.rgb_factor,
+> 			       RKISP1_CIF_ISP_WDR_RGB_FACTOR_MAX)
+> 			 << RKISP1_CIF_ISP_WDR_RGB_FACTOR_SHIFT;
+> 	}
+>=20
+> 	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_WDR_CTRL, value);
+>=20
+> > +
+> > +	/* RGB and Luminance offsets */
+> > +	value =3D arg->rgb_offset & RKISP1_CIF_ISP_WDR_OFFSET_MASK;
+> > +	value |=3D (arg->luma_offset & RKISP1_CIF_ISP_WDR_OFFSET_MASK)
+> > +		 << RKISP1_CIF_ISP_WDR_LUM_OFFSET_SHIFT;
+> > +	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_WDR_OFFSET, value);
+>=20
+> To simplify the code here, I would define the following macros
+>=20
+> #define RKISP1_CIF_ISP_WDR_RGB_OFFSET_MASK		GENMASK(11, 0)
+> #define RKISP1_CIF_ISP_WDR_RGB_OFFSET_SHIFT		0
+> #define RKISP1_CIF_ISP_WDR_RGB_OFFSET(n)		(((n) << RKISP1_CIF_ISP_WDR_RGB=
+_OFFSET_SHIFT) & \
+> 							 RKISP1_CIF_ISP_WDR_RGB_OFFSET_MASK)
+> #define RKISP1_CIF_ISP_WDR_LUM_OFFSET_MASK		GENMASK(27, 16)
+> #define RKISP1_CIF_ISP_WDR_LUM_OFFSET_SHIFT		16
+> #define RKISP1_CIF_ISP_WDR_LUM_OFFSET(n)		(((n) << RKISP1_CIF_ISP_WDR_LUM=
+_OFFSET_SHIFT) & \
+> 							 RKISP1_CIF_ISP_WDR_LUM_OFFSET_MASK)
+>=20
+> and then write
+>=20
+> 	value =3D RKISP1_CIF_ISP_WDR_RGB_OFFSET(arg->rgb_offset)
+> 	      | RKISP1_CIF_ISP_WDR_LUM_OFFSET(arg->luma_offset);
+> 	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_WDR_OFFSET, value);
+>=20
+> The macros could also be simplified to
+>=20
+> #define RKISP1_CIF_ISP_WDR_RGB_OFFSET(n)		(((n) << 0) & GENMASK(11, 0))
+> #define RKISP1_CIF_ISP_WDR_LUM_OFFSET(n)		(((n) << 16) & GENMASK(27, 16))
+>=20
+> or you could also use
+>=20
+> #define RKISP1_CIF_ISP_WDR_RGB_OFFSET_MASK		GENMASK(11, 0)
+> #define RKISP1_CIF_ISP_WDR_LUM_OFFSET_MASK		GENMASK(27, 16)
+>=20
+> 	value =3D FIELD_PREP(RKISP1_CIF_ISP_WDR_RGB_OFFSET_MASK, arg->rgb_offset)
+> 	      | FIELD_PREP(RKISP1_CIF_ISP_WDR_LUM_OFFSET_MASK, arg->luma_offset);
+>=20
+
+I find the FIELD_PREP approach the best one, will fix in next revision=20
+along with other suggestions.
+
+> > +
+> > +	/* DeltaMin */
+> > +	value =3D arg->dmin_thresh & RKISP1_CIF_ISP_WDR_DMIN_THRESH_MASK;
+> > +	value |=3D min_t(u8, arg->dmin_strength,
+> > +		       RKISP1_CIF_ISP_WDR_DMIN_STRENGTH_MAX)
+> > +		 << RKISP1_CIF_ISP_WDR_DMIN_STRENGTH_SHIFT;
+> > +	rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_WDR_DELTAMIN, value);
+>=20
+> Similar comment here, and actually also for
+> RKISP1_CIF_ISP_WDR_RGB_FACTOR above.
+>=20
+> > +
+> > +	/* Tone curve */
+> > +	for (i =3D 0; i < RKISP1_CIF_ISP_WDR_CURVE_NUM_DY_REGS; i++)
+> > +		rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_WDR_TONECURVE(i),
+> > +			     arg->tone_curve.dY[i]);
+> > +	for (i =3D 0; i < RKISP1_CIF_ISP_WDR_CURVE_NUM_COEFF; i++)
+> > +		rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_WDR_TONECURVE_YM(i),
+> > +			     arg->tone_curve.ym[i]);
+>=20
+> 		rkisp1_write(params->rkisp1, RKISP1_CIF_ISP_WDR_TONECURVE_YM(i),
+> 			     arg->tone_curve.ym[i] &
+> 			     RKISP1_CIF_ISP_WDR_TONE_CURVE_YM_MASK);
+>=20
+> > +}
+> > +
+> >  static void
+> >  rkisp1_isp_isr_other_config(struct rkisp1_params *params,
+> >  			    const struct rkisp1_params_cfg *new_params)
+> > @@ -2005,6 +2073,25 @@ static void rkisp1_ext_params_compand_compress(s=
+truct rkisp1_params *params,
+> >  				      RKISP1_CIF_ISP_COMPAND_CTRL_COMPRESS_ENABLE);
+> >  }
+> > =20
+> > +static void rkisp1_ext_params_wdr(struct rkisp1_params *params,
+> > +				  const union rkisp1_ext_params_config *block)
+> > +{
+> > +	const struct rkisp1_ext_params_wdr_config *wdr =3D &block->wdr;
+> > +
+> > +	if (wdr->header.flags & RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE) {
+> > +		rkisp1_param_clear_bits(params, RKISP1_CIF_ISP_WDR_CTRL,
+> > +					RKISP1_CIF_ISP_WDR_CTRL_ENABLE);
+> > +		return;
+> > +	}
+> > +
+> > +	rkisp1_wdr_config(params, &wdr->config);
+> > +
+> > +	if ((wdr->header.flags & RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE) &&
+> > +	    !(params->enabled_blocks & BIT(wdr->header.type)))
+> > +		rkisp1_param_set_bits(params, RKISP1_CIF_ISP_WDR_CTRL,
+> > +				      RKISP1_CIF_ISP_WDR_CTRL_ENABLE);
+> > +}
+> > +
+> >  typedef void (*rkisp1_block_handler)(struct rkisp1_params *params,
+> >  			     const union rkisp1_ext_params_config *config);
+> > =20
+> > @@ -2118,6 +2205,11 @@ static const struct rkisp1_ext_params_handler {
+> >  		.group		=3D RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
+> >  		.features	=3D RKISP1_FEATURE_COMPAND,
+> >  	},
+> > +	[RKISP1_EXT_PARAMS_BLOCK_TYPE_WDR] =3D {
+> > +		.size		=3D sizeof(struct rkisp1_ext_params_wdr_config),
+> > +		.handler	=3D rkisp1_ext_params_wdr,
+> > +		.group		=3D RKISP1_EXT_PARAMS_BLOCK_GROUP_OTHERS,
+> > +	},
+> >  };
+> > =20
+> >  static void rkisp1_ext_params_config(struct rkisp1_params *params,
+> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h b/dri=
+vers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+> > index bf0260600a1923eebde6b5fe233daf7d427362dd..31783617f39753a9b847b66=
+12c9adf09c2ea8c99 100644
+> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+> > @@ -710,6 +710,27 @@
+> >  #define RKISP1_CIF_ISP_COMPAND_CTRL_SOFT_RESET_FLAG	BIT(2)
+> >  #define RKISP1_CIF_ISP_COMPAND_CTRL_BLS_ENABLE		BIT(3)
+> > =20
+> > +/* WDR */
+> > +/* ISP_WDR_CTRL */
+> > +#define RKISP1_CIF_ISP_WDR_CTRL_ENABLE			BIT(0)
+> > +#define RKISP1_CIF_ISP_WDR_COLOR_SPACE_SELECT		BIT(1)
+> > +#define RKISP1_CIF_ISP_WDR_CR_MAPPING_DISABLE		BIT(2)
+> > +#define RKISP1_CIF_ISP_WDR_USE_IREF			BIT(3)
+> > +#define RKISP1_CIF_ISP_WDR_USE_Y9_8			BIT(4)
+> > +#define RKISP1_CIF_ISP_WDR_USE_RGB7_8			BIT(5)
+> > +#define RKISP1_CIF_ISP_WDR_DISABLE_TRANSIENT		BIT(6)
+> > +#define RKISP1_CIF_ISP_WDR_RGB_FACTOR_SHIFT		8
+> > +#define RKISP1_CIF_ISP_WDR_RGB_FACTOR_MAX		8
+>=20
+> If you define this as
+>=20
+> #define RKISP1_CIF_ISP_WDR_RGB_FACTOR_MAX		8U
+>=20
+> you could replace min_t() with min() above. Same for
+> RKISP1_CIF_ISP_WDR_DMIN_STRENGTH_MAX.
+>=20
+
+Will do.
+
+> > +/* ISP_WDR_TONE_CURVE_YM */
+> > +#define RKISP1_CIF_ISP_WDR_TONE_CURVE_YM_MASK		GENMASK(12, 0)
+> > +/* ISP_WDR_OFFSET */
+> > +#define RKISP1_CIF_ISP_WDR_OFFSET_MASK			GENMASK(11, 0)
+>=20
+> This is confusing. You're using this for both the RGB and LUM offsets,
+> while here it looks like it maps to register bits, after shifting.
+>=20
+> > +#define RKISP1_CIF_ISP_WDR_LUM_OFFSET_SHIFT		16
+> > +/* ISP_WDR_DELTAMIN */
+> > +#define RKISP1_CIF_ISP_WDR_DMIN_THRESH_MASK		GENMASK(11, 0)
+> > +#define RKISP1_CIF_ISP_WDR_DMIN_STRENGTH_MAX		0x10
+> > +#define RKISP1_CIF_ISP_WDR_DMIN_STRENGTH_SHIFT		16
+> > +
+> >  /* =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D */
+> >  /*                            CIF Registers                           =
+ */
+> >  /* =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D */
+> > @@ -1302,82 +1323,12 @@
+> > =20
+> >  #define RKISP1_CIF_ISP_WDR_BASE			0x00002a00
+> >  #define RKISP1_CIF_ISP_WDR_CTRL			(RKISP1_CIF_ISP_WDR_BASE + 0x0000000=
+0)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_1		(RKISP1_CIF_ISP_WDR_BASE + 0x0=
+0000004)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_2		(RKISP1_CIF_ISP_WDR_BASE + 0x0=
+0000008)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_3		(RKISP1_CIF_ISP_WDR_BASE + 0x0=
+000000c)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_4		(RKISP1_CIF_ISP_WDR_BASE + 0x0=
+0000010)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_0	(RKISP1_CIF_ISP_WDR_BASE + 0=
+x00000014)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_1	(RKISP1_CIF_ISP_WDR_BASE + 0=
+x00000018)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_2	(RKISP1_CIF_ISP_WDR_BASE + 0=
+x0000001c)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_3	(RKISP1_CIF_ISP_WDR_BASE + 0=
+x00000020)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_4	(RKISP1_CIF_ISP_WDR_BASE + 0=
+x00000024)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_5	(RKISP1_CIF_ISP_WDR_BASE + 0=
+x00000028)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_6	(RKISP1_CIF_ISP_WDR_BASE + 0=
+x0000002c)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_7	(RKISP1_CIF_ISP_WDR_BASE + 0=
+x00000030)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_8	(RKISP1_CIF_ISP_WDR_BASE + 0=
+x00000034)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_9	(RKISP1_CIF_ISP_WDR_BASE + 0=
+x00000038)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_10	(RKISP1_CIF_ISP_WDR_BASE + =
+0x0000003c)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_11	(RKISP1_CIF_ISP_WDR_BASE + =
+0x00000040)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_12	(RKISP1_CIF_ISP_WDR_BASE + =
+0x00000044)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_13	(RKISP1_CIF_ISP_WDR_BASE + =
+0x00000048)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_14	(RKISP1_CIF_ISP_WDR_BASE + =
+0x0000004c)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_15	(RKISP1_CIF_ISP_WDR_BASE + =
+0x00000050)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_16	(RKISP1_CIF_ISP_WDR_BASE + =
+0x00000054)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_17	(RKISP1_CIF_ISP_WDR_BASE + =
+0x00000058)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_18	(RKISP1_CIF_ISP_WDR_BASE + =
+0x0000005c)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_19	(RKISP1_CIF_ISP_WDR_BASE + =
+0x00000060)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_20	(RKISP1_CIF_ISP_WDR_BASE + =
+0x00000064)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_21	(RKISP1_CIF_ISP_WDR_BASE + =
+0x00000068)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_22	(RKISP1_CIF_ISP_WDR_BASE + =
+0x0000006c)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_23	(RKISP1_CIF_ISP_WDR_BASE + =
+0x00000070)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_24	(RKISP1_CIF_ISP_WDR_BASE + =
+0x00000074)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_25	(RKISP1_CIF_ISP_WDR_BASE + =
+0x00000078)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_26	(RKISP1_CIF_ISP_WDR_BASE + =
+0x0000007c)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_27	(RKISP1_CIF_ISP_WDR_BASE + =
+0x00000080)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_28	(RKISP1_CIF_ISP_WDR_BASE + =
+0x00000084)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_29	(RKISP1_CIF_ISP_WDR_BASE + =
+0x00000088)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_30	(RKISP1_CIF_ISP_WDR_BASE + =
+0x0000008c)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_31	(RKISP1_CIF_ISP_WDR_BASE + =
+0x00000090)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_32	(RKISP1_CIF_ISP_WDR_BASE + =
+0x00000094)
+> > +#define RKISP1_CIF_ISP_WDR_TONECURVE(n)		(RKISP1_CIF_ISP_WDR_BASE + 0x=
+00000004 + (n) * 4)
+> > +#define RKISP1_CIF_ISP_WDR_TONECURVE_YM(n)	(RKISP1_CIF_ISP_WDR_BASE + =
+0x00000014 + (n) * 4)
+> >  #define RKISP1_CIF_ISP_WDR_OFFSET		(RKISP1_CIF_ISP_WDR_BASE + 0x000000=
+98)
+> >  #define RKISP1_CIF_ISP_WDR_DELTAMIN		(RKISP1_CIF_ISP_WDR_BASE + 0x0000=
+009c)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_1_SHD	(RKISP1_CIF_ISP_WDR_BASE + =
+0x000000a0)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_2_SHD	(RKISP1_CIF_ISP_WDR_BASE + =
+0x000000a4)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_3_SHD	(RKISP1_CIF_ISP_WDR_BASE + =
+0x000000a8)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_4_SHD	(RKISP1_CIF_ISP_WDR_BASE + =
+0x000000ac)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_0_SHD	(RKISP1_CIF_ISP_WDR_BASE=
+ + 0x000000b0)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_1_SHD	(RKISP1_CIF_ISP_WDR_BASE=
+ + 0x000000b4)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_2_SHD	(RKISP1_CIF_ISP_WDR_BASE=
+ + 0x000000b8)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_3_SHD	(RKISP1_CIF_ISP_WDR_BASE=
+ + 0x000000bc)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_4_SHD	(RKISP1_CIF_ISP_WDR_BASE=
+ + 0x000000c0)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_5_SHD	(RKISP1_CIF_ISP_WDR_BASE=
+ + 0x000000c4)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_6_SHD	(RKISP1_CIF_ISP_WDR_BASE=
+ + 0x000000c8)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_7_SHD	(RKISP1_CIF_ISP_WDR_BASE=
+ + 0x000000cc)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_8_SHD	(RKISP1_CIF_ISP_WDR_BASE=
+ + 0x000000d0)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_9_SHD	(RKISP1_CIF_ISP_WDR_BASE=
+ + 0x000000d4)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_10_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x000000d8)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_11_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x000000dc)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_12_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x000000e0)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_13_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x000000e4)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_14_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x000000e8)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_15_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x000000ec)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_16_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x000000f0)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_17_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x000000f4)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_18_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x000000f8)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_19_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x000000fc)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_20_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x00000100)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_21_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x00000104)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_22_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x00000108)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_23_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x0000010c)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_24_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x00000110)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_25_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x00000114)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_26_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x00000118)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_27_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x0000011c)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_28_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x00000120)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_29_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x00000124)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_30_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x00000128)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_31_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x0000012c)
+> > -#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_32_SHD	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x00000130)
+> > +#define RKISP1_CIF_ISP_WDR_TONECURVE_SHD(n)	(RKISP1_CIF_ISP_WDR_BASE +=
+ 0x000000a0 + (n) * 4)
+> > +#define RKISP1_CIF_ISP_WDR_TONECURVE_YM_SHD(n)	(RKISP1_CIF_ISP_WDR_BAS=
+E + 0x000000b0 + (n) * 4)
+> > =20
+> >  #define RKISP1_CIF_ISP_HIST_BASE_V12		0x00002c00
+> >  #define RKISP1_CIF_ISP_HIST_CTRL_V12		(RKISP1_CIF_ISP_HIST_BASE_V12 + =
+0x00000000)
+> > diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rk=
+isp1-config.h
+> > index 430daceafac7056951be968f3b4d9cd50eb04e71..78f4f350119bd29b2ac50cb=
+a2dd7cf3b0e4a8416 100644
+> > --- a/include/uapi/linux/rkisp1-config.h
+> > +++ b/include/uapi/linux/rkisp1-config.h
+> > @@ -169,6 +169,13 @@
+> >   */
+> >  #define RKISP1_CIF_ISP_COMPAND_NUM_POINTS	64
+> > =20
+> > +/*
+> > + * Wide Dynamic Range
+> > + */
+> > +#define RKISP1_CIF_ISP_WDR_CURVE_NUM_INTERV	32
+> > +#define RKISP1_CIF_ISP_WDR_CURVE_NUM_COEFF	(RKISP1_CIF_ISP_WDR_CURVE_N=
+UM_INTERV + 1)
+> > +#define RKISP1_CIF_ISP_WDR_CURVE_NUM_DY_REGS	4
+> > +
+> >  /*
+> >   * Measurement types
+> >   */
+> > @@ -889,6 +896,81 @@ struct rkisp1_cif_isp_compand_curve_config {
+> >  	__u32 y[RKISP1_CIF_ISP_COMPAND_NUM_POINTS];
+> >  };
+> > =20
+> > +/**
+> > + * struct rkisp1_cif_isp_wdr_tone_curve - Tone mapping curve definitio=
+n for WDR.
+> > + *
+> > + * @dY: the dYn increments for horizontal (input) axis of the tone cur=
+ve.
+> > + *      each 3-bit dY value represents an increment of 2**(value+3).
+> > + *      dY[0] bits 0:2 is increment dY1, bit 3 unused
+> > + *      dY[0] bits 4:6 is increment dY2, bit 7 unused
+> > + *      ...
+> > + *      dY[0] bits 28:30 is increment dY8, bit 31 unused
+> > + *      ... and so on till dY[3] bits 28:30 is increment dY32, bit 31 =
+unused.
+> > + * @ym: the Ym values for the vertical (output) axis of the tone curve.
+> > + *      each value is 13 bit.
+> > + *
+> > + * The reset values define a linear curve which has the same effect as=
+ bypass:
+> > + *
+> > + * dY[0..3] =3D 0x44444444, This means that input sample range of 0-40=
+96 is
+> > + * divided in 32 equal increments of 2**(4+3) =3D 128 units
+> > + *
+> > + * ym[0] =3D 0x0000, ym[1] =3D 0x0080, ... ym[31] =3D 0x0f80, ym[32] =
+=3D 0x1000
+> > + * which increases by 0x80 =3D 128 units
+> > + *
+> > + */
+> > +struct rkisp1_cif_isp_wdr_tone_curve {
+> > +	__u32 dY[RKISP1_CIF_ISP_WDR_CURVE_NUM_DY_REGS];
+> > +	__u16 ym[RKISP1_CIF_ISP_WDR_CURVE_NUM_COEFF];
+> > +};
+> > +
+> > +/**
+> > + * struct rkisp1_cif_isp_wdr_iref_config - Illumination reference conf=
+ig for WDR.
+> > + *
+> > + * Use illumination reference value as described below, instead of onl=
+y the
+> > + * luminance (Y) value for tone mapping and gain calculations:
+> > + * IRef =3D (rgb_factor * RGBMax_tr + (8 - rgb_factor) * Y)/8
+> > + *
+> > + * @rgb_factor: defines how much influence the RGBmax approach has in
+> > + *              comparison to Y (valid values are 0..8).
+> > + * @use_y9_8: use Y*9/8 for maximum value calculation along with the
+> > + *            default of R, G, B for noise reduction.
+> > + * @use_rgb7_8: decrease RGBMax by 7/8 for noise reduction.
+> > + * @disable_transient: disable transient calculation between Y and RGB=
+Y_max.
+> > + */
+> > +struct rkisp1_cif_isp_wdr_iref_config {
+> > +	__u8 rgb_factor;
+> > +	__u8 use_y9_8;
+> > +	__u8 use_rgb7_8;
+> > +	__u8 disable_transient;
+> > +};
+> > +
+> > +/**
+> > + * struct rkisp1_cif_isp_wdr_config - Configuration for wide dynamic r=
+ange.
+> > + *
+> > + * @tone_curve: tone mapping curve.
+> > + * @iref_config: illumination reference configuration. (when use_iref =
+is true)
+> > + * @rgb_offset: RGB offset value for RGB operation mode. (12 bits)
+> > + * @luma_offset: luminance offset value for RGB operation mode. (12 bi=
+ts)
+> > + * @dmin_thresh: lower threshold for deltaMin value. (12 bits)
+> > + * @dmin_strength: strength factor for deltaMin. (valid range is 0x00.=
+=2E0x10)
+> > + * @use_rgb_colorspace: use RGB instead of luminance/chrominance color=
+space.
+> > + * @bypass_chroma_mapping: disable chrominance mapping (only valid if
+> > + *                         use_rgb_colorspace =3D 0)
+> > + * @use_iref: use illumination reference instead of Y for tone mapping
+> > + *            and gain calculations.
+> > + */
+> > +struct rkisp1_cif_isp_wdr_config {
+> > +	struct rkisp1_cif_isp_wdr_tone_curve tone_curve;
+> > +	struct rkisp1_cif_isp_wdr_iref_config iref_config;
+> > +	__u16 rgb_offset;
+> > +	__u16 luma_offset;
+> > +	__u16 dmin_thresh;
+> > +	__u8 dmin_strength;
+> > +	__u8 use_rgb_colorspace;
+> > +	__u8 bypass_chroma_mapping;
+> > +	__u8 use_iref;
+> > +};
+> > +
+> >  /*---------- PART2: Measurement Statistics ------------*/
+> > =20
+> >  /**
+> > @@ -1059,6 +1141,7 @@ struct rkisp1_stat_buffer {
+> >   * @RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_BLS: BLS in the compand block
+> >   * @RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_EXPAND: Companding expand cur=
+ve
+> >   * @RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_COMPRESS: Companding compress=
+ curve
+> > + * @RKISP1_EXT_PARAMS_BLOCK_TYPE_WDR: Wide dynamic range
+> >   */
+> >  enum rkisp1_ext_params_block_type {
+> >  	RKISP1_EXT_PARAMS_BLOCK_TYPE_BLS,
+> > @@ -1081,6 +1164,7 @@ enum rkisp1_ext_params_block_type {
+> >  	RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_BLS,
+> >  	RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_EXPAND,
+> >  	RKISP1_EXT_PARAMS_BLOCK_TYPE_COMPAND_COMPRESS,
+> > +	RKISP1_EXT_PARAMS_BLOCK_TYPE_WDR,
+> >  };
+> > =20
+> >  #define RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE	(1U << 0)
+> > @@ -1460,6 +1544,23 @@ struct rkisp1_ext_params_compand_curve_config {
+> >  	struct rkisp1_cif_isp_compand_curve_config config;
+> >  } __attribute__((aligned(8)));
+> > =20
+> > +/**
+> > + * struct rkisp1_ext_params_wdr_config - RkISP1 extensible params
+> > + *                                       Wide dynamic range config
+> > + *
+> > + * RkISP1 extensible parameters WDR block.
+> > + * Identified by :c:type:`RKISP1_EXT_PARAMS_BLOCK_TYPE_WDR`
+> > + *
+> > + * @header: The RkISP1 extensible parameters header, see
+> > + *	    :c:type:`rkisp1_ext_params_block_header`
+> > + * @config: WDR configuration, see
+> > + *	    :c:type:`rkisp1_cif_isp_wdr_config`
+> > + */
+> > +struct rkisp1_ext_params_wdr_config {
+> > +	struct rkisp1_ext_params_block_header header;
+> > +	struct rkisp1_cif_isp_wdr_config config;
+> > +} __attribute__((aligned(8)));
+> > +
+> >  /*
+> >   * The rkisp1_ext_params_compand_curve_config structure is counted twi=
+ce as it
+> >   * is used for both the COMPAND_EXPAND and COMPAND_COMPRESS block type=
+s.
+>=20
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
+
+--=20
 Thanks,
-Christian.
+Jai
 
-> ---
-> v2: style changes.
->
->  drivers/dma-buf/sw_sync.c | 19 ++++++++++++++-----
->  1 file changed, 14 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-> index f5905d67dedb..22a808995f10 100644
-> --- a/drivers/dma-buf/sw_sync.c
-> +++ b/drivers/dma-buf/sw_sync.c
-> @@ -438,15 +438,17 @@ static int sw_sync_ioctl_get_deadline(struct sync_timeline *obj, unsigned long a
->  		return -EINVAL;
->  
->  	pt = dma_fence_to_sync_pt(fence);
-> -	if (!pt)
-> -		return -EINVAL;
-> +	if (!pt) {
-> +		ret = -EINVAL;
-> +		goto put_fence;
-> +	}
->  
->  	spin_lock_irqsave(fence->lock, flags);
-> -	if (test_bit(SW_SYNC_HAS_DEADLINE_BIT, &fence->flags)) {
-> -		data.deadline_ns = ktime_to_ns(pt->deadline);
-> -	} else {
-> +	if (!test_bit(SW_SYNC_HAS_DEADLINE_BIT, &fence->flags)) {
->  		ret = -ENOENT;
-> +		goto unlock;
->  	}
-> +	data.deadline_ns = ktime_to_ns(pt->deadline);
->  	spin_unlock_irqrestore(fence->lock, flags);
->  
->  	dma_fence_put(fence);
-> @@ -458,6 +460,13 @@ static int sw_sync_ioctl_get_deadline(struct sync_timeline *obj, unsigned long a
->  		return -EFAULT;
->  
->  	return 0;
-> +
-> +unlock:
-> +	spin_unlock_irqrestore(fence->lock, flags);
-> +put_fence:
-> +	dma_fence_put(fence);
-> +
-> +	return ret;
->  }
->  
->  static long sw_sync_ioctl(struct file *file, unsigned int cmd,
+--edi4knfh2xqu23lt
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmf5FzMACgkQQ96R+SSa
+cUXo0Q/9HxlPRvXe6eo9nHqq8+pEP439fMTa+FU3Ox3RZUl7HGLPVPxkgYHpCyiT
+RthqbryRGoVpMTQeqcwAXrOqWiYEaTKCsyPjv+AV0UxdPGXfWJWDzN7+z831Bpyh
+1nSiVM0bmmzNOe1LynuH3GBr4+ffGZTIx3PDHHrh063vAfmWZknc1+C9f8orpltN
+yl++YWCL7QMrrMZBiOj8d7TH7h82PAdibN8znCHgXhJIuSsOYwsd/BX/Dzta58AW
+Kq84kybDE4vj6O8LDeX/rvVq9grAHvK7eHuBax0njIjZ2nLZDdFgyHx2OcKPLKjx
+RKT3Cdy157OdWvUD9/n4AvR6Gx/JeoJhg30++HTizXdRjD8dbASOZjJF6unmEjbP
+SMbKtmKDdwDAYRB8Aj43FT+PJhS3kQlC+Xugv09RDJvlwExHVDdOODl5VLmImjOU
+W1H8lvJqBYmVR4qY8ZYFxQ/VYi+D8pxEKMKbsjKQk1G8l2Zh4YhM5JW0MSQylACy
+ZBjS7ERrL935ucMF+I/raHdlAPMwTwtl1sUD23t5TGHW0+sRGeEvWhH5S+HB05wN
+jvYaHL2xYLspUPH/1PFxXRzEDmYHoNYqCLyeZgOvTqoVx4f9q6SDA7WBDPNVe62S
+N4fFARPD/qjqrZ+fayPcYsKZOnUPUlEeZk+onrfrcP+KLlRlZMU=
+=9Ztf
+-----END PGP SIGNATURE-----
+
+--edi4knfh2xqu23lt--
 
