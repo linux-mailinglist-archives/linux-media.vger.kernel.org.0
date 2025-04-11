@@ -1,385 +1,382 @@
-Return-Path: <linux-media+bounces-30024-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30025-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1DD4A85E2F
-	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 15:07:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57E50A85EBC
+	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 15:24:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B41077B0FDE
-	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 13:06:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DBA918C0904
+	for <lists+linux-media@lfdr.de>; Fri, 11 Apr 2025 13:20:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6E5C86329;
-	Fri, 11 Apr 2025 13:06:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 457D619F40F;
+	Fri, 11 Apr 2025 13:18:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="rhsqe5+q"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gL/1K5zF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2062.outbound.protection.outlook.com [40.107.92.62])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF6625634;
-	Fri, 11 Apr 2025 13:06:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.62
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744376813; cv=fail; b=H3GQm0E2Eeho5P+uSsQKldpjFc48Cn0R7ycblRSE5ou1IhU5xvsqWUcX2KdSfW2VavxjFOa6J19axjd7q/oY7mSpOC4A1CvI1VqYBYKfyf3o2c8kLCqzHbG0NEombQlxyUQqa+32bXBi6BjgX7IfolFYQhkfmGJOTQZUA3MUC7k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744376813; c=relaxed/simple;
-	bh=zL8ff4io6IhwZ9lWkfCF/P1KVpL+Tnu7kh0TU7GaX5Y=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=qhsggqaKrfysrnIoTPBUGdCoVlCOfypT+PV6tgXqALHdxiCVoT17J53GbqVrCyQ0MVx8Sf3gJxbIm+uim9/TjyTehw6ezstd69Kim1Lb83EjuV1nFOoqr8oT63KvTcWEkIju/xpNDHYeLh00Pixx5HIkfr/dVGt84GxP851Vqv0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=rhsqe5+q; arc=fail smtp.client-ip=40.107.92.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=U+BPeQHvxEVFnVu4lHdVlRj4Y18hZGj9cFSR5MpK4/PMDcL5aWQRNnoTR4lppc0GUVc3bgwsHMZtvelqGMb2qKy+TtM3PFLBDPH43FHbg8O3L8QPVPgfsITsWcnCnPVjlxbJ+LMRoP5Jy9TvhHi3++p/Oa2YVT7i7hO00zfdEzhlg0aasuhmXKO4mP1RSRwStOJWXzsod5N4vSrezNhnH1brraCA4EFiO6CoLItk6wIgWKYJFdFPkmYWXCF4xyXHOx5oZWy9aOuyrSwkrIREYZSg7fTuyMgWa80kL+9AlDyZFgcPvX9ix7qoN+NT4LIqNsK2/z9PoqyEJx4g/kSBgQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aTMb7VnqWoHTDoqZbbtsVA5rIQLqQrii6NRN8mfueZA=;
- b=yIy7rWHYbcGcWl3EuIqKoxne07ry6Cher89JuDifs28C17SoCQlh+jiCEi2HNnntj/mTa0r1A3VzXDbs/9YzxeaIXZpS7namgN1Gi5jT38JSriVI/SGcxP9KykkP/XBbPql+CXeHjrAKbxFt+/W/i1U18v9Dyx2hSj1FQfizSevlb1edm2k71WdU3pYiZkebNPyN2Fle2kT2l5dZ0w4NRCOdZiFZP7dYjJJIVgWbDVnA6yrEaAH8HaXHwmd0srNZ4zHjPw+p/+qg+ZlcR84BZTCezwaJgWuP42IZ3P8X3T6YRCKt97HDmecETV675rItjOXqF1SPhhGidOSXZfdbiA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aTMb7VnqWoHTDoqZbbtsVA5rIQLqQrii6NRN8mfueZA=;
- b=rhsqe5+qbZiP/nj2he+hqkmi1ezT0Z0/IKmUGsNTHz9DSbwRbz7uxJ6ljxyRoD2azNYlqR60AqpGgBV/EQSleb2r0OPgR0PW+Y1D4wiXJKFCbdbIv+15PSeSH7UmFK/R1Rw714MmFXD3+dktyYEw60glAcMAyixvaOk8OyR38qM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by IA1PR12MB6258.namprd12.prod.outlook.com (2603:10b6:208:3e6::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.35; Fri, 11 Apr
- 2025 13:06:48 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8632.021; Fri, 11 Apr 2025
- 13:06:48 +0000
-Message-ID: <45d66ca4-5390-42e9-869a-f5f9125d05b6@amd.com>
-Date: Fri, 11 Apr 2025 15:06:41 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] drm/nouveau: Prevent signaled fences in pending list
-To: phasta@kernel.org, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sabrina Dubroca <sd@queasysnail.net>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- stable@vger.kernel.org
-References: <20250410092418.135258-2-phasta@kernel.org>
- <20250410092418.135258-3-phasta@kernel.org>
- <8583665a-6886-4245-be49-fd8839cfe212@amd.com>
- <c737c89c7ce9174e349c61ab4e5712eee8946f13.camel@mailbox.org>
- <50c9530d-e274-4f89-8620-16afe0981239@amd.com>
- <1a73e5fe4350d6ee4b7d807612264eb637c4f2a9.camel@mailbox.org>
- <d3dee321cd6b70d6ca98768fbcf6f1e6134c43a1.camel@mailbox.org>
- <81a70ba6-94b1-4bb3-a0b2-9e8890f90b33@amd.com>
- <aca00cb25b813da4fd2f215829f02337f05642f3.camel@mailbox.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <aca00cb25b813da4fd2f215829f02337f05642f3.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0149.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b8::15) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C681B19CC3A
+	for <linux-media@vger.kernel.org>; Fri, 11 Apr 2025 13:18:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744377506; cv=none; b=JRzZKpK1B6ylA3i7734D8ErfYg+FMQ7JBVynb+tcsD0qmQDvqpeuwXFrKb9KWGDONcxUgUqtZ/d1uN0YmnWiFhTfZSA6sCH1v2x20SiqddKAsZf5b4qznoLIbKOwr1NpO9Cf/wqyDUim5VMj+jO24zq938Haq00cpA9SpZYgnAM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744377506; c=relaxed/simple;
+	bh=BUjqMSGXFNAQCtSnMnZLc7ifXcyak1+IAzaJHHRD/+k=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=NE4lp7UyAsS4VDd5QBijOUjeSNoLWSZzBCE/nl+Y0dJv4tYhJg9V7wXJj4EXYuAIuNyARZ6GdERw5NwhW9nF6qRST9hlOfZe/fftA9vcrIcok7uZUv7aash/DOswSvGEMcz5mFqMl5whuLTmVMDFq84toHW2qFESo+6ENTTj6i4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gL/1K5zF; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-391342fc1f6so1506169f8f.1
+        for <linux-media@vger.kernel.org>; Fri, 11 Apr 2025 06:18:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744377502; x=1744982302; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=bAgS7d7mQW64Ugh4mepLGUIYDIVFQL72jfWiNoLCjqQ=;
+        b=gL/1K5zFWzePesNp68srbCiau2LLI4vcxizrPT4LXwECcJhsBI/QUwILU3uPxdb9Yc
+         Kla6HWVW4Z5xXW/0XllmLX0I2zThkH1+oU7AZh0I1FIjlNJFBAl1gKsuy4+AWCck8gg8
+         VdQCdAIj7uyAvV1WBj9J4/g+thTHEZnWYWWoElUu08XNTZx22lb8Sg+/FzqDS3RNdr9y
+         KQVJ8ORUHtY0FB8n0slT2v5tfX3HIe7S3ZyJrX3JFiZ2pi47CM8o3/YQs2oHF5FNarrY
+         TxppeqL2dRGtHtYo8ReQ0B98/SKt1tBFoWdIQc/e5LG6ItXFVf99jxE1QAKVTrvhlkHC
+         IUIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744377502; x=1744982302;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=bAgS7d7mQW64Ugh4mepLGUIYDIVFQL72jfWiNoLCjqQ=;
+        b=uxmoD9dCF32IUNp/AJQySKAEpjrqrgN7m1u608TohjV+KRM1cawX8R+1PXOIRjQ7dP
+         jFGJm3PQD/g67HZJGC3id26OyzbmFxx3NQtUEsk8P1iZptVkrCmUpa68//OnqAlin4j0
+         RmyAxlk+QnmKJBtIAwVp9Nfiau6RVm9eHgQuHznoCUwTqyRBCd1TL0vm79HpHZTvEzsn
+         kPZ+hmUDlXaiqjpnYDZoeBn/yerYzM9h1gjPFFSI69Ct6MRJDR6NOCVYQPl9r37Dus32
+         tcoAUttlXsDwOxBS8Cd2VRCXcc/1E2ohG55qn/5qXh/OC3uxIEuo/3jWRIdso8R1ZOwz
+         dHtA==
+X-Forwarded-Encrypted: i=1; AJvYcCVirzXESjXPCrLPspbghF4u97f0rlAdYeT/XdX4AfAkiHs1cdNJ0KaBI/NpAC6Mhgm8z7dEdendAPAM6A==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy7rftyVeBtnFwYWJCPz1KOYgDFOfFI3ztqxDvkg9CmJVazdhq1
+	3K6u12wWTT6ZUVJwXzjaVSVI0wHz0LCRA+nGhBKbjoLr+nXjVQMaAjfJ2H8NO+M=
+X-Gm-Gg: ASbGncuCY5EIzIp0tSAeJPV18ARFZFUMF10gknW5ZDc4/JU9uGnAV8dpwp5aII/qgxb
+	zEaUaBLJZ9YkYR1BtfEjC/G6LixKNNsCEwdwykGk4hJJpbJCBGjqXfSCvxaOVitFTsPStlsv7M2
+	IRxk4UPaI6uChB0opuen+5Vfc8p7De/y8oe6iqBvn79ahcmwlFBlx86Ya9QezqvLPCjfAc7xTDE
+	uGGQxIJuZzFIIlE70e3UHyPJNXXppjyhiuc/qCVvnhtPbeutAhPm+KOKKF0SQRTz0AFyUSEVs6i
+	R4zyuWz9yNV2O2QOD5szHeymAK43hNoKA+0nXrBvmtVKAI/yvYwECeHW9u06QrytSfXd7bOfFPU
+	yo9kBZxUBgt339woo8Q==
+X-Google-Smtp-Source: AGHT+IHTemPYNTUynUWh83jsKhT4widmDCcaayD2CGUwpmZyqG/QggCO0fOH8ooS57JxWfPnFAgDDA==
+X-Received: by 2002:a05:6000:2507:b0:390:e311:a8c7 with SMTP id ffacd0b85a97d-39ea51ecbecmr2515462f8f.5.1744377501994;
+        Fri, 11 Apr 2025 06:18:21 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:f77b:949e:1d61:69a8? ([2a01:e0a:3d9:2080:f77b:949e:1d61:69a8])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae978023sm2004192f8f.47.2025.04.11.06.18.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 11 Apr 2025 06:18:21 -0700 (PDT)
+Message-ID: <9bc74360-a74c-47f4-b8ad-3153bf47ea06@linaro.org>
+Date: Fri, 11 Apr 2025 15:18:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|IA1PR12MB6258:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1c400ddb-93c9-4066-461b-08dd78f9b7ed
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|7416014|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WHJxaWVzc0tqSDdHVWJEbnZMTmNieWNMN2haQWpOV09nbENQcnBtSU94UHph?=
- =?utf-8?B?MTVIUTF4OUNHYnlVZWtVSmZSdnBIZVJnd3FBZ0xmWEpqazRnYUUrS3FjODA3?=
- =?utf-8?B?eUpvZFZGT1A5UVFpM2tXNlAyS0NrTTA5MmtpYllRZFAvVzdZZHFaamZQMi95?=
- =?utf-8?B?NVRvOU1nZ1RiUEVucGh3bkx4QkdhamJXazRMUkcyOG0zWUYrd0lUa1M5NUwz?=
- =?utf-8?B?b2ZmVEFOcXl5MUtEblY2ZU1zMkVVUkJYeFVBQWtIbFRVazdMamgwS2dFZFc5?=
- =?utf-8?B?Z01rdGJmaEp0eVprN0hETDZPTi9QbHZqK0tjNTdrUGg3bG5tcDNFR3NMOGFE?=
- =?utf-8?B?YldJdmE0Ui9tWFI1c1lZUUhmd1YvR0JnN1orNE5HcjNYMTllQ0VSSE5rSytM?=
- =?utf-8?B?V2RseWVyb3VBZlBub3YrV1JmR3JUYkkzcUR6TEplcC9RMDlNTHk4NFJFUFk1?=
- =?utf-8?B?ZklMbmhxZkZ6eGxsNWU5Q3ZjeVdvY09BQ2VxTnp1L2tUWjQ4NzZmQzREZmR3?=
- =?utf-8?B?d2lXbEdQeUJQTmY2dXNKejJyZ0VMQ1Azak5DZHZFRTZ6TjBTRUhDRUR4WDZx?=
- =?utf-8?B?Q08zeVIzT0habmQ2anM5NTQ2S0FmQS9zUlBuZXZIL0tSNFozcHROZDBzeE9U?=
- =?utf-8?B?dnE3NXE4cFcwejVMY0tVdWZ3ZUhHalRZMkNMckpXd2liSTNBSHc1TTJ5Njdk?=
- =?utf-8?B?VlNVMllwb3lpTkJsa2c4ekIxQnNBNSt1Tk42aXJQY3l5QnZIbkwyQ09tR2lI?=
- =?utf-8?B?S3g2YjREMnlnZ1hTTkY5NDJVR1Y2T2d6MWtVMFJwYzIxZTBWN0pHUCtMZ3BP?=
- =?utf-8?B?MThOV1JtSlppME5td0o4RnQvcGJ4SHlWcjVKVmZUUGJhUVNtZzBmR0JYbUxq?=
- =?utf-8?B?bnd2dnJPdmtmSVhERnRHOVBCUmJRbUMwSElZM3Q2UWk4Qy9aL1NtS2d4TE9v?=
- =?utf-8?B?ZEZLckJyYVlmZWJ4aGJFV0xkcUdxazZRdUVjUjNFVXc3ME8yUjZUdlhYRStr?=
- =?utf-8?B?M0NJSU9OaUV0b3liREE2WDJmUUJLaEt5ZENpQ0lmK0t6c3ZmWXRFU2NkbTBa?=
- =?utf-8?B?VDlwWERIcWlsbWlOV05lYVl2UUE4Uy8rb3FHcmlod0h1MExpSUhJZko5Y01h?=
- =?utf-8?B?V0kvQ2xvN0QzN0x5bXpDUGJTZUtQTHRqdEJOcWthcnN2UnczZjF1UnJ1QmNC?=
- =?utf-8?B?Yis3cXA2UnN2QXRQdWNYY2o3eTZMTURTbUVvTXIyeHIyZDhMWFJXUVowdWN1?=
- =?utf-8?B?eTU5UlZKanBGM3BLT3ZTcHM0WWxTNzhtWnh0c3NzNGJiUGQ5Z2JLQ3U5eE1E?=
- =?utf-8?B?VHhHQUJhb2dYeGdLSTVmTmI1cUEyT1NaaGdXUkRXR1FoVGhPRG9yN2JmU0Yv?=
- =?utf-8?B?c0JjdWFlZUFjS3g4UkgwMEdNUXM5WkpKK0RLUVVPZHpzeXlOZkZJcjRhUC9y?=
- =?utf-8?B?cW5ZYzM0cEJJMnZ3bDc1SHpnUEhxRGg4ZDVJZ2lFeldWR0RjTko5S3ZlYmtl?=
- =?utf-8?B?eDF0amN3NmVSSG1MUWQ2c3dsN2ZyclRTUzR6YVRyYTA0Z29WSXZ1WE9oeFBa?=
- =?utf-8?B?RW0vcG9LRTZVbnMvdksyd3ZSMkRLWFUwbmYxY3hrdFdKYWlYV0xnQUcxL2lI?=
- =?utf-8?B?L3RPMUJFeWNxTGRzbDk5MHNIQXVwaVdtUVNzeWIwb1hnd3VDSWhZOUZGN1FM?=
- =?utf-8?B?VUZnOTE2cEJZWk1JRUN0TzZlTFVmcHA5M0ZrU3Vmem9SWUQ5STJlSERJWXEz?=
- =?utf-8?B?eU44UHFoamYvaVp6Mk9Bck1ETjlKdmxhRnhpYmJhWkx4K3Y2dUlCNm9jVjJE?=
- =?utf-8?B?aTZQNGRaWmM4TDhrVm1oR1BDTFY1cFhxc2xMZURrYXJJakFQZWZpTW1NY0Fk?=
- =?utf-8?B?aWJtaGFCSEJjUXF3MFEyOU43Z1NxaUJNb3lSa3dNbDRGM0lnN3ZmY1liY3Ju?=
- =?utf-8?Q?4mrc0qgd8QU=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?R2p5TDlBM1YwZ2pUYWV5YUJEd1l0RDJ2b2Y3eG10ZS9kdkkwWS9FcDM1bFA3?=
- =?utf-8?B?ZXVrcktEaWsxdzc2RHNPVWkzRkJqTXFwVlE5dHRTVDQ3K2N6VnRyUDBFMVBV?=
- =?utf-8?B?aWhjTmNkSjFLak5ZRS96Y3kwbkRMdkJiT01mU0pSajROendwa2hNbUJlZEhu?=
- =?utf-8?B?YWtCYVNEYWxDek1CNjdTeHNaYnJDc3BhWXQ2WWh2ZmtPeEJsSWFzTDZodEZE?=
- =?utf-8?B?OEdRU1daRnhKaVJPTXZteTNqOGNDczl1RzJOakVmZklCQmhGd2JVWG5qMmNl?=
- =?utf-8?B?N1M4QWNSUG1wTDJuU1VkSGJhMVlnNHpENHhsMnZYenVYTmYwRC8wT2JBZHpU?=
- =?utf-8?B?WXNmMXRIWExPSUhHdW5IWHdsc0YzdTlmS1B5bGxRU1NLSEJxL1FVOEdnaThD?=
- =?utf-8?B?a01CclM5b0RQVklnbU9penNDRzdXLzh3TGZ5QnpEYTd1T1V4K21XRW1iQXAr?=
- =?utf-8?B?WlptUWdJcEJnMjV6UTJQZmtZSUFHeVRZbE5zbklEUUZZWVBqMXdQSEZvd1pU?=
- =?utf-8?B?a1hxdTZjSFk0SUdHaWljS05HazZlM1V3MlpjaXJHTTlxZERvNFJWUXIyUWNy?=
- =?utf-8?B?czRvNVdyRERyVzlKZWMwWmNUV0txd1VKUDgvdDdndHpqVlR5MEJlWU50dVd4?=
- =?utf-8?B?U1BBWXZkTXZNRjlubFUva0Y4Q3ViWTlhZEpzaTdoeHpDaVhmSXRCdHM2L0Nr?=
- =?utf-8?B?ZnI0K2dJZldKNEpZeFNad2NTR2dYNlY1azhIVVRrc29HbWN5MmNkeXl5QVJX?=
- =?utf-8?B?VFV1ZFhaS2sxUXM3VVdORFRqNEpRWlhEOFZ5bFQvMU9POFVXS2JBd21Zb1dm?=
- =?utf-8?B?OFRhbTJRRkdiT2l3cDQ3WnJkOW5lekJSMmljRVZteGpyK2lsdDJPZzkrUFY4?=
- =?utf-8?B?dzBDVVp6b09nRWNEZkJkNnhVSEo4RVp5WHFRRTVKaSt6S2ZOM3J0WFdyWS8v?=
- =?utf-8?B?Vk9wNjlsUW9yRk4zb2NSVmhMR3pqdGVrV3h0L2RmN1Ryc2tzQlJZYnpTVnJV?=
- =?utf-8?B?VEpNdzVWOUdjSU45TXE1SE5HWSsvcHJZMi9aYlh1eW1YMDNSdjh6ZGdCWW1t?=
- =?utf-8?B?MDVPRVErYXNZTkM2K0QrQm4vejdTcDBSbUhIQjlyVG9rM2xEWjAyMW9MSmx0?=
- =?utf-8?B?T2E1WHRmaTU0Y2hlcmZKdHR6QVVKTGFJTm5KdXVrN2M5K2hoalFxVzZ6KzJw?=
- =?utf-8?B?NUtWU1RwNWRZVXpMVTlOQmFiYWIwZGFBV0Z3bUlKTGFkMXNxekhnTUZXSVFq?=
- =?utf-8?B?a3U2eEVrUmhpekwxb3VRNDd3VVpGLytVUzgxUjk1eFBsbnlXVEhEemFKL1FU?=
- =?utf-8?B?bitEakZubUEyazlHcy9kTk5SUWE2a1F1WEkxUWxkS3p3STU0RUR0c2Q5WUxm?=
- =?utf-8?B?TVNDNmVZVWRRcm5BRlpoeGlQY0gzR2Qzd2dkUGZJUEJwSzNuV0FzdWs5TnRm?=
- =?utf-8?B?YWFsQXQxMFFvK21kdUZnM05UMWc0YXAwbFhJc09uM2VyZXA5cndjNi9EcG5z?=
- =?utf-8?B?SitwQXBISDVmWW1XRDBOWnQ4QlFuY2tmUkNhTTRQZDRrTXU1ZWovSEw1d1la?=
- =?utf-8?B?SXhIUGRRKzc0WXlBM3h6RmlNSWlDWUFha1g5WFBYN252cEhvbGVycGxhL2Z4?=
- =?utf-8?B?ZlpuQzh0NWZmaHZsZ2dtZlRkbU42VloyeUt0aGxrR3d5SkgySGI3VmtCeVcr?=
- =?utf-8?B?RTFGQWxocmowbDJ3SmlaNkxEOXBSd1ZUSDJIdTRlMFZSN09xa3lZTy9KSFI4?=
- =?utf-8?B?d3FCdjh0cWNCMVo4ajFRV3poakN2bmk3UG1oSFlFQjZsWjdWUThaYzE4SVJj?=
- =?utf-8?B?N0JHaS9tREJhclI2OXpPVGFlVExocXQrSk9OYTRZeTZ6Y2pvS2dkdUl1ZzRQ?=
- =?utf-8?B?QlI1TTRuVVVhQUNCM3Y2MzU3YVhvMXhTU1RiRG5BZGwzdmhpVnRUYiszMmp6?=
- =?utf-8?B?MXZDTExPQ1I5VlJYT2J4Tll6c3N2SmtxR3N5Wmk5bjkzSUJzVCtYWENzRjJi?=
- =?utf-8?B?VFg2MkxjeVVXeUd1eFY5ZmJzS2Q0emp1SDZQWEdCQnhTamx5YlF5RWxiaWdi?=
- =?utf-8?B?UVFQWnZONHhjbUxtK0syQlpRVm1yT05QSVoxK24vQXh6N01peEJvdDhVUVVs?=
- =?utf-8?Q?8XfcSqgPhpV9ueO8Lzczm+vqT?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1c400ddb-93c9-4066-461b-08dd78f9b7ed
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Apr 2025 13:06:48.7239
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: C2O9m6EPjyCbvim/gWfhC4I+FirD3ZRhbP4J0XK4X2cDcKC0CchQ2uatSMSaRct9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB6258
+User-Agent: Mozilla Thunderbird
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: neil.armstrong@linaro.org
+Subject: Re: [PATCH RFC v5 1/8] media: qcom: iris: move sm8250 to gen1 catalog
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250410-topic-sm8x50-upstream-iris-catalog-v5-0-44a431574c25@linaro.org>
+ <VyOGKudgZHGHSwAUc_c_syksKTaFJrgQwY5885fB812reMOnISG0ito3a9NquHCtVt9W2gENP3ioyZ7e0ne_Fw==@protonmail.internalid>
+ <20250410-topic-sm8x50-upstream-iris-catalog-v5-1-44a431574c25@linaro.org>
+ <a7f41eaa-74d0-42f6-ba80-afa62a521b7e@linaro.org>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <a7f41eaa-74d0-42f6-ba80-afa62a521b7e@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Am 11.04.25 um 14:44 schrieb Philipp Stanner:
-> On Fri, 2025-04-11 at 13:05 +0200, Christian König wrote:
->>  Am 11.04.25 um 11:29 schrieb Philipp Stanner:
->>  
->>> [SNIP]
->>>  
->>> It could be, however, that at the same moment
->>> nouveau_fence_signal() is
->>> removing that entry, holding the appropriate lock.
->>>
->>> So we have a race. Again.
->>>  
->>  
->>  Ah, yes of course. If signaled is called with or without the lock is
->> actually undetermined.
->>  
->>  
->>>  
->>> You see, fixing things in Nouveau is difficult :)
->>> It gets more difficult if you want to clean it up "properly", so it
->>> conforms to rules such as those from dma_fence.
->>>
->>> I have now provided two fixes that both work, but you are not
->>> satisfied
->>> with from the dma_fence-maintainer's perspective. I understand
->>> that,
->>> but please also understand that it's actually not my primary task
->>> to
->>> work on Nouveau. I just have to fix this bug to move on with my
->>> scheduler work.
->>>  
->>  
->>  Well I'm happy with whatever solution as long as it works, but as
->> far as I can see the approach with the callback simply doesn't.
->>  
->>  You just can't drop the fence reference for the list from the
->> callback.
->>  
->>  
->>>  
->>> So if you have another idea, feel free to share it. But I'd like to
->>> know how we can go on here.
->>>  
->>  
->>  Well the fence code actually works, doesn't it? The problem is
->> rather that setting the error throws a warning because it doesn't
->> expect signaled fences on the pending list.
->>  
->>  Maybe we should fix that instead.
-> The fence code works as the author intended, but I would be happy if it
-> were more explicitly documented.
->
-> Regarding the WARN_ON: It occurs in dma_fence_set_error() because there
-> is an attempt to set an error code on a signaled fence. I don't think
-> that should be "fixed", it works as intended: You must not set an error
-> code of a fence that was already signaled.
->
-> The reason seems to be that once a fence is signaled, a third party
-> might evaluate the error code.
+On 11/04/2025 13:50, Bryan O'Donoghue wrote:
+> On 10/04/2025 17:30, Neil Armstrong wrote:
+>> Re-organize the platform support core into a gen1 catalog C file
+>> declaring common platform structure and include platform headers
+>> containing platform specific entries and iris_platform_data
+>> structure.
+>>
+>> The goal is to share most of the structure while having
+>> clear and separate per-SoC catalog files.
+>>
+>> The organization is based on the current drm/msm dpu1 catalog
+>> entries.
+>>
+>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>> ---
+>>   drivers/media/platform/qcom/iris/Makefile          |  2 +-
+>>   .../media/platform/qcom/iris/iris_catalog_gen1.c   | 83 ++++++++++++++++++++++
+>>   ...ris_platform_sm8250.c => iris_catalog_sm8250.h} | 80 ++-------------------
+>>   3 files changed, 89 insertions(+), 76 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/iris/Makefile b/drivers/media/platform/qcom/iris/Makefile
+>> index 35390534534e93f4617c1036a05ca0921567ba1d..7e7bc5ca81e0f0119846ccaff7f79fd17b8298ca 100644
+>> --- a/drivers/media/platform/qcom/iris/Makefile
+>> +++ b/drivers/media/platform/qcom/iris/Makefile
+>> @@ -25,7 +25,7 @@ qcom-iris-objs += \
+>>                iris_vpu_common.o \
+>>
+>>   ifeq ($(CONFIG_VIDEO_QCOM_VENUS),)
+>> -qcom-iris-objs += iris_platform_sm8250.o
+>> +qcom-iris-objs += iris_catalog_gen1.o
+>>   endif
+>>
+>>   obj-$(CONFIG_VIDEO_QCOM_IRIS) += qcom-iris.o
+>> diff --git a/drivers/media/platform/qcom/iris/iris_catalog_gen1.c b/drivers/media/platform/qcom/iris/iris_catalog_gen1.c
+>> new file mode 100644
+>> index 0000000000000000000000000000000000000000..c4590f8996431eb5103d45f01c6bee2b38b848c2
+>> --- /dev/null
+>> +++ b/drivers/media/platform/qcom/iris/iris_catalog_gen1.c
+>> @@ -0,0 +1,83 @@
+>> +// SPDX-License-Identifier: GPL-2.0-only
+>> +/*
+>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>> + */
+>> +
+>> +#include "iris_core.h"
+>> +#include "iris_ctrls.h"
+>> +#include "iris_platform_common.h"
+>> +#include "iris_resources.h"
+>> +#include "iris_hfi_gen1.h"
+>> +#include "iris_hfi_gen1_defines.h"
+>> +#include "iris_vpu_common.h"
+> 
+> Any reason why these aren't alphabetised ?
 
-Yeah, more or less correct. The idea is you can't declare an operation as having an error after the operation has already completed.
+Copied as-is, I guess the order can be important, especially the iris_core must be first.
 
-Because everyone will just wait for the completion and nobody checks the status again after that.
+Neil
 
->
-> But I think this wasn't wat you meant with "fix".
-
-The idea was to avoid calling dma_fence_set_error() on already signaled fences. Something like this:
-
-@@ -90,7 +90,7 @@ nouveau_fence_context_kill(struct nouveau_fence_chan *fctx, int error)
-        while (!list_empty(&fctx->pending)) {
-                fence = list_entry(fctx->pending.next, typeof(*fence), head);
- 
--               if (error)
-+               if (error & !dma_fence_is_signaled_locked(&fence->base))
-                        dma_fence_set_error(&fence->base, error);
- 
-                if (nouveau_fence_signal(fence))
-
-That would also improve the handling quite a bit since we now don't set errors on fences which are already completed even if we haven't realized that they are already completed yet.
-
-> In any case, there must not be signaled fences in nouveau's pending-
-> list. They must be removed immediately once they signal, and this must
-> not race.
-
-Why actually? As far as I can see the pending list is not for the unsignaled fences, but rather the pending interrupt processing.
-
-So having signaled fences on the pending list is perfectly possible.
-
-Regards,
-Christian.
-
->
->>  
->>  
->>>  
->>> I'm running out of ideas. What I'm wondering if we couldn't just
->>> remove
->>> performance hacky fastpath functions such as
->>> nouveau_fence_is_signaled() completely. It seems redundant to me.
->>>  
->>  
->>  That would work for me as well.
-> I'll test this approach. Seems a bit like the nuclear approach, but if
-> it works we'd at least clean up a lot of this mess.
->
->
-> P.
->
->
->>  
->>  
->>>  
->>>
->>> Or we might add locking to it, but IDK what was achieved with RCU
->>> here.
->>> In any case it's definitely bad that Nouveau has so many redundant
->>> and
->>> half-redundant mechanisms.
->>>  
->>  
->>  Yeah, agree messing with the locks even more won't help us here.
->>  
->>  Regards,
->>  Christian.
->>  
->>  
->>>  
->>>
->>>
->>> P.
->>>
->>>  
->>>>  
->>>>
->>>> P.
->>>>
->>>>  
->>>>>  
->>>>> Regards,
->>>>> Christian.
->>>>>
->>>>>  
->>>>>>  
->>>>>> P.
->>>>>>
->>>>>>
->>>>>>
->>>>>>  
->>>>>>>  
->>>>>>> Regards,
->>>>>>> Christian.
->>>>>>>
->>>>>>>  
->>>>>>>>  
->>>>>>>> Replace the call to dma_fence_is_signaled() with
->>>>>>>> nouveau_fence_base_is_signaled().
->>>>>>>>
->>>>>>>> Cc: <stable@vger.kernel.org> # 4.10+, precise commit not
->>>>>>>> to
->>>>>>>> be
->>>>>>>> determined
->>>>>>>> Signed-off-by: Philipp Stanner <phasta@kernel.org>
->>>>>>>> ---
->>>>>>>>  drivers/gpu/drm/nouveau/nouveau_fence.c | 2 +-
->>>>>>>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>>>>>>
->>>>>>>> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c
->>>>>>>> b/drivers/gpu/drm/nouveau/nouveau_fence.c
->>>>>>>> index 7cc84472cece..33535987d8ed 100644
->>>>>>>> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
->>>>>>>> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
->>>>>>>> @@ -274,7 +274,7 @@ nouveau_fence_done(struct
->>>>>>>> nouveau_fence
->>>>>>>> *fence)
->>>>>>>>  			nvif_event_block(&fctx->event);
->>>>>>>>  		spin_unlock_irqrestore(&fctx->lock,
->>>>>>>> flags);
->>>>>>>>  	}
->>>>>>>> -	return dma_fence_is_signaled(&fence->base);
->>>>>>>> +	return test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
->>>>>>>> &fence-
->>>>>>>>  
->>>>>>>>>  
->>>>>>>>> base.flags);
->>>>>>>>>  
->>>>>>>>  
->>>>>>>>  }
->>>>>>>>  
->>>>>>>>  static long
->>>>>>>>  
->>>>>>>  
->>>>>>  
->>>>>  
->>>>   
->>>   
->>  
->>  
+> 
+> Please do so unless there's some technical reason to have in this order.
+> 
+>> +
+>> +/* Common SM8250 & variants */
+>> +static struct platform_inst_fw_cap inst_fw_cap_sm8250[] = {
+>> +    {
+>> +        .cap_id = PIPE,
+>> +        .min = PIPE_1,
+>> +        .max = PIPE_4,
+>> +        .step_or_mask = 1,
+>> +        .value = PIPE_4,
+>> +        .hfi_id = HFI_PROPERTY_PARAM_WORK_ROUTE,
+>> +        .set = iris_set_pipe,
+>> +    },
+>> +    {
+>> +        .cap_id = STAGE,
+>> +        .min = STAGE_1,
+>> +        .max = STAGE_2,
+>> +        .step_or_mask = 1,
+>> +        .value = STAGE_2,
+>> +        .hfi_id = HFI_PROPERTY_PARAM_WORK_MODE,
+>> +        .set = iris_set_stage,
+>> +    },
+>> +    {
+>> +        .cap_id = DEBLOCK,
+>> +        .min = 0,
+>> +        .max = 1,
+>> +        .step_or_mask = 1,
+>> +        .value = 0,
+>> +        .hfi_id = HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER,
+>> +        .set = iris_set_u32,
+>> +    },
+>> +};
+>> +
+>> +static struct platform_inst_caps platform_inst_cap_sm8250 = {
+>> +    .min_frame_width = 128,
+>> +    .max_frame_width = 8192,
+>> +    .min_frame_height = 128,
+>> +    .max_frame_height = 8192,
+>> +    .max_mbpf = 138240,
+>> +    .mb_cycles_vsp = 25,
+>> +    .mb_cycles_vpp = 200,
+>> +};
+>> +
+>> +static struct tz_cp_config tz_cp_config_sm8250 = {
+>> +    .cp_start = 0,
+>> +    .cp_size = 0x25800000,
+>> +    .cp_nonpixel_start = 0x01000000,
+>> +    .cp_nonpixel_size = 0x24800000,
+>> +};
+>> +
+>> +static const u32 sm8250_vdec_input_config_param_default[] = {
+>> +    HFI_PROPERTY_CONFIG_VIDEOCORES_USAGE,
+>> +    HFI_PROPERTY_PARAM_UNCOMPRESSED_FORMAT_SELECT,
+>> +    HFI_PROPERTY_PARAM_UNCOMPRESSED_PLANE_ACTUAL_CONSTRAINTS_INFO,
+>> +    HFI_PROPERTY_PARAM_BUFFER_COUNT_ACTUAL,
+>> +    HFI_PROPERTY_PARAM_VDEC_MULTI_STREAM,
+>> +    HFI_PROPERTY_PARAM_FRAME_SIZE,
+>> +    HFI_PROPERTY_PARAM_BUFFER_SIZE_ACTUAL,
+>> +    HFI_PROPERTY_PARAM_BUFFER_ALLOC_MODE,
+>> +};
+>> +
+>> +static const u32 sm8250_dec_ip_int_buf_tbl[] = {
+>> +    BUF_BIN,
+>> +    BUF_SCRATCH_1,
+>> +};
+>> +
+>> +static const u32 sm8250_dec_op_int_buf_tbl[] = {
+>> +    BUF_DPB,
+>> +};
+>> +
+>> +/* platforms catalogs */
+>> +#include "iris_catalog_sm8250.h"
+>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8250.c b/drivers/media/platform/qcom/iris/iris_catalog_sm8250.h
+>> similarity index 59%
+>> rename from drivers/media/platform/qcom/iris/iris_platform_sm8250.c
+>> rename to drivers/media/platform/qcom/iris/iris_catalog_sm8250.h
+>> index 5c86fd7b7b6fd36dc2d57a1705d915308b4c0f92..4d2df669b3e1df2ef2b0d2f88fc5f309b27546db 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_catalog_sm8250.h
+>> @@ -1,55 +1,10 @@
+>> -// SPDX-License-Identifier: GPL-2.0-only
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>>   /*
+>>    * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>>    */
+>>
+>> -#include "iris_core.h"
+>> -#include "iris_ctrls.h"
+>> -#include "iris_platform_common.h"
+>> -#include "iris_resources.h"
+>> -#include "iris_hfi_gen1.h"
+>> -#include "iris_hfi_gen1_defines.h"
+>> -#include "iris_vpu_common.h"
+>> -
+>> -static struct platform_inst_fw_cap inst_fw_cap_sm8250[] = {
+>> -    {
+>> -        .cap_id = PIPE,
+>> -        .min = PIPE_1,
+>> -        .max = PIPE_4,
+>> -        .step_or_mask = 1,
+>> -        .value = PIPE_4,
+>> -        .hfi_id = HFI_PROPERTY_PARAM_WORK_ROUTE,
+>> -        .set = iris_set_pipe,
+>> -    },
+>> -    {
+>> -        .cap_id = STAGE,
+>> -        .min = STAGE_1,
+>> -        .max = STAGE_2,
+>> -        .step_or_mask = 1,
+>> -        .value = STAGE_2,
+>> -        .hfi_id = HFI_PROPERTY_PARAM_WORK_MODE,
+>> -        .set = iris_set_stage,
+>> -    },
+>> -    {
+>> -        .cap_id = DEBLOCK,
+>> -        .min = 0,
+>> -        .max = 1,
+>> -        .step_or_mask = 1,
+>> -        .value = 0,
+>> -        .hfi_id = HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER,
+>> -        .set = iris_set_u32,
+>> -    },
+>> -};
+>> -
+>> -static struct platform_inst_caps platform_inst_cap_sm8250 = {
+>> -    .min_frame_width = 128,
+>> -    .max_frame_width = 8192,
+>> -    .min_frame_height = 128,
+>> -    .max_frame_height = 8192,
+>> -    .max_mbpf = 138240,
+>> -    .mb_cycles_vsp = 25,
+>> -    .mb_cycles_vpp = 200,
+>> -};
+>> +#ifndef _IRIS_CATALOG_SM8250_H
+>> +#define _IRIS_CATALOG_SM8250_H
+> 
+> __IRIS_CATALOG_SM8250_H__ as with other header guards.
+> 
+>>
+>>   static void iris_set_sm8250_preset_registers(struct iris_core *core)
+>>   {
+>> @@ -80,33 +35,6 @@ static const struct platform_clk_data sm8250_clk_table[] = {
+>>       {IRIS_HW_CLK,   "vcodec0_core" },
+>>   };
+>>
+>> -static struct tz_cp_config tz_cp_config_sm8250 = {
+>> -    .cp_start = 0,
+>> -    .cp_size = 0x25800000,
+>> -    .cp_nonpixel_start = 0x01000000,
+>> -    .cp_nonpixel_size = 0x24800000,
+>> -};
+>> -
+>> -static const u32 sm8250_vdec_input_config_param_default[] = {
+>> -    HFI_PROPERTY_CONFIG_VIDEOCORES_USAGE,
+>> -    HFI_PROPERTY_PARAM_UNCOMPRESSED_FORMAT_SELECT,
+>> -    HFI_PROPERTY_PARAM_UNCOMPRESSED_PLANE_ACTUAL_CONSTRAINTS_INFO,
+>> -    HFI_PROPERTY_PARAM_BUFFER_COUNT_ACTUAL,
+>> -    HFI_PROPERTY_PARAM_VDEC_MULTI_STREAM,
+>> -    HFI_PROPERTY_PARAM_FRAME_SIZE,
+>> -    HFI_PROPERTY_PARAM_BUFFER_SIZE_ACTUAL,
+>> -    HFI_PROPERTY_PARAM_BUFFER_ALLOC_MODE,
+>> -};
+>> -
+>> -static const u32 sm8250_dec_ip_int_buf_tbl[] = {
+>> -    BUF_BIN,
+>> -    BUF_SCRATCH_1,
+>> -};
+>> -
+>> -static const u32 sm8250_dec_op_int_buf_tbl[] = {
+>> -    BUF_DPB,
+>> -};
+>> -
+>>   struct iris_platform_data sm8250_data = {
+>>       .get_instance = iris_hfi_gen1_get_instance,
+>>       .init_hfi_command_ops = &iris_hfi_gen1_command_ops_init,
+>> @@ -147,3 +75,5 @@ struct iris_platform_data sm8250_data = {
+>>       .dec_op_int_buf_tbl = sm8250_dec_op_int_buf_tbl,
+>>       .dec_op_int_buf_tbl_size = ARRAY_SIZE(sm8250_dec_op_int_buf_tbl),
+>>   };
+>> +
+>> +#endif
+>>
+>> -- 
+>> 2.34.1
+>>
+>>
+> Once done.
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
 
