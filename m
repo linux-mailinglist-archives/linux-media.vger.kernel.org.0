@@ -1,55 +1,55 @@
-Return-Path: <linux-media+bounces-30076-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30077-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6D9AA86DAF
-	for <lists+linux-media@lfdr.de>; Sat, 12 Apr 2025 16:28:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41ECBA86DE9
+	for <lists+linux-media@lfdr.de>; Sat, 12 Apr 2025 17:15:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 942908A5E15
-	for <lists+linux-media@lfdr.de>; Sat, 12 Apr 2025 14:28:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2321F8A8180
+	for <lists+linux-media@lfdr.de>; Sat, 12 Apr 2025 15:15:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 455371EA7CF;
-	Sat, 12 Apr 2025 14:28:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF1031F1307;
+	Sat, 12 Apr 2025 15:15:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="upkh0UPb"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="oWt6ksbS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.3])
+Received: from mout.web.de (mout.web.de [212.227.15.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 126321FDD;
-	Sat, 12 Apr 2025 14:28:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB56418E3F;
+	Sat, 12 Apr 2025 15:15:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744468106; cv=none; b=Ed7NX+zCrMiiqQYolZMi/IWiam57gKd4GHTebqOYE++OfxNKAcmJST4ikeSFk4B1iO6Fo6HZCOxLxREE62JP0u1eRYBD51O+ozohs3aMnyHKcEfP6kVbYk77VtE9KlNXlebjU/9JEgbYSabLuC89Kw1MIcnssvuoFPHN9xZLoIA=
+	t=1744470951; cv=none; b=EcPvU+FlGKHdIrkoHBREgCAoHg4OGKE8WhBazSbtavyX6s+1s1zK0SsB3PcfVwfCGSYQqbGysPY7DI3N39x5E5jH0V0C1QD0DNXdrvLfss/rLCODpJdXjiFM/VWKY+a9s6Gyla6QJQW7SfUCXTBP8oI7jbJU2x8TV6d2Mab0+G4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744468106; c=relaxed/simple;
-	bh=vmztPP/1esSKAxnm4b2Tct+Q32/hBncSnITegjELKWw=;
+	s=arc-20240116; t=1744470951; c=relaxed/simple;
+	bh=LtA0bMsVg4AadDskLy8Bh+pEvXyenrQ1HCoq+a9HjaA=;
 	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=gdMnFIeR0GwNK07SEEOpdxYS6ilzvQ32J2sskdq6vC32zQAl9/T6cA+VQuZq41D/zGNIy8JLFyqtB2UIckRXHgig/cK5UbuVeKxOuuY0lE4mLkmHoE96GfoM0xpIlqpRL/5NQqci6grAzhSLaYvQKDEVOwbmhT8V4gtP4WzlF/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=upkh0UPb; arc=none smtp.client-ip=212.227.15.3
+	 In-Reply-To:Content-Type; b=IelPphf4kYUN90ZHwmOpQlDMEPx/33olv9NQ+GsDHQc42sUHMMC5zjxppvUIHBHSlKC3Vk8l3OiamQ2cLkIAPMsPftz7Zyoi1pHBMjaTCSa/Rz4ci20mx/eXjUF8YQwGaAzdodO2AYlxv25uCT1sRNGSe57cfKsGoEDNxTHNvyQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=oWt6ksbS; arc=none smtp.client-ip=212.227.15.4
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1744468082; x=1745072882; i=markus.elfring@web.de;
-	bh=VRUC+sJ4zHMKef2PUfwVU1bMhUaNY0Sm7Aw7nUjDO4c=;
+	s=s29768273; t=1744470939; x=1745075739; i=markus.elfring@web.de;
+	bh=LtA0bMsVg4AadDskLy8Bh+pEvXyenrQ1HCoq+a9HjaA=;
 	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
 	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
 	 cc:content-transfer-encoding:content-type:date:from:message-id:
 	 mime-version:reply-to:subject:to;
-	b=upkh0UPbfrat9YCJythFOFa5KMZv7fAk1x/Cwsz6sMfJfX6zrd+vL/97Y3L1mEP+
-	 v/xwwrnx7fcPnH3JWpIQ+TU1y+ue6CwMDCgHSG9ZsYGKoo2fru8YQEjURydAL5kE8
-	 l+sHovTBZzGwWKVF1/W/sNIp2bcg7h9hV8kfmPM9rR1uYSeN4RiTJYmgGgdGISgNo
-	 FpoYMxuyKfwu/CB3/RBud8IL4/nN9dWryN1tMSaSkqQpGcTVe4CkhsiWe4S61GoVL
-	 O06R1uFHjZ5dz1I7fyyCs32/hqKkVIaLAe/1FZ2/UOOuAmGkpP20s6TUWxHdMBBfE
-	 LKYmHY/LT8WghfifMw==
+	b=oWt6ksbSwxW0+l2C1LfYCgl5tH4YMme5uKJw7oXrzSeHpD6+XEY+trr7PJLZzzcy
+	 /Hv+W4Oy1Lr+kHt7N4M1/mX9kfUh3056JNs+XcteE1lG9Wn4UBgx+fbeQjQ38l8Mc
+	 1lq82lNEjRQMzZQcXO5tTR6Oxd+C+cM0VFdPoUaJCb89gvW03mRpMcOWf5j+jt1BC
+	 TMDdLQOUqOvOIy1Kdv3Ohdr5H8jnXxITENxT6kmgvDRg3oCx0PK6kKkW8c/1RdbfF
+	 RycFNcBr4i/WKDjeojWKv70Ebx4pzveKCduzqsLovo9Wc3WdlGYjkEFr3Fn1kPxJ1
+	 Rga1GfrGlxuqIAGvbg==
 X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
 Received: from [192.168.178.29] ([94.31.70.84]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MhWkh-1tPrQv1dX1-00oxB6; Sat, 12
- Apr 2025 16:28:02 +0200
-Message-ID: <d4ec6adf-02db-4937-a483-5655f70aa205@web.de>
-Date: Sat, 12 Apr 2025 16:27:59 +0200
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1MMpCS-1tnCBz00cG-00UQMs; Sat, 12
+ Apr 2025 17:15:39 +0200
+Message-ID: <23cfd97e-b520-4e9c-a193-e0fdc885e299@web.de>
+Date: Sat, 12 Apr 2025 17:15:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,76 +57,64 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: Alexandre Courbot <gnurou@gmail.com>, linux-media@vger.kernel.org,
- virtualization@lists.linux.dev
-Cc: Alexandre Courbot <acourbot@google.com>,
- LKML <linux-kernel@vger.kernel.org>, Albert Esteve <aesteve@redhat.com>,
- Alistair Delva <adelva@google.com>, Changyeon Jo <changyeon@google.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
- Gurchetan Singh <gurchetansingh@google.com>,
- Hans Verkuil <hverkuil@xs4all.nl>, Jason Wang <jasowang@redhat.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-References: <20250412-virtio-media-v3-1-97dc94c18398@gmail.com>
-Subject: Re: [PATCH v3] media: add virtio-media driver
+To: Chenyuan Yang <chenyuan0y@gmail.com>, linux-media@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>, Charles Han
+ <hanchunchao@inspur.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Ming Qian <ming.qian@nxp.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>, Shijie Qin <shijie.qin@nxp.com>,
+ Zhou Peng <eagle.zhou@nxp.com>
+References: <20250411184356.2910366-1-chenyuan0y@gmail.com>
+Subject: Re: [PATCH] media: amphion: fix potential NULL deref in
+ vpu_core_parse_dt()
 Content-Language: en-GB
 From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250412-virtio-media-v3-1-97dc94c18398@gmail.com>
+In-Reply-To: <20250411184356.2910366-1-chenyuan0y@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:Nb1C9m69vNmoctkPjPGPYvOhYSts2Z4HKu1+JCjHY4/iIAngSYC
- 6yng0eTPDoyT+fjf7svFuLr3o5sII/WapBQbvjRGfxaiieowQNKWjcHtXDkg04CHyC5hfDV
- Jarf3atIHTM8Ql9DwnlLuqf2hd/L1LCXpmMUJNW+93rYiLr7eSyFqW51SqWgJMp6U/yDJsv
- zPyO1hSo2/Rqr6s2txBEA==
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:CPX6tqFlh5SR7jhux8oADeMPQ9qVglGWQ5nBFmx/2BGGLgjii9q
+ YvebY0roEV+R+K4qj5uV8XvRW84zXWKrdKrnJpdT6nacBu88X1Od60SbqVq2KequUEcB64l
+ KENkY7KFzGBIBgRcEXIVLHGxRMKdKebKbL4NgA9fgvBVpNyvfRlNlTSOh1KJNaVUznIehOQ
+ +AMcSmKD2iXlJjcmteokw==
 X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:jhk7V8fLhek=;O6ZwHegHmu5XDjfj6VbWSlNksmX
- v47WOSaJoN06jXTpshw6ZpXy9z1xpSuSEx44NJEFlOSNG9GmgXA1yDp8wmsptL6PDRY9pKX83
- S4BWAs6cEUwEQksgJhfn70eo3AuKihLjTqIOH3LoDp1psvqSU0Y9U9Umd6KQxRWB97ef5hGXz
- Xk4jjBBHvW/OU2kGG8yJFu7FYYXoIHhdlhpUkEA6Zy9mbQ0zeXF0HLs4DVhx1zT8DR7yRLSwn
- Il4GeZChw/nSumvMCm0jnWgBokmVS6bQEPPL62MltNm1fhNfZTncvwKIMcZfsFin3rLsWo9kL
- fNJ0kmZmqwdHvx2Olt1Rfif1laSnuA8FSLU/+X7y6uqAIZHE1cx6T4nug1vhPUkYmuG2wmsD0
- 3x1+VsbuyGYxZkw54ZHMF3PBsJAfXAw21fn+fJ2CaRcec3+LrTN/NPPFuPhpYExwiYqYEaKye
- 3/M/CudK07uu5hjWY/lxfG/nnaIVME4ByVeLdr1dh18Fuc9tdRlXA4HjB/xC2pUh1awqB7BHf
- Te6Ub3We8iIK4sTagDtUXzG6PzKdM9OEf1W+27WudCQR68OWp/f4zgw6w0qUSBbhHnW53eHLU
- Bqlf8f55lRIlNfRl0jlN159dZpv8p7QSYvv0LHZdpotJFYRashSUErPP48zqK4Mzww4iLMvs1
- TsyrTpi29a+AIlC9m89gLwLeejDZWXkxJVHcoWYdBzBIeUyVcTfZlFy4JKNta7+6Y2ErCER48
- uMh1bHk+2rJzKWO5Z91zpAWwpsX84wBedrcxBx+52eH88w6Q8SVo7tLe4Skom83WguWvYTuIP
- dKRsy/44MlbX36UhBUvm0PN9fjN2fNkXYVw1BQsazr88fsC8x4WpijpBntDDRtnY/ZKYbhPy2
- V1YTyb6E+dXk2rpNirpesmfvQxjeYTp4OptDxw+4sYEdnWOPNJ5g0jlGNF84d552OB/IfcD75
- c2EmLb+CUbfBB/9rTczeJXvt8GLqOn0UCocdhwH46SLo1+hAIKfdCUIanwNU/xK+O0evp4ZoC
- phA443/9sYSf4k3FYDSLVAtTbUCt//51C1Vv/N9AoOEzS7B0MtI8KBic/NIuqpJpMALfBnNuo
- FNxw/4jr+DaLM5yxKLYfPodmkpqKt6SSZSRw+AiMtViJjxbPidK+iMWxg6XE0SeDbp0YadJR/
- Yd0ZK1QzBOGV0NUzalRuuAHys/QqO2L9tDUBkax/Z5qT68HgfCvWQ4ZqgZrSAyyW1pXLDBTU6
- TlLwc/UM24ZL4N+ULodlXJ/AszWI/hKt2eMg2BRJCf+X0qMahnp1DOdiUB5UVsbwGVsLxv1aU
- +rXRWP7zCbhtTedFC5ZSUtPBg8FGAJrVxlGaeTRaFOz1B58CiY8vTzkQJGqc16gMfWEnG+0y4
- 5sBFvUTXKdA/T57uuppGBOY9RF/OS7v7qQqOOTKVz9n2nYgRwPzxOqG4Gsdf4+Vi+3ErtG4GA
- wxvMdSL8W7YYxaqiNYAghWcJAqYdNd6e7hyM6DJSx0M/ZMjcUsixYXjEkv4HOyCoGQ8mr4g==
+UI-OutboundReport: notjunk:1;M01:P0:lr7OIQ+UF0A=;7f6W17tcpf0Ra/A8AFLVPaoRJaA
+ l/mOB0zDZnMYcVjOgwLo4Nps9eI+AStBOdJC7YRhS3Wlaf30Bi3hRvmq5u0ZdAt5GWW95D4tw
+ tycEVWdStyBCYf7gdrcJ9Nk3PysfeDYPEoa6hOuDSK1LdUcAUvPDmHhNNYCcx6pKv8Cl+Rz3V
+ 29uGx0SZVmPVi4XQw/7rG1gtrMhnPX65buLpjE2KBVWZLvPJt7gnLNDrKq4Yb6yLcWNv+XGK/
+ GR7YRgPWCv4aDCfVxstjCnDjaFVOjC5/KsqpRH+wBCidW+juH/xUObKkhO9Ou4VKZnA/wOACd
+ krPMsEJZuqyBKgXqfQBi2UzLnUHs2axBjvBI7oowFIpusNRplKn0mjL4n+O6XVR/O29LFwEDj
+ V7JjKs8RBawZHJ9sLu1eNs8iPWf0BQasfpq6fEny+0uu1zhi9dCaUibe9V0Heb2Mc7l4u8yMl
+ 46N2aIY2ZXf2E8rkDsLqm/tF3pZ7lzlC1Vi+3uR4wRvaS+XsecKAz2ejnuu1TXJotb1/Ta9Ra
+ I12P4Y8nE7jkatMf0teLKQSM2vW3GiXM+A/BjbvFWliAw+LOMyuN9JDFpN5WHY1oOZN8zus+k
+ ANPIsAXTNdrNbX5bWe0BqQobeig22aVrNnPDgn+F+7Dn5EuzYWu27SEfQznuGZXDTJjragY13
+ ZRxbu4YPXYAQXRO/4sGgTMCZSL5YCauW6xSI53at2e+dI8Ji0LqeGGofh3k3Yk3o5ZxerMI3y
+ CcIKgBk0qAtmnJFWJHXKakIjJ6KEPaANpk6++gvrnFxvnv94aMH5VOOUTAOpAqF8M/axiMZE5
+ 9GXr5vWS8M1ZxFzcSqwZXhbdt30Y0CvDHecFFH2kYLJJ1L+0Pk/ClY90GZQOARYaL+YEpUBIj
+ VzWG1lbwRMz3ZIz9lHgbUyYWf83YN63ywaNsykVzGmxixeu1KvmuTxqwnw01svvDFJiKyd1Km
+ hLz2SLL1Q/Issr9+bxpj2qTCsm/9QI0yBLad0ULhaFu4hVScLIzEPnUYHSUMOq6YZuSZkERG1
+ KtxYLwd0imQniZ52+6rRWY9X7blvmQDAGLl10cs/vKbSzlbYzq7dunwQzNq69U4xCulQsT+C+
+ jFaR4Xaqempm7dHkkeDewAuhd+vGXxRSv48WWl8Oz0VKYk/pghTxjXQeL+ETvQjiYe0YO40gI
+ qwgir5yavr58YIIuAyDk58ZWRx/iMaUn7uP0USKUAbQRG9CtyjbiYiu1e9yLjhczLHi66F2LM
+ WQhjhMlm6dE3QPTRjc64KJWuGCwOh1hnJWaHoAoCdGtFFbIcy3QWSeDWn/FvP8635Us4NsUi5
+ URh/mwGNPjUaxJo/lJs54Vzp9p2m4AltbkONvXICF9OY9mzT+wVafDDgFHtwAQTQhSXXOIIxh
+ 4tfGX3WSeILqyF5k/Pr9/cQYSupBFSP7vkvruoJX9NWOr5n1SGgOU3lWWwOuKhSW5gaMPACJT
+ QuWRQwp4a5CTNuOj5ysby804jxrD6IwtuWM3o8ZVws8pRKcJF
 
-=E2=80=A6
-> +++ b/drivers/media/virtio/virtio_media_driver.c
-> @@ -0,0 +1,959 @@
-=E2=80=A6
-> +static struct virtio_media_session *
-> +virtio_media_session_alloc(struct virtio_media *vv, u32 id,
-> +			   bool nonblocking_dequeue)
-> +{
-=E2=80=A6
-> +	init_waitqueue_head(&session->dqbuf_wait);
-> +
-> +	mutex_lock(&vv->sessions_lock);
-> +	list_add_tail(&session->list, &vv->sessions);
-> +	mutex_unlock(&vv->sessions_lock);
-> +
-> +	return session;
-=E2=80=A6
+> The result of memremap() may be NULL on failure, leading to a null
+> dereference in the subsequent memset(). Add explicit checks after
+> each memremap() call: if the firmware region fails to map, return
+> immediately; if the RPC region fails, unmap the firmware window before
+> returning.
 
-Under which circumstances would you become interested to apply a statement
-like =E2=80=9Cguard(mutex)(&vv->sessions_lock);=E2=80=9D?
-https://elixir.bootlin.com/linux/v6.14-rc6/source/include/linux/mutex.h#L2=
-01
+* Do you propose to complete the error handling?
+
+* Can any other summary phrase variant become more desirable accordingly?
+
+* Please avoid duplicate source code (also for corresponding exception handling).
+
+
+See also:
+[PATCH] media: amphion: fix potential NULL deref in vpu_core_parse_dt
+https://lore.kernel.org/all/20250407084829.5755-1-hanchunchao@inspur.com/
 
 Regards,
 Markus
