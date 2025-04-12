@@ -1,194 +1,87 @@
-Return-Path: <linux-media+bounces-30078-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30079-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3DC1A86E04
-	for <lists+linux-media@lfdr.de>; Sat, 12 Apr 2025 17:55:44 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CDEDA86E96
+	for <lists+linux-media@lfdr.de>; Sat, 12 Apr 2025 20:05:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 41B70188F8ED
-	for <lists+linux-media@lfdr.de>; Sat, 12 Apr 2025 15:55:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D5BA8A5B21
+	for <lists+linux-media@lfdr.de>; Sat, 12 Apr 2025 18:04:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E2E31FAC29;
-	Sat, 12 Apr 2025 15:55:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B806A20C02E;
+	Sat, 12 Apr 2025 18:04:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KgVsrFl0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PHJYj3GQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A01C2367B7
-	for <linux-media@vger.kernel.org>; Sat, 12 Apr 2025 15:55:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15467537E9;
+	Sat, 12 Apr 2025 18:04:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744473334; cv=none; b=naoqpObY+EOMZA/19GWawxYpimR2e6arqNcS98b1s/7zokMs1HTaytq4HgQ5CqlWADcHdsVUhKG14qZZDymHsCubT+K1D12X9P0QDzl7GGNG0EWdjO973yFXhhQhSJzM8rZ8sZppnMbirHDQMXbHixk912XXl/WDyEKrgdF9/b0=
+	t=1744481056; cv=none; b=I/YKyWQy7ci8F+1PaHN2AUH7oyqg7dMnKQLPH3K5ZvaOOjOfz4XfEUq35NWK6WLiph3VIF1ZXUFoMHeUXYK575xAvIovbpZ7FfcXZM1fpGhxCKjUNvQ2lUWICuEzpLnklGxhU48G+zOms8mCGrUwLTom/YI0JcuQOIRIAAHrklE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744473334; c=relaxed/simple;
-	bh=b9Sui1Qm22tZqqDVZYwXirlGOiXtHK7J6oHT3saWpu0=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=pS76f5DNrwQNGGwYnuw5FGrX92+IDs9Z24GiCD9uIhzxnW5xIJMxoinAwagjcIPY+hKgf453jr0jFOmHYbHAUtGnYx0EJ3C4lrrpONqlrgLsKVYkjHHoLKrAW6p8nV5BqsQHjwXhI29+HzEnbcYgdSeYBeJsMqTFhJfWHp0TTTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KgVsrFl0; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744473332; x=1776009332;
-  h=date:from:to:cc:subject:message-id;
-  bh=b9Sui1Qm22tZqqDVZYwXirlGOiXtHK7J6oHT3saWpu0=;
-  b=KgVsrFl0idybofuuF5XoL103QsgR0e9qyj9wX6Vvrc8Qan7PDpajmTvc
-   VDK0DJgCuSRnAWdJPoP9iAx8FysYbwDnSh/RnRs3kgHFJc/YZR7z7K5HF
-   alY7oVz+NSCKavR6aDNOM3UbrmWXtIQbMfSmWFGgfcLYhUgAJ9fgTDw5a
-   n+Bww/XSm0R0M9DoNh4xf+FR6Xgbm+3zq4sVC0cQ5nigrSYWI0FVZ5jxy
-   5tU+pVfstRl9gYBWstV5WQ2gGGcCfLSF2cXlx6jkxTin5Hxx60sGNUN6F
-   dmOKF/780nnVDSRjQzrGEaz6CtdVWz6jYw8b8SIRkQdK3PX7jr7WhhmwU
-   A==;
-X-CSE-ConnectionGUID: hWdIVN1QQZikrO7O9tPAbQ==
-X-CSE-MsgGUID: IjG1K7PKTRKnq20XjzbXbQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="49833911"
-X-IronPort-AV: E=Sophos;i="6.15,208,1739865600"; 
-   d="scan'208";a="49833911"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2025 08:55:31 -0700
-X-CSE-ConnectionGUID: L3++OcIVR+uiO1poWivCeg==
-X-CSE-MsgGUID: ex/MqndnRcmSs/gdAwJyqA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,208,1739865600"; 
-   d="scan'208";a="129419726"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 12 Apr 2025 08:55:31 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u3dCZ-000Bu0-2y;
-	Sat, 12 Apr 2025 15:55:27 +0000
-Date: Sat, 12 Apr 2025 23:54:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-pending:next] BUILD SUCCESS
- 14423fc3a4a21fb436dda85450339ec2bf191b36
-Message-ID: <202504122326.sc9ZxcBF-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1744481056; c=relaxed/simple;
+	bh=1AuLxzGY9LPRhaoTY6q8rhIM2KkGfgI6Ff0WOXcz//s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aoN9De+L/cL8wHwAuJ9nGBXRaf3NQwv0x4jSxRJxPschyyASV+TPCQoIhqQYpnELSo1xb0Wwxw6r/HdlNRV6vam8tpJpJks0uehbVAeOv/ArJbDUEKwmGAHc/9LOIXJHu1mKeBc/4Q4D5QFxRTfvoyfWEq805UYevyEtFEvGCcc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PHJYj3GQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5D236C4CEE8;
+	Sat, 12 Apr 2025 18:04:15 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744481055;
+	bh=1AuLxzGY9LPRhaoTY6q8rhIM2KkGfgI6Ff0WOXcz//s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PHJYj3GQNbgm4xygh+u8S9iVQVfEzlzcigjGe/iVMu2Tu+pjyDwM+UHTyctAKh2zx
+	 1c4Nd+Wq6poK/9zA4vnjYJXFIDDgPR59dhic70wm8K60Hj7PPWG+P9gbitMUOq19NL
+	 a7Xmb5Tny03fdbLtvJ8fYiOd9ZLf12VYgRVnyw2nTV1ZU7mf7+NAKYBm9dZd+5ceVk
+	 yDdonrHRHxXO0dL2tH7s1GQq3Aj3RRGR+8IxJVVh0oBWxZ8cVI6FqOQSrowdL+MBD+
+	 KA6m8FmxOE8Znh8NMkI4Xw8lEx5OyxpacrvcP0iIr2CrtcSmHKS5RXeoHNB0p3hFYj
+	 PC26ATRx3lFBw==
+Date: Sat, 12 Apr 2025 13:04:14 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, imx@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Sascha Hauer <s.hauer@pengutronix.de>,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH 1/1] dt-bindings: media: convert fsl-vdoa.txt to yaml
+ format
+Message-ID: <174448105342.1415739.9619142538994119426.robh@kernel.org>
+References: <20250411213601.3273670-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250411213601.3273670-1-Frank.Li@nxp.com>
 
-tree/branch: https://git.linuxtv.org/media-ci/media-pending.git next
-branch HEAD: 14423fc3a4a21fb436dda85450339ec2bf191b36  media: venus: pm_helpers: add compatibility for dev_pm_genpd_set_hwmode on V4
 
-elapsed time: 1441m
+On Fri, 11 Apr 2025 17:36:00 -0400, Frank Li wrote:
+> Convert fsl-vdoa.txt to yaml format.
+> 
+> Additional changes:
+> - Add irq.h and imx6qdl-clock.h in example.
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+>  .../bindings/media/fsl,imx6q-vdoa.yaml        | 42 +++++++++++++++++++
+>  .../devicetree/bindings/media/fsl-vdoa.txt    | 21 ----------
+>  2 files changed, 42 insertions(+), 21 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/fsl,imx6q-vdoa.yaml
+>  delete mode 100644 Documentation/devicetree/bindings/media/fsl-vdoa.txt
+> 
 
-configs tested: 101
-configs skipped: 3
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig    gcc-14.2.0
-alpha                            allyesconfig    gcc-14.2.0
-arc                              allmodconfig    gcc-14.2.0
-arc                               allnoconfig    gcc-14.2.0
-arc                              allyesconfig    gcc-14.2.0
-arc                   randconfig-001-20250412    gcc-14.2.0
-arc                   randconfig-002-20250412    gcc-14.2.0
-arm                              allmodconfig    gcc-14.2.0
-arm                               allnoconfig    clang-21
-arm                              allyesconfig    gcc-14.2.0
-arm                          collie_defconfig    gcc-14.2.0
-arm                   randconfig-001-20250412    clang-21
-arm                   randconfig-002-20250412    gcc-7.5.0
-arm                   randconfig-003-20250412    clang-21
-arm                   randconfig-004-20250412    clang-21
-arm                         wpcm450_defconfig    gcc-14.2.0
-arm64                            allmodconfig    clang-19
-arm64                             allnoconfig    gcc-14.2.0
-arm64                 randconfig-001-20250412    clang-21
-arm64                 randconfig-002-20250412    clang-21
-arm64                 randconfig-003-20250412    gcc-8.5.0
-arm64                 randconfig-004-20250412    clang-21
-csky                              allnoconfig    gcc-14.2.0
-csky                  randconfig-001-20250412    gcc-14.2.0
-csky                  randconfig-002-20250412    gcc-14.2.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-21
-hexagon                          allyesconfig    clang-21
-hexagon               randconfig-001-20250412    clang-21
-hexagon               randconfig-002-20250412    clang-21
-i386                             allmodconfig    gcc-12
-i386                              allnoconfig    gcc-12
-i386                             allyesconfig    gcc-12
-i386        buildonly-randconfig-001-20250411    gcc-12
-i386        buildonly-randconfig-002-20250411    gcc-12
-i386        buildonly-randconfig-003-20250411    gcc-12
-i386        buildonly-randconfig-004-20250411    clang-20
-i386        buildonly-randconfig-005-20250411    gcc-11
-i386        buildonly-randconfig-006-20250411    gcc-12
-i386                                defconfig    clang-20
-loongarch                        allmodconfig    gcc-14.2.0
-loongarch                         allnoconfig    gcc-14.2.0
-loongarch             randconfig-001-20250412    gcc-14.2.0
-loongarch             randconfig-002-20250412    gcc-14.2.0
-m68k                             allmodconfig    gcc-14.2.0
-m68k                              allnoconfig    gcc-14.2.0
-m68k                             allyesconfig    gcc-14.2.0
-m68k                         amcore_defconfig    gcc-14.2.0
-microblaze                       allmodconfig    gcc-14.2.0
-microblaze                        allnoconfig    gcc-14.2.0
-microblaze                       allyesconfig    gcc-14.2.0
-mips                              allnoconfig    gcc-14.2.0
-mips                           ci20_defconfig    clang-21
-nios2                             allnoconfig    gcc-14.2.0
-nios2                 randconfig-001-20250412    gcc-8.5.0
-nios2                 randconfig-002-20250412    gcc-10.5.0
-parisc                randconfig-001-20250412    gcc-7.5.0
-parisc                randconfig-002-20250412    gcc-9.3.0
-powerpc                   bluestone_defconfig    clang-21
-powerpc               randconfig-001-20250412    clang-18
-powerpc               randconfig-002-20250412    clang-21
-powerpc               randconfig-003-20250412    clang-18
-powerpc                     tqm8540_defconfig    gcc-14.2.0
-powerpc64             randconfig-001-20250412    clang-21
-powerpc64             randconfig-002-20250412    clang-21
-powerpc64             randconfig-003-20250412    clang-21
-riscv                 randconfig-001-20250412    clang-20
-riscv                 randconfig-002-20250412    gcc-8.5.0
-s390                             allyesconfig    gcc-14.2.0
-s390                  randconfig-001-20250412    clang-18
-s390                  randconfig-002-20250412    gcc-9.3.0
-sh                               allmodconfig    gcc-14.2.0
-sh                                allnoconfig    gcc-14.2.0
-sh                               allyesconfig    gcc-14.2.0
-sh                        apsh4ad0a_defconfig    gcc-14.2.0
-sh                        edosk7760_defconfig    gcc-14.2.0
-sh                    randconfig-001-20250412    gcc-14.2.0
-sh                    randconfig-002-20250412    gcc-14.2.0
-sh                           se7780_defconfig    gcc-14.2.0
-sparc                            allmodconfig    gcc-14.2.0
-sparc                             allnoconfig    gcc-14.2.0
-sparc                 randconfig-001-20250412    gcc-10.3.0
-sparc                 randconfig-002-20250412    gcc-13.3.0
-sparc64               randconfig-001-20250412    gcc-13.3.0
-sparc64               randconfig-002-20250412    gcc-5.5.0
-um                               allmodconfig    clang-19
-um                               allyesconfig    gcc-12
-um                    randconfig-001-20250412    gcc-12
-um                    randconfig-002-20250412    gcc-12
-x86_64                            allnoconfig    clang-20
-x86_64                           allyesconfig    clang-20
-x86_64      buildonly-randconfig-001-20250412    gcc-12
-x86_64      buildonly-randconfig-002-20250412    clang-20
-x86_64      buildonly-randconfig-003-20250412    gcc-11
-x86_64      buildonly-randconfig-004-20250412    clang-20
-x86_64      buildonly-randconfig-005-20250412    clang-20
-x86_64      buildonly-randconfig-006-20250412    clang-20
-x86_64                              defconfig    gcc-11
-xtensa                            allnoconfig    gcc-14.2.0
-xtensa                randconfig-001-20250412    gcc-14.2.0
-xtensa                randconfig-002-20250412    gcc-13.3.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
