@@ -1,121 +1,194 @@
-Return-Path: <linux-media+bounces-30077-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30078-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41ECBA86DE9
-	for <lists+linux-media@lfdr.de>; Sat, 12 Apr 2025 17:15:58 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3DC1A86E04
+	for <lists+linux-media@lfdr.de>; Sat, 12 Apr 2025 17:55:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2321F8A8180
-	for <lists+linux-media@lfdr.de>; Sat, 12 Apr 2025 15:15:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 41B70188F8ED
+	for <lists+linux-media@lfdr.de>; Sat, 12 Apr 2025 15:55:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF1031F1307;
-	Sat, 12 Apr 2025 15:15:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E2E31FAC29;
+	Sat, 12 Apr 2025 15:55:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="oWt6ksbS"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KgVsrFl0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.4])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB56418E3F;
-	Sat, 12 Apr 2025 15:15:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A01C2367B7
+	for <linux-media@vger.kernel.org>; Sat, 12 Apr 2025 15:55:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744470951; cv=none; b=EcPvU+FlGKHdIrkoHBREgCAoHg4OGKE8WhBazSbtavyX6s+1s1zK0SsB3PcfVwfCGSYQqbGysPY7DI3N39x5E5jH0V0C1QD0DNXdrvLfss/rLCODpJdXjiFM/VWKY+a9s6Gyla6QJQW7SfUCXTBP8oI7jbJU2x8TV6d2Mab0+G4=
+	t=1744473334; cv=none; b=naoqpObY+EOMZA/19GWawxYpimR2e6arqNcS98b1s/7zokMs1HTaytq4HgQ5CqlWADcHdsVUhKG14qZZDymHsCubT+K1D12X9P0QDzl7GGNG0EWdjO973yFXhhQhSJzM8rZ8sZppnMbirHDQMXbHixk912XXl/WDyEKrgdF9/b0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744470951; c=relaxed/simple;
-	bh=LtA0bMsVg4AadDskLy8Bh+pEvXyenrQ1HCoq+a9HjaA=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=IelPphf4kYUN90ZHwmOpQlDMEPx/33olv9NQ+GsDHQc42sUHMMC5zjxppvUIHBHSlKC3Vk8l3OiamQ2cLkIAPMsPftz7Zyoi1pHBMjaTCSa/Rz4ci20mx/eXjUF8YQwGaAzdodO2AYlxv25uCT1sRNGSe57cfKsGoEDNxTHNvyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=oWt6ksbS; arc=none smtp.client-ip=212.227.15.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1744470939; x=1745075739; i=markus.elfring@web.de;
-	bh=LtA0bMsVg4AadDskLy8Bh+pEvXyenrQ1HCoq+a9HjaA=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=oWt6ksbSwxW0+l2C1LfYCgl5tH4YMme5uKJw7oXrzSeHpD6+XEY+trr7PJLZzzcy
-	 /Hv+W4Oy1Lr+kHt7N4M1/mX9kfUh3056JNs+XcteE1lG9Wn4UBgx+fbeQjQ38l8Mc
-	 1lq82lNEjRQMzZQcXO5tTR6Oxd+C+cM0VFdPoUaJCb89gvW03mRpMcOWf5j+jt1BC
-	 TMDdLQOUqOvOIy1Kdv3Ohdr5H8jnXxITENxT6kmgvDRg3oCx0PK6kKkW8c/1RdbfF
-	 RycFNcBr4i/WKDjeojWKv70Ebx4pzveKCduzqsLovo9Wc3WdlGYjkEFr3Fn1kPxJ1
-	 Rga1GfrGlxuqIAGvbg==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.70.84]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MMpCS-1tnCBz00cG-00UQMs; Sat, 12
- Apr 2025 17:15:39 +0200
-Message-ID: <23cfd97e-b520-4e9c-a193-e0fdc885e299@web.de>
-Date: Sat, 12 Apr 2025 17:15:33 +0200
+	s=arc-20240116; t=1744473334; c=relaxed/simple;
+	bh=b9Sui1Qm22tZqqDVZYwXirlGOiXtHK7J6oHT3saWpu0=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=pS76f5DNrwQNGGwYnuw5FGrX92+IDs9Z24GiCD9uIhzxnW5xIJMxoinAwagjcIPY+hKgf453jr0jFOmHYbHAUtGnYx0EJ3C4lrrpONqlrgLsKVYkjHHoLKrAW6p8nV5BqsQHjwXhI29+HzEnbcYgdSeYBeJsMqTFhJfWHp0TTTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KgVsrFl0; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744473332; x=1776009332;
+  h=date:from:to:cc:subject:message-id;
+  bh=b9Sui1Qm22tZqqDVZYwXirlGOiXtHK7J6oHT3saWpu0=;
+  b=KgVsrFl0idybofuuF5XoL103QsgR0e9qyj9wX6Vvrc8Qan7PDpajmTvc
+   VDK0DJgCuSRnAWdJPoP9iAx8FysYbwDnSh/RnRs3kgHFJc/YZR7z7K5HF
+   alY7oVz+NSCKavR6aDNOM3UbrmWXtIQbMfSmWFGgfcLYhUgAJ9fgTDw5a
+   n+Bww/XSm0R0M9DoNh4xf+FR6Xgbm+3zq4sVC0cQ5nigrSYWI0FVZ5jxy
+   5tU+pVfstRl9gYBWstV5WQ2gGGcCfLSF2cXlx6jkxTin5Hxx60sGNUN6F
+   dmOKF/780nnVDSRjQzrGEaz6CtdVWz6jYw8b8SIRkQdK3PX7jr7WhhmwU
+   A==;
+X-CSE-ConnectionGUID: hWdIVN1QQZikrO7O9tPAbQ==
+X-CSE-MsgGUID: IjG1K7PKTRKnq20XjzbXbQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="49833911"
+X-IronPort-AV: E=Sophos;i="6.15,208,1739865600"; 
+   d="scan'208";a="49833911"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Apr 2025 08:55:31 -0700
+X-CSE-ConnectionGUID: L3++OcIVR+uiO1poWivCeg==
+X-CSE-MsgGUID: ex/MqndnRcmSs/gdAwJyqA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,208,1739865600"; 
+   d="scan'208";a="129419726"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 12 Apr 2025 08:55:31 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u3dCZ-000Bu0-2y;
+	Sat, 12 Apr 2025 15:55:27 +0000
+Date: Sat, 12 Apr 2025 23:54:32 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-pending:next] BUILD SUCCESS
+ 14423fc3a4a21fb436dda85450339ec2bf191b36
+Message-ID: <202504122326.sc9ZxcBF-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Chenyuan Yang <chenyuan0y@gmail.com>, linux-media@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>, Charles Han
- <hanchunchao@inspur.com>, Hans Verkuil <hverkuil@xs4all.nl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Ming Qian <ming.qian@nxp.com>,
- Nicolas Dufresne <nicolas@ndufresne.ca>, Shijie Qin <shijie.qin@nxp.com>,
- Zhou Peng <eagle.zhou@nxp.com>
-References: <20250411184356.2910366-1-chenyuan0y@gmail.com>
-Subject: Re: [PATCH] media: amphion: fix potential NULL deref in
- vpu_core_parse_dt()
-Content-Language: en-GB
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250411184356.2910366-1-chenyuan0y@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:CPX6tqFlh5SR7jhux8oADeMPQ9qVglGWQ5nBFmx/2BGGLgjii9q
- YvebY0roEV+R+K4qj5uV8XvRW84zXWKrdKrnJpdT6nacBu88X1Od60SbqVq2KequUEcB64l
- KENkY7KFzGBIBgRcEXIVLHGxRMKdKebKbL4NgA9fgvBVpNyvfRlNlTSOh1KJNaVUznIehOQ
- +AMcSmKD2iXlJjcmteokw==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:lr7OIQ+UF0A=;7f6W17tcpf0Ra/A8AFLVPaoRJaA
- l/mOB0zDZnMYcVjOgwLo4Nps9eI+AStBOdJC7YRhS3Wlaf30Bi3hRvmq5u0ZdAt5GWW95D4tw
- tycEVWdStyBCYf7gdrcJ9Nk3PysfeDYPEoa6hOuDSK1LdUcAUvPDmHhNNYCcx6pKv8Cl+Rz3V
- 29uGx0SZVmPVi4XQw/7rG1gtrMhnPX65buLpjE2KBVWZLvPJt7gnLNDrKq4Yb6yLcWNv+XGK/
- GR7YRgPWCv4aDCfVxstjCnDjaFVOjC5/KsqpRH+wBCidW+juH/xUObKkhO9Ou4VKZnA/wOACd
- krPMsEJZuqyBKgXqfQBi2UzLnUHs2axBjvBI7oowFIpusNRplKn0mjL4n+O6XVR/O29LFwEDj
- V7JjKs8RBawZHJ9sLu1eNs8iPWf0BQasfpq6fEny+0uu1zhi9dCaUibe9V0Heb2Mc7l4u8yMl
- 46N2aIY2ZXf2E8rkDsLqm/tF3pZ7lzlC1Vi+3uR4wRvaS+XsecKAz2ejnuu1TXJotb1/Ta9Ra
- I12P4Y8nE7jkatMf0teLKQSM2vW3GiXM+A/BjbvFWliAw+LOMyuN9JDFpN5WHY1oOZN8zus+k
- ANPIsAXTNdrNbX5bWe0BqQobeig22aVrNnPDgn+F+7Dn5EuzYWu27SEfQznuGZXDTJjragY13
- ZRxbu4YPXYAQXRO/4sGgTMCZSL5YCauW6xSI53at2e+dI8Ji0LqeGGofh3k3Yk3o5ZxerMI3y
- CcIKgBk0qAtmnJFWJHXKakIjJ6KEPaANpk6++gvrnFxvnv94aMH5VOOUTAOpAqF8M/axiMZE5
- 9GXr5vWS8M1ZxFzcSqwZXhbdt30Y0CvDHecFFH2kYLJJ1L+0Pk/ClY90GZQOARYaL+YEpUBIj
- VzWG1lbwRMz3ZIz9lHgbUyYWf83YN63ywaNsykVzGmxixeu1KvmuTxqwnw01svvDFJiKyd1Km
- hLz2SLL1Q/Issr9+bxpj2qTCsm/9QI0yBLad0ULhaFu4hVScLIzEPnUYHSUMOq6YZuSZkERG1
- KtxYLwd0imQniZ52+6rRWY9X7blvmQDAGLl10cs/vKbSzlbYzq7dunwQzNq69U4xCulQsT+C+
- jFaR4Xaqempm7dHkkeDewAuhd+vGXxRSv48WWl8Oz0VKYk/pghTxjXQeL+ETvQjiYe0YO40gI
- qwgir5yavr58YIIuAyDk58ZWRx/iMaUn7uP0USKUAbQRG9CtyjbiYiu1e9yLjhczLHi66F2LM
- WQhjhMlm6dE3QPTRjc64KJWuGCwOh1hnJWaHoAoCdGtFFbIcy3QWSeDWn/FvP8635Us4NsUi5
- URh/mwGNPjUaxJo/lJs54Vzp9p2m4AltbkONvXICF9OY9mzT+wVafDDgFHtwAQTQhSXXOIIxh
- 4tfGX3WSeILqyF5k/Pr9/cQYSupBFSP7vkvruoJX9NWOr5n1SGgOU3lWWwOuKhSW5gaMPACJT
- QuWRQwp4a5CTNuOj5ysby804jxrD6IwtuWM3o8ZVws8pRKcJF
 
-> The result of memremap() may be NULL on failure, leading to a null
-> dereference in the subsequent memset(). Add explicit checks after
-> each memremap() call: if the firmware region fails to map, return
-> immediately; if the RPC region fails, unmap the firmware window before
-> returning.
+tree/branch: https://git.linuxtv.org/media-ci/media-pending.git next
+branch HEAD: 14423fc3a4a21fb436dda85450339ec2bf191b36  media: venus: pm_helpers: add compatibility for dev_pm_genpd_set_hwmode on V4
 
-* Do you propose to complete the error handling?
+elapsed time: 1441m
 
-* Can any other summary phrase variant become more desirable accordingly?
+configs tested: 101
+configs skipped: 3
 
-* Please avoid duplicate source code (also for corresponding exception handling).
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-14.2.0
+arc                               allnoconfig    gcc-14.2.0
+arc                              allyesconfig    gcc-14.2.0
+arc                   randconfig-001-20250412    gcc-14.2.0
+arc                   randconfig-002-20250412    gcc-14.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-21
+arm                              allyesconfig    gcc-14.2.0
+arm                          collie_defconfig    gcc-14.2.0
+arm                   randconfig-001-20250412    clang-21
+arm                   randconfig-002-20250412    gcc-7.5.0
+arm                   randconfig-003-20250412    clang-21
+arm                   randconfig-004-20250412    clang-21
+arm                         wpcm450_defconfig    gcc-14.2.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20250412    clang-21
+arm64                 randconfig-002-20250412    clang-21
+arm64                 randconfig-003-20250412    gcc-8.5.0
+arm64                 randconfig-004-20250412    clang-21
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20250412    gcc-14.2.0
+csky                  randconfig-002-20250412    gcc-14.2.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-21
+hexagon               randconfig-001-20250412    clang-21
+hexagon               randconfig-002-20250412    clang-21
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250411    gcc-12
+i386        buildonly-randconfig-002-20250411    gcc-12
+i386        buildonly-randconfig-003-20250411    gcc-12
+i386        buildonly-randconfig-004-20250411    clang-20
+i386        buildonly-randconfig-005-20250411    gcc-11
+i386        buildonly-randconfig-006-20250411    gcc-12
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20250412    gcc-14.2.0
+loongarch             randconfig-002-20250412    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+m68k                         amcore_defconfig    gcc-14.2.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+microblaze                       allyesconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+mips                           ci20_defconfig    clang-21
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250412    gcc-8.5.0
+nios2                 randconfig-002-20250412    gcc-10.5.0
+parisc                randconfig-001-20250412    gcc-7.5.0
+parisc                randconfig-002-20250412    gcc-9.3.0
+powerpc                   bluestone_defconfig    clang-21
+powerpc               randconfig-001-20250412    clang-18
+powerpc               randconfig-002-20250412    clang-21
+powerpc               randconfig-003-20250412    clang-18
+powerpc                     tqm8540_defconfig    gcc-14.2.0
+powerpc64             randconfig-001-20250412    clang-21
+powerpc64             randconfig-002-20250412    clang-21
+powerpc64             randconfig-003-20250412    clang-21
+riscv                 randconfig-001-20250412    clang-20
+riscv                 randconfig-002-20250412    gcc-8.5.0
+s390                             allyesconfig    gcc-14.2.0
+s390                  randconfig-001-20250412    clang-18
+s390                  randconfig-002-20250412    gcc-9.3.0
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                        apsh4ad0a_defconfig    gcc-14.2.0
+sh                        edosk7760_defconfig    gcc-14.2.0
+sh                    randconfig-001-20250412    gcc-14.2.0
+sh                    randconfig-002-20250412    gcc-14.2.0
+sh                           se7780_defconfig    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250412    gcc-10.3.0
+sparc                 randconfig-002-20250412    gcc-13.3.0
+sparc64               randconfig-001-20250412    gcc-13.3.0
+sparc64               randconfig-002-20250412    gcc-5.5.0
+um                               allmodconfig    clang-19
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250412    gcc-12
+um                    randconfig-002-20250412    gcc-12
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250412    gcc-12
+x86_64      buildonly-randconfig-002-20250412    clang-20
+x86_64      buildonly-randconfig-003-20250412    gcc-11
+x86_64      buildonly-randconfig-004-20250412    clang-20
+x86_64      buildonly-randconfig-005-20250412    clang-20
+x86_64      buildonly-randconfig-006-20250412    clang-20
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250412    gcc-14.2.0
+xtensa                randconfig-002-20250412    gcc-13.3.0
 
-See also:
-[PATCH] media: amphion: fix potential NULL deref in vpu_core_parse_dt
-https://lore.kernel.org/all/20250407084829.5755-1-hanchunchao@inspur.com/
-
-Regards,
-Markus
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
