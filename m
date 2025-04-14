@@ -1,117 +1,120 @@
-Return-Path: <linux-media+bounces-30141-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30142-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D075CA87CF3
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 12:06:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DABC8A87D29
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 12:12:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5B7F9189477F
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 10:06:16 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 33C39162C8B
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 10:12:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E51A826F45A;
-	Mon, 14 Apr 2025 10:04:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F2F04267712;
+	Mon, 14 Apr 2025 10:12:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q6ovOH7P"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gouGev/n"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9884926563C;
-	Mon, 14 Apr 2025 10:04:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D759E190679
+	for <linux-media@vger.kernel.org>; Mon, 14 Apr 2025 10:12:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744625065; cv=none; b=sHEIcp3jQaCyc+G5UnQo4yOdCNJf+WeX2Sz7Hanm9D1LwdUc1DnqWIHrlBzMUe4Ujc/IroSbMJaaH6F44a4Vy+r3JLrKIfValIg2h0XGuMF2ZEyXn0kYsOuEpP+KgCpF/ESN5Vj8+Dw9OOktmr8A2iyxqJWlGoPOO+wrw2ubVYY=
+	t=1744625524; cv=none; b=R8tLIen6DkkvoF0MH2aYmxvHnV+Evjzhaxvw8BqiwMfvw/Wjg2s/550fgoq504shQHjepefdO4w1EfChSqWmQNQ2TSSx81fIojMsTYZGn2S5EnbYpTck9hnmaCLzlFtHLN27drCndtkwjzKlULxw3jATAQDkG8H8ptAwPis7o0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744625065; c=relaxed/simple;
-	bh=/z8O9SDZiaTEXhg4ysbJsJfwrcHDw53/UnAOR7/dwrs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tZrz4yJZ4iRY4/uDOQUUlQiRcu7FQxyN2GvTNEi5W1EP2RUhW0eI3BCmFIJkJ7FGPQ3clmHKY9LOqpKMeCsXVHJQC4OA/RRI3DHenlJbrn8fNkYs+kp4i8U3Y8vX2fN8D4u7/4Y+hPml7aCmylnuOiM6EYeWMsp4iDb2w+Xu36E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q6ovOH7P; arc=none smtp.client-ip=192.198.163.11
+	s=arc-20240116; t=1744625524; c=relaxed/simple;
+	bh=aokJeeqI8OZnbyjPq7evYNv4zNWim5TMB6IAXEkej3I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hD6RbIyTD4tf28maFvfQxx3J4uScKI1Uy8cgoFmjJqypRmIj5mQuh4CgU18ATfwJ5x5KQOz+kSrZgbjVI0DhbCivLaVOIq2NfXb0vhmZFqbjpItn9Ek5UdfmLRDmPDTVn+n8EF0ms8RJgLHbx/BGqaN2ax2fOCoN56hnszge5dA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gouGev/n; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744625064; x=1776161064;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=/z8O9SDZiaTEXhg4ysbJsJfwrcHDw53/UnAOR7/dwrs=;
-  b=Q6ovOH7PJfHtfnPtdN6kdJz7+FDvv1+hNvioIkyKQ7JHB5Zu51GLXsiM
-   Z89bnPLrMDr3nv0I1hFJF1qEQNkyTX41vpwq7rLOVLjOQJypHDVYg704w
-   X7/wDScJ8oT0dYcJ+MXBq6g/YR5MXE2xU8S6QEjtusX4vyH9EU76SGWIp
-   UUWx42NsF6VQ9RFnaT595eBijUHsC6MujOPWXimy9D/FQMwxC33Q44BKq
-   xGvlhQKfSEizA9gR4EL0af87NI2UbSUb4bn7szd2LY2t6p7Xx2qeVfOVi
-   rmD6S/uPImF408Df63yfo1LBLEoyIU/kk4LImtg03qzTdz1LXPkHxy3RQ
-   A==;
-X-CSE-ConnectionGUID: 66BRT2IBQ2W8gfQOLYXjDA==
-X-CSE-MsgGUID: wL5gpYmjSaKRs7DOGKulmQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="56747145"
+  t=1744625523; x=1776161523;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=aokJeeqI8OZnbyjPq7evYNv4zNWim5TMB6IAXEkej3I=;
+  b=gouGev/nNp3lIWlC532MJ6J3jy+f7qZlFWFF5Yq1xct73rOKZ7WToMeI
+   cVI/p3TaXvx7F7SOmmvmOwBN/Y1OttDWuvtxfSkD8IoGiPAko2LVacaiw
+   p9j1dPwp9Urzz7/Nuonko/RJl3aKhUcWtGKZvfdgawUkQNE5efBqb9sV0
+   I8oiPSIDmYO8bk5LEioaNJGEuluRQMPK7vDdTNedYmpy35klqgVbODhXW
+   B32Uq3ACrVhBdOxerC15FGr0gPR8JDyMYi+gdcYlWJTWvOJZm5k4Jd54G
+   f+2bf+3/CnqRBRetnI4T8V3ibwhaMe7y+G4tBQ2JUBLOQhUF1baS2JkwB
+   g==;
+X-CSE-ConnectionGUID: GtvC2UCMSUGoDj3FXOguSA==
+X-CSE-MsgGUID: sAC6dS42T9KA9tdwa4qW7w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="45796016"
 X-IronPort-AV: E=Sophos;i="6.15,212,1739865600"; 
-   d="scan'208";a="56747145"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 03:04:20 -0700
-X-CSE-ConnectionGUID: VpzGRA15T4Gp+B8WZerERA==
-X-CSE-MsgGUID: 7/ZuEDTWRcaEL1Rsg354Fg==
+   d="scan'208";a="45796016"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 03:12:02 -0700
+X-CSE-ConnectionGUID: U29tnDEkQtWRK4JBKWtz2g==
+X-CSE-MsgGUID: Km9OHm2KQJOO8RPtSM++Qw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,212,1739865600"; 
-   d="scan'208";a="134747330"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orviesa004.jf.intel.com with ESMTP; 14 Apr 2025 03:04:16 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id 261CCB0C; Mon, 14 Apr 2025 13:04:12 +0300 (EEST)
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>,
-	Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: [PATCH v4 7/7] media: i2c: ds90ub960: Remove of_node assignment
-Date: Mon, 14 Apr 2025 13:01:57 +0300
-Message-ID: <20250414100409.3910312-8-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.47.2
-In-Reply-To: <20250414100409.3910312-1-andriy.shevchenko@linux.intel.com>
-References: <20250414100409.3910312-1-andriy.shevchenko@linux.intel.com>
+   d="scan'208";a="134832712"
+Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.245.254.14])
+  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 03:12:01 -0700
+Date: Mon, 14 Apr 2025 12:11:58 +0200
+From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>
+Subject: Re: [PATCH 0/7] media: intel/ipu6: continue on ipu7 code sharing
+ preparation
+Message-ID: <Z/zfbpSmzCDOW9mo@linux.intel.com>
+References: <20250407134037.808367-1-stanislaw.gruszka@linux.intel.com>
+ <Z_fk_ofTOzsvbRwZ@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z_fk_ofTOzsvbRwZ@kekkonen.localdomain>
 
-Remove of_node assignment which duplicates fwnode in struct i2c_board_info.
-In general drivers must not set both, it's quite confusing. The I²C core
-will consider fwnode with a priority and of_node is subject to remove from
-above mentioned data structure.
+On Thu, Apr 10, 2025 at 03:34:22PM +0000, Sakari Ailus wrote:
+> Hi Stanislaw,
+> 
+> On Mon, Apr 07, 2025 at 03:40:30PM +0200, Stanislaw Gruszka wrote:
+> > Move and rename more structures to isys.h. Add accessors to make 
+> > further transformation easier.
+> > 
+> > This is on top of:
+> > https://git.linuxtv.org/sailus/media_tree.git/log/?h=devel
+> > plus:
+> > https://lore.kernel.org/linux-media/20250317073856.162147-1-stanislaw.gruszka@linux.intel.com/
+> > https://lore.kernel.org/linux-media/20250401090953.473339-1-stanislaw.gruszka@linux.intel.com/
+> > 
+> > Stanislaw Gruszka (7):
+> >   media: intel/ipu6: Use isd name in isys.h
+> >   media: intel/ipu6: Remove line_align
+> >   media: intel/ipu6: Move common structures definitions to isys.h
+> >   media: intel/ipu6: Rename common structures
+> >   media: intel/ipu6: Remove deprecated lock comment
+> >   media: intel/ipu6: Introduce isys and dev accessors macros
+> >   media: intel/ipu6: Start using accessors to get dev pointer
+> 
+> My main comment to the set is naming. Can we do so that we keep the current
+> scheme (ipu or ipu-isys prefix, with or without IPU generation number) and
+> then reconsider this question when the result (hopefully including IPU 7
+> ISYS support) is in upstream?
 
-Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Tested-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- drivers/media/i2c/ds90ub960.c | 1 -
- 1 file changed, 1 deletion(-)
+Ok, I'll use ipu_isys_ prefix for functions, structures and some macros.
+However for some macros I think it would make sense to skip ipu prefix to
+make the names shorter.
 
-diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-index 5dde8452739b..5afdbbad9ff4 100644
---- a/drivers/media/i2c/ds90ub960.c
-+++ b/drivers/media/i2c/ds90ub960.c
-@@ -1682,7 +1682,6 @@ static int ub960_rxport_add_serializer(struct ub960_data *priv, u8 nport)
- 	struct device *dev = &priv->client->dev;
- 	struct ds90ub9xx_platform_data *ser_pdata = &rxport->ser.pdata;
- 	struct i2c_board_info ser_info = {
--		.of_node = to_of_node(rxport->ser.fwnode),
- 		.fwnode = rxport->ser.fwnode,
- 		.platform_data = ser_pdata,
- 	};
--- 
-2.47.2
+Regards
+Stanislaw
 
+> The rest seems entirely reasonable to me -- but see my other comments, too.
+> 
+> -- 
+> Kind regards,
+> 
+> Sakari Ailus
 
