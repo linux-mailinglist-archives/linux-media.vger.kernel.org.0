@@ -1,160 +1,326 @@
-Return-Path: <linux-media+bounces-30196-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30197-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B884A88CE8
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 22:14:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FE38A88D38
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 22:36:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A7F317A8F17
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 20:13:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D9AB23A6476
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 20:36:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DD6D1D79A0;
-	Mon, 14 Apr 2025 20:14:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2901D1E520D;
+	Mon, 14 Apr 2025 20:36:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="rdxPbLcW"
+	dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b="rmGH6Xyb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+Received: from www637.your-server.de (www637.your-server.de [168.119.26.117])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 18C702DFA22;
-	Mon, 14 Apr 2025 20:14:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC6DDDC3;
+	Mon, 14 Apr 2025 20:36:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.26.117
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744661648; cv=none; b=IDkddC2HADkSRHfBarOhCOURcQTMPJS/F+9pIPeRNk/J+MuDKLaTfdUg8019E1jNgQVeKoq1chB0wGZ2Q5MZZdsjJgJ5rT0bOT69T60lwbRWYsOHx2T41uGg0aNhdmzbSJPXhm6V+Y01MezyPlkMkTKVmhbU8d1gQHeM5zUSLcc=
+	t=1744662995; cv=none; b=Tz/JYO9c0eVDJvhibTPdy+hNKnnMh9VAhLTwHlOidyRqGin5QsphZrqtVVl9xZO18Isn/OkyBw5OGqNzSZF0xIn1DlsMNFObZksWfFoPj9UiT7fqM5l4o2duxv2z/OhXAfnp9/89ZrRS6agvEmJQ+YHRojOYNEmhSpQE4qNK0+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744661648; c=relaxed/simple;
-	bh=noaVMCDz4lZ4IZqYld8mmTRprEHBuk+qqeU/R2k7iHs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=FesTnI9CNDhX9ub25nzxHXiFNyumjAi3F/CdnaPWpjQcbR6Ll5jZXzzRJhDATYR/x6n9gymgQoM5L373ctMBF+ROaOk/GMx2XP9QH9J4sPG6xYX+T97d6v1cn0aJ1hY7CH7gAi3/ClV5o494wjmZBNUiLqjD7JDUrr5t3TFR43g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=rdxPbLcW; arc=none smtp.client-ip=198.47.23.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 53EKDr7M2255205
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 14 Apr 2025 15:13:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1744661633;
-	bh=u4s325uvuTrWBpavXWq6UQUmHw42JVkD/r2Zx8Uy0G4=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=rdxPbLcWyTDIJ9phfExl7sbHI2mZmInXxPpoGj/wFsJkGVlvtRGloTMdtZxIBXrED
-	 7TELmyo9rNl8zsOJZBDwZhvqEeu0SIJRVV9jNqOvbbk9PLU9jZeuGLrJIyw5ATrZyM
-	 KOFq5+UyrUBsVdrOplbysZE/EGNZ9W6GdmLbrMMQ=
-Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 53EKDrWo107347
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 14 Apr 2025 15:13:53 -0500
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE104.ent.ti.com
- (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 14
- Apr 2025 15:13:52 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Mon, 14 Apr 2025 15:13:53 -0500
-Received: from [10.249.42.149] ([10.249.42.149])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 53EKDqaS030321;
-	Mon, 14 Apr 2025 15:13:52 -0500
-Message-ID: <4c77a566-d231-43f2-ada6-a81ec6b58237@ti.com>
-Date: Mon, 14 Apr 2025 15:13:52 -0500
+	s=arc-20240116; t=1744662995; c=relaxed/simple;
+	bh=H3AlfWc4HckikePy1/xy0xWTAGiqVTou0EoOHD2VbyY=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=L2rGw56vFi9jqr63GqDSQwFbRcg5FopIMfAG4FAzIjYsJhIKzVNo43gxS5wJ2bshLbeQ5DdVrojAFY+ZFJVBR2E0nid8lBdhTWE/G9JSNKWkkYZxXjRYMJ4f1xPbkWNRbFqHYVa8I4lxRbZieehdSiJkHlbazdVp+K/0mI5Cdms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b=rmGH6Xyb; arc=none smtp.client-ip=168.119.26.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=apitzsch.eu
+	; s=default2410; h=MIME-Version:Content-Transfer-Encoding:Content-Type:
+	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=zW7oKL0wQmrcu03UddL03xW7nNuPlUCo3FfX9tH6gX8=; b=rmGH6XybWFqiNCYXDN0aGMTR7d
+	sZPnrWqQDdi55fd1ktRwLOz6FSbGdMUO69FdDrbDEP5GHFfg0837VAxonvWUL4Htxk7Y9RV3Yg88o
+	JvuXNNpc9p/yWi6QK55SW0AYFYdAeke4C5MLEaSMkEe65bm2oQSjhYK4EYkhguSHty8FHhcM84R7E
+	KZ4ZdHLqHPEaL6TSUx7eX2bml1N4lxkhCu6H0P78vAX9ND6K95l82kfdJn9RTevBiA93t/8m108NV
+	YOzhN0TKg7yMRWD4pCg/TVKPDOojB6AWgv4h4VYPIdYgVvVL+fjNaql2X82CFtgFfYfliMSdz1+65
+	/Mf9svFQ==;
+Received: from sslproxy01.your-server.de ([78.46.139.224])
+	by www637.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <git@apitzsch.eu>)
+	id 1u4QXV-000ApX-0m;
+	Mon, 14 Apr 2025 22:36:21 +0200
+Received: from [92.206.190.59] (helo=framework.lan)
+	by sslproxy01.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <git@apitzsch.eu>)
+	id 1u4QXU-0008F8-36;
+	Mon, 14 Apr 2025 22:36:21 +0200
+Message-ID: <589344c6d63f6dfef39e85c65f8142d0e23046ce.camel@apitzsch.eu>
+Subject: Re: [PATCH RESEND 0/4] media: i2c: imx214: Problem with CCS PLL
+ calculator
+From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Ricardo Ribalda <ribalda@kernel.org>, Mauro Carvalho Chehab
+	 <mchehab@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht, 
+	phone-devel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Date: Mon, 14 Apr 2025 22:36:19 +0200
+In-Reply-To: <29677b7d5ceb07693d0b530c88a5aa9bde6c04dd.camel@apitzsch.eu>
+References: <20250308-imx214_clk_freq-v1-0-467a4c083c35@apitzsch.eu>
+			 <Z87I2xh0HY-YD_tZ@kekkonen.localdomain>
+		 <4c62bb9d5575e9075b39500917e09687d37cf7ca.camel@apitzsch.eu>
+	 <29677b7d5ceb07693d0b530c88a5aa9bde6c04dd.camel@apitzsch.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.1 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] uio/dma-buf: Give UIO users access to DMA addresses.
-To: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-CC: Christoph Hellwig <hch@infradead.org>,
-        Bastien Curutchet
-	<bastien.curutchet@bootlin.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>
-References: <20250410-uio-dma-v1-0-6468ace2c786@bootlin.com>
- <Z_yjNgY3dVnA5OVz@infradead.org> <20250414102455.03331c0f@windsurf>
- <Z_zwZYBO5Txz6lDF@infradead.org> <20250414134831.20b04c77@windsurf>
- <8f55367e-45c0-4280-b1ed-7ce9160c1fad@ti.com>
- <20250414212125.4b3e6f33@windsurf>
-Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <20250414212125.4b3e6f33@windsurf>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-Authenticated-Sender: andre@apitzsch.eu
+X-Virus-Scanned: Clear (ClamAV 1.0.7/27608/Mon Apr 14 10:34:28 2025)
 
-On 4/14/25 2:21 PM, Thomas Petazzoni wrote:
-> Hello Andrew,
-> 
-> On Mon, 14 Apr 2025 12:08:44 -0500
-> Andrew Davis <afd@ti.com> wrote:
-> 
->> "UIO is a broken legacy mess, so let's add more broken things
->> to it as broken + broken => still broken, so no harm done", am I
->> getting that right?
-> 
-> Who says UIO is a "broken legacy mess"? Only you says so. I don't see
-> any indication anywhere in the kernel tree suggesting that UIO is
-> considered a broken legacy mess.
-> 
+Am Montag, dem 07.04.2025 um 21:10 +0200 schrieb Andr=C3=A9 Apitzsch:
+> Am Montag, dem 10.03.2025 um 23:35 +0100 schrieb Andr=C3=A9 Apitzsch:
+> > Hi Sakari,
+> >=20
+> > Am Montag, dem 10.03.2025 um 11:11 +0000 schrieb Sakari Ailus:
+> > > Hi Andr=C3=A9,
+> > >=20
+> > > On Sat, Mar 08, 2025 at 10:47:54PM +0100, Andr=C3=A9 Apitzsch via B4
+> > > Relay
+> > > wrote:
+> > > > The imx214 driver currently supports only a 24MHz external
+> > > > clock.
+> > > > But
+> > > > there are devices, like Qualcomm-MSM8916-based phones, which
+> > > > cannot
+> > > > provide this frequency. To make the sensor usable by those
+> > > > devices,
+> > > > add
+> > > > support for 23.88MHz clock.
+> > > >=20
+> > > > Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
+> > > > ---
+> > > > Andr=C3=A9 Apitzsch (4):
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Calculate link b=
+it rate from clock
+> > > > frequency
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Prepare for vari=
+able clock frequency
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Read clock frequ=
+ency from device tree
+> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Add support for =
+23.88MHz clock
+> > > >=20
+> > > > =C2=A0drivers/media/i2c/imx214.c | 188
+> > > > +++++++++++++++++++++++++++++++++++----------
+> > > > =C2=A01 file changed, 146 insertions(+), 42 deletions(-)
+> > >=20
+> > > Thanks for the patches.
+> > >=20
+> > > Do you think the driver could use the CCS PLL calculator? The PLL
+> > > appears to be compliant. The AR0234 driver will do the same. (The
+> > > sensor might just work with the CCS driver, too, but that's
+> > > another
+> > > discussion.)
+> > >=20
+> > Using the CCS PLL calculator seems quite complicated compared to
+> > switching to the CCS driver. That's why I looked at the later
+> > first.
+> > But for it to work, quirks already need to be applied in
+> > ccs_power_on(), to disable writing to COMPRESSION_MODE, and in
+> > ccs_identify_module(), to change the MODULE_MANUFACTURER_ID
+> > register.
+> >=20
+> > I'll check if CCS PLL calculator could be used.
+> >=20
+> > Best regards,
+> > Andr=C3=A9
+>=20
+> Hi Sakari,
+>=20
+> the CCS PLL calculator seems to work (up to one problem) and to be a
+> more elegant way forward.
+> The problem is, that the pixel rate is too small by a factor of 10
+> and I cannot figure out why. Any help would be appreciated.
+>=20
+> My devices uses a clock-frequency of 24000000 and a link-frequency of
+> 600000000. There are four data lanes.
+> The calculator returns a pixel rate of 480.000.000. The expected
+> value is 4800.000.000.
 
-I'm not saying that*, I'm pointing out your argument is that even
-though what you are trying to do is broken and unsafe, it is okay to
-do because it isn't any "more "broken and unsafe" than UIO already is."
+Hi,
 
-*It is, but that is an argument to have outside of this thread :)
+Everything works as expected.
 
-> Keep in mind that when you're running code as root, you can load a
-> kernel module, which can do anything on the system security-wise. So
-> letting UIO expose MMIO registers of devices to userspace applications
-> running as root is not any worse than that.
-> 
+For some reason, I assumed the unit of pixel rate to be bits per
+second. But to get the bits per second, the pixel rate needs to be
+multiplied by bits per pixel (here: 10), which gives the expected value
+of 4,800,000,000.
 
-You can take your computer out back and shoot it too, but we shouldn't
-encourage that either :) According to the original docs, UIO was created
-to support "industrial I/O cards", think old one-off custom ISA cards by
-vendors that had no intention of ever writing a proper driver and just
-wanted to poke registers and wait on an IRQ.
+I'll send my patches in the coming days.
 
-IMHO we shouldn't be encouraging that, and trying to modernize UIO does just
-that. It gives the impression that is how drivers should still be written.
-If you setup your FPGA card to go blink an LED, sure UIO driver it is,
-anything more complex, then writing a proper driver is the way to go.
+Best regards,
+Andr=C3=A9
 
->> If your FPGA IP can do DMA then you should not be using UIO in
->> the first place, see UIO docs:
->>
->>> Please note that UIO is not an universal driver interface. Devices that
->>> are already handled well by other kernel subsystems (like networking or
->>> serial or USB) are no candidates for an UIO driver.
->>
->> The DMA subsystem already handles DMA devices, so write a DMA driver.
-> 
-> My FPGA IP block is not a DMA controller that would fit the dmaengine
-> kernel subsystem. It's a weird custom device that doesn't fit in any
-> existing subsystem, and that happens to do "peripheral DMA" (i.e the IP
-> block is DMA-capable itself, without relying on a separate DMA
-> controller). So this (very valid) recommendation from the UIO
-> documentation doesn't apply to my device.
-
-Peripheral DMA is the much more common case, nothing new here. Could
-you give a hint as to what this device does that doesn't fit *any*
-current subsystem? Or are we talking a hypothetical device (which
-for the sake of argument is a valid thing to say, I'm sure with an
-FPGA card I could make something that doesn't fit any current
-framework too). Just want to know if you are trying to solve a
-specific issue or a generic issue here.
-
-Andrew
-
-> 
+>=20
+> You can find the PLL input parameters in [1] and the generated debug
+> output below.
+>=20
 > Best regards,
-> 
-> Thomas
+> Andr=C3=A9
+>=20
+> [1]
+> https://github.com/a-andre/linux/blob/58e10a814985f700579847ac7c99468a65c=
+b55bb/drivers/media/i2c/imx214.c#L1116-L1196
+>=20
+> $ dmesg | grep imx
+> [=C2=A0=C2=A0 17.851215] imx214 4-0010: vt_lanes: 4
+> [=C2=A0=C2=A0 17.851245] imx214 4-0010: op_lanes: 4
+> [=C2=A0=C2=A0 17.851254] imx214 4-0010: binning: 1x1
+> [=C2=A0=C2=A0 17.851262] imx214 4-0010: min / max op_pre_pll_clk_div: 1 /=
+ 15
+> [=C2=A0=C2=A0 17.851272] imx214 4-0010: pre-pll check: min / max
+> op_pre_pll_clk_div: 1 / 15
+> [=C2=A0=C2=A0 17.851281] imx214 4-0010: mul 50 / div 1
+> [=C2=A0=C2=A0 17.851290] imx214 4-0010: pll_op check: min / max
+> op_pre_pll_clk_div: 1 / 15
+> [=C2=A0=C2=A0 17.851300] imx214 4-0010: op_pre_pll_clk_div 1
+> [=C2=A0=C2=A0 17.851308] imx214 4-0010: more_mul_max: max_op_pll_multipli=
+er
+> check: 24
+> [=C2=A0=C2=A0 17.851317] imx214 4-0010: more_mul_max: max_pll_op_clk_freq=
+_hz
+> check: 1
+> [=C2=A0=C2=A0 17.851325] imx214 4-0010: more_mul_max: max_op_sys_clk_div =
+check:
+> 1
+> [=C2=A0=C2=A0 17.851333] imx214 4-0010: more_mul_max: min_pll_multiplier =
+check:
+> 1
+> [=C2=A0=C2=A0 17.851341] imx214 4-0010: more_mul_min: min_op_pll_op_clk_f=
+req_hz
+> check: 1
+> [=C2=A0=C2=A0 17.851349] imx214 4-0010: more_mul_min: min_op_pll_multipli=
+er
+> check: 1
+> [=C2=A0=C2=A0 17.851357] imx214 4-0010: more_mul_factor: 1
+> [=C2=A0=C2=A0 17.851365] imx214 4-0010: more_mul_factor: min_op_sys_clk_d=
+iv: 1
+> [=C2=A0=C2=A0 17.851373] imx214 4-0010: final more_mul: 1
+> [=C2=A0=C2=A0 17.851381] imx214 4-0010: op_sys_clk_div: 1
+> [=C2=A0=C2=A0 17.851389] imx214 4-0010: op_pix_clk_div: 10
+> [=C2=A0=C2=A0 17.851398] imx214 4-0010: min_vt_div: 10
+> [=C2=A0=C2=A0 17.851406] imx214 4-0010: min_vt_div: max_vt_pix_clk_freq_h=
+z: 10
+> [=C2=A0=C2=A0 17.851414] imx214 4-0010: min_vt_div: min_vt_clk_div: 10
+> [=C2=A0=C2=A0 17.851422] imx214 4-0010: max_vt_div: 40
+> [=C2=A0=C2=A0 17.851486] imx214 4-0010: max_vt_div: min_vt_pix_clk_freq_h=
+z: 40
+> [=C2=A0=C2=A0 17.851502] imx214 4-0010: min_sys_div: 2
+> [=C2=A0=C2=A0 17.851510] imx214 4-0010: min_sys_div: max_vt_pix_clk_div: =
+2
+> [=C2=A0=C2=A0 17.851518] imx214 4-0010: min_sys_div: max_pll_op_clk_freq_=
+hz: 2
+> [=C2=A0=C2=A0 17.851526] imx214 4-0010: min_sys_div: one or even: 2
+> [=C2=A0=C2=A0 17.851534] imx214 4-0010: max_sys_div: 4
+> [=C2=A0=C2=A0 17.851541] imx214 4-0010: max_sys_div: min_vt_pix_clk_div: =
+4
+> [=C2=A0=C2=A0 17.851549] imx214 4-0010: max_sys_div: min_vt_pix_clk_freq_=
+hz: 4
+> [=C2=A0=C2=A0 17.851557] imx214 4-0010: pix_div 3 too small or too big (5=
+--10)
+> [=C2=A0=C2=A0 17.851568] imx214 4-0010: ext_clk_freq_hz		24000000
+> [=C2=A0=C2=A0 17.851578] imx214 4-0010: vt_pre_pll_clk_div		1
+> [=C2=A0=C2=A0 17.851587] imx214 4-0010: vt_pll_multiplier		50
+> [=C2=A0=C2=A0 17.851595] imx214 4-0010: vt_pll_ip_clk_freq_hz	24000000
+> [=C2=A0=C2=A0 17.851603] imx214 4-0010: vt_pll_op_clk_freq_hz	1200000000
+> [=C2=A0=C2=A0 17.851612] imx214 4-0010: vt_sys_clk_div		2
+> [=C2=A0=C2=A0 17.851620] imx214 4-0010: vt_pix_clk_div		5
+> [=C2=A0=C2=A0 17.851629] imx214 4-0010: vt_sys_clk_freq_hz	600000000
+> [=C2=A0=C2=A0 17.851637] imx214 4-0010: vt_pix_clk_freq_hz	120000000
+> [=C2=A0=C2=A0 17.851645] imx214 4-0010: op_sys_clk_div		1
+> [=C2=A0=C2=A0 17.851653] imx214 4-0010: op_pix_clk_div		10
+> [=C2=A0=C2=A0 17.851661] imx214 4-0010: op_sys_clk_freq_hz	1200000000
+> [=C2=A0=C2=A0 17.851669] imx214 4-0010: op_pix_clk_freq_hz	120000000
+> [=C2=A0=C2=A0 17.851677] imx214 4-0010: pixel rate in pixel
+> array:	480000000
+> [=C2=A0=C2=A0 17.851685] imx214 4-0010: pixel rate on CSI-2 bus:	48000000=
+0
+> [=C2=A0=C2=A0 17.851694] imx214 4-0010: flags lane-speed
+> [=C2=A0=C2=A0 17.869313] imx214 4-0010: vt_lanes: 4
+> [=C2=A0=C2=A0 17.869342] imx214 4-0010: op_lanes: 4
+> [=C2=A0=C2=A0 17.869352] imx214 4-0010: binning: 1x1
+> [=C2=A0=C2=A0 17.869361] imx214 4-0010: min / max op_pre_pll_clk_div: 1 /=
+ 15
+> [=C2=A0=C2=A0 17.869372] imx214 4-0010: pre-pll check: min / max
+> op_pre_pll_clk_div: 1 / 15
+> [=C2=A0=C2=A0 17.869382] imx214 4-0010: mul 50 / div 1
+> [=C2=A0=C2=A0 17.869391] imx214 4-0010: pll_op check: min / max
+> op_pre_pll_clk_div: 1 / 15
+> [=C2=A0=C2=A0 17.869400] imx214 4-0010: op_pre_pll_clk_div 1
+> [=C2=A0=C2=A0 17.869409] imx214 4-0010: more_mul_max: max_op_pll_multipli=
+er
+> check: 24
+> [=C2=A0=C2=A0 17.869417] imx214 4-0010: more_mul_max: max_pll_op_clk_freq=
+_hz
+> check: 1
+> [=C2=A0=C2=A0 17.869426] imx214 4-0010: more_mul_max: max_op_sys_clk_div =
+check:
+> 1
+> [=C2=A0=C2=A0 17.869435] imx214 4-0010: more_mul_max: min_pll_multiplier =
+check:
+> 1
+> [=C2=A0=C2=A0 17.869443] imx214 4-0010: more_mul_min: min_op_pll_op_clk_f=
+req_hz
+> check: 1
+> [=C2=A0=C2=A0 17.869451] imx214 4-0010: more_mul_min: min_op_pll_multipli=
+er
+> check: 1
+> [=C2=A0=C2=A0 17.869460] imx214 4-0010: more_mul_factor: 1
+> [=C2=A0=C2=A0 17.869468] imx214 4-0010: more_mul_factor: min_op_sys_clk_d=
+iv: 1
+> [=C2=A0=C2=A0 17.869476] imx214 4-0010: final more_mul: 1
+> [=C2=A0=C2=A0 17.869483] imx214 4-0010: op_sys_clk_div: 1
+> [=C2=A0=C2=A0 17.869491] imx214 4-0010: op_pix_clk_div: 10
+> [=C2=A0=C2=A0 17.869501] imx214 4-0010: min_vt_div: 10
+> [=C2=A0=C2=A0 17.869509] imx214 4-0010: min_vt_div: max_vt_pix_clk_freq_h=
+z: 10
+> [=C2=A0=C2=A0 17.869517] imx214 4-0010: min_vt_div: min_vt_clk_div: 10
+> [=C2=A0=C2=A0 17.869525] imx214 4-0010: max_vt_div: 40
+> [=C2=A0=C2=A0 17.869533] imx214 4-0010: max_vt_div: min_vt_pix_clk_freq_h=
+z: 40
+> [=C2=A0=C2=A0 17.869541] imx214 4-0010: min_sys_div: 2
+> [=C2=A0=C2=A0 17.869549] imx214 4-0010: min_sys_div: max_vt_pix_clk_div: =
+2
+> [=C2=A0=C2=A0 17.869557] imx214 4-0010: min_sys_div: max_pll_op_clk_freq_=
+hz: 2
+> [=C2=A0=C2=A0 17.869565] imx214 4-0010: min_sys_div: one or even: 2
+> [=C2=A0=C2=A0 17.869572] imx214 4-0010: max_sys_div: 4
+> [=C2=A0=C2=A0 17.869580] imx214 4-0010: max_sys_div: min_vt_pix_clk_div: =
+4
+> [=C2=A0=C2=A0 17.869588] imx214 4-0010: max_sys_div: min_vt_pix_clk_freq_=
+hz: 4
+> [=C2=A0=C2=A0 17.869596] imx214 4-0010: pix_div 3 too small or too big (5=
+--10)
+> [=C2=A0=C2=A0 17.869607] imx214 4-0010: ext_clk_freq_hz		24000000
+> [=C2=A0=C2=A0 17.869616] imx214 4-0010: vt_pre_pll_clk_div		1
+> [=C2=A0=C2=A0 17.869624] imx214 4-0010: vt_pll_multiplier		50
+> [=C2=A0=C2=A0 17.869633] imx214 4-0010: vt_pll_ip_clk_freq_hz	24000000
+> [=C2=A0=C2=A0 17.869642] imx214 4-0010: vt_pll_op_clk_freq_hz	1200000000
+> [=C2=A0=C2=A0 17.869651] imx214 4-0010: vt_sys_clk_div		2
+> [=C2=A0=C2=A0 17.869659] imx214 4-0010: vt_pix_clk_div		5
+> [=C2=A0=C2=A0 17.869667] imx214 4-0010: vt_sys_clk_freq_hz	600000000
+> [=C2=A0=C2=A0 17.869675] imx214 4-0010: vt_pix_clk_freq_hz	120000000
+> [=C2=A0=C2=A0 17.869684] imx214 4-0010: op_sys_clk_div		1
+> [=C2=A0=C2=A0 17.869692] imx214 4-0010: op_pix_clk_div		10
+> [=C2=A0=C2=A0 17.869699] imx214 4-0010: op_sys_clk_freq_hz	1200000000
+> [=C2=A0=C2=A0 17.869707] imx214 4-0010: op_pix_clk_freq_hz	120000000
+> [=C2=A0=C2=A0 17.869716] imx214 4-0010: pixel rate in pixel
+> array:	480000000
+> [=C2=A0=C2=A0 17.869724] imx214 4-0010: pixel rate on CSI-2 bus:	48000000=
+0
+> [=C2=A0=C2=A0 17.869732] imx214 4-0010: flags lane-speed
 
