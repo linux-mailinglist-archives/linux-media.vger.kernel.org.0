@@ -1,554 +1,395 @@
-Return-Path: <linux-media+bounces-30190-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30191-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DD94A88A45
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 19:47:52 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FCBEA88BFE
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 21:12:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 40E17189B237
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 17:47:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2C881179930
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 19:12:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E444E28DF14;
-	Mon, 14 Apr 2025 17:44:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4431F28DEF7;
+	Mon, 14 Apr 2025 19:12:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Bm1lAKfl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YwOXZP9o"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A706428DEF2;
-	Mon, 14 Apr 2025 17:44:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8720328A1DA;
+	Mon, 14 Apr 2025 19:12:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744652646; cv=none; b=PAfrm9FX1bAGbdHcOSc3i3sj22iNguLlSBQF1oc5Ots4hA3mnPIm1UydXPD3Br62NH1SiHtFzH+PXQYwAsFwu0PhKXMoSfUdP1q4giRddtXwAAGq7zTJLYcWyPYz5+0qVnxbC+IeVmd/WZzc2xCnyhDnRa+NTp3le0cqC8wsqrs=
+	t=1744657950; cv=none; b=oqEOVLDVUCQiDCBEr0RVtTtPRGg0W4anxait3cLTDsb2eyMy3u6Han8oJA5N+EWYxmb+HxPKSZfUBFQuBHgrq552p0e9idZb1RU29IHddqmHsc8dgEbjP+T0gpmIISsRep/UYoelmJZARhIzzkE8CkV6HF1nv3tFV3oRXSCI2wM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744652646; c=relaxed/simple;
-	bh=OMnziA6T0qoDcBH0LxvjdH9kmVpEqTJ8xTY8ymKyFHw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=Nkv3tLGrZJSf0zsmX+2f0H4bECbHFzusVBf52vo2O+Zyp5dPmmotDEx8MRTF9Dzv61Tg/w68Uc2AGaqXjAvZw3WkdQUlwdEZ1kA78CKUWC+B6NFs+oCZ0UJiQZeqfL+BVp+zGmpH8cYlhHRb3I5jMWOVLfnhPn7uFPOvxQGcXOY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Bm1lAKfl; arc=none smtp.client-ip=198.47.23.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 53EHhkq02220803
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 14 Apr 2025 12:43:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1744652626;
-	bh=uSa+mwmKRsBHbiI7E5dH/18NMyqtwpzqZyLK302xmvo=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=Bm1lAKflwAMgYAOCL2yVsM2jB/fBUu3cn1FssnlehWq6jbcwdnhFGtpOkaQ0gZKiy
-	 tnQGJ1/oyRbco7PFdmQi19tAi/12G9iF+CFgwog6SSPDSQ6oHlzaSBUwohh+6fYcqQ
-	 B51L9202lDKSXg9tvYPehbLnuSnTLVOBA906nzUc=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 53EHhk8m016722
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 14 Apr 2025 12:43:46 -0500
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 14
- Apr 2025 12:43:45 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Mon, 14 Apr 2025 12:43:45 -0500
-Received: from [10.249.42.149] ([10.249.42.149])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 53EHhjq3117844;
-	Mon, 14 Apr 2025 12:43:45 -0500
-Message-ID: <b3391234-ea53-4a18-a1e3-b8a92d9dff5d@ti.com>
-Date: Mon, 14 Apr 2025 12:43:44 -0500
+	s=arc-20240116; t=1744657950; c=relaxed/simple;
+	bh=6BqgelGhI6z4Y+nuFdm2UZwyVMhVkDOkptQV5GFW2ww=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=WP0094AQNYqk0i3CDuxelz/KqfU7b+EIkaoglE9bjo1PIB8V0kPaMNfVT0FCOGemeK5YhzwTCua+2ah7pIril1fOLDCtPsS61ih17/tXHIbAVSS46p2QVvCvPoxJvFWu1VIWs7iTZiXq2iEOL0JUmjiTYQtf2zyMOlZjVeUdCRI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YwOXZP9o; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 58162C4CEE2;
+	Mon, 14 Apr 2025 19:12:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744657950;
+	bh=6BqgelGhI6z4Y+nuFdm2UZwyVMhVkDOkptQV5GFW2ww=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=YwOXZP9oUQrIkjckCiga6ktjbWj+V3K4nTVJSiXpj0ITpu5PwNRPa7PtvDkuemePW
+	 pqMleumOZ238lUV9p0/sPTbrHGZOox1NFM/xBwvvxB2EKbIrPQscZP1xUiB4FCs5nE
+	 V/LFZ09oZnYRgEcAp1rP6mNJdfOUM8RKeFb3JT/AVFPCzDiYY874oC9NNYJayO8NHc
+	 l9tvqv62kSaIsbYacxghFhs4ByVuY9TNm5crSYMFwVr4pSvZEhNRfdePO40Eh1R57a
+	 ELhXmaZ8WAojKYKL+oDikCJTWF4v4YwnKG6MQKqAu3UicttAnKGO62dtrzxrrhahXR
+	 oE0wrpOCBaBmg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4926BC369B2;
+	Mon, 14 Apr 2025 19:12:30 +0000 (UTC)
+From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
+Date: Mon, 14 Apr 2025 21:12:29 +0200
+Subject: [PATCH v2] media: dt-bindings: media: i2c: align filenames format
+ with standard
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] dma-buf: heaps: Introduce a new heap for reserved
- memory
-To: "T.J. Mercier" <tjmercier@google.com>, Maxime Ripard <mripard@kernel.org>
-CC: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        John Stultz <jstultz@google.com>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?=
-	<christian.koenig@amd.com>,
-        Mattijs Korpershoek <mkorpershoek@kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>
-References: <20250407-dma-buf-ecc-heap-v3-0-97cdd36a5f29@kernel.org>
- <20250407-dma-buf-ecc-heap-v3-2-97cdd36a5f29@kernel.org>
- <CABdmKX0=Er-y41roEuZjGZ95YzMxt-mPd9K5982fm_eWhtX5vw@mail.gmail.com>
-Content-Language: en-US
-From: Andrew Davis <afd@ti.com>
-In-Reply-To: <CABdmKX0=Er-y41roEuZjGZ95YzMxt-mPd9K5982fm_eWhtX5vw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Message-Id: <20250414-media-i2c-align-filenames-v2-1-e133749e0d45@ixit.cz>
+X-B4-Tracking: v=1; b=H4sIABxe/WcC/43OQQqDMBCF4atI1h1JgiHaVe9RXAxm1AGNJQliK
+ 9690U23Xf6L9/F2ESkwRXEvdhFo5ciLz6FvhehG9AMBu9xCS21kpSqYyTEC6w5w4sFDzxN5nCm
+ CrZ0iiw4NaZH3r0A9b5f9bHP3YZkhjYHwJ2rZqMYYZUtV1VZKUOBwZffgjVPZfU5n5JiW8L4ur
+ urU/ty2x3F8ARqwiV/hAAAA
+X-Change-ID: 20250414-media-i2c-align-filenames-78d1e7ada5e2
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+ Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+ Hans Verkuil <hverkuil@xs4all.nl>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Ramesh Shanmugasundaram <rashanmu@gmail.com>, 
+ Tim Harvey <tharvey@gateworks.com>, Akinobu Mita <akinobu.mita@gmail.com>, 
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ =?utf-8?q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
+ David Heidelberg <david@ixit.cz>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=14828; i=david@ixit.cz;
+ h=from:subject:message-id;
+ bh=mHA4VTRSwJqrHD9O7Hk/y42cNsbaTKLbs1trwGNiN7s=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBn/V4dI1Uqb5A2eVfK55PAo3SrBDt0/GSIzl/Ko
+ eow13167vCJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCZ/1eHQAKCRBgAj/E00kg
+ cprOD/9STCZP+f4B2Gk/JAq0OtZXl4f79OQCKH7JBc60tXtqV0c2hPRAPo0eQ7dabxfOLad9la+
+ uMu4QKvLrGO5iumZDEEgtwL6iXGjfy81A565o4/6iyfXJLTGRmycma+nwq2OdKJXF+HhieTYt+M
+ hBzD8ZVn/nkQFe/KaNEq4qHKF6i0L5gLCK1IFaD2RhK/vGR2vPCBnf2+v3sqTSpX9Uh3M2PZC/l
+ nS2iuzpKQ4heCsX7bHYCy0CTWmL9R7ZZeWEXEgQlVOsm1mK8CN8LzH50pw6U0o5ijsPLaPCli66
+ v6gIxKDgrzfEAk8aRSc2N/bopsa+UtGMDKDk25dtloI9uuf5CaKeHA0MLPnR4QwekHiYhtKdPgC
+ wHTJRjYTLfp2RxXnNOs315BIMB0XcxUcgMeW6/i6i9YIH9is+pAXfjT7R7ohXkrC4CNWqlFNz+H
+ q5wToEqXWoRtwOcuuAprxxfwFqRl9t/ZcLIYkx6Xgp2z1pCeIR9pZnIvVUmQIDAVsgGOP7LRsCr
+ RKW69UvxjRgXIdn/lmyP1JRX2MsgXkAmSp6mr+r4LH+Vu+Qp/ese05VWPTubW7E4A5/FnmtZlz2
+ hyGFaDVa362I0WwYG6hfXpgr6wzkmOjq0Kaqta2tg3HAE1LXWj6ieT/kfU8gBb5C5a7T7W6oOtp
+ vTgqt6gE0BWikDQ==
+X-Developer-Key: i=david@ixit.cz; a=openpgp;
+ fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
+X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
+X-Original-From: David Heidelberg <david@ixit.cz>
+Reply-To: david@ixit.cz
 
-On 4/11/25 3:26 PM, T.J. Mercier wrote:
-> On Mon, Apr 7, 2025 at 9:29 AM Maxime Ripard <mripard@kernel.org> wrote:
->>
->> Some reserved memory regions might have particular memory setup or
->> attributes that make them good candidates for heaps.
->>
->> Let's provide a heap type that will create a new heap for each reserved
->> memory region flagged as such.
->>
->> Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> 
-> This patch looks good to me, but I think it'd be good to add more
-> justification like you did at
-> https://lore.kernel.org/all/20240515-dma-buf-ecc-heap-v1-0-54cbbd049511@kernel.org
-> 
->> ---
->>   drivers/dma-buf/heaps/Kconfig         |   8 +
->>   drivers/dma-buf/heaps/Makefile        |   1 +
->>   drivers/dma-buf/heaps/carveout_heap.c | 360 ++++++++++++++++++++++++++++++++++
->>   3 files changed, 369 insertions(+)
->>
->> diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
->> index a5eef06c422644e8aadaf5aff2bd9a33c49c1ba3..c6981d696733b4d8d0c3f6f5a37d967fd6a1a4a2 100644
->> --- a/drivers/dma-buf/heaps/Kconfig
->> +++ b/drivers/dma-buf/heaps/Kconfig
->> @@ -1,5 +1,13 @@
->> +config DMABUF_HEAPS_CARVEOUT
->> +       bool "Carveout Heaps"
->> +       depends on DMABUF_HEAPS
->> +       help
->> +         Choose this option to enable the carveout dmabuf heap. The carveout
->> +         heap is backed by pages from reserved memory regions flagged as
->> +         exportable. If in doubt, say Y.
->> +
->>   config DMABUF_HEAPS_SYSTEM
->>          bool "DMA-BUF System Heap"
->>          depends on DMABUF_HEAPS
->>          help
->>            Choose this option to enable the system dmabuf heap. The system heap
->> diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-buf/heaps/Makefile
->> index 974467791032ffb8a7aba17b1407d9a19b3f3b44..b734647ad5c84f449106748160258e372f153df2 100644
->> --- a/drivers/dma-buf/heaps/Makefile
->> +++ b/drivers/dma-buf/heaps/Makefile
->> @@ -1,3 +1,4 @@
->>   # SPDX-License-Identifier: GPL-2.0
->> +obj-$(CONFIG_DMABUF_HEAPS_CARVEOUT)    += carveout_heap.o
->>   obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)      += system_heap.o
->>   obj-$(CONFIG_DMABUF_HEAPS_CMA)         += cma_heap.o
->> diff --git a/drivers/dma-buf/heaps/carveout_heap.c b/drivers/dma-buf/heaps/carveout_heap.c
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..f7198b781ea57f4f60e554d917c9277e9a716b16
->> --- /dev/null
->> +++ b/drivers/dma-buf/heaps/carveout_heap.c
->> @@ -0,0 +1,360 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +
->> +#include <linux/dma-buf.h>
->> +#include <linux/dma-heap.h>
->> +#include <linux/genalloc.h>
->> +#include <linux/highmem.h>
->> +#include <linux/of_reserved_mem.h>
->> +
->> +struct carveout_heap_priv {
->> +       struct dma_heap *heap;
->> +       struct gen_pool *pool;
->> +};
->> +
->> +struct carveout_heap_buffer_priv {
->> +       struct mutex lock;
->> +       struct list_head attachments;
->> +
->> +       unsigned long num_pages;
->> +       struct carveout_heap_priv *heap;
->> +       dma_addr_t daddr;
->> +       void *vaddr;
->> +       unsigned int vmap_cnt;
->> +};
->> +
->> +struct carveout_heap_attachment {
->> +       struct list_head head;
->> +       struct sg_table table;
->> +
->> +       struct device *dev;
->> +       bool mapped;
->> +};
->> +
->> +static int carveout_heap_attach(struct dma_buf *buf,
->> +                               struct dma_buf_attachment *attachment)
->> +{
->> +       struct carveout_heap_buffer_priv *priv = buf->priv;
->> +       struct carveout_heap_attachment *a;
->> +       struct sg_table *sgt;
->> +       unsigned long len = priv->num_pages * PAGE_SIZE;
->> +       int ret;
->> +
->> +       a = kzalloc(sizeof(*a), GFP_KERNEL);
->> +       if (!a)
->> +               return -ENOMEM;
->> +       INIT_LIST_HEAD(&a->head);
->> +       a->dev = attachment->dev;
->> +       attachment->priv = a;
->> +
->> +       sgt = &a->table;
->> +       ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
->> +       if (ret)
->> +               goto err_cleanup_attach;
->> +
->> +       sg_dma_address(sgt->sgl) = priv->daddr;
->> +       sg_dma_len(sgt->sgl) = len;
->> +
->> +       mutex_lock(&priv->lock);
->> +       list_add(&a->head, &priv->attachments);
->> +       mutex_unlock(&priv->lock);
->> +
->> +       return 0;
->> +
->> +err_cleanup_attach:
->> +       kfree(a);
->> +       return ret;
->> +}
->> +
->> +static void carveout_heap_detach(struct dma_buf *dmabuf,
->> +                                struct dma_buf_attachment *attachment)
->> +{
->> +       struct carveout_heap_buffer_priv *priv = dmabuf->priv;
->> +       struct carveout_heap_attachment *a = attachment->priv;
->> +
->> +       mutex_lock(&priv->lock);
->> +       list_del(&a->head);
->> +       mutex_unlock(&priv->lock);
->> +
->> +       sg_free_table(&a->table);
->> +       kfree(a);
->> +}
->> +
->> +static struct sg_table *
->> +carveout_heap_map_dma_buf(struct dma_buf_attachment *attachment,
->> +                         enum dma_data_direction direction)
->> +{
->> +       struct carveout_heap_attachment *a = attachment->priv;
->> +       struct sg_table *table = &a->table;
->> +       int ret;
->> +
->> +       ret = dma_map_sgtable(a->dev, table, direction, 0);
->> +       if (ret)
->> +               return ERR_PTR(-ENOMEM);
-> 
-> Not ERR_PTR(ret)? This is already converted to ENOMEM by
-> dma_buf_map_attachment before leaving the dmabuf code, but it might be
-> nice to retain the error type internally. The two existing heaps
-> aren't consistent about this, and I have a slight preference to
-> propagate the error here.
-> 
->> +
->> +       a->mapped = true;
->> +
->> +       return table;
->> +}
->> +
->> +static void carveout_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
->> +                                       struct sg_table *table,
->> +                                       enum dma_data_direction direction)
->> +{
->> +       struct carveout_heap_attachment *a = attachment->priv;
->> +
->> +       a->mapped = false;
->> +       dma_unmap_sgtable(a->dev, table, direction, 0);
->> +}
->> +
->> +static int
->> +carveout_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
->> +                                      enum dma_data_direction direction)
->> +{
->> +       struct carveout_heap_buffer_priv *priv = dmabuf->priv;
->> +       struct carveout_heap_attachment *a;
->> +       unsigned long len = priv->num_pages * PAGE_SIZE;
->> +
->> +       mutex_lock(&priv->lock);
->> +
->> +       if (priv->vmap_cnt > 0)
->> +               invalidate_kernel_vmap_range(priv->vaddr, len);
->> +
->> +       list_for_each_entry(a, &priv->attachments, head) {
->> +               if (!a->mapped)
->> +                       continue;
->> +
->> +               dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
->> +       }
->> +
->> +       mutex_unlock(&priv->lock);
->> +
->> +       return 0;
->> +}
->> +
->> +static int
->> +carveout_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
->> +                                    enum dma_data_direction direction)
->> +{
->> +       struct carveout_heap_buffer_priv *priv = dmabuf->priv;
->> +       struct carveout_heap_attachment *a;
->> +       unsigned long len = priv->num_pages * PAGE_SIZE;
->> +
->> +       mutex_lock(&priv->lock);
->> +
->> +       if (priv->vmap_cnt > 0)
->> +               flush_kernel_vmap_range(priv->vaddr, len);
->> +
->> +       list_for_each_entry(a, &priv->attachments, head) {
->> +               if (!a->mapped)
->> +                       continue;
->> +
->> +               dma_sync_sgtable_for_device(a->dev, &a->table, direction);
->> +       }
->> +
->> +       mutex_unlock(&priv->lock);
->> +
->> +       return 0;
->> +}
->> +
->> +static int carveout_heap_mmap(struct dma_buf *dmabuf,
->> +                             struct vm_area_struct *vma)
->> +{
->> +       struct carveout_heap_buffer_priv *priv = dmabuf->priv;
->> +       unsigned long len = priv->num_pages * PAGE_SIZE;
->> +       struct page *page = virt_to_page(priv->vaddr);
->> +
->> +       return remap_pfn_range(vma, vma->vm_start, page_to_pfn(page),
->> +                              len, vma->vm_page_prot);
->> +}
->> +
->> +static int carveout_heap_vmap(struct dma_buf *dmabuf, struct iosys_map *map)
->> +{
->> +       struct carveout_heap_buffer_priv *priv = dmabuf->priv;
->> +
->> +       mutex_lock(&priv->lock);
->> +
->> +       iosys_map_set_vaddr(map, priv->vaddr);
->> +       priv->vmap_cnt++;
->> +
->> +       mutex_unlock(&priv->lock);
->> +
->> +       return 0;
->> +}
->> +
->> +static void carveout_heap_vunmap(struct dma_buf *dmabuf, struct iosys_map *map)
->> +{
->> +       struct carveout_heap_buffer_priv *priv = dmabuf->priv;
->> +
->> +       mutex_lock(&priv->lock);
->> +
->> +       priv->vmap_cnt--;
->> +       mutex_unlock(&priv->lock);
->> +
->> +       iosys_map_clear(map);
->> +}
->> +
->> +static void carveout_heap_dma_buf_release(struct dma_buf *buf)
->> +{
->> +       struct carveout_heap_buffer_priv *buffer_priv = buf->priv;
->> +       struct carveout_heap_priv *heap_priv = buffer_priv->heap;
->> +       unsigned long len = buffer_priv->num_pages * PAGE_SIZE;
->> +
->> +       gen_pool_free(heap_priv->pool, (unsigned long)buffer_priv->vaddr, len);
->> +       kfree(buffer_priv);
->> +}
->> +
->> +static const struct dma_buf_ops carveout_heap_buf_ops = {
->> +       .attach         = carveout_heap_attach,
->> +       .detach         = carveout_heap_detach,
->> +       .map_dma_buf    = carveout_heap_map_dma_buf,
->> +       .unmap_dma_buf  = carveout_heap_unmap_dma_buf,
->> +       .begin_cpu_access       = carveout_heap_dma_buf_begin_cpu_access,
->> +       .end_cpu_access = carveout_heap_dma_buf_end_cpu_access,
->> +       .mmap           = carveout_heap_mmap,
->> +       .vmap           = carveout_heap_vmap,
->> +       .vunmap         = carveout_heap_vunmap,
->> +       .release        = carveout_heap_dma_buf_release,
->> +};
->> +
->> +static struct dma_buf *carveout_heap_allocate(struct dma_heap *heap,
->> +                                             unsigned long len,
->> +                                             u32 fd_flags,
->> +                                             u64 heap_flags)
->> +{
->> +       struct carveout_heap_priv *heap_priv = dma_heap_get_drvdata(heap);
->> +       struct carveout_heap_buffer_priv *buffer_priv;
->> +       DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
->> +       struct dma_buf *buf;
->> +       dma_addr_t daddr;
->> +       size_t size = PAGE_ALIGN(len);
-> 
-> This PAGE_ALIGN is not needed since dma_heap_buffer_alloc requires all
-> heap allocations to be page aligned before this function is called.
-> 
-> 
-> 
-> 
-> 
->> +       void *vaddr;
->> +       int ret;
->> +
->> +       buffer_priv = kzalloc(sizeof(*buffer_priv), GFP_KERNEL);
->> +       if (!buffer_priv)
->> +               return ERR_PTR(-ENOMEM);
->> +
->> +       INIT_LIST_HEAD(&buffer_priv->attachments);
->> +       mutex_init(&buffer_priv->lock);
->> +
->> +       vaddr = gen_pool_dma_zalloc(heap_priv->pool, size, &daddr);
->> +       if (!vaddr) {
->> +               ret = -ENOMEM;
->> +               goto err_free_buffer_priv;
->> +       }
->> +
->> +       buffer_priv->vaddr = vaddr;
->> +       buffer_priv->daddr = daddr;
->> +       buffer_priv->heap = heap_priv;
->> +       buffer_priv->num_pages = size >> PAGE_SHIFT;
->> +
->> +       /* create the dmabuf */
->> +       exp_info.exp_name = dma_heap_get_name(heap);
->> +       exp_info.ops = &carveout_heap_buf_ops;
->> +       exp_info.size = size;
->> +       exp_info.flags = fd_flags;
->> +       exp_info.priv = buffer_priv;
->> +
->> +       buf = dma_buf_export(&exp_info);
->> +       if (IS_ERR(buf)) {
->> +               ret = PTR_ERR(buf);
->> +               goto err_free_buffer;
->> +       }
->> +
->> +       return buf;
->> +
->> +err_free_buffer:
->> +       gen_pool_free(heap_priv->pool, (unsigned long)vaddr, len);
->> +err_free_buffer_priv:
->> +       kfree(buffer_priv);
->> +
->> +       return ERR_PTR(ret);
->> +}
->> +
->> +static const struct dma_heap_ops carveout_heap_ops = {
->> +       .allocate = carveout_heap_allocate,
->> +};
->> +
->> +static int __init carveout_heap_setup(struct device_node *node)
->> +{
->> +       struct dma_heap_export_info exp_info = {};
->> +       const struct reserved_mem *rmem;
->> +       struct carveout_heap_priv *priv;
->> +       struct dma_heap *heap;
->> +       struct gen_pool *pool;
->> +       void *base;
->> +       int ret;
->> +
->> +       rmem = of_reserved_mem_lookup(node);
->> +       if (!rmem)
->> +               return -EINVAL;
->> +
->> +       priv = kzalloc(sizeof(*priv), GFP_KERNEL);
->> +       if (!priv)
->> +               return -ENOMEM;
->> +
->> +       pool = gen_pool_create(PAGE_SHIFT, NUMA_NO_NODE);
->> +       if (!pool) {
->> +               ret = -ENOMEM;
->> +               goto err_cleanup_heap;
->> +       }
->> +       priv->pool = pool;
->> +
->> +       base = memremap(rmem->base, rmem->size, MEMREMAP_WB);
+From: David Heidelberg <david@ixit.cz>
 
-Why add a mapping here? What if the carveout is never mapped by the CPU
-(or maybe it shouldn't be mapped for some reason). Instead you could
-make the map at map time. I do it that way in our evil vendor tree
-version of this driver for reference[0].
+Append missing vendor and align with other sony definitions.
 
->> +       if (!base) {
->> +               ret = -ENOMEM;
->> +               goto err_release_mem_region;
->> +       }
->> +
->> +       ret = gen_pool_add_virt(pool, (unsigned long)base, rmem->base,
->> +                               rmem->size, NUMA_NO_NODE);
->> +       if (ret)
->> +               goto err_unmap;
->> +
->> +       exp_info.name = node->full_name;
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Signed-off-by: David Heidelberg <david@ixit.cz>
+---
+Changes in v2:
+- Omit touching ad5820.txt which is being converted to YAML by another
+  patch in parallel.
+- Link to v1: https://lore.kernel.org/r/20250209195517.148700-1-david@ixit.cz
+---
+ .../media/i2c/{adp1653.txt => adi,adp1653.txt}      |  0
+ .../media/i2c/{adv7180.yaml => adi,adv7180.yaml}    |  2 +-
+ .../media/i2c/{adv7343.txt => adi,adv7343.txt}      |  0
+ .../media/i2c/{adv748x.yaml => adi,adv748x.yaml}    |  2 +-
+ .../media/i2c/{adv7604.yaml => adi,adv7604.yaml}    |  2 +-
+ .../media/i2c/{mt9v032.txt => aptina,mt9v032.txt}   |  0
+ .../media/i2c/{max2175.txt => maxim,max2175.txt}    |  0
+ .../media/i2c/{mt9m111.txt => micron,mt9m111.txt}   |  0
+ .../media/i2c/{tda1997x.txt => nxp,tda1997x.txt}    |  0
+ .../media/i2c/{mt9m001.txt => onnn,mt9m001.txt}     |  0
+ .../media/i2c/{ov2640.txt => ovti,ov2640.txt}       |  0
+ .../media/i2c/{ov2659.txt => ovti,ov2659.txt}       |  0
+ .../media/i2c/{ov7670.txt => ovti,ov7670.txt}       |  0
+ .../media/i2c/{ov7740.txt => ovti,ov7740.txt}       |  0
+ .../media/i2c/{ov9650.txt => ovti,ov9650.txt}       |  0
+ .../media/i2c/{imx219.yaml => sony,imx219.yaml}     |  2 +-
+ .../media/i2c/{ths8200.txt => ti,ths8200.txt}       |  0
+ .../media/i2c/{tvp514x.txt => ti,tvp514x.txt}       |  0
+ .../media/i2c/{tvp5150.txt => ti,tvp5150.txt}       |  0
+ .../media/i2c/{tvp7002.txt => ti,tvp7002.txt}       |  0
+ .../i2c/{tc358743.txt => toshiba,tc358743.txt}      |  0
+ MAINTAINERS                                         | 21 ++++++++++++---------
+ 22 files changed, 16 insertions(+), 13 deletions(-)
 
-So this is the only part that concerns me. We really got the user exposed
-naming wrong with the CMA Heap IMHO (probably should have been always called
-"default_cma" or somthing, instead it changes based on how the default CMA
-area was defined).
+diff --git a/Documentation/devicetree/bindings/media/i2c/adp1653.txt b/Documentation/devicetree/bindings/media/i2c/adi,adp1653.txt
+similarity index 100%
+rename from Documentation/devicetree/bindings/media/i2c/adp1653.txt
+rename to Documentation/devicetree/bindings/media/i2c/adi,adp1653.txt
+diff --git a/Documentation/devicetree/bindings/media/i2c/adv7180.yaml b/Documentation/devicetree/bindings/media/i2c/adi,adv7180.yaml
+similarity index 98%
+rename from Documentation/devicetree/bindings/media/i2c/adv7180.yaml
+rename to Documentation/devicetree/bindings/media/i2c/adi,adv7180.yaml
+index 9ee1483775f60905d300fe909f10052a00183fbe..dee8ce7cb7ba2e9e8c3d6018c164f63bb612ad1b 100644
+--- a/Documentation/devicetree/bindings/media/i2c/adv7180.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/adi,adv7180.yaml
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/media/i2c/adv7180.yaml#
++$id: http://devicetree.org/schemas/media/i2c/adi,adv7180.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Analog Devices ADV7180 analog video decoder family
+diff --git a/Documentation/devicetree/bindings/media/i2c/adv7343.txt b/Documentation/devicetree/bindings/media/i2c/adi,adv7343.txt
+similarity index 100%
+rename from Documentation/devicetree/bindings/media/i2c/adv7343.txt
+rename to Documentation/devicetree/bindings/media/i2c/adi,adv7343.txt
+diff --git a/Documentation/devicetree/bindings/media/i2c/adv748x.yaml b/Documentation/devicetree/bindings/media/i2c/adi,adv748x.yaml
+similarity index 98%
+rename from Documentation/devicetree/bindings/media/i2c/adv748x.yaml
+rename to Documentation/devicetree/bindings/media/i2c/adi,adv748x.yaml
+index d6353081402bed849467e2cd003d80fe0e9d2734..254987350321bcff7ef255d2b4decdf5fa26bce7 100644
+--- a/Documentation/devicetree/bindings/media/i2c/adv748x.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/adi,adv748x.yaml
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/media/i2c/adv748x.yaml#
++$id: http://devicetree.org/schemas/media/i2c/adi,adv748x.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Analog Devices ADV748X video decoder with HDMI receiver
+diff --git a/Documentation/devicetree/bindings/media/i2c/adv7604.yaml b/Documentation/devicetree/bindings/media/i2c/adi,adv7604.yaml
+similarity index 98%
+rename from Documentation/devicetree/bindings/media/i2c/adv7604.yaml
+rename to Documentation/devicetree/bindings/media/i2c/adi,adv7604.yaml
+index 7589d377c686450bb0065de94091f9f6678b9413..6c403003cdda1ea0ac33a2b6be6d7477fb5fd44a 100644
+--- a/Documentation/devicetree/bindings/media/i2c/adv7604.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/adi,adv7604.yaml
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/media/i2c/adv7604.yaml#
++$id: http://devicetree.org/schemas/media/i2c/adi,adv7604.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Analog Devices ADV7604/10/11/12 video decoder with HDMI receiver
+diff --git a/Documentation/devicetree/bindings/media/i2c/mt9v032.txt b/Documentation/devicetree/bindings/media/i2c/aptina,mt9v032.txt
+similarity index 100%
+rename from Documentation/devicetree/bindings/media/i2c/mt9v032.txt
+rename to Documentation/devicetree/bindings/media/i2c/aptina,mt9v032.txt
+diff --git a/Documentation/devicetree/bindings/media/i2c/max2175.txt b/Documentation/devicetree/bindings/media/i2c/maxim,max2175.txt
+similarity index 100%
+rename from Documentation/devicetree/bindings/media/i2c/max2175.txt
+rename to Documentation/devicetree/bindings/media/i2c/maxim,max2175.txt
+diff --git a/Documentation/devicetree/bindings/media/i2c/mt9m111.txt b/Documentation/devicetree/bindings/media/i2c/micron,mt9m111.txt
+similarity index 100%
+rename from Documentation/devicetree/bindings/media/i2c/mt9m111.txt
+rename to Documentation/devicetree/bindings/media/i2c/micron,mt9m111.txt
+diff --git a/Documentation/devicetree/bindings/media/i2c/tda1997x.txt b/Documentation/devicetree/bindings/media/i2c/nxp,tda1997x.txt
+similarity index 100%
+rename from Documentation/devicetree/bindings/media/i2c/tda1997x.txt
+rename to Documentation/devicetree/bindings/media/i2c/nxp,tda1997x.txt
+diff --git a/Documentation/devicetree/bindings/media/i2c/mt9m001.txt b/Documentation/devicetree/bindings/media/i2c/onnn,mt9m001.txt
+similarity index 100%
+rename from Documentation/devicetree/bindings/media/i2c/mt9m001.txt
+rename to Documentation/devicetree/bindings/media/i2c/onnn,mt9m001.txt
+diff --git a/Documentation/devicetree/bindings/media/i2c/ov2640.txt b/Documentation/devicetree/bindings/media/i2c/ovti,ov2640.txt
+similarity index 100%
+rename from Documentation/devicetree/bindings/media/i2c/ov2640.txt
+rename to Documentation/devicetree/bindings/media/i2c/ovti,ov2640.txt
+diff --git a/Documentation/devicetree/bindings/media/i2c/ov2659.txt b/Documentation/devicetree/bindings/media/i2c/ovti,ov2659.txt
+similarity index 100%
+rename from Documentation/devicetree/bindings/media/i2c/ov2659.txt
+rename to Documentation/devicetree/bindings/media/i2c/ovti,ov2659.txt
+diff --git a/Documentation/devicetree/bindings/media/i2c/ov7670.txt b/Documentation/devicetree/bindings/media/i2c/ovti,ov7670.txt
+similarity index 100%
+rename from Documentation/devicetree/bindings/media/i2c/ov7670.txt
+rename to Documentation/devicetree/bindings/media/i2c/ovti,ov7670.txt
+diff --git a/Documentation/devicetree/bindings/media/i2c/ov7740.txt b/Documentation/devicetree/bindings/media/i2c/ovti,ov7740.txt
+similarity index 100%
+rename from Documentation/devicetree/bindings/media/i2c/ov7740.txt
+rename to Documentation/devicetree/bindings/media/i2c/ovti,ov7740.txt
+diff --git a/Documentation/devicetree/bindings/media/i2c/ov9650.txt b/Documentation/devicetree/bindings/media/i2c/ovti,ov9650.txt
+similarity index 100%
+rename from Documentation/devicetree/bindings/media/i2c/ov9650.txt
+rename to Documentation/devicetree/bindings/media/i2c/ovti,ov9650.txt
+diff --git a/Documentation/devicetree/bindings/media/i2c/imx219.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx219.yaml
+similarity index 97%
+rename from Documentation/devicetree/bindings/media/i2c/imx219.yaml
+rename to Documentation/devicetree/bindings/media/i2c/sony,imx219.yaml
+index 07d088cf66e0bde362b12d3494e5c91a1dd96bf3..8b23e5fc6a24f5ce55986b44218f82b8281875bc 100644
+--- a/Documentation/devicetree/bindings/media/i2c/imx219.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/sony,imx219.yaml
+@@ -1,7 +1,7 @@
+ # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ %YAML 1.2
+ ---
+-$id: http://devicetree.org/schemas/media/i2c/imx219.yaml#
++$id: http://devicetree.org/schemas/media/i2c/sony,imx219.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
+ 
+ title: Sony 1/4.0-Inch 8Mpixel CMOS Digital Image Sensor
+diff --git a/Documentation/devicetree/bindings/media/i2c/ths8200.txt b/Documentation/devicetree/bindings/media/i2c/ti,ths8200.txt
+similarity index 100%
+rename from Documentation/devicetree/bindings/media/i2c/ths8200.txt
+rename to Documentation/devicetree/bindings/media/i2c/ti,ths8200.txt
+diff --git a/Documentation/devicetree/bindings/media/i2c/tvp514x.txt b/Documentation/devicetree/bindings/media/i2c/ti,tvp514x.txt
+similarity index 100%
+rename from Documentation/devicetree/bindings/media/i2c/tvp514x.txt
+rename to Documentation/devicetree/bindings/media/i2c/ti,tvp514x.txt
+diff --git a/Documentation/devicetree/bindings/media/i2c/tvp5150.txt b/Documentation/devicetree/bindings/media/i2c/ti,tvp5150.txt
+similarity index 100%
+rename from Documentation/devicetree/bindings/media/i2c/tvp5150.txt
+rename to Documentation/devicetree/bindings/media/i2c/ti,tvp5150.txt
+diff --git a/Documentation/devicetree/bindings/media/i2c/tvp7002.txt b/Documentation/devicetree/bindings/media/i2c/ti,tvp7002.txt
+similarity index 100%
+rename from Documentation/devicetree/bindings/media/i2c/tvp7002.txt
+rename to Documentation/devicetree/bindings/media/i2c/ti,tvp7002.txt
+diff --git a/Documentation/devicetree/bindings/media/i2c/tc358743.txt b/Documentation/devicetree/bindings/media/i2c/toshiba,tc358743.txt
+similarity index 100%
+rename from Documentation/devicetree/bindings/media/i2c/tc358743.txt
+rename to Documentation/devicetree/bindings/media/i2c/toshiba,tc358743.txt
+diff --git a/MAINTAINERS b/MAINTAINERS
+index af3537005de35dfd0ded11bdc2b9c63e10c70e93..aed17acd8845f24ebbe99b5a12763ae8cbf4623d 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -528,6 +528,7 @@ ADP1653 FLASH CONTROLLER DRIVER
+ M:	Sakari Ailus <sakari.ailus@iki.fi>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
++F:	Documentation/devicetree/bindings/media/i2c/adi,adp1653.txt
+ F:	drivers/media/i2c/adp1653.c
+ F:	include/media/i2c/adp1653.h
+ 
+@@ -1596,14 +1597,14 @@ M:	Lars-Peter Clausen <lars@metafoo.de>
+ L:	linux-media@vger.kernel.org
+ S:	Supported
+ W:	https://ez.analog.com/linux-software-drivers
+-F:	Documentation/devicetree/bindings/media/i2c/adv7180.yaml
++F:	Documentation/devicetree/bindings/media/i2c/adi,adv7180.yaml
+ F:	drivers/media/i2c/adv7180.c
+ 
+ ANALOG DEVICES INC ADV748X DRIVER
+ M:	Kieran Bingham <kieran.bingham@ideasonboard.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/media/i2c/adv748x.yaml
++F:	Documentation/devicetree/bindings/media/i2c/adi,adv748x.yaml
+ F:	drivers/media/i2c/adv748x/*
+ 
+ ANALOG DEVICES INC ADV7511 DRIVER
+@@ -1616,7 +1617,7 @@ ANALOG DEVICES INC ADV7604 DRIVER
+ M:	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/media/i2c/adv7604.yaml
++F:	Documentation/devicetree/bindings/media/i2c/adi,adv7604.yaml
+ F:	drivers/media/i2c/adv7604*
+ 
+ ANALOG DEVICES INC ADV7842 DRIVER
+@@ -14480,7 +14481,7 @@ M:	Ramesh Shanmugasundaram <rashanmu@gmail.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+-F:	Documentation/devicetree/bindings/media/i2c/max2175.txt
++F:	Documentation/devicetree/bindings/media/i2c/maxim,max2175.txt
+ F:	Documentation/userspace-api/media/drivers/max2175.rst
+ F:	drivers/media/i2c/max2175*
+ F:	include/uapi/linux/max2175.h
+@@ -16553,7 +16554,7 @@ M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+-F:	Documentation/devicetree/bindings/media/i2c/mt9v032.txt
++F:	Documentation/devicetree/bindings/media/i2c/aptina,mt9v032.txt
+ F:	drivers/media/i2c/mt9v032.c
+ F:	include/media/i2c/mt9v032.h
+ 
+@@ -18007,7 +18008,7 @@ OMNIVISION OV7740 SENSOR DRIVER
+ L:	linux-media@vger.kernel.org
+ S:	Orphan
+ T:	git git://linuxtv.org/media.git
+-F:	Documentation/devicetree/bindings/media/i2c/ov7740.txt
++F:	Documentation/devicetree/bindings/media/i2c/ovti,ov7740.txt
+ F:	drivers/media/i2c/ov7740.c
+ 
+ OMNIVISION OV8856 SENSOR DRIVER
+@@ -18048,7 +18049,7 @@ R:	Sylwester Nawrocki <s.nawrocki@samsung.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+-F:	Documentation/devicetree/bindings/media/i2c/ov9650.txt
++F:	Documentation/devicetree/bindings/media/i2c/ovti,ov9650.txt
+ F:	drivers/media/i2c/ov9650.c
+ 
+ OMNIVISION OV9734 SENSOR DRIVER
+@@ -18253,6 +18254,7 @@ S:	Maintained
+ W:	https://linuxtv.org
+ Q:	http://patchwork.linuxtv.org/project/linux-media/list/
+ T:	git git://linuxtv.org/mhadli/v4l-dvb-davinci_devices.git
++F:	Documentation/devicetree/bindings/media/i2c/ovti,ov2659.txt
+ F:	drivers/media/i2c/ov2659.c
+ F:	include/media/i2c/ov2659.h
+ 
+@@ -22554,7 +22556,7 @@ M:	Dave Stevenson <dave.stevenson@raspberrypi.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ T:	git git://linuxtv.org/media.git
+-F:	Documentation/devicetree/bindings/media/i2c/imx219.yaml
++F:	Documentation/devicetree/bindings/media/i2c/sony,imx219.yaml
+ F:	drivers/media/i2c/imx219.c
+ 
+ SONY IMX258 SENSOR DRIVER
+@@ -23686,6 +23688,7 @@ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ W:	https://linuxtv.org
+ Q:	http://patchwork.linuxtv.org/project/linux-media/list/
++F:	Documentation/devicetree/bindings/media/i2c/nxp,tda1997x.txt
+ F:	drivers/media/i2c/tda1997x.*
+ 
+ TDA827x MEDIA DRIVER
+@@ -24523,7 +24526,7 @@ TOSHIBA TC358743 DRIVER
+ M:	Hans Verkuil <hverkuil-cisco@xs4all.nl>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/media/i2c/tc358743.txt
++F:	Documentation/devicetree/bindings/media/i2c/toshiba,tc358743.txt
+ F:	drivers/media/i2c/tc358743*
+ F:	include/media/i2c/tc358743.h
+ 
 
-If the name of the heap is how users select the heap, it needs to be consistent.
-And naming it after the node makes the DT name into ABI. It also means it will
-change based on device, or even based on how it is created. What if this same
-reserved region is defined by ACPI instead of DT in some cases, or from kernel
-command-line, etc.. Makes for bad ABI :(
+---
+base-commit: b425262c07a6a643ebeed91046e161e20b944164
+change-id: 20250414-media-i2c-align-filenames-78d1e7ada5e2
 
-Maybe in addition to the "export" property, in the DT node we have a "heap-name"
-that can be set which then defines what name is presented to userspace. At
-very least that allows us to kick the can down the road till we can figure out
-what good portable Heap names should look like.
+Best regards,
+-- 
+David Heidelberg <david@ixit.cz>
 
-Andrew
 
-[0] https://git.ti.com/cgit/ti-linux-kernel/ti-linux-kernel/tree/drivers/dma-buf/heaps/carveout-heap.c?h=ti-linux-6.12.y
-
->> +       exp_info.ops = &carveout_heap_ops;
->> +       exp_info.priv = priv;
->> +
->> +       heap = dma_heap_add(&exp_info);
->> +       if (IS_ERR(heap)) {
->> +               ret = PTR_ERR(heap);
->> +               goto err_cleanup_pool_region;
->> +       }
->> +       priv->heap = heap;
->> +
->> +       return 0;
->> +
->> +err_cleanup_pool_region:
->> +       gen_pool_free(pool, (unsigned long)base, rmem->size);
->> +err_unmap:
->> +       memunmap(base);
->> +err_release_mem_region:
->> +       gen_pool_destroy(pool);
->> +err_cleanup_heap:
->> +       kfree(priv);
->> +       return ret;
->> +}
->> +
->> +static int __init carveout_heap_init(void)
->> +{
->> +       struct device_node *rmem_node;
->> +       struct device_node *node;
->> +       int ret;
->> +
->> +       rmem_node = of_find_node_by_path("/reserved-memory");
->> +       if (!rmem_node)
->> +               return 0;
->> +
->> +       for_each_child_of_node(rmem_node, node) {
->> +               if (!of_property_read_bool(node, "export"))
->> +                       continue;
->> +
->> +               ret = carveout_heap_setup(node);
->> +               if (ret)
->> +                       return ret;
->> +       }
->> +
->> +       return 0;
->> +}
->> +
->> +module_init(carveout_heap_init);
->>
->> --
->> 2.49.0
->>
 
