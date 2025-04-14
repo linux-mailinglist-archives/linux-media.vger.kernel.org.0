@@ -1,83 +1,55 @@
-Return-Path: <linux-media+bounces-30120-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30121-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E199A87B7B
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 11:07:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 824B5A87B8D
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 11:11:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5A5C23A4633
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 09:07:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 45A283A7D85
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 09:11:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9955425E813;
-	Mon, 14 Apr 2025 09:07:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55C6D25E463;
+	Mon, 14 Apr 2025 09:11:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Fg5v5Bro"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="pRZy+KAe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4368225D20B
-	for <linux-media@vger.kernel.org>; Mon, 14 Apr 2025 09:07:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0381ACEDF;
+	Mon, 14 Apr 2025 09:11:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744621642; cv=none; b=TilNDfX4XULr7a19N4+dz36vGSPp5eEVwB/jLOHxPxdCLPnCRamIEJyFj8fwXnFJw2PXboDlqMKH05vYYRWC4pT3o61xCqORZv7Kx/9tN1sdjwTJS3eIRCFE5ITRwTGA0kB4SIF3JvaOQfzL2LO+xh3CzFHiJUybLO4GAglNRX0=
+	t=1744621869; cv=none; b=JNK+/SEy/J6ZHHA9Rz0dcol+93RuvO8Rkl/RRceM2cVy0TLN+lcCvwY8k1Ni4/JCi1rKXYedeAqWlpq4EM7nMyQ//MvDphptn9cz23xcaGiicHqKvBEY9m+Mr0NMnVrj2qjXPfbFRkBuoRLLy46qJwvvf21xwG2QkOR8tBqfhag=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744621642; c=relaxed/simple;
-	bh=dS2J48Tel/PGxALiJ+H9EoR5oWMWjKA4HJYOU2Iofi8=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=gEF2bYfb1uZu7XjkCCgYgWRf9xy0G1ZgKpgPAsrP8Epr732IdVxzEi0cFCDP4sH1PS/WYNInAQJhD583dxUzDzayPwKuM1gqKdhOlwUeHzBUMFLKIFuYp+Kk10HXaJ/Rc3T1OVDKFhXa1JHNVyKipFC/fDE4qn1yyBtESXua3ZI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Fg5v5Bro; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-39c1ef4ae3aso2440563f8f.1
-        for <linux-media@vger.kernel.org>; Mon, 14 Apr 2025 02:07:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744621637; x=1745226437; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iL/haXdSm106SCcZ5Ysvk5qBhczHsIzy7mtrRHEv0Ec=;
-        b=Fg5v5BroC2MOjYx7/A6JQyhournpbG7Gx1BwYCOf6i2k6638PzicEOFZPdGxxOHO5O
-         n8aJvDcy6oxJpJ+dZo26mLLtFIHbQgmeQJvQjumwrNt0UAR3b7Qq+W5jN/0GtU1+CHo8
-         XN3MNJZ8GlL3BhonaVEDwRfp/nTlJKq9Y13dWWxyLQET1z2/Ph5gr4OeDSXpBoEOKIc6
-         630hPZgmZmfsgFzr0xMqCdOu4RDCAhGymtaVdZoYkeAk4/lp53M+54cEJQxiS8nHjdlB
-         KzLXeZ8SL3YWwnbNztzr8ZYUqJ/w6MG1URSEf6IZC+4gXF0J+sV1J1XXG+V0tMEnrnPd
-         zXGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744621637; x=1745226437;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:references:cc:to:subject:reply-to:from:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=iL/haXdSm106SCcZ5Ysvk5qBhczHsIzy7mtrRHEv0Ec=;
-        b=LwJDENqKrFQA1rlc9uGdTIpIjurVSXLlSQv9OxT0jXxSqsIQ06smF2qb9b6hXI9JiH
-         ISHqeQ8/LIrJ9IxACfPr0o3WuqT0o/QIrqZOOY2kBTHMM9svGhuN/knEWDLTl7GJ+qVl
-         yqvnFebcPK6j1rFnPD1jf2qBdce3Z/LuDCTXxsSImFNePdQUTS3Y4nNv6N+NTwxZt+xJ
-         cXvRBE4Rh0DGddfsbpH+o1NukvRn6Cmcu2Osspt9EezwwuwE82IvexxYMsJFFtYdMA4I
-         6bRQl5COIQ0cuEMPfe8ILxR0kJvhYHP9bbjNaCYrgn82Mi0F+1XqjKPo0bel9OhCAHOT
-         p3yg==
-X-Forwarded-Encrypted: i=1; AJvYcCXlPYx3NpHUZgrXqc6lC1nuTYsW0+RQBwBDwWdIHXLDYKVilX8Q26I3D9adflJzWFsDqb7pj1XZhxLofw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yww3OQyGZSBINfMle9c8VxwDEMhpMqAsApWEF5nvLQNAOf/YAMF
-	nRY4siMA6TObHfJ4Saq6x2035qLfsh7NpIoPTzOHU99gBpxlMpJM79MeEIVhxvdPxn8dfNShXhH
-	Q
-X-Gm-Gg: ASbGncvD+cUM2dAZ4DZw1FJ4U2EPnPOY2hHqih8P81I2LlZCKkZluODeJq8srzj87+O
-	4IBP9zMhdOKoSeN3JZt6C5iIxacbf8wy6ap/BSmLUEKy5zP8NSppqdAGEkii0t4JFEnbZ+IsW/i
-	q8snZk2COBqznMcIvtwtwQDuvcxUN/JMfraJMeLjGvW8+HuIrhsknRWuOBK1BGpw3tZQZKFVRAR
-	wK1g9jGJkrsCCpdtsoHWPm9D8X2Irh3k9Kp4ruB7V3k/5jS0g9jo284s6jh0hytzVIWM5eDVEi7
-	k+j1K1Slfdg/K5KKI3kJvget5mBDhJqFTYMoyT2EVUhRRbnhtjGQfZTE7XXhUfxo+L2xxMMUCOk
-	fxQRQTD7PO0QHHP7B0A==
-X-Google-Smtp-Source: AGHT+IGugi0LSYjtu7nYw3KeGaxFf9/4/JKVTxixNTHluzsbP0RIUM/GNmnSdPADtHwyVqrVeW9+Zg==
-X-Received: by 2002:a5d:5f4e:0:b0:39c:13fd:e6cd with SMTP id ffacd0b85a97d-39d8f4de009mr11848792f8f.29.1744621637529;
-        Mon, 14 Apr 2025 02:07:17 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:bf8a:3473:5c13:9743? ([2a01:e0a:3d9:2080:bf8a:3473:5c13:9743])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae96c074sm10156075f8f.28.2025.04.14.02.07.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Apr 2025 02:07:17 -0700 (PDT)
-Message-ID: <d7241218-388a-4749-a4c7-fafd9b10f352@linaro.org>
-Date: Mon, 14 Apr 2025 11:07:16 +0200
+	s=arc-20240116; t=1744621869; c=relaxed/simple;
+	bh=eCRuz3iU92Fps88PsaNqBfRzZ+3SfrbqRNETJMgMqrQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Zyz8/P5j4hb8bdgrN9BYbl4INRM1iieU9nbTmvHWIGA47xMHPZW8TDgOoQxGbcsfA+ayCRMzaVgmsLOYJLfZ44W2kIe5GLdJiSkRWSNcxqOoC/Wj/QRy6EkRSwbkHcun+NpwmxsssAUSD5SoYlFDpVhtffrvS0eYZbxzQLJ8Thg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=pRZy+KAe; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1744621865;
+	bh=eCRuz3iU92Fps88PsaNqBfRzZ+3SfrbqRNETJMgMqrQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=pRZy+KAe8O5XNKgsFJ+//lJTkFlp2uYBj8Rjtz9xqSTsGdMDdLpYaHmpNoQnGEEYg
+	 wxLOuOMeyapBbUnESJP7QvL9SFFTqzFNLOvqDVWo7K+ZVxgJXtOH5Gux7Ys8sH9qtF
+	 M7VeGTAyth4newHv+QLNJREnHtuXr/uqKNKpVoJ90TSKL7nVnY0bivZXlHEN+LpD5i
+	 ChSLAXaTPzw06dyXU1PtxDMWR3GRqq/bw6BNJjvpgUBqPCD7ToswlIthjTClMh3nbq
+	 Al32tqSMOPyk7HYzvGCKPOrsxa0gwf8RjSbUtDGFhjQemYpk1sCN+HBiWCiuePqOea
+	 nKvQQK9IpaZ3A==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id EB8DA17E0E92;
+	Mon, 14 Apr 2025 11:11:04 +0200 (CEST)
+Message-ID: <d3da96bf-d1c8-4bf8-a22a-21a43f78f27d@collabora.com>
+Date: Mon, 14 Apr 2025 11:11:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -85,99 +57,206 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Reply-To: neil.armstrong@linaro.org
-Subject: Re: [PATCH RFC v5 1/8] media: qcom: iris: move sm8250 to gen1 catalog
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Vikash Garodia <quic_vgarodia@quicinc.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Abhinav Kumar <quic_abhinavk@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
-References: <20250410-topic-sm8x50-upstream-iris-catalog-v5-0-44a431574c25@linaro.org>
- <20250410-topic-sm8x50-upstream-iris-catalog-v5-1-44a431574c25@linaro.org>
- <vhfuhjruok7gupoeo2uloe525k7oycd5gkh67zzz4wbiwrczpt@i3qknymfu4px>
- <f637965b-dff5-45d4-b6be-de8c68c6c397@linaro.org>
- <gkgd7gelin2hbkm2ltsifibxs6laluc66yx5k5uupfa2p4sswc@ypkyrj25njew>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <gkgd7gelin2hbkm2ltsifibxs6laluc66yx5k5uupfa2p4sswc@ypkyrj25njew>
+Subject: Re: [PATCH v2 4/5] media: vcodec: Implement manual request completion
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Tiffany Lin <tiffany.lin@mediatek.com>,
+ Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ Matthias Brugger <matthias.bgg@gmail.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-mediatek@lists.infradead.org, kernel@collabora.com,
+ linux-media@vger.kernel.org,
+ Sebastian Fricke <sebastian.fricke@collabora.com>
+References: <20250410-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v2-0-5b99ec0450e6@collabora.com>
+ <20250410-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v2-4-5b99ec0450e6@collabora.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250410-sebastianfricke-vcodec_manual_request_completion_with_state_machine-v2-4-5b99ec0450e6@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 14/04/2025 09:39, Dmitry Baryshkov wrote:
-> On Fri, Apr 11, 2025 at 10:14:02AM +0200, Neil Armstrong wrote:
->> On 10/04/2025 21:44, Dmitry Baryshkov wrote:
->>> On Thu, Apr 10, 2025 at 06:30:00PM +0200, Neil Armstrong wrote:
->>>> Re-organize the platform support core into a gen1 catalog C file
->>>> declaring common platform structure and include platform headers
->>>> containing platform specific entries and iris_platform_data
->>>> structure.
->>>>
->>>> The goal is to share most of the structure while having
->>>> clear and separate per-SoC catalog files.
->>>>
->>>> The organization is based on the current drm/msm dpu1 catalog
->>>> entries.
->>>>
->>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>>> ---
->>>>    drivers/media/platform/qcom/iris/Makefile          |  2 +-
->>>>    .../media/platform/qcom/iris/iris_catalog_gen1.c   | 83 ++++++++++++++++++++++
->>>>    ...ris_platform_sm8250.c => iris_catalog_sm8250.h} | 80 ++-------------------
->>>
->>> I'd suggest _not_ to follow DPU here. I like the per-generation files,
->>> but please consider keeping platform files as separate C files too.
->>
->> This would duplicate all tables, do we really want this ?
+Il 10/04/25 17:39, Nicolas Dufresne ha scritto:
+> From: Sebastian Fricke <sebastian.fricke@collabora.com>
 > 
-> No. Keep the tables that are shared in iris_catalog_gen1.c, keep
-> platform data in iris_catalog_sm8250.c and iris_catalog_sm8550.c (and
-> later iris_catalog_sm8650.c)
-
-This won't work, we need ARRAY_SIZE() for most of the tables
-
-Neil
-
+> Rework how requests are completed in the MediaTek VCodec driver, by
+> implementing the new manual request completion feature, which allows to
+> keep a request open while allowing to add new bitstream data.
+> This is useful in this case, because the hardware has a LAT and a core
+> decode work, after the LAT decode the bitstream isn't required anymore
+> so the source buffer can be set done and the request stays open until
+> the core decode work finishes.
 > 
->>
->> I want just to add SM8650 support, not to entirely rework the
->> whole iris driver.
->>
->> Neil
->>
->>>
->>>>    3 files changed, 89 insertions(+), 76 deletions(-)
->>>>
->>>
->>
-> 
+> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> Co-developed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
+This patch is great - but looks like it's worsening naming consistency across the
+driver.
+
+Please look below.
+
+> ---
+>   .../mediatek/vcodec/common/mtk_vcodec_cmn_drv.h    | 13 +++++
+>   .../mediatek/vcodec/decoder/mtk_vcodec_dec.c       |  4 +-
+>   .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c   | 50 +++++++++++++++++
+>   .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h   | 19 +++++++
+>   .../vcodec/decoder/mtk_vcodec_dec_stateless.c      | 63 +++++++++++++---------
+>   5 files changed, 124 insertions(+), 25 deletions(-)
+> 
+> diff --git a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_cmn_drv.h b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_cmn_drv.h
+> index 6087e27bd604d24e5d37b48de5bb37eab86fc1ab..c5fd37cb60ca0cc5fd09c9243b36fbc716c56454 100644
+> --- a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_cmn_drv.h
+> +++ b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_cmn_drv.h
+> @@ -105,6 +105,19 @@ enum mtk_instance_state {
+>   	MTK_STATE_ABORT = 4,
+>   };
+>   
+> +/**
+> + * enum mtk_request_state - Stages of processing a request
+> + * @MTK_REQUEST_RECEIVED: Hardware prepared for the LAT decode
+> + * @MTK_REQUEST_LAT_DONE: LAT decode finished, the bitstream is not
+> + *		      needed anymore
+> + * @MTK_REQUEST_CORE_DONE: CORE decode finished
+> + */
+> +enum mtk_request_state {
+> +	MTK_REQUEST_RECEIVED = 0,
+> +	MTK_REQUEST_LAT_DONE = 1,
+> +	MTK_REQUEST_CORE_DONE = 2,
+> +};
+> +
+>   enum mtk_fmt_type {
+>   	MTK_FMT_DEC = 0,
+>   	MTK_FMT_ENC = 1,
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+> index 98838217b97d45ed2b5431fdf87c94e0ff79fc57..036ad191a9c3e644fe99b4ce25d6a089292f1e57 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+> @@ -889,8 +889,10 @@ void vb2ops_vdec_stop_streaming(struct vb2_queue *q)
+>   					src_buf->vb2_buf.req_obj.req;
+>   				v4l2_m2m_buf_done(src_buf,
+>   						VB2_BUF_STATE_ERROR);
+> -				if (req)
+> +				if (req) {
+>   					v4l2_ctrl_request_complete(req, &ctx->ctrl_hdl);
+> +					media_request_manual_complete(req);
+> +				}
+>   			}
+>   		}
+>   		return;
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
+> index 9247d92d431d8570609423156b989878f7901f1c..c80c1db509eaadd449bfd183c5eb9db0a1fc22bd 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c
+> @@ -26,6 +26,56 @@
+>   #include "mtk_vcodec_dec_pm.h"
+>   #include "../common/mtk_vcodec_intr.h"
+>   
+> +static const char *state_to_str(enum mtk_request_state state)
+
+static const char *mtk_vcodec_req_state_to_str(enum mtk_request_state state)
+
+> +{
+> +	switch (state) {
+> +	case MTK_REQUEST_RECEIVED:
+> +		return "RECEIVED";
+> +	case MTK_REQUEST_LAT_DONE:
+> +		return "LAT_DONE";
+> +	case MTK_REQUEST_CORE_DONE:
+> +		return "CORE_DONE";
+> +	default:
+> +		return "UNKNOWN";
+> +	}
+> +}
+> +
+> +void mtk_request_complete(struct mtk_vcodec_dec_ctx *ctx, enum mtk_request_state state,
+
+void mtk_vcodec_request_complete( ....)
+
+
+> +			  enum vb2_buffer_state buffer_state, struct media_request *src_buf_req)
+> +{
+> +	struct mtk_request *req = req_to_mtk_req(src_buf_req);
+> +	struct vb2_v4l2_buffer *src_buf, *dst_buf;
+> +
+> +	mutex_lock(&ctx->lock);
+> +
+> +	if (req->req_state >= state) {
+> +		mutex_unlock(&ctx->lock);
+> +		return;
+> +	}
+> +
+> +	switch (req->req_state) {
+> +	case MTK_REQUEST_RECEIVED:
+> +		v4l2_ctrl_request_complete(src_buf_req, &ctx->ctrl_hdl);
+> +		src_buf = v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
+> +		v4l2_m2m_buf_done(src_buf, buffer_state);
+> +		if (state == MTK_REQUEST_LAT_DONE)
+> +			break;
+> +		fallthrough;
+> +	case MTK_REQUEST_LAT_DONE:
+> +		dst_buf = v4l2_m2m_dst_buf_remove(ctx->m2m_ctx);
+> +		v4l2_m2m_buf_done(dst_buf, buffer_state);
+> +		media_request_manual_complete(src_buf_req);
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +
+> +	mtk_v4l2_vdec_dbg(3, ctx, "Switch state from %s to %s.\n",
+> +			  state_to_str(req->req_state), state_to_str(state));
+> +	req->req_state = state;
+> +	mutex_unlock(&ctx->lock);
+> +}
+> +
+>   static int mtk_vcodec_get_hw_count(struct mtk_vcodec_dec_ctx *ctx, struct mtk_vcodec_dec_dev *dev)
+>   {
+>   	switch (dev->vdec_pdata->hw_arch) {
+> diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+> index ac568ed14fa257d25b533b6fd6b3cd341227ecc2..cd61bf46de6918c27ed39ba64162e5f2637f93b2 100644
+> --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+> +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h
+> @@ -126,6 +126,17 @@ struct mtk_vcodec_dec_pdata {
+>   	bool uses_stateless_api;
+>   };
+>   
+> +/**
+> + * struct mtk_request - Media request private data.
+> + *
+> + * @req_state: Request completion state
+> + * @req: Media Request structure
+> + */
+> +struct mtk_request {
+
+Maybe mtk_vcodec_dec_request? :-)
+
+> +	enum mtk_request_state req_state;
+> +	struct media_request req;
+> +};
+> +
+>   /**
+>    * struct mtk_vcodec_dec_ctx - Context (instance) private data.
+>    *
+> @@ -317,6 +328,11 @@ static inline struct mtk_vcodec_dec_ctx *ctrl_to_dec_ctx(struct v4l2_ctrl *ctrl)
+>   	return container_of(ctrl->handler, struct mtk_vcodec_dec_ctx, ctrl_hdl);
+>   }
+>   
+> +static inline struct mtk_request *req_to_mtk_req(struct media_request *req)
+
+...and this could become req_to_dec_req ... but no strong opinions on this one
+specifically, so feel free to keep this as it is.
+
+> +{
+> +	return container_of(req, struct mtk_request, req);
+> +}
+> +
+>   /* Wake up context wait_queue */
+>   static inline void
+>   wake_up_dec_ctx(struct mtk_vcodec_dec_ctx *ctx, unsigned int reason, unsigned int hw_id)
+
+After which....
+
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
