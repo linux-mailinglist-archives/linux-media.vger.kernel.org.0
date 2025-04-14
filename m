@@ -1,225 +1,128 @@
-Return-Path: <linux-media+bounces-30133-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30134-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74AC4A87CBC
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 12:02:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1669A87CCA
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 12:04:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EC4E318954DD
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 10:02:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB6AA3B56CA
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 10:04:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AF6C25A63F;
-	Mon, 14 Apr 2025 10:01:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B7092676D0;
+	Mon, 14 Apr 2025 10:04:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cof6gY7T"
 X-Original-To: linux-media@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2CAD257AC8;
-	Mon, 14 Apr 2025 10:01:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4216225E471;
+	Mon, 14 Apr 2025 10:04:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744624899; cv=none; b=UrqsKQeb8cP+INIGapoOc9rabVT5WtjOmDkS191NsssmJcMae+/bjTneg2NnB9SR/RojZlHmIzgHn5CE4Yfx7hMYjLzcA6qh/mVhEQdrygPxSfHuC0bFYQo36DSNqGAdFeD4P8KxvCvCPEDclMYRKENucs6VxpbdATcJeDy7sT4=
+	t=1744625059; cv=none; b=Zb1XbaPlSwDq7WC5TgaENd/Wrz/ZLd9XAJHKIPKSZHphg+PI6u6VDMLnq2KvuX4NcpJWz4XFcrvD5MGQLjOWhcjRzZ1jbK7cMwYol2N1v6ol9ro20XLYBvnkPXDx1OjaPYMbp9bh55DZAv2kZTdsEWP7GvQdi+FSztRSAKou6Iw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744624899; c=relaxed/simple;
-	bh=vvzzjW65MnkZ0nxqXIx1qV1sedh5i36fMxRRI/66I4E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=exQxVG0bL1w93BHOJ0NAkWBU7TxbZeCfqIRHmRCBofIWJfsRdwMJTOixo/BUQ32qAA7DwgU2EzCrP1YSXTK4/OjTPlveska6NV1Rz9P7BaRGpw1vjGFr0RTiFzaZ9qNdLEUHZ8w6kGFGWO3DBDmEOsVRsCNnLrY9X74kXgz87iQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 360EA1007;
-	Mon, 14 Apr 2025 03:01:35 -0700 (PDT)
-Received: from [10.57.87.24] (unknown [10.57.87.24])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 293E33F694;
-	Mon, 14 Apr 2025 03:01:32 -0700 (PDT)
-Message-ID: <1da20229-4eca-41a0-b479-320820a27812@arm.com>
-Date: Mon, 14 Apr 2025 11:01:32 +0100
+	s=arc-20240116; t=1744625059; c=relaxed/simple;
+	bh=KoziiDMWesEbVilp9hXpIF4PFybA/NZuL5MQjO2mQXo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eV3VkhLeaGftVAHCs+Sao6OKsq5u5wTwJ8gC/nJBZJ1CAymqlmRVm9WvIKXQ6ZsLp8kroOcZ4/CwrRXjgoxTGxil/HiRxR8jAsEWzbeMVJ2UeRaEtAqPKc88oPJxq6oYVdHCOJKeGLf5smI7Lnnk6QXs2/FXeKiZd9LZiAnqf48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cof6gY7T; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744625058; x=1776161058;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=KoziiDMWesEbVilp9hXpIF4PFybA/NZuL5MQjO2mQXo=;
+  b=cof6gY7Tl06pK3o4VgESGLyNRJfN3+eWSkdfmNzYE5nfCeVsQ2b9tMJQ
+   MJZU8FUMqtp93sNRpfoLQYDEDuO6aEaw37+cSvXtAaTpiMPBgWt7N8JWI
+   oNFLCMdRBTbOSSfKy617vI/eSJ4udsWdDH7HzDuHojkpYpUXgGf/dyYoB
+   gydi3R6IwCwgUIPSRAwqps+75WdAcyTiTj3vNYhgx6+Vmeq/RJrEyN/1S
+   q/uDg4zGvVqZELjM6AFjqaynzscOV/wVG9300Aavx+/Bx48Jh4s6/QetM
+   bOYGAXBefpP51GdOccMM2Ihr1TN7mu7/WkCuxn5wCIp3nsptp54gn4CH8
+   A==;
+X-CSE-ConnectionGUID: UiLdlVXhQMOwDChi3Bve4g==
+X-CSE-MsgGUID: izJSAi7xQPCIqWLUXQz7Gw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="46177058"
+X-IronPort-AV: E=Sophos;i="6.15,212,1739865600"; 
+   d="scan'208";a="46177058"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 03:04:16 -0700
+X-CSE-ConnectionGUID: UQPq5Zd8RACKl6xRmRyrFw==
+X-CSE-MsgGUID: j3/mlJisSRWIwbf1JEfSnQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,212,1739865600"; 
+   d="scan'208";a="130100418"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by fmviesa008.fm.intel.com with ESMTP; 14 Apr 2025 03:04:13 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id C01C78A2; Mon, 14 Apr 2025 13:04:11 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jai Luthra <jai.luthra@ideasonboard.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH v4 0/7] i2c: core: Move client towards fwnode
+Date: Mon, 14 Apr 2025 13:01:50 +0300
+Message-ID: <20250414100409.3910312-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 3/4] drm/panthor: Label all kernel BO's
-To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>,
- "To : Boris Brezillon" <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20250411150357.3308921-1-adrian.larumbe@collabora.com>
- <20250411150357.3308921-4-adrian.larumbe@collabora.com>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250411150357.3308921-4-adrian.larumbe@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 11/04/2025 16:03, Adrián Larumbe wrote:
-> Kernel BO's aren't exposed to UM, so labelling them is the responsibility
-> of the driver itself. This kind of tagging will prove useful in further
-> commits when want to expose these objects through DebugFS.
-> 
-> Expand panthor_kernel_bo_create() interface to take a NULL-terminated
+The struct i2c_board_info has of_node and fwnode members. This is quite
+confusing as they are of the same semantics and it's tend to have an issue
+if user assigns both. Luckily there is only a single driver that does this
+and fix is provided in the last patch. Nevertheless the series moves
+the client handling code to use fwnode and deprecates the of_node member
+in the respective documentation.
 
-NIT: s/NULL/NUL/
+In v4:
+- fixed spelling in the first patch commit message (Sakari)
+- wrapped the commit message in the patch before the last (Sakari)
+- added tag to the last patch (Tomi)
 
-> string. No bounds checking is done because all label strings are given
-> as statically-allocated literals, but if a more complex kernel BO naming
-> scheme with explicit memory allocation and formatting was desired in the
-> future, this would have to change.
+In v3:
+- fixed compile issues with i2c-core-slave.c (LKP)
+- fixed compile issues with IRQ APIs, i.e. missing header (LKP)
+- added patch for the only user which assigns two fields (Tomi)
+- added tags (Tomi)
 
-I'm not sure I follow why bounds-checking would be an issue for strings
-from the kernel. But as you state these are all literals so definitely
-not a problem.
+In v2:
+- covered i2c-core-slave.c where it makes sense
+- covered i2c-core-of.c where it makes sense
+- rebased on top of the latest code base
 
-> 
-> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+Andy Shevchenko (7):
+  i2c: core: Drop duplicate check before calling OF APIs
+  i2c: core: Unify the firmware node type check
+  i2c: core: Switch to fwnode APIs to get IRQ
+  i2c: core: Reuse fwnode variable where it makes sense
+  i2c: core: Do not dereference fwnode in struct device
+  i2c: core: Deprecate of_node in struct i2c_board_info
+  media: i2c: ds90ub960: Remove of_node assignment
 
-Reviewed-by: Steven Price <steven.price@arm.com>
+ drivers/i2c/i2c-core-base.c   | 61 +++++++++++++++++------------------
+ drivers/i2c/i2c-core-of.c     |  1 -
+ drivers/i2c/i2c-core-slave.c  | 12 ++++---
+ drivers/media/i2c/ds90ub960.c |  1 -
+ include/linux/i2c.h           |  2 +-
+ 5 files changed, 39 insertions(+), 38 deletions(-)
 
-> ---
->  drivers/gpu/drm/panthor/panthor_fw.c    | 8 +++++---
->  drivers/gpu/drm/panthor/panthor_gem.c   | 4 +++-
->  drivers/gpu/drm/panthor/panthor_gem.h   | 2 +-
->  drivers/gpu/drm/panthor/panthor_heap.c  | 6 ++++--
->  drivers/gpu/drm/panthor/panthor_sched.c | 9 ++++++---
->  5 files changed, 19 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/panthor/panthor_fw.c b/drivers/gpu/drm/panthor/panthor_fw.c
-> index 0f52766a3120..a7fdc4d8020d 100644
-> --- a/drivers/gpu/drm/panthor/panthor_fw.c
-> +++ b/drivers/gpu/drm/panthor/panthor_fw.c
-> @@ -449,7 +449,8 @@ panthor_fw_alloc_queue_iface_mem(struct panthor_device *ptdev,
->  				       DRM_PANTHOR_BO_NO_MMAP,
->  				       DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
->  				       DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
-> -				       PANTHOR_VM_KERNEL_AUTO_VA);
-> +				       PANTHOR_VM_KERNEL_AUTO_VA,
-> +				       "Queue FW interface");
->  	if (IS_ERR(mem))
->  		return mem;
->  
-> @@ -481,7 +482,8 @@ panthor_fw_alloc_suspend_buf_mem(struct panthor_device *ptdev, size_t size)
->  	return panthor_kernel_bo_create(ptdev, panthor_fw_vm(ptdev), size,
->  					DRM_PANTHOR_BO_NO_MMAP,
->  					DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
-> -					PANTHOR_VM_KERNEL_AUTO_VA);
-> +					PANTHOR_VM_KERNEL_AUTO_VA,
-> +					"FW suspend buffer");
->  }
->  
->  static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
-> @@ -601,7 +603,7 @@ static int panthor_fw_load_section_entry(struct panthor_device *ptdev,
->  		section->mem = panthor_kernel_bo_create(ptdev, panthor_fw_vm(ptdev),
->  							section_size,
->  							DRM_PANTHOR_BO_NO_MMAP,
-> -							vm_map_flags, va);
-> +							vm_map_flags, va, "FW section");
->  		if (IS_ERR(section->mem))
->  			return PTR_ERR(section->mem);
->  
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> index af0ac17f357f..3c5fc854356e 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> @@ -82,7 +82,7 @@ void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo)
->  struct panthor_kernel_bo *
->  panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
->  			 size_t size, u32 bo_flags, u32 vm_map_flags,
-> -			 u64 gpu_va)
-> +			 u64 gpu_va, const char *name)
->  {
->  	struct drm_gem_shmem_object *obj;
->  	struct panthor_kernel_bo *kbo;
-> @@ -106,6 +106,8 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
->  	kbo->obj = &obj->base;
->  	bo->flags = bo_flags;
->  
-> +	panthor_gem_kernel_bo_set_label(kbo, name);
-> +
->  	/* The system and GPU MMU page size might differ, which becomes a
->  	 * problem for FW sections that need to be mapped at explicit address
->  	 * since our PAGE_SIZE alignment might cover a VA range that's
-> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-> index beba066b4974..62aea06dbc6d 100644
-> --- a/drivers/gpu/drm/panthor/panthor_gem.h
-> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
-> @@ -153,7 +153,7 @@ panthor_kernel_bo_vunmap(struct panthor_kernel_bo *bo)
->  struct panthor_kernel_bo *
->  panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
->  			 size_t size, u32 bo_flags, u32 vm_map_flags,
-> -			 u64 gpu_va);
-> +			 u64 gpu_va, const char *name);
->  
->  void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
->  
-> diff --git a/drivers/gpu/drm/panthor/panthor_heap.c b/drivers/gpu/drm/panthor/panthor_heap.c
-> index 3bdf61c14264..d236e9ceade4 100644
-> --- a/drivers/gpu/drm/panthor/panthor_heap.c
-> +++ b/drivers/gpu/drm/panthor/panthor_heap.c
-> @@ -151,7 +151,8 @@ static int panthor_alloc_heap_chunk(struct panthor_heap_pool *pool,
->  	chunk->bo = panthor_kernel_bo_create(pool->ptdev, pool->vm, heap->chunk_size,
->  					     DRM_PANTHOR_BO_NO_MMAP,
->  					     DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
-> -					     PANTHOR_VM_KERNEL_AUTO_VA);
-> +					     PANTHOR_VM_KERNEL_AUTO_VA,
-> +					     "Tiler heap chunk");
->  	if (IS_ERR(chunk->bo)) {
->  		ret = PTR_ERR(chunk->bo);
->  		goto err_free_chunk;
-> @@ -555,7 +556,8 @@ panthor_heap_pool_create(struct panthor_device *ptdev, struct panthor_vm *vm)
->  	pool->gpu_contexts = panthor_kernel_bo_create(ptdev, vm, bosize,
->  						      DRM_PANTHOR_BO_NO_MMAP,
->  						      DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC,
-> -						      PANTHOR_VM_KERNEL_AUTO_VA);
-> +						      PANTHOR_VM_KERNEL_AUTO_VA,
-> +						      "Heap pool");
->  	if (IS_ERR(pool->gpu_contexts)) {
->  		ret = PTR_ERR(pool->gpu_contexts);
->  		goto err_destroy_pool;
-> diff --git a/drivers/gpu/drm/panthor/panthor_sched.c b/drivers/gpu/drm/panthor/panthor_sched.c
-> index 446ec780eb4a..43ee57728de5 100644
-> --- a/drivers/gpu/drm/panthor/panthor_sched.c
-> +++ b/drivers/gpu/drm/panthor/panthor_sched.c
-> @@ -3332,7 +3332,8 @@ group_create_queue(struct panthor_group *group,
->  						  DRM_PANTHOR_BO_NO_MMAP,
->  						  DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
->  						  DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
-> -						  PANTHOR_VM_KERNEL_AUTO_VA);
-> +						  PANTHOR_VM_KERNEL_AUTO_VA,
-> +						  "CS ring buffer");
->  	if (IS_ERR(queue->ringbuf)) {
->  		ret = PTR_ERR(queue->ringbuf);
->  		goto err_free_queue;
-> @@ -3362,7 +3363,8 @@ group_create_queue(struct panthor_group *group,
->  					 DRM_PANTHOR_BO_NO_MMAP,
->  					 DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
->  					 DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
-> -					 PANTHOR_VM_KERNEL_AUTO_VA);
-> +					 PANTHOR_VM_KERNEL_AUTO_VA,
-> +					 "Group job stats");
->  
->  	if (IS_ERR(queue->profiling.slots)) {
->  		ret = PTR_ERR(queue->profiling.slots);
-> @@ -3493,7 +3495,8 @@ int panthor_group_create(struct panthor_file *pfile,
->  						   DRM_PANTHOR_BO_NO_MMAP,
->  						   DRM_PANTHOR_VM_BIND_OP_MAP_NOEXEC |
->  						   DRM_PANTHOR_VM_BIND_OP_MAP_UNCACHED,
-> -						   PANTHOR_VM_KERNEL_AUTO_VA);
-> +						   PANTHOR_VM_KERNEL_AUTO_VA,
-> +						   "Group sync objects");
->  	if (IS_ERR(group->syncobjs)) {
->  		ret = PTR_ERR(group->syncobjs);
->  		goto err_put_group;
+-- 
+2.47.2
 
 
