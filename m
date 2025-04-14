@@ -1,242 +1,159 @@
-Return-Path: <linux-media+bounces-30188-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30189-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8D79A887F1
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 18:04:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC267A88960
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 19:09:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A4937177741
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 16:04:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1374B3AEDE2
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 17:08:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAAEB27B4EB;
-	Mon, 14 Apr 2025 16:04:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 941EB289344;
+	Mon, 14 Apr 2025 17:09:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IbeetVoX"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="k2iElssn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25F6A19992D;
-	Mon, 14 Apr 2025 16:04:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79CD254918;
+	Mon, 14 Apr 2025 17:08:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744646643; cv=none; b=DSf7piAuIm+SGNmKaOw7QNo7ZYMcpsKkm1E8cgdIhtGw/ABzjSEY40+W4A69AGOrMqTlt+xD2H4ddVTzS1+yRYtoXo960EiwTI8dpuSFTABdLMmitaQQ9wDiyOH/3iDDvf5XoyPqdAPMIEnSIAi6p5i50+WiCRJtOkZvR5ROQU4=
+	t=1744650541; cv=none; b=u+c2KGSlg+uiNOqRW9i9937TzvtLsnLM2cSnQolh5WAm4tCiREaEooPLcv6U4EnM7qhQLATdQfy2j4kDaxq4bcHX2Ri896nHGTaMQzfvip9pfJ/0MbW7Wsa9TSqrKYNChQhHasv/Fq98luiuRLuQLIU/S9ofsF7WyPhGBvjo+9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744646643; c=relaxed/simple;
-	bh=orKoB/QPGzojKkdDpkIIMZGWYRyu+xOxcNOpDM0H3h8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=rV4lvEsxSW2SAZ0db+mFDYMkvQoY1dRrfb5PkIBou06Bgq1XuXwY4a2S7eFQJE6iPmAkMFy7rZNO/fxyd7tEdD0hLpk6VXdNHxy69zOsorB9DhRsXLiF/T84A5lv+1O+PDCbJE9KcQ3D/cbwA35jFvOTLE3C07fvH5cpqRyDO8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IbeetVoX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 71DD8C4CEE2;
-	Mon, 14 Apr 2025 16:04:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744646642;
-	bh=orKoB/QPGzojKkdDpkIIMZGWYRyu+xOxcNOpDM0H3h8=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=IbeetVoXhK+Evf3YH60lar86ju2F24pZvmYIjNwYfcHC+0wve22C8ecw6K1cTBI+/
-	 Dimmm7jyzzXsbGo9ZtW28x6ipAxPCNS9x5eeqshMVG2nKBz7Q+/y25Wk02GYfVD1gc
-	 GP9DaQFwbsHSrO8a23TmC9zfN4l2flu5DyfjyGbt6nZGNm+PyWNaAumi55BHHoKeDo
-	 +1mpQbL44M5ifGbbl93HXev9fZjdEbO6gky73/IKYpqVQXN0s8LkOlI5LPkhlbSczW
-	 W4Nm+Cyd8+PBmIEH3CMLnyAXUChc9DSdWHn4aBTADYsii7ObAwwSmai92x4WRc3NFM
-	 liTW7ciR+pXBA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59576C369A2;
-	Mon, 14 Apr 2025 16:04:02 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Date: Mon, 14 Apr 2025 18:04:01 +0200
-Subject: [PATCH v3] media: dt-bindings: Convert Analog Devices ad5820 to DT
- schema
+	s=arc-20240116; t=1744650541; c=relaxed/simple;
+	bh=kiavYORkNwcUACD/y/ImnR3wFqSgKIG/mzSZZHfQMKk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=PfSIk+qH5yqjI9U1QBIw9j2+WtT3Pmhpp/wez2kra8ob8dYI8H4Qo4Mhr6qgciUxUNisaAKaypuab9gLV1pLtf3RTass72puVA41BDf/r7rQCtZ0wY3IZO9eQDi3dgBtvukTzMfB7y6DE5bdO5Vajbfo/9/cMgWJLc90raAdvfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=k2iElssn; arc=none smtp.client-ip=198.47.23.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 53EH8jj62215165
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Mon, 14 Apr 2025 12:08:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1744650525;
+	bh=6uNQ9e271FhEaPxh08oKF5aC3iophxn4ihnEasLwask=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=k2iElssnlrEJfpxE5yq0RkacWS8WecGDHg+f4CK8nh9ksgfGCPNMMU2JaJnopsruK
+	 32MKJ4/luTVVwQMHhwt8ZtJlEiVAO9rd27IHr85qS0zrXre+fy6egRQ81ZcLh7iQes
+	 370ctwD3wgLTwEAevQ95KrH+cMq0YUdOzap1vddw=
+Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 53EH8jKu125869
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Mon, 14 Apr 2025 12:08:45 -0500
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE107.ent.ti.com
+ (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 14
+ Apr 2025 12:08:44 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Mon, 14 Apr 2025 12:08:44 -0500
+Received: from [10.249.42.149] ([10.249.42.149])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 53EH8iHK076714;
+	Mon, 14 Apr 2025 12:08:44 -0500
+Message-ID: <8f55367e-45c0-4280-b1ed-7ce9160c1fad@ti.com>
+Date: Mon, 14 Apr 2025 12:08:44 -0500
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] uio/dma-buf: Give UIO users access to DMA addresses.
+To: Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Christoph Hellwig
+	<hch@infradead.org>
+CC: Bastien Curutchet <bastien.curutchet@bootlin.com>,
+        Sumit Semwal
+	<sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?=
+	<christian.koenig@amd.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>
+References: <20250410-uio-dma-v1-0-6468ace2c786@bootlin.com>
+ <Z_yjNgY3dVnA5OVz@infradead.org> <20250414102455.03331c0f@windsurf>
+ <Z_zwZYBO5Txz6lDF@infradead.org> <20250414134831.20b04c77@windsurf>
+Content-Language: en-US
+From: Andrew Davis <afd@ti.com>
+In-Reply-To: <20250414134831.20b04c77@windsurf>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250414-b4-ad5820-dt-yaml-v3-1-39bbb5db7b2b@ixit.cz>
-X-B4-Tracking: v=1; b=H4sIAPAx/WcC/22NwQ6CMBAFf4X0bMl2S0Pryf8wHqAtsomiaUkDE
- v7dggcuHuclM29h0QfykZ2LhQWfKNJryCBPBbN9M9w9J5eZIaACKSreVrxxSiNwN/K5eT64RIS
- 2w074Clj23sF3NO3N6y1zT3F8hXm/SGJbfzUEgyBNBaVQBrTmgrsmkbvQRGNpP2yTEx7C//uEW
- URdG6WttFDbw1/X9QsF0Pli4QAAAA==
-X-Change-ID: 20250314-b4-ad5820-dt-yaml-3220bf2f1e40
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- David Heidelberg <david@ixit.cz>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4449; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=GVJ7MQh4loOY2204mfe4sVnmHlFZoSugyiPkIxthxvE=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBn/THxEeQ9VrqZrRI0BVA+GI6KqZURU8oVJ+k3Z
- wlPBP6HjQGJAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCZ/0x8QAKCRBgAj/E00kg
- ci6VD/47lyr0VIkS4o4S8nUdOgKCTRLt9a4HlhUST6TncfzeBFeOBHCu7Mo44VLxiQtsyiMjczO
- Mdj6LmnJd6fSVUKDg1k9ux/HYwmterhssFF3fHsjcSxNFnyNYNzpccrOHxTcaCxIvSwtFlkBJcA
- aj6f6fnyJnpG/QQ7lIPPXYBWqiChWId4oO2yAFwoqAEgD7el6IBDgoobOalXbVFt67KK4ksoRq0
- kBE3IjWColhgK+UEt0Lb6USD9A8d5x7jGgC1hn/pLmBJ13et47M7/ep3GVVCL+beuEJUfyxkcal
- nrgFOuHI5p50cZOqy/41hlNxOafIRIf453JsyYy/e34MBMeqIWNlccjbtDpwhjf/s19sNwXYtcg
- jRLfrM0N4g92kKXvGAz/OxdeAnFq+IFXSWtIeZMVH2TuVhuZjjhw03So9pglVzF/b+b++7J0AyE
- Hbie236TBIPHIo4c9U2zWx9kR1ssZA7yGmWOTGICgJ8nJBOEkspMZdPZIpkAlVSnz66UxFUHY6/
- QEKo7PwS1g5hH3jodD2nLV4YBnSCc71FvPRS44DrCiEU+Ep61yMCLQkPEU966by+kkYQfQOmqG0
- SSdlLnEebwOpbznoCDCKQLNjQREkwP5WzexsvF2F0m18+cWm7eVtXBNVYdzuuxsv773hdNZdlkd
- nN/A59tcViSeETg==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
-Reply-To: david@ixit.cz
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-From: David Heidelberg <david@ixit.cz>
+On 4/14/25 6:48 AM, Thomas Petazzoni wrote:
+> Hello Christoph,
+> 
+> On Mon, 14 Apr 2025 04:24:21 -0700
+> Christoph Hellwig <hch@infradead.org> wrote:
+> 
+>> On Mon, Apr 14, 2025 at 10:24:55AM +0200, Thomas Petazzoni wrote:
+>>> What this patch series is about is to add new user-space interface to
+>>> extend the existing UIO subsystem.
+>>
+>> Which as I explained to you is fundamentally broken and unsafe.  If you
+>> need to do DMA from userspae you need to use vfio/iommufd.
+> 
+> I'm still unclear as to why it is more "broken and unsafe" than UIO
+> already is. As I already replied in this thread: UIO allows to remap
+> MMIO registers into a user-space application, which can then do
+> whatever it wants with the IP block behind those MMIO registers. If
+> this IP block supports DMA, it already means that _today_ with the
+> current UIO subsystem as it is, the user-space application can program
+> a DMA transfer to read/write to any location in memory.
+> 
+> Therefore, providing a way to cleanly allocate DMA buffers and get
+> their physical address will not make things any better or worse in
+> terms of safety.
+> 
+> The fact that it is reasonably safe is solely based on access control
+> to the UIO device, done using usual Unix permissions, and that is
+> already the case today.
+> 
+>>> I am not sure how this can work in our use-case. We have a very simple
+>>> set of IP blocks implemented in a FPGA, some of those IP blocks are
+>>> able to perform DMA operations. The register of those IP blocks are
+>>> mapped into a user-space application using the existing, accepted
+>>> upstream, UIO subsystem. Some of those registers allow to program DMA
+>>> transfers. So far, we can do all what we need, except program those DMA
+>>> transfers. Lots of people are having the same issue, and zillions of
+>>> ugly out-of-tree solutions flourish all over, and we're trying to see
+>>> if we can constructively find a solution that would be acceptable
+>>> upstream to resolve this use-case. Our platform is an old PowerPC with
+>>> no IOMMU.
+>>
+>> Then your driver design can't work and you need to replace it with a
+>> proper in-kernel driver.
+> 
+> See above: your point is moot because providing capabilities to
+> allocate a buffer and get its physical address so that a UIO-based
+> user-space application can do DMA transfer does not make things any
+> more unsafe than they already are.
+> 
 
-Convert the Analog Devices ad5820 to DT schema format.
+"UIO is a broken legacy mess, so let's add more broken things
+to it as broken + broken => still broken, so no harm done", am I
+getting that right?
 
-Added the io-channel-cells property, because it's already used by the
-Nokia N900 device-tree and defines ad5820 as having only single output.
+If your FPGA IP can do DMA then you should not be using UIO in
+the first place, see UIO docs:
 
-Acked-by: Pavel Machek <pavel@ucw.cz>
-Signed-off-by: David Heidelberg <david@ixit.cz>
----
-Changes in v3:
-- Removed documentation of io-channel-cells property. Now it's 1:1 to
-  the original binding. The reference to it from the Nokia N900 dts
-  was removed in the -next.
-- Link to v2: https://lore.kernel.org/r/20250314-b4-ad5820-dt-yaml-v2-1-287958c3c07c@ixit.cz
+> Please note that UIO is not an universal driver interface. Devices that
+> are already handled well by other kernel subsystems (like networking or
+> serial or USB) are no candidates for an UIO driver.
 
-Changes in v2:
-- added MAINTAINERS entry for the binding
-- documented why io-channel-cells got added into the binding.
-- dropped io-channel-cells in required properties.
-- adjusted example indentation to 4 spaces.
-- Link to v1: https://lore.kernel.org/r/20250209203940.159088-1-david@ixit.cz
----
- .../devicetree/bindings/media/i2c/ad5820.txt       | 28 ----------
- .../devicetree/bindings/media/i2c/adi,ad5820.yaml  | 59 ++++++++++++++++++++++
- MAINTAINERS                                        |  1 +
- 3 files changed, 60 insertions(+), 28 deletions(-)
+The DMA subsystem already handles DMA devices, so write a DMA driver.
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ad5820.txt b/Documentation/devicetree/bindings/media/i2c/ad5820.txt
-deleted file mode 100644
-index 5764cbedf9b73387ad1bfa9acf99c643f959b84a..0000000000000000000000000000000000000000
---- a/Documentation/devicetree/bindings/media/i2c/ad5820.txt
-+++ /dev/null
-@@ -1,28 +0,0 @@
--* Analog Devices AD5820 autofocus coil
--
--Required Properties:
--
--  - compatible: Must contain one of:
--		- "adi,ad5820"
--		- "adi,ad5821"
--		- "adi,ad5823"
--
--  - reg: I2C slave address
--
--  - VANA-supply: supply of voltage for VANA pin
--
--Optional properties:
--
--   - enable-gpios : GPIO spec for the XSHUTDOWN pin. The XSHUTDOWN signal is
--active low, a high level on the pin enables the device.
--
--Example:
--
--       ad5820: coil@c {
--               compatible = "adi,ad5820";
--               reg = <0x0c>;
--
--               VANA-supply = <&vaux4>;
--               enable-gpios = <&msmgpio 26 GPIO_ACTIVE_HIGH>;
--       };
--
-diff --git a/Documentation/devicetree/bindings/media/i2c/adi,ad5820.yaml b/Documentation/devicetree/bindings/media/i2c/adi,ad5820.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..93349e7daf262fc8939f984fbe93cf064a0cbaf8
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/adi,ad5820.yaml
-@@ -0,0 +1,59 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/i2c/adi,ad5820.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Analog Devices AD5820 autofocus coil
-+
-+maintainers:
-+  - Pavel Machek <pavel@ucw.cz>
-+
-+description:
-+  The AD5820 is a current sink driver designed for precise control of
-+  voice coil motors (VCMs) in camera autofocus systems.
-+
-+allOf:
-+  - $ref: /schemas/iio/iio.yaml#
-+
-+properties:
-+  compatible:
-+    enum:
-+      - adi,ad5820
-+      - adi,ad5821
-+      - adi,ad5823
-+
-+  reg:
-+    maxItems: 1
-+
-+  enable-gpios:
-+    maxItems: 1
-+    description:
-+      GPIO spec for the XSHUTDOWN pin. The XSHUTDOWN signal is active low,
-+      a high level on the pin enables the device.
-+
-+  VANA-supply:
-+    description: supply of voltage for VANA pin
-+
-+required:
-+  - compatible
-+  - reg
-+  - VANA-supply
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+        coil@c {
-+            compatible = "adi,ad5820";
-+            reg = <0x0c>;
-+
-+            enable-gpios = <&msmgpio 26 GPIO_ACTIVE_HIGH>;
-+            VANA-supply = <&vaux4>;
-+        };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index af3537005de35dfd0ded11bdc2b9c63e10c70e93..366ed4905fc9b32862a4fd665cf5f4e09fafc989 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17274,6 +17274,7 @@ M:	Pavel Machek <pavel@kernel.org>
- M:	Sakari Ailus <sakari.ailus@iki.fi>
- L:	linux-media@vger.kernel.org
- S:	Maintained
-+F:	Documentation/devicetree/bindings/media/i2c/adi,ad5820.yaml
- F:	drivers/media/i2c/ad5820.c
- F:	drivers/media/i2c/et8ek8
- 
+Andrew
 
----
-base-commit: b425262c07a6a643ebeed91046e161e20b944164
-change-id: 20250314-b4-ad5820-dt-yaml-3220bf2f1e40
-
-Best regards,
--- 
-David Heidelberg <david@ixit.cz>
-
-
+> Best regards,
+> 
+> Thomas
 
