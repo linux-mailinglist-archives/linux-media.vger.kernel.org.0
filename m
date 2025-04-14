@@ -1,174 +1,199 @@
-Return-Path: <linux-media+bounces-30184-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30185-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B9C9A88599
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 16:47:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1710EA885D3
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 16:54:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0413B581D55
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 14:39:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DFD801902AA2
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 14:41:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46A682918DC;
-	Mon, 14 Apr 2025 14:20:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05DB12951AB;
+	Mon, 14 Apr 2025 14:24:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="WdTd4ISi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f205.google.com (mail-il1-f205.google.com [209.85.166.205])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44F762472A9
-	for <linux-media@vger.kernel.org>; Mon, 14 Apr 2025 14:20:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAB37294A1D
+	for <linux-media@vger.kernel.org>; Mon, 14 Apr 2025 14:24:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744640424; cv=none; b=C8SB/MLpRfSkOfnmY/HFIlyLUmstGSq9ydtHvFEraFdFY3jkoH9rgP/QJNxnNTkqPhIpvyC+sVsITkz40SCa1TOrLUX2cdLocrFKpB8ElIKHX9u1PeJWhJuLtJgoDqul8bA06HFWtcDeji5dO85AZ5w4yHrm+45Vo2bJIl+ScIU=
+	t=1744640658; cv=none; b=hR7PRql64azEp9TK442z9Kyfi0H+S3DBrv8FyvpXiVbwIk6kaRbftqQ4uluRNR4Azajlylxod7Rx/ef6X69xw6K3WyqQ5IzFAoDqxAsRUHx7XrH5AOOwSRo0HoNz0ZqtIY4qEFquhpT4mLGtkqtda9YIwJlAk8CocJQSHcTx+JM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744640424; c=relaxed/simple;
-	bh=Mj6c7WdZQhf3ijm7yytTkCr+/vkJW2+utZFvWZvAdIA=;
-	h=MIME-Version:Date:In-Reply-To:Message-ID:Subject:From:To:
-	 Content-Type; b=qOSyGeCaixWIfBNvkgnoSJsQBhP+RefQodR0C0TOL/QJUI2t5jnRm0wIZ/iM8QykTX7/OmkfgfP5Vwm91nvSBth0rGU6nP+mlhxs+fkjf3WvIXZmdcUmh0ErM4WvVmwzzf3VZquQLdWLWW61dyqkA3hqBWSq6OkYHLvdlsHqim8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f205.google.com with SMTP id e9e14a558f8ab-3d443811f04so40889195ab.1
-        for <linux-media@vger.kernel.org>; Mon, 14 Apr 2025 07:20:22 -0700 (PDT)
+	s=arc-20240116; t=1744640658; c=relaxed/simple;
+	bh=R2ZHDL8FXUbBdHUJ64odJcYG2RLJ3EqbWrPbwLhljQM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dJnokIZx6+WSh+nwx2lQrlhWq2a2O1Ot59Oc6nzYnAszFwzABu4SYIjEX8T3ZhSEa5YvT8Sf812uAjkoEiT+IvHevPblKCVTHhQuoeWfhpZdBagopsKB9VfD8CWoWv33FwJkC8EJwF/0AEwANscFMpVL7MOItxOWHh//wEvpFDs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=WdTd4ISi; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1744640655;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eyHQV9D3ndlC1EmhDXZUhOdK5gmRE6u8+GD7BpKIRSc=;
+	b=WdTd4ISiquF8WHR40qkzi1tWPXMzgRKI/V6oxXSsDQ4LU3Yi6adXWufTP8DEbwaxbuaJD0
+	Y71yqV+QU//MdJUA7j8a0a8HNk9imNWFtYO4bky9eeIsx8d2T3NByOpG7iZes26/iRCv8o
+	/Cq4pjQAYuEVypoAWaWirAp76/hagw8=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-331-rPEjVEgxMC-TAz07oLiqGg-1; Mon, 14 Apr 2025 10:24:14 -0400
+X-MC-Unique: rPEjVEgxMC-TAz07oLiqGg-1
+X-Mimecast-MFC-AGG-ID: rPEjVEgxMC-TAz07oLiqGg_1744640653
+Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-5e6a340f8c7so3919303a12.2
+        for <linux-media@vger.kernel.org>; Mon, 14 Apr 2025 07:24:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744640422; x=1745245222;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
+        d=1e100.net; s=20230601; t=1744640653; x=1745245453;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7I37HzaF5M9MfTDYR36+tqp84ocbCY8yCRx5Lxmimho=;
-        b=nt39cupp3Uv0qWTDL6HnIH+y5NShIRIKyLe5C+/Cj8VY5D+Pk1AWDpmiHDSgYMTXtJ
-         d9PDYvdMyga7drSTOnaP+4OcmYQt0cNuowAp6rQBUSoCBLvS0s9I/yyjCdwkwbUxivMa
-         PS9uakDWYRRXtUiaDKbLRbvi+0ryCielsJOy2toy53Yg0XNTcBt1liSYtGdcEC7uXVBq
-         VY01V8lrrZwVR8cN+9xON8M0evJUbAGOxg5L9E2DdyJbbFSV+Rtnr8t8YvE3EaJVoQqG
-         2e+8R5AHbJrpUViQNzi0MVdvgyyiS31OAoyvyt4Xj8iSGX5d2PVMdPCqty+0jIWYVlHP
-         AImw==
-X-Forwarded-Encrypted: i=1; AJvYcCVYIFTebw77TmytJDCsZofSFjraLOu89B7u7iwJEkzwbOua7eAA78bXn3tHnbrLAXc9C+XAObManfxuxg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwOi1/cQUUWTfipet1Fpk1hJM9G3bMcOZ9GY8ZokY05lX1oQzPI
-	6gVP7igCxgD6Sdhyi/Rrxpc8ZbsR3/XtbjwildjYmrvHDHRxEwf+DdNUz6IloDJMdcvzM0vs2lS
-	Ba8QuGfihnwICzlXiKjASQ/kgEROf7RSfPGTNtWahk/IbtL82B1Ow1V0=
-X-Google-Smtp-Source: AGHT+IHpm44OqTs+cbL7F3+y+dkmId12KFaB5faG+RpxhBBbxCTM+c+riC2zh9h+lAjxz7WiZATz4f7PIhDDQSFaI4LNzAjIJY7z
+        bh=eyHQV9D3ndlC1EmhDXZUhOdK5gmRE6u8+GD7BpKIRSc=;
+        b=Fl/vW3BrtAB/UCWQlpVQbtlLthDHSmiuIXk4Okizu6I/4zyzrkcJUOC0RawfPClS1C
+         y/NQznvugCFYtuAgFyYPDGAU9GOeo+LRWzFSuwmdV2/NeM3SEkP1OhcNPrvKA227XZa/
+         7vepW6z8F8wWOEZ9zuaHh+7D7kthtKqYGvNPueaIaUFh/MgFgf+4fiLU6Xk+M9QnEaKf
+         S9G56hZd6KnV6jiktBPMiz121T+Mz7vbhnTn1lHPYJ2rG9Vjofs3uyoVfdCGRZNLVVPU
+         SnjstE7zIlJ1Rao8OVV5iu6RusTd0Rt8aEF3rRj7OSj2xVi95h4n7Q70NBJMlxcza/Ed
+         S+6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVKQuLbgEHsN/kOFC2Z5L4RTTbqjYVhBNzinYSQKYnd4szI1+6+B0AeZPX5fZ49ZCnm2o1MrdugDSbZJA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyhSmbUqOkHeyhpjl9XhaiOXf+AR+ieCu5t6NoCFr5TkR77bkE8
+	RSm9ho6L2B96g53UdBfskfsLq3ByDoIcg1QiRzPOqmyN4psop4Ttp3mmXeXEn40QeDwUUI19kZa
+	lSl456xdnQyRQ+LzRhJXDy8rI5/hE260REdLcsau3jewHoubiQnEHcEmc57E/
+X-Gm-Gg: ASbGncvELS3Hgnr34u5QZGwtETaJnZ17Kpt09VoXFQAVpkjHvrMhKs9L3xevuOTaVmd
+	/etaHeCVVC7JS2ud/Eai0TzvOZ06ndS/B+1/rFVnoNsY2u265V36EDFuFvH3t3XddbMJdFNg482
+	SYYi85YTR8wma/XLaeCaWJs/kVmS3Jagaa8e2dC3FWX4kW03VZr6QVYaVESVBJiicTrhD+QDTsy
+	95hNjmXs2DDwTUE0FzSwN+X7ym6D1zsDfnxJYX715RbmdB1/sxo2lorUrQJO3VRaLucUJyFjnre
+	rPp08MZmE5vbvFo=
+X-Received: by 2002:a05:6402:520b:b0:5dc:6e27:e6e8 with SMTP id 4fb4d7f45d1cf-5f3700124ddmr9855175a12.24.1744640652931;
+        Mon, 14 Apr 2025 07:24:12 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHIpJN4VTzKjzoyWkgQjXzWIoTc364VWdEfTR/jxgrvJ5osK0Cw1ufNU1rs/OnQPNlWpkbZoQ==
+X-Received: by 2002:a05:6402:520b:b0:5dc:6e27:e6e8 with SMTP id 4fb4d7f45d1cf-5f3700124ddmr9855131a12.24.1744640652494;
+        Mon, 14 Apr 2025 07:24:12 -0700 (PDT)
+Received: from [10.40.98.122] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5f36f50569fsm5148952a12.52.2025.04.14.07.24.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Apr 2025 07:24:11 -0700 (PDT)
+Message-ID: <ebceb201-9af9-4019-8150-8e72cc2a8930@redhat.com>
+Date: Mon, 14 Apr 2025 16:24:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:1889:b0:3cf:c7d3:e4b with SMTP id
- e9e14a558f8ab-3d7ec27efd0mr139059305ab.21.1744640422169; Mon, 14 Apr 2025
- 07:20:22 -0700 (PDT)
-Date: Mon, 14 Apr 2025 07:20:22 -0700
-In-Reply-To: <000000000000974b090622004b40@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <67fd19a6.050a0220.3483fc.0028.GAE@google.com>
-Subject: Re: [syzbot] [media?] general protection fault in dvb_usbv2_generic_write
-From: syzbot <syzbot+f9f5333782a854509322@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	mchehab@kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 1/2] platform/x86: int3472: add hpd pin support
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: "Yan, Dongcheng" <dongcheng.yan@intel.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ "Yan, Dongcheng" <dongcheng.yan@linux.intel.com>,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ hverkuil@xs4all.nl, u.kleine-koenig@baylibre.com, ricardo.ribalda@gmail.com,
+ bingbu.cao@linux.intel.com, hao.yao@intel.com
+References: <Z_zDGYD1QXZYWwI9@smile.fi.intel.com>
+ <d9cab351-4850-42c7-8fee-a9340d157ed9@linux.intel.com>
+ <Z_zMMtUdJYpHuny7@smile.fi.intel.com>
+ <f10f919e-7bdc-4a01-b131-41bdc9eb6573@intel.com>
+ <01570d5d-0bdf-4192-a703-88854e9bcf78@redhat.com>
+ <9dc86b0c-b63c-447d-aa2f-953fbccb1d27@redhat.com>
+ <Z_z04jMiTg_xW-c2@kekkonen.localdomain>
+ <518b1420-a356-4e4b-8422-c2689bc54794@redhat.com>
+ <Z_0AX9sdwSAWhzTc@kekkonen.localdomain>
+ <0e2306d7-3a07-45ad-958f-1039fb10a8cf@redhat.com>
+ <Z_0FkADfsQLOdchI@kekkonen.localdomain>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <Z_0FkADfsQLOdchI@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-syzbot has found a reproducer for the following issue on:
+Hi,
 
-HEAD commit:    8ffd015db85f Linux 6.15-rc2
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=11fca0cc580000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=a972ee73c2fcf8ca
-dashboard link: https://syzkaller.appspot.com/bug?extid=f9f5333782a854509322
-compiler:       Debian clang version 15.0.6, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=12827398580000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=161620cc580000
+On 14-Apr-25 14:54, Sakari Ailus wrote:
+> Hi Hans,
+> 
+> On Mon, Apr 14, 2025 at 02:37:36PM +0200, Hans de Goede wrote:
+>> Hi,
+>>
+>> On 14-Apr-25 14:32, Sakari Ailus wrote:
+>>> Hi Hans,
+>>>
+>>> On Mon, Apr 14, 2025 at 02:21:56PM +0200, Hans de Goede wrote:
+>>>> Hi Sakari,
+>>>>
+>>>> On 14-Apr-25 13:43, Sakari Ailus wrote:
+>>>>> Hans, Dongcheng,
+>>>>>
+>>>>> On Mon, Apr 14, 2025 at 01:09:47PM +0200, Hans de Goede wrote:
+>>>>>> Hi,
+>>>>>>
+>>>>>> On 14-Apr-25 13:04, Hans de Goede wrote:
+>>>>>>> Hi,
+>>>>>>>
+>>>>>>> On 14-Apr-25 11:59, Yan, Dongcheng wrote:
+>>>>>>>> Hi Andy and Hans,
+>>>>>>>>
+>>>>>>>> I found the description of lt6911uxe's GPIO in the spec:
+>>>>>>>> GPIO5 is used as the interrupt signal (50ms low level) to inform SOC
+>>>>>>>> start reading registers from 6911UXE;
+>>>>>>>>
+>>>>>>>> So setting the polarity as GPIO_ACTIVE_LOW is acceptable?
+>>>>>>>
+>>>>>>> Yes that is acceptable, thank you for looking this up.
+>>>>>>
+>>>>>> p.s.
+>>>>>>
+>>>>>> Note that setting GPIO_ACTIVE_LOW will invert the values returned
+>>>>>> by gpiod_get_value(), so if the driver uses that you will need
+>>>>>> to fix this in the driver.
+>>>>>>
+>>>>>> Hmm, thinking more about this, I just realized that this is an
+>>>>>> input pin to the CPU, not an output pin like all other pins
+>>>>>> described by the INT3472 device. I missed that as first.
+>>>>>>
+>>>>>> In that case using GPIO_LOOKUP_FLAGS_DEFAULT as before probably
+>>>>>> makes the most sense. Please add a comment that this is an input
+>>>>>> pin to the INT3472 patch and keep GPIO_LOOKUP_FLAGS_DEFAULT for
+>>>>>> the next version.
+>>>>>
+>>>>> The GPIO_LOOKUP_FLAGS_DEFAULT is the "Linux default", not the hardware or
+>>>>> firmware default so I don't think it's relevant in this context. There's a
+>>>>> single non-GPIO bank driver using it, probably mistakenly.
+>>>>>
+>>>>> I'd also use GPIO_ACTIVE_LOW, for the reason Dongcheng pointed to above.
+>>>>
+>>>> The GPIO being interpreted as active-low is a thing specific to
+>>>> the chip used though. Where as in the future the HPD pin type
+>>>> in the INT3472 device might be used with other chips...
+>>>>
+>>>> Anyways either way is fine with me bu, as mentioned, using GPIO_ACTIVE_LOW
+>>>> will invert the values returned by gpiod_get_value(), for which the driver
+>>>> likely needs to be adjusted.
+>>>
+>>> The driver appears to ask for both IRQF_TRIGGER_RISING | IRQF_TRIGGER_FALLING
+>>> and it only uses the GPIO for an ISR so it doesn't seem to require driver
+>>> changes IMO. Although this also seems to make the polarit irrelevant, at
+>>> least for this driver.
+>>
+>> If the driver does not care about this I would prefer for the INT3472 code to
+>> use GPIO_ACTIVE_HIGH to avoid the inverting behavior of GPIO_ACTIVE_LOW making 
+>> things harder for other future drivers using the hpd pin through the INT3472
+>> glue code.
+> 
+> I'm fine with that, too. (My main point was indeed
+> GPIO_LOOKUP_FLAGS_DEFAULT doesn't seem to be a good fit here.)
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/2640fd4fd0f2/disk-8ffd015d.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/1c5931df89bc/vmlinux-8ffd015d.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/f8fece45017d/bzImage-8ffd015d.xz
+Ok lets go with GPIO_ACTIVE_HIGH for the int3472/discrete.c changes then.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+f9f5333782a854509322@syzkaller.appspotmail.com
+Regards,
 
-Oops: general protection fault, probably for non-canonical address 0xdffffc0000000019: 0000 [#1] SMP KASAN PTI
-KASAN: null-ptr-deref in range [0x00000000000000c8-0x00000000000000cf]
-CPU: 1 UID: 0 PID: 5849 Comm: syz-executor279 Not tainted 6.15.0-rc2-syzkaller #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2025
-RIP: 0010:__mutex_lock_common kernel/locking/mutex.c:580 [inline]
-RIP: 0010:__mutex_lock+0x15d/0x10c0 kernel/locking/mutex.c:746
-Code: c0 80 f6 73 9a 48 c1 e8 03 42 0f b6 04 38 84 c0 0f 85 07 0e 00 00 83 3d 40 ba 41 0e 00 75 21 49 8d 7e 60 48 89 f8 48 c1 e8 03 <42> 80 3c 38 00 74 05 e8 17 52 fb f5 4d 39 76 60 0f 85 81 0d 00 00
-RSP: 0018:ffffc90004206f80 EFLAGS: 00010202
-RAX: 0000000000000019 RBX: ffffc90004207040 RCX: ffffffff9a73f603
-RDX: ffff888035f65a00 RSI: ffffffff8e4fde18 RDI: 00000000000000c8
-RBP: ffffc90004207118 R08: ffffc90004207087 R09: 0000000000000000
-R10: ffffc90004207060 R11: fffff52000840e11 R12: 0000000000000000
-R13: ffffc90004207048 R14: 0000000000000068 R15: dffffc0000000000
-FS:  0000555594939380(0000) GS:ffff888125093000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f79554c50f0 CR3: 000000007cfd2000 CR4: 00000000003526f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- dvb_usbv2_generic_write+0x26/0x50 drivers/media/usb/dvb-usb-v2/dvb_usb_urb.c:77
- mxl111sf_ctrl_msg+0x172/0x2e0 drivers/media/usb/dvb-usb-v2/mxl111sf.c:73
- mxl111sf_write_reg+0xda/0x1f0 drivers/media/usb/dvb-usb-v2/mxl111sf.c:123
- mxl111sf_i2c_start drivers/media/usb/dvb-usb-v2/mxl111sf-i2c.c:130 [inline]
- mxl111sf_i2c_sw_xfer_msg drivers/media/usb/dvb-usb-v2/mxl111sf-i2c.c:-1 [inline]
- mxl111sf_i2c_xfer+0x923/0x8aa0 drivers/media/usb/dvb-usb-v2/mxl111sf-i2c.c:813
- __i2c_transfer+0x859/0x2250 drivers/i2c/i2c-core-base.c:-1
- i2c_transfer+0x2c2/0x430 drivers/i2c/i2c-core-base.c:2315
- i2c_transfer_buffer_flags+0x182/0x260 drivers/i2c/i2c-core-base.c:2343
- i2c_master_recv include/linux/i2c.h:79 [inline]
- i2cdev_read+0x10a/0x220 drivers/i2c/i2c-dev.c:155
- vfs_read+0x21f/0xb90 fs/read_write.c:568
- ksys_read+0x19d/0x2d0 fs/read_write.c:713
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xf3/0x230 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f795544e4e9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 c1 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007ffc002847a8 EFLAGS: 00000246 ORIG_RAX: 0000000000000000
-RAX: ffffffffffffffda RBX: 0000200000000000 RCX: 00007f795544e4e9
-RDX: 0000000000000063 RSI: 0000000000000000 RDI: 0000000000000004
-RBP: 00000000000f4240 R08: 00232d6332692f76 R09: 00000000000000a0
-R10: 000000000000000f R11: 0000000000000246 R12: 0000000000000001
-R13: 00007ffc002849c8 R14: 00007ffc002847d0 R15: 00007ffc002847c0
- </TASK>
-Modules linked in:
----[ end trace 0000000000000000 ]---
-RIP: 0010:__mutex_lock_common kernel/locking/mutex.c:580 [inline]
-RIP: 0010:__mutex_lock+0x15d/0x10c0 kernel/locking/mutex.c:746
-Code: c0 80 f6 73 9a 48 c1 e8 03 42 0f b6 04 38 84 c0 0f 85 07 0e 00 00 83 3d 40 ba 41 0e 00 75 21 49 8d 7e 60 48 89 f8 48 c1 e8 03 <42> 80 3c 38 00 74 05 e8 17 52 fb f5 4d 39 76 60 0f 85 81 0d 00 00
-RSP: 0018:ffffc90004206f80 EFLAGS: 00010202
-
-RAX: 0000000000000019 RBX: ffffc90004207040 RCX: ffffffff9a73f603
-RDX: ffff888035f65a00 RSI: ffffffff8e4fde18 RDI: 00000000000000c8
-RBP: ffffc90004207118 R08: ffffc90004207087 R09: 0000000000000000
-R10: ffffc90004207060 R11: fffff52000840e11 R12: 0000000000000000
-R13: ffffc90004207048 R14: 0000000000000068 R15: dffffc0000000000
-FS:  0000555594939380(0000) GS:ffff888125093000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 000055dccfef9670 CR3: 000000007cfd2000 CR4: 00000000003526f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-----------------
-Code disassembly (best guess):
-   0:	c0 80 f6 73 9a 48 c1 	rolb   $0xc1,0x489a73f6(%rax)
-   7:	e8 03 42 0f b6       	call   0xb60f420f
-   c:	04 38                	add    $0x38,%al
-   e:	84 c0                	test   %al,%al
-  10:	0f 85 07 0e 00 00    	jne    0xe1d
-  16:	83 3d 40 ba 41 0e 00 	cmpl   $0x0,0xe41ba40(%rip)        # 0xe41ba5d
-  1d:	75 21                	jne    0x40
-  1f:	49 8d 7e 60          	lea    0x60(%r14),%rdi
-  23:	48 89 f8             	mov    %rdi,%rax
-  26:	48 c1 e8 03          	shr    $0x3,%rax
-* 2a:	42 80 3c 38 00       	cmpb   $0x0,(%rax,%r15,1) <-- trapping instruction
-  2f:	74 05                	je     0x36
-  31:	e8 17 52 fb f5       	call   0xf5fb524d
-  36:	4d 39 76 60          	cmp    %r14,0x60(%r14)
-  3a:	0f 85 81 0d 00 00    	jne    0xdc1
+Hans
 
 
----
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
 
