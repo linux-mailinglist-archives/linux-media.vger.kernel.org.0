@@ -1,278 +1,420 @@
-Return-Path: <linux-media+bounces-30198-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30199-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9138BA88D40
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 22:41:58 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7483FA88D8F
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 23:07:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 484BD3B1ED0
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 20:41:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A614918988E6
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 21:08:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D94691E1DEF;
-	Mon, 14 Apr 2025 20:41:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A47551EDA04;
+	Mon, 14 Apr 2025 21:07:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="UAIQzvJJ"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Wp6sB3Yz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2053.outbound.protection.outlook.com [40.107.22.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434B31D86F6;
-	Mon, 14 Apr 2025 20:41:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DFD119D06A;
+	Mon, 14 Apr 2025 21:07:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.22.53
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744663310; cv=pass; b=tSuvSV4iA52oANJWN1sHkamtjWszvIotaIxg/ebtfZ8JgNgLjsuQQWkajpHsbT1+YjazQFL2bXn9W6fiWGJXG8CsAF4dB+hZRl1Qvhws4KkT/0ZYiG3RwdOU3EF58kdL+MBvQcF8vLUFtt94AnADGrYdBIoiI4hnduquYMFYMhU=
+	t=1744664863; cv=fail; b=JmMbldtFcEtMZIbQeFDAqez4vU2wFvm+YiY9Ur+zS8QGwQ/ZBpA0+s61GfVCb93MWmF01pmLZv/qRvlPW2xUW2buVsIBSnfv6HOFiVaCiwQLCX2Ky0G33MvKgjfteTJg5ftkpry8QHbNqNdZmCewuW7WVTAooGKEjqBU/aOrfng=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744663310; c=relaxed/simple;
-	bh=crI4XtKwTx1vUE7XW/8EiEGIw7EhIC6CCXobTK3D9/E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uL0Saq6Q2BLSHrdNQnODbyw9m93t2LqSpn8Y5g6zDtdX0E7FWlIm6T83OM7PIA4+mYz7DCbKS+PVUBb6HmvG67wO+XS2L7yh1avuXk381mGbItBGKmONc9L5BqnHLSm7IG4ctbo5VPBiAsonmNoz1GP1IivGr+9yDMAyzl0ZDIo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=UAIQzvJJ; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1744663281; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=e6UB8mD5gBtSx5woyQ8voZo7onCXMwl7LnqS4japMtahy6FD7B9Bk3QgFms8EdOHYwsYuieEyad9Cd6sNTQNr52kWGuU1H4Pkg2PhZAdA1WzKNIJ7BCFXMpyI9VT5ogASoXa/XHpmbYzNihHKeip6jZHVk07XqUu3S8MRGyPk18=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1744663281; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=OwXZu9pVPYrQgdsIt9IN1Gimn7BexONJbVJH5Oqt6kU=; 
-	b=MvK+NOrt1jURE16fDPhQE7Ux+J7h0P9jxYmF9GTGiyhPCbfK3CSjYjPizBAovtCBfyeSZnRzbYBlSSP+YTnj4id6g24DZTBot1LVwRsfBckMJhDyZN+VyaBgkiX1gunZvBd+DlLlti4NHAP3p71qc0v4iLHlONoG5z7qM+4wVGY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
-	dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744663281;
-	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
-	bh=OwXZu9pVPYrQgdsIt9IN1Gimn7BexONJbVJH5Oqt6kU=;
-	b=UAIQzvJJPkFVGkybmi3ZORvY1IIHXlA5OiFC4npFDmxob5X5p3jcyy2mnb4DIq7c
-	08azyExoLsGiwYCLtirtOALATpyY1n5FNuW8KxnkRwNH98Z/exaiGyYgY1UF1Ibwh1s
-	7OKbs3qdJl6UlGeKmzOx5UJamY7q8MVjIdSqmuAE=
-Received: by mx.zohomail.com with SMTPS id 174466327828126.87847580144978;
-	Mon, 14 Apr 2025 13:41:18 -0700 (PDT)
-Date: Mon, 14 Apr 2025 21:41:13 +0100
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	kernel@collabora.com, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v7 2/4] drm/panthor: Add driver IOCTL for setting BO
- labels
-Message-ID: <oc7nqx5gxrefaphpoyn7tsyhj2zcpbhwuxnhlgxtp6exet2ebz@wve2rz376pf4>
-References: <20250411150357.3308921-1-adrian.larumbe@collabora.com>
- <20250411150357.3308921-3-adrian.larumbe@collabora.com>
- <6d67aff0-7082-4966-acb2-d7985820b3ea@arm.com>
+	s=arc-20240116; t=1744664863; c=relaxed/simple;
+	bh=ex5s94XGz5h+LB+5hdZpXTrajrFJFB3c5jcAQhVMiS0=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=VoKA1Z92aXX2GfW5MnG7+mSEw2iF3Nc+5XwelbrdiPnZiSc+lCCeHKEeHOMPKRUD88WY+2wyWksp9MN+MtmebDr1j3UbJtV/whwOeBd3kxEC3Arunv2690olCOrciQz0ZC1+2gvp8+2Z2bSLkvDI2vlwZ8iUulA7jjUJ8PNnSEs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Wp6sB3Yz; arc=fail smtp.client-ip=40.107.22.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Yc1Jbb4O9mRpStgydKJYXwEQxzEuFw2DQ1in1E9ZJXZwDe2SxNjheJabBGKYPy5XMmBsyCedsiLrRwu2MJjmS7TEels3wIatgVCP5HFAk/xtDz2Qrwe4TGPUZmDPbBfzcZ73wgFuNuQLrU68699pyDbOFns2lJ0JuY8dXBWKty9QbzffePHv1ypWf/Dh+4ItbnCckklcUcXbS5kHMwDc6FX48EZ4ltrBExrfWZVYNV8cMgAAKiUvkNlFtAa9jHvG5DPXa+al1gsiHKdA3jDgQibWcO5MCqOa+hKHOfEqAWhViSm/ZsDZ4W+RiTOO6+syEYaj6ktyI/GgWQZ+aVf+Wg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mne82N7Mesq9/UUHJtdWqeS07/Vs5JeUXiKEr1uaUc4=;
+ b=pvHemS+LfjgnguLZHBAWzFuyzUsCq7k39Sj4Xx8S2jumc3Kn3+5aBEQsF8pOuuzlSJyBfXAA1/VvV567iI8O6+rHjrYw5L/jDoV5xrnXFNcs3+XKI7QTkpjwOUgs9MDCW+qoF3Rzda79Ud010YmS709rBAgaQpCRblExeVeZ1UzNi4NGa1yIHYRMP9ktFC4bv6M0TH7j4Ar4v2zHQ5ikD7vQwXXJmeOGhQkhPWp4/yaLbYkfkVjfdABW4LdUy8lBjxLsFDn1rAnwpGOIfR+xi31x+pPLybgXt9idAVW811OD5ZNGe9RHTV5Y+21obf0dcznTIDr1yTym0fgtvABjvg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mne82N7Mesq9/UUHJtdWqeS07/Vs5JeUXiKEr1uaUc4=;
+ b=Wp6sB3Yz5Eya4qtZhZvftgstK7abTJGMTOrdMVFbAsPuChnKvDScRTPzWsvUYG0mh0ic8kI3jnnfOykBl+PwEL8TzVAQl3KMrTdS/gEjt8fE4BjPjYjEXBBUt7W8je9WichJzHPXu9NUaEnSJKjaqQR4UOOuJfudDFG4J+WTLkdzChpbcqrE+awSgX3yTtNwIsR2gZJEWFvbQttTwBySLHkuxVPgLBADpnvwa26VQPJUqNpEWL20mbyLgNJy1mTfLOkfYoOJ+XTsFJ+hjg++JRCpzjZDqqz+OzdLWTW1zG8Epp48sG1E3GOkIATIVVg66o/+iVC3pUNGlbdN/TcTYw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by AS8PR04MB9206.eurprd04.prod.outlook.com (2603:10a6:20b:44d::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.34; Mon, 14 Apr
+ 2025 21:07:36 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06%2]) with mapi id 15.20.8632.030; Mon, 14 Apr 2025
+ 21:07:36 +0000
+From: Frank Li <Frank.Li@nxp.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	linux-media@vger.kernel.org (open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)),
+	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
+	imx@lists.linux.dev (open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE),
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE),
+	linux-kernel@vger.kernel.org (open list)
+Cc: imx@lists.linux.dev
+Subject: [PATCH 1/1] dt-bindings: media: convert imx.txt to yaml format
+Date: Mon, 14 Apr 2025 17:07:18 -0400
+Message-Id: <20250414210720.3359301-1-Frank.Li@nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PH7P220CA0054.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:510:32b::11) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6d67aff0-7082-4966-acb2-d7985820b3ea@arm.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|AS8PR04MB9206:EE_
+X-MS-Office365-Filtering-Correlation-Id: dd89c066-e73f-408d-c59a-08dd7b9861e1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|7416014|52116014|366016|38350700014|13003099007|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?10dJXbk8YFN0mZSAh5nvDb8iwO9mwqC+KaO20ANVw+83mx9ZdLyCaMSOYlCb?=
+ =?us-ascii?Q?0N01bj/f8e8P0aA7+gokWxV+s+RqoDH+BH4p8tOxlIDW9/aEtLveYQ6SeJ67?=
+ =?us-ascii?Q?vAHYDYcyyod5FcULeqOmgPuNuUolthcsOou753k+3v3S88S6+5QHDNuDWEgz?=
+ =?us-ascii?Q?HJVEf3r77PKHJ+96pEFs5S63plxXo8TgJWlF2CUF5wI4vO0fjVvdu6aO+vL2?=
+ =?us-ascii?Q?i7gD87OQrE59xbEVa5YE66bP7uKMYHlgyZJZnYPjVdrqdNZ/7Ad8lEQw19aM?=
+ =?us-ascii?Q?izeRklfp+MmkE75JDp/H0UbKPhof/XjRQNGsDcgoM+PGodu/2ut8oeR5iHJJ?=
+ =?us-ascii?Q?+Vllw5GnZp3MsjyE80ktI/Lgpov1+neaxhIDxEd7rteFLhoUcBei7nrdaOvu?=
+ =?us-ascii?Q?rd7Mve3yYd4JGM5wa8sAHVPzVXcRma9GJBh320T7czCRXhiCJlosunP4bXOH?=
+ =?us-ascii?Q?Vnl89phAwM3W4hjnivpR+AiL9dVdkCQG9Uc/y8ey1i8JCzlA1rQx/e/HfdYK?=
+ =?us-ascii?Q?UnxGyzrjAaqsm+ZFCCA8oF74vu4F4l3SOCG39xGvEUKUK/DUoiIpP4Fulrtj?=
+ =?us-ascii?Q?efVsMMlM/YEgt18ig/VdIvlt8ZUt/3gr+twRmWDRhCx73A4Dv/x9rrKTRA5m?=
+ =?us-ascii?Q?kqpb69zlwtLl5sHKqkrKmAW9AYvswRHbCvgwVBZ85M4G60oqSzWkoGvoowRV?=
+ =?us-ascii?Q?xiPs5SPRwsXDKoivF0CGx34DOVkL+LLhWOc7PA+4OG7TJ25MzdIwHkU4Na5w?=
+ =?us-ascii?Q?eVZGBRKPmttS3AgHnVeWX1I6Ac70+k9xVuzEJPqIyK8kmLWm5dDz9WH/5v7W?=
+ =?us-ascii?Q?vlxiyl00PiQI2FLBrNjiH6rIXu9A0y0aR3SmJwKQxKtzxZwCewjdNIVm+MHQ?=
+ =?us-ascii?Q?L4gFzsyrlAm4YsRG7g47vMfJYnrW2A+CJjfUuMqq6pAd/mBSyg94ubyrIbZ2?=
+ =?us-ascii?Q?4mbRUFnZU/Pt9ahWNsX/iZOnG7hR0byghiGhJUM+22EdwesiEczGeGIsQVhW?=
+ =?us-ascii?Q?CqjGyEJhkssdp3HMLz0zM+BYNWHjVMHPY1kMM3Cx7cNQFBE+NKn/Zk44vJk4?=
+ =?us-ascii?Q?13fdRBCrb7h39I+is8gt+ldMaNhdg31p4iulFMaRGOZMCeRkQiJ+CFIc/ezp?=
+ =?us-ascii?Q?Qa3YdikWuf5X1WZ0b4lHwS/fpLKexSySROFUzZl2U5iY0tj9jVihAtUIavyQ?=
+ =?us-ascii?Q?J+XzxGdsLvGOE4ibfb01bqV55rMnp1UTlmvXvBlpk82vqT9QvvGquWldMfUB?=
+ =?us-ascii?Q?tpSShQXc3MNX7SX3t1y1a1dNHYptzCjiKwRu34xZMU8AYU6t2q8zJEIxHN9W?=
+ =?us-ascii?Q?ddQ4TgIXlD1XkAVR5HeMZD8qyxLRarIuRxyHMzoIr55Ttkzl9pkR0Pl1WO+8?=
+ =?us-ascii?Q?3AeuNASOd8T4BnKGtGn55Ne+rfWSGA28C9jegsYJHrnWDdvrNFMD7BaDLqR9?=
+ =?us-ascii?Q?sDxpzNkrPITs5hoj6B2eSCawwZFCkhUC?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(52116014)(366016)(38350700014)(13003099007)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?qmcu/8VcJFPJ1Gp1pJyi6IpqRs/7E8saDr57D4EAkRu116vLneBhmR1A1vhS?=
+ =?us-ascii?Q?2wFSM5ZkyYfp3xzFBQYCK4ZEriRnJMvfqrWteVheL0wVoBt+ybA0KrEeKi3V?=
+ =?us-ascii?Q?SYpRX7wwXG3XYKAqXwU8AIaT+4nFuKwYbPeZQAaBxOaduugKdHEcLfU7noXc?=
+ =?us-ascii?Q?4LEFI+/cApx6T+qIoMBLTjkLUKC3yX70Zq6HL1iNay4Yj6HNTtvHdNp2ysti?=
+ =?us-ascii?Q?DLta2mo9lbtVN/7a2LAE5JlJ5Cu7ZhUedg+jmM5AQ0DNn/jpddDZnpe1s7V2?=
+ =?us-ascii?Q?PqYC2IJi668qF73VgNIKlBxM0WOC5i88a6bwNRp/+5wn+mBw2X7NWb6qzxCD?=
+ =?us-ascii?Q?vNaD37Y4Vyo0+PL6Mnlr00h0ZHeUhF4ZFlGs+rx7j9KGZumSOMC/SWRcbshq?=
+ =?us-ascii?Q?K3USeMaGqJ6YfXT04MuiFJC475gSCsEPYOvUdWSLzncv4haAqBrD/9kN+fPw?=
+ =?us-ascii?Q?RicF+Bl/mDofLr74+427hgbwVa36n9MIcUZbWynI6B3TM6vXwXc7WZELgh9p?=
+ =?us-ascii?Q?wjphxQx2ITjhmdM/EVVsq64zawyyfFVhIn6MK74MWSYaU1GtC/KLwhLg6SDc?=
+ =?us-ascii?Q?NjGSuGlFuv/oO2XTZWZI6mmA0y7wU6TLoTQzawDvYwPUyHR7L53XwDB7XcdV?=
+ =?us-ascii?Q?ENSV8K8qUdLJwpiBpsriN8ylXmEDJrplSc2qzOYjjv4oE3zmsP+gb9VjZTz2?=
+ =?us-ascii?Q?6kVV7K4C1Ag2/zWBjW5KSCN6LzFn4UZ1DYalqt4EYcmDW3sODIMA8FnJ8fvL?=
+ =?us-ascii?Q?925FOffrOo9gy3/mOeHw7CiMiQkUkL7giYaS1kdNSMfSN1Xz8wPD5cF16Dz1?=
+ =?us-ascii?Q?jhrcUEGqY2/H7T1DHFHR+TumRQwSuXObCDjIJZXhn1G90ljb0prrF/7sL06x?=
+ =?us-ascii?Q?EqDUq/+6uxYnudNJcMxLULXFGgIEkUd1DsYWO4ESNeehnedDT7oz0U4J4ePo?=
+ =?us-ascii?Q?niWwGhWXwsi0pqta7y9UygwMhhuuPnP8/tGAKNeHfeE1Nwk6B8YTQ66E+25c?=
+ =?us-ascii?Q?zrNEhjtquYBg0tfruYXso31vghTxnJwNViwWwwXoCi3KtkPDyy4LTGhOHgEp?=
+ =?us-ascii?Q?HwFlI+fitnfHtvQrxuz5unFl9PjwM81dCoX3KXVzpBO7S67a1zCW6LA0fIPJ?=
+ =?us-ascii?Q?EQ2uyqcmp4/dovga0Mo9jAnsugsh8aAG0+C2ewfaqy/i9nJQGCRXV0/OrAry?=
+ =?us-ascii?Q?1+KKMGYczohgQKtRSAhkk0SNCsBW4vYGaT1nIl9uG7NFpohvRbj9ZlbAZFHv?=
+ =?us-ascii?Q?LZxid8w6FOa9blrhCqFR6EdibV5S/jPEIs4EnMJghfB9poKcBtJ3h5uq/akA?=
+ =?us-ascii?Q?6SLWMkkcGEf0EH2g6ln9Lii1xcgH4/dXANh+8Ymd/sKieeceNJUuKURgohcq?=
+ =?us-ascii?Q?jKQAka6pz8LAQ7JM6pX1RwtWZDrmBFjipRPO8XTKCiYwH2Sib/7TvbHQ9wv9?=
+ =?us-ascii?Q?rQvD7T7v/lXVfK8okESFqZqK8YsajWXYpg7BbuBMZz+JJpwgP1xK7865Ku93?=
+ =?us-ascii?Q?abNPH1CkrxUNcM5HtjqahbOPS8K2B7pBLSRP6HgPozIE+9Q4i1n31PNbYd1R?=
+ =?us-ascii?Q?tHwiM20PaEX2w+fvvDk=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd89c066-e73f-408d-c59a-08dd7b9861e1
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2025 21:07:36.7045
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fT7qRl5SV1X4IdWs1VQJvBrmXkXLRDIwxeRRBxOOWEgIZK7tyN8URMLo/uM7L8u0WXdF5OxCYdeb31vOgRyEeg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB9206
 
-On 14.04.2025 11:01, Steven Price wrote:
-> On 11/04/2025 16:03, Adrián Larumbe wrote:
-> > Allow UM to label a BO for which it possesses a DRM handle.
-> >
-> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> > Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-> > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
->
-> Reviewed-by: Steven Price <steven.price@arm.com>
->
-> Although very minor NITs below which you can consider.
->
-> > ---
-> >  drivers/gpu/drm/panthor/panthor_drv.c | 42 ++++++++++++++++++++++++++-
-> >  drivers/gpu/drm/panthor/panthor_gem.h |  2 ++
-> >  include/uapi/drm/panthor_drm.h        | 23 +++++++++++++++
-> >  3 files changed, 66 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> > index 06fe46e32073..983b24f1236c 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> > @@ -1331,6 +1331,44 @@ static int panthor_ioctl_vm_get_state(struct drm_device *ddev, void *data,
-> >  	return 0;
-> >  }
-> >
-> > +static int panthor_ioctl_bo_set_label(struct drm_device *ddev, void *data,
-> > +				  struct drm_file *file)
-> > +{
-> > +	struct drm_panthor_bo_set_label *args = data;
-> > +	struct drm_gem_object *obj;
-> > +	const char *label;
-> > +	int ret = 0;
-> > +
-> > +	obj = drm_gem_object_lookup(file, args->handle);
-> > +	if (!obj)
-> > +		return -ENOENT;
-> > +
-> > +	if (args->size && args->label) {
-> > +		if (args->size > PANTHOR_BO_LABEL_MAXLEN) {
-> > +			ret = -E2BIG;
-> > +			goto err_label;
-> > +		}
-> > +
-> > +		label = strndup_user(u64_to_user_ptr(args->label), args->size);
-> > +		if (IS_ERR(label)) {
-> > +			ret = PTR_ERR(label);
-> > +			goto err_label;
-> > +		}
-> > +	} else if (args->size && !args->label) {
-> > +		ret = -EINVAL;
-> > +		goto err_label;
-> > +	} else {
-> > +		label = NULL;
-> > +	}
-> > +
-> > +	panthor_gem_bo_set_label(obj, label);
-> > +
-> > +err_label:
-> > +	drm_gem_object_put(obj);
-> > +
-> > +	return ret;
-> > +}
-> > +
-> >  static int
-> >  panthor_open(struct drm_device *ddev, struct drm_file *file)
-> >  {
-> > @@ -1400,6 +1438,7 @@ static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
-> >  	PANTHOR_IOCTL(TILER_HEAP_CREATE, tiler_heap_create, DRM_RENDER_ALLOW),
-> >  	PANTHOR_IOCTL(TILER_HEAP_DESTROY, tiler_heap_destroy, DRM_RENDER_ALLOW),
-> >  	PANTHOR_IOCTL(GROUP_SUBMIT, group_submit, DRM_RENDER_ALLOW),
-> > +	PANTHOR_IOCTL(BO_SET_LABEL, bo_set_label, DRM_RENDER_ALLOW),
-> >  };
-> >
-> >  static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
-> > @@ -1509,6 +1548,7 @@ static void panthor_debugfs_init(struct drm_minor *minor)
-> >   * - 1.2 - adds DEV_QUERY_GROUP_PRIORITIES_INFO query
-> >   *       - adds PANTHOR_GROUP_PRIORITY_REALTIME priority
-> >   * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
-> > + * - 1.4 - adds DRM_IOCTL_PANTHOR_BO_SET_LABEL ioctl
-> >   */
-> >  static const struct drm_driver panthor_drm_driver = {
-> >  	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
-> > @@ -1522,7 +1562,7 @@ static const struct drm_driver panthor_drm_driver = {
-> >  	.name = "panthor",
-> >  	.desc = "Panthor DRM driver",
-> >  	.major = 1,
-> > -	.minor = 3,
-> > +	.minor = 4,
-> >
-> >  	.gem_create_object = panthor_gem_create_object,
-> >  	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
-> > diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-> > index af0d77338860..beba066b4974 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_gem.h
-> > +++ b/drivers/gpu/drm/panthor/panthor_gem.h
-> > @@ -13,6 +13,8 @@
-> >
-> >  struct panthor_vm;
-> >
-> > +#define PANTHOR_BO_LABEL_MAXLEN	PAGE_SIZE
-> > +
-> >  /**
-> >   * struct panthor_gem_object - Driver specific GEM object.
-> >   */
-> > diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
-> > index 97e2c4510e69..12b1994499a9 100644
-> > --- a/include/uapi/drm/panthor_drm.h
-> > +++ b/include/uapi/drm/panthor_drm.h
-> > @@ -127,6 +127,9 @@ enum drm_panthor_ioctl_id {
-> >
-> >  	/** @DRM_PANTHOR_TILER_HEAP_DESTROY: Destroy a tiler heap. */
-> >  	DRM_PANTHOR_TILER_HEAP_DESTROY,
-> > +
-> > +	/** @DRM_PANTHOR_BO_SET_LABEL: Label a BO. */
-> > +	DRM_PANTHOR_BO_SET_LABEL,
-> >  };
-> >
-> >  /**
-> > @@ -977,6 +980,24 @@ struct drm_panthor_tiler_heap_destroy {
-> >  	__u32 pad;
-> >  };
-> >
-> > +/**
-> > + * struct drm_panthor_bo_set_label - Arguments passed to DRM_IOCTL_PANTHOR_BO_SET_LABEL
-> > + */
-> > +struct drm_panthor_bo_set_label {
-> > +	/** @handle: Handle of the buffer object to label. */
-> > +	__u32 handle;
-> > +
-> > +	/**
-> > +	 * @size: Length of the label, including the NULL terminator.
-> > +	 *
-> > +	 * Cannot be greater than the OS page size.
-> > +	 */
-> > +	__u32 size;
-> > +
-> > +	/** @label: User pointer to a NULL-terminated string */
-> > +	__u64 label;
-> > +};
->
-> First very minor NIT:
->  * NULL is a pointer, i.e. (void*)0
->  * NUL is the ASCII code point '\0'.
-> So it's a NUL-terminated string.
+Convert binding doc imx.txt to yaml format. Create two yaml files:
+fsl,imx6-mipi-csi2.yaml and fsl,imx-capture-subsystem.yaml.
 
-Fixed
+Additional changes:
+- add example for fsl,imx6-mipi-csi2
 
-> Second NIT: We don't actually need 'size' - since the string is
-> NUL-terminated we can just strndup_user(__user_pointer__, PAGE_SIZE).
-> As things stand we validate that strlen(label) < size <= PAGE_SIZE -
-> which is a little odd (user space might as well just pass PAGE_SIZE
-> rather than calculate the actual length).
+Signed-off-by: Frank Li <Frank.Li@nxp.com>
+---
+ .../media/fsl,imx-capture-subsystem.yaml      |  38 ++++++
+ .../bindings/media/fsl,imx6-mipi-csi2.yaml    | 126 ++++++++++++++++++
+ .../devicetree/bindings/media/imx.txt         |  53 --------
+ 3 files changed, 164 insertions(+), 53 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/fsl,imx-capture-subsystem.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/fsl,imx6-mipi-csi2.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/imx.txt
 
-The snag I see in this approach is that the only way to make sure
-strlen(label) + 1 <= PAGE_SIZE would be doing something like
+diff --git a/Documentation/devicetree/bindings/media/fsl,imx-capture-subsystem.yaml b/Documentation/devicetree/bindings/media/fsl,imx-capture-subsystem.yaml
+new file mode 100644
+index 0000000000000..77be3c1f37c5b
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/fsl,imx-capture-subsystem.yaml
+@@ -0,0 +1,38 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/fsl,imx-capture-subsystem.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Freescale i.MX Media Video Device
++
++description:
++  This is the media controller node for video capture support. It is a
++  virtual device that lists the camera serial interface nodes that the
++  media device will control
++
++maintainers:
++  - Frank Li <Frank.Li@nxp.com>
++
++properties:
++  compatible:
++    const: fsl,imx-capture-subsystem
++
++  ports:
++    $ref: /schemas/types.yaml#/definitions/phandle-array
++    description:
++      Should contain a list of phandles pointing to camera
++      sensor interface ports of IPU devices.
++
++required:
++  - compatible
++
++additionalProperties: false
++
++examples:
++  - |
++    capture-subsystem {
++        compatible = "fsl,imx-capture-subsystem";
++        ports = <&ipu1_csi0>, <&ipu1_csi1>;
++    };
++
+diff --git a/Documentation/devicetree/bindings/media/fsl,imx6-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/fsl,imx6-mipi-csi2.yaml
+new file mode 100644
+index 0000000000000..1e69a1ff868cd
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/fsl,imx6-mipi-csi2.yaml
+@@ -0,0 +1,126 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/fsl,imx6-mipi-csi2.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: MIPI CSI-2 Receiver core in the i.MX SoC
++
++description:
++  This is the device node for the MIPI CSI-2 Receiver core in the i.MX
++  SoC. This is a Synopsys Designware MIPI CSI-2 host controller core
++  combined with a D-PHY core mixed into the same register block. In
++  addition this device consists of an i.MX-specific "CSI2IPU gasket"
++  glue logic, also controlled from the same register block. The CSI2IPU
++  gasket demultiplexes the four virtual channel streams from the host
++  controller's 32-bit output image bus onto four 16-bit parallel busses
++  to the i.MX IPU CSIs.
++
++maintainers:
++  - Frank Li <Frank.Li@nxp.com>
++
++properties:
++  compatible:
++    const: fsl,imx6-mipi-csi2
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: hsi_tx (the D-PHY clock)
++      - description: video_27m (D-PHY PLL reference clock)
++      - description: eim_podf;
++
++  clock-names:
++    items:
++      - const: dphy
++      - const: ref
++      - const: pix
++
++  interrupts:
++    maxItems: 2
++
++  '#address-cells':
++    const: 1
++
++  '#size-cells':
++    const: 0
++
++  port@0:
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    unevaluatedProperties: false
++    description:
++      Input port node, single endpoint describing the CSI-2 transmitter.
++
++    properties:
++      endpoint:
++        $ref: video-interfaces.yaml#
++        unevaluatedProperties: false
++
++        properties:
++          clock-lanes:
++            const: 0
++
++          data-lanes:
++            minItems: 1
++            items:
++              - const: 1
++              - const: 2
++              - const: 3
++              - const: 4
++
++        required:
++          - data-lanes
++
++patternProperties:
++  '^port@[1-4]':
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    unevaluatedProperties: false
++    description:
++      ports 1 through 4 are output ports connecting with parallel bus sink
++      endpoint nodes and correspond to the four MIPI CSI-2 virtual channel
++      outputs.
++
++    properties:
++      endpoint@0:
++        $ref: video-interfaces.yaml#
++        unevaluatedProperties: false
++
++      endpoint@1:
++        $ref: video-interfaces.yaml#
++        unevaluatedProperties: false
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - clock-names
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/imx6qdl-clock.h>
++
++    mipi@21dc000 {
++        compatible = "fsl,imx6-mipi-csi2";
++        reg = <0x021dc000 0x4000>;
++        #address-cells = <1>;
++        #size-cells = <0>;
++        clocks = <&clks IMX6QDL_CLK_HSI_TX>,
++                 <&clks IMX6QDL_CLK_VIDEO_27M>,
++                 <&clks IMX6QDL_CLK_EIM_PODF>;
++        clock-names = "dphy", "ref", "pix";
++
++        port@0 {
++            reg = <0>;
++
++            endpoint {
++                remote-endpoint = <&ov5640_to_mipi_csi2>;
++                clock-lanes = <0>;
++                data-lanes = <1 2>;
++            };
++        };
++    };
++
+diff --git a/Documentation/devicetree/bindings/media/imx.txt b/Documentation/devicetree/bindings/media/imx.txt
+deleted file mode 100644
+index 77f4b0a7fd2b0..0000000000000
+--- a/Documentation/devicetree/bindings/media/imx.txt
++++ /dev/null
+@@ -1,53 +0,0 @@
+-Freescale i.MX Media Video Device
+-=================================
+-
+-Video Media Controller node
+----------------------------
+-
+-This is the media controller node for video capture support. It is a
+-virtual device that lists the camera serial interface nodes that the
+-media device will control.
+-
+-Required properties:
+-- compatible : "fsl,imx-capture-subsystem";
+-- ports      : Should contain a list of phandles pointing to camera
+-		sensor interface ports of IPU devices
+-
+-example:
+-
+-capture-subsystem {
+-	compatible = "fsl,imx-capture-subsystem";
+-	ports = <&ipu1_csi0>, <&ipu1_csi1>;
+-};
+-
+-
+-mipi_csi2 node
+---------------
+-
+-This is the device node for the MIPI CSI-2 Receiver core in the i.MX
+-SoC. This is a Synopsys Designware MIPI CSI-2 host controller core
+-combined with a D-PHY core mixed into the same register block. In
+-addition this device consists of an i.MX-specific "CSI2IPU gasket"
+-glue logic, also controlled from the same register block. The CSI2IPU
+-gasket demultiplexes the four virtual channel streams from the host
+-controller's 32-bit output image bus onto four 16-bit parallel busses
+-to the i.MX IPU CSIs.
+-
+-Required properties:
+-- compatible	: "fsl,imx6-mipi-csi2";
+-- reg           : physical base address and length of the register set;
+-- clocks	: the MIPI CSI-2 receiver requires three clocks: hsi_tx
+-		  (the D-PHY clock), video_27m (D-PHY PLL reference
+-		  clock), and eim_podf;
+-- clock-names	: must contain "dphy", "ref", "pix";
+-- port@*        : five port nodes must exist, containing endpoints
+-		  connecting to the source and sink devices according to
+-		  of_graph bindings. The first port is an input port,
+-		  connecting with a MIPI CSI-2 source, and ports 1
+-		  through 4 are output ports connecting with parallel
+-		  bus sink endpoint nodes and correspond to the four
+-		  MIPI CSI-2 virtual channel outputs.
+-
+-Optional properties:
+-- interrupts	: must contain two level-triggered interrupts,
+-		  in order: 100 and 101;
+-- 
+2.34.1
 
-label = strndup_user(u64_to_user_ptr(args->label), args->size);
-if (strlen(label) + 1 <= PAGE_SIZE) {
-   kfree(label)
-   return -E2BIG;
-}
-
-In the meantime, we've duplicated the string and traversed a whole page
-of bytes, all to be discarded at once.
-
-In this case, I think it's alright to expect some cooperation from UM
-in supplying the actual size, although I'm really not an expert in
-designing elegant uAPIs, so if you think this looks very odd I'd be
-glad to replace it with.
-
-Actually, as I was writing this, I realised that strndup_user() calls
-strnlen_user(), which is publicly available for other drivers, so
-I might check the length first, and if it falls within bounds, do
-the actual user stringdup.
-
-I shall also mention the size bound on the uAPI for the 'label' pointer.
-
-> Thanks,
-> Steve
->
-> +
->  /**
->   * DRM_IOCTL_PANTHOR() - Build a Panthor IOCTL number
->   * @__access: Access type. Must be R, W or RW.
-> @@ -1019,6 +1040,8 @@ enum {
->  		DRM_IOCTL_PANTHOR(WR, TILER_HEAP_CREATE, tiler_heap_create),
->  	DRM_IOCTL_PANTHOR_TILER_HEAP_DESTROY =
->  		DRM_IOCTL_PANTHOR(WR, TILER_HEAP_DESTROY, tiler_heap_destroy),
-> +	DRM_IOCTL_PANTHOR_BO_SET_LABEL =
-> +		DRM_IOCTL_PANTHOR(WR, BO_SET_LABEL, bo_set_label),
->  };
->
->  #if defined(__cplusplus)
-
-
-Adrian Larumbe
 
