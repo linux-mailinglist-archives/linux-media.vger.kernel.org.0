@@ -1,95 +1,144 @@
-Return-Path: <linux-media+bounces-30147-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30148-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B010A87EEB
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 13:24:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D7D4A87F76
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 13:43:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 21ACC1735A7
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 11:24:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1F2DA163030
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 11:43:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06A63268FF4;
-	Mon, 14 Apr 2025 11:24:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD5BF29C333;
+	Mon, 14 Apr 2025 11:43:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="zqQycXN4"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Vt9CxhJj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8DDE1714B3;
-	Mon, 14 Apr 2025 11:24:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DA31293B62;
+	Mon, 14 Apr 2025 11:43:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744629866; cv=none; b=tTRQJPi/AHm54/+6CzGjO9/2klgsRzaUPr43IBKA7Mn4yfYXBBoOgwwe+3VR5E8Eab/HTUwLwj8K3SyoOvIxi27CiD1HG6iMif4uG7BVRF6foie/VsLEh3tr9qlWfywjah5cLi5zwXaOBINi3/+a8ljjy8Hy3Fkczj+9TPEEOVw=
+	t=1744630993; cv=none; b=PyxDAYVBYDh9EwuOS5dwpevPgsv1myBmIXyiZLUvEFcPPWfetumT8MkegWg95TiCxl+K+z5Vo/SF25ZY8UZxroQeIyFqIHCz0sIqgYh6LMkGwoeH1TdJHTbs78HNkuDM0qZRWPslEmsWIDqySha2QxPvE/wFoEXIbsVMZXxQb/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744629866; c=relaxed/simple;
-	bh=6B9LS5FMKeroy4YwHf6g4K6gImyW3sjxZYik20ncOB8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SQClix+XCDmR6oUXma0w+5KKWSop/Ssh55g0DjVoK3IlwTXGiFlgZcxDY/H8fsb7h6uKK1/8agbFxt13k002Ln1H393Ls8Bj8oNtK+eo2oA0G+Q685UPl91g4nNxl1NdR9amRui9PAxB1ecjqqgyVMYr/HqdeGRjGNZLmy46jEk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=zqQycXN4; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=KlO9Sk4hejiVYyH+invLfYMYpcyc09MHVxHMPbyfzU4=; b=zqQycXN450Ypn3ETQ6T4HLhL/w
-	uS1ayxj32deBuCXN2M+pZRKAAJq8wVyritpiF5QpZBR9QdveTF0b2EZzKNrorl0srfWp1Nvj6m4hb
-	I18iiUXRGNr4WRV863QDReIcHv+tBdjvFFXYzc/6pbRh+4+F0eFhliIQig7N9TWn5NSIFidkdoz0f
-	Vc+5KaHOZm1eDT8JP1WMsPiVY3zV0LlHI6Y1ev4f20rG47Rn2QIRts19cNU+h0YjpkG80RyZy1bft
-	5GN6LrmqEc2I4MG7WPGu27vq/sG02rvRmanctdCL8YZKdyHZ41PuA2h3vFabIfN8/vmebg6mIV3Uv
-	of9xo2Cg==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4HvJ-00000001kmE-3jAQ;
-	Mon, 14 Apr 2025 11:24:21 +0000
-Date: Mon, 14 Apr 2025 04:24:21 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Cc: Christoph Hellwig <hch@infradead.org>,
-	Bastien Curutchet <bastien.curutchet@bootlin.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] uio/dma-buf: Give UIO users access to DMA addresses.
-Message-ID: <Z_zwZYBO5Txz6lDF@infradead.org>
-References: <20250410-uio-dma-v1-0-6468ace2c786@bootlin.com>
- <Z_yjNgY3dVnA5OVz@infradead.org>
- <20250414102455.03331c0f@windsurf>
+	s=arc-20240116; t=1744630993; c=relaxed/simple;
+	bh=FYKvrynLsDaxZBstU34tOoBLrmrnzq8eiLT9NiQLpNM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=KZFea2DrE+iX+QKRFKhvAjIKUuq8GeOYmVNQHydA6kmcJsGd2DJkkTTeXlZrjOlESv0Bq+3NF5T0B51wZ+ZoAapN+J6vJ2NhNfip/j3PbOtcE6UyXzBpKCuhyBUTRxM9FpDgYbP8EN0O9mIZqRWBE16hWIS1C4q8/Tc7H6gNNc0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Vt9CxhJj; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c31:2dc0:c767:bd08:cc70:b57a])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 840A6502;
+	Mon, 14 Apr 2025 13:41:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1744630868;
+	bh=FYKvrynLsDaxZBstU34tOoBLrmrnzq8eiLT9NiQLpNM=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Vt9CxhJjUp384eX0SE9lh7JywyHooJ6NoM8Bzui049UY6kiVMnaLaMcBI0JROIQz5
+	 6Vqvd1o9FMNLFTkilpRtjDNcwm8/NJ3PvNgL0nCzXAtbZtJf8/WkPxeChKuVibOUGA
+	 Ds1dpassjjLaDuS10yrOpwsh0NatFstXcxmT8pxs=
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Subject: [PATCH v4 0/2] media: rockchip: rkisp1: Add support for WDR and
+ AWB64
+Date: Mon, 14 Apr 2025 17:12:11 +0530
+Message-Id: <20250414-awb64-v4-0-bfaea506cbd0@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250414102455.03331c0f@windsurf>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJP0/GcC/3XMQQ6CMBCF4auYrq3pDC0FV97DuGhhkC6kpjVVQ
+ 7i7hQRNjC7fZL5/ZJGCo8j2m5EFSi46P+QhtxvW9GY4E3dt3gwFSsBCcHO3peS6Ri1EXREoYvn
+ 3Gqhzj6VzPOXdu3jz4blkE8zX70ICDhy1FUSl6pSCg2vJRD9Yb0K7a/yFzaGEK1YC4I0xYwFWd
+ 1ZqkKX6g4sPRlQrLnjudFhbQAEkqx94mqYX/sIG7RsBAAA=
+X-Change-ID: 20241230-awb64-79270098e15e
+To: Dafna Hirschfeld <dafna@fastmail.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Heiko Stuebner <heiko@sntech.de>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ Stefan Klug <stefan.klug@ideasonboard.com>, 
+ Jai Luthra <jai.luthra@ideasonboard.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2309;
+ i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
+ bh=FYKvrynLsDaxZBstU34tOoBLrmrnzq8eiLT9NiQLpNM=;
+ b=owEBbQKS/ZANAwAIAUPekfkkmnFFAcsmYgBn/PTHLnQUsCSzjRwBWU2Y1/b+qWlo0gSSQAD8e
+ KjbIjPClf2JAjMEAAEIAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCZ/z0xwAKCRBD3pH5JJpx
+ RfNdD/0X+Nb1A930CAE3wd2x3UK3vb76iVoM/SIoDZwcxuJ/JrNWLEWC7vbo/lzID8SYNAQON4Y
+ lrGYzX+XbFvz/Z90oLM/y+6Lnw+TPkkQqhxpPNpHT7NWv9DvtfTOJ6hfqLdjLaci/MdXcl5Bl0j
+ bpV154zUtIVBdKbsdre5JSLmDLbj5mc6vo+u//P6oNal6eiR4YcNWt2zdSesKxvI3pKMNu31847
+ 8ianIc/OnJt9jI5a1XzjWqxvmm5rGpKTKFUtmSNJKRmBiBJFe+btxWmpitvfYE7ovBHUTbd69EI
+ 2Tx694nKfUF5ou0Jk2WLMKRBsQijJUtp8aY4MpflZJhzZo7YDPn2zn8tnbyENtGIcpvLgFBbA/T
+ VlvRZdSvrGhPOAo9CAPi4fHWtVnDGekIpyO25rH3KE2gXA61RKyiUzwk7xqA9kunGlyKSbUx4jg
+ hmRTvNQBkiTocs9O2l9DZxY4QfeAtqaHXc3gaUd8SmFYsRDdYLFhuM9bXR2FuMnXaXIOogbZNKX
+ cWLaPqy5vqKkqj6QXUpO0sC8dWpKF5P2wiVm7t7Mea6/gRYL3P+AhGCFijq9iUew2dqnQWs7jcY
+ r/CEjE+ydcFhNAihHV6PFTGs7tomh4ItQSyxOH5j64++Zostud6Wixr2ZHPIGYAYf5Ox50Sz56C
+ gtQZk7JRrR+ov6Q==
+X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
+ fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
-On Mon, Apr 14, 2025 at 10:24:55AM +0200, Thomas Petazzoni wrote:
-> What this patch series is about is to add new user-space interface to
-> extend the existing UIO subsystem.
+Add support for Wide Dynamic Range and Auto White Balance 64 modules of
+the ISP.
 
-Which as I explained to you is fundamentally broken and unsafe.  If you
-need to do DMA from userspae you need to use vfio/iommufd.
+This series is in continuation of the v2 posted earlier that enabled
+only AWB64. We add a new patch enabling WDR, and rebase the AWB64
+patch on top of it, as WDR is a simpler module which is present across
+different variants of the ISP.
 
-> I am not sure how this can work in our use-case. We have a very simple
-> set of IP blocks implemented in a FPGA, some of those IP blocks are
-> able to perform DMA operations. The register of those IP blocks are
-> mapped into a user-space application using the existing, accepted
-> upstream, UIO subsystem. Some of those registers allow to program DMA
-> transfers. So far, we can do all what we need, except program those DMA
-> transfers. Lots of people are having the same issue, and zillions of
-> ugly out-of-tree solutions flourish all over, and we're trying to see
-> if we can constructively find a solution that would be acceptable
-> upstream to resolve this use-case. Our platform is an old PowerPC with
-> no IOMMU.
+Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+---
+Changes in v4:
+- Rebase on v6.15-rc1
+- Address Laurent's review comments on WDR patch
+- Link to v3: https://lore.kernel.org/r/20250225-awb64-v3-0-af29b1201e48@ideasonboard.com
 
-Then your driver design can't work and you need to replace it with a
-proper in-kernel driver.
+Changes in v3:
+- Add a new patch that enables support for WDR module, and rebase AWB64
+  support on top of it
+- Document the fractional bits used for AWB64 configuration parameters
+- Link to v2: https://lore.kernel.org/r/20250110-awb64-v2-1-01b7fb471465@ideasonboard.com
+
+Changes in v2:
+- Fix register offsets
+- Drop the _v10 suffix from awb64 functions
+- Combine the min and max for R, G, B components into a single value in
+  the struct
+- Move all the configuration except IRQ and module enable in the
+  meas_config() routine, making sure the bool bits are cleared if
+  userspace updates the struct
+- Fix documentation and indent at various places
+- Create a single function for getting both AWB and AWB64 stats for
+  IMX8MP
+- Rename accumulator fields to only specify RGB and not YUV, as AWB64
+  block does not operate on YUV colorspace
+- Link to v1: https://lore.kernel.org/r/20241230-awb64-v1-1-27b0ee65f551@ideasonboard.com
+
+---
+Jai Luthra (2):
+      media: rockchip: rkisp1: Add support for Wide Dynamic Range
+      media: rockchip: rkisp1: Add support for AWB64
+
+ .../media/platform/rockchip/rkisp1/rkisp1-common.h |   2 +
+ .../media/platform/rockchip/rkisp1/rkisp1-dev.c    |   3 +-
+ .../media/platform/rockchip/rkisp1/rkisp1-params.c | 213 +++++++++++++++++++++
+ .../media/platform/rockchip/rkisp1/rkisp1-regs.h   | 140 +++++++-------
+ .../media/platform/rockchip/rkisp1/rkisp1-stats.c  |  40 ++++
+ include/uapi/linux/rkisp1-config.h                 | 208 ++++++++++++++++++++
+ 6 files changed, 531 insertions(+), 75 deletions(-)
+---
+base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+change-id: 20241230-awb64-79270098e15e
+
+Best regards,
+-- 
+Jai Luthra <jai.luthra@ideasonboard.com>
 
 
