@@ -1,326 +1,278 @@
-Return-Path: <linux-media+bounces-30197-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30198-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FE38A88D38
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 22:36:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9138BA88D40
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 22:41:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D9AB23A6476
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 20:36:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 484BD3B1ED0
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 20:41:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2901D1E520D;
-	Mon, 14 Apr 2025 20:36:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D94691E1DEF;
+	Mon, 14 Apr 2025 20:41:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b="rmGH6Xyb"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="UAIQzvJJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from www637.your-server.de (www637.your-server.de [168.119.26.117])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC6DDDC3;
-	Mon, 14 Apr 2025 20:36:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.26.117
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744662995; cv=none; b=Tz/JYO9c0eVDJvhibTPdy+hNKnnMh9VAhLTwHlOidyRqGin5QsphZrqtVVl9xZO18Isn/OkyBw5OGqNzSZF0xIn1DlsMNFObZksWfFoPj9UiT7fqM5l4o2duxv2z/OhXAfnp9/89ZrRS6agvEmJQ+YHRojOYNEmhSpQE4qNK0+c=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744662995; c=relaxed/simple;
-	bh=H3AlfWc4HckikePy1/xy0xWTAGiqVTou0EoOHD2VbyY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=L2rGw56vFi9jqr63GqDSQwFbRcg5FopIMfAG4FAzIjYsJhIKzVNo43gxS5wJ2bshLbeQ5DdVrojAFY+ZFJVBR2E0nid8lBdhTWE/G9JSNKWkkYZxXjRYMJ4f1xPbkWNRbFqHYVa8I4lxRbZieehdSiJkHlbazdVp+K/0mI5Cdms=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b=rmGH6Xyb; arc=none smtp.client-ip=168.119.26.117
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=apitzsch.eu
-	; s=default2410; h=MIME-Version:Content-Transfer-Encoding:Content-Type:
-	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=zW7oKL0wQmrcu03UddL03xW7nNuPlUCo3FfX9tH6gX8=; b=rmGH6XybWFqiNCYXDN0aGMTR7d
-	sZPnrWqQDdi55fd1ktRwLOz6FSbGdMUO69FdDrbDEP5GHFfg0837VAxonvWUL4Htxk7Y9RV3Yg88o
-	JvuXNNpc9p/yWi6QK55SW0AYFYdAeke4C5MLEaSMkEe65bm2oQSjhYK4EYkhguSHty8FHhcM84R7E
-	KZ4ZdHLqHPEaL6TSUx7eX2bml1N4lxkhCu6H0P78vAX9ND6K95l82kfdJn9RTevBiA93t/8m108NV
-	YOzhN0TKg7yMRWD4pCg/TVKPDOojB6AWgv4h4VYPIdYgVvVL+fjNaql2X82CFtgFfYfliMSdz1+65
-	/Mf9svFQ==;
-Received: from sslproxy01.your-server.de ([78.46.139.224])
-	by www637.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <git@apitzsch.eu>)
-	id 1u4QXV-000ApX-0m;
-	Mon, 14 Apr 2025 22:36:21 +0200
-Received: from [92.206.190.59] (helo=framework.lan)
-	by sslproxy01.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <git@apitzsch.eu>)
-	id 1u4QXU-0008F8-36;
-	Mon, 14 Apr 2025 22:36:21 +0200
-Message-ID: <589344c6d63f6dfef39e85c65f8142d0e23046ce.camel@apitzsch.eu>
-Subject: Re: [PATCH RESEND 0/4] media: i2c: imx214: Problem with CCS PLL
- calculator
-From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Ricardo Ribalda <ribalda@kernel.org>, Mauro Carvalho Chehab
-	 <mchehab@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht, 
-	phone-devel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Mon, 14 Apr 2025 22:36:19 +0200
-In-Reply-To: <29677b7d5ceb07693d0b530c88a5aa9bde6c04dd.camel@apitzsch.eu>
-References: <20250308-imx214_clk_freq-v1-0-467a4c083c35@apitzsch.eu>
-			 <Z87I2xh0HY-YD_tZ@kekkonen.localdomain>
-		 <4c62bb9d5575e9075b39500917e09687d37cf7ca.camel@apitzsch.eu>
-	 <29677b7d5ceb07693d0b530c88a5aa9bde6c04dd.camel@apitzsch.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434B31D86F6;
+	Mon, 14 Apr 2025 20:41:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744663310; cv=pass; b=tSuvSV4iA52oANJWN1sHkamtjWszvIotaIxg/ebtfZ8JgNgLjsuQQWkajpHsbT1+YjazQFL2bXn9W6fiWGJXG8CsAF4dB+hZRl1Qvhws4KkT/0ZYiG3RwdOU3EF58kdL+MBvQcF8vLUFtt94AnADGrYdBIoiI4hnduquYMFYMhU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744663310; c=relaxed/simple;
+	bh=crI4XtKwTx1vUE7XW/8EiEGIw7EhIC6CCXobTK3D9/E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uL0Saq6Q2BLSHrdNQnODbyw9m93t2LqSpn8Y5g6zDtdX0E7FWlIm6T83OM7PIA4+mYz7DCbKS+PVUBb6HmvG67wO+XS2L7yh1avuXk381mGbItBGKmONc9L5BqnHLSm7IG4ctbo5VPBiAsonmNoz1GP1IivGr+9yDMAyzl0ZDIo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=UAIQzvJJ; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1744663281; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=e6UB8mD5gBtSx5woyQ8voZo7onCXMwl7LnqS4japMtahy6FD7B9Bk3QgFms8EdOHYwsYuieEyad9Cd6sNTQNr52kWGuU1H4Pkg2PhZAdA1WzKNIJ7BCFXMpyI9VT5ogASoXa/XHpmbYzNihHKeip6jZHVk07XqUu3S8MRGyPk18=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1744663281; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=OwXZu9pVPYrQgdsIt9IN1Gimn7BexONJbVJH5Oqt6kU=; 
+	b=MvK+NOrt1jURE16fDPhQE7Ux+J7h0P9jxYmF9GTGiyhPCbfK3CSjYjPizBAovtCBfyeSZnRzbYBlSSP+YTnj4id6g24DZTBot1LVwRsfBckMJhDyZN+VyaBgkiX1gunZvBd+DlLlti4NHAP3p71qc0v4iLHlONoG5z7qM+4wVGY=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
+	dmarc=pass header.from=<adrian.larumbe@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744663281;
+	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
+	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
+	bh=OwXZu9pVPYrQgdsIt9IN1Gimn7BexONJbVJH5Oqt6kU=;
+	b=UAIQzvJJPkFVGkybmi3ZORvY1IIHXlA5OiFC4npFDmxob5X5p3jcyy2mnb4DIq7c
+	08azyExoLsGiwYCLtirtOALATpyY1n5FNuW8KxnkRwNH98Z/exaiGyYgY1UF1Ibwh1s
+	7OKbs3qdJl6UlGeKmzOx5UJamY7q8MVjIdSqmuAE=
+Received: by mx.zohomail.com with SMTPS id 174466327828126.87847580144978;
+	Mon, 14 Apr 2025 13:41:18 -0700 (PDT)
+Date: Mon, 14 Apr 2025 21:41:13 +0100
+From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
+To: Steven Price <steven.price@arm.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
+	Liviu Dudau <liviu.dudau@arm.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	kernel@collabora.com, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v7 2/4] drm/panthor: Add driver IOCTL for setting BO
+ labels
+Message-ID: <oc7nqx5gxrefaphpoyn7tsyhj2zcpbhwuxnhlgxtp6exet2ebz@wve2rz376pf4>
+References: <20250411150357.3308921-1-adrian.larumbe@collabora.com>
+ <20250411150357.3308921-3-adrian.larumbe@collabora.com>
+ <6d67aff0-7082-4966-acb2-d7985820b3ea@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Authenticated-Sender: andre@apitzsch.eu
-X-Virus-Scanned: Clear (ClamAV 1.0.7/27608/Mon Apr 14 10:34:28 2025)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6d67aff0-7082-4966-acb2-d7985820b3ea@arm.com>
 
-Am Montag, dem 07.04.2025 um 21:10 +0200 schrieb Andr=C3=A9 Apitzsch:
-> Am Montag, dem 10.03.2025 um 23:35 +0100 schrieb Andr=C3=A9 Apitzsch:
-> > Hi Sakari,
-> >=20
-> > Am Montag, dem 10.03.2025 um 11:11 +0000 schrieb Sakari Ailus:
-> > > Hi Andr=C3=A9,
-> > >=20
-> > > On Sat, Mar 08, 2025 at 10:47:54PM +0100, Andr=C3=A9 Apitzsch via B4
-> > > Relay
-> > > wrote:
-> > > > The imx214 driver currently supports only a 24MHz external
-> > > > clock.
-> > > > But
-> > > > there are devices, like Qualcomm-MSM8916-based phones, which
-> > > > cannot
-> > > > provide this frequency. To make the sensor usable by those
-> > > > devices,
-> > > > add
-> > > > support for 23.88MHz clock.
-> > > >=20
-> > > > Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
-> > > > ---
-> > > > Andr=C3=A9 Apitzsch (4):
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Calculate link b=
-it rate from clock
-> > > > frequency
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Prepare for vari=
-able clock frequency
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Read clock frequ=
-ency from device tree
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Add support for =
-23.88MHz clock
-> > > >=20
-> > > > =C2=A0drivers/media/i2c/imx214.c | 188
-> > > > +++++++++++++++++++++++++++++++++++----------
-> > > > =C2=A01 file changed, 146 insertions(+), 42 deletions(-)
-> > >=20
-> > > Thanks for the patches.
-> > >=20
-> > > Do you think the driver could use the CCS PLL calculator? The PLL
-> > > appears to be compliant. The AR0234 driver will do the same. (The
-> > > sensor might just work with the CCS driver, too, but that's
-> > > another
-> > > discussion.)
-> > >=20
-> > Using the CCS PLL calculator seems quite complicated compared to
-> > switching to the CCS driver. That's why I looked at the later
-> > first.
-> > But for it to work, quirks already need to be applied in
-> > ccs_power_on(), to disable writing to COMPRESSION_MODE, and in
-> > ccs_identify_module(), to change the MODULE_MANUFACTURER_ID
-> > register.
-> >=20
-> > I'll check if CCS PLL calculator could be used.
-> >=20
-> > Best regards,
-> > Andr=C3=A9
->=20
-> Hi Sakari,
->=20
-> the CCS PLL calculator seems to work (up to one problem) and to be a
-> more elegant way forward.
-> The problem is, that the pixel rate is too small by a factor of 10
-> and I cannot figure out why. Any help would be appreciated.
->=20
-> My devices uses a clock-frequency of 24000000 and a link-frequency of
-> 600000000. There are four data lanes.
-> The calculator returns a pixel rate of 480.000.000. The expected
-> value is 4800.000.000.
+On 14.04.2025 11:01, Steven Price wrote:
+> On 11/04/2025 16:03, Adrián Larumbe wrote:
+> > Allow UM to label a BO for which it possesses a DRM handle.
+> >
+> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+> > Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+> > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+>
+> Reviewed-by: Steven Price <steven.price@arm.com>
+>
+> Although very minor NITs below which you can consider.
+>
+> > ---
+> >  drivers/gpu/drm/panthor/panthor_drv.c | 42 ++++++++++++++++++++++++++-
+> >  drivers/gpu/drm/panthor/panthor_gem.h |  2 ++
+> >  include/uapi/drm/panthor_drm.h        | 23 +++++++++++++++
+> >  3 files changed, 66 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+> > index 06fe46e32073..983b24f1236c 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_drv.c
+> > +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+> > @@ -1331,6 +1331,44 @@ static int panthor_ioctl_vm_get_state(struct drm_device *ddev, void *data,
+> >  	return 0;
+> >  }
+> >
+> > +static int panthor_ioctl_bo_set_label(struct drm_device *ddev, void *data,
+> > +				  struct drm_file *file)
+> > +{
+> > +	struct drm_panthor_bo_set_label *args = data;
+> > +	struct drm_gem_object *obj;
+> > +	const char *label;
+> > +	int ret = 0;
+> > +
+> > +	obj = drm_gem_object_lookup(file, args->handle);
+> > +	if (!obj)
+> > +		return -ENOENT;
+> > +
+> > +	if (args->size && args->label) {
+> > +		if (args->size > PANTHOR_BO_LABEL_MAXLEN) {
+> > +			ret = -E2BIG;
+> > +			goto err_label;
+> > +		}
+> > +
+> > +		label = strndup_user(u64_to_user_ptr(args->label), args->size);
+> > +		if (IS_ERR(label)) {
+> > +			ret = PTR_ERR(label);
+> > +			goto err_label;
+> > +		}
+> > +	} else if (args->size && !args->label) {
+> > +		ret = -EINVAL;
+> > +		goto err_label;
+> > +	} else {
+> > +		label = NULL;
+> > +	}
+> > +
+> > +	panthor_gem_bo_set_label(obj, label);
+> > +
+> > +err_label:
+> > +	drm_gem_object_put(obj);
+> > +
+> > +	return ret;
+> > +}
+> > +
+> >  static int
+> >  panthor_open(struct drm_device *ddev, struct drm_file *file)
+> >  {
+> > @@ -1400,6 +1438,7 @@ static const struct drm_ioctl_desc panthor_drm_driver_ioctls[] = {
+> >  	PANTHOR_IOCTL(TILER_HEAP_CREATE, tiler_heap_create, DRM_RENDER_ALLOW),
+> >  	PANTHOR_IOCTL(TILER_HEAP_DESTROY, tiler_heap_destroy, DRM_RENDER_ALLOW),
+> >  	PANTHOR_IOCTL(GROUP_SUBMIT, group_submit, DRM_RENDER_ALLOW),
+> > +	PANTHOR_IOCTL(BO_SET_LABEL, bo_set_label, DRM_RENDER_ALLOW),
+> >  };
+> >
+> >  static int panthor_mmap(struct file *filp, struct vm_area_struct *vma)
+> > @@ -1509,6 +1548,7 @@ static void panthor_debugfs_init(struct drm_minor *minor)
+> >   * - 1.2 - adds DEV_QUERY_GROUP_PRIORITIES_INFO query
+> >   *       - adds PANTHOR_GROUP_PRIORITY_REALTIME priority
+> >   * - 1.3 - adds DRM_PANTHOR_GROUP_STATE_INNOCENT flag
+> > + * - 1.4 - adds DRM_IOCTL_PANTHOR_BO_SET_LABEL ioctl
+> >   */
+> >  static const struct drm_driver panthor_drm_driver = {
+> >  	.driver_features = DRIVER_RENDER | DRIVER_GEM | DRIVER_SYNCOBJ |
+> > @@ -1522,7 +1562,7 @@ static const struct drm_driver panthor_drm_driver = {
+> >  	.name = "panthor",
+> >  	.desc = "Panthor DRM driver",
+> >  	.major = 1,
+> > -	.minor = 3,
+> > +	.minor = 4,
+> >
+> >  	.gem_create_object = panthor_gem_create_object,
+> >  	.gem_prime_import_sg_table = drm_gem_shmem_prime_import_sg_table,
+> > diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+> > index af0d77338860..beba066b4974 100644
+> > --- a/drivers/gpu/drm/panthor/panthor_gem.h
+> > +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+> > @@ -13,6 +13,8 @@
+> >
+> >  struct panthor_vm;
+> >
+> > +#define PANTHOR_BO_LABEL_MAXLEN	PAGE_SIZE
+> > +
+> >  /**
+> >   * struct panthor_gem_object - Driver specific GEM object.
+> >   */
+> > diff --git a/include/uapi/drm/panthor_drm.h b/include/uapi/drm/panthor_drm.h
+> > index 97e2c4510e69..12b1994499a9 100644
+> > --- a/include/uapi/drm/panthor_drm.h
+> > +++ b/include/uapi/drm/panthor_drm.h
+> > @@ -127,6 +127,9 @@ enum drm_panthor_ioctl_id {
+> >
+> >  	/** @DRM_PANTHOR_TILER_HEAP_DESTROY: Destroy a tiler heap. */
+> >  	DRM_PANTHOR_TILER_HEAP_DESTROY,
+> > +
+> > +	/** @DRM_PANTHOR_BO_SET_LABEL: Label a BO. */
+> > +	DRM_PANTHOR_BO_SET_LABEL,
+> >  };
+> >
+> >  /**
+> > @@ -977,6 +980,24 @@ struct drm_panthor_tiler_heap_destroy {
+> >  	__u32 pad;
+> >  };
+> >
+> > +/**
+> > + * struct drm_panthor_bo_set_label - Arguments passed to DRM_IOCTL_PANTHOR_BO_SET_LABEL
+> > + */
+> > +struct drm_panthor_bo_set_label {
+> > +	/** @handle: Handle of the buffer object to label. */
+> > +	__u32 handle;
+> > +
+> > +	/**
+> > +	 * @size: Length of the label, including the NULL terminator.
+> > +	 *
+> > +	 * Cannot be greater than the OS page size.
+> > +	 */
+> > +	__u32 size;
+> > +
+> > +	/** @label: User pointer to a NULL-terminated string */
+> > +	__u64 label;
+> > +};
+>
+> First very minor NIT:
+>  * NULL is a pointer, i.e. (void*)0
+>  * NUL is the ASCII code point '\0'.
+> So it's a NUL-terminated string.
 
-Hi,
+Fixed
 
-Everything works as expected.
+> Second NIT: We don't actually need 'size' - since the string is
+> NUL-terminated we can just strndup_user(__user_pointer__, PAGE_SIZE).
+> As things stand we validate that strlen(label) < size <= PAGE_SIZE -
+> which is a little odd (user space might as well just pass PAGE_SIZE
+> rather than calculate the actual length).
 
-For some reason, I assumed the unit of pixel rate to be bits per
-second. But to get the bits per second, the pixel rate needs to be
-multiplied by bits per pixel (here: 10), which gives the expected value
-of 4,800,000,000.
+The snag I see in this approach is that the only way to make sure
+strlen(label) + 1 <= PAGE_SIZE would be doing something like
 
-I'll send my patches in the coming days.
+label = strndup_user(u64_to_user_ptr(args->label), args->size);
+if (strlen(label) + 1 <= PAGE_SIZE) {
+   kfree(label)
+   return -E2BIG;
+}
 
-Best regards,
-Andr=C3=A9
+In the meantime, we've duplicated the string and traversed a whole page
+of bytes, all to be discarded at once.
 
->=20
-> You can find the PLL input parameters in [1] and the generated debug
-> output below.
->=20
-> Best regards,
-> Andr=C3=A9
->=20
-> [1]
-> https://github.com/a-andre/linux/blob/58e10a814985f700579847ac7c99468a65c=
-b55bb/drivers/media/i2c/imx214.c#L1116-L1196
->=20
-> $ dmesg | grep imx
-> [=C2=A0=C2=A0 17.851215] imx214 4-0010: vt_lanes: 4
-> [=C2=A0=C2=A0 17.851245] imx214 4-0010: op_lanes: 4
-> [=C2=A0=C2=A0 17.851254] imx214 4-0010: binning: 1x1
-> [=C2=A0=C2=A0 17.851262] imx214 4-0010: min / max op_pre_pll_clk_div: 1 /=
- 15
-> [=C2=A0=C2=A0 17.851272] imx214 4-0010: pre-pll check: min / max
-> op_pre_pll_clk_div: 1 / 15
-> [=C2=A0=C2=A0 17.851281] imx214 4-0010: mul 50 / div 1
-> [=C2=A0=C2=A0 17.851290] imx214 4-0010: pll_op check: min / max
-> op_pre_pll_clk_div: 1 / 15
-> [=C2=A0=C2=A0 17.851300] imx214 4-0010: op_pre_pll_clk_div 1
-> [=C2=A0=C2=A0 17.851308] imx214 4-0010: more_mul_max: max_op_pll_multipli=
-er
-> check: 24
-> [=C2=A0=C2=A0 17.851317] imx214 4-0010: more_mul_max: max_pll_op_clk_freq=
-_hz
-> check: 1
-> [=C2=A0=C2=A0 17.851325] imx214 4-0010: more_mul_max: max_op_sys_clk_div =
-check:
-> 1
-> [=C2=A0=C2=A0 17.851333] imx214 4-0010: more_mul_max: min_pll_multiplier =
-check:
-> 1
-> [=C2=A0=C2=A0 17.851341] imx214 4-0010: more_mul_min: min_op_pll_op_clk_f=
-req_hz
-> check: 1
-> [=C2=A0=C2=A0 17.851349] imx214 4-0010: more_mul_min: min_op_pll_multipli=
-er
-> check: 1
-> [=C2=A0=C2=A0 17.851357] imx214 4-0010: more_mul_factor: 1
-> [=C2=A0=C2=A0 17.851365] imx214 4-0010: more_mul_factor: min_op_sys_clk_d=
-iv: 1
-> [=C2=A0=C2=A0 17.851373] imx214 4-0010: final more_mul: 1
-> [=C2=A0=C2=A0 17.851381] imx214 4-0010: op_sys_clk_div: 1
-> [=C2=A0=C2=A0 17.851389] imx214 4-0010: op_pix_clk_div: 10
-> [=C2=A0=C2=A0 17.851398] imx214 4-0010: min_vt_div: 10
-> [=C2=A0=C2=A0 17.851406] imx214 4-0010: min_vt_div: max_vt_pix_clk_freq_h=
-z: 10
-> [=C2=A0=C2=A0 17.851414] imx214 4-0010: min_vt_div: min_vt_clk_div: 10
-> [=C2=A0=C2=A0 17.851422] imx214 4-0010: max_vt_div: 40
-> [=C2=A0=C2=A0 17.851486] imx214 4-0010: max_vt_div: min_vt_pix_clk_freq_h=
-z: 40
-> [=C2=A0=C2=A0 17.851502] imx214 4-0010: min_sys_div: 2
-> [=C2=A0=C2=A0 17.851510] imx214 4-0010: min_sys_div: max_vt_pix_clk_div: =
-2
-> [=C2=A0=C2=A0 17.851518] imx214 4-0010: min_sys_div: max_pll_op_clk_freq_=
-hz: 2
-> [=C2=A0=C2=A0 17.851526] imx214 4-0010: min_sys_div: one or even: 2
-> [=C2=A0=C2=A0 17.851534] imx214 4-0010: max_sys_div: 4
-> [=C2=A0=C2=A0 17.851541] imx214 4-0010: max_sys_div: min_vt_pix_clk_div: =
-4
-> [=C2=A0=C2=A0 17.851549] imx214 4-0010: max_sys_div: min_vt_pix_clk_freq_=
-hz: 4
-> [=C2=A0=C2=A0 17.851557] imx214 4-0010: pix_div 3 too small or too big (5=
---10)
-> [=C2=A0=C2=A0 17.851568] imx214 4-0010: ext_clk_freq_hz		24000000
-> [=C2=A0=C2=A0 17.851578] imx214 4-0010: vt_pre_pll_clk_div		1
-> [=C2=A0=C2=A0 17.851587] imx214 4-0010: vt_pll_multiplier		50
-> [=C2=A0=C2=A0 17.851595] imx214 4-0010: vt_pll_ip_clk_freq_hz	24000000
-> [=C2=A0=C2=A0 17.851603] imx214 4-0010: vt_pll_op_clk_freq_hz	1200000000
-> [=C2=A0=C2=A0 17.851612] imx214 4-0010: vt_sys_clk_div		2
-> [=C2=A0=C2=A0 17.851620] imx214 4-0010: vt_pix_clk_div		5
-> [=C2=A0=C2=A0 17.851629] imx214 4-0010: vt_sys_clk_freq_hz	600000000
-> [=C2=A0=C2=A0 17.851637] imx214 4-0010: vt_pix_clk_freq_hz	120000000
-> [=C2=A0=C2=A0 17.851645] imx214 4-0010: op_sys_clk_div		1
-> [=C2=A0=C2=A0 17.851653] imx214 4-0010: op_pix_clk_div		10
-> [=C2=A0=C2=A0 17.851661] imx214 4-0010: op_sys_clk_freq_hz	1200000000
-> [=C2=A0=C2=A0 17.851669] imx214 4-0010: op_pix_clk_freq_hz	120000000
-> [=C2=A0=C2=A0 17.851677] imx214 4-0010: pixel rate in pixel
-> array:	480000000
-> [=C2=A0=C2=A0 17.851685] imx214 4-0010: pixel rate on CSI-2 bus:	48000000=
-0
-> [=C2=A0=C2=A0 17.851694] imx214 4-0010: flags lane-speed
-> [=C2=A0=C2=A0 17.869313] imx214 4-0010: vt_lanes: 4
-> [=C2=A0=C2=A0 17.869342] imx214 4-0010: op_lanes: 4
-> [=C2=A0=C2=A0 17.869352] imx214 4-0010: binning: 1x1
-> [=C2=A0=C2=A0 17.869361] imx214 4-0010: min / max op_pre_pll_clk_div: 1 /=
- 15
-> [=C2=A0=C2=A0 17.869372] imx214 4-0010: pre-pll check: min / max
-> op_pre_pll_clk_div: 1 / 15
-> [=C2=A0=C2=A0 17.869382] imx214 4-0010: mul 50 / div 1
-> [=C2=A0=C2=A0 17.869391] imx214 4-0010: pll_op check: min / max
-> op_pre_pll_clk_div: 1 / 15
-> [=C2=A0=C2=A0 17.869400] imx214 4-0010: op_pre_pll_clk_div 1
-> [=C2=A0=C2=A0 17.869409] imx214 4-0010: more_mul_max: max_op_pll_multipli=
-er
-> check: 24
-> [=C2=A0=C2=A0 17.869417] imx214 4-0010: more_mul_max: max_pll_op_clk_freq=
-_hz
-> check: 1
-> [=C2=A0=C2=A0 17.869426] imx214 4-0010: more_mul_max: max_op_sys_clk_div =
-check:
-> 1
-> [=C2=A0=C2=A0 17.869435] imx214 4-0010: more_mul_max: min_pll_multiplier =
-check:
-> 1
-> [=C2=A0=C2=A0 17.869443] imx214 4-0010: more_mul_min: min_op_pll_op_clk_f=
-req_hz
-> check: 1
-> [=C2=A0=C2=A0 17.869451] imx214 4-0010: more_mul_min: min_op_pll_multipli=
-er
-> check: 1
-> [=C2=A0=C2=A0 17.869460] imx214 4-0010: more_mul_factor: 1
-> [=C2=A0=C2=A0 17.869468] imx214 4-0010: more_mul_factor: min_op_sys_clk_d=
-iv: 1
-> [=C2=A0=C2=A0 17.869476] imx214 4-0010: final more_mul: 1
-> [=C2=A0=C2=A0 17.869483] imx214 4-0010: op_sys_clk_div: 1
-> [=C2=A0=C2=A0 17.869491] imx214 4-0010: op_pix_clk_div: 10
-> [=C2=A0=C2=A0 17.869501] imx214 4-0010: min_vt_div: 10
-> [=C2=A0=C2=A0 17.869509] imx214 4-0010: min_vt_div: max_vt_pix_clk_freq_h=
-z: 10
-> [=C2=A0=C2=A0 17.869517] imx214 4-0010: min_vt_div: min_vt_clk_div: 10
-> [=C2=A0=C2=A0 17.869525] imx214 4-0010: max_vt_div: 40
-> [=C2=A0=C2=A0 17.869533] imx214 4-0010: max_vt_div: min_vt_pix_clk_freq_h=
-z: 40
-> [=C2=A0=C2=A0 17.869541] imx214 4-0010: min_sys_div: 2
-> [=C2=A0=C2=A0 17.869549] imx214 4-0010: min_sys_div: max_vt_pix_clk_div: =
-2
-> [=C2=A0=C2=A0 17.869557] imx214 4-0010: min_sys_div: max_pll_op_clk_freq_=
-hz: 2
-> [=C2=A0=C2=A0 17.869565] imx214 4-0010: min_sys_div: one or even: 2
-> [=C2=A0=C2=A0 17.869572] imx214 4-0010: max_sys_div: 4
-> [=C2=A0=C2=A0 17.869580] imx214 4-0010: max_sys_div: min_vt_pix_clk_div: =
-4
-> [=C2=A0=C2=A0 17.869588] imx214 4-0010: max_sys_div: min_vt_pix_clk_freq_=
-hz: 4
-> [=C2=A0=C2=A0 17.869596] imx214 4-0010: pix_div 3 too small or too big (5=
---10)
-> [=C2=A0=C2=A0 17.869607] imx214 4-0010: ext_clk_freq_hz		24000000
-> [=C2=A0=C2=A0 17.869616] imx214 4-0010: vt_pre_pll_clk_div		1
-> [=C2=A0=C2=A0 17.869624] imx214 4-0010: vt_pll_multiplier		50
-> [=C2=A0=C2=A0 17.869633] imx214 4-0010: vt_pll_ip_clk_freq_hz	24000000
-> [=C2=A0=C2=A0 17.869642] imx214 4-0010: vt_pll_op_clk_freq_hz	1200000000
-> [=C2=A0=C2=A0 17.869651] imx214 4-0010: vt_sys_clk_div		2
-> [=C2=A0=C2=A0 17.869659] imx214 4-0010: vt_pix_clk_div		5
-> [=C2=A0=C2=A0 17.869667] imx214 4-0010: vt_sys_clk_freq_hz	600000000
-> [=C2=A0=C2=A0 17.869675] imx214 4-0010: vt_pix_clk_freq_hz	120000000
-> [=C2=A0=C2=A0 17.869684] imx214 4-0010: op_sys_clk_div		1
-> [=C2=A0=C2=A0 17.869692] imx214 4-0010: op_pix_clk_div		10
-> [=C2=A0=C2=A0 17.869699] imx214 4-0010: op_sys_clk_freq_hz	1200000000
-> [=C2=A0=C2=A0 17.869707] imx214 4-0010: op_pix_clk_freq_hz	120000000
-> [=C2=A0=C2=A0 17.869716] imx214 4-0010: pixel rate in pixel
-> array:	480000000
-> [=C2=A0=C2=A0 17.869724] imx214 4-0010: pixel rate on CSI-2 bus:	48000000=
-0
-> [=C2=A0=C2=A0 17.869732] imx214 4-0010: flags lane-speed
+In this case, I think it's alright to expect some cooperation from UM
+in supplying the actual size, although I'm really not an expert in
+designing elegant uAPIs, so if you think this looks very odd I'd be
+glad to replace it with.
+
+Actually, as I was writing this, I realised that strndup_user() calls
+strnlen_user(), which is publicly available for other drivers, so
+I might check the length first, and if it falls within bounds, do
+the actual user stringdup.
+
+I shall also mention the size bound on the uAPI for the 'label' pointer.
+
+> Thanks,
+> Steve
+>
+> +
+>  /**
+>   * DRM_IOCTL_PANTHOR() - Build a Panthor IOCTL number
+>   * @__access: Access type. Must be R, W or RW.
+> @@ -1019,6 +1040,8 @@ enum {
+>  		DRM_IOCTL_PANTHOR(WR, TILER_HEAP_CREATE, tiler_heap_create),
+>  	DRM_IOCTL_PANTHOR_TILER_HEAP_DESTROY =
+>  		DRM_IOCTL_PANTHOR(WR, TILER_HEAP_DESTROY, tiler_heap_destroy),
+> +	DRM_IOCTL_PANTHOR_BO_SET_LABEL =
+> +		DRM_IOCTL_PANTHOR(WR, BO_SET_LABEL, bo_set_label),
+>  };
+>
+>  #if defined(__cplusplus)
+
+
+Adrian Larumbe
 
