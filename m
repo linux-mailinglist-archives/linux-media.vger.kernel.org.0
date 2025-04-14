@@ -1,148 +1,117 @@
-Return-Path: <linux-media+bounces-30171-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30170-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2FEEA882F7
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 15:48:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABEAAA88302
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 15:49:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A819A188D992
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 13:45:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 44C773BF698
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 13:43:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A77B299628;
-	Mon, 14 Apr 2025 13:29:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3A3B27B4FF;
+	Mon, 14 Apr 2025 13:28:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iVXAXUee"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="jd9WLyX8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BF342E3375;
-	Mon, 14 Apr 2025 13:29:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC6312957CD;
+	Mon, 14 Apr 2025 13:28:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744637358; cv=none; b=TfOkJcQ3Nv3uHESfyU7dL15Q+YbuC9ifG8rUaejqJOkjnP2c68f7Eg/02cZwrMUFPtusx51yziuz9uFEB14Ts339M18NfjWS/GsX4F5eT8mBG6tgN00pes6atpYmRmPmn3+aCMrVX69yjUp4WTAKUtzI1YJ1CkoA0XH0ZHr6de0=
+	t=1744637336; cv=none; b=fM6TcYLLaU0QP28AhSJizI12c6zCvH2Jzq4WDwnPc373/VIAAHr+I/tgBP+TWIpj5Ao7C/p1teOKO1msEJ3OrdWlLYaBPXIrcceuyPSXkEOh6awoaKeJfjHKeNDWN3SWuyb9948PPK4k7inF5Lo9hxF1k+/J9FrMFp5+VeELQqw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744637358; c=relaxed/simple;
-	bh=c4bb7948CzGoj3oK8R1FhfxFgh0zTsJGIPCWe8mgqO0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oTWxKzSXHBghzVPF3SPId5HqilmIyeXc21RiU3f/gZ7gD2kSDbJjnKx6hQ0u4Xt+sf+wAeI1PA5pPxm8kW3SN6v0OBau5Dv1WuX/yfzW+p+IxQAq3PzJFiV+RT14w2zRtH1d8va0qkyMbN+Z3Fb2cYFOmgmt4ewHS/UDMHw8CGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iVXAXUee; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85F4DC4CEE2;
-	Mon, 14 Apr 2025 13:29:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744637357;
-	bh=c4bb7948CzGoj3oK8R1FhfxFgh0zTsJGIPCWe8mgqO0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iVXAXUeeFIpbuFrX1dt9n5owMHjvrN0THlc3RDTVhG/9QhBg7NlJOD8mxsnDigNar
-	 JBWor0hZC+yxq4jVix51Y2dWZqkBwdNiPELjU1U4sBWQ6tTaQkOduj4KISU6M+xNyc
-	 3fG4oF7sNvSRTVmwaWSHO/h4PKbnXAJofj4r8JOrImr7IaKWZdaAyfWISvv1or9ufl
-	 2tXYTOGxPc5g45W+xiWZf/bA8q8YsJ9fkY41lUywjhWtAWErrhMeC+mFU0OeHxV8+b
-	 oXxnw3MKKFeUj30uvFghqMHO0PFGXqtNzm8IJN8PhjO7S8VXcQPfmhz9VN+CejvF+1
-	 gYK6wCc7kI26A==
-From: Sasha Levin <sashal@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Felix Kuehling <felix.kuehling@amd.com>,
-	Pak Nin Lui <pak.lui@amd.com>,
-	Alex Deucher <alexander.deucher@amd.com>,
-	Sasha Levin <sashal@kernel.org>,
-	airlied@gmail.com,
-	simona@ffwll.ch,
-	sumit.semwal@linaro.org,
-	Yunxiang.Li@amd.com,
-	matthew.auld@intel.com,
-	tvrtko.ursulin@igalia.com,
-	amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 6.12 11/30] drm/amdgpu: allow pinning DMA-bufs into VRAM if all importers can do P2P
-Date: Mon, 14 Apr 2025 09:28:28 -0400
-Message-Id: <20250414132848.679855-11-sashal@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250414132848.679855-1-sashal@kernel.org>
-References: <20250414132848.679855-1-sashal@kernel.org>
+	s=arc-20240116; t=1744637336; c=relaxed/simple;
+	bh=6C5Jici+EhLeC4d7iAWY8LbyVL6AZqGWquMhefHINnQ=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=iul95l4yYz8w+owN5j3N7CiXQF0qwWFpn5qxfDNHiliL0oaRntVuq2Pm3VQZxV6XVumbtJ1w7l3YqR4dA6vVeNfWyBqjz9pijKOJrJpQEBJOXqOlAtY6dRXmvILtW0B5D/ykLFdmJWRbypC+GcK7MLBC0ErQi37ymIzvGCwK9A0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=jd9WLyX8; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1744637331;
+	bh=6C5Jici+EhLeC4d7iAWY8LbyVL6AZqGWquMhefHINnQ=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=jd9WLyX895EKUjHfL//CV32DucIcz3vI971IypjJ/VtSZ0bnryE/NwcUE4aA/ntqW
+	 LT7smg2s9M5tcwC1Qq4QNiVPBOLrhnUpSdoC8Z7d8HGtM1qg2cFrwBt58/U2duC8hn
+	 qkkapL95veKTcscEzHUO3+/syZaqUbjh7oPQn8xWloLeq1WkG/88NpHtgOA5bnax6Y
+	 wOcm9HGZigw3XeYvH4t7s35JH1rMKmPtP+0AMZH5cHBGCLaHG6ZSvsytDyg00JjoNj
+	 Ajj7nBcfxoCfFF428trLp8AKC8KwTvGjn6uEodv2xo3g4rDxalqd6R1HGCfziE/Ydq
+	 pUv8dc62tNr3Q==
+Received: from [IPv6:2606:6d00:11:e976::5ac] (unknown [IPv6:2606:6d00:11:e976::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id F347717E017D;
+	Mon, 14 Apr 2025 15:28:49 +0200 (CEST)
+Message-ID: <296144dec19f3aee958dcdae7700e7a7ed38b8ff.camel@collabora.com>
+Subject: Re: [RESEND PATCH v1 0/7] Performance improvement of decoder
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: "jackson.lee" <jackson.lee@chipsnmedia.com>, "mchehab@kernel.org"	
+ <mchehab@kernel.org>, "hverkuil-cisco@xs4all.nl"
+ <hverkuil-cisco@xs4all.nl>,  "bob.beckett@collabora.com"	
+ <bob.beckett@collabora.com>
+Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+ "linux-kernel@vger.kernel.org"	 <linux-kernel@vger.kernel.org>,
+ "lafley.kim" <lafley.kim@chipsnmedia.com>,  "b-brnich@ti.com"	
+ <b-brnich@ti.com>, "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>, Nas Chung	
+ <nas.chung@chipsnmedia.com>
+Date: Mon, 14 Apr 2025 09:28:48 -0400
+In-Reply-To: <SE1P216MB130320F62126A2F02BDB7FB3EDB32@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+References: <20250410034002.88-1-jackson.lee@chipsnmedia.com>
+	 <b11f2cd9706c409775a44db06dd8399193be3758.camel@collabora.com>
+	 <SE1P216MB130320F62126A2F02BDB7FB3EDB32@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
+Organization: Collabora Canada
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-stable: review
-X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.12.23
 Content-Transfer-Encoding: 8bit
 
-From: Christian König <christian.koenig@amd.com>
+Jackson,
 
-[ Upstream commit f5e7fabd1f5c65b2e077efcdb118cfa67eae7311 ]
+Le lundi 14 avril 2025 à 02:04 +0000, jackson.lee a écrit :
+> > > Sequence Change test
+> > > =====================
+> > > gst-launch-1.0 filesrc location=./switch_1080p_720p_240frames.h264 !
+> > > h264parse ! v4l2h264dec ! filesink location=./h264_output_420.yuv
+> > > Setting pipeline to PAUSED ...
+> > > Pipeline is PREROLLING ...
+> > > Redistribute latency...
+> > > Redistribute latency...
+> > > Pipeline is PREROLLED ...
+> > > Setting pipeline to PLAYING ...
+> > > Redistribute latency...
+> > > New clock: GstSystemClock
+> > > Got EOS from element "pipeline0".
+> > > Execution ended after 0:00:05.772414400 Setting pipeline to NULL ...
+> > > Freeing pipeline ...
+> > 
+> > I did a test of my own here, and did get kernel splat. The warning
+> > indicate that the state machine is no longer respected. This needs to be
+> > address in v2, we added these check, since the locking is bound to legal
+> > use of the state machine.
+> 
+> 
+> Since applying the performance patch, device_run and wave5_vpu_dec_finish_decode is not synchronized any more.
+> How about removing this warning message ?
 
-Try pinning into VRAM to allow P2P with RDMA NICs without ODP
-support if all attachments can do P2P. If any attachment can't do
-P2P just pin into GTT instead.
+I would like to understand how it makes sense the we've reached STOP
+state while the HW is still actively decoding. It does not feel robust
+to me, perhaps you want to introduce a new state ? Also, I'm concern
+with overall thread-safety now.
 
-Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Felix Kuehling <felix.kuehling@amd.com>
-Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
-Tested-by: Pak Nin Lui <pak.lui@amd.com>
-Cc: Simona Vetter <simona.vetter@ffwll.ch>
-Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
-Signed-off-by: Sasha Levin <sashal@kernel.org>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 25 +++++++++++++++------
- 1 file changed, 18 insertions(+), 7 deletions(-)
+regards,
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-index 8e81a83d37d84..83390143c2e9f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-@@ -72,11 +72,25 @@ static int amdgpu_dma_buf_attach(struct dma_buf *dmabuf,
-  */
- static int amdgpu_dma_buf_pin(struct dma_buf_attachment *attach)
- {
--	struct drm_gem_object *obj = attach->dmabuf->priv;
--	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
-+	struct dma_buf *dmabuf = attach->dmabuf;
-+	struct amdgpu_bo *bo = gem_to_amdgpu_bo(dmabuf->priv);
-+	u32 domains = bo->preferred_domains;
- 
--	/* pin buffer into GTT */
--	return amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_GTT);
-+	dma_resv_assert_held(dmabuf->resv);
-+
-+	/*
-+	 * Try pinning into VRAM to allow P2P with RDMA NICs without ODP
-+	 * support if all attachments can do P2P. If any attachment can't do
-+	 * P2P just pin into GTT instead.
-+	 */
-+	list_for_each_entry(attach, &dmabuf->attachments, node)
-+		if (!attach->peer2peer)
-+			domains &= ~AMDGPU_GEM_DOMAIN_VRAM;
-+
-+	if (domains & AMDGPU_GEM_DOMAIN_VRAM)
-+		bo->flags |= AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED;
-+
-+	return amdgpu_bo_pin(bo, domains);
- }
- 
- /**
-@@ -131,9 +145,6 @@ static struct sg_table *amdgpu_dma_buf_map(struct dma_buf_attachment *attach,
- 		r = ttm_bo_validate(&bo->tbo, &bo->placement, &ctx);
- 		if (r)
- 			return ERR_PTR(r);
--
--	} else if (bo->tbo.resource->mem_type != TTM_PL_TT) {
--		return ERR_PTR(-EBUSY);
- 	}
- 
- 	switch (bo->tbo.resource->mem_type) {
 -- 
-2.39.5
-
+Nicolas Dufresne
+Principal Engineer at Collabora
 
