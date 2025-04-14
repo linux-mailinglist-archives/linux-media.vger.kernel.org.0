@@ -1,116 +1,122 @@
-Return-Path: <linux-media+bounces-30162-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30163-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CBCBA880AE
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 14:42:54 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62253A880DA
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 14:52:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CF4BF17754E
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 12:42:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C5B81898C85
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 12:52:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 043C02BF3D7;
-	Mon, 14 Apr 2025 12:42:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE0F12BD5B6;
+	Mon, 14 Apr 2025 12:52:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gq18NaZa"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RXLcRBab"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4076A2BE7CD;
-	Mon, 14 Apr 2025 12:42:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A881B4159
+	for <linux-media@vger.kernel.org>; Mon, 14 Apr 2025 12:52:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744634559; cv=none; b=AEuTAYwtYVlj9siHrXYnAqNqomb45pEl43078TR3CImXSvOowYMUdSnWlqG2CT2w76H3vQgGB4ZU3EAXdKB91LkgDWm2Nmyocp9Y/WbC0EjC+ewHYKnfbhKNlIiiodBjdMKspiiyOMaoefBmeWH0tP/1IgOnk/g+DlwUev/lwFo=
+	t=1744635156; cv=none; b=Q4tyWcd+txwmQahGXBSoUokDoOJZDPw5LfIYOcamPhrmEe6Aeb6arZAymu5tjm0jDhVJqj/Q4+5PeQtMASq1BsbomFAkoxz6bH+/NkPy74im1fgOCVv/+GQ0F6D45KP9jyYlbzk7GbOSgeK7Fm7uYPkaMqS5Lp14l2ge0M7q35I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744634559; c=relaxed/simple;
-	bh=GtYw0qEJu+ndi2eFJB6leAOMfQg3UNOm9YY7B4VxYUo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=eak2XoqI6sdW2x1SHDbvg/LAwaaIx/hxZlPCmXwB2rEEbLGkWI/TIywXWX4GZ39/wz+Q/Uck9ANgzTTMts4HAFDRNbqG8US3+O3Vpab15OBAjeUU4+rbNtRBh3YT06DO8JKW+SDfsgssJBytqjl8Q2ZGGl2AW3BBziyU3uGGHo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gq18NaZa; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1744634555;
-	bh=GtYw0qEJu+ndi2eFJB6leAOMfQg3UNOm9YY7B4VxYUo=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=gq18NaZaqYVr7ZXF4mu03IoDJhgyee/P8Zvh5CXL1mQpE2q4T6OfrYKnDt/bHXctJ
-	 3EMXe/j/WuI9SFF+ujYlvHw/1BVpUMgPfHFbW201FMJSxME0UJhd8xRltehAuiN+Yo
-	 d4QW82829AxtQ5BqMjg669OCAtMY4yXrpJIO4Yc0BzlB2rSpVPP99LbgyJXSUKqBeu
-	 2xHSbdB3xM6lr9MJByteCHQiX4F035Gs3DFDCOp1GwPAPotdY3xBxerOomCnOdV8rH
-	 6SLWq2Rz1XNrpwu8qdlmBI7JGu6nKVqfb1rePzwCqj6ZvMxowmLTe2oxa/6XmQj5as
-	 pCY9obsXgt1og==
-Received: from [IPv6:2606:6d00:11:e976::c41] (unknown [IPv6:2606:6d00:11:e976::c41])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 63B1817E1034;
-	Mon, 14 Apr 2025 14:42:33 +0200 (CEST)
-Message-ID: <cffb6a6448a0cb32cc7b13e3048c097b3efc6f93.camel@collabora.com>
-Subject: Re: [PATCH 2/3] mailmap: add entry for Michael Riesch
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: michael.riesch@collabora.com, Mauro Carvalho Chehab
- <mchehab@kernel.org>,  Sakari Ailus <sakari.ailus@linux.intel.com>, Rob
- Herring <robh@kernel.org>, Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Uwe =?ISO-8859-1?Q?Kleine-K=F6nig?=	
- <u.kleine-koenig@pengutronix.de>, Sascha Hauer <s.hauer@pengutronix.de>, 
- Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>
-Cc: Collabora Kernel Team <kernel@collabora.com>, Pengutronix Kernel Team	
- <kernel@pengutronix.de>, imx@lists.linux.dev, linux-kernel@vger.kernel.org,
- 	linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Date: Mon, 14 Apr 2025 08:42:31 -0400
-In-Reply-To: <9f1c7c30082de242b4906e5ecbeb382400fcd4a2.camel@collabora.com>
-References: <20250410-maintainer-mriesch-v1-0-cdc5c6c68238@collabora.com>
-		 <20250410-maintainer-mriesch-v1-2-cdc5c6c68238@collabora.com>
-	 <9f1c7c30082de242b4906e5ecbeb382400fcd4a2.camel@collabora.com>
-Organization: Collabora Canada
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
+	s=arc-20240116; t=1744635156; c=relaxed/simple;
+	bh=SRzMVlNbPKq903nI9tWOf/JWp1j0U7u6e0L3uEsUF/I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AHS7CNHFeXrQwZSAeo2UkrMKRwkIHI99Nq+mOmXBV5Yye/rdFkRVDuK13H6Yao+p1yPXFhqzbP6Kj32eKG3iVTF+Pgu5+jR7OS4sc9yljEaIdpnAKJ5TXqBcx2JJLS7/1Lr7WhDSPTtyFrWLiSfUWjeTmWVBmtaGfeazmCJ+wwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RXLcRBab; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744635155; x=1776171155;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SRzMVlNbPKq903nI9tWOf/JWp1j0U7u6e0L3uEsUF/I=;
+  b=RXLcRBabDbQ01fOKBZShAAzLpaXBQD5NiEkYuXi1roCU5MJoV6OCwOx1
+   eauGrpNCnzcIhXLO6lTqW9uD/B1M/8cL73l6DzXoyE3zF72xWluH+s2CL
+   GCefwB/AtJquCAayrZoNEMOY7sZs5F/+DNX6RPgUh5N5mCFwBaxCYODiI
+   Cre0UZS/LIlCyO00s9SDX0SxrCs8hfK1/NFg7a2zp8LomsoiImya7wYIl
+   lB2psMp/8VZDVjhqfeGT6oMbGvklDZxFfhO+tJzepWsH5ESbyjGrEZqNi
+   AHZCaEM6TWPzuLBLMb0P2l87xgw4ly9aIlK2UazJOtlkayTvKLqmz60ZG
+   g==;
+X-CSE-ConnectionGUID: JUIMqRKQRzy5F2B19UFP4Q==
+X-CSE-MsgGUID: v8dfMA5ET/qp7rhPSBYy4g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="45983109"
+X-IronPort-AV: E=Sophos;i="6.15,212,1739865600"; 
+   d="scan'208";a="45983109"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 05:52:34 -0700
+X-CSE-ConnectionGUID: 5/ZNbR9+R9CcdaUwUR0pKg==
+X-CSE-MsgGUID: jvUkKxsCQ0OBm8MAwgSAeg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,212,1739865600"; 
+   d="scan'208";a="130786824"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 05:52:33 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 0CA7211F871;
+	Mon, 14 Apr 2025 15:52:30 +0300 (EEST)
+Date: Mon, 14 Apr 2025 12:52:29 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Cc: linux-media@vger.kernel.org, Bingbu Cao <bingbu.cao@intel.com>
+Subject: Re: [PATCH 0/7] media: intel/ipu6: continue on ipu7 code sharing
+ preparation
+Message-ID: <Z_0FDdWUhACmBGMj@kekkonen.localdomain>
+References: <20250407134037.808367-1-stanislaw.gruszka@linux.intel.com>
+ <Z_fk_ofTOzsvbRwZ@kekkonen.localdomain>
+ <Z/zfbpSmzCDOW9mo@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z/zfbpSmzCDOW9mo@linux.intel.com>
 
-Le vendredi 11 avril 2025 à 17:25 -0400, Nicolas Dufresne a écrit :
-> Le jeudi 10 avril 2025 à 21:41 +0200, Michael Riesch via B4 Relay a
-> écrit :
-> > From: Michael Riesch <michael.riesch@collabora.com>
+On Mon, Apr 14, 2025 at 12:11:58PM +0200, Stanislaw Gruszka wrote:
+> On Thu, Apr 10, 2025 at 03:34:22PM +0000, Sakari Ailus wrote:
+> > Hi Stanislaw,
 > > 
-> > After five interesting years, I left WolfVision and started to work
-> > for
-> > Collabora. Add a corresponding mailmap entry.
+> > On Mon, Apr 07, 2025 at 03:40:30PM +0200, Stanislaw Gruszka wrote:
+> > > Move and rename more structures to isys.h. Add accessors to make 
+> > > further transformation easier.
+> > > 
+> > > This is on top of:
+> > > https://git.linuxtv.org/sailus/media_tree.git/log/?h=devel
+> > > plus:
+> > > https://lore.kernel.org/linux-media/20250317073856.162147-1-stanislaw.gruszka@linux.intel.com/
+> > > https://lore.kernel.org/linux-media/20250401090953.473339-1-stanislaw.gruszka@linux.intel.com/
+> > > 
+> > > Stanislaw Gruszka (7):
+> > >   media: intel/ipu6: Use isd name in isys.h
+> > >   media: intel/ipu6: Remove line_align
+> > >   media: intel/ipu6: Move common structures definitions to isys.h
+> > >   media: intel/ipu6: Rename common structures
+> > >   media: intel/ipu6: Remove deprecated lock comment
+> > >   media: intel/ipu6: Introduce isys and dev accessors macros
+> > >   media: intel/ipu6: Start using accessors to get dev pointer
 > > 
-> > Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
+> > My main comment to the set is naming. Can we do so that we keep the current
+> > scheme (ipu or ipu-isys prefix, with or without IPU generation number) and
+> > then reconsider this question when the result (hopefully including IPU 7
+> > ISYS support) is in upstream?
 > 
-> Reviewed-by: Nicolas Dufresne <nicolas.collabora@collabora.com>
+> Ok, I'll use ipu_isys_ prefix for functions, structures and some macros.
+> However for some macros I think it would make sense to skip ipu prefix to
+> make the names shorter.
 
-Friday's typo special:
-                                 nicolas.dufresne@collabora.com
+I'd keep it also in macro names, but not necessarily twice as in some cases
+currently.
 
-:-(
-Nicolas
-
-> 
-> > ---
-> >  .mailmap | 1 +
-> >  1 file changed, 1 insertion(+)
-> > 
-> > diff --git a/.mailmap b/.mailmap
-> > index 4f7cd8e23177..59f99aa83185 100644
-> > --- a/.mailmap
-> > +++ b/.mailmap
-> > @@ -503,6 +503,7 @@ Mayuresh Janorkar <mayur@ti.com>
-> >  Md Sadre Alam <quic_mdalam@quicinc.com> <mdalam@codeaurora.org>
-> >  Miaoqing Pan <quic_miaoqing@quicinc.com> <miaoqing@codeaurora.org>
-> >  Michael Buesch <m@bues.ch>
-> > +Michael Riesch <michael.riesch@collabora.com>
-> > <michael.riesch@wolfvision.net>
-> >  Michal Simek <michal.simek@amd.com> <michal.simek@xilinx.com>
-> >  Michel Dänzer <michel@tungstengraphics.com>
-> >  Michel Lespinasse <michel@lespinasse.org>
+-- 
+Sakari Ailus
 
