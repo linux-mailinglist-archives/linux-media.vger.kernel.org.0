@@ -1,62 +1,68 @@
-Return-Path: <linux-media+bounces-30168-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30169-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 146FBA88271
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 15:36:27 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5773EA88287
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 15:38:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CA9CB7A9D5B
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 13:34:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 989E17A4DA9
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 13:37:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA7D727A13B;
-	Mon, 14 Apr 2025 13:27:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 519A12749CC;
+	Mon, 14 Apr 2025 13:28:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oMqg/MOf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ixdHXDA1"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3591627A12B;
-	Mon, 14 Apr 2025 13:27:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 909BC28E61A;
+	Mon, 14 Apr 2025 13:28:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744637257; cv=none; b=UlURsy0p+Wg6cFBAnLNxd1Vw6kJoki/uYhFtVYXt+8Kwk2NO5SoFncUUbgOD6AgDHuG4gV2YUsw9RKb6Z6GjzSySATCVG+UOXdI+obdYg/aZZ5zBB7bDGHywGCrMEh7Tb5/dWLNSQsBtizf7SH31UHeR8PZinQhMyM2x5q3UuCY=
+	t=1744637287; cv=none; b=eKaUfcN1iz63ww/shBtpyND+J1fvWl0uJdHlNsxEespRXLxB9rjsFHHTplWs8nefCLWoHFNLfx0WLGVGjDU7GJSwbC7FeYqQnYO2oJF8k/O2/C0toMvY7ZqDM4yPk6/5z8bcDD6qd+plcCubVe22yRdQGgrHMd1Z6I62eFUvoX4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744637257; c=relaxed/simple;
-	bh=TsvvjU34ou6DeKBnAEaZf6xjk/wVJu2sGieu/mEr1vs=;
+	s=arc-20240116; t=1744637287; c=relaxed/simple;
+	bh=c4bb7948CzGoj3oK8R1FhfxFgh0zTsJGIPCWe8mgqO0=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GQyQ3+835i+yOrp1x7VZ89aJxWvGrwd7qMBYyqJH8IfAmEssG2x+TD7M4Ju1VPRv7NMyTi+Rjzni0IgeXyPs6t2vSsjmEqigA9Hgvh6BY90ONKrVUFF/Fgr3NPrlwp6WmJfWF6sMKPlg1q9zTuNbxJrTNCYxhcnyHtMlLtzgG9U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oMqg/MOf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C120C4CEE2;
-	Mon, 14 Apr 2025 13:27:35 +0000 (UTC)
+	 MIME-Version:Content-Type; b=SwWwrwMNdxBHhAimuUagUDNP5nTPiyxcnDW4cDYk7s5OjDkJ50ePxzT38r67YAy7Fm0Rz/uk05JyfREd57NgqGn72DOELtg5kZZZ3F9UA0SkeYJXsR1dM5Ey8mOT1rvN2AmerTlLzclWI6PTGtI3Clqy+pecLoGxMHcyb8NdohU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ixdHXDA1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D028C4CEEC;
+	Mon, 14 Apr 2025 13:28:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744637257;
-	bh=TsvvjU34ou6DeKBnAEaZf6xjk/wVJu2sGieu/mEr1vs=;
+	s=k20201202; t=1744637287;
+	bh=c4bb7948CzGoj3oK8R1FhfxFgh0zTsJGIPCWe8mgqO0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=oMqg/MOf3Lo00KJvtKWWbFZDheN9yP2HK+OpYqI7R8SXt+pWU3AC6r1MdK0VaHNUm
-	 wB+bZ7JUs1WQ7jrPJK8HrTr23Vip3CUo/ySzeTGXBmqbwJUODuYN8okrt3fcsZreFR
-	 2UuWug76wUzP3SahaJOCZ6Iarv8h4VBxE5vJI04iokHUKGceodm0vLJx78v8dQ6wmP
-	 /axJ9I7fgBro3iyUcDwoBliZBpjsu3m2wFSIto74BO/dgWMryPmsBG6Bm7saV0bs9Z
-	 4yH7omRPby867GmIxULPBEx+CcGG0TcCuO4H9niyv7H1G6N7Vnab0fMMEpxFMI9NEg
-	 VW+at8GvTpA6A==
+	b=ixdHXDA1oaXbJ/ajJJx/tnZGSTWVfbw19e9orAdL7Oik1ZXGBOEtcZBxtTS0JnMbo
+	 Yoa5S5s8606JbsHIbZB9b+SkLGk3TEnYNaSixzpjHYd6whDPzHhdWz5MEk3o/yyvcR
+	 JDnGmUJxpA1vyTKGjbQMorGbrluD5mhbGI7XQWDM6/ZFUtVDWR/k4ItyPyW8xvYYmM
+	 e+NEdtvKt5Wp1zTS3HWu3RTPYxrvUkqAUeOVmtsTqRQ6xrBsDBMwomele/SgzcYHFl
+	 VXnNRgZcOoijVxknRrtSGMo1CD4wI8ek9sM2yHPweRLsXNGhRh9o0NC23CbjzMpRyx
+	 sLVBQEN209/BQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Xiaogang Chen <xiaogang.chen@amd.com>,
-	Xiaogang Chen <Xiaogang.Chen@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Felix Kuehling <felix.kuehling@amd.com>,
+	Pak Nin Lui <pak.lui@amd.com>,
+	Alex Deucher <alexander.deucher@amd.com>,
 	Sasha Levin <sashal@kernel.org>,
-	kraxel@redhat.com,
-	vivek.kasireddy@intel.com,
+	airlied@gmail.com,
+	simona@ffwll.ch,
 	sumit.semwal@linaro.org,
+	Yunxiang.Li@amd.com,
+	tvrtko.ursulin@igalia.com,
+	matthew.auld@intel.com,
+	amd-gfx@lists.freedesktop.org,
 	dri-devel@lists.freedesktop.org,
 	linux-media@vger.kernel.org,
 	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 6.13 03/34] udmabuf: fix a buf size overflow issue during udmabuf creation
-Date: Mon, 14 Apr 2025 09:26:57 -0400
-Message-Id: <20250414132729.679254-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.13 15/34] drm/amdgpu: allow pinning DMA-bufs into VRAM if all importers can do P2P
+Date: Mon, 14 Apr 2025 09:27:09 -0400
+Message-Id: <20250414132729.679254-15-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250414132729.679254-1-sashal@kernel.org>
 References: <20250414132729.679254-1-sashal@kernel.org>
@@ -72,33 +78,70 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.13.11
 Content-Transfer-Encoding: 8bit
 
-From: Xiaogang Chen <xiaogang.chen@amd.com>
+From: Christian König <christian.koenig@amd.com>
 
-[ Upstream commit 021ba7f1babd029e714d13a6bf2571b08af96d0f ]
+[ Upstream commit f5e7fabd1f5c65b2e077efcdb118cfa67eae7311 ]
 
-by casting size_limit_mb to u64  when calculate pglimit.
+Try pinning into VRAM to allow P2P with RDMA NICs without ODP
+support if all attachments can do P2P. If any attachment can't do
+P2P just pin into GTT instead.
 
-Signed-off-by: Xiaogang Chen<Xiaogang.Chen@amd.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20250321164126.329638-1-xiaogang.chen@amd.com
+Acked-by: Simona Vetter <simona.vetter@ffwll.ch>
 Signed-off-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Felix Kuehling <felix.kuehling@amd.com>
+Reviewed-by: Felix Kuehling <felix.kuehling@amd.com>
+Tested-by: Pak Nin Lui <pak.lui@amd.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>
+Signed-off-by: Alex Deucher <alexander.deucher@amd.com>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/dma-buf/udmabuf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c | 25 +++++++++++++++------
+ 1 file changed, 18 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index cc7398cc17d67..e74e36a8ecda2 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -393,7 +393,7 @@ static long udmabuf_create(struct miscdevice *device,
- 	if (!ubuf)
- 		return -ENOMEM;
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+index 8e81a83d37d84..83390143c2e9f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
+@@ -72,11 +72,25 @@ static int amdgpu_dma_buf_attach(struct dma_buf *dmabuf,
+  */
+ static int amdgpu_dma_buf_pin(struct dma_buf_attachment *attach)
+ {
+-	struct drm_gem_object *obj = attach->dmabuf->priv;
+-	struct amdgpu_bo *bo = gem_to_amdgpu_bo(obj);
++	struct dma_buf *dmabuf = attach->dmabuf;
++	struct amdgpu_bo *bo = gem_to_amdgpu_bo(dmabuf->priv);
++	u32 domains = bo->preferred_domains;
  
--	pglimit = (size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
-+	pglimit = ((u64)size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
- 	for (i = 0; i < head->count; i++) {
- 		pgoff_t subpgcnt;
+-	/* pin buffer into GTT */
+-	return amdgpu_bo_pin(bo, AMDGPU_GEM_DOMAIN_GTT);
++	dma_resv_assert_held(dmabuf->resv);
++
++	/*
++	 * Try pinning into VRAM to allow P2P with RDMA NICs without ODP
++	 * support if all attachments can do P2P. If any attachment can't do
++	 * P2P just pin into GTT instead.
++	 */
++	list_for_each_entry(attach, &dmabuf->attachments, node)
++		if (!attach->peer2peer)
++			domains &= ~AMDGPU_GEM_DOMAIN_VRAM;
++
++	if (domains & AMDGPU_GEM_DOMAIN_VRAM)
++		bo->flags |= AMDGPU_GEM_CREATE_CPU_ACCESS_REQUIRED;
++
++	return amdgpu_bo_pin(bo, domains);
+ }
  
+ /**
+@@ -131,9 +145,6 @@ static struct sg_table *amdgpu_dma_buf_map(struct dma_buf_attachment *attach,
+ 		r = ttm_bo_validate(&bo->tbo, &bo->placement, &ctx);
+ 		if (r)
+ 			return ERR_PTR(r);
+-
+-	} else if (bo->tbo.resource->mem_type != TTM_PL_TT) {
+-		return ERR_PTR(-EBUSY);
+ 	}
+ 
+ 	switch (bo->tbo.resource->mem_type) {
 -- 
 2.39.5
 
