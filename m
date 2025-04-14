@@ -1,79 +1,79 @@
-Return-Path: <linux-media+bounces-30114-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30115-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF54A87AF6
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 10:50:11 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A83C3A87B0C
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 10:52:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6A8133A8205
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 08:49:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0B6E37A9232
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 08:51:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1ADAB25A2D9;
-	Mon, 14 Apr 2025 08:50:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CA4325DAF4;
+	Mon, 14 Apr 2025 08:52:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="elwckTH3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JFcGHdyZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15470DF42;
-	Mon, 14 Apr 2025 08:50:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83B5225A32D;
+	Mon, 14 Apr 2025 08:52:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744620602; cv=none; b=Y+LJPxb88oobPbbf4l05ej7WrygzvCtBx/ETUYFy0ETq/lDNN2OLMQFiUF7LXrxU86JZhc4M7GbPCcRabCOJdmMSWJJ0czqPKGrdCXNFhrXGZRrRk2HgMFkLOfJD+55154Dl3mXX+CfLlukKWu7nV+fEXWvCuBLtBnqN1YYwA6Q=
+	t=1744620753; cv=none; b=tpkb012BQkykIssfFf7dAgKO4Fkc9k4q5R2WYGhgXB01l+efHn+zPsWvL94fix6hadfrI7oTVtQXqu2a0MS1X6oFnbh/dAMYyRIsPsV6uD45XydGp7Agamw9I4ZVOtCWJuUUQTOnUIAa8/aeHbsx3u5WfXnmqHRtcRERdhdXBR4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744620602; c=relaxed/simple;
-	bh=8hzjrlVv0UVqlPY4BsZip/abC01E/ytcuea6lKylD74=;
+	s=arc-20240116; t=1744620753; c=relaxed/simple;
+	bh=a+UyqqBZ3qHlcRVEHyB9KT3Hd3Ym9c5aYmE1OsjWZ/o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sc0wuMT4PzhDdDCPlnstjbjBXFgJR1VpZIBAzN70pu5KE/uQrhauT9EGqWHnNCP5Z/9qz2a5fBKnJmxHCkmDWuSfSvG0yje56D+x7VUxRVpGecWGCI3tBGWhN6G0LyC/qYvbGxNJ577yACJXUdOE5ygLxB32bAJAKfn1T9LhUlY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=elwckTH3; arc=none smtp.client-ip=192.198.163.14
+	 Content-Type:Content-Disposition:In-Reply-To; b=uZdIzGl5/zH8pils7v8imMJvIP5r9eB5g9ItkBYmjpUOrgo8qrhnlOV/Cuw0StxdQ5NhkQg1Q5RYAPoOK7hUUqaThg4liExza0P/k2l0Z844IzYagJRE87ScwaDj9QflvA6yZMbh/bqitFLT/5kqulVOSR2t5FIh6MakANl8oaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JFcGHdyZ; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744620601; x=1776156601;
+  t=1744620752; x=1776156752;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=8hzjrlVv0UVqlPY4BsZip/abC01E/ytcuea6lKylD74=;
-  b=elwckTH3+dbuv/sJDuqxNQIlfCoXTxk+fQB2mYlobkW6ImaRmxOGiBas
-   gjpA4pS0P6xYgSTR8ixc3kS+uyCUv5LGCphxih5ykS0mNcc9KK6mD+lF1
-   a/49qOJ60VosK6RnLRF59+P0CMv+fxBsdVbK+EAbrsYBYkn74buos6v3L
-   ESYHS2HQ5+kQFeNlKrvxyuAcEJ4zSvxbBc8B/jLSYw+1ac6YyAPjwYtjB
-   +AW37ztlwO4OS7oXTApC5ylp9e8RZs2OTLQyTCOsh7zIHtjYPhM7l4kmt
-   H87vSgR2dfzFA2BEgkV72prRSmGsc3kPbfv07gAwsaqKcQspNkiCOg5OF
+  bh=a+UyqqBZ3qHlcRVEHyB9KT3Hd3Ym9c5aYmE1OsjWZ/o=;
+  b=JFcGHdyZi/E8OaTQp6gT0wLg1JuMzXTEOySGLewRxCWXZ8/xmxPZj51z
+   HxY5QhFUWK7iI3rdU5iuyiCwY1yWHDJLpDo9bKRhN6hnMBC91yhZNYVuY
+   bkuMdWClSm7VdXOdZKYCprLRkkw7Ja6nUVbjtqhtj9LcOSMT4o9NdW4wT
+   SfPdrEDPDMvu55SbjBsyLf6VVtt1XWVptpusYaXGF63s1jlrYOuvTfsXH
+   DlrXAa7bvmeYqDUtb+ltukVNekbq/wXXPtRdZTU2XT7kTP+N5EhygzZJF
+   417dETKDU56mc2iMV7Geo9gDL3qP0KmTvr0Hu6X05CWi07X/VNoCm2VIa
    w==;
-X-CSE-ConnectionGUID: TkypeiEBRe26GtaZYfmewA==
-X-CSE-MsgGUID: MnaSQg8RRNy/vRTpdZfs2Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="46244785"
+X-CSE-ConnectionGUID: jwBu1aZnTCauMZlsPNHosA==
+X-CSE-MsgGUID: jW5SVFaUT+qtCEepCsLW/A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11402"; a="57464458"
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="46244785"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 01:50:00 -0700
-X-CSE-ConnectionGUID: 22xrtLIVQmGm8ngmHp6h/g==
-X-CSE-MsgGUID: scWM4NDgR12BkY+mjU2x+Q==
+   d="scan'208";a="57464458"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 01:52:32 -0700
+X-CSE-ConnectionGUID: 2dtfH+mQTLaHmAaeO+td4A==
+X-CSE-MsgGUID: T/Ie1eAGQXOG0fdRoMIkjw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,211,1739865600"; 
-   d="scan'208";a="130301300"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 01:49:57 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1u4FVq-0000000CBMa-217D;
-	Mon, 14 Apr 2025 11:49:54 +0300
-Date: Mon, 14 Apr 2025 11:49:54 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+   d="scan'208";a="160714477"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Apr 2025 01:52:29 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 81F9211F871;
+	Mon, 14 Apr 2025 11:52:26 +0300 (EEST)
+Date: Mon, 14 Apr 2025 08:52:26 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: "Yan, Dongcheng" <dongcheng.yan@linux.intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Hans de Goede <hdegoede@redhat.com>,
 	Dongcheng Yan <dongcheng.yan@intel.com>,
 	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
-	u.kleine-koenig@baylibre.com, ricardo.ribalda@gmail.com,
-	bingbu.cao@linux.intel.com, stable@vger.kernel.org,
+	hverkuil@xs4all.nl, u.kleine-koenig@baylibre.com,
+	ricardo.ribalda@gmail.com, bingbu.cao@linux.intel.com,
 	hao.yao@intel.com
 Subject: Re: [PATCH v1 1/2] platform/x86: int3472: add hpd pin support
-Message-ID: <Z_zMMtUdJYpHuny7@smile.fi.intel.com>
+Message-ID: <Z_zMyodMQoH6EtSR@kekkonen.localdomain>
 References: <20250411082357.392713-1-dongcheng.yan@intel.com>
  <cfc709a8-85fc-4e44-9dcf-ae3ef7ee0738@redhat.com>
  <c8ae2d43-157c-408a-af89-7248b30d52d1@linux.intel.com>
@@ -88,16 +88,19 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 In-Reply-To: <d9cab351-4850-42c7-8fee-a9340d157ed9@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+
+Hi Dongcheng,
 
 On Mon, Apr 14, 2025 at 04:40:26PM +0800, Yan, Dongcheng wrote:
+> Hi Andy,
+> 
 > On 4/14/2025 4:11 PM, Andy Shevchenko wrote:
 > > On Mon, Apr 14, 2025 at 03:52:50PM +0800, Yan, Dongcheng wrote:
 > >> On 4/11/2025 4:33 PM, Hans de Goede wrote:
 > >>> On 11-Apr-25 10:23 AM, Dongcheng Yan wrote:
-
-...
-
+> > 
+> > ...
+> > 
 > >>>> +	case INT3472_GPIO_TYPE_HOTPLUG_DETECT:
 > >>>> +		*con_id = "hpd";
 > >>>> +		*gpio_flags = GPIO_LOOKUP_FLAGS_DEFAULT;
@@ -128,13 +131,19 @@ On Mon, Apr 14, 2025 at 04:40:26PM +0800, Yan, Dongcheng wrote:
 > IRQF_ONESHOT, NULL, lt6911uxe);
 > "
 
-So, the driver must not override the firmware, if there is no bugs.
-So, why do you even use those flags there? It seems like a bad code
-in the driver that doesn't look correct to me.
+include/linux/gpio/machine.h:
+
+	GPIO_PERSISTENT                 = (0 << 3),
+...
+	GPIO_LOOKUP_FLAGS_DEFAULT       = GPIO_ACTIVE_HIGH | GPIO_PERSISTENT,
+
+I.e. you effectively have GPIO_ACTIVE_HIGH there.
+
+Btw. no need to cc this set to stable@vger.kernel.org, I've dropped it from
+the cc list. See Documentation/process/submitting-patches.rst .
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Regards,
 
-
+Sakari Ailus
 
