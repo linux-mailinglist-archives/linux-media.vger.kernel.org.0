@@ -1,117 +1,105 @@
-Return-Path: <linux-media+bounces-30170-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30172-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABEAAA88302
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 15:49:22 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 58ED7A88348
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 15:54:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 44C773BF698
-	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 13:43:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CCF8A164DEF
+	for <lists+linux-media@lfdr.de>; Mon, 14 Apr 2025 13:50:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3A3B27B4FF;
-	Mon, 14 Apr 2025 13:28:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02B3A2C1099;
+	Mon, 14 Apr 2025 13:30:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="jd9WLyX8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YdyEmnS9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC6312957CD;
-	Mon, 14 Apr 2025 13:28:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C80C2BF3E2;
+	Mon, 14 Apr 2025 13:30:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744637336; cv=none; b=fM6TcYLLaU0QP28AhSJizI12c6zCvH2Jzq4WDwnPc373/VIAAHr+I/tgBP+TWIpj5Ao7C/p1teOKO1msEJ3OrdWlLYaBPXIrcceuyPSXkEOh6awoaKeJfjHKeNDWN3SWuyb9948PPK4k7inF5Lo9hxF1k+/J9FrMFp5+VeELQqw=
+	t=1744637405; cv=none; b=IOarejiq9tLL/mNcqDtfKC2Tr0TndKQ8vWweQsAaW/Qt1lVue9uwmjhYm/rrdPHjPqts9R85I8c1HeMpTmMNeTsRrjPP64gB24x+4xs1EVScfyV995N2z6zUf42Uta23tyFhfjz7N4x9RlWBWiO277GH0Ctkx9Se/Qg02cVkaKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744637336; c=relaxed/simple;
-	bh=6C5Jici+EhLeC4d7iAWY8LbyVL6AZqGWquMhefHINnQ=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=iul95l4yYz8w+owN5j3N7CiXQF0qwWFpn5qxfDNHiliL0oaRntVuq2Pm3VQZxV6XVumbtJ1w7l3YqR4dA6vVeNfWyBqjz9pijKOJrJpQEBJOXqOlAtY6dRXmvILtW0B5D/ykLFdmJWRbypC+GcK7MLBC0ErQi37ymIzvGCwK9A0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=jd9WLyX8; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1744637331;
-	bh=6C5Jici+EhLeC4d7iAWY8LbyVL6AZqGWquMhefHINnQ=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=jd9WLyX895EKUjHfL//CV32DucIcz3vI971IypjJ/VtSZ0bnryE/NwcUE4aA/ntqW
-	 LT7smg2s9M5tcwC1Qq4QNiVPBOLrhnUpSdoC8Z7d8HGtM1qg2cFrwBt58/U2duC8hn
-	 qkkapL95veKTcscEzHUO3+/syZaqUbjh7oPQn8xWloLeq1WkG/88NpHtgOA5bnax6Y
-	 wOcm9HGZigw3XeYvH4t7s35JH1rMKmPtP+0AMZH5cHBGCLaHG6ZSvsytDyg00JjoNj
-	 Ajj7nBcfxoCfFF428trLp8AKC8KwTvGjn6uEodv2xo3g4rDxalqd6R1HGCfziE/Ydq
-	 pUv8dc62tNr3Q==
-Received: from [IPv6:2606:6d00:11:e976::5ac] (unknown [IPv6:2606:6d00:11:e976::5ac])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id F347717E017D;
-	Mon, 14 Apr 2025 15:28:49 +0200 (CEST)
-Message-ID: <296144dec19f3aee958dcdae7700e7a7ed38b8ff.camel@collabora.com>
-Subject: Re: [RESEND PATCH v1 0/7] Performance improvement of decoder
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: "jackson.lee" <jackson.lee@chipsnmedia.com>, "mchehab@kernel.org"	
- <mchehab@kernel.org>, "hverkuil-cisco@xs4all.nl"
- <hverkuil-cisco@xs4all.nl>,  "bob.beckett@collabora.com"	
- <bob.beckett@collabora.com>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
- "linux-kernel@vger.kernel.org"	 <linux-kernel@vger.kernel.org>,
- "lafley.kim" <lafley.kim@chipsnmedia.com>,  "b-brnich@ti.com"	
- <b-brnich@ti.com>, "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>, Nas Chung	
- <nas.chung@chipsnmedia.com>
-Date: Mon, 14 Apr 2025 09:28:48 -0400
-In-Reply-To: <SE1P216MB130320F62126A2F02BDB7FB3EDB32@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-References: <20250410034002.88-1-jackson.lee@chipsnmedia.com>
-	 <b11f2cd9706c409775a44db06dd8399193be3758.camel@collabora.com>
-	 <SE1P216MB130320F62126A2F02BDB7FB3EDB32@SE1P216MB1303.KORP216.PROD.OUTLOOK.COM>
-Organization: Collabora Canada
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
+	s=arc-20240116; t=1744637405; c=relaxed/simple;
+	bh=bSdjzf03N5dkH1r6wALmuE4ALtyVK39xcb0mwy/hEwI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VjMfK48P5uLcLmLSUODSEagLZxrEpeh631n+T5pI81V9Ds9N7JX3aPWHkaKhOldqRcjhfWx4KK2SgOlZ25Nv5XPqlwo4+ZG6ebMQvU8yq4fpivtgoo+6cLeuH5YEK6OMlWGNmpOdqeQnUShBiLhJ6eQ7+X7QyUeE+EuSKrNIrL8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YdyEmnS9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9674AC4CEE2;
+	Mon, 14 Apr 2025 13:30:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744637405;
+	bh=bSdjzf03N5dkH1r6wALmuE4ALtyVK39xcb0mwy/hEwI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=YdyEmnS95zF/sd+/SjXX8/WuYXIfZiGn7p5vOt0GQHcqVacfiyw+n4YitYmUi1Cd4
+	 B1l/3M5xykCIrLKkpl/OKdrN+EkEhZOdJMrBJLz6wXDf6ipTuWPHCTcsiz2Uja5Xog
+	 h0DyPs6xTcXbqHIiKixa+PGEEWfK0LjjRknDjZLXqM0ou5rjFQ7Sw6/V8ZbCWj67Mt
+	 46tq3Xy6dZb7MhtLpmNGtXeCC1GozlpnZV/JE9tuoRw9AJSryPIT/FboEP8dC/GLX5
+	 9uChci2tSdK/nUu7Yue3pJEm+5uSaxRxIQpMCyxGFjv67EInYj4hZf4OEuQ7R00PjP
+	 nZmRgbLIfQEhw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Xiaogang Chen <xiaogang.chen@amd.com>,
+	Xiaogang Chen <Xiaogang.Chen@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Sasha Levin <sashal@kernel.org>,
+	kraxel@redhat.com,
+	vivek.kasireddy@intel.com,
+	sumit.semwal@linaro.org,
+	dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: [PATCH AUTOSEL 6.6 03/24] udmabuf: fix a buf size overflow issue during udmabuf creation
+Date: Mon, 14 Apr 2025 09:29:36 -0400
+Message-Id: <20250414132957.680250-3-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250414132957.680250-1-sashal@kernel.org>
+References: <20250414132957.680250-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.6.87
 Content-Transfer-Encoding: 8bit
 
-Jackson,
+From: Xiaogang Chen <xiaogang.chen@amd.com>
 
-Le lundi 14 avril 2025 à 02:04 +0000, jackson.lee a écrit :
-> > > Sequence Change test
-> > > =====================
-> > > gst-launch-1.0 filesrc location=./switch_1080p_720p_240frames.h264 !
-> > > h264parse ! v4l2h264dec ! filesink location=./h264_output_420.yuv
-> > > Setting pipeline to PAUSED ...
-> > > Pipeline is PREROLLING ...
-> > > Redistribute latency...
-> > > Redistribute latency...
-> > > Pipeline is PREROLLED ...
-> > > Setting pipeline to PLAYING ...
-> > > Redistribute latency...
-> > > New clock: GstSystemClock
-> > > Got EOS from element "pipeline0".
-> > > Execution ended after 0:00:05.772414400 Setting pipeline to NULL ...
-> > > Freeing pipeline ...
-> > 
-> > I did a test of my own here, and did get kernel splat. The warning
-> > indicate that the state machine is no longer respected. This needs to be
-> > address in v2, we added these check, since the locking is bound to legal
-> > use of the state machine.
-> 
-> 
-> Since applying the performance patch, device_run and wave5_vpu_dec_finish_decode is not synchronized any more.
-> How about removing this warning message ?
+[ Upstream commit 021ba7f1babd029e714d13a6bf2571b08af96d0f ]
 
-I would like to understand how it makes sense the we've reached STOP
-state while the HW is still actively decoding. It does not feel robust
-to me, perhaps you want to introduce a new state ? Also, I'm concern
-with overall thread-safety now.
+by casting size_limit_mb to u64  when calculate pglimit.
 
-regards,
+Signed-off-by: Xiaogang Chen<Xiaogang.Chen@amd.com>
+Link: https://patchwork.freedesktop.org/patch/msgid/20250321164126.329638-1-xiaogang.chen@amd.com
+Signed-off-by: Christian König <christian.koenig@amd.com>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/dma-buf/udmabuf.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
+index d1fcdd1f9aaed..373282beeb606 100644
+--- a/drivers/dma-buf/udmabuf.c
++++ b/drivers/dma-buf/udmabuf.c
+@@ -214,7 +214,7 @@ static long udmabuf_create(struct miscdevice *device,
+ 	if (!ubuf)
+ 		return -ENOMEM;
+ 
+-	pglimit = (size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
++	pglimit = ((u64)size_limit_mb * 1024 * 1024) >> PAGE_SHIFT;
+ 	for (i = 0; i < head->count; i++) {
+ 		if (!IS_ALIGNED(list[i].offset, PAGE_SIZE))
+ 			goto err;
 -- 
-Nicolas Dufresne
-Principal Engineer at Collabora
+2.39.5
+
 
