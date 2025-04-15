@@ -1,119 +1,206 @@
-Return-Path: <linux-media+bounces-30221-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30222-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E584CA8969A
-	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 10:30:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D059A8974C
+	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 10:59:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 251B73B9500
-	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 08:30:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C95B189651A
+	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 08:59:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEE83289356;
-	Tue, 15 Apr 2025 08:27:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 069A827B4ED;
+	Tue, 15 Apr 2025 08:59:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=swemel.ru header.i=@swemel.ru header.b="kWlRrhmT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DAhMsAN1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx.swemel.ru (mx.swemel.ru [95.143.211.150])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA63E279913;
-	Tue, 15 Apr 2025 08:27:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.143.211.150
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D606A1C5F13
+	for <linux-media@vger.kernel.org>; Tue, 15 Apr 2025 08:59:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744705657; cv=none; b=gQWTcmgTblkuQafyMgzptFkZ5AAfb54GFNDAXWVpHoT+ChKK7Hao04ghsP/wWPW8anTTUWPdQjE+/SZZ0GAq8eLLiOhYsONSgMWLqw2K/1Meex9FJKt9MYOQ2PSzCdGIV65C4sbnMK/VKy6x0I6Vm3/UG7OW+uYOCkgbFDDTtQw=
+	t=1744707563; cv=none; b=OrPw/XRpwVsV8fLbt6AlDOUJF0kiqfR7DOj2+A34zFWCRyV6Sh91xux2DjiqZgVcG1x/ourSmHOm+ahWP4jEDbXDiLasYbdMUQnjCW3Bv6UflJv9ju4WVwNWH4BmA0JhVbW+LDT/1SQ9Y6lQWD9lMAkCOSXfyp83yDDBEM9xkg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744705657; c=relaxed/simple;
-	bh=/YTIOL4HC+RV4Q8BA5tWZBttbOx9E192dFHIl2r7BUA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=FthaYytlWdWouZl73pDnRtrWhQCCylC1Ie6ReC7fTRbWSt6sK3SDW2O91jBnc04muxYrJRbII37/jjKqQ6f95XeNWPm6H5iGgbSR1QFqLSTRIH0sZ/hNe9trf+kGoKuynPSrYN+Kw/HXrEgGyXPz56UdCIE2m0QQqDrfNLpH89s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=swemel.ru; spf=pass smtp.mailfrom=swemel.ru; dkim=pass (1024-bit key) header.d=swemel.ru header.i=@swemel.ru header.b=kWlRrhmT; arc=none smtp.client-ip=95.143.211.150
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=swemel.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=swemel.ru
-From: Denis Arefev <arefev@swemel.ru>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=swemel.ru; s=mail;
-	t=1744705643;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=qcj60WxuwxsCiblOzqs/zQo+ybf28ZZc3VeFKLoGV8o=;
-	b=kWlRrhmTdidWZqcxNP17QkSx6dOBMXurK0Wq0U61FzTR9abGfMfKTQlAyaHn7JWKKZ4Kkb
-	fOdAo9wn9+vRrve0W9vpGZ7kymDoKWnD1bVzfjFnKq04wqCvT9GiE5qR2IFVnO1qotzkKq
-	afZLevazB7GVQlPCW/6zF3oM0GszP9c=
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Liu Shixin <liushixin2@huawei.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	lvc-project@linuxtesting.org,
-	stable@vger.kernel.org,
-	syzbot+365005005522b70a36f2@syzkaller.appspotmail.com
-Subject: [PATCH] media: vivid: Change the siize of the composing
-Date: Tue, 15 Apr 2025 11:27:21 +0300
-Message-ID: <20250415082722.18022-1-arefev@swemel.ru>
+	s=arc-20240116; t=1744707563; c=relaxed/simple;
+	bh=44gR+RWorjIEb3cR2Jf/EGY+zSJyAKbLhhW97UKDkas=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=tsd8u0AZ+dfT8cPXWSRLRu8dimXzYB67T7BTjqDzC7XNOGKPA0kzWRjQLjinPz8sAgEIOngjuGagi+okcNiLyZVWpeRH9zar8mfD0z330RXPDpWSRFXje5BImg5cPipRDeaZsCgoyagTE8sSo+pWKtR2cBiena9g6iwEWyILYfI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DAhMsAN1; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744707562; x=1776243562;
+  h=date:from:to:cc:subject:message-id;
+  bh=44gR+RWorjIEb3cR2Jf/EGY+zSJyAKbLhhW97UKDkas=;
+  b=DAhMsAN1hG8/xBXO6s0SPpf+XdPVO4IN7gn3SEeTOuVsG84qNSv/fngR
+   jA0OtfMwMP0pnCxNR7+6WzeefUanZAYQDn9m1yfxGppIFNSU3DFZbC05A
+   P3Yw/ySs8AacO0W78k3bXtg3tRmRXvrO79XNvVLsBo3YWRMTkQ0tE1A17
+   Grd62HOrhoqRi/C2+yNr5SClKWNid5PfuW+ctvOPuCLx3pF58ufWOycar
+   S9So2NyIumHs8CfpY4oz6zE2VVKWjAuXkjiYwJfKnQ1670HwoPZRaQXUU
+   tdQ2mlrgggrx/4XlWp/QLl4hqP3pUW7hjhrq6KJlqnJ6vnKdXgMVg2pQe
+   Q==;
+X-CSE-ConnectionGUID: 3A9WRc6HTiyiakPAb/1GlA==
+X-CSE-MsgGUID: OjhYeWP6Q26ILsE66UvhNw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11403"; a="56865578"
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
+   d="scan'208";a="56865578"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2025 01:59:21 -0700
+X-CSE-ConnectionGUID: kQkKbWBIRHO1621tKvTn7Q==
+X-CSE-MsgGUID: e4mG32vCRXqlI6nthV8B4Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
+   d="scan'208";a="135242603"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by orviesa005.jf.intel.com with ESMTP; 15 Apr 2025 01:59:20 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u4c8T-000FSQ-1i;
+	Tue, 15 Apr 2025 08:59:17 +0000
+Date: Tue, 15 Apr 2025 16:58:37 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata] BUILD SUCCESS
+ caca9090fc78bba8d11f1da55d97393b8fa781cf
+Message-ID: <202504151631.tEOK4F8W-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-syzkaller found a bug:
+tree/branch: git://linuxtv.org/sailus/media_tree.git metadata
+branch HEAD: caca9090fc78bba8d11f1da55d97393b8fa781cf  media: i2c: imx219: Add embedded data support
 
-BUG: KASAN: vmalloc-out-of-bounds in tpg_fill_plane_pattern drivers/media/common/v4l2-tpg/v4l2-tpg-core.c:2608 [inline]
-BUG: KASAN: vmalloc-out-of-bounds in tpg_fill_plane_buffer+0x1a9c/0x5af0 drivers/media/common/v4l2-tpg/v4l2-tpg-core.c:2705
-Write of size 1440 at addr ffffc9000d0ffda0 by task vivid-000-vid-c/5304
+elapsed time: 1463m
 
-CPU: 0 UID: 0 PID: 5304 Comm: vivid-000-vid-c Not tainted 6.14.0-rc2-syzkaller-00039-g09fbf3d50205 #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.16.3-debian-1.16.3-2~bpo12+1 04/01/2014
+configs tested: 113
+configs skipped: 2
 
-Call Trace:
- <TASK>
- __dump_stack lib/dump_stack.c:94 [inline]
- dump_stack_lvl+0x241/0x360 lib/dump_stack.c:120
- print_address_description mm/kasan/report.c:378 [inline]
- print_report+0x169/0x550 mm/kasan/report.c:489
- kasan_report+0x143/0x180 mm/kasan/report.c:602
- kasan_check_range+0x282/0x290 mm/kasan/generic.c:189
- __asan_memcpy+0x40/0x70 mm/kasan/shadow.c:106
- tpg_fill_plane_pattern drivers/media/common/v4l2-tpg/v4l2-tpg-core.c:2608 [inline]
- tpg_fill_plane_buffer+0x1a9c/0x5af0 drivers/media/common/v4l2-tpg/v4l2-tpg-core.c:2705
- vivid_fillbuff drivers/media/test-drivers/vivid/vivid-kthread-cap.c:470 [inline]
- vivid_thread_vid_cap_tick+0xf8e/0x60d0 drivers/media/test-drivers/vivid/vivid-kthread-cap.c:629
- vivid_thread_vid_cap+0x8aa/0xf30 drivers/media/test-drivers/vivid/vivid-kthread-cap.c:767
- kthread+0x7a9/0x920 kernel/kthread.c:464
- ret_from_fork+0x4b/0x80 arch/x86/kernel/process.c:148
- ret_from_fork_asm+0x1a/0x30 arch/x86/entry/entry_64.S:244
- </TASK>
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-The composition size cannot be larger than the size of fmt_cap_rect.
-So execute v4l2_rect_map_inside() even if has_compose_cap == 0.
+tested configs:
+alpha                             allnoconfig    gcc-14.2.0
+alpha                            allyesconfig    gcc-14.2.0
+arc                              allmodconfig    gcc-14.2.0
+arc                               allnoconfig    gcc-14.2.0
+arc                              allyesconfig    gcc-14.2.0
+arc                          axs101_defconfig    gcc-14.2.0
+arc                   randconfig-001-20250414    gcc-14.2.0
+arc                   randconfig-002-20250414    gcc-14.2.0
+arm                              allmodconfig    gcc-14.2.0
+arm                               allnoconfig    clang-21
+arm                              allyesconfig    gcc-14.2.0
+arm                       omap2plus_defconfig    gcc-14.2.0
+arm                   randconfig-001-20250414    clang-18
+arm                   randconfig-002-20250414    gcc-7.5.0
+arm                   randconfig-003-20250414    gcc-7.5.0
+arm                   randconfig-004-20250414    gcc-8.5.0
+arm64                            allmodconfig    clang-19
+arm64                             allnoconfig    gcc-14.2.0
+arm64                 randconfig-001-20250414    clang-21
+arm64                 randconfig-002-20250414    clang-19
+arm64                 randconfig-003-20250414    gcc-8.5.0
+arm64                 randconfig-004-20250414    gcc-6.5.0
+csky                              allnoconfig    gcc-14.2.0
+csky                  randconfig-001-20250414    gcc-14.2.0
+csky                  randconfig-002-20250414    gcc-10.5.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-21
+hexagon                          allyesconfig    clang-21
+hexagon               randconfig-001-20250414    clang-18
+hexagon               randconfig-002-20250414    clang-21
+i386                             allmodconfig    gcc-12
+i386                              allnoconfig    gcc-12
+i386                             allyesconfig    gcc-12
+i386        buildonly-randconfig-001-20250414    gcc-12
+i386        buildonly-randconfig-002-20250414    clang-20
+i386        buildonly-randconfig-003-20250414    clang-20
+i386        buildonly-randconfig-004-20250414    gcc-12
+i386        buildonly-randconfig-005-20250414    gcc-12
+i386        buildonly-randconfig-006-20250414    gcc-12
+i386                                defconfig    clang-20
+loongarch                        alldefconfig    gcc-14.2.0
+loongarch                        allmodconfig    gcc-14.2.0
+loongarch                         allnoconfig    gcc-14.2.0
+loongarch             randconfig-001-20250414    gcc-12.4.0
+loongarch             randconfig-002-20250414    gcc-14.2.0
+m68k                             allmodconfig    gcc-14.2.0
+m68k                              allnoconfig    gcc-14.2.0
+m68k                             allyesconfig    gcc-14.2.0
+m68k                        stmark2_defconfig    gcc-14.2.0
+microblaze                       allmodconfig    gcc-14.2.0
+microblaze                        allnoconfig    gcc-14.2.0
+microblaze                       allyesconfig    gcc-14.2.0
+mips                              allnoconfig    gcc-14.2.0
+mips                        bcm47xx_defconfig    clang-18
+nios2                             allnoconfig    gcc-14.2.0
+nios2                 randconfig-001-20250414    gcc-12.4.0
+nios2                 randconfig-002-20250414    gcc-12.4.0
+openrisc                          allnoconfig    gcc-14.2.0
+openrisc                         allyesconfig    gcc-14.2.0
+parisc                           allmodconfig    gcc-14.2.0
+parisc                            allnoconfig    gcc-14.2.0
+parisc                           allyesconfig    gcc-14.2.0
+parisc                randconfig-001-20250414    gcc-5.5.0
+parisc                randconfig-002-20250414    gcc-7.5.0
+powerpc                           allnoconfig    gcc-14.2.0
+powerpc                          allyesconfig    clang-21
+powerpc                      cm5200_defconfig    clang-21
+powerpc               randconfig-001-20250414    gcc-8.5.0
+powerpc               randconfig-002-20250414    clang-21
+powerpc               randconfig-003-20250414    gcc-6.5.0
+powerpc64             randconfig-001-20250414    clang-17
+powerpc64             randconfig-002-20250414    clang-21
+powerpc64             randconfig-003-20250414    gcc-6.5.0
+riscv                            allmodconfig    clang-21
+riscv                             allnoconfig    gcc-14.2.0
+riscv                            allyesconfig    clang-16
+riscv                 randconfig-001-20250414    gcc-8.5.0
+riscv                 randconfig-002-20250414    clang-21
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-21
+s390                             allyesconfig    gcc-14.2.0
+s390                  randconfig-001-20250414    clang-20
+s390                  randconfig-002-20250414    gcc-9.3.0
+sh                               allmodconfig    gcc-14.2.0
+sh                                allnoconfig    gcc-14.2.0
+sh                               allyesconfig    gcc-14.2.0
+sh                          lboxre2_defconfig    gcc-14.2.0
+sh                    randconfig-001-20250414    gcc-6.5.0
+sh                    randconfig-002-20250414    gcc-10.5.0
+sh                           se7722_defconfig    gcc-14.2.0
+sparc                            allmodconfig    gcc-14.2.0
+sparc                             allnoconfig    gcc-14.2.0
+sparc                 randconfig-001-20250414    gcc-11.5.0
+sparc                 randconfig-002-20250414    gcc-13.3.0
+sparc64               randconfig-001-20250414    gcc-5.5.0
+sparc64               randconfig-002-20250414    gcc-9.3.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-21
+um                               allyesconfig    gcc-12
+um                    randconfig-001-20250414    clang-21
+um                    randconfig-002-20250414    clang-21
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250414    clang-20
+x86_64      buildonly-randconfig-002-20250414    clang-20
+x86_64      buildonly-randconfig-003-20250414    clang-20
+x86_64      buildonly-randconfig-004-20250414    clang-20
+x86_64      buildonly-randconfig-005-20250414    clang-20
+x86_64      buildonly-randconfig-006-20250414    gcc-12
+x86_64                              defconfig    gcc-11
+xtensa                            allnoconfig    gcc-14.2.0
+xtensa                randconfig-001-20250414    gcc-7.5.0
+xtensa                randconfig-002-20250414    gcc-14.2.0
 
-Fixes: 94a7ad928346 ("media: vivid: fix compose size exceed boundary")
-Cc: stable@vger.kernel.org
-Reported-by: syzbot+365005005522b70a36f2@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?id=8ed8e8cc30cbe0d86c9a25bd1d6a5775129b8ea3
-Signed-off-by: Denis Arefev <arefev@swemel.ru>
----
- drivers/media/test-drivers/vivid/vivid-vid-cap.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/test-drivers/vivid/vivid-vid-cap.c b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-index b166d90177c6..df5d1c2a42ef 100644
---- a/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-+++ b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-@@ -946,8 +946,8 @@ int vivid_vid_cap_s_selection(struct file *file, void *fh, struct v4l2_selection
- 			if (dev->has_compose_cap) {
- 				v4l2_rect_set_min_size(compose, &min_rect);
- 				v4l2_rect_set_max_size(compose, &max_rect);
--				v4l2_rect_map_inside(compose, &fmt);
- 			}
-+			v4l2_rect_map_inside(compose, &fmt);
- 			dev->fmt_cap_rect = fmt;
- 			tpg_s_buf_height(&dev->tpg, fmt.height);
- 		} else if (dev->has_compose_cap) {
--- 
-2.43.0
-
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
