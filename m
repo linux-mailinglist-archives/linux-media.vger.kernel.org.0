@@ -1,137 +1,254 @@
-Return-Path: <linux-media+bounces-30246-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30247-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E974EA89EA6
-	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 14:54:56 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DDF5A89F0C
+	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 15:11:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A6D76167AA2
-	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 12:54:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EB1E77AC64B
+	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 13:09:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B3FE2973A0;
-	Tue, 15 Apr 2025 12:54:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A3622973DE;
+	Tue, 15 Apr 2025 13:11:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="XCrIF9p3"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="E2y9uiI4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C5A828E61D;
-	Tue, 15 Apr 2025 12:54:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD1CA2DFA2F
+	for <linux-media@vger.kernel.org>; Tue, 15 Apr 2025 13:10:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744721686; cv=none; b=dWffxiNf1rZxrjtRBIvRjc+nGLMXoVS+ITg7lPri5qf0+OaP92llF/RIqMmEkbnyDAkmkw3PkCR1n5+tWymjH3D1QPt2oKdTm2TLMV0dHa5NYefm2etAPygzQuKbkROGdGAPAWmzqb0ag/44eU2Z/LZyiHF2qqEOT8FRkulYfg0=
+	t=1744722659; cv=none; b=fYf5JNUgq6yZKvcS+KJkPOhI7JY7yTo2GI2Xk+tIyDJK4x1Dg2aRcrvi1vz9gdkiHMehOMMAYjMGKtrFz8PX6YVuEX/btKEzjVscmVuEjGx//+RWe+cpW0WHZxGP3GwElIld/vpdXGwmlDiMah/VGwUcmzqhXzT1+a9b+Z+ce5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744721686; c=relaxed/simple;
-	bh=K/FjfTvH1QRy7+t7pKsVPI8IS+WdkLH8SmEYGjRagwA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=LC9YJBBVsclhF1ROoJTih43Q5NCOiCtaD3cfYS4NKgv6KkAKxhgbFPBrNgo54hBxqEbTMqKjVuqo2BlXM61m/HrHFkmtOOuvWPqVxyotse8nhhSe213ZmhNXfiRIb9As+FlnqdyKxT3WjDHSov9kH3Gh4RRejPlN5BKN2Xk3cAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=XCrIF9p3; arc=none smtp.client-ip=80.241.56.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4ZcPJ012q5z9sWs;
-	Tue, 15 Apr 2025 14:54:40 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1744721680; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=K/FjfTvH1QRy7+t7pKsVPI8IS+WdkLH8SmEYGjRagwA=;
-	b=XCrIF9p3qYjPKTa32Gt7lp4HeMkDbm5dXf4RLEonFk06uMtAbMgwWXkjqIR46XbE713xqz
-	fE+SUU+xAn8sk/b6kuU1QEsyKqCPGFGcf6BTCFUdf8HSZp+Mp9hdtWimDXXroOW1Mq2AjZ
-	6jpgBk+8cNhNmmeUcj389vv5NY/mtZS/M49hR3sJDMwWdOajQ1vJgMQMIfi7puukA2q1fk
-	5oE+49W2M17Uw4RWT+8aoaPjxvUsqm1RjXc1dXF84SCY/AYVTESxoXiWFzmNmy0ti3MLW2
-	eUDUqZCbc4KMM3sxTi53SRCABrFe7asAgwL0ryWhoWQ3NNP7zA++k90ukumh0A==
-Message-ID: <573a616a5270d97f421a380e2e41c7e35d2f03e3.camel@mailbox.org>
-Subject: Re: [PATCH 1/3] drm/nouveau: Prevent signaled fences in pending list
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Danilo
- Krummrich <dakr@kernel.org>, phasta@kernel.org
-Cc: Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>, Simona
- Vetter <simona@ffwll.ch>, Sabrina Dubroca <sd@queasysnail.net>, Sumit
- Semwal <sumit.semwal@linaro.org>, dri-devel@lists.freedesktop.org, 
- nouveau@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
- netdev@vger.kernel.org, linux-media@vger.kernel.org, 
- linaro-mm-sig@lists.linaro.org, stable@vger.kernel.org
-Date: Tue, 15 Apr 2025 14:54:36 +0200
-In-Reply-To: <2dba3077-a770-4e00-9a7a-c744096ae876@amd.com>
-References: <8583665a-6886-4245-be49-fd8839cfe212@amd.com>
-	 <c737c89c7ce9174e349c61ab4e5712eee8946f13.camel@mailbox.org>
-	 <50c9530d-e274-4f89-8620-16afe0981239@amd.com>
-	 <1a73e5fe4350d6ee4b7d807612264eb637c4f2a9.camel@mailbox.org>
-	 <d3dee321cd6b70d6ca98768fbcf6f1e6134c43a1.camel@mailbox.org>
-	 <81a70ba6-94b1-4bb3-a0b2-9e8890f90b33@amd.com>
-	 <aca00cb25b813da4fd2f215829f02337f05642f3.camel@mailbox.org>
-	 <45d66ca4-5390-42e9-869a-f5f9125d05b6@amd.com>
-	 <1127db242503055b2e5e8d07db3aeae46cfb7a24.camel@mailbox.org>
-	 <6e4628c3cfc7e0d1e4ea9af510ce0b09b34a8cf8.camel@mailbox.org>
-	 <Z_0bOgTBkkRH9jib@cassiopeiae>
-	 <2dba3077-a770-4e00-9a7a-c744096ae876@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1744722659; c=relaxed/simple;
+	bh=1iCJd8uGedfuub423dWcueBlvn/GPiOLr0vx8tO47w0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=D6bTWX+8R0/o1R9PJDlvB7BpmYdb8RvIYE9EbxdZvUWty2IQtMHOTmMTj7IT4XiE+4n35YznMI3iVR0gaMZFR74pl+38k8c2MqRh7VMsri1cqKLhuOq1Rt49B9sBJr32xzWcG3VjNPykUbw0WMY0DGRt4zH4ba5fZBuXfaDdGoA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=E2y9uiI4; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-39141ffa9fcso7171047f8f.0
+        for <linux-media@vger.kernel.org>; Tue, 15 Apr 2025 06:10:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1744722656; x=1745327456; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=BeBKJsxdsFRDlkMvWf+IkTqfIZxOxoG2HFQhP0mrG6A=;
+        b=E2y9uiI4IpLWw1J4gtc+zrL/a4gunR5KT9NmCIZn4bXG+BsBXAsEuAwMafRgnbjdfx
+         tPcFu0BENBwsLkOUqwsE2kQoVnXLjIMUHnaOPSytbrqW35CASGDfFm6fyyFlXnxnDW14
+         gKnTGpnhHqwYP1GGWbiN3Oro4HVnelMow3bYo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744722656; x=1745327456;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BeBKJsxdsFRDlkMvWf+IkTqfIZxOxoG2HFQhP0mrG6A=;
+        b=cRh+UeVZ9RuD4PIFLTv+weLXzgO5N4136r+POFVAMBqlvmcSsZt3QhuCN4iG2oGjYL
+         +gbZDN5KzxYNaILVtMoBPM6HHsGS5vNrJBvWfk1rjfhkrOuxcTEARDlf1gt4H9Q4aqpA
+         i3aE7dFSbtGaivVveErU4xdHIVzdw1/PVR0PgwcAt3BGeF7LlFVdfVzdDwVcbt4Cz/Bp
+         4OndCZRo2dnoNekEeavq8FMp/ICznY8HA3/hZoQfZKGH1Idn5xJYnM5UyIqoJlHz6N9K
+         zAe8qpAu7XFCURVtwwPXJzU4EIEqn8nWwoi80bJxcuHeQDKwb7Q3n5phZUirtlrJw1g9
+         oqFg==
+X-Forwarded-Encrypted: i=1; AJvYcCWRqJfJ1MIpMZ/pWcbycUjxrX6VWti7CY0YOuPlQMsKi8kEC4fDLEdQyID+/QxaIuCJ8EO+B7TnW43Y6w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIxQQZ8ieAWSxKL4M9HvLMoC4H+x4Hm3Zfj7ZG3nzvIQe+fxBI
+	BWkfW9xRs4qiXp9q4hAeznf/0wOJvmO5L8UP82c4rv9wpV73oNeoeQZbMB1YWKo=
+X-Gm-Gg: ASbGncujer50AjJjO4adMc8UEtH28jfcJc2BI9Amg+mnv6j+5IbP7PLyl6WclZkPBzK
+	ouS1c/H81rr9KryfxDwfVYo2swR9L6BOWW087BCDWho9mk+fm+MB25SQnOPuu7fNXmBUiDlgjmv
+	anHLqFI3tQiiQJqmDf3kvZWLhRTUpLToGeDOzGYrypvw1M2GVFkQT1OCKvlHOUmlNCuSg/6Areq
+	TiXx0Xm7R5QyZYQDsVecjTDtmIvq7Qwp4GqJ6CpUahbFNY9xD40SAKpD4pHmxyDs2SLTire2EA8
+	W4V0adgIi1fPXuFY135Lzdh+vyK76CdH+imKfrqM3HAc6c1RsBoM
+X-Google-Smtp-Source: AGHT+IH8bfspMLulM47LnkzN+N5h/di9riH+6UFGuNsynasbDT1EWe+urvrobwPqUm2lk0qjV1vE+g==
+X-Received: by 2002:a05:6000:4285:b0:39a:c80b:8288 with SMTP id ffacd0b85a97d-39ea5211c47mr12246486f8f.33.1744722655688;
+        Tue, 15 Apr 2025 06:10:55 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae96403dsm13920688f8f.4.2025.04.15.06.10.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Apr 2025 06:10:55 -0700 (PDT)
+Date: Tue, 15 Apr 2025 15:10:53 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
+	airlied@gmail.com, asrivats@redhat.com, andyshrk@163.com,
+	mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+	dri-devel@lists.freedesktop.org,
+	Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH] drm/gem: Internally test import_attach for imported
+ objects
+Message-ID: <Z_5a3ckZiY-fINNW@phenom.ffwll.local>
+References: <20250415092057.63172-1-tzimmermann@suse.de>
+ <e2e82102-eb9f-4eb6-8ac3-6122ed7fcf28@amd.com>
+ <48ab9b82-0d26-4d7c-88b0-feab9762b128@suse.de>
+ <b924ffa7-99c0-42f1-9170-069e92299021@amd.com>
+ <ddb93e8d-7716-47b3-b06c-0bf862d9c32b@suse.de>
+ <ac0aba3d-ec77-4f6b-9ac1-f6077519f30d@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: 8it8cuy3unipa6fs4gcxd9fju5nkgkz1
-X-MBO-RS-ID: 9a0b51d9a94caabfc13
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ac0aba3d-ec77-4f6b-9ac1-f6077519f30d@amd.com>
+X-Operating-System: Linux phenom 6.12.17-amd64 
 
-On Tue, 2025-04-15 at 11:56 +0200, Christian K=C3=B6nig wrote:
-> Am 14.04.25 um 16:27 schrieb Danilo Krummrich:
-> > On Mon, Apr 14, 2025 at 10:54:25AM +0200, Philipp Stanner wrote:
-> > > @Danilo:
-> > > We have now 2 possible solutions for the firing WARN_ON floating.
-> > >=20
-> > > Version A (Christian)
-> > > Check in nouveau_fence_context_kill() whether a fence is already
-> > > signaled before setting an error.
-> > >=20
-> > > Version B (Me)
-> > > This patch series here. Make sure that in Nouveau, only
-> > > nouveau_fence_signal() signals fences.
-> > >=20
-> > >=20
-> > > Both should do the trick. Please share a maintainer-preference so
-> > > I can
-> > > move on here.
-> > Thanks for working on this Philipp.
-> >=20
-> > If you don't want to rework things entirely, A seems to be
-> > superior, since it
-> > also catches the case when someone else would call
-> > dma_fence_is_signaled() on a
-> > nouveau fence (which could happen at any time). This doesn't seem
-> > to be caught
-> > by B, right?
->=20
-> Correct, yes. I would also keep it as simple as possible for
-> backporting this bug fix.
->=20
-> On the other hand a rework is certainly appropriate including both
-> nouveau as well as the DMA-fence calling rules. Especially that the
-> DMA-fence framework calls the signaled callback with inconsistent
-> locking is something we should fix.
+On Tue, Apr 15, 2025 at 02:52:54PM +0200, Christian König wrote:
+> Am 15.04.25 um 14:40 schrieb Thomas Zimmermann:
+> > Hi
+> >
+> > Am 15.04.25 um 14:19 schrieb Christian König:
+> >> Am 15.04.25 um 12:45 schrieb Thomas Zimmermann:
+> >>> Hi
+> >>>
+> >>> Am 15.04.25 um 11:39 schrieb Christian König:
+> >>>> Am 15.04.25 um 11:20 schrieb Thomas Zimmermann:
+> >>>>> Test struct drm_gem_object.import_attach to detect imported objects
+> >>>>> during cleanup. At that point, the imported DMA buffer might have
+> >>>>> already been released and the dma_buf field is NULL. The object's
+> >>>>> free callback then does a cleanup as for native objects.
+> >>>> I don't think that this is a good idea.
+> >>>>
+> >>>> The DMA-buf is separately reference counted through the import attachment.
+> >>> I understand that it's not ideal, but testing for import_attach to be set is what we currently do throughout drivers. Putting this behind an interface is already a step forward.
+> >>>
+> >>>>> Happens for calls to drm_mode_destroy_dumb_ioctl() that eventually
+> >>>>> clear the dma_buf field in drm_gem_object_exported_dma_buf_free().
+> >>>> That is for exported DMA-buf and should *NEVER* be used for imported ones.
+> >>> Did you look at the discussion at the Closes tag? Where else could dma-buf be cleared?
+> >> Yeah, I've seen that. The solution is just completely wrong.
+> >>
+> >> See for the export case obj->dma_buf points to the exported DMA-buf and causes a circle dependency when not set to NULL when the last handle is released.
+> >>
+> >> But for the import case obj->dma_buf is actually not that relevant. Instead obj->import_attach->dma_buf should be used.
+> >
+> > So if I understand correctly, the tests in that helper should be done by looking at import_attach->dma_buf.
+> 
+> At least in theory yes. IIRC we also set obj->dma_buf to the same value
+> as import_attach->dma_buf for convenient so that code doesn't need to
+> check both.
 
-Do you have a suggestion where to start?
+Uh, given that we already have a confusion between in the importer and
+exporter cases I think it'd be better to more strictly separate them than
+to mix them up even more for convenience. We need more clarity here
+instead.
 
-I btw would still be interested in adding some sort of centralized
-mechanism in dma_fence that the driver could use to do some cleanup
-stuff once a fence gets signaled ^_^
+> But it can be that obj->dma_buf is already NULL while the import
+> attachment is still in the process of being cleaned up. So there are a
+> couple of cases where we have to look at obj->import_attach->dma_buf.
 
-P.
+Yeah this sounds better imo.
 
->=20
+> > The long-term goal is to make import_attach optional because its setup requires a DMA-capable device.
+> 
+> HUI WHAT?
+> 
+> Dmitry and I put quite some effort into being able to create an import_attach without the requirement to have a DMA-capable device.
+> 
+> The last puzzle piece of that landed a month ago in the form of this patch here:
+> 
+> commit b72f66f22c0e39ae6684c43fead774c13db24e73
+> Author: Christian König <christian.koenig@amd.com>
+> Date:   Tue Feb 11 17:20:53 2025 +0100
+> 
+>     dma-buf: drop caching of sg_tables
+>     
+>     That was purely for the transition from static to dynamic dma-buf
+>     handling and can be removed again now.
+>     
+>     Signed-off-by: Christian König <christian.koenig@amd.com>
+>     Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
+>     Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
+>     Link: https://patchwork.freedesktop.org/patch/msgid/20250211163109.12200-5-christian.koenig@amd.com
+> 
+> When you don't create an import attachment the exporter wouldn't know that his buffer is actually used which is usually a quite bad idea.
+
+This is im entirely unrelated because ...
+
+> This is for devices who only want to do a vmap of the buffer, isn't it?
+
+... it's for the vmap only case, where you might not even have a struct
+device. Or definitely not a reasonable one, like maybe a faux_bus device
+or some device on a bus that really doesn't do dma (e.g. spi or i2c), and
+where hence dma_buf_map_attachment is just something you never ever want
+to do.
+
+I think we might want to transform obj->import_attach into a union or
+tagged pointer or something like that, which can cover both cases. And
+maybe a drm_gem_bo_imported_dma_buf() helper that gives you the dma_buf no
+matter what if it's imported, or NULL if it's allocated on that
+drm_device?
+
+Cheers, Sima
+
+> 
 > Regards,
 > Christian.
+> 
+> >
+> > Best regards
+> > Thomas
+> >
+> >>
+> >> Regards,
+> >> Christian.
+> >>
+> >>> Best regards
+> >>> Thomas
+> >>>
+> >>>> Regards,
+> >>>> Christian.
+> >>>>
+> >>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> >>>>> Fixes: b57aa47d39e9 ("drm/gem: Test for imported GEM buffers with helper")
+> >>>>> Reported-by: Andy Yan <andyshrk@163.com>
+> >>>>> Closes: https://lore.kernel.org/dri-devel/38d09d34.4354.196379aa560.Coremail.andyshrk@163.com/
+> >>>>> Tested-by: Andy Yan <andyshrk@163.com>
+> >>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> >>>>> Cc: Anusha Srivatsa <asrivats@redhat.com>
+> >>>>> Cc: Christian König <christian.koenig@amd.com>
+> >>>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> >>>>> Cc: Maxime Ripard <mripard@kernel.org>
+> >>>>> Cc: David Airlie <airlied@gmail.com>
+> >>>>> Cc: Simona Vetter <simona@ffwll.ch>
+> >>>>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> >>>>> Cc: "Christian König" <christian.koenig@amd.com>
+> >>>>> Cc: dri-devel@lists.freedesktop.org
+> >>>>> Cc: linux-media@vger.kernel.org
+> >>>>> Cc: linaro-mm-sig@lists.linaro.org
+> >>>>> ---
+> >>>>>    include/drm/drm_gem.h | 8 +++++++-
+> >>>>>    1 file changed, 7 insertions(+), 1 deletion(-)
+> >>>>>
+> >>>>> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> >>>>> index 9b71f7a9f3f8..f09b8afcf86d 100644
+> >>>>> --- a/include/drm/drm_gem.h
+> >>>>> +++ b/include/drm/drm_gem.h
+> >>>>> @@ -589,7 +589,13 @@ static inline bool drm_gem_object_is_shared_for_memory_stats(struct drm_gem_obje
+> >>>>>    static inline bool drm_gem_is_imported(const struct drm_gem_object *obj)
+> >>>>>    {
+> >>>>>        /* The dma-buf's priv field points to the original GEM object. */
+> >>>>> -    return obj->dma_buf && (obj->dma_buf->priv != obj);
+> >>>>> +    return (obj->dma_buf && (obj->dma_buf->priv != obj)) ||
+> >>>>> +           /*
+> >>>>> +        * TODO: During object release, the dma-buf might already
+> >>>>> +        *       be gone. For now keep testing import_attach, but
+> >>>>> +        *       this should be removed at some point.
+> >>>>> +        */
+> >>>>> +           obj->import_attach;
+> >>>>>    }
+> >>>>>      #ifdef CONFIG_LOCKDEP
+> >
+> 
 
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
