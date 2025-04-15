@@ -1,230 +1,152 @@
-Return-Path: <linux-media+bounces-30242-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30243-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DB80A89E14
-	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 14:29:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2497A89E51
+	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 14:40:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9CD001901770
-	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 12:29:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C57FD443134
+	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 12:40:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8C522957CF;
-	Tue, 15 Apr 2025 12:29:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA54A2949FF;
+	Tue, 15 Apr 2025 12:40:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="iCig2TIE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="eLOp8zQX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2089.outbound.protection.outlook.com [40.107.102.89])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85F2B2951DD;
-	Tue, 15 Apr 2025 12:29:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.89
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744720149; cv=fail; b=nbP8RULqUW0aRvCUbtN/wMlPnziWFbgECV7p8LtIMiyfLWY/Cew25Re+XAgLZTqBLwAA4hvmNrVjK4Ci/vc1PjGNIkk7KEzJM4ZGqVUcBYMH1eIKG7NnS5BYMbPoJYuDdmFOKMEMzDoEhxMMiig4cl4ThmqhzIalhB/V1cCz5jA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744720149; c=relaxed/simple;
-	bh=n/EXWKArv7R5aa6Rpm43cnqZgAveEH/Y0uV+BPPufpM=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=JHJckTgZTPa67FxZdeH25dKhItK3qgKaGsWpcAr0WLorrj7VLCSxpTnF5M97mOuKCm0uLW56jiIMKwCyE6xGU7ESOvu7g1tRzhDGUAw2tnwpxgFzJxFsCKDdfhq+nPifS4780ZlL9zn9f4vlfB8v4Be6NU1VA/XXripFmGk28c8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=iCig2TIE; arc=fail smtp.client-ip=40.107.102.89
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uquAowrAOCRxd2tyE9390qH2uGZ7Nbfj37H2BXclJ3mtV/fOtqDF87pDnW+32fkqp6Y2b3DCMGsYT7C+HBIzbvgtpcwDKCgZ4O8KJNEy9pIy+M4775xhi7YjjOzHckljA9F/fCFHYv2hxyct97CTE+NFaAORCgwGY9FDr/zOA5cwMrZ1dZ0wI56U92EotedP5JYQttZA85jzlohpPnkJDZ7P8TOwva3+O+ItcM7phzBFq9kcK+AME3w7xbema3SUljFCpYeP45ncFNPzgiNvMz87Lsah0RMP7PnJijS+2wwLDy2qBefI1NnczP4ZZziCklWDelSEV0lFahs0YVD/VA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=0i7yRz3m47DJFTyrT5uktzDHyHOMEpA9Olhy9FozYqg=;
- b=kyTeVsPtEPoo6ExzBt1XjsKeOlkhinf01GuMy+t/cH2kiZqmpqD+jVoU1T1Y6lKkGooMzaCU3UcTeegF3K64PqxaXdW5t5CuNbT97iLNXQs4fdM7JIMSMfsn9UU7Gk2szyDI3JgTzagCsNiJmgUfJ9bqUewAVk37G6kuVsqyxrXO90MLNor2fJu3CWSfl6HhbEqt8tLcKRRH48w6ytX3habQw8UOrSUu4N5RA2P8lFXkOnyQsYSdSN+AUoqA7eK17Q9WQKfearN7Qb0vuI8ZLx2zB7scL2Bei43TdkDTc1gQfOkWCbdwYXwGMFvvCkAAGxbfESWD/HleEugPRbGlFQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=0i7yRz3m47DJFTyrT5uktzDHyHOMEpA9Olhy9FozYqg=;
- b=iCig2TIEtRqNuPSVdLgxt77R/7IwBgrTBcNZ56CQLmBMSBjG9ORgwHIlIRahkAlqTzjHkN2w/Nad2z+YT1yqUA8ngevt4AidVmmNP8RKeoOGLDln+cYyDmcTz5LVJF7IfFIsIZYmbTHA1fdPhKcEk5TUA99JxITczRAfejMR3P8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CY5PR12MB9056.namprd12.prod.outlook.com (2603:10b6:930:34::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.32; Tue, 15 Apr
- 2025 12:29:05 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8632.025; Tue, 15 Apr 2025
- 12:29:05 +0000
-Message-ID: <d7ed5f0c-0511-4833-86c1-3e1bae579ef3@amd.com>
-Date: Tue, 15 Apr 2025 14:28:58 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] drm/nouveau: nouveau_fence: Standardize list
- iterations
-To: Philipp Stanner <phasta@kernel.org>, Lyude Paul <lyude@redhat.com>,
- Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sabrina Dubroca <sd@queasysnail.net>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20250415121900.55719-2-phasta@kernel.org>
- <20250415121900.55719-4-phasta@kernel.org>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250415121900.55719-4-phasta@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0028.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:c9::19) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F59D22F01;
+	Tue, 15 Apr 2025 12:39:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744720800; cv=none; b=Yz/v5myjtyt84jnPWejjKHxzGu3AQtgD7ct5vpfvUi9Xl3DxhfVUaNGkww0Fl5YOWAJDmDOPX90iWgqtQ2UEjtBae4ug5/VKFirAEmfttXY3HAtmqAdQ/msix/4jJa35jn24aCLP0zrADFyFCbakm30tN4HKAsrtYR1mWNXQBd0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744720800; c=relaxed/simple;
+	bh=t1kou4M8X297Aad+caa6GBhyKnczwsX+gDFBhuB55m4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pTzQl/vKIMOgyKWJypgWZxptQUQT3pPexZKtX+ArmL48m+qWB/kyzkSgxk95Nw6KZM2F8asNgtdPx+3Niz0t0fzYlJs7OgVz6X135p8dmllAyOLSghoHjwP6M5dxx5/0k5Dik0hylKRWJx7fFf8ZReZa78wcxf6rXZpyYr0kODo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=eLOp8zQX; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-39d83782ef6so4213266f8f.0;
+        Tue, 15 Apr 2025 05:39:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744720797; x=1745325597; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=A9hVPDb1RM67wHiurj3uzHcX5sDObVhpjzOPgy4uCpM=;
+        b=eLOp8zQXtLgEDVA8f/UjsKvxT28iqgV3CKJDV1nG4Hzp+0YMn52mVLsqtCmH+tf+nC
+         1gefJyHu4iLJXMNvII4lpEVKX86Agz9uH8TQrsBitNUxK+xm0/R42Bm8UrLoPzze4Dt4
+         POoRQOBX3eRuKSStYCnZAi1L8CbB75GMf7uODBELMQNZ86dEzWUeEl1f6WyO662cBBJ6
+         P173HKcoKE4gq6/QTdM/ZOTg4jY8zoTTJ/UIT4V8OHjITgGhGW2Y8l+fJluthmq+Mudz
+         UJK9GEwveozJSI27i0FQVvlFxepGncudNMw1AKS7ScTUnSWGrb23ARnznKOsoKvmS5nV
+         x1+g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744720797; x=1745325597;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=A9hVPDb1RM67wHiurj3uzHcX5sDObVhpjzOPgy4uCpM=;
+        b=EL8ECfq8wgBwLEWLlaMVe1gQ+Tu9tMQzzy20lmVC+V6O/1R3bKdCYvoTGcw3asog/w
+         mj+SAQcO01mYiS0UTHMzyOwzj3nQDAncPX2CrWzSuxNNXY3d28163YENOUS1+HtFP/7U
+         P9v0qbMNI3K4J8lc4S/Bm/calkdkFs31zYzpT+jF4MGXUNLrWlFPRv7JsKVHdp5pmNZv
+         grbkl4F6PDzBIPhArximbsxOwqlD4YVYU9wVpuMAv3t4WM/FYtBdn74sZ71eMXPwsPjk
+         FpTNXhD3kn2LvomRAFTP8Bn2nWzssvGHZ0yu7XCe37i5CpgWkKrIZ4a1zIqFhnOksCzM
+         jjcA==
+X-Forwarded-Encrypted: i=1; AJvYcCUKhOwXUtbVr/Vp57VFggLcOCQAUAfyWwUsI4QhZVKm3RdxK5iARyn2YdSBBdb9BHJPA2q+Sbp2qrW8hWdS@vger.kernel.org, AJvYcCXhE39mvXDD+U2Lqpp3BL5MznLiFrXv7dirExAhkMm9ODyNldyThgGvg9gclz7mYSzH78v1dRdA+VJHshYty0E=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxV+4ov5TZ765dCWgYaF4NONV7yspBoXWjZUDrLn+TxVDAaiRMR
+	8GRIZutyx3XUWB/ffsSohVVNhK8KIME2zK88xPpfiwOG9FpIrfxl
+X-Gm-Gg: ASbGncs1EF5OEdVWoiPxYKGVzkmMFgdAU0LQ1RiJqZTjvnbh5pmqQD0QPNDYk3z81no
+	lEqr6JV93LoVeNIXQ74zH/uAphDtTUInsJaHnR+NQAT/wrGN9FSt6qdEBE5ESBXG3xxGuwTlHel
+	u74hsX8BdL/XJWzTHA2VsWAyFQQ5Hs7d78vm3wii8Qwqrc/fLE++56R1L4ODQz89Os95P+3UJke
+	lD9RkMlygBJ7/5SGCzynG763trxB15Fbg1pPts1oVWgWCGwEc85zOYN+bs1u6t/ZwPYFRxIk2dG
+	gQUsulg5C0QDGrGCTwCFJZ9XBn5s7uSXDcSInAS3zi9kurUdukrKeOU=
+X-Google-Smtp-Source: AGHT+IHYSdt9pTasjIPhxubmU/E7a5prFsj10ow1xBwQi1o756hKjk73AI9GctSNBy9NpEjOxkAqtw==
+X-Received: by 2002:a05:6000:2582:b0:39c:e0e:b7ea with SMTP id ffacd0b85a97d-39edc311dabmr2526257f8f.20.1744720796513;
+        Tue, 15 Apr 2025 05:39:56 -0700 (PDT)
+Received: from localhost.localdomain ([2a00:a041:e0ba:3a00:c718:382c:d2c:5124])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae979663sm14547128f8f.51.2025.04.15.05.39.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Apr 2025 05:39:56 -0700 (PDT)
+From: Andrew Kreimer <algonell@gmail.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	"Dr . David Alan Gilbert" <linux@treblig.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org,
+	Andrew Kreimer <algonell@gmail.com>
+Subject: [PATCH] media: dvb: Fix typos bloc -> block
+Date: Tue, 15 Apr 2025 15:38:55 +0300
+Message-ID: <20250415123952.16802-1-algonell@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CY5PR12MB9056:EE_
-X-MS-Office365-Filtering-Correlation-Id: c34fd9fe-61b1-43d3-06d1-08dd7c191c64
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|376014|366016|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WGQvMVhMZGcyWkdQUE5jd2QzRVNqV3RlNWhsZi9CZzhVSGp6Y1FUZEtIYVFH?=
- =?utf-8?B?QnI4UFpWbEVoWEpONWpZUFYvakJZeElWSGt4UU4zaXpiYUFBdWRkZDNreWJQ?=
- =?utf-8?B?aE95emNmMFBEZ05Ld1E2eVVQSDBlMGdhQTR1bGpnV21nV0FnNC80WXgxZEV5?=
- =?utf-8?B?MEo4MVMzT0FPMVo3K25pQkJSQTNIUSs3OHp5TUl6b0lFR1Ivb0JYcGVUR1Rn?=
- =?utf-8?B?bUhGbjhRU1RJbTZ4N3lwN1cxeTlBa3l5WGVqbWM4Q01XbitJSDBlQnBDNTh1?=
- =?utf-8?B?dEFCOWE3T2FvZW4yUDlNS0xoZGVrb0EvQ21teWxXcXRWZlpsZjFuTVVST0Rp?=
- =?utf-8?B?aWU4SFhldkFBNnFzYkRBNVhTQnpRdGVYTkVSUU5ZbHdwUFZHVG40ZWE3TnVo?=
- =?utf-8?B?K3FSQUdBNzBPYWFYVXcrRXpRNnQvTDQvMTE0QWUyUlNTMXcySTd6SnRkUXk1?=
- =?utf-8?B?eEVyVzBrSVRUYmhKeE5ERmtNR0xnN2hXYjZDb3Bpc0xxeUFXNU5CdUFQZUdR?=
- =?utf-8?B?dkR5aHpIYVZVVUFVZVNON2dmL1VWS0NKdi8wem11UFNmVUdLbmVuV0Jnc2VK?=
- =?utf-8?B?c1ZIM0dxRFhabGpXZE5hM2FDQkFZWFlPRUc0K2x5cW4wS1FpMFdQNWU4eld5?=
- =?utf-8?B?LzdId3V5ZC91MFY2SGlITm9ubGVDM21Sd0ROamtqbTBSMzY0dVFBdHEzandH?=
- =?utf-8?B?NlY0eFY3VElkOU9SNVFXejUzbGk5M3NRcjBpRkhzRVhlRVQ3WVZDNy92bnJC?=
- =?utf-8?B?QS91UHQwRzhUa2RCT2xjYnE4LzBRYk1xeklGdXVwb3gxWlg3WlArcTVJMWVP?=
- =?utf-8?B?b1JkRFpxTkdsTzR3c1diYjR2TFJwVUZKZWxyd1oxMnZ4VkFPUk9QNEUxd0hU?=
- =?utf-8?B?MUowdVlJK0tmTHNsS0lZT0taSkxhd1NKZjQ1QVBXL210dGRvRFpEcUREclg4?=
- =?utf-8?B?dGMzY3A3b1VQbUlwcGNSL0VVaE1Wd2ROVGU5YmNGRVlXUE9QNUVreFk1NGUr?=
- =?utf-8?B?aStHelVEQTNwSjVBa3B3Sm13Ly9DcXVXbEdLcms2SE1pYU50bi92N1VDdXh5?=
- =?utf-8?B?Snl4d2xVaER1aEdsR0Y2UjVJWGYvMDNiWkJIL0pNSkhOTUJ0SkpuSkxsWHpz?=
- =?utf-8?B?S1Fqc1YvWk9mZUNXSnphZlVJOVpWNzZFQjYxdkQwRHZ4bDM1aktuQ3FJK0ds?=
- =?utf-8?B?NnB6eWNabmYrems0VXg3UGU2ZFhON3NrT3dRR01WM1lYd2JoUDBRWVpNd2ls?=
- =?utf-8?B?Zmt2NDJOblZRZjFMSFpobG9uYXJHOXZydXc5Z3BzZ2hqUnNvRSt5eXlOV0x1?=
- =?utf-8?B?enF1M2c5MUpxS1ZnYWVFTEdCdGFoSzNuMGtKQm0vUi9WNm9XdllQS2lVUFM1?=
- =?utf-8?B?VENGc0svNktkNEZUZWJtVjZPZE5POVFTTnZQWEtjc3RLd1NiVkxlZk5zREIw?=
- =?utf-8?B?eUU0RVhRVnlndGVzSUluVVVScXgrQ1BEbFFRZStKUjNNK29RdWdvdmZpUi9M?=
- =?utf-8?B?WUxwRG55T1ZTZ1NKYzJ3KzRSbXM5R3o4S2NnL24rTy8vd3Q4Mmk2bm1UeFRh?=
- =?utf-8?B?R2N4T0U0Tk1rQjVsQ1IvY3NsMmsyUGFvRS9NYUdNaFAvbk5ZNC93b25VbWJJ?=
- =?utf-8?B?U2hnMDBCK1lFeUJCZjV0Y2tmL0xrdDR3ajVlMHdPa3lKYVMvRGtmaWpGRUIv?=
- =?utf-8?B?VHFkeEFaVXZxcEpxNk9YdC9tUjl2Rjh1OHRWbW1sc2NFM0tieDRMdi9aOW85?=
- =?utf-8?B?VUdMdHQvNlZmRG1nQWNHRkxWTDNQTk9QdHFIS3VlaVhmVExHVU5IbllMV1BO?=
- =?utf-8?B?RFNORi9MM1hDQmdhTU8rNkFsc0M3VXk2WW9sb0JiUkszTys5ZllLVkRWUDl2?=
- =?utf-8?B?KzhPL1JjV3pNTjVYYzI3Snh6VEdLZjkvRVByS0xNKzFxZWoxVG9GU3ZaRlky?=
- =?utf-8?Q?FoqDbA+2L9Y=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SlNpc2M3U0ZyKzlpM09Hc2dPMmRTUEJJWTlSVFp1WWwxWHBKalpabmtlbEsy?=
- =?utf-8?B?QkNKaDQvdGZSaUFaY2kycUdLWkVIUGZLZURQNTZZMGJwVzRTRy9ZRHY0QXVj?=
- =?utf-8?B?VHcwSDhDREpYa0pTakRmd0VSUU1pTG5rS0c2ZFlxZ3ZFbTdtL2RmUndmc1A2?=
- =?utf-8?B?UkQzR2grRUdxTUswZG5ZRDdaVkR3UVBRelI2UDc4ejdQakt6MW5SSU44Zm5H?=
- =?utf-8?B?S3pocXRaRzdLWURYSDFzYkViaGE3cUNpS2FSekxVdXN5Y2hGK0YrOEpLMXNB?=
- =?utf-8?B?YTBCdXdvZXRNcWZuOXhlQnl5c1BTQ2hPT2xTajBSb3IzZVBpQXZHazA1aG9K?=
- =?utf-8?B?WXVSWngxVDNldVVUbVZhZVhHS3Bua1pYR1pjVkJubXg3eUpTSWhQWmM2Qk9W?=
- =?utf-8?B?bTUzMVhrSEJVd2FXa1lQQVQ1ZE5yeXF2ZC9NQlZBZ2xoQ09Qc0cwaytlYW5l?=
- =?utf-8?B?L3RZcWZNNjZra2pmMGxqZ0xHRG5sVGxRUlpBQ1BOQTh6ZVB3NU5laEMrbGNN?=
- =?utf-8?B?REhhc3o0VE1sWGYwaWFEeE1zTXR5Z3VhU2d3b1JlakNtSGFqb1ZCTDFMb3dx?=
- =?utf-8?B?alFKb09rTnhYZno1SzloWGFjUTFPR0RSMzlGVWhrcjJ4amN5STdvS2pJM2Z1?=
- =?utf-8?B?b2tNeSt2ZTdHUWYya2FYdzhtckpOVlh5Q0JJV1U1Sk9pa3R6VTBEVHpOcFlO?=
- =?utf-8?B?OHNWWGhFTGFRZ1lCaU01eHRxdWQ4YWl0bTB1UXZXOEpBcFZxRmR5ZC9ySTJR?=
- =?utf-8?B?NXNuRHNsQklnaEtzbmR3bWZtdWYwRTE4dk8ydEpqalVyWEp3aGxpSHFQOS9h?=
- =?utf-8?B?QVRjbGJNaTJiZ2pjZ0ttYW4xMWtsRVQwWjB4LzhtV2kvQjZWTzU3cVUxdzBT?=
- =?utf-8?B?L0NNbEF0UVhxZllhRTY5REQ4bTVlYkdYb093aGJmdHYwSHFhNE9PK2tSdC9U?=
- =?utf-8?B?RlF2NTBraEtmZVZ2M2FvTmFoYWNWcTJGcnpNalJZaTc0d0tTRUdlajYvOVdN?=
- =?utf-8?B?RUJ5bFZxWThMbFFMNUhsNFVsKzhlVjRYczR3SDVHS0lJNkMvSlBjYlVMd0Uw?=
- =?utf-8?B?T1Yway8raytnU1FWSHVuQTZYaTJXQ0pGMGI5OHZyZkdjc2xjUWV0VXRLVndt?=
- =?utf-8?B?a3FaZlR0bjM1WnFTWExVV0Q2R0IxaGljYU1GaE1OWmVjNThDdExSbW1sS2pN?=
- =?utf-8?B?MWJFNmRpQkxkclYxODhyMzNCVTI3Z1lQMHRvamx0VXB3WUZUQTVzMEZUREd2?=
- =?utf-8?B?SzczWGh2RFE5aUFjOEJrQllNYklSNjdtMXdOM1pRc1FEQ1kwZnNwYWVHaVYx?=
- =?utf-8?B?SXRWa0FyU0Q5WEhGaFhyYlpFVWl5bjZaN01FRDV3QWZ6Q2FPV1k4amw4QTAv?=
- =?utf-8?B?OE1XMVE4OUtwZXJ0WnIvekNudjBHMytKUzFuQ0IvMHMrUnIyRTQzMHVlTytv?=
- =?utf-8?B?MmdhUHRRYUEySUx2V294UG5jN0J3bThGbjZ3QXgvOSthYVFzQmRoNkM1ZVJP?=
- =?utf-8?B?bGVTVis0U3RoaGhhcHRiTUx6Q3gwVVRUaG9lYk5WN3hWT3hNK3FxZnRrcW9s?=
- =?utf-8?B?SnBBRkh4eXdWejF1eURxOUJQQzBJcVJnQ0pucEN0amVTOTNUQVRaOURBZHZj?=
- =?utf-8?B?aGl0RzdyczUyejQ2K3A3eVlmbFBGTnZFdUFVOTZWajNWOHVhTDJhYXdCUVR3?=
- =?utf-8?B?dkNsOG5CcmVLbE4vbjFwalZ0cTNqN0l5SEszLy9MdytRaWI2VkFlVDJYTlhh?=
- =?utf-8?B?S1FkOW4wMmdYV1p5ditWSXdFNGVlM1B1TXVZSWZPRHFvWWtoSnlKemwrTWFn?=
- =?utf-8?B?WkI4bzNhRjI4bUVSQzd1S1NOanFlZWVCQ2gvbVA4dVdXRnZTRXVGVkNDZ0la?=
- =?utf-8?B?VUVHRVdrcDZsLzdzcS9FVXlwaWg0YlZiWlF0bFVEdkVFaWRXYWlCTnNGK2FE?=
- =?utf-8?B?SDBYaFhiN1RKTVBuU0JzN0ZkVVlGQmpIYUZGVUxMeU03alliZ0ZzU1IyUGNI?=
- =?utf-8?B?dXpFN3VZRHpXUzM2d1JEN3AwNWU0RjNRdUx3TTFXc2J2dnVUaDBYdlFhSlhx?=
- =?utf-8?B?a3hPWlhCc1dxQXBxK2haaXRudGNVaWgyL0g4Sml0dHdsNWkvU3dmVThYYVpv?=
- =?utf-8?Q?cQcShG9oDbtnB+HtLTKB16oit?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c34fd9fe-61b1-43d3-06d1-08dd7c191c64
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2025 12:29:05.1980
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cqaBr37xNuuYrLCCozgsvnhqJWlqKeO4Q8ubVLGLcwQyqNbUFSBy2bIHghGv/o7g
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB9056
+Content-Transfer-Encoding: 8bit
 
-Am 15.04.25 um 14:19 schrieb Philipp Stanner:
-> nouveau_fence.c iterates over lists in a non-canonical way. Since the
-> operations done are just basic for-each-loops, they should be written in
-> the standard form.
->
-> Use for_each_safe() instead of the custom loop iterations.
->
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+There are some typos in comments / dprintk messages: bloc -> block.
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+Fix them via codespell.
 
-> ---
->  drivers/gpu/drm/nouveau/nouveau_fence.c | 10 ++++++----
->  1 file changed, 6 insertions(+), 4 deletions(-)
->
-> diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> index 6ded8c2b6d3b..60d961b43488 100644
-> --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
-> +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
-> @@ -84,11 +84,12 @@ void
->  nouveau_fence_context_kill(struct nouveau_fence_chan *fctx, int error)
->  {
->  	struct nouveau_fence *fence;
-> +	struct list_head *pos, *tmp;
->  	unsigned long flags;
->  
->  	spin_lock_irqsave(&fctx->lock, flags);
-> -	while (!list_empty(&fctx->pending)) {
-> -		fence = list_entry(fctx->pending.next, typeof(*fence), head);
-> +	list_for_each_safe(pos, tmp, &fctx->pending) {
-> +		fence = list_entry(pos, struct nouveau_fence, head);
->  
->  		if (error && !dma_fence_is_signaled_locked(&fence->base))
->  			dma_fence_set_error(&fence->base, error);
-> @@ -131,11 +132,12 @@ static int
->  nouveau_fence_update(struct nouveau_channel *chan, struct nouveau_fence_chan *fctx)
->  {
->  	struct nouveau_fence *fence;
-> +	struct list_head *pos, *tmp;
->  	int drop = 0;
->  	u32 seq = fctx->read(chan);
->  
-> -	while (!list_empty(&fctx->pending)) {
-> -		fence = list_entry(fctx->pending.next, typeof(*fence), head);
-> +	list_for_each_safe(pos, tmp, &fctx->pending) {
-> +		fence = list_entry(pos, struct nouveau_fence, head);
->  
->  		if ((int)(seq - fence->base.seqno) < 0)
->  			break;
+Signed-off-by: Andrew Kreimer <algonell@gmail.com>
+---
+ drivers/media/dvb-frontends/dib7000p.c | 4 ++--
+ drivers/media/dvb-frontends/dib8000.c  | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/dvb-frontends/dib7000p.c b/drivers/media/dvb-frontends/dib7000p.c
+index c5582d4fa5be..b40daf242046 100644
+--- a/drivers/media/dvb-frontends/dib7000p.c
++++ b/drivers/media/dvb-frontends/dib7000p.c
+@@ -2630,7 +2630,7 @@ static int dib7090_set_output_mode(struct dvb_frontend *fe, int mode)
+ 			dib7090_configMpegMux(state, 3, 1, 1);
+ 			dib7090_setHostBusMux(state, MPEG_ON_HOSTBUS);
+ 		} else {/* Use Smooth block */
+-			dprintk("setting output mode TS_SERIAL using Smooth bloc\n");
++			dprintk("setting output mode TS_SERIAL using Smooth block\n");
+ 			dib7090_setHostBusMux(state, DEMOUT_ON_HOSTBUS);
+ 			outreg |= (2<<6) | (0 << 1);
+ 		}
+@@ -2654,7 +2654,7 @@ static int dib7090_set_output_mode(struct dvb_frontend *fe, int mode)
+ 		outreg |= (1<<6);
+ 		break;
+ 
+-	case OUTMODE_MPEG2_FIFO:	/* Using Smooth block because not supported by new Mpeg Mux bloc */
++	case OUTMODE_MPEG2_FIFO:	/* Using Smooth block because not supported by new Mpeg Mux block */
+ 		dprintk("setting output mode TS_FIFO using Smooth block\n");
+ 		dib7090_setHostBusMux(state, DEMOUT_ON_HOSTBUS);
+ 		outreg |= (5<<6);
+diff --git a/drivers/media/dvb-frontends/dib8000.c b/drivers/media/dvb-frontends/dib8000.c
+index cfe59c3255f7..ae438bd80317 100644
+--- a/drivers/media/dvb-frontends/dib8000.c
++++ b/drivers/media/dvb-frontends/dib8000.c
+@@ -1584,7 +1584,7 @@ static int dib8096p_set_output_mode(struct dvb_frontend *fe, int mode)
+ 				dib8096p_configMpegMux(state, 3, 1, 1);
+ 				dib8096p_setHostBusMux(state, MPEG_ON_HOSTBUS);
+ 			} else {/* Use Smooth block */
+-				dprintk("dib8096P setting output mode TS_SERIAL using Smooth bloc\n");
++				dprintk("dib8096P setting output mode TS_SERIAL using Smooth block\n");
+ 				dib8096p_setHostBusMux(state,
+ 						DEMOUT_ON_HOSTBUS);
+ 				outreg |= (2 << 6) | (0 << 1);
+@@ -1612,7 +1612,7 @@ static int dib8096p_set_output_mode(struct dvb_frontend *fe, int mode)
+ 
+ 	case OUTMODE_MPEG2_FIFO:
+ 			/* Using Smooth block because not supported
+-			   by new Mpeg Mux bloc */
++			   by new Mpeg Mux block */
+ 			dprintk("dib8096P setting output mode TS_FIFO using Smooth block\n");
+ 			dib8096p_setHostBusMux(state, DEMOUT_ON_HOSTBUS);
+ 			outreg |= (5 << 6);
+-- 
+2.49.0
 
 
