@@ -1,197 +1,169 @@
-Return-Path: <linux-media+bounces-30208-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30209-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E7E7A89278
-	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 05:17:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B15A892DF
+	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 06:31:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1B3793B7620
-	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 03:16:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 37C3D169A21
+	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 04:31:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE60B2DFA2E;
-	Tue, 15 Apr 2025 03:16:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DE27218592;
+	Tue, 15 Apr 2025 04:31:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="RtMIpINU"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LdCbjBjU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from HK3PR03CU002.outbound.protection.outlook.com (mail-eastasiaazon11011045.outbound.protection.outlook.com [52.101.129.45])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75265211A23;
-	Tue, 15 Apr 2025 03:16:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.129.45
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744686992; cv=fail; b=YOM3Nd5zCYpuJS9GnX/V8Kfm+k+dy1bh6PWtxmzl7ktyYMfHmR5LFKl8Ol45gINNWYJWyMJrXfIaN4EpXrOxW1wcL0oHxk4T3qI38n71Dom1/7g3kgipjk2fjEBv0JoPtd8RhWaNXRCzcudSb0lzzzG74yxKoPWA+XaWS8BIV+s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744686992; c=relaxed/simple;
-	bh=KAGEXMFda9D22XbnS5qMSWOkqnzRz1mC02+FEheoiVM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=RVIC3c1lYBImEHHOfbloQvthGrsI1UnqPc26+Ia2CS0LeofFEsjk9liv16eDQtZ2HSRkeCW0tTjyOFuOHcbILIKKreR+jZFGCsLkYvM2al6QKFNNgYI18fgclYX/4LniafYbOKDpgW6qK2eQ6gOCu/1cJM5rDFCYqchNvTNHIhc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=RtMIpINU; arc=fail smtp.client-ip=52.101.129.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Bh6Rz9bs1fd1XVIvN1wOIIb4ZPPyxt4IY0JuzaAxnXgfiC40MLqkyOo7bYJJOXFqcyUF4LUNp2o4f42tZtXtcpnbiJuP4iUmlI9bueOx7ubL0IizEZlCXDzLf9hpbe7TsDZWLtQWeOWM4MHjZPqLzzk7776ce5bdI7RlgADXtUSSi/yVfuHBZHDzo+s+jY2b3CAnRAkqUhAZXVtedX8pTiCihVhfdxqNamVOamo00Wov8zia5cMhtICSdwR+gcMOMTe9WEgoEK5WxZYVPRQriFasMaoPhCl5hR5xvJsnc5fBLzRWeaW7iTHhIzXp8R4AAOTc7jabGQHNKMqMgTx/kg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u5zygPXH6v5K0gRIijjami72BuRI2k/5i+WkCw8IEVg=;
- b=fgE9OCQoYj438d3e9POCDcCJAmES0i3ZrYXudc0zzXNoPR27qLWK6sG33Wu73ZWAgeCvWTdE9VqzsrgQRyYm/CsFOR8OJtMM++ormxXAh+7cwYGRR67xIiqE5vaeDfrv07XMc7xeCuk+7iLyQVuHgL6AvnMW7pBLd+e64XwVA8yqOnoWv7aNu7v7ujWT7KEQMfih15xQzB6pn6cIMHIfUmvrZlmleZdsdwi38gspt36cgNEIgg93ruLMUqfFVCL45HdvXAE/fxe0NTpY1sElLKnv32hmetyotEJwCLsYJJWTMSuVnl6g68GWC1s009AE9WB2GxA27HT3EW6BOqkewg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u5zygPXH6v5K0gRIijjami72BuRI2k/5i+WkCw8IEVg=;
- b=RtMIpINUM1C2ICLMG7YGODtGlfZ0te7jMrUi1F7DAOoYHQ3aiVosG1j11Hgk8vJWGh88BYXjOqQzPZoD4b5D7VyD6b/QzsDUGBy69pmZFs/iVoJp+ZF8FLaUjbp5e5uWHOhx71JjsNPOVKw1lCH+fSDO3CAR1gVJpnpgPddT5T2WwU+gDjg5c7kGExAeImJSbQZr1Vi3nYX7WQ1xMgkNNHbk/qHVKPOeZLfHTOATl0Mb/Kg7z2jDYFkHDwSz48rRxSJViyekHr4NCtDiJI6Ku9pkTrUHCBJ6c/6yd2g6KJQdZFjGsvyf7D0S+7LwsW70Fxj5utfEuZER9oQCgQjWpw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
- by TY0PR06MB4984.apcprd06.prod.outlook.com (2603:1096:400:1ac::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.27; Tue, 15 Apr
- 2025 03:16:24 +0000
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f]) by PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f%6]) with mapi id 15.20.8632.036; Tue, 15 Apr 2025
- 03:16:24 +0000
-From: Huan Yang <link@vivo.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Dave Airlie <airlied@redhat.com>,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-kernel@vger.kernel.org
-Cc: opensource.kernel@vivo.com,
-	Huan Yang <link@vivo.com>
-Subject: [PATCH 2/2] udmabuf: fix vmap missed offset page
-Date: Tue, 15 Apr 2025 11:15:47 +0800
-Message-ID: <20250415031548.2007942-3-link@vivo.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250415031548.2007942-1-link@vivo.com>
-References: <20250415031548.2007942-1-link@vivo.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2P153CA0011.APCP153.PROD.OUTLOOK.COM
- (2603:1096:4:140::14) To PUZPR06MB5676.apcprd06.prod.outlook.com
- (2603:1096:301:f8::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB15714B945;
+	Tue, 15 Apr 2025 04:31:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744691497; cv=none; b=WBVFK6+gxg2b6tmtph0WZ+hj93Ss9Hxj9T1OPmvCGT6vUUVnjEVBzRXOhg3fMlWgeC8t1qhyJlMqxPERw/NF5RPGPuPWyJb8346EjhtSvt2zNDr90DWACJxieIpwPhuySJ2qOGtfn3YsqQ/oHlsRy6UHyidKmNy9fyODDUH7+IA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744691497; c=relaxed/simple;
+	bh=aCRjpDq3+ND2KM7I8yi9ZkKhhnvnhglU2cxJu7K7NXM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=DOpbdH/MvlnrXhpy4YLhDiPrcysEcJoM5w5M8RY/aO3OE033FufVg+G0EiHtdGYi+hrD2Bo169DjoRJ5K3CZHYZOy5HhSfap+4GGSt7LLmY82//SaBJQzCMHwVm1IqGdGRM2xuzQ9VxQbNxMskquE2eBrzQIK/wmyrwbpWzKDvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=LdCbjBjU; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53F15Pkh020421;
+	Tue, 15 Apr 2025 04:31:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	QmOzbxWmY/uCMMaKk5U24eGShqG2fiQcxMUcfehvYJY=; b=LdCbjBjUgSuhTG56
+	l/iSP2uRAI/Q7T7OIFSXlVQ9RW359oZ3sovunxzrRZaUMW+NvB+HihHzI1ZtbyxE
+	Tm7QTWBNk0iYY5qk8kjq/91Nco/iGleUnb6ey1vbbjjNeJZgUMOYgYe8d5OThsHT
+	h8LkbiRT9rb1bDMLY8+Tq8jy8oio46uubZKRSExEdQON6k5BlBKns54qTiW5Ft8n
+	+v+TeJtTxbeOGFQZCi4gACnt66knMiT0fY6MbDbHC8+oy7/6Vk1N8HBzYQfzMrAc
+	mdjMEGdyzQbKY7/0FiReH4xrqO1tbU6AUkU/KElWIlz4R8E7Y8zNaOe3XlH8hjJq
+	kOQ25w==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45ygj96m45-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Apr 2025 04:31:31 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53F4VU3o028689
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 15 Apr 2025 04:31:30 GMT
+Received: from [10.50.52.225] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 14 Apr
+ 2025 21:31:24 -0700
+Message-ID: <0241cee0-c121-3f30-57a2-f1d15b5e0839@quicinc.com>
+Date: Tue, 15 Apr 2025 10:01:20 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|TY0PR06MB4984:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7e410317-836e-43ca-3979-08dd7bcbe74f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|52116014|376014|7416014|366016|1800799024|38350700014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?NwgMjPXX2ewii741mlts7leT74NXp+5yLSsGZRZORfahOi5mvyBMmNTqQBUo?=
- =?us-ascii?Q?T7Od2Wc/RwmhDjtiwCHC1FJ2jQC6p0pEVCuDohkJbYh7NAxFR93CKYVhndBH?=
- =?us-ascii?Q?f+gCetn6o8AbVqP2Gzt7v6TiX9bQmbyn/gqmNzWceXXDxEiBsJsjltlaJ1w0?=
- =?us-ascii?Q?AKd0sVkHovB6Az5e/JB+FffPgekf+xxQ5CUKPWysXE443rculBQxGWgQiAye?=
- =?us-ascii?Q?wARP87Ku/Gfb33u4M1X9jI8yIGHeMXJZlWvPAz6/rirO80oXnlFi7YNpSFqB?=
- =?us-ascii?Q?rb59jipzsFX/WenRrsooVXAvRMcoUj8npD267VVitT5mIVCwg0mxnidnqes2?=
- =?us-ascii?Q?IkoERH67kKyJgH4VXc0Px31xZDOmg/CAVbBPZjdDwOb1OlkKmTVvgdKNC7hz?=
- =?us-ascii?Q?wwN2+9nR6pUXoPG0Yg8Suht2+iBIZXNm17CGjAVWVsP1FP3n8JQ7Aibd2dB/?=
- =?us-ascii?Q?YKYJIungGxpWf5SxGHVM2VyoyIXLQH2cPUhmvxGJHeapJN22NCgYCt8YFv7H?=
- =?us-ascii?Q?GSkDsKe4SEY1BFBmYpSovFFnw7YZJ+5Y5wQuQWRVbnhNdWzfjTNqXXSBD1Xz?=
- =?us-ascii?Q?RkfhRjq6BTnX1Dby1uoh5ZfxijEtbG57NbmeRNCgCrRPSrvnGQzXmCE7mioi?=
- =?us-ascii?Q?yW3tIt62XYTFV5z2inExX6IRXaShRTmaqr/IfE0fQfgpck8jLDeJuXnbqMGQ?=
- =?us-ascii?Q?Bcrke3wgximdcd3phbI8aJBDv4t8zAysOsrkq8l90UBXSImc+pv+9u+Djwig?=
- =?us-ascii?Q?INS8w08wO6kVZz6rnSdiX0YHCCDZH7y0HiFevYEDP1+uOk3XkhqnGOuhatVC?=
- =?us-ascii?Q?uzzXKRgWR896xT1XURZoyrJayK8DZXovE4Uj7Da59GrHgxyCSR1fF5rMAGcp?=
- =?us-ascii?Q?Qrcp+5zCvkbl3gp1nTYb+gMszCd2rzHeoa/ATPbcYJARttGfR3gIwxJGREY5?=
- =?us-ascii?Q?MjusQxHj8/0PtK6jbUq5Fvql5aswxB1oALmVjZkkg9fK0EDC1mdAKDla7D3u?=
- =?us-ascii?Q?8589YmglkQiSbbObDGDX8609fuhwOlgUINzQQRbzetOe+E8GuV+NTsGJzMz+?=
- =?us-ascii?Q?k3m1kBMDW746eiQiaUjaU/zkJdD9plxpw7SMBOxlhPma5XA92+SaegdN8LVn?=
- =?us-ascii?Q?wkjX7xpWISCo7gVdwQXHEGaYqgTDicDIR7eHoCvdpFKHMLr1XDwKadbcFN5x?=
- =?us-ascii?Q?v4ZHL7oUFNXox0VAhj5HLkgRMWW1d5N7CoPLaUFOk0wOc/X31Zxw/UYXlZZT?=
- =?us-ascii?Q?dDq50sep0slaTvWhHNuRmo9gf4hYfD+c68oXVYut3PMgiTWovkMlZz0AFoDY?=
- =?us-ascii?Q?n75yaybJKNAli/mMecY8tMAxJn/tB/XT+zwkjXOWEnN5ZNfpRIaa8x35Ra5J?=
- =?us-ascii?Q?JMQXcEX/j0P0fkQi4F9UOyFjGzko8cYnfESOvjQCTXQXxTCs/1e+0/xEthcl?=
- =?us-ascii?Q?WUJ2FFEjJlcbLs7ur2l6VB3I8+0DYYWtNQnCKIXwLP9tZQLxBwhuLl+WxGrm?=
- =?us-ascii?Q?p40gO0Z1vJdQHWQ=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR06MB5676.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(7416014)(366016)(1800799024)(38350700014)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?My4zz78rWETKkTmPfqicczH4dHT+EehORJ8PJ8yVkFsthXVnP3em3rHAkh1L?=
- =?us-ascii?Q?XFcLQU0C3qdXz4W9po7Sl9IqGzrLqjAzk4uFglKgBaWfpPzW8zRIp9DPpDAG?=
- =?us-ascii?Q?/B1a3jDzWqYzgnZipCfaYAbxz84bIIvkEkDZTMKAnn5pS+PR+D+6FQ+2Qr3p?=
- =?us-ascii?Q?i9/OtJnvXKVLDAEv7qMdfJp75peTvpybVxEnWa38A8NJO2dedUZLnJNX4s6A?=
- =?us-ascii?Q?W/imxkaJvEQGPTqhgVNDGXaL/N4a3q8E/4pKpF+FFhxzd9dpQ8Ne5zCONjDy?=
- =?us-ascii?Q?lW5gz66jyKAAWLnQ/4jwLXlcscJu5V6dCI+2ZYKe91V1JvXG7FNA5fjtNlMs?=
- =?us-ascii?Q?lyiCUWlJqV9rmSCOl6+mityszBy2o97q91tR33dM+seLjq/b8ZRGSJunHDhA?=
- =?us-ascii?Q?AusZnA97qcchgLfGjseocudNruo0qcGv7Bvo+PKOUg/F2HS23V4Ix7FWOHVa?=
- =?us-ascii?Q?J/TDpmX+4CodSxXPqyuEg3+ecpUMt2n4JMK/Dl0T81+suB+xKNTMIVkFPklF?=
- =?us-ascii?Q?S5Ydc+YvfYUFRzhkyFnv0vRgKphpHz2tvbn8CnRi8hmVeoNovWguwN0mHO7Y?=
- =?us-ascii?Q?mCCFMipNvSxM9VNUlm94mDuVmVwQkN5f6Y5RTTmN5/35DswMQeLpn/V+dCCj?=
- =?us-ascii?Q?d486689TMB3ET+nI5HovZiqmpkJRiEmPdNbGKg4b5dRpusu0bTGM4wjyWgHb?=
- =?us-ascii?Q?QtvTdGCAoWLT98Ecgn0F3hvYb+gxDTho4TFg72VBF60IaogiyMMXG1bgj0Ug?=
- =?us-ascii?Q?zc6flXOFMpFvNIBm/O/Fy78Pr8cpHuk6rty7/J3Tgpu1wCRfDmHJCbr2Y0VP?=
- =?us-ascii?Q?IVykz0hNYtdFuMzrNTrPgEDlkyVXHlVDbO6xRoRCiZG1MgUfXbKOu5sfkXDN?=
- =?us-ascii?Q?kDiR/K1Ao7btUTHnQ1qaaSC4oiS2/jbEY9oOsKS/NJJeH6bXsF+TgDWCTi7p?=
- =?us-ascii?Q?ajgjPg4bUbRxWSLvzIDE+LERpvs2+o36U3UpMU4WbVnvVb6lyKpTR0o9ykIO?=
- =?us-ascii?Q?UricFX/bvoMipbZo3d+CZcVM3AeXC/da9SoCr4ykMkFHvyJ0mhWYz65PY2ht?=
- =?us-ascii?Q?nVXwC5/Qee08X42wYcVqOO6b7Qw08dHwPRzlFbVij0tEXdjb83FK1i63F5rU?=
- =?us-ascii?Q?Ej3tA/6q0Pj8w752HvxePWhz01tBTCWfzjy4bItby6ZNtTRQD99fICrfuU7F?=
- =?us-ascii?Q?ztaKyGijy2xGuiSr8mBC0EmwTrF4PryAotMWDMtEiEKiQ9o8rLvwRBcHbfhj?=
- =?us-ascii?Q?DaSaqLi7wyDj1qwoJv1tQSjerPv/z/9ycvPeaNz1eCx69bzwi/6QZ1jUvJ8a?=
- =?us-ascii?Q?AGupz6qtRVliSi7l4htjAL3FPJModi69V5yZU+jFmmUrOaqkh2aLVrpy2L+D?=
- =?us-ascii?Q?RckOjYSSDmTzxqRlnreKaQUGRKB1E7NnMATD/Psgy/X1HvL9MWH5b5j20Bea?=
- =?us-ascii?Q?1NdcsbOMmHy2hJJ+6qvyExne3nDg63AMHitHm71DHIpiOpLF2x705Uaa28Yz?=
- =?us-ascii?Q?aGJpeVBg6jCRkHnWdRGsFbJWJ7TTVYex2aO+2vYDTpBzh1VZC4g6oIkiZnZu?=
- =?us-ascii?Q?0lRLgOm12ZwQoXPYBEWrOa6QH68yiejgjnzeBrud?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7e410317-836e-43ca-3979-08dd7bcbe74f
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2025 03:16:24.8009
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: HavBAu4GPE1S8qmZKTjcxLTajUGswyq0U9xvISkKI5iZHrSffZIgaw5TiYsya5N23mHdxkAPLy9GK+aHqmIX7A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR06MB4984
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 05/20] media: iris: Send V4L2_BUF_FLAG_ERROR for buffers
+ with 0 filled length
+Content-Language: en-US
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Vikash Garodia
+	<quic_vgarodia@quicinc.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Stefan Schmidt
+	<stefan.schmidt@linaro.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        "Bjorn
+ Andersson" <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        "Rob Herring" <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "Conor Dooley" <conor+dt@kernel.org>
+CC: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Neil Armstrong
+	<neil.armstrong@linaro.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
+References: <20250408-iris-dec-hevc-vp9-v1-0-acd258778bd6@quicinc.com>
+ <20250408-iris-dec-hevc-vp9-v1-5-acd258778bd6@quicinc.com>
+ <b857d1dc-2b21-4b93-89db-808c5dd4035a@linaro.org>
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <b857d1dc-2b21-4b93-89db-808c5dd4035a@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: YivqHSIH5wbCJK_wUuwV14lNg9i-ULfK
+X-Authority-Analysis: v=2.4 cv=PruTbxM3 c=1 sm=1 tr=0 ts=67fde123 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=NbXVrnjj69dCY6q0HAkA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: YivqHSIH5wbCJK_wUuwV14lNg9i-ULfK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-15_01,2025-04-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 bulkscore=0
+ priorityscore=1501 malwarescore=0 adultscore=0 lowpriorityscore=0
+ impostorscore=0 clxscore=1015 spamscore=0 mlxscore=0 mlxlogscore=961
+ phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504150028
 
-Before invoke vmap, we need offer a pages pointer array which each page
-need to map in vmalloc area.
 
-But currently vmap_udmabuf only set each folio's head page into pages,
-missed each offset pages when iter.
 
-This patch set the correctly offset page in each folio into array.
+On 4/11/2025 6:21 PM, Bryan O'Donoghue wrote:
+> On 08/04/2025 16:54, Dikshita Agarwal wrote:
+>> Firmware sends buffers with 0 filled length which needs to be dropped,
+>> to achieve the same, add V4L2_BUF_FLAG_ERROR to such buffers.
+>> Also make sure:
+>> - These 0 length buffers are not returned as result of flush.
+>> - Its not a buffer with LAST flag enabled which will also have 0 filled
+>>    length.
+> 
+> Any buffer with a zero length must be flagged as LAST, else that buffer
+> should be discarded.
+> 
+> Is this another bugfix ? Feels like one, processing redundant packets.
+> 
+>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>> ---
+>>   drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c | 6 ++++++
+>>   1 file changed, 6 insertions(+)
+>>
+>> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+>> b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+>> index b75a01641d5d..91c5f04dd926 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
+>> @@ -377,6 +377,12 @@ static int iris_hfi_gen2_handle_output_buffer(struct
+>> iris_inst *inst,
+>>         buf->flags = iris_hfi_gen2_get_driver_buffer_flags(inst,
+>> hfi_buffer->flags);
+>>   +    if (!buf->data_size && inst->state == IRIS_INST_STREAMING &&
+>> +        !(hfi_buffer->flags & HFI_BUF_FW_FLAG_LAST) &&
+>> +        !(inst->sub_state & IRIS_INST_SUB_DRC)) {
+>> +        buf->flags |= V4L2_BUF_FLAG_ERROR;
+>> +    }
+>> +
+> 
+> Is this hypothetical or does it happen in real life ?
+Yes, it does. As part of flush, firmware returns the buffers with 0 filled
+length but those shouldn't be marked as ERROR, same applies for buffer with
+LAST flag.
+This conditional check make sure the ERROR flag is associated with only
+frames which are supposed to be dropped/discarded.
 
-Signed-off-by: Huan Yang <link@vivo.com>
-Fixes: 5e72b2b41a21 ("udmabuf: convert udmabuf driver to use folios")
----
- drivers/dma-buf/udmabuf.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 79845565089d..af5200e360a6 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -120,7 +120,8 @@ static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
- 		return -ENOMEM;
- 
- 	for (pg = 0; pg < ubuf->pagecount; pg++)
--		pages[pg] = &ubuf->folios[pg]->page;
-+		pages[pg] = folio_page(ubuf->folios[pg],
-+				       ubuf->offsets[pg] >> PAGE_SHIFT);
- 
- 	vaddr = vm_map_ram(pages, ubuf->pagecount, -1);
- 	kvfree(pages);
--- 
-2.48.1
-
+Thanks,
+Dikshita
+> 
+>>       return 0;
+>>   }
+>>  
+> 
+> ---
+> bod
 
