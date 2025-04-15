@@ -1,310 +1,122 @@
-Return-Path: <linux-media+bounces-30248-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30249-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A8B9A89F29
-	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 15:15:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CEFDAA89F2F
+	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 15:16:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 003A97A32F2
-	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 13:13:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E08AC17AE98
+	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 13:16:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23467297A40;
-	Tue, 15 Apr 2025 13:14:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EB0129A3C7;
+	Tue, 15 Apr 2025 13:15:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EM2cNif7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NmUwUYm/";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="EM2cNif7";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="NmUwUYm/"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="R9yTmNJ9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818AE2749D5
-	for <linux-media@vger.kernel.org>; Tue, 15 Apr 2025 13:14:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8524F2973CE
+	for <linux-media@vger.kernel.org>; Tue, 15 Apr 2025 13:15:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744722884; cv=none; b=kx7uSALgHoaRenGcdCiVWqmBA7Lx8GrRSt+b+mBBMiSFCY/AhG7luQNY7iKj2Tvhi1IZcqSeqLC7M1zQEKwHPWRXR6WFfHyY2kvWQrMywpJWqpDr1kZBKReXwzveQl9LlMNLn9q5MiGskqInyQ6cdQ07RbjECMSVaCNtjVvvERU=
+	t=1744722957; cv=none; b=dHLEkx22NYysySdF5bsE2kcRPNsKfg3G5oHmWi47u2II/MIY6aaijTaHZPhfWVt3zP7a/Juky15JQrvZkX5i8OahmQjWdeEU+KrmNcJ+WCueNBqTiXCpqOQzm2m2uoPu6B9Ok2EXsWQASIo75xTT2GNGYxhVfdFbGjrnb90LBxk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744722884; c=relaxed/simple;
-	bh=Sk2/5NClV23OGH5EkktQP72hk1GcKkVbBrE9OLE0cnQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=javhmIPIfJiInI1rjaUd5n38KW0JS99Y8KtXp/+RyKBxs0wdcFcMEa5YtVIB5OxqY1LsnuwKYGsHjtr7wO6+k1cWjpgSL+IeVSjJhz06o0vp+sQU9mxzgcnsrqh/hvP47tKuMAvxZBEn6C0HxjP+Y84B1egx/cdaEV8EUOiMhpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EM2cNif7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NmUwUYm/; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=EM2cNif7; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=NmUwUYm/; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	s=arc-20240116; t=1744722957; c=relaxed/simple;
+	bh=3vgHieO2AJpal5F1LuNhLN4FjXtEOsywJMgTYWQDnx8=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oqa4eoB/HTmAulSSiXYykqIxfJ2Sb4+818c6QJ3z6JG3RpAA0gtsigRXSTsFNpgCs6rTdrQLqvvZguIL2cc1ytVnNRn7XO3vDk8RmYjZ4QEbERF+brt8MnLR0L3V0cmgixT3Aevf7VUtyad8mD7ESI0Lah4+KJKVsgMkokrCbA8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=R9yTmNJ9; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1744722950;
+	bh=3vgHieO2AJpal5F1LuNhLN4FjXtEOsywJMgTYWQDnx8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=R9yTmNJ9I4uOIMQK+irT0Um+RZWz2IzujA0Om6MhncszHWmkfXITKFmMgBJuEF2OA
+	 QRBlncf/Jaz5GnYFZPbrRliEmlQsgIfEixOLWGjnxdv/6Sqi1294xOsOIhtlkcH+1K
+	 rthHRqwTVRvq0DB1IOoj52gonYsmii0+yz7tXTf7CaWJZJ/Ob/DhKZxdZj3R6PMEoo
+	 DZ6K+nc+sXWGvxO7oX+/w49BwUfkqDml3NY71SILXiTKyId1+Ie93SOth+bA2flq8G
+	 xMwgjeQEqerJAYd/qoClQYMiLKj0OzGKVt+3BW0C9RBlM0H4yPOBQBiXGtj67yvB/A
+	 FL1RC5ObJ8m2g==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 703BB21169;
-	Tue, 15 Apr 2025 13:14:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1744722880; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Se5jHxUz0IwEvCNsGEEKC5CnNqrVllaEpKYdOMi4hG4=;
-	b=EM2cNif7pMJAvLOZvr3Brj6+c+/xKV5r2g6ziYHB88timYd4Ed1k8KlbdTCXDWTnMzgBqG
-	EDen88W9TXkuoeUrhtdKt2WIggrksJefWHKweLPNaGRHaCPAFhjaPzCQL3apZykJKnPXlx
-	WYWp5x0+klpud7fCvKie0U3HcLw1ItI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1744722880;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Se5jHxUz0IwEvCNsGEEKC5CnNqrVllaEpKYdOMi4hG4=;
-	b=NmUwUYm/yIv31sPY2fPSQiSSRxGGUbZ+gb0rxQj1fzY5O3Q0zIaI/RoiJLxsZhte/PyHLI
-	PqV41dBhdktSI6BQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=EM2cNif7;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b="NmUwUYm/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1744722880; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Se5jHxUz0IwEvCNsGEEKC5CnNqrVllaEpKYdOMi4hG4=;
-	b=EM2cNif7pMJAvLOZvr3Brj6+c+/xKV5r2g6ziYHB88timYd4Ed1k8KlbdTCXDWTnMzgBqG
-	EDen88W9TXkuoeUrhtdKt2WIggrksJefWHKweLPNaGRHaCPAFhjaPzCQL3apZykJKnPXlx
-	WYWp5x0+klpud7fCvKie0U3HcLw1ItI=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1744722880;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Se5jHxUz0IwEvCNsGEEKC5CnNqrVllaEpKYdOMi4hG4=;
-	b=NmUwUYm/yIv31sPY2fPSQiSSRxGGUbZ+gb0rxQj1fzY5O3Q0zIaI/RoiJLxsZhte/PyHLI
-	PqV41dBhdktSI6BQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 1FB6E137A5;
-	Tue, 15 Apr 2025 13:14:40 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sHUWBsBb/meiIQAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 15 Apr 2025 13:14:40 +0000
-Message-ID: <704bd885-c3ae-4d14-99c3-9fce797a29cb@suse.de>
-Date: Tue, 15 Apr 2025 15:14:39 +0200
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 0327B17E35E5;
+	Tue, 15 Apr 2025 15:15:49 +0200 (CEST)
+Date: Tue, 15 Apr 2025 15:15:47 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
+ airlied@gmail.com, asrivats@redhat.com, andyshrk@163.com,
+ mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+ dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH] drm/gem: Internally test import_attach for imported
+ objects
+Message-ID: <20250415151547.3c9f5444@collabora.com>
+In-Reply-To: <b924ffa7-99c0-42f1-9170-069e92299021@amd.com>
+References: <20250415092057.63172-1-tzimmermann@suse.de>
+	<e2e82102-eb9f-4eb6-8ac3-6122ed7fcf28@amd.com>
+	<48ab9b82-0d26-4d7c-88b0-feab9762b128@suse.de>
+	<b924ffa7-99c0-42f1-9170-069e92299021@amd.com>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/gem: Internally test import_attach for imported
- objects
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- simona@ffwll.ch, airlied@gmail.com, asrivats@redhat.com, andyshrk@163.com,
- mripard@kernel.org, maarten.lankhorst@linux.intel.com
-Cc: dri-devel@lists.freedesktop.org, Sumit Semwal <sumit.semwal@linaro.org>,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20250415092057.63172-1-tzimmermann@suse.de>
- <e2e82102-eb9f-4eb6-8ac3-6122ed7fcf28@amd.com>
- <48ab9b82-0d26-4d7c-88b0-feab9762b128@suse.de>
- <b924ffa7-99c0-42f1-9170-069e92299021@amd.com>
- <ddb93e8d-7716-47b3-b06c-0bf862d9c32b@suse.de>
- <ac0aba3d-ec77-4f6b-9ac1-f6077519f30d@amd.com>
-Content-Language: en-US
-From: Thomas Zimmermann <tzimmermann@suse.de>
-Autocrypt: addr=tzimmermann@suse.de; keydata=
- xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
- XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
- BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
- hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
- 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
- AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
- AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
- AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
- lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
- U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
- vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
- 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
- j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
- T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
- 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
- GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
- hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
- EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
- C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
- yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
- SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
- Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
- 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
-In-Reply-To: <ac0aba3d-ec77-4f6b-9ac1-f6077519f30d@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Rspamd-Queue-Id: 703BB21169
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	FREEMAIL_TO(0.00)[amd.com,ffwll.ch,gmail.com,redhat.com,163.com,kernel.org,linux.intel.com];
-	FREEMAIL_ENVRCPT(0.00)[163.com,gmail.com];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCPT_COUNT_SEVEN(0.00)[11];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,suse.de:dkim,suse.de:mid,suse.de:email];
-	RCVD_COUNT_TWO(0.00)[2];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	DKIM_TRACE(0.00)[suse.de:+]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi
+On Tue, 15 Apr 2025 14:19:20 +0200
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-Am 15.04.25 um 14:52 schrieb Christian König:
-> Am 15.04.25 um 14:40 schrieb Thomas Zimmermann:
->> Hi
->>
->> Am 15.04.25 um 14:19 schrieb Christian König:
->>> Am 15.04.25 um 12:45 schrieb Thomas Zimmermann:
->>>> Hi
->>>>
->>>> Am 15.04.25 um 11:39 schrieb Christian König:
->>>>> Am 15.04.25 um 11:20 schrieb Thomas Zimmermann:
->>>>>> Test struct drm_gem_object.import_attach to detect imported objects
->>>>>> during cleanup. At that point, the imported DMA buffer might have
->>>>>> already been released and the dma_buf field is NULL. The object's
->>>>>> free callback then does a cleanup as for native objects.
->>>>> I don't think that this is a good idea.
->>>>>
->>>>> The DMA-buf is separately reference counted through the import attachment.
->>>> I understand that it's not ideal, but testing for import_attach to be set is what we currently do throughout drivers. Putting this behind an interface is already a step forward.
->>>>
->>>>>> Happens for calls to drm_mode_destroy_dumb_ioctl() that eventually
->>>>>> clear the dma_buf field in drm_gem_object_exported_dma_buf_free().
->>>>> That is for exported DMA-buf and should *NEVER* be used for imported ones.
->>>> Did you look at the discussion at the Closes tag? Where else could dma-buf be cleared?
->>> Yeah, I've seen that. The solution is just completely wrong.
->>>
->>> See for the export case obj->dma_buf points to the exported DMA-buf and causes a circle dependency when not set to NULL when the last handle is released.
->>>
->>> But for the import case obj->dma_buf is actually not that relevant. Instead obj->import_attach->dma_buf should be used.
->> So if I understand correctly, the tests in that helper should be done by looking at import_attach->dma_buf.
-> At least in theory yes. IIRC we also set obj->dma_buf to the same value as import_attach->dma_buf for convenient so that code doesn't need to check both.
->
-> But it can be that obj->dma_buf is already NULL while the import attachment is still in the process of being cleaned up. So there are a couple of cases where we have to look at obj->import_attach->dma_buf.
+> Am 15.04.25 um 12:45 schrieb Thomas Zimmermann:
+> > Hi
+> >
+> > Am 15.04.25 um 11:39 schrieb Christian K=C3=B6nig: =20
+> >> Am 15.04.25 um 11:20 schrieb Thomas Zimmermann: =20
+> >>> Test struct drm_gem_object.import_attach to detect imported
+> >>> objects during cleanup. At that point, the imported DMA buffer
+> >>> might have already been released and the dma_buf field is NULL.
+> >>> The object's free callback then does a cleanup as for native
+> >>> objects. =20
+> >> I don't think that this is a good idea.
+> >>
+> >> The DMA-buf is separately reference counted through the import
+> >> attachment. =20
+> >
+> > I understand that it's not ideal, but testing for import_attach to
+> > be set is what we currently do throughout drivers. Putting this
+> > behind an interface is already a step forward.=20
+> >> =20
+> >>> Happens for calls to drm_mode_destroy_dumb_ioctl() that eventually
+> >>> clear the dma_buf field in
+> >>> drm_gem_object_exported_dma_buf_free(). =20
+> >> That is for exported DMA-buf and should *NEVER* be used for
+> >> imported ones. =20
+> >
+> > Did you look at the discussion at the Closes tag? Where else could
+> > dma-buf be cleared? =20
+>=20
+> Yeah, I've seen that. The solution is just completely wrong.
+>=20
+> See for the export case obj->dma_buf points to the exported DMA-buf
+> and causes a circle dependency when not set to NULL when the last
+> handle is released.
 
-Ok, that should also solve the problem for now. The point here is to 
-limit exposure of import_attach.
-
->
->> The long-term goal is to make import_attach optional because its setup requires a DMA-capable device.
-> HUI WHAT?
->
-> Dmitry and I put quite some effort into being able to create an import_attach without the requirement to have a DMA-capable device.
->
-> The last puzzle piece of that landed a month ago in the form of this patch here:
->
-> commit b72f66f22c0e39ae6684c43fead774c13db24e73
-> Author: Christian König <christian.koenig@amd.com>
-> Date:   Tue Feb 11 17:20:53 2025 +0100
->
->      dma-buf: drop caching of sg_tables
->      
->      That was purely for the transition from static to dynamic dma-buf
->      handling and can be removed again now.
->      
->      Signed-off-by: Christian König <christian.koenig@amd.com>
->      Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
->      Reviewed-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
->      Link: https://patchwork.freedesktop.org/patch/msgid/20250211163109.12200-5-christian.koenig@amd.com
->
-> When you don't create an import attachment the exporter wouldn't know that his buffer is actually used which is usually a quite bad idea.
->
-> This is for devices who only want to do a vmap of the buffer, isn't it?
-
-Yeah, the vmap needs the sgtable, which needs import_attach IIRC. 
-Somewhere in there a DMA device is required. But it's not of high 
-priority as we have workarounds.
-
-Best regards
-Thomas
-
->
-> Regards,
-> Christian.
->
->> Best regards
->> Thomas
->>
->>> Regards,
->>> Christian.
->>>
->>>> Best regards
->>>> Thomas
->>>>
->>>>> Regards,
->>>>> Christian.
->>>>>
->>>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>>>> Fixes: b57aa47d39e9 ("drm/gem: Test for imported GEM buffers with helper")
->>>>>> Reported-by: Andy Yan <andyshrk@163.com>
->>>>>> Closes: https://lore.kernel.org/dri-devel/38d09d34.4354.196379aa560.Coremail.andyshrk@163.com/
->>>>>> Tested-by: Andy Yan <andyshrk@163.com>
->>>>>> Cc: Thomas Zimmermann <tzimmermann@suse.de>
->>>>>> Cc: Anusha Srivatsa <asrivats@redhat.com>
->>>>>> Cc: Christian König <christian.koenig@amd.com>
->>>>>> Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
->>>>>> Cc: Maxime Ripard <mripard@kernel.org>
->>>>>> Cc: David Airlie <airlied@gmail.com>
->>>>>> Cc: Simona Vetter <simona@ffwll.ch>
->>>>>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
->>>>>> Cc: "Christian König" <christian.koenig@amd.com>
->>>>>> Cc: dri-devel@lists.freedesktop.org
->>>>>> Cc: linux-media@vger.kernel.org
->>>>>> Cc: linaro-mm-sig@lists.linaro.org
->>>>>> ---
->>>>>>     include/drm/drm_gem.h | 8 +++++++-
->>>>>>     1 file changed, 7 insertions(+), 1 deletion(-)
->>>>>>
->>>>>> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
->>>>>> index 9b71f7a9f3f8..f09b8afcf86d 100644
->>>>>> --- a/include/drm/drm_gem.h
->>>>>> +++ b/include/drm/drm_gem.h
->>>>>> @@ -589,7 +589,13 @@ static inline bool drm_gem_object_is_shared_for_memory_stats(struct drm_gem_obje
->>>>>>     static inline bool drm_gem_is_imported(const struct drm_gem_object *obj)
->>>>>>     {
->>>>>>         /* The dma-buf's priv field points to the original GEM object. */
->>>>>> -    return obj->dma_buf && (obj->dma_buf->priv != obj);
->>>>>> +    return (obj->dma_buf && (obj->dma_buf->priv != obj)) ||
->>>>>> +           /*
->>>>>> +        * TODO: During object release, the dma-buf might already
->>>>>> +        *       be gone. For now keep testing import_attach, but
->>>>>> +        *       this should be removed at some point.
->>>>>> +        */
->>>>>> +           obj->import_attach;
->>>>>>     }
->>>>>>       #ifdef CONFIG_LOCKDEP
-
--- 
---
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Frankenstrasse 146, 90461 Nuernberg, Germany
-GF: Ivo Totev, Andrew Myers, Andrew McDonald, Boudien Moerman
-HRB 36809 (AG Nuernberg)
-
+I can confirm this is causing a regression in Panthor, where the driver
+holds references to GEMs that might have been released by userspace, so
+it's not just drivers calling drm_mode_destroy_dumb_ioctl(). This leads
+drm_gem_is_imported() to return inconsistent values depending on when
+the function is called (before/after the handle creation/destruction).
+This patch seems to fix the problem, but I can't tell if it's the right
+thing to do.
 
