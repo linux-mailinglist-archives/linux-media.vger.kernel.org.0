@@ -1,187 +1,233 @@
-Return-Path: <linux-media+bounces-30225-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30224-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BD6FA897D3
-	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 11:24:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B62DA897CF
+	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 11:24:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E57C5188FC7B
-	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 09:25:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2E30616DE90
+	for <lists+linux-media@lfdr.de>; Tue, 15 Apr 2025 09:23:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A97C2820B0;
-	Tue, 15 Apr 2025 09:24:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QmWaUoDT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EuZmUEZW";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="QmWaUoDT";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="EuZmUEZW"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 219132820BD;
+	Tue, 15 Apr 2025 09:23:51 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from MA0PR01CU012.outbound.protection.outlook.com (mail-southindiaazon11021136.outbound.protection.outlook.com [40.107.57.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F31D9205AA3
-	for <linux-media@vger.kernel.org>; Tue, 15 Apr 2025 09:24:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744709089; cv=none; b=kp2NrbSEK7KX+CZmFYUizS9Dq+eE0KoVkfwj06eQGS7W41EbVs2/B04Epw94wjwv6SXIDtFIDZrlbx7348y9lzTAMUV92HNYQX/XBqA5LNqrHtrv7Xnf9eJwVkeDhWTREueVol5fOm+upvd1KTy3wYLbi6Yiy1AGl2ZMWtxA/70=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744709089; c=relaxed/simple;
-	bh=kBlm22XqaLL30mrlY3NE4ShPg2L2mmh28W82el1hOU0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=nMxG5tm/vLQG95bRvWJ2OKuTW1SVOjRjo/1CzJeXQS0a9utY7GwI9zoTMjuWOqvnOMHk3cq4BpFK7Tm1KouajNbtiELHs1gIhjXmNmO/JwSjHAZ+oq1oSPY5HTx4MC69R/LK7Vbj59xMWV30kI2/H7JUuEpvtXUK0Wf9lbJtjmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QmWaUoDT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EuZmUEZW; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=QmWaUoDT; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=EuZmUEZW; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 0777721166;
-	Tue, 15 Apr 2025 09:24:46 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1744709086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Pm52QsRmxq/tllwdensBCR+Q3LzdvPqrpt+hOA9XWXo=;
-	b=QmWaUoDTm78rh2I7eeAuGlsPl3O5FkLtbXw2BTx8yLzbCj10q2HzV8/o+ir2/pRNrq4AZ5
-	nPXlcl2KD9gcTfihd6fa2ywfyidiXpNsSoXuWxxz+Gd/6TZN2X+zKu4TAQIFrKqwQWx8+5
-	dzg6XWUT/BoVXiAacsdxV20u4qonN74=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1744709086;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Pm52QsRmxq/tllwdensBCR+Q3LzdvPqrpt+hOA9XWXo=;
-	b=EuZmUEZW1WzfE1dcFsQb4VEiqDYcCWnr+cFcAJleATSQw6z3en4cE98nZoO9ZljWf/nD7h
-	AJsr+q4zIjRDBqDw==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1744709086; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Pm52QsRmxq/tllwdensBCR+Q3LzdvPqrpt+hOA9XWXo=;
-	b=QmWaUoDTm78rh2I7eeAuGlsPl3O5FkLtbXw2BTx8yLzbCj10q2HzV8/o+ir2/pRNrq4AZ5
-	nPXlcl2KD9gcTfihd6fa2ywfyidiXpNsSoXuWxxz+Gd/6TZN2X+zKu4TAQIFrKqwQWx8+5
-	dzg6XWUT/BoVXiAacsdxV20u4qonN74=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1744709086;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Pm52QsRmxq/tllwdensBCR+Q3LzdvPqrpt+hOA9XWXo=;
-	b=EuZmUEZW1WzfE1dcFsQb4VEiqDYcCWnr+cFcAJleATSQw6z3en4cE98nZoO9ZljWf/nD7h
-	AJsr+q4zIjRDBqDw==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AD358137A5;
-	Tue, 15 Apr 2025 09:24:45 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id LFIcKd0l/mehVgAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Tue, 15 Apr 2025 09:24:45 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: simona@ffwll.ch,
-	airlied@gmail.com,
-	asrivats@redhat.com,
-	andyshrk@163.com,
-	mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH] drm/gem: Internally test import_attach for imported objects
-Date: Tue, 15 Apr 2025 11:20:40 +0200
-Message-ID: <20250415092057.63172-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.49.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 061811A3031;
+	Tue, 15 Apr 2025 09:23:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.57.136
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744709030; cv=fail; b=iNwM0KKj7VqbUv283MygkVoFBckOVRifAMdZYE8IUQwxatFF91Wg398F+XExq3+CrYTS17InBpDE2UquYPH10IU/+NWRs8T7aHqld8fQcJkZnUGwi0apoNzlk70aKPXjnkXwTDSJjsxNnL+GzZNDpCDdYrwAHp8gOMeP8F+oPwY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744709030; c=relaxed/simple;
+	bh=Vgu4+TWE5hN/aOBaUBaSCwiwf9n6THULRXQGyAmRFpc=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=gvjlyHSTeab5tHSfERDerNUkUU9OlaLKe1AvmIH5bDQJ4euZOomiXx2Al/31M63JygWZrj1DZiB6xL9KpKlfu+OA6eijNk4p9Yb1tVQrvUbaFG9xLnOXA8MMbBMB1lnmY5DtXYy7cjtRuR09tRB3gx/9XhUkfr4B2nZmaQfydsI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=40.107.57.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=d3NWDDS7ZeJ+wj16aheaJYKvZbVB6vb9e+CdfEgP3VxpDq4hgYoEdFylvXqUwdlAW4zz6dBBhcmQ2mHXvkT3K29SBWLoT0eEUTBjFWMvl3e1P/6iPMFzdc85IqSjs9g7z3UByzrXpKyVcluYPPIZmAFbPjNZyVhuuuhPkofK8UoJa2e7zo+VjxtQ9v8KjUOZOP3ImXuN8BHiMPYWNxG8DXGuFlmNwFBy5BEkuoOPy2HcT1Q0ChZemJtfXRmw9ipsMdWatpoPRvVxGUevbAqC6x5xhDPTWprMCc7w14rPl2ncMrvtKx1FuYVo8GCBJZKbzczmGZgd653jBVJEc4LUog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Vgu4+TWE5hN/aOBaUBaSCwiwf9n6THULRXQGyAmRFpc=;
+ b=m7U32LFiXn6kPYijirnylfNo3DQPrtvcnIZuxXBfcL9AS4pSQpKtF7y5FZLUeXbQffJYAG8UGd9Gvap1C+VUgt/2d8rvxYcxbKG+9bzUmnNVaA2JmAguN0AmVK/oWgbExcGk3CAuOxuvWp/XXkUzqFNdZgvC1NAiw6xEIydOInh9liROK2AKk1JvAxqE6hHOF8PRxdgSg4KLnVpm9GW03nGSORnEHtVVvIkDaohh3Feh2OvOzdZ9yGg2e2ErTB5xfBmJf5hwltqhmJg8D21rnJQDE/p15lKvmdA2AmnK/JLH5jtlA6C+0YJHa0eh2u3SeUAkMJfGFXVbuUas/mBu9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
+ by PN3P287MB0943.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:176::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.36; Tue, 15 Apr
+ 2025 09:23:41 +0000
+Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+ ([fe80::58ec:81a0:9454:689f]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+ ([fe80::58ec:81a0:9454:689f%2]) with mapi id 15.20.8632.030; Tue, 15 Apr 2025
+ 09:23:41 +0000
+From: Tarang Raval <tarang.raval@siliconsignals.io>
+To: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+	"kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>
+CC: "Shravan.Chippa@microchip.com" <Shravan.Chippa@microchip.com>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Julien Massot
+	<julien.massot@collabora.com>, Zhi Mao <zhi.mao@mediatek.com>, Mikhail
+ Rudenko <mike.rudenko@gmail.com>, Kory Maincent <kory.maincent@bootlin.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 0/9] media: i2c: imx334: Miscellaneous cleanups and
+ improvements
+Thread-Topic: [PATCH v2 0/9] media: i2c: imx334: Miscellaneous cleanups and
+ improvements
+Thread-Index: AQHboG26RZJ57Z6yKEOAszyAolzY1bOkjDgu
+Date: Tue, 15 Apr 2025 09:23:41 +0000
+Message-ID:
+ <PN3P287MB1829D27A21BFFEC97C8F5B678BB22@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+References: <20250329054335.19931-1-tarang.raval@siliconsignals.io>
+In-Reply-To: <20250329054335.19931-1-tarang.raval@siliconsignals.io>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siliconsignals.io;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PN3P287MB1829:EE_|PN3P287MB0943:EE_
+x-ms-office365-filtering-correlation-id: 96a3988b-62f7-4381-720b-08dd7bff367b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|7416014|376014|1800799024|366016|38070700018;
+x-microsoft-antispam-message-info:
+ =?iso-8859-1?Q?ZzWXBxNsXYgH7wfgwSAo7pK9zgIUt3P1blvbxKUsoJBhNi/63EAPFC2VDL?=
+ =?iso-8859-1?Q?YTuTpalyfoDlNHOPxmIaqmxJ1XYsoYNOk1ySIUf/hcFCk0Tr3T5Q+qpHCd?=
+ =?iso-8859-1?Q?/HVdhxevQbsSaDHax5CJyUkkZqBLCPJ6BXSgVczAo2WFYHcAmkKLAI4wKS?=
+ =?iso-8859-1?Q?dvqvURDnNKVT9tFM/elymKIy9wt8wsh8tICKqmlnBRfIN1TvDMUAuT/9qF?=
+ =?iso-8859-1?Q?zjnA+x9cwWGKbQF3uJy5nCyfE+cq5wtmZVauN2EVIJWHNOm04+dGXOqKvf?=
+ =?iso-8859-1?Q?0So1re53guz6p7yH0jT6zE4PWm+5j8S9tSFrrxXBctyGFAH+OFU5Mpm8jK?=
+ =?iso-8859-1?Q?SXy04ZlORdaarpfk5eqVlMIgoaHsFo3u775tqy0kqI0DAEXirv9+YG/lHG?=
+ =?iso-8859-1?Q?If8oBBQlxf5hst9nGo5+r2GQvh2C+zWn3VRjr/AKgaAgxjFuaKNOyi+exC?=
+ =?iso-8859-1?Q?YyrJyh3oBjS8oB8ySFTFr5MHxnhy8hz6k3Kh8/k/f2svupRj0g+fA98Fbu?=
+ =?iso-8859-1?Q?PFkMiNNd9cbQnevnYDhRzX4/WiOHGC/B59xH8akMufoge6/fTt3Yx6KlKs?=
+ =?iso-8859-1?Q?yCAg/sJK8RvfZyxA1iOLYE8VJ+d/j7yBLXE6YKFx3yU32xGlRpYycPc2VO?=
+ =?iso-8859-1?Q?564zV9pmMDco14l0FPEie76eFSmlET8xUe52U6auSMh51fURiyQfVnBQ8R?=
+ =?iso-8859-1?Q?stUUIfw/eHmc+g2nEJOIhs3OkTpiBIIbcresVpsq2baCWOr2TEyr2RaGhz?=
+ =?iso-8859-1?Q?aDcmUEJGym7dbI1Orwd+sej87XihesIntv3z04NR0nc1YGhvdDTIuKsplG?=
+ =?iso-8859-1?Q?b9hf8h9MsNIqSJ9PKJikmzVtTYb8nerdq4yFcTcrS/+r2ZttHfEfSSLgy9?=
+ =?iso-8859-1?Q?SaKbXX5vnclbcRGwUNeFPjPCvXY00qCUXi4ScHhdv/25xwsYJbREYxo9Ps?=
+ =?iso-8859-1?Q?F59SUVKGJYPk6Sc2jZzfhESAUqhtcT8tAzEaZQay3yeLOFVXGhA72LBnSS?=
+ =?iso-8859-1?Q?o2azdHiKc2+3Gn//jy9KxX7j6i1LkqoQTaMf8iDkPDam6jeG2yDjq0SeUe?=
+ =?iso-8859-1?Q?EBu5ECzdFRn/ANkg3gUB73LguRSpfMlX+3n6KM3cr8esMQOELetNeGZxJe?=
+ =?iso-8859-1?Q?kR5BfH1YvXcsBQd7ubxKshsnQ6N1IQeN0M4hVOgRHewc+oYuL/r16hXYow?=
+ =?iso-8859-1?Q?CXzOIUIij0ikIwJUqJ5QVsfRHPwYx6hBhQ5MdMgQmEEspI3cfbbjlwBpFe?=
+ =?iso-8859-1?Q?cAXDSmcd8GAwbVnwAIvM1PkPzmH4Q428FEpg8EGEhqmpT2fV+q6pefE3Zz?=
+ =?iso-8859-1?Q?kzG3nYGLKdvy3l6CGjgi1crpAjZge0dRU88Wumx/TsLmPwNqk+hsMfY4U7?=
+ =?iso-8859-1?Q?PetPpYvIvLzd3X6+FsKdm991eoQsLm0UsSQkT+OoXI6F2KCLMb40SRw5rl?=
+ =?iso-8859-1?Q?2m+Ln96M4SICUIfgtTzUXIW4hRPP0WJCrUR6jEyK1UA5uBiZrojZ1eu3Hr?=
+ =?iso-8859-1?Q?Y=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?iso-8859-1?Q?m7flj0T3XnikSEX7pC498I3YCrW8ppuM+BA83Z8QdqP+rB6/P3QULT2J+r?=
+ =?iso-8859-1?Q?bSHi/xTF13mgy7tKH49rMM4NJvqwujgcT2bIwJb8jcpo/x9u6tyxoiZIpw?=
+ =?iso-8859-1?Q?Y2C7VVXVgQQ9rXGW6Lmq7vb/gvz4Jl8zPJrjIn5jxGFBlalBQzLnG9+bGX?=
+ =?iso-8859-1?Q?KrEQhdQRdyW+qVEzjScRvW6JF8nzycijbmL6g/Bz+itoaZ01qvXp3xO0Qw?=
+ =?iso-8859-1?Q?je7lpiBRqEsDs8RJKhKV7cbDHFTEq1TnHyufvx11yIZi9QK1tzJVnZagVs?=
+ =?iso-8859-1?Q?PyKfVUPMHsDJOXWv03TNrh1HJspyImDl9tlvhDOGnbvQOIcE77nkkl7CnM?=
+ =?iso-8859-1?Q?t7zG0QboRmeR5rX4/ti2/wOcdSXY9A+jXG6oH+23v44oBn27uWYvkf3FrQ?=
+ =?iso-8859-1?Q?zFVTerkF6eGXWTLNhsmRi9yrcGsUsrCpJB0B41pHiVpPwtm5tPOvMOx0uz?=
+ =?iso-8859-1?Q?rKpX9Ds5ecS4Bx+2NDyfYXfqEUceJ5udYvVEqjNCzhnCI5f2Tx5JeDx1CO?=
+ =?iso-8859-1?Q?vflnUOSxY/jz+NRmhye3h+bKHsEybDjqG6MVtiRGdV2iLZvUmPyeLVDx3D?=
+ =?iso-8859-1?Q?rnaKlmX+41khKyf4ZAIRQDiNfHq6zoAMdavRZCKAhe9Y5QOal2pFIoQETt?=
+ =?iso-8859-1?Q?8kv4CKpfwmDPXxiWtT+KZIIXFQkpvivqEeeM2OM6w3c6S2CIC4II0Ys0kX?=
+ =?iso-8859-1?Q?hh7A3EWGk79Ebldp/kZ7JVVeS2im/TMtPkapfjvDkf0nYtguDPGRM/sywZ?=
+ =?iso-8859-1?Q?iIpZJT/Sc56KaiTSe8VcxnibmIAV/xP158ADSl+zhgNd9r/xTZAjWRI7MF?=
+ =?iso-8859-1?Q?L8Hnxm2p2yBZ+SkL9GWmTYsiRR83pTHyIboMjUxMAKveEp6jsgj7gwm9li?=
+ =?iso-8859-1?Q?KhGtxPImts1NswCt9pijKYvshtxiulTytWEwmhfRX3ttSprECZ8TGGAA7Q?=
+ =?iso-8859-1?Q?44yhTAKfjy3e+p1a81206IgfqTHt7H5wErk7nwFjBtju1tirvmrY9eu5De?=
+ =?iso-8859-1?Q?Hw9iZPnnEndLzCxGNrTkOyv6GBF3GtyVOn0ZpuuJw9e/Z3yL3XX41K/54/?=
+ =?iso-8859-1?Q?3gA8M88OaI4VT+Ma2P+xqVKzpR6oJtJgsKJJHFuXck/odD0Ksuth968Ny8?=
+ =?iso-8859-1?Q?+jmi3xdRXP/MIZNAaWRVj/iAWKIV6GvjGv2XvFZp7kAfmcOVe92Ur28tlU?=
+ =?iso-8859-1?Q?aM0DJrwKxTW/59cfSqGc4aV+fD0SY7mYooaFI6UuZ23JDLPt0I6rXOUfAk?=
+ =?iso-8859-1?Q?rZ80GetD5/3QOQpULqfk0rOqUTeLesARWYncE3Ld7Lj3/aRTNLNVZiFHj1?=
+ =?iso-8859-1?Q?XITNKLtYp2uizT53gZnztFITvS9lpI+5qJCIT0/RKxsSrL6wZLp45FyZHO?=
+ =?iso-8859-1?Q?9Z9Cn9YrrVnn3DcLmrjiLO3SnyEEJek1HbfPUmADedjHwbzssJoxtnDCTG?=
+ =?iso-8859-1?Q?lZzJJHsym1PWFq+WqPboufJ3zd+paiQ4DtoWoogunXoBBud8FE6pDzVP+f?=
+ =?iso-8859-1?Q?kQiLc/+gCgkBB9+Ev1oEvUPY9NjUCWhCSF15JjFmgmxKIiJFkqc0TsCxN2?=
+ =?iso-8859-1?Q?Paq29jNMs9KzDSpKf5GI6ymyZOGeueeoCQ4C6vy9fOw0AZv9+MtHOkBNln?=
+ =?iso-8859-1?Q?DuWWgEDcprQTRlt5Bmmw6YcT1++PJXHYu0CPcBHh4byBpAU60veEs6rg?=
+ =?iso-8859-1?Q?=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	ARC_NA(0.00)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,redhat.com,163.com,kernel.org,linux.intel.com];
-	RCPT_COUNT_TWELVE(0.00)[12];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[163.com,gmail.com];
-	RCVD_TLS_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[amd.com:email,suse.de:email,suse.de:mid,intel.com:email]
-X-Spam-Score: -3.30
-X-Spam-Flag: NO
+X-OriginatorOrg: siliconsignals.io
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 96a3988b-62f7-4381-720b-08dd7bff367b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 Apr 2025 09:23:41.6962
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: nMS8jyG9SzAk+lXQNDSGYBV3c7kdvFO46EL0ffttLKC2FOkCXFioiKwx3ifQtYyax29l0sn4Ri43G4RiHzK9VM0bh/6zj/Nh5YZ3B4tpIwE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3P287MB0943
 
-Test struct drm_gem_object.import_attach to detect imported objects
-during cleanup. At that point, the imported DMA buffer might have
-already been released and the dma_buf field is NULL. The object's
-free callback then does a cleanup as for native objects.
-
-Happens for calls to drm_mode_destroy_dumb_ioctl() that eventually
-clear the dma_buf field in drm_gem_object_exported_dma_buf_free().
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: b57aa47d39e9 ("drm/gem: Test for imported GEM buffers with helper")
-Reported-by: Andy Yan <andyshrk@163.com>
-Closes: https://lore.kernel.org/dri-devel/38d09d34.4354.196379aa560.Coremail.andyshrk@163.com/
-Tested-by: Andy Yan <andyshrk@163.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
----
- include/drm/drm_gem.h | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
-
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index 9b71f7a9f3f8..f09b8afcf86d 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -589,7 +589,13 @@ static inline bool drm_gem_object_is_shared_for_memory_stats(struct drm_gem_obje
- static inline bool drm_gem_is_imported(const struct drm_gem_object *obj)
- {
- 	/* The dma-buf's priv field points to the original GEM object. */
--	return obj->dma_buf && (obj->dma_buf->priv != obj);
-+	return (obj->dma_buf && (obj->dma_buf->priv != obj)) ||
-+	       /*
-+		* TODO: During object release, the dma-buf might already
-+		*       be gone. For now keep testing import_attach, but
-+		*       this should be removed at some point.
-+		*/
-+	       obj->import_attach;
- }
- 
- #ifdef CONFIG_LOCKDEP
--- 
-2.49.0
-
+Hi Sakari, Kieran=0A=
+=0A=
+Do you have any further comments or feedback on this patch series? =0A=
+=0A=
+Best regards,=0A=
+Tarang=0A=
+=0A=
+> This patch series is a collection of miscellaneous cleanups and=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=0A=
+> improvements to the imx334 driver.=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=0A=
+> The changes simplify error handling, optimize register access,=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=0A=
+> enhance power management, and add support for different lane=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=0A=
+> configurations.=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=0A=
+> This series is on top of Shravan's patches [1]=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=0A=
+> (media: i2c: imx334: Add support for 1280x720 & 640x480 resolutions)=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=0A=
+> =A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=
+=A0=A0=A0=A0=A0=0A=
+> Link [1]: https://lore.kernel.org/linux-media/20250305051442.3716817-1-sh=
+ravan.chippa@microchip.com/T/#t=0A=
+> =0A=
+> =0A=
+> Changelog:=0A=
+> =0A=
+> v1 -> v2:=0A=
+> =0A=
+> - In patch 2/9: Added space before braces.=0A=
+> - In patch 4/9: Corrected the commit message.=0A=
+> - Added new patches (6/9, 8/9, 9/9): Fixed PM handling, used subdev state=
+=0A=
+> =A0 lock for synchronization, and switched to {enable, disable}_streams.=
+=0A=
+> =0A=
+> Tarang Raval (9):=0A=
+> =A0 media: i2c: imx334: Simplify with dev_err_probe()=0A=
+> =A0 media: i2c: imx334: Convert to CCI register access helpers=0A=
+> =A0 media: i2c: imx334: Remove redundant register entries=0A=
+> =A0 media: i2c: imx334: Configure lane mode Dynamically=0A=
+> =A0 media: i2c: imx334: Fix power management and control handling=0A=
+> =A0 media: i2c: imx334: Fix runtime PM handling in remove function=0A=
+> =A0 media: i2c: imx334: Enable runtime PM before sub-device registration=
+=0A=
+> =A0 media: i2c: imx334: Use subdev state lock for synchronization=0A=
+> =A0 media: i2c: imx334: switch to {enable,disable}_streams=0A=
+>=0A=
+> =A0drivers/media/i2c/Kconfig=A0 |=A0=A0 1 +=0A=
+> =A0drivers/media/i2c/imx334.c | 959 ++++++++++++++++---------------------=
+=0A=
+> =A02 files changed, 421 insertions(+), 539 deletions(-)=0A=
+> =0A=
+> --=0A=
+> 2.34.1=0A=
 
