@@ -1,123 +1,187 @@
-Return-Path: <linux-media+bounces-30298-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30299-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17267A8B166
-	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 08:59:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95275A8B179
+	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 09:01:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D0D423B4C9F
-	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 06:58:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 46BE73A6C24
+	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 07:01:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6753E244EA0;
-	Wed, 16 Apr 2025 06:55:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24D98221FB8;
+	Wed, 16 Apr 2025 07:01:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="JJL/06eQ"
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KIxUn9dB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2RkUhwYp";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KIxUn9dB";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2RkUhwYp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C15923E324
-	for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 06:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDBFF15B546
+	for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 07:01:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744786538; cv=none; b=cAZ8b+bEci4jztNbv+xRZhhjQX5EcZikJ4NBESPxpWkdh5QipE0bW5oOjWAXhryAQtpC2TXGQpci1vSKcBnZexouihUH1T5IVAi47DCFEDAueqWxPvDCf6uQLds/XCRh57JPVQ4pGSu6UvcJ39kFjIuYMRUWxX+liK4Rq98TwOI=
+	t=1744786880; cv=none; b=Y8JhsaNzIgAuQpN6R9jNZ19U/n5qhgB/ljGvsv3aUxzIWNDXJV2mGp3+MheADa04xIdSOZmPg7y0ZhYhraJANNOMpukQefZb7lY4MRQ7KBBuNOEwX5saEdGT8p4AX1OJw46XOHA92ZJtxc3LeYTiO+bOQtP2KDQa22SJ/ExOVY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744786538; c=relaxed/simple;
-	bh=9AWnnDPt11sXZ68zVw3VobBypj8iGzpX/p3WzL6YkMs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZI7MwrPCmQ7kRkptYZeqxWY6sby0Zr9fK/aNfd8zoH2jinpqYSG8R4GnuW3MKU08zql/cXvrEE97tFl2FosQUbrjT41cil8/tW1Mlz1McGOm/qkq5dS0wRs5yYnEnDFxjIMc1LfBQ5QdcfbIomYaFDCDnibdtfAgZZ0A85Z24MY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=JJL/06eQ; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=9AWn
-	nDPt11sXZ68zVw3VobBypj8iGzpX/p3WzL6YkMs=; b=JJL/06eQo222JFOy5ont
-	b0BisnKAsfelOJXqgPtd7BLy9pRtgU8EJansG5KHmbiUM3wQRhyKoQJZjMFwcsxk
-	AteyPP61XowKlKwAg1jWERPFtkU0L4NRjgzaC/PTD2AUx4L8p/QEOe9UUsd/bBLF
-	JjgSPwKM25Vw9591dkZwRYeVMrieyoGnqOSq7+ai3qC9LsxxM1yzRX5ZBEaMa01O
-	wkD47a673deFxrALPvgnhG12lRlA58mWXbzYYQaLlb+EsS0Erlu77Yw8DGmWM4HI
-	iKHxap9jyHJ8/pfhahVXkeMHpHFAS9WUbopTEYGsNqtvZ6raavzB2LW+xxdtAl6I
-	Ig==
-Received: (qmail 601464 invoked from network); 16 Apr 2025 08:55:28 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Apr 2025 08:55:28 +0200
-X-UD-Smtp-Session: l3s3148p1@bSs8xd8y0Lgujnsq
-Date: Wed, 16 Apr 2025 08:55:27 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v4 5/7] i2c: core: Do not dereference fwnode in struct
- device
-Message-ID: <Z_9UX9xkGjvhnub_@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Jai Luthra <jai.luthra@ideasonboard.com>, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20250414100409.3910312-1-andriy.shevchenko@linux.intel.com>
- <20250414100409.3910312-6-andriy.shevchenko@linux.intel.com>
+	s=arc-20240116; t=1744786880; c=relaxed/simple;
+	bh=qQbDnwcNyN08Oe0gXuW2I30uUm1IrRvM1mRSmtuc2po=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=LBv3Wqpc19W5p6pw8LaGhMr2md9r3oavfVTvKebytI/l29vucylMI4ggxaAVsCTdCjFlGQ7jsch8U46bpmsfCpTcdGXWOo2UgTWETq2bMC/7Ig6G9MhAPacCqkoR0T0IVvZ3pWE4N6t468y2psdg3Dq55m7PSNRqh9pxWTRwmZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KIxUn9dB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2RkUhwYp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KIxUn9dB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2RkUhwYp; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id F30AC211A0;
+	Wed, 16 Apr 2025 07:01:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1744786877; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Xkk37Y1omom0hijBcC8bwgDPJGoFpt0Tk5+OHcg+jYI=;
+	b=KIxUn9dBwJ1TAtQsPWCICS6B34udeTEdxaa5gS7p4nerWaIo3cNbTtmopKsYtx+6gf7jH1
+	l9ybdynS2Z0qVpnmdP1beZB6b+QyujRRdFGD80YaDew/onaFl/hz0ueFEwebqebTLvSJ+R
+	ehxBWGr6r+o5fX5L+g0o6Rb84AROf2s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1744786877;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Xkk37Y1omom0hijBcC8bwgDPJGoFpt0Tk5+OHcg+jYI=;
+	b=2RkUhwYpdx81uwR3ByHKOeJvHFjEinFXtEhfoRAJULMWiwvS7PZMLXfVi4t9o1G5Yf1n7A
+	8U5fYprjA24ob7AA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1744786877; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Xkk37Y1omom0hijBcC8bwgDPJGoFpt0Tk5+OHcg+jYI=;
+	b=KIxUn9dBwJ1TAtQsPWCICS6B34udeTEdxaa5gS7p4nerWaIo3cNbTtmopKsYtx+6gf7jH1
+	l9ybdynS2Z0qVpnmdP1beZB6b+QyujRRdFGD80YaDew/onaFl/hz0ueFEwebqebTLvSJ+R
+	ehxBWGr6r+o5fX5L+g0o6Rb84AROf2s=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1744786877;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Xkk37Y1omom0hijBcC8bwgDPJGoFpt0Tk5+OHcg+jYI=;
+	b=2RkUhwYpdx81uwR3ByHKOeJvHFjEinFXtEhfoRAJULMWiwvS7PZMLXfVi4t9o1G5Yf1n7A
+	8U5fYprjA24ob7AA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 972D613976;
+	Wed, 16 Apr 2025 07:01:16 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id ElSUI7xV/2d2RAAAD6G6ig
+	(envelope-from <tzimmermann@suse.de>); Wed, 16 Apr 2025 07:01:16 +0000
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: simona@ffwll.ch,
+	airlied@gmail.com,
+	asrivats@redhat.com,
+	andyshrk@163.com,
+	christian.koenig@amd.com,
+	boris.brezillon@collabora.com,
+	mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com
+Cc: dri-devel@lists.freedesktop.org,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: [PATCH v3] drm/gem: Internally test import_attach for imported objects
+Date: Wed, 16 Apr 2025 08:57:45 +0200
+Message-ID: <20250416065820.26076-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="uOld3320BOoglIIe"
-Content-Disposition: inline
-In-Reply-To: <20250414100409.3910312-6-andriy.shevchenko@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -3.30
+X-Spamd-Result: default: False [-3.30 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	NEURAL_HAM_SHORT(-0.20)[-0.999];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,redhat.com,163.com,amd.com,collabora.com,kernel.org,linux.intel.com];
+	ARC_NA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[13];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	FREEMAIL_ENVRCPT(0.00)[163.com,gmail.com];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	TO_DN_SOME(0.00)[];
+	RCVD_TLS_ALL(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,intel.com:email,suse.de:mid,suse.de:email]
+X-Spam-Flag: NO
+X-Spam-Level: 
 
+Test struct drm_gem_object.import_attach to detect imported objects.
 
---uOld3320BOoglIIe
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+During object clenanup, the dma_buf field might be NULL. Testing it in
+an object's free callback then incorrectly does a cleanup as for native
+objects. Happens for calls to drm_mode_destroy_dumb_ioctl() that
+clears the dma_buf field in drm_gem_object_exported_dma_buf_free().
 
-On Mon, Apr 14, 2025 at 01:01:55PM +0300, Andy Shevchenko wrote:
-> In order to make the underneath API easier to change in the future,
-> prevent users from dereferencing fwnode from struct device.
-> Instead, use the specific device_set_node() API for that.
->=20
-> Tested-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+v3:
+- only test for import_attach (Boris)
+v2:
+- use import_attach.dmabuf instead of dma_buf (Christian)
 
-I'll check this patch later today. Rest of the series looks good to me
-already.
+Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+Fixes: b57aa47d39e9 ("drm/gem: Test for imported GEM buffers with helper")
+Reported-by: Andy Yan <andyshrk@163.com>
+Closes: https://lore.kernel.org/dri-devel/38d09d34.4354.196379aa560.Coremail.andyshrk@163.com/
+Tested-by: Andy Yan <andyshrk@163.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Anusha Srivatsa <asrivats@redhat.com>
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: David Airlie <airlied@gmail.com>
+Cc: Simona Vetter <simona@ffwll.ch>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+---
+ include/drm/drm_gem.h | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Thanks!
+diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+index 9b71f7a9f3f8..a3133a08267c 100644
+--- a/include/drm/drm_gem.h
++++ b/include/drm/drm_gem.h
+@@ -588,8 +588,7 @@ static inline bool drm_gem_object_is_shared_for_memory_stats(struct drm_gem_obje
+  */
+ static inline bool drm_gem_is_imported(const struct drm_gem_object *obj)
+ {
+-	/* The dma-buf's priv field points to the original GEM object. */
+-	return obj->dma_buf && (obj->dma_buf->priv != obj);
++	return !!obj->import_attach;
+ }
+ 
+ #ifdef CONFIG_LOCKDEP
+-- 
+2.49.0
 
-
---uOld3320BOoglIIe
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmf/VF8ACgkQFA3kzBSg
-Kba3+hAAmfNvum5FEcfQ6hqrsUfbDMAROGyPm4V1DU+wUmncR6PDbQr/Rs01wFIm
-Cn7dv7sx7dOCx3V6sKLzy463ffLVR82jaIme1gtin7Wfesg5JU62wEG3JsSrvlw2
-+U+8IwYVxToPhAu47xQi+lDFPMOVuBluGnb8pI3LouJ3RxfpaS0w8+1FbuWGpex1
-mdlSllWxNW6+2/hkIzokpTfvimvl6ZMSeteXP6FTc0wUttd87QiSQwpVATtOPN/+
-XDWf43huWPtZxGwYUVUwPtHNEPLX2PfN7OAFIDvBPVeuGLCKOaKwX8y/LpWginWn
-38KSZfm9lqGBTU6Jnm8kXwBxRSOa8Ba14HotPKcmpvrwzxAyyR+IHV6Od3L/zABv
-93I1+dNEJRyVmFBggimWNTZGALu/tgv32sN/rCtTB4STuePy4lXERZGhbCOIvL0n
-z9dZqAybLXv9u60n8slnB//NwrGBRGBr6Bdc0mlAC4/cGBRftggrSQpJ49MmG1sx
-ExFvacJNf9SRHY4EVYCDpnpJtuaVT/fZ6yXg6wkYEsfoC3keBJP8zJgmZIDDGtkJ
-+1ZkDFoPm7+MAvI/QHbd7QOXdgoO/BTPybY3EeEr7BDQbiFwNPdskjdABeZLRLhx
-RlNA4o851ASS4M+gzc+Tu/ezjg1mXyofhlTMzIz9FDNGoJ2j0+c=
-=zQR6
------END PGP SIGNATURE-----
-
---uOld3320BOoglIIe--
 
