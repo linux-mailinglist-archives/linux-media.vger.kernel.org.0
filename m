@@ -1,231 +1,309 @@
-Return-Path: <linux-media+bounces-30323-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30324-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AB39A8B7BE
-	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 13:34:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9834CA8B83D
+	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 14:05:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0F0505A11E6
-	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 11:34:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DA9D4445E2D
+	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 12:05:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F73223959E;
-	Wed, 16 Apr 2025 11:34:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A9AB238C21;
+	Wed, 16 Apr 2025 12:04:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="puiDoXJn"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="hStAe5+b"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2050.outbound.protection.outlook.com [40.107.244.50])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBF4F2DFA20;
-	Wed, 16 Apr 2025 11:34:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.50
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744803286; cv=fail; b=m8HZ0FOkWqQHJInTvx2XNI8vSGuCeYaMFVjHtZelQ208SHKXGPW9cdLcB+8PlteTQB3I/iM/t3FoKCMYJD6Xk0i/TBctMxivklloBkk7XmufXjYuy1SUHRu4IuctCU+iNhfiKRXJHQQmzOnJt86ASffVnI9HQz9h+VB9FJUXf8U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744803286; c=relaxed/simple;
-	bh=5xa+x+9fRYhpbOoXlpimHC7acNi2fHojRPzNzwnJJXw=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=qtc4ufCKumxIdWcKUAsgnmCA0wMajlWKH119oBWihQ3RAYkkepPife3Ld1QpeHXuSY71GschA5rWKxRyK8oCaRQj7WYxFuqzB8/vBKFGoEQNJ1nsFso+YfqArkDw5F0T8nTRZH2YpA0t17HPgeriYGd5muB7TOgEkTy3mp2mwZ4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=puiDoXJn; arc=fail smtp.client-ip=40.107.244.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MrhDan/DWjgb/p9kcVLJfEbC6K0kF7fwNm2qFOLIen9QtW3BZlhmB5B1hmY6LbZMqAJZBMulUAYyAUnoCwGq2Vy2xwqmTAG/S75r3TbZmuBpcGKdbKyND0hVUsSQW/I7Y2Kv3UbI6R8eUIgo/1dIwxH7o+WMfgzgrU8XR3fYk6SRQfBRCMuLPEEGkHt9DrhrScoKBnCODY9BuaEltisz8YNfZnZEaoudYxnzlXCCNdE4r9OYuXNSzUN8NhNcskJftGbklAHg/omnG8KeLD8Jwg7jGe9/6JiPoa2SsbS1WpTruPlK1EzGiaAksdiHQZZPUG7mcElzyoU+cm00Bu3JGg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fKypGie2LB3bL/62Lmj75G7QabkXPZ+fYHxNEvcderk=;
- b=RC+bEJxCvc7FBEiLzbR/Cv2oINyZEFNFFqGriFgTpvsEIQm5aZw55OEHusY8L9KcOvrnhmgzjkK/j0hlRhbb51oLnkx8z4cNBRrYk1VBxkB25qBWLYySYBjiZPIDqzu4u4Fy11FQ3LxyAQssPnubTiRguK9sQtybmhgmmxtgTgEENFt2QsBXUcWOTQwqctM7lqzVsnQ/ukdtYSb4W948focfZO8atUr8IjYQ03JAaAJiHAa9bMmzK0VhDWvb5dZs99/1JjHVpYp/Q8Okxl245c5oqSxxqYqSnZ++xljLamESQL7KYc47C1SNAwP8vMvP3OuD8WV+9DWkN+CMMFVPjA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fKypGie2LB3bL/62Lmj75G7QabkXPZ+fYHxNEvcderk=;
- b=puiDoXJnF0lh/BHzrtxVqrxjb7kSHl0POwjlkUzZ3uKkKL1UNvtcY8ahlEr/TmjUJuU+p0Ux1Pn0/L3vJwaA0BYE7N0yD9XKfVpHuZtmGS1I6eE282q9M2Ovob2ymKiJ+PEv5poaosqmfLoLyiNEpM43o8GR4gS9XYdU7Rnx0pE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DS0PR12MB8816.namprd12.prod.outlook.com (2603:10b6:8:14f::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.33; Wed, 16 Apr
- 2025 11:34:41 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.8632.025; Wed, 16 Apr 2025
- 11:34:40 +0000
-Message-ID: <536596bf-8f5b-462b-add7-a203b6cd1e46@amd.com>
-Date: Wed, 16 Apr 2025 13:34:34 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: heaps: Set allocation orders for larger page
- sizes
-To: Juan Yescas <jyescas@google.com>, Sumit Semwal <sumit.semwal@linaro.org>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
- "T.J. Mercier" <tjmercier@google.com>, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org
-Cc: baohua@kernel.org, dmitry.osipenko@collabora.com,
- jaewon31.kim@samsung.com, Guangming.Cao@mediatek.com, surenb@google.com,
- kaleshsingh@google.com
-References: <20250415171954.3970818-1-jyescas@google.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250415171954.3970818-1-jyescas@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR4P281CA0407.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:d0::16) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB94223D2AD;
+	Wed, 16 Apr 2025 12:04:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744805054; cv=none; b=g8UjXSuXJiCVaHMvldP9USsC7ougajQsgH1YlT/mBhRtf402iuyP8eNCYToP/UE2ikMAGL4/vwLCL/RvW6WO/dlSeNREzLxPwjVU6z/Wod/JkobRQ4RO7QxXaRrT10t8MgaFIPKA0KKmsXAYhOWtACa3v5a6LNu2iI3ZsURJ5/I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744805054; c=relaxed/simple;
+	bh=pRy/yf3rb2f/5vary4SI2XiqiIspzuR69I8MYwOtfLw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=XJvQB9zJdrT5L+pUiSNoUmwnDesqTy4SU6m6IA8pfiBbIKZPHa/nYwXw/n8fIiip58hS/lYX7X6EUq42aGl/w/8/LJz5G8T5akgozKodAndPluBTX2QUaXrB7gi6tY8eqMFAd7PDi+qQnI4z+rnIJSNT0S2VKKC/uwihfDYwU+M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=hStAe5+b; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53G9mFjt007022;
+	Wed, 16 Apr 2025 12:04:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	R4agLGYVcIwurlDn1M6IVPranaN65EgP6yHwFxXfH6c=; b=hStAe5+bc0jGhpI/
+	YhnYlZTSQGDqz07cdDnI0IvCmZSKDhvrj+K+CM86THPWtBXaGPFHjlSedX4ll3TN
+	20sLuFzYH0fqRNl+fl3Mht1qWfbcv2jzF8o+K3BGsB9oX2eyFOor3EINxio8YXqZ
+	TXGl9WfUp1mlHV0dWmkhkBsm88tyei/baE4QHoMa9ofmx2KiHGRoRq3MHEfozT+x
+	4dEcdPeHsHg0gMCRYIe33O9JMg8/+vAxxO3+2rEl+cHN5J/GmBwrRbBhAZ0Ilu/O
+	qkiW7jglfv8HLAgWWwgNqMjdyANqqWcvdjyOwCDPH15ObgX7ooLHHSSvFhEIugeo
+	b1UBow==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45yfgjkc33-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 16 Apr 2025 12:04:04 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53GC43x8018224
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 16 Apr 2025 12:04:03 GMT
+Received: from [10.206.107.210] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 16 Apr
+ 2025 05:03:59 -0700
+Message-ID: <38f41c8b-1795-dc84-afce-dd222b7f3be1@quicinc.com>
+Date: Wed, 16 Apr 2025 17:33:56 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DS0PR12MB8816:EE_
-X-MS-Office365-Filtering-Correlation-Id: d57cf645-35bd-4a45-71f7-08dd7cdaad37
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|376014|366016|921020|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WjJQV3VJL2xnTWx3YzNVTkhCbTBxTUM0Q1VhZkFqUUJRV2ZNVkhIVU85UUJN?=
- =?utf-8?B?RXVXQzZNZHllVFA4c0ZLeHVnaWtsaXAybnBSNk55cUNIUDdpQWw0Q3BoN0Uy?=
- =?utf-8?B?UDMvUVNFNy9qejRiT3U3V1Exb1dPb2lTVjdmcVZxZ3gzemk4dGV0SmNDYmdV?=
- =?utf-8?B?YWEyUVNFSStFNVZXVlB2T3p2b0V0bjBXOU91anRrbXUwT0RrMW9xOGs1VXVE?=
- =?utf-8?B?WVVQTnI5MlEwOEh0bzJLaWQ2bzVZbU9XbFByeWI0V3lIUFhrMDlRbkhDNTV0?=
- =?utf-8?B?eHNhY1V2SExoR09TTzNSSzVXaWxBbTU2YTR4RE5VRnA1ZjJSWWFJcFVoNlhN?=
- =?utf-8?B?d3dqSWFkNjI2YTB3RmhRSlhzRXpMN3hnSjZpcGNwZnRKd3o0YlBlMHdrbS9n?=
- =?utf-8?B?MjBiYzYzUTU2MVZNaUlkdFh4T25hR2grQWdlMFJjWGRIU2VTUllIZ011bEg5?=
- =?utf-8?B?OEJoR3hWY0pWTGRoajdxZnkzTFFwN0ptN0JsWDdvN29pQ2NmWHFqN1EwVEhQ?=
- =?utf-8?B?TFBzaVgvenZWbzNyQVJSUU1IUU1Oc0dJdVh2THBjT1Y5b05RS3o4RmpxUlBP?=
- =?utf-8?B?ZFhxV1RkM3FBdW96NUMzNFFBb2ZFMThmdnZZNGFGOGMzaEdGdG5ETTZyT2c0?=
- =?utf-8?B?TTREdVpSQ2hjUGRpMG1FMmpWb2VPTHFheU4ydUM3OEhJaGVoUHgvMnBTcTJ4?=
- =?utf-8?B?NEtKWWlFZzlsVEoyZWdIdU83cUpZUGd6RFY4UFg1b1BMc0V0TC9ob2svZHJn?=
- =?utf-8?B?NmpqNHplMXJXV2h4T0cwWXhJelRBZ2VtQXN5RFF5UFhWK0VnbFprZitoRVRC?=
- =?utf-8?B?cmFGWVVPSDJnSjU3UTBXWFhFOE5sK0hLdzVkT2FnbTJQbThXdFhsOWxyTnN2?=
- =?utf-8?B?R2c1bndDdU0xZ2cwSndyY0VQR2srdzZTVTg5S0dYVUMveGNuQks3THlVM01I?=
- =?utf-8?B?emVmeXVMUUhzbGh5eVdURGp0Qm1BOG05VEJOUFFRRGRibXM3UkNWZXI4Tlps?=
- =?utf-8?B?QkVHZk9GdDF3cjZscGJOdEY3cTNjK01ScVJpcjB4amd4NG5ONC9TNkxWZXVO?=
- =?utf-8?B?ZnJiTHVoRU9KeTk3VmZRWmJZd2dwRnZUVlRUT0cxZWdONDBRbVpkRUJuRlg1?=
- =?utf-8?B?c0ROM2ZrcmhlaHYzcXJKRzZTUUN6eVFOdCtlODM1RUlGVzBLRG5kTnJLS1o0?=
- =?utf-8?B?MG16SXhPWGRMOXNoMlNoa0hTNGJ6SHZPY0swbmNjeHhMZm80cW1nbmJBTCtP?=
- =?utf-8?B?b1BVbkRSK3FQS1ZwUUxWM2wrbm9OckxCOE1wNFloallTSkliRW1BRndmVDNM?=
- =?utf-8?B?aFZjZDNXTlhUaHJISTdMdVpocm1CRy9EWitBT3l2cVkvUVVXbnJ2aE9McEJX?=
- =?utf-8?B?NksrZFlHcDZaRVhhRWQxd3paYXRCcEFlaVZKL2JUWERJQlovbUFXQzZBdURF?=
- =?utf-8?B?bHMzYWlmMkZqK0xmckVhQVh4V054R3BaYW10cmpPSlFXcjZLZHIvTGhaTFph?=
- =?utf-8?B?TUVidStGNEJZaW9CbkUvVHk3OTlob2ozcEw3dkhKY01WRnQzWTFxNmRiWldy?=
- =?utf-8?B?RkI2UWpKTzVVMjJjVjN6a09vQXI5YTJlUWZtaFFhYlBSMnB2ZGorQ295MHA2?=
- =?utf-8?B?LzZ1bnM1ZkRwZ3h5ZzNLUlh5emRDcGUzZzVQb2JLVlJpUlcrMW45cGVRaHpN?=
- =?utf-8?B?MCtubEZLMi9MSnZJMDVKSlcxODlBaHk2Tzl0czNuVWFPWlFaQ1JmZjNBdG4r?=
- =?utf-8?B?OExoTVNhQzNxL2hFUU5lQmJqVXY3NUEwVXdLblh3MVdxc1J0cW1VN2JvOVNB?=
- =?utf-8?B?TDhnWGNvZ0xFR3lkWW8rcDZhV2RQS3dPbUg0Rk5NNG9iVTZraFlwOE5kMUk4?=
- =?utf-8?B?R2FLVWlob1VlVlZaMno0T2FUdGFWbXFBME5nbCs4c0hMelBCREVvR2NsSVFQ?=
- =?utf-8?B?emM5Y1FBcmp6WGJENzRtT2c3YU9NT0JMbXU0WHhTNHNWMUlUbHQyOEhnaU1p?=
- =?utf-8?B?eW10ZzRCNzJRPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016)(921020)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Sy9uR2ZvdkwxZjkxU1JDaE5ZWmFORy94MFF3dHRXMDBKU2xKZHhVN3ptNFh4?=
- =?utf-8?B?bEdOV2pXeEhnbmRpcWYvRDdJVjZGdXNIaUdEeUJHdHptRS9PSVlxNS9hUlU0?=
- =?utf-8?B?OHBxUlc2QTNWb0hKY2FmZTJIWkpkdFVKaXVGNUJ5QXN3UnBnTmNER0R3OFpT?=
- =?utf-8?B?SEZMV1picUkyNDFhd3lJenFHakR3dkV2MTRpZjRvNUVGK01DMFBNRXF6NGdU?=
- =?utf-8?B?a1BEMmp3QUU0NWlBTHpFMVljM1NESEY4NzAzWnVyOW5aOUtnOTdUYlUrQmtD?=
- =?utf-8?B?djFLaWFJM2tvZUQwMWF0M2xvSUhwUmU1SnRXUkVuK1RWZ1luUmFUTFFRZ2xy?=
- =?utf-8?B?Q3Q3M2ZObFQ5NzBXOEtWVzYvSFZ6cGxwSTNDeitCQ29jRHU2bjRHZmI1Qmhz?=
- =?utf-8?B?OCswSmYvdnlzTXo1VlEvNExwS0JjSUlVcTBlYjc4T1NuU05VMjhoaDEzYjV1?=
- =?utf-8?B?dFZkNk13U1ZlNnRvTUZnQzFONDR3Z3FNSzR6c2s4dWExbndWcVhZM1M1WFM2?=
- =?utf-8?B?aVNoWlpRYkFDRDV1Q2hoMTNRRnA3N3RSYlp6cW42dWJXMWFjWGdyU3lEU2w1?=
- =?utf-8?B?aitRa09jb2JUai9Ca2s2SFZsajFYeS9FNHo3V1pOQ2dwL2FsZ0pkY1E0eUVU?=
- =?utf-8?B?RUFsbE8xeUdtZWdibTdwbXNmVGN5V0J3b1RGUEJ0R3V3bzd3Uy92Wi84QUUy?=
- =?utf-8?B?OXFwMEt6ZDNGK0ZUNFVBZlJaTzJvbDZlL2twcGhJeGVhbk5nQnFSanBRL2NN?=
- =?utf-8?B?V1BLcDF6Z3dRLzRNbG1KdEtlR3VJMThyOTY0U3I4R2dGSWFtdm9BS0xHbkdj?=
- =?utf-8?B?M0g3dnlVQmdkWEdjNkpoY0ZXQmRvby81TlpaY1JtZUk3dHQ0WDQ1dHdZN1ZJ?=
- =?utf-8?B?WkRza25rZTZPdDlOYXZ2K2h4T0tpdXNHN1ZuMWZJNmQzcjVBbEYzYjFmRWhT?=
- =?utf-8?B?QzBxcktaRnZjQXBLMGc1aVMzaHQ1WU15a3NiaStHMDlMSkI3aXFkeWpCTnZl?=
- =?utf-8?B?T0J2WU50bWJmRG4yR05qOWpGUExMQ0FUaDhGbWRTcmQyNjZnVlFxZW9VSVFz?=
- =?utf-8?B?dFhmVVBQOFdIUnRQRUlVM3haVCtocU00dlBnSUZRc2RWeFdUeGZtbUszbUY0?=
- =?utf-8?B?bytma2lhblUvM2xVU2N3dUQzL2hNWVl6MXFOK0VtYVg4a0lqSUcyL3o0L0o3?=
- =?utf-8?B?ODFycVFIQkJDanVjeU5nN09ER0tFcmhHMW9hTDE4WExqclBlSEJCSE80TWEx?=
- =?utf-8?B?cll1czhxS2xKd3Z1WXNEeU9EcEd3WHZlQk15NjllVE9Pa1FxdnBvT3l3OUNX?=
- =?utf-8?B?OWJkN2dBWmVXOEVGV095N25Zb3NRTjFheUJhcFVha0F2NlUzelFxT2gxTTk1?=
- =?utf-8?B?UXlubFV2NFM0VVFHZWl0Y0o3dytnVlVUYVFOTVl1UDRocHYvT3VodVNYUG12?=
- =?utf-8?B?ejVvZTV3djNYQytKVTQ4NWkxYTVFdVBNNXBzamh1WVFwRElDWkFnbHRGQ015?=
- =?utf-8?B?WHJMN3FsbzBRWjBQRngzU3JsdkV5aGZhQVMzRVJwQ0d2WE1WbURsZnMwMU85?=
- =?utf-8?B?NGt3OGlLMlJXR0xOcTA4OHhoM1dIOTRLQkxoUDE1YjM1c3loZGYvT3ZtN052?=
- =?utf-8?B?MVNOcDA0SVpuUS9aaWVybzlUNGV3U0w0ODJKWlgza1NCNlBqSDU0cVp4Ti8z?=
- =?utf-8?B?VVd2VFVCS3BEeE5kbzVjdnpMNXc4WUQrcXowSGV5UzBPcnBMMDF4MGVIUkE4?=
- =?utf-8?B?dWhYczFxcVJPczUvTGhNdlhQWjZwajNKQndERWEra2FmTWJCVWovTXY0OVJN?=
- =?utf-8?B?MGFOaE5wSkdhcEJJZWhyd1JidC9OQ1FGYldRMmNyT2lSUElWWm5DUXNOc1Fq?=
- =?utf-8?B?bmhQelhQejl1bytVS1ZTSDlRUXBQSVdDRnNyUjUrcmE4akpyTVhCVjhTYkc1?=
- =?utf-8?B?Q0pHVG8rMHNDaDBsdk9lQUZwL2JXYW5yaWpjR2JVYmVCNkJPN1ZCQUdXYkU3?=
- =?utf-8?B?R1gxWE1QYytIOW9OaHZSS3l4VkZVRndwUThYKysxT010Q29QUWJWYmJUMGtI?=
- =?utf-8?B?eVNPR0xHNXJ0OG1FeW1MOHBFamlQbGFRUVhqb2xpYWpDK1B4VVpRQ1lIRGwv?=
- =?utf-8?Q?kXGaM4Nse7eWHYfjjyBrwYKm1?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d57cf645-35bd-4a45-71f7-08dd7cdaad37
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Apr 2025 11:34:40.8946
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hRZKUxjHabdHiZAA441as4fqBQ1/qKnO3QUJmaVeRmWQCSM4+xygXcRw0GDtS9nJ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8816
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v6 7/7] media: platform: qcom/iris: add sm8650 support
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+CC: Neil Armstrong <neil.armstrong@linaro.org>,
+        Vikash Garodia
+	<quic_vgarodia@quicinc.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20250415-topic-sm8x50-iris-v10-v6-0-8ad319094055@linaro.org>
+ <20250415-topic-sm8x50-iris-v10-v6-7-8ad319094055@linaro.org>
+ <085acdab-87b0-3a94-72fd-881d517d95cb@quicinc.com>
+ <opy25iocdw5i2go5male5rzwoxl2hd4jxxjqj77qjiyxz7vens@wmrnrfuakhjs>
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <opy25iocdw5i2go5male5rzwoxl2hd4jxxjqj77qjiyxz7vens@wmrnrfuakhjs>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 5ZnS_a2uM5yrUDiGIWCD9EkmqMXUqe17
+X-Proofpoint-ORIG-GUID: 5ZnS_a2uM5yrUDiGIWCD9EkmqMXUqe17
+X-Authority-Analysis: v=2.4 cv=Cve/cm4D c=1 sm=1 tr=0 ts=67ff9cb5 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=KKAkSRfTAAAA:8 a=2r83TW8UEMx5wHHBcaUA:9 a=QEXdDO2ut3YA:10
+ a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-16_04,2025-04-15_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 clxscore=1015
+ malwarescore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 phishscore=0
+ suspectscore=0 impostorscore=0 mlxlogscore=999 mlxscore=0
+ priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504160098
 
 
 
-Am 15.04.25 um 19:19 schrieb Juan Yescas:
-> This change sets the allocation orders for the different page sizes
-> (4k, 16k, 64k) based on PAGE_SHIFT. Before this change, the orders
-> for large page sizes were calculated incorrectly, this caused system
-> heap to allocate from 2% to 4% more memory on 16KiB page size kernels.
->
-> This change was tested on 4k/16k page size kernels.
->
-> Signed-off-by: Juan Yescas <jyescas@google.com>
-> ---
->  drivers/dma-buf/heaps/system_heap.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-> index 26d5dc89ea16..54674c02dcb4 100644
-> --- a/drivers/dma-buf/heaps/system_heap.c
-> +++ b/drivers/dma-buf/heaps/system_heap.c
-> @@ -50,8 +50,15 @@ static gfp_t order_flags[] = {HIGH_ORDER_GFP, HIGH_ORDER_GFP, LOW_ORDER_GFP};
->   * to match with the sizes often found in IOMMUs. Using order 4 pages instead
->   * of order 0 pages can significantly improve the performance of many IOMMUs
->   * by reducing TLB pressure and time spent updating page tables.
-> + *
-> + * Note: When the order is 0, the minimum allocation is PAGE_SIZE. The possible
-> + * page sizes for ARM devices could be 4K, 16K and 64K.
->   */
-> -static const unsigned int orders[] = {8, 4, 0};
-> +#define ORDER_1M (20 - PAGE_SHIFT)
-> +#define ORDER_64K (16 - PAGE_SHIFT)
-> +#define ORDER_FOR_PAGE_SIZE (0)
-> +static const unsigned int orders[] = {ORDER_1M, ORDER_64K, ORDER_FOR_PAGE_SIZE};
-> +#
+On 4/16/2025 4:53 PM, Dmitry Baryshkov wrote:
+> On Wed, Apr 16, 2025 at 03:55:35PM +0530, Dikshita Agarwal wrote:
+>>
+>>
+>> On 4/15/2025 7:17 PM, Neil Armstrong wrote:
+>>> Add support for the SM8650 platform by re-using the SM8550
+>>> definitions and using the vpu33 ops.
+>>>
+>>> Move the reset tables that diffes in a per-SoC platform
+>>> header, that will contain mode SoC specific data when
+>>> more codecs are introduced.
+>>>
+>>> The SM8650/vpu33 requires more reset lines, but the H.264
+>>> decoder capabilities are identical.
+>>>
+>>> Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org> # x1e Dell
+>>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+>>> ---
+>>>  .../platform/qcom/iris/iris_platform_common.h      |  1 +
+>>>  .../media/platform/qcom/iris/iris_platform_gen2.c  | 65 +++++++++++++++++++++-
+>>>  .../platform/qcom/iris/iris_platform_sm8550.h      | 11 ++++
+>>>  .../platform/qcom/iris/iris_platform_sm8650.h      | 13 +++++
+>>>  drivers/media/platform/qcom/iris/iris_probe.c      |  4 ++
+>>>  5 files changed, 92 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
+>>> index fdd40fd80178c4c66b37e392d07a0a62f492f108..6bc3a7975b04d612f6c89206eae95dac678695fc 100644
+>>> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
+>>> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+>>> @@ -35,6 +35,7 @@ enum pipe_type {
+>>>  
+>>>  extern struct iris_platform_data sm8250_data;
+>>>  extern struct iris_platform_data sm8550_data;
+>>> +extern struct iris_platform_data sm8650_data;
+>>>  
+>>>  enum platform_clk_type {
+>>>  	IRIS_AXI_CLK,
+>>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+>>> index 35d278996c430f2856d0fe59586930061a271c3e..6d1771bd68689d96b5b9087b0ad32b934f7295ee 100644
+>>> --- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+>>> +++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+>>> @@ -10,6 +10,9 @@
+>>>  #include "iris_platform_common.h"
+>>>  #include "iris_vpu_common.h"
+>>>  
+>>> +#include "iris_platform_sm8550.h"
+>>> +#include "iris_platform_sm8650.h"
+>>> +
+>>>  #define VIDEO_ARCH_LX 1
+>>>  
+>>>  static struct platform_inst_fw_cap inst_fw_cap_sm8550[] = {
+>>> @@ -142,8 +145,6 @@ static const struct icc_info sm8550_icc_table[] = {
+>>>  	{ "video-mem",  1000, 15000000 },
+>>>  };
+>>>  
+>>> -static const char * const sm8550_clk_reset_table[] = { "bus" };
+>>> -
+>>>  static const struct bw_info sm8550_bw_table_dec[] = {
+>>>  	{ ((4096 * 2160) / 256) * 60, 1608000 },
+>>>  	{ ((4096 * 2160) / 256) * 30,  826000 },
+>>> @@ -264,3 +265,63 @@ struct iris_platform_data sm8550_data = {
+>>>  	.dec_op_int_buf_tbl = sm8550_dec_op_int_buf_tbl,
+>>>  	.dec_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_op_int_buf_tbl),
+>>>  };
+>>> +
+>>> +/*
+>>> + * Shares most of SM8550 data except:
+>>> + * - vpu_ops to iris_vpu33_ops
+>>> + * - clk_rst_tbl to sm8650_clk_reset_table
+>>> + * - controller_rst_tbl to sm8650_controller_reset_table
+>>> + * - fwname to "qcom/vpu/vpu33_p4.mbn"
+>>> + */
+>>> +struct iris_platform_data sm8650_data = {
+>>> +	.get_instance = iris_hfi_gen2_get_instance,
+>>> +	.init_hfi_command_ops = iris_hfi_gen2_command_ops_init,
+>>> +	.init_hfi_response_ops = iris_hfi_gen2_response_ops_init,
+>>> +	.vpu_ops = &iris_vpu33_ops,
+>>> +	.set_preset_registers = iris_set_sm8550_preset_registers,
+>>> +	.icc_tbl = sm8550_icc_table,
+>>> +	.icc_tbl_size = ARRAY_SIZE(sm8550_icc_table),
+>>> +	.clk_rst_tbl = sm8650_clk_reset_table,
+>>> +	.clk_rst_tbl_size = ARRAY_SIZE(sm8650_clk_reset_table),
+>>> +	.controller_rst_tbl = sm8650_controller_reset_table,
+>>> +	.controller_rst_tbl_size = ARRAY_SIZE(sm8650_controller_reset_table),
+>>> +	.bw_tbl_dec = sm8550_bw_table_dec,
+>>> +	.bw_tbl_dec_size = ARRAY_SIZE(sm8550_bw_table_dec),
+>>> +	.pmdomain_tbl = sm8550_pmdomain_table,
+>>> +	.pmdomain_tbl_size = ARRAY_SIZE(sm8550_pmdomain_table),
+>>> +	.opp_pd_tbl = sm8550_opp_pd_table,
+>>> +	.opp_pd_tbl_size = ARRAY_SIZE(sm8550_opp_pd_table),
+>>> +	.clk_tbl = sm8550_clk_table,
+>>> +	.clk_tbl_size = ARRAY_SIZE(sm8550_clk_table),
+>>> +	/* Upper bound of DMA address range */
+>>> +	.dma_mask = 0xe0000000 - 1,
+>>> +	.fwname = "qcom/vpu/vpu33_p4.mbn",
+>>> +	.pas_id = IRIS_PAS_ID,
+>>> +	.inst_caps = &platform_inst_cap_sm8550,
+>>> +	.inst_fw_caps = inst_fw_cap_sm8550,
+>>> +	.inst_fw_caps_size = ARRAY_SIZE(inst_fw_cap_sm8550),
+>>> +	.tz_cp_config_data = &tz_cp_config_sm8550,
+>>> +	.core_arch = VIDEO_ARCH_LX,
+>>> +	.hw_response_timeout = HW_RESPONSE_TIMEOUT_VALUE,
+>>> +	.ubwc_config = &ubwc_config_sm8550,
+>>> +	.num_vpp_pipe = 4,
+>>> +	.max_session_count = 16,
+>>> +	.max_core_mbpf = ((8192 * 4352) / 256) * 2,
+>>> +	.input_config_params =
+>>> +		sm8550_vdec_input_config_params,
+>>> +	.input_config_params_size =
+>>> +		ARRAY_SIZE(sm8550_vdec_input_config_params),
+>>> +	.output_config_params =
+>>> +		sm8550_vdec_output_config_params,
+>>> +	.output_config_params_size =
+>>> +		ARRAY_SIZE(sm8550_vdec_output_config_params),
+>>> +	.dec_input_prop = sm8550_vdec_subscribe_input_properties,
+>>> +	.dec_input_prop_size = ARRAY_SIZE(sm8550_vdec_subscribe_input_properties),
+>>> +	.dec_output_prop = sm8550_vdec_subscribe_output_properties,
+>>> +	.dec_output_prop_size = ARRAY_SIZE(sm8550_vdec_subscribe_output_properties),
+>>> +
+>>> +	.dec_ip_int_buf_tbl = sm8550_dec_ip_int_buf_tbl,
+>>> +	.dec_ip_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_ip_int_buf_tbl),
+>>> +	.dec_op_int_buf_tbl = sm8550_dec_op_int_buf_tbl,
+>>> +	.dec_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_op_int_buf_tbl),
+>>> +};
+>>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8550.h b/drivers/media/platform/qcom/iris/iris_platform_sm8550.h
+>>> new file mode 100644
+>>> index 0000000000000000000000000000000000000000..ac8847edb585e4a9ce6b669a3a5988e7809972af
+>>> --- /dev/null
+>>> +++ b/drivers/media/platform/qcom/iris/iris_platform_sm8550.h
+>>> @@ -0,0 +1,11 @@
+>>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>>> +/*
+>>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>>> + */
+>>> +
+>>> +#ifndef __IRIS_PLATFORM_SM8550_H__
+>>> +#define __IRIS_PLATFORM_SM8550_H__
+>>> +
+>>> +static const char * const sm8550_clk_reset_table[] = { "bus" };
+>>> +
+>>> +#endif
+>> There is no need of iris_platform_sm8550.h, you can keep this entry in
+>> gen2.c file itself. As we are making that our base.
+> 
+> That would make it unsymmetrical. I think having a separate header is a
+> better option.
+> 
+It can never by symmetrical anyways.
+As we add new SOCs, Some other platform data might differ for that SOC. And
+then SOC specific file will have that entry only. We won't be taking out
+that table from common and have it in all SOC platform files to make it
+symmetrical again.
 
-Good catch, but I think the defines are just overkill.
-
-What you should do instead is to subtract page shift when using the array.
-
-Apart from that using 1M, 64K and then falling back to 4K just sounds random to me. We have especially pushed back on 64K more than once because it is actually not beneficial in almost all cases.
-
-I suggest to fix the code in system_heap_allocate to not over allocate instead and just try the available orders like TTM does. This has proven to be working architecture independent.
-
-Regards,
-Christian.
-
->  #define NUM_ORDERS ARRAY_SIZE(orders)
->  
->  static struct sg_table *dup_sg_table(struct sg_table *table)
-
+Thanks,
+Dikshita
+>> You can just have iris_platform_sm8650.h which overrides this entry with
+>> SOC specific reset requirements for SM8650.
+>>
+>> Thanks,
+>> Dikshita
+>>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8650.h b/drivers/media/platform/qcom/iris/iris_platform_sm8650.h
+>>> new file mode 100644
+>>> index 0000000000000000000000000000000000000000..75e9d572e788de043a56cf85a4cb634bd02226b9
+>>> --- /dev/null
+>>> +++ b/drivers/media/platform/qcom/iris/iris_platform_sm8650.h
+>>> @@ -0,0 +1,13 @@
+>>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>>> +/*
+>>> + * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
+>>> + */
+>>> +
+>>> +#ifndef __IRIS_PLATFORM_SM8650_H__
+>>> +#define __IRIS_PLATFORM_SM8650_H__
+>>> +
+>>> +static const char * const sm8650_clk_reset_table[] = { "bus", "core" };
+>>> +
+>>> +static const char * const sm8650_controller_reset_table[] = { "xo" };
+>>> +
+>>> +#endif
+>>> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+>>> index 4f8bce6e2002bffee4c93dcaaf6e52bf4e40992e..7cd8650fbe9c09598670530103e3d5edf32953e7 100644
+>>> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+>>> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+>>> @@ -345,6 +345,10 @@ static const struct of_device_id iris_dt_match[] = {
+>>>  			.data = &sm8250_data,
+>>>  		},
+>>>  #endif
+>>> +	{
+>>> +		.compatible = "qcom,sm8650-iris",
+>>> +		.data = &sm8650_data,
+>>> +	},
+>>>  	{ },
+>>>  };
+>>>  MODULE_DEVICE_TABLE(of, iris_dt_match);
+>>>
+> 
 
