@@ -1,251 +1,145 @@
-Return-Path: <linux-media+bounces-30315-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30316-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8832A8B4EF
-	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 11:14:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43E0FA8B4FD
+	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 11:16:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C1AC6168261
-	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 09:14:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BCF621902DD6
+	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 09:16:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F0A8234977;
-	Wed, 16 Apr 2025 09:14:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 559F71F4C99;
+	Wed, 16 Apr 2025 09:15:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="ab8eFglI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D90B1A83E5;
-	Wed, 16 Apr 2025 09:14:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E421D22FF39
+	for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 09:15:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744794873; cv=none; b=H2Zn7v7GyDAw1zRRFKzpwZUwufBpqLtOmO7Tp1xj+BoX1V00rGI/HoL2bgVlCJth3TiKXBriDymZumBbov7xUWupTmmi4KRhaoZ6ZTqXVUe/lErFxBuJXDh+/ZtbGegOI0Cpql0G0jVom7jDRIpEIo3hxcfBytRuQ6yx7lmiCAY=
+	t=1744794958; cv=none; b=KdZpoI3KcGsIAj35T7+gP+zmMHRvxAYr9jMr7XkE8BX0EPuXfDZFXEfDcPafKv4COsvCbru6mzD74eYAHXdrmBHiHcppiU+V+dTbK5ocb8EyXPjsLLtCquXdwdSCXmzxtf4w/wggkeuTmQffw/HJaveujYMFBHr8sy+I7GjwZkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744794873; c=relaxed/simple;
-	bh=+mVXJuhbRQMpO4WDhSVzEXTEQOPqJ9oHFrXZumxLXpk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=derQiNKvLdhmCFUVFqr90AVp4UuVbsltYqAhrIho053l9XX/vUMp71XAxHEe72O/REASlZ4vRRUtCuC60YOqW6jHuWjrUO2vxZGJ3LToN+ZRdXb7P4jlpLtFgJda+42l5RnYbJ/NPuMclQ745y6rAOuDIoIPD9ED1x1hey0eQiM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B1330152B;
-	Wed, 16 Apr 2025 02:14:28 -0700 (PDT)
-Received: from [10.57.90.52] (unknown [10.57.90.52])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 366993F66E;
-	Wed, 16 Apr 2025 02:14:26 -0700 (PDT)
-Message-ID: <283c18ed-6b28-4e9b-ae59-5a9b522d9f4a@arm.com>
-Date: Wed, 16 Apr 2025 10:14:24 +0100
+	s=arc-20240116; t=1744794958; c=relaxed/simple;
+	bh=1jHIOOPieLnRILd4lZy39O0DX2LnEwLbdwgkbhKbSfg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kdDG3ry5eFLX7JUIxdQCqj1vBf1ml7CSs21Gk5scfqJj8JE2GDa2jtG24uMy3X5mHqGTrp/A22QWzJPb0PwCpATTPhsjhaFS+i+1b1KeRy9p4UiPWl6qcSXwMFqEXlQYf/fyi6DMsv0jeePuaNU2NY+k7CQzKlDFPkfrpO2ylp0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=ab8eFglI; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ac73723b2d5so1291817466b.3
+        for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 02:15:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1744794955; x=1745399755; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=IzhnoFqnW97ZWcB8cV008PI+qdwCPI2w8UehlUonwcU=;
+        b=ab8eFglIxB4MP2kiYdFdgygnMqzEPLKV+sY81chamAebWUWtagv4Wrmn+qR9mPtYmO
+         uYgbFO/YXNVteS1NZOKaL/qkCGnqZpg3w4PtzuYrBW+Ja+LFwineQAy6kwJOYCvTQ0xF
+         RyF9igcUsgk+ijpMowOfUi2SObCkkdKddLVBA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744794955; x=1745399755;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=IzhnoFqnW97ZWcB8cV008PI+qdwCPI2w8UehlUonwcU=;
+        b=gfohF7Yf2Kjigsr1MzdtGJXGcWUvd6/390cW2jshCKmFQcQsM0ux0pwEh5Jb83j0MJ
+         F1iZVPLoEJ1pOxfZnMa8H8zwrAkEKfVxJy2L4115qk/L86BCxCTLM/vQ2PlrxHldongL
+         VFRGVh8I0ER0qHI5tONXMT4ukhXisj/0gsDOWbcLmbD4Cwc/5+XYC3PVI5Ie2WL+kWrH
+         3Xx2t1MVfH5CkLf3rf8oz7JlnIxpFzd8eJkiRJtfFPjEqJX5usPkOoQAmhT7WTn57Lau
+         OxeaJyRSaPED1t4un+X44nf9nyDYCbOkFPJeci5s1qR7YfFnoJlAcAY1xJn0gexE/ak8
+         ES1g==
+X-Forwarded-Encrypted: i=1; AJvYcCX4GgxlblB4JEWCvErVX8UaYNIaPNqSY7iw1gwY0k2ETea9iI3DJkgehrxXOveDY/uBqOTg5rosXky6wA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOjILBt95rOH8oZAnW8IWVTBKSukZEDXwH1NrlfnM7JSvA7XLz
+	9+kmr0EBCBNmU1p1LMm4wo6I/hyO8HGQyQisXqSXV8HFlkEJ5LFbQPe1MrKIWuE=
+X-Gm-Gg: ASbGncsMmL7hJ2KJTq6NMxTDtWd2TNEy8pE+kxdB31gSwwpJsiqHf0z7VT6NPa17KU7
+	O29mpL/M/4Jcr3lpBB+0fg6PECSuB9ijGezUEusTln9aHUQ64p3ln14VcA0i1N7RfSYQpjd3KVJ
+	mfRAHPfqqfR3wGQ1OoCZcq47XFqeoH5f1Fu8PMqoiVB0JDwREvSWujCXYx5+nyyXU1Xbw54j2wF
+	uUv5hoVBtwe0UVINE3G3H1PKLhUA+dGYBLPi65e2+uQZ2AOCiJmXSKfgZBNjylvdfC5x70F/n9T
+	f2D8SWz34J8LScgX5vMxxT3afTPnLDpXYs4tnkqxH6rghFxL8P9Z
+X-Google-Smtp-Source: AGHT+IE2LhmPOEWL2QBw0Z5wzYlEqe3D92PMKPrwDxClILzG2RD6atPvXiMciXmIdgmf/8PElhtnPw==
+X-Received: by 2002:a17:907:7203:b0:ac3:413b:69c7 with SMTP id a640c23a62f3a-acb42b738b3mr82289066b.39.1744794954916;
+        Wed, 16 Apr 2025 02:15:54 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acb3cdda638sm92484666b.66.2025.04.16.02.15.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Apr 2025 02:15:54 -0700 (PDT)
+Date: Wed, 16 Apr 2025 11:15:52 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>, simona@ffwll.ch,
+	airlied@gmail.com, asrivats@redhat.com, andyshrk@163.com,
+	mripard@kernel.org, maarten.lankhorst@linux.intel.com,
+	dri-devel@lists.freedesktop.org,
+	Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH] drm/gem: Internally test import_attach for imported
+ objects
+Message-ID: <Z_91SGKoCbkC1k9R@phenom.ffwll.local>
+References: <20250415092057.63172-1-tzimmermann@suse.de>
+ <e2e82102-eb9f-4eb6-8ac3-6122ed7fcf28@amd.com>
+ <48ab9b82-0d26-4d7c-88b0-feab9762b128@suse.de>
+ <b924ffa7-99c0-42f1-9170-069e92299021@amd.com>
+ <ddb93e8d-7716-47b3-b06c-0bf862d9c32b@suse.de>
+ <ac0aba3d-ec77-4f6b-9ac1-f6077519f30d@amd.com>
+ <Z_5a3ckZiY-fINNW@phenom.ffwll.local>
+ <5a1b160f-0ea4-4c31-b777-b8ab81b6c394@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/4] drm/panthor: Introduce BO labeling
-To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>,
- Liviu Dudau <liviu.dudau@arm.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- kernel@collabora.com, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20250411150357.3308921-1-adrian.larumbe@collabora.com>
- <20250411150357.3308921-2-adrian.larumbe@collabora.com>
- <93a4ec41-3bd8-4485-a4fe-d0def3509b79@arm.com>
- <ejq47pilr3phywio3oudfrqbj2a3u2j3irk7uhlwd4pz24ve2c@3pc3cbdlerqk>
-From: Steven Price <steven.price@arm.com>
-Content-Language: en-GB
-In-Reply-To: <ejq47pilr3phywio3oudfrqbj2a3u2j3irk7uhlwd4pz24ve2c@3pc3cbdlerqk>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <5a1b160f-0ea4-4c31-b777-b8ab81b6c394@amd.com>
+X-Operating-System: Linux phenom 6.12.17-amd64 
 
-On 14/04/2025 20:43, Adrián Larumbe wrote:
-> Hi Steven,
+On Tue, Apr 15, 2025 at 03:57:11PM +0200, Christian K�nig wrote:
+> Am 15.04.25 um 15:10 schrieb Simona Vetter:
+> >> This is for devices who only want to do a vmap of the buffer, isn't it?
+> > ... it's for the vmap only case, where you might not even have a struct
+> > device. Or definitely not a reasonable one, like maybe a faux_bus device
+> > or some device on a bus that really doesn't do dma (e.g. spi or i2c), and
+> > where hence dma_buf_map_attachment is just something you never ever want
+> > to do.
 > 
-> On 14.04.2025 10:50, Steven Price wrote:
->> Hi Adrián,
->>
->> On 11/04/2025 16:03, Adrián Larumbe wrote:
->>> Add a new character string Panthor BO field, and a function that allows
->>> setting it from within the driver.
->>>
->>> Driver takes care of freeing the string when it's replaced or no longer
->>> needed at object destruction time, but allocating it is the responsibility
->>> of callers.
->>>
->>> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
->>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
->>> ---
->>>  drivers/gpu/drm/panthor/panthor_gem.c | 39 +++++++++++++++++++++++++++
->>>  drivers/gpu/drm/panthor/panthor_gem.h | 17 ++++++++++++
->>>  2 files changed, 56 insertions(+)
->>>
->>> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
->>> index 8244a4e6c2a2..af0ac17f357f 100644
->>> --- a/drivers/gpu/drm/panthor/panthor_gem.c
->>> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
->>> @@ -2,6 +2,7 @@
->>>  /* Copyright 2019 Linaro, Ltd, Rob Herring <robh@kernel.org> */
->>>  /* Copyright 2023 Collabora ltd. */
->>>
->>> +#include <linux/cleanup.h>
->>>  #include <linux/dma-buf.h>
->>>  #include <linux/dma-mapping.h>
->>>  #include <linux/err.h>
->>> @@ -18,6 +19,14 @@ static void panthor_gem_free_object(struct drm_gem_object *obj)
->>>  	struct panthor_gem_object *bo = to_panthor_bo(obj);
->>>  	struct drm_gem_object *vm_root_gem = bo->exclusive_vm_root_gem;
->>>
->>> +	/*
->>> +	 * Label might have been allocated with kstrdup_const(),
->>> +	 * we need to take that into account when freeing the memory
->>> +	 */
->>> +	kfree_const(bo->label.str);
->>> +
->>> +	mutex_destroy(&bo->label.lock);
->>> +
->>>  	drm_gem_free_mmap_offset(&bo->base.base);
->>>  	mutex_destroy(&bo->gpuva_list_lock);
->>>  	drm_gem_shmem_free(&bo->base);
->>> @@ -196,6 +205,7 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
->>>  	obj->base.map_wc = !ptdev->coherent;
->>>  	mutex_init(&obj->gpuva_list_lock);
->>>  	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
->>> +	mutex_init(&obj->label.lock);
->>>
->>>  	return &obj->base.base;
->>>  }
->>> @@ -247,3 +257,32 @@ panthor_gem_create_with_handle(struct drm_file *file,
->>>
->>>  	return ret;
->>>  }
->>> +
->>> +void
->>> +panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label)
->>> +{
->>> +	struct panthor_gem_object *bo = to_panthor_bo(obj);
->>> +	const char *old_label;
->>> +
->>> +	scoped_guard(mutex, &bo->label.lock) {
->>> +		old_label = bo->label.str;
->>> +		bo->label.str = label;
->>> +	}
->>> +
->>> +	kfree(old_label);
->>
->> Shouldn't this be kfree_const()? I suspect as things stand we can't
->> trigger this bug but it's inconsistent.
+> Even in that case I would still suggest to at least create an attachment to let the exporter know that somebody is doing something with it's buffer.
 > 
-> This could only be called either from the set_label() ioctl, in which case
-> old_label could be NULL or a pointer to a string obtained from strdup(); or from
-> panthor_gem_kernel_bo_set_label(). In the latter case, it could only ever be
-> NULL, since we don't reassign kernel BO labels, so it'd be safe too.
-
-Yeah I thought it probably doesn't cause problems now, but it's a foot
-gun for the future.
-
-> However I do agree that it's not consistent, and then in the future perhaps
-> relabelling kernel BO's might be justified, so I'll change it to kfree_const().
-
-Thanks!
-
->>> +}
->>> +
->>> +void
->>> +panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
->>> +{
->>> +	const char *str;
->>> +
->>> +	str = kstrdup_const(label, GFP_KERNEL);
->>> +	if (!str) {
->>
->> In the next patch you permit user space to clear the label
->> (args->size==0) which means label==NULL and AFAICT kstrdup_const() will
->> return NULL in this case triggering this warning.
+> That is also important for move notification since you can't do those without an attachment.
 > 
-> Kernel and UM-exposed BO's should never experience cross-labelling, so in theory
-> this scenario ought to be impossible. The only way panthor_gem_kernel_bo_set_label()
-> might take NULL in the 'label' argument is that someone called panthor_kernel_bo_create()
-> with NULL for its name 'argument'.
+> BTW: What is keeping a vmap alive after dropping the reservation lock? There is no pinning whatsoever as far as I can see.
 
-You're absolutely correct - I somehow got confused between the kernel
-and user paths. It's the user path above which needs to handle NULL (and
-does).
+dma_buf_vmap should also pin, or something will go wrong very badly. And
+that also can tell the exporter what exactly the buffer is used for
+(kernel cpu access). I really don't think we should mix that up with
+device access as a dma_buf_attachment.
+-Sima
 
-> I think as a defensive check, I could do something as follows
 > 
-> void
-> panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
-> {
-> 	const char *str;
+> > I think we might want to transform obj->import_attach into a union or
+> > tagged pointer or something like that, which can cover both cases. And
+> > maybe a drm_gem_bo_imported_dma_buf() helper that gives you the dma_buf no
+> > matter what if it's imported, or NULL if it's allocated on that
+> > drm_device?
 > 
-> 	/* We should never attempt labelling a UM-exposed GEM object */
-> 	if (drm_WARN_ON(bo->obj->dev, &bo->obj->handle_count > 0))
-> 		return;
+> Yeah, I had the same idea before as well. Just didn't know if that was something worth looking into.
 > 
-> 	if (!label)
-> 		return;
+> Regards,
+> Christian.
 > 
->        [...]
-> }
+> >
+> > Cheers, Sima
 
-I'm happy for you to do nothing here - that was my mistake getting the
-two functions muddled. Sorry for the noise. I'm equally happy for the
-defensive checks above.
-
-Steve
-
->> Thanks,
->> Steve
->>
->>> +		/* Failing to allocate memory for a label isn't a fatal condition */
->>> +		drm_warn(bo->obj->dev, "Not enough memory to allocate BO label");
->>> +		return;
->>> +	}
->>> +
->>> +	panthor_gem_bo_set_label(bo->obj, str);
->>> +}
->>> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
->>> index 1a363bb814f4..af0d77338860 100644
->>> --- a/drivers/gpu/drm/panthor/panthor_gem.h
->>> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
->>> @@ -46,6 +46,20 @@ struct panthor_gem_object {
->>>
->>>  	/** @flags: Combination of drm_panthor_bo_flags flags. */
->>>  	u32 flags;
->>> +
->>> +	/**
->>> +	 * @label: BO tagging fields. The label can be assigned within the
->>> +	 * driver itself or through a specific IOCTL.
->>> +	 */
->>> +	struct {
->>> +		/**
->>> +		 * @label.str: Pointer to NULL-terminated string,
->>> +		 */
->>> +		const char *str;
->>> +
->>> +		/** @lock.str: Protects access to the @label.str field. */
->>> +		struct mutex lock;
->>> +	} label;
->>>  };
->>>
->>>  /**
->>> @@ -91,6 +105,9 @@ panthor_gem_create_with_handle(struct drm_file *file,
->>>  			       struct panthor_vm *exclusive_vm,
->>>  			       u64 *size, u32 flags, uint32_t *handle);
->>>
->>> +void panthor_gem_bo_set_label(struct drm_gem_object *obj, const char *label);
->>> +void panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label);
->>> +
->>>  static inline u64
->>>  panthor_kernel_bo_gpuva(struct panthor_kernel_bo *bo)
->>>  {
-> 
-> Adrian Larumbe
-
+-- 
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
