@@ -1,158 +1,172 @@
-Return-Path: <linux-media+bounces-30372-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30373-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C722EA90884
-	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 18:17:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39F82A908E6
+	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 18:28:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 057945A30DA
-	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 16:16:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C836190600F
+	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 16:29:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B18D20FA9D;
-	Wed, 16 Apr 2025 16:16:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 242AB213253;
+	Wed, 16 Apr 2025 16:28:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jRxRxxv3"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DMt5At1z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512523F9D5
-	for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 16:16:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FBFD212F89
+	for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 16:28:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744820203; cv=none; b=V/DLCs6UY6gbPLRllR9YAVe84CaSr9EAIZK/qjIK9ib+Ws7QwNn0Ig1y3CC1uZf4vkc2P/jjdSf/VoERInb6Q1Yu4FFc69Stq7scv8CsWweUELVpW0bqwLnp6mrmDDdjOEEjIPn6LPhx3Qh+Kvp2oHcfI41JWD6XmMEN+GmFX6g=
+	t=1744820909; cv=none; b=g5pQiK6vZUuRRcNaLCUCoVed2N62dXmTKrjJDDJnocxMh3CA7D6qmOIFqv3VKI/ziM0A/oxbgBOUGr8IAuBb3VQSGMxLPqdQnOyKT5p8D1AW4KQAU6XE22g6fKPrVcgxqES3Ur+q06z685Hki0sjziRmc0ARMMgt9bYtRs6io8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744820203; c=relaxed/simple;
-	bh=CnwNrCRLuflBZPFZFP4NWhNbXGVzpL+XeGZ9wSYRRoc=;
+	s=arc-20240116; t=1744820909; c=relaxed/simple;
+	bh=V5EjEqLAI6VF4m0ym14G0zP2Lk1AAeOTupEjRA2/fhk=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cd0Yv0CaGusH93KCFU+3tYhqjd3gVimZzVQzSaltpctTEdAgx+TkD53yRGp6o/9984MAZX4IP8a0sjaO+P/K0dM23e/u5hzveE3thmD1qUm/JNODweizOQ8N6rAuG5H5zjdXZIOcXWL1NExZEoGusCfEaLiDWWp0eaCvck3N3yU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jRxRxxv3; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53G9mOZV030629
-	for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 16:16:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	IUwvyXYOCDlV6AdUm377Hu1dN5POoteGW8cjGXB2J7s=; b=jRxRxxv3DtAaGscp
-	ZoAKJKcsSHbJ9NOM8y0hSsCDur3nq5oxxR6i3eP+K6nNJNCLV6/kPKnkbTFIfBlG
-	YLOBqOJ4RKr73ONCALqbHKy90IUTgXk3wPtmjBr7HvoKZ255VHaqCi54udqMzY6z
-	TCoRupBYg0XYqVAYIpoUTrr6nzJZl1RdSERonPrw6JY/7sY2p2frTS57UE8w34LL
-	xeV5q3WagqElCjymS+DRLPj+S3KL1lsmbjFcEnoi+er7LLdxXqiRAncrL/FLVMeM
-	7CEYZWwft/cN74Z5oIF8lTrJvzs7EPx6oPRg8boCBG9pK3xyje5j/Hx4lnzgBlWu
-	wV05xg==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45ygxk40px-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 16:16:41 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6ece036a581so122726326d6.1
-        for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 09:16:41 -0700 (PDT)
+	 To:Cc:Content-Type; b=QACrgutKr4BjAv8djXAQQ4/CKHkCVzHVAB/WhgRkv+m2b6KHGUtAOkHHLa49McZkiLFj92wKmVgNzWIKbKyOFV+V8DphEfolQWEWKavjyQUJTKZMR/xZutzlbT3jWA3g16ufi+AzhFywVb2LqySIbGyA/4uV3Kw6EBdFK22kQdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DMt5At1z; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43d5f10e1aaso75935e9.0
+        for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 09:28:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1744820905; x=1745425705; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dcKONrIAwY+Efjpusl4unIszUT6B68ir1oyM8EH1UJY=;
+        b=DMt5At1zuEraXQDFdfoUFyvRo93WxwpM9AIaXjydcUOd8acdr4WnZ6Od9BCDBrfZoS
+         IpXaXURIRkBaAdzsoDppwKFlPtFA597blEBXLIQ1jzW7DAp13/CExsblaURmFHAXV8QS
+         DrO+HYC4JjqVac0hoL4iQ3zlCoSC7/pMpMWwN7GEIIxd3vjAg19/VB4ZS7cQoqOAnw0c
+         MdgvX2MYGIRzNlqFIrtG70316UJiEz5U0phJ7y7ft2ylDXQiMkb6xKPnzp7nbG6cuUbZ
+         1cNgss8+3qC8TmXwbbCnlq9Hi+8kYLMWCI8qfmxw+aLQrm8d020+hs9ra7i1jJ65Vi0x
+         S4dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744820200; x=1745425000;
+        d=1e100.net; s=20230601; t=1744820905; x=1745425705;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IUwvyXYOCDlV6AdUm377Hu1dN5POoteGW8cjGXB2J7s=;
-        b=dx3nZjIzdRoKTwvCi4mV3Yyv3CVvSOFCiZPmDeI8W783xRkJ6wg54VVkGEjIyALnhF
-         R+EEM0DyIhSSn2z1dZxICrW4gQPAaXMLT4dE7biaQnjquaRQMDJSGRKE/itHuBxLHhjf
-         cKh+qFnKMsczuas6Rn6IgmHFkpcxM0youFTcLiMi0L+qpAUrKDkdFBNo6O1bw1gsbuGQ
-         hhk6u5qrT00RorojbZ0Y9uIJoH2ev3Hw1/WMFNdbjf7GvPokX8aXFkzNYfzkhGyBKkqM
-         02m9KZgZKqNC3SN6M3Qc+wRRTMgCSr6mKMt3yhFWrdN9wF59ar5hKihJ+yDfa5RTma4b
-         7Cgw==
-X-Forwarded-Encrypted: i=1; AJvYcCUCNYbU9N8E3c0zglBeMZ0QTt0gXS762U3mald14DrWcE+gq1IfVtP+yDlNBeb5aYs21IEllLSXhLa7Iw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy12eBvdowefeEYi+eCC5ThG2IFLyJdkIydY7BAfZraXRe70xnk
-	DD7yYq2A7qZ2qNXCWN3/MyzBZflk3I+IYnDzFEE/gpGm0rvZPpAXU0YGepCkzkIZ/ImQhxdyVJw
-	i/L0YLewjQ5AvFnV6UdPSKWiKlXkb+rJ0u2Ca4v0AZyEKZGq3oUVMowpvBS6IgozNmMb1ow/+3v
-	OA8X86LMZ4ODiD9mQOUpmlOVav+jVbt84fqZDT
-X-Gm-Gg: ASbGncu3nFTxwniebAHFCNdYwYT2O3Cc6sb5IgRtj8u+OqiGfN328ANfAZ+3ML1/scw
-	CGMEEitHzC9Wjv5WLNKqHdpDyKtHtyROwJPUL6jZzUi82PeZve1iaWd15wtVsd8QeWO/6ZSY=
-X-Received: by 2002:ad4:5965:0:b0:6e8:97f6:3229 with SMTP id 6a1803df08f44-6f2b2f4240amr38117396d6.16.1744820199986;
-        Wed, 16 Apr 2025 09:16:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGx21vZbnq0jtucTsIqzaBf3WtNCjD67d9WEjC1pVtPsaA9mLOnwj0r4CqLBJi/G73/FVZCLE6+697N5DBZyk0=
-X-Received: by 2002:ad4:5965:0:b0:6e8:97f6:3229 with SMTP id
- 6a1803df08f44-6f2b2f4240amr38117086d6.16.1744820199680; Wed, 16 Apr 2025
- 09:16:39 -0700 (PDT)
+        bh=dcKONrIAwY+Efjpusl4unIszUT6B68ir1oyM8EH1UJY=;
+        b=Xq7nB2c7wVXYFmmBabjDxMA1oDoSjWOmkaU8nd8f7a1nUPcFibsyNjj8aHIuzkuUXv
+         mJqgAp/5+V0SKpvbAebfkXXxPnyHYLRGVx8h4AGt8Vbl/CknF+TVUkmwF6bmpnt4PUfK
+         591zlCEqs1Prf8AyTlB7NfJHKUFKvgTZ6RNmWlEUlua8QShTL3zAVcgt63gqDYCf31/h
+         sjJ1pIPO5J3n+pKulCdEgV3/lbzE9SDOeIvcSUnDEssu6PBhI7sFWRNx0GQI6XUCpSap
+         WUP8AtyVtPCPbbolVULiMvgpaX2tvFlb6sL69GT36KhJto/Bj+SZJS940T96i/JfVvHO
+         /Y2A==
+X-Forwarded-Encrypted: i=1; AJvYcCUNBHbS94m0hY+GQ3sx/ripsOI4NLV6ad1qHMUGlaLeUbXZyl1HKohPioYrYX9f8WJjZhp/5/7/kk+uhQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzM1J/Vk6zLIPdwQsDaceb/4fbnMY7weayrnXn4H4ZPaTXPFj0k
+	tUQ09IVnM0HpKjBSC8A0YfGTjMHJwxz5ZEyMpLuw/NjD7Zs9NH9jkb0Q6p2BPzBYrXWYfCoobTS
+	OmY+ZxoIv3lWgjGeYeaqVnyedMEr32yztI8nP
+X-Gm-Gg: ASbGncvtyEDKPylfxpKdXjoFxVx/ti996pFMAHZ3skZGU6OStr52rpEbvSPhovm1jfP
+	vpy3zERbhMs84sAncQUZsK86rhhfIt+tvIgsKgpihoxzJ3/ajIX+JtLc3oYs8S/hvNYAd4OGsI2
+	XHwoZMbnEYdpIhFpV+h1rXHsfvNGwfo8SgxeB3Xgq8byxPijbanV1q
+X-Google-Smtp-Source: AGHT+IECcvlnv6xPe9UB0/XJHO7q92sQEEqdeeGFlPVCn4BZ/toc+Qo3v9Dc1e4mY/RgIEckbUeu3UbXyA3ppO6oN3o=
+X-Received: by 2002:a05:600c:6a87:b0:439:4a76:c246 with SMTP id
+ 5b1f17b1804b1-4405d26eadcmr1009515e9.6.1744820905359; Wed, 16 Apr 2025
+ 09:28:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250416120908.206873-1-loic.poulain@oss.qualcomm.com>
- <20250416120908.206873-6-loic.poulain@oss.qualcomm.com> <c57084c4-189a-484f-af2f-8e4181f547fb@oss.qualcomm.com>
-In-Reply-To: <c57084c4-189a-484f-af2f-8e4181f547fb@oss.qualcomm.com>
-From: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Date: Wed, 16 Apr 2025 18:16:27 +0200
-X-Gm-Features: ATxdqUFW77vP_4OlAAIRog3Se0kprB_UbJE19ejedwG6hLlqKFFJqi_BOdbcfu4
-Message-ID: <CAFEp6-1iUapOg3DU2+NG7q9E5EPgwBuNUvpgLJL2jWKT=0SOkw@mail.gmail.com>
-Subject: Re: [PATCH 6/6] arm64: dts: qcom: qcm2290: Add CAMSS node
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: bryan.odonoghue@linaro.org, rfoss@kernel.org, konradybcio@kernel.org,
-        andersson@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org
+References: <20250414225227.3642618-3-tjmercier@google.com> <202504161015.x2XLaha2-lkp@intel.com>
+In-Reply-To: <202504161015.x2XLaha2-lkp@intel.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Wed, 16 Apr 2025 09:28:13 -0700
+X-Gm-Features: ATxdqUFoAbnFhGEzvGofJporgvqMuSJROlNX-nlFC0ORBP_b5Axo3RH1otfUvlU
+Message-ID: <CABdmKX16QttfxRYHaq1B92U8nw+S6Gte+mFVhOTnCy4H3cLFcA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
+To: kernel test robot <lkp@intel.com>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
+	skhan@linuxfoundation.org, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
+	simona@ffwll.ch, corbet@lwn.net, eddyz87@gmail.com, song@kernel.org, 
+	yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org, 
+	sdf@fomichev.me, jolsa@kernel.org, mykolal@fb.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Authority-Analysis: v=2.4 cv=WecMa1hX c=1 sm=1 tr=0 ts=67ffd7e9 cx=c_pps a=UgVkIMxJMSkC9lv97toC5g==:117 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=EUspDBNiAAAA:8 a=Iht8ywTv3xx2x2p8IFcA:9 a=QEXdDO2ut3YA:10 a=1HOtulTD9v-eNWfpl4qZ:22
-X-Proofpoint-GUID: kH9lxf1HNMvRyOKrw4VVP6CrFepX1vco
-X-Proofpoint-ORIG-GUID: kH9lxf1HNMvRyOKrw4VVP6CrFepX1vco
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-16_06,2025-04-15_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
- adultscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0 mlxscore=0
- impostorscore=0 mlxlogscore=999 spamscore=0 malwarescore=0
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504160133
 
-On Wed, Apr 16, 2025 at 4:46=E2=80=AFPM Konrad Dybcio
-<konrad.dybcio@oss.qualcomm.com> wrote:
+On Tue, Apr 15, 2025 at 9:43=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
 >
-> On 4/16/25 2:09 PM, Loic Poulain wrote:
-> > Add node for the QCM2290 camera subsystem.
-> >
-> > Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
-> > ---
-> >  arch/arm64/boot/dts/qcom/qcm2290.dtsi | 93 +++++++++++++++++++++++++++
-> >  1 file changed, 93 insertions(+)
-> >
-> > diff --git a/arch/arm64/boot/dts/qcom/qcm2290.dtsi b/arch/arm64/boot/dt=
-s/qcom/qcm2290.dtsi
-> > index f0746123e594..4b81e721e50c 100644
-> > --- a/arch/arm64/boot/dts/qcom/qcm2290.dtsi
-> > +++ b/arch/arm64/boot/dts/qcom/qcm2290.dtsi
-> > @@ -1579,6 +1579,99 @@ adreno_smmu: iommu@59a0000 {
-> >                       #iommu-cells =3D <2>;
-> >               };
-> >
-> > +             camss: camss@5c52000 {
+> Hi Mercier,
 >
-> @5c6e000
-> (first reg entry)
+> kernel test robot noticed the following build errors:
 >
-> > +                     compatible =3D "qcom,qcm2290-camss";
-> > +
-> > +                     reg =3D <0 0x5c6e000 0 0x1000>,
-> > +                           <0 0x5c75000 0 0x1000>,
-> > +                           <0 0x5c52000 0 0x1000>,
-> > +                           <0 0x5c53000 0 0x1000>,
-> > +                           <0 0x5c6f000 0 0x4000>,
-> > +                           <0 0x5c76000 0 0x4000>;
-> > +                     reg-names =3D "csid0",
-> > +                                 "csid1",
-> > +                                 "csiphy0",
-> > +                                 "csiphy1",
-> > +                                 "vfe0",
-> > +                                 "vfe1";
+> [auto build test ERROR on bpf-next/net]
+> [also build test ERROR on bpf-next/master bpf/master linus/master v6.15-r=
+c2 next-20250415]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
 >
-> we also have a pair of TPGs at 0x5c6[68]000 - I think it would be good to
-> describe them from the get-go
+> url:    https://github.com/intel-lab-lkp/linux/commits/T-J-Mercier/dma-bu=
+f-Rename-and-expose-debugfs-symbols/20250415-065354
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
+net
+> patch link:    https://lore.kernel.org/r/20250414225227.3642618-3-tjmerci=
+er%40google.com
+> patch subject: [PATCH 2/4] bpf: Add dmabuf iterator
+> config: i386-buildonly-randconfig-005-20250416
+> compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df=
+0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+> reproduce (this is a W=3D1 build):
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202504161015.x2XLaha2-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> ld.lld: error: undefined symbol: dmabuf_debugfs_list_mutex
+>    >>> referenced by dmabuf_iter.c:44 (kernel/bpf/dmabuf_iter.c:44)
+>    >>>               vmlinux.o:(dmabuf_iter_seq_next)
+>    >>> referenced by dmabuf_iter.c:53 (kernel/bpf/dmabuf_iter.c:53)
+>    >>>               vmlinux.o:(dmabuf_iter_seq_next)
+>    >>> referenced by dmabuf_iter.c:26 (kernel/bpf/dmabuf_iter.c:26)
+>    >>>               vmlinux.o:(dmabuf_iter_seq_start)
+>    >>> referenced 1 more times
+> --
+> >> ld.lld: error: undefined symbol: dma_buf_put
+>    >>> referenced by dmabuf_iter.c:45 (kernel/bpf/dmabuf_iter.c:45)
+>    >>>               vmlinux.o:(dmabuf_iter_seq_next)
+>    >>> referenced by dmabuf_iter.c:90 (kernel/bpf/dmabuf_iter.c:90)
+>    >>>               vmlinux.o:(dmabuf_iter_seq_stop)
+> --
+> >> ld.lld: error: undefined symbol: dmabuf_debugfs_list
+>    >>> referenced by list.h:354 (include/linux/list.h:354)
+>    >>>               vmlinux.o:(dmabuf_iter_seq_next)
+>    >>> referenced by dmabuf_iter.c:0 (kernel/bpf/dmabuf_iter.c:0)
+>    >>>               vmlinux.o:(dmabuf_iter_seq_start)
+>    >>> referenced by list.h:364 (include/linux/list.h:364)
+>    >>>               vmlinux.o:(dmabuf_iter_seq_start)
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-If we want to be ready for TPG, we may also want a camss 'top' reg
-(0x05C11000), since it seems to be required for configuring CSID input
-mux (TPG vs CSIPHY).
+This is due to no CONFIG_DMA_SHARED_BUFFER. Fixed by:
+
+--- a/kernel/bpf/Makefile
++++ b/kernel/bpf/Makefile
+@@ -53,7 +53,7 @@ obj-$(CONFIG_BPF_SYSCALL) +=3D relo_core.o
+ obj-$(CONFIG_BPF_SYSCALL) +=3D btf_iter.o
+ obj-$(CONFIG_BPF_SYSCALL) +=3D btf_relocate.o
+ obj-$(CONFIG_BPF_SYSCALL) +=3D kmem_cache_iter.o
+-ifeq ($(CONFIG_DEBUG_FS),y)
++ifeq ($(CONFIG_DMA_SHARED_BUFFER)$(CONFIG_DEBUG_FS),yy)
+ obj-$(CONFIG_BPF_SYSCALL) +=3D dmabuf_iter.o
+ endif
 
