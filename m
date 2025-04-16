@@ -1,80 +1,67 @@
-Return-Path: <linux-media+bounces-30376-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30377-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 756DCA90A6C
-	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 19:48:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33608A90B20
+	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 20:14:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3E9AC5A2024
-	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 17:48:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B23311895E1A
+	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 18:14:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08CB82192FB;
-	Wed, 16 Apr 2025 17:48:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ke4aSG9l"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 168D921ADDB;
+	Wed, 16 Apr 2025 18:13:51 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E0F9814B950;
-	Wed, 16 Apr 2025 17:48:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E497718C32C;
+	Wed, 16 Apr 2025 18:13:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744825702; cv=none; b=QiER7k6vhUwWTI2jDJIqqBKg1+q70Ka1HR58RHFptZwXu2fPVWXYbpFHY9VMc8VQbGEI6cS3fup8ovzQqfNXuwwnqsOEdF1Yx3ShAMf5unv60V0wRaOGDVAiEFkUqFv2hEJm2GkkixLkqCp7McE3qND4JMKUGgEFh7d+UgG5vqI=
+	t=1744827230; cv=none; b=Z+j3POBnVIn0QZXb7lM1kA2ULmzVsi7yGBgU0+I1+q/Rjb9s6B7/OGy+CHTDj6jIYml4ho7eZaLzMP6+yNUVA7FAZ3rlIzFAka54rz7//SPbZN0e+o/JaKr11V2JM3rTzfEWn/vmVXda6hucv5Ul+HBlwOc+ke/u8L9b5Kb2NlQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744825702; c=relaxed/simple;
-	bh=K01BARh6HijRfnPdurMe8L58/LzFkiQR5RkCkKbib+U=;
-	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SH/47vUya5vj7azHr0n7yjRHu1IQt8RaCs74y+uqGrbhItrGeGYLAwUgHnTtWusIDust5J+uKtHlYxN0vcOGN5pkFDsfUJuyJcBvRdAQhtHVt7QptfOj1QXcj+0rcFWqlBglTfVNseG9O9uRnOs3oeUogvbWjEjVChwvLm6eU4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ke4aSG9l; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744825701; x=1776361701;
-  h=date:from:to:subject:message-id:references:mime-version:
-   in-reply-to;
-  bh=K01BARh6HijRfnPdurMe8L58/LzFkiQR5RkCkKbib+U=;
-  b=Ke4aSG9lI9T0AYgKxlMv9sTtwB/a/ZfDFlrnIPWpca4IbDf+ZwGwsXVi
-   yM+JEOQNgEqj1fzQzSlkFgbh1ywgnQWS2DoKfHPJl7QTIBDPXroANeicJ
-   B5IzvY62zGjIk2fOoVT+kjY9FgQpj59+QcAoHcIcdpHWjRurUbUjwjPSM
-   M9tzhw8H1w2/VekIW05ECoN6rQGpXfi9hgFx2U5jKZLlCxEJg067QMzo2
-   19ea2LD7mBj5FLKa65DdlZBj/QZZ7chVjv6OWfeQrHerfXAd/tdhEccLO
-   J1lDob6svI68hWjJoG+UmujD2pa1NkCgr0ILBGcJJ59OEesWNC05cdFHO
-   Q==;
-X-CSE-ConnectionGUID: sQ9lVC+HRHibdbYbjQrodA==
-X-CSE-MsgGUID: M7MD8GztSdOLYok6cd2DEQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="57029321"
+	s=arc-20240116; t=1744827230; c=relaxed/simple;
+	bh=/6XzfzDOM1RQJrmmo5s0h61HK4p3Zrx2dhwqOa8iMDY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Au6spcmGbv6HzBgRgayhRDFJVw+8tf1qhiYCHszxc61cW0EX4EQXUq5AscTjNncnbxCQy8fgtfSxmEVs/xy/bQjyCwJkMdvlAHxPOuIWJmMIGgnNXU5P0OwpLofxBlj6YAJZHmWHbZnNQaM+SxC94OAcJjkyKpMQ0VoCuRHXXf8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-CSE-ConnectionGUID: pwCwhiG5THufXKdfPZfpBA==
+X-CSE-MsgGUID: 8lgvwHqmSkOwWtrwwyDA9Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="46557823"
 X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="57029321"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 10:48:20 -0700
-X-CSE-ConnectionGUID: INewvuJ4Qp6+WveIGxtopQ==
-X-CSE-MsgGUID: 3/VcZldXSeOxWjFwqIBbFw==
+   d="scan'208";a="46557823"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 11:13:48 -0700
+X-CSE-ConnectionGUID: Xcl5puEfTV+4UeVqco0aow==
+X-CSE-MsgGUID: vm/QV3/MTLi2x6SJcT1btw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
-   d="scan'208";a="167736133"
+   d="scan'208";a="135369914"
 Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 10:48:18 -0700
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 11:13:44 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1u56rv-0000000CvgL-0iO1;
-	Wed, 16 Apr 2025 20:48:15 +0300
-Date: Wed, 16 Apr 2025 20:48:14 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	(envelope-from <andy@kernel.org>)
+	id 1u57GX-0000000Cw2Z-3K51;
+	Wed, 16 Apr 2025 21:13:41 +0300
+Date: Wed, 16 Apr 2025 21:13:41 +0300
+From: Andy Shevchenko <andy@kernel.org>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Dan Scally <djrscally@gmail.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Jai Luthra <jai.luthra@ideasonboard.com>, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v5 0/7] i2c: core: Move client towards fwnode
-Message-ID: <Z__tXkgOhvJUIYXq@smile.fi.intel.com>
-References: <20250416070409.1867862-1-andriy.shevchenko@linux.intel.com>
- <Z__Wlri8-tjuctsa@shikoro>
+	Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
+	Duane <duanek@chorus.net>, platform-driver-x86@vger.kernel.org,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 5/9] platform/x86: int3472: Make regulator supply name
+ configurable
+Message-ID: <Z__zVTnMbJdkmyf3@smile.fi.intel.com>
+References: <20250416124037.90508-1-hdegoede@redhat.com>
+ <20250416124037.90508-6-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,24 +70,50 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z__Wlri8-tjuctsa@shikoro>
+In-Reply-To: <20250416124037.90508-6-hdegoede@redhat.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, Apr 16, 2025 at 06:11:02PM +0200, Wolfram Sang wrote:
-> On Wed, Apr 16, 2025 at 10:01:30AM +0300, Andy Shevchenko wrote:
-> > The struct i2c_board_info has of_node and fwnode members. This is quite
-> > confusing as they are of the same semantics and it's tend to have an issue
-> > if user assigns both. Luckily there is only a single driver that does this
-> > and fix is provided in the last patch. Nevertheless the series moves
-> > the client handling code to use fwnode and deprecates the of_node member
-> > in the respective documentation.
+On Wed, Apr 16, 2025 at 02:40:33PM +0200, Hans de Goede wrote:
+> This is a preparation patch for registering multiple regulators, which
+> requires a different supply-name for each regulator. Make supply-name
+> a parameter to skl_int3472_register_regulator() and use con-id to set it
+> so that the existing int3472_gpio_map remapping can be used with it.
+> 
+> Since supply-name is a parameter now, drop the fixed
+> skl_int3472_regulator_map_supplies[] array and instead add lower- and
+> upper-case mappings of the passed-in supply-name to the regulator.
 
 ...
 
-> Works at least on my OF-based platform. Let's go CI.
-> 
-> Applied to for-next, thanks!
-Thank you!
+> +	for (i = 0, j = 0; i < GPIO_REGULATOR_SUPPLY_MAP_COUNT; i++) {
+> +		const char *supply = i ? regulator->supply_name_upper : supply_name;
+
+But this won't scale, it seems it relies on the fact that
+GPIO_REGULATOR_SUPPLY_MAP_COUNT <= 2.
+
+> +		regulator->supply_map[j].supply = supply;
+> +		regulator->supply_map[j].dev_name = int3472->sensor_name;
+>  		j++;
+>  
+>  		if (second_sensor) {
+> -			int3472->regulator.supply_map[j].supply =
+> -				skl_int3472_regulator_map_supplies[i];
+> -			int3472->regulator.supply_map[j].dev_name = second_sensor;
+> +			regulator->supply_map[j].supply = supply;
+> +			regulator->supply_map[j].dev_name = second_sensor;
+>  			j++;
+>  		}
+
+With that in mind, why not unroll the loop?
+
+>  	}
+
+...
+
+> +/* lower- and upper-case mapping */
+>  #define GPIO_REGULATOR_SUPPLY_MAP_COUNT				2
+
+Code seems really relies on this not be bigger than 2, perhaps static assert?
 
 -- 
 With Best Regards,
