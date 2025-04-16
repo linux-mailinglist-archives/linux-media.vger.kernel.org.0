@@ -1,148 +1,158 @@
-Return-Path: <linux-media+bounces-30371-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30372-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E67E4A9086B
-	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 18:11:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C722EA90884
+	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 18:17:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A41DB7AECFA
-	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 16:10:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 057945A30DA
+	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 16:16:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27C05212B13;
-	Wed, 16 Apr 2025 16:11:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B18D20FA9D;
+	Wed, 16 Apr 2025 16:16:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="AlGYOEU9"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jRxRxxv3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C3401ADC78
-	for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 16:11:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512523F9D5
+	for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 16:16:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744819869; cv=none; b=ThHQthaH442hVY5SSVr42A+TrLzAweu9TLjVnNi7G4WmbMuzx2kkpab+omCpmbXMrDnNv+K8nYUUe7BwdNY/PaoQwyPigyJfLc43MbxILcAo3C2zQIfErctgG6XyznO7uNdtivR2g2XGxgxvR3ZjSY5Y9JlZNMLyETeibnKChkQ=
+	t=1744820203; cv=none; b=V/DLCs6UY6gbPLRllR9YAVe84CaSr9EAIZK/qjIK9ib+Ws7QwNn0Ig1y3CC1uZf4vkc2P/jjdSf/VoERInb6Q1Yu4FFc69Stq7scv8CsWweUELVpW0bqwLnp6mrmDDdjOEEjIPn6LPhx3Qh+Kvp2oHcfI41JWD6XmMEN+GmFX6g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744819869; c=relaxed/simple;
-	bh=r7nXonSwEu68bLebps2Xf8cTuO1u5ko/8r+nHwK3ugI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NFrH9RguQQm0JTzlN8adUwdmaxhub9N15VgDZicqc2SPcuqz7Q8PKobLCGn+4f+njTrtpqTKMasckkbZ/L4RACP8qEZgEZ/nuTNiF2FkI3ru4qHGDVdLd0Qxa1DeAJL3U+a3KOtrCPT3WqC5joygi1f1CJnN/9HqZVfBptm30mo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=AlGYOEU9; arc=none smtp.client-ip=194.117.254.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	sang-engineering.com; h=date:from:to:cc:subject:message-id
-	:references:mime-version:content-type:in-reply-to; s=k1; bh=CD82
-	aaEtrX3qt91NG+am4gW8qYGsJOF0kgldIcobva0=; b=AlGYOEU95X51qyDBtNSD
-	XeCXS8XfmIMqq9TzOUX1X5igA0XFmf6tUEbjDLh+Ir2KWErKTQYwb69waitO7+Wc
-	ZIFDWF4Fd6njngLAk10PNBRG7fheyq0ndi/hACFMFhS/1Ou2kJBV7Ebvj+f7FYXX
-	vYnsz/FsTxmj2sWhDDrFkEnVHEoCgo4Pi5a0vdmiAiIjcuws9NcxmmIc7lPvUe5V
-	JNUyoa4odK9W3KcxtcNhzLe+MxGlcTiS6yISso60ShbqDxJCr7mBGUYWuMztBN6o
-	28dTHPmKEZvn3Kfa3GQ3lGP15xSSiJ1/Pb887oShWiFk+oSsQkhZlstLwW5OoBqd
-	dQ==
-Received: (qmail 786598 invoked from network); 16 Apr 2025 18:11:02 +0200
-Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Apr 2025 18:11:02 +0200
-X-UD-Smtp-Session: l3s3148p1@ZPkViOcyruAujnsq
-Date: Wed, 16 Apr 2025 18:11:02 +0200
-From: Wolfram Sang <wsa+renesas@sang-engineering.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Jai Luthra <jai.luthra@ideasonboard.com>, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v5 0/7] i2c: core: Move client towards fwnode
-Message-ID: <Z__Wlri8-tjuctsa@shikoro>
-Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Jai Luthra <jai.luthra@ideasonboard.com>, linux-i2c@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <20250416070409.1867862-1-andriy.shevchenko@linux.intel.com>
+	s=arc-20240116; t=1744820203; c=relaxed/simple;
+	bh=CnwNrCRLuflBZPFZFP4NWhNbXGVzpL+XeGZ9wSYRRoc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cd0Yv0CaGusH93KCFU+3tYhqjd3gVimZzVQzSaltpctTEdAgx+TkD53yRGp6o/9984MAZX4IP8a0sjaO+P/K0dM23e/u5hzveE3thmD1qUm/JNODweizOQ8N6rAuG5H5zjdXZIOcXWL1NExZEoGusCfEaLiDWWp0eaCvck3N3yU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jRxRxxv3; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53G9mOZV030629
+	for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 16:16:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	IUwvyXYOCDlV6AdUm377Hu1dN5POoteGW8cjGXB2J7s=; b=jRxRxxv3DtAaGscp
+	ZoAKJKcsSHbJ9NOM8y0hSsCDur3nq5oxxR6i3eP+K6nNJNCLV6/kPKnkbTFIfBlG
+	YLOBqOJ4RKr73ONCALqbHKy90IUTgXk3wPtmjBr7HvoKZ255VHaqCi54udqMzY6z
+	TCoRupBYg0XYqVAYIpoUTrr6nzJZl1RdSERonPrw6JY/7sY2p2frTS57UE8w34LL
+	xeV5q3WagqElCjymS+DRLPj+S3KL1lsmbjFcEnoi+er7LLdxXqiRAncrL/FLVMeM
+	7CEYZWwft/cN74Z5oIF8lTrJvzs7EPx6oPRg8boCBG9pK3xyje5j/Hx4lnzgBlWu
+	wV05xg==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45ygxk40px-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 16:16:41 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6ece036a581so122726326d6.1
+        for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 09:16:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744820200; x=1745425000;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IUwvyXYOCDlV6AdUm377Hu1dN5POoteGW8cjGXB2J7s=;
+        b=dx3nZjIzdRoKTwvCi4mV3Yyv3CVvSOFCiZPmDeI8W783xRkJ6wg54VVkGEjIyALnhF
+         R+EEM0DyIhSSn2z1dZxICrW4gQPAaXMLT4dE7biaQnjquaRQMDJSGRKE/itHuBxLHhjf
+         cKh+qFnKMsczuas6Rn6IgmHFkpcxM0youFTcLiMi0L+qpAUrKDkdFBNo6O1bw1gsbuGQ
+         hhk6u5qrT00RorojbZ0Y9uIJoH2ev3Hw1/WMFNdbjf7GvPokX8aXFkzNYfzkhGyBKkqM
+         02m9KZgZKqNC3SN6M3Qc+wRRTMgCSr6mKMt3yhFWrdN9wF59ar5hKihJ+yDfa5RTma4b
+         7Cgw==
+X-Forwarded-Encrypted: i=1; AJvYcCUCNYbU9N8E3c0zglBeMZ0QTt0gXS762U3mald14DrWcE+gq1IfVtP+yDlNBeb5aYs21IEllLSXhLa7Iw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy12eBvdowefeEYi+eCC5ThG2IFLyJdkIydY7BAfZraXRe70xnk
+	DD7yYq2A7qZ2qNXCWN3/MyzBZflk3I+IYnDzFEE/gpGm0rvZPpAXU0YGepCkzkIZ/ImQhxdyVJw
+	i/L0YLewjQ5AvFnV6UdPSKWiKlXkb+rJ0u2Ca4v0AZyEKZGq3oUVMowpvBS6IgozNmMb1ow/+3v
+	OA8X86LMZ4ODiD9mQOUpmlOVav+jVbt84fqZDT
+X-Gm-Gg: ASbGncu3nFTxwniebAHFCNdYwYT2O3Cc6sb5IgRtj8u+OqiGfN328ANfAZ+3ML1/scw
+	CGMEEitHzC9Wjv5WLNKqHdpDyKtHtyROwJPUL6jZzUi82PeZve1iaWd15wtVsd8QeWO/6ZSY=
+X-Received: by 2002:ad4:5965:0:b0:6e8:97f6:3229 with SMTP id 6a1803df08f44-6f2b2f4240amr38117396d6.16.1744820199986;
+        Wed, 16 Apr 2025 09:16:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGx21vZbnq0jtucTsIqzaBf3WtNCjD67d9WEjC1pVtPsaA9mLOnwj0r4CqLBJi/G73/FVZCLE6+697N5DBZyk0=
+X-Received: by 2002:ad4:5965:0:b0:6e8:97f6:3229 with SMTP id
+ 6a1803df08f44-6f2b2f4240amr38117086d6.16.1744820199680; Wed, 16 Apr 2025
+ 09:16:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="3liHQc8JqCGglSNk"
-Content-Disposition: inline
-In-Reply-To: <20250416070409.1867862-1-andriy.shevchenko@linux.intel.com>
-
-
---3liHQc8JqCGglSNk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+References: <20250416120908.206873-1-loic.poulain@oss.qualcomm.com>
+ <20250416120908.206873-6-loic.poulain@oss.qualcomm.com> <c57084c4-189a-484f-af2f-8e4181f547fb@oss.qualcomm.com>
+In-Reply-To: <c57084c4-189a-484f-af2f-8e4181f547fb@oss.qualcomm.com>
+From: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Date: Wed, 16 Apr 2025 18:16:27 +0200
+X-Gm-Features: ATxdqUFW77vP_4OlAAIRog3Se0kprB_UbJE19ejedwG6hLlqKFFJqi_BOdbcfu4
+Message-ID: <CAFEp6-1iUapOg3DU2+NG7q9E5EPgwBuNUvpgLJL2jWKT=0SOkw@mail.gmail.com>
+Subject: Re: [PATCH 6/6] arm64: dts: qcom: qcm2290: Add CAMSS node
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: bryan.odonoghue@linaro.org, rfoss@kernel.org, konradybcio@kernel.org,
+        andersson@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Authority-Analysis: v=2.4 cv=WecMa1hX c=1 sm=1 tr=0 ts=67ffd7e9 cx=c_pps a=UgVkIMxJMSkC9lv97toC5g==:117 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=EUspDBNiAAAA:8 a=Iht8ywTv3xx2x2p8IFcA:9 a=QEXdDO2ut3YA:10 a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-GUID: kH9lxf1HNMvRyOKrw4VVP6CrFepX1vco
+X-Proofpoint-ORIG-GUID: kH9lxf1HNMvRyOKrw4VVP6CrFepX1vco
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-16_06,2025-04-15_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 suspectscore=0
+ adultscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0 mlxscore=0
+ impostorscore=0 mlxlogscore=999 spamscore=0 malwarescore=0
+ priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504160133
 
-On Wed, Apr 16, 2025 at 10:01:30AM +0300, Andy Shevchenko wrote:
-> The struct i2c_board_info has of_node and fwnode members. This is quite
-> confusing as they are of the same semantics and it's tend to have an issue
-> if user assigns both. Luckily there is only a single driver that does this
-> and fix is provided in the last patch. Nevertheless the series moves
-> the client handling code to use fwnode and deprecates the of_node member
-> in the respective documentation.
->=20
-> In v5:
-> - reformatted conditionals to make media CI happy (media CI)
-> - updated commit messages in patches 3 & 6 to make it more clear (Wolfram)
->=20
-> In v4:
-> - fixed spelling in the first patch commit message (Sakari)
-> - wrapped the commit message in the patch before the last (Sakari)
-> - added tag to the last patch (Tomi)
->=20
-> In v3:
-> - fixed compile issues with i2c-core-slave.c (LKP)
-> - fixed compile issues with IRQ APIs, i.e. missing header (LKP)
-> - added patch for the only user which assigns two fields (Tomi)
-> - added tags (Tomi)
->=20
-> In v2:
-> - covered i2c-core-slave.c where it makes sense
-> - covered i2c-core-of.c where it makes sense
-> - rebased on top of the latest code base
->=20
-> Andy Shevchenko (7):
->   i2c: core: Drop duplicate check before calling OF APIs
->   i2c: core: Unify the firmware node type check
->   i2c: core: Switch to fwnode APIs to get IRQ
->   i2c: core: Reuse fwnode variable where it makes sense
->   i2c: core: Do not dereference fwnode in struct device
->   i2c: core: Deprecate of_node in struct i2c_board_info
->   media: i2c: ds90ub960: Remove of_node assignment
->=20
+On Wed, Apr 16, 2025 at 4:46=E2=80=AFPM Konrad Dybcio
+<konrad.dybcio@oss.qualcomm.com> wrote:
+>
+> On 4/16/25 2:09 PM, Loic Poulain wrote:
+> > Add node for the QCM2290 camera subsystem.
+> >
+> > Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+> > ---
+> >  arch/arm64/boot/dts/qcom/qcm2290.dtsi | 93 +++++++++++++++++++++++++++
+> >  1 file changed, 93 insertions(+)
+> >
+> > diff --git a/arch/arm64/boot/dts/qcom/qcm2290.dtsi b/arch/arm64/boot/dt=
+s/qcom/qcm2290.dtsi
+> > index f0746123e594..4b81e721e50c 100644
+> > --- a/arch/arm64/boot/dts/qcom/qcm2290.dtsi
+> > +++ b/arch/arm64/boot/dts/qcom/qcm2290.dtsi
+> > @@ -1579,6 +1579,99 @@ adreno_smmu: iommu@59a0000 {
+> >                       #iommu-cells =3D <2>;
+> >               };
+> >
+> > +             camss: camss@5c52000 {
+>
+> @5c6e000
+> (first reg entry)
+>
+> > +                     compatible =3D "qcom,qcm2290-camss";
+> > +
+> > +                     reg =3D <0 0x5c6e000 0 0x1000>,
+> > +                           <0 0x5c75000 0 0x1000>,
+> > +                           <0 0x5c52000 0 0x1000>,
+> > +                           <0 0x5c53000 0 0x1000>,
+> > +                           <0 0x5c6f000 0 0x4000>,
+> > +                           <0 0x5c76000 0 0x4000>;
+> > +                     reg-names =3D "csid0",
+> > +                                 "csid1",
+> > +                                 "csiphy0",
+> > +                                 "csiphy1",
+> > +                                 "vfe0",
+> > +                                 "vfe1";
+>
+> we also have a pair of TPGs at 0x5c6[68]000 - I think it would be good to
+> describe them from the get-go
 
-Works at least on my OF-based platform. Let's go CI.
-
-Applied to for-next, thanks!
-
-
---3liHQc8JqCGglSNk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmf/1pIACgkQFA3kzBSg
-Kbb8Pw/+IszgCGVXNlw6c/miI0lJl/qMnSp912U1Cbr8dtrVMBR8KQB+67dNMVJU
-D2t2bNHaOkYgv7E4uaBQNeo6NzTjCTOnjaN3BFWZKcCG6a9E7knKKYJ6V12ywNuV
-xrGp6IRLj6zTubXIP2n56s1d+toB1YsIqYlMKeJYgS0Cw8A4o6hChEFLYfG8nqRZ
-Tj3qRMk1I+KA3RtnAC+7e8/X+qJQYPmQYa13inuFTWmGVQxohae3Rjk8Hu4A+31V
-tTzF232MCktI2CGS59fH5FSdAirYdBkoi+/icGFfSO4QCuBkPD44FnzlW06PnRSa
-rXjYt+h9Cvh6IHTlQik24+2jdV9vEZLs2zwa2PqDygbrX9OAzf+HC5WoRG7aPIgv
-Ur69M4d5cYnOPg1yH3NvkXDOnsXaf5Xuzmg65P1gofMfeEVvysmXaJXuQ5AsvvQi
-CovIOoYxVu+BWaC4Y9gSsDQE6ba2V+PEA5BnxHdIOnMA4FPSPxgZk9F5Jn0ka+TX
-gWOiT0OuVcibb/peK7IEvy1a6UZWmkONhbIuOFV/8NNNeptW1OkFVGysb77IeVaM
-0V0L1i2qN6ENAUfskSahh5Bux0eq2Qf1jzUulBvMkUn9p1r9lQlyKbKgQPhEkSsx
-va+/hTJMyzk2IBpzGZfl1hWC22ELTEMH9UgVqB26K43C167/xI4=
-=6xgd
------END PGP SIGNATURE-----
-
---3liHQc8JqCGglSNk--
+If we want to be ready for TPG, we may also want a camss 'top' reg
+(0x05C11000), since it seems to be required for configuring CSID input
+mux (TPG vs CSIPHY).
 
