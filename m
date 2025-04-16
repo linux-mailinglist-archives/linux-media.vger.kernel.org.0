@@ -1,125 +1,135 @@
-Return-Path: <linux-media+bounces-30352-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30353-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1ADC8A8B9C7
-	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 15:04:47 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D397DA8FE34
+	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 15:09:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C5093190188D
-	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 13:04:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 608E48A0F22
+	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 13:09:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94FC01946C8;
-	Wed, 16 Apr 2025 13:04:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA4CB19342F;
+	Wed, 16 Apr 2025 13:09:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cpCA5raT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="chfd1kvv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FD3017C98
-	for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 13:04:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 933F2149C7B;
+	Wed, 16 Apr 2025 13:09:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744808670; cv=none; b=LSL2ms0B7Q7lk5cY1HoAYxBgTcY0FppWpnTXG6oqU0aAlKhqScvp+TSYAVg5e2VBQGkgTttQhuNph1PmtZ883dE+YtSBqkPbJaNk+Yp3SAMmxY8jkIkuvW0z6TB1LYaWELwXSA0egq9NCBDGAzw8l4N6pme7FDw1Vfs43r5CH+8=
+	t=1744808983; cv=none; b=OcI6odfyxNUyWARmeHbcsPYxk65DpZUaAUv+HPNVMJfAibeIafTbJSFMU5RRx16Juikelv/9z9O55SH38rOguTJTW1nnzuNr23RyumCD8LO1MiGfCnF/pEQThuC20XhWIZiuUFTwpmi4qQxigpOWyYY6s0eefF/YjYIC+JEtBlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744808670; c=relaxed/simple;
-	bh=gxwEAxbi6z3ugW/ifjPosDOrGhdGdahjWiQHmtat2OY=;
+	s=arc-20240116; t=1744808983; c=relaxed/simple;
+	bh=dCezzfBqMLZltiPI/p9MOtl9dwON0wRC0Uf5EOvdCeI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WncUEualRMC/nBuoAf6gwL+fJLtJOqz/4gZRZ7bGDJMi6UdMkdFziiZv+2rV4bFRqer5pnhuoKpiGbBm/sYowF9500QLQUeZnfYaMC8TWBbv4GYFBjLCA8NE3nNPd0qJn1x3kxHchsMgiamaJrHyK07iPF/cRkYrbOhrDotrgEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cpCA5raT; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53G9mDq7006993
-	for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 13:04:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	gxwEAxbi6z3ugW/ifjPosDOrGhdGdahjWiQHmtat2OY=; b=cpCA5raThVjaNWNN
-	I7nPiZJWpo84FpJSW9ZJHYBzNj7zBE6jVBU+1VYc75HHxv5gPsVWVKiWFFl1hqmQ
-	Hus/tO/mcfafguu/FwEX4hhLYQf/H5Z/4vc8OAjOOnWlAY1NweE2IYUZU9d7jctI
-	5N0jhNqXsjDFBZQ4sTtdNszadeeZIefMHidmuk+zZ028rJ0ZnTMqWbB9cMSMs7OK
-	O7M16VYNhks/GMUmxKzm2uqCWcBcJglJPKxXdJJNr3HHZFEfMhO0XhGGsVw8YCkk
-	0APtmzeq0IdKSfhIiRT0PzP3US1fA5WpLXlnnqbeDtVuslOTSaiwjVxr2FFKHkTP
-	6G9Fow==
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45ygd6kkpy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 13:04:24 +0000 (GMT)
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-6e8feea216aso11228936d6.0
-        for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 06:04:24 -0700 (PDT)
+	 To:Cc:Content-Type; b=aKtYKPckhRTbSovF6GpBESZHovNt6X7G1yaBQzH8+LV5UYOH9SLNS+rOmzTrDglf6kU2l5nScc9H/CUm3BdYNuomSezy9qNKplfYL7RML3/AAo4X6V8zd+zf/BBUPRVRW97oS6x3eyyP35NALnZ4POrPKi6hIMM13Hka71aZclM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=chfd1kvv; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-abbd96bef64so1290482666b.3;
+        Wed, 16 Apr 2025 06:09:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744808980; x=1745413780; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2VB/DvHtpXcfRxnOXAk6/5pvVUJtr4/af5j8A6nLt4U=;
+        b=chfd1kvvM0GIaBLgr39M+nWCSH1/SdSLmi62hkqVBITOv8R+6em+Szk7z/tmaz49LZ
+         NqefDOpj8BuOTHnQrCu2g7oDD3MH+i73u2paIlU21Tjxw8bPy6dhn8YWc462fzdkUUr9
+         X9yR520IEnikMMgk4VRAypUqliZjcgMSeda/akuPDeGx2sfd0WqC0wbabhHEJ+pDCUTe
+         /uE1oZSSEYd1ncRkcWDum/eciP+jMYjZw5R5e4oeZuBYHWIT2bpQ/JFk9vnIwMCl5XOS
+         AtYmsUrt+D1YSe8weLAM09sRB7CUtdK/7D/FZFNL455NOLLRVStg8/O4kLuA8bHzN0wg
+         Pr8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744808663; x=1745413463;
+        d=1e100.net; s=20230601; t=1744808980; x=1745413780;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gxwEAxbi6z3ugW/ifjPosDOrGhdGdahjWiQHmtat2OY=;
-        b=Bkj4yF781Hq+Q1MORSfRpIQyKN5BjAkGU+e8xcHCETLF3hdmBOptUlUhxxCKrL6bgz
-         ZdIxf1iGnXb0GbirGtLlqyyyMd4Gitd/Jqs+qDcY8Al4xqUlDveuhoBFmGYfi/ivsqBL
-         WuB872yOiGwTEP2oTkNzBsEb6t55Zu7a+Hnp6D67BVFjsw4/RN28dQBaUJsPot24BikE
-         wqQceVgDe8w5SuMUf9GXftOTILpb0cw1cB6WTCGslydbJu4YP5XVbQAxN3RuwmGbeWRr
-         +gwVvIUtZL+hvytvOZnzJ7yrYGrTvcM/4BTRjbNCjaDtey7FjY/7MPGuTXVXvxwdgePD
-         3fow==
-X-Forwarded-Encrypted: i=1; AJvYcCXp2vJxSHLz5kPf2WRK889CMa9Qalh/ojXHO0ur4qzF4moyNHJUPg+gNjKL+Rddjdxag2FqdfWrKOzwtg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLNpr8bhAuYtXHogA+cohW2s0cxLdGQoSjG/TI35gSTVu+ABQw
-	2pgjEUR30XHCMjPBUc/UzcFc/pyV7qupeS49n7qA18WGDGqMD3IQJGVtgM8lw1U9RUzIjd1qr9y
-	w1MtgixQkbIIgzxjLbGDfPXEUsWDRX44gOWY5bOrfE+3rDVQFwzTUAIIPeomboeJuAm4gtGG1Gs
-	ET8FoLOwHmvqgI3CMGBaiuo1OHoXl/a+vS8Nzu
-X-Gm-Gg: ASbGncubolvaFWMyCPHdGqhYp1+rRKR2Kw8jlI/VsCXys+u2rWD8ydpCPrXfP/xosDo
-	lYrzn60uIdsF7sewE/A0JVOeQGyDKGbTmH0MT5fisSmE4fTRTibmVeUGOaSkB8aAjQ/Z2SIo=
-X-Received: by 2002:ad4:5d6f:0:b0:6ea:ee53:5751 with SMTP id 6a1803df08f44-6f2b3ead495mr22815006d6.21.1744808663053;
-        Wed, 16 Apr 2025 06:04:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHEOmRSGWyp41Z84OdRCbPebLRDoW4Vr0UmFozZz7UWb4JA0S5fXDYC69L5HZgj+zXf0udYFfGIyz48MyoL61E=
-X-Received: by 2002:ad4:5d6f:0:b0:6ea:ee53:5751 with SMTP id
- 6a1803df08f44-6f2b3ead495mr22814526d6.21.1744808662608; Wed, 16 Apr 2025
- 06:04:22 -0700 (PDT)
+        bh=2VB/DvHtpXcfRxnOXAk6/5pvVUJtr4/af5j8A6nLt4U=;
+        b=t9VWbSGC5vJcYbWLXcEsySDd9Nw+4BlWM2tjz2NG0oHozd1qSpMRDkaL0B5NwzTZuT
+         X8YtmgpOWNvN/RFjhlDz2uCfDvwRUEXtkBZBdPG0TnZAY+rgyfG58J/SIbKsbKBYFXPb
+         XsFU4wafnjWCrVA4rsR3L5ZqA5H1eSh7dPKfIb7w7M1fShKmQfeOwZ0+ooaHKmSO7c5P
+         Zx9ei9WzB9pgbPBxmTj5f7pZ1OgXcPxIRGw5jVT9xRKrJWryzIku8mYL+dA8M/n5lkmj
+         KjTxsP7O8HV5wGzfDpP99OFzaF3lLaZ+dNQE3/0wySHZcq1jBYtIEd6dsQA/2NohvwRi
+         /XcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVrM3lvaJ5OuyDHbWrh+3zqSAGGlCkwOrvOlwysV5F0wAlzSMvIgWEsKjUsnihm9ijl/zwEwgEQGcd3EQ==@vger.kernel.org, AJvYcCW0Lq104wTynOG1vfe7yfCGWEjvMqUF5BGb4eSD88Wc9wUtzqzO/M40f8TzT3muc0nG8nrEXWFoU/PzzthM0pR7mNJkdw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwotfDI6aUCYJP4qhL4T49jer1YKKhIH4636/p86J5n5C9UG5Th
+	aRCyd+mSE490fvulopa4jl+0P3HLHdgFpY26WOd56cNcNqvvnI2v+jZg0zNVjlo4lDmjsA+nX6E
+	MRGqHuLF+X3LjpBsdD4LNK5bTCvM=
+X-Gm-Gg: ASbGncsFSUuBsW9QtzNy2VlHEWw6vrYWCTIT9ZLEoPnQVuQJzlyR7wal/n94+t/ey1m
+	cKagNinXXDSu34I5slJ8WCkNPOOe+z7MRjP3gYFmlMJzbWs8bT7TyGt81UIhXlulqXrsNt1E6GY
+	uiTrjwg4zTAfC6+aTL3DkSD/RYrnOpQ8WBMzw=
+X-Google-Smtp-Source: AGHT+IETWIOfktrFECPfrtPZ+oiJ9K8YjXwf3B+ElnMClUeHd4qxkRERWprF2SGN2lnbVNG9pPZUdHKhN6CDuMuSX0s=
+X-Received: by 2002:a17:906:ee8e:b0:ac3:5c8e:d3f5 with SMTP id
+ a640c23a62f3a-acb42a4af82mr180132966b.27.1744808978353; Wed, 16 Apr 2025
+ 06:09:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <yD7X4MYItg2wLMb5iPs1JXadfzhFB7wSFqo_hFbs6K72VbLmTtoOrnwcLJrP4WBvndDUd2eklJl3R4GRWLbl6Q==@protonmail.internalid>
- <20250416120908.206873-1-loic.poulain@oss.qualcomm.com> <3483e6d2-23f7-40e8-a56d-d7419b808290@linaro.org>
-In-Reply-To: <3483e6d2-23f7-40e8-a56d-d7419b808290@linaro.org>
-From: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Date: Wed, 16 Apr 2025 15:04:10 +0200
-X-Gm-Features: ATxdqUFEQ69jLQRWoPWFAE_LVRc-yet_jkfAopU4vczSRDGKdFUqslJ2vHVpvBU
-Message-ID: <CAFEp6-3fs4ZAB0cW_rxbmoSmrKPVk0ueR=Fn9nDj29a8dV33yg@mail.gmail.com>
-Subject: Re: [PATCH 1/6] media: qcom: camss: Add support for TFE (Spectra 340)
-To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Cc: rfoss@kernel.org, konradybcio@kernel.org, andersson@kernel.org,
-        krzk+dt@kernel.org, robh@kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250402202510.432888-1-hdegoede@redhat.com> <20250402202510.432888-9-hdegoede@redhat.com>
+ <CAHp75VcJcPAEi2dhVnOL6Um78VEwT9DsvC+h20ZHZ0kdoPH--Q@mail.gmail.com> <cb7b67c0-e68c-408c-a0aa-c6a862590c52@redhat.com>
+In-Reply-To: <cb7b67c0-e68c-408c-a0aa-c6a862590c52@redhat.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 16 Apr 2025 16:09:01 +0300
+X-Gm-Features: ATxdqUE-GT44bVaINMUhyviZiazTjhc4wanuHr-odGcsGUOH7suH7KY2v0kFkU4
+Message-ID: <CAHp75Vfa6FHMx71tUqcXKxyOwdVCiRLiRp9Zs+-4Sj8CpyOTPA@mail.gmail.com>
+Subject: Re: [PATCH v2 8/9] platform/x86: int3472: Add handshake pin support
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>, 
+	Andy Shevchenko <andy@kernel.org>, Dan Scally <djrscally@gmail.com>, 
+	Alan Stern <stern@rowland.harvard.edu>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>, Duane <duanek@chorus.net>, 
+	platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-ORIG-GUID: iefwNmH-i5PJ4HssuuisIvbUewnFKwvp
-X-Proofpoint-GUID: iefwNmH-i5PJ4HssuuisIvbUewnFKwvp
-X-Authority-Analysis: v=2.4 cv=ANaQCy7k c=1 sm=1 tr=0 ts=67ffaad8 cx=c_pps a=wEM5vcRIz55oU/E2lInRtA==:117 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=6670vO1W_d13aYf7LkEA:9 a=QEXdDO2ut3YA:10 a=OIgjcC2v60KrkQgK7BGD:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-16_04,2025-04-15_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
- mlxlogscore=983 suspectscore=0 clxscore=1015 lowpriorityscore=0
- phishscore=0 impostorscore=0 spamscore=0 priorityscore=1501 malwarescore=0
- bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504160107
 
-On Wed, Apr 16, 2025 at 2:30=E2=80=AFPM Bryan O'Donoghue
-<bryan.odonoghue@linaro.org> wrote:
->
-> On 16/04/2025 13:09, Loic Poulain wrote:
-> > Add support for TFE (Thin Front End) found in QCM2290.
+On Wed, Apr 16, 2025 at 2:06=E2=80=AFPM Hans de Goede <hdegoede@redhat.com>=
+ wrote:
+> On 2-Apr-25 10:56 PM, Andy Shevchenko wrote:
+> > On Wed, Apr 2, 2025 at 11:25=E2=80=AFPM Hans de Goede <hdegoede@redhat.=
+com> wrote:
+
+...
+
+> >>                         if (ret)
+> >>                                 err_msg =3D "Failed to map regulator t=
+o sensor\n";
+> >>
+> >> +                       break;
+> >> +               case INT3472_GPIO_TYPE_HANDSHAKE:
+> >> +                       /* Setups using a handshake pin need 25 ms ena=
+ble delay */
+> >> +                       ret =3D skl_int3472_register_regulator(int3472=
+, gpio,
+> >> +                                                            25 * USEC=
+_PER_MSEC,
+> >> +                                                            con_id, N=
+ULL);
+> >> +                       if (ret)
+> >> +                               err_msg =3D "Failed to map regulator t=
+o sensor\n";
 > >
-> > Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
-> Maybe I didn't receive but missing cover-letter for me.
+> > A copy and paste mistake? Yes, I know that they are both represented
+> > as regulators, but don't we want a bit of uniqueness in the messages?
 >
-> In v2 could you please give an example of how you have tested in your
-> cover letter, if not already done so.
+> I actually did this on purpose to allow the compiler to use a single stri=
+ng
+> for these saving some space. The difference of which case we hit should b=
+e clear
+> from the earlier printed (dbg) message printed above the switch-case.
 
-Yes will do! Thanks for the reactivity!
+I understand the idea, but if debug messages are off, how do we know
+that? Or err_msg here is also a debug leveled one?
+
+--=20
+With Best Regards,
+Andy Shevchenko
 
