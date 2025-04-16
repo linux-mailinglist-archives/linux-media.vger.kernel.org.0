@@ -1,153 +1,114 @@
-Return-Path: <linux-media+bounces-30365-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30366-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C185A907A8
-	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 17:26:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7D0AA907C5
+	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 17:30:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B3BD8447850
-	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 15:26:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 98FB05A1799
+	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 15:29:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88594207E0C;
-	Wed, 16 Apr 2025 15:26:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0A82208978;
+	Wed, 16 Apr 2025 15:29:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PBcX0waA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 420A0189BB5
-	for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 15:26:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98168A55;
+	Wed, 16 Apr 2025 15:29:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744817198; cv=none; b=f62UAn72B1F3x5fBNIhYzRNw88dIIwG13qs1HdyuPt7M0VrwAiZYv8gFXt+xBVCtRLWBtCnfEx4xnzpeor6SsR62WC5DcBwfGYHpN2qy5HauELsoLSs5qSvhpJcjHEdrJEG2CW1T2HjTWm3NUw37LlRnetiFIl1+Emy+Wfo9YKI=
+	t=1744817387; cv=none; b=d9V0JktP3c5/YQcx6mgsJRnQKIt7Mc8fgv8CshfHF0aItz9BTsg4+QkDnGMbykA16OWtBiiI74b0+W45Dt7l+ataIxrV1QotE4thGwLVIfUp8cgWEmacZCXVzVPHsoiIef2valq9iAKx+DWgPF64yQ59y45BFwdI1d8xf56bKOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744817198; c=relaxed/simple;
-	bh=KHtSgO/TzKZZlMoL+dywjnaruMiJ//uEmODExUUP4yA=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JTaInwNHiA0tJXZAGmTHEXwMYVVMJDzDAMyEhPqMpQD+vBJeL2Oc5yq/r3cxtSbLUHwJKfotnvpQyu7yj/czaK3QcJ4Uw6a7MNGfZIUObd4m4V9GRDWSatg0YAfGtVNhTsb8X/fXg1FrKJnUTQjnfxCsXALRKpu5eodltnSBJtU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1u54ea-0001Dd-Cb; Wed, 16 Apr 2025 17:26:20 +0200
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1u54eZ-000bl3-3C;
-	Wed, 16 Apr 2025 17:26:20 +0200
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1u54eZ-000CSL-2v;
-	Wed, 16 Apr 2025 17:26:19 +0200
-Message-ID: <14f2bfcd4604c5cf8b92a7d0dfc685e1f56b768b.camel@pengutronix.de>
-Subject: Re: [PATCH 1/1] dt-bindings: media: convert imx.txt to yaml format
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Frank Li <Frank.li@nxp.com>, Rob Herring <robh@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo
- <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- Steve Longerbeam <slongerbeam@gmail.com>, "open list:MEDIA INPUT
- INFRASTRUCTURE (V4L/DVB)" <linux-media@vger.kernel.org>, "open list:OPEN
- FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
- "open list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <imx@lists.linux.dev>,
-  "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE"
- <linux-arm-kernel@lists.infradead.org>, open list
- <linux-kernel@vger.kernel.org>
-Date: Wed, 16 Apr 2025 17:26:19 +0200
-In-Reply-To: <Z//KCLUWlTMdsyd3@lizhi-Precision-Tower-5810>
-References: <20250414210720.3359301-1-Frank.Li@nxp.com>
-	 <20250416124226.GA2498696-robh@kernel.org>
-	 <Z//KCLUWlTMdsyd3@lizhi-Precision-Tower-5810>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1744817387; c=relaxed/simple;
+	bh=agQXKgi6oYodzmo7iliNXQbQWlwWFj/taShmHuxsmNA=;
+	h=Date:From:To:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=U71NhhpBUIjWb03dz4V85S/3d8PoTcbQ0RxOF8qzf+7Fv0d1K8MtwfMDyjknDiMocHY/mqfR2xO/K3PyuJA6HDqz4wv7OMRwPTeam/VX+2tzLLM9eJLprJvFb8CLY66j/zfn0yr2cGRxtUbb/pOYktCv6PF6CiQ2Q9OzmMCng00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PBcX0waA; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744817385; x=1776353385;
+  h=date:from:to:subject:message-id:references:mime-version:
+   in-reply-to;
+  bh=agQXKgi6oYodzmo7iliNXQbQWlwWFj/taShmHuxsmNA=;
+  b=PBcX0waAqjtAbUVx21yLqNyNEPnJ0kAp2Tgj9oLQHIE984vZHOj3/14Z
+   AbMPXkF0uoXrzziIvpmt0yIRgtUulNl6lAKSyzX3ZNbXq4zssxl1Bthn0
+   Gjeerh/8AOWP76EZN3iVHoEgF2VTwOUTT4jXwpBUI9E0FgdA8sjDq7HnM
+   4dVAScpFmtY+z50zauIAbAW031O0shcDUsyiv3qdDQ7mbclVstq9Gsmyg
+   4T8Eg3HX5hYzcaOEz954CKsJX7lL/pJayQhlKBThwc3oJL9+jKmkeZjrQ
+   5ViTLQZWJFBBZeZ6ylp6FJJi66pvJDsbyllpFD+Wn8Q5/dXWIcNbLMAjE
+   w==;
+X-CSE-ConnectionGUID: 9iq0iUM3R9CxcAPPvtRoyA==
+X-CSE-MsgGUID: qtLULbwlTZiwlvdhYRYEEQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="45509134"
+X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
+   d="scan'208";a="45509134"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 08:29:44 -0700
+X-CSE-ConnectionGUID: R4ttHlFdSx2KlT1Fy6R+ug==
+X-CSE-MsgGUID: 4SpjMaa9Tf+nnFbh/zmRIg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,216,1739865600"; 
+   d="scan'208";a="131493597"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 08:29:43 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1u54hn-0000000Ctlz-1ie8;
+	Wed, 16 Apr 2025 18:29:39 +0300
+Date: Wed, 16 Apr 2025 18:29:39 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jai Luthra <jai.luthra@ideasonboard.com>, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v4 6/7] i2c: core: Deprecate of_node in struct
+ i2c_board_info
+Message-ID: <Z__M45ZIH_l1o9eH@smile.fi.intel.com>
+References: <20250414100409.3910312-1-andriy.shevchenko@linux.intel.com>
+ <20250414100409.3910312-7-andriy.shevchenko@linux.intel.com>
+ <Z_69Jml3-CKi13wB@shikoro>
+ <Z_9NEK7BDrvAQ0Qo@smile.fi.intel.com>
+ <Z_9UHrgho0dGoUrG@shikoro>
+ <Z_9WtfVzSDuxmqLK@smile.fi.intel.com>
+ <Z_-p4HL2pUvEUvWg@shikoro>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z_-p4HL2pUvEUvWg@shikoro>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Mi, 2025-04-16 at 11:17 -0400, Frank Li wrote:
-> On Wed, Apr 16, 2025 at 07:42:26AM -0500, Rob Herring wrote:
-> > On Mon, Apr 14, 2025 at 05:07:18PM -0400, Frank Li wrote:
-> > > Convert binding doc imx.txt to yaml format. Create two yaml files:
-> > > fsl,imx6-mipi-csi2.yaml and fsl,imx-capture-subsystem.yaml.
-> > >=20
-> > > Additional changes:
-> > > - add example for fsl,imx6-mipi-csi2
-> > >=20
-> > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> > > ---
-> > >  .../media/fsl,imx-capture-subsystem.yaml      |  38 ++++++
-> > >  .../bindings/media/fsl,imx6-mipi-csi2.yaml    | 126 ++++++++++++++++=
-++
-> > >  .../devicetree/bindings/media/imx.txt         |  53 --------
-> > >  3 files changed, 164 insertions(+), 53 deletions(-)
-> > >  create mode 100644 Documentation/devicetree/bindings/media/fsl,imx-c=
-apture-subsystem.yaml
-> > >  create mode 100644 Documentation/devicetree/bindings/media/fsl,imx6-=
-mipi-csi2.yaml
-> > >  delete mode 100644 Documentation/devicetree/bindings/media/imx.txt
-> > >=20
-> > > diff --git a/Documentation/devicetree/bindings/media/fsl,imx-capture-=
-subsystem.yaml b/Documentation/devicetree/bindings/media/fsl,imx-capture-su=
-bsystem.yaml
-> > > new file mode 100644
-> > > index 0000000000000..77be3c1f37c5b
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/fsl,imx-capture-subsyst=
-em.yaml
-> > > @@ -0,0 +1,38 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/fsl,imx-capture-subsystem.y=
-aml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: Freescale i.MX Media Video Device
-> > > +
-> ...
-> > > +        reg =3D <0x021dc000 0x4000>;
-> > > +        #address-cells =3D <1>;
-> > > +        #size-cells =3D <0>;
-> > > +        clocks =3D <&clks IMX6QDL_CLK_HSI_TX>,
-> > > +                 <&clks IMX6QDL_CLK_VIDEO_27M>,
-> > > +                 <&clks IMX6QDL_CLK_EIM_PODF>;
-> > > +        clock-names =3D "dphy", "ref", "pix";
-> > > +
-> > > +        port@0 {
-> > > +            reg =3D <0>;
-> > > +
-> > > +            endpoint {
-> > > +                remote-endpoint =3D <&ov5640_to_mipi_csi2>;
-> > > +                clock-lanes =3D <0>;
-> > > +                data-lanes =3D <1 2>;
-> > > +            };
-> > > +        };
-> >=20
-> > I would think at least 1 output port is required?
->=20
-> I checked dts file, only input port. I think old csi2 only need get data
-> from camera. csi's dma should save to memory.
+On Wed, Apr 16, 2025 at 03:00:16PM +0200, Wolfram Sang wrote:
+> 
+> > At least the main objective is to avoid new code using of_node.
+> > The rest can slowly rotten on itself (esp. if there is any under
+> > arch/ for some old board files).
+> 
+> Do you know of some examples? I mainly found i2c-powermac and I3C core
+> with my two approaches (coccinelle and grep+awk). But maybe my search
+> pattern is weak?
 
-There are no ports in imx6qdl.dtsi, but there's a &mipi_csi with four
-output ports in imx6q.dtsi and imx6dl.dtsi each, because whether data
-flows through a mux or directly into the IPU CSI ports differs between
-the two platforms.
+At least the first one is what I have a WIP in my local tree.
+I haven't checked much and I anyway forgot the results already
+(it was at the time of v1, so a couple of weeks ago or so).
 
-regards
-Philipp
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
 
