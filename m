@@ -1,106 +1,79 @@
-Return-Path: <linux-media+bounces-30299-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30306-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95275A8B179
-	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 09:01:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84E25A8B19B
+	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 09:05:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 46BE73A6C24
-	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 07:01:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A7A684441B3
+	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 07:05:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24D98221FB8;
-	Wed, 16 Apr 2025 07:01:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3E46234977;
+	Wed, 16 Apr 2025 07:04:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KIxUn9dB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2RkUhwYp";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="KIxUn9dB";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="2RkUhwYp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aF6yHXLJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDBFF15B546
-	for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 07:01:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4149822E406;
+	Wed, 16 Apr 2025 07:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744786880; cv=none; b=Y8JhsaNzIgAuQpN6R9jNZ19U/n5qhgB/ljGvsv3aUxzIWNDXJV2mGp3+MheADa04xIdSOZmPg7y0ZhYhraJANNOMpukQefZb7lY4MRQ7KBBuNOEwX5saEdGT8p4AX1OJw46XOHA92ZJtxc3LeYTiO+bOQtP2KDQa22SJ/ExOVY4=
+	t=1744787062; cv=none; b=KwDU1fpiAzZ5snLJNrQ61DzxFeJWxuITPGFNNjSyvE3UGVtmxz4NxLOyP5jJetWDbNLWg7XMIUUTYKG5WYwv7M/NKLkqYV+/BqNFYQNBJY0XaE4wM7O4yqwgE/AOM8iHuHFyUG7EsU0h+9hokwYjuA8ftbcfNv9sLi9SV8JP2iU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744786880; c=relaxed/simple;
-	bh=qQbDnwcNyN08Oe0gXuW2I30uUm1IrRvM1mRSmtuc2po=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=LBv3Wqpc19W5p6pw8LaGhMr2md9r3oavfVTvKebytI/l29vucylMI4ggxaAVsCTdCjFlGQ7jsch8U46bpmsfCpTcdGXWOo2UgTWETq2bMC/7Ig6G9MhAPacCqkoR0T0IVvZ3pWE4N6t468y2psdg3Dq55m7PSNRqh9pxWTRwmZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KIxUn9dB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2RkUhwYp; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=KIxUn9dB; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=2RkUhwYp; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id F30AC211A0;
-	Wed, 16 Apr 2025 07:01:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1744786877; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Xkk37Y1omom0hijBcC8bwgDPJGoFpt0Tk5+OHcg+jYI=;
-	b=KIxUn9dBwJ1TAtQsPWCICS6B34udeTEdxaa5gS7p4nerWaIo3cNbTtmopKsYtx+6gf7jH1
-	l9ybdynS2Z0qVpnmdP1beZB6b+QyujRRdFGD80YaDew/onaFl/hz0ueFEwebqebTLvSJ+R
-	ehxBWGr6r+o5fX5L+g0o6Rb84AROf2s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1744786877;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Xkk37Y1omom0hijBcC8bwgDPJGoFpt0Tk5+OHcg+jYI=;
-	b=2RkUhwYpdx81uwR3ByHKOeJvHFjEinFXtEhfoRAJULMWiwvS7PZMLXfVi4t9o1G5Yf1n7A
-	8U5fYprjA24ob7AA==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1744786877; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Xkk37Y1omom0hijBcC8bwgDPJGoFpt0Tk5+OHcg+jYI=;
-	b=KIxUn9dBwJ1TAtQsPWCICS6B34udeTEdxaa5gS7p4nerWaIo3cNbTtmopKsYtx+6gf7jH1
-	l9ybdynS2Z0qVpnmdP1beZB6b+QyujRRdFGD80YaDew/onaFl/hz0ueFEwebqebTLvSJ+R
-	ehxBWGr6r+o5fX5L+g0o6Rb84AROf2s=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1744786877;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=Xkk37Y1omom0hijBcC8bwgDPJGoFpt0Tk5+OHcg+jYI=;
-	b=2RkUhwYpdx81uwR3ByHKOeJvHFjEinFXtEhfoRAJULMWiwvS7PZMLXfVi4t9o1G5Yf1n7A
-	8U5fYprjA24ob7AA==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 972D613976;
-	Wed, 16 Apr 2025 07:01:16 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id ElSUI7xV/2d2RAAAD6G6ig
-	(envelope-from <tzimmermann@suse.de>); Wed, 16 Apr 2025 07:01:16 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: simona@ffwll.ch,
-	airlied@gmail.com,
-	asrivats@redhat.com,
-	andyshrk@163.com,
-	christian.koenig@amd.com,
-	boris.brezillon@collabora.com,
-	mripard@kernel.org,
-	maarten.lankhorst@linux.intel.com
-Cc: dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH v3] drm/gem: Internally test import_attach for imported objects
-Date: Wed, 16 Apr 2025 08:57:45 +0200
-Message-ID: <20250416065820.26076-1-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1744787062; c=relaxed/simple;
+	bh=Qnusjt3KywGfg4n5heJMP9L6efJVKgC0CcxKPQkitR8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=JfiFCTJGF+gl2KFNYFS7csxCFHOWHFImdpoIEdfft4b4B2BOrsB66wHkRG9B6cpLuoH+tWtX3Tui0MQPTKnM+l0u8BXUdH8ApNRjs3yKT2UL0wtKNn1W8s+7PZt7+AponczG8p2SzMPK1oxbHHRMsqQwphKN8Cg8PydybdQbF1o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aF6yHXLJ; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744787061; x=1776323061;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Qnusjt3KywGfg4n5heJMP9L6efJVKgC0CcxKPQkitR8=;
+  b=aF6yHXLJFxLf5PhYqfFEGuUpCTEpvWAIPv4QhWLNQsV9l6nBsl0aDb0o
+   q36e9KE8yqwjXLoj83uo18F5GL4d3ZnCTDewd23HIsVdSGQurlwVkMy90
+   Fn67BeT5UZziRRnXXNZ21SEqKVCvJXBDf24i88d/2D6GzYErRAzZ6dQU/
+   NMMWut7CgEqEI50IF8rW0VHkPY2WZu63aY4m1e0ZTHe+YAylMR+kAChn0
+   LkqR3/aLnmPp0x9QSm+KsM+YPhqZYf3fzgddSrwJl9vJQ1Z7nNypnMV8M
+   cKMvWO/wyuqqGE23Z2SCvcCANgTvUFFzzHq5H39hlQ+AfVOeTDNO8tWpt
+   Q==;
+X-CSE-ConnectionGUID: asxDlJ1uR52DWs22SMQdKQ==
+X-CSE-MsgGUID: Ox1wWFfoSkqNtI2AUIKi2w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11404"; a="46241845"
+X-IronPort-AV: E=Sophos;i="6.15,215,1739865600"; 
+   d="scan'208";a="46241845"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 00:04:15 -0700
+X-CSE-ConnectionGUID: Ltf/ibX3SqKkQUFV+vV8lQ==
+X-CSE-MsgGUID: aCJr/N7XSkaMv7OrtTH+/g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,215,1739865600"; 
+   d="scan'208";a="131315352"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa008.jf.intel.com with ESMTP; 16 Apr 2025 00:04:12 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+	id 62FA9F4; Wed, 16 Apr 2025 10:04:10 +0300 (EEST)
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Jai Luthra <jai.luthra@ideasonboard.com>,
+	Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: [PATCH v5 0/7] i2c: core: Move client towards fwnode
+Date: Wed, 16 Apr 2025 10:01:30 +0300
+Message-ID: <20250416070409.1867862-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -109,79 +82,51 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -3.30
-X-Spamd-Result: default: False [-3.30 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	MID_CONTAINS_FROM(1.00)[];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	NEURAL_HAM_SHORT(-0.20)[-0.999];
-	MIME_GOOD(-0.10)[text/plain];
-	MIME_TRACE(0.00)[0:+];
-	FREEMAIL_TO(0.00)[ffwll.ch,gmail.com,redhat.com,163.com,amd.com,collabora.com,kernel.org,linux.intel.com];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	FREEMAIL_ENVRCPT(0.00)[163.com,gmail.com];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[linaro.org:email,intel.com:email,suse.de:mid,suse.de:email]
-X-Spam-Flag: NO
-X-Spam-Level: 
 
-Test struct drm_gem_object.import_attach to detect imported objects.
+The struct i2c_board_info has of_node and fwnode members. This is quite
+confusing as they are of the same semantics and it's tend to have an issue
+if user assigns both. Luckily there is only a single driver that does this
+and fix is provided in the last patch. Nevertheless the series moves
+the client handling code to use fwnode and deprecates the of_node member
+in the respective documentation.
 
-During object clenanup, the dma_buf field might be NULL. Testing it in
-an object's free callback then incorrectly does a cleanup as for native
-objects. Happens for calls to drm_mode_destroy_dumb_ioctl() that
-clears the dma_buf field in drm_gem_object_exported_dma_buf_free().
+In v5:
+- reformatted conditionals to make media CI happy (media CI)
+- updated commit messages in patches 3 & 6 to make it more clear (Wolfram)
 
-v3:
-- only test for import_attach (Boris)
-v2:
-- use import_attach.dmabuf instead of dma_buf (Christian)
+In v4:
+- fixed spelling in the first patch commit message (Sakari)
+- wrapped the commit message in the patch before the last (Sakari)
+- added tag to the last patch (Tomi)
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Fixes: b57aa47d39e9 ("drm/gem: Test for imported GEM buffers with helper")
-Reported-by: Andy Yan <andyshrk@163.com>
-Closes: https://lore.kernel.org/dri-devel/38d09d34.4354.196379aa560.Coremail.andyshrk@163.com/
-Tested-by: Andy Yan <andyshrk@163.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Anusha Srivatsa <asrivats@redhat.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>
-Cc: David Airlie <airlied@gmail.com>
-Cc: Simona Vetter <simona@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
----
- include/drm/drm_gem.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+In v3:
+- fixed compile issues with i2c-core-slave.c (LKP)
+- fixed compile issues with IRQ APIs, i.e. missing header (LKP)
+- added patch for the only user which assigns two fields (Tomi)
+- added tags (Tomi)
 
-diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-index 9b71f7a9f3f8..a3133a08267c 100644
---- a/include/drm/drm_gem.h
-+++ b/include/drm/drm_gem.h
-@@ -588,8 +588,7 @@ static inline bool drm_gem_object_is_shared_for_memory_stats(struct drm_gem_obje
-  */
- static inline bool drm_gem_is_imported(const struct drm_gem_object *obj)
- {
--	/* The dma-buf's priv field points to the original GEM object. */
--	return obj->dma_buf && (obj->dma_buf->priv != obj);
-+	return !!obj->import_attach;
- }
- 
- #ifdef CONFIG_LOCKDEP
+In v2:
+- covered i2c-core-slave.c where it makes sense
+- covered i2c-core-of.c where it makes sense
+- rebased on top of the latest code base
+
+Andy Shevchenko (7):
+  i2c: core: Drop duplicate check before calling OF APIs
+  i2c: core: Unify the firmware node type check
+  i2c: core: Switch to fwnode APIs to get IRQ
+  i2c: core: Reuse fwnode variable where it makes sense
+  i2c: core: Do not dereference fwnode in struct device
+  i2c: core: Deprecate of_node in struct i2c_board_info
+  media: i2c: ds90ub960: Remove of_node assignment
+
+ drivers/i2c/i2c-core-base.c   | 61 +++++++++++++++++------------------
+ drivers/i2c/i2c-core-of.c     |  1 -
+ drivers/i2c/i2c-core-slave.c  | 12 ++++---
+ drivers/media/i2c/ds90ub960.c |  1 -
+ include/linux/i2c.h           |  2 +-
+ 5 files changed, 39 insertions(+), 38 deletions(-)
+
 -- 
-2.49.0
+2.47.2
 
 
