@@ -1,159 +1,120 @@
-Return-Path: <linux-media+bounces-30350-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30351-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8295A8B9AD
-	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 14:57:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DFF0A8B9BB
+	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 15:00:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2A6678A00E0
-	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 12:57:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2AAC53B05A1
+	for <lists+linux-media@lfdr.de>; Wed, 16 Apr 2025 13:00:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A50A14F9E2;
-	Wed, 16 Apr 2025 12:57:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AC6718A6AE;
+	Wed, 16 Apr 2025 13:00:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="RB6csJSJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f208.google.com (mail-il1-f208.google.com [209.85.166.208])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E54D184E
-	for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 12:57:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.208
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9087D2F56
+	for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 13:00:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744808246; cv=none; b=R/8lPsYRj+qK3V829w408LU7BZnd5P6yHeBYS7EJDqf25cgXiGlxH4BKH8G7AVOrjo0xIDsUYuQFAtAz1I+ZhR9PqxqTD7gEgDMvrGiNFg6pvsAHHNe2VkXWZRPTqgFS+TpP4M43WFbEj0M9SREBZS/UZR1NTms6m2x60A5QMAg=
+	t=1744808426; cv=none; b=cJB7Ov9ZiPoWcXZqiLVQcn45IZHU0etWIkXKZgNsaSa3JXSRk+46naahjwvr4FvOvPcpBKHk8kA1OiPZqW5Yn6j01qoSSgm6RM2UofhdU8SVSzcgxYeIMuY9exZVB8cPxzrTTtShM/Fnmwtcs+VjMLK3oILP9Bv5a6k/BTp/3/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744808246; c=relaxed/simple;
-	bh=hMbhS79Mfn3XqB2vVxZ9w/HPqdOZ3hTT8ZETPJC/w5k=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=TvjFJl16D/1SmEHc8oIQClJl1zaRag+abT8Unu3C7RZtuEd3/z7AxxYqXYR9caHF4drZ0tDIDOyatkfbkkeBWXCSQYpbHKvr3o+6xyPQM9fJcbhKvKulYtv4xLbbxGAZMDIrIa2dDwKiCy7RQYDCsg8s6Nj98RNfHMf5VvxrhpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.208
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-il1-f208.google.com with SMTP id e9e14a558f8ab-3d5da4fd944so79601985ab.2
-        for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 05:57:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744808243; x=1745413043;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YNAm+gwGmliDc62AX9Wt9ewTcdS/eTMF5peaZWNPeKU=;
-        b=ACdc9bj+30Wzva+TWFnWSwStVpWD7qVR70E9bsVRoD+syJj2HMvFQxa3D6jV5SIHgU
-         kjEXCkSwXANg8RozzWA8cJh2Mx+ka/+PYREqBBNcHvFfZE+O0dwFej6xC5xwAtgyPHkZ
-         zdia0QlAS0Mk4Loi1d6QkL3Y7/UFcROu7v1vgk/upFBR7iVwDSPvpX9RQSaTfjUhAlEN
-         IJm9noae2p8QV7kF9Al5Eu7/QxPGv9SEJeJESDG1p9SV/zFyqDd2/VYb/Ah1exfw/pae
-         9+C1osTVYMvetIt8BN7a9TljvmOaphzgY2Hx28/s6bVcySro5SHzeImNznDW52y06lnN
-         NxMA==
-X-Forwarded-Encrypted: i=1; AJvYcCWuigfHLf2q5ueOYfTO+qODLuwPiaf7nynrciGT2A2813XwZ/yjlZrz3UQ6vJJ/s/S9f4zYcF2EvgLYCg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwrexcIBNhYxrFwpZiq0dYv3UJUlCrMrXjjKelFnxSmdLkJzRAG
-	tLnUYO+xolt2logSGPE7Fwen2PZMEcLgKgF/3eDyl6uzvnKLAdQS/TTBWb7d82b2Z39S1U8hxy+
-	gGv5gdXfgZGIsAGiulAJ4pprhyrigHdTyxmFqicnzTzlsMY82cTQ5XG4=
-X-Google-Smtp-Source: AGHT+IEY2/JxH5fF9jbc8XKb8qFntQdM+RGVVdkkk+xhSLw6bFB9Mo2uLJDTvXw8tFH9bxn5OkJODujswRD5/C6zaaoaTVLbx77z
+	s=arc-20240116; t=1744808426; c=relaxed/simple;
+	bh=Nv89k1kYxqdc70dbe9HBFXPQnqMqZiePva3dt6JWt8I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=drx8rhzrMKGo290aOW1mZC+U9GhHwv1pV2AypBpQHjkBuSi4jK1ExMPCJB1Rei8en1/xOYk06X/qoTeRF4/lnjLdlYGUb2DZbSkkupX0wx6JC+DXnVRzRs/kBx3NKd70b3e8d0n6GB0FM3UOmVNUV0WSmiqInpPUPeRgEikyagI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=RB6csJSJ; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=Nv89
+	k1kYxqdc70dbe9HBFXPQnqMqZiePva3dt6JWt8I=; b=RB6csJSJ64ojiQ81SrTO
+	7uKZ52c8bVaCNycJIQiNaFNxHBcsJHEk2QtOhkuh6JLqAl2mFjsumno0D1jejVQy
+	Ost/SujD/lqJdpBoU0q8L5XkxaUijFnDS1accoUKIwTz/U277/NraPqof1hZmGge
+	LzwyabOQ162xk7y3nxjN2o1FA47lzoncjCs11mb0Aol6atNrFVabEnBxGzssZ26w
+	xwBGzripe4ZFDIz63gqGijp56MgsxOWPTRHlTNRoBXcOa23MZCz6DsHE/VbM8qLn
+	cu41iWUNnI6D74YCbShe6gexmN3OsZjHeu0EVxOdO6ogiQ3VH0Rvt2aRoThjYMFS
+	6g==
+Received: (qmail 728004 invoked from network); 16 Apr 2025 15:00:17 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 16 Apr 2025 15:00:17 +0200
+X-UD-Smtp-Session: l3s3148p1@QoLi3eQyFJQujnsq
+Date: Wed, 16 Apr 2025 15:00:16 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jai Luthra <jai.luthra@ideasonboard.com>, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v4 6/7] i2c: core: Deprecate of_node in struct
+ i2c_board_info
+Message-ID: <Z_-p4HL2pUvEUvWg@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jai Luthra <jai.luthra@ideasonboard.com>, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20250414100409.3910312-1-andriy.shevchenko@linux.intel.com>
+ <20250414100409.3910312-7-andriy.shevchenko@linux.intel.com>
+ <Z_69Jml3-CKi13wB@shikoro>
+ <Z_9NEK7BDrvAQ0Qo@smile.fi.intel.com>
+ <Z_9UHrgho0dGoUrG@shikoro>
+ <Z_9WtfVzSDuxmqLK@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:148b:b0:3d5:df21:8481 with SMTP id
- e9e14a558f8ab-3d81598394fmr18668225ab.0.1744808243706; Wed, 16 Apr 2025
- 05:57:23 -0700 (PDT)
-Date: Wed, 16 Apr 2025 05:57:23 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <67ffa933.050a0220.243d89.0004.GAE@google.com>
-Subject: [syzbot] [media?] WARNING: refcount bug in dvb_device_open
-From: syzbot <syzbot+0aea3ca127fe06c384f7@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	mchehab@kernel.org, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    e618ee89561b Merge tag 'spi-fix-v6.15-rc1' of git://git.ke..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=109b8a3f980000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=7a4e108575159039
-dashboard link: https://syzkaller.appspot.com/bug?extid=0aea3ca127fe06c384f7
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/6e9ff64c0a63/disk-e618ee89.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/5a0301cd26c2/vmlinux-e618ee89.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/d51cf55acedf/bzImage-e618ee89.xz
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+0aea3ca127fe06c384f7@syzkaller.appspotmail.com
-
-------------[ cut here ]------------
-refcount_t: saturated; leaking memory.
-WARNING: CPU: 1 PID: 9920 at lib/refcount.c:22 refcount_warn_saturate+0xd4/0x210 lib/refcount.c:22
-Modules linked in:
-CPU: 1 UID: 0 PID: 9920 Comm: syz.5.1429 Not tainted 6.15.0-rc1-syzkaller-00288-ge618ee89561b #0 PREEMPT(full) 
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 02/12/2025
-RIP: 0010:refcount_warn_saturate+0xd4/0x210 lib/refcount.c:22
-Code: 7d a1 0b 31 ff 89 de e8 4a e5 ed fc 84 db 75 dc e8 61 ea ed fc c6 05 2f 7d a1 0b 01 90 48 c7 c7 40 fa f3 8b e8 ed 7b ad fc 90 <0f> 0b 90 90 eb bc e8 41 ea ed fc 0f b6 1d 10 7d a1 0b 31 ff 89 de
-RSP: 0018:ffffc90002ee7908 EFLAGS: 00010282
-RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffc9000cd2b000
-RDX: 0000000000080000 RSI: ffffffff817ad005 RDI: 0000000000000001
-RBP: ffff88802a664210 R08: 0000000000000001 R09: 0000000000000000
-R10: 0000000000000001 R11: 0000000000000001 R12: ffff888033636a80
-R13: ffffffff9afc7fa0 R14: ffff88802a2f28b0 R15: ffff88802a664210
-FS:  00007f9f6790e6c0(0000) GS:ffff888124ab9000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000001b32715ff8 CR3: 0000000039f06000 CR4: 00000000003526f0
-Call Trace:
- <TASK>
- __refcount_add include/linux/refcount.h:291 [inline]
- __refcount_inc include/linux/refcount.h:366 [inline]
- refcount_inc include/linux/refcount.h:383 [inline]
- kref_get include/linux/kref.h:45 [inline]
- dvb_device_get drivers/media/dvb-core/dvbdev.c:624 [inline]
- dvb_device_open+0x2ed/0x3b0 drivers/media/dvb-core/dvbdev.c:106
- chrdev_open+0x231/0x6a0 fs/char_dev.c:414
- do_dentry_open+0x741/0x1c10 fs/open.c:956
- vfs_open+0x82/0x3f0 fs/open.c:1086
- do_open fs/namei.c:3845 [inline]
- path_openat+0x1e5e/0x2d40 fs/namei.c:4004
- do_filp_open+0x20b/0x470 fs/namei.c:4031
- do_sys_openat2+0x11b/0x1d0 fs/open.c:1429
- do_sys_open fs/open.c:1444 [inline]
- __do_sys_openat fs/open.c:1460 [inline]
- __se_sys_openat fs/open.c:1455 [inline]
- __x64_sys_openat+0x174/0x210 fs/open.c:1455
- do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
- do_syscall_64+0xcd/0x260 arch/x86/entry/syscall_64.c:94
- entry_SYSCALL_64_after_hwframe+0x77/0x7f
-RIP: 0033:0x7f9f66b8d169
-Code: ff ff c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 40 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 a8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f9f6790e038 EFLAGS: 00000246 ORIG_RAX: 0000000000000101
-RAX: ffffffffffffffda RBX: 00007f9f66da5fa0 RCX: 00007f9f66b8d169
-RDX: 0000000000000001 RSI: 0000200000000000 RDI: ffffffffffffff9c
-RBP: 00007f9f66c0e990 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000000000
-R13: 0000000000000000 R14: 00007f9f66da5fa0 R15: 00007ffdfcf6c128
- </TASK>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="SZn/1InEaoqcNZKV"
+Content-Disposition: inline
+In-Reply-To: <Z_9WtfVzSDuxmqLK@smile.fi.intel.com>
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+--SZn/1InEaoqcNZKV
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
 
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+> At least the main objective is to avoid new code using of_node.
+> The rest can slowly rotten on itself (esp. if there is any under
+> arch/ for some old board files).
 
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+Do you know of some examples? I mainly found i2c-powermac and I3C core
+with my two approaches (coccinelle and grep+awk). But maybe my search
+pattern is weak?
 
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
 
-If you want to undo deduplication, reply with:
-#syz undup
+--SZn/1InEaoqcNZKV
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmf/qdwACgkQFA3kzBSg
+Kbbdqg//V7MdLUvRji/BXB6UY4HbFos4o54H+hFZSXyQ8eBo0Nv3tdjm02zsKQ+4
+/Ja7mpK/oauk2lbvO8y6Aj5QxwUnUPTR3DWYtGA9boMZPX8Fc+lri0+gjhxG6O31
+n3BhBN7oSFf/wDVwduE+HQf5CDzoHbshROurkx7cr1ER/C1J8OdhSRbEuVhRzPfx
+SYLTyTCrafloPL1kmVU8vQFmpCqG4R510De7PBZI8rFhCGXMDFPu2SwIZiD5EfQ8
+R85a6SL+/zjzWmJvtsRsRMyW8fjif1cQJ4U85Fj076LhGz5U+20JEH1zIT5dUTha
+biWfao0iUd5uH3N0E29FZiDwO/Db7yTh088NhCKKnu6gF4bwddwcuU0O1oh8Gt3G
+rTh3+uKVL5U4jCa8bDzHF7r80yCpNws2gIIGgKa4oxab669La3nIrg1Tfc6C2dO6
+nryQ4mZzkmrx2yHCowyk6R44Pn5REGtq5HFWDTs8ZzKFuxLpb6KfbYX9tQ9csuvg
++MJXBOtSS7t5KReflpg5VfSVFhPrHC1yP73SiZwK6dgwkP/EW7aFDb7aQOPn1Q03
+BfroPSFaO3yP7n+SWJQ3ULaB0KnfdEX+cHsHpBlQKYvFACW9e1DvDdiZB8rcZpbp
+lTmogeK/CqTmr4jJEezAO7zBX1xeaA07Sa/tD9x/tuS8+92DhWk=
+=NPxJ
+-----END PGP SIGNATURE-----
+
+--SZn/1InEaoqcNZKV--
 
