@@ -1,140 +1,106 @@
-Return-Path: <linux-media+bounces-30432-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30433-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF2EDA915FA
-	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 10:00:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41568A91613
+	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 10:03:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2E1EF19E0DA5
-	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 08:00:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A42AE5A2164
+	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 08:03:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB65D225404;
-	Thu, 17 Apr 2025 07:59:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0EB9E22DF84;
+	Thu, 17 Apr 2025 08:03:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TQ82/fUK"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ujqd1l4e"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA53C226CF0;
-	Thu, 17 Apr 2025 07:59:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF9A4225785;
+	Thu, 17 Apr 2025 08:03:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744876778; cv=none; b=Jaa64iCPVYKFUhx5pjqmhB/B64sJcn8Zu6vzxgyAipErcWLCYBQTWHLL9q0QD8NQLQMENuWkABFaQsh1Jub/B8hNFrvqt7qGLDTFG44vsR4IdQyQaI/ErNow0iMJ1nW1hDBfpvuLbk3XURyiyeJid+XsCLdIM0rPbzBlUgScYQM=
+	t=1744877013; cv=none; b=gFVB6VXXfe78LembQXrOlMFbWgD7T+XAuRRAc2DqdDjwWjqXxtiLP3SvS2FxIejv30PoIp5Nv/SWfzZobtdRlbaJgcvJVUBQ5lxQEoc7i2TYcw0zjEKE2rd6OuX14Ubzt6z+fMudZLptCfTxQRCySeFKZWVhoMPEr3s6ZQcAnFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744876778; c=relaxed/simple;
-	bh=xNxT5Re1oftjzyxR5Ank9LUV80Pp7dElP2hd70zAJT8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f0vv8Ds5QKXGi8ccETqh6+iKHbzvTra2jVbVCEudyoyD5LGScz/4t0hCnnHXn4pyAkcqgUzEgBDB1kbgyLwlPrjq2TquQeX7FdVtnTbipcoxQilnORodHp2plNtQnOvCmeJ+xNtZRFl1oNYoYXoXH+TDkBugWFBm2QY/xN7Tmbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TQ82/fUK; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744876776; x=1776412776;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xNxT5Re1oftjzyxR5Ank9LUV80Pp7dElP2hd70zAJT8=;
-  b=TQ82/fUKuwUT4pertC8O+jnp1kzIgKa5/PAM/QExOfl+mOVBb3QcXEtA
-   8yF9FAMyZNU2EsIv1Wf3ABu0zv0cxn+jaBons77PGuncYRgbcSlEMbWSz
-   FQswj9VJ+g3J3OXHWCbEZ3iYDBY8emCIjMMiVpBu4gu4vkFDIWh/qvox9
-   LS5VmMcGW8Rt/+KgCQQ81yQF5MY5U92VS1bEjrOP+6TJWc0zyG3cEaQsJ
-   XxiJoYJP06Q6HPna+P5lrf1rh98ZhpWT8+XyIErnAipkv+8CSTTjvoxs1
-   8VexPY+talRGOeIjQmdaObF4Z0kHcRQth3nHwr3SizCCSudbcFMNvJf4A
-   w==;
-X-CSE-ConnectionGUID: wAVowEOaR+CghCy1O4bAzQ==
-X-CSE-MsgGUID: 4wT+pqRxRYCHK4KHYArr5A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="68944176"
-X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; 
-   d="scan'208";a="68944176"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 00:59:35 -0700
-X-CSE-ConnectionGUID: 8VKL1ubsSFSs14j6RVHMcw==
-X-CSE-MsgGUID: mYT5ZLBjQ8iTNwGWZY/5mg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; 
-   d="scan'208";a="134825813"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by fmviesa003.fm.intel.com with ESMTP; 17 Apr 2025 00:59:29 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u5K9f-000LsM-0P;
-	Thu, 17 Apr 2025 07:59:27 +0000
-Date: Thu, 17 Apr 2025 15:58:43 +0800
-From: kernel test robot <lkp@intel.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@intel.com>,
-	David Airlie <airlied@gmail.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/2] scripts/kernel-doc.py: don't create *.pyc files
-Message-ID: <202504171512.FiYw2rGC-lkp@intel.com>
-References: <4ad5eb8d4b819997c1615d2401581c22a32bb2c1.1744789777.git.mchehab+huawei@kernel.org>
+	s=arc-20240116; t=1744877013; c=relaxed/simple;
+	bh=Nxc71yiCbB7TEaX5Vo82BTatLhGZxUaMB0WX5lsJVcc=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=cb4OZ/t5MDAGQR/v/qvxfOnpu12a4s5bJ6YDpwShrsA+aEC45zBVg8DtZDjexRYccvEZo3g0cQSPI4KWaJim9lNcAiNlmGWjQ4stHz516plEb7wO3fR8IDY3QHh8A0ORSrIJQZVSqSmHXVUZDqq1uZD9d3jtRk1gcPYx79CkrO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Ujqd1l4e; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07A626A2;
+	Thu, 17 Apr 2025 10:01:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1744876886;
+	bh=Nxc71yiCbB7TEaX5Vo82BTatLhGZxUaMB0WX5lsJVcc=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=Ujqd1l4eUkZKLv5qCIlP4bv0ZTxc2cvp4IAKW7vxY841cs7+rxev8cOpeBow7aXym
+	 6/CLNQIe+k8Wv5ktuPUX9NghkoPV2c0LXhx4cz6NHP4U9fPCuQ89IIbAc34jtMqFEA
+	 aLm94FPmQLm2VpCW/glSumOQVO8WcUFSNsKv04NE=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <4ad5eb8d4b819997c1615d2401581c22a32bb2c1.1744789777.git.mchehab+huawei@kernel.org>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250417-adv7511-ec-const-v1-1-74301e17646e@oss.qualcomm.com>
+References: <20250417-adv7511-ec-const-v1-1-74301e17646e@oss.qualcomm.com>
+Subject: Re: [PATCH RESEND] media: adv7511-v4l2: use constants for BT.2020 colorimetry
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Hans Verkuil <hverkuil@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Date: Thu, 17 Apr 2025 09:03:26 +0100
+Message-ID: <174487700624.494853.2007394433912766175@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-Hi Mauro,
+Quoting Dmitry Baryshkov (2025-04-16 23:46:01)
+> Replace numeric values with constants from hdmi.h.
+>=20
 
-kernel test robot noticed the following build errors:
+[x] adv7511-v4l2.c includes hdmi.h=20
+[x] hdmi.h defines the same values (through an enum)
 
-[auto build test ERROR on lwn/docs-next]
-[also build test ERROR on drm-i915/for-linux-next drm-i915/for-linux-next-fixes linus/master v6.15-rc2 next-20250416]
-[cannot apply to masahiroy-kbuild/for-next masahiroy-kbuild/fixes]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Checks out for me.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mauro-Carvalho-Chehab/scripts-kernel-doc-py-don-t-create-pyc-files/20250416-155336
-base:   git://git.lwn.net/linux.git docs-next
-patch link:    https://lore.kernel.org/r/4ad5eb8d4b819997c1615d2401581c22a32bb2c1.1744789777.git.mchehab%2Bhuawei%40kernel.org
-patch subject: [PATCH v3 1/2] scripts/kernel-doc.py: don't create *.pyc files
-config: csky-randconfig-001-20250417 (https://download.01.org/0day-ci/archive/20250417/202504171512.FiYw2rGC-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250417/202504171512.FiYw2rGC-lkp@intel.com/reproduce)
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504171512.FiYw2rGC-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> /bin/sh: 1: -none: not found
-   make[3]: *** [scripts/Makefile.build:203: scripts/mod/empty.o] Error 127 shuffle=2754938148
-   make[3]: *** Deleting file 'scripts/mod/empty.o'
-   make[3]: Target 'scripts/mod/' not remade because of errors.
-   make[2]: *** [Makefile:1276: prepare0] Error 2 shuffle=2754938148
-   make[2]: Target 'prepare' not remade because of errors.
-   make[1]: *** [Makefile:248: __sub-make] Error 2 shuffle=2754938148
-   make[1]: Target 'prepare' not remade because of errors.
-   make: *** [Makefile:248: __sub-make] Error 2 shuffle=2754938148
-   make: Target 'prepare' not remade because of errors.
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>  drivers/media/i2c/adv7511-v4l2.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/i2c/adv7511-v4l2.c b/drivers/media/i2c/adv7511=
+-v4l2.c
+> index f95a99d85360aa782279a127eee37132f9ad08fb..853c7806de928da2129f603e7=
+cb673440a1fcfac 100644
+> --- a/drivers/media/i2c/adv7511-v4l2.c
+> +++ b/drivers/media/i2c/adv7511-v4l2.c
+> @@ -1370,9 +1370,9 @@ static int adv7511_set_fmt(struct v4l2_subdev *sd,
+>         case V4L2_COLORSPACE_BT2020:
+>                 c =3D HDMI_COLORIMETRY_EXTENDED;
+>                 if (y && format->format.ycbcr_enc =3D=3D V4L2_YCBCR_ENC_B=
+T2020_CONST_LUM)
+> -                       ec =3D 5; /* Not yet available in hdmi.h */
+> +                       ec =3D HDMI_EXTENDED_COLORIMETRY_BT2020_CONST_LUM;
+>                 else
+> -                       ec =3D 6; /* Not yet available in hdmi.h */
+> +                       ec =3D HDMI_EXTENDED_COLORIMETRY_BT2020;
+>                 break;
+>         default:
+>                 break;
+>=20
+> ---
+> base-commit: 2bdde620f7f2bff2ff1cb7dc166859eaa0c78a7c
+> change-id: 20250408-adv7511-ec-const-b46796340439
+>=20
+> Best regards,
+> --=20
+> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+>
 
