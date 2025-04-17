@@ -1,527 +1,176 @@
-Return-Path: <linux-media+bounces-30461-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30462-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30A98A92014
-	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 16:47:00 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6CA7A92087
+	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 16:58:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AFA097A3C2F
-	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 14:45:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 42A377A5270
+	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 14:57:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED5A72517A3;
-	Thu, 17 Apr 2025 14:46:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC94D252919;
+	Thu, 17 Apr 2025 14:58:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="F1M+9tFz"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="CLvAoc5I"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7BD124E4B3;
-	Thu, 17 Apr 2025 14:46:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744901211; cv=pass; b=VIp5I5gMIbDivbf75g8aYiR6w94vYSbwyUjn1OBM6EJtmtvSDuggiacledKscr9hwcrq363asqMFP7Z1lFOAPtBrKVdyFxEUNy5s4VaFK98dfmKI3fLSlltaDGet6rgsiMYymq5gjiG1luFrFPLFgH645JpX3rivEhTAg/IOn0Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744901211; c=relaxed/simple;
-	bh=K2bvfdh2m1spIEv6BQP9OJSS5Y/Q9wQOWXdge2RvsaU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CVUjGrYla1W2gGBcV/lEHwgC3NJRjVWHBRSAdP026lu6I7XRlxOgvEgAW2WA0XPpOHezIc4AE3y5UQa3QA21DpCQ7qMN1np7QzUuqWYf7yDwh0IILNy7Nk3aIEnlv6LGmNe/5A53ymTRWDMsdnOzN7qIeet4ifPZbHMxw+X+a68=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=F1M+9tFz; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1744901179; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=YFfUG6uIqhnhmct9lBt9T7/2MMwCqYMdpk7yl1vYCIb3AGBMQmgQev6y6FZCYwdclCnDAbB+I5109tOfSb0ICbqQwp64+YG7o3s5dJAXrLKn4iwHJStoaoyuJeOtaj5zgUrkuGCu/Ox23tLGtOzsrzAXTDz9crlA0YcAwmW2B/w=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1744901179; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=Qn7SXHzO/FxqlEsus4Fr/kAaHFsjsYYO5SoEfUi1JsM=; 
-	b=KWJ9ABJlcm5+LySqPgWU6EeWUyGP0lU8jGIyVXlE/Lh8Te8n3Jy11dhmnQpfxnrlxK7QHRQz84k99yrKcDlP7Wn2Fc2ErXBJnQB1DS09EWR1/Lo0WqR4mYQsiG+9igAuc9YITDw299de67HjVJKNZ566nlwrl5yoTTjI1JEQMRk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
-	dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1744901179;
-	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
-	bh=Qn7SXHzO/FxqlEsus4Fr/kAaHFsjsYYO5SoEfUi1JsM=;
-	b=F1M+9tFzETHCBzNfXV7mcUVAzN5L0UzXjY1vd0k3UjZEC6IGBYO1ourBhSGRKaQa
-	TmYiIn6u+sq+8NU7EPXx90bAy5wZT9618HiSlK6JFsTjxiIHT76gQ3eMS7iBWTLqlUN
-	WGaUFv/I5aRu17IRh39renX4smAuZuHdp8x6+66Q=
-Received: by mx.zohomail.com with SMTPS id 174490117729883.39896065559583;
-	Thu, 17 Apr 2025 07:46:17 -0700 (PDT)
-Date: Thu, 17 Apr 2025 15:46:12 +0100
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Steven Price <steven.price@arm.com>
-Cc: Boris Brezillon <boris.brezillon@collabora.com>, 
-	Liviu Dudau <liviu.dudau@arm.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	kernel@collabora.com, dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v8 4/4] drm/panthor: show device-wide list of DRM GEM
- objects over DebugFS
-Message-ID: <sel7vspg4xzjb3wrp2zn5m5yjpzu6ajxxhdyll5u5twqojlmbz@lyz4lv3q67ye>
-References: <20250415191539.55258-1-adrian.larumbe@collabora.com>
- <20250415191539.55258-4-adrian.larumbe@collabora.com>
- <8dc50ecd-d43a-4556-9c61-f58bb3a8dde2@arm.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89857252905
+	for <linux-media@vger.kernel.org>; Thu, 17 Apr 2025 14:58:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744901909; cv=none; b=jYQ+ak1Pg3A/LivEz5LERc7wndkO4p+RnPZJdPMdQBxaGMDVvdt4B44mUCjWAoHABS9K+weYl6c94+1Gyeh3g8bQXHoF458NzzAIGIBzHj/FefewlFqhfMI6KioObo5R1UgR+PLRPDhJ9jJ9WBmdpb0S4FylE1yxMqmR3bJ9Ypk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744901909; c=relaxed/simple;
+	bh=pMY/0jIG3lrEg5GZ5KFr6KvJdcNAhAJuMKM0H+1/Kts=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=m/I9Uy2UL7JBHzsZ+SgBA1MfTom+4AXbVbhf8dz6fVaTjQLo/Kzak2p/lNAfbV0OsBUDe7i3Ygj6rnoZeF5qjErfc0RC1RoXJmqfDW1TLS4mmk042eznuso5izsopU+LwDHHpmffI7aZikl/gqxyUEa27skR1Yv3av53ImRQ77g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=CLvAoc5I; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53HClN2Z015925
+	for <linux-media@vger.kernel.org>; Thu, 17 Apr 2025 14:58:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=LfeP4sLjU5GUk2YiZ8K2Y7aMNcxds06nnNs
+	GpShGCS8=; b=CLvAoc5ILoc9/M3HYws8E9cMTY6YpliwWiJ8W6W8w4D5BQorj8b
+	s/BWFxF+3zrH8fST7rAK1F0aBLhCk969X1/GyRBrfP4jFDTKXwg/edLzl15LWHlq
+	xXNNPIjidSTL2RgH8WGA+FuitdM4io1Xqc9zQBQ2JN9sNmHL27Lk6pz3wqGQFjl2
+	TQXzh3VOq/498IRRxrluclXzxuvbY+zPnHSKdmcu3lsKHIcOKzR6AEiz7zHigcne
+	50vLWzhqJhXTWFmpNqTlztBfHXx5nAkHk/qIgZYIzcTv23zKk6bSprWzOO3lBYdb
+	4FAtWeUXHiRkO1l/L0mrxvQJu70++ucMbug==
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com [209.85.219.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45ydhqfj26-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 17 Apr 2025 14:58:26 +0000 (GMT)
+Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-6eeb5e86c5fso10056636d6.1
+        for <linux-media@vger.kernel.org>; Thu, 17 Apr 2025 07:58:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744901905; x=1745506705;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LfeP4sLjU5GUk2YiZ8K2Y7aMNcxds06nnNsGpShGCS8=;
+        b=cSgDUsdhk4vNx4vwqi+KodymUHO5k1dARxPwqqK8GGjz7qcv96ojiRRnAWd3FOZqIG
+         gN6x35TQiRJjTzhK/u7iXL43Ye67APcz05zMKXK89diUYj39mUGcs2l5q1IdbPJ8o+l1
+         jFc4ted6IWFm9v7peg7Z554Is3wBWLSJcnbacSAfVVYnjHkFMOWqIwpANGDjy6R5Cii9
+         4IcmXryQUZuwiNuJPrJvizIuez0CmGMEVCisb4iN8S/KJOiJdl4Gy5a2ZDHOxyCt4M2H
+         77Crz+VdCFq5Z5BAoS73pqYWhd0xKlBhnztKeUeq7OyfgYmSQVOwZnCz/+OJ+ETFqWlY
+         kRaA==
+X-Forwarded-Encrypted: i=1; AJvYcCXq9l7d9cWU19yDLRPRoo5427R/el9C3g+xY+lOX8pQ212sAhqTskQgo8Q/MnYUZ9V05dijNp8UF3vJ3w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRbTAjgNCoCczQT87zdVPzZE2v5E8oGsp94G+b0GyWZY515Jda
+	RVUmjk7sDfSj5393an8l2uvZwcWdTO8Uc5r+54ZbLqXrldRf8ODVt/sFoxjdLeQcWDhSZEljQ8x
+	dZgGANt+mXsK1NExdjVo6h4bAl739zYIS+YqUlm2tK1eA7uUoBY+phOT/t1FqfLeuHtXvEw==
+X-Gm-Gg: ASbGncv36vbQ7Rmx439sPBhgARcV0qLEBjUDz+OXgGr79ddeAAsdLHQhNoGcH7lrl+P
+	+iLO6zgkKCex5A7RY5ar3Lccdv2xcsyNBfB1dd1HLYDhcATsJvCsKNKRBO+notAt1ExDIln+WX1
+	9P2M5Oymul//bL9PUlIfka2khaLBo9YOTxQ1P9mOhJpvIkyJ9ZWLBAEC36JlneepyUKyyQvyaSA
+	BPL6JY9Z33K26mzlKk5UItC4YLqelOJgCCPGnGvPFa0TTUXCAnZuTPLzjDvu2M9kO5M/JmGP6M2
+	D3GK1rXKVx601q6XVztXo3tLOsFk76Ic1Kmm+nkcRqxDX8M=
+X-Received: by 2002:ad4:5ec9:0:b0:6ed:1651:e8c1 with SMTP id 6a1803df08f44-6f2b2f2f506mr78612466d6.13.1744901905152;
+        Thu, 17 Apr 2025 07:58:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGs94tMrUJU6Q62wJ271EI8ckueD3aicioYZneDeaoprC9wGbLMO8noE1UoVIR9qzr6m545Lg==
+X-Received: by 2002:ad4:5ec9:0:b0:6ed:1651:e8c1 with SMTP id 6a1803df08f44-6f2b2f2f506mr78612186d6.13.1744901904817;
+        Thu, 17 Apr 2025 07:58:24 -0700 (PDT)
+Received: from QCOM-eG0v1AUPpu.qualcomm.com ([2a01:e0a:82c:5f0:15e4:d866:eb53:4185])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acb6ef48e5csm3966166b.148.2025.04.17.07.58.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Apr 2025 07:58:24 -0700 (PDT)
+From: Loic Poulain <loic.poulain@oss.qualcomm.com>
+To: bryan.odonoghue@linaro.org, rfoss@kernel.org, konradybcio@kernel.org,
+        andersson@kernel.org, krzk+dt@kernel.org, robh@kernel.org
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, dmitry.baryshkov@oss.qualcomm.com,
+        Loic Poulain <loic.poulain@oss.qualcomm.com>
+Subject: [PATCH v2 0/6] media: qcom: camss: Add qcm2290 support
+Date: Thu, 17 Apr 2025 16:58:13 +0200
+Message-Id: <20250417145819.626733-1-loic.poulain@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <8dc50ecd-d43a-4556-9c61-f58bb3a8dde2@arm.com>
+X-Proofpoint-ORIG-GUID: C9L_lgiqwX0jncwOrwmUoXyU8Mx2qkRQ
+X-Authority-Analysis: v=2.4 cv=C7DpyRP+ c=1 sm=1 tr=0 ts=68011712 cx=c_pps a=wEM5vcRIz55oU/E2lInRtA==:117 a=xqWC_Br6kY4A:10 a=XR8D0OoHHMoA:10 a=QcRrIoSkKhIA:10 a=EUspDBNiAAAA:8 a=ZpVVgv6hLUNts_qYB94A:9 a=OIgjcC2v60KrkQgK7BGD:22
+X-Proofpoint-GUID: C9L_lgiqwX0jncwOrwmUoXyU8Mx2qkRQ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-17_04,2025-04-17_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
+ priorityscore=1501 suspectscore=0 clxscore=1015 spamscore=0 bulkscore=0
+ impostorscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0 mlxscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504170112
 
-Hi Steve,
+The Qualcomm QCM2290 SoC camera subsystem features the spectra 340 with:
+- 2 x Thin Front End (TFE) - 3x RDI + 1x PIX per TFE
+- 2 x CSID
+- 2 x CSIPHY
+- 2 x TPG
 
-On 17.04.2025 15:25, Steven Price wrote:
-> On 15/04/2025 20:15, Adrián Larumbe wrote:
-> > Add a device DebugFS file that displays a complete list of all the DRM
-> > GEM objects that are exposed to UM through a DRM handle.
-> >
-> > Since leaking object identifiers that might belong to a different NS is
-> > inadmissible, this functionality is only made available in debug builds
-> > with DEBUGFS support enabled.
-> >
-> > File format is that of a table, with each entry displaying a variety of
-> > fields with information about each GEM object.
-> >
-> > Each GEM object entry in the file displays the following information
-> > fields: Client PID, BO's global name, reference count, BO virtual size,
-> > BO resize size, VM address in its DRM-managed range, BO label and a GEM
-> > state flags.
-> >
-> > There's also a usage flags field for the type of BO, which tells us
-> > whether it's a kernel BO and/or mapped onto the FW's address space.
-> >
-> > Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
-> > Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
-> > Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
->
-> Reviewed-by: Steven Price <steven.price@arm.com>
->
-> Although I feel I have to point out the table output is much wider than
-> it needs to be. I'd personally like it if some of the columns were made
-> narrower. But I guess the idea is this is going to be read by a script
-> anyway.
+Support for Pix Interface and TPGs is not part of this series.
 
-In a previous revision, table format was a lot tighter, but Boris
-pointed out the number of BO flags might increase in the future, so in
-order to save ourselves some headache form having to reformat
-everything, it was best to give those fields some extra padding even if
-that means BO label spans over the usual screen width.
+This series has been tested on Qualcomm robotics RB1 platform (QRB2210) with
+the Vision Mezzanine (OV9282 sensor to CSIPHY0):
 
-> Thanks,
-> Steve
->
-> > ---
-> >  drivers/gpu/drm/panthor/panthor_device.c |   5 +
-> >  drivers/gpu/drm/panthor/panthor_device.h |  11 ++
-> >  drivers/gpu/drm/panthor/panthor_drv.c    |  26 ++++
-> >  drivers/gpu/drm/panthor/panthor_gem.c    | 182 +++++++++++++++++++++++
-> >  drivers/gpu/drm/panthor/panthor_gem.h    |  59 ++++++++
-> >  5 files changed, 283 insertions(+)
-> >
-> > diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
-> > index a9da1d1eeb70..b776e1a2e4f3 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_device.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_device.c
-> > @@ -184,6 +184,11 @@ int panthor_device_init(struct panthor_device *ptdev)
-> >  	if (ret)
-> >  		return ret;
-> >
-> > +#ifdef CONFIG_DEBUG_FS
-> > +	drmm_mutex_init(&ptdev->base, &ptdev->gems.lock);
-> > +	INIT_LIST_HEAD(&ptdev->gems.node);
-> > +#endif
-> > +
-> >  	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
-> >  	p = alloc_page(GFP_KERNEL | __GFP_ZERO);
-> >  	if (!p)
-> > diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
-> > index da6574021664..86206a961b38 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_device.h
-> > +++ b/drivers/gpu/drm/panthor/panthor_device.h
-> > @@ -205,6 +205,17 @@ struct panthor_device {
-> >
-> >  	/** @fast_rate: Maximum device clock frequency. Set by DVFS */
-> >  	unsigned long fast_rate;
-> > +
-> > +#ifdef CONFIG_DEBUG_FS
-> > +	/** @gems: Device-wide list of GEM objects owned by at least one file. */
-> > +	struct {
-> > +		/** @gems.lock: Protects the device-wide list of GEM objects. */
-> > +		struct mutex lock;
-> > +
-> > +		/** @node: Used to keep track of all the device's DRM objects */
-> > +		struct list_head node;
-> > +	} gems;
-> > +#endif
-> >  };
-> >
-> >  struct panthor_gpu_usage {
-> > diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
-> > index 7660627cafa1..13f0b045c5fd 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_drv.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_drv.c
-> > @@ -1557,9 +1557,35 @@ static const struct file_operations panthor_drm_driver_fops = {
-> >  };
-> >
-> >  #ifdef CONFIG_DEBUG_FS
-> > +static int panthor_gems_show(struct seq_file *m, void *data)
-> > +{
-> > +	struct drm_info_node *node = m->private;
-> > +	struct drm_device *dev = node->minor->dev;
-> > +	struct panthor_device *ptdev = container_of(dev, struct panthor_device, base);
-> > +
-> > +	panthor_gem_debugfs_print_bos(ptdev, m);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +
-> > +static struct drm_info_list panthor_debugfs_list[] = {
-> > +	{"gems", panthor_gems_show, 0, NULL},
-> > +};
-> > +
-> > +static int panthor_gems_debugfs_init(struct drm_minor *minor)
-> > +{
-> > +	drm_debugfs_create_files(panthor_debugfs_list,
-> > +				 ARRAY_SIZE(panthor_debugfs_list),
-> > +				 minor->debugfs_root, minor);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> >  static void panthor_debugfs_init(struct drm_minor *minor)
-> >  {
-> >  	panthor_mmu_debugfs_init(minor);
-> > +	panthor_gems_debugfs_init(minor);
-> >  }
-> >  #endif
-> >
-> > diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
-> > index 3f4ab5a2f2ae..1e3409c05891 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_gem.c
-> > +++ b/drivers/gpu/drm/panthor/panthor_gem.c
-> > @@ -11,14 +11,51 @@
-> >  #include <drm/panthor_drm.h>
-> >
-> >  #include "panthor_device.h"
-> > +#include "panthor_fw.h"
-> >  #include "panthor_gem.h"
-> >  #include "panthor_mmu.h"
-> >
-> > +#ifdef CONFIG_DEBUG_FS
-> > +static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
-> > +				       struct panthor_gem_object *bo)
-> > +{
-> > +	INIT_LIST_HEAD(&bo->debugfs.node);
-> > +
-> > +	bo->debugfs.creator.tgid = current->group_leader->pid;
-> > +	get_task_comm(bo->debugfs.creator.process_name, current->group_leader);
-> > +
-> > +	mutex_lock(&ptdev->gems.lock);
-> > +	list_add_tail(&bo->debugfs.node, &ptdev->gems.node);
-> > +	mutex_unlock(&ptdev->gems.lock);
-> > +}
-> > +
-> > +static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo)
-> > +{
-> > +	struct panthor_device *ptdev = container_of(bo->base.base.dev,
-> > +						    struct panthor_device, base);
-> > +
-> > +	if (list_empty(&bo->debugfs.node))
-> > +		return;
-> > +
-> > +	mutex_lock(&ptdev->gems.lock);
-> > +	list_del_init(&bo->debugfs.node);
-> > +	mutex_unlock(&ptdev->gems.lock);
-> > +}
-> > +
-> > +#else
-> > +static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
-> > +				       struct panthor_gem_object *bo)
-> > +{}
-> > +static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo) {}
-> > +#endif
-> > +
-> >  static void panthor_gem_free_object(struct drm_gem_object *obj)
-> >  {
-> >  	struct panthor_gem_object *bo = to_panthor_bo(obj);
-> >  	struct drm_gem_object *vm_root_gem = bo->exclusive_vm_root_gem;
-> >
-> > +	panthor_gem_debugfs_bo_rm(bo);
-> > +
-> >  	/*
-> >  	 * Label might have been allocated with kstrdup_const(),
-> >  	 * we need to take that into account when freeing the memory
-> > @@ -88,6 +125,7 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
-> >  	struct drm_gem_shmem_object *obj;
-> >  	struct panthor_kernel_bo *kbo;
-> >  	struct panthor_gem_object *bo;
-> > +	u32 debug_flags = PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL;
-> >  	int ret;
-> >
-> >  	if (drm_WARN_ON(&ptdev->base, !vm))
-> > @@ -107,7 +145,11 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
-> >  	kbo->obj = &obj->base;
-> >  	bo->flags = bo_flags;
-> >
-> > +	if (vm == panthor_fw_vm(ptdev))
-> > +		debug_flags |= PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED;
-> > +
-> >  	panthor_gem_kernel_bo_set_label(kbo, name);
-> > +	panthor_gem_debugfs_set_usage_flags(to_panthor_bo(kbo->obj), debug_flags);
-> >
-> >  	/* The system and GPU MMU page size might differ, which becomes a
-> >  	 * problem for FW sections that need to be mapped at explicit address
-> > @@ -210,6 +252,8 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
-> >  	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
-> >  	mutex_init(&obj->label.lock);
-> >
-> > +	panthor_gem_debugfs_bo_add(ptdev, obj);
-> > +
-> >  	return &obj->base.base;
-> >  }
-> >
-> > @@ -258,6 +302,12 @@ panthor_gem_create_with_handle(struct drm_file *file,
-> >  	/* drop reference from allocate - handle holds it now. */
-> >  	drm_gem_object_put(&shmem->base);
-> >
-> > +	/*
-> > +	 * No explicit flags are needed in the call below, since the
-> > +	 * function internally sets the INITIALIZED bit for us.
-> > +	 */
-> > +	panthor_gem_debugfs_set_usage_flags(bo, 0);
-> > +
-> >  	return ret;
-> >  }
-> >
-> > @@ -296,3 +346,135 @@ panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
-> >
-> >  	panthor_gem_bo_set_label(bo->obj, str);
-> >  }
-> > +
-> > +#ifdef CONFIG_DEBUG_FS
-> > +static void
-> > +panthor_gem_debugfs_format_flags(char flags_str[], int flags_len,
-> > +				 const char * const names[], u32 name_count,
-> > +				 u32 flags)
-> > +{
-> > +	bool first = true;
-> > +	int offset = 0;
-> > +
-> > +#define ACC_FLAGS(...) \
-> > +	({ \
-> > +		offset += snprintf(flags_str + offset, flags_len - offset, ##__VA_ARGS__); \
-> > +		if (offset == flags_len) \
-> > +			return; \
-> > +	})
-> > +
-> > +	ACC_FLAGS("%c", '(');
-> > +
-> > +	if (!flags)
-> > +		ACC_FLAGS("%s", "none");
-> > +
-> > +	while (flags) {
-> > +		u32 bit = fls(flags) - 1;
-> > +		u32 idx = bit + 1;
-> > +
-> > +		if (!first)
-> > +			ACC_FLAGS("%s", ",");
-> > +
-> > +		if (idx < name_count && names[idx])
-> > +			ACC_FLAGS("%s", names[idx]);
-> > +
-> > +		first = false;
-> > +		flags &= ~BIT(bit);
-> > +	}
-> > +
-> > +	ACC_FLAGS("%c", ')');
-> > +
-> > +#undef ACC_FLAGS
-> > +}
-> > +
-> > +struct gem_size_totals {
-> > +	size_t size;
-> > +	size_t resident;
-> > +	size_t reclaimable;
-> > +};
-> > +
-> > +static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
-> > +					 struct seq_file *m,
-> > +					 struct gem_size_totals *totals)
-> > +{
-> > +	unsigned int refcount = kref_read(&bo->base.base.refcount);
-> > +	char creator_info[32] = {};
-> > +	size_t resident_size;
-> > +	char gem_state_str[64] = {};
-> > +	char gem_usage_str[64] = {};
-> > +	u32 gem_usage_flags = bo->debugfs.flags & (u32)~PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED;
-> > +	u32 gem_state_flags = 0;
-> > +
-> > +	static const char * const gem_state_flags_names[] = {
-> > +		[PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED] = "imported",
-> > +		[PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED] = "exported",
-> > +	};
-> > +
-> > +	static const char * const gem_usage_flags_names[] = {
-> > +		[PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL] = "kernel",
-> > +		[PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED] = "fw-mapped",
-> > +	};
-> > +
-> > +	/* Skip BOs being destroyed. */
-> > +	if (!refcount)
-> > +		return;
-> > +
-> > +	resident_size = bo->base.pages != NULL ? bo->base.base.size : 0;
-> > +
-> > +	snprintf(creator_info, sizeof(creator_info),
-> > +		 "%s/%d", bo->debugfs.creator.process_name, bo->debugfs.creator.tgid);
-> > +	seq_printf(m, "%-32s%-16d%-16d%-16zd%-16zd%-16lx",
-> > +		   creator_info,
-> > +		   bo->base.base.name,
-> > +		   refcount,
-> > +		   bo->base.base.size,
-> > +		   resident_size,
-> > +		   drm_vma_node_start(&bo->base.base.vma_node));
-> > +
-> > +	if (bo->base.base.import_attach != NULL)
-> > +		gem_state_flags |= PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED;
-> > +	if (bo->base.base.dma_buf != NULL)
-> > +		gem_state_flags |= PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED;
-> > +
-> > +	panthor_gem_debugfs_format_flags(gem_state_str, sizeof(gem_state_str),
-> > +					 gem_state_flags_names, ARRAY_SIZE(gem_state_flags_names),
-> > +					 gem_state_flags);
-> > +	panthor_gem_debugfs_format_flags(gem_usage_str, sizeof(gem_usage_str),
-> > +					 gem_usage_flags_names, ARRAY_SIZE(gem_usage_flags_names),
-> > +					 gem_usage_flags);
-> > +
-> > +	seq_printf(m, "%-64s%-64s", gem_state_str, gem_usage_str);
-> > +
-> > +	scoped_guard(mutex, &bo->label.lock) {
-> > +		seq_printf(m, "%s", bo->label.str ? : "");
-> > +	}
-> > +
-> > +	seq_puts(m, "\n");
-> > +
-> > +	totals->size += bo->base.base.size;
-> > +	totals->resident += resident_size;
-> > +	if (bo->base.madv > 0)
-> > +		totals->reclaimable += resident_size;
-> > +}
-> > +
-> > +void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
-> > +				   struct seq_file *m)
-> > +{
-> > +	struct gem_size_totals totals = {0};
-> > +	struct panthor_gem_object *bo;
-> > +
-> > +	seq_puts(m, "created-by                      global-name     refcount        size            resident-size   file-offset     state                                                           usage                                                           label\n");
-> > +	seq_puts(m, "-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
-> > +
-> > +	scoped_guard(mutex, &ptdev->gems.lock) {
-> > +		list_for_each_entry(bo, &ptdev->gems.node, debugfs.node) {
-> > +			if (bo->debugfs.flags & PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED)
-> > +				panthor_gem_debugfs_bo_print(bo, m, &totals);
-> > +		}
-> > +	}
-> > +
-> > +	seq_puts(m, "=====================================================================================================================================================================================================================================================\n");
-> > +	seq_printf(m, "Total size: %zd, Total resident: %zd, Total reclaimable: %zd\n",
-> > +		   totals.size, totals.resident, totals.reclaimable);
-> > +}
-> > +#endif
-> > diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
-> > index 3c09af568e47..94b244f0540e 100644
-> > --- a/drivers/gpu/drm/panthor/panthor_gem.h
-> > +++ b/drivers/gpu/drm/panthor/panthor_gem.h
-> > @@ -15,6 +15,48 @@ struct panthor_vm;
-> >
-> >  #define PANTHOR_BO_LABEL_MAXLEN	4096
-> >
-> > +enum panthor_debugfs_gem_state_flags {
-> > +	/** @PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED: GEM BO is PRIME imported. */
-> > +	PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED = BIT(0),
-> > +
-> > +	/** @PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED: GEM BO is PRIME exported. */
-> > +	PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED = BIT(1),
-> > +};
-> > +
-> > +enum panthor_debugfs_gem_usage_flags {
-> > +	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL: BO is for kernel use only. */
-> > +	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL = BIT(0),
-> > +
-> > +	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED: BO is mapped on the FW VM. */
-> > +	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED = BIT(1),
-> > +
-> > +	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED: BO is ready for DebugFS display. */
-> > +	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED = BIT(31),
-> > +};
-> > +
-> > +/**
-> > + * struct panthor_gem_debugfs - GEM object's DebugFS list information
-> > + */
-> > +struct panthor_gem_debugfs {
-> > +	/**
-> > +	 * @node: Node used to insert the object in the device-wide list of
-> > +	 * GEM objects, to display information about it through a DebugFS file.
-> > +	 */
-> > +	struct list_head node;
-> > +
-> > +	/** @creator: Information about the UM process which created the GEM. */
-> > +	struct {
-> > +		/** @creator.process_name: Group leader name in owning thread's process */
-> > +		char process_name[TASK_COMM_LEN];
-> > +
-> > +		/** @creator.tgid: PID of the thread's group leader within its process */
-> > +		pid_t tgid;
-> > +	} creator;
-> > +
-> > +	/** @flags: Combination of panthor_debugfs_gem_usage_flags flags */
-> > +	u32 flags;
-> > +};
-> > +
-> >  /**
-> >   * struct panthor_gem_object - Driver specific GEM object.
-> >   */
-> > @@ -62,6 +104,10 @@ struct panthor_gem_object {
-> >  		/** @lock.str: Protects access to the @label.str field. */
-> >  		struct mutex lock;
-> >  	} label;
-> > +
-> > +#ifdef CONFIG_DEBUG_FS
-> > +	struct panthor_gem_debugfs debugfs;
-> > +#endif
-> >  };
-> >
-> >  /**
-> > @@ -157,4 +203,17 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
-> >
-> >  void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
-> >
-> > +#ifdef CONFIG_DEBUG_FS
-> > +void panthor_gem_debugfs_print_bos(struct panthor_device *pfdev,
-> > +				   struct seq_file *m);
-> > +static inline void
-> > +panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags)
-> > +{
-> > +	bo->debugfs.flags = usage_flags | PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED;
-> > +}
-> > +
-> > +#else
-> > +void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags) {};
-> > +#endif
-> > +
-> >  #endif /* __PANTHOR_GEM_H__ */
+```
+media-ctl -l '"msm_csiphy0":1->"msm_csid0":0[1],"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+media-ctl -V '"ov9282 2-0060":0[fmt:Y8_1X8/640x400 field:none]'
+media-ctl -V '"msm_csiphy0":0[fmt:Y8_1X8/640x400 field:none]'
+media-ctl -V '"msm_csid0":0[fmt:Y8_1X8/640x400 field:none]'
+media-ctl -V '"msm_vfe0_rdi0":0[fmt:Y8_1X8/640x400 field:none]'
+yavta -B capture-mplane -I --capture=1 --file=image.gray8 -n 1 -f Y8 -s 640x400 /dev/video0
+```
 
-Adrian Larumbe
+Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+---
+Changes in v2:
+- Use RDI_NUM instead of RDI_CLIENT for consistency
+- Add comment listing bus clients
+- Static maps for TFE ifaces/subgroups + Warning on invalid line
+- write to write_relaxed for reset function
+- Use GENMASK and FIELD_PREP for register bitfields
+- Fix coding style: lowercase hex, unexpected line break
+- remove inline for reg_update_clear (pointer callback)
+- Change avg/peak interconnect bandwidth to match downstream
+- Add IDs to camss CSIHYs
+- Reorder camss dts node similarly to sm8550
+- Fix camss node name with first reg address
+- Ue RPM_ACTIVE_TAG for APPS->CNOC
+
+---
+Loic Poulain (6):
+  media: qcom: camss: Add support for TFE (Spectra 340)
+  media: qcom: camss: Add CSID 340 support
+  media: qcom: camss: csiphy-3ph: Add CSIPHY 2ph DPHY v2.0.1 init
+    sequence
+  media: qcom: camss: add support for QCM2290 camss
+  media: dt-bindings: media: camss: Add qcom,qcm2290-camss binding
+  arm64: dts: qcom: qcm2290: Add CAMSS node
+
+ .../bindings/media/qcom,qcm2290-camss.yaml    | 261 ++++++++++++++
+ arch/arm64/boot/dts/qcom/qcm2290.dtsi         | 103 ++++++
+ drivers/media/platform/qcom/camss/Makefile    |   2 +
+ .../platform/qcom/camss/camss-csid-340.c      | 190 +++++++++++
+ .../media/platform/qcom/camss/camss-csid.h    |   1 +
+ .../qcom/camss/camss-csiphy-3ph-1-0.c         |  89 +++++
+ .../media/platform/qcom/camss/camss-vfe-340.c | 320 ++++++++++++++++++
+ drivers/media/platform/qcom/camss/camss-vfe.c |   2 +
+ drivers/media/platform/qcom/camss/camss-vfe.h |   1 +
+ drivers/media/platform/qcom/camss/camss.c     | 148 ++++++++
+ drivers/media/platform/qcom/camss/camss.h     |   1 +
+ 11 files changed, 1118 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,qcm2290-camss.yaml
+ create mode 100644 drivers/media/platform/qcom/camss/camss-csid-340.c
+ create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-340.c
+
+-- 
+2.34.1
+
 
