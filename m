@@ -1,188 +1,222 @@
-Return-Path: <linux-media+bounces-30456-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30457-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66DD1A91AE4
-	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 13:29:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F63FA91D19
+	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 14:59:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E85FA7B114A
-	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 11:28:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6E3F87AF0F3
+	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 12:58:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA672244EAB;
-	Thu, 17 Apr 2025 11:27:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BA27245022;
+	Thu, 17 Apr 2025 12:59:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="qce22+Mm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aoZmac+K"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0F22417F0
-	for <linux-media@vger.kernel.org>; Thu, 17 Apr 2025 11:27:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A9582417F0;
+	Thu, 17 Apr 2025 12:59:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744889238; cv=none; b=DcQ5q59kq2NhJg+X/6zbh5v0/mzM/A89/7cTPgBWnmlfepZXZG8TriOod2fRCbNOPn8P9TAXieePbPiosUvY5kbcTtPqP44Sia7ZDYKOlv/b1aYAWAFTSzahIB4OWuPBVz2PuvbsJm/VTJ5WyTmNTPpC1ULTMmS2pSitnaI6uWc=
+	t=1744894779; cv=none; b=QkUXEKDAewWYBAWAvZRxWtyng4lg6NSfcYV9jDMXFO4kAALjmJ2jRN0zVdnxVbIOWUJFUV6q5acEUvVR+5FvrTRuD9zyEvhZkBIcIj3nOPhJImep/eAPMuCLVaiDhwpo3ssIPhRMWpIjq9c3JjqUY4NZFuliPkDjtQGXvkqPLbY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744889238; c=relaxed/simple;
-	bh=2nnKPnNKSenGk7oH+W/zKyt+Vs9nyo2TyOcvxnYkJUo=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pMVo6Ce5ZOLlx0TO1ClFOI8cuDNtPyuujA2/RBxiqc1xVknXwliII1a0Q6czpV+umkqTw73F5ymb2/6vW+I6gyuaPTdGR8JD3r2raWapQlPCY9CWKsEPqoqI27AEg7DMNWHQkWEn8ftDlcDfG5pZpjH1ZuE2M/cdV7hMbYnmm+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=qce22+Mm; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43cf257158fso4627055e9.2
-        for <linux-media@vger.kernel.org>; Thu, 17 Apr 2025 04:27:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744889233; x=1745494033; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Mn6UYVV7ZzZexDC3IKQgx7MkJK5bKEbv3iNQ8BNX+8I=;
-        b=qce22+MmVOpq8gspYBBebktf0hkeW/6Dw0KtR75F68pVR7+Hl6BcvJoOFpwKp/TZwe
-         kmvzaPWy/5TlOKoDwRZRF42Jny/EKAI6ws6Ps3KNqJ9dpEXabrScj30unZ2AEftMUkBh
-         Mn5laNRNtXwnCTQb1YUPk20l29xDFUTX6HQygtp+ulkjCcemC8C20WUGlZXxH2zFgTyO
-         o/DhMVogOebZG6vU7u5jNkhoelx64jEVrTPoVtHB2jHIJTIsufBu47wO84N2rQOvLSxu
-         iwzJbqSTYS84i0IhJK3T2A7lGneE53g6D+SFrb2eCAoE78ceJ9KBJja4sIQlSVkhjf+T
-         ZaHQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744889233; x=1745494033;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Mn6UYVV7ZzZexDC3IKQgx7MkJK5bKEbv3iNQ8BNX+8I=;
-        b=RuyO2FZ2gutUaGnGQ2H5QlUD1p+9wTBmxsTclKWD8h2JgLsTRASiJPOUZQm0rG1AeH
-         UM3XS+G/7AtPbOv7v5nYMLa49i2U9IOGVqVP/ahrZX3+Pnf5ZLoONSop3rYW3lzBxWbi
-         YOtuBCNSNTWQJ4muXeBweCg2u3mYNNor1vDRHnZ/OnTZpHO98KsMbB32vtxf1tApiYfe
-         ym+UPi4uTt7LKZO2lPIZgHiyzpV9n0GcXudQQx50WJO5KJ7JGZ6XVGvtixq+0btp3We1
-         knLfMkloV7MsKQXhJQsTJe/kiwUCk2ZiFPv5Echx/Kf9ZuTtRlSY/Ac6BHcxLYvODroE
-         QfEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXyKDdBkV+TV9ID45SOFAI8yiin5brEZE/T2vArvo592tpXAo3zIu84BjYIg5zY1MXsQJSI4g48ml1/Mw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZXhIwc1uPJIOwF7g8Dmnjbc+nxMARYWAN3u3ZSUQoQUbYdWqp
-	YDmprEBwBmvPk6QaJQNklKrjVHSX54Pl/r8X0fbvd+zjvK96vA8Wl0KzARKL0MQ=
-X-Gm-Gg: ASbGncug37/O2NPIn039oQyv9NTgUS3hMErzbhb773cuNy5rb+9flsJqE+5h2Lbe07V
-	E2tSt0A0ZKp/sCpfBgpruSLGjB8cwoJnIDHMguZkXDlelAeYDLeHSzXKZ5URWMiUtHF0u6Ll6vu
-	65F0SbPmaH4M/sF0zA6+3x28KA67S/u5KdCUfIhUYnuaW7SwKn5SErkPh0DzOxlmlTQVBkWKlfI
-	9IEsTGhA0dmMYA6cdCWPr6uGH76SN0lvTsFDwX9rZOXIRQXHSQTS9LF5hIPnZnQ6zzcJtMjY/ra
-	r/YDc+MI2zWPYaxsYS01S2OFJ/bCjzJdTJxsQloikCs04YK/jLdAUQ74CVKn2zfnvhisKlBDRB2
-	awgBZLQ==
-X-Google-Smtp-Source: AGHT+IEUqScCO1azSIC6mQA8vGrm3CDpp/x7AVftuXoA1RfRc/gtPvrF3kjcLdpXweKxDtGUu+/VdA==
-X-Received: by 2002:a05:600c:c0b:b0:43d:934:ea97 with SMTP id 5b1f17b1804b1-4405d6df1fcmr54165755e9.27.1744889232626;
-        Thu, 17 Apr 2025 04:27:12 -0700 (PDT)
-Received: from [192.168.0.34] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae96400dsm20144063f8f.11.2025.04.17.04.27.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Apr 2025 04:27:12 -0700 (PDT)
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date: Thu, 17 Apr 2025 12:27:07 +0100
-Subject: [PATCH v7 6/6] arm64: dts: qcom: x1e80100-crd: Define RGB sensor
- for cci1_i2c1
+	s=arc-20240116; t=1744894779; c=relaxed/simple;
+	bh=E1Pwq35kl675jGF7ZBDCJFUo/3F/SjufJe2KtcoKVyg=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=dBxvVPAvADhRYIPodwwFWCzpQxDVzyXrukZ2HUi/yRefmYDDHiUh+dlnCO80j7JeRQj5BxvUhgYRW/WPPEd9UNIOJJH084+4MCa44KBedldgex00lFZ1ix05RtyIT0Pawv+qgw3P1EH92AlIBqQqP8oGkZZKAG6BCTbmGQTIj/U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aoZmac+K; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744894778; x=1776430778;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version:content-id;
+  bh=E1Pwq35kl675jGF7ZBDCJFUo/3F/SjufJe2KtcoKVyg=;
+  b=aoZmac+KohYh+zYlyYVMT8aBy/rmuk+ki7KXnEEtPRld3pakTMyNDGQd
+   JWUM3mU+0Ze/MI1COft010CLPTmtuS2yg5gjhXsG3HsEBIR3GreBervK8
+   S8vMF0CFdtC/VdgVC7m78jA0e28ur3BRYbF9ASWPN1FYtNYdYKKSTtaHE
+   89koUcG5Il1JhxblRzGesiGVAlY32MQMqKpFN29QXxYr1CKEr7bl6LJOw
+   qS2POvBSWDm3jv+kth9LN8ROYgxsnZt3LNdzGGS1XEC7ttwr+v1VS962y
+   CXjbYEdkkjFYXEP9lIAukzsr9/Ncgg1e2u7mzleiT0L0W02ic6oT64jxt
+   Q==;
+X-CSE-ConnectionGUID: 8t03R0zNSeqPmlj85itMpA==
+X-CSE-MsgGUID: q9FJoqlXRIW5qsUpo+rzFQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="46612167"
+X-IronPort-AV: E=Sophos;i="6.15,219,1739865600"; 
+   d="scan'208";a="46612167"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 05:59:23 -0700
+X-CSE-ConnectionGUID: lw6Efo0ZTiGFL5xr1GRbdA==
+X-CSE-MsgGUID: yvfnyEo8TfiS/3va4uKSiA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,219,1739865600"; 
+   d="scan'208";a="167987648"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.144])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 05:59:19 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Thu, 17 Apr 2025 15:59:15 +0300 (EEST)
+To: Hans de Goede <hdegoede@redhat.com>
+cc: Andy Shevchenko <andy@kernel.org>, Dan Scally <djrscally@gmail.com>, 
+    Alan Stern <stern@rowland.harvard.edu>, 
+    Sakari Ailus <sakari.ailus@linux.intel.com>, Hao Yao <hao.yao@intel.com>, 
+    Bingbu Cao <bingbu.cao@intel.com>, Duane <duanek@chorus.net>, 
+    platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v4 1/9] platform/x86: int3472: Add skl_int3472_register_clock()
+ helper
+In-Reply-To: <20250417111337.38142-2-hdegoede@redhat.com>
+Message-ID: <252a5c3a-9ea1-a02b-627e-1937277e9c15@linux.intel.com>
+References: <20250417111337.38142-1-hdegoede@redhat.com> <20250417111337.38142-2-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250417-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v7-6-3fd4124cf35a@linaro.org>
-References: <20250417-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v7-0-3fd4124cf35a@linaro.org>
-In-Reply-To: <20250417-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v7-0-3fd4124cf35a@linaro.org>
-To: Bjorn Andersson <andersson@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Stephen Boyd <sboyd@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>, 
- Todor Tomov <todor.too@gmail.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
- linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- linux-media@vger.kernel.org, Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-X-Mailer: b4 0.14.2
+Content-Type: multipart/mixed; BOUNDARY="8323328-1823117670-1744894320=:939"
+Content-ID: <8e76dfc8-1581-6940-e3e7-591a0ed7b624@linux.intel.com>
 
-Define ov08x40 on cci1_i2c1. The RGB sensor appears on the AON CCI pins
-connected to CSIPHY4 in four lane mode.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- arch/arm64/boot/dts/qcom/x1-crd.dtsi | 60 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 60 insertions(+)
+--8323328-1823117670-1744894320=:939
+Content-Type: text/plain; CHARSET=ISO-8859-15
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+Content-ID: <d7cf8a4a-c7e3-ddb2-30ad-7b2e16c8b1a4@linux.intel.com>
 
-diff --git a/arch/arm64/boot/dts/qcom/x1-crd.dtsi b/arch/arm64/boot/dts/qcom/x1-crd.dtsi
-index 74bf2f48d93522d3f5b7ca990c06519ca664d905..048e49aa805c7239e1a22b59bd784683d1d0da08 100644
---- a/arch/arm64/boot/dts/qcom/x1-crd.dtsi
-+++ b/arch/arm64/boot/dts/qcom/x1-crd.dtsi
-@@ -894,6 +894,66 @@ &gpu {
- 	status = "okay";
- };
- 
-+&camcc {
-+	status = "okay";
-+};
-+
-+&camss {
-+	vdd-csiphy-0p8-supply = <&vreg_l2c_0p8>;
-+	vdd-csiphy-1p2-supply = <&vreg_l1c_1p2>;
-+
-+	status = "okay";
-+
-+	ports {
-+		/*
-+		 * port0 => csiphy0
-+		 * port1 => csiphy1
-+		 * port2 => csiphy2
-+		 * port3 => csiphy4
-+		 */
-+		port@3 {
-+			csiphy4_ep: endpoint@4 {
-+				reg = <4>;
-+				clock-lanes = <7>;
-+				data-lanes = <0 1 2 3>;
-+				remote-endpoint = <&ov08x40_ep>;
-+			};
-+		};
-+	};
-+};
-+
-+&cci1 {
-+	status = "okay";
-+};
-+
-+&cci1_i2c1 {
-+	camera@36 {
-+		compatible = "ovti,ov08x40";
-+		reg = <0x36>;
-+
-+		reset-gpios = <&tlmm 237 GPIO_ACTIVE_LOW>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&cam_rgb_default>;
-+
-+		clocks = <&camcc CAM_CC_MCLK4_CLK>;
-+		assigned-clocks = <&camcc CAM_CC_MCLK4_CLK>;
-+		assigned-clock-rates = <19200000>;
-+
-+		orientation = <0>; /* front facing */
-+
-+		avdd-supply = <&vreg_l7b_2p8>;
-+		dovdd-supply = <&vreg_l3m_1p8>;
-+
-+		port {
-+			ov08x40_ep: endpoint {
-+				data-lanes = <1 2 3 4>;
-+				link-frequencies = /bits/ 64 <400000000>;
-+				remote-endpoint = <&csiphy4_ep>;
-+			};
-+		};
-+	};
-+};
-+
- &i2c0 {
- 	clock-frequency = <400000>;
- 
+On Thu, 17 Apr 2025, Hans de Goede wrote:
 
--- 
-2.49.0
+> skl_int3472_register_dsm_clock() and skl_int3472_register_gpio_clock() ar=
+e
+> 80% the same code. Factor out the common code into a new
+> skl_int3472_register_clock() helper.
+>=20
+> Reviewed-by: Andy Shevchenko <andy@kernel.org>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> ---
+>  .../x86/intel/int3472/clk_and_regulator.c     | 57 +++++--------------
+>  1 file changed, 13 insertions(+), 44 deletions(-)
+>=20
+> diff --git a/drivers/platform/x86/intel/int3472/clk_and_regulator.c b/dri=
+vers/platform/x86/intel/int3472/clk_and_regulator.c
+> index 16e36ac0a7b4..837990af24fe 100644
+> --- a/drivers/platform/x86/intel/int3472/clk_and_regulator.c
+> +++ b/drivers/platform/x86/intel/int3472/clk_and_regulator.c
+> @@ -118,7 +118,7 @@ static const struct clk_ops skl_int3472_clock_ops =3D=
+ {
+>  =09.recalc_rate =3D skl_int3472_clk_recalc_rate,
+>  };
+> =20
+> -int skl_int3472_register_dsm_clock(struct int3472_discrete_device *int34=
+72)
+> +static int skl_int3472_register_clock(struct int3472_discrete_device *in=
+t3472)
+>  {
+>  =09struct acpi_device *adev =3D int3472->adev;
+>  =09struct clk_init_data init =3D {
+> @@ -127,12 +127,6 @@ int skl_int3472_register_dsm_clock(struct int3472_di=
+screte_device *int3472)
+>  =09};
+>  =09int ret;
+> =20
+> -=09if (int3472->clock.cl)
+> -=09=09return 0; /* A GPIO controlled clk has already been registered */
+> -
+> -=09if (!acpi_check_dsm(adev->handle, &img_clk_guid, 0, BIT(1)))
+> -=09=09return 0; /* DSM clock control is not available */
+> -
+>  =09init.name =3D kasprintf(GFP_KERNEL, "%s-clk", acpi_dev_name(adev));
+>  =09if (!init.name)
+>  =09=09return -ENOMEM;
+> @@ -161,51 +155,26 @@ int skl_int3472_register_dsm_clock(struct int3472_d=
+iscrete_device *int3472)
+>  =09return ret;
+>  }
+> =20
+> +int skl_int3472_register_dsm_clock(struct int3472_discrete_device *int34=
+72)
+> +{
+> +=09if (int3472->clock.cl)
+> +=09=09return 0; /* A GPIO controlled clk has already been registered */
+> +
+> +=09if (!acpi_check_dsm(int3472->adev->handle, &img_clk_guid, 0, BIT(1)))
+> +=09=09return 0; /* DSM clock control is not available */
+> +
+> +=09return skl_int3472_register_clock(int3472);
+> +}
+> +
+>  int skl_int3472_register_gpio_clock(struct int3472_discrete_device *int3=
+472,
+>  =09=09=09=09    struct gpio_desc *gpio)
+>  {
+> -=09struct clk_init_data init =3D {
+> -=09=09.ops =3D &skl_int3472_clock_ops,
+> -=09=09.flags =3D CLK_GET_RATE_NOCACHE,
+> -=09};
+> -=09int ret;
+> -
+>  =09if (int3472->clock.cl)
+>  =09=09return -EBUSY;
+> =20
+>  =09int3472->clock.ena_gpio =3D gpio;
+> =20
+> -=09init.name =3D kasprintf(GFP_KERNEL, "%s-clk",
+> -=09=09=09      acpi_dev_name(int3472->adev));
+> -=09if (!init.name)
+> -=09=09return -ENOMEM;
+> -
+> -=09int3472->clock.frequency =3D skl_int3472_get_clk_frequency(int3472);
+> -
+> -=09int3472->clock.clk_hw.init =3D &init;
+> -=09int3472->clock.clk =3D clk_register(&int3472->adev->dev,
+> -=09=09=09=09=09  &int3472->clock.clk_hw);
+> -=09if (IS_ERR(int3472->clock.clk)) {
+> -=09=09ret =3D PTR_ERR(int3472->clock.clk);
+> -=09=09goto out_free_init_name;
+> -=09}
+> -
+> -=09int3472->clock.cl =3D clkdev_create(int3472->clock.clk, NULL,
+> -=09=09=09=09=09  int3472->sensor_name);
+> -=09if (!int3472->clock.cl) {
+> -=09=09ret =3D -ENOMEM;
+> -=09=09goto err_unregister_clk;
+> -=09}
+> -
+> -=09kfree(init.name);
+> -=09return 0;
+> -
+> -err_unregister_clk:
+> -=09clk_unregister(int3472->clock.clk);
+> -out_free_init_name:
+> -=09kfree(init.name);
+> -
+> -=09return ret;
+> +=09return skl_int3472_register_clock(int3472);
+>  }
+> =20
+>  void skl_int3472_unregister_clock(struct int3472_discrete_device *int347=
+2)
+>=20
 
+Reviewed-by: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
+
+To get rid of a few kfree()s, one could consider this additional cleanup=20
+as a separate patch:
+
+=09char *name __free(kfree) =3D kasprintf(...);
+=09if (!name)
+=09=09return -ENOMEM;
+
+=09init.name =3D name;
+
+(FYI, I won't have time to go through rest of the patch in this series=20
+today.)
+
+--=20
+ i.
+--8323328-1823117670-1744894320=:939--
 
