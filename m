@@ -1,72 +1,72 @@
-Return-Path: <linux-media+bounces-30425-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30426-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 538B0A914A9
-	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 09:02:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49667A914A8
+	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 09:02:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 38E307AE480
-	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 07:00:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 39DCD176706
+	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 07:02:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43DC021A431;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A4852185BE;
 	Thu, 17 Apr 2025 07:01:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="j3tExCs4"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q+cv0PQj"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A6412185BE
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5028218EBF
 	for <linux-media@vger.kernel.org>; Thu, 17 Apr 2025 07:01:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744873313; cv=none; b=pIjRfLxkm/i+nEbE3CGIot5HoT23RomnXUrrJ/fzfiDoRp06IQOQoF9SO/NZSTqO8wRGDZ1bIuIpYVURE8cvtKLWvjYyw7kD9qGIl/ROoy0+ETziEZrz+h3XDmJZTtpqo16rK9GYuLDFRGAy2GQ7M/ItQCnUj1XIEwlsejERvg4=
+	t=1744873314; cv=none; b=VCaIXFabtd6y1z8/1j2c1WA10HNNIXCppjHuJVwtdNcK1CD3Emv4qgYU4so5c2UbAzB7XFZnWzOqmi4USPcatGcr057agmcKCNcdWsLFqLzenxdaQ1BFWFeICPcSy1D52wQmhSlRv5OJVaOBdMozuibZJoSxLER7pmUrM3rLdHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744873313; c=relaxed/simple;
-	bh=uV9xtJ5sBM40CU/YXcWZBk7jQdhenEQ4GHd3+QbypWA=;
+	s=arc-20240116; t=1744873314; c=relaxed/simple;
+	bh=/CwgvFAPc3Fp/Ke7HXxooCRhHk8Opl9HiU7HfATjmu4=;
 	h=From:To:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=lRmx9/UYlgwzUhFpFFjhfSV6UkoqQyenfb7YNg/uLqwEL3YgSGvMiqRuqkGDUsszsGAkfa49aQrwAI7EcSs/jUq2h57KfnjTsqa3hE827qvZjl7ofZ0FmQerDd3KEaliXoQMqFKLGB+fktKENMFajtDbWpchWhtE5sjhZyBPNV8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=j3tExCs4; arc=none smtp.client-ip=192.198.163.19
+	 MIME-Version; b=SS5qVu8iBcBk4Y1B7q80p+N/lNSHc0Zd7Y8hBbqZXbCEdfL3z60SyCD7n51Z7Sg7cvs019vmjmG1AQoVBPaLTNQNblo8dJyWb5R4LaMeueZd0oILuB9owQTMtP0LYTTzG1wWqDVmXF11t77iHCsH61x7K2S26FEAd5Gf9JOEpzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q+cv0PQj; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744873312; x=1776409312;
+  t=1744873313; x=1776409313;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=uV9xtJ5sBM40CU/YXcWZBk7jQdhenEQ4GHd3+QbypWA=;
-  b=j3tExCs4lIGvbLpp1Y8ZecmZ0B3IzNUAzT/s5arjY03onfNscBQfPLFG
-   93v6J27wuihO0Ca+VhBCjrGUI8Atvx125XcyEXV1LgUDV4twQxbW7T8lf
-   g9irc9CnA2hb7T68szKRKbpIMWgZqeTU2hot2gZETbkI4lxD3E9+bqAus
-   5ZYda/uDMvOzmBSnXMQ6FD3n4v0GDPup28wQPK/EcR4d+gY4qteNFY0hx
-   NnpeSVoarHrDEnzyH99U9k6Zul3ClqzWX7Y1V7r+rO3yWBsDojr6XNUER
-   ILrbM0FAxI7kF15q9bTN/cWLkQJHArDW08SIztqhvK+N2wvewAT+cqj7D
+  bh=/CwgvFAPc3Fp/Ke7HXxooCRhHk8Opl9HiU7HfATjmu4=;
+  b=Q+cv0PQjtIOm0iva50HXoWzF1GcAdY07dNNsmMYq/VkqSm52UQQpKo7J
+   hkiBnEfkBTTfooAgs/OnqKYvx4XeKhGhDoeDV9iOEaD5llyqQzGZ3W9tL
+   0WUvcZtAmz6dzyxBmHHOCi5ArQJHyfulIJADeb3djfZLX4h4JdQc4Io1w
+   mRLLZxR52a3KCGusR4Tbnjyg6aJhr70pGXQZw9UufSQ9Vbt+Pafr6NqSZ
+   TsOFM8sPzbOJsPgHm+Twd6Bjlb2/8AXmoJzMo5AJj2UBpoehok6I2IQGp
+   9Y9JWoUFcrB9TjYtFxBaWjsGv3z79CgXVQvqkF+OHa+P3DQNmHXJvB51w
    Q==;
-X-CSE-ConnectionGUID: HDiBFJ+eTD6A3AbbE863ew==
-X-CSE-MsgGUID: M4OF7I5IRC+fQGN8H1+BTw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="45580985"
+X-CSE-ConnectionGUID: llWqysI1TfKL2WHWMu4XNQ==
+X-CSE-MsgGUID: POtJ8qLKQJ+07j1ySdjQxQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="45580987"
 X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; 
-   d="scan'208";a="45580985"
+   d="scan'208";a="45580987"
 Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 00:01:51 -0700
-X-CSE-ConnectionGUID: 8uJXmOKjRc27tuZBulYxwA==
-X-CSE-MsgGUID: vvr1FnYaRL2DlZfZ/y7ZKg==
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 00:01:52 -0700
+X-CSE-ConnectionGUID: TM1jjJ33SjmXM1nNUeyTrg==
+X-CSE-MsgGUID: P2zNPkd6QoGgvH1U6BaDZw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; 
-   d="scan'208";a="135883749"
+   d="scan'208";a="135883753"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 00:01:50 -0700
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 00:01:51 -0700
 Received: from svinhufvud.lan (maa-artisokka.localdomain [192.168.240.50])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 9862C1203F8
-	for <linux-media@vger.kernel.org>; Thu, 17 Apr 2025 10:01:47 +0300 (EEST)
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 52C791205A3
+	for <linux-media@vger.kernel.org>; Thu, 17 Apr 2025 10:01:48 +0300 (EEST)
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
-Subject: [PATCH 4/5] =?UTF-8?q?media:=20ccs:=20Remove=20I=C2=B2C=20write?= =?UTF-8?q?=20retry=20hack?=
-Date: Thu, 17 Apr 2025 10:01:43 +0300
-Message-Id: <20250417070144.130199-5-sakari.ailus@linux.intel.com>
+Subject: [PATCH 5/5] media: ccs: Don't complain about lack of quirks
+Date: Thu, 17 Apr 2025 10:01:44 +0300
+Message-Id: <20250417070144.130199-6-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250417070144.130199-1-sakari.ailus@linux.intel.com>
 References: <20250417070144.130199-1-sakari.ailus@linux.intel.com>
@@ -76,50 +76,31 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The I²C retry hack has been there in order to address transient I²C
-register write access issues on a few very old sensors and possibly it has
-addressed also first I²C access problems (device not responding until a
-certain amount of time has passed) but that is now separately handled. The
-retry hack has a good potential for introducing hard to debug problems in
-updating sensor settings while streaming. Remove it and instead pass those
-rare errors to the user space -- which is also what virtually all other
-drivers do.
+Generally any deviance from the standard is handled via CCS static data
+nowadays and so not having quirks is expected. Don't warn about it.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/ccs/ccs-reg-access.c | 9 +--------
- 1 file changed, 1 insertion(+), 8 deletions(-)
+ drivers/media/i2c/ccs/ccs-core.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/media/i2c/ccs/ccs-reg-access.c b/drivers/media/i2c/ccs/ccs-reg-access.c
-index a696a0ec8ff5..fd36889ccc1d 100644
---- a/drivers/media/i2c/ccs/ccs-reg-access.c
-+++ b/drivers/media/i2c/ccs/ccs-reg-access.c
-@@ -210,7 +210,6 @@ int ccs_read_addr_noconv(struct ccs_sensor *sensor, u32 reg, u32 *val)
-  */
- int ccs_write_addr(struct ccs_sensor *sensor, u32 reg, u32 val)
- {
--	unsigned int retries = 10;
- 	int rval;
+diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+index d5c369bbb1b6..89416afea26e 100644
+--- a/drivers/media/i2c/ccs/ccs-core.c
++++ b/drivers/media/i2c/ccs/ccs-core.c
+@@ -2853,10 +2853,6 @@ static int ccs_identify_module(struct ccs_sensor *sensor)
+ 		break;
+ 	}
  
- 	rval = ccs_call_quirk(sensor, reg_access, true, &reg, &val);
-@@ -219,13 +218,7 @@ int ccs_write_addr(struct ccs_sensor *sensor, u32 reg, u32 val)
- 	if (rval < 0)
- 		return rval;
- 
--	rval = 0;
--	do {
--		if (cci_write(sensor->regmap, reg, val, &rval))
--			fsleep(1000);
--	} while (rval && --retries);
+-	if (i >= ARRAY_SIZE(ccs_module_idents))
+-		dev_warn(&client->dev,
+-			 "no quirks for this module; let's hope it's fully compliant\n");
 -
--	return rval;
-+	return cci_write(sensor->regmap, reg, val, NULL);
- }
+ 	dev_dbg(&client->dev, "the sensor is called %s\n", minfo->name);
  
- #define MAX_WRITE_LEN	32U
+ 	return 0;
 -- 
 2.39.5
 
