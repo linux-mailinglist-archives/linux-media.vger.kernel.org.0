@@ -1,269 +1,210 @@
-Return-Path: <linux-media+bounces-30489-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30490-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F059DA923AC
-	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 19:15:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A370CA92622
+	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 20:10:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 783388A371E
-	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 17:15:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3A07A1B62955
+	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 18:10:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0D6D2566DF;
-	Thu, 17 Apr 2025 17:14:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FAB2255E20;
+	Thu, 17 Apr 2025 18:09:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="EdypNEHj"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WFgHzqre"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A0D8255E3E;
-	Thu, 17 Apr 2025 17:14:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3070618C034
+	for <linux-media@vger.kernel.org>; Thu, 17 Apr 2025 18:09:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744910080; cv=none; b=QwN8STp2hOkOqiGSx0nOtj8yfUgmZiaFKIyjXuvBtfFhHwoyjk9mZNtqu8om0Jba16RH25fq2VkSdul0CTSWiLeFnjZLEJZcXeKW8LUeF1w84EMkRGvRTfog4MtGWDFKGYksxrgt2C3gn4mMk8KQsLAWj+fsS8Gj2WaJHbP1Ul0=
+	t=1744913393; cv=none; b=VGGCVjxY9M+MCZp/KR4TGQSsbsbGjz/9oeF7bS/FBNppAQN1f47oSkhPIb5hW2/NOUqugg8ir1jfvSfmpCR7+/yeOHhsSUaAp3C06RJIef7ah7MpIuPNaUQy3nMcGNMRgvxv4kKyOZ1BSM32BhSS/qgyvkkFRq/CjEZRdoNZ0Ew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744910080; c=relaxed/simple;
-	bh=PnQE7IxGhc+exbnpZE9yRohxe4nolMkXjVGkKl9oPI4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=X2b5VicLGGS8Q/Gp0S0F5IidJHQZI9fSb8kJjrqTBe/Nc2tmptMpN6rOw9VuUgjPIGd932oNiOsDUigNFeHrZtD+Nk1r9ybCJiDlKQX4296LAPobQhrBROMj4sCKl56Bo+zWlSDrq40NRHKZs3AV47ujm3niDDfSuQp9hX1k7Mw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=EdypNEHj; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1744910076;
-	bh=PnQE7IxGhc+exbnpZE9yRohxe4nolMkXjVGkKl9oPI4=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=EdypNEHjJb3Bp3YRYw8OeMtcpoh6JjNhiHK+jOUS1FnsVCU9VA0UArZGPsVRchzmh
-	 btJc5jTFL8za3ghL3k3wMa6i+9E0kv5hCbASw2dNnosg566rss1F0cEo/Fa24YgHue
-	 NUY5thdPt6VObpNv80Xz4nur7eLrDaNENuj0PoYTMj7dBCE0lfRiltNuK+tZux8sjV
-	 /Hn1hrPEIG8sNzB6nUtLDhBrmiyAF7IWmY29lFB/8ZrCtTHW7Y73vvsTSYtZmV62eg
-	 ylsR9aSEYJbpMdGze0DrrPf3cRAYXv+ncRMumrsCBamxKgXQ04uVjq/xWKdTeE+uVQ
-	 fUBhMSHGEMJQw==
-Received: from [192.168.13.3] (unknown [IPv6:2606:6d00:15:9913::c73])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 680B017E3655;
-	Thu, 17 Apr 2025 19:14:35 +0200 (CEST)
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Date: Thu, 17 Apr 2025 13:14:25 -0400
-Subject: [PATCH v8 3/3] media: rkvdec: h264: Support High 10 and 4:2:2
- profiles
+	s=arc-20240116; t=1744913393; c=relaxed/simple;
+	bh=ivlsnWVdLRNj9s4gjaI3LC0rR9TXe+bX1acPw6E18pM=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=HUrN0CNnOrr2HTZGWvOBdJgoJJhA1FBcvuuT2BM5zPePH6UXsrnStczAyb29V1DFdLgSHqCcBCKlZjS7V8HBQWNaRmoU70JbXNcxuxIGRLFxlAGyWj1LmVA2cZ/6YQhqj+m8+7viRmf3aRAXL0ktAfbplVBV77b3wld8hmmn91c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WFgHzqre; arc=none smtp.client-ip=209.85.210.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-736c7d0d35aso1414676b3a.1
+        for <linux-media@vger.kernel.org>; Thu, 17 Apr 2025 11:09:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1744913391; x=1745518191; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=VieRPDeOIrrtofiVIhvIFRGmHPPN8m75t7mreV4JIzU=;
+        b=WFgHzqreyu53JFdl3KQCBrOw8Woe05O//FtPoUX+3sipsM6ErzUTtUh0XY9F79FsIj
+         +8M3SKcec8+6yCy6Ac2RpVhkXY7cpR5dkOEgZf8wS1lEg/WdvmUGQBI9LSMzT6DUJlVz
+         d6s/Mtkq4PaBjJufAP+UCkVjGJMHQqRkiR8JdFZs42FwdQPyGHc/0BSWfLH01cgbjES+
+         QrIXNE0fjPpEaokjjC2Cy7Q3uhytEIoR5d+8NeXf7wcjK+Ie8PPVJupWpeVOyDnUvByI
+         PjQbka2WG+84eB3CZ4MXugjUWEw+j8m6rQUOJhfpr2465K9VAGsdxZghgJZ0Q5nb8KOT
+         oMHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744913391; x=1745518191;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VieRPDeOIrrtofiVIhvIFRGmHPPN8m75t7mreV4JIzU=;
+        b=uNpYK97hGq8SeIP2OMZJdrhSNKCDwXrKKhjclh9/w107VzgefaOaffi0nl6RII47Y5
+         nAHZffuzb1zkv7SQCjnYwbO+1TqpMIKRHdk32rORVURsy6fAHTHAoj9CYRefiqSE0eb6
+         0wIMxOmdAEK8ZpDEzueLx2L1gXGWsFZwFkH5lQ8M+L3qxsTeNbV6xm0XcFyQuWVAGay2
+         Kr2v4OK5hEcQ7HWZwTbD9GmVICck4yhoK+RkSzfYorAktlIvBkQ8H8tL7/i50C4E+MAi
+         dyyAopJzObSzuLRiC/b6q9sVQJA4b2WqCvO8nsbqJ2QqnbcoBsjoa6ko9uOHu0IYRaT4
+         +Urw==
+X-Gm-Message-State: AOJu0YxcRuBURLZhpBjBU/7g5/OQGAFvcicOwvCxKR5rLyHSDRrReL1W
+	QivclrzLs3TR2m3bAu3+HUnU1Gef2tlDYyXb1iS97FUoBz8jErEr39tYejO0zHJASxHclZeagQA
+	4jOwr3iodHv8vGQ==
+X-Google-Smtp-Source: AGHT+IFiEqpxdk1THB5nHvZfHtFFffV9Gz5mbaspUCw4yzGR9KYpdaO0xsj+RVnwm9NlrjGZ6uNoUIW5ZLKdM/Y=
+X-Received: from pfvb12.prod.google.com ([2002:a05:6a00:ccc:b0:736:7120:dd05])
+ (user=tjmercier job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a00:180f:b0:736:6d4d:ffa6 with SMTP id d2e1a72fcca58-73c267e1deamr8747874b3a.15.1744913391461;
+ Thu, 17 Apr 2025 11:09:51 -0700 (PDT)
+Date: Thu, 17 Apr 2025 18:09:41 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250417-b4-rkvdec_h264_high10_and_422_support-v8-3-423fe0a2ee7e@collabora.com>
-References: <20250417-b4-rkvdec_h264_high10_and_422_support-v8-0-423fe0a2ee7e@collabora.com>
-In-Reply-To: <20250417-b4-rkvdec_h264_high10_and_422_support-v8-0-423fe0a2ee7e@collabora.com>
-To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
- Nicolas Dufresne <nicolas.dufresne@collabora.com>, kernel@collabora.com, 
- Jonas Karlman <jonas@kwiboo.se>, 
- Christopher Obbard <christopher.obbard@linaro.org>
-X-Mailer: b4 0.14.2
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.49.0.805.g082f7c87e0-goog
+Message-ID: <20250417180943.1559755-1-tjmercier@google.com>
+Subject: [PATCH] dma-buf: system_heap: No separate allocation for attachment sg_tables
+From: "T.J. Mercier" <tjmercier@google.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
+	"=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Jonas Karlman <jonas@kwiboo.se>
+struct dma_heap_attachment is a separate allocation from the struct
+sg_table it contains, but there is no reason for this. Let's use the
+slab allocator just once instead of twice for dma_heap_attachment.
 
-Add support and enable decoding of H264 High 10 and 4:2:2 profiles.
-
-Decoded CAPTURE buffer width is aligned to 64 pixels to accommodate HW
-requirement of 10-bit format buffers, fixes decoding of all the 4:2:2
-and 10bit 4:2:2 flusters tests except two stream that present some
-visual artifacts.
-
-- Hi422FREXT17_SONY_A
-- Hi422FREXT19_SONY_A
-
-The get_image_fmt() ops is implemented to select an image format
-required for the provided SPS control, and returns RKVDEC_IMG_FMT_ANY
-for other controls.
-
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Tested-by: Christopher Obbard <chris.obbard@collabora.com>
-Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Signed-off-by: T.J. Mercier <tjmercier@google.com>
 ---
- drivers/staging/media/rkvdec/rkvdec-h264.c | 37 ++++++++++++++++++++++-------
- drivers/staging/media/rkvdec/rkvdec.c      | 38 +++++++++++++++++++++++-------
- drivers/staging/media/rkvdec/rkvdec.h      |  3 +++
- 3 files changed, 60 insertions(+), 18 deletions(-)
+ drivers/dma-buf/heaps/system_heap.c | 43 ++++++++++++-----------------
+ 1 file changed, 17 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-index 8bce8902b8dda39bb2058c8504bd52ccae6b4204..d14b4d173448dbcce4ab978a83806064b100ca24 100644
---- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-+++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-@@ -1027,24 +1027,42 @@ static int rkvdec_h264_adjust_fmt(struct rkvdec_ctx *ctx,
- 	return 0;
+diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+index 26d5dc89ea16..bee10c400cf0 100644
+--- a/drivers/dma-buf/heaps/system_heap.c
++++ b/drivers/dma-buf/heaps/system_heap.c
+@@ -35,7 +35,7 @@ struct system_heap_buffer {
+ 
+ struct dma_heap_attachment {
+ 	struct device *dev;
+-	struct sg_table *table;
++	struct sg_table table;
+ 	struct list_head list;
+ 	bool mapped;
+ };
+@@ -54,29 +54,22 @@ static gfp_t order_flags[] = {HIGH_ORDER_GFP, HIGH_ORDER_GFP, LOW_ORDER_GFP};
+ static const unsigned int orders[] = {8, 4, 0};
+ #define NUM_ORDERS ARRAY_SIZE(orders)
+ 
+-static struct sg_table *dup_sg_table(struct sg_table *table)
++static int dup_sg_table(struct sg_table *from, struct sg_table *to)
+ {
+-	struct sg_table *new_table;
+-	int ret, i;
+ 	struct scatterlist *sg, *new_sg;
++	int ret, i;
+ 
+-	new_table = kzalloc(sizeof(*new_table), GFP_KERNEL);
+-	if (!new_table)
+-		return ERR_PTR(-ENOMEM);
+-
+-	ret = sg_alloc_table(new_table, table->orig_nents, GFP_KERNEL);
+-	if (ret) {
+-		kfree(new_table);
+-		return ERR_PTR(-ENOMEM);
+-	}
++	ret = sg_alloc_table(to, from->orig_nents, GFP_KERNEL);
++	if (ret)
++		return ret;
+ 
+-	new_sg = new_table->sgl;
+-	for_each_sgtable_sg(table, sg, i) {
++	new_sg = to->sgl;
++	for_each_sgtable_sg(from, sg, i) {
+ 		sg_set_page(new_sg, sg_page(sg), sg->length, sg->offset);
+ 		new_sg = sg_next(new_sg);
+ 	}
+ 
+-	return new_table;
++	return 0;
  }
  
-+static enum rkvdec_image_fmt rkvdec_h264_get_image_fmt(struct rkvdec_ctx *ctx,
-+						       struct v4l2_ctrl *ctrl)
-+{
-+	const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
-+
-+	if (ctrl->id != V4L2_CID_STATELESS_H264_SPS)
-+		return RKVDEC_IMG_FMT_ANY;
-+
-+	if (sps->bit_depth_luma_minus8 == 0) {
-+		if (sps->chroma_format_idc == 2)
-+			return RKVDEC_IMG_FMT_422_8BIT;
-+		else
-+			return RKVDEC_IMG_FMT_420_8BIT;
-+	} else if (sps->bit_depth_luma_minus8 == 2) {
-+		if (sps->chroma_format_idc == 2)
-+			return RKVDEC_IMG_FMT_422_10BIT;
-+		else
-+			return RKVDEC_IMG_FMT_420_10BIT;
-+	}
-+
-+	return RKVDEC_IMG_FMT_ANY;
-+}
-+
- static int rkvdec_h264_validate_sps(struct rkvdec_ctx *ctx,
- 				    const struct v4l2_ctrl_h264_sps *sps)
+ static int system_heap_attach(struct dma_buf *dmabuf,
+@@ -84,19 +77,18 @@ static int system_heap_attach(struct dma_buf *dmabuf,
  {
- 	unsigned int width, height;
+ 	struct system_heap_buffer *buffer = dmabuf->priv;
+ 	struct dma_heap_attachment *a;
+-	struct sg_table *table;
++	int ret;
  
--	/*
--	 * TODO: The hardware supports 10-bit and 4:2:2 profiles,
--	 * but it's currently broken in the driver.
--	 * Reject them for now, until it's fixed.
--	 */
--	if (sps->chroma_format_idc > 1)
--		/* Only 4:0:0 and 4:2:0 are supported */
-+	if (sps->chroma_format_idc > 2)
-+		/* Only 4:0:0, 4:2:0 and 4:2:2 are supported */
- 		return -EINVAL;
- 	if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
- 		/* Luma and chroma bit depth mismatch */
- 		return -EINVAL;
--	if (sps->bit_depth_luma_minus8 != 0)
--		/* Only 8-bit is supported */
-+	if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
-+		/* Only 8-bit and 10-bit is supported */
- 		return -EINVAL;
+ 	a = kzalloc(sizeof(*a), GFP_KERNEL);
+ 	if (!a)
+ 		return -ENOMEM;
  
- 	width = (sps->pic_width_in_mbs_minus1 + 1) * 16;
-@@ -1190,4 +1208,5 @@ const struct rkvdec_coded_fmt_ops rkvdec_h264_fmt_ops = {
- 	.stop = rkvdec_h264_stop,
- 	.run = rkvdec_h264_run,
- 	.try_ctrl = rkvdec_h264_try_ctrl,
-+	.get_image_fmt = rkvdec_h264_get_image_fmt,
- };
-diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-index db01cc64f1ba2dcd5914537db41e2f51f454b186..d3485a591fc84c6aa506fc0371677f537fe20267 100644
---- a/drivers/staging/media/rkvdec/rkvdec.c
-+++ b/drivers/staging/media/rkvdec/rkvdec.c
-@@ -191,9 +191,10 @@ static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
- 	{
- 		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_PROFILE,
- 		.cfg.min = V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE,
--		.cfg.max = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
-+		.cfg.max = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_422_INTRA,
- 		.cfg.menu_skip_mask =
--			BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED),
-+			BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED) |
-+			BIT(V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_444_PREDICTIVE),
- 		.cfg.def = V4L2_MPEG_VIDEO_H264_PROFILE_MAIN,
- 	},
- 	{
-@@ -208,11 +209,23 @@ static const struct rkvdec_ctrls rkvdec_h264_ctrls = {
- 	.num_ctrls = ARRAY_SIZE(rkvdec_h264_ctrl_descs),
- };
- 
--static const struct rkvdec_decoded_fmt_desc rkvdec_h264_vp9_decoded_fmts[] = {
-+static const struct rkvdec_decoded_fmt_desc rkvdec_h264_decoded_fmts[] = {
- 	{
- 		.fourcc = V4L2_PIX_FMT_NV12,
- 		.image_fmt = RKVDEC_IMG_FMT_420_8BIT,
- 	},
-+	{
-+		.fourcc = V4L2_PIX_FMT_NV15,
-+		.image_fmt = RKVDEC_IMG_FMT_420_10BIT,
-+	},
-+	{
-+		.fourcc = V4L2_PIX_FMT_NV16,
-+		.image_fmt = RKVDEC_IMG_FMT_422_8BIT,
-+	},
-+	{
-+		.fourcc = V4L2_PIX_FMT_NV20,
-+		.image_fmt = RKVDEC_IMG_FMT_422_10BIT,
-+	},
- };
- 
- static const struct rkvdec_ctrl_desc rkvdec_vp9_ctrl_descs[] = {
-@@ -235,21 +248,28 @@ static const struct rkvdec_ctrls rkvdec_vp9_ctrls = {
- 	.num_ctrls = ARRAY_SIZE(rkvdec_vp9_ctrl_descs),
- };
- 
-+static const struct rkvdec_decoded_fmt_desc rkvdec_vp9_decoded_fmts[] = {
-+	{
-+		.fourcc = V4L2_PIX_FMT_NV12,
-+		.image_fmt = RKVDEC_IMG_FMT_420_8BIT,
-+	},
-+};
-+
- static const struct rkvdec_coded_fmt_desc rkvdec_coded_fmts[] = {
- 	{
- 		.fourcc = V4L2_PIX_FMT_H264_SLICE,
- 		.frmsize = {
--			.min_width = 48,
-+			.min_width = 64,
- 			.max_width = 4096,
--			.step_width = 16,
-+			.step_width = 64,
- 			.min_height = 48,
- 			.max_height = 2560,
- 			.step_height = 16,
- 		},
- 		.ctrls = &rkvdec_h264_ctrls,
- 		.ops = &rkvdec_h264_fmt_ops,
--		.num_decoded_fmts = ARRAY_SIZE(rkvdec_h264_vp9_decoded_fmts),
--		.decoded_fmts = rkvdec_h264_vp9_decoded_fmts,
-+		.num_decoded_fmts = ARRAY_SIZE(rkvdec_h264_decoded_fmts),
-+		.decoded_fmts = rkvdec_h264_decoded_fmts,
- 		.subsystem_flags = VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
- 	},
- 	{
-@@ -264,8 +284,8 @@ static const struct rkvdec_coded_fmt_desc rkvdec_coded_fmts[] = {
- 		},
- 		.ctrls = &rkvdec_vp9_ctrls,
- 		.ops = &rkvdec_vp9_fmt_ops,
--		.num_decoded_fmts = ARRAY_SIZE(rkvdec_h264_vp9_decoded_fmts),
--		.decoded_fmts = rkvdec_h264_vp9_decoded_fmts,
-+		.num_decoded_fmts = ARRAY_SIZE(rkvdec_vp9_decoded_fmts),
-+		.decoded_fmts = rkvdec_vp9_decoded_fmts,
+-	table = dup_sg_table(&buffer->sg_table);
+-	if (IS_ERR(table)) {
++	ret = dup_sg_table(&buffer->sg_table, &a->table);
++	if (ret) {
+ 		kfree(a);
+-		return -ENOMEM;
++		return ret;
  	}
- };
  
-diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
-index e466a2753ccfc13738e0a672bc578e521af2c3f2..9a9f4fced7a184b952d341d75c7faedaa75163d6 100644
---- a/drivers/staging/media/rkvdec/rkvdec.h
-+++ b/drivers/staging/media/rkvdec/rkvdec.h
-@@ -80,6 +80,9 @@ struct rkvdec_coded_fmt_ops {
- enum rkvdec_image_fmt {
- 	RKVDEC_IMG_FMT_ANY = 0,
- 	RKVDEC_IMG_FMT_420_8BIT,
-+	RKVDEC_IMG_FMT_420_10BIT,
-+	RKVDEC_IMG_FMT_422_8BIT,
-+	RKVDEC_IMG_FMT_422_10BIT,
- };
+-	a->table = table;
+ 	a->dev = attachment->dev;
+ 	INIT_LIST_HEAD(&a->list);
+ 	a->mapped = false;
+@@ -120,8 +112,7 @@ static void system_heap_detach(struct dma_buf *dmabuf,
+ 	list_del(&a->list);
+ 	mutex_unlock(&buffer->lock);
  
- struct rkvdec_decoded_fmt_desc {
+-	sg_free_table(a->table);
+-	kfree(a->table);
++	sg_free_table(&a->table);
+ 	kfree(a);
+ }
+ 
+@@ -129,7 +120,7 @@ static struct sg_table *system_heap_map_dma_buf(struct dma_buf_attachment *attac
+ 						enum dma_data_direction direction)
+ {
+ 	struct dma_heap_attachment *a = attachment->priv;
+-	struct sg_table *table = a->table;
++	struct sg_table *table = &a->table;
+ 	int ret;
+ 
+ 	ret = dma_map_sgtable(attachment->dev, table, direction, 0);
+@@ -164,7 +155,7 @@ static int system_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
+ 	list_for_each_entry(a, &buffer->attachments, list) {
+ 		if (!a->mapped)
+ 			continue;
+-		dma_sync_sgtable_for_cpu(a->dev, a->table, direction);
++		dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
+ 	}
+ 	mutex_unlock(&buffer->lock);
+ 
+@@ -185,7 +176,7 @@ static int system_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
+ 	list_for_each_entry(a, &buffer->attachments, list) {
+ 		if (!a->mapped)
+ 			continue;
+-		dma_sync_sgtable_for_device(a->dev, a->table, direction);
++		dma_sync_sgtable_for_device(a->dev, &a->table, direction);
+ 	}
+ 	mutex_unlock(&buffer->lock);
+ 
 
+base-commit: 8ffd015db85fea3e15a77027fda6c02ced4d2444
 -- 
-2.49.0
+2.49.0.805.g082f7c87e0-goog
 
 
