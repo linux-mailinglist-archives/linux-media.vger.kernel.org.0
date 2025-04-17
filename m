@@ -1,57 +1,57 @@
-Return-Path: <linux-media+bounces-30504-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30502-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49A6CA92CE4
-	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 23:58:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5141DA92CE0
+	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 23:58:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9B25419E7DA5
-	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 21:58:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7030A4A21C9
+	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 21:58:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F250C217F36;
-	Thu, 17 Apr 2025 21:58:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B87D211A2A;
+	Thu, 17 Apr 2025 21:58:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="j2+/y0QZ"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="c6uASypS"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FEDD207A11;
-	Thu, 17 Apr 2025 21:58:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AED6620E310;
+	Thu, 17 Apr 2025 21:58:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744927103; cv=none; b=Z1NiUiP9aLZ6Zc+wwSXqCDzw7yUpoYBsvW0+9o/5SugN8u/qGk11LQbewN/LZltC3K7BO6rFHakSYPv64rva68fAqff7JDorHjVIw5VWDsfzmxol9U2d2YJ1hSHSPL2PqUwIPGEQqoKqs7v0IoRllEB8UoLomFUorPbS/X8M8Fk=
+	t=1744927101; cv=none; b=mtU9DhkL8Km6/IwM3oYySLt3ey7HYtnitfIQkMBGffj7BnPnNm42xx7tW0Zx9A/rl/TGTQ4+SiuhhY9GBUEpGi4bn0YoJsYWscO2CuuKvc0j6Vmp3EP6Y1Ze+JAku4W8WY9tHktfSjwlA2luEPn7qpCciBkcBUqb9aUhRNk+JQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744927103; c=relaxed/simple;
-	bh=zh8TkzCK9EqLdvUCPON67laOmeDwj6HXLIzNqsIYSgU=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=uL0rA9Pc17rqH4sa7t0AkHFOZzaAvi5FdjONIY9C91o3WNkFje0HqBHXawtyUGzazgI3Ev8ZD9Y5DNqWm4RTIzqD8Cs02kffTaalLMxw1mIA9irkM2hGLXSmmcrojctZjJRqHCxUQq8eGiTGlMwljY8e8Dd6k1TkUkjz2uGdHOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=j2+/y0QZ; arc=none smtp.client-ip=148.251.105.195
+	s=arc-20240116; t=1744927101; c=relaxed/simple;
+	bh=mznnJHuLbKpYgm+SG5uyUsVWXj7gHH37CxevZHUxBVI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=L9S1YioAfQWME9SOI/lnpjfJ+Rb6gHjFiAD0jHXV2PFti2u3LBxhbC6H5ExyGsjkq8fygaDX6XFN3RwCu6FP0pbbXFGlNd03kCgHKcbXsCW2sERy82Rjtkvx0ZFcRUFrLMnmAUTcyD+UmXibf8Zj8lAf9CKQHN1iPCCcUWe30SA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=c6uASypS; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1744927096;
-	bh=zh8TkzCK9EqLdvUCPON67laOmeDwj6HXLIzNqsIYSgU=;
-	h=From:Subject:Date:To:Cc:From;
-	b=j2+/y0QZ7HjiP/rEdf1NlrDhBGgSwG/Ey/EwJWy0PDb09gxXSwGachDL+ficYHGrk
-	 EpsVko1BzpC/asv0jxXA1+StDMDl17SQcT3hWw4/QfpO91p0FLKT5RbDyj2RDsVmUh
-	 bsMtwzXggDKSqDdK5OSR00YabnWgGurZe/xIGYVEGwMplVJGLkawQvyqtzDyUJQxhf
-	 D9XZm8C3su2To56xtUFIVqSLvbt7KvwBKM/HAW2iXmV7VEnThbp5ib1SUIlocZViy6
-	 vQVnevyQ7g4EsMZua16JdM/xYlLJ/dERTs0/1pqT+SyzkSjBNrfo3tB/SVcQKtjwYs
-	 EN5PWgiJdPkWA==
+	s=mail; t=1744927098;
+	bh=mznnJHuLbKpYgm+SG5uyUsVWXj7gHH37CxevZHUxBVI=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=c6uASypSYxZwTlVkWgFrq09bK5l2wonvRONdRYiABXANdRFuPQo3nE+t2Dg9O/86f
+	 OC/UZTO/Zm6pvu+pIx3bBMmhRNNCz0ZGuO8nKXUUhdDpcUpm/4Sr9ovm4ZQ9aErtq7
+	 79nplOIfwe6wuPGymnIzZ1boaWiO+PcLyDMDAq2gJZAjNc9jDUzLtVqD2a8dSxVzHx
+	 DAroQu/qa50rppWH0u0DDyKtJA1HBg5ETdOppe3TLq+yy38t/M5EVxS/3AZ0ltq3J4
+	 dQTxvR6+ZqcjSO0RGQelrhjE9JJ8YzSqSubET5qBilEYtyr/0tgoEGwXRa32SlWYO4
+	 5iHxsw96o1kag==
 Received: from [192.168.13.3] (unknown [IPv6:2606:6d00:15:9913::c73])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 68C5F17E0F85;
-	Thu, 17 Apr 2025 23:58:15 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id E914817E0FA5;
+	Thu, 17 Apr 2025 23:58:16 +0200 (CEST)
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Subject: [PATCH v9 0/4] media: rkvdec: Add H.264 High 10 and 4:2:2 profile
- support
-Date: Thu, 17 Apr 2025 17:57:57 -0400
-Message-Id: <20250417-b4-rkvdec_h264_high10_and_422_support-v9-0-0e8738ccb46b@collabora.com>
+Date: Thu, 17 Apr 2025 17:57:58 -0400
+Subject: [PATCH v9 1/4] media: rkvdec: h264: Limit minimum profile to
+ constrained baseline
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,143 +60,46 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAGV5AWgC/43NSw6DIBSF4a0YxqWBKz7aUffRGIJ4FVIVA5a0M
- e691KTzDv8zON9GAnqLgVyzjXiMNlg3p7icMqKNmgektktNgEHBBC9pK6h/xA61NFAKaexgOJN
- q7qQAkOG5LM6vNK+5qgQvOC+BpK/FY29fh3NvUhsbVuffBxvr7/oTqj+FWFNGBeQ9MgWIFd60G
- 0fVOq/O2k2k2ff9A6hsQEPeAAAA
-X-Change-ID: 20250416-b4-rkvdec_h264_high10_and_422_support-381a74151162
+Message-Id: <20250417-b4-rkvdec_h264_high10_and_422_support-v9-1-0e8738ccb46b@collabora.com>
+References: <20250417-b4-rkvdec_h264_high10_and_422_support-v9-0-0e8738ccb46b@collabora.com>
+In-Reply-To: <20250417-b4-rkvdec_h264_high10_and_422_support-v9-0-0e8738ccb46b@collabora.com>
 To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, 
  Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
  linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
  Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
- Sebastian Fricke <sebastian.fricke@collabora.com>, 
- Jonas Karlman <jonas@kwiboo.se>, 
- Christopher Obbard <christopher.obbard@linaro.org>
+ Sebastian Fricke <sebastian.fricke@collabora.com>
 X-Mailer: b4 0.14.2
 
-This series add H.264 High 10 and 4:2:2 profile support to the Rockchip
-Video Decoder driver.
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
 
-Patch 1 limits the minimum profile to constrained baseline due to
-unsupported features in the full baseline profile.
+Neither the hardware nor the kernel API support FMO/ASO features
+required by the full baseline profile. Therefore limit the minimum
+profile to the constrained baseline profile explicitly.
 
-Patch 2 refactors code to support filtering of CAPTURE formats based
-on the image format returned from a new get_image_fmt() ops.
-
-Patch 3 adds final bits to support H.264 High 10 and 4:2:2 profiles.
-
-Tested with Fluster on a Libre Computer Renegade Elite (RK3399).
-
-Decoder:                        GStreamer
-Commit:                         8c7ad20e4e82296ed9916f53c201e110c629f0f5
-JVT-AVC_V1:                     129/135
-JVT-FR-EXT:                     65/69
-JVT-Professional_profiles:      12/38
-JVT-MVC:                        0/20 (not supported)
-JVT-SVC:                        38/185 (temporal only)
-
-In summary, all tests that are 4:2:2 sub-sampled are now passing with
-the exception of the following that display some unexplained artifacts.
-
- - Hi422FREXT17_SONY_A
- - Hi422FREXT19_SONY_A
-
-This score also includes 4:2:0 10bit tests, that may have been reported
-as failing due to lack of userspace support for NV15 format. It also
-includes results from test suite that did not exists before (Pro, MVC
-and SVC).
-
-Changes in v9:
-- Moved v4l2_m2m_ctx init before the controls
-- Removed unneeded changes in try_ctrl ops
-- Link to v8: https://lore.kernel.org/r/20250417-b4-rkvdec_h264_high10_and_422_support-v8-0-423fe0a2ee7e@collabora.com
-
-Changes in v8:
-- Removed patches that got applied from v7
-- Move the constrained-baseline fix first
-- Move the format checks into s_ctrl only
-- Simplify the checks
-- Retest against a newer GStreamer version with NV16 and NV20 support.
-- Test against the new fluster suite Professions, SVC and MVC.
-Link to v7: https://lore.kernel.org/linux-media/20250225-rkvdec_h264_high10_and_422_support-v7-0-7992a68a4910@collabora.com/
-
-Changes in v7:
-- Split out the change with the minimum profile
-- s/v4l2_format_plane_width/v4l2_format_plane_stride/
-- Move V4L2_PIX_FMT_NV15/V4L2_PIX_FMT_NV20 documentation as suggested
-- Change return value from int to bool on rkvdec_image_fmt_match
-- Add reviewed-by tags
-Link to v6: https://lore.kernel.org/linux-media/20240909192522.1076704-1-jonas@kwiboo.se/
-
-Changes in v6:
-- Change to use fmt_idx instead of j++ tucked inside a condition (Dan)
-- Add patch to fix enumerated frame sizes returned to userspace (Alex)
-- Fluster test score is same as v4 and v5, see [4] and [5]
-Link to v5: https://lore.kernel.org/linux-media/20240618194647.742037-1-jonas@kwiboo.se/
-
-Changes in v5:
-- Drop Remove SPS validation at streaming start patch
-- Move buffer align from rkvdec_fill_decoded_pixfmt to min/step_width
-- Use correct profiles for V4L2_CID_MPEG_VIDEO_H264_PROFILE
-- Collect r-b and t-b tags
-- Fluster test score is same as v4, see [4] and [5]
-Link to v4: https://lore.kernel.org/linux-media/20231105165521.3592037-1-jonas@kwiboo.se/
-
-Changes in v4:
-- Fix failed v4l2-compliance tests related to CAPTURE queue
-- Rework CAPTURE format filter anv validate to use an image format
-- Run fluster test suite JVT-FR-EXT [4] and JVT-AVC_V1 [5]
-Link to v3: https://lore.kernel.org/linux-media/20231029183427.1781554-1-jonas@kwiboo.se/
-
-Changes in v3:
-- Drop merged patches
-- Use bpp and bpp_div instead of prior misuse of block_w/block_h
-- New patch to use values from SPS/PPS control to configure the HW
-- New patch to remove an unnecessary call to validate sps at streaming start
-- Reworked pixel format validation
-Link to v2: https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.se/
-
-Changes in v2:
-- Collect r-b tags
-- SPS pic width and height in mbs validation moved to rkvdec_try_ctrl
-- New patch to not override output buffer sizeimage
-- Reworked pixel format validation
-- Only align decoded buffer instead of changing frmsize step_width
-Link to v1: https://lore.kernel.org/linux-media/20200701215616.30874-1-jonas@kwiboo.se/
-
-To fully runtime test this series you may need FFmpeg patches from [1]
-and fluster patches from [2], this series is also available at [3].
-
-[1] https://github.com/Kwiboo/FFmpeg/commits/v4l2request-2024-v2-rkvdec/
-[2] https://github.com/Kwiboo/fluster/commits/ffmpeg-v4l2request-rkvdec/
-[3] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-10-v6/
-[4] https://gist.github.com/Kwiboo/f4ac15576b2c72887ae2bc5d58b5c865
-[5] https://gist.github.com/Kwiboo/459a1c8f1dcb56e45dc7a7a29cc28adf
-
+Suggested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
 Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 ---
-Jonas Karlman (2):
-      media: rkvdec: Add get_image_fmt ops
-      media: rkvdec: h264: Support High 10 and 4:2:2 profiles
+ drivers/staging/media/rkvdec/rkvdec.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Nicolas Dufresne (1):
-      media: rkvdec: Initialize the m2m context before the controls
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index dd7e57a902640d363d26be887cb535c2668d5b15..65c6f1d07a493e017ae941780b823d41314a49b8 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -150,7 +150,7 @@ static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
+ 	},
+ 	{
+ 		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_PROFILE,
+-		.cfg.min = V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
++		.cfg.min = V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE,
+ 		.cfg.max = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
+ 		.cfg.menu_skip_mask =
+ 			BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED),
 
-Sebastian Fricke (1):
-      media: rkvdec: h264: Limit minimum profile to constrained baseline
-
- drivers/staging/media/rkvdec/rkvdec-h264.c | 37 ++++++++++---
- drivers/staging/media/rkvdec/rkvdec.c      | 89 ++++++++++++++++++++++++------
- drivers/staging/media/rkvdec/rkvdec.h      |  5 ++
- 3 files changed, 105 insertions(+), 26 deletions(-)
----
-base-commit: 3105a6d6088a79d091990f2107f67ad7fa04ee8d
-change-id: 20250416-b4-rkvdec_h264_high10_and_422_support-381a74151162
-
-Best regards,
 -- 
-Nicolas Dufresne <nicolas.dufresne@collabora.com>
+2.49.0
 
 
