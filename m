@@ -1,73 +1,56 @@
-Return-Path: <linux-media+bounces-30392-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30393-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9378A91178
-	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 04:09:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2262A91268
+	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 06:57:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 422A61906DBC
-	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 02:09:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 73C665A11DB
+	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 04:56:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B510E1C5F0E;
-	Thu, 17 Apr 2025 02:09:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE1291DE4DC;
+	Thu, 17 Apr 2025 04:56:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="JzYLMow2"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jOzRgPEl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466D91A5B98
-	for <linux-media@vger.kernel.org>; Thu, 17 Apr 2025 02:09:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0BC7E1;
+	Thu, 17 Apr 2025 04:56:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744855760; cv=none; b=hQQ2ybQx+kbsHtDrx350FGbVt8vbrHYldLGzFYgMvlqy7nnWYyML5Mj9rJnzs3wD5aH/IBjxa1G46+B8/Xl3K9rLYcty5OymRaf1y5FjaGy7qy64eoTwUr8s/xxtgCDDUt3rC9WefD+XzLiAKxzlsrnBi0uxEbJ2raNlzWJ7FHU=
+	t=1744865815; cv=none; b=pCWvIOA6IG9oxd8zkrOgYtkv5YBfO+8KcYu3v8lxF+f+dkT2Ev95Co9lQsotpo0BOk7jRqKM1RaRXqkN3aA/bID/pd6D0nL4xwjv4QNcnBrieAzjNCPzGzC+NFO++03CDUW6uKpLxsu5IvqU+58ymS8ucrdOldEzH+mAQmhn3Vs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744855760; c=relaxed/simple;
-	bh=KSelZMOHGBCAC6ffhylcs5ml2BXN3psxianAepa1Pw0=;
+	s=arc-20240116; t=1744865815; c=relaxed/simple;
+	bh=tmm+QbmYJM9NZANVpptZlZJKOk0h1i4DjoknpPROUPw=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KAnlYW/Q+Bsa8F89YyWNZHmnQxaKl1tlvQWax15MRTYH8l/VytkpXIStGmp/17RUWlZjXO4GliCJv7XqFK+UzLNow0uTpDTPjWi326QC1XESa/S82LrYfAd/PQmbGeuzjaMB38K+yd/wV2DPmyRnx9mSg+wiSg+KUFrVZW2M+R0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=JzYLMow2; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43d5f10e1aaso33575e9.0
-        for <linux-media@vger.kernel.org>; Wed, 16 Apr 2025 19:09:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1744855756; x=1745460556; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KSelZMOHGBCAC6ffhylcs5ml2BXN3psxianAepa1Pw0=;
-        b=JzYLMow2LkLFPXSefmx1gmC72CSr7O902d+IMLLKHcYAnh4cz8Z42hzFCxR278ZFOh
-         rgTm2RhJ8s4j9zKTKcCTzvxUeqkG2ffMfGvV2NpV9o3YnmhZbd6HAWygJywKPPHOBQHT
-         v6GIose+LN7ZeN91pXPT1Szt17BECGMYNYtx6/0mCaBNr13XKGiBlBj+5a5QNHqerh+x
-         4QXhYYFltm1e2vCJOOijX/HmedyvwaQHIb4WuFedgAfA2W9bVYAgvet+0f1ILZloSDi+
-         jgdGGbsEFNJwAzwz7c5kGbLAugnCQp+WN9XRSo8wN4tV3uHaAP2EiTZbCGdRkqhwKqmI
-         TI6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744855756; x=1745460556;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KSelZMOHGBCAC6ffhylcs5ml2BXN3psxianAepa1Pw0=;
-        b=NQRluIxPxlQUSNilw9RKGbndNJS0+zvkAbjyPhRgaagyQwrFUS5vbCXR9zIb50prsj
-         6egG26vU0JhFttvFAMPa+SWJGcTqIvSyEv3OF3e5L/PjYy/Q6jCg1dyta3o9vxOqJyEw
-         Yf4jV2V1UWBAf+f+fHS6xggRbRB3FVwCwfwPPKARj0f+VyIfPX4xL6Bnev2xFGMNGDv3
-         FzH8KVyyR2ZzvmcLWBZuDgR3eHXsCqKIB3PA+iQvSvA5Spr9enfX9dLoq8xR3zp4Zpep
-         YWXC8eQjzPEUs5nubja4P+56c1H+a+ph5xs+970ym1PFnp9ipH+5b7u2oAQgmt3buvVr
-         H87g==
-X-Forwarded-Encrypted: i=1; AJvYcCXVOLgQUaU8m8LKtgGySkT5jq89vQyESqIHaTBY/rcnzQCVBAjS3LMmJMo7+AnBByjRx4PtcqfClQ1J4Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx20Cq4lJCz6sx+5UWENt3FoYRaLtpSsnQ1jM+SR5Mc7kMra4MP
-	QglNrf0K7A2ndwIJNoSo/1Q+6Soe/VWyjtKVa09QJN2ilVLIkAZOf6KOstz9VRA1L6WS1wp8c+f
-	ZqY1wR05DvI4+lqdC1eAHDj40tSZ1S9RlxkXr
-X-Gm-Gg: ASbGncuTomJDGR6K9WJBUZDRA501xs6884aS+6w3O6rzQLUazWNTv2wzoT9rTE6cN+P
-	24jrupscaywpyZk8AjsUNowxOSr3DMvewXgZhELZQaOKTDmWzDvTuFi/kP1hAgOXJv9dxIJ3Alw
-	Bsj20E8cBkK9QDHf2NyruZxNmhmZmMvI4=
-X-Google-Smtp-Source: AGHT+IFrppytZV5cSJfrYgzaifTbDrHqkypNt5Bohd7JB9cXbxaDZ8Ylu35PtX/6cVUznzvu+dDy2IZggStg9q0OeRc=
-X-Received: by 2002:a05:600c:3042:b0:439:9434:1b66 with SMTP id
- 5b1f17b1804b1-44063d2802cmr294225e9.1.1744855756423; Wed, 16 Apr 2025
- 19:09:16 -0700 (PDT)
+	 To:Cc:Content-Type; b=rWKMO0b93ZID1JEDvMH7fJCtHcYZbyaOQMzwBZS95dtijVIZ3rfWCpYsjRTKhKOhqPom2u5bLMvpksu2qCgu2Cqf/40z4Uwu8DvrjYJhH01y2FfQmRsdmaQtEM2td/CxDObXPoqr0BzY+EaTnpcyyOEwtzXND4lpuRSOs4JuEkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jOzRgPEl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63E02C4CEF5;
+	Thu, 17 Apr 2025 04:56:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744865814;
+	bh=tmm+QbmYJM9NZANVpptZlZJKOk0h1i4DjoknpPROUPw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=jOzRgPElQp93kazf5N8ZLE36wCfnQfc/BSR1PlnioJ+7xdRk/0WpJnnsRx/Qdnl3o
+	 QpoKwWCrQbBa35QDzAuN8O+WySYMdVszRRxxefobklHRgptRnAr9N/cvTItH5K3/bU
+	 PUkAcpByBZVvHhFqutwjajJg9UDcRXKrLsMR+SAhss/UbgROw+hEjVgK9P3oNEOeHl
+	 hqFVia1DUWziQGWUlU7f5L5+aDdBCeCUV1fRR3b/1zRVuKM0erDMlzF+WnAOL9rswi
+	 1fOlEWuqztK1v1I1R/zYPiqzRkkTfVsS31CyQqcwepARS0SyFv13Gals0JpgopaI0u
+	 q9VAL+9UW8ARA==
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-47663aeff1bso4087991cf.0;
+        Wed, 16 Apr 2025 21:56:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUHXMtYooPqjcEFpYqr3uxPBIN50Af2LZSdTz5pCBvMQZKHYO52O8l46WS3wD/9HDZFkGJB89d2BOej8L8=@vger.kernel.org, AJvYcCUZOFVGalkX9xDA2M+Wce5BV7WEO8xJy5m+WR84Wx24J5qkT3KCeIJuT07+XkcCszCsKA8=@vger.kernel.org, AJvYcCVB5D3V+MQ7PntTR7BPadsT+ObAgEq3O3BmHMEXJcvO7+CnURvdUO5QQy63BYn+qGa2D0oSNyj2p4s9c7AKtOxb@vger.kernel.org, AJvYcCVBO9b6sWSGaU2AsJ62NLdT/G25017EReOIUKOBnjvRtDixiydlnyXdtaZsEBrPzJqnf/XMRgt0HvzcKfN3@vger.kernel.org, AJvYcCWFzL+kqO5byZbmU+FIvOPYObCH60ll47n3yV7c74Bv5JPoiDYHMOZNKZprFXDyZuobK87necDmk7/g@vger.kernel.org
+X-Gm-Message-State: AOJu0YztLT6HEQJrAhjJigdriIjWUyTB/gkWKekWo9WFxKvNZ3eIFoF+
+	2ou4ig2wX0VCw6VpbovuQ4OdTk5dMqBcbA6Ms/v534pJPnQ+sH9NK/Nre2WjWiyCpjj0VTczQJN
+	Vygy9zfdIzgTmrAmw5fmIvkMKn8Y=
+X-Google-Smtp-Source: AGHT+IFj9gpXjOfNBYbsZP+Vn5QpEwyj6N1RuCl0FwfJ9EBQ3/JCBLMKfIVXQXchSLXzLc6c/p6NnT4JZBn0Ik2MUXE=
+X-Received: by 2002:a05:622a:650:b0:474:db2f:bd32 with SMTP id
+ d75a77b69052e-47ad810c870mr59493241cf.38.1744865813457; Wed, 16 Apr 2025
+ 21:56:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -78,14 +61,16 @@ References: <20250414225227.3642618-1-tjmercier@google.com>
  <20250414225227.3642618-3-tjmercier@google.com> <CAPhsuW6sgGvjeAcciskmGO7r6+eeDo_KVS3y7C8fCDPptzCebw@mail.gmail.com>
  <CABdmKX0bgxZFYuvQvQPK0AnAHEE3FebY_eA1+Vo=ScH1MbfzMg@mail.gmail.com>
  <CAPhsuW72Q2--E9tQQY8xADghTV6bYy9vHpFQoCWNh0V_QBWafA@mail.gmail.com>
- <CABdmKX1tDv3fSFURDN7=txFSbQ1xTjp8ZhLP8tFAvLcO9_-4_A@mail.gmail.com> <CAPhsuW7xvSYjWvy8K9Ev_tMwDRy2dpEiBcHYai3n-wAa0xvLow@mail.gmail.com>
-In-Reply-To: <CAPhsuW7xvSYjWvy8K9Ev_tMwDRy2dpEiBcHYai3n-wAa0xvLow@mail.gmail.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Wed, 16 Apr 2025 19:09:04 -0700
-X-Gm-Features: ATxdqUFLL37LKBoNbpt1TbRt2xDWynqShrVasUjLiM1tjzZW-eK8x-aahsy-M1I
-Message-ID: <CABdmKX1p0KgbipTSW1Ywi4bTBabQmsg21gA14Bp5atYHg8FeXQ@mail.gmail.com>
+ <CABdmKX1tDv3fSFURDN7=txFSbQ1xTjp8ZhLP8tFAvLcO9_-4_A@mail.gmail.com>
+ <CAPhsuW7xvSYjWvy8K9Ev_tMwDRy2dpEiBcHYai3n-wAa0xvLow@mail.gmail.com> <CABdmKX1p0KgbipTSW1Ywi4bTBabQmsg21gA14Bp5atYHg8FeXQ@mail.gmail.com>
+In-Reply-To: <CABdmKX1p0KgbipTSW1Ywi4bTBabQmsg21gA14Bp5atYHg8FeXQ@mail.gmail.com>
+From: Song Liu <song@kernel.org>
+Date: Wed, 16 Apr 2025 21:56:42 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW4f2=M_K553+BVnGJq=ddZ7sXj4CfCAHeYQ=4cpihBCzA@mail.gmail.com>
+X-Gm-Features: ATxdqUEk4T3fY6FmmJQdbVRkM42dn04Z_qBTtTJMviwnBymsHkeSKzqSCEwNWdE
+Message-ID: <CAPhsuW4f2=M_K553+BVnGJq=ddZ7sXj4CfCAHeYQ=4cpihBCzA@mail.gmail.com>
 Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
-To: Song Liu <song@kernel.org>
+To: "T.J. Mercier" <tjmercier@google.com>
 Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
 	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
 	skhan@linuxfoundation.org, linux-kernel@vger.kernel.org, 
@@ -98,88 +83,38 @@ Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 16, 2025 at 6:26=E2=80=AFPM Song Liu <song@kernel.org> wrote:
+On Wed, Apr 16, 2025 at 7:09=E2=80=AFPM T.J. Mercier <tjmercier@google.com>=
+ wrote:
 >
-> On Wed, Apr 16, 2025 at 4:40=E2=80=AFPM T.J. Mercier <tjmercier@google.co=
-m> wrote:
+> On Wed, Apr 16, 2025 at 6:26=E2=80=AFPM Song Liu <song@kernel.org> wrote:
+[...]
 > >
-> > On Wed, Apr 16, 2025 at 4:08=E2=80=AFPM Song Liu <song@kernel.org> wrot=
-e:
-> > >
-> > > On Wed, Apr 16, 2025 at 3:51=E2=80=AFPM T.J. Mercier <tjmercier@googl=
-e.com> wrote:
-> > > [...]
-> > > > >
-> > > > > IIUC, the iterator simply traverses elements in a linked list. I =
-feel it is
-> > > > > an overkill to implement a new BPF iterator for it.
-> > > >
-> > > > Like other BPF iterators such as kmem_cache_iter or task_iter.
-> > > > Cgroup_iter iterates trees instead of lists. This is iterating over
-> > > > kernel objects just like the docs say, "A BPF iterator is a type of
-> > > > BPF program that allows users to iterate over specific types of ker=
-nel
-> > > > objects". More complicated iteration should not be a requirement he=
-re.
-> > > >
-> > > > > Maybe we simply
-> > > > > use debugging tools like crash or drgn for this? The access with
-> > > > > these tools will not be protected by the mutex. But from my perso=
-nal
-> > > > > experience, this is not a big issue for user space debugging tool=
-s.
-> > > >
-> > > > drgn is *way* too slow, and even if it weren't the dependencies for
-> > > > running it aren't available. crash needs debug symbols which also
-> > > > aren't available on user builds. This is not just for manual
-> > > > debugging, it's for reporting memory use in production. Or anything
-> > > > else someone might care to extract like attachment info or refcount=
-s.
-> > >
-> > > Could you please share more information about the use cases and
-> > > the time constraint here, and why drgn is too slow. Is most of the de=
-lay
-> > > comes from parsing DWARF? This is mostly for my curiosity, because
-> > > I have been thinking about using drgn to do some monitoring in
-> > > production.
-> > >
-> > > Thanks,
-> > > Song
-> >
-> > These RunCommands have 10 second timeouts for example. It's rare that
-> > I see them get exceeded but it happens occasionally.:
-> > https://cs.android.com/android/platform/superproject/main/+/main:framew=
-orks/native/cmds/dumpstate/dumpstate.cpp;drc=3D98bdc04b7658fde0a99403fc052d=
-1d18e7d48ea6;l=3D2008
+> > Here is another rookie question, it appears to me there is a file descr=
+iptor
+> > associated with each DMA buffer, can we achieve the same goal with
+> > a task-file iterator?
 >
-> Thanks for sharing this information.
->
-> > The last time I used drgn (admittedly back in 2023) it took over a
-> > minute to iterate through less than 200 cgroups. I'm not sure what the
-> > root cause of the slowness was, but I'd expect the DWARF processing to
-> > be done up-front once and the slowness I experienced was not just at
-> > startup. Eventually I switched over to tracefs for that issue, which
-> > we still use for some telemetry.
->
-> I haven't tried drgn on Android. On server side, iterating should 200
-> cgroups should be fairly fast (< 5 seconds, where DWARF parsing is
-> the most expensive part).
->
-> > Other uses are by statsd for telemetry, memory reporting on app kills
-> > or death, and for "dumpsys meminfo".
->
-> Here is another rookie question, it appears to me there is a file descrip=
-tor
-> associated with each DMA buffer, can we achieve the same goal with
-> a task-file iterator?
+> That would find almost all of them, but not the kernel-only
+> allocations. (kernel_rss in the dmabuf_dump output I attached earlier.
+> If there's a leak, it's likely to show up in kernel_rss because some
+> driver forgot to release its reference(s).) Also wouldn't that be a
+> ton more iterations since we'd have to visit every FD to find the
+> small portion that are dmabufs? I'm not actually sure if buffers that
+> have been mapped, and then have had their file descriptors closed
+> would show up in task_struct->files; if not I think that would mean
+> scanning both files and vmas for each task.
 
-That would find almost all of them, but not the kernel-only
-allocations. (kernel_rss in the dmabuf_dump output I attached earlier.
-If there's a leak, it's likely to show up in kernel_rss because some
-driver forgot to release its reference(s).) Also wouldn't that be a
-ton more iterations since we'd have to visit every FD to find the
-small portion that are dmabufs? I'm not actually sure if buffers that
-have been mapped, and then have had their file descriptors closed
-would show up in task_struct->files; if not I think that would mean
-scanning both files and vmas for each task.
+I don't think scanning all FDs to find a small portion of specific FDs
+is a real issue. We have a tool that scans all FDs in the system and
+only dump data for perf_event FDs. I think it should be easy to
+prototype a tool by scanning all files and all vmas. If that turns out
+to be very slow, which I highly doubt will be, we can try other
+approaches.
+
+OTOH, I am wondering whether we can build a more generic iterator
+for a list of objects. Adding a iterator for each important kernel lists
+seems not scalable in the long term.
+
+Thanks,
+Song
 
