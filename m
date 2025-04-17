@@ -1,120 +1,129 @@
-Return-Path: <linux-media+bounces-30395-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30396-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A21AAA91453
-	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 08:53:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0070A91459
+	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 08:54:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 18ACE5A1AC0
-	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 06:53:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1DD6F5A2DF5
+	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 06:54:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 859D921518B;
-	Thu, 17 Apr 2025 06:53:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66E382153E8;
+	Thu, 17 Apr 2025 06:54:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eHxU2RlT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DxWfxEUy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389EF1DDA0C
-	for <linux-media@vger.kernel.org>; Thu, 17 Apr 2025 06:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30C6621518B
+	for <linux-media@vger.kernel.org>; Thu, 17 Apr 2025 06:54:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744872794; cv=none; b=LZGnKtcC2Vpt8e+WrXHULyA/2I3qwqnT/9EolF82FZ1VgiqvqSmlODj1JYfe9jDg0u0TUBQj2Gyst5B+hPKDTeq8oHeltAbsKQW32qfi1tt8rsoPusi02EG4QHoUyzRyrYPTZLdysTQ9sBnJJWFawpUjKM7mO8DeDJ8HIJw1Q2Q=
+	t=1744872850; cv=none; b=jQe+lscbzyxy+AFRJVOACJY21s7tic+xDXWDw6HSKOK0aDz5EuRmNqAsPNdC7vWXflHdMy2ea4cFddwShlOt4zR5EE3aJCqd+mcM46eHrj5K1SP6YQEB1EIDqB1KOnCFgdkR3MxB/bAdEqb34Z4ys35drbv9JPldg+O5FhP11K8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744872794; c=relaxed/simple;
-	bh=mAMt1m/u6hcO7vbLPIOezSFiI65bkiZ/TTQJ6Z9DipI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YZGZBC4lWwxPCL8gwYkmDIrTRFJy3MvlhRpEcGSO2F2VY6RkYpnMBRdkxmJ3Y3/rcDqc4okNNKzDgKdfjPfvYhLvOE7GJC4Y9ZrrfsBOsG6C93kmAeWYR4cQlkjbsJcZuQCkGRBnIboOuzVFupF35aom9tqVFizrPgQp9qgPeSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eHxU2RlT; arc=none smtp.client-ip=192.198.163.13
+	s=arc-20240116; t=1744872850; c=relaxed/simple;
+	bh=pYXVbty7oOQQ+6uASVhzYMoQAbuDAXYUTkID2Ykgo7M=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=I1KnSV26pj4hnKfkQvy1dlxmKecZAIR0xHnJPnE5zK/mcMbklWmTGr9JPlf42VqUNw2J20GxWx7TW4YUp9BsowaSbTcUlEG/uDAdeaKtVwd0pbOMVAjNd46xehDQJLFJLJ71km6cm8aM8OwCqDq9qTvgOlXE7M9BK35fvoRJFB0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=DxWfxEUy; arc=none smtp.client-ip=192.198.163.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744872793; x=1776408793;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mAMt1m/u6hcO7vbLPIOezSFiI65bkiZ/TTQJ6Z9DipI=;
-  b=eHxU2RlTZfh9GahJ5sgXaDoTQIpeMvAfAFH/TWEmN19OdO5V4zRk1HdT
-   iAdFOq7STgHOdPXaJf2M0COhbQgyWT/CcQSnQ0kLm+zafzUrf+Dz5yzFU
-   296H4Tq+L2xxlTi0UkjVF177RBytSzdknJSql/a+acpQQZo77tRrsjGod
-   PfVhT8J3CXkRvY0Jaw//RzG+j+JLp10QrVa8vcBVg7W/9HSyR5z+s5wvf
-   NcURFPMhInbo8/G0JdYfc/ToG/2EsXmtdx4Nx4Z07uMjDEQNy3OlBbcIO
-   AVPFCXtt4tDeHam9gXJ42LYswyJct1XU3HlUPJ6vooCstJTw26Tuj7Wd5
-   A==;
-X-CSE-ConnectionGUID: Z/qFfx0kRtu3BY0KEDbmJg==
-X-CSE-MsgGUID: wKx+3gvMQ9+8bsshPFpdOw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="49141183"
+  t=1744872849; x=1776408849;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=pYXVbty7oOQQ+6uASVhzYMoQAbuDAXYUTkID2Ykgo7M=;
+  b=DxWfxEUy6egU3IhtLbr5HBXx6hatKqoEgezTBMmPiI8bc2yWxHAP722h
+   /1XZ/YpovGUHKQtdqMesQTtKXM1uBhDyFAzd3AURRWM7QIJid4wX5ULXA
+   /Lx0ShgI4eWSd06HNTkZSFIH7UbSqBK33EbCcnE05ZMnJR2todDR97Z6y
+   UAN2bcObjtkfUVTeUVHu2zG92Ked0WbpxJXp7Nkivz8CTgDABXj11DxMD
+   K7ubU/egkS4sWfjvJg29TsMnuncU2x439XCg3HZpAzTdxgxxZnoSXQgaF
+   210BfI9n4BsjsGuNc4FYn0ftJH4rlHT5marAz41Kz6vzQdFi5qodo4QKx
+   Q==;
+X-CSE-ConnectionGUID: p7uXEZm9TnOp9yW8fE2mPA==
+X-CSE-MsgGUID: zlIiz9IXS7y3PItEs/E72g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11405"; a="71831259"
 X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; 
-   d="scan'208";a="49141183"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 23:53:12 -0700
-X-CSE-ConnectionGUID: OkuSsKfDTYeXP+H8ylqYHA==
-X-CSE-MsgGUID: 9eaTRtL4TX2MQC+mnJ2sDg==
+   d="scan'208";a="71831259"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 23:54:08 -0700
+X-CSE-ConnectionGUID: lrFcMkEoTryos9GV2a3PMQ==
+X-CSE-MsgGUID: JNII/jixQSyLDPWnjOe4fQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,218,1739865600"; 
-   d="scan'208";a="153898419"
+   d="scan'208";a="131262172"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 23:53:09 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 54A6611F9C2;
-	Thu, 17 Apr 2025 09:53:07 +0300 (EEST)
-Date: Thu, 17 Apr 2025 06:53:07 +0000
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 23:54:08 -0700
+Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 00ADC11F9C2;
+	Thu, 17 Apr 2025 09:54:05 +0300 (EEST)
+Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
+	(envelope-from <sakari.ailus@linux.intel.com>)
+	id 1u5J8O-001J4d-36;
+	Thu, 17 Apr 2025 09:54:04 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Dongcheng Yan <dongcheng.yan@intel.com>
-Cc: linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-	dave.stevenson@raspberrypi.com, hverkuil@xs4all.nl,
-	ricardo.ribalda@gmail.com, bingbu.cao@linux.intel.com,
-	tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
-	dongcheng.yan@linux.intel.com
-Subject: Re: [PATCH v5] media: i2c: Add ar0234 camera sensor driver
-Message-ID: <aAClUxNhOhcPl9zX@kekkonen.localdomain>
-References: <20250410161249.3455729-1-dongcheng.yan@intel.com>
+To: linux-media@vger.kernel.org
+Cc: laurent.pinchart@ideasonboard.com,
+	dongcheng.yan@intel.com
+Subject: [PATCH v2 00/11] CCS PLL fixes and improvements
+Date: Thu, 17 Apr 2025 09:53:43 +0300
+Message-Id: <20250417065354.311617-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250410161249.3455729-1-dongcheng.yan@intel.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Dongcheng,
+Hi all,
 
-On Fri, Apr 11, 2025 at 12:12:49AM +0800, Dongcheng Yan wrote:
-> The driver is implemented with V4L2 framework,
-> and supports following features:
-> 
->     - manual exposure and analog/digital gain control
->     - vblank/hblank control
->     - vflip/hflip control
->     - runtime PM support
->     - 1280x960@30fps and 1920x1200@60fps support
->     - dynamical pll_params set
-> 
-> Signed-off-by: Dongcheng Yan <dongcheng.yan@intel.com>
+Here are a few fixes and improvements to the CCS PLL calculator.
 
-I reviewed Laurent's ar0144 driver and it turns out that the ar0144 and
-ar0234 sensors are nearly identical in their register interface. Thus they
-could be controlled using the same driver, with relatively small changes.
-Laurent's driver programmatically sets the register values in general and
-does not rely on register lists, which is why I prefer that driver.
+v1 is <20250226132319.2517656-1-sakari.ailus@linux.intel.com>.
 
-Would you be able to add ar0234 support to the ar0144 driver, please?
-Sensor configuration independent MSRs are totally fine, I presume there are
-some the ar0234 benefits from.
+since v1:
 
-My apologies for telling you this now, after 5 versions of this driver, but
-I only learned of this very recently.
+- Added patches for the following:
 
-I expect Laurent to send v3 of his driver by early next week.
+	- Drop the now-unused LINK_DECOUPLED flag.
+
+	- Print missing flags.
+
+	- Print PLL calculator flags before running the calculator
+	  (earlier version posted separately already).
+
+	- Document the CCS PLL flags tersely but still in a way that is
+	  useful.
+
+- Rebased other patches to clean up things first.
+
+Sakari Ailus (11):
+  media: ccs-pll: Start OP pre-PLL multiplier search from correct value
+  media: ccs-pll: Start VT pre-PLL multiplier search from correct value
+  media: ccs-pll: Check for too high VT PLL multiplier in dual PLL case
+  media: ccs-pll: Correctly the upper limit of maximum
+    op_pre_pll_clk_div
+  media: ccs-pll: Print a debug message on too high VT PLL OP clock
+  media: ccs-pll: Drop LINK_DECOUPLED flag
+  media: ccs-pll: Print missing PLL flags
+  media: ccs-pll: Add a flag for even PLL multipliers
+  media: ccs-pll: Better validate VT PLL branch
+  media: ccs-pll: Print PLL calculator flags in the beginning
+  media: ccs-pll: Document the CCS PLL flags
+
+ drivers/media/i2c/ccs-pll.c       | 49 +++++++++++++++++++++++++------
+ drivers/media/i2c/ccs-pll.h       | 29 +++++++++++++++---
+ drivers/media/i2c/ccs/ccs-core.c  |  1 -
+ drivers/media/i2c/ccs/ccs-quirk.c |  3 +-
+ 4 files changed, 66 insertions(+), 16 deletions(-)
 
 -- 
-Kind regards,
+2.39.5
 
-Sakari Ailus
 
