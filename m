@@ -1,210 +1,152 @@
-Return-Path: <linux-media+bounces-30490-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30491-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A370CA92622
-	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 20:10:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47B1AA92B58
+	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 21:01:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3A07A1B62955
-	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 18:10:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7ACFF1895537
+	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 18:59:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FAB2255E20;
-	Thu, 17 Apr 2025 18:09:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2E5A25D1E7;
+	Thu, 17 Apr 2025 18:58:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WFgHzqre"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="AQqPdT5i"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3070618C034
-	for <linux-media@vger.kernel.org>; Thu, 17 Apr 2025 18:09:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 662D91D5CCD;
+	Thu, 17 Apr 2025 18:57:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744913393; cv=none; b=VGGCVjxY9M+MCZp/KR4TGQSsbsbGjz/9oeF7bS/FBNppAQN1f47oSkhPIb5hW2/NOUqugg8ir1jfvSfmpCR7+/yeOHhsSUaAp3C06RJIef7ah7MpIuPNaUQy3nMcGNMRgvxv4kKyOZ1BSM32BhSS/qgyvkkFRq/CjEZRdoNZ0Ew=
+	t=1744916281; cv=none; b=Fj17JEaC+JJIUaGMY/q2DwAZY928uxHtj0LnDBepnzcbwcv8By7xx/eJsIe78xvQgIfORU0vm9+SuktkE89mOcXKQ4bSEYHVqphhtuqHVpDeyvX9dZC0U3sUImV/CDyeUCqnefNQZvbBoEX4jKSgPJhs5rPhq+4BvXobOIrODd4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744913393; c=relaxed/simple;
-	bh=ivlsnWVdLRNj9s4gjaI3LC0rR9TXe+bX1acPw6E18pM=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=HUrN0CNnOrr2HTZGWvOBdJgoJJhA1FBcvuuT2BM5zPePH6UXsrnStczAyb29V1DFdLgSHqCcBCKlZjS7V8HBQWNaRmoU70JbXNcxuxIGRLFxlAGyWj1LmVA2cZ/6YQhqj+m8+7viRmf3aRAXL0ktAfbplVBV77b3wld8hmmn91c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WFgHzqre; arc=none smtp.client-ip=209.85.210.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--tjmercier.bounces.google.com
-Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-736c7d0d35aso1414676b3a.1
-        for <linux-media@vger.kernel.org>; Thu, 17 Apr 2025 11:09:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1744913391; x=1745518191; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=VieRPDeOIrrtofiVIhvIFRGmHPPN8m75t7mreV4JIzU=;
-        b=WFgHzqreyu53JFdl3KQCBrOw8Woe05O//FtPoUX+3sipsM6ErzUTtUh0XY9F79FsIj
-         +8M3SKcec8+6yCy6Ac2RpVhkXY7cpR5dkOEgZf8wS1lEg/WdvmUGQBI9LSMzT6DUJlVz
-         d6s/Mtkq4PaBjJufAP+UCkVjGJMHQqRkiR8JdFZs42FwdQPyGHc/0BSWfLH01cgbjES+
-         QrIXNE0fjPpEaokjjC2Cy7Q3uhytEIoR5d+8NeXf7wcjK+Ie8PPVJupWpeVOyDnUvByI
-         PjQbka2WG+84eB3CZ4MXugjUWEw+j8m6rQUOJhfpr2465K9VAGsdxZghgJZ0Q5nb8KOT
-         oMHg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744913391; x=1745518191;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VieRPDeOIrrtofiVIhvIFRGmHPPN8m75t7mreV4JIzU=;
-        b=uNpYK97hGq8SeIP2OMZJdrhSNKCDwXrKKhjclh9/w107VzgefaOaffi0nl6RII47Y5
-         nAHZffuzb1zkv7SQCjnYwbO+1TqpMIKRHdk32rORVURsy6fAHTHAoj9CYRefiqSE0eb6
-         0wIMxOmdAEK8ZpDEzueLx2L1gXGWsFZwFkH5lQ8M+L3qxsTeNbV6xm0XcFyQuWVAGay2
-         Kr2v4OK5hEcQ7HWZwTbD9GmVICck4yhoK+RkSzfYorAktlIvBkQ8H8tL7/i50C4E+MAi
-         dyyAopJzObSzuLRiC/b6q9sVQJA4b2WqCvO8nsbqJ2QqnbcoBsjoa6ko9uOHu0IYRaT4
-         +Urw==
-X-Gm-Message-State: AOJu0YxcRuBURLZhpBjBU/7g5/OQGAFvcicOwvCxKR5rLyHSDRrReL1W
-	QivclrzLs3TR2m3bAu3+HUnU1Gef2tlDYyXb1iS97FUoBz8jErEr39tYejO0zHJASxHclZeagQA
-	4jOwr3iodHv8vGQ==
-X-Google-Smtp-Source: AGHT+IFiEqpxdk1THB5nHvZfHtFFffV9Gz5mbaspUCw4yzGR9KYpdaO0xsj+RVnwm9NlrjGZ6uNoUIW5ZLKdM/Y=
-X-Received: from pfvb12.prod.google.com ([2002:a05:6a00:ccc:b0:736:7120:dd05])
- (user=tjmercier job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a00:180f:b0:736:6d4d:ffa6 with SMTP id d2e1a72fcca58-73c267e1deamr8747874b3a.15.1744913391461;
- Thu, 17 Apr 2025 11:09:51 -0700 (PDT)
-Date: Thu, 17 Apr 2025 18:09:41 +0000
+	s=arc-20240116; t=1744916281; c=relaxed/simple;
+	bh=GPBMti6d1eSxgbQ8ztbQA0OHM3kaeJTJ/wvTbSk+gUg=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=d4ZAKYYs9hbB6+zf6NlUplKS33swYQEUIhfyNuUmiyhNIxcEU77TgBZEMibIAekLea/alZj4WM7Ejn45ALo5eQqDBZfuhJA2nw908yxvur0mYdi/6wIYRE81uVD3NhdlDWudlRwhcWEZGXDbgL1ft9I5n2rQosO8tH55GV4vutw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=AQqPdT5i; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53HClbql032076;
+	Thu, 17 Apr 2025 18:57:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=OBfeZV99OcZGZ91PDlA/RN
+	KVq2HYA5a7cy8i2TvYJsE=; b=AQqPdT5iHWRJceMlyC5Sbm8qDVNeqVOvAPJxnl
+	93jevP10+ubxkOKdFdZhwtkqGSm2QhY2Xz7mF+IGv+JB+8dYGlYOOv0D8d3k/GFT
+	pO2wKxDjMwIan3H3JA1H+XwmeUWKn8dzYlIHLuquPrNOtgf4OMTGeHSaNKGRA1C8
+	lhBHWVAiGjjCHWZGS+7OC0udy5Y7Pkl45nn7EZkeNyyTNmnI74gbgQFQ01BRHLvz
+	66SyTzW8sreCN8aAwaJc4H2fW4VGjQiNNpa7qgqaGBViuJM03jqZ68zMRZ8Fa2GR
+	5+8tvQy4ddZU8TbON334+7v8GKDblNIYbz5Y5zqXe/b6oHfg==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45yg8wr04w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 17 Apr 2025 18:57:55 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53HIvstZ026641
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 17 Apr 2025 18:57:54 GMT
+Received: from hu-vgarodia-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 17 Apr 2025 11:57:49 -0700
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+Subject: [PATCH 0/4] media: qcom: iris: add support for QCS8300
+Date: Fri, 18 Apr 2025 00:27:30 +0530
+Message-ID: <20250418-qcs8300_iris-v1-0-67792b39ba21@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.49.0.805.g082f7c87e0-goog
-Message-ID: <20250417180943.1559755-1-tjmercier@google.com>
-Subject: [PATCH] dma-buf: system_heap: No separate allocation for attachment sg_tables
-From: "T.J. Mercier" <tjmercier@google.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
-	"=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIABpPAWgC/0XOzQqDMAzA8VeRnlfoR6rVVxky2hq3HNTZOhHEd
+ 1+nhx3/IfmRnSWMhIk1xc4irpRoGnPIW8HCy41P5NTlZkooI0BaPodktRAPipR45WrEUoCW4Fg
+ +eUfsaTu5e3t1xPmT1eUa/tGmOEmlDF+mNwWeBrsZwU93lYI7JWtvnfVQVc1a/XjvEvIwDQMt+
+ UUApfugHeTN3oMuu85ZA0ZoXWNQvpe19Lpk7XF8AUEoPLjnAAAA
+X-Change-ID: 20250418-qcs8300_iris-7a9ee604314a
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Abhinav Kumar
+	<quic_abhinavk@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio
+	<konradybcio@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Vikash Garodia
+	<quic_vgarodia@quicinc.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1744916269; l=1713;
+ i=quic_vgarodia@quicinc.com; s=20241104; h=from:subject:message-id;
+ bh=GPBMti6d1eSxgbQ8ztbQA0OHM3kaeJTJ/wvTbSk+gUg=;
+ b=JxvPIIpXzVobX6XWCUpH7zkvmajQDjhSQD6SX5Kd3DO7mVHUOd6tMSdtrlFZcG0lqmoofYaPy
+ 4xTPorS2x+vD7zwjKSnmWcJp9HqdndH46yNZS1XHNZx5JL798SLlFYr
+X-Developer-Key: i=quic_vgarodia@quicinc.com; a=ed25519;
+ pk=LY9Eqp4KiHWxzGNKGHbwRFEJOfRCSzG/rxQNmvZvaKE=
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=E9TNpbdl c=1 sm=1 tr=0 ts=68014f33 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8
+ a=5mqJRpXAQT99iV-CYE4A:9 a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: FOljNYk_acLNy_8B4W7xz36lQ7QKZQoE
+X-Proofpoint-GUID: FOljNYk_acLNy_8B4W7xz36lQ7QKZQoE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-17_06,2025-04-17_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 adultscore=0
+ mlxscore=0 bulkscore=0 clxscore=1015 phishscore=0 lowpriorityscore=0
+ suspectscore=0 mlxlogscore=892 spamscore=0 priorityscore=1501
+ impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504170139
 
-struct dma_heap_attachment is a separate allocation from the struct
-sg_table it contains, but there is no reason for this. Let's use the
-slab allocator just once instead of twice for dma_heap_attachment.
+add support for video hardware acceleration on QCS8300 platform.
 
-Signed-off-by: T.J. Mercier <tjmercier@google.com>
+This series depends on
+https://lore.kernel.org/all/20250417-topic-sm8x50-iris-v10-v7-1-f020cb1d0e98@linaro.org/
+
+Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 ---
- drivers/dma-buf/heaps/system_heap.c | 43 ++++++++++++-----------------
- 1 file changed, 17 insertions(+), 26 deletions(-)
+Vikash Garodia (4):
+      dt-bindings: media: qcom,sm8550-iris: document QCS8300 IRIS accelerator
+      arm64: dts: qcom: qcs8300: add support for video node
+      arm64: dts: qcom: qcs8300-ride: enable video
+      media: iris: add qcs8300 platform data
 
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index 26d5dc89ea16..bee10c400cf0 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -35,7 +35,7 @@ struct system_heap_buffer {
- 
- struct dma_heap_attachment {
- 	struct device *dev;
--	struct sg_table *table;
-+	struct sg_table table;
- 	struct list_head list;
- 	bool mapped;
- };
-@@ -54,29 +54,22 @@ static gfp_t order_flags[] = {HIGH_ORDER_GFP, HIGH_ORDER_GFP, LOW_ORDER_GFP};
- static const unsigned int orders[] = {8, 4, 0};
- #define NUM_ORDERS ARRAY_SIZE(orders)
- 
--static struct sg_table *dup_sg_table(struct sg_table *table)
-+static int dup_sg_table(struct sg_table *from, struct sg_table *to)
- {
--	struct sg_table *new_table;
--	int ret, i;
- 	struct scatterlist *sg, *new_sg;
-+	int ret, i;
- 
--	new_table = kzalloc(sizeof(*new_table), GFP_KERNEL);
--	if (!new_table)
--		return ERR_PTR(-ENOMEM);
--
--	ret = sg_alloc_table(new_table, table->orig_nents, GFP_KERNEL);
--	if (ret) {
--		kfree(new_table);
--		return ERR_PTR(-ENOMEM);
--	}
-+	ret = sg_alloc_table(to, from->orig_nents, GFP_KERNEL);
-+	if (ret)
-+		return ret;
- 
--	new_sg = new_table->sgl;
--	for_each_sgtable_sg(table, sg, i) {
-+	new_sg = to->sgl;
-+	for_each_sgtable_sg(from, sg, i) {
- 		sg_set_page(new_sg, sg_page(sg), sg->length, sg->offset);
- 		new_sg = sg_next(new_sg);
- 	}
- 
--	return new_table;
-+	return 0;
- }
- 
- static int system_heap_attach(struct dma_buf *dmabuf,
-@@ -84,19 +77,18 @@ static int system_heap_attach(struct dma_buf *dmabuf,
- {
- 	struct system_heap_buffer *buffer = dmabuf->priv;
- 	struct dma_heap_attachment *a;
--	struct sg_table *table;
-+	int ret;
- 
- 	a = kzalloc(sizeof(*a), GFP_KERNEL);
- 	if (!a)
- 		return -ENOMEM;
- 
--	table = dup_sg_table(&buffer->sg_table);
--	if (IS_ERR(table)) {
-+	ret = dup_sg_table(&buffer->sg_table, &a->table);
-+	if (ret) {
- 		kfree(a);
--		return -ENOMEM;
-+		return ret;
- 	}
- 
--	a->table = table;
- 	a->dev = attachment->dev;
- 	INIT_LIST_HEAD(&a->list);
- 	a->mapped = false;
-@@ -120,8 +112,7 @@ static void system_heap_detach(struct dma_buf *dmabuf,
- 	list_del(&a->list);
- 	mutex_unlock(&buffer->lock);
- 
--	sg_free_table(a->table);
--	kfree(a->table);
-+	sg_free_table(&a->table);
- 	kfree(a);
- }
- 
-@@ -129,7 +120,7 @@ static struct sg_table *system_heap_map_dma_buf(struct dma_buf_attachment *attac
- 						enum dma_data_direction direction)
- {
- 	struct dma_heap_attachment *a = attachment->priv;
--	struct sg_table *table = a->table;
-+	struct sg_table *table = &a->table;
- 	int ret;
- 
- 	ret = dma_map_sgtable(attachment->dev, table, direction, 0);
-@@ -164,7 +155,7 @@ static int system_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
- 	list_for_each_entry(a, &buffer->attachments, list) {
- 		if (!a->mapped)
- 			continue;
--		dma_sync_sgtable_for_cpu(a->dev, a->table, direction);
-+		dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
- 	}
- 	mutex_unlock(&buffer->lock);
- 
-@@ -185,7 +176,7 @@ static int system_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
- 	list_for_each_entry(a, &buffer->attachments, list) {
- 		if (!a->mapped)
- 			continue;
--		dma_sync_sgtable_for_device(a->dev, a->table, direction);
-+		dma_sync_sgtable_for_device(a->dev, &a->table, direction);
- 	}
- 	mutex_unlock(&buffer->lock);
- 
+ .../bindings/media/qcom,sm8550-iris.yaml           |   1 +
+ arch/arm64/boot/dts/qcom/qcs8300-ride.dts          |   4 +
+ arch/arm64/boot/dts/qcom/qcs8300.dtsi              |  71 ++++++++++++
+ .../platform/qcom/iris/iris_platform_common.h      |   1 +
+ .../media/platform/qcom/iris/iris_platform_gen2.c  |  57 ++++++++++
+ .../platform/qcom/iris/iris_platform_qcs8300.h     | 124 +++++++++++++++++++++
+ drivers/media/platform/qcom/iris/iris_probe.c      |   4 +
+ 7 files changed, 262 insertions(+)
+---
+base-commit: 14423fc3a4a21fb436dda85450339ec2bf191b36
+change-id: 20250418-qcs8300_iris-7a9ee604314a
+prerequisite-change-id: 20250225-topic-sm8x50-iris-v10-a219b8a8b477:v7
+prerequisite-patch-id: afffe7096c8e110a8da08c987983bc4441d39578
+prerequisite-patch-id: b93c37dc7e09d1631b75387dc1ca90e3066dce17
+prerequisite-patch-id: b7b50aa1657be59fd51c3e53d73382a1ee75a08e
+prerequisite-patch-id: 30960743105a36f20b3ec4a9ff19e7bca04d6add
+prerequisite-patch-id: 2bba98151ca103aa62a513a0fbd0df7ae64d9868
+prerequisite-patch-id: 0e43a6d758b5fa5ab921c6aa3c19859e312b47d0
+prerequisite-patch-id: 35f8dae1416977e88c2db7c767800c01822e266e
 
-base-commit: 8ffd015db85fea3e15a77027fda6c02ced4d2444
+Best regards,
 -- 
-2.49.0.805.g082f7c87e0-goog
+Vikash Garodia <quic_vgarodia@quicinc.com>
 
 
