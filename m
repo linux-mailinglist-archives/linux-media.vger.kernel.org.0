@@ -1,263 +1,524 @@
-Return-Path: <linux-media+bounces-30476-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30477-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E77BA920BD
-	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 17:01:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 606D4A920CE
+	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 17:06:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6AC785A794E
-	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 15:01:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8F75D18905DD
+	for <lists+linux-media@lfdr.de>; Thu, 17 Apr 2025 15:06:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1F932550D2;
-	Thu, 17 Apr 2025 14:59:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="SGAoeXfs"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45897252908;
+	Thu, 17 Apr 2025 15:06:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6445A253F37
-	for <linux-media@vger.kernel.org>; Thu, 17 Apr 2025 14:59:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DC55252290;
+	Thu, 17 Apr 2025 15:06:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744901956; cv=none; b=mj5CyuLam16PVpghUGMqCZor5HQaM+Xwe3XwrpLNpNtBAAseLw/oxqvGdNLhxG4V+JMvkIJZQmU8e0S2EQa8anRgSSqyVEoTCxzR/WlAiNnBTJo6UQXTk+tsvh6fHuZlpN+YrMEERFVqDS87Qc4AaMBQMY1VMEwpcM/iv9M9MuA=
+	t=1744902384; cv=none; b=roGByjuGJTSnBvPDZWM12EOvEC4eS3sZ1sAmQPLMkE8Lgo+kmxT3RTtFhEF60fnNlK9EWcWzoAmV7Wl55pFZWwmoPjQ9Q6lAqf3OqT/Jm9VuHPMyuL2Q3XGRODEK1Qw7SVna08XipmDtuqxsu5qeIILzlmNNdhC5K0vtigmq/l8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744901956; c=relaxed/simple;
-	bh=k1UpKHn4ETY2lpwXTVm2VtfLMdYT5zXYdB6oYZjUbEQ=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=uB30KuEdZko766ehp7E53OO1fWaybNxYQuwD2itFw3SUrYyOY+JxjbWQWU4gr16ZDu2YvnOJ/niaYv7xKRcpa+M0CqpcAnyWteYvXAbptrRbzx/Ec7yF+NANg8lnnK/gqRI7WNQhE2iViWra+Y7nNXsEyARoYhdA+nbeBnkQPsk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=SGAoeXfs; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-39ee651e419so542010f8f.3
-        for <linux-media@vger.kernel.org>; Thu, 17 Apr 2025 07:59:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744901951; x=1745506751; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9g0vibFvd/TshtGODQr2SCzCeB7Z7fValwgpiuVqQm0=;
-        b=SGAoeXfsYUkO5ggrtuHI4KhWJdCZqr5KCeB6dATKN+DTlS7vb0MJpz8Gq8luOb5BS5
-         siJP0d3/qh3Bj8vlX6Yf81jP18UETrONJsCc44ha8mnb9RIL7i2ZMDosX31SoYCkj62Z
-         3nhPWj2riH4UmyyMxyegjgqEK+VC9FURLe96A+e5uufHwnJighiE3UaMyMgdIDNPSwyy
-         O8pna21655mlllpoO0dA8TNzqieub++pcd9BNG0N7wArmMtWjP29/xScV2NS0MJcajZq
-         mYJyfw4PcFlrlTZltLbTGcjaghBP7gj+64Nhb/A/XDdm8zkGsQeh25RX6Vo++yZyEPa/
-         28Lw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744901951; x=1745506751;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9g0vibFvd/TshtGODQr2SCzCeB7Z7fValwgpiuVqQm0=;
-        b=L+toI1O6eTnoFSMGrNreI9T6V5MfBptRUhKSg4Zz0Ioh8NyR2PoMs9Y5y8SQCfEY9v
-         cAFozJmA5rou5TiDqhb02U0Nxb2hhUD1ggMSZ4BePGZZ3/fZF7XZWSkdNqsUYB5H3B1m
-         HhWvxUHwQQ2pWJoDnQvNF/ofva2X+ba5UCXr/L0phCF8KvAZNF+akkOKU4kTB42nvIPH
-         jX9W+O7x5+1HOVsnp8/ABy0o9zjQgcnd3LegGE5IYsAEKj9rijHzmfqYA/6LCaHMXqhy
-         8kjdaTEucY8OvbvjP0WrX7rA1T9gcdO9P8Cc37xMBtGWHY70L4QmfQ6FnHW0Cz/RU1PS
-         FU5g==
-X-Gm-Message-State: AOJu0YxbQiRDHoLOyY0Hs4naDnAQwM02Xm+7JZgqAImmia04lVinUd2y
-	WCVKwGuRqt2mIdxYhnMM3yEhAQwCsva8EnDYWCA3NjtmJO3h3UvqhilsaYzQMBU=
-X-Gm-Gg: ASbGnctU0iCPvOm5uQDUp801Sjhvc2LLtTWPGkMps7bJCv1OKHkk9CSQ6UdBmjgfdpK
-	HdrsrCd3/j0vlD0iSXer4m3Hgl1kRz6ODZy1W1Kqa4GuC4mBoT5tWPSzktMRY4x5edVtcO1+vao
-	vtR5M35HlCywsJwizkMIGHEgyq0YZa/yW/x3y27tD58VE+d1nRA7nm9w67x3ur/y75kml8ML3io
-	wgNyEG8PAlieyELNSLWol0+Yvjy7g6yLcYdCHqR2L5flqQ2CI/m3+RdREvxabw8VZBvlYbenExJ
-	pTXptEesl/tku3QMc8lB0N+LFeSfh4SLlkE9Ls55rkqvIxdH/Tk5fmfesuAMQQ==
-X-Google-Smtp-Source: AGHT+IEIDZNldgI3E0QiHxUpEXaSYGflw207l4MrCtw3130kJlqTyQxR9SBy9Axpx7awbbdV6gD6TA==
-X-Received: by 2002:a5d:6d87:0:b0:390:d796:b946 with SMTP id ffacd0b85a97d-39ee5b9f7bfmr6176726f8f.44.1744901951253;
-        Thu, 17 Apr 2025 07:59:11 -0700 (PDT)
-Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:8261:5fff:fe11:bdda])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eaf447914sm20497743f8f.97.2025.04.17.07.59.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Apr 2025 07:59:10 -0700 (PDT)
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Date: Thu, 17 Apr 2025 16:59:07 +0200
-Subject: [PATCH v7 7/7] media: platform: qcom/iris: add sm8650 support
+	s=arc-20240116; t=1744902384; c=relaxed/simple;
+	bh=Voggn875p68XvcCCXnXKOmQF/ovTNZeHBruyaY5bJUA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=GYkK8RTWIRgGbJ3/gcVXZ1NQvtlIGO7oGrK62op9HdGj6OVXP+Yx9o/JPApCgT5UKqVcQmzrjb6gmo1XKPPvMa69jp3ZOxatZViF+qSoktYZC+M8TpYpdyfo6Cow+GiLzbG1hWbNLyUW0A8ZWyT2qEgCKfUZQgFGc8Xx0TlnDqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EC3EE1515;
+	Thu, 17 Apr 2025 08:06:18 -0700 (PDT)
+Received: from [10.1.37.32] (e122027.cambridge.arm.com [10.1.37.32])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id DA01F3F59E;
+	Thu, 17 Apr 2025 08:06:17 -0700 (PDT)
+Message-ID: <d2d3d9e7-4356-4c8f-a733-e26aad31d12f@arm.com>
+Date: Thu, 17 Apr 2025 16:06:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250417-topic-sm8x50-iris-v10-v7-7-f020cb1d0e98@linaro.org>
-References: <20250417-topic-sm8x50-iris-v10-v7-0-f020cb1d0e98@linaro.org>
-In-Reply-To: <20250417-topic-sm8x50-iris-v10-v7-0-f020cb1d0e98@linaro.org>
-To: Vikash Garodia <quic_vgarodia@quicinc.com>, 
- Dikshita Agarwal <quic_dikshita@quicinc.com>, 
- Abhinav Kumar <quic_abhinavk@quicinc.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Neil Armstrong <neil.armstrong@linaro.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6047;
- i=neil.armstrong@linaro.org; h=from:subject:message-id;
- bh=k1UpKHn4ETY2lpwXTVm2VtfLMdYT5zXYdB6oYZjUbEQ=;
- b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBoARc4EItaNHH7QgaIG6q9ddNSCdzoO8zGSPFSXM1g
- VhUFbh+JAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCaAEXOAAKCRB33NvayMhJ0Q+6D/
- 4qpuQoEb/v1IZG5KH7BKvT9JHKG+zOqNpYXJuSkY7DG1q3QAqmrbStYdAPh+RbdXUviznIMr+QsNUl
- kdszZ2rw7u2FM9VM9B2Lr/dOjVhzhF8YeHDJOYqMQU4nzWT8nHjm7ikC60vfWkAkswF/RJKpxML/6y
- Js4aREu+w6R78B30Fj6SF/6/rJ5xSqaF2tQmLo2xwXO5WanSeDtXUVh0ZX/G5WHHkPL4n0v8MuHk2+
- M+l4dRzLLflmpsRMjOSEoe7RrFiUx5jvMQeYsTUiGTGRiDEe6FGL/eLzC9/na6BIKKCFEEI+ChZ0w7
- +3TOATpyztWtUziqx1HG7juoH0I/XowlqOsWhVcETCKTE9K1/Llear6gqpeH+rE0dAwLXnV+QxA3T3
- KDkqHLmmY3veRvqPPd2J5Q/ojqDlpNbVIVEobSlXmBbh4qoQ3Ua12MymYMBNx/M08Qxk2RMSOCrhEp
- vEvpv5ZoV7F9dRQzPtXTRQ18Kf5fe2kROE03nRPBHcMXR+5AFvsJe/wCu3WW25cUECEbRLPOov+nF6
- HgfvxA8/TC0uB2M6Ij3OAr2M3+nXQfuRZqpwe/ziKNP4yTDb2Q2aIG6bxqC8cJz3lf0sTRbzseyUaL
- fNZQwba2N1BFq2mBB3iFRUXRUzXJgEdzwYUv2peiQOd4lamdkddWqbSrjuFA==
-X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
- fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 4/4] drm/panthor: show device-wide list of DRM GEM
+ objects over DebugFS
+To: =?UTF-8?Q?Adri=C3=A1n_Larumbe?= <adrian.larumbe@collabora.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>,
+ Liviu Dudau <liviu.dudau@arm.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ kernel@collabora.com, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20250415191539.55258-1-adrian.larumbe@collabora.com>
+ <20250415191539.55258-4-adrian.larumbe@collabora.com>
+ <8dc50ecd-d43a-4556-9c61-f58bb3a8dde2@arm.com>
+ <sel7vspg4xzjb3wrp2zn5m5yjpzu6ajxxhdyll5u5twqojlmbz@lyz4lv3q67ye>
+From: Steven Price <steven.price@arm.com>
+Content-Language: en-GB
+In-Reply-To: <sel7vspg4xzjb3wrp2zn5m5yjpzu6ajxxhdyll5u5twqojlmbz@lyz4lv3q67ye>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Add support for the SM8650 platform by re-using the SM8550
-definitions and using the vpu33 ops.
+On 17/04/2025 15:46, Adrián Larumbe wrote:
+> Hi Steve,
+> 
+> On 17.04.2025 15:25, Steven Price wrote:
+>> On 15/04/2025 20:15, Adrián Larumbe wrote:
+>>> Add a device DebugFS file that displays a complete list of all the DRM
+>>> GEM objects that are exposed to UM through a DRM handle.
+>>>
+>>> Since leaking object identifiers that might belong to a different NS is
+>>> inadmissible, this functionality is only made available in debug builds
+>>> with DEBUGFS support enabled.
+>>>
+>>> File format is that of a table, with each entry displaying a variety of
+>>> fields with information about each GEM object.
+>>>
+>>> Each GEM object entry in the file displays the following information
+>>> fields: Client PID, BO's global name, reference count, BO virtual size,
+>>> BO resize size, VM address in its DRM-managed range, BO label and a GEM
+>>> state flags.
+>>>
+>>> There's also a usage flags field for the type of BO, which tells us
+>>> whether it's a kernel BO and/or mapped onto the FW's address space.
+>>>
+>>> Signed-off-by: Adrián Larumbe <adrian.larumbe@collabora.com>
+>>> Reviewed-by: Liviu Dudau <liviu.dudau@arm.com>
+>>> Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
+>>
+>> Reviewed-by: Steven Price <steven.price@arm.com>
+>>
+>> Although I feel I have to point out the table output is much wider than
+>> it needs to be. I'd personally like it if some of the columns were made
+>> narrower. But I guess the idea is this is going to be read by a script
+>> anyway.
+> 
+> In a previous revision, table format was a lot tighter, but Boris
+> pointed out the number of BO flags might increase in the future, so in
+> order to save ourselves some headache form having to reformat
+> everything, it was best to give those fields some extra padding even if
+> that means BO label spans over the usual screen width.
 
-Move the Sm8650 reset tables that differs in a per-SoC platform
-header, that will contain mode SoC specific data when
-more codecs are introduced.
+Yeah, fair enough. It's always awkward with this sorts of interfaces.
+Outputting something very machine readable (e.g. JSON) would be good for
+scripts, but then it's terrible as a quick debugging aid. I'll just cook
+up a simple script to reformat it to something I like ;)
 
-The SM8650/vpu33 requires more reset lines, but the H.264
-decoder capabilities are identical.
+Thanks,
+Steve
 
-Tested-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org> # x1e Dell
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
----
- .../platform/qcom/iris/iris_platform_common.h      |  1 +
- .../media/platform/qcom/iris/iris_platform_gen2.c  | 62 ++++++++++++++++++++++
- .../platform/qcom/iris/iris_platform_sm8650.h      | 13 +++++
- drivers/media/platform/qcom/iris/iris_probe.c      |  4 ++
- 4 files changed, 80 insertions(+)
-
-diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
-index fdd40fd80178c4c66b37e392d07a0a62f492f108..6bc3a7975b04d612f6c89206eae95dac678695fc 100644
---- a/drivers/media/platform/qcom/iris/iris_platform_common.h
-+++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
-@@ -35,6 +35,7 @@ enum pipe_type {
- 
- extern struct iris_platform_data sm8250_data;
- extern struct iris_platform_data sm8550_data;
-+extern struct iris_platform_data sm8650_data;
- 
- enum platform_clk_type {
- 	IRIS_AXI_CLK,
-diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-index 35d278996c430f2856d0fe59586930061a271c3e..5ff82296ee8ea5ad3954bd2254594048adcb8404 100644
---- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-+++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-@@ -10,6 +10,8 @@
- #include "iris_platform_common.h"
- #include "iris_vpu_common.h"
- 
-+#include "iris_platform_sm8650.h"
-+
- #define VIDEO_ARCH_LX 1
- 
- static struct platform_inst_fw_cap inst_fw_cap_sm8550[] = {
-@@ -264,3 +266,63 @@ struct iris_platform_data sm8550_data = {
- 	.dec_op_int_buf_tbl = sm8550_dec_op_int_buf_tbl,
- 	.dec_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_op_int_buf_tbl),
- };
-+
-+/*
-+ * Shares most of SM8550 data except:
-+ * - vpu_ops to iris_vpu33_ops
-+ * - clk_rst_tbl to sm8650_clk_reset_table
-+ * - controller_rst_tbl to sm8650_controller_reset_table
-+ * - fwname to "qcom/vpu/vpu33_p4.mbn"
-+ */
-+struct iris_platform_data sm8650_data = {
-+	.get_instance = iris_hfi_gen2_get_instance,
-+	.init_hfi_command_ops = iris_hfi_gen2_command_ops_init,
-+	.init_hfi_response_ops = iris_hfi_gen2_response_ops_init,
-+	.vpu_ops = &iris_vpu33_ops,
-+	.set_preset_registers = iris_set_sm8550_preset_registers,
-+	.icc_tbl = sm8550_icc_table,
-+	.icc_tbl_size = ARRAY_SIZE(sm8550_icc_table),
-+	.clk_rst_tbl = sm8650_clk_reset_table,
-+	.clk_rst_tbl_size = ARRAY_SIZE(sm8650_clk_reset_table),
-+	.controller_rst_tbl = sm8650_controller_reset_table,
-+	.controller_rst_tbl_size = ARRAY_SIZE(sm8650_controller_reset_table),
-+	.bw_tbl_dec = sm8550_bw_table_dec,
-+	.bw_tbl_dec_size = ARRAY_SIZE(sm8550_bw_table_dec),
-+	.pmdomain_tbl = sm8550_pmdomain_table,
-+	.pmdomain_tbl_size = ARRAY_SIZE(sm8550_pmdomain_table),
-+	.opp_pd_tbl = sm8550_opp_pd_table,
-+	.opp_pd_tbl_size = ARRAY_SIZE(sm8550_opp_pd_table),
-+	.clk_tbl = sm8550_clk_table,
-+	.clk_tbl_size = ARRAY_SIZE(sm8550_clk_table),
-+	/* Upper bound of DMA address range */
-+	.dma_mask = 0xe0000000 - 1,
-+	.fwname = "qcom/vpu/vpu33_p4.mbn",
-+	.pas_id = IRIS_PAS_ID,
-+	.inst_caps = &platform_inst_cap_sm8550,
-+	.inst_fw_caps = inst_fw_cap_sm8550,
-+	.inst_fw_caps_size = ARRAY_SIZE(inst_fw_cap_sm8550),
-+	.tz_cp_config_data = &tz_cp_config_sm8550,
-+	.core_arch = VIDEO_ARCH_LX,
-+	.hw_response_timeout = HW_RESPONSE_TIMEOUT_VALUE,
-+	.ubwc_config = &ubwc_config_sm8550,
-+	.num_vpp_pipe = 4,
-+	.max_session_count = 16,
-+	.max_core_mbpf = ((8192 * 4352) / 256) * 2,
-+	.input_config_params =
-+		sm8550_vdec_input_config_params,
-+	.input_config_params_size =
-+		ARRAY_SIZE(sm8550_vdec_input_config_params),
-+	.output_config_params =
-+		sm8550_vdec_output_config_params,
-+	.output_config_params_size =
-+		ARRAY_SIZE(sm8550_vdec_output_config_params),
-+	.dec_input_prop = sm8550_vdec_subscribe_input_properties,
-+	.dec_input_prop_size = ARRAY_SIZE(sm8550_vdec_subscribe_input_properties),
-+	.dec_output_prop = sm8550_vdec_subscribe_output_properties,
-+	.dec_output_prop_size = ARRAY_SIZE(sm8550_vdec_subscribe_output_properties),
-+
-+	.dec_ip_int_buf_tbl = sm8550_dec_ip_int_buf_tbl,
-+	.dec_ip_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_ip_int_buf_tbl),
-+	.dec_op_int_buf_tbl = sm8550_dec_op_int_buf_tbl,
-+	.dec_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_op_int_buf_tbl),
-+};
-diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8650.h b/drivers/media/platform/qcom/iris/iris_platform_sm8650.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..75e9d572e788de043a56cf85a4cb634bd02226b9
---- /dev/null
-+++ b/drivers/media/platform/qcom/iris/iris_platform_sm8650.h
-@@ -0,0 +1,13 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2022-2024 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#ifndef __IRIS_PLATFORM_SM8650_H__
-+#define __IRIS_PLATFORM_SM8650_H__
-+
-+static const char * const sm8650_clk_reset_table[] = { "bus", "core" };
-+
-+static const char * const sm8650_controller_reset_table[] = { "xo" };
-+
-+#endif
-diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
-index 4f8bce6e2002bffee4c93dcaaf6e52bf4e40992e..7cd8650fbe9c09598670530103e3d5edf32953e7 100644
---- a/drivers/media/platform/qcom/iris/iris_probe.c
-+++ b/drivers/media/platform/qcom/iris/iris_probe.c
-@@ -345,6 +345,10 @@ static const struct of_device_id iris_dt_match[] = {
- 			.data = &sm8250_data,
- 		},
- #endif
-+	{
-+		.compatible = "qcom,sm8650-iris",
-+		.data = &sm8650_data,
-+	},
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, iris_dt_match);
-
--- 
-2.34.1
+>> Thanks,
+>> Steve
+>>
+>>> ---
+>>>  drivers/gpu/drm/panthor/panthor_device.c |   5 +
+>>>  drivers/gpu/drm/panthor/panthor_device.h |  11 ++
+>>>  drivers/gpu/drm/panthor/panthor_drv.c    |  26 ++++
+>>>  drivers/gpu/drm/panthor/panthor_gem.c    | 182 +++++++++++++++++++++++
+>>>  drivers/gpu/drm/panthor/panthor_gem.h    |  59 ++++++++
+>>>  5 files changed, 283 insertions(+)
+>>>
+>>> diff --git a/drivers/gpu/drm/panthor/panthor_device.c b/drivers/gpu/drm/panthor/panthor_device.c
+>>> index a9da1d1eeb70..b776e1a2e4f3 100644
+>>> --- a/drivers/gpu/drm/panthor/panthor_device.c
+>>> +++ b/drivers/gpu/drm/panthor/panthor_device.c
+>>> @@ -184,6 +184,11 @@ int panthor_device_init(struct panthor_device *ptdev)
+>>>  	if (ret)
+>>>  		return ret;
+>>>
+>>> +#ifdef CONFIG_DEBUG_FS
+>>> +	drmm_mutex_init(&ptdev->base, &ptdev->gems.lock);
+>>> +	INIT_LIST_HEAD(&ptdev->gems.node);
+>>> +#endif
+>>> +
+>>>  	atomic_set(&ptdev->pm.state, PANTHOR_DEVICE_PM_STATE_SUSPENDED);
+>>>  	p = alloc_page(GFP_KERNEL | __GFP_ZERO);
+>>>  	if (!p)
+>>> diff --git a/drivers/gpu/drm/panthor/panthor_device.h b/drivers/gpu/drm/panthor/panthor_device.h
+>>> index da6574021664..86206a961b38 100644
+>>> --- a/drivers/gpu/drm/panthor/panthor_device.h
+>>> +++ b/drivers/gpu/drm/panthor/panthor_device.h
+>>> @@ -205,6 +205,17 @@ struct panthor_device {
+>>>
+>>>  	/** @fast_rate: Maximum device clock frequency. Set by DVFS */
+>>>  	unsigned long fast_rate;
+>>> +
+>>> +#ifdef CONFIG_DEBUG_FS
+>>> +	/** @gems: Device-wide list of GEM objects owned by at least one file. */
+>>> +	struct {
+>>> +		/** @gems.lock: Protects the device-wide list of GEM objects. */
+>>> +		struct mutex lock;
+>>> +
+>>> +		/** @node: Used to keep track of all the device's DRM objects */
+>>> +		struct list_head node;
+>>> +	} gems;
+>>> +#endif
+>>>  };
+>>>
+>>>  struct panthor_gpu_usage {
+>>> diff --git a/drivers/gpu/drm/panthor/panthor_drv.c b/drivers/gpu/drm/panthor/panthor_drv.c
+>>> index 7660627cafa1..13f0b045c5fd 100644
+>>> --- a/drivers/gpu/drm/panthor/panthor_drv.c
+>>> +++ b/drivers/gpu/drm/panthor/panthor_drv.c
+>>> @@ -1557,9 +1557,35 @@ static const struct file_operations panthor_drm_driver_fops = {
+>>>  };
+>>>
+>>>  #ifdef CONFIG_DEBUG_FS
+>>> +static int panthor_gems_show(struct seq_file *m, void *data)
+>>> +{
+>>> +	struct drm_info_node *node = m->private;
+>>> +	struct drm_device *dev = node->minor->dev;
+>>> +	struct panthor_device *ptdev = container_of(dev, struct panthor_device, base);
+>>> +
+>>> +	panthor_gem_debugfs_print_bos(ptdev, m);
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +
+>>> +static struct drm_info_list panthor_debugfs_list[] = {
+>>> +	{"gems", panthor_gems_show, 0, NULL},
+>>> +};
+>>> +
+>>> +static int panthor_gems_debugfs_init(struct drm_minor *minor)
+>>> +{
+>>> +	drm_debugfs_create_files(panthor_debugfs_list,
+>>> +				 ARRAY_SIZE(panthor_debugfs_list),
+>>> +				 minor->debugfs_root, minor);
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>>  static void panthor_debugfs_init(struct drm_minor *minor)
+>>>  {
+>>>  	panthor_mmu_debugfs_init(minor);
+>>> +	panthor_gems_debugfs_init(minor);
+>>>  }
+>>>  #endif
+>>>
+>>> diff --git a/drivers/gpu/drm/panthor/panthor_gem.c b/drivers/gpu/drm/panthor/panthor_gem.c
+>>> index 3f4ab5a2f2ae..1e3409c05891 100644
+>>> --- a/drivers/gpu/drm/panthor/panthor_gem.c
+>>> +++ b/drivers/gpu/drm/panthor/panthor_gem.c
+>>> @@ -11,14 +11,51 @@
+>>>  #include <drm/panthor_drm.h>
+>>>
+>>>  #include "panthor_device.h"
+>>> +#include "panthor_fw.h"
+>>>  #include "panthor_gem.h"
+>>>  #include "panthor_mmu.h"
+>>>
+>>> +#ifdef CONFIG_DEBUG_FS
+>>> +static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
+>>> +				       struct panthor_gem_object *bo)
+>>> +{
+>>> +	INIT_LIST_HEAD(&bo->debugfs.node);
+>>> +
+>>> +	bo->debugfs.creator.tgid = current->group_leader->pid;
+>>> +	get_task_comm(bo->debugfs.creator.process_name, current->group_leader);
+>>> +
+>>> +	mutex_lock(&ptdev->gems.lock);
+>>> +	list_add_tail(&bo->debugfs.node, &ptdev->gems.node);
+>>> +	mutex_unlock(&ptdev->gems.lock);
+>>> +}
+>>> +
+>>> +static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo)
+>>> +{
+>>> +	struct panthor_device *ptdev = container_of(bo->base.base.dev,
+>>> +						    struct panthor_device, base);
+>>> +
+>>> +	if (list_empty(&bo->debugfs.node))
+>>> +		return;
+>>> +
+>>> +	mutex_lock(&ptdev->gems.lock);
+>>> +	list_del_init(&bo->debugfs.node);
+>>> +	mutex_unlock(&ptdev->gems.lock);
+>>> +}
+>>> +
+>>> +#else
+>>> +static void panthor_gem_debugfs_bo_add(struct panthor_device *ptdev,
+>>> +				       struct panthor_gem_object *bo)
+>>> +{}
+>>> +static void panthor_gem_debugfs_bo_rm(struct panthor_gem_object *bo) {}
+>>> +#endif
+>>> +
+>>>  static void panthor_gem_free_object(struct drm_gem_object *obj)
+>>>  {
+>>>  	struct panthor_gem_object *bo = to_panthor_bo(obj);
+>>>  	struct drm_gem_object *vm_root_gem = bo->exclusive_vm_root_gem;
+>>>
+>>> +	panthor_gem_debugfs_bo_rm(bo);
+>>> +
+>>>  	/*
+>>>  	 * Label might have been allocated with kstrdup_const(),
+>>>  	 * we need to take that into account when freeing the memory
+>>> @@ -88,6 +125,7 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+>>>  	struct drm_gem_shmem_object *obj;
+>>>  	struct panthor_kernel_bo *kbo;
+>>>  	struct panthor_gem_object *bo;
+>>> +	u32 debug_flags = PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL;
+>>>  	int ret;
+>>>
+>>>  	if (drm_WARN_ON(&ptdev->base, !vm))
+>>> @@ -107,7 +145,11 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+>>>  	kbo->obj = &obj->base;
+>>>  	bo->flags = bo_flags;
+>>>
+>>> +	if (vm == panthor_fw_vm(ptdev))
+>>> +		debug_flags |= PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED;
+>>> +
+>>>  	panthor_gem_kernel_bo_set_label(kbo, name);
+>>> +	panthor_gem_debugfs_set_usage_flags(to_panthor_bo(kbo->obj), debug_flags);
+>>>
+>>>  	/* The system and GPU MMU page size might differ, which becomes a
+>>>  	 * problem for FW sections that need to be mapped at explicit address
+>>> @@ -210,6 +252,8 @@ struct drm_gem_object *panthor_gem_create_object(struct drm_device *ddev, size_t
+>>>  	drm_gem_gpuva_set_lock(&obj->base.base, &obj->gpuva_list_lock);
+>>>  	mutex_init(&obj->label.lock);
+>>>
+>>> +	panthor_gem_debugfs_bo_add(ptdev, obj);
+>>> +
+>>>  	return &obj->base.base;
+>>>  }
+>>>
+>>> @@ -258,6 +302,12 @@ panthor_gem_create_with_handle(struct drm_file *file,
+>>>  	/* drop reference from allocate - handle holds it now. */
+>>>  	drm_gem_object_put(&shmem->base);
+>>>
+>>> +	/*
+>>> +	 * No explicit flags are needed in the call below, since the
+>>> +	 * function internally sets the INITIALIZED bit for us.
+>>> +	 */
+>>> +	panthor_gem_debugfs_set_usage_flags(bo, 0);
+>>> +
+>>>  	return ret;
+>>>  }
+>>>
+>>> @@ -296,3 +346,135 @@ panthor_gem_kernel_bo_set_label(struct panthor_kernel_bo *bo, const char *label)
+>>>
+>>>  	panthor_gem_bo_set_label(bo->obj, str);
+>>>  }
+>>> +
+>>> +#ifdef CONFIG_DEBUG_FS
+>>> +static void
+>>> +panthor_gem_debugfs_format_flags(char flags_str[], int flags_len,
+>>> +				 const char * const names[], u32 name_count,
+>>> +				 u32 flags)
+>>> +{
+>>> +	bool first = true;
+>>> +	int offset = 0;
+>>> +
+>>> +#define ACC_FLAGS(...) \
+>>> +	({ \
+>>> +		offset += snprintf(flags_str + offset, flags_len - offset, ##__VA_ARGS__); \
+>>> +		if (offset == flags_len) \
+>>> +			return; \
+>>> +	})
+>>> +
+>>> +	ACC_FLAGS("%c", '(');
+>>> +
+>>> +	if (!flags)
+>>> +		ACC_FLAGS("%s", "none");
+>>> +
+>>> +	while (flags) {
+>>> +		u32 bit = fls(flags) - 1;
+>>> +		u32 idx = bit + 1;
+>>> +
+>>> +		if (!first)
+>>> +			ACC_FLAGS("%s", ",");
+>>> +
+>>> +		if (idx < name_count && names[idx])
+>>> +			ACC_FLAGS("%s", names[idx]);
+>>> +
+>>> +		first = false;
+>>> +		flags &= ~BIT(bit);
+>>> +	}
+>>> +
+>>> +	ACC_FLAGS("%c", ')');
+>>> +
+>>> +#undef ACC_FLAGS
+>>> +}
+>>> +
+>>> +struct gem_size_totals {
+>>> +	size_t size;
+>>> +	size_t resident;
+>>> +	size_t reclaimable;
+>>> +};
+>>> +
+>>> +static void panthor_gem_debugfs_bo_print(struct panthor_gem_object *bo,
+>>> +					 struct seq_file *m,
+>>> +					 struct gem_size_totals *totals)
+>>> +{
+>>> +	unsigned int refcount = kref_read(&bo->base.base.refcount);
+>>> +	char creator_info[32] = {};
+>>> +	size_t resident_size;
+>>> +	char gem_state_str[64] = {};
+>>> +	char gem_usage_str[64] = {};
+>>> +	u32 gem_usage_flags = bo->debugfs.flags & (u32)~PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED;
+>>> +	u32 gem_state_flags = 0;
+>>> +
+>>> +	static const char * const gem_state_flags_names[] = {
+>>> +		[PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED] = "imported",
+>>> +		[PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED] = "exported",
+>>> +	};
+>>> +
+>>> +	static const char * const gem_usage_flags_names[] = {
+>>> +		[PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL] = "kernel",
+>>> +		[PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED] = "fw-mapped",
+>>> +	};
+>>> +
+>>> +	/* Skip BOs being destroyed. */
+>>> +	if (!refcount)
+>>> +		return;
+>>> +
+>>> +	resident_size = bo->base.pages != NULL ? bo->base.base.size : 0;
+>>> +
+>>> +	snprintf(creator_info, sizeof(creator_info),
+>>> +		 "%s/%d", bo->debugfs.creator.process_name, bo->debugfs.creator.tgid);
+>>> +	seq_printf(m, "%-32s%-16d%-16d%-16zd%-16zd%-16lx",
+>>> +		   creator_info,
+>>> +		   bo->base.base.name,
+>>> +		   refcount,
+>>> +		   bo->base.base.size,
+>>> +		   resident_size,
+>>> +		   drm_vma_node_start(&bo->base.base.vma_node));
+>>> +
+>>> +	if (bo->base.base.import_attach != NULL)
+>>> +		gem_state_flags |= PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED;
+>>> +	if (bo->base.base.dma_buf != NULL)
+>>> +		gem_state_flags |= PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED;
+>>> +
+>>> +	panthor_gem_debugfs_format_flags(gem_state_str, sizeof(gem_state_str),
+>>> +					 gem_state_flags_names, ARRAY_SIZE(gem_state_flags_names),
+>>> +					 gem_state_flags);
+>>> +	panthor_gem_debugfs_format_flags(gem_usage_str, sizeof(gem_usage_str),
+>>> +					 gem_usage_flags_names, ARRAY_SIZE(gem_usage_flags_names),
+>>> +					 gem_usage_flags);
+>>> +
+>>> +	seq_printf(m, "%-64s%-64s", gem_state_str, gem_usage_str);
+>>> +
+>>> +	scoped_guard(mutex, &bo->label.lock) {
+>>> +		seq_printf(m, "%s", bo->label.str ? : "");
+>>> +	}
+>>> +
+>>> +	seq_puts(m, "\n");
+>>> +
+>>> +	totals->size += bo->base.base.size;
+>>> +	totals->resident += resident_size;
+>>> +	if (bo->base.madv > 0)
+>>> +		totals->reclaimable += resident_size;
+>>> +}
+>>> +
+>>> +void panthor_gem_debugfs_print_bos(struct panthor_device *ptdev,
+>>> +				   struct seq_file *m)
+>>> +{
+>>> +	struct gem_size_totals totals = {0};
+>>> +	struct panthor_gem_object *bo;
+>>> +
+>>> +	seq_puts(m, "created-by                      global-name     refcount        size            resident-size   file-offset     state                                                           usage                                                           label\n");
+>>> +	seq_puts(m, "-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------\n");
+>>> +
+>>> +	scoped_guard(mutex, &ptdev->gems.lock) {
+>>> +		list_for_each_entry(bo, &ptdev->gems.node, debugfs.node) {
+>>> +			if (bo->debugfs.flags & PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED)
+>>> +				panthor_gem_debugfs_bo_print(bo, m, &totals);
+>>> +		}
+>>> +	}
+>>> +
+>>> +	seq_puts(m, "=====================================================================================================================================================================================================================================================\n");
+>>> +	seq_printf(m, "Total size: %zd, Total resident: %zd, Total reclaimable: %zd\n",
+>>> +		   totals.size, totals.resident, totals.reclaimable);
+>>> +}
+>>> +#endif
+>>> diff --git a/drivers/gpu/drm/panthor/panthor_gem.h b/drivers/gpu/drm/panthor/panthor_gem.h
+>>> index 3c09af568e47..94b244f0540e 100644
+>>> --- a/drivers/gpu/drm/panthor/panthor_gem.h
+>>> +++ b/drivers/gpu/drm/panthor/panthor_gem.h
+>>> @@ -15,6 +15,48 @@ struct panthor_vm;
+>>>
+>>>  #define PANTHOR_BO_LABEL_MAXLEN	4096
+>>>
+>>> +enum panthor_debugfs_gem_state_flags {
+>>> +	/** @PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED: GEM BO is PRIME imported. */
+>>> +	PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED = BIT(0),
+>>> +
+>>> +	/** @PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED: GEM BO is PRIME exported. */
+>>> +	PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED = BIT(1),
+>>> +};
+>>> +
+>>> +enum panthor_debugfs_gem_usage_flags {
+>>> +	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL: BO is for kernel use only. */
+>>> +	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL = BIT(0),
+>>> +
+>>> +	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED: BO is mapped on the FW VM. */
+>>> +	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED = BIT(1),
+>>> +
+>>> +	/** @PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED: BO is ready for DebugFS display. */
+>>> +	PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED = BIT(31),
+>>> +};
+>>> +
+>>> +/**
+>>> + * struct panthor_gem_debugfs - GEM object's DebugFS list information
+>>> + */
+>>> +struct panthor_gem_debugfs {
+>>> +	/**
+>>> +	 * @node: Node used to insert the object in the device-wide list of
+>>> +	 * GEM objects, to display information about it through a DebugFS file.
+>>> +	 */
+>>> +	struct list_head node;
+>>> +
+>>> +	/** @creator: Information about the UM process which created the GEM. */
+>>> +	struct {
+>>> +		/** @creator.process_name: Group leader name in owning thread's process */
+>>> +		char process_name[TASK_COMM_LEN];
+>>> +
+>>> +		/** @creator.tgid: PID of the thread's group leader within its process */
+>>> +		pid_t tgid;
+>>> +	} creator;
+>>> +
+>>> +	/** @flags: Combination of panthor_debugfs_gem_usage_flags flags */
+>>> +	u32 flags;
+>>> +};
+>>> +
+>>>  /**
+>>>   * struct panthor_gem_object - Driver specific GEM object.
+>>>   */
+>>> @@ -62,6 +104,10 @@ struct panthor_gem_object {
+>>>  		/** @lock.str: Protects access to the @label.str field. */
+>>>  		struct mutex lock;
+>>>  	} label;
+>>> +
+>>> +#ifdef CONFIG_DEBUG_FS
+>>> +	struct panthor_gem_debugfs debugfs;
+>>> +#endif
+>>>  };
+>>>
+>>>  /**
+>>> @@ -157,4 +203,17 @@ panthor_kernel_bo_create(struct panthor_device *ptdev, struct panthor_vm *vm,
+>>>
+>>>  void panthor_kernel_bo_destroy(struct panthor_kernel_bo *bo);
+>>>
+>>> +#ifdef CONFIG_DEBUG_FS
+>>> +void panthor_gem_debugfs_print_bos(struct panthor_device *pfdev,
+>>> +				   struct seq_file *m);
+>>> +static inline void
+>>> +panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags)
+>>> +{
+>>> +	bo->debugfs.flags = usage_flags | PANTHOR_DEBUGFS_GEM_USAGE_FLAG_INITIALIZED;
+>>> +}
+>>> +
+>>> +#else
+>>> +void panthor_gem_debugfs_set_usage_flags(struct panthor_gem_object *bo, u32 usage_flags) {};
+>>> +#endif
+>>> +
+>>>  #endif /* __PANTHOR_GEM_H__ */
+> 
+> Adrian Larumbe
 
 
