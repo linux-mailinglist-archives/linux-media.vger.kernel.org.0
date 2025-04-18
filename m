@@ -1,54 +1,54 @@
-Return-Path: <linux-media+bounces-30557-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30558-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99144A93A12
-	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 17:47:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76B46A93AD6
+	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 18:27:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B02ED4616BF
-	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 15:47:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9D4151886B0F
+	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 16:27:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDA18214227;
-	Fri, 18 Apr 2025 15:47:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 193ED21A928;
+	Fri, 18 Apr 2025 16:24:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="NvHUlHsw"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="AolW9ZYs"
 X-Original-To: linux-media@vger.kernel.org
 Received: from ixit.cz (ip-89-177-23-149.bb.vodafone.cz [89.177.23.149])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E162F433C4;
-	Fri, 18 Apr 2025 15:47:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BBF721517C;
+	Fri, 18 Apr 2025 16:24:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.177.23.149
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744991237; cv=none; b=KbUnGpbaronpVdRqCo+Ac1GBiipblt+9J/SB7zBqS01X8ZmnGmlSdWNVbboLF+xzCfamXMUrCCB+0VOhlodfPyRMWM44GFdDlaTiF/bxJXeGNKebmWNi90JIsmW5MVhlH3xtAqKqEWhLpyj+jEpVokJQ8A6ldU9o7V90Vzz7mdk=
+	t=1744993451; cv=none; b=MzuEi2GaYhR6vDY9j1GJzL8XjbWj/Nh35NTTE4EmDPeUJObp6awTEfGIDfjHuIAAQZ9FbzTn3dO7YZAroDYGGUygWPkHSxl0xfJO42IL5ILMIFvHRiT3dR6CKluiRxUNJChSO1HwjgBUq9jBKmJFdnfJ+0TBL6L9D+v4Eq+I690=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744991237; c=relaxed/simple;
-	bh=ljtZdhVx1NWC3HJMyyyutP+jGnQR0uETb3O+HtvTPj0=;
+	s=arc-20240116; t=1744993451; c=relaxed/simple;
+	bh=D+p4wr9ZGZF1nabMD0H7Kxj219O2eT69eVVmsj2xsvs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ks3gCd4ZcHkNdXhrGHMU/SELWpbX9mnvC8HYFmgqev7TaIBTLSTDKtwDBRlxnFb6h9W1X5A06NCWTjTWMNMexJawkcJQLXPfcshvLB7UIe7Qd8T7zUaqv2vaZQNRJBu2QZi1+ushzhF6lUD3uACiHskRQo86mKQgYPBCTNKkKJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=NvHUlHsw; arc=none smtp.client-ip=89.177.23.149
+	 In-Reply-To:Content-Type; b=bjsvg5r5JdRGgZ+B+sMI85HbEALQpTKwRhf8luDYe9JjdzYgmuojVlbGpXQ8BBTUvCsfS6Uw/arrk/aV+KF+n5sQjAMmgb/ZzqQD3mNM2FdHFKJ4GioBJYq3YDVcFD9m80eZQ2AmD1Gj+EBiFDKRHMuu2yQCoFbDKItmWIAw5Tk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=AolW9ZYs; arc=none smtp.client-ip=89.177.23.149
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
 Received: from [10.0.0.185] (unknown [10.0.0.1])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id CBCA2166DE1;
-	Fri, 18 Apr 2025 17:47:09 +0200 (CEST)
+	by ixit.cz (Postfix) with ESMTPSA id 18098166C61;
+	Fri, 18 Apr 2025 18:24:04 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1744991229;
+	t=1744993444;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Bo6UctOCByawq/NUEF4WT0SFikMlGprjPQI+knN6Nhc=;
-	b=NvHUlHswA1YUpiAW4VANqoxbrkNOXcBH7voyLT8/P4+45V7V4b1szQgJ5BK9h6g80v+/+I
-	f+npHFBwbhlSnTD5VEvKEGQIVoZP21PGIynOEZN+5U4sQsRwV+CbiQ4KVq2nbfxWi2Otpq
-	AOTUbqbanHBUCjl1zg5vxSM7LTFDo1c=
-Message-ID: <3947c142-2b6f-4e12-9424-7593865af7fe@ixit.cz>
-Date: Fri, 18 Apr 2025 17:47:09 +0200
+	bh=Ge1lbHH+3YTLXPd6ZuMcpLqjgL8cA3thPs+6e8xss/k=;
+	b=AolW9ZYsARmzEs8qRsXYkyF5fizeNwOeRVfZwiLygEnhCXhTFSazRl0igaj/jr6TmoCBNF
+	pin4dWpsfYZ2gBWjGItFSTcBZj4oDi/rxuRX73kI3r7GGUgPDESb3AEfyWlIUcrMRFMt60
+	MBzKGykjsurQVSTKxg1VLjpPdo8Uju0=
+Message-ID: <1d88dd72-8c5d-459a-b681-6a44d32e93df@ixit.cz>
+Date: Fri, 18 Apr 2025 18:24:03 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,15 +56,22 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/9] platform/x86: int3472: Add handshake pin support
-To: Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Andy Shevchenko <andy@kernel.org>
-Cc: Dan Scally <djrscally@gmail.com>, Alan Stern <stern@rowland.harvard.edu>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Hao Yao <hao.yao@intel.com>,
- Bingbu Cao <bingbu.cao@intel.com>, Duane <duanek@chorus.net>,
- platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
-References: <20250417111337.38142-1-hdegoede@redhat.com>
+Subject: Re: [PATCH v4 2/2] media: i2c: ov02e10: add OV02E10 image sensor
+ driver
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Bryan O'Donoghue <bod@kernel.org>,
+ Hans de Goede <hansg@kernel.org>
+Cc: Jingjing Xiong <jingjing.xiong@intel.com>, Hao Yao <hao.yao@intel.com>,
+ Jim Lai <jim.lai@intel.com>, You-Sheng Yang <vicamo.yang@canonical.com>,
+ Alan Stern <stern@rowland.harvard.edu>, Hans de Goede <hdegoede@redhat.com>,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20250407-b4-media-comitters-next-25-03-13-ov02e10-v4-0-211e3e6fae90@linaro.org>
+ <20250407-b4-media-comitters-next-25-03-13-ov02e10-v4-2-211e3e6fae90@linaro.org>
 Content-Language: en-US
 From: David Heidelberg <david@ixit.cz>
 Autocrypt: addr=david@ixit.cz; keydata=
@@ -110,92 +117,98 @@ Autocrypt: addr=david@ixit.cz; keydata=
  zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
  fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
  ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <20250417111337.38142-1-hdegoede@redhat.com>
+In-Reply-To: <20250407-b4-media-comitters-next-25-03-13-ov02e10-v4-2-211e3e6fae90@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-For the series,
-
-Tested-by: David Heidelberg <david@ixit.cz>  # Dell Latitude 9440
+Tested-by: David Heidelberg <david@ixit.cz>  # Dell Latitude 9440 2024
 
 Thank you!
 David
 
-On 17/04/2025 13:13, Hans de Goede wrote:
-> Hi All,
+On 07/04/2025 11:13, Bryan O'Donoghue wrote:
+> From: Jingjing Xiong <jingjing.xiong@intel.com>
 > 
-> New Intel Meteor Lake based laptops with IPU6 cameras have a new type 0x12
-> pin defined in the INT3472 sensor companion device which describes
-> the sensor's GPIOs.
+> Add in the ov02e10 driver from the Intel IPU6 repository.
 > 
-> This pin is primarily used on designs with a Lattice FPGA chip which is
-> capable of running the sensor independently of the main CPU for features
-> like presence detection. This pin needs to be driven high to make the FPGA
-> run the power-on sequence of the sensor. After driving the pin high
-> the FPGA "firmware" needs 25ms to comlpete the power-on sequence.
+> Changelog to IPU6 incoming driver:
 > 
-> This series implements support for this by modelling the handshake GPIO
-> as a GPIO driven 'dvdd' regulator with an enable-time of 25 ms, also see:
+> - handhake GPIO
+>    The IPU6 handshake GPIO signals to the FPGA on IPU6/IPU7 laptops and as
+>    such is not a sensor signal.
 > 
-> https://lore.kernel.org/platform-driver-x86/59f672c3-6d87-4ec7-9b7f-f44fe2cce934@redhat.com/
+>    Hans has a proposal for handling those GPIOs below. Dropf from the
+>    incoming sensor driver.
 > 
-> Patch   1   Is an unrelated cleanup which I had lying around
-> Patches 2-8 Prepare + Implement the handshake GPIO
-> Patch   9   Is a small patch adding some extra debugging to GPIO remapping
+>    Link: https://lore.kernel.org/linux-media/4b87a956-a767-48dc-b98b-f80d9a44adc8@redhat.com
 > 
-> Changes in v4:
-> - Add Andy's Reviewed-by to a few more patches
-> - At static_assert(GPIO_REGULATOR_SUPPLY_MAP_COUNT == 2) since the code
->    assumes that
-> - Use unique error messages for power-enable vs handshake
->    skl_int3472_register_regulator() failures
-> - Drop setting of constraints.enable_time. enable_time already gets set
->    in struct regulator_desc (missed left-over from an older patch version)
+> - Regulators
+>    Change to regulator_bulk API to capture the full range of rails to the
+>    o02e10 sensor.
 > 
-> Changes in v3:
-> - Add Andy's Reviewed-by to a few more patches
-> - Some comment & commit-message tweaks
-> - Add comment explaining value of 12 in GPIO_REGULATOR_NAME_LENGTH
-> - Add a comment to int3472/common.h explaining where the 2 ms comes from
-> - s/n_regulators/n_regulator_gpios/
+>    This will work for ACPI systems which only have the avdd rail available
+>    as missing rails won't fail the regulator_bulk_* function calls.
 > 
-> Changes in v2:
-> - Add Andy's Reviewed-by to patches 1-3
-> - Address Andy's review remarks on patch 5
-> - Add 2 Tested-by tags to patch 8/9
+>    Convert the existing avdd single rail to regulator_bulk API.
 > 
-> This series applies on top of Torvald's latest master, for testing with
-> 6.14 this patch needs to be cherry-picked first:
-> https://web.git.kernel.org/pub/scm/linux/kernel/git/pdx86/platform-drivers-x86.git/commit/?id=81b251c66bdfe263fb5e7a16838512ddaeed77df
+> - Clocks
 > 
-> Regards,
+>    Move the MCLK validation logic to check_hwcfg() and move check_hwcfg()
+>    to after devm_kzalloc() so that we can pass a struct ov02e pointer to
+>    check_hwcfg() to begin to enumerate that structure.
 > 
-> Hans
+>    Reworks MCLK clock get logic to facilitate OF
 > 
+> - Power on/off
 > 
-> Hans de Goede (9):
->    platform/x86: int3472: Add skl_int3472_register_clock() helper
->    platform/x86: int3472: Stop setting a supply-name for GPIO regulators
->    platform/x86: int3472: Drop unused gpio field from struct
->      int3472_gpio_regulator
->    platform/x86: int3472: Rework AVDD second sensor quirk handling
->    platform/x86: int3472: Make regulator supply name configurable
->    platform/x86: int3472: Avoid GPIO regulator spikes
->    platform/x86: int3472: Prepare for registering more than 1 GPIO
->      regulator
->    platform/x86: int3472: Add handshake pin support
->    platform/x86: int3472: Debug log when remapping pins
+>    Implement specification on and off delays on power-up
 > 
->   drivers/platform/x86/intel/int3472/Makefile   |   3 +-
->   .../x86/intel/int3472/clk_and_regulator.c     | 167 ++++++------------
->   drivers/platform/x86/intel/int3472/common.h   |  57 ++++--
->   drivers/platform/x86/intel/int3472/discrete.c |  41 ++++-
->   .../x86/intel/int3472/discrete_quirks.c       |  22 +++
->   5 files changed, 158 insertions(+), 132 deletions(-)
->   create mode 100644 drivers/platform/x86/intel/int3472/discrete_quirks.c
+>    The ov02e10 specification says for power-on:
 > 
-
--- 
-David Heidelberg
-
+>    t3 = the time between dvdd stable and XSHUTDOWN deassert
+>    t5 = the time between XSHUTDOWN deassert and SCCB ready
+> 
+>    The power-off path in the spec shows no required delays between XSHUTDOWN
+>    and power-rail shut off but, if the reset GPIO is not defined no action is
+>    taken to change its logical state.
+> 
+> - Remove dev_dbg() and extra dev_err()
+> 
+>    Several instances of dev_dbg() and dev_err() were removed.
+>    dev_xxx() calls common in development can be stripped away for upstream.
+> 
+>    We have multiple on-list tests for this code on X86 and Arm so most of
+>    the verbose dev_xxx() calls are redundant now.
+> 
+> - Add OF probe support
+> 
+>    Simple addition of ovti,0v02e10 compat string and associated resource
+>    structure entry.
+> 
+> - Extend MODULE_AUTHOR list
+>    Adds Hans, Alan and myself
+> 
+> - Conversion to v4l2 subdevice-state
+> 
+> - Added HFLIP and VFLIP support
+> 
+> Signed-off-by: Jingjing Xiong <jingjing.xiong@intel.com>
+> Co-developed-by: Hao Yao <hao.yao@intel.com>
+> Signed-off-by: Hao Yao <hao.yao@intel.com>
+> Co-developed-by: Jim Lai <jim.lai@intel.com>
+> Signed-off-by: Jim Lai <jim.lai@intel.com>
+> Co-developed-by: You-Sheng Yang <vicamo.yang@canonical.com>
+> Signed-off-by: You-Sheng Yang <vicamo.yang@canonical.com>
+> Co-developed-by: Alan Stern <stern@rowland.harvard.edu>
+> Signed-off-by: Alan Stern <stern@rowland.harvard.edu>
+> Co-developed-by: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>   MAINTAINERS                 |   9 +
+>   drivers/media/i2c/Kconfig   |  10 +
+>   drivers/media/i2c/Makefile  |   1 +
+>   drivers/media/i2c/ov02e10.c | 969 ++++++++++++++++++++++++++++++++++++++++++++
+>   4 files changed, 989 insertions(+)
+> 
 
