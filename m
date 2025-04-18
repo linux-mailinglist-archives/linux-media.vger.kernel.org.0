@@ -1,288 +1,141 @@
-Return-Path: <linux-media+bounces-30540-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30541-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8651A936B2
-	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 13:49:58 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E06EEA936C3
+	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 14:02:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 184E83BED84
-	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 11:49:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6ED647AD233
+	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 12:01:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B53062741C5;
-	Fri, 18 Apr 2025 11:49:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68DE82741D8;
+	Fri, 18 Apr 2025 12:02:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="GFiW2Fbm"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="GGnuHJ0M"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ixit.cz (ip-89-177-23-149.bb.vodafone.cz [89.177.23.149])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FFAF199947;
-	Fri, 18 Apr 2025 11:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=89.177.23.149
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A26B270EAF
+	for <linux-media@vger.kernel.org>; Fri, 18 Apr 2025 12:02:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744976989; cv=none; b=dG8+MGUUshnpmnOXV+M5NokGmVsbuL/EgfoxZS5daaCxNn+/vkWrF2nshNUI7cG6DAM9ZY7HJAxVD/CXE7CXFVuXFYdeUkXsXbbsz51VVfkkU47GRSfAxzzDaheAih5dS4Zx3R5Z1UiyuvvDJHOgIATggt4oUgL3O5OEASVFaK4=
+	t=1744977723; cv=none; b=DF9q0I/2GSQpw8RD6k8XJVhYtxkxtRLipajn6aDR3vtJRlS2Z1JgV6GUNZsRicqTxmsBgGhojdl0QVcjw9eVw99EelzzO9gUSp1qPapgsvTwQRuzkJrvP4/iQz8obc+06klWIjNSpaoMCqIgDaqjz9nG1ZNpxo5jH2E6ONGKdm8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744976989; c=relaxed/simple;
-	bh=0xqfItQyN6ROhVXcQYA8qrLVNEC/rcSRqgoktrpt8MA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S0yqynB5rSCqZASe1bLdNkD48Cd4evivhEq5XHvqGVjx0XDREnRrbw0LLQi0HXNMeSVlInepCGzqgw1VNyBsu/GdhO0lnqbJoDzqdqfLTVnHpzP65of7CWfKcr1Tfr8rajBC+RQMNZYQ70xXgkNPG5UDdELmP2V4fS33CdB0nSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=GFiW2Fbm; arc=none smtp.client-ip=89.177.23.149
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
-Received: from [10.0.0.185] (unknown [10.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ixit.cz (Postfix) with ESMTPSA id A5947166598;
-	Fri, 18 Apr 2025 13:42:01 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
-	t=1744976521;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=5uRv3rAKMiUBBg+1+0mXz1mGMZQOP4uPKMKJVmKxbCQ=;
-	b=GFiW2FbmlbicCZXJfrIJG7I75y49Jdzrt0L4YwIxh8auJP7c/Out8+Yz9zT9rKQOp46Lr1
-	kcEAlTmznogxdB3SRadvHWJ0jMYLHBo0dSrRx68oUCVacjxfsIWQs44t35ye/Mxr6P6ucP
-	r8aNwRixDO65HkQAbcgR5Ly8XbBKnRc=
-Message-ID: <7ae72214-3f91-4bd7-b5f0-07391006f531@ixit.cz>
-Date: Fri, 18 Apr 2025 13:42:01 +0200
+	s=arc-20240116; t=1744977723; c=relaxed/simple;
+	bh=RCrHjO8xAUELr4mqPE7PtuFOQz5sGUAgYI3HTFLYAng=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=a/jiuUWkVoQFJLPMngKMpVnzkuv3TGVPS9DOOWzgSTU6sBe7IeAJpo7KP0h4FTVbciNqKEGpRUm0OU/7FfSm/AKyqIHB0HjrVGSj8RQf5pPrYiI2lE0ZiksW1B3VUljs5x0DDxzbuDmfQA/Bj0Fv/YlyDz0+DH8Qkq5wNabAEqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=GGnuHJ0M; arc=none smtp.client-ip=209.85.210.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-72bccda48cbso1161296a34.1
+        for <linux-media@vger.kernel.org>; Fri, 18 Apr 2025 05:02:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1744977721; x=1745582521; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=RCrHjO8xAUELr4mqPE7PtuFOQz5sGUAgYI3HTFLYAng=;
+        b=GGnuHJ0ML8ds0IOu5pxZN771yqriszR/+bXDfmhG9l5hHzouhIx/hgDPcSZgeJBIFy
+         2EQaJwRx6LH6KAOC5+u2AfRgISkDd8bG5nLvnkb2QG15a3O+FhcfymMExi6pJG/8H4FO
+         +280A0M3KnR0K0kxB+956KGttoBwicMN0Bddgb9Yx9Fqj2jmpSK5rpmWR9bOTroamn61
+         fLPh2KMqf9aepkJLcmun92X65pve3K9CaLRZw35OYYFXhLEzkQ/TdqnyMdXBR28Szib9
+         RKDbFC1QWkw4jq51b8zpK58SGPT7XYwN1VYHFSB7blLRig32tEZA00qqnGs5p1k58cgT
+         IHzw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744977721; x=1745582521;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RCrHjO8xAUELr4mqPE7PtuFOQz5sGUAgYI3HTFLYAng=;
+        b=EuhEw2jGeG51rUADCA/tMO/pfwQkIKtX1oJ/ZONV7x2HorGaOEf0KZsrE7c7wRQSQj
+         onY/u0hoZlbRk1RbMDOWqD2Z8oTWcaXu4BvsK0H/RNPOSQ7fumQUIhADH9AOm0g8ZW5b
+         CYPEDZlQkVfyy7gM6DAkjl7rBXU2EdI4p4q1+h9F/1zabYnFSR12QH+6V/He6Jg/uAWk
+         qdgwSXSQJElQBoOeWJvIzTKdW2ANDz4JNlOBi9AzzbEMNx6coShalCbF7zs1+qmNkXi0
+         Y7gbdE8YnOhqrggE6QXdb6rkIYeotkbs6EJu/QelGjyuPbLJQM7bXAvxS4ZKL6IcuU+F
+         2FaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUb4eiTzTo50ypUUQx9+jt12uz9sNIo+lJRllE7PDz7Y9gZZAdge8j8LXX0McbqG1t2ZhHMLt8+/Qdt/g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxiFVaSiJb8WBFaknBg4ely7uzOrAQ/z1Kte++R6Tq3KGFJHeAF
+	P4naVrT1a71L9qz2YJ0cL+MvULPM9GsJhhUbvPAV+mItBXoOq+yL0qIquzqYY3Q=
+X-Gm-Gg: ASbGncuQ0uh8aiXbcRv+ybB7aHhVsu08ypoBtwULGpCSV/XYv82nmubvNxpKtVI4iKD
+	JR02vfL1nR8Ti5x9lxF0S4lNjHYr52TklsgBC+aLcnLi+fSxE5GB2jAzPnYFiU4UA0iYypk0cw3
+	GN+8K1lB4dXHv2wseupwJUB0PiSIfkWVJzuoqbRceamFyg4sWBu/Jjp/nU0+m1gpopHt0KjLg85
+	2nwiHqCikJbksijF1dNxjX3grjJi7335/2r8cywNUQVENPxwZGnliSLr6S3hWWdGi2bt8gTlqwB
+	SSGTSXHDh54UyaQIngZ3ksD90UuMObmIwduR46fyKipYRg==
+X-Google-Smtp-Source: AGHT+IFpmEodtbmgdnihqC7sA3nbhK11fYL7TMUIM5m+Rg8CrSkqO37M6jThPDqqOLUcCHvHUJZ9KA==
+X-Received: by 2002:a05:6808:8019:b0:401:16e:b8c1 with SMTP id 5614622812f47-401c0a9794cmr981088b6e.15.1744977721359;
+        Fri, 18 Apr 2025 05:02:01 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:15:9913::c41? ([2606:6d00:15:9913::c41])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f2c2b324e2sm9870316d6.61.2025.04.18.05.02.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Apr 2025 05:02:00 -0700 (PDT)
+Message-ID: <e47bcf7715dc31144b5cb6d81957ab067fdccaa8.camel@ndufresne.ca>
+Subject: Re: [PATCH v5 0/5] media: imx-jpeg: Fix some motion-jpeg decoding
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: ming.qian@oss.nxp.com, mchehab@kernel.org, hverkuil-cisco@xs4all.nl, 
+	mirela.rabulea@oss.nxp.com
+Cc: shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de, 
+	festevam@gmail.com, xiahong.bao@nxp.com, eagle.zhou@nxp.com,
+ linux-imx@nxp.com, 	imx@lists.linux.dev, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	linux-arm-kernel@lists.infradead.org
+Date: Fri, 18 Apr 2025 08:01:59 -0400
+In-Reply-To: <20250418070826.141-1-ming.qian@oss.nxp.com>
+References: <20250418070826.141-1-ming.qian@oss.nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] media: dt-bindings: Convert Analog Devices ad5820 to
- DT schema
-To: Rob Herring <robh@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Pavel Machek <pavel@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, Pavel Machek <pavel@ucw.cz>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250414-b4-ad5820-dt-yaml-v3-1-39bbb5db7b2b@ixit.cz>
- <20250415223557.GA940473-robh@kernel.org>
-Content-Language: en-US
-From: David Heidelberg <david@ixit.cz>
-Autocrypt: addr=david@ixit.cz; keydata=
- xsFNBF5v1x4BEADS3EddwsNsvVAI1XF8uQKbdYPY/GhjaSLziwVnbwv5BGwqB1tfXoHnccoA
- 9kTgKAbiXG/CiZFhD6l4WCIskQDKzyQN3JhCUIxh16Xyw0lECI7iqoW9LmMoN1dNKcUmCO9g
- lZxQaOl+1bY/7ttd7DapLh9rmBXJ2lKiMEaIpUwb/Nw0d7Enp4Jy2TpkhPywIpUn8CoJCv3/
- 61qbvI9y5utB/UhfMAUXsaAgwEJyGPAqHlC0YZjaTwOu+YQUE3AFzhCbksq95CwDz4U4gdls
- dmv9tkATfu2OmzERZQ6vJTehK0Pu4l5KmCAzYg42I9Dy4E6b17x6NncKbcByQFOXMtG0qVUk
- F1yeeOQUHwu+8t3ZDMBUhCkRL/juuoqLmyDWKMc0hKNNeZ9BNXgB8fXkRLWEUfgDXsFyEkKp
- NxUy5bDRlivf6XfExnikk5kj9l2gGlNQwqROti/46bfbmlmc/a2GM4k8ZyalHNEAdwtXYSpP
- 8JJmlbQ7hNTLkc3HQLRsIocN5th/ur7pPMz1Beyp0gbE9GcOceqmdZQB80vJ01XDyCAihf6l
- AMnzwpXZsjqIqH9r7T7tM6tVEVbPSwPt4eZYXSoJijEBC/43TBbmxDX+5+3txRaSCRQrG9dY
- k3mMGM3xJLCps2KnaqMcgUnvb1KdTgEFUZQaItw7HyRd6RppewARAQABzSBEYXZpZCBIZWlk
- ZWxiZXJnIDxkYXZpZEBpeGl0LmN6PsLBlAQTAQgAPgIbAwULCQgHAgYVCgkICwIEFgIDAQIe
- AQIXgBYhBNd6Cc/u3Cu9U6cEdGACP8TTSSByBQJl+KksBQkPDaAOAAoJEGACP8TTSSBy6IAQ
- AMqFqVi9LLxCEcUWBn82ssQGiVSDniKpFE/tp7lMXflwhjD5xoftoWOmMYkiWE86t5x5Fsp7
- afALx7SEDz599F1K1bLnaga+budu55JEAYGudD2WwpLJ0kPzRhqBwGFIx8k6F+goZJzxPDsf
- loAtXQE62UvEKa4KRRcZmF0GGoRsgA7vE7OnV8LMeocdD3eb2CuXLzauHAfdvqF50IfPH/sE
- jbzROiAZU+WgrwU946aOzrN8jVU+Cy8XAccGAZxsmPBfhTY5f2VN1IqvfaRdkKKlmWVJWGw+
- ycFpAEJKFRdfcc5PSjUJcALn5C+hxzL2hBpIZJdfdfStn+DWHXNgBeRDiZj1x6vvyaC43RAb
- VXvRzOQfG4EaMVMIOvBjBA/FtIpb1gtXA42ewhvPnd5RVCqD9YYUxsVpJ9d+XsAy7uib3BsV
- W2idAEsPtoqhVhq8bCUs/G4sC2DdyGZK8MRFDJqciJSUbqA+5z1ZCuE8UOPDpZKiW6H/OuOM
- zDcjh0lOzr4p+/1TSg1PbUh7fQ+nbMuiT044sC1lLtJK0+Zyn0GwhR82oNM4fldNsaHRW42w
- QGD35+eNo5Pvb3We5XRMlBdhFnj7Siggp4J8/PJ6MJvRyC+RIJPGtbdMB2/RxWunFLn87e5w
- UgwR9jPMHAstuTR1yR23c4SIYoQ2fzkrRzuazsFNBF5v1x4BEADnlrbta2WL87BlEOotZUh0
- zXANMrNV15WxexsirLetfqbs0AGCaTRNj+uWlTUDJRXOVIwzmF76Us3I2796+Od2ocNpLheZ
- 7EIkq8budtLVd1c06qJ+GMraz51zfgSIazVInNMPk9T6fz0lembji5yEcNPNNBA4sHiFmXfo
- IhepHFOBApjS0CiOPqowYxSTPe/DLcJ/LDwWpTi37doKPhBwlHev1BwVCbrLEIFjY0MLM0aT
- jiBBlyLJaTqvE48gblonu2SGaNmGtkC3VoQUQFcVYDXtlL9CVbNo7BAt5gwPcNqEqkUL60Jh
- FtvVSKyQh6gn7HHsyMtgltjZ3NKjv8S3yQd7zxvCn79tCKwoeNevsvoMq/bzlKxc9QiKaRPO
- aDj3FtW7R/3XoKJBY8Hckyug6uc2qYWRpnuXc0as6S0wfek6gauExUttBKrtSbPPHiuTeNHt
- NsT4+dyvaJtQKPBTbPHkXpTO8e1+YAg7kPj3aKFToE/dakIh8iqUHLNxywDAamRVn8Ha67WO
- AEAA3iklJ49QQk2ZyS1RJ2Ul28ePFDZ3QSr9LoJiOBZv9XkbhXS164iRB7rBZk6ZRVgCz3V6
- hhhjkipYvpJ/fpjXNsVL8jvel1mYNf0a46T4QQDQx4KQj0zXJbC2fFikAtu1AULktF4iEXEI
- rSjFoqhd4euZ+QARAQABwsF8BBgBCAAmAhsMFiEE13oJz+7cK71TpwR0YAI/xNNJIHIFAmX4
- qVAFCQ8NoDIACgkQYAI/xNNJIHKN4A/+Ine2Ii7JiuGITjJkcV6pgKlfwYdEs4eFD1pTRb/K
- 5dprUz3QSLP41u9OJQ23HnESMvn31UENk9ffebNoW7WxZ/8cTQY0JY/cgTTrlNXtyAlGbR3/
- 3Q/VBJptf04Er7I6TaKAmqWzdVeKTw33LljpkHp02vrbOdylb4JQG/SginLV9purGAFptYRO
- 8JNa2J4FAQtQTrfOUjulOWMxy7XRkqK3QqLcPW79/CFn7q1yxamPkpoXUJq9/fVjlhk7P+da
- NYQpe4WQQnktBY29SkFnvfIAwqIVU8ix5Oz8rghuCcAdR7lEJ7hCX9bR0EE05FOXdZy5FWL9
- GHvFa/Opkq3DPmFl/0nt4HJqq1Nwrr+WR6d0414oo1n2hPEllge/6iD3ZYwptTvOFKEw/v0A
- yqOoYSiKX9F7Ko7QO+VnYeVDsDDevKic2T/4GDpcSVd9ipiKxCQvUAzKUH7RUpqDTa+rYurm
- zRKcgRumz2Tc1ouHj6qINlzEe3a5ldctIn/dvR1l2Ko7GBTG+VGp9U5NOAEkGpxHG9yg6eeY
- fFYnMme51H/HKiyUlFiE3yd5LSmv8Dhbf+vsI4x6BOOOq4Iyop/Exavj1owGxW0hpdUGcCl1
- ovlwVPO/6l/XLAmSGwdnGqok5eGZQzSst0tj9RC9O0dXO1TZocOsf0tJ8dR2egX4kxM=
-In-Reply-To: <20250415223557.GA940473-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 16/04/2025 00:35, Rob Herring wrote:
-> On Mon, Apr 14, 2025 at 06:04:01PM +0200, David Heidelberg wrote:
->> Convert the Analog Devices ad5820 to DT schema format.
->>
->> Added the io-channel-cells property, because it's already used by the
-> 
-> You mean #io-channel-cells?
-> 
->> Nokia N900 device-tree and defines ad5820 as having only single output.
->>
->> Acked-by: Pavel Machek <pavel@ucw.cz>
->> Signed-off-by: David Heidelberg <david@ixit.cz>
->> ---
->> Changes in v3:
->> - Removed documentation of io-channel-cells property. Now it's 1:1 to
->>    the original binding. The reference to it from the Nokia N900 dts
->>    was removed in the -next.
-> 
-> Added or removed? I'm confused.
-> 
->> - Link to v2: https://lore.kernel.org/r/20250314-b4-ad5820-dt-yaml-v2-1-287958c3c07c@ixit.cz
->>
->> Changes in v2:
->> - added MAINTAINERS entry for the binding
->> - documented why io-channel-cells got added into the binding.
->> - dropped io-channel-cells in required properties.
->> - adjusted example indentation to 4 spaces.
->> - Link to v1: https://lore.kernel.org/r/20250209203940.159088-1-david@ixit.cz
->> ---
->>   .../devicetree/bindings/media/i2c/ad5820.txt       | 28 ----------
->>   .../devicetree/bindings/media/i2c/adi,ad5820.yaml  | 59 ++++++++++++++++++++++
->>   MAINTAINERS                                        |  1 +
->>   3 files changed, 60 insertions(+), 28 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/media/i2c/ad5820.txt b/Documentation/devicetree/bindings/media/i2c/ad5820.txt
->> deleted file mode 100644
->> index 5764cbedf9b73387ad1bfa9acf99c643f959b84a..0000000000000000000000000000000000000000
->> --- a/Documentation/devicetree/bindings/media/i2c/ad5820.txt
->> +++ /dev/null
->> @@ -1,28 +0,0 @@
->> -* Analog Devices AD5820 autofocus coil
->> -
->> -Required Properties:
->> -
->> -  - compatible: Must contain one of:
->> -		- "adi,ad5820"
->> -		- "adi,ad5821"
->> -		- "adi,ad5823"
->> -
->> -  - reg: I2C slave address
->> -
->> -  - VANA-supply: supply of voltage for VANA pin
->> -
->> -Optional properties:
->> -
->> -   - enable-gpios : GPIO spec for the XSHUTDOWN pin. The XSHUTDOWN signal is
->> -active low, a high level on the pin enables the device.
->> -
->> -Example:
->> -
->> -       ad5820: coil@c {
->> -               compatible = "adi,ad5820";
->> -               reg = <0x0c>;
->> -
->> -               VANA-supply = <&vaux4>;
->> -               enable-gpios = <&msmgpio 26 GPIO_ACTIVE_HIGH>;
->> -       };
->> -
->> diff --git a/Documentation/devicetree/bindings/media/i2c/adi,ad5820.yaml b/Documentation/devicetree/bindings/media/i2c/adi,ad5820.yaml
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..93349e7daf262fc8939f984fbe93cf064a0cbaf8
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/i2c/adi,ad5820.yaml
->> @@ -0,0 +1,59 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/i2c/adi,ad5820.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Analog Devices AD5820 autofocus coil
->> +
->> +maintainers:
->> +  - Pavel Machek <pavel@ucw.cz>
->> +
->> +description:
->> +  The AD5820 is a current sink driver designed for precise control of
->> +  voice coil motors (VCMs) in camera autofocus systems.
->> +
->> +allOf:
->> +  - $ref: /schemas/iio/iio.yaml#
-> 
-> You have the ref, so #io-channel-cells is allowed, but you need to say
-> what the value for it should be for *this* binding. IOW, you still need
-> to list it explicitly.
+Hi Ming,
 
-I considered to keep the previous and new binding 1:1 and drop 
-#io-channel-chells with the all references to it (missed this one).
+Le vendredi 18 avril 2025 =C3=A0 15:08 +0800, ming.qian@oss.nxp.com a =C3=
+=A9crit=C2=A0:
+> From: Ming Qian <ming.qian@oss.nxp.com>
+>=20
+> To support decoding motion-jpeg without DHT, driver will try to decode a
+> pattern jpeg before actual jpeg frame by use of linked descriptors
+> (This is called "repeat mode"), then the DHT in the pattern jpeg can be
+> used for decoding the motion-jpeg.
+>=20
+> But there is some hardware limitation in the repeat mode, that may cause
+> corruption or decoding timeout.
+>=20
+> Try to make workaround for these limitation in this patchset.
 
-Would that be ok for v4?
+You should maintain a changelog in your cover letter, this way we know
+what has been fixed. You may be interested with "b4" tool, with "b4
+prep" and "b4 send" the tool will assist you in doing the right thing.
 
-> 
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - adi,ad5820
->> +      - adi,ad5821
->> +      - adi,ad5823
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  enable-gpios:
->> +    maxItems: 1
->> +    description:
->> +      GPIO spec for the XSHUTDOWN pin. The XSHUTDOWN signal is active low,
->> +      a high level on the pin enables the device.
->> +
->> +  VANA-supply:
->> +    description: supply of voltage for VANA pin
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - VANA-supply
->> +
->> +unevaluatedProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/gpio/gpio.h>
->> +
->> +    i2c {
->> +        #address-cells = <1>;
->> +        #size-cells = <0>;
->> +        coil@c {
->> +            compatible = "adi,ad5820";
->> +            reg = <0x0c>;
->> +
->> +            enable-gpios = <&msmgpio 26 GPIO_ACTIVE_HIGH>;
->> +            VANA-supply = <&vaux4>;
->> +        };
->> +    };
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index af3537005de35dfd0ded11bdc2b9c63e10c70e93..366ed4905fc9b32862a4fd665cf5f4e09fafc989 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -17274,6 +17274,7 @@ M:	Pavel Machek <pavel@kernel.org>
->>   M:	Sakari Ailus <sakari.ailus@iki.fi>
->>   L:	linux-media@vger.kernel.org
->>   S:	Maintained
->> +F:	Documentation/devicetree/bindings/media/i2c/adi,ad5820.yaml
->>   F:	drivers/media/i2c/ad5820.c
->>   F:	drivers/media/i2c/et8ek8
->>   
->>
->> ---
->> base-commit: b425262c07a6a643ebeed91046e161e20b944164
->> change-id: 20250314-b4-ad5820-dt-yaml-3220bf2f1e40
->>
->> Best regards,
->> -- 
->> David Heidelberg <david@ixit.cz>
->>
+More details on what is missing:
 
--- 
-David Heidelberg
+https://www.kernel.org/doc/html/latest/process/submitting-patches.html#resp=
+ond-to-review-comments
 
+Meanwhile, just reply to this message with the missing information.
+
+regards,
+Nicolas
+
+>=20
+> Ming Qian (5):
+> =C2=A0 media: imx-jpeg: Move mxc_jpeg_free_slot_data() ahead
+> =C2=A0 media: imx-jpeg: Reset slot data pointers when free data
+> =C2=A0 media: imx-jpeg: Cleanup after an allocation error
+> =C2=A0 media: imx-jpeg: Change the pattern size to 128x64
+> =C2=A0 media: imx-jpeg: Check decoding is ongoing for motion-jpeg
+>=20
+> =C2=A0.../media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h |=C2=A0=C2=A0 1 +
+> =C2=A0.../media/platform/nxp/imx-jpeg/mxc-jpeg.c=C2=A0=C2=A0=C2=A0 | 120 =
++++++++++++++-----
+> =C2=A0.../media/platform/nxp/imx-jpeg/mxc-jpeg.h=C2=A0=C2=A0=C2=A0 |=C2=
+=A0=C2=A0 5 +
+> =C2=A03 files changed, 97 insertions(+), 29 deletions(-)
 
