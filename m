@@ -1,87 +1,79 @@
-Return-Path: <linux-media+bounces-30535-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30536-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59295A93598
-	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 11:51:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74351A935F1
+	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 12:23:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D2243AA085
-	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 09:51:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9763046837B
+	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 10:23:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C552F270EC8;
-	Fri, 18 Apr 2025 09:51:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 146082741C0;
+	Fri, 18 Apr 2025 10:22:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="HwwhoVLE"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zkmtQaSk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44C1B21ADAB
-	for <linux-media@vger.kernel.org>; Fri, 18 Apr 2025 09:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65322202C42
+	for <linux-media@vger.kernel.org>; Fri, 18 Apr 2025 10:22:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744969887; cv=none; b=FhPKbCwIuGTPdlY/T31DjkTUqN+7k5feDZ5Rhu5z3ExAC+GlNid70zmOkTQTZ+bwISB+qizQJFkcRiToHIpAgFCuCmhAgVO1XDr0FbdLmF6SiN8Ca39Xx3/EwhxChRW17Gd1hmZC17ZS+0082bGRAyFreZN2YG7/COXiXor8toM=
+	t=1744971778; cv=none; b=VoumHuUl55sWIzp5yQIvG9wLwZ7DL2tkYCbYlWWJfTZaKFk8/Av4WaFa7+i/9bp2JFMvC+/TryUEmxI0jxrK7bWUAPE0J80WO4hryqLcEGXVFtdrhXocROCSRptd361EFk+n3W/+DFM6uksAb2+vw+HwLlJ/CVzu1yt1dC9i4rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744969887; c=relaxed/simple;
-	bh=LSv2LPESZn+oRo8x96FVTGHst4ynm5FV4i+s/CjsLEo=;
+	s=arc-20240116; t=1744971778; c=relaxed/simple;
+	bh=kdcZo7k40rdzUo4iOEDODFuxSFIAmXugWOJxYj68wOQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cmSptbM3jjrPZBHVhHhaf7Bw6brVBeKkwpNYzWzZZ7ON/BeKT3eBNu/w1NU0BW+jxyCzLLeUQWfz7shCo5AHfrc017UFNGJpI7uHFYNG4fWFFCOTXsHIKYJv/NpN535rN0jnDGd466cVD67cGoB1BAV2/COi94YGRFPuWVQhW8g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=HwwhoVLE; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53I2S6A2012576
-	for <linux-media@vger.kernel.org>; Fri, 18 Apr 2025 09:51:23 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	rA3sdyVQ16H8kPttRg91Jt1G7uDSj/gcw6eTTAKQB5c=; b=HwwhoVLEu9m/84c/
-	izpixz+E1FYpZpSYEhwGskeFb8/7o9N2GWSo62T5C4Diwsr/dxEMUQzCUklx4rg3
-	jnksSTFHQQo+UPXubMSkt914vvoRX317E3k/+WTh1V469h5y3QBBQnAkdMi6GALQ
-	avc036Vf/bnYej3fUw8Wjkc2piUyI75EhILfq4XKjRJ1kvnJX4b2X3TSDsxj35Rh
-	Du8dvHU4r+6wdK37romVDqsSMpbgUDAXLo9jGTg8owSAaAR4vjF/uLGi5N/EcC6d
-	1wL6M8Vqyp6wKUJCN67m88CLdrSCHb+PDt7d163csMLgtI0ccEQy1OaV/d6cN6Bc
-	vIiapw==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45yf4vsrqp-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 18 Apr 2025 09:51:23 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-7c5ad42d6bcso40789485a.2
-        for <linux-media@vger.kernel.org>; Fri, 18 Apr 2025 02:51:23 -0700 (PDT)
+	 In-Reply-To:Content-Type; b=oDkgNZVbP14I1+wmKzdd6RFn4aYSRG5dDmvKht2O3n0tlI/2D8OSpbc6vqQnbd76LNHk/yeo4ewDFMDCvKeasbdFtKklM+9oiKUZAksN0oRyOrhKHbsI4x1yeiJBpm6FAjsjAWbAmVey7/fQhUWdx0LZGCWbQ/aFUV4MRRCToek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zkmtQaSk; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43d0359b1fcso11425755e9.0
+        for <linux-media@vger.kernel.org>; Fri, 18 Apr 2025 03:22:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744971774; x=1745576574; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=/k0Y0aoMA2GBez0xVc7/5fQuBfWbJDDhwqoAabodniI=;
+        b=zkmtQaSkONnWKoe3Lk3IQcZtBDYyiiVoOV0AACyTUGAL5BMnfEbe0ybHqE/XHBPVH9
+         OWqPC+xC1oHeDEw4UzLkG1Ziulenj9Udyyp34ps0/cAJDZSXpHt20Mmco3R1Dz9la1Hy
+         rr7XabZEvJ76dXvifA7Vx1nm1ePcYXRmRVjRG1uNve/K2cGWsL8xXSIg18uypEIWmKsJ
+         QPtzfKv3PYdAwkPleWUnUfyU5cU+z+ezaWTQWfC3r0O84RF+xRRFdolK9DzQISRCWvXa
+         FNIJ2bucZA0fSFP1m04CBwKOZGbin/pIRSsxAGTz9KXuVAvFV2GamJm8rz59P48F6wGj
+         WhgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744969882; x=1745574682;
+        d=1e100.net; s=20230601; t=1744971774; x=1745576574;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=rA3sdyVQ16H8kPttRg91Jt1G7uDSj/gcw6eTTAKQB5c=;
-        b=P7PqeIQ1XRFoP/aUD2Mp6dOHz4jEzJCR+XMovdv6MADc1WfyQzD5UoKHLM41rSAnag
-         JaeDog+iedLNiVem4qIw6PTNuMjH97b680QerQNKhYgaeHIMQcAn94hT4CJNA22bf7V2
-         KaWcg19fSrdE7xMzdcLVfxb5WkzVxJQEH3J9q+9m5TaJxC2xt823pIRlhNKgDlgOM+8a
-         /F56sGwKbeK1J6aGKc/5x7J3E+JYzXZTfZ+Lz5Fo5GCgPD3FcMGSPmKfLHPfZse5DAFh
-         /9lIDABQCGg/STCTri+XFY5DCqYC1YJVVmuabzWBg01aoYiHs1LGPBx2at4Z1aAgIXmO
-         yyIg==
-X-Forwarded-Encrypted: i=1; AJvYcCVN/jIqeKjbtwfx35E308jq6i6jjPG2vpTlQB3vMVHCYr9+v2/u3gJreSu970pNXDGT3kH0Uyj4opVJsw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzP+Y7rgowEkK9gHtWiiTI9LbOhXSHi3I9Dj9P2GI+fbY+OqeOH
-	Nfdinv4NUOuCKcEML5QZyeiC4fq1phSV0yQ0NtlcJOoUQ8NRod2XaRmHn6uMvDCZAJsH8zQ6Fk3
-	43JoiUhhw0Y7gk5DAeEIUcJsYktwGglGvkd5OH0QNLw/bdWcTdP34ExBZYnUcmQ==
-X-Gm-Gg: ASbGncsLz69n+TXH6kNRvrlItIeN6NYYBqOB4upawDUXPwh8jUgNyjT8weFrPveu8aa
-	hkkZMjgWIx295QkXEqQGXffFOMPDnKCN4hZnci0SAhLXKqZXo/3tKKaPyuf8DhQXMIFJjNSN73B
-	Mk2Gzdyzskgv1PtXJzdCd5FpTf0E/bOTDsnUCOtQB+xzIcX12wkOruyJOBdpGMcniEF9WzD2szI
-	J1amzg3Ccc6VBKcuiMMVxHequ7u6PejMWiCDcpge/UFmdIG3jSF3yooilWBz4Ly5azsJoH87sCE
-	RlzScr1uOOU/J7Ug3EoVvEmWk1gNB9tCoNC2E5Adj23TQoUaEdmjey8PvOu0ofX1bA==
-X-Received: by 2002:a05:620a:2592:b0:7c5:8ece:8b56 with SMTP id af79cd13be357-7c927f9a9f9mr101649285a.4.1744969882149;
-        Fri, 18 Apr 2025 02:51:22 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGqDwroTCof2h7lnX1zVhtLN5ZBbsfi9HNceZCvlYWCbV0282LNM0+SsV1JAE41A/dMk5vamA==
-X-Received: by 2002:a05:620a:2592:b0:7c5:8ece:8b56 with SMTP id af79cd13be357-7c927f9a9f9mr101647585a.4.1744969881711;
-        Fri, 18 Apr 2025 02:51:21 -0700 (PDT)
-Received: from [192.168.65.58] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acb6ec0c64csm102377266b.13.2025.04.18.02.51.18
+        bh=/k0Y0aoMA2GBez0xVc7/5fQuBfWbJDDhwqoAabodniI=;
+        b=TwS66wZcBPJQ1g9hgdDeo+X3JYELJ0vT1wJ2Lcr3DU3wuTCxNm0oUoqUBsB5N9uwWu
+         eXJFMmuC0TDPzPRAN+HLHalVmB2FSdCgogUeRVBL588KFamGd1P0T8FGQPJ2HUUL+fUu
+         FrXYtTAy8NrZ3D4KCkGbS2V+C5t4mHW/bdqYUgozBjf4P6Vp7ci/X/Vngu7jvQNZ1e3r
+         uJzC7Rx7QKhN1r2+K893D5vLyOZ/Y4px4KqujLGTBLLKYx+FvoPRLDqMt6BaOM2HHZdg
+         7iU5ThVaK8VE70+I8kQTbXUiY+sQW1ypJMVb2AvM3UVWNULokcBXmH9Sl5nolgN4i2+V
+         1x4w==
+X-Gm-Message-State: AOJu0YyL1ZA7Q64W4Sbzp2MZ4KGHm6mhSJryor0YYnKDSFHHMWHV60bk
+	uaBZSQWfxDU5Ve0Avbw36O+48bWljKB/oFb+VS1iMv8rrPkdDbV1C2zZZGeQsDQ=
+X-Gm-Gg: ASbGncslrQcpYJ+Kd9eIiElUZUpMv/39NlaZ+PoxChHNSL7NzLKMPuzqN0eG+FdEV6X
+	Rkf/a0sdhFkCYSKh+rzS0U5kk6CVzphVKV2wFAfoN6daC75N62DmY4xohuOG1UH6GsiMWr3urjP
+	hJ6vgNMDqaw49s4s9UmKkOl1hngM/ApFjE58ApeF7Hc26hkmWCUTFITB9BxjxPpL34n8rFUfDV+
+	wlh4QpOGzj2T6U3SSaKHf9SOlwS1LmUHFhOjCoge4CQpisOoiQWJk4VMNvXcVu6HSzUP9lfpuqe
+	Kup41moc2i0sfny1hivLJmeoCvShrtA2JqjFM94lBmnWpQw8AtM1fHpknE7rZxHSHs2exEoV4G+
+	mqXZHxg==
+X-Google-Smtp-Source: AGHT+IEV+ngZedvb1G9GddVsd006y6aowAa3golTbSy0UL6/dPU7ikOlFtQiwJbx/8C4Y2tbwGajLA==
+X-Received: by 2002:a05:600c:43d4:b0:440:67d4:ec70 with SMTP id 5b1f17b1804b1-44069732095mr22695595e9.8.1744971773715;
+        Fri, 18 Apr 2025 03:22:53 -0700 (PDT)
+Received: from [192.168.0.34] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39efa4a4c8fsm2264681f8f.89.2025.04.18.03.22.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 18 Apr 2025 02:51:21 -0700 (PDT)
-Message-ID: <5e6a3c7e-4e58-4e42-ac31-3666f49d07f6@oss.qualcomm.com>
-Date: Fri, 18 Apr 2025 11:51:17 +0200
+        Fri, 18 Apr 2025 03:22:53 -0700 (PDT)
+Message-ID: <a6689177-0f82-4b1e-b1c5-c50751d0f0bf@linaro.org>
+Date: Fri, 18 Apr 2025 11:22:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -89,82 +81,64 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 2/2] arm64: dts: qcom: sa8775p: Add support for camss
-To: Vikram Sharma <quic_vikramsa@quicinc.com>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, rfoss@kernel.org,
-        todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
-        robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-        andersson@kernel.org, konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
-        cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com,
-        will@kernel.org
-Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Suresh Vankadara <quic_svankada@quicinc.com>
-References: <20250210155605.575367-1-quic_vikramsa@quicinc.com>
- <20250210155605.575367-3-quic_vikramsa@quicinc.com>
- <65663927-cc11-4810-8714-7600786f299b@oss.qualcomm.com>
- <7fd92093-3efc-4f24-967d-7e267162b26d@quicinc.com>
+Subject: Re: [PATCH v2 1/4] dt-bindings: media: qcom,sm8550-iris: document
+ QCS8300 IRIS accelerator
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250418-qcs8300_iris-v2-0-1e01385b90e9@quicinc.com>
+ <20250418-qcs8300_iris-v2-1-1e01385b90e9@quicinc.com>
 Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <7fd92093-3efc-4f24-967d-7e267162b26d@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: WirIoJsv-WOeNjgrGJu73jt_mkBjQq5D
-X-Authority-Analysis: v=2.4 cv=IZ6HWXqa c=1 sm=1 tr=0 ts=6802209b cx=c_pps a=HLyN3IcIa5EE8TELMZ618Q==:117 a=FpWmc02/iXfjRdCD7H54yg==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=-5tugLDAGQjhnTpWTo4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: WirIoJsv-WOeNjgrGJu73jt_mkBjQq5D
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-18_02,2025-04-17_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- priorityscore=1501 clxscore=1015 malwarescore=0 spamscore=0 adultscore=0
- mlxlogscore=986 mlxscore=0 bulkscore=0 impostorscore=0 suspectscore=0
- phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504180072
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20250418-qcs8300_iris-v2-1-1e01385b90e9@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On 4/18/25 9:28 AM, Vikram Sharma wrote:
-> 
-> On 4/14/2025 7:18 PM, Konrad Dybcio wrote:
->> On 2/10/25 4:56 PM, Vikram Sharma wrote:
->>> Add changes to support the camera subsystem on the SA8775P.
->>>
->>> Co-developed-by: Suresh Vankadara <quic_svankada@quicinc.com>
->>> Signed-off-by: Suresh Vankadara <quic_svankada@quicinc.com>
->>> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
->>> ---
->> [...]
->>
->>> +            interrupts = <GIC_SPI 565 IRQ_TYPE_EDGE_RISING>,
->>> +                     <GIC_SPI 564 IRQ_TYPE_EDGE_RISING>,
->>> +                     <GIC_SPI 468 IRQ_TYPE_EDGE_RISING>,
->>> +                     <GIC_SPI 359 IRQ_TYPE_EDGE_RISING>,
->>> +                     <GIC_SPI 759 IRQ_TYPE_EDGE_RISING>,
->> 760> +                     <GIC_SPI 758 IRQ_TYPE_EDGE_RISING>,
-> 
-> Hi Konrad,
-> 
-> We cross checked internal documents to confirm IRQ number for csid_lite2/3 and vfe_lite2/3
-> Calculation for IRQ number is done with respect to vector number as
-> irq_num = (vector - 32).
-> csid_lite2 vector -> 791
-> csid_lite3 vector -> 790
-> vfe_lite2  vector -> 793
-> vfe_lite3  vector -> 792
-> 
-> thus irqs are as
-> csid_lite2 -> 759
-> csid_lite3 -> 758
-> vfe_lite2  -> 761
-> vfe_lite3  -> 760
-> 
-> Please let me know if this looks fine to you?
+On 18/04/2025 07:28, Vikash Garodia wrote:
+> Document the IRIS video decoder and encoder accelerator found in the
 
-We had a similar issue with qcs8300 - the reported vector id skipped a
-number at some point. In that case the SPI ports indices alongside
-them were advised to be used. Please check with the HW team, but I
-suppose this would be the case for this one too.
+Document the IRIS video "encoder/decoder" or "transcoder"
 
-Konrad
+
+> QCS8300 platform. QCS8300 is a downscaled version of SM8550, thereby
+
+is a down-scaled version of the SM8550.
+
+QCS8300 has a fewer capabilities compared to SM8550.
+
+Note: It might be nice to give a brief overview of what the differences 
+are since you mention them or instead of making it a diff of 8550 just 
+to state what the QCS8300 can do.
+
+> have different(lower) capabilities when compared to SM8550.
+> 
+> This patch depends on patch 20250225-topic-sm8x50-iris-v10-a219b8a8b477
+> 
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> ---
+>   Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml | 1 +
+>   1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+> index f567f84bd60d439b151bb1407855ba73582c3b83..3dee25e99204169c6c80f7db4bad62775aaa59b5 100644
+> --- a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+> +++ b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+> @@ -24,6 +24,7 @@ properties:
+>         - enum:
+>             - qcom,sm8550-iris
+>             - qcom,sm8650-iris
+> +          - qcom,qcs8300-iris
+>   
+>     power-domains:
+>       maxItems: 4
+> 
+Otherwise looks good an applies, please update your commit long and add:
+
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
