@@ -1,136 +1,141 @@
-Return-Path: <linux-media+bounces-30561-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30562-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DDACA93ED7
-	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 22:23:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 758DEA93F82
+	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 23:39:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 531A2169C05
-	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 20:23:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BABE58E274E
+	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 21:38:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDDDA22F155;
-	Fri, 18 Apr 2025 20:23:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7A08213E74;
+	Fri, 18 Apr 2025 21:39:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b="LOcoStOv"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="EVIjeafT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74DD978F29;
-	Fri, 18 Apr 2025 20:23:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745007818; cv=pass; b=i9khDRr5DB+esDNu/uawG6R1wUPBe+9CIearxFt3nFngGjXEvOpdolO6ZDhaYWRBozREJwM/xl0XQq/+8vpt2BDBesUB09dmBzB4dcTlZYXMt12PPwz0qcH1ZlT+Lx9WK+7soc6lAvx7GogpYU7l0K+mTbU4aCyIIGROX2DYfao=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745007818; c=relaxed/simple;
-	bh=+WS4rLU7EmYVCrP3SGj434wc9tvLSlrM0cx3OAYdtm0=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D286E41760
+	for <linux-media@vger.kernel.org>; Fri, 18 Apr 2025 21:38:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745012340; cv=none; b=PA36mONEaY3HL9WVPWfxOXYzLqJ+tLPnTA2oieOWxE4+1RablM6LItwV1Qcf9Xd0sreTA88Vgatm4JOTRzvVAeRFuQ+rlqbY+Ng80z1WxWydHKcGN2O4vZuJyMuM1ZDyKhRNnaeEAmuJAK0vHcDXWdLx080BFLSZVxjyQVhVppA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745012340; c=relaxed/simple;
+	bh=akhokAyyxuJx/KmpleZXsSJynmRELlCqLTRjS09IYBY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jh2A85CRUT2laE3y6UZl1n/4CwSJwTV6HLscCSmpyzuqF+aPrF7hftWh4Q/w+RysGYVeN09ouf3bjoaxHOuGpSyWKVqH73juVS7wP09W5UNiLxE8joplUYtYVzhipsZNifCcxkxsczGyOnbWwQpcSyC/7I27mA0zdQpySm2O7gw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=adrian.larumbe@collabora.com header.b=LOcoStOv; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1745007786; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Gat52nrHOun0wuFnA9nm2B3LP7WfHNOQGsVMmfKX0Jt/ybRtXaeIj/x7nvHYi59SO51KUM3/YGwm45jl4cRr1hlJr446FRaYF7uDsXimBxzvQ9VeNGuNn88OT7pTvtR9RwCWDzBh+aS5pTN573ZSBhaZDd89JVpvL3Zu53CV5wc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1745007786; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=3hdd8erPVH9AAhQT0McvltK6BgQEt4fniwbV/M/RxT4=; 
-	b=Z88MYSiwuSmS4SudhBXA9wiNpId227uN6hwoU/oNI+P2O3pTSsnovQvbtC4XAsdJukouiYVzZY13oviOzjCSbeebjy3LvBSuqbuJQAv094XPrEkUKFasCO+Mh/vpZhzXir/0a9MIu1sI7zDla6zaYfgneOqg3IhG00AGtE1T9Ic=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=adrian.larumbe@collabora.com;
-	dmarc=pass header.from=<adrian.larumbe@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1745007786;
-	s=zohomail; d=collabora.com; i=adrian.larumbe@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:Content-Transfer-Encoding:In-Reply-To:Message-Id:Reply-To;
-	bh=3hdd8erPVH9AAhQT0McvltK6BgQEt4fniwbV/M/RxT4=;
-	b=LOcoStOvMq7A/5rMZLV490MEqDleQKO5E/eYC4OVNFYpfLptpjCHuqIlNzhE8ycd
-	P7zIRwGquJEfXaeUCIUEXOz9UP81AXqpmApvZoz6xZnFali1CRxkSyRtjXNGbXuXGeo
-	h4ItgY7QJA7sy/UgeA/RqM5IpahgQJ/l0MyjsoBg=
-Received: by mx.zohomail.com with SMTPS id 1745007784882287.4377600541733;
-	Fri, 18 Apr 2025 13:23:04 -0700 (PDT)
-Date: Fri, 18 Apr 2025 21:22:59 +0100
-From: =?utf-8?Q?Adri=C3=A1n?= Larumbe <adrian.larumbe@collabora.com>
-To: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	kernel@collabora.com, Liviu Dudau <liviu.dudau@arm.com>, 
-	Steven Price <steven.price@arm.com>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v9 4/4] drm/panthor: show device-wide list of DRM GEM
- objects over DebugFS
-Message-ID: <tb6267pfhg25zpoaqyzxhw7jxzzmncjgxa5v6czimhdu6xaabu@ygv4z7ibtmxu>
-References: <20250418022710.74749-1-adrian.larumbe@collabora.com>
- <20250418022710.74749-5-adrian.larumbe@collabora.com>
- <20250418101156.0241a000@collabora.com>
- <20250418102649.41a609d6@collabora.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=CxiWbdFz0N+RImsUOpO0UZXktwMkTXgEbAEbQqPm4ZTFcKLvp1firakl2Ue26PtoDpVL6WFnj7JG//cLW3jW8IYqIn0HpaK+VY+jV7DYO1TvIp2Pwg8NT3iZROYJBMsKT36t4JSq4gRIR48QHdqmQ7936YSfo7GTViyYD3aFnoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=EVIjeafT; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=akho
+	kAyyxuJx/KmpleZXsSJynmRELlCqLTRjS09IYBY=; b=EVIjeafTdhRjdFUigNJA
+	iLVz1CXziirZB6FEnltL4s6gvg3uqsO5j0OpWDlN4wi1bTJHDbRtiPH8cI6IbnA2
+	KB08FFrQ8YYjilvGr+sQfmfnaA6KJ6qAayxVp4SJKoHi2RLZuXaj4BJRPHAgZMQq
+	Vy8XckOcRo1hlGx6fLbStFP96bnJLbtUfb0kBZ3kc7N5rx9vXBxTb06HEP9REGOF
+	d/uXHV5gnQMfluLToKwmAtioSinJMS9Ru1T97fYrYfPTMe1OGC0YCmLMlqIsEsr7
+	+6QwMUwnhBa5LRfffEA8Lrzt/DS3r1gab5hQ8vPBAzF1NiYzmjhCAlvg8WeQFwee
+	Zg==
+Received: (qmail 1538474 invoked from network); 18 Apr 2025 23:38:53 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 18 Apr 2025 23:38:53 +0200
+X-UD-Smtp-Session: l3s3148p1@zMZAWBQz6uEujnsE
+Date: Fri, 18 Apr 2025 23:38:53 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: Andi Shyti <andi.shyti@kernel.org>,
+	Romain Gantois <romain.gantois@bootlin.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Derek Kiernan <derek.kiernan@amd.com>,
+	Dragan Cvetic <dragan.cvetic@amd.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Cosmin Tanislav <demonsingur@gmail.com>, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-gpio@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v9 0/9] misc: Support TI FPC202 dual-port controller
+Message-ID: <aALGbZtz9mN3F7q4@shikoro>
+Mail-Followup-To: Wolfram Sang <wsa+renesas@sang-engineering.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Romain Gantois <romain.gantois@bootlin.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Derek Kiernan <derek.kiernan@amd.com>,
+	Dragan Cvetic <dragan.cvetic@amd.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Cosmin Tanislav <demonsingur@gmail.com>, linux-i2c@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-gpio@vger.kernel.org,
+	Conor Dooley <conor.dooley@microchip.com>
+References: <20250306-fpc202-v9-0-2779af6780f6@bootlin.com>
+ <avat6oilygpkcngtpuyentyvjqifav4f3zzvrtnsdybfl6uqja@i2surd4ywu73>
+ <2025041525-smoking-among-4b51@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ou49x9tjXwiyVr2v"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250418102649.41a609d6@collabora.com>
-
-On 18.04.2025 10:26, Boris Brezillon wrote:
-On Fri, 18 Apr 2025 10:11:56 +0200
-Boris Brezillon <boris.brezillon@collabora.com> wrote:
-
-> On Fri, 18 Apr 2025 03:27:07 +0100
-> Adrián Larumbe <adrian.larumbe@collabora.com> wrote:
->
-> > +	static const char * const gem_state_flags_names[] = {
-> > +		[PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED] = "imported",
-
-> FYI, the compiler seems to be happy with:
->
-> 		[ffs(PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED) - 1] = "imported",
->
-> but I'm not sure we want to fix it this way. The other
-> option would be to define bit pos in the enum and then
-> define flags according to these bit pos:
->
-> enum panthor_debugfs_gem_state_flags {
-> 	PANTHOR_DEBUGFS_GEM_STATE_IMPORTED_BIT = 0,
-> 	PANTHOR_DEBUGFS_GEM_STATE_EXPORTED_BIT = 1,
->
-> 	/** @PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED: GEM BO is PRIME imported. */
-> 	PANTHOR_DEBUGFS_GEM_STATE_FLAG_IMPORTED = BIT(PANTHOR_DEBUGFS_GEM_STATE_IMPORTED_BIT),
->
-> 	/** @PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED: GEM BO is PRIME exported. */
-> 	PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED = BIT(PANTHOR_DEBUGFS_GEM_STATE_EXPORTED_BIT),
-> };
-
-I'm happy with this solution too. To be frank I thought of something like this
-when I realised flag names array indices an bit values were askew by one, but
-since the names array is constant and mostly meant to be read in the future by
-programmers who want to add new flag meanings to the same table, I didn't think
-of having a hole in index 0 as a problem.
-
-> > +		[PANTHOR_DEBUGFS_GEM_STATE_FLAG_EXPORTED] = "exported",
->
-> Okay, I think I know where the flag indexing issue comes from:
-> PANTHOR_DEBUGFS_GEM_STATE_FLAG_xx are flags, not bit positions, so we
-> can't use them as indices here.
->
-> > +	};
-> > +
-> > +	static const char * const gem_usage_flags_names[] = {
-> > +		[PANTHOR_DEBUGFS_GEM_USAGE_FLAG_KERNEL] = "kernel",
-> > +		[PANTHOR_DEBUGFS_GEM_USAGE_FLAG_FW_MAPPED] = "fw-mapped",
->
-> Same problem here.
->
-> > +	};
-> > +
+In-Reply-To: <2025041525-smoking-among-4b51@gregkh>
 
 
-Adrian Larumbe
+--ou49x9tjXwiyVr2v
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+
+> > I had a look at the whole series and looks quite all right to me.
+>=20
+> I recommend just taking it all through i2c, thanks.
+
+Okay I applied to i2c/for-next, thanks!
+
+
+--ou49x9tjXwiyVr2v
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmgCxmUACgkQFA3kzBSg
+KbZaOxAAhbVhuhyQYC1gaHi1J0SCUVJJBYZwLmkQ8tc2p4O02kYIgZNO1xumXFai
+RqdZsz6fG1x4RLL61oQCdV7Rm/WQ9rU737de6MjtJ3/vn1EmdNQ9+XgwQ+tvSJbj
+oLFGOusP+BNOZba9IwupE26Tfrl/leFnnWm/lp8//DZGLTgOsRpgmIIWRe6PU91T
+XY7oEJ9T6QseZFbH6O3cGZ7QF56FJ9AVLIVhx8aSa9fz3BJq2gAWmSz8whq+383p
+iF1OLVfIxWq7uHtYJUsSLUx4Jmhvj1UpFtdaGcFijCjgmSDGzZF01MFsFvZRD7it
+NRGBcBmWEb1bzQsZMapXuwvUdSAisAO0Zhx4ANFt9039o8XIJPddVJjCSfv05Vjm
+3jfki9O7p3b0LQ+vhDbZPjogThitWk1dQV/X+agUKPYMYZIgTFcASkgxiWuX411N
+ut+VWGlTmtF9p9cggDVSpkWQwCLzyDhW4u47A/vG6bh+3sRIEVcsRM2o/X8cUrsj
+UmBRZkMpr6gH7lFgRYCjuMqdpHqalUoEJYaKsNSx3bKSImX117m0/v63WQv+3uNi
+nQHAF7+SJPy1CyXwMGsrH17+lbqwodXCEoGcGFeBa6fbwTGhrHlne7GR6B1KVIUA
+WzmALhuX0OvCeiVTdZ2oV6SfQYV/HGoayhpqNhD2Pu9X8Mnq/FI=
+=nnhF
+-----END PGP SIGNATURE-----
+
+--ou49x9tjXwiyVr2v--
 
