@@ -1,359 +1,367 @@
-Return-Path: <linux-media+bounces-30513-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30515-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77ADAA931F9
-	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 08:30:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD4CDA93333
+	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 09:08:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2F5CB8E2C45
-	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 06:30:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3491F18918D8
+	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 07:08:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44AC9268FCB;
-	Fri, 18 Apr 2025 06:29:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6930F26983B;
+	Fri, 18 Apr 2025 07:08:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="BhUNmL4K"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lkOUrKN6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE91F269CEC;
-	Fri, 18 Apr 2025 06:29:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C214B269AEE
+	for <linux-media@vger.kernel.org>; Fri, 18 Apr 2025 07:08:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744957758; cv=none; b=Qk5JGxL6qPcmNS++GKXHF//O5RkY/s8EqIoVx3OLlPC4AtoFbftKsbhjrwR8Oq5XTPCN5I5LCKGoBQW23NkIt7Z1bIT3SyCZYUoJlogw92ri351hp5wxqXJj2F6l6T1YcDMxmYEhZCo2Z0W104MlJ1Nk+/2IlRGCNBBZ0hfjMIs=
+	t=1744960087; cv=none; b=XJ8lDlFAbhGbXn9+a1sQwqltqu0Dx4YAIofxdQmyUlkTngtcIyF2Ey1sfhRBBY4INjlKu2KuYwNmDTRqeuiySCupnOLaFBJ8EbyaA3T/alUr7h53YAnNNxxNAVK8TYSn3rmlFFnA+zrneEXoi/LnLwjDVndZWHGH36lwGjs77PU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744957758; c=relaxed/simple;
-	bh=IXStSfjdESXE2pwyRcwovzwZhGZKb+lqooWrN0kvtBk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=aj89xtJsvOv/qlxE0IFx8okmH58yVZHwwrZVW62YatkckXSe+uI1UIUpk2ldmxH4NrH8qbqrHR12FcIVA9iJO4PrIKnRT7nostozeM7umLyzVpUO21cokCzaMpn9YFN9wyCSr0jVQZyhS9rghT+wnJ5p5HsLtmSD/vlPe+hewXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=BhUNmL4K; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53I2EGI4015466;
-	Fri, 18 Apr 2025 06:29:13 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	u4MucncQYY6nwqiZvO7pP9I/2aCgJ3DP/TJXeHgR3Ew=; b=BhUNmL4K6fqo456Q
-	qlcQoFLKxDYDA6XsPMfWXyooQgh2cuvMOetR2Yx8PusBYePy7iF8H2IycBMXqL5D
-	Fhq4j7e6znY5YpdyiaiTW1ru/x5sNh7F8CiyBevrHqVaX2oNE3V6UuJq81MXxvDr
-	izEuHhvJWo0LOWeEEk+uvjsBqI1k3bTPE1JjhPb9j2Car6mbA1mmzOet9FRl3Eav
-	P8LHJGNjaZDFfRpHJeRnXWC9/HGLquOfpFxF84Z4s0euDkLYGLDU6ou6SkIJ6Wsu
-	4xpwkQDwAosjZxDydTBUSP9KuOT6XME7cpuZkgs5j3sjI0SAt6UCwMjfHip+gXBi
-	M4TK/w==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45ydhqhd5t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 18 Apr 2025 06:29:12 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53I6TBAu026180
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 18 Apr 2025 06:29:11 GMT
-Received: from hu-vgarodia-hyd.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 17 Apr 2025 23:29:07 -0700
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-Date: Fri, 18 Apr 2025 11:58:42 +0530
-Subject: [PATCH v2 4/4] media: iris: add qcs8300 platform data
+	s=arc-20240116; t=1744960087; c=relaxed/simple;
+	bh=MjTcnivbppFuWDxiJMyMXQle7rxti96tn0uQEqxDf6I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p+Rsqt1xtWoYMetJPECmWpo4emgHTP/cdkOncNtEZdG5DmEtJcvYNsBsTZytmtX3+7pUjS2urVpymedNfrWAEh4pJVmxyzQi+HDRw6/rDA+XD2crQyKJJ7qRLpRx5fOGmiSxvuWIfNphRj7InM1Q+/33iEeZ2N1KoEjtWD19YDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lkOUrKN6; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-39efc1365e4so113048f8f.1
+        for <linux-media@vger.kernel.org>; Fri, 18 Apr 2025 00:08:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744960084; x=1745564884; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HWjp8y8vFcOu+OSEBcB4uctMZzi0CJU4vWPxTMamQ/Q=;
+        b=lkOUrKN6oVbIv4nKYBD0yYQiDqytiez2cv5X5pNkwD+jLIdkNe5VWDJSEj5Bbo/hzR
+         RMAIVwIkNLCWs9f9HRkBKJn7Y6GreRx+gVhi/ETP+NYDCiv7mr1Um9nAix9RxFncAWaM
+         cZv18m6IIQK2Vd5Gex+iMHJoJhC5O1nN42TE8zeq+4grNQzCmhBM96eQSWa7P/fR4BsA
+         MG7Ojemy8dSeAf2ZaJc+lxPN8roJ7/4jIkdggytmn0+j34Ll45zYMwWUIBkUwbJHCymD
+         5UZ6Ef7qoJw0Me2MW7QjonJZdE6CC54f5bjsvjBVfl5mJerGd51RYDQRZePHZgehklsa
+         pjVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744960084; x=1745564884;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HWjp8y8vFcOu+OSEBcB4uctMZzi0CJU4vWPxTMamQ/Q=;
+        b=FMX7sTcxS+r4n04xjDD03+vsJYUFNrBfJhCoT5Sop/X1QZ3Uoiz0LCIdNdOjeA+ibo
+         m7azE6heMdUSrLIT2ICbwr0m7w13m9/Pc0EPtmo3F9ouwd3m9hLp+SHaNicAUDb3kxQj
+         Mweb4UbTTOl9ra+Fiy/2sAbzGNGUEK6qBZXaGpQeZGCOAoAUqjfx2nin9ZbCl/6Xdk1b
+         kjLwAPfK0EHIOaoWree9JContyVxS5+YIMufeuUJznfL4xz0Eh5c7w8dQ/9G4A1rjevw
+         WRzlQ4/3BN9kLhGC+32mSQQnWH6GBtSKyKJQDpHKkAto1LCIMUA7lGSP/zF5zadB1M46
+         G3MA==
+X-Forwarded-Encrypted: i=1; AJvYcCXXgBxFhYRNsJYho+h2UuXoT/62TByLWomuqRGQztXdOYmp6Rc46/Zwupj+Pz+q9a4joTF1AeeOJhZoQw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzoFanDKBStm3jbynnCR10PB/lRsJZuVpC+9BiA4FfE634wvI4t
+	GBxrWEpmzcuAR7rWnLBzLoKsXfETyjSi0zTdlHMYy9HgKFW9jAcCiVLoAQXIoxI=
+X-Gm-Gg: ASbGncuOC1LrtrDIfgTxU7pjQJsIP+XcZknVh4RXGW8zFqiTJ0k3nwJGiU1hOLzegw5
+	8oY6IbwH6EDlCJmsKY9hQdKiZgwhHRfjjLIb5cxqhvYprx+p+yvpxDwLDr0rrLD6OUeFlxa2BTa
+	u2ulSikH0OJVnk2F3BZqe51908sE1vJdUNfbQBPHJd7SXUyrriIspcDRcOIQKr3AfTQMwyPHrWo
+	rDOCTC56U7ucxzMHbKcwIlJhTVQ3LU4wuWR+ncQFjtgbbC8o0RTQN8WWwmBGpWwk/JAoUhAcNNn
+	gIysZU9EbKMlXjmALHVlhbHFKOeix2Prc7Qfbh7nOT83fudecNV1B7ga5CJx6Gx2x0ZDX5EA8YR
+	E3/Uk3g==
+X-Google-Smtp-Source: AGHT+IGnTH5vOZF2u4It+TIDbYVDJ9lOX/4CXNAQQY4+Sw+Dr3UKWjzq+JbcKdHZOf/M/NXavbawLA==
+X-Received: by 2002:a05:6000:40df:b0:39c:1401:679c with SMTP id ffacd0b85a97d-39efba4e291mr1224722f8f.21.1744960083940;
+        Fri, 18 Apr 2025 00:08:03 -0700 (PDT)
+Received: from [192.168.0.34] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39efa43315esm1856612f8f.26.2025.04.18.00.08.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Apr 2025 00:08:03 -0700 (PDT)
+Message-ID: <ae4492fe-1b1b-444e-a4f3-4b99258a1ee0@linaro.org>
+Date: Fri, 18 Apr 2025 08:08:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 5/6] media: dt-bindings: media: camss: Add
+ qcom,qcm2290-camss binding
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>, rfoss@kernel.org,
+ konradybcio@kernel.org, andersson@kernel.org, krzk+dt@kernel.org,
+ robh@kernel.org
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, dmitry.baryshkov@oss.qualcomm.com
+References: <20250417145819.626733-1-loic.poulain@oss.qualcomm.com>
+ <20250417145819.626733-6-loic.poulain@oss.qualcomm.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20250417145819.626733-6-loic.poulain@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250418-qcs8300_iris-v2-4-1e01385b90e9@quicinc.com>
-References: <20250418-qcs8300_iris-v2-0-1e01385b90e9@quicinc.com>
-In-Reply-To: <20250418-qcs8300_iris-v2-0-1e01385b90e9@quicinc.com>
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Abhinav Kumar
-	<quic_abhinavk@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio
-	<konradybcio@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Vikash Garodia
-	<quic_vgarodia@quicinc.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1744957731; l=8830;
- i=quic_vgarodia@quicinc.com; s=20241104; h=from:subject:message-id;
- bh=IXStSfjdESXE2pwyRcwovzwZhGZKb+lqooWrN0kvtBk=;
- b=WwZmsjpzLeCJJmReyyRacREj7PD/862jAVqnjVng6I8NQMQ8FqF30T8kps5/NpIqOw8q6r84H
- PpsaIbRSCB5CA17fgtCBbQkNN1/YLBsZHk9pG6CEy4n72LGsXKpvZie
-X-Developer-Key: i=quic_vgarodia@quicinc.com; a=ed25519;
- pk=LY9Eqp4KiHWxzGNKGHbwRFEJOfRCSzG/rxQNmvZvaKE=
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: X8KPmJ1XQs9idus2h6oGN085atQUnHoy
-X-Authority-Analysis: v=2.4 cv=C7DpyRP+ c=1 sm=1 tr=0 ts=6801f138 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=glt1T1EG--dW8uzeodgA:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: X8KPmJ1XQs9idus2h6oGN085atQUnHoy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-18_02,2025-04-17_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
- priorityscore=1501 suspectscore=0 clxscore=1015 spamscore=0 bulkscore=0
- impostorscore=0 phishscore=0 lowpriorityscore=0 malwarescore=0 mlxscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504180046
 
-QCS8300 has a downscaled video core compared to SM8550, while it has
-same bindings as that of SM8550. QCS8300.h captures the capabilities for
-QCS8300 which is delta from SM8550.
+On 17/04/2025 15:58, Loic Poulain wrote:
+> Add bindings for qcom,qcm2290-camss in order to support the camera
+> subsystem found in the Qualcomm Robotics RB1 Platform (QRB2210).
+> 
+> Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+> ---
+>   .../bindings/media/qcom,qcm2290-camss.yaml    | 261 ++++++++++++++++++
+>   1 file changed, 261 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/media/qcom,qcm2290-camss.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,qcm2290-camss.yaml b/Documentation/devicetree/bindings/media/qcom,qcm2290-camss.yaml
+> new file mode 100644
+> index 000000000000..1af6ed298c66
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/qcom,qcm2290-camss.yaml
+> @@ -0,0 +1,261 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/qcom,qcm2290-camss.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm QCM2290 Camera Subsystem (CAMSS)
+> +
+> +maintainers:
+> +  - Loic Poulain <loic.poulain@oss.qualcomm.com>
+> +
+> +description:
+> +  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms.
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,qcm2290-camss
+> +
+> +  reg:
+> +    maxItems: 9
+> +
+> +  reg-names:
+> +    items:
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csiphy0
+> +      - const: csiphy1
+> +      - const: vfe0
+> +      - const: vfe1
+> +      - const: tpg0
+> +      - const: tpg1
+> +      - const: top
+> +
+> +  clocks:
+> +    maxItems: 15
+> +
+> +  clock-names:
+> +    items:
+> +      - const: ahb
+> +      - const: axi
+> +      - const: top_ahb
+> +      - const: csi0
+> +      - const: csi1
+> +      - const: csiphy0
+> +      - const: csiphy1
+> +      - const: csiphy0_timer
+> +      - const: csiphy1_timer
+> +      - const: vfe0
+> +      - const: vfe1
+> +      - const: vfe0_cphy_rx
+> +      - const: vfe1_cphy_rx
+> +      - const: camnoc_nrt_axi
+> +      - const: camnoc_rt_axi
+> +
+> +  interrupts:
+> +    maxItems: 8
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csiphy0
+> +      - const: csiphy1
+> +      - const: vfe0
+> +      - const: vfe1
+> +      - const: tpg0
+> +      - const: tpg1
+> +
+> +  interconnects:
+> +    maxItems: 3
+> +
+> +  interconnect-names:
+> +    items:
+> +      - const: ahb
+> +      - const: hf_mnoc
+> +      - const: sf_mnoc
+> +
+> +  iommus:
+> +    maxItems: 4
+> +
+> +  power-domains:
+> +    items:
+> +      - description: GDSC CAMSS Block, Global Distributed Switch Controller.
+> +
+> +  vdda-phy-supply:
+> +    description:
+> +      Phandle to a 1.2V regulator supply to CSI PHYs.
+> +
+> +  vdda-pll-supply:
+> +    description:
+> +      Phandle to 1.8V regulator supply to CAMSS refclk pll block.
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    description:
+> +      CSI input ports.
 
-Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
----
- .../platform/qcom/iris/iris_platform_common.h      |   1 +
- .../media/platform/qcom/iris/iris_platform_gen2.c  |  57 ++++++++++
- .../platform/qcom/iris/iris_platform_qcs8300.h     | 124 +++++++++++++++++++++
- drivers/media/platform/qcom/iris/iris_probe.c      |   4 +
- 4 files changed, 186 insertions(+)
+patternProperties would be nicer here
 
-diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
-index 6bc3a7975b04d612f6c89206eae95dac678695fc..3191a910653ce4bd71de9a0b4465fd583602adf6 100644
---- a/drivers/media/platform/qcom/iris/iris_platform_common.h
-+++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
-@@ -36,6 +36,7 @@ enum pipe_type {
- extern struct iris_platform_data sm8250_data;
- extern struct iris_platform_data sm8550_data;
- extern struct iris_platform_data sm8650_data;
-+extern struct iris_platform_data qcs8300_data;
- 
- enum platform_clk_type {
- 	IRIS_AXI_CLK,
-diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-index 5ff82296ee8ea5ad3954bd2254594048adcb8404..723e9f4cef42408168aca22b34ccd0a674a4fd25 100644
---- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-+++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-@@ -11,6 +11,7 @@
- #include "iris_vpu_common.h"
- 
- #include "iris_platform_sm8650.h"
-+#include "iris_platform_qcs8300.h"
- 
- #define VIDEO_ARCH_LX 1
- 
-@@ -326,3 +327,59 @@ struct iris_platform_data sm8650_data = {
- 	.dec_op_int_buf_tbl = sm8550_dec_op_int_buf_tbl,
- 	.dec_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_op_int_buf_tbl),
- };
-+
-+/*
-+ * Shares most of SM8550 data except:
-+ * - inst_caps to platform_inst_cap_qcs8300
-+ * - inst_fw_caps to inst_fw_cap_qcs8300
-+ */
-+struct iris_platform_data qcs8300_data = {
-+	.get_instance = iris_hfi_gen2_get_instance,
-+	.init_hfi_command_ops = iris_hfi_gen2_command_ops_init,
-+	.init_hfi_response_ops = iris_hfi_gen2_response_ops_init,
-+	.vpu_ops = &iris_vpu3_ops,
-+	.set_preset_registers = iris_set_sm8550_preset_registers,
-+	.icc_tbl = sm8550_icc_table,
-+	.icc_tbl_size = ARRAY_SIZE(sm8550_icc_table),
-+	.clk_rst_tbl = sm8550_clk_reset_table,
-+	.clk_rst_tbl_size = ARRAY_SIZE(sm8550_clk_reset_table),
-+	.bw_tbl_dec = sm8550_bw_table_dec,
-+	.bw_tbl_dec_size = ARRAY_SIZE(sm8550_bw_table_dec),
-+	.pmdomain_tbl = sm8550_pmdomain_table,
-+	.pmdomain_tbl_size = ARRAY_SIZE(sm8550_pmdomain_table),
-+	.opp_pd_tbl = sm8550_opp_pd_table,
-+	.opp_pd_tbl_size = ARRAY_SIZE(sm8550_opp_pd_table),
-+	.clk_tbl = sm8550_clk_table,
-+	.clk_tbl_size = ARRAY_SIZE(sm8550_clk_table),
-+	/* Upper bound of DMA address range */
-+	.dma_mask = 0xe0000000 - 1,
-+	.fwname = "qcom/vpu/vpu30_p4_s6.mbn",
-+	.pas_id = IRIS_PAS_ID,
-+	.inst_caps = &platform_inst_cap_qcs8300,
-+	.inst_fw_caps = inst_fw_cap_qcs8300,
-+	.inst_fw_caps_size = ARRAY_SIZE(inst_fw_cap_qcs8300),
-+	.tz_cp_config_data = &tz_cp_config_sm8550,
-+	.core_arch = VIDEO_ARCH_LX,
-+	.hw_response_timeout = HW_RESPONSE_TIMEOUT_VALUE,
-+	.ubwc_config = &ubwc_config_sm8550,
-+	.num_vpp_pipe = 2,
-+	.max_session_count = 16,
-+	.max_core_mbpf = ((4096 * 2176) / 256) * 4,
-+	.input_config_params =
-+		sm8550_vdec_input_config_params,
-+	.input_config_params_size =
-+		ARRAY_SIZE(sm8550_vdec_input_config_params),
-+	.output_config_params =
-+		sm8550_vdec_output_config_params,
-+	.output_config_params_size =
-+		ARRAY_SIZE(sm8550_vdec_output_config_params),
-+	.dec_input_prop = sm8550_vdec_subscribe_input_properties,
-+	.dec_input_prop_size = ARRAY_SIZE(sm8550_vdec_subscribe_input_properties),
-+	.dec_output_prop = sm8550_vdec_subscribe_output_properties,
-+	.dec_output_prop_size = ARRAY_SIZE(sm8550_vdec_subscribe_output_properties),
-+
-+	.dec_ip_int_buf_tbl = sm8550_dec_ip_int_buf_tbl,
-+	.dec_ip_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_ip_int_buf_tbl),
-+	.dec_op_int_buf_tbl = sm8550_dec_op_int_buf_tbl,
-+	.dec_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_op_int_buf_tbl),
-+};
-diff --git a/drivers/media/platform/qcom/iris/iris_platform_qcs8300.h b/drivers/media/platform/qcom/iris/iris_platform_qcs8300.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..f82355d72fcffe7e361bd30877cccb83fe9b549f
---- /dev/null
-+++ b/drivers/media/platform/qcom/iris/iris_platform_qcs8300.h
-@@ -0,0 +1,124 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+static struct platform_inst_fw_cap inst_fw_cap_qcs8300[] = {
-+	{
-+		.cap_id = PROFILE,
-+		.min = V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
-+		.max = V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_HIGH,
-+		.step_or_mask = BIT(V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE) |
-+			BIT(V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_HIGH) |
-+			BIT(V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE) |
-+			BIT(V4L2_MPEG_VIDEO_H264_PROFILE_MAIN) |
-+			BIT(V4L2_MPEG_VIDEO_H264_PROFILE_HIGH),
-+		.value = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
-+		.hfi_id = HFI_PROP_PROFILE,
-+		.flags = CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-+		.set = iris_set_u32_enum,
-+	},
-+	{
-+		.cap_id = LEVEL,
-+		.min = V4L2_MPEG_VIDEO_H264_LEVEL_1_0,
-+		.max = V4L2_MPEG_VIDEO_H264_LEVEL_6_2,
-+		.step_or_mask = BIT(V4L2_MPEG_VIDEO_H264_LEVEL_1_0) |
-+			BIT(V4L2_MPEG_VIDEO_H264_LEVEL_1B)  |
-+			BIT(V4L2_MPEG_VIDEO_H264_LEVEL_1_1) |
-+			BIT(V4L2_MPEG_VIDEO_H264_LEVEL_1_2) |
-+			BIT(V4L2_MPEG_VIDEO_H264_LEVEL_1_3) |
-+			BIT(V4L2_MPEG_VIDEO_H264_LEVEL_2_0) |
-+			BIT(V4L2_MPEG_VIDEO_H264_LEVEL_2_1) |
-+			BIT(V4L2_MPEG_VIDEO_H264_LEVEL_2_2) |
-+			BIT(V4L2_MPEG_VIDEO_H264_LEVEL_3_0) |
-+			BIT(V4L2_MPEG_VIDEO_H264_LEVEL_3_1) |
-+			BIT(V4L2_MPEG_VIDEO_H264_LEVEL_3_2) |
-+			BIT(V4L2_MPEG_VIDEO_H264_LEVEL_4_0) |
-+			BIT(V4L2_MPEG_VIDEO_H264_LEVEL_4_1) |
-+			BIT(V4L2_MPEG_VIDEO_H264_LEVEL_4_2) |
-+			BIT(V4L2_MPEG_VIDEO_H264_LEVEL_5_0) |
-+			BIT(V4L2_MPEG_VIDEO_H264_LEVEL_5_1) |
-+			BIT(V4L2_MPEG_VIDEO_H264_LEVEL_5_2) |
-+			BIT(V4L2_MPEG_VIDEO_H264_LEVEL_6_0) |
-+			BIT(V4L2_MPEG_VIDEO_H264_LEVEL_6_1) |
-+			BIT(V4L2_MPEG_VIDEO_H264_LEVEL_6_2),
-+		.value = V4L2_MPEG_VIDEO_H264_LEVEL_6_1,
-+		.hfi_id = HFI_PROP_LEVEL,
-+		.flags = CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
-+		.set = iris_set_u32_enum,
-+	},
-+	{
-+		.cap_id = INPUT_BUF_HOST_MAX_COUNT,
-+		.min = DEFAULT_MAX_HOST_BUF_COUNT,
-+		.max = DEFAULT_MAX_HOST_BURST_BUF_COUNT,
-+		.step_or_mask = 1,
-+		.value = DEFAULT_MAX_HOST_BUF_COUNT,
-+		.hfi_id = HFI_PROP_BUFFER_HOST_MAX_COUNT,
-+		.flags = CAP_FLAG_INPUT_PORT,
-+		.set = iris_set_u32,
-+	},
-+	{
-+		.cap_id = STAGE,
-+		.min = STAGE_1,
-+		.max = STAGE_2,
-+		.step_or_mask = 1,
-+		.value = STAGE_2,
-+		.hfi_id = HFI_PROP_STAGE,
-+		.set = iris_set_stage,
-+	},
-+	{
-+		.cap_id = PIPE,
-+		.min = PIPE_1,
-+		.max = PIPE_2,
-+		.step_or_mask = 1,
-+		.value = PIPE_2,
-+		.hfi_id = HFI_PROP_PIPE,
-+		.set = iris_set_pipe,
-+	},
-+	{
-+		.cap_id = POC,
-+		.min = 0,
-+		.max = 2,
-+		.step_or_mask = 1,
-+		.value = 1,
-+		.hfi_id = HFI_PROP_PIC_ORDER_CNT_TYPE,
-+	},
-+	{
-+		.cap_id = CODED_FRAMES,
-+		.min = CODED_FRAMES_PROGRESSIVE,
-+		.max = CODED_FRAMES_PROGRESSIVE,
-+		.step_or_mask = 0,
-+		.value = CODED_FRAMES_PROGRESSIVE,
-+		.hfi_id = HFI_PROP_CODED_FRAMES,
-+	},
-+	{
-+		.cap_id = BIT_DEPTH,
-+		.min = BIT_DEPTH_8,
-+		.max = BIT_DEPTH_8,
-+		.step_or_mask = 1,
-+		.value = BIT_DEPTH_8,
-+		.hfi_id = HFI_PROP_LUMA_CHROMA_BIT_DEPTH,
-+	},
-+	{
-+		.cap_id = RAP_FRAME,
-+		.min = 0,
-+		.max = 1,
-+		.step_or_mask = 1,
-+		.value = 1,
-+		.hfi_id = HFI_PROP_DEC_START_FROM_RAP_FRAME,
-+		.flags = CAP_FLAG_INPUT_PORT,
-+		.set = iris_set_u32,
-+	},
-+};
-+
-+static struct platform_inst_caps platform_inst_cap_qcs8300 = {
-+	.min_frame_width = 96,
-+	.max_frame_width = 4096,
-+	.min_frame_height = 96,
-+	.max_frame_height = 4096,
-+	.max_mbpf = (4096 * 2176) / 256,
-+	.mb_cycles_vpp = 200,
-+	.mb_cycles_fw = 326389,
-+	.mb_cycles_fw_vpp = 44156,
-+	.num_comv = 0,
-+};
-diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
-index 7cd8650fbe9c09598670530103e3d5edf32953e7..e5f1896e55c390e920d206e7fc2c2be283bb39d8 100644
---- a/drivers/media/platform/qcom/iris/iris_probe.c
-+++ b/drivers/media/platform/qcom/iris/iris_probe.c
-@@ -349,6 +349,10 @@ static const struct of_device_id iris_dt_match[] = {
- 		.compatible = "qcom,sm8650-iris",
- 		.data = &sm8650_data,
- 	},
-+	{
-+		.compatible = "qcom,qcs8300-iris",
-+		.data = &qcs8300_data,
-+	},
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, iris_dt_match);
+https://gitlab.freedesktop.org/linux-media/media-committers/-/blob/next/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml?ref_type=heads#L129
 
--- 
-2.34.1
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +  - interrupt-names
+> +  - interconnects
+> +  - interconnect-names
+> +  - iommus
+> +  - power-domains
+> +  - vdda-phy-supply
+> +  - vdda-pll-supply
 
+Similarly we are looking for the voltage level on these rails as part of 
+the name.
+
+https://gitlab.freedesktop.org/linux-media/media-committers/-/blob/next/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml?ref_type=heads#L173
+
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/qcom,gcc-qcm2290.h>
+> +    #include <dt-bindings/interconnect/qcom,rpm-icc.h>
+> +    #include <dt-bindings/interconnect/qcom,qcm2290.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        camss: camss@5c6e000 {
+> +            compatible = "qcom,qcm2290-camss";
+> +
+> +            reg = <0 0x5c6e000 0 0x1000>,
+> +                  <0 0x5c75000 0 0x1000>,
+> +                  <0 0x5c52000 0 0x1000>,
+> +                  <0 0x5c53000 0 0x1000>,
+> +                  <0 0x5c6f000 0 0x4000>,
+> +                  <0 0x5c76000 0 0x4000>,
+> +                  <0 0x5c66000 0 0x400>,
+> +                  <0 0x5c68000 0 0x400>,
+> +                  <0 0x5c11000 0 0x1000>;
+
+Recent guidance is for <0x0 0x5c11000 0x0 0x1000> i.e. using hex for 
+both values instead of mixing base 10 and base 16.
+
+> +            reg-names = "csid0",
+> +                        "csid1",
+> +                        "csiphy0",
+> +                        "csiphy1",
+> +                        "vfe0",
+> +                        "vfe1",
+> +                        "tpg0",
+> +                        "tpg1",
+
+csitpg0,
+csitpg1
+
+alphabetise the regs by name too please
+
+https://gitlab.freedesktop.org/linux-media/media-committers/-/blob/next/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml?ref_type=heads#L213
+
+https://gitlab.freedesktop.org/linux-media/media-committers/-/blob/next/Documentation/devicetree/bindings/media/qcom,sm8550-camss.yaml?ref_type=heads
+
+> +                        "top";
+> +
+> +            clocks = <&gcc GCC_CAMERA_AHB_CLK>,
+> +                     <&gcc GCC_CAMSS_AXI_CLK>,
+> +                     <&gcc GCC_CAMSS_TOP_AHB_CLK>,
+> +                     <&gcc GCC_CAMSS_TFE_0_CSID_CLK>,
+> +                     <&gcc GCC_CAMSS_TFE_1_CSID_CLK>,
+> +                     <&gcc GCC_CAMSS_CPHY_0_CLK>,
+> +                     <&gcc GCC_CAMSS_CPHY_1_CLK>,
+> +                     <&gcc GCC_CAMSS_CSI0PHYTIMER_CLK>,
+> +                     <&gcc GCC_CAMSS_CSI1PHYTIMER_CLK>,
+> +                     <&gcc GCC_CAMSS_TFE_0_CLK>,
+> +                     <&gcc GCC_CAMSS_TFE_1_CLK>,
+> +                     <&gcc GCC_CAMSS_TFE_0_CPHY_RX_CLK>,
+> +                     <&gcc GCC_CAMSS_TFE_1_CPHY_RX_CLK>,
+> +                     <&gcc GCC_CAMSS_NRT_AXI_CLK>,
+> +                     <&gcc GCC_CAMSS_RT_AXI_CLK>;
+> +            clock-names = "ahb",
+> +                          "axi",
+> +                          "top_ahb",
+> +                          "csi0",
+> +                          "csi1",
+> +                          "csiphy0",
+> +                          "csiphy1",
+> +                          "csiphy0_timer",
+> +                          "csiphy1_timer",
+> +                          "vfe0",
+> +                          "vfe1",
+> +                          "vfe0_cphy_rx",
+> +                          "vfe1_cphy_rx",
+> +                          "camnoc_nrt_axi",
+> +                          "camnoc_rt_axi";
+
+here too
+
+> +
+> +            interrupts = <GIC_SPI 210 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 212 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 72 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 73 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 211 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 213 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 309 IRQ_TYPE_EDGE_RISING>,
+> +                         <GIC_SPI 310 IRQ_TYPE_EDGE_RISING>;
+> +            interrupt-names = "csid0",
+> +                              "csid1",
+> +                              "csiphy0",
+> +                              "csiphy1",
+> +                              "vfe0",
+> +                              "vfe1",
+> +                              "tpg0",
+> +                              "tpg1";
+> +
+> +            interconnects = <&bimc MASTER_APPSS_PROC RPM_ACTIVE_TAG
+> +                             &config_noc SLAVE_CAMERA_CFG RPM_ACTIVE_TAG>,
+> +                            <&mmrt_virt MASTER_CAMNOC_HF RPM_ALWAYS_TAG
+> +                             &bimc SLAVE_EBI1 RPM_ALWAYS_TAG>,
+> +                            <&mmnrt_virt MASTER_CAMNOC_SF RPM_ALWAYS_TAG
+> +                             &bimc SLAVE_EBI1 RPM_ALWAYS_TAG>;
+> +            interconnect-names = "ahb",
+> +                                 "hf_mnoc",
+> +                                 "sf_mnoc";
+> +
+> +            iommus = <&apps_smmu 0x400 0x0>,
+> +                     <&apps_smmu 0x800 0x0>,
+> +                     <&apps_smmu 0x820 0x0>,
+> +                     <&apps_smmu 0x840 0x0>;
+> +
+> +            power-domains = <&gcc GCC_CAMSS_TOP_GDSC>;
+> +
+> +            vdda-phy-supply = <&pm4125_l5>;
+> +            vdda-pll-supply = <&pm4125_l13>;
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +            };
+> +        };
+> +    };
+---bod
 
