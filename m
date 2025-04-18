@@ -1,197 +1,172 @@
-Return-Path: <linux-media+bounces-30554-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30555-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18BE5A9392B
-	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 17:12:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E190DA93991
+	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 17:25:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 97FDB1B62C22
-	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 15:12:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F0BB1B64219
+	for <lists+linux-media@lfdr.de>; Fri, 18 Apr 2025 15:26:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DDB7207A11;
-	Fri, 18 Apr 2025 15:12:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A894E2116FB;
+	Fri, 18 Apr 2025 15:25:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="cKZSTjcg"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="TcOkHnZp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E4A0205E00
-	for <linux-media@vger.kernel.org>; Fri, 18 Apr 2025 15:12:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DF481DED51
+	for <linux-media@vger.kernel.org>; Fri, 18 Apr 2025 15:25:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744989129; cv=none; b=CzWOZPCLHfRs8fF8FfO4h8qOahHDiNxv9+nW6x0I6f6/N4CEqjCibWb4TuAXdGSD6h7jdqNxnlrZbOfqto0Lyz4TgjkpF0gxBQzRxd8qQlvkzwY+FSD1EXAJG9GHgiqHc+660ofei44oKPg21GIauNcidipsnS6pIR0NFimhWEY=
+	t=1744989940; cv=none; b=GiwSvicClEj/60eeKQe6fZDxZKbR9HHFdMPjeDD7dXNLsYPehGwFezYOe83Pw1VZinjtU0LfpFBdCoEDeQPLGhSD6W4k5KwwBT94dyoq9OTQ8hUZGj9u0evQ5oVsazXRgJ2tRGL7wZbb/nntYuetAWq7sI/U/VTQ3mhEpiaizSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744989129; c=relaxed/simple;
-	bh=mcPguKrpO7L/ms24ZzULya2onsD58fOJK8+l1yAIrRg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VjTjtflus5fPPNed9zxj46M0wfcXiBdATkCh1oghZ2QjW78TIPEvfSSpp9CMJNzDXEdtwoLadEPw48JSDUHYoURTFAUXf+w52Dk0OaFjoik+sFMKJkdvv3l5GhWZ+3ZX/ZxeRB9tuZnLgxOH4WUPS2amn5SKpNRxnNWktck4ePc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=cKZSTjcg; arc=none smtp.client-ip=121.127.44.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
- Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1744989125;
- bh=gZ99nEDhjJPtKYQc2hoc52nGqWB8ytY2CleaomSYJWE=;
- b=cKZSTjcgJ4OrQac1gkQPq8uQXmYH0FQHGy4mFPUqt28HsZNtZIoLIfHbQD7OpnTMlEeHHmFFo
- 8ZLbhqaCwXOauXiy3x63OBllwCxHFa10eP4guNa4ktGB5Lof3NoMgYRJDsOFFdUzsorSWVJlNnB
- kyJEsMRQtlJO+mWgvm7HDyjV3Nsnx40RGMcQXJ3PlteXezDwtyhvsIxTeyzKAY8tSL5Gv4ikygc
- SGSvRTL3j5h9BJv8z7MHLSA6NhoZTCznXIfJiH35AB/zyWSA9BN5ubod+K9OtPdpKSoAQjbgRP4
- MKzxpTPMX/TcKA40XaW5GuXFBdGIMxQS3hTlYzYMFnDQ==
-X-Forward-Email-ID: 68026bbf750a8e94b92eccb3
-X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 121.127.44.73
-X-Forward-Email-Version: 1.0.2
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
-Message-ID: <4161ab9e-3be5-4738-9bbe-0dba636b838a@kwiboo.se>
-Date: Fri, 18 Apr 2025 17:11:55 +0200
+	s=arc-20240116; t=1744989940; c=relaxed/simple;
+	bh=KLMQ/sPbd3/qPx9kvWI7kwA5vqce0csvK2YZ+gn9jtw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=E2Y+vqYRNE0cV6+XUrVvCRUSguRrUiCvFyA4kjY0nlVx80QfoqJWTWFiUY8nIsG229ecYQtJR5P/Q7eSa7f5M0xevRIpHjnBuj/gRVD8QE+6ZdTCO5fTiU521HThmoD8TuFZPSinXry7Nno91Z68xCD5rcs2UgJ5GbF4Iw5zy1Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=TcOkHnZp; arc=none smtp.client-ip=209.85.160.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-47666573242so481741cf.0
+        for <linux-media@vger.kernel.org>; Fri, 18 Apr 2025 08:25:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1744989937; x=1745594737; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KLMQ/sPbd3/qPx9kvWI7kwA5vqce0csvK2YZ+gn9jtw=;
+        b=TcOkHnZpnJ9dkfJMStaG1k/k2pUOgZYR5/wmSGKGVaznHzK+pz/+4Dk+XZfRdAlRUN
+         ArH+pOQtKump/RD0EbQCgdFigzdgeuQNM33Z6L3npWgHMdjtWSpYxAg6O1CY7AA4eNXd
+         inQULd+tuAbSsNMdht9dtK7ngE0FhD0yKrVlWBJR/Wg419WceL1J8khMh+vZdTOnh5g9
+         ignjP3/ytx+dDhPT29BQeVL+I+dl8LmEtdBWe3DJ++CpCZLx0zBhPAe8GzwFsi9zeg37
+         jKxiQvwy94yLvmNGcROJUrbKrwznovvOlZTz/v1+Ju/AowQ4iDtTNQPML9xUwvc+KIeV
+         88Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744989937; x=1745594737;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KLMQ/sPbd3/qPx9kvWI7kwA5vqce0csvK2YZ+gn9jtw=;
+        b=FR3sqCe5v+eJyXmLBrLnbA85pN9hUt3iQQ6nG8HnNZ4FrqQKMmm0NIPF6j9vodUmKw
+         C9OwU4n+Q4Jhh1G8twhkK3TJq+vDN6TRwMdaCQOyVsSh9dqOfH7V75MWhJgVPyvVpws9
+         d85/lAEDuR55cSu6NUev5cQFYdtWBuEb7Md0jg1Dn+EhK2hPbZorld/7AJjxYAftWLgY
+         F0JFAH0AsaaQLdUxkOSQ8Pgy2jN/r+smbXSUtpo7d6Hbh7ZdFqmpUEgxt5upAbVHRXza
+         BsEUT4+Fj1RrAOFWFBN98rUsSjXZkIS+UCbBii0NWjqvFhU9W2NgSI4y+T4rnaIJfPxR
+         qsIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUmkOYgTyoO3DeYnrlzx7TOKac7rdTNMYHtc0dKm7UDa6pkL+Bdq6wdEXc/pG65IFyjyQkm37/6e1Ou5w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy5pe/m7MJnXvr3W6solAc3y6CbL1Z8Q1jWQcrkfkr5W1XSQekz
+	OgXf/EsHUE3BZuI0ochdB+44uFDcTl5VELSti1gyIZDdn0tT4hnxzOrgmW0oXEWhBSmx+GOPWD1
+	HDBsYAwhR3FZY7JPvCCl5eOz5Z6TRhOv0CISw
+X-Gm-Gg: ASbGncu9Gg6sQP5xSq1AD/wR8eOwpqaeqFnMRZCkh+D/IC+SJ6pdC6ImBRf55T0iZ3L
+	Ivh5COMj/bbBDTsBCZ2O3P8YNYFxQebRexkoS5vci1bK7JUC3brE3f31e2O3WIGt9hxj8P5yxxn
+	t0vlrRw/q3l/aE6OxE98Z1
+X-Google-Smtp-Source: AGHT+IG8hFCpUPixQxkgnzGIXz1u9OtkRLiT9un/wX7YdVEX+ucM013ElGjUErTcY8lmL4vrTIPIJfqi3eMA/XDrm6c=
+X-Received: by 2002:a05:622a:24f:b0:477:63b7:3523 with SMTP id
+ d75a77b69052e-47aeb10f6a4mr3977681cf.4.1744989937094; Fri, 18 Apr 2025
+ 08:25:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 3/4] media: rkvdec: Add get_image_fmt ops
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20250417-b4-rkvdec_h264_high10_and_422_support-v9-0-0e8738ccb46b@collabora.com>
- <20250417-b4-rkvdec_h264_high10_and_422_support-v9-3-0e8738ccb46b@collabora.com>
- <8d1c3c82-dbdc-4064-8188-bab586996302@kwiboo.se>
- <4be400281b3fe53b724025ffa837ceed777d7699.camel@collabora.com>
-Content-Language: en-US
-From: Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <4be400281b3fe53b724025ffa837ceed777d7699.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250414225227.3642618-1-tjmercier@google.com>
+ <20250414225227.3642618-3-tjmercier@google.com> <CAPhsuW6sgGvjeAcciskmGO7r6+eeDo_KVS3y7C8fCDPptzCebw@mail.gmail.com>
+ <CABdmKX0bgxZFYuvQvQPK0AnAHEE3FebY_eA1+Vo=ScH1MbfzMg@mail.gmail.com>
+ <CAPhsuW72Q2--E9tQQY8xADghTV6bYy9vHpFQoCWNh0V_QBWafA@mail.gmail.com>
+ <CABdmKX1tDv3fSFURDN7=txFSbQ1xTjp8ZhLP8tFAvLcO9_-4_A@mail.gmail.com>
+ <CAPhsuW7xvSYjWvy8K9Ev_tMwDRy2dpEiBcHYai3n-wAa0xvLow@mail.gmail.com>
+ <CABdmKX1p0KgbipTSW1Ywi4bTBabQmsg21gA14Bp5atYHg8FeXQ@mail.gmail.com>
+ <CAPhsuW4f2=M_K553+BVnGJq=ddZ7sXj4CfCAHeYQ=4cpihBCzA@mail.gmail.com>
+ <CABdmKX0P1tpa-jxzN1_TCyk6Cw6drYM+KRZQ5YQcjNOBFtOFJw@mail.gmail.com> <CAPhsuW5bgBNu6zY0rn7ZH4VK54nruryU4bS4LrDDsxnCfqQicQ@mail.gmail.com>
+In-Reply-To: <CAPhsuW5bgBNu6zY0rn7ZH4VK54nruryU4bS4LrDDsxnCfqQicQ@mail.gmail.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Fri, 18 Apr 2025 08:25:18 -0700
+X-Gm-Features: ATxdqUFe9V2DPeKz_fCeXdwNGaeIYNCwZNnBebHg8eIdjjPIFTp9wITPuXs7j_A
+Message-ID: <CABdmKX3XaVFJEQRav1COi7_1rkMsx1ZhrJoGLB_wtywZ0O-jug@mail.gmail.com>
+Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
+To: Song Liu <song@kernel.org>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
+	skhan@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
+	simona@ffwll.ch, corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev, 
+	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
+	jolsa@kernel.org, mykolal@fb.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Nicolas,
+On Thu, Apr 17, 2025 at 1:26=E2=80=AFPM Song Liu <song@kernel.org> wrote:
+>
+> On Thu, Apr 17, 2025 at 9:05=E2=80=AFAM T.J. Mercier <tjmercier@google.co=
+m> wrote:
+> >
+> > On Wed, Apr 16, 2025 at 9:56=E2=80=AFPM Song Liu <song@kernel.org> wrot=
+e:
+> > >
+> > > On Wed, Apr 16, 2025 at 7:09=E2=80=AFPM T.J. Mercier <tjmercier@googl=
+e.com> wrote:
+> > > >
+> > > > On Wed, Apr 16, 2025 at 6:26=E2=80=AFPM Song Liu <song@kernel.org> =
+wrote:
+> > > [...]
+> > > > >
+> > > > > Here is another rookie question, it appears to me there is a file=
+ descriptor
+> > > > > associated with each DMA buffer, can we achieve the same goal wit=
+h
+> > > > > a task-file iterator?
+> > > >
+> > > > That would find almost all of them, but not the kernel-only
+> > > > allocations. (kernel_rss in the dmabuf_dump output I attached earli=
+er.
+> > > > If there's a leak, it's likely to show up in kernel_rss because som=
+e
+> > > > driver forgot to release its reference(s).) Also wouldn't that be a
+> > > > ton more iterations since we'd have to visit every FD to find the
+> > > > small portion that are dmabufs? I'm not actually sure if buffers th=
+at
+> > > > have been mapped, and then have had their file descriptors closed
+> > > > would show up in task_struct->files; if not I think that would mean
+> > > > scanning both files and vmas for each task.
+> > >
+> > > I don't think scanning all FDs to find a small portion of specific FD=
+s
+> > > is a real issue. We have a tool that scans all FDs in the system and
+> > > only dump data for perf_event FDs. I think it should be easy to
+> > > prototype a tool by scanning all files and all vmas. If that turns ou=
+t
+> > > to be very slow, which I highly doubt will be, we can try other
+> > > approaches.
+> >
+> > But this will not find *all* the buffers, and that defeats the purpose
+> > of having the iterator.
+>
+> Do you mean this approach cannot get kernel only allocations? If
+> that's the case, we probably do need a separate iterator. I am
+> interested in other folks thoughts on this.
 
-On 2025-04-18 14:28, Nicolas Dufresne wrote:
-> Le vendredi 18 avril 2025 à 08:22 +0200, Jonas Karlman a écrit :
->> Hi Nicolas,
->>
->> On 2025-04-17 23:58, Nicolas Dufresne wrote:
->>> From: Jonas Karlman <jonas@kwiboo.se>
->>>
->>> Add support for a get_image_fmt() ops that returns the required image
->>> format.
->>>
->>> The CAPTURE format is reset when the required image format changes and
->>> the buffer queue is not busy.
->>>
->>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
->>> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->>> Co-developed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->>> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->>> ---
->>>  drivers/staging/media/rkvdec/rkvdec.c | 35 +++++++++++++++++++++++++++++++++++
->>>  drivers/staging/media/rkvdec/rkvdec.h |  2 ++
->>>  2 files changed, 37 insertions(+)
->>>
->>> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
->>> index 7b780392bb6a63cc954655ef940e87146d2b852f..6c6fe411f48772419e1810d869ab40d168848e65 100644
->>> --- a/drivers/staging/media/rkvdec/rkvdec.c
->>> +++ b/drivers/staging/media/rkvdec/rkvdec.c
->>> @@ -72,6 +72,15 @@ static bool rkvdec_is_valid_fmt(struct rkvdec_ctx *ctx, u32 fourcc,
->>>  	return false;
->>>  }
->>>  
->>> +static bool rkvdec_fmt_changed(struct rkvdec_ctx *ctx,
->>> +			       enum rkvdec_image_fmt image_fmt)
->>
->> Just a small nitpick:
->>
->> Maybe this function should be called rkvdec_image_fmt_changed() and
->> could be moved closer to rkvdec_image_fmt_match() as those two are
->> related to image_fmt and not the pixfmt/fourcc.
-> 
-> Applied locally. With this change, may I have your Rb ?
+Correct.
 
-Sure, and thanks for helping getting this old series to land :-)
+> > > OTOH, I am wondering whether we can build a more generic iterator
+> > > for a list of objects. Adding a iterator for each important kernel li=
+sts
+> > > seems not scalable in the long term.
+> >
+> > I think the wide variety of differences in locking for different
+> > objects would make this difficult to do in a generic way.
+>
+> Agreed it is not easy to build a generic solution. But with the
+> help from BTF, we can probably build something that covers
+> a large number of use cases.
 
-Reviewed-by: Jonas Karlman <jonas@kwiboo.se>
-
-Regards,
-Jonas
-
-> 
-> thanks,
-> Nicolas
-> 
->>
->> Regards,
->> Jonas
->>
->>> +{
->>> +	if (image_fmt == RKVDEC_IMG_FMT_ANY)
->>> +		return false;
->>> +
->>> +	return ctx->image_fmt != image_fmt;
->>> +}
->>> +
->>>  static void rkvdec_fill_decoded_pixfmt(struct rkvdec_ctx *ctx,
->>>  				       struct v4l2_pix_format_mplane *pix_mp)
->>>  {
->>> @@ -118,8 +127,34 @@ static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
->>>  	return 0;
->>>  }
->>>  
->>> +static int rkvdec_s_ctrl(struct v4l2_ctrl *ctrl)
->>> +{
->>> +	struct rkvdec_ctx *ctx = container_of(ctrl->handler, struct rkvdec_ctx, ctrl_hdl);
->>> +	const struct rkvdec_coded_fmt_desc *desc = ctx->coded_fmt_desc;
->>> +	enum rkvdec_image_fmt image_fmt;
->>> +	struct vb2_queue *vq;
->>> +
->>> +	/* Check if this change requires a capture format reset */
->>> +	if (!desc->ops->get_image_fmt)
->>> +		return 0;
->>> +
->>> +	image_fmt = desc->ops->get_image_fmt(ctx, ctrl);
->>> +	if (rkvdec_fmt_changed(ctx, image_fmt)) {
->>> +		vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx,
->>> +				     V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
->>> +		if (vb2_is_busy(vq))
->>> +			return -EBUSY;
->>> +
->>> +		ctx->image_fmt = image_fmt;
->>> +		rkvdec_reset_decoded_fmt(ctx);
->>> +	}
->>> +
->>> +	return 0;
->>> +}
->>> +
->>>  static const struct v4l2_ctrl_ops rkvdec_ctrl_ops = {
->>>  	.try_ctrl = rkvdec_try_ctrl,
->>> +	.s_ctrl = rkvdec_s_ctrl,
->>>  };
->>>  
->>>  static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
->>> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
->>> index 6f8cf50c5d99aad2f52e321f54f3ca17166ddf98..e466a2753ccfc13738e0a672bc578e521af2c3f2 100644
->>> --- a/drivers/staging/media/rkvdec/rkvdec.h
->>> +++ b/drivers/staging/media/rkvdec/rkvdec.h
->>> @@ -73,6 +73,8 @@ struct rkvdec_coded_fmt_ops {
->>>  		     struct vb2_v4l2_buffer *dst_buf,
->>>  		     enum vb2_buffer_state result);
->>>  	int (*try_ctrl)(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl);
->>> +	enum rkvdec_image_fmt (*get_image_fmt)(struct rkvdec_ctx *ctx,
->>> +					       struct v4l2_ctrl *ctrl);
->>>  };
->>>  
->>>  enum rkvdec_image_fmt {
->>>
->>
-
+I'm curious what this would look like. I guess a good test would be to
+see if anything would work for some subset of the already existing
+iterators.
 
