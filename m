@@ -1,86 +1,87 @@
-Return-Path: <linux-media+bounces-30563-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30564-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC9B5A9419D
-	for <lists+linux-media@lfdr.de>; Sat, 19 Apr 2025 06:51:16 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC783A941A0
+	for <lists+linux-media@lfdr.de>; Sat, 19 Apr 2025 06:59:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BAC8719E2197
-	for <lists+linux-media@lfdr.de>; Sat, 19 Apr 2025 04:51:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EEE167A89D8
+	for <lists+linux-media@lfdr.de>; Sat, 19 Apr 2025 04:58:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B805617BEB6;
-	Sat, 19 Apr 2025 04:50:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CB4F165F13;
+	Sat, 19 Apr 2025 04:59:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TphLAdwX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EU7oswLU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8107116F858;
-	Sat, 19 Apr 2025 04:50:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208AB13C9D4;
+	Sat, 19 Apr 2025 04:59:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745038258; cv=none; b=EkAoTFGC3310Q/qXPFmBiTO1JH55rh/JxmXGFSMGGZXXwVJSyBRDj3+ZJYFulJ3jD3Mf8GRTkYGeGF1JBDlaZ3d/habw6li6GPYZxWdzPbxpBo7VF+ZjOYfgA43B1iuRxaInX/yAKvo/hirptWt+lfC/X8Exq1PhgcsEOMnuTVw=
+	t=1745038775; cv=none; b=g7V3H2BCtfMI2kQqcNfaabw8gb2ExZOq8Esl9gWgasvK0hc0RWGq6RFNurZXg4o2H7z2xV8p+K9v8rkuxDNSmTIzwbBsrsoQQy8VNXq1aPNkhI9GMJY1596LnJdzzn7dU/Li3c/lDRN/I9ot/VIEJ3pNqNx4P22hWumAXeyNp2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745038258; c=relaxed/simple;
-	bh=xllVgqoRLGvzGswF8Ov1YPU1Ma/P4Q74aaN5uZdOglQ=;
+	s=arc-20240116; t=1745038775; c=relaxed/simple;
+	bh=qHZWn1UhqRvPf8+rwyKrJZXAu5Z3WRQeUL+l18ANOG8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bEVZiDEK9NfdT0zcWF3Y/zeRGFTbN1kry3Omq3lhfm4jkdHDVK1S5fPO+GJtj91bHcISunYrKjKj6geMcm43vXJ9G5y4cLTNbWWOYeX2hXdb/5M6+aijA52eHgIOtQzJflZecPHTvo4woP+5dX7QhAi+NYGNVwLXlLl9NlL0aEo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TphLAdwX; arc=none smtp.client-ip=209.85.218.48
+	 To:Cc:Content-Type; b=ORW6bInhddDQXXP2bhai34eyMMPsXYwlayyOCqjO63rTynpNIunHdFP/0Gma2+rznU+2nKhjItWgmdX7ldN/vWqXGG+r8i0X0l/y2GXtaa2X10bhb+lOQUP1JhFuLz5hjicnqZ6HSIJLHQgx9xbP7esjHjNjt1+8Rt0JRvo2tko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=EU7oswLU; arc=none smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ac2aeada833so469472566b.0;
-        Fri, 18 Apr 2025 21:50:56 -0700 (PDT)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-abbd96bef64so400492266b.3;
+        Fri, 18 Apr 2025 21:59:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745038255; x=1745643055; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1745038772; x=1745643572; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xllVgqoRLGvzGswF8Ov1YPU1Ma/P4Q74aaN5uZdOglQ=;
-        b=TphLAdwXZpm5iUErTPNDcnZQ84ICxw15MXsAuCUuSEwhMliowokCppfYZMa7iUOipd
-         dKTS0bpYeQeNzaPD42CvYIIdSESPYQsJtezjatjM+lWYBRzXn8fDE2+28tHU+xsO4PyT
-         ywk6lCR2d/a0U3RUEUZLKsEJ20IiVZZ2Zm8S6rYkTk3U1NpQo4mePgIXteOkM0DTVnhb
-         vihO48tVGvaDzvDhLDAfzFrGXqATR2mfLF/Z7e2s2el+1TlY7UQVWBKKVkfRyYb/bXG/
-         4clsTMmo9NaJW/oBKe1zt2ZoYfJ7klJY7eCDWGRqzRWAxOzY3UoMPCT9AEi0KThz9EsI
-         NTeA==
+        bh=qHZWn1UhqRvPf8+rwyKrJZXAu5Z3WRQeUL+l18ANOG8=;
+        b=EU7oswLULdSmgXbHZpUeRIZPWhgibwt9xo/yCjk8UlD6f1Dbw4OiEgH0q1FXsuWCfs
+         KvXD7v5mbFNrJRr8FRMpnwVjPRWCGy9gTs8z/7r0bOC7kRRQO9HukSMZ8Yv0uOwIcVRD
+         RK7//FJmRi94dU9i8aN92BHKvPhwIDU/D+CnPQMSwp0i+YJ5cJ7YIsHO9gGQkxUQcnCG
+         OUiQe/H3AyW7tn40gpZVGjEuwHtUHI4x5OnvsQX6P90DbQtXGRSOJ7uQBFJtkPis4T0d
+         Y6ekCBJZEXfWg0cNJdI3djYBi35wF+PVhCngRM6EEeefDhvBMU/RoCObMmxtt1pPQZ3P
+         HYxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745038255; x=1745643055;
+        d=1e100.net; s=20230601; t=1745038772; x=1745643572;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=xllVgqoRLGvzGswF8Ov1YPU1Ma/P4Q74aaN5uZdOglQ=;
-        b=mbp6bh8gpy3MOzKpcL+vTi2ZzZ3q7qWi0zBBMcMCtJFprX8+BD9+7E/ypUDa1/gzEn
-         gshpDU2LFIIGE3xle34UvHszfSdIiFWhzSodBAqCMCncJSzA1oiK2g+GHzfCnkr6KfcV
-         /LXtdSzM6ulmjBXtGIlbuEfjVzNt7r8TIWyRcUKaKxnfCJ4gq7qhnqxCHS+585eoH7NB
-         1fGUMPPIbbthqt7F4+vXFzLKCOIdMkI0eqpm2MlXH1goDnLHXjYOnt6TZiLMT+qzX2Sl
-         WnpioxX1C+nk6n0vUWzZhK3/R/rW3qWlq0kUSiqcT6TqEYt2qrY77oN9HMJNgOOZboBh
-         HZNA==
-X-Forwarded-Encrypted: i=1; AJvYcCUNDYBtZ0+PtfrsItzGhgep3xegwfQwTdxjOzg26TEVJKbl5yGU+3zqhbeMgLO1mljJEocWlzj/FCZAq7I=@vger.kernel.org, AJvYcCWE+CTioBsF+oArEULyaubjVJ3ftJcBpZfg9jTbaJwNUlnnITcDRGgExpSy+SsNytkp8OgtL6x1XJvioOI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMiD1xXlUE56WEha/08LPEUg8z212EZMkwx9WEoMBfx44tHt6V
-	QPVfg5OGOy2VJ1mA2hNnwFiQCUmJIdCCdTUOaBgwvp2L1fQdMYya+ozejjH8I5pkDMi0KkaPefs
-	xTc78hi1eiFJt5KYNzEJK3Rhz2Vg=
-X-Gm-Gg: ASbGnct3gT6FEnWux9vZysPjohh13eQNLGZ+zZ7Z7DHUXCIbE8aKmp9+cN/njQRN45w
-	EL38j4t6Axl8SKEkHEdUHi36CPQAp/Hep4YAFXPIYPfLtBgjigbb7m/54dc/ItF/zBGFMwB12vG
-	ApSYVGtTUbogvzi7MzQ6V+TQ==
-X-Google-Smtp-Source: AGHT+IGAg+Qag6lXJNxjRNIcXfUNnuL5uHrlN9ER48s4oo4qFiaVa7C2rV69ToGe51SHan6QunD9ObLsjZTCBc93loo=
-X-Received: by 2002:a17:907:728e:b0:aca:a128:f4e2 with SMTP id
- a640c23a62f3a-acb751203damr353102366b.10.1745038254568; Fri, 18 Apr 2025
- 21:50:54 -0700 (PDT)
+        bh=qHZWn1UhqRvPf8+rwyKrJZXAu5Z3WRQeUL+l18ANOG8=;
+        b=Jk8EMjHRvVYFPHXCgaWW0kpNDToVvTLkWnjxKde604DeBTPjwDtEbo0GdGnAgYu9IL
+         w6ZETXHUlCzZHIyLg65ASazwASG89zFBk5PaCfYO5pTVebxLzfUQomr5oPGtNZLH0II5
+         VzU3ggYXjaJj9amkMb8ChRzMiZjBsehynmVUfgBI6TnsTm2A1xWh2WHpbrMGbKPYpDg7
+         vW7yRzt472occXJcAzO6BfmhYLi0Bz2BzxFOe7to/k6faX4iu1rg70DyRls0HZ3MrcH/
+         6N2gfd/4ovC1hHp+2qLahTwSl0onzV2GYNpigfdcOimzfPgtErnF4ff5yRl0kZUokrLl
+         AFIw==
+X-Forwarded-Encrypted: i=1; AJvYcCUAw6zrzOAB0JcAhRdfewlXZRMvXqK3ACFA4db9Sb9GhYsiAkNOrNFpHEslFeHcmXzh0raaEpKRIeAU6Nk=@vger.kernel.org, AJvYcCX2/r59JWvJC9SWpD+GLmztSCNq1C+ff6GFOjtn4RSBetFlVHUMd20+fa6o+DY2Rn4YGwLKv40aFx6Q+og=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZac7l9BeqUw0uw/olsip5T6wAdbkGfmkMlqQwRbICgDwcrDcH
+	gUeXZmNbD0UpiWgM2PQKkpyeYCZ4MRHbept7kbLotcXDeUCHDllhbsqFHMObe1pPzdtOt5XimFa
+	+lke95pxZf6keu+Zt3U1QRhHe4OA=
+X-Gm-Gg: ASbGncsbBWfTff5o8aYFh/OzWPfLYFnqSZnuvheoPgmF889mTjSiQJsIMmhKGgP909V
+	dP0rxIYqGnYmfJfZ12oG2C5O1d+UgQn0yy+hL3a/bu5E19bryW68fY5Sxut4AhLCcCGcBQ/xKac
+	BYmpGiaXyu3XyGKYHVdfAdKQ==
+X-Google-Smtp-Source: AGHT+IGMkcYZ/YdE+K24G/+Kjd4y2a3YOIz8t0Yrf1XtL1usxdov64Xo9A55mQWRRu0uO6CZgIWYLz02cnfYBzj3nHE=
+X-Received: by 2002:a17:907:608d:b0:aca:c9b5:31a8 with SMTP id
+ a640c23a62f3a-acb74dbf0femr333405266b.45.1745038772145; Fri, 18 Apr 2025
+ 21:59:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250418071823.8756-1-hardevsinh.palaniya@siliconsignals.io>
-In-Reply-To: <20250418071823.8756-1-hardevsinh.palaniya@siliconsignals.io>
+References: <20250418071823.8756-1-hardevsinh.palaniya@siliconsignals.io> <20250418071823.8756-2-hardevsinh.palaniya@siliconsignals.io>
+In-Reply-To: <20250418071823.8756-2-hardevsinh.palaniya@siliconsignals.io>
 From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Sat, 19 Apr 2025 07:50:18 +0300
-X-Gm-Features: ATxdqUGrYiK4kSjGmHt566SEB6DssLKQwuFsw4imxlIBfayp0v4dv5L9yVKr_bQ
-Message-ID: <CAHp75VexZWxOx+QZtYneAg+z3GJ9vqneVw0XVW8rxQX7vLfzwQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] media: atomisp: Remove compat ioctl32 header file
+Date: Sat, 19 Apr 2025 07:58:55 +0300
+X-Gm-Features: ATxdqUFN74IX6AOi4xAvzGjvs_88RQj1Pju-KRMnjUvE_gct6csdr-C8Sa_wBzg
+Message-ID: <CAHp75VePHnr7fVnO43Vhc59_CQKQ1TfaAxzj3dd_t0nqvzFRdA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: atomisp: Remove unused atomisp_compat_ioctl32()
+ declaration
 To: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
 Cc: andy@kernel.org, sakari.ailus@linux.intel.com, 
 	Hans de Goede <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -92,27 +93,27 @@ Content-Transfer-Encoding: quoted-printable
 On Fri, Apr 18, 2025 at 10:19=E2=80=AFAM Hardevsinh Palaniya
 <hardevsinh.palaniya@siliconsignals.io> wrote:
 >
-> Arnd's patch [1] removed the compat ioctl32 code,
-> so this header file is no longer needed.
+> Since its definition was deleted in a previous patch[1]
+
+This is odd. Previous patch from you? The Link is to Arnd's one, which
+is quite too old to be "previous patch".
+
+> and there are no remaining users of this function in
+> the codebase.
+
+> Link[1]:https://lore.kernel.org/linux-media/20210614103409.3154127-7-arnd=
+@kernel.org/
 >
-> Also, there are no references to this header file
-> in the atomisp codebase.
->
-> Link[1]: https://lore.kernel.org/linux-media/20210614103409.3154127-7-arn=
-d@kernel.org/
-
-Should be rather
-Link: URL [1]
-
->
-
-...and no newline between it and SoB.
-
 > Signed-off-by: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io=
 >
+
+Same comment as per previous patch.
+
 > ---
 
-Otherwise LGTM.
+Overall I don't know why it's a separate patch and can't be squashed
+with the first one. Whatever, it's staging and it's fine that we get
+rid of dead code.
 
 --=20
 With Best Regards,
