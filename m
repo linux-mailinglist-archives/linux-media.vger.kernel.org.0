@@ -1,141 +1,131 @@
-Return-Path: <linux-media+bounces-30587-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30588-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70CD1A94F06
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 11:50:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B19DAA94FA1
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 12:56:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5EA6C7A74BC
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 09:48:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1D513188D19C
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 10:56:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6794225D8F6;
-	Mon, 21 Apr 2025 09:49:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF06C2620D2;
+	Mon, 21 Apr 2025 10:56:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YwuW92X9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kklmQpf2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A3719DF99;
-	Mon, 21 Apr 2025 09:49:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96661C2437;
+	Mon, 21 Apr 2025 10:56:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745228991; cv=none; b=Kwyd8qy5PAumGdHOmP5MMMkQnCt4i9T47dTXz6J5cZTSbtZT7yMlZMA5Y0XQ972eXfWSSSeNubezIM/tzoPqqXXCqhAc9u/tmdtWaBjZGblsoc7YbdG6TH3FmRingBcNDUtpznU9brsVIbGCz513qo//yHxZMmOMmU+MDXo3d50=
+	t=1745232985; cv=none; b=ETkv3uANat1NaNKduN/jWF30I+qmL8WnhQHA5D9Tv8ZLIYgj0rEY2XvZYRjZRxmAODWO1sHYX/sQmln0Bb02XvGMUeoutIKjS9Nj/FRdUalyTVFM6ekj7NL8xpUJp5YmSy+pBIZcpbHXcCoM1BeeVVmalAEfCBL2l3GPeg1GE7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745228991; c=relaxed/simple;
-	bh=v+Yuagx2PihBMMrWmfAQKXavj3eAD4INx4YN31dWjxk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oowwpaNXxIfrdO8kNt2KmNESdPwCWX5+rDyGMB/P3ulyqIYg0QnbmRELdKQ6QhwLOVJuaRU2+kKvm3tIj/b8DfhBaQyoz12RPWOrZc06u4XwmiRA6tfHnwLu0U15UvThcoYpXyGDL/s0kJiIXr+N+CCKehy64R+be1xt7G4vp9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YwuW92X9; arc=none smtp.client-ip=209.85.167.45
+	s=arc-20240116; t=1745232985; c=relaxed/simple;
+	bh=CMPrIxNOoieeIyOCd3WGjEmr/YSLMAGHrsnQmlu3Gjk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=k93QMBCVN+Kawj6cAjKzd8SR0ErNjhppQvHgwA4Qfh9lzRDp8zDOJIaG2knz9KgbZCN7GTX2s5+oObserMHHuzlDxoLuWg4o5RLG+gfTdUuLh0LLAZ9UDk0baPskCkBRUB7DkP041/BAEreuYV45rELhcOvajOSe8WtTxqdzBAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kklmQpf2; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-548409cd2a8so5128190e87.3;
-        Mon, 21 Apr 2025 02:49:49 -0700 (PDT)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-224171d6826so55100075ad.3;
+        Mon, 21 Apr 2025 03:56:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745228988; x=1745833788; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XP67hn2BmEJVpI7ilGH7ZZkNNg/xaXONtFOtDQ/ick8=;
-        b=YwuW92X9aY5KYpSOOXHpXkOnZDyuvA0WH5/jqGOozUuRbmPoSa0vfjH6B0u44gnn6p
-         RzdG/qVYVeuT/1FS4dVOJw2+emWmEt1i6TXlEATYlxDchh0IbpNXtqyZDDKqqRR/Ky57
-         65TxmILG2gqsPyxK3yOsiuLdgbPMYF50eqQ1DDwba+OMvU9ySUx7vTBHqtz6IA99+tCs
-         togKP4Oob/KFqa3qWQY1QCkQHFRfCSjvvycplyHlzNtRDhUtyTaXlzYtmFy0a/SAl44v
-         VBKtbucFQjxWnTLW6QKMKP6SEJ55GZ1gvW465bTBKYg9nHkoxsFKn5Mdv4VLde6SnTF0
-         ERDA==
+        d=gmail.com; s=20230601; t=1745232983; x=1745837783; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=65w025aC3P2DfBTzXXd8QwjFY2MlEBQ0gDWSy2sjY+M=;
+        b=kklmQpf2BCsE6pcdV+raiAf0l/ccBfKN5fA67/yCuKG8rodVjHi3nnzsU4VMD8Ntge
+         n0cAGrMQc0iBgkf9dHSrwZjw+NACKiIdx9/8qp04XYzzn4sygAO83StVjlfTkPqK1Y4O
+         I4/ihkS5VD3+ScvvtNuZDffA8qJXPjJKZmid4EkvqDQGifI/VIGC3LIhevx7Q8oDtWGS
+         iDoqNgNeokr7vKvCKIeN6a//lJRBXTetyo94gxO/7xngBmgijpwp6DrJMiU2im9NVkSr
+         wuxwhHMTSxK9dUFoMuWTeYi5wcnYau1nW26JtxKEHSwZOEYUNqVoMAbLuaTUOpBai8ql
+         DNTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745228988; x=1745833788;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=XP67hn2BmEJVpI7ilGH7ZZkNNg/xaXONtFOtDQ/ick8=;
-        b=n5ftJYaZl/izbEDvC2qBqBmmDKqy2wARhW9iEaNOw+pANxDrmAAM/MhmGNLPMR6nal
-         T9BRsQqHyxab8imGlIf4M44nvzaPV2JKee/Y5kWnDf+Y27recSE8Ned2rYklYvsK526R
-         TC2ZvWa5+H/CdXKenMgeVwguAMUpXqzprUxUvhvUiBk/uT8N2VvyZuanTWH+8UuUpU6/
-         e1e8VTfHiuQHMi/l7vyYpzTKOXrSYXbOxn1lR2NeeiP5Oyr57gzz92Izbh1ZbwZQck9D
-         tUsAC1xDYF9tjXTfBS4JhI+NQYEmOAtexgrC5lQCg8cOR9uD8ltMN5oW9brHCLYJHG47
-         t/nA==
-X-Forwarded-Encrypted: i=1; AJvYcCVLFLZWokd8Qdz8eY1PnAcm6Z4UPN1qDmP4jbiNex86Tu3pUkFNysvCfF6kAdnnKOnTODFyqNNTPubjonw=@vger.kernel.org, AJvYcCVWRVtI6geR8frvY1g04mWm3cHSatF5JdU20FmWFOnIAn8oG7dhtVXJBYvyNZS/CTV48W9yg3sGei23@vger.kernel.org, AJvYcCWv8vpWBdHX/ptlARLKv+TUMwmzHhVy/prHVnHcuZUWGs5cj/4gs0mjRJLlWVBT8goPxnEhbSMsYolFovo=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzPAZYaqCtQ7SeUfa1txKLl77mee3FZXSH4yJBQo9o+5gkN/DJ9
-	GtLzxB3gO7UD+1W3uNEQPBRbFMyxVcHpTODhqG/LkV96n5MOqV1H
-X-Gm-Gg: ASbGncs7nwNOYT0jMoZd+BRcYNEsf/kpNCfCPnYaWMJ5OEP++Xm7SHkFFpSBa1Pp67z
-	QrmS81n45r0e9PyEmy1CwoRXV/G5OCUA9HvYtpUij8uz/C4cLpYrnnVHWcjAXO4NqC9+q1gMAZf
-	EsJTjtUKPjtlMIpcAptg0NYoHsdv6wEv4Z8yU8LNwpVUNNg3pofRyQRng+henurGPaZQMQ4xajJ
-	E/PwbUjxvgplVP4p5gCFWQauXfAWoxWk30l0Kot15/gVD9yNIK3YJ1WprjRtUwV3mH0uu0ZG0Lb
-	xtxtLm2pW1f50hq/UimFRAxPt9xrCpxZ8548w+nhYQNoBqWAVMuQQyQRig==
-X-Google-Smtp-Source: AGHT+IHn91puYlL4ZseLJ09YpA1E08ENhfGm6qWp+xrjCUt1KCqx3HTlCLvJjCWbPKZ4vbiKNy4e7g==
-X-Received: by 2002:a05:6512:2386:b0:54d:65e8:31b8 with SMTP id 2adb3069b0e04-54d6e61604bmr3098798e87.5.1745228987892;
-        Mon, 21 Apr 2025 02:49:47 -0700 (PDT)
-Received: from foxbook (adtk186.neoplus.adsl.tpnet.pl. [79.185.222.186])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54d6e5cf922sm921663e87.149.2025.04.21.02.49.46
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Mon, 21 Apr 2025 02:49:47 -0700 (PDT)
-Date: Mon, 21 Apr 2025 11:49:43 +0200
-From: =?UTF-8?B?TWljaGHFgg==?= Pecio <michal.pecio@gmail.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede
- <hdegoede@redhat.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org
-Subject: Re: [PATCH] media: uvcvideo: Support large SuperSpeedPlus
- isochronous endpoints
-Message-ID: <20250421114943.085160c6@foxbook>
-In-Reply-To: <2025042101-coyness-vitality-e636@gregkh>
-References: <20250421095951.1e63824e@foxbook>
-	<2025042101-coyness-vitality-e636@gregkh>
+        d=1e100.net; s=20230601; t=1745232983; x=1745837783;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=65w025aC3P2DfBTzXXd8QwjFY2MlEBQ0gDWSy2sjY+M=;
+        b=lpyQm8hDciqjCm3YuadPW/5xEI7FtnCstL0LhP7hsLeiz2nF4TVkgMzqgEjvoOdOOi
+         t5H7DLT5e3V+ukZtazeOfsuigB+1L9q6SRpvMxlfRaD0+TZBgaJTEPuKRsP3pbzzAOT5
+         xJroO6GqLIsaR59ZmqAB6ZlNE8w5dbVJ5j4GL0584uaAfqH9DOnXj++wdjgCWvUIkFXJ
+         pM1Wm6qbLkybvIF2ag0D0ZfekaXsyFa0SGj8i0+WYPdrBjeHkyLyTuL434Mo0GgeMe8p
+         XNUmsvTYMj0QHr+LSrGV0SzOJ5JgKduw9ullJ+5xKyY0kFfriFEGvC1ojiYJjEFEYbYy
+         QeQw==
+X-Forwarded-Encrypted: i=1; AJvYcCVHYfbkmU//1ABILvM3WYcps+nPoCG45qfP1k5UBRN8Y1YRQhYhaa4ChOBJRrfSs/JiKqe8fjSQmKxTNpc=@vger.kernel.org, AJvYcCVM5BY9h7WA76+04BlhaijSxhWk1mxDfXlifGg4bETO4Eon/Psx9LUrpQDxi/fT+Dn1n6VW4+ZbPv9RcSE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYrIuehjUz3R+wajilhwiwB7VY/SP8so+2tKe0EOlFD3HQjUwY
+	pm5O8f7S5ui5zeZAjdSD6bntrGtQwRFgj9rCJZeJbLZWd1XylQqe+bnqwbQy
+X-Gm-Gg: ASbGnctKG4RvvhBrwC4EVniO1AzcpLKA0Z9BfEjBoVCHz16fTVS/JKTxOFRK06sixgF
+	8Ky+FSZ0ufNo08lT1NQClvM1t5vMXmwTSrgfhuz2xDfsZtOQGcJAPCJ3bAfZvMMYD8vbid9n7N3
+	winTRFV2+D043XE9bs0AdO+YnwWkCjBrHIurZsg233vUzdxMpddJSUkY/5j0EcpjYJejFDHWjaZ
+	Rrwsm8EDIS3mKYEzwks7Y5s5+xew3ywviPDFWyxCbiv6hsFLdZ8TB0tDvJZNr83vF22CBY0gvmg
+	i6X92+0dbjmq+Se12LsfGPY3TG/0ZV5WCUNJUhqGq4FcqOi2ffVMi+uM/zea4mrMuB+VHA==
+X-Google-Smtp-Source: AGHT+IFQOA4mCLzNAr2CjpNSDw3eaK0OHIPjxDrr89NNpw1Kns/RKdnE+AfXrC/S4pqxYt1+wOK+bA==
+X-Received: by 2002:a17:903:252:b0:21f:71b4:d2aa with SMTP id d9443c01a7336-22c53379f74mr194956975ad.5.1745232983083;
+        Mon, 21 Apr 2025 03:56:23 -0700 (PDT)
+Received: from localhost.localdomain ([121.185.186.233])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22c50fe332csm62673235ad.257.2025.04.21.03.56.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Apr 2025 03:56:22 -0700 (PDT)
+From: Jeongjun Park <aha310510@gmail.com>
+To: mchehab@kernel.org
+Cc: hverkuil@xs4all.nl,
+	zhang_shurong@foxmail.com,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jeongjun Park <aha310510@gmail.com>
+Subject: [PATCH] media: az6007: fix out-of-bounds in az6007_i2c_xfer()
+Date: Mon, 21 Apr 2025 19:55:54 +0900
+Message-ID: <20250421105555.34984-1-aha310510@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Mon, 21 Apr 2025 10:51:38 +0200, Greg KH wrote:
-> On Mon, Apr 21, 2025 at 09:59:51AM +0200, Michal Pecio wrote:
-> > USB 3.1 increased maximum isochronous bandwidth to 96KB per
-> > interval, too much for 16 bits and the SuperSpeed Endpoint
-> > Companion descriptor. A new SuperSpeedPlus Isochronous Endpoint
-> > Companion descriptor was introduced to encode such bandwidths, see
-> > spec sections 9.6.7, 9.6.8.
-> > 
-> > Support the descriptor with code based on
-> > xhci_get_max_esit_payload() and widen all 'psize' variables to 32
-> > bits. Subsequent calculations are 32 bit already and not expected
-> > to overflow, so this change ought to suffice for proper alt setting
-> > selection on USB 3.x Gen 2 devices.
-> > 
-> > Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
-> > ---
-> > 
-> > This change appears to be a strict necessity for supporting USB3
-> > Gen2 isochronous devices meaningfully. Whether it's sufficient I
-> > don't know, I don't have such HW. No regression seen on High Speed
-> > and SuperSpeed.  
-> 
-> If you don't have the hardware, why make this change?
+According to the previous commit 1047f9343011 ("media: az6007: 
+Fix null-ptr-deref in az6007_i2c_xfer()"), msgs[i].len is user-controlled.
 
-Because it's an obvious and easily removed limitation, and may be the
-only thing missing in uvcvideo to support such hardware. I saw it when
-investigating a related SuperSpeed problem earlier.
+In the previous commit, bounds checking was added because a null-ptr-deref 
+bug occurs when msgs[i].buf and msgs[i].len are set to null. However, this 
+leads to an out-of-bounds vuln for st->data when msgs[i].len is set to a 
+large value.
 
-If media believes that more is needed, or if there is objection to such
-changes based on spec alone then fine, at least the patch is out there
-for anyone wondering why things aren't working.
+Therefore, code to check the maximum value of msgs[i].len needs to be added.
 
-> >  drivers/media/usb/uvc/uvc_  
-> 
-> This line looks odd, because:
->
-> >  drivers/media/usb/uvc/uvc_driver.c |  2 +-
-> >  drivers/media/usb/uvc/uvc_video.c  | 13 +++++++++----
-> >  drivers/media/usb/uvc/uvcvideo.h   |  4 ++--
-> >  3 files changed, 12 insertions(+), 7 deletions(-)  
-> 
-> Only 3 files were changed.  What went wrong?
+Fixes: 1047f9343011 ("media: az6007: Fix null-ptr-deref in az6007_i2c_xfer()")
+Signed-off-by: Jeongjun Park <aha310510@gmail.com>
+---
+ drivers/media/usb/dvb-usb-v2/az6007.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Sorry, some editing mistake.
+diff --git a/drivers/media/usb/dvb-usb-v2/az6007.c b/drivers/media/usb/dvb-usb-v2/az6007.c
+index 65ef045b74ca..fba1b6c08dc7 100644
+--- a/drivers/media/usb/dvb-usb-v2/az6007.c
++++ b/drivers/media/usb/dvb-usb-v2/az6007.c
+@@ -788,7 +788,7 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
+ 			if (az6007_xfer_debug)
+ 				printk(KERN_DEBUG "az6007: I2C W addr=0x%x len=%d\n",
+ 				       addr, msgs[i].len);
+-			if (msgs[i].len < 1) {
++			if (msgs[i].len < 1 || msgs[i].len + 1 > sizeof(st->data)) {
+ 				ret = -EIO;
+ 				goto err;
+ 			}
+@@ -806,7 +806,7 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
+ 			if (az6007_xfer_debug)
+ 				printk(KERN_DEBUG "az6007: I2C R addr=0x%x len=%d\n",
+ 				       addr, msgs[i].len);
+-			if (msgs[i].len < 1) {
++			if (msgs[i].len < 1 || msgs[i].len + 5 > sizeof(st->data)) {
+ 				ret = -EIO;
+ 				goto err;
+ 			}
+--
 
