@@ -1,181 +1,215 @@
-Return-Path: <linux-media+bounces-30637-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30638-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 988F5A95596
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 19:59:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F6FDA9559D
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 20:02:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1A2EE3B5F31
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 17:58:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 543781664DF
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 18:02:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A7811E8358;
-	Mon, 21 Apr 2025 17:58:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA5E51E3DEF;
+	Mon, 21 Apr 2025 18:02:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fQOe5UJB"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Uv6YZ7tS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011061.outbound.protection.outlook.com [52.101.70.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727D41E3DFE;
-	Mon, 21 Apr 2025 17:58:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745258327; cv=none; b=tqSa0+cXT5DX8ZpW9YzxAgtuC54FhRMhDnPZKhZCVCgiCdwRrtnyBgql1gCQUcqCMdzrK1fsGRHCD/EXrIBKCKXBR5pZN6O6+R69pYow2ok1sSw8QkzU90Xi8dCpo2UmfOzlwZEMZYXOdj6N8Ngeysj4Ny1qsfBewM80i6fFG1M=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745258327; c=relaxed/simple;
-	bh=iKIM2wKqUtlQpc6gV5GRUWYsCL1lGfAXIG3wkd4PEmE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WYkdg89n9utejp+aL/edMzTl7J80Dbtrsw09WPCO8HDgXaUrpBTs1YFO1r1cyJsbAuscXIB+JOsyWsBZYPYpfqSpcasBJC3IfUROOsI6/P2EJXTuxyf4qCNQHhWppSTgAtulIH+YfAeXcfo8CrDkWKVT/ImrqXV+J9g1jljow1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fQOe5UJB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D93CBC4CEF0;
-	Mon, 21 Apr 2025 17:58:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745258325;
-	bh=iKIM2wKqUtlQpc6gV5GRUWYsCL1lGfAXIG3wkd4PEmE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=fQOe5UJBrN84MHjBsV4gZyvpFqNidQ0PK7bygae3TpkuylyQXD4DWemS+wperSZGW
-	 T763QBAhUMxnT9fMd5JS72o/dAWEd+DmceHwOJOULQ0foD8B8WjYikr6XNoo4EAqoG
-	 uy/96sik7tEzG68I1QTqGVtOGsvs4UQGwMWbzhHvGCINbEHsGgFGCtKuoh+A9j3B+M
-	 nGYCvHXr/SD1QOcziiDVcesttQspk5JWZlzP4YVzTm4V/ZeGw0lWjU8ACPX6ilnuDT
-	 OAdyNjNoc/BV47bbfPOLzAxbLGosAjjlVooB7iHZRwuFCXDcUmy045B2lRHnb1vc6p
-	 3EuE6WYexzGuw==
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-47690a4ec97so45468461cf.2;
-        Mon, 21 Apr 2025 10:58:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU4kNg558HQ6NIK5qEVwqJyn94l+1bBOT4VoFFHYWnVRJlMbRv12zpdqkqJ5tpr36IOaI/Qmwpvy+hoSdXB@vger.kernel.org, AJvYcCWdtDJMd9v8wWeLNRMA0hhkZvJ4S7mkVKa0phx93NSih+QJKqphjOnAktVACT91GfsY6AU=@vger.kernel.org, AJvYcCX52d+W/TK+I5nBeaRkiR8Pc0ks6R+XNHocNxvcQhtp1JoCPo75+eBvVlwAk1/10ERjFM36zYEzXP49lAlcSzw+@vger.kernel.org, AJvYcCXWQkKxBGC8jgJZqYcxuLpXmnEUkYqBGEs8y1/s6oC+J5ynlOvJVwKJinVsQ3NeAVDhpQiAvRdVq3O5/Fo=@vger.kernel.org, AJvYcCXZREugiNpBktheiCiMxKXhzjEs70dm65jsVW9zmJfcles+fEMNMpnBCdkD0cXMM+6k7n5usDyszDtR@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBuJBDvTqudqIT0X17K7Lsf9lls//OWJIxDxYbfilmar0yWrhW
-	IxL7BEhazlxUMOJ6VAt5K5IKtFenGyqsKE8IXPifiwbEDlJlZsxdPJbUv4zM/Rz3BEkQGuRyDFF
-	zRmgbst1CQbt+IHFSLan01ZoEr0c=
-X-Google-Smtp-Source: AGHT+IE8HckTVa/ODHOBBiUx6mnBjmKzUKUF5RXS/PyOXaTpOyGidFR0Ah5YtlEwxLCsr1VDuIEeUXoMGTa7dTtikss=
-X-Received: by 2002:ac8:5fc6:0:b0:479:be67:3bd2 with SMTP id
- d75a77b69052e-47aec3cb8f4mr213100921cf.23.1745258324932; Mon, 21 Apr 2025
- 10:58:44 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAA35165F13;
+	Mon, 21 Apr 2025 18:02:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.61
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745258546; cv=fail; b=kwVnuZjgOK+dN5voTSRMAXhAMfBPJ0igVOUYk6LYqNnlmgceIbzRsrdJc1jHRdaMNBtzLXjZ56iIL9NwNDNYq1kjA1s7SqWPpVfbHKbhuluYeo7ImsOQcRudZa3o0upjFgsCSisOwf7O68gUtJlqqsh6TXfCJr4BZW8NA4t3+T4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745258546; c=relaxed/simple;
+	bh=J2pKqLc4//Hz8dLts87Sp3jqE5ltoJIb++t0PoCF7Mw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=AxZ7NwcpP64dw6EcjObSGSdOnyJ83U2HcubONhn18+7HfBYpWj+bkgxeKjsW3hxW0W7YyaQF+n0vLYg477J9MOFzQbcgi22aunncw32cok44UBBubeFzDXeK8u1QF3c3tWq3QVejnLWfFWEYa0jAtXnP6sJSq/ELICVxMGFXKqM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Uv6YZ7tS; arc=fail smtp.client-ip=52.101.70.61
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=IE90tW20oyWborKM8eK7L8kh9tDHB3P/kIkLcmWwOCvjxKcxVd2r1Yp6Pn+e9L9Ez1i33NDejdi+bvyEa58HAtewcb097sXcYzmqgbqdcEji14A2X9p5E4sZLKnv5JCu08XeSJcPs6l9ZG9NQYrRUJh7pbg4ttvZXff7zfnt5TPxCeWQoxOn1DR1P2tvxoIBI1MRHbUG7YLNDMqEBfj4pdOWyYeIXBSkfZlCmY1UutMUqHF9ZkDhuF7MKi7629/nuZgvgGLSPtRnAkzBDZ7928YUE0V3O4sBpjEJRe16Di2aJtXDasaL0LW4Z5baEFq41BbQy/vCEmK4hB7JF+i5Mw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KN0nQ7TUi+LgMpwCswISAIfhVEbkFl9lSfhnJtDtayg=;
+ b=n55LCBgjgmV+TaHgiJjoyILh7+WzOs8rARO7Y0HitZQKwxmHiLyz3czl5dXYdSkAV82aISWjhq2war2XephaivwkhCugJ6FAU05aCFo8d/d568Zy/ewUe4COLKyrWuKeMXpUEf7bxfyRUQkejzwqXYIE3ANKw6S/S74JsyVPQ30a+XiB5bzqqe5uiVCmAkhK+U5s+qH4GkRyybxbi1gjFl7yWVj40K3yrY+DnX9zLywFRMReHZsSaMVNWSniVAI0hkuBzsZiXDvanscRU/ni5fFCPRfnnD78DMFk1Cg+Joau7GxkJhbcMIVh3WcjuFUS+nyf+zELMlJmYUAkFJ38KA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KN0nQ7TUi+LgMpwCswISAIfhVEbkFl9lSfhnJtDtayg=;
+ b=Uv6YZ7tSdqn81HbLSpykeqgcYzFcTRUuCshAfrgNaMg9UZdJZw53KDG6fLW4mTF6vXB4MMn7DISikSnXZwEPDb2HhO5vmZL41Du4mwAluwdHVF0dgyUAh3acMfcsKf8RPVgV12CtsLN3N+VPgYeECtopUi/K9QTaoBiuv+Mrktj+tJ+zT/iIypXNf/oao4VjI598/FheTm3s3lemqTO7s0h7WHgS8BWJjEhfBXSeo9v9flN9poIwrsQ9IARt7ZW5zXs7KHoqrlhwDkRJTQWc/iuQwwtvmN7iLezZp5kdK2z/WQbXdKAGDrR/SYoLS5SIC6sfv7fX6QIG69EnLNkd+A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by AS5PR04MB9856.eurprd04.prod.outlook.com (2603:10a6:20b:678::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.33; Mon, 21 Apr
+ 2025 18:02:20 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06%2]) with mapi id 15.20.8655.025; Mon, 21 Apr 2025
+ 18:02:20 +0000
+Date: Mon, 21 Apr 2025 14:02:12 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: ming.qian@oss.nxp.com
+Cc: mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+	mirela.rabulea@oss.nxp.com, nicolas@ndufresne.ca,
+	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
+	festevam@gmail.com, xiahong.bao@nxp.com, eagle.zhou@nxp.com,
+	linux-imx@nxp.com, imx@lists.linux.dev, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v6 2/5] media: imx-jpeg: Reset slot data pointers when
+ freed
+Message-ID: <aAaIJMZ3ZIy6+yVk@lizhi-Precision-Tower-5810>
+References: <20250421081301.1304-1-ming.qian@oss.nxp.com>
+ <20250421081301.1304-3-ming.qian@oss.nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250421081301.1304-3-ming.qian@oss.nxp.com>
+X-ClientProxiedBy: PH8P221CA0013.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:510:2d8::24) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250414225227.3642618-1-tjmercier@google.com> <20250414225227.3642618-3-tjmercier@google.com>
-In-Reply-To: <20250414225227.3642618-3-tjmercier@google.com>
-From: Song Liu <song@kernel.org>
-Date: Mon, 21 Apr 2025 10:58:33 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW54g5YCmLVX=cc3m2nfQTZrMH+6ZMBgouEMMfqcccOtww@mail.gmail.com>
-X-Gm-Features: ATxdqUHDDdbJSbksFn4UCdL4tiOhDhDWdHN22eHXld_HEyeHr-qDylZwsTxwC7Y
-Message-ID: <CAPhsuW54g5YCmLVX=cc3m2nfQTZrMH+6ZMBgouEMMfqcccOtww@mail.gmail.com>
-Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
-	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
-	skhan@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
-	simona@ffwll.ch, corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev, 
-	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
-	jolsa@kernel.org, mykolal@fb.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|AS5PR04MB9856:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4686e11c-590d-4d84-599d-08dd80fea8fb
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|7416014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?9KruhsrX0idC9+fABVXpGtbAnUAkZRHf8Fc2HAJBX8uY1G/kG1g2aq26MELL?=
+ =?us-ascii?Q?4VhRVsT8O8Kox4hHBKYOw/o/RrQDUHP7OuJaLB9Ny8vWYcGaEt9PWSA2Lb9N?=
+ =?us-ascii?Q?ymfljdz1+9OKQM1EhsHnrO4F/+wZA57zag00grCnIuqM/fJqdCR0lCEp2fpS?=
+ =?us-ascii?Q?g5F8n+VYCvXQSx59gYL7GiQGabwxA4gTNYZyTcQnxaAN7VaABIb40inbmyj5?=
+ =?us-ascii?Q?fVnH3cESegmeilMUbNElDEDKJK45HGjfANHYHzDuDBrzz/lo6Xngdmq8bxNS?=
+ =?us-ascii?Q?PHYILXMuObplMxAAZBed2C3IIPJEvOoxfSN+5Vy2wbHYL1E5PmLFBG36zsXm?=
+ =?us-ascii?Q?jHoeafkWOOogN3Anbe2CV9/rcnYXTyL2xPeEV3R+OpMyH4LcLyGTMY19tyzI?=
+ =?us-ascii?Q?3JHdTAsVweTn8OhJt41qqm2L/5hWwcKDUjexhds8SIM+PrSxjo6KyDI+WFtC?=
+ =?us-ascii?Q?iwkFCga0CQr0by4zbB40V7+gUIfuVKRc0iN7VlA3l1AOqaXMqHBGbmny5xj7?=
+ =?us-ascii?Q?ZzZmGBycEnN2z/h5n31w7bVorOMTszlLSRd3gGjWi2eUJYt2+L1yJZ7esTz3?=
+ =?us-ascii?Q?2As4vT/bH1X8L3xyOLmLGjbrSN0Smgauj7ctPSE+SPvvv51vLvjmUk/JAMU5?=
+ =?us-ascii?Q?hCG9DemxCgoitxeI5UYtI/O+XwsW2QJ7r21hFRWJ1DL9UrsxmjIhiJOauO1o?=
+ =?us-ascii?Q?ny2wjnfLDp3gqmDnMj94CoAce9oSTGvSBsNAC/85F2lP70+qw1bee+zQhhCJ?=
+ =?us-ascii?Q?zTLUjq+4Nf8Ugo0UKyd8HzYuKeu29ycZrZ9JJ5hk8o2yLlJp+aifeDBg5MX2?=
+ =?us-ascii?Q?mHH8jAcAY/+4sXcgBS1Qm83b2m/d98jB+ru25+p0NNGsM/roBc9KyXarXrLD?=
+ =?us-ascii?Q?czG0y8XXUdUJrWdSkBITQ/JYZ6/P6HJLEns3D7wDQoPpmt47VQ3UOjh684/J?=
+ =?us-ascii?Q?fOPMVpV6foldpQIxNeKP7qQp++9paZ2038gP5/t1U07zQCWq2KTjYoSh77nO?=
+ =?us-ascii?Q?LWlb4PCQH45a1qQxl5D+G1FsCFa9nV8qeL23sQSLTT9zdxy0hiHQKr4d6vrj?=
+ =?us-ascii?Q?6htWBkPw0GcXDz8Td18qiUHtTQrezS44aZSS3oNEoyA9cMzwTFzz5wSToNIY?=
+ =?us-ascii?Q?xtCqzA7mKZSJMGsJULuFoZtxPVg7fcRl51uzWtm8V7XaMkkAYuyuAjGOGN13?=
+ =?us-ascii?Q?Y+F92PvIkLSsU0deOkU646Zw9Xpe90qUtM3TeVPTBsp/Br0jsLvYJ3dUN9aP?=
+ =?us-ascii?Q?7qt6f5SyR9WyfodNWSx41wULxSzWcorvElaYIJv77+HpiKFovK2JmiOKUTxP?=
+ =?us-ascii?Q?YgnTcGrS2y4xdvE3Od26L5lmfayn0wOxbmh2r8Xxo0pEEgvJI+h9Qnj+sGhX?=
+ =?us-ascii?Q?3QFOz0YBRufJiRAT2UktqnVkfL0Xik/Z+vNvgADe5fpPPFz3WPVQTG31aKw8?=
+ =?us-ascii?Q?PpSjBkaZy8vwV1wiZbXkdHfu0LcKgeVI8DYy0bMHnj5qOQ3kc639WA=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(7416014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?d7bXlLiWtYdcFSnGo3cU9XtmDBitgkXBpDjgMqrOvyks4Y+dEO+rGJ1mzOZM?=
+ =?us-ascii?Q?9lBXCcHNIEUWc+HxMbaI+z9vUA7XN2Wc2U4dAMSJN3MKqaULJgvU0twRFPDJ?=
+ =?us-ascii?Q?KX1UInv4vT0YS5kBuncqBOZLnqt8uZggngH4VxxJeZKgaa1oE/8IRf03vl+R?=
+ =?us-ascii?Q?gdaKySmVfcGGRMEjZdiwamF85ENRt0O5lEJR7JGeNDk+502GnZ39CmSp2V4m?=
+ =?us-ascii?Q?YMlc7aYJJwXc22fSZT0cmrnLT4A/HkjL+jehUFHmiBE2x5bPeaxoy3xt7kKI?=
+ =?us-ascii?Q?5go0x54sVJCXDwDRqIQd6VVklnNmGml55aogYjB7m1Sn3grvRyZy0PVWhphY?=
+ =?us-ascii?Q?QeiUr3mXdu0tp57WKksy9jHi+0xB84Yt5ssi+LSuKxlmWTvI9KDfhSLSEg1q?=
+ =?us-ascii?Q?5jGiUsZHaIzcPiBi89bFR1+mJQHcVBNn8D4hvo+abv3u2LEIGZhypCOixbZ+?=
+ =?us-ascii?Q?x3IMzlZzlhxcdnW0WSA0DhCEMzv4V8E9iThW8i/NgcZkfcyDbIkILeg2w8iM?=
+ =?us-ascii?Q?JLt+z89C47HiSadJs9aWrDDZOuwElq6LNlWWuPfArKK5JOUC61XNXdvvs4nO?=
+ =?us-ascii?Q?tWXxPgUysmcxR/laNhOs+hjfccJNFrAzMjoAZ/VKgxnE8YuWtXNBXy1OCGZQ?=
+ =?us-ascii?Q?ohNaUYplpTDtCJs4ubMJx7nehG1VqvgUjs+gIpWGfjYMbG2YoyG289GLjYjS?=
+ =?us-ascii?Q?H8xtwnCJo8u8sRGo7Zv/tm83kYIOpp8qA9iMpnRWG+YbrWj14IYFfPBMVnlQ?=
+ =?us-ascii?Q?QHZnYkE3dhqrUJipxWOB27xTQTQDty41g6SBP1H3NMkAROPzfWueRmht6BPZ?=
+ =?us-ascii?Q?aiW2aj9/JdVdN+Ao2JKHgtn1uWdXrvZjo9krfegn5CA5wGz0uqJY916KJGhD?=
+ =?us-ascii?Q?vArNx1/9sEXfI5pRON0mYXXsjRAyDkucvczGIMeuVq8ngnO0owt/Qch2H8a2?=
+ =?us-ascii?Q?c0ZjtThPYakTjYohX0ivNeacgWuAG/S7YydshEwp8QpcEbyPoktHqHM0ux66?=
+ =?us-ascii?Q?7+VN5ERt7vcwgzU9Ag80nx7hnZAcr1S99DM2Fv+zRvc2DdX3XC2HBx2YG2kl?=
+ =?us-ascii?Q?pB+QLkiXTXQO84mGCDSip6z/58WAbUeR+cZMks7/rv5LLX8xLNq/s0sp+QIn?=
+ =?us-ascii?Q?kx5E8uodGKA2LRZKMasRxznJjXltnuphG79U6y/QxsBR9xEDj7ADUlLe6AF7?=
+ =?us-ascii?Q?Myn3PLmZ7T1q9zhnZHbDhrfnt/FInKHRoJ4Kb5Eyhuuo1osjfsPnKBxL+N9a?=
+ =?us-ascii?Q?rPgiseRT19iZmEX9/ZJMxRsTr0Z5QbjJaH8gra6fv+kUB8oTbVOAEz4VlIJj?=
+ =?us-ascii?Q?P0Gnc+niJzy7OLUwgIsfQXboNZp6I5FR77S8OiEZkbzfr6rVTps7CTrqp0PO?=
+ =?us-ascii?Q?TjZR3o3qUkWo85cRuewaoOZ3aT1zpLby/9K/nuEj6t1T+rBEu5ZCs6xHvKIa?=
+ =?us-ascii?Q?Egr56FbAB6mwGFjjTeiO+1eAXi+dn3KYjflzspyd7GxKFwAoAtaESp10Z8lB?=
+ =?us-ascii?Q?2UdgN3iniRj4NEEqXUoZSBju6egeNtGnl9ISX3wLGjrwnRpVo8/0ZeacjF1v?=
+ =?us-ascii?Q?h0PiXAVkrvsrXHKcoH0=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4686e11c-590d-4d84-599d-08dd80fea8fb
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2025 18:02:20.4243
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: h6fAcdrQ2eQGY8BDCpL5J4bPF+n/3y2pbZL/otd8TslacByJNCUGdg3+tGvsRSwvKdKP989LIibnTRMZHjlmrg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR04MB9856
 
-On Mon, Apr 14, 2025 at 3:53=E2=80=AFPM T.J. Mercier <tjmercier@google.com>=
- wrote:
+On Mon, Apr 21, 2025 at 04:12:53PM +0800, ming.qian@oss.nxp.com wrote:
+> From: Ming Qian <ming.qian@oss.nxp.com>
 >
-> The dmabuf iterator traverses the list of all DMA buffers. The list is
-> maintained only when CONFIG_DEBUG_FS is enabled.
+> Ensure that the slot data pointers are reset to NULL and handles are
+> set to 0 after freeing the coherent memory. This makes he function
+> mxc_jpeg_alloc_slot_data() and mxc_jpeg_free_slot_data() safe to be
+> called multiple times.
 >
-> DMA buffers are refcounted through their associated struct file. A
-> reference is taken on each buffer as the list is iterated to ensure each
-> buffer persists for the duration of the bpf program execution without
-> holding the list mutex.
->
-> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> Fixes: 2db16c6ed72c ("media: imx-jpeg: Add V4L2 driver for i.MX8 JPEG Encoder/Decoder")
+> Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
+> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+
 > ---
->  include/linux/btf_ids.h  |   1 +
->  kernel/bpf/Makefile      |   3 +
->  kernel/bpf/dmabuf_iter.c | 130 +++++++++++++++++++++++++++++++++++++++
->  3 files changed, 134 insertions(+)
->  create mode 100644 kernel/bpf/dmabuf_iter.c
+> v6
+> - Improve commit message
 >
-> diff --git a/include/linux/btf_ids.h b/include/linux/btf_ids.h
-> index 139bdececdcf..899ead57d89d 100644
-> --- a/include/linux/btf_ids.h
-> +++ b/include/linux/btf_ids.h
-> @@ -284,5 +284,6 @@ extern u32 bpf_cgroup_btf_id[];
->  extern u32 bpf_local_storage_map_btf_id[];
->  extern u32 btf_bpf_map_id[];
->  extern u32 bpf_kmem_cache_btf_id[];
-> +extern u32 bpf_dmabuf_btf_id[];
-
-This is not necessary. See below.
-
+> v5
+> - Split the resetting pointer when freed to a separate patch
+> ---
+>  drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
 >
->  #endif
-> diff --git a/kernel/bpf/Makefile b/kernel/bpf/Makefile
-> index 70502f038b92..5b30d37ef055 100644
-> --- a/kernel/bpf/Makefile
-> +++ b/kernel/bpf/Makefile
-> @@ -53,6 +53,9 @@ obj-$(CONFIG_BPF_SYSCALL) +=3D relo_core.o
->  obj-$(CONFIG_BPF_SYSCALL) +=3D btf_iter.o
->  obj-$(CONFIG_BPF_SYSCALL) +=3D btf_relocate.o
->  obj-$(CONFIG_BPF_SYSCALL) +=3D kmem_cache_iter.o
-> +ifeq ($(CONFIG_DEBUG_FS),y)
-> +obj-$(CONFIG_BPF_SYSCALL) +=3D dmabuf_iter.o
-> +endif
+> diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+> index ad2284e87985..29d3d4b08dd1 100644
+> --- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+> +++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+> @@ -758,16 +758,22 @@ static void mxc_jpeg_free_slot_data(struct mxc_jpeg_dev *jpeg)
+>  	dma_free_coherent(jpeg->dev, sizeof(struct mxc_jpeg_desc),
+>  			  jpeg->slot_data.desc,
+>  			  jpeg->slot_data.desc_handle);
+> +	jpeg->slot_data.desc = NULL;
+> +	jpeg->slot_data.desc_handle = 0;
 >
->  CFLAGS_REMOVE_percpu_freelist.o =3D $(CC_FLAGS_FTRACE)
->  CFLAGS_REMOVE_bpf_lru_list.o =3D $(CC_FLAGS_FTRACE)
-> diff --git a/kernel/bpf/dmabuf_iter.c b/kernel/bpf/dmabuf_iter.c
-> new file mode 100644
-> index 000000000000..b4b8be1d6aa4
-> --- /dev/null
-> +++ b/kernel/bpf/dmabuf_iter.c
-
-Maybe we should add this file to drivers/dma-buf. I would like to
-hear other folks thoughts on this.
-
-> @@ -0,0 +1,130 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/* Copyright (c) 2025 Google LLC */
-> +#include <linux/bpf.h>
-> +#include <linux/btf_ids.h>
-> +#include <linux/dma-buf.h>
-> +#include <linux/kernel.h>
-> +#include <linux/seq_file.h>
-> +
-> +BTF_ID_LIST_GLOBAL_SINGLE(bpf_dmabuf_btf_id, struct, dma_buf)
-
-Use BTF_ID_LIST_SINGLE(), then we don't need this in btf_ids.h
-
-> +DEFINE_BPF_ITER_FUNC(dmabuf, struct bpf_iter_meta *meta, struct dma_buf =
-*dmabuf)
-> +
-> +static void *dmabuf_iter_seq_start(struct seq_file *seq, loff_t *pos)
-> +{
-> +       struct dma_buf *dmabuf, *ret =3D NULL;
-> +
-> +       if (*pos) {
-> +               *pos =3D 0;
-> +               return NULL;
-> +       }
-> +       /* Look for the first buffer we can obtain a reference to.
-> +        * The list mutex does not protect a dmabuf's refcount, so it can=
- be
-> +        * zeroed while we are iterating. Therefore we cannot call get_dm=
-a_buf()
-> +        * since the caller of this program may not already own a referen=
-ce to
-> +        * the buffer.
-> +        */
-
-We should use kernel comment style for new code. IOW,
-/*
- * Look for ...
- */
-
-
-Thanks,
-Song
-
-[...]
+>  	/* free descriptor for encoder configuration phase / decoder DHT */
+>  	dma_free_coherent(jpeg->dev, sizeof(struct mxc_jpeg_desc),
+>  			  jpeg->slot_data.cfg_desc,
+>  			  jpeg->slot_data.cfg_desc_handle);
+> +	jpeg->slot_data.cfg_desc_handle = 0;
+> +	jpeg->slot_data.cfg_desc = NULL;
+>
+>  	/* free configuration stream */
+>  	dma_free_coherent(jpeg->dev, MXC_JPEG_MAX_CFG_STREAM,
+>  			  jpeg->slot_data.cfg_stream_vaddr,
+>  			  jpeg->slot_data.cfg_stream_handle);
+> +	jpeg->slot_data.cfg_stream_vaddr = NULL;
+> +	jpeg->slot_data.cfg_stream_handle = 0;
+>
+>  	jpeg->slot_data.used = false;
+>  }
+> --
+> 2.43.0-rc1
+>
 
