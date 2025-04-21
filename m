@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-30665-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30666-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 935A6A9597A
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 00:37:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33E7EA95981
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 00:43:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7815D3B4CB1
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 22:36:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 964C53A924C
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 22:42:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97DA422A4C5;
-	Mon, 21 Apr 2025 22:37:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB6E222A80D;
+	Mon, 21 Apr 2025 22:43:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="A4AM4w+j"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JfvCQGqS"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F4C3BA4A;
-	Mon, 21 Apr 2025 22:37:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D57738382;
+	Mon, 21 Apr 2025 22:42:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745275025; cv=none; b=cdRHhuy4I/kr0HCGnYkxd5kBwc4w28/M3cDdTtqfb1y4pLkjYwXBHiUcFgOPW8KSYz+QxF8DBIUB89aRcrA+mjUKKIxZ4QcGKDrlUnin9m4bXRL6FmgD73JckpygzZfLr+ReK10qSJPVCoefTYYgm0J1svPF/Q0LAOgaB82eWgQ=
+	t=1745275381; cv=none; b=MkRbPdWYwXBDj/PigtRQ1oyvHv2lapD908heQo1nr1pVgWX5xTM38FoChMDFMjJwBPstZxzTT3xivStpWUkfz+rdbnb8jnTTe1PiejuU1+bWhPvWlDNcmA5lc9LvSIN8G6KnpY+dY4YWD3GQMWmQTQ4KZXPXUZy816NwGOU6aBU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745275025; c=relaxed/simple;
-	bh=ZO4xn37aM/ZDORnhJl0TobSG4164CL7rYBoELWyjVKA=;
+	s=arc-20240116; t=1745275381; c=relaxed/simple;
+	bh=xd751dLcfNHbsSQ5WqHXXifwddmkXdzXkLHaagG9qPU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R4bOvHn5H000qRAtwvt1pc575yIqxHJ+3jKjKoHLbs+KhqkUNAv+0aUwotgJHPcxULaqyqolxmNZ2lfDwU3QCEFfLXm6PeBoUjc3jhg6yoXnz+PXQFDm3de3561jVFvFcHwJ6ts1cvErkfXBwnra7zseTV+KAbDdLHOEijMfpCg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=A4AM4w+j; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=H/jasf5wZxuvrf94EHwf7szWqdtueNKDsbcf2PTXtOLUBPFWSioq9l9iVLEPt0dLN/yzALkw19nPhMqU9v1TNkPD2MLrI65agXdfpyYo/mw+kyGM6P8vMsm9ngKSRDKJCfJv4QPbz+ZIE/5ExyQSmYuHFhIgvGct/K7J3j0PeK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JfvCQGqS; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A2CF4606;
-	Tue, 22 Apr 2025 00:34:54 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 467D5606;
+	Tue, 22 Apr 2025 00:40:50 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1745274894;
-	bh=ZO4xn37aM/ZDORnhJl0TobSG4164CL7rYBoELWyjVKA=;
+	s=mail; t=1745275250;
+	bh=xd751dLcfNHbsSQ5WqHXXifwddmkXdzXkLHaagG9qPU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=A4AM4w+jHiRfFAs1WZgZcxeRpBWg0LyA+s4oqN5+S/a00LpvFUwDGn/EJijslhsZF
-	 5EBrN6SJw91APiFhkPDM0IFyl3d4RDviu7O+ZESZfHx3uJc1MFTO/xQfNgBN1Ka/Ec
-	 H8OHSSKOnr8xJx10OeQWzrIbpA1bjn3seu4+VnWc=
-Date: Tue, 22 Apr 2025 01:36:59 +0300
+	b=JfvCQGqSYc8gizhZFhNs9Fglo4Go9GpvCHaqF0otof2JUFTvmogN1ZV1c4Oc7V2T6
+	 f67rGVQDQQ6RDFIBUm0NKgvOvFqY6X/Ediok+iAHe9v7WR4UOee2NqqhVTWVD1bkSb
+	 TWggLFn7geiMzVCfyPFOdBzeckFQBHRASMtJ/tRc=
+Date: Tue, 22 Apr 2025 01:42:55 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -54,11 +54,10 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 1/7] dt-bindings: media: renesas,isp: Add ISP core
- function block
-Message-ID: <20250421223659.GZ17813@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 5/7] media: rcar-isp: Move driver to own directory
+Message-ID: <20250421224255.GA17813@pendragon.ideasonboard.com>
 References: <20250421111240.789510-1-niklas.soderlund+renesas@ragnatech.se>
- <20250421111240.789510-2-niklas.soderlund+renesas@ragnatech.se>
+ <20250421111240.789510-6-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,167 +67,142 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250421111240.789510-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20250421111240.789510-6-niklas.soderlund+renesas@ragnatech.se>
 
 Hi Niklas,
 
 Thank you for the patch.
 
-On Mon, Apr 21, 2025 at 01:12:34PM +0200, Niklas Söderlund wrote:
-> Some R-Car ISP instances have in addition to the channel selector (CS)
-> an ISP core (CORE )to perform operations on an image stream. The core
-
-s/ )/) /
-
-> function is mapped to a different memory region and have a separate
-
-s/have/has/
-
-> interrupt then CS, extend the bindings to allow describing this.
-
-s/then/than/
-
-> 
-> On the same SoC different instances of the ISP IP may have, or not have,
-> the CORE functionality. The CS function on all instances on the SoC are
-> the same and the documentation describes the full ISP (CS + CORE) as a
-> single IP block. Where instances not having the CORE function simple
-> lacking the functionality to modify the image data. There dependencies
-
-s/simple lacking/simply lack/
-
-s/There/There are/ ? Or did you mean something else ?
-
-> on the CS functionality while operating the CORE functionality.
-> 
-> In order for the ISP core to function in memory-to-memory mode it needs
-> to be feed input data from a Streaming Bridge interface. This interface
-> is provided thru the VSP-X device. Add an optional new property
-> "renesas,vspx" to provide a phandle to describe this relationship.
-> 
-> While adding mandatory reg-names and interrupt-names breaks existing
-> bindings the driver itself remains backward compatible and provides CS
-> functionality if a single unnamed reg and interrupt property is present.
-> Furthermore all existing users of the bindings are updated in following
-> work to add these new mandatory properties.
+On Mon, Apr 21, 2025 at 01:12:38PM +0200, Niklas Söderlund wrote:
+> Before extending the driver with functions from the R-Car ISP core that
+> will span multiple files move the existing driver to a separate
+> directory. While at it rename the single source file to allow future
+> files to be grouped by functions.
 > 
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
+>  MAINTAINERS                                    |  2 +-
+>  drivers/media/platform/renesas/Kconfig         | 18 +-----------------
+>  drivers/media/platform/renesas/Makefile        |  2 +-
+>  .../media/platform/renesas/rcar-isp/Kconfig    | 17 +++++++++++++++++
+>  .../media/platform/renesas/rcar-isp/Makefile   |  4 ++++
+>  .../renesas/{rcar-isp.c => rcar-isp/csisp.c}   |  0
+>  6 files changed, 24 insertions(+), 19 deletions(-)
+>  create mode 100644 drivers/media/platform/renesas/rcar-isp/Kconfig
+>  create mode 100644 drivers/media/platform/renesas/rcar-isp/Makefile
+>  rename drivers/media/platform/renesas/{rcar-isp.c => rcar-isp/csisp.c} (100%)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 465569a7b264..4904d0896773 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -14917,7 +14917,7 @@ F:	Documentation/devicetree/bindings/media/renesas,csi2.yaml
+>  F:	Documentation/devicetree/bindings/media/renesas,isp.yaml
+>  F:	Documentation/devicetree/bindings/media/renesas,vin.yaml
+>  F:	drivers/media/platform/renesas/rcar-csi2.c
+> -F:	drivers/media/platform/renesas/rcar-isp.c
+> +F:	drivers/media/platform/renesas/rcar-isp/
+>  F:	drivers/media/platform/renesas/rcar-vin/
+>  
+>  MEDIA DRIVERS FOR RENESAS - VSP1
+> diff --git a/drivers/media/platform/renesas/Kconfig b/drivers/media/platform/renesas/Kconfig
+> index c7fc718a30a5..27a54fa79083 100644
+> --- a/drivers/media/platform/renesas/Kconfig
+> +++ b/drivers/media/platform/renesas/Kconfig
+> @@ -30,23 +30,6 @@ config VIDEO_RCAR_CSI2
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called rcar-csi2.
+>  
+> -config VIDEO_RCAR_ISP
+> -	tristate "R-Car Image Signal Processor (ISP)"
+> -	depends on V4L_PLATFORM_DRIVERS
+> -	depends on VIDEO_DEV && OF
+> -	depends on ARCH_RENESAS || COMPILE_TEST
+> -	select MEDIA_CONTROLLER
+> -	select VIDEO_V4L2_SUBDEV_API
+> -	select RESET_CONTROLLER
+> -	select V4L2_FWNODE
+> -	help
+> -	  Support for Renesas R-Car Image Signal Processor (ISP).
+> -	  Enable this to support the Renesas R-Car Image Signal
+> -	  Processor (ISP).
+> -
+> -	  To compile this driver as a module, choose M here: the
+> -	  module will be called rcar-isp.
+> -
+>  config VIDEO_SH_VOU
+>  	tristate "SuperH VOU video output driver"
+>  	depends on V4L_PLATFORM_DRIVERS
+> @@ -56,6 +39,7 @@ config VIDEO_SH_VOU
+>  	help
+>  	  Support for the Video Output Unit (VOU) on SuperH SoCs.
+>  
+> +source "drivers/media/platform/renesas/rcar-isp/Kconfig"
+>  source "drivers/media/platform/renesas/rcar-vin/Kconfig"
+>  source "drivers/media/platform/renesas/rzg2l-cru/Kconfig"
+>  
+> diff --git a/drivers/media/platform/renesas/Makefile b/drivers/media/platform/renesas/Makefile
+> index 50774a20330c..1127259c09d6 100644
+> --- a/drivers/media/platform/renesas/Makefile
+> +++ b/drivers/media/platform/renesas/Makefile
+> @@ -3,13 +3,13 @@
+>  # Makefile for the Renesas capture/playback device drivers.
+>  #
+>  
+> +obj-y += rcar-isp/
+>  obj-y += rcar-vin/
+>  obj-y += rzg2l-cru/
+>  obj-y += vsp1/
+>  
+>  obj-$(CONFIG_VIDEO_RCAR_CSI2) += rcar-csi2.o
+>  obj-$(CONFIG_VIDEO_RCAR_DRIF) += rcar_drif.o
+> -obj-$(CONFIG_VIDEO_RCAR_ISP) += rcar-isp.o
+>  obj-$(CONFIG_VIDEO_RENESAS_CEU) += renesas-ceu.o
+>  obj-$(CONFIG_VIDEO_RENESAS_FCP) += rcar-fcp.o
+>  obj-$(CONFIG_VIDEO_RENESAS_FDP1) += rcar_fdp1.o
+> diff --git a/drivers/media/platform/renesas/rcar-isp/Kconfig b/drivers/media/platform/renesas/rcar-isp/Kconfig
+> new file mode 100644
+> index 000000000000..59e0d91862d1
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/rcar-isp/Kconfig
+> @@ -0,0 +1,17 @@
+> +# SPDX-License-Identifier: GPL-2.0
+
+Add a blank line here.
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-> ---
-> * Changes since v1
-> - Extend the commit message to make it explicit that different ISP
->   instances on the same SoC (same compatible value) can have, or not
->   have, a CORE function block attached.
-> - Update documentation for renesas,vspx property.
-> - Update example to cover all new properties.
-> ---
->  .../bindings/media/renesas,isp.yaml           | 63 ++++++++++++++++---
->  1 file changed, 55 insertions(+), 8 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/renesas,isp.yaml b/Documentation/devicetree/bindings/media/renesas,isp.yaml
-> index c4de4555b753..927be02347e5 100644
-> --- a/Documentation/devicetree/bindings/media/renesas,isp.yaml
-> +++ b/Documentation/devicetree/bindings/media/renesas,isp.yaml
-> @@ -25,19 +25,55 @@ properties:
->            - renesas,r8a779h0-isp # V4M
->        - const: renesas,rcar-gen4-isp # Generic R-Car Gen4
->    reg:
-> -    maxItems: 1
-> +    minItems: 1
-> +    maxItems: 2
+> +config VIDEO_RCAR_ISP
+> +	tristate "R-Car Image Signal Processor (ISP)"
+> +	depends on V4L_PLATFORM_DRIVERS
+> +	depends on VIDEO_DEV && OF
+> +	depends on ARCH_RENESAS || COMPILE_TEST
+> +	select MEDIA_CONTROLLER
+> +	select VIDEO_V4L2_SUBDEV_API
+> +	select RESET_CONTROLLER
+> +	select V4L2_FWNODE
+> +	help
+> +	  Support for Renesas R-Car Image Signal Processor (ISP).
+> +	  Enable this to support the Renesas R-Car Image Signal
+> +	  Processor (ISP).
 > +
-> +  reg-names:
-> +    minItems: 1
-> +    items:
-> +      - const: cs
-> +      - const: core
->  
->    interrupts:
-> -    maxItems: 1
-> +    minItems: 1
-> +    maxItems: 2
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called rcar-isp.
+> diff --git a/drivers/media/platform/renesas/rcar-isp/Makefile b/drivers/media/platform/renesas/rcar-isp/Makefile
+> new file mode 100644
+> index 000000000000..b542118c831e
+> --- /dev/null
+> +++ b/drivers/media/platform/renesas/rcar-isp/Makefile
+> @@ -0,0 +1,4 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +rcar-isp-objs = csisp.o
 > +
-> +  interrupt-names:
-> +    minItems: 1
-> +    items:
-> +      - const: cs
-> +      - const: core
->  
->    clocks:
-> -    maxItems: 1
-> +    minItems: 1
-> +    maxItems: 2
-> +
-> +  clock-names:
-> +    minItems: 1
-> +    items:
-> +      - const: cs
-> +      - const: core
->  
->    power-domains:
->      maxItems: 1
->  
->    resets:
-> -    maxItems: 1
-> +    minItems: 1
-> +    maxItems: 2
-> +
-> +  reset-names:
-> +    minItems: 1
-> +    items:
-> +      - const: cs
-> +      - const: core
-> +
-> +  renesas,vspx:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description:
-> +      A phandle to the companion VSPX responsible for the Streaming Bridge
-> +      functionality. The Streaming Bridge is responsible for feeding image
-> +      and configuration data to the ISP when operating in memory-to-memory
-> +      mode.
->  
->    ports:
->      $ref: /schemas/graph.yaml#/properties/ports
-> @@ -103,10 +139,14 @@ properties:
->  required:
->    - compatible
->    - reg
-> +  - reg-names
->    - interrupts
-> +  - interrupt-names
->    - clocks
-> +  - clock-names
->    - power-domains
->    - resets
-> +  - reset-names
->    - ports
->  
->  additionalProperties: false
-> @@ -119,11 +159,18 @@ examples:
->  
->      isp1: isp@fed20000 {
->              compatible = "renesas,r8a779a0-isp", "renesas,rcar-gen4-isp";
-> -            reg = <0xfed20000 0x10000>;
-> -            interrupts = <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
-> -            clocks = <&cpg CPG_MOD 613>;
-> +            reg = <0xfed20000 0x10000>, <0xfee00000 0x10000>;
-> +            reg-names = "cs", "core";
-> +            interrupts = <GIC_SPI 154 IRQ_TYPE_LEVEL_HIGH>,
-> +                         <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
-> +            interrupt-names = "cs", "core";
-> +            clocks = <&cpg CPG_MOD 613>, <&cpg CPG_MOD 17>;
-> +            clock-names = "cs", "core";
->              power-domains = <&sysc R8A779A0_PD_A3ISP01>;
-> -            resets = <&cpg 613>;
-> +            resets = <&cpg 613>, <&cpg 17>;
-> +            reset-names = "cs", "core";
-> +
-> +            renesas,vspx = <&vspx1>;
->  
->              ports {
->                      #address-cells = <1>;
+> +obj-$(CONFIG_VIDEO_RCAR_ISP) += rcar-isp.o
+> diff --git a/drivers/media/platform/renesas/rcar-isp.c b/drivers/media/platform/renesas/rcar-isp/csisp.c
+> similarity index 100%
+> rename from drivers/media/platform/renesas/rcar-isp.c
+> rename to drivers/media/platform/renesas/rcar-isp/csisp.c
 
 -- 
 Regards,
