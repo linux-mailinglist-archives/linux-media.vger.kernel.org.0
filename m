@@ -1,122 +1,134 @@
-Return-Path: <linux-media+bounces-30601-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30602-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30F4CA9504B
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 13:37:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95845A9506C
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 13:51:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 21EDC3B2B5D
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 11:37:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CB6A3172443
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 11:51:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 423742641E1;
-	Mon, 21 Apr 2025 11:37:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 348EF2641E2;
+	Mon, 21 Apr 2025 11:50:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZPjIKrl9"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ge8Fb/E/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9705B264637;
-	Mon, 21 Apr 2025 11:36:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A82F261575;
+	Mon, 21 Apr 2025 11:50:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745235420; cv=none; b=Z89rNbty+F3O9LkW3wdRurcEC/vzuA207TDOK0ne+Gxfh5IIMs0oQMw+g9VLTTzD0kbonHKVIESjo6mRuZqzqgGJGUNWbUd7phLDzxo/grdr3c+gLmQjH95UeR8IQGC4f9k6JAqXZsMf87l0JZdMdJraM41pGwW7YZ7hIDtgFKE=
+	t=1745236255; cv=none; b=D7wm3uuhJ6pUd7fSWL77NFD49k/Hh9PXBeocv0IKwX0eVHoEslCudBRmxfxbZR8c4Ux2NqB0SD6p4Mho5Do9L5FwQSd2FWIQ3Cpor/XKu+DtlXUTQ/nCUKUAdnYonicMAa4kl0nY7Mo3OOpx2EJkRwa8SD6WAEPyYFtwqv73yEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745235420; c=relaxed/simple;
-	bh=xrakHmlA6LksyJuXF53HJRC6zIg8buvU/C8IzSupxbY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HgwhB/tLYZXCyNqFcDGY5P+jKpDgQbIUbrRtXo2Q1vShUs6C62odb9F3LOYAGBw5Hq13u2MR5DEhzDCjRPK2qbYGY37kbdeXMtVG55dk370JHB2Fu1h+XLIVS+A09idQjjZv8YFI5CpzcLPpJXaQSVe4FeyFvL66N8cEMqSsVyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZPjIKrl9; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1ACC473E;
-	Mon, 21 Apr 2025 13:34:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1745235289;
-	bh=xrakHmlA6LksyJuXF53HJRC6zIg8buvU/C8IzSupxbY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZPjIKrl9qxvyCAnpgIEZGOFYXgcafFyE6FvCFlf6eg0vIIx1fU1pn17jd9DbtLmVe
-	 +x+2U5sB9m2J24W+yGy4/QsIJxwjEIyitpRIyH3XJa6+uDrX/frKb/Tz/1/eSWW4Z5
-	 NAGh5pi7F3B8QEJILP+GuXs59sYn6+eioM+gheg4=
-Date: Mon, 21 Apr 2025 14:36:54 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Rishikesh Donadkar <r-donadkar@ti.com>
-Cc: jai.luthra@linux.dev, mripard@kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	devarsht@ti.com, y-abhilashchandra@ti.com, mchehab@kernel.org,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	vaishnav.a@ti.com, s-jain1@ti.com, vigneshr@ti.com,
-	sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl,
-	tomi.valkeinen@ideasonboard.com, jai.luthra@ideasonboard.com,
-	changhuang.liang@starfivetech.com, jack.zhu@starfivetech.com
-Subject: Re: [PATCH v3 04/13] media: ti: j721e-csi2rx: allocate DMA channel
- based on context index
-Message-ID: <20250421113654.GD29483@pendragon.ideasonboard.com>
-References: <20250417065554.437541-1-r-donadkar@ti.com>
- <20250417065554.437541-5-r-donadkar@ti.com>
+	s=arc-20240116; t=1745236255; c=relaxed/simple;
+	bh=7V0PSME1nWcALYz7UGYE7Ja9J4GO+tNxHAvxb4tYhaw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ThGgPv+35u9YX4EDkItJZlCJ0S6/evB5RfYGq67OO1BhlnU5ltXtYA+Fuuq3iBTSAOTdPaQpzZjdMvzUZZaGCOtHzJRkF5q9l7ZXqiTtMKTLwgkbM7n/6gh2tdqk1vZt1fuUOjmS4lvY7oMol+kRJ3kybCDBHBg3/ri57AJfRAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ge8Fb/E/; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-22401f4d35aso42198605ad.2;
+        Mon, 21 Apr 2025 04:50:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745236253; x=1745841053; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rc0DKkPWrE0e6Vsc/ZtQk+JXgRiTqIJBdziEE9MWJQg=;
+        b=Ge8Fb/E/21V3O7tfK/o0YWBK9dSyEKrynL3DQFCh7bYSL9ldxw6PS98kJGP3iG58S1
+         JQyozdanUeZ7F/U4mca1eUXX9IsQNxKvKYNVzvzH7QBTIoDiExZke0V4EJv6lE13PdQm
+         OL5rICVU+p+XgWEgpeRo9ZeOVIQtbfkCtiQ2LRAex8DHpQbqiiRCByHnrBLzvnbuXlCi
+         oVoP2D+7nqBN77A1qpdnF3QuXq4EAWr7ADicXE2N+DDLWmvhEI21uGJNP6QtA1LM0eeo
+         M/6+G2ayK2PTFONeYuUY8lQA5Hclj6Ab2u1b5628REQ0Z9UQg04u9ObCgHJBJzUdVRvi
+         7Zig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745236253; x=1745841053;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Rc0DKkPWrE0e6Vsc/ZtQk+JXgRiTqIJBdziEE9MWJQg=;
+        b=D+nPlY1YfTaRMo7HfohclGVwgANUXxdvNZClT/ypRqp3iq32DiVhGxQqRS105UWeV8
+         F1w4qGWbFyU6Ogpfbw7h2G6Tog66NwMUjitVDzFOV3ATNopBpNA+/KmpymG/Ho3g7LK7
+         RJ5Suf4IIYm+SDr5rM8+FQBJfgqv5C+cXPr4PpaNHFCSs+Pn41UK8QJGRmBU03WvlKO8
+         LNDt0rmGyyDsiN616BS0Weopr1d67JDKHwpDgA6nrc3oCmKUmWShTs9lmLuzpcn3uBlm
+         KP0kieHJ98oWQM3smc/LAKka9KQshXM4U8pEgkZ4yNwge/e+tpXO+7M5oyXKRXnTdlFd
+         xuXw==
+X-Forwarded-Encrypted: i=1; AJvYcCUd4jWG+b5qYa8kSR98MhQiRueqkugl7TeMZwi6SsskNnjRfLsAZ18CWYRo6L6ycEi9x/bEGwwl5HWn2eQ=@vger.kernel.org, AJvYcCXOHjwfGLulkTFYpXgVVoblUZEP6LQoVQ2ryjSiRM1sVoJWmW8rBnar+8R97Pq2GL0CSbTH1FpyUKh1uys=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzCKmc1fzkQc8Cg4+Wfo23j/USaFKxioY0NxkORdZoDWnu78xbH
+	NfScVkTjYDfRrJxokvYtXpcNLP1TnvVw82NcVplyg5cw61Ph4UXh
+X-Gm-Gg: ASbGnct/R1G6tj54EdccAsCHvmpt4t+Yu7ziuKPJ2fuPa9Nu0iQcy+6swxcF7kqWHPs
+	reYf/+JCZfZVs9Fkp9HemChriG4AlCovBJurMcVYpMj8mxO4Sp3dYDreQVjubuttCnfoUSRCQ2J
+	HzVC0ZjkCkRRz1C10nAzK6BDStv5EiNQoSvmOghK20gUTJkdV+9dJIFwNEhRiIqJuC7Gy7/lBxI
+	eFuEJk+gFAwmqRmwv8coGY0DLy6TiIIu6d6B2pRMfez730K0F5hcjXwfNCGMg/ACq3hy3qUaylB
+	7ofz/IOGR57va3ZwWhHlPj9vTgf3mW47AzFgATSgJjwNBYRecqZDMAgIoejeL+/S+GDgMA==
+X-Google-Smtp-Source: AGHT+IHweDS0NqpxlU+xKC7cxp7EuYdOBxBK9+ucLyGMecrMQWr9pEmPSyqRsD8ncvvX+wWS8I7/9g==
+X-Received: by 2002:a17:903:2cb:b0:223:5e76:637a with SMTP id d9443c01a7336-22c535a9c65mr150484045ad.23.1745236253382;
+        Mon, 21 Apr 2025 04:50:53 -0700 (PDT)
+Received: from localhost.localdomain ([121.185.186.233])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22c50bf2548sm64007015ad.64.2025.04.21.04.50.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Apr 2025 04:50:53 -0700 (PDT)
+From: Jeongjun Park <aha310510@gmail.com>
+To: mchehab@kernel.org
+Cc: christophe.jaillet@wanadoo.fr,
+	hverkuil@xs4all.nl,
+	harperchen1110@gmail.com,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Jeongjun Park <aha310510@gmail.com>
+Subject: [PATCH] media: dvb-usb: az6027: fix out-of-bounds in az6027_i2c_xfer()
+Date: Mon, 21 Apr 2025 20:50:45 +0900
+Message-ID: <20250421115045.81394-1-aha310510@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250417065554.437541-5-r-donadkar@ti.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Rishikesh,
+Missing maximum size check on msg[i].len causes out-of-bounds vuln for u8 *data.
+Therefore, we need to add proper range checking to prevent this vuln.
 
-Thank you for the patch.
+Fixes: 858e97d7956d ("media: dvb-usb: az6027: fix three null-ptr-deref in az6027_i2c_xfer()")
+Signed-off-by: Jeongjun Park <aha310510@gmail.com>
+---
+ drivers/media/usb/dvb-usb/az6027.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-On Thu, Apr 17, 2025 at 12:25:45PM +0530, Rishikesh Donadkar wrote:
-> From: Pratyush Yadav <p.yadav@ti.com>
-> 
-> With multiple contexts, there needs to be a different DMA channel for
-> each context. Earlier, the DMA channel name was hard coded to "rx0" for
-> the sake of simplicity. Generate the DMA channel name based on its index
-> and get the channel corresponding to the context.
-> 
-> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
-> Signed-off-by: Jai Luthra <j-luthra@ti.com>
-> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
-> ---
->  drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> index d03dc4e56d306..523c890139098 100644
-> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> @@ -1015,6 +1015,7 @@ static int ti_csi2rx_init_dma(struct ti_csi2rx_ctx *ctx)
->  	struct dma_slave_config cfg = {
->  		.src_addr_width = DMA_SLAVE_BUSWIDTH_16_BYTES,
->  	};
-> +	char name[32];
-
-That seems a bit long. 5 characters should be enough.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->  	int ret;
->  
->  	INIT_LIST_HEAD(&ctx->dma.queue);
-> @@ -1023,7 +1024,8 @@ static int ti_csi2rx_init_dma(struct ti_csi2rx_ctx *ctx)
->  
->  	ctx->dma.state = TI_CSI2RX_DMA_STOPPED;
->  
-> -	ctx->dma.chan = dma_request_chan(ctx->csi->dev, "rx0");
-> +	snprintf(name, sizeof(name), "rx%u", ctx->idx);
-> +	ctx->dma.chan = dma_request_chan(ctx->csi->dev, name);
->  	if (IS_ERR(ctx->dma.chan))
->  		return PTR_ERR(ctx->dma.chan);
->  
-
--- 
-Regards,
-
-Laurent Pinchart
+diff --git a/drivers/media/usb/dvb-usb/az6027.c b/drivers/media/usb/dvb-usb/az6027.c
+index 056935d3cbd6..f9bd8a4c1577 100644
+--- a/drivers/media/usb/dvb-usb/az6027.c
++++ b/drivers/media/usb/dvb-usb/az6027.c
+@@ -988,7 +988,7 @@ static int az6027_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int n
+ 			/* write/read request */
+ 			if (i + 1 < num && (msg[i + 1].flags & I2C_M_RD)) {
+ 				req = 0xB9;
+-				if (msg[i].len < 1) {
++				if (msg[i].len < 1 || msg[i + 1].len + 5 > sizeof(data)) {
+ 					i = -EOPNOTSUPP;
+ 					break;
+ 				}
+@@ -1005,7 +1005,7 @@ static int az6027_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int n
+ 
+ 				/* demod 16bit addr */
+ 				req = 0xBD;
+-				if (msg[i].len < 1) {
++				if (msg[i].len < 1 || msg[i].len - 2 > sizeof(data)) {
+ 					i = -EOPNOTSUPP;
+ 					break;
+ 				}
+@@ -1034,7 +1034,7 @@ static int az6027_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int n
+ 			} else {
+ 
+ 				req = 0xBD;
+-				if (msg[i].len < 1) {
++				if (msg[i].len < 1 || msg[i].len - 1 > sizeof(data)) {
+ 					i = -EOPNOTSUPP;
+ 					break;
+ 				}
+--
 
