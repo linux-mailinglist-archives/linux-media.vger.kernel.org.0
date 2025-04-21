@@ -1,124 +1,161 @@
-Return-Path: <linux-media+bounces-30623-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30624-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E527A952D5
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 16:32:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13B93A952F0
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 16:47:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3E1AD7A31FC
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 14:31:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CA7F5188FD5C
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 14:47:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3487619E97A;
-	Mon, 21 Apr 2025 14:32:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A4A21A254E;
+	Mon, 21 Apr 2025 14:47:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b="eQTeObu4"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="FhOIiwZS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out203-205-221-164.mail.qq.com (out203-205-221-164.mail.qq.com [203.205.221.164])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F7B2905;
-	Mon, 21 Apr 2025 14:32:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.205.221.164
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F6BA647;
+	Mon, 21 Apr 2025 14:47:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745245934; cv=none; b=bgX3RierjpSiNlb6TvI4+jj5/GvYIYy0UPSDqQ1szTNrZRXSkTn30R5rUGiuXb1YAIF4IcgYbOWY9RGJqmKNhz0JDkVwtiTvWQnKA087tpavNJRaC4MdYxarOyoEttIZ7hfomcHS6/AuDFdwdgt8X/h7g9/MSBcbnqCTJtkE814=
+	t=1745246844; cv=none; b=f2bdBu+2H+P8tSc9CA2VkIhbA5rKyCf0qMpOp8C9wZq8MRVKnGANL17dJMcHgmxqJpmUz3Wr5GczYRMLelfh9/XPHI9xTSO1/0eVW8cTvyj7rOBZSECY9cHKwTeYethzjmQY0LBkAVHx0PK4zuqMBRVFw9rHy8jnxQceQMOwwFc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745245934; c=relaxed/simple;
-	bh=Z+S9eHf9/wqNoLRF4hWQ88+VPLnFVCb3FpbJphuVF/U=;
-	h=Message-ID:From:To:Cc:Subject:Date:In-Reply-To:References:
-	 MIME-Version; b=RkmlnALyWZNmcGK4h8QzMQv43gl/dWDJ09TlHs8GqWev2jU2wrlwyBEDeFl5eIlUUYvBF0NMINgEmG/irzdtWdUN90JKRVdCbmv15IsWHdboSKHsRX/vEkSlltrvTYtsX173/cPjwOdH0XKnawcn4AtaMp5Dct0Xto8YgoQwrPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com; spf=pass smtp.mailfrom=qq.com; dkim=pass (1024-bit key) header.d=qq.com header.i=@qq.com header.b=eQTeObu4; arc=none smtp.client-ip=203.205.221.164
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=qq.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qq.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201512;
-	t=1745245922; bh=6eXqKYUutXENtnDpmaxLPdOoYJJXdLFbAthrsL6H9FU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References;
-	b=eQTeObu47aOCDcD2QJkiCqJEETcXyOQxxMIqYjcIR1+yR/7muroihG3/KYLdUrJK9
-	 IcVPtAkv8HxS5HSHEg8ke1YsCJU0tkD1SP+vIe4MRsN8yVMDrcoPrEsBwph8p76Pj/
-	 P4zq7zmPCnqFq0xTi6FMEBYIVCFsUZcqcklIxa3M=
-Received: from pek-lxu-l1.wrs.com ([114.244.56.254])
-	by newxmesmtplogicsvrszc16-0.qq.com (NewEsmtp) with SMTP
-	id 7F93A2A7; Mon, 21 Apr 2025 22:31:57 +0800
-X-QQ-mid: xmsmtpt1745245917t2dv8uoxg
-Message-ID: <tencent_93C4465D499DEEDF6EE60CB667DC46D0D206@qq.com>
-X-QQ-XMAILINFO: MzNwb/pqyJTkyMB3X34qFTf82JRI6mTinyGHLW/dR+aCXw9U5XiXR0SQvNgTBw
-	 f0+43DWZdLWuULnmZOll4L5FrcH8MEdHE7oiIPUmuM5X044USavdSZJvAeNevVStSpBWMg+PzJsF
-	 5DAtHtlulGRU6TP7d46ho7huCvJuVIkQTByvBbZ17eIwI/pjxTTFNbwsb2LO2r53sSesBadO/JA0
-	 QcW6q+SwWyRF7SOQMbzK704nu1mGMpK66NJyPucuyAGrTHC0hxsboga/x+H+IpZKmywkVK6FFsrz
-	 Y7zY6hK3q+9KhwA9107RAwrkeQV7fH1vz2DW1sqnhSIUkP5HzJX6BJ8ztSvQ05pYQl8OuTPnbqtw
-	 sl8Uj1BZmqJ5t4ZAPEVd0zVSgILx003ZOY8w7/Ed4I8fGhDWoYSbVo1eI7i0Gjby8PtE6IQthv5h
-	 IKFY9Kq1PqpBxwU17dOise2YU18e+panZFthp3bbx2xg8/vmNR32nnWyboH1Jxq3DUMPybWh6X9e
-	 lQ84FJ0NoxL8PtuFvt1iRBp6TGjFz0A7ccVuzpn6v4osvYobBBKjl9NCVMkdHfJh8498gvcs5ho1
-	 T9JuqqeG5utFoBuVIJn1wVLKTUIhZhnmctMUIW11/ujDMotU0RgXQy1079JK92lriLO/FK53cW9t
-	 Da8GVHKPz34zA4K8EVB73ZbCE442Q0Ui9v3bNCqe9xqdDMBanqBmGswdZCtsr7aaNEjgFoCJNbB+
-	 9PSY5WCng17FZ/EP5tMqmdI19d/vsf75ORN6AJrpmvyYL9I8XwYZA5bVRjWMNmWCFYaIXjuo0l1R
-	 3VkJcpeOzmxxmedQNXB2eqf949lqVxVPhPrL22mJ/nF/dCahfrEgHP+RblXzamJzKgR8g2TT/N5M
-	 MdInrHed/S+prffUW71qh7ZPLcuEEqmrmUV1YmAYtsZr7VEswuYt7U5hYvxT+AIvZYdh9M+n65t/
-	 Jf/6YRBubEeih491Mu0akKkF6ryqMwCIUlMyQ8LHc+FpNFFC3hWA==
-X-QQ-XMRINFO: OWPUhxQsoeAVDbp3OJHYyFg=
-From: Edward Adam Davis <eadavis@qq.com>
-To: syzbot+0192952caa411a3be209@syzkaller.appspotmail.com
-Cc: linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	mchehab@kernel.org,
-	syzkaller-bugs@googlegroups.com
-Subject: [PATCH] media: az6007: Add upper bound check to the data of device state
-Date: Mon, 21 Apr 2025 22:31:56 +0800
-X-OQ-MSGID: <20250421143155.1019130-2-eadavis@qq.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <6805a24c.050a0220.4e547.000b.GAE@google.com>
-References: <6805a24c.050a0220.4e547.000b.GAE@google.com>
+	s=arc-20240116; t=1745246844; c=relaxed/simple;
+	bh=GJP+NzoZRbU0xIH+5vo6gpsqentwg0czNwjfZAOG/kg=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=ql6YFPjjVEbhvQlXHeBjQRZCvIl6xJcO2MyR75cUKuwpIzyaRZlS10EC6F13pU/fXeMjLDCUGdetvZdia2d8tJp4zLd98KLM5IYZ1aOBNSUjScVZDC505IH4Rx71bZY4kyvyrXq0l20mvXz5n/YBPonJMV0aA4KX/LReQdA6asw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=FhOIiwZS; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53LA0moL011086;
+	Mon, 21 Apr 2025 14:47:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=Z7yhPAhQJaMyvHPEF9d6vS
+	0lc/iN28y7qUQsWT4DGro=; b=FhOIiwZSV23aYGTDi1zRA5aTZAiyNIP5juqNGQ
+	DOR0QSOQRRZdEkrOD/Kh5xqukZ06op0NpeK2fOxUHhANfoU/hd6KBrBheEHr4u4T
+	Y6H0fVbZ6HN6TVi53CgZHuOpszJdjn8jec6wzmiUpUSIloDn9rUBFxr/dt2I37Hm
+	aCaW/J++t8s7n6Ts1CBVf3VaP1dT5b32H3yMAq1TQG+xu6JcKdlPns9QefcJ0vcK
+	4ql0FDVdH/5uSg6W/9Xdq08PdPTp+OrzH0tzCDdII4rycXUnutpBowNcGatBuKyb
+	bOAqyqfvpqhk58CYEbBBQRBvcyRmZtt49kP/Tus2r52dsexg==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4642u9chky-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 21 Apr 2025 14:47:18 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53LElHUk028085
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 21 Apr 2025 14:47:17 GMT
+Received: from hu-vgarodia-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Mon, 21 Apr 2025 07:47:12 -0700
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+Subject: [PATCH v5 0/3] media: qcom: iris: add support for SA8775P
+Date: Mon, 21 Apr 2025 20:16:54 +0530
+Message-ID: <20250421-dtbinding-v5-0-363c1c05bc80@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAF5aBmgC/3WOQQrCMBBFryJZG8kkpq2uvIe4SCcTnYWpNhoU6
+ d1NC0JFXL7PvMe8RKKeKYnt4iV6ypy4iwXsciHw5OKRJPvCQittlQEl/a3l6DkeZbPR0AYEC7Q
+ R5f7SU+DH1NofCp843br+OaUzjOunArNKBqmkxUbV3phQO9pd74wccYXdWYydrGeunn+QdXEb3
+ 5Bza6orxF/X/HVNcbWDKiB5C95+u8MwvAFe3rBqHAEAAA==
+X-Change-ID: 20250310-dtbinding-8921bfc151e9
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Abhinav Kumar
+	<quic_abhinavk@quicinc.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Rob
+ Herring" <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        "Conor
+ Dooley" <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        "Konrad Dybcio" <konradybcio@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Vikash Garodia
+	<quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@oss.qualcomm.com>,
+        Konrad Dybcio
+	<konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1745246832; l=1452;
+ i=quic_vgarodia@quicinc.com; s=20241104; h=from:subject:message-id;
+ bh=GJP+NzoZRbU0xIH+5vo6gpsqentwg0czNwjfZAOG/kg=;
+ b=MZrJnwkQn6TJ0QamAk0ln8+iJmgm0+d3aY9q1C9mgUf7TPy4Wa6ewbTYzSi/6052rZqM8vv6/
+ RJUAUHhuinVC7spCzm04chx5znCM0S0XO/wVuSCq8kXV5xGyk2g0Jd8
+X-Developer-Key: i=quic_vgarodia@quicinc.com; a=ed25519;
+ pk=LY9Eqp4KiHWxzGNKGHbwRFEJOfRCSzG/rxQNmvZvaKE=
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=TYaWtQQh c=1 sm=1 tr=0 ts=68065a76 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=uUO1Guatd2edvWoe2zcA:9
+ a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: -j7GK614oiUGl4tF7WE9YSXUn4fXKslU
+X-Proofpoint-GUID: -j7GK614oiUGl4tF7WE9YSXUn4fXKslU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-21_07,2025-04-21_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ bulkscore=0 suspectscore=0 adultscore=0 clxscore=1015 priorityscore=1501
+ mlxlogscore=980 mlxscore=0 malwarescore=0 spamscore=0 impostorscore=0
+ phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504210115
 
-syzbot report a corrupted list in az6007_i2c_xfer. [1]
+add support for video hardware acceleration on SA8775P platform.
 
-Before accessing the member data of the struct az6007_device_state, only
-the lower boundary of data is checked, but the upper boundary is not checked.
-When the value of msgs[i].len is damaged or too large, it will cause out
-of bounds access to st->data.
-
-[1]
-UBSAN: array-index-out-of-bounds in drivers/media/usb/dvb-usb-v2/az6007.c:821:30
-index 4096 is out of range for type 'unsigned char [4096]'
-CPU: 1 UID: 0 PID: 5832 Comm: syz-executor328 Not tainted 6.15.0-rc2-syzkaller-00493-gac71fabf1567 #0 PREEMPT(full)
-Call Trace:
- <TASK>
- az6007_i2c_xfer+0x549/0xc30 drivers/media/usb/dvb-usb-v2/az6007.c:821
- i2c_transfer_buffer_flags+0x10c/0x190 drivers/i2c/i2c-core-base.c:2343
- i2cdev_read+0x111/0x280 drivers/i2c/i2c-dev.c:155
- do_loop_readv_writev fs/read_write.c:833 [inline]
- do_preadv+0x1af/0x270 fs/read_write.c:1130
- do_syscall_64+0xcd/0x260 arch/x86/entry/syscall_64.c:94
-
-Reported-by: syzbot+0192952caa411a3be209@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=0192952caa411a3be209
-Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 ---
- drivers/media/usb/dvb-usb-v2/az6007.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Changes in v5:
+- Fix clock corner and a power domain specifier
+- Link to v4: https://lore.kernel.org/all/20250321-dtbinding-v4-0-6abd4575bff4@quicinc.com
 
-diff --git a/drivers/media/usb/dvb-usb-v2/az6007.c b/drivers/media/usb/dvb-usb-v2/az6007.c
-index 65ef045b74ca..6322894eda27 100644
---- a/drivers/media/usb/dvb-usb-v2/az6007.c
-+++ b/drivers/media/usb/dvb-usb-v2/az6007.c
-@@ -806,7 +806,8 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
- 			if (az6007_xfer_debug)
- 				printk(KERN_DEBUG "az6007: I2C R addr=0x%x len=%d\n",
- 				       addr, msgs[i].len);
--			if (msgs[i].len < 1) {
-+			if (msgs[i].len < 1 ||
-+			    msgs[i].len > ARRAY_SIZE(st->data) - 5) {
- 				ret = -EIO;
- 				goto err;
- 			}
+Changes in v4:
+- Fix the order of video node.
+- Link to v3: https://lore.kernel.org/r/20250320-dtbinding-v3-0-2a16fced51d5@quicinc.com
+
+Changes in v3:
+- Fix nit review comments.
+- Link to v2: https://lore.kernel.org/r/20250320-dtbinding-v2-0-8d8eaa4e76cc@quicinc.com
+
+Changes in v2:
+- Drop 01/04 patch as it was not needed.
+- Introduce sa8775p as fallback compatible to sm8550.
+- Move firmware files to board DT
+- Link to v1: https://lore.kernel.org/r/20250311-dtbinding-v1-0-5c807d33f7ae@quicinc.com
+
+---
+Vikash Garodia (3):
+      dt-bindings: media: qcom,sm8550-iris: document SA8775p IRIS accelerator
+      arm64: dts: qcom: sa8775p: add support for video node
+      arm64: dts: qcom: sa8775p-ride: enable video
+
+ .../bindings/media/qcom,sm8550-iris.yaml           |  7 ++-
+ arch/arm64/boot/dts/qcom/sa8775p-ride.dtsi         |  6 ++
+ arch/arm64/boot/dts/qcom/sa8775p.dtsi              | 71 ++++++++++++++++++++++
+ 3 files changed, 83 insertions(+), 1 deletion(-)
+---
+base-commit: f2151613e040973c868d28c8b00885dfab69eb75
+change-id: 20250310-dtbinding-8921bfc151e9
+
+Best regards,
 -- 
-2.43.0
+Vikash Garodia <quic_vgarodia@quicinc.com>
 
 
