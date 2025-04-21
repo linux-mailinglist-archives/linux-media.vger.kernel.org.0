@@ -1,128 +1,129 @@
-Return-Path: <linux-media+bounces-30669-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30670-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A96DA959A1
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 00:55:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 60DB3A959D6
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 01:39:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5D4471895986
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 22:55:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C034A16B442
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 23:39:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B28622AE49;
-	Mon, 21 Apr 2025 22:55:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12C3B22F160;
+	Mon, 21 Apr 2025 23:39:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NsYX2taX"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z164GCh4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11C6D22A802;
-	Mon, 21 Apr 2025 22:55:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D745E1E5209;
+	Mon, 21 Apr 2025 23:39:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745276139; cv=none; b=k8GKaiW0OauhNFKNvNAsLaqoRzJWwwvmVQufjtMkiQJeWD/mGRd0gUFsvQHjqbnQsj9mFLVFxETz+sKv1x4THp9TvlBYNPXjW56urlL03kLmZofzixAesOHtiX1wl6oGGQQq9KMvFYumvkfZPkSgqJfAixvoblm5QrYYWx6kmk4=
+	t=1745278757; cv=none; b=b237X+QZtUIATsHENH+KEAM9qxxG0/26nG83/+7i3CXPMPpKqMcQi2jRaaVVd8qG4OT0TzWg9F6PC/bsH94HKHLyLxwyTa6Atsl6ouQj3EukbftE/GQFt4H2xNALCMdzMLo4X2wLWZqPam0wIHLfKt1KhTUqgKF0lvqT/rEe/IU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745276139; c=relaxed/simple;
-	bh=R55XjO0x4QXuL/ovrcz4k+xwcQ75lY1lv2CJ3zXVshg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Va/804D0tcEgxTIpIhLRizJaFhzbLFqwFXEB2TolCH4nhvFJpMTTvdPNUJYA5msiW8ZcAUHJykRSoyuQ43z0rA8mZfV8SVdQX2i1eXwoid551YQhZwYbd4buE5++1W33mnIis5A2WjDayWnXnN6Om+ejU09hr7tuimJQf6RSt+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=NsYX2taX; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 36D68606;
-	Tue, 22 Apr 2025 00:53:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1745276009;
-	bh=R55XjO0x4QXuL/ovrcz4k+xwcQ75lY1lv2CJ3zXVshg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NsYX2taXcndVcM6g3b8USdGXvt8lr05TQsLCrz3m98oUzWAEZVQBLlv+bKDxzmDsz
-	 yKKGAPn4yPWfcduocfwYYW6rPj9uQjfDaNQ+xDwfkyf7Hn/YtMzeS/Eah5qbQ2UCK2
-	 3peVllZcY8vX/Dl4gT/cNlsbXHMETi4OxURjCFh8=
-Date: Tue, 22 Apr 2025 01:55:34 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 7/7] media: rcar-isp: Parse named cs memory region
-Message-ID: <20250421225534.GD17813@pendragon.ideasonboard.com>
-References: <20250421111240.789510-1-niklas.soderlund+renesas@ragnatech.se>
- <20250421111240.789510-8-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1745278757; c=relaxed/simple;
+	bh=OLQyzlmtzCKjMQFUfXFaxjQdUeb3bxIoaWmWJX2UWp0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Ucw0w/f5SOL7wXsMrq1RKF5Tkl7Ep9SbGLd6qHhADaYKP4YSkIwkI0wh+BxSUGukg9DICAc8997IUj8R+AmnHEGGW3qozEaN5iev/JiALYAqCkL7H3tRiIYgA4el++MHZb4EvTJCM8s+B8kE29nmFYqAFEDH4qS3lLQa+shoDUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z164GCh4; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-39ee5a5bb66so3091791f8f.3;
+        Mon, 21 Apr 2025 16:39:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745278751; x=1745883551; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IOyh0KRZOP78elpx9kgGmLRnKlT+oLZaZTHETWW34WA=;
+        b=Z164GCh4row5O7PhSduGeHT9qrokg+pXkELoC1YEG/3vYNwZPbhbdMA+OPj9tSXMGF
+         odRljqPizs/rshVdKeQHTocHVfOBsuyTIQ0fZq2RoZfAIbE9+SI35WPCcBwhDu/JFOPt
+         OQlJ4iwXUL16bE0pmumj4tzqSNVHU7d/z5MFec+mGa4xLjLe/hqFfkfzfq53lqkJKKTH
+         /bA6tLx10o6qcXYCFHWjkyS5nCysUiTztFSxRvhB+DA5HCaNUkMt55H28bs3EZnJG1xV
+         YJSlsZuEZ0pJzJzONyn+SDAeV5cD8jnd2xhgHGAZWGJJfzseiCyxkeMISYxasPM5kQN7
+         PXkg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745278751; x=1745883551;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IOyh0KRZOP78elpx9kgGmLRnKlT+oLZaZTHETWW34WA=;
+        b=g2giNYnSySrA1/WedG7O6nBmStLRfEvmUa1TJV+IvDhni/akvNxJSAuyAtFx1xcLOz
+         zcm4u2sgJlRSysGrrlclnic2fglG7nrQBf9496Bzx4XbNlZwFdUdygOzEsVbQE7+Jfg5
+         PjQWSFFsm0++Itl6oFQleJpxCsVZ8g8NC1buhOYBYEq8woOF5Yc5syulcx6fDEdZwzvA
+         DVJBjgJ2APkn6CxbAYIwo01wjMMxzcC0xqzn9VckwF+zEFvH0tKHDHUNEwIVFan+cKRD
+         O71ghqJqjr1JIGvHyFUZD5JWH0nxPtD17K2y82ObjS4SVdOIUAP8ABq5jVP5yJUJ/F7O
+         VtTA==
+X-Forwarded-Encrypted: i=1; AJvYcCUSVU+QnjFBxTzSSWd5Y4CfWZXBIDzVK6zt2GByKJZ/G+fpWToSrGZJX6jYbdWaxd4xa+OcUmrCFy4oxz8=@vger.kernel.org, AJvYcCUenX2PQFbSb5lvPMskargdf6fsfMSqCzui+SvHZwD1l9YSZAexWL02C7a7Ze1iGm3Ukyo3wDyYdSXWxhexW+N+@vger.kernel.org, AJvYcCUnMMLevFd5tg9rS0LxkK9NCRFQ4qzr8zJHX9Yp3Ki/9khfnlrPLWbfQD6tAQOq7vriUdFGkcmaTisj@vger.kernel.org, AJvYcCVA6BJBRhw8CSJheDnxG35WxvWn2SDPVoktK5bV7NG7zmNC8iUlSsT6pMYG+n9UkCdFbCE=@vger.kernel.org, AJvYcCW0OdNHyx6R2KUQJwFcIOY9MlKABDZYKfHo7KSISMO7KB1Go9sC2PPv0XYcsIRUsDSeqH0XAepZJPmzsjy6@vger.kernel.org
+X-Gm-Message-State: AOJu0YzP7Wu0uoci+T8W/ReZ+0KX2gRjjhOIHzD4eAdbDzSC1jJrE93W
+	J1XPprgV1GqRYpSzXV/gHr99aUOgkmf8DNb03gwvvLI0faPSfV+FAHeDTJ29zZ0uX8MB2qRMfX0
+	H4cPkaF77JReyBbRMDDM+YVcDuMo=
+X-Gm-Gg: ASbGncvT70+0m+P7B+aKtGxltFAckkWoMTgJm/DwRmqzcG5UwNj72+8uFU6GUjmFPwt
+	DBxzB1EvUP5xepRTtoz4f4MBFz52H9ctxAWQ7kklZ7p/i/1xfXwamcw3RxRgagF0Q+rff
+X-Google-Smtp-Source: AGHT+IH0SrvREf3muergkKdQkak0YZ+ohqfk7d6fakRaBVQUXizurH1NfGeAwSFOPUHkhRWTHwrrpnJQpvzHziO1Ss0=
+X-Received: by 2002:a05:6000:2510:b0:39c:30f9:339c with SMTP id
+ ffacd0b85a97d-39efba5a84dmr10142882f8f.28.1745278750922; Mon, 21 Apr 2025
+ 16:39:10 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250421111240.789510-8-niklas.soderlund+renesas@ragnatech.se>
+References: <20250414225227.3642618-1-tjmercier@google.com>
+ <20250414225227.3642618-3-tjmercier@google.com> <CAPhsuW54g5YCmLVX=cc3m2nfQTZrMH+6ZMBgouEMMfqcccOtww@mail.gmail.com>
+ <CABdmKX1OqLLsY5+LSMU-c=DDUxTFaivNcyXG3ntD8D0ty1Pwig@mail.gmail.com>
+In-Reply-To: <CABdmKX1OqLLsY5+LSMU-c=DDUxTFaivNcyXG3ntD8D0ty1Pwig@mail.gmail.com>
+From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Date: Mon, 21 Apr 2025 16:38:59 -0700
+X-Gm-Features: ATxdqUEjOlk2AFAGVhVlgaGgehsi4nkoJpm1iJUvAg9lN7-7SyoelglTBprP5Ug
+Message-ID: <CAADnVQ+0PXgm_VuSJDKwr9iomxFLuG-=Chi2Ya3k0YPnKaex_w@mail.gmail.com>
+Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: Song Liu <song@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Shuah Khan <skhan@linuxfoundation.org>, LKML <linux-kernel@vger.kernel.org>, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, android-mm@google.com, simona@ffwll.ch, 
+	Jonathan Corbet <corbet@lwn.net>, Eduard <eddyz87@gmail.com>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Jiri Olsa <jolsa@kernel.org>, 
+	Mykola Lysenko <mykolal@fb.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Niklas,
+On Mon, Apr 21, 2025 at 1:40=E2=80=AFPM T.J. Mercier <tjmercier@google.com>=
+ wrote:
+>
+> > > new file mode 100644
+> > > index 000000000000..b4b8be1d6aa4
+> > > --- /dev/null
+> > > +++ b/kernel/bpf/dmabuf_iter.c
+> >
+> > Maybe we should add this file to drivers/dma-buf. I would like to
+> > hear other folks thoughts on this.
+>
+> This is fine with me, and would save us the extra
+> CONFIG_DMA_SHARED_BUFFER check that's currently needed in
+> kernel/bpf/Makefile but would require checking CONFIG_BPF instead.
+> Sumit / Christian any objections to moving the dmabuf bpf iterator
+> implementation into drivers/dma-buf?
 
-Thank you for the patch.
+The driver directory would need to 'depends on BPF_SYSCALL'.
+Are you sure you want this?
+imo kernel/bpf/ is fine for this.
 
-On Mon, Apr 21, 2025 at 01:12:40PM +0200, Niklas Söderlund wrote:
-> Extend the device tree parsing to optionally parse the cs memory region
-> by name. The change is backward compatible with the device tree model
-> where a single unnamed region describing only the ISP channel select
+You also probably want
+.feature                =3D BPF_ITER_RESCHED
+in bpf_dmabuf_reg_info.
 
-s/decribing/describes/
-
-> function.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> ---
->  drivers/media/platform/renesas/rcar-isp/csisp.c | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/renesas/rcar-isp/csisp.c b/drivers/media/platform/renesas/rcar-isp/csisp.c
-> index f36d43c2e0a2..0b6fa62467e4 100644
-> --- a/drivers/media/platform/renesas/rcar-isp/csisp.c
-> +++ b/drivers/media/platform/renesas/rcar-isp/csisp.c
-> @@ -465,7 +465,17 @@ static const struct media_entity_operations risp_entity_ops = {
->  static int risp_probe_resources(struct rcar_isp *isp,
->  				struct platform_device *pdev)
->  {
-> -	isp->csbase = devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
-> +	struct resource *res;
-> +
-> +	/* For backward compatibility allow cs base to be the only reg if no
-
-	/*
-	 * For backward compatibility allow cs base to be the only reg if no
-
-> +	 * reg-names are set in DT.
-> +	 */
-> +	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "cs");
-> +	if (!res)
-> +		isp->csbase = devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
-
-You can call devm_platform_ioremap_resource().
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> +	else
-> +		isp->csbase = devm_ioremap_resource(&pdev->dev, res);
-> +
->  	if (IS_ERR(isp->csbase))
->  		return PTR_ERR(isp->csbase);
->  
-
--- 
-Regards,
-
-Laurent Pinchart
+Also have you considered open coded iterator for dmabufs?
+Would it help with the interface to user space?
 
