@@ -1,174 +1,135 @@
-Return-Path: <linux-media+bounces-30632-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30633-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A576A953DF
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 18:13:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A0694A95419
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 18:33:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5693F7A38F7
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 16:12:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 20BF63A97ED
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 16:33:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A3F01E0E14;
-	Mon, 21 Apr 2025 16:13:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YvFwV9Hl"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C634B1DFD8B;
+	Mon, 21 Apr 2025 16:33:11 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from plesk.hostmyservers.fr (plesk.hostmyservers.fr [45.145.164.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD38E33EC;
-	Mon, 21 Apr 2025 16:13:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D9319F461;
+	Mon, 21 Apr 2025 16:33:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.145.164.37
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745252000; cv=none; b=Ftag3eupT/LGdgiPURlsa/riiYP5o02CkwL5PGFyJYy+rmZZNF69wDYapNgeghgDWgLbBSjDp97N14mym3YcJ8lb/F4E2qN1Q4ELqHlAU1IYNebQkkVm6l37LaxPC5cH3il+0LBZ48eTZC3dftPCTRl6Da+vHWSX3ZWIASLdL20=
+	t=1745253191; cv=none; b=UB8LziaFcm5VSEcsOjOTqHivg9MigtnqNAirrUDwR6ED7a5MsP95qp+nCnKx8DA8Mv1ekS2lYNu0fRTYV0XU/DmR7LbWHrB9b4y6arPYInmr1BUF098Y4n5ih8s9nfCSsznAMOU5vZTLZF/F1PtgDtfvVrKuGJJZpGv/MaGbAZU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745252000; c=relaxed/simple;
-	bh=fjHyYEUz8mq+kd32kuPuYxYj0H98bcmAhUeHAtoZ0Kg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rNruy1hwv/xDa9iZ78mmdMr/V1YQqXXfHX8627FJIgum6zLrRFpLw/3a7cuiUt+o8s8XujmqjRy3ZsqwIByWKgfTsdZQNxFuqYEMhYYU1AGVXYSyr92bs8XZ6FOUGTVy59x9Cbs47my0+RsBpkSru+oWsoOWeKRvAwq6/TV7tHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YvFwV9Hl; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-39c1ef4acf2so2480557f8f.0;
-        Mon, 21 Apr 2025 09:13:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745251996; x=1745856796; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2zLX7K/cYY3IleSeSkksUZh8idp3aJvGLpMSPQRzdiw=;
-        b=YvFwV9Hl0bw4MjxtQPjEQl8W7GfA8Hvn5lfHfw2inVxZ/TlMWBuLxziiAzGP7OU+Vm
-         KpzGaoGIhPS5jUlEI4LMKrUtIBQGCUd0P/oF/t4g5Yif4fyJVeLKtMhviusWSd+C4Eez
-         rvKRsBVza2yHaOmqDD1U4oLMQwuZmR1Ej2d+fA9mf9QH4XyOeUpTVcm2s2+sR/nVGN6Q
-         Ttr6BDnT/E5ArOhcnOypWPRRkc2Cy7CEnfeDah3JoW4uYqgkQSUwNhu+jkHTo7Q+6iHX
-         GZ7kTzZZT/5FsTh7+YqzmpBNXJ7Rv1kR/45CqMmZX2KmSbPM9O4ZtvUmD67qJm/ia9QC
-         m58g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745251996; x=1745856796;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=2zLX7K/cYY3IleSeSkksUZh8idp3aJvGLpMSPQRzdiw=;
-        b=oikGSrQyCU1U5R5ghXtteIGEBvJbzHTFzCITbCcGBmiahkzxTC6//IXc9EoPfO8w/f
-         ZAo0uoMnJ8QIN4mlEpqT3bs6DLASkpvDejACZ26WFhYOh+hnVTT7AV3J+FrIC1Zp0aFc
-         EfiKlYd0v5OBbpbsqEIJUYDoKvP3L5ILJi82eIhs8H3ohyk4DJDluplqR6KStgHroZEu
-         5bJA3XuZk+qZv4b9fmrPhK1rX9N1/RE+PI0nPf+7EE8Sx6vsr54AjXISDbOkU0j4RF0y
-         Tlc5NcRogj94zHYCX8G/O7XEftUKWl3hoPjN/AQzFS3QVZbiy7gR1bG/fSw4FMnBR5mz
-         83CA==
-X-Forwarded-Encrypted: i=1; AJvYcCUUTbQ4aQ2n75Qeh+xdoNZhhHxnpryXTnA2kNhInbG+73Mtj6idfCZzON0C3CulwyioL4c=@vger.kernel.org, AJvYcCUbR/9hfBiMtTYBCl8j6hPBS1vnjCj35JE9ZbZ3Yb4IUen/hCXZCA8mXzbn38Iu2xtxXzHQNzmXgTciKSPrdfT8yw==@vger.kernel.org, AJvYcCUoJhnMYSH6I4MdtF3s4Uez3qAkDqWFNhD4mES/gJwcDVzIsoFaiuVHGyrO2bUFEKM3rJfIItsmuOrqV3w=@vger.kernel.org, AJvYcCVBglNtso3nTc8twJBFzZWRUDuhT7L/72MlLpCvXwVYLA2af+QaMvvAib4bZATEOWv+cnucDShazxpAAtsUfrKP@vger.kernel.org, AJvYcCVDBuWk5c+wscaV4sQa98Ma9Z1a1vj/qUOuvVMS5V1SWagxwiPZ3nwoiwIrAONuafZtGQ8t5SD1+zZfqx3I@vger.kernel.org, AJvYcCW/VXntTVvtnAIrPhQcMW7JebXnYMh3L1TMjY9PHkYJZhXeEGuta6yp6CF+ANd/1Wr+cMkgP75y@vger.kernel.org, AJvYcCWce9Dy1PT9NLBTyzS5fpLDAKUZi+9UJRt4cRzgUF4JBq1MLrxLkGqXZ/yzMCKXCAHFvIYPRr9b44pfbPHV2uwOXJvA@vger.kernel.org, AJvYcCWta6dCYDpgn02Rqnk87qhRToqCUEDF0/Fz9Qpw2YxMsCW01eVT7QzVwxurxbhoZP1lSbbKkXur2Vc+4YWvuQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9PUFfHR2o/xBQoq8j4rjjEveMu94gRG8EwwCTj7WSUiIy/j77
-	Nf6F4HOk5PpQalefbFTKROlZxw7moxaRpnA4NlQiQmzV75jEIO0zhGE5Aw+F/pzFgNaSYT+ayZr
-	doMt2R/QcsZQSCXGO1J3iIpFG1SM=
-X-Gm-Gg: ASbGncvqMLhxcrRnvUeGjcWzx5XvV2zWKlRntGLFRxf55bfyLqGY7ZLKXgd/CaPs14d
-	eipqtmQYnE2qPJDOS660LFkB0HE2D+5C4WliL4FlHMX7BcR2UH/NGIcW1U+rCPVIx8wy/fEaMsz
-	1N/cOEwFkcq/qrMMGrRfeZfAR2tc9yUsa+mJFwjw==
-X-Google-Smtp-Source: AGHT+IERc9SbXqHoD9IEJg7efyEpkbehIMV7qdPZVeaGZ/dKsZqt8X+kv+83Lua/+4bYS6g8aPAmuT20YbQK/7LgbuE=
-X-Received: by 2002:a05:6000:188b:b0:38f:503a:d93f with SMTP id
- ffacd0b85a97d-39efbacdc16mr9730639f8f.40.1745251995604; Mon, 21 Apr 2025
- 09:13:15 -0700 (PDT)
+	s=arc-20240116; t=1745253191; c=relaxed/simple;
+	bh=DYbOqwvKIuQzgiBJkrvWL/SvUJ91pGTnSYDWTdMgRMU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=Vid+Ozw+v8DK0wfZCQxwx++qy4rMRbyqueF9sG5HcWan8xwDDe6v5RbWIIcbvezHqcQqoQ3Kwi4+NxdWu4KeNJWdQoCGRVfA1qpqRKzztvDyC8BAI6o+cAKJJ5bmHxzs9rhgxmBmQO1GADzGX3sJgMqQU8hULqNcTpwg5rjSkBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=arnaud-lcm.com; spf=pass smtp.mailfrom=arnaud-lcm.com; arc=none smtp.client-ip=45.145.164.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=arnaud-lcm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arnaud-lcm.com
+Received: from [127.0.1.1] (unknown [IPv6:2a01:e0a:3e8:c0d0:8e8c:c49a:b330:a587])
+	by plesk.hostmyservers.fr (Postfix) with ESMTPSA id 4758744F12;
+	Mon, 21 Apr 2025 16:33:07 +0000 (UTC)
+Authentication-Results: Plesk;
+        spf=pass (sender IP is 2a01:e0a:3e8:c0d0:8e8c:c49a:b330:a587) smtp.mailfrom=contact@arnaud-lcm.com smtp.helo=[127.0.1.1]
+Received-SPF: pass (Plesk: connection is authenticated)
+From: Arnaud Lecomte <contact@arnaud-lcm.com>
+Subject: [PATCH 0/2] media: dvb-usbv2: Prevent usb race condition, buffer
+ overflow az6007
+Date: Mon, 21 Apr 2025 18:33:00 +0200
+Message-Id: <20250421-ubsan-out-of-sub-v1-0-d9239a5af007@arnaud-lcm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1744169424.git.dxu@dxuuu.xyz> <5b3433d942eaecdbcc92876c9ed8b7d17f7e1086.1744169424.git.dxu@dxuuu.xyz>
-In-Reply-To: <5b3433d942eaecdbcc92876c9ed8b7d17f7e1086.1744169424.git.dxu@dxuuu.xyz>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Mon, 21 Apr 2025 09:13:03 -0700
-X-Gm-Features: ATxdqUH2LI9xx7Ht6ga__5IFi0RUqBTSDZrwpNL136ky8WsOy4vl2AEULf1HMhQ
-Message-ID: <CAADnVQK111J3b-4gauYkptFf51fhYQn2J78dH8QiwdSigiRuJw@mail.gmail.com>
-Subject: Re: [RFC bpf-next 11/13] treewide: bpf: Export symbols used by verifier
-To: Daniel Xu <dxu@dxuuu.xyz>
-Cc: Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	David Ahern <dsahern@kernel.org>, Steven Rostedt <rostedt@goodmis.org>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, Quentin Monnet <qmo@kernel.org>, 
-	Alexei Starovoitov <ast@kernel.org>, Christian Brauner <brauner@kernel.org>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jakub Kicinski <kuba@kernel.org>, 
-	Jozsef Kadlecsik <kadlec@netfilter.org>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Peter Zijlstra <peterz@infradead.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Namhyung Kim <namhyung@kernel.org>, Eric Dumazet <edumazet@google.com>, Sean Young <sean@mess.org>, 
-	X86 ML <x86@kernel.org>, Alexander Viro <viro@zeniv.linux.org.uk>, 
-	Masami Hiramatsu <mhiramat@kernel.org>, Matt Bobrowski <mattbobrowski@google.com>, 
-	Paolo Abeni <pabeni@redhat.com>, "David S. Miller" <davem@davemloft.net>, 
-	Arnaldo Carvalho de Melo <acme@kernel.org>, KP Singh <kpsingh@kernel.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Song Liu <song@kernel.org>, 
-	Andrii Nakryiko <andrii@kernel.org>, Borislav Petkov <bp@alien8.de>, 
-	Pablo Neira Ayuso <pablo@netfilter.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Ingo Molnar <mingo@redhat.com>, 
-	Martin KaFai Lau <martin.lau@linux.dev>, Eduard <eddyz87@gmail.com>, 
-	Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, 
-	"H. Peter Anvin" <hpa@zytor.com>, Jan Kara <jack@suse.cz>, Mark Rutland <mark.rutland@arm.com>, 
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>, Ian Rogers <irogers@google.com>, 
-	Adrian Hunter <adrian.hunter@intel.com>, Kan Liang <kan.liang@linux.intel.com>, 
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>, Simon Horman <horms@kernel.org>, 
-	Network Development <netdev@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
-	LKML <linux-kernel@vger.kernel.org>, linux-media@vger.kernel.org, 
-	Linux-Fsdevel <linux-fsdevel@vger.kernel.org>, 
-	"linux-perf-use." <linux-perf-users@vger.kernel.org>, 
-	linux-trace-kernel <linux-trace-kernel@vger.kernel.org>, 
-	netfilter-devel <netfilter-devel@vger.kernel.org>, coreteam@netfilter.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADxzBmgC/x3MQQqAIBBA0avErBsosaKuEi20xpqNhpMRSHdPW
+ r7F/xmEIpPAVGWIdLNw8AVtXcF6GL8T8lYMqlFdo1WLyYrxGNKFwaEki2NvVW/0sOlxhZKdkRw
+ //3Je3vcDFtefNmIAAAA=
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ syzbot+0192952caa411a3be209@syzkaller.appspotmail.com,
+ contact@arnaud-lcm.com, skhan@linuxfoundation.org
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1745253187; l=3114;
+ i=contact@arnaud-lcm.com; s=20250405; h=from:subject:message-id;
+ bh=DYbOqwvKIuQzgiBJkrvWL/SvUJ91pGTnSYDWTdMgRMU=;
+ b=D9whOeaRb1lFtPci9oQlatWm8awDxGZasSloH2wtSlVeKE6NInb+hRK1LazVKlGhYrWmL9d9r
+ RBZb0p7yRSMCXzMxCYjRJfq/wFOC82Z3WG1gcIv5zTn+MKdt1vprTvP
+X-Developer-Key: i=contact@arnaud-lcm.com; a=ed25519;
+ pk=Ct5pwYkf/5qSRyUpocKOdGc2XBlQoMYODwgtlFsDk7o=
+X-PPP-Message-ID: <174525318763.30859.5630055609390566694@Plesk>
+X-PPP-Vhost: arnaud-lcm.com
 
-On Tue, Apr 8, 2025 at 8:35=E2=80=AFPM Daniel Xu <dxu@dxuuu.xyz> wrote:
->
-> This commit EXPORT_SYMBOL_GPL()'s all the unresolved symbols from verifie=
-r.o.
-> This is necessary to support loads and reloads of the verifier at
-> runtime.
->
-> The list of symbols was generated using:
->
->     nm -u kernel/bpf/verifier.o | grep -ve "__asan\|__ubsan\|__kasan" | a=
-wk '{print $2}'
->
-> Signed-off-by: Daniel Xu <dxu@dxuuu.xyz>
-> ---
->  arch/x86/net/bpf_jit_comp.c |  2 ++
->  drivers/media/rc/bpf-lirc.c |  1 +
->  fs/bpf_fs_kfuncs.c          |  4 ++++
->  kernel/bpf/bpf_iter.c       |  1 +
->  kernel/bpf/bpf_lsm.c        |  5 +++++
->  kernel/bpf/bpf_struct_ops.c |  2 ++
->  kernel/bpf/btf.c            | 40 +++++++++++++++++++++++++++++++++++++
->  kernel/bpf/cgroup.c         |  4 ++++
->  kernel/bpf/core.c           | 29 +++++++++++++++++++++++++++
->  kernel/bpf/disasm.c         |  4 ++++
->  kernel/bpf/helpers.c        |  2 ++
->  kernel/bpf/local_storage.c  |  2 ++
->  kernel/bpf/log.c            | 12 +++++++++++
->  kernel/bpf/map_iter.c       |  1 +
->  kernel/bpf/memalloc.c       |  3 +++
->  kernel/bpf/offload.c        | 10 ++++++++++
->  kernel/bpf/syscall.c        |  7 +++++++
->  kernel/bpf/tnum.c           | 20 +++++++++++++++++++
->  kernel/bpf/token.c          |  1 +
->  kernel/bpf/trampoline.c     |  5 +++++
->  kernel/events/callchain.c   |  3 +++
->  kernel/trace/bpf_trace.c    |  9 +++++++++
->  lib/error-inject.c          |  2 ++
->  net/core/filter.c           | 26 ++++++++++++++++++++++++
->  net/core/xdp.c              |  2 ++
->  net/netfilter/nf_bpf_link.c |  1 +
->  26 files changed, 198 insertions(+)
+Hi,
 
-Patches 1-10 look ok. Moving the code around and few targeted
-exports are fine,
-but this patch goes too far.
-At least btf.c, log.c, tnum.c and may be others should be a part
-of the module.
-Then check_sock_access() can be refactored into callbacks
-to avoid exports in filter.c
-We can approach it from the pov of minimizing exports,
-but such steps won't give us clarity on how portable such
-modular verifier will be.
-Other questions to answer is whether maps should be in the module too.
-Modules can provide their kfuncs already, so existing kfuncs
-can stay where they are.
+Background
+----------
 
-Namespacing into "bpf_internal" as Stanislav suggested is
-a good thing too with a warning somewhere in Documentation/bpf/
-that these must only be used by the verifier.
+The current implementation of the function az6007_i2c_xfer does not
+check whether the I2C messages it receive are not larger than the
+buffer used to transfer them to the related usb device.
+
+Moreover, in a multi-threaded scenario where a thread disconnect the USB
+device while an other thread is in az6007_i2c_xfer, we can end-up with
+an use after-free of the device. The reproducer from syzbot is executing
+his tests in this multi-threaded context:
+[  156.847620][  T779] usb write operation failed. (-71)
+[  156.852064][  T779] usb 2-1: dvb_usb_v2: will pass the complete MPEG2 transport stream to the software demuxer
+[  156.853219][  T779] dvbdev: DVB: registering new adapter (Terratec H7)
+[  156.853880][  T779] usb 2-1: media controller created
+[  156.855421][  T779] usb read operation failed. (-71)
+[  156.856123][  T779] usb write operation failed. (-71)
+[  156.862775][  T779] dvb_usb_az6007 2-1:0.0: probe with driver dvb_usb_az6007 failed with error -5
+[  156.865923][  T779] usb 2-1: USB disconnect, device number 28
+[  157.008077][   T52] usb write operation failed. (-71)
+[  157.011674][   T52] usb 4-1: dvb_usb_v2: will pass the complete MPEG2 transport stream to the software demuxer
+[  157.012774][   T52] dvbdev: DVB: registering new adapter (Terratec H7)
+[  157.013404][   T52] usb 4-1: media controller created
+[  157.014212][   T52] usb read operation failed. (-71)
+[  157.014915][   T52] usb write operation failed. (-71)
+[  157.020729][   T52] dvb_usb_az6007 4-1:0.0: probe with driver dvb_usb_az6007 failed with error -5
+[  157.025082][   T52] usb 4-1: USB disconnect, device number 28
+
+The following serie of patch has been divided in 2 patches:
+ - First patch: Add bound checking for i2c message length before filling
+   the device buffer.
+ - Second patch: Lock the usb device when starting the transfer to avoid
+   the device being disconnected during it.
+
+Considerations
+----------
+Concerning the upper bound checking for i2c messages, we could maybe be more
+strict. I've currently set the limit to 4090 bytes to avoid the buffer
+overflow but as mentionned, I2C messages are usually way more little. Be
+more restrictive on this limit could be beneficial.
+
+Concerning the race condition issue, maybe there is a more efficient
+solution than locking the usb device.
+
+Arnaud
+
+Reported-by: syzbot+0192952caa411a3be209@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=0192952caa411a3be209
+Fixes: ac71fabf1567 ("gcc-15: work around sequence-point warning")
+Signed-off-by: Arnaud Lecomte <contact@arnaud-lcm.com>
+---
+Arnaud Lecomte (2):
+      media: dvb-usbv2: add bound checking for messages length in i2c_xfer
+      media: dvb-usbv2: ensure safe USB transfers on disconnect in i2c_xfer
+
+ drivers/media/usb/dvb-usb-v2/az6007.c | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
+---
+base-commit: 9d7a0577c9db35c4cc52db90bc415ea248446472
+change-id: 20250421-ubsan-out-of-sub-96b26a47d49c
+
+Best regards,
+-- 
+Arnaud Lecomte <contact@arnaud-lcm.com>
+
 
