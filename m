@@ -1,281 +1,241 @@
-Return-Path: <linux-media+bounces-30583-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30584-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 021BCA94DD5
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 10:15:45 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80AF2A94DF8
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 10:20:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 93F283B3B0E
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 08:15:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AA9697A5D35
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 08:19:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCB5825A2BF;
-	Mon, 21 Apr 2025 08:14:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6184A20E32B;
+	Mon, 21 Apr 2025 08:20:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="CxSyKsrs"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XfC71U7D"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PA4PR04CU001.outbound.protection.outlook.com (mail-francecentralazon11013037.outbound.protection.outlook.com [40.107.162.37])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5040021146C;
-	Mon, 21 Apr 2025 08:14:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.162.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745223249; cv=fail; b=EHHdooOMQyLpczMJ3BnF5aKPptSDeeZAFPkl8ppfs3+OQthEO45pEnFRYyIOnycg0u3+1I7w7VrzMuGpxjxuSZ2ePNDvXy5NeSwcuHXK0mHkkLpyyUYy10nA8JtBoTt4RuhrZ21bn4e4/HY1wyL5RyEQJ3pC/gnb6zNDmvIqFqM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745223249; c=relaxed/simple;
-	bh=MpL9YVwbgA1za36QIXIM87QneIZSt17CsQ4iGWK+o4Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=OM+xJbljUlRKxeCj/L0k+8bNpK4f/sDiRFHRkbRht+Zyg0sd6uGFssg0lH7gSwicok2fPjVuGVh8djoXiLwZz4r/KyH5YX/kh0mKf6kVrE/pDGmyomo9YINs5UX3kUgm2Cqr/T03gX0JFsSjNZnn+RQBD/cEaQuBcM2wv3AU9wk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=CxSyKsrs; arc=fail smtp.client-ip=40.107.162.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=aIGtJ4cggsBBCksPClFaqHUHOy2KBS9xUPKC8dw92CSI0aemj/qK5ILBHBDUYjtMmc0tyjz86kPojO6702UjNs90G5J9dxiVSpAjRtrOox0MxoezMT3NcCHzlGEH0PMEDGBrNnQwJCK0WWLColn9vfcgSS/5wjvNUAy+mznCE8Vf1SryqS6PDBYzchhlfy0R/YEIRzGkNDY5xlnEtfksKMOXlKEKfG3Db3NfmC4o1SVv/cMv5K+pWcHcVdC5plcinyPyfhEQC4ceb3VNQbJNV4YcLYsLk1ngTqHKFRcHsKqNoMHACPQMC0WLvDLu2Au1Ov0g3wtodbKe/epg9PIHpw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Tq0vuw+xZ9el5izdapryRuRDhg/TWVyQ+UUl5G2DKjg=;
- b=m8n50/tYN9scfcUy9nk/fLSxPxEK45ovJ71os21GVUAHAoSCt4Y43jlfI49Mc8LLvdjt9RfoQqtpUXHLINVHOD9+aedcw0sRPq8QzGv80dkYRMUFdboBC6isTgYCWCBNsSJq/43a8zetGmeOOiZyBMjMTxCBEYibtnRUpEugxJj80VBE3uqDdku9rqXsNE+3PLEJayGQ8R7JtGalwGBReCjsWGftUWcvKyhWXLS77OBf52G1gV1ubKpZ+mgULEU3Jvb0f+3QWECrF6uSwfjmsgWCTHS6cCjTQfALFg0QNznR2IRUvh/CARNMa9tx27BeC2b+pGToFKFR6GODRew16Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector1-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Tq0vuw+xZ9el5izdapryRuRDhg/TWVyQ+UUl5G2DKjg=;
- b=CxSyKsrssKuQQd7wh9ZcyNUnKkQt6B8GIhVJnm5yijH1tjWU2YXUcf4jiDIIFArNZaMkHfYKG+ovlw52Izu2hf3OERsoNV2Kjc5f+xSh8ezOyAl2upSvHb6fZOkk1EktwR/3bL+K4a+oc3CeUWznF0UqvAvUBehtL5m0MqtVRDdvghm6+LoIJ3onAz4lC0ibL64gtyc7krBE0lHoQhq+i1n49Gcu/a1RHt0srj9iKD2oGODxWKW/v4tntCP5cHhk49esBqRFKS2EbPQHDgctoOevrZfUNq0R096Db/wtoYi1UT1h7J+7Xy5Svnbf49IGXQ5ZF48KkwsygpJFfUYFYA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com (2603:10a6:102:1cd::24)
- by VI0PR04MB10104.eurprd04.prod.outlook.com (2603:10a6:800:248::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.35; Mon, 21 Apr
- 2025 08:14:04 +0000
-Received: from PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87]) by PAXPR04MB8254.eurprd04.prod.outlook.com
- ([fe80::2755:55ac:5d6f:4f87%4]) with mapi id 15.20.8655.033; Mon, 21 Apr 2025
- 08:14:04 +0000
-From: ming.qian@oss.nxp.com
-To: mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl,
-	mirela.rabulea@oss.nxp.com
-Cc: nicolas@ndufresne.ca,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	xiahong.bao@nxp.com,
-	eagle.zhou@nxp.com,
-	linux-imx@nxp.com,
-	imx@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v6 5/5] media: imx-jpeg: Check decoding is ongoing for motion-jpeg
-Date: Mon, 21 Apr 2025 16:12:56 +0800
-Message-ID: <20250421081301.1304-6-ming.qian@oss.nxp.com>
-X-Mailer: git-send-email 2.48.1.windows.1
-In-Reply-To: <20250421081301.1304-1-ming.qian@oss.nxp.com>
-References: <20250421081301.1304-1-ming.qian@oss.nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SI2PR01CA0023.apcprd01.prod.exchangelabs.com
- (2603:1096:4:192::17) To PAXPR04MB8254.eurprd04.prod.outlook.com
- (2603:10a6:102:1cd::24)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA8162110;
+	Mon, 21 Apr 2025 08:20:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745223616; cv=none; b=VGlbeA0yhji68Atu+YDXvJkLPNz/bzbkYNn6UEHy4Kgmtc7e54639C/B437ng8B5cGMoEAUXPADoTzr5MJf1woCQRRnNcn6KSQ/Ep5kO0ssH/ufbz1oplXSfaqHJP5C/FXWDZJ2JvuyFm0OfvoYqKRRkb6xWn9yCRZ9qzh5UXo8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745223616; c=relaxed/simple;
+	bh=Z9CzQaeGzkqPRPlWBkWUdRbBrMnMrSvzj+/0z84P8Uo=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=up/Ik21+F2g31r3FM6uPQ+B2J9GD8S0eAiF37SetL2aFy0ewdLRLENDDtWGB3o5RpC+f9Q+hFRvb7bMOsuiU4NtivGWZP6phIxDdmYDKqNxlj4pEQ6OrtLXF+uq3LkMW1m4uF8kwa680uIPWEuozeh0afWgaxtKf33xJPOS0XGU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XfC71U7D; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 84FF5C4CEEB;
+	Mon, 21 Apr 2025 08:20:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745223616;
+	bh=Z9CzQaeGzkqPRPlWBkWUdRbBrMnMrSvzj+/0z84P8Uo=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=XfC71U7Dp2TszuL4yb/fVCS+9qannc1LpaMUQwUmpVWZxGkqWwudQ+gV+mKZzmpKb
+	 IPx3zBIFMb1iswS18hMYJRJ3vaefIeJwl1Uv9ru6cBZgUkRr6PhIXb0YKxQY7OviGb
+	 rxpVrBxgjyRVKS4ipkN430UEhzNjh9Y29RevQSlh/7U6MWggqhQRMZ6AjK69XW2TYB
+	 athomUw/O9/rGPD95rsi0M0p/eoqwFDPmPFwmK4a7+1lHUsGPglBj0acrkF7n9exCj
+	 oH/4JGiIqih5Dj7AtwinICyX1auhcQCCzvvhP5SFrDUOpJuIWrZrGZt2CcWGGWCAX2
+	 EtE7UthUVW2ww==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A4C7C369AB;
+	Mon, 21 Apr 2025 08:20:16 +0000 (UTC)
+From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
+Date: Mon, 21 Apr 2025 10:20:15 +0200
+Subject: [PATCH v4] media: dt-bindings: Convert Analog Devices ad5820 to DT
+ schema
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXPR04MB8254:EE_|VI0PR04MB10104:EE_
-X-MS-Office365-Filtering-Correlation-Id: db1ffff8-7075-4cdf-fd45-08dd80ac7aea
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|52116014|7416014|366016|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?JByMTX2joiWadHJEbMSgDyWlCkOfFdtzxfsACxS1DaAm0VD3z70k/uS6eMUj?=
- =?us-ascii?Q?1kRO+Bbay1mQzdq0NjgXC4R0PrtQuvhKiQPOb2cC0qZFeudA4bGXnkxf1gek?=
- =?us-ascii?Q?bszX0cAQANcGkwuMX6Z1doMpYGOTB1c6WGpFDE/uxtFKiSXdhmySnxvz4OBj?=
- =?us-ascii?Q?QX5mdWwLIK8kMbA80LpZdOCOkNzGowhSh+cICogaMS4r20UgDVcH0XdFA/2s?=
- =?us-ascii?Q?4ykVMM4448J1+jac6RSDynm2aEBSNp095c91yYP55GaBO6KdYYlQWq5aIDfe?=
- =?us-ascii?Q?n7+vBHouqjZDQS218xWEQO4UT+UCewPVNWJQmPA3s6N7mYjk5wavntywW32k?=
- =?us-ascii?Q?cEOMy9zmYG0eUmKmXXIUJH3OlSbwUBs91X9UGQSWc3pp6CMB1Ik+TbRSr1Dp?=
- =?us-ascii?Q?SEQmDArYY42L0UDVq1XhdLWctATXBU4zJCxr9YjKDZHGmCZR47bovJRQ5kvX?=
- =?us-ascii?Q?n0Cpd7daGzLb5BEyDdA6h6Z85hwb+Q6qBuOalYeICG30XkdozCU8ira1V7Jg?=
- =?us-ascii?Q?xPyBfEgUaZSi9pB3SsJZD6/sPDPMf4kD+Okew4SZ8NJCNtmeQ/E9ZgS/N9JS?=
- =?us-ascii?Q?VqV52CKPmDsmG+HhwiDChuz4yYOR/nsAQiu9eQVicu/gCjBKFtLXULTvnst5?=
- =?us-ascii?Q?VQ9i1wjA/SHudLmtGZxeQfsvMdkhqHbGotr7nkUqKgzWO5xgnWM0R7o1y6Ue?=
- =?us-ascii?Q?M4JyE6tShSpjQNk8tPs2WVb8vtTzR85jx3K3IUUGIIfhcHfnJf5Aur+mUWAC?=
- =?us-ascii?Q?g31/ch93oyMmJWC8dDzbuxanKI6w/M0SgkMMw/sMMsnjcRs2LzETUr7MAVlw?=
- =?us-ascii?Q?HTELXEOi9t2svb2MHxw92wlx1gLPYtkJSUwtYviW3lFpYLHD4Rt72LBDfB65?=
- =?us-ascii?Q?YFnL5JFhbkxf8A4a9hyVqieU/AXqiGSA5A5JZ4UpaJ0hDrmRNmgjhXmJKtGm?=
- =?us-ascii?Q?0cN/ve9PRCq88ABW/axAE1fJPW0h/l+tPTSTVtCwf2k6DlGZK7185VFkyhUK?=
- =?us-ascii?Q?yZtpFtlNTt+ahs9t7lhHkKYPa0ifC7Ww2WxIqhtysrQhVelJbH9Z3XyXtcVM?=
- =?us-ascii?Q?ZMTs0AF+bcTzu1dpE50FcAHPqvBJQnN3g4d4HuAv4Jrf4CE7eaf0Y15GF1fb?=
- =?us-ascii?Q?v0uorJiamnmlQChgPGiruMRRlYs7KSn0JhJbGzR37sX4PFtxOk+ubGnmx6e/?=
- =?us-ascii?Q?yXvenAXYpdYocYfHCL1ME55a8G1J4Q78hALmcbEfBnhG+zYHcruFm8phvizx?=
- =?us-ascii?Q?C97jne0h6WakRvwP99ddazmpX3HvuKZpJ9H/WRPRXNAwgUA9kSdXD8kaQPYy?=
- =?us-ascii?Q?xkdWKyaKwqc/dJMI1Znv825uI0DDYhqN4j20I7Je4VUOJmRPnxyFLKHhGU2t?=
- =?us-ascii?Q?RgibIjqUGbeaqzTvzVhMeSndpud6xG0U9OJY1KbYYA7IxgQWapEQ17A/I17f?=
- =?us-ascii?Q?N6FCf7kBe6vchHog6uh5nbY1mEu4aCcCBamLPwE+W5+5dlCZkpDgtOea1TNW?=
- =?us-ascii?Q?AjKsX+zftDPRzLo=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8254.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(7416014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?V7VFxZ+ktouH3lRUxPYW2yERzhxu98CX42ZBB01z31Oht5vZEm/RSQ1ISIu2?=
- =?us-ascii?Q?glgA7fbip3JADosHjSPZSBTyXx03MAqoJwKdMkepe07jL9vcMattb32SdHWL?=
- =?us-ascii?Q?oY08yHLk1N5PWChVpwLsi4OLaw8kox7MuHaeykDWDBRyKdhP41jZNhjE+20l?=
- =?us-ascii?Q?E6lQk+yTKmLA+Exi/9001wkk8HcHQf63oPpALs2dFC0thcrSXiZekketnF5Z?=
- =?us-ascii?Q?5E5E0cZMUc+n2gBaA/WYYvelJFYHoaqU7oNskwLJphSo91WX7rkKtdY/QK/7?=
- =?us-ascii?Q?hJZOpY3WeQlA3OhwwTqzERxRsn9CbBcmtJh8z/smWB3f81yzxavrg0XcIQsE?=
- =?us-ascii?Q?iTYS1nopNXuWvkuWmy2b7XGKqvvutQg3HACfPwHowPYWrI2d++LLu3iTh+3G?=
- =?us-ascii?Q?l+TsfVArGTguMUoRUwgl2k1q5LrFU+9CvUWeB0U6hfvM6MEM2KMWF9ns1Jj7?=
- =?us-ascii?Q?G392AeaujsGdf2ks0eD3Wqwo9YyqnTejA6Q+8tPtMVYJ6CaKS4fF/zChLQlg?=
- =?us-ascii?Q?l/Lqf3T7/LoFSVzieMMLa0xb/Ug0O+cIOppuUCQ5I689JP3EOYsK9km1tBVp?=
- =?us-ascii?Q?0E8DhKN7v+i8vLwjWLiQ6lzoC5QU1M0W5OYLVrSd0Jl6VyEKz+GuRe9o45QR?=
- =?us-ascii?Q?is7mYL1KYEXD39Ga/FnZthuF1il4eoWH2Hraq905XSKSiscjhAucAiNE4mVz?=
- =?us-ascii?Q?tKidOAYB/GeNc4EwzBMGW6ail3eKj1QZ2opqcG8ie6l6H1rpGjPDjdMJLKuT?=
- =?us-ascii?Q?VB1XlkQzCQpZYZmwuEyFwEAUCkGofIISkD5DQtaacUGVjRDr6P5Oniu5x3tP?=
- =?us-ascii?Q?NyWTZoUWjlQWzuTszIO2yS4xnizr3MftLh9DGDIezoLISerYGjwWB6tBw/sM?=
- =?us-ascii?Q?+iee4v74RuSYwYnCatD6NuKTyFml6Ze+c6XA8XvZYI1w1z9vIXXTcqxtTwkR?=
- =?us-ascii?Q?B45IF6h2oqJHu8NB1b9QpZaawXvHvv3+RsB7EgcfEbYpPe957xngo95cGog5?=
- =?us-ascii?Q?vJd1sltIjRw8BE8u5oAFs+ile46XCtKAwFaKJK5HNY0pUnzLcs55DQoBpTbh?=
- =?us-ascii?Q?prG4OgdEAPJjw+hTiJSQLJrrz1RSDX8Cul+FlTZexulcyrhxSMQ5eSQaRI2q?=
- =?us-ascii?Q?cISUw/ci+ngRhYfab6V7nzFGgJi6l4lCkf6Eoo5ushwQv5ePh82obguTLVlB?=
- =?us-ascii?Q?CN2uO21mSeewSSGimpvY3YrhWw5VVjx9cl75T88OMrnBBhYCxKMu441NHt2j?=
- =?us-ascii?Q?nCzu+18QfBgtjDb5wD6buXu29vRE3fPRgurY1azZAwXuKm5TigTEW6YehAF2?=
- =?us-ascii?Q?BrqkVFUzuwuJjG+A+9JGfLa0Ozg2XaBfNl9uL1bk6+FwB43EhrvPdonnCv4x?=
- =?us-ascii?Q?NyUGaVZGAij/TADnFij6gC8rBfM/EAFbdg6NYVI6FvEJLFr3OYhFdCOapfJb?=
- =?us-ascii?Q?uFtOGQYhRV6PdDoC+oGzLo+wFr6vZEM1BJxsb18vWC/TRQ6NshBEqkbYdiWh?=
- =?us-ascii?Q?v1Wg0tjy4j7D39Jetbn9gf2h7yDKR7khpVLJiB21OBAhpCHFvFNC1A9TzHrS?=
- =?us-ascii?Q?JkG7tf/Hgbae/hiH9dpzd6DrOSt4BH47Q4TVZj8S?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: db1ffff8-7075-4cdf-fd45-08dd80ac7aea
-X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8254.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2025 08:14:04.3904
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: brzXOrJEolJOFPRxD5GE8ij4ZB12AUJsyIV5W6n9HlelNZ3ZiYExe6YwR/998F/GiAJVq2joJQiQmsOLDm6/fg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR04MB10104
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250421-b4-ad5820-dt-yaml-v4-1-cc026ce316c6@ixit.cz>
+X-B4-Tracking: v=1; b=H4sIAL//BWgC/23NywrCMBQE0F+RrI3c3CQ0ceV/iIu8ai/4oilBL
+ f13U10UocsZODMjy6mnlNl+M7I+Fcp0v9WgthsWOnc7J06xZoaAGqRQ3CvuojYIPA785a4XLhH
+ Bt9iKpIBV9+hTS8/v5vFUc0d5uPev70URc/tbQ7AI0irYCW3BGC54dIXigZ407MKbzbjgAtbvC
+ 1aIprHaBBmgCf9eLl6te1m9tN57HX3j0S9+mqYPmA+rwCEBAAA=
+X-Change-ID: 20250314-b4-ad5820-dt-yaml-3220bf2f1e40
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Pavel Machek <pavel@kernel.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Pavel Machek <pavel@ucw.cz>, linux-media@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ David Heidelberg <david@ixit.cz>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4451; i=david@ixit.cz;
+ h=from:subject:message-id;
+ bh=CF3DZGYBahplVU8yiF0C7k1jZnNIBq7jSEDJSUBVBls=;
+ b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBoBf+/kvKKdKmDnTex9fGSTvWvmVBjGMz/0Ulji
+ A1Oj4fvTg+JAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaAX/vwAKCRBgAj/E00kg
+ csb/EAC3831AqeWjuqifFw45sS3zES2VZGICEIOIU5VUg3VSj7+wirBHe45I/jGLCS//0lEuZUT
+ R5A8JbY8tnc26uT1qgnk90Ntm2BwS5S2+hAu3AgjqPaTNEMGe35d/wcl+e7O4jI+F+hzNKDUF1/
+ G0wWRtv9DEU6yA4jSnmTxjMVfnp+LW5zD7L2f9PEJ2+w0t+DHSjWBbcH1hpLLYnX9cJ7oisIY0e
+ pAUwK61wmZtR9pRASLdlmvyax8SUiVpAaGsRIqpxlbuZyXh/M5dWZif7pTUMRzeGKoiHPwCOhU2
+ pYjI3Yb3XhgBsBOWJZYyR/VC+6UjbbrIWgEP4SH82VUUcKVAESFCgKegBxBodKooOg2LHt5esZJ
+ mXVGg2qsfMx2qhTP8op3Jj9NFxpOFScMjp+3j4ZZYf4SCG2rXfyLIEYLnAovhiQ3qKETxIDEzvQ
+ YLkR8kCx3OiDlARndylgaZ/9d+F1AJKC3rUPkvHgPnBe3mVhpHpgz4Lp6UWlj2K1VaOqEMFqfD7
+ gI4b4dzdP/DQA0sCExey7nfkXnn1a9o3Oc016t3RU+dCU1UWOc27uKa38nS6mbqtx3QI0crrhX2
+ fnhYXpexIglQiGUiM21vv+nVGTRYsbwIzEF4qHXi7dPD6vGJt7rTX49HhamDhP4DBb4lpHB/6/j
+ 67OWoshfU4g9yRg==
+X-Developer-Key: i=david@ixit.cz; a=openpgp;
+ fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
+X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
+X-Original-From: David Heidelberg <david@ixit.cz>
+Reply-To: david@ixit.cz
 
-From: Ming Qian <ming.qian@oss.nxp.com>
+From: David Heidelberg <david@ixit.cz>
 
-As the first frame in "repeat-mode" is the pattern, the pattern done
-interrupt is ignored by the driver. With small resolution bitstreams,
-the interrupts might fire too quickly and hardware combine two irqs to
-once because irq handle have latency. Thus the driver might miss the
-frame decode done interrupt from the first actual frame.
+Convert the Analog Devices ad5820 to DT schema format.
 
-In order to avoid the driver wait for the frame done interrupt that has
-been combined to the pattern done interrupt and been ignored, driver
-will check the curr_desc and slot_status registers to figure out if the
-decoding of actual frame is finished or not.
-
-Firstly we check the curr_desc register,
-- if it is still pointing to the pattern descriptor, the second actual
-frame is not started, we can wait for its frame-done interrupt.
-- if the curr_desc has pointed to the frame descriptor, then we check the
-ongoing bit of slot_status register.
-- if the ongoing bit is set to 1, the decoding of the actual frame is not
-finished, we can wait for its frame-done interrupt.
-- if the ongoing bit is set to 0, the decoding of the actual frame is
-finished, we can't wait for the second interrupt, but mark it as done.
-
-But there is still a small problem, that the curr_desc and slot_status
-registers are not synchronous. curr_desc is updated when the
-next_descpt_ptr is loaded, but the ongoing bit of slot_status is set
-after the 32 bytes descriptor is loaded, there will be a short time
-interval in between, which may cause fake false. Consider read register
-is quite slow compared with IP read 32byte from memory, read twice
-slot_status can avoid this situation.
-
-Signed-off-by: Ming Qian <ming.qian@oss.nxp.com>
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
+Acked-by: Pavel Machek <pavel@ucw.cz>
+Signed-off-by: David Heidelberg <david@ixit.cz>
 ---
-v4
-- Improve commit message
+Changes in v4:
+- Drop remaining pieces of iio-channel-cells introduced in previous
+  revisions.
+- Link to v3: https://lore.kernel.org/r/20250414-b4-ad5820-dt-yaml-v3-1-39bbb5db7b2b@ixit.cz
 
-v3
-- Read the slot_status register twice
-- Improve commit message
+Changes in v3:
+- Removed documentation of io-channel-cells property. Now it's 1:1 to
+  the original binding. The reference to it from the Nokia N900 dts
+  was removed in the -next.
+- Link to v2: https://lore.kernel.org/r/20250314-b4-ad5820-dt-yaml-v2-1-287958c3c07c@ixit.cz
+
+Changes in v2:
+- added MAINTAINERS entry for the binding
+- documented why io-channel-cells got added into the binding.
+- dropped io-channel-cells in required properties.
+- adjusted example indentation to 4 spaces.
+- Link to v1: https://lore.kernel.org/r/20250209203940.159088-1-david@ixit.cz
 ---
- .../media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h |  1 +
- .../media/platform/nxp/imx-jpeg/mxc-jpeg.c    | 31 ++++++++++++++++++-
- 2 files changed, 31 insertions(+), 1 deletion(-)
+ .../devicetree/bindings/media/i2c/ad5820.txt       | 28 -----------
+ .../devicetree/bindings/media/i2c/adi,ad5820.yaml  | 56 ++++++++++++++++++++++
+ MAINTAINERS                                        |  1 +
+ 3 files changed, 57 insertions(+), 28 deletions(-)
 
-diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h
-index d579c804b047..adb93e977be9 100644
---- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h
-+++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg-hw.h
-@@ -89,6 +89,7 @@
- /* SLOT_STATUS fields for slots 0..3 */
- #define SLOT_STATUS_FRMDONE			(0x1 << 3)
- #define SLOT_STATUS_ENC_CONFIG_ERR		(0x1 << 8)
-+#define SLOT_STATUS_ONGOING			(0x1 << 31)
+diff --git a/Documentation/devicetree/bindings/media/i2c/ad5820.txt b/Documentation/devicetree/bindings/media/i2c/ad5820.txt
+deleted file mode 100644
+index 5764cbedf9b73387ad1bfa9acf99c643f959b84a..0000000000000000000000000000000000000000
+--- a/Documentation/devicetree/bindings/media/i2c/ad5820.txt
++++ /dev/null
+@@ -1,28 +0,0 @@
+-* Analog Devices AD5820 autofocus coil
+-
+-Required Properties:
+-
+-  - compatible: Must contain one of:
+-		- "adi,ad5820"
+-		- "adi,ad5821"
+-		- "adi,ad5823"
+-
+-  - reg: I2C slave address
+-
+-  - VANA-supply: supply of voltage for VANA pin
+-
+-Optional properties:
+-
+-   - enable-gpios : GPIO spec for the XSHUTDOWN pin. The XSHUTDOWN signal is
+-active low, a high level on the pin enables the device.
+-
+-Example:
+-
+-       ad5820: coil@c {
+-               compatible = "adi,ad5820";
+-               reg = <0x0c>;
+-
+-               VANA-supply = <&vaux4>;
+-               enable-gpios = <&msmgpio 26 GPIO_ACTIVE_HIGH>;
+-       };
+-
+diff --git a/Documentation/devicetree/bindings/media/i2c/adi,ad5820.yaml b/Documentation/devicetree/bindings/media/i2c/adi,ad5820.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..0c8f24f692cac37fc565f3ec770acfc63eecbda4
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/adi,ad5820.yaml
+@@ -0,0 +1,56 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/adi,ad5820.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Analog Devices AD5820 autofocus coil
++
++maintainers:
++  - Pavel Machek <pavel@ucw.cz>
++
++description:
++  The AD5820 is a current sink driver designed for precise control of
++  voice coil motors (VCMs) in camera autofocus systems.
++
++properties:
++  compatible:
++    enum:
++      - adi,ad5820
++      - adi,ad5821
++      - adi,ad5823
++
++  reg:
++    maxItems: 1
++
++  enable-gpios:
++    maxItems: 1
++    description:
++      GPIO spec for the XSHUTDOWN pin. The XSHUTDOWN signal is active low,
++      a high level on the pin enables the device.
++
++  VANA-supply:
++    description: supply of voltage for VANA pin
++
++required:
++  - compatible
++  - reg
++  - VANA-supply
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++        coil@c {
++            compatible = "adi,ad5820";
++            reg = <0x0c>;
++
++            enable-gpios = <&msmgpio 26 GPIO_ACTIVE_HIGH>;
++            VANA-supply = <&vaux4>;
++        };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 17ed0b5ffdd203db658f9bedb990bd58a3ffcb91..c060a7ca103d2a9252fcb4b2bcd6e1a35d94f2d7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -17295,6 +17295,7 @@ M:	Pavel Machek <pavel@kernel.org>
+ M:	Sakari Ailus <sakari.ailus@iki.fi>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
++F:	Documentation/devicetree/bindings/media/i2c/adi,ad5820.yaml
+ F:	drivers/media/i2c/ad5820.c
+ F:	drivers/media/i2c/et8ek8
  
- /* SLOT_IRQ_EN fields TBD */
- 
-diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-index d72e15ee6d32..5c17bc58181e 100644
---- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-+++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-@@ -910,6 +910,34 @@ static u32 mxc_jpeg_get_plane_size(struct mxc_jpeg_q_data *q_data, u32 plane_no)
- 	return size;
- }
- 
-+static bool mxc_dec_is_ongoing(struct mxc_jpeg_ctx *ctx)
-+{
-+	struct mxc_jpeg_dev *jpeg = ctx->mxc_jpeg;
-+	u32 curr_desc;
-+	u32 slot_status;
-+
-+	curr_desc = readl(jpeg->base_reg + MXC_SLOT_OFFSET(ctx->slot, SLOT_CUR_DESCPT_PTR));
-+	if (curr_desc == jpeg->slot_data.cfg_desc_handle)
-+		return true;
-+
-+	slot_status = readl(jpeg->base_reg + MXC_SLOT_OFFSET(ctx->slot, SLOT_STATUS));
-+	if (slot_status & SLOT_STATUS_ONGOING)
-+		return true;
-+
-+	/*
-+	 * The curr_desc register is updated when next_descpt_ptr is loaded,
-+	 * the ongoing bit of slot_status is set when the 32 bytes descriptor is loaded.
-+	 * So there will be a short time interval in between, which may cause fake false.
-+	 * Consider read register is quite slow compared with IP read 32byte from memory,
-+	 * read twice slot_status can avoid this situation.
-+	 */
-+	slot_status = readl(jpeg->base_reg + MXC_SLOT_OFFSET(ctx->slot, SLOT_STATUS));
-+	if (slot_status & SLOT_STATUS_ONGOING)
-+		return true;
-+
-+	return false;
-+}
-+
- static irqreturn_t mxc_jpeg_dec_irq(int irq, void *priv)
- {
- 	struct mxc_jpeg_dev *jpeg = priv;
-@@ -979,7 +1007,8 @@ static irqreturn_t mxc_jpeg_dec_irq(int irq, void *priv)
- 		mxc_jpeg_enc_mode_go(dev, reg, mxc_jpeg_is_extended_sequential(q_data->fmt));
- 		goto job_unlock;
- 	}
--	if (jpeg->mode == MXC_JPEG_DECODE && jpeg_src_buf->dht_needed) {
-+	if (jpeg->mode == MXC_JPEG_DECODE && jpeg_src_buf->dht_needed &&
-+	    mxc_dec_is_ongoing(ctx)) {
- 		jpeg_src_buf->dht_needed = false;
- 		dev_dbg(dev, "Decoder DHT cfg finished. Start decoding...\n");
- 		goto job_unlock;
+
+---
+base-commit: bc8aa6cdadcc00862f2b5720e5de2e17f696a081
+change-id: 20250314-b4-ad5820-dt-yaml-3220bf2f1e40
+
+Best regards,
 -- 
-2.43.0-rc1
+David Heidelberg <david@ixit.cz>
+
 
 
