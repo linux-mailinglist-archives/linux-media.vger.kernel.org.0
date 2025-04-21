@@ -1,94 +1,96 @@
-Return-Path: <linux-media+bounces-30590-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30591-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC789A94FE8
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 13:13:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15FFCA94FEB
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 13:13:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 97B733A4E61
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 11:12:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC5573A7D23
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 11:12:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80AD32627FC;
-	Mon, 21 Apr 2025 11:12:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84B072638A6;
+	Mon, 21 Apr 2025 11:12:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="nXmIOo1e";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="HIMOiTqC"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="UO2tVGVc";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="RJ8iPVir"
 X-Original-To: linux-media@vger.kernel.org
 Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 570E529D0E;
-	Mon, 21 Apr 2025 11:12:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 452A6262814;
+	Mon, 21 Apr 2025 11:12:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.148
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745233977; cv=none; b=M6zOnMVOO1EPmxL4jTloWEM7SFdDZh3YP/NViD0bsYYKEwbsodRZBHl6Rq3lestXiQh+frjHOBgqrIVGpLvKa22J0NYvx1m1yygWmB+SMfPWd999zqWEtm+sl8BKHSBo3JhI0jnMv30o4mb4W4d+yntKaFz9yexKwuxMkNmaBSU=
+	t=1745233978; cv=none; b=Qn7gUB0wws0uyuc+Xo6js+n/sGWBTiIeFJNagG3GitbYekNIWMx3aXRJeAy7CDR+6CAti51ruEzzw1SUjowNJJpKxnxy8yq1XgYHMWrnT9wUrXK3i0+OXy25424gvyZUhby5aztSrLhdlVVjMbAB1X9xun7nkAnEuRuhMO+nRB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745233977; c=relaxed/simple;
-	bh=GDUjVSzG9YVOJMFQG9ZuWmDP/05NbhA7vKUA0roZJJU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=uY76/ze3TeV+F2JE+Be4YzSJ2kjgwZ9gbTmDv2tw5kfXRDOhSe88sFVFl7LgqKILlpB+xyxJuMOzbgCrmcH+GikcrTkHrMT7RGnHuNtvQ5gpNswaz7x4FFUNVbwViHJcXRro3HT9VGoXb2J7/SuBxAmC8hsWW60JqMxeWtQgWtw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=nXmIOo1e; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=HIMOiTqC; arc=none smtp.client-ip=103.168.172.148
+	s=arc-20240116; t=1745233978; c=relaxed/simple;
+	bh=8/yRv2HWWa07V39LUUcdlsWv7eGjKcnB6iMUuXdTvac=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=qOCO3a/reYkjyYJ7wa0qyA2Wm8QCC0zHytZtn/t37T6+m8ZCMxLebN0tzWBHn0Io+6CFDSLSYMJuR3pLjMuacMgn9AmyB3nwZeyZCzzpCz0YFRU6xhCUtZqGN8E61v7tM0UAomUIcVoSZqkhVfLiTGYrap5MEhA4HvdaSh4RM4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=UO2tVGVc; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=RJ8iPVir; arc=none smtp.client-ip=103.168.172.148
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-11.internal (phl-compute-11.phl.internal [10.202.2.51])
-	by mailfout.phl.internal (Postfix) with ESMTP id 1264613801E1;
-	Mon, 21 Apr 2025 07:12:53 -0400 (EDT)
+Received: from phl-compute-01.internal (phl-compute-01.phl.internal [10.202.2.41])
+	by mailfout.phl.internal (Postfix) with ESMTP id 4918313801E6;
+	Mon, 21 Apr 2025 07:12:55 -0400 (EDT)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-11.internal (MEProxy); Mon, 21 Apr 2025 07:12:53 -0400
+  by phl-compute-01.internal (MEProxy); Mon, 21 Apr 2025 07:12:55 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:message-id:mime-version:reply-to
-	:subject:subject:to:to; s=fm1; t=1745233973; x=1745320373; bh=YE
-	TKtGgOFzpZAbDKhjHVboI0LgkBqgqvf5gh4ne1ffQ=; b=nXmIOo1exCU7uu0xvw
-	lIGo+RNJ8tqR8aGRgXNEvKIZxmOIQ3IQWBoOTjK3atN8wcsJp9/gpyRJcTkMGkSt
-	r1DaE41yx45ZIIpRXXQYtEufAnjherq5swuMuKCpUv6Biw7gDJd39vBKUbZlABcs
-	NRaAtO8zbssPjYn56JF28y5vNNYgQV43/o4yrQ2sANQOj/cSOaNli3o2zpE/wiXE
-	QgLKKVCr17u7vmjy5PiKoWVj/lKSbcXGion8I7Pb5lO9f05gA+cuTfm1b5EHgr4a
-	FvKbdBr0ji4rGUS65zQI40uExcC4ztowww2TS9fOf2fQnmo9YbKbqu4DgEOKhdK/
-	EeHQ==
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1745233975;
+	 x=1745320375; bh=p+v+VUA92xSxDbJ0eRxcGXhZK6SrcTs/OQA0JC0aLOA=; b=
+	UO2tVGVcHLZC12zlccZTuVznYX52QmRLGAA/iMLGk81embabXLOuf9R+CLoEhfd3
+	US+x/slmzpQmdv+s30GC8+cgotpkfaTTl1KP2zVD6fiYJgj4uMGwoGUUTImv6SYh
+	jNiYb5S6vKg62ayRE1l7g2ycrsiqQL7CYQuBreVdu4RL4vvZVSmyhJGtQToFY9g/
+	lEPGzndrLYgD4RtdIo4Zq3d61XTNyyATgtFZQ0GV7xvhPUwkMNLvr6ufgnuztpRI
+	VfNBSmsvscLx+ZENPM3r9lsOceS/QCUlHnQQMsnFuDr9oRnBAqqd+ahiTJjWeU6n
+	7tZ7mfk7ESaEAIaTJVYJCA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:message-id:mime-version:reply-to:subject
-	:subject:to:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1745233973; x=1745320373; bh=YETKtGgOFzpZAbDKhjHVboI0LgkB
-	qgqvf5gh4ne1ffQ=; b=HIMOiTqCjrUwZbVbKK+QXw52txmyrmsSHVa+GjBzaAAS
-	mGTXsDG4KbJmykCkhXCH8etu2opa1B74Om/iQ2VdsnisOV77m5Dad/G5bkoLXCPx
-	FNBI3/DcXJPZL77+xgJCxB8oxHZSSLXUDyInsfgCts3Vq+34ZH/zT18c69ivlNrw
-	AcCIx/vYl2aPtSUYenwEAWwYQ5U4YeXGqL0bSfue6bUW0XKpqLzlTYqlW/fyRq31
-	sIy3WTps+05AbPhi2O7yOuEAc92CLFyF8ZaAeL9znmg1Ft+/1IvullIixB4IUzXs
-	R0Lla1EbxysMYlkr2YcxlTI2VytWm/OKPlHIdEYd+g==
-X-ME-Sender: <xms:MygGaOhyz5d6lbL98n5Ysg7FxKBy1Mr-3JpowodZ19oSbBeRJDgrLw>
-    <xme:MygGaPB4ZmorHqeri6hn5PqcfCD106h1Hd7SO10nNRBKbVD8XJpJDFyuOWlJCyxjU
-    CxOOH58Q_dEXgi-l-E>
-X-ME-Received: <xmr:MygGaGF26fJz0Ik8lDVUMiSYrpP-6IdCMo2Hrow6ZrujWbNB8u8_5wG8CCfkZgLTu1XNRD-_pxrGKG5kopJUIAjUKw>
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1745233975; x=
+	1745320375; bh=p+v+VUA92xSxDbJ0eRxcGXhZK6SrcTs/OQA0JC0aLOA=; b=R
+	J8iPVir6mwJ8McIL/BbcmMM463El3Cdtls5INZe58J1RuI/RPVx9EPYpj41xKzNx
+	NphcUBUeJJNKGSgXWyVGZ1UN/TZEFIPLWELXYCEPhihxm99PMjWYXhWNJKLIb4GM
+	X4dgVc730CMFEYw3d7/q+aU6T0qOoPFPR2EtyRyLBi+MlFG8XmkQ6HJ1bGyZbbhk
+	GquBfPDw75gC7aU7Tvg2PxcXNRb3IFK3fK2D7abdOAgRE4al+CaKJ9pF33btc22Z
+	DfNNo2j5ICcJCmESJbZDSh6bqfQErsvbVYzPnqtmMFI1730F5TbrApgxyVuZB75G
+	75S6lg9tgD2iGqRzO2QDA==
+X-ME-Sender: <xms:NigGaAd3MA3KxTyeAFbsspT4dHq3B4YNgM6xIh5QPNZyREqrikweYg>
+    <xme:NigGaCMU_Tw0mBii8VVwoPSGHVPzQ6gxtTV6c6lVXAGmGXcjOttOoUTywTuK07Gp2
+    vscSr19Xd57edo4W_s>
+X-ME-Received: <xmr:NigGaBhdfTmn4v9MtwcaRfmu9fCABqlcdZ6YGFsmAkdfeP6oFtI_70j9MCk5Ktcpdt8x7A1h_2i8S-iQ5uy8qqHowQ>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvgedtjedtucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
     pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofggtgfgsehtkeertdertdej
-    necuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhoug
-    gvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrght
-    thgvrhhnpeehudelteetkefgffefudefuedvjeeivdekhfevieefgeffheeltddvvefhfe
-    etgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehn
-    ihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtph
-    htthhopedufedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgthhgvhhgrsges
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprh
-    gtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegtohhn
-    ohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepghgvvghrthdorhgvnhgvsh
-    grshesghhlihguvghrrdgsvgdprhgtphhtthhopehhvhgvrhhkuhhilhesgihsgegrlhhl
-    rdhnlhdprhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnthgvlh
-    drtghomhdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshho
-    nhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhgrtghophhordhmohhnughisehiuggvrg
-    hsohhnsghorghrugdrtghomh
-X-ME-Proxy: <xmx:NCgGaHT5EbKrAok76CE6izG2KRIArHX4dXElYXL9ODTFtJ5K2h7_aA>
-    <xmx:NCgGaLwy-cJjblRxAx8fl7wxbTud68WdLdgGhUOewZThR_IwB-bfaQ>
-    <xmx:NCgGaF4e5jUuyXbnC5qfg0ohIHw36SryYCfuoFKXhG8dS6hlmVTnJg>
-    <xmx:NCgGaIzziKcuu_MvWMF3r4W4ePGqq44SXvsvgrc7OLC_s-GIectOPA>
-    <xmx:NSgGaL4I1frHjsnnTscx8hKIuRPsF88bK2KFFbG5vKk-HsJHrhe_gmOp>
+    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgjfhggtgfgsehtkeertder
+    tdejnecuhfhrohhmpefpihhklhgrshcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrsh
+    houggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvqeenucggtffr
+    rghtthgvrhhnpeehiefgueevuedtfefhheegkeevtdelueeukeevfeduhefhhfejfffgge
+    ffleefgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhm
+    pehnihhklhgrshdrshhouggvrhhluhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprh
+    gtphhtthhopedufedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepmhgthhgvhhgr
+    sgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrgh
+    dprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegt
+    ohhnohhrodgutheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepghgvvghrthdorhgvnh
+    gvshgrshesghhlihguvghrrdgsvgdprhgtphhtthhopehhvhgvrhhkuhhilhesgihsgegr
+    lhhlrdhnlhdprhgtphhtthhopehsrghkrghrihdrrghilhhusheslhhinhhugidrihhnth
+    gvlhdrtghomhdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthesihguvggr
+    shhonhgsohgrrhgurdgtohhmpdhrtghpthhtohepjhgrtghophhordhmohhnughisehiug
+    gvrghsohhnsghorghrugdrtghomh
+X-ME-Proxy: <xmx:NigGaF-fBwOq0w1tpOYmUKrcZSr0bLq15LZlbcRxI9rvoUpmpWDLTw>
+    <xmx:NigGaMv5Ra1LZRRL8i9UmsYKVPFRFx6KQdsEhbUsEx7rBW9WbKM2Tg>
+    <xmx:NigGaMFZQnfG08gGrvVgMel7nd41UvmM3LPeVBtoqbn-ucIGaF6png>
+    <xmx:NigGaLMubfKD9Lljhy-Zc0qpTPQzXSBN8GdF_WVaYmVWU4d9MCnM4Q>
+    <xmx:NygGaHniCTxMgzlMssB6HuzFGy9GiN541TT0wIcHyDIzakQGpkQw6rF6>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 21 Apr 2025 07:12:51 -0400 (EDT)
+ 21 Apr 2025 07:12:54 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
@@ -103,10 +105,12 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	devicetree@vger.kernel.org,
 	linux-renesas-soc@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2 0/7] rcar-isp: Prepare for ISP core support
-Date: Mon, 21 Apr 2025 13:12:33 +0200
-Message-ID: <20250421111240.789510-1-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 1/7] dt-bindings: media: renesas,isp: Add ISP core function block
+Date: Mon, 21 Apr 2025 13:12:34 +0200
+Message-ID: <20250421111240.789510-2-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250421111240.789510-1-niklas.soderlund+renesas@ragnatech.se>
+References: <20250421111240.789510-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -116,57 +120,143 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hello,
+Some R-Car ISP instances have in addition to the channel selector (CS)
+an ISP core (CORE )to perform operations on an image stream. The core
+function is mapped to a different memory region and have a separate
+interrupt then CS, extend the bindings to allow describing this.
 
-This series prepares for adding support for the ISP core functionality
-found on some R-Car ISP instances. No core support is however added in
-this series, the focus is to get the easy changes out of the way to
-avoid conflicts of fixes and new features being added in parallel on top
-of this.
+On the same SoC different instances of the ISP IP may have, or not have,
+the CORE functionality. The CS function on all instances on the SoC are
+the same and the documentation describes the full ISP (CS + CORE) as a
+single IP block. Where instances not having the CORE function simple
+lacking the functionality to modify the image data. There dependencies
+on the CS functionality while operating the CORE functionality.
 
-Patch 1/7 extends the dt-bindings to allow describing both the CSISP and
-ISPCORE blocks. Patch 2/7, 3/7 and 4/7 updates the existing bindings to
-match the new style. While the change breaks the dt-bindings the driver
-is compatible with both styles.
+In order for the ISP core to function in memory-to-memory mode it needs
+to be feed input data from a Streaming Bridge interface. This interface
+is provided thru the VSP-X device. Add an optional new property
+"renesas,vspx" to provide a phandle to describe this relationship.
 
-Patch 5/7 prepares for the addition of the ISP core functions that will
-span multiple files by moving the driver implementation from a single C
-file to a directory where it can grow. The intent is to get this out of
-the way without bikeshedding the real ISP core work so fixes and such
-can be based on the new file structure as early as possible.
+While adding mandatory reg-names and interrupt-names breaks existing
+bindings the driver itself remains backward compatible and provides CS
+functionality if a single unnamed reg and interrupt property is present.
+Furthermore all existing users of the bindings are updated in following
+work to add these new mandatory properties.
 
-Patch 6/7 and 7/7 prepares the driver for dealing with two regions for
-when the ISP core work is integrated.
-
-There is no functional gain in this series apart from correctly
-describing the hardware in dt.
-
-See individual patches for changelog.
-
-Niklas Söderlund (7):
-  dt-bindings: media: renesas,isp: Add ISP core function block
-  arm64: dts: renesas: r8a779a0: Add ISP core function block
-  arm64: dts: renesas: r8a779g0: Add ISP core function block
-  arm64: dts: renesas: r8a779h0: Add ISP core function block
-  media: rcar-isp: Move driver to own directory
-  media: rcar-isp: Rename base register variable
-  media: rcar-isp: Parse named cs memory region
-
+Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+---
+* Changes since v1
+- Extend the commit message to make it explicit that different ISP
+  instances on the same SoC (same compatible value) can have, or not
+  have, a CORE function block attached.
+- Update documentation for renesas,vspx property.
+- Update example to cover all new properties.
+---
  .../bindings/media/renesas,isp.yaml           | 63 ++++++++++++++++---
- MAINTAINERS                                   |  2 +-
- arch/arm64/boot/dts/renesas/r8a779a0.dtsi     | 60 +++++++++++++-----
- arch/arm64/boot/dts/renesas/r8a779g0.dtsi     | 30 ++++++---
- arch/arm64/boot/dts/renesas/r8a779h0.dtsi     | 21 +++++--
- drivers/media/platform/renesas/Kconfig        | 18 +-----
- drivers/media/platform/renesas/Makefile       |  2 +-
- .../media/platform/renesas/rcar-isp/Kconfig   | 17 +++++
- .../media/platform/renesas/rcar-isp/Makefile  |  4 ++
- .../renesas/{rcar-isp.c => rcar-isp/csisp.c}  | 56 ++++++++++-------
- 10 files changed, 194 insertions(+), 79 deletions(-)
- create mode 100644 drivers/media/platform/renesas/rcar-isp/Kconfig
- create mode 100644 drivers/media/platform/renesas/rcar-isp/Makefile
- rename drivers/media/platform/renesas/{rcar-isp.c => rcar-isp/csisp.c} (89%)
+ 1 file changed, 55 insertions(+), 8 deletions(-)
 
+diff --git a/Documentation/devicetree/bindings/media/renesas,isp.yaml b/Documentation/devicetree/bindings/media/renesas,isp.yaml
+index c4de4555b753..927be02347e5 100644
+--- a/Documentation/devicetree/bindings/media/renesas,isp.yaml
++++ b/Documentation/devicetree/bindings/media/renesas,isp.yaml
+@@ -25,19 +25,55 @@ properties:
+           - renesas,r8a779h0-isp # V4M
+       - const: renesas,rcar-gen4-isp # Generic R-Car Gen4
+   reg:
+-    maxItems: 1
++    minItems: 1
++    maxItems: 2
++
++  reg-names:
++    minItems: 1
++    items:
++      - const: cs
++      - const: core
+ 
+   interrupts:
+-    maxItems: 1
++    minItems: 1
++    maxItems: 2
++
++  interrupt-names:
++    minItems: 1
++    items:
++      - const: cs
++      - const: core
+ 
+   clocks:
+-    maxItems: 1
++    minItems: 1
++    maxItems: 2
++
++  clock-names:
++    minItems: 1
++    items:
++      - const: cs
++      - const: core
+ 
+   power-domains:
+     maxItems: 1
+ 
+   resets:
+-    maxItems: 1
++    minItems: 1
++    maxItems: 2
++
++  reset-names:
++    minItems: 1
++    items:
++      - const: cs
++      - const: core
++
++  renesas,vspx:
++    $ref: /schemas/types.yaml#/definitions/phandle
++    description:
++      A phandle to the companion VSPX responsible for the Streaming Bridge
++      functionality. The Streaming Bridge is responsible for feeding image
++      and configuration data to the ISP when operating in memory-to-memory
++      mode.
+ 
+   ports:
+     $ref: /schemas/graph.yaml#/properties/ports
+@@ -103,10 +139,14 @@ properties:
+ required:
+   - compatible
+   - reg
++  - reg-names
+   - interrupts
++  - interrupt-names
+   - clocks
++  - clock-names
+   - power-domains
+   - resets
++  - reset-names
+   - ports
+ 
+ additionalProperties: false
+@@ -119,11 +159,18 @@ examples:
+ 
+     isp1: isp@fed20000 {
+             compatible = "renesas,r8a779a0-isp", "renesas,rcar-gen4-isp";
+-            reg = <0xfed20000 0x10000>;
+-            interrupts = <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
+-            clocks = <&cpg CPG_MOD 613>;
++            reg = <0xfed20000 0x10000>, <0xfee00000 0x10000>;
++            reg-names = "cs", "core";
++            interrupts = <GIC_SPI 154 IRQ_TYPE_LEVEL_HIGH>,
++                         <GIC_SPI 155 IRQ_TYPE_LEVEL_HIGH>;
++            interrupt-names = "cs", "core";
++            clocks = <&cpg CPG_MOD 613>, <&cpg CPG_MOD 17>;
++            clock-names = "cs", "core";
+             power-domains = <&sysc R8A779A0_PD_A3ISP01>;
+-            resets = <&cpg 613>;
++            resets = <&cpg 613>, <&cpg 17>;
++            reset-names = "cs", "core";
++
++            renesas,vspx = <&vspx1>;
+ 
+             ports {
+                     #address-cells = <1>;
 -- 
 2.49.0
 
