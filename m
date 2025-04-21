@@ -1,240 +1,389 @@
-Return-Path: <linux-media+bounces-30608-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30609-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id E74B1A950F0
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 14:31:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDE2AA95100
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 14:34:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 19C0E16F10B
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 12:31:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DB5893A8328
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 12:33:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB6F126159E;
-	Mon, 21 Apr 2025 12:31:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99A68264F9A;
+	Mon, 21 Apr 2025 12:33:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="tPYfa4Wb"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="fjRH5zQB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from dane.soverin.net (dane.soverin.net [185.233.34.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33CC3126BFF
-	for <linux-media@vger.kernel.org>; Mon, 21 Apr 2025 12:31:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.34.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A8E413212A;
+	Mon, 21 Apr 2025 12:33:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745238704; cv=none; b=vDnpbt480gWpoh3zWvvC1HgFfzDUsAhZm3ENgYuDVW+x+UekLVc741IWb+ZZN0CxpNLPAd/wJPCgrUgBIUrwXXLj3+rSnubLHCxb8X4zqU1omfyfV3k7F2vtXg+B8MO4qokLoy7WHKJ6IOVfOIVi0iL/nhrrl4pSOrei/CFVvV0=
+	t=1745238834; cv=none; b=YtGJMgUZ/JgEF8Bz7bDBbxWUdVMocLVbewJl8sSZ8gNMwnYbsAL6niQT/u3qzDTR0YNoLtfgIG9mPA4E+zBHjyq/BAouSwgtbmThnT9pP5NcJR6W1r3d0kjb2hZqWuIARa01ELu+ysIgBs2aPojxSlNDHPJzeZAKlJzDkykg1ug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745238704; c=relaxed/simple;
-	bh=nl3+4vU7nmPSY/jb1nFpU3wayOFvmBeV7O/Sz/P5Ovg=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=GlxRS7pPWuKulft/994eBBfe9G4WdkCzQN03QZnZCLjaLKhsYIf1cK+JLng/i6nSRbDzP2qjjhFltb9rgfzmeYhtK0LXFPkeVuz58f0hLU+qD6dWkCfT9DMFTCeontYCO7oXhT+TR9j+OTjja05MZ0+Ll3GE6/Yl946eypmS0Y0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=tPYfa4Wb; arc=none smtp.client-ip=185.233.34.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jjverkuil.nl
-Received: from smtp.freedom.nl (unknown [10.10.4.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	by dane.soverin.net (Postfix) with ESMTPS id 4Zh4Vb6NBwz15sj;
-	Mon, 21 Apr 2025 12:31:35 +0000 (UTC)
-Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.107]) by freedom.nl (Postfix) with ESMTPSA id 4Zh4Vb0by3z4y;
-	Mon, 21 Apr 2025 12:31:35 +0000 (UTC)
-Authentication-Results: smtp.freedom.nl;
-	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=tPYfa4Wb;
-	dkim-atps=neutral
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jjverkuil.nl;
-	s=soverin1; t=1745238695;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
-	bh=FNAlO4VpQjdzC62snDj6JtVTltdXANTy019KwKbOx10=;
-	b=tPYfa4WbbV/ecSnUSqZifenWtxKRHioDqd0wUZ+IhQNyuDjtxuXakPCTGOpatlac5yJpa5
-	zfukuXtiUmsWmmNs/+k2aYdgyz5pWu1FzFo2wLkjwX0DKqPZUcWNcL4XXqZqyh6sPrq+nI
-	KCMDX1lRkSzpty8CQfLMPuAsyFC9p00UUVQTthe3mEsy/tQS4xayU/SSVByKqpc8UwO6RZ
-	FOQWzg9xerxUBPuo1/duqa2IA8GiKcrv6yaRmMYF5DdVzP6NH56OT5kYg0smD1g/t85ePi
-	6efTmjPZMshInhDvGOuX9LgmxnEK5fauW0kVgJJC5Zoy9ZBxUbFSjM+jiEkfVg==
-X-CM-Analysis: v=2.4 cv=d/oPyQjE c=1 sm=1 tr=0 ts=68063aa7 a=xVxOAnYOZqKVbrsbIgLjXQ==:117 a=xVxOAnYOZqKVbrsbIgLjXQ==:17 a=IkcTkHD0fZMA:10 a=8s3bVdB6AAAA:8 a=smFrE9sGAAAA:8 a=VwnfekaSAAAA:8 a=xOd6jRPJAAAA:8 a=WN6_cwnCAAAA:8 a=QyXUC8HyAAAA:8 a=VwQbUJbxAAAA:8 a=QX4gbG5DAAAA:8 a=20KFwNOVAAAA:8 a=P1BnusSwAAAA:8 a=cm27Pg_UAAAA:8 a=sozttTNsAAAA:8 a=dML_XACEAAAA:8 a=mK_AVkanAAAA:8 a=PssDBZGIAAAA:8 a=8AirrxEcAAAA:8 a=drqXWh_Su-kwka9N9REA:9 a=QEXdDO2ut3YA:10 a=mX_46NTfp5VFrLZRzBmZ:22 a=F_EvON2TorMte8AU-hMi:22 a=eAomlcYGng2R2mZ923rV:22 a=ndfOWLLM0rR49n6Yv1rF:22 a=AbAUZ8qAyYyZVLSsDulk:22 a=D0XLA9XvdZm18NrgonBM:22 a=L0fzO-P85HkJbeZJe4ir:22 a=3gWm3jAn84ENXaBijsEo:22 a=HJRSn2hXXqGixlvEXVkw:22 a=ST-jHhOKWsTCqRlWije3:22
-X-CM-Envelope: MS4xfGPOuwILOJLL4jmFOiYxA3tDqH2nj3NyTyL/N+AZJa+axFB0g7zMvdy6vxBc4+AhvwlElpGw/LVDbKjEQSFT+RqJgcrATO+E0mDFOQ00r2127E+xxU7x zLYSUfg8vWGzQesNDM9lZJ0vPCVcZLJ7ZTFFPJNEQG8E+UZbryaM8d3+6hvIRTasqitjsuo0JctNGxLAe9vw94QP1ZyuPqMD8C5DSry4g5V2tAgznycqaRIy G14E/7KIPVv5TwuXxdfRXjGg0EV/WHVontockcD3l+veJn19gvAdgTIivkPDuwbHYn0OJKQtHv6bLBcJcI80k8WIg4KvBhxTxhnvxmhGd+/NKP6ld5ZyDFkg 6K2nc5aVMG/7XvG+FhA5/61g1w4AQAHOAlaZcgCN6z+fyRoES2y/tT+ikWQDhT00srekC6QHfgwjLHFpW+XlSaD1mKpeAoX7NDtl0tZFNrIpPpqb0ESNXvMO JBqvQwdIWNQmYPnry1cDWbmK2dzLvdJ2K6rAoun5L4li5WO1g/BmRL7/3iivSFHxcx0PWDDRZ0OvJIyGkvAULVQ0vFZrlo9H0MY6Yr3TCsa9JrTAvDro9TtZ Aro9qsgVpBdsKGXxmLUwlxbKHLegDssBu8vywVwDkmz3JrsgkTHJeJbzBP0PTiMJLPs6Kqewwvl4XGku4Z23iyCdkrgK2S9AbA1GVaJ7feLjATbBHb7/Urt7 VU3racNvwvgqnaz/an9qv2LYh9lqw+BsnFn0Itf6MWvsoHyLUwn5fH2uii746honzSZhEOy8A+OI9YL+KbgDaFRQs7DbNSHDch25gPGfFCx1m2wat5mba9xD 4ryDGp7JY4zP0Q2vWMlNA1XI0OPrIilyzYcxK23osos8dZdJqjVyPFZRQ3iMEag1BPAUl1b6KaNA7oPPZhO2AMer85Z6xsmWnN/RRP70yWpKwAyxZfAAlPEU 2VpMZYLKWShj3Aj
- 1pFJNJVodLihqOuiylS8LUXr4q87Ioe19EfBC5Ey1F7S2OQVBYSsNxnxVg1yedpnLvo4PldfsU/7wpPVV25Xqt2m+sWq1rgC774m4Dl0a juSmiy7I17CHH6nxir7AWRJL6ERinYGtiOVK/0JgjVtcZUdTWi/JOO+P5rQv1bQY9Ko/Y7s/HydC0vhI4d4e2+1LJ2r9cmWQbKm/Fp648XLvaCcXWd3XAKG1 Z2JlTzZiqzUPdrLzm896WQSD5JBwVHubb2DFmuToqWlWIsKKExDZs60cTOJkHptqDnFlr4f44ux+vH4Vag3eK7KqEqP4Q0WrzH/MHiWVQBR5ircvG7N8koU9 pl6Sy/zc
-Message-ID: <71a1ba46-04c3-4694-95e7-9e2906b1d899@jjverkuil.nl>
-Date: Mon, 21 Apr 2025 14:31:34 +0200
+	s=arc-20240116; t=1745238834; c=relaxed/simple;
+	bh=w3jVRkUzSU6xT+Vsxh3flhA4WFck7Z0fyeNRc1U9o2I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=D56oNxkwx3yt3UntkgKX6fP05PbIvRwbRcJPRwdqsLBGjfGxqI3/MgEkLHUeSeaBxExMhJwlVjlN64/eWeId5XPgJkOTvvBhNeXKfrKO5Hn1/MvB0yf3lCEMho4liSPikaYDh5gwUEzhw2uf3mIdCPjPRHPwceVhCFsndsndlwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=fjRH5zQB; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53LA5WM7005727;
+	Mon, 21 Apr 2025 12:33:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	iAStOVR6nXLVjg+Wn12gPmbybLZ9XWQDUMuqXipQ2xA=; b=fjRH5zQBraCfroZ/
+	gmQtH4kaVI5nV5XNWIl8r38/3Uh7JnoqREEeHzRvJoDVbnXyt/mWhEUiZFxIsXtB
+	56Vvx+VgneLPX7qDyRK2b83YW6NieFyhUOsKy65bIuBJqmSExp8sR2cgit2SzEWD
+	cDdltCKSvTul6RXZKSMFKAqee0nUkolb58s7puKeHYR6+KeLbF40u0kox7rDEqYP
+	ZdYO9qflxI4G8pGeIAI3xo8KAq2NKl6J4evgHFo+1SquLScZOTtko0PNT3q1kR1A
+	Kw/ghmUze0YlRNrg75MCUtpqVJ08FJXpNjhRVbgQ7lvWd+bW/cemQHAL78tKlQZb
+	uesGWA==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 464426m41m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 21 Apr 2025 12:33:48 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53LCXlHc024734
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 21 Apr 2025 12:33:47 GMT
+Received: from [10.204.100.69] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Mon, 21 Apr
+ 2025 05:33:43 -0700
+Message-ID: <71f3e23d-4f47-b047-9d41-9e3818f08849@quicinc.com>
+Date: Mon, 21 Apr 2025 18:03:41 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Hans Verkuil <hans@jjverkuil.nl>
-Subject: [ANN] Media Summit May 13th: Draft Agenda (v2)
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sean Young <sean@mess.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Ricardo Ribalda <ribalda@chromium.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Michael Tretter <m.tretter@pengutronix.de>, Tomasz Figa
- <tfiga@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>,
- Steve Cho <stevecho@chromium.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Kevin Hilman <khilman@baylibre.com>, Paul Kocialkowski <paulk@sys-base.io>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Arthur Vinchon <arthur.vinchon@allegrodvt.com>,
- Marco Felsch <m.felsch@pengutronix.de>,
- Jackson Lee <jackson.lee@chipsnmedia.com>,
- Mirela Rabulea <mirela.rabulea@nxp.com>, Hans de Goede
- <hdegoede@redhat.com>, Jai Luthra <jai.luthra@ideasonboard.com>,
- Devarsh Thakkar <devarsht@ti.com>, Maxime Ripard <mripard@kernel.org>
-Content-Language: en-US, nl
-Autocrypt: addr=hans@jjverkuil.nl; keydata=
- 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
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spampanel-Class: ham
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v2 4/4] media: iris: add qcs8300 platform data
+Content-Language: en-US
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Dikshita Agarwal
+	<quic_dikshita@quicinc.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio
+	<konradybcio@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20250418-qcs8300_iris-v2-0-1e01385b90e9@quicinc.com>
+ <20250418-qcs8300_iris-v2-4-1e01385b90e9@quicinc.com>
+ <59ffb7c7-95b8-47e9-91ab-3c7cd7b3fe02@linaro.org>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <59ffb7c7-95b8-47e9-91ab-3c7cd7b3fe02@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: zDI7HLxZxuzDNxDuCva5mUHONCBLvRS1
+X-Proofpoint-GUID: zDI7HLxZxuzDNxDuCva5mUHONCBLvRS1
+X-Authority-Analysis: v=2.4 cv=IP8CChvG c=1 sm=1 tr=0 ts=68063b2c cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=W6ytlbDq_6f7t7Mh7GMA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-21_06,2025-04-21_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=999 spamscore=0
+ mlxscore=0 malwarescore=0 clxscore=1015 priorityscore=1501 bulkscore=0
+ suspectscore=0 lowpriorityscore=0 phishscore=0 adultscore=0
+ impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504210097
 
-Hi all,
 
-Here is my v2 of the draft agenda for the media summit. The only changes
-are dropping Sebastian's email and fixing Devarsh' email.
-
-As always, this draft agenda is subject to change and all times are guesstimates!
-
-Please note that I am transitioning from my old hverkuil@xs4all.nl email to
-my new hans@jjverkuil.nl email. If you have problems replying to that new email,
-please let me know and just send it to the old email (that won't go away).
-
-The Media Summit will be held Tuesday May 13th to coincide with
-the Embedded Recipes Conference in Nice, France:
-
-https://embedded-recipes.org/2025/
-
-Note that there are also some workshops held after this conference:
-
-https://embedded-recipes.org/2025/workshops/
-
-And a gStreamer hackfest:
-
-https://discourse.gstreamer.org/t/gstreamer-spring-hackfest-2025-on-16-18-may-2025-in-nice-france/4366
-
-The Media Summit will be held at Hotel Campanile:
-
-https://nice-aeroport.campanile.com/en-us/
-
-It is close to the Airport and to the Embedded Recipes venue.
-
-The meeting room can hold up to 30 people and has video conferencing support; it is
-sponsored by Collabora and Cisco Systems Norway.
-
-We currently have the following confirmed in-person attendees:
-
-Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> (Media Maintainer, Huawei)
-Nicolas Dufresne <nicolas.dufresne@collabora.com> (Collabora)
-Hans de Goede <hdegoede@redhat.com> (RedHat)
-Paul Kocialkowski <paulk@sys-base.io> (sys-base)
-Jai Luthra <jai.luthra@ideasonboard.com> (Ideas on Board)
-Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas on Board)
-Ricardo Ribalda <ribalda@chromium.org> (Google)
-Maxime Ripard <mripard@redhat.com> (RedHat)
-Devarsh Thakkar <devarsht@ti.com> (Texas Instruments)
-Hans Verkuil <hans@jjverkuil.nl> (Media Maintainer, Cisco Systems Norway)
-Arthur Vinchon <arthur.vinchon@allegrodvt.com> (Allegro DVT)
-
-As you can see, there is enough room for more people, so don't hesitate to
-register by sending an email to me. The deadline is May 2nd.
-
-And the following remote participants:
-
-Marco Felsch <m.felsch@pengutronix.de> (Pengutronix)
-Martin Hecht <mhecht73@googlemail.com> (Avnet Silica)
-Hu, Jerry W <jerry.w.hu@intel.com> (Intel)
-jackson.lee <jackson.lee@chipsnmedia.com> (Chips 'n Media)
-Mirela Rabulea <mirela.rabulea@nxp.com> (NXP)
-Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
-
-Note: information on how to connect remotely will come later.
-
-If any information above is incorrect, or if I missed someone, then please let me know asap.
-
-Draft Agenda:
-
-9:00-9:30: Get settled :-)
-
-9:30-9:40: Hans Verkuil: Quick introduction
-
-9:40-10:30: Jai Luthra: Per-stream V4L2 controls
-
-10:30-11:15: Paul Kocialkowski: Stateless video encoding uAPI
-
-11:15-11:30: break
-
-11:30-12:15: Ricardo Ribalda: Openness Framework for ISPs
-
-12:15-13:30: lunch TBD
-
-13:30-14:00: Laurent Pinchart: Review of the status of staging drivers
-
-14:00-15:00: Hans Verkuil: Status of Media CI/Multi-committers
-
-15:00-17:00: TDB
-
-Please reply with corrections, questions, etc. to this email. I'll update the agenda
-over time. Again, these times are very preliminary.
-
-Also, as you can see we are light on topics, so don't hesitate to add more.
-
-Part of the reason for this is that we switched to co-locating from the ELCE to the
-Embedded Recipes conference, so it is only 8 months since the previous Media Summit.
+On 4/18/2025 4:05 PM, Bryan O'Donoghue wrote:
+> On 18/04/2025 07:28, Vikash Garodia wrote:
+>> QCS8300 has a downscaled video core compared to SM8550, while it has
+>> same bindings as that of SM8550. QCS8300.h captures the capabilities for
+>> QCS8300 which is delta from SM8550.
+> 
+> QCS8300 as a down-scaled .... compared to the SM8550.
+> QSC8300 has the same bindings as SM8550 ?>
+> Actually that makes not a world of sense as I read it.
+> 
+> I'd suggest rewording this commit to just state what the QSC8300 itself can do
+> without assuming the reader has any prior knowledge of the SM8550.
+> 
+> Same comment for the other commits.
+> 
+> Tell us what the QCS8300 is and what it does.
+Given the patch adds the structures which are delta over 8550, it is more
+relevant to compare with 8550 and describe the delta aspects.
+> 
+>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+>> ---
+>>   .../platform/qcom/iris/iris_platform_common.h      |   1 +
+>>   .../media/platform/qcom/iris/iris_platform_gen2.c  |  57 ++++++++++
+>>   .../platform/qcom/iris/iris_platform_qcs8300.h     | 124 +++++++++++++++++++++
+>>   drivers/media/platform/qcom/iris/iris_probe.c      |   4 +
+>>   4 files changed, 186 insertions(+)
+>>
+>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h
+>> b/drivers/media/platform/qcom/iris/iris_platform_common.h
+>> index
+>> 6bc3a7975b04d612f6c89206eae95dac678695fc..3191a910653ce4bd71de9a0b4465fd583602adf6 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
+>> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+>> @@ -36,6 +36,7 @@ enum pipe_type {
+>>   extern struct iris_platform_data sm8250_data;
+>>   extern struct iris_platform_data sm8550_data;
+>>   extern struct iris_platform_data sm8650_data;
+>> +extern struct iris_platform_data qcs8300_data;
+>>     enum platform_clk_type {
+>>       IRIS_AXI_CLK,
+>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+>> b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+>> index
+>> 5ff82296ee8ea5ad3954bd2254594048adcb8404..723e9f4cef42408168aca22b34ccd0a674a4fd25 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+>> @@ -11,6 +11,7 @@
+>>   #include "iris_vpu_common.h"
+>>     #include "iris_platform_sm8650.h"
+>> +#include "iris_platform_qcs8300.h"
+>>     #define VIDEO_ARCH_LX 1
+>>   @@ -326,3 +327,59 @@ struct iris_platform_data sm8650_data = {
+>>       .dec_op_int_buf_tbl = sm8550_dec_op_int_buf_tbl,
+>>       .dec_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_op_int_buf_tbl),
+>>   };
+>> +
+>> +/*
+>> + * Shares most of SM8550 data except:
+>> + * - inst_caps to platform_inst_cap_qcs8300
+>> + * - inst_fw_caps to inst_fw_cap_qcs8300
+>> + */
+>> +struct iris_platform_data qcs8300_data = {
+>> +    .get_instance = iris_hfi_gen2_get_instance,
+>> +    .init_hfi_command_ops = iris_hfi_gen2_command_ops_init,
+>> +    .init_hfi_response_ops = iris_hfi_gen2_response_ops_init,
+>> +    .vpu_ops = &iris_vpu3_ops,
+>> +    .set_preset_registers = iris_set_sm8550_preset_registers,
+>> +    .icc_tbl = sm8550_icc_table,
+>> +    .icc_tbl_size = ARRAY_SIZE(sm8550_icc_table),
+>> +    .clk_rst_tbl = sm8550_clk_reset_table,
+>> +    .clk_rst_tbl_size = ARRAY_SIZE(sm8550_clk_reset_table),
+>> +    .bw_tbl_dec = sm8550_bw_table_dec,
+>> +    .bw_tbl_dec_size = ARRAY_SIZE(sm8550_bw_table_dec),
+>> +    .pmdomain_tbl = sm8550_pmdomain_table,
+>> +    .pmdomain_tbl_size = ARRAY_SIZE(sm8550_pmdomain_table),
+>> +    .opp_pd_tbl = sm8550_opp_pd_table,
+>> +    .opp_pd_tbl_size = ARRAY_SIZE(sm8550_opp_pd_table),
+>> +    .clk_tbl = sm8550_clk_table,
+>> +    .clk_tbl_size = ARRAY_SIZE(sm8550_clk_table),
+>> +    /* Upper bound of DMA address range */
+>> +    .dma_mask = 0xe0000000 - 1,
+>> +    .fwname = "qcom/vpu/vpu30_p4_s6.mbn",
+>> +    .pas_id = IRIS_PAS_ID,
+>> +    .inst_caps = &platform_inst_cap_qcs8300,
+>> +    .inst_fw_caps = inst_fw_cap_qcs8300,
+>> +    .inst_fw_caps_size = ARRAY_SIZE(inst_fw_cap_qcs8300),
+>> +    .tz_cp_config_data = &tz_cp_config_sm8550,
+>> +    .core_arch = VIDEO_ARCH_LX,
+>> +    .hw_response_timeout = HW_RESPONSE_TIMEOUT_VALUE,
+>> +    .ubwc_config = &ubwc_config_sm8550,
+>> +    .num_vpp_pipe = 2,
+>> +    .max_session_count = 16,
+>> +    .max_core_mbpf = ((4096 * 2176) / 256) * 4,
+>> +    .input_config_params =
+>> +        sm8550_vdec_input_config_params,
+>> +    .input_config_params_size =
+>> +        ARRAY_SIZE(sm8550_vdec_input_config_params),
+>> +    .output_config_params =
+>> +        sm8550_vdec_output_config_params,
+>> +    .output_config_params_size =
+>> +        ARRAY_SIZE(sm8550_vdec_output_config_params),
+>> +    .dec_input_prop = sm8550_vdec_subscribe_input_properties,
+>> +    .dec_input_prop_size = ARRAY_SIZE(sm8550_vdec_subscribe_input_properties),
+>> +    .dec_output_prop = sm8550_vdec_subscribe_output_properties,
+>> +    .dec_output_prop_size = ARRAY_SIZE(sm8550_vdec_subscribe_output_properties),
+>> +
+>> +    .dec_ip_int_buf_tbl = sm8550_dec_ip_int_buf_tbl,
+>> +    .dec_ip_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_ip_int_buf_tbl),
+>> +    .dec_op_int_buf_tbl = sm8550_dec_op_int_buf_tbl,
+>> +    .dec_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_op_int_buf_tbl),
+>> +};
+>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_qcs8300.h
+>> b/drivers/media/platform/qcom/iris/iris_platform_qcs8300.h
+>> new file mode 100644
+>> index
+>> 0000000000000000000000000000000000000000..f82355d72fcffe7e361bd30877cccb83fe9b549f
+>> --- /dev/null
+>> +++ b/drivers/media/platform/qcom/iris/iris_platform_qcs8300.h
+>> @@ -0,0 +1,124 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+>> + */
+>> +
+>> +static struct platform_inst_fw_cap inst_fw_cap_qcs8300[] = {
+>> +    {
+>> +        .cap_id = PROFILE,
+>> +        .min = V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
+>> +        .max = V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_HIGH,
+>> +        .step_or_mask = BIT(V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_HIGH) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_PROFILE_MAIN) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_PROFILE_HIGH),
+>> +        .value = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
+>> +        .hfi_id = HFI_PROP_PROFILE,
+>> +        .flags = CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
+>> +        .set = iris_set_u32_enum,
+>> +    },
+>> +    {
+>> +        .cap_id = LEVEL,
+>> +        .min = V4L2_MPEG_VIDEO_H264_LEVEL_1_0,
+>> +        .max = V4L2_MPEG_VIDEO_H264_LEVEL_6_2,
+>> +        .step_or_mask = BIT(V4L2_MPEG_VIDEO_H264_LEVEL_1_0) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_LEVEL_1B)  |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_LEVEL_1_1) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_LEVEL_1_2) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_LEVEL_1_3) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_LEVEL_2_0) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_LEVEL_2_1) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_LEVEL_2_2) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_LEVEL_3_0) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_LEVEL_3_1) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_LEVEL_3_2) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_LEVEL_4_0) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_LEVEL_4_1) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_LEVEL_4_2) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_LEVEL_5_0) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_LEVEL_5_1) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_LEVEL_5_2) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_LEVEL_6_0) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_LEVEL_6_1) |
+>> +            BIT(V4L2_MPEG_VIDEO_H264_LEVEL_6_2),
+>> +        .value = V4L2_MPEG_VIDEO_H264_LEVEL_6_1,
+>> +        .hfi_id = HFI_PROP_LEVEL,
+>> +        .flags = CAP_FLAG_OUTPUT_PORT | CAP_FLAG_MENU,
+>> +        .set = iris_set_u32_enum,
+>> +    },
+>> +    {
+>> +        .cap_id = INPUT_BUF_HOST_MAX_COUNT,
+>> +        .min = DEFAULT_MAX_HOST_BUF_COUNT,
+>> +        .max = DEFAULT_MAX_HOST_BURST_BUF_COUNT,
+>> +        .step_or_mask = 1,
+>> +        .value = DEFAULT_MAX_HOST_BUF_COUNT,
+>> +        .hfi_id = HFI_PROP_BUFFER_HOST_MAX_COUNT,
+>> +        .flags = CAP_FLAG_INPUT_PORT,
+>> +        .set = iris_set_u32,
+>> +    },
+>> +    {
+>> +        .cap_id = STAGE,
+>> +        .min = STAGE_1,
+>> +        .max = STAGE_2,
+>> +        .step_or_mask = 1,
+>> +        .value = STAGE_2,
+>> +        .hfi_id = HFI_PROP_STAGE,
+>> +        .set = iris_set_stage,
+>> +    },
+>> +    {
+>> +        .cap_id = PIPE,
+>> +        .min = PIPE_1,
+>> +        .max = PIPE_2,
+>> +        .step_or_mask = 1,
+>> +        .value = PIPE_2,
+>> +        .hfi_id = HFI_PROP_PIPE,
+>> +        .set = iris_set_pipe,
+>> +    },
+>> +    {
+>> +        .cap_id = POC,
+>> +        .min = 0,
+>> +        .max = 2,
+>> +        .step_or_mask = 1,
+>> +        .value = 1,
+>> +        .hfi_id = HFI_PROP_PIC_ORDER_CNT_TYPE,
+>> +    },
+>> +    {
+>> +        .cap_id = CODED_FRAMES,
+>> +        .min = CODED_FRAMES_PROGRESSIVE,
+>> +        .max = CODED_FRAMES_PROGRESSIVE,
+>> +        .step_or_mask = 0,
+>> +        .value = CODED_FRAMES_PROGRESSIVE,
+>> +        .hfi_id = HFI_PROP_CODED_FRAMES,
+>> +    },
+>> +    {
+>> +        .cap_id = BIT_DEPTH,
+>> +        .min = BIT_DEPTH_8,
+>> +        .max = BIT_DEPTH_8,
+>> +        .step_or_mask = 1,
+>> +        .value = BIT_DEPTH_8,
+>> +        .hfi_id = HFI_PROP_LUMA_CHROMA_BIT_DEPTH,
+>> +    },
+>> +    {
+>> +        .cap_id = RAP_FRAME,
+>> +        .min = 0,
+>> +        .max = 1,
+>> +        .step_or_mask = 1,
+>> +        .value = 1,
+>> +        .hfi_id = HFI_PROP_DEC_START_FROM_RAP_FRAME,
+>> +        .flags = CAP_FLAG_INPUT_PORT,
+>> +        .set = iris_set_u32,
+>> +    },
+>> +};
+>> +
+>> +static struct platform_inst_caps platform_inst_cap_qcs8300 = {
+>> +    .min_frame_width = 96,
+>> +    .max_frame_width = 4096,
+>> +    .min_frame_height = 96,
+>> +    .max_frame_height = 4096,
+>> +    .max_mbpf = (4096 * 2176) / 256,
+>> +    .mb_cycles_vpp = 200,
+>> +    .mb_cycles_fw = 326389,
+>> +    .mb_cycles_fw_vpp = 44156,
+>> +    .num_comv = 0,
+>> +};
+>> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c
+>> b/drivers/media/platform/qcom/iris/iris_probe.c
+>> index
+>> 7cd8650fbe9c09598670530103e3d5edf32953e7..e5f1896e55c390e920d206e7fc2c2be283bb39d8 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+>> @@ -349,6 +349,10 @@ static const struct of_device_id iris_dt_match[] = {
+>>           .compatible = "qcom,sm8650-iris",
+>>           .data = &sm8650_data,
+>>       },
+>> +    {
+>> +        .compatible = "qcom,qcs8300-iris",
+>> +        .data = &qcs8300_data,
+>> +    },
+> This is out-of-order, alphanumeric sorting puts qcs8300 before smX.
+ok.
+> 
+>>       { },
+>>   };
+>>   MODULE_DEVICE_TABLE(of, iris_dt_match);
+>>
+> 
+> Also the ordering of this patch in the series is a bit odd.
+> 
+> - Compat string
+> - Driver changes
+> - DT updates
+> 
+> Please fix.
+above sugested order looks better.
 
 Regards,
-
-	Hans
-
+Vikash
+> 
+> ---
+> bod
 
