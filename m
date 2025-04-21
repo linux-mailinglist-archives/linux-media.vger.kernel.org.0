@@ -1,153 +1,150 @@
-Return-Path: <linux-media+bounces-30566-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30567-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71B7BA94A80
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 03:43:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B67AA94BA3
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 05:29:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 50C37189136D
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 01:44:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5931D3B050E
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 03:29:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26E331EFFB1;
-	Mon, 21 Apr 2025 01:43:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O38jb5/4"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D8802571CC;
+	Mon, 21 Apr 2025 03:29:34 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from CHN02-SH0-obe.outbound.protection.partner.outlook.cn (mail-sh0chn02on2134.outbound.protection.partner.outlook.cn [139.219.146.134])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7CA11E7C27;
-	Mon, 21 Apr 2025 01:43:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745199821; cv=none; b=UBZbEP+K4wm/eGGtUWyKqLdPD7Jrslj+/FQH6BNNw8aNOt/BOelAmMh+qTSbx/LUojQ2S58Q1ABjc1i+XZHoA/PqiIyW/3Nh26qMr5VDn1MTRKCHfkHm1QodCrmR35bzoFjYh/4UcD5c3/xtscBvUlQDE2RWr0hJqw3m5lGSNMM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745199821; c=relaxed/simple;
-	bh=MOYF82J+ac9gABW8VzDV2CQ2CSZs0LmILZ99u8uayZo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=vBKBiVjZBMu3quHwkGF7Poa3UYo6ctLZncWX88RO6CNXeiIT8G0DYnJrcVHv8Giq+AY/ClY5L0AU8J1mOHSXb1FPnSAaWw/GisA693YxnxJUkesA5QU4brDdXrpCurx7j5PWPBE3BCq7RHWjRj80gEfp82XRqoNMvLYg0IC/Oec=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O38jb5/4; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-54b10594812so3621053e87.1;
-        Sun, 20 Apr 2025 18:43:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745199818; x=1745804618; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DpS0KEUlLdQcSMNwZJjnNvJaeGfYxduqpah6Qs8zdH8=;
-        b=O38jb5/4uaAcEJgNWWLQwnZb11rG7lITaCFlTMtCRHn5dDV4hBfZQA5J1J8YvpQeku
-         4gi+cjIotyPsuqQzG11kBWu2TNBaequn8ybnvp5jj6/CazT+iU1N7obivycCAFwfWJ8J
-         Dq0a+xTZJsO0o2OH2fHU/fE56qKRz6hDBjWn8NUocJSzbRCxB66vTlCFbwmW8MAHEpsC
-         3pjIZJSdPuLRXwetX/B1QfIDkqS28QJ1x05wlbMg0ckGdoF4Oy8VdKjx1r4qgBWJTehK
-         IyJ3wRsM0/Z4uDDpdM+MCxMruNdfym1rJVHd/3sLGIq6mFDI+i7d6CZI65HMO7FhZgq7
-         slGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745199818; x=1745804618;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DpS0KEUlLdQcSMNwZJjnNvJaeGfYxduqpah6Qs8zdH8=;
-        b=Ap4WC8QpaVofVE1ILdAxl5os3Xo+3Hg4bHR1e9PK6GZVyBG2pN8yytQoTt7wgjXwQB
-         EVKdQaFWQadFGEeS2R6/wMBG85wOI6DkE/34jcTttXMqrxmfSFRvNqVz4j2faXR5seA7
-         7YBlDuTR3AhLd8ozLXQvND20Mk4J6L2oo4QHz7xzRABUB4CPdsUUIHAFu1wi1UYR6IM/
-         VnbKU+u6vPY2x54lEZK6a7/hJkf//hxxP4RNj73COSvRCcHAwmKs8051zhz5+NiMQO8u
-         +Uv/pYEK8tT16XGOR0mtdz99LEFlD50iJthWOh5nS1EUXiJIC7sIT9Nxmg6bE+7CXVZi
-         T95g==
-X-Forwarded-Encrypted: i=1; AJvYcCU9saDmo113Na/As0DZu7Pc2si1Qt7oTsFBcD4HA7CMAJj4FZ98s2nt1szWWR8XYGX7AWzwBJnFbNcSXy0=@vger.kernel.org, AJvYcCUsQs+/u4EuzDF5SwZbEppd9AAFTmq6mGBOism2ii25xtQxsQ0crqEi04ORxVoVvemn1gjI7MF4DcabVReZ@vger.kernel.org, AJvYcCV1rJRG9VuOxVQUdlnxGNE6xrBoauiOhaobdEhHE3BtZUl9J0xraiYXoH/IFthw5J8kVnIAL9xb02nE4fU=@vger.kernel.org, AJvYcCX0vMASYanrx4jv82VosnktSciwyjUlUD9XhrsIm71+KUllKIrhm/gpYv27ffKIXCtlA31TP9opJxIk@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6rHU1iG9VV9Apq8DoQBN5PPVouSTpd/EttM3HjdJYcEdSyGOe
-	OnZuUlJnIpAzyIkAwyhYH8NfQsZOkfmNUJtAGnVM3WVfdq5RSvphoLIiTmMMuOHmiqxoXGS5KMG
-	s0yEo6xWB8V+NRTTM81dh4oTpPaE=
-X-Gm-Gg: ASbGncvphEyGp/3bCUOYsQuCWLtG0EHVRM7O1OMs6PhYQ58lpqzJr3Cy+OMmoWDp5Mq
-	G4zD5juJZEjxok6c/RSSELiNG6g43q//EUOfPOLMYo4DDpODZ5rHSMCQwzVOgAdUS5EhyZjIfvE
-	b8gd3bUUDRaah6xJS/H76lDg==
-X-Google-Smtp-Source: AGHT+IHNdRDDCkNPMCQPVOMIJFLxy2Rn/DmGrNa5Qiist6NyTZ7EYMUFG7UDfR4A8e66olcb9KNltjgQKOTJhDVu8qg=
-X-Received: by 2002:a05:6512:3d89:b0:549:5802:b32d with SMTP id
- 2adb3069b0e04-54d6e61a9bdmr2967588e87.3.1745199817687; Sun, 20 Apr 2025
- 18:43:37 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDEED1EB1BA;
+	Mon, 21 Apr 2025 03:29:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=139.219.146.134
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745206174; cv=fail; b=Ajbwrsc+u3oppUes8dT88euMAndQsCMGKgJ/OoaN2hrEGgizY5vwhyzZEnLz2zQuaNXg+Hzu11osGwNM6AzwfQw48xI30YUzJ02Py3fReMF3VZu9IySRGuOAFVsvWbJ6OuOuGFuz3kSa2Z4nUAPjsUZyYvkGSnpj3urHTpPtlYY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745206174; c=relaxed/simple;
+	bh=m7zSr++p/K1LZKQjqPs9FXCJ0530VPsRkd/Q9Dvr3W0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=SFqZdOzgwdO2QWC4UdcAb2dbJsWIbjoymFUcF3qCkB1WkmhhD63YdYyvQqy2Ww2+lqjHozmOuUXicFvVb3m7kDYhwNxDdkYmEvT0wV/a9Kdm3diDyIv3AJYbMqfGXmeTS/WyhMB1U+XPVefHvuvVp+qZNfKqgMHt3bzBLyCP2ZI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com; spf=pass smtp.mailfrom=starfivetech.com; arc=fail smtp.client-ip=139.219.146.134
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=starfivetech.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=starfivetech.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JF7A50HK34pMdu1wYsH3HZR3LLnUwQ4MXjF4Z94N9A9SCk66xlsu11I0uzgNKos26Md5oroK0p+oe9BVYEn+93nHRdfUPE3RxdeLpCQj/mnGM4npGkQ9mAB/8FWed+P7tbMV2OLw5x1IAlx7DDXn7J8dShq6rESKTMCdXh9pwDPD1TrvJ3EGjokD/JnLiUmsQpSNbloWjBcOPkUZyw+zyTGRBkXlmItlukPPAlPy4OS/EZpiKnWIt7lh7HlDaOW/tE0rD6ZpuKjUkjO7tacGzxHHhNg4iiWNVolVt/QVeWonmQ0GOpSVkMVVsrqLP+knlTI5jcq6JIwfNvAURNmEKQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sESeRFmd+/vde2FbmYt5/7JPn8mt5njyU7DiuJqm2GM=;
+ b=epUQkXCGbjLyjmopK0A4vqWbDih+8kQA+NCnpYxQu4Kd2Ta1SVLmn9L+T2SJtz83J+7KQN/MM1raMfWXANyHrZeF6ORyiJ02I08oPvevwsDABMVwkHQ1PyOwhLTDWWspoxEBcuK3VbapyEMv1k7O6RdEgdPGQbIOWBAVwAfWzlBLw7DYd2cXu2CEVjYMJGhZ0zibP3fcZdwHskFN32QKYCkojErUFHgRjXEyeZy1Fpk9Cr35oS65rKqgCI2O8SjcXROdewL4NB4cC2x9OHm4E4thOKEDKhfQbCYmm5Aonkzki286eRZ48EBjMsqTQ8tqxwuGjver8BPV1keC1/lQ2g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=starfivetech.com; dmarc=pass action=none
+ header.from=starfivetech.com; dkim=pass header.d=starfivetech.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=starfivetech.com;
+Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:1b::9) by ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:1b::9) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.35; Mon, 21 Apr
+ 2025 03:29:18 +0000
+Received: from ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ ([fe80::64c5:50d8:4f2c:59aa]) by
+ ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn ([fe80::64c5:50d8:4f2c:59aa%5])
+ with mapi id 15.20.8655.033; Mon, 21 Apr 2025 03:29:18 +0000
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+To: y-abhilashchandra@ti.com
+Cc: conor+dt@kernel.org,
+	devarsht@ti.com,
+	devicetree@vger.kernel.org,
+	jai.luthra@linux.dev,
+	krzk+dt@kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	mchehab@kernel.org,
+	mripard@kernel.org,
+	r-donadkar@ti.com,
+	robh@kernel.org,
+	u-kumar1@ti.com,
+	vaishnav.a@ti.com,
+	changhuang.liang@starfivetech.com
+Subject: [PATCH v6 2/2] media: cadence: csi2rx: Enable csi2rx_err_irq interrupt and add support for VIDIOC_LOG_STATUS
+Date: Sun, 20 Apr 2025 20:29:10 -0700
+Message-Id: <20250421032910.41146-1-changhuang.liang@starfivetech.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250416121938.346435-3-y-abhilashchandra@ti.com>
+References: <20250416121938.346435-3-y-abhilashchandra@ti.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: ZQ0PR01CA0017.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:5::18) To ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+ (2406:e500:c550:1b::9)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250413-tegra-cec-v4-0-b6337b66ccad@gmail.com>
-In-Reply-To: <20250413-tegra-cec-v4-0-b6337b66ccad@gmail.com>
-From: Aaron Kling <webgeek1234@gmail.com>
-Date: Sun, 20 Apr 2025 20:43:26 -0500
-X-Gm-Features: ATxdqUFyihmJ0tUQEv8u_PoNpcqZdxte4yh-YD150uJwUoMIq9SpK5CAACPvM5s
-Message-ID: <CALHNRZ-+4cVgK0FAuPir2-m4O2Kvib=VBXL4E9kVjvxx0e1B=Q@mail.gmail.com>
-Subject: Re: [PATCH v4 0/4] Tegra CEC Updates
-To: webgeek1234@gmail.com
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	linux-tegra@vger.kernel.org, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: ZQ0PR01MB1302:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7c035892-4cef-4e97-9864-08dd8084b2e3
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|41320700013|1800799024|7416014|52116014|38350700014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	qLS5jqp57gTvV2JIyWjwCwpgGPoKJQUKppYoTEyZdH5fiFKL/NJbowEd+xIkJE82PqaIXOHPX3mbHpRX6yOkWBpa8R2YF46kvxHmO2AV3v7GfzJbmjI6EQB11iWMCmRXxeV1bM1H4QxsMO7L2Yq4rPIz1kisn/ldWs2UUb2ASyqBA0u3zRZ9OyL3molf3Xmg0wNIbrAMRKlVe1oRhNT1GSdx7ca2hC17LvETlYqgUS/ticP2E59Z7rw8cRXyOB51/zHTqF9wR8U40yvoUlPep1s8AndENTHhz8Ak4CzJw+koQv/DDFNgKtTIUOmHOA+QRkVbI1FH7BM253+jtXAHQ/OkypSjy9pZWHdK7qfF9goW3XGJVH8ql/MNltjIMBQaxwxErJ0oX8ctHJTF9C27kcMmO3NW49MLNdGvWKjddf1I8+Ff5LJFRLWPcqfCGqiKsCyR284jNKmpEgbX28OhnryinXvFX6DJ2EBnvwwxN737F6UnFvUwWmUX02YsvQI8q/SZ3y0fGfrFQK4LG8hF4moNDfFyJ/fBsqRKo1/lEWwj5CTqKLnbFNMQYsT8y94kWHbyOn3BAUKtarUpyPxgB7Zkpyie2av+IZJWCFXhXYQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn;PTR:;CAT:NONE;SFS:(13230040)(366016)(41320700013)(1800799024)(7416014)(52116014)(38350700014)(7053199007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?KK9pI7VjYoZuFwOfbggsI4DGB4EAtriBCUTpex9bFtY88trYRd3T7ngExQAN?=
+ =?us-ascii?Q?2GtTczwfu1gvWyfaCBGML8Db+oxSGWMUP7DVu4YcedJ5u16ZWzrJDeW/tcJO?=
+ =?us-ascii?Q?1zC6n1w32wdwhihN9+UEiqfoMx/Pu7YrMW4WbapDlYbughI2UGWHcYPK5cyU?=
+ =?us-ascii?Q?rA7uz042iXsbR/XGMO3eFHluvHffV6Ryal40TJaBsVPVFXlXw2ZUlYjDmd69?=
+ =?us-ascii?Q?Bbo7+OR3eo+Y4dh68ENhqNCYMPmPbzKUMm3ZyWRrqKlbXk1v12pCNmpZp/r/?=
+ =?us-ascii?Q?+T54ki3fYRza6oNyckVB6O2Gii7p7KNgcci4E+o5nuD0NbEf9SEsejaitqr/?=
+ =?us-ascii?Q?bRGIMa8o+56rhu5IaJhgE/Achk3x8wp4CIh3/3wT0n8BxS7dahqsqMr4SlKV?=
+ =?us-ascii?Q?FQqhAk+/2aZshXzSgc0krqQDhFWuq39KBSK2tGzz/bVjzub7TH3z1JFBP6nO?=
+ =?us-ascii?Q?1xE49DWZragHSN2G/+3vhiS090/ZuETbTQ4EmBV1kerek6dvb+3FF0WWP+7a?=
+ =?us-ascii?Q?wIEYt1kK39HeVGMda5i5GiSRkZvYX8UAM3mn8z56F74YygWEjKqt8Or0KNBE?=
+ =?us-ascii?Q?QxusPDpqA+dIoTM/4Zey6eLLCKC1/Pqo0GoiPSQ70zMko6EmEA6ttQEVtULO?=
+ =?us-ascii?Q?Y5PjDMZ/dI30n9j6GDaRfGcCcnmpdWLHf7agMNwHDBYoGHyziv63YBzCngFo?=
+ =?us-ascii?Q?HQOWI7hBrzFQV9972FT3zHaw7xHCZSHGoSyacCiEagTBwTP+cu0aL1l8tCJO?=
+ =?us-ascii?Q?zn/dqld8qgBqW+jcuJAYdmHFdrCYKz6jMv4kEUJFEk3iHZiP+gRiykfDb2ox?=
+ =?us-ascii?Q?jKVGp0O7kSYkHBYvOm+kFHfscH81tS4UdTJyJY5GL5Rc63hyPyCM+3CAxnUV?=
+ =?us-ascii?Q?o+5keRDsCB2F5tEi3KbN4Mk9PRerVXQqEbtM9pXvvYTJii1v+1nzIQ8jM0Hk?=
+ =?us-ascii?Q?2evPxzclmEH19f5gTP8RaXfk0KpnEeZBj/3W9p3Lb3vjejvo1RVX9+ZHoc+C?=
+ =?us-ascii?Q?SpJdibJr88ingcA46wvYsV+PCzOKW6EWgDodczaai3DSxVG/8OBPG5K9x72D?=
+ =?us-ascii?Q?rWYahERukTjjZr6ZJy7m/wL9tvANQ0rpov0w02YvIYxW92V/BV0eSdaBhGiR?=
+ =?us-ascii?Q?1MM4qSCK2I6Sm8AGmX7wX0G2VT0M5Yhk1cHmijcCkyOdlOJC8NQklMlVGOVf?=
+ =?us-ascii?Q?AAQsUkzkBGFCbLb/rQRYvpG7MDciO6NMKnVsekUszPtrs5LK6osEEABEtSo/?=
+ =?us-ascii?Q?7wTGZeAJ+sTYnpTv3VYS6wMGaNGey9sIFNaj3ZosJBzzwS5iDsIdwKc0CzEI?=
+ =?us-ascii?Q?3DrPlX1hvlBXPY6u0rSyLXBSrerY9M3FiR/ihunMGLS5FMwIyG3XDoFc2SSo?=
+ =?us-ascii?Q?ONIuJ29WUJ1qlfgkJum4rmlMoJqByLAFE5boFn7q1SQty4AhhY+UHL5eQlyD?=
+ =?us-ascii?Q?ov0RA318CLY7Wchv4WC5Lk+K/6qz0RN85AFvrLAIJFyoccZj+aOq6V9tL3Wt?=
+ =?us-ascii?Q?W2QtW0NjBSadUN4ZvZpnLfB9MDaN4Gqf+I0rMmwviqB8YX4hrPq3jiyM69+Q?=
+ =?us-ascii?Q?ZjMnCJPkTC9X3B4fhEvJAz/2E/LETbFgZvWTnkxioT9IdNNLgW9fhzoUc20X?=
+ =?us-ascii?Q?R09KgUd75TaEZoy436m03vc=3D?=
+X-OriginatorOrg: starfivetech.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7c035892-4cef-4e97-9864-08dd8084b2e3
+X-MS-Exchange-CrossTenant-AuthSource: ZQ0PR01MB1302.CHNPR01.prod.partner.outlook.cn
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2025 03:29:18.3896
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 06fe3fa3-1221-43d3-861b-5a4ee687a85c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WAZZ9kSRVZ8C7YZm8wyGaK6OlAR4crtAOVeL6ruxtfIchRjXpnKvFTBCl3eqbMZUuJHaI/cbvSLDZNJRKWlb9mdEWipASPqAlTvCSbJDUXCVro5tq35282iwNzxIoQBX
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZQ0PR01MB1302
 
-On Sun, Apr 13, 2025 at 2:35=E2=80=AFPM Aaron Kling via B4 Relay
-<devnull+webgeek1234.gmail.com@kernel.org> wrote:
+> Enable the csi2rx_err_irq interrupt to record any errors during streaming
+> and also add support for VIDIOC_LOG_STATUS ioctl. This allows users to
+> retrieve detailed error information during streaming, including FIFO
+> overflow, packet errors, and ECC errors.
 >
-> This series updates Tegra hdmi cec support to be usable out of the box
-> on Tegra210 through Tegra194.
->
-> Signed-off-by: Aaron Kling <webgeek1234@gmail.com>
-> ---
-> Changes in v4:
-> - Fix review comment on patch 1
-> - Link to v3: https://lore.kernel.org/r/20250409-tegra-cec-v3-0-91640131d=
-fa2@gmail.com
->
-> Changes in v3:
-> - Update patch 1 to fix lint warnings
-> - Link to v2: https://lore.kernel.org/r/20250408-tegra-cec-v2-0-2f004fdf8=
-4e8@gmail.com
->
-> Changes in v2:
-> - Dropped patch 2, per request
-> - Added change to declare fallback compatibles instead, as per request
-> - Update patch 1 to allow fallback compatibles
-> - Link to v1: https://lore.kernel.org/r/20250407-tegra-cec-v1-0-e25dd9577=
-b5f@gmail.com
->
-> ---
-> Aaron Kling (4):
->       media: dt-bindings: Document Tegra186 and Tegra194 cec
->       arm64: tegra: Add fallback cec compatibles
->       arm64: tegra: Add CEC controller on Tegra210
->       arm64: tegra: Wire up cec to devkits
->
->  .../devicetree/bindings/media/cec/nvidia,tegra114-cec.yaml | 14 ++++++++=
-++----
->  arch/arm64/boot/dts/nvidia/tegra186-p2771-0000.dts         |  6 ++++++
->  .../boot/dts/nvidia/tegra186-p3509-0000+p3636-0001.dts     |  6 ++++++
->  arch/arm64/boot/dts/nvidia/tegra186.dtsi                   |  2 +-
->  arch/arm64/boot/dts/nvidia/tegra194-p2972-0000.dts         |  6 ++++++
->  arch/arm64/boot/dts/nvidia/tegra194-p3509-0000.dtsi        |  6 ++++++
->  arch/arm64/boot/dts/nvidia/tegra194.dtsi                   |  2 +-
->  arch/arm64/boot/dts/nvidia/tegra210-p2371-2180.dts         |  6 ++++++
->  arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts         |  6 ++++++
->  arch/arm64/boot/dts/nvidia/tegra210.dtsi                   |  9 ++++++++=
-+
->  10 files changed, 57 insertions(+), 6 deletions(-)
-> ---
-> base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
-> change-id: 20250407-tegra-cec-7e3a7bef456f
->
-> Best regards,
-> --
-> Aaron Kling <webgeek1234@gmail.com>
->
->
+> Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
 
-Friendly reminder about this series.
+Reviewed-by: Changhuang Liang <changhuang.liang@starfivetech.com>
 
-Sincerely,
-Aaron Kling
+> ---
+>  drivers/media/platform/cadence/cdns-csi2rx.c | 131 +++++++++++++++++++
+>  1 file changed, 131 insertions(+)
 
