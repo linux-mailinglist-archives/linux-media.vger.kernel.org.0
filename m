@@ -1,247 +1,181 @@
-Return-Path: <linux-media+bounces-30636-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30637-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2152A9555D
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 19:39:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 988F5A95596
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 19:59:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 27D5116E814
-	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 17:39:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1A2EE3B5F31
+	for <lists+linux-media@lfdr.de>; Mon, 21 Apr 2025 17:58:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EA371E573F;
-	Mon, 21 Apr 2025 17:39:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A7811E8358;
+	Mon, 21 Apr 2025 17:58:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="O8LKShYq"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fQOe5UJB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F311C8611
-	for <linux-media@vger.kernel.org>; Mon, 21 Apr 2025 17:39:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727D41E3DFE;
+	Mon, 21 Apr 2025 17:58:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745257163; cv=none; b=VNS2XtFhwuuMswqM/Ha+XXDeYDb5AzZgpFO3dxok1QVc9gjaw9Me2jITjFqSNb7jfClxtKxAbH6XxNMtd0n+AE1K8fXyHvpUywsPBbPgNL+aXaColvkBgcmF9aYr4t3c/3qezh2dypi41RG2JteWdTCEj3KmqJZjUPMPkzgkppM=
+	t=1745258327; cv=none; b=tqSa0+cXT5DX8ZpW9YzxAgtuC54FhRMhDnPZKhZCVCgiCdwRrtnyBgql1gCQUcqCMdzrK1fsGRHCD/EXrIBKCKXBR5pZN6O6+R69pYow2ok1sSw8QkzU90Xi8dCpo2UmfOzlwZEMZYXOdj6N8Ngeysj4Ny1qsfBewM80i6fFG1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745257163; c=relaxed/simple;
-	bh=rgGJoOtOO9sQVp+KiBRaNUVC7+IZfUdSkvdCRNq8t90=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=I0Dm1GYTCLgAKbaX2sQzPSgxca+7xo/70u9kNZ6OVSnvd3QA/I4AVzp79bVtzRdsNLVqScLLXDRWmJ4MUcJH1xKqZINRkWhC6t/paPQlPwToQ1HKt4S+KSwhZGdTeuSq9psX5wvCj4PD8eZmb/QX0l2axfMDRaiBD2cR5eHiTUQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=O8LKShYq; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1745257160;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ywaPb4TMaxfPoP89il7fDDps1XZtg6EhvxyJXxxLxmw=;
-	b=O8LKShYqVUONALeMtGjoMkWggFpYw3HrYcW4Jt47putfgAVW1GXkoaPYbin1gRPa0/IhhH
-	JvkAI9kJ9rG4QgY/qDHwk3A5jfGWQD3sgfy+fE0WFszffpAIkFbuxZNuG2vPZUcScM/UTl
-	Hq4JKt4Pc9gsZoO+XAL2RwZ6MLdRUMc=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-498-3qcBOc70MouvZFdmCOyeGg-1; Mon, 21 Apr 2025 13:39:19 -0400
-X-MC-Unique: 3qcBOc70MouvZFdmCOyeGg-1
-X-Mimecast-MFC-AGG-ID: 3qcBOc70MouvZFdmCOyeGg_1745257158
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-acb98b5b0bdso155682466b.1
-        for <linux-media@vger.kernel.org>; Mon, 21 Apr 2025 10:39:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745257158; x=1745861958;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ywaPb4TMaxfPoP89il7fDDps1XZtg6EhvxyJXxxLxmw=;
-        b=RYnV0fv//7Ii5r/nVrodK7oJpaJpTIo7AlV/ZyYXhKXNdvQxrK4jriY7lWXegNODPo
-         9U2+G0IYwuVogvqOd2iBQ0rH+1GibYa5Q5/+G7P5/189aF13F3axOqMZo5qR/ck9ICTl
-         kvzffoqd4tSUS9TgcgXMpBC+LI9Tq/ocOoczmn3aa8TkeS591ipuGUdLf10Lh9dk3lNI
-         8AN9Q/nA0c1E1YY37Cwa4/PbAPCyeLNQZivSKO2thfvS+h85Nz7Gpd4Of2CIuMjzJ8iz
-         J/x35VEreGSg/yCrZLBkyNjRY7Y+Xq2cTshqYsI1XbQ6hwKxoYISQtxIeJmLoaRdkXJw
-         Oj5A==
-X-Forwarded-Encrypted: i=1; AJvYcCU5fJJRrM+AqrPBAwHxT7MzKdFC9Iexv0/SAe1+6f0sq2PxRzDEaq6Lv3Z10/5uoIi2jCmkLAk1wopMaA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxerDDBVdzpDHOikFFgBHW1yxOwTOC8HirfNOQte82XZ4dSisWk
-	Bp1W3ySJ1Pat0D8wsP1J5VVne++ejWjHIxGZMCYZPU+bYc1basG6/iiCyiZT3WVwuOvc/aRwXVm
-	1wAQyzwT0Acu0Rz7aMRDUbAuC/ZOfh+y/cNcbNIdX6TstioHjsJJKG4CjMv0Q
-X-Gm-Gg: ASbGncsIqKGQlBFtS/YyQZyotQK0j/Ar6ma56VxVxjLEjeLdUun9K/djC1nGYNV+NZa
-	ge9gXBR2knXDAMo3cTr2sGaiG5/POnpZUeIjZxHK06r0WamQ4ZLG2vGW3xyU0sjmArl8RrAEYOx
-	qe7yg+keSPnFSXCPVUP8sJEeka35MnBpisD0b6RX/ypcld9iQrxecHXGyubDxNW+8SDZ6ySWZo8
-	W96cbAHTi0xgx7KnteWeEdObfYeNkqT5I+msci0Ck2L2E11h7EwmHJIkpS5r4m4+lMczDKwslJB
-	nIYOQBiwmVyHBEh050t5dFDgNOuX0SWqyjRkXL1locqyKhXOthysrBeTKO7t3imiN8n1BMdyEWb
-	6c5YahHK0YdDh0tO6tFIePwyqKkGP1t7DceG5zBZ5pPjffOfa2Oko1QrSzTP4aw==
-X-Received: by 2002:a17:907:9712:b0:ac7:16ef:e994 with SMTP id a640c23a62f3a-acb74e19569mr912873166b.56.1745257157787;
-        Mon, 21 Apr 2025 10:39:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGCglgIN1WLtgLhOmlUVhHH0fI/qTluZHXRxH9rNqhhc6ocs2VrCPmrQpHHHVzT5JG7gQZOSg==
-X-Received: by 2002:a17:907:9712:b0:ac7:16ef:e994 with SMTP id a640c23a62f3a-acb74e19569mr912871566b.56.1745257157298;
-        Mon, 21 Apr 2025 10:39:17 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acb6ec4c6b5sm527467866b.49.2025.04.21.10.39.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Apr 2025 10:39:16 -0700 (PDT)
-Message-ID: <4fac2850-4a89-4917-a9ee-2518331d5bbf@redhat.com>
-Date: Mon, 21 Apr 2025 19:39:15 +0200
+	s=arc-20240116; t=1745258327; c=relaxed/simple;
+	bh=iKIM2wKqUtlQpc6gV5GRUWYsCL1lGfAXIG3wkd4PEmE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=WYkdg89n9utejp+aL/edMzTl7J80Dbtrsw09WPCO8HDgXaUrpBTs1YFO1r1cyJsbAuscXIB+JOsyWsBZYPYpfqSpcasBJC3IfUROOsI6/P2EJXTuxyf4qCNQHhWppSTgAtulIH+YfAeXcfo8CrDkWKVT/ImrqXV+J9g1jljow1Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fQOe5UJB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D93CBC4CEF0;
+	Mon, 21 Apr 2025 17:58:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745258325;
+	bh=iKIM2wKqUtlQpc6gV5GRUWYsCL1lGfAXIG3wkd4PEmE=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=fQOe5UJBrN84MHjBsV4gZyvpFqNidQ0PK7bygae3TpkuylyQXD4DWemS+wperSZGW
+	 T763QBAhUMxnT9fMd5JS72o/dAWEd+DmceHwOJOULQ0foD8B8WjYikr6XNoo4EAqoG
+	 uy/96sik7tEzG68I1QTqGVtOGsvs4UQGwMWbzhHvGCINbEHsGgFGCtKuoh+A9j3B+M
+	 nGYCvHXr/SD1QOcziiDVcesttQspk5JWZlzP4YVzTm4V/ZeGw0lWjU8ACPX6ilnuDT
+	 OAdyNjNoc/BV47bbfPOLzAxbLGosAjjlVooB7iHZRwuFCXDcUmy045B2lRHnb1vc6p
+	 3EuE6WYexzGuw==
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-47690a4ec97so45468461cf.2;
+        Mon, 21 Apr 2025 10:58:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU4kNg558HQ6NIK5qEVwqJyn94l+1bBOT4VoFFHYWnVRJlMbRv12zpdqkqJ5tpr36IOaI/Qmwpvy+hoSdXB@vger.kernel.org, AJvYcCWdtDJMd9v8wWeLNRMA0hhkZvJ4S7mkVKa0phx93NSih+QJKqphjOnAktVACT91GfsY6AU=@vger.kernel.org, AJvYcCX52d+W/TK+I5nBeaRkiR8Pc0ks6R+XNHocNxvcQhtp1JoCPo75+eBvVlwAk1/10ERjFM36zYEzXP49lAlcSzw+@vger.kernel.org, AJvYcCXWQkKxBGC8jgJZqYcxuLpXmnEUkYqBGEs8y1/s6oC+J5ynlOvJVwKJinVsQ3NeAVDhpQiAvRdVq3O5/Fo=@vger.kernel.org, AJvYcCXZREugiNpBktheiCiMxKXhzjEs70dm65jsVW9zmJfcles+fEMNMpnBCdkD0cXMM+6k7n5usDyszDtR@vger.kernel.org
+X-Gm-Message-State: AOJu0YwBuJBDvTqudqIT0X17K7Lsf9lls//OWJIxDxYbfilmar0yWrhW
+	IxL7BEhazlxUMOJ6VAt5K5IKtFenGyqsKE8IXPifiwbEDlJlZsxdPJbUv4zM/Rz3BEkQGuRyDFF
+	zRmgbst1CQbt+IHFSLan01ZoEr0c=
+X-Google-Smtp-Source: AGHT+IE8HckTVa/ODHOBBiUx6mnBjmKzUKUF5RXS/PyOXaTpOyGidFR0Ah5YtlEwxLCsr1VDuIEeUXoMGTa7dTtikss=
+X-Received: by 2002:ac8:5fc6:0:b0:479:be67:3bd2 with SMTP id
+ d75a77b69052e-47aec3cb8f4mr213100921cf.23.1745258324932; Mon, 21 Apr 2025
+ 10:58:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [ANN] Media Summit May 13th: Draft Agenda (v2)
-To: Hans Verkuil <hans@jjverkuil.nl>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sean Young <sean@mess.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Ricardo Ribalda <ribalda@chromium.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Alain Volmat <alain.volmat@foss.st.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Daniel Almeida <daniel.almeida@collabora.com>,
- Michael Tretter <m.tretter@pengutronix.de>, Tomasz Figa
- <tfiga@chromium.org>, "Hu, Jerry W" <jerry.w.hu@intel.com>,
- Steve Cho <stevecho@chromium.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Kevin Hilman <khilman@baylibre.com>, Paul Kocialkowski <paulk@sys-base.io>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Arthur Vinchon <arthur.vinchon@allegrodvt.com>,
- Marco Felsch <m.felsch@pengutronix.de>,
- Jackson Lee <jackson.lee@chipsnmedia.com>,
- Mirela Rabulea <mirela.rabulea@nxp.com>,
- Jai Luthra <jai.luthra@ideasonboard.com>, Devarsh Thakkar <devarsht@ti.com>,
- Maxime Ripard <mripard@kernel.org>
-References: <71a1ba46-04c3-4694-95e7-9e2906b1d899@jjverkuil.nl>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <71a1ba46-04c3-4694-95e7-9e2906b1d899@jjverkuil.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250414225227.3642618-1-tjmercier@google.com> <20250414225227.3642618-3-tjmercier@google.com>
+In-Reply-To: <20250414225227.3642618-3-tjmercier@google.com>
+From: Song Liu <song@kernel.org>
+Date: Mon, 21 Apr 2025 10:58:33 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW54g5YCmLVX=cc3m2nfQTZrMH+6ZMBgouEMMfqcccOtww@mail.gmail.com>
+X-Gm-Features: ATxdqUHDDdbJSbksFn4UCdL4tiOhDhDWdHN22eHXld_HEyeHr-qDylZwsTxwC7Y
+Message-ID: <CAPhsuW54g5YCmLVX=cc3m2nfQTZrMH+6ZMBgouEMMfqcccOtww@mail.gmail.com>
+Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
+	skhan@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
+	simona@ffwll.ch, corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev, 
+	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
+	jolsa@kernel.org, mykolal@fb.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Mon, Apr 14, 2025 at 3:53=E2=80=AFPM T.J. Mercier <tjmercier@google.com>=
+ wrote:
+>
+> The dmabuf iterator traverses the list of all DMA buffers. The list is
+> maintained only when CONFIG_DEBUG_FS is enabled.
+>
+> DMA buffers are refcounted through their associated struct file. A
+> reference is taken on each buffer as the list is iterated to ensure each
+> buffer persists for the duration of the bpf program execution without
+> holding the list mutex.
+>
+> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+> ---
+>  include/linux/btf_ids.h  |   1 +
+>  kernel/bpf/Makefile      |   3 +
+>  kernel/bpf/dmabuf_iter.c | 130 +++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 134 insertions(+)
+>  create mode 100644 kernel/bpf/dmabuf_iter.c
+>
+> diff --git a/include/linux/btf_ids.h b/include/linux/btf_ids.h
+> index 139bdececdcf..899ead57d89d 100644
+> --- a/include/linux/btf_ids.h
+> +++ b/include/linux/btf_ids.h
+> @@ -284,5 +284,6 @@ extern u32 bpf_cgroup_btf_id[];
+>  extern u32 bpf_local_storage_map_btf_id[];
+>  extern u32 btf_bpf_map_id[];
+>  extern u32 bpf_kmem_cache_btf_id[];
+> +extern u32 bpf_dmabuf_btf_id[];
 
-On 21-Apr-25 2:31 PM, Hans Verkuil wrote:
-> Hi all,
-> 
-> Here is my v2 of the draft agenda for the media summit. The only changes
-> are dropping Sebastian's email and fixing Devarsh' email.
-> 
-> As always, this draft agenda is subject to change and all times are guesstimates!
-> 
-> Please note that I am transitioning from my old hverkuil@xs4all.nl email to
-> my new hans@jjverkuil.nl email. If you have problems replying to that new email,
-> please let me know and just send it to the old email (that won't go away).
-> 
-> The Media Summit will be held Tuesday May 13th to coincide with
-> the Embedded Recipes Conference in Nice, France:
-> 
-> https://embedded-recipes.org/2025/
-> 
-> Note that there are also some workshops held after this conference:
-> 
-> https://embedded-recipes.org/2025/workshops/
-> 
-> And a gStreamer hackfest:
-> 
-> https://discourse.gstreamer.org/t/gstreamer-spring-hackfest-2025-on-16-18-may-2025-in-nice-france/4366
-> 
-> The Media Summit will be held at Hotel Campanile:
-> 
-> https://nice-aeroport.campanile.com/en-us/
-> 
-> It is close to the Airport and to the Embedded Recipes venue.
-> 
-> The meeting room can hold up to 30 people and has video conferencing support; it is
-> sponsored by Collabora and Cisco Systems Norway.
-> 
-> We currently have the following confirmed in-person attendees:
-> 
-> Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> (Media Maintainer, Huawei)
-> Nicolas Dufresne <nicolas.dufresne@collabora.com> (Collabora)
-> Hans de Goede <hdegoede@redhat.com> (RedHat)
-> Paul Kocialkowski <paulk@sys-base.io> (sys-base)
-> Jai Luthra <jai.luthra@ideasonboard.com> (Ideas on Board)
-> Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas on Board)
-> Ricardo Ribalda <ribalda@chromium.org> (Google)
-> Maxime Ripard <mripard@redhat.com> (RedHat)
-> Devarsh Thakkar <devarsht@ti.com> (Texas Instruments)
-> Hans Verkuil <hans@jjverkuil.nl> (Media Maintainer, Cisco Systems Norway)
-> Arthur Vinchon <arthur.vinchon@allegrodvt.com> (Allegro DVT)
-> 
-> As you can see, there is enough room for more people, so don't hesitate to
-> register by sending an email to me. The deadline is May 2nd.
-> 
-> And the following remote participants:
-> 
-> Marco Felsch <m.felsch@pengutronix.de> (Pengutronix)
-> Martin Hecht <mhecht73@googlemail.com> (Avnet Silica)
-> Hu, Jerry W <jerry.w.hu@intel.com> (Intel)
-> jackson.lee <jackson.lee@chipsnmedia.com> (Chips 'n Media)
-> Mirela Rabulea <mirela.rabulea@nxp.com> (NXP)
-> Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
-> 
-> Note: information on how to connect remotely will come later.
-> 
-> If any information above is incorrect, or if I missed someone, then please let me know asap.
-> 
-> Draft Agenda:
-> 
-> 9:00-9:30: Get settled :-)
-> 
-> 9:30-9:40: Hans Verkuil: Quick introduction
-> 
-> 9:40-10:30: Jai Luthra: Per-stream V4L2 controls
-> 
-> 10:30-11:15: Paul Kocialkowski: Stateless video encoding uAPI
-> 
-> 11:15-11:30: break
-> 
-> 11:30-12:15: Ricardo Ribalda: Openness Framework for ISPs
-> 
-> 12:15-13:30: lunch TBD
-> 
-> 13:30-14:00: Laurent Pinchart: Review of the status of staging drivers
-> 
-> 14:00-15:00: Hans Verkuil: Status of Media CI/Multi-committers
-> 
-> 15:00-17:00: TDB
+This is not necessary. See below.
 
-As discussed here:
+>
+>  #endif
+> diff --git a/kernel/bpf/Makefile b/kernel/bpf/Makefile
+> index 70502f038b92..5b30d37ef055 100644
+> --- a/kernel/bpf/Makefile
+> +++ b/kernel/bpf/Makefile
+> @@ -53,6 +53,9 @@ obj-$(CONFIG_BPF_SYSCALL) +=3D relo_core.o
+>  obj-$(CONFIG_BPF_SYSCALL) +=3D btf_iter.o
+>  obj-$(CONFIG_BPF_SYSCALL) +=3D btf_relocate.o
+>  obj-$(CONFIG_BPF_SYSCALL) +=3D kmem_cache_iter.o
+> +ifeq ($(CONFIG_DEBUG_FS),y)
+> +obj-$(CONFIG_BPF_SYSCALL) +=3D dmabuf_iter.o
+> +endif
+>
+>  CFLAGS_REMOVE_percpu_freelist.o =3D $(CC_FLAGS_FTRACE)
+>  CFLAGS_REMOVE_bpf_lru_list.o =3D $(CC_FLAGS_FTRACE)
+> diff --git a/kernel/bpf/dmabuf_iter.c b/kernel/bpf/dmabuf_iter.c
+> new file mode 100644
+> index 000000000000..b4b8be1d6aa4
+> --- /dev/null
+> +++ b/kernel/bpf/dmabuf_iter.c
 
-https://lore.kernel.org/linux-media/6cf8d6db-c24e-461b-bd7d-a3dad25e4945@redhat.com/
+Maybe we should add this file to drivers/dma-buf. I would like to
+hear other folks thoughts on this.
 
-there are a bunch of V4L2 (subdev) API things which need
-to be specified better (without leaving room for interpretation)
-surrounding sensors. One of these is how to calculate the pixelrate
-(and thus the FPS) for sensors when e.g. binning is used.
+> @@ -0,0 +1,130 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/* Copyright (c) 2025 Google LLC */
+> +#include <linux/bpf.h>
+> +#include <linux/btf_ids.h>
+> +#include <linux/dma-buf.h>
+> +#include <linux/kernel.h>
+> +#include <linux/seq_file.h>
+> +
+> +BTF_ID_LIST_GLOBAL_SINGLE(bpf_dmabuf_btf_id, struct, dma_buf)
 
-For non binning the pixelrate in pixels/second is:
+Use BTF_ID_LIST_SINGLE(), then we don't need this in btf_ids.h
 
-pixelrate = (format.width + hblank) * (format.height + vblank) * fps
+> +DEFINE_BPF_ITER_FUNC(dmabuf, struct bpf_iter_meta *meta, struct dma_buf =
+*dmabuf)
+> +
+> +static void *dmabuf_iter_seq_start(struct seq_file *seq, loff_t *pos)
+> +{
+> +       struct dma_buf *dmabuf, *ret =3D NULL;
+> +
+> +       if (*pos) {
+> +               *pos =3D 0;
+> +               return NULL;
+> +       }
+> +       /* Look for the first buffer we can obtain a reference to.
+> +        * The list mutex does not protect a dmabuf's refcount, so it can=
+ be
+> +        * zeroed while we are iterating. Therefore we cannot call get_dm=
+a_buf()
+> +        * since the caller of this program may not already own a referen=
+ce to
+> +        * the buffer.
+> +        */
 
-But what about binning, should the sensor driver then report the
-skipped pixels as extra vblank (AFAICT that is what it looks like
-on the CSI-2 bus) or should userspace know binning is happening and do:
-
-(format.width * hscale + hblank) * (format.height *vscale + vblank)
-
-and in that case how can userspace know hscale / vscale since atm
-it cannot explicitly set those, but this is determined by the sensor
-drivers.
-
-There are a number of questions like these surrounding the V4L2 subdev
-API for sensors, which IMHO would be good to discuss.
-
-Regards,
-
-Hans
+We should use kernel comment style for new code. IOW,
+/*
+ * Look for ...
+ */
 
 
+Thanks,
+Song
+
+[...]
 
