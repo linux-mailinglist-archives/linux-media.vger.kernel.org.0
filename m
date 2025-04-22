@@ -1,252 +1,101 @@
-Return-Path: <linux-media+bounces-30671-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30672-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E53DA95A1C
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 02:24:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9989AA95AD3
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 04:14:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BBA9C173E07
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 00:24:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D29BA170DF6
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 02:14:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68A7E13AD1C;
-	Tue, 22 Apr 2025 00:24:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="gxem5lhJ"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBF7919ABDE;
+	Tue, 22 Apr 2025 02:14:44 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp21.cstnet.cn [159.226.251.21])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C0856B81
-	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 00:24:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D297B29CE8;
+	Tue, 22 Apr 2025 02:14:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745281453; cv=none; b=DyJvsoFWZgUyLpoYxCCrPaI6qRg1r5x1NUnOC84OD+K7+sJh0UT/qhe6d7ezzLFpcyiA5/AFZj5qVtgXQwYlbD0K6AU2WyDnDGLoBgAw1vZ2bdnP/k9tLM7sxTzv1w4gdLny7Q+74LQoo2tKHEbKX7ifqW+zysJUKxO/L5vq9gU=
+	t=1745288084; cv=none; b=bIVsEcGf7MeU9CRZXWMnP3W6TN0sHezBLYQoEUSpXuyfsyo9I1WpoiHKCZtPU45+WSwH2DEj5MN6aP/ut7PQQIzi5hwMt8yZMApDTn4rDHvh8BJiEiWByO+WqozgANu/497qxcJLSL1QCDsHJ6FFZo8sWgasFUQN92UtK0WBu4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745281453; c=relaxed/simple;
-	bh=u52bVrB/pZ0lfovnX74KF6WwBxpQoIaVYqukYlfqcMg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pKI62jGYmg0gwIuZIq5e7zREesN6Z2jLxcCJXUHnSdJJgOZMy8yXxFPtV9FjfXD0WudOxAzUjJgUcjI8klFAFAXCD6SBmbZ1iJhhdFoYAowHoadxq40PhmcHr7iJnszDTIaA7NpANO8W05Y+Qb+HQmswdEXsA4Iw2TnI1dE4ARM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=gxem5lhJ; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-30effbfaf61so49298741fa.0
-        for <linux-media@vger.kernel.org>; Mon, 21 Apr 2025 17:24:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1745281450; x=1745886250; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hfCnlXym9eZAbX+zdYaRO3WcEjSZxfzTyz2pRkP+wp4=;
-        b=gxem5lhJ+4DHlvLI3uNia58B73VfYi7pHotLLMwrnPEwyeKAnuPKgbgz4ZnhNLzGSe
-         6MNIomgzHCv/S/WDtolKl8Pim3obpqcm4/HlrlY08q3p7Av4G/tdyuxDQWWGkDS8whZY
-         Ary/n2nS5YKkjIn6JYHl0c36xfrMFreeuiizQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745281450; x=1745886250;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hfCnlXym9eZAbX+zdYaRO3WcEjSZxfzTyz2pRkP+wp4=;
-        b=UN7mCmu6+CmA+6wsfrY9zPQa0qihWhiIojw/8V8SVQ5+4Jz4W/83jj9brK/Z91HsrY
-         ePkq0VvJRAerMKFDjrEMXtp2zmm0StAT1lkEKvzhesvZbjn6uq0uj1crs9XD9lqK6wKO
-         B6djf650NET0VQVpmH5Vfw+LIJWbQC/XgHurIkMz8/KZBxYHt5i3OylX8aGie2/4+Vuc
-         K8P3gCY984YtsJjWxU+WmiSn3FDaHXJ8u7LXkLMxfJt+LMm5hT2hkt0Oz83foAmNTfLU
-         vn5U5Y33X39zpFNMDY+nGhUHOKtEDWzy/ZGaULPYuIQxRtlrHPUqqedJmaFCrsVOVL7c
-         POcw==
-X-Forwarded-Encrypted: i=1; AJvYcCXJxoCjkYXNmgjQXeCVPNkOBaN4pUzEvLK0U8pnEVPFIyP5mjS1SBC46wg498qpK7bZ666V5QSCYPYw9A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz/7j7D56VKOFb1wALj83JDwP6qplcvT4H+celwDa81KcC1LHuJ
-	q90YwO/kPiWLuiqoEKDwzD2YvGZezVNGDR8P+ahB6jT5MqA5DUR2ZbU8KIiKqutsISyrEqfc5u4
-	=
-X-Gm-Gg: ASbGncvL+98bTBkE+gvh7u62Xg+YucXaHk9fmRkH+tHe5oGfJQQ0v4PSx9iUOH9vbFY
-	C6jvfEbZjrK12BRtTYL4efSG8SRmpdEdi+m9RKrGdD7DYC6xcdqp9KLlS7/xrvCKJjeoRrMQFQF
-	TYmfDDyJVqv7OAqreaZeBpHaa7Lrih74xz82Ftehlkh9TyvrLFjrvUn9bggjvjsu0P7XEc3UvaZ
-	wCcKH1MPZpRwkanjpj4TzITdb9/MI0gEeGjV83UR47rT+JC5q1Cm/BW5wcui6mnmkR1b0knwpB/
-	lbVS84fIWOqFGTfIG2TiMWK8f2f6fccdkfhmBWyWalbOaZ7OsIV/XZ7uiBWahI/Ngo2OzmPn8IF
-	tyaVZGx0=
-X-Google-Smtp-Source: AGHT+IF0VMCyUX/EdFw4dXV4P+KW7miNxa78hzJybH980CiSvfzVKDaGKodF0kOnvYL4GgqkH1kufg==
-X-Received: by 2002:a05:651c:54b:b0:30b:c328:3cdc with SMTP id 38308e7fff4ca-31090dd8c0dmr39516891fa.2.1745281449831;
-        Mon, 21 Apr 2025 17:24:09 -0700 (PDT)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com. [209.85.208.177])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3109075f298sm13315181fa.9.2025.04.21.17.24.07
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Apr 2025 17:24:07 -0700 (PDT)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-30bee278c2aso56927001fa.0
-        for <linux-media@vger.kernel.org>; Mon, 21 Apr 2025 17:24:07 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVSWGu6VWki/HW21BHZ3biqlOVwFL7Q0CoguurjmiOcbXEypzYhpIEaVW0rJMk5wQt1gPhP0m11fTvLYg==@vger.kernel.org
-X-Received: by 2002:a05:6512:3995:b0:54a:cc10:1050 with SMTP id
- 2adb3069b0e04-54d6e789b2bmr3360285e87.15.1745281447045; Mon, 21 Apr 2025
- 17:24:07 -0700 (PDT)
+	s=arc-20240116; t=1745288084; c=relaxed/simple;
+	bh=khWE9cX70xPph8s7rn9jBXuJtbTTleSYbDejswZO7ds=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=kzgtsQls4MmTMjb1EsJoA7s7RR4UYpvzeW9hXUrxpAZv10gqaGtq9GaWjs8/2jfIcwwK1gRRSCZunh5BkwO2GyIuptcxsOucUd+kHdh8l/H8iiloGGytYXwXdEpBgXyynPfJNbkIONhri04O5yzoOZ+7b8q3tCC06jwkhMbb820=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [124.16.141.245])
+	by APP-01 (Coremail) with SMTP id qwCowABH8gKG+wZo6rIACw--.6724S2;
+	Tue, 22 Apr 2025 10:14:34 +0800 (CST)
+From: Wentao Liang <vulab@iscas.ac.cn>
+To: s.nawrocki@samsung.com,
+	mchehab@kernel.org,
+	krzk@kernel.org,
+	alim.akhtar@samsung.com
+Cc: linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-samsung-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Wentao Liang <vulab@iscas.ac.cn>
+Subject: [PATCH RESEND] media: platform: Add hardware sync wait to fimc_is_hw_change_mode()
+Date: Tue, 22 Apr 2025 10:13:45 +0800
+Message-ID: <20250422021345.1940-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.42.0.windows.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250403-uvc-orientation-v1-0-1a0cc595a62d@chromium.org>
- <20250403-uvc-orientation-v1-3-1a0cc595a62d@chromium.org> <Z_uIyEe4uU_BC5aY@valkosipuli.retiisi.eu>
-In-Reply-To: <Z_uIyEe4uU_BC5aY@valkosipuli.retiisi.eu>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 22 Apr 2025 08:23:52 +0800
-X-Gmail-Original-Message-ID: <CANiDSCvQC25ZrSZgUuFt6deCogFL6=GPsYYrsegK1NOK=uzRJA@mail.gmail.com>
-X-Gm-Features: ATxdqUGV9UNm6rsWa1b6fT7zaIeRsrhtYZHR863_Li8k5tC_mUahvNyGq--RUEU
-Message-ID: <CANiDSCvQC25ZrSZgUuFt6deCogFL6=GPsYYrsegK1NOK=uzRJA@mail.gmail.com>
-Subject: Re: [PATCH 3/8] media: v4l: fwnode: Support acpi devices for v4l2_fwnode_device_parse
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hdegoede@redhat.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qwCowABH8gKG+wZo6rIACw--.6724S2
+X-Coremail-Antispam: 1UD129KBjvPXoW8tF43KF17AFyUtr4rWr45p5X_Gr13JoW8JF
+	yaka1xtr4UXwnIgrnru3yfAwsrurW3KrWF9FZ0gryqq3W3A3W5W393Xr4agF1YkFn5Xry5
+	Gw13AF4xJa4xn29KB7ZKAUJUUUU8529EdanIXcx71UUUUU7v73VFW2AGmfu7bjvjm3AaLa
+	J3UjIYCTnIWjp_UUUYa7AC8VAFwI0_Gr0_Xr1l1xkIjI8I6I8E6xAIw20EY4v20xvaj40_
+	Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxSw2x7M2
+	8EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxVW8Jr0_
+	Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r106r15McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkF7I0En4kS14v26r1q
+	6r43MxkIecxEwVAFwVW8JwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8Jw
+	C20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAF
+	wI0_Jw0_GFylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjx
+	v20xvEc7CjxVAFwI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2
+	jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43
+	ZEXa7VU1IeHPUUUUU==
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiCQ4AA2gGfIH+HgABs2
 
-Hi Sakari
+In fimc_is_hw_change_mode(), the function changes camera modes without
+waiting for hardware completion, risking corrupted data or system hangs
+if subsequent operations proceed before the hardware is ready.
 
-On Sun, 13 Apr 2025 at 17:50, Sakari Ailus <sakari.ailus@iki.fi> wrote:
->
-> Hi Ricardo,
->
-> Thanks for the patch.
->
-> On Thu, Apr 03, 2025 at 07:16:14PM +0000, Ricardo Ribalda wrote:
-> > This patch modifies v4l2_fwnode_device_parse() to support ACPI devices.
-> >
-> > We initially add support only for orientation via the ACPI _PLD method.
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-fwnode.c | 58 +++++++++++++++++++++++++++++++----
-> >  1 file changed, 52 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-> > index cb153ce42c45d69600a3ec4e59a5584d7e791a2a..81563c36b6436bb61e1c96f2a5ede3fa9d64dab3 100644
-> > --- a/drivers/media/v4l2-core/v4l2-fwnode.c
-> > +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-> > @@ -15,6 +15,7 @@
-> >   * Author: Guennadi Liakhovetski <g.liakhovetski@gmx.de>
-> >   */
-> >  #include <linux/acpi.h>
-> > +#include <acpi/acpi_bus.h>
-> >  #include <linux/kernel.h>
-> >  #include <linux/mm.h>
-> >  #include <linux/module.h>
-> > @@ -807,16 +808,47 @@ int v4l2_fwnode_connector_add_link(struct fwnode_handle *fwnode,
-> >  }
-> >  EXPORT_SYMBOL_GPL(v4l2_fwnode_connector_add_link);
-> >
-> > -int v4l2_fwnode_device_parse(struct device *dev,
-> > -                          struct v4l2_fwnode_device_properties *props)
-> > +static int v4l2_fwnode_device_parse_acpi(struct device *dev,
-> > +                                      struct v4l2_fwnode_device_properties *props)
-> > +{
-> > +     struct acpi_pld_info *pld;
-> > +     int ret = 0;
-> > +
-> > +     if (!acpi_get_physical_device_location(ACPI_HANDLE(dev), &pld)) {
-> > +             dev_dbg(dev, "acpi _PLD call failed\n");
-> > +             return 0;
-> > +     }
->
-> You could have software nodes in an ACPI system as well as DT-aligned
-> properties. They're not the primary means to convey this information still.
->
-> How about returning e.g. -ENODATA here if _PLD doesn't exist for the device
-> and then proceeding to parse properties as in DT?
+Add fimc_is_hw_wait_intmsr0_intmsd0() after mode configuration, ensuring
+hardware state synchronization and stable interrupt handling.
 
-Do you mean that there can be devices with ACPI handles that can also
-have DT properties?
+Signed-off-by: Wentao Liang <vulab@iscas.ac.cn>
+---
+ drivers/media/platform/samsung/exynos4-is/fimc-is-regs.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Wow that is new to me :).
-
-What shall we do if _PLD contradicts the DT property? What takes precedence?
-
->
-> > +
-> > +     switch (pld->panel) {
-> > +     case ACPI_PLD_PANEL_FRONT:
-> > +             props->orientation = V4L2_FWNODE_ORIENTATION_FRONT;
-> > +             break;
-> > +     case ACPI_PLD_PANEL_BACK:
-> > +             props->orientation = V4L2_FWNODE_ORIENTATION_BACK;
-> > +             break;
-> > +     case ACPI_PLD_PANEL_TOP:
-> > +     case ACPI_PLD_PANEL_LEFT:
-> > +     case ACPI_PLD_PANEL_RIGHT:
-> > +     case ACPI_PLD_PANEL_UNKNOWN:
-> > +             props->orientation = V4L2_FWNODE_ORIENTATION_EXTERNAL;
-> > +             break;
->
-> How about the rotation in _PLD?
-
-If we agree on the orientation part I will extend it to support
-rotation. It should not be a complicated change.
-
->
-> > +     default:
-> > +             dev_dbg(dev, "Unknown _PLD panel val %d\n", pld->panel);
-> > +             ret = -EINVAL;
-> > +             break;
-> > +     }
-> > +
-> > +     ACPI_FREE(pld);
-> > +     return ret;
-> > +}
-> > +
-> > +static int v4l2_fwnode_device_parse_dt(struct device *dev,
-> > +                                    struct v4l2_fwnode_device_properties *props)
-> >  {
-> >       struct fwnode_handle *fwnode = dev_fwnode(dev);
-> >       u32 val;
-> >       int ret;
-> >
-> > -     memset(props, 0, sizeof(*props));
-> > -
-> > -     props->orientation = V4L2_FWNODE_PROPERTY_UNSET;
-> >       ret = fwnode_property_read_u32(fwnode, "orientation", &val);
-> >       if (!ret) {
-> >               switch (val) {
-> > @@ -833,7 +865,6 @@ int v4l2_fwnode_device_parse(struct device *dev,
-> >               dev_dbg(dev, "device orientation: %u\n", val);
-> >       }
-> >
-> > -     props->rotation = V4L2_FWNODE_PROPERTY_UNSET;
-> >       ret = fwnode_property_read_u32(fwnode, "rotation", &val);
-> >       if (!ret) {
-> >               if (val >= 360) {
-> > @@ -847,6 +878,21 @@ int v4l2_fwnode_device_parse(struct device *dev,
-> >
-> >       return 0;
-> >  }
-> > +
-> > +int v4l2_fwnode_device_parse(struct device *dev,
-> > +                          struct v4l2_fwnode_device_properties *props)
-> > +{
-> > +     struct fwnode_handle *fwnode = dev_fwnode(dev);
-> > +
-> > +     memset(props, 0, sizeof(*props));
-> > +
-> > +     props->orientation = V4L2_FWNODE_PROPERTY_UNSET;
-> > +     props->rotation = V4L2_FWNODE_PROPERTY_UNSET;
-> > +
-> > +     if (is_acpi_device_node(fwnode))
-> > +             return v4l2_fwnode_device_parse_acpi(dev, props);
-> > +     return v4l2_fwnode_device_parse_dt(dev, props);
-> > +}
-> >  EXPORT_SYMBOL_GPL(v4l2_fwnode_device_parse);
-> >
-> >  /*
-> >
->
-> --
-> Kind regards,
->
-> Sakari Ailus
-
-
-
+diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-is-regs.c b/drivers/media/platform/samsung/exynos4-is/fimc-is-regs.c
+index 366e6393817d..5f9c44e825a5 100644
+--- a/drivers/media/platform/samsung/exynos4-is/fimc-is-regs.c
++++ b/drivers/media/platform/samsung/exynos4-is/fimc-is-regs.c
+@@ -164,6 +164,7 @@ int fimc_is_hw_change_mode(struct fimc_is *is)
+ 	if (WARN_ON(is->config_index >= ARRAY_SIZE(cmd)))
+ 		return -EINVAL;
+ 
++	fimc_is_hw_wait_intmsr0_intmsd0(is);
+ 	mcuctl_write(cmd[is->config_index], is, MCUCTL_REG_ISSR(0));
+ 	mcuctl_write(is->sensor_index, is, MCUCTL_REG_ISSR(1));
+ 	mcuctl_write(is->setfile.sub_index, is, MCUCTL_REG_ISSR(2));
 -- 
-Ricardo Ribalda
+2.42.0.windows.2
+
 
