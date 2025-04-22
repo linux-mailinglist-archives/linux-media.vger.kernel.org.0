@@ -1,220 +1,252 @@
-Return-Path: <linux-media+bounces-30720-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30721-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA1E7A971D3
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 18:00:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6486BA97271
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 18:20:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6C0593BE717
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 16:00:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D0563AFB9B
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 16:18:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F0A228936D;
-	Tue, 22 Apr 2025 16:00:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3BAE290BB6;
+	Tue, 22 Apr 2025 16:17:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KfkXWGFb"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="IFU5+xoH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CD4618D63A
-	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 16:00:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ADE42900B0
+	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 16:17:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745337643; cv=none; b=Ndv3ZKHsSpgPaRNjiLII93FrWSSO88X2pYV/tAOp/9xID4Sp1Q7+/Fo60auseUBWidrLGPpZe23AadebamfdTjmolf25ZB5iJmzRD3AXVkDBNPY4L/160fY42mknyISw0p1MHIqnNQIs5QmEer/1gC4O0Wm45WkyiCzlK4bOws8=
+	t=1745338660; cv=none; b=Nz8nLDlBe9vlB5+ac6ty11vuRTcr06zg5N/rSydmNSjzx9W1Zau8lvB5FYQy7ek4ivZv4pOcwiqz/Tz8xjckvCCma/mOCuoLHDaGLAaRzEfCj5mBY+QaMr5cIx2tg6Qv6M596U+7oOh9FEOvjC2jJw6vQag5MF/bdrY6fwJ0A90=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745337643; c=relaxed/simple;
-	bh=CXl6EWXSnPwP9mQoUHkJVLkdYnRUpjsNoUySVZfG87w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Poa9HhKiHIEGxvN+Xw8heJZB3r8LfYvy8YNtsMqecq3yi35sBxYIT44grBKB+IyE9Rfzcwa/swLv/Mwd5VqWbNd+57zj1/4LBxeECWgcZwbNhRN/8NJeJwatkuYGaKW+0vJtmAbArhycTGtWLg6y69D+dvPSe/TZsyOREn7nBOA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KfkXWGFb; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (mob-109-118-124-17.net.vodafone.it [109.118.124.17])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 14B5B2AC;
-	Tue, 22 Apr 2025 18:00:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1745337633;
-	bh=CXl6EWXSnPwP9mQoUHkJVLkdYnRUpjsNoUySVZfG87w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KfkXWGFbgdnnHW8rLzjJst/MjaOrTOleJarjyT+bem5T0DiiU6WO8gJ+FR1HS9mBm
-	 zlRUSrXTbvx9HN5EHlzn/6FyRRSU5sYTuOIUdWO20Pdleln+fZRC8Z0zmQUc2ihrIk
-	 MJCAZcVjGRydjcZFu6qPBgfckvufahBofPG4ZO/Q=
-Date: Tue, 22 Apr 2025 18:00:29 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Hans Verkuil <hans@jjverkuil.nl>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sean Young <sean@mess.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Ricardo Ribalda <ribalda@chromium.org>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Alain Volmat <alain.volmat@foss.st.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Michael Tretter <m.tretter@pengutronix.de>, Tomasz Figa <tfiga@chromium.org>, 
-	"Hu, Jerry W" <jerry.w.hu@intel.com>, Steve Cho <stevecho@chromium.org>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Kevin Hilman <khilman@baylibre.com>, 
-	Paul Kocialkowski <paulk@sys-base.io>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Arthur Vinchon <arthur.vinchon@allegrodvt.com>, 
-	Marco Felsch <m.felsch@pengutronix.de>, Jackson Lee <jackson.lee@chipsnmedia.com>, 
-	Mirela Rabulea <mirela.rabulea@nxp.com>, Hans de Goede <hdegoede@redhat.com>, 
-	Jai Luthra <jai.luthra@ideasonboard.com>, Devarsh Thakkar <devarsht@ti.com>, 
-	Maxime Ripard <mripard@kernel.org>
-Subject: Re: [ANN] Media Summit May 13th: Draft Agenda (v2)\
-Message-ID: <o53sheu5bp4mqqddyjwj7yyedyhcgaygs2ymeufk5pbaplou3z@olrpr5h6k4ac>
-References: <71a1ba46-04c3-4694-95e7-9e2906b1d899@jjverkuil.nl>
- <cnvl2vshkwxuyfuyvunmgdgpvuwaijl4im7c7jqwdm7sa3o7kw@fnsarnzh6blm>
- <b2c3472d-10d5-4573-879e-68b53426de0f@jjverkuil.nl>
+	s=arc-20240116; t=1745338660; c=relaxed/simple;
+	bh=PsselFC7U3wOuPzOdrlcRuBXUrj4nJSPxGm2aehJSuE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=fJIxOEQ6plAS9yPEy+67I+WaJVt1a+c6p1f6ab8dL9mSYZFU/KsldvsE+Jilfdm6va0eEkZL5dlmxZfJA/MEjfnvLnQv419xSwrA3wZ6EP/gtet9N+CEGlmCFP4TK/4TD7I+XSUYcOlhV8NUe7mmGkn17rrwG28YbdaSaRBkSSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=IFU5+xoH; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43d5f10e1aaso60755e9.0
+        for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 09:17:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1745338657; x=1745943457; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7+VlTv/hTKrlRvm1O4sYCipzPw4t9W4hk+Rbsc7ns3M=;
+        b=IFU5+xoHO3rYwGSc97U7Ha9uCbOegw6LVXjfujYgup1lg1vGnTTmHMzPY8lmSEJRke
+         cu7CGbFZNq42BVZkIN5uDwht92Ht/L6D80Q59Fu1m62ryfY8cCT+qw1PJ+Dy0q6HUo07
+         TGCX3EiFBWvVWqkAKZo5xYx4cfIfaOLbY2cZ6vcVrHbBYuroZtK9Qh94NrNeEAq1l2UM
+         1wUNqzqbPRUXV+uCjV9cddpMl0+YNpMmg+w/nyRDasjxBMDFkcDeAvzXLMCND9Tf/rHh
+         OYN7sgnBB7bM8BcLXJYMGb5PKpcnU5Qniudas1vys3ibRMfyxBNGeoxiy6uSEJXHnZIb
+         R9Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745338657; x=1745943457;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7+VlTv/hTKrlRvm1O4sYCipzPw4t9W4hk+Rbsc7ns3M=;
+        b=ht/xwkz0PfaeyFNK1EzHi5V0iTq2xXibXozziH5XbohuLw9eTIvNBRpn2AkNV5pKMG
+         iWxvbOtxNNtociXYcxi42aTAG8HflTZyPwL0SggP3xLFptSamKnFKtaH1ztOVAKCucWL
+         jrPM1p1CkLE4r7aRHkCv5UO1mENrdxhReDYvK1dKva923e4J2VnMKFo+VDpcUnnH47BE
+         osE34gzEmMe2w6/VVtECnDcCL1fvBneGhqOTIwdInbzUW+r7XkOA8wCXqhELd3oedLhE
+         cCo9Bb3qnTDyRhVNYphhSApfsBo5Y4GzD6K5AAz+DWfw3X9qPKDH1e+JqVxZmiU8fKPW
+         LYCA==
+X-Forwarded-Encrypted: i=1; AJvYcCWXrSAZuD0jtciEv5P/Tpx5iyCR2KXSd0sO1BJx7qto7Wzauk6gVz35RCcL1/gVD/3yblulm7j43H+axA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxlE0ZumwcV+HCSlMznU0MztMmrjTNxBblGFNIJ5LgqO+GzENro
+	fUpUs5E53yTIY8QnArUAMBSMOBhWPhSXCpnOeIm2A3HvA2aikv/NJ1VqKlL8enCU4YGcjUT3xq5
+	S1tlRPARCy038DR2Qpmy9IHPq3T5I9RXT3pU8
+X-Gm-Gg: ASbGncuBnpj5dt2+x1JJvZo9REWjhRKej0KNsBiIP6SkXnMnN8u8YGnI8wS0MjA/psV
+	U6LT+9Rs7KNhHjsvlbIRyz/j7HTSRRCi4x6IKAjW31OD/nwNRdWyXAkQybgfPk7qRUHDZ4K5OT4
+	Bgx4Etdkp5rmoDMNUZ/lQiLkSVgXnkZJ2Jz3BCiTgyuLfML3Zxk7hl
+X-Google-Smtp-Source: AGHT+IENoY5KLCLbGnv0xSGeh3ak7+yd+up6SvbsAMQAdxs3P8pPk6x9+6wqqUTe/UoTwxZddmChRUUCohE67dhja5o=
+X-Received: by 2002:a05:600c:5809:b0:43d:5b3a:18cc with SMTP id
+ 5b1f17b1804b1-4406a439719mr5397465e9.2.1745338656623; Tue, 22 Apr 2025
+ 09:17:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b2c3472d-10d5-4573-879e-68b53426de0f@jjverkuil.nl>
+References: <20250417180943.1559755-1-tjmercier@google.com> <a4f72149-70a0-4bbe-bdcc-70384c152f83@amd.com>
+In-Reply-To: <a4f72149-70a0-4bbe-bdcc-70384c152f83@amd.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Tue, 22 Apr 2025 09:17:24 -0700
+X-Gm-Features: ATxdqUFWtfUd0V2lIDMC14HVW9RJdQPpnjsioC_15uNznFDm7wn85ZdVHvIBgZU
+Message-ID: <CABdmKX2-innZC65Fut6wc2MFUNwO2g6w=_iLv9EBkDn+6LQs5w@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: system_heap: No separate allocation for
+ attachment sg_tables
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Hans
-
-On Tue, Apr 22, 2025 at 05:12:09PM +0200, Hans Verkuil wrote:
-> On 22/04/2025 17:07, Jacopo Mondi wrote:
-> > Hi Hans
-> >
-> > On Mon, Apr 21, 2025 at 02:31:34PM +0200, Hans Verkuil wrote:
-> >> Hi all,
-> >>
-> >> Here is my v2 of the draft agenda for the media summit. The only changes
-> >> are dropping Sebastian's email and fixing Devarsh' email.
-> >>
-> >> As always, this draft agenda is subject to change and all times are guesstimates!
-> >>
-> >> Please note that I am transitioning from my old hverkuil@xs4all.nl email to
-> >> my new hans@jjverkuil.nl email. If you have problems replying to that new email,
-> >> please let me know and just send it to the old email (that won't go away).
-> >>
-> >> The Media Summit will be held Tuesday May 13th to coincide with
-> >> the Embedded Recipes Conference in Nice, France:
-> >>
-> >> https://embedded-recipes.org/2025/
-> >>
-> >> Note that there are also some workshops held after this conference:
-> >>
-> >> https://embedded-recipes.org/2025/workshops/
-> >>
-> >> And a gStreamer hackfest:
-> >>
-> >> https://discourse.gstreamer.org/t/gstreamer-spring-hackfest-2025-on-16-18-may-2025-in-nice-france/4366
-> >>
-> >> The Media Summit will be held at Hotel Campanile:
-> >>
-> >> https://nice-aeroport.campanile.com/en-us/
-> >>
-> >> It is close to the Airport and to the Embedded Recipes venue.
-> >>
-> >> The meeting room can hold up to 30 people and has video conferencing support; it is
-> >> sponsored by Collabora and Cisco Systems Norway.
-> >>
-> >> We currently have the following confirmed in-person attendees:
-> >>
-> >> Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
-> >> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> (Media Maintainer, Huawei)
-> >> Nicolas Dufresne <nicolas.dufresne@collabora.com> (Collabora)
-> >> Hans de Goede <hdegoede@redhat.com> (RedHat)
-> >> Paul Kocialkowski <paulk@sys-base.io> (sys-base)
-> >> Jai Luthra <jai.luthra@ideasonboard.com> (Ideas on Board)
-> >> Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas on Board)
-> >> Ricardo Ribalda <ribalda@chromium.org> (Google)
-> >> Maxime Ripard <mripard@redhat.com> (RedHat)
-> >> Devarsh Thakkar <devarsht@ti.com> (Texas Instruments)
-> >> Hans Verkuil <hans@jjverkuil.nl> (Media Maintainer, Cisco Systems Norway)
-> >> Arthur Vinchon <arthur.vinchon@allegrodvt.com> (Allegro DVT)
-> >>
-> >> As you can see, there is enough room for more people, so don't hesitate to
-> >> register by sending an email to me. The deadline is May 2nd.
-> >>
-> >> And the following remote participants:
-> >>
-> >> Marco Felsch <m.felsch@pengutronix.de> (Pengutronix)
-> >> Martin Hecht <mhecht73@googlemail.com> (Avnet Silica)
-> >> Hu, Jerry W <jerry.w.hu@intel.com> (Intel)
-> >> jackson.lee <jackson.lee@chipsnmedia.com> (Chips 'n Media)
-> >> Mirela Rabulea <mirela.rabulea@nxp.com> (NXP)
-> >> Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
-> >>
-> >> Note: information on how to connect remotely will come later.
-> >>
-> >> If any information above is incorrect, or if I missed someone, then please let me know asap.
-> >>
-> >> Draft Agenda:
-> >>
-> >> 9:00-9:30: Get settled :-)
-> >>
-> >> 9:30-9:40: Hans Verkuil: Quick introduction
-> >>
-> >> 9:40-10:30: Jai Luthra: Per-stream V4L2 controls
-> >>
-> >> 10:30-11:15: Paul Kocialkowski: Stateless video encoding uAPI
-> >>
-> >> 11:15-11:30: break
-> >>
-> >> 11:30-12:15: Ricardo Ribalda: Openness Framework for ISPs
-> >>
-> >> 12:15-13:30: lunch TBD
-> >>
-> >> 13:30-14:00: Laurent Pinchart: Review of the status of staging drivers
-> >>
-> >> 14:00-15:00: Hans Verkuil: Status of Media CI/Multi-committers
-> >>
-> >> 15:00-17:00: TDB
-> >>
-> >> Please reply with corrections, questions, etc. to this email. I'll update the agenda
-> >> over time. Again, these times are very preliminary.
-> >>
-> >> Also, as you can see we are light on topics, so don't hesitate to add more.
-> >>
-> >> Part of the reason for this is that we switched to co-locating from the ELCE to the
-> >> Embedded Recipes conference, so it is only 8 months since the previous Media Summit.
-> >
-> > Ups sorry, seems like I'm late :)
-> >
-> > I procrastinated to these days as I would have liked to be able to
-> > propose a well structured topic about multi-context support which was
-> > presented 8 months ago. Since then I paused working on it but I should
-> > be able to reserve time in the following months.
-> >
-> > Unfortunately I wasn't able to dedicate much time to that, however in
-> > the weeks before the media summit I would like to explore a bit how to
-> > unify the multi-context support with the m2m context handling, with
-> > the aim to use a single mechanism to support both.
-> >
-> > If you have a tiny 15/20 minutes slot I would be glad to present a
-> > plan to you, Nicolas and other more well versed in codec support than
-> > me.
-> >
-> > Thanks and sorry for being late.
+On Tue, Apr 22, 2025 at 1:24=E2=80=AFAM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
 >
-> No problem! I've added a slot for this topic. I think I can safely assume
-> you'll be there in person?
+> Am 17.04.25 um 20:09 schrieb T.J. Mercier:
+> > struct dma_heap_attachment is a separate allocation from the struct
+> > sg_table it contains, but there is no reason for this. Let's use the
+> > slab allocator just once instead of twice for dma_heap_attachment.
+> >
+> > Signed-off-by: T.J. Mercier <tjmercier@google.com>
 >
+> I'm not *that* expert for this code, but looks totally reasonable to me.
 
-Yeah sure, sorry if I haven't specified it
+I noticed this while reviewing Maxime Ripard's recent carveout heap
+patches, where I was confused about sg_free_table() until I realized
+it doesn't free the underlying allocation. Then I started looking at
+other heaps and found that most of them do it this way (including the
+cma heap), and figured it was a nice cleanup here.
 
-Thanks
-  j
-
-> In any case, both the agenda and the participants list are now nicely filling up :-)
+> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+>
+> Let me know if I should push that to drm-misc-next.
 >
 > Regards,
->
-> 	Hans
->
+> Christian.
+
+Thanks, yes please!
+
+
+
+
+> > ---
+> >  drivers/dma-buf/heaps/system_heap.c | 43 ++++++++++++-----------------
+> >  1 file changed, 17 insertions(+), 26 deletions(-)
 > >
-> >>
-> >> Regards,
-> >>
-> >> 	Hans
-> >>
+> > diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heap=
+s/system_heap.c
+> > index 26d5dc89ea16..bee10c400cf0 100644
+> > --- a/drivers/dma-buf/heaps/system_heap.c
+> > +++ b/drivers/dma-buf/heaps/system_heap.c
+> > @@ -35,7 +35,7 @@ struct system_heap_buffer {
+> >
+> >  struct dma_heap_attachment {
+> >       struct device *dev;
+> > -     struct sg_table *table;
+> > +     struct sg_table table;
+> >       struct list_head list;
+> >       bool mapped;
+> >  };
+> > @@ -54,29 +54,22 @@ static gfp_t order_flags[] =3D {HIGH_ORDER_GFP, HIG=
+H_ORDER_GFP, LOW_ORDER_GFP};
+> >  static const unsigned int orders[] =3D {8, 4, 0};
+> >  #define NUM_ORDERS ARRAY_SIZE(orders)
+> >
+> > -static struct sg_table *dup_sg_table(struct sg_table *table)
+> > +static int dup_sg_table(struct sg_table *from, struct sg_table *to)
+> >  {
+> > -     struct sg_table *new_table;
+> > -     int ret, i;
+> >       struct scatterlist *sg, *new_sg;
+> > +     int ret, i;
+> >
+> > -     new_table =3D kzalloc(sizeof(*new_table), GFP_KERNEL);
+> > -     if (!new_table)
+> > -             return ERR_PTR(-ENOMEM);
+> > -
+> > -     ret =3D sg_alloc_table(new_table, table->orig_nents, GFP_KERNEL);
+> > -     if (ret) {
+> > -             kfree(new_table);
+> > -             return ERR_PTR(-ENOMEM);
+> > -     }
+> > +     ret =3D sg_alloc_table(to, from->orig_nents, GFP_KERNEL);
+> > +     if (ret)
+> > +             return ret;
+> >
+> > -     new_sg =3D new_table->sgl;
+> > -     for_each_sgtable_sg(table, sg, i) {
+> > +     new_sg =3D to->sgl;
+> > +     for_each_sgtable_sg(from, sg, i) {
+> >               sg_set_page(new_sg, sg_page(sg), sg->length, sg->offset);
+> >               new_sg =3D sg_next(new_sg);
+> >       }
+> >
+> > -     return new_table;
+> > +     return 0;
+> >  }
+> >
+> >  static int system_heap_attach(struct dma_buf *dmabuf,
+> > @@ -84,19 +77,18 @@ static int system_heap_attach(struct dma_buf *dmabu=
+f,
+> >  {
+> >       struct system_heap_buffer *buffer =3D dmabuf->priv;
+> >       struct dma_heap_attachment *a;
+> > -     struct sg_table *table;
+> > +     int ret;
+> >
+> >       a =3D kzalloc(sizeof(*a), GFP_KERNEL);
+> >       if (!a)
+> >               return -ENOMEM;
+> >
+> > -     table =3D dup_sg_table(&buffer->sg_table);
+> > -     if (IS_ERR(table)) {
+> > +     ret =3D dup_sg_table(&buffer->sg_table, &a->table);
+> > +     if (ret) {
+> >               kfree(a);
+> > -             return -ENOMEM;
+> > +             return ret;
+> >       }
+> >
+> > -     a->table =3D table;
+> >       a->dev =3D attachment->dev;
+> >       INIT_LIST_HEAD(&a->list);
+> >       a->mapped =3D false;
+> > @@ -120,8 +112,7 @@ static void system_heap_detach(struct dma_buf *dmab=
+uf,
+> >       list_del(&a->list);
+> >       mutex_unlock(&buffer->lock);
+> >
+> > -     sg_free_table(a->table);
+> > -     kfree(a->table);
+> > +     sg_free_table(&a->table);
+> >       kfree(a);
+> >  }
+> >
+> > @@ -129,7 +120,7 @@ static struct sg_table *system_heap_map_dma_buf(str=
+uct dma_buf_attachment *attac
+> >                                               enum dma_data_direction d=
+irection)
+> >  {
+> >       struct dma_heap_attachment *a =3D attachment->priv;
+> > -     struct sg_table *table =3D a->table;
+> > +     struct sg_table *table =3D &a->table;
+> >       int ret;
+> >
+> >       ret =3D dma_map_sgtable(attachment->dev, table, direction, 0);
+> > @@ -164,7 +155,7 @@ static int system_heap_dma_buf_begin_cpu_access(str=
+uct dma_buf *dmabuf,
+> >       list_for_each_entry(a, &buffer->attachments, list) {
+> >               if (!a->mapped)
+> >                       continue;
+> > -             dma_sync_sgtable_for_cpu(a->dev, a->table, direction);
+> > +             dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
+> >       }
+> >       mutex_unlock(&buffer->lock);
+> >
+> > @@ -185,7 +176,7 @@ static int system_heap_dma_buf_end_cpu_access(struc=
+t dma_buf *dmabuf,
+> >       list_for_each_entry(a, &buffer->attachments, list) {
+> >               if (!a->mapped)
+> >                       continue;
+> > -             dma_sync_sgtable_for_device(a->dev, a->table, direction);
+> > +             dma_sync_sgtable_for_device(a->dev, &a->table, direction)=
+;
+> >       }
+> >       mutex_unlock(&buffer->lock);
+> >
+> >
+> > base-commit: 8ffd015db85fea3e15a77027fda6c02ced4d2444
 >
 
