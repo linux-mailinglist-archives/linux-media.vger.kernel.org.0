@@ -1,79 +1,79 @@
-Return-Path: <linux-media+bounces-30736-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30737-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EB12A97651
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 21:58:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 490DFA97668
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 22:02:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8DD05171603
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 19:58:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2CCA2189A7B2
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 20:02:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A76929AAF0;
-	Tue, 22 Apr 2025 19:58:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF82629899D;
+	Tue, 22 Apr 2025 20:02:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="K62lC8az"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="XA7C0WAw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5FF298CC8
-	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 19:58:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD9FDF49
+	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 20:02:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745351888; cv=none; b=WGciMANNZ0V+Tmcm5jQUMSP+xCYjLVyuiy+VYSP4JaGt8xd3Frc741sgJq5UTDCdvRg+wm5dcqZNZ72o+Nc46yFd0hO2y8UH4z4BPePY6w0tzghzKnoL+QIxs44mWY9X/3Bi3cBEC2SoRR3SradgsGCgfh2Zc46bVtzG3L8d3iE=
+	t=1745352156; cv=none; b=e7J+cFp2fqUIv6boL/lnvIQ1pF5R/BF8sB897S2UVFRMMyT0Wx2W+eyj1LQ4tzZ9AJtp5HhJTsNfrf1Wdbqo3pX0m7GJAG1rXcdXedoejsQL1erxmZiiQLPn2l3eCT+JiGhtCPAJXUZvJnKMBALt0N8O9ULuvZe/X8ow/urzDUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745351888; c=relaxed/simple;
-	bh=UCc9IenOlRQt7veSnMNvgDmw1rTTzCVeI7tkZWg+g0g=;
+	s=arc-20240116; t=1745352156; c=relaxed/simple;
+	bh=1nSSP/2kRzhGO7fA+xH4AxdXe/AO8I11Gk3oJfT76tc=;
 	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=U7ADTvFaKEypOwHvN1dxcUd0sUU1gb7vLzNyg/07/UMmLVa5e6j++z//R/BY5anggPPJWRpi7ph4FYXof2/UZFd7ue4pwGpvq5sCOmQdCP+NcCh9eMw2ZasKjiURGSVyyLciP8569H3BjSKs5hody1ee3+B8r6D7XvSEQP6S6Wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=K62lC8az; arc=none smtp.client-ip=209.85.160.179
+	 Content-Type:MIME-Version; b=k0zYx3VpmpoLXNEO6ovalhuCx2vf4aBboN3/rA5B0adyqDyJmcGV5TohxhLKyNkIYxtedRjcVaL+/geACSNgQx9WmzX9cjAm4gOQQvGCVOuEwM4EwjqbqCU2PVrcheGK1AQWoPEdIjO36fSKhZXZN1ZJrCYuiHH4vgl80koiPrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=XA7C0WAw; arc=none smtp.client-ip=209.85.222.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-477282401b3so62185231cf.1
-        for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 12:58:05 -0700 (PDT)
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7c5568355ffso456627585a.0
+        for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 13:02:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1745351885; x=1745956685; darn=vger.kernel.org;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1745352153; x=1745956953; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=wi0XCQ0wIgKNjQqJTUBlgswWdaLbIuH1pbfLDZVamA8=;
-        b=K62lC8azJ9dU8MYX4L1lNETjpRr6r9ikSRLWKInE8I+n/HDK/BfKvpSm+hB61EO+9b
-         ij89z9bQ6weItF5IFj1vYPdy+4u/lTQ5gl+7sBSsvrQG2XjPtCPhBQ1fr8c//U2E23re
-         7XjRc5/gfJnvQyZEJlrW9TVIwxgQwM4cNi8TUdxwppHon0RT+eI4UPtrc5LO0kxTZoeG
-         7ho4Qf3BiHuTVN7+ImE7o7XS8QflvyGmNlHiAqWMYL+IZaVIn+fRr95UQxJvSnTj2aYu
-         zGtXVzVepKsKezfq6duCTpFoFAEGUt61kH9pcbIGRbh90UBju/g/rkk6wrmzMQqC58LZ
-         vtlw==
+        bh=s9u1inJLOLfQh6u+GzwXvGD1x0ZTwyyXPt4wVXYzgNE=;
+        b=XA7C0WAw8KQpmEduuOFmHqmEQ2d8GbK3IzOKa+O7cbKlZlGWotwnFqpd4dJ7RKCPfw
+         Mk89u34jXtzts04zpGuH9duMva33hLcT1Vro9M7QjpGUXGOycHoTpnKhsU1WfjWhE+YM
+         yp9XQ2qpypmJZsUFbi9mNykl6qqoniUfNGsWcBTXV0D79GHmkwHvcUvLKs9u2yAdnT4R
+         UP3FGm3yrBLgbHxKV/glpdlrRjnpTuAfsa4qWX84cAL13+8f/rFprQUEYmgI6QIvlqsA
+         lEwJ/0fSHoU17/EW/VlcF3pwIZgs2jOHVkzybsCzT3dRo0etsm71pkhMpac27G3AJD0v
+         UD7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745351885; x=1745956685;
+        d=1e100.net; s=20230601; t=1745352153; x=1745956953;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=wi0XCQ0wIgKNjQqJTUBlgswWdaLbIuH1pbfLDZVamA8=;
-        b=PDh1fwbj9FJfLfxd8ue3hkY+ATroPLRlOvMNVndvo8g5uj9w0AUCQ4PvUQcXiqMgKL
-         nua9dDwlLca+tVigJTRM25dPjBlGVONXEFcqu39+12CjBoti06TKOOgF16rWJZN7jlyG
-         +3Gn70FmFX6pH2mfTAZCcRRV21eyPelmMQfWOl32Bze8kywdKwJOocWDxOeo7bIBVdLr
-         xZldBtOO7z6FYsjUCPntc5N7DVlUXHThZ6aY09H9k87YZ4K1tKvKpf+dGoVZqiJ7YagF
-         BeVRDgLhtFFgcuF6meuFbLpQOrwlSLM0cY2jFgdnDlsu10M/7UUvV2lp+VF7/IyAHOIj
-         WCwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWDoJxRK1XeI5C+TcHwojJoAvEIFUeTfyNVOhyx8ZEBAC8JS85+igotwvX8rOqhCCwXIG41jqjUnh5TxA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxs7o8GhJndbO+okVDonQhXyuhpQOtD+bHGQuuU9fxDnVEEgk0v
-	bXDDCB40SRHgBOYxxF9WHWtDOwI1JcqYS9KnqUUy0nICAGpbIlQjtPDZl47F/4I=
-X-Gm-Gg: ASbGncuGxzj/RM1RC8gYrxYA99bQhYKUJbfU25fFzbYNUrHliV1Y7zXz/sNxhS2kPl1
-	9lkvGrImvZy1D6tleZXHZWDw4sZHRsLiRq+vsyvvY3VyEOiE7ZAQbww1BnW3luXvYMLIGs08Nau
-	ejE9wy+UuE53JSt6hH9WyWkAvuR9rTySQQRTeU6BoUrz768Ds1/0fjSKkvDxzNx35el7Wq4gf+7
-	IX2RVv9meDwjy8y2t2w86cI8j8Xvk29QgXbs0FOochwTPSWSUrf6P8Wns9ygDLDUeLa3I3QIWO7
-	RP8k1H8Jsq14xtHdt37XhFu8gD+UbgG99mp0oVTjvP6/TA==
-X-Google-Smtp-Source: AGHT+IF7avo9uEX7A3mW4T8l6RGnGWjnOiUes3AEZlicK2QwGeYThk0IGDXmi5oRWeE+79xJPQKX3w==
-X-Received: by 2002:a05:6214:19c8:b0:6e8:fad9:c688 with SMTP id 6a1803df08f44-6f2c4552a03mr278764626d6.16.1745351884909;
-        Tue, 22 Apr 2025 12:58:04 -0700 (PDT)
+        bh=s9u1inJLOLfQh6u+GzwXvGD1x0ZTwyyXPt4wVXYzgNE=;
+        b=vySw2/QaMYJLBURS9HVPl2TgFqcscXis2qK/n8vlsKpixzbLiMBBlexyf6fpD1bYNC
+         b45B4YF3HfC37mb/jPl9RnV0CXfa5ldgKm+/3l3YTjGK9iD8BS0lRisanAuPEaZSkgb5
+         tm/hNlH/+kXpkHxZpkcvj6rsgFlbYjYJAMY6xmGIKPoynZDmZpn8+QNRT9cY3wKRRuZU
+         Cw/aBfK+JHlDhHMpnU3QVjLXRzpkyE611NHSlwweZMEo8bGrwSwxMEEaBIIkThKIpXVW
+         FP0uKTQ9EgAYkT630tOGJtcjdKM8VJQuS0Yai60ET/JLDFC9p1RU5qLu0JghbiHbbAsU
+         KlqA==
+X-Forwarded-Encrypted: i=1; AJvYcCVbSYCILGbl7nlNy8G22g9a3CpLJZp69WgZb3JELqjtn9Qs7ZrlEmJPSWeg2k53m3UDuPkEIdRgHaJCKw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3ZoqpCkJX/85X2APQgpwO/L37pErZ63GbuaSD96uji5BBRW4i
+	2cSY+TUphgJHN1DDU+G8wh6rDUncEFEbQloTmkUgTzWs7EDBDpejKFQmsM/+5AY=
+X-Gm-Gg: ASbGnctnmYwXXrPqDEb1IbTVtwCWHP94xFlnA14IFzyP9K78CwlS4ixhsOyAd8giorr
+	ZDlpHu4iL5YP0hbfBAXrsVKRd9RhekEFkwmPRcz3imO5SSsbPRft7HwRAu8+ZWkacAjPKfhLbt6
+	4Q8g083bwdoXkzzjXHhZeBWZqe7Z5GQCz+ANUPvHvLosuBtOk0WRxnqpXcooMYPKyhJUCneJfDU
+	QtX4Ofgjs1xd1M2VnLfqvBRTEx1h6+dPXiyKeTS8Nm3uDsY9++DSbEOC4INCsq9IxawFK9cJUOf
+	iHJ+KwHr59D9LTNe0LPiPdeWOj8RcUpcQmXIHcED1f6zag==
+X-Google-Smtp-Source: AGHT+IEyfUity8IZHL89fVip+YlKPkQeYXQ/cc/i4hOtn80oieQH71fbgk3bqPItSdc1oVh2sxqqRw==
+X-Received: by 2002:a05:620a:45a6:b0:7c5:5d4b:e62a with SMTP id af79cd13be357-7c92805f2f4mr3022695985a.54.1745352153635;
+        Tue, 22 Apr 2025 13:02:33 -0700 (PDT)
 Received: from ?IPv6:2606:6d00:15:9913::5ac? ([2606:6d00:15:9913::5ac])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f2c2af1433sm61506056d6.19.2025.04.22.12.58.03
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c925a8f3c5sm593665885a.37.2025.04.22.13.02.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Apr 2025 12:58:04 -0700 (PDT)
-Message-ID: <529a9804d5b14322b2be78ea6f98677db9c23c33.camel@ndufresne.ca>
-Subject: Re: [PATCH v3 3/3] media: verisilicon: postproc: 4K support
+        Tue, 22 Apr 2025 13:02:32 -0700 (PDT)
+Message-ID: <5f215b62927438061eb004694847705406a6814c.camel@ndufresne.ca>
+Subject: Re: [PATCH v3 2/3] media: verisilicon: add WebP decoding support
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
 To: Hugues Fruchet <hugues.fruchet@foss.st.com>, Mauro Carvalho Chehab	
  <mchehab@kernel.org>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
@@ -89,10 +89,10 @@ To: Hugues Fruchet <hugues.fruchet@foss.st.com>, Mauro Carvalho Chehab
  linux-kernel@vger.kernel.org, 	linux-rockchip@lists.infradead.org,
  linux-stm32@st-md-mailman.stormreply.com, 
 	linux-arm-kernel@lists.infradead.org
-Date: Tue, 22 Apr 2025 15:58:02 -0400
-In-Reply-To: <20241121131904.261230-4-hugues.fruchet@foss.st.com>
+Date: Tue, 22 Apr 2025 16:02:31 -0400
+In-Reply-To: <20241121131904.261230-3-hugues.fruchet@foss.st.com>
 References: <20241121131904.261230-1-hugues.fruchet@foss.st.com>
-	 <20241121131904.261230-4-hugues.fruchet@foss.st.com>
+	 <20241121131904.261230-3-hugues.fruchet@foss.st.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
@@ -107,79 +107,150 @@ Hi,
 
 Le jeudi 21 novembre 2024 =C3=A0 14:19 +0100, Hugues Fruchet a =C3=A9crit=
 =C2=A0:
-> Support input larger than 4096x2048 using extended input width/height
-> fields of swreg92.
-> This is needed to decode large WebP or JPEG pictures.
+> Add WebP picture decoding support to VP8 stateless decoder.
+
+This is a bit short. I believe I've asked to explain why its fine to
+bump the NV12 max width/height to 4K here or in the code. Also, will
+need a simple port once the PIX_FMT is changed.
+
+Nicolas
+
 >=20
 > Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
-
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
 > ---
-> =C2=A0drivers/media/platform/verisilicon/hantro.h=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 ++
-> =C2=A0drivers/media/platform/verisilicon/hantro_g1_regs.h=C2=A0 | 2 +-
-> =C2=A0drivers/media/platform/verisilicon/hantro_postproc.c | 6 +++++-
-> =C2=A03 files changed, 8 insertions(+), 2 deletions(-)
+> =C2=A0.../media/platform/verisilicon/hantro_g1_regs.h |=C2=A0 1 +
+> =C2=A0.../platform/verisilicon/hantro_g1_vp8_dec.c=C2=A0=C2=A0=C2=A0 | 14=
+ ++++++++++++++
+> =C2=A0.../media/platform/verisilicon/hantro_v4l2.c=C2=A0=C2=A0=C2=A0 |=C2=
+=A0 2 ++
+> =C2=A0.../platform/verisilicon/stm32mp25_vpu_hw.c=C2=A0=C2=A0=C2=A0=C2=A0=
+ | 17
+> +++++++++++++++--
+> =C2=A04 files changed, 32 insertions(+), 2 deletions(-)
 >=20
-> diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/=
-platform/verisilicon/hantro.h
-> index 811260dc3c77..d1337f7742e4 100644
-> --- a/drivers/media/platform/verisilicon/hantro.h
-> +++ b/drivers/media/platform/verisilicon/hantro.h
-> @@ -321,6 +321,8 @@ struct hantro_postproc_regs {
-> =C2=A0	struct hantro_reg output_fmt;
-> =C2=A0	struct hantro_reg orig_width;
-> =C2=A0	struct hantro_reg display_width;
-> +	struct hantro_reg input_width_ext;
-> +	struct hantro_reg input_height_ext;
-> =C2=A0};
-> =C2=A0
-> =C2=A0struct hantro_vp9_decoded_buffer_info {
-> diff --git a/drivers/media/platform/verisilicon/hantro_g1_regs.h b/driver=
-s/media/platform/verisilicon/hantro_g1_regs.h
-> index e7d4db788e57..f6e5bbeb1914 100644
+> diff --git a/drivers/media/platform/verisilicon/hantro_g1_regs.h
+> b/drivers/media/platform/verisilicon/hantro_g1_regs.h
+> index c623b3b0be18..e7d4db788e57 100644
 > --- a/drivers/media/platform/verisilicon/hantro_g1_regs.h
 > +++ b/drivers/media/platform/verisilicon/hantro_g1_regs.h
-> @@ -351,7 +351,7 @@
-> =C2=A0#define=C2=A0=C2=A0=C2=A0=C2=A0 G1_REG_PP_CONTROL_OUT_WIDTH(v) (((v=
-) << 4) & GENMASK(14, 4))
-> =C2=A0#define G1_REG_PP_MASK1_ORIG_WIDTH	G1_SWREG(88)
-> =C2=A0#define=C2=A0=C2=A0=C2=A0=C2=A0 G1_REG_PP_ORIG_WIDTH(v)	(((v) << 23=
-) & GENMASK(31, 23))
-> -#define G1_REG_PP_DISPLAY_WIDTH		G1_SWREG(92)
-> +#define G1_REG_PP_DISPLAY_WIDTH_IN_EXT	G1_SWREG(92)
-> =C2=A0#define G1_REG_PP_FUSE			G1_SWREG(99)
+> @@ -232,6 +232,7 @@
+> =C2=A0#define=C2=A0=C2=A0=C2=A0=C2=A0 G1_REG_DEC_CTRL7_DCT7_START_BIT(x)	=
+	(((x) &
+> 0x3f) << 0)
+> =C2=A0#define
+> G1_REG_ADDR_STR					0x030
+> =C2=A0#define
+> G1_REG_ADDR_DST					0x034
+> +#define G1_REG_ADDR_DST_CHROMA				0x038
+> =C2=A0#define G1_REG_ADDR_REF(i)				(0x038 +
+> ((i) * 0x4))
+> =C2=A0#define=C2=A0=C2=A0=C2=A0=C2=A0 G1_REG_ADDR_REF_FIELD_E			BIT(1)
+> =C2=A0#define=C2=A0=C2=A0=C2=A0=C2=A0 G1_REG_ADDR_REF_TOPC_E			BIT(0)
+> diff --git a/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
+> b/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
+> index 851eb67f19f5..c83ee6f5edc8 100644
+> --- a/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
+> +++ b/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
+> @@ -307,6 +307,12 @@ static void cfg_parts(struct hantro_ctx *ctx,
+> =C2=A0			=C2=A0=C2=A0
+> G1_REG_DEC_CTRL3_STREAM_LEN(dct_part_total_len),
+> =C2=A0			=C2=A0=C2=A0 G1_REG_DEC_CTRL3);
 > =C2=A0
-> =C2=A0#endif /* HANTRO_G1_REGS_H_ */
-> diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drive=
-rs/media/platform/verisilicon/hantro_postproc.c
-> index 232c93eea7ee..84c8e287470d 100644
-> --- a/drivers/media/platform/verisilicon/hantro_postproc.c
-> +++ b/drivers/media/platform/verisilicon/hantro_postproc.c
-> @@ -49,7 +49,9 @@ static const struct hantro_postproc_regs hantro_g1_post=
-proc_regs =3D {
-> =C2=A0	.input_fmt =3D {G1_REG_PP_CONTROL, 29, 0x7},
-> =C2=A0	.output_fmt =3D {G1_REG_PP_CONTROL, 26, 0x7},
-> =C2=A0	.orig_width =3D {G1_REG_PP_MASK1_ORIG_WIDTH, 23, 0x1ff},
-> -	.display_width =3D {G1_REG_PP_DISPLAY_WIDTH, 0, 0xfff},
-> +	.display_width =3D {G1_REG_PP_DISPLAY_WIDTH_IN_EXT, 0, 0xfff},
-> +	.input_width_ext =3D {G1_REG_PP_DISPLAY_WIDTH_IN_EXT, 26, 0x7},
-> +	.input_height_ext =3D {G1_REG_PP_DISPLAY_WIDTH_IN_EXT, 29, 0x7},
-> =C2=A0};
+> +	if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_WEBP_FRAME)
+> +		vdpu_write_relaxed(vpu,
+> +				=C2=A0=C2=A0 G1_REG_DEC_CTRL3_STREAM_LEN_EXT
+> +					(dct_part_total_len >> 24),
+> +				=C2=A0=C2=A0 G1_REG_DEC_CTRL3);
+> +
+> =C2=A0	/* DCT partitions base address */
+> =C2=A0	for (i =3D 0; i < hdr->num_dct_parts; i++) {
+> =C2=A0		u32 byte_offset =3D dct_part_offset +
+> dct_size_part_size + count;
+> @@ -427,6 +433,12 @@ static void cfg_buffers(struct hantro_ctx *ctx,
 > =C2=A0
-> =C2=A0bool hantro_needs_postproc(const struct hantro_ctx *ctx,
-> @@ -103,6 +105,8 @@ static void hantro_postproc_g1_enable(struct hantro_c=
-tx *ctx)
-> =C2=A0	HANTRO_PP_REG_WRITE(vpu, output_height, ctx->dst_fmt.heighat);
-> =C2=A0	HANTRO_PP_REG_WRITE(vpu, orig_width, MB_WIDTH(ctx->dst_fmt.width))=
-;
-> =C2=A0	HANTRO_PP_REG_WRITE(vpu, display_width, ctx->dst_fmt.width);
-> +	HANTRO_PP_REG_WRITE(vpu, input_width_ext, MB_WIDTH(ctx->dst_fmt.width) =
->> 9);
-> +	HANTRO_PP_REG_WRITE(vpu, input_height_ext, MB_HEIGHT(ctx->dst_fmt.heigh=
-t >> 8));
+> =C2=A0	dst_dma =3D hantro_get_dec_buf_addr(ctx, &vb2_dst->vb2_buf);
+> =C2=A0	vdpu_write_relaxed(vpu, dst_dma, G1_REG_ADDR_DST);
+> +
+> +	if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_WEBP_FRAME)
+> +		vdpu_write_relaxed(vpu, dst_dma +
+> +				=C2=A0=C2=A0 ctx-
+> >dst_fmt.plane_fmt[0].bytesperline *
+> +				=C2=A0=C2=A0 ctx->dst_fmt.height,
+> +				=C2=A0=C2=A0 G1_REG_ADDR_DST_CHROMA);
 > =C2=A0}
 > =C2=A0
-> =C2=A0static int down_scale_factor(struct hantro_ctx *ctx)
+> =C2=A0int hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
+> @@ -471,6 +483,8 @@ int hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
+> =C2=A0		reg |=3D G1_REG_DEC_CTRL0_SKIP_MODE;
+> =C2=A0	if (hdr->lf.level =3D=3D 0)
+> =C2=A0		reg |=3D G1_REG_DEC_CTRL0_FILTERING_DIS;
+> +	if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_WEBP_FRAME)
+> +		reg |=3D G1_REG_DEC_CTRL0_WEBP_E;
+> =C2=A0	vdpu_write_relaxed(vpu, reg, G1_REG_DEC_CTRL0);
+> =C2=A0
+> =C2=A0	/* Frame dimensions */
+> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> index 2513adfbd825..7075b2ba1ec2 100644
+> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> @@ -470,6 +470,7 @@ hantro_update_requires_request(struct hantro_ctx
+> *ctx, u32 fourcc)
+> =C2=A0		break;
+> =C2=A0	case V4L2_PIX_FMT_MPEG2_SLICE:
+> =C2=A0	case V4L2_PIX_FMT_VP8_FRAME:
+> +	case V4L2_PIX_FMT_WEBP_FRAME:
+> =C2=A0	case V4L2_PIX_FMT_H264_SLICE:
+> =C2=A0	case V4L2_PIX_FMT_HEVC_SLICE:
+> =C2=A0	case V4L2_PIX_FMT_VP9_FRAME:
+> @@ -492,6 +493,7 @@ hantro_update_requires_hold_capture_buf(struct
+> hantro_ctx *ctx, u32 fourcc)
+> =C2=A0	case V4L2_PIX_FMT_JPEG:
+> =C2=A0	case V4L2_PIX_FMT_MPEG2_SLICE:
+> =C2=A0	case V4L2_PIX_FMT_VP8_FRAME:
+> +	case V4L2_PIX_FMT_WEBP_FRAME:
+> =C2=A0	case V4L2_PIX_FMT_HEVC_SLICE:
+> =C2=A0	case V4L2_PIX_FMT_VP9_FRAME:
+> =C2=A0		vq->subsystem_flags &=3D
+> ~(VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF);
+> diff --git a/drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c
+> b/drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c
+> index 833821120b20..c291b1560e20 100644
+> --- a/drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c
+> +++ b/drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c
+> @@ -22,10 +22,10 @@ static const struct hantro_fmt
+> stm32mp25_vdec_fmts[] =3D {
+> =C2=A0		.codec_mode =3D HANTRO_MODE_NONE,
+> =C2=A0		.frmsize =3D {
+> =C2=A0			.min_width =3D FMT_MIN_WIDTH,
+> -			.max_width =3D FMT_FHD_WIDTH,
+> +			.max_width =3D FMT_4K_WIDTH,
+> =C2=A0			.step_width =3D MB_DIM,
+> =C2=A0			.min_height =3D FMT_MIN_HEIGHT,
+> -			.max_height =3D FMT_FHD_HEIGHT,
+> +			.max_height =3D FMT_4K_HEIGHT,
+> =C2=A0			.step_height =3D MB_DIM,
+> =C2=A0		},
+> =C2=A0	},
+> @@ -42,6 +42,19 @@ static const struct hantro_fmt
+> stm32mp25_vdec_fmts[] =3D {
+> =C2=A0			.step_height =3D MB_DIM,
+> =C2=A0		},
+> =C2=A0	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_WEBP_FRAME,
+> +		.codec_mode =3D HANTRO_MODE_VP8_DEC,
+> +		.max_depth =3D 2,
+> +		.frmsize =3D {
+> +			.min_width =3D FMT_MIN_WIDTH,
+> +			.max_width =3D FMT_4K_WIDTH,
+> +			.step_width =3D MB_DIM,
+> +			.min_height =3D FMT_MIN_HEIGHT,
+> +			.max_height =3D FMT_4K_HEIGHT,
+> +			.step_height =3D MB_DIM,
+> +		},
+> +	},
+> =C2=A0	{
+> =C2=A0		.fourcc =3D V4L2_PIX_FMT_H264_SLICE,
+> =C2=A0		.codec_mode =3D HANTRO_MODE_H264_DEC,
 
