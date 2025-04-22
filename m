@@ -1,189 +1,181 @@
-Return-Path: <linux-media+bounces-30745-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30746-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA153A97830
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 23:08:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A4773A97850
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 23:13:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 058081691E6
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 21:08:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A7A5118996AA
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 21:13:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 087332DAF80;
-	Tue, 22 Apr 2025 21:07:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B6A925C826;
+	Tue, 22 Apr 2025 21:13:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="lIR85V5j"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hJctLjgp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D189F2D1903
-	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 21:07:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA6225C806;
+	Tue, 22 Apr 2025 21:13:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745356072; cv=none; b=Cvxp64cxy1Rvkc80Zy684Q4WWE6lmqoGewa1r9IHZbx+AqodQaqOZaowRo+RqVu2R30j03J77B/d6jlFmdm9g6AKYI4+6PJ443EzTMSj4VRs2wP3CTkceeSfuQfs0YEsCldSsD11ypbwQRdJuGclx4j3OcD/3o8SYUd+gd41LoI=
+	t=1745356404; cv=none; b=I3W7lQE5OWiKAE6nlXyYeAKeltGGAEplYcu8N/FCU7PgkFNxXWRIpjgzqS1OB6/oJSI1PZDbmbTAmz1BIamcm6uMAqdJVeKjzHNRK4CY1FCWx+6QXLI3ffVqQNz3/ezcl1lEzPnD4cGRg3QrmQWMc4f1cDkFcCnzd3YyP/AfYFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745356072; c=relaxed/simple;
-	bh=rkEwoUmgvj28dgtudlJMOGhZi2riSOSmKLBB+FYyAno=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=uUnfDL/Bu1JTkajPdftGnO2cVm5uAyZ96G+/pRlBCC0RnwjsP/GODYB329Yo/VjnV8gxxiqcSTL86GTpVJTF4Ry4FLFEaSZJ8uSe0uq5mXXbA357cpvUlzG7eqivVKLdJ47V3c7Gj+Fzv+5wQJRu9G2tkAr41K60mO16GtflGjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=lIR85V5j; arc=none smtp.client-ip=209.85.215.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-b07d607dc83so4352130a12.1
-        for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 14:07:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1745356070; x=1745960870; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=45H/AloEC5EQosKI+fEptjCF1JCPdnHEO37xdJvt3C0=;
-        b=lIR85V5j9cHLmQqogLK3vq59LYiGrdgmowxdy9Za0skmsQLa5XhXDm8nSdukAyYoD+
-         MBo51hPf8GEVf0qqUAjcQTkvzpU/j9ufarKXabtso3EGMQZRqrTltf8dvDL/UmuAFZ8F
-         eCB/8KEFzz3/8VkfJji/eK+etHztfCAkaq7tI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745356070; x=1745960870;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=45H/AloEC5EQosKI+fEptjCF1JCPdnHEO37xdJvt3C0=;
-        b=ekCSQ++zQ/zALfRfZfIB4E4fngm4CXTHKdpIzTs2p8Kyp4ppYwdlfcwc+x+yJasirG
-         E5JEIUBp6MRmnoQzHLzsFurmRpFyoklFm6UmNL2LkPH4P+Fk7Pwn9O8g4Q9aGtsaWfxb
-         WX7oRD3yiVXAhNQJmKua3DNlPQ03crMHsc53nxkvjtMy+d7raUDMu+d4JGdo5w+Nmva5
-         J+rbyIAhkvaKPjMEt5MPJc42dHld53PBLaBwelcgbhfsJHkrUWkEZcl1sfa9siDwaWYu
-         n6gIDkj/j8piwCua5TosbbT2CAaZqG0jsSRqJp+wyQ+PELMEQ0mSwgSWmzV7m1v1rPAQ
-         0lig==
-X-Forwarded-Encrypted: i=1; AJvYcCWyrCndIPbtqQtxqXKjDFBq0u6l8VQdSYQdZgxri12fS9GWI6JP2aerCZGiI2UuEZCAYjSpkgiQvI0I0A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxEcP9BuRc7LKsVwA1VqrjyjocJOfL8sZoRgD6y4LeDwZoC/s8s
-	7oUa6C11PXWjoIiJ2fuMb6ZE0aqgVQD0BW8Jrlg9teaP5kUAG7RzSWU0TLY9y0o0IafJBs9Tkc4
-	6VBNQe/b/5EYI+m/VcFadL7WgpeTwSpAq+BH9
-X-Gm-Gg: ASbGnct3SyhPWpZhx1bpFet1Ijvp7HX+OVaN2s0/clDW9mdYRHHhEPuGIr0YIz55SgL
-	owxIILU3TKatMCHQnSfleWWSysqxEndHAMMjVlB/x8ghAKc9LARQBBRAnOj2QVcWgPeSXGf8p6H
-	C7adRcsKDiGXU/l78YoNzyBC5dHczn/zGZDLFenou7sXNTshmw/mBQt4U7w8OzmbU=
-X-Google-Smtp-Source: AGHT+IGltlrXXX5WKjfs3az+RLOdT3RUOZ4pgUz3pzyv9A2wvBoVRwdKL4WWPasLspXHid4QoIa/QcaTAyeY1aVtvOw=
-X-Received: by 2002:a17:90b:1f8c:b0:2ff:5ed8:83d0 with SMTP id
- 98e67ed59e1d1-3087bb631d7mr27536082a91.16.1745356070047; Tue, 22 Apr 2025
- 14:07:50 -0700 (PDT)
+	s=arc-20240116; t=1745356404; c=relaxed/simple;
+	bh=62l8ycsRy5TYmENNU4ufXWIzRBqbCxMUi99ufS0ft7Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kVJng+9TqJavxzhS5uirLV/Yesk/YscNgCXjakyu5698+rrY1DknSkg2Jn05g55M+9WO+76VcbDNpxMKzUlwUAWKpzwOp+FEFFihrQ+r8lBU9aXKLfDeUNPJDFhlIkX+HbxZswcW5ERDlcQUssTFBHi92cU8SRuFGp1M5jl5bxI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hJctLjgp; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D515D2AC;
+	Tue, 22 Apr 2025 23:13:19 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1745356400;
+	bh=62l8ycsRy5TYmENNU4ufXWIzRBqbCxMUi99ufS0ft7Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hJctLjgpt3hJjYiiucC0Fh0I0oC3ifSeojAzS3e8IqpyVwbHpsHnwbYtJZ8qITdu3
+	 +l0XgoQX7/iXeUXpJJtjw+HH/L9jnYp34MUFXT4EE01Ojlu1gzz1+pcv8W0S6VczOv
+	 1w8FETFNWPhWuT6IbDjLSrtXtaqPhY5n4Vl4SGGU=
+Date: Wed, 23 Apr 2025 00:13:18 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@kernel.org
+Subject: Re: [PATCH v2 3/3] media: uvcvideo: Rollback non processed entities
+ on error
+Message-ID: <20250422211318.GO17813@pendragon.ideasonboard.com>
+References: <20250224-uvc-data-backup-v2-0-de993ed9823b@chromium.org>
+ <20250224-uvc-data-backup-v2-3-de993ed9823b@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250211-enable_hevc_still_picture-v1-1-0c06c0c9add2@chromium.org>
- <f257832e823d23c8324a9eaf7890dd4b6d50a6f0.camel@ndufresne.ca>
- <1f1e41700b16eef7fe790b9b14d6ccfd157f67ad.camel@ndufresne.ca> <a2cb7a26f120558ab7b84a6f954188c8e61f37a8.camel@ndufresne.ca>
-In-Reply-To: <a2cb7a26f120558ab7b84a6f954188c8e61f37a8.camel@ndufresne.ca>
-From: Nathan Hebert <nhebert@chromium.org>
-Date: Tue, 22 Apr 2025 14:07:39 -0700
-X-Gm-Features: ATxdqUGjCZHeQwn5h4Wm7IoTgUdcsGQStAHC2clGfbY2_C-9n3g3PH2xVEW8YXs
-Message-ID: <CANHAJhE--nOrMnCHPEEmRyTvd6mK5GoC+J7TdX64VEX+OJ69Kw@mail.gmail.com>
-Subject: Re: [PATCH] media: mediatek: vcodec: Enable HEVC main still picture decode
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: Yunfei Dong <yunfei.dong@mediatek.com>, Tiffany Lin <tiffany.lin@mediatek.com>, 
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250224-uvc-data-backup-v2-3-de993ed9823b@chromium.org>
 
-On Tue, Apr 22, 2025 at 1:54=E2=80=AFPM Nicolas Dufresne <nicolas@ndufresne=
-.ca> wrote:
->
-> Le lundi 17 f=C3=A9vrier 2025 =C3=A0 14:28 -0500, Nicolas Dufresne a =C3=
-=A9crit :
-> > aLe lundi 17 f=C3=A9vrier 2025 =C3=A0 13:45 -0500, Nicolas Dufresne a =
-=C3=A9crit :
-> > > Hi Nathan,
-> > >
-> > > Le mardi 11 f=C3=A9vrier 2025 =C3=A0 16:34 -0800, Nathan Hebert a =C3=
-=A9crit :
-> > > > Mediatek devices that support HEVC also support the main still pict=
-ure
-> > > > profile, but today, the main still picture profile is excluded.
-> > > >
-> > > > This removes the skip mask for HEVC, and enables the main still
-> > > > picture profile decoding.
-> > > >
-> > > > Signed-off-by: Nathan Hebert <nhebert@chromium.org>
-> > > > ---
-> > > > On Mediatek devices that support HEVC decoding, HEVC Main Still Pic=
-ture
-> > > > profile is also supported by the SOC and firmware. However, this
-> > > > capability is turned off in the vcodec driver.
-> > > >
-> > > > This removes the code that disables HEVC Main Still Picture profile
-> > > > decoding. Validation of the decoder has been done via V4L2-backed
-> > > > Android CTS tests on an MT8196 device.
-> > >
-> > > While its nice to know that you are working on upcoming SoC, we need
-> > > confirmation that this is working on all the upstream stateless
-> > > decoders supported: 8183, 8186, 8192, 8195. Ideally testing on 8188,
-> > > which I can see has merged support without the linux-firmware file to
-> > > go with it.
-> > >
-> > > I'll wait for that and Yunfei's ack before picking it. Yunfei, please
-> > > fix the situation with 8188 in linux-firmware, and CC me.
-> >
-> > In case this is useful, we recommend providing fluster scores for the
-> > codec, which in that case runs some public ITU conformance vectors.
-> > Since most of the testing has been done with GStreamer, you may be able
-> > to find old report and confirm it it works. GStreamer does not
-> > currently filter the profile/level (on my todo), so it will try anyway.
-> > IPRED_B_Nokia_3 is the one vector in the base suite that expose that
-> > profile.
-> >
-> > resources/JCT-VC-HEVC_V1/IPRED_B_Nokia_3/IPRED_B_Nokia_3.bit
-> >   Stream #0:0: Video: hevc (Main Still Picture), none, 1920x1080, 25 fp=
-s, 1200k tbr, 1200k tbn
->
-> Ran the test myself on MT8195 and can confirm it passes if you ignore
-> the profiles.
-Thank you for checking, Nicholas. I apologise for slow action on my
-end. My work priorities have pushed this back in the queue.
->
-> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->
-> >
-> > regards,
-> > Nicolas
-> >
-> > >
-> > > regards,
-> > > Nicolas
-> > >
-> > > > ---
-> > > >  .../media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateles=
-s.c   | 2 --
-> > > >  1 file changed, 2 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vco=
-dec_dec_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vc=
-odec_dec_stateless.c
-> > > > index afa224da0f41..d873159b9b30 100644
-> > > > --- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec=
-_stateless.c
-> > > > +++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec=
-_stateless.c
-> > > > @@ -152,8 +152,6 @@ static const struct mtk_stateless_control mtk_s=
-tateless_controls[] =3D {
-> > > >                   .id =3D V4L2_CID_MPEG_VIDEO_HEVC_PROFILE,
-> > > >                   .def =3D V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN,
-> > > >                   .max =3D V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10,
-> > > > -                 .menu_skip_mask =3D
-> > > > -                         BIT(V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STI=
-LL_PICTURE),
-> > > >           },
-> > > >           .codec_type =3D V4L2_PIX_FMT_HEVC_SLICE,
-> > > >   },
-> > > >
-> > > > ---
-> > > > base-commit: ffd294d346d185b70e28b1a28abe367bbfe53c04
-> > > > change-id: 20250211-enable_hevc_still_picture-26b35eb08270
-> > > >
-> > > > Best regards,
-> > >
+Hi Ricardo,
+
+Thank you for the patch.
+
+On Mon, Feb 24, 2025 at 10:34:55AM +0000, Ricardo Ribalda wrote:
+> If we wail to commit an entity, we need to restore the
+> UVC_CTRL_DATA_BACKUP for the other uncommitted entities. Otherwise the
+> control cache and the device would be out of sync.
+> 
+> Cc: stable@kernel.org
+> Fixes: b4012002f3a3 ("[media] uvcvideo: Add support for control events")
+> Reported-by: Hans de Goede <hdegoede@redhat.com>
+> Closes: https://lore.kernel.org/linux-media/fe845e04-9fde-46ee-9763-a6f00867929a@redhat.com/
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c | 32 ++++++++++++++++++++++----------
+>  1 file changed, 22 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index 7d074686eef4..89b946151b16 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -1864,7 +1864,7 @@ static int uvc_ctrl_commit_entity(struct uvc_device *dev,
+>  	unsigned int processed_ctrls = 0;
+>  	struct uvc_control *ctrl;
+>  	unsigned int i;
+> -	int ret;
+> +	int ret = 0;
+>  
+>  	if (entity == NULL)
+>  		return 0;
+> @@ -1893,8 +1893,6 @@ static int uvc_ctrl_commit_entity(struct uvc_device *dev,
+>  				dev->intfnum, ctrl->info.selector,
+>  				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
+>  				ctrl->info.size);
+> -		else
+> -			ret = 0;
+>  
+>  		if (!ret)
+>  			processed_ctrls++;
+> @@ -1906,10 +1904,14 @@ static int uvc_ctrl_commit_entity(struct uvc_device *dev,
+>  
+>  		ctrl->dirty = 0;
+>  
+> -		if (ret < 0) {
+> +		if (ret < 0 && !rollback) {
+>  			if (err_ctrl)
+>  				*err_ctrl = ctrl;
+> -			return ret;
+> +			/*
+> +			 * If we fail to set a control, we need to rollback
+> +			 * the next ones.
+> +			 */
+> +			rollback = 1;
+>  		}
+>  
+>  		if (!rollback && handle &&
+> @@ -1917,6 +1919,9 @@ static int uvc_ctrl_commit_entity(struct uvc_device *dev,
+>  			uvc_ctrl_set_handle(handle, ctrl, handle);
+>  	}
+>  
+> +	if (ret)
+> +		return ret;
+> +
+>  	return processed_ctrls;
+>  }
+>  
+> @@ -1947,7 +1952,8 @@ int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
+>  	struct uvc_video_chain *chain = handle->chain;
+>  	struct uvc_control *err_ctrl;
+>  	struct uvc_entity *entity;
+> -	int ret = 0;
+> +	int ret_out = 0;
+> +	int ret;
+>  
+>  	/* Find the control. */
+>  	list_for_each_entry(entity, &chain->entities, chain) {
+> @@ -1958,17 +1964,23 @@ int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
+>  				ctrls->error_idx =
+>  					uvc_ctrl_find_ctrl_idx(entity, ctrls,
+>  							       err_ctrl);
+> -			goto done;
+> +			/*
+> +			 * When we fail to commit an entity, we need to
+> +			 * restore the UVC_CTRL_DATA_BACKUP for all the
+> +			 * controls in the other entities, otherwise our cache
+> +			 * and the hardware will be out of sync.
+
+The text can be reflowed to 80 columns.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> +			 */
+> +			rollback = 1;
+> +
+> +			ret_out = ret;
+>  		} else if (ret > 0 && !rollback) {
+>  			uvc_ctrl_send_events(handle, entity,
+>  					     ctrls->controls, ctrls->count);
+>  		}
+>  	}
+>  
+> -	ret = 0;
+> -done:
+>  	mutex_unlock(&chain->ctrl_mutex);
+> -	return ret;
+> +	return ret_out;
+>  }
+>  
+>  int uvc_ctrl_get(struct uvc_video_chain *chain,
+
+-- 
+Regards,
+
+Laurent Pinchart
 
