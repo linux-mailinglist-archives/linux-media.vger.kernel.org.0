@@ -1,241 +1,158 @@
-Return-Path: <linux-media+bounces-30734-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30735-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76611A9762F
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 21:53:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E9CDA97647
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 21:57:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7EB343BB8F6
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 19:53:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BAD3216E18E
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 19:57:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36C08298CD1;
-	Tue, 22 Apr 2025 19:53:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39F44298CD7;
+	Tue, 22 Apr 2025 19:57:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="2AhcQFKs"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4B1Eex4/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ADA4298CB9
-	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 19:53:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE807298980
+	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 19:57:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745351598; cv=none; b=RGT6mrQWE10QHKO4+u4L4n8GPECh5u14a1QAnC/jgOZagavI7T70hhWPw8o8ghVeRvDO2p6h84Dc6ozmymtWKObCCI/E2lSbJYXVHn4aXlHdBb9KmSlC8gi4M6IbN5WE8JvhdA2lN7M3xER4DhN1aTHukZdkA+XuiA0tSXRcNQE=
+	t=1745351854; cv=none; b=izrrc3yF7sbZiXFlsx0dSy1pMzRDlYCH3Luu/wk7vHXXp69UEpG3EyyBnEW1Bq6XonZh1HJou76boKnP1eQPjLgyWR80XbT299ZG7ejuktG3Vxo4M/W6bd4vmFhpRWX7OljAepMQTOQqtfuP4SCmQjkuJHQ5MAARq8ZJWx+AIBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745351598; c=relaxed/simple;
-	bh=IwAWbmdSxUyTMHT5B54kwJAXHfPAJQo/18ZEaaxAN2w=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ccRpdi2CnPTol+w9VoGvyKf5wmMheF77ksaVk84DfwMkyygE3YKJaJ5IOZYQVl3WFhRM5Wg7mMSUBBXBynOYLS5V9P2p534uX/5hfC4G/UkUq//l7pYc3sawYkjS/3DK94SSnNg5jsQMrrufIu6mC6+xnXNgwHm6XyHjBI+fB0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=2AhcQFKs; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6e8f7019422so55461816d6.1
-        for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 12:53:14 -0700 (PDT)
+	s=arc-20240116; t=1745351854; c=relaxed/simple;
+	bh=CTVA2mrAn/AMpQDf5O262gMMZUU1TRh2/DuID8H/EP8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=GKE5ptcRgVwS5DqIL8RT7ZnFqkT1X0TjkK97Pv/VQtqN6+FNwqxiVeUnjkS/sERzqCMpL9vmEHJXf/Hkhs43sdXKkiMEu9C2EzMxjOyB/1c5bZw5Gp9W0+atsPrC5YWEq15XLZ/l3gcZStbSL+25Ao21PwdmndKfzqOqam335W8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4B1Eex4/; arc=none smtp.client-ip=209.85.128.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43d5f10e1aaso16825e9.0
+        for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 12:57:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1745351594; x=1745956394; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=google.com; s=20230601; t=1745351851; x=1745956651; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=rYsIXJ0VH1fBZwKk67xkFa5qHHB2W1M/DHJM5j7x72w=;
-        b=2AhcQFKsPB4b1eeIxXxxcG015taR+aZtipBkxzTXTbpguZshQyMv5AEVC7rnK9yAvR
-         tRzvocT1BRhFvoO7WbuZKB0FpsjgRJw6acoBJLq95FoauWCifk3xmVgSXhRbfC71GBDu
-         w6SSGOTRqyTrgb6CVwJMnWaXMTz98CIuAz5zcqzHFmfjsd3pvys1JRGWC8DCjluiamgN
-         WneSIModrXsioHPhES6t8guG/FfstQXwqcpEbVRX6X1JnWg+7Eb/xNSk5Lte9qCyCs8v
-         rKHh+EAmo7BpepNQcHOTd2LctY6E1ByvKIm1FyDI+jh3qlFiO7MMGRnEEqOcyu0/A0kT
-         oNYw==
+        bh=o+8WoEV+fhr75HFqg9zZSA4L2nRl0GyEtZHiF2PswuY=;
+        b=4B1Eex4/sKIjSHTFcN7ivYU9jkqma/S+wCqJszDrDsbomeZ7jSa7sHhmoTHczx93pj
+         qlDzKqMtIRnu2/0T+d5oKrTUb9Tbf6xin53LT0l9bZCZZHrPcxMXnuDEj+6Nm4nu+1jE
+         uHAiL7TOfm7ruXz3kDJgwtJgtxvFaLoAU/gkx6v0jTCUEaQKQpNi58BYlZ6E0xQNUe0Q
+         fYw4CuYzu7fHI5cqImmY31nJDE0vAkVOdGBCop0FVeaQGGgIe3kFgTf+QOszgHcoR69D
+         csk5aJ37+Lm+VBRBrBbAnlMwkE4YbkO/YKyJOw0qY19xvRArLkDXFD4RrNcNsGFlWPLT
+         2yrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745351594; x=1745956394;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=rYsIXJ0VH1fBZwKk67xkFa5qHHB2W1M/DHJM5j7x72w=;
-        b=lXHMTTrLAPncs2KJyt7A7rKqC6VRtlesp6b3k5deZ45hrzHXTlvMMV2vw5BJ+vbQF+
-         IL6I4M+2bm3BhyfMpOt6dYfEbwPcHL5WLUljq2se+xRF0xwHkHFaVgEqW5CFa4D2I38O
-         6hIoq52dq46ixHrQp8UO+qm7LmiZSqnybQLYWt99UTJTvmiTM76XLZVB9VbgBEMWUUSN
-         QKGRJtYC97sKNsW5fxfFlnsubLgP88OnL7F5Mgmb46yIvcKsUQofy/fmiXwuYxuu/UVm
-         nvz7dbp/cSnPT8RxRJl6doeiqqN+q4RCAjoWGKqorc4FlWgfUdXNv5FjZYtmcjWpvQ0R
-         Weeg==
-X-Forwarded-Encrypted: i=1; AJvYcCXVBNzuJ/7O+GHRhC8YYnbeXfRNEqxCYmqaSpXkF9a7+0qayRee/EUjY0q13fd2y1R12kucbm3BuEfHBg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwwLbWBYArtni0avn+n3zjq74kmcDaLh0koXfXa6l/ezo0BJpO4
-	P2kROeSbTdZ+lcHewkVgC9fPF/oAfqw/lEtcQN7NK/Uftm9jy1ryXgi6rD8qCVQ=
-X-Gm-Gg: ASbGncssHrsEbfgLIlZO2yLIgFHvX1sBg54WbFUrTNbJoFuvABdWsuvGEcuoLo5dzIF
-	oY47DVFe17hWLB5ktklVURbhgOAN6M4RTSwYIzWum/nsZ73yB8ThcnTYCTweg35dAfgq4g+cbHz
-	6++hovq1GqRDktugPu9niJygRONE6y0mBf32ZM/n3QkYKQ8RTIjLEQ8PVoNp6VCrNMwK0dXAYXS
-	sTE3tHiHN+19uprZc+RLEni0ZTuQa/6aM+0AF+M6lFL194hnL+77gckc25AJh0PTDnwdABlo6Qk
-	k7GEU5SPJA+1VQXpyJfRwewLzt+/aIpho3tWM7ZG6JyP5w==
-X-Google-Smtp-Source: AGHT+IFx37IZxz2XZRa4HUxytJgkJVsEXuyDvydowgtq1jU/C5yFgExdGRxaZiK2dG6HIZZz2N702A==
-X-Received: by 2002:a05:6214:21e7:b0:6e8:f4e2:26ef with SMTP id 6a1803df08f44-6f2c4656c2cmr318324046d6.31.1745351593565;
-        Tue, 22 Apr 2025 12:53:13 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:15:9913::5ac? ([2606:6d00:15:9913::5ac])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f2c2bfcfd0sm61261036d6.82.2025.04.22.12.53.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Apr 2025 12:53:12 -0700 (PDT)
-Message-ID: <419ba5e518be4a35ed0277f749ca9a317f6bff5c.camel@ndufresne.ca>
-Subject: Re: [PATCH v3 1/3] media: uapi: add WebP uAPI
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Hugues Fruchet <hugues.fruchet@foss.st.com>, Mauro Carvalho Chehab	
- <mchehab@kernel.org>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Sebastian Fricke	
- <sebastian.fricke@collabora.com>, Ricardo Ribalda <ribalda@chromium.org>, 
- Erling Ljunggren <hljunggr@cisco.com>, Hans Verkuil <hverkuil@xs4all.nl>,
- Laurent Pinchart	 <laurent.pinchart@ideasonboard.com>, Sakari Ailus
- <sakari.ailus@linux.intel.com>,  Jacopo Mondi
- <jacopo.mondi@ideasonboard.com>, Jean-Michel Hautbois
- <jeanmichel.hautbois@ideasonboard.com>,  Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, 	linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org
-Date: Tue, 22 Apr 2025 15:53:11 -0400
-In-Reply-To: <20241121131904.261230-2-hugues.fruchet@foss.st.com>
-References: <20241121131904.261230-1-hugues.fruchet@foss.st.com>
-	 <20241121131904.261230-2-hugues.fruchet@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
+        d=1e100.net; s=20230601; t=1745351851; x=1745956651;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=o+8WoEV+fhr75HFqg9zZSA4L2nRl0GyEtZHiF2PswuY=;
+        b=HSVGHSXKOx0n4anFPAqnZAgHTVskpv4743InTXz2mPodxXGswh1JxwQJic8E+J7M3Z
+         kuSOHPzoLWcVOGvQ+7bvqk2ukPBVWL6HufJsrfwR5kvSKRS1NE4ca28x4K/nZRPuSMIk
+         gro+52PafpDLYIe1X4BOjy5xvNUAcWduc1HVcQYtbbMv271vNb5ZNydLyMEM3GM7YtJB
+         +IX+ZcxV+OInsIo7aiYL3nXKKi/IxtHHIhqsReE2ENbJ6ZMIMTsc+aqfFqgSy7U5jfCA
+         LU0J55laq9eb1X6UA/DSuae7thwI0mHc/bR6BbOY6yDyD1ZH5+zDoCW3YHoIPAGa/sg0
+         nXZw==
+X-Forwarded-Encrypted: i=1; AJvYcCUSGs+AD27wnGL73+ykiCERS+veWd4TIp0HubUoSrAyE+4HkfHDNcMgzTChRSkIKGv1TUx2UkMuQjaQ7w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwvJdM5OvZUqMxtorNiEpzw2e+oe1eSKJqPIKsWBTaeNxh6NCbH
+	jrK+MFJEuKuWGe119+XYgz7Nq1hYaVqA/ZO/4v9C7jb344uSbav4ikzfMMfLS9CsYgcTv7XBctP
+	EkXlcp5dllN2OD9bHu2/xHgeQXnABQa/WMjsZoJeATOyFPdsZ4VHn
+X-Gm-Gg: ASbGncuLytvnlbgve4F92QFZwSxrKqBv8fzkcCgAwfLh1uVHkx6w1LRLcoGKestqrt2
+	pM2HSUOKCmkT7JBrYywTQSgdEgyd85Snfqt4o405o9POe4Vb4Dmf9etyspIZzMOWxCD7W9PAG1D
+	GbDsYvlKv/w+3D2yWkImNsTF5ozR3n0ubB/Ob8PW8iZ47oeEl9U6XHFMXd+GX8z/o=
+X-Google-Smtp-Source: AGHT+IHUmXBjG9n60eY/loYKceaeQypFwnBTAsAPzYJ5PJ5nFZ7ErzebtVx7FMQxwUfLtBAv12j9WXMAZTzYMIU/Svk=
+X-Received: by 2002:a05:600c:259:b0:439:8d84:32ff with SMTP id
+ 5b1f17b1804b1-44091b78f2dmr168325e9.3.1745351850985; Tue, 22 Apr 2025
+ 12:57:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20250414225227.3642618-1-tjmercier@google.com>
+ <20250414225227.3642618-3-tjmercier@google.com> <CAPhsuW54g5YCmLVX=cc3m2nfQTZrMH+6ZMBgouEMMfqcccOtww@mail.gmail.com>
+ <CABdmKX1OqLLsY5+LSMU-c=DDUxTFaivNcyXG3ntD8D0ty1Pwig@mail.gmail.com> <CAADnVQ+0PXgm_VuSJDKwr9iomxFLuG-=Chi2Ya3k0YPnKaex_w@mail.gmail.com>
+In-Reply-To: <CAADnVQ+0PXgm_VuSJDKwr9iomxFLuG-=Chi2Ya3k0YPnKaex_w@mail.gmail.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Tue, 22 Apr 2025 12:57:18 -0700
+X-Gm-Features: ATxdqUHMQq2PHoV14JDZonbBE5auIlNOjBV31C8667rOy5nLy9RJngJSN6-OcnY
+Message-ID: <CABdmKX1aMuyPTNXD72wXyXAfOi6f58DfcaBDh6uDo0EQ7pKChw@mail.gmail.com>
+Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Song Liu <song@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
+	Shuah Khan <skhan@linuxfoundation.org>, LKML <linux-kernel@vger.kernel.org>, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, android-mm@google.com, simona@ffwll.ch, 
+	Jonathan Corbet <corbet@lwn.net>, Eduard <eddyz87@gmail.com>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Jiri Olsa <jolsa@kernel.org>, 
+	Mykola Lysenko <mykolal@fb.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Mon, Apr 21, 2025 at 4:39=E2=80=AFPM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+>
+> On Mon, Apr 21, 2025 at 1:40=E2=80=AFPM T.J. Mercier <tjmercier@google.co=
+m> wrote:
+> >
+> > > > new file mode 100644
+> > > > index 000000000000..b4b8be1d6aa4
+> > > > --- /dev/null
+> > > > +++ b/kernel/bpf/dmabuf_iter.c
+> > >
+> > > Maybe we should add this file to drivers/dma-buf. I would like to
+> > > hear other folks thoughts on this.
+> >
+> > This is fine with me, and would save us the extra
+> > CONFIG_DMA_SHARED_BUFFER check that's currently needed in
+> > kernel/bpf/Makefile but would require checking CONFIG_BPF instead.
+> > Sumit / Christian any objections to moving the dmabuf bpf iterator
+> > implementation into drivers/dma-buf?
+>
+> The driver directory would need to 'depends on BPF_SYSCALL'.
+> Are you sure you want this?
+> imo kernel/bpf/ is fine for this.
 
-sorry for the late come back.
+I don't have a strong preference so either way is fine with me. The
+main difference I see is maintainership.
 
-Le jeudi 21 novembre 2024 =C3=A0 14:19 +0100, Hugues Fruchet a =C3=A9crit=
-=C2=A0:
-> This patch adds the WebP picture decoding kernel uAPI.
->=20
-> This design is based on currently available VP8 API implementation and
-> aims to support the development of WebP stateless video codecs
-> on Linux.
+> You also probably want
+> .feature                =3D BPF_ITER_RESCHED
+> in bpf_dmabuf_reg_info.
 
-Should mention that this new pix fmt is added to make it possible to
-support both intra-only and VP8 with reference, while advertising
-different frame sizes.
+Thank you, this looks like a good idea.
 
->=20
-> Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
-> ---
-> =C2=A0.../userspace-api/media/v4l/biblio.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 9 +++++++++
-> =C2=A0.../media/v4l/pixfmt-compressed.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 17 +++++++++++++++++
-> =C2=A0drivers/media/v4l2-core/v4l2-ioctl.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 +
-> =C2=A0include/uapi/linux/videodev2.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 =
-1 +
-> =C2=A04 files changed, 28 insertions(+)
->=20
-> diff --git a/Documentation/userspace-api/media/v4l/biblio.rst b/Documenta=
-tion/userspace-api/media/v4l/biblio.rst
-> index 35674eeae20d..df3e963fc54f 100644
-> --- a/Documentation/userspace-api/media/v4l/biblio.rst
-> +++ b/Documentation/userspace-api/media/v4l/biblio.rst
-> @@ -447,3 +447,12 @@ AV1
-> =C2=A0:title:=C2=A0=C2=A0=C2=A0=C2=A0 AV1 Bitstream & Decoding Process Sp=
-ecification
-> =C2=A0
-> =C2=A0:author:=C2=A0=C2=A0=C2=A0 Peter de Rivaz, Argon Design Ltd, Jack H=
-aughton, Argon Design Ltd
-> +
-> +.. _webp:
-> +
-> +WEBP
-> +=3D=3D=3D=3D
-> +
-> +:title:=C2=A0=C2=A0=C2=A0=C2=A0 WEBP picture Bitstream & Decoding Proces=
-s Specification
-> +
-> +:author:=C2=A0=C2=A0=C2=A0 Google (https://developers.google.com/speed/w=
-ebp)
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst =
-b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> index 806ed73ac474..08a989511e7d 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> @@ -169,6 +169,23 @@ Compressed Formats
-> =C2=A0	this pixel format. The output buffer must contain the appropriate =
-number
-> =C2=A0	of macroblocks to decode a full corresponding frame to the matchin=
-g
-> =C2=A0	capture buffer.
-> +=C2=A0=C2=A0=C2=A0 * .. _V4L2-PIX-FMT-WEBP-FRAME:
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - ``V4L2_PIX_FMT_WEBP_FRAME``
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - 'WEBP'
+> Also have you considered open coded iterator for dmabufs?
+> Would it help with the interface to user space?
 
-After plenty of thinking, WebP is a container the support 2 codecs. We
-should not name this WebP, but instead VP8_INTRA_FRAME. Meaning, intra
-only VP8 decoder.
+I read through the open coded iterator patches, and it looks like they
+would be slightly more efficient by avoiding seq_file overhead. As far
+as the interface to userspace, for the purpose of replacing what's
+currently exposed by CONFIG_DMABUF_SYSFS_STATS I don't think there is
+a difference. However it looks like if I were to try to replace all of
+our userspace analysis of dmabufs with a single bpf program then an
+open coded iterator would make that much easier. I had not considered
+attempting that.
 
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - WEBP VP8 parsed frame, excluding WEBP R=
-IFF header, keeping only the VP8
-> +	bitstream including the frame header, as extracted from the container.
-
-This comment will then not be needed, since VP8_INTRA will make it
-clear.
-
-regards,
-Nicolas
-
-> +	This format is adapted for stateless video decoders that implement a
-> +	WEBP pipeline with the :ref:`stateless_decoder`.
-> +	Metadata associated with the frame to decode is required to be passed
-> +	through the ``V4L2_CID_STATELESS_VP8_FRAME`` control.
-> +	See the :ref:`associated Codec Control IDs <v4l2-codec-stateless-vp8>`.
-> +	Because of key frames only bitstream, ``V4L2_VP8_FRAME_FLAG_KEY_FRAME``
-> +	flag must be set, see :ref:`Frame Flags <vp8_frame_flags>`.
-> +	Exactly one output and one capture buffer must be provided for use with
-> +	this pixel format. The output buffer must contain the appropriate numbe=
-r
-> +	of macroblocks to decode a full corresponding frame to the matching
-> +	capture buffer.
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 * .. _V4L2-PIX-FMT-VP9:
-> =C2=A0
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-co=
-re/v4l2-ioctl.c
-> index 0304daa8471d..e2ff03d0d773 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1501,6 +1501,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *f=
-mt)
-> =C2=A0		case V4L2_PIX_FMT_VC1_ANNEX_L:	descr =3D "VC-1 (SMPTE 412M Annex =
-L)"; break;
-> =C2=A0		case V4L2_PIX_FMT_VP8:		descr =3D "VP8"; break;
-> =C2=A0		case V4L2_PIX_FMT_VP8_FRAME:=C2=A0=C2=A0=C2=A0 descr =3D "VP8 Fra=
-me"; break;
-> +		case V4L2_PIX_FMT_WEBP_FRAME:=C2=A0=C2=A0=C2=A0 descr =3D "WEBP VP8 Fr=
-ame"; break;
-> =C2=A0		case V4L2_PIX_FMT_VP9:		descr =3D "VP9"; break;
-> =C2=A0		case V4L2_PIX_FMT_VP9_FRAME:=C2=A0=C2=A0=C2=A0 descr =3D "VP9 Fra=
-me"; break;
-> =C2=A0		case V4L2_PIX_FMT_HEVC:		descr =3D "HEVC"; break; /* aka H.265 */
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev=
-2.h
-> index e7c4dce39007..09fff269e852 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -757,6 +757,7 @@ struct v4l2_pix_format {
-> =C2=A0#define V4L2_PIX_FMT_VC1_ANNEX_L v4l2_fourcc('V', 'C', '1', 'L') /*=
- SMPTE 421M Annex L compliant stream */
-> =C2=A0#define V4L2_PIX_FMT_VP8=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_fourcc(=
-'V', 'P', '8', '0') /* VP8 */
-> =C2=A0#define V4L2_PIX_FMT_VP8_FRAME v4l2_fourcc('V', 'P', '8', 'F') /* V=
-P8 parsed frame */
-> +#define V4L2_PIX_FMT_WEBP_FRAME v4l2_fourcc('W', 'B', 'P', 'F') /* WEBP =
-VP8 parsed frame */
-> =C2=A0#define V4L2_PIX_FMT_VP9=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_fourcc(=
-'V', 'P', '9', '0') /* VP9 */
-> =C2=A0#define V4L2_PIX_FMT_VP9_FRAME v4l2_fourcc('V', 'P', '9', 'F') /* V=
-P9 parsed frame */
-> =C2=A0#define V4L2_PIX_FMT_HEVC=C2=A0=C2=A0=C2=A0=C2=A0 v4l2_fourcc('H', =
-'E', 'V', 'C') /* HEVC aka H.265 */
+One problem I see with open coded iterators is that support is much
+more recent (2023 vs 2020). We support longterm stable kernels (back
+to 5.4 currently but probably 5.10 by the time this would be used), so
+it seems like it would be harder to backport the kernel support for an
+open-coded iterator that far since it only goes back as far as 6.6
+now. Actually it doesn't look like it is possible while also
+maintaining the stable ABI we provide to device vendors. Which means
+we couldn't get rid of the dmabuf sysfs stats userspace dependency
+until 6.1 EOL in Dec. 2027. :\ So I'm in favor of a traditional bpf
+iterator here for now.
 
