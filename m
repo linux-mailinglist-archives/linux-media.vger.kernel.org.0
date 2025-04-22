@@ -1,98 +1,92 @@
-Return-Path: <linux-media+bounces-30737-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30738-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 490DFA97668
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 22:02:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 196A4A9769A
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 22:15:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2CCA2189A7B2
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 20:02:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4700317498D
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 20:15:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF82629899D;
-	Tue, 22 Apr 2025 20:02:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCC8C28CF69;
+	Tue, 22 Apr 2025 20:15:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="XA7C0WAw"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="Y3Ao1b+g"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+Received: from mail-qk1-f170.google.com (mail-qk1-f170.google.com [209.85.222.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD9FDF49
-	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 20:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8971F1DF979
+	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 20:15:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745352156; cv=none; b=e7J+cFp2fqUIv6boL/lnvIQ1pF5R/BF8sB897S2UVFRMMyT0Wx2W+eyj1LQ4tzZ9AJtp5HhJTsNfrf1Wdbqo3pX0m7GJAG1rXcdXedoejsQL1erxmZiiQLPn2l3eCT+JiGhtCPAJXUZvJnKMBALt0N8O9ULuvZe/X8ow/urzDUA=
+	t=1745352931; cv=none; b=KJB1nB7LvvSJufdutYaF2LGPFpIWTd8EscMCBXrCiaShb301jDhvo/YYnEE1SpDRoQNM5HVP5D1nbEO9iNBBs7XEt51XmD2psQhnh5pM/2W7N2GXLHtqffu8F2FCabHhLwo9FsUFsWuGCpgv1MVl/aEbzsZqQIqhHY/Amqk75XY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745352156; c=relaxed/simple;
-	bh=1nSSP/2kRzhGO7fA+xH4AxdXe/AO8I11Gk3oJfT76tc=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=k0zYx3VpmpoLXNEO6ovalhuCx2vf4aBboN3/rA5B0adyqDyJmcGV5TohxhLKyNkIYxtedRjcVaL+/geACSNgQx9WmzX9cjAm4gOQQvGCVOuEwM4EwjqbqCU2PVrcheGK1AQWoPEdIjO36fSKhZXZN1ZJrCYuiHH4vgl80koiPrQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=XA7C0WAw; arc=none smtp.client-ip=209.85.222.176
+	s=arc-20240116; t=1745352931; c=relaxed/simple;
+	bh=wNORhVYlgTJse9QfgWQWMbFqYMq1ZPqAa96KFCBdsj8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=MAuruzcy57LlI4QBRSplDDOdq//eMyPAvxYFQ1Y4yEjKbVNhQqUXD4D9x/GaFq6TFHNzI4WVpjYofsCZZcDjLl6t458PZ9Vcxd/nd6UBt6JWbUuTChb+wun0MHmSrq2MajrXxQeZxj7QpcpaSIkL1r+KcG7DTNbg79cO9CSCnLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=Y3Ao1b+g; arc=none smtp.client-ip=209.85.222.170
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7c5568355ffso456627585a.0
-        for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 13:02:34 -0700 (PDT)
+Received: by mail-qk1-f170.google.com with SMTP id af79cd13be357-7c5ba363f1aso738536085a.0
+        for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 13:15:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1745352153; x=1745956953; darn=vger.kernel.org;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1745352928; x=1745957728; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=s9u1inJLOLfQh6u+GzwXvGD1x0ZTwyyXPt4wVXYzgNE=;
-        b=XA7C0WAw8KQpmEduuOFmHqmEQ2d8GbK3IzOKa+O7cbKlZlGWotwnFqpd4dJ7RKCPfw
-         Mk89u34jXtzts04zpGuH9duMva33hLcT1Vro9M7QjpGUXGOycHoTpnKhsU1WfjWhE+YM
-         yp9XQ2qpypmJZsUFbi9mNykl6qqoniUfNGsWcBTXV0D79GHmkwHvcUvLKs9u2yAdnT4R
-         UP3FGm3yrBLgbHxKV/glpdlrRjnpTuAfsa4qWX84cAL13+8f/rFprQUEYmgI6QIvlqsA
-         lEwJ/0fSHoU17/EW/VlcF3pwIZgs2jOHVkzybsCzT3dRo0etsm71pkhMpac27G3AJD0v
-         UD7A==
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=FfIoYR2Hk8OscvFDt1woJsVwZTyVIxPWRqw5VTDHqxU=;
+        b=Y3Ao1b+g0tVDH2sqhlHaH72SAFtp9IFMxkZCHDQll6zowN2zaz0uVNbmdz8pDcrLHC
+         I/VWjCepH4mnOyzxQSqSVtNGcVwGki/MkSGtLehufiWAB5DSu8oZ5ZuFarpI9m1eERu+
+         ogK3vOqZUIxlvdGQIk65O8x7mlHLNTz4viXnd0xtu5ZbjoCp3cxZkyYBLhbAAFdDhJeG
+         orTl0kao911wG6lAdgVIBVa8yBn+0U3UvrnmuCwowzbZ2QMOXIYls9M8TjNkPuXtVOEM
+         svqAumiylHcS9cy7SrXa1O6N9wIbtD9FaXigsVzYhfpWS5vPvViFOLtGq0bEszmTf4F2
+         Ca1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745352153; x=1745956953;
+        d=1e100.net; s=20230601; t=1745352928; x=1745957728;
         h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=s9u1inJLOLfQh6u+GzwXvGD1x0ZTwyyXPt4wVXYzgNE=;
-        b=vySw2/QaMYJLBURS9HVPl2TgFqcscXis2qK/n8vlsKpixzbLiMBBlexyf6fpD1bYNC
-         b45B4YF3HfC37mb/jPl9RnV0CXfa5ldgKm+/3l3YTjGK9iD8BS0lRisanAuPEaZSkgb5
-         tm/hNlH/+kXpkHxZpkcvj6rsgFlbYjYJAMY6xmGIKPoynZDmZpn8+QNRT9cY3wKRRuZU
-         Cw/aBfK+JHlDhHMpnU3QVjLXRzpkyE611NHSlwweZMEo8bGrwSwxMEEaBIIkThKIpXVW
-         FP0uKTQ9EgAYkT630tOGJtcjdKM8VJQuS0Yai60ET/JLDFC9p1RU5qLu0JghbiHbbAsU
-         KlqA==
-X-Forwarded-Encrypted: i=1; AJvYcCVbSYCILGbl7nlNy8G22g9a3CpLJZp69WgZb3JELqjtn9Qs7ZrlEmJPSWeg2k53m3UDuPkEIdRgHaJCKw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw3ZoqpCkJX/85X2APQgpwO/L37pErZ63GbuaSD96uji5BBRW4i
-	2cSY+TUphgJHN1DDU+G8wh6rDUncEFEbQloTmkUgTzWs7EDBDpejKFQmsM/+5AY=
-X-Gm-Gg: ASbGnctnmYwXXrPqDEb1IbTVtwCWHP94xFlnA14IFzyP9K78CwlS4ixhsOyAd8giorr
-	ZDlpHu4iL5YP0hbfBAXrsVKRd9RhekEFkwmPRcz3imO5SSsbPRft7HwRAu8+ZWkacAjPKfhLbt6
-	4Q8g083bwdoXkzzjXHhZeBWZqe7Z5GQCz+ANUPvHvLosuBtOk0WRxnqpXcooMYPKyhJUCneJfDU
-	QtX4Ofgjs1xd1M2VnLfqvBRTEx1h6+dPXiyKeTS8Nm3uDsY9++DSbEOC4INCsq9IxawFK9cJUOf
-	iHJ+KwHr59D9LTNe0LPiPdeWOj8RcUpcQmXIHcED1f6zag==
-X-Google-Smtp-Source: AGHT+IEyfUity8IZHL89fVip+YlKPkQeYXQ/cc/i4hOtn80oieQH71fbgk3bqPItSdc1oVh2sxqqRw==
-X-Received: by 2002:a05:620a:45a6:b0:7c5:5d4b:e62a with SMTP id af79cd13be357-7c92805f2f4mr3022695985a.54.1745352153635;
-        Tue, 22 Apr 2025 13:02:33 -0700 (PDT)
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FfIoYR2Hk8OscvFDt1woJsVwZTyVIxPWRqw5VTDHqxU=;
+        b=p3nk7dfZvywIb/ZZcQmRTS7/IPO1nAZKIpIqcQwcX7LBA3W+ABAwU4XBWiOgoUXzVA
+         tg3nEzWTM0ywMWkaNNOVMBWKjUsSZnP/PSSIY5+o3BU+OYxCI80Txq4EtIDxp5miUPkK
+         y6tlRBPmgiL0UoST+8y9CrVZ1FVhWjlilJgvycpYA8wB9ldwbLdBP5zbjOoRWREQdRu7
+         3VvuId3ySnx1vJAjMPA/QQv7idN9XfN6+8rwtvTw0VbhtoN3Fh3OkIxQzda+hKJ32der
+         0VHR0yYt+0OoaVEKGN5oBpii/vIGk8r/GQV5WNHylnOwWL9BVVkCgsQ6u0cfa1BJv7jx
+         KVrQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUIcRPbugM3fcyGFqXqvYCHtwmrfKSCLXZ6AY7m9iwpMwy9kbzVT6bECohTQFogalnNhNUccCX+o7Bjnw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwjtH2lP41XjccfU0CvZXNSJXTr1Y5b3M0ViA5B0cmkhP4C7vUo
+	DnbDrUSz0y6yCT0U7zD0yr7SDDEXVr0Usm2gwALs+GNe/8mZhvuic2/RDn7FEpSjCtPk1bSgSjc
+	N1Lc=
+X-Gm-Gg: ASbGncspinM8SKkJusyz2mBb7MqGmmet1IZuGFq4dmvUupBf3chNN1AlH7wQ1EGynM1
+	0zE5qst61oJ0O6iPDfthvyguxAcc+JeBeTNcs6FN4OxOWtfmIUIK/+/WR1SFxmLsN+ORkSGLRGC
+	8S1uq9yj91uGmimffhC02Cidung+38IcNgTaL0PY3KmCRKjnvRbcQZHbQl9jiKz/bDQ/S0eZIV3
+	KI4XeBPo6TCs864JjoSytDDLfpfyGCrdUZweHxzpH+pjia8u0i0GwweGhzj8kZYakg7PlwOtn2O
+	PtIp+H5JCNBBxqZ8Ces7K6oD8eGP6A4h7mFKyzlOxTzIHc+sB7+7o1gv
+X-Google-Smtp-Source: AGHT+IE5UyDb3sP+B1E0k8WlUIn5epHst96b+MCPIWCRdWJrnaIbCMq4o4Z31SsOW5ok7mHv5BAPog==
+X-Received: by 2002:a05:620a:1a07:b0:7c7:827b:46bf with SMTP id af79cd13be357-7c928015f8dmr2301315685a.39.1745352928409;
+        Tue, 22 Apr 2025 13:15:28 -0700 (PDT)
 Received: from ?IPv6:2606:6d00:15:9913::5ac? ([2606:6d00:15:9913::5ac])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c925a8f3c5sm593665885a.37.2025.04.22.13.02.31
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c925b6e198sm590055985a.103.2025.04.22.13.15.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Apr 2025 13:02:32 -0700 (PDT)
-Message-ID: <5f215b62927438061eb004694847705406a6814c.camel@ndufresne.ca>
-Subject: Re: [PATCH v3 2/3] media: verisilicon: add WebP decoding support
+        Tue, 22 Apr 2025 13:15:27 -0700 (PDT)
+Message-ID: <74eb0589ae54855db1d2024591d501989e30027a.camel@ndufresne.ca>
+Subject: Re: [PATCH v2] media: amphion: Add H264 and HEVC profile and level
+ control
 From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Hugues Fruchet <hugues.fruchet@foss.st.com>, Mauro Carvalho Chehab	
- <mchehab@kernel.org>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
- Philipp Zabel <p.zabel@pengutronix.de>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Sebastian Fricke	
- <sebastian.fricke@collabora.com>, Ricardo Ribalda <ribalda@chromium.org>, 
- Erling Ljunggren <hljunggr@cisco.com>, Hans Verkuil <hverkuil@xs4all.nl>,
- Laurent Pinchart	 <laurent.pinchart@ideasonboard.com>, Sakari Ailus
- <sakari.ailus@linux.intel.com>,  Jacopo Mondi
- <jacopo.mondi@ideasonboard.com>, Jean-Michel Hautbois
- <jeanmichel.hautbois@ideasonboard.com>,  Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, 	linux-rockchip@lists.infradead.org,
- linux-stm32@st-md-mailman.stormreply.com, 
-	linux-arm-kernel@lists.infradead.org
-Date: Tue, 22 Apr 2025 16:02:31 -0400
-In-Reply-To: <20241121131904.261230-3-hugues.fruchet@foss.st.com>
-References: <20241121131904.261230-1-hugues.fruchet@foss.st.com>
-	 <20241121131904.261230-3-hugues.fruchet@foss.st.com>
+To: Ming Qian <ming.qian@oss.nxp.com>, mchehab@kernel.org, 
+	hverkuil-cisco@xs4all.nl
+Cc: shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de, 
+	kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+ xiahong.bao@nxp.com, 	eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
+ imx@lists.linux.dev, 	linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	linux-arm-kernel@lists.infradead.org
+Date: Tue, 22 Apr 2025 16:15:25 -0400
+In-Reply-To: <20241210093337.3779686-1-ming.qian@oss.nxp.com>
+References: <20241210093337.3779686-1-ming.qian@oss.nxp.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
@@ -103,154 +97,299 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Hi,
+Hi Ming,
 
-Le jeudi 21 novembre 2024 =C3=A0 14:19 +0100, Hugues Fruchet a =C3=A9crit=
+Le mardi 10 d=C3=A9cembre 2024 =C3=A0 18:33 +0900, Ming Qian a =C3=A9crit=
 =C2=A0:
-> Add WebP picture decoding support to VP8 stateless decoder.
+> From: Ming Qian <ming.qian@nxp.com>
+>=20
+> For format H264 and HEVC, the firmware can report the parsed profile idc
+> and level idc to driver, the information may be useful.
+> Implement the H264 and HEVC profile and level control to report them.
+>=20
+> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+> ---
+> v2
+> -- add support for V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE
+>=20
+> =C2=A0drivers/media/platform/amphion/vdec.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 | 61 +++++++++++++
+> =C2=A0drivers/media/platform/amphion/vpu_defs.h=C2=A0=C2=A0=C2=A0 |=C2=A0=
+ 1 +
+> =C2=A0drivers/media/platform/amphion/vpu_helpers.c | 93 +++++++++++++++++=
++++
+> =C2=A0drivers/media/platform/amphion/vpu_helpers.h |=C2=A0 5 ++
+> =C2=A0drivers/media/platform/amphion/vpu_malone.c=C2=A0 |=C2=A0 3 +-
+> =C2=A05 files changed, 162 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platfo=
+rm/amphion/vdec.c
+> index ca8f7319503a..61d5598ee6a1 100644
+> --- a/drivers/media/platform/amphion/vdec.c
+> +++ b/drivers/media/platform/amphion/vdec.c
+> @@ -232,6 +232,37 @@ static int vdec_ctrl_init(struct vpu_inst *inst)
+> =C2=A0			=C2=A0 V4L2_CID_MPEG_VIDEO_DEC_DISPLAY_DELAY_ENABLE,
+> =C2=A0			=C2=A0 0, 1, 1, 0);
+> =C2=A0
+> +	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, NULL,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_CID_MPEG_VIDEO_H264_PROFILE=
+,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_MPEG_VIDEO_H264_PROFILE_MUL=
+TIVIEW_HIGH,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ~((1 << V4L2_MPEG_VIDEO_H264_PRO=
+FILE_BASELINE) |
+> +				 (1 << V4L2_MPEG_VIDEO_H264_PROFILE_CONSTRAINED_BASELINE) |
 
-This is a bit short. I believe I've asked to explain why its fine to
-bump the NV12 max width/height to 4K here or in the code. Also, will
-need a simple port once the PIX_FMT is changed.
+You've added it here, but you will never report it, see my comment
+below.
+
+> +				 (1 << V4L2_MPEG_VIDEO_H264_PROFILE_MAIN) |
+> +				 (1 << V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED) |
+> +				 (1 << V4L2_MPEG_VIDEO_H264_PROFILE_HIGH) |
+> +				 (1 << V4L2_MPEG_VIDEO_H264_PROFILE_MULTIVIEW_HIGH) |
+> +				 (1 << V4L2_MPEG_VIDEO_H264_PROFILE_STEREO_HIGH)),
+
+Shall we advertise multiview and stereo ? My impression is that we lack
+a mechanism to actually signal the stereo layout, or which view each
+buffers came from. I'm thinking, you can can't test it, we should just
+fail on these ?
+
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_MPEG_VIDEO_H264_PROFILE_BAS=
+ELINE);
+> +
+> +	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, NULL,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_CID_MPEG_VIDEO_H264_LEVEL,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_6_2,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_4_0);
+> +
+> +	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, NULL,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_CID_MPEG_VIDEO_HEVC_PROFILE=
+,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_MPEG_VIDEO_HEVC_PROFILE_MAI=
+N_10,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ~((1 << V4L2_MPEG_VIDEO_HEVC_PRO=
+FILE_MAIN) |
+> +				 (1 << V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10)),
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_MPEG_VIDEO_HEVC_PROFILE_MAI=
+N);
+> +
+> +	v4l2_ctrl_new_std_menu(&inst->ctrl_handler, NULL,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_CID_MPEG_VIDEO_HEVC_LEVEL,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_MPEG_VIDEO_HEVC_LEVEL_6_2,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0,
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 V4L2_MPEG_VIDEO_HEVC_LEVEL_4);
+> +
+> =C2=A0	ctrl =3D v4l2_ctrl_new_std(&inst->ctrl_handler, &vdec_ctrl_ops,
+> =C2=A0				 V4L2_CID_MIN_BUFFERS_FOR_CAPTURE, 1, 32, 1, 2);
+> =C2=A0	if (ctrl)
+> @@ -1166,6 +1197,35 @@ static void vdec_clear_slots(struct vpu_inst *inst=
+)
+> =C2=A0	}
+> =C2=A0}
+> =C2=A0
+> +static void vdec_update_v4l2_ctrl(struct vpu_inst *inst, u32 id, u32 val=
+)
+> +{
+> +	struct v4l2_ctrl *ctrl =3D v4l2_ctrl_find(&inst->ctrl_handler, id);
+> +
+> +	if (ctrl)
+> +		v4l2_ctrl_s_ctrl(ctrl, val);
+> +}
+> +
+> +static void vdec_update_v4l2_profile_level(struct vpu_inst *inst, struct=
+ vpu_dec_codec_info *hdr)
+> +{
+> +	switch (inst->out_format.pixfmt) {
+> +	case V4L2_PIX_FMT_H264:
+> +	case V4L2_PIX_FMT_H264_MVC:
+> +		vdec_update_v4l2_ctrl(inst, V4L2_CID_MPEG_VIDEO_H264_PROFILE,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vpu_get_h264_v4l2_profile(hdr->profil=
+e_idc));
+> +		vdec_update_v4l2_ctrl(inst, V4L2_CID_MPEG_VIDEO_H264_LEVEL,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vpu_get_h264_v4l2_level(hdr->level_id=
+c));
+> +		break;
+> +	case V4L2_PIX_FMT_HEVC:
+> +		vdec_update_v4l2_ctrl(inst, V4L2_CID_MPEG_VIDEO_HEVC_PROFILE,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vpu_get_hevc_v4l2_profile(hdr->profil=
+e_idc));
+> +		vdec_update_v4l2_ctrl(inst, V4L2_CID_MPEG_VIDEO_HEVC_LEVEL,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vpu_get_hevc_v4l2_level(hdr->level_id=
+c));
+> +		break;
+> +	default:
+> +		return;
+> +	}
+> +}
+> +
+> =C2=A0static void vdec_event_seq_hdr(struct vpu_inst *inst, struct vpu_de=
+c_codec_info *hdr)
+> =C2=A0{
+> =C2=A0	struct vdec_t *vdec =3D inst->priv;
+> @@ -1189,6 +1249,7 @@ static void vdec_event_seq_hdr(struct vpu_inst *ins=
+t, struct vpu_dec_codec_info
+> =C2=A0	vdec_init_crop(inst);
+> =C2=A0	vdec_init_mbi(inst);
+> =C2=A0	vdec_init_dcp(inst);
+> +	vdec_update_v4l2_profile_level(inst, hdr);
+> =C2=A0	if (!vdec->seq_hdr_found) {
+> =C2=A0		vdec->seq_tag =3D vdec->codec_info.tag;
+> =C2=A0		if (vdec->is_source_changed) {
+> diff --git a/drivers/media/platform/amphion/vpu_defs.h b/drivers/media/pl=
+atform/amphion/vpu_defs.h
+> index 428d988cf2f7..606f9d61a265 100644
+> --- a/drivers/media/platform/amphion/vpu_defs.h
+> +++ b/drivers/media/platform/amphion/vpu_defs.h
+> @@ -134,6 +134,7 @@ struct vpu_dec_codec_info {
+> =C2=A0	u32 decoded_height;
+> =C2=A0	struct v4l2_fract frame_rate;
+> =C2=A0	u32 dsp_asp_ratio;
+> +	u32 profile_idc;
+> =C2=A0	u32 level_idc;
+> =C2=A0	u32 bit_depth_luma;
+> =C2=A0	u32 bit_depth_chroma;
+> diff --git a/drivers/media/platform/amphion/vpu_helpers.c b/drivers/media=
+/platform/amphion/vpu_helpers.c
+> index d12310af9ebc..108b75ceb4ae 100644
+> --- a/drivers/media/platform/amphion/vpu_helpers.c
+> +++ b/drivers/media/platform/amphion/vpu_helpers.c
+> @@ -509,3 +509,96 @@ const char *vpu_codec_state_name(enum vpu_codec_stat=
+e state)
+> =C2=A0	}
+> =C2=A0	return "<unknown>";
+> =C2=A0}
+> +
+> +struct codec_id_mapping {
+> +	u32 id;
+> +	u32 v4l2_id;
+> +};
+> +
+> +static struct codec_id_mapping h264_profiles[] =3D {
+> +	{66,=C2=A0 V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE},
+> +	{77,=C2=A0 V4L2_MPEG_VIDEO_H264_PROFILE_MAIN},
+> +	{88,=C2=A0 V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED},
+> +	{100, V4L2_MPEG_VIDEO_H264_PROFILE_HIGH},
+> +	{118, V4L2_MPEG_VIDEO_H264_PROFILE_MULTIVIEW_HIGH},
+> +	{128, V4L2_MPEG_VIDEO_H264_PROFILE_STEREO_HIGH}
+> +};
+> +
+> +static struct codec_id_mapping h264_levels[] =3D {
+> +	{10,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_1_0},
+> +	{9,=C2=A0=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_1B},
+> +	{11,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_1_1},
+> +	{12,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_1_2},
+> +	{13,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_1_3},
+> +	{20,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_2_0},
+> +	{21,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_2_1},
+> +	{22,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_2_2},
+> +	{30,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_3_0},
+> +	{31,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_3_1},
+> +	{32,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_3_2},
+> +	{40,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_4_0},
+> +	{41,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_4_1},
+> +	{42,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_4_2},
+> +	{50,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_5_0},
+> +	{51,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_5_1},
+> +	{52,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_5_2},
+> +	{60,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_6_0},
+> +	{61,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_6_1},
+> +	{62,=C2=A0 V4L2_MPEG_VIDEO_H264_LEVEL_6_2}
+> +};
+> +
+> +static struct codec_id_mapping hevc_profiles[] =3D {
+> +	{1,=C2=A0=C2=A0 V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN},
+> +	{2,=C2=A0=C2=A0 V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10}
+> +};
+> +
+> +static struct codec_id_mapping hevc_levels[] =3D {
+> +	{30,=C2=A0 V4L2_MPEG_VIDEO_HEVC_LEVEL_1},
+> +	{60,=C2=A0 V4L2_MPEG_VIDEO_HEVC_LEVEL_2},
+> +	{63,=C2=A0 V4L2_MPEG_VIDEO_HEVC_LEVEL_2_1},
+> +	{90,=C2=A0 V4L2_MPEG_VIDEO_HEVC_LEVEL_3},
+> +	{93,=C2=A0 V4L2_MPEG_VIDEO_HEVC_LEVEL_3_1},
+> +	{120, V4L2_MPEG_VIDEO_HEVC_LEVEL_4},
+> +	{123, V4L2_MPEG_VIDEO_HEVC_LEVEL_4_1},
+> +	{150, V4L2_MPEG_VIDEO_HEVC_LEVEL_5},
+> +	{153, V4L2_MPEG_VIDEO_HEVC_LEVEL_5_1},
+> +	{156, V4L2_MPEG_VIDEO_HEVC_LEVEL_5_2},
+> +	{180, V4L2_MPEG_VIDEO_HEVC_LEVEL_6},
+> +	{183, V4L2_MPEG_VIDEO_HEVC_LEVEL_6_1},
+> +	{186, V4L2_MPEG_VIDEO_HEVC_LEVEL_6_2}
+> +};
+> +
+> +static u32 vpu_find_v4l2_id(u32 id, struct codec_id_mapping *array, u32 =
+array_sz)
+> +{
+> +	u32 i;
+> +
+> +	if (!array || !array_sz)
+> +		return 0;
+> +
+> +	for (i =3D 0; i < array_sz; i++) {
+> +		if (id =3D=3D array[i].id)
+> +			return array[i].v4l2_id;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +u32 vpu_get_h264_v4l2_profile(u32 idc)
+> +{
+> +	return vpu_find_v4l2_id(idc, h264_profiles, ARRAY_SIZE(h264_profiles));
+> +}
+> +
+> +u32 vpu_get_h264_v4l2_level(u32 idc)
+> +{
+> +	return vpu_find_v4l2_id(idc, h264_levels, ARRAY_SIZE(h264_levels));
+> +}
+> +
+> +u32 vpu_get_hevc_v4l2_profile(u32 idc)
+> +{
+> +	return vpu_find_v4l2_id(idc, hevc_profiles, ARRAY_SIZE(hevc_profiles));
+> +}
+> +
+> +u32 vpu_get_hevc_v4l2_level(u32 idc)
+> +{
+> +	return vpu_find_v4l2_id(idc, hevc_levels, ARRAY_SIZE(hevc_levels));
+> +}
+> diff --git a/drivers/media/platform/amphion/vpu_helpers.h b/drivers/media=
+/platform/amphion/vpu_helpers.h
+> index 0eaddb07190d..dc5fb1ca2d33 100644
+> --- a/drivers/media/platform/amphion/vpu_helpers.h
+> +++ b/drivers/media/platform/amphion/vpu_helpers.h
+> @@ -70,4 +70,9 @@ int vpu_color_get_default(u32 primaries, u32 *ptransfer=
+s, u32 *pmatrix, u32 *pfu
+> =C2=A0
+> =C2=A0int vpu_find_dst_by_src(struct vpu_pair *pairs, u32 cnt, u32 src);
+> =C2=A0int vpu_find_src_by_dst(struct vpu_pair *pairs, u32 cnt, u32 dst);
+> +
+> +u32 vpu_get_h264_v4l2_profile(u32 idc);
+> +u32 vpu_get_h264_v4l2_level(u32 idc);
+> +u32 vpu_get_hevc_v4l2_profile(u32 idc);
+> +u32 vpu_get_hevc_v4l2_level(u32 idc);
+> =C2=A0#endif
+> diff --git a/drivers/media/platform/amphion/vpu_malone.c b/drivers/media/=
+platform/amphion/vpu_malone.c
+> index 4769c053c6c2..5c6b2a841b6f 100644
+> --- a/drivers/media/platform/amphion/vpu_malone.c
+> +++ b/drivers/media/platform/amphion/vpu_malone.c
+> @@ -889,7 +889,8 @@ static void vpu_malone_unpack_seq_hdr(struct vpu_rpc_=
+event *pkt,
+> =C2=A0	info->frame_rate.numerator =3D 1000;
+> =C2=A0	info->frame_rate.denominator =3D pkt->data[8];
+> =C2=A0	info->dsp_asp_ratio =3D pkt->data[9];
+> -	info->level_idc =3D pkt->data[10];
+> +	info->profile_idc =3D (pkt->data[10] >> 8) & 0xff;
+
+The data should normally also include the sps_constraint_set1_flag,
+which differentiate baseline from constrained-baseline. I would also be
+very surprised if the decoders supports ASO/FMO.
 
 Nicolas
 
->=20
-> Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
-> ---
-> =C2=A0.../media/platform/verisilicon/hantro_g1_regs.h |=C2=A0 1 +
-> =C2=A0.../platform/verisilicon/hantro_g1_vp8_dec.c=C2=A0=C2=A0=C2=A0 | 14=
- ++++++++++++++
-> =C2=A0.../media/platform/verisilicon/hantro_v4l2.c=C2=A0=C2=A0=C2=A0 |=C2=
-=A0 2 ++
-> =C2=A0.../platform/verisilicon/stm32mp25_vpu_hw.c=C2=A0=C2=A0=C2=A0=C2=A0=
- | 17
-> +++++++++++++++--
-> =C2=A04 files changed, 32 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/media/platform/verisilicon/hantro_g1_regs.h
-> b/drivers/media/platform/verisilicon/hantro_g1_regs.h
-> index c623b3b0be18..e7d4db788e57 100644
-> --- a/drivers/media/platform/verisilicon/hantro_g1_regs.h
-> +++ b/drivers/media/platform/verisilicon/hantro_g1_regs.h
-> @@ -232,6 +232,7 @@
-> =C2=A0#define=C2=A0=C2=A0=C2=A0=C2=A0 G1_REG_DEC_CTRL7_DCT7_START_BIT(x)	=
-	(((x) &
-> 0x3f) << 0)
-> =C2=A0#define
-> G1_REG_ADDR_STR					0x030
-> =C2=A0#define
-> G1_REG_ADDR_DST					0x034
-> +#define G1_REG_ADDR_DST_CHROMA				0x038
-> =C2=A0#define G1_REG_ADDR_REF(i)				(0x038 +
-> ((i) * 0x4))
-> =C2=A0#define=C2=A0=C2=A0=C2=A0=C2=A0 G1_REG_ADDR_REF_FIELD_E			BIT(1)
-> =C2=A0#define=C2=A0=C2=A0=C2=A0=C2=A0 G1_REG_ADDR_REF_TOPC_E			BIT(0)
-> diff --git a/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
-> b/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
-> index 851eb67f19f5..c83ee6f5edc8 100644
-> --- a/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
-> +++ b/drivers/media/platform/verisilicon/hantro_g1_vp8_dec.c
-> @@ -307,6 +307,12 @@ static void cfg_parts(struct hantro_ctx *ctx,
-> =C2=A0			=C2=A0=C2=A0
-> G1_REG_DEC_CTRL3_STREAM_LEN(dct_part_total_len),
-> =C2=A0			=C2=A0=C2=A0 G1_REG_DEC_CTRL3);
-> =C2=A0
-> +	if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_WEBP_FRAME)
-> +		vdpu_write_relaxed(vpu,
-> +				=C2=A0=C2=A0 G1_REG_DEC_CTRL3_STREAM_LEN_EXT
-> +					(dct_part_total_len >> 24),
-> +				=C2=A0=C2=A0 G1_REG_DEC_CTRL3);
-> +
-> =C2=A0	/* DCT partitions base address */
-> =C2=A0	for (i =3D 0; i < hdr->num_dct_parts; i++) {
-> =C2=A0		u32 byte_offset =3D dct_part_offset +
-> dct_size_part_size + count;
-> @@ -427,6 +433,12 @@ static void cfg_buffers(struct hantro_ctx *ctx,
-> =C2=A0
-> =C2=A0	dst_dma =3D hantro_get_dec_buf_addr(ctx, &vb2_dst->vb2_buf);
-> =C2=A0	vdpu_write_relaxed(vpu, dst_dma, G1_REG_ADDR_DST);
-> +
-> +	if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_WEBP_FRAME)
-> +		vdpu_write_relaxed(vpu, dst_dma +
-> +				=C2=A0=C2=A0 ctx-
-> >dst_fmt.plane_fmt[0].bytesperline *
-> +				=C2=A0=C2=A0 ctx->dst_fmt.height,
-> +				=C2=A0=C2=A0 G1_REG_ADDR_DST_CHROMA);
-> =C2=A0}
-> =C2=A0
-> =C2=A0int hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
-> @@ -471,6 +483,8 @@ int hantro_g1_vp8_dec_run(struct hantro_ctx *ctx)
-> =C2=A0		reg |=3D G1_REG_DEC_CTRL0_SKIP_MODE;
-> =C2=A0	if (hdr->lf.level =3D=3D 0)
-> =C2=A0		reg |=3D G1_REG_DEC_CTRL0_FILTERING_DIS;
-> +	if (ctx->vpu_src_fmt->fourcc =3D=3D V4L2_PIX_FMT_WEBP_FRAME)
-> +		reg |=3D G1_REG_DEC_CTRL0_WEBP_E;
-> =C2=A0	vdpu_write_relaxed(vpu, reg, G1_REG_DEC_CTRL0);
-> =C2=A0
-> =C2=A0	/* Frame dimensions */
-> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> index 2513adfbd825..7075b2ba1ec2 100644
-> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
-> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
-> @@ -470,6 +470,7 @@ hantro_update_requires_request(struct hantro_ctx
-> *ctx, u32 fourcc)
-> =C2=A0		break;
-> =C2=A0	case V4L2_PIX_FMT_MPEG2_SLICE:
-> =C2=A0	case V4L2_PIX_FMT_VP8_FRAME:
-> +	case V4L2_PIX_FMT_WEBP_FRAME:
-> =C2=A0	case V4L2_PIX_FMT_H264_SLICE:
-> =C2=A0	case V4L2_PIX_FMT_HEVC_SLICE:
-> =C2=A0	case V4L2_PIX_FMT_VP9_FRAME:
-> @@ -492,6 +493,7 @@ hantro_update_requires_hold_capture_buf(struct
-> hantro_ctx *ctx, u32 fourcc)
-> =C2=A0	case V4L2_PIX_FMT_JPEG:
-> =C2=A0	case V4L2_PIX_FMT_MPEG2_SLICE:
-> =C2=A0	case V4L2_PIX_FMT_VP8_FRAME:
-> +	case V4L2_PIX_FMT_WEBP_FRAME:
-> =C2=A0	case V4L2_PIX_FMT_HEVC_SLICE:
-> =C2=A0	case V4L2_PIX_FMT_VP9_FRAME:
-> =C2=A0		vq->subsystem_flags &=3D
-> ~(VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF);
-> diff --git a/drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c
-> b/drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c
-> index 833821120b20..c291b1560e20 100644
-> --- a/drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c
-> +++ b/drivers/media/platform/verisilicon/stm32mp25_vpu_hw.c
-> @@ -22,10 +22,10 @@ static const struct hantro_fmt
-> stm32mp25_vdec_fmts[] =3D {
-> =C2=A0		.codec_mode =3D HANTRO_MODE_NONE,
-> =C2=A0		.frmsize =3D {
-> =C2=A0			.min_width =3D FMT_MIN_WIDTH,
-> -			.max_width =3D FMT_FHD_WIDTH,
-> +			.max_width =3D FMT_4K_WIDTH,
-> =C2=A0			.step_width =3D MB_DIM,
-> =C2=A0			.min_height =3D FMT_MIN_HEIGHT,
-> -			.max_height =3D FMT_FHD_HEIGHT,
-> +			.max_height =3D FMT_4K_HEIGHT,
-> =C2=A0			.step_height =3D MB_DIM,
-> =C2=A0		},
-> =C2=A0	},
-> @@ -42,6 +42,19 @@ static const struct hantro_fmt
-> stm32mp25_vdec_fmts[] =3D {
-> =C2=A0			.step_height =3D MB_DIM,
-> =C2=A0		},
-> =C2=A0	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_WEBP_FRAME,
-> +		.codec_mode =3D HANTRO_MODE_VP8_DEC,
-> +		.max_depth =3D 2,
-> +		.frmsize =3D {
-> +			.min_width =3D FMT_MIN_WIDTH,
-> +			.max_width =3D FMT_4K_WIDTH,
-> +			.step_width =3D MB_DIM,
-> +			.min_height =3D FMT_MIN_HEIGHT,
-> +			.max_height =3D FMT_4K_HEIGHT,
-> +			.step_height =3D MB_DIM,
-> +		},
-> +	},
-> =C2=A0	{
-> =C2=A0		.fourcc =3D V4L2_PIX_FMT_H264_SLICE,
-> =C2=A0		.codec_mode =3D HANTRO_MODE_H264_DEC,
+> +	info->level_idc =3D pkt->data[10] & 0xff;
+> =C2=A0	info->bit_depth_luma =3D pkt->data[13];
+> =C2=A0	info->bit_depth_chroma =3D pkt->data[14];
+> =C2=A0	info->chroma_fmt =3D pkt->data[15];
 
