@@ -1,214 +1,307 @@
-Return-Path: <linux-media+bounces-30686-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30687-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9ECA962DA
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 10:52:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D4A7A9632B
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 10:57:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C919B7A957B
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 08:49:52 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 73D2D440C68
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 08:51:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BECE26388C;
-	Tue, 22 Apr 2025 08:44:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6D3E264A6D;
+	Tue, 22 Apr 2025 08:45:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="S8T5zhGO"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="l66ke73c"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F30AE2571AB
-	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 08:44:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 017E52641F8;
+	Tue, 22 Apr 2025 08:45:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745311489; cv=none; b=W9hkOdC+B5Sq3TFHpepX63nIoAEa+H73cbFgZ5lN5v2K2IOxYp15qnnY66w6oe4FdLGYxrPm///9tpZItLTpEZhMVUaFkmaScyitsnvBgrAwgQOjuA187aDC6qgp3aruMlG4RUCBwRwdIQOQFbMLDJ8qzkrbH7wZTAXOjBDLXGo=
+	t=1745311505; cv=none; b=K6ZstwdTwJ5mcyRQ4/skcNdf1WkuZd8jqvUqkigAV25PN1pKXRTt8+hj78wugReYf1IE8rlumddpcb1OT6nJyZrD04ImYCHzWu7Ag8lo6vptGnQlXbb+lWr8G3sfWiW4eoSz1zyDYicua4aihVGz7FxVDBAdqG74kfHek4G7FNc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745311489; c=relaxed/simple;
-	bh=P47QWwCm1v9g4MBFhGt7X6yWDzEz0lF1K9o6O8AqT60=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=guvJmDbRID/Ecvra1K9T0JN6pYXeRwpMj+AbrQxqUxslI6yk4rK5iD+k9Fa/e9ElRu7eDXlgkGtEuzNPvNYA9/teN8Wp+3+v9t0PWNbN+ConGwQiYmKAqbUjgIsAck1mxhdIlRADl3t2TNTGWMNRiimeV+HlMBsbC9R00Nt47Qc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=S8T5zhGO; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1745311486;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0+RdOtqSYZgJN9V7ZhicuRS1n/wY7Pa3OON81X9wpN0=;
-	b=S8T5zhGOZZaxplduP/1AZHsikS2KHCI7oHeI6DK5o7W5Uezc5ABgFphHzZdD/ZQP8DsGin
-	0n/QFQua80jAqIiLabOVWi8KbW8qfdRLzmpOCPgo8cro4anZUgP17SZeHVAIqYDhfUnEzK
-	VWr7RE844gZC6clZl3/ErUaoRbAZ4XE=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-650-M_Jx7AyOMS-FsZtmpGr7hg-1; Tue, 22 Apr 2025 04:44:44 -0400
-X-MC-Unique: M_Jx7AyOMS-FsZtmpGr7hg-1
-X-Mimecast-MFC-AGG-ID: M_Jx7AyOMS-FsZtmpGr7hg_1745311483
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-ab39f65dc10so630044266b.1
-        for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 01:44:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745311483; x=1745916283;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0+RdOtqSYZgJN9V7ZhicuRS1n/wY7Pa3OON81X9wpN0=;
-        b=kjwnhyCNdvWqy+dWui0fvgpNYGpBrXtCAUdjJbJnOxkmLU+FOLuIcK1edktonWUpyO
-         qB9h+PNJ+X25mvRxO8B5uEGifi3UhXWu+zpCwNP2ZG5eVU+sYqlFiShTpYWss9e/Eodw
-         /6OP3+JCA1vFvrqiQdPQhjYfKP0cplmo+etP7qlBQ2fcRKLMq5ICiG3l9OdzuTxE0AtO
-         pZBjm9LuHjpGbhoVlSFvzJ6fxfrEvCmWFTLDECp87E2hb9xnynn961Pb+Sxoe2PCnVpz
-         lg64jvS/YZdf5E2R34BlSUoo7MnC/cN9TejM3XhQ3ShJwSVcI9aD3uEr8XxqDEdUwm2z
-         RB7g==
-X-Forwarded-Encrypted: i=1; AJvYcCVoXXnwZGVQ5Y5aaBjqeEjZ+FoTuU+S85goNs/yYAsKecPcJO4qSo6r4s9F9qhInmylUK0Rl2TbAIv+Vg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxrakHhkr/RklfSNKWcY3EzoYXOGAEm0nYaczAd+wAC46Lzytw4
-	YMLQQ6zfzBQwF0CJtajywMbNQr2AA+rHZg0aL4Xc7aus9gvGlqgThF4UsCbOjC1xicjTHk6/LVr
-	4/AYYVXjio2fZFzsdTX+VG+7/WxSuWrENQNT0tnGuz8Q8eoxIpv/D7w7fiw7+
-X-Gm-Gg: ASbGncskKHh+JSEhoA6xgfjF951wSOAHhy6/uk1Mc7mjFwRjC4REY0Yd5hAX4obuA7u
-	0pHVWfNcXFSX4dXOq44sVXb5of1PZveb3os2MOjJPR3ZwZZ2BvBVwlTuA4ti8RJLpoVRIlZkcyw
-	KI1VhIPLtY5BfoY1qUItWh4ZuBOfl3twV5xI9r9HDolalYlJmyF38MQv1/SqTGOhz8ZQwssqDfc
-	ukR/izEWum+rYEnhQmXrlptR8Fyhtr6nbSoz7txUkKrJ/ioQOtd7dltB6yCZOAGJq0+hH1f2X/Y
-	ouDC8Q/l80WCUwUNjYXO10fmA4kRI5OHDZ056iE52h4tXb50wdq02BVw09T0k8HkPznbEU52mTX
-	Qhpf7o/bKX90tu+gc9k6e+lB9Gpqx6kxeT948t08Z/LRDSEL9yPg9pfUTgLcEwQ==
-X-Received: by 2002:a17:906:5048:b0:acb:8aa6:5455 with SMTP id a640c23a62f3a-acb8aa666bbmr673103466b.19.1745311482867;
-        Tue, 22 Apr 2025 01:44:42 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFpgdWV71E14QWV9s59BE4ul4PG5ma83tK012XEEsIaRAbQGVP1sxKldI3T51XJVDSQc/mtRQ==
-X-Received: by 2002:a17:906:5048:b0:acb:8aa6:5455 with SMTP id a640c23a62f3a-acb8aa666bbmr673100066b.19.1745311482404;
-        Tue, 22 Apr 2025 01:44:42 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acb6ec5160csm635268866b.63.2025.04.22.01.44.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Apr 2025 01:44:41 -0700 (PDT)
-Message-ID: <dd471b51-333b-4537-ac58-29ad2a10f1e2@redhat.com>
-Date: Tue, 22 Apr 2025 10:44:41 +0200
+	s=arc-20240116; t=1745311505; c=relaxed/simple;
+	bh=TFNUnXhDe+l5cW2aDpz4oiWpjyRdFW3fpEV13zT27+A=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GDejgTQTYiqHf2hOCatT4ZTQg7Qm0o2ankdLT1guwtAopy+F2uZlkR90RPucLxZJ6XraYz6YE+l39KYk+S1Eqh48pcJkEG0YZEpOMAykjbdHDHb1D/+AhM2OGNf2iU6/CJmkwf/drIU7Wgx6Nl2bmHSIXL4CDNyfGoQhGkMi2uA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=l66ke73c; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1745311501;
+	bh=TFNUnXhDe+l5cW2aDpz4oiWpjyRdFW3fpEV13zT27+A=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=l66ke73c+jJ2XMFJHm+CQ2fLrCjlk9IELtpGTUvO6396Dnza8HB2gSSktCZeZtJjm
+	 r1q3uHgjto9bf2pkNnyaey1PrCvgV49hrsfuRWxgqfUdIg6njQPBJru2ULhGP3j9dV
+	 izxk8aHe3FCJuVtiuQZnOb+j7hPY3HfZgUeKQADmGIu9+fL+A1McsFa1IZxmZTzXKl
+	 aeBo+n18ZRt5m5sfA3iV0ywo8Q7YCUvlz4+/f3mnS5RotySW7/+JOiWsxiRXSEFefv
+	 WMwHxTAdTVQeCZDwCvNO26B0c5UORZm012RsuAujzSYNznvtij9EFb8cvWJUct8knI
+	 f2I7echgm0/Uw==
+Received: from localhost (unknown [IPv6:2a01:e0a:2c:6930:5cf4:84a1:2763:fe0d])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbrezillon)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 8639F17E0FF6;
+	Tue, 22 Apr 2025 10:45:00 +0200 (CEST)
+Date: Tue, 22 Apr 2025 10:44:56 +0200
+From: Boris Brezillon <boris.brezillon@collabora.com>
+To: =?UTF-8?B?QWRyacOhbg==?= Larumbe <adrian.larumbe@collabora.com>
+Cc: linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ kernel@collabora.com, Liviu Dudau <liviu.dudau@arm.com>, Steven Price
+ <steven.price@arm.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v9 4/4] drm/panthor: show device-wide list of DRM GEM
+ objects over DebugFS
+Message-ID: <20250422104456.6fcca401@collabora.com>
+In-Reply-To: <talp23dokjtrzmwjoj3gvwoh5rvaf5txf3bsjpc5yqfdqabdhv@dex6idqtckci>
+References: <20250418022710.74749-1-adrian.larumbe@collabora.com>
+	<20250418022710.74749-5-adrian.larumbe@collabora.com>
+	<20250418100454.788c9586@collabora.com>
+	<talp23dokjtrzmwjoj3gvwoh5rvaf5txf3bsjpc5yqfdqabdhv@dex6idqtckci>
+Organization: Collabora
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/8] media: v4l: fwnode: Support acpi devices for
- v4l2_fwnode_device_parse
-To: Ricardo Ribalda <ribalda@chromium.org>, Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
- <hverkuil@xs4all.nl>, Sakari Ailus <sakari.ailus@linux.intel.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Linus Walleij
- <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-usb@vger.kernel.org, devicetree@vger.kernel.org,
- linux-gpio@vger.kernel.org
-References: <20250403-uvc-orientation-v1-0-1a0cc595a62d@chromium.org>
- <20250403-uvc-orientation-v1-3-1a0cc595a62d@chromium.org>
- <Z_uIyEe4uU_BC5aY@valkosipuli.retiisi.eu>
- <CANiDSCvQC25ZrSZgUuFt6deCogFL6=GPsYYrsegK1NOK=uzRJA@mail.gmail.com>
-Content-Language: en-US, nl
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <CANiDSCvQC25ZrSZgUuFt6deCogFL6=GPsYYrsegK1NOK=uzRJA@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ricardo,
+On Fri, 18 Apr 2025 21:15:32 +0100
+Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
 
-On 22-Apr-25 2:23 AM, Ricardo Ribalda wrote:
-> Hi Sakari
-> 
-> On Sun, 13 Apr 2025 at 17:50, Sakari Ailus <sakari.ailus@iki.fi> wrote:
->>
->> Hi Ricardo,
->>
->> Thanks for the patch.
->>
->> On Thu, Apr 03, 2025 at 07:16:14PM +0000, Ricardo Ribalda wrote:
->>> This patch modifies v4l2_fwnode_device_parse() to support ACPI devices.
->>>
->>> We initially add support only for orientation via the ACPI _PLD method.
->>>
->>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->>> ---
->>>  drivers/media/v4l2-core/v4l2-fwnode.c | 58 +++++++++++++++++++++++++++++++----
->>>  1 file changed, 52 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
->>> index cb153ce42c45d69600a3ec4e59a5584d7e791a2a..81563c36b6436bb61e1c96f2a5ede3fa9d64dab3 100644
->>> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
->>> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
->>> @@ -15,6 +15,7 @@
->>>   * Author: Guennadi Liakhovetski <g.liakhovetski@gmx.de>
->>>   */
->>>  #include <linux/acpi.h>
->>> +#include <acpi/acpi_bus.h>
->>>  #include <linux/kernel.h>
->>>  #include <linux/mm.h>
->>>  #include <linux/module.h>
->>> @@ -807,16 +808,47 @@ int v4l2_fwnode_connector_add_link(struct fwnode_handle *fwnode,
->>>  }
->>>  EXPORT_SYMBOL_GPL(v4l2_fwnode_connector_add_link);
->>>
->>> -int v4l2_fwnode_device_parse(struct device *dev,
->>> -                          struct v4l2_fwnode_device_properties *props)
->>> +static int v4l2_fwnode_device_parse_acpi(struct device *dev,
->>> +                                      struct v4l2_fwnode_device_properties *props)
->>> +{
->>> +     struct acpi_pld_info *pld;
->>> +     int ret = 0;
->>> +
->>> +     if (!acpi_get_physical_device_location(ACPI_HANDLE(dev), &pld)) {
->>> +             dev_dbg(dev, "acpi _PLD call failed\n");
->>> +             return 0;
->>> +     }
->>
->> You could have software nodes in an ACPI system as well as DT-aligned
->> properties. They're not the primary means to convey this information still.
->>
->> How about returning e.g. -ENODATA here if _PLD doesn't exist for the device
->> and then proceeding to parse properties as in DT?
-> 
-> Do you mean that there can be devices with ACPI handles that can also
-> have DT properties?
+> Hi Boris,
+>=20
+> On 18.04.2025 10:04, Boris Brezillon wrote:
+> > On Fri, 18 Apr 2025 03:27:07 +0100
+> > Adri=C3=A1n Larumbe <adrian.larumbe@collabora.com> wrote:
+> > =20
+> > > +#ifdef CONFIG_DEBUG_FS
+> > > +static void
+> > > +panthor_gem_debugfs_format_flags(char flags_str[], int flags_len,
+> > > +				 const char * const names[], u32 name_count,
+> > > +				 u32 flags)
+> > > +{
+> > > +	bool first =3D true;
+> > > +	int offset =3D 0;
+> > > +
+> > > +#define ACC_FLAGS(...) \
+> > > +	({ \
+> > > +		offset +=3D snprintf(flags_str + offset, flags_len - offset, ##__V=
+A_ARGS__); \
+> > > +		if (offset =3D=3D flags_len) \
+> > > +			return; \
+> > > +	}) =20
+> >
+> > I tried applying, but checkpatch complains with:
+> >
+> > -:225: WARNING:MACRO_WITH_FLOW_CONTROL: Macros with flow control statem=
+ents should be avoided
+> > #225: FILE: drivers/gpu/drm/panthor/panthor_gem.c:359:
+> > +#define ACC_FLAGS(...) \
+> > +	({ \
+> > +		offset +=3D snprintf(flags_str + offset, flags_len - offset, ##__VA_=
+ARGS__); \
+> > +		if (offset =3D=3D flags_len) \
+> > +			return; \
+> > +	})
+> >
+> >
+> > and now I'm wondering why we even need to return early? Oh, and the
+> > check looks suspicious to: snprintf() returns the number of chars
+> > that would have been written if the destination was big enough, so
+> > the offset will actually be greater than flags_len if the formatted
+> > string doesn't fit. =20
+>=20
+> I noticed this warning when running checkpatch myself, and while a return=
+ isn't strictly
+> necessary, I thought there was no point in going down the function when n=
+o more bytes
+> could be written into the format string because it's already full.
+>=20
+> I did check the code for other locations where flow control is happening =
+inside a macro
+> and found this:
+>=20
+> #define group_queue_work(group, wname) \
+> 	do { \
+> 		group_get(group); \
+> 		if (!queue_work((group)->ptdev->scheduler->wq, &(group)->wname ## _work=
+)) \
+> 			group_put(group); \
+> 	} while (0)
+>=20
+> although I'm not sure whether the do {} while (0) is right there to make =
+the warning go away.
 
-Yes it is possible to embed DT properties in ACPI, but I don't
-think that is really applicable here.
+No, the main difference is that it doesn't return behind the callers'
+back which is what checkscript is complaining about, though using do {}
+while(0) is usually preferred over ({}) when
+you have nothing to return.
 
-But we also have secondary software-fwnodes which are used
-extensively on x86 to set device-properties on devices by
-platform code to deal with ACPI tables sometimes having
-incomplete information.
+>=20
+> > snprintf() returns the number of chars
+> > that would have been written if the destination was big enough, so
+> > the offset will actually be greater than flags_len if the formatted
+> > string doesn't fit. =20
+>=20
+> Good catch, I don't know why I thought snprintf() would print at most 'fl=
+ags_len
+> - offset' bytes, and would return exactly that count at most too, rather =
+than
+> throwing a hypothetical max value. Then maybe checking whether 'if (offse=
+t >=3D
+> flags_len)' would be enough ?
 
-For example atm _PLD is already being parsed in:
+It should.
 
-drivers/media/pci/intel/ipu-bridge.c and that is then used to add
-a standard "orientation" device-property on the sensor device.
+>=20
+>=20
+> > There are a few other formatting issues reported by checkpatch
+> > --strict BTW.
+> >
+> > Unfortunately this led me to have a second look at these bits
+> > and I have a few more comments, sorry about that :-/. =20
+>=20
+> > +
+> > +	ACC_FLAGS("%c", '('); =20
+>=20
+> > Now that flags have their own columns, I'm not sure it makes sense
+> > surround them with parenthesis. That's even weird if we start running
+> > out of space, because there would be an open '(', a few flags,
+> > the last one being truncated, and no closing ')'. The other thing
+> > that's bothering me is the fact we don't know when not all flags
+> > have been displayed because of lack of space.
+> > =20
+> > > +
+> > > +	if (!flags)
+> > > +		ACC_FLAGS("%s", "none");
+> > > +
+> > > +	while (flags) {
+> > > +		u32 bit =3D fls(flags) - 1; =20
+> >
+> > I would probably print flags in bit position order, so ffs()
+> > instead of fls().
+> > =20
+> > > +		u32 idx =3D bit + 1; =20
+> >
+> > Why do you have a "+ 1" here? Feels like an off-by-one error to
+> > me.
+> > =20
+> > > +
+> > > +		if (!first)
+> > > +			ACC_FLAGS("%s", ",");
+> > > +
+> > > +		if (idx < name_count && names[idx])
+> > > +			ACC_FLAGS("%s", names[idx]);
+> > > +
+> > > +		first =3D false;
+> > > +		flags &=3D ~BIT(bit);
+> > > +	}
+> > > +
+> > > +	ACC_FLAGS("%c", ')');
+> > > +
+> > > +#undef ACC_FLAGS
+> > > +} =20
+> >
+> > How about something like that:
+> >
+> > static void
+> > panthor_gem_debugfs_format_flags(char *flags_str, u32 flags_str_len,
+> >                                  const char * const flag_names[],
+> >                                  u32 flag_name_count, u32 flags)
+> > {
+> > 	int offset =3D 0;
+> >
+> > 	if (!flags) {
+> >         	snprintf(flags_str, flags_str_len, "%s", "none");
+> > 		return;
+> > 	}
+> >
+> > 	while (flags) {
+> > 		const char *flag_name =3D "?";
+> > 		u32 flag =3D ffs(flags) - 1;
+> > 		int new_offset =3D offset;
+> >
+> > 		flags &=3D ~BIT(flag);
+> >
+> > 		if (flag < flag_name_count && flag_names[flag])
+> > 			flag_name =3D flag_names[flag];
+> >
+> > 		/* Print as much as we can. */
+> > 		new_offset +=3D snprintf(flags_str + offset, flags_str_len - offset,
+> > 				       "%s%s", offset ? "," : "", flag_name);
+> >
+> > 		/* If we have flags remaining, check that we have enough space for
+> > 		 * the "...".
+> > 		 */
+> > 		if (flags)
+> > 			new_offset +=3D strlen(",...");
+> >
+> > 		/* If we overflowed, replace what we've written by "..." and
+> > 		 * bail out.
+> > 		 */
+> > 		if (new_offset > flags_str_len) {
+> > 			snprintf(flags_str + offset, flags_str_len - offset,
+> > 				 "%s...", offset ? "," : "");
+> > 			return;
+> > 		}
+> >
+> > 		offset =3D new_offset;
+> >         }
+> > } =20
+>=20
+> This looks good to me. However, I'm starting to wonder whether it makes s=
+ense to
+> try to come up with a very elaborate flag formatting scheme, because of t=
+wo
+> reasons:
+>=20
+> - It messes up with the output because we need to provide enough headroom=
+ in
+> case the flag set will increase in the future. This is not a big deal bec=
+ause
+> the debugfs file is meant to be parsed by UM tools, but ...
+>=20
+> - In case we go over the space available to print flags, not printing the
+> remaining ones feels even less informative than printing let's say a hexa=
+decimal
+> mask, because parsing tools would rather deal with no missing data than t=
+he
+> absence of human-readable flag names.
+>=20
+> On top of that, I think, while these flags could be mostly of interest to=
+ parsing
+> tools, they'd be less so to someone casually peeking into the raw textual
+> output. I think they'd be mostly interested in the process which triggered
+> their creation, their size, virtual address in the VM, and above all thei=
+r name
+> (potentially a very long one).
+>=20
+> With all these things born in mind, I'd say we'd best just print a 32 bit=
+ mask
+> for both flag fields, for which we'd always know the exact span in bytes,=
+ and
+> then print all the available flag names in the debugfs file prelude for p=
+arsing
+> tools to pick up on.
 
-This is actually something which I guess we can drop once your
-patches are in, since those should then do the same in a more
-generic manner.
-
-> What shall we do if _PLD contradicts the DT property? What takes precedence?
-
-As for priorities, at east for rotation it seems that we are going
-to need some quirks, I already have a few Dell laptops where it seems
-that the sensor is upside down and parsing the rotation field in
-the IPU6 specific SSDB ACPI package does not yield a 180° rotation,
-so we are going to need some quirks.
-
-I expect these quirks to live in the bridge code, while your helper
-will be called from sensor drivers, so in order to allow quirks to
-override things, I think that first the "orientation" device-property
-should be checked (which the ACPI glue code we have can set before
-the sensor driver binds) and only then should _PLD be checked.
-
-IOW _PLD should be seen as the fallback, because ACPI tables are
-often a copy and paste job so it can very well contain wrong info
-copy-pasted from some example ACPI code or from another hw model.
+Yeah, I think I agree with you. The flag printing is messy as it is,
+and if we're going to use a tool to parse the output, we're probably
+better off with an hexadecimal value here.
 
 Regards,
 
-Hans
-
-
+Boris
 
