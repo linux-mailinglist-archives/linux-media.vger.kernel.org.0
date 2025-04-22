@@ -1,76 +1,50 @@
-Return-Path: <linux-media+bounces-30680-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30681-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 504BAA96054
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 10:02:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 858BFA96061
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 10:03:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 55EEC172790
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 08:01:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5C7C816BEC7
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 08:03:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F88622A810;
-	Tue, 22 Apr 2025 07:59:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="FSh9Vqsf"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B823E2405F5;
+	Tue, 22 Apr 2025 08:01:46 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from dane.soverin.net (dane.soverin.net [185.233.34.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A77E01EEA40
-	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 07:59:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.34.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 608F922D4C0
+	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 08:01:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745308794; cv=none; b=TysuCS0c2qxflJlS7wSaSCD/txtXywJql0C1d+zxzMWTV3C03VqW1r3mTiHAgRGyUTFKWbljfZDIKzBR5HrrgEfH3ttL9WV5r1/w2teZl6Ckygxsz9DyWRsZoDX35j812ttrofTl3cyoB5Aw1X7smHvZghUfb6iPQ58QxlxvhWE=
+	t=1745308906; cv=none; b=g9fjgAsbzAp6xgAfyEZ5gqGTkJ/Qnv/2S2LBZpvRvJ/9jGjSKjFgAf4gA+r8yr+Hfj+TDlt61ckw7het0uvD7OFdCeLiboswg+w1zvc+TA8m+T6kwVmR5ak9ALAjws6XTUmxYHpHWaHQlCQdAd3iWg3WxVlGydBqWlYtmgUzGTI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745308794; c=relaxed/simple;
-	bh=7TTMnFX2my5fe7aDopliONf9uqHbdUqVA4Tm0JxC1Ro=;
+	s=arc-20240116; t=1745308906; c=relaxed/simple;
+	bh=X2E6EALBVD/x8l2BBSZrGbgqSKhwrrrj3ontGmK5QIM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OHAJgogJT9UWKlPCa2PoitsaNLXoS/bxn2cHhez9C2r24hcvqb4U1QqivEd0c/9KvVuDL/ztOlX8VjM8Dt4GYzwuBgthfWnDJshi21250oeABeDA8XHOq/R3dfR2K2DsBBvqVex5/EY0NeWzLNlrw/0VuJ9Z95GqdDxgxyleUHg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=FSh9Vqsf; arc=none smtp.client-ip=185.233.34.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jjverkuil.nl
-Received: from smtp.freedom.nl (unknown [10.10.4.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	by dane.soverin.net (Postfix) with ESMTPS id 4ZhZQM6fqqz1NQr;
-	Tue, 22 Apr 2025 07:59:39 +0000 (UTC)
-Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.108]) by freedom.nl (Postfix) with ESMTPSA id 4ZhZQM0bnYz2xMF;
-	Tue, 22 Apr 2025 07:59:39 +0000 (UTC)
-Authentication-Results: smtp.freedom.nl;
-	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=FSh9Vqsf;
-	dkim-atps=neutral
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jjverkuil.nl;
-	s=soverin1; t=1745308779;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Yz17mxaCFOr4sMpuMOqi4rY5STNQJb1CzWaIckT63Ug=;
-	b=FSh9VqsfzkQuWTo958FKZNyYA7ptizBWjCICS1bCty8UYn3BzA/EHl6y7TMOpBo4A0jF4u
-	NCP25T9pvpjsXmOwgHRFDpL0X+sP+21H1srlAlN9c6MrHqVbP4JZk/ZHxZoVmp5uu+ELkV
-	1JRD+BPJ4vRpf3ZkqpRGrUfKL4mWhyCv4uyLp0L4qfIRUOuajJxrtRJKvANS9eo3nUXatU
-	pnsmMpCcopAXR8XQ1+ohPvHFGCM+qrZtdAmXYtreFbd2yBqxolNRm9R5lhYJGiD6vjff3K
-	BKuD/s1QLCBgozNDvw9ZkiuNNSJJn52s3H+xp2RUEIpNDfc2Cs7TNdp60upYdQ==
-X-CM-Envelope: MS4xfAGu1m0PF7IHvxgaEZ+iDF9lUHtDClr/jFALunt2x+8Y1jc2E9rZXLiHDfMPK1zC42jbaalidSjW8V7gxc/h3TUiCq95luTtX+1sGQJVH618cJKZqBMW H35Iz46HqUSGpTX06WlIQTN7MsWpCMilZSMNtAu6AOXsgKErQclrTvveviK4cYr6py4DyNrDJ4kcLoUKX/nrgsz0oIIP4BN0UjhgASZGHvcuwPjHp+OTWXfN PvYTo5rjc+jZlqIvUlJVEkoEwH8kDfBAu+AMH2GFv245Vqy8WWSCQsHK2bWwXxFrSl/kqW3Z233CmuVG7SxEU/6dyrhG25HpusQ4SLYfPbIdvPLH3ey/YNOx jkvfid3pfJYb1RVJr+iY9T7nKnGBtI35M/W9vh6uAy7ITvKaFaSYNgY0qPsgY0wvDIWH8LSb2eozQ5Cx+jZT4OktF/4P7DQsYAlgabmsY2Tl7avI6NODTlGu 755hrJ72QoeMW96W8j0rByvF9K3dBKzfN/HPbC9GxZYp5qEo3Gl3kfMWJGU+EKuHxxJzbrRNT/pPgdI/EdZtY8DEDh8cU4qjqf6i37/aILb7qqSEWVplx2nD Yn8FY0miqU9x6CnWlOfhuakzgeYR9m7TiepPfRDqMBvQrxPH8Sqml4OZojYl1/ACR2nHFLUv/qFaL7B+qRAdQOhO9Jlt54mQEs4ogkYdAxHS2X8A3lfYAjQJ RbZTPjYq6+ILdNQLCv3iEUF3JlYiDyTA4hMdkBfdMzhtkIb6fZb4wyLj7i+ctk9i0xVTpXjwEVSu4AtACzM7ZGO68WpNuCeGpQ1IXfxhEZwWFhLtfYSjCJP3 0qp0/3V+96DHZNdUL5IJJFyY9ptrVDNsEl0+l8tqPXt6vskN1VjqUJLwCoctYG5UAsPGvj4UY0MAwaR0kll2EW2kSox8dxLRo260l4R+kRVeJWxdlRQuE+jq 9nPgU6AusFDi2hG
- N5IMoxoEqCMrM7Lqpq1AQGGQesdlVxx+NjDJ1A+RvgIai4bvM4Jb9UywARHlero5wlPMUvXCBRcaGvBjetvUicgetp+rdB6TCCJhNzDzm CZZfK6/gDZrzNVMaLpYHsZqIbtvc3KpkTgle61cbIAS3AEqmXTOS8DQSY2kuRMUAiB9rwNKsBDy9rW0kUCxBF5vYW3ihgzHinLql5J39ZDTJfqKC0rhRMZ+s m9FlcFvSMaA7apzyYu/1YMz7v3g2W+HHO10EaXC+riJ7yhSyCbvTsKwRgRQKAVQ1bQjrHs9OUtx/JP7t6SWpRZpDXvqCCQz6KjeaP0pnNK0eRmhrRAUyGgtc WmFzJI1/
-X-CM-Analysis: v=2.4 cv=d/oPyQjE c=1 sm=1 tr=0 ts=68074c6b a=xVxOAnYOZqKVbrsbIgLjXQ==:117 a=xVxOAnYOZqKVbrsbIgLjXQ==:17 a=IkcTkHD0fZMA:10 a=GXT28zKt2ES5jp1BmdQA:9 a=QEXdDO2ut3YA:10
-Message-ID: <34e53856-1a6b-4db2-b6ce-a8862c415034@jjverkuil.nl>
-Date: Tue, 22 Apr 2025 09:59:38 +0200
+	 In-Reply-To:Content-Type; b=GxZ0usCNr5Fzm8cRI1TLuFhgkNCq7TzoLcufcsk21D067YeYXcfa/nJz61Gp40ED+sI0U1lwt/AiOkPNhOOMAkj12J4VXMWCUHagj2VoV7BDgRwYF6eE56iUOyaCTrmobnDpJvNart1Nh2a45JZsnHB0PrVnP3qAHLJzl1c3dzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8108AC4CEEA;
+	Tue, 22 Apr 2025 08:01:40 +0000 (UTC)
+Message-ID: <cb9be4d7-f74a-44b8-b480-6f7ae68d64b6@jjverkuil.nl>
+Date: Tue, 22 Apr 2025 10:01:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 Subject: Re: [ANN] Media Summit May 13th: Draft Agenda (v2)
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
+To: Hans de Goede <hdegoede@redhat.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sean Young <sean@mess.org>, Ricardo Ribalda <ribalda@chromium.org>,
+ Sean Young <sean@mess.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Ricardo Ribalda <ribalda@chromium.org>,
  Nicolas Dufresne <nicolas.dufresne@collabora.com>,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
  =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
@@ -89,11 +63,11 @@ Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
  Arthur Vinchon <arthur.vinchon@allegrodvt.com>,
  Marco Felsch <m.felsch@pengutronix.de>,
  Jackson Lee <jackson.lee@chipsnmedia.com>,
- Mirela Rabulea <mirela.rabulea@nxp.com>, Hans de Goede
- <hdegoede@redhat.com>, Jai Luthra <jai.luthra@ideasonboard.com>,
- Devarsh Thakkar <devarsht@ti.com>, Maxime Ripard <mripard@kernel.org>
+ Mirela Rabulea <mirela.rabulea@nxp.com>,
+ Jai Luthra <jai.luthra@ideasonboard.com>, Devarsh Thakkar <devarsht@ti.com>,
+ Maxime Ripard <mripard@kernel.org>
 References: <71a1ba46-04c3-4694-95e7-9e2906b1d899@jjverkuil.nl>
- <aAdGN8QaxU4XQcL2@kekkonen.localdomain>
+ <4fac2850-4a89-4917-a9ee-2518331d5bbf@redhat.com>
 Content-Language: en-US, nl
 From: Hans Verkuil <hans@jjverkuil.nl>
 Autocrypt: addr=hans@jjverkuil.nl; keydata=
@@ -139,31 +113,127 @@ Autocrypt: addr=hans@jjverkuil.nl; keydata=
  UnhF1/AWSHp+sv8vlNgnncxLDCho8uVjZrn4jzswd6ticBUAsPAKDYnO7KDzfQlQhIHdq10v
  jlGW/FbxA1UUiuWH+/Ub3qh75oQHTTlYe9H+Qr8Ef231/xItks8c+OyoWV6Z9ZcZnHbOmy2I
  0wGRdGp8puOL7LzhLkIN66sY/+x4s+ANxyJK6U1nJVeq7tbbhqf2Se2mPG3b87T9ik8=
-In-Reply-To: <aAdGN8QaxU4XQcL2@kekkonen.localdomain>
+In-Reply-To: <4fac2850-4a89-4917-a9ee-2518331d5bbf@redhat.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spampanel-Class: ham
 
-On 22/04/2025 09:33, Sakari Ailus wrote:
-> Hi Hans,
+On 21/04/2025 19:39, Hans de Goede wrote:
+> Hi,
 > 
-> On Mon, Apr 21, 2025 at 02:31:34PM +0200, Hans Verkuil wrote:
->> Also, as you can see we are light on topics, so don't hesitate to add more.
+> On 21-Apr-25 2:31 PM, Hans Verkuil wrote:
+>> Hi all,
+>>
+>> Here is my v2 of the draft agenda for the media summit. The only changes
+>> are dropping Sebastian's email and fixing Devarsh' email.
+>>
+>> As always, this draft agenda is subject to change and all times are guesstimates!
+>>
+>> Please note that I am transitioning from my old hverkuil@xs4all.nl email to
+>> my new hans@jjverkuil.nl email. If you have problems replying to that new email,
+>> please let me know and just send it to the old email (that won't go away).
+>>
+>> The Media Summit will be held Tuesday May 13th to coincide with
+>> the Embedded Recipes Conference in Nice, France:
+>>
+>> https://embedded-recipes.org/2025/
+>>
+>> Note that there are also some workshops held after this conference:
+>>
+>> https://embedded-recipes.org/2025/workshops/
+>>
+>> And a gStreamer hackfest:
+>>
+>> https://discourse.gstreamer.org/t/gstreamer-spring-hackfest-2025-on-16-18-may-2025-in-nice-france/4366
+>>
+>> The Media Summit will be held at Hotel Campanile:
+>>
+>> https://nice-aeroport.campanile.com/en-us/
+>>
+>> It is close to the Airport and to the Embedded Recipes venue.
+>>
+>> The meeting room can hold up to 30 people and has video conferencing support; it is
+>> sponsored by Collabora and Cisco Systems Norway.
+>>
+>> We currently have the following confirmed in-person attendees:
+>>
+>> Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
+>> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> (Media Maintainer, Huawei)
+>> Nicolas Dufresne <nicolas.dufresne@collabora.com> (Collabora)
+>> Hans de Goede <hdegoede@redhat.com> (RedHat)
+>> Paul Kocialkowski <paulk@sys-base.io> (sys-base)
+>> Jai Luthra <jai.luthra@ideasonboard.com> (Ideas on Board)
+>> Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas on Board)
+>> Ricardo Ribalda <ribalda@chromium.org> (Google)
+>> Maxime Ripard <mripard@redhat.com> (RedHat)
+>> Devarsh Thakkar <devarsht@ti.com> (Texas Instruments)
+>> Hans Verkuil <hans@jjverkuil.nl> (Media Maintainer, Cisco Systems Norway)
+>> Arthur Vinchon <arthur.vinchon@allegrodvt.com> (Allegro DVT)
+>>
+>> As you can see, there is enough room for more people, so don't hesitate to
+>> register by sending an email to me. The deadline is May 2nd.
+>>
+>> And the following remote participants:
+>>
+>> Marco Felsch <m.felsch@pengutronix.de> (Pengutronix)
+>> Martin Hecht <mhecht73@googlemail.com> (Avnet Silica)
+>> Hu, Jerry W <jerry.w.hu@intel.com> (Intel)
+>> jackson.lee <jackson.lee@chipsnmedia.com> (Chips 'n Media)
+>> Mirela Rabulea <mirela.rabulea@nxp.com> (NXP)
+>> Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
+>>
+>> Note: information on how to connect remotely will come later.
+>>
+>> If any information above is incorrect, or if I missed someone, then please let me know asap.
+>>
+>> Draft Agenda:
+>>
+>> 9:00-9:30: Get settled :-)
+>>
+>> 9:30-9:40: Hans Verkuil: Quick introduction
+>>
+>> 9:40-10:30: Jai Luthra: Per-stream V4L2 controls
+>>
+>> 10:30-11:15: Paul Kocialkowski: Stateless video encoding uAPI
+>>
+>> 11:15-11:30: break
+>>
+>> 11:30-12:15: Ricardo Ribalda: Openness Framework for ISPs
+>>
+>> 12:15-13:30: lunch TBD
+>>
+>> 13:30-14:00: Laurent Pinchart: Review of the status of staging drivers
+>>
+>> 14:00-15:00: Hans Verkuil: Status of Media CI/Multi-committers
+>>
+>> 15:00-17:00: TDB
 > 
-> I'd like to propose identifying camera modules as a topic.
+> As discussed here:
 > 
-> The camera module isn't a functional component in the system and so has
-> (mostly) been omitted in system firmware as well as UAPI. Being able to
-> identify it, however, is becoming more and more important as the user space
-> becomes less and less system specific, largely thanks to libcamera. This
-> isn't just about passing information to the userspace as identifying the
-> modules themselves is a problem on its own.
+> https://lore.kernel.org/linux-media/6cf8d6db-c24e-461b-bd7d-a3dad25e4945@redhat.com/
 > 
-> I intend to post an RFC set regarding this to LMML at least a week before
-> the summit.
+> there are a bunch of V4L2 (subdev) API things which need
+> to be specified better (without leaving room for interpretation)
+> surrounding sensors. One of these is how to calculate the pixelrate
+> (and thus the FPS) for sensors when e.g. binning is used.
 > 
+> For non binning the pixelrate in pixels/second is:
+> 
+> pixelrate = (format.width + hblank) * (format.height + vblank) * fps
+> 
+> But what about binning, should the sensor driver then report the
+> skipped pixels as extra vblank (AFAICT that is what it looks like
+> on the CSI-2 bus) or should userspace know binning is happening and do:
+> 
+> (format.width * hscale + hblank) * (format.height *vscale + vblank)
+> 
+> and in that case how can userspace know hscale / vscale since atm
+> it cannot explicitly set those, but this is determined by the sensor
+> drivers.
+> 
+> There are a number of questions like these surrounding the V4L2 subdev
+> API for sensors, which IMHO would be good to discuss.
 
-Thank you, I added this to the draft agenda. Do you have a guesstimate for the time you'll need?
+Thank you. I added this topic to the draft agenda. Do you have a guesstimatefor the time you need for this?
 
 Regards,
 
