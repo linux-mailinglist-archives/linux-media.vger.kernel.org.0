@@ -1,181 +1,187 @@
-Return-Path: <linux-media+bounces-30746-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30747-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4773A97850
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 23:13:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21A11A97853
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 23:13:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A7A5118996AA
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 21:13:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E86781899537
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 21:14:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B6A925C826;
-	Tue, 22 Apr 2025 21:13:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37FA625C82E;
+	Tue, 22 Apr 2025 21:13:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hJctLjgp"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="IMtMcGcv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EA6225C806;
-	Tue, 22 Apr 2025 21:13:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08B4B25C820
+	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 21:13:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745356404; cv=none; b=I3W7lQE5OWiKAE6nlXyYeAKeltGGAEplYcu8N/FCU7PgkFNxXWRIpjgzqS1OB6/oJSI1PZDbmbTAmz1BIamcm6uMAqdJVeKjzHNRK4CY1FCWx+6QXLI3ffVqQNz3/ezcl1lEzPnD4cGRg3QrmQWMc4f1cDkFcCnzd3YyP/AfYFY=
+	t=1745356428; cv=none; b=hw6tKKN+I568bmYLA26b3J6u0tJF0yVM+V+mE0Xf6I+ga4S0rC8mJw9uTzdTVM5njrK+t90h8MkUjPCto36qzlPGZv4yvCk0EdzvGo7mrYFa+IBuQpDEzACOBxLYxkXRVxXDBAFneFGvatGtAV/MpA5hBJ1lt1NkePOuaZQ1WIk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745356404; c=relaxed/simple;
-	bh=62l8ycsRy5TYmENNU4ufXWIzRBqbCxMUi99ufS0ft7Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kVJng+9TqJavxzhS5uirLV/Yesk/YscNgCXjakyu5698+rrY1DknSkg2Jn05g55M+9WO+76VcbDNpxMKzUlwUAWKpzwOp+FEFFihrQ+r8lBU9aXKLfDeUNPJDFhlIkX+HbxZswcW5ERDlcQUssTFBHi92cU8SRuFGp1M5jl5bxI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=hJctLjgp; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D515D2AC;
-	Tue, 22 Apr 2025 23:13:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1745356400;
-	bh=62l8ycsRy5TYmENNU4ufXWIzRBqbCxMUi99ufS0ft7Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hJctLjgpt3hJjYiiucC0Fh0I0oC3ifSeojAzS3e8IqpyVwbHpsHnwbYtJZ8qITdu3
-	 +l0XgoQX7/iXeUXpJJtjw+HH/L9jnYp34MUFXT4EE01Ojlu1gzz1+pcv8W0S6VczOv
-	 1w8FETFNWPhWuT6IbDjLSrtXtaqPhY5n4Vl4SGGU=
-Date: Wed, 23 Apr 2025 00:13:18 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@kernel.org
-Subject: Re: [PATCH v2 3/3] media: uvcvideo: Rollback non processed entities
- on error
-Message-ID: <20250422211318.GO17813@pendragon.ideasonboard.com>
-References: <20250224-uvc-data-backup-v2-0-de993ed9823b@chromium.org>
- <20250224-uvc-data-backup-v2-3-de993ed9823b@chromium.org>
+	s=arc-20240116; t=1745356428; c=relaxed/simple;
+	bh=x99YqM5jAciDGUwEEKcwbaWSiUtE4eY2SQKKZ+ma9tI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=iTuRmQBUCWoVAFOxGlW3Zhf5Am6n3bZ2Vv3OaTMRsqiMvsaGNbTu6u/CwPY08dnomn9U0FetDJowR8xn8JHJmNlBB7TBGI8m18bvKl3S0zyUIYz2MNit+mdf5hosV1lElL/dm3yplAPKBuVPRGwPzziy2Y4Qad2LgbtNFEI2iLU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=IMtMcGcv; arc=none smtp.client-ip=209.85.219.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6e8f4c50a8fso54007996d6.1
+        for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 14:13:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1745356426; x=1745961226; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=MRlkHO/ATqsDExG6tsCGhp23a2+ci1NHjbr5iO6Odtc=;
+        b=IMtMcGcvVpQ9UAoX6OE3xtAKzBTgl8b/ZS6RAMBGzTd7kbIZXNSinakzHoStrsuAEq
+         er8SfZAqim0/MQmurWQJc8uaTdz+HYAnOM3prSngZQm5DajXsIc3bvdTpnpneVV+SX80
+         0/p65rZS/Mbf7A1r3ms8KVqhBXrQBN+ydvOVNI5TabQKHEEeuQ1dtEeYis7rmqE+NP9x
+         RKOwW6UYe5R7K4hmnDrKEWTmj0H2ijuSX+C1by3xVx/JTlb7QcPMEdlQM44aaEMGgsZC
+         xGTOtV3ZVvat3w23D4Dh/6s2uc5I/mK3Hl2pKzKYCff/b1oBdJUYfgF/Vyh1o3Pa5Rtt
+         CTew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745356426; x=1745961226;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MRlkHO/ATqsDExG6tsCGhp23a2+ci1NHjbr5iO6Odtc=;
+        b=imFyQnWcnkb7Mno7q+RK/ekEIH1xGKwYIHeIhtxWO/4fViF1B8rjswNqn3KQpBV/uk
+         STmf+Z7ns03GLITYLVQgIeqXTOYoLJd7fpsIo1F4J9UvSNB3kv6O1SmNXorU9A8wAN09
+         zfp8Wg1zJl3qZ6DMiL7asClhnBA3KzUSc5aAcuZPDessgaqU6S4/QnjDUymYqvS80J2T
+         I72PNC7h0hvcbjetEG0czufEBQLY+bTsBWHd16cKvndFT3Lv4uTYF0cbslSvA7OseKE8
+         nQF9HQbaVWlNx/Q2nlbnpAQeJ0VVzsreUWBAMa3EH4vqQI4hsPVOt52DwlrFusjMdkcD
+         0t3A==
+X-Gm-Message-State: AOJu0YwI64zEtTgJEskC4oN8KKcEOb/yRKRHqZoIfnwoC2E4plvJ4DLg
+	8wmzvH14fnKt9FQz3DqCGTysznbXpBJ1sflMj/NpqOarlcyX3C18YcCXSIUykIU=
+X-Gm-Gg: ASbGncu0GG5Q9a68ZifQdzQASVxANQR1dy5lcT/urs5NfudQYzeohW7csYQLGEYr1Uy
+	NeuSZpouRjORVupce1mmla/9VgNzWVWyRdVznFjgnFhKQ/RhGMAnHSzyl5i5+Z0uNXPTPlpCAjY
+	cptDKIRVia6LIx6T/nMhKd3dTv2RFz3RxvpKcDQYV4STQP6CF+RUjYysyK/EPcLIsN37RUgKK/S
+	1Rx7cLDh0bcVVCOeR/6+pNjH2eywnE7n/G7tVVNxSGWx98VjtnEpfkAxqTu61s+TI43t3S+qHzg
+	+877qfIRFJxqlUvAy4oYHrroy4RSTv2GmOvPeXYsAf0d8g==
+X-Google-Smtp-Source: AGHT+IH0GaDhDhwwRuUL8aPkyJ77kEEFwsg5jHZ6pptPGGu8U8R8GNXiauC/BafRtBOHlsAHETZJwg==
+X-Received: by 2002:a05:6214:258d:b0:6f0:e2d4:5287 with SMTP id 6a1803df08f44-6f2c458d023mr232308396d6.24.1745356425929;
+        Tue, 22 Apr 2025 14:13:45 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:15:9913::5ac? ([2606:6d00:15:9913::5ac])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f2c2af1b24sm62265366d6.5.2025.04.22.14.13.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Apr 2025 14:13:45 -0700 (PDT)
+Message-ID: <6a8b96daac4dd37dbe51cdc52052a9af26236de2.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: amphion: fix potential NULL deref in
+ vpu_core_parse_dt()
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Chenyuan Yang <chenyuan0y@gmail.com>, ming.qian@nxp.com,
+ eagle.zhou@nxp.com, 	mchehab@kernel.org, shijie.qin@nxp.com,
+ hverkuil@xs4all.nl
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Tue, 22 Apr 2025 17:13:43 -0400
+In-Reply-To: <77ed36f63ec02156d480efebafb80f3af3ea50f0.camel@ndufresne.ca>
+References: <20250411184356.2910366-1-chenyuan0y@gmail.com>
+	 <77ed36f63ec02156d480efebafb80f3af3ea50f0.camel@ndufresne.ca>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250224-uvc-data-backup-v2-3-de993ed9823b@chromium.org>
 
-Hi Ricardo,
+Le vendredi 11 avril 2025 =C3=A0 17:20 -0400, Nicolas Dufresne a =C3=A9crit=
+=C2=A0:
+> Hi,
+>=20
+> Le vendredi 11 avril 2025 =C3=A0 13:43 -0500, Chenyuan Yang a =C3=A9crit=
+=C2=A0:
+> > The result of memremap() may be NULL on failure, leading to a null
+> > dereference in the subsequent memset(). Add explicit checks after
+> > each memremap() call: if the firmware region fails to map, return
+> > immediately; if the RPC region fails, unmap the firmware window before
+> > returning.
+>=20
+> Its hard to believe that its a coincidence that someone else sent a
+> patch for this. A colleague, the same person ?
+>=20
+> I do prefer this version though, the commits message is better, the
+> code is nicer. If its you, adding a [PATCH v2], or just adding a
+> comment that its a better version would be nice.
 
-Thank you for the patch.
+To Ming Qian, this is the type of patch that I expect an Acked-by from
+the maintainer.
 
-On Mon, Feb 24, 2025 at 10:34:55AM +0000, Ricardo Ribalda wrote:
-> If we wail to commit an entity, we need to restore the
-> UVC_CTRL_DATA_BACKUP for the other uncommitted entities. Otherwise the
-> control cache and the device would be out of sync.
-> 
-> Cc: stable@kernel.org
-> Fixes: b4012002f3a3 ("[media] uvcvideo: Add support for control events")
-> Reported-by: Hans de Goede <hdegoede@redhat.com>
-> Closes: https://lore.kernel.org/linux-media/fe845e04-9fde-46ee-9763-a6f00867929a@redhat.com/
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 32 ++++++++++++++++++++++----------
->  1 file changed, 22 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index 7d074686eef4..89b946151b16 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -1864,7 +1864,7 @@ static int uvc_ctrl_commit_entity(struct uvc_device *dev,
->  	unsigned int processed_ctrls = 0;
->  	struct uvc_control *ctrl;
->  	unsigned int i;
-> -	int ret;
-> +	int ret = 0;
->  
->  	if (entity == NULL)
->  		return 0;
-> @@ -1893,8 +1893,6 @@ static int uvc_ctrl_commit_entity(struct uvc_device *dev,
->  				dev->intfnum, ctrl->info.selector,
->  				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
->  				ctrl->info.size);
-> -		else
-> -			ret = 0;
->  
->  		if (!ret)
->  			processed_ctrls++;
-> @@ -1906,10 +1904,14 @@ static int uvc_ctrl_commit_entity(struct uvc_device *dev,
->  
->  		ctrl->dirty = 0;
->  
-> -		if (ret < 0) {
-> +		if (ret < 0 && !rollback) {
->  			if (err_ctrl)
->  				*err_ctrl = ctrl;
-> -			return ret;
-> +			/*
-> +			 * If we fail to set a control, we need to rollback
-> +			 * the next ones.
-> +			 */
-> +			rollback = 1;
->  		}
->  
->  		if (!rollback && handle &&
-> @@ -1917,6 +1919,9 @@ static int uvc_ctrl_commit_entity(struct uvc_device *dev,
->  			uvc_ctrl_set_handle(handle, ctrl, handle);
->  	}
->  
-> +	if (ret)
-> +		return ret;
-> +
->  	return processed_ctrls;
->  }
->  
-> @@ -1947,7 +1952,8 @@ int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
->  	struct uvc_video_chain *chain = handle->chain;
->  	struct uvc_control *err_ctrl;
->  	struct uvc_entity *entity;
-> -	int ret = 0;
-> +	int ret_out = 0;
-> +	int ret;
->  
->  	/* Find the control. */
->  	list_for_each_entry(entity, &chain->entities, chain) {
-> @@ -1958,17 +1964,23 @@ int __uvc_ctrl_commit(struct uvc_fh *handle, int rollback,
->  				ctrls->error_idx =
->  					uvc_ctrl_find_ctrl_idx(entity, ctrls,
->  							       err_ctrl);
-> -			goto done;
-> +			/*
-> +			 * When we fail to commit an entity, we need to
-> +			 * restore the UVC_CTRL_DATA_BACKUP for all the
-> +			 * controls in the other entities, otherwise our cache
-> +			 * and the hardware will be out of sync.
+Meanwhile, to Chenyuan, you should followup when requested. Marking
+this patch as change requested, looking forward a v2.
 
-The text can be reflowed to 80 columns.
+Nicolas
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +			 */
-> +			rollback = 1;
-> +
-> +			ret_out = ret;
->  		} else if (ret > 0 && !rollback) {
->  			uvc_ctrl_send_events(handle, entity,
->  					     ctrls->controls, ctrls->count);
->  		}
->  	}
->  
-> -	ret = 0;
-> -done:
->  	mutex_unlock(&chain->ctrl_mutex);
-> -	return ret;
-> +	return ret_out;
->  }
->  
->  int uvc_ctrl_get(struct uvc_video_chain *chain,
-
--- 
-Regards,
-
-Laurent Pinchart
+>=20
+> >=20
+> > This is similar to the commit 966d47e1f27c
+> > ("efi: fix potential NULL deref in efi_mem_reserve_persistent").
+> >=20
+> > This is found by our static analysis tool KNighter.
+> >=20
+> > Signed-off-by: Chenyuan Yang <chenyuan0y@gmail.com>
+> > Fixes: 9f599f351e86 ("media: amphion: add vpu core driver")
+> > ---
+> > =C2=A0drivers/media/platform/amphion/vpu_core.c | 11 +++++++++++
+> > =C2=A01 file changed, 11 insertions(+)
+> >=20
+> > diff --git a/drivers/media/platform/amphion/vpu_core.c b/drivers/media/=
+platform/amphion/vpu_core.c
+> > index 8df85c14ab3f..26568987586d 100644
+> > --- a/drivers/media/platform/amphion/vpu_core.c
+> > +++ b/drivers/media/platform/amphion/vpu_core.c
+> > @@ -586,7 +586,18 @@ static int vpu_core_parse_dt(struct vpu_core *core=
+, struct device_node *np)
+> > =C2=A0	}
+> > =C2=A0
+> > =C2=A0	core->fw.virt =3D memremap(core->fw.phys, core->fw.length, MEMRE=
+MAP_WC);
+> > +	if (!core->fw.virt) {
+> > +		dev_err(core->dev, "failed to remap fw region\n");
+> > +		of_node_put(node);
+>=20
+> nit: node and res are no longer used passed line 579. Meaning you could
+> unref the node earlier, and remove the repeated of_node_put(node) call
+> in the error conditions.
+>=20
+> > +		return -ENOMEM;
+> > +	}
+> > =C2=A0	core->rpc.virt =3D memremap(core->rpc.phys, core->rpc.length, ME=
+MREMAP_WC);
+>=20
+> I really enjoy blank lines after closing scope, even though its not a
+> strict coding standard.
+>=20
+> > +	if (!core->rpc.virt) {
+> > +		dev_err(core->dev, "failed to remap rpc region\n");
+> > +		memunmap(core->fw.virt);
+>=20
+> Its interesting that you thought of cleaning that up here, since its
+> not being cleanup in the error case of "if (ret !=3D
+> VPU_CORE_MEMORY_UNCACHED)".=C2=A0 And its also not being cleanup if the
+> probe fails later for other reasons. Perhaps your chance to add more
+> fixes to this driver.
+>=20
+> > +		of_node_put(node);
+> > +		return -ENOMEM;
+> > +	}
+> > =C2=A0	memset(core->rpc.virt, 0, core->rpc.length);
+>=20
+> Same, I like blank lines (but you are free to ignore me if Ming does
+> not care).
+>=20
+> > =C2=A0
+> > =C2=A0	ret =3D vpu_iface_check_memory_region(core, core->rpc.phys, core=
+->rpc.length);
+>=20
+> regards,
+> Nicolas
 
