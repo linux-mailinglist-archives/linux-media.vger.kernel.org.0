@@ -1,168 +1,128 @@
-Return-Path: <linux-media+bounces-30706-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30707-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BD0CA96825
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 13:49:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5BFA96826
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 13:50:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 15DA21891B4F
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 11:50:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7A48F165E45
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 11:50:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1FA027C167;
-	Tue, 22 Apr 2025 11:49:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA17627C173;
+	Tue, 22 Apr 2025 11:50:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MzeAC7KC"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Poeqm+Fj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDF46151985
-	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 11:49:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28CFB151985
+	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 11:50:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745322584; cv=none; b=DcJ5yz6CMaDdaWMblcu3u5c4MNYIzBPlHKnNUWqgzfHvWxvhFM0Z6Ase37kL+isfMGDbaDjQTw/oAOoavQFZAHYtXlESMKc7eU06pQsNBqfPhFiwH634iQuZPF8oMl/uSEZIJqMKuc9pQRlpB16NHUWRlhr0EpND3b9gTiuTC/c=
+	t=1745322609; cv=none; b=FFBBNzJe8IkRhe7cOEWyJSR486dKLAXqUwZd3xHGwAnEgmfLoXSLwswTkhF1LYsvBegRUklUDP0PzHerO+VnlNc5NEb+mjMSi68WeBxoaTiESB7X9nCM2okkLXHAWvloGfcVJTqXRPFqdQn4i4RJC9s83V2yd7qSANQt7gWEYvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745322584; c=relaxed/simple;
-	bh=zp35Db8hrli5A4VH7n0tZUsJUvvA8zcY7K5l9bpqyb8=;
+	s=arc-20240116; t=1745322609; c=relaxed/simple;
+	bh=pb6icielVc/GOcWFL2UojcdXSB9eASutc5uCDUZncKs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EgcpHeYsc4RnBh43KJ5QKXI809IXGEZvFX5z/MBOhlJMwM3jgW4dVIc9jJtDgtMzSSR+S+9XDWEgNZ5P+kXlk7mBEaNa//3vcZMLcsMBVYKpBQhcMErSRdVychYN0gWQPx7gat6byMv9bUkjG5fYJjXW7Fvjz4m9LBGKp5Knc/w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MzeAC7KC; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745322582; x=1776858582;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zp35Db8hrli5A4VH7n0tZUsJUvvA8zcY7K5l9bpqyb8=;
-  b=MzeAC7KChjsXz9RKCGGJTKDSwAebDpn1+iLb6V98bn0XfEZk+N+/f6sW
-   BnXr8hYKfuIejky6m2u88mly10H3qKdK9a0fkmM4/XtaG2A3CAh/82r2J
-   AFWTZayK4r/RgjzRUB12AFsd9wtUKEhbsG3fU6P/ZKUfXdTAjcJiYVAgZ
-   HGsZ0c+QwZlogL07YOweB5eP65zf+pmlKd6ZP13bM87oV9ZEI+zn7tr6a
-   9iRqFi6TeEtx82agHzbRv6U0wQoB+K7MzOQFUIuMKmi4hDaDhinFkIjIe
-   GRIWw9cy2sxW/qdVI+ERS0FKF9w1i0QsO5w8nkh+qZE7MGJnReknPNh5Q
-   g==;
-X-CSE-ConnectionGUID: 2GNa2p7nSO+NipDpf7RfMA==
-X-CSE-MsgGUID: zdbzOClESYmLdjoSZ8wZxQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="57064896"
-X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; 
-   d="scan'208";a="57064896"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 04:49:42 -0700
-X-CSE-ConnectionGUID: dcax7IPBSa64CD4exHgwQw==
-X-CSE-MsgGUID: BWMMrvqqSZ6G/0Z5mZrfTg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; 
-   d="scan'208";a="137085652"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 04:49:41 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 7818B11F853;
-	Tue, 22 Apr 2025 14:49:38 +0300 (EEST)
-Date: Tue, 22 Apr 2025 11:49:38 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=XJtAA5czAMMrCDtPawkeLHERtyChibm58XNe4mVjFvJGWJR3vIQRrbNMQuB5jM9pNxvy4rKzfWQklFEpLrN417NbQXxClFxe8Qfzg+wXAeBnPVrygF9tUWNz2yxphBcdqB5w8TNeBZPps0rTRK7qpfOgkkliR0m2X4n6UOF1YQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Poeqm+Fj; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1E19E666;
+	Tue, 22 Apr 2025 13:47:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1745322477;
+	bh=pb6icielVc/GOcWFL2UojcdXSB9eASutc5uCDUZncKs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Poeqm+FjF/rU8yqeJ7SdEoD/m3A7fTsXJWwRJP//tEqMhS3QVFVvNHrEWDlxxHtZK
+	 FqjqFcMFFx6N2rAoSfue9EboicRuxyEUdLDr0eY8BHslctiqbZttY99XF6crin7lHo
+	 yLna/Dt/g/Yg4bf3NiWpL/MEQ3JqNSaPKXVHhkKI=
+Date: Tue, 22 Apr 2025 14:50:01 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, dongcheng.yan@intel.com
-Subject: Re: [PATCH v2 11/11] media: ccs-pll: Document the CCS PLL flags
-Message-ID: <aAeCUpgK8htNehcf@kekkonen.localdomain>
+Subject: Re: [PATCH v2 01/11] media: ccs-pll: Start OP pre-PLL multiplier
+ search from correct value
+Message-ID: <20250422115001.GC329@pendragon.ideasonboard.com>
 References: <20250417065354.311617-1-sakari.ailus@linux.intel.com>
- <20250417065354.311617-12-sakari.ailus@linux.intel.com>
- <20250421202921.GL17813@pendragon.ideasonboard.com>
+ <20250417065354.311617-2-sakari.ailus@linux.intel.com>
+ <20250421195004.GA17813@pendragon.ideasonboard.com>
+ <aAeA1ncpTCgfuI25@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250421202921.GL17813@pendragon.ideasonboard.com>
+In-Reply-To: <aAeA1ncpTCgfuI25@kekkonen.localdomain>
 
-Hi Laurent,
-
-On Mon, Apr 21, 2025 at 11:29:21PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
-> 
-> On Thu, Apr 17, 2025 at 09:53:54AM +0300, Sakari Ailus wrote:
-> > Document the CCS PLL flags with short comments. The CCS spec has more
-> > information on them while the added documentation helps finding the
-> > relevant information in the CCS spec.
-> 
-> Oohhhh, documentation, that's nice :-)
-> 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/media/i2c/ccs-pll.h | 27 ++++++++++++++++++++++++---
-> >  1 file changed, 24 insertions(+), 3 deletions(-)
+On Tue, Apr 22, 2025 at 11:43:18AM +0000, Sakari Ailus wrote:
+> On Mon, Apr 21, 2025 at 10:50:04PM +0300, Laurent Pinchart wrote:
+> > On Thu, Apr 17, 2025 at 09:53:44AM +0300, Sakari Ailus wrote:
+> > > The ccs_pll_calculate() function does a search over possible PLL
+> > > configurations to find the "best" one. If the sensor did not support odd
 > > 
-> > diff --git a/drivers/media/i2c/ccs-pll.h b/drivers/media/i2c/ccs-pll.h
-> > index e8297db45460..6e503fe2d591 100644
-> > --- a/drivers/media/i2c/ccs-pll.h
-> > +++ b/drivers/media/i2c/ccs-pll.h
-> > @@ -18,19 +18,40 @@
-> >  #define CCS_PLL_BUS_TYPE_CSI2_DPHY				0x00
-> >  #define CCS_PLL_BUS_TYPE_CSI2_CPHY				0x01
-> >  
-> > -/* Old SMIA and implementation specific flags */
-> > -/* op pix clock is for all lanes in total normally */
-> > +/* Old SMIA and implementation specific flags. */
-> > +/* OP PIX clock is for all lanes in total normally. */
-> >  #define CCS_PLL_FLAG_OP_PIX_CLOCK_PER_LANE			BIT(0)
-> > -#define CCS_PLL_FLAG_NO_OP_CLOCKS				BIT(1)
-> > +
-> >  /* CCS PLL flags */
-> > +
-> > +/* The sensor doesn't have OP clocks at all. */
-> > +#define CCS_PLL_FLAG_NO_OP_CLOCKS				BIT(1)
-> > +/* System speed model if this flag is unset. */
-> >  #define CCS_PLL_FLAG_LANE_SPEED_MODEL				BIT(2)
-> > +/* If set, the pre-PLL divider may have odd values, too. */
-> >  #define CCS_PLL_FLAG_EXT_IP_PLL_DIVIDER				BIT(4)
-> > +/*
-> > + * If set, the OP PIX clock doesn't have to exactly match with data rate, it may
-> > + * be higher. See "OP Domain Formulas" in MIPI CCS 1.1 spec.
-> > + */
-> >  #define CCS_PLL_FLAG_FLEXIBLE_OP_PIX_CLK_DIV			BIT(5)
-> > +/* If set, the VT domain may run faster than the OP domain. */
-> >  #define CCS_PLL_FLAG_FIFO_DERATING				BIT(6)
-> > +/* If set, the VT domain may run slower than the OP domain. */
-> >  #define CCS_PLL_FLAG_FIFO_OVERRATING				BIT(7)
-> > +/* If set, the PLL tree has two PLLs instead of one. */
-> >  #define CCS_PLL_FLAG_DUAL_PLL					BIT(8)
-> > +/*
-> > + * If set, the OP SYS clock is a dual data rate clock, transferring two bits per
-> > + * cycle instead of one.
-> > + */
-> >  #define CCS_PLL_FLAG_OP_SYS_DDR					BIT(9)
-> > +/*
-> > + * If set, the OP PIX clock is a dual data rate clock, transferring two bits per
-> > + * cycle instead of one.
+> > s/did not/does not/
+> > 
+> > > pre-PLL divisors and the minimum value (with constraints) wasn't 1, other
+> > 
+> > s/wasn't/isn't/
+> > 
+> > > even values could have errorneously searched (and selected) for the
+> > 
+> > s/could have errorneously searched/
+> > s/could be erroneously searched/
+> > 
+> > Do you mean "other odd values" ?
 > 
-> Should this be "two pixels per cycle" ?
+> Odd values that aren't 1.
 
-Good catch. I'll fix that for v3.
+You wrote ", other even values could ...". I think s/even/odd/ is what
+you meant.
 
+> > > pre-PLL divisor. Fix this.
+> > > 
+> > > Fixes: 415ddd993978 ("media: ccs-pll: Split limits and PLL configuration into front and back parts")
+> > > Cc: stable@vger.kernel.org
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > ---
+> > >  drivers/media/i2c/ccs-pll.c | 2 ++
+> > >  1 file changed, 2 insertions(+)
+> > > 
+> > > diff --git a/drivers/media/i2c/ccs-pll.c b/drivers/media/i2c/ccs-pll.c
+> > > index 34ccda666524..e516ed23e899 100644
+> > > --- a/drivers/media/i2c/ccs-pll.c
+> > > +++ b/drivers/media/i2c/ccs-pll.c
+> > > @@ -815,6 +815,8 @@ int ccs_pll_calculate(struct device *dev, const struct ccs_pll_limits *lim,
+> > >  			      one_or_more(
+> > >  				      DIV_ROUND_UP(op_lim_fr->max_pll_op_clk_freq_hz,
+> > >  						   pll->ext_clk_freq_hz))));
+> > > +	if (!(pll->flags & CCS_PLL_FLAG_EXT_IP_PLL_DIVIDER))
+> > > +		min_op_pre_pll_clk_div = clk_div_even(min_op_pre_pll_clk_div);
+> > >  	dev_dbg(dev, "pll_op check: min / max op_pre_pll_clk_div: %u / %u\n",
+> > >  		min_op_pre_pll_clk_div, max_op_pre_pll_clk_div);
+> > >  
+> > 
+> > Is my understanding correct that the problem can only occur during the
+> > first iteration of the loop just below ? If so, with the commit message
+> > fixed,
 > 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Thank you!
-
+> Correct.
 > 
-> > + */
-> >  #define CCS_PLL_FLAG_OP_PIX_DDR					BIT(10)
-> > +/* If set, the PLL multipliers are required to be even. */
-> >  #define CCS_PLL_FLAG_EVEN_PLL_MULTIPLIER			BIT(11)
-> >  
-> >  /**
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > 
+> > If not, there's something I don't get :-)
 > 
+> :-)
 
 -- 
-Kind regards,
+Regards,
 
-Sakari Ailus
+Laurent Pinchart
 
