@@ -1,143 +1,365 @@
-Return-Path: <linux-media+bounces-30753-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30754-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3D9AA97887
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 23:29:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FEE3A97897
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 23:32:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3B3737AC89B
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 21:28:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 64ED53B41FF
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 21:32:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 654182C1E1F;
-	Tue, 22 Apr 2025 21:29:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E8A71F2B8E;
+	Tue, 22 Apr 2025 21:32:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="Zj90dd+H"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mQbuutmE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 703DC244682
-	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 21:29:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30E5C262FEF;
+	Tue, 22 Apr 2025 21:32:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745357386; cv=none; b=j1w48vbimd/7gTrgUqflDOOF1X2GCCRKJFmNVRas5McNbG5WnIj8UNk8+piINebQ+IoHOG53hgNEGnqKeF9mHrQx3BXdSC1jDLhQ6WVvK2QEaip67GpFa0YlLJQnLPppkptfPbMe1kf4oDD5PcoTJQgyV1hlIzHSkAA5kyAWzHA=
+	t=1745357564; cv=none; b=j61xFac9jWu1RxSU8i79k6OTeSyYIdsDz/rHL502+qUegCnGtraFdZ3cFkO4iW/e6101dx5SAWCw8ZVw3ezyHzqjm8b8bcozXHFa5uu3icQIh4L4+6FLpoc41/uzJV3XIYohB3YC+YKFnFKXsh4ewwhXiXN+1oM0BJndEKkNcnk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745357386; c=relaxed/simple;
-	bh=EKtCtAuhLcs4sGX+RF26ap3SrjbSFFY5SSfTUUZu/ek=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kIGHtxGMjPvDjxgKZLiblO1wY5sDJTY/x+w7feTft84CXc8/1SPV1rw/tTjoxGnXl33lYKmmrkm9WwrahpjUSztZkHhnAgIMQ+EszFD0Vi9O1uh0fl0duG+M4mSbTHxeotlOsCMHJknI260J8Okc1YZKNkSC/x8Layw8uie6ZyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=Zj90dd+H; arc=none smtp.client-ip=209.85.222.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7c08fc20194so326187485a.2
-        for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 14:29:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1745357384; x=1745962184; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=bQ7hnAfM9mT8cvOTYYkSndmUDqaTFrAy5uSIolG4TJ8=;
-        b=Zj90dd+H+e+sogdtpZsAG7IVmpbyXFndkwAiq/Y0J5yq4w20J2oYrAcCZq6JxbCmRv
-         AfAQdevlDrhX1vXEXPaC2mGmgzsgT3ZXh9/HwCxSsFLTR+/NA1brpRI5m7S/kS06xjG+
-         ZuuBd6Lnv/N6BGSB6NSPXRLaM0Rl3KdJMEB5KiAykt2XSozRtkpwGr4v5B+CDbgNpiM+
-         bbXR8nloCl0Ad4hO0JMgUaGENI1pOOD2Vc6bZGz1r8CB8tYyDR4Qt1P1SquuWFKg+seg
-         mbVcC9z8DfIEVtnS53GKABOViDNFR/pgpkwMCF0N9bHilfmskOzT2yVMgY3cpi3B9daS
-         8dXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745357384; x=1745962184;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bQ7hnAfM9mT8cvOTYYkSndmUDqaTFrAy5uSIolG4TJ8=;
-        b=W9iI7k53Ce3Rm5Mok+SQsT0XTGv2raSSxdsyHdrn2SgbTULP0gF9DQoPoYPNdhMTKt
-         6seWNI2EVP6T0jVWjnWGk75sSjogaoQnXDEXwTfqxtafZnRjSvEjq7Ua5L9PkP+oAFBW
-         xrg9OgHLaWitS3dlK6aXN1RG8xk9wE9PiK7bKzZ9gwLLoI8r/O+TJLO98G7JfvAofuoA
-         YDtKeHaVshfva6RGglvestEQ2bzPmOwOb88kxO1z/0jZsmd+73dNNgk9iY1tsKs2p8+4
-         CM7uItAySqQaXstX8GLuiuqe7rk+dqKz44oiPpqyzS6jgN5vQ6/G0UaEYNi5Vg8A747m
-         Snug==
-X-Gm-Message-State: AOJu0YwkX8+LFG+AR3aGmKJagDJrjuVUE5rGfyec8XdBmF+Am/5SuzO+
-	dkdWtwAvZp91SW25NpPoT1PB4Y+g19g1E7QV/c4ZjVCBGCNuTKMlrwc845W8/gk=
-X-Gm-Gg: ASbGnctNHrPabmXCR4SueCpTzbKJJfMhK3bdgw4LwAWcod0vZHiTIt61ZqGEcOV1CGD
-	PWfWMrs0o9maKOUAlXK8eX+42gYo2nwzGl2pQxcyDZroahDCj0ck9sr5OyDQigL3dw4T8N/0ldv
-	VDT4KpmSoi7xOPa/KcEyNN1bXinzJUqj0SJzd2KSByvf6P4u3cHLqQG+KLHFeDDPKNWViordYYN
-	XDeFKxaK7VfTKwW66o62kRudZPFmqw02aQRBqubJIo4m1f/iQLUJU451AZCdfjJbb3SeTElvkRQ
-	goNxgSHZCfF2zDhjPpjTilsKDFyh94yOWLwS4i+g+xfTCQ==
-X-Google-Smtp-Source: AGHT+IG+GFwZZxv704jjuJ+UMxKBzXxKfdBa96OxMVcUIavMW/wfmnEA6eFn6KpitkGT6G9+BB2t0g==
-X-Received: by 2002:a05:620a:f15:b0:7c5:97ca:3ea0 with SMTP id af79cd13be357-7c927e365bamr2195214385a.0.1745357384440;
-        Tue, 22 Apr 2025 14:29:44 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:15:9913::5ac? ([2606:6d00:15:9913::5ac])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c925b778c0sm601921985a.112.2025.04.22.14.29.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Apr 2025 14:29:44 -0700 (PDT)
-Message-ID: <ac48df7034ce695363daae2e5d87e00d6d41b038.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: imagination: fix a potential memory leak in
- e5010_probe()
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Haoxiang Li <haoxiang_li2024@163.com>, devarsht@ti.com,
- mchehab@kernel.org, 	hverkuil@xs4all.nl, d-huang@ti.com,
- benjamin.gaignard@collabora.com, 	sebastian.fricke@collabora.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	stable@vger.kernel.org
-Date: Tue, 22 Apr 2025 17:29:42 -0400
-In-Reply-To: <20250226124922.3601755-1-haoxiang_li2024@163.com>
-References: <20250226124922.3601755-1-haoxiang_li2024@163.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
+	s=arc-20240116; t=1745357564; c=relaxed/simple;
+	bh=VOITtCUA6Cog6hsw1iS3s3IsvKL0fbvgHALdAKB/RSc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Nh0vyL5xZ2UogRt7O3e4F6c8FqTMEiSCwDBV9MD9h9bjySviLiE28Cegf6vTZUy2fr4cgW4psEytH7gDrrJY8dV5wWuIvMupA/5JqSMSdjEwE9ok84gcqxhLlXD3ciQ388JOv3sw1U6tTxKNZkZrAQ/bQe0QsDT1HeyYjAHztxw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mQbuutmE; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 399B02AC;
+	Tue, 22 Apr 2025 23:32:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1745357558;
+	bh=VOITtCUA6Cog6hsw1iS3s3IsvKL0fbvgHALdAKB/RSc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mQbuutmEMaKRYfG6Q5YpKBZqqTenEexA0avzcXcltz9aHc6dStPGR1TwnXVvk/d2w
+	 GtAvw92biombm94QqDpUkpqNGas9Qku/zQ8Bh5noEWejPNLt7ASUR5yw6Yo4QwrTVN
+	 ZsdNr9VlCS1LwvVcfsLgiW/U6PwJYG/3iW7HWApI=
+Date: Wed, 23 Apr 2025 00:32:36 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org
+Subject: Re: [PATCH 7/8] media: uvcvideo: Add support for
+ V4L2_CID_CAMERA_ORIENTATION
+Message-ID: <20250422213236.GR17813@pendragon.ideasonboard.com>
+References: <20250403-uvc-orientation-v1-0-1a0cc595a62d@chromium.org>
+ <20250403-uvc-orientation-v1-7-1a0cc595a62d@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250403-uvc-orientation-v1-7-1a0cc595a62d@chromium.org>
 
-Hi,
+Hi Ricardo,
 
-Le mercredi 26 f=C3=A9vrier 2025 =C3=A0 20:49 +0800, Haoxiang Li a =C3=A9cr=
-it=C2=A0:
-> Add video_device_release() to release the memory allocated by
-> video_device_alloc() if something goes wrong.
->=20
-> Fixes: a1e294045885 ("media: imagination: Add E5010 JPEG Encoder driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
+Thank you for the patch.
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+On Thu, Apr 03, 2025 at 07:16:18PM +0000, Ricardo Ribalda wrote:
+> Fetch the orientation from the fwnode and map it into a control.
+> 
+> The uvc driver does not use the media controller, so we need to create a
+> virtual entity, like we previously did with the external gpio.
 
+I don't want to create a new entity every time we need to expose a new
+"software" control. If we keep handling GPIO as an entity, can we use it
+to expose all non-UVC controls ? Otherwise, if we have to create a new
+entity here, let's make sure we can reuse it in the future for more
+controls, and name it appropriately.
+
+This being said, functionally speaking, wouldn't the
+V4L2_CID_CAMERA_ORIENTATION control make more sense on the camera input
+terminal ? Have you considered adding it there ? Or would it be too
+intrusive ?
+
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 > ---
-> =C2=A0drivers/media/platform/imagination/e5010-jpeg-enc.c | 9 +++++++--
-> =C2=A01 file changed, 7 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/media/platform/imagination/e5010-jpeg-enc.c b/driver=
-s/media/platform/imagination/e5010-jpeg-enc.c
-> index c194f830577f..53e501b5ac0a 100644
-> --- a/drivers/media/platform/imagination/e5010-jpeg-enc.c
-> +++ b/drivers/media/platform/imagination/e5010-jpeg-enc.c
-> @@ -1057,8 +1057,11 @@ static int e5010_probe(struct platform_device *pde=
-v)
-> =C2=A0	e5010->vdev->lock =3D &e5010->mutex;
-> =C2=A0
-> =C2=A0	ret =3D v4l2_device_register(dev, &e5010->v4l2_dev);
-> -	if (ret)
-> -		return dev_err_probe(dev, ret, "failed to register v4l2 device\n");
-> +	if (ret) {
-> +		dev_err_probe(dev, ret, "failed to register v4l2 device\n");
-> +		goto fail_after_video_device_alloc;
+>  drivers/media/usb/uvc/Makefile     |  2 +-
+>  drivers/media/usb/uvc/uvc_ctrl.c   | 21 +++++++++++
+>  drivers/media/usb/uvc/uvc_driver.c | 14 ++++++--
+>  drivers/media/usb/uvc/uvc_entity.c |  1 +
+>  drivers/media/usb/uvc/uvc_fwnode.c | 73 ++++++++++++++++++++++++++++++++++++++
+>  drivers/media/usb/uvc/uvcvideo.h   | 15 ++++++++
+>  include/linux/usb/uvc.h            |  3 ++
+>  7 files changed, 125 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/Makefile b/drivers/media/usb/uvc/Makefile
+> index 85514b6e538fbb8284e574ca14700f2d749e1a2e..2a5b76aab756c21011d966f3ce0410ff6b8e5b19 100644
+> --- a/drivers/media/usb/uvc/Makefile
+> +++ b/drivers/media/usb/uvc/Makefile
+> @@ -1,7 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  uvcvideo-objs  := uvc_driver.o uvc_queue.o uvc_v4l2.o uvc_video.o uvc_ctrl.o \
+>  		  uvc_status.o uvc_isight.o uvc_debugfs.o uvc_metadata.o \
+> -		  uvc_gpio.o
+> +		  uvc_gpio.o uvc_fwnode.o
+>  ifeq ($(CONFIG_MEDIA_CONTROLLER),y)
+>  uvcvideo-objs  += uvc_entity.o
+>  endif
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index cbf19aa1d82374a08cf79b6a6787fa348b83523a..df84bf292dcab6b833fbd3c70eccbe9e567ee567 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -376,6 +376,13 @@ static const struct uvc_control_info uvc_ctrls[] = {
+>  				| UVC_CTRL_FLAG_GET_DEF
+>  				| UVC_CTRL_FLAG_AUTO_UPDATE,
+>  	},
+> +	{
+> +		.entity		= UVC_GUID_FWNODE,
+> +		.selector	= 0,
+> +		.index		= 0,
+> +		.size		= 1,
+> +		.flags		= UVC_CTRL_FLAG_GET_CUR,
+> +	},
+>  };
+>  
+>  static const u32 uvc_control_classes[] = {
+> @@ -975,6 +982,17 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
+>  		.data_type	= UVC_CTRL_DATA_TYPE_BITMASK,
+>  		.name		= "Region of Interest Auto Ctrls",
+>  	},
+> +	{
+> +		.id		= V4L2_CID_CAMERA_ORIENTATION,
+> +		.entity		= UVC_GUID_FWNODE,
+> +		.selector	= 0,
+> +		.size		= 8,
+> +		.offset		= 0,
+> +		.v4l2_type	= V4L2_CTRL_TYPE_MENU,
+> +		.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
+> +		.menu_mask	= GENMASK(V4L2_CAMERA_ORIENTATION_EXTERNAL,
+> +					  V4L2_CAMERA_ORIENTATION_FRONT),
+> +	},
+>  };
+>  
+>  /* ------------------------------------------------------------------------
+> @@ -3170,6 +3188,9 @@ static int uvc_ctrl_init_chain(struct uvc_video_chain *chain)
+>  		} else if (UVC_ENTITY_TYPE(entity) == UVC_EXT_GPIO_UNIT) {
+>  			bmControls = entity->gpio.bmControls;
+>  			bControlSize = entity->gpio.bControlSize;
+> +		} else if (UVC_ENTITY_TYPE(entity) == UVC_FWNODE_UNIT) {
+> +			bmControls = entity->fwnode.bmControls;
+> +			bControlSize = entity->fwnode.bControlSize;
+>  		}
+>  
+>  		/* Remove bogus/blacklisted controls */
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index b52e1ff401e24f69b867b5e975cda4260463e760..9a8e5d94b3eba09e1ee1be20bad5b016b6def915 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -1752,11 +1752,15 @@ static int uvc_scan_device(struct uvc_device *dev)
+>  		return -1;
+>  	}
+>  
+> -	/* Add GPIO entity to the first chain. */
+> -	if (dev->gpio_unit) {
+> +	/* Add virtual entities to the first chain. */
+> +	if (dev->gpio_unit || dev->fwnode_unit) {
+>  		chain = list_first_entry(&dev->chains,
+>  					 struct uvc_video_chain, list);
+> -		list_add_tail(&dev->gpio_unit->chain, &chain->entities);
+> +		if (dev->gpio_unit)
+> +			list_add_tail(&dev->gpio_unit->chain, &chain->entities);
+> +		if (dev->fwnode_unit)
+> +			list_add_tail(&dev->fwnode_unit->chain,
+> +				      &chain->entities);
+>  	}
+>  
+>  	return 0;
+> @@ -2132,6 +2136,10 @@ static int uvc_probe(struct usb_interface *intf,
+>  	if (ret < 0)
+>  		goto error;
+>  
+> +	ret = uvc_fwnode_parse(dev);
+> +	if (ret < 0)
+> +		goto error;
+> +
+>  	dev_info(&dev->udev->dev, "Found UVC %u.%02x device %s (%04x:%04x)\n",
+>  		 dev->uvc_version >> 8, dev->uvc_version & 0xff,
+>  		 udev->product ? udev->product : "<unnamed>",
+> diff --git a/drivers/media/usb/uvc/uvc_entity.c b/drivers/media/usb/uvc/uvc_entity.c
+> index cc68dd24eb42dce5b2846ca52a8dfa499c8aed96..01eeba2f049e9ebb25e091340a133656acbf28ca 100644
+> --- a/drivers/media/usb/uvc/uvc_entity.c
+> +++ b/drivers/media/usb/uvc/uvc_entity.c
+> @@ -106,6 +106,7 @@ static int uvc_mc_init_entity(struct uvc_video_chain *chain,
+>  		case UVC_OTT_MEDIA_TRANSPORT_OUTPUT:
+>  		case UVC_EXTERNAL_VENDOR_SPECIFIC:
+>  		case UVC_EXT_GPIO_UNIT:
+> +		case UVC_FWNODE_UNIT:
+>  		default:
+>  			function = MEDIA_ENT_F_V4L2_SUBDEV_UNKNOWN;
+>  			break;
+> diff --git a/drivers/media/usb/uvc/uvc_fwnode.c b/drivers/media/usb/uvc/uvc_fwnode.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..20f7b8847551acfd44cbf09bcbf653d89985561f
+> --- /dev/null
+> +++ b/drivers/media/usb/uvc/uvc_fwnode.c
+> @@ -0,0 +1,73 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + *      uvc_fwnode.c  --  USB Video Class driver
+> + *
+> + *      Copyright 2025 Google LLC
+> + */
+> +
+> +#include <linux/kernel.h>
+> +#include <linux/usb/uvc.h>
+> +#include <media/v4l2-fwnode.h>
+> +#include "uvcvideo.h"
+> +
+> +static int uvc_fwnode_get_cur(struct uvc_device *dev, struct uvc_entity *entity,
+> +			      u8 cs, void *data, u16 size)
+> +{
+> +	if (size < 1)
+> +		return -EINVAL;
+> +
+> +	switch (entity->fwnode.props.orientation) {
+> +	case V4L2_FWNODE_ORIENTATION_FRONT:
+> +		*(u8 *)data = V4L2_CAMERA_ORIENTATION_FRONT;
+> +		break;
+> +	case V4L2_FWNODE_ORIENTATION_BACK:
+> +		*(u8 *)data = V4L2_CAMERA_ORIENTATION_BACK;
+> +		break;
+> +	default:
+> +		*(u8 *)data = V4L2_CAMERA_ORIENTATION_EXTERNAL;
 > +	}
 > +
-> =C2=A0
-> =C2=A0	e5010->m2m_dev =3D v4l2_m2m_init(&e5010_m2m_ops);
-> =C2=A0	if (IS_ERR(e5010->m2m_dev)) {
-> @@ -1118,6 +1121,8 @@ static int e5010_probe(struct platform_device *pdev=
-)
-> =C2=A0	v4l2_m2m_release(e5010->m2m_dev);
-> =C2=A0fail_after_v4l2_register:
-> =C2=A0	v4l2_device_unregister(&e5010->v4l2_dev);
-> +fail_after_video_device_alloc:
-> +	video_device_release(e5010->vdev);
-> =C2=A0	return ret;
-> =C2=A0}
-> =C2=A0
+> +	return 0;
+> +}
+> +
+> +static int uvc_fwnode_get_info(struct uvc_device *dev,
+> +			       struct uvc_entity *entity, u8 cs, u8 *caps)
+> +{
+> +	*caps = UVC_CONTROL_CAP_GET;
+> +	return 0;
+> +}
+> +
+> +int uvc_fwnode_parse(struct uvc_device *dev)
+> +{
+> +	static const u8 uvc_fwnode_guid[] = UVC_GUID_FWNODE;
+> +	struct v4l2_fwnode_device_properties props;
+> +	struct uvc_entity *unit;
+> +	int ret;
+> +
+> +	ret = v4l2_fwnode_device_parse(&dev->udev->dev, &props);
+> +	if (ret)
+> +		return dev_err_probe(&dev->intf->dev, ret,
+> +				     "Can't parse fwnode\n");
+> +
+> +	if (props.orientation == V4L2_FWNODE_PROPERTY_UNSET)
+> +		return 0;
+> +
+> +	unit = uvc_alloc_entity(UVC_FWNODE_UNIT, UVC_FWNODE_UNIT_ID, 0, 1);
+> +	if (!unit)
+> +		return -ENOMEM;
+> +
+> +	memcpy(unit->guid, uvc_fwnode_guid, sizeof(unit->guid));
+> +	unit->fwnode.props = props;
+> +	unit->fwnode.bControlSize = 1;
+> +	unit->fwnode.bmControls = (u8 *)unit + sizeof(*unit);
+> +	unit->fwnode.bmControls[0] = 1;
+> +	unit->get_cur = uvc_fwnode_get_cur;
+> +	unit->get_info = uvc_fwnode_get_info;
+> +	strscpy(unit->name, "FWNODE", sizeof(unit->name));
+> +
+> +	list_add_tail(&unit->list, &dev->entities);
+> +
+> +	dev->fwnode_unit = unit;
+> +
+> +	return 0;
+> +}
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index aef96b96499ce09ffa286c51793482afd9832097..c52ab99bf8d21ab37270d27ffc040fd115b3f5ba 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -19,6 +19,7 @@
+>  #include <media/v4l2-event.h>
+>  #include <media/v4l2-fh.h>
+>  #include <media/videobuf2-v4l2.h>
+> +#include <media/v4l2-fwnode.h>
+>  
+>  /* --------------------------------------------------------------------------
+>   * UVC constants
+> @@ -41,6 +42,9 @@
+>  #define UVC_EXT_GPIO_UNIT		0x7ffe
+>  #define UVC_EXT_GPIO_UNIT_ID		0x100
+>  
+> +#define UVC_FWNODE_UNIT			0x7ffd
+> +#define UVC_FWNODE_UNIT_ID		0x101
+> +
+>  /* ------------------------------------------------------------------------
+>   * Driver specific constants.
+>   */
+> @@ -242,6 +246,12 @@ struct uvc_entity {
+>  			int irq;
+>  			bool initialized;
+>  		} gpio;
+> +
+> +		struct {
+> +			u8  bControlSize;
+> +			u8  *bmControls;
+> +			struct v4l2_fwnode_device_properties props;
+> +		} fwnode;
+>  	};
+>  
+>  	u8 bNrInPins;
+> @@ -617,6 +627,7 @@ struct uvc_device {
+>  	} async_ctrl;
+>  
+>  	struct uvc_entity *gpio_unit;
+> +	struct uvc_entity *fwnode_unit;
+>  };
+>  
+>  enum uvc_handle_state {
+> @@ -835,4 +846,8 @@ size_t uvc_video_stats_dump(struct uvc_streaming *stream, char *buf,
+>  int uvc_gpio_parse(struct uvc_device *dev);
+>  int uvc_gpio_init_irq(struct uvc_device *dev);
+>  void uvc_gpio_deinit(struct uvc_device *dev);
+> +
+> +/* fwnode */
+> +int uvc_fwnode_parse(struct uvc_device *dev);
+> +
+>  #endif
+> diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
+> index bce95153e5a65613a710d7316fc17cf5462b5bce..d818839b0442988d94ab44935e1ce855b0adf4a1 100644
+> --- a/include/linux/usb/uvc.h
+> +++ b/include/linux/usb/uvc.h
+> @@ -29,6 +29,9 @@
+>  #define UVC_GUID_EXT_GPIO_CONTROLLER \
+>  	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
+>  	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x03}
+> +#define UVC_GUID_FWNODE \
+> +	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
+> +	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x04}
+>  
+>  #define UVC_GUID_FORMAT_MJPEG \
+>  	{ 'M',  'J',  'P',  'G', 0x00, 0x00, 0x10, 0x00, \
+> 
+> -- 
+> 2.49.0.504.g3bcea36a83-goog
+> 
+
+-- 
+Regards,
+
+Laurent Pinchart
 
