@@ -1,158 +1,185 @@
-Return-Path: <linux-media+bounces-30735-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30736-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E9CDA97647
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 21:57:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5EB12A97651
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 21:58:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BAD3216E18E
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 19:57:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8DD05171603
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 19:58:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39F44298CD7;
-	Tue, 22 Apr 2025 19:57:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A76929AAF0;
+	Tue, 22 Apr 2025 19:58:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4B1Eex4/"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="K62lC8az"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE807298980
-	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 19:57:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C5FF298CC8
+	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 19:58:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745351854; cv=none; b=izrrc3yF7sbZiXFlsx0dSy1pMzRDlYCH3Luu/wk7vHXXp69UEpG3EyyBnEW1Bq6XonZh1HJou76boKnP1eQPjLgyWR80XbT299ZG7ejuktG3Vxo4M/W6bd4vmFhpRWX7OljAepMQTOQqtfuP4SCmQjkuJHQ5MAARq8ZJWx+AIBA=
+	t=1745351888; cv=none; b=WGciMANNZ0V+Tmcm5jQUMSP+xCYjLVyuiy+VYSP4JaGt8xd3Frc741sgJq5UTDCdvRg+wm5dcqZNZ72o+Nc46yFd0hO2y8UH4z4BPePY6w0tzghzKnoL+QIxs44mWY9X/3Bi3cBEC2SoRR3SradgsGCgfh2Zc46bVtzG3L8d3iE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745351854; c=relaxed/simple;
-	bh=CTVA2mrAn/AMpQDf5O262gMMZUU1TRh2/DuID8H/EP8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GKE5ptcRgVwS5DqIL8RT7ZnFqkT1X0TjkK97Pv/VQtqN6+FNwqxiVeUnjkS/sERzqCMpL9vmEHJXf/Hkhs43sdXKkiMEu9C2EzMxjOyB/1c5bZw5Gp9W0+atsPrC5YWEq15XLZ/l3gcZStbSL+25Ao21PwdmndKfzqOqam335W8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4B1Eex4/; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43d5f10e1aaso16825e9.0
-        for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 12:57:32 -0700 (PDT)
+	s=arc-20240116; t=1745351888; c=relaxed/simple;
+	bh=UCc9IenOlRQt7veSnMNvgDmw1rTTzCVeI7tkZWg+g0g=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=U7ADTvFaKEypOwHvN1dxcUd0sUU1gb7vLzNyg/07/UMmLVa5e6j++z//R/BY5anggPPJWRpi7ph4FYXof2/UZFd7ue4pwGpvq5sCOmQdCP+NcCh9eMw2ZasKjiURGSVyyLciP8569H3BjSKs5hody1ee3+B8r6D7XvSEQP6S6Wg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=K62lC8az; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-477282401b3so62185231cf.1
+        for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 12:58:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1745351851; x=1745956651; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1745351885; x=1745956685; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=o+8WoEV+fhr75HFqg9zZSA4L2nRl0GyEtZHiF2PswuY=;
-        b=4B1Eex4/sKIjSHTFcN7ivYU9jkqma/S+wCqJszDrDsbomeZ7jSa7sHhmoTHczx93pj
-         qlDzKqMtIRnu2/0T+d5oKrTUb9Tbf6xin53LT0l9bZCZZHrPcxMXnuDEj+6Nm4nu+1jE
-         uHAiL7TOfm7ruXz3kDJgwtJgtxvFaLoAU/gkx6v0jTCUEaQKQpNi58BYlZ6E0xQNUe0Q
-         fYw4CuYzu7fHI5cqImmY31nJDE0vAkVOdGBCop0FVeaQGGgIe3kFgTf+QOszgHcoR69D
-         csk5aJ37+Lm+VBRBrBbAnlMwkE4YbkO/YKyJOw0qY19xvRArLkDXFD4RrNcNsGFlWPLT
-         2yrA==
+        bh=wi0XCQ0wIgKNjQqJTUBlgswWdaLbIuH1pbfLDZVamA8=;
+        b=K62lC8azJ9dU8MYX4L1lNETjpRr6r9ikSRLWKInE8I+n/HDK/BfKvpSm+hB61EO+9b
+         ij89z9bQ6weItF5IFj1vYPdy+4u/lTQ5gl+7sBSsvrQG2XjPtCPhBQ1fr8c//U2E23re
+         7XjRc5/gfJnvQyZEJlrW9TVIwxgQwM4cNi8TUdxwppHon0RT+eI4UPtrc5LO0kxTZoeG
+         7ho4Qf3BiHuTVN7+ImE7o7XS8QflvyGmNlHiAqWMYL+IZaVIn+fRr95UQxJvSnTj2aYu
+         zGtXVzVepKsKezfq6duCTpFoFAEGUt61kH9pcbIGRbh90UBju/g/rkk6wrmzMQqC58LZ
+         vtlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745351851; x=1745956651;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=o+8WoEV+fhr75HFqg9zZSA4L2nRl0GyEtZHiF2PswuY=;
-        b=HSVGHSXKOx0n4anFPAqnZAgHTVskpv4743InTXz2mPodxXGswh1JxwQJic8E+J7M3Z
-         kuSOHPzoLWcVOGvQ+7bvqk2ukPBVWL6HufJsrfwR5kvSKRS1NE4ca28x4K/nZRPuSMIk
-         gro+52PafpDLYIe1X4BOjy5xvNUAcWduc1HVcQYtbbMv271vNb5ZNydLyMEM3GM7YtJB
-         +IX+ZcxV+OInsIo7aiYL3nXKKi/IxtHHIhqsReE2ENbJ6ZMIMTsc+aqfFqgSy7U5jfCA
-         LU0J55laq9eb1X6UA/DSuae7thwI0mHc/bR6BbOY6yDyD1ZH5+zDoCW3YHoIPAGa/sg0
-         nXZw==
-X-Forwarded-Encrypted: i=1; AJvYcCUSGs+AD27wnGL73+ykiCERS+veWd4TIp0HubUoSrAyE+4HkfHDNcMgzTChRSkIKGv1TUx2UkMuQjaQ7w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvJdM5OvZUqMxtorNiEpzw2e+oe1eSKJqPIKsWBTaeNxh6NCbH
-	jrK+MFJEuKuWGe119+XYgz7Nq1hYaVqA/ZO/4v9C7jb344uSbav4ikzfMMfLS9CsYgcTv7XBctP
-	EkXlcp5dllN2OD9bHu2/xHgeQXnABQa/WMjsZoJeATOyFPdsZ4VHn
-X-Gm-Gg: ASbGncuLytvnlbgve4F92QFZwSxrKqBv8fzkcCgAwfLh1uVHkx6w1LRLcoGKestqrt2
-	pM2HSUOKCmkT7JBrYywTQSgdEgyd85Snfqt4o405o9POe4Vb4Dmf9etyspIZzMOWxCD7W9PAG1D
-	GbDsYvlKv/w+3D2yWkImNsTF5ozR3n0ubB/Ob8PW8iZ47oeEl9U6XHFMXd+GX8z/o=
-X-Google-Smtp-Source: AGHT+IHUmXBjG9n60eY/loYKceaeQypFwnBTAsAPzYJ5PJ5nFZ7ErzebtVx7FMQxwUfLtBAv12j9WXMAZTzYMIU/Svk=
-X-Received: by 2002:a05:600c:259:b0:439:8d84:32ff with SMTP id
- 5b1f17b1804b1-44091b78f2dmr168325e9.3.1745351850985; Tue, 22 Apr 2025
- 12:57:30 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745351885; x=1745956685;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=wi0XCQ0wIgKNjQqJTUBlgswWdaLbIuH1pbfLDZVamA8=;
+        b=PDh1fwbj9FJfLfxd8ue3hkY+ATroPLRlOvMNVndvo8g5uj9w0AUCQ4PvUQcXiqMgKL
+         nua9dDwlLca+tVigJTRM25dPjBlGVONXEFcqu39+12CjBoti06TKOOgF16rWJZN7jlyG
+         +3Gn70FmFX6pH2mfTAZCcRRV21eyPelmMQfWOl32Bze8kywdKwJOocWDxOeo7bIBVdLr
+         xZldBtOO7z6FYsjUCPntc5N7DVlUXHThZ6aY09H9k87YZ4K1tKvKpf+dGoVZqiJ7YagF
+         BeVRDgLhtFFgcuF6meuFbLpQOrwlSLM0cY2jFgdnDlsu10M/7UUvV2lp+VF7/IyAHOIj
+         WCwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWDoJxRK1XeI5C+TcHwojJoAvEIFUeTfyNVOhyx8ZEBAC8JS85+igotwvX8rOqhCCwXIG41jqjUnh5TxA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxs7o8GhJndbO+okVDonQhXyuhpQOtD+bHGQuuU9fxDnVEEgk0v
+	bXDDCB40SRHgBOYxxF9WHWtDOwI1JcqYS9KnqUUy0nICAGpbIlQjtPDZl47F/4I=
+X-Gm-Gg: ASbGncuGxzj/RM1RC8gYrxYA99bQhYKUJbfU25fFzbYNUrHliV1Y7zXz/sNxhS2kPl1
+	9lkvGrImvZy1D6tleZXHZWDw4sZHRsLiRq+vsyvvY3VyEOiE7ZAQbww1BnW3luXvYMLIGs08Nau
+	ejE9wy+UuE53JSt6hH9WyWkAvuR9rTySQQRTeU6BoUrz768Ds1/0fjSKkvDxzNx35el7Wq4gf+7
+	IX2RVv9meDwjy8y2t2w86cI8j8Xvk29QgXbs0FOochwTPSWSUrf6P8Wns9ygDLDUeLa3I3QIWO7
+	RP8k1H8Jsq14xtHdt37XhFu8gD+UbgG99mp0oVTjvP6/TA==
+X-Google-Smtp-Source: AGHT+IF7avo9uEX7A3mW4T8l6RGnGWjnOiUes3AEZlicK2QwGeYThk0IGDXmi5oRWeE+79xJPQKX3w==
+X-Received: by 2002:a05:6214:19c8:b0:6e8:fad9:c688 with SMTP id 6a1803df08f44-6f2c4552a03mr278764626d6.16.1745351884909;
+        Tue, 22 Apr 2025 12:58:04 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:15:9913::5ac? ([2606:6d00:15:9913::5ac])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f2c2af1433sm61506056d6.19.2025.04.22.12.58.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Apr 2025 12:58:04 -0700 (PDT)
+Message-ID: <529a9804d5b14322b2be78ea6f98677db9c23c33.camel@ndufresne.ca>
+Subject: Re: [PATCH v3 3/3] media: verisilicon: postproc: 4K support
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Hugues Fruchet <hugues.fruchet@foss.st.com>, Mauro Carvalho Chehab	
+ <mchehab@kernel.org>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Sebastian Fricke	
+ <sebastian.fricke@collabora.com>, Ricardo Ribalda <ribalda@chromium.org>, 
+ Erling Ljunggren <hljunggr@cisco.com>, Hans Verkuil <hverkuil@xs4all.nl>,
+ Laurent Pinchart	 <laurent.pinchart@ideasonboard.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>,  Jacopo Mondi
+ <jacopo.mondi@ideasonboard.com>, Jean-Michel Hautbois
+ <jeanmichel.hautbois@ideasonboard.com>,  Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, 	linux-rockchip@lists.infradead.org,
+ linux-stm32@st-md-mailman.stormreply.com, 
+	linux-arm-kernel@lists.infradead.org
+Date: Tue, 22 Apr 2025 15:58:02 -0400
+In-Reply-To: <20241121131904.261230-4-hugues.fruchet@foss.st.com>
+References: <20241121131904.261230-1-hugues.fruchet@foss.st.com>
+	 <20241121131904.261230-4-hugues.fruchet@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0 (3.56.0-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250414225227.3642618-1-tjmercier@google.com>
- <20250414225227.3642618-3-tjmercier@google.com> <CAPhsuW54g5YCmLVX=cc3m2nfQTZrMH+6ZMBgouEMMfqcccOtww@mail.gmail.com>
- <CABdmKX1OqLLsY5+LSMU-c=DDUxTFaivNcyXG3ntD8D0ty1Pwig@mail.gmail.com> <CAADnVQ+0PXgm_VuSJDKwr9iomxFLuG-=Chi2Ya3k0YPnKaex_w@mail.gmail.com>
-In-Reply-To: <CAADnVQ+0PXgm_VuSJDKwr9iomxFLuG-=Chi2Ya3k0YPnKaex_w@mail.gmail.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Tue, 22 Apr 2025 12:57:18 -0700
-X-Gm-Features: ATxdqUHMQq2PHoV14JDZonbBE5auIlNOjBV31C8667rOy5nLy9RJngJSN6-OcnY
-Message-ID: <CABdmKX1aMuyPTNXD72wXyXAfOi6f58DfcaBDh6uDo0EQ7pKChw@mail.gmail.com>
-Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Song Liu <song@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Shuah Khan <skhan@linuxfoundation.org>, LKML <linux-kernel@vger.kernel.org>, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, android-mm@google.com, simona@ffwll.ch, 
-	Jonathan Corbet <corbet@lwn.net>, Eduard <eddyz87@gmail.com>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Jiri Olsa <jolsa@kernel.org>, 
-	Mykola Lysenko <mykolal@fb.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 21, 2025 at 4:39=E2=80=AFPM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
->
-> On Mon, Apr 21, 2025 at 1:40=E2=80=AFPM T.J. Mercier <tjmercier@google.co=
-m> wrote:
-> >
-> > > > new file mode 100644
-> > > > index 000000000000..b4b8be1d6aa4
-> > > > --- /dev/null
-> > > > +++ b/kernel/bpf/dmabuf_iter.c
-> > >
-> > > Maybe we should add this file to drivers/dma-buf. I would like to
-> > > hear other folks thoughts on this.
-> >
-> > This is fine with me, and would save us the extra
-> > CONFIG_DMA_SHARED_BUFFER check that's currently needed in
-> > kernel/bpf/Makefile but would require checking CONFIG_BPF instead.
-> > Sumit / Christian any objections to moving the dmabuf bpf iterator
-> > implementation into drivers/dma-buf?
->
-> The driver directory would need to 'depends on BPF_SYSCALL'.
-> Are you sure you want this?
-> imo kernel/bpf/ is fine for this.
+Hi,
 
-I don't have a strong preference so either way is fine with me. The
-main difference I see is maintainership.
+Le jeudi 21 novembre 2024 =C3=A0 14:19 +0100, Hugues Fruchet a =C3=A9crit=
+=C2=A0:
+> Support input larger than 4096x2048 using extended input width/height
+> fields of swreg92.
+> This is needed to decode large WebP or JPEG pictures.
+>=20
+> Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
 
-> You also probably want
-> .feature                =3D BPF_ITER_RESCHED
-> in bpf_dmabuf_reg_info.
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-Thank you, this looks like a good idea.
-
-> Also have you considered open coded iterator for dmabufs?
-> Would it help with the interface to user space?
-
-I read through the open coded iterator patches, and it looks like they
-would be slightly more efficient by avoiding seq_file overhead. As far
-as the interface to userspace, for the purpose of replacing what's
-currently exposed by CONFIG_DMABUF_SYSFS_STATS I don't think there is
-a difference. However it looks like if I were to try to replace all of
-our userspace analysis of dmabufs with a single bpf program then an
-open coded iterator would make that much easier. I had not considered
-attempting that.
-
-One problem I see with open coded iterators is that support is much
-more recent (2023 vs 2020). We support longterm stable kernels (back
-to 5.4 currently but probably 5.10 by the time this would be used), so
-it seems like it would be harder to backport the kernel support for an
-open-coded iterator that far since it only goes back as far as 6.6
-now. Actually it doesn't look like it is possible while also
-maintaining the stable ABI we provide to device vendors. Which means
-we couldn't get rid of the dmabuf sysfs stats userspace dependency
-until 6.1 EOL in Dec. 2027. :\ So I'm in favor of a traditional bpf
-iterator here for now.
+> ---
+> =C2=A0drivers/media/platform/verisilicon/hantro.h=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 ++
+> =C2=A0drivers/media/platform/verisilicon/hantro_g1_regs.h=C2=A0 | 2 +-
+> =C2=A0drivers/media/platform/verisilicon/hantro_postproc.c | 6 +++++-
+> =C2=A03 files changed, 8 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/verisilicon/hantro.h b/drivers/media/=
+platform/verisilicon/hantro.h
+> index 811260dc3c77..d1337f7742e4 100644
+> --- a/drivers/media/platform/verisilicon/hantro.h
+> +++ b/drivers/media/platform/verisilicon/hantro.h
+> @@ -321,6 +321,8 @@ struct hantro_postproc_regs {
+> =C2=A0	struct hantro_reg output_fmt;
+> =C2=A0	struct hantro_reg orig_width;
+> =C2=A0	struct hantro_reg display_width;
+> +	struct hantro_reg input_width_ext;
+> +	struct hantro_reg input_height_ext;
+> =C2=A0};
+> =C2=A0
+> =C2=A0struct hantro_vp9_decoded_buffer_info {
+> diff --git a/drivers/media/platform/verisilicon/hantro_g1_regs.h b/driver=
+s/media/platform/verisilicon/hantro_g1_regs.h
+> index e7d4db788e57..f6e5bbeb1914 100644
+> --- a/drivers/media/platform/verisilicon/hantro_g1_regs.h
+> +++ b/drivers/media/platform/verisilicon/hantro_g1_regs.h
+> @@ -351,7 +351,7 @@
+> =C2=A0#define=C2=A0=C2=A0=C2=A0=C2=A0 G1_REG_PP_CONTROL_OUT_WIDTH(v) (((v=
+) << 4) & GENMASK(14, 4))
+> =C2=A0#define G1_REG_PP_MASK1_ORIG_WIDTH	G1_SWREG(88)
+> =C2=A0#define=C2=A0=C2=A0=C2=A0=C2=A0 G1_REG_PP_ORIG_WIDTH(v)	(((v) << 23=
+) & GENMASK(31, 23))
+> -#define G1_REG_PP_DISPLAY_WIDTH		G1_SWREG(92)
+> +#define G1_REG_PP_DISPLAY_WIDTH_IN_EXT	G1_SWREG(92)
+> =C2=A0#define G1_REG_PP_FUSE			G1_SWREG(99)
+> =C2=A0
+> =C2=A0#endif /* HANTRO_G1_REGS_H_ */
+> diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c b/drive=
+rs/media/platform/verisilicon/hantro_postproc.c
+> index 232c93eea7ee..84c8e287470d 100644
+> --- a/drivers/media/platform/verisilicon/hantro_postproc.c
+> +++ b/drivers/media/platform/verisilicon/hantro_postproc.c
+> @@ -49,7 +49,9 @@ static const struct hantro_postproc_regs hantro_g1_post=
+proc_regs =3D {
+> =C2=A0	.input_fmt =3D {G1_REG_PP_CONTROL, 29, 0x7},
+> =C2=A0	.output_fmt =3D {G1_REG_PP_CONTROL, 26, 0x7},
+> =C2=A0	.orig_width =3D {G1_REG_PP_MASK1_ORIG_WIDTH, 23, 0x1ff},
+> -	.display_width =3D {G1_REG_PP_DISPLAY_WIDTH, 0, 0xfff},
+> +	.display_width =3D {G1_REG_PP_DISPLAY_WIDTH_IN_EXT, 0, 0xfff},
+> +	.input_width_ext =3D {G1_REG_PP_DISPLAY_WIDTH_IN_EXT, 26, 0x7},
+> +	.input_height_ext =3D {G1_REG_PP_DISPLAY_WIDTH_IN_EXT, 29, 0x7},
+> =C2=A0};
+> =C2=A0
+> =C2=A0bool hantro_needs_postproc(const struct hantro_ctx *ctx,
+> @@ -103,6 +105,8 @@ static void hantro_postproc_g1_enable(struct hantro_c=
+tx *ctx)
+> =C2=A0	HANTRO_PP_REG_WRITE(vpu, output_height, ctx->dst_fmt.heighat);
+> =C2=A0	HANTRO_PP_REG_WRITE(vpu, orig_width, MB_WIDTH(ctx->dst_fmt.width))=
+;
+> =C2=A0	HANTRO_PP_REG_WRITE(vpu, display_width, ctx->dst_fmt.width);
+> +	HANTRO_PP_REG_WRITE(vpu, input_width_ext, MB_WIDTH(ctx->dst_fmt.width) =
+>> 9);
+> +	HANTRO_PP_REG_WRITE(vpu, input_height_ext, MB_HEIGHT(ctx->dst_fmt.heigh=
+t >> 8));
+> =C2=A0}
+> =C2=A0
+> =C2=A0static int down_scale_factor(struct hantro_ctx *ctx)
 
