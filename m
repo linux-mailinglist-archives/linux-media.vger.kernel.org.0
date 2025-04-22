@@ -1,121 +1,164 @@
-Return-Path: <linux-media+bounces-30682-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30683-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB4D1A96081
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 10:07:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56105A960BA
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 10:15:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0627B3B43E9
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 08:05:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8323C178E28
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 08:15:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 532A92367D4;
-	Tue, 22 Apr 2025 08:04:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 598A8248864;
+	Tue, 22 Apr 2025 08:14:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RkC/CIuj"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WfhG0rVY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E3291E7C32
-	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 08:04:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5002417C3
+	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 08:14:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745309060; cv=none; b=PHbWsogPiplhEPJDwDJ2Lfg+fMGvM5jdzer0aUn4w9+tepJovRcDZb4TIqWjs6CsBfM7NaH7hdtzGCj+WpNVnZI3uKEU4xvUE2lUudKYVTlywt9yZnc317oY1lO/ZuTlbB3P3mcvyEKVUj4nAJkv/BVk3v70Z98un1ZP3iwfN/w=
+	t=1745309684; cv=none; b=CO+o6ICkdpgmOaNRYcHCLcpgHH9CHOeP+t0u7Ueh0ZY9O5Vna20JStwSBkDxtHW8z3WFYpnB7BEq+eJbFbpjntU1ffiT9HJFJqk/cV/4uroIv0V0ngzq9j575zs0Z+rtu429mqLvTsKGIY/SjU2dZDBG69KC6YylQlDKk/S0Avs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745309060; c=relaxed/simple;
-	bh=YJ5ust15cgiLPQ19Llb8Yxmg2OdhLgYoabERjHZpRUI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cAhfUUjRdllAQuzgcO1P9web6oTrDbrJBhxQe5qnVXdLpszKdQlGvYHajc4w39dhpoRObgkyCh3y6ZEMU0XicYqC9CV7V87DRg/CmjTmC/6u9YGosh9+gAUKf9EhRAkrQduj0vBhM3OnzyAQNvKrPjohBTEPEgQ4+P4cTXhKTdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RkC/CIuj; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-39ee651e419so2631351f8f.3
-        for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 01:04:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745309057; x=1745913857; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=cIQ4PP9wG4Vz2xc0LFXVcoklKGB+kLgAg0ewlEvxW4M=;
-        b=RkC/CIujYW4393EfnO3k55cJA5rUvl4/+MzteaxfWSuioObBRrb9q4C0UNMcbFxGp4
-         ysC+Bty3n8U84UxlhJCNGZgMuR/J4kynaB9wWcGqYO2SkjsqPVJw11DKVtYAAU/jMGZW
-         hj+apzwbOHeTkOMH6koTYoh3IuiuGZWWOXCbZ+WYkqz0nf3VN8m+4lw9rzA7e0hzwJ94
-         RqVAjYJDv2FUfYQmOsTTNPVT8OZNBuFMg+OMHtZsI8SRcUOwJ8N7A1sduzd+QS6kACr4
-         9vPcsUUucwGsHW4CnF2+IzEpjM8aReyI4zkDRPi4LqR07jXTF6uTG3/vYqvegGuyB3tO
-         VDlw==
+	s=arc-20240116; t=1745309684; c=relaxed/simple;
+	bh=XNz5Kl5uVluGdR/+MRV/yhIrq/AJ26wsTNvCx8dfzTs=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QprOh1Mk1kR6aj33IS3SfX5NJEShFFpwxvnLdCG8FG4V4ufd2gT3EaKc/m6PmHch7AsO24UC0uyiAkqKNbCTnOKuusm7tmXDEQUPljdH71D8yixhaDT/00QKzy7vpl5EaEVJNJAroIyb6pPuznMDx+nM7midqZYtJbk9maPKfuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WfhG0rVY; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53M4OZkJ025905
+	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 08:14:41 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=Y+BmZqp+BmocGCY8fdjm0nrXEhRxWp5sv8l
+	5dSkmpQA=; b=WfhG0rVYQlvlUN5y25edgfBr/aNZqnwSinxSnGpci4tbfkeSWj6
+	1+1KjRPPvDaVG2FqODjE9MH3Mb+RlinpSguedUy6ZoxMWMOLBwdY/k418OxA6GDH
+	JOBzZ2u04FznGZBOqnZ9kvd98BUaVJSE12YYydrfKcdv//jigRMnZs52c31nAPrj
+	HEJboWjbxqMI+8NlOXAfqL69BqLJ3L2X6hW5Y0Bx7WyDpMoZn752KUSbxRK/0EFI
+	q3dXYdZdEwBlYiUHQAyAczlgk8Q5WmsRld4jc4K7XHRy3jdMR5IUlJxioHuLFKJS
+	nXVYIfRl7LV+L6XyQQMBlCUWtnlfzEbdTjA==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4644kjegq3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 08:14:40 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6f0c089909aso87920506d6.2
+        for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 01:14:40 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745309057; x=1745913857;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cIQ4PP9wG4Vz2xc0LFXVcoklKGB+kLgAg0ewlEvxW4M=;
-        b=POJE1/cttrRZi63hD/cbnGOyGCgtxbGYGtvamJcYRCxyGs7SiGEiuLHQvxLZ0GDliN
-         thDROpZA7XRZDahfw20TVKXORl9PCAU7T9ikFxig454iIVCJc7SjjvnopG0VbaueWHiR
-         H4l4rAjzlfGNU7DIU6vuvwKd2FNrIxrF+Rs2U2rvNGFvZ4uEth0a7X/HpHrVZHtavlct
-         m0lzRTe3+kIUsUydy7a3Hnu7AEzGHlCaZmy6y6OTr7SHex+m2ManT1wbPP1nD+FgB0/X
-         kqIawSpfMgLjn4zS87sPF9VQhS4xlWvwG7PcUqRI1Wib37W2K0pFDHXOzltzH7e7JHBa
-         oFmw==
-X-Forwarded-Encrypted: i=1; AJvYcCVjMuXOof5WuHX+DtvwIhm18DPvMa3hrGU7pMKu7AKdLeHQ51Oyi7f7BQod9JJvIK/5Eu4f+W5BSyOLJA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWvwgWeCk73r7tA+buFiWceF95C7BMAdBc5dyesjYUnaoUWoDo
-	NeEEjh6VGmqrZocm/akDIHFOtTA/ZKuHC/0qSQqj/qNIuBduRsOsvZvDIGoRogU=
-X-Gm-Gg: ASbGncv/fCdooWta3rGz2T6luK1N+K1GJl8GwTHV+RAZWe3mVJ9339hEq/YtEFBcJaZ
-	5bdFMqOFBQXIVa/kLR7gUa8PmOn0lsOq9MSnckGYMfGdVkl7foQPSru3t6bYBDANX9+7zMuyfiB
-	wFWkM2g3pfJ3jn/k9U18AH24+MRLMAAR8r+gVdxFIDVYTC9QFgLhbtiq0d5RFPQM6FSmYD1Xt9S
-	Amy6ZPa6KKJevDMs2O5b0YPh+1S6CesohnG9NwCZy5K0q0yEebouIvhcUKs26R/2G55xxSPaA2j
-	Zzy3lg/UxOGyVaa4CdLPFev4IVF2z2alrDdnERGJ/ChputSooQZdSf7g
-X-Google-Smtp-Source: AGHT+IHr33bB7haku99h9x2iuyH51ldW8W+dBOIW1fajfkUYidpN0vXAbVL+B51YDs7qeUHWyJNcQg==
-X-Received: by 2002:a05:6000:188d:b0:390:ed04:a676 with SMTP id ffacd0b85a97d-39efba4b204mr10956448f8f.22.1745309057390;
-        Tue, 22 Apr 2025 01:04:17 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-39efa43315esm14111416f8f.26.2025.04.22.01.04.16
+        d=1e100.net; s=20230601; t=1745309679; x=1745914479;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Y+BmZqp+BmocGCY8fdjm0nrXEhRxWp5sv8l5dSkmpQA=;
+        b=bdZcLI9iaiVzDWWzteMNyqF9xLwVLLQDRRaSP3VXuxb+r4ebdk2pgDXkWML/FiHxx+
+         SzxKjonQG93Huz6m/FUz/JKLFttc+8CVWWVn2v+/yKdH/m7+vOPwcSbbKEWLcDsTdWcx
+         sZwpPOQoeZF63ODoStafmj61EhP01bsW2d2I2MFpa+XRnDX86wnZCoKKXZKjSLI94SDd
+         +q3sPHsQsZG9G+T5sz1uBf1fgyAjK58CCMJD67Zn4Dd6Wni2o3OVbS8ukejGuamdMnF3
+         TL4SLBPQJ5Hmqib4CyHjy15GfohWaFs7m3wXIaXI0/x5TT1q/MLf6UPq9HCiQSX9PTS0
+         Nq4A==
+X-Gm-Message-State: AOJu0YzTnmzqSyTL9olFThHXt4wcKBa1px8ZgWPC2vFV9fEeEaeh1/wS
+	yTHKyzSOee5sCyFWWjXRPyaeFy3JOzD438avS5bfrgriBMQtbcCCrQMg+3yikOwrlw0fYbkQbLU
+	c95kHnbuopAiW25qcwNj3pzN2JBi8+P3nAWawCudsAlPvxWAoWKO88pxwc8RkwA==
+X-Gm-Gg: ASbGncuZ81sDGaFTi3EBPg2zAUkwqXGvFAIbAYZAwD93URLNo2bGAasFd5cXoKDlGjF
+	TMW17SurloA3CAUDBs/J2gE7nlhPn6arH0U/66OwZQuLifR+Sb4OXnw/Hngnc/txnhPD8DZbXHm
+	pnmZF5Wso99t0wdWD4Ea9UUvj7qiGsdBE/YmQWt1CP2Gx9IHE6bUt4N6VYmhOZSMWfJLlrktw/A
+	HK+e7ceQHQcTi9t2c2bwUGiiwLakUDvhKG3xo/UaN2EhrBRh2Wk+a128Iy50/fNo8cK86xhy4I7
+	f2v3gZUOoGSrHuqsaYIUj37AgEw5jZmCkZ5fUcUyffngBFE=
+X-Received: by 2002:a05:6214:2389:b0:6e8:9dc9:1c03 with SMTP id 6a1803df08f44-6f2c455f647mr266864926d6.21.1745309679568;
+        Tue, 22 Apr 2025 01:14:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHh7mV0lu7cSmrkggZa5z2iEZSt0bCAgogcfBDnHn42XGA3T2tFvXOd7XWyXffZ1hypZoufgQ==
+X-Received: by 2002:a05:6214:2389:b0:6e8:9dc9:1c03 with SMTP id 6a1803df08f44-6f2c455f647mr266864516d6.21.1745309679075;
+        Tue, 22 Apr 2025 01:14:39 -0700 (PDT)
+Received: from QCOM-eG0v1AUPpu.qualcomm.com ([2a01:e0a:82c:5f0:10e3:ecaa:2fb2:d23a])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39efa433354sm14580547f8f.32.2025.04.22.01.14.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Apr 2025 01:04:16 -0700 (PDT)
-Date: Tue, 22 Apr 2025 11:04:13 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
-Cc: andy@kernel.org, sakari.ailus@linux.intel.com,
-	Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 2/2] media: atomisp: Remove unused
- atomisp_compat_ioctl32() declaration
-Message-ID: <260a005d-a1bb-48d7-89ec-ed1b6b151b4a@stanley.mountain>
-References: <20250418071823.8756-1-hardevsinh.palaniya@siliconsignals.io>
- <20250418071823.8756-2-hardevsinh.palaniya@siliconsignals.io>
+        Tue, 22 Apr 2025 01:14:38 -0700 (PDT)
+From: Loic Poulain <loic.poulain@oss.qualcomm.com>
+To: bryan.odonoghue@linaro.org, rfoss@kernel.org, todor.too@gmail.com
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        Loic Poulain <loic.poulain@oss.qualcomm.com>
+Subject: [PATCH] media: qcom: camss: vfe: Avoid unnecessary RUP command
+Date: Tue, 22 Apr 2025 10:14:36 +0200
+Message-Id: <20250422081436.6535-1-loic.poulain@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250418071823.8756-2-hardevsinh.palaniya@siliconsignals.io>
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: KMvInYL-wZrrqtht9CVLC-dn5OnIi1HS
+X-Authority-Analysis: v=2.4 cv=f5pIBPyM c=1 sm=1 tr=0 ts=68074ff0 cx=c_pps a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=XR8D0OoHHMoA:10 a=QcRrIoSkKhIA:10 a=EUspDBNiAAAA:8 a=d6NsCnqxkaT3_V1LjFAA:9 a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-ORIG-GUID: KMvInYL-wZrrqtht9CVLC-dn5OnIi1HS
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-22_04,2025-04-21_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 malwarescore=0
+ mlxlogscore=916 mlxscore=0 impostorscore=0 adultscore=0 priorityscore=1501
+ clxscore=1015 suspectscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504220061
 
-On Fri, Apr 18, 2025 at 12:48:18PM +0530, Hardevsinh Palaniya wrote:
-> Since its definition was deleted in a previous patch[1]
-> and there are no remaining users of this function in
-> the codebase.
-> 
-> Link[1]:https://lore.kernel.org/linux-media/20210614103409.3154127-7-arnd@kernel.org/
+Today, we submit a RUP command (reg_update) after queuing a new frame
+buffer using vfe_wm_update. However, vfe_wm_update writes the buffer
+address to a FIFO register which does not require a subsequent RUP
+command, as this register is not double-buffered like other config
+or control shadow registers.
 
-Instead of a link to lore it should be:
+This results in the capture process generating twice the expected number
+of interrupts, with one RUP done and one BUF done interrupt for each frame.
 
-The atomisp_compat_ioctl32() function was deleted in commit b4c650f1af68
-("media: atomisp: remove compat_ioctl32 code") so delete the declaration
-from the header.
+We can relax the interrupt pressure and VFE load by removing this extra
+RUP command, which is only necessary when initializing or reconfiguring
+the VFE.
 
-Please don't say "it's" to refer to something mentioned in the subject.
-When people are writing commit messages they sometimes treat the subject
-as the first sentence of the commit message but the subject and the body
-of the commit message should make sense independently.  Look at the lore
-link you posted above.  Can you even find the subject?  Most of the time
-when people see a link to lore they'll just read the body of the email.
+Note: this has only been tested with vfe-340/qcm2290, the assumption is
+that the other VFEs behave similarly.
 
-regards,
-dan carpenter
+Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+---
+ drivers/media/platform/qcom/camss/camss-vfe.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+index c575c9767492..32de1d104fe7 100644
+--- a/drivers/media/platform/qcom/camss/camss-vfe.c
++++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+@@ -481,7 +481,6 @@ void vfe_buf_done(struct vfe_device *vfe, int wm)
+ 		ops->vfe_wm_update(vfe, output->wm_idx[0],
+ 				   output->buf[index]->addr[0],
+ 				   line);
+-		ops->reg_update(vfe, line->id);
+ 	} else {
+ 		output->gen2.active_num--;
+ 	}
+@@ -546,9 +545,10 @@ int vfe_enable_output_v2(struct vfe_line *line)
+ 		output->gen2.active_num++;
+ 		ops->vfe_wm_update(vfe, output->wm_idx[0],
+ 				   output->buf[i]->addr[0], line);
+-		ops->reg_update(vfe, line->id);
+ 	}
+ 
++	ops->reg_update(vfe, line->id);
++
+ 	spin_unlock_irqrestore(&vfe->output_lock, flags);
+ 
+ 	return 0;
+@@ -582,7 +582,6 @@ int vfe_queue_buffer_v2(struct camss_video *vid,
+ 		output->buf[output->gen2.active_num++] = buf;
+ 		ops->vfe_wm_update(vfe, output->wm_idx[0],
+ 				   buf->addr[0], line);
+-		ops->reg_update(vfe, line->id);
+ 	} else {
+ 		vfe_buf_add_pending(output, buf);
+ 	}
+-- 
+2.34.1
 
 
