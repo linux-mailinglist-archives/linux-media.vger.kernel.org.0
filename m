@@ -1,164 +1,218 @@
-Return-Path: <linux-media+bounces-30683-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30684-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56105A960BA
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 10:15:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70E20A960BF
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 10:15:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8323C178E28
-	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 08:15:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4343C3A4987
+	for <lists+linux-media@lfdr.de>; Tue, 22 Apr 2025 08:15:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 598A8248864;
-	Tue, 22 Apr 2025 08:14:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D402F1EB9F6;
+	Tue, 22 Apr 2025 08:15:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WfhG0rVY"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="glHqG2Fd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF5002417C3
-	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 08:14:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB94B2F3E
+	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 08:15:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745309684; cv=none; b=CO+o6ICkdpgmOaNRYcHCLcpgHH9CHOeP+t0u7Ueh0ZY9O5Vna20JStwSBkDxtHW8z3WFYpnB7BEq+eJbFbpjntU1ffiT9HJFJqk/cV/4uroIv0V0ngzq9j575zs0Z+rtu429mqLvTsKGIY/SjU2dZDBG69KC6YylQlDKk/S0Avs=
+	t=1745309746; cv=none; b=mE8XeajptRFRYzeQv3aSun3vS8hHjyY6i8EWqO0qb2WOwzU8VNTaC5UGUFdRaSPA1ijfGu5r78XGPhtfsfZSczsUcC1D/hs1WAXumrBZKTwQU2FdZwMS0OL2Xqoqfyn3IHeRo4HKdoUW5VSrKtH6JwYz3osIrRFKq7t2t/9m/+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745309684; c=relaxed/simple;
-	bh=XNz5Kl5uVluGdR/+MRV/yhIrq/AJ26wsTNvCx8dfzTs=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=QprOh1Mk1kR6aj33IS3SfX5NJEShFFpwxvnLdCG8FG4V4ufd2gT3EaKc/m6PmHch7AsO24UC0uyiAkqKNbCTnOKuusm7tmXDEQUPljdH71D8yixhaDT/00QKzy7vpl5EaEVJNJAroIyb6pPuznMDx+nM7midqZYtJbk9maPKfuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WfhG0rVY; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53M4OZkJ025905
-	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 08:14:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=Y+BmZqp+BmocGCY8fdjm0nrXEhRxWp5sv8l
-	5dSkmpQA=; b=WfhG0rVYQlvlUN5y25edgfBr/aNZqnwSinxSnGpci4tbfkeSWj6
-	1+1KjRPPvDaVG2FqODjE9MH3Mb+RlinpSguedUy6ZoxMWMOLBwdY/k418OxA6GDH
-	JOBzZ2u04FznGZBOqnZ9kvd98BUaVJSE12YYydrfKcdv//jigRMnZs52c31nAPrj
-	HEJboWjbxqMI+8NlOXAfqL69BqLJ3L2X6hW5Y0Bx7WyDpMoZn752KUSbxRK/0EFI
-	q3dXYdZdEwBlYiUHQAyAczlgk8Q5WmsRld4jc4K7XHRy3jdMR5IUlJxioHuLFKJS
-	nXVYIfRl7LV+L6XyQQMBlCUWtnlfzEbdTjA==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4644kjegq3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 08:14:40 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-6f0c089909aso87920506d6.2
-        for <linux-media@vger.kernel.org>; Tue, 22 Apr 2025 01:14:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745309679; x=1745914479;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Y+BmZqp+BmocGCY8fdjm0nrXEhRxWp5sv8l5dSkmpQA=;
-        b=bdZcLI9iaiVzDWWzteMNyqF9xLwVLLQDRRaSP3VXuxb+r4ebdk2pgDXkWML/FiHxx+
-         SzxKjonQG93Huz6m/FUz/JKLFttc+8CVWWVn2v+/yKdH/m7+vOPwcSbbKEWLcDsTdWcx
-         sZwpPOQoeZF63ODoStafmj61EhP01bsW2d2I2MFpa+XRnDX86wnZCoKKXZKjSLI94SDd
-         +q3sPHsQsZG9G+T5sz1uBf1fgyAjK58CCMJD67Zn4Dd6Wni2o3OVbS8ukejGuamdMnF3
-         TL4SLBPQJ5Hmqib4CyHjy15GfohWaFs7m3wXIaXI0/x5TT1q/MLf6UPq9HCiQSX9PTS0
-         Nq4A==
-X-Gm-Message-State: AOJu0YzTnmzqSyTL9olFThHXt4wcKBa1px8ZgWPC2vFV9fEeEaeh1/wS
-	yTHKyzSOee5sCyFWWjXRPyaeFy3JOzD438avS5bfrgriBMQtbcCCrQMg+3yikOwrlw0fYbkQbLU
-	c95kHnbuopAiW25qcwNj3pzN2JBi8+P3nAWawCudsAlPvxWAoWKO88pxwc8RkwA==
-X-Gm-Gg: ASbGncuZ81sDGaFTi3EBPg2zAUkwqXGvFAIbAYZAwD93URLNo2bGAasFd5cXoKDlGjF
-	TMW17SurloA3CAUDBs/J2gE7nlhPn6arH0U/66OwZQuLifR+Sb4OXnw/Hngnc/txnhPD8DZbXHm
-	pnmZF5Wso99t0wdWD4Ea9UUvj7qiGsdBE/YmQWt1CP2Gx9IHE6bUt4N6VYmhOZSMWfJLlrktw/A
-	HK+e7ceQHQcTi9t2c2bwUGiiwLakUDvhKG3xo/UaN2EhrBRh2Wk+a128Iy50/fNo8cK86xhy4I7
-	f2v3gZUOoGSrHuqsaYIUj37AgEw5jZmCkZ5fUcUyffngBFE=
-X-Received: by 2002:a05:6214:2389:b0:6e8:9dc9:1c03 with SMTP id 6a1803df08f44-6f2c455f647mr266864926d6.21.1745309679568;
-        Tue, 22 Apr 2025 01:14:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHh7mV0lu7cSmrkggZa5z2iEZSt0bCAgogcfBDnHn42XGA3T2tFvXOd7XWyXffZ1hypZoufgQ==
-X-Received: by 2002:a05:6214:2389:b0:6e8:9dc9:1c03 with SMTP id 6a1803df08f44-6f2c455f647mr266864516d6.21.1745309679075;
-        Tue, 22 Apr 2025 01:14:39 -0700 (PDT)
-Received: from QCOM-eG0v1AUPpu.qualcomm.com ([2a01:e0a:82c:5f0:10e3:ecaa:2fb2:d23a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39efa433354sm14580547f8f.32.2025.04.22.01.14.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Apr 2025 01:14:38 -0700 (PDT)
-From: Loic Poulain <loic.poulain@oss.qualcomm.com>
-To: bryan.odonoghue@linaro.org, rfoss@kernel.org, todor.too@gmail.com
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Loic Poulain <loic.poulain@oss.qualcomm.com>
-Subject: [PATCH] media: qcom: camss: vfe: Avoid unnecessary RUP command
-Date: Tue, 22 Apr 2025 10:14:36 +0200
-Message-Id: <20250422081436.6535-1-loic.poulain@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1745309746; c=relaxed/simple;
+	bh=6Y28FCVl/hNQDRBWxa3zp9CVg6eJ8W0TQ6PnnvCyJqs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qc/XrqP1/vZkVxSlsiVkUdVoQ67XvRW5eq0dKChlpsvEiT7j+wvR/MNxQR+h2lQjdwU72Xf977Mn2d+HlRCIAPLK6VrdJVyLKdteUtir6XI2Ch0pKM10qcGieZCsj59MfqizYnzqyrOxB1QVDTSpGxL3GrnQbrBrivfMpIuCjso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=glHqG2Fd; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 71CC6250;
+	Tue, 22 Apr 2025 10:13:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1745309612;
+	bh=6Y28FCVl/hNQDRBWxa3zp9CVg6eJ8W0TQ6PnnvCyJqs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=glHqG2Fde75PDp13bL1r2AHTHhyZyMbpLcvSqrBCG3tkPDp7iWd7qti9qJCOBxwSt
+	 hSx6+NNADT8B6I1bgvQNhZwQTED5/1XsHjpf49KucPJrmnETUL+ZIGdylk8AcRHERH
+	 /raSsMLl3zP7u352RINOZGdOv6/bIb3DF3XrlmTA=
+Date: Tue, 22 Apr 2025 11:15:36 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans Verkuil <hans@jjverkuil.nl>
+Cc: Hans de Goede <hdegoede@redhat.com>,
+	Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sean Young <sean@mess.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Tomasz Figa <tfiga@chromium.org>,
+	"Hu, Jerry W" <jerry.w.hu@intel.com>,
+	Steve Cho <stevecho@chromium.org>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Paul Kocialkowski <paulk@sys-base.io>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Arthur Vinchon <arthur.vinchon@allegrodvt.com>,
+	Marco Felsch <m.felsch@pengutronix.de>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	Jai Luthra <jai.luthra@ideasonboard.com>,
+	Devarsh Thakkar <devarsht@ti.com>,
+	Maxime Ripard <mripard@kernel.org>
+Subject: Re: [ANN] Media Summit May 13th: Draft Agenda (v2)
+Message-ID: <20250422081536.GA16980@pendragon.ideasonboard.com>
+References: <71a1ba46-04c3-4694-95e7-9e2906b1d899@jjverkuil.nl>
+ <4fac2850-4a89-4917-a9ee-2518331d5bbf@redhat.com>
+ <cb9be4d7-f74a-44b8-b480-6f7ae68d64b6@jjverkuil.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: KMvInYL-wZrrqtht9CVLC-dn5OnIi1HS
-X-Authority-Analysis: v=2.4 cv=f5pIBPyM c=1 sm=1 tr=0 ts=68074ff0 cx=c_pps a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=XR8D0OoHHMoA:10 a=QcRrIoSkKhIA:10 a=EUspDBNiAAAA:8 a=d6NsCnqxkaT3_V1LjFAA:9 a=1HOtulTD9v-eNWfpl4qZ:22
-X-Proofpoint-ORIG-GUID: KMvInYL-wZrrqtht9CVLC-dn5OnIi1HS
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-22_04,2025-04-21_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 malwarescore=0
- mlxlogscore=916 mlxscore=0 impostorscore=0 adultscore=0 priorityscore=1501
- clxscore=1015 suspectscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504220061
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <cb9be4d7-f74a-44b8-b480-6f7ae68d64b6@jjverkuil.nl>
 
-Today, we submit a RUP command (reg_update) after queuing a new frame
-buffer using vfe_wm_update. However, vfe_wm_update writes the buffer
-address to a FIFO register which does not require a subsequent RUP
-command, as this register is not double-buffered like other config
-or control shadow registers.
+On Tue, Apr 22, 2025 at 10:01:38AM +0200, Hans Verkuil wrote:
+> On 21/04/2025 19:39, Hans de Goede wrote:
+> > On 21-Apr-25 2:31 PM, Hans Verkuil wrote:
+> >> Hi all,
+> >>
+> >> Here is my v2 of the draft agenda for the media summit. The only changes
+> >> are dropping Sebastian's email and fixing Devarsh' email.
+> >>
+> >> As always, this draft agenda is subject to change and all times are guesstimates!
+> >>
+> >> Please note that I am transitioning from my old hverkuil@xs4all.nl email to
+> >> my new hans@jjverkuil.nl email. If you have problems replying to that new email,
+> >> please let me know and just send it to the old email (that won't go away).
+> >>
+> >> The Media Summit will be held Tuesday May 13th to coincide with
+> >> the Embedded Recipes Conference in Nice, France:
+> >>
+> >> https://embedded-recipes.org/2025/
+> >>
+> >> Note that there are also some workshops held after this conference:
+> >>
+> >> https://embedded-recipes.org/2025/workshops/
+> >>
+> >> And a gStreamer hackfest:
+> >>
+> >> https://discourse.gstreamer.org/t/gstreamer-spring-hackfest-2025-on-16-18-may-2025-in-nice-france/4366
+> >>
+> >> The Media Summit will be held at Hotel Campanile:
+> >>
+> >> https://nice-aeroport.campanile.com/en-us/
+> >>
+> >> It is close to the Airport and to the Embedded Recipes venue.
+> >>
+> >> The meeting room can hold up to 30 people and has video conferencing support; it is
+> >> sponsored by Collabora and Cisco Systems Norway.
+> >>
+> >> We currently have the following confirmed in-person attendees:
+> >>
+> >> Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
+> >> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> (Media Maintainer, Huawei)
+> >> Nicolas Dufresne <nicolas.dufresne@collabora.com> (Collabora)
+> >> Hans de Goede <hdegoede@redhat.com> (RedHat)
+> >> Paul Kocialkowski <paulk@sys-base.io> (sys-base)
+> >> Jai Luthra <jai.luthra@ideasonboard.com> (Ideas on Board)
+> >> Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas on Board)
+> >> Ricardo Ribalda <ribalda@chromium.org> (Google)
+> >> Maxime Ripard <mripard@redhat.com> (RedHat)
+> >> Devarsh Thakkar <devarsht@ti.com> (Texas Instruments)
+> >> Hans Verkuil <hans@jjverkuil.nl> (Media Maintainer, Cisco Systems Norway)
+> >> Arthur Vinchon <arthur.vinchon@allegrodvt.com> (Allegro DVT)
+> >>
+> >> As you can see, there is enough room for more people, so don't hesitate to
+> >> register by sending an email to me. The deadline is May 2nd.
+> >>
+> >> And the following remote participants:
+> >>
+> >> Marco Felsch <m.felsch@pengutronix.de> (Pengutronix)
+> >> Martin Hecht <mhecht73@googlemail.com> (Avnet Silica)
+> >> Hu, Jerry W <jerry.w.hu@intel.com> (Intel)
+> >> jackson.lee <jackson.lee@chipsnmedia.com> (Chips 'n Media)
+> >> Mirela Rabulea <mirela.rabulea@nxp.com> (NXP)
+> >> Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
+> >>
+> >> Note: information on how to connect remotely will come later.
+> >>
+> >> If any information above is incorrect, or if I missed someone, then please let me know asap.
+> >>
+> >> Draft Agenda:
+> >>
+> >> 9:00-9:30: Get settled :-)
+> >>
+> >> 9:30-9:40: Hans Verkuil: Quick introduction
+> >>
+> >> 9:40-10:30: Jai Luthra: Per-stream V4L2 controls
+> >>
+> >> 10:30-11:15: Paul Kocialkowski: Stateless video encoding uAPI
+> >>
+> >> 11:15-11:30: break
+> >>
+> >> 11:30-12:15: Ricardo Ribalda: Openness Framework for ISPs
+> >>
+> >> 12:15-13:30: lunch TBD
+> >>
+> >> 13:30-14:00: Laurent Pinchart: Review of the status of staging drivers
+> >>
+> >> 14:00-15:00: Hans Verkuil: Status of Media CI/Multi-committers
+> >>
+> >> 15:00-17:00: TDB
+> > 
+> > As discussed here:
+> > 
+> > https://lore.kernel.org/linux-media/6cf8d6db-c24e-461b-bd7d-a3dad25e4945@redhat.com/
+> > 
+> > there are a bunch of V4L2 (subdev) API things which need
+> > to be specified better (without leaving room for interpretation)
+> > surrounding sensors. One of these is how to calculate the pixelrate
+> > (and thus the FPS) for sensors when e.g. binning is used.
+> > 
+> > For non binning the pixelrate in pixels/second is:
+> > 
+> > pixelrate = (format.width + hblank) * (format.height + vblank) * fps
+> > 
+> > But what about binning, should the sensor driver then report the
+> > skipped pixels as extra vblank (AFAICT that is what it looks like
+> > on the CSI-2 bus) or should userspace know binning is happening and do:
+> > 
+> > (format.width * hscale + hblank) * (format.height *vscale + vblank)
+> > 
+> > and in that case how can userspace know hscale / vscale since atm
+> > it cannot explicitly set those, but this is determined by the sensor
+> > drivers.
+> > 
+> > There are a number of questions like these surrounding the V4L2 subdev
+> > API for sensors, which IMHO would be good to discuss.
+> 
+> Thank you. I added this topic to the draft agenda. Do you have a
+> guesstimatefor the time you need for this?
 
-This results in the capture process generating twice the expected number
-of interrupts, with one RUP done and one BUF done interrupt for each frame.
+We could spend the whole day discussing raw sensors :-) If time permits,
+extending this topic to discuss how to standardize exposing binning and
+skipping to userspace.
 
-We can relax the interrupt pressure and VFE load by removing this extra
-RUP command, which is only necessary when initializing or reconfiguring
-the VFE.
-
-Note: this has only been tested with vfe-340/qcm2290, the assumption is
-that the other VFEs behave similarly.
-
-Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
----
- drivers/media/platform/qcom/camss/camss-vfe.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-index c575c9767492..32de1d104fe7 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-@@ -481,7 +481,6 @@ void vfe_buf_done(struct vfe_device *vfe, int wm)
- 		ops->vfe_wm_update(vfe, output->wm_idx[0],
- 				   output->buf[index]->addr[0],
- 				   line);
--		ops->reg_update(vfe, line->id);
- 	} else {
- 		output->gen2.active_num--;
- 	}
-@@ -546,9 +545,10 @@ int vfe_enable_output_v2(struct vfe_line *line)
- 		output->gen2.active_num++;
- 		ops->vfe_wm_update(vfe, output->wm_idx[0],
- 				   output->buf[i]->addr[0], line);
--		ops->reg_update(vfe, line->id);
- 	}
- 
-+	ops->reg_update(vfe, line->id);
-+
- 	spin_unlock_irqrestore(&vfe->output_lock, flags);
- 
- 	return 0;
-@@ -582,7 +582,6 @@ int vfe_queue_buffer_v2(struct camss_video *vid,
- 		output->buf[output->gen2.active_num++] = buf;
- 		ops->vfe_wm_update(vfe, output->wm_idx[0],
- 				   buf->addr[0], line);
--		ops->reg_update(vfe, line->id);
- 	} else {
- 		vfe_buf_add_pending(output, buf);
- 	}
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
 
