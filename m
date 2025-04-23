@@ -1,265 +1,111 @@
-Return-Path: <linux-media+bounces-30782-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30783-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4693AA980B7
-	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 09:26:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0B1BA9819C
+	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 09:52:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EB55D188AE2D
-	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 07:27:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8DDB13AE8CD
+	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 07:51:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8666A267AFC;
-	Wed, 23 Apr 2025 07:26:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="I0p6AZX1"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 769E026B966;
+	Wed, 23 Apr 2025 07:50:42 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11013036.outbound.protection.outlook.com [40.107.44.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com [209.85.166.72])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 180D9D27E;
-	Wed, 23 Apr 2025 07:26:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.36
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745393206; cv=fail; b=No4vb5QNAQeMpVUBhfaEH4s8Qo5ExQZfWHvskLr8hMGU3a79FF5jtikDdhlxBUjbyakr43yC88QD7qgTEUfqv9veXc4YxEDcOBKBV38yZtabHolYWzOZoqfjbmgJ6qlgcqTe/J5hG+daxzrorLvEHL65jdW2/2/HxYIYeXlQ8do=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745393206; c=relaxed/simple;
-	bh=wpjC85fKbIauO6/lagsS036EZ/wSOVGT12MmHNZWQfU=;
-	h=Message-ID:Date:Subject:From:To:Cc:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=puv5gsF7tW+tw28WACCVVyNcJ7pMI9CN9ol+NszT2b37l7TUGAgnQBqW+CFOqrM7wsMtz/hywHztuu1pRA9dVPiB0dilTMIJJ3HUv0nDrffDW0Ajl4EscS2T1F3ZPMgmhaeNJuXe980DS6rJ5W+tzIA82Ma4Bb2/ituV3DAjSW0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=I0p6AZX1; arc=fail smtp.client-ip=40.107.44.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yhHFVH1fbgfnZHn6ytYV34rKi/hOSrUgbZydgJZDANOfJUX6DF0dhyxmA4BLpnRk2q+7FJ6WK7xyZu6ImjxVbt+wQrhaJMyJG0wlXxWBhNiqUuqTdVF26zYq/9ZWBPAaVrKW1Buj1V9DTW+eRDoHNaFnB8Sm6LmRO+7oXKUz67JsF44uDH/2RepTSDUwgfJQE2DixWwr6E10htQ7MCaXns3d/49sy0Zu195LJrm0OwtAC56lNGLFwU7tqXRkquhdZzorJCKAdHdoQvkPVqYmQ1iHUENM94QAEDop/G0kZOLzXKaqgFBMAmE+GumWt8SniPpnPUWo1yk8JYmk8BMtRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wpjC85fKbIauO6/lagsS036EZ/wSOVGT12MmHNZWQfU=;
- b=MyRU0ONcDiTAiboMrfKYzXUSZoCGr+nALFy7T/b+PcJ71HOzKWFs7kw1IKB1aiM2WHtQBvRMBAmzdlH6jdYNJxjSFj83GzX3XbjQHvXQZKWrBywSWFms0a5sQKMQxs8ZK4oeaFIxCtlvobMqr36SLZvHoKLjvCSRW2pK7tNK5CfCsnQ9vayXzy2YfvDFIgkX6iJQB/V1sEWghSGE54Z4q8BdlU1beDmsk158hS1sIbGrLmB8Rh3GF15D+cKAnaYqobZtw1UIfzbYb+aHzn9chdfdMT3z4zhadnnp3cIILo0Q82q2sjxWDjCQHx3Tp6bjtw8J1CYpa2XqU3GTPkRBfw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
- dkim=pass header.d=vivo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wpjC85fKbIauO6/lagsS036EZ/wSOVGT12MmHNZWQfU=;
- b=I0p6AZX1XcGmA481rtq7aiuxhCivGTQ1eadAew58OA31SRdVd+L6nokrAVLlT3dXxYOKgeVfNJT4xPTsGSwcf7TkacagLyfj3G3BwfURH4J29GhNCaR+YlPA5gw5do9VG2JzB1JT5DKHJSejiCLgtOwNZLGpi+ilrKxDZvsQ5e+nXWhOMtuUuxGDo/v9jRxxjNDuLmmMNpj7r5luZF/BXfpdavd1TlCDXos9rmMXBQAndX2YjhugXEmpz8SC7HDux30nFFFOIaVJsDw3PqEgS1ZBR03gBkffCW0C+XJelqf8wb/ZtXnKpfSqm9bN6QGFuuCioe6ekaGjg8j8uM2FYw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vivo.com;
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com (2603:1096:301:f8::10)
- by TY0PR06MB6853.apcprd06.prod.outlook.com (2603:1096:405:11::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.23; Wed, 23 Apr
- 2025 07:26:41 +0000
-Received: from PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f]) by PUZPR06MB5676.apcprd06.prod.outlook.com
- ([fe80::a00b:f422:ac44:636f%6]) with mapi id 15.20.8632.036; Wed, 23 Apr 2025
- 07:26:41 +0000
-Message-ID: <c752a31d-e7c5-49bf-8722-8eeaf582a4d1@vivo.com>
-Date: Wed, 23 Apr 2025 15:26:37 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] Revert "udmabuf: fix vmap_udmabuf error page set"
-From: Huan Yang <link@vivo.com>
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Andrew Morton
- <akpm@linux-foundation.org>, Dave Airlie <airlied@redhat.com>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Cc: "opensource.kernel@vivo.com" <opensource.kernel@vivo.com>,
- Bingbu Cao <bingbu.cao@linux.intel.com>
-References: <20250415031548.2007942-1-link@vivo.com>
- <20250415031548.2007942-2-link@vivo.com>
- <IA0PR11MB71852A481E8A99C9380C7317F8BB2@IA0PR11MB7185.namprd11.prod.outlook.com>
- <63297d3f-5e37-411e-8150-108a03a01a89@vivo.com>
-In-Reply-To: <63297d3f-5e37-411e-8150-108a03a01a89@vivo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: TYCP286CA0080.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:2b3::10) To PUZPR06MB5676.apcprd06.prod.outlook.com
- (2603:1096:301:f8::10)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF3026FA59
+	for <linux-media@vger.kernel.org>; Wed, 23 Apr 2025 07:50:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.72
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745394641; cv=none; b=n8zK+vXde9r3FemEwxxS1mIAEy6irrKbewkJgENawiaqIqTULZbkLbUQftg1XjmlqDc9rIAT5xFwGgzzuYfhlJ8Y+jlc2fTRTpYyPVEMI2ACtvYrvklQqQrESE0slDtiW3rzLQ1doT+iw/WV58ROnKeaxYuIUdi+jTov/Wr2laM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745394641; c=relaxed/simple;
+	bh=rwpEWS63AFwlpu7elQM5P7k9ArNex6ebfUTJSGjs0Gw=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=KQ9DPBkZfmLP+1i+XYb0UPcqulNYj+ykUQ8H1EN8Nmyab3ly2XLmImO73LvQePhmRedWJadOzY2KrqZTEWlN4otrJas4pn6Md862kUoJ4IsdMJ+U7+ytCMtzIX0qcsdvc+XzXs40lM9TKQNd/dQA8BSo23I03HeOmpTsO9/rPlg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.72
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f72.google.com with SMTP id ca18e2360f4ac-85b3b781313so1309077739f.1
+        for <linux-media@vger.kernel.org>; Wed, 23 Apr 2025 00:50:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745394639; x=1745999439;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cHLxcamDXyYaUYY7JGdV9UqauzJLZV0mvhEN7b+HB1E=;
+        b=YVpMASxsoYl6aVpIqCStKnI+Jko51oFdlVLdnJe0UOrhBEV6gJHU/nRYumDox3OL/q
+         l4vo8OdZBbfuIgTQGyuIYWx/0LZb1igp/sHBB1yXsHKhcRRmvjVM7vCxbHpoBQcYt64c
+         rEJI5YhQEzqVj8MAOlgbJ17lZMm9++SUznR9VrJEJ0N+rUkY0Yq7/gr0PY0mq0rbZaNp
+         /v+yWWyISiM4tQCuLU4ug7dwpvEqujD2D6PO4/Ud4RRisUOPkwBSWt92GynIhZiLD+NL
+         F9SU9TW0bmvciLmTryBLfoYVhK+m/lvTmvjdGKvAeAq7Hkcrc8CzJJlvFSl87N/Rw/2P
+         mV+A==
+X-Forwarded-Encrypted: i=1; AJvYcCX9gUWMCukPKY5b2RIjD6Yqs94SEqm7Z5tYgmqmxZAkc75PpTQPm3DfLEYTmiLQW5gG3rPsTyezuOXUcg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPVdM97Nv5GDOrO/GQz+GaYR6QWhj0Oshc8vuZO7jQW3TsF1Ru
+	UlnKI2lgw2cGavhgqXREaRSps7JxWacTq16XnRVjpjPri9SWovPlTYftTS63zs3QLcI2wijLBmj
+	uQdz+7y3+ICjof7mYxhZZaVuxwoQ8kjQ53wnGP6HPLX8Ou8SNGEt1DPY=
+X-Google-Smtp-Source: AGHT+IHroda0y9pWYhCGw1aVhn+1ZRwJAJ5KySSVpAEG5tuvduyxOrmRKiKgmr9BN1xp7LCuc3IwKzgM8VXL8Uf5csgKsdZSsAut
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PUZPR06MB5676:EE_|TY0PR06MB6853:EE_
-X-MS-Office365-Filtering-Correlation-Id: b15ffd25-6c38-4147-0d4d-08dd82383167
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|1800799024|7416014|376014|52116014|921020|38350700014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MkVwN3NKSjQ2NWQvd1VDeFQwU0xEeEpuNjNYMXNuREorbi8weTJEaW5qKzZm?=
- =?utf-8?B?UmRvS04yWE9ldVhtYStPaVdsTXlxRUlvK3VkbnVkYmJqS2h4Rk9KenBoaHhp?=
- =?utf-8?B?S3hPUFNBL215ZW1BckRxVytrSkg0bFVsOEg5Tm5CNEYwbU9CNFRTcVVTZ05Q?=
- =?utf-8?B?T0RZazdVQ1pKakpVdWhaV1Q3TEJhZytnTWRhZ0RuRlNwNSswbklRb2JNeTl6?=
- =?utf-8?B?cXcwbk1TYnZPcnVyQndEZzF6MDlxV0lCUnhsdHErdnBhL01WazE1QytFUzZm?=
- =?utf-8?B?YU1JbmVmZVZKeXMrUmNKMms0bmcxcEtHWlBaNTh3QnZmK2ZMQ2RJUCs1eDZP?=
- =?utf-8?B?YnVqbHdEZ1VHOU51MUVJcmdKaDJKeGlVUHFKRG00VGxFb0NQaEVaQkV4SDUw?=
- =?utf-8?B?S2R5TjNxUzgxd2Q3cFBBZFN1SC9GajdMZk0yaStLZjExNmM0bmVORzExb2dT?=
- =?utf-8?B?TE0zbldJRDkzTnBoSDZUZ1E3U01zaUt5R3JiekRtaTNzbXdHdXNhZjhGRGdE?=
- =?utf-8?B?MDdKNTE3STViZ0dKOUZjU1RFbnVmZzdQZTJGZC9CZWZrbU1UUU5lZDIvSDhN?=
- =?utf-8?B?UmE4TDhSd0lrMVplcWFvSlh6WWxuV2ZnOVFOV1htYjZGWTdtang0Z1BiNDJP?=
- =?utf-8?B?KzE4WVlpbHVsazZTbnV5Ymcwa2pueXpWcHpWU1pJSGhPWVBISHgyMURBRkxu?=
- =?utf-8?B?ZjBhR2ljQVduUFpnNGN4dFVsNVpGWlRxbS9kYml6OVNsNFVCLzVjUDhiSlk1?=
- =?utf-8?B?eHpNRDhPcExLWWdvTkM2NlZZUHd3dG01bWJpU0g3V3hVNzhZbXZTb1cxbUx5?=
- =?utf-8?B?dDMrL0J4Nm5od2ZiYkJBRmZ3U2RhTWo1RGExVUordHFGN0hTZDA0Z2dIL0pK?=
- =?utf-8?B?U3BLZTBvN2NyMGFSQ0pIOWh6MkJYUkwwdGdRb0xiZlBJQTE4TWhsdCszYlZB?=
- =?utf-8?B?NTF3UjRTOGQ0dnV1QTVNVHdOVHhoWEFwREVCSmltS25LUVpBTjgrSmkzVG96?=
- =?utf-8?B?TG5RNGNwbmgvMTJveUU2MG8wWmFia3JsSm9PV3lBRHFwcmFiai8weVBHUFpM?=
- =?utf-8?B?Njk0K1NucW5qbWtBeEgwNC8xb3QyQTAybUdQdmQ1Znc2YlpHRVduN1c1cEE2?=
- =?utf-8?B?N0x2OFhndGVwVkNvMHpaOEpCWW5NRWdiTVVaTENBMmV2d2c3NlJOMFQ1eG4z?=
- =?utf-8?B?ZHM3eDhpakhYcGZIUlR5MFRhNW9PMHY1VHVrY2dJcUl4dmwrNFIvNjVPYWRy?=
- =?utf-8?B?OW9VMTBKdE9qbmoza1N2MzhuVG5oczRVNU9ROGk1cmJRa0JQWUI3eDhmaXNr?=
- =?utf-8?B?bis2VVlCcFBzdjJiOWtVRjZReFM1QXFPcEtiOS8yR2hwbEpxVGV4dXk0eW02?=
- =?utf-8?B?a0VJTDNuYzdGZ0RPbUp2VWJmc1RGWDBqNzBZN3R3Z3JDY29vVGJ3TEQ5dU9r?=
- =?utf-8?B?dlhQZHlVRFE0YWxBOHdnSXVBT3V6RHFmaElIK2VVN1A1VHlINmVpVHY0NlJT?=
- =?utf-8?B?RTdvTnk0QzNnL2VRcytpM2M2RzlyVGRvaEM4b3NQY05nNkI0Q0hKRXNncDVC?=
- =?utf-8?B?dTRMMjZMQUJYUG1VVndMbUFJV285MXNqOVhaV3VrQm1PWEhDd2c0Z1NlSFpQ?=
- =?utf-8?B?dUJEeEpwbU5uTHphZXQ1aFBpQjhKYVhyMmFjV3R3eHNTZ1lMNk5idVVubTlL?=
- =?utf-8?B?Wmh4QVdKcjJiOEpSbWtKRmpIbFNLY1MrRmpVU1NmVU1TTVhYeFNNSkRmMk9W?=
- =?utf-8?B?ZVQ0NkpIUTJrekxVYUNiWXdiWHJGWHVZemgvQTlHSHdRMS9WWTF5SEVMWDFo?=
- =?utf-8?B?Q1ZkandZdXlCYy9Xa2dsZy9RY2FVOGxVdnRMU1NhNTVnajJNcXZqWVVkSjNF?=
- =?utf-8?B?Y3BUaWpVUDBvaDE0a2RSNmRscnQ5R05nYmJnZ2t5K3BzbHFSd3BiRWNNTDV6?=
- =?utf-8?Q?vd7+a2hV3pie4omqtUZdlceGKFljsKq0?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR06MB5676.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(52116014)(921020)(38350700014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YkpWcHNjSFN6UEdmQzVxZlZaaEJUTllvUmRTeUs1UHpTVkg4NU9mcmZwcWt0?=
- =?utf-8?B?dTE4VmMwYXVkVmVIT0ZodXVYbkxuNFljWGxkVC9mOUw1d2lKbWJXcDRiUE5Y?=
- =?utf-8?B?SE03U25qQlNMQm94d05oR3F5ak5DLzFRQU83M1p0RDBEdnNkVXpON2RCYmdO?=
- =?utf-8?B?VzJWZ1lHb0xWVWNhelVwZTljbUJWTzFNL2NYZ0hwZ25oaWRRNncyNEZEVktD?=
- =?utf-8?B?M3VZbmRadkQ1WFpIRFFCOGliSk5tb1BSRk54SktJTFludzZMYldsaUg2eXM0?=
- =?utf-8?B?YUZ5K1RlejhnU3gyOXBQeDN2ZFJSMUpxcmk4ZEhUZ0R2dWFRVDB1dk9DYUt4?=
- =?utf-8?B?NVg4UzhJZVN0NEpKL3lBcFdGd1ZQSVdkYmg2a2RnU3hzVmk5ZkFERlA2Vmli?=
- =?utf-8?B?U05DVGE2STM3a3FjVW45bUZKZXZOalJMZ0V2czhZVW1OTDZ1RHJXbGRBTnM1?=
- =?utf-8?B?VXp3QWh5T1lLNzhoTXc4TkZRb3JqZi9XZ2dzMHJsUldkV05tZkM2T2FUbW1z?=
- =?utf-8?B?L0hiQjhGM1ZMUmM5Unpialo4WE51VnF6Mk5aVUY2azZENENycngyWFZGRlFx?=
- =?utf-8?B?VExGLzNGV1VtbjUrWEtLaHg5Qm5jMENXRUtwUVZkTGU2cDBrSEF6RFFhM0F3?=
- =?utf-8?B?cEovZUZLOS92SXJxcnA1Zk9GLzlFcG5IZEdJMzJHSVdLNVhHaVprUE53ZmNK?=
- =?utf-8?B?Zld0cGV2a0RxaVdBZjVMWlpETVhFSDhpRThTYjRabjRrRElWcERTOVp1ZENS?=
- =?utf-8?B?ekNSUzFLWThmL0U3am9aK21YZlVFOUk2ZDZpSEtDaTlIZTQ0b1lvaUszdXAx?=
- =?utf-8?B?d1JWeUd1aUV2c013QzB5TGdTNWk5d3dOcVJ4ZitGcitGajdiTCtHK2s1SmQx?=
- =?utf-8?B?c2FYb1hYeHM0UWxtQnZFblNqTkZUSFZSRGVMOEFGSkZIQlI2L2ZtQjRsZEJI?=
- =?utf-8?B?bk96M2htNTZjdmdBbU9lbXNRVmFDMUc4QWdTZGd3K3ZuK2k2R1lQbmZCWU05?=
- =?utf-8?B?Z1RFS0dZKy9MMzl5WjlPcGxHbjQwK0h3eXhJeG1lbGg5TnVmT0ZKbjBFYk50?=
- =?utf-8?B?L2xlT3o0cENOam9HMWl6Skp3bHpaaHNoMU9BcnM2NmFUSlE1SGF3Vjh1SXpN?=
- =?utf-8?B?UHN2dEJiT3d4TG53MG5zY2lrNVYzbll3Unk2UG1maGpuUFhXbWJwTGd2c1JR?=
- =?utf-8?B?L2lHRlBhaUxyNmJoYm1sTjJhR2RxZW5KMjExdGRadFBYMVhkSU9DQ1EvRTlH?=
- =?utf-8?B?QnVzRmg1Z2IvaFJtL3ZlQ0NvL3QwQjg3bGFxU0lCWE1yWm5SeUlFM1VZcU9y?=
- =?utf-8?B?dkE3SHRERGxOTjFnaTVNZW9DSzZDMzRFbGUyck55cGNwODUvY3ppRlh5Q09W?=
- =?utf-8?B?ZEMxbFdsL3lhWWpaT29OMVl3cGlWb2xJRVRmeWd5aURVWlFQYTdVejN0Uzlt?=
- =?utf-8?B?SnpZNldteXNrTFp0VTFjcVBXbVg0eDFLQ0l3eXU1MGFrSkE3dE8xZzRaZDlW?=
- =?utf-8?B?a1JjTWcyTmtTNkR3eDYwTVdiZGUrL0pUbzR2MW42aFpxV3NtSGlKS0x3RWU0?=
- =?utf-8?B?K2lQNEhLRjJHVFpPRnhiVi83VTRNKzNvb0RVNFVnMFVQbjRpd21IN0ZDMy9q?=
- =?utf-8?B?VWFWc0MvV0N3MmlKQjZlOW1iNHhMRm1wcXFJaFR4WXdpVVUzcEdYbkdlVVkz?=
- =?utf-8?B?OGIxdXB1ajJNMDlYWE9wRHFiNUkwWTZLdHV3bTU4dDFNckxvYWQrYlVYelhr?=
- =?utf-8?B?NVBlTUE4emZ3WnN2SnBCMEd1OExMVWwrWllSNG1BcGhmc0JqNjl3RnFySS9G?=
- =?utf-8?B?LzFsQnhGSS8rUFRMblJzMFFiVVBuNkxNeU5BRUg5Z1puZ2tNZ3c3RHF3WEJy?=
- =?utf-8?B?T0F4SHFiYlo0WFpRa0hLMFlXSkxybUlXSWRyRkk4RDZNWjM1ZEVmcHRlODlz?=
- =?utf-8?B?a0N3Z2JDY0lwUnlPQmVySCtiOFhscDdaejY3RURHMkhhYit0NEhWTXN5bnZh?=
- =?utf-8?B?MkFqeHRoODZMSFlpcEc1REp6bTFIcHpsQVo4dEpsSmZnaklvTllpQWhaN0Iz?=
- =?utf-8?B?VTR3Ui9vcnQyL1pPWUFRNVYvSVdqNEwrck1OZEdMWGVyYU1NRHBXbUN1TUcw?=
- =?utf-8?Q?c1bmeBgXLHzS1kIkAPOd5N/nj?=
-X-OriginatorOrg: vivo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b15ffd25-6c38-4147-0d4d-08dd82383167
-X-MS-Exchange-CrossTenant-AuthSource: PUZPR06MB5676.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2025 07:26:41.6570
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: B9oP+wM1K/Sqcr+GTkm14Ut4njt+nYsf2Ip7avB8Tug4Y9GXfCmezXWyP6K+OA68IVIsKLNcdVkQjuYpIG1LCw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY0PR06MB6853
+X-Received: by 2002:a05:6e02:16ca:b0:3d8:1ef0:4921 with SMTP id
+ e9e14a558f8ab-3d894180afamr177149985ab.17.1745394639672; Wed, 23 Apr 2025
+ 00:50:39 -0700 (PDT)
+Date: Wed, 23 Apr 2025 00:50:39 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68089bcf.050a0220.36a438.000d.GAE@google.com>
+Subject: [syzbot] Monthly media report (Apr 2025)
+From: syzbot <syzbot+list27f1b5d6c52666832e5c@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
- From 38aa11d92f209e7529736f3e11e08dfc804bdfae Mon Sep 17 00:00:00 2001
-From: Huan Yang <link@vivo.com>
-Date: Tue, 15 Apr 2025 10:04:18 +0800
-Subject: [PATCH 1/2] Revert "udmabuf: fix vmap_udmabuf error page set"
+Hello media maintainers/developers,
 
-This reverts commit 18d7de823b7150344d242c3677e65d68c5271b04.
+This is a 31-day syzbot report for the media subsystem.
+All related reports/information can be found at:
+https://syzkaller.appspot.com/upstream/s/media
 
-This given a misuse of vmap_pfn, vmap_pfn give a !pfn_valid check
-to avoid user miss use it. This API design to only for none-page struct
-based user invoke, i.e. PCIe BARs and other. So any page based will
-inject by !pfn_valid check.
+During the period, 4 new issues were detected and 0 were fixed.
+In total, 25 issues are still open and 93 have already been fixed.
 
-udmabuf used shmem or hugetlb as folio src, hence, page/folio based,
-can't use it.
+Some of the still happening issues:
 
-Signed-off-by: Huan Yang <link@vivo.com>
-Reported-by: Bingbu Cao <bingbu.cao@linux.intel.com>
-Closes: https://lore.kernel.org/dri-devel/eb7e0137-3508-4287-98c4-816c5fd98e10@vivo.com/T/#mbda4f64a3532b32e061f4e8763bc8e307bea3ca8
-Acked-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Ref Crashes Repro Title
+<1> 272     No    KASAN: slab-use-after-free Read in em28xx_release_resources
+                  https://syzkaller.appspot.com/bug?extid=16062f26c6480975e5ed
+<2> 245     Yes   WARNING in smsusb_init_device/usb_submit_urb
+                  https://syzkaller.appspot.com/bug?extid=85e3ddbf0ddbfbc85f1e
+<3> 226     Yes   KMSAN: uninit-value in cxusb_i2c_xfer
+                  https://syzkaller.appspot.com/bug?extid=526bd95c0ec629993bf3
+<4> 128     Yes   WARNING in smsusb_start_streaming/usb_submit_urb
+                  https://syzkaller.appspot.com/bug?extid=12002a39b8c60510f8fb
+<5> 94      Yes   KASAN: slab-use-after-free Read in dvb_device_open
+                  https://syzkaller.appspot.com/bug?extid=1eb177ecc3943b883f0a
+<6> 18      Yes   general protection fault in dvb_usbv2_generic_write
+                  https://syzkaller.appspot.com/bug?extid=f9f5333782a854509322
+<7> 14      Yes   WARNING in dib0700_rc_setup/usb_submit_urb
+                  https://syzkaller.appspot.com/bug?extid=e0d5af779eabb323f695
+<8> 5       Yes   KASAN: slab-use-after-free Read in vidtv_mux_init
+                  https://syzkaller.appspot.com/bug?extid=0d33ab192bd50b6c91e6
+<9> 1       No    WARNING: refcount bug in dvb_device_open
+                  https://syzkaller.appspot.com/bug?extid=0aea3ca127fe06c384f7
+
 ---
-  drivers/dma-buf/Kconfig   |  1 -
-  drivers/dma-buf/udmabuf.c | 22 +++++++---------------
-  2 files changed, 7 insertions(+), 16 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/dma-buf/Kconfig b/drivers/dma-buf/Kconfig
-index fee04fdb0822..b46eb8a552d7 100644
---- a/drivers/dma-buf/Kconfig
-+++ b/drivers/dma-buf/Kconfig
-@@ -36,7 +36,6 @@ config UDMABUF
-      depends on DMA_SHARED_BUFFER
-      depends on MEMFD_CREATE || COMPILE_TEST
-      depends on MMU
--    select VMAP_PFN
-      help
-        A driver to let userspace turn memfd regions into dma-bufs.
-        Qemu can use this to create host dmabufs for guest framebuffers.
-diff --git a/drivers/dma-buf/udmabuf.c b/drivers/dma-buf/udmabuf.c
-index 7eee3eb47a8e..79845565089d 100644
---- a/drivers/dma-buf/udmabuf.c
-+++ b/drivers/dma-buf/udmabuf.c
-@@ -109,29 +109,21 @@ static int mmap_udmabuf(struct dma_buf *buf, struct vm_area_struct *vma)
-  static int vmap_udmabuf(struct dma_buf *buf, struct iosys_map *map)
-  {
-      struct udmabuf *ubuf = buf->priv;
--    unsigned long *pfns;
-+    struct page **pages;
-      void *vaddr;
-      pgoff_t pg;
+To disable reminders for individual bugs, reply with the following command:
+#syz set <Ref> no-reminders
 
-      dma_resv_assert_held(buf->resv);
+To change bug's subsystems, reply with:
+#syz set <Ref> subsystems: new-subsystem
 
--    /**
--     * HVO may free tail pages, so just use pfn to map each folio
--     * into vmalloc area.
--     */
--    pfns = kvmalloc_array(ubuf->pagecount, sizeof(*pfns), GFP_KERNEL);
--    if (!pfns)
-+    pages = kvmalloc_array(ubuf->pagecount, sizeof(*pages), GFP_KERNEL);
-+    if (!pages)
-          return -ENOMEM;
-
--    for (pg = 0; pg < ubuf->pagecount; pg++) {
--        unsigned long pfn = folio_pfn(ubuf->folios[pg]);
--
--        pfn += ubuf->offsets[pg] >> PAGE_SHIFT;
--        pfns[pg] = pfn;
--    }
-+    for (pg = 0; pg < ubuf->pagecount; pg++)
-+        pages[pg] = &ubuf->folios[pg]->page;
-
--    vaddr = vmap_pfn(pfns, ubuf->pagecount, PAGE_KERNEL);
--    kvfree(pfns);
-+    vaddr = vm_map_ram(pages, ubuf->pagecount, -1);
-+    kvfree(pages);
-      if (!vaddr)
-          return -EINVAL;
-
---
-2.48.1
-
-
+You may send multiple commands in a single email message.
 
