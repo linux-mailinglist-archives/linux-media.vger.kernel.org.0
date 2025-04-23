@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-30863-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30864-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC3FCA99783
-	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 20:09:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA027A99794
+	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 20:14:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 06BF9168BA3
-	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 18:09:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EDE431B83370
+	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 18:15:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CAC2728DEEF;
-	Wed, 23 Apr 2025 18:09:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD93828DEEF;
+	Wed, 23 Apr 2025 18:14:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XnE3TI2m"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GaEWD2JM"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75EFE266572;
-	Wed, 23 Apr 2025 18:09:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A8BD28D846;
+	Wed, 23 Apr 2025 18:14:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745431784; cv=none; b=FwPlxZtWmPphTRUg94/lF7f4DP+LK0stL0b6mpF5M9jKd2ooUw25IgRuWiN9gUYwDxLzK4b2Gk4JIOBJHcNHg8bxrRi/xQiERnLNs7dS/DFTO1na7RVZdgUjVBUa2MPUuIsM19xtAO1Gk6GKTLpF4W4dMgqSY/ZrOnH9wU6qj6Y=
+	t=1745432083; cv=none; b=dODeAI6aShJr+YKNGUuXCnVWOctpMdZjKrqNyi2v9V08MfwrzP1aKVgKyVAvzUwVIgZzRVM0LHf7rle46XMYtR6cCqt9HA2LiAbEV+O+CLJRWrVFcQbxTNxandzQ7OMNW7xYmZjNw/d46sTgS7m9Ql8wN0ZNJdgbs3oqlM0worU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745431784; c=relaxed/simple;
-	bh=g2dikYIG1Egz8ZzBx+R2k1XUYQW/Cj9DIGZWGk+L8U8=;
+	s=arc-20240116; t=1745432083; c=relaxed/simple;
+	bh=tsWUiI/pJWVNER6fjpf9OzcFhaS6tefvjd8Xc3CN6ps=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NBZq0dW0wpCXSsNcQgwqj8qs1DKzhTWQAfUpV2JsQJ9hdy+L749aH/OB8bTZrfKf96KVLgx3LVTY3HawKflz86Db/c3M8/VlZ+XpXiuxsSr/oEACF/ApHpRKJZsBgm20AR74ZKpSbgTogwyITYMAjn5tim8AK38Ca/ALqbrXbsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=XnE3TI2m; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=BeTlj+GSbo3jCtMs/mLhwzIEbyjLzlkd/cnwN7ywM+kdSgN7uGhK0PHb9SfulNCMpoqvX+cDyRylehtn4Vp8sLK+7ygKKKFU2+9AIriUHR+sZKu0iRHAFLcd1SupcH/8SlL0a/nVsr40ydyRpTdnLvmz9Fc/oOuFky0Gead3Yc4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GaEWD2JM; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 010CE1AE2;
-	Wed, 23 Apr 2025 20:09:37 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1DD631AE2;
+	Wed, 23 Apr 2025 20:14:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1745431778;
-	bh=g2dikYIG1Egz8ZzBx+R2k1XUYQW/Cj9DIGZWGk+L8U8=;
+	s=mail; t=1745432078;
+	bh=tsWUiI/pJWVNER6fjpf9OzcFhaS6tefvjd8Xc3CN6ps=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XnE3TI2mG2rKV0+Eo7MfS7/PL++MrN7lopmj5xV28t75XkaIDKwyi+gFjfnTJXjt4
-	 eK+WJlN4Emip1+NAT4Swqa70AZhwbAozslNyCr0RMcO9zQpsiVSFis1khWhu/pfOXm
-	 TTatGxo7fO9wNH+lvKCZzF8xlSudxiDtOeAqIjBY=
-Date: Wed, 23 Apr 2025 21:09:37 +0300
+	b=GaEWD2JMy/jzjEq8eypSr4sbfUKydHYaJq3EBf4fyS2I5gvNhTobJlDCeHMbsotCW
+	 dZXvjXW0iM7SeTUVWX9TrSdaqElNVe1Dbobq/BEJtdpcwxgXYvTK2V28zk1cwH891U
+	 ZVZGYn2HxrKWZn6L99x8SGpHPACD4kIwcXtcTHWg=
+Date: Wed, 23 Apr 2025 21:14:37 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Mathis Foerst <mathis.foerst@mt.com>
 Cc: linux-kernel@vger.kernel.org,
@@ -52,10 +52,10 @@ Cc: linux-kernel@vger.kernel.org,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	manuel.traut@mt.com, mathis.foerst@zuehlke.com
-Subject: Re: [PATCH v4 2/6] media: mt9m114: Bypass PLL if required
-Message-ID: <20250423180937.GB2675@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v4 3/6] media: mt9m114: Factor out mt9m114_configure_pa
+Message-ID: <20250423181437.GC2675@pendragon.ideasonboard.com>
 References: <20250307093140.370061-1-mathis.foerst@mt.com>
- <20250307093140.370061-3-mathis.foerst@mt.com>
+ <20250307093140.370061-4-mathis.foerst@mt.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,171 +64,135 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250307093140.370061-3-mathis.foerst@mt.com>
+In-Reply-To: <20250307093140.370061-4-mathis.foerst@mt.com>
 
 Hi Mathis,
 
 Thank you for the patch.
 
-On Fri, Mar 07, 2025 at 10:31:36AM +0100, Mathis Foerst wrote:
-> The MT9M114 sensor has an internal PLL that generates the required SYSCLK
-> from EXTCLK. It also has the option to bypass the PLL and use EXTCLK
-> directly as SYSCLK.
-> The current driver implementation uses a hardcoded PLL configuration that
-> requires a specific EXTCLK frequency. Depending on the available clocks,
-> it can be desirable to use a different PLL configuration or to bypass it.
-> 
-> The link-frequency of the output bus (Parallel or MIPI-CSI) is configured
-> in the device tree.
-> 
-> Check if EXTCLK can be used as SYSCLK to achieve this link-frequency. If
-> yes, bypass the PLL.
-> Otherwise, (as before) check if EXTCLK and the default PLL configuration
-> provide the required SYSCLK to achieve the link-frequency. If yes, use the
-> PLL. If no, throw an error.
+On Fri, Mar 07, 2025 at 10:31:37AM +0100, Mathis Foerst wrote:
+> The function mt9m114_configure writes the configuration registers of both,
+> the pixel array (pa) and the image flow processor (ifp).
+> This is undesirable if only the config of the pa should be changed without
+> affecting the ifp.
+
+I assume I'll see in a later patch why this is needed.
+
+> Factor out the function mt9m114_configure_pa() that just writes the
+> pa-configuration.
 > 
 > Signed-off-by: Mathis Foerst <mathis.foerst@mt.com>
 > ---
->  drivers/media/i2c/mt9m114.c | 62 ++++++++++++++++++++++++++-----------
->  1 file changed, 44 insertions(+), 18 deletions(-)
+>  drivers/media/i2c/mt9m114.c | 49 +++++++++++++++++++++++--------------
+>  1 file changed, 30 insertions(+), 19 deletions(-)
 > 
 > diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
-> index 5f0b0ad8f885..b06003b69f6f 100644
+> index b06003b69f6f..9a49dab65180 100644
 > --- a/drivers/media/i2c/mt9m114.c
 > +++ b/drivers/media/i2c/mt9m114.c
-> @@ -261,6 +261,7 @@
->  #define MT9M114_CAM_PGA_PGA_CONTROL			CCI_REG16(0xc95e)
->  #define MT9M114_CAM_SYSCTL_PLL_ENABLE			CCI_REG8(0xc97e)
->  #define MT9M114_CAM_SYSCTL_PLL_ENABLE_VALUE			BIT(0)
-> +#define MT9M114_CAM_SYSCTL_PLL_DISABLE_VALUE			0x00
->  #define MT9M114_CAM_SYSCTL_PLL_DIVIDER_M_N		CCI_REG16(0xc980)
->  #define MT9M114_CAM_SYSCTL_PLL_DIVIDER_VALUE(m, n)		(((n) << 8) | (m))
->  #define MT9M114_CAM_SYSCTL_PLL_DIVIDER_P		CCI_REG16(0xc982)
-> @@ -377,6 +378,7 @@ struct mt9m114 {
->  	struct gpio_desc *reset;
->  	struct regulator_bulk_data supplies[3];
->  	struct v4l2_fwnode_endpoint bus_cfg;
-> +	bool bypass_pll;
->  
->  	struct {
->  		unsigned int m;
-> @@ -743,14 +745,20 @@ static int mt9m114_initialize(struct mt9m114 *sensor)
->  	}
->  
->  	/* Configure the PLL. */
-> -	cci_write(sensor->regmap, MT9M114_CAM_SYSCTL_PLL_ENABLE,
-> -		  MT9M114_CAM_SYSCTL_PLL_ENABLE_VALUE, &ret);
-> -	cci_write(sensor->regmap, MT9M114_CAM_SYSCTL_PLL_DIVIDER_M_N,
-> -		  MT9M114_CAM_SYSCTL_PLL_DIVIDER_VALUE(sensor->pll.m,
-> -						       sensor->pll.n),
-> -		  &ret);
-> -	cci_write(sensor->regmap, MT9M114_CAM_SYSCTL_PLL_DIVIDER_P,
-> -		  MT9M114_CAM_SYSCTL_PLL_DIVIDER_P_VALUE(sensor->pll.p), &ret);
-> +	if (sensor->bypass_pll) {
-> +		cci_write(sensor->regmap, MT9M114_CAM_SYSCTL_PLL_ENABLE,
-> +			  MT9M114_CAM_SYSCTL_PLL_DISABLE_VALUE, &ret);
-> +	} else {
-> +		cci_write(sensor->regmap, MT9M114_CAM_SYSCTL_PLL_ENABLE,
-> +			  MT9M114_CAM_SYSCTL_PLL_ENABLE_VALUE, &ret);
-> +		cci_write(sensor->regmap, MT9M114_CAM_SYSCTL_PLL_DIVIDER_M_N,
-> +			  MT9M114_CAM_SYSCTL_PLL_DIVIDER_VALUE(sensor->pll.m,
-> +							       sensor->pll.n),
-> +			  &ret);
-> +		cci_write(sensor->regmap, MT9M114_CAM_SYSCTL_PLL_DIVIDER_P,
-> +			  MT9M114_CAM_SYSCTL_PLL_DIVIDER_P_VALUE(sensor->pll.p),
-> +			  &ret);
-> +	}
-
-You can add a blank line here.
-
->  	cci_write(sensor->regmap, MT9M114_CAM_SENSOR_CFG_PIXCLK,
->  		  sensor->pixrate, &ret);
->  
-> @@ -2235,9 +2243,19 @@ static const struct dev_pm_ops mt9m114_pm_ops = {
->   * Probe & Remove
->   */
->  
-> +static int mt9m114_verify_link_frequency(struct mt9m114 *sensor)
-> +{
-> +	unsigned int link_freq = sensor->bus_cfg.bus_type == V4L2_MBUS_CSI2_DPHY
-> +				? sensor->pixrate * 8 : sensor->pixrate * 2;
-
-			       ? sensor->pixrate * 8 : sensor->pixrate * 2;
-
-And missing blank line.
-
-> +	if (sensor->bus_cfg.nr_of_link_frequencies != 1 ||
-> +	    sensor->bus_cfg.link_frequencies[0] != link_freq)
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> +
->  static int mt9m114_clk_init(struct mt9m114 *sensor)
->  {
-> -	unsigned int link_freq;
->  
->  	/* Hardcode the PLL multiplier and dividers to default settings. */
->  	sensor->pll.m = 32;
-> @@ -2249,19 +2267,27 @@ static int mt9m114_clk_init(struct mt9m114 *sensor)
->  	 * for 16-bit per pixel, transmitted in DDR over a single lane. For
->  	 * parallel mode, the sensor ouputs one pixel in two PIXCLK cycles.
->  	 */
-> -	sensor->pixrate = clk_get_rate(sensor->clk) * sensor->pll.m
-> -			/ ((sensor->pll.n + 1) * (sensor->pll.p + 1));
->  
-> -	link_freq = sensor->bus_cfg.bus_type == V4L2_MBUS_CSI2_DPHY
-> -		  ? sensor->pixrate * 8 : sensor->pixrate * 2;
-> +	/*
-> +	 * Check if EXTCLK fits the configured link frequency. Bypass the PLL
-> +	 * in this case.
-> +	 */
-> +	sensor->pixrate = clk_get_rate(sensor->clk) / 2;
-> +	if (mt9m114_verify_link_frequency(sensor) == 0) {
-
-I would be cleaner to pass the pixel rate as a parameter to the
-function:
-
-	unsigned int pixrate;
-
-	...
-
-	pixrate = clk_get_rate(sensor->clk) / 2;
-	if (mt9m114_verify_link_frequency(sensor, pixrate) == 0) {
-		sensor->pixrate = pixrate;
-		sensor->bypass_pll = true;
-		return 0;
-	}
-
-> +		sensor->bypass_pll = true;
-> +		return 0;
-> +	}
->  
-> -	if (sensor->bus_cfg.nr_of_link_frequencies != 1 ||
-> -	    sensor->bus_cfg.link_frequencies[0] != link_freq) {
-> -		dev_err(&sensor->client->dev, "Unsupported DT link-frequencies\n");
-> -		return -EINVAL;
-> +	/* Check if the PLL configuration fits the configured link frequency */
-
-s/frequency/frequency./
-
-With those small issues addressed,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +	sensor->pixrate = clk_get_rate(sensor->clk) * sensor->pll.m
-> +			/ ((sensor->pll.n + 1) * (sensor->pll.p + 1));
-> +	if (mt9m114_verify_link_frequency(sensor) == 0) {
-> +		sensor->bypass_pll = false;
-> +		return 0;
->  	}
->  
-> -	return 0;
-> +	dev_err(&sensor->client->dev, "Unsupported DT link-frequencies\n");
-> +	return -EINVAL;
+> @@ -789,39 +789,22 @@ static int mt9m114_initialize(struct mt9m114 *sensor)
+>  	return 0;
 >  }
 >  
->  static int mt9m114_identify(struct mt9m114 *sensor)
+> -static int mt9m114_configure(struct mt9m114 *sensor,
+> -			     struct v4l2_subdev_state *pa_state,
+> -			     struct v4l2_subdev_state *ifp_state)
+> +static int mt9m114_configure_pa(struct mt9m114 *sensor, struct v4l2_subdev_state *pa_state)
+
+You can name the variable 'state' now that there's a single one.
+
+static int mt9m114_configure_pa(struct mt9m114 *sensor,
+				struct v4l2_subdev_state *state)
+
+>  {
+>  	const struct v4l2_mbus_framefmt *pa_format;
+>  	const struct v4l2_rect *pa_crop;
+
+Similarly, these can be renamed to format and crop.
+
+> -	const struct mt9m114_format_info *ifp_info;
+> -	const struct v4l2_mbus_framefmt *ifp_format;
+> -	const struct v4l2_rect *ifp_crop;
+> -	const struct v4l2_rect *ifp_compose;
+> -	unsigned int hratio, vratio;
+> -	u64 output_format;
+>  	u64 read_mode;
+> +	unsigned int hratio, vratio;
+
+You can keep the order of the variables unchanged.
+
+>  	int ret = 0;
+>  
+>  	pa_format = v4l2_subdev_state_get_format(pa_state, 0);
+>  	pa_crop = v4l2_subdev_state_get_crop(pa_state, 0);
+>  
+> -	ifp_format = v4l2_subdev_state_get_format(ifp_state, 1);
+> -	ifp_info = mt9m114_format_info(sensor, 1, ifp_format->code);
+> -	ifp_crop = v4l2_subdev_state_get_crop(ifp_state, 0);
+> -	ifp_compose = v4l2_subdev_state_get_compose(ifp_state, 0);
+> -
+>  	ret = cci_read(sensor->regmap, MT9M114_CAM_SENSOR_CONTROL_READ_MODE,
+>  		       &read_mode, NULL);
+>  	if (ret < 0)
+>  		return ret;
+>  
+> -	ret = cci_read(sensor->regmap, MT9M114_CAM_OUTPUT_FORMAT,
+> -		       &output_format, NULL);
+> -	if (ret < 0)
+> -		return ret;
+> -
+>  	hratio = pa_crop->width / pa_format->width;
+>  	vratio = pa_crop->height / pa_format->height;
+>  
+> @@ -853,6 +836,34 @@ static int mt9m114_configure(struct mt9m114 *sensor,
+>  	cci_write(sensor->regmap, MT9M114_CAM_SENSOR_CONTROL_READ_MODE,
+>  		  read_mode, &ret);
+>  
+> +	return ret;
+> +}
+> +
+> +static int mt9m114_configure(struct mt9m114 *sensor,
+> +			     struct v4l2_subdev_state *pa_state,
+> +			     struct v4l2_subdev_state *ifp_state)
+> +{
+> +	const struct mt9m114_format_info *ifp_info;
+> +	const struct v4l2_mbus_framefmt *ifp_format;
+> +	const struct v4l2_rect *ifp_crop;
+> +	const struct v4l2_rect *ifp_compose;
+
+And here you can also drop the ifp_ prefix.
+
+> +	u64 output_format;
+> +	int ret = 0;
+
+No need to initialize ret to 0.
+
+> +
+> +	ifp_format = v4l2_subdev_state_get_format(ifp_state, 1);
+> +	ifp_info = mt9m114_format_info(sensor, 1, ifp_format->code);
+> +	ifp_crop = v4l2_subdev_state_get_crop(ifp_state, 0);
+> +	ifp_compose = v4l2_subdev_state_get_compose(ifp_state, 0);
+> +
+> +	ret = cci_read(sensor->regmap, MT9M114_CAM_OUTPUT_FORMAT,
+> +		       &output_format, NULL);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = mt9m114_configure_pa(sensor, pa_state);
+> +	if (ret < 0)
+> +		return ret;
+> +
+>  	/*
+>  	 * Color pipeline (IFP) cropping and scaling. Subtract 4 from the left
+>  	 * and top coordinates to compensate for the lines and columns removed
+
+For symmetry, could you call this mt9m114_configure_ifp() and move the
+call to mt9m114_configure_pa() to mt9m114_start_streaming() ?
+
+With those issues addressed, and assuming that the rationale for this
+patch is good,
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 -- 
 Regards,
