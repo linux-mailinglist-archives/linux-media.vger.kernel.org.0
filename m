@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-30858-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30859-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18F5FA99741
-	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 19:56:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CEE6A9973F
+	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 19:56:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1178D1B67840
-	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 17:56:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BFB04467861
+	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 17:56:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6BF528D850;
-	Wed, 23 Apr 2025 17:56:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F855281363;
+	Wed, 23 Apr 2025 17:56:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="izAEgfwj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AwhrtHth"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358F728D846
-	for <linux-media@vger.kernel.org>; Wed, 23 Apr 2025 17:56:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B0AD28D846
+	for <linux-media@vger.kernel.org>; Wed, 23 Apr 2025 17:56:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745430962; cv=none; b=Hn2ufMUMoqLKlm6rXbreR8fAvdqA4q5RC6ZyCFbREIdY/0qmpgCKC32KzlO2R7+81vNF281EYztx4Bhq3p0GXCpBBliVTrjQwB7LY+njhGLbuyGbzuHiDoxw57WV1aJ0sn5fgr5meJZBbDTNdW7znypzHOydOb38O07ym7w4Yrg=
+	t=1745430965; cv=none; b=jM8ZZmPeU/UPSdm2l4idF9ma17TvarM0pjwYiT/zkQNMDZ8Qd95ghonSHUH6nP9YW7Q1nInjbDnQNF3MSUPY/2u6FM82V17WnhuJEBa8LXQ6RqcHdkzVV5CcyDCHpNR8AlqsebqbYnZ74iufH9r9lrQIzA0jiI6bTeSEadhod4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745430962; c=relaxed/simple;
-	bh=mD9dTZ+ncMoYeSfz6udgbuez4GjmMTPCvxfMA73Snnw=;
+	s=arc-20240116; t=1745430965; c=relaxed/simple;
+	bh=lPA+iHjgF722Sdt12Kg/n2QfARES0yamYGUBLcLH/FM=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=JJJEd++J7pwcWy0sQ7pLXRQMiGpN2IxxM9es4p6XXJLkBdQvZ4dpjVss331ao7jEtp/Uo5Q46StA26uyIrk+3a67pgZx/M2nSjDTVC+IAdZggnwifT1qkqSA6z4edN+zk2k2QNzULxU4vaEUfq45V4nBa/JM/2dC3eJFoL9IYIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=izAEgfwj; arc=none smtp.client-ip=198.175.65.9
+	 MIME-Version; b=U4X5GeCzRkUqtCESy8l4p7vSIGdj2kcbiRYr5ddvrNGnz7F0GzEPr2hQtj2KV+lsCaPC+Vh9bZWnEHU7kR/KBBz6AKSywwO0gMJh/SUs2dljYawHZ3GtIXY/+WKgcph/3mDAU6+4mH8AaTEJ7cNZYxVKNIswSlwIaLR0BEejjKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AwhrtHth; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745430961; x=1776966961;
+  t=1745430964; x=1776966964;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=mD9dTZ+ncMoYeSfz6udgbuez4GjmMTPCvxfMA73Snnw=;
-  b=izAEgfwjBeS9SedgjCKll12tMbJozjtd35I3bikdA7Y8XrCulX534+0I
-   YAIMY9rMT8mw3Ny864bpBQTzWYtkXRo8WkQ/spaRVV4v8BxWbF3Pnp+CK
-   r5hdy3nWhqqY1ZBTf1UD+6IYcm4TGpgMhEYThnQL8UvV3e+Gvk9bnwOSM
-   z7d6UEyKU5VnJB3aXZgWJS5OrIaPatoGJpNYw0OUF1He4iumyAG0vXcb4
-   lwHx+escUJvwaHQqT737IftWXl5Nl3cUwxr28UfC0TxqLN9+MRIVg6ehf
-   hEd0GRPSbz3KhZGph4tfo72d605iZRngpabX2xo/FKjDtFPIeAfWhx+Q/
-   g==;
-X-CSE-ConnectionGUID: 2igc2EqmRZSzEds2B/2Azw==
-X-CSE-MsgGUID: +BT6a6gFQXCYO15Tuj7psg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="69529328"
+  bh=lPA+iHjgF722Sdt12Kg/n2QfARES0yamYGUBLcLH/FM=;
+  b=AwhrtHthXOmv34ut0S0QnA5reKHTeYvC30ymZCCuZrY8dZKTmhhl72PV
+   fgylSEQZqLgpTKTuPwAn/AGl8Pepo5UeJW9ox1JCWNbn3JMCeARitnl8h
+   gSi0OQ0U2Ih788qT6jQZ+uO9A81NL92Wg36fQZ+J1wrc7yd/dvHlAbDmU
+   t6w/8EIMyMRcD/U5NT70lF9cl75971yCVzaHlJxCPJMSJvq4JWUyzOUDn
+   BbBna4X+xxmEpZPtYqgREsqOTK08KA4D2S3iHmXGyv/nSQR8lsoYcIjUO
+   cQ3P/JS26l8vFOlm2V/V/mIGBje8k7TZPmvvry4XUm2dr01ZSPyflSRwI
+   w==;
+X-CSE-ConnectionGUID: it80xP4lRZ+EqUr6b84hGg==
+X-CSE-MsgGUID: 5DQk0VoPRIGbVokgYf+uLg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="69529329"
 X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="69529328"
+   d="scan'208";a="69529329"
 Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 10:56:00 -0700
-X-CSE-ConnectionGUID: wd6F09SKTC2nhYS1caYasw==
-X-CSE-MsgGUID: cbE7TyY8RfmmB8CrBICzLw==
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 10:56:04 -0700
+X-CSE-ConnectionGUID: AcWPYq9PQGKiaNWQjHE/uQ==
+X-CSE-MsgGUID: rshmhG77TqKuPStszh1Fcw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="137467709"
+   d="scan'208";a="137467722"
 Received: from jasonz-ms-7d25.itwn.intel.com ([10.225.65.15])
-  by fmviesa004.fm.intel.com with ESMTP; 23 Apr 2025 10:55:57 -0700
+  by fmviesa004.fm.intel.com with ESMTP; 23 Apr 2025 10:56:01 -0700
 From: "Chen, Jason Z" <jason.z.chen@intel.com>
 To: linux-media@vger.kernel.org
 Cc: sakari.ailus@linux.intel.com,
@@ -68,9 +68,9 @@ Cc: sakari.ailus@linux.intel.com,
 	qingwu.zhang@intel.com,
 	arun.t@intel.com,
 	Jason Chen <jason.z.chen@intel.com>
-Subject: [PATCH v8 4/6] media: ov08x40: Add shared global register list
-Date: Thu, 24 Apr 2025 01:56:34 +0800
-Message-Id: <20250423175636.1338374-4-jason.z.chen@intel.com>
+Subject: [PATCH v8 5/6] media: ov08x40: Use v4l2_link_freq_to_bitmap helper
+Date: Thu, 24 Apr 2025 01:56:35 +0800
+Message-Id: <20250423175636.1338374-5-jason.z.chen@intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250423175636.1338374-1-jason.z.chen@intel.com>
 References: <20250423175636.1338374-1-jason.z.chen@intel.com>
@@ -84,448 +84,74 @@ Content-Transfer-Encoding: 8bit
 
 From: Jason Chen <jason.z.chen@intel.com>
 
-This follows the previous cleanup commit where duplicate entries were
-removed from each mode's register list.
+Use the v4l2_link_freq_to_bitmap() helper to figure out which
+driver-supported link frequencies can be used on a given system.
 
 Signed-off-by: Jason Chen <jason.z.chen@intel.com>
 ---
- drivers/media/i2c/ov08x40.c | 416 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 416 insertions(+)
+ drivers/media/i2c/ov08x40.c | 28 ++++++++++------------------
+ 1 file changed, 10 insertions(+), 18 deletions(-)
 
 diff --git a/drivers/media/i2c/ov08x40.c b/drivers/media/i2c/ov08x40.c
-index 4cd4ef77e0aa..140598642845 100644
+index 140598642845..37ce6595a7d8 100644
 --- a/drivers/media/i2c/ov08x40.c
 +++ b/drivers/media/i2c/ov08x40.c
-@@ -151,6 +151,414 @@ struct ov08x40_mode {
- 	u16 exposure_shift;
+@@ -1327,6 +1327,8 @@ struct ov08x40 {
+ 
+ 	/* True if the device has been identified */
+ 	bool identified;
++
++	unsigned long link_freq_bitmap;
  };
  
-+static const struct ov08x40_reg ov08x40_global_regs[] = {
-+	{0x1216, 0x60},
-+	{0x1217, 0x5b},
-+	{0x1218, 0x00},
-+	{0x1220, 0x24},
-+	{0x198a, 0x00},
-+	{0x198b, 0x01},
-+	{0x198e, 0x00},
-+	{0x198f, 0x01},
-+	{0x3009, 0x04},
-+	{0x3015, 0x00},
-+	{0x3016, 0xb0},
-+	{0x3017, 0xf0},
-+	{0x3018, 0xf0},
-+	{0x3019, 0xd2},
-+	{0x301a, 0xb0},
-+	{0x301c, 0x81},
-+	{0x301d, 0x02},
-+	{0x301e, 0x80},
-+	{0x3022, 0xf0},
-+	{0x3025, 0x89},
-+	{0x3030, 0x03},
-+	{0x3044, 0xc2},
-+	{0x3050, 0x35},
-+	{0x3051, 0x60},
-+	{0x3052, 0x25},
-+	{0x3053, 0x00},
-+	{0x3054, 0x00},
-+	{0x3055, 0x02},
-+	{0x3056, 0x80},
-+	{0x3057, 0x80},
-+	{0x3058, 0x80},
-+	{0x3059, 0x00},
-+	{0x3107, 0x86},
-+	{0x3401, 0x80},
-+	{0x3402, 0x8c},
-+	{0x3404, 0x01},
-+	{0x3407, 0x01},
-+	{0x341b, 0x30},
-+	{0x3420, 0x00},
-+	{0x3421, 0x00},
-+	{0x3422, 0x00},
-+	{0x3423, 0x00},
-+	{0x3424, 0x00},
-+	{0x3425, 0x00},
-+	{0x3426, 0x10},
-+	{0x3427, 0x00},
-+	{0x3428, 0x0f},
-+	{0x3429, 0x00},
-+	{0x342a, 0x00},
-+	{0x342b, 0x00},
-+	{0x342c, 0x00},
-+	{0x342d, 0x00},
-+	{0x342e, 0x00},
-+	{0x342f, 0x11},
-+	{0x3430, 0x11},
-+	{0x3431, 0x10},
-+	{0x3432, 0x00},
-+	{0x3433, 0x00},
-+	{0x3434, 0x00},
-+	{0x3435, 0x00},
-+	{0x3436, 0x00},
-+	{0x3437, 0x00},
-+	{0x3442, 0x02},
-+	{0x3443, 0x02},
-+	{0x3444, 0x07},
-+	{0x3450, 0x00},
-+	{0x3451, 0x00},
-+	{0x3452, 0x18},
-+	{0x3453, 0x18},
-+	{0x3454, 0x00},
-+	{0x3455, 0x80},
-+	{0x3456, 0x08},
-+	{0x3500, 0x00},
-+	{0x3502, 0x10},
-+	{0x3504, 0x4c},
-+	{0x3506, 0x30},
-+	{0x3507, 0x00},
-+	{0x350a, 0x01},
-+	{0x350b, 0x00},
-+	{0x350c, 0x00},
-+	{0x3540, 0x00},
-+	{0x3544, 0x4c},
-+	{0x3546, 0x30},
-+	{0x3547, 0x00},
-+	{0x3549, 0x00},
-+	{0x354a, 0x01},
-+	{0x354b, 0x00},
-+	{0x354c, 0x00},
-+	{0x3601, 0x40},
-+	{0x3602, 0x90},
-+	{0x3608, 0x0a},
-+	{0x3609, 0x08},
-+	{0x360f, 0x99},
-+	{0x3680, 0xa4},
-+	{0x3682, 0x80},
-+	{0x3688, 0x02},
-+	{0x368a, 0x2e},
-+	{0x368e, 0x71},
-+	{0x3696, 0xd1},
-+	{0x3699, 0x00},
-+	{0x369a, 0x00},
-+	{0x36a4, 0x00},
-+	{0x36a6, 0x00},
-+	{0x3711, 0x00},
-+	{0x3713, 0x00},
-+	{0x3716, 0x00},
-+	{0x3718, 0x07},
-+	{0x371a, 0x1c},
-+	{0x371b, 0x00},
-+	{0x3720, 0x08},
-+	{0x3725, 0x32},
-+	{0x3727, 0x05},
-+	{0x3760, 0x02},
-+	{0x3762, 0x02},
-+	{0x3763, 0x02},
-+	{0x3764, 0x02},
-+	{0x3765, 0x2c},
-+	{0x3766, 0x04},
-+	{0x3767, 0x2c},
-+	{0x3768, 0x02},
-+	{0x3769, 0x00},
-+	{0x376b, 0x20},
-+	{0x37b2, 0x01},
-+	{0x3800, 0x00},
-+	{0x3801, 0x00},
-+	{0x3802, 0x00},
-+	{0x3804, 0x0f},
-+	{0x3805, 0x1f},
-+	{0x3806, 0x09},
-+	{0x380c, 0x02},
-+	{0x3810, 0x00},
-+	{0x3812, 0x00},
-+	{0x3814, 0x11},
-+	{0x3815, 0x11},
-+	{0x3822, 0x00},
-+	{0x3828, 0x0f},
-+	{0x382a, 0x80},
-+	{0x382e, 0x41},
-+	{0x3837, 0x08},
-+	{0x383a, 0x81},
-+	{0x383b, 0x81},
-+	{0x383c, 0x11},
-+	{0x383d, 0x11},
-+	{0x383e, 0x00},
-+	{0x383f, 0x38},
-+	{0x3840, 0x00},
-+	{0x3847, 0x00},
-+	{0x384a, 0x00},
-+	{0x384c, 0x02},
-+	{0x3856, 0x50},
-+	{0x3857, 0x30},
-+	{0x3858, 0x80},
-+	{0x3859, 0x40},
-+	{0x3860, 0x00},
-+	{0x3888, 0x00},
-+	{0x3889, 0x00},
-+	{0x388a, 0x00},
-+	{0x388b, 0x00},
-+	{0x388c, 0x00},
-+	{0x388d, 0x00},
-+	{0x388e, 0x00},
-+	{0x388f, 0x00},
-+	{0x3895, 0x00},
-+	{0x3911, 0x90},
-+	{0x3913, 0x90},
-+	{0x3921, 0x0f},
-+	{0x3928, 0x15},
-+	{0x3929, 0x2a},
-+	{0x392c, 0x02},
-+	{0x392e, 0x04},
-+	{0x392f, 0x03},
-+	{0x3931, 0x07},
-+	{0x3932, 0x10},
-+	{0x3938, 0x09},
-+	{0x3a1f, 0x8a},
-+	{0x3a22, 0x91},
-+	{0x3a23, 0x15},
-+	{0x3a25, 0x96},
-+	{0x3a28, 0xb4},
-+	{0x3a29, 0x26},
-+	{0x3a2b, 0xba},
-+	{0x3a2e, 0xbf},
-+	{0x3a2f, 0x18},
-+	{0x3a31, 0xc1},
-+	{0x3a74, 0x84},
-+	{0x3a99, 0x84},
-+	{0x3ab9, 0xa6},
-+	{0x3aba, 0xba},
-+	{0x3b0a, 0x01},
-+	{0x3b0b, 0x00},
-+	{0x3b0e, 0x01},
-+	{0x3b0f, 0x00},
-+	{0x3b12, 0x84},
-+	{0x3b14, 0xbb},
-+	{0x3b15, 0xbf},
-+	{0x3b1b, 0xc9},
-+	{0x3b21, 0xc9},
-+	{0x3b3f, 0x9d},
-+	{0x3b45, 0x9d},
-+	{0x3c84, 0x00},
-+	{0x3d84, 0x04},
-+	{0x3d85, 0x8b},
-+	{0x3daa, 0x80},
-+	{0x3dab, 0x14},
-+	{0x3dac, 0x80},
-+	{0x3dad, 0xc8},
-+	{0x3dae, 0x81},
-+	{0x3daf, 0x7b},
-+	{0x3f00, 0x10},
-+	{0x3f01, 0x11},
-+	{0x3f06, 0x0d},
-+	{0x3f07, 0x0b},
-+	{0x3f08, 0x0d},
-+	{0x3f09, 0x0b},
-+	{0x3f0a, 0x01},
-+	{0x3f0b, 0x11},
-+	{0x3f0c, 0x33},
-+	{0x4001, 0x07},
-+	{0x4007, 0x20},
-+	{0x4008, 0x00},
-+	{0x4009, 0x05},
-+	{0x400a, 0x00},
-+	{0x400c, 0x00},
-+	{0x400e, 0x14},
-+	{0x4010, 0xf4},
-+	{0x4011, 0x03},
-+	{0x4012, 0x55},
-+	{0x4015, 0x00},
-+	{0x4017, 0x00},
-+	{0x4018, 0x0f},
-+	{0x4019, 0x00},
-+	{0x401a, 0x40},
-+	{0x401b, 0x08},
-+	{0x401c, 0x00},
-+	{0x401d, 0x10},
-+	{0x401e, 0x02},
-+	{0x401f, 0x00},
-+	{0x4020, 0x04},
-+	{0x4021, 0x00},
-+	{0x4022, 0x04},
-+	{0x4023, 0x00},
-+	{0x4024, 0x04},
-+	{0x4025, 0x00},
-+	{0x4026, 0x04},
-+	{0x4027, 0x00},
-+	{0x4030, 0x00},
-+	{0x4031, 0x00},
-+	{0x4032, 0x00},
-+	{0x4033, 0x00},
-+	{0x4034, 0x00},
-+	{0x4035, 0x00},
-+	{0x4036, 0x00},
-+	{0x4037, 0x00},
-+	{0x4040, 0x00},
-+	{0x4041, 0x80},
-+	{0x4042, 0x00},
-+	{0x4043, 0x80},
-+	{0x4044, 0x00},
-+	{0x4045, 0x80},
-+	{0x4046, 0x00},
-+	{0x4047, 0x80},
-+	{0x4050, 0x06},
-+	{0x4051, 0xff},
-+	{0x4052, 0xff},
-+	{0x4053, 0xff},
-+	{0x4054, 0xff},
-+	{0x4055, 0xff},
-+	{0x4056, 0xff},
-+	{0x4057, 0x7f},
-+	{0x4058, 0x00},
-+	{0x4059, 0x00},
-+	{0x405a, 0x00},
-+	{0x405b, 0x00},
-+	{0x405c, 0x07},
-+	{0x405d, 0xff},
-+	{0x405e, 0x07},
-+	{0x405f, 0xff},
-+	{0x4060, 0x00},
-+	{0x4061, 0x00},
-+	{0x4062, 0x00},
-+	{0x4063, 0x00},
-+	{0x4064, 0x00},
-+	{0x4065, 0x00},
-+	{0x4066, 0x00},
-+	{0x4067, 0x00},
-+	{0x4068, 0x00},
-+	{0x4069, 0x00},
-+	{0x406a, 0x00},
-+	{0x406b, 0x00},
-+	{0x406c, 0x00},
-+	{0x406d, 0x00},
-+	{0x406e, 0x00},
-+	{0x406f, 0x00},
-+	{0x4070, 0x00},
-+	{0x4071, 0x00},
-+	{0x4072, 0x00},
-+	{0x4073, 0x00},
-+	{0x4074, 0x00},
-+	{0x4075, 0x00},
-+	{0x4076, 0x00},
-+	{0x4077, 0x00},
-+	{0x4078, 0x00},
-+	{0x4079, 0x00},
-+	{0x407a, 0x00},
-+	{0x407b, 0x00},
-+	{0x407c, 0x00},
-+	{0x407d, 0x00},
-+	{0x407e, 0x00},
-+	{0x407f, 0x00},
-+	{0x4080, 0x78},
-+	{0x4081, 0x78},
-+	{0x4082, 0x78},
-+	{0x4083, 0x78},
-+	{0x40e0, 0x00},
-+	{0x40e1, 0x00},
-+	{0x40e2, 0x00},
-+	{0x40e3, 0x00},
-+	{0x40e4, 0x00},
-+	{0x40e5, 0x00},
-+	{0x40e6, 0x00},
-+	{0x40e7, 0x00},
-+	{0x40e8, 0x00},
-+	{0x40e9, 0x80},
-+	{0x40ea, 0x00},
-+	{0x40eb, 0x80},
-+	{0x40ec, 0x00},
-+	{0x40ed, 0x80},
-+	{0x40ee, 0x00},
-+	{0x40ef, 0x80},
-+	{0x40f0, 0x02},
-+	{0x40f1, 0x04},
-+	{0x4300, 0x00},
-+	{0x4301, 0x00},
-+	{0x4302, 0x00},
-+	{0x4303, 0x00},
-+	{0x4304, 0x00},
-+	{0x4305, 0x00},
-+	{0x4306, 0x00},
-+	{0x4307, 0x00},
-+	{0x4308, 0x00},
-+	{0x4309, 0x00},
-+	{0x430a, 0x00},
-+	{0x430b, 0xff},
-+	{0x430c, 0xff},
-+	{0x430d, 0x00},
-+	{0x430e, 0x00},
-+	{0x4315, 0x00},
-+	{0x4316, 0x00},
-+	{0x4317, 0x00},
-+	{0x4318, 0x00},
-+	{0x4319, 0x00},
-+	{0x431a, 0x00},
-+	{0x431b, 0x00},
-+	{0x431c, 0x00},
-+	{0x4500, 0x07},
-+	{0x4502, 0x00},
-+	{0x4503, 0x0f},
-+	{0x4504, 0x80},
-+	{0x4506, 0x01},
-+	{0x4509, 0x05},
-+	{0x450c, 0x00},
-+	{0x450d, 0x20},
-+	{0x450e, 0x00},
-+	{0x450f, 0x00},
-+	{0x4510, 0x00},
-+	{0x4523, 0x00},
-+	{0x4526, 0x00},
-+	{0x4543, 0x00},
-+	{0x4544, 0x00},
-+	{0x4545, 0x00},
-+	{0x4546, 0x00},
-+	{0x4547, 0x10},
-+	{0x4602, 0x00},
-+	{0x4603, 0x15},
-+	{0x460b, 0x07},
-+	{0x4680, 0x11},
-+	{0x4686, 0x00},
-+	{0x4687, 0x00},
-+	{0x4700, 0x00},
-+	{0x4800, 0x64},
-+	{0x4806, 0x40},
-+	{0x480b, 0x10},
-+	{0x480c, 0x80},
-+	{0x480f, 0x32},
-+	{0x4813, 0xe4},
-+	{0x4884, 0x04},
-+	{0x4c00, 0xf8},
-+	{0x4c01, 0x44},
-+	{0x4c03, 0x00},
-+	{0x4d00, 0x00},
-+	{0x4d01, 0x16},
-+	{0x4d04, 0x10},
-+	{0x4d05, 0x00},
-+	{0x4d06, 0x0c},
-+	{0x4d07, 0x00},
-+	{0x5008, 0xb0},
-+	{0x50c1, 0x00},
-+	{0x53c1, 0x00},
-+	{0x5f40, 0x00},
-+	{0x5f41, 0x40},
-+};
-+
-+static const struct ov08x40_reg_list ov08x40_global_setting = {
-+	.num_of_regs = ARRAY_SIZE(ov08x40_global_regs),
-+	.regs = ov08x40_global_regs,
-+};
-+
- static const struct ov08x40_reg mipi_data_rate_800mbps[] = {
- 	{0x0103, 0x01},
- 	{0x1000, 0x00},
-@@ -1503,6 +1911,14 @@ static int ov08x40_start_streaming(struct ov08x40 *ov08x)
- 		return ret;
- 	}
+ #define to_ov08x40(_sd)	container_of(_sd, struct ov08x40, sd)
+@@ -2073,8 +2075,8 @@ static int ov08x40_init_controls(struct ov08x40 *ov08x)
+ 	ov08x->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr,
+ 						  &ov08x40_ctrl_ops,
+ 						  V4L2_CID_LINK_FREQ,
+-						  max,
+-						  0,
++						  __fls(ov08x->link_freq_bitmap),
++						  __ffs(ov08x->link_freq_bitmap),
+ 						  link_freq_menu_items);
+ 	if (ov08x->link_freq)
+ 		ov08x->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+@@ -2170,7 +2172,7 @@ static int ov08x40_check_hwcfg(struct ov08x40 *ov08x, struct device *dev)
+ 	};
+ 	struct fwnode_handle *ep;
+ 	struct fwnode_handle *fwnode = dev_fwnode(dev);
+-	unsigned int i, j;
++	unsigned int i;
+ 	int ret;
+ 	u32 xvclk_rate;
  
-+	reg_list = &ov08x40_global_setting;
-+	ret = ov08x40_write_reg_list(ov08x, reg_list);
-+	if (ret) {
-+		dev_err(&client->dev, "%s failed to set global setting\n",
-+			__func__);
-+		return ret;
-+	}
-+
- 	/* Apply default values of current mode */
- 	reg_list = &ov08x->cur_mode->reg_list;
- 	ret = ov08x40_write_reg_list(ov08x, reg_list);
+@@ -2236,21 +2238,11 @@ static int ov08x40_check_hwcfg(struct ov08x40 *ov08x, struct device *dev)
+ 		ret = -EINVAL;
+ 		goto out_err;
+ 	}
+-
+-	for (i = 0; i < ARRAY_SIZE(link_freq_menu_items); i++) {
+-		for (j = 0; j < bus_cfg.nr_of_link_frequencies; j++) {
+-			if (link_freq_menu_items[i] ==
+-				bus_cfg.link_frequencies[j])
+-				break;
+-		}
+-
+-		if (j == bus_cfg.nr_of_link_frequencies) {
+-			dev_err(dev, "no link frequency %lld supported",
+-				link_freq_menu_items[i]);
+-			ret = -EINVAL;
+-			goto out_err;
+-		}
+-	}
++	ret = v4l2_link_freq_to_bitmap(dev, bus_cfg.link_frequencies,
++				       bus_cfg.nr_of_link_frequencies,
++				       link_freq_menu_items,
++				       ARRAY_SIZE(link_freq_menu_items),
++				       &ov08x->link_freq_bitmap);
+ 
+ out_err:
+ 	v4l2_fwnode_endpoint_free(&bus_cfg);
 -- 
 2.34.1
 
