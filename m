@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-30806-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30802-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F2F4A989E1
-	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 14:34:54 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22A82A989DE
+	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 14:34:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AFAF216D0EF
-	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 12:34:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D12DC7A92E9
+	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 12:33:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 376B4270566;
-	Wed, 23 Apr 2025 12:34:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E888E25CC77;
+	Wed, 23 Apr 2025 12:34:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gMdqisrp"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YhJMLzK3"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D6EF25C819
-	for <linux-media@vger.kernel.org>; Wed, 23 Apr 2025 12:34:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD1226D4FB
+	for <linux-media@vger.kernel.org>; Wed, 23 Apr 2025 12:34:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745411662; cv=none; b=Svv29qQWzcPf3wKFsxJjwnt8iO6vfv4bAbBlh019oWLtQhvhw4KvPPfiyfv2Dtt9PdkSNhebr1O8WISP7iWJJ3NSdY8n6ytXUaju00nqMBhgh193GxPi4HFJqaBI/o48Q2FcywsxME15fuR803Zy/WL1qUdb41SLDWjereC/BFE=
+	t=1745411660; cv=none; b=DwkUYKQur/oDeDZOgAsqKkmQrt7Nfd20oVQ7H2QMT1Tm14ElHSb1ZCLkzxXSa+9sMckXgCwFpd8A2laIGCeKkYOaEMVm9JerZVq0WXYUTt64mR9jRUOdmAeOY/JlQPamqfc90QJK/BUv4pKHf1IYaeZfBrFrRafGmfNArTYV0gw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745411662; c=relaxed/simple;
-	bh=63FCdcH5gDwcLruzhcm595Dtm9ImWM9VMMACWwJXR5A=;
+	s=arc-20240116; t=1745411660; c=relaxed/simple;
+	bh=bD83bJUNnvoOTvMKZTFOUtUs2FponD6OND1SpOXgJzM=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=eO5agADomjhHW0fFi48BRrH/ppQW7Bfvs8zrlUJ7k3BCX5KhYGWzLAyIulN30A2Jg5tsrJpJ2Pv2q5dRCJ2IRQTGj4bwipgCc9E961Qx94Mglvcmz+kvU1Y6Qn3E8+E8B2AUWPA9cayONKSUet05QH4iLn9JqZ5QimHI8LoYpRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gMdqisrp; arc=none smtp.client-ip=198.175.65.20
+	 MIME-Version; b=Nw9Z2UqN+V5xz4W1q/KVR/Sl5JQFFsHvtmoWcyz36CTb+mDo1IlhemMunImNnszOMvj3pNGDvmVAACMNIxw6dCAOyApunDj7ShNHRqfmF9TT/5edM2hTkNXSyojNyVz6Et+aKt6sg1aUVJUjNXSv1m+GwAUZ8Y3GPOJ0/sSygJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=YhJMLzK3; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745411661; x=1776947661;
+  t=1745411660; x=1776947660;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=63FCdcH5gDwcLruzhcm595Dtm9ImWM9VMMACWwJXR5A=;
-  b=gMdqisrpJJOJbwnJAByaO0k702x/M2O7WOk1gluvOmOo/d8q4ic+z1tc
-   W7hEfd/a1KLGB5ML15Q6lH0Smk2oRuAOwz/XGOqWxa64Y+HyT823CkwzR
-   YHvlEcwhQzTYawaHAzWsRsOhDjk9Fevu/LdLAuP/4Y0CoKegG76B0Fttq
-   n26yB5B7MYYKNrg8907l6M2PwYGmX5G8yASqhR6ge8EANQqTMSvBEaSjP
-   lmnVlGLHA9xGf4bF4+T/mKVWKNn56FfgZZ5SYRqKaYmGgcWcp46iOdY7w
-   +w61Fr97j+BwkqQKLFNcGRClnQiA6SNCcM6GHUyfevnU4MF/QSOb+9nma
-   w==;
-X-CSE-ConnectionGUID: sSpDYFqXQMybhNfAUsb5zA==
-X-CSE-MsgGUID: uJ/qW9msRBe3zLrakPDypw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11411"; a="46704395"
+  bh=bD83bJUNnvoOTvMKZTFOUtUs2FponD6OND1SpOXgJzM=;
+  b=YhJMLzK3yr/u25nFL3BekuyaPieFkESGxf7DwIw4PhWMugdr338wNlI5
+   XtUdoo4v1LRcwZxvUFTNlY8InL0lgAyFVx52VbjbrvJ+q84U5MRvdhoGb
+   YWezXYkh+ud/LijPXHIsgUcuWOBr0ps6cJGtu9lSF0kUQdrZ0HVH7oq5P
+   tCiR1tKJBOaReocl88z5IujpIRLXMCMownfsvq1h3aDF4GwI8WbLybkh5
+   EVVgEqVGq1ueYZi8IB/koVvobPEEJj+hOdR1A7RbOxcproXvUivL+fM6q
+   RLzumknLjeId4VnClNKc4z1bWULXrlomBiLS6z9G5eoRe1FFZwMk2YqMy
+   g==;
+X-CSE-ConnectionGUID: ADLULtIHRuyIPyuCbeygqQ==
+X-CSE-MsgGUID: qMtTxSM5RN6PWvxNHd+EXQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11411"; a="46704394"
 X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="46704395"
+   d="scan'208";a="46704394"
 Received: from fmviesa006.fm.intel.com ([10.60.135.146])
   by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 05:34:18 -0700
-X-CSE-ConnectionGUID: XqCSO4s+RUytXDNLnlGagg==
-X-CSE-MsgGUID: HHFBIB2YT4O79x2nGMcPlQ==
+X-CSE-ConnectionGUID: 6ruILB6+TrGGBaLDMRhJzg==
+X-CSE-MsgGUID: Kii3ALRHTE6AL4t9ozUtnw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="132148616"
+   d="scan'208";a="132148612"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
   by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 05:34:16 -0700
 Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id BE1EC120758;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id C28F81209B0;
 	Wed, 23 Apr 2025 15:34:09 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1u7ZIn-007YVl-2T;
+	id 1u7ZIn-007YVq-2W;
 	Wed, 23 Apr 2025 15:34:09 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	dongcheng.yan@intel.com
-Subject: [PATCH v3 05/11] media: ccs-pll: Print a debug message on too high VT PLL OP clock
-Date: Wed, 23 Apr 2025 15:33:53 +0300
-Message-Id: <20250423123359.1800904-6-sakari.ailus@linux.intel.com>
+Subject: [PATCH v3 06/11] media: ccs-pll: Drop LINK_DECOUPLED flag
+Date: Wed, 23 Apr 2025 15:33:54 +0300
+Message-Id: <20250423123359.1800904-7-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250423123359.1800904-1-sakari.ailus@linux.intel.com>
 References: <20250423123359.1800904-1-sakari.ailus@linux.intel.com>
@@ -84,38 +84,71 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In general the CCS PLL calculator prints debugging information on the
-process to ease debugging. This case was not annotated, do that now.
-
-Remove an extra multiplication while at it.
+The LINK_DECOUPLED flag isn't used by the PLL calculator other than
+printing it. The number of OP/VT lanes are already printed in any case.
+Thus drop the flag as it has no function.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/i2c/ccs-pll.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ drivers/media/i2c/ccs-pll.c       | 3 +--
+ drivers/media/i2c/ccs-pll.h       | 1 -
+ drivers/media/i2c/ccs/ccs-core.c  | 1 -
+ drivers/media/i2c/ccs/ccs-quirk.c | 3 +--
+ 4 files changed, 2 insertions(+), 6 deletions(-)
 
 diff --git a/drivers/media/i2c/ccs-pll.c b/drivers/media/i2c/ccs-pll.c
-index d985686b0a36..66d046d576f7 100644
+index 66d046d576f7..16eb09462c8b 100644
 --- a/drivers/media/i2c/ccs-pll.c
 +++ b/drivers/media/i2c/ccs-pll.c
-@@ -318,12 +318,13 @@ __ccs_pll_calculate_vt_tree(struct device *dev,
- 		return -EINVAL;
- 	}
+@@ -124,9 +124,8 @@ static void print_pll(struct device *dev, const struct ccs_pll *pll)
+ 	dev_dbg(dev, "pixel rate on CSI-2 bus:\t%u\n",
+ 		pll->pixel_rate_csi);
  
--	if (pll_fr->pll_multiplier * pll_fr->pll_ip_clk_freq_hz >
--	    lim_fr->max_pll_op_clk_freq_hz)
--		return -EINVAL;
--
- 	pll_fr->pll_op_clk_freq_hz =
- 		pll_fr->pll_ip_clk_freq_hz * pll_fr->pll_multiplier;
-+	if (pll_fr->pll_op_clk_freq_hz > lim_fr->max_pll_op_clk_freq_hz) {
-+		dev_dbg(dev, "too high OP clock %u\n",
-+			pll_fr->pll_op_clk_freq_hz);
-+		return -EINVAL;
-+	}
+-	dev_dbg(dev, "flags%s%s%s%s%s%s%s%s%s\n",
++	dev_dbg(dev, "flags%s%s%s%s%s%s%s%s\n",
+ 		pll->flags & PLL_FL(LANE_SPEED_MODEL) ? " lane-speed" : "",
+-		pll->flags & PLL_FL(LINK_DECOUPLED) ? " link-decoupled" : "",
+ 		pll->flags & PLL_FL(EXT_IP_PLL_DIVIDER) ?
+ 		" ext-ip-pll-divider" : "",
+ 		pll->flags & PLL_FL(FLEXIBLE_OP_PIX_CLK_DIV) ?
+diff --git a/drivers/media/i2c/ccs-pll.h b/drivers/media/i2c/ccs-pll.h
+index 6eb1b1c68e1e..ee206e5b287b 100644
+--- a/drivers/media/i2c/ccs-pll.h
++++ b/drivers/media/i2c/ccs-pll.h
+@@ -24,7 +24,6 @@
+ #define CCS_PLL_FLAG_NO_OP_CLOCKS				BIT(1)
+ /* CCS PLL flags */
+ #define CCS_PLL_FLAG_LANE_SPEED_MODEL				BIT(2)
+-#define CCS_PLL_FLAG_LINK_DECOUPLED				BIT(3)
+ #define CCS_PLL_FLAG_EXT_IP_PLL_DIVIDER				BIT(4)
+ #define CCS_PLL_FLAG_FLEXIBLE_OP_PIX_CLK_DIV			BIT(5)
+ #define CCS_PLL_FLAG_FIFO_DERATING				BIT(6)
+diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+index 004d28c33287..06e0ba53f2a8 100644
+--- a/drivers/media/i2c/ccs/ccs-core.c
++++ b/drivers/media/i2c/ccs/ccs-core.c
+@@ -3451,7 +3451,6 @@ static int ccs_probe(struct i2c_client *client)
+ 				CCS_LIM(sensor, NUM_OF_VT_LANES) + 1;
+ 			sensor->pll.op_lanes =
+ 				CCS_LIM(sensor, NUM_OF_OP_LANES) + 1;
+-			sensor->pll.flags |= CCS_PLL_FLAG_LINK_DECOUPLED;
+ 		} else {
+ 			sensor->pll.vt_lanes = sensor->pll.csi2.lanes;
+ 			sensor->pll.op_lanes = sensor->pll.csi2.lanes;
+diff --git a/drivers/media/i2c/ccs/ccs-quirk.c b/drivers/media/i2c/ccs/ccs-quirk.c
+index e3d4c7a275bc..e48a4fa1f5dd 100644
+--- a/drivers/media/i2c/ccs/ccs-quirk.c
++++ b/drivers/media/i2c/ccs/ccs-quirk.c
+@@ -190,8 +190,7 @@ static int jt8ev1_post_streamoff(struct ccs_sensor *sensor)
  
- 	vt_div = div * more_mul;
+ static int jt8ev1_init(struct ccs_sensor *sensor)
+ {
+-	sensor->pll.flags |= CCS_PLL_FLAG_LANE_SPEED_MODEL |
+-		CCS_PLL_FLAG_LINK_DECOUPLED;
++	sensor->pll.flags |= CCS_PLL_FLAG_LANE_SPEED_MODEL;
+ 	sensor->pll.vt_lanes = 1;
+ 	sensor->pll.op_lanes = sensor->pll.csi2.lanes;
  
 -- 
 2.39.5
