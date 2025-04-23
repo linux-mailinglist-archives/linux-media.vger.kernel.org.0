@@ -1,160 +1,166 @@
-Return-Path: <linux-media+bounces-30834-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30836-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65119A994BD
-	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 18:20:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6C9EA994D7
+	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 18:23:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C98FD1BA5272
-	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 16:00:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5D2DB1BC5B6D
+	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 16:05:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67D2E298CCA;
-	Wed, 23 Apr 2025 15:48:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4287281374;
+	Wed, 23 Apr 2025 15:57:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="B9YnfKIn"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="cDbjLwGo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA012989AA;
-	Wed, 23 Apr 2025 15:48:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F6E11F2C45
+	for <linux-media@vger.kernel.org>; Wed, 23 Apr 2025 15:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745423303; cv=none; b=DjJn998uFCdakGx5TUDRGRLegHI7y03+BuqAQgNCVotMIicOAf94voA5VxE6rrraT8UhgKW79xnFnbADkuoClpzuXckM0prvy8JxvmbmzCAOOxijBwA3yviRVy7865lofArfU4Xzogy58d28lPJ3M7E1AngDB73OS6cCSq2yfiQ=
+	t=1745423861; cv=none; b=hdYNyWPBhjUQcibdhaMHInprYGTisKudMkOypAiPvGrDin44E6TfABhHUQqdW1w6EZiwLGAsRRiUNZZ+drlU/Ndvry50+pF6t3eMiMP2Tngr/eatPq4fpPcdQ9GNiuOlg8fVxQ2n/S02KGKyTDGKOGKAyhWVrr3lPLCkJFDG2Vc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745423303; c=relaxed/simple;
-	bh=4WyWXiBZlLAYmPUiyPkMd/zqqMYaA8iQvgehTct4eVI=;
+	s=arc-20240116; t=1745423861; c=relaxed/simple;
+	bh=4i+Aa42MxjqCMrZwNRo+lSzwmT1xTOZvTjo84XR38Ag=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q7gbViDo727oy5FJjG+Kd5IaX//B4Wwbm3+3eWuqILo3nILHmtfArbS6DI26sZCT4Z+WJRRNoJdMG25hWkaKYkLstTtq0D2EL9fOlDWIu436q8j9+9cApzZbxPdcWV9X0SVFKrZpgzcE6Y0NFWC/Qvg/1Cpe7+hZKDK5nzY+68Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=B9YnfKIn; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745423302; x=1776959302;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=4WyWXiBZlLAYmPUiyPkMd/zqqMYaA8iQvgehTct4eVI=;
-  b=B9YnfKIn4nmHR8kfQbvejmCwBbbzS3ZM5uBfL3CLYjpHq5CJuJSKHB3b
-   dfa2QRzbPgkRO+x6YggZaI80oKl4w7f0IMiCytCkRJuzJ3ElQvaPcq/De
-   idfYraYizuOVyYrCgsuOp078mhgv4uMOb5thuRkZ5rZxBLBk89PvAI8vV
-   170VeolI3Im6/7+Tn/ogpPI8V48yyIrWxu23BJI37lQbFthXsvE6HHyI+
-   CwcvCHdG4SUt2M2/5YWPneeX36KwFxZ1etmwNr3eYjFubCQUCMXYtfy29
-   5W5cmFgFKTmjCeoFRTQu9IMS9/iSPMoLHFqvoHzVBbaLOIkObRxOsNTGX
-   w==;
-X-CSE-ConnectionGUID: aVTBtnZHQC+HJR1ETrZiqw==
-X-CSE-MsgGUID: 1gvgl+CCTi+tMfa1WEq1eg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="46258024"
-X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="46258024"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 08:48:21 -0700
-X-CSE-ConnectionGUID: ypmLoP8WSymIQf+IK0oKGg==
-X-CSE-MsgGUID: UUyQ1S+FR/KyGISpmBtYhg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="169560586"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 08:48:19 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id C4DF511F9FE;
-	Wed, 23 Apr 2025 18:48:12 +0300 (EEST)
-Date: Wed, 23 Apr 2025 15:48:12 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/2] media: i2c: Add driver for ST VD55G1 camera sensor
-Message-ID: <aAkLvCqsJ9Tf-O2d@kekkonen.localdomain>
-References: <20250404-b4-vd55g1-v5-0-98f2f02eec59@foss.st.com>
- <20250404-b4-vd55g1-v5-2-98f2f02eec59@foss.st.com>
- <20250422150746.GA23173@pendragon.ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=dvMAPJwCRzLkXcP6rHgz7tI06LdKk0dyyTlz8Qxiva1ijgFneWI6Syat9xfpg9ZF8tckypx5aFZOw4noOpTjb7jr36qr1tGxLKbQZ/U2jWOwFvigyy/FDwDkTYOjItcegZjCikMnVodurIIJGPpjDW7D8bXXwr5M1PxmJOHLScw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=cDbjLwGo; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1745423858;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=sh+sYc0+MNHSUal421oTmCDMNe+GTwBu1Zv/uziK5zE=;
+	b=cDbjLwGo5joWRNKQhGM20ASzex57ptwvPCVYqhR/q3g777s9S7wmEI0rPX+71F60oGvb8y
+	Wih2hLE6duD+W46fb++rxqe5YbPCd8beDiAyiCTh6/RfYLvWOL4jmEghQTLGwahDHPlWtr
+	Ltu7frdpycokk/4gYhzniJDO2eTo6q0=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-211-nMWskRtTPUiZ3yQoPFis9A-1; Wed, 23 Apr 2025 11:57:37 -0400
+X-MC-Unique: nMWskRtTPUiZ3yQoPFis9A-1
+X-Mimecast-MFC-AGG-ID: nMWskRtTPUiZ3yQoPFis9A_1745423856
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7c955be751aso13144185a.2
+        for <linux-media@vger.kernel.org>; Wed, 23 Apr 2025 08:57:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745423856; x=1746028656;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sh+sYc0+MNHSUal421oTmCDMNe+GTwBu1Zv/uziK5zE=;
+        b=EOJCOM97m4U7Cs+1G2rrTXn1ro/qtEZUde/Y9Gct52d2WHPku+VW2ipc85VW6rkiNM
+         nbhUQqs4TNqe/KayUeahGy22iMA6sveOKfJhbERtRm6A7pHSMz8UecIekZqycVtyriUk
+         ZUKk8b6Q3nW/fVryUATvCrR79K0KYjod3ypoq09AuZggtUzHG9wqaKjFTiGpJUlIARp/
+         PhLMs8nyEr+tBfGSsjO8isTv5CkrRlAeZXaE3LuhVCbmNMyMrNJUYI8WkBLJfHTmE/WX
+         mlP/8oYnCnpEpF1AwC2sjwOVBLXyCURG+r78niCacMvfgfcK+vj23blDxX0c1o3nMbkC
+         RrXw==
+X-Forwarded-Encrypted: i=1; AJvYcCXzq0PpDGYW80UycOdhKmuYkpkwcnDb8Mc/DOD6BMg/ZfA6r9NPaDNG/z/vElrPW8DOcHn6bzQEc+q7Hw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxmc6o1GkXlhx3pP4oOJjc2xQXHkBnKyHI3o04CBRA2i7GthzkF
+	97we3EnH/jdbzpCUgW1l/J/OOQ4coop15wTD7bimRMsu+TWOqniZgnNHHoxK+6RoY1saGGKixjC
+	O7CUmkH7AVxvbFFChEpXgRZWwWSj4WlD/eVu5loEifypjnW1Vja6A+go0yOvY
+X-Gm-Gg: ASbGncsLTNiRqKbAGYpnFeyjPYflxV5KzHBWWwRfbVtWxkBBLyrdSNglD3w5zNh5Ehs
+	Wefir0AqFFvFUfC9SFH1DnnbGUJJyQJMdW4XdkWmXm0mipehOsKIttqJbdeG0x+twT73/gojizA
+	cJZRTxyeQg+2G6wAV6KCsZbbSGbwc5T09bbV0znPv5dtZpoMx3cRr51o24gk8YpHm9WoQ2NaEem
+	rtL7c9P64DBfieHOe3OvrDtz7SoMM2GKjb5zHXHULw0gEVBHxjUkk73SBIaeIW4IROxdubQ3PDc
+	fUqbUFKRPZhugip4+h8jUywi2abXJIpSP7wDsG3mnt4=
+X-Received: by 2002:a05:620a:414e:b0:7c5:55c0:db9b with SMTP id af79cd13be357-7c955e14742mr15096685a.58.1745423855997;
+        Wed, 23 Apr 2025 08:57:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHIWB7Ovf66R3odop/eHj81SRynR7IlhrgKznJ816AeoHzYOpFR49dK5BzR9wKwh5ZqiuAyNQ==
+X-Received: by 2002:a05:620a:414e:b0:7c5:55c0:db9b with SMTP id af79cd13be357-7c955e14742mr15093785a.58.1745423855655;
+        Wed, 23 Apr 2025 08:57:35 -0700 (PDT)
+Received: from jkangas-thinkpadp1gen3.rmtuswa.csb ([2601:1c2:4301:5e20:98fe:4ecb:4f14:576b])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c925a6eb60sm698231385a.24.2025.04.23.08.57.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Apr 2025 08:57:35 -0700 (PDT)
+Date: Wed, 23 Apr 2025 08:57:32 -0700
+From: Jared Kangas <jkangas@redhat.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
+	jstultz@google.com, tjmercier@google.com, christian.koenig@amd.com,
+	mripard@kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 0/2] dma-buf: heaps: Use constant name for CMA heap
+Message-ID: <aAkN7BXIT7RR85PR@jkangas-thinkpadp1gen3.rmtuswa.csb>
+References: <20250422191939.555963-1-jkangas@redhat.com>
+ <CAO_48GELW3ax5Q3h9=qpWBJJa0Uy3eJwFkEcbaz4ZT56Gq513A@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250422150746.GA23173@pendragon.ideasonboard.com>
+In-Reply-To: <CAO_48GELW3ax5Q3h9=qpWBJJa0Uy3eJwFkEcbaz4ZT56Gq513A@mail.gmail.com>
 
-Hi Laurent,
+Hi Sumit,
 
-On Tue, Apr 22, 2025 at 06:07:46PM +0300, Laurent Pinchart wrote:
-> Hi Benjamin,
+On Wed, Apr 23, 2025 at 08:53:20PM +0530, Sumit Semwal wrote:
+> Hello Jared,
 > 
-> Thank you for the patch.
+> On Wed, 23 Apr 2025 at 00:49, Jared Kangas <jkangas@redhat.com> wrote:
+> >
+> > Hi all,
+> >
+> > This patch series is based on a previous discussion around CMA heap
+> > naming. [1] The heap's name depends on the device name, which is
+> > generally "reserved", "linux,cma", or "default-pool", but could be any
+> > arbitrary name given to the default CMA area in the devicetree. For a
+> > consistent userspace interface, the series introduces a constant name
+> > for the CMA heap, and for backwards compatibility, an additional Kconfig
+> > that controls the creation of a legacy-named heap with the same CMA
+> > backing.
+> >
+> > The ideas to handle backwards compatibility in [1] are to either use a
+> > symlink or add a heap node with a duplicate minor. However, I assume
+> > that we don't want to create symlinks in /dev from module initcalls, and
+> > attempting to duplicate minors would cause device_create() to fail.
+> > Because of these drawbacks, after brainstorming with Maxime Ripard, I
+> > went with creating a new node in devtmpfs with its own minor. This
+> > admittedly makes it a little unclear that the old and new nodes are
+> > backed by the same heap when both are present. The only approach that I
+> > think would provide total clarity on this in userspace is symlinking,
+> > which seemed like a fairly involved solution for devtmpfs, but if I'm
+> > wrong on this, please let me know.
 > 
-> On Fri, Apr 04, 2025 at 04:50:52PM +0200, Benjamin Mugnier wrote:
-> > The VD55G1 is a monochrome global shutter camera with a 804x704 maximum
-> > resolution with RAW8 and RAW10 bytes per pixel.
-> > The driver supports :
-> > - Auto exposure from the sensor, or manual exposure mode
-> > - HDR subtraction mode, allowing edge detection and background removal
-> > - Auto exposure cold start, using configuration values from last stream
-> > to start the next one
-> > - LED GPIOs for illumination
-> > - Most standard camera sensor features (hblank, vblank, test patterns,
-> > again, dgain, hflip, vflip, auto exposure bias, etc.)
-> > Add driver source code to MAINTAINERS file.
-> > 
-> > Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-> > ---
-> >  MAINTAINERS                |    2 +
-> >  drivers/media/i2c/Kconfig  |   11 +
-> >  drivers/media/i2c/Makefile |    1 +
-> >  drivers/media/i2c/vd55g1.c | 2005 ++++++++++++++++++++++++++++++++++++++++++++
-> >  4 files changed, 2019 insertions(+)
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 4f5e9005063a157de69e81b10f8def9da9e6c04c..9991c5f63e3d49a4e7a6ef0071f3b81825e84eee 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -22416,6 +22416,7 @@ M:	Sylvain Petinot <sylvain.petinot@foss.st.com>
-> >  L:	linux-media@vger.kernel.org
-> >  S:	Maintained
-> >  F:	Documentation/devicetree/bindings/media/i2c/st,vd55g1.yaml
-> > +F:	drivers/media/i2c/vd55g1.c
-> >  
-> >  ST VGXY61 DRIVER
-> >  M:	Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-> > @@ -24801,6 +24802,7 @@ F:	drivers/media/i2c/mt*
-> >  F:	drivers/media/i2c/og*
-> >  F:	drivers/media/i2c/ov*
-> >  F:	drivers/media/i2c/s5*
-> > +F:	drivers/media/i2c/vd55g1.c
-> >  F:	drivers/media/i2c/vgxy61.c
+> Thanks indeed for this patch; just one minor nit: the link referred to
+> as [1] here seems to be missing. Could you please add it? This would
+> make it easier to follow the chain of discussion in posterity.
+
+My bad, I must have dropped the link while revising the cover letter.
+Here's the dropped reference:
+
+[1]: https://lore.kernel.org/all/f6412229-4606-41ad-8c05-7bbba2eb6e08@ti.com/
+
+Thanks to you and John for looking this over,
+Jared
+
+> >
+> > Changelog:
+> >     v2: Use tabs instead of spaces for large vertical alignment.
+> >
+> > Jared Kangas (2):
+> >   dma-buf: heaps: Parameterize heap name in __add_cma_heap()
+> >   dma-buf: heaps: Give default CMA heap a fixed name
+> >
+> >  Documentation/userspace-api/dma-buf-heaps.rst | 11 ++++---
+> >  drivers/dma-buf/heaps/Kconfig                 | 10 +++++++
+> >  drivers/dma-buf/heaps/cma_heap.c              | 30 ++++++++++++++-----
+> >  3 files changed, 40 insertions(+), 11 deletions(-)
+> >
+> > --
+> > 2.49.0
+> >
 > 
-> I suppose that
+> Best,
+> Sumit
 > 
-> F:	drivers/media/i2c/v*
-> 
-> would be too broad. Sakari, is it time to create a sensors subdirectory
-> (not as a prerequisite for this series of course) ?
 
-Good question. Right now everything is arranged according to the bus the
-device attaches to, and camera sensors are practically all I²C devices. I
-do anticipate to get some I3C devices in the future, but it's been slow.
-
-Would you create a new directory for cameras under i2c? Should the same be
-done to various bridge chips, TV tuners and the few flash controller
-drivers we have left?
-
-I don't have much of an opinion on this right now. While the current
-arrangement requires some care when changing MAINTAINERS, it works for me.
-
--- 
-Regards,
-
-Sakari Ailus
 
