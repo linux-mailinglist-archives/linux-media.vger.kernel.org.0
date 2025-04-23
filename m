@@ -1,144 +1,101 @@
-Return-Path: <linux-media+bounces-30830-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30831-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 807CDA9941C
-	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 18:08:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC98CA99428
+	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 18:09:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 313801BA4099
-	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 15:55:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D939D9253E0
+	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 15:56:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83C352D0270;
-	Wed, 23 Apr 2025 15:39:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21B89284B42;
+	Wed, 23 Apr 2025 15:44:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="HV1lXyI6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VbWuiVyx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92F1C2C1E2A;
-	Wed, 23 Apr 2025 15:39:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67AFE262FD6;
+	Wed, 23 Apr 2025 15:44:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745422797; cv=none; b=n6uR6skCGxu93UppXGeooVQL6UzxVMp5Tk856M56fy5gwvRtc7qde7+9xMQpVr0ofW7EUc8iIwDteqcOQ9+sWhzl+jx2zdT5s0ccmLd8rSYaNS1Tf3u3QXJzCV8LlwlDuG/LB7e2DOaAIWfzHfpRVcwNPah7djmWAz9mwWXK4cc=
+	t=1745423090; cv=none; b=OB4Ys9gScWV5Oig/jNSh+7PjHJGN3aEbS4t3zLILv1iEVlXER7uK+fOqgh+0YlGC/FUftTVwaYHgJFar2ASNrd0r0F1PetmrbL8L2vTt21C1ZSFar2r+vyKb3Huk/r/l0w+ptzo3hqDvfVgs5EwXKT+Qk0ZL+gMuRsjRV73EBeY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745422797; c=relaxed/simple;
-	bh=U0w1x+8Qh4hnZgZPeV+lNb1LUY4ehW5wushCpVQ3K+I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=dnIEehq9rVXordRt4pBUKlU4GWY2yMLA9lXhbzM2J6po/Km3VWOKPGqHfhS3dvdi8gGJbxmN8m8D1cutGzNXaBAr4fbyH3nN4v7eaLKo1YEcuKQOaCC3rCmaytOZMKvV+VuaaooCnawTD6kfORJGMRi6lUzFJqzCV6knLuZAX7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=HV1lXyI6; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53NApNAI016813;
-	Wed, 23 Apr 2025 15:39:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	rSy+SgCL5lGpQjeRIMvTtjJ3CYYax4gjcpMJGDuJbbw=; b=HV1lXyI6EVTHyup4
-	9J3qwYgO58Bb6kJTKtOPdDbYKVQDvrMQcQv9d+VubPLdMfHoHZz594DYqvW4WScW
-	vaiXxqPh2lYkQzr+w0mRoQo7gGA97NI6K4ZN6OUop1hEx3VBuOYV/VfZFPP1yy0U
-	wVfOIMBKFRqnoz8r61yCmp3UXVW+kn6dKGX4dOgzXffu3o119JzuiQmzvX4B1N7e
-	v1EltxGSYfMTVDywrWOEueCNp+8ef/WI+/36jBFSAE1CFLHWUAMGHeh1NIjf9Qhm
-	8n+3N5sFA9eWue5unEuVYmGmpVEy2boF7v/aYdmxq1V393XrxbjbRliK3afU+0U5
-	1RfLjw==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh0amp5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 23 Apr 2025 15:39:51 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53NFdpgg030353
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 23 Apr 2025 15:39:51 GMT
-Received: from hu-vgarodia-hyd.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Wed, 23 Apr 2025 08:39:47 -0700
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-Date: Wed, 23 Apr 2025 21:09:12 +0530
-Subject: [PATCH v3 4/4] arm64: dts: qcom: qcs8300-ride: enable video
+	s=arc-20240116; t=1745423090; c=relaxed/simple;
+	bh=mU7RaJADMtOBjxf+d4tBnzAuSnv660NigxByrWv6krg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uGu3s6zddWK6kn85d9ATlupomD6rOoCbUVy2xJ+23j8g9z6QV9uwY3f3CfxMGpzN31e+j2Zb3v2bRssDkIXkFUpXqrfq05KIW6FV/PUeOC+v6dJAO1p1HJZwpPkR7Go2nnhq2HPur+3qkvJvCf6LirI7dSzmnNZwOQwA0YR2/dA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VbWuiVyx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9DF91C4CEE2;
+	Wed, 23 Apr 2025 15:44:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745423089;
+	bh=mU7RaJADMtOBjxf+d4tBnzAuSnv660NigxByrWv6krg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VbWuiVyxE5gpO9GDBcvrE4Lz0Ybw8SIEaRr6+zJBzzRatwbBPsE50OXDU/X3f40L2
+	 eZX2zSQTGaAb+XiO22bWQxkcmO2b/NtvzIOij98aydrlneqUSPG1Ft9X8mfZTErRVi
+	 sIyFXUBvf2PcTOUmCDxQ1RHj5pfO75X4b0kNgoKpAo2MZD1kbp9yq8akQ5lYsJWdnc
+	 ITc0i2XARv5KyuudviyoqVZoWnzkKt6iskEN4cfM3h4g6zfSt2dvnKdnpaytoCGJn9
+	 ToivmEJT0CBKA2oXOKdfwl6Z0VrabAEdn0ttOmKGqE+sS3wFqm3CzlxQ/7D21HdLwK
+	 K4KI/4PdNPiRw==
+Date: Wed, 23 Apr 2025 10:44:48 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: David Heidelberg <david@ixit.cz>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-kernel@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+	Pavel Machek <pavel@kernel.org>, Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH v4] media: dt-bindings: Convert Analog Devices ad5820 to
+ DT schema
+Message-ID: <174542308706.575894.15505508811321272785.robh@kernel.org>
+References: <20250421-b4-ad5820-dt-yaml-v4-1-cc026ce316c6@ixit.cz>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20250423-qcs8300_iris-v3-4-d7e90606e458@quicinc.com>
-References: <20250423-qcs8300_iris-v3-0-d7e90606e458@quicinc.com>
-In-Reply-To: <20250423-qcs8300_iris-v3-0-d7e90606e458@quicinc.com>
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Abhinav Kumar
-	<quic_abhinavk@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio
-	<konradybcio@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Vikash Garodia
-	<quic_vgarodia@quicinc.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1745422770; l=696;
- i=quic_vgarodia@quicinc.com; s=20241104; h=from:subject:message-id;
- bh=U0w1x+8Qh4hnZgZPeV+lNb1LUY4ehW5wushCpVQ3K+I=;
- b=MhgYhW96r3QHH3nE1X3L1bQWpx38IuwKCCJhbFFrD95qInRqMt7l3R3jChqKQ7JeQU7gS3Jxm
- SiYFBcs1ZukBdqWosLlyG+pwe3AaPa25SRL34uDovYNmkXbyiBA9N9C
-X-Developer-Key: i=quic_vgarodia@quicinc.com; a=ed25519;
- pk=LY9Eqp4KiHWxzGNKGHbwRFEJOfRCSzG/rxQNmvZvaKE=
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: Aj49hHRuibV7S2wgcEgiLJ0btQuNP1Ct
-X-Proofpoint-ORIG-GUID: Aj49hHRuibV7S2wgcEgiLJ0btQuNP1Ct
-X-Authority-Analysis: v=2.4 cv=Fv0F/3rq c=1 sm=1 tr=0 ts=680909c7 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8 a=HJafQcN7i5IhSkUYFLQA:9
- a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDIzMDExMCBTYWx0ZWRfX13szLP6dnObT ALd3PZcV8GX8DHwL7IgClAxG6NOYTQhw2NXyKyExhu37a/4w5h9TiW12rBt6srncmCtr9aXYgPj Hd/iY8oRwE7DgspH+EY/m4CGf2erIfuzcAjJZ/ByOlfI2yyJosIvojb7Mcq7BieWGOcdC5Kj65M
- PL9C7N1YaWO6mr/gxEoGILfxtJXjV89BhstYANhWyQFcwNlKdgXhsCCge1LoJrHbZ+d3lg4j2wo 26cJKzfi0jhy+ngrbUbsNlSDQxF4QC5iOsaqi1M+jg/gJknQDgOk64RneTRv33cbsy3EZiqfC1U fXfT8XItxWf9kXQJ3ob/UngZCMr0sBQH5LMfZ/puLXQsD/RCIlkUk8uNIdtMCajUGdaRcYXkXKp
- h66Jx8HzzLAOfDHOK3/jAIMjkjRJ38KIDQf0niQmbimK2aCawfUlmMPYAQZE429iStA0yo7I
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.680,FMLib:17.12.80.40
- definitions=2025-04-23_09,2025-04-22_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 mlxscore=0
- malwarescore=0 mlxlogscore=845 priorityscore=1501 suspectscore=0
- adultscore=0 bulkscore=0 clxscore=1015 spamscore=0 lowpriorityscore=0
- phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504230110
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250421-b4-ad5820-dt-yaml-v4-1-cc026ce316c6@ixit.cz>
 
-Enable video nodes on the qcs8300-ride board.
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
----
- arch/arm64/boot/dts/qcom/qcs8300-ride.dts | 4 ++++
- 1 file changed, 4 insertions(+)
+On Mon, 21 Apr 2025 10:20:15 +0200, David Heidelberg wrote:
+> Convert the Analog Devices ad5820 to DT schema format.
+> 
+> Acked-by: Pavel Machek <pavel@ucw.cz>
+> Signed-off-by: David Heidelberg <david@ixit.cz>
+> ---
+> Changes in v4:
+> - Drop remaining pieces of iio-channel-cells introduced in previous
+>   revisions.
+> - Link to v3: https://lore.kernel.org/r/20250414-b4-ad5820-dt-yaml-v3-1-39bbb5db7b2b@ixit.cz
+> 
+> Changes in v3:
+> - Removed documentation of io-channel-cells property. Now it's 1:1 to
+>   the original binding. The reference to it from the Nokia N900 dts
+>   was removed in the -next.
+> - Link to v2: https://lore.kernel.org/r/20250314-b4-ad5820-dt-yaml-v2-1-287958c3c07c@ixit.cz
+> 
+> Changes in v2:
+> - added MAINTAINERS entry for the binding
+> - documented why io-channel-cells got added into the binding.
+> - dropped io-channel-cells in required properties.
+> - adjusted example indentation to 4 spaces.
+> - Link to v1: https://lore.kernel.org/r/20250209203940.159088-1-david@ixit.cz
+> ---
+>  .../devicetree/bindings/media/i2c/ad5820.txt       | 28 -----------
+>  .../devicetree/bindings/media/i2c/adi,ad5820.yaml  | 56 ++++++++++++++++++++++
+>  MAINTAINERS                                        |  1 +
+>  3 files changed, 57 insertions(+), 28 deletions(-)
+> 
 
-diff --git a/arch/arm64/boot/dts/qcom/qcs8300-ride.dts b/arch/arm64/boot/dts/qcom/qcs8300-ride.dts
-index b5c9f89b34356bbf8387643e8702a2a5f50b332f..87114a349fedd80296abaf3d2f5f284b5adbbdfe 100644
---- a/arch/arm64/boot/dts/qcom/qcs8300-ride.dts
-+++ b/arch/arm64/boot/dts/qcom/qcs8300-ride.dts
-@@ -285,6 +285,10 @@ queue3 {
- 	};
- };
- 
-+&iris {
-+	status = "okay";
-+};
-+
- &qupv3_id_0 {
- 	status = "okay";
- };
-
--- 
-2.34.1
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
 
