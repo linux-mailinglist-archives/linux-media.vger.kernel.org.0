@@ -1,154 +1,139 @@
-Return-Path: <linux-media+bounces-30878-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30879-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 224EDA99A8D
-	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 23:19:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8FB2A99AB2
+	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 23:28:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E6D3A446C41
-	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 21:18:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EC1E546144D
+	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 21:28:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E9202951A6;
-	Wed, 23 Apr 2025 21:14:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D55226561B;
+	Wed, 23 Apr 2025 21:27:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IgES3LL2"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="XLR4irnJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 323C027F4F5;
-	Wed, 23 Apr 2025 21:14:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B1C2239562
+	for <linux-media@vger.kernel.org>; Wed, 23 Apr 2025 21:27:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745442854; cv=none; b=ka39iESgn9NyRtDQwct+Ykk+kFCL/W+hWEM8C2+6V0ZT6rLc0IVOdUuW+0mdIPEBJErIPUKFfxZ4AniisKBpTpap/nk6nUqDn8DML8HDHOQsN43mFq1ejE+4xUqglxTVRO96xTyoOjJY0xv5PPQkBJ5Iw+1uedeX1JZHV/YLudQ=
+	t=1745443678; cv=none; b=G6ZDtwU1stWPE7IdNHwO3UPNT1QxL4ZguT3dLHkL1c4awO6usiaDUgmI7XXSuWh2+CNOVIWtlnqGyeYotbGVw+4HgwA7qR4AnXK6r3NDU74wmB36VF2GuX/j8QNyz32f+NkUFB87e7T25sSvIDlWyVIkep1UY/Wd+DNa1Nl/+sM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745442854; c=relaxed/simple;
-	bh=o+0jFHReUaY3+P4hC7ImvrPLRCsb+LepftuQIgHSvH4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jP6rx+glButuy/Hk7grpOoh7LmINbxUfKQK44/jM1cxKvwZxmml3LjGFqunhkn8RDYrGeDEufICyyNwVuBKTnMDjFOkd83I8nlVw4vGNqaXJq7VqVRjNO4i2lwzV4cjzr63ZAQ3M8jYP1+WO/5kda6LCD+bOvbzV8Iwjb4uaWd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IgES3LL2; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B0C04198D;
-	Wed, 23 Apr 2025 23:14:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1745442849;
-	bh=o+0jFHReUaY3+P4hC7ImvrPLRCsb+LepftuQIgHSvH4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IgES3LL2a5LCRZClGXESZyL8Bjo2Ra73tHc29R6DmzdW7YNuDvx/xoVglpct1QGpR
-	 o8WsWcK70Rw6nFfbS87FTsqWPtA/IvKL4tMFXY6bFvFn4H+MQQhF9XNS5VswJ4cVwk
-	 wFruJ5BLUOMvvlMcJ89l4TTfjJ7cY2pWUj1NJbbs=
-Date: Thu, 24 Apr 2025 00:14:09 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH v7 0/5] media: renesas: vsp1: Add support for VSPX and IIF
-Message-ID: <20250423211409.GB5879@pendragon.ideasonboard.com>
-References: <20250401-v4h-iif-v7-0-cc547c0bddd5@ideasonboard.com>
+	s=arc-20240116; t=1745443678; c=relaxed/simple;
+	bh=UoXx4tGES9OMPPM7oZI7K3CxI/4ypR1vyn2KvyB5orQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=h/bo108G0ppy90i1lUvOFEoTAg8UszYW2B3+Dk/ezDDaVLb9NloPy99T5vcwk91LveHKpwAEAce9VMMZGiDgy/jD8A55jHUCFNQR9RuRF17aHDmFBMi/TMAW0ZzyRlAfKHJNLVD7BGpaV0EUyMTPNpXS2ErZtvATdRDFrXCLD4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=XLR4irnJ; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43cebe06e9eso2385405e9.3
+        for <linux-media@vger.kernel.org>; Wed, 23 Apr 2025 14:27:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1745443675; x=1746048475; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=aNVqL+OZswouyUq3SbRuMHrYu0xbf+/3y1/IN5N3DtQ=;
+        b=XLR4irnJGnxyNuZJ6qrJIHxW9ByjG7kEGsip2cYdSXNLY0bXFDqhrI4MuyNbs5zx0z
+         mGebB66qlTp3hbnLAnc7vTXRRJQraZ2WVouJ1ZnAHEcXIZpMcMWeLSC4WSWOEZwTzdWu
+         HiungUpCZQeqT1kf2uKx57pHtX8GHgu9ZpWpR4cthVo9sfWANysDKCpZsfBqh2A6jsy1
+         w+U93jdT9XL4IxBs0eOE57A1OqzaZjI8t7g2vptWdR3Q8Cd1eySulhKwksIq2VGIb+0Y
+         v3BqZBoI/i65YLZQy06t2wa+kBT65uzU8ufl2IAEr8Ch9y62rmKK8N57eJEVg6MSUhVr
+         LR0w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745443675; x=1746048475;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aNVqL+OZswouyUq3SbRuMHrYu0xbf+/3y1/IN5N3DtQ=;
+        b=FmISGpVW+xvxcnJWfL8cJh+FQgGSLe/GfsdBB3nqnUuwYMk6+T5Vdwu5H4kXUwCL+h
+         nFgtSf005cpztW5EjUOHF6TsNlCgXp40FRbwxQzpb0VnIQHNX/tVBDTz3LSmrTymesEL
+         G+KPckQprR3zrITZRH9jM076a+GmYO9IxR6wH6BznnG51K7Z9VPIukVLMpm4is45B+KM
+         wkSs1qKrYbB8yBsi/bQdzlswaBhK0NvziHQTeQ4vGgJdYfSYYYblWNoNg6ffstPCnyfz
+         9YGCveLYODTFSv54PImmZa16MgdZSCBh4+kRxc7SYKq71J0qIz+q8B8ilRTB9ifJyLt5
+         25HA==
+X-Gm-Message-State: AOJu0Yz5YshVhZMXN/p2m1XKhSlfVZfkOCzS0gayQtXjIq/5KNvRqxgd
+	PJUSKtv87JjtvhqgVpSVLAVw3Lh1+K0awLEyctemTDRVc6tMfIxSzoZXx9RUA3I=
+X-Gm-Gg: ASbGncszS6I4TRHlRUkDOSqchlpqyZ7xOKawhiGzxUDNy2oGWgg1+DEMUCBOE+BqC5b
+	bNFfAoKcMz3UOFfWZ8zTsQrZWO5lrk+tdCll04ucG4CUYnB4OXSHJ5WXM+Vd2BdqbKRJBfNGt3Z
+	nPLTzaQRk0ZwWjVuUNPoaOw58sEGHBoySsFMwCfimLF/QPJ6vVbD9TUsAwdFR/QUbHw5kYY1dXx
+	Wlg0K3pv/aJAix/vrblaNhe9iGRbS7iYJTMOKaJN2FtApNuLBJ7vYuAsrtq4TBHY7xf0gu7R99l
+	BLQCybCj0qk1izPbpNJw0hcayOl2+kVTHm8EAEg3rrDaeUEMDHUx+BAuPSlzZOVIcM/b9vKBbnl
+	kObPfYExGNtYf12Po
+X-Google-Smtp-Source: AGHT+IHqb57GnB8kDuXYgg2wy9NjvC9CrGI7gkJ4N6LcFpbnWl0SOhTR/Fqxf+gYXyCBGmhSP7sFMw==
+X-Received: by 2002:a05:600c:4ec8:b0:43d:a90:9f1 with SMTP id 5b1f17b1804b1-4409bd051e3mr1119865e9.6.1745443675342;
+        Wed, 23 Apr 2025 14:27:55 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39efa493377sm20389750f8f.62.2025.04.23.14.27.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Apr 2025 14:27:54 -0700 (PDT)
+Message-ID: <198b6f8a-8502-4b57-a1ba-77bb585aae65@linaro.org>
+Date: Wed, 23 Apr 2025 22:27:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250401-v4h-iif-v7-0-cc547c0bddd5@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/5] media: iris: fix the order of compat strings
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250424-qcs8300_iris-v4-0-6e66ed4f6b71@quicinc.com>
+ <20250424-qcs8300_iris-v4-2-6e66ed4f6b71@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20250424-qcs8300_iris-v4-2-6e66ed4f6b71@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Jacopo,
-
-Thank you for the patches.
-
-On Tue, Apr 01, 2025 at 04:22:00PM +0200, Jacopo Mondi wrote:
-> The VSPX is a VSP2 function that reads data from
-> external memory using two RPF instances and feed it to the ISP.
+On 23/04/2025 20:33, Vikash Garodia wrote:
+> Fix the order of compatible strings to make it in alpha numeric order.
 > 
-> The VSPX includes an IIF unit (ISP InterFace) modeled in the vsp1 driver
-> as a new, simple, entity type.
-> 
-> IIF is part of VSPX, a version of the VSP2 IP specialized for ISP
-> interfacing. To prepare to support VSPX, support IIF first by
-> introducing a new entity and by adjusting the RPF/WPF drivers to
-> operate correctly when an IIF is present.
-
-I think patches 1/5 to 4/5 are ready to be merged, but 5/5 needs more
-work. Please let me know if I can take the first four patches in my tree
-already.
-
-> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 > ---
-> Changes in v7:
-> - Include VSPX driver in the series
-> - Use existing VSP1 formats and remove patches extending formats on RPF
-> - Rework VSPX driver to split jobs creation and scheduling in two
->   different API entry points
-> - Fix VSPX stride using the user provided bytesperline and using the
->   buffer size for ConfigDMA buffers
-> - Link to v6: https://lore.kernel.org/r/20250321-v4h-iif-v6-0-361e9043026a@ideasonboard.com
+>   drivers/media/platform/qcom/iris/iris_probe.c | 12 ++++++------
+>   1 file changed, 6 insertions(+), 6 deletions(-)
 > 
-> Changes in v6:
-> - Little cosmetic change as suggested by Laurent
-> - Collect tags
-> - Link to v5: https://lore.kernel.org/r/20250319-v4h-iif-v5-0-0a10456d792c@ideasonboard.com
+> diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
+> index 7cd8650fbe9c09598670530103e3d5edf32953e7..fa3b9c9b1493e4165f8c6d9c1cc0b76d3dfa9b7b 100644
+> --- a/drivers/media/platform/qcom/iris/iris_probe.c
+> +++ b/drivers/media/platform/qcom/iris/iris_probe.c
+> @@ -335,16 +335,16 @@ static const struct dev_pm_ops iris_pm_ops = {
+>   };
+>   
+>   static const struct of_device_id iris_dt_match[] = {
+> +#if (!IS_ENABLED(CONFIG_VIDEO_QCOM_VENUS))
+> +	{
+> +		.compatible = "qcom,sm8250-venus",
+> +		.data = &sm8250_data,
+> +	},
+> +#endif
+>   	{
+>   		.compatible = "qcom,sm8550-iris",
+>   		.data = &sm8550_data,
+>   	},
+> -#if (!IS_ENABLED(CONFIG_VIDEO_QCOM_VENUS))
+> -		{
+> -			.compatible = "qcom,sm8250-venus",
+> -			.data = &sm8250_data,
+> -		},
+> -#endif
+>   	{
+>   		.compatible = "qcom,sm8650-iris",
+>   		.data = &sm8650_data,
 > 
-> Changes in v5:
-> - Drop additional empty line 5/6
-> - Link to v4: https://lore.kernel.org/r/20250318-v4h-iif-v4-0-10ed4c41c195@ideasonboard.com
-> 
-> Changes in v4:
-> - Fix SWAP bits for RAW10, RAW12 and RAW16
-> - Link to v3: https://lore.kernel.org/r/20250317-v4h-iif-v3-0-63aab8982b50@ideasonboard.com
-> 
-> Changes in v3:
-> - Drop 2/6 from v2
-> - Add 5/7 to prepare for a new implementation of 6/7
-> - Individual changelog per patch
-> - Add 7/7
-> - Link to v2: https://lore.kernel.org/r/20250224-v4h-iif-v2-0-0305e3c1fe2d@ideasonboard.com
-> 
-> Changes in v2:
-> - Collect tags
-> - Address review comments from Laurent, a lot of tiny changes here and
->   there but no major redesign worth an entry in the patchset changelog
-> 
-> ---
-> Jacopo Mondi (5):
->       media: vsp1: Add support IIF ISP Interface
->       media: vsp1: dl: Use singleshot DL for VSPX
->       media: vsp1: wpf: Propagate vsp1_rwpf_init_ctrls()
->       media: vsp1: rwpf: Support operations with IIF
->       media: vsp1: Add VSPX support
-> 
->  drivers/media/platform/renesas/vsp1/Makefile      |   3 +-
->  drivers/media/platform/renesas/vsp1/vsp1.h        |   4 +
->  drivers/media/platform/renesas/vsp1/vsp1_dl.c     |   7 +-
->  drivers/media/platform/renesas/vsp1/vsp1_drv.c    |  24 +-
->  drivers/media/platform/renesas/vsp1/vsp1_entity.c |   8 +
->  drivers/media/platform/renesas/vsp1/vsp1_entity.h |   1 +
->  drivers/media/platform/renesas/vsp1/vsp1_iif.c    | 121 +++++
->  drivers/media/platform/renesas/vsp1/vsp1_iif.h    |  29 ++
->  drivers/media/platform/renesas/vsp1/vsp1_pipe.c   |   1 +
->  drivers/media/platform/renesas/vsp1/vsp1_pipe.h   |   1 +
->  drivers/media/platform/renesas/vsp1/vsp1_regs.h   |   9 +
->  drivers/media/platform/renesas/vsp1/vsp1_rpf.c    |   9 +-
->  drivers/media/platform/renesas/vsp1/vsp1_vspx.c   | 604 ++++++++++++++++++++++
->  drivers/media/platform/renesas/vsp1/vsp1_vspx.h   |  86 +++
->  drivers/media/platform/renesas/vsp1/vsp1_wpf.c    |  24 +-
->  include/media/vsp1.h                              |  73 +++
->  16 files changed, 991 insertions(+), 13 deletions(-)
-> ---
-> base-commit: f2151613e040973c868d28c8b00885dfab69eb75
-> change-id: 20250123-v4h-iif-a1dda640c95d
-
--- 
-Regards,
-
-Laurent Pinchart
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
