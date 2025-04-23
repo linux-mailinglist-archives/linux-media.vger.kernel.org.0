@@ -1,146 +1,177 @@
-Return-Path: <linux-media+bounces-30854-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30855-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E561A99706
-	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 19:50:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 612A1A99740
+	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 19:56:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 251F71B82E48
-	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 17:51:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C78EB1B665BE
+	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 17:56:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A1CD628CF74;
-	Wed, 23 Apr 2025 17:50:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED80928CF7C;
+	Wed, 23 Apr 2025 17:55:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UTB9cU/u"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fxZXmqIZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7F4D28CF6E
-	for <linux-media@vger.kernel.org>; Wed, 23 Apr 2025 17:50:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54B56281363
+	for <linux-media@vger.kernel.org>; Wed, 23 Apr 2025 17:55:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745430635; cv=none; b=gY/YQ9UgWLYkgA02v/ZND2vFA/aN9VZskBYhoPVKEJ2a7O+z6+UAKmHHWjtAGmjZUDVN1cEFBYvPCrRRhBdsTT4loa/EtUcL7XWGTa8K6z6AeNd9LPNKbNdcNa9LtAaaub2genmDpTVUqukc/5YobYzBRmIEqpy+eV5N+rae6qU=
+	t=1745430952; cv=none; b=VDnzBGZt0Z0cZQcoe7837t7/sGG8Xk0Qwge1d5VnZYiLcfQyjnNHsTjcxdqTqt7oQLJKfZNICQj0Xz/AenJ6AONYWur4Co6GYvH0jegX0oZsyimiG/me1h9FzHS+7fa/rzpN07uKYEoZQEISWgH9sf5ojMFS1/89wJBo42blxGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745430635; c=relaxed/simple;
-	bh=bk5wXM9qbTFKUxvv6tv6ldW7nAMq+nNIhsjGwGXNWcU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UHZ6EOywR2IvaCVEZpFO7/w2gzUdj9BRT404h8c/pn/54gYFcbufslDJ5xNg3tw6xPPjo0KJQCSQ4eLbT4AZENq8+KynVmP4HBt9ff1571hrIpBpj7JsyeqV6QbjAXthgLKFKyCH+eAZhpzpTB5aOHp5bP5KySr7Xw16qYhZfNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=UTB9cU/u; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 662B7198D;
-	Wed, 23 Apr 2025 19:50:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1745430629;
-	bh=bk5wXM9qbTFKUxvv6tv6ldW7nAMq+nNIhsjGwGXNWcU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UTB9cU/u7VT2G/zdCTJtu1Q5iWksVsQAwIcql9wVfKzpLmzrDH2CnkWcnRGhAPFq8
-	 Wz6hvYQnscC6ewZvSsoUos/P5M5/wQElvaNmhi+MQgXmM+NB8cHPeMdeoQSqwbxntG
-	 vyq1HjvJ/eJAmY/V/U4vVuzCaqWy29gledandX9g=
-Date: Wed, 23 Apr 2025 20:50:29 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, dongcheng.yan@intel.com
-Subject: Re: [PATCH v4 11/11] media: ccs-pll: Document the CCS PLL flags
-Message-ID: <20250423175029.GH17813@pendragon.ideasonboard.com>
-References: <20250423124322.GG17813@pendragon.ideasonboard.com>
- <20250423153719.1801956-1-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1745430952; c=relaxed/simple;
+	bh=NGiRyAURXNjN5sw3Hg5tgXh76+lIlQ3q7/NzpzuqUgI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=WY2lY6vEUmMl6t8AgxxL76tW33eiIr889CO7GvccicmTxlU4GPulabZiOHRkQoT+XgbzRwsact+Pip5Pp74UoSshBF+xuB3H8r/UxLSe4Yaq8Xkg6/55J5RDdZJwj/g6hhCiML2fgFBiZqQPp43zCXwtZL4yqC+uwVeZPF5R2Ps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fxZXmqIZ; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745430951; x=1776966951;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=NGiRyAURXNjN5sw3Hg5tgXh76+lIlQ3q7/NzpzuqUgI=;
+  b=fxZXmqIZrumQAklQXZCi9Drhu4WF0+V3L7zc8h788MdqwtAEQ2IS2r/D
+   SNU4k/XjieiNyza263zxi8onslSV1mEKasRioMc/eF7i+VckZtVcfdmX3
+   fxvfnCAQO/V5gcR3tLdh1Ne/kgOPOcrGiurzGu0snmod9WNMaQ04iZfkR
+   xvbOaLLnC2CAlYdsa5JHDeEHW5SfAamatiR9Hs3LbyaygX+7JgYcTPjYS
+   mveipV9EDVtDvHU7FhLEEyjLpgh93puiHUfMme17w7wWz/Eb9EvhYVEQI
+   qHXj3ar8sHIf+zObB7W/V0OyzGhIKWbVdkPWuH/Yp5KQY3B8u38rruHAc
+   w==;
+X-CSE-ConnectionGUID: xzOw3OKlRoGZNbfteFSjTQ==
+X-CSE-MsgGUID: CyOGEBckRGGzbhrj0PloVQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="69529306"
+X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
+   d="scan'208";a="69529306"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 10:55:50 -0700
+X-CSE-ConnectionGUID: U037Fo1FT6ySVE/hdwdKiA==
+X-CSE-MsgGUID: VD8MLz6ATMKgYcpSUurNQA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
+   d="scan'208";a="137467682"
+Received: from jasonz-ms-7d25.itwn.intel.com ([10.225.65.15])
+  by fmviesa004.fm.intel.com with ESMTP; 23 Apr 2025 10:55:47 -0700
+From: "Chen, Jason Z" <jason.z.chen@intel.com>
+To: linux-media@vger.kernel.org
+Cc: sakari.ailus@linux.intel.com,
+	bingbu.cao@linux.intel.com,
+	jimmy.su@intel.com,
+	daxing.li@intel.com,
+	hao.yao@intel.com,
+	qingwu.zhang@intel.com,
+	arun.t@intel.com,
+	Jason Chen <jason.z.chen@intel.com>
+Subject: [PATCH v8 1/6] media: ov08x40: Separate the lane configuration and PLL settings
+Date: Thu, 24 Apr 2025 01:56:31 +0800
+Message-Id: <20250423175636.1338374-1-jason.z.chen@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250423153719.1801956-1-sakari.ailus@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 23, 2025 at 06:37:19PM +0300, Sakari Ailus wrote:
-> Document the CCS PLL flags with short comments. The CCS spec has more
-> information on them while the added documentation helps finding the
-> relevant information in the CCS spec.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
-> since v3:
-> 
-> - Refer to pixels in CCS_PLL_FLAG_OP_PIX_DDR comment.
+From: Jason Chen <jason.z.chen@intel.com>
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To prepare upcoming support of multiple sensor modes,
+this change separates the lane configuration and PLL settings
+from the original mode-specific settings.
 
->  drivers/media/i2c/ccs-pll.c |  2 +-
->  drivers/media/i2c/ccs-pll.h | 27 ++++++++++++++++++++++++---
->  2 files changed, 25 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ccs-pll.c b/drivers/media/i2c/ccs-pll.c
-> index 87798616b76d..8f9a695bd9e5 100644
-> --- a/drivers/media/i2c/ccs-pll.c
-> +++ b/drivers/media/i2c/ccs-pll.c
-> @@ -129,8 +129,8 @@ static void print_pll_flags(struct device *dev, struct ccs_pll *pll)
->  {
->  	dev_dbg(dev, "PLL flags%s%s%s%s%s%s%s%s%s%s%s\n",
->  		pll->flags & PLL_FL(OP_PIX_CLOCK_PER_LANE) ? " op-pix-clock-per-lane" : "",
-> -		pll->flags & PLL_FL(NO_OP_CLOCKS) ? " no-op-clocks" : "",
->  		pll->flags & PLL_FL(EVEN_PLL_MULTIPLIER) ? " even-pll-multiplier" : "",
-> +		pll->flags & PLL_FL(NO_OP_CLOCKS) ? " no-op-clocks" : "",
->  		pll->flags & PLL_FL(LANE_SPEED_MODEL) ? " lane-speed" : "",
->  		pll->flags & PLL_FL(EXT_IP_PLL_DIVIDER) ?
->  		" ext-ip-pll-divider" : "",
-> diff --git a/drivers/media/i2c/ccs-pll.h b/drivers/media/i2c/ccs-pll.h
-> index 754eb5f52cc4..e22903931e72 100644
-> --- a/drivers/media/i2c/ccs-pll.h
-> +++ b/drivers/media/i2c/ccs-pll.h
-> @@ -18,19 +18,40 @@
->  #define CCS_PLL_BUS_TYPE_CSI2_DPHY				0x00
->  #define CCS_PLL_BUS_TYPE_CSI2_CPHY				0x01
->  
-> -/* Old SMIA and implementation specific flags */
-> -/* op pix clock is for all lanes in total normally */
-> +/* Old SMIA and implementation specific flags. */
-> +/* OP PIX clock is for all lanes in total normally. */
->  #define CCS_PLL_FLAG_OP_PIX_CLOCK_PER_LANE			BIT(0)
-> -#define CCS_PLL_FLAG_NO_OP_CLOCKS				BIT(1)
-> +/* If set, the PLL multipliers are required to be even. */
->  #define CCS_PLL_FLAG_EVEN_PLL_MULTIPLIER			BIT(3)
-> +
->  /* CCS PLL flags */
-> +
-> +/* The sensor doesn't have OP clocks at all. */
-> +#define CCS_PLL_FLAG_NO_OP_CLOCKS				BIT(1)
-> +/* System speed model if this flag is unset. */
->  #define CCS_PLL_FLAG_LANE_SPEED_MODEL				BIT(2)
-> +/* If set, the pre-PLL divider may have odd values, too. */
->  #define CCS_PLL_FLAG_EXT_IP_PLL_DIVIDER				BIT(4)
-> +/*
-> + * If set, the OP PIX clock doesn't have to exactly match with data rate, it may
-> + * be higher. See "OP Domain Formulas" in MIPI CCS 1.1 spec.
-> + */
->  #define CCS_PLL_FLAG_FLEXIBLE_OP_PIX_CLK_DIV			BIT(5)
-> +/* If set, the VT domain may run faster than the OP domain. */
->  #define CCS_PLL_FLAG_FIFO_DERATING				BIT(6)
-> +/* If set, the VT domain may run slower than the OP domain. */
->  #define CCS_PLL_FLAG_FIFO_OVERRATING				BIT(7)
-> +/* If set, the PLL tree has two PLLs instead of one. */
->  #define CCS_PLL_FLAG_DUAL_PLL					BIT(8)
-> +/*
-> + * If set, the OP SYS clock is a dual data rate clock, transferring two bits per
-> + * cycle instead of one.
-> + */
->  #define CCS_PLL_FLAG_OP_SYS_DDR					BIT(9)
-> +/*
-> + * If set, the OP PIX clock is a dual data rate clock, transferring two pixels
-> + * per cycle instead of one.
-> + */
->  #define CCS_PLL_FLAG_OP_PIX_DDR					BIT(10)
->  
->  /**
+Signed-off-by: Jason Chen <jason.z.chen@intel.com>
+---
+ drivers/media/i2c/ov08x40.c | 56 ++++++++-----------------------------
+ 1 file changed, 12 insertions(+), 44 deletions(-)
 
+diff --git a/drivers/media/i2c/ov08x40.c b/drivers/media/i2c/ov08x40.c
+index b9682264e2f5..11899d4feb06 100644
+--- a/drivers/media/i2c/ov08x40.c
++++ b/drivers/media/i2c/ov08x40.c
+@@ -168,17 +168,7 @@ static const struct ov08x40_reg mipi_data_rate_800mbps[] = {
+ 	{0x5a1f, 0x0e},
+ 	{0x5a27, 0x0e},
+ 	{0x6002, 0x2e},
+-};
+-
+-static const struct ov08x40_reg mode_3856x2416_regs[] = {
+-	{0x5000, 0x5d},
+-	{0x5001, 0x20},
+-	{0x5008, 0xb0},
+-	{0x50c1, 0x00},
+-	{0x53c1, 0x00},
+-	{0x5f40, 0x00},
+-	{0x5f41, 0x40},
+-	{0x0300, 0x3a},
++	{0x0300, 0x3a}, /* PLL CTRL */
+ 	{0x0301, 0xc8},
+ 	{0x0302, 0x31},
+ 	{0x0303, 0x03},
+@@ -211,6 +201,17 @@ static const struct ov08x40_reg mode_3856x2416_regs[] = {
+ 	{0x032f, 0xa0},
+ 	{0x0350, 0x00},
+ 	{0x0360, 0x01},
++	{0x3012, 0x41}, /* MIPI SC Lanes */
++};
++
++static const struct ov08x40_reg mode_3856x2416_regs[] = {
++	{0x5000, 0x5d},
++	{0x5001, 0x20},
++	{0x5008, 0xb0},
++	{0x50c1, 0x00},
++	{0x53c1, 0x00},
++	{0x5f40, 0x00},
++	{0x5f41, 0x40},
+ 	{0x1216, 0x60},
+ 	{0x1217, 0x5b},
+ 	{0x1218, 0x00},
+@@ -690,39 +691,6 @@ static const struct ov08x40_reg mode_1928x1208_regs[] = {
+ 	{0x53c1, 0x00},
+ 	{0x5f40, 0x00},
+ 	{0x5f41, 0x40},
+-	{0x0300, 0x3a},
+-	{0x0301, 0xc8},
+-	{0x0302, 0x31},
+-	{0x0303, 0x03},
+-	{0x0304, 0x01},
+-	{0x0305, 0xa1},
+-	{0x0306, 0x04},
+-	{0x0307, 0x01},
+-	{0x0308, 0x03},
+-	{0x0309, 0x03},
+-	{0x0310, 0x0a},
+-	{0x0311, 0x02},
+-	{0x0312, 0x01},
+-	{0x0313, 0x08},
+-	{0x0314, 0x66},
+-	{0x0315, 0x00},
+-	{0x0316, 0x34},
+-	{0x0320, 0x02},
+-	{0x0321, 0x03},
+-	{0x0323, 0x05},
+-	{0x0324, 0x01},
+-	{0x0325, 0xb8},
+-	{0x0326, 0x4a},
+-	{0x0327, 0x04},
+-	{0x0329, 0x00},
+-	{0x032a, 0x05},
+-	{0x032b, 0x00},
+-	{0x032c, 0x00},
+-	{0x032d, 0x00},
+-	{0x032e, 0x02},
+-	{0x032f, 0xa0},
+-	{0x0350, 0x00},
+-	{0x0360, 0x01},
+ 	{0x1216, 0x60},
+ 	{0x1217, 0x5b},
+ 	{0x1218, 0x00},
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
 
