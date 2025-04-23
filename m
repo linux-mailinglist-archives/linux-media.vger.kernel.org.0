@@ -1,271 +1,169 @@
-Return-Path: <linux-media+bounces-30885-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30886-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7047EA99B73
-	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 00:20:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AE369A99B78
+	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 00:22:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A426E17E114
-	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 22:20:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9BBA01B84F97
+	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 22:23:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8ECD21FF39;
-	Wed, 23 Apr 2025 22:20:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A532D1F9A8B;
+	Wed, 23 Apr 2025 22:22:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lGmv9FSl"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="mX4dTlbp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35D6D21FF38
-	for <linux-media@vger.kernel.org>; Wed, 23 Apr 2025 22:20:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A59C14F9F7
+	for <linux-media@vger.kernel.org>; Wed, 23 Apr 2025 22:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745446815; cv=none; b=eXRMOvvtiSZjAiO8V3JARhnbNfc4O7ouQS657Z3lHZyp/whry1L+vLJmmSmF74/dyLjcaVJSrrMSoImWGCriiXW/e1niNSF0zZNmAc9P17ic9fzf7uZq6U/Iw0v6RE+ZUUxKMlerYqDlb8DIBlvlJ6oait27mIeMsHQt6Nv47R8=
+	t=1745446967; cv=none; b=nS7LnNz12368zOUxw0YthB2Z7tAqoHDZFdyuKfeqFlyHrsP+vLAAr7bu1OYhWbEhUT0O6XY/YwZwtT7cAU2P99wmkvTQDuoeCRUjMnlvJWVr4eZamRrxDqVbC20bbD9AD04moymzZbN/rJFfFZ/YOQzadLWwu8tscgyGaWwSnGQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745446815; c=relaxed/simple;
-	bh=d4qeaIA7SY31QL7+qANqSnYfVRN2R0ewfTenj7rKiJQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=c4g/Mi2cYvbsWi6UoiKEy9VhkxVJzXB2Zdk2HvbUTig0imOmehWVVWTkfjHWh7ojegMRMA91AjC9DP+gzU/7ultfvU7H9WbtmJxluHTLhqLWFVgV3lpuFpzziC0Ot7daWNuUSvHVcDiO08CWOO7rXgfLCmvlPb7a3x6ThOXJ8rk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lGmv9FSl; arc=none smtp.client-ip=209.85.167.47
+	s=arc-20240116; t=1745446967; c=relaxed/simple;
+	bh=f8rmn8x0+XiyVCnOHeO4qzpNjcf63Wjvbg0U+J0oM0I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Q/Al2+3P6prX2B3qs2Mr9El3cxTozHBDkvC/EuQjNK7mex97kTxrAm3NULznAwCiDtaBLeT0dasJQcnaq9NbFHTy12iuT4rGRFo+ni7EH3j4pGk6QlCJJQpwUmnAtXAYLviAb1GpBNVysOTbJqyuez+k2dKlK1ZpzDhY+sqhwJ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=mX4dTlbp; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-549c70bf6caso52490e87.0
-        for <linux-media@vger.kernel.org>; Wed, 23 Apr 2025 15:20:12 -0700 (PDT)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43cf628cb14so11809585e9.1
+        for <linux-media@vger.kernel.org>; Wed, 23 Apr 2025 15:22:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745446811; x=1746051611; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OfE4q0oZOZOnhqZk9qWEc7BpSWc8UZ9AjI+wnkJRUig=;
-        b=lGmv9FSlfSZQqJYjoPkmED4TkgsTixXB/4ImOD6HP7PuYj6adyazyXhgHJdZYRi6as
-         QX3dqP6T9Jfr5ObmIlS5tR8QAHxT1ccVC7h5tnYDuHbLKSi3QftIGdLqc/f2lPJ7dYpI
-         HsjFOzQBA8bvvYeo/GYRQ3sWVFLfNMCdL0AZCKoS24oirat6oEPd/llq5sRmtFEj6evn
-         A+as7ZXW9wLv4zIaU7q5YhxthFRnddM95EPAbmCPJky9HGaU0Ps7gZY+2VvaOnpLXWC/
-         4BEKN70jViJ+Ws4LS+oL2UQDpNBo85/Ck6cZ43QsoEjk8mJUaxoRq00oReP4vIhHqeeY
-         MeIA==
+        d=linaro.org; s=google; t=1745446964; x=1746051764; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xTp47s3WR8jXpXuKbLchqgYAkI9mdRH62NADe5YGQAI=;
+        b=mX4dTlbpno5hMdD2MJ5pkbt5R8HTUKicQeyoi9RZbRJw4G06mT81sLD2qcYJoxPpqS
+         Mdz74RcAw0DYB/DGnHXEgt6kR3Wc6BmBNMQrRBAYhmKTlSvZZDfDzzPjvzzFPH+0liJ+
+         KbZs6Gk+/mVGtXVkBx3nppBkfsH7yE7S++Kc3AwaGe+Uvm9xJt/lL9K6RO59NF1F/963
+         id4Pr/EKyX6pO92/Rm9SQnmjNTJ+FImV9FalG+RhIOg3pEbtWFewUVkCqXFIyXRUY3Oz
+         y8qVOje9173NI6uCOaR8k1uqyD5q1RHp7YmkTpn35yuYxGDPSHpC0dwK+NKFPcNvw4oi
+         xA3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745446811; x=1746051611;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OfE4q0oZOZOnhqZk9qWEc7BpSWc8UZ9AjI+wnkJRUig=;
-        b=sJZitirTC9yZTcj8Mqf/GYTHXS3Wkft1PuxNRUudrIF46U21i6LPtgwSDNsR87/7RS
-         R8qoibo/+1aZpRh3m/uSuGvACVI4Bdlr08KSKsrcHKptBW67kZuzJBninL2DGJIsndg3
-         d9vu+G3tu8xzXNQEWo9Hiilag+erOpLUkvmPBOcDEfyF7Ml3Eek+qE47DdWWFVUbzS4m
-         pWSGbcmyd7AjJxU7RY0bZ+j4M8q1zfe3QMQwUMTpSbLXGEcB4egRqZKPOCQZZxs7Mf24
-         pJGE7FX9ybQqwDOaN/haGPDbJgwKIM1WVk7wxAZ+SjC9KO3be5nZnaYp2kz4XT71+Dyn
-         XeYw==
-X-Forwarded-Encrypted: i=1; AJvYcCW5eghOSdGcpyiQj75o2UEpUI54HMzjSqvD+7uUfb3KFhuwwD+apRffzvzwboea3RhpjIsJUG5LHsjmyA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtHyrkM7sFTtFvz0N957b72IZ7BGC0KbUV0yxXxRkQrbF5Re9i
-	vazo1pEVkjiipZ1l8YXX7PGrXlHe8X0SoH07puOVsGUAET6xMF7FHXjDAsoZq6Y=
-X-Gm-Gg: ASbGnct+/C4f9X4hoM3qIIhcYP2NX45KAD4HDoDzfOUHPzJS/5r34lqusMsBxvBAn7L
-	S3hZ99mHeb00zeDZZhu3Uf5i2ilD8ZwW/Oa7YMfzuSF/Eh+s52GeB1PwWZqQkGYsSkFZoJq5yIY
-	AeKnzH9oz3wEDWxCuS2/pBgBII4Zqb0ByZdVhk/dxKc8m3c1EBzpOS+OQ2aVbGl0wOej8MkdIJD
-	hcW58ZLQeweKzG82V56S/nD4Jtic9vHXWKdrUHRBHjhywydCgE+VVqUOS0doodv7KLPQR2OLQft
-	r4Sp/gSpoRkJR11VyaM8wkNy/UNBSniGvAQcq9pnOBx8eu/3ZfZ9/XIFVzIU15cB2PYEmkbLV1f
-	e+P4ESZlKTJl0opgyeoGasJi14JTuaw==
-X-Google-Smtp-Source: AGHT+IEFBLHwxXJt1asTOahfnWRFfQrjT2n96iyqqSw5MxmmI7YBGbK2f4gUIEpHP2qagQIO6O1jXw==
-X-Received: by 2002:a05:6512:2386:b0:545:d54:2eb4 with SMTP id 2adb3069b0e04-54e7c428501mr48703e87.8.1745446811391;
-        Wed, 23 Apr 2025 15:20:11 -0700 (PDT)
-Received: from localhost.localdomain (88-112-131-206.elisa-laajakaista.fi. [88.112.131.206])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54e7cb371a2sm19547e87.57.2025.04.23.15.20.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Apr 2025 15:20:10 -0700 (PDT)
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-To: Robert Foss <rfoss@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH v2 3/3] arm64: dts: qcom: sm8650: Add description of MCLK pins
-Date: Thu, 24 Apr 2025 01:19:54 +0300
-Message-ID: <20250423221954.1926453-4-vladimir.zapolskiy@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250423221954.1926453-1-vladimir.zapolskiy@linaro.org>
-References: <20250423221954.1926453-1-vladimir.zapolskiy@linaro.org>
+        d=1e100.net; s=20230601; t=1745446964; x=1746051764;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xTp47s3WR8jXpXuKbLchqgYAkI9mdRH62NADe5YGQAI=;
+        b=iXR2YtkDVB4sRzge/vxh7L/z6W8bEoGG+wibyxmS7JWtUwasb6wRb15mw8M0uUroN9
+         f2wJFwBO86spiNz1Zy5Q2b6TOnXSENcY1Y0I78AG9AE5/bdA+cPz4zI24Vy+jNm9jCKR
+         yrbLvyILPH4bvAwYET90V4xCTr/VPly/YHms5UMUrDZjrXMWABsZHyv/wBrQ61sdDui3
+         oJvmR0296xLO2UQJhYj60Rn5XE0VKGtCTKDJTljoxj8QpYotLqyY+p3S66cyeFd/9ebB
+         XYo2VSH9YJ6roNg8IjCSxj+yd8RXt1mLxRnT7+JpO2DxBJMruTkyRfphFIE1X0iFHU3N
+         /OqA==
+X-Forwarded-Encrypted: i=1; AJvYcCVf4udjuBOIeCjuzdIR3GgeBVdAwhpjbBmoK2roh9e26zjg8pTHnOQ+OgK5M0vdsHIHuKL/8QUcytNrjQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSybvmFwT/Ny+aJ4d1FfH1YO68rE8Mtmgm9Ir0PhfViNdibR50
+	0UpRgar6NED14SddOpXU7guc0abCkeTf34V8o9QdPTcazyaRqBeca+sZyDP/pLE=
+X-Gm-Gg: ASbGnctFy2zKdas9iuxHRNgmEei+4NImkVusMfud+rdTEXPmqkqbrQl2joJYA7BmQgj
+	EHLSye4eDyo9MZlKCKIWaajXurydE/wTgVe8EjoOsJpfuAAIBVjOF1gMqDXIOt0FSRq4LGVDbGw
+	mKYh9UvPT1CsuZ0R4YOJQ34dkvh7FBQdMWoKZ72HqOeKQ2l8U6kQhXRql3l5QTExeqeHvBlu9ir
+	oQiO4m5D6kDpkBxNnof0Ylx3FEimw70KNbpsT6XM376aQN18O6hN+/fVqANzfFHOy3I9zVTBmrP
+	B2DxkNI9VXH2hRl3EOsSN6whKLAdyFttx45o+AVuPPK9seSQd8IYzpt50EfLCuf7Vi7wPF8rsc4
+	WeCXtE/8kssRnDk50
+X-Google-Smtp-Source: AGHT+IFnXuOk9MgklNNThUU3rPWX1hvW7UN1+EWzXnzv4MbCmpVehJitPAXKPYi2MAqK0eYnKXo7Cw==
+X-Received: by 2002:a5d:47cc:0:b0:39f:bf3:6f21 with SMTP id ffacd0b85a97d-3a06d64cab2mr29229f8f.11.1745446963654;
+        Wed, 23 Apr 2025 15:22:43 -0700 (PDT)
+Received: from [192.168.0.34] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4409c29b55bsm1325515e9.6.2025.04.23.15.22.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Apr 2025 15:22:42 -0700 (PDT)
+Message-ID: <54824271-7b67-49e7-a27e-61b8a993e901@linaro.org>
+Date: Wed, 23 Apr 2025 23:22:41 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] arm64: dts: qcom: sm8650: Add CAMSS block
+ definition
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
+References: <20250423221954.1926453-1-vladimir.zapolskiy@linaro.org>
+ <20250423221954.1926453-3-vladimir.zapolskiy@linaro.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <20250423221954.1926453-3-vladimir.zapolskiy@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add fixed MCLK pin descriptions for all pins with such supported
-function.
+On 23/04/2025 23:19, Vladimir Zapolskiy wrote:
+> Add SM8650 CAMSS device tree node to the platform dtsi file,
+> it contains of
+> * 6 x CSIPHY
+> * 3 x CSID
+> * 2 x CSID Lite
+> * 3 x IFE
+> * 2 x IFE Lite
+> 
+> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+> ---
+>   arch/arm64/boot/dts/qcom/sm8650.dtsi | 189 +++++++++++++++++++++++++++
+>   1 file changed, 189 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/sm8650.dtsi b/arch/arm64/boot/dts/qcom/sm8650.dtsi
+> index c2937f721794..b24ab52413f6 100644
+> --- a/arch/arm64/boot/dts/qcom/sm8650.dtsi
+> +++ b/arch/arm64/boot/dts/qcom/sm8650.dtsi
+> @@ -5065,6 +5065,195 @@ cci2_i2c1: i2c-bus@1 {
+>   			};
+>   		};
+>   
+> +		camss: isp@acb8000 {
+> +			compatible = "qcom,sm8650-camss";
+> +			reg = <0 0x0acb8000 0 0x1000>,
+> +			      <0 0x0acba000 0 0x1000>,
+> +			      <0 0x0acbc000 0 0x1000>,
+> +			      <0 0x0accb000 0 0x1000>,
+> +			      <0 0x0acd0000 0 0x1000>,
+> +			      <0 0x0acb6000 0 0x1000>,
+> +			      <0 0x0ace4000 0 0x2000>,
+> +			      <0 0x0ace6000 0 0x2000>,
+> +			      <0 0x0ace8000 0 0x2000>,
+> +			      <0 0x0acea000 0 0x2000>,
+> +			      <0 0x0acec000 0 0x2000>,
+> +			      <0 0x0acee000 0 0x2000>,
+> +			      <0 0x0ac62000 0 0xf000>,
+> +			      <0 0x0ac71000 0 0xf000>,
+> +			      <0 0x0ac80000 0 0xf000>,
+> +			      <0 0x0accc000 0 0x2000>,
+> +			      <0 0x0acd1000 0 0x2000>;
+> +			reg-names = "csid0",
+> +				    "csid1",
+> +				    "csid2",
+> +				    "csid_lite0",
+> +				    "csid_lite1",
+> +				    "csid_wrapper",
+> +				    "csiphy0",
+> +				    "csiphy1",
+> +				    "csiphy2",
+> +				    "csiphy3",
+> +				    "csiphy4",
+> +				    "csiphy5",
+> +				    "vfe0",
+> +				    "vfe1",
+> +				    "vfe2",
+> +				    "vfe_lite0",
+> +				    "vfe_lite1";
 
-Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Could you please include csiphytpgX for whatever number of TPGs 8650 has.
+
+Otherwise looks good.
+
 ---
- arch/arm64/boot/dts/qcom/sm8650.dtsi | 144 +++++++++++++++++++++++++++
- 1 file changed, 144 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/qcom/sm8650.dtsi b/arch/arm64/boot/dts/qcom/sm8650.dtsi
-index b24ab52413f6..3b13c0971d7d 100644
---- a/arch/arm64/boot/dts/qcom/sm8650.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sm8650.dtsi
-@@ -5959,6 +5959,150 @@ tlmm: pinctrl@f100000 {
- 
- 			wakeup-parent = <&pdc>;
- 
-+			cam0_default: cam0-default-state {
-+				mclk-pins {
-+					pins = "gpio100";
-+					function = "cam_mclk";
-+					drive-strength = <2>;
-+					bias-disable;
-+				};
-+			};
-+
-+			cam0_sleep: cam0-sleep-state {
-+				mclk-pins {
-+					pins = "gpio100";
-+					function = "cam_mclk";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+				};
-+			};
-+
-+			cam1_default: cam1-default-state {
-+				mclk-pins {
-+					pins = "gpio101";
-+					function = "cam_mclk";
-+					drive-strength = <2>;
-+					bias-disable;
-+				};
-+			};
-+
-+			cam1_sleep: cam1-sleep-state {
-+				mclk-pins {
-+					pins = "gpio101";
-+					function = "cam_mclk";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+				};
-+			};
-+
-+			cam2_default: cam2-default-state {
-+				mclk-pins {
-+					pins = "gpio102";
-+					function = "cam_aon_mclk2";
-+					drive-strength = <2>;
-+					bias-disable;
-+				};
-+			};
-+
-+			cam2_sleep: cam2-sleep-state {
-+				mclk-pins {
-+					pins = "gpio102";
-+					function = "cam_aon_mclk2";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+				};
-+			};
-+
-+			cam3_default: cam3-default-state {
-+				mclk-pins {
-+					pins = "gpio103";
-+					function = "cam_mclk";
-+					drive-strength = <2>;
-+					bias-disable;
-+				};
-+			};
-+
-+			cam3_sleep: cam3-sleep-state {
-+				mclk-pins {
-+					pins = "gpio103";
-+					function = "cam_mclk";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+				};
-+			};
-+
-+			cam4_default: cam4-default-state {
-+				mclk-pins {
-+					pins = "gpio104";
-+					function = "cam_aon_mclk4";
-+					drive-strength = <2>;
-+					bias-disable;
-+				};
-+			};
-+
-+			cam4_sleep: cam4-sleep-state {
-+				mclk-pins {
-+					pins = "gpio104";
-+					function = "cam_aon_mclk4";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+				};
-+			};
-+
-+			cam5_default: cam5-default-state {
-+				mclk-pins {
-+					pins = "gpio105";
-+					function = "cam_mclk";
-+					drive-strength = <2>;
-+					bias-disable;
-+				};
-+			};
-+
-+			cam5_sleep: cam5-sleep-state {
-+				mclk-pins {
-+					pins = "gpio105";
-+					function = "cam_mclk";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+				};
-+			};
-+
-+			cam6_default: cam6-default-state {
-+				mclk-pins {
-+					pins = "gpio108";
-+					function = "cam_mclk";
-+					drive-strength = <2>;
-+					bias-disable;
-+				};
-+			};
-+
-+			cam6_sleep: cam6-sleep-state {
-+				mclk-pins {
-+					pins = "gpio108";
-+					function = "cam_mclk";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+				};
-+			};
-+
-+			cam7_default: cam7-default-state {
-+				mclk-pins {
-+					pins = "gpio106";
-+					function = "cam_mclk";
-+					drive-strength = <2>;
-+					bias-disable;
-+				};
-+			};
-+
-+			cam7_sleep: cam7-sleep-state {
-+				mclk-pins {
-+					pins = "gpio106";
-+					function = "cam_mclk";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+				};
-+			};
-+
- 			cci0_0_default: cci0-0-default-state {
- 				sda-pins {
- 					pins = "gpio113";
--- 
-2.45.2
-
+bod
 
