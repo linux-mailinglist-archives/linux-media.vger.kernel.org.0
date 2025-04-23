@@ -1,229 +1,91 @@
-Return-Path: <linux-media+bounces-30824-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30835-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B0CEA993BB
-	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 18:02:30 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9555FA993D7
+	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 18:04:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 868761BA37E2
-	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 15:53:06 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 808647A5934
+	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 16:03:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66F7B2957BF;
-	Wed, 23 Apr 2025 15:38:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AA7229C357;
+	Wed, 23 Apr 2025 15:54:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oCcjues8"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 001FF28DEFF
-	for <linux-media@vger.kernel.org>; Wed, 23 Apr 2025 15:38:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C63329C33B;
+	Wed, 23 Apr 2025 15:54:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745422727; cv=none; b=cTRY8a/+ydl0IEeBAsyugdRRUO3xQaxvND6Egtsxq3BDzPxJZgRBgqTRgQRLNwH15qe6gKjk2j9LobHvRJPx8BFQonozYquh0x1Y4uU/732KKtQbX1TH+LLE6NeIzPgvF06jE8/5oVM4Ek5n53RvpZLx69Wd8E4YulYNzsr3d3I=
+	t=1745423684; cv=none; b=o30nILoarbxlDKRiemCBKbQs5w5w9UhHY8zQ0j7hQUxVL8NO2hTetvQK0CjksctTG5z2mHLsMt5lEoWSX976F6PlZgZTZgMUz4W0cqgVbCNfFu3HrpequsTsdlGQfbc2j/J3XMAjCzY7nF0gk0O6uTV1QyQdry7Q0gGoQCHP2SE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745422727; c=relaxed/simple;
-	bh=03OW2H2Z22kEYnqXxMH3ldR0VudigmB8zsMxoHNDD+4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EDv9QyYWPx09ZnwehZb9s+MoCjmaxi6zKb5lyZQyUGIRwvnDS+pRYsrC22sZ1SrIGCX8HjH77xHEyme4hZikhEE8kUXGGSUXTPCqCM2Nh+fd6rIIXZFqqJiEY9Z7v2xJkjQU6p0ziAnZZ+VFxLkuQOddQwQ3zRjD3bG9NsbGFn0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDC13C4CEE2;
-	Wed, 23 Apr 2025 15:38:45 +0000 (UTC)
-Message-ID: <958bbf8b-3f56-4d01-b703-23f23a5f7bb7@xs4all.nl>
-Date: Wed, 23 Apr 2025 17:38:44 +0200
+	s=arc-20240116; t=1745423684; c=relaxed/simple;
+	bh=2/x8SZbOSlA6YH843iLZG84F9KDG8XKQ6w0l2NKZKkk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r9Z2KrgISoa1MqdOwMflixId5TkxYN2bzAqaoUYbxwiel99HD16JPF5zzPnd/anbrvYvmd+mVCLYS/cegfatmieEtAf1UTJQQSI5YJlujNc96oriF6udJFr7l/kz3my1XoGY2X7WPHIjdfP6pWXV4D5GhTJDt9HWAjlH6iqQYfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oCcjues8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15318C4CEE8;
+	Wed, 23 Apr 2025 15:54:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745423684;
+	bh=2/x8SZbOSlA6YH843iLZG84F9KDG8XKQ6w0l2NKZKkk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oCcjues89Dcz6KrbPcPOSWWQ1ff5Qdl4u251vVlbGP17nmm6n9ajxNKpxrXUKFrgL
+	 9eQLhUZcKiiZL4PcU+PXKwW1rLSts9YQDVpbo6iMuiKMJv8vzrmMyznENXrPQo6F3Y
+	 bSAR6WsqINZFni94ESvVRlEVKMjLzOg4ieFoZRNFsJ/t++owpcrjcnhGpsmjjQwwBG
+	 cSVBpEVcAHYX6hLb+vasv1mCUYhiuyZP791MqOy408IbkM1z1mhEmURomTJKT6zZrm
+	 DA60O74lkXu8qCLPID43bxPadn149jmpgwMaHWnjpHOPE5AfH/0MSW0l6o6DWUjS8I
+	 LMR1ZD72Iz7SQ==
+Date: Wed, 23 Apr 2025 17:54:38 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: Philipp Stanner <phasta@kernel.org>
+Cc: Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Sabrina Dubroca <sd@queasysnail.net>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] drm/nouveau: Fix WARN_ON in
+ nouveau_fence_context_kill()
+Message-ID: <aAkNPttp4xfkHJp4@pollux>
+References: <20250415121900.55719-2-phasta@kernel.org>
+ <20250415121900.55719-3-phasta@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: omap3isp: drop wait_prepare/finish callbacks
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-References: <218877d9-5f95-42ab-8bbf-2325cb31ed73@xs4all.nl>
- <20250128154040.GF12673@pendragon.ideasonboard.com>
- <f11dab4a-0288-42ae-b6c1-a548206a1249@xs4all.nl>
- <4b2aa849-c72b-4ace-8121-d8d490186809@xs4all.nl>
- <aAkFIKUwIgWzHDzy@kekkonen.localdomain>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <aAkFIKUwIgWzHDzy@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250415121900.55719-3-phasta@kernel.org>
 
-On 23/04/2025 17:20, Sakari Ailus wrote:
-> On Wed, Apr 23, 2025 at 04:53:45PM +0200, Hans Verkuil wrote:
->> Hi Laurent,
->>
->> On 29/01/2025 15:21, Hans Verkuil wrote:
->>> On 28/01/2025 16:40, Laurent Pinchart wrote:
->>>> Hi Hans,
->>>>
->>>> Thank you for the patch.
->>>>
->>>> On Tue, Jan 28, 2025 at 04:08:18PM +0100, Hans Verkuil wrote:
->>>>> Since commit 88785982a19d ("media: vb2: use lock if wait_prepare/finish
->>>>> are NULL") it is no longer needed to set the wait_prepare/finish
->>>>> vb2_ops callbacks as long as the lock field in vb2_queue is set.
->>>>>
->>>>> Set the queue lock to &video->queue_lock, which makes it possible to drop
->>>>> the wait_prepare/finish callbacks.
->>>>>
->>>>> This simplifies the code and this is a step towards the goal of deleting
->>>>> these callbacks.
->>>>>
->>>>> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
->>>>> ---
->>>>>  drivers/media/platform/ti/omap3isp/ispvideo.c | 19 +------------------
->>>>>  1 file changed, 1 insertion(+), 18 deletions(-)
->>>>>
->>>>> diff --git a/drivers/media/platform/ti/omap3isp/ispvideo.c b/drivers/media/platform/ti/omap3isp/ispvideo.c
->>>>> index 5c9aa80023fd..78e30298c7ad 100644
->>>>> --- a/drivers/media/platform/ti/omap3isp/ispvideo.c
->>>>> +++ b/drivers/media/platform/ti/omap3isp/ispvideo.c
->>>>> @@ -480,29 +480,11 @@ static int isp_video_start_streaming(struct vb2_queue *queue,
->>>>>  	return 0;
->>>>>  }
->>>>>
->>>>> -static void omap3isp_wait_prepare(struct vb2_queue *vq)
->>>>> -{
->>>>> -	struct isp_video_fh *vfh = vb2_get_drv_priv(vq);
->>>>> -	struct isp_video *video = vfh->video;
->>>>> -
->>>>> -	mutex_unlock(&video->queue_lock);
->>>>> -}
->>>>> -
->>>>> -static void omap3isp_wait_finish(struct vb2_queue *vq)
->>>>> -{
->>>>> -	struct isp_video_fh *vfh = vb2_get_drv_priv(vq);
->>>>> -	struct isp_video *video = vfh->video;
->>>>> -
->>>>> -	mutex_lock(&video->queue_lock);
->>>>> -}
->>>>> -
->>>>>  static const struct vb2_ops isp_video_queue_ops = {
->>>>>  	.queue_setup = isp_video_queue_setup,
->>>>>  	.buf_prepare = isp_video_buffer_prepare,
->>>>>  	.buf_queue = isp_video_buffer_queue,
->>>>>  	.start_streaming = isp_video_start_streaming,
->>>>> -	.wait_prepare = omap3isp_wait_prepare,
->>>>> -	.wait_finish = omap3isp_wait_finish,
->>>>>  };
->>>>>
->>>>>  /*
->>>>> @@ -1338,6 +1320,7 @@ static int isp_video_open(struct file *file)
->>>>>  	queue->buf_struct_size = sizeof(struct isp_buffer);
->>>>>  	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
->>>>>  	queue->dev = video->isp->dev;
->>>>> +	queue->lock = &video->queue_lock;
->>>>
->>>> This is goind to deadlock at least when calling VIDIOC_DQBUF in blocking
->>>> mode.
->>>
->>> Yeah, you are right. I think I will need to test this on real hardware.
->>>
->>> That will take some time.
->>
->> So I finally managed to test this patch on my BeagleBoard Xm, and it
->> works fine.
->>
->> The reason it works is that the queue pointer in struct video_device
->> is never set.
->>
->> Normally v4l2_ioctl_get_lock() in v4l2-ioctl.c tries to return the
->> vdev->queue->lock, and that would indeed cause a deadlock (the core
->> takes that lock, then isp_video_dqbuf() takes it again). But omap3isp
->> never sets vdev->queue nor does it set vdev->lock. So v4l2_ioctl_get_lock()
->> returns a NULL pointer instead, meaning that the core won't do any
->> locking.
->>
->> So I think this patch is good.
+On Tue, Apr 15, 2025 at 02:19:00PM +0200, Philipp Stanner wrote:
+> Nouveau is mostly designed in a way that it's expected that fences only
+> ever get signaled through nouveau_fence_signal(). However, in at least
+> one other place, nouveau_fence_done(), can signal fences, too. If that
+> happens (race) a signaled fence remains in the pending list for a while,
+> until it gets removed by nouveau_fence_update().
 > 
-> Feel free to add:
+> Should nouveau_fence_context_kill() run in the meantime, this would be
+> a bug because the function would attempt to set an error code on an
+> already signaled fence.
 > 
-> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Have nouveau_fence_context_kill() check for a fence being signaled.
 > 
->>
->> That said, I had to fix a lot of other issues and even with that all I
->> capture is only 0 values. It has a severe case of bitrot :-(
->>
->> I plan to post my fixes when I have some more time.
-> 
-> Which sensor did you have?
+> Cc: <stable@vger.kernel.org> # v5.10+
+> Fixes: ea13e5abf807 ("drm/nouveau: signal pending fences when channel has been killed")
+> Suggested-by: Christian König <christian.koenig@amd.com>
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
 
-mt9p031 (also suffered from bitrot, I'll post a patch fixing that as well).
-
-> 
-> I can also test with the N9, I'm not sure it'll be different though. This
-> still used to work before the IOMMU changes.
-
-I suspect it might be related to the iommu, but that's not my area of expertise.
-
-I had to make a change to drivers/iommu/iommu.c just to get the omap3isp
-driver to load:
-
-diff --git a/drivers/iommu/iommu.c b/drivers/iommu/iommu.c
-index 60aed01e54f2..c818baab964b 100644
---- a/drivers/iommu/iommu.c
-+++ b/drivers/iommu/iommu.c
-@@ -2153,7 +2153,7 @@ static int __iommu_attach_group(struct iommu_domain *domain,
- 	struct device *dev;
-
- 	if (group->domain && group->domain != group->default_domain &&
--	    group->domain != group->blocking_domain)
-+	    group->blocking_domain && group->domain != group->blocking_domain)
- 		return -EBUSY;
-
- 	dev = iommu_group_first_dev(group);
-
-I think it makes sense, but it's a bit of a guess.
-
-Regards,
-
-	Hans
+Applied to drm-misc-fixes, thanks!
 
