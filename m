@@ -1,166 +1,122 @@
-Return-Path: <linux-media+bounces-30823-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30825-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38A83A99318
-	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 17:53:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71F1FA993B2
+	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 18:01:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DE2747B10A0
-	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 15:50:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C3BFA1BA393A
+	for <lists+linux-media@lfdr.de>; Wed, 23 Apr 2025 15:53:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A855228CF68;
-	Wed, 23 Apr 2025 15:37:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 898FB29C346;
+	Wed, 23 Apr 2025 15:39:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MBcTru/4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I1CESpb3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55709266B4B
-	for <linux-media@vger.kernel.org>; Wed, 23 Apr 2025 15:37:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52025284685;
+	Wed, 23 Apr 2025 15:39:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745422657; cv=none; b=eXXxk1wB9aRKTNMkKQwuT/NuYhc2MDfS5itgu91PksEXopYM262X+DLIaeE0f7EWfPX85EpaL3JrfIcXXX8tO7lclcsQewr3jnmvjZUBkUfM+U7TLFOPUY13PDYNh5DtUPAEXn1sxucyJ87sWUiv7bG3QB/saYjW//mQF+MPYVw=
+	t=1745422757; cv=none; b=geFVQBCldWazizg3mG+Y4CKVE8flt6IhMsB5QA27DH/YXM1DYM+IK7f89WzMzCToZ7Uv7/kZcxI1VFROBHJpwPaY3zbhe9ZmD6pFp82IsrG49WP9o+xaWoUilWPZt6/VUFBwCJ5TtzjQYTqJQmBug74kFiniTf5RSTpK3GlF+rs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745422657; c=relaxed/simple;
-	bh=Svosz4NnOiIhFI7TIYQZwkh6byl+aQPvoge4oeKzX4I=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=MtBdC4bpmrbB73e0PApAUzKEVyT0xks5bnxMdQwjM6LwkUDN3c8FEU+oAkQ8MVVB5zEQh41MAPDKvaE1KcwnQAh0yAAqR+jJwCJNG9LEQOf084mvLQQuBo2mX7omMvjkK2MGg+Xr5TuZjSPcZZ2XxOvYoPIu0jRzqmly/4ZNURg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MBcTru/4; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745422655; x=1776958655;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Svosz4NnOiIhFI7TIYQZwkh6byl+aQPvoge4oeKzX4I=;
-  b=MBcTru/4tjOrs+f7hj1151sxchTIM0xHi3N2AqrmCedyToZIpuI17eKp
-   HdpG7tWkXfkw4kPVtWzH6uwMd878UlqnJHQ6JWTbo96eMZpWWceEIzjPR
-   2AYpHlMXB5iwgMAejuvHuzLRDBZUMYAlUVhfH9dCts3+um3I4ZQsGfX88
-   5juh9uUFTMZriniaOjLnXgsbRrLcNFFLRL3anm7QjbGGfySIBuGD157RF
-   pjbfjqvqCjbiaiwyAcpLF/1sZiiUrT4HvXqiI/PPQsZX3FDahNpXK32AZ
-   5lml5JWyxsz7+AklD/VWQZBnREUeEAmyxU1KheAI5/Ny/fOtw6+Gk4gtm
-   Q==;
-X-CSE-ConnectionGUID: kEn01bCtSyu8i1Gs0VA9/Q==
-X-CSE-MsgGUID: 5mvDuJ9dShW54O7JlzNLng==
-X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="72408743"
-X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="72408743"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 08:37:34 -0700
-X-CSE-ConnectionGUID: eNbzLIKJSK+kRLpoboAGEQ==
-X-CSE-MsgGUID: vVBjaDcrThOI9YVemfLxEQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
-   d="scan'208";a="132266685"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 08:37:33 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 0270A11F9FE;
-	Wed, 23 Apr 2025 18:37:29 +0300 (EEST)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
-	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1u7cAD-007Ym0-2y;
-	Wed, 23 Apr 2025 18:37:29 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: dongcheng.yan@intel.com
-Subject: [PATCH v4 11/11] media: ccs-pll: Document the CCS PLL flags
-Date: Wed, 23 Apr 2025 18:37:19 +0300
-Message-Id: <20250423153719.1801956-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250423124322.GG17813@pendragon.ideasonboard.com>
-References: <20250423124322.GG17813@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1745422757; c=relaxed/simple;
+	bh=g8o74qgPUiRwXVRyK/BERAq+dsSuVIqbL2PhqxEof7E=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=l1g9gxMeVFtlcvRLMICrVqV+W81EpOSh5VKLEWxAQhWWxSHopFBJQIAo/GqvIXb2G3rtRy2KJZ1Ke88Vmpcii+cRB6m3fYPz4Uc3wUVY7hgDHobfxYN4FdDjcgPx4uQ0C52B9jOYFK0CRry9rr1RG2XNWbKebZXRGYb7NybZ7W4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I1CESpb3; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-acacb8743a7so189040366b.1;
+        Wed, 23 Apr 2025 08:39:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745422752; x=1746027552; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g8o74qgPUiRwXVRyK/BERAq+dsSuVIqbL2PhqxEof7E=;
+        b=I1CESpb3YL3pxsGxGc6cukCMUrGxfZfqMKIJJoYni6LrZa+hO3D5iLFRbsTrpTMHr2
+         NaDKEULxf12R/3vQ6BOjoDa/9a3lnXNwb5Us+/tl3ZOSj6KgEEsZeHZWkkvDyrNTnL+p
+         T8V6i0XyFHlJjWCl0j+SoTVkhaTKfclgAum4iNn5489LCLA6WdwuuFcmZ2GhkSoTWzHo
+         RUbIFD4l4vHneFFCyngsyLJIqCmgA3f9/vMZ+FrVe/0NRpXRfBk7oK+ICpC0+FeVb92t
+         LuX842367p/qrOxFrm6VUGrCQ4EG2nYHbsREDXc1QKMCCOCfuwgkbdyD6fdnceFsrRxi
+         Kw4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745422752; x=1746027552;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=g8o74qgPUiRwXVRyK/BERAq+dsSuVIqbL2PhqxEof7E=;
+        b=KgvGr0iX5A+qqXYXi3MrvrY4UlZW0e2Rby4fhk1yU+Bl3hGai/OLZyLrvOw3Nx2mSC
+         RuDUWI9uj4Jo9dXewpOZpQd8brkTy+YV9Roz6lsRr0GgNZerial0m+iBkBSaHu7RkKjl
+         dR7ZIV1ZzIIxAwhb8jRB+JSVTXSk1IP3KN3tcKPoX3865aMAutAw60oFLUZkk0CGZbUh
+         mmn/riOwNiNe1jTgc1APPWGl6kxMJyldZlspi45kmqLfLdbMrXw/SFXOl6lln2H1kqrm
+         Nkm3/58EihI24F/FJSaDre0u8SqjQfDSH3wW9tm5b+3VtBd4WxGBuWODobzOU1hsF1bM
+         SERA==
+X-Forwarded-Encrypted: i=1; AJvYcCU0kPyaXFcF/bGtVLmfc7Rocsbhz2tVU6hJ0ZwiL969F5S/vBBgmZ6GvNfn/CcsJJzBBgl7UYA1/xFGQseTAeHQvIqjOA==@vger.kernel.org, AJvYcCVAe58MEErZW2fAlKmtdWib8UAkKI+MiV79a/DnzJHWAw5vHUiLCu91/O0B653VwkCZdKF+qyKYcHoXmA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywtte9r2RWru1acEhPuw/g+3EPvTRxCq1L+k17E8Xqy82d9uIpc
+	Ls7OX9H/HmExfdvtuIAgqQXkkQStv09Ip+tLlRbepr3O/iCCTy9Q4ABp69MlQ2SsMEnz49Rs/GB
+	IYOcj2BxMygXMv5GecqTCZEzB2BY=
+X-Gm-Gg: ASbGncvcbKkmMrVQob7Q05Gibjy3qWHtSlci3+EALHPGrI0aL7U4W8ha1lPY+bdOsRB
+	6qgpbPExGbZz/cvaiCkvX8/hB7pfLdZs+7jmymBv/ytC3NzofirLif6GqeQn4m7j5tc7mZwctRb
+	XA1lXP5FrzzaKdNIA0l8CaW4KW
+X-Google-Smtp-Source: AGHT+IGHDKUSF8JBWX2LR8EO4tKAK/iL+VHWfmlIK8VSF74lfcqcLWNJtvC/cJLnKqFok28nXMzjIUXVDJY8zzFFhYU=
+X-Received: by 2002:a17:907:7f86:b0:aca:d276:fa5 with SMTP id
+ a640c23a62f3a-ace3ef0beffmr399752966b.0.1745422752323; Wed, 23 Apr 2025
+ 08:39:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250417111337.38142-1-hdegoede@redhat.com> <20250417111337.38142-6-hdegoede@redhat.com>
+ <aAErdSgr_F8L7Sgw@smile.fi.intel.com> <09254093-8962-3d53-bf56-78eebb23fdd5@linux.intel.com>
+In-Reply-To: <09254093-8962-3d53-bf56-78eebb23fdd5@linux.intel.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 23 Apr 2025 18:38:35 +0300
+X-Gm-Features: ATxdqUHbr3HsMjNqYfx_8omQCeiZtfH_V_z21X-A3tCaTwqrXLc0-Xuvc73IlX0
+Message-ID: <CAHp75VeS6HhgdgOrLM2y6wa7op0wnUQ8wdijbCj1QrNK4CcO0g@mail.gmail.com>
+Subject: Re: [PATCH v4 5/9] platform/x86: int3472: Make regulator supply name configurable
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Andy Shevchenko <andy@kernel.org>, Hans de Goede <hdegoede@redhat.com>, 
+	Dan Scally <djrscally@gmail.com>, Alan Stern <stern@rowland.harvard.edu>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Hao Yao <hao.yao@intel.com>, 
+	Bingbu Cao <bingbu.cao@intel.com>, Duane <duanek@chorus.net>, 
+	platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Document the CCS PLL flags with short comments. The CCS spec has more
-information on them while the added documentation helps finding the
-relevant information in the CCS spec.
+On Wed, Apr 23, 2025 at 4:58=E2=80=AFPM Ilpo J=C3=A4rvinen
+<ilpo.jarvinen@linux.intel.com> wrote:
+> On Thu, 17 Apr 2025, Andy Shevchenko wrote:
+> > On Thu, Apr 17, 2025 at 01:13:33PM +0200, Hans de Goede wrote:
+> > > This is a preparation patch for registering multiple regulators, whic=
+h
+> > > requires a different supply-name for each regulator. Make supply-name
+> > > a parameter to skl_int3472_register_regulator() and use con-id to set=
+ it
+> > > so that the existing int3472_gpio_map remapping can be used with it.
+> > >
+> > > Since supply-name is a parameter now, drop the fixed
+> > > skl_int3472_regulator_map_supplies[] array and instead add lower- and
+> > > upper-case mappings of the passed-in supply-name to the regulator.
+> >
+> > With a comment and static_assert() LGTM now,
+> > Reviewed-by: Andy Shevchenko <andy@kernel.org>
+>
+> In the lack of context what this refers to exactly, can you confirm those
+> are already present so no updates are required to v4? Thanks.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
-since v3:
+It should be read that way "since Hans *added* a comment _and_
+static_assert() the change LGTM now", i.o.w. no updates required by
+me.
 
-- Refer to pixels in CCS_PLL_FLAG_OP_PIX_DDR comment.
-
- drivers/media/i2c/ccs-pll.c |  2 +-
- drivers/media/i2c/ccs-pll.h | 27 ++++++++++++++++++++++++---
- 2 files changed, 25 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/i2c/ccs-pll.c b/drivers/media/i2c/ccs-pll.c
-index 87798616b76d..8f9a695bd9e5 100644
---- a/drivers/media/i2c/ccs-pll.c
-+++ b/drivers/media/i2c/ccs-pll.c
-@@ -129,8 +129,8 @@ static void print_pll_flags(struct device *dev, struct ccs_pll *pll)
- {
- 	dev_dbg(dev, "PLL flags%s%s%s%s%s%s%s%s%s%s%s\n",
- 		pll->flags & PLL_FL(OP_PIX_CLOCK_PER_LANE) ? " op-pix-clock-per-lane" : "",
--		pll->flags & PLL_FL(NO_OP_CLOCKS) ? " no-op-clocks" : "",
- 		pll->flags & PLL_FL(EVEN_PLL_MULTIPLIER) ? " even-pll-multiplier" : "",
-+		pll->flags & PLL_FL(NO_OP_CLOCKS) ? " no-op-clocks" : "",
- 		pll->flags & PLL_FL(LANE_SPEED_MODEL) ? " lane-speed" : "",
- 		pll->flags & PLL_FL(EXT_IP_PLL_DIVIDER) ?
- 		" ext-ip-pll-divider" : "",
-diff --git a/drivers/media/i2c/ccs-pll.h b/drivers/media/i2c/ccs-pll.h
-index 754eb5f52cc4..e22903931e72 100644
---- a/drivers/media/i2c/ccs-pll.h
-+++ b/drivers/media/i2c/ccs-pll.h
-@@ -18,19 +18,40 @@
- #define CCS_PLL_BUS_TYPE_CSI2_DPHY				0x00
- #define CCS_PLL_BUS_TYPE_CSI2_CPHY				0x01
- 
--/* Old SMIA and implementation specific flags */
--/* op pix clock is for all lanes in total normally */
-+/* Old SMIA and implementation specific flags. */
-+/* OP PIX clock is for all lanes in total normally. */
- #define CCS_PLL_FLAG_OP_PIX_CLOCK_PER_LANE			BIT(0)
--#define CCS_PLL_FLAG_NO_OP_CLOCKS				BIT(1)
-+/* If set, the PLL multipliers are required to be even. */
- #define CCS_PLL_FLAG_EVEN_PLL_MULTIPLIER			BIT(3)
-+
- /* CCS PLL flags */
-+
-+/* The sensor doesn't have OP clocks at all. */
-+#define CCS_PLL_FLAG_NO_OP_CLOCKS				BIT(1)
-+/* System speed model if this flag is unset. */
- #define CCS_PLL_FLAG_LANE_SPEED_MODEL				BIT(2)
-+/* If set, the pre-PLL divider may have odd values, too. */
- #define CCS_PLL_FLAG_EXT_IP_PLL_DIVIDER				BIT(4)
-+/*
-+ * If set, the OP PIX clock doesn't have to exactly match with data rate, it may
-+ * be higher. See "OP Domain Formulas" in MIPI CCS 1.1 spec.
-+ */
- #define CCS_PLL_FLAG_FLEXIBLE_OP_PIX_CLK_DIV			BIT(5)
-+/* If set, the VT domain may run faster than the OP domain. */
- #define CCS_PLL_FLAG_FIFO_DERATING				BIT(6)
-+/* If set, the VT domain may run slower than the OP domain. */
- #define CCS_PLL_FLAG_FIFO_OVERRATING				BIT(7)
-+/* If set, the PLL tree has two PLLs instead of one. */
- #define CCS_PLL_FLAG_DUAL_PLL					BIT(8)
-+/*
-+ * If set, the OP SYS clock is a dual data rate clock, transferring two bits per
-+ * cycle instead of one.
-+ */
- #define CCS_PLL_FLAG_OP_SYS_DDR					BIT(9)
-+/*
-+ * If set, the OP PIX clock is a dual data rate clock, transferring two pixels
-+ * per cycle instead of one.
-+ */
- #define CCS_PLL_FLAG_OP_PIX_DDR					BIT(10)
- 
- /**
--- 
-2.39.5
-
+--=20
+With Best Regards,
+Andy Shevchenko
 
