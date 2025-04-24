@@ -1,237 +1,180 @@
-Return-Path: <linux-media+bounces-30911-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30912-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4053CA9A69B
-	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 10:45:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 43CFCA9A6F4
+	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 10:54:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 092CC445948
-	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 08:44:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 121FB1BA00F0
+	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 08:53:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84D15221FBC;
-	Thu, 24 Apr 2025 08:42:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDFD1221578;
+	Thu, 24 Apr 2025 08:51:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="31uQnfkz"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="V9DQ4YGY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2076.outbound.protection.outlook.com [40.107.236.76])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F63A20F09A;
-	Thu, 24 Apr 2025 08:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745484169; cv=fail; b=KjbJkKx+AXJrw/n69AX8AUTEqJO6yOxdq1AEaGDSQ0BewVF2O4+VUO8pPV/083N6TGCd64Hy+m40qQ8N2fxkmrQfIlwZAXvVFd/umNt18uDNp0jSxVs2/5S61X687PBlWe8qAw+tng9WEGF71Y/CXACtjelaw3I+gm0pihhd6tU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745484169; c=relaxed/simple;
-	bh=qoiJO9HcS/TEf0vW4btwcB3QAkgCb89uW7Ico+MZJS8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HMr7N3QKl45bn1SrTCCuHfMKe35bnDtCC2mFs9SfH6nxUfB5Ka0KjC0rCQZUa9PbKY9FLpfSG0ZowbQeNsT/s/HlJ+JUbplo3jUH/elAJ0hL1HxTf9iKlGnlktgBFEC03ViOs9ZCPhRM/VEz04ih8CVHfidlysovmtZVkMTWGVM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=31uQnfkz; arc=fail smtp.client-ip=40.107.236.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rQ3aEQe+yLlljKDmuKFLCNo3QZdIS+SS7TeUgkQSfIBWV6nup3JLy1+y0uNeJdpBX6ByfnYUG5aVJjKqVXGesekjbW64zDFiVlYni+EJf7TzmDwADmQa4bWDN7t0xGZMXckm6KVqp0ojqtun2V8ABLg/0HggwGwNtwtqnxAwBUoqu0Hp+845bmU132ipIuMGUPcQgLM83vat3NMNFMDiPuEhOO7NublWGam0r2JM5ejzrHSa4WspvYcUDpXnZv1nYOpEEAnBBFi7ynvwiPeiPd5hTqgO9GGFYVomg6vGTORchdowNKav9GY3arT7HVJrxGfmc+Is4zinjT3j0Am5tA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nKFgSU+/n1w4KGuub1OiuFuizuepUpoFBaPgg06u1ro=;
- b=hxAurpG2C7HR1RhiFZwbV9RciTnWVFyK+iUEtbzGC+iJbAcKNLqa0eky2eranReZf/GE9/2aECToQZDpjwOA5Kl7lkgDWQS2ocE7vd/PK8GAvloaT//w3J+o4wafXo7rppBEZFXUh5kkfvajKMz3JPQNX/taT3UpnyXxc2C7vL6Dc93QxGD+7QDb4HyIgmSiVfRceb7F0gbGPzTWPVoyYNZG1bhE1zg60h/e419ELXXGtwVqiCmh+4G4U3xMA+LLJyMUYjB26IamNej3Yi/OcWojikgWIilynf61ALq6T2E9fglJoLP02VPb4iqbZL7GQYM8NRvd2ZjwAqIdGcnmsw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nKFgSU+/n1w4KGuub1OiuFuizuepUpoFBaPgg06u1ro=;
- b=31uQnfkznuaYIEy7Q9zwqXRWym8BZVnKOUbKuwEPn1hoaAPvzqd8Wa7Q4WXjU3StcUFJX8KcvcQDFzU576rYisGjrjXZLmk5JxSWV+7IOREgkCUyEGZKew0LTyUSgQGchYHSTIGtxQ0qXv+7EikBzeFp03rJSdctEqUi/foqbmM=
-Received: from BL6PEPF00016416.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:22e:400:0:1004:0:4) by CH2PR12MB4293.namprd12.prod.outlook.com
- (2603:10b6:610:7e::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.36; Thu, 24 Apr
- 2025 08:42:41 +0000
-Received: from BN2PEPF000055E0.namprd21.prod.outlook.com
- (2a01:111:f403:c803::8) by BL6PEPF00016416.outlook.office365.com
- (2603:1036:903:4::a) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8632.36 via Frontend Transport; Thu,
- 24 Apr 2025 08:42:41 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN2PEPF000055E0.mail.protection.outlook.com (10.167.245.10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8699.1 via Frontend Transport; Thu, 24 Apr 2025 08:42:41 +0000
-Received: from FRAPPELLOUX01.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 24 Apr
- 2025 03:42:34 -0500
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	"Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
-	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, "Jonathan
- Corbet" <corbet@lwn.net>, Matthew Brost <matthew.brost@intel.com>, "Danilo
- Krummrich" <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, "Sumit
- Semwal" <sumit.semwal@linaro.org>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Lucas
- Stach" <l.stach@pengutronix.de>, =?UTF-8?q?Ma=C3=ADra=20Canal?=
-	<mcanal@igalia.com>, =?UTF-8?q?Christian=20K=C3=B6nig?=
-	<christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH v9 09/10] drm/doc: document some tracepoints as uAPI
-Date: Thu, 24 Apr 2025 10:38:21 +0200
-Message-ID: <20250424083834.15518-10-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250424083834.15518-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20250424083834.15518-1-pierre-eric.pelloux-prayer@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32A05221294;
+	Thu, 24 Apr 2025 08:51:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745484669; cv=none; b=hRPVIuc3WDY7zbluP6g6KBb3fMQ6GB0PN+jYLRoSA6BZniokl4t2izke8xuWEXFRk4xBJ6sG2kQM2ueUzxP4E70HID88s03934oJBNdim7eUFGOELVemN5gntEXr+1t+X4DDPxVNsq1l316v6tTHE7c+dNzoKE9Jp/1j2RIWXXY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745484669; c=relaxed/simple;
+	bh=oE9t7xyjhlwlu2W5oKZzcUR0eXC9AHz4goaI+YpsRPs=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=c/Oz9cLn2M65xxJHfOTpnSQ+kmFmVcaBYQLWwZVQmhd4wzNGz48v8jcM/mHCMr91AbyF5fIsFLE3NNlXu5e9aounSAz/mINaJIObwqAUUTKfL/mXqpAN159NcSQuD92AtP0DXsULnEA38omc9Ggv1H45KLf9xQYnA7mCoj4cfc8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=V9DQ4YGY; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53O0G2ZU032238;
+	Thu, 24 Apr 2025 08:51:01 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=InqgpKxvYRMB8Y7PmrHC9N
+	kAFe4E+783xZZ0OoMtQuo=; b=V9DQ4YGYRfD8rSSLTONj+39JNnQI60tmfEmC1y
+	IQcMjYpd7CwhFIWzop6gjtMKbUdmWEECF5S4+KmLkjSlJppafw63BCGvH46I4lPP
+	fays3dGZTAS2GhcYkLF7iDNq4S9qvFZmm3DQFafjtb+/plaVLCIaitHluUnppMyM
+	ez+7c4aE3t9dLHiQMqncl4mn+vLzsT16fqijGlX0mi0rh/vgHh8LZ+3KURKmA1Wv
+	l8uE6jxdoPSfGnitmCzUxAqM5O6JfsaDtZF/BJZGq52nbAHRtrCDw1C2Nh1UOtMY
+	O7A1sFTKXfMGBMP0NjHuXJe4ioWbHlwvw+3h7LgIaSZZixjg==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh5cv2p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 24 Apr 2025 08:51:01 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53O8p0cS019067
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 24 Apr 2025 08:51:00 GMT
+Received: from hu-vgarodia-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Thu, 24 Apr 2025 01:50:55 -0700
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+Subject: [PATCH v5 0/5] media: qcom: iris: add support for QCS8300
+Date: Thu, 24 Apr 2025 14:20:44 +0530
+Message-ID: <20250424-qcs8300_iris-v5-0-f118f505c300@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000055E0:EE_|CH2PR12MB4293:EE_
-X-MS-Office365-Filtering-Correlation-Id: b533277e-6afb-4fc2-aaaa-08dd830bf98f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|82310400026|36860700013|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?NXREZEMzMmwzdFZ3TDE4TC9Sd0VaK0w2eHdDSUMweU5IMDJpNzhwblVkdFJB?=
- =?utf-8?B?ZG92ZFhUbTlSV3d1MkhkSE1ab3ByS0FMVE5rM2RHWUVIUjRtbEUrMnM1VzJv?=
- =?utf-8?B?bG13TjN6S05Nb1I5eS9ZbWRTTU1JU081TStSLzcvNWQ3Rzc5azBtUUZzK3lG?=
- =?utf-8?B?UWcvK3cyN21lQmttUTFwQjRyOWUzMjZCU2hTREhtMng4SDlHaDk0cll4bVpV?=
- =?utf-8?B?RnBJWCt5Z05DZjNuQ1VXWCt3bHhMaUljUVJGcHlMdlNwMnErdEFrWE1mWDd4?=
- =?utf-8?B?aVdlTkMxYkJJVUFLSENhOTE2aEgwV015TldOQWtTL3QzTWRxajN0K1B0UXNw?=
- =?utf-8?B?VEgveWhHc0xSeFdFU3o3ZlJwbzFsb3F0d2YwdTVyU1hHTlhraWo4ODl0MlNU?=
- =?utf-8?B?ZERzSlQwM3MzQzR0TkFwVDE5UnZOQXlDSUxTMDlMcDV1dGZzUEdxSkRNSTBx?=
- =?utf-8?B?Q3hGNXhFcXNGRWJiYys3NVh6ZkZSSGQ2OTB0cEpIT0hYSWc1azdLVGlSL3BV?=
- =?utf-8?B?ZEpwcHlTVHl2YzV3NThKcVFrbnBmaGljQkdzeEdWYWtjRWptODN5ck1zRW04?=
- =?utf-8?B?NWN3VHBxN0VvRW1HRkVyNEE1OFVhRkRabUI1dk5pZW5lVW9UdXdEWUI4SUgy?=
- =?utf-8?B?YjRLZVZteVk1blgzMkdQUUVSODN4U1p6bGdSTFhheTNqTzRlWCtZVXByOVFk?=
- =?utf-8?B?MERTTkg1aGFyVkkyWWNwU1BkZ2VaaFhuZDFwdi9WbmRSRVBpd1ZZU3c3akVh?=
- =?utf-8?B?TFAxc1ROY1dOTU90RVhXS1h3LzlJK0JzVTUxTVgxZ2ZBNHMrN2FQN2hkeDg5?=
- =?utf-8?B?S3ZYbVZHT29kK3FjZW5QaXRUU2dJTnh6cm1WQkcxeTVoN2VGNktTNm9LOW96?=
- =?utf-8?B?Z3dkMyttUEQ4TE54K1RYR1Y2VUVUM1Y1T0JSb2dpek5kZ3VTMzlxMG9CU0sz?=
- =?utf-8?B?VWhHRHhkZStwYno3SkRpeE0wcEc5TFUwdzJ6aFpJM1IzdS9WUVREOVl1Tzgy?=
- =?utf-8?B?d1dobGhidlFGZEhBbS9NTGRxZWIrcXpqWEVRUUJWdGRtVGRqMDNwdDZySjhQ?=
- =?utf-8?B?WERJdFFGRmRpMjA5akllRERtM2xyTnhLTXNndnh5Q2JNVEZSTnlKcmZkT3Bz?=
- =?utf-8?B?WTJzcFRIcnlVS3hrbHNiTTVDZmZ1SVNUTzMzem1ZYVlUY0xrK2dGSGFhZWZy?=
- =?utf-8?B?NnVtVXQybHJZTDJSY2I3RlRTdjJhOFhOSmNuZUtZZlFPSU40SEYrcUNuOGxj?=
- =?utf-8?B?QjJIVk1sYXFKOVV3UHd0QmxZbEh4TVgwNDB6eFV0MmdrWHVYb0NUY1RLWlE3?=
- =?utf-8?B?QWtGK201UWJtRm1YMEh0YzlONHlYQzBjRWp5dVErTmZoV0tkNm52LytWM2l4?=
- =?utf-8?B?WU9PamtCNUsxb0lzWE5uS3lYWDVMS3EzK2wrSkw0bUdtQnlPdk9CS2JhdFdk?=
- =?utf-8?B?bFl6aHU5eFg2NmNHUUZVeEFEUUdmenJEY0xHbTRkNmZYOTR3dmVtWThPVEJY?=
- =?utf-8?B?YXo4TkUvcGRpbUYzbEU1cGtNMmdxS3YrNFV5bHBjQ0JZT09zd1hpWU5nQitQ?=
- =?utf-8?B?VCtndldFY0QzQkZYeHFscllHNVpZMDY1YnNjTkIzSU5zVklHQ0pMUFFySkZE?=
- =?utf-8?B?b2g1OTB4VjRrbjhVKy9SVklUUVNlV2M4OCtoNjQ3K2preUw3cEdaZEFBcTZa?=
- =?utf-8?B?dXdadno3eHpHVzBwZllSaUFjdU0rMDJsN0hGMVppbE9iM2QwNVRwb3EvT3Fy?=
- =?utf-8?B?Zm9UdXR5eWJvWnpxNEMvb0U0V0paZWM3RGpaTjdnVzRBd21MU3h0TTlwTXhw?=
- =?utf-8?B?U25xaWJpRmlzODJCZWJxM1JQaUNJUUZraERYVGhZNDhrbEZHWUJlZlRpVDZt?=
- =?utf-8?B?TlI1ZUovL1FCb1hPQ21NMmVaTDhQZyt4cEVrbVU2L3phaVNVN3M3UnBBZW1X?=
- =?utf-8?B?SVcrRjkxb3gxN3FzK0pQeXVDMXlLNlRWak5XQjUwTmViKzVZNmp2Yi9pNkxt?=
- =?utf-8?B?MmtmT09QREZQb3FQU1dINmIrUGVyUTFVTzUvWkpydzU5QnpNOEppNWtHNjND?=
- =?utf-8?B?aXd0RlhhV1JPU1piL2J3MTN1Tnh5dGV1UDVUdz09?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(82310400026)(36860700013)(921020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2025 08:42:41.0868
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b533277e-6afb-4fc2-aaaa-08dd830bf98f
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN2PEPF000055E0.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4293
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAGX7CWgC/32PS27DMAwFr2JoXRWSSP28yj2KopBkutHCcWK5R
+ oogd6/sLBokRZeP4AwfL6zQlKmwtrmwiZZc8nioQb80LO3D4ZN47mpmSigtUDp+SsWBEB95yoX
+ b4ImMQJAYWEWOE/X5vOne3m95otNXtc634a+0bTalUprP4zEnXgZ31oJv3kUKHpT00QUX0dp2s
+ as+hkI8jcOQ57aRiAr6BAHrZh8RTNcFp1ELAE9JxV56GcGwtcg+l3mcvrc3F7k1+fujRXLBjbV
+ eRfCxmne1fsqH9FrvbqpF/YeriksSEpyOXpB/xuEOV/CAQ8U7S14YYQi1e8bxHscHHNfyZAx12
+ JtoH8pfr9cfe6EHy/ABAAA=
+X-Change-ID: 20250418-qcs8300_iris-7a9ee604314a
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Abhinav Kumar
+	<quic_abhinavk@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio
+	<konradybcio@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Vikash Garodia
+	<quic_vgarodia@quicinc.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1745484655; l=2609;
+ i=quic_vgarodia@quicinc.com; s=20241104; h=from:subject:message-id;
+ bh=oE9t7xyjhlwlu2W5oKZzcUR0eXC9AHz4goaI+YpsRPs=;
+ b=QJECamWFS57UMSLMcppogfIgLquEXWSt4sW/G7H372vX/GkkUQ+lWepjHWefLdGgoAPW+vNak
+ xC340w5CLdwBAGH/qKB66jt7yUJyCp9AqE76iRXyUadC8zu1xFm0AvC
+X-Developer-Key: i=quic_vgarodia@quicinc.com; a=ed25519;
+ pk=LY9Eqp4KiHWxzGNKGHbwRFEJOfRCSzG/rxQNmvZvaKE=
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI0MDA1OCBTYWx0ZWRfX9jrLd+sWz9Sc LWUhg1aj6PicSd69H6dzUfJzFwaVp/mYVZso4wogPICV2/ahJ0TYjEBaPCB8oOfGVr7RRgdhplz mP24MDlOHVN/JX3iWC+TymE9ssWUNmjbkWoRT9igP7nFTYkKYhqpPfHZ5IFgPMzr/h9jrRgJlYr
+ Mb+biK18VEP3n6wYELf9koAreSGZ3Y+O//0/mOK+el1MMKSLOtRUDe0FXGPFeEYIlm76vmvpiqq X9MAq1bocKwN7np+iO1Im/EoQ9PWrHC/APzxIHbecxNEqiWEvuZMW1v4k5s1aAsdYoion/uUt9g C3NZ4hJGY1ekLfEoFLh05+/U7QJKr1QHlIVUf1JHsmt1Q8bQfnwT41WUy/G487g1Gi5GP97lJbO
+ OTJiTAzxGtxTTt+igmSRPiN90i0YM8uAtfEgVjZJnXd5jsBu6CJdaZpBlFXL+DtRd2f9vmyg
+X-Proofpoint-GUID: 3AARpL3jfRxwG6Kd8EtcBH0h2xHVAFs_
+X-Authority-Analysis: v=2.4 cv=B/S50PtM c=1 sm=1 tr=0 ts=6809fb75 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8
+ a=h97imd1RtcNJs7uGSNUA:9 a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: 3AARpL3jfRxwG6Kd8EtcBH0h2xHVAFs_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.680,FMLib:17.12.80.40
+ definitions=2025-04-24_04,2025-04-22_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 mlxlogscore=999
+ lowpriorityscore=0 bulkscore=0 impostorscore=0 suspectscore=0 mlxscore=0
+ priorityscore=1501 phishscore=0 malwarescore=0 spamscore=0 clxscore=1015
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504240058
 
-This commit adds a document section in drm-uapi.rst about tracepoints,
-and mark the events gpu_scheduler_trace.h as stable uAPI.
+add support for video hardware acceleration on QCS8300 platform.
 
-The goal is to explicitly state that tools can rely on the fields,
-formats and semantics of these events.
+This series depends on
+https://lore.kernel.org/all/20250417-topic-sm8x50-iris-v10-v7-1-f020cb1d0e98@linaro.org/
 
-Acked-by: Lucas Stach <l.stach@pengutronix.de>
-Acked-by: Maíra Canal <mcanal@igalia.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 ---
- Documentation/gpu/drm-uapi.rst                | 19 +++++++++++++++++++
- .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 19 +++++++++++++++++++
- 2 files changed, 38 insertions(+)
+Changes in v5:
+- Fix order in dt bindings.
+- Drop an unrelated sentence from commit description.
+- Link to v4: https://lore.kernel.org/r/20250424-qcs8300_iris-v4-0-6e66ed4f6b71@quicinc.com
 
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index 69f72e71a96e..4863a4deb0ee 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -693,3 +693,22 @@ dma-buf interoperability
- 
- Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
- information on how dma-buf is integrated and exposed within DRM.
-+
-+
-+Trace events
-+============
-+
-+See Documentation/trace/tracepoints.rst for information about using
-+Linux Kernel Tracepoints.
-+In the DRM subsystem, some events are considered stable uAPI to avoid
-+breaking tools (e.g.: GPUVis, umr) relying on them. Stable means that fields
-+cannot be removed, nor their formatting updated. Adding new fields is
-+possible, under the normal uAPI requirements.
-+
-+Stable uAPI events
-+------------------
-+
-+From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
-+
-+.. kernel-doc::  drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-+   :doc: uAPI trace events
-\ No newline at end of file
-diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-index 781b20349389..7e840d08ef39 100644
---- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-+++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-@@ -32,6 +32,25 @@
- #define TRACE_SYSTEM gpu_scheduler
- #define TRACE_INCLUDE_FILE gpu_scheduler_trace
- 
-+/**
-+ * DOC: uAPI trace events
-+ *
-+ * ``drm_sched_job_queue``, ``drm_sched_job_run``, ``drm_sched_job_add_dep``,
-+ * ``drm_sched_job_done`` and ``drm_sched_job_unschedulable`` are considered
-+ * stable uAPI.
-+ *
-+ * Common trace events attributes:
-+ *
-+ * * ``dev``   - the dev_name() of the device running the job.
-+ *
-+ * * ``ring``  - the hardware ring running the job. Together with ``dev`` it
-+ *   uniquely identifies where the job is going to be executed.
-+ *
-+ * * ``fence`` - the &dma_fence.context and the &dma_fence.seqno of
-+ *   &drm_sched_fence.finished
-+ *
-+ */
-+
- DECLARE_EVENT_CLASS(drm_sched_job,
- 	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity),
- 	    TP_ARGS(sched_job, entity),
+Changes in v4:
+- Introduce a patch to fix existing order of compat strings.
+- Fix the order of header inclusions.
+- Link to v3: https://lore.kernel.org/r/20250423-qcs8300_iris-v3-0-d7e90606e458@quicinc.com
+
+Changes in v3:
+- Fix commit description to better describe about QCS8300.
+- Fix the order of the patch.
+- Collect the review tags.
+- Link to v2: https://lore.kernel.org/r/20250418-qcs8300_iris-v2-0-1e01385b90e9@quicinc.com
+
+Changes in v2:
+- Added dependent info in binding patch as well.
+- Fix a sparse error.
+- Link to v1: https://lore.kernel.org/r/20250418-qcs8300_iris-v1-0-67792b39ba21@quicinc.com
+
+---
+Vikash Garodia (5):
+      dt-bindings: media: qcom,sm8550-iris: document QCS8300 IRIS accelerator
+      media: iris: fix the order of compat strings
+      media: iris: add qcs8300 platform data
+      arm64: dts: qcom: qcs8300: add support for video node
+      arm64: dts: qcom: qcs8300-ride: enable video
+
+ .../bindings/media/qcom,sm8550-iris.yaml           |   1 +
+ arch/arm64/boot/dts/qcom/qcs8300-ride.dts          |   4 +
+ arch/arm64/boot/dts/qcom/qcs8300.dtsi              |  71 ++++++++++++
+ .../platform/qcom/iris/iris_platform_common.h      |   1 +
+ .../media/platform/qcom/iris/iris_platform_gen2.c  |  57 ++++++++++
+ .../platform/qcom/iris/iris_platform_qcs8300.h     | 124 +++++++++++++++++++++
+ drivers/media/platform/qcom/iris/iris_probe.c      |  16 ++-
+ 7 files changed, 268 insertions(+), 6 deletions(-)
+---
+base-commit: 14423fc3a4a21fb436dda85450339ec2bf191b36
+change-id: 20250418-qcs8300_iris-7a9ee604314a
+prerequisite-change-id: 20250225-topic-sm8x50-iris-v10-a219b8a8b477:v7
+prerequisite-patch-id: afffe7096c8e110a8da08c987983bc4441d39578
+prerequisite-patch-id: b93c37dc7e09d1631b75387dc1ca90e3066dce17
+prerequisite-patch-id: b7b50aa1657be59fd51c3e53d73382a1ee75a08e
+prerequisite-patch-id: 30960743105a36f20b3ec4a9ff19e7bca04d6add
+prerequisite-patch-id: 2bba98151ca103aa62a513a0fbd0df7ae64d9868
+prerequisite-patch-id: 0e43a6d758b5fa5ab921c6aa3c19859e312b47d0
+prerequisite-patch-id: 35f8dae1416977e88c2db7c767800c01822e266e
+
+Best regards,
 -- 
-2.43.0
+Vikash Garodia <quic_vgarodia@quicinc.com>
 
 
