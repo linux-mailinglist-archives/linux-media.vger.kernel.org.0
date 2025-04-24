@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-30891-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30892-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20836A99F70
-	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 05:13:18 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ACDDA99F99
+	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 05:29:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 841FE922D13
-	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 03:12:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D166E7A89AE
+	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 03:27:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB2741A8F79;
-	Thu, 24 Apr 2025 03:12:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 065DF1B4F1F;
+	Thu, 24 Apr 2025 03:28:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="ctgxr0x1"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="nPZLSXqR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9565444C77;
-	Thu, 24 Apr 2025 03:12:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.3])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EBFF42A82;
+	Thu, 24 Apr 2025 03:28:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.3
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745464347; cv=none; b=Ga0iHd0zJaHf/+Xe+dcqbugqA/8pyMmXWLoxLgco12RPNFseK2wKEKUGbsKq4lMxS+rkSk0QhNAAV0rb1x4CpqxrzeO544uXN5vF+70nkPQYJHRE0mejQort062AeA0+LnvMXX1HoJlgY1NgZFESqEad2SrON3EElrqiD6KvYCc=
+	t=1745465323; cv=none; b=Qi8Kv54tWTTMss7h6ghq7u0vBoGgtG5t8yYqKSrdQxPyob3xqLTWcY7gC9Lck4SnwPM1pQUPVwvXr4HRPsEfIQbm3868f5fJdlrZdR3T+KbwpUxSbqAprsCgQzk7yP1MQfLXHKjH7UhEgO4iOWAdLww4//YCD6Ybl91kydgOPlk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745464347; c=relaxed/simple;
-	bh=KxI7ZwwdRe9K0y2ib/3b0x21CNzXlTubOfKD4w810Nc=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=s0j9lwLlOc9HN7N39pPBVbo2lrhQcx0KYAAvGFbEgsXk7UzMmAeA16knWg50FUOYPooWefSU57abGSPXSa/Iu7/CIDz3DEYwOCBciC8JnekAgGoPUpXLMD/FZr5YCZIuF0JP3CZ2K9h3R5QjLWOjx0DARkiN23P718FbHm1Z6J0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=ctgxr0x1; arc=none smtp.client-ip=117.135.210.2
+	s=arc-20240116; t=1745465323; c=relaxed/simple;
+	bh=noHbPR3sLsndnulXNWyZeHg3HcciLEB7XfaZ3CZdWCg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YD9kL1InWFOLDwvfv2SrgTCJj00EczSguyaOBPk+bOlFr7nNfJGbcQ7J0pYChFl96p3jh+2QLbr6k8ikwVAcK5oB7c3BgVd/1F5VN/UTZNk1XIsCVG8usTmjJOAakBWxm2KaQ2kbSVTWUrMjdxXVoshxxf+5/vc+Qabpo849+1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=nPZLSXqR; arc=none smtp.client-ip=117.135.210.3
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=A09Ml
-	t/Mb26VyS9VXRXqUFoJt2UqYjVyFJddK4O2fxQ=; b=ctgxr0x1JThALzXsRdeaN
-	7pkAerYCeHPIosPVi8PI4o1TwF42xWo2lXhxOLesmiq7GY365TGJYlLDWy5ZIA68
-	8KDOXv5lQ/4LT7TrFlYuDlFV17VV4CglWrpitQSy4HPeQ/YsC2mvTINGJFffXdaA
-	J3OQV8R32qvzPBUGwoYJ7M=
+	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=GI6Sp
+	yLuPvAVEE4Ld7Nf0E+xh/9cZZvxLRmeApwpMZ8=; b=nPZLSXqRi+fcf9E5WXa+X
+	DJMDd0wb/cI8WVbaniqvPscb097gdCjTELvhQsn6IO9pDuWf3mHgU4d6UaGjU8xi
+	0a9Aevm5fQU16fyC7lRbyG08XXtKji5RE7qMmCyH1Ej4q+X4Ntfknaf4RejuH19q
+	MCUQhGJMy6qGt/kYLMmOwk=
 Received: from icess-ProLiant-DL380-Gen10.. (unknown [])
-	by gzga-smtp-mtada-g1-0 (Coremail) with SMTP id _____wDnTxrBqwloZo4dCA--.57924S4;
-	Thu, 24 Apr 2025 11:10:58 +0800 (CST)
+	by gzga-smtp-mtada-g1-1 (Coremail) with SMTP id _____wAnVhS7rwloFhNACA--.42303S4;
+	Thu, 24 Apr 2025 11:27:57 +0800 (CST)
 From: Haoxiang Li <haoxiang_li2024@163.com>
-To: slongerbeam@gmail.com,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	gregkh@linuxfoundation.org,
-	shawnguo@kernel.org,
-	s.hauer@pengutronix.de,
-	kernel@pengutronix.de,
-	festevam@gmail.com,
-	hverkuil@xs4all.nl
-Cc: linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org,
+To: robdclark@gmail.com,
+	quic_abhinavk@quicinc.com,
+	lumag@kernel.org,
+	sean@poorly.run,
+	marijn.suijten@somainline.org,
+	airlied@gmail.com,
+	simona@ffwll.ch,
+	sumit.semwal@linaro.org,
+	christian.koenig@amd.com
+Cc: linux-arm-msm@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	freedreno@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
 	Haoxiang Li <haoxiang_li2024@163.com>,
-	stable@vger.kernel.org,
-	Dan Carpenter <dan.carpenter@linaro.org>
-Subject: [PATCH v2 RESEND] media: imx: fix a potential memory leak in imx_media_csc_scaler_device_init()
-Date: Thu, 24 Apr 2025 11:10:53 +0800
-Message-Id: <20250424031053.3508137-1-haoxiang_li2024@163.com>
+	stable@vger.kernel.org
+Subject: [PATCH RESEND] drm/msm: fix a potential memory leak issue in submit_create()
+Date: Thu, 24 Apr 2025 11:27:51 +0800
+Message-Id: <20250424032751.3511768-1-haoxiang_li2024@163.com>
 X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -66,41 +66,71 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:_____wDnTxrBqwloZo4dCA--.57924S4
-X-Coremail-Antispam: 1Uf129KBjvdXoW7XFyxtFWfKr15GFy5JFyxKrg_yoWkWwc_CF
-	4FqryxXrWUC3ySy3W5tF1I934Sqrs29rWFq3Z0vFZ5XFWjy3WYvr4qvws3X34jgryS9F9I
-	yr18Jr1akr12kjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7xRtCJPDUUUUU==
-X-CM-SenderInfo: xkdr5xpdqjszblsqjki6rwjhhfrp/xtbB0gA5bmgJqTxwAgAAsD
+X-CM-TRANSID:_____wAnVhS7rwloFhNACA--.42303S4
+X-Coremail-Antispam: 1Uf129KBjvJXoWxJr13Kryxur1UKF1rJF45trb_yoW8trWkpF
+	WUW34jkr1UA3WaqwsFkF1jka45G3W8WayxKFWqv3sxuw1Yyw1UW3WUA3y2qFWUJF92yry3
+	tFs2kr1UXF10krUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zic18DUUUUU=
+X-CM-SenderInfo: xkdr5xpdqjszblsqjki6rwjhhfrp/xtbBkAk5bmgJr3YKpQAAsZ
 
-Add video_device_release() in label 'err_m2m' to release the memory
-allocated by video_device_alloc() and prevent potential memory leaks.
-Remove the reduntant code in label 'err_m2m'.
+The memory allocated by msm_fence_alloc() actually is the
+container of msm_fence_alloc()'s return value. Thus, just
+free its return value is not enough.
+Add a helper 'msm_fence_free()' in msm_fence.h/msm_fence.c
+to do the complete job.
 
-Fixes: a8ef0488cc59 ("media: imx: add csc/scaler mem2mem device")
+Fixes: f94e6a51e17c ("drm/msm: Pre-allocate hw_fence")
 Cc: stable@vger.kernel.org
 Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
-Reviewed-by: Dan Carpenter <dan.carpenter@linaro.org>
 ---
-Changes in v2:
-- Remove the reduntant code. Thanks, Dan!
----
- drivers/staging/media/imx/imx-media-csc-scaler.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/msm/msm_fence.c      | 7 +++++++
+ drivers/gpu/drm/msm/msm_fence.h      | 1 +
+ drivers/gpu/drm/msm/msm_gem_submit.c | 2 +-
+ 3 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/imx/imx-media-csc-scaler.c b/drivers/staging/media/imx/imx-media-csc-scaler.c
-index e5e08c6f79f2..19fd31cb9bb0 100644
---- a/drivers/staging/media/imx/imx-media-csc-scaler.c
-+++ b/drivers/staging/media/imx/imx-media-csc-scaler.c
-@@ -912,7 +912,7 @@ imx_media_csc_scaler_device_init(struct imx_media_dev *md)
- 	return &priv->vdev;
+diff --git a/drivers/gpu/drm/msm/msm_fence.c b/drivers/gpu/drm/msm/msm_fence.c
+index d41e5a6bbee0..72641e6a627d 100644
+--- a/drivers/gpu/drm/msm/msm_fence.c
++++ b/drivers/gpu/drm/msm/msm_fence.c
+@@ -183,6 +183,13 @@ msm_fence_alloc(void)
+ 	return &f->base;
+ }
  
- err_m2m:
--	video_set_drvdata(vfd, NULL);
-+	video_device_release(vfd);
- err_vfd:
- 	kfree(priv);
- 	return ERR_PTR(ret);
++void msm_fence_free(struct dma_fence *fence)
++{
++	struct msm_fence *f = to_msm_fence(fence);
++
++	kfree(f);
++}
++
+ void
+ msm_fence_init(struct dma_fence *fence, struct msm_fence_context *fctx)
+ {
+diff --git a/drivers/gpu/drm/msm/msm_fence.h b/drivers/gpu/drm/msm/msm_fence.h
+index 148196375a0b..635c68629070 100644
+--- a/drivers/gpu/drm/msm/msm_fence.h
++++ b/drivers/gpu/drm/msm/msm_fence.h
+@@ -82,6 +82,7 @@ bool msm_fence_completed(struct msm_fence_context *fctx, uint32_t fence);
+ void msm_update_fence(struct msm_fence_context *fctx, uint32_t fence);
+ 
+ struct dma_fence * msm_fence_alloc(void);
++void msm_fence_free(struct dma_fence *fence);
+ void msm_fence_init(struct dma_fence *fence, struct msm_fence_context *fctx);
+ 
+ static inline bool
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index 3e9aa2cc38ef..213baa5bca5e 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -56,7 +56,7 @@ static struct msm_gem_submit *submit_create(struct drm_device *dev,
+ 
+ 	ret = drm_sched_job_init(&submit->base, queue->entity, 1, queue);
+ 	if (ret) {
+-		kfree(submit->hw_fence);
++		msm_fence_free(submit->hw_fence);
+ 		kfree(submit);
+ 		return ERR_PTR(ret);
+ 	}
 -- 
 2.25.1
 
