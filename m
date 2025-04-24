@@ -1,140 +1,146 @@
-Return-Path: <linux-media+bounces-30954-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30955-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CAF8A9B2BA
-	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 17:44:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A008A9B303
+	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 17:53:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7EA1116B85C
-	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 15:44:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A332A9A43BC
+	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 15:51:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 230FA27C15E;
-	Thu, 24 Apr 2025 15:44:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B230B27BF79;
+	Thu, 24 Apr 2025 15:51:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="t+p7faQV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dvOEm7jl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04F7622CBE9
-	for <linux-media@vger.kernel.org>; Thu, 24 Apr 2025 15:43:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 063ED1B414E;
+	Thu, 24 Apr 2025 15:51:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745509440; cv=none; b=VoZVZgvTnHnqFRCOA9BSql8CBPYAVDEmUWhxAbQWjyLgBBYZ7oe2FTU7VCaoikExiD2ku2/14vMGefo5ujwHKaunPXCR3fKXI8qNaMNgyuo1ejoozZi5dU+hV47/w3XRIPGn5rk3LPhCsnLFDoyTdj4cFfxuSqtjcfvYUMlvSqg=
+	t=1745509866; cv=none; b=rpslRt/lykUlr7vrXLX1NXBRS0nh3XgvuyHosbMSMQfgQtMEUkxpvT4XTZAqWG84M0CoKuKCNAM/3d6yIdoM9CXIKEh6TncpkC3lgl7WvVj0Y3J7nhUO1apXC/p2W1cccfalh9j2o63nZHF2ntk35z/iAeEVnBJF3G6GV1xr6B4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745509440; c=relaxed/simple;
-	bh=PrIt9cti1YTt57yyhwhu+yoL+H0Pauq0wEpWZElruNg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=PLp9Y7dZPrut6Y0uTTCpsUEpZEpzDr5PGtAEmxlpOW7+1TTfR3cbjhNjBhbmc72xx/O7X4fhtwiVKObs8VLS63dgLRD7nzQBF13gSUspWRBAnAefFoQxzkgsOI4h8fOCly9d6BpynrstBPYHF0iGKLhnXsM1o47ByGpZfW+E22M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca; spf=none smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=t+p7faQV; arc=none smtp.client-ip=209.85.160.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ndufresne.ca
-Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-47692b9d059so18884441cf.3
-        for <linux-media@vger.kernel.org>; Thu, 24 Apr 2025 08:43:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1745509438; x=1746114238; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=PxG91MvO3mEZmIhtAaDJXqnva49Kcev69TBhblsIWrY=;
-        b=t+p7faQVjB+XtCOkcmZXBFDP3t3+pPIiPbFUCVPjTnTU8FQA8gTcLxKVD0nrwQGSp4
-         oVgM865DLG7XB4fV0U3+82gwY9p5fHIw6si6KftvrZyH2psdwC3u1a0veYN8PjobmaH1
-         BCDuJmaYrG2g8XoQ2WzyUErbJQ0aefE/Mr5xrfuKs4Kx3zcemNlYHJUglxmqrO0ZfKWY
-         lsLyyzopjF6esf5XfXLJBcwSHemXrLlXqCnciNpBivIWO770U+0sL9+9mkudfs9MdIYV
-         SQtmci8SZwjUf9rBHWPpt8voxqbhrT6//UIa5FGc4Y+i0dkGNXQZ5rfIMEaLvz0lbAgZ
-         sBCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745509438; x=1746114238;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PxG91MvO3mEZmIhtAaDJXqnva49Kcev69TBhblsIWrY=;
-        b=uPM6RCXLtlUEy20cVnu6j9wgdscYubEOZsM6fjplLQETHc780GrpJ4h591yB0avJj7
-         QE8YyE5v7lu2Xg/ULCYX1QONzVTjSmsH1k3MZfa440T7HHgTULmkkee0ew59TSGz7ajr
-         i3jQLoyzuB7bBWriLUeGfWiE3JLexEDcfY5nhEDhrtstqMqG1Z+p4ICLgbRmxD8sC5zk
-         gt3UHC46xKa8GF53yvYvbRYUmWAo+WGoba21guxbTjT+cNbVjSmnthXZ0aDjPgQdVEJ2
-         gJsvOxZfwPaGO95Hw06T7whbeKLa1/jEHDgqhI2GrIQOE4AGCzcqPbRCqnbgVtj4RpKl
-         CiTQ==
-X-Gm-Message-State: AOJu0Yz+yQrZEZlBLKANTnBow1HcmCHmqIdxZcroVqJLvmRoao56L8EZ
-	+CgUo/HcrolOiEBloqkLm+DFRLLWd8uFjUfD3/P7IJOZOJY5XHFn65mJWeCM2X8=
-X-Gm-Gg: ASbGnctLbJdrMfPxPjULkzfRt0UhJrIbV5NhBYaf5cJ4ZtAN8QsF/f0M+xiGSHuWnnX
-	hr33w7kkkdyRPnuQlhxerKhVhAGskJ82lzHWNDLP9VWvpEa3xZxbYs/sjFsblZFMHvmNMnNubm6
-	2FdAkKxuRUDHuZtiP6fyrfACzN9Ky/OYzxxLWP5KByb4YTVslCC+sgbAvzDJXtEqpdTBtwkkooC
-	f0whvK3bislgws4/oVooY2wEEwmq9lsEGv6uhoyzEZJKTR0FXsITx33iCG87GPqxN782tQ8R8jY
-	08sAPUIV+djmLGOXshA8FqWxco7xyPm66s+qKgoQBM5hxw==
-X-Google-Smtp-Source: AGHT+IGA+IIOug/obYsp2byfQYiQAcdnJn27C+FPUJJIN+Z+DBmj+uagyzwdTCFBqechz7yf+kP/FA==
-X-Received: by 2002:a05:622a:153:b0:476:b7cf:4d42 with SMTP id d75a77b69052e-47fba39b562mr2788641cf.27.1745509437827;
-        Thu, 24 Apr 2025 08:43:57 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:15:9913::5ac? ([2606:6d00:15:9913::5ac])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47e9eaf2086sm12964521cf.8.2025.04.24.08.43.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 08:43:57 -0700 (PDT)
-Message-ID: <6148110c513d2177d886469c2276c6810eb93c34.camel@ndufresne.ca>
-Subject: Re: [PATCH v2 1/8] media: v4l2-common: Add YUV24 format info
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Nas Chung <nas.chung@chipsnmedia.com>, mchehab@kernel.org, 
-	hverkuil@xs4all.nl, sebastian.fricke@collabora.com, robh@kernel.org, 
-	krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-imx@nxp.com, marex@denx.de, 
-	jackson.lee@chipsnmedia.com, lafley.kim@chipsnmedia.com
-Date: Thu, 24 Apr 2025 11:43:56 -0400
-In-Reply-To: <20250422093119.595-2-nas.chung@chipsnmedia.com>
-References: <20250422093119.595-1-nas.chung@chipsnmedia.com>
-	 <20250422093119.595-2-nas.chung@chipsnmedia.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.1 (3.56.1-1.fc42) 
+	s=arc-20240116; t=1745509866; c=relaxed/simple;
+	bh=u6z0M0NRrZxdS4RQaKNchv2vS9ceNCupNe34bbuHBkI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=nSGXXRl8F8jnsQ6Tiey0HYwFlEaYrdYIT1xLCLYBZwFoPXqoity69PIULu+QtwF60ZASYYtvY3iss8Wj2nfxjnLx+CtAQdA39Wtop5ElobMH+4NuclycpF1kkhfnKlyDy5FEn7pWOWZRNnliJOCkt3sA9zdUpeE4fbGkR9Hdkz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dvOEm7jl; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4D39C4CEE3;
+	Thu, 24 Apr 2025 15:51:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745509865;
+	bh=u6z0M0NRrZxdS4RQaKNchv2vS9ceNCupNe34bbuHBkI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=dvOEm7jlTSmOTUbxvEq7JfkHHkVubBtl2G5lII0wrzKg9nWi3jinOQH5rK1kYtzl6
+	 6nDxvWiZxUBTyXpLZXVw04xeHvCD8+H9dB+yMWKUXQ65eZPixsg+zT+ysGoVQOvsl8
+	 MqqJPBCE1vc8dFdQCMZMX2I2UOf+QF0YPTo3IO9I5DR5TorWHVWJGDK6RDAmsu/AjK
+	 jz8P1CVHyFI3Q96V6f8/SKXJcqFuvDUg1JS+PYPJG92I09zdF81fLMSdADNJIUrTGZ
+	 dxkfY6cOSj6S6xgvnnHxoEGi7p8ganKCGSd81xTa1JY8K+8akJ6xCzmpcd+J4Nzg1m
+	 8KHoXTJrWqrBg==
+Message-ID: <e82a8733-a3b9-43de-9142-7454bc57474c@kernel.org>
+Date: Thu, 24 Apr 2025 17:51:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 5/6] media: dt-bindings: Add qcom,qcm2290-camss
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Cc: bryan.odonoghue@linaro.org, rfoss@kernel.org, konradybcio@kernel.org,
+ andersson@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, dmitry.baryshkov@oss.qualcomm.com
+References: <20250423072044.234024-1-loic.poulain@oss.qualcomm.com>
+ <20250423072044.234024-6-loic.poulain@oss.qualcomm.com>
+ <20250424-versatile-brown-chowchow-dfc4a9@kuoka>
+ <CAFEp6-0iXCPn80Y0s6Hoq2MjgNa+OYJEr0oWSKuXtah_OF6cAQ@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJgPO8PBQkUX63hAAoJEBuTQ307
+ QWKbBn8P+QFxwl7pDsAKR1InemMAmuykCHl+XgC0LDqrsWhAH5TYeTVXGSyDsuZjHvj+FRP+
+ gZaEIYSw2Yf0e91U9HXo3RYhEwSmxUQ4Fjhc9qAwGKVPQf6YuQ5yy6pzI8brcKmHHOGrB3tP
+ /MODPt81M1zpograAC2WTDzkICfHKj8LpXp45PylD99J9q0Y+gb04CG5/wXs+1hJy/dz0tYy
+ iua4nCuSRbxnSHKBS5vvjosWWjWQXsRKd+zzXp6kfRHHpzJkhRwF6ArXi4XnQ+REnoTfM5Fk
+ VmVmSQ3yFKKePEzoIriT1b2sXO0g5QXOAvFqB65LZjXG9jGJoVG6ZJrUV1MVK8vamKoVbUEe
+ 0NlLl/tX96HLowHHoKhxEsbFzGzKiFLh7hyboTpy2whdonkDxpnv/H8wE9M3VW/fPgnL2nPe
+ xaBLqyHxy9hA9JrZvxg3IQ61x7rtBWBUQPmEaK0azW+l3ysiNpBhISkZrsW3ZUdknWu87nh6
+ eTB7mR7xBcVxnomxWwJI4B0wuMwCPdgbV6YDUKCuSgRMUEiVry10xd9KLypR9Vfyn1AhROrq
+ AubRPVeJBf9zR5UW1trJNfwVt3XmbHX50HCcHdEdCKiT9O+FiEcahIaWh9lihvO0ci0TtVGZ
+ MCEtaCE80Q3Ma9RdHYB3uVF930jwquplFLNF+IBCn5JRzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmA872oFCRRflLYACgkQG5NDfTtBYpvScw/9GrqBrVLuJoJ52qBBKUBDo4E+5fU1bjt0
+ Gv0nh/hNJuecuRY6aemU6HOPNc2t8QHMSvwbSF+Vp9ZkOvrM36yUOufctoqON+wXrliEY0J4
+ ksR89ZILRRAold9Mh0YDqEJc1HmuxYLJ7lnbLYH1oui8bLbMBM8S2Uo9RKqV2GROLi44enVt
+ vdrDvo+CxKj2K+d4cleCNiz5qbTxPUW/cgkwG0lJc4I4sso7l4XMDKn95c7JtNsuzqKvhEVS
+ oic5by3fbUnuI0cemeizF4QdtX2uQxrP7RwHFBd+YUia7zCcz0//rv6FZmAxWZGy5arNl6Vm
+ lQqNo7/Poh8WWfRS+xegBxc6hBXahpyUKphAKYkah+m+I0QToCfnGKnPqyYIMDEHCS/RfqA5
+ t8F+O56+oyLBAeWX7XcmyM6TGeVfb+OZVMJnZzK0s2VYAuI0Rl87FBFYgULdgqKV7R7WHzwD
+ uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
+ 7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
+ 5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
+In-Reply-To: <CAFEp6-0iXCPn80Y0s6Hoq2MjgNa+OYJEr0oWSKuXtah_OF6cAQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi,
+On 24/04/2025 09:53, Loic Poulain wrote:
+> Hi Krzysztof,
+> 
+> On Thu, Apr 24, 2025 at 9:37 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>
+>> On Wed, Apr 23, 2025 at 09:20:43AM GMT, Loic Poulain wrote:
+>>> +  power-domains:
+>>> +    items:
+>>> +      - description: GDSC CAMSS Block, Global Distributed Switch Controller.
+>>> +
+>>> +  vdda-csiphy-1p2-supply:
+>>> +    description:
+>>> +      Phandle to a 1.2V regulator supply to CSI PHYs.
+>>> +
+>>> +  vdda-pll-1p8-supply:
+>>
+>>
+>> How are the pins or input supplies called?
+> 
+> Pins are called:
+> - VDD_A_CSI_0_1P2 (for csiphy 0)
+> - VDD_A_CSI_1_1P2 (for csiphy 1)
 
-Le mardi 22 avril 2025 =C3=A0 18:31 +0900, Nas Chung a =C3=A9crit=C2=A0:
-> The YUV24 format is missing an entry in the v4l2_format_info().
-> The YUV24 format is the packed YUV 4:4:4 formats with 8 bits
-> per component.
->=20
-> Fixes: 0376a51fbe5e ("media: v4l: Add packed YUV444 24bpp pixel format")
-> Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
+OK. This however starts new questions: why aren't there separate nodes
+for the CSI PHY controllers? These are separate blocks with their own
+address space, own power rails, own interrupts and own clocks.
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> (both of the above are supplied together without individual control)
+> - VDD_A_CAMSS_PLL_1P8
+This does not need voltage name then.
 
-> ---
-> =C2=A0drivers/media/v4l2-core/v4l2-common.c | 1 +
-> =C2=A01 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
-ore/v4l2-common.c
-> index 0a2f4f0d0a07..de3636f1cdf1 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -269,6 +269,7 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
-ormat)
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_Y212,=C2=A0=C2=A0=C2=A0 .pixel_enc =3D=
- V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0=
-, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 1 },
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_Y216,=C2=A0=C2=A0=C2=A0 .pixel_enc =3D=
- V4L2_PIXEL_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0=
-, 0, 0 }, .bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 1 },
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_YUV48_12, .pixel_enc =3D V4L2_PIXEL_EN=
-C_YUV, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 6, 0, 0, 0 }, .bpp=
-_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> +		{ .format =3D V4L2_PIX_FMT_YUV24,=C2=A0=C2=A0 .pixel_enc =3D V4L2_PIXE=
-L_ENC_YUV, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 3, 0, 0, 0 }, =
-.bpp_div =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_MT2110T, .pixel_enc =3D V4L2_PIXEL_ENC=
-_YUV, .mem_planes =3D 2, .comp_planes =3D 2, .bpp =3D { 5, 10, 0, 0 }, .bpp=
-_div =3D { 4, 4, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
-> =C2=A0		=C2=A0 .block_w =3D { 16, 8, 0, 0 }, .block_h =3D { 32, 16, 0, 0 =
-}},
-> =C2=A0		{ .format =3D V4L2_PIX_FMT_MT2110R, .pixel_enc =3D V4L2_PIXEL_ENC=
-_YUV, .mem_planes =3D 2, .comp_planes =3D 2, .bpp =3D { 5, 10, 0, 0 }, .bpp=
-_div =3D { 4, 4, 1, 1 }, .hdiv =3D 2, .vdiv =3D 2,
+
+Best regards,
+Krzysztof
 
