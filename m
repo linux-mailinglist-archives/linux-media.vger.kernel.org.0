@@ -1,256 +1,164 @@
-Return-Path: <linux-media+bounces-30957-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30958-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B617A9B38A
-	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 18:11:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2DC4A9B39F
+	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 18:14:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 56F401711BD
-	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 16:11:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7AE4F1BA439B
+	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 16:14:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC377280A37;
-	Thu, 24 Apr 2025 16:11:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB4ED2820AA;
+	Thu, 24 Apr 2025 16:13:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OgKHJI9H"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q+N+zlIN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6500C27FD48
-	for <linux-media@vger.kernel.org>; Thu, 24 Apr 2025 16:11:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C422E27FD72
+	for <linux-media@vger.kernel.org>; Thu, 24 Apr 2025 16:13:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745511095; cv=none; b=Xipdd7VoXw5OFb+m5wPi5iiWHJGlWGu6kOFHuh31Z2ywa5wPwjQ9UULIAm/rxGWS+VGrz9pele/TzDWXSUx6ZSZBugVXgRP/Srf2jrpX6wTsM/U0uoZBe5mNkzICYlV4rGJmq32LR9cnWK+2aENg2L8ByIb/ZFh4ghho/eCnRCs=
+	t=1745511234; cv=none; b=Sq2nH2svcw7Dh1Lqrg//rrXVIDpcgSjmwV2lCZopwnQurWNcQB0m+9oFfElNFzY3Cm2WIMhrifcrtNTAWIhSBnMKCtE1/knnJBIQ1VWLCVcqIl0L7eVH84P/8a3r5ZfMd9SVgJaLa2DZ6eXGw0gZBCLh8MwxhMu7upDii/JVRgU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745511095; c=relaxed/simple;
-	bh=NdkqoKf1d1JEdx5XewadhXF1HsV4BHe8OdRH9zZMPSc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fjANU0zvRqIpQH58eDhFE18NU7aZtjc+ITbKJCDBGexkkEjvGG7EXhE4c2PuQ/bXmc2yW6Md6NVsSXFkNzJHx8ccx0z5Ck1z2aTqOyZj1DmsXpgyuiAlnMqIvkM9BnOjL8E2BQEeBCloun6VGM4kMg8xzc1ko6joH2HQFPgcCU4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OgKHJI9H; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1745511091;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8xsE74yKYPMH+2VlPy+Ra90/yb4WgqS6fEIO1+kVqG4=;
-	b=OgKHJI9H5noil+8helMA03ido6cCbv25EiwCG3mZZ+PezcV5yzlKIMUoP5qA0iceUuYDJ5
-	kVC2izdt58zIxYUcif9Pc5I+VTZxAOXS1aKsFPzMj3xzzfRX+2jiuqAkyOiShQubT+Qz9r
-	unLMuQSo4f4+Dzz+FrCSy42cA7KdUfs=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-387-w-8pyTgHOxm4hqPkNy5KZw-1; Thu, 24 Apr 2025 12:11:29 -0400
-X-MC-Unique: w-8pyTgHOxm4hqPkNy5KZw-1
-X-Mimecast-MFC-AGG-ID: w-8pyTgHOxm4hqPkNy5KZw_1745511089
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-6e8ed78717eso19221896d6.2
-        for <linux-media@vger.kernel.org>; Thu, 24 Apr 2025 09:11:29 -0700 (PDT)
+	s=arc-20240116; t=1745511234; c=relaxed/simple;
+	bh=Dw+SKeV8qbpQrNo+aH6L+cZKLIRLMEZ5C31rjsazirw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=POg2AHP38146C8V5V+vuHmBjEVohI7Ax77a56SXNS1TZr+COlnwocYDirqO6+FZCGkoYOQ/8z/pBrQrRMAweJPnpGkbqnr+axTAljC3JmQsTIM/oeMw1VICbtkcL9lZ4GRgx0TBp+zZdMFn/TeZ+58AktVw19VkIXMGu7XhtCjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=q+N+zlIN; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-39c0dfad22aso958104f8f.2
+        for <linux-media@vger.kernel.org>; Thu, 24 Apr 2025 09:13:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1745511230; x=1746116030; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=xoqGBxqToQFbUCVFUs3Rhe0Fq/kgYP3j2kJdzJbbkmM=;
+        b=q+N+zlINVknwYD7uAifplmEmpWWH0/d2c9tGpU3g3gr4T1Fm6EACpU5qED+CmUfQ3r
+         qsuHeXXjppOXvh1VVxr0Y45m8jz+vOcaJhrZgARrb/gX2/OmishnKSTAKK6PbTQqqjku
+         rFNzbfZQeOIDV2qhpjnp8E5ft55ViP+TgBpISl7ZBCNdzLyMIJ2JS4Toj8LLBqhSwWF6
+         OXRLuEldmKoXVN1RSde1VV98EmlRvxIIP/hytIIqzrwKqurVHOsKzHd7d4aiA0vNqPM8
+         IovEnTCyxIASWbpfGSHiiQocWYKrcVt+9CPWVQpEVln0HXnqKeQD5oOv5UVyjSNl6XDI
+         Rr/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745511089; x=1746115889;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8xsE74yKYPMH+2VlPy+Ra90/yb4WgqS6fEIO1+kVqG4=;
-        b=Z9bFjn8SYHlisOXFuZUpKRHT9z3bDoyvsnWe+VjY+FZ+HTwjGl0q9H3nXph3zAXvou
-         5gBs+caSFeBDeg/EUoFG0k22NeXSphhBotkgBn9CWkrajf2U01COeqHIkTGS8OyN/vNC
-         OA3Vks3dp1o22De6PlLJATizLdUQTeReAakMBoF9anKeGSugVPg/KHJR5c3EMemQcWLD
-         99KaYVQy8WaFaLq7iL9fs08xABXllc20YnOW/n2bW181EYC2Ibrv4fGgz8P7bES2U3G5
-         qhvQSUBkzplugNt0TrFAwB/TJ7+3oj/Ujw2pXNZw17haD7+XP0Lf26BlB+IEUgRYDrb+
-         pJaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX1hUNEViRvUZFjWBS4RjqaY+p7lM0KMVrD3+QWNZ5eumWI2gbnZa732e1jzdA9zl0bRtAr42sLXfDuLQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzqXxsGDT4cN1XzzoQPm+/9IQ2SDGyyw0Q3KnMzXtjjcDpAIDc6
-	aw6YnJNO2ay9K3ijYoa0DHcr3VtTl0aE4JXFbprYNeFF8gb/FEe4xbAaHPigVQG81goz8DeAzpd
-	urzxfrmrlsFFrjWEehyTygBQ6zu3ztZ9SRVphBHwfqzo5caTisaDt18arv6uC
-X-Gm-Gg: ASbGncsLH+emvSxE+Abjc3qeHWI8bhUvVSimJWVx2ZL4KltvNChQHp6FbZTBnxOhZSe
-	cGfgtudlGj5fxMqSVnmpJwk1KoHmQLEPkdw3F20lH60b00moXSSv5q4mUjuN708VrFGL72IBxko
-	MDjCwrnevYl+pdKnvsiHuIFfFGiqJmyelopTJw699NqevW/rEEFLhXo4okZ4u0MVuqhM0pfQawQ
-	T5cLbVeHmT2bOxMZBq78NZaAs1TY65EVe7CWM47/vGpuRDfRpVb5jGbm+gioq0fZbUpvlUiffAE
-	9wSz7HEcc8Mv2fWnFG25+KdIOg2XR9xl0S2vOVpFN2k=
-X-Received: by 2002:a05:6214:2b56:b0:6f4:c824:9d4a with SMTP id 6a1803df08f44-6f4c824a12emr9235796d6.13.1745511088977;
-        Thu, 24 Apr 2025 09:11:28 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGpF/KPHX3XupnXyOW//4CbII7OI3Fx0Pl8hvYFBhQZabQLo2Ocev5iqYKgDBjH6eF1US/txw==
-X-Received: by 2002:a05:6214:2b56:b0:6f4:c824:9d4a with SMTP id 6a1803df08f44-6f4c824a12emr9235276d6.13.1745511088411;
-        Thu, 24 Apr 2025 09:11:28 -0700 (PDT)
-Received: from jkangas-thinkpadp1gen3.rmtuswa.csb ([2601:1c2:4301:5e20:98fe:4ecb:4f14:576b])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f4c0aaf5e9sm10784096d6.99.2025.04.24.09.11.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 09:11:28 -0700 (PDT)
-Date: Thu, 24 Apr 2025 09:11:24 -0700
-From: Jared Kangas <jkangas@redhat.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com,
-	Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com,
-	christian.koenig@amd.com, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] dma-buf: heaps: Give default CMA heap a fixed name
-Message-ID: <aApirJb9P-LOOB8j@jkangas-thinkpadp1gen3.rmtuswa.csb>
-References: <20250422191939.555963-1-jkangas@redhat.com>
- <20250422191939.555963-3-jkangas@redhat.com>
- <20250424-sassy-cunning-pillbug-ffde51@houat>
+        d=1e100.net; s=20230601; t=1745511230; x=1746116030;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xoqGBxqToQFbUCVFUs3Rhe0Fq/kgYP3j2kJdzJbbkmM=;
+        b=lRnDrcmd5sZ2RSXGiTUFkqvU/pEba4DZvDykUNkbKu3iRxNJIZXeAbzYL25VO3SRFv
+         LStgnZ12XH5UawL2nfaRDPkKke3h0CueQ0gwQN1SvBXDJn2GuikA8hfHXktIsxh+mKqL
+         kxHKWgDtYTm7gvHu1bS5mezUYTiGkxrDteP6wdvL6Xsgock3G19vHzvxVxYl5DYinZZ9
+         8NJUDhbWBLezaNCU8K/FFcBV7XJKCYx6T2BFanlfGo06zV9X5qiZ8S7/umsIx2p0MLAj
+         FMNO85hsgzfY5BFEaOqpGT4Bdv6yYsq2cfWufyqC8cAPobbQJApoPWBJ06N/WTfFPCEU
+         MkUw==
+X-Forwarded-Encrypted: i=1; AJvYcCVMiFpa3wpaarjvGFSRUGa50ItHaeuum8GWWPWGoFER5LQHmHBsgzh6rBn5fOUmt/MVAeXO26amm7BZJg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwbtvZQpKyjqOhgS5kkdnGI3A+uHm3Rxty5p3JaVZKYZ8E9cmX7
+	kfbP2kVhYq2m8y9SFaRvKDpIYdNnekUuVFc9WUnmMJUO1G3+cHM+pMUxU2f90SI=
+X-Gm-Gg: ASbGncsn/oGCBafUjYSq28jN/yg9zb80NUdu1mRv+aCUvpu4QZ+KMAZvyUpEgBsjGhW
+	uZeoxprGPYkT0sj+PhC9fzjmLXU3fD7ZeeChO90y1X2gzmBKACYLC0vgAboNrEgdL0FkIevFzvA
+	FBATsY1fwvz25BpGe8cl9YvRYqaf79egNBah4gM5Y6RPLUrmgzcCGoOPkpTJPG1m5z0pdnCjbNL
+	Jg4gC/nA3lG1dl26pMMj0TLV+0Irsqbi3l8C4UZB47B5hfwCKLf1hgKJF5d5vXcNjcz5rBJRRw+
+	KfJSLAlWTgsyglCD9wkenAQzxMgFP443lEJa+xHbysc69cczsamqGOHJZ4ALlo17M79G98pdVHo
+	G8ol/dQ==
+X-Google-Smtp-Source: AGHT+IHjGEtl8c4nNfdv63Bu0fnAs76LEcgQP5CuedFuXi7DkoDIBaKDKjRS1tXSKCPZK7Jmlww6rg==
+X-Received: by 2002:a5d:6dac:0:b0:394:d0c3:da5e with SMTP id ffacd0b85a97d-3a06cfa827cmr2963860f8f.47.1745511230050;
+        Thu, 24 Apr 2025 09:13:50 -0700 (PDT)
+Received: from [192.168.0.34] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a06d54c4c5sm2512602f8f.88.2025.04.24.09.13.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Apr 2025 09:13:49 -0700 (PDT)
+Message-ID: <d97194a7-2b7d-4a76-998b-92da495e8bd2@linaro.org>
+Date: Thu, 24 Apr 2025 17:13:48 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250424-sassy-cunning-pillbug-ffde51@houat>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 2/5] dt-bindings: media: Add qcom,x1e80100-camss
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>
+Cc: linux-arm-msm@vger.kernel.org, linux-clk@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+References: <20250314-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v6-0-edcb2cfc3122@linaro.org>
+ <20250314-b4-linux-next-25-03-13-dtsi-x1e80100-camss-v6-2-edcb2cfc3122@linaro.org>
+ <3ec3fd62-bf21-47e7-873c-ce151589d743@linaro.org>
+ <54eeb470-cd90-4bc2-b415-6dea1ce2321d@linaro.org>
+ <0ab31397-580f-4e5a-b9ad-d9bf79d29106@linaro.org>
+ <36feffed-4558-4e59-97db-2f0e916dbfc7@linaro.org>
+ <6a4ec36c-c003-4ce8-9433-8c12ed3188ee@linaro.org>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <6a4ec36c-c003-4ce8-9433-8c12ed3188ee@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Maxime,
-
-On Thu, Apr 24, 2025 at 10:33:58AM +0200, Maxime Ripard wrote:
-> Hi Jared,
+On 24/04/2025 16:54, Krzysztof Kozlowski wrote:
+> On 24/04/2025 12:17, Bryan O'Donoghue wrote:
+>> On 24/04/2025 11:07, Krzysztof Kozlowski wrote:
+>>> On 24/04/2025 11:34, Bryan O'Donoghue wrote:
+>>>> On 24/04/2025 07:40, Krzysztof Kozlowski wrote:
+>>>>>> +  vdd-csiphy-0p8-supply:
+>>>>> Same comment as other series on the lists - this is wrong name. There
+>>>>> are no pins named like this and all existing bindings use different name.
+>>>>
+>>>> The existing bindings are unfortunately not granular enough.
+>>>>
+>>>> I'll post s series to capture pin-names per the SoC pinout shortly.
+>>> How are the pins/supplies actually called?
+>>>
+>>> Best regards,
+>>> Krzysztof
+>>
+>> I don't think strictly algning to pin-names is what we want.
+>>
+>> Here are the input pins
+>>
+>> VDD_A_CSI_0_1_1P2
+>> VDD_A_CSI_2_4_1P2
+>> VDD_A_CSI_0_1_0P9
+>> VDD_A_CSI_2_4_0P9
+>>
+>> I think the right way to represent this
+>>
+>> yaml:
+>> csiphy0-1p2-supply
+>> csiphy1-1p2-supply
 > 
-> Thanks for working on this
+> But there is no separate supply for csiphy0 and csiphy1. Such split
+> feels fine if you have separate CSI phy device nodes, which now I wonder
+> - where are they?
 > 
-> On Tue, Apr 22, 2025 at 12:19:39PM -0700, Jared Kangas wrote:
-> > The CMA heap's name in devtmpfs can vary depending on how the heap is
-> > defined. Its name defaults to "reserved", but if a CMA area is defined
-> > in the devicetree, the heap takes on the devicetree node's name, such as
-> > "default-pool" or "linux,cma". To simplify naming, just name it
-> > "default_cma", and keep a legacy node in place backed by the same
-> > underlying structure for backwards compatibility.
-> > 
-> > Signed-off-by: Jared Kangas <jkangas@redhat.com>
-> > ---
-> >  Documentation/userspace-api/dma-buf-heaps.rst | 11 +++++++----
-> >  drivers/dma-buf/heaps/Kconfig                 | 10 ++++++++++
-> >  drivers/dma-buf/heaps/cma_heap.c              | 14 +++++++++++++-
-> >  3 files changed, 30 insertions(+), 5 deletions(-)
-> > 
-> > diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
-> > index 535f49047ce64..577de813ba461 100644
-> > --- a/Documentation/userspace-api/dma-buf-heaps.rst
-> > +++ b/Documentation/userspace-api/dma-buf-heaps.rst
-> > @@ -19,7 +19,10 @@ following heaps:
-> >   - The ``cma`` heap allocates physically contiguous, cacheable,
-> >     buffers. Only present if a CMA region is present. Such a region is
-> >     usually created either through the kernel commandline through the
-> > -   `cma` parameter, a memory region Device-Tree node with the
-> > -   `linux,cma-default` property set, or through the `CMA_SIZE_MBYTES` or
-> > -   `CMA_SIZE_PERCENTAGE` Kconfig options. Depending on the platform, it
-> > -   might be called ``reserved``, ``linux,cma``, or ``default-pool``.
-> > +   ``cma`` parameter, a memory region Device-Tree node with the
-> > +   ``linux,cma-default`` property set, or through the ``CMA_SIZE_MBYTES`` or
-> > +   ``CMA_SIZE_PERCENTAGE`` Kconfig options. The heap's name in devtmpfs is
-> > +   ``default_cma``. For backwards compatibility, when the
-> > +   ``DMABUF_HEAPS_CMA_LEGACY`` Kconfig option is set, a duplicate node is
-> > +   created following legacy naming conventions; the legacy name might be
-> > +   ``reserved``, ``linux,cma``, or ``default-pool``.
-> 
-> It looks like, in addition to documenting the new naming, you also
-> changed all the backticks to double backticks. Why did you do so? It
-> seems mostly unrelated to that patch, so it would be better in a
-> separate patch.
+> Best regards,
+> Krzysztof
 
-Ah, I thought that since it was touching the immediate area and it's a
-small fix it would be suitable for this patch. Thanks for the catch,
-I'll extract this in v3.
+The main hardware argument for it is probably these PHYs do live inside 
+of the TITAN_TOP_GDSC power-domain, which is the same collapsible 
+power-domain that all of the other CAMSS components live inside of.
 
-As for the rationale: as I understand it, the single backticks here are
-semantically incorrect, at least in general reST -- they're mainly used
-for links and roles. In this instance, the syntax is interpreted as the
-default role:
+As I recall we had a four way - albeit long discussion on this in 
+Dublin, you, me, Vlad and Neil and my memory was we would implement 
+multiple rails in the existing CAMSS PHY structure and then look at how 
+to model the PHYs differently in DTS.
 
-    https://docutils.sourceforge.io/docs/ref/rst/roles.html
+The Test Pattern Generators - TPGs would then also fit into this new 
+model for the PHYs.
 
-I believe double backticks are what the doc is looking for here, used
-for code and rendered as monospaced text. Although there are a number of
-places around existing documentation that use single backticks (which
-happens to render as italics because the default role is
-:title-reference: if not configured in conf.py), a look through doc
-history points to double backticks being treated as correct for code,
-such as f6314b76d826 ("docs: kbuild/kconfig: reformat/cleanup") or
-2f0e2a39bbab ("docs/kbuild/makefiles: unify quoting").
-
-> 
-> > diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-buf/heaps/Kconfig
-> > index a5eef06c42264..83f3770fa820a 100644
-> > --- a/drivers/dma-buf/heaps/Kconfig
-> > +++ b/drivers/dma-buf/heaps/Kconfig
-> > @@ -12,3 +12,13 @@ config DMABUF_HEAPS_CMA
-> >  	  Choose this option to enable dma-buf CMA heap. This heap is backed
-> >  	  by the Contiguous Memory Allocator (CMA). If your system has these
-> >  	  regions, you should say Y here.
-> > +
-> > +config DMABUF_HEAPS_CMA_LEGACY
-> > +	bool "DMA-BUF CMA Heap"
-> > +	default y
-> > +	depends on DMABUF_HEAPS_CMA
-> > +	help
-> > +	  Add a duplicate CMA-backed dma-buf heap with legacy naming derived
-> > +	  from the CMA area's devicetree node, or "reserved" if the area is not
-> > +	  defined in the devicetree. This uses the same underlying allocator as
-> > +	  CONFIG_DMABUF_HEAPS_CMA.
-> > diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-> > index e998d8ccd1dc6..cd742c961190d 100644
-> > --- a/drivers/dma-buf/heaps/cma_heap.c
-> > +++ b/drivers/dma-buf/heaps/cma_heap.c
-> > @@ -22,6 +22,7 @@
-> >  #include <linux/slab.h>
-> >  #include <linux/vmalloc.h>
-> >  
-> > +#define DEFAULT_CMA_NAME "default_cma"
-> 
-> I appreciate this is kind of bikeshed-color territory, but I think "cma"
-> would be a better option here. There's nothing "default" about it.
-
-I'm a little uncertain about plain "cma"; John mentioned the possibility
-of other CMA regions, suggesting that if we used "cma", we'd need to
-rename it again in the future to disambiguate. It doesn't sound
-guaranteed that other regions will be added, so I can see starting with
-"cma" and adjusting later if needed, but "default_cma" seemed
-inoffensive enough because it's consistent with current wording (e.g.,
-"linux,cma-default", "default-pool"), and has a lower chance of changing
-if other CMA regions/heaps were added. Let me know what you think.
-
-> 
-> >  struct cma_heap {
-> >  	struct dma_heap *heap;
-> > @@ -394,15 +395,26 @@ static int __init __add_cma_heap(struct cma *cma, const char *name)
-> >  static int __init add_default_cma_heap(void)
-> >  {
-> >  	struct cma *default_cma = dev_get_cma_area(NULL);
-> > +	const char *legacy_cma_name;
-> >  	int ret;
-> >  
-> >  	if (!default_cma)
-> >  		return 0;
-> >  
-> > -	ret = __add_cma_heap(default_cma, cma_get_name(default_cma));
-> > +	ret = __add_cma_heap(default_cma, DEFAULT_CMA_NAME);
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > +	legacy_cma_name = cma_get_name(default_cma);
-> > +
-> > +	if (IS_ENABLED(CONFIG_DMABUF_HEAPS_CMA_LEGACY) &&
-> > +	    strcmp(legacy_cma_name, DEFAULT_CMA_NAME)) {
-> > +		ret = __add_cma_heap(default_cma, legacy_cma_name);
-> > +		if (ret)
-> > +			pr_warn("cma_heap: failed to add legacy heap: %pe\n",
-> > +				ERR_PTR(-ret));
-> > +	}
-> > +
-> 
-> It would also simplify this part, since you would always create the legacy heap.
-
-By "always", do you mean removing the strcmp? I added this to guard
-against cases where the devicetree node's name clashed with the default
-name, given that the DT name isn't necessarily restricted to one of the
-current names in use ("linux,cma" or "default-pool"). It seems like the
-strcmp would be relevant regardless of the naming choice, but if this is
-overly cautious, I can remove it in v3.
-
-Jared
-
-> 
-> Maxime
-
-
+---
+bod
 
