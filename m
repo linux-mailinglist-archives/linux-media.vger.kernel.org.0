@@ -1,436 +1,145 @@
-Return-Path: <linux-media+bounces-30920-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30921-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CE40A9A76F
-	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 11:08:58 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42FA0A9A795
+	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 11:22:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 939B83AC084
-	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 09:08:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5D4331B82384
+	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 09:22:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6372C215160;
-	Thu, 24 Apr 2025 09:08:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CF4921D591;
+	Thu, 24 Apr 2025 09:21:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="qNswB0y1"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NBk/5ikW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E96F1204680;
-	Thu, 24 Apr 2025 09:08:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DEEC2101AE
+	for <linux-media@vger.kernel.org>; Thu, 24 Apr 2025 09:21:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745485729; cv=none; b=RWQALYPUFD2IpK368AZfupsqsKiY4s+DRts68S9FoPu9BPXPOC3taHlupkIYkkfip1419n3ah7b9pJbwBrueHhIPQFJb6zkKHJ4PM938WvD4Wp/kTHGw6srEff3FYjx7NptZI7Ex3InRtTirkhNLnyRWLS+vY6Kxb/TLi/izMYE=
+	t=1745486510; cv=none; b=l+sTMJiDHoLDY5RABpQqmlsteOoK8alk/6nejfojVY8LZzut3RUksqt6zF7pzgarGRGmcL2h1CeM0JbyIy0SrUOsqaclt7uJjc31JkU7RZBiZC/zHH8NfFyr9lCkQ3dhG8vB7jIee7wGQ73mndwwFYH2o7JBnv9XFszwTbtObE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745485729; c=relaxed/simple;
-	bh=xy34Cyx0NXocheH5er62qckwL15DF0wpanlMyZ27a7E=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=f/M4w3ZZORhA/9wBhLOyxqUTtSt5N48nnzwnXtPkAHfNKE7dTEqAwxBLrHhnwU0LHZ2ZgRJgr9daIkSrV6INSCP9nR2JUYOKM/TCaVsVFbNhHQNwcR87K5oHhWM6q9F+K3wZnuyE1aIl4ZhR74Nl+Y79JEUtShOdVM97RUlh5h4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=qNswB0y1; arc=none smtp.client-ip=210.61.82.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: b653b89420eb11f09b6713c7f6bde12e-20250424
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=PZtjPUC9P1m6QBav8LccA+qS1GiRRWEFEzzsGhqBncM=;
-	b=qNswB0y17vmqv3PTFm1y6348hhVi5qPFpodkN2cwWJdYSC4XLq7SanT+Ai9Whq4+LBcwNUnTXmphO8/hBjhRN1SHnDyjIegW43pNuFBfstQVFRjGdtg55hhnbrF2hy/wcucxe7H5pcYzcyzJ2ecNTHKJD+yiOiN+k5ASO2+cIYU=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.2.1,REQID:d5bd5e58-16d1-41d8-b03f-8720c5679434,IP:0,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:0
-X-CID-META: VersionHash:0ef645f,CLOUDID:e574d26f-e08c-41ab-89e8-3ba0a33da853,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:-3,IP:ni
-	l,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
-	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: b653b89420eb11f09b6713c7f6bde12e-20250424
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw02.mediatek.com
-	(envelope-from <jianhua.lin@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1654757453; Thu, 24 Apr 2025 17:08:39 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.39; Thu, 24 Apr 2025 17:08:38 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1258.39 via Frontend Transport; Thu, 24 Apr 2025 17:08:37 +0800
-From: Jianhua Lin <jianhua.lin@mediatek.com>
-To: <angelogioacchino.delregno@collabora.com>,
-	<sebastian.fricke@collabora.com>, <daniel.almeida@collabora.com>,
-	<mchehab@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>, Jianhua Lin
-	<jianhua.lin@mediatek.com>
-Subject: [PATCH v8 1/1] media: mediatek: jpeg: support 34bits
-Date: Thu, 24 Apr 2025 17:08:24 +0800
-Message-ID: <20250424090824.5309-1-jianhua.lin@mediatek.com>
-X-Mailer: git-send-email 2.46.0
+	s=arc-20240116; t=1745486510; c=relaxed/simple;
+	bh=cJTS4h8qLRojZ8VoSi+xz4ukVm/2Bvkl9jt6qESf3Ns=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TyxOJTl/LyWvcDRQFo6YWhZ3tAcyUU8kB52cqNXP4yKP0vAvGeIx2VBDaSyr/3Pn9lIV4a3H/QVjEzt43iBaXFg7Q9TecLencAGb2Jrn4ktf+WI1DlvUh5WVtcIL5XZ2DtviflWTasLxHyBMEUi+VZuOtX7nK3kjTRUbe/D4l9c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NBk/5ikW; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53O0F66f013213
+	for <linux-media@vger.kernel.org>; Thu, 24 Apr 2025 09:21:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=xzXZ2sQZ0fuZC4M7pch+4US5
+	mpXlHFEAEEK/BeG4woY=; b=NBk/5ikWsUbRruaW8hiPfj4m+a9fZ6SzN/fElfwe
+	Ec8BluSgDCCkI1QL+6AfmIAqNtwQPKyhSCW8invga/jUYvcUn9730UD0jZg/3lyD
+	Gp7OizFulM8Uy1RRQ/jPHyof8Hs9oUSZb1gVVA51uLFOW4nKzlnmbL1IUbaM2taw
+	HqGqnh1N+4QUh2Olp84IgcbG+4pev/stgW0lp0cJFerVPcoBXxduxxgPWrQM8okJ
+	/kV+UyMaPUYKeycLls/bxvnD90DM8xrVCbHplyO7cHyT487Da1KvqTtfbu6If5rw
+	Dh8ZTswTSxNWPj7nX41In/vXiE8Ag3Vr4wYmUVfezTV5Dw==
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh2cy7x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 24 Apr 2025 09:21:47 +0000 (GMT)
+Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-7c5cd0f8961so167523185a.1
+        for <linux-media@vger.kernel.org>; Thu, 24 Apr 2025 02:21:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745486506; x=1746091306;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xzXZ2sQZ0fuZC4M7pch+4US5mpXlHFEAEEK/BeG4woY=;
+        b=Pe+1bKCPR9BryRiOl+6ziv0TvdT25XnjmrL0NTCiO7QSAUdd/aTxXft/3eCa4UOD1F
+         nDumAoZv3iIFw4+ym/mElceWjvaiyfqv75sBFJrfsmYmM9xYLnxCs1W3ArVayhcIh6BG
+         GLw/1yYxDpDn33J++ywYGaC3aOQDAA4tTweN0jB/NDsRPAV0TEJsaBOrxa3n48Cq33h0
+         /V+xQtArd24O2SEkTxwvoJNulwm9BIHu3wtpDNhLoDkKLooIBE87KTEHtroNt4yVkhjq
+         SlizHdaLOIJIsEWOciMOJEWkOKw6OMZLu1okVxwXyQDi7XeqSJZexIWlLQRttb8tUhuc
+         ajpg==
+X-Forwarded-Encrypted: i=1; AJvYcCX8zaY+yFByfgC/TAWX6x9V2bLDbkFtPc134KfBreGpWdTB3VcNHw+YeUz6gjNCqVIcrQt7y8AAzPPpqA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YztQJZQ9tQM3wi2F9AP8UIrhVOO9ziD/kDBgZ8feUNGgsuuQ8Id
+	jC+7AAsZWoIudq1GxFP/WIXXxXUqAvMh6j7FbRc/ZHQ+yQN4xeFqouFEodLdEFn2elYseV34mRi
+	O3xYnvZpSLn4pW2eF9eHuy6HKOX03+kAVYOSuCnmWLNp3shQGeMpGbCD6ft6Y1Q==
+X-Gm-Gg: ASbGnctuGD6ivJcZYPwH6ecKZYEQ+UwHBCAEQ1GT4QH0SiwKy7AsirCi5tTPR06PdUr
+	t2yjs1reZ+j9///KHnEDWX7TlveLm3HJEQ0rdc2s38Yu1VmLCCnr0G2Xl3DVyOPcmFqh2d6YKi/
+	4C82dv5KSU+RWdLQrkFFiw9G/HgIsF9r4WT4BDZoI9JisnGjuu/7hkJtOx++IYPloVC/nJmAURC
+	V3Lz+Fnt4UZOgcbZ+Cc0rfy/h4TqHuacjuaflkKFfo79iD0kZNbaHqqfgxXP/e/3kF8ghAfKuc+
+	r0P4AxsbZu8xDr4OTdL5GJh6U0eR7ca4wrLLtIMoYFCWV/5NWqhw3zYwZOGRDmmXqDuKdi+Rbss
+	=
+X-Received: by 2002:a05:620a:1929:b0:7c5:3c0a:ab78 with SMTP id af79cd13be357-7c956ea73aamr256991085a.14.1745486506321;
+        Thu, 24 Apr 2025 02:21:46 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF7mFBXzRRSv9QJD9iHy+ibiIGa9pagdqpuIXwRTp5W2woKy22E/vHZGvaQczZ+I70l+2H9+Q==
+X-Received: by 2002:a05:620a:1929:b0:7c5:3c0a:ab78 with SMTP id af79cd13be357-7c956ea73aamr256988685a.14.1745486506008;
+        Thu, 24 Apr 2025 02:21:46 -0700 (PDT)
+Received: from eriador.lumag.spb.ru (2001-14ba-a0c3-3a00--7a1.rev.dnainternet.fi. [2001:14ba:a0c3:3a00::7a1])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-54e7cb262e1sm163072e87.34.2025.04.24.02.21.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Apr 2025 02:21:45 -0700 (PDT)
+Date: Thu, 24 Apr 2025 12:21:43 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Abhinav Kumar <quic_abhinavk@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 4/5] arm64: dts: qcom: qcs8300: add support for video
+ node
+Message-ID: <47dtgkfqcpalixg36vxcurkmh5z52kdp7rbcvwl56wsyjsisdo@ylmmrvwde4nz>
+References: <20250424-qcs8300_iris-v5-0-f118f505c300@quicinc.com>
+ <20250424-qcs8300_iris-v5-4-f118f505c300@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250424-qcs8300_iris-v5-4-f118f505c300@quicinc.com>
+X-Proofpoint-GUID: AZd9F5wnUIjQYsoGnI7s0fh8h1pQiLVT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI0MDA2MiBTYWx0ZWRfX+Q12m2OvXp3n NG6O3oTNaVg2AubxMxloVACdD/qtCJLVjhRkSIDRzdIbfDv63X1i4JuQCycUpwvlpw0S9YRVt8/ 79hGBIQnBiPKRGFcd17UEMBDN2l7X7FEW7ub3YYSfn/+BGOs1nHn14NHsMmmp30TXYr4e3PyM90
+ 2Bbtm99tz5AuYVqLyhHmRZpoG3a2ARqA0WbS1E6uIrJO1jnVaAC3c3X2ePm+eA36hRNgv3VIRAU KmEdepfyoG9JfyY4NZjpkdc/SrNbv/nlk78TYdHQTsRlqZIQohI4Gj9QfI99/WVD0VwThoNPdMd Q/wwFaSTypPr+Ox8u9EDr3yx8FIU6JPQChSS3+oWmRUJgaTol5PZVjnSouLwyG/olUIn7DQwAZk
+ pgHSWC1kFWiT9wA86YrMsWydNpUX+Rluk73R7ijjNVlkEowiR+Anf9A+zeD68BVXIETKkE0p
+X-Authority-Analysis: v=2.4 cv=Tu/mhCXh c=1 sm=1 tr=0 ts=680a02ab cx=c_pps a=qKBjSQ1v91RyAK45QCPf5w==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10 a=XR8D0OoHHMoA:10 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8 a=7jjsK61l1hG7xBlPe1EA:9 a=CjuIK1q_8ugA:10
+ a=NFOGd7dJGGMPyQGDc5-O:22 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: AZd9F5wnUIjQYsoGnI7s0fh8h1pQiLVT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.680,FMLib:17.12.80.40
+ definitions=2025-04-24_04,2025-04-22_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ malwarescore=0 suspectscore=0 spamscore=0 clxscore=1015 lowpriorityscore=0
+ impostorscore=0 adultscore=0 phishscore=0 mlxlogscore=809 bulkscore=0
+ mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504240062
 
-The HW iommu is able to support a 34-bit iova address-space (16GB),
-enable this feature for the encoder/decoder driver by shifting the
-address by two bits and setting the extended address registers.
+On Thu, Apr 24, 2025 at 02:20:48PM +0530, Vikash Garodia wrote:
+> Add the IRIS video-codec node on QCS8300.
 
-Signed-off-by: Jianhua Lin <jianhua.lin@mediatek.com>
----
-Changes compared with v7:
-- Fix reviewer's comments
-	- Add lower_32_bits() to explicity write the lower 32bits address
+Nit: you can not "add support for the video node". You can either add
+video node or add support for video en/decoding.
 
- .../platform/mediatek/jpeg/mtk_jpeg_core.c    |  5 +-
- .../platform/mediatek/jpeg/mtk_jpeg_core.h    |  4 +
- .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  | 73 ++++++++++++++-----
- .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.h  |  1 +
- .../platform/mediatek/jpeg/mtk_jpeg_dec_reg.h |  8 ++
- .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.c  | 33 +++++++--
- .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.h  |  7 +-
- 7 files changed, 104 insertions(+), 27 deletions(-)
+> 
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> ---
+>  arch/arm64/boot/dts/qcom/qcs8300.dtsi | 71 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 71 insertions(+)
+> 
 
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-index 7dd652e5b6d4..23692cd91e2c 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-@@ -1026,6 +1026,7 @@ static void mtk_jpeg_dec_device_run(void *priv)
- 	spin_lock_irqsave(&jpeg->hw_lock, flags);
- 	mtk_jpeg_dec_reset(jpeg->reg_base);
- 	mtk_jpeg_dec_set_config(jpeg->reg_base,
-+				jpeg->variant->support_34bit,
- 				&jpeg_src_buf->dec_param,
- 				jpeg_src_buf->bs_size,
- 				&bs,
-@@ -1570,7 +1571,8 @@ static irqreturn_t mtk_jpeg_enc_done(struct mtk_jpeg_dev *jpeg)
- 	src_buf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
- 	dst_buf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
- 
--	result_size = mtk_jpeg_enc_get_file_size(jpeg->reg_base);
-+	result_size = mtk_jpeg_enc_get_file_size(jpeg->reg_base,
-+						 jpeg->variant->support_34bit);
- 	vb2_set_plane_payload(&dst_buf->vb2_buf, 0, result_size);
- 
- 	buf_state = VB2_BUF_STATE_DONE;
-@@ -1770,6 +1772,7 @@ static void mtk_jpegdec_worker(struct work_struct *work)
- 	ctx->total_frame_num++;
- 	mtk_jpeg_dec_reset(comp_jpeg[hw_id]->reg_base);
- 	mtk_jpeg_dec_set_config(comp_jpeg[hw_id]->reg_base,
-+				jpeg->variant->support_34bit,
- 				&jpeg_src_buf->dec_param,
- 				jpeg_src_buf->bs_size,
- 				&bs,
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-index 8877eb39e807..02ed0ed5b736 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.h
-@@ -34,6 +34,8 @@
- 
- #define MTK_JPEG_MAX_EXIF_SIZE	(64 * 1024)
- 
-+#define MTK_JPEG_ADDR_MASK GENMASK(1, 0)
-+
- /**
-  * enum mtk_jpeg_ctx_state - states of the context state machine
-  * @MTK_JPEG_INIT:		current state is initialized
-@@ -62,6 +64,7 @@ enum mtk_jpeg_ctx_state {
-  * @cap_q_default_fourcc:	capture queue default fourcc
-  * @multi_core:		mark jpeg hw is multi_core or not
-  * @jpeg_worker:		jpeg dec or enc worker
-+ * @support_34bit:	flag to check support for 34-bit DMA address
-  */
- struct mtk_jpeg_variant {
- 	struct clk_bulk_data *clks;
-@@ -78,6 +81,7 @@ struct mtk_jpeg_variant {
- 	u32 cap_q_default_fourcc;
- 	bool multi_core;
- 	void (*jpeg_worker)(struct work_struct *work);
-+	bool support_34bit;
- };
- 
- struct mtk_jpeg_src_buf {
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-index 2c5d74939d0a..e78e1d11093c 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-@@ -5,6 +5,8 @@
-  *         Rick Chang <rick.chang@mediatek.com>
-  */
- 
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
- #include <linux/clk.h>
- #include <linux/interrupt.h>
- #include <linux/irq.h>
-@@ -279,23 +281,43 @@ static void mtk_jpeg_dec_set_brz_factor(void __iomem *base, u8 yscale_w,
- 	writel(val, base + JPGDEC_REG_BRZ_FACTOR);
- }
- 
--static void mtk_jpeg_dec_set_dst_bank0(void __iomem *base, u32 addr_y,
--				       u32 addr_u, u32 addr_v)
-+static void mtk_jpeg_dec_set_dst_bank0(void __iomem *base, bool support_34bit,
-+				       dma_addr_t addr_y, dma_addr_t addr_u, dma_addr_t addr_v)
- {
-+	u32 val;
-+
- 	mtk_jpeg_verify_align(addr_y, 16, JPGDEC_REG_DEST_ADDR0_Y);
--	writel(addr_y, base + JPGDEC_REG_DEST_ADDR0_Y);
-+	writel(lower_32_bits(addr_y), base + JPGDEC_REG_DEST_ADDR0_Y);
- 	mtk_jpeg_verify_align(addr_u, 16, JPGDEC_REG_DEST_ADDR0_U);
--	writel(addr_u, base + JPGDEC_REG_DEST_ADDR0_U);
-+	writel(lower_32_bits(addr_u), base + JPGDEC_REG_DEST_ADDR0_U);
- 	mtk_jpeg_verify_align(addr_v, 16, JPGDEC_REG_DEST_ADDR0_V);
--	writel(addr_v, base + JPGDEC_REG_DEST_ADDR0_V);
-+	writel(lower_32_bits(addr_v), base + JPGDEC_REG_DEST_ADDR0_V);
-+	if (support_34bit) {
-+		val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper_32_bits(addr_y));
-+		writel(val, base + JPGDEC_REG_DEST_ADDR0_Y_EXT);
-+		val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper_32_bits(addr_u));
-+		writel(val, base + JPGDEC_REG_DEST_ADDR0_U_EXT);
-+		val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper_32_bits(addr_v));
-+		writel(val, base + JPGDEC_REG_DEST_ADDR0_V_EXT);
-+	}
- }
- 
--static void mtk_jpeg_dec_set_dst_bank1(void __iomem *base, u32 addr_y,
--				       u32 addr_u, u32 addr_v)
-+static void mtk_jpeg_dec_set_dst_bank1(void __iomem *base, bool support_34bit,
-+				       dma_addr_t addr_y, dma_addr_t addr_u, dma_addr_t addr_v)
- {
--	writel(addr_y, base + JPGDEC_REG_DEST_ADDR1_Y);
--	writel(addr_u, base + JPGDEC_REG_DEST_ADDR1_U);
--	writel(addr_v, base + JPGDEC_REG_DEST_ADDR1_V);
-+	u32 val;
-+
-+	writel(lower_32_bits(addr_y), base + JPGDEC_REG_DEST_ADDR1_Y);
-+	writel(lower_32_bits(addr_u), base + JPGDEC_REG_DEST_ADDR1_U);
-+	writel(lower_32_bits(addr_v), base + JPGDEC_REG_DEST_ADDR1_V);
-+	if (support_34bit) {
-+		val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper_32_bits(addr_y));
-+		writel(val, base + JPGDEC_REG_DEST_ADDR1_Y_EXT);
-+		val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper_32_bits(addr_u));
-+		writel(val, base + JPGDEC_REG_DEST_ADDR1_U_EXT);
-+		val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper_32_bits(addr_v));
-+		writel(val, base + JPGDEC_REG_DEST_ADDR1_V_EXT);
-+	}
- }
- 
- static void mtk_jpeg_dec_set_mem_stride(void __iomem *base, u32 stride_y,
-@@ -322,18 +344,30 @@ static void mtk_jpeg_dec_set_dec_mode(void __iomem *base, u32 mode)
- 	writel(mode & 0x03, base + JPGDEC_REG_OPERATION_MODE);
- }
- 
--static void mtk_jpeg_dec_set_bs_write_ptr(void __iomem *base, u32 ptr)
-+static void mtk_jpeg_dec_set_bs_write_ptr(void __iomem *base, bool support_34bit, dma_addr_t ptr)
- {
-+	u32 val;
-+
- 	mtk_jpeg_verify_align(ptr, 16, JPGDEC_REG_FILE_BRP);
--	writel(ptr, base + JPGDEC_REG_FILE_BRP);
-+	writel(lower_32_bits(ptr), base + JPGDEC_REG_FILE_BRP);
-+	if (support_34bit) {
-+		val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper_32_bits(ptr));
-+		writel(val, base + JPGDEC_REG_FILE_BRP_EXT);
-+	}
- }
- 
--static void mtk_jpeg_dec_set_bs_info(void __iomem *base, u32 addr, u32 size,
--				     u32 bitstream_size)
-+static void mtk_jpeg_dec_set_bs_info(void __iomem *base, bool support_34bit,
-+				     dma_addr_t addr, u32 size, u32 bitstream_size)
- {
-+	u32 val;
-+
- 	mtk_jpeg_verify_align(addr, 16, JPGDEC_REG_FILE_ADDR);
- 	mtk_jpeg_verify_align(size, 128, JPGDEC_REG_FILE_TOTAL_SIZE);
--	writel(addr, base + JPGDEC_REG_FILE_ADDR);
-+	writel(lower_32_bits(addr), base + JPGDEC_REG_FILE_ADDR);
-+	if (support_34bit) {
-+		val = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper_32_bits(addr));
-+		writel(val, base + JPGDEC_REG_FILE_ADDR_EXT);
-+	}
- 	writel(size, base + JPGDEC_REG_FILE_TOTAL_SIZE);
- 	writel(bitstream_size, base + JPGDEC_REG_BIT_STREAM_SIZE);
- }
-@@ -404,6 +438,7 @@ static void mtk_jpeg_dec_set_sampling_factor(void __iomem *base, u32 comp_num,
- }
- 
- void mtk_jpeg_dec_set_config(void __iomem *base,
-+			     bool support_34bits,
- 			     struct mtk_jpeg_dec_param *cfg,
- 			     u32 bitstream_size,
- 			     struct mtk_jpeg_bs *bs,
-@@ -413,8 +448,8 @@ void mtk_jpeg_dec_set_config(void __iomem *base,
- 	mtk_jpeg_dec_set_dec_mode(base, 0);
- 	mtk_jpeg_dec_set_comp0_du(base, cfg->unit_num);
- 	mtk_jpeg_dec_set_total_mcu(base, cfg->total_mcu);
--	mtk_jpeg_dec_set_bs_info(base, bs->str_addr, bs->size, bitstream_size);
--	mtk_jpeg_dec_set_bs_write_ptr(base, bs->end_addr);
-+	mtk_jpeg_dec_set_bs_info(base, support_34bits, bs->str_addr, bs->size, bitstream_size);
-+	mtk_jpeg_dec_set_bs_write_ptr(base, support_34bits, bs->end_addr);
- 	mtk_jpeg_dec_set_du_membership(base, cfg->membership, 1,
- 				       (cfg->comp_num == 1) ? 1 : 0);
- 	mtk_jpeg_dec_set_comp_id(base, cfg->comp_id[0], cfg->comp_id[1],
-@@ -432,9 +467,9 @@ void mtk_jpeg_dec_set_config(void __iomem *base,
- 				    cfg->mem_stride[1]);
- 	mtk_jpeg_dec_set_img_stride(base, cfg->img_stride[0],
- 				    cfg->img_stride[1]);
--	mtk_jpeg_dec_set_dst_bank0(base, fb->plane_addr[0],
-+	mtk_jpeg_dec_set_dst_bank0(base, support_34bits, fb->plane_addr[0],
- 				   fb->plane_addr[1], fb->plane_addr[2]);
--	mtk_jpeg_dec_set_dst_bank1(base, 0, 0, 0);
-+	mtk_jpeg_dec_set_dst_bank1(base, support_34bits, 0, 0, 0);
- 	mtk_jpeg_dec_set_dma_group(base, cfg->dma_mcu, cfg->dma_group,
- 				   cfg->dma_last_mcu);
- 	mtk_jpeg_dec_set_pause_mcu_idx(base, cfg->total_mcu);
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.h b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.h
-index 8c31c6b12417..2948c9c300a4 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.h
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.h
-@@ -71,6 +71,7 @@ int mtk_jpeg_dec_fill_param(struct mtk_jpeg_dec_param *param);
- u32 mtk_jpeg_dec_get_int_status(void __iomem *dec_reg_base);
- u32 mtk_jpeg_dec_enum_result(u32 irq_result);
- void mtk_jpeg_dec_set_config(void __iomem *base,
-+			     bool support_34bits,
- 			     struct mtk_jpeg_dec_param *cfg,
- 			     u32 bitstream_size,
- 			     struct mtk_jpeg_bs *bs,
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_reg.h b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_reg.h
-index 27b7711ca341..e94f52de7c69 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_reg.h
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_reg.h
-@@ -46,5 +46,13 @@
- #define JPGDEC_REG_INTERRUPT_STATUS	0x0274
- #define JPGDEC_REG_STATUS		0x0278
- #define JPGDEC_REG_BIT_STREAM_SIZE	0x0344
-+#define JPGDEC_REG_DEST_ADDR0_Y_EXT	0x0360
-+#define JPGDEC_REG_DEST_ADDR0_U_EXT	0x0364
-+#define JPGDEC_REG_DEST_ADDR0_V_EXT	0x0368
-+#define JPGDEC_REG_DEST_ADDR1_Y_EXT	0x036c
-+#define JPGDEC_REG_DEST_ADDR1_U_EXT	0x0370
-+#define JPGDEC_REG_DEST_ADDR1_V_EXT	0x0374
-+#define JPGDEC_REG_FILE_ADDR_EXT	0x0378
-+#define JPGDEC_REG_FILE_BRP_EXT		0x037c
- 
- #endif /* _MTK_JPEG_REG_H */
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-index f8fa3b841ccf..9ab27aee302a 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-@@ -5,6 +5,8 @@
-  *
-  */
- 
-+#include <linux/bitfield.h>
-+#include <linux/bits.h>
- #include <linux/clk.h>
- #include <linux/interrupt.h>
- #include <linux/irq.h>
-@@ -62,9 +64,9 @@ void mtk_jpeg_enc_reset(void __iomem *base)
- }
- EXPORT_SYMBOL_GPL(mtk_jpeg_enc_reset);
- 
--u32 mtk_jpeg_enc_get_file_size(void __iomem *base)
-+u32 mtk_jpeg_enc_get_file_size(void __iomem *base, bool support_34bit)
- {
--	return readl(base + JPEG_ENC_DMA_ADDR0) -
-+	return (readl(base + JPEG_ENC_DMA_ADDR0) << ((support_34bit) ? 2 : 0)) -
- 	       readl(base + JPEG_ENC_DST_ADDR0);
- }
- EXPORT_SYMBOL_GPL(mtk_jpeg_enc_get_file_size);
-@@ -84,14 +86,24 @@ void mtk_jpeg_set_enc_src(struct mtk_jpeg_ctx *ctx,  void __iomem *base,
- {
- 	int i;
- 	dma_addr_t dma_addr;
-+	u32 addr_ext;
-+	bool support_34bit = ctx->jpeg->variant->support_34bit;
- 
- 	for (i = 0; i < src_buf->num_planes; i++) {
- 		dma_addr = vb2_dma_contig_plane_dma_addr(src_buf, i) +
- 			   src_buf->planes[i].data_offset;
--		if (!i)
--			writel(dma_addr, base + JPEG_ENC_SRC_LUMA_ADDR);
-+		if (i == 0)
-+			writel(lower_32_bits(dma_addr), base + JPEG_ENC_SRC_LUMA_ADDR);
- 		else
--			writel(dma_addr, base + JPEG_ENC_SRC_CHROMA_ADDR);
-+			writel(lower_32_bits(dma_addr), base + JPEG_ENC_SRC_CHROMA_ADDR);
-+
-+		if (support_34bit) {
-+			addr_ext = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper_32_bits(dma_addr));
-+			if (i == 0)
-+				writel(addr_ext, base + JPEG_ENC_SRC_LUMA_ADDR_EXT);
-+			else
-+				writel(addr_ext, base + JPEG_ENC_SRC_CHRO_ADDR_EXT);
-+		}
- 	}
- }
- EXPORT_SYMBOL_GPL(mtk_jpeg_set_enc_src);
-@@ -103,6 +115,8 @@ void mtk_jpeg_set_enc_dst(struct mtk_jpeg_ctx *ctx, void __iomem *base,
- 	size_t size;
- 	u32 dma_addr_offset;
- 	u32 dma_addr_offsetmask;
-+	u32 addr_ext;
-+	bool support_34bit = ctx->jpeg->variant->support_34bit;
- 
- 	dma_addr = vb2_dma_contig_plane_dma_addr(dst_buf, 0);
- 	dma_addr_offset = ctx->enable_exif ? MTK_JPEG_MAX_EXIF_SIZE : 0;
-@@ -113,6 +127,12 @@ void mtk_jpeg_set_enc_dst(struct mtk_jpeg_ctx *ctx, void __iomem *base,
- 	writel(dma_addr_offsetmask & 0xf, base + JPEG_ENC_BYTE_OFFSET_MASK);
- 	writel(dma_addr & ~0xf, base + JPEG_ENC_DST_ADDR0);
- 	writel((dma_addr + size) & ~0xf, base + JPEG_ENC_STALL_ADDR0);
-+
-+	if (support_34bit) {
-+		addr_ext = FIELD_PREP(MTK_JPEG_ADDR_MASK, upper_32_bits(dma_addr));
-+		writel(addr_ext, base + JPEG_ENC_DEST_ADDR0_EXT);
-+		writel(addr_ext + size, base + JPEG_ENC_STALL_ADDR0_EXT);
-+	}
- }
- EXPORT_SYMBOL_GPL(mtk_jpeg_set_enc_dst);
- 
-@@ -278,7 +298,8 @@ static irqreturn_t mtk_jpegenc_hw_irq_handler(int irq, void *priv)
- 	if (!(irq_status & JPEG_ENC_INT_STATUS_DONE))
- 		dev_warn(jpeg->dev, "Jpg Enc occurs unknown Err.");
- 
--	result_size = mtk_jpeg_enc_get_file_size(jpeg->reg_base);
-+	result_size = mtk_jpeg_enc_get_file_size(jpeg->reg_base,
-+						 ctx->jpeg->variant->support_34bit);
- 	vb2_set_plane_payload(&dst_buf->vb2_buf, 0, result_size);
- 	buf_state = VB2_BUF_STATE_DONE;
- 	v4l2_m2m_buf_done(src_buf, buf_state);
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.h b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.h
-index 61c60e4e58ea..31ec9030ae88 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.h
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.h
-@@ -68,6 +68,11 @@
- #define JPEG_ENC_DCM_CTRL		0x300
- #define JPEG_ENC_CODEC_SEL		0x314
- #define JPEG_ENC_ULTRA_THRES		0x318
-+#define JPEG_ENC_SRC_LUMA_ADDR_EXT      0x584
-+#define JPEG_ENC_SRC_CHRO_ADDR_EXT      0x588
-+#define JPEG_ENC_Q_TBL_ADDR_EXT         0x58C
-+#define JPEG_ENC_DEST_ADDR0_EXT         0x590
-+#define JPEG_ENC_STALL_ADDR0_EXT        0x594
- 
- /**
-  * struct mtk_jpeg_enc_qlt - JPEG encoder quality data
-@@ -80,7 +85,7 @@ struct mtk_jpeg_enc_qlt {
- };
- 
- void mtk_jpeg_enc_reset(void __iomem *base);
--u32 mtk_jpeg_enc_get_file_size(void __iomem *base);
-+u32 mtk_jpeg_enc_get_file_size(void __iomem *base, bool support_34bit);
- void mtk_jpeg_enc_start(void __iomem *enc_reg_base);
- void mtk_jpeg_set_enc_src(struct mtk_jpeg_ctx *ctx,  void __iomem *base,
- 			  struct vb2_buffer *src_buf);
 -- 
-2.46.0
-
+With best wishes
+Dmitry
 
