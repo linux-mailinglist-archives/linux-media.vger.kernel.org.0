@@ -1,133 +1,118 @@
-Return-Path: <linux-media+bounces-30949-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30951-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E8BDA9AEF3
-	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 15:27:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99745A9AF1F
+	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 15:35:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A81197AF5DA
-	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 13:26:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D5F544A08AD
+	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 13:34:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 357BA27CB21;
-	Thu, 24 Apr 2025 13:27:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 881B615B54C;
+	Thu, 24 Apr 2025 13:34:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="p8zNSEeG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h+WMpM67"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 025FB27C17E;
-	Thu, 24 Apr 2025 13:27:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E10A313B5AE;
+	Thu, 24 Apr 2025 13:34:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745501241; cv=none; b=Uk9xAu/9PG3CuNLycS8aj6nGb8uquW7kqK1KJvjwbbLWaoYXps3UBzKQP9GfcRhHF7qgrrEcUcWVH+qm+Z+hspp9iU9Ay2X5p+09SrQeWtmou8lgehbYaQ6VYSAPz1ZMxY+Gly0lBbEmjYZjuBnC4AjFj7pyv8TkB5H3iw/MInE=
+	t=1745501679; cv=none; b=JDQnPKWtLNKHpjf0mbc4DcN5oG6LuBkRzxl8zgLRPjwD11xt8elXbR+/PP5sYG1zHe8HOqZ0/1/4l92eViSIDp6ydN9ik08Vm/RsC+A7yEx1EWkb+64G5Q4etgDOnndLhX4UKQKiZnYN4c2ZsMgZBcnA+HHEQmSAgPyk+0SGAaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745501241; c=relaxed/simple;
-	bh=juWmB2wmoWUAzGpKtaJZ1G98dF7aTBqWou/BTuHXsnw=;
+	s=arc-20240116; t=1745501679; c=relaxed/simple;
+	bh=Ep8K/g6VuToes51lb5CKD1nUivYncvjh5+GzmIyT6y8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sg695ahXtqACTiCoqpd7qGQvCNzY+S4iFZcfXPqrlfUzXBJctUYOM7XqpKCNebPazTv7TIVwT2WAVSSxiIQlCLrwlpb2MAeLsRsLJOg76weUmPbRifbrvVFCQ/Y10YVD9reVzbaFaJoQPx31XizdjNkdrit9o2PCrvZtx4ugdPs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=p8zNSEeG; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E18E0B63;
-	Thu, 24 Apr 2025 15:27:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1745501235;
-	bh=juWmB2wmoWUAzGpKtaJZ1G98dF7aTBqWou/BTuHXsnw=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=aDg6l0UqJa9YJLXfYfI+HFokPGqLDtpNwVNdCuntQpAXAO4g0WTC2B4WupmjINnDVoNW8T7MuYLAd9gargsitNY/smzHP5hU/XxOJTuS6K2RJD1r9n4Ru7FAAz3BScfsIvdDiHKgQbllu52cos000wocdKClXbZzvJQtuqvcVGo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h+WMpM67; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6456C4CEE3;
+	Thu, 24 Apr 2025 13:34:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745501678;
+	bh=Ep8K/g6VuToes51lb5CKD1nUivYncvjh5+GzmIyT6y8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=p8zNSEeGRaL4wZwBdDD+rdpi+kXykqaAROIdbMs/VYBeITeb8Jm0r64BhLwGVCwAf
-	 W6WWQmc0d8SmZyk65RLVprvrRBZs2DXANRtWdo3OcDLntBvQQO0Uf0XNMEp5bwnPW/
-	 eOA8lLDOgAk/z9uyfe3r+Lx+u3X0gRXBBAlLLL20=
-Date: Thu, 24 Apr 2025 16:27:12 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	b=h+WMpM67Dqp9i75rxlhOqiat5HBC9sFwdDi/1tMbT4VhguTa2TbBUg28+Jquf+TR0
+	 bn8qtyrpQd1aGqQzS+GzTBPrPQK9SIB1lB7W8rh3qg2yJjm8yJ8C2pwc/MJQtwoSPn
+	 fjx8BRI2jG3/2lc+obPmotjw3J2exELJMAAkO1akSoRON0ODYwOEVjYVLV002/iIsP
+	 4uTvMzkw8Fwp0pJZfF0n4bEVSJC0C3u8t2z4poerunI9ymPM5iFxG41Xv+3D1RAR6m
+	 2J43ZPPsD9nmnQhAv7ueg+BQdrHV4W+AYEwopdzweZqj0223eWk5z1iPzOpHinnR8x
+	 8+4mI0e9DeoWA==
+Date: Thu, 24 Apr 2025 15:34:33 +0200
+From: Danilo Krummrich <dakr@kernel.org>
+To: phasta@kernel.org, maarten.lankhorst@linux.intel.com,
+	mripard@kernel.org, tzimmermann@suse.de
+Cc: Lyude Paul <lyude@redhat.com>, David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v7 5/5] media: vsp1: Add VSPX support
-Message-ID: <20250424132712.GC18085@pendragon.ideasonboard.com>
-References: <20250401-v4h-iif-v7-0-cc547c0bddd5@ideasonboard.com>
- <20250401-v4h-iif-v7-5-cc547c0bddd5@ideasonboard.com>
- <20250423211035.GA5879@pendragon.ideasonboard.com>
- <wjdbgsasdvocglz3qbqnp3rc6tedlxuxlqsv3rhlad2u2y56ll@5irs2bu2647k>
+	linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH 4/4] drm/nouveau: Check dma_fence in canonical way
+Message-ID: <aAo96dnXwFBxx8as@cassiopeiae>
+References: <20250424130254.42046-2-phasta@kernel.org>
+ <20250424130254.42046-6-phasta@kernel.org>
+ <609c8b1a-d7a9-4667-bd6c-1455c639fcd0@kernel.org>
+ <a27a0a01fa2bf5f328ee762b7dd84dffd18fa664.camel@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <wjdbgsasdvocglz3qbqnp3rc6tedlxuxlqsv3rhlad2u2y56ll@5irs2bu2647k>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <a27a0a01fa2bf5f328ee762b7dd84dffd18fa664.camel@mailbox.org>
 
-On Thu, Apr 24, 2025 at 03:18:23PM +0200, Jacopo Mondi wrote:
-> On Thu, Apr 24, 2025 at 12:10:35AM +0300, Laurent Pinchart wrote:
-> > On Tue, Apr 01, 2025 at 04:22:05PM +0200, Jacopo Mondi wrote:
-> > > Add support for VSPX, a specialized version of the VSP2 that
-> > > transfer data to the ISP. The VSPX is composed by two RPF units
-> >
-> > It seems you forgot to take comments from v2 into account.
-> >
-> 
-> Are you referring to the commit message alone ? Or is there anything
-> else ?
+(+ drm-misc maintainers)
 
-Yes, just the commit message.
+On Thu, Apr 24, 2025 at 03:25:55PM +0200, Philipp Stanner wrote:
+> On Thu, 2025-04-24 at 15:24 +0200, Danilo Krummrich wrote:
+> > On 4/24/25 3:02 PM, Philipp Stanner wrote:
+> > > In nouveau_fence_done(), a fence is checked for being signaled by
+> > > manually evaluating the base fence's bits. This can be done in a
+> > > canonical manner through dma_fence_is_signaled().
+> > > 
+> > > Replace the bit-check with dma_fence_is_signaled().
+> > > 
+> > > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> > > ---
+> > >   drivers/gpu/drm/nouveau/nouveau_fence.c | 2 +-
+> > >   1 file changed, 1 insertion(+), 1 deletion(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/nouveau/nouveau_fence.c
+> > > b/drivers/gpu/drm/nouveau/nouveau_fence.c
+> > > index fb9811938c82..d5654e26d5bc 100644
+> > > --- a/drivers/gpu/drm/nouveau/nouveau_fence.c
+> > > +++ b/drivers/gpu/drm/nouveau/nouveau_fence.c
+> > > @@ -253,7 +253,7 @@ nouveau_fence_done(struct nouveau_fence *fence)
+> > >   	struct nouveau_channel *chan;
+> > >   	unsigned long flags;
+> > >   
+> > > -	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence-
+> > > >base.flags))
+> > > +	if (dma_fence_is_signaled(&fence->base))
+> > 
+> > This is only correct with commit bbe5679f30d7 ("drm/nouveau: Fix
+> > WARN_ON in
+> > nouveau_fence_context_kill()") from drm-misc-fixes, correct?
+> 
+> Yup. Otherwise, this series can't be merged anyways, because patch 1
+> depends on it.
+> 
+> The cover letter says so: "This series is based on this partially
+> merged series: [1]"
 
-> > > to read data from external memory and an IIF instance that performs
-> > > transfer towards the ISP.
-> > >
-> 
-> [snip]
-> 
-> > > + *		 buffer CPU-mapped address and the bus address
-> > > + *
-> > > + * Return: %0 on success or a negative error code on failure
-> > > + */
-> > > +int vsp1_isp_alloc_buffers(struct device *dev, size_t size,
-> > > +			   struct vsp1_isp_buffer_desc *buffer_desc)
-> > > +{
-> > > +	struct device *bus_master = vsp1_isp_get_bus_master(dev);
-> > > +
-> > > +	if (IS_ERR_OR_NULL(bus_master))
-> > > +		return -ENODEV;
-> > > +
-> > > +	buffer_desc->cpu_addr = dma_alloc_coherent(bus_master, size,
-> > > +						   &buffer_desc->dma_addr,
-> > > +						   GFP_KERNEL);
-> > > +	if (IS_ERR_OR_NULL(buffer_desc->cpu_addr))
-> > > +		return -EINVAL;
-> >
-> > As commented by Alok, this should be
-> >
-> > 	if (!buffer_desc->cpu_addr)
-> > 		return -ENOMEM;
-> 
-> Done, thanks Alok for the comment
-> 
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(vsp1_isp_alloc_buffers);
-> >
-> > Where is the buffer freed ?
-> >
-> 
-> Right, I presume a call to dma_free_coherent() is needed in the
-> vb2 buf_cleanup() operation call path ?
+Well, the series may be based on commit bbe5679f30d7, but all patches from the
+series can still be applied independently.
 
-It can be done by the ISP driver (directly, or through a function
-exported by the VSP driver, to match vsp1_isp_alloc_buffers()), or be
-done by the VSP driver. The important part is to document the design
-properly.
+Only patch 4 depends on this commit in terms of correctness.
 
--- 
-Regards,
-
-Laurent Pinchart
+But that's fine, I think we can get drm-misc-fixes (or the next -rc) backmerged
+into drm-misc-next.
 
