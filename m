@@ -1,142 +1,144 @@
-Return-Path: <linux-media+bounces-30929-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30930-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E6F6A9AA67
-	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 12:34:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 537ACA9AA75
+	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 12:35:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A8DEE19400A4
-	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 10:34:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 72B46194036D
+	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 10:36:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3EA93256C64;
-	Thu, 24 Apr 2025 10:27:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E030F22129E;
+	Thu, 24 Apr 2025 10:28:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ZIzUkKFh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBC9E22540F
-	for <linux-media@vger.kernel.org>; Thu, 24 Apr 2025 10:27:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E05B722129B
+	for <linux-media@vger.kernel.org>; Thu, 24 Apr 2025 10:28:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745490436; cv=none; b=UAka3RC3kih0BioV0RKW0BWtxziOxF+4yW5kR8HGOyPS9Zm8CPoKdxUaxNQD5v5VqaFo+l4C1lupnYeOem3xE5hGbdUc0bVA7VgfKcKtUsvyhFVv+g7TBHRmCGx56NUtANRGfz8bDDfMUYvaaAjVDS+t099RZXxdjzuyneWCQOM=
+	t=1745490492; cv=none; b=t40N5rsPwNKoNnPxk2OIpu5NQGucRR1LqrxYyw3ez/sNlxoMfrvqQSUGaZGfGz2DEercGyXhPg2ohQf/qGNEGCikO2R5+F5N/3Ue2a4IT9j/ReXtl7jduypDAgJIo39z5R6rpUrt0P9EhXfdYiZ79fmw4Lil1JbSUWonyqBP2vk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745490436; c=relaxed/simple;
-	bh=EIth5TnZONzEy7P5JVS9B5bDu/hzeD3mO1juc8/W5gM=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=hIAqmNPH+WMsPz3Ur6MzGmnMD8Yz4YAwJw5wtUJHfTdleJp2eanXHs4nrlg4qREm30EBb/9syqXJizzbpuReWeDd20BlhXd5IZ5rjDnfHo4+TBc9xNbUQeFmCtIcmFuKbA6iOAalX79gnwWSVdzpdjsSWctVOghs2t24KfNfu6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E371FC4CEE3;
-	Thu, 24 Apr 2025 10:27:14 +0000 (UTC)
-Message-ID: <537c6217-025e-4698-aa93-b1e815ef2cc0@xs4all.nl>
-Date: Thu, 24 Apr 2025 12:27:13 +0200
+	s=arc-20240116; t=1745490492; c=relaxed/simple;
+	bh=dxaNNaCb7wx8tJ7MXo6Th49dUK/WwBE1ivS8aRZaFnY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=dTVBz81pGgwbgvRLSkuifoM/StxOiaArFQ9tHIO4OxyfrYHTkp4QU2n6l4JMkXPDCdHtAMY79U8IYEPBac3UBsIBb+jMAcexJvTNYEv6PsEvnzWeqeRDpl3zZqYWxDcqCPhdLVTM0L2U50gesmilHAPOOCuKRAeTNNeEUE7RGvA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ZIzUkKFh; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53OAFLce006002
+	for <linux-media@vger.kernel.org>; Thu, 24 Apr 2025 10:28:09 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	dxaNNaCb7wx8tJ7MXo6Th49dUK/WwBE1ivS8aRZaFnY=; b=ZIzUkKFh0PKsZ2KR
+	S33zbxVPl4+yLe6WLwHArPgXQhKTZ+Awl03fU4mcgrDGcklIGnvoQs4eOGRywuGL
+	N2UWjJLGF+elFSuu148pWKuPgkhJJGmLCiMn/35a1gWjo+2mdxVMmjfmzouJxg9c
+	lXyoHEBqqTBTLVLgsHdpWbTWOcmHN9xLxcQ18v9Lhm3sAnV7wyi/NutKuKMtRHCx
+	lyr/maVu0Qh16ygkTrsAEaYDzcznjXcd2H5svQ7Jou4Fqe236PEMgMjM6lL+6UVb
+	ek7I5MWgZ7OX3o/omaAJCSIksZjbeXyBVV2BN2E8Ujkfr+B0VIR9WoNHb6T3sVcn
+	QTfjfA==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh056as-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 24 Apr 2025 10:28:09 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-7c5750ca8b2so133517485a.0
+        for <linux-media@vger.kernel.org>; Thu, 24 Apr 2025 03:28:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745490489; x=1746095289;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dxaNNaCb7wx8tJ7MXo6Th49dUK/WwBE1ivS8aRZaFnY=;
+        b=i0zjHF6G5sy/Qi5bYhvbQYFxYGXkX6/wnEczC0FVFmmI8TNbjtDUBf3HXthyFRR2LT
+         DwvDC9skEg/1cKPzrJSYTq810Iw2l0Ew312dXtjOvsr8wJc9EfXx9S5NxLTPobj8MZuv
+         Sz8lQ7/XoP9rTt6mlb8aZhihH8BRn/qVU3qltIxCHtT7MV+YZg4iVG9FsYqaE1tit8G4
+         DSUbDOk4fEuxhJHuZayEG4gnBB/GoI2lJHHG+7xJMNnH0/5DJNLg6sSOU1D7SffnU4UB
+         /WAcYHm9CfI+nesfOwengaJX+iueglPGrL1aG11WPF5PwsTR+Z5ET93kbKH23PcnMKb8
+         149Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVRBh5nV9xef33n4QtRDPEJ4sM6yyWDerlglnIyzrgaCAVe3rUjbC3g1Vj7CBn3Eu6le2pm21yQCMOKuQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzwn7RunUbBdyTlGCbPzKFAtoPUb5QQ8dqrG1f3jII4T1eBoFYp
+	tzXYGZLSMJ5V78p8PoeYdYDhPwz9IdwyVWQ92uAbEJGplLiGNUjAXTRBfRguGeDjQXNaekCyBCK
+	4TtmNgBdu4M7FB83UeCGhmdyk0lVBYztZh0KbV8VDsHJeWg4xQQTgJuKwD7uVmzzinHUF4AZonA
+	i72WOLIvfmnN2+9/CbAYkdILw+z5f6cAjmH2D4
+X-Gm-Gg: ASbGnct5ODyylUvcMK3qbe0Ww7AENCzU7nwY15UpomN/6B7EBKpLs52bZF2M9GOQNj8
+	o0QIBj1KA0HtyGmC4iROvNalT1qWctD4UdKz+U4kjjwS3hJlUPAkk1fQBEjc3ke1F6fpZApM=
+X-Received: by 2002:a05:620a:3908:b0:7c9:2383:afef with SMTP id af79cd13be357-7c956f45eb6mr320451485a.37.1745490488996;
+        Thu, 24 Apr 2025 03:28:08 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH5BZlCzf2Zo1ugwuFPVTG43+W/s7bg/g7I+h0Q5YvLmNtAP024uFmveP2mjEmcoy+ivjTHrQbqnbWyp7aw5WU=
+X-Received: by 2002:a05:620a:3908:b0:7c9:2383:afef with SMTP id
+ af79cd13be357-7c956f45eb6mr320448285a.37.1745490488691; Thu, 24 Apr 2025
+ 03:28:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: i2c: mt9p031: fix mbus code initialization
-From: Hans Verkuil <hverkuil@xs4all.nl>
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Tarang Raval <tarang.raval@siliconsignals.io>
-References: <130d46d0-deb6-4235-886d-af67b378907d@jjverkuil.nl>
-Content-Language: en-US, nl
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <130d46d0-deb6-4235-886d-af67b378907d@jjverkuil.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250423072044.234024-1-loic.poulain@oss.qualcomm.com>
+ <20250423072044.234024-6-loic.poulain@oss.qualcomm.com> <20250424-versatile-brown-chowchow-dfc4a9@kuoka>
+ <CAFEp6-0iXCPn80Y0s6Hoq2MjgNa+OYJEr0oWSKuXtah_OF6cAQ@mail.gmail.com>
+ <hjaep4muhpl2t5hfajnmvaueq2m24rwbjkfggvhk7otl6naeoi@hqs5ejhp4sef> <2ab8e807-6fe0-4f59-8bcb-0870124021df@linaro.org>
+In-Reply-To: <2ab8e807-6fe0-4f59-8bcb-0870124021df@linaro.org>
+From: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Date: Thu, 24 Apr 2025 12:27:56 +0200
+X-Gm-Features: ATxdqUEA6-iL777V9qP2C6CLVQbLEBUOR3aB-ZkTOJXgCuPugvYUfVi5WAf4m00
+Message-ID: <CAFEp6-0tDYScsFkHCwF21rCx4stB0P1An3QS1DvwisPooSxbgA@mail.gmail.com>
+Subject: Re: [PATCH v4 5/6] media: dt-bindings: Add qcom,qcm2290-camss
+To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, rfoss@kernel.org,
+        konradybcio@kernel.org, andersson@kernel.org, krzk+dt@kernel.org,
+        robh@kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI0MDA2OSBTYWx0ZWRfX2PGToHlSrYB3 Mb5pcF2Gs9foA9BIqM7jwiXbCSY4NiAi9drbe++CDRz108gSenVDyomx1QIfq6BH67q2w4loCYA Zo7PDJNWYUuEpXLbhvLHeLXb/JXveIWHC2zCQeB9vN2ChT7h1gvWGS24vwtM8YRsVx5/TTvU50G
+ mLIFWDfR2aNiGWxagfv/TOEK/CB6C+Jz8Qfvpt0rkKwwXoZcZCK8vM+JmMuH7V/wglMsAOjis44 vRwb0CPOQ+3BF7ZHUqAF8GSc0AwmrTjXdlZ/UDJx1mmTeOqeUQtFYYwDCuaicZd7lljmJ4erEiM GwygGaT3dYqbux9bdVz4YvEXW153B2yyl5nmvgidSnrv9DUTPtXPRQLjKfHkeQB5fyGIDlzk6VD
+ 4i2BIe/VjJZ6sqJ0tSX83XcdikcZXimRXIGZsUVBbsLfeB5iAbR4VlBe7SnLGX3gX+jjZVFG
+X-Proofpoint-GUID: 7rlPr6xRGSCcNGu3RGzAmU_u3-KipEI1
+X-Authority-Analysis: v=2.4 cv=ZuTtK87G c=1 sm=1 tr=0 ts=680a1239 cx=c_pps a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=KKAkSRfTAAAA:8 a=zU4xAU1DtyMVwtNcgFYA:9 a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-ORIG-GUID: 7rlPr6xRGSCcNGu3RGzAmU_u3-KipEI1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.680,FMLib:17.12.80.40
+ definitions=2025-04-24_05,2025-04-22_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 clxscore=1015
+ impostorscore=0 bulkscore=0 mlxscore=0 adultscore=0 lowpriorityscore=0
+ mlxlogscore=906 priorityscore=1501 malwarescore=0 suspectscore=0
+ spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504240069
 
-On 24/04/2025 11:27, Hans Verkuil wrote:
-> The mediabus code is device dependent, but the probe() function
-> thought that device_get_match_data() would return the code directly,
-> when in fact it returned a pointer to a struct mt9p031_model_info.
-> 
-> As a result, the initial mbus code was garbage.
-> 
-> Tested with a BeagleBoard xM and a Leopard Imaging LI-5M03 sensor board.
-> 
+On Thu, Apr 24, 2025 at 11:29=E2=80=AFAM Bryan O'Donoghue
+<bryan.odonoghue@linaro.org> wrote:
+>
+> On 24/04/2025 10:22, Dmitry Baryshkov wrote:
+> >> Pins are called:
+> >> - VDD_A_CSI_0_1P2 (for csiphy 0)
+> >> - VDD_A_CSI_1_1P2 (for csiphy 1)
+> >> (both of the above are supplied together without individual control)
+> > Is this a requirement of the SoC or just a typical implementation?
+>
+> Its usual for each PHY to have its own external power rail/rails.
+>
+> In this case the PLL power rail is shared but, that is not guaranteed as
+> a feature of these PHYs.
 
-I emailed this from my new email, please just change the From to hverkuil@xs4all.nl.
+Indeed, Then I guess it is probably better to have both a
+vdda-csiphy0-1p2-supply and a vdda-csiphy1-1p2-supply.
+Still we need to agree on that voltage name, before I submit a new version.
 
-I'm not quite ready to use my new email for patches, that's still work in
-progress.
 
-Regards,
 
-	Hans
 
-> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-> Tested-by: Hans Verkuil <hverkuil@xs4all.nl>
-> Fixes: a80b1bbff88b ("media: mt9p031: Refactor format handling for different sensor models")
-> Cc: <stable@vger.kernel.org>
-> ---
-> diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
-> index 4ef5fb06131d..f444dd26ecaa 100644
-> --- a/drivers/media/i2c/mt9p031.c
-> +++ b/drivers/media/i2c/mt9p031.c
-> @@ -1092,6 +1092,7 @@ static int mt9p031_parse_properties(struct mt9p031 *mt9p031, struct device *dev)
->  static int mt9p031_probe(struct i2c_client *client)
->  {
->  	struct i2c_adapter *adapter = client->adapter;
-> +	const struct mt9p031_model_info *info;
->  	struct mt9p031 *mt9p031;
->  	unsigned int i;
->  	int ret;
-> @@ -1112,7 +1113,8 @@ static int mt9p031_probe(struct i2c_client *client)
-> 
->  	mt9p031->output_control	= MT9P031_OUTPUT_CONTROL_DEF;
->  	mt9p031->mode2 = MT9P031_READ_MODE_2_ROW_BLC;
-> -	mt9p031->code = (uintptr_t)device_get_match_data(&client->dev);
-> +	info = device_get_match_data(&client->dev);
-> +	mt9p031->code = info->code;
-> 
->  	mt9p031->regulators[0].supply = "vdd";
->  	mt9p031->regulators[1].supply = "vdd_io";
-> 
 
+
+>
+> 1p2 - digital logic is individual on this SoC.
 
