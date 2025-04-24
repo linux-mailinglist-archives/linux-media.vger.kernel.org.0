@@ -1,60 +1,61 @@
-Return-Path: <linux-media+bounces-30910-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30911-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE5C5A9A689
-	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 10:43:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4053CA9A69B
+	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 10:45:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 892383AA60B
-	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 08:43:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 092CC445948
+	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 08:44:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50CEA221273;
-	Thu, 24 Apr 2025 08:41:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84D15221FBC;
+	Thu, 24 Apr 2025 08:42:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="2fSBAKod"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="31uQnfkz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2046.outbound.protection.outlook.com [40.107.236.46])
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2076.outbound.protection.outlook.com [40.107.236.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E51520B808;
-	Thu, 24 Apr 2025 08:41:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F63A20F09A;
+	Thu, 24 Apr 2025 08:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.76
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745484103; cv=fail; b=gmvgORRFMDzum9IbzdYnqaNGLeFdd6N2N67ArJKj0sdONOoxxCaz5FkV3DUfQJeIcj60GN3oeF6MFj+V+mHDzv2z7DnZXe+c1ifaZr1+/WAODwXVfTfa6xvzbfNM7CxiVAdJPcss4KoSbgZSVSxGQHpQ+FNqggxEz3x4aIQST8E=
+	t=1745484169; cv=fail; b=KjbJkKx+AXJrw/n69AX8AUTEqJO6yOxdq1AEaGDSQ0BewVF2O4+VUO8pPV/083N6TGCd64Hy+m40qQ8N2fxkmrQfIlwZAXvVFd/umNt18uDNp0jSxVs2/5S61X687PBlWe8qAw+tng9WEGF71Y/CXACtjelaw3I+gm0pihhd6tU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745484103; c=relaxed/simple;
-	bh=O0CwZt+7H+MQFldTjXuiyxYlCez+w7LttflFoKcdV/4=;
+	s=arc-20240116; t=1745484169; c=relaxed/simple;
+	bh=qoiJO9HcS/TEf0vW4btwcB3QAkgCb89uW7Ico+MZJS8=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tms29gqXpmt1JW64O+KzXC67s7cVWoi/MxSHkjRaRfett/gwWhAEB5m0crdyuPJIXv1UtipEQefaMpCkWtlwudf6vvINgmS2GxH9ncnFDmUF+1D7/lncJuF8a4m1X1WoK5juhOV/u0Yy5uRSMrejW4ZE6cedAxnk9Vr0TVGJ/KA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=2fSBAKod; arc=fail smtp.client-ip=40.107.236.46
+	 MIME-Version:Content-Type; b=HMr7N3QKl45bn1SrTCCuHfMKe35bnDtCC2mFs9SfH6nxUfB5Ka0KjC0rCQZUa9PbKY9FLpfSG0ZowbQeNsT/s/HlJ+JUbplo3jUH/elAJ0hL1HxTf9iKlGnlktgBFEC03ViOs9ZCPhRM/VEz04ih8CVHfidlysovmtZVkMTWGVM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=31uQnfkz; arc=fail smtp.client-ip=40.107.236.76
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Lstm5D8C0cVWjeFREzVmOvPLUFdrKyAWcHVLPbZHA3pjEJWV4YqbyBTXOBvW3wuVUW8gvAWIUzAaQkNlXQnmXL6K17xC5fJmIoKfnNFMS1pWRPC4SVBxxQ0V/DNVj5uNWgNpT5TNgAP293Ltx/P4sqwxjPkAL1iWVWUgRn26cSVX3P2Pow7uTymBzgTR9H35f/thyrWghMmuY4aEZiHu/tsTHxDRXPXcqxeotT1NnGatstXGc7r1E+MRAIxoGgzvM/Em+ygBGNnKor5k5HDx89+3lNpd83HGoFB1Y7Xw4V2kewifAlft3xqcLQCtpETP1dqweX+0zu7fbRZoodX2bg==
+ b=rQ3aEQe+yLlljKDmuKFLCNo3QZdIS+SS7TeUgkQSfIBWV6nup3JLy1+y0uNeJdpBX6ByfnYUG5aVJjKqVXGesekjbW64zDFiVlYni+EJf7TzmDwADmQa4bWDN7t0xGZMXckm6KVqp0ojqtun2V8ABLg/0HggwGwNtwtqnxAwBUoqu0Hp+845bmU132ipIuMGUPcQgLM83vat3NMNFMDiPuEhOO7NublWGam0r2JM5ejzrHSa4WspvYcUDpXnZv1nYOpEEAnBBFi7ynvwiPeiPd5hTqgO9GGFYVomg6vGTORchdowNKav9GY3arT7HVJrxGfmc+Is4zinjT3j0Am5tA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EHYMYNGFF9uKuQ3khXkbLAwz3Hd5pM8+94Ze52BPEZA=;
- b=oaEc7UObmzKg9Po3lJkM0Pf9lv690SRdZAavmplvb/YXlN1/fH174NZqtZyv/7ZcKb3U54Zrahj34Rw9ApFcRdZLGWm3wo+U1zIA/j9TuC6VhmFq63O5emYGD2XIazRZBj1QI77zvH1Dc4V+H8LNIvRi86VTRiSH761dBbZNCjnUp7FpswLYNbPLku5lzDIjAfwfUXPk8jw7eIC6FGxNfc81rfA+Rj2Ozn5uOdpURgQMJ1ZOlWle3IB3WJnC4/FRi1zLbaNJv4mqnBPPzgK5+jWqTX7ojaDRVoyQMHHzYvu52etebwUvc+UOqO+ZJeLwFlzzSWyU5eu2RMsTJ5+bag==
+ bh=nKFgSU+/n1w4KGuub1OiuFuizuepUpoFBaPgg06u1ro=;
+ b=hxAurpG2C7HR1RhiFZwbV9RciTnWVFyK+iUEtbzGC+iJbAcKNLqa0eky2eranReZf/GE9/2aECToQZDpjwOA5Kl7lkgDWQS2ocE7vd/PK8GAvloaT//w3J+o4wafXo7rppBEZFXUh5kkfvajKMz3JPQNX/taT3UpnyXxc2C7vL6Dc93QxGD+7QDb4HyIgmSiVfRceb7F0gbGPzTWPVoyYNZG1bhE1zg60h/e419ELXXGtwVqiCmh+4G4U3xMA+LLJyMUYjB26IamNej3Yi/OcWojikgWIilynf61ALq6T2E9fglJoLP02VPb4iqbZL7GQYM8NRvd2ZjwAqIdGcnmsw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
+ 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
  (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
  dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EHYMYNGFF9uKuQ3khXkbLAwz3Hd5pM8+94Ze52BPEZA=;
- b=2fSBAKodVOIo4P2Hid+9wjuIeEsGyGzeEGHpLpM0r+HmDYKb6u7WGHkVV4DVpUaUqiy+nnrtYoOO73mEi89eiFjef7H14RuwRevTlcb5K0tqo6ODocj6XUiwyBIJU7SpxOxIS7g9De4/zfNNnM0FhdrSm615G+la4v2QR27SwGQ=
-Received: from DS7PR03CA0356.namprd03.prod.outlook.com (2603:10b6:8:55::22) by
- MN0PR12MB5860.namprd12.prod.outlook.com (2603:10b6:208:37b::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8678.23; Thu, 24 Apr 2025 08:41:37 +0000
-Received: from CH3PEPF00000018.namprd21.prod.outlook.com
- (2603:10b6:8:55:cafe::2d) by DS7PR03CA0356.outlook.office365.com
- (2603:10b6:8:55::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.36 via Frontend Transport; Thu,
- 24 Apr 2025 08:41:36 +0000
+ bh=nKFgSU+/n1w4KGuub1OiuFuizuepUpoFBaPgg06u1ro=;
+ b=31uQnfkznuaYIEy7Q9zwqXRWym8BZVnKOUbKuwEPn1hoaAPvzqd8Wa7Q4WXjU3StcUFJX8KcvcQDFzU576rYisGjrjXZLmk5JxSWV+7IOREgkCUyEGZKew0LTyUSgQGchYHSTIGtxQ0qXv+7EikBzeFp03rJSdctEqUi/foqbmM=
+Received: from BL6PEPF00016416.NAMP222.PROD.OUTLOOK.COM
+ (2603:10b6:22e:400:0:1004:0:4) by CH2PR12MB4293.namprd12.prod.outlook.com
+ (2603:10b6:610:7e::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.36; Thu, 24 Apr
+ 2025 08:42:41 +0000
+Received: from BN2PEPF000055E0.namprd21.prod.outlook.com
+ (2a01:111:f403:c803::8) by BL6PEPF00016416.outlook.office365.com
+ (2603:1036:903:4::a) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8632.36 via Frontend Transport; Thu,
+ 24 Apr 2025 08:42:41 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
  smtp.mailfrom=amd.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=amd.com;
@@ -62,28 +63,30 @@ Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
  165.204.84.17 as permitted sender) receiver=protection.outlook.com;
  client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
 Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CH3PEPF00000018.mail.protection.outlook.com (10.167.244.123) with Microsoft
+ BN2PEPF000055E0.mail.protection.outlook.com (10.167.245.10) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8699.1 via Frontend Transport; Thu, 24 Apr 2025 08:41:36 +0000
+ 15.20.8699.1 via Frontend Transport; Thu, 24 Apr 2025 08:42:41 +0000
 Received: from FRAPPELLOUX01.amd.com (10.180.168.240) by SATLEXMB04.amd.com
  (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 24 Apr
- 2025 03:41:31 -0500
+ 2025 03:42:34 -0500
 From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich
-	<dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
-	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
-	<airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Sumit Semwal
-	<sumit.semwal@linaro.org>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Tvrtko
- Ursulin" <tvrtko.ursulin@igalia.com>, <dri-devel@lists.freedesktop.org>,
-	<linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-	<linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH v9 05/10] drm/sched: trace dependencies for gpu jobs
-Date: Thu, 24 Apr 2025 10:38:17 +0200
-Message-ID: <20250424083834.15518-6-pierre-eric.pelloux-prayer@amd.com>
+To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	"Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, "Jonathan
+ Corbet" <corbet@lwn.net>, Matthew Brost <matthew.brost@intel.com>, "Danilo
+ Krummrich" <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, "Sumit
+ Semwal" <sumit.semwal@linaro.org>
+CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Lucas
+ Stach" <l.stach@pengutronix.de>, =?UTF-8?q?Ma=C3=ADra=20Canal?=
+	<mcanal@igalia.com>, =?UTF-8?q?Christian=20K=C3=B6nig?=
+	<christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>
+Subject: [PATCH v9 09/10] drm/doc: document some tracepoints as uAPI
+Date: Thu, 24 Apr 2025 10:38:21 +0200
+Message-ID: <20250424083834.15518-10-pierre-eric.pelloux-prayer@amd.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250424083834.15518-1-pierre-eric.pelloux-prayer@amd.com>
 References: <20250424083834.15518-1-pierre-eric.pelloux-prayer@amd.com>
@@ -93,130 +96,141 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
  (10.181.40.145)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PEPF00000018:EE_|MN0PR12MB5860:EE_
-X-MS-Office365-Filtering-Correlation-Id: e884d1cd-56ca-44ce-9f6c-08dd830bd34d
+X-MS-TrafficTypeDiagnostic: BN2PEPF000055E0:EE_|CH2PR12MB4293:EE_
+X-MS-Office365-Filtering-Correlation-Id: b533277e-6afb-4fc2-aaaa-08dd830bf98f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|376014|7416014|36860700013|1800799024|921020;
+	BCL:0;ARA:13230040|1800799024|376014|7416014|82310400026|36860700013|921020;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?+8WkuDxFNQW4AwaSxS1d8uZ36HVcIil11OyjOFDNFY/O3PxzWkPe7qarZT+s?=
- =?us-ascii?Q?ae0ovoMXbA+9j3cURR18T2ssDk1BezJgkt9sP5n3QImp1fhe1Cn6+0Q+uV8v?=
- =?us-ascii?Q?e8uPBU5PQ8cbAnpYKPiWCuaKTcSGrSf2vmnpLtGw0yoSpn+NpS0p5cILpwIg?=
- =?us-ascii?Q?D8Xaj6yXvalWvMYWxpOSBm053QOmSyp1ni5+FhjLUiYXl4xjS/Oyv4OROPJB?=
- =?us-ascii?Q?haF/EOPQDksTI0QAoMwonw4hP/y/CyMbCeh7EwDDk4opDwOBXi0mIno7bmu1?=
- =?us-ascii?Q?dx88idMSgqqsrf+jMm2ylIyAZ5mkrRjJk90BKayd2tzT7NfXcguThPcq4a50?=
- =?us-ascii?Q?ECkQa6cOS3HBERsxg3u3Qkhhu30UVfKDQ3+pjy0YSxNJZ46GAioNwBTCxwQN?=
- =?us-ascii?Q?oeBbH5zWoQ88XO8dBNfD4hLgNKhFphwSjPOqjF2MASPvkJw/vp/ANgtjRVDR?=
- =?us-ascii?Q?GvPeXpDE9IB0pVg2VJThNdh+GwVYlIHE1GgcU56MH2Fb39wcVLf8oWVkPTJs?=
- =?us-ascii?Q?hgt5+whCbPdtsS6dg/fmlCShwB1QrK7tRo5QyNLeA6PLmuU1QV1FqcquGCfv?=
- =?us-ascii?Q?5HT1iI9rBIhvy0vw04D/1/u+27rLt5GS+0suYs037GebUk5foVJuHyPZvAPE?=
- =?us-ascii?Q?+1ymCC9bdkvCfdPT1gPRR5S+oEvERHWtecAWVnZG2sORj55GFDKEbnW72hMn?=
- =?us-ascii?Q?NhrZ8Lu5makDNbrt8/+iUnjGLxJ3e/kC9mExdpk5+EZa6KOioGHG9EtGIDBz?=
- =?us-ascii?Q?3gd2hRT0a1Ha6ae8Is/kALtSlwKdVqLGQ6CxMPKL6+VKptWBh3njjWoW0aM0?=
- =?us-ascii?Q?4nSZYWy2307+zW+OFLPP/H6ACcWKB8hwUeBqR6/RaraAp+OMqq9yTjif91O+?=
- =?us-ascii?Q?SA5rlH9SNtDteklwsnlGHAb4zWvbuv+m2K2rgWIbX4vHoRdw7PyAtJVBzHup?=
- =?us-ascii?Q?77s/AKy+9jq8XRSSzXM5mxM5cxBVtvdCvp547ALOqweC22+vU5Vx5bmMy8qU?=
- =?us-ascii?Q?RuHf754oAnhwUtLU65YKr6ahUcStVGzFK6EhlprJASrI6PGHPmjBQ2Aehaoe?=
- =?us-ascii?Q?5SHmg31b7oZrRohhx94CFFDqwKW7gDc5bremQrjRGWPoYfqmnUmgppcx2q0v?=
- =?us-ascii?Q?YrsEySvhP1cttRR2/XpoRJvweNro/rSGsGCoXxG0W2wze3htApmeDk8trvj2?=
- =?us-ascii?Q?uuASx0v6uDKQEvg6IABWFC9vG6hDckcIgQW3oaNbaLN5Fy9SL1YX5YAUzP88?=
- =?us-ascii?Q?ap1KZqhNPCiCnJ67O+9aezw6HulEckyPJpVH3vRshMwJ0yQdcg+6GsZT9G9G?=
- =?us-ascii?Q?6PTISdF9wpS7dt4dIgAi43SY2zgnpZS74jMKVbinU1M9UeEuqRT3Id/IVNGm?=
- =?us-ascii?Q?8k6BBuq9bwFsnMm8odSpQ5Jgj2c4zlaurTI+pWGkWDE/lj9DV82gB2OxSafU?=
- =?us-ascii?Q?/1OtEoAQx7aHX9FrhaeIW5NUv5l4H6/VMobP7fXISZkaCPL+pMiO/JTuRP45?=
- =?us-ascii?Q?d6PsFEvUeZs11XWHc1O1iXNW5fh8x59l8ZlLATN5PGOSixdH1eoMQGVr0A?=
- =?us-ascii?Q?=3D=3D?=
+	=?utf-8?B?NXREZEMzMmwzdFZ3TDE4TC9Sd0VaK0w2eHdDSUMweU5IMDJpNzhwblVkdFJB?=
+ =?utf-8?B?ZG92ZFhUbTlSV3d1MkhkSE1ab3ByS0FMVE5rM2RHWUVIUjRtbEUrMnM1VzJv?=
+ =?utf-8?B?bG13TjN6S05Nb1I5eS9ZbWRTTU1JU081TStSLzcvNWQ3Rzc5azBtUUZzK3lG?=
+ =?utf-8?B?UWcvK3cyN21lQmttUTFwQjRyOWUzMjZCU2hTREhtMng4SDlHaDk0cll4bVpV?=
+ =?utf-8?B?RnBJWCt5Z05DZjNuQ1VXWCt3bHhMaUljUVJGcHlMdlNwMnErdEFrWE1mWDd4?=
+ =?utf-8?B?aVdlTkMxYkJJVUFLSENhOTE2aEgwV015TldOQWtTL3QzTWRxajN0K1B0UXNw?=
+ =?utf-8?B?VEgveWhHc0xSeFdFU3o3ZlJwbzFsb3F0d2YwdTVyU1hHTlhraWo4ODl0MlNU?=
+ =?utf-8?B?ZERzSlQwM3MzQzR0TkFwVDE5UnZOQXlDSUxTMDlMcDV1dGZzUEdxSkRNSTBx?=
+ =?utf-8?B?Q3hGNXhFcXNGRWJiYys3NVh6ZkZSSGQ2OTB0cEpIT0hYSWc1azdLVGlSL3BV?=
+ =?utf-8?B?ZEpwcHlTVHl2YzV3NThKcVFrbnBmaGljQkdzeEdWYWtjRWptODN5ck1zRW04?=
+ =?utf-8?B?NWN3VHBxN0VvRW1HRkVyNEE1OFVhRkRabUI1dk5pZW5lVW9UdXdEWUI4SUgy?=
+ =?utf-8?B?YjRLZVZteVk1blgzMkdQUUVSODN4U1p6bGdSTFhheTNqTzRlWCtZVXByOVFk?=
+ =?utf-8?B?MERTTkg1aGFyVkkyWWNwU1BkZ2VaaFhuZDFwdi9WbmRSRVBpd1ZZU3c3akVh?=
+ =?utf-8?B?TFAxc1ROY1dOTU90RVhXS1h3LzlJK0JzVTUxTVgxZ2ZBNHMrN2FQN2hkeDg5?=
+ =?utf-8?B?S3ZYbVZHT29kK3FjZW5QaXRUU2dJTnh6cm1WQkcxeTVoN2VGNktTNm9LOW96?=
+ =?utf-8?B?Z3dkMyttUEQ4TE54K1RYR1Y2VUVUM1Y1T0JSb2dpek5kZ3VTMzlxMG9CU0sz?=
+ =?utf-8?B?VWhHRHhkZStwYno3SkRpeE0wcEc5TFUwdzJ6aFpJM1IzdS9WUVREOVl1Tzgy?=
+ =?utf-8?B?d1dobGhidlFGZEhBbS9NTGRxZWIrcXpqWEVRUUJWdGRtVGRqMDNwdDZySjhQ?=
+ =?utf-8?B?WERJdFFGRmRpMjA5akllRERtM2xyTnhLTXNndnh5Q2JNVEZSTnlKcmZkT3Bz?=
+ =?utf-8?B?WTJzcFRIcnlVS3hrbHNiTTVDZmZ1SVNUTzMzem1ZYVlUY0xrK2dGSGFhZWZy?=
+ =?utf-8?B?NnVtVXQybHJZTDJSY2I3RlRTdjJhOFhOSmNuZUtZZlFPSU40SEYrcUNuOGxj?=
+ =?utf-8?B?QjJIVk1sYXFKOVV3UHd0QmxZbEh4TVgwNDB6eFV0MmdrWHVYb0NUY1RLWlE3?=
+ =?utf-8?B?QWtGK201UWJtRm1YMEh0YzlONHlYQzBjRWp5dVErTmZoV0tkNm52LytWM2l4?=
+ =?utf-8?B?WU9PamtCNUsxb0lzWE5uS3lYWDVMS3EzK2wrSkw0bUdtQnlPdk9CS2JhdFdk?=
+ =?utf-8?B?bFl6aHU5eFg2NmNHUUZVeEFEUUdmenJEY0xHbTRkNmZYOTR3dmVtWThPVEJY?=
+ =?utf-8?B?YXo4TkUvcGRpbUYzbEU1cGtNMmdxS3YrNFV5bHBjQ0JZT09zd1hpWU5nQitQ?=
+ =?utf-8?B?VCtndldFY0QzQkZYeHFscllHNVpZMDY1YnNjTkIzSU5zVklHQ0pMUFFySkZE?=
+ =?utf-8?B?b2g1OTB4VjRrbjhVKy9SVklUUVNlV2M4OCtoNjQ3K2preUw3cEdaZEFBcTZa?=
+ =?utf-8?B?dXdadno3eHpHVzBwZllSaUFjdU0rMDJsN0hGMVppbE9iM2QwNVRwb3EvT3Fy?=
+ =?utf-8?B?Zm9UdXR5eWJvWnpxNEMvb0U0V0paZWM3RGpaTjdnVzRBd21MU3h0TTlwTXhw?=
+ =?utf-8?B?U25xaWJpRmlzODJCZWJxM1JQaUNJUUZraERYVGhZNDhrbEZHWUJlZlRpVDZt?=
+ =?utf-8?B?TlI1ZUovL1FCb1hPQ21NMmVaTDhQZyt4cEVrbVU2L3phaVNVN3M3UnBBZW1X?=
+ =?utf-8?B?SVcrRjkxb3gxN3FzK0pQeXVDMXlLNlRWak5XQjUwTmViKzVZNmp2Yi9pNkxt?=
+ =?utf-8?B?MmtmT09QREZQb3FQU1dINmIrUGVyUTFVTzUvWkpydzU5QnpNOEppNWtHNjND?=
+ =?utf-8?B?aXd0RlhhV1JPU1piL2J3MTN1Tnh5dGV1UDVUdz09?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(7416014)(36860700013)(1800799024)(921020);DIR:OUT;SFP:1101;
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(82310400026)(36860700013)(921020);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2025 08:41:36.8796
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2025 08:42:41.0868
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e884d1cd-56ca-44ce-9f6c-08dd830bd34d
+X-MS-Exchange-CrossTenant-Network-Message-Id: b533277e-6afb-4fc2-aaaa-08dd830bf98f
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	CH3PEPF00000018.namprd21.prod.outlook.com
+	BN2PEPF000055E0.namprd21.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5860
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4293
 
-We can't trace dependencies from drm_sched_job_add_dependency
-because when it's called the job's fence is not available yet.
+This commit adds a document section in drm-uapi.rst about tracepoints,
+and mark the events gpu_scheduler_trace.h as stable uAPI.
 
-So instead each dependency is traced individually when
-drm_sched_entity_push_job is used.
+The goal is to explicitly state that tools can rely on the fields,
+formats and semantics of these events.
 
-Tracing the dependencies allows tools to analyze the dependencies
-between the jobs (previously it was only possible for fences
-traced by drm_sched_job_wait_dep).
-
+Acked-by: Lucas Stach <l.stach@pengutronix.de>
+Acked-by: Maíra Canal <mcanal@igalia.com>
+Reviewed-by: Christian König <christian.koenig@amd.com>
 Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 ---
- .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 23 +++++++++++++++++++
- drivers/gpu/drm/scheduler/sched_entity.c      |  8 +++++++
- 2 files changed, 31 insertions(+)
+ Documentation/gpu/drm-uapi.rst                | 19 +++++++++++++++++++
+ .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 19 +++++++++++++++++++
+ 2 files changed, 38 insertions(+)
 
+diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
+index 69f72e71a96e..4863a4deb0ee 100644
+--- a/Documentation/gpu/drm-uapi.rst
++++ b/Documentation/gpu/drm-uapi.rst
+@@ -693,3 +693,22 @@ dma-buf interoperability
+ 
+ Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
+ information on how dma-buf is integrated and exposed within DRM.
++
++
++Trace events
++============
++
++See Documentation/trace/tracepoints.rst for information about using
++Linux Kernel Tracepoints.
++In the DRM subsystem, some events are considered stable uAPI to avoid
++breaking tools (e.g.: GPUVis, umr) relying on them. Stable means that fields
++cannot be removed, nor their formatting updated. Adding new fields is
++possible, under the normal uAPI requirements.
++
++Stable uAPI events
++------------------
++
++From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
++
++.. kernel-doc::  drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
++   :doc: uAPI trace events
+\ No newline at end of file
 diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-index 6f5bd05131aa..5d9992ad47d3 100644
+index 781b20349389..7e840d08ef39 100644
 --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
 +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-@@ -87,6 +87,29 @@ TRACE_EVENT(drm_sched_process_job,
- 		      __entry->fence_context, __entry->fence_seqno)
- );
+@@ -32,6 +32,25 @@
+ #define TRACE_SYSTEM gpu_scheduler
+ #define TRACE_INCLUDE_FILE gpu_scheduler_trace
  
-+TRACE_EVENT(drm_sched_job_add_dep,
-+	TP_PROTO(struct drm_sched_job *sched_job, struct dma_fence *fence),
-+	TP_ARGS(sched_job, fence),
-+	TP_STRUCT__entry(
-+		    __field(u64, fence_context)
-+		    __field(u64, fence_seqno)
-+		    __field(u64, id)
-+		    __field(u64, ctx)
-+		    __field(u64, seqno)
-+		    ),
++/**
++ * DOC: uAPI trace events
++ *
++ * ``drm_sched_job_queue``, ``drm_sched_job_run``, ``drm_sched_job_add_dep``,
++ * ``drm_sched_job_done`` and ``drm_sched_job_unschedulable`` are considered
++ * stable uAPI.
++ *
++ * Common trace events attributes:
++ *
++ * * ``dev``   - the dev_name() of the device running the job.
++ *
++ * * ``ring``  - the hardware ring running the job. Together with ``dev`` it
++ *   uniquely identifies where the job is going to be executed.
++ *
++ * * ``fence`` - the &dma_fence.context and the &dma_fence.seqno of
++ *   &drm_sched_fence.finished
++ *
++ */
 +
-+	TP_fast_assign(
-+		    __entry->fence_context = sched_job->s_fence->finished.context;
-+		    __entry->fence_seqno = sched_job->s_fence->finished.seqno;
-+		    __entry->id = sched_job->id;
-+		    __entry->ctx = fence->context;
-+		    __entry->seqno = fence->seqno;
-+		    ),
-+	TP_printk("fence=%llu:%llu, id=%llu depends on fence=%llu:%llu",
-+		  __entry->fence_context, __entry->fence_seqno, __entry->id,
-+		  __entry->ctx, __entry->seqno)
-+);
-+
- TRACE_EVENT(drm_sched_job_wait_dep,
- 	    TP_PROTO(struct drm_sched_job *sched_job, struct dma_fence *fence),
- 	    TP_ARGS(sched_job, fence),
-diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
-index bd39db7bb240..be579e132711 100644
---- a/drivers/gpu/drm/scheduler/sched_entity.c
-+++ b/drivers/gpu/drm/scheduler/sched_entity.c
-@@ -587,6 +587,14 @@ void drm_sched_entity_push_job(struct drm_sched_job *sched_job)
- 	ktime_t submit_ts;
- 
- 	trace_drm_sched_job(sched_job, entity);
-+
-+	if (trace_drm_sched_job_add_dep_enabled()) {
-+		struct dma_fence *entry;
-+		unsigned long index;
-+
-+		xa_for_each(&sched_job->dependencies, index, entry)
-+			trace_drm_sched_job_add_dep(sched_job, entry);
-+	}
- 	atomic_inc(entity->rq->sched->score);
- 	WRITE_ONCE(entity->last_user, current->group_leader);
- 
+ DECLARE_EVENT_CLASS(drm_sched_job,
+ 	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity),
+ 	    TP_ARGS(sched_job, entity),
 -- 
 2.43.0
 
