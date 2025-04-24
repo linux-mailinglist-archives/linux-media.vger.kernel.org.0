@@ -1,132 +1,135 @@
-Return-Path: <linux-media+bounces-30940-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30941-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86F5AA9AC8B
-	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 13:55:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF2DEA9AD28
+	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 14:20:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CF2FB440EC9
-	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 11:55:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8FE4E9255E5
+	for <lists+linux-media@lfdr.de>; Thu, 24 Apr 2025 12:20:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D8291225A20;
-	Thu, 24 Apr 2025 11:55:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A5E022F75E;
+	Thu, 24 Apr 2025 12:20:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K0lGg90F"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Suw1LZxz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699E6221FA0
-	for <linux-media@vger.kernel.org>; Thu, 24 Apr 2025 11:55:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 963AA502B1
+	for <linux-media@vger.kernel.org>; Thu, 24 Apr 2025 12:20:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745495736; cv=none; b=YWQ4NwnbQGZTX1PdXu8bJA4tHVpgA3ThkpYFFxHUPTed+nsHGI2vRLBNw9WC7oydnb0WPJnGaVqCzPxE9GKQus/fvIjULOTcUvhwAs7fkW28n1CgrYAF2ja7lOnsAZi2M8gKdXnvtiNazFFGukB74zbPTrmm1/3GFJaVVFNxNF4=
+	t=1745497237; cv=none; b=VR7tT7HoAlgb7Lv4Pb4Bteml/pDpwWBc2aLxGBDpDv7D0wHqULGqr5wQsvclI+YFUoFCRk7pHiRt2qEsGLXO+BOKNixkHJq8lrTqVxX/KReqxkKo54vFxOkwwCnj5HfLLpgkDxbrsjrYH7K7JRYdXjkoZ7pbLSEqpMmP5KbKRpo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745495736; c=relaxed/simple;
-	bh=xedhdhkmbIDLGEDZAmR/gw6Sf18IdNFFWeHJmHi0AUs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BPZyyWXJP515sdN1YoopvwfrRGzyd43CWmxBfxt7RmF0D4q7tEtVLVDhb9HW7cHUTy3+B0BwIYUDMihxUybGtLrF5Y+WQ3na80tn/cCb6S8mx52v4PnNEW2F7z3gCwE0UTR0fxTgxVXg4ioWrDfxeaHG/93skctWDSjE//M7dos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K0lGg90F; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745495734; x=1777031734;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xedhdhkmbIDLGEDZAmR/gw6Sf18IdNFFWeHJmHi0AUs=;
-  b=K0lGg90Fho+OXUMCQgeAj0SUCLTWDZCPVLivaHxlS3ktlhWeetyWqGi1
-   /SqaqkUKpcH6OhVL1TeJhP3FJ56fI4ZtCBBsaIknQVyPtsaOpj0IjTilz
-   wpb1tKTa2/bJFEfc6l/02t44IZcXHyiPDeYojQKuKoNHq8YZBn5GPrhBR
-   uWZRXrnPX4IkLf4JiopL1SXYkpt9zmHA4M6z5klrD8b3DoIcI/V61juXT
-   ic6D7cKK0bKZOBuJL7XYIfkrQgO2rFK+1kMpcCIXKyETg1j+AB7LlftNU
-   NWqvCXqEIFRVnX6azLN4rIAKns73v7t26PcN+R5+nq/5Xkn96n4ld8hQZ
-   Q==;
-X-CSE-ConnectionGUID: zddS8SLsQgKaUNqCsXhMYg==
-X-CSE-MsgGUID: QujIhPY9RC20ZDGb/jKVbg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="46242651"
-X-IronPort-AV: E=Sophos;i="6.15,235,1739865600"; 
-   d="scan'208";a="46242651"
-Received: from fmviesa004.fm.intel.com ([10.60.135.144])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 04:55:33 -0700
-X-CSE-ConnectionGUID: AO7O/N/HTdaKQfoSrco5QQ==
-X-CSE-MsgGUID: GDf1pLRlTk2OBXpgDa/Cig==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,235,1739865600"; 
-   d="scan'208";a="137687037"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmviesa004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 04:55:31 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 3CB1712260E;
-	Thu, 24 Apr 2025 14:55:29 +0300 (EEST)
-Date: Thu, 24 Apr 2025 11:55:29 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Bingbu Cao <bingbu.cao@linux.intel.com>
-Cc: Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: ipu6: Remove workaround for Meteor Lake ES2
-Message-ID: <aAomsUA01Sm5vo1x@kekkonen.localdomain>
-References: <20250311084203.516205-1-hao.yao@intel.com>
- <f8fd0fd4-ca0c-12b5-acc6-ba846b2c9987@linux.intel.com>
+	s=arc-20240116; t=1745497237; c=relaxed/simple;
+	bh=bL8XZJpIQ328FckjzxCTkScUdzNQtFOutrtggIAGvho=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YwrZrjZk66afRqvCeWYR4384wRRP0TPEuOvoQrXKyN8+IoV5LVn1oqb+XMM0WjS8yYQzId0Wy40souXCPVKakASCe8aKpaMz9xq5x0awIuLOBm/596oxsMARRH7KQ4KSqR+gb3QsdKILjAKj8ynV3+Fb24ni5BEAm/bQD8aVHIM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Suw1LZxz; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-39c13fa05ebso623495f8f.0
+        for <linux-media@vger.kernel.org>; Thu, 24 Apr 2025 05:20:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1745497233; x=1746102033; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=u50Yy5Vg8srr8Se1a2fDdmj5mgoY3leB+NYiaQ0tKb4=;
+        b=Suw1LZxzxoOoMZRlMgxKMu1qNBFbVt8fWs5AsneTXtfH7gNAf3SADchKKJdj2Qtkk6
+         R/tWdiYKrYdtTEANlwpYvO6rWYSP0J4uqmU7i13FIGQ5ZkmYyf9uG39MoRrnuvPXWFxa
+         Ll7Mk5yzRQgfl1W1Tq+622z0uLfPgF21YB+I2HpYEHtPs2iLLiGJwlrpJeNErtHiRTF6
+         KgUhm3gPVAdhZtOIdxM1Q6vWYrNEX8DUOGF7WpT6E+8kC+U2lpAWUsIiB6Z3vNuczVQ1
+         UweEmiHzHQ9opntm2TTGfWjBlkYIMXixUO45fVYi5fg+SuyKTgRHs9n0A3I1PUl16rjV
+         ZxXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745497233; x=1746102033;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=u50Yy5Vg8srr8Se1a2fDdmj5mgoY3leB+NYiaQ0tKb4=;
+        b=G3c5hVqUOqOOfwcCn6Q0v4e7cbwQdLu/phaPf4tdL2V1ljqJsedxvKyM6qrTStXO3m
+         v/ZUroHMHtP3MsUU6z04ew9tN8dbN0tpOXWN0tWsJp/0hgzGygW17lbS+TbAsnv0E3LX
+         NrwEpBk1ROCXnlbUtlITDK5b3FECTRl8nol8YvZbsgDsvFfqxYGGEge/jyX9JzCQoHkt
+         b36iw+jUppg4IxTcoQ7sEhK19OZrqO6pu7CTwaNYm74BD61qqkwATEOOcoEm9uAgKiz+
+         8ef0LRvZHzIgktSF7cCkpwVdXmAgepc5fORQNdPuv+aXq+kzzXBWED2YRKrE1ui9ok1i
+         uofQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW5reecMMfPovqlLu+dkM3ICgp3C+BolbKPhoFCKAnhmRZqxig8pJBFHM30vStYk0tdIHw3d/uy+Jnurg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxxa+NtwQgrxFeVyqty4zyBnrkCnRBfo/ts1UFCvP4cMaaUoL7W
+	EhEttIQSoh7UQeDOlhfEQymzobsayx1v7XL0UguV0qeWbUvrVUuJhzj7S4SCXbk=
+X-Gm-Gg: ASbGncvRQDdHCObbDRnLhfE5gmlMnMg/tjJSonj/f1tWnL43pR5ZqOcV+kK4QoC+JDr
+	vZr80r3mga7ix7E65s8b8wCZ86xHs9pvN5l+TO1BHYHY0+ev4ewwUz0FTmAUIzdE7zr6uNCXvmp
+	9+LSwLqd4ukE1JzqkFM522FqSQRD7NRDrpCYKdUGoFOtCHid5qbk+yId2TqDXyX9qlKbuaCalc+
+	QtNdxrnFqWBZP8Q+MJwwyTP1M90i6FblOZlOPf6cmQ9fw6MLgx6uxibl+7KSxVHoT8wXJuUh1QK
+	arZV5j7Fp/YTPgPmaq/4JP+a5PyUaenqD7h72mcNCmRnfMWVKy7R1DVNXThHh+naIFvIXbVB+Sx
+	jkpHZhg==
+X-Google-Smtp-Source: AGHT+IErGqD7SWmT3PoP2Qcfi8RzPWJTMPf2UDlu9jVrXtYNixkU0DJW45avJrW+b31pNkThEJFAjQ==
+X-Received: by 2002:a5d:64cf:0:b0:391:20ef:62d6 with SMTP id ffacd0b85a97d-3a06cf4a80emr1986260f8f.11.1745497232880;
+        Thu, 24 Apr 2025 05:20:32 -0700 (PDT)
+Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a06d54c031sm1884747f8f.84.2025.04.24.05.20.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Apr 2025 05:20:32 -0700 (PDT)
+Message-ID: <00fb511e-80b5-494b-acce-23093932c4ad@linaro.org>
+Date: Thu, 24 Apr 2025 13:20:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f8fd0fd4-ca0c-12b5-acc6-ba846b2c9987@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 4/5] arm64: dts: qcom: qcs8300: add support for video
+ node
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250424-qcs8300_iris-v5-0-f118f505c300@quicinc.com>
+ <20250424-qcs8300_iris-v5-4-f118f505c300@quicinc.com>
+ <47dtgkfqcpalixg36vxcurkmh5z52kdp7rbcvwl56wsyjsisdo@ylmmrvwde4nz>
+ <d8db0361-b8d9-4ed5-0f92-f66f280f62e6@quicinc.com>
+Content-Language: en-US
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <d8db0361-b8d9-4ed5-0f92-f66f280f62e6@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Bingbu,
-
-On Thu, Apr 24, 2025 at 12:18:06PM +0800, Bingbu Cao wrote:
-> Hao,
+On 24/04/2025 11:28, Vikash Garodia wrote:
 > 
-> On 3/11/25 4:41 PM, Hao Yao wrote:
-> > There was a hardware bug which need IPU6 driver to disable the ATS.
-> > This workaround is not needed anymore as the bug was fixed in
-> > hardware level.
-> >
+> On 4/24/2025 2:51 PM, Dmitry Baryshkov wrote:
+>> On Thu, Apr 24, 2025 at 02:20:48PM +0530, Vikash Garodia wrote:
+>>> Add the IRIS video-codec node on QCS8300.
+>>
+>> Nit: you can not "add support for the video node". You can either add
+>> video node or add support for video en/decoding.
+> Makes sense. Will wait for any other comments, before resending.
 > 
-> It is better to send v2 with fixes tag here:
-> 
-> Fixes: 25fedc021985 ("media: intel/ipu6: add Intel IPU6 PCI device driver")
+> Regards,
+> Vikash
+>>
+>>>
+>>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+>>> ---
+>>>   arch/arm64/boot/dts/qcom/qcs8300.dtsi | 71 +++++++++++++++++++++++++++++++++++
+>>>   1 file changed, 71 insertions(+)
+>>>
+>>
 
-Is this worth backporting? Nothing is broken because of this, is it?
+Unless you get another comment, there's no need to resend.
 
-> 
-> > Signed-off-by: Hao Yao <hao.yao@intel.com>
-> > ---
-> >  drivers/media/pci/intel/ipu6/ipu6.c | 5 -----
-> >  1 file changed, 5 deletions(-)
-> > 
-> > diff --git a/drivers/media/pci/intel/ipu6/ipu6.c b/drivers/media/pci/intel/ipu6/ipu6.c
-> > index 277af7cda8ee..b00d0705fefa 100644
-> > --- a/drivers/media/pci/intel/ipu6/ipu6.c
-> > +++ b/drivers/media/pci/intel/ipu6/ipu6.c
-> > @@ -464,11 +464,6 @@ static int ipu6_pci_config_setup(struct pci_dev *dev, u8 hw_ver)
-> >  {
-> >  	int ret;
-> >  
-> > -	/* disable IPU6 PCI ATS on mtl ES2 */
-> > -	if (is_ipu6ep_mtl(hw_ver) && boot_cpu_data.x86_stepping == 0x2 &&
-> > -	    pci_ats_supported(dev))
-> > -		pci_disable_ats(dev);
-> > -
-> >  	/* No PCI msi capability for IPU6EP */
-> >  	if (is_ipu6ep(hw_ver) || is_ipu6ep_mtl(hw_ver)) {
-> >  		/* likely do nothing as msi not enabled by default */
-> >
-> 
+I can fix the commit log for you on the way in.
 
--- 
-Regards,
-
-Sakari Ailus
+---
+bod
 
