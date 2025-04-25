@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-31088-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31089-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E46E2A9D5E0
-	for <lists+linux-media@lfdr.de>; Sat, 26 Apr 2025 00:50:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B04F9A9D5E1
+	for <lists+linux-media@lfdr.de>; Sat, 26 Apr 2025 00:50:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2FA984A64E9
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 22:50:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1A6533AE04D
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 22:49:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AA252957D1;
-	Fri, 25 Apr 2025 22:50:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AEFC296141;
+	Fri, 25 Apr 2025 22:50:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WdlOBvYI"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="a0db4sMh"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1552A198823
-	for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 22:50:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E9F9198823
+	for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 22:50:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745621406; cv=none; b=r3uuxxLOfLHDs+ZL1Yd++gAxuLhXukjNGDvWgFzAwdX5v94l1uD5Xd9OHr0ZUjudAYA3wfTtwK4AJlV6oG4jfNBsDSAOCgGL06zfIrID5CqE5afBI1Md8MGrkJMBVcNoG618+bUtdRNMaEUMEmREq+pbG9PLhm8OWvFJ0v6oc9M=
+	t=1745621410; cv=none; b=KdUT0GdadYdMOtINUnbjQL6NV97N1mOmAdN/8By162hRvGdSrUXEZuVb7urF4gowMp/e/hYbu0s8DPsDCRgmTIvFbgWm35f2QcpjRx4mvZkV78ExMvwdOXkIf61fopo2YPTdepExGA9Lhtip4KXoppBjzzkWwvheRk0OhoZv5qs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745621406; c=relaxed/simple;
-	bh=4LnRN0rV81Y9w9s8HkO3B34Xt4WV2J7KEkxCJoitIqo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Xkw8vEaOZ7iQtIe7c1e07r6vmqd6822VUoZ6rAWQH+X6Jmp/yjLPMCbsQB4seCWZUfDpBNelJTes8YA5MfmY+qC3VDwR1/+xQ7aIwzvezj3Qx3oT3zZfn21pUC+vBBekkSf7rtSOUz2mw1dDo6zRoBhrp0n4n9yzA1GZR5nIQfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WdlOBvYI; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1745621410; c=relaxed/simple;
+	bh=fZ9lyjxZOCX/FYI9t5sa2VHEJP7fjJ+QoojqsDxfXSQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=OJ/e3dIALmxqrfcaucm9FguJJ4G7diS+r7PJEFIt7PfP+i4YDYFjmyxI1sCzrYHlQjb2Eeslcno/ceXY5m+D6kJXIqEmsNcVoRx+ZEwPmIWsB+Y1Uv96VoFF6oBjnTeCsAhxqDxcE6lLRg05jabWqlw15RNxjUp6i8jC7PgGOlY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=a0db4sMh; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C3D83605;
-	Sat, 26 Apr 2025 00:49:58 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C6C2A735;
+	Sat, 26 Apr 2025 00:50:03 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1745621399;
-	bh=4LnRN0rV81Y9w9s8HkO3B34Xt4WV2J7KEkxCJoitIqo=;
+	s=mail; t=1745621404;
+	bh=fZ9lyjxZOCX/FYI9t5sa2VHEJP7fjJ+QoojqsDxfXSQ=;
 	h=From:To:Cc:Subject:Date:From;
-	b=WdlOBvYIuR3544J3T+NGI0CVSpZ74YGbzW5SLYirttii26prhn4nIfFKP+Nh0cQ8H
-	 0sTlfne4ZCAa5usRz1hSqU598kbA5OYPMJrb7X/fmi2NRAy8/UxUutCRNGsRcvLQ1b
-	 3bFMwjEvzsXLuBFqlLuqAf0fTtVH4KwDFqn+3ajo=
+	b=a0db4sMhzS4ZEzpx0UhrNp0322rT/5cRUKMQoljpDc2Sia00rxjiT3EHl/PsaludJ
+	 /rv8N6yCmgsS/5pO+ef5Htn3O3ZNnij14al204CCr0sbQXIjukuHDzs7hm6qtIovuX
+	 4Mp0MNZubpBZGCQ9/EGl4ETMuuzcWxS7fYFkdPMI=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Dafna Hirschfeld <dafna@fastmail.com>,
 	linux-rockchip@lists.infradead.org
-Subject: [PATCH] media: rkisp1: Clean up error paths of subdev registration
-Date: Sat, 26 Apr 2025 01:49:56 +0300
-Message-ID: <20250425224956.22231-1-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH] media: rkisp1: Drop event subscription on video devices
+Date: Sat, 26 Apr 2025 01:50:01 +0300
+Message-ID: <20250425225002.22331-1-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -56,78 +56,81 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The CSI and ISP subdev registration functions have error paths that undo
-the initialization and registration operations in case of a failure.
-Those paths are not implemented correctly, with gotos jumping to the
-wrong label. Setting the subdev v4l2_dev pointer to NULL in the error
-path is also unnneeded, as it is never set to a non-NULL value if an
-error occurs. Fix those issues.
-
-While at it, use csi->sd.v4l2_dev is a registration check instead of
-csi->rkisp1, for consistency with the ISP code.
+None of the video devices exposed by the rkisp1 driver create a control
+handler, yet they all write event subscription and unsubscription ioctl
+handlers. As no control event can be generated, this is unnecessary.
+Drop it.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c | 5 ++---
- drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c | 5 ++---
- 2 files changed, 4 insertions(+), 6 deletions(-)
+ drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c | 3 ---
+ drivers/media/platform/rockchip/rkisp1/rkisp1-params.c  | 3 ---
+ drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c   | 3 ---
+ 3 files changed, 9 deletions(-)
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-index 841e58c20f7f..b2b962dc4c00 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-@@ -460,7 +460,7 @@ int rkisp1_csi_register(struct rkisp1_device *rkisp1)
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+index 6dcefd144d5a..040a5aa5fad7 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+@@ -11,7 +11,6 @@
+ #include <linux/delay.h>
+ #include <linux/pm_runtime.h>
+ #include <media/v4l2-common.h>
+-#include <media/v4l2-event.h>
+ #include <media/v4l2-fh.h>
+ #include <media/v4l2-ioctl.h>
+ #include <media/v4l2-mc.h>
+@@ -1450,8 +1449,6 @@ static const struct v4l2_ioctl_ops rkisp1_v4l2_ioctl_ops = {
+ 	.vidioc_enum_fmt_vid_cap = rkisp1_enum_fmt_vid_cap_mplane,
+ 	.vidioc_enum_framesizes = rkisp1_enum_framesizes,
+ 	.vidioc_querycap = rkisp1_querycap,
+-	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
+-	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
+ };
  
- 	ret = media_entity_pads_init(&sd->entity, RKISP1_CSI_PAD_NUM, pads);
- 	if (ret)
--		goto err_entity_cleanup;
-+		return ret;
+ static int rkisp1_capture_link_validate(struct media_link *link)
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+index 0cbc657b7ea4..572c76ebe0b0 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-params.c
+@@ -9,7 +9,6 @@
+ #include <linux/string.h>
  
- 	ret = v4l2_subdev_init_finalize(sd);
- 	if (ret)
-@@ -478,7 +478,6 @@ int rkisp1_csi_register(struct rkisp1_device *rkisp1)
- 	v4l2_subdev_cleanup(sd);
- err_entity_cleanup:
- 	media_entity_cleanup(&sd->entity);
--	csi->rkisp1 = NULL;
- 	return ret;
- }
+ #include <media/v4l2-common.h>
+-#include <media/v4l2-event.h>
+ #include <media/v4l2-ioctl.h>
+ #include <media/videobuf2-core.h>
+ #include <media/videobuf2-vmalloc.h>	/* for ISP params */
+@@ -2576,8 +2575,6 @@ static const struct v4l2_ioctl_ops rkisp1_params_ioctl = {
+ 	.vidioc_s_fmt_meta_out = rkisp1_params_s_fmt_meta_out,
+ 	.vidioc_try_fmt_meta_out = rkisp1_params_try_fmt_meta_out,
+ 	.vidioc_querycap = rkisp1_params_querycap,
+-	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
+-	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
+ };
  
-@@ -486,7 +485,7 @@ void rkisp1_csi_unregister(struct rkisp1_device *rkisp1)
- {
- 	struct rkisp1_csi *csi = &rkisp1->csi;
+ static int rkisp1_params_vb2_queue_setup(struct vb2_queue *vq,
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
+index d5fdb8f82dc7..bbd52cf13e45 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-stats.c
+@@ -6,7 +6,6 @@
+  */
  
--	if (!csi->rkisp1)
-+	if (!csi->sd.v4l2_dev)
- 		return;
+ #include <media/v4l2-common.h>
+-#include <media/v4l2-event.h>
+ #include <media/v4l2-ioctl.h>
+ #include <media/videobuf2-core.h>
+ #include <media/videobuf2-vmalloc.h>	/* for ISP statistics */
+@@ -76,8 +75,6 @@ static const struct v4l2_ioctl_ops rkisp1_stats_ioctl = {
+ 	.vidioc_s_fmt_meta_cap = rkisp1_stats_g_fmt_meta_cap,
+ 	.vidioc_try_fmt_meta_cap = rkisp1_stats_g_fmt_meta_cap,
+ 	.vidioc_querycap = rkisp1_stats_querycap,
+-	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
+-	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
+ };
  
- 	v4l2_device_unregister_subdev(&csi->sd);
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-index 468f5a7d03c7..fd2cb6d859e8 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-@@ -1061,11 +1061,11 @@ int rkisp1_isp_register(struct rkisp1_device *rkisp1)
- 
- 	ret = media_entity_pads_init(&sd->entity, RKISP1_ISP_PAD_MAX, pads);
- 	if (ret)
--		goto err_entity_cleanup;
-+		return ret;
- 
- 	ret = v4l2_subdev_init_finalize(sd);
- 	if (ret)
--		goto err_subdev_cleanup;
-+		goto err_entity_cleanup;
- 
- 	ret = v4l2_device_register_subdev(&rkisp1->v4l2_dev, sd);
- 	if (ret) {
-@@ -1079,7 +1079,6 @@ int rkisp1_isp_register(struct rkisp1_device *rkisp1)
- 	v4l2_subdev_cleanup(sd);
- err_entity_cleanup:
- 	media_entity_cleanup(&sd->entity);
--	isp->sd.v4l2_dev = NULL;
- 	return ret;
- }
- 
+ static const struct v4l2_file_operations rkisp1_stats_fops = {
 
 base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
 prerequisite-patch-id: 2bf7958ebf563f4534383ac69392eb364a11e870
@@ -266,7 +269,6 @@ prerequisite-patch-id: 1d8b5e9486d999a432becb2ef918d3aa7c108e6c
 prerequisite-patch-id: d92e1c345053743b5ef86cbf9c10be7721010ae7
 prerequisite-patch-id: de0dbed5424be21f5363f7e2cf3d03a3ec01efa7
 prerequisite-patch-id: 2cc0cf71ae1177791a04accad2110a1570f9b4db
-prerequisite-patch-id: b3a5f79a92f677171349bc2e00b1447a01c614df
 -- 
 Regards,
 
