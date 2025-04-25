@@ -1,138 +1,147 @@
-Return-Path: <linux-media+bounces-31045-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31046-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAC21A9C41E
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 11:49:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 760C8A9C4AC
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 12:08:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B2C083ACA10
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 09:49:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 21A5D4C4E08
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 10:08:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0CA5238C19;
-	Fri, 25 Apr 2025 09:49:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B35FB23C8AA;
+	Fri, 25 Apr 2025 10:07:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iyVJ9EWZ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Q9t6afqT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FEB817AE1D
-	for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 09:49:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20C1223BD04;
+	Fri, 25 Apr 2025 10:07:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745574585; cv=none; b=oyw/poXRUhtn6tmPSd3uRIRnl0wQczBv8JTVimzIpqBldW7knUksLZWcoAA+iHNqm/cbq8jI8O4qXMbOExGjQYhmoLF6P88ky4W2/JJIvLdln2/o56LZozLeSCngq38W0yM0uoFuvTPAmnthcD3axpMz10ALS9C1/uluMXPG2fM=
+	t=1745575674; cv=none; b=V8Fzl0nFp8ITDfYjdvw8d6LJfgMMPduRif+P62iDe9EzMkVWYZdU7ZU/bcoiEaYLYTOBi6n53Xgqpot9Ix1NkyvfWeCJfQh2OnqPtVpzvcu78IWdVC2tuymFxJUEBOaIRoTrX8GR6EQV8QD3zgkyE6wLzW0VZaNAnmpR48aezAc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745574585; c=relaxed/simple;
-	bh=6jMvEFzz+EHkTvpkKhpa06WUQGQd+irJhI2wXqWd4Cw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pbpOINpiFpJMPgcQBQ2Gn55/7JwoBFx8kHnhQ08lmAfgRrIBnM/305AuKB+bnykb37vUeb18K14k/Us22bQEJiyBvvRXDsjZDahP7DOJ0pLrsEdu6GiaiVC5P54a2rSxUknfKgdNm1hwWrZ9hGV/Hk0qshbfItRhXL7UeFDRdto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iyVJ9EWZ; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-39c14016868so1899384f8f.1
-        for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 02:49:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745574582; x=1746179382; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pEWB9kwZuPxsBxVAF/IvC4wesJAoCjW9FAr9YJ0cOLE=;
-        b=iyVJ9EWZ66Pt7XThGT8MdGr38p/2ruk7d1VYKviBwaf6HHe0Sfz+av1lEKKoQIWI3J
-         YOWsfKkjYHt5kjkHlgLghu/+RBo1xshSucvZ2ZhpX7KnWa92mrtmPvJ6LX/zILHAMMjV
-         ctRd2X71sMf3vvv2PRrXyinFB2+EojSu3NYIKyxcPZJlLQMf7/V/kpm2eQmkjSrae3HB
-         1qxhECRkOeI9pYqKtKSbG8UbQmTyEXDXjc6fXaGXDyORWDvazskuvIYIR+jXmiuHGOWr
-         Ml0D+NxNZAhaBZun/SBwTDey+okIfh72ImtMUO93UcL/uETYerca6Kluc6/enoPkAOyc
-         LP6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745574582; x=1746179382;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pEWB9kwZuPxsBxVAF/IvC4wesJAoCjW9FAr9YJ0cOLE=;
-        b=dL/wIVKzflgN/sQgEs/yRiLGhjGQ8st+m6JE+Krff4EQqveA25EQFRoEBPxchy6Kf9
-         K3l1MkcgmIZRcCYAU4aCzMhM7bIRUV8dZHDDQjGxGMD0zE8EnFDUoyeQ7SuynsTHlS1B
-         +8AXY1pVMxUGBWFD/kqTRDe1NWLd+hNj0/JPjg/lLC1JRfoi5XaQwXBMTEpwFUTs0zTT
-         5R+B6NtYs4K6gdsMPcGX5IHxS3VZ+XrxvQgsjX0YOdPyWYlGhk9iZuzchDAEnM4wAsr6
-         ncDoPhj+pwvqpNCd8yCc3cLEh3OHPEynjPYqz3axCFkHrDYdoEu+K+ejdVhuEak/7+UG
-         KB2w==
-X-Forwarded-Encrypted: i=1; AJvYcCXZiAfvZxREjbbWt7JQAmGhaEA1vou5MPMeN1wgoBhVObcqVxtL0Ol1AIlwGOK+wx6gdecl/ePRw6PzUw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzI0B8xxk2IKWU7NnRwyCLv4f8u/3Zze9kdFVAEuNStNSBZyG8X
-	XVEtN//pYnj5ZffirXBU8CJbT+wQNubSOUZjQThW+zD0k6U6tlLkpXQEuTI+4enKMiw5+Jumr8Z
-	0md8JNEbqVV6AOi3J0W8mwtMKvhs=
-X-Gm-Gg: ASbGncstVT8jZArwcEN/U0kRZVBcN9MJI5wcH0djQJBJk9Sll9mIAfxPnYlUejiFcP6
-	8qEkV6ssm9RIBkotMs0CMmad3VuXfq6ktpFRDN/178rV2CXImCXPwJY7SQEI20nMo/uetODq5Jf
-	xHqQBWutxAW5LsfvkMhqoO7dmItVLAI3/i
-X-Google-Smtp-Source: AGHT+IFd1A2A9VAaRsgRaRPoskzm7FGvRKEeVj5tlotwsJ5iMqo871EJ4Pt0/oq/daXr7UsNKDgVTyyKcJO4zMoNWXo=
-X-Received: by 2002:adf:e28e:0:b0:39a:c9fe:f069 with SMTP id
- ffacd0b85a97d-3a074e4261amr876480f8f.30.1745574581648; Fri, 25 Apr 2025
- 02:49:41 -0700 (PDT)
+	s=arc-20240116; t=1745575674; c=relaxed/simple;
+	bh=pgecTmA2OmbNmIV5eD1rIXYY2BfQLE0mpXVqLlAgEPg=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=GaHf2dnuq7rJUWICdPnYqmHNhezGrYWHUHeuUvHfed7AGHMZqBiy6CGvJgHqeEen1ZEZWYuDvNkPkl4coFmMDx0YIDRfSEGh52wvqhNOCVjZpMOfn6/9r5ihofI7KeawESPU9TkWVsdmGof0Z51PHCIJkAABlb+1mcSUffhYMPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Q9t6afqT; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745575672; x=1777111672;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=pgecTmA2OmbNmIV5eD1rIXYY2BfQLE0mpXVqLlAgEPg=;
+  b=Q9t6afqTUhZjFGvvHfMX/wa0OLzBwOyPeBaJizWOVgdVXdo1zecD5E6j
+   6sjiKxiRL3Qq5sZcFJHxT1XmNicR7cEf0fg21a1T1SFtHf4KxjxuhHCVs
+   TcLip9FcpDTFZU8lm/Vjq/h3lz5kghPrg2t5zwSMk4t9m68mKty+NNXd3
+   lUqLzElf6wO0zNMT9v2cFvO5P2iUU7wOOn1Zx5JQoIRJBNVAbaMPfuoKf
+   tqzf74Prqu5sWEVLaVyactBWjrFp8GhpQxRmQ08UcgCgVysdGxnIhNhEK
+   BZLGp52EcrPQbnJVn/2OgVlPEgnXRblIn4ImaAlhEu4BQtwYk2QQylQvE
+   w==;
+X-CSE-ConnectionGUID: VP2A88dzRaKqo321hfwoDQ==
+X-CSE-MsgGUID: oEwT3UjDRe+d2ZdFi5WgPg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="46353283"
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="46353283"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 03:07:51 -0700
+X-CSE-ConnectionGUID: Zl5t5IzOTzaweeHdKB5o/g==
+X-CSE-MsgGUID: tb8Od3EdQWOPVlzDEg8muA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="133848657"
+Received: from bjledic266.bj.intel.com ([172.16.127.175])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 03:07:48 -0700
+From: Dongcheng Yan <dongcheng.yan@intel.com>
+To: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	sakari.ailus@linux.intel.com,
+	hverkuil@xs4all.nl,
+	andriy.shevchenko@linux.intel.com,
+	hdegoede@redhat.com,
+	u.kleine-koenig@baylibre.com,
+	ricardo.ribalda@gmail.com,
+	bingbu.cao@linux.intel.com
+Cc: stable@vger.kernel.org,
+	dongcheng.yan@linux.intel.com,
+	hao.yao@intel.com
+Subject: [PATCH v2 1/2] platform/x86: int3472: add hpd pin support
+Date: Fri, 25 Apr 2025 18:07:38 +0800
+Message-Id: <20250425100739.3099535-1-dongcheng.yan@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <aAtQThCibZCROETx@stanley.mountain>
-In-Reply-To: <aAtQThCibZCROETx@stanley.mountain>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Fri, 25 Apr 2025 10:49:15 +0100
-X-Gm-Features: ATxdqUHJ8oq3-5nuJyib-WHY91pFpuFx2si4fru5jXkDRcopVgowulif9SFm6NE
-Message-ID: <CA+V-a8tYX9ZPZoA5TjTNGKSbd0abTSdKjC6_JLxPqARNYWB-xQ@mail.gmail.com>
-Subject: Re: [bug report] media: rzg2l-cru: Add function pointer to check if
- FIFO is empty
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-Hi Dan,
+Typically HDMI to MIPI CSI-2 bridges have a pin to signal image data is
+being received. On the host side this is wired to a GPIO for polling or
+interrupts. This includes the Lontium HDMI to MIPI CSI-2 bridges
+lt6911uxe and lt6911uxc.
 
-Thank you for the report.
+The GPIO "hpd" is used already by other HDMI to CSI-2 bridges, use it
+here as well.
 
-On Fri, Apr 25, 2025 at 10:08=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
-o.org> wrote:
->
-> Hello Lad Prabhakar,
->
-> Commit 446c645f7fe4 ("media: rzg2l-cru: Add function pointer to check
-> if FIFO is empty") from Apr 11, 2025 (linux-next), leads to the
-> following Smatch static checker warning:
->
->         drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c:351 rzg2l_=
-fifo_empty()
->         warn: duplicate check 'amnfifopntr_w =3D=3D amnfifopntr_r_y' (pre=
-vious on line 348)
->
-> drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
->     339 bool rzg2l_fifo_empty(struct rzg2l_cru_dev *cru)
->     340 {
->     341         u32 amnfifopntr, amnfifopntr_w, amnfifopntr_r_y;
->     342
->     343         amnfifopntr =3D rzg2l_cru_read(cru, AMnFIFOPNTR);
->     344
->     345         amnfifopntr_w =3D amnfifopntr & AMnFIFOPNTR_FIFOWPNTR;
->     346         amnfifopntr_r_y =3D
->     347                 (amnfifopntr & AMnFIFOPNTR_FIFORPNTR_Y) >> 16;
->     348         if (amnfifopntr_w =3D=3D amnfifopntr_r_y)
->     349                 return true;
->
-> We should either delete this check
->
->     350
-> --> 351         return amnfifopntr_w =3D=3D amnfifopntr_r_y;
->
-> or change this to "return false;".  (I prefer the second option).
->
-Agreed, I will go with this.
+Signed-off-by: Dongcheng Yan <dongcheng.yan@intel.com>
+---
+ drivers/platform/x86/intel/int3472/common.h   | 1 +
+ drivers/platform/x86/intel/int3472/discrete.c | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
-Cheers,
-Prabhakar
+diff --git a/drivers/platform/x86/intel/int3472/common.h b/drivers/platform/x86/intel/int3472/common.h
+index 145dec66df64..db4cd3720e24 100644
+--- a/drivers/platform/x86/intel/int3472/common.h
++++ b/drivers/platform/x86/intel/int3472/common.h
+@@ -22,6 +22,7 @@
+ #define INT3472_GPIO_TYPE_POWER_ENABLE				0x0b
+ #define INT3472_GPIO_TYPE_CLK_ENABLE				0x0c
+ #define INT3472_GPIO_TYPE_PRIVACY_LED				0x0d
++#define INT3472_GPIO_TYPE_HOTPLUG_DETECT			0x13
+ 
+ #define INT3472_PDEV_MAX_NAME_LEN				23
+ #define INT3472_MAX_SENSOR_GPIOS				3
+diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
+index 30ff8f3ea1f5..26215d1b63a2 100644
+--- a/drivers/platform/x86/intel/int3472/discrete.c
++++ b/drivers/platform/x86/intel/int3472/discrete.c
+@@ -186,6 +186,10 @@ static void int3472_get_con_id_and_polarity(struct acpi_device *adev, u8 *type,
+ 		*con_id = "privacy-led";
+ 		*gpio_flags = GPIO_ACTIVE_HIGH;
+ 		break;
++	case INT3472_GPIO_TYPE_HOTPLUG_DETECT:
++		*con_id = "hpd";
++		*gpio_flags = GPIO_ACTIVE_HIGH;
++		break;
+ 	case INT3472_GPIO_TYPE_POWER_ENABLE:
+ 		*con_id = "power-enable";
+ 		*gpio_flags = GPIO_ACTIVE_HIGH;
+@@ -212,6 +216,7 @@ static void int3472_get_con_id_and_polarity(struct acpi_device *adev, u8 *type,
+  * 0x0b Power enable
+  * 0x0c Clock enable
+  * 0x0d Privacy LED
++ * 0x13 Hotplug detect
+  *
+  * There are some known platform specific quirks where that does not quite
+  * hold up; for example where a pin with type 0x01 (Power down) is mapped to
+@@ -281,6 +286,7 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
+ 	switch (type) {
+ 	case INT3472_GPIO_TYPE_RESET:
+ 	case INT3472_GPIO_TYPE_POWERDOWN:
++	case INT3472_GPIO_TYPE_HOTPLUG_DETECT:
+ 		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, con_id, gpio_flags);
+ 		if (ret)
+ 			err_msg = "Failed to map GPIO pin to sensor\n";
 
->     352 }
->
-> regards,
-> dan carpenter
->
+base-commit: 01c6df60d5d4ae00cd5c1648818744838bba7763
+-- 
+2.34.1
+
 
