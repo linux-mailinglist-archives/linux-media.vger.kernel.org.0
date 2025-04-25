@@ -1,105 +1,128 @@
-Return-Path: <linux-media+bounces-30973-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30974-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A108A9BDA2
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 06:34:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A86ECA9BDF2
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 07:40:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 011319A0D57
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 04:33:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D6AFF1B880B5
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 05:40:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 221A2218580;
-	Fri, 25 Apr 2025 04:34:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0908022A4D1;
+	Fri, 25 Apr 2025 05:40:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hfui1G2k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eEs1mPmA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E37C17BB21
-	for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 04:33:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93491AB6D4
+	for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 05:40:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745555639; cv=none; b=l7vRgDUcORCvqw21qUZw3ZRzYre/lwW6FaXRGLDMR5oFQd+apk+k4ARDw/8BHGyja6IO9yJ9Y2qn3zk+yUPQwGq0uw0aI0u7mV2/o8Tk/sfJX0xQJdqATfIRGbYQHv4pGRXo90QvNSwQwilzSIjq537JputPlh1rgPH6TWsiff4=
+	t=1745559625; cv=none; b=eZBeGU3DqtueTrFRkUPDpZroV7fyyExFEPv+tHJYwM5p7WQuM0CgHjue36ivpjWdpTYPJZ6fjPDyp/FSxCDlGVEZRsC4ltOZ5TgyuLxGUHS5DhdEKIe5AjgyrD5AGAPjfmP0b9oDJdR8haUoLpv6LccVKF3IqZ3PvTQb+1Bk0Lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745555639; c=relaxed/simple;
-	bh=mARV7FV2X861xXw3/2b6aFrh5zIvU3BVokvZnVzGHEc=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Aeweh1nomOD6wQLde7EjLYxLNQ2kCNFEr75e8WyBpHl8Jz7PPWYVP7q0RKfzl/eCnBlMkGO7poQ6lUZlvCCuUZxzBjITV8r2qGVSIfUPNX9fL3yakGw49TzemcJ1GwQEd4bjVvP7pt/MnCFi+ILIQgprDqtQoXZKMeFWR3CXeTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hfui1G2k; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1745559625; c=relaxed/simple;
+	bh=imQllWmPvzkPLZYTTkXwbmIao4DZ5B2EI2J3c9m34fU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RrUNV7ll9AzzhILN2cG9OqTxMMx1HoZhDFGjTZQU54xjDnRCukVAh54XrZkOPNTpaw3GgRnG+rB/xD2xa6Hvsz4aXW/2orQrcYJsv+GSEUJat5IjtNioJ1hg+QIRhIn6feO12pPWZRpCgHNZjOK/K3eE0Vx/tGxsFSNCPmQa4UU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eEs1mPmA; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745555637; x=1777091637;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=mARV7FV2X861xXw3/2b6aFrh5zIvU3BVokvZnVzGHEc=;
-  b=Hfui1G2kpnw945O83wN0dDGac+zyG7tJTW5Xnb4P+dMT53mgWdO4lw0A
-   ySwA7cpGuCGh9W/8ZVzGkslTGIq6ZO4PynEQgaJYt4wLfV/+iH8qxm+nO
-   STge8f6MS5kaypNFQqvE5O4wO+G3jpv+OGUnThdWCdjXg/hhRp0CV0Y8a
-   Zu3hcfm5RBdUp+moyhqxad071dAFOc4nemRW0bKyG1co0XAVc8H5fvK1Q
-   4equM6V7Z0iw4Y1HugS6tuFg+e4o6ErKFg5s/PT/F5Ue6NHnl/RYtOjOd
-   7B/Yvk70HbwbmCofZo4rA+260rJn1xExZNp0XrO9TfB2cw7HkgF6Ldnfw
-   g==;
-X-CSE-ConnectionGUID: 5QktefX3RCimOwcOIH2FvQ==
-X-CSE-MsgGUID: MVI9OMLERBeldNO5rxJpNg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="47383471"
+  t=1745559624; x=1777095624;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=imQllWmPvzkPLZYTTkXwbmIao4DZ5B2EI2J3c9m34fU=;
+  b=eEs1mPmApCN68nP+UC5yvSeHGzona1rQXqNbb7o0PZHX0owY9iw0r2FQ
+   jicWUD6rImnpomG2gLyo2mkZoFeNae0prqiJftXhVo/oufu4w7w3wCNe7
+   9jMy/66jTsIx/0SoBjbH4N2/HzC3MIAXZBSHjIE4Snfs5/qQ+cxOFeAuO
+   lUIBdBZsIGjD/fEoiQB/o97YHCGRPngnUDQk1skfZ2MzqrGFvrkbNo3z6
+   7y/UrFFs/Ll5vbX6IB3Q5LpM39vZaJxohU3xbqf/H/hP3ngwSzAzURSb5
+   cPCyI0b0pzRq2j6wG2QaltPos1++Fg1nP9ZdNMLj0H2wO1wet7coU8F1T
+   w==;
+X-CSE-ConnectionGUID: AlKFWfOQTyydySQxEdT1dw==
+X-CSE-MsgGUID: 3xUJJeTwQ/inq8633C4/hQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="47229750"
 X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="47383471"
+   d="scan'208";a="47229750"
 Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 21:33:57 -0700
-X-CSE-ConnectionGUID: 6luCz+T7SMK2Zftg6PA25Q==
-X-CSE-MsgGUID: avoci0TNS66fOqI5sCBC4g==
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 22:40:24 -0700
+X-CSE-ConnectionGUID: NqXbadgJRoiUZ7/AyKWYjA==
+X-CSE-MsgGUID: gv7lyTjwQHSeDoDf4hlnDw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="132726582"
-Received: from haoyao-desk.bj.intel.com ([10.238.232.12])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 21:33:54 -0700
-From: Hao Yao <hao.yao@intel.com>
-To: linux-media@vger.kernel.org
-Cc: Jason Chen <jason.z.chen@intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+   d="scan'208";a="132737820"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 22:40:21 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 5EBF711FA28;
+	Fri, 25 Apr 2025 08:40:18 +0300 (EEST)
+Date: Fri, 25 Apr 2025 05:40:18 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Bingbu Cao <bingbu.cao@linux.intel.com>
+Cc: Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	arun.t@intel.com,
-	Hao Yao <hao.yao@intel.com>
-Subject: [PATCH] media: ov08x40: Fix the horizontal flip control
-Date: Fri, 25 Apr 2025 12:33:25 +0800
-Message-ID: <20250425043328.208804-1-hao.yao@intel.com>
-X-Mailer: git-send-email 2.43.0
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: ipu6: Remove workaround for Meteor Lake ES2
+Message-ID: <aAsgQjNEacme1NZU@kekkonen.localdomain>
+References: <20250311084203.516205-1-hao.yao@intel.com>
+ <f8fd0fd4-ca0c-12b5-acc6-ba846b2c9987@linux.intel.com>
+ <aAomsUA01Sm5vo1x@kekkonen.localdomain>
+ <fb923201-e49c-e61a-bbdf-e67744f2ea6c@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fb923201-e49c-e61a-bbdf-e67744f2ea6c@linux.intel.com>
 
-The datasheet of ov08x40 doesn't match the hardware behavior.
-0x3821[2] == 1 is the original state and 0 the horizontal flip enabled.
+Hi Bingbu,
 
-Signed-off-by: Hao Yao <hao.yao@intel.com>
----
- drivers/media/i2c/ov08x40.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, Apr 25, 2025 at 11:05:54AM +0800, Bingbu Cao wrote:
+> Sakari,
+> 
+> On 4/24/25 7:55 PM, Sakari Ailus wrote:
+> > Hi Bingbu,
+> > 
+> > On Thu, Apr 24, 2025 at 12:18:06PM +0800, Bingbu Cao wrote:
+> >> Hao,
+> >>
+> >> On 3/11/25 4:41 PM, Hao Yao wrote:
+> >>> There was a hardware bug which need IPU6 driver to disable the ATS.
+> >>> This workaround is not needed anymore as the bug was fixed in
+> >>> hardware level.
+> >>>
+> >>
+> >> It is better to send v2 with fixes tag here:
+> >>
+> >> Fixes: 25fedc021985 ("media: intel/ipu6: add Intel IPU6 PCI device driver")
+> > 
+> > Is this worth backporting? Nothing is broken because of this, is it?
+> 
+> It is necessary. IPU6 on Raptor Lake share same device ID with
+> Meteor Lake, this workaround will break camera on Raptor Lake.
+> 
+> And Meteor Lake ES2 is not used in product.
 
-diff --git a/drivers/media/i2c/ov08x40.c b/drivers/media/i2c/ov08x40.c
-index cf0e41fc3071..17112c02408a 100644
---- a/drivers/media/i2c/ov08x40.c
-+++ b/drivers/media/i2c/ov08x40.c
-@@ -1627,7 +1627,7 @@ static int ov08x40_set_ctrl_hflip(struct ov08x40 *ov08x, u32 ctrl_val)
- 
- 	return ov08x40_write_reg(ov08x, OV08X40_REG_MIRROR,
- 				 OV08X40_REG_VALUE_08BIT,
--				 ctrl_val ? val | BIT(2) : val & ~BIT(2));
-+				 ctrl_val ? val & ~BIT(2) : val | BIT(2));
- }
- 
- static int ov08x40_set_ctrl_vflip(struct ov08x40 *ov08x, u32 ctrl_val)
+Ok, this should be visible in the commit message.
+
+How about adding:
+
+Additionally, Raptor Lake has the same IPU6 PCI ID and x86 stepping and but
+does have the bug. Removing the Meteor Lake workaround is also required for
+the driver to function on Raptor Lake.
+
 -- 
-2.43.0
+Regards,
 
+Sakari Ailus
 
