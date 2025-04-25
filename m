@@ -1,230 +1,122 @@
-Return-Path: <linux-media+bounces-31018-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31019-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88C71A9C2D1
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 11:07:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 607C6A9C2D9
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 11:08:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 58A71926AC5
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 09:07:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9B54D4C3A56
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 09:08:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C1D622ACF7;
-	Fri, 25 Apr 2025 09:03:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F14B4238157;
+	Fri, 25 Apr 2025 09:05:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dz+0XG7q"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="knxVnnQe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AF1A1F3FC8
-	for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 09:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E3B2235C14
+	for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 09:05:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745571795; cv=none; b=nnVE68lH2GyDnYjIqKQgTy/PAW5XOd7o0Iw51eqxJSHBjMsv5HjcKNwPES0tSSMkFJW436EQLrRIBIMvYhjVlJE/yyzi9qDtgXnKGdStg5PcnCpVYSwAegkQsvZ5chTbljExE+f/in8Yu6P2NXBP3lKtUWAU0fgJ1brx5tl+gLE=
+	t=1745571926; cv=none; b=PZdVizcuoQMShcbFGln7jdOV9sInBwWi8MBmcjrXpe2AH2yZyCO5YXqxPOJofT+J8NyJDJsmtNNEedCieNLO5xV81oBK3R0s0lKlcialeMReELb2wsaruMKKltymoAPAcNGZmO9n5/3t1VrPFcSCBaDDaNZfdqqaBLY4M0/UfrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745571795; c=relaxed/simple;
-	bh=5jg+vfnT5zWKfo9icg0I9eXLNibQm09GP1SFsn2rjmI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nYEm0tbZSiugp+ovE3No4kw+5I14v/RmNeSzV9s4KNmJz0K9qWAeMG9Y12G5Jj80QSuBRNSVpcwTZlJtSo/ZbkDflRiDGb5VNq6IoU4/fixxL4ohw0vSWErvJB5G2Kulb4srL33yTxU3d57rrAIf7bMsz9Y+8xFN6gtoEiru/eU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dz+0XG7q; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 67DBBC4CEEB;
-	Fri, 25 Apr 2025 09:03:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745571794;
-	bh=5jg+vfnT5zWKfo9icg0I9eXLNibQm09GP1SFsn2rjmI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Dz+0XG7qYTYM6CzVdwNRIeeKqE+2jFRPzaTOtdJQLfVDNNbtXofj4hr4nwYCP5SVS
-	 Up0goNrvQ6wLrZPS5DEYdNcY4YOhDOxz4iqcKBd3MrQ78kJYIbcIAQl9D6Z7qSoXEU
-	 z8lQ+tvnZMH9bGPO0l/1OdBf59C2a+Ako67NZGkGpE6/Yg1ml/dmCYBvcsb1uGZ9cE
-	 hVHXCFjP54Ip1oRlxyBYbesR4QVXM7ol+lAdLdY3jayCJHhZa1GCWBVRv+xTkiHrPB
-	 Le1gaGdMd7POSmtYm4g66DBLa0cEa0ipsX0VcXeE9JUg1Dth1rst9Li7vW040GQI/U
-	 tqzwRoqwd8rOg==
-Date: Fri, 25 Apr 2025 11:03:12 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Hans Verkuil <hans@jjverkuil.nl>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Sean Young <sean@mess.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Ricardo Ribalda <ribalda@chromium.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Alain Volmat <alain.volmat@foss.st.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Michael Tretter <m.tretter@pengutronix.de>, Tomasz Figa <tfiga@chromium.org>, 
-	"Hu, Jerry W" <jerry.w.hu@intel.com>, Steve Cho <stevecho@chromium.org>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Kevin Hilman <khilman@baylibre.com>, 
-	Paul Kocialkowski <paulk@sys-base.io>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Arthur Vinchon <arthur.vinchon@allegrodvt.com>, 
-	Marco Felsch <m.felsch@pengutronix.de>, Jackson Lee <jackson.lee@chipsnmedia.com>, 
-	Mirela Rabulea <mirela.rabulea@nxp.com>, Hans de Goede <hdegoede@redhat.com>, 
-	Jai Luthra <jai.luthra@ideasonboard.com>, Devarsh Thakkar <devarsht@ti.com>
-Subject: Re: [ANN] Media Summit May 13th: Draft Agenda (v3)
-Message-ID: <20250425-invaluable-witty-wildebeest-fadf3f@houat>
-References: <cb671b09-a5fa-4662-b31f-dfddda79fd11@jjverkuil.nl>
+	s=arc-20240116; t=1745571926; c=relaxed/simple;
+	bh=UAurvGMTUbCq0DZeWZJRe0RK41KzHEA7IltJK7OZ1oQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=EDJRk1xxGMAThcCDfG7ospEpFE1STVU9+Xgr9PcddNyspsJavVgXRA/wFTk7ybPPauZPSZlcRVBQDF0Ny6Fr2x2zdV2Sv6gfwlQXG6gxHnhCPzAhUm7eWsGNCIJohPUgU6GRhQcEHdmorp+tyd8nV0l0PjSgKE9Fybnmn6ksb30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=knxVnnQe; arc=none smtp.client-ip=209.85.221.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-39c13fa05ebso1290640f8f.0
+        for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 02:05:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1745571923; x=1746176723; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VrUZNr/LN/9htUEHRaSq2LQBR+kC1UivZliiMRRS8ME=;
+        b=knxVnnQeAaWKMFPt0goHv0LVrYR/h1XIH7xU/SUaCsAGMWhdDMqiNzVvxqqIvDGEeH
+         VVTtIcsuix7hAfLgKiVCx1M/Lm3Du0LNFKDW/lDroTkLbFdWS5s+kypA1HlcqBnmBqbP
+         OE8nI1pINq9/QpuPOaVUfVKXOHpKDnyGxmHM8oTo2ULusJqigpVoUjXoo7FbjkXBdve7
+         GRlwgb7AacuEcwBvhvO/QXNsOOAHgdkf063kr24Ld7EpW9EgoQcIE/MT3Oue+yf1yiye
+         NzJoQyOvA9DcBh5QlXLiOMKafKcywDcOfXpn5PFlmhonboel4rm5mB8tQc6kUpHkjyiU
+         TR/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745571923; x=1746176723;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VrUZNr/LN/9htUEHRaSq2LQBR+kC1UivZliiMRRS8ME=;
+        b=f4HHxpvoz9GTlSK1MDdPA9ARhGV6T1Djg6Us7/lbEXMVaEiM5h+qrz87ZAutRM2+dt
+         TsTdYZEeBuL9P/hrblnKmFrGf2JFU6I5F+ajFgNFCJWEJxrGuWlE2+ly0oucm0qutlJR
+         HVKkt+REEMdZq5ULFMOIERW3xe0aJPhpeA0ClSPL/UwuJEdW+PNXR0bAxZ7hY05YAcYL
+         ymfUgU4oliQRHpJJQ52MGbsZOk/17hHJI6mO8gYmxmZjJiUnpUmkIcM3svGFcMgwz1dR
+         wt4OEz2QK30UCVCsu9f3tvTg/+SUzQSlg55I0yY1As1suMGmbUQQdS+Rs4wpTNeUlbcT
+         JiEw==
+X-Gm-Message-State: AOJu0Yw3xXEaMfWe6zX4hpV4u99nzXM+OrZmPsaNwHXMCqKwFdYuzcHU
+	UDjm4a7t5uYg/gG7fRFZmdKnUdFGQBlcPmCZDz1sN0eZGQzlS0tUMO7KLsExJ4OtbVP/m+7O88J
+	z
+X-Gm-Gg: ASbGncuZdoOHUBliaLptLZ8mVT1ICN+2J15sR/0tcCi2x6uKRRRfqUU0G9M4n+W7zbi
+	szhBTpsmWhpKKfHslS9ZXe8zHJqFgZDFH4dwsWyqmb7W9/WzWHdwltPPfHVIQur2yBPQ4l9WBfo
+	mY4PEcKN9HKkBzABYwQDpWgQjlxtKDhhCeQRwr5wMMC1CvWjf5f4AkltEpXryVLMq/yMZ7g3Dcs
+	wZJC3Mf0tX/997l/uIQyNsiNW2Y8NuPgmRjb0wNYfMAyNYIA1pTMRczk4AyWx6QX0in8nEWCBT8
+	EGCALzpxtvLP5d9Tti45U2ykYIlan+u0EUoT5bsoSYLRPA==
+X-Google-Smtp-Source: AGHT+IH5f0aoeTCt3lM9faNIRDQQ3WXmGimYtXuMBGtgq7Qnd3+QH8QMv01RI7loDqbNZMvB+i3J4w==
+X-Received: by 2002:a5d:5848:0:b0:38d:de45:bf98 with SMTP id ffacd0b85a97d-3a074e0f64bmr1094780f8f.8.1745571922811;
+        Fri, 25 Apr 2025 02:05:22 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4409d29b990sm52516965e9.4.2025.04.25.02.05.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Apr 2025 02:05:22 -0700 (PDT)
+Date: Fri, 25 Apr 2025 12:05:18 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc: linux-media@vger.kernel.org
+Subject: [bug report] media: rzg2l-cru: Add function pointer to check if FIFO
+ is empty
+Message-ID: <aAtQThCibZCROETx@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="ls5r3xbmdntrjta5"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cb671b09-a5fa-4662-b31f-dfddda79fd11@jjverkuil.nl>
 
+Hello Lad Prabhakar,
 
---ls5r3xbmdntrjta5
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [ANN] Media Summit May 13th: Draft Agenda (v3)
-MIME-Version: 1.0
+Commit 446c645f7fe4 ("media: rzg2l-cru: Add function pointer to check
+if FIFO is empty") from Apr 11, 2025 (linux-next), leads to the
+following Smatch static checker warning:
 
-Hi Hans,
+	drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c:351 rzg2l_fifo_empty()
+	warn: duplicate check 'amnfifopntr_w == amnfifopntr_r_y' (previous on line 348)
 
-On Fri, Apr 25, 2025 at 10:12:55AM +0200, Hans Verkuil wrote:
-> Here is my v3 of the draft agenda for the media summit.
->=20
-> One important notice: it turned out that the meeting room does not actual=
-ly have
-> dedicated video conference equipment. I'm trying to figure out a solution=
- for this,
-> but for those that registered for remote attendance, be aware that it mig=
-ht not
-> work out or be of poor quality.
->=20
-> The list of topics has filled up nicely, and so has the number of in-pers=
-on
-> attendees. There is still room enough, so let me know if you want to atte=
-nd.
-> The deadline for that is May 1st.
->=20
-> As always, this draft agenda is subject to change and all times are guess=
-timates!
->=20
-> Please note that I am transitioning from my old hverkuil@xs4all.nl email =
-to
-> my new hans@jjverkuil.nl email. If you have problems replying to that new=
- email,
-> please let me know and just send it to the old email (that won't go away).
->=20
-> The Media Summit will be held Tuesday May 13th to coincide with
-> the Embedded Recipes Conference in Nice, France:
->=20
-> https://embedded-recipes.org/2025/
->=20
-> Note that there are also some workshops held after this conference:
->=20
-> https://embedded-recipes.org/2025/workshops/
->=20
-> And a gStreamer hackfest:
->=20
-> https://discourse.gstreamer.org/t/gstreamer-spring-hackfest-2025-on-16-18=
--may-2025-in-nice-france/4366
->=20
-> The Media Summit will be held at Hotel Campanile:
->=20
-> https://nice-aeroport.campanile.com/en-us/
->=20
-> It is close to the Airport and to the Embedded Recipes venue.
->=20
-> The meeting room can hold up to 30 people and has video conferencing supp=
-ort; it is
-> sponsored by Collabora and Cisco Systems Norway.
->=20
-> We currently have the following confirmed in-person attendees:
->=20
-> Sakari Ailus <sakari.ailus@linux.intel.com> (Intel)
-> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> (Media Maintainer, Huaw=
-ei)
-> Nicolas Dufresne <nicolas.dufresne@collabora.com> (Collabora)
-> Benjamin Gaignard <benjamin.gaignard@collabora.com> (Collabora)
-> Hans de Goede <hdegoede@redhat.com> (Red Hat)
-> Paul Kocialkowski <paulk@sys-base.io> (sys-base)
-> Jai Luthra <jai.luthra@ideasonboard.com> (Ideas on Board)
-> Jacopo Mondi <jacopo.mondi@ideasonboard.com> (Ideas on Board)
-> Benjamin Mugnier <benjamin.mugnier@foss.st.com> (STMicroelectronics)
-> Laurent Pinchart <laurent.pinchart@ideasonboard.com> (Ideas on Board)
-> Ricardo Ribalda <ribalda@chromium.org> (Google)
-> Maxime Ripard <mripard@redhat.com> (Red Hat)
-> Dave Stevenson <dave.stevenson@raspberrypi.com> (Raspberry Pi)
-> Devarsh Thakkar <devarsht@ti.com> (Texas Instruments)
-> Hans Verkuil <hans@jjverkuil.nl> (Media Maintainer, Cisco Systems Norway)
-> Arthur Vinchon <arthur.vinchon@allegrodvt.com> (Allegro DVT)
->=20
-> As you can see, there is enough room for more people, so don't hesitate to
-> register by sending an email to me. The deadline is May 1st.
->=20
-> And the following remote participants:
->=20
-> Marco Felsch <m.felsch@pengutronix.de> (Pengutronix)
-> Martin Hecht <mhecht73@googlemail.com> (Avnet Silica)
-> Hu, Jerry W <jerry.w.hu@intel.com> (Intel)
-> jackson.lee <jackson.lee@chipsnmedia.com> (Chips 'n Media)
-> Mirela Rabulea <mirela.rabulea@nxp.com> (NXP)
-> Michael Tretter <m.tretter@pengutronix.de> (Pengutronix)
->=20
-> Note: information on how to connect remotely will come later. See also th=
-e notice
-> at the top of this email.
->=20
-> If any information above is incorrect, or if I missed someone, then pleas=
-e let me know asap.
->=20
-> Draft Agenda:
->=20
-> 9:00-9:30: Get settled :-)
->=20
-> 9:30-9:40: Hans Verkuil: Quick introduction
->=20
-> 9:40-10:25: Paul Kocialkowski: Stateless video encoding uAPI
->=20
-> 10:25-11:15: Jai Luthra: Per-stream V4L2 controls
->=20
-> 11:15-11:30: break
->=20
-> 11:30-12:15: Sakari Ailus: Identifying camera modules
->=20
-> 12:15-13:30: lunch TBD
->=20
-> 13:30-14:00: Laurent Pinchart: Review of the status of staging drivers
->=20
-> 14:00-15:00: Hans de Goede: Discuss V4L2 subdev API ambiguities
->=20
-> 15:15-15:30: break
->=20
-> 15:30-15:50: Jacopo Mondi: Unify the multi-context support with the m2m c=
-ontext handling
->=20
-> 15:50-16:35: Ricardo Ribalda: Openness Framework for ISPs
->=20
-> 16:35-17:30: Hans Verkuil: Status of Media CI/Multi-committers
->=20
-> Please reply with corrections, questions, etc. to this email. I'll update=
- the agenda
-> over time. Again, these times are very preliminary.
+drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+    339 bool rzg2l_fifo_empty(struct rzg2l_cru_dev *cru)
+    340 {
+    341         u32 amnfifopntr, amnfifopntr_w, amnfifopntr_r_y;
+    342 
+    343         amnfifopntr = rzg2l_cru_read(cru, AMnFIFOPNTR);
+    344 
+    345         amnfifopntr_w = amnfifopntr & AMnFIFOPNTR_FIFOWPNTR;
+    346         amnfifopntr_r_y =
+    347                 (amnfifopntr & AMnFIFOPNTR_FIFORPNTR_Y) >> 16;
+    348         if (amnfifopntr_w == amnfifopntr_r_y)
+    349                 return true;
 
-I realise I'm a bit late to the party, but if there's a waiting list I'd
-like to add enabling cgroups memory accounting. We've started to
-implement and discuss it in DRM and there's some pretty specific topics
-for them, but I'd like to discuss what they might be for v4l2 in
-general. I wouldn't expect it to take more than 30 minutes.
+We should either delete this check
 
-Maxime
+    350 
+--> 351         return amnfifopntr_w == amnfifopntr_r_y;
 
---ls5r3xbmdntrjta5
-Content-Type: application/pgp-signature; name="signature.asc"
+or change this to "return false;".  (I prefer the second option).
 
------BEGIN PGP SIGNATURE-----
+    352 }
 
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaAtP0AAKCRAnX84Zoj2+
-dnhLAYDAnZrOLclQ3peTVnNTHImHRvupxkJWirS8jYkEEjL1ych+HXxG2UVrdcI+
-dUWhdh8BgO+5UTYoy741XReLzCRdfvBPKFbwGgj2LHVZSL9LdZeeRRua7ZRWpa1n
-G0J9jxBoVw==
-=imau
------END PGP SIGNATURE-----
-
---ls5r3xbmdntrjta5--
+regards,
+dan carpenter
 
