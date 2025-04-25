@@ -1,162 +1,147 @@
-Return-Path: <linux-media+bounces-31050-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31051-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99273A9C5B9
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 12:40:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F66EA9C607
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 12:49:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 13B979A42ED
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 10:40:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 487659A3A4E
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 10:48:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3AEC23D291;
-	Fri, 25 Apr 2025 10:40:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1AD26258CF7;
+	Fri, 25 Apr 2025 10:43:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="Q4gu7Q0O"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XAnqGwdz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from dane.soverin.net (dane.soverin.net [185.233.34.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63F8B23AE84;
-	Fri, 25 Apr 2025 10:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.34.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E8D258CD0;
+	Fri, 25 Apr 2025 10:43:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745577648; cv=none; b=MtLqitgSloD4L167LqadqPSoRl8gx+C9CD9zyOwVZWMvqTrdk+l2s/c3r2kbmkywWkcE5D8AZm91ARuW8pw9TGs0a7XBsh1Nj80mQdhJ+W1vuX4v6/sfipYkCrDoNbmBbc9TCYJ8gLuT/tl1MlZOJZ2AHhJsIBibr/fAhzjrvmY=
+	t=1745577825; cv=none; b=dQCUdklkc8i7FXREC3xvIsA0rsh1EsvwPGhSTn9K8c6t2bjEHwEf68ssT0kjInYBqqZ1tW3REoNmB3L1iXTFRpIHMgN+RN4Rt5gd42Xx7axt9H59OyoSchli/KSzKV3xK8l1Pd+HaCUsYrOPsN1NJQdVK/R+yyS1LDFyygPyVfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745577648; c=relaxed/simple;
-	bh=rH7CPNRp05Z0JQmX8Qf8GkEK87wkQ/GsTFIMRZ059GE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nlGjiSDITm315OUQ7ZMO/IXTpPbg51dpGUih7+p0La/B1aYhfmXJYLNQ7nMXeMZCBOGqktuaPQbjahBi0Te5nPCP7io++sTYyRs8pamfXHdMXUw0K1QBAueuXWtngvo99uFJta7Qg6Otli4iKdU8gwRdIAvod5jfGeje8NQ0RiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=Q4gu7Q0O; arc=none smtp.client-ip=185.233.34.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jjverkuil.nl
-Received: from smtp.freedom.nl (unknown [10.10.4.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	by dane.soverin.net (Postfix) with ESMTPS id 4ZkTrd6gg4z1Lkv;
-	Fri, 25 Apr 2025 10:40:33 +0000 (UTC)
-Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.108]) by freedom.nl (Postfix) with ESMTPSA id 4ZkTrd4G31z2xMR;
-	Fri, 25 Apr 2025 10:40:33 +0000 (UTC)
-Authentication-Results: smtp.freedom.nl;
-	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=Q4gu7Q0O;
-	dkim-atps=neutral
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jjverkuil.nl;
-	s=soverin1; t=1745577633;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=4MfLqZEQ+s19X5oTD1LxHZmZx+O9BQunYqjRjKsVqRY=;
-	b=Q4gu7Q0OuvpsXsAML6zcqzoMnkiYfWo5d+LNAI1NKdGes++0nUjjKqOQWYZoEjqcX+2gkS
-	SUErzY0nYXtCGf9qpoiFOVPGzmrIUtCTjrTlOsfnUhHWTuCFXdUP9wTBTfmr4zRhI0YmuP
-	tA8VG6V0j0VNSuNrb3031fxkW4l1H6QVYTKB1aoa65od33TOeFFCOA+++zwND/y4jilH7l
-	cB5lKszTkHcL1i0/ZOvHn8m7O/P4MwAIXNe6AOEFsxYy80IIqFNrUOJjwKDOaX6457WWzn
-	RK3JxupTVQ11Z8JHY0oeMe66zg2aBALU9Z1WWYGRTmX43dAPJ9DLSMnOTi6p0g==
-X-CM-Envelope: MS4xfLphYkkDwIaufVMxzIP/pP3y2f48uuSdyDPdOMz1F2zRnzusx4xsIwVFITFo3edKRDrdIs8Bd3jTDkJcjd7q4BcPbxLN6AdLfPOz4iJvyTU620n9vd7l rvhF89BpznVXIUP3Dr6uvplIpucQJcHInRrxhtEEYDRWJHmLoiibpbGcdtq6mdkl56R4ahDQDvw1uPiw03MOtTk0kY0izq1wRSANWP4oCHhkutx/u9sx2cCw MjAnETf4HYGUM6IaZvAA5yBj5ZISZyyeiz+7w+QTiXPo+xnrC2tdGujVEFgbfdYXlVK7Z8F/yqty78XnYK0OQUFjKVMgYv1WYrXD17wDsJA=
-X-CM-Analysis: v=2.4 cv=UsCZN/wB c=1 sm=1 tr=0 ts=680b66a1 a=xVxOAnYOZqKVbrsbIgLjXQ==:117 a=xVxOAnYOZqKVbrsbIgLjXQ==:17 a=IkcTkHD0fZMA:10 a=VwQbUJbxAAAA:8 a=1XWaLZrsAAAA:8 a=xq3W2uTSAAAA:8 a=dZbOZ2KzAAAA:8 a=hSkVLCK3AAAA:8 a=pGLkceISAAAA:8 a=F3-pEc6xSE51ynyxvqIA:9 a=QEXdDO2ut3YA:10 a=P5L7wpMTXyg1GfFA3Gwx:22 a=cQPPKAXgyycSBL8etih5:22
-Message-ID: <caf60be2-490e-4457-9cac-fffc7f54449a@jjverkuil.nl>
-Date: Fri, 25 Apr 2025 12:40:33 +0200
+	s=arc-20240116; t=1745577825; c=relaxed/simple;
+	bh=9j/wZiHV5GzB0EfuonP75IoTOMcnn5LfyjX7W37NjdI=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=NuCPAS/5DqIHUXiX/qfAjhiz0yV7NnzL0a4PjOO1GrtrEOZKezc/u/8AysrMCRcPwvVUrGRnFV+fzWFnf1YDnupT5yk8u5OYkoZiVLlr1CIgD91Q3+TZ1ix3k1b5us8K4h9/pTHZu4jRCduLA/mrlsbedORRJzthGLsgK+74qM4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XAnqGwdz; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745577823; x=1777113823;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=9j/wZiHV5GzB0EfuonP75IoTOMcnn5LfyjX7W37NjdI=;
+  b=XAnqGwdzQU0RnPw/1DN90a5SxA+6zDLPUCC9+FK0yAOB/kk/2+PshS/+
+   HnhAyJQtYtNBEDjcPG7OBmxxCwrMv/7/DmAxoLFI5lrXDYuaPEs9yYlQ8
+   CBpdFHpMGwYZCE/wJZSN1yTma1XI/IG60muhigH4WXLBjVg0/MF4RpvG4
+   chBo6iYLdG6tI/LO2VsMBbNPLUOkCPOd5G1jWKErMj0RBk5Wd/2aAyL6C
+   JNOfTM+8x3M9LDF6RCcSaOEXUND9PanYvuqSQzC3Sjeg0TxlnOpDq9bOn
+   GXMyGaib0oZj+avzL8uktd318Y2wDsv5th2NdpBXF4j8FIHEGoye1l1TB
+   Q==;
+X-CSE-ConnectionGUID: HLPZdsUzR8KSomo4xBZtJw==
+X-CSE-MsgGUID: m5n3ygvUR0G8Bz6dIhkwgg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="47147111"
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="47147111"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 03:43:43 -0700
+X-CSE-ConnectionGUID: UvTASx3WQpmTJjbrrS9Jdg==
+X-CSE-MsgGUID: a4PZVrw0SYaZakpCKUX1DA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="132617973"
+Received: from bjledic266.bj.intel.com ([172.16.127.175])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 03:43:40 -0700
+From: Dongcheng Yan <dongcheng.yan@intel.com>
+To: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	sakari.ailus@linux.intel.com,
+	hverkuil@xs4all.nl,
+	andriy.shevchenko@linux.intel.com,
+	hdegoede@redhat.com,
+	u.kleine-koenig@baylibre.com,
+	ricardo.ribalda@gmail.com,
+	bingbu.cao@linux.intel.com
+Cc: stable@vger.kernel.org,
+	dongcheng.yan@linux.intel.com,
+	hao.yao@intel.com
+Subject: [PATCH v3 1/2] platform/x86: int3472: add hpd pin support
+Date: Fri, 25 Apr 2025 18:43:30 +0800
+Message-Id: <20250425104331.3165876-1-dongcheng.yan@intel.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2] media: cxusb: fix uninitialized var in
- cxusb_gpio_tuner()
-To: Penglei Jiang <superman.xpt@gmail.com>, mkrufky@linuxtv.org,
- mchehab@kernel.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250405073159.87021-1-superman.xpt@gmail.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hans@jjverkuil.nl>
-Autocrypt: addr=hans@jjverkuil.nl; keydata=
- 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
-In-Reply-To: <20250405073159.87021-1-superman.xpt@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spampanel-Class: ham
+Content-Transfer-Encoding: 8bit
 
-Hi Penglei Jiang.
+Typically HDMI to MIPI CSI-2 bridges have a pin to signal image data is
+being received. On the host side this is wired to a GPIO for polling or
+interrupts. This includes the Lontium HDMI to MIPI CSI-2 bridges
+lt6911uxe and lt6911uxc.
 
-On 05/04/2025 09:31, Penglei Jiang wrote:
-> The function cxusb_ctrl_msg() may not set the value of the variable i,
-> but the code uses it later. Initialize the local variable i to 0 to
-> prevent potential issues.
-> 
-> Reported-by: syzbot+526bd95c0ec629993bf3@syzkaller.appspotmail.com
-> Closes: https://lore.kernel.org/all/67f092b5.050a0220.0a13.0229.GAE@google.com
-> Signed-off-by: Penglei Jiang <superman.xpt@gmail.com>
+The GPIO "hpd" is used already by other HDMI to CSI-2 bridges, use it
+here as well.
 
-FYI: I marked this as Obsolete since this patch is a better solution:
+Signed-off-by: Dongcheng Yan <dongcheng.yan@intel.com>
+---
+ drivers/platform/x86/intel/int3472/common.h   | 1 +
+ drivers/platform/x86/intel/int3472/discrete.c | 6 ++++++
+ 2 files changed, 7 insertions(+)
 
-https://patchwork.linuxtv.org/project/linux-media/patch/tencent_DCC6C1B37B437AC965C3A2845B5779D76305@qq.com/
+diff --git a/drivers/platform/x86/intel/int3472/common.h b/drivers/platform/x86/intel/int3472/common.h
+index 51b818e62a25..4593d567caf4 100644
+--- a/drivers/platform/x86/intel/int3472/common.h
++++ b/drivers/platform/x86/intel/int3472/common.h
+@@ -23,6 +23,7 @@
+ #define INT3472_GPIO_TYPE_CLK_ENABLE				0x0c
+ #define INT3472_GPIO_TYPE_PRIVACY_LED				0x0d
+ #define INT3472_GPIO_TYPE_HANDSHAKE				0x12
++#define INT3472_GPIO_TYPE_HOTPLUG_DETECT			0x13
+ 
+ #define INT3472_PDEV_MAX_NAME_LEN				23
+ #define INT3472_MAX_SENSOR_GPIOS				3
+diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
+index 394975f55d64..efa3bc7af193 100644
+--- a/drivers/platform/x86/intel/int3472/discrete.c
++++ b/drivers/platform/x86/intel/int3472/discrete.c
+@@ -191,6 +191,10 @@ static void int3472_get_con_id_and_polarity(struct int3472_discrete_device *int3
+ 		*con_id = "privacy-led";
+ 		*gpio_flags = GPIO_ACTIVE_HIGH;
+ 		break;
++	case INT3472_GPIO_TYPE_HOTPLUG_DETECT:
++		*con_id = "hpd";
++		*gpio_flags = GPIO_ACTIVE_HIGH;
++		break;
+ 	case INT3472_GPIO_TYPE_POWER_ENABLE:
+ 		*con_id = "avdd";
+ 		*gpio_flags = GPIO_ACTIVE_HIGH;
+@@ -221,6 +225,7 @@ static void int3472_get_con_id_and_polarity(struct int3472_discrete_device *int3
+  * 0x0b Power enable
+  * 0x0c Clock enable
+  * 0x0d Privacy LED
++ * 0x13 Hotplug detect
+  *
+  * There are some known platform specific quirks where that does not quite
+  * hold up; for example where a pin with type 0x01 (Power down) is mapped to
+@@ -290,6 +295,7 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
+ 	switch (type) {
+ 	case INT3472_GPIO_TYPE_RESET:
+ 	case INT3472_GPIO_TYPE_POWERDOWN:
++	case INT3472_GPIO_TYPE_HOTPLUG_DETECT:
+ 		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, con_id, gpio_flags);
+ 		if (ret)
+ 			err_msg = "Failed to map GPIO pin to sensor\n";
 
-Regards,
-
-	Hans
-
-> ---
-> V1 -> V2: Updated the Subject
-> 
->  drivers/media/usb/dvb-usb/cxusb.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/usb/dvb-usb/cxusb.c b/drivers/media/usb/dvb-usb/cxusb.c
-> index f44529b40989..7fe858bb665e 100644
-> --- a/drivers/media/usb/dvb-usb/cxusb.c
-> +++ b/drivers/media/usb/dvb-usb/cxusb.c
-> @@ -111,7 +111,7 @@ int cxusb_ctrl_msg(struct dvb_usb_device *d,
->  static void cxusb_gpio_tuner(struct dvb_usb_device *d, int onoff)
->  {
->  	struct cxusb_state *st = d->priv;
-> -	u8 o[2], i;
-> +	u8 o[2], i = 0;
->  
->  	if (st->gpio_write_state[GPIO_TUNER] == onoff &&
->  	    !st->gpio_write_refresh[GPIO_TUNER])
+base-commit: 4d1e8c8f11c611db5828e4bae7292bc295eea8ef
+-- 
+2.34.1
 
 
