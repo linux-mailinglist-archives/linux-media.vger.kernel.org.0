@@ -1,166 +1,390 @@
-Return-Path: <linux-media+bounces-31055-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31056-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B2DAA9C759
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 13:22:55 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3AB0A9C7B9
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 13:36:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4AAF47AAEBF
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 11:21:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 353844C1E2E
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 11:36:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4360925A2D5;
-	Fri, 25 Apr 2025 11:18:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B913C243364;
+	Fri, 25 Apr 2025 11:36:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b="b4W7lB3q"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="GbTttXX/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from dane.soverin.net (dane.soverin.net [185.233.34.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A2262571DF;
-	Fri, 25 Apr 2025 11:18:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.34.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B421C7019
+	for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 11:36:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745579932; cv=none; b=KRIUgycEfqpkKpocOIfb4ZuczRf3lCZq4zwttlEemvJKtwS4xqm0IlrSVSpRG8ms0AlGlEurznd6r80XWFUWC3a1JgseRid8K9P1bFOhP95t5HLGMmz7pXw1X7cXItr3gBGadufyFUoGw516ThgNjm6sDPQI7XDt8nLoMacNUhw=
+	t=1745580972; cv=none; b=S9YNMq92wLRztVQNQEOXy2Y9b+k+k1HCyTwPlqWT05MA2CtQ049FKwCclU+QJybxhElcA2T1Z9LU1p0IjeNByZdjDIgTIfYDaTwgJINCM2VygoSs6bMNyTRss+ZL/NRyse6ugmLCni0mH1UmPOC1DjWx03NALZHUMBXRsw+y6AY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745579932; c=relaxed/simple;
-	bh=skvexJzYlW4JuBMtInk0nYvYYmknX8QIlJFtBmm34aE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ib+Npc+HLdJspEQkNIc+DUJtWRVMCsEVlM9Fh2WYbqh7t3WN2/BGwIPv99m/fVmMKd6UsZ9OwJ4CUxzT0N+a+3UOm4KeZOCbNUu0WNYluMg+lTRV49xsptZ5EAadjmwpJsgWYgU4R5RqY35FV3v/mbqqTCybyJR3Dy+fRlEsyNk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl; spf=pass smtp.mailfrom=jjverkuil.nl; dkim=pass (2048-bit key) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.b=b4W7lB3q; arc=none smtp.client-ip=185.233.34.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=jjverkuil.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=jjverkuil.nl
-Received: from smtp.freedom.nl (unknown [10.10.4.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	by dane.soverin.net (Postfix) with ESMTPS id 4ZkVhj1yVYz1Mvv;
-	Fri, 25 Apr 2025 11:18:45 +0000 (UTC)
-Received: from smtp.freedom.nl (smtp.freedom.nl [10.10.4.108]) by freedom.nl (Postfix) with ESMTPSA id 4ZkVhh6BT1z2xMR;
-	Fri, 25 Apr 2025 11:18:44 +0000 (UTC)
-Authentication-Results: smtp.freedom.nl;
-	dkim=pass (2048-bit key; unprotected) header.d=jjverkuil.nl header.i=@jjverkuil.nl header.a=rsa-sha256 header.s=soverin1 header.b=b4W7lB3q;
-	dkim-atps=neutral
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jjverkuil.nl;
-	s=soverin1; t=1745579925;
+	s=arc-20240116; t=1745580972; c=relaxed/simple;
+	bh=ectO4fwhjO+/xJg06cgXt40EEqO+yG3Xo8g4Thu3QMM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bw2Bq+ZwWOITGOh9omKpign/AmsreHp8J+HVvF9q/dVoDmRvSztKmqXSOYCumKchBhd9rxQGupblnaarJUeHOCYtRPUnKCbLOQsdkNtoQPepRyY1wh4VtxjrjbguzrCm4nUjfITdDR/yuO3tQ3V+ipuE2mCMGZNEDtXorbzTEAg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=GbTttXX/; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+Date: Fri, 25 Apr 2025 17:05:46 +0530
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1745580956;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=BZuo5HAuIG4iMY22uUoOZzzfPbaHnwAOsOxEtFWKQs4=;
-	b=b4W7lB3qo2Bzx23qcUfuqw5oVJPoIzt70Ey1oSB35ORcn/k1Ty4CKomxzaPlb75P8mwEj9
-	Pho6JdLtgnSZVRIHnsST/s7HtLjE2Dw8oVVuevy5uvufTEsWFr7bZXAgUzIQzLoLBwA8e2
-	jCPSu7yU5I6NS+0kqhX7zXlkHE6fyVdrUYwxEQGz6CpxQi9CKjWGQLokS3/TuD0BWWOu/j
-	BDpVOi/mlI5t1TCSrE9gO30SROsoJO2jznkwmW0TK5QQ4gj7KCYH8aH+mr82hgQQtMSEh+
-	BBmwKfWRQ9YQhF5ZStX3jIuDFZXYh3CaKw4IaUr0m6J5dyxu/Tcq+rFPS9xo2w==
-X-CM-Envelope: MS4xfGdsihsR6tcCoeTf3TelIQMkvCpQl2Bg60QdT1w7vUryS7Oz1m8jWYCrtSKiQURaaGo8oEmGj9iGaJjpax4cyr1APUi5C8sIRqRVaWiuHfPd+IC1S0F4 V4Wohb4QNahvOvDIFEhli/rtTwfbiiAMoLqEJnQlAY2JY0D5SfBohbse2M8LWihoIUR1MNX6WsCUELoyUs4Zy72s7LfaBG2T26YOrfHSxNH9QVQQc9DMIa6I gEkAEuvbXO/RCcRKd1PQoYP0G2HBEYKKTbCRr5ms1SdiwvvAW1i56SEhysqfJil11h9L7Zjl39Iuc4LP3Eycli/e0c/QghXeDjMPDP5OShRZ2wmXRN0S4+PJ keU9RAYk
-X-CM-Analysis: v=2.4 cv=UsCZN/wB c=1 sm=1 tr=0 ts=680b6f95 a=xVxOAnYOZqKVbrsbIgLjXQ==:117 a=xVxOAnYOZqKVbrsbIgLjXQ==:17 a=IkcTkHD0fZMA:10 a=cEcZ1jVqqoP-keUFMK0A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
-Message-ID: <36261b27-99b9-4e9e-ac1c-87c06c6dc0bd@jjverkuil.nl>
-Date: Fri, 25 Apr 2025 13:18:44 +0200
+	 in-reply-to:in-reply-to:references:references;
+	bh=bVKei5aVMPfJlUQVkr0Ho/XvVolQTZAT0nof14LXCKA=;
+	b=GbTttXX/rnh4YxvlzOcmfUhkDItOdL6++qu/CHSKLzvBg56GF8hDNnAC92AngRb9/m1GhB
+	UVN6oOMGDWTdor5+C6NyevqwLt1MpbYHS0pjARU2JvSDw0Wc4X6eAREdAr4h+ceHSzbF44
+	IiewGUFhTgBr9SKd+6NrR4fxX+ZdZyo=
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Jai Luthra <jai.luthra@linux.dev>
+To: Rishikesh Donadkar <r-donadkar@ti.com>
+Cc: mripard@kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, devarsht@ti.com, 
+	y-abhilashchandra@ti.com, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, vaishnav.a@ti.com, s-jain1@ti.com, vigneshr@ti.com, 
+	sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl, tomi.valkeinen@ideasonboard.com, 
+	jai.luthra@ideasonboard.com, changhuang.liang@starfivetech.com, jack.zhu@starfivetech.com, 
+	laurent.pinchart@ideasonboard.com
+Subject: Re: [PATCH v3 13/13] media: ti: j721e-csi2rx: Change the drain
+ architecture for multistream
+Message-ID: <5zz3ojgkk6uggx5moglrwn44g7vdnraa4skqkxt4k6pjvta4lh@oproxefudzrt>
+X-PGP-Key: http://jailuthra.in/files/public-key.asc
+References: <20250417065554.437541-1-r-donadkar@ti.com>
+ <20250417065554.437541-14-r-donadkar@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH] media: v4l: get_device() when no errors are possible
- anymore
-To: =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <13860e023a920cd472cf5acecee88794c815b9c4.1743199603.git.mirq-linux@rere.qmqm.pl>
-Content-Language: en-US, nl
-From: Hans Verkuil <hans@jjverkuil.nl>
-Autocrypt: addr=hans@jjverkuil.nl; keydata=
- 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
-In-Reply-To: <13860e023a920cd472cf5acecee88794c815b9c4.1743199603.git.mirq-linux@rere.qmqm.pl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spampanel-Class: ham
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="gvy5bgo5bv6kbv5p"
+Content-Disposition: inline
+In-Reply-To: <20250417065554.437541-14-r-donadkar@ti.com>
+X-Migadu-Flow: FLOW_OUT
 
-Hi Michał,
 
-On 28/03/2025 23:07, Michał Mirosław wrote:
-> Avoid leaking reference from get_device() in the error path.
+--gvy5bgo5bv6kbv5p
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v3 13/13] media: ti: j721e-csi2rx: Change the drain
+ architecture for multistream
+MIME-Version: 1.0
 
-It's not actually leaking anything. If dev == NULL, then get_device
-does nothing.
+Hi Rishikesh,
 
-I'll reject this patch.
+Thanks for the patch.
 
-Regards,
+On Thu, Apr 17, 2025 at 12:25:54PM +0530, Rishikesh Donadkar wrote:
+> In Multistream use cases, we may face buffer starvation due to various
+> reasons like slow downstream element in gstreamer pipeline. In these
+> scenarios we need to make sure that the data corresponding to the slow
+> pipeline is pulled out of the shared HW FIFO in CSI2RX IP to prevent
+> other streams to get stalled due to FIFO overflow.
+>=20
+> Previously, in case of buffer starvation, dma was marked IDLE and the
+> next buffer_queue() would drain the data before marking new buffer ready
+> for DMA transaction. Here the driver waits for the next VIDIOC_QBUF
+> ioctl callback to drain the stale data from the HW FIFO, if there is a
+> delay in this callback being called, HW FIFO will overflow leading all
+> the other camera pipelines in the media graph to hang.
 
-	Hans
+The above description is a little hard to follow, and not correct. A "late"=
+=20
+QBUF callback is what buffer starvation *is*. With single-stream scenarios =
+the=20
+older drain architecture worked fine, as the goal there was to drain out st=
+ale=20
+data in the FIFOs when buffers are available again.
 
-> 
-> Signed-off-by: Michał Mirosław <mirq-linux@rere.qmqm.pl>
+>=20
+> Introduce a new architecture where, CSI data is always pulled out of
+> the shared HW FIFO irrespective of the availability of buffers from
+> userspace.
+
+I think this description does not make it very clear why multiple streams=
+=20
+(VCs) cause the older drain architecture to not work, and what exactly is t=
+he=20
+limitation in the hardware FIFOs.
+
+How about the following instead:
+
+    On buffer starvation the DMA is marked IDLE, and the stale data in the=
+=20
+    internal FIFOs gets drained only on the next VIDIOC_QBUF call from the=
+=20
+    userspace. This approach works fine for a single stream case.
+
+    But in multistream scenarios, buffer starvation for one stream i.e. one=
+=20
+    virtual channel, can block the shared HW FIFO of the CSI2RX IP. This ca=
+n=20
+    stall the pipeline for all other virtual channels, even if buffers are=
+=20
+    available for them.
+
+    This patch introduces a new architecture, that continuously drains data=
+=20
+    from the shared HW FIFO into a small (32KiB) buffer if no buffers are m=
+ade=20
+    available to the driver from the userspace. This ensures independence=
+=20
+    between different streams, where a slower downstream element for one=20
+    camera does not block streaming for other cameras.
+
+>=20
+> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
 > ---
->  drivers/media/v4l2-core/v4l2-device.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-device.c b/drivers/media/v4l2-core/v4l2-device.c
-> index 5e537454f5cd..277ea2c241b8 100644
-> --- a/drivers/media/v4l2-core/v4l2-device.c
-> +++ b/drivers/media/v4l2-core/v4l2-device.c
-> @@ -23,7 +23,6 @@ int v4l2_device_register(struct device *dev, struct v4l2_device *v4l2_dev)
->  	spin_lock_init(&v4l2_dev->lock);
->  	v4l2_prio_init(&v4l2_dev->prio);
->  	kref_init(&v4l2_dev->ref);
-> -	get_device(dev);
->  	v4l2_dev->dev = dev;
->  	if (dev == NULL) {
->  		/* If dev == NULL, then name must be filled in by the caller */
-> @@ -32,6 +31,8 @@ int v4l2_device_register(struct device *dev, struct v4l2_device *v4l2_dev)
->  		return 0;
->  	}
->  
-> +	get_device(dev);
-> +
->  	/* Set name to driver name + device name if it is empty. */
->  	if (!v4l2_dev->name[0])
->  		snprintf(v4l2_dev->name, sizeof(v4l2_dev->name), "%s %s",
+>  .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 96 +++++++------------
+>  1 file changed, 33 insertions(+), 63 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/driv=
+ers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> index 23d63d8bcd36a..7f476c78c4a92 100644
+> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+> @@ -57,7 +57,6 @@
+>  #define TI_CSI2RX_MAX_SOURCE_PADS	TI_CSI2RX_MAX_CTX
+>  #define TI_CSI2RX_MAX_PADS		(1 + TI_CSI2RX_MAX_SOURCE_PADS)
+> =20
+> -#define DRAIN_TIMEOUT_MS		50
+>  #define DRAIN_BUFFER_SIZE		SZ_32K
 
+As you are draining 32KiB chunks, it is likely that the hardware is in the=
+=20
+middle of a frame when the userspace queues a new buffer and you stop=20
+draining, and change the target address to a user-facing buffer. How does t=
+he=20
+PSIL/DMA engine handle the SoF/EoF boundaries in such a case?
+
+Would it be possible for you to verify if the first user-facing buffer afte=
+r=20
+draining has valid data? And if not, please highlight it so it may get fixe=
+d=20
+in the future.
+
+> =20
+>  struct ti_csi2rx_fmt {
+> @@ -77,7 +76,6 @@ struct ti_csi2rx_buffer {
+> =20
+>  enum ti_csi2rx_dma_state {
+>  	TI_CSI2RX_DMA_STOPPED,	/* Streaming not started yet. */
+> -	TI_CSI2RX_DMA_IDLE,	/* Streaming but no pending DMA operation. */
+>  	TI_CSI2RX_DMA_ACTIVE,	/* Streaming and pending DMA operation. */
+>  };
+> =20
+> @@ -238,6 +236,10 @@ static const struct ti_csi2rx_fmt ti_csi2rx_formats[=
+] =3D {
+>  static int ti_csi2rx_start_dma(struct ti_csi2rx_ctx *ctx,
+>  			       struct ti_csi2rx_buffer *buf);
+> =20
+> +/* Forward declarations needed by ti_csi2rx_drain_callback. */
+> +static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *ctx);
+> +static int ti_csi2rx_dma_submit_pending(struct ti_csi2rx_ctx *ctx);
+> +
+>  static const struct ti_csi2rx_fmt *find_format_by_fourcc(u32 pixelformat)
+>  {
+>  	unsigned int i;
+> @@ -589,9 +591,28 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_ct=
+x *ctx)
+> =20
+>  static void ti_csi2rx_drain_callback(void *param)
+>  {
+> -	struct completion *drain_complete =3D param;
+> +	struct ti_csi2rx_ctx *ctx =3D param;
+> +	struct ti_csi2rx_dma *dma =3D &ctx->dma;
+> +	unsigned long flags;
+> +
+> +	spin_lock_irqsave(&dma->lock, flags);
+> =20
+> -	complete(drain_complete);
+> +	if (dma->state =3D=3D TI_CSI2RX_DMA_STOPPED) {
+> +		spin_unlock_irqrestore(&dma->lock, flags);
+> +		return;
+> +	}
+> +
+> +	/*
+> +	 * If dma->queue is empty, it signals no buffer has arrived from
+> +	 * user space, so, queue more transaction to drain dma
+> +	 */
+> +	if (list_empty(&dma->queue)) {
+> +		if (ti_csi2rx_drain_dma(ctx))
+> +			dev_warn(ctx->csi->dev, "DMA drain failed\n");
+> +	} else {
+> +		ti_csi2rx_dma_submit_pending(ctx);
+> +	}
+> +	spin_unlock_irqrestore(&dma->lock, flags);
+>  }
+> =20
+>  /*
+> @@ -609,12 +630,9 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx =
+*ctx)
+>  {
+>  	struct ti_csi2rx_dev *csi =3D ctx->csi;
+>  	struct dma_async_tx_descriptor *desc;
+> -	struct completion drain_complete;
+>  	dma_cookie_t cookie;
+>  	int ret;
+> =20
+> -	init_completion(&drain_complete);
+> -
+>  	desc =3D dmaengine_prep_slave_single(ctx->dma.chan, csi->drain.paddr,
+>  					   csi->drain.len, DMA_DEV_TO_MEM,
+>  					   DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
+> @@ -624,7 +642,7 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *=
+ctx)
+>  	}
+> =20
+>  	desc->callback =3D ti_csi2rx_drain_callback;
+> -	desc->callback_param =3D &drain_complete;
+> +	desc->callback_param =3D ctx;
+> =20
+>  	cookie =3D dmaengine_submit(desc);
+>  	ret =3D dma_submit_error(cookie);
+> @@ -633,13 +651,6 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx =
+*ctx)
+> =20
+>  	dma_async_issue_pending(ctx->dma.chan);
+> =20
+> -	if (!wait_for_completion_timeout(&drain_complete,
+> -					 msecs_to_jiffies(DRAIN_TIMEOUT_MS))) {
+> -		dmaengine_terminate_sync(ctx->dma.chan);
+> -		dev_dbg(csi->dev, "DMA transfer timed out for drain buffer\n");
+> -		ret =3D -ETIMEDOUT;
+> -		goto out;
+> -	}
+>  out:
+>  	return ret;
+>  }
+> @@ -687,9 +698,11 @@ static void ti_csi2rx_dma_callback(void *param)
+> =20
+>  	ti_csi2rx_dma_submit_pending(ctx);
+> =20
+> -	if (list_empty(&dma->submitted))
+> -		dma->state =3D TI_CSI2RX_DMA_IDLE;
+> -
+> +	if (list_empty(&dma->submitted)) {
+> +		if (ti_csi2rx_drain_dma(ctx))
+> +			dev_warn(ctx->csi->dev,
+> +				"DMA drain failed on one of the transactions\n");
+
+Checkpatch warning here:
+
+CHECK: Alignment should match open parenthesis
+#138: FILE: drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c:704:
++			dev_warn(ctx->csi->dev,
++				"DMA drain failed on one of the transactions\n");
+
+total: 0 errors, 0 warnings, 1 checks, 167 lines checked
+
+> +	}
+>  	spin_unlock_irqrestore(&dma->lock, flags);
+>  }
+> =20
+> @@ -742,7 +755,7 @@ static void ti_csi2rx_stop_dma(struct ti_csi2rx_ctx *=
+ctx)
+>  		 * enforced before terminating DMA.
+>  		 */
+>  		ret =3D ti_csi2rx_drain_dma(ctx);
+> -		if (ret && ret !=3D -ETIMEDOUT)
+> +		if (ret)
+>  			dev_warn(ctx->csi->dev,
+>  				 "Failed to drain DMA. Next frame might be bogus\n");
+>  	}
+> @@ -809,57 +822,14 @@ static void ti_csi2rx_buffer_queue(struct vb2_buffe=
+r *vb)
+>  	struct ti_csi2rx_ctx *ctx =3D vb2_get_drv_priv(vb->vb2_queue);
+>  	struct ti_csi2rx_buffer *buf;
+>  	struct ti_csi2rx_dma *dma =3D &ctx->dma;
+> -	bool restart_dma =3D false;
+>  	unsigned long flags =3D 0;
+> -	int ret;
+> =20
+>  	buf =3D container_of(vb, struct ti_csi2rx_buffer, vb.vb2_buf);
+>  	buf->ctx =3D ctx;
+> =20
+>  	spin_lock_irqsave(&dma->lock, flags);
+> -	/*
+> -	 * Usually the DMA callback takes care of queueing the pending buffers.
+> -	 * But if DMA has stalled due to lack of buffers, restart it now.
+> -	 */
+> -	if (dma->state =3D=3D TI_CSI2RX_DMA_IDLE) {
+> -		/*
+> -		 * Do not restart DMA with the lock held because
+> -		 * ti_csi2rx_drain_dma() might block for completion.
+> -		 * There won't be a race on queueing DMA anyway since the
+> -		 * callback is not being fired.
+> -		 */
+> -		restart_dma =3D true;
+> -		dma->state =3D TI_CSI2RX_DMA_ACTIVE;
+> -	} else {
+> -		list_add_tail(&buf->list, &dma->queue);
+> -	}
+> +	list_add_tail(&buf->list, &dma->queue);
+>  	spin_unlock_irqrestore(&dma->lock, flags);
+> -
+> -	if (restart_dma) {
+> -		/*
+> -		 * Once frames start dropping, some data gets stuck in the DMA
+> -		 * pipeline somewhere. So the first DMA transfer after frame
+> -		 * drops gives a partial frame. This is obviously not useful to
+> -		 * the application and will only confuse it. Issue a DMA
+> -		 * transaction to drain that up.
+> -		 */
+> -		ret =3D ti_csi2rx_drain_dma(ctx);
+> -		if (ret && ret !=3D -ETIMEDOUT)
+> -			dev_warn(ctx->csi->dev,
+> -				 "Failed to drain DMA. Next frame might be bogus\n");
+> -
+> -		spin_lock_irqsave(&dma->lock, flags);
+> -		ret =3D ti_csi2rx_start_dma(ctx, buf);
+> -		if (ret) {
+> -			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
+> -			dma->state =3D TI_CSI2RX_DMA_IDLE;
+> -			spin_unlock_irqrestore(&dma->lock, flags);
+> -			dev_err(ctx->csi->dev, "Failed to start DMA: %d\n", ret);
+> -		} else {
+> -			list_add_tail(&buf->list, &dma->submitted);
+> -			spin_unlock_irqrestore(&dma->lock, flags);
+> -		}
+> -	}
+>  }
+> =20
+>  static int ti_csi2rx_get_vc(struct ti_csi2rx_ctx *ctx)
+> --=20
+> 2.34.1
+>=20
+
+Thanks,
+Jai
+
+--gvy5bgo5bv6kbv5p
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmgLc5IACgkQQ96R+SSa
+cUWlPxAAqmWJq/5qoPrmSaLEA7yWzJlMugFolYdVzSIzvY1oLfNyo1HIvgT+6WM3
+oIgDrzneIKUm6FbKjeESvrFmM2N5yiuIR5uKzaCGjKTnKB9RG+Fn/8li6nOMMf+K
+GkoPu9CRQFVGruPux1HlOlnvOHPr1MSwcrE4yy3J1PtQnaGpCmDgGm1hTh02JCUt
+UaurPqNSKywH9saAwIKIOp8EiWGV9N5zdFVB1a9qv5nrVSdXrL43VSwZm4OXYLZl
+iuMh0eqvqHZsxHl5Q4I4GpPPKTtDvi+WsnE/PAr03+et5u1egJy7HQZK+Hqm0PzW
+Zekl4qsh9R54laOif3GN4YTbPRYnnntzj+fB8Bu6Wq3+JwYIrXr0UqODEMDlRxsO
+1PsZLkeVoU/401XZ4212AH5QuHNDxwOxhxDmGLBYWzVugy7Flkjf2L0xkj3IAE04
+/j9zLTuuR84FQlZxOFoD4ovc8QT7FVSlfDXyDYM/0BDEtoJyL8GB3UtqgLVbgtk8
+QuxDkLPGGA9PpSb9KyQ1Jk8bi9L95Mv+47VnBXXLz5JLopft3qOJddJ3TacufNCi
+/rROUyCYTRvrxkUogzbKHKXplB/6+GO8lswQvwOrdnMnYSM/5Cd0ytxFbRBmOzV1
+UfRe5z7F/UyV8dZG8fz1YodusmFFqporUcOafxvyPttDALELyUU=
+=Rr94
+-----END PGP SIGNATURE-----
+
+--gvy5bgo5bv6kbv5p--
 
