@@ -1,90 +1,75 @@
-Return-Path: <linux-media+bounces-30971-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30973-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB0D4A9BD23
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 05:08:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A108A9BDA2
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 06:34:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 15D131BA23E6
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 03:08:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 011319A0D57
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 04:33:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 193D817A314;
-	Fri, 25 Apr 2025 03:07:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 221A2218580;
+	Fri, 25 Apr 2025 04:34:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VUj+kWlM"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hfui1G2k"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305302701AE;
-	Fri, 25 Apr 2025 03:07:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E37C17BB21
+	for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 04:33:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745550477; cv=none; b=frzcE/2yEd5yuYmznL2RG6bmcsIMUi19ecvexnu8T1H+GZhhijeBFTg4XXPD7RcySDV92GCau3xG6mVRXScTPzcTs6zNOvYcI8u3VDNTUXM0qBEkuO+olrl6auoP1J3iW5MYb+AC1hYyz1bzTYr9zjLmWPvkItQ8K2C+WtinCHQ=
+	t=1745555639; cv=none; b=l7vRgDUcORCvqw21qUZw3ZRzYre/lwW6FaXRGLDMR5oFQd+apk+k4ARDw/8BHGyja6IO9yJ9Y2qn3zk+yUPQwGq0uw0aI0u7mV2/o8Tk/sfJX0xQJdqATfIRGbYQHv4pGRXo90QvNSwQwilzSIjq537JputPlh1rgPH6TWsiff4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745550477; c=relaxed/simple;
-	bh=osAwogrtr06X60DTlApbAWL7QentYdhlQifM5SVV7xg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=NYx6EmYjqXE7RbjMer7HpcmIspCf2T+uoq8VugcqBJMNlIBzLI4RuBePyFxhonN/951VTdY4z+SuVqv2AwmLfXtO11OlXiq65Arq7uzUKNlRYr9SEViC9N+mShTORFtX98inxpouViM9mAuEsXh220wRNQ3iNXoK5mWivyPDLSQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VUj+kWlM; arc=none smtp.client-ip=209.85.216.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-301cda78d48so2129982a91.0;
-        Thu, 24 Apr 2025 20:07:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745550474; x=1746155274; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ta4nCPpvWFM1ePJJeTQkgOJ6CbAh0GB+fI2VCmWT/+Q=;
-        b=VUj+kWlMJijoWgO9pxKOyxkIZtVJ8y0KgW3O+bjdWmgqbnnSVsXeoEfAZeyGhAhfEG
-         +P8qOwEnxKu7OHQBjKaEehjLaVadBYe0mKbxvfl/zLVMrJnWCTa3DvxbHMxa4ejZMr9s
-         4NHHa8rg+/c+3dj7HxWYziYc23h4SjklbJhIiU4B9JpZGtGSK+msHu/z39cDX4cK/1k6
-         66Gl4OhknpU4GH+Z1e/C/Oqpz3QKhi2q2mFO0FvYVszIv1LS38fA3xB//emV3rITTWbR
-         7JmsemMhJTEWyTwP82FpIB7nYS5td29nXjhC05daDXzzc2YMQGDFMnvrvqmk6Dnzln/t
-         xx/g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745550474; x=1746155274;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ta4nCPpvWFM1ePJJeTQkgOJ6CbAh0GB+fI2VCmWT/+Q=;
-        b=fhuHTHil/F/kGMfUmupcuP1XBGpaiBqNmh65A/FjUbJidyQWrJMANYbwlDu0UOPxLm
-         +hdPysRWPOVPnI+nr5keHBZ8agVYRVO67rZUJc40rA+RV9mUUziJwaf7Pk7zDC5oTVwZ
-         Du++1u08bgqMZsLVCncJYL5GGNcnPUbI3CnOtTE0HwEnUq4u1Zs9UnItNhTdobS6WBvR
-         ud0AZ2+9wZYd879oI/lyaTwmfOhaSedL/NOdWNoTCQ3XsStknS/BJ6omJZWFFit6kZ6h
-         1bWf75iS2RLl3j44nWtefj9ug7mKcgtpdKQE2IGuY//FtubPWjDB88Ywbp0cKJaxVyKJ
-         h7uw==
-X-Forwarded-Encrypted: i=1; AJvYcCX4vsAPBus8DxCGxq5837Mf2dD3+L8WD6iSvT0QnZitLBzlJ52PtzVkGv4sPcxlcpD7NMrC4r2DHLIFnVo=@vger.kernel.org, AJvYcCXXRlUb6PmHZ8tuTkGXPqymKOJuwvaDfQOkbYnwfiLYu7WQHthP+1pTW3IYH9t3kxktKnwNhtmEUl0Nh2M=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywi0JSnrxz4sa3L49EvrHAFDpcEw1tINYuj5W+720DwhRUFJ8is
-	rJQBh71CAR5cgfQNbstU3XbALr6PjdwAKNUpdmiJ9+HxWioKGXyG
-X-Gm-Gg: ASbGncsAC+KaiGPcurGsZaN9VajyUkv96/Bgz8bWnJP37F9RPfs+2qp8+b9rZUS3hbO
-	qmaueyyfqvpGpt3nJ8Kk/LnzCeM4mxOPlUpyPBzPoAuccnlf52BBFSCoko3ty5AHU11ndwrAb4c
-	60dw1Dtx8Fmyn6YyHIWlWNLtLR/dk/Oczp6Nr2IBHd9L9vRad6KV9MUZ5U2YNRSsczak6Hb+JgB
-	ltyeoZfYPqYoi1x+ktS2OANl1qajSqnpnohophZKfk2Uk5RUo6XhzFkllTxhfkj+jMehMLaWQu4
-	1eNMvxjVaKXzfyOHSGCesEy/8cHoQ+Ql5/bcQbsIEKsvYEz12lx9s3Jx1Sb2UI/JFJ5W8AhzIA=
-	=
-X-Google-Smtp-Source: AGHT+IEifdjAiAzfngzEiV7YyS9Y7MiK3e5I+cEbEH1gO1XVnoigbM2rorDzv6SajhWMcmhTeOscOg==
-X-Received: by 2002:a17:90b:2e4f:b0:2f2:a664:df1a with SMTP id 98e67ed59e1d1-309f7d99265mr1496670a91.2.1745550474140;
-        Thu, 24 Apr 2025 20:07:54 -0700 (PDT)
-Received: from tech-Alienware-m15-R6.. ([223.185.130.1])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-309ef063c4csm2258790a91.20.2025.04.24.20.07.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 20:07:53 -0700 (PDT)
-From: Sunny Patel <nueralspacetech@gmail.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Sunny Patel <nueralspacetech@gmail.com>
-Subject: [PATCH] media: i2c: ov13858: Enable clock frequency macro
-Date: Fri, 25 Apr 2025 08:37:10 +0530
-Message-ID: <20250425030747.6368-1-nueralspacetech@gmail.com>
+	s=arc-20240116; t=1745555639; c=relaxed/simple;
+	bh=mARV7FV2X861xXw3/2b6aFrh5zIvU3BVokvZnVzGHEc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Aeweh1nomOD6wQLde7EjLYxLNQ2kCNFEr75e8WyBpHl8Jz7PPWYVP7q0RKfzl/eCnBlMkGO7poQ6lUZlvCCuUZxzBjITV8r2qGVSIfUPNX9fL3yakGw49TzemcJ1GwQEd4bjVvP7pt/MnCFi+ILIQgprDqtQoXZKMeFWR3CXeTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hfui1G2k; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745555637; x=1777091637;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=mARV7FV2X861xXw3/2b6aFrh5zIvU3BVokvZnVzGHEc=;
+  b=Hfui1G2kpnw945O83wN0dDGac+zyG7tJTW5Xnb4P+dMT53mgWdO4lw0A
+   ySwA7cpGuCGh9W/8ZVzGkslTGIq6ZO4PynEQgaJYt4wLfV/+iH8qxm+nO
+   STge8f6MS5kaypNFQqvE5O4wO+G3jpv+OGUnThdWCdjXg/hhRp0CV0Y8a
+   Zu3hcfm5RBdUp+moyhqxad071dAFOc4nemRW0bKyG1co0XAVc8H5fvK1Q
+   4equM6V7Z0iw4Y1HugS6tuFg+e4o6ErKFg5s/PT/F5Ue6NHnl/RYtOjOd
+   7B/Yvk70HbwbmCofZo4rA+260rJn1xExZNp0XrO9TfB2cw7HkgF6Ldnfw
+   g==;
+X-CSE-ConnectionGUID: 5QktefX3RCimOwcOIH2FvQ==
+X-CSE-MsgGUID: MVI9OMLERBeldNO5rxJpNg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="47383471"
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="47383471"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 21:33:57 -0700
+X-CSE-ConnectionGUID: 6luCz+T7SMK2Zftg6PA25Q==
+X-CSE-MsgGUID: avoci0TNS66fOqI5sCBC4g==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="132726582"
+Received: from haoyao-desk.bj.intel.com ([10.238.232.12])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 21:33:54 -0700
+From: Hao Yao <hao.yao@intel.com>
+To: linux-media@vger.kernel.org
+Cc: Jason Chen <jason.z.chen@intel.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	arun.t@intel.com,
+	Hao Yao <hao.yao@intel.com>
+Subject: [PATCH] media: ov08x40: Fix the horizontal flip control
+Date: Fri, 25 Apr 2025 12:33:25 +0800
+Message-ID: <20250425043328.208804-1-hao.yao@intel.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <Z_5K9Kz2i8TouhC4@kekkonen.localdomain>
-References: <Z_5K9Kz2i8TouhC4@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -93,37 +78,27 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Define a macro `OV13858_EXTCLK` for the clock frequency (19.2 MHz)
-and use it instead of the hardcoded value in the probe function.
+The datasheet of ov08x40 doesn't match the hardware behavior.
+0x3821[2] == 1 is the original state and 0 the horizontal flip enabled.
 
-Signed-off-by: Sunny Patel <nueralspacetech@gmail.com>
-
+Signed-off-by: Hao Yao <hao.yao@intel.com>
 ---
- drivers/media/i2c/ov13858.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/media/i2c/ov08x40.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/ov13858.c b/drivers/media/i2c/ov13858.c
-index 7a3fc1d28514..a1242a90cdc9 100644
---- a/drivers/media/i2c/ov13858.c
-+++ b/drivers/media/i2c/ov13858.c
-@@ -21,6 +21,8 @@
- #define OV13858_REG_SOFTWARE_RST	0x0103
- #define OV13858_SOFTWARE_RST		0x01
+diff --git a/drivers/media/i2c/ov08x40.c b/drivers/media/i2c/ov08x40.c
+index cf0e41fc3071..17112c02408a 100644
+--- a/drivers/media/i2c/ov08x40.c
++++ b/drivers/media/i2c/ov08x40.c
+@@ -1627,7 +1627,7 @@ static int ov08x40_set_ctrl_hflip(struct ov08x40 *ov08x, u32 ctrl_val)
  
-+#define OV13858_MCLK				19200000
-+
- /* PLL1 generates PCLK and MIPI_PHY_CLK */
- #define OV13858_REG_PLL1_CTRL_0		0x0300
- #define OV13858_REG_PLL1_CTRL_1		0x0301
-@@ -1664,7 +1666,7 @@ static int ov13858_probe(struct i2c_client *client)
- 	u32 val = 0;
+ 	return ov08x40_write_reg(ov08x, OV08X40_REG_MIRROR,
+ 				 OV08X40_REG_VALUE_08BIT,
+-				 ctrl_val ? val | BIT(2) : val & ~BIT(2));
++				 ctrl_val ? val & ~BIT(2) : val | BIT(2));
+ }
  
- 	device_property_read_u32(&client->dev, "clock-frequency", &val);
--	if (val != 19200000)
-+	if (val != OV13858_MCLK)
- 		return -EINVAL;
- 
- 	ov13858 = devm_kzalloc(&client->dev, sizeof(*ov13858), GFP_KERNEL);
+ static int ov08x40_set_ctrl_vflip(struct ov08x40 *ov08x, u32 ctrl_val)
 -- 
 2.43.0
 
