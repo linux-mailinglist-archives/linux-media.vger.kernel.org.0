@@ -1,71 +1,82 @@
-Return-Path: <linux-media+bounces-31022-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31025-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E80FA9C352
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 11:25:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF44CA9C3A8
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 11:33:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 826421BA231D
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 09:25:26 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 63B971BA5C11
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 09:33:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1FE02356DA;
-	Fri, 25 Apr 2025 09:25:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F5E623A995;
+	Fri, 25 Apr 2025 09:32:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZdrIOqS3"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="ULv/3UtO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C720236426
-	for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 09:25:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57AC522E3E3;
+	Fri, 25 Apr 2025 09:32:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745573112; cv=none; b=W+KZXQW9aAfkpLS1FWFQN7HpaO76L6Y3hojn3R8S23EGvxH2KNMr9RA79NbkT9GETJW0d+xZTDcUx9H+fq62fqTSLV4lKup9icb1Ur7UzH22/deMM3NNWidQAdyiIK+VcCt+pgtg+XFrT7C3QpbLLlH+jXlHFeEWcsQomm/L3Po=
+	t=1745573566; cv=none; b=pmPMsw2rqgowrk++m5OsKFLaxKNtHh46F2iZGOrUssiSkK52oc6toj40TCUv3MW7a5ehdDe8fXfWNwqWqnyLXH/47v6k+yVx5ZIb2GWU2ixRBjIa9XKti5b8qs1BhVr2jvujjbW8CbB21z4kEi91cSYp5Fq1OBrfHyzO4J3SZZg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745573112; c=relaxed/simple;
-	bh=Y6nWTZH4sasMUeIKwIZkUErmH2pv0nGSat/U3tgCZCk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=hC6ZH+Kn+7s5b8G2suEjipdIDsTHyzv/KQSyCKzzrKlPNepVrkOE5EdJJY3z4rZnNtRk3m9Ffmqzy4YpKAFrQTWIJSgTBHKQ5ql6ij7BDN8yfRGE+y+ySdE0ovOveIHWodYa1XBYAXDb0ypGM5qqP/of2ILJb5soskj9j8ewsFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZdrIOqS3; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745573111; x=1777109111;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Y6nWTZH4sasMUeIKwIZkUErmH2pv0nGSat/U3tgCZCk=;
-  b=ZdrIOqS33wP3YegcVij1mh1JrYqqlIsrUADWAJiukHgGG8O3pdUjSJjv
-   aVIK9lk5zWxiU4tDzGy53vAsPWeB3DBcNW+3BEiJ8UZI8sGfiHwf5CHxt
-   hhpqyjb0v2ednhS/mjZl6NIgNZEo0VN2y8NDVK1CfPFOi505w7Kz2rhCn
-   OlAbeD11aXSUBx/p4Y8q00kOUPhSDIhtvRpgiQi5XxI/0T6cVGdLX4W7H
-   YjIEqUzSlFCJ9efbRFed1PvUTb3nAcubCgNeLxt5zy34ze3ri4UYsZRFA
-   8H+kFzM+7HcsM/Iemb1OE8siAVPD35PyuPrfmrGpmZ+XnHbV8bahIopCo
-   Q==;
-X-CSE-ConnectionGUID: s/qw5x6AS8+qslwJgYbpsw==
-X-CSE-MsgGUID: RW9fUgUtTISrcmRjSWuGOA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="47365419"
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="47365419"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 02:25:10 -0700
-X-CSE-ConnectionGUID: QL0AZ1m6Q8GRymumllD5fw==
-X-CSE-MsgGUID: 5pBmYIscSIC72/xq4U7HCQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="133839688"
-Received: from vtg-chrome.bj.intel.com ([172.16.127.120])
-  by orviesa008.jf.intel.com with ESMTP; 25 Apr 2025 02:25:08 -0700
-From: bingbu.cao@intel.com
-To: linux-media@vger.kernel.org,
-	sakari.ailus@linux.intel.com,
-	dongcheng.yan@intel.com
-Cc: bingbu.cao@linux.intel.com
-Subject: [PATCH] media: lt6911uxe: select V4L2_CCI_I2C in Kconfig
-Date: Fri, 25 Apr 2025 17:25:07 +0800
-Message-Id: <20250425092507.15607-1-bingbu.cao@intel.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1745573566; c=relaxed/simple;
+	bh=aYQMBNplTVaHyclpbyKpZ08KlElOEJt5FXn2y9TfiXg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Jjry8mJGDyMRLNsXetHv/+4iOCK4EzcZ2dD7FNNumEyUZtd0663hbQG2lU+wXs4xZt9IQt9soec3J1hw8LNllGKuJA5r9q/uILAcGNkUMeY9kItlcgeg/Ite7xSUQSzY18zbhUOj5stz77a80rqN342sBVedwCPD/KCxw4M3T0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=ULv/3UtO; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 3acc597421b811f0980a8d1746092496-20250425
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=fUbJyBVUQ/Ent9qo9h24NLjKVtcs8TqR5cFHXMQPspI=;
+	b=ULv/3UtOxoa2esyo19+2Zq17hCsdtVTMR+vG0MFGYLPKZj2PuOnM6gRkyHu/3fgkZsKOuWh9tar7kZM3oBRd8Vf4h3PFiH46YKAOj7vKfbFyMyaRpAGLgKPut7oBKwvyDUjTz2o//KB5fBuPp4qewNXxkEIgZyJhKrY3fICAnNA=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.2.1,REQID:77041dac-c0d3-4b96-9c7d-4f8abc1f3ec1,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:0ef645f,CLOUDID:5d1d9df0-ff26-40e8-a637-f0e9524b171a,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:-3,IP:ni
+	l,URL:1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: 3acc597421b811f0980a8d1746092496-20250425
+Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw01.mediatek.com
+	(envelope-from <jason-jh.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1984012854; Fri, 25 Apr 2025 17:32:39 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Fri, 25 Apr 2025 17:32:37 +0800
+Received: from mtksitap99.mediatek.inc (10.233.130.16) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Fri, 25 Apr 2025 17:32:37 +0800
+From: Jason-JH Lin <jason-jh.lin@mediatek.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
+	Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>
+CC: Matthias Brugger <matthias.bgg@gmail.com>, Jason-JH Lin
+	<jason-jh.lin@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>, Singo Chang
+	<singo.chang@mediatek.com>, Paul-PL Chen <pual-pl.chen@mediatek.com>, Moudy
+ Ho <moudy.ho@mediatek.com>, Xavier Chang <xavier.chang@mediatek.com>,
+	Xiandong Wang <xiandong.wang@mediatek.com>, Sirius Wang
+	<sirius.wang@mediatek.com>, Fei Shao <fshao@chromium.org>, Chen-yu Tsai
+	<wenst@chromium.org>, <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>
+Subject: [PATCH v5 00/19] Add GCE support for MT8196
+Date: Fri, 25 Apr 2025 17:28:32 +0800
+Message-ID: <20250425093237.1543918-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.45.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -73,34 +84,99 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 
-From: Bingbu Cao <bingbu.cao@intel.com>
+This patch series adds support for the MediaTek MT8196 SoC in the CMDQ
+driver and related subsystems. The changes include adding compatible
+names and iommus property, updating driver data to accommodate hardware
+changes, and modifying the usage of CMDQ APIs to support non-subsys ID
+hardware.
 
-lt6911uxe driver has dependency on V4L2_CCI_I2C, need select it in
-Kconfig to fix the build errors:
-
-ERROR: modpost: "cci_write" [drivers/media/i2c/lt6911uxe.ko] undefined!                                                                                                                                                                    ERROR: modpost: "cci_read" [drivers/media/i2c/lt6911uxe.ko] undefined!
-
-Fixes: e49563c3be09 ("media: i2c: add lt6911uxe hdmi bridge driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
 ---
- drivers/media/i2c/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+Change in v5:
+1. Rebase on tag: next-20250424 + patch [1].
+2. Split adding driver data for MT8196 patch to 3 independent patch
+   and add more detail commit message to each patch.
+3. Refine passing shift_pa as the parameter in API to storing it into
+   the cmdq_pkt.
+4. Refine DMA address potential issue in cmdq mailbox driver.
+5. Change the mminfra_offset related mbox API to passing it by cmdq_pkt.
+6. Add new cmdq_pkt_write_pa() and cmdq_pkt_write_subsys() APIs to
+   replace the cmdq_pkt_write().
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index e576b213084d..24f3936d0da8 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -1151,6 +1151,7 @@ config VIDEO_LT6911UXE
- 	tristate "Lontium LT6911UXE decoder"
- 	depends on ACPI && VIDEO_DEV
- 	select V4L2_FWNODE
-+	select V4L2_CCI_I2C
- 	help
- 	  This is a Video4Linux2 sensor-level driver for the Lontium
- 	  LT6911UXE HDMI to MIPI CSI-2 bridge.
+[1] mailbox: mtk-cmdq: Refine GCE_GCTL_VALUE setting
+- https://patchwork.kernel.org/project/linux-mediatek/patch/20250421035650.441383-1-jason-jh.lin@mediatek.com/
+
+Change in v4:
+1. Remove dt-binding header and add a gce header in dts folder.
+2. Remove dot in sign-off name.
+3. Change addr type from u32 to dma_addr_t for cmdq_reg_shift_addr() and
+   cmdq_reg_revert_addr().
+
+Change in v3:
+1. Merge 2 dt-bindings pathes together and add more detail commit message.
+2. Change type u32 to phys_addr_t for pa_base of struct cmdq_client_reg.
+3. Remove cmdq_subsys_is_valid() and subsys_num in CMDQ driver.
+4. Add CMDQ_SUBSYS_INVALID to check subsys instead of using
+   cmdq_subsys_is_invalid().
+5. Make use of CMDQ_THR_SPR0 define to the parameter of CMDQ APIs.
+6. Rebase on the new MACRO in mtk-mdp3-comp.h.
+
+Change in v2:
+1. Remove the constant and fix warning in dt-bindings.
+2. Remove the pa_base parameter of CMDQ APIs and related modification.
+3. Move subsys checking to client drivers and use 2 alternative
+   CMDQ APIs to achieve the same functionality.
+
+Jason-JH Lin (19):
+  arm64: dts: mediatek: Add GCE header for MT8196
+  mailbox: mtk-cmdq: Refine DMA address handling for the command buffer
+  mailbox: mtk-cmdq: Add cmdq private data to cmdq_pkt for generating
+    instruction
+  soc: mediatek: mtk-cmdq: Add cmdq_get_mbox_priv() in cmdq_pkt_create()
+  soc: mediatek: mtk-cmdq: Add cmdq_pkt_jump_rel_temp() for removing
+    shift_pa
+  media: platform: mtk-mdp3: Change cmdq_pkt_jump_rel() to
+    cmdq_pkt_jump_rel_temp()
+  soc: mediatek: mtk-cmdq: Remove shift_pa parameter from
+    cmdq_pkt_jump()
+  media: platform: mtk-mdp3: Use cmdq_pkt_jump_rel() without shift_pa
+  soc: mediatek: mtk-cmdq: Remove cmdq_pkt_jump() and
+    cmdq_pkt_jump_rel_temp()
+  mailbox: mtk-cmdq: Add GCE hardware virtualization configuration
+  mailbox: mtk-cmdq: Add mminfra_offset configuration for DRAM
+    transaction
+  mailbox: mtk-cmdq: Add driver data to support for MT8196
+  soc: mediatek: mtk-cmdq: Add pa_base parsing for hardware without
+    subsys ID support
+  soc: mediatek: mtk-cmdq: Add new APIs to replace cmdq_pkt_write() and
+    cmdq_pkt_write_mask()
+  soc: mediatek: mtk-cmdq: Add mminfra_offset adjustment for DRAM
+    addresses
+  soc: mediatek: Add programming flow for unsupported subsys ID hardware
+  drm/mediatek: Add programming flow for unsupported subsys ID hardware
+  media: mediatek: mdp3: Add programming flow for unsupported subsys ID
+    hardware
+  soc: mediatek: mtk-cmdq: Remove cmdq_pkt_write() and
+    cmdq_pkt_write_mask()
+
+ arch/arm64/boot/dts/mediatek/mt8196-gce.h     | 612 ++++++++++++++++++
+ drivers/gpu/drm/mediatek/mtk_ddp_comp.c       |  24 +-
+ drivers/mailbox/mtk-cmdq-mailbox.c            | 115 +++-
+ .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    |  16 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-comp.h    |  70 +-
+ .../platform/mediatek/mdp3/mtk-mdp3-core.c    |   2 -
+ .../platform/mediatek/mdp3/mtk-mdp3-core.h    |   1 -
+ drivers/soc/mediatek/mtk-cmdq-helper.c        |  68 +-
+ drivers/soc/mediatek/mtk-mmsys.c              |  12 +-
+ drivers/soc/mediatek/mtk-mutex.c              |   8 +-
+ include/linux/mailbox/mtk-cmdq-mailbox.h      |  19 +-
+ include/linux/soc/mediatek/mtk-cmdq.h         |  83 ++-
+ 12 files changed, 941 insertions(+), 89 deletions(-)
+ create mode 100644 arch/arm64/boot/dts/mediatek/mt8196-gce.h
+
 -- 
-2.34.1
+2.43.0
 
 
