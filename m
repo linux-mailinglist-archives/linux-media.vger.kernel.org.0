@@ -1,390 +1,186 @@
-Return-Path: <linux-media+bounces-31056-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31057-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3AB0A9C7B9
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 13:36:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D720A9C87D
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 14:02:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 353844C1E2E
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 11:36:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 82F089A4B1D
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 12:01:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B913C243364;
-	Fri, 25 Apr 2025 11:36:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 676B824BCEA;
+	Fri, 25 Apr 2025 12:01:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="GbTttXX/"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="D50LyrKB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B421C7019
-	for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 11:36:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451B024888F
+	for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 12:01:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745580972; cv=none; b=S9YNMq92wLRztVQNQEOXy2Y9b+k+k1HCyTwPlqWT05MA2CtQ049FKwCclU+QJybxhElcA2T1Z9LU1p0IjeNByZdjDIgTIfYDaTwgJINCM2VygoSs6bMNyTRss+ZL/NRyse6ugmLCni0mH1UmPOC1DjWx03NALZHUMBXRsw+y6AY=
+	t=1745582518; cv=none; b=aBIVbO2BusuVleNvluz9TwkPOpomJSrEY9Wz1rnEaHJeO71vTqz53DCQBJzUeZ1zYV1s+du6t5hurBwBxQJQrdiLwcKFWnJTCX7B5TVD2mhQI07S4hqVINdTEfvE9YEU2aKSaLYwLteM1LtekHUyZLZjt34gL64pGx3jIkAVNv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745580972; c=relaxed/simple;
-	bh=ectO4fwhjO+/xJg06cgXt40EEqO+yG3Xo8g4Thu3QMM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bw2Bq+ZwWOITGOh9omKpign/AmsreHp8J+HVvF9q/dVoDmRvSztKmqXSOYCumKchBhd9rxQGupblnaarJUeHOCYtRPUnKCbLOQsdkNtoQPepRyY1wh4VtxjrjbguzrCm4nUjfITdDR/yuO3tQ3V+ipuE2mCMGZNEDtXorbzTEAg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=GbTttXX/; arc=none smtp.client-ip=91.218.175.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Fri, 25 Apr 2025 17:05:46 +0530
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1745580956;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=bVKei5aVMPfJlUQVkr0Ho/XvVolQTZAT0nof14LXCKA=;
-	b=GbTttXX/rnh4YxvlzOcmfUhkDItOdL6++qu/CHSKLzvBg56GF8hDNnAC92AngRb9/m1GhB
-	UVN6oOMGDWTdor5+C6NyevqwLt1MpbYHS0pjARU2JvSDw0Wc4X6eAREdAr4h+ceHSzbF44
-	IiewGUFhTgBr9SKd+6NrR4fxX+ZdZyo=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Jai Luthra <jai.luthra@linux.dev>
-To: Rishikesh Donadkar <r-donadkar@ti.com>
-Cc: mripard@kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, devarsht@ti.com, 
-	y-abhilashchandra@ti.com, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
-	conor+dt@kernel.org, vaishnav.a@ti.com, s-jain1@ti.com, vigneshr@ti.com, 
-	sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl, tomi.valkeinen@ideasonboard.com, 
-	jai.luthra@ideasonboard.com, changhuang.liang@starfivetech.com, jack.zhu@starfivetech.com, 
-	laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH v3 13/13] media: ti: j721e-csi2rx: Change the drain
- architecture for multistream
-Message-ID: <5zz3ojgkk6uggx5moglrwn44g7vdnraa4skqkxt4k6pjvta4lh@oproxefudzrt>
-X-PGP-Key: http://jailuthra.in/files/public-key.asc
-References: <20250417065554.437541-1-r-donadkar@ti.com>
- <20250417065554.437541-14-r-donadkar@ti.com>
+	s=arc-20240116; t=1745582518; c=relaxed/simple;
+	bh=I8dMULvxGao4uog4WiVhasxHmTD8b+lWbSR7wxgq760=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=A99cbSWVXoKaaXxG/JyIxo+oZRWQmIOVJV+IhvJx1oDptgJy0ZJhFJBpBhdwX5ytOO2trgkS05RKO0b5TN0javqC3Y99yFL7Ftj3i+oHnzCSZeeUmIbb/YX96lRVyxp0SwKZMtNgkf0IgfdjC5S23deFl1fFwwaRYLCBjPKOTQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=D50LyrKB; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4394a0c65fcso20775195e9.1
+        for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 05:01:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1745582514; x=1746187314; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HCYKLT0PZUx2tKoLxyNCslSK+DuI6h0g4H7s0HCI998=;
+        b=D50LyrKBoKe8tzSwls8+zDpAIywT1NjSt2WzMl/bF9Nuas+/GpISq2IeLIckmOuHBb
+         ocqd0IcIYr6L6s5gwYlU8m2OjfLT28QzvsdUyuIUyAEdV0Eh4ApMlnatuigHOL8wLyjB
+         P1eMl6myZ1ABbSN5/RIdg+dC6CEmqs1aB+I65JcO4nh8WK/wpSdvUr6RczC4uUmrWZAG
+         GUY8SWpegurraAo6Gy5v0wUjeWSb5p+DYw/ipXMUoCgGlixbVX/HlvPjKfR03GJgffE6
+         JBzGGmvcdyAhZzwg59y4x6iz5ql2tUCuoESg8sgVcLsao719Wq3E5NT/x8Llh+M2G2ns
+         RQLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745582514; x=1746187314;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HCYKLT0PZUx2tKoLxyNCslSK+DuI6h0g4H7s0HCI998=;
+        b=n5oD6imVQsOqlOm1HH5HnK58iwtsEkXHPeskNHSniiB6+9hBeTFMB1+hy8e1lMni1y
+         1x3ZT318YmBJVeiJZEULo5jiOQ3/a99XbAwLLk9kHzPnwZUf5g5Oa7ax/NRs9oJtcCpo
+         fZiQxLpLFVUNyv6GsD6Pz0wtFZFPWg3bDkuEu2SwVzFLnIhK1vendnlBTjS6GwTWBHBE
+         WHTaMxWT+ucxEHAixD2nLrDpCqFxxZFNV6foFUeRmbCEHUNV16bN38EX07vb2KOQVml/
+         ThbR1v3qFHdvYIuTVMn9G3XwES8XIfGpYeW3P+dAHmICiMoUAZE/f/erleUCuUcIagf2
+         YriQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUmuzmDq/TQ02zUxT6mKSYOxPXE9VOslfeLwsHVF9ZqcGnanV/HwHv2GXMrO2ixeHfaXqfCTfEKG8QMkQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLG4u1owez5j1prPuLDCkWPkOerEaYU0S/d8MrdQwXsXt7R2Xp
+	7zKobyYSJJgHhMgaJPlDzZ7Y3eUIPzPjEJlAx3GuuqnNOCHwdZdsyy8pcmG8GSA=
+X-Gm-Gg: ASbGncv7ahQb1bicVkDSjrG6JtG3RCqsPO1x8JT2QGfOG5PCDeB6uh0Mx7R3gf5VdTK
+	+knTXhWK65YJxVYOnXd9zrwIhSgmFkfEI1g3jxsZY9QhV075/K+NofOD1qTqyDNkY9Vl33Nt8rc
+	erS85UJoPNFPK66NoW/6TknBp9f0Kg8N7Fj8OVorg3cwtMTAGTCCWA+mIQvBddfuhoETOhg6aMF
+	AqiIEmd8yAlvooPiau0peBLKfdhakEYYVdj6SeFVfmkPpqdLw4Ky5mBzCviMfQVmzmWhlUx7DK1
+	0zrScLSlWnbfonl3U5ySVmUFjGQ+szpqYw5dFp7bOGGSEV5x5AyOl9EBB5rj2GNAXEQnw9m5ezx
+	2rUCStdiVXKeU4sem
+X-Google-Smtp-Source: AGHT+IFMYbTPE1/vD4p4y+5juQECmVWXc8Eh2NrjazaiyKJa7mFBB+krqvCclTRYV8jYE189e9+NnQ==
+X-Received: by 2002:a05:600c:1ca0:b0:43c:f969:13c0 with SMTP id 5b1f17b1804b1-440a66ad4c6mr17313235e9.29.1745582514489;
+        Fri, 25 Apr 2025 05:01:54 -0700 (PDT)
+Received: from [192.168.0.34] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-440a530f6e6sm22648985e9.17.2025.04.25.05.01.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Apr 2025 05:01:54 -0700 (PDT)
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH 0/2] media: qcom: camss: x1e80100: Add support for
+ individual CSIPHY supplies
+Date: Fri, 25 Apr 2025 13:01:50 +0100
+Message-Id: <20250425-b4-media-committers-25-04-25-camss-supplies-v1-0-2a3dd3a47a6a@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="gvy5bgo5bv6kbv5p"
-Content-Disposition: inline
-In-Reply-To: <20250417065554.437541-14-r-donadkar@ti.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAK55C2gC/x2N0QrCMAxFf2Xk2UAM7RB/RXyobdSA3UqziTD27
+ 0ZfLpz7cM4GJl3F4Dxs0OWtpvPkcDwMkJ9peghqcQYmjhQ44i1glaIJ81yrLot0Q78p/Danaoa
+ 2tvZyKY58ijkSjSUxuLF1uevnX7tc9/0LHnI1dn0AAAA=
+X-Change-ID: 20250425-b4-media-committers-25-04-25-camss-supplies-6285c5006da2
+To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: dmitry.baryshkov@oss.qualcomm.com, loic.poulain@oss.qualcomm.com, 
+ vladimir.zapolskiy@linaro.org, krzk@kernel.org, 
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2818;
+ i=bryan.odonoghue@linaro.org; h=from:subject:message-id;
+ bh=I8dMULvxGao4uog4WiVhasxHmTD8b+lWbSR7wxgq760=;
+ b=owEBbQKS/ZANAwAIASJxO7Ohjcg6AcsmYgBoC3mw7a3liQZrYdbYhVQnEfJyWQvO6lZ3x8vob
+ lV9SqqrDGCJAjMEAAEIAB0WIQTmk/sqq6Nt4Rerb7QicTuzoY3IOgUCaAt5sAAKCRAicTuzoY3I
+ OiDPD/sEWHdrQDQ5N3v5KwNw5S9Y/WHd7jlrNsvhRUHLBubk5rCClsaT+jaVJa9ZxaUOhDQU9Nj
+ +6ytuUwz8X6ueBnn/WYiyKr+cfDUUenW1mrG30xOmpqRlA6omYyFVRZm3BpFDEHU+hCQahFyiCq
+ yGJKC/MZqt3R6BGfz+UkV1NUi2g5w1UhQbz2WVM/tDMOzdpPEYhlZM9ivly0XOWAExB3d97B7Hw
+ /DSyxWSsFy7XqpZxYh4HAC80HBCbIuNHAA2bjMQQyrscYxB8ruzHR3xgGDnyJf0s7/wFs7PnrMp
+ tJL8t1VJgTO5N+PKjePR1rwgtsZ+TuanPEubSMghtzknpgNDZdxAOGZnAp4m4eUwyuEZoVKgGCT
+ 4H6OUSILLIDsUb7lbXnouWJcgVEbPH4cpDTQUf2hWn1Act4FS5oxhQQuqE3AMTGoWFJcfdnDfKy
+ 24GYV4ndy4Wx6q/EyRypaBi4K/7+vAcIgFcA1FQJuVNJgCf+XeY7OIGTJIxu360fcS7sY07hDLJ
+ kG57quq1Xp5GdN49uuyG1GisHpmMwx+M3vjO2XRErKBHxCG4HMsBBOqtcttJV/lxCmgn7MfeLP8
+ 6yH0870NAJOmWNhNV9O8DG2xsQIqTHZxXVKSn9sFciYDOqWHvo1A27okFdgqdsHvTmBlsczjf5Z
+ kUA98hAsw/SQc3A==
+X-Developer-Key: i=bryan.odonoghue@linaro.org; a=openpgp;
+ fpr=E693FB2AABA36DE117AB6FB422713BB3A18DC83A
 
+In x1e each CSIPHY has its own 0p8 and 1p2 voltage rail. These voltage
+rails in previous SoCs were shared between PHYs, over time the hardware
+differentiated out the rails per PHY but CAMSS didn't keep-up with or know
+about that change.
 
---gvy5bgo5bv6kbv5p
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v3 13/13] media: ti: j721e-csi2rx: Change the drain
- architecture for multistream
-MIME-Version: 1.0
+We have two options to support individual rails per PHY.
 
-Hi Rishikesh,
+- Logical naming of the supply lines
+  In this case supply names describe the PHY and its expected voltage input
+  For example vdd-csiphy0-0p8-supply for the 0v8 voltage rail to CSIPHY 0.
 
-Thanks for the patch.
+- Pin naming of the supply lines
+  In this case supply names will align to the name of the SoC pin.
+  For example on x1e the supply name would be vdd vdd-a-csi-0-1-1p2.
 
-On Thu, Apr 17, 2025 at 12:25:54PM +0530, Rishikesh Donadkar wrote:
-> In Multistream use cases, we may face buffer starvation due to various
-> reasons like slow downstream element in gstreamer pipeline. In these
-> scenarios we need to make sure that the data corresponding to the slow
-> pipeline is pulled out of the shared HW FIFO in CSI2RX IP to prevent
-> other streams to get stalled due to FIFO overflow.
->=20
-> Previously, in case of buffer starvation, dma was marked IDLE and the
-> next buffer_queue() would drain the data before marking new buffer ready
-> for DMA transaction. Here the driver waits for the next VIDIOC_QBUF
-> ioctl callback to drain the stale data from the HW FIFO, if there is a
-> delay in this callback being called, HW FIFO will overflow leading all
-> the other camera pipelines in the media graph to hang.
+This series chooses the first approach for the following reasons:
 
-The above description is a little hard to follow, and not correct. A "late"=
-=20
-QBUF callback is what buffer starvation *is*. With single-stream scenarios =
-the=20
-older drain architecture worked fine, as the goal there was to drain out st=
-ale=20
-data in the FIFOs when buffers are available again.
+- Naming coherency across SoCs and PCBs.
+  Virtually every CSIPHY has 0p8 and 1p2 voltage rails and these are akin
+  to an architectural feature of these PHYs or at the very least a common
+  pattern across SoCs.
+  
+  This means that the pin name on x1e might be VDD_A_CSI_0_1_1P2 and on
+  qcm2290 VDD_A_CSI_0_1P2 but the yaml standard will be for the regulator
+  name to be vdd-csiphy0-1p2-supply.
 
->=20
-> Introduce a new architecture where, CSI data is always pulled out of
-> the shared HW FIFO irrespective of the availability of buffers from
-> userspace.
+- Accounting for upstreamers who don't have schematic or qcom IP access
+  Not everybody making upstream submissions has access to schematics or to
+  Qualcomm's SoC-level pin definitions instead working from
+  vendor/downstream DT information.
 
-I think this description does not make it very clear why multiple streams=
-=20
-(VCs) cause the older drain architecture to not work, and what exactly is t=
-he=20
-limitation in the hardware FIFOs.
+  It should still be possible to construct a valid upstream definition from
+  that downstream DT.
 
-How about the following instead:
+- The counter arugment.
+  The counter argument is that aligning the pin-names to the regulator
+  names is less error prone and I agree with that statement.
+  What I'd say here is - the requirement for CAMSS regulator defintions
+  in DT at least from my perspective is a putative upstreamer should
+  be able to show how they have tested a given DT submission.
 
-    On buffer starvation the DMA is marked IDLE, and the stale data in the=
-=20
-    internal FIFOs gets drained only on the next VIDIOC_QBUF call from the=
-=20
-    userspace. This approach works fine for a single stream case.
+  If that submission isn't tested, it isn't working and should be rejected.
 
-    But in multistream scenarios, buffer starvation for one stream i.e. one=
-=20
-    virtual channel, can block the shared HW FIFO of the CSI2RX IP. This ca=
-n=20
-    stall the pipeline for all other virtual channels, even if buffers are=
-=20
-    available for them.
+  That should then address the concern of having as another example:
 
-    This patch introduces a new architecture, that continuously drains data=
-=20
-    from the shared HW FIFO into a small (32KiB) buffer if no buffers are m=
-ade=20
-    available to the driver from the userspace. This ensures independence=
-=20
-    between different streams, where a slower downstream element for one=20
-    camera does not block streaming for other cameras.
+  vdd-csiphy0-0p8-supply = <&vreg_oops_wrong_regulator>;
 
->=20
-> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
-> ---
->  .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 96 +++++++------------
->  1 file changed, 33 insertions(+), 63 deletions(-)
->=20
-> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/driv=
-ers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> index 23d63d8bcd36a..7f476c78c4a92 100644
-> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-> @@ -57,7 +57,6 @@
->  #define TI_CSI2RX_MAX_SOURCE_PADS	TI_CSI2RX_MAX_CTX
->  #define TI_CSI2RX_MAX_PADS		(1 + TI_CSI2RX_MAX_SOURCE_PADS)
-> =20
-> -#define DRAIN_TIMEOUT_MS		50
->  #define DRAIN_BUFFER_SIZE		SZ_32K
+I'm promulgating this series in the context of x1e but it should also
+unblock qcm2290 and sm8650.
 
-As you are draining 32KiB chunks, it is likely that the hardware is in the=
-=20
-middle of a frame when the userspace queues a new buffer and you stop=20
-draining, and change the target address to a user-facing buffer. How does t=
-he=20
-PSIL/DMA engine handle the SoF/EoF boundaries in such a case?
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+Bryan O'Donoghue (2):
+      dt-bindings: media: qcom,x1e80100-camss: Fixup csiphy supply names
+      media: qcom: camss: x1e80100: Fixup x1e csiphy supply names
 
-Would it be possible for you to verify if the first user-facing buffer afte=
-r=20
-draining has valid data? And if not, please highlight it so it may get fixe=
-d=20
-in the future.
+ .../bindings/media/qcom,x1e80100-camss.yaml        | 52 +++++++++++++++++-----
+ drivers/media/platform/qcom/camss/camss.c          | 16 +++----
+ 2 files changed, 48 insertions(+), 20 deletions(-)
+---
+base-commit: 1d1e564fce1bc361af1a1980a7f915a0475a008a
+change-id: 20250425-b4-media-committers-25-04-25-camss-supplies-6285c5006da2
 
-> =20
->  struct ti_csi2rx_fmt {
-> @@ -77,7 +76,6 @@ struct ti_csi2rx_buffer {
-> =20
->  enum ti_csi2rx_dma_state {
->  	TI_CSI2RX_DMA_STOPPED,	/* Streaming not started yet. */
-> -	TI_CSI2RX_DMA_IDLE,	/* Streaming but no pending DMA operation. */
->  	TI_CSI2RX_DMA_ACTIVE,	/* Streaming and pending DMA operation. */
->  };
-> =20
-> @@ -238,6 +236,10 @@ static const struct ti_csi2rx_fmt ti_csi2rx_formats[=
-] =3D {
->  static int ti_csi2rx_start_dma(struct ti_csi2rx_ctx *ctx,
->  			       struct ti_csi2rx_buffer *buf);
-> =20
-> +/* Forward declarations needed by ti_csi2rx_drain_callback. */
-> +static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *ctx);
-> +static int ti_csi2rx_dma_submit_pending(struct ti_csi2rx_ctx *ctx);
-> +
->  static const struct ti_csi2rx_fmt *find_format_by_fourcc(u32 pixelformat)
->  {
->  	unsigned int i;
-> @@ -589,9 +591,28 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_ct=
-x *ctx)
-> =20
->  static void ti_csi2rx_drain_callback(void *param)
->  {
-> -	struct completion *drain_complete =3D param;
-> +	struct ti_csi2rx_ctx *ctx =3D param;
-> +	struct ti_csi2rx_dma *dma =3D &ctx->dma;
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&dma->lock, flags);
-> =20
-> -	complete(drain_complete);
-> +	if (dma->state =3D=3D TI_CSI2RX_DMA_STOPPED) {
-> +		spin_unlock_irqrestore(&dma->lock, flags);
-> +		return;
-> +	}
-> +
-> +	/*
-> +	 * If dma->queue is empty, it signals no buffer has arrived from
-> +	 * user space, so, queue more transaction to drain dma
-> +	 */
-> +	if (list_empty(&dma->queue)) {
-> +		if (ti_csi2rx_drain_dma(ctx))
-> +			dev_warn(ctx->csi->dev, "DMA drain failed\n");
-> +	} else {
-> +		ti_csi2rx_dma_submit_pending(ctx);
-> +	}
-> +	spin_unlock_irqrestore(&dma->lock, flags);
->  }
-> =20
->  /*
-> @@ -609,12 +630,9 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx =
-*ctx)
->  {
->  	struct ti_csi2rx_dev *csi =3D ctx->csi;
->  	struct dma_async_tx_descriptor *desc;
-> -	struct completion drain_complete;
->  	dma_cookie_t cookie;
->  	int ret;
-> =20
-> -	init_completion(&drain_complete);
-> -
->  	desc =3D dmaengine_prep_slave_single(ctx->dma.chan, csi->drain.paddr,
->  					   csi->drain.len, DMA_DEV_TO_MEM,
->  					   DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
-> @@ -624,7 +642,7 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *=
-ctx)
->  	}
-> =20
->  	desc->callback =3D ti_csi2rx_drain_callback;
-> -	desc->callback_param =3D &drain_complete;
-> +	desc->callback_param =3D ctx;
-> =20
->  	cookie =3D dmaengine_submit(desc);
->  	ret =3D dma_submit_error(cookie);
-> @@ -633,13 +651,6 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx =
-*ctx)
-> =20
->  	dma_async_issue_pending(ctx->dma.chan);
-> =20
-> -	if (!wait_for_completion_timeout(&drain_complete,
-> -					 msecs_to_jiffies(DRAIN_TIMEOUT_MS))) {
-> -		dmaengine_terminate_sync(ctx->dma.chan);
-> -		dev_dbg(csi->dev, "DMA transfer timed out for drain buffer\n");
-> -		ret =3D -ETIMEDOUT;
-> -		goto out;
-> -	}
->  out:
->  	return ret;
->  }
-> @@ -687,9 +698,11 @@ static void ti_csi2rx_dma_callback(void *param)
-> =20
->  	ti_csi2rx_dma_submit_pending(ctx);
-> =20
-> -	if (list_empty(&dma->submitted))
-> -		dma->state =3D TI_CSI2RX_DMA_IDLE;
-> -
-> +	if (list_empty(&dma->submitted)) {
-> +		if (ti_csi2rx_drain_dma(ctx))
-> +			dev_warn(ctx->csi->dev,
-> +				"DMA drain failed on one of the transactions\n");
+Best regards,
+-- 
+Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
-Checkpatch warning here:
-
-CHECK: Alignment should match open parenthesis
-#138: FILE: drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c:704:
-+			dev_warn(ctx->csi->dev,
-+				"DMA drain failed on one of the transactions\n");
-
-total: 0 errors, 0 warnings, 1 checks, 167 lines checked
-
-> +	}
->  	spin_unlock_irqrestore(&dma->lock, flags);
->  }
-> =20
-> @@ -742,7 +755,7 @@ static void ti_csi2rx_stop_dma(struct ti_csi2rx_ctx *=
-ctx)
->  		 * enforced before terminating DMA.
->  		 */
->  		ret =3D ti_csi2rx_drain_dma(ctx);
-> -		if (ret && ret !=3D -ETIMEDOUT)
-> +		if (ret)
->  			dev_warn(ctx->csi->dev,
->  				 "Failed to drain DMA. Next frame might be bogus\n");
->  	}
-> @@ -809,57 +822,14 @@ static void ti_csi2rx_buffer_queue(struct vb2_buffe=
-r *vb)
->  	struct ti_csi2rx_ctx *ctx =3D vb2_get_drv_priv(vb->vb2_queue);
->  	struct ti_csi2rx_buffer *buf;
->  	struct ti_csi2rx_dma *dma =3D &ctx->dma;
-> -	bool restart_dma =3D false;
->  	unsigned long flags =3D 0;
-> -	int ret;
-> =20
->  	buf =3D container_of(vb, struct ti_csi2rx_buffer, vb.vb2_buf);
->  	buf->ctx =3D ctx;
-> =20
->  	spin_lock_irqsave(&dma->lock, flags);
-> -	/*
-> -	 * Usually the DMA callback takes care of queueing the pending buffers.
-> -	 * But if DMA has stalled due to lack of buffers, restart it now.
-> -	 */
-> -	if (dma->state =3D=3D TI_CSI2RX_DMA_IDLE) {
-> -		/*
-> -		 * Do not restart DMA with the lock held because
-> -		 * ti_csi2rx_drain_dma() might block for completion.
-> -		 * There won't be a race on queueing DMA anyway since the
-> -		 * callback is not being fired.
-> -		 */
-> -		restart_dma =3D true;
-> -		dma->state =3D TI_CSI2RX_DMA_ACTIVE;
-> -	} else {
-> -		list_add_tail(&buf->list, &dma->queue);
-> -	}
-> +	list_add_tail(&buf->list, &dma->queue);
->  	spin_unlock_irqrestore(&dma->lock, flags);
-> -
-> -	if (restart_dma) {
-> -		/*
-> -		 * Once frames start dropping, some data gets stuck in the DMA
-> -		 * pipeline somewhere. So the first DMA transfer after frame
-> -		 * drops gives a partial frame. This is obviously not useful to
-> -		 * the application and will only confuse it. Issue a DMA
-> -		 * transaction to drain that up.
-> -		 */
-> -		ret =3D ti_csi2rx_drain_dma(ctx);
-> -		if (ret && ret !=3D -ETIMEDOUT)
-> -			dev_warn(ctx->csi->dev,
-> -				 "Failed to drain DMA. Next frame might be bogus\n");
-> -
-> -		spin_lock_irqsave(&dma->lock, flags);
-> -		ret =3D ti_csi2rx_start_dma(ctx, buf);
-> -		if (ret) {
-> -			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
-> -			dma->state =3D TI_CSI2RX_DMA_IDLE;
-> -			spin_unlock_irqrestore(&dma->lock, flags);
-> -			dev_err(ctx->csi->dev, "Failed to start DMA: %d\n", ret);
-> -		} else {
-> -			list_add_tail(&buf->list, &dma->submitted);
-> -			spin_unlock_irqrestore(&dma->lock, flags);
-> -		}
-> -	}
->  }
-> =20
->  static int ti_csi2rx_get_vc(struct ti_csi2rx_ctx *ctx)
-> --=20
-> 2.34.1
->=20
-
-Thanks,
-Jai
-
---gvy5bgo5bv6kbv5p
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmgLc5IACgkQQ96R+SSa
-cUWlPxAAqmWJq/5qoPrmSaLEA7yWzJlMugFolYdVzSIzvY1oLfNyo1HIvgT+6WM3
-oIgDrzneIKUm6FbKjeESvrFmM2N5yiuIR5uKzaCGjKTnKB9RG+Fn/8li6nOMMf+K
-GkoPu9CRQFVGruPux1HlOlnvOHPr1MSwcrE4yy3J1PtQnaGpCmDgGm1hTh02JCUt
-UaurPqNSKywH9saAwIKIOp8EiWGV9N5zdFVB1a9qv5nrVSdXrL43VSwZm4OXYLZl
-iuMh0eqvqHZsxHl5Q4I4GpPPKTtDvi+WsnE/PAr03+et5u1egJy7HQZK+Hqm0PzW
-Zekl4qsh9R54laOif3GN4YTbPRYnnntzj+fB8Bu6Wq3+JwYIrXr0UqODEMDlRxsO
-1PsZLkeVoU/401XZ4212AH5QuHNDxwOxhxDmGLBYWzVugy7Flkjf2L0xkj3IAE04
-/j9zLTuuR84FQlZxOFoD4ovc8QT7FVSlfDXyDYM/0BDEtoJyL8GB3UtqgLVbgtk8
-QuxDkLPGGA9PpSb9KyQ1Jk8bi9L95Mv+47VnBXXLz5JLopft3qOJddJ3TacufNCi
-/rROUyCYTRvrxkUogzbKHKXplB/6+GO8lswQvwOrdnMnYSM/5Cd0ytxFbRBmOzV1
-UfRe5z7F/UyV8dZG8fz1YodusmFFqporUcOafxvyPttDALELyUU=
-=Rr94
------END PGP SIGNATURE-----
-
---gvy5bgo5bv6kbv5p--
 
