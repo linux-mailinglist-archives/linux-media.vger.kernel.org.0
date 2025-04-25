@@ -1,190 +1,164 @@
-Return-Path: <linux-media+bounces-31081-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31082-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27A55A9D1FF
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 21:41:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2456FA9D227
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 21:46:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 436F41894B87
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 19:41:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9545D9A0584
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 19:46:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C07C21D594;
-	Fri, 25 Apr 2025 19:39:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C627B22127B;
+	Fri, 25 Apr 2025 19:46:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lHdcyMHH"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="PI/Y9YrB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97B052165E4
-	for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 19:39:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADEC421E082
+	for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 19:46:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745609998; cv=none; b=dpzF5EHn7hnhcLLemtJ/aCuBCdg7FsQcaBm0Zwg6usUWKgxaOhC6TQ3nOG3usNYWPkkvlY45LEA27s4ACqBwlvS2N4afC528OGuGwFVx18gnCU8OoFIytA91v26XN6e2yPsk4pUdF1xKChA6Zg3bX93VAo5Frse7BbweLnzRNgc=
+	t=1745610377; cv=none; b=GRN2f4/rbIFsglYcF8zRCUCdODGYDANkEWZ9zVQ7anij5EdXdtvx6HpdZEh4PqkpM9QLyQRyHJ0VAXIl7WxNYd9M4L34rOK1WZA9Ue4HUYxgd8yiiuliRaFyT3UM+Tj7wbTvF0+sI//PeqJ5lz3DxZ2RD7DVLLvkTddgnT7Sf/0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745609998; c=relaxed/simple;
-	bh=ryOxdyLcSAv0AGNsueSdWeAlBdewX0rq6J6yIZ9kzHc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GNYlgcndIsp+VcFCZqMLytYqJsHNGBX7ovdqPaGfgxogLybfh8xWh1NS7qaoyhVjd+fTFQ1o6/+1j+C46kk574VZm6//cL7wf5maMlS96x6SS6I2l/A+fUYIFcqBXQVB/7J7QegwWHIdhlCEnpYAnqolPYvxkIVdBqK2CvkBPkI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lHdcyMHH; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-54ac9b3ddf6so2387543e87.1
-        for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 12:39:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1745609994; x=1746214794; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dfSIX9jpfiWRSxgHFlpEDElrGRa3eqYVEWZZrqsW9bI=;
-        b=lHdcyMHHlZ6gumNHBONRXIrjbUufdo5SWZyA0oJHt6d8LQS+w55nL/IxKbI+QTCqYT
-         NCBTlh3WaWS8liLq6pBC3Dwd2C4zXugl40x0APBM7DuhRG19E3cI0ldIbRC4+wNW0w6I
-         NKmwisJWw0nu5SuM3qQUgV3jExgeSZ7k4uYhjGKCxsPrqHuSu28oJe5/CAYbtktROTgt
-         r2DB49z2zNmF4hMhYQ6wdJi9RCuJ8GQkY1Yuz6PBWDMH1lTMQuSTW6wyxjLFLOfovZ89
-         qEJFMOEdh46taenC6x4o2fi1n8WVLL6qmIcssAbqwiuEPppOGF4lIjqZE+GzFNdeMMlf
-         RLag==
+	s=arc-20240116; t=1745610377; c=relaxed/simple;
+	bh=EYcZpPG7yUxj0IQg4aPHSivcB8VujVtyuNfcH0lfOmU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ViIFgtM3VDCakRcuiyU2fhONBkwxJrcbqaNPvMTJ0x/YgSfCP8TD9IYEheKQOROH25gKRoVwGfZu7W5AE/gZ/3F6Kx9HD+W7Ae1u6mo7lgvhiKgiNd5eLsTkkZtout7LiN0u++6VifcBp66fbJulXrFurzNjF75RbHcibG0wBcE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=PI/Y9YrB; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53PGJqbD004615
+	for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 19:46:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	txmHliBipjwwY9cKV5mXKNOg/d2+Wp0mSjYmxJVTnsM=; b=PI/Y9YrBc8rGKFbT
+	t733tafROHEh/Y9AqmCOICnxHjlYji22H5+UEiBGeHwnJj8rX/kSl294VhxZPBvr
+	mIg23ZHNpuze+yIIkPbe4WVodIqHwxp4BEbQm/igEohhHavOwE2PDHuQIjjUmfox
+	waeio1RAKiocCkMR0ILCSRHcyAKAv7l2g03icBX4ikibmvqPseTkTEtRzf2wEthw
+	QOk2h2zW3fZRy65qsG8jj4rqFisMzj6+BeR7INfPc83qYWRiHf0H9eiiZxFr/2Hg
+	S+DdktGYEScPSATl8cMSAC5CTDqNg8GQFIYm2JQMyNDTuyGV8eGTIWQ/RD1NsmHl
+	Ba16Jg==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh0a5mb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 19:46:14 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4775bdbcdc3so6343961cf.2
+        for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 12:46:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745609994; x=1746214794;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dfSIX9jpfiWRSxgHFlpEDElrGRa3eqYVEWZZrqsW9bI=;
-        b=VVtAlvLKTdUO/5IXDNUfAzT59F+CSYG6X0yaKh155MF1/4P4vPflN+W7QjEVVbMUSK
-         9afsxcUSG4WGEzA0+E0mYE/lLAFl/yjfZP+f5WTmhjPDOjWmKcxT5W7UwDMaceH5FcfQ
-         j/AmgChDIL8L1K3VR5rMaEHWlxtgKLw3UnF9Jnsc/+XF33LiMlpdtgW7I7Vtd/UTgnM0
-         U7Tly+sV8PGz5q69tJzrrYbdXm08j3UtARvkyyzRfw1WuH6lo37r/94a0vNWwWWHggMi
-         VTC+WxEDKZb1jL8ToRUeIg8/XEKrOeV6xRkrGhgMZMBhZ1Cxwr/cQQU5gyS+MaLdk+IE
-         mWaA==
-X-Forwarded-Encrypted: i=1; AJvYcCULJeRkhUIfWVVXOsyoQqx+2L2VDz3KbMXT5JqgggVF/jSBIy/pL4BueWuhgonz4ql/T6Bstm7VfwkEgg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMGibdPs8Q/xbAug1H2hR8V7J4cBkuPPq1Mvkeacqi7IzET2TX
-	g8Lwf8A3yBfwXlUi9lW9m1FeC2rXqbiEl/ExOqQC9YVnAYQBbfUom3tO4c7wE3HfJtdo2aKMtx4
-	D/x2df6C7zz50hGe5O2Snrq/vBn778KVNSYc=
-X-Gm-Gg: ASbGnct69L2ohYEKwV7rutUFdy5MKBpVkzM2EKFgxquDdNSujmrL8/IyRJaFkQW9R+V
-	Ff2IhYAjaN4TCdb7KEr0sAe5dget8x/XskSURjs9Q0vlN1OWvXa2s6+W+exdNyuTnVAcPLzdBA/
-	xaRUDX9udDbTap+d8o6XFYAbiYVpjVLrkK4hYRFwQf8QnPU3wqo9A=
-X-Google-Smtp-Source: AGHT+IHUbAh5N12vJaC4y50M7cNDxVxLCPYrcMSTN18M4pC1Y8L+yTG0UPsfIVPETtsJQssOgUaeDFzFHB1JvR/EmjM=
-X-Received: by 2002:a05:6512:239f:b0:549:8db6:b2dd with SMTP id
- 2adb3069b0e04-54e8cbe0789mr1187301e87.31.1745609994088; Fri, 25 Apr 2025
- 12:39:54 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745610374; x=1746215174;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=txmHliBipjwwY9cKV5mXKNOg/d2+Wp0mSjYmxJVTnsM=;
+        b=TlRefG4+jqFMu+sHTzeQ5nOpm6xkUDmtaXyALkDUdeJadeL2dgUZQIcsHLyXVsMb+/
+         zBRy2WaacEzpcjYz6e/9pZKP2e4MCrvRXu8UHq5Qe+XtkUsNSKY/8TxGVtTsaZ2W0Xml
+         aIyweMlS1TF8ZciQeobA1NmsifuNRX40uySgj0VzbabTUIRiS0quhh+5JhxrhiYdWp41
+         U0JZOg/9KUnruXCh2BYpBdB/ZI37s0pDVsACBY5juWMH1azuAYPQz7Rj0aMR1FjQTblV
+         QxvyxU3y/E7a2dqFgbWqnKkDfQRNK5ZB5eJt0wnAGc9BRj7q2HCYQoc5ptKsOdGA1Ddv
+         KB5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVbyLeGSAQDPc/frw8ka7xER+yQoQKddYO0nJJcgfmO9egE4vCAXJJVmFdszcLpKjQ3z4nVnmoDWj3pUg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNmEWIiR5C7euMdJTiadAo0MJJhNyab+Gm3KYFAeXu1TP6DybH
+	m6p68JT57mncFiu81pn43OqhUBUsCpYtu7kwFBG+KIMXDFvpFdJFtbZHC6umiNn8gg3RgNh0CPY
+	ne+ryRlZEKW9BFPzWd49pLQA7fOlCaUYmeiqtWH3Rb1TjDF57ekUCKcmXCSLZhA==
+X-Gm-Gg: ASbGncv67KJYZgu5Ae+duXm+F5gkX5dsJWLS0BqVmV7TwwoQ5fwfhOLt8Zn4ye7iKqX
+	NhExLErTi72p0j1ol/pSCOEaKEJ00p4hJzwtr47w6K7htd+CCqU+uS//2cTwDL8gUCckk6w/v7v
+	fJfUhv1cGWBEJ+Byy+kQv0ram00qVDHfBnrHbT+X5DxYBKCPPeO4KAOo4PrtZ6svpYNh1AXl04S
+	fsDSTKUVOY7/z9PNjVxCV4PI8wVSIDueCoueNtExbWO95yp1G6oJ2hu2GagFqfg+xBaDFWEETDt
+	He8kNn8PdXOGNd8lxRpljGdTHo3k9eQEMTjP9xrEwbESb0U2BwcQH0DqcsdQwszsLrc=
+X-Received: by 2002:ac8:7fd3:0:b0:472:15be:54ad with SMTP id d75a77b69052e-4801e6f120bmr20112841cf.14.1745610373886;
+        Fri, 25 Apr 2025 12:46:13 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFOzMshPGNoqCx2ULNNdKD/xPe4MbaDbP1omZuzKgujBuWwyI50zrrqVnQ3wtP40FpGp1u29g==
+X-Received: by 2002:ac8:7fd3:0:b0:472:15be:54ad with SMTP id d75a77b69052e-4801e6f120bmr20112651cf.14.1745610373572;
+        Fri, 25 Apr 2025 12:46:13 -0700 (PDT)
+Received: from [192.168.65.156] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ace6e578955sm183455366b.74.2025.04.25.12.46.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 25 Apr 2025 12:46:13 -0700 (PDT)
+Message-ID: <71190e3d-fa9b-4fdd-83ac-bf012031c836@oss.qualcomm.com>
+Date: Fri, 25 Apr 2025 21:46:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250422191939.555963-1-jkangas@redhat.com> <20250422191939.555963-3-jkangas@redhat.com>
- <20250424-sassy-cunning-pillbug-ffde51@houat> <CANDhNCqfsUbN3aavAH5hi4wdcKuUkjLX4jqhKzy-q+jCEqpoow@mail.gmail.com>
- <20250425-savvy-chubby-alpaca-0196e3@houat>
-In-Reply-To: <20250425-savvy-chubby-alpaca-0196e3@houat>
-From: John Stultz <jstultz@google.com>
-Date: Fri, 25 Apr 2025 12:39:40 -0700
-X-Gm-Features: ATxdqUERSINXjgZozjhH6OJicqqRpLdRfV1ZPdW61MN5MO_O8cl1SzEcLT4val0
-Message-ID: <CANDhNCroe6ZBtN_o=c71kzFFaWK-fF5rCdnr9P5h1sgPOWSGSw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] dma-buf: heaps: Give default CMA heap a fixed name
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Jared Kangas <jkangas@redhat.com>, sumit.semwal@linaro.org, 
-	benjamin.gaignard@collabora.com, Brian.Starkey@arm.com, tjmercier@google.com, 
-	christian.koenig@amd.com, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/6] media: qcom: camss: csiphy-3ph: Add CSIPHY 2ph DPHY
+ v2.0.1 init sequence
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: bryan.odonoghue@linaro.org, rfoss@kernel.org, konradybcio@kernel.org,
+        andersson@kernel.org, krzk+dt@kernel.org, robh@kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+References: <20250416120908.206873-1-loic.poulain@oss.qualcomm.com>
+ <20250416120908.206873-3-loic.poulain@oss.qualcomm.com>
+ <z5bemevabirdh5qhj6fajdihcucnoa5gxjkjv6s4aztruffn6u@w5rvy3sxeln3>
+ <CAFEp6-3h19eJgJkXNR5sJisZbwHG=TmYhVEu10hTCnnBTqH+MQ@mail.gmail.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <CAFEp6-3h19eJgJkXNR5sJisZbwHG=TmYhVEu10hTCnnBTqH+MQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI1MDE0MSBTYWx0ZWRfXyhFWqDLct5kZ gMJZz/i2I1srqp8n0IuHthYLdMAEPc/ouRvE3K6M3LC3UdpLDMw9V6EQQNt1DuEoO5q+gLR5SlZ 1YdnkYMXLXnvK7ws2lkGoW70akO4d6A+7dPzl0Wu2TLQZJW/efTQBiNgDY4gsPT3Et/T8TBgtXc
+ Cr1lJb73TqEW42b36PL6t2BjcfcNhprDoXFzeflkJAxnnK2jo/Dc/iQ7vOckhXGLFKa/QA0ikjP ZWFFJJRHrfanjaq/ituG5ra6IfP78ldbMcbCV3WKGsfWHiRYuZLSbDBsS5XRZne4I8FjkXsvb0y KLoLBGWRRoR35zeQx72AwbxkonJ3SL6ke56TXqVgG2O0k+Ke6iNhlURw8cZQkATxbyQ9NmgFHR6
+ S6yhvL/WynkOMIrsdX+ZLGl0T2J+nS271ciw8+VHxEkyjAaEH3QEWJMqcAY36VuEOfbvLFAf
+X-Proofpoint-GUID: pKA60UvpqoxPeVCB4cfnkulXiXUT76t_
+X-Authority-Analysis: v=2.4 cv=ZuTtK87G c=1 sm=1 tr=0 ts=680be686 cx=c_pps a=WeENfcodrlLV9YRTxbY/uA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=EUspDBNiAAAA:8 a=wkiucLSIQwEx8sfLkT8A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-ORIG-GUID: pKA60UvpqoxPeVCB4cfnkulXiXUT76t_
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-04-25_06,2025-04-24_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 clxscore=1015
+ impostorscore=0 bulkscore=0 mlxscore=0 adultscore=0 lowpriorityscore=0
+ mlxlogscore=999 priorityscore=1501 malwarescore=0 suspectscore=0
+ spamscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504250141
 
-On Thu, Apr 24, 2025 at 11:58=E2=80=AFPM Maxime Ripard <mripard@kernel.org>=
- wrote:
-> On Thu, Apr 24, 2025 at 05:13:47PM -0700, John Stultz wrote:
-> > On Thu, Apr 24, 2025 at 1:34=E2=80=AFAM Maxime Ripard <mripard@kernel.o=
-rg> wrote:
-> > > I appreciate this is kind of bikeshed-color territory, but I think "c=
-ma"
-> > > would be a better option here. There's nothing "default" about it.
-> >
-> > I disagree.  It very much is "default" as it's returning the
-> > dma_contiguous_default_area.
->
-> My main concern here is that it's "default" as opposed to what, exactly?
-> We have a single CMA allocator. We could have multiple buffer
-> attributes, but then "cached_cma" would make more sense to me if we
-> expect to have uncached CMA allocations at some point.
+On 4/17/25 10:26 AM, Loic Poulain wrote:
+> Hi Dmitry,
+> 
+> On Thu, Apr 17, 2025 at 12:36 AM Dmitry Baryshkov
+> <dmitry.baryshkov@oss.qualcomm.com> wrote:
+>>
+>> On Wed, Apr 16, 2025 at 02:09:05PM +0200, Loic Poulain wrote:
+>>> This is the CSI PHY version found in QCS2290/QCM2290 SoCs.
+>>> The table is extracted from downstream camera driver.
+>>>
+>>> Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+>>> ---
+>>>  .../qcom/camss/camss-csiphy-3ph-1-0.c         | 89 +++++++++++++++++++
+>>>  drivers/media/platform/qcom/camss/camss.h     |  1 +
+>>>  2 files changed, 90 insertions(+)
+>>>
+>>> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+>>> index f732a76de93e..0e314ff9292f 100644
+>>> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+>>> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+>>> @@ -319,6 +319,90 @@ csiphy_lane_regs lane_regs_sm8250[] = {
+>>>       {0x0884, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+>>>  };
+>>>
+>>> +/* GEN2 2.0.1 2PH DPHY mode */
+>>> +static const struct
+>>> +csiphy_lane_regs lane_regs_qcm2290[] = {
+>>> +     {0x0030, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
+>>> +     {0x002C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+>>
+>> lowercase hex, please.
+> 
+> I don't mind, but all other phy tables use upper case hex.
 
-Well, there may be one CMA allocator, but there can be multiple CMA regions=
-.
+Ugh, we've been trying to get some unity in place but that's an
+eternal WIP
 
-So in the kernel, cma_alloc() always takes the cma area as an
-argument.  And dma_alloc_contiguous() lets you do allocations against
-a device, which may reference a specific cma area. Or if the device
-doesn't specify a region it will utilize the default region.
-
-> > There can be multiple CMA areas, and out of tree, vendors do reserve
-> > separate areas for specific purposes, exposing multiple CMA dmabuf
-> > heaps.
->
-> By "CMA areas", I guess you mean carved-out memory regions? If so, how
-> is it relevant to userspace if we use CMA or any other implementation to
-> expose a carved-out region, and thus that we carry that implemenattion
-> detail in the name?
-
-So, no, I don't mean carve-out regions.  It's more about dealing with
-competition between multiple CMA users. In some cases, where there are
-known fixed buffer sizes, say camera buffers, it's much easier to
-reserve a separate specific sized region to allocate from so that you
-know it will always succeed and you don't need to waste much on safety
-margins. Having this added as a separate CMA region makes it a lot
-easier to account or reason about, and the kernel can still make
-(limited) use of the CMA space when it's idle. Then you don't have to
-worry about some other device having a short term cma allocation that
-pushes back the alignment for your large allocation, possibly
-impacting some other devices larger allocations.
-
-And unlike with just using a carveout, you don't end up just wasting
-all that space when it is unused.
-
-So userland may want to allocate contiguous memory, but it may also be
-relevant to userland to be able to allocate contiguous memory from a
-purpose specific pool.
-
-And while not used in Android, you could imagine having separate
-purpose reserved cma heaps with different permissions on the heap
-devnodes, allowing less trusted applications to allocate cma from a
-small pool without having the potential to DoS the system.
-
-> > There have been patches to expose multiple CMA heaps, but with no
-> > upstream drivers using those purpose specific regions, we haven't
-> > taken them yet.
-> > I do hope as the drivers that utilize these purpose focused heaps go
-> > upstream, we can add that logic, so I think being specific that this
-> > is default CMA is a good idea.
->
-> If heaps names are supposed to carry the region it exposes, then it
-> should be default_cma_region/area. If heap names are supposed to expose
-> the allocator (but I don't think it's a good idea), it should be cma. If
-> they are meant to carry all that plus some policy,
-> cached_default_cma_region should be used.
->
-> Either way, default_cma seems to me either too specific or not specific
-> enough. And we should really document what the policy for those heaps
-> are supposed to be.
-
-I don't see it as such a problem. It is clear it is cma, it also is
-clear conceptually that it is the "default" region that the kernel
-uses when devices aren't specific.
-But I wouldn't object to cma_default_region/area as a name either, but
-I don't see it as particularly improved over cma_default.
-
-To your larger point about policy, I do get the tension that you want
-to be able to programmatically derive or evaluate heap names, so that
-applications can consistently derive a pathname to get what they want.
-But I also think that there is so much variety in both the devices and
-uses that there is no way that all use cases and all devices can be
-satisfied with such a static or even programmatic mapping. From my
-perspective, there just is going to have to be some device specific
-glue logic that maps use->heap name. Same reason we have fstab and the
-passwd file.  That said, I think advocating for naming conventions is
-definitely useful, but I'm wary of trying to enforce too specific a
-schema on the names as the incompleteness theorem will bite us.
-
-thanks
--john
+Konrad
 
