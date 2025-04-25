@@ -1,117 +1,138 @@
-Return-Path: <linux-media+bounces-31043-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31045-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E231A9C3E5
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 11:39:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DAC21A9C41E
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 11:49:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A2B861BC0C19
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 09:39:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B2C083ACA10
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 09:49:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AC7D23ED74;
-	Fri, 25 Apr 2025 09:34:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0CA5238C19;
+	Fri, 25 Apr 2025 09:49:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jCKpVsbd"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iyVJ9EWZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2AC4221540
-	for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 09:34:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FEB817AE1D
+	for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 09:49:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745573695; cv=none; b=O6y5lTzcDjuZRyMvAEUbpfZqR+ERY/YD6ICmK5c+1bhN6rHv2n1rFg/7PZRDrL9dwOoNWBI1Xfglehp1uEvIKQ4X6kxvKqMJT22byR0JnAQVMe5RZXGkPwdnkkM1gzHn7uLNqHmXp1YMWSD3uPrXXDflo5xHEvZJaLW0GRNOWqk=
+	t=1745574585; cv=none; b=oyw/poXRUhtn6tmPSd3uRIRnl0wQczBv8JTVimzIpqBldW7knUksLZWcoAA+iHNqm/cbq8jI8O4qXMbOExGjQYhmoLF6P88ky4W2/JJIvLdln2/o56LZozLeSCngq38W0yM0uoFuvTPAmnthcD3axpMz10ALS9C1/uluMXPG2fM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745573695; c=relaxed/simple;
-	bh=HCpath3fZlY6nNosE0iMWryJ7GlrCzGx+VAZUqcLjDE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=X5P11xn+9kBBnYk6rd1VIJrCCuLCh1iTkp/T6mzvB5ewUJhSLWEMZWVA49EHLTRPLwjvrGnLukRmRnaNpTe0YkoyeDUopcgakjhcC2NdW4x4X5Bq+V9ZigXH1ftDTNBsy9SeN91MbNHCFg8hnYmGSMBGyxpKQKjs4R1mdVryIaA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jCKpVsbd; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745573694; x=1777109694;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=HCpath3fZlY6nNosE0iMWryJ7GlrCzGx+VAZUqcLjDE=;
-  b=jCKpVsbdR7QFvkanMaE4XfLnGnqSKV4tg2SdVGYrufns2XVwCTbhD6E5
-   Idxl+X8sasvS2FGmsUj1aBntjOKvVf4wClWcMj73CpLwkbo6WDTPyTZJi
-   OyOR662Nd2i79argztsAS4pcHsZE3H59Cj9BUBR7RCMdGyMkpVLLQ+XYR
-   U6HJ/kHXs0vXXaPZcA8B2MDS3JFWIvNqihUSs2nhOQtLzPyyt+WAV8smw
-   pQcA9f41YDKcVhRJdyoE2IWWVYyJN6WeBWN3rhHfkGdB2yM+TNjQUKB7w
-   7VseTSWtGZvuXLVrzULsrkmfy2zs8ekZfiKTPLeY38tgak8BdMtPA7ze1
-   Q==;
-X-CSE-ConnectionGUID: SD152XT8QXKsX7NuHw8vMg==
-X-CSE-MsgGUID: hKu8riV5R3+dBYEIK2poWQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="47115405"
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="47115405"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 02:34:54 -0700
-X-CSE-ConnectionGUID: 191l/cU7QQOWijCxgmsIDQ==
-X-CSE-MsgGUID: SQpR2JUZS/6xhbwSzdLwJA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="133389556"
-Received: from reyongqi-mobl.ccr.corp.intel.com (HELO [10.238.225.6]) ([10.238.225.6])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 02:34:52 -0700
-Message-ID: <4db38319-91d4-4f65-9db5-b8b78c40bc69@linux.intel.com>
-Date: Fri, 25 Apr 2025 17:34:48 +0800
+	s=arc-20240116; t=1745574585; c=relaxed/simple;
+	bh=6jMvEFzz+EHkTvpkKhpa06WUQGQd+irJhI2wXqWd4Cw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pbpOINpiFpJMPgcQBQ2Gn55/7JwoBFx8kHnhQ08lmAfgRrIBnM/305AuKB+bnykb37vUeb18K14k/Us22bQEJiyBvvRXDsjZDahP7DOJ0pLrsEdu6GiaiVC5P54a2rSxUknfKgdNm1hwWrZ9hGV/Hk0qshbfItRhXL7UeFDRdto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iyVJ9EWZ; arc=none smtp.client-ip=209.85.221.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-39c14016868so1899384f8f.1
+        for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 02:49:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745574582; x=1746179382; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pEWB9kwZuPxsBxVAF/IvC4wesJAoCjW9FAr9YJ0cOLE=;
+        b=iyVJ9EWZ66Pt7XThGT8MdGr38p/2ruk7d1VYKviBwaf6HHe0Sfz+av1lEKKoQIWI3J
+         YOWsfKkjYHt5kjkHlgLghu/+RBo1xshSucvZ2ZhpX7KnWa92mrtmPvJ6LX/zILHAMMjV
+         ctRd2X71sMf3vvv2PRrXyinFB2+EojSu3NYIKyxcPZJlLQMf7/V/kpm2eQmkjSrae3HB
+         1qxhECRkOeI9pYqKtKSbG8UbQmTyEXDXjc6fXaGXDyORWDvazskuvIYIR+jXmiuHGOWr
+         Ml0D+NxNZAhaBZun/SBwTDey+okIfh72ImtMUO93UcL/uETYerca6Kluc6/enoPkAOyc
+         LP6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745574582; x=1746179382;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pEWB9kwZuPxsBxVAF/IvC4wesJAoCjW9FAr9YJ0cOLE=;
+        b=dL/wIVKzflgN/sQgEs/yRiLGhjGQ8st+m6JE+Krff4EQqveA25EQFRoEBPxchy6Kf9
+         K3l1MkcgmIZRcCYAU4aCzMhM7bIRUV8dZHDDQjGxGMD0zE8EnFDUoyeQ7SuynsTHlS1B
+         +8AXY1pVMxUGBWFD/kqTRDe1NWLd+hNj0/JPjg/lLC1JRfoi5XaQwXBMTEpwFUTs0zTT
+         5R+B6NtYs4K6gdsMPcGX5IHxS3VZ+XrxvQgsjX0YOdPyWYlGhk9iZuzchDAEnM4wAsr6
+         ncDoPhj+pwvqpNCd8yCc3cLEh3OHPEynjPYqz3axCFkHrDYdoEu+K+ejdVhuEak/7+UG
+         KB2w==
+X-Forwarded-Encrypted: i=1; AJvYcCXZiAfvZxREjbbWt7JQAmGhaEA1vou5MPMeN1wgoBhVObcqVxtL0Ol1AIlwGOK+wx6gdecl/ePRw6PzUw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzI0B8xxk2IKWU7NnRwyCLv4f8u/3Zze9kdFVAEuNStNSBZyG8X
+	XVEtN//pYnj5ZffirXBU8CJbT+wQNubSOUZjQThW+zD0k6U6tlLkpXQEuTI+4enKMiw5+Jumr8Z
+	0md8JNEbqVV6AOi3J0W8mwtMKvhs=
+X-Gm-Gg: ASbGncstVT8jZArwcEN/U0kRZVBcN9MJI5wcH0djQJBJk9Sll9mIAfxPnYlUejiFcP6
+	8qEkV6ssm9RIBkotMs0CMmad3VuXfq6ktpFRDN/178rV2CXImCXPwJY7SQEI20nMo/uetODq5Jf
+	xHqQBWutxAW5LsfvkMhqoO7dmItVLAI3/i
+X-Google-Smtp-Source: AGHT+IFd1A2A9VAaRsgRaRPoskzm7FGvRKEeVj5tlotwsJ5iMqo871EJ4Pt0/oq/daXr7UsNKDgVTyyKcJO4zMoNWXo=
+X-Received: by 2002:adf:e28e:0:b0:39a:c9fe:f069 with SMTP id
+ ffacd0b85a97d-3a074e4261amr876480f8f.30.1745574581648; Fri, 25 Apr 2025
+ 02:49:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: i2c: lt6911uxe: add two selects to Kconfig
-To: Hans Verkuil <hverkuil@xs4all.nl>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Bingbu Cao <bingbu.cao@linux.intel.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, "Yan, Dongcheng" <dongcheng.yan@intel.com>
-References: <fb3799f7-8c32-4c17-8849-039a20ddf000@xs4all.nl>
-Content-Language: en-US
-From: "Yan, Dongcheng" <dongcheng.yan@linux.intel.com>
-In-Reply-To: <fb3799f7-8c32-4c17-8849-039a20ddf000@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <aAtQThCibZCROETx@stanley.mountain>
+In-Reply-To: <aAtQThCibZCROETx@stanley.mountain>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Fri, 25 Apr 2025 10:49:15 +0100
+X-Gm-Features: ATxdqUHJ8oq3-5nuJyib-WHY91pFpuFx2si4fru5jXkDRcopVgowulif9SFm6NE
+Message-ID: <CA+V-a8tYX9ZPZoA5TjTNGKSbd0abTSdKjC6_JLxPqARNYWB-xQ@mail.gmail.com>
+Subject: Re: [bug report] media: rzg2l-cru: Add function pointer to check if
+ FIFO is empty
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi bingbu,
+Hi Dan,
 
-Hans Verkuil has submitted a fix patch.
-And I saw it has merged into linux-next:
-<https://web.git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/media/i2c/Kconfig>
+Thank you for the report.
 
-Thanks,
-Dongcheng
+On Fri, Apr 25, 2025 at 10:08=E2=80=AFAM Dan Carpenter <dan.carpenter@linar=
+o.org> wrote:
+>
+> Hello Lad Prabhakar,
+>
+> Commit 446c645f7fe4 ("media: rzg2l-cru: Add function pointer to check
+> if FIFO is empty") from Apr 11, 2025 (linux-next), leads to the
+> following Smatch static checker warning:
+>
+>         drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c:351 rzg2l_=
+fifo_empty()
+>         warn: duplicate check 'amnfifopntr_w =3D=3D amnfifopntr_r_y' (pre=
+vious on line 348)
+>
+> drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+>     339 bool rzg2l_fifo_empty(struct rzg2l_cru_dev *cru)
+>     340 {
+>     341         u32 amnfifopntr, amnfifopntr_w, amnfifopntr_r_y;
+>     342
+>     343         amnfifopntr =3D rzg2l_cru_read(cru, AMnFIFOPNTR);
+>     344
+>     345         amnfifopntr_w =3D amnfifopntr & AMnFIFOPNTR_FIFOWPNTR;
+>     346         amnfifopntr_r_y =3D
+>     347                 (amnfifopntr & AMnFIFOPNTR_FIFORPNTR_Y) >> 16;
+>     348         if (amnfifopntr_w =3D=3D amnfifopntr_r_y)
+>     349                 return true;
+>
+> We should either delete this check
+>
+>     350
+> --> 351         return amnfifopntr_w =3D=3D amnfifopntr_r_y;
+>
+> or change this to "return false;".  (I prefer the second option).
+>
+Agreed, I will go with this.
 
-On 3/19/2025 6:36 PM, Hans Verkuil wrote:
-> In order to get the v4l2_subdev functions you need to select
-> MEDIA_CONTROLLER and VIDEO_V4L2_SUBDEV_API.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202503151002.HacBN2LO-lkp@intel.com/
-> Fixes: e49563c3be09 ("media: i2c: add lt6911uxe hdmi bridge driver")
-> ---
->  drivers/media/i2c/Kconfig | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index b06365d02ef1..e45ba127069f 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -1152,6 +1152,8 @@ config VIDEO_LT6911UXE
->  	depends on ACPI && VIDEO_DEV && I2C
->  	select V4L2_FWNODE
->  	select V4L2_CCI_I2C
-> +	select MEDIA_CONTROLLER
-> +	select VIDEO_V4L2_SUBDEV_API
->  	help
->  	  This is a Video4Linux2 sensor-level driver for the Lontium
->  	  LT6911UXE HDMI to MIPI CSI-2 bridge.
+Cheers,
+Prabhakar
 
+>     352 }
+>
+> regards,
+> dan carpenter
+>
 
