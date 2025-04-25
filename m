@@ -1,140 +1,130 @@
-Return-Path: <linux-media+bounces-30972-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-30971-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3D88A9BD28
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 05:10:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB0D4A9BD23
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 05:08:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4A0A81BA27A2
-	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 03:10:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 15D131BA23E6
+	for <lists+linux-media@lfdr.de>; Fri, 25 Apr 2025 03:08:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD1D017A310;
-	Fri, 25 Apr 2025 03:10:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 193D817A314;
+	Fri, 25 Apr 2025 03:07:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hxkDE2ZS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VUj+kWlM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78C522701AE
-	for <linux-media@vger.kernel.org>; Fri, 25 Apr 2025 03:10:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 305302701AE;
+	Fri, 25 Apr 2025 03:07:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745550619; cv=none; b=FYBx0fctk0JmnjC714g/ruCLv4n5dj7x0Q9fJDPDESyS2JDdZ1tzgvLZvAxwtoX9Le8JbGh4+B5lWYJmuoYftf4GWshRUupz0yHSS05ECuO6cjCOoagPD9coLuu/8IaEWOQ6PYebhB/MbS0hSTy4jIehj4WPIxKPQnDcV7o8f64=
+	t=1745550477; cv=none; b=frzcE/2yEd5yuYmznL2RG6bmcsIMUi19ecvexnu8T1H+GZhhijeBFTg4XXPD7RcySDV92GCau3xG6mVRXScTPzcTs6zNOvYcI8u3VDNTUXM0qBEkuO+olrl6auoP1J3iW5MYb+AC1hYyz1bzTYr9zjLmWPvkItQ8K2C+WtinCHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745550619; c=relaxed/simple;
-	bh=Qg6wRbwtFvS9IgM3zYxIqwTMtSdNRpNuio3uP16d5GA=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=SIKrzBGzkV6m7rGscv4Fxj7xnKCrYV0HAuKuCjEZKZokSYenJLBtkjXio2EkB6A51ddSeMn5vyWwkjPSA5eQUNbFU+OeO9wMnm8pTbPe7haqx1B3/do0D5IGkwX1+jTRQlGvsfmqRmqhQmi3JjrDKj5rdKj+4Litpb0CCEnr/CA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hxkDE2ZS; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745550618; x=1777086618;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=Qg6wRbwtFvS9IgM3zYxIqwTMtSdNRpNuio3uP16d5GA=;
-  b=hxkDE2ZSj2Q3l//dPZjgZJj0EeUFVy1tgMOyaQ8lne4/MZSTtnPD791i
-   Vm3OVX3VeqGcPZ4HlmpTXNGO1G8EoPSqsfHoDpDMbJLNvaB2xC/9wARsw
-   oElb0qOjEc5YSMOfsZ8HmRYdJj4EuI7F/emgup6P/u6+UxVLFlH93LcmE
-   N/UsEiqDGOFBi3VWlEKckH03tbvl8iO6wYqchabgmdTVF2ce4hzeGBSo7
-   Ipl9Q0K+j2u3ONoZthiCycrdJoYUhte1EpphsEz3oD2d5LJGxU5UgTqbe
-   aDZGW2UtpDT2X6QAVSDd4yJ3qKkvhd3sM9w68kpsG7AnMbw7HcCNrgKII
-   g==;
-X-CSE-ConnectionGUID: rYrsWaGUR6mSzh7KkGD1Og==
-X-CSE-MsgGUID: l/jMeLj1SzSbOROvXBgfug==
-X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="47341323"
-X-IronPort-AV: E=Sophos;i="6.15,237,1739865600"; 
-   d="scan'208";a="47341323"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 20:10:17 -0700
-X-CSE-ConnectionGUID: tO+3jHyURh696RbSRTuH+g==
-X-CSE-MsgGUID: 82IiDghSQmWCEalhCp0W2A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,237,1739865600"; 
-   d="scan'208";a="133102092"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.136]) ([10.238.232.136])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 20:10:15 -0700
-Subject: Re: [PATCH] media: ipu6: Remove workaround for Meteor Lake ES2
+	s=arc-20240116; t=1745550477; c=relaxed/simple;
+	bh=osAwogrtr06X60DTlApbAWL7QentYdhlQifM5SVV7xg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=NYx6EmYjqXE7RbjMer7HpcmIspCf2T+uoq8VugcqBJMNlIBzLI4RuBePyFxhonN/951VTdY4z+SuVqv2AwmLfXtO11OlXiq65Arq7uzUKNlRYr9SEViC9N+mShTORFtX98inxpouViM9mAuEsXh220wRNQ3iNXoK5mWivyPDLSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VUj+kWlM; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-301cda78d48so2129982a91.0;
+        Thu, 24 Apr 2025 20:07:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745550474; x=1746155274; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Ta4nCPpvWFM1ePJJeTQkgOJ6CbAh0GB+fI2VCmWT/+Q=;
+        b=VUj+kWlMJijoWgO9pxKOyxkIZtVJ8y0KgW3O+bjdWmgqbnnSVsXeoEfAZeyGhAhfEG
+         +P8qOwEnxKu7OHQBjKaEehjLaVadBYe0mKbxvfl/zLVMrJnWCTa3DvxbHMxa4ejZMr9s
+         4NHHa8rg+/c+3dj7HxWYziYc23h4SjklbJhIiU4B9JpZGtGSK+msHu/z39cDX4cK/1k6
+         66Gl4OhknpU4GH+Z1e/C/Oqpz3QKhi2q2mFO0FvYVszIv1LS38fA3xB//emV3rITTWbR
+         7JmsemMhJTEWyTwP82FpIB7nYS5td29nXjhC05daDXzzc2YMQGDFMnvrvqmk6Dnzln/t
+         xx/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745550474; x=1746155274;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Ta4nCPpvWFM1ePJJeTQkgOJ6CbAh0GB+fI2VCmWT/+Q=;
+        b=fhuHTHil/F/kGMfUmupcuP1XBGpaiBqNmh65A/FjUbJidyQWrJMANYbwlDu0UOPxLm
+         +hdPysRWPOVPnI+nr5keHBZ8agVYRVO67rZUJc40rA+RV9mUUziJwaf7Pk7zDC5oTVwZ
+         Du++1u08bgqMZsLVCncJYL5GGNcnPUbI3CnOtTE0HwEnUq4u1Zs9UnItNhTdobS6WBvR
+         ud0AZ2+9wZYd879oI/lyaTwmfOhaSedL/NOdWNoTCQ3XsStknS/BJ6omJZWFFit6kZ6h
+         1bWf75iS2RLl3j44nWtefj9ug7mKcgtpdKQE2IGuY//FtubPWjDB88Ywbp0cKJaxVyKJ
+         h7uw==
+X-Forwarded-Encrypted: i=1; AJvYcCX4vsAPBus8DxCGxq5837Mf2dD3+L8WD6iSvT0QnZitLBzlJ52PtzVkGv4sPcxlcpD7NMrC4r2DHLIFnVo=@vger.kernel.org, AJvYcCXXRlUb6PmHZ8tuTkGXPqymKOJuwvaDfQOkbYnwfiLYu7WQHthP+1pTW3IYH9t3kxktKnwNhtmEUl0Nh2M=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywi0JSnrxz4sa3L49EvrHAFDpcEw1tINYuj5W+720DwhRUFJ8is
+	rJQBh71CAR5cgfQNbstU3XbALr6PjdwAKNUpdmiJ9+HxWioKGXyG
+X-Gm-Gg: ASbGncsAC+KaiGPcurGsZaN9VajyUkv96/Bgz8bWnJP37F9RPfs+2qp8+b9rZUS3hbO
+	qmaueyyfqvpGpt3nJ8Kk/LnzCeM4mxOPlUpyPBzPoAuccnlf52BBFSCoko3ty5AHU11ndwrAb4c
+	60dw1Dtx8Fmyn6YyHIWlWNLtLR/dk/Oczp6Nr2IBHd9L9vRad6KV9MUZ5U2YNRSsczak6Hb+JgB
+	ltyeoZfYPqYoi1x+ktS2OANl1qajSqnpnohophZKfk2Uk5RUo6XhzFkllTxhfkj+jMehMLaWQu4
+	1eNMvxjVaKXzfyOHSGCesEy/8cHoQ+Ql5/bcQbsIEKsvYEz12lx9s3Jx1Sb2UI/JFJ5W8AhzIA=
+	=
+X-Google-Smtp-Source: AGHT+IEifdjAiAzfngzEiV7YyS9Y7MiK3e5I+cEbEH1gO1XVnoigbM2rorDzv6SajhWMcmhTeOscOg==
+X-Received: by 2002:a17:90b:2e4f:b0:2f2:a664:df1a with SMTP id 98e67ed59e1d1-309f7d99265mr1496670a91.2.1745550474140;
+        Thu, 24 Apr 2025 20:07:54 -0700 (PDT)
+Received: from tech-Alienware-m15-R6.. ([223.185.130.1])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-309ef063c4csm2258790a91.20.2025.04.24.20.07.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Apr 2025 20:07:53 -0700 (PDT)
+From: Sunny Patel <nueralspacetech@gmail.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Hao Yao <hao.yao@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
- Tianshu Qiu <tian.shu.qiu@intel.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
-References: <20250311084203.516205-1-hao.yao@intel.com>
- <f8fd0fd4-ca0c-12b5-acc6-ba846b2c9987@linux.intel.com>
- <aAomsUA01Sm5vo1x@kekkonen.localdomain>
-From: Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <fb923201-e49c-e61a-bbdf-e67744f2ea6c@linux.intel.com>
-Date: Fri, 25 Apr 2025 11:05:54 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Sunny Patel <nueralspacetech@gmail.com>
+Subject: [PATCH] media: i2c: ov13858: Enable clock frequency macro
+Date: Fri, 25 Apr 2025 08:37:10 +0530
+Message-ID: <20250425030747.6368-1-nueralspacetech@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <Z_5K9Kz2i8TouhC4@kekkonen.localdomain>
+References: <Z_5K9Kz2i8TouhC4@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <aAomsUA01Sm5vo1x@kekkonen.localdomain>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Sakari,
+Define a macro `OV13858_EXTCLK` for the clock frequency (19.2 MHz)
+and use it instead of the hardcoded value in the probe function.
 
-On 4/24/25 7:55 PM, Sakari Ailus wrote:
-> Hi Bingbu,
-> 
-> On Thu, Apr 24, 2025 at 12:18:06PM +0800, Bingbu Cao wrote:
->> Hao,
->>
->> On 3/11/25 4:41 PM, Hao Yao wrote:
->>> There was a hardware bug which need IPU6 driver to disable the ATS.
->>> This workaround is not needed anymore as the bug was fixed in
->>> hardware level.
->>>
->>
->> It is better to send v2 with fixes tag here:
->>
->> Fixes: 25fedc021985 ("media: intel/ipu6: add Intel IPU6 PCI device driver")
-> 
-> Is this worth backporting? Nothing is broken because of this, is it?
+Signed-off-by: Sunny Patel <nueralspacetech@gmail.com>
 
-It is necessary. IPU6 on Raptor Lake share same device ID with
-Meteor Lake, this workaround will break camera on Raptor Lake.
+---
+ drivers/media/i2c/ov13858.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-And Meteor Lake ES2 is not used in product.
-
-> 
->>
->>> Signed-off-by: Hao Yao <hao.yao@intel.com>
->>> ---
->>>  drivers/media/pci/intel/ipu6/ipu6.c | 5 -----
->>>  1 file changed, 5 deletions(-)
->>>
->>> diff --git a/drivers/media/pci/intel/ipu6/ipu6.c b/drivers/media/pci/intel/ipu6/ipu6.c
->>> index 277af7cda8ee..b00d0705fefa 100644
->>> --- a/drivers/media/pci/intel/ipu6/ipu6.c
->>> +++ b/drivers/media/pci/intel/ipu6/ipu6.c
->>> @@ -464,11 +464,6 @@ static int ipu6_pci_config_setup(struct pci_dev *dev, u8 hw_ver)
->>>  {
->>>  	int ret;
->>>  
->>> -	/* disable IPU6 PCI ATS on mtl ES2 */
->>> -	if (is_ipu6ep_mtl(hw_ver) && boot_cpu_data.x86_stepping == 0x2 &&
->>> -	    pci_ats_supported(dev))
->>> -		pci_disable_ats(dev);
->>> -
->>>  	/* No PCI msi capability for IPU6EP */
->>>  	if (is_ipu6ep(hw_ver) || is_ipu6ep_mtl(hw_ver)) {
->>>  		/* likely do nothing as msi not enabled by default */
->>>
->>
-> 
-
+diff --git a/drivers/media/i2c/ov13858.c b/drivers/media/i2c/ov13858.c
+index 7a3fc1d28514..a1242a90cdc9 100644
+--- a/drivers/media/i2c/ov13858.c
++++ b/drivers/media/i2c/ov13858.c
+@@ -21,6 +21,8 @@
+ #define OV13858_REG_SOFTWARE_RST	0x0103
+ #define OV13858_SOFTWARE_RST		0x01
+ 
++#define OV13858_MCLK				19200000
++
+ /* PLL1 generates PCLK and MIPI_PHY_CLK */
+ #define OV13858_REG_PLL1_CTRL_0		0x0300
+ #define OV13858_REG_PLL1_CTRL_1		0x0301
+@@ -1664,7 +1666,7 @@ static int ov13858_probe(struct i2c_client *client)
+ 	u32 val = 0;
+ 
+ 	device_property_read_u32(&client->dev, "clock-frequency", &val);
+-	if (val != 19200000)
++	if (val != OV13858_MCLK)
+ 		return -EINVAL;
+ 
+ 	ov13858 = devm_kzalloc(&client->dev, sizeof(*ov13858), GFP_KERNEL);
 -- 
-Best regards,
-Bingbu Cao
+2.43.0
+
 
