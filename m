@@ -1,185 +1,116 @@
-Return-Path: <linux-media+bounces-31093-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31094-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6F86A9DA75
-	for <lists+linux-media@lfdr.de>; Sat, 26 Apr 2025 13:44:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85C86A9DCF0
+	for <lists+linux-media@lfdr.de>; Sat, 26 Apr 2025 21:30:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 325BA921C4B
-	for <lists+linux-media@lfdr.de>; Sat, 26 Apr 2025 11:44:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D20539257E8
+	for <lists+linux-media@lfdr.de>; Sat, 26 Apr 2025 19:30:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85E4922D4C9;
-	Sat, 26 Apr 2025 11:44:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EF8C1E98EF;
+	Sat, 26 Apr 2025 19:30:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V3YgwuPe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F81C1DC185
-	for <linux-media@vger.kernel.org>; Sat, 26 Apr 2025 11:44:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F1114D2A0;
+	Sat, 26 Apr 2025 19:30:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745667890; cv=none; b=Ln7Y7eMyGW4UQJg43oIPouWc81yH0+p+rvx9dA9cJzqPqGXbkh4fMj7y6ZwBd30teNFPLmMQLXfgRsvuZ/f3MivozXiJNxBIaQsFNtlOMZD2n0PKiZAOJhppWFRInB2WyDZJYQNdNbq8Gl4mDYMGwGrLV7eJviQhRW1a5sQvhPY=
+	t=1745695845; cv=none; b=XQm+wLnGPCTTszhakYxce77I/AAIuPrbWi4FcEARaGQ/42EWOQo1A9//oEmQaw5w4SWq9NsqBxV0ElgnE5mWuqVi23TBfUDZwFSLjaWgXc4x58jyFtCbgtiVTpuG5t+ubZT2polJBxLj9/Yvs83VIpH+rczE2/t0QcU4AREEAto=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745667890; c=relaxed/simple;
-	bh=l196rAaIYBU1XIxd5t9+D7TJ06AR7qpNBdrpV+vstfc=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=g9UiN1KDmSqGeHodPQvVBp+YEe2KNyE8TWkCUSOVYqPTpeEogpP2hIFFbfq+7WIACYswXkE3eVWbO0aCHmOSiFgQu1UREWw/9yWuQz/Eznr7nNlbUpsLvtJ9gNLTtO7ryowVLspxRP1VCWyFGb0EVt9MQFLaDrn+z7LuErvJMBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0517AC4CEE2;
-	Sat, 26 Apr 2025 11:44:48 +0000 (UTC)
-Message-ID: <e1440ecc-23c5-4575-ac8f-0122f22cc779@xs4all.nl>
-Date: Sat, 26 Apr 2025 13:44:47 +0200
+	s=arc-20240116; t=1745695845; c=relaxed/simple;
+	bh=+UMWPfZQGprhjvZC3NEM1Phb2xl1Ra+yrRsJZw1MGzA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=YOCOJVeVEYTi6nWfd8Jk9GLmiD31HZnsPGTYYB11i1e19g2yAKWWdZGlZ5WkHqNvYioUjZeqtE59ESPSE8FBemut9Ku5kMoq5H4DedNIrrEzKknqQtfMmYft0SPqhOfZPYfYOStg0XYmkMgxLtMUZ1r7fgHpc1CXtfWX+vP5nhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V3YgwuPe; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-acb39c45b4eso533357966b.1;
+        Sat, 26 Apr 2025 12:30:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745695842; x=1746300642; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=A/pCvwb99p1XOTcj4o1cOPpPIeZSgX90ZCLw51SM5Aw=;
+        b=V3YgwuPesdUVSuH17EbB51NdYUOMT8XxT8wWT7GfOzLRDedla27EFFz3RmtqsLEqkD
+         0WS87FUwVLojTUNWawGJ/F/2CFTRwEt64+z5CVjCtNPPVhXbIp80DHgitgCoSJHgKArK
+         NBI4hKtxy2A4uu+8sgcsnbcAOcVbA6Gy66pw6Uzj935v8Rf8ZRIIkWiaRwe+1pMiMpNG
+         VUo21CNeeiqAaHXhI8okTfMHv/RPFnRZBENStbFBP77U/ChbLvGzZrnIrFiRiI0yEFG+
+         zopegQbW5cutS+NjpA4/Tocu03T94hwDmZKKXjp/px9YKFX1lLaJMazexmZUlTVXkNuH
+         0VQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745695842; x=1746300642;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=A/pCvwb99p1XOTcj4o1cOPpPIeZSgX90ZCLw51SM5Aw=;
+        b=NrLD9hmN3ggDqEXhKe//GXG1pmGIb8ILhZ7fXeicDFpl+tkOUhe3+4/97L+0OL7VYd
+         +gRWLJZx9PHix742CCa1RkH5i0FW4TJ93daJCe13WE6No5PcndGJXZgQ4nlvlkjyAjxL
+         XOQNgHWni5oMcQtjy8Ol3ULeqqcmTaEccX7IH9zOYlIq5ISNLdm+q/WP+s3s8gQbyw6S
+         VSEtn6WDF5uhJ9CC6H8DQyqsAGrfUIVaNcAStH4J7n5TVdfseZ/MAD6XE0cdRKbE+UwA
+         h6HZdwKbpF2VdmlPROZSQUQBH9KzLJ4w5QYldXDwnhSvOVPDGcm/nkLF7KSuClY3/S0I
+         yzbw==
+X-Forwarded-Encrypted: i=1; AJvYcCWEvie3WvzMQR4n0LYCxQX1ohFfObMZllvqin49bndVq93zTg/3rb8PLxQp+b3p1OKXcEOHUvvgyTzqL78=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyayF2t3ZPAjUuC7fIVPgnwewlifFWnht0fUVjvIGrVp3WTfrG2
+	1ojt7e87llZw3d/GDZjd8QV675aeLxk3tRMMryq0Q6lYl34DT5ma
+X-Gm-Gg: ASbGncu8ErNCsQARl74Xi8ls2y24c/mcjM+p2CnjoNSV5oD7R26RagZBw2LDjeW2OAx
+	ddevlvgT0PzazVWVedQs/GzmhYitGPbQ9q31t5DiQqEx5Cn440oO0Y4HABOO2lb7fLzWtLBO1fu
+	Np3wtbxWaxpikLUxIJokbSTeO9j/LkoBclLN2sJj917I8oBiNEwcabHZwdxCVpcjh2S425+1c3x
+	UVdqNRmB1krJcLWzCRbl6ORrlATiOxa/BS5n0smr5F1ydVRng9lhhXxkHQzx7Id0WrnkUDm7tHT
+	z/wnWcUaYaGSmqQBIUZEGU8DVneJIHSP49mlE/dvnEUJeTyWGMsKPTrmwxD8VpEFgtR8c0IXU/T
+	a77py1WAZ4W990CKb06+JEUbzK7CmtObzglB7777ufx8BCz12ngcJEyIxjH4wQehEZxbf6w0V9e
+	Xqpw==
+X-Google-Smtp-Source: AGHT+IH61R8D2jHhsglCOU8QAPHAO5jpQ7rR6j8uwaUOp/yV6DrlRdqQrnlWcLhIGfK7gMZVpwNXxA==
+X-Received: by 2002:a17:907:c0e:b0:acb:ac30:61f2 with SMTP id a640c23a62f3a-ace73a45d9emr606873666b.18.1745695841967;
+        Sat, 26 Apr 2025 12:30:41 -0700 (PDT)
+Received: from chimera.arnhem.chello.nl (2001-1c08-0706-8b00-3c37-b7fb-5879-3e83.cable.dynamic.v6.ziggo.nl. [2001:1c08:706:8b00:3c37:b7fb:5879:3e83])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5f7011fbfbdsm3061867a12.12.2025.04.26.12.30.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Apr 2025 12:30:41 -0700 (PDT)
+From: Thomas Andreatta <thomasandreatta2000@gmail.com>
+X-Google-Original-From: Thomas Andreatta <thomas.andreatta2000@gmail.com>
+To: andy@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Thomas Andreatta <thomas.andreatta2000@gmail.com>
+Subject: [PATCH] staging: media: atomisp: fixed spaces to tabs
+Date: Sat, 26 Apr 2025 21:30:33 +0200
+Message-Id: <20250426193033.483124-1-thomas.andreatta2000@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT PULL FOR v6.16] media: various fixes
-From: Hans Verkuil <hverkuil@xs4all.nl>
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <c44afffe-383d-4636-b7fa-6cc63257e0be@xs4all.nl>
-Content-Language: en-US, nl
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <c44afffe-383d-4636-b7fa-6cc63257e0be@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 26/04/2025 13:42, Hans Verkuil wrote:
-> Hi Mauro,
-> 
-> Here are a bunch of patches:
-> 
-> - I finally managed to test my omap3isp patch dropping the wait_prepare/finish
->   callbacks. After this is merged the only remaining user is drivers/media/dvb-core/dvb_vb2.c.
->   I have a patch for that:
-> 
->   https://git.linuxtv.org/hverkuil/media_tree.git/commit/?h=vb2_wait&id=65ec04d96f7c2845b6a1db32ad99684b05c13203
-> 
->   but it needs more review.
-> 
-> - Changes all over to report rectangles in a consistent format. I have already updated
->   v4l-utils to do the same thing there.
-> 
-> - A cec-funcs.h change to make it easier to understand.
-> 
-> - A tc358743 HPD fix.
+Removed spaces and substituted them with tabs.
 
+Signed-off-by: Thomas Andreatta <thomas.andreatta2000@gmail.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Media CI pipeline results:
-
-https://gitlab.freedesktop.org/linux-media/users/hverkuil/-/pipelines/1414011
-
-Regards,
-
-	Hans
-
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> The following changes since commit 6f1b74c1a686c93b404bd57d73577a6b5b19c5c3:
-> 
->   media: i2c: imx334: switch to {enable,disable}_streams (2025-04-25 10:15:39 +0200)
-> 
-> are available in the Git repository at:
-> 
->   git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.16h
-> 
-> for you to fetch changes up to 780f453708104460b92b5f7da986e5558bad6d8e:
-> 
->   media: uapi: cec-funcs.h: use CEC_LOG_ADDR_BROADCAST (2025-04-25 14:28:37 +0200)
-> 
-> ----------------------------------------------------------------
-> Tag branch
-> 
-> ----------------------------------------------------------------
-> Hans Verkuil (9):
->       media: omap3isp: drop wait_prepare/finish callbacks
->       media: staging: atomisp/starfive: use (t,l)/wxh format for rectangle
->       media: usb: em28xx: use (t,l)/wxh format for rectangle
->       media: vivid: use (t,l)/wxh format for rectangle
->       media: i2c: imx283: use (t,l)/wxh format for rectangle
->       media: pci: zoran: use (t,l)/wxh format for rectangle
->       media: platform: use (t,l)/wxh format for rectangle
->       media: tc358743: ignore video while HPD is low
->       media: uapi: cec-funcs.h: use CEC_LOG_ADDR_BROADCAST
-> 
->  drivers/media/i2c/imx283.c                                     |  2 +-
->  drivers/media/i2c/tc358743.c                                   |  4 ++++
->  drivers/media/pci/zoran/zoran_card.c                           |  2 +-
->  drivers/media/pci/zoran/zr36016.c                              |  2 +-
->  drivers/media/pci/zoran/zr36050.c                              |  2 +-
->  drivers/media/pci/zoran/zr36060.c                              |  2 +-
->  drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c              |  2 +-
->  drivers/media/platform/mediatek/mdp3/mtk-mdp3-regs.c           |  4 ++--
->  drivers/media/platform/nxp/dw100/dw100.c                       |  8 ++++----
->  drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c            |  8 ++++----
->  drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c            |  2 +-
->  drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c        |  2 +-
->  drivers/media/platform/samsung/exynos4-is/fimc-capture.c       |  6 +++---
->  drivers/media/platform/samsung/exynos4-is/fimc-lite.c          |  8 ++++----
->  drivers/media/platform/samsung/s3c-camif/camif-capture.c       | 12 ++++++------
->  drivers/media/platform/st/sti/bdisp/bdisp-debug.c              |  8 ++++----
->  drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c               | 14 +++++++-------
->  drivers/media/platform/st/sti/delta/delta-debug.c              |  8 ++++----
->  drivers/media/platform/st/stm32/stm32-dcmi.c                   | 10 +++++-----
->  drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c | 10 +++++-----
->  drivers/media/platform/ti/am437x/am437x-vpfe.c                 |  2 +-
->  drivers/media/platform/ti/omap3isp/ispvideo.c                  | 19 +------------------
->  drivers/media/test-drivers/vivid/vivid-kthread-cap.c           | 20 ++++++++++----------
->  drivers/media/usb/em28xx/em28xx-video.c                        |  2 +-
->  drivers/staging/media/atomisp/pci/atomisp_cmd.c                |  4 ++--
->  drivers/staging/media/starfive/camss/stf-isp.c                 |  2 +-
->  include/uapi/linux/cec-funcs.h                                 | 40 ++++++++++++++++++++--------------------
->  27 files changed, 96 insertions(+), 109 deletions(-)
-> 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+index e176483df301..0d5e35845ed7 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_gmin_platform.c
+@@ -518,7 +518,7 @@ static int gmin_subdev_add(struct gmin_subdev *gs)
+ 
+ 	/*WA:CHT requires XTAL clock as PLL is not stable.*/
+ 	gs->clock_src = gmin_get_var_int(dev, false, "ClkSrc",
+-				         VLV2_CLK_PLL_19P2MHZ);
++						VLV2_CLK_PLL_19P2MHZ);
+ 
+ 	/*
+ 	 * Get ACPI _PR0 derived clock here already because it is used
+-- 
+2.34.1
 
 
