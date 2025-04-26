@@ -1,35 +1,36 @@
-Return-Path: <linux-media+bounces-31092-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31093-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E62CA9DA73
-	for <lists+linux-media@lfdr.de>; Sat, 26 Apr 2025 13:43:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6F86A9DA75
+	for <lists+linux-media@lfdr.de>; Sat, 26 Apr 2025 13:44:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D27E47B1D29
-	for <lists+linux-media@lfdr.de>; Sat, 26 Apr 2025 11:41:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 325BA921C4B
+	for <lists+linux-media@lfdr.de>; Sat, 26 Apr 2025 11:44:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0589022CBD5;
-	Sat, 26 Apr 2025 11:43:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 85E4922D4C9;
+	Sat, 26 Apr 2025 11:44:50 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4B9A22615
-	for <linux-media@vger.kernel.org>; Sat, 26 Apr 2025 11:43:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F81C1DC185
+	for <linux-media@vger.kernel.org>; Sat, 26 Apr 2025 11:44:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745667782; cv=none; b=NMp+7NYJDpbEhZ6R+CyN8OHkI5189Ib4C0OMbJxgDPEi6K3OysB2h/KvqMAY4S2KUSOOZVIWD9xDUuZn/FLdG7wMWmiGOOmiOFl5O/+D+pR0qhBEWHQwzXuvxGk6OH6bLUXzYTBVSl8yxbZy2zTrAnpqGouBugM2NxXTle62qK0=
+	t=1745667890; cv=none; b=Ln7Y7eMyGW4UQJg43oIPouWc81yH0+p+rvx9dA9cJzqPqGXbkh4fMj7y6ZwBd30teNFPLmMQLXfgRsvuZ/f3MivozXiJNxBIaQsFNtlOMZD2n0PKiZAOJhppWFRInB2WyDZJYQNdNbq8Gl4mDYMGwGrLV7eJviQhRW1a5sQvhPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745667782; c=relaxed/simple;
-	bh=DQHhdUD4xA3JZbqgAP6ZiCcGMoQqVPNoEKAWtu1LYXc=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=aWSNfs4XYFd7FKrFmyDfDJJczFxBeuIHxskir5BpKjoUEt4epV+4/bs9DmXrB2HPJhUU2IT0XZmpe08X0ZwdRgnYB5Pn58Fz4M50/5O5U5Fipt8VhdNlFgdUMZx1IYVb1BQDIBGw2g31J/skIkiKGDbKzWirVeWfi/AQjif+R/A=
+	s=arc-20240116; t=1745667890; c=relaxed/simple;
+	bh=l196rAaIYBU1XIxd5t9+D7TJ06AR7qpNBdrpV+vstfc=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=g9UiN1KDmSqGeHodPQvVBp+YEe2KNyE8TWkCUSOVYqPTpeEogpP2hIFFbfq+7WIACYswXkE3eVWbO0aCHmOSiFgQu1UREWw/9yWuQz/Eznr7nNlbUpsLvtJ9gNLTtO7ryowVLspxRP1VCWyFGb0EVt9MQFLaDrn+z7LuErvJMBg=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94BA6C4CEE2;
-	Sat, 26 Apr 2025 11:43:01 +0000 (UTC)
-Message-ID: <c44afffe-383d-4636-b7fa-6cc63257e0be@xs4all.nl>
-Date: Sat, 26 Apr 2025 13:42:59 +0200
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0517AC4CEE2;
+	Sat, 26 Apr 2025 11:44:48 +0000 (UTC)
+Message-ID: <e1440ecc-23c5-4575-ac8f-0122f22cc779@xs4all.nl>
+Date: Sat, 26 Apr 2025 13:44:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -37,11 +38,12 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
+Subject: Re: [GIT PULL FOR v6.16] media: various fixes
+From: Hans Verkuil <hverkuil@xs4all.nl>
 To: Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v6.16] media: various fixes
+References: <c44afffe-383d-4636-b7fa-6cc63257e0be@xs4all.nl>
+Content-Language: en-US, nl
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
  BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
@@ -85,85 +87,99 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  e8tSeEXX8BZIen6y/y+U2CedzEsMKGjy5WNmufiPOzB3q2JwFQCw8AoNic7soPN9CVCEgd2r
  XS+OUZb8VvEDVRSK5Yf79RveqHvmhAdNOVh70f5CvwR/bfX/Ei2Szxz47KhZXpn1lxmcds6b
  LYjTAZF0anym44vsvOEuQg3rqxj/7Hiz4A3HIkrpTWclV6ru1tuGp/ZJ7aY8bdvztP2KTw==
+In-Reply-To: <c44afffe-383d-4636-b7fa-6cc63257e0be@xs4all.nl>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Mauro,
+On 26/04/2025 13:42, Hans Verkuil wrote:
+> Hi Mauro,
+> 
+> Here are a bunch of patches:
+> 
+> - I finally managed to test my omap3isp patch dropping the wait_prepare/finish
+>   callbacks. After this is merged the only remaining user is drivers/media/dvb-core/dvb_vb2.c.
+>   I have a patch for that:
+> 
+>   https://git.linuxtv.org/hverkuil/media_tree.git/commit/?h=vb2_wait&id=65ec04d96f7c2845b6a1db32ad99684b05c13203
+> 
+>   but it needs more review.
+> 
+> - Changes all over to report rectangles in a consistent format. I have already updated
+>   v4l-utils to do the same thing there.
+> 
+> - A cec-funcs.h change to make it easier to understand.
+> 
+> - A tc358743 HPD fix.
 
-Here are a bunch of patches:
 
-- I finally managed to test my omap3isp patch dropping the wait_prepare/finish
-  callbacks. After this is merged the only remaining user is drivers/media/dvb-core/dvb_vb2.c.
-  I have a patch for that:
+Media CI pipeline results:
 
-  https://git.linuxtv.org/hverkuil/media_tree.git/commit/?h=vb2_wait&id=65ec04d96f7c2845b6a1db32ad99684b05c13203
-
-  but it needs more review.
-
-- Changes all over to report rectangles in a consistent format. I have already updated
-  v4l-utils to do the same thing there.
-
-- A cec-funcs.h change to make it easier to understand.
-
-- A tc358743 HPD fix.
+https://gitlab.freedesktop.org/linux-media/users/hverkuil/-/pipelines/1414011
 
 Regards,
 
 	Hans
 
-The following changes since commit 6f1b74c1a686c93b404bd57d73577a6b5b19c5c3:
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> The following changes since commit 6f1b74c1a686c93b404bd57d73577a6b5b19c5c3:
+> 
+>   media: i2c: imx334: switch to {enable,disable}_streams (2025-04-25 10:15:39 +0200)
+> 
+> are available in the Git repository at:
+> 
+>   git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.16h
+> 
+> for you to fetch changes up to 780f453708104460b92b5f7da986e5558bad6d8e:
+> 
+>   media: uapi: cec-funcs.h: use CEC_LOG_ADDR_BROADCAST (2025-04-25 14:28:37 +0200)
+> 
+> ----------------------------------------------------------------
+> Tag branch
+> 
+> ----------------------------------------------------------------
+> Hans Verkuil (9):
+>       media: omap3isp: drop wait_prepare/finish callbacks
+>       media: staging: atomisp/starfive: use (t,l)/wxh format for rectangle
+>       media: usb: em28xx: use (t,l)/wxh format for rectangle
+>       media: vivid: use (t,l)/wxh format for rectangle
+>       media: i2c: imx283: use (t,l)/wxh format for rectangle
+>       media: pci: zoran: use (t,l)/wxh format for rectangle
+>       media: platform: use (t,l)/wxh format for rectangle
+>       media: tc358743: ignore video while HPD is low
+>       media: uapi: cec-funcs.h: use CEC_LOG_ADDR_BROADCAST
+> 
+>  drivers/media/i2c/imx283.c                                     |  2 +-
+>  drivers/media/i2c/tc358743.c                                   |  4 ++++
+>  drivers/media/pci/zoran/zoran_card.c                           |  2 +-
+>  drivers/media/pci/zoran/zr36016.c                              |  2 +-
+>  drivers/media/pci/zoran/zr36050.c                              |  2 +-
+>  drivers/media/pci/zoran/zr36060.c                              |  2 +-
+>  drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c              |  2 +-
+>  drivers/media/platform/mediatek/mdp3/mtk-mdp3-regs.c           |  4 ++--
+>  drivers/media/platform/nxp/dw100/dw100.c                       |  8 ++++----
+>  drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c            |  8 ++++----
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c            |  2 +-
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c        |  2 +-
+>  drivers/media/platform/samsung/exynos4-is/fimc-capture.c       |  6 +++---
+>  drivers/media/platform/samsung/exynos4-is/fimc-lite.c          |  8 ++++----
+>  drivers/media/platform/samsung/s3c-camif/camif-capture.c       | 12 ++++++------
+>  drivers/media/platform/st/sti/bdisp/bdisp-debug.c              |  8 ++++----
+>  drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c               | 14 +++++++-------
+>  drivers/media/platform/st/sti/delta/delta-debug.c              |  8 ++++----
+>  drivers/media/platform/st/stm32/stm32-dcmi.c                   | 10 +++++-----
+>  drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c | 10 +++++-----
+>  drivers/media/platform/ti/am437x/am437x-vpfe.c                 |  2 +-
+>  drivers/media/platform/ti/omap3isp/ispvideo.c                  | 19 +------------------
+>  drivers/media/test-drivers/vivid/vivid-kthread-cap.c           | 20 ++++++++++----------
+>  drivers/media/usb/em28xx/em28xx-video.c                        |  2 +-
+>  drivers/staging/media/atomisp/pci/atomisp_cmd.c                |  4 ++--
+>  drivers/staging/media/starfive/camss/stf-isp.c                 |  2 +-
+>  include/uapi/linux/cec-funcs.h                                 | 40 ++++++++++++++++++++--------------------
+>  27 files changed, 96 insertions(+), 109 deletions(-)
+> 
 
-  media: i2c: imx334: switch to {enable,disable}_streams (2025-04-25 10:15:39 +0200)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.16h
-
-for you to fetch changes up to 780f453708104460b92b5f7da986e5558bad6d8e:
-
-  media: uapi: cec-funcs.h: use CEC_LOG_ADDR_BROADCAST (2025-04-25 14:28:37 +0200)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Hans Verkuil (9):
-      media: omap3isp: drop wait_prepare/finish callbacks
-      media: staging: atomisp/starfive: use (t,l)/wxh format for rectangle
-      media: usb: em28xx: use (t,l)/wxh format for rectangle
-      media: vivid: use (t,l)/wxh format for rectangle
-      media: i2c: imx283: use (t,l)/wxh format for rectangle
-      media: pci: zoran: use (t,l)/wxh format for rectangle
-      media: platform: use (t,l)/wxh format for rectangle
-      media: tc358743: ignore video while HPD is low
-      media: uapi: cec-funcs.h: use CEC_LOG_ADDR_BROADCAST
-
- drivers/media/i2c/imx283.c                                     |  2 +-
- drivers/media/i2c/tc358743.c                                   |  4 ++++
- drivers/media/pci/zoran/zoran_card.c                           |  2 +-
- drivers/media/pci/zoran/zr36016.c                              |  2 +-
- drivers/media/pci/zoran/zr36050.c                              |  2 +-
- drivers/media/pci/zoran/zr36060.c                              |  2 +-
- drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c              |  2 +-
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-regs.c           |  4 ++--
- drivers/media/platform/nxp/dw100/dw100.c                       |  8 ++++----
- drivers/media/platform/renesas/rcar-vin/rcar-v4l2.c            |  8 ++++----
- drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c            |  2 +-
- drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c        |  2 +-
- drivers/media/platform/samsung/exynos4-is/fimc-capture.c       |  6 +++---
- drivers/media/platform/samsung/exynos4-is/fimc-lite.c          |  8 ++++----
- drivers/media/platform/samsung/s3c-camif/camif-capture.c       | 12 ++++++------
- drivers/media/platform/st/sti/bdisp/bdisp-debug.c              |  8 ++++----
- drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c               | 14 +++++++-------
- drivers/media/platform/st/sti/delta/delta-debug.c              |  8 ++++----
- drivers/media/platform/st/stm32/stm32-dcmi.c                   | 10 +++++-----
- drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c | 10 +++++-----
- drivers/media/platform/ti/am437x/am437x-vpfe.c                 |  2 +-
- drivers/media/platform/ti/omap3isp/ispvideo.c                  | 19 +------------------
- drivers/media/test-drivers/vivid/vivid-kthread-cap.c           | 20 ++++++++++----------
- drivers/media/usb/em28xx/em28xx-video.c                        |  2 +-
- drivers/staging/media/atomisp/pci/atomisp_cmd.c                |  4 ++--
- drivers/staging/media/starfive/camss/stf-isp.c                 |  2 +-
- include/uapi/linux/cec-funcs.h                                 | 40 ++++++++++++++++++++--------------------
- 27 files changed, 96 insertions(+), 109 deletions(-)
 
