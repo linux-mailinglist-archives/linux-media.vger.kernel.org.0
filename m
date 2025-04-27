@@ -1,59 +1,61 @@
-Return-Path: <linux-media+bounces-31114-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31115-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19552A9E024
-	for <lists+linux-media@lfdr.de>; Sun, 27 Apr 2025 09:03:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B35A9E026
+	for <lists+linux-media@lfdr.de>; Sun, 27 Apr 2025 09:03:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D97DC5A18B9
-	for <lists+linux-media@lfdr.de>; Sun, 27 Apr 2025 07:02:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 20905177DF7
+	for <lists+linux-media@lfdr.de>; Sun, 27 Apr 2025 07:03:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8479C24728F;
-	Sun, 27 Apr 2025 07:02:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCFF52472A4;
+	Sun, 27 Apr 2025 07:02:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="it74CA05"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="QfHheDBL"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 213342459C7;
-	Sun, 27 Apr 2025 07:02:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9388B2459EE;
+	Sun, 27 Apr 2025 07:02:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745737362; cv=none; b=OLBIfxddtAVD5TX3Zr8rRl6CqvKNpyF2Ko03eYDbE5jRv2CF5n6tRMyD9qebkejbfiYymR4kHIzqs6WohICebCpyN4WkhJJy1pQuAnlOlwUQYQdwtqBPFnewwvv3EA4O9E2OamiROziQNNVHm2iJJ77kgkyAGyYJzGO3+NhZkEs=
+	t=1745737364; cv=none; b=t7t3/xixgx3lh3b5tNNlhl0Kkk5bo7dyIVfv5SKukEosS1caWq8sbh0rkZP+BQ92vn5vSpLSpkj77/gnGqCsnyV63ihDUIs4BbcTvsiuBg1tkvoIGHKi0nMs9e501iBiWMYWyQteXWtfqJosHo6NSwliDfw3waLYa1catYInyDI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745737362; c=relaxed/simple;
-	bh=47kLZPUut9WWbTSbHi4nhZs1+KsdMSLZkdH9lfl+YFg=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PhVgYxiQzD3N0n/fEWIpJ6csXkJRHZDkTAZBwUQqEVP57TaTtAz83ew/h1Y/CU4VMNquiNzCxyRpJmfwD4gyUmeTgnpLwmHl6ZJJli3+/od6ghwwbnWNo2Qe/rGtpxbQxYtpCEtti2sSV/dvJ0bDHI3CYH6neKf4RBBpVv/bh/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=it74CA05; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1745737364; c=relaxed/simple;
+	bh=oLJCHq4pqgaHS3PtRjVEVV6zs9pwCaB9kndLg8b25rI=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tpn6JRfL0PI1OvjCKyW67lUT2Af4tJcZUFk3t+nvb0P1GsI5Ug8laohwZXrQ+R4i+0mYDMFop+MtnMHqx1zoHF1ORD5KcVSyCb6ZqwnhHGY3WS31UbtgdC5HLMZ5wYy6Z/5AfrtpAiW++toxAVcxm6wTqVjBC/+5+BobYUheEro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=QfHheDBL; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53QGM3pA012252;
-	Sun, 27 Apr 2025 07:02:09 GMT
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53QGM2n8011200;
+	Sun, 27 Apr 2025 07:02:15 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=+MAEcSEhI4YhkGLSQlz6Ty
-	WqjuuATG51QHsdhzGFtUk=; b=it74CA05hGNLRsSfc259A/n1+G9swQxYOq/WwY
-	zYx7iZOZulQ0iCYlKKOChZRoN/2VKcNXUwg3iZtGPVMsYPmqUyIrQkmyp0840Gsx
-	leTzyDmqqx+PQyru8w0rio8AaxC4fiwB06Z6yMo0IFbAMDL+oPLOKOAjRIe7GJQB
-	5/YQ6pZDsoS25PgvkFiAwIDy9UVKzaNAq+j5/s6YO0DdvQ6irvEsm3N4SSEptcBp
-	PvS3bnaKRbPo+ItuuolWDR9TGGlY2aXsUwSr/USPfM+TRLEqWOdVVJzfR04JTgDk
-	ELwwr0UeR5vYluMd5fR3a1uSu4y8lo2Se4Gh10ZiyGSU02KQ==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468r8hk3x9-1
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	a1b9jZwIhmbsvzlg7my+PK+iTSLNTOdYbbPraVtsR4A=; b=QfHheDBL/QiE756Q
+	Ftawnx8htaDKxXG2QoVRmZ5AFSyrZ7yh+noBKCkqD6H9hSutcSDb01MKbL24Ng9w
+	xARJ06BF9oTVPq6WaNxdTlmT2ATm9vl4T2faEWkaEXDt/+ApkkbLZgP20VEeGKKg
+	AAbsrUyIPubnPoC2JT0993LD6P2gGrKtkzaCB3NpLSWh98von3HxQT2Qr3pdTdOH
+	LWFdWCGgZ85CefM7pw26bKFlbRHAkNWRpic2sYaxEz7JH04yAD/Hg/G/zKu5E6zx
+	4/W7wLvqJHZIHz553qxgyzZyGXNdnR3nRC3OtOoiZNIOKf6LaxI+lhuqZzdGuJnK
+	Xcnxxw==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468qq5b6f3-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 27 Apr 2025 07:02:09 +0000 (GMT)
+	Sun, 27 Apr 2025 07:02:15 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53R728xO008163
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53R72EOH005650
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 27 Apr 2025 07:02:08 GMT
+	Sun, 27 Apr 2025 07:02:14 GMT
 Received: from hu-vikramsa-hyd.qualcomm.com (10.80.80.8) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Sun, 27 Apr 2025 00:02:02 -0700
+ 15.2.1544.9; Sun, 27 Apr 2025 00:02:08 -0700
 From: Vikram Sharma <quic_vikramsa@quicinc.com>
 To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
         <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
@@ -64,10 +66,12 @@ To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
 CC: <linux-arm-kernel@lists.infradead.org>, <quic_vikramsa@quicinc.com>,
         <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v2 RFC/WIP 0/9] Add sa8775p camss support
-Date: Sun, 27 Apr 2025 12:31:26 +0530
-Message-ID: <20250427070135.884623-1-quic_vikramsa@quicinc.com>
+Subject: [PATCH RFC/WIP v2 1/9] media: qcom: camss: add generic csid handling in csid gen3
+Date: Sun, 27 Apr 2025 12:31:27 +0530
+Message-ID: <20250427070135.884623-2-quic_vikramsa@quicinc.com>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250427070135.884623-1-quic_vikramsa@quicinc.com>
+References: <20250427070135.884623-1-quic_vikramsa@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -80,113 +84,195 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: nyMFdmJsIaxmS-DB1eDskt_ZBIEyb0RN
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI3MDA1NSBTYWx0ZWRfX01OGbWF16R5m UJMsHHgf2bMrhq/BXNBjK/v/1ZNWpOkuwl22+JfJlovu/wSutKMz2RfuAP1qfhARzHQUYnuCi/m df3aO0Oj3TGPwTepOO4TrtEABWIImf8QhmXCsxC+3Pmr5GyOZN+Qp+iUS6f5fCrWdvmingJllRh
- oy4j67+nMHKy8TnjCqZUy6FbEtoRLYcLCCvrnnVeygM4SUhVSJcGDcYkI7HY8+cKrXLGyFnhLll lstbkoWqye0n1OQosb0B0l0PcR1RSXYAdaS0/fbFib5MKAwB9IOP7LK449dOnUInPFWiBMim6uU FjbjddBUYzNA+M5hhFqIMcNnqlz64fgio1IXXfjvnZK24uZdpXyUBJnhKuV/KkYwTWD9auPydMG
- JNMWqFHCT0Tpmk18t2dKymZEQ/TbgEkqwOPTuz2Qnv2rR6o8ZXFs/aZ9/or2rFmib57ZhEgw
-X-Authority-Analysis: v=2.4 cv=cfzSrmDM c=1 sm=1 tr=0 ts=680dd671 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=4pAsuTqdjomlMBfRpP0A:9
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: nyMFdmJsIaxmS-DB1eDskt_ZBIEyb0RN
+X-Proofpoint-ORIG-GUID: ljEiZQDaib6bx2WjN_ewjWfnVEv-A1ia
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI3MDA1NSBTYWx0ZWRfXzv939D57uXM3 CVA4LfZ/t6D+8+uCA2YEQK1Rb/lvhmE8aFxH2i/jIdXZZrwmIi6WKjnqbpXsufg+sMc7lOBWkPV eOsxpt4JBRU+rPluaONy/qJ0Z31oC35AHmXlDl1Ov/KRHes8iTMkmjb0vnEd/9iTXuAPgr2xhXo
+ SGtWfriqucwLtACG7tC1KZTqzAtdoKjHR4JZIfS879V6nRK/J1uKCChp44+keRKuYfOQmpIUc3/ bwV6PIPjtxkH26BcYCwm3mB+0BlUF8KL5i2ya2aUCn8BU5WhJNfCYmobe4F0TeDfThEbpawHonK pJ0AeHKz6G5OWe2fGDyad7C0rCc8TyOF667eHMPFtzSiW0BePuHJUBUUo4hcnn0HxMidDqYLu33
+ sysDlyRYujpdMfdDHjrQVbqtRDX9viOOxLajHk0TUb5MbIUsJfD4X+HhQsl4AZyazC7cjNun
+X-Authority-Analysis: v=2.4 cv=QP1oRhLL c=1 sm=1 tr=0 ts=680dd677 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=WaFXn7faHerf0vuhdFYA:9 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: ljEiZQDaib6bx2WjN_ewjWfnVEv-A1ia
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-04-27_02,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
- lowpriorityscore=0 bulkscore=0 suspectscore=0 malwarescore=0
- priorityscore=1501 spamscore=0 mlxscore=0 mlxlogscore=999 adultscore=0
- clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 spamscore=0
+ clxscore=1015 mlxlogscore=999 lowpriorityscore=0 adultscore=0 mlxscore=0
+ bulkscore=0 phishscore=0 impostorscore=0 priorityscore=1501 malwarescore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2504070000
  definitions=main-2504270055
 
-From: Vikram Sharma <vikramsa@qti.qualcomm.com>
-
-Posting these changes as RFC/WIP because there is some renaming done for
-existing files so that same files can be used for multiple vfe/csid
-version.
- 
-SA8775P is a Qualcomm SoC. This series adds bindings and devicetree to bring
-up CSIPHY, TPG, CSID, VFE/RDI interfaces in SA8775P.
-
-SA8775P provides
-- 2 x VFE, 3 RDI per VFE
-- 5 x VFE Lite, 6 RDI per VFE
-- 2 x CSID
-- 5 x CSID Lite
-- 3 x TPG
-- 4 x CSIPHY
-   
-Changes compared to v1:
-- Renaming camss-vfe-780.c to camss-vfe-gen2.c and camss-csid-780 to
-  camss-csid-gen3 to avoid code duplication for SA8775P.SA877P have csid
-  690 and vfe 690 which is almost same as csid/vfe 780 with very minor
-  change in register bitfield.
-- Restructure vfe and csid addition to reuse existing files.
-- Updated cisd-lite and vfe-lite interuppt names.
-- add enumeration changes as seprate patch. 
-- Update required fileds in bindings.
-- Link to v1:
-  DT: https://lore.kernel.org/linux-arm-msm/20250210155605.575367-1-quic_vikramsa@quicinc.com/
-  Driver: https://lore.kernel.org/linux-media/20250210162843.609337-1-quic_vikramsa@quicinc.com/
-
-Sanity check for these patches:
-- make CHECK_DTBS=y W=1 DT_SCHEMA_FILES=media/qcom,sa8775p-camss.yaml
-- make DT_CHECKER_FLAGS=-m W=1
-  DT_SCHEMA_FILES=media/qcom,sa8775p-camss.yaml dt_binding_check
-- checkpatch.pl
-- Smatch: make CHECK="smatch --full-path" M=drivers/media/platform/qcom/camss/
-- Sparse: make C=2 M=drivers/media/platform/qcom/camss/
-- make -j32 W=1
-
-We have tested this on qcs9100-ride board with 'Test Pattern Generator'
-TPG driver support will be posted in a follow up series.
-
-Tested with following commands:
-- media-ctl -d /dev/media0 --reset
-- yavta --no-query -w '0x009f0903 0' /dev/v4l-subdev0
-- media-ctl -d /dev/media0 -V '"msm_tpg0":0[fmt:SRGGB10/1920x1080
-  field:none]'
-- media-ctl -d /dev/media0 -V '"msm_csid0":0[fmt:SRGGB10/1920x1080
-  field:none]'
-- media-ctl -d /dev/media0 -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/1920x1080
-  field:none]'
-- media-ctl -d /dev/media0 -l '"msm_tpg0":1->"msm_csid0":0[1]'
-- media-ctl -d /dev/media0 -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
-- yavta --no-query -w '0x009f0903 9' /dev/v4l-subdev0
-- yavta -B capture-mplane -n 5 -f SRGGB10P -s 1920x1080 /dev/video0
-  --capture=7
+Rename camss-csid-780.c to camss-csid-gen3.c to avoid code duplication
+for later SOCs i.e SA8775P. SA8775P have csid 690 which is almost same
+as csid 780 with very minor changes in register bitfield.
 
 Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
-
-Vikram Sharma (9):
-  media: qcom: camss: add generic csid handling in csid gen3
-  media: qcom: camss: add generic vfe handling in vfe gen3
-  media: dt-bindings: Add qcom,sa8775p-camss
-  arm64: dts: qcom: sa8775p: Add support for camss
-  media: qcom: camss: Add sa8775p compatible
-  media: qcom: camss: Add support for CSIPHY 690
-  media: qcom: camss: Add support for CSID for sa8775p
-  media: qcom: camss: Add support for VFE 690
-  media: qcom: camss: Enumerate resources for SA8775P
-
- .../bindings/media/qcom,sa8775p-camss.yaml    | 352 +++++++++++++
- arch/arm64/boot/dts/qcom/sa8775p.dtsi         | 187 +++++++
- drivers/media/platform/qcom/camss/Makefile    |   4 +-
- .../{camss-csid-780.c => camss-csid-gen3.c}   |  42 +-
- .../{camss-csid-780.h => camss-csid-gen3.h}   |   9 +-
- .../media/platform/qcom/camss/camss-csid.h    |   2 +-
- .../qcom/camss/camss-csiphy-3ph-1-0.c         |  84 ++++
- .../media/platform/qcom/camss/camss-csiphy.c  |   5 +
- .../media/platform/qcom/camss/camss-csiphy.h  |   1 +
- .../{camss-vfe-780.c => camss-vfe-gen3.c}     |   9 +-
- drivers/media/platform/qcom/camss/camss-vfe.c |   5 +-
- drivers/media/platform/qcom/camss/camss-vfe.h |   2 +-
- drivers/media/platform/qcom/camss/camss.c     | 461 +++++++++++++++++-
- drivers/media/platform/qcom/camss/camss.h     |   1 +
- 14 files changed, 1130 insertions(+), 34 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
- rename drivers/media/platform/qcom/camss/{camss-csid-780.c => camss-csid-gen3.c} (87%)
+---
+ drivers/media/platform/qcom/camss/Makefile            |  2 +-
+ .../camss/{camss-csid-780.c => camss-csid-gen3.c}     | 11 +++++++----
+ .../camss/{camss-csid-780.h => camss-csid-gen3.h}     |  9 +++++----
+ drivers/media/platform/qcom/camss/camss-csid.h        |  2 +-
+ drivers/media/platform/qcom/camss/camss.c             | 10 +++++-----
+ 5 files changed, 19 insertions(+), 15 deletions(-)
+ rename drivers/media/platform/qcom/camss/{camss-csid-780.c => camss-csid-gen3.c} (97%)
  rename drivers/media/platform/qcom/camss/{camss-csid-780.h => camss-csid-gen3.h} (84%)
- rename drivers/media/platform/qcom/camss/{camss-vfe-780.c => camss-vfe-gen3.c} (95%)
 
+diff --git a/drivers/media/platform/qcom/camss/Makefile b/drivers/media/platform/qcom/camss/Makefile
+index d26a9c24a430..ee869e69521a 100644
+--- a/drivers/media/platform/qcom/camss/Makefile
++++ b/drivers/media/platform/qcom/camss/Makefile
+@@ -8,7 +8,7 @@ qcom-camss-objs += \
+ 		camss-csid-4-7.o \
+ 		camss-csid-680.o \
+ 		camss-csid-gen2.o \
+-		camss-csid-780.o \
++		camss-csid-gen3.o \
+ 		camss-csiphy-2ph-1-0.o \
+ 		camss-csiphy-3ph-1-0.o \
+ 		camss-csiphy.o \
+diff --git a/drivers/media/platform/qcom/camss/camss-csid-780.c b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
+similarity index 97%
+rename from drivers/media/platform/qcom/camss/camss-csid-780.c
+rename to drivers/media/platform/qcom/camss/camss-csid-gen3.c
+index 4c720d177731..b66105f7b901 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid-780.c
++++ b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
+@@ -1,9 +1,12 @@
+ // SPDX-License-Identifier: GPL-2.0
+ /*
+- * Qualcomm MSM Camera Subsystem - CSID (CSI Decoder) Module
++ * Qualcomm MSM Camera Subsystem - CSID (CSI Decoder) Module gen3
++ * Gen3 Supports Qualcomm csid version 780 and 690
+  *
+  * Copyright (c) 2024 Qualcomm Technologies, Inc.
+  */
++
++
+ #include <linux/completion.h>
+ #include <linux/delay.h>
+ #include <linux/interrupt.h>
+@@ -13,7 +16,7 @@
+ 
+ #include "camss.h"
+ #include "camss-csid.h"
+-#include "camss-csid-780.h"
++#include "camss-csid-gen3.h"
+ 
+ #define CSID_IO_PATH_CFG0(csid)		(0x4 * (csid))
+ #define		OUTPUT_IFE_EN			0x100
+@@ -259,7 +262,7 @@ static irqreturn_t csid_isr(int irq, void *dev)
+ 
+ 			if (buf_done_val & BIT(BUF_DONE_IRQ_STATUS_RDI_OFFSET + i)) {
+ 				/*
+-				 * For Titan 780, bus done and RUP IRQ have been moved to
++				 * For Titan Gen3, bus done and RUP IRQ have been moved to
+ 				 * CSID from VFE. Once CSID received bus done, need notify
+ 				 * VFE of this event. Trigger VFE to handle bus done process.
+ 				 */
+@@ -325,7 +328,7 @@ static void csid_subdev_init(struct csid_device *csid)
+ 	csid->testgen.nmodes = CSID_PAYLOAD_MODE_DISABLED;
+ }
+ 
+-const struct csid_hw_ops csid_ops_780 = {
++const struct csid_hw_ops csid_ops_gen3 = {
+ 	.configure_stream = csid_configure_stream,
+ 	.configure_testgen_pattern = csid_configure_testgen_pattern,
+ 	.hw_version = csid_hw_version,
+diff --git a/drivers/media/platform/qcom/camss/camss-csid-780.h b/drivers/media/platform/qcom/camss/camss-csid-gen3.h
+similarity index 84%
+rename from drivers/media/platform/qcom/camss/camss-csid-780.h
+rename to drivers/media/platform/qcom/camss/camss-csid-gen3.h
+index a990c66a60ff..e6298042ae74 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid-780.h
++++ b/drivers/media/platform/qcom/camss/camss-csid-gen3.h
+@@ -1,13 +1,13 @@
+ /* SPDX-License-Identifier: GPL-2.0 */
+ /*
+- * camss-csid-780.h
++ * camss-csid-gen3.h
+  *
+  * Qualcomm MSM Camera Subsystem - CSID (CSI Decoder) Module Generation 3
+  *
+  * Copyright (c) 2024 Qualcomm Technologies, Inc.
+  */
+-#ifndef __QC_MSM_CAMSS_CSID_780_H__
+-#define __QC_MSM_CAMSS_CSID_780_H__
++#ifndef __QC_MSM_CAMSS_CSID_GEN3_H__
++#define __QC_MSM_CAMSS_CSID_GEN3_H__
+ 
+ #define DECODE_FORMAT_UNCOMPRESSED_8_BIT	0x1
+ #define DECODE_FORMAT_UNCOMPRESSED_10_BIT	0x2
+@@ -18,8 +18,9 @@
+ #define DECODE_FORMAT_UNCOMPRESSED_24_BIT	0x7
+ #define DECODE_FORMAT_PAYLOAD_ONLY		0xf
+ 
++
+ #define PLAIN_FORMAT_PLAIN8	0x0 /* supports DPCM, UNCOMPRESSED_6/8_BIT */
+ #define PLAIN_FORMAT_PLAIN16	0x1 /* supports DPCM, UNCOMPRESSED_10/16_BIT */
+ #define PLAIN_FORMAT_PLAIN32	0x2 /* supports UNCOMPRESSED_20_BIT */
+ 
+-#endif /* __QC_MSM_CAMSS_CSID_780_H__ */
++#endif /* __QC_MSM_CAMSS_CSID_GEN3_H__ */
+diff --git a/drivers/media/platform/qcom/camss/camss-csid.h b/drivers/media/platform/qcom/camss/camss-csid.h
+index 9dc826d8c8f6..62273ca9f199 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid.h
++++ b/drivers/media/platform/qcom/camss/camss-csid.h
+@@ -215,7 +215,7 @@ extern const struct csid_hw_ops csid_ops_4_1;
+ extern const struct csid_hw_ops csid_ops_4_7;
+ extern const struct csid_hw_ops csid_ops_680;
+ extern const struct csid_hw_ops csid_ops_gen2;
+-extern const struct csid_hw_ops csid_ops_780;
++extern const struct csid_hw_ops csid_ops_gen3;
+ 
+ /*
+  * csid_is_lite - Check if CSID is CSID lite.
+diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+index 06f42875702f..1431e08dc04a 100644
+--- a/drivers/media/platform/qcom/camss/camss.c
++++ b/drivers/media/platform/qcom/camss/camss.c
+@@ -2285,7 +2285,7 @@ static const struct camss_subdev_resources csid_res_8550[] = {
+ 		.csid = {
+ 			.is_lite = false,
+ 			.parent_dev_ops = &vfe_parent_dev_ops,
+-			.hw_ops = &csid_ops_780,
++			.hw_ops = &csid_ops_gen3,
+ 			.formats = &csid_formats_gen2
+ 		}
+ 	},
+@@ -2300,7 +2300,7 @@ static const struct camss_subdev_resources csid_res_8550[] = {
+ 		.csid = {
+ 			.is_lite = false,
+ 			.parent_dev_ops = &vfe_parent_dev_ops,
+-			.hw_ops = &csid_ops_780,
++			.hw_ops = &csid_ops_gen3,
+ 			.formats = &csid_formats_gen2
+ 		}
+ 	},
+@@ -2315,7 +2315,7 @@ static const struct camss_subdev_resources csid_res_8550[] = {
+ 		.csid = {
+ 			.is_lite = false,
+ 			.parent_dev_ops = &vfe_parent_dev_ops,
+-			.hw_ops = &csid_ops_780,
++			.hw_ops = &csid_ops_gen3,
+ 			.formats = &csid_formats_gen2
+ 		}
+ 	},
+@@ -2330,7 +2330,7 @@ static const struct camss_subdev_resources csid_res_8550[] = {
+ 		.csid = {
+ 			.is_lite = true,
+ 			.parent_dev_ops = &vfe_parent_dev_ops,
+-			.hw_ops = &csid_ops_780,
++			.hw_ops = &csid_ops_gen3,
+ 			.formats = &csid_formats_gen2
+ 		}
+ 	},
+@@ -2345,7 +2345,7 @@ static const struct camss_subdev_resources csid_res_8550[] = {
+ 		.csid = {
+ 			.is_lite = true,
+ 			.parent_dev_ops = &vfe_parent_dev_ops,
+-			.hw_ops = &csid_ops_780,
++			.hw_ops = &csid_ops_gen3,
+ 			.formats = &csid_formats_gen2
+ 		}
+ 	}
 -- 
 2.25.1
 
