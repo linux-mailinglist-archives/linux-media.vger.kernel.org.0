@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-31110-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31111-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D183DA9DF80
-	for <lists+linux-media@lfdr.de>; Sun, 27 Apr 2025 08:28:39 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B32AA9DF7B
+	for <lists+linux-media@lfdr.de>; Sun, 27 Apr 2025 08:28:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F9B88400B9
-	for <lists+linux-media@lfdr.de>; Sun, 27 Apr 2025 06:28:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 652CD1A81479
+	for <lists+linux-media@lfdr.de>; Sun, 27 Apr 2025 06:28:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58CBF243946;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AC86243953;
 	Sun, 27 Apr 2025 06:27:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jlW2u0zW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TDpTPxgy"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E09B24110F;
-	Sun, 27 Apr 2025 06:27:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62CAC24167E;
+	Sun, 27 Apr 2025 06:27:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745735245; cv=none; b=IkwNa4AgONRd4byuxgjB0QoFBQDHoxZy9AgO6cSyEsgxSfJicOu6RY9K/Os7HV6hq1yxSfqW0EiTSc3mTNiWcKT3mvYi/vcMm94Lwez++kIDWywhCbBpRV3HY7qJN9I9BXQmzrWEzk86BOalCsfdkvS4eSSJjvAc5gGAQdKMwHw=
+	t=1745735245; cv=none; b=KVTkgmMUjNtgHRJ78vEbUoroBMats7pP8YRCNoTvTzwpX8mGcOjS0KkBvZA7bC3qxyETXW9I4gl6hWB1LG0t601577zufdsEOI/Cxdikb6DQtzFiAJmlEOIN/ODq1rBGR9a94SVmkqAe1FSSdTgehdefk9H+t0mIZGMC5nqPmVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1745735245; c=relaxed/simple;
-	bh=UV4OpBMoMTlShXKyn8UmyYCKddaIG6XlUTTU3xfZsLg=;
+	bh=rV7ELWY4jzPxSIePzvayWLNlw8ecdtIvAPaE7yFk0vU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=eHLgYqzTKbE2amabbHWR/IxHDngdeEL+J5u0KPExB+/M/1jjAlMI1DVh2x1pfoOPFzJSfbBZVv3PhiksUMGhHnsJooO2wKojg/I1qUL8NxYebKqrhPjX8lw5wFuV68MHaq+VDPxjojLya4UsW1OTDyUzjAzyrhSXktdmc3aJ744=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jlW2u0zW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id AF921C4CEF4;
+	 In-Reply-To:To:Cc; b=sLYJbht+vs5pQlFcvKimTUXCFVhqZmxEXWZmN4eLiLou+dZwLvVbt928bcv/EpBpQMzIzSxTk5XZEpZeCLm/VLh0s5mIGyW+ijfmDUpmHFrJK1T+0hK6o6ct3XAJTiAlAYsJMRhOOYA/QQvZXFNo6o/kqu41E+YSj71BFvopNdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TDpTPxgy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C4AC6C4CEFA;
 	Sun, 27 Apr 2025 06:27:24 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1745735244;
-	bh=UV4OpBMoMTlShXKyn8UmyYCKddaIG6XlUTTU3xfZsLg=;
+	bh=rV7ELWY4jzPxSIePzvayWLNlw8ecdtIvAPaE7yFk0vU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=jlW2u0zW5r4ZKF8ZXrYEcU8IszTjm6iDcPX6gpL5r0pamoB6HN7VJy+YdHKA9SoFF
-	 StS3KY+sACE+1NmqzMdjtPw5S+UbInI0fpf3BF5V6bzH9v65SC6zUcGX6oDJ+Ob9YG
-	 a3p8V7zb5ykzZHIBlX3rJgEEWNyvf+SzXOYU6ZUlPwfvYcjsRNoKadIbNZ1/HJluBd
-	 R2j2lC0uiQf8U7gCFJtH0m+kPn0YfxUSfIQqygPf/QTkUm6GQ9AtftFmSfhzx3Hsl9
-	 i3oBIb1hhdjt2kTpki4X9TvLotiB8Ne9DHG/TPMWF+VeA1TdW4OIpNxUzFjx5Rqz4L
-	 Rw9n6xAmYyopA==
+	b=TDpTPxgySUdwev2esioHyY2Sq5XePX//9shTWNWy+J8+vzprBzR/NqfZGuvkn87MU
+	 ShFv1AQSE8jEoSoU39+zBgUiRxQfKsXf1UuNwyrjhUnCCo6BwR5tqjgQigvwQsbk06
+	 634XDL1mL+F+p9HiLX93uWXBmQ8JobJ2/FYFrv3BMHULt1LSv5B8t7tfmrbdUpCCer
+	 rf+XyZyjso3KrB5mpbAeNMaZFuMlMzwVLwBhxNJCfhDhg4ryh3pcYQTjTa+wwfsooj
+	 ipeMqWJoiR8iF5+uZIXG4XxWQVXIx2SU9y4KuFaNMEiWaE7w7yi8inrsllnVVq1vOy
+	 WvLNTows4RUBg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7C03C369D9;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B958DC369D8;
 	Sun, 27 Apr 2025 06:27:24 +0000 (UTC)
 From: Keke Li via B4 Relay <devnull+keke.li.amlogic.com@kernel.org>
-Date: Sun, 27 Apr 2025 14:27:17 +0800
-Subject: [PATCH v9 09/10] Documentation: media: add documentation file
- metafmt-c3-isp.rst
+Date: Sun, 27 Apr 2025 14:27:18 +0800
+Subject: [PATCH v9 10/10] Documentation: media: add documentation file
+ c3-isp.rst
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250427-c3isp-v9-9-e0fe09433d94@amlogic.com>
+Message-Id: <20250427-c3isp-v9-10-e0fe09433d94@amlogic.com>
 References: <20250427-c3isp-v9-0-e0fe09433d94@amlogic.com>
 In-Reply-To: <20250427-c3isp-v9-0-e0fe09433d94@amlogic.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -67,11 +67,11 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  laurent.pinchart@ideasonboard.com, dan.scally@ideasonboard.com, 
  jacopo.mondi@ideasonboard.com, Keke Li <keke.li@amlogic.com>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1745735242; l=5017;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1745735242; l=8064;
  i=keke.li@amlogic.com; s=20240902; h=from:subject:message-id;
- bh=EtKmaDXYyLgan/JfVMq79P6TWGfHTe2a+kG7bKr0G0A=;
- b=WvAmsc5/hdrGRwpaQazfklpsIYhCcDVRmKcPaojQcxbEusXl8X9Lhd7QQaTH2W/VPrzKouMqU
- gzdXQNAbgZBAWtBzlvRDCxK14F/20jA7ssRetEpGIvuuTTwviU+I+/o
+ bh=+qgXJevpfResF3gzd9+bsMteto6Ioe7ohnvu5EA8FeY=;
+ b=L1GiFGfOGSh4t7UdgMWHpdfzM+uNicpwZ8QmOE/dHDUDIafTSMkgEmY3QU2N/BBqnnqZRt9Mu
+ VDFquY6pVm6DhmByZIF1Zfe1wujepuQUeYtc4Y93GXHQ8QMY4kuXBPC
 X-Developer-Key: i=keke.li@amlogic.com; a=ed25519;
  pk=XxNPTsQ0YqMJLLekV456eoKV5gbSlxnViB1k1DhfRmU=
 X-Endpoint-Received: by B4 Relay for keke.li@amlogic.com/20240902 with
@@ -81,133 +81,180 @@ Reply-To: keke.li@amlogic.com
 
 From: Keke Li <keke.li@amlogic.com>
 
-Add the file 'metafmt-c3-isp.rst' that documents
-the meta format of c3-isp.
+Add the file 'c3-isp.rst' that documents the c3-isp driver.
 
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Signed-off-by: Keke Li <keke.li@amlogic.com>
 ---
- .../userspace-api/media/v4l/meta-formats.rst       |  1 +
- .../userspace-api/media/v4l/metafmt-c3-isp.rst     | 86 ++++++++++++++++++++++
- MAINTAINERS                                        |  1 +
- 3 files changed, 88 insertions(+)
+ Documentation/admin-guide/media/c3-isp.dot      |  26 ++++++
+ Documentation/admin-guide/media/c3-isp.rst      | 101 ++++++++++++++++++++++++
+ Documentation/admin-guide/media/v4l-drivers.rst |   1 +
+ MAINTAINERS                                     |   2 +
+ 4 files changed, 130 insertions(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
-index 86ffb3bc8ade..bb6876cfc271 100644
---- a/Documentation/userspace-api/media/v4l/meta-formats.rst
-+++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
-@@ -12,6 +12,7 @@ These formats are used for the :ref:`metadata` interface only.
- .. toctree::
-     :maxdepth: 1
- 
-+    metafmt-c3-isp
-     metafmt-d4xx
-     metafmt-generic
-     metafmt-intel-ipu3
-diff --git a/Documentation/userspace-api/media/v4l/metafmt-c3-isp.rst b/Documentation/userspace-api/media/v4l/metafmt-c3-isp.rst
+diff --git a/Documentation/admin-guide/media/c3-isp.dot b/Documentation/admin-guide/media/c3-isp.dot
 new file mode 100644
-index 000000000000..449b45c2ec24
+index 000000000000..42dc931ee84a
 --- /dev/null
-+++ b/Documentation/userspace-api/media/v4l/metafmt-c3-isp.rst
-@@ -0,0 +1,86 @@
++++ b/Documentation/admin-guide/media/c3-isp.dot
+@@ -0,0 +1,26 @@
++digraph board {
++	rankdir=TB
++	n00000001 [label="{{<port0> 0 | <port1> 1} | c3-isp-core\n/dev/v4l-subdev0 | {<port2> 2 | <port3> 3 | <port4> 4 | <port5> 5}}", shape=Mrecord, style=filled, fillcolor=green]
++	n00000001:port3 -> n00000008:port0
++	n00000001:port4 -> n0000000b:port0
++	n00000001:port5 -> n0000000e:port0
++	n00000001:port2 -> n00000027
++	n00000008 [label="{{<port0> 0} | c3-isp-resizer0\n/dev/v4l-subdev1 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
++	n00000008:port1 -> n00000016 [style=bold]
++	n0000000b [label="{{<port0> 0} | c3-isp-resizer1\n/dev/v4l-subdev2 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
++	n0000000b:port1 -> n0000001a [style=bold]
++	n0000000e [label="{{<port0> 0} | c3-isp-resizer2\n/dev/v4l-subdev3 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
++	n0000000e:port1 -> n00000023 [style=bold]
++	n00000011 [label="{{<port0> 0} | c3-mipi-adapter\n/dev/v4l-subdev4 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
++	n00000011:port1 -> n00000001:port0 [style=bold]
++	n00000016 [label="c3-isp-cap0\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
++	n0000001a [label="c3-isp-cap1\n/dev/video1", shape=box, style=filled, fillcolor=yellow]
++	n0000001e [label="{{<port0> 0} | c3-mipi-csi2\n/dev/v4l-subdev5 | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
++	n0000001e:port1 -> n00000011:port0 [style=bold]
++	n00000023 [label="c3-isp-cap2\n/dev/video2", shape=box, style=filled, fillcolor=yellow]
++	n00000027 [label="c3-isp-stats\n/dev/video3", shape=box, style=filled, fillcolor=yellow]
++	n0000002b [label="c3-isp-params\n/dev/video4", shape=box, style=filled, fillcolor=yellow]
++	n0000002b -> n00000001:port1
++	n0000003f [label="{{} | imx290 2-001a\n/dev/v4l-subdev6 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
++	n0000003f:port0 -> n0000001e:port0 [style=bold]
++}
+diff --git a/Documentation/admin-guide/media/c3-isp.rst b/Documentation/admin-guide/media/c3-isp.rst
+new file mode 100644
+index 000000000000..ac508b8c6831
+--- /dev/null
++++ b/Documentation/admin-guide/media/c3-isp.rst
+@@ -0,0 +1,101 @@
 +.. SPDX-License-Identifier: (GPL-2.0-only OR MIT)
 +
-+.. _v4l2-meta-fmt-c3isp-stats:
-+.. _v4l2-meta-fmt-c3isp-params:
++.. include:: <isonum.txt>
 +
-+***********************************************************************
-+V4L2_META_FMT_C3ISP_STATS ('C3ST'), V4L2_META_FMT_C3ISP_PARAMS ('C3PM')
-+***********************************************************************
++=================================================
++Amlogic C3 Image Signal Processing (C3ISP) driver
++=================================================
 +
-+.. c3_isp_stats_info
++Introduction
++============
 +
-+3A Statistics
-+=============
++This file documents the Amlogic C3ISP driver located under
++drivers/media/platform/amlogic/c3/isp.
 +
-+The C3 ISP can collect different statistics over an input Bayer frame.
-+Those statistics are obtained from the "c3-isp-stats" metadata capture video nodes,
-+using the :c:type:`v4l2_meta_format` interface.
-+They are formatted as described by the :c:type:`c3_isp_stats_info` structure.
++The current version of the driver supports the C3ISP found on
++Amlogic C308L processor.
 +
-+The statistics collected are  Auto-white balance,
-+Auto-exposure and Auto-focus information.
++The driver implements V4L2, Media controller and V4L2 subdev interfaces.
++Camera sensor using V4L2 subdev interface in the kernel is supported.
 +
-+.. c3_isp_params_cfg
++The driver has been tested on AW419-C308L-Socket platform.
 +
-+Configuration Parameters
-+========================
++Amlogic C3 ISP
++==============
 +
-+The configuration parameters are passed to the c3-isp-params metadata output video node,
-+using the :c:type:`v4l2_meta_format` interface. Rather than a single struct containing
-+sub-structs for each configurable area of the ISP, parameters for the C3-ISP
-+are defined as distinct structs or "blocks" which may be added to the data
-+member of :c:type:`c3_isp_params_cfg`. Userspace is responsible for
-+populating the data member with the blocks that need to be configured by the driver, but
-+need not populate it with **all** the blocks, or indeed with any at all if there
-+are no configuration changes to make. Populated blocks **must** be consecutive
-+in the buffer. To assist both userspace and the driver in identifying the
-+blocks each block-specific struct embeds
-+:c:type:`c3_isp_params_block_header` as its first member and userspace
-+must populate the type member with a value from
-+:c:type:`c3_isp_params_block_type`. Once the blocks have been populated
-+into the data buffer, the combined size of all populated blocks shall be set in
-+the data_size member of :c:type:`c3_isp_params_cfg`. For example:
++The Camera hardware found on C308L processors and supported by
++the driver consists of:
 +
-+.. code-block:: c
++- 1 MIPI-CSI-2 module: handles the physical layer of the MIPI CSI-2 receiver and
++  receives data from the connected camera sensor.
++- 1 MIPI-ADAPTER module: organizes MIPI data to meet ISP input requirements and
++  send MIPI data to ISP.
++- 1 ISP (Image Signal Processing) module: contains a pipeline of image processing
++  hardware blocks. The ISP pipeline contains three resizers at the end each of
++  them connected to a DMA interface which writes the output data to memory.
 +
-+	struct c3_isp_params_cfg *params =
-+		(struct c3_isp_params_cfg *)buffer;
++A high-level functional view of the C3 ISP is presented below.::
 +
-+	params->version = C3_ISP_PARAM_BUFFER_V0;
-+	params->data_size = 0;
++                                                                   +----------+    +-------+
++                                                                   | Resizer  |--->| WRMIF |
++  +---------+    +------------+    +--------------+    +-------+   |----------+    +-------+
++  | Sensor  |--->| MIPI CSI-2 |--->| MIPI ADAPTER |--->|  ISP  |---|----------+    +-------+
++  +---------+    +------------+    +--------------+    +-------+   | Resizer  |--->| WRMIF |
++                                                                   +----------+    +-------+
++                                                                   |----------+    +-------+
++                                                                   | Resizer  |--->| WRMIF |
++                                                                   +----------+    +-------+
 +
-+	void *data = (void *)params->data;
++Driver architecture and design
++==============================
 +
-+	struct c3_isp_params_awb_gains *gains =
-+		(struct c3_isp_params_awb_gains *)data;
++With the goal to model the hardware links between the modules and to expose a
++clean, logical and usable interface, the driver registers the following V4L2
++sub-devices:
 +
-+	gains->header.type = C3_ISP_PARAMS_BLOCK_AWB_GAINS;
-+	gains->header.flags = C3_ISP_PARAMS_BLOCK_FL_ENABLE;
-+	gains->header.size = sizeof(struct c3_isp_params_awb_gains);
++- 1 `c3-mipi-csi2` sub-device - the MIPI CSI-2 receiver
++- 1 `c3-mipi-adapter` sub-device - the MIPI adapter
++- 1 `c3-isp-core` sub-device - the ISP core
++- 3 `c3-isp-resizer` sub-devices - the ISP resizers
 +
-+	gains->gr_gain = 256;
-+	gains->r_gain = 256;
-+	gains->b_gain = 256;
-+	gains->gb_gain = 256;
++The `c3-isp-core` sub-device is linked to 2 video device nodes for statistics
++capture and parameters programming:
 +
-+	data += sizeof(struct c3_isp__params_awb_gains);
-+	params->data_size += sizeof(struct c3_isp_params_awb_gains);
++- the `c3-isp-stats` capture video device node for statistics capture
++- the `c3-isp-params` output video device for parameters programming
 +
-+	struct c3_isp_params_awb_config *awb_cfg =
-+		(struct c3_isp_params_awb_config *)data;
++Each `c3-isp-resizer` sub-device is linked to a capture video device node where
++frames are captured from:
 +
-+	awb_cfg->header.type = C3_ISP_PARAMS_BLOCK_AWB_CONFIG;
-+	awb_cfg->header.flags = C3_ISP_PARAMS_BLOCK_FL_ENABLE;
-+	awb_cfg->header.size = sizeof(struct c3_isp_params_awb_config);
++- `c3-isp-resizer0` is linked to the `c3-isp-cap0` capture video device
++- `c3-isp-resizer1` is linked to the `c3-isp-cap1` capture video device
++- `c3-isp-resizer2` is linked to the `c3-isp-cap2` capture video device
 +
-+	awb_cfg->tap_point = C3_ISP_AWB_STATS_TAP_BEFORE_WB;
-+	awb_cfg->satur = 1;
-+	awb_cfg->horiz_zones_num = 32;
-+	awb_cfg->vert_zones_num = 24;
++The media controller pipeline graph is as follows (with connected a
++IMX290 camera sensor):
 +
-+	params->data_size += sizeof(struct c3_isp_params_awb_config);
++.. _isp_topology_graph:
 +
-+Amlogic C3 ISP uAPI data types
-+===============================
++.. kernel-figure:: c3-isp.dot
++    :alt:   c3-isp.dot
++    :align: center
 +
-+.. kernel-doc:: include/uapi/linux/media/amlogic/c3-isp-config.h
++    Media pipeline topology
++
++Implementation
++==============
++
++Runtime configuration of the ISP hardware is performed on the `c3-isp-params`
++video device node using the :ref:`V4L2_META_FMT_C3ISP_PARAMS
++<v4l2-meta-fmt-c3isp-params>` as data format. The buffer structure is defined by
++:c:type:`c3_isp_params_cfg`.
++
++Statistics are captured from the `c3-isp-stats` video device node using the
++:ref:`V4L2_META_FMT_C3ISP_STATS <v4l2-meta-fmt-c3isp-stats>` data format.
++
++The final picture size and format is configured using the V4L2 video
++capture interface on the `c3-isp-cap[0, 2]` video device nodes.
++
++The Amlogic C3 ISP is supported by `libcamera <https://libcamera.org>`_ with a
++dedicated pipeline handler and algorithms that perform run-time image correction
++and enhancement.
+diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
+index e8761561b2fe..3bac5165b134 100644
+--- a/Documentation/admin-guide/media/v4l-drivers.rst
++++ b/Documentation/admin-guide/media/v4l-drivers.rst
+@@ -10,6 +10,7 @@ Video4Linux (V4L) driver-specific documentation
+ 	:maxdepth: 2
+ 
+ 	bttv
++	c3-isp
+ 	cafe_ccic
+ 	cx88
+ 	fimc
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 82de88b82550..5bbfda5662b3 100644
+index 5bbfda5662b3..e6f66a240917 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -1263,6 +1263,7 @@ M:	Keke Li <keke.li@amlogic.com>
+@@ -1262,6 +1262,8 @@ AMLOGIC ISP DRIVER
+ M:	Keke Li <keke.li@amlogic.com>
  L:	linux-media@vger.kernel.org
  S:	Maintained
++F:	Documentation/admin-guide/media/c3-isp.dot
++F:	Documentation/admin-guide/media/c3-isp.rst
  F:	Documentation/devicetree/bindings/media/amlogic,c3-isp.yaml
-+F:	Documentation/userspace-api/media/v4l/metafmt-c3-isp.rst
+ F:	Documentation/userspace-api/media/v4l/metafmt-c3-isp.rst
  F:	drivers/media/platform/amlogic/c3/isp/
- F:	include/uapi/linux/media/amlogic/
- 
 
 -- 
 2.49.0
