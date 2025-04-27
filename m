@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-31119-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31120-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 248BCA9E033
-	for <lists+linux-media@lfdr.de>; Sun, 27 Apr 2025 09:04:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD979A9E041
+	for <lists+linux-media@lfdr.de>; Sun, 27 Apr 2025 09:05:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 56E571897479
-	for <lists+linux-media@lfdr.de>; Sun, 27 Apr 2025 07:04:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E08315A236E
+	for <lists+linux-media@lfdr.de>; Sun, 27 Apr 2025 07:04:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E211A2512C8;
-	Sun, 27 Apr 2025 07:02:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7426D2512FB;
+	Sun, 27 Apr 2025 07:03:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="CH5vGTfd"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="m/PlECdd"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACA56245035;
-	Sun, 27 Apr 2025 07:02:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 426CE245035;
+	Sun, 27 Apr 2025 07:03:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745737378; cv=none; b=DvSE5J8NOR+ozE+MVODEVRZ6Bo2Ut5FGpoQVJIXdfyI9FvCGnHDTmlZUPgav3ELnng8S63C9O/NU8KA24MNkQGKJ4gnsTeJgIGX7Lr0SHZYqFZRc2kBWPhn3T1WgYtETLXCFA2+c3KNErEhynxreqd44u5mYlQZXxgZ8DY5PafI=
+	t=1745737384; cv=none; b=P+KlitfAN0ZfaVW4hcrr5U4JgpvKQvOL4G2q9X2qEMOs2Sv88ioUT8uJ+OgxJ4t1M1ggpOIEga7QRUIzwSfQ+2k/zNdipxfKCTh9SJ+oPAg9u+SQjQNP6fptR0PgO8esozPbeWrT3z/LnftchnIBnmbfwDqcP/wR8yVTFHrcLN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745737378; c=relaxed/simple;
-	bh=KmHZLxJIFotmlOoR17QrZ7eHUAi7Hl3gKwecrQ5cqH8=;
+	s=arc-20240116; t=1745737384; c=relaxed/simple;
+	bh=GgLCAxFjHwRruk8oPW1QdP29qDAmLmr11Up0fwUXhPY=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=q5jes27vTBZXODqmEzFjSJEu62BvG257ynupyzjpu8mC/Ylq0aiyizTz/W+Mc2hwwpPPQDQtz5pNBWTz0qc489f7DcWNwa9zQd55wn3TkIGAKxA1gc3F+6NBcoAq9wRhKGfITX9NxeX+qoHd+umxsNuwPx6u4aNgLzoJDoZ0MOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=CH5vGTfd; arc=none smtp.client-ip=205.220.168.131
+	 MIME-Version:Content-Type; b=Bm8M+M3lWWLv2Lwn6UfMYcJ4Vww/U2Mrpx3Eh2J71+s6EG5jLzQ8Fl+4ipjwSWVCwofI1AHEE2TIEl0bNpNxIL/0y44V7CJggiYvTlrtN5pFHAHVO2+CDa5wrXbH6sOYBSlpLCWjC/uJPj5drMrKpO9nnJ5zZQMCr9tQhwqQqDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=m/PlECdd; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53QGMJ2t009896;
-	Sun, 27 Apr 2025 07:02:44 GMT
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53QGM1ih024808;
+	Sun, 27 Apr 2025 07:02:50 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	RcY6F2eYfFPRk0mXz0Jisv83OLqToYWiU3Vjp2G/zr0=; b=CH5vGTfdXFLEykSi
-	AFJqd+5lIVqE8lwpiBdwom/rfFECBjT0vnPluvvXWcnXGbyTmekLmJPmP48PYiht
-	YW9uwP+lIzuhfrmyNWOtYazWK1SEZSrnsBP974ypFE+WuKrgurvBier0xwpH41Ua
-	50q7C1L9KesJ2R4JDNWQwiRfoyOk6vkHZQcoEBzjK8x/BQu0EWmaiJoukKR2eV5f
-	XUj+fTwIutanteQJWReO87WBERlSF3eV4fW2CBT49ydaLQHlKWOuSuCHTbq7uVZu
-	1WEMjPrCIpoWLDLI9KsCZo3FGl6o5H1xSzn4/+XuwzSlvyvcFiqd301NCu3Iv56j
-	cg2/Cw==
+	K36bmCsvMfBwcYtwVqh5TUPjXE5em0RjY8FB9UJJGIg=; b=m/PlECddy1opIp+h
+	+cBAR965r6zLB0jUHyIv0RMrO46bC4o/1K1GTEjb8hXhRL1L/M9S+ivfHJCEHLIo
+	YnLxkEq82DKixgyrYhXaqK4GGK6WW0p2EYZise71WNS3pWse0WqkeyyYsUvHhLe2
+	w9QW4UvcVV4TPA/d/htoiaw6osQs5dzFv7jzJaW1YcVieBWWhKYC1IGgUSiZhxsy
+	poG5NA58qIoqoPgFF8Fa6TKB7/7YmXYSnypz3nkgBlk+AZZc/OBfYg0aIKnlwHpt
+	0pmSZQDt6nDack2rPSMlcpOD6fg0Wmfi+zCUWXeJy+TTbvBPBHhFCt/1hWdFFIEK
+	RRYs4w==
 Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468n6jbef3-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468rsb33e2-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 27 Apr 2025 07:02:44 +0000 (GMT)
+	Sun, 27 Apr 2025 07:02:50 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53R72h6w016864
+	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53R72n3V016951
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 27 Apr 2025 07:02:43 GMT
+	Sun, 27 Apr 2025 07:02:49 GMT
 Received: from hu-vikramsa-hyd.qualcomm.com (10.80.80.8) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Sun, 27 Apr 2025 00:02:37 -0700
+ 15.2.1544.9; Sun, 27 Apr 2025 00:02:43 -0700
 From: Vikram Sharma <quic_vikramsa@quicinc.com>
 To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
         <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
@@ -66,11 +66,11 @@ To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>,
 CC: <linux-arm-kernel@lists.infradead.org>, <quic_vikramsa@quicinc.com>,
         <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Wenmeng Liu
-	<quic_wenmliu@quicinc.com>
-Subject: [PATCH RFC/WIP v2 6/9] media: qcom: camss: Add support for CSIPHY 690
-Date: Sun, 27 Apr 2025 12:31:32 +0530
-Message-ID: <20250427070135.884623-7-quic_vikramsa@quicinc.com>
+        "Suresh
+ Vankadara" <quic_svankada@quicinc.com>
+Subject: [PATCH RFC/WIP v2 7/9] media: qcom: camss: Add support for CSID for sa8775p
+Date: Sun, 27 Apr 2025 12:31:33 +0530
+Message-ID: <20250427070135.884623-8-quic_vikramsa@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250427070135.884623-1-quic_vikramsa@quicinc.com>
 References: <20250427070135.884623-1-quic_vikramsa@quicinc.com>
@@ -86,247 +86,275 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI3MDA1NSBTYWx0ZWRfXxt64r15RGWhp 7Qt4njLAeGB2FOfwwlxE0T8Mqu8z8PtSwozMVnzDT1x89APadRmz2sPqxERuJ/gDIvwSFbeYm00 mkm3OLcDXwf5rqcMWDxz0nM36LCCNFj+1iwfep09wLf24TzWAWQ/h79ZFMgiFBEAGS6frNg3Opc
- uVxw9WAib1Gh/Aose/5GY8y5/jdOCQW+nwYZ7KUZpqhDY5mPDjX17UlSLRaj//s4dD8EImdpill bUJQMLbYU93ASTbrQdDzS26PmEhAxlfcKo+g0W8syW3e0RF9it2VoRYRycuqsIm+nbNNpHt+oLJ YJPtk72t1up4BFhH5hODAcp3m8TkbcgOmTaeMeOIodUmu3jeXGB2NPRRO6QpOMIjyObM9m8Ng1v
- omrfbKSt7JdWGFbJC3M1N5L3zXQ12oW0I6qo92Kz2B2VCxKnmconc3XFn7KfA+3R9+qX3iNA
-X-Proofpoint-GUID: ME6Mos2L2khhneyOsbmNFcMYHAZHkYDv
-X-Proofpoint-ORIG-GUID: ME6Mos2L2khhneyOsbmNFcMYHAZHkYDv
-X-Authority-Analysis: v=2.4 cv=C8fpyRP+ c=1 sm=1 tr=0 ts=680dd694 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=k_o0Bgew7stMHXNjApkA:9 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI3MDA1NSBTYWx0ZWRfX8qwRoErxG4zp o+SQrlgvkOl32kdYPpdeum+eBgZeJynSCkSUkcTxzCmAKAYHZo8Ozj80hZeJZf7Guuw8NjxKs5s EIJKBBKgkM0/WGq6snyfH2F52A9Xx8cU6Ii54XFKMTBDGiXXtSNm1pckWQS6Jw1qKnW08Cksxah
+ +DUYHJkh6mzxW9zRLtg/90bakNQLJjLncLOk7t5szbgJ3rLgBXePFODH2UF6+CcED/GZ2N3gZXx b+B1chWRIcRJh+/hder2DRkvJbyVQOkDoX1X5jV2p8O/WGXlc10WYVSH2DllqGpPfsDKcwX2kKd wIDpHxO4v0Oz7WmY5FWdsk9hfGdj8tOempfWrrHJ/ql+88ZsYiasXL0dTQ330uVCMbcU362sxMy
+ M83pAX9E/65bfRPgxMfBTMvb6Ek3T6UWRLIDHnXvIoHT3Ef1nioqH2MaXueChauc7hGOkrQv
+X-Proofpoint-GUID: p3_1EbaIFFokyAhG3cf7n79hfHSj-sFV
+X-Proofpoint-ORIG-GUID: p3_1EbaIFFokyAhG3cf7n79hfHSj-sFV
+X-Authority-Analysis: v=2.4 cv=I8ZlRMgg c=1 sm=1 tr=0 ts=680dd69a cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=uDS5G4RjUlL95bN0Uw4A:9 a=TjNXssC_j7lpFel5tvFf:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-04-27_02,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
- mlxlogscore=999 priorityscore=1501 clxscore=1015 spamscore=0 adultscore=0
- malwarescore=0 lowpriorityscore=0 suspectscore=0 bulkscore=0 mlxscore=0
- classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2504070000
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ phishscore=0 suspectscore=0 priorityscore=1501 clxscore=1015
+ malwarescore=0 impostorscore=0 mlxscore=0 adultscore=0 spamscore=0
+ mlxlogscore=999 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
  definitions=main-2504270055
 
-Add support for CSIPHY found on SA8775P (Titan 690).
-This implementation is based on the titan 690 implementation.
+The CSID in sa8775p is version 690, This csid is different from
+csid 780 w.r.t few bit-fields.
 
-Co-developed-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
-Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
+Co-developed-by: Suresh Vankadara <quic_svankada@quicinc.com>
+Signed-off-by: Suresh Vankadara <quic_svankada@quicinc.com>
 Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
 ---
- .../qcom/camss/camss-csiphy-3ph-1-0.c         | 84 +++++++++++++++++++
- .../media/platform/qcom/camss/camss-csiphy.c  |  5 ++
- .../media/platform/qcom/camss/camss-csiphy.h  |  1 +
- drivers/media/platform/qcom/camss/camss.c     | 71 ++++++++++++++++
- 4 files changed, 161 insertions(+)
+ .../platform/qcom/camss/camss-csid-gen3.c     |  31 +++-
+ drivers/media/platform/qcom/camss/camss.c     | 151 ++++++++++++++++++
+ 2 files changed, 175 insertions(+), 7 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-index f732a76de93e..bb5ebaa13ec8 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-@@ -64,6 +64,85 @@ struct csiphy_lane_regs {
- 	u32 csiphy_param_type;
- };
+diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen3.c b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
+index b66105f7b901..4f9471523a08 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid-gen3.c
++++ b/drivers/media/platform/qcom/camss/camss-csid-gen3.c
+@@ -48,8 +48,12 @@
+ #define CSID_CSI2_RX_IRQ_CLEAR		0xA4
+ #define CSID_CSI2_RX_IRQ_SET		0xA8
  
-+/* GEN2 1.3.0 2PH */
-+static const struct
-+csiphy_lane_regs lane_regs_sa8775p[] = {
-+	{0x0724, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0728, 0x04, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0700, 0x80, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x070C, 0xFF, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0738, 0x1F, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x072C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0734, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0710, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x071C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0714, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x073C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0704, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0720, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0708, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
-+	{0x0024, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0000, 0x8D, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0038, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x002C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0034, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0010, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x001C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0014, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x003C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0004, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0020, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0008, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
-+	{0x0224, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0200, 0x8D, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0238, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x022C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0234, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0210, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x021C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0214, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x023C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0204, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0220, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0208, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
-+	{0x0424, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0400, 0x8D, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0438, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x042C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0434, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0410, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x041C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0414, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x043C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0404, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0420, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0408, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
-+	{0x0624, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0600, 0x8D, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0638, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x062C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0634, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0610, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x061C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0614, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x063C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0604, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0620, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0608, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
-+	{0x005C, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0060, 0xFD, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0064, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x025C, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0260, 0xFD, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0264, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x045C, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0460, 0xFD, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0464, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x065C, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0660, 0xFD, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	{0x0664, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
-+};
++#define IS_CSID_690(csid)	(csid->camss->res->version ==\
++					CAMSS_8775P ? true : false)
+ #define CSID_BUF_DONE_IRQ_STATUS	0x8C
+-#define		BUF_DONE_IRQ_STATUS_RDI_OFFSET	(csid_is_lite(csid) ? 1 : 14)
++#define BUF_DONE_IRQ_STATUS_RDI_OFFSET  (csid_is_lite(csid) ?\
++						1 : (IS_CSID_690(csid) ?\
++						13 : 14))
+ #define CSID_BUF_DONE_IRQ_MASK		0x90
+ #define CSID_BUF_DONE_IRQ_CLEAR		0x94
+ #define CSID_BUF_DONE_IRQ_SET		0x98
+@@ -62,6 +66,7 @@
+ 
+ #define CSID_CSI2_RX_CFG0		0x200
+ #define		CSI2_RX_CFG0_NUM_ACTIVE_LANES	0
++#define		CSI2_RX_CFG0_VC_MODE		3
+ #define		CSI2_RX_CFG0_DL0_INPUT_SEL	4
+ #define		CSI2_RX_CFG0_PHY_NUM_SEL	20
+ 
+@@ -69,7 +74,9 @@
+ #define		CSI2_RX_CFG1_ECC_CORRECTION_EN	BIT(0)
+ #define		CSI2_RX_CFG1_VC_MODE		BIT(2)
+ 
+-#define CSID_RDI_CFG0(rdi)		(0x500 + 0x100 * (rdi))
++#define CSID_RDI_CFG0(rdi)	(csid_is_lite(csid) && IS_CSID_690(csid) ?\
++					(0x300 + 0x100 * (rdi)) :\
++					(0x500 + 0x100 * (rdi)))
+ #define		RDI_CFG0_TIMESTAMP_EN		BIT(6)
+ #define		RDI_CFG0_TIMESTAMP_STB_SEL	BIT(8)
+ #define		RDI_CFG0_DECODE_FORMAT		12
+@@ -78,10 +85,14 @@
+ #define		RDI_CFG0_DT_ID			27
+ #define		RDI_CFG0_EN			BIT(31)
+ 
+-#define CSID_RDI_CTRL(rdi)		(0x504 + 0x100 * (rdi))
++#define CSID_RDI_CTRL(rdi)	(csid_is_lite(csid) && IS_CSID_690(csid) ?\
++					(0x304 + 0x100 * (rdi)) :\
++					(0x504 + 0x100 * (rdi)))
+ #define		RDI_CTRL_START_CMD		BIT(0)
+ 
+-#define CSID_RDI_CFG1(rdi)		(0x510 + 0x100 * (rdi))
++#define CSID_RDI_CFG1(rdi)	(csid_is_lite(csid) && IS_CSID_690(csid) ?\
++					(0x310 + 0x100 * (rdi)) :\
++					(0x510 + 0x100 * (rdi)))
+ #define		RDI_CFG1_DROP_H_EN		BIT(5)
+ #define		RDI_CFG1_DROP_V_EN		BIT(6)
+ #define		RDI_CFG1_CROP_H_EN		BIT(7)
+@@ -89,9 +100,12 @@
+ #define		RDI_CFG1_PIX_STORE		BIT(10)
+ #define		RDI_CFG1_PACKING_FORMAT_MIPI	BIT(15)
+ 
+-#define CSID_RDI_IRQ_SUBSAMPLE_PATTERN(rdi)	(0x548 + 0x100 * (rdi))
+-#define CSID_RDI_IRQ_SUBSAMPLE_PERIOD(rdi)	(0x54C + 0x100 * (rdi))
+-
++#define CSID_RDI_IRQ_SUBSAMPLE_PATTERN(rdi)	(csid_is_lite(csid) && IS_CSID_690(csid) ?\
++							(0x348 + 0x100 * (rdi)) :\
++							(0x548 + 0x100 * (rdi)))
++#define CSID_RDI_IRQ_SUBSAMPLE_PERIOD(rdi)	(csid_is_lite(csid) && IS_CSID_690(csid) ?\
++							(0x34C + 0x100 * (rdi)) :\
++							(0x54C + 0x100 * (rdi)))
+ #define CSI2_RX_CFG0_PHY_SEL_BASE_IDX	1
+ 
+ static void __csid_configure_rx(struct csid_device *csid,
+@@ -103,6 +117,9 @@ static void __csid_configure_rx(struct csid_device *csid,
+ 	val |= phy->lane_assign << CSI2_RX_CFG0_DL0_INPUT_SEL;
+ 	val |= (phy->csiphy_id + CSI2_RX_CFG0_PHY_SEL_BASE_IDX) << CSI2_RX_CFG0_PHY_NUM_SEL;
+ 
++	if (IS_CSID_690(csid) && (vc > 3))
++		val |= 1 << CSI2_RX_CFG0_VC_MODE;
 +
- /* GEN2 1.0 2PH */
- static const struct
- csiphy_lane_regs lane_regs_sdm845[] = {
-@@ -749,6 +828,7 @@ static bool csiphy_is_gen2(u32 version)
- 	case CAMSS_8280XP:
- 	case CAMSS_845:
- 	case CAMSS_8550:
-+	case CAMSS_8775P:
- 	case CAMSS_X1E80100:
- 		ret = true;
- 		break;
-@@ -848,6 +928,10 @@ static int csiphy_init(struct csiphy_device *csiphy)
- 		regs->lane_array_size = ARRAY_SIZE(lane_regs_sm8550);
- 		regs->offset = 0x1000;
- 		break;
-+	case CAMSS_8775P:
-+		regs->lane_regs = &lane_regs_sa8775p[0];
-+		regs->lane_array_size = ARRAY_SIZE(lane_regs_sa8775p);
-+		break;
- 	default:
- 		WARN(1, "unknown csiphy version\n");
- 		return -ENODEV;
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
-index c622efcc92ff..f6a2ac385953 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-@@ -103,6 +103,11 @@ const struct csiphy_formats csiphy_formats_8x96 = {
- 	.formats = formats_8x96
- };
+ 	writel(val, csid->base + CSID_CSI2_RX_CFG0);
  
-+const struct csiphy_formats csiphy_formats_sa8775p = {
-+	.nformats = ARRAY_SIZE(formats_sdm845),
-+	.formats = formats_sdm845
-+};
-+
- const struct csiphy_formats csiphy_formats_sc7280 = {
- 	.nformats = ARRAY_SIZE(formats_sdm845),
- 	.formats = formats_sdm845
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.h b/drivers/media/platform/qcom/camss/camss-csiphy.h
-index ab91273303b9..842e72b74ce4 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy.h
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy.h
-@@ -126,6 +126,7 @@ void msm_csiphy_unregister_entity(struct csiphy_device *csiphy);
- 
- extern const struct csiphy_formats csiphy_formats_8x16;
- extern const struct csiphy_formats csiphy_formats_8x96;
-+extern const struct csiphy_formats csiphy_formats_sa8775p;
- extern const struct csiphy_formats csiphy_formats_sc7280;
- extern const struct csiphy_formats csiphy_formats_sdm845;
- 
+ 	val = CSI2_RX_CFG1_ECC_CORRECTION_EN;
 diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 9e0e1bf855bd..60279f3a47bf 100644
+index 60279f3a47bf..ef7b06c9f258 100644
 --- a/drivers/media/platform/qcom/camss/camss.c
 +++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -2483,6 +2483,77 @@ static const struct resources_icc icc_res_sm8550[] = {
+@@ -2269,6 +2269,10 @@ static const struct camss_subdev_resources csiphy_res_8550[] = {
+ 	}
+ };
+ 
++static const struct resources_wrapper csid_wrapper_res_sa8775p = {
++	.reg = "csid_wrapper",
++};
++
+ static const struct resources_wrapper csid_wrapper_res_sm8550 = {
+ 	.reg = "csid_wrapper",
+ };
+@@ -2554,6 +2558,153 @@ static const struct camss_subdev_resources csiphy_res_8775p[] = {
  	},
  };
  
-+static const struct camss_subdev_resources csiphy_res_8775p[] = {
-+	/* CSIPHY0 */
++static const struct camss_subdev_resources csid_res_8775p[] = {
++	/* CSID0 */
 +	{
-+		.regulators = { "vdda-phy", "vdda-pll" },
++		.regulators = {},
 +
-+		.clock = { "csiphy_rx", "csiphy0", "csiphy0_timer"},
++		.clock = { "csid", "csiphy_rx"},
 +		.clock_rate = {
-+			{ 400000000 },
-+			{ 0 },
-+			{ 400000000 },
++			{ 400000000, 400000000},
++			{ 400000000, 400000000}
 +		},
-+		.reg = { "csiphy0" },
-+		.interrupt = { "csiphy0" },
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0,
-+			.formats = &csiphy_formats_sa8775p
++
++		.reg = { "csid0", "csid_top" },
++		.interrupt = { "csid0" },
++		.csid = {
++			.is_lite = false,
++			.hw_ops = &csid_ops_gen3,
++			.parent_dev_ops = &vfe_parent_dev_ops,
++			.formats = &csid_formats_gen2
 +		}
 +	},
-+	/* CSIPHY1 */
++	/* CSID1 */
 +	{
-+		.regulators = { "vdda-phy", "vdda-pll" },
++		.regulators = {},
 +
-+		.clock = { "csiphy_rx", "csiphy1", "csiphy1_timer"},
++		.clock = { "csid", "csiphy_rx"},
 +		.clock_rate = {
-+			{ 400000000 },
-+			{ 0 },
-+			{ 400000000 },
++			{ 400000000, 400000000},
++			{ 400000000, 400000000}
 +		},
-+		.reg = { "csiphy1" },
-+		.interrupt = { "csiphy1" },
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0,
-+			.formats = &csiphy_formats_sa8775p
++
++		.reg = { "csid1", "csid_top" },
++		.interrupt = { "csid1" },
++		.csid = {
++			.is_lite = false,
++			.hw_ops = &csid_ops_gen3,
++			.parent_dev_ops = &vfe_parent_dev_ops,
++			.formats = &csid_formats_gen2
 +		}
 +	},
-+	/* CSIPHY2 */
-+	{
-+		.regulators = { "vdda-phy", "vdda-pll" },
 +
-+		.clock = { "csiphy_rx", "csiphy2", "csiphy2_timer"},
++	/* CSID2 (lite) */
++	{
++		.regulators = {},
++
++		.clock = { "cpas_ife_lite", "vfe_lite_ahb",
++			   "vfe_lite_csid", "vfe_lite_cphy_rx",
++			   "vfe_lite"},
 +		.clock_rate = {
-+			{ 400000000 },
-+			{ 0 },
-+			{ 400000000 },
++			{ 0, 0, 400000000, 400000000, 0},
++			{ 0, 0, 400000000, 480000000, 0}
 +		},
-+		.reg = { "csiphy2" },
-+		.interrupt = { "csiphy2" },
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0,
-+			.formats = &csiphy_formats_sa8775p
++
++		.reg = { "csid_lite0" },
++		.interrupt = { "csid_lite0" },
++		.csid = {
++			.is_lite = true,
++			.hw_ops = &csid_ops_gen3,
++			.parent_dev_ops = &vfe_parent_dev_ops,
++			.formats = &csid_formats_gen2
 +		}
 +	},
-+	/* CSIPHY3 */
++	/* CSID3 (lite) */
 +	{
-+		.regulators = { "vdda-phy", "vdda-pll" },
++		.regulators = {},
 +
-+		.clock = { "csiphy_rx", "csiphy3", "csiphy3_timer"},
++		.clock = { "cpas_ife_lite", "vfe_lite_ahb",
++			   "vfe_lite_csid", "vfe_lite_cphy_rx",
++			   "vfe_lite"},
 +		.clock_rate = {
-+			{ 400000000 },
-+			{ 0 },
-+			{ 400000000 },
++			{ 0, 0, 400000000, 400000000, 0},
++			{ 0, 0, 400000000, 480000000, 0}
 +		},
-+		.reg = { "csiphy3" },
-+		.interrupt = { "csiphy3" },
-+		.csiphy = {
-+			.hw_ops = &csiphy_ops_3ph_1_0,
-+			.formats = &csiphy_formats_sa8775p
++
++		.reg = { "csid_lite1" },
++		.interrupt = { "csid_lite1" },
++		.csid = {
++			.is_lite = true,
++			.hw_ops = &csid_ops_gen3,
++			.parent_dev_ops = &vfe_parent_dev_ops,
++			.formats = &csid_formats_gen2
++		}
++	},
++	/* CSID4 (lite) */
++	{
++		.regulators = {},
++
++		.clock = { "cpas_ife_lite", "vfe_lite_ahb",
++			   "vfe_lite_csid", "vfe_lite_cphy_rx",
++			   "vfe_lite"},
++		.clock_rate = {
++			{ 0, 0, 400000000, 400000000, 0},
++			{ 0, 0, 400000000, 480000000, 0}
++		},
++
++		.reg = { "csid_lite2" },
++		.interrupt = { "csid_lite2" },
++		.csid = {
++			.is_lite = true,
++			.hw_ops = &csid_ops_gen3,
++			.parent_dev_ops = &vfe_parent_dev_ops,
++			.formats = &csid_formats_gen2
++		}
++	},
++	/* CSID5 (lite) */
++	{
++		.regulators = {},
++
++		.clock = { "cpas_ife_lite", "vfe_lite_ahb",
++			   "vfe_lite_csid", "vfe_lite_cphy_rx",
++			   "vfe_lite"},
++		.clock_rate = {
++			{ 0, 0, 400000000, 400000000, 0},
++			{ 0, 0, 400000000, 480000000, 0}
++		},
++
++		.reg = { "csid_lite3" },
++		.interrupt = { "csid_lite3" },
++		.csid = {
++			.is_lite = true,
++			.hw_ops = &csid_ops_gen3,
++			.parent_dev_ops = &vfe_parent_dev_ops,
++			.formats = &csid_formats_gen2
++		}
++	},
++	/* CSID6 (lite) */
++	{
++		.regulators = {},
++
++		.clock = { "cpas_ife_lite", "vfe_lite_ahb",
++			   "vfe_lite_csid", "vfe_lite_cphy_rx",
++			   "vfe_lite"},
++		.clock_rate = {
++			{ 0, 0, 400000000, 400000000, 0},
++			{ 0, 0, 400000000, 480000000, 0}
++		},
++
++		.reg = { "csid_lite4" },
++		.interrupt = { "csid_lite4" },
++		.csid = {
++			.is_lite = true,
++			.hw_ops = &csid_ops_gen3,
++			.parent_dev_ops = &vfe_parent_dev_ops,
++			.formats = &csid_formats_gen2
 +		}
 +	},
 +};
