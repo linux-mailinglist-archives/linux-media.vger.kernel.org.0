@@ -1,65 +1,64 @@
-Return-Path: <linux-media+bounces-31172-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31173-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4330CA9ECF2
-	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 11:45:06 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 15089A9ED09
+	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 11:46:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3F1CD7AB0B0
-	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 09:42:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 864221887D0F
+	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 09:44:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CCE12750F7;
-	Mon, 28 Apr 2025 09:31:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DDC328934B;
+	Mon, 28 Apr 2025 09:31:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="jHG0fe/x"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="hEbHGQkD"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CE262750E1;
-	Mon, 28 Apr 2025 09:31:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 238782750FF;
+	Mon, 28 Apr 2025 09:31:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745832696; cv=none; b=W9h3G/gxa4/60K6xieVZ37FwEpFCZ7JQADRBih37rwPbl5p73P4HEalqxqCVHxB/+Unjqyy+G3/r3ML2Tfbz6qrZ/G2SunarGnK9nKs8QV31TbpnDYL7C7J7Bg346xjf718Y7mg9CBj96F7R9WsLib09rfEDBjH4TsFfYrvrFlc=
+	t=1745832702; cv=none; b=u5K+NcaCTuWzu6NN/xXEnGilvwV02ta9A83Xe7vyn8Do/i73OGibIFnNrhHbGS5zdFc4em/QUaXxEJbxdWgTfFQ3L8ZlfrSt/HNilZ0IjJkl5MSEF6m+umJ3p+a2wVyCt6xoBb51mH9ImxrZtu5atkfI0t3wrVB03fw41zJpFtU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745832696; c=relaxed/simple;
-	bh=dLOSGJBQw2BrNwxYqKUFYUSKRlBmZL2FMfP9Bb4MfU4=;
+	s=arc-20240116; t=1745832702; c=relaxed/simple;
+	bh=PAuL2XRMo11iaYDiha0HsT+eWgTq+FuqS6q65Vjk37s=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=k4g4JzTm8z9AHHswrH1E8fJCRRHmbOLiCBH2ZlwD1wSvSLfgdIYLgLawv4yTzRAITZEChPTxzZ67XeEHN/iaQBH5+4lRzViaKMl0HEX6cmMsykIdAAh4kJ3QFeTp5CzKr2sK10ki/a1+XsPRdctGxJ9q1FFJ253+wIuuVqe2RDU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=jHG0fe/x; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:To:CC; b=JZzajAwL7NwVi14en9hTAji7FzTCdeYskx+0kDar2wUv3XguKDYsIu3msbdkUmrlIXGLbQpaX7xNjNSow5Z5+zVSRevAdy27qfVQL4gkBi7sCGoAwGCywqTPAhMnWQYCcPEb5SYjhBqQCScjiLTaBJUbpw4IZLO9e5B4L2EaXRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=hEbHGQkD; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53S85DU8012252;
-	Mon, 28 Apr 2025 09:31:31 GMT
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53S7d3gJ004532;
+	Mon, 28 Apr 2025 09:31:37 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	FoeC6c3OJf0lz1d5vTbvVqAE/Dj1ykt9wnLc989muwI=; b=jHG0fe/x4WHhP35u
-	haffoA//oeFtIEZcglYMYhkjW0CwbqKq10GNDGoRM1spK0ZoU4Z/K/gQAhYFM0ju
-	7IJQIO2IOVvhwAy4hx04jJFIf06m+IaKkWr1dX/cK/wrYIxRc49ApOYibrHR6Vwm
-	223WXijn4NX1nB6J3UmDSem6qXlHnW8K5AWDH1+6a7GlgJVAtMS9afWW6UtSwsYp
-	stlDyROpLJ7ELx/se0UNXQeTTYfy9+dQjw/B2zSwWGJMF2t6hDhMg1ccncXrhubE
-	+go4ABEBqLZvu2CyAu+gkg8rzRFpPUbcMxU4LR6KFjDw1myNTxEBlISkbyo6nqlf
-	nuTGHA==
+	RGfsWFAKAWegAeX5DWhIcVrk/UQlQ97msiE4GmGdeXo=; b=hEbHGQkDZpUQym94
+	6Nbw/48B9IsV3L3h1Cg0jyGUK8PiC4TCYZ5KGoejIJRFYzifeRAavo8OsmZl533M
+	5Yj/eChDR1Uzxf6oanOWMLhqcBOPbgaNaaBbRShoVSdLRbD02FWHANING/UMoo7V
+	WlEVcZVw/Rlh1QbGqKggk/iZHc4VXDWtVN2dJP9JOBnSGqP3rITO+ZzJv+0Ammbb
+	FtUERXm9GjSc9M/YTCPURd045f+E7ot9yD7JiCXmDBZyKkhoLAk05IwWPNcDcSQo
+	r9/CvyDqaopxlYDzhiK29PFUJ4lfj97Hijp+QO1Yc3bZqG6Q02ohrlvSLf4m7dJc
+	wm3aoQ==
 Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468r8hqg95-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468rsb7fu9-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 28 Apr 2025 09:31:30 +0000 (GMT)
+	Mon, 28 Apr 2025 09:31:36 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53S9VUQi031028
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53S9Va3C031120
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 28 Apr 2025 09:31:30 GMT
+	Mon, 28 Apr 2025 09:31:36 GMT
 Received: from hu-dikshita-hyd.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Mon, 28 Apr 2025 02:31:23 -0700
+ 15.2.1544.9; Mon, 28 Apr 2025 02:31:30 -0700
 From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Date: Mon, 28 Apr 2025 14:59:06 +0530
-Subject: [PATCH v2 18/23] media: iris: Fix buffer preparation failure
- during resolution change
+Date: Mon, 28 Apr 2025 14:59:07 +0530
+Subject: [PATCH v2 19/23] media: iris: Add HEVC and VP9 formats for decoder
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,7 +67,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250428-qcom-iris-hevc-vp9-v2-18-3a6013ecb8a5@quicinc.com>
+Message-ID: <20250428-qcom-iris-hevc-vp9-v2-19-3a6013ecb8a5@quicinc.com>
 References: <20250428-qcom-iris-hevc-vp9-v2-0-3a6013ecb8a5@quicinc.com>
 In-Reply-To: <20250428-qcom-iris-hevc-vp9-v2-0-3a6013ecb8a5@quicinc.com>
 To: Vikash Garodia <quic_vgarodia@quicinc.com>,
@@ -95,76 +94,319 @@ CC: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
         Dikshita Agarwal <quic_dikshita@quicinc.com>,
         <20250417-topic-sm8x50-iris-v10-v7-0-f020cb1d0e98@linaro.org>,
-        <20250424-qcs8300_iris-v5-0-f118f505c300@quicinc.com>,
-        <stable@vger.kernel.org>
+        <20250424-qcs8300_iris-v5-0-f118f505c300@quicinc.com>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1745832570; l=1740;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1745832570; l=10296;
  i=quic_dikshita@quicinc.com; s=20240917; h=from:subject:message-id;
- bh=dLOSGJBQw2BrNwxYqKUFYUSKRlBmZL2FMfP9Bb4MfU4=;
- b=UDLQyCYsWI1Ua9ViHcj4mRMVkzCl0baXBEJ1c4y0S62f5FFisU42hEOGKct/JE/ZThH+9EZ4W
- kRLaa2cqPSFBz6ya6ciJu7r4EVeY9Inzkp4pK8ppeb2ErAyV0XfN4aR
+ bh=PAuL2XRMo11iaYDiha0HsT+eWgTq+FuqS6q65Vjk37s=;
+ b=+Ft+Xnt+ye0rmKE4onmM/wZfW/9+hg4JkOR6F0G3wjDDX8TFIGKYp6LGwLrgb/kaflV5AUYiy
+ Q+6Sj/+QP/dADtOsin/qxGpXfHXte6kO51daVcvdXup51AnR4d8ollB
 X-Developer-Key: i=quic_dikshita@quicinc.com; a=ed25519;
  pk=EEvKY6Ar1OI5SWf44FJ1Ebo1KuQEVbbf5UNPO+UHVhM=
 X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: CG1GCL29Qf0X7adTxTl4pA3O9gJnuJJf
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI4MDA3OCBTYWx0ZWRfX3iDUw6nrpGl6 Uourb4PcJRiwfEjPL80vhO5siSUfnTXDh843AlWOd3zueLnFu3aRMcfNAwROArJT0CI+6bjRp7V BTIjjhm7QKfw/VtElmjGlvtcWDnicQSW2kc7YSMsMT4ZylRjr29kbsZ7OtvPvQeNiVQpkh42yyB
- YjSG1zgsozONI8CYJTMkJPIm7eWurNcNTt1dUx7QMWI5AeJgYqtfJnco8LHXNqfAKxnPorJNXZZ 1wVYNKk1YMkG1ullMekOB/O80LmTeOt2PT0gDPw3Va1etNoePrv9riy6TiASXKUcjR7oV4WeFkJ 49sPSWofDpa0fgrb80F+eORT+cJVdc2mh2USgeJzzLTuetTmMlZM0y4zFjqu6rFARwki/z5VDhl
- E0dvgfmMZLNQdjJ3gjpZoQ1eTYUCY1mJupmEzkF9MPt5AAjWYZKgahGZ2EkHscMb8OLHbrWt
-X-Authority-Analysis: v=2.4 cv=cfzSrmDM c=1 sm=1 tr=0 ts=680f4af2 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=cZZdrgoR5-lzdedOY2QA:9
- a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: CG1GCL29Qf0X7adTxTl4pA3O9gJnuJJf
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI4MDA3OCBTYWx0ZWRfX5VPjOfjQ7tZq PDaea6NvPxhnBc8vv1PG7SlNaL5WInSXzLAZM6CLN5XBSFFO/SCMqZSvmpnWDKyHhtYsnp//qkw Fw2APAFaCpVKLvE/Gfc++jtCdl3YUaklactTSJnzfVM5UirDCX1ROBob2FDmjp936Yj7C2Yp9kK
+ Ny2Il45LZ0sa+I+qp5upVTUC6bRY1Km1cRjvD4dcyaKp4ynzJrmmGeqDa0xcFHyI/JKSBZlA9Pa nO874wf7xa+/k8ZsF0v9pyfWtfBlmdVWyKg/MmVvXLtK25xOVgn77TWEqDdmXgiaUbhvgtzZMRm +5shftCzGnBdRbhzwzqVFv307eUkcnGNuyzbYx0MRKh4jDCNzLmA35Dcf/jUzdH1mJfe8ytMsvW
+ j/hVWSq1if7IKrCxJdcJsMo1laeUkfayj/mfUdb6VeixGJbuYl2jROiGtApJK6PqCUgzFr+n
+X-Proofpoint-GUID: rIesi3tjCYBy64_DYlV-wD9IRMCM_C9F
+X-Proofpoint-ORIG-GUID: rIesi3tjCYBy64_DYlV-wD9IRMCM_C9F
+X-Authority-Analysis: v=2.4 cv=I8ZlRMgg c=1 sm=1 tr=0 ts=680f4af8 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8 a=q7txp5L90lOmEJWSHg8A:9
+ a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-04-28_03,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
- lowpriorityscore=0 bulkscore=0 suspectscore=0 malwarescore=0
- priorityscore=1501 spamscore=0 mlxscore=0 mlxlogscore=999 adultscore=0
- clxscore=1015 classifier=spam authscore=0 authtc=n/a authcc=
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ phishscore=0 suspectscore=0 priorityscore=1501 clxscore=1015
+ malwarescore=0 impostorscore=0 mlxscore=0 adultscore=0 spamscore=0
+ mlxlogscore=999 bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
  definitions=main-2504280078
 
-When the resolution changes, the driver internally updates the width and
-height, but the client continue to queue buffers with the older
-resolution until the last flag is received. This results in a mismatch
-when the buffers are prepared, causing failure due to outdated size.
+Extend the decoder driver's supported formats to include HEVC (H.265)
+and VP9. This change updates the format enumeration (VIDIOC_ENUM_FMT)
+and allows setting these formats via VIDIOC_S_FMT.
 
-Introduce a check to prevent size validation during buffer preparation
-if a resolution reconfiguration is in progress, to handle this.
-
-Cc: stable@vger.kernel.org
-Fixes: 17f2a485ca67 ("media: iris: implement vb2 ops for buf_queue and firmware response")
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 ---
- drivers/media/platform/qcom/iris/iris_vb2.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ .../platform/qcom/iris/iris_hfi_gen1_command.c     | 15 ++++-
+ .../platform/qcom/iris/iris_hfi_gen1_defines.h     |  2 +
+ .../platform/qcom/iris/iris_hfi_gen2_command.c     | 14 ++++-
+ .../platform/qcom/iris/iris_hfi_gen2_defines.h     |  3 +
+ drivers/media/platform/qcom/iris/iris_instance.h   |  2 +
+ drivers/media/platform/qcom/iris/iris_vdec.c       | 69 ++++++++++++++++++++--
+ drivers/media/platform/qcom/iris/iris_vdec.h       | 11 ++++
+ drivers/media/platform/qcom/iris/iris_vidc.c       |  3 -
+ 8 files changed, 108 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/iris/iris_vb2.c b/drivers/media/platform/qcom/iris/iris_vb2.c
-index 23473cbd0b2e..7671df0e1c69 100644
---- a/drivers/media/platform/qcom/iris/iris_vb2.c
-+++ b/drivers/media/platform/qcom/iris/iris_vb2.c
-@@ -259,13 +259,14 @@ int iris_vb2_buf_prepare(struct vb2_buffer *vb)
- 			return -EINVAL;
- 	}
+diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+index ef3ca676d2ea..2473165a1f10 100644
+--- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
++++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+@@ -88,16 +88,29 @@ static int iris_hfi_gen1_sys_pc_prep(struct iris_core *core)
+ static int iris_hfi_gen1_session_open(struct iris_inst *inst)
+ {
+ 	struct hfi_session_open_pkt packet;
++	u32 codec = 0;
+ 	int ret;
  
--	if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
--	    vb2_plane_size(vb, 0) < iris_get_buffer_size(inst, BUF_OUTPUT))
--		return -EINVAL;
--	if (vb->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE &&
--	    vb2_plane_size(vb, 0) < iris_get_buffer_size(inst, BUF_INPUT))
+ 	if (inst->state != IRIS_INST_DEINIT)
+ 		return -EALREADY;
+ 
++	switch (inst->codec) {
++	case V4L2_PIX_FMT_H264:
++		codec = HFI_VIDEO_CODEC_H264;
++		break;
++	case V4L2_PIX_FMT_HEVC:
++		codec = HFI_VIDEO_CODEC_HEVC;
++		break;
++	case V4L2_PIX_FMT_VP9:
++		codec = HFI_VIDEO_CODEC_VP9;
++		break;
++	}
++
+ 	packet.shdr.hdr.size = sizeof(struct hfi_session_open_pkt);
+ 	packet.shdr.hdr.pkt_type = HFI_CMD_SYS_SESSION_INIT;
+ 	packet.shdr.session_id = inst->session_id;
+ 	packet.session_domain = HFI_SESSION_TYPE_DEC;
+-	packet.session_codec = HFI_VIDEO_CODEC_H264;
++	packet.session_codec = codec;
+ 
+ 	reinit_completion(&inst->completion);
+ 
+diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h b/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
+index adffcead58ea..d4d119ca98b0 100644
+--- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
++++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
+@@ -13,6 +13,8 @@
+ #define HFI_SESSION_TYPE_DEC				2
+ 
+ #define HFI_VIDEO_CODEC_H264				0x00000002
++#define HFI_VIDEO_CODEC_HEVC				0x00002000
++#define HFI_VIDEO_CODEC_VP9				0x00004000
+ 
+ #define HFI_ERR_NONE					0x0
+ 
+diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+index 802fa62c26eb..f23be2340658 100644
+--- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
++++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
+@@ -416,7 +416,19 @@ static int iris_hfi_gen2_session_set_config_params(struct iris_inst *inst, u32 p
+ static int iris_hfi_gen2_session_set_codec(struct iris_inst *inst)
+ {
+ 	struct iris_inst_hfi_gen2 *inst_hfi_gen2 = to_iris_inst_hfi_gen2(inst);
+-	u32 codec = HFI_CODEC_DECODE_AVC;
++	u32 codec = 0;
++
++	switch (inst->codec) {
++	case V4L2_PIX_FMT_H264:
++		codec = HFI_CODEC_DECODE_AVC;
++		break;
++	case V4L2_PIX_FMT_HEVC:
++		codec = HFI_CODEC_DECODE_HEVC;
++		break;
++	case V4L2_PIX_FMT_VP9:
++		codec = HFI_CODEC_DECODE_VP9;
++		break;
++	}
+ 
+ 	iris_hfi_gen2_packet_session_property(inst,
+ 					      HFI_PROP_CODEC,
+diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h b/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
+index 666061a612c3..283d2f27e4c8 100644
+--- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
++++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_defines.h
+@@ -104,6 +104,9 @@ enum hfi_color_format {
+ enum hfi_codec_type {
+ 	HFI_CODEC_DECODE_AVC			= 1,
+ 	HFI_CODEC_ENCODE_AVC			= 2,
++	HFI_CODEC_DECODE_HEVC			= 3,
++	HFI_CODEC_ENCODE_HEVC			= 4,
++	HFI_CODEC_DECODE_VP9			= 5,
+ };
+ 
+ enum hfi_picture_type {
+diff --git a/drivers/media/platform/qcom/iris/iris_instance.h b/drivers/media/platform/qcom/iris/iris_instance.h
+index 9ed197799ee7..3c211b027e77 100644
+--- a/drivers/media/platform/qcom/iris/iris_instance.h
++++ b/drivers/media/platform/qcom/iris/iris_instance.h
+@@ -43,6 +43,7 @@
+  * @sequence_out: a sequence counter for output queue
+  * @tss: timestamp metadata
+  * @metadata_idx: index for metadata buffer
++ * @codec: codec type
+  * @in_reconfig: a flag raised by decoder when the stream resolution changes
+  * @last_buffer_dequeued: a flag to indicate that last buffer is sent by driver
+  */
+@@ -76,6 +77,7 @@ struct iris_inst {
+ 	u32				sequence_out;
+ 	struct iris_ts_metadata		tss[VIDEO_MAX_FRAME];
+ 	u32				metadata_idx;
++	u32				codec;
+ 	bool				in_reconfig;
+ 	bool				last_buffer_dequeued;
+ };
+diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media/platform/qcom/iris/iris_vdec.c
+index 30a9969bc368..b6e3f95fb3d7 100644
+--- a/drivers/media/platform/qcom/iris/iris_vdec.c
++++ b/drivers/media/platform/qcom/iris/iris_vdec.c
+@@ -32,6 +32,7 @@ int iris_vdec_inst_init(struct iris_inst *inst)
+ 	f->fmt.pix_mp.width = DEFAULT_WIDTH;
+ 	f->fmt.pix_mp.height = DEFAULT_HEIGHT;
+ 	f->fmt.pix_mp.pixelformat = V4L2_PIX_FMT_H264;
++	inst->codec = f->fmt.pix_mp.pixelformat;
+ 	f->fmt.pix_mp.num_planes = 1;
+ 	f->fmt.pix_mp.plane_fmt[0].bytesperline = 0;
+ 	f->fmt.pix_mp.plane_fmt[0].sizeimage = iris_get_buffer_size(inst, BUF_INPUT);
+@@ -67,14 +68,67 @@ void iris_vdec_inst_deinit(struct iris_inst *inst)
+ 	kfree(inst->fmt_src);
+ }
+ 
++static const struct iris_fmt iris_vdec_formats[] = {
++	[IRIS_FMT_H264] = {
++		.pixfmt = V4L2_PIX_FMT_H264,
++		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
++	},
++	[IRIS_FMT_HEVC] = {
++		.pixfmt = V4L2_PIX_FMT_HEVC,
++		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
++	},
++	[IRIS_FMT_VP9] = {
++		.pixfmt = V4L2_PIX_FMT_VP9,
++		.type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
++	},
++};
++
++static const struct iris_fmt *
++find_format(struct iris_inst *inst, u32 pixfmt, u32 type)
++{
++	unsigned int size = ARRAY_SIZE(iris_vdec_formats);
++	const struct iris_fmt *fmt = iris_vdec_formats;
++	unsigned int i;
++
++	for (i = 0; i < size; i++) {
++		if (fmt[i].pixfmt == pixfmt)
++			break;
++	}
++
++	if (i == size || fmt[i].type != type)
++		return NULL;
++
++	return &fmt[i];
++}
++
++static const struct iris_fmt *
++find_format_by_index(struct iris_inst *inst, u32 index, u32 type)
++{
++	const struct iris_fmt *fmt = iris_vdec_formats;
++	unsigned int size = ARRAY_SIZE(iris_vdec_formats);
++
++	if (index >= size || fmt[index].type != type)
++		return NULL;
++
++	return &fmt[index];
++}
++
+ int iris_vdec_enum_fmt(struct iris_inst *inst, struct v4l2_fmtdesc *f)
+ {
++	const struct iris_fmt *fmt;
++
+ 	switch (f->type) {
+ 	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+-		f->pixelformat = V4L2_PIX_FMT_H264;
++		fmt = find_format_by_index(inst, f->index, f->type);
++		if (!fmt)
++			return -EINVAL;
++
++		f->pixelformat = fmt->pixfmt;
+ 		f->flags = V4L2_FMT_FLAG_COMPRESSED | V4L2_FMT_FLAG_DYN_RESOLUTION;
+ 		break;
+ 	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
++		if (f->index)
++			return -EINVAL;
+ 		f->pixelformat = V4L2_PIX_FMT_NV12;
+ 		break;
+ 	default:
+@@ -88,13 +142,15 @@ int iris_vdec_try_fmt(struct iris_inst *inst, struct v4l2_format *f)
+ {
+ 	struct v4l2_pix_format_mplane *pixmp = &f->fmt.pix_mp;
+ 	struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
++	const struct iris_fmt *fmt;
+ 	struct v4l2_format *f_inst;
+ 	struct vb2_queue *src_q;
+ 
+ 	memset(pixmp->reserved, 0, sizeof(pixmp->reserved));
++	fmt = find_format(inst, pixmp->pixelformat, f->type);
+ 	switch (f->type) {
+ 	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+-		if (f->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_H264) {
++		if (!fmt) {
+ 			f_inst = inst->fmt_src;
+ 			f->fmt.pix_mp.width = f_inst->fmt.pix_mp.width;
+ 			f->fmt.pix_mp.height = f_inst->fmt.pix_mp.height;
+@@ -102,7 +158,7 @@ int iris_vdec_try_fmt(struct iris_inst *inst, struct v4l2_format *f)
+ 		}
+ 		break;
+ 	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+-		if (f->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_NV12) {
++		if (!fmt) {
+ 			f_inst = inst->fmt_dst;
+ 			f->fmt.pix_mp.pixelformat = f_inst->fmt.pix_mp.pixelformat;
+ 			f->fmt.pix_mp.width = f_inst->fmt.pix_mp.width;
+@@ -145,13 +201,14 @@ int iris_vdec_s_fmt(struct iris_inst *inst, struct v4l2_format *f)
+ 
+ 	switch (f->type) {
+ 	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
+-		if (f->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_H264)
++		if (!(find_format(inst, f->fmt.pix_mp.pixelformat, f->type)))
+ 			return -EINVAL;
+ 
+ 		fmt = inst->fmt_src;
+ 		fmt->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+-
+-		codec_align = DEFAULT_CODEC_ALIGNMENT;
++		fmt->fmt.pix_mp.pixelformat = f->fmt.pix_mp.pixelformat;
++		inst->codec = fmt->fmt.pix_mp.pixelformat;
++		codec_align = inst->codec == V4L2_PIX_FMT_HEVC ? 32 : 16;
+ 		fmt->fmt.pix_mp.width = ALIGN(f->fmt.pix_mp.width, codec_align);
+ 		fmt->fmt.pix_mp.height = ALIGN(f->fmt.pix_mp.height, codec_align);
+ 		fmt->fmt.pix_mp.num_planes = 1;
+diff --git a/drivers/media/platform/qcom/iris/iris_vdec.h b/drivers/media/platform/qcom/iris/iris_vdec.h
+index b24932dc511a..cd7aab66dc7c 100644
+--- a/drivers/media/platform/qcom/iris/iris_vdec.h
++++ b/drivers/media/platform/qcom/iris/iris_vdec.h
+@@ -8,6 +8,17 @@
+ 
+ struct iris_inst;
+ 
++enum iris_fmt_type {
++	IRIS_FMT_H264,
++	IRIS_FMT_HEVC,
++	IRIS_FMT_VP9,
++};
++
++struct iris_fmt {
++	u32 pixfmt;
++	u32 type;
++};
++
+ int iris_vdec_inst_init(struct iris_inst *inst);
+ void iris_vdec_inst_deinit(struct iris_inst *inst);
+ int iris_vdec_enum_fmt(struct iris_inst *inst, struct v4l2_fmtdesc *f);
+diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
+index 56531a7f0dfe..dd97eb93cb7b 100644
+--- a/drivers/media/platform/qcom/iris/iris_vidc.c
++++ b/drivers/media/platform/qcom/iris/iris_vidc.c
+@@ -251,9 +251,6 @@ static int iris_enum_fmt(struct file *filp, void *fh, struct v4l2_fmtdesc *f)
+ {
+ 	struct iris_inst *inst = iris_get_inst(filp, NULL);
+ 
+-	if (f->index)
 -		return -EINVAL;
 -
-+	if (!inst->in_reconfig) {
-+		if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE &&
-+		    vb2_plane_size(vb, 0) < iris_get_buffer_size(inst, BUF_OUTPUT))
-+			return -EINVAL;
-+		if (vb->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE &&
-+		    vb2_plane_size(vb, 0) < iris_get_buffer_size(inst, BUF_INPUT))
-+			return -EINVAL;
-+	}
- 	return 0;
+ 	return iris_vdec_enum_fmt(inst, f);
  }
  
 
