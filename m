@@ -1,223 +1,265 @@
-Return-Path: <linux-media+bounces-31233-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31234-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 166A5A9F8C0
-	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 20:40:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DFB7A9FAF0
+	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 22:56:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 670C14602B1
-	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 18:40:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D946F1891111
+	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 20:56:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B58452951CC;
-	Mon, 28 Apr 2025 18:40:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32A041FF1DA;
+	Mon, 28 Apr 2025 20:56:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mu5gHyDv"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I4/yr4JU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777412951BF;
-	Mon, 28 Apr 2025 18:40:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 054F520330;
+	Mon, 28 Apr 2025 20:56:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745865648; cv=none; b=ZdxDKCobWNDeWJz6wynP9BpMWyWnlHsKe8lQJchMOxt+f7tAr0Gb9g29s3NRyeO2PmWlOj9lXBVABuMSJL68M0XA32tKnXr1aX9HyOQMoGL34HMi7fiL3Cgq2gTldmdvQG7k/lZQIS+mbCjeainAmMkxD8SrkdeDOGX+bvVdFFg=
+	t=1745873793; cv=none; b=p//zw7/h+rKZSZkj4LZ1kkah63qhDVFNwErAo5/lBXgNgc5gSvP/xNIE14AnkYiS95HIeKUIWMpQqKVDZ4Jg6Ki/YmR+E+MAU98DjzdU9OTUW11v3xcZpGhC2nI+rsAzuN2qivfbeTUfLs/iVb6El8frzUrkQIF+bcuJPtdiZxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745865648; c=relaxed/simple;
-	bh=BGwwVL0HIaHmbSX0ohrKs8ybdOlWCMLz/88f+UFF9JE=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=UxITGRp/0C8/OIRC3mp6BKXyTDoOtWMH0orAhC4jCBiRPAaf3fMY2aiFJIsSsyuIAv4jq9sk8L6gywcmYHGGK5rh3njDk8E9VdffoJJKYBnuSQlmoCXgHPwJ4MQ26rKrxyD8Df40Az0KJbco+R6T2U7WepmwW4ov/ywt+lOOsQs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mu5gHyDv; arc=none smtp.client-ip=209.85.222.176
+	s=arc-20240116; t=1745873793; c=relaxed/simple;
+	bh=l7iXHepWlROyET1PLqg7bGCjYmNsb+Nn9VgqvRlbzmI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=MeouUjc/P1wiuv/D3p/aFdWw3TSb6sxJxzClSJ9lKieKkh7GjZqEuGoF3RT5giDLddaGKvoHEmmofbalgR1C6qg7ZXwEu4rFuSGSsgKY25WMUziM6s1YshsLGaDEtQMyBD7Cm4NhDVtGDl3RZ31iadK1IvbQJjlVl2gs+laGqrw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I4/yr4JU; arc=none smtp.client-ip=209.85.214.173
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7c7a5ee85dcso62273685a.2;
-        Mon, 28 Apr 2025 11:40:46 -0700 (PDT)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-22401f4d35aso64761995ad.2;
+        Mon, 28 Apr 2025 13:56:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745865645; x=1746470445; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=fgaBY96VE81PvPbEwYS+skMIdgkg2Q9a/pUkwNmCt44=;
-        b=mu5gHyDvWk2/+mb27rCRSx8fwneVBdNWbyFD0Qast4xs6j8FagKf0hzl89EsJIe4R3
-         3sr2ejaDYH0a+jx0J7vjnzljJ4WqmUBkvK/G+0nUEe7Igs3oV5J/RAQcP2yR6phixnV5
-         T3Pe6sCGATxitdEFPUCSavDsknoYhQP/sO5J4Ct2ibplYqH/c+d9gNZBbiAlp2G9FM55
-         XKUNNOWtmiHZfluUxpnMfQ3NW/AxyxJvoWEOHQi7UKRd0uexHEMSADPjLfZjD//Q3pNG
-         6h+xRKwmu5t+c5Tb41bMWPIyZnWfjvz+aZny51fKcDuM2WvDqSrsVEnhfrmdJCvY1XPo
-         qzZA==
+        d=gmail.com; s=20230601; t=1745873791; x=1746478591; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7+KwwMScg2wIn1wFiZ7xCslKNcpSi/KKVTjv87cSzPQ=;
+        b=I4/yr4JURMwKVrxA1Jex0H9fHw6ySjakQRzEfbgk+jklZx+i6UWTQ/9xLO86VbchM4
+         ckFXhEGoHO76cvLgu0zjDZ3ShLd37QpTdTR+KC+odD7glmdTlvZhvZpRllW3maS9gM4K
+         Od6Lru2qh+dILKN4ai3X0KSBKGrNDTQx53I2pco/BBISwfKBQ3LfRb9Z7C7oI69TKi61
+         rDoXe7wMJFIOoTD54bnbXAOkAtmFAkB1BlBRcs9u3OffzPYA8pqNGgCLfsPFI52BXoUL
+         uWJicwo1lOMrXaQOIYc7XBKI0x5nGZ/717x1adoAGiMJcdkKklNcx1rXPxuqAA+KCtBV
+         xmww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745865645; x=1746470445;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fgaBY96VE81PvPbEwYS+skMIdgkg2Q9a/pUkwNmCt44=;
-        b=UOJY4rxCdGdOW/PGedxBDFUVuegxh4WKNl5lPC+2X4n6GSa0Fz0SWO8wCkV+onbWM/
-         y7ekrkZeKJOsnbqrySRoNVqA3pfGnOIKISFg81+F7EdD8qt37M6ptuu+I0oBBsCQEt7v
-         NQjZ9GzJuZaUNcY1dpffQn0JpDcTqmj+HvrW42VtDabVtePyKACseG6vNc7iqP7M5rWH
-         3OOCuhW0dssakV7JYSf/ih1Zd0XMW3vA3L4GUKbrPTowSAZ15k/uxYB+kK2hQlbfrgCh
-         AkxoYGHLDNooRusGyhNXOE/Ng1ptHurcbCibBIZQuVbXIBgpL0IRn3Gic+R7aEcc0KlD
-         hB5g==
-X-Forwarded-Encrypted: i=1; AJvYcCUFB6Y+9obexFCbJzC490H6UdpZQGZJr2nt6Y0LjrxkTQKTn773NocD71dJksmmwp5r/nYbDRrzZK0La8I=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1YZAflsDZUo1sq6oqxeV4nxtPLuRyRdds790544S3liwuMxJJ
-	vCIiS1pqQWjQ6aDKSiqtVivZg9r4J1CDo0NRr9ABRemmzurXiU9E
-X-Gm-Gg: ASbGnctCHkxAHML9wOJ3RwtoLfR8+sX2av2FANRJSVbRl3SBULrbqDq/uq4VyLrW59o
-	IPPAs59tos+0xOJBuhsJu6jIqN6dpbs5wax6RJMaNITfF3nbnYsjOFfhiRq62QJh2NB+yAi8uQ1
-	50C5v4Cf+/t2gfWTr9F8HKMldZ42OP2nAPtA7tU00rFySR0t0koTVy/RTCwX1kONMPuB2xV1KPd
-	5REoJAIcXGH5dyKkUj8ZuZf0TDSiX3Izs+jBlwL8ojGzG45xPKLo/kLUrRYip1PIhnU8pVdHo+V
-	cW+/QZJLI1ksvP4Gui1v5FKhgHyX4ir2Tjt7lkYtaZF19s5M6qJjXvGQO1jHal+D0Gqp0cj58AM
-	T14yXrsr8e/6+MahlOxdl
-X-Google-Smtp-Source: AGHT+IE2APmkKsqhEx5YxFzlg9XvLyxc4U0ug8dWuN51lHxmxpo+8GyoRKNjIhDX6KXVxS4jYk3P7Q==
-X-Received: by 2002:a05:620a:2550:b0:7c3:e1ef:e44d with SMTP id af79cd13be357-7cabe55874dmr11796985a.0.1745865644894;
-        Mon, 28 Apr 2025 11:40:44 -0700 (PDT)
-Received: from ?IPv6:2600:1002:a012:1653:18fc:2b88:2fa4:6e9f? ([2600:1002:a012:1653:18fc:2b88:2fa4:6e9f])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c958e7f115sm653510085a.72.2025.04.28.11.40.43
+        d=1e100.net; s=20230601; t=1745873791; x=1746478591;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7+KwwMScg2wIn1wFiZ7xCslKNcpSi/KKVTjv87cSzPQ=;
+        b=AphvpXXc62j2imt83Lf4flnJJNAXqR2Zx3reOnwI3dZN/07dGxgxpsZmMLxSU2Hy7G
+         yElwoeqArcJ3I2pek0g+LPUADOtkajQa7Z6bfeV8UZ0+ovnlIirGzUVfBcgYjgkVHP3M
+         qmO1537cJUXBo27ZTpQ12Ep+rDVhDil0M0t5c1qmNsI/TgcYCFja8UE85dOvU3TZZ4SX
+         HNlPqmoYXdj+hAowEsSScCB6Glkbb2k8FwcfgVwRzM66fikM0Th9168VKXQZ5FA/z96o
+         WVme+zTrXZXgjk4NvfYpnXbyTniTFZ7ZJ1vbMS6yyILVhDJI4MjeU/43V8P2OckRFaPo
+         vLMw==
+X-Forwarded-Encrypted: i=1; AJvYcCVI5+9Qwp0dtgKD2EEIWTEBYx2bGRwy9DiEyUct3gJ2Pb7LwnTO6VwW8h2XTXJwXd8q0CpiZtts5laY8SuV@vger.kernel.org, AJvYcCWuIGiuWpU1jWoOoaRFHF7peU/kH5x6xoCzKOGZ0joRQRF+d+0MEqXuLdMBU60thr9Bepp/+bY5a5t4lVxp@vger.kernel.org, AJvYcCXuW9+NWfQzMdx/L/cCH5cR5mqtrWkjX59x39XDqSsB01+T17hgkhZbvKURMODiZzfQS0tYZYZz3/q6+cs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZUhUT94U3cvje8qoahiM68l7cgFcL4AQE0yzCCYiEeSpOHDNJ
+	NG/1lWAUfD9h3BCVhgj0/WHQZg+opVr7Vy47+9vDCOl2RVRYoB5h
+X-Gm-Gg: ASbGncuHCGWdDYPm2RChtxTg28awbJNln3WdS58MyJa34XOUNj/u+svidBFIiSFPAMW
+	rrnm/xX01AnQybizlOmCmt8myhvDPGh2+8ebWdjOzhjdyaVDXpz4ihSqKmyrmN0cgvj+o8xENCz
+	6/k0xT3d5u8sGeTwimm/qsHx5Eu9l0nEWZM4ZtY3gElImqHNN+Ye+bsxHNW/5069VWCRb4O48+0
+	kCwfyvsIrCe2rtA8TY1iBFdUX8fU6g8Z+TQ7oXufqvzbDZNSiVHBOf8lL/RnP5ofyzzgUTub68A
+	VEURltJFlZTi/AZPzbwqvsATMM5l4j/LzR7jzlc3qkjFMq156BweP5bXrfyut7iH9+x1pPNab+b
+	v7PlHU8AURd4oCpc=
+X-Google-Smtp-Source: AGHT+IGKtMSFhDrKALYHacjDf6o2U+ErId2ldlU83bKr18MjClQcRoYfhtohAxt8HdoNAwV1+GksqQ==
+X-Received: by 2002:a17:903:194b:b0:223:50f0:b97 with SMTP id d9443c01a7336-22de7097d8emr6300835ad.52.1745873791175;
+        Mon, 28 Apr 2025 13:56:31 -0700 (PDT)
+Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db51051c6sm87904215ad.206.2025.04.28.13.56.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Apr 2025 11:40:44 -0700 (PDT)
-Message-ID: <8b0234aeabc8d33a2d8025b42642362481a6c06a.camel@gmail.com>
-Subject: Re: [PATCH 0/3] media: vim2m: add multiplanar API support
-From: Matthew Majewski <mattwmajewski@gmail.com>
-To: Hans Verkuil <hans@jjverkuil.nl>, Mauro Carvalho Chehab
- <mchehab@kernel.org>,  Hans Verkuil <hverkuil@xs4all.nl>, Uwe Kleine-Konig
- <u.kleine-koenig@baylibre.com>, Shuah Khan	 <skhan@linuxfoundation.org>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,  Sakari Ailus
- <sakari.ailus@linux.intel.com>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>,  Naushir Patuck <naush@raspberrypi.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Mon, 28 Apr 2025 14:40:42 -0400
-In-Reply-To: <09726b7e-4ac4-4ebe-b1eb-4d142c2ee0fb@jjverkuil.nl>
-References: <20250304191701.2957096-1-mattwmajewski@gmail.com>
-	 <09726b7e-4ac4-4ebe-b1eb-4d142c2ee0fb@jjverkuil.nl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.3 (by Flathub.org) 
+        Mon, 28 Apr 2025 13:56:30 -0700 (PDT)
+From: Rob Clark <robdclark@gmail.com>
+To: dri-devel@lists.freedesktop.org
+Cc: freedreno@lists.freedesktop.org,
+	linux-arm-msm@vger.kernel.org,
+	Connor Abbott <cwabbott0@gmail.com>,
+	Rob Clark <robdclark@chromium.org>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>,
+	=?UTF-8?q?Andr=C3=A9=20Almeida?= <andrealmeid@igalia.com>,
+	Arnd Bergmann <arnd@arndb.de>,
+	=?UTF-8?q?Barnab=C3=A1s=20Cz=C3=A9m=C3=A1n?= <barnabas.czeman@mainlining.org>,
+	Christopher Snowhill <chris@kode54.net>,
+	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Dmitry Baryshkov <lumag@kernel.org>,
+	Eugene Lepshy <fekz115@gmail.com>,
+	iommu@lists.linux.dev (open list:IOMMU SUBSYSTEM),
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Jessica Zhang <quic_jesszhan@quicinc.com>,
+	Joao Martins <joao.m.martins@oracle.com>,
+	Jonathan Marek <jonathan@marek.ca>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b),
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM SMMU DRIVERS),
+	linux-kernel@vger.kernel.org (open list),
+	linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b),
+	Marijn Suijten <marijn.suijten@somainline.org>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	"Rob Herring (Arm)" <robh@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sean Paul <sean@poorly.run>,
+	Will Deacon <will@kernel.org>
+Subject: [PATCH v3 00/33] drm/msm: sparse / "VM_BIND" support
+Date: Mon, 28 Apr 2025 13:54:07 -0700
+Message-ID: <20250428205619.227835-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-Hello Hans,
+From: Rob Clark <robdclark@chromium.org>
 
-On Sun, 2025-04-27 at 11:45 +0200, Hans Verkuil wrote:
-> Hi Matthew,
->=20
-> On 04/03/2025 20:16, Matthew Majewski wrote:
-> > Hi everyone,
-> >=20
-> > This patch series adds multiplane API support for the virtual M2M
-> > driver, along with some minor driver refactoring/improvements.
-> >=20
-> > I followed the lead of the vivid driver and made multiplanar
-> > support
-> > selectable with a module parameter, and the default is to use the
-> > single planar api.
-> >=20
-> > Although there are not yet any pixelformats in the driver that make
-> > use of multiple memory planes, adding support for these should be
-> > easier now with the API level changes taken care of.
->=20
-> Are you planning follow-up patches adding support for at least one
-> multiplanar format? That would be really nice.
->=20
-> Regards,
->=20
-> 	Hans
->=20
+Conversion to DRM GPU VA Manager[1], and adding support for Vulkan Sparse
+Memory[2] in the form of:
 
-Yes, I currently have a WIP patch series to add support for all of the
-formats that vivid currently supports to vim2m. It involves a huge
-refactor though, so I split the groundwork for supporting the multi-
-planar formats into a separate patch series first.=20
+1. A new VM_BIND submitqueue type for executing VM MSM_SUBMIT_BO_OP_MAP/
+   MAP_NULL/UNMAP commands
 
-Best,
+2. A new VM_BIND ioctl to allow submitting batches of one or more
+   MAP/MAP_NULL/UNMAP commands to a VM_BIND submitqueue
 
-	Matthew
+I did not implement support for synchronous VM_BIND commands.  Since
+userspace could just immediately wait for the `SUBMIT` to complete, I don't
+think we need this extra complexity in the kernel.  Synchronous/immediate
+VM_BIND operations could be implemented with a 2nd VM_BIND submitqueue.
 
-> >=20
-> > v4l2-compliance reports the following with multiplane support
-> > disabled:
-> >=20
-> > =C2=A0 Total for vim2m device /dev/video0: 48, Succeeded: 48, Failed: 0=
-,
-> > Warnings: 0
-> >=20
-> > and the same with multiplane support enabled:
-> >=20
-> > =C2=A0 Total for vim2m device /dev/video0: 48, Succeeded: 48, Failed: 0=
-,
-> > Warnings: 0
-> >=20
-> > Patches need to be applied in increasing numerical order (Patch
-> > [3/3]
-> > depends on [1/3] and [2/3]).
-> >=20
-> > Since the multi-plane changes had to touch a lot of the driver, I
-> > did
-> > a basic regression test with the following script which generates a
-> > test input image with vivid and an output image from vim2m for each
-> > supported format. I confirmed all outputs visually and verified
-> > they
-> > were identical to the outputs before the change. Testing was done
-> > on
-> > an x86_64 qemu image.
-> >=20
-> > #!/bin/sh
-> >=20
-> > # tested with HDMI vivid emulation
-> > # modprobe vivid num_inputs=3D1 input_types=3D3
-> >=20
-> > vim2m=3D/dev/video0
-> > vivid=3D/dev/video1
-> >=20
-> > width=3D640
-> > height=3D480
-> > out_width=3D320
-> > out_height=3D240
-> >=20
-> > capture_formats=3D$(v4l2-ctl -d $vim2m --list-formats | awk '/\]:/
-> > {print $2}' | sed "s/'//g")
-> > output_formats=3D$(v4l2-ctl -d $vim2m --list-formats-out | awk '/\]:/
-> > {print $2}' | sed "s/'//g")
-> >=20
-> > # Turn off text mode so that images will be identical
-> > v4l2-ctl -d $vivid -c osd_text_mode=3D2
-> >=20
-> > for ofmt in ${output_formats}; do
-> > =C2=A0=C2=A0=C2=A0 # generate input image
-> > =C2=A0=C2=A0=C2=A0 inname=3D"${width}x${height}.${ofmt}"
-> > =C2=A0=C2=A0=C2=A0 v4l2-ctl -d $vivid -v
-> > pixelformat=3D$ofmt,width=3D$width,height=3D$height,field=3Dnone \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 --stream-mmap --stream-count=3D1 --stream-to=3D$inname
-> > =C2=A0=C2=A0=C2=A0 for cfmt in ${capture_formats}; do
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 outname=3D"${out_width}x${ou=
-t_height}-out.${cfmt}"
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v4l2-ctl -d $vim2m -x
-> > pixelformat=3D$ofmt,width=3D$width,height=3D$height \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 -v
-> > pixelformat=3D$cfmt,width=3D$out_width,height=3D$out_height \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 --stream-from=3D$inname --stream-to=3D$outname =
---
-> > stream-mmap --stream-out-mmap \
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 --stream-count=3D1
-> > =C2=A0=C2=A0=C2=A0 done
-> > done
-> >=20
-> > Matthew Majewski (3):
-> > =C2=A0 media: v4l2-common: Add RGBR format info
-> > =C2=A0 media: vim2m: Simplify try_fmt
-> > =C2=A0 media: vim2m: Add parametized support for multiplanar API
-> >=20
-> > =C2=A0drivers/media/test-drivers/vim2m.c=C2=A0=C2=A0=C2=A0 | 327 ++++++=
-+++++++++++++++-
-> > ----
-> > =C2=A0drivers/media/v4l2-core/v4l2-common.c |=C2=A0=C2=A0 1 +
-> > =C2=A02 files changed, 274 insertions(+), 54 deletions(-)
-> >=20
->=20
+The corresponding mesa MR: https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/32533
+
+Changes in v3:
+- Switched to seperate VM_BIND ioctl.  This makes the UABI a bit
+  cleaner, but OTOH the userspace code was cleaner when the end result
+  of either type of VkQueue lead to the same ioctl.  So I'm a bit on
+  the fence.
+- Switched to doing the gpuvm bookkeeping synchronously, and only
+  deferring the pgtable updates.  This avoids needing to hold any resv
+  locks in the fence signaling path, resolving the last shrinker related
+  lockdep complaints.  OTOH it means userspace can trigger invalid
+  pgtable updates with multiple VM_BIND queues.  In this case, we ensure
+  that unmaps happen completely (to prevent userspace from using this to
+  access free'd pages), mark the context as unusable, and move on with
+  life.
+- Link to v2: https://lore.kernel.org/all/20250319145425.51935-1-robdclark@gmail.com/
+
+Changes in v2:
+- Dropped Bibek Kumar Patro's arm-smmu patches[3], which have since been
+  merged.
+- Pre-allocate all the things, and drop HACK patch which disabled shrinker.
+  This includes ensuring that vm_bo objects are allocated up front, pre-
+  allocating VMA objects, and pre-allocating pages used for pgtable updates.
+  The latter utilizes io_pgtable_cfg callbacks for pgtable alloc/free, that
+  were initially added for panthor. 
+- Add back support for BO dumping for devcoredump.
+- Link to v1 (RFC): https://lore.kernel.org/dri-devel/20241207161651.410556-1-robdclark@gmail.com/T/#t
+
+[1] https://www.kernel.org/doc/html/next/gpu/drm-mm.html#drm-gpuvm
+[2] https://docs.vulkan.org/spec/latest/chapters/sparsemem.html
+[3] https://patchwork.kernel.org/project/linux-arm-kernel/list/?series=909700
+
+Rob Clark (33):
+  drm/gpuvm: Don't require obj lock in destructor path
+  drm/gpuvm: Allow VAs to hold soft reference to BOs
+  iommu/io-pgtable-arm: Add quirk to quiet WARN_ON()
+  drm/msm: Rename msm_file_private -> msm_context
+  drm/msm: Improve msm_context comments
+  drm/msm: Rename msm_gem_address_space -> msm_gem_vm
+  drm/msm: Remove vram carveout support
+  drm/msm: Collapse vma allocation and initialization
+  drm/msm: Collapse vma close and delete
+  drm/msm: Don't close VMAs on purge
+  drm/msm: drm_gpuvm conversion
+  drm/msm: Convert vm locking
+  drm/msm: Use drm_gpuvm types more
+  drm/msm: Split out helper to get iommu prot flags
+  drm/msm: Add mmu support for non-zero offset
+  drm/msm: Add PRR support
+  drm/msm: Rename msm_gem_vma_purge() -> _unmap()
+  drm/msm: Lazily create context VM
+  drm/msm: Add opt-in for VM_BIND
+  drm/msm: Mark VM as unusable on GPU hangs
+  drm/msm: Add _NO_SHARE flag
+  drm/msm: Crashdump prep for sparse mappings
+  drm/msm: rd dumping prep for sparse mappings
+  drm/msm: Crashdec support for sparse
+  drm/msm: rd dumping support for sparse
+  drm/msm: Extract out syncobj helpers
+  drm/msm: Use DMA_RESV_USAGE_BOOKKEEP/KERNEL
+  drm/msm: Add VM_BIND submitqueue
+  drm/msm: Support IO_PGTABLE_QUIRK_NO_WARN_ON
+  drm/msm: Support pgtable preallocation
+  drm/msm: Split out map/unmap ops
+  drm/msm: Add VM_BIND ioctl
+  drm/msm: Bump UAPI version
+
+ drivers/gpu/drm/drm_gpuvm.c                   |   15 +-
+ drivers/gpu/drm/msm/Kconfig                   |    1 +
+ drivers/gpu/drm/msm/Makefile                  |    1 +
+ drivers/gpu/drm/msm/adreno/a2xx_gpu.c         |   25 +-
+ drivers/gpu/drm/msm/adreno/a2xx_gpummu.c      |    5 +-
+ drivers/gpu/drm/msm/adreno/a3xx_gpu.c         |   17 +-
+ drivers/gpu/drm/msm/adreno/a4xx_gpu.c         |   17 +-
+ drivers/gpu/drm/msm/adreno/a5xx_debugfs.c     |    4 +-
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c         |   22 +-
+ drivers/gpu/drm/msm/adreno/a5xx_power.c       |    2 +-
+ drivers/gpu/drm/msm/adreno/a5xx_preempt.c     |   10 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   32 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.h         |    2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c         |   49 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu_state.c   |    6 +-
+ drivers/gpu/drm/msm/adreno/a6xx_preempt.c     |   10 +-
+ drivers/gpu/drm/msm/adreno/adreno_device.c    |    4 -
+ drivers/gpu/drm/msm/adreno/adreno_gpu.c       |   88 +-
+ drivers/gpu/drm/msm/adreno/adreno_gpu.h       |   23 +-
+ .../drm/msm/disp/dpu1/dpu_encoder_phys_wb.c   |   14 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.c   |   18 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_formats.h   |    2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_kms.c       |   18 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.c     |   14 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_plane.h     |    4 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c     |    6 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_kms.c      |   28 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_plane.c    |   12 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c     |    4 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c      |   19 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_plane.c    |   12 +-
+ drivers/gpu/drm/msm/dsi/dsi_host.c            |   14 +-
+ drivers/gpu/drm/msm/msm_drv.c                 |  183 +--
+ drivers/gpu/drm/msm/msm_drv.h                 |   35 +-
+ drivers/gpu/drm/msm/msm_fb.c                  |   18 +-
+ drivers/gpu/drm/msm/msm_fbdev.c               |    2 +-
+ drivers/gpu/drm/msm/msm_gem.c                 |  489 +++----
+ drivers/gpu/drm/msm/msm_gem.h                 |  217 ++-
+ drivers/gpu/drm/msm/msm_gem_prime.c           |   15 +
+ drivers/gpu/drm/msm/msm_gem_shrinker.c        |    4 +-
+ drivers/gpu/drm/msm/msm_gem_submit.c          |  295 ++--
+ drivers/gpu/drm/msm/msm_gem_vma.c             | 1265 +++++++++++++++--
+ drivers/gpu/drm/msm/msm_gpu.c                 |  171 ++-
+ drivers/gpu/drm/msm/msm_gpu.h                 |  132 +-
+ drivers/gpu/drm/msm/msm_iommu.c               |  298 +++-
+ drivers/gpu/drm/msm/msm_kms.c                 |   18 +-
+ drivers/gpu/drm/msm/msm_kms.h                 |    2 +-
+ drivers/gpu/drm/msm/msm_mmu.h                 |   38 +-
+ drivers/gpu/drm/msm/msm_rd.c                  |   62 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.c          |    4 +-
+ drivers/gpu/drm/msm/msm_submitqueue.c         |   86 +-
+ drivers/gpu/drm/msm/msm_syncobj.c             |  172 +++
+ drivers/gpu/drm/msm/msm_syncobj.h             |   37 +
+ drivers/iommu/io-pgtable-arm.c                |   18 +-
+ include/drm/drm_gpuvm.h                       |   12 +-
+ include/linux/io-pgtable.h                    |    8 +
+ include/uapi/drm/msm_drm.h                    |  149 +-
+ 57 files changed, 3012 insertions(+), 1216 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/msm_syncobj.c
+ create mode 100644 drivers/gpu/drm/msm/msm_syncobj.h
+
+-- 
+2.49.0
 
 
