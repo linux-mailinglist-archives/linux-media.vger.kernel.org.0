@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-31235-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31236-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FFA8A9FB5D
-	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 23:01:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A06A9FB66
+	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 23:02:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C745C3B5B64
-	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 21:01:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DFEEB1894D08
+	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 21:02:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D84C219A7E;
-	Mon, 28 Apr 2025 20:57:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42FF421C9F8;
+	Mon, 28 Apr 2025 20:57:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ILhFHC7G"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hyrrSPta"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 173DE218EAB;
-	Mon, 28 Apr 2025 20:57:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B57B021B9F8;
+	Mon, 28 Apr 2025 20:57:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745873857; cv=none; b=WOPbo+FXlI1+j8rmHQ3afMwCBDjfbe5G1PxXNiCBmUotCzYoA68S+nY7WNJOwFsOyLP1blYWTjD0hLAnVfLXRhIvnM3OPqfdq+B+alp4wb9TXRIyuLbUKjCuzIi1Z+tCOzmyRWpgDVHFvEV4zNM08zAOMLKGpuBLNltvyLmqCcw=
+	t=1745873869; cv=none; b=gfvpbI8GrFNTJnV7jQYsym64YRS4UNz+BO9br7A4ESDjE4WuKYeu3bQHEWsGVwfqid5Q3f1BuzTIzjzeGsMxU3MQlORpnySLFyMMaWSjZtsWU3qCg95LaGgrcSDL8R2vJGZju8FVbdR1qtIKIJj7UEp+sEOYuq0tRohxyxfvF4o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745873857; c=relaxed/simple;
-	bh=4stStijgmkQgLj7QgL0DPvTpEywkInJvNZan+1AlHwg=;
+	s=arc-20240116; t=1745873869; c=relaxed/simple;
+	bh=hHoBUjjH0TQB5XKwaHIhu8Sgu1TevEne6tIKm+mXodA=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=jBiYhWcPZ/28kuHDS7H+qL405MrbxpLyV4FwsYSpftyxAvr8xz1Ha3i1LYemp/DQlEG67+L/7OvmgdV3Xqle6Duo6OFn82LMDfXveNh4HhqV7j7HalF0qIckc1m1Au67bP+gSXiCsUrYXZ48pQXE+aZWgZqk7Ko5gcbZFYAJBU0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ILhFHC7G; arc=none smtp.client-ip=209.85.214.169
+	 MIME-Version; b=uLd6SqqodGn8EfS9HshhV3R3mR0KGIR+fpO1aqus+Njr4lCV2SpBOPTlTNz6yJcxxVI1WBJo63UH52CaPLeyyhehWwOli95fZFghWhx0VHYFkFT+rIRU9jdrG4NDtnps/fLDLFmcTqE91NWVC/1jBFp97/nCCKfJEdAKl6I3tww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hyrrSPta; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-22c33677183so55821085ad.2;
-        Mon, 28 Apr 2025 13:57:34 -0700 (PDT)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2279915e06eso60159295ad.1;
+        Mon, 28 Apr 2025 13:57:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745873854; x=1746478654; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1745873867; x=1746478667; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=MtDpB0PTtkYXhtnhSwYfqz5Rac+7v9V6aZ5T1mp1bHo=;
-        b=ILhFHC7Goxd46e92KN1IJRNjFvsRLf7OsoSka2cExtwi94UP0ddx70FJLbxiH2b2st
-         8v+ZF/HktXE9UdmUAt/taThdVasa0pZk5jqN2MsJIqkr5muET34sXjy9ELKd7x/HjEks
-         YrrM8nyHuWC8gdv1cgVz3234dM4stOZH6URrDO67Qzj4tjIP5T+RpvdQ4cxUggy7bz1A
-         dxHCvLdZ8Ts9/B/rzJjHDzFx8BFyMFXt3YlRawip3fcrZw+lqUirAU2cfH4vgykhVqaS
-         oYWvwt0FOBmYgU9THmhsEB1WTiTOQ9hwMq6qn9U3SrGjC+g9khBn7QKm0ILvHpxo35dQ
-         C8fA==
+        bh=Udy1qROHiLm0PiqzV909sHOl83XGRYgTsp73bE9AlF8=;
+        b=hyrrSPtaIFZhIZrDofzog6iTdcVrNddEQQOrYC0xZmiIni1ZfKuPwYXY6VNAidXoIM
+         DeTMXWPgCgHW8q5t8MLS2QBT7IN32dHLN85Fhz+4CAPNaIBdHGGFQd8PuyvJK3oc1TuQ
+         2IwPYM2mbXK/XXYzpKDgm+gB1UqinTdeJNl1AAE8O6cq4+K6Yx1OA9dvJGpX8+kLp/fG
+         9/Gt0JaIv2xZMvzGRC3DhgRQqVIgmzdv1Ct4mfq259eJgTS9tURW0Fxj66V3IHZvowWj
+         q3mPkLAFckt96R2821JfGA+wjnQTIrqcPTxpQfsBWi9i4nN4szqk2R+dilvnwYBUHVmr
+         dXbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745873854; x=1746478654;
+        d=1e100.net; s=20230601; t=1745873867; x=1746478667;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MtDpB0PTtkYXhtnhSwYfqz5Rac+7v9V6aZ5T1mp1bHo=;
-        b=dfRgPu7gBdabRAco7T62YNk8fQVo38iBR6Qy9b6vzYSEU5oq4nwVxIMEmDZ46OSXOk
-         MSRIsetcR39P60+iwWxntAXLAxrWi+/Rk3AF+/z9+S5W0H9Oo9hCNYRtON3Ogy7UhH9R
-         YtWWO2KKtxWdX1u8+7eZYec/we0f1cX4eXSo6cNjO+X9anir45ZhbMgyGe0gqeUHT2SF
-         pLBQhQaUvRu/byOUG1EI0XC+5FpwRe5O+dwHe4tYfc21HLsj0EbdxwDwMafJDFzE5jEg
-         eOFWZh6DqfHC/BJD5DLWJDOMwaJCywNv85/P/Q70vBLe+GoGBF3wHY7OwnRZiNcA80YO
-         G7qQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU7S8RDRlQaGLSUUguAUVVAQeWZfhHYTjVBDryLBr/WG/bob9/k1YcGXqwY1AbwIatOPjLakB51onWdJHs=@vger.kernel.org, AJvYcCUN7ux1pYzUbxH6nYMgzKSh9SSsTC/7oVzjqi+34mZ1wRKx0AwG79yWG6kdHnJQjYwFapAIGUw91GAMorlR@vger.kernel.org, AJvYcCX6WVIYqNJ43IWLgtvwoUcQiX4wdmHqTIui8yZCx8qE+crujvQt7Zn5gviTfceouOaEu0M5GAFgE8bPBmf9@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZbBcB1uMYWKvLddNvf+vuZyQet6/RzOehxMVNyIUtUvdbmRui
-	HFc/cV/O5tchEAFD5G+IuQRl8xr/U7JlXwpPUXbYwbJwtPKYu7rB
-X-Gm-Gg: ASbGncsCL23DGJEL33W74DA/hQejc/lrdF+gxhmC0ScXEZyX1fVYkhlZag3kdrj7Kxk
-	AfvxqZ2DDp24t6Uiw5lGblhc4ukNykC94RFZ+dnthGc8KWFcwP6SOKCwEkmSkxzck0unkxcsowr
-	ygYJoNhkK3S3D0x5glT7sl6vf3Z8IBy9C6El57n1BsveiwhINU4DsLDIiZHeAU9snce2hXRfNb2
-	lrL7bPmE5cbQJj6GKOs1Exy5nSfr5VUbM+7bLfgWHZe7mGMwfMu01O3CQURDl9hnnK0sckzYxRl
-	BiQfMn8VMyd+KNdLTjWzyfDXMQyuwZedzK1G05rvrvb3+fuTo9FIBi2elHFvSueb8BIB65K5rXy
-	SaigBn3BmzKjjC7A=
-X-Google-Smtp-Source: AGHT+IH5mu7QN8e0nlxn6rTjFQ1K8STZk6kOUL+RElAi//El94Lcf9CPFofahvw3WU13JQrjxnuoEA==
-X-Received: by 2002:a17:903:2b0f:b0:220:ca08:8986 with SMTP id d9443c01a7336-22dc6a04510mr170014745ad.22.1745873854316;
-        Mon, 28 Apr 2025 13:57:34 -0700 (PDT)
+        bh=Udy1qROHiLm0PiqzV909sHOl83XGRYgTsp73bE9AlF8=;
+        b=CAd4gCmSejsJlkDoqF64Qdu03YGjGuQOBGCXU273aNYeoGFMXBQFZN93ROQPMgbRVR
+         e2XzDxXCKh/x5Njye4848kH0NYfoKPFAoCZUTHsWthRrYr+m9ibWMrcdyOY6jikYzQur
+         u2LTbr150LrGFUo/yDIb6tJcpd/hDYHTLHLaq6DSx7TIncNTZnv3IbLYPlF8quM0A+/U
+         V2kUeI5YLrDSNDbpVENvNud0OmyiIkFzpx1sr9/qTpr8Jr0YUox92CAd39a/Jp3+ncDw
+         dDPBUZ958OrNkLq3FmmItb0uWGXj8pdVrIS5snUwhT9DOe4I+GB4Bo1w5ze6Z50Sz//9
+         m1+g==
+X-Forwarded-Encrypted: i=1; AJvYcCUWjKHDGb6SRFRTgdjKyy/dXPhymiOeR+v/45u7EnPPbJjgFItUpzADK9xMeKE5c4tkIfam2vAey/lRnJY=@vger.kernel.org, AJvYcCUe1DsQjSD95Hk12G9vBizk7TsRg6O8Swn9fc4nTOLwKKojL49shYrjU5tc7IASgT3PUFhvKyuliJPW0i2X@vger.kernel.org, AJvYcCX4adFhjaIzek3ppF7GU5LNleX8R83XD5MJpnVM+nM1iS5b/2bbwvXMu50G/TYH7VVr/UUW6z+YqyzK+JX4@vger.kernel.org
+X-Gm-Message-State: AOJu0YxmBvtVnKoSirCYVDTyE8mk+Qm0hx9iWeOUdp+RyJVHu+9d0rPF
+	rjaPS7fqSb7cRS+WIups6iswpICscoYJmkLIw0RvDUnPp0USddLP
+X-Gm-Gg: ASbGncu4KOYQu2iP0Ma2FIQL4uXj2AnjCXeBhRpFGHFgK3Av2GHwQ7ykd6L+Sw2TInA
+	Icc6Y2HVP90SceZ2FrcRfiefPSke4NPGVHK5JxbG+/XUqBWGktPGpcs1E1kakh0VFNH0QjVH/Lb
+	I2RGHWYcK/60GN8ugBmRaI7eS94m7PfW+1kA22sFMaSa2ULSatetZX7EN+qPP6JCoWvjN5tOVJQ
+	+NZYt9d14g/OBvuITtFugSdWSdN/bj/yK4lF2sggHU8RvvAWsiVe2av5BMNEtB7uQRghgFu6dxy
+	TJ2BACQj8ShIy6lH7O1VqzQlTp8U2ju9TqF/g1lAahoWbeJVEsltVHp3oghDebPu4ltuklXxZ/3
+	1v5khdXTyaKN6TmJzUGy+y0tEiA==
+X-Google-Smtp-Source: AGHT+IHf1Ez5QiB/sRmmYzewN8HuuUfl9wXoGRwoecAv8VAlwtVWIlr7vg10G/OkJw71vZneTDG0uA==
+X-Received: by 2002:a17:903:22cc:b0:21f:5cd8:c67 with SMTP id d9443c01a7336-22dc6a0f443mr149140805ad.31.1745873866882;
+        Mon, 28 Apr 2025 13:57:46 -0700 (PDT)
 Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db50e7b50sm88075925ad.130.2025.04.28.13.57.33
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db5216adbsm87704825ad.234.2025.04.28.13.57.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Apr 2025 13:57:33 -0700 (PDT)
+        Mon, 28 Apr 2025 13:57:46 -0700 (PDT)
 From: Rob Clark <robdclark@gmail.com>
 To: dri-devel@lists.freedesktop.org
 Cc: freedreno@lists.freedesktop.org,
@@ -95,9 +95,9 @@ Cc: freedreno@lists.freedesktop.org,
 	linux-kernel@vger.kernel.org (open list),
 	linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b),
 	linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b)
-Subject: [PATCH v3 21/33] drm/msm: Add _NO_SHARE flag
-Date: Mon, 28 Apr 2025 13:54:28 -0700
-Message-ID: <20250428205619.227835-22-robdclark@gmail.com>
+Subject: [PATCH v3 26/33] drm/msm: Extract out syncobj helpers
+Date: Mon, 28 Apr 2025 13:54:33 -0700
+Message-ID: <20250428205619.227835-27-robdclark@gmail.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250428205619.227835-1-robdclark@gmail.com>
 References: <20250428205619.227835-1-robdclark@gmail.com>
@@ -111,158 +111,544 @@ Content-Transfer-Encoding: 8bit
 
 From: Rob Clark <robdclark@chromium.org>
 
-Buffers that are not shared between contexts can share a single resv
-object.  This way drm_gpuvm will not track them as external objects, and
-submit-time validating overhead will be O(1) for all N non-shared BOs,
-instead of O(n).
+We'll be re-using these for the VM_BIND ioctl.
+
+Also, rename a few things in the uapi header to reflect that syncobj use
+is not specific to the submit ioctl.
 
 Signed-off-by: Rob Clark <robdclark@chromium.org>
 ---
- drivers/gpu/drm/msm/msm_drv.h       |  1 +
- drivers/gpu/drm/msm/msm_gem.c       | 23 +++++++++++++++++++++++
- drivers/gpu/drm/msm/msm_gem_prime.c | 15 +++++++++++++++
- include/uapi/drm/msm_drm.h          | 14 ++++++++++++++
- 4 files changed, 53 insertions(+)
+ drivers/gpu/drm/msm/Makefile         |   1 +
+ drivers/gpu/drm/msm/msm_gem_submit.c | 192 ++-------------------------
+ drivers/gpu/drm/msm/msm_syncobj.c    | 172 ++++++++++++++++++++++++
+ drivers/gpu/drm/msm/msm_syncobj.h    |  37 ++++++
+ include/uapi/drm/msm_drm.h           |  26 ++--
+ 5 files changed, 235 insertions(+), 193 deletions(-)
+ create mode 100644 drivers/gpu/drm/msm/msm_syncobj.c
+ create mode 100644 drivers/gpu/drm/msm/msm_syncobj.h
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index b77fd2c531c3..b0add236cbb3 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -246,6 +246,7 @@ int msm_gem_prime_vmap(struct drm_gem_object *obj, struct iosys_map *map);
- void msm_gem_prime_vunmap(struct drm_gem_object *obj, struct iosys_map *map);
- struct drm_gem_object *msm_gem_prime_import_sg_table(struct drm_device *dev,
- 		struct dma_buf_attachment *attach, struct sg_table *sg);
-+struct dma_buf *msm_gem_prime_export(struct drm_gem_object *obj, int flags);
- int msm_gem_prime_pin(struct drm_gem_object *obj);
- void msm_gem_prime_unpin(struct drm_gem_object *obj);
+diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+index 5df20cbeafb8..8af34f87e0c8 100644
+--- a/drivers/gpu/drm/msm/Makefile
++++ b/drivers/gpu/drm/msm/Makefile
+@@ -128,6 +128,7 @@ msm-y += \
+ 	msm_rd.o \
+ 	msm_ringbuffer.o \
+ 	msm_submitqueue.o \
++	msm_syncobj.o \
+ 	msm_gpu_tracepoints.o \
  
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index 3708d4579203..d0f44c981351 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -532,6 +532,9 @@ static int get_and_pin_iova_range_locked(struct drm_gem_object *obj,
+ msm-$(CONFIG_DRM_FBDEV_EMULATION) += msm_fbdev.o
+diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
+index 375d89f23cd1..552ff2d57294 100644
+--- a/drivers/gpu/drm/msm/msm_gem_submit.c
++++ b/drivers/gpu/drm/msm/msm_gem_submit.c
+@@ -16,6 +16,7 @@
+ #include "msm_gpu.h"
+ #include "msm_gem.h"
+ #include "msm_gpu_trace.h"
++#include "msm_syncobj.h"
  
- 	msm_gem_assert_locked(obj);
- 
-+	if (to_msm_bo(obj)->flags & MSM_BO_NO_SHARE)
-+		return -EINVAL;
-+
- 	vma = get_vma_locked(obj, vm, range_start, range_end);
- 	if (IS_ERR(vma))
- 		return PTR_ERR(vma);
-@@ -1060,6 +1063,16 @@ static void msm_gem_free_object(struct drm_gem_object *obj)
- 		put_pages(obj);
+ /* For userspace errors, use DRM_UT_DRIVER.. so that userspace can enable
+  * error msgs for debugging, but we don't spam dmesg by default
+@@ -477,173 +478,6 @@ void msm_submit_retire(struct msm_gem_submit *submit)
  	}
- 
-+	if (msm_obj->flags & MSM_BO_NO_SHARE) {
-+		struct drm_gem_object *r_obj =
-+			container_of(obj->resv, struct drm_gem_object, _resv);
-+
-+		BUG_ON(obj->resv == &obj->_resv);
-+
-+		/* Drop reference we hold to shared resv obj: */
-+		drm_gem_object_put(r_obj);
-+	}
-+
- 	drm_gem_object_release(obj);
- 
- 	kfree(msm_obj->metadata);
-@@ -1092,6 +1105,15 @@ int msm_gem_new_handle(struct drm_device *dev, struct drm_file *file,
- 	if (name)
- 		msm_gem_object_set_name(obj, "%s", name);
- 
-+	if (flags & MSM_BO_NO_SHARE) {
-+		struct msm_context *ctx = file->driver_priv;
-+		struct drm_gem_object *r_obj = drm_gpuvm_resv_obj(ctx->vm);
-+
-+		drm_gem_object_get(r_obj);
-+
-+		obj->resv = r_obj->resv;
-+	}
-+
- 	ret = drm_gem_handle_create(file, obj, handle);
- 
- 	/* drop reference from allocate - handle holds it now */
-@@ -1124,6 +1146,7 @@ static const struct drm_gem_object_funcs msm_gem_object_funcs = {
- 	.free = msm_gem_free_object,
- 	.open = msm_gem_open,
- 	.close = msm_gem_close,
-+	.export = msm_gem_prime_export,
- 	.pin = msm_gem_prime_pin,
- 	.unpin = msm_gem_prime_unpin,
- 	.get_sg_table = msm_gem_prime_get_sg_table,
-diff --git a/drivers/gpu/drm/msm/msm_gem_prime.c b/drivers/gpu/drm/msm/msm_gem_prime.c
-index ee267490c935..1a6d8099196a 100644
---- a/drivers/gpu/drm/msm/msm_gem_prime.c
-+++ b/drivers/gpu/drm/msm/msm_gem_prime.c
-@@ -16,6 +16,9 @@ struct sg_table *msm_gem_prime_get_sg_table(struct drm_gem_object *obj)
- 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
- 	int npages = obj->size >> PAGE_SHIFT;
- 
-+	if (msm_obj->flags & MSM_BO_NO_SHARE)
-+		return ERR_PTR(-EINVAL);
-+
- 	if (WARN_ON(!msm_obj->pages))  /* should have already pinned! */
- 		return ERR_PTR(-ENOMEM);
- 
-@@ -45,6 +48,15 @@ struct drm_gem_object *msm_gem_prime_import_sg_table(struct drm_device *dev,
- 	return msm_gem_import(dev, attach->dmabuf, sg);
  }
  
+-struct msm_submit_post_dep {
+-	struct drm_syncobj *syncobj;
+-	uint64_t point;
+-	struct dma_fence_chain *chain;
+-};
+-
+-static struct drm_syncobj **msm_parse_deps(struct msm_gem_submit *submit,
+-                                           struct drm_file *file,
+-                                           uint64_t in_syncobjs_addr,
+-                                           uint32_t nr_in_syncobjs,
+-                                           size_t syncobj_stride)
+-{
+-	struct drm_syncobj **syncobjs = NULL;
+-	struct drm_msm_gem_submit_syncobj syncobj_desc = {0};
+-	int ret = 0;
+-	uint32_t i, j;
+-
+-	syncobjs = kcalloc(nr_in_syncobjs, sizeof(*syncobjs),
+-	                   GFP_KERNEL | __GFP_NOWARN | __GFP_NORETRY);
+-	if (!syncobjs)
+-		return ERR_PTR(-ENOMEM);
+-
+-	for (i = 0; i < nr_in_syncobjs; ++i) {
+-		uint64_t address = in_syncobjs_addr + i * syncobj_stride;
+-
+-		if (copy_from_user(&syncobj_desc,
+-			           u64_to_user_ptr(address),
+-			           min(syncobj_stride, sizeof(syncobj_desc)))) {
+-			ret = -EFAULT;
+-			break;
+-		}
+-
+-		if (syncobj_desc.point &&
+-		    !drm_core_check_feature(submit->dev, DRIVER_SYNCOBJ_TIMELINE)) {
+-			ret = SUBMIT_ERROR(EOPNOTSUPP, submit, "syncobj timeline unsupported");
+-			break;
+-		}
+-
+-		if (syncobj_desc.flags & ~MSM_SUBMIT_SYNCOBJ_FLAGS) {
+-			ret = SUBMIT_ERROR(EINVAL, submit, "invalid syncobj flags: %x", syncobj_desc.flags);
+-			break;
+-		}
+-
+-		ret = drm_sched_job_add_syncobj_dependency(&submit->base, file,
+-							   syncobj_desc.handle, syncobj_desc.point);
+-		if (ret)
+-			break;
+-
+-		if (syncobj_desc.flags & MSM_SUBMIT_SYNCOBJ_RESET) {
+-			syncobjs[i] =
+-				drm_syncobj_find(file, syncobj_desc.handle);
+-			if (!syncobjs[i]) {
+-				ret = SUBMIT_ERROR(EINVAL, submit, "invalid syncobj handle: %u", i);
+-				break;
+-			}
+-		}
+-	}
+-
+-	if (ret) {
+-		for (j = 0; j <= i; ++j) {
+-			if (syncobjs[j])
+-				drm_syncobj_put(syncobjs[j]);
+-		}
+-		kfree(syncobjs);
+-		return ERR_PTR(ret);
+-	}
+-	return syncobjs;
+-}
+-
+-static void msm_reset_syncobjs(struct drm_syncobj **syncobjs,
+-                               uint32_t nr_syncobjs)
+-{
+-	uint32_t i;
+-
+-	for (i = 0; syncobjs && i < nr_syncobjs; ++i) {
+-		if (syncobjs[i])
+-			drm_syncobj_replace_fence(syncobjs[i], NULL);
+-	}
+-}
+-
+-static struct msm_submit_post_dep *msm_parse_post_deps(struct drm_device *dev,
+-                                                       struct drm_file *file,
+-                                                       uint64_t syncobjs_addr,
+-                                                       uint32_t nr_syncobjs,
+-                                                       size_t syncobj_stride)
+-{
+-	struct msm_submit_post_dep *post_deps;
+-	struct drm_msm_gem_submit_syncobj syncobj_desc = {0};
+-	int ret = 0;
+-	uint32_t i, j;
+-
+-	post_deps = kcalloc(nr_syncobjs, sizeof(*post_deps),
+-			    GFP_KERNEL | __GFP_NOWARN | __GFP_NORETRY);
+-	if (!post_deps)
+-		return ERR_PTR(-ENOMEM);
+-
+-	for (i = 0; i < nr_syncobjs; ++i) {
+-		uint64_t address = syncobjs_addr + i * syncobj_stride;
+-
+-		if (copy_from_user(&syncobj_desc,
+-			           u64_to_user_ptr(address),
+-			           min(syncobj_stride, sizeof(syncobj_desc)))) {
+-			ret = -EFAULT;
+-			break;
+-		}
+-
+-		post_deps[i].point = syncobj_desc.point;
+-
+-		if (syncobj_desc.flags) {
+-			ret = UERR(EINVAL, dev, "invalid syncobj flags");
+-			break;
+-		}
+-
+-		if (syncobj_desc.point) {
+-			if (!drm_core_check_feature(dev,
+-			                            DRIVER_SYNCOBJ_TIMELINE)) {
+-				ret = UERR(EOPNOTSUPP, dev, "syncobj timeline unsupported");
+-				break;
+-			}
+-
+-			post_deps[i].chain = dma_fence_chain_alloc();
+-			if (!post_deps[i].chain) {
+-				ret = -ENOMEM;
+-				break;
+-			}
+-		}
+-
+-		post_deps[i].syncobj =
+-			drm_syncobj_find(file, syncobj_desc.handle);
+-		if (!post_deps[i].syncobj) {
+-			ret = UERR(EINVAL, dev, "invalid syncobj handle");
+-			break;
+-		}
+-	}
+-
+-	if (ret) {
+-		for (j = 0; j <= i; ++j) {
+-			dma_fence_chain_free(post_deps[j].chain);
+-			if (post_deps[j].syncobj)
+-				drm_syncobj_put(post_deps[j].syncobj);
+-		}
+-
+-		kfree(post_deps);
+-		return ERR_PTR(ret);
+-	}
+-
+-	return post_deps;
+-}
+-
+-static void msm_process_post_deps(struct msm_submit_post_dep *post_deps,
+-                                  uint32_t count, struct dma_fence *fence)
+-{
+-	uint32_t i;
+-
+-	for (i = 0; post_deps && i < count; ++i) {
+-		if (post_deps[i].chain) {
+-			drm_syncobj_add_point(post_deps[i].syncobj,
+-			                      post_deps[i].chain,
+-			                      fence, post_deps[i].point);
+-			post_deps[i].chain = NULL;
+-		} else {
+-			drm_syncobj_replace_fence(post_deps[i].syncobj,
+-			                          fence);
+-		}
+-	}
+-}
+-
+ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 		struct drm_file *file)
+ {
+@@ -654,7 +488,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	struct msm_gpu *gpu = priv->gpu;
+ 	struct msm_gpu_submitqueue *queue;
+ 	struct msm_ringbuffer *ring;
+-	struct msm_submit_post_dep *post_deps = NULL;
++	struct msm_syncobj_post_dep *post_deps = NULL;
+ 	struct drm_syncobj **syncobjs_to_reset = NULL;
+ 	int out_fence_fd = -1;
+ 	unsigned i;
+@@ -730,10 +564,10 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	}
+ 
+ 	if (args->flags & MSM_SUBMIT_SYNCOBJ_IN) {
+-		syncobjs_to_reset = msm_parse_deps(submit, file,
+-		                                   args->in_syncobjs,
+-		                                   args->nr_in_syncobjs,
+-		                                   args->syncobj_stride);
++		syncobjs_to_reset = msm_syncobj_parse_deps(dev, &submit->base,
++							   file, args->in_syncobjs,
++							   args->nr_in_syncobjs,
++							   args->syncobj_stride);
+ 		if (IS_ERR(syncobjs_to_reset)) {
+ 			ret = PTR_ERR(syncobjs_to_reset);
+ 			goto out_unlock;
+@@ -741,10 +575,10 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	}
+ 
+ 	if (args->flags & MSM_SUBMIT_SYNCOBJ_OUT) {
+-		post_deps = msm_parse_post_deps(dev, file,
+-		                                args->out_syncobjs,
+-		                                args->nr_out_syncobjs,
+-		                                args->syncobj_stride);
++		post_deps = msm_syncobj_parse_post_deps(dev, file,
++							args->out_syncobjs,
++							args->nr_out_syncobjs,
++							args->syncobj_stride);
+ 		if (IS_ERR(post_deps)) {
+ 			ret = PTR_ERR(post_deps);
+ 			goto out_unlock;
+@@ -887,10 +721,8 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
+ 	args->fence = submit->fence_id;
+ 	queue->last_fence = submit->fence_id;
+ 
+-	msm_reset_syncobjs(syncobjs_to_reset, args->nr_in_syncobjs);
+-	msm_process_post_deps(post_deps, args->nr_out_syncobjs,
+-	                      submit->user_fence);
+-
++	msm_syncobj_reset(syncobjs_to_reset, args->nr_in_syncobjs);
++	msm_syncobj_process_post_deps(post_deps, args->nr_out_syncobjs, submit->user_fence);
+ 
+ out:
+ 	submit_cleanup(submit, !!ret);
+diff --git a/drivers/gpu/drm/msm/msm_syncobj.c b/drivers/gpu/drm/msm/msm_syncobj.c
+new file mode 100644
+index 000000000000..4baa9f522c54
+--- /dev/null
++++ b/drivers/gpu/drm/msm/msm_syncobj.c
+@@ -0,0 +1,172 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/* Copyright (C) 2020 Google, Inc */
 +
-+struct dma_buf *msm_gem_prime_export(struct drm_gem_object *obj, int flags)
++#include "drm/drm_drv.h"
++
++#include "msm_drv.h"
++#include "msm_syncobj.h"
++
++struct drm_syncobj **
++msm_syncobj_parse_deps(struct drm_device *dev,
++		       struct drm_sched_job *job,
++		       struct drm_file *file,
++		       uint64_t in_syncobjs_addr,
++		       uint32_t nr_in_syncobjs,
++		       size_t syncobj_stride)
 +{
-+	if (to_msm_bo(obj)->flags & MSM_BO_NO_SHARE)
-+		return ERR_PTR(-EPERM);
++	struct drm_syncobj **syncobjs = NULL;
++	struct drm_msm_syncobj syncobj_desc = {0};
++	int ret = 0;
++	uint32_t i, j;
 +
-+	return drm_gem_prime_export(obj, flags);
++	syncobjs = kcalloc(nr_in_syncobjs, sizeof(*syncobjs),
++	                   GFP_KERNEL | __GFP_NOWARN | __GFP_NORETRY);
++	if (!syncobjs)
++		return ERR_PTR(-ENOMEM);
++
++	for (i = 0; i < nr_in_syncobjs; ++i) {
++		uint64_t address = in_syncobjs_addr + i * syncobj_stride;
++
++		if (copy_from_user(&syncobj_desc,
++			           u64_to_user_ptr(address),
++			           min(syncobj_stride, sizeof(syncobj_desc)))) {
++			ret = -EFAULT;
++			break;
++		}
++
++		if (syncobj_desc.point &&
++		    !drm_core_check_feature(dev, DRIVER_SYNCOBJ_TIMELINE)) {
++			ret = UERR(EOPNOTSUPP, dev, "syncobj timeline unsupported");
++			break;
++		}
++
++		if (syncobj_desc.flags & ~MSM_SYNCOBJ_FLAGS) {
++			ret = UERR(EINVAL, dev, "invalid syncobj flags: %x", syncobj_desc.flags);
++			break;
++		}
++
++		ret = drm_sched_job_add_syncobj_dependency(job, file,
++						   syncobj_desc.handle,
++						   syncobj_desc.point);
++		if (ret)
++			break;
++
++		if (syncobj_desc.flags & MSM_SYNCOBJ_RESET) {
++			syncobjs[i] = drm_syncobj_find(file, syncobj_desc.handle);
++			if (!syncobjs[i]) {
++				ret = UERR(EINVAL, dev, "invalid syncobj handle: %u", i);
++				break;
++			}
++		}
++	}
++
++	if (ret) {
++		for (j = 0; j <= i; ++j) {
++			if (syncobjs[j])
++				drm_syncobj_put(syncobjs[j]);
++		}
++		kfree(syncobjs);
++		return ERR_PTR(ret);
++	}
++	return syncobjs;
 +}
 +
- int msm_gem_prime_pin(struct drm_gem_object *obj)
- {
- 	struct page **pages;
-@@ -53,6 +65,9 @@ int msm_gem_prime_pin(struct drm_gem_object *obj)
- 	if (obj->import_attach)
- 		return 0;
- 
-+	if (to_msm_bo(obj)->flags & MSM_BO_NO_SHARE)
-+		return -EINVAL;
++void
++msm_syncobj_reset(struct drm_syncobj **syncobjs, uint32_t nr_syncobjs)
++{
++	uint32_t i;
 +
- 	pages = msm_gem_pin_pages_locked(obj);
- 	if (IS_ERR(pages))
- 		ret = PTR_ERR(pages);
++	for (i = 0; syncobjs && i < nr_syncobjs; ++i) {
++		if (syncobjs[i])
++			drm_syncobj_replace_fence(syncobjs[i], NULL);
++	}
++}
++
++struct msm_syncobj_post_dep *
++msm_syncobj_parse_post_deps(struct drm_device *dev,
++			    struct drm_file *file,
++			    uint64_t syncobjs_addr,
++			    uint32_t nr_syncobjs,
++			    size_t syncobj_stride)
++{
++	struct msm_syncobj_post_dep *post_deps;
++	struct drm_msm_syncobj syncobj_desc = {0};
++	int ret = 0;
++	uint32_t i, j;
++
++	post_deps = kcalloc(nr_syncobjs, sizeof(*post_deps),
++			    GFP_KERNEL | __GFP_NOWARN | __GFP_NORETRY);
++	if (!post_deps)
++		return ERR_PTR(-ENOMEM);
++
++	for (i = 0; i < nr_syncobjs; ++i) {
++		uint64_t address = syncobjs_addr + i * syncobj_stride;
++
++		if (copy_from_user(&syncobj_desc,
++			           u64_to_user_ptr(address),
++			           min(syncobj_stride, sizeof(syncobj_desc)))) {
++			ret = -EFAULT;
++			break;
++		}
++
++		post_deps[i].point = syncobj_desc.point;
++
++		if (syncobj_desc.flags) {
++			ret = UERR(EINVAL, dev, "invalid syncobj flags");
++			break;
++		}
++
++		if (syncobj_desc.point) {
++			if (!drm_core_check_feature(dev,
++			                            DRIVER_SYNCOBJ_TIMELINE)) {
++				ret = UERR(EOPNOTSUPP, dev, "syncobj timeline unsupported");
++				break;
++			}
++
++			post_deps[i].chain = dma_fence_chain_alloc();
++			if (!post_deps[i].chain) {
++				ret = -ENOMEM;
++				break;
++			}
++		}
++
++		post_deps[i].syncobj =
++			drm_syncobj_find(file, syncobj_desc.handle);
++		if (!post_deps[i].syncobj) {
++			ret = UERR(EINVAL, dev, "invalid syncobj handle");
++			break;
++		}
++	}
++
++	if (ret) {
++		for (j = 0; j <= i; ++j) {
++			dma_fence_chain_free(post_deps[j].chain);
++			if (post_deps[j].syncobj)
++				drm_syncobj_put(post_deps[j].syncobj);
++		}
++
++		kfree(post_deps);
++		return ERR_PTR(ret);
++	}
++
++	return post_deps;
++}
++
++void
++msm_syncobj_process_post_deps(struct msm_syncobj_post_dep *post_deps,
++			      uint32_t count, struct dma_fence *fence)
++{
++	uint32_t i;
++
++	for (i = 0; post_deps && i < count; ++i) {
++		if (post_deps[i].chain) {
++			drm_syncobj_add_point(post_deps[i].syncobj,
++			                      post_deps[i].chain,
++			                      fence, post_deps[i].point);
++			post_deps[i].chain = NULL;
++		} else {
++			drm_syncobj_replace_fence(post_deps[i].syncobj,
++			                          fence);
++		}
++	}
++}
+diff --git a/drivers/gpu/drm/msm/msm_syncobj.h b/drivers/gpu/drm/msm/msm_syncobj.h
+new file mode 100644
+index 000000000000..bcaa15d01da0
+--- /dev/null
++++ b/drivers/gpu/drm/msm/msm_syncobj.h
+@@ -0,0 +1,37 @@
++/* SPDX-License-Identifier: GPL-2.0-only */
++/* Copyright (C) 2020 Google, Inc */
++
++#ifndef __MSM_GEM_SYNCOBJ_H__
++#define __MSM_GEM_SYNCOBJ_H__
++
++#include "drm/drm_device.h"
++#include "drm/drm_syncobj.h"
++#include "drm/gpu_scheduler.h"
++
++struct msm_syncobj_post_dep {
++	struct drm_syncobj *syncobj;
++	uint64_t point;
++	struct dma_fence_chain *chain;
++};
++
++struct drm_syncobj **
++msm_syncobj_parse_deps(struct drm_device *dev,
++		       struct drm_sched_job *job,
++		       struct drm_file *file,
++		       uint64_t in_syncobjs_addr,
++		       uint32_t nr_in_syncobjs,
++		       size_t syncobj_stride);
++
++void msm_syncobj_reset(struct drm_syncobj **syncobjs, uint32_t nr_syncobjs);
++
++struct msm_syncobj_post_dep *
++msm_syncobj_parse_post_deps(struct drm_device *dev,
++			    struct drm_file *file,
++			    uint64_t syncobjs_addr,
++			    uint32_t nr_syncobjs,
++			    size_t syncobj_stride);
++
++void msm_syncobj_process_post_deps(struct msm_syncobj_post_dep *post_deps,
++				   uint32_t count, struct dma_fence *fence);
++
++#endif /* __MSM_GEM_SYNCOBJ_H__ */
 diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-index b974f5a24dbc..1bccc347945c 100644
+index 1bccc347945c..2c2fc4b284d0 100644
 --- a/include/uapi/drm/msm_drm.h
 +++ b/include/uapi/drm/msm_drm.h
-@@ -140,6 +140,19 @@ struct drm_msm_param {
+@@ -220,6 +220,17 @@ struct drm_msm_gem_cpu_fini {
+  * Cmdstream Submission:
+  */
  
- #define MSM_BO_SCANOUT       0x00000001     /* scanout capable */
- #define MSM_BO_GPU_READONLY  0x00000002
-+/* Private buffers do not need to be explicitly listed in the SUBMIT
-+ * ioctl, unless referenced by a drm_msm_gem_submit_cmd.  Private
-+ * buffers may NOT be imported/exported or used for scanout (or any
-+ * other situation where buffers can be indefinitely pinned, but
-+ * cases other than scanout are all kernel owned BOs which are not
-+ * visible to userspace).
-+ *
-+ * In exchange for those constraints, all private BOs associated with
-+ * a single context (drm_file) share a single dma_resv, and if there
-+ * has been no eviction since the last submit, there are no per-BO
-+ * bookeeping to do, significantly cutting the SUBMIT overhead.
-+ */
-+#define MSM_BO_NO_SHARE      0x00000004
- #define MSM_BO_CACHE_MASK    0x000f0000
- /* cache modes */
- #define MSM_BO_CACHED        0x00010000
-@@ -149,6 +162,7 @@ struct drm_msm_param {
++#define MSM_SYNCOBJ_RESET 0x00000001 /* Reset syncobj after wait. */
++#define MSM_SYNCOBJ_FLAGS ( \
++		MSM_SYNCOBJ_RESET | \
++		0)
++
++struct drm_msm_syncobj {
++	__u32 handle;     /* in, syncobj handle. */
++	__u32 flags;      /* in, from MSM_SUBMIT_SYNCOBJ_FLAGS */
++	__u64 point;      /* in, timepoint for timeline syncobjs. */
++};
++
+ /* The value written into the cmdstream is logically:
+  *
+  *   ((relocbuf->gpuaddr + reloc_offset) << shift) | or
+@@ -309,17 +320,6 @@ struct drm_msm_gem_submit_bo {
+ 		MSM_SUBMIT_FENCE_SN_IN   | \
+ 		0)
  
- #define MSM_BO_FLAGS         (MSM_BO_SCANOUT | \
-                               MSM_BO_GPU_READONLY | \
-+                              MSM_BO_NO_SHARE | \
-                               MSM_BO_CACHE_MASK)
- 
- struct drm_msm_gem_new {
+-#define MSM_SUBMIT_SYNCOBJ_RESET 0x00000001 /* Reset syncobj after wait. */
+-#define MSM_SUBMIT_SYNCOBJ_FLAGS        ( \
+-		MSM_SUBMIT_SYNCOBJ_RESET | \
+-		0)
+-
+-struct drm_msm_gem_submit_syncobj {
+-	__u32 handle;     /* in, syncobj handle. */
+-	__u32 flags;      /* in, from MSM_SUBMIT_SYNCOBJ_FLAGS */
+-	__u64 point;      /* in, timepoint for timeline syncobjs. */
+-};
+-
+ /* Each cmdstream submit consists of a table of buffers involved, and
+  * one or more cmdstream buffers.  This allows for conditional execution
+  * (context-restore), and IB buffers needed for per tile/bin draw cmds.
+@@ -333,8 +333,8 @@ struct drm_msm_gem_submit {
+ 	__u64 cmds;           /* in, ptr to array of submit_cmd's */
+ 	__s32 fence_fd;       /* in/out fence fd (see MSM_SUBMIT_FENCE_FD_IN/OUT) */
+ 	__u32 queueid;        /* in, submitqueue id */
+-	__u64 in_syncobjs;    /* in, ptr to array of drm_msm_gem_submit_syncobj */
+-	__u64 out_syncobjs;   /* in, ptr to array of drm_msm_gem_submit_syncobj */
++	__u64 in_syncobjs;    /* in, ptr to array of drm_msm_syncobj */
++	__u64 out_syncobjs;   /* in, ptr to array of drm_msm_syncobj */
+ 	__u32 nr_in_syncobjs; /* in, number of entries in in_syncobj */
+ 	__u32 nr_out_syncobjs; /* in, number of entries in out_syncobj. */
+ 	__u32 syncobj_stride; /* in, stride of syncobj arrays. */
 -- 
 2.49.0
 
