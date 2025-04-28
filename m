@@ -1,146 +1,287 @@
-Return-Path: <linux-media+bounces-31178-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31179-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B63C1A9ED22
-	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 11:48:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C2FBA9ED46
+	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 11:52:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 04F9D18860DC
-	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 09:47:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AAAD13A5916
+	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 09:48:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE850261577;
-	Mon, 28 Apr 2025 09:40:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F0B01E7C2E;
+	Mon, 28 Apr 2025 09:49:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KfL2A6KF"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="bXzdf7wa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FDC125FA0B
-	for <linux-media@vger.kernel.org>; Mon, 28 Apr 2025 09:40:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DD991CD15;
+	Mon, 28 Apr 2025 09:49:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745833221; cv=none; b=Zo3zi3gDwZMCeFlcyjFOjU3zeI6D0+azLUj+hFyhbgJ5UAWUoRKvoLFh/PkCU6Og0B/LIUTWssIE/fJOJF0iDSANhqkzbPx19Y1fxmvCJZE+d5yhzSXIbli/5w71ejzYST+w/jQsAN+Lf6jG8V4SRLIAP9dmX1V214o0cKh9nO0=
+	t=1745833743; cv=none; b=EAL5lgjFdYJn/VVeVdzVIXKzKj3skBmtOwLI16j5rhDBrVnyGM1l7XHZDrDsgM7HA37SDZ+GyHGZtcjDk2reQteNpaJlDdXcPDqvCfZCkNKm2CSWZ0NYS1GUwqL9vz9cnGze8d7S8A/gdXZDNrdfWbqhIZKI/11SufuH/GLTyIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745833221; c=relaxed/simple;
-	bh=p4kNQdwzmDnZta4PbgZFZq/U7oDnPl8MzQlY6H2Scpg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fOlKaj1KHbGfMuRjRXBRzbXCPuPVa/k/H8RJEC3rFGCO0xoTPVgiKV3QkY1W+m3FtN9edQshYF6XSaB+tc0shTOyFdMfrLm+DtUspKj1J57HtRAWrcJqroodlNdsiZIyy+mNp1N7u4OIO0YLS8CbbCVHXx98Y5Oxcz7Fxe+aTfc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KfL2A6KF; arc=none smtp.client-ip=209.85.221.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-39c0dfba946so3288086f8f.3
-        for <linux-media@vger.kernel.org>; Mon, 28 Apr 2025 02:40:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745833216; x=1746438016; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/tZd4Ypk5BJk00OTo7JvTXUhxLykKpGhTfHWhdUsfHI=;
-        b=KfL2A6KFL3AMx8D59wiXmSEln9e363SZI7GhY2v0eq0EjdfZk2Ru6wFuUIFTmv6yFV
-         B3NXKlGnXjtPBtp/kaFtMVovlJ1xbqOY9V28wpsZh/+YSMgScR+4GkGkDtqSt29dqrSX
-         MK4eXdXV7s86RvywP+QLar1+/rOHHe52egXH/hcJZFl/E7mmoowGtBDmMe5imkx8shl6
-         rmN3kr8hLVJTSbMi1ajwQl1cPkjkRzE3T6ljayNsdJA0nwkGHjYhbV+pcPJqFazMB2Qa
-         BbzSZOnGcn8OFmDMQHvOHW6JCeA8dRXc5V9V/UMrXh0xxHq5XzsgngPJLXoTDXgTAqdp
-         pUZw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745833216; x=1746438016;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/tZd4Ypk5BJk00OTo7JvTXUhxLykKpGhTfHWhdUsfHI=;
-        b=Xte3Ocl++f2CoIKYa/5hKCxoe5tlXo07IxmPSJig5Mxw+YuyPFOAu/PKsCiPCEnL9d
-         XJqx60J5jCGeSNCH+VxjUktUGPtwkhM/rGsRzp3VRsESvBZpuereVvhsntTz07gTL7Ne
-         z0V7YeeAfiTjb/eXupa2uUtfLkMu5Vcy19Kdj5XykmkOXfCIvaJYNjN+1+Gb9YYYFxXl
-         IU8PfMYTDFf19AE9k2SbZZtzusPn+m2Jwo6ZDLcQy7WWp/G93lW1rBmNQ4TWTRVDoXxM
-         BFXhyiWKwAi2kfzMrsD6BRk2XZEzea2lXAbjwfvdL4dmnNb8rtZoMzJTi2e44jQVhHKB
-         MzSw==
-X-Forwarded-Encrypted: i=1; AJvYcCVpP8L49XaZm+6h6RvwT1GeE1eOAhtnPVuU2eCI9VlTHdYWAthKSmnpLOWnseKQKx6XSl0WmhkJ2e08WQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKUjv+XiFjmxEhVsdiLapkDUvdw6OFdm6umETeSiVNxNYnk95q
-	Qx9JChjaaJ/w+oN4Pj6nlDDRKpDvPqhNhQ2Z154MekHXWsg6Q4efD6VRCJNfLkI=
-X-Gm-Gg: ASbGncvyGS3V4tc5jQqsfXPCKwyB9B9gEXc4XpZle4UWwaZWVI1svLvJx980METs1qV
-	GZoMTUmxiXu4Iadtc8VIP0YHZPVuJfqqj5qGXfmsJ4vdl0VqhHDU62fnuFrULOTEzKymR0kgTPt
-	Ad3H8cbp8DVmsu4Y54SeFIhagSg11Vow8Ne3tSwF5h/1wnuFmfSiY2fFUf7r1/6kXoNE2Sn8Xpk
-	JQcBYy0aeG4cyI/MbkV7eHKT2f4bzcYOCqIw8dE1IOnPgHCbsNTEIacx07xDF3kfwF6jrtBkLiA
-	Nx1BIWVX9clPYefLyTbcyaCuzJViNFtFPGC8n3c5gBB5HA==
-X-Google-Smtp-Source: AGHT+IEmllBzyXjLLf+kiGyB+WclUcZwpuBSk7Lzu0+1JVWeTqkNy2mJ6U8hjuYfUNsLgR1qBxihEA==
-X-Received: by 2002:adf:ec87:0:b0:39c:1257:c96f with SMTP id ffacd0b85a97d-3a07adb1766mr4500559f8f.59.1745833216549;
-        Mon, 28 Apr 2025 02:40:16 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a073ca543bsm10716844f8f.34.2025.04.28.02.40.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Apr 2025 02:40:16 -0700 (PDT)
-Date: Mon, 28 Apr 2025 12:40:12 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Cc: Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Stefan Schmidt <stefan.schmidt@linaro.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	20250417-topic-sm8x50-iris-v10-v7-0-f020cb1d0e98@linaro.org,
-	20250424-qcs8300_iris-v5-0-f118f505c300@quicinc.com,
-	stable@vger.kernel.org
-Subject: Re: [PATCH v2 14/23] media: iris: Fix NULL pointer dereference
-Message-ID: <7f37ec27-0221-4bb2-91f9-182244014b5a@stanley.mountain>
-References: <20250428-qcom-iris-hevc-vp9-v2-0-3a6013ecb8a5@quicinc.com>
- <20250428-qcom-iris-hevc-vp9-v2-14-3a6013ecb8a5@quicinc.com>
+	s=arc-20240116; t=1745833743; c=relaxed/simple;
+	bh=rkVdXMNji/Q8YJWeGD3SoZ7/PCc07CvXWfGHgZMFQ3U=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fbd0zs3BREE6dawXRIGTSI1olMGKGBltG2xWcvFRmivhmSvOQjYG6e7ABAH2KKhJf9l2CBOk+2RBXJ5pFipOzPEbmf8gt6jHY8i/H8lMu/cSCeoMcopJ2OLmiy2ldARoHIk5nEPpdHmClIinFEtcVR+KQBrnAJts1OXvVQvps3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=bXzdf7wa; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1745833739;
+	bh=rkVdXMNji/Q8YJWeGD3SoZ7/PCc07CvXWfGHgZMFQ3U=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=bXzdf7wa/jyH7gtQ3uUcudJVVKls0Cyqc2LnVYU5vBYZACepzM9DE4xiN+KYjhlYQ
+	 0PPFQWV6dy/w4b1zyJFyTfrPbnFFeYAcPaSdGBvHIbM6WYHoG3VtuO6RqZNDNgbOCw
+	 mPAnsSwIJ9XlYDRLqH5YTIS6Go2EDwJ0oNmCYPlvxu8MV0B9AXraaVlIaAwV0eryGl
+	 r9Hc2ijA5xYtXaveGiLEDi09UhR30It37g6ey7DWJlZtZmLiVuireFZUzTGIwNshVW
+	 U1/OHDNXHegStr/8KoDL5d3pvnhl/wsUvA4hFSXvACUOIhyUPNK2cGLL16GhG/xwt4
+	 zSY3QpAtseppg==
+Received: from [IPV6:2a05:1141:1cc:8600:1cd7:9a7e:17d7:cd2c] (unknown [IPv6:2a05:1141:1cc:8600:1cd7:9a7e:17d7:cd2c])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: mriesch)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 53CDC17E0809;
+	Mon, 28 Apr 2025 11:48:58 +0200 (CEST)
+Message-ID: <1b3245c1-2a4b-4854-ac2f-e89a52a454ec@collabora.com>
+Date: Mon, 28 Apr 2025 11:48:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250428-qcom-iris-hevc-vp9-v2-14-3a6013ecb8a5@quicinc.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 03/11] media: dt-bindings: media: add bindings for
+ rockchip rk3568 vicap
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Mehdi Djait <mehdi.djait@linux.intel.com>,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ =?UTF-8?Q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>,
+ Gerald Loacker <gerald.loacker@wolfvision.net>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Kever Yang <kever.yang@rock-chips.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Paul Kocialkowski <paulk@sys-base.io>,
+ Alexander Shiyan <eagle.alexander923@gmail.com>,
+ Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
+References: <20250306-v6-8-topic-rk3568-vicap-v5-0-f02152534f3c@wolfvision.net>
+ <20250306-v6-8-topic-rk3568-vicap-v5-3-f02152534f3c@wolfvision.net>
+ <20250307-pink-dalmatian-of-kindness-f87ad2@krzk-bin>
+ <Z8rBGHK9Tjx7D1D2@kekkonen.localdomain>
+ <4a1e5834-df52-43d2-ab19-e3117840a001@collabora.com>
+ <20250428092232.GC3371@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Michael Riesch <michael.riesch@collabora.com>
+In-Reply-To: <20250428092232.GC3371@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 28, 2025 at 02:59:02PM +0530, Dikshita Agarwal wrote:
-> A warning reported by smatch indicated a possible null pointer
-> dereference where one of the arguments to API
-> "iris_hfi_gen2_handle_system_error" could sometimes be null.
+Hi Laurent,
+
+On 4/28/25 11:22, Laurent Pinchart wrote:
+> On Mon, Apr 28, 2025 at 10:11:51AM +0200, Michael Riesch wrote:
+>> Hi Krzysztof, Sakari,
+>>
+>> Thanks for your feedback! Also, sorry for the delayed response, but as
+>> the e-mail address indicates, there has been a job change in between
+>> that kept me busy :-)
+>>
+>> On 3/7/25 10:49, Sakari Ailus wrote:
+>>> Hi Krzysztof, Michael,
+>>>
+>>> On Fri, Mar 07, 2025 at 08:51:54AM +0100, Krzysztof Kozlowski wrote:
+>>>> On Thu, Mar 06, 2025 at 05:56:04PM +0100, Michael Riesch wrote:
+>>>>> Add documentation for the Rockchip RK3568 Video Capture (VICAP) unit.
+>>>>>
+>>>>> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+>>>>
+>>>> subject: only one media prefix, the first
+>>>>
+>>>> A nit, subject: drop second/last, redundant "bindings". The
+>>>> "dt-bindings" prefix is already stating that these are bindings.
+>>>> See also:
+>>>> https://elixir.bootlin.com/linux/v6.7-rc8/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+>>
+>> Ack. Plain "media: dt-bindings: add rockchip rk3568 vicap" it is, then.
+>>
+>>>>
+>>>>> ---
+>>>>>  .../bindings/media/rockchip,rk3568-vicap.yaml      | 169 +++++++++++++++++++++
+>>>>>  MAINTAINERS                                        |   1 +
+>>>>>  2 files changed, 170 insertions(+)
+>>>>>
+>>>>
+>>>> ...
+>>>>
+>>>>> +  clocks:
+>>>>> +    items:
+>>>>> +      - description: ACLK
+>>>>> +      - description: HCLK
+>>>>> +      - description: DCLK
+>>>>> +      - description: ICLK
+>>>>> +
+>>>>> +  clock-names:
+>>>>> +    items:
+>>>>> +      - const: aclk
+>>>>> +      - const: hclk
+>>>>> +      - const: dclk
+>>>>> +      - const: iclk
+>>>>> +
+>>>>> +  rockchip,cif-clk-delaynum:
+>>>>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>>>>> +    minimum: 0
+>>>>> +    maximum: 127
+>>>>> +    description:
+>>>>> +      Delay the DVP path clock input to align the sampling phase, only valid
+>>>>> +      in dual edge sampling mode. Delay is zero by default and can be adjusted
+>>>>> +      optionally.
+>>>>
+>>>> default: 0
+>>
+>> Ack.
+>>
+>>>
+>>> And this is technically specific to the DVP port (0). Should (or could?) it
+>>> be located there?
+>>
+>> "Should"? Yes, makes sense to me.
+>> "Could"? I guess, as we are referencing port-base here it should be
+>> feasible. Not an expert opinion, mind you.
+>>
+>>>
+>>>>
+>>>>> +
+>>>>> +  iommus:
+>>>>> +    maxItems: 1
+>>>>> +
+>>>>> +  resets:
+>>>>> +    items:
+>>>>> +      - description: ARST
+>>>>> +      - description: HRST
+>>>>> +      - description: DRST
+>>>>> +      - description: PRST
+>>>>> +      - description: IRST
+>>>>> +
+>>>>> +  reset-names:
+>>>>> +    items:
+>>>>> +      - const: arst
+>>>>> +      - const: hrst
+>>>>> +      - const: drst
+>>>>> +      - const: prst
+>>>>> +      - const: irst
+>>>>> +
+>>>>> +  rockchip,grf:
+>>>>> +    $ref: /schemas/types.yaml#/definitions/phandle
+>>>>> +    description: Phandle to general register file used for video input block control.
+>>>>> +
+>>>>> +  power-domains:
+>>>>> +    maxItems: 1
+>>>>> +
+>>>>> +  ports:
+>>>>> +    $ref: /schemas/graph.yaml#/properties/ports
+>>>>> +
+>>>>> +    properties:
+>>>>> +      port@0:
+>>>>> +        $ref: /schemas/graph.yaml#/$defs/port-base
+>>>>> +        unevaluatedProperties: false
+>>>>> +        description: The digital video port (DVP, a parallel video interface).
+>>>>> +
+>>>>> +        properties:
+>>>>> +          endpoint:
+>>>>> +            $ref: video-interfaces.yaml#
+>>>>> +            unevaluatedProperties: false
+>>>>> +
+>>>>> +            properties:
+>>>>> +              bus-type:
+>>>>> +                enum: [5, 6]
+>>>>> +
+>>>>> +            required:
+>>>>> +              - bus-type
+>>>>> +
+>>>>> +      port@1:
+>>>>> +        $ref: /schemas/graph.yaml#/properties/port
+>>>>> +        description: Internal port connected to a MIPI CSI-2 host.
+>>>>> +
+>>>>> +        properties:
+>>>>> +          endpoint:
+>>>>> +            $ref: video-interfaces.yaml#
+>>>>> +            unevaluatedProperties: false
+>>>>
+>>>> Hm, does it actually work? graph/port does not allow any other
+>>>> properties. You should use graph/port-base and probably still narrow
+>>>> lanes for both of port@0 and port@1.
+>>>
+>>> I'd list the relevant properties for both DVP and CSI-2, either as
+>>> mandatory or with defaults (could be reasonable for DVP signal polarities
+>>> but not e.g. on number of CSI-2 lanes).
+>>
+>> Not sure whether we are on the same page here. As pointed out in the
+>> last round of feedback
+>> (https://lore.kernel.org/all/0b19c544-f773-435e-9829-aaaa1c6daf7a@wolfvision.net/),
+>> port@1 is not MIPI CSI, but some internal interface.
+>>
+>> I tried to clarify this by changing the description of this port to
+>> "Internal port connected to a MIPI CSI-2 host." The host (see
+>> rockchip,rk3568-mipi-csi.yaml) has a port that is actually MIPI CSI and
+>> one port that is the other end of port@1 here.
 > 
-> To fix this, add a check to validate that the argument passed is not
-> null before accessing its members.
+> I'd write "Port connected to the MIPI CSI-2 receiver output". We use
+> "receiver" instead of "host".
+
+Ack. I'll adjust the "host" -> "receiver" wording change in all the
+other places as well.
+
+Regards,
+Michael
+
 > 
-> Cc: stable@vger.kernel.org
-> Fixes: fb583a214337 ("media: iris: introduce host firmware interface with necessary hooks")
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Closes: https://lore.kernel.org/linux-media/634cc9b8-f099-4b54-8556-d879fb2b5169@stanley.mountain/
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> ---
->  drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+>> As to port@1 here, I am not aware of any properties that can be set. Not
+>> even very peculiar ones similar to rockchip,cif-clk-delaynum. Should I
+>> have overlooked something, I think we can relax the constraints, but we
+>> should start strict, right?
+>>
+>>>>> +
+>>>>> +required:
+>>>>> +  - compatible
+>>>>> +  - reg
+>>>>> +  - interrupts
+>>>>> +  - clocks
+>>>>> +  - ports
+>>>>> +
+>>>>> +additionalProperties: false
+>>>>> +
+>>>>> +examples:
+>>>>> +  - |
+>>>>> +    #include <dt-bindings/clock/rk3568-cru.h>
+>>>>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>>>>> +    #include <dt-bindings/interrupt-controller/irq.h>
+>>>>> +    #include <dt-bindings/power/rk3568-power.h>
+>>>>> +    #include <dt-bindings/media/video-interfaces.h>
+>>>>> +
+>>>>> +    parent {
+>>>>
+>>>> soc {
+>>
+>> Ack.
+>>
+>>>>> +        #address-cells = <2>;
+>>>>> +        #size-cells = <2>;
 > 
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
-> index 1ed798d31a3f..cba71b5db943 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
-> @@ -267,7 +267,8 @@ static int iris_hfi_gen2_handle_system_error(struct iris_core *core,
->  {
->  	struct iris_inst *instance;
->  
-> -	dev_err(core->dev, "received system error of type %#x\n", pkt->type);
-> +	if (pkt)
-> +		dev_err(core->dev, "received system error of type %#x\n", pkt->type);
-
-I feel like it would be better to do:
-
-	dev_err(core->dev, "received system error of type %#x\n", pkt ? pkt->type: -1);
-
-regards,
-dan carpenter
 
 
