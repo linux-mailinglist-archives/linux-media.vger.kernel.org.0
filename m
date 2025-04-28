@@ -1,181 +1,169 @@
-Return-Path: <linux-media+bounces-31196-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31197-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE3ACA9EE95
-	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 13:09:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A49BFA9EEE6
+	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 13:21:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 16F607A4FAA
-	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 11:08:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5EC3E1892284
+	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 11:20:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FA79262FFA;
-	Mon, 28 Apr 2025 11:09:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B393263C69;
+	Mon, 28 Apr 2025 11:18:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dIZem5C3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FwGeB5/s"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E23EE4A35
-	for <linux-media@vger.kernel.org>; Mon, 28 Apr 2025 11:09:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACE401C5D63;
+	Mon, 28 Apr 2025 11:18:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745838550; cv=none; b=fXczlpa9zfaOypMWpoujRAuiPff0iSD1ywDBo8KF7OCOG6nNG6lqFqc9POSXJT0XciZHfv4dtvk+260B/cFH2AFXdPNRXf4oUjE7FHp4bU3m+INa2SjuGMguI6DWRNYwaTnfmkB4Bg6/tqQNE6c+PBRAaX7AeEV239Cl/Y2O+Os=
+	t=1745839104; cv=none; b=Sswp0e7DpfOt9loJo3nmObeLKCdywaUC+vlfK1Tre6rvhCsnXsJbydqMY+U7Gtbm+HvhIdOLQRcNu0HnFoq826e3YHValn3jvoKAifoWbdNlI6lSTUjg1K67FjbyoNpWndGUojobXy5wn/LliPqrM/oshRsQo2rOemnQZbfNW+8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745838550; c=relaxed/simple;
-	bh=UO7J2oJdaZ6eFcmWZ2Ha3oDv7n8CZchlBO538or7ACA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G/96kGmB8HKVLZPg11RwFN+Rp+86nXpYzufEoJarPxSLkNUU9diakS5PgpT+9A3luwdMp3kOCtbZdErbXUI6ZwM66ebb9K3zXucKXpOzM1SxXSB5rT+SxYj6ZnmAL5HfAjZvfAW1VU2vLKOkVmT5JyETCfKHk9PreIwM9ioZAxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dIZem5C3; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-39c1ee0fd43so4153096f8f.0
-        for <linux-media@vger.kernel.org>; Mon, 28 Apr 2025 04:09:08 -0700 (PDT)
+	s=arc-20240116; t=1745839104; c=relaxed/simple;
+	bh=kE2q6PyfwIz3u3D35Rq0H6ItVVBQ6cZNkCx74Y+T4JA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=IRAuOaMAhOgKqegWcHmgcZS7Mt1GLU+KqwUhgLOgUAq7AT1ZW77Wr7dRNOjkdf2hEaRJxeilK7PHf4Jlp1hZAvq/FfGMkWdgROqKXN8tuTQR9rmODN+0uRdlpiDL0qTb/rvx4vdURwQLW0ZygUdHRV1BsvyGDbOOKssXoao87Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FwGeB5/s; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-39efc1365e4so2188942f8f.1;
+        Mon, 28 Apr 2025 04:18:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745838547; x=1746443347; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=H3Iext1v0JcemyuBv4epctIApvlADaZRKwnLcwjpgzU=;
-        b=dIZem5C3NuRdwvxi77CXfxFfNK2NO5C8feHN5ES+m3RhIKmT10MEFokK0O6/AjoMH6
-         LWDX0RIAw0We4RDSc90DdgM96lC25ctB2wi91D9ONDMj21Lm7R8+TsFxDctCQNb5dUev
-         BV9KJ9HTzmZiQ39Z7uVeiiV5XkH4qk72PVjSeI/QUYtdUyNpd/ptteDerecCWp607nvS
-         6pem4ST7Al2lQTJxbeWb1mFyqfQbk9XiK+hWwQKcNf62SGMN/ETbIUwkTtIbLKIL3uxt
-         3h88aoDCt0ruVcdisfegsyW+wSIcJJxMb10b6OiwWawQXJK7pJgi9qLPd7qqKiN9V+LG
-         5ufw==
+        d=gmail.com; s=20230601; t=1745839101; x=1746443901; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sLSrnCvsqMd1UKvovx8WYXrY84ebPf2yd+dETS/dXM0=;
+        b=FwGeB5/sbcV+PtGETeJNVHOEs5z9TRQ4pSZtRg0HuSF7c+MpuywEI5NEs0cTjOuMoU
+         RNAAObnpFjUF+aG9KPhkXnqznG8TsL5+yJH0+MJb8nIeksDWe6JzB2ow5Dxcog9SvlkR
+         m5kDQSbX8dg1JoUL2JroiSIL3fKcYuQzDOTacXSv2BALrmib5m+fkQJsDD3AHYW5/J+z
+         nWm1kJK3jnuSyNSJidLDWX82oJxbH15brD/jgW101ocCZi4EePe9oq0tcVgkm6lKb22a
+         H7gj/eENFZUZBRfrXOoBKVcaTj1zit+YNoNxDWAmiVUsEZAwlSVus9/3kUF/viMHb1vP
+         jseQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745838547; x=1746443347;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=H3Iext1v0JcemyuBv4epctIApvlADaZRKwnLcwjpgzU=;
-        b=MTd/nIuSqC0spVq4Ettwv6lS+/jCRc4UwJZnyLs9vD8I+XnKwgdzQRgq6LZ6MutIsn
-         skSzENFcJj5DtJgGSZRE+G6xy3aL1YgJo/Dyujv2FNwgd8LYdqEnSMC3wvLQk1z0Lago
-         5y4PY70SYR46CRurt9Ui1V46nt7Xzd5nEYkiJCDOAsSLWxE1pPycNDQmFX1oUmhnUGYl
-         TX97aDjkjJGDeonFmM3/Bz6m3NNFopPI/WebGSWmeKfUhes/3PJO0h/xGtTvp7eAPShG
-         6ko0vVlh3fG27TDjeSSESuF2Gy6c9TdnwZhTjO2Sbh35qwNGNDgppu6f5Bq1qTlE6cXU
-         T45g==
-X-Forwarded-Encrypted: i=1; AJvYcCUcQsPzqiflb62iQO4IWmrsJyVIKNS2GPyafByoc1loqsG5YGb1ggl3O0GDnG1Jvqtovgv6MhUrwuboQQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw31ghu5dV3hwetAKq+QaiadqQZpdY6t999t0O0M8fXTH1gvsaZ
-	zB2GA4zY0G2Ssey0JNKgSdUWeq986MAbZnTl6WGKYnp9qfW+3SwbRAHBA3MDJyk=
-X-Gm-Gg: ASbGncstpHdd8ne9v+JxufH+jrYaZIDyHZQeSt0wKbioT/SC8pnfYJB69W63VUIcdWe
-	lMoC/FMwyRwH2GdbEmaL5LZPE2P23w7FweGf7SAxNk7J3vf0Q4gGmcw0csFc0uAA4jE9qSIvHRX
-	F6WtXA6B+QGjeDVP0bL7nBf7Vbud78URUND03ZNYnCNsdvHt28IjL4oMpZIoLPeATc1bQFwyWsC
-	Zcsv5f7zaHb0WPJP1ALtp3xRXhaixQacY+SYfU+TSozaUgbYRmfMeLgfMD2MvJl3cfeG7rNo2iI
-	hi3K9+5H5744MlCT1gwm2PfI4wUe328q70sNRm6VnVpqOcLmBw0C91Gmy1cSNiSHzpWEv36Wbk6
-	Nw1YO8vJD7CR7VcY+
-X-Google-Smtp-Source: AGHT+IEQIpsf8GZoWzshfufjQ9ey+bXCZghfq/VC5/gL8/e0yZpaGRqIW9/smwUfizsp0r9wBNaNuw==
-X-Received: by 2002:a05:6000:401e:b0:39c:e0e:bb46 with SMTP id ffacd0b85a97d-3a07aa5fd30mr5223293f8f.4.1745838547199;
-        Mon, 28 Apr 2025 04:09:07 -0700 (PDT)
-Received: from [192.168.0.34] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a073e5d4b0sm10741276f8f.89.2025.04.28.04.09.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Apr 2025 04:09:06 -0700 (PDT)
-Message-ID: <67b385cf-a953-4e40-a164-45535d6da212@linaro.org>
-Date: Mon, 28 Apr 2025 12:09:05 +0100
+        d=1e100.net; s=20230601; t=1745839101; x=1746443901;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sLSrnCvsqMd1UKvovx8WYXrY84ebPf2yd+dETS/dXM0=;
+        b=VAtEwJMIOhtTAebRp2KqrHivi13KEPNqHAk4YtZyry0OYY9X+EdFmn04fGMowZGExy
+         k5AT7uKA78zzZUQKsmuWpEPT831kEGNp6afTAILEGNFstjxPr7FEi3q+q5n9e4Y7gBeE
+         WqTyCPBn7cGt6o6JS+2v85D1iqD6zSsFX9mUct0PXT/tJOX5CQc+g1vMiVj7td3roIAJ
+         jVNe+0Lo8sXht8cr0On/r7AJB4d7DjaLOW4K57otRCOzkx1AWlHwZxIdJwf2fQOyskFt
+         l24s+B3PE5NCFEsIiHDGOeuyeWVZ7hzhUloZlJNTPVE9M66kFrFHsxJYmX2j1FKmtWCl
+         9vdQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUz6s43QLXWwQNtiaCBMudrn+lwMwJxiuj5hcAgYgAaQpdcLXnY9xd4hmpbK/bQmD5T779B4EfTOtBJUlo=@vger.kernel.org, AJvYcCVW0HN9ojq0JLdONGHMqRwpNyKWgfH3Mii31kilj/0siPKPGOIxYIwKU5zYQKfGYZYa2V+FNQuSXVbsx6EI9P8oYpY=@vger.kernel.org, AJvYcCWUM96PnsaReyn9A9REoBnIRlji3k5uvOEnVM+x/aW8WAxC/n4pR5LMlWKofE/oAUUgy3I/P5eduIxvRTA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOf/s3VYS7SaiC34E9IcQTGMzUqR8ouDjeaf8vtGcG0rydpvHH
+	hzmvrxKvNmXygTvyBlkL4ScN9HiD9csMXxc8KxApzdQL6MW5q9yEsy9vGP98/CeGPkh9aKbVLGa
+	jRu0frnZQN7+4eBE8DcYrlg2jGXQ=
+X-Gm-Gg: ASbGnctW7IK668Y0oAnKUrGDXDvnTCnKaXBI/ENZpXolZ70PG8rSlPgShN0hxpAq8s1
+	nIAYE6pYpiqk2mLQ2IiTCuEmJ5ZGrhHgXElOMCy5brktFhXPGbPPq0P5APeoJj2OopYUzymtOvu
+	SKxsvrLRulOcZN0AV/7cPEYio=
+X-Google-Smtp-Source: AGHT+IHwF8neALcoTE/zLWU7CtLZPLtAC+f74+P4wnzqn5Yd2P+kde0y1wbgPUVpUUwdOFkNou8edbnrm28KiZwWAPA=
+X-Received: by 2002:a05:6000:420b:b0:3a0:8819:3b69 with SMTP id
+ ffacd0b85a97d-3a088193c8bmr452320f8f.21.1745839100653; Mon, 28 Apr 2025
+ 04:18:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: dt-bindings: Add OminiVision 0V02C10
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Bryan O'Donoghue <bod@kernel.org>, Hans de Goede <hansg@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250426-b4-sailusfor-6-16-1-5-signed-ov02c10-yaml-v1-1-9a46124fae7b@linaro.org>
- <aA8uN5Y4MuqR-p7H@kekkonen.localdomain>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <aA8uN5Y4MuqR-p7H@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250428095208.99062-1-prabhakar.mahadev-lad.rj@bp.renesas.com> <20250428095940.GE3371@pendragon.ideasonboard.com>
+In-Reply-To: <20250428095940.GE3371@pendragon.ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 28 Apr 2025 12:17:54 +0100
+X-Gm-Features: ATxdqUF7svHFGSaMoIsqW18j8sdGEYekSPY9dFmbjkkk5rXbhdt8zL2z0qp7a8Q
+Message-ID: <CA+V-a8taFdmCgiUAwmDG93OA+P9UH-FEw3PeMFW4sLQ2KPnEPQ@mail.gmail.com>
+Subject: Re: [PATCH] media: renesas: rzg2l-cru: Simplify FIFO empty check
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
+	Biju Das <biju.das.jz@bp.renesas.com>, 
+	Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Dan Carpenter <dan.carpenter@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 28/04/2025 08:28, Sakari Ailus wrote:
-> Hi Bryan,
-> 
-> Thanks for the patch.
-> 
-> On Sat, Apr 26, 2025 at 11:35:21PM +0100, Bryan O'Donoghue wrote:
->> Extend the ov02e10 bindings yaml to describe the ov02c10 sensor which has
->> the same bindings with a different compat string and different i2c
->> address only.
->>
->> Other differences in sensor capabilities exist but are not expressed in
->> devicetree.
->>
->> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> ---
->> I previously submitted a standalone ov02c10 yaml file but, it was pointed
->> out to me by Krzysztof that the ov02e10 yaml has exactly the same bindings
->> and we should therefore extend the ov02e10 yaml.
->>
->> Link: https://lore.kernel.org/linux-media/da93bf6c-b4bc-4c4f-9373-583fbd0c031c@kernel.org/
->>
->> The accompanying patch:
->>
->> - Updates the overall description to differentiate between the two sensors
->> - Adds ovti,ov02c10 compat string
->> - Adds an example for the ov02c10
->>
->> Once merged we can also merge the ov02c10 driver, which contains a compat
->> string requiring yaml description as precursor to merge.
->> ---
->>   .../bindings/media/i2c/ovti,ov02e10.yaml           | 47 ++++++++++++++++++++--
->>   1 file changed, 43 insertions(+), 4 deletions(-)
->>
->> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov02e10.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov02e10.yaml
->> index 4ac4e11a16c8bb7a53db0c44289b1004dbdc282a..1561a3e96caa8b09a4c105b87536bb0d00b2adf8 100644
->> --- a/Documentation/devicetree/bindings/media/i2c/ovti,ov02e10.yaml
->> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov02e10.yaml
->> @@ -11,12 +11,22 @@ maintainers:
->>     - Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->>   
->>   description: |
->> -  The Omnivision OV02E10 is a 2 megapixel, CMOS image sensor which supports:
->> +  The Omnivision OV02E10 and 0V02C10 sensors are 2 megapixel, CMOS image sensors which support:
->>     - Automatic black level calibration (ABLC)
->>     - Programmable controls for frame rate, mirror and flip, binning, cropping
->>       and windowing
->> -  - Output formats 10-bit 4C RGB RAW, 10-bit Bayer RAW
->> -  - 2-lane MIPI D-PHY TX @ 720 Mbps per lane
->> +  - OVO2C10
->> +    - 10 bit 1920x1080 60 fps 2-lane @ 800 Mbps/lane
->> +    - 10 bit 1920x1080 60 fps 1-lane @ 1500 Mbps/lane
->> +    - 10 bit 1280x720 60 fps cropped 1-lane @ 960 Mbps/lane
->> +    - 10 bit RGB/BW 640x480 60 fps bin2 or skip2 1-lane @ 800 Mbps/lane
->> +    - 10 bit RGB/BW 480x270 60 fps bin4 or skip4 1-lane @ 800 Mbps/lane
->> +  - OV02E10
->> +    - 10 bit 1920x1088 60 fps 2-lane @ 720 Mbps/lane
->> +    - 10 bit 1280x1080 60 fps 2-lane @ 720 Mbps/lane
->> +    - 10 bit 960x540 60 fps 2-lane 4c1 360 Mbps/lane
->> +    - 8 bit 480x270 1/3/5/10 fps 4c1 sub2 288 Mbps/lane
->> +    - 8 bit 232x132 1/3/5/10 fps 4c1 sub4 144 Mbps/lane
-> 
-> These look like driver features rather than hardware properties. What are
-> the hardware differences of the two sensors that could be listed here?
+Hi Laurent,
 
-The only real DT difference and its not something I think we usually 
-describe in a binding is the i2c address.
+Thank you for the review.
 
-0x36 for the ov02c10
-0x10 for the ov02e10
+On Mon, Apr 28, 2025 at 10:59=E2=80=AFAM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Prabhakar,
+>
+> Thank you for the patch.
+>
+> On Mon, Apr 28, 2025 at 10:52:08AM +0100, Prabhakar wrote:
+> > From: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> >
+> > Simplify the `rzg2l_fifo_empty()` helper by removing the redundant
+> > comparison in the return path. Now the function explicitly returns `tru=
+e`
+> > if the FIFO write and read pointers match, and `false` otherwise, impro=
+ving
+> > readability without changing behavior.
+> >
+> > Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > Closes: https://lore.kernel.org/all/aAtQThCibZCROETx@stanley.mountain/
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/d=
+rivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > index 067c6af14e95..97faefcd6019 100644
+> > --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> > @@ -348,7 +348,7 @@ bool rzg2l_fifo_empty(struct rzg2l_cru_dev *cru)
+> >       if (amnfifopntr_w =3D=3D amnfifopntr_r_y)
+> >               return true;
+> >
+> > -     return amnfifopntr_w =3D=3D amnfifopntr_r_y;
+> > +     return false;
+>
+> So the function always returned true. This seems to be a bug fix, please
+> add a Fixes: tag. The commit message should also make it clear that
+> you're fixing an issue, not just simplifying the code.
+>
+No, the function returned true only if the pointers matched;
+otherwise, amnfifopntr_w =3D=3D amnfifopntr_r_y would return false. I was
+simply removing the repetitive pointer check and directly returning
+false at the end of the function, as we can be certain at that point.
+Hence, I did not add a Fixes tag. Am I missing something?
 
-It seems like "no harm" to list some of the non-DT hardware differences 
-for informational purposes anyway.
+> Personally I'd have written
+>
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/dri=
+vers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> index 067c6af14e95..3d0810b3c35e 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+> @@ -345,8 +345,6 @@ bool rzg2l_fifo_empty(struct rzg2l_cru_dev *cru)
+>         amnfifopntr_w =3D amnfifopntr & AMnFIFOPNTR_FIFOWPNTR;
+>         amnfifopntr_r_y =3D
+>                 (amnfifopntr & AMnFIFOPNTR_FIFORPNTR_Y) >> 16;
+> -       if (amnfifopntr_w =3D=3D amnfifopntr_r_y)
+> -               return true;
+>
+>         return amnfifopntr_w =3D=3D amnfifopntr_r_y;
+>  }
+>
+> but that's also a bit of a style preference.
+>
+I wanted to keep this consistent with the rz3e_fifo_empty(). If you
+prefer the above I'll do that in v2.
 
-You're right, these differences aren't manifest in the yaml/dt though.
-
-> The earlier description also said this is 4C which I understand is
-> Omnivision term for quad Bayer pattern. It'd be nice to refer to that, too.
-> (I'd use quad Bayer instead in fact.)np
-
----
-bod
+Cheers,
+Prabhakar
 
