@@ -1,140 +1,223 @@
-Return-Path: <linux-media+bounces-31232-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31233-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0684AA9F851
-	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 20:18:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 166A5A9F8C0
+	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 20:40:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6FE7D1A85EF3
-	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 18:17:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 670C14602B1
+	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 18:40:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5596827EC99;
-	Mon, 28 Apr 2025 18:17:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B58452951CC;
+	Mon, 28 Apr 2025 18:40:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=disterhof.eu header.i=@disterhof.eu header.b="dbhdAvtE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mu5gHyDv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f176.google.com (mail-qk1-f176.google.com [209.85.222.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF37B1B3934;
-	Mon, 28 Apr 2025 18:17:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777412951BF;
+	Mon, 28 Apr 2025 18:40:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745864224; cv=none; b=Hcx2XDu61oER/LuOZ4NaLPuneJh7pvFn5J1oIyH1vR4BX6sWFeKGCFKxCxrje+XZIb40QwOcJ1oGZAGkKUg2OUd+bqm1m1XeZ6P8GJzacEHnyCe40KiCmIq9xCNIO0iJzuyAmNjSYB2iIkQJjiKAxHzlK2mE0fcdWZ24xmCaGwI=
+	t=1745865648; cv=none; b=ZdxDKCobWNDeWJz6wynP9BpMWyWnlHsKe8lQJchMOxt+f7tAr0Gb9g29s3NRyeO2PmWlOj9lXBVABuMSJL68M0XA32tKnXr1aX9HyOQMoGL34HMi7fiL3Cgq2gTldmdvQG7k/lZQIS+mbCjeainAmMkxD8SrkdeDOGX+bvVdFFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745864224; c=relaxed/simple;
-	bh=3eJ7+1F6vKndxynrgWcSaZggI3ByYlMFxo9DcAdV4jQ=;
-	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=pBVvYwcepGRADjGi08o94sMs6qmRosrunfaXiOTKhntPITNpsJNSJdjXqpuX4aWHK2LFTZyBCEOD4IPr/sObM242S0hDCPWxQSOFp/iKxvhVP7/zuMJE8Nw7243/G115xJQgZkJXudnHkY5eXjsExKaP9zlYQAy3NzIYy9DajR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=disterhof.eu; spf=pass smtp.mailfrom=disterhof.eu; dkim=pass (2048-bit key) header.d=disterhof.eu header.i=@disterhof.eu header.b=dbhdAvtE; arc=none smtp.client-ip=80.241.56.152
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=disterhof.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=disterhof.eu
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [10.196.197.102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4ZmWqm3ql7z9tX4;
-	Mon, 28 Apr 2025 20:16:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=disterhof.eu;
-	s=MBO0001; t=1745864212;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:autocrypt:autocrypt;
-	bh=RBU3Rxa/SeWrdolSbblILy8+ZXtT8fErI4neuezE2pw=;
-	b=dbhdAvtEN4/lllBI4NhtqRkilnpOwGXWQx00tKIgBhRU15ZirnWByvf7M/Sxi8WQSKBziA
-	Wi7EkOOc7gJNGoom2bssEtU8YxoN0is5IYMMUojGswVvi+J3uEc2wZcPCKa6++K9crIYqE
-	Oqd7bRt69J64K8LDapvQYoeLCIVC2NghIplMbn0QawrYvJW/vwjaTPohysjS/Z2GB/Un5L
-	hVCbKyTs18f5XpkxMzC/IOl9t+pxH8A03ClNyXtCPtbMEjsy1uuK3GT2FaVg7IsS6iHsOU
-	IpxhmhiZYEaS44eBVOUbIVQk/JkUMUqWdGAwshCh86BXxRuuPJrKLjLTkM3NfA==
-Message-ID: <dd4693d2-3ecb-4081-8227-35e4e89ec7d4@disterhof.eu>
-Date: Mon, 28 Apr 2025 20:16:50 +0200
+	s=arc-20240116; t=1745865648; c=relaxed/simple;
+	bh=BGwwVL0HIaHmbSX0ohrKs8ybdOlWCMLz/88f+UFF9JE=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=UxITGRp/0C8/OIRC3mp6BKXyTDoOtWMH0orAhC4jCBiRPAaf3fMY2aiFJIsSsyuIAv4jq9sk8L6gywcmYHGGK5rh3njDk8E9VdffoJJKYBnuSQlmoCXgHPwJ4MQ26rKrxyD8Df40Az0KJbco+R6T2U7WepmwW4ov/ywt+lOOsQs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mu5gHyDv; arc=none smtp.client-ip=209.85.222.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f176.google.com with SMTP id af79cd13be357-7c7a5ee85dcso62273685a.2;
+        Mon, 28 Apr 2025 11:40:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745865645; x=1746470445; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=fgaBY96VE81PvPbEwYS+skMIdgkg2Q9a/pUkwNmCt44=;
+        b=mu5gHyDvWk2/+mb27rCRSx8fwneVBdNWbyFD0Qast4xs6j8FagKf0hzl89EsJIe4R3
+         3sr2ejaDYH0a+jx0J7vjnzljJ4WqmUBkvK/G+0nUEe7Igs3oV5J/RAQcP2yR6phixnV5
+         T3Pe6sCGATxitdEFPUCSavDsknoYhQP/sO5J4Ct2ibplYqH/c+d9gNZBbiAlp2G9FM55
+         XKUNNOWtmiHZfluUxpnMfQ3NW/AxyxJvoWEOHQi7UKRd0uexHEMSADPjLfZjD//Q3pNG
+         6h+xRKwmu5t+c5Tb41bMWPIyZnWfjvz+aZny51fKcDuM2WvDqSrsVEnhfrmdJCvY1XPo
+         qzZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745865645; x=1746470445;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=fgaBY96VE81PvPbEwYS+skMIdgkg2Q9a/pUkwNmCt44=;
+        b=UOJY4rxCdGdOW/PGedxBDFUVuegxh4WKNl5lPC+2X4n6GSa0Fz0SWO8wCkV+onbWM/
+         y7ekrkZeKJOsnbqrySRoNVqA3pfGnOIKISFg81+F7EdD8qt37M6ptuu+I0oBBsCQEt7v
+         NQjZ9GzJuZaUNcY1dpffQn0JpDcTqmj+HvrW42VtDabVtePyKACseG6vNc7iqP7M5rWH
+         3OOCuhW0dssakV7JYSf/ih1Zd0XMW3vA3L4GUKbrPTowSAZ15k/uxYB+kK2hQlbfrgCh
+         AkxoYGHLDNooRusGyhNXOE/Ng1ptHurcbCibBIZQuVbXIBgpL0IRn3Gic+R7aEcc0KlD
+         hB5g==
+X-Forwarded-Encrypted: i=1; AJvYcCUFB6Y+9obexFCbJzC490H6UdpZQGZJr2nt6Y0LjrxkTQKTn773NocD71dJksmmwp5r/nYbDRrzZK0La8I=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy1YZAflsDZUo1sq6oqxeV4nxtPLuRyRdds790544S3liwuMxJJ
+	vCIiS1pqQWjQ6aDKSiqtVivZg9r4J1CDo0NRr9ABRemmzurXiU9E
+X-Gm-Gg: ASbGnctCHkxAHML9wOJ3RwtoLfR8+sX2av2FANRJSVbRl3SBULrbqDq/uq4VyLrW59o
+	IPPAs59tos+0xOJBuhsJu6jIqN6dpbs5wax6RJMaNITfF3nbnYsjOFfhiRq62QJh2NB+yAi8uQ1
+	50C5v4Cf+/t2gfWTr9F8HKMldZ42OP2nAPtA7tU00rFySR0t0koTVy/RTCwX1kONMPuB2xV1KPd
+	5REoJAIcXGH5dyKkUj8ZuZf0TDSiX3Izs+jBlwL8ojGzG45xPKLo/kLUrRYip1PIhnU8pVdHo+V
+	cW+/QZJLI1ksvP4Gui1v5FKhgHyX4ir2Tjt7lkYtaZF19s5M6qJjXvGQO1jHal+D0Gqp0cj58AM
+	T14yXrsr8e/6+MahlOxdl
+X-Google-Smtp-Source: AGHT+IE2APmkKsqhEx5YxFzlg9XvLyxc4U0ug8dWuN51lHxmxpo+8GyoRKNjIhDX6KXVxS4jYk3P7Q==
+X-Received: by 2002:a05:620a:2550:b0:7c3:e1ef:e44d with SMTP id af79cd13be357-7cabe55874dmr11796985a.0.1745865644894;
+        Mon, 28 Apr 2025 11:40:44 -0700 (PDT)
+Received: from ?IPv6:2600:1002:a012:1653:18fc:2b88:2fa4:6e9f? ([2600:1002:a012:1653:18fc:2b88:2fa4:6e9f])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c958e7f115sm653510085a.72.2025.04.28.11.40.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Apr 2025 11:40:44 -0700 (PDT)
+Message-ID: <8b0234aeabc8d33a2d8025b42642362481a6c06a.camel@gmail.com>
+Subject: Re: [PATCH 0/3] media: vim2m: add multiplanar API support
+From: Matthew Majewski <mattwmajewski@gmail.com>
+To: Hans Verkuil <hans@jjverkuil.nl>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>,  Hans Verkuil <hverkuil@xs4all.nl>, Uwe Kleine-Konig
+ <u.kleine-koenig@baylibre.com>, Shuah Khan	 <skhan@linuxfoundation.org>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,  Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>,  Naushir Patuck <naush@raspberrypi.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Mon, 28 Apr 2025 14:40:42 -0400
+In-Reply-To: <09726b7e-4ac4-4ebe-b1eb-4d142c2ee0fb@jjverkuil.nl>
+References: <20250304191701.2957096-1-mattwmajewski@gmail.com>
+	 <09726b7e-4ac4-4ebe-b1eb-4d142c2ee0fb@jjverkuil.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (by Flathub.org) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Language: en-US
-To: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl
-From: Ludwig Disterhof <ludwig@disterhof.eu>
-Autocrypt: addr=ludwig@disterhof.eu; keydata=
- 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
-Subject: [PATCH] media: usbtv: Lock resolution while streaming
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-When an program is streaming (ffplay) and another program (qv4l2)
-changes the TV standard from NTSC to PAL, the kernel crashes due to trying
-to copy to unmapped memory.
+Hello Hans,
 
-Changing from NTSC to PAL increases the resolution in the usbtv struct,
-but the video plane buffer isn't adjusted, so it overflows.
+On Sun, 2025-04-27 at 11:45 +0200, Hans Verkuil wrote:
+> Hi Matthew,
+>=20
+> On 04/03/2025 20:16, Matthew Majewski wrote:
+> > Hi everyone,
+> >=20
+> > This patch series adds multiplane API support for the virtual M2M
+> > driver, along with some minor driver refactoring/improvements.
+> >=20
+> > I followed the lead of the vivid driver and made multiplanar
+> > support
+> > selectable with a module parameter, and the default is to use the
+> > single planar api.
+> >=20
+> > Although there are not yet any pixelformats in the driver that make
+> > use of multiple memory planes, adding support for these should be
+> > easier now with the API level changes taken care of.
+>=20
+> Are you planning follow-up patches adding support for at least one
+> multiplanar format? That would be really nice.
+>=20
+> Regards,
+>=20
+> 	Hans
+>=20
 
-Fixes: 0e0fe3958fdd13d ("[media] usbtv: Add support for PAL video source")
+Yes, I currently have a WIP patch series to add support for all of the
+formats that vivid currently supports to vim2m. It involves a huge
+refactor though, so I split the groundwork for supporting the multi-
+planar formats into a separate patch series first.=20
 
-Signed-off-by: Ludwig Disterhof <ludwig@disterhof.eu>
----
- drivers/media/usb/usbtv/usbtv-video.c | 4 ++++
- 1 file changed, 4 insertions(+)
+Best,
 
-diff --git a/drivers/media/usb/usbtv/usbtv-video.c b/drivers/media/usb/usbtv/usbtv-video.c
-index be22a9697197..965a8ae82afe 100644
---- a/drivers/media/usb/usbtv/usbtv-video.c
-+++ b/drivers/media/usb/usbtv/usbtv-video.c
-@@ -73,6 +73,10 @@ static int usbtv_configure_for_norm(struct usbtv *usbtv, v4l2_std_id norm)
- 	}
- 
- 	if (params) {
-+		if (vb2_is_streaming(&usbtv->vb2q) &&
-+		    (usbtv->width != params->cap_width ||
-+		     usbtv->height != params->cap_height))
-+			return -EBUSY;
- 		usbtv->width = params->cap_width;
- 		usbtv->height = params->cap_height;
- 		usbtv->n_chunks = usbtv->width * usbtv->height
--- 
-2.43.0
+	Matthew
+
+> >=20
+> > v4l2-compliance reports the following with multiplane support
+> > disabled:
+> >=20
+> > =C2=A0 Total for vim2m device /dev/video0: 48, Succeeded: 48, Failed: 0=
+,
+> > Warnings: 0
+> >=20
+> > and the same with multiplane support enabled:
+> >=20
+> > =C2=A0 Total for vim2m device /dev/video0: 48, Succeeded: 48, Failed: 0=
+,
+> > Warnings: 0
+> >=20
+> > Patches need to be applied in increasing numerical order (Patch
+> > [3/3]
+> > depends on [1/3] and [2/3]).
+> >=20
+> > Since the multi-plane changes had to touch a lot of the driver, I
+> > did
+> > a basic regression test with the following script which generates a
+> > test input image with vivid and an output image from vim2m for each
+> > supported format. I confirmed all outputs visually and verified
+> > they
+> > were identical to the outputs before the change. Testing was done
+> > on
+> > an x86_64 qemu image.
+> >=20
+> > #!/bin/sh
+> >=20
+> > # tested with HDMI vivid emulation
+> > # modprobe vivid num_inputs=3D1 input_types=3D3
+> >=20
+> > vim2m=3D/dev/video0
+> > vivid=3D/dev/video1
+> >=20
+> > width=3D640
+> > height=3D480
+> > out_width=3D320
+> > out_height=3D240
+> >=20
+> > capture_formats=3D$(v4l2-ctl -d $vim2m --list-formats | awk '/\]:/
+> > {print $2}' | sed "s/'//g")
+> > output_formats=3D$(v4l2-ctl -d $vim2m --list-formats-out | awk '/\]:/
+> > {print $2}' | sed "s/'//g")
+> >=20
+> > # Turn off text mode so that images will be identical
+> > v4l2-ctl -d $vivid -c osd_text_mode=3D2
+> >=20
+> > for ofmt in ${output_formats}; do
+> > =C2=A0=C2=A0=C2=A0 # generate input image
+> > =C2=A0=C2=A0=C2=A0 inname=3D"${width}x${height}.${ofmt}"
+> > =C2=A0=C2=A0=C2=A0 v4l2-ctl -d $vivid -v
+> > pixelformat=3D$ofmt,width=3D$width,height=3D$height,field=3Dnone \
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 --stream-mmap --stream-count=3D1 --stream-to=3D$inname
+> > =C2=A0=C2=A0=C2=A0 for cfmt in ${capture_formats}; do
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 outname=3D"${out_width}x${ou=
+t_height}-out.${cfmt}"
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 v4l2-ctl -d $vim2m -x
+> > pixelformat=3D$ofmt,width=3D$width,height=3D$height \
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 -v
+> > pixelformat=3D$cfmt,width=3D$out_width,height=3D$out_height \
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 --stream-from=3D$inname --stream-to=3D$outname =
+--
+> > stream-mmap --stream-out-mmap \
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 --stream-count=3D1
+> > =C2=A0=C2=A0=C2=A0 done
+> > done
+> >=20
+> > Matthew Majewski (3):
+> > =C2=A0 media: v4l2-common: Add RGBR format info
+> > =C2=A0 media: vim2m: Simplify try_fmt
+> > =C2=A0 media: vim2m: Add parametized support for multiplanar API
+> >=20
+> > =C2=A0drivers/media/test-drivers/vim2m.c=C2=A0=C2=A0=C2=A0 | 327 ++++++=
++++++++++++++++-
+> > ----
+> > =C2=A0drivers/media/v4l2-core/v4l2-common.c |=C2=A0=C2=A0 1 +
+> > =C2=A02 files changed, 274 insertions(+), 54 deletions(-)
+> >=20
+>=20
+
 
