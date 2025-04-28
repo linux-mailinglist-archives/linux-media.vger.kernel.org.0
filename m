@@ -1,61 +1,60 @@
-Return-Path: <linux-media+bounces-31140-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31141-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99A0EA9E8C7
-	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 09:04:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94D55A9E8F6
+	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 09:14:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 46E653AB111
-	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 07:04:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 07576189851C
+	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 07:14:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A23BF1DB356;
-	Mon, 28 Apr 2025 07:04:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4D251DB356;
+	Mon, 28 Apr 2025 07:14:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c/xoAUJ4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qD/IzE5B"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 040E43C3C;
-	Mon, 28 Apr 2025 07:04:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1196D1D63EF;
+	Mon, 28 Apr 2025 07:14:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745823879; cv=none; b=AgiG9RySrVlrajxrXkkuW2MFkDVZQZSC2rP5QPeLzwNNPlAaiJ315RDD3c71tl7BdYlpWqwsJozFYpL90TJK3/1IBDYQ23Pm4Rw04dq8AT0+7KRNTSmTYHJjmt44p0DjYATkdZhMo9lBo1N5OUKRDcV42iTrVriQ+y5Uy3X2AWk=
+	t=1745824453; cv=none; b=NecM4ccn9y1SQcomQKj5SK9YWa906X736jQU+RMZHybBoRn+7khZPWKPCsyJ7ReYxAkYgCn/FgEg6CyxiwKag4C3R1zTIil97+RtTPtyVk03mjHshKKS5dVhT4Ms6fZU4lB5vKAAPbLEIlqkCIu8VYDw/86R/5ekU+INrvTTn0A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745823879; c=relaxed/simple;
-	bh=ksWJoUKCRMosr0m1b32vuD5ejeinFrZWyYqhNBswWbg=;
+	s=arc-20240116; t=1745824453; c=relaxed/simple;
+	bh=mCUt9fkBf8zZ7IpdC7td2+clNz0tsoKFKyFgL2XiRuw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RdYYu7dKsL2yRMQU5ednlOfj92d7/ANd0LQ1jvn6Mzc5VlOZMLCfeQXnlJKw/+4jUoLBbVgL7IDwZfhw55DvqeYnhqB0RXK6YP9iArz9S3Lohno8NGfxp2vvGc3Onnwqo1ANohUnJ9zdy9VXarnxucz8iT2PXLNeY5m+akJ+7oU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c/xoAUJ4; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1B8CC4CEE4;
-	Mon, 28 Apr 2025 07:04:37 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=L1wHm6RtfjGh+vh2j61b3EIuC9szgwF9B8XjS5Mhv1fnl6LIDEs8KIeO6QxC+AlGmdHZpSmUjqNHcniR4MrECVoLxOPsHAvcIAFz5IEliR4c/CQrIQWoh0oQPC4hs8YdWkEjnGv0wCXZnp2fti8h4eiPhQ5oKFNsIQ5cljbeu4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qD/IzE5B; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D7645C4CEE4;
+	Mon, 28 Apr 2025 07:14:11 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745823878;
-	bh=ksWJoUKCRMosr0m1b32vuD5ejeinFrZWyYqhNBswWbg=;
+	s=k20201202; t=1745824452;
+	bh=mCUt9fkBf8zZ7IpdC7td2+clNz0tsoKFKyFgL2XiRuw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=c/xoAUJ4LZPVh5VizqyD3gbO2s09ZDqU1wPh19+oMmyWWojlL8mKFDkxa+Q15oMeI
-	 L1dEd/V0AiS3KoRjxjxup80+QASz5RbQWHuKcFoi4bLqYFWwDH5PX7wK6I4RmdH0f+
-	 fip6+xAr9ioYGWoHoxyuEQYI8GDDSY2zFzrm41Kskh77Eyw9l9g+iVZpQn6QvMtUk0
-	 fiujIG4CskPuW5SX8Af/PcxP/h92disrCm/HeFOXwPrO64zDCQjOTtNEE9sgTb02cx
-	 bTKhfx0BPxA+F5QMF6Kz5iF8GnoJOJsC0cx1mRA52jWTK2VblPZ9jLCHz3KsjPvls/
-	 oxUWl/VMDOeeg==
-Date: Mon, 28 Apr 2025 09:04:35 +0200
+	b=qD/IzE5BBaoMQ6h+9XjVfhvokauEWt3uYy76zSnc5zoJ9ACzirtmdKXAkSF4KqseK
+	 HLdXwfXFg4Q3Y2gfuVYM5bVIlFXHdhyPOocJl4MsnNPnPvexV6MpFdtKsw6lC6qEDg
+	 TLPkmU8R9tGnYk9l0q1C3/um9hXS0XO6IDkqwa+w/SevVuG04XtctWb4BOO3RmYCAV
+	 qckaiyOG+hKbVGLbPAlLRkDZeI+7nbPDjbh5xzQN+q5zQSllKC1OXSG30FKIFEix2Z
+	 I0GFYnuHxYuJcmL4sef0FFDFT31r5JMGUJD8svlpkZ0P0grwI6MW9FRdMu/l2MswwD
+	 wsdFN7saeJVnA==
+Date: Mon, 28 Apr 2025 09:14:09 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Kyrie Wu <kyrie.wu@mediatek.com>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
 	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
 	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, kyrie wu <kyrie.wu@mediatek.corp-partner.google.com>, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v3 01/12] dt-bindings: media: mediatek,jpeg: Add
- mediatek, mt8196-jpgdec compatible
-Message-ID: <20250428-ambitious-deer-of-plenty-2a553a@kuoka>
-References: <20250425085328.16929-1-kyrie.wu@mediatek.com>
- <20250425085328.16929-2-kyrie.wu@mediatek.com>
+	dmitry.baryshkov@oss.qualcomm.com, loic.poulain@oss.qualcomm.com, vladimir.zapolskiy@linaro.org, 
+	linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: media: qcom,x1e80100-camss: Fixup
+ csiphy supply names
+Message-ID: <20250428-lovely-flawless-grasshopper-bacbfa@kuoka>
+References: <20250426-b4-media-committers-25-04-25-camss-supplies-v3-0-19e5e72ffc3e@linaro.org>
+ <20250426-b4-media-committers-25-04-25-camss-supplies-v3-1-19e5e72ffc3e@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,21 +63,58 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250425085328.16929-2-kyrie.wu@mediatek.com>
+In-Reply-To: <20250426-b4-media-committers-25-04-25-camss-supplies-v3-1-19e5e72ffc3e@linaro.org>
 
-On Fri, Apr 25, 2025 at 04:53:17PM GMT, Kyrie Wu wrote:
-> Compared to the previous generation IC, the MT8196 uses SMMU
-> instead of IOMMU and supports features such as dynamic voltage
-> and frequency scaling. Therefore, add "mediatek,mt8196-jpgdec"
-> compatible to the binding document.
+On Sat, Apr 26, 2025 at 11:52:48PM GMT, Bryan O'Donoghue wrote:
+> Declare a CSIPHY regulator pair 0p8 and 1p2 for each CSIPHY.
 > 
-> Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
+> Name the inputs based on the voltage so as to have a consistent naming of
+> these rails across SoCs and PCBs.
+> 
+> There are no upstream users of this yaml definition yet so this change is
+> safe to make.
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  .../bindings/media/qcom,x1e80100-camss.yaml        | 52 +++++++++++++++++-----
+>  1 file changed, 40 insertions(+), 12 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+> index 113565cf2a991a8dcbc20889090e177e8bcadaac..dc7c1a9394c3b547f5e0885bf501ed42dfbeba88 100644
+> --- a/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+> +++ b/Documentation/devicetree/bindings/media/qcom,x1e80100-camss.yaml
+> @@ -118,14 +118,6 @@ properties:
+>        - const: ife1
+>        - const: top
+>  
+> -  vdd-csiphy-0p8-supply:
+> -    description:
+> -      Phandle to a 0.8V regulator supply to a PHY.
+> -
+> -  vdd-csiphy-1p2-supply:
+> -    description:
+> -      Phandle to 1.8V regulator supply to a PHY.
+> -
+>    ports:
+>      $ref: /schemas/graph.yaml#/properties/ports
+>  
+> @@ -157,6 +149,30 @@ properties:
+>                - clock-lanes
+>                - data-lanes
+>  
+> +  vdd-csiphy0-0p8-supply:
+> +    description: Phandle to a 0.8V regulator supply to csiphy0.
+> +
+> +  vdd-csiphy0-1p2-supply:
+> +    description: Phandle to a 1.2V regulator supply to csiphy0.
 
-I gave you a link to the exact part of documentation about prefixes to
-read. I do not see improvements, so I do not believe you read it. I could
-imagine people skip reading entire doc (who would listen to the
-reviewer, right?), but if I give direct link to specific chapter and
-still not following it, makes me feel quite dissapointed.
+Block has VDD_A_CSI_0_1_1P2 input, not separate one for CSI0 and CS1.
+I don't get what is the benefit of this and commit msg does not help me
+to understand such choice.
+
+On IRC I clarified you could have less supplies in the binding than
+number of actual pins, to make things simpler and more consistent, but
+you did here reverse: more supplies which do not exist.
 
 Best regards,
 Krzysztof
