@@ -1,179 +1,262 @@
-Return-Path: <linux-media+bounces-31210-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31211-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 335E0A9F24D
-	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 15:28:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AA54A9F250
+	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 15:28:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8260516839D
-	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 13:28:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E9307168667
+	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 13:28:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFB0326AA8C;
-	Mon, 28 Apr 2025 13:27:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C8FB26B962;
+	Mon, 28 Apr 2025 13:28:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="N+pgKZFs"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fCG6UoZQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDB1D1A072A
-	for <linux-media@vger.kernel.org>; Mon, 28 Apr 2025 13:27:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AF321A072A
+	for <linux-media@vger.kernel.org>; Mon, 28 Apr 2025 13:28:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745846878; cv=none; b=DzovFN2FHz1tcEkliCAZX+7KPWx8ouDkb6Q7+zK4mHekoYPDr9siJJL5ZPON+T039wqW0Jc305pXai5TkY6p9Mew5FotnNtQbCkCDvarfWC15G02yvzKLb9lTLwDRaH9uk7rNJNTgIkY3mTVK5oAdtRJaziH2hR+I3Qg9jZ1Scc=
+	t=1745846904; cv=none; b=szRQ7KXxikHytaYcbUOI77UILgRv+XVzUQZoWnhTcKGT+TiGmSH1IO5q0L3ct8vjg+J3wrKeSZIXNlrgpbRdQ3preZOLNtGwxTMBOMya/TxvxyWoAWjunaSIDFqskgPE9ND+t1ZTrho4zkZzP5zFyC+SFGzjptomxrcOw6nMGv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745846878; c=relaxed/simple;
-	bh=rdWJV1eyaY0NXNHfZWPec3gwYw8bIZY6daxhVr/w3mY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k/drYXeGBRRLwgi2CrFoLC+n+rI4O2CfpbVY9Hcd2WU/GG8QkfnMWiV3NZd36/Hg88V0slyjGSn4v8BLdld3eJG5FrESumIiWSK26XRJL1bKGRIPm0C4uI88afCtCNJHMeOrKjj5gFkOyQeKyZCH3yvl9Q7+WsrxdYInnlKTNFM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=N+pgKZFs; arc=none smtp.client-ip=209.85.128.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-70576d2faa1so41535477b3.3
-        for <linux-media@vger.kernel.org>; Mon, 28 Apr 2025 06:27:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1745846874; x=1746451674; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=FrBVnWTLdp0Srjh062xEzUh3twmbleiY0F5ZxmdYagk=;
-        b=N+pgKZFs1GMgaSU761HR6MSPPBPo1Qara673fMjh9DWYfNlRB3Zc4jgTDVBaKFyBpb
-         Rf1SRfIJ6RW4uucBr1y2+5eo+dnWeo+H6oRofGE8S9Qi9a6YR4KcJCG+51d2l8Seu+ne
-         VQFgC8pJQ23RNEu6c1MNTrg6O2OxOZfT+AiFBbHqq9d+V5SiGkzXmXpoa3/I/EGcW4kQ
-         kEvVxKUiiCz6UV7PulBJLdOMgL4ni8hbCXwqxeJtcJ7lNAuF04ATkw7e6amYyZG8i8kH
-         x1UREQCD3aDhHSnN513I5gtYMDsfEqJfZl3RqrCMc6FO/GN7q+AxEs7C2+ebJ7LCTZRQ
-         EtXg==
+	s=arc-20240116; t=1745846904; c=relaxed/simple;
+	bh=l3dVdh9wzuSTOKDHUFz0b9/AIs71l6IsH7JSLxyvWm4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z7QGYKvPymnmZQzFZa7/YXQdK6JE+jq2GQ72KvL0bJJ7th1rHnqEaVTMDHZoK57bI6uTnqUtyL4AZzLpGtgFcuoQOORmi8CpWppEkIx//wEiIkx1C/TzgphMmrcwZuFF1Fi0Q4jTztv68ArAegJNdtrTgZGx1ZPV+0AB9KdCGLE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fCG6UoZQ; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1745846901;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Lg0xq41qt97xR3ZvTPk2wgbDhcDx4hFTu+2DD4oLNRw=;
+	b=fCG6UoZQ4H60VIVxH6imAeoiIoFEXev9Yzjw6H0iufiiSDnxEKS/SWJcJS+myobuT/9QnG
+	rsjeIqzQkOH6ELuVYUBH8q9P8FjsEcfs+x0F1QuiQBpKIseVUT+gxaP/7nM65XSMgHRIZT
+	Gztiti/5YmuimnoYV+bLQ3PVYP23VUI=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-451-Ajj79vRoOeahJRqXs0CkdQ-1; Mon, 28 Apr 2025 09:28:19 -0400
+X-MC-Unique: Ajj79vRoOeahJRqXs0CkdQ-1
+X-Mimecast-MFC-AGG-ID: Ajj79vRoOeahJRqXs0CkdQ_1745846898
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-ac37ed2b99fso427678966b.3
+        for <linux-media@vger.kernel.org>; Mon, 28 Apr 2025 06:28:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745846874; x=1746451674;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FrBVnWTLdp0Srjh062xEzUh3twmbleiY0F5ZxmdYagk=;
-        b=YAnlOnUuPS+ACYv8m5rTPdy07K7RTKvKzAfe37CPWGPBfUFOaMB3WXc+PM6pKAh5dw
-         EfzRD9vZ6Dsxjv1k+K4kIm8JGC6lfe9znxQvM2rNOz3MfohrAKJwXK8VJwx5bLdLnfS7
-         XrACc60sWq6l9r7D46Sb6Hv+mPlqwLr/nfiID581z4NJYvVTCdQFmr+X9w3pZnysyuid
-         i8PU4KR8FLrnA0ZGUKKUy0XVvr11Sukf2HCUWJLvXkG6YFWkIpkgrzLOQxuzqqPPTvS+
-         MklB+KdIgyUv8PvACxc83FhNHOfdsvVQySHBETyoe8ZuseoVmBzsf+BNvVTP9+WmiMbY
-         E+LQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXAmkxgx7uxasQzMmjU/LmwEO5Dzp2VOHyJ8emTkbaIJcThXAScvOky33no+G95gT3MMpQ44HRgIC+NYg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzzmPSYb4ORBAR50Suhf+IcxN/z6LloEzQLCsm3jlHMoGI7Rzvi
-	huo1kbruJgQ0QUFEsCL1MVCxHV5DaxpQnzwQh52Mo1ueaGeOCdxUbkpYA2uPbk0qE/tVXUq7BE5
-	FzebDjse36uzXjtpWEIqMDhmjhLJRqmo1sOLmJQ==
-X-Gm-Gg: ASbGnctCj2I4cM5iHuD5ra0F1ZVu6kJDKMkJHkDzUi5BXLO7dM+5DYF29jfFCqXkKo5
-	1wbl4MZdnS+JrRvgwGApKdqOxs3Epi3w7lufbmyN8sThU3SYK0F22uc9bVTuPHRZK9SK75mNswk
-	vhBSOMKdikpZM2FkS9wBadWg==
-X-Google-Smtp-Source: AGHT+IEUt5k1HGSqM206w7ULfLh+nqjcqtfodWmMlOSg1zowQAV7TBNqlEi5g2Mk76sqyL+l2O0yMp7RVZOey99FNkg=
-X-Received: by 2002:a05:690c:9c03:b0:6f9:7920:e813 with SMTP id
- 00721157ae682-708540d8f44mr143245487b3.4.1745846874495; Mon, 28 Apr 2025
- 06:27:54 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745846898; x=1746451698;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Lg0xq41qt97xR3ZvTPk2wgbDhcDx4hFTu+2DD4oLNRw=;
+        b=NBtSN4nhxDbpC5py7niRo3RR0AVyAaWei20R8194CVkYLFmTM7uGxR1s/+AnMdfQm5
+         Qjo0wxnw3Oxxdl0JmQOHvgoqyHfFmS9S4b/BKa8v8N9NzKjyuyNbocH+Ph8AeLgUsQ/A
+         P7okSfEetAagvaXmQn42VAsrCU3uwv5bMSzYF2Wdzs04tH1aPnLGUDg5ZD2zK55HbNJT
+         qgONMWQCOzAPoziXcbl04g78DbDOAVsBH89RJS8fcWaBsB5eNYrYU5aAkRGKQqRvY8ev
+         A1GwknDpLHtSBjJN/6wLE8K4BA0ALkSDEdAn7pWXDvd1M+INcRyTfSk0jB2/stuwZTMH
+         CZwA==
+X-Forwarded-Encrypted: i=1; AJvYcCWk0qeXXZyroYJ/SbTaYd/+7wcHE9fpXOyq56Wst43LD36+1u5OGZ6DYvgEbe0985l1l0AQYhMrxKD0lA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwEvioo9U2s8zWa5Q/S3jENxj3S64Bmvs7hDD+qipS/47QTpu9A
+	cK9igUAO3RiFzVoAuwZUhdKpL0ynDIdKbMY1cA4Gp+p/FTJUKGGYnSJkLQLXr9uXBFv/UZtVWqk
+	XDdIipZA/KTmLt0afkeN+H+Rke0zC00j8oMXODiP7C0MYsT+5Sz3fg2TNJoQL
+X-Gm-Gg: ASbGncsiVUs2rd/ONLnPk+pwpg/WJkaWL6AEH4Xr9SsTUf26r/Y23sAJ3RpWqxWxqzu
+	NKHTgEZjEWUauTYZAds8nkFjV8OlfgD+oSuzkhKPkK+8qTpOrDJ6jNwF2R0LJKDiNdo9KEH1VjB
+	pJyewPjt8xWSd0YHftIFOW49Ocsq2X35Wi4ozCHDdF384Xti6WdhM+zX2NBW+al/XJx4wAh5vBO
+	PTtXLer/XPXfLhXR8v20MpAY3Mknof+5se6PKI4jVebw37PzWCUzp6rvPgpC/Q0lKzr8IKkgVsS
+	dD6Y3qfVt7zlmm0=
+X-Received: by 2002:a17:907:9812:b0:acb:5070:dd19 with SMTP id a640c23a62f3a-ace7140871emr986957166b.61.1745846898404;
+        Mon, 28 Apr 2025 06:28:18 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGtlXu0jsASJ3MeiUP+hMifoEhEfHok+6uVTbLwLAPDU6I6D9W4QXDaUyIpZvionOFT+g0NGQ==
+X-Received: by 2002:a17:907:9812:b0:acb:5070:dd19 with SMTP id a640c23a62f3a-ace7140871emr986954566b.61.1745846897877;
+        Mon, 28 Apr 2025 06:28:17 -0700 (PDT)
+Received: from [10.40.98.122] ([78.108.130.194])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ace6ed705e5sm628164366b.145.2025.04.28.06.28.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Apr 2025 06:28:17 -0700 (PDT)
+Message-ID: <5e8025a1-63f2-4120-8160-8848a5cf34ec@redhat.com>
+Date: Mon, 28 Apr 2025 15:28:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250410161249.3455729-1-dongcheng.yan@intel.com>
- <aAClUxNhOhcPl9zX@kekkonen.localdomain> <c47c775b-ec57-4190-92e6-8f60283dcdc9@intel.com>
-In-Reply-To: <c47c775b-ec57-4190-92e6-8f60283dcdc9@intel.com>
-From: Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date: Mon, 28 Apr 2025 14:27:33 +0100
-X-Gm-Features: ATxdqUFxWtujRel32aJ0YcvIUdVuNY5LSJCOT2txwJ5kNdssVSCCol8ty0CZt1g
-Message-ID: <CAPY8ntD77YudoE79TgiS3+d0M8add-U65POQjnaqw_Czi3g9Ow@mail.gmail.com>
-Subject: Re: [PATCH v5] media: i2c: Add ar0234 camera sensor driver
-To: "Yan, Dongcheng" <dongcheng.yan@intel.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Linux Media Mailing List <linux-media@vger.kernel.org>, "Yao, Hao" <hao.yao@intel.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Bingbu Cao <bingbu.cao@linux.intel.com>, 
-	"Yu, Ong Hock" <ong.hock.yu@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/2] media: uvcvideo: Fix deferred probing error
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, Douglas Anderson <dianders@chromium.org>
+References: <20250313-uvc-eprobedefer-v3-0-a1d312708eef@chromium.org>
+ <20250313-uvc-eprobedefer-v3-1-a1d312708eef@chromium.org>
+ <20250422180630.GJ17813@pendragon.ideasonboard.com>
+ <CANiDSCuO+dHOBtW4yvy1n25QWEs-WdQ9H8Lh2rUtcPbUq3hBkQ@mail.gmail.com>
+ <20250422230513.GX17813@pendragon.ideasonboard.com>
+ <CANiDSCssyAVoyvsiO8thGwUFc_boA_jhBxYDif32Hxh40fhf-Q@mail.gmail.com>
+Content-Language: en-US, nl
+From: Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <CANiDSCssyAVoyvsiO8thGwUFc_boA_jhBxYDif32Hxh40fhf-Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Dongcheng
+Hi Ricardo,
 
-On Mon, 28 Apr 2025 at 09:05, Yan, Dongcheng <dongcheng.yan@intel.com> wrote:
->
-> Hi Sakari,
->
-> On 4/17/2025 2:53 PM, Sakari Ailus wrote:
-> > Hi Dongcheng,
-> >
-> > On Fri, Apr 11, 2025 at 12:12:49AM +0800, Dongcheng Yan wrote:
-> >> The driver is implemented with V4L2 framework,
-> >> and supports following features:
-> >>
-> >>     - manual exposure and analog/digital gain control
-> >>     - vblank/hblank control
-> >>     - vflip/hflip control
-> >>     - runtime PM support
-> >>     - 1280x960@30fps and 1920x1200@60fps support
-> >>     - dynamical pll_params set
-> >>
-> >> Signed-off-by: Dongcheng Yan <dongcheng.yan@intel.com>
-> >
-> > I reviewed Laurent's ar0144 driver and it turns out that the ar0144 and
-> > ar0234 sensors are nearly identical in their register interface. Thus they
-> > could be controlled using the same driver, with relatively small changes.
-> > Laurent's driver programmatically sets the register values in general and
-> > does not rely on register lists, which is why I prefer that driver.
-> >
-> > Would you be able to add ar0234 support to the ar0144 driver, please?
-> > Sensor configuration independent MSRs are totally fine, I presume there are
-> > some the ar0234 benefits from.
-> >
-> > My apologies for telling you this now, after 5 versions of this driver, but
-> > I only learned of this very recently.
-> >
-> > I expect Laurent to send v3 of his driver by early next week.
-> >
->
-> This is the first time I have come across such a suggestion to merge one
-> sensor driver into another sensor driver.
-> Why should ar0234 be merged into the ar0144? If it is because of "nearly
-> identical in their register interface", then most sensor drivers can be
-> merged into one driver according to vendor, such as AR/OV/IMX. So I
-> don't quite understand the meaning of doing this.
+On 23-Apr-25 01:18, Ricardo Ribalda wrote:
+> On Wed, 23 Apr 2025 at 07:05, Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+>>
+>> On Wed, Apr 23, 2025 at 06:50:10AM +0800, Ricardo Ribalda wrote:
+>>> On Wed, 23 Apr 2025 at 02:06, Laurent Pinchart wrote:
+>>>> On Thu, Mar 13, 2025 at 12:20:39PM +0000, Ricardo Ribalda wrote:
+>>>>> uvc_gpio_parse() can return -EPROBE_DEFER when the GPIOs it depends on
+>>>>> have not yet been probed. This return code should be propagated to the
+>>>>> caller of uvc_probe() to ensure that probing is retried when the required
+>>>>> GPIOs become available.
+>>>>>
+>>>>> Currently, this error code is incorrectly converted to -ENODEV,
+>>>>> causing some internal cameras to be ignored.
+>>>>>
+>>>>> This commit fixes this issue by propagating the -EPROBE_DEFER error.
+>>>>>
+>>>>> Cc: stable@vger.kernel.org
+>>>>> Fixes: 2886477ff987 ("media: uvcvideo: Implement UVC_EXT_GPIO_UNIT")
+>>>>> Reviewed-by: Douglas Anderson <dianders@chromium.org>
+>>>>> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+>>>>> ---
+>>>>>  drivers/media/usb/uvc/uvc_driver.c | 27 +++++++++++++++++++--------
+>>>>>  1 file changed, 19 insertions(+), 8 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+>>>>> index deadbcea5e227c832976fd176c7cdbfd7809c608..e966bdb9239f345fd157588ebdad2b3ebe45168d 100644
+>>>>> --- a/drivers/media/usb/uvc/uvc_driver.c
+>>>>> +++ b/drivers/media/usb/uvc/uvc_driver.c
+>>>>> @@ -2231,13 +2231,16 @@ static int uvc_probe(struct usb_interface *intf,
+>>>>>  #endif
+>>>>>
+>>>>>       /* Parse the Video Class control descriptor. */
+>>>>> -     if (uvc_parse_control(dev) < 0) {
+>>>>> +     ret = uvc_parse_control(dev);
+>>>>> +     if (ret < 0) {
+>>>>> +             ret = -ENODEV;
+>>>>
+>>>> Why do you set ret to -ENODEV here...
+>>>>
+>>>>>               uvc_dbg(dev, PROBE, "Unable to parse UVC descriptors\n");
+>>>>>               goto error;
+>>>>>       }
+>>>>>
+>>>>>       /* Parse the associated GPIOs. */
+>>>>> -     if (uvc_gpio_parse(dev) < 0) {
+>>>>> +     ret = uvc_gpio_parse(dev);
+>>>>> +     if (ret < 0) {
+>>>>>               uvc_dbg(dev, PROBE, "Unable to parse UVC GPIOs\n");
+>>>>>               goto error;
+>>>>>       }
+>>>>> @@ -2263,24 +2266,32 @@ static int uvc_probe(struct usb_interface *intf,
+>>>>>       }
+>>>>>
+>>>>>       /* Register the V4L2 device. */
+>>>>> -     if (v4l2_device_register(&intf->dev, &dev->vdev) < 0)
+>>>>> +     ret = v4l2_device_register(&intf->dev, &dev->vdev);
+>>>>> +     if (ret < 0)
+>>>>
+>>>> ... but not here ? The code below is also not very consistant.
+>>>
+>>> For all the "external" functions I was looking into populating their
+>>> error code to probe(). Other drivers (check vivid for example) do
+>>> exactly this.
+>>>
+>>> There is more value in returning the real cause of the error (ENOMEM,
+>>> EINVAL) that the plain ENODEV.
+>>
+>> Yes, I got that, my question was why you override the return value of
+>> e.g. uvc_parse_control() or uvc_scan_device() with -ENODEV, but not for
+>> e.g. uvc_gpio_parse() or v4l2_device_register(). There's no explanation
+>> in the commit message regarding why they're treated differently.
+> 
+> Because it is less risky that way. There are plenty of examples where
+> the framework functions return code is passed to probe().
+> 
+> The uvc_* functions might or might not work this way. When I do that
+> assessment for every function I can post a different patch. I thought
+> that this approach was safer, especially if we are cc-ing stable.
+> 
+> A note in the commit message would have been a nice thing to have I agree :).
 
-Close families are already supported by one driver, eg Sony IMX327,
-290, and 462 all being handled by the imx290 driver.
-IMX662 follows a very similar scheme, and it's on my list to
-investigate merging into that driver even though hblanking is handled
-differently.
+I agree with Laurent that just properly propagating the error code of
+all functions, without overriding the return value with another -EXXXX code
+in some places seems a better and cleaner way to handle this.
 
-SMIA and now CCS have tried to standardise sensor register sets, and
-with onsemi almost having done this I can see the appeal of making use
-of it.
+In the end the return value of uvc_probe() does not matter that much,
+the only difference is that for errors other then -ENODEV the driver-core
+will print an extra error message. But we should not fail to probe anyways.
 
-> And AR0234 is the first patch, why should it be merged into the later patch?
-> Considering that ar0144 is fully implemented using ccs-pll, do you want
-> me to use the parameter constraints on pll in AR0144? The lack of
-> information in the AR0234 spec makes it impossible to implement dynamic
-> calculations in ccs-pll. This can also be seen from Dave's comments. The
-> pll parameters we use are very different. The parameter value
-> constraints found only from the existing spec cannot meet a
-> multi-platform compatible ccs-pll implementation.
+If we get bug reports about this we can revisit, but for simplicity and
+consistency reasons I would prefer to just always return the error of
+the called function as is.
 
-AR0144 is pretty much ready for merging, and addresses my comment on
-the AR0234 patchset for implementing the selection API for cropping.
-I've tested the basic driver (without embedded data or companding) on
-a module I have, and it works well.
+Regards,
 
-I note that onsemi now have both an AR0145 and AR0235 as successors
-for AR0144 and AR0145. I've only skimmed the datasheets, but I'd
-expect it to be possible to merge those into the one driver too. The
-AR0235 developer guide also contains the PLL constraints that are
-likely to apply to AR0234 (both do 1920x1200 @ 120fps).
+Hans
 
-FWIW I have a module with an onsemi AR1820 18MPix rolling shutter
-sensor, and the register set there almost matches too. I was going to
-try a quick hack to see if I can get that running using the AR0144
-driver just by changing constants and the main init sequence.
-If it does work then there is a very strong argument for merging as
-many onsemi modules into the one driver as possible, although the list
-of constants that end up having to be parameterised is quite
-considerable. I would probably warrant a rename as well, as it would
-no longer be just the ar0144 driver.
-I'll try to find a few moments in the next week to see if it is feasible.
 
-Cheers
-  Dave
+
+
+>>>>>               goto error;
+>>>>>
+>>>>>       /* Scan the device for video chains. */
+>>>>> -     if (uvc_scan_device(dev) < 0)
+>>>>> +     if (uvc_scan_device(dev) < 0) {
+>>>>> +             ret = -ENODEV;
+>>>>>               goto error;
+>>>>> +     }
+>>>>>
+>>>>>       /* Initialize controls. */
+>>>>> -     if (uvc_ctrl_init_device(dev) < 0)
+>>>>> +     if (uvc_ctrl_init_device(dev) < 0) {
+>>>>> +             ret = -ENODEV;
+>>>>>               goto error;
+>>>>> +     }
+>>>>>
+>>>>>       /* Register video device nodes. */
+>>>>> -     if (uvc_register_chains(dev) < 0)
+>>>>> +     if (uvc_register_chains(dev) < 0) {
+>>>>> +             ret = -ENODEV;
+>>>>>               goto error;
+>>>>> +     }
+>>>>>
+>>>>>  #ifdef CONFIG_MEDIA_CONTROLLER
+>>>>>       /* Register the media device node */
+>>>>> -     if (media_device_register(&dev->mdev) < 0)
+>>>>> +     ret = media_device_register(&dev->mdev);
+>>>>> +     if (ret < 0)
+>>>>>               goto error;
+>>>>>  #endif
+>>>>>       /* Save our data pointer in the interface data. */
+>>>>> @@ -2314,7 +2325,7 @@ static int uvc_probe(struct usb_interface *intf,
+>>>>>  error:
+>>>>>       uvc_unregister_video(dev);
+>>>>>       kref_put(&dev->ref, uvc_delete);
+>>>>> -     return -ENODEV;
+>>>>> +     return ret;
+>>>>>  }
+>>>>>
+>>>>>  static void uvc_disconnect(struct usb_interface *intf)
+>>
+>> --
+>> Regards,
+>>
+>> Laurent Pinchart
+> 
+> 
+> 
+
 
