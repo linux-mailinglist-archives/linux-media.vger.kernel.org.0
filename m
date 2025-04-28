@@ -1,106 +1,73 @@
-Return-Path: <linux-media+bounces-31238-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31239-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADBC2A9FB77
-	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 23:04:23 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32DDEA9FC08
+	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 23:14:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 719EE461558
-	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 21:04:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 750EF7A3DE2
+	for <lists+linux-media@lfdr.de>; Mon, 28 Apr 2025 21:13:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04497221F18;
-	Mon, 28 Apr 2025 20:58:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 023BE204F9B;
+	Mon, 28 Apr 2025 21:14:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cODkVRy6"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="kAl4w+1H"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 366A822170A;
-	Mon, 28 Apr 2025 20:58:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 497001E25EF;
+	Mon, 28 Apr 2025 21:14:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745873884; cv=none; b=CvCikJVmmSCmcw3Z2RyUk0i5tvSMecoePtpJN6ShWCtaI8LvRWXle8L14QMuY0Eiaa8kCJUI9FN3MiAToKeYNu2bDMPWCqpTFqNizK++ehH8SSD1T1uFgw3kNDNhA2fihly7IwylooHCZeRMVloWvTruOatZxOt1cM3ft4h3KMo=
+	t=1745874869; cv=none; b=f0UOnSG79qmyZ4TAT1PtIoSNEErXPYqhsnVdDt7Ink7AowrpyUmUwghfkVMQRYLXUjFuY/A5s8tUuSJkdzpP+mvuXFhXOjSVoETKJdPtnp0yQSZcaIDPi4lR8VB+TbZBCyX+uBBP4lHLk89CWixknjSHhdOfUdgouVVVQYLlVOA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745873884; c=relaxed/simple;
-	bh=pSUudMHlaAJJiN3iuOh/6BguviGsLFM4vwJRPFQVLl4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Zy9rnghOUpEgI6TBNWFRu4ZDVKTiDkCv1alztzsjrEkWJW/zsAlO9MXv40Vebstehh7QSMbnIz0XaYSnZIckIM2RStGnMAzDqR1bOksDJ6vY7D54Jls6fj8PjH8r7bjX9ehYv1hz4C87PDmG1wcjfhtnVv6Z2icJTRlRm4YMGu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cODkVRy6; arc=none smtp.client-ip=209.85.210.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-736bfa487c3so4406694b3a.1;
-        Mon, 28 Apr 2025 13:58:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745873880; x=1746478680; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AqbCKUfESrDdXM9YTu1Ypf1jKLBYkJfDcNHUu79S7+0=;
-        b=cODkVRy6+/VMgIUqobZMi3aWb2RzrBkRRfVh2U88tga8RPSlc3r/6LWgUvnmmsP1md
-         5SBiZ5Skm4Ffc/UBAGtoXkJ5F5UbpN1U7oKU6T4XjeQLH2g6DT4Qaabn+Y1pEtS21FrA
-         89KUrVnmezHAwAY+XBVD6MMDbHK87/vYaP4BZZo+NbV7ucYxO7hx75+WUBDkBlQ+xKfv
-         9zJaz6pReMdPiHDzvwLgxunj3lj3K07Cl4Wjime1uo6RoHUfjGqNp4DZh90HaFQdpGRt
-         1Ip1CyBG6CV2vMwfQkvMgJ0PzO6PJ2DJriSdNF3pTQWD5y/KEiKZWGjx5M45dNwpdyW3
-         zN2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745873880; x=1746478680;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=AqbCKUfESrDdXM9YTu1Ypf1jKLBYkJfDcNHUu79S7+0=;
-        b=NNAFBImOeihSzM7uaZ2+Sv/71ln7YgxrfrQpVMRj6zUSyY12rH4m5hrkX5nS6AV1/r
-         LFJbKGdPx3gKjP3xXagqmGwF9Wy+HvknCo6391iYW2ZJhDuYiYpKuRoUsM5/5F2dA2Qj
-         SHR0q3Lt0z9WguNSnRWk+6jabpIxtgkQk2Pzmk0GyDjn7Oo2sXGfgbrQJLW2gQbaDfGL
-         L4spZ4qR+3i7fVQcUwdO1IuBstnsFPboRSlNukZljzXWaAhNcZKHswNU7ejS23EBu6tA
-         klu+r13cgvG7YyX7f7PLAXjRlf17GPUxnj9OXbogRl3y18gTUDYckFgv0ffNQhIMXTmn
-         nY1g==
-X-Forwarded-Encrypted: i=1; AJvYcCUobrzD7QR3WudfmfNNZhoBIzfv5wX3crM2/kdYG5vj4Horx7z3WII2viyq8HrfOheGL4DNIHVUKpdd6I4=@vger.kernel.org, AJvYcCVKaVfLrx85JD77UJuBpKsrZfTyCgvJUSHfTjK47HyLRN8AsxZEX4ZYhf+AtcIlksvoLvruhNzLE8TsE2Yf@vger.kernel.org, AJvYcCXMMxwSe/e7xCDPr5FiZCvD6eUxZMVNHPE35wSYp5Hjb1Kld3XYLl5zeFnak57Pu5OxWpESzQ1J9ggS/oir@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywi49kli9ZQ7tD+zLnf8SXldtmlfA7uhxG/Jjzxbn4vKMS8qObf
-	DXTLCieVYl6KlpB3I+cn4yl4j9qvh3OnelXFXmtcPP2tYBLW1Noy
-X-Gm-Gg: ASbGncuIZVqlpSsZPW/eT5lJe4xtaxMhZ9AzjHx62OaqqgEZ+ZqC+sO1boklPdLm2LQ
-	omvqoVP1mmrv8fqlnca+8cs+FnuT41rdXkysIQdvz6CLtWy8OvlvwsVho8dhegeqdpoN7nznJIC
-	Z7vFpFjaJyj3b5x629DlhL3//Q3ZolkVGLd6b7WTpnnjaQkmotVOHi7hdqKOn9GXXufLfihF1NR
-	E8KoMkfp/vv1RfCV8ynXjmcCRyeuSP7vBbmFLPbmI+5R+oiyLIjWKiHdo80kEX7s5XQhZDCCfTG
-	iGuZY2tTUI6fOuqcClYexAMhyKmN2keDeMDz0V/nPoI4smiAJpU25i9twuf/me8BqppBgz9K+o7
-	FpTTs8i69NML27OM=
-X-Google-Smtp-Source: AGHT+IECQGP1wmsoTq8MndQ0s+V21w4LPMD67LVK/wkAVjQ4uIC7u6csrd+LuNStWU+R+MrtjbsVmw==
-X-Received: by 2002:a05:6a20:c990:b0:201:8a13:f392 with SMTP id adf61e73a8af0-2046a57d7a4mr13815014637.20.1745873880163;
-        Mon, 28 Apr 2025 13:58:00 -0700 (PDT)
-Received: from localhost ([2a00:79e0:3e00:2601:3afc:446b:f0df:eadc])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25967766sm8495867b3a.82.2025.04.28.13.57.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Apr 2025 13:57:59 -0700 (PDT)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: freedreno@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org,
-	Connor Abbott <cwabbott0@gmail.com>,
-	Rob Clark <robdclark@chromium.org>,
-	Rob Clark <robdclark@gmail.com>,
-	Abhinav Kumar <quic_abhinavk@quicinc.com>,
-	Dmitry Baryshkov <lumag@kernel.org>,
-	Sean Paul <sean@poorly.run>,
-	Marijn Suijten <marijn.suijten@somainline.org>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	linux-kernel@vger.kernel.org (open list),
-	linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b),
-	linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b)
-Subject: [PATCH v3 32/33] drm/msm: Add VM_BIND ioctl
-Date: Mon, 28 Apr 2025 13:54:39 -0700
-Message-ID: <20250428205619.227835-33-robdclark@gmail.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250428205619.227835-1-robdclark@gmail.com>
-References: <20250428205619.227835-1-robdclark@gmail.com>
+	s=arc-20240116; t=1745874869; c=relaxed/simple;
+	bh=CEVw4OP8WhDWBGQ59mura4b3H71DRcFJYSLrxvusUAc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=QGkr413a9ta25v5R6Rjx5zdb+Ei2aiafW86l5Tos0+2xH5X3Bsx1uJ6Yoe7OhUWHSopZnUkssPV51+BZAM4ZE291qRqsClr2THVhcpLwS9eNzpleEB+AfJoUTRdZXpSg8QJJ9JnOs6Kzs/eOAaKNLoFvrBsdbyXo+/C7+3MIPWI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=kAl4w+1H; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1745874864;
+	bh=CEVw4OP8WhDWBGQ59mura4b3H71DRcFJYSLrxvusUAc=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=kAl4w+1HtsL/V+shPuggL6mUe26Oj8uVR+gz5CMv9ntkJy3tLHYDkeZroN50tHZ++
+	 7oVV2xQpEwlTFeaiSHtf3/dWOI69PW84pRGOv6l3FCLY0XTzO5grOO3nwHOpXWMOfQ
+	 ScnWKB+SLgpj9nM33oqvG36IvdaKiat/NVYsDoc0QNNe/HVd7GOjnU0sEfro01ziqY
+	 UErXz/OUNEJYunGyBApeXZ0zxZkX7dNiQcQ3JGshioiiB7tX+HpmmYKcow535H5z0U
+	 sHb6NHyc1m9m8GhJVM93wInrNj1SljyTRQEo4o5Y8eadWaVHbm4LpGbM7b8HMump14
+	 D3Zp9NZUt0mXg==
+Received: from [IPv6:2606:6d00:15:9913::5ac] (unknown [IPv6:2606:6d00:15:9913::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id D46F017E03BF;
+	Mon, 28 Apr 2025 23:14:22 +0200 (CEST)
+Message-ID: <bcb9904f6842b0ee18da820627a4aabd264ea577.camel@collabora.com>
+Subject: Re: [PATCH 1/2] media: mediatek: encoder: Add a new encoder driver
+ interface
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Irui Wang <irui.wang@mediatek.com>, Hans Verkuil
+ <hverkuil-cisco@xs4all.nl>,  Mauro Carvalho Chehab	 <mchehab@kernel.org>,
+ Matthias Brugger <matthias.bgg@gmail.com>, 
+	angelogioacchino.delregno@collabora.com, Yunfei Dong
+ <yunfei.dong@mediatek.com>
+Cc: Project_Global_Chrome_Upstream_Group@mediatek.com, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+ Longfei Wang <longfei.wang@mediatek.com>
+Date: Mon, 28 Apr 2025 17:14:21 -0400
+In-Reply-To: <20250221031004.9050-2-irui.wang@mediatek.com>
+References: <20250221031004.9050-1-irui.wang@mediatek.com>
+	 <20250221031004.9050-2-irui.wang@mediatek.com>
+Organization: Collabora Canada
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.56.1 (3.56.1-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -109,1443 +76,845 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Rob Clark <robdclark@chromium.org>
+Hi,
 
-Add a VM_BIND ioctl for binding/unbinding buffers into a VM.  This is
-only supported if userspace has opted in to MSM_PARAM_EN_VM_BIND.
+Le vendredi 21 février 2025 à 11:10 +0800, Irui Wang a écrit :
+> Introduce a new encoder kernel driver interface to ensure compatibility
+> with the updated encoder software driver running in firmware.
+> The new driver interface is expected to support more encoder formats,
+> share more encode parameters between kernel and firmware.
+> 
+> Signed-off-by: Irui Wang <irui.wang@mediatek.com>
+> ---
+>  .../platform/mediatek/vcodec/encoder/Makefile |   1 +
+>  .../mediatek/vcodec/encoder/mtk_vcodec_enc.c  |   2 +
+>  .../vcodec/encoder/venc/venc_common_if.c      | 704 ++++++++++++++++++
+>  .../mediatek/vcodec/encoder/venc_drv_if.h     |   3 +
+>  4 files changed, 710 insertions(+)
+>  create mode 100644 drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c
+> 
+> diff --git a/drivers/media/platform/mediatek/vcodec/encoder/Makefile b/drivers/media/platform/mediatek/vcodec/encoder/Makefile
+> index e621b5b7e5e6..9d3229d56e39 100644
+> --- a/drivers/media/platform/mediatek/vcodec/encoder/Makefile
+> +++ b/drivers/media/platform/mediatek/vcodec/encoder/Makefile
+> @@ -4,6 +4,7 @@ obj-$(CONFIG_VIDEO_MEDIATEK_VCODEC) += mtk-vcodec-enc.o
+>  
+>  mtk-vcodec-enc-y := venc/venc_vp8_if.o \
+>  		venc/venc_h264_if.o \
+> +		venc/venc_common_if.o \
+>  		mtk_vcodec_enc.o \
+>  		mtk_vcodec_enc_drv.o \
+>  		mtk_vcodec_enc_pm.o \
+> diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
+> index a01dc25a7699..f5b888174dae 100644
+> --- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
+> +++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
+> @@ -1175,6 +1175,8 @@ static void mtk_venc_worker(struct work_struct *work)
+>  		frm_buf.fb_addr[i].size =
+>  				(size_t)src_buf->vb2_buf.planes[i].length;
+>  	}
+> +	frm_buf.num_planes = src_buf->vb2_buf.num_planes;
+> +
+>  	bs_buf.va = vb2_plane_vaddr(&dst_buf->vb2_buf, 0);
+>  	bs_buf.dma_addr = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
+>  	bs_buf.size = (size_t)dst_buf->vb2_buf.planes[0].length;
+> diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c b/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c
+> new file mode 100644
+> index 000000000000..a696e986903b
+> --- /dev/null
+> +++ b/drivers/media/platform/mediatek/vcodec/encoder/venc/venc_common_if.c
+> @@ -0,0 +1,704 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Copyright (c) 2024 MediaTek Inc.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/msm_drv.c        |   1 +
- drivers/gpu/drm/msm/msm_drv.h        |   4 +-
- drivers/gpu/drm/msm/msm_gem.c        |  40 +-
- drivers/gpu/drm/msm/msm_gem.h        |   4 +
- drivers/gpu/drm/msm/msm_gem_submit.c |  22 +-
- drivers/gpu/drm/msm/msm_gem_vma.c    | 987 ++++++++++++++++++++++++++-
- include/uapi/drm/msm_drm.h           |  74 +-
- 7 files changed, 1097 insertions(+), 35 deletions(-)
+Was submitted in 2025, might want to update ?
 
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index 49e4425c3caf..a63442039e22 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -790,6 +790,7 @@ static const struct drm_ioctl_desc msm_ioctls[] = {
- 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_NEW,   msm_ioctl_submitqueue_new,   DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_CLOSE, msm_ioctl_submitqueue_close, DRM_RENDER_ALLOW),
- 	DRM_IOCTL_DEF_DRV(MSM_SUBMITQUEUE_QUERY, msm_ioctl_submitqueue_query, DRM_RENDER_ALLOW),
-+	DRM_IOCTL_DEF_DRV(MSM_VM_BIND,      msm_ioctl_vm_bind,      DRM_RENDER_ALLOW),
- };
- 
- static void msm_show_fdinfo(struct drm_printer *p, struct drm_file *file)
-diff --git a/drivers/gpu/drm/msm/msm_drv.h b/drivers/gpu/drm/msm/msm_drv.h
-index b0add236cbb3..33240afc6365 100644
---- a/drivers/gpu/drm/msm/msm_drv.h
-+++ b/drivers/gpu/drm/msm/msm_drv.h
-@@ -232,7 +232,9 @@ struct drm_gpuvm *msm_kms_init_vm(struct drm_device *dev);
- bool msm_use_mmu(struct drm_device *dev);
- 
- int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
--		struct drm_file *file);
-+			 struct drm_file *file);
-+int msm_ioctl_vm_bind(struct drm_device *dev, void *data,
-+		      struct drm_file *file);
- 
- #ifdef CONFIG_DEBUG_FS
- unsigned long msm_gem_shrinker_shrink(struct drm_device *dev, unsigned long nr_to_scan);
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index b4b299e3f3d3..9d60b38ba58a 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -233,8 +233,7 @@ static void put_pages(struct drm_gem_object *obj)
- 	}
- }
- 
--static struct page **msm_gem_get_pages_locked(struct drm_gem_object *obj,
--					      unsigned madv)
-+struct page **msm_gem_get_pages_locked(struct drm_gem_object *obj, unsigned madv)
- {
- 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
- 
-@@ -1036,18 +1035,37 @@ static void msm_gem_free_object(struct drm_gem_object *obj)
- 	/*
- 	 * We need to lock any VMs the object is still attached to, but not
- 	 * the object itself (see explaination in msm_gem_assert_locked()),
--	 * so just open-code this special case:
-+	 * so just open-code this special case.
-+	 *
-+	 * Note that we skip the dance if we aren't attached to any VM.  This
-+	 * is load bearing.  The driver needs to support two usage models:
-+	 *
-+	 * 1. Legacy kernel managed VM: Userspace expects the VMA's to be
-+	 *    implicitly torn down when the object is freed, the VMA's do
-+	 *    not hold a hard reference to the BO.
-+	 *
-+	 * 2. VM_BIND, userspace managed VM: The VMA holds a reference to the
-+	 *    BO.  This can be dropped when the VM is closed and it's associated
-+	 *    VMAs are torn down.  (See msm_gem_vm_close()).
-+	 *
-+	 * In the latter case the last reference to a BO can be dropped while
-+	 * we already have the VM locked.  It would have already been removed
-+	 * from the gpuva list, but lockdep doesn't know that.  Or understand
-+	 * the differences between the two usage models.
- 	 */
--	drm_exec_init(&exec, 0, 0);
--	drm_exec_until_all_locked (&exec) {
--		struct drm_gpuvm_bo *vm_bo;
--		drm_gem_for_each_gpuvm_bo (vm_bo, obj) {
--			drm_exec_lock_obj(&exec, drm_gpuvm_resv_obj(vm_bo->vm));
--			drm_exec_retry_on_contention(&exec);
-+	if (!list_empty(&obj->gpuva.list)) {
-+		drm_exec_init(&exec, 0, 0);
-+		drm_exec_until_all_locked (&exec) {
-+			struct drm_gpuvm_bo *vm_bo;
-+			drm_gem_for_each_gpuvm_bo (vm_bo, obj) {
-+				drm_exec_lock_obj(&exec,
-+						  drm_gpuvm_resv_obj(vm_bo->vm));
-+				drm_exec_retry_on_contention(&exec);
-+			}
- 		}
-+		put_iova_spaces(obj, NULL, true);
-+		drm_exec_fini(&exec);     /* drop locks */
- 	}
--	put_iova_spaces(obj, NULL, true);
--	drm_exec_fini(&exec);     /* drop locks */
- 
- 	if (obj->import_attach) {
- 		GEM_WARN_ON(msm_obj->vaddr);
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index 8ad25927c604..bfeb0f584ae5 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -73,6 +73,9 @@ struct msm_gem_vm {
- 	/** @mmu: The mmu object which manages the pgtables */
- 	struct msm_mmu *mmu;
- 
-+	/** @mmu_lock: Protects access to the mmu */
-+	struct mutex mmu_lock;
-+
- 	/**
- 	 * @pid: For address spaces associated with a specific process, this
- 	 * will be non-NULL:
-@@ -205,6 +208,7 @@ int msm_gem_get_and_pin_iova(struct drm_gem_object *obj, struct drm_gpuvm *vm,
- 			     uint64_t *iova);
- void msm_gem_unpin_iova(struct drm_gem_object *obj, struct drm_gpuvm *vm);
- void msm_gem_pin_obj_locked(struct drm_gem_object *obj);
-+struct page **msm_gem_get_pages_locked(struct drm_gem_object *obj, unsigned madv);
- struct page **msm_gem_pin_pages_locked(struct drm_gem_object *obj);
- void msm_gem_unpin_pages_locked(struct drm_gem_object *obj);
- int msm_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
-diff --git a/drivers/gpu/drm/msm/msm_gem_submit.c b/drivers/gpu/drm/msm/msm_gem_submit.c
-index 2e7f8352fa40..7cea8743ff68 100644
---- a/drivers/gpu/drm/msm/msm_gem_submit.c
-+++ b/drivers/gpu/drm/msm/msm_gem_submit.c
-@@ -184,6 +184,7 @@ static int submit_lookup_objects(struct msm_gem_submit *submit,
- static int submit_lookup_cmds(struct msm_gem_submit *submit,
- 		struct drm_msm_gem_submit *args, struct drm_file *file)
- {
-+	struct msm_context *ctx = file->driver_priv;
- 	unsigned i;
- 	size_t sz;
- 	int ret = 0;
-@@ -215,6 +216,20 @@ static int submit_lookup_cmds(struct msm_gem_submit *submit,
- 			goto out;
- 		}
- 
-+		if (msm_context_is_vmbind(ctx)) {
-+			if (submit_cmd.nr_relocs) {
-+				ret = SUBMIT_ERROR(EINVAL, submit, "nr_relocs must be zero");
-+				goto out;
-+			}
-+
-+			if (submit_cmd.submit_idx || submit_cmd.submit_offset) {
-+				ret = SUBMIT_ERROR(EINVAL, submit, "submit_idx/offset must be zero");
-+				goto out;
-+			}
-+
-+			submit->cmd[i].iova = submit_cmd.iova;
-+		}
-+
- 		submit->cmd[i].type = submit_cmd.type;
- 		submit->cmd[i].size = submit_cmd.size / 4;
- 		submit->cmd[i].offset = submit_cmd.submit_offset / 4;
-@@ -517,6 +532,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 	struct msm_ringbuffer *ring;
- 	struct msm_syncobj_post_dep *post_deps = NULL;
- 	struct drm_syncobj **syncobjs_to_reset = NULL;
-+	unsigned cmds_to_parse;
- 	int out_fence_fd = -1;
- 	unsigned i;
- 	int ret;
-@@ -652,7 +668,9 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 			goto out;
- 	}
- 
--	for (i = 0; i < args->nr_cmds; i++) {
-+	cmds_to_parse = msm_context_is_vmbind(ctx) ? 0 : args->nr_cmds;
-+
-+	for (i = 0; i < cmds_to_parse; i++) {
- 		struct drm_gem_object *obj;
- 		uint64_t iova;
- 
-@@ -683,7 +701,7 @@ int msm_ioctl_gem_submit(struct drm_device *dev, void *data,
- 			goto out;
- 	}
- 
--	submit->nr_cmds = i;
-+	submit->nr_cmds = args->nr_cmds;
- 
- 	idr_preload(GFP_KERNEL);
- 
-diff --git a/drivers/gpu/drm/msm/msm_gem_vma.c b/drivers/gpu/drm/msm/msm_gem_vma.c
-index f3903825e0b6..69d0d423900e 100644
---- a/drivers/gpu/drm/msm/msm_gem_vma.c
-+++ b/drivers/gpu/drm/msm/msm_gem_vma.c
-@@ -4,9 +4,16 @@
-  * Author: Rob Clark <robdclark@gmail.com>
-  */
- 
-+#include "drm/drm_file.h"
-+#include "drm/msm_drm.h"
-+#include "linux/file.h"
-+#include "linux/sync_file.h"
-+
- #include "msm_drv.h"
- #include "msm_gem.h"
-+#include "msm_gpu.h"
- #include "msm_mmu.h"
-+#include "msm_syncobj.h"
- 
- #define vm_dbg(fmt, ...) pr_debug("%s:%d: "fmt"\n", __func__, __LINE__, ##__VA_ARGS__)
- 
-@@ -34,8 +41,95 @@ struct msm_vm_unmap_op {
- 	uint64_t iova;
- 	/** @range: size of region to unmap */
- 	uint64_t range;
-+	/**
-+	 * @obj: backing object for pages to be unmapped
-+	 *
-+	 * Async unmap ops must hold a reference to the original GEM object
-+	 * backing the mapping that will be unmapped.  This ensures that the
-+	 * pages backing the mapping are not freed before the mapping is torn
-+	 * down.
-+	 */
-+	struct drm_gem_object *obj;
-+};
-+
-+/**
-+ * struct msm_vma_op - A MAP or UNMAP operation
-+ */
-+struct msm_vm_op {
-+	/** @op: The operation type */
-+	enum {
-+		MSM_VM_OP_MAP,
-+		MSM_VM_OP_UNMAP,
-+	} op;
-+	union {
-+		/** @map: Parameters used if op == MSM_VMA_OP_MAP */
-+		struct msm_vm_map_op map;
-+		/** @unmap: Parameters used if op == MSM_VMA_OP_UNMAP */
-+		struct msm_vm_unmap_op unmap;
-+	};
-+	/** @node: list head in msm_vm_bind_job::vm_ops */
-+	struct list_head node;
- };
- 
-+/**
-+ * struct msm_vm_bind_job - Tracking for a VM_BIND ioctl
-+ *
-+ * A table of userspace requested VM updates (MSM_VM_BIND_OP_UNMAP/MAP/MAP_NULL)
-+ * gets applied to the vm, generating a list of VM ops (MSM_VM_OP_MAP/UNMAP)
-+ * which are applied to the pgtables asynchronously.  For example a userspace
-+ * requested MSM_VM_BIND_OP_MAP could end up generating both an MSM_VM_OP_UNMAP
-+ * to unmap an existing mapping, and a MSM_VM_OP_MAP to apply the new mapping.
-+ */
-+struct msm_vm_bind_job {
-+	/** @base: base class for drm_sched jobs */
-+	struct drm_sched_job base;
-+	/** @vm: The VM being operated on */
-+	struct drm_gpuvm *vm;
-+	/** @fence: The fence that is signaled when job completes */
-+	struct dma_fence *fence;
-+	/** @queue: The queue that the job runs on */
-+	struct msm_gpu_submitqueue *queue;
-+	/** @prealloc: Tracking for pre-allocated MMU pgtable pages */
-+	struct msm_mmu_prealloc prealloc;
-+	/** @vm_ops: a list of struct msm_vm_op */
-+	struct list_head vm_ops;
-+	/** @bos_pinned: are the GEM objects being bound pinned? */
-+	bool bos_pinned;
-+	/** @nr_ops: the number of userspace requested ops */
-+	unsigned int nr_ops;
-+	/**
-+	 * @ops: the userspace requested ops
-+	 *
-+	 * The userspace requested ops are copied/parsed and validated
-+	 * before we start applying the updates to try to do as much up-
-+	 * front error checking as possible, to avoid the VM being in an
-+	 * undefined state due to partially executed VM_BIND.
-+	 *
-+	 * This table also serves to hold a reference to the backing GEM
-+	 * objects.
-+	 */
-+	struct msm_vm_bind_op {
-+		uint32_t op;
-+		uint32_t flags;
-+		union {
-+			struct drm_gem_object *obj;
-+			uint32_t handle;
-+		};
-+		uint64_t obj_offset;
-+		uint64_t iova;
-+		uint64_t range;
-+	} ops[];
-+};
-+
-+#define job_foreach_bo(obj, _job) \
-+	for (unsigned i = 0; i < (_job)->nr_ops; i++) \
-+		if ((obj = (_job)->ops[i].obj))
-+
-+static inline struct msm_vm_bind_job *to_msm_vm_bind_job(struct drm_sched_job *job)
-+{
-+	return container_of(job, struct msm_vm_bind_job, base);
-+}
-+
- static void
- msm_gem_vm_free(struct drm_gpuvm *gpuvm)
- {
-@@ -49,34 +143,52 @@ msm_gem_vm_free(struct drm_gpuvm *gpuvm)
- 	kfree(vm);
- }
- 
--static void
-+static int
- vm_unmap_op(struct msm_gem_vm *vm, const struct msm_vm_unmap_op *op)
- {
-+	if (!vm->managed)
-+		lockdep_assert_held(&vm->mmu_lock);
-+
- 	vm_dbg("%p: %016llx %016llx", vm, op->iova, op->iova + op->range);
- 
--	vm->mmu->funcs->unmap(vm->mmu, op->iova, op->range);
-+	return vm->mmu->funcs->unmap(vm->mmu, op->iova, op->range);
- }
- 
- /* Actually unmap memory for the vma */
- void msm_gem_vma_unmap(struct drm_gpuva *vma)
- {
-+	struct msm_gem_vm *vm = to_msm_vm(vma->vm);
- 	struct msm_gem_vma *msm_vma = to_msm_vma(vma);
- 
- 	/* Don't do anything if the memory isn't mapped */
- 	if (!msm_vma->mapped)
- 		return;
- 
--	vm_unmap_op(to_msm_vm(vma->vm), &(struct msm_vm_unmap_op){
-+	/*
-+	 * The mmu_lock is only needed when preallocation is used.  But
-+	 * in that case we don't need to worry about recursion into
-+	 * shrinker
-+	 */
-+	if (!vm->managed)
-+		 mutex_lock(&vm->mmu_lock);
-+
-+	vm_unmap_op(vm, &(struct msm_vm_unmap_op){
- 		.iova = vma->va.addr,
- 		.range = vma->va.range,
- 	});
- 
-+	if (!vm->managed)
-+		mutex_unlock(&vm->mmu_lock);
-+
- 	msm_vma->mapped = false;
- }
- 
- static int
- vm_map_op(struct msm_gem_vm *vm, const struct msm_vm_map_op *op)
- {
-+	if (!vm->managed)
-+		lockdep_assert_held(&vm->mmu_lock);
-+
- 	vm_dbg("%p: %016llx %016llx", vm, op->iova, op->iova + op->range);
- 
- 	return vm->mmu->funcs->map(vm->mmu, op->iova, op->sgt, op->offset,
-@@ -87,6 +199,7 @@ vm_map_op(struct msm_gem_vm *vm, const struct msm_vm_map_op *op)
- int
- msm_gem_vma_map(struct drm_gpuva *vma, int prot, struct sg_table *sgt)
- {
-+	struct msm_gem_vm *vm = to_msm_vm(vma->vm);
- 	struct msm_gem_vma *msm_vma = to_msm_vma(vma);
- 	int ret;
- 
-@@ -98,6 +211,14 @@ msm_gem_vma_map(struct drm_gpuva *vma, int prot, struct sg_table *sgt)
- 
- 	msm_vma->mapped = true;
- 
-+	/*
-+	 * The mmu_lock is only needed when preallocation is used.  But
-+	 * in that case we don't need to worry about recursion into
-+	 * shrinker
-+	 */
-+	if (!vm->managed)
-+		mutex_lock(&vm->mmu_lock);
-+
- 	/*
- 	 * NOTE: iommu/io-pgtable can allocate pages, so we cannot hold
- 	 * a lock across map/unmap which is also used in the job_run()
-@@ -107,16 +228,19 @@ msm_gem_vma_map(struct drm_gpuva *vma, int prot, struct sg_table *sgt)
- 	 * Revisit this if we can come up with a scheme to pre-alloc pages
- 	 * for the pgtable in map/unmap ops.
- 	 */
--	ret = vm_map_op(to_msm_vm(vma->vm), &(struct msm_vm_map_op){
-+	ret = vm_map_op(vm, &(struct msm_vm_map_op){
- 		.iova = vma->va.addr,
- 		.range = vma->va.range,
- 		.offset = vma->gem.offset,
- 		.sgt = sgt,
- 		.prot = prot,
- 	});
--	if (ret) {
-+
-+	if (!vm->managed)
-+		mutex_unlock(&vm->mmu_lock);
-+
-+	if (ret)
- 		msm_vma->mapped = false;
--	}
- 
- 	return ret;
- }
-@@ -131,6 +255,9 @@ void msm_gem_vma_close(struct drm_gpuva *vma)
- 
- 	drm_gpuvm_resv_assert_held(&vm->base);
- 
-+	if (vma->gem.obj)
-+		msm_gem_assert_locked(vma->gem.obj);
-+
- 	if (vma->va.addr && vm->managed)
- 		drm_mm_remove_node(&msm_vma->node);
- 
-@@ -158,6 +285,7 @@ msm_gem_vma_new(struct drm_gpuvm *_vm, struct drm_gem_object *obj,
- 
- 	if (vm->managed) {
- 		BUG_ON(offset != 0);
-+		BUG_ON(!obj);  /* NULL mappings not valid for kernel managed VM */
- 		ret = drm_mm_insert_node_in_range(&vm->mm, &vma->node,
- 						obj->size, PAGE_SIZE, 0,
- 						range_start, range_end, 0);
-@@ -169,7 +297,8 @@ msm_gem_vma_new(struct drm_gpuvm *_vm, struct drm_gem_object *obj,
- 		range_end   = range_start + obj->size;
- 	}
- 
--	GEM_WARN_ON((range_end - range_start) > obj->size);
-+	if (obj)
-+		GEM_WARN_ON((range_end - range_start) > obj->size);
- 
- 	drm_gpuva_init(&vma->base, range_start, range_end - range_start, obj, offset);
- 	vma->mapped = false;
-@@ -178,6 +307,9 @@ msm_gem_vma_new(struct drm_gpuvm *_vm, struct drm_gem_object *obj,
- 	if (ret)
- 		goto err_free_range;
- 
-+	if (!obj)
-+		return &vma->base;
-+
- 	vm_bo = drm_gpuvm_bo_obtain(&vm->base, obj);
- 	if (IS_ERR(vm_bo)) {
- 		ret = PTR_ERR(vm_bo);
-@@ -199,11 +331,290 @@ msm_gem_vma_new(struct drm_gpuvm *_vm, struct drm_gem_object *obj,
- 	return ERR_PTR(ret);
- }
- 
-+static int
-+msm_gem_vm_bo_validate(struct drm_gpuvm_bo *vm_bo, struct drm_exec *exec)
-+{
-+	struct drm_gem_object *obj = vm_bo->obj;
-+	struct drm_gpuva *vma;
-+	int ret;
-+
-+	msm_gem_assert_locked(obj);
-+
-+	drm_gpuvm_bo_for_each_va (vma, vm_bo) {
-+		ret = msm_gem_pin_vma_locked(obj, vma);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+struct op_arg {
-+	unsigned flags;
-+	struct msm_vm_bind_job *job;
-+};
-+
-+static void
-+vm_op_enqueue(struct op_arg *arg, struct msm_vm_op _op)
-+{
-+	struct msm_vm_op *op = kmalloc(sizeof(*op), GFP_KERNEL);
-+	*op = _op;
-+	list_add_tail(&op->node, &arg->job->vm_ops);
-+}
-+
-+static struct drm_gpuva *
-+vma_from_op(struct op_arg *arg, struct drm_gpuva_op_map *op)
-+{
-+	return msm_gem_vma_new(arg->job->vm, op->gem.obj, op->gem.offset,
-+			       op->va.addr, op->va.addr + op->va.range);
-+}
-+
-+static void
-+map_vma(struct drm_gpuva *vma, void *arg)
-+{
-+	struct drm_gem_object *obj = vma->gem.obj;
-+	struct sg_table *sgt;
-+	unsigned prot;
-+
-+	if (obj) {
-+		sgt = to_msm_bo(obj)->sgt;
-+		prot = msm_gem_prot(obj);
-+	} else {
-+		sgt = NULL;
-+		prot = IOMMU_READ | IOMMU_WRITE;
-+	}
-+
-+	vm_op_enqueue(arg, (struct msm_vm_op){
-+		.op = MSM_VM_OP_MAP,
-+		.map = {
-+			.sgt = sgt,
-+			.iova = vma->va.addr,
-+			.range = vma->va.range,
-+			.offset = vma->gem.offset,
-+			.prot = prot,
-+		},
-+	});
-+
-+	to_msm_vma(vma)->mapped = true;
-+}
-+
-+static int
-+msm_gem_vm_sm_step_map(struct drm_gpuva_op *op, void *arg)
-+{
-+	struct drm_gpuva *vma;
-+
-+	vma = vma_from_op(arg, &op->map);
-+	if (WARN_ON(IS_ERR(vma)))
-+		return PTR_ERR(vma);
-+
-+	vm_dbg("%p:%p: %016llx %016llx", vma->vm, vma, vma->va.addr, vma->va.range);
-+
-+	vma->flags = ((struct op_arg *)arg)->flags;
-+
-+	map_vma(vma, arg);
-+
-+	return 0;
-+}
-+
-+static int
-+msm_gem_vm_sm_step_remap(struct drm_gpuva_op *op, void *arg)
-+{
-+	struct drm_gpuvm *vm = ((struct op_arg *)arg)->job->vm;
-+	struct drm_gpuva *orig_vma = op->remap.unmap->va;
-+	struct drm_gpuva *prev_vma = NULL, *next_vma = NULL;
-+	uint64_t unmap_start, unmap_range;
-+	unsigned flags;
-+
-+	vm_dbg("orig_vma: %p:%p: %016llx %016llx", vm, orig_vma, orig_vma->va.addr, orig_vma->va.range);
-+
-+	/*
-+	 * We are going to need at least some of the orig_vma mapped, the
-+	 * easier thing is to just map the whole thing and then unmap the
-+	 * unmap_range, instead of trying to optimize for this case
-+	 */
-+	if (!to_msm_vma(orig_vma)->mapped)
-+		map_vma(orig_vma, arg);
-+
-+	drm_gpuva_op_remap_to_unmap_range(&op->remap, &unmap_start, &unmap_range);
-+
-+	if (orig_vma->gem.obj)
-+		drm_gem_object_get(orig_vma->gem.obj);
-+
-+	vm_op_enqueue(arg, (struct msm_vm_op){
-+		.op = MSM_VM_OP_UNMAP,
-+		.unmap = {
-+			.iova = unmap_start,
-+			.range = unmap_range,
-+			.obj = orig_vma->gem.obj,
-+		},
-+	});
-+
-+	/*
-+	 * Part of this GEM obj is still mapped, but we're going to kill the
-+	 * existing VMA and replace it with one or two new ones (ie. two if
-+	 * the unmapped range is in the middle of the existing (unmap) VMA).
-+	 * So just set the state to unmapped:
-+	 */
-+	to_msm_vma(orig_vma)->mapped = false;
-+
-+	/*
-+	 * The prev_vma and/or next_vma are replacing the unmapped vma, and
-+	 * therefore should preserve it's flags:
-+	 */
-+	flags = orig_vma->flags;
-+
-+	msm_gem_vma_close(orig_vma);
-+
-+	if (op->remap.prev) {
-+		prev_vma = vma_from_op(arg, op->remap.prev);
-+		if (WARN_ON(IS_ERR(prev_vma)))
-+			return PTR_ERR(prev_vma);
-+
-+		vm_dbg("prev_vma: %p:%p: %016llx %016llx", vm, prev_vma, prev_vma->va.addr, prev_vma->va.range);
-+		to_msm_vma(prev_vma)->mapped = true;
-+		prev_vma->flags = flags;
-+	}
-+
-+	if (op->remap.next) {
-+		next_vma = vma_from_op(arg, op->remap.next);
-+		if (WARN_ON(IS_ERR(next_vma)))
-+			return PTR_ERR(next_vma);
-+
-+		vm_dbg("next_vma: %p:%p: %016llx %016llx", vm, next_vma, next_vma->va.addr, next_vma->va.range);
-+		to_msm_vma(next_vma)->mapped = true;
-+		next_vma->flags = flags;
-+	}
-+
-+	return 0;
-+}
-+
-+static int
-+msm_gem_vm_sm_step_unmap(struct drm_gpuva_op *op, void *arg)
-+{
-+	struct drm_gpuva *vma = op->unmap.va;
-+	struct msm_gem_vma *msm_vma = to_msm_vma(vma);
-+
-+	vm_dbg("%p:%p: %016llx %016llx", vma->vm, vma, vma->va.addr, vma->va.range);
-+
-+	if (!msm_vma->mapped)
-+		goto out_close;
-+
-+	if (vma->gem.obj)
-+		drm_gem_object_get(vma->gem.obj);
-+
-+	vm_op_enqueue(arg, (struct msm_vm_op){
-+		.op = MSM_VM_OP_UNMAP,
-+		.unmap = {
-+			.iova = vma->va.addr,
-+			.range = vma->va.range,
-+			.obj = vma->gem.obj,
-+		},
-+	});
-+
-+	msm_vma->mapped = false;
-+
-+out_close:
-+	msm_gem_vma_close(vma);
-+
-+	return 0;
-+}
-+
- static const struct drm_gpuvm_ops msm_gpuvm_ops = {
- 	.vm_free = msm_gem_vm_free,
-+	.vm_bo_validate = msm_gem_vm_bo_validate,
-+	.sm_step_map = msm_gem_vm_sm_step_map,
-+	.sm_step_remap = msm_gem_vm_sm_step_remap,
-+	.sm_step_unmap = msm_gem_vm_sm_step_unmap,
- };
- 
-+static struct dma_fence *
-+msm_vma_job_run(struct drm_sched_job *_job)
-+{
-+	struct msm_vm_bind_job *job = to_msm_vm_bind_job(_job);
-+	struct msm_gem_vm *vm = to_msm_vm(job->vm);
-+	struct drm_gem_object *obj;
-+	int ret = 0;
-+
-+	vm_dbg("");
-+
-+	mutex_lock(&vm->mmu_lock);
-+	vm->mmu->prealloc = &job->prealloc;
-+
-+	while (!list_empty(&job->vm_ops)) {
-+		struct msm_vm_op *op =
-+			list_first_entry(&job->vm_ops, struct msm_vm_op, node);
-+
-+		switch (op->op) {
-+		case MSM_VM_OP_MAP:
-+			/*
-+			 * On error, stop trying to map new things.. but we
-+			 * still want to process the unmaps (or in particular,
-+			 * the drm_gem_object_put()s)
-+			 */
-+			if (!ret)
-+				ret = vm_map_op(vm, &op->map);
-+			break;
-+		case MSM_VM_OP_UNMAP:
-+			if (!ret)
-+				ret = vm_unmap_op(vm, &op->unmap);
-+			drm_gem_object_put(op->unmap.obj);
-+			break;
-+		}
-+		list_del(&op->node);
-+		kfree(op);
-+	}
-+
-+	/*
-+	 * We failed to perform at least _some_ of the pgtable updates, so
-+	 * now the VM is in an undefined state.  Game over!
-+	 */
-+	if (ret)
-+		vm->unusable = true;
-+
-+	vm->mmu->prealloc = NULL;
-+	mutex_unlock(&vm->mmu_lock);
-+
-+	job_foreach_bo (obj, job) {
-+		msm_gem_lock(obj);
-+		msm_gem_unpin_locked(obj);
-+		msm_gem_unlock(obj);
-+	}
-+
-+	/* VM_BIND ops are synchronous, so no fence to wait on: */
-+	return NULL;
-+}
-+
-+static void
-+msm_vma_job_free(struct drm_sched_job *_job)
-+{
-+	struct msm_vm_bind_job *job = to_msm_vm_bind_job(_job);
-+	struct msm_mmu *mmu = to_msm_vm(job->vm)->mmu;
-+	struct drm_gem_object *obj;
-+
-+	mmu->funcs->prealloc_cleanup(mmu, &job->prealloc);
-+
-+	drm_sched_job_cleanup(_job);
-+
-+	job_foreach_bo (obj, job)
-+		drm_gem_object_put(obj);
-+
-+	msm_submitqueue_put(job->queue);
-+	dma_fence_put(job->fence);
-+
-+	/* In error paths, we could have unexecuted ops: */
-+	while (!list_empty(&job->vm_ops)) {
-+		struct msm_vm_op *op =
-+			list_first_entry(&job->vm_ops, struct msm_vm_op, node);
-+		list_del(&op->node);
-+		kfree(op);
-+	}
-+
-+	kfree(job);
-+}
-+
- static const struct drm_sched_backend_ops msm_vm_bind_ops = {
-+	.run_job = msm_vma_job_run,
-+	.free_job = msm_vma_job_free
- };
- 
- /**
-@@ -264,6 +675,7 @@ msm_gem_vm_create(struct drm_device *drm, struct msm_mmu *mmu, const char *name,
- 	drm_gem_object_put(dummy_gem);
- 
- 	vm->mmu = mmu;
-+	mutex_init(&vm->mmu_lock);
- 	vm->managed = managed;
- 
- 	drm_mm_init(&vm->mm, va_start, va_size);
-@@ -276,7 +688,6 @@ msm_gem_vm_create(struct drm_device *drm, struct msm_mmu *mmu, const char *name,
- err_free_vm:
- 	kfree(vm);
- 	return ERR_PTR(ret);
--
- }
- 
- /**
-@@ -292,6 +703,7 @@ msm_gem_vm_close(struct drm_gpuvm *gpuvm)
- {
- 	struct msm_gem_vm *vm = to_msm_vm(gpuvm);
- 	struct drm_gpuva *vma, *tmp;
-+	struct drm_exec exec;
- 
- 	/*
- 	 * For kernel managed VMs, the VMAs are torn down when the handle is
-@@ -308,22 +720,557 @@ msm_gem_vm_close(struct drm_gpuvm *gpuvm)
- 	drm_sched_fini(&vm->sched);
- 
- 	/* Tear down any remaining mappings: */
--	dma_resv_lock(drm_gpuvm_resv(gpuvm), NULL);
--	drm_gpuvm_for_each_va_safe (vma, tmp, gpuvm) {
--		struct drm_gem_object *obj = vma->gem.obj;
-+	drm_exec_init(&exec, 0, 2);
-+	drm_exec_until_all_locked (&exec) {
-+		drm_exec_lock_obj(&exec, drm_gpuvm_resv_obj(gpuvm));
-+		drm_exec_retry_on_contention(&exec);
-+
-+		drm_gpuvm_for_each_va_safe (vma, tmp, gpuvm) {
-+			struct drm_gem_object *obj = vma->gem.obj;
-+
-+			/*
-+			 * MSM_BO_NO_SHARE objects share the same resv as the
-+			 * VM, in which case the obj is already locked:
-+			 */
-+			if (obj && (obj->resv == drm_gpuvm_resv(gpuvm)))
-+				obj = NULL;
-+
-+			if (obj) {
-+				drm_exec_lock_obj(&exec, obj);
-+				drm_exec_retry_on_contention(&exec);
-+			}
-+
-+			msm_gem_vma_unmap(vma);
-+			msm_gem_vma_close(vma);
-+
-+			if (obj) {
-+				drm_exec_unlock_obj(&exec, obj);
-+			}
-+		}
-+	}
-+	drm_exec_fini(&exec);
-+}
-+
-+
-+static struct msm_vm_bind_job *
-+vm_bind_job_create(struct drm_device *dev, struct msm_gpu *gpu,
-+		   struct msm_gpu_submitqueue *queue, uint32_t nr_ops)
-+{
-+	struct msm_vm_bind_job *job;
-+	uint64_t sz;
-+	int ret;
-+
-+	sz = struct_size(job, ops, nr_ops);
-+
-+	if (sz > SIZE_MAX)
-+		return ERR_PTR(-ENOMEM);
-+
-+	job = kzalloc(sz, GFP_KERNEL | __GFP_NOWARN);
-+	if (!job)
-+		return ERR_PTR(-ENOMEM);
-+
-+	ret = drm_sched_job_init(&job->base, queue->entity, 1, queue);
-+	if (ret) {
-+		kfree(job);
-+		return ERR_PTR(ret);
-+	}
-+
-+	job->vm = msm_context_vm(dev, queue->ctx);
-+	job->queue = queue;
-+	INIT_LIST_HEAD(&job->vm_ops);
-+
-+	return job;
-+}
-+
-+static bool invalid_alignment(uint64_t addr)
-+{
-+	/*
-+	 * Technically this is about GPU alignment, not CPU alignment.  But
-+	 * I've not seen any qcom SoC where the SMMU does not support the
-+	 * CPU's smallest page size.
-+	 */
-+	return !PAGE_ALIGNED(addr);
-+}
- 
--		if (obj && obj->resv != drm_gpuvm_resv(gpuvm)) {
--			drm_gem_object_get(obj);
--			msm_gem_lock(obj);
-+static int
-+lookup_op(struct msm_vm_bind_job *job, const struct drm_msm_vm_bind_op *op)
-+{
-+	struct drm_device *dev = job->vm->drm;
-+	struct msm_mmu *mmu = to_msm_vm(job->vm)->mmu;
-+	int i = job->nr_ops++;
-+	int ret = 0;
-+
-+	job->ops[i].op = op->op;
-+	job->ops[i].handle = op->handle;
-+	job->ops[i].obj_offset = op->obj_offset;
-+	job->ops[i].iova = op->iova;
-+	job->ops[i].range = op->range;
-+	job->ops[i].flags = op->flags;
-+
-+	if (op->flags & ~MSM_VM_BIND_OP_FLAGS)
-+		ret = UERR(EINVAL, dev, "invalid flags: %x\n", op->flags);
-+
-+	if (invalid_alignment(op->iova))
-+		ret = UERR(EINVAL, dev, "invalid address: %016llx\n", op->iova);
-+
-+	if (invalid_alignment(op->obj_offset))
-+		ret = UERR(EINVAL, dev, "invalid bo_offset: %016llx\n", op->obj_offset);
-+
-+	if (invalid_alignment(op->range))
-+		ret = UERR(EINVAL, dev, "invalid range: %016llx\n", op->range);
-+
-+
-+	/*
-+	 * MAP must specify a valid handle.  But the handle MBZ for
-+	 * UNMAP or MAP_NULL.
-+	 */
-+	if (op->op == MSM_VM_BIND_OP_MAP) {
-+		if (!op->handle)
-+			ret = UERR(EINVAL, dev, "invalid handle\n");
-+	} else if (op->handle) {
-+		ret = UERR(EINVAL, dev, "handle must be zero\n");
-+	}
-+
-+	switch (op->op) {
-+	case MSM_VM_BIND_OP_MAP:
-+	case MSM_VM_BIND_OP_MAP_NULL:
-+		mmu->funcs->prealloc_count(mmu, &job->prealloc, op->iova, op->range);
-+		break;
-+	case MSM_VM_BIND_OP_UNMAP:
-+		break;
-+	default:
-+		ret = UERR(EINVAL, dev, "invalid op: %u\n", op->op);
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
-+/*
-+ * ioctl parsing, parameter validation, and GEM handle lookup
-+ */
-+static int
-+vm_bind_job_lookup_ops(struct msm_vm_bind_job *job, struct drm_msm_vm_bind *args,
-+		       struct drm_file *file, int *nr_bos)
-+{
-+	struct drm_device *dev = job->vm->drm;
-+	int ret = 0;
-+	int cnt = 0;
-+
-+	if (args->nr_ops == 1) {
-+		/* Single op case, the op is inlined: */
-+		ret = lookup_op(job, &args->op);
-+	} else {
-+		for (unsigned i = 0; i < args->nr_ops; i++) {
-+			struct drm_msm_vm_bind_op op;
-+			void __user *userptr =
-+				u64_to_user_ptr(args->ops + (i * sizeof(op)));
-+
-+			/* make sure we don't have garbage flags, in case we hit
-+			 * error path before flags is initialized:
-+			 */
-+			job->ops[i].flags = 0;
-+
-+			if (copy_from_user(&op, userptr, sizeof(op))) {
-+				ret = -EFAULT;
-+				break;
-+			}
-+
-+			ret = lookup_op(job, &op);
-+			if (ret)
-+				break;
- 		}
-+	}
-+
-+	if (ret) {
-+		job->nr_ops = 0;
-+		goto out;
-+	}
-+
-+	spin_lock(&file->table_lock);
-+
-+	for (unsigned i = 0; i < args->nr_ops; i++) {
-+		struct drm_gem_object *obj;
- 
--		msm_gem_vma_unmap(vma);
--		msm_gem_vma_close(vma);
-+		if (!job->ops[i].handle) {
-+			job->ops[i].obj = NULL;
-+			continue;
-+		}
- 
--		if (obj && obj->resv != drm_gpuvm_resv(gpuvm)) {
--			msm_gem_unlock(obj);
--			drm_gem_object_put(obj);
-+		/*
-+		 * normally use drm_gem_object_lookup(), but for bulk lookup
-+		 * all under single table_lock just hit object_idr directly:
-+		 */
-+		obj = idr_find(&file->object_idr, job->ops[i].handle);
-+		if (!obj) {
-+			ret = UERR(EINVAL, dev, "invalid handle %u at index %u\n", job->ops[i].handle, i);
-+			goto out_unlock;
- 		}
-+
-+		drm_gem_object_get(obj);
-+
-+		job->ops[i].obj = obj;
-+		cnt++;
- 	}
--	dma_resv_unlock(drm_gpuvm_resv(gpuvm));
-+
-+	*nr_bos = cnt;
-+
-+out_unlock:
-+	spin_unlock(&file->table_lock);
-+
-+out:
-+	return ret;
-+}
-+
-+/*
-+ * Lock VM and GEM objects
-+ */
-+static int
-+vm_bind_job_lock_objects(struct msm_vm_bind_job *job, struct drm_exec *exec)
-+{
-+	struct drm_gem_object *obj;
-+	int ret;
-+
-+	/* Lock VM and objects: */
-+	drm_exec_until_all_locked(exec) {
-+		ret = drm_exec_lock_obj(exec, drm_gpuvm_resv_obj(job->vm));
-+		drm_exec_retry_on_contention(exec);
-+		if (ret)
-+			return ret;
-+
-+		job_foreach_bo (obj, job) {
-+			ret = drm_exec_prepare_obj(exec, obj, 1);
-+			drm_exec_retry_on_contention(exec);
-+			if (ret)
-+				return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * Pin GEM objects, ensuring that we have backing pages.  Pinning will move
-+ * the object to the pinned LRU so that the shrinker knows to first consider
-+ * other objects for evicting.
-+ */
-+static int
-+vm_bind_job_pin_objects(struct msm_vm_bind_job *job)
-+{
-+	struct drm_gem_object *obj;
-+
-+	/*
-+	 * First loop, before holding the LRU lock, avoids holding the
-+	 * LRU lock while calling msm_gem_pin_vma_locked (which could
-+	 * trigger get_pages())
-+	 */
-+	job_foreach_bo (obj, job) {
-+		struct page **pages;
-+
-+		pages = msm_gem_get_pages_locked(obj, MSM_MADV_WILLNEED);
-+		if (IS_ERR(pages))
-+			return PTR_ERR(pages);
-+	}
-+
-+	struct msm_drm_private *priv = job->vm->drm->dev_private;
-+
-+	/*
-+	 * A second loop while holding the LRU lock (a) avoids acquiring/dropping
-+	 * the LRU lock for each individual bo, while (b) avoiding holding the
-+	 * LRU lock while calling msm_gem_pin_vma_locked() (which could trigger
-+	 * get_pages() which could trigger reclaim.. and if we held the LRU lock
-+	 * could trigger deadlock with the shrinker).
-+	 */
-+	mutex_lock(&priv->lru.lock);
-+	job_foreach_bo (obj, job)
-+		msm_gem_pin_obj_locked(obj);
-+	mutex_unlock(&priv->lru.lock);
-+
-+	job->bos_pinned = true;
-+
-+	return 0;
-+}
-+
-+/*
-+ * Unpin GEM objects.  Normally this is done after the bind job is run.
-+ */
-+static void
-+vm_bind_job_unpin_objects(struct msm_vm_bind_job *job)
-+{
-+	struct drm_gem_object *obj;
-+
-+	if (!job->bos_pinned)
-+		return;
-+
-+	job_foreach_bo (obj, job)
-+		msm_gem_unpin_locked(obj);
-+
-+	job->bos_pinned = false;
-+}
-+
-+/*
-+ * Pre-allocate pgtable memory, and translate the VM bind requests into a
-+ * sequence of pgtable updates to be applied asynchronously.
-+ */
-+static int
-+vm_bind_job_prepare(struct msm_vm_bind_job *job)
-+{
-+	struct msm_gem_vm *vm = to_msm_vm(job->vm);
-+	struct msm_mmu *mmu = vm->mmu;
-+	int ret;
-+
-+	mmu->funcs->prealloc_allocate(mmu, &job->prealloc);
-+
-+	for (unsigned i = 0; i < job->nr_ops; i++) {
-+		const struct msm_vm_bind_op *op = &job->ops[i];
-+		struct op_arg arg = {
-+			.job = job,
-+		};
-+
-+		switch (op->op) {
-+		case MSM_VM_BIND_OP_UNMAP:
-+			ret = drm_gpuvm_sm_unmap(job->vm, &arg, op->iova,
-+						 op->obj_offset);
-+			break;
-+		case MSM_VM_BIND_OP_MAP:
-+			if (op->flags & MSM_VM_BIND_OP_DUMP)
-+				arg.flags |= MSM_VMA_DUMP;
-+			fallthrough;
-+		case MSM_VM_BIND_OP_MAP_NULL:
-+			ret = drm_gpuvm_sm_map(job->vm, &arg, op->iova,
-+					       op->range, op->obj, op->obj_offset);
-+			break;
-+		default:
-+			/*
-+			 * lookup_op() should have already thrown an error for
-+			 * invalid ops
-+			 */
-+			BUG_ON("unreachable");
-+		}
-+
-+		if (ret) {
-+			/*
-+			 * If we've already started modifying the vm, we can't
-+			 * adequetly describe to userspace the intermediate
-+			 * state the vm is in.  So throw up our hands!
-+			 */
-+			if (i > 0)
-+				vm->unusable = true;
-+			return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+/*
-+ * Attach fences to the GEM objects being bound.  This will signify to
-+ * the shrinker that they are busy even after dropping the locks (ie.
-+ * drm_exec_fini())
-+ */
-+static void
-+vm_bind_job_attach_fences(struct msm_vm_bind_job *job)
-+{
-+	for (unsigned i = 0; i < job->nr_ops; i++) {
-+		struct drm_gem_object *obj = job->ops[i].obj;
-+
-+		if (!obj)
-+			continue;
-+
-+		dma_resv_add_fence(obj->resv, job->fence,
-+				   DMA_RESV_USAGE_KERNEL);
-+	}
-+}
-+
-+int
-+msm_ioctl_vm_bind(struct drm_device *dev, void *data, struct drm_file *file)
-+{
-+	struct msm_drm_private *priv = dev->dev_private;
-+	struct drm_msm_vm_bind *args = data;
-+	struct msm_context *ctx = file->driver_priv;
-+	struct msm_vm_bind_job *job = NULL;
-+	struct msm_gpu *gpu = priv->gpu;
-+	struct msm_gpu_submitqueue *queue;
-+	struct msm_syncobj_post_dep *post_deps = NULL;
-+	struct drm_syncobj **syncobjs_to_reset = NULL;
-+	struct dma_fence *fence;
-+	int out_fence_fd = -1;
-+	int ret, nr_bos = 0;
-+	unsigned i;
-+
-+	if (!gpu)
-+		return -ENXIO;
-+
-+	/*
-+	 * Maybe we could allow just UNMAP ops?  OTOH userspace should just
-+	 * immediately close the device file and all will be torn down.
-+	 */
-+	if (to_msm_vm(ctx->vm)->unusable)
-+		return UERR(EPIPE, dev, "context is unusable");
-+
-+	/*
-+	 * Technically, you cannot create a VM_BIND submitqueue in the first
-+	 * place, if you haven't opted in to VM_BIND context.  But it is
-+	 * cleaner / less confusing, to check this case directly.
-+	 */
-+	if (!msm_context_is_vmbind(ctx))
-+		return UERR(EINVAL, dev, "context does not support vmbind");
-+
-+	if (args->flags & ~MSM_VM_BIND_FLAGS)
-+		return UERR(EINVAL, dev, "invalid flags");
-+
-+	queue = msm_submitqueue_get(ctx, args->queue_id);
-+	if (!queue)
-+		return -ENOENT;
-+
-+	if (!(queue->flags & MSM_SUBMITQUEUE_VM_BIND)) {
-+		ret = UERR(EINVAL, dev, "Invalid queue type");
-+		goto out_post_unlock;
-+	}
-+
-+	if (args->flags & MSM_VM_BIND_FENCE_FD_OUT) {
-+		out_fence_fd = get_unused_fd_flags(O_CLOEXEC);
-+		if (out_fence_fd < 0) {
-+			ret = out_fence_fd;
-+			goto out_post_unlock;
-+		}
-+	}
-+
-+	job = vm_bind_job_create(dev, gpu, queue, args->nr_ops);
-+	if (IS_ERR(job)) {
-+		ret = PTR_ERR(job);
-+		goto out_post_unlock;
-+	}
-+
-+	ret = mutex_lock_interruptible(&queue->lock);
-+	if (ret)
-+		goto out_post_unlock;
-+
-+	if (args->flags & MSM_VM_BIND_FENCE_FD_IN) {
-+		struct dma_fence *in_fence;
-+
-+		in_fence = sync_file_get_fence(args->fence_fd);
-+
-+		if (!in_fence) {
-+			ret = UERR(EINVAL, dev, "invalid in-fence");
-+			goto out_unlock;
-+		}
-+
-+		ret = drm_sched_job_add_dependency(&job->base, in_fence);
-+		if (ret)
-+			goto out_unlock;
-+	}
-+
-+	if (args->in_syncobjs > 0) {
-+		syncobjs_to_reset = msm_syncobj_parse_deps(dev, &job->base,
-+							   file, args->in_syncobjs,
-+							   args->nr_in_syncobjs,
-+							   args->syncobj_stride);
-+		if (IS_ERR(syncobjs_to_reset)) {
-+			ret = PTR_ERR(syncobjs_to_reset);
-+			goto out_unlock;
-+		}
-+	}
-+
-+	if (args->out_syncobjs > 0) {
-+		post_deps = msm_syncobj_parse_post_deps(dev, file,
-+							args->out_syncobjs,
-+							args->nr_out_syncobjs,
-+							args->syncobj_stride);
-+		if (IS_ERR(post_deps)) {
-+			ret = PTR_ERR(post_deps);
-+			goto out_unlock;
-+		}
-+	}
-+
-+	ret = vm_bind_job_lookup_ops(job, args, file, &nr_bos);
-+	if (ret)
-+		goto out_unlock;
-+
-+	struct drm_exec exec;
-+	unsigned flags = DRM_EXEC_IGNORE_DUPLICATES | DRM_EXEC_INTERRUPTIBLE_WAIT;
-+	drm_exec_init(&exec, flags, nr_bos + 1);
-+
-+	ret = vm_bind_job_lock_objects(job, &exec);
-+	if (ret)
-+		goto out;
-+
-+	ret = vm_bind_job_pin_objects(job);
-+	if (ret)
-+		goto out;
-+
-+	ret = vm_bind_job_prepare(job);
-+	if (ret)
-+		goto out;
-+
-+	drm_sched_job_arm(&job->base);
-+
-+	job->fence = dma_fence_get(&job->base.s_fence->finished);
-+
-+	if (ret == 0 && args->flags & MSM_VM_BIND_FENCE_FD_OUT) {
-+		struct sync_file *sync_file = sync_file_create(job->fence);
-+		if (!sync_file) {
-+			ret = -ENOMEM;
-+		} else {
-+			fd_install(out_fence_fd, sync_file->file);
-+			args->fence_fd = out_fence_fd;
-+		}
-+	}
-+
-+	if (ret)
-+		goto out;
-+
-+	vm_bind_job_attach_fences(job);
-+
-+	/*
-+	 * The job can be free'd (and fence unref'd) at any point after
-+	 * drm_sched_entity_push_job(), so we need to hold our own ref
-+	 */
-+	fence = dma_fence_get(job->fence);
-+
-+	drm_sched_entity_push_job(&job->base);
-+
-+	msm_syncobj_reset(syncobjs_to_reset, args->nr_in_syncobjs);
-+	msm_syncobj_process_post_deps(post_deps, args->nr_out_syncobjs, fence);
-+
-+	dma_fence_put(fence);
-+
-+out:
-+	if (ret)
-+		vm_bind_job_unpin_objects(job);
-+	drm_exec_fini(&exec);
-+out_unlock:
-+	mutex_unlock(&queue->lock);
-+out_post_unlock:
-+	if (ret && (out_fence_fd >= 0))
-+		put_unused_fd(out_fence_fd);
-+
-+	if (!IS_ERR_OR_NULL(job)) {
-+		if (ret)
-+			msm_vma_job_free(&job->base);
-+	} else {
-+		/*
-+		 * If the submit hasn't yet taken ownership of the queue
-+		 * then we need to drop the reference ourself:
-+		 */
-+		msm_submitqueue_put(queue);
-+	}
-+
-+	if (!IS_ERR_OR_NULL(post_deps)) {
-+		for (i = 0; i < args->nr_out_syncobjs; ++i) {
-+			kfree(post_deps[i].chain);
-+			drm_syncobj_put(post_deps[i].syncobj);
-+		}
-+		kfree(post_deps);
-+	}
-+
-+	if (!IS_ERR_OR_NULL(syncobjs_to_reset)) {
-+		for (i = 0; i < args->nr_in_syncobjs; ++i) {
-+			if (syncobjs_to_reset[i])
-+				drm_syncobj_put(syncobjs_to_reset[i]);
-+		}
-+		kfree(syncobjs_to_reset);
-+	}
-+
-+	return ret;
- }
-diff --git a/include/uapi/drm/msm_drm.h b/include/uapi/drm/msm_drm.h
-index 6d6cd1219926..5c67294edc95 100644
---- a/include/uapi/drm/msm_drm.h
-+++ b/include/uapi/drm/msm_drm.h
-@@ -272,7 +272,10 @@ struct drm_msm_gem_submit_cmd {
- 	__u32 size;           /* in, cmdstream size */
- 	__u32 pad;
- 	__u32 nr_relocs;      /* in, number of submit_reloc's */
--	__u64 relocs;         /* in, ptr to array of submit_reloc's */
-+	union {
-+		__u64 relocs; /* in, ptr to array of submit_reloc's */
-+		__u64 iova;   /* cmdstream address (for VM_BIND contexts) */
-+	};
- };
- 
- /* Each buffer referenced elsewhere in the cmdstream submit (ie. the
-@@ -339,7 +342,74 @@ struct drm_msm_gem_submit {
- 	__u32 nr_out_syncobjs; /* in, number of entries in out_syncobj. */
- 	__u32 syncobj_stride; /* in, stride of syncobj arrays. */
- 	__u32 pad;            /*in, reserved for future use, always 0. */
-+};
-+
-+#define MSM_VM_BIND_OP_UNMAP	0
-+#define MSM_VM_BIND_OP_MAP	1
-+#define MSM_VM_BIND_OP_MAP_NULL	2
-+
-+#define MSM_VM_BIND_OP_DUMP	1
-+#define MSM_VM_BIND_OP_FLAGS ( \
-+		MSM_VM_BIND_OP_DUMP | \
-+		0)
- 
-+/**
-+ * struct drm_msm_vm_bind_op - bind/unbind op to run
-+ */
-+struct drm_msm_vm_bind_op {
-+	/** @op: one of MSM_VM_BIND_OP_x */
-+	__u32 op;
-+	/** @handle: GEM object handle, MBZ for UNMAP or MAP_NULL */
-+	__u32 handle;
-+	/** @obj_offset: Offset into GEM object, MBZ for UNMAP or MAP_NULL */
-+	__u64 obj_offset;
-+	/** @iova: Address to operate on */
-+	__u64 iova;
-+	/** @range: Number of bites to to map/unmap */
-+	__u64 range;
-+	/** @flags: Bitmask of MSM_VM_BIND_OP_FLAG_x */
-+	__u32 flags;
-+	/** @pad: MBZ */
-+	__u32 pad;
-+};
-+
-+#define MSM_VM_BIND_FENCE_FD_IN		0x00000001
-+#define MSM_VM_BIND_FENCE_FD_OUT	0x00000002
-+#define MSM_VM_BIND_FLAGS ( \
-+		MSM_VM_BIND_FENCE_FD_IN | \
-+		MSM_VM_BIND_FENCE_FD_OUT | \
-+		0)
-+
-+/**
-+ * struct drm_msm_vm_bind - Input of &DRM_IOCTL_MSM_VM_BIND
-+ */
-+struct drm_msm_vm_bind {
-+	/** @flags: in, bitmask of MSM_VM_BIND_x */
-+	__u32 flags;
-+	/** @nr_ops: the number of bind ops in this ioctl */
-+	__u32 nr_ops;
-+	/** @fence_fd: in/out fence fd (see MSM_VM_BIND_FENCE_FD_IN/OUT) */
-+	__s32 fence_fd;
-+	/** @queue_id: in, submitqueue id */
-+	__u32 queue_id;
-+	/** @in_syncobjs: in, ptr to array of drm_msm_gem_syncobj */
-+	__u64 in_syncobjs;
-+	/** @out_syncobjs: in, ptr to array of drm_msm_gem_syncobj */
-+	__u64 out_syncobjs;
-+	/** @nr_in_syncobjs: in, number of entries in in_syncobj */
-+	__u32 nr_in_syncobjs;
-+	/** @nr_out_syncobjs: in, number of entries in out_syncobj */
-+	__u32 nr_out_syncobjs;
-+	/** @syncobj_stride: in, stride of syncobj arrays */
-+	__u32 syncobj_stride;
-+	/** @op_stride: sizeof each struct drm_msm_vm_bind_op in @ops */
-+	__u32 op_stride;
-+	union {
-+		/** @op: used if num_ops == 1 */
-+		struct drm_msm_vm_bind_op op;
-+		/** @ops: userptr to array of drm_msm_vm_bind_op if num_ops > 1 */
-+		__u64 ops;
-+	};
- };
- 
- #define MSM_WAIT_FENCE_BOOST	0x00000001
-@@ -435,6 +505,7 @@ struct drm_msm_submitqueue_query {
- #define DRM_MSM_SUBMITQUEUE_NEW        0x0A
- #define DRM_MSM_SUBMITQUEUE_CLOSE      0x0B
- #define DRM_MSM_SUBMITQUEUE_QUERY      0x0C
-+#define DRM_MSM_VM_BIND                0x0D
- 
- #define DRM_IOCTL_MSM_GET_PARAM        DRM_IOWR(DRM_COMMAND_BASE + DRM_MSM_GET_PARAM, struct drm_msm_param)
- #define DRM_IOCTL_MSM_SET_PARAM        DRM_IOW (DRM_COMMAND_BASE + DRM_MSM_SET_PARAM, struct drm_msm_param)
-@@ -448,6 +519,7 @@ struct drm_msm_submitqueue_query {
- #define DRM_IOCTL_MSM_SUBMITQUEUE_NEW    DRM_IOWR(DRM_COMMAND_BASE + DRM_MSM_SUBMITQUEUE_NEW, struct drm_msm_submitqueue)
- #define DRM_IOCTL_MSM_SUBMITQUEUE_CLOSE  DRM_IOW (DRM_COMMAND_BASE + DRM_MSM_SUBMITQUEUE_CLOSE, __u32)
- #define DRM_IOCTL_MSM_SUBMITQUEUE_QUERY  DRM_IOW (DRM_COMMAND_BASE + DRM_MSM_SUBMITQUEUE_QUERY, struct drm_msm_submitqueue_query)
-+#define DRM_IOCTL_MSM_VM_BIND          DRM_IOWR(DRM_COMMAND_BASE + DRM_MSM_VM_BIND, struct drm_msm_vm_bind)
- 
- #if defined(__cplusplus)
- }
+> + */
+> +
+> +#include "../mtk_vcodec_enc.h"
+> +#include "../mtk_vcodec_enc_drv.h"
+> +#include "../venc_drv_base.h"
+> +#include "../venc_drv_if.h"
+> +#include "../venc_vpu_if.h"
+> +#include "../../common/mtk_vcodec_intr.h"
+> +#include "../../common/mtk_vcodec_util.h"
+> +
+> +#define SEQ_HEADER_SIZE 1024
+> +#define PPS_SIZE 128
+> +#define MAX_DPB_SIZE 16
+> +#define MAX_VENC_CORE 3
+> +#define VENC_CONFIG_LENGTH 115
+> +#define VENC_CONFIG_DATA 128
+> +#define VENC_PIC_BITSTREAM_BYTE_CNT 0x0098
+> +
+> +/**
+> + * enum venc_codec_type - video encoder type
+> + * @VENC_H264: H264 encoder
+> + * @VENC_H265: H265 encoder
+> + * @VENC_MAX: max value
+> + */
+> +enum venc_codec_type {
+> +	VENC_H264,
+> +	VENC_H265,
+> +	VENC_MAX,
+> +};
+> +
+> +/**
+> + * enum venc_ipi_id - video encoder ipi id
+> + * @IPI_VENC: encoder ipi
+> + * @IPI_VENC_MAX: max value
+> + */
+> +enum venc_ipi_id {
+> +	IPI_VENC,
+> +	IPI_VENC_MAX,
+> +};
+> +
+> +/**
+> + * enum venc_bs_mode - encode bitstream mode
+> + * @VENC_BS_MODE_SPS: encode sps
+> + * @VENC_BS_MODE_PPS: encode pps
+> + * @VENC_BS_MODE_VPS: encode vps
+> + * @VENC_BS_MODE_SEQ_HDR: encode sequence header
+> + * @VENC_BS_MODE_FRAME: encode frame
+> + * @VENC_BS_MODE_FRAME_FINAL: encode final frame
+> + * @VENC_BS_MODE_MAX: max value
+> + */
+> +enum venc_bs_mode {
+> +	VENC_BS_MODE_SPS = 0,
+> +	VENC_BS_MODE_PPS,
+> +	VENC_BS_MODE_VPS,
+> +	VENC_BS_MODE_SEQ_HDR,
+> +	VENC_BS_MODE_FRAME,
+> +	VENC_BS_MODE_FRAME_FINAL,
+> +	VENC_BS_MODE_MAX
+> +};
+> +
+> +/**
+> + * struct venc_config - Structure for encoder configuration
+> + *                      AP-W/R : AP is writer/reader on this item
+> + *                      MCU-W/R: MCU is write/reader on this item
+> + * @input_fourcc: input format fourcc
+> + * @bitrate: target bitrate (in bps)
+> + * @pic_w: picture width. Picture size is visible stream resolution, in pixels,
+> + *         to be used for display purposes; must be smaller or equal to buffer
+> + *         size.
+
+This is trying to document both width and height in the same blob, and
+looks weird. Please split, should be something like "Visible picture
+width in pixel. ..."
+
+If its used to set the crop/conf window in the codec specific header,
+perhaps try and formulate it more explicitly ?
+
+> + * @pic_h: picture height
+> + * @buf_w: buffer width. Buffer size is stream resolution in pixels aligned to
+> + *         hardware requirements.
+
+Same applies.
+
+> + * @buf_h: buffer height
+> + * @gop_size: group of picture size (idr frame)
+
+This is in number of what ? frames ?
+
+> + * @intra_period: intra frame period
+
+In ? frames ?
+
+> + * @framerate: frame rate in fps
+> + * @profile: as specified in standard
+
+If its "as specified in the standard" that would mean profile_idc,
+which can't differentiate between Baseline and Constrained-Baseline in
+H264. Perhaps this is not exactly what you expected me to understand ?
+
+> + * @level: as specified in standard
+
+So level_idc ? Note this is a bit MPEG-LA specific.
+
+> + * @core_num: encoder core num
+> + * @dpb_size: encode dpb size
+> + * @reserved: reserved field config
+
+nit: reserved fields
+
+> + */
+> +struct venc_config {
+> +	__u32 input_fourcc;
+> +	__u32 bitrate;
+> +	__u32 pic_w;
+> +	__u32 pic_h;
+> +	__u32 buf_w;
+> +	__u32 buf_h;
+> +	__u32 gop_size;
+> +	__u32 intra_period;
+> +	__u32 framerate;
+> +	__u32 profile;
+> +	__u32 level;
+> +	__u32 core_num;
+> +	__u32 dpb_size;
+> +	__u32 reserved[VENC_CONFIG_LENGTH];
+> +};
+> +
+> +/**
+> + * struct venc_config_data - Structure for configuration data
+> + * @config_data: configuration data
+
+Perhaps extend a bit, don't just say "a blob of data".
+
+> + */
+> +struct venc_config_data {
+> +	unsigned int config_data[VENC_CONFIG_DATA];
+> +};
+
+> +
+> +/**
+> + * struct venc_work_buf - Structure for working buffer information
+> + *                               AP-W/R : AP is writer/reader on this item
+> + *                               MCU-W/R: MCU is write/reader on this item
+> + * @iova: IO virtual address
+> + * @pa: physical address
+> + * @pa_64: for 64bit pa padding
+> + * @va: virtual address
+> + * @va_padding: for 64bit va padding
+> + * @size: buffer size
+> + * @size_padding: for 64bit size padding
+> + */
+> +struct venc_work_buf {
+> +	unsigned long long iova;
+> +	union {
+> +		unsigned int pa;
+> +		unsigned long long pa_64;
+> +	};
+> +	union {
+> +		void *va;
+> +		unsigned long long va_padding;
+> +	};
+> +	union {
+> +		unsigned int size;
+> +		unsigned long long size_padding;
+> +	};
+> +};
+> +
+> +/**
+> + * struct venc_work_buf_list - Structure for encode working buffer list
+> + * @rc_code: RC code buffer
+> + * @rc_info: RC info buffer
+> + * @luma: luma buffer
+> + * @chroma: chroma buffer
+> + * @sub_luma: sub luma buffer
+> + * @sub_write: sub write buffer
+> + * @col_mv: col_mv buffer
+> + * @wpp: wpp buffer
+> + * @wpp_nbm: wpp nbm buffer
+> + * @skip_frame: skip frame buffer
+> + */
+> +struct venc_work_buf_list {
+> +	struct venc_work_buf rc_code;
+> +	struct venc_work_buf rc_info[MAX_VENC_CORE];
+> +	struct venc_work_buf luma[MAX_DPB_SIZE];
+> +	struct venc_work_buf chroma[MAX_DPB_SIZE];
+> +	struct venc_work_buf sub_luma[MAX_DPB_SIZE];
+> +	struct venc_work_buf sub_write[MAX_DPB_SIZE];
+> +	struct venc_work_buf col_mv[MAX_DPB_SIZE];
+> +	struct venc_work_buf wpp[MAX_VENC_CORE];
+> +	struct venc_work_buf wpp_nbm[MAX_VENC_CORE];
+> +	struct venc_work_buf skip_frame;
+> +};
+> +
+> +/**
+> + * struct venc_info -  Structure for encode frame and bs information
+> + * @fb_addr: frame buffer address array
+> + * @fb_size: frame buffer size array
+> + * @bs_addr: bitstream buffer address
+> + * @bs_size: bitstream buffer size
+> + */
+> +struct venc_info {
+> +	unsigned long long fb_addr[VIDEO_MAX_PLANES];
+> +	unsigned int fb_size[VIDEO_MAX_PLANES];
+> +	unsigned long long bs_addr;
+> +	unsigned long long bs_size;
+> +};
+> +
+> +/**
+> + * struct venc_vsi - Structure for VCP driver control and info share
+> + *                   AP-W/R : AP is writer/reader on this item
+> + *                   VCP-W/R: VCP is write/reader on this item
+> + * @config: encoder configuration
+> + * @data: encoder configuration data
+> + * @bufs: encoder working buffers
+> + * @venc: encoder information
+> + */
+> +struct venc_vsi {
+> +	struct venc_config config;
+> +	struct venc_config_data data;
+> +	struct venc_work_buf_list bufs;
+> +	struct venc_info venc;
+> +};
+> +
+> +/**
+> + * struct venc_inst - Structure for encoder instance
+> + * @hw_base: hardware io address
+> + * @pps_buf: PPS buffer
+> + * @seq_buf: sequence header buffer
+> + * @work_buf_allocated: work buffer allocated or not
+> + * @frm_cnt: encoded frame count
+> + * @skip_frm_cnt: encoded skip frame count
+> + * @prepend_hdr: prepend header flag
+> + * @vpu_inst: vpu instance
+> + * @vsi: encode vsi
+> + * @ctx: encoder context
+> + */
+> +struct venc_inst {
+> +	void __iomem *hw_base;
+> +	struct mtk_vcodec_mem pps_buf;
+> +	struct mtk_vcodec_mem seq_buf;
+> +	bool work_buf_allocated;
+> +	unsigned int frm_cnt;
+> +	unsigned int skip_frm_cnt;
+> +	unsigned int prepend_hdr;
+> +	struct venc_vpu_inst vpu_inst;
+> +	struct venc_vsi *vsi;
+> +	struct mtk_vcodec_enc_ctx *ctx;
+> +};
+> +
+> +static int venc_init(struct mtk_vcodec_enc_ctx *ctx)
+> +{
+> +	int ret = 0;
+> +	struct venc_inst *inst;
+> +
+> +	inst = kzalloc(sizeof(*inst), GFP_KERNEL);
+> +	if (!inst)
+> +		return -ENOMEM;
+> +
+> +	inst->ctx = ctx;
+> +	inst->vpu_inst.ctx = ctx;
+> +	inst->vpu_inst.id = IPI_VENC;
+> +	inst->hw_base = mtk_vcodec_get_reg_addr(inst->ctx->dev->reg_base,
+> +						VENC_SYS);
+> +
+> +	ret = vpu_enc_init(&inst->vpu_inst);
+> +	inst->vsi = (struct venc_vsi *)inst->vpu_inst.vsi;
+> +
+> +	if (ret)
+> +		kfree(inst);
+> +	else
+> +		ctx->drv_handle = inst;
+> +
+> +	return ret;
+> +}
+> +
+> +static inline u32 venc_read_reg(struct venc_inst *inst, u32 addr)
+> +{
+> +	return readl(inst->hw_base + addr);
+> +}
+> +
+> +static unsigned int venc_wait_encode_done(struct venc_inst *inst)
+> +{
+> +	unsigned int irq_status = 0;
+> +	struct mtk_vcodec_enc_ctx *ctx = (struct mtk_vcodec_enc_ctx *)inst->ctx;
+> +
+> +	if (!mtk_vcodec_wait_for_done_ctx(ctx, MTK_INST_IRQ_RECEIVED,
+> +					  WAIT_INTR_TIMEOUT_MS, 0)) {
+> +		irq_status = ctx->irq_status;
+> +		mtk_venc_debug(ctx, "irq_status %x <-", irq_status);
+> +	}
+> +	return irq_status;
+> +}
+> +
+> +static void venc_set_bufs(struct venc_inst *inst,
+> +			  struct venc_frm_buf *frm_buf,
+> +			  struct mtk_vcodec_mem *bs_buf)
+> +{
+> +	unsigned int i;
+> +
+> +	if (frm_buf) {
+> +		for (i = 0; i < frm_buf->num_planes; i++) {
+> +			inst->vsi->venc.fb_addr[i] =
+> +				frm_buf->fb_addr[i].dma_addr;
+> +			inst->vsi->venc.fb_size[i] =
+> +				frm_buf->fb_addr[i].size;
+> +			mtk_venc_debug(inst->ctx, "%s: fb_buf[%d]: %llx(%d)\n",
+> +				       __func__, i,
+> +				       inst->vsi->venc.fb_addr[i],
+> +				       inst->vsi->venc.fb_size[i]);
+> +		}
+> +	}
+> +
+> +	if (bs_buf) {
+> +		inst->vsi->venc.bs_addr = bs_buf->dma_addr;
+> +		inst->vsi->venc.bs_size = bs_buf->size;
+> +		mtk_venc_debug(inst->ctx, "%s: bs_buf: %llx(%d)\n",
+> +			       __func__,
+> +			       inst->vsi->venc.bs_addr,
+> +			       (unsigned int)inst->vsi->venc.bs_size);
+> +	}
+> +}
+> +
+> +static int venc_encode_sps(struct venc_inst *inst,
+> +			   struct mtk_vcodec_mem *bs_buf,
+> +			   unsigned int *bs_size)
+> +{
+> +	int ret = 0;
+> +	unsigned int irq_status;
+> +
+> +	venc_set_bufs(inst, NULL, bs_buf);
+> +	ret = vpu_enc_encode(&inst->vpu_inst, VENC_BS_MODE_SPS,
+> +			     NULL, bs_buf, NULL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	irq_status = venc_wait_encode_done(inst);
+> +	if (irq_status != MTK_VENC_IRQ_STATUS_SPS) {
+> +		mtk_venc_err(inst->ctx, "expect irq status %d",
+> +			     MTK_VENC_IRQ_STATUS_SPS);
+> +		return -EINVAL;
+> +	}
+> +
+> +	*bs_size = venc_read_reg(inst, VENC_PIC_BITSTREAM_BYTE_CNT);
+> +	mtk_venc_debug(inst->ctx, "sps bs size %d <-", *bs_size);
+> +
+> +	return ret;
+> +}
+> +
+> +static int venc_encode_pps(struct venc_inst *inst,
+> +			   struct mtk_vcodec_mem *bs_buf,
+> +			   unsigned int *bs_size)
+> +{
+> +	int ret = 0;
+> +	unsigned int irq_status;
+> +
+> +	venc_set_bufs(inst, NULL, bs_buf);
+> +	ret = vpu_enc_encode(&inst->vpu_inst, VENC_BS_MODE_PPS,
+> +			     NULL, bs_buf, NULL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	irq_status = venc_wait_encode_done(inst);
+> +	if (irq_status != MTK_VENC_IRQ_STATUS_PPS) {
+> +		mtk_venc_err(inst->ctx, "expect irq status %d",
+> +			     MTK_VENC_IRQ_STATUS_PPS);
+> +		return -EINVAL;
+> +	}
+> +
+> +	*bs_size = venc_read_reg(inst, VENC_PIC_BITSTREAM_BYTE_CNT);
+> +	mtk_venc_debug(inst->ctx, "pps bs size %d <-", *bs_size);
+> +
+> +	return ret;
+> +}
+> +
+> +static int venc_encode_header(struct venc_inst *inst,
+> +			      struct mtk_vcodec_mem *bs_buf,
+> +			      unsigned int *bs_size)
+> +{
+> +	int ret = 0;
+> +	unsigned int bs_size_sps;
+> +	unsigned int bs_size_pps;
+> +
+> +	ret = venc_encode_sps(inst, bs_buf, &bs_size_sps);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = venc_encode_pps(inst, &inst->pps_buf, &bs_size_pps);
+> +	if (ret)
+> +		return ret;
+> +
+> +	memcpy(bs_buf->va + bs_size_sps, inst->pps_buf.va, bs_size_pps);
+> +	*bs_size = bs_size_sps + bs_size_pps;
+> +
+> +	return ret;
+> +}
+> +
+> +static int venc_encode_frame(struct venc_inst *inst,
+> +			     struct venc_frm_buf *frm_buf,
+> +			     struct mtk_vcodec_mem *bs_buf,
+> +			     unsigned int *bs_size)
+> +{
+> +	int ret = 0;
+> +	unsigned int irq_status;
+> +
+> +	venc_set_bufs(inst, frm_buf, bs_buf);
+> +	ret = vpu_enc_encode(&inst->vpu_inst, VENC_BS_MODE_FRAME,
+> +			     frm_buf, bs_buf, NULL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	irq_status = venc_wait_encode_done(inst);
+> +	if (irq_status != MTK_VENC_IRQ_STATUS_FRM) {
+> +		mtk_venc_err(inst->ctx, "expect irq status %d",
+> +			     MTK_VENC_IRQ_STATUS_FRM);
+> +		return -EINVAL;
+> +	}
+> +
+> +	*bs_size = venc_read_reg(inst, VENC_PIC_BITSTREAM_BYTE_CNT);
+> +
+> +	++inst->frm_cnt;
+> +
+> +	return ret;
+> +}
+> +
+> +static int venc_encode(void *handle,
+> +		       enum venc_start_opt opt,
+> +		       struct venc_frm_buf *frm_buf,
+> +		       struct mtk_vcodec_mem *bs_buf,
+> +		       struct venc_done_result *result)
+> +{
+> +	int ret = 0;
+> +	struct venc_inst *inst = (struct venc_inst *)handle;
+> +	struct mtk_vcodec_enc_ctx *ctx;
+> +	unsigned int bs_size_hdr;
+> +
+> +	if (!inst || !inst->vsi)
+> +		return -EINVAL;
+
+Would that indicate a programmer error ? if so, use WARN_ON please.
+
+> +
+> +	ctx = inst->ctx;
+> +
+> +	mtk_venc_debug(ctx, "%s: opt: %d\n", __func__, opt);
+> +
+> +	enable_irq(ctx->dev->enc_irq);
+> +	switch (opt) {
+> +	case VENC_START_OPT_ENCODE_SEQUENCE_HEADER: {
+> +		ret = venc_encode_header(inst, bs_buf, &bs_size_hdr);
+> +		if (ret)
+> +			goto encode_err;
+> +
+> +		result->bs_size = bs_size_hdr;
+> +		result->is_key_frm = false;
+> +		break;
+> +	}
+> +
+> +	case VENC_START_OPT_ENCODE_FRAME: {
+> +		if (!inst->prepend_hdr) {
+> +			ret = venc_encode_frame(inst, frm_buf, bs_buf,
+> +						&result->bs_size);
+> +			if (ret)
+> +				goto encode_err;
+> +
+> +			result->is_key_frm = inst->vpu_inst.is_key_frm;
+> +			break;
+> +		}
+> +
+> +		ret = venc_encode_header(inst, &inst->seq_buf, &bs_size_hdr);
+> +		if (ret)
+> +			goto encode_err;
+> +
+> +		ret = venc_encode_frame(inst, frm_buf, bs_buf,
+> +					&result->bs_size);
+> +		if (ret)
+> +			goto encode_err;
+> +
+> +		memmove(bs_buf->va + bs_size_hdr, bs_buf->va, result->bs_size);
+> +		memcpy(bs_buf->va, inst->seq_buf.va, bs_size_hdr);
+> +		result->bs_size += bs_size_hdr;
+> +
+> +		inst->prepend_hdr = 0;
+> +		result->is_key_frm = inst->vpu_inst.is_key_frm;
+> +		break;
+> +	}
+> +
+> +	default:
+> +		mtk_venc_err(inst->ctx, "venc_opt %d not supported", opt);
+> +		ret = -EINVAL;
+> +		break;
+> +	}
+> +
+> +encode_err:
+> +	disable_irq(ctx->dev->enc_irq);
+> +	mtk_venc_debug(ctx, "opt %d, return %d", opt, ret);
+> +
+> +	return ret;
+> +}
+> +
+> +static int mtk_venc_mem_alloc(struct venc_inst *inst,
+> +			      struct device *dev,
+> +			      struct venc_work_buf *buf)
+> +{
+> +	dma_addr_t dma_addr;
+> +
+> +	if (!buf || buf->size == 0)
+> +		return 0;
+
+Would that be programmer error ?
+
+> +
+> +	buf->va = dma_alloc_coherent(dev, buf->size, &dma_addr, GFP_KERNEL);
+> +	if (!buf->va)
+> +		return -ENOMEM;
+> +
+> +	buf->iova = (unsigned long long)dma_addr;
+> +
+> +	mtk_venc_debug(inst->ctx,
+> +		       "allocate buffer, size: %d, va: %p, iova: 0x%llx",
+> +		       buf->size, buf->va, buf->iova);
+> +
+> +	return 0;
+> +}
+> +
+> +static void mtk_venc_mem_free(struct venc_inst *inst,
+> +			      struct device *dev,
+> +			      struct venc_work_buf *buf)
+> +{
+> +	if (!buf || !buf->va || !dev)
+> +		return;
+
+Would that be programmer error ?
+
+> +
+> +	mtk_venc_debug(inst->ctx,
+> +		       "free buffer, size: %d, va: %p, iova: 0x%llx",
+> +		       buf->size, buf->va, buf->iova);
+> +
+> +	dma_free_coherent(dev, buf->size, buf->va, buf->iova);
+> +	buf->va = NULL;
+> +	buf->iova = 0;
+> +	buf->size = 0;
+> +}
+> +
+> +static void venc_free_rc_buf(struct venc_inst *inst,
+> +			     struct venc_work_buf_list *bufs,
+> +			     unsigned int core_num)
+> +{
+> +	int i;
+> +	struct mtk_vcodec_fw *fw = inst->ctx->dev->fw_handler;
+> +	struct device *dev;
+> +
+> +	if (mtk_vcodec_fw_get_type(fw) == SCP) {
+> +		dev = &inst->ctx->dev->plat_dev->dev;
+> +		mtk_venc_mem_free(inst, dev, &bufs->rc_code);
+> +
+> +		for (i = 0; i < core_num; i++)
+> +			mtk_venc_mem_free(inst, dev, &bufs->rc_info[i]);
+> +	}
+
+Is this really expected to be a no-op if other firmware type are used ?
+
+> +}
+> +
+> +static void venc_free_work_buf(struct venc_inst *inst)
+> +{
+> +	int i;
+> +	struct venc_work_buf_list *bufs = &inst->vsi->bufs;
+> +	unsigned int core_num = inst->vsi->config.core_num;
+> +	unsigned int dpb_size = inst->vsi->config.dpb_size;
+> +	struct device *dev;
+> +
+> +	if (bufs->rc_code.va)
+> +		venc_free_rc_buf(inst, bufs, core_num);
+> +
+> +	dev = &inst->ctx->dev->plat_dev->dev;
+> +
+> +	for (i = 0; i < core_num; i++) {
+> +		mtk_venc_mem_free(inst, dev, &bufs->wpp[i]);
+> +		mtk_venc_mem_free(inst, dev, &bufs->wpp_nbm[i]);
+> +	}
+> +
+> +	for (i = 0; i < dpb_size; i++) {
+> +		mtk_venc_mem_free(inst, dev, &bufs->luma[i]);
+> +		mtk_venc_mem_free(inst, dev, &bufs->chroma[i]);
+> +		mtk_venc_mem_free(inst, dev, &bufs->sub_luma[i]);
+> +		mtk_venc_mem_free(inst, dev, &bufs->sub_write[i]);
+> +		mtk_venc_mem_free(inst, dev, &bufs->col_mv[i]);
+> +	}
+> +
+> +	if (inst->pps_buf.va)
+> +		mtk_vcodec_mem_free(inst->ctx, &inst->pps_buf);
+> +
+> +	if (inst->seq_buf.va)
+> +		mtk_vcodec_mem_free(inst->ctx, &inst->seq_buf);
+> +}
+> +
+> +static int venc_alloc_rc_buf(struct venc_inst *inst,
+> +			     struct venc_work_buf_list *bufs,
+> +			     unsigned int core_num)
+> +{
+> +	int i;
+> +	struct mtk_vcodec_fw *fw = inst->ctx->dev->fw_handler;
+> +	struct device *dev;
+> +	void *tmp_va;
+> +
+> +	if (mtk_vcodec_fw_get_type(fw) == SCP) {
+> +		dev = &inst->ctx->dev->plat_dev->dev;
+> +		if (mtk_venc_mem_alloc(inst, dev, &bufs->rc_code))
+> +			return -ENOMEM;
+> +
+> +		tmp_va = mtk_vcodec_fw_map_dm_addr(fw, bufs->rc_code.pa);
+> +		memcpy(bufs->rc_code.va, tmp_va, bufs->rc_code.size);
+> +
+> +		for (i = 0; i < core_num; i++) {
+> +			if (mtk_venc_mem_alloc(inst, dev, &bufs->rc_info[i]))
+> +				return -ENOMEM;
+
+You are missing some cleanup of bufs->rc_code and all previous bufs-
+>rc_info if there was more then one core.
+
+> +		}
+> +	}
+
+Same, do you need an else ?
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int venc_alloc_work_buf(struct venc_inst *inst)
+> +{
+> +	int i, ret;
+> +	struct venc_work_buf_list *bufs = &inst->vsi->bufs;
+> +	unsigned int core_num = inst->vsi->config.core_num;
+> +	unsigned int dpb_size = inst->vsi->config.dpb_size;
+> +	struct device *dev;
+> +
+> +	if (bufs->rc_code.size != 0) {
+> +		ret = venc_alloc_rc_buf(inst, bufs, core_num);
+> +		if (ret) {
+> +			mtk_venc_err(inst->ctx, "cannot allocate rc buf");
+> +			goto err_alloc;
+> +		}
+> +	}
+> +
+> +	dev = &inst->ctx->dev->plat_dev->dev;
+> +
+> +	for (i = 0; i < core_num; i++) {
+> +		if (mtk_venc_mem_alloc(inst, dev, &bufs->wpp[i]) ||
+> +		    mtk_venc_mem_alloc(inst, dev, &bufs->wpp_nbm[i]))
+> +			goto err_alloc;
+> +	}
+> +
+> +	for (i = 0; i < dpb_size; i++) {
+> +		if (mtk_venc_mem_alloc(inst, dev, &bufs->luma[i]) ||
+> +		    mtk_venc_mem_alloc(inst, dev, &bufs->chroma[i]) ||
+> +		    mtk_venc_mem_alloc(inst, dev, &bufs->sub_luma[i]) ||
+> +		    mtk_venc_mem_alloc(inst, dev, &bufs->sub_write[i]) ||
+> +		    mtk_venc_mem_alloc(inst, dev, &bufs->col_mv[i]))
+> +			goto err_alloc;
+> +	}
+> +
+> +	/* the pps_buf and seq_buf are used by AP side only */
+> +	inst->pps_buf.size = PPS_SIZE;
+> +	ret = mtk_vcodec_mem_alloc(inst->ctx, &inst->pps_buf);
+> +	if (ret) {
+> +		mtk_venc_err(inst->ctx, "cannot allocate pps_buf");
+> +		goto err_alloc;
+> +	}
+> +
+> +	inst->seq_buf.size = SEQ_HEADER_SIZE;
+> +	ret = mtk_vcodec_mem_alloc(inst->ctx, &inst->seq_buf);
+> +	if (ret) {
+> +		mtk_venc_err(inst->ctx, "cannot allocate seq_buf");
+> +		goto err_alloc;
+> +	}
+> +	return 0;
+> +
+> +err_alloc:
+> +	venc_free_work_buf(inst);
+> +	return -ENOMEM;
+> +}
+> +
+> +static int venc_set_param(void *handle,
+> +			  enum venc_set_param_type type,
+> +			  struct venc_enc_param *enc_prm)
+> +{
+> +	int ret = 0;
+> +	struct venc_inst *inst = (struct venc_inst *)handle;
+> +
+> +	switch (type) {
+> +	case VENC_SET_PARAM_ENC:
+> +		if (!inst->vsi)
+> +			return -EINVAL;
+> +		inst->vsi->config.input_fourcc = enc_prm->input_yuv_fmt;
+> +		inst->vsi->config.bitrate = enc_prm->bitrate;
+> +		inst->vsi->config.pic_w = enc_prm->width;
+> +		inst->vsi->config.pic_h = enc_prm->height;
+> +		inst->vsi->config.buf_w = enc_prm->buf_width;
+> +		inst->vsi->config.buf_h = enc_prm->buf_height;
+> +		inst->vsi->config.gop_size = enc_prm->gop_size;
+> +		inst->vsi->config.framerate = enc_prm->frm_rate;
+> +		inst->vsi->config.intra_period = enc_prm->intra_period;
+> +		inst->vsi->config.profile = enc_prm->h264_profile;
+> +		inst->vsi->config.level = enc_prm->h264_level;
+
+h264? I thought this was supposed to be generic / common ?
+
+> +
+> +		ret = vpu_enc_set_param(&inst->vpu_inst, type, enc_prm);
+> +		if (ret)
+> +			break;
+> +
+> +		if (inst->work_buf_allocated) {
+> +			venc_free_work_buf(inst);
+> +			inst->work_buf_allocated = false;
+> +		}
+> +		ret = venc_alloc_work_buf(inst);
+> +		if (ret)
+> +			break;
+> +		inst->work_buf_allocated = true;
+> +		break;
+> +	case VENC_SET_PARAM_PREPEND_HEADER:
+> +		inst->prepend_hdr = 1;
+
+So there is no way to revert that later ?
+
+> +		break;
+> +	default:
+> +		ret = vpu_enc_set_param(&inst->vpu_inst, type, enc_prm);
+> +		break;
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+> +static int venc_deinit(void *handle)
+> +{
+> +	int ret = 0;
+> +	struct venc_inst *inst = (struct venc_inst *)handle;
+> +
+> +	ret = vpu_enc_deinit(&inst->vpu_inst);
+> +
+> +	if (inst->work_buf_allocated)
+> +		venc_free_work_buf(inst);
+> +
+> +	kfree(inst);
+> +
+> +	return ret;
+> +}
+> +
+> +const struct venc_common_if venc_if = {
+> +	.init = venc_init,
+> +	.encode = venc_encode,
+> +	.set_param = venc_set_param,
+> +	.deinit = venc_deinit,
+> +};
+> diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc_drv_if.h b/drivers/media/platform/mediatek/vcodec/encoder/venc_drv_if.h
+> index 889440a436b6..1908a6ae42fa 100644
+> --- a/drivers/media/platform/mediatek/vcodec/encoder/venc_drv_if.h
+> +++ b/drivers/media/platform/mediatek/vcodec/encoder/venc_drv_if.h
+> @@ -107,9 +107,11 @@ struct venc_frame_info {
+>  /*
+>   * struct venc_frm_buf - frame buffer information used in venc_if_encode()
+>   * @fb_addr: plane frame buffer addresses
+> + * @num_planes: number of planes
+>   */
+>  struct venc_frm_buf {
+>  	struct mtk_vcodec_fb fb_addr[MTK_VCODEC_MAX_PLANES];
+> +	unsigned int num_planes;
+>  };
+>  
+>  /*
+> @@ -124,6 +126,7 @@ struct venc_done_result {
+>  
+>  extern const struct venc_common_if venc_h264_if;
+>  extern const struct venc_common_if venc_vp8_if;
+> +extern const struct venc_common_if venc_if;
+>  
+>  /*
+>   * venc_if_init - Create the driver handle
+
+regards,
 -- 
-2.49.0
-
+Nicolas Dufresne
+Principal Engineer at Collabora
 
