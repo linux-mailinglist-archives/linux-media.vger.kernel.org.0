@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-31329-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31330-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A42EAA0FD6
-	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 17:00:54 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09647AA0FD7
+	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 17:01:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 670041A82EE8
-	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 15:01:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 71DE01A8042E
+	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 15:01:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 481AC21C197;
-	Tue, 29 Apr 2025 15:00:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9198421C19D;
+	Tue, 29 Apr 2025 15:00:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="g+AJ2qJ5"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="l8dGmd+v"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA53B21638C;
-	Tue, 29 Apr 2025 15:00:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE3E321638C;
+	Tue, 29 Apr 2025 15:00:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745938847; cv=none; b=VqAfVP6rUWD2gZI/8SOZoaU7tX1czohKcCOQwMrKVM6ntXdZyJ5jowy6r36OZ+770kRjABo/UasYNdK4TTJaM/6J6oPYOle6D/Uf/Q5NKI3Qe7z8rIOAvmx3Z3QBotKYCa0fV57Zs7GTSElQgClRLhSdtbUGC0+2YzDSq9xKbmQ=
+	t=1745938857; cv=none; b=SyP2dNqMR6yzLhbZU+cuVPVNsY5pUiTgNritzQ5Rif/G3IgWc3g4PO7+x5VpDVl6Zq0xAmyQAFfu2jE2OJO6TvxmrKROF4IiN+U5YNbkxPk97tEMfgNYQwQsBI8GMYVVZvtXz9zWGs+TwAvKyOreT40UJQkvkYM0XM8iJ9RBtsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745938847; c=relaxed/simple;
-	bh=GmQqrxPKJVoEDfqdT4l7kmFgVe/4Rzt/JW674BRH9go=;
+	s=arc-20240116; t=1745938857; c=relaxed/simple;
+	bh=pP6DKrZD9DKU+099KZ/Gv0Q8x5f7TJlixfNLxSWTzjU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mWptcZ4dvehxN9wmShsl8D5jUly+SQ7eS15cMTs1lDCJfGWqwiAnj7/15kdZPMJ+zBWltVf982HBDV1w0HZ3tAZoLh8s5hSzFg38KKu/2/xFhpVPDlPTpxyhc6+6ekBGryRKvBqNdjSXiTmMyyktfazgDSS7EuIAXWB6QwaWytc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=g+AJ2qJ5; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=Z8VAolyc31BTuf/Uid0vhYflcBghD8CQ9VB4KTrXV1E1PA3Ms9NROXPbterUvUek1Sm/m6KKyh4TiColYjGlGCg0SbGPDNfQZcur95vcJbY7xNVTUp/X1ug2XFcVDME/6jOuSdBpgVVaRoknidiyNzLfTcgpANa5i8Hl1dkfXo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=l8dGmd+v; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9EFD1669;
-	Tue, 29 Apr 2025 17:00:26 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED7C2FC7;
+	Tue, 29 Apr 2025 17:00:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1745938826;
-	bh=GmQqrxPKJVoEDfqdT4l7kmFgVe/4Rzt/JW674BRH9go=;
+	s=mail; t=1745938842;
+	bh=pP6DKrZD9DKU+099KZ/Gv0Q8x5f7TJlixfNLxSWTzjU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=g+AJ2qJ532iCA6OPxzz2daA8BzqYu0ZZhTyVwFOrGvr0+/Rmlvpyk//Wg3FaUIM7Y
-	 RLnoGvu0MXe7qTFtgbTlHvIp6I0MaMdoPFWjg1dyBvTz/2oODeVPlDDtXlhSF2ryEY
-	 uqSuYbhdy7XTvi6uJq8QM08hgGmp1ltAci0DWFjg=
-Message-ID: <3ff75993-40ee-4d17-8612-491ea4d19404@ideasonboard.com>
-Date: Tue, 29 Apr 2025 18:00:28 +0300
+	b=l8dGmd+vF/UMVPkpXPmXnFJ1ah6Nx5d74KtvaDRXrUNPhPPcfKhRt0D+qRn9WTCNE
+	 7Q4HDcJa+/5SXGeFsdNsBc//A15NoE/3440PVQQ9GfKjFKU02OSMzFMB0lSqBWZ4Yh
+	 uGofzuZnhXMPp4cnB03eVe9fTsXbl0khEvPYN1lk=
+Message-ID: <5ce70750-9d4b-4ecb-b62d-96b1226d21f7@ideasonboard.com>
+Date: Tue, 29 Apr 2025 18:00:44 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,15 +50,14 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] media: renesas: vsp1: Make HSI and HST modules
- optional
+Subject: Re: [PATCH 3/6] media: renesas: vsp1: Fix HSV format enumeration
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  linux-media@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 References: <20250409003815.10253-1-laurent.pinchart+renesas@ideasonboard.com>
- <20250409003815.10253-3-laurent.pinchart+renesas@ideasonboard.com>
+ <20250409003815.10253-4-laurent.pinchart+renesas@ideasonboard.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -104,161 +103,86 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20250409003815.10253-3-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20250409003815.10253-4-laurent.pinchart+renesas@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
 On 09/04/2025 03:38, Laurent Pinchart wrote:
-> Not all VSP instance incorporate the HSI and HST modules. Add a
-> VSP1_HAS_HSIT feature flag, and create the modules only on VSP instances
-> that implement them.
+> The HSV formats are not restricted to Gen2 platforms, but to VSP
+> instances that implement the HSI and HST modules. Make it conditional to
+> the VSP1_HAS_HSIT feature flag.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->   drivers/media/platform/renesas/vsp1/vsp1.h    |  1 +
->   .../media/platform/renesas/vsp1/vsp1_drv.c    | 59 ++++++++++---------
->   2 files changed, 33 insertions(+), 27 deletions(-)
+>   .../media/platform/renesas/vsp1/vsp1_pipe.c   | 32 +++++++++++++++++++
+>   1 file changed, 32 insertions(+)
 > 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1.h b/drivers/media/platform/renesas/vsp1/vsp1.h
-> index 2f6f0c6ae555..44cb991f094f 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1.h
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1.h
-> @@ -56,6 +56,7 @@ struct vsp1_uif;
->   #define VSP1_HAS_BRS		BIT(9)
->   #define VSP1_HAS_EXT_DL		BIT(10)
->   #define VSP1_HAS_NON_ZERO_LBA	BIT(11)
-> +#define VSP1_HAS_HSIT		BIT(12)
->   
->   struct vsp1_device_info {
->   	u32 version;
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> index 9fc6bf624a52..4697bf790954 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
-> @@ -302,22 +302,6 @@ static int vsp1_create_entities(struct vsp1_device *vsp1)
->   		list_add_tail(&vsp1->clu->entity.list_dev, &vsp1->entities);
->   	}
->   
-> -	vsp1->hsi = vsp1_hsit_create(vsp1, true);
-> -	if (IS_ERR(vsp1->hsi)) {
-> -		ret = PTR_ERR(vsp1->hsi);
-> -		goto done;
-> -	}
-> -
-> -	list_add_tail(&vsp1->hsi->entity.list_dev, &vsp1->entities);
-> -
-> -	vsp1->hst = vsp1_hsit_create(vsp1, false);
-> -	if (IS_ERR(vsp1->hst)) {
-> -		ret = PTR_ERR(vsp1->hst);
-> -		goto done;
-> -	}
-> -
-> -	list_add_tail(&vsp1->hst->entity.list_dev, &vsp1->entities);
-> -
->   	if (vsp1_feature(vsp1, VSP1_HAS_HGO) && vsp1->info->uapi) {
->   		vsp1->hgo = vsp1_hgo_create(vsp1);
->   		if (IS_ERR(vsp1->hgo)) {
-> @@ -340,6 +324,24 @@ static int vsp1_create_entities(struct vsp1_device *vsp1)
->   			      &vsp1->entities);
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> index 16a78a00c6c9..f7b133536704 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> @@ -215,6 +215,9 @@ static const struct vsp1_format_info vsp1_video_gen2_formats[] = {
+>   	  VI6_FMT_YUYV_422, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+>   	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+>   	  1, { 16, 0, 0 }, false, true, 2, 1, false },
+> +};
+> +
+> +static const struct vsp1_format_info vsp1_video_hsit_formats[] = {
+>   	{ V4L2_PIX_FMT_HSV24, MEDIA_BUS_FMT_AHSV8888_1X32,
+>   	  VI6_FMT_RGB_888, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
+>   	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
+> @@ -255,6 +258,16 @@ const struct vsp1_format_info *vsp1_get_format_info(struct vsp1_device *vsp1,
+>   		}
 >   	}
 >   
 > +	if (vsp1_feature(vsp1, VSP1_HAS_HSIT)) {
-> +		vsp1->hsi = vsp1_hsit_create(vsp1, true);
-> +		if (IS_ERR(vsp1->hsi)) {
-> +			ret = PTR_ERR(vsp1->hsi);
-> +			goto done;
+> +		for (i = 0; i < ARRAY_SIZE(vsp1_video_hsit_formats); ++i) {
+> +			const struct vsp1_format_info *info =
+> +				&vsp1_video_hsit_formats[i];
+> +
+> +			if (info->fourcc == fourcc)
+> +				return info;
 > +		}
-> +
-> +		list_add_tail(&vsp1->hsi->entity.list_dev, &vsp1->entities);
-> +
-> +		vsp1->hst = vsp1_hsit_create(vsp1, false);
-> +		if (IS_ERR(vsp1->hst)) {
-> +			ret = PTR_ERR(vsp1->hst);
-> +			goto done;
-> +		}
-> +
-> +		list_add_tail(&vsp1->hst->entity.list_dev, &vsp1->entities);
 > +	}
 > +
->   	/*
->   	 * The LIFs are only supported when used in conjunction with the DU, in
->   	 * which case the userspace API is disabled. If the userspace API is
-> @@ -683,8 +685,8 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
->   		.model = "VSP1-S",
->   		.gen = 2,
->   		.features = VSP1_HAS_BRU | VSP1_HAS_CLU | VSP1_HAS_HGO
-> -			  | VSP1_HAS_HGT | VSP1_HAS_LUT | VSP1_HAS_SRU
-> -			  | VSP1_HAS_WPF_VFLIP,
-> +			  | VSP1_HAS_HGT | VSP1_HAS_HSIT | VSP1_HAS_LUT
-> +			  | VSP1_HAS_SRU | VSP1_HAS_WPF_VFLIP,
->   		.rpf_count = 5,
->   		.uds_count = 3,
->   		.wpf_count = 4,
-> @@ -694,7 +696,8 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
->   		.version = VI6_IP_VERSION_MODEL_VSPR_H2,
->   		.model = "VSP1-R",
->   		.gen = 2,
-> -		.features = VSP1_HAS_BRU | VSP1_HAS_SRU | VSP1_HAS_WPF_VFLIP,
-> +		.features = VSP1_HAS_BRU | VSP1_HAS_HSIT | VSP1_HAS_SRU
-> +			   | VSP1_HAS_WPF_VFLIP,
->   		.rpf_count = 5,
->   		.uds_count = 3,
->   		.wpf_count = 4,
-> @@ -704,7 +707,8 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
->   		.version = VI6_IP_VERSION_MODEL_VSPD_GEN2,
->   		.model = "VSP1-D",
->   		.gen = 2,
-> -		.features = VSP1_HAS_BRU | VSP1_HAS_HGO | VSP1_HAS_LUT,
-> +		.features = VSP1_HAS_BRU | VSP1_HAS_HGO | VSP1_HAS_HSIT
-> +			  | VSP1_HAS_LUT,
->   		.lif_count = 1,
->   		.rpf_count = 4,
->   		.uds_count = 1,
-> @@ -716,8 +720,8 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
->   		.model = "VSP1-S",
->   		.gen = 2,
->   		.features = VSP1_HAS_BRU | VSP1_HAS_CLU | VSP1_HAS_HGO
-> -			  | VSP1_HAS_HGT | VSP1_HAS_LUT | VSP1_HAS_SRU
-> -			  | VSP1_HAS_WPF_VFLIP,
-> +			  | VSP1_HAS_HGT | VSP1_HAS_HSIT | VSP1_HAS_LUT
-> +			  | VSP1_HAS_SRU | VSP1_HAS_WPF_VFLIP,
->   		.rpf_count = 5,
->   		.uds_count = 1,
->   		.wpf_count = 4,
-> @@ -727,8 +731,8 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
->   		.version = VI6_IP_VERSION_MODEL_VSPS_V2H,
->   		.model = "VSP1V-S",
->   		.gen = 2,
-> -		.features = VSP1_HAS_BRU | VSP1_HAS_CLU | VSP1_HAS_LUT
-> -			  | VSP1_HAS_SRU | VSP1_HAS_WPF_VFLIP,
-> +		.features = VSP1_HAS_BRU | VSP1_HAS_CLU | VSP1_HAS_HSIT
-> +			  | VSP1_HAS_LUT | VSP1_HAS_SRU | VSP1_HAS_WPF_VFLIP,
->   		.rpf_count = 4,
->   		.uds_count = 1,
->   		.wpf_count = 4,
-> @@ -738,7 +742,8 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
->   		.version = VI6_IP_VERSION_MODEL_VSPD_V2H,
->   		.model = "VSP1V-D",
->   		.gen = 2,
-> -		.features = VSP1_HAS_BRU | VSP1_HAS_CLU | VSP1_HAS_LUT,
-> +		.features = VSP1_HAS_BRU | VSP1_HAS_CLU | VSP1_HAS_HSIT
-> +			  | VSP1_HAS_LUT,
->   		.lif_count = 1,
->   		.rpf_count = 4,
->   		.uds_count = 1,
-> @@ -750,8 +755,8 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
->   		.model = "VSP2-I",
->   		.gen = 3,
->   		.features = VSP1_HAS_CLU | VSP1_HAS_HGO | VSP1_HAS_HGT
-> -			  | VSP1_HAS_LUT | VSP1_HAS_SRU | VSP1_HAS_WPF_HFLIP
-> -			  | VSP1_HAS_WPF_VFLIP,
-> +			  | VSP1_HAS_HSIT | VSP1_HAS_LUT | VSP1_HAS_SRU
-> +			  | VSP1_HAS_WPF_HFLIP | VSP1_HAS_WPF_VFLIP,
->   		.rpf_count = 1,
->   		.uds_count = 1,
->   		.wpf_count = 1,
+>   	return NULL;
+>   }
+>   
+> @@ -285,6 +298,12 @@ vsp1_get_format_info_by_index(struct vsp1_device *vsp1, unsigned int index,
+>   				return &vsp1_video_gen2_formats[index];
+>   		}
+>   
+> +		if (vsp1_feature(vsp1, VSP1_HAS_HSIT)) {
+> +			index -= ARRAY_SIZE(vsp1_video_gen2_formats);
+> +			if (index < ARRAY_SIZE(vsp1_video_hsit_formats))
+> +				return &vsp1_video_hsit_formats[index];
+> +		}
+> +
+>   		return NULL;
+>   	}
+>   
+> @@ -311,6 +330,19 @@ vsp1_get_format_info_by_index(struct vsp1_device *vsp1, unsigned int index,
+>   		}
+>   	}
+>   
+> +	if (vsp1_feature(vsp1, VSP1_HAS_HSIT)) {
+> +		for (i = 0; i < ARRAY_SIZE(vsp1_video_hsit_formats); ++i) {
+> +			const struct vsp1_format_info *info =
+> +				&vsp1_video_hsit_formats[i];
+> +
+> +			if (info->mbus == code) {
+> +				if (!index)
+> +					return info;
+> +				index--;
+> +			}
+> +		}
+> +	}
+> +
+>   	return NULL;
+>   }
+>   
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
