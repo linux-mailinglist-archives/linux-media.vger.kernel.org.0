@@ -1,48 +1,49 @@
-Return-Path: <linux-media+bounces-31311-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31312-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B814AA0C73
-	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 14:59:39 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CB47AA0C79
+	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 14:59:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8D91A483AAC
-	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 12:59:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AA2331B654DE
+	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 12:59:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A92862D191C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCDB52D1935;
 	Tue, 29 Apr 2025 12:59:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="EtxJBdET"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="I8Zlxolk"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E20742C1784;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19DA32C2ACB;
 	Tue, 29 Apr 2025 12:59:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745931557; cv=none; b=qUt5tvczxDWGtk/3gf5JJ8le45eJmsTBfnTHYZWYWZ929u9BIVu17kvXadJPu1J/8fhxkzoPnltrSwKJEzKxEIt6wJcW6egkZxRUNqYEQenAZtj0qCuRVI9AS1IkLoml3bpsxwzUmdlSVxIaFFYimqNfYgZjtTFvEgPKHCSrg8o=
+	t=1745931557; cv=none; b=jNK00nGcxG/DwO9N1oxedV3Nxa7OQAhWD+GSBqBW/jA8C/zjzT+RhCw5jCULlBO7m2yWvowAdI59ufLoeDNqKMrz7oQC6d6wmTOOHUyKR4qlX/fqSn/II94zHIrrQXQ6Wb8+HqbOBh6wyhlyZ3DAnhxPY7KkxZbT8q2hcbDx+6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1745931557; c=relaxed/simple;
-	bh=HDEsgaluUKEPdxixqt/Aekf5T3lFNnaVwddtdEWptfw=;
+	bh=bHa9DyU5pY4KwqBVVlo7OhSDU5Z0nzs/MOBy8JAQCk8=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ISuAEK80SB0eV5RHUvvDAZhCNVHetTHIjApx4Nif2iRwMBLuf79vu3SHq7y/Ph7UAk2oBQturo2/qahJwoTERMoDbQlIuUJJxg1NbHEiEtdr8zac58GDepCsvPbfD4N0/U9000fuWgP0+4etdFnaR/pCOPP3wUze4d1lafosai8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=EtxJBdET; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 5C2E0C4CEEB;
+	 In-Reply-To:To:Cc; b=boNxrzcWmcbSrKGiRNN5VRc+fK4cc2OvRz9tn3cnq394emldX2PPelbJaEhSQlaf/dncb4Z0JV2acsqchjbszpQkhwQyjEhFfa376XAF3iJvLkodMEDN5BCHBiteTeyCGMcdY/k5H3IoUmgr+JKnONBGNuS3HF/WdC744XcassU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=I8Zlxolk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 64F5FC4CEE3;
 	Tue, 29 Apr 2025 12:59:16 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
-	t=1745931556; bh=HDEsgaluUKEPdxixqt/Aekf5T3lFNnaVwddtdEWptfw=;
+	t=1745931556; bh=bHa9DyU5pY4KwqBVVlo7OhSDU5Z0nzs/MOBy8JAQCk8=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=EtxJBdETblC80AUHOc6K/T3RWxhyzwH1JHkCdVlJN7/3VGTW4TOjhVDgwjaoRQxuP
-	 244kQ8uJW0Nvay5XDj6VPpWBrowhmBNkWWoiAR7jdCsBawljFdMrJzOcLGXEF8mwV6
-	 rEpKkGO5Vc1LyJbBRoKTkC+lDgxBqlj72PZUgcAU=
+	b=I8ZlxolkPmnlRxzBImS4gkvuuZmnKUH3pwE+WkEhyPd77vJKJ4p5ugmwxZRnItG5U
+	 qsnXgP8KZQZtRZa4PaSa6YrjLzSj0xVl5QgD8t3wp3GAQ3YCzkYVVxxFDhv/9hIauo
+	 NWb8NEuCJmcPZX9RMGgCbWzX9ECU97snYSq720ro=
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 46D36C3ABB0;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56723C3ABAF;
 	Tue, 29 Apr 2025 12:59:16 +0000 (UTC)
 From: Richard Leitner <richard.leitner@linux.dev>
-Date: Tue, 29 Apr 2025 14:59:07 +0200
-Subject: [PATCH v3 2/9] leds: flash: add support for flash/stobe duration
+Date: Tue, 29 Apr 2025 14:59:08 +0200
+Subject: [PATCH v3 3/9] media: v4l2-flash: add support for flash/strobe
+ duration
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,7 +52,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250429-ov9282-flash-strobe-v3-2-2105ce179952@linux.dev>
+Message-Id: <20250429-ov9282-flash-strobe-v3-3-2105ce179952@linux.dev>
 References: <20250429-ov9282-flash-strobe-v3-0-2105ce179952@linux.dev>
 In-Reply-To: <20250429-ov9282-flash-strobe-v3-0-2105ce179952@linux.dev>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
@@ -63,90 +64,55 @@ Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
  Richard Leitner <richard.leitner@linux.dev>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1745931554; l=2827;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1745931554; l=1581;
  i=richard.leitner@linux.dev; s=20250225; h=from:subject:message-id;
- bh=HDEsgaluUKEPdxixqt/Aekf5T3lFNnaVwddtdEWptfw=;
- b=6M/61HmZntl6x9awtwRbQFDQpMX+zbdz7fFVJ+CjaQLXInH1bRos1VW9t5D31eRmSUYhwouXc
- Gn9Y9mGn5X2A1cPjJxiEGSaLbzsnf9Ob5ImmdvMY2IkG8hN1YC+O7L+
+ bh=bHa9DyU5pY4KwqBVVlo7OhSDU5Z0nzs/MOBy8JAQCk8=;
+ b=hVLXrCC7H/khQgUUmgEY6fKTLCw2sfgTBSOK7fv5eNAhyCFTkDCcubJY6AF75MdxFRtdzZy2o
+ yzE9BVZM+BTDwY3RokFPA6JAstT7f+XTi0dkNf5jgv//PoSkhrv764I
 X-Developer-Key: i=richard.leitner@linux.dev; a=ed25519;
  pk=8hZNyyyQFqZ5ruVJsSGBSPIrmJpfDm5HwHU4QVOP1Pk=
 X-Endpoint-Received: by B4 Relay for richard.leitner@linux.dev/20250225
  with auth_id=350
 
-Add support for the new V4L2_CID_FLASH_DURATION control to the leds
-driver.
+Add support for the new V4L2_CID_FLASH_DURATION control to the v4l2
+flash led class.
 
 Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
 ---
- drivers/leds/led-class-flash.c  | 15 +++++++++++++++
- include/linux/led-class-flash.h | 16 ++++++++++++++++
- 2 files changed, 31 insertions(+)
+ drivers/media/v4l2-core/v4l2-flash-led-class.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-diff --git a/drivers/leds/led-class-flash.c b/drivers/leds/led-class-flash.c
-index f4e26ce84862c05092a9598e63ed301967852f13..165035a8826ca7d44a5cd265a5130a76c6e94347 100644
---- a/drivers/leds/led-class-flash.c
-+++ b/drivers/leds/led-class-flash.c
-@@ -440,6 +440,21 @@ int led_update_flash_brightness(struct led_classdev_flash *fled_cdev)
+diff --git a/drivers/media/v4l2-core/v4l2-flash-led-class.c b/drivers/media/v4l2-core/v4l2-flash-led-class.c
+index 355595a0fefac72c2f6941a30fa430d37dbdccfe..963b549480f6eb3b9eb0d80696a764de7ffcc1a2 100644
+--- a/drivers/media/v4l2-core/v4l2-flash-led-class.c
++++ b/drivers/media/v4l2-core/v4l2-flash-led-class.c
+@@ -298,6 +298,12 @@ static int v4l2_flash_s_ctrl(struct v4l2_ctrl *c)
+ 		 * microamperes for flash intensity units.
+ 		 */
+ 		return led_set_flash_brightness(fled_cdev, c->val);
++	case V4L2_CID_FLASH_DURATION:
++		/*
++		 * No conversion is needed as LED Flash class also uses
++		 * microseconds for flash duration units.
++		 */
++		return led_set_flash_duration(fled_cdev, c->val);
+ 	}
+ 
+ 	return -EINVAL;
+@@ -424,6 +430,13 @@ static void __fill_ctrl_init_data(struct v4l2_flash *v4l2_flash,
+ 		ctrl_cfg->flags = V4L2_CTRL_FLAG_VOLATILE |
+ 				  V4L2_CTRL_FLAG_EXECUTE_ON_WRITE;
+ 	}
++
++	/* Init FLASH_DURATION ctrl data */
++	if (has_flash_op(fled_cdev, timeout_set)) {
++		ctrl_init_data[FLASH_DURATION].cid = V4L2_CID_FLASH_DURATION;
++		ctrl_cfg = &ctrl_init_data[FLASH_DURATION].config;
++		__lfs_to_v4l2_ctrl_config(&fled_cdev->duration, ctrl_cfg);
++		ctrl_cfg->id = V4L2_CID_FLASH_DURATION;
  }
- EXPORT_SYMBOL_GPL(led_update_flash_brightness);
  
-+int led_set_flash_duration(struct led_classdev_flash *fled_cdev, u32 duration)
-+{
-+	struct led_classdev *led_cdev = &fled_cdev->led_cdev;
-+	struct led_flash_setting *s = &fled_cdev->duration;
-+
-+	s->val = duration;
-+	led_clamp_align(s);
-+
-+	if (!(led_cdev->flags & LED_SUSPENDED))
-+		return call_flash_op(fled_cdev, duration_set, s->val);
-+
-+	return 0;
-+}
-+EXPORT_SYMBOL_GPL(led_set_flash_duration);
-+
- MODULE_AUTHOR("Jacek Anaszewski <j.anaszewski@samsung.com>");
- MODULE_DESCRIPTION("LED Flash class interface");
- MODULE_LICENSE("GPL v2");
-diff --git a/include/linux/led-class-flash.h b/include/linux/led-class-flash.h
-index 36df927ec4b7dcaf9074c6ef32ac8ce83a87a79d..21ec856c36bc67decda46aa8ff1c040ffdcf1181 100644
---- a/include/linux/led-class-flash.h
-+++ b/include/linux/led-class-flash.h
-@@ -45,6 +45,8 @@ struct led_flash_ops {
- 	int (*timeout_set)(struct led_classdev_flash *fled_cdev, u32 timeout);
- 	/* get the flash LED fault */
- 	int (*fault_get)(struct led_classdev_flash *fled_cdev, u32 *fault);
-+	/* set flash duration */
-+	int (*duration_set)(struct led_classdev_flash *fled_cdev, u32 duration);
- };
- 
- /*
-@@ -75,6 +77,9 @@ struct led_classdev_flash {
- 	/* flash timeout value in microseconds along with its constraints */
- 	struct led_flash_setting timeout;
- 
-+	/* flash timeout value in microseconds along with its constraints */
-+	struct led_flash_setting duration;
-+
- 	/* LED Flash class sysfs groups */
- 	const struct attribute_group *sysfs_groups[LED_FLASH_SYSFS_GROUPS_SIZE];
- };
-@@ -209,4 +214,15 @@ int led_set_flash_timeout(struct led_classdev_flash *fled_cdev, u32 timeout);
-  */
- int led_get_flash_fault(struct led_classdev_flash *fled_cdev, u32 *fault);
- 
-+/**
-+ * led_set_flash_duration - set flash LED duration
-+ * @fled_cdev: the flash LED to set
-+ * @timeout: the flash duration to set it to
-+ *
-+ * Set the flash strobe duration.
-+ *
-+ * Returns: 0 on success or negative error value on failure
-+ */
-+int led_set_flash_duration(struct led_classdev_flash *fled_cdev, u32 duration);
-+
- #endif	/* __LINUX_FLASH_LEDS_H_INCLUDED */
+ static int v4l2_flash_init_controls(struct v4l2_flash *v4l2_flash,
 
 -- 
 2.47.2
