@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-31259-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31260-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 149E8AA0498
-	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 09:34:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 537B4AA049E
+	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 09:34:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 12ED73BBA30
-	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 07:33:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0AB031A85539
+	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 07:34:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCF511D88A4;
-	Tue, 29 Apr 2025 07:34:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6095527816D;
+	Tue, 29 Apr 2025 07:34:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nNYPd70y"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jaRZw/fw"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A21276033;
-	Tue, 29 Apr 2025 07:34:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B60EE277002;
+	Tue, 29 Apr 2025 07:34:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745912044; cv=none; b=r9Tq3Djn2WMLMQ2p4TpgU72z+RLtNwRohIMRKe80DsmDfztX6dg3wW8VFN8pVyjGIylM9Wf/P+qwiy04fLdo+vCmHnJrTlXGTV9mExcvdxGHgqvC5J+syhO7YDVWexlZ8nOfvwnhfuIK0mKXte62Uc6sjp3Qm53E12+UexO2eXc=
+	t=1745912073; cv=none; b=WRJnT21FPs3t2Fw91y/RrzRj3m2GKoo3SMORyrM+JZGGRZ8vYBloaaIRZ9eIHFcoDOpPTGOqmKjt9zM2H7V9HrNVAO3ux9u+Zz/tKmRmRlDEbJKdHjY36UQIJ61wsqntQD9m5C4BIdgP6b4fgvzts3LSioOp7cR/mTjtg9yFX+M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745912044; c=relaxed/simple;
-	bh=AWHwOkxPLCPVcRAn+OvCKLaXrFu45lDYY/h0fhMkB/k=;
+	s=arc-20240116; t=1745912073; c=relaxed/simple;
+	bh=1FIwLwyQulKxxFP/ujnEVpEdgFJ8AVSMc5D8iY1ISc4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=V8OSHoWIlzEZKsd1Susk70c958Vs4fvZ3PRKaR5YAQEIpDN4bwpFV2VmKG4i8iggyG0UUaDOx7kvmdA0NIJjmD+kaO3YHcwMkGd+hfl8gphp59+aXdFsb/pxnswFngqbgNk0DXDvGJusnFPAOQXzYlmFY4kuKcO5BiGwGHQDpi8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nNYPd70y; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2EEEC4CEE3;
-	Tue, 29 Apr 2025 07:33:59 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=RclPZSzUi1GuIGfI+IbTkixh3jklqSlAU09S3oDkDOIY8CmqVRi7USBINXmjaqjG4Ls9wWoiT5/aDJPu30O5CGgJxaULzIG0zZLyjjFb30lCsPF3DrtOh3bLdGMfgYoSoSVyYQNlw8YIH4yV6FTIWLPAPtskQRVPVXEU7nyH0WA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jaRZw/fw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC7ABC4CEED;
+	Tue, 29 Apr 2025 07:34:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745912043;
-	bh=AWHwOkxPLCPVcRAn+OvCKLaXrFu45lDYY/h0fhMkB/k=;
+	s=k20201202; t=1745912073;
+	bh=1FIwLwyQulKxxFP/ujnEVpEdgFJ8AVSMc5D8iY1ISc4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=nNYPd70yujGIFFK0ZVi+gz/MfJtlpbQCqt2pgzNxvgzQkcStedybJfBBuMa3R18Zb
-	 roLeGn3Jvqt2e6p5v0AIFy+8oXRonJMnoFUwbCnYRB+pn9T9YEgM7qCXazZxfKUsjM
-	 Evwzk3sFaN6nrO2gF5bW9OYc8LiVMCEwkv2VJ7sYxUu3VfeOvCDKhGZ2QO1N7wqsYb
-	 y5svy7oTBQnQVSxuM8tfKhCHjgXrPCOKho6PysWh11q6Tn2jFPpV7s8x10EKoMyQw4
-	 /RacTzllwUc0BNRnqGX9k+/DkQ/qhIzyPWe75tnAGA8JYqaBgnb2KWfSLr1ejIFFrq
-	 LU+a2oHhgrxTg==
-Message-ID: <2044b305-8786-49b9-82e2-aa294434c24e@kernel.org>
-Date: Tue, 29 Apr 2025 09:33:58 +0200
+	b=jaRZw/fwNa8P6+yoOBvuASueTp81mAvevIGO5h2y3NT2ac5rUzI7PPeMzY0x4wxeP
+	 hsbfxzfMJkWNqo9JVcuP/FLvwIFPlCg7L/QmeLfBN8XfbeTQBSzORgASauE7opb+46
+	 VJNq9eT4v+TM0tE6DKElhVpHQDq7eKqXrlL5LshoR4eLWID9VkFbroFF4gvsXEZ0WU
+	 pKXeWm9LqtGIyfEvWy1FjvCXxUs2q5VFV+M1HjAIXccYZ5jj8PLQBcTc2Qjmn541BP
+	 r1OpbM0jqZoe9cvTTy+fybg46f0Pm2vV7wx/VhuVKihv9SkERJn7TBnd1YO3k0WUwk
+	 WdxIQJKLCpN5g==
+Message-ID: <4557dde5-c0fe-4339-8c4c-291b186ee86f@kernel.org>
+Date: Tue, 29 Apr 2025 09:34:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/12] dt-bindings: media: mediatek,jpeg: Add mediatek,
- mt8196-jpgdec compatible
+Subject: Re: [PATCH v3 00/12] Enable jpeg enc & dec multi-hardwares for MT8196
 To: =?UTF-8?B?S3lyaWUgV3UgKOWQtOaZlyk=?= <Kyrie.Wu@mediatek.com>
 Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
@@ -69,9 +68,8 @@ Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
  "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
  AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 References: <20250425085328.16929-1-kyrie.wu@mediatek.com>
- <20250425085328.16929-2-kyrie.wu@mediatek.com>
- <20250428-ambitious-deer-of-plenty-2a553a@kuoka>
- <5b6e70181b417f1b25df6fc1838b0ad600e29e9c.camel@mediatek.com>
+ <20250428-inescapable-smiling-oriole-bfbe3e@kuoka>
+ <5735ebabb8b049bd7c8700a433bf5b073dde66ad.camel@mediatek.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -117,55 +115,61 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <5b6e70181b417f1b25df6fc1838b0ad600e29e9c.camel@mediatek.com>
+In-Reply-To: <5735ebabb8b049bd7c8700a433bf5b073dde66ad.camel@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 28/04/2025 10:19, Kyrie Wu (吴晗) wrote:
-> On Mon, 2025-04-28 at 09:04 +0200, Krzysztof Kozlowski wrote:
+On 28/04/2025 10:10, Kyrie Wu (吴晗) wrote:
+> On Mon, 2025-04-28 at 09:01 +0200, Krzysztof Kozlowski wrote:
 >> External email : Please do not click links or open attachments until
 >> you have verified the sender or the content.
 >>
 >>
->> On Fri, Apr 25, 2025 at 04:53:17PM GMT, Kyrie Wu wrote:
->>> Compared to the previous generation IC, the MT8196 uses SMMU
->>> instead of IOMMU and supports features such as dynamic voltage
->>> and frequency scaling. Therefore, add "mediatek,mt8196-jpgdec"
->>> compatible to the binding document.
+>> On Fri, Apr 25, 2025 at 04:53:16PM GMT, Kyrie Wu wrote:
+>>> This series adds support for mt8196 multi-hardwares jpeg enc & dec,
+>>> by first adding mt8196 jpegdec and jpegenc compatible to install
+>>> kernel driver. Add smmu setting to support smmu and iommu at the
+>>> same time.
+>>> Secondly refactor buffer and clock setting to support multi-hw jpeg
+>>> working.
+>>> Lastly, fix some bugs, including resolution change handleing, stop
+>>> streaming sw flow and others.
 >>>
->>> Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
+>>> This series has been tested with MT8196 tast test.
+>>> Encoding and decoding worked for this chip.
+>>>
+>>> Patches 1-3 Adds jpeg encoder and decoder compatible.
+>>> Patches 4 add jpeg smmu sid setting.
+>>> Patches 5 fix jpeg hw count setting to support different chips.
+>>> Patches 6 refactor jpeg buffer payload setting to handle buffer
+>>> size bug while resolution changed.
+>>> Patches 7 reconstruct jpeg dst buffer layout.
+>>> Patches 8 fix multi-core stop streaming flow
+>>> Patches 9 refactor multi-core clk suspend/resume setting
+>>> Patches 10 fix decoding buffer number setting timing issue
+>>> Patches 11 refactor decoding resolution change operation
+>>> Patches 12 fix remove buffer operation
+>>>
+>>> ---
+>>> This series patches dependent on:
+>>> [1]
+>>>
+> https://urldefense.com/v3/__https://patchwork.kernel.org/project/linux-mediatek/patch/20250424090824.5309-1-jianhua.lin@mediatek.com/__;!!CTRNKA9wMg0ARbw!hDjzydf2blyIhdAkYs_NbqpEaaWTuolLbaHLDw8hLg4BJ87r7ePzKkET-uDw24U6YXAqmbSxItem1Q$
+>>>
+>>> Changes compared with v2:
+>>> --refactor smmu sid setting function interface
+>>> --Some modifications for patch v2's review comments.
 >>
->> I gave you a link to the exact part of documentation about prefixes
->> to
->> read. I do not see improvements, so I do not believe you read it. I
->> could
->> imagine people skip reading entire doc (who would listen to the
->> reviewer, right?), but if I give direct link to specific chapter and
->> still not following it, makes me feel quite dissapointed.
->>
->> Best regards,
->> Krzysztof
->>
+>> This is very vague. What exactly changed.
+> 
 > Dear Krzysztof,
 > 
-> I would like to apologize to you again here. I am very sorry for
-> wasting your precious time. I changed the subject from "dt-bindings:
-> mediatek: XXX" to "dt-bindings: media: mediatek,jpeg: XXX" in V3. This
-> change is based on your previous suggestion. Use this command, git log
-> --oneline --
-> Documentation/devicetree/bindings/media/, obtained. But this
-> modification does not meet your requirements. Should I change the
-> subject to "media: dt-bindings: mediatek,jpeg: XXX"?
-> 
-> Another question I need to ask you:
-> MT8195 and MT8196 both have multi-core hardware architectures. Do we
-> need to change the yaml file name from 'mediatek,mt8195-jpegenc.yaml'
-> to 'mediatek,multi-core-jpegenc.yaml'? In my opinion, this is more
-> appropriate. What is your suggestion?
-I asked above about link to documentation. You ignored that part, so
-let's be specific:
+> Sorry for the shortly descriptions. The main changing in V3 is fixed
+> dt-bindings comments by you.
 
-Did you or did you not read the doc I linked last time?
+
+What changed? What comments? Again way too vague.
+
 
 Best regards,
 Krzysztof
