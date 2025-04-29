@@ -1,294 +1,172 @@
-Return-Path: <linux-media+bounces-31258-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31259-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB07BAA03B7
-	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 08:48:58 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 149E8AA0498
+	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 09:34:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F3A22188CECC
-	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 06:49:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 12ED73BBA30
+	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 07:33:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B919276027;
-	Tue, 29 Apr 2025 06:48:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCF511D88A4;
+	Tue, 29 Apr 2025 07:34:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Sbu+rArW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nNYPd70y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2067.outbound.protection.outlook.com [40.107.236.67])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05C0A127E18;
-	Tue, 29 Apr 2025 06:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.67
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745909320; cv=fail; b=tOm0bIIaWUgHiyESyVeeJlmR9F3ivbZluK0NR9IspKpQcIBKIRxhb6IeefasqQ1tQlO/PwD4SxxKsFrILp3w/OPWCSPg6l05EF2CSVV65SzWhEjw1zfR2ezaU+cxsIFSWelIxonSJk2Om4ERubaDunCkl03Go4TIywVHiMvrruI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745909320; c=relaxed/simple;
-	bh=lbKK2IANv48aaMk5MkyMQ4gSCglL3AYmKowhJYgh368=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=W08jx7/6sjkXTKy4w9iur8sTatpa18bUbCKoKs/Zr8gkBWKLGETGQMEjAiT2Ts43saNz0NT1nk7kUkMwPh41ybzkIHRx1iUm6EBSZFqiCPdhEgeAUjv+FPoEYPFnJ/Xa23Om48oOXld1vhsqqnyGSmCaUtKqrY0hZct/KCGKJcs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Sbu+rArW; arc=fail smtp.client-ip=40.107.236.67
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=NItV65fQZ1QkwusC6Kicc+Rrg9+vaJDb+Jy4LVfYg6MRGGG3ia2AB1IR65hkhDzvO6OZlk2ifISyM8v7uR2m6qOlnYNXU6n64XjQFcC0cjzjtCus9mnsr66BerNUwHAdWITq8uvUVOh3Xm77jwCSD59HM2xCbsVXbUn7lHOHC1vz0LibUjFy1uQD7lHFAY7WfPgmYSI4uU+VhzmH44qpl7hipPgfQ0eMiKb4NatxuTCE94LadraukmkKkcEHd2zxtlk9jIqZRs4yRSTcmEzEidsC4vqn5UrJOt9/+4lqCVjzKzMch5LD3eDGc6c5YFmTQcvvlaFCXZPjFs3mS6Ny7g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ePa3DOxPZwyemNHnmq1BPIbYnr7EAyi2ytpycp3V9hI=;
- b=gNX11wQ15K7LPyhORF71GWzAr4Kv4kNGLJK8men8HvAfiJKBe7aMMpyZWcJDFaBDCtOv6kid1wtEbqEe/0OE3T7iK8zE1Xm2oruNJtOEMY+UoMSs5p84CKm00TlQtXuq/zfoUurvAQ0c/Y7I1vzif47u4PKCvSE0D9q+82JvTZzZujzv0mHY+w4H/LkY4siRV6fy3DzrOerjNz7O6RsSRb8CkIEjeYwyKkc5gnRVn/McKRdnUnz7/9JYVIHp2kujTllGroZYyc7qSKJuRvpmsW+aSu1dMKJ85CC3P6X6/b7ShEnMpxWFkQ5x6HuSilRn1OoAco4C5rSo3eZVbvjTvw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ePa3DOxPZwyemNHnmq1BPIbYnr7EAyi2ytpycp3V9hI=;
- b=Sbu+rArWe6NK+0cwiEU7aokNh3Y9RP5juCaYpl41/qhViL0wLJ5YijlKG0dPzbEhDc81NynoJKhjsyAG7rTNuM9TtcI8AmgZlkYVrwqfrpWVve6XOAzvXY2vYZJo60kIbI4wZGf5cv+Y1KEUICSjJOcrVGJjNrvWO2lqI5FYlKA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from CH3PR12MB9194.namprd12.prod.outlook.com (2603:10b6:610:19f::7)
- by DS7PR12MB5911.namprd12.prod.outlook.com (2603:10b6:8:7c::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.31; Tue, 29 Apr
- 2025 06:48:36 +0000
-Received: from CH3PR12MB9194.namprd12.prod.outlook.com
- ([fe80::53fb:bf76:727f:d00f]) by CH3PR12MB9194.namprd12.prod.outlook.com
- ([fe80::53fb:bf76:727f:d00f%4]) with mapi id 15.20.8678.028; Tue, 29 Apr 2025
- 06:48:35 +0000
-Message-ID: <371ab632-d167-4720-8f0d-57be1e3fee84@amd.com>
-Date: Tue, 29 Apr 2025 16:48:27 +1000
-User-Agent: Mozilla Thunderbird Beta
-Subject: Re: [RFC PATCH 00/12] Private MMIO support for private assigned dev
-To: Xu Yilun <yilun.xu@linux.intel.com>, kvm@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, sumit.semwal@linaro.org,
- christian.koenig@amd.com, pbonzini@redhat.com, seanjc@google.com,
- alex.williamson@redhat.com, jgg@nvidia.com, vivek.kasireddy@intel.com,
- dan.j.williams@intel.com
-Cc: yilun.xu@intel.com, linux-coco@lists.linux.dev,
- linux-kernel@vger.kernel.org, lukas@wunner.de, yan.y.zhao@intel.com,
- daniel.vetter@ffwll.ch, leon@kernel.org, baolu.lu@linux.intel.com,
- zhenzhong.duan@intel.com, tao1.su@intel.com
-References: <20250107142719.179636-1-yilun.xu@linux.intel.com>
-Content-Language: en-US
-From: Alexey Kardashevskiy <aik@amd.com>
-In-Reply-To: <20250107142719.179636-1-yilun.xu@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN7P220CA0021.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:806:123::26) To CH3PR12MB9194.namprd12.prod.outlook.com
- (2603:10b6:610:19f::7)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A21276033;
+	Tue, 29 Apr 2025 07:34:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745912044; cv=none; b=r9Tq3Djn2WMLMQ2p4TpgU72z+RLtNwRohIMRKe80DsmDfztX6dg3wW8VFN8pVyjGIylM9Wf/P+qwiy04fLdo+vCmHnJrTlXGTV9mExcvdxGHgqvC5J+syhO7YDVWexlZ8nOfvwnhfuIK0mKXte62Uc6sjp3Qm53E12+UexO2eXc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745912044; c=relaxed/simple;
+	bh=AWHwOkxPLCPVcRAn+OvCKLaXrFu45lDYY/h0fhMkB/k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V8OSHoWIlzEZKsd1Susk70c958Vs4fvZ3PRKaR5YAQEIpDN4bwpFV2VmKG4i8iggyG0UUaDOx7kvmdA0NIJjmD+kaO3YHcwMkGd+hfl8gphp59+aXdFsb/pxnswFngqbgNk0DXDvGJusnFPAOQXzYlmFY4kuKcO5BiGwGHQDpi8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nNYPd70y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2EEEC4CEE3;
+	Tue, 29 Apr 2025 07:33:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745912043;
+	bh=AWHwOkxPLCPVcRAn+OvCKLaXrFu45lDYY/h0fhMkB/k=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=nNYPd70yujGIFFK0ZVi+gz/MfJtlpbQCqt2pgzNxvgzQkcStedybJfBBuMa3R18Zb
+	 roLeGn3Jvqt2e6p5v0AIFy+8oXRonJMnoFUwbCnYRB+pn9T9YEgM7qCXazZxfKUsjM
+	 Evwzk3sFaN6nrO2gF5bW9OYc8LiVMCEwkv2VJ7sYxUu3VfeOvCDKhGZ2QO1N7wqsYb
+	 y5svy7oTBQnQVSxuM8tfKhCHjgXrPCOKho6PysWh11q6Tn2jFPpV7s8x10EKoMyQw4
+	 /RacTzllwUc0BNRnqGX9k+/DkQ/qhIzyPWe75tnAGA8JYqaBgnb2KWfSLr1ejIFFrq
+	 LU+a2oHhgrxTg==
+Message-ID: <2044b305-8786-49b9-82e2-aa294434c24e@kernel.org>
+Date: Tue, 29 Apr 2025 09:33:58 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB9194:EE_|DS7PR12MB5911:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8161b116-fc61-4128-c30a-08dd86e9dd52
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?VlZUL2o0UENxaklrMGxqcklod0lEMDBvaDV3Q21iL2pydlJYcnpiZUxieTZt?=
- =?utf-8?B?RXBRSVlBdmNKQ2UwK1RjSFBiRUZmbWJrQnpPVHFzSXR3TEtWaDdJTFNQTTl2?=
- =?utf-8?B?NU8zK0xoamlXSWs3M0I3RVgrOUg4aU5ndVJiaFo2SmpRMWJjanVPSlVjYjVv?=
- =?utf-8?B?dTY2QTJyMDc0cmFhY2VpeFkzWnRLcXBSanI2Z3BPeGFGL0JVUkpiSFd6bVdH?=
- =?utf-8?B?d0srZHhoNC9aamdhbTdPS0Q2M1dSaEFWWXZRNUZSbzE4L2dVbFhhTldDWk0x?=
- =?utf-8?B?eWhQTFA0Y2R0VUxKNE9ERE0weU0razlhd1g2VlRpK25RdlRyYUUyMjhVelAz?=
- =?utf-8?B?VU8xWDZya0loMThpTFIydjc5Y1FrVldkcUJtSnB5enF5Z09sOTVQbzEzMk14?=
- =?utf-8?B?TndhY2ttTzRaSGt0MjBNTUliVlFLSDdKcU92a2F5VEFPY0ZUNDEvbnh0UHIr?=
- =?utf-8?B?MzUzbmpBWVhRSXdyUStVaHpLbVpOMVd0YlBGZVhZUXU2ZW93SnVlN2dGMlJq?=
- =?utf-8?B?Q002MHE5S0h5OHh2U0ZKSnlsUXpZQVlPdlBqMTVGMU9URm5NSFo4Mm5WNDBw?=
- =?utf-8?B?c3B5eG1Pd3piUVNVS01kelM0a1dnVEtXdDFXRDh2aHNFSUk1dmhqUmdkNnpS?=
- =?utf-8?B?Qk1KTVE3MlZGMVVML0thRW40bGFobkNjSXduSHJidG1BS1RGWXd5bFZXNXM3?=
- =?utf-8?B?eWNlK1RRUXorbUZCL1ZPU2tENXNWWGVDTlFKeHRFN0ZXREdoek5rNFR1Rm81?=
- =?utf-8?B?ZTY4ajdHcGFndkZQN2R6Z0REek9CTUxCY24xbjRDS3MydExMekVMQ0swM2ph?=
- =?utf-8?B?bkgvWHFkY28vV3dYdkJuam5xZXkrWFBnUHcxazl0aHBWSm9MNUlYSU41d3NG?=
- =?utf-8?B?c3pxdGsrZGNUdWhWMmtNdzQrQ2FhN2pTQ0tTeFVIbENVN3JqRHlSdnJQdFQ4?=
- =?utf-8?B?ZjdOMFF0SFIvY3FEMDRFYXlZS0Q1RUlIcDVZNk5BT0tJTmJKa0lYeE9SWjhr?=
- =?utf-8?B?SGd0ZDNuNEZqSjI5UGNPdTNHZlhVZUQvcWU1RGtTdUVtREcxWS9qMWFmNWdC?=
- =?utf-8?B?TERHZXRuL1FpbEJtbEZRZG92SkF1bTBVUWIyNFRRZ3JNYld4TUVlakpmMTN0?=
- =?utf-8?B?LzVWMis0Tm93ZUU3Rjh1Kzk0QzZ0TEpMWjM5TEtMTGpkOXhnU1RVQW5YWC94?=
- =?utf-8?B?VHpzVWcyWXY5MU84L3pBTU1oR0JWRUhIb3psWlpWNGRoSS9aVXR6Ly81cEJh?=
- =?utf-8?B?U1BkMFhpaTlNZDF5U0FhWUZnc282c1Z4WHg5R0VjWXFvV3U1ajZuTUl1cUdH?=
- =?utf-8?B?dXh6d1pHZFErc3cySHc5U25WR1ppUDJyMVdraUxvak1RZHB6eFVmS3FlbS9o?=
- =?utf-8?B?UFNSY0xUcXBNbThINU11SkFnWGp4elRONTN6Ym9aRzgveTNhYkZtWThKa1JO?=
- =?utf-8?B?NUsyYWpLYnd3SmtyaHpHblJ4bDU3ZnZEeXlYeVErNXJ4YmhZNitYRllncWQ1?=
- =?utf-8?B?L1NkTytVcGNpYWpjNzlCZHc3cXg3R2JDa3BZNzRPYStReTZHa09MbkE5dVJG?=
- =?utf-8?B?Qll6TzdCbEFYc0ZSbWxuTjN0L2ZJNVNxODJGMkV4dDlQVldtSWpmVWNNdms5?=
- =?utf-8?B?c1QyU0xYNks0VFBlSFFBK05Xck16ZUtWT3JsTDZQQlk1QXVrYXVrUE9GWHNO?=
- =?utf-8?B?SW1hSXBjRXBQV21JRnQ2MmdhWGlCeGxmVzdpcHR5Yk9qcFZQWWdHeEJIbmd1?=
- =?utf-8?B?MDdMNjArV2JCQzRCWFJRSmVaOExSRDNCeEp4MW1TN1BMSzQ4ZEljNUJTd0Iz?=
- =?utf-8?B?L2U0dlQrbXg5RUVWb1RZOWdOK3o1ZGdSMDR2MEdDMWZzN0w4NFNGV1JHYUwv?=
- =?utf-8?B?QzJpTiswMXRUa3ljL0VmQkVka3d4R1FsNHZrcVplMVliSDZEaW5lcHExYWVK?=
- =?utf-8?B?TnVIMUlvc1J4L0pGaFhYZHgrMmNZdXRHaGM3YVRveTZVMm5nMkNuOVJpMUN0?=
- =?utf-8?Q?LK7+2vEr/nSrayz2txGCtNw9rk6k2g=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB9194.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?V1QwMk1qamVlQjZNbTNqY2YrK1BJTmdsODd3SEJ2eE92enAvVnczTytJWjg1?=
- =?utf-8?B?QTBVa0J5NmkyVktaVVp6SVQzL0owY2tkTVBoYjNkN0d1NmZ6bEJYdHVkdjRw?=
- =?utf-8?B?MzFEaGtXdlZ3UjBuU3pqZ2NGNUFIbWtEWGp1Q1YzeEpGVFo0cFp0REptcEhV?=
- =?utf-8?B?ZjFrRUY3ZmNMUG1ERjJJZmVtZ3ZoOEtwNUpkWlRIYmJYSzVkcUlhUEMvTy9o?=
- =?utf-8?B?Qi9IcnE3SkhZaDBtOEFjV1d5VjNnWnFZUUhxQkpESnRkZDZsUllicm9tV1pC?=
- =?utf-8?B?K0tCWnVxYXh3Z3d4VGFDazI4bzlMcGRoM1FaVW9ZUUlRRWpKVFY1cXFTM2sx?=
- =?utf-8?B?cG9LcE5Md0pLbTJma3g5alpndXl4WkJ2SzFpbjhIRGNRWTFnMFhRMitrQTZi?=
- =?utf-8?B?dExkVGtGdmNWMFlZeDFuNnJBNDZCdXNDSmpGRWIyc3I1anRSVHk1Y0t6UGtI?=
- =?utf-8?B?Y2hpb3pKNW9vdHZ0YzkrQUhFZEhvTFR4eEhrVDV6eFJ6cEhxQTZGcjFNWXNG?=
- =?utf-8?B?dEdVeXBHVUJ0NG82UVVURUhXWndKMDhZTnZ3am5paVlMRTRyZWdPSGRsYWt3?=
- =?utf-8?B?NExOYkZZdVdQb25FampJZEdmZkZER2I3MmNiU0ZWaE1NRE1pYTBMM2tTZVd6?=
- =?utf-8?B?SW9mU2xrdDFGbnJGSVRjd3pvcXp2dUpnblJ4TnVrZDJjbkhRaFkvcStyS0kz?=
- =?utf-8?B?ZVJ2K3c0YjZVa0pydkhiamduUndOYnBTWFJJNDRocWQ4ZFMvbEZUb1NYMXJS?=
- =?utf-8?B?UFRINDVGR1ZNY0kyT1U3TUs4TVY2ZXRpRTlmTFlTR1RiWVVPdFVBckxlNm5y?=
- =?utf-8?B?QzhDQ1JyQjRucnBNajRYWGFzWkg4ZDRNdGEyaTdEMkxPWTlrUm41eWRmSnJj?=
- =?utf-8?B?bGNJaVdyWE5Sa2lYVFFtcDcyVTV1N1V3cENDK2NLdHBxd1lDMjJKa2J3WDgw?=
- =?utf-8?B?M1RMa2R5bElmNUJEeXBFY0NTeTZ1UC9lZHY3QnBxRUtmOFh0ZDJ1WCtEOWZH?=
- =?utf-8?B?SHNNWWJYdmQ5emZJbFVTNzliZm5pMzJvMDNFam5SVlYxQmM3R05hVGhiSFFt?=
- =?utf-8?B?NHVvRXp5aXRGSUY2bUVLNHF1VDdNdU5yQXRNNlpXS2xUV3Y4eXdYOXZPajdl?=
- =?utf-8?B?anZmbkc5L2pSTXNxdnBZemRRUHhZZ1JKN1p3ZFRiaWtVRGV0VXdnaXRvbFpp?=
- =?utf-8?B?emZma3M0QmJSbmlrcC9YVGl2VlNjMGR3OWk3Rmw4NFdrd2VmSlFkTmNJWU5F?=
- =?utf-8?B?MUxnTUFMb3U0ajBGQlRuWi9CUWdhdStpRkhFUHozdGRWYzVhSkx0M0lYUk5L?=
- =?utf-8?B?MHE1UUxXbUR0MHVQM2hjY2lJQzFYWno1dERaWUtSM0IzWmZoK253bnNZWEcz?=
- =?utf-8?B?MjN4SnplUzFvQ1RxRzN4THlzZTloWVRsU0NhY2hIUEVSTzlOS0V3WVZTUml6?=
- =?utf-8?B?U2NydFdaRmhnUXFDUVErY2VQSytzZXBZWkRYWDRQS1ZpT3lvWmtaMjlDYThJ?=
- =?utf-8?B?VGp0L09vSG5sTUpmWFU2SWJlNnhzbE9NUFllV2FyRVBIamt5WHI2SXBpOHdW?=
- =?utf-8?B?NHJUcWhGMXlaQ3cwWlYxNG0vUlkveEtnLzZabGtEUEl2OVVaWUNvQW1xbUt1?=
- =?utf-8?B?Vm5zaTRjQ2gyVnR4dGQvaUp0ZDBnc2FaaTNrbE8zTm8yMFR0WEErR3RVNE91?=
- =?utf-8?B?UE9UR2VGM002V1VDOUhzVS9WWjFCNHg4dHJYanczQlY0WFpOR2J1enQzeHBR?=
- =?utf-8?B?WmZudzVVaHlqazZmTm5HbnU5WjVPd01rVDV0TGw5M1cyOWpGTWNlN3JiaENH?=
- =?utf-8?B?OHdkSy9DSFhBSEc4SEJsdW5nTTZMVEdLY0x3djFSU2ZrRkVZZjkydUtPU3dm?=
- =?utf-8?B?Tjh5U0g5ZnJWcDBuR29Xd3h2K0IzVFc3K1lXUWhBeXJQR3lHSGdrUlV3VS81?=
- =?utf-8?B?MW05dHJ1Tnd0OTUxYzlzMzJ4cHN2Wk53YnZId3JjaXdGN0c0UVFNRW9maVRi?=
- =?utf-8?B?a2xNMTk1QVo2ZUpndTZzTUZodXFSNDBxVWVUSzdYenErbi9rZ0pIYlZuZWJr?=
- =?utf-8?B?NVFUeW9vSEJ2Sk1HRHBDTStlNzZxV2Z0bEJrbmlOK0NDZlBFay9HSU9JYWU2?=
- =?utf-8?Q?IQyydVT9ITQ65F5V0V94r274Q?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8161b116-fc61-4128-c30a-08dd86e9dd52
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB9194.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2025 06:48:35.7815
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BqviLQc/u0wJ7NlXIM1DDH+hIGt7QmeqIPeVc7phLsTKddw5+KHnisWiPX/tEiC/gqJB4oA6E4Z3gvZus2IQzQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5911
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 01/12] dt-bindings: media: mediatek,jpeg: Add mediatek,
+ mt8196-jpgdec compatible
+To: =?UTF-8?B?S3lyaWUgV3UgKOWQtOaZlyk=?= <Kyrie.Wu@mediatek.com>
+Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "kyrie.wu@mediatek.corp-partner.google.com"
+ <kyrie.wu@mediatek.corp-partner.google.com>,
+ "mchehab@kernel.org" <mchehab@kernel.org>,
+ "conor+dt@kernel.org" <conor+dt@kernel.org>,
+ "robh@kernel.org" <robh@kernel.org>,
+ "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+ "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+References: <20250425085328.16929-1-kyrie.wu@mediatek.com>
+ <20250425085328.16929-2-kyrie.wu@mediatek.com>
+ <20250428-ambitious-deer-of-plenty-2a553a@kuoka>
+ <5b6e70181b417f1b25df6fc1838b0ad600e29e9c.camel@mediatek.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <5b6e70181b417f1b25df6fc1838b0ad600e29e9c.camel@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On 8/1/25 01:27, Xu Yilun wrote:
-> This series is based on an earlier kvm-coco-queue version (v6.12-rc2)
+On 28/04/2025 10:19, Kyrie Wu (吴晗) wrote:
+> On Mon, 2025-04-28 at 09:04 +0200, Krzysztof Kozlowski wrote:
+>> External email : Please do not click links or open attachments until
+>> you have verified the sender or the content.
+>>
+>>
+>> On Fri, Apr 25, 2025 at 04:53:17PM GMT, Kyrie Wu wrote:
+>>> Compared to the previous generation IC, the MT8196 uses SMMU
+>>> instead of IOMMU and supports features such as dynamic voltage
+>>> and frequency scaling. Therefore, add "mediatek,mt8196-jpgdec"
+>>> compatible to the binding document.
+>>>
+>>> Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
+>>
+>> I gave you a link to the exact part of documentation about prefixes
+>> to
+>> read. I do not see improvements, so I do not believe you read it. I
+>> could
+>> imagine people skip reading entire doc (who would listen to the
+>> reviewer, right?), but if I give direct link to specific chapter and
+>> still not following it, makes me feel quite dissapointed.
+>>
+>> Best regards,
+>> Krzysztof
+>>
+> Dear Krzysztof,
+> 
+> I would like to apologize to you again here. I am very sorry for
+> wasting your precious time. I changed the subject from "dt-bindings:
+> mediatek: XXX" to "dt-bindings: media: mediatek,jpeg: XXX" in V3. This
+> change is based on your previous suggestion. Use this command, git log
+> --oneline --
+> Documentation/devicetree/bindings/media/, obtained. But this
+> modification does not meet your requirements. Should I change the
+> subject to "media: dt-bindings: mediatek,jpeg: XXX"?
+> 
+> Another question I need to ask you:
+> MT8195 and MT8196 both have multi-core hardware architectures. Do we
+> need to change the yaml file name from 'mediatek,mt8195-jpegenc.yaml'
+> to 'mediatek,multi-core-jpegenc.yaml'? In my opinion, this is more
+> appropriate. What is your suggestion?
+I asked above about link to documentation. You ignored that part, so
+let's be specific:
 
-Has this been pushed somewhere public? The patchset does not apply on top of v6.12-rc2, for example (I fixed locally).
-Also, is there somewhere a QEMU tree using this? I am trying to use this new DMA_BUF feature and this require quite some not so obvious plumbing. Thanks,
+Did you or did you not read the doc I linked last time?
 
-
-> which includes all basic TDX patches.
-> 
-> The series is to start the early stage discussion of the private MMIO
-> handling for Coco-VM, which is part of the Private Device
-> Assignment (aka TEE-IO, TIO) enabling. There are already some
-> disscusion about the context of TIO:
-> 
-> https://lore.kernel.org/linux-coco/173343739517.1074769.13134786548545925484.stgit@dwillia2-xfh.jf.intel.com/
-> https://lore.kernel.org/all/20240823132137.336874-1-aik@amd.com/
-> 
-> Private MMIOs are resources owned by Private assigned devices. Like
-> private memory, they are also not intended to be accessed by host, only
-> accessible by Coco-VM via some secondary MMUs (e.g. Secure EPT). This
-> series is for KVM to map these MMIO resources without firstly mapping
-> into the host. For this purpose, This series uses the FD based MMIO
-> resources for secure mapping, and the dma-buf is chosen as the FD based
-> backend, just like guest_memfd for private memory. Patch 6 in this
-> series has more detailed description.
-> 
-> 
-> Patch 1 changes dma-buf core, expose a new kAPI for importers to get
-> dma-buf's PFN without DMA mapping. KVM could use this kAPI to build
-> GPA -> HPA mapping in KVM MMU.
-> 
-> Patch 2-4 are from Jason & Vivek, allow vfio-pci to export MMIO
-> resources as dma-buf. The original series are for native P2P DMA and
-> focus on p2p DMA mapping opens. I removed these p2p DMA mapping code
-> just to focus the early stage discussion of private MMIO. The original
-> series:
-> 
-> https://lore.kernel.org/all/0-v2-472615b3877e+28f7-vfio_dma_buf_jgg@nvidia.com/
-> https://lore.kernel.org/kvm/20240624065552.1572580-1-vivek.kasireddy@intel.com/
-> 
-> Patch 5 is the implementation of get_pfn() callback for vfio dma-buf
-> exporter.
-> 
-> Patch 6-7 is about KVM supports the private MMIO memory slot backed by
-> vfio dma-buf.
-> 
-> Patch 8-10 is about how KVM verifies the user provided dma-buf fd
-> eligible for private MMIO slot.
-> 
-> Patch 11-12 is the example of how KVM TDX setup the Secure EPT for
-> private MMIO.
-> 
-> 
-> TODOs:
-> 
-> - Follow up the evolving of original VFIO dma-buf series.
-> - Follow up the evolving of basic TDX patches.
-> 
-> 
-> Vivek Kasireddy (3):
->    vfio: Export vfio device get and put registration helpers
->    vfio/pci: Share the core device pointer while invoking feature
->      functions
->    vfio/pci: Allow MMIO regions to be exported through dma-buf
-> 
-> Xu Yilun (9):
->    dma-buf: Introduce dma_buf_get_pfn_unlocked() kAPI
->    vfio/pci: Support get_pfn() callback for dma-buf
->    KVM: Support vfio_dmabuf backed MMIO region
->    KVM: x86/mmu: Handle page fault for vfio_dmabuf backed MMIO
->    vfio/pci: Create host unaccessible dma-buf for private device
->    vfio/pci: Export vfio dma-buf specific info for importers
->    KVM: vfio_dmabuf: Fetch VFIO specific dma-buf data for sanity check
->    KVM: x86/mmu: Export kvm_is_mmio_pfn()
->    KVM: TDX: Implement TDX specific private MMIO map/unmap for SEPT
-> 
->   Documentation/virt/kvm/api.rst     |   7 +
->   arch/x86/include/asm/tdx.h         |   3 +
->   arch/x86/kvm/mmu.h                 |   1 +
->   arch/x86/kvm/mmu/mmu.c             |  25 ++-
->   arch/x86/kvm/mmu/spte.c            |   3 +-
->   arch/x86/kvm/vmx/tdx.c             |  57 +++++-
->   arch/x86/virt/vmx/tdx/tdx.c        |  52 ++++++
->   arch/x86/virt/vmx/tdx/tdx.h        |   3 +
->   drivers/dma-buf/dma-buf.c          |  90 ++++++++--
->   drivers/vfio/device_cdev.c         |   9 +-
->   drivers/vfio/pci/Makefile          |   1 +
->   drivers/vfio/pci/dma_buf.c         | 273 +++++++++++++++++++++++++++++
->   drivers/vfio/pci/vfio_pci_config.c |  22 ++-
->   drivers/vfio/pci/vfio_pci_core.c   |  64 +++++--
->   drivers/vfio/pci/vfio_pci_priv.h   |  27 +++
->   drivers/vfio/pci/vfio_pci_rdwr.c   |   3 +
->   drivers/vfio/vfio_main.c           |   2 +
->   include/linux/dma-buf.h            |  13 ++
->   include/linux/kvm_host.h           |  25 ++-
->   include/linux/vfio.h               |  22 +++
->   include/linux/vfio_pci_core.h      |   1 +
->   include/uapi/linux/kvm.h           |   1 +
->   include/uapi/linux/vfio.h          |  34 +++-
->   virt/kvm/Kconfig                   |   6 +
->   virt/kvm/Makefile.kvm              |   1 +
->   virt/kvm/kvm_main.c                |  32 +++-
->   virt/kvm/kvm_mm.h                  |  19 ++
->   virt/kvm/vfio_dmabuf.c             | 151 ++++++++++++++++
->   28 files changed, 896 insertions(+), 51 deletions(-)
->   create mode 100644 drivers/vfio/pci/dma_buf.c
->   create mode 100644 virt/kvm/vfio_dmabuf.c
-> 
-
--- 
-Alexey
-
+Best regards,
+Krzysztof
 
