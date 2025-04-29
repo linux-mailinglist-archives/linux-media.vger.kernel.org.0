@@ -1,51 +1,53 @@
-Return-Path: <linux-media+bounces-31342-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31343-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF445AA1BD6
-	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 22:10:25 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEC0CAA1C50
+	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 22:39:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7DBE11B68382
-	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 20:10:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6FD9D7B27E5
+	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 20:38:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5439D262FD9;
-	Tue, 29 Apr 2025 20:10:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41A59263C77;
+	Tue, 29 Apr 2025 20:39:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cl9Z6yTV"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iWPjb9jW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B734A25F998
-	for <linux-media@vger.kernel.org>; Tue, 29 Apr 2025 20:10:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5383F269832
+	for <linux-media@vger.kernel.org>; Tue, 29 Apr 2025 20:39:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745957417; cv=none; b=dOtbkFdIF0sOreGahP0xeYSDzjRpvDJHr+4/YePV0rwGBOSxr5FmFatJGLohuWczqtLxPyxXSPW1E7FdDhqdUiaXPvTGLp5RyxjhsXDJT0o2CMEjieH1rt/5EYMadieFVIwAwxV/NkSzSZxnN6oKmRXjbC7uBcsqjiIWST3l6QY=
+	t=1745959174; cv=none; b=Kavw4gDxIsupIKBfQZENnHk781w8mjWFR1360EDePqwa+YgWhEf5fbYVdQDeeRi3eDNNMGQvZW8hvytSfrRBUI04aTqaJqKa26OY00d+Cg7Zl+OhT+bQPuwwQ7kh7Fq6i/w2nUWpG84UzKnHhM/tJc9mykHCd4HdKrj+r3bPip4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745957417; c=relaxed/simple;
-	bh=51j9wMphOPCIwqEuH0hMrLf4UQuo37NPpSzxZCZX6AY=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f4ocDRfc48RP1kPss3/67i7V6ouOpSwRZ121Jsibv/9vwOwT8gwoMDqNhpBK5pSLunqRR7rLJVVP1NphimOhfLY0+WMAqdmIeiFAQ87c2Y7qzeG1A1Ocp8IkvOvjsNqzrK+wl8L838lrnW8Cly1c4Uh9cGhWd1SIJI8iVwb7r2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cl9Z6yTV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BCEDC4CEE3;
-	Tue, 29 Apr 2025 20:10:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745957417;
-	bh=51j9wMphOPCIwqEuH0hMrLf4UQuo37NPpSzxZCZX6AY=;
+	s=arc-20240116; t=1745959174; c=relaxed/simple;
+	bh=P7H6bZoUDfDdMODt5oGqUJkfYcMDXfEJRQKY5EzhnUM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HrFqzbBfTnF6qX8zp0OavTJyUQFl242wLhas6JXsomDFSG1+I1jqsfbPfxEZwR3Ydr5PiPhdXTT5Xp9IjpmTgswd4dHh41bHTGxxO2g5s1y8FRuVYDWfjiby/2iw+M0mO2DxFDMCaiZWHq35HHEe7Wp4V8P3t/vxi4RFrNlpkKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iWPjb9jW; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21AFA6A8;
+	Tue, 29 Apr 2025 22:39:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1745959164;
+	bh=P7H6bZoUDfDdMODt5oGqUJkfYcMDXfEJRQKY5EzhnUM=;
 	h=From:To:Cc:Subject:Date:From;
-	b=cl9Z6yTVPua7RElJM46EmPO5DfX1mGnmo8+rE78IpOQjIzGz3PjFFre/o5OF2LqtS
-	 1UV7swVExlOnxqWEX9oWXC6DnEILcyKJ4cB5QKG+637m+8aFJQSGwFdL7IVEUrBbSj
-	 M4Hd9KChIYnmAn1GFfHURXz4v2skb5f0f1aAH0OC/+5ce1fNu15fw5FKTZzo7DZn1E
-	 d/J7wUcX0k6XPnbuxR4FhECE6jT6AeLqO5CqrlQrfiG6y4SFZDtsQPezN7SVyUeVLM
-	 sOpN52YqNfG/CfNTjZyQVpn6tMlgt0ZQE+2viS889KtcFSfFsIBZIcVyxldtaRUAQm
-	 GkCrhjrLTPkNw==
-From: bod@kernel.org
+	b=iWPjb9jW0cIQLJmeR8vUkxM1jtUAmvoOumUiW3KLXu6vuoR5We/3rk0o4HO9OPf2/
+	 mvBP4uUAYK8tFEngTAlPQlYwFMagS/xgtLZmdHoR2T9XZ0Lj53tE7ASIEEZPbXamhK
+	 cl0n6pPB1ynTfTtEVyPy3EeYJSbSVZH4adP4kEwg=
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
-Cc: Bryan O'Donoghue <bod@kernel.org>
-Subject: [GIT PULL FOR 6.16 Iris updates] Please pull platform-qcom-media-for-6.16-v2
-Date: Tue, 29 Apr 2025 21:10:10 +0100
-Message-ID: <20250429201013.146203-1-bod@kernel.org>
+Cc: Hans Verkuil <hans@jjverkuil.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Subject: [v4l-utils] [PATCH] v4l2-compliance: Don't perform blocking DQBUF test on MC_IO devices
+Date: Tue, 29 Apr 2025 23:39:22 +0300
+Message-ID: <20250429203922.23078-1-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -55,22 +57,35 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Bryan O'Donoghue <bod@kernel.org>
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-The following changes since commit 6bc4841c536e18715cf0719f9eb6c47a3d35a63d:
+Streaming on MC_IO devices can't be tested by v4l2-compliance as it
+requires setting up a valid pipeline first. The blocking DQBUF test
+therefore fails to start streaming on those devices. Disable it.
 
-  media: iris: add qcs8300 platform data (2025-04-27 23:27:03 +0100)
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+ utils/v4l2-compliance/v4l2-test-buffers.cpp | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-are available in the Git repository at:
+diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+index 572973b2b755..30f2b5d17c4f 100644
+--- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
++++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+@@ -3119,7 +3119,7 @@ int testBlockingWait(struct node *node)
+ 	bool can_stream = node->g_caps() & V4L2_CAP_STREAMING;
+ 	int type;
+ 
+-	if (!can_stream || !node->valid_buftypes)
++	if (!can_stream || node->is_io_mc || !node->valid_buftypes)
+ 		return ENOTTY;
+ 
+ 	buffer_info.clear();
 
-  https://gitlab.freedesktop.org/linux-media/users/bodonoghue.git tags/platform-qcom-media-for-6.16-v2
+base-commit: dc3a7b9f5453941f951654704a558b7b70fef2d2
+-- 
+Regards,
 
-for you to fetch changes up to 6bc4841c536e18715cf0719f9eb6c47a3d35a63d:
+Laurent Pinchart
 
-  media: iris: add qcs8300 platform data (2025-04-27 23:27:03 +0100)
-
-----------------------------------------------------------------
-Add in QCS8300 and SM8650 Iris platform enablement
-
-----------------------------------------------------------------
 
