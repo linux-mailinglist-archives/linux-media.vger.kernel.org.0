@@ -1,135 +1,143 @@
-Return-Path: <linux-media+bounces-31308-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31310-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0B36AA0C32
-	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 14:53:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33BE8AA0C77
+	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 14:59:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AA8C73B4AEB
-	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 12:52:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 865F33AC2F6
+	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 12:59:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19D5C2C375B;
-	Tue, 29 Apr 2025 12:51:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABBC42D191F;
+	Tue, 29 Apr 2025 12:59:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="Dn7mn+UJ"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="vNkKi2/n"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A44A2C17A7;
-	Tue, 29 Apr 2025 12:51:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745931118; cv=pass; b=VQDvyATm6/Cuebb/jdvw7T+lPSqyG9tSukNKmwF4xpvo8zeU6c5abrE6eNuZoXWSkBoOVFZHQ+ooWJBOmiw3mqawvJPTXy2H6O7uYeWZQ+zhhSzMmErTO68ZYV9MKLGekKJ3miVr+5v3wvovH16gssJ1dsHAYJlKdVYigKItSA4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745931118; c=relaxed/simple;
-	bh=DEQeFsMbhzlHPT/Sx8vc3XKjQ6HtI/zCWH8m7IsAtG0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gN+I+mkdVP3aozmgAIt4hw4bW09e8BYipPuzWBJsF6AQhT/6i62S9VllIvgL1NJqxCFdeB91+NnM1wmqymmPPbXxErs6u8nBfTv2g4Q8BNnN3Erk0VBs1wOFotnYC3tndAiKcTsue24c4GJ6QPVaF0Jrwtb44esEf5ltU0VhcMc=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b=Dn7mn+UJ; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1745931096; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=LP4S9htb/tdPQTA3dqPD4Eu5tvwNdQS9ERqyw4qzqIOVSFZWqRLPR3P03Uqp20uF0+wyoQMIBoe7NlNfw4gts3e4KQafXgjKYpt/Jb+jVD3vhgmMTRgOUMxxxJGRYiozBNE/zbvwOD7yAPKHApCUHE0FsRMFEHzdUH5ci4SFTI0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1745931096; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=wAqddgCvCAXmKLXb0X53fyiZ4qXPPUZR54/Xu7bltQs=; 
-	b=DAyh9eHU8Fl/fxMo2EBlE00D71Yb1Wiwc1Yb0lkBwAOQRu5ZFUBq7oLbqmPEKmwqg2qqHLM4j5uejbanXByLdLyN3+hg3/xYbJEfykwpJd+rr75d7OzjoaZYQdaTBDihqjJ5tQfHS+iQuYUnhA90irck6RFMBkSOhTsHgPN+UY4=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
-	dmarc=pass header.from=<detlev.casanova@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1745931096;
-	s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=wAqddgCvCAXmKLXb0X53fyiZ4qXPPUZR54/Xu7bltQs=;
-	b=Dn7mn+UJnXsXb8xFEEs9Tsu9KdhEDs9rWgBgndz7C+uX1fPse/Zq2PDJRV5pytYY
-	UCoZKhbdT4o/doQlSseVlwKcvtREcpR92n8HIxk/ehXiTv5QVgDhyM3X7HK6faheHDQ
-	+0XElXoFKUZsOUWkV6VbmneN1WisJojwYPztEMEY=
-Received: by mx.zohomail.com with SMTPS id 1745931094377930.5836650113462;
-	Tue, 29 Apr 2025 05:51:34 -0700 (PDT)
-From: Detlev Casanova <detlev.casanova@collabora.com>
-To: linux-kernel@vger.kernel.org,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, kernel@collabora.com
-Subject: Re: [PATCH] media: verisilicon: Free post processor buffers on error
-Date: Tue, 29 Apr 2025 08:51:32 -0400
-Message-ID: <2782084.mvXUDI8C0e@earth>
-In-Reply-To: <d901822b2710a2d642f1372fbfb53f99f1e60b2e.camel@collabora.com>
-References:
- <20250425192447.227063-1-detlev.casanova@collabora.com>
- <d901822b2710a2d642f1372fbfb53f99f1e60b2e.camel@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1FFB277010;
+	Tue, 29 Apr 2025 12:59:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745931557; cv=none; b=okBK2LgUjl1LHR+nAaT/7pnlLMyXlZSVMNMtH+U12iiB1uUg0d0geBjaZL5kzUKaXwWyfl9A5AO9V78iNFlvvV6yDYFEIeGVGOJ6G1Pi/gvoDxxKJw7xfKbUMkGJJ6Z7ZDkxtiH6nGzA4F4clKEQSCD76m3EsXlCf11eZkwDDxI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745931557; c=relaxed/simple;
+	bh=2z1C8aiGut4OFg6hwle9DwiM2L+/ljeLGm2qQZiDTEo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=C0Na6/1KgSreLI2pD9xev6wUJpz2PBTv4YLdaFsjKQyVi9NjBEOcDdXbapKpZDhZPM3opO4EJ7wERn/4IeW1waFDiSH8v+R/vo8a7C2f3b5H4kFA/Hgq3hbBHMYCYwhhahvcrmzZHdzWRL5t44QFgW5KV00e4GAdrFQC/VsbaR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=vNkKi2/n; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 39E1AC4CEFC;
+	Tue, 29 Apr 2025 12:59:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux.dev; s=korg;
+	t=1745931556; bh=2z1C8aiGut4OFg6hwle9DwiM2L+/ljeLGm2qQZiDTEo=;
+	h=From:Subject:Date:To:Cc:From;
+	b=vNkKi2/nKWqurF8AWKtXNjWaOAFaPdgu5oYHdZ3iNXuVGZtQlAB74pDLH6s9CkXIz
+	 YRpBDBTPhE0sOKzwKa+NWraLHWZqy01GoR1K7PIL3R8QvlFPs1gPLrdRei134064WC
+	 cyeKlkwt8gum9cBgIshmF9kFw5S5QFzN6Hw7/p/w=
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27021C3ABAD;
+	Tue, 29 Apr 2025 12:59:16 +0000 (UTC)
+From: Richard Leitner <richard.leitner@linux.dev>
+Subject: [PATCH v3 0/9] Add strobe/flash duration v4l2 ctrl & use it for
+ ov9282
+Date: Tue, 29 Apr 2025 14:59:05 +0200
+Message-Id: <20250429-ov9282-flash-strobe-v3-0-2105ce179952@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIABnNEGgC/33OwWrDMBAE0F8xOneLtJacxKf+R+lh5V3FgmCnk
+ iNSgv+9ikNpDqXHGZjH3FSWFCWrvrmpJCXmOE81tC+NGkaajgKRa1ao0elWtzCXA+4RwonyCHl
+ JsxegofOs9XBg6VRdnpOEeN3U949HTvJ5qfjyKH/tvtlkRAfe/uBHihNIMAOTJ+cD98WoOzTGv
+ Mzpa3tbq7v077FiQIMO7HZkXGc9vZ3idLm+spTNK/hkGPu3gdUwlneEe9Na5GdjXddvNBXpoUM
+ BAAA=
+X-Change-ID: 20250303-ov9282-flash-strobe-ac6bd00c9de6
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Pavel Machek <pavel@kernel.org>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, 
+ Richard Leitner <richard.leitner@linux.dev>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1745931554; l=2903;
+ i=richard.leitner@linux.dev; s=20250225; h=from:subject:message-id;
+ bh=2z1C8aiGut4OFg6hwle9DwiM2L+/ljeLGm2qQZiDTEo=;
+ b=tOpPmX2FLIW1sYHJ4M1PLeJXlOEXr65fEreCHoAuuLeNdhFf0LdHzwa3d8KlnVGM1HosYgAS+
+ mCf8s6WAKNBBwzBfpgMvfACg+NUTlUxSw41nRvA68NwCg5i38pFfvqq
+X-Developer-Key: i=richard.leitner@linux.dev; a=ed25519;
+ pk=8hZNyyyQFqZ5ruVJsSGBSPIrmJpfDm5HwHU4QVOP1Pk=
+X-Endpoint-Received: by B4 Relay for richard.leitner@linux.dev/20250225
+ with auth_id=350
 
-On Monday, 28 April 2025 13:25:59 EDT Nicolas Dufresne wrote:
-> Le vendredi 25 avril 2025 =C3=A0 15:24 -0400, Detlev Casanova a =C3=A9cri=
-t :
-> > When initializing the post processor, it allocates the same number of
->=20
-> What do you think reworking as:
->=20
->   During initialization, the post processor allocates the same number of
->=20
-> > buffers as the buf queue.
-> > As the init function is called in streamon(), if an allocation fails,
-> > streamon will return an error and streamoff() will not be called, keepi=
-ng
-> > all post processor buffers allocated.
-> >=20
-> > To avoid that, all post proc buffers are freed in case of an allocation
-> > error.
-> >=20
-> > Fixes: 26711491a807 ("media: verisilicon: Refactor postprocessor to sto=
-re
-> > more buffers") Signed-off-by: Detlev Casanova
-> > <detlev.casanova@collabora.com>
->=20
-> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->=20
-> If you are fine with the suggestion, I can make the changes while
-> applying.
+This series adds a new v4l2 controls named "strobe duration" with id
+V4L2_CID_FLASH_DURATION. This control enables setting a desired
+flash/strobe length/duration in µs.
 
-Yes, that's goot for me.
+As a first user of this new control add basic flash/strobe support for
+ov9282 sensors using their "hardware strobe output". The duration
+calculation is only interpolated from various measurements, as no
+documentation was found.
 
-Detlev.
+Further flash/strobe-related controls as well as a migration to v4l2-cci
+helpers for ov9282 will likely be implemented in future series.
 
-> > ---
-> >  drivers/media/platform/verisilicon/hantro_postproc.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/media/platform/verisilicon/hantro_postproc.c
-> > b/drivers/media/platform/verisilicon/hantro_postproc.c index
-> > c435a393e0cb7..9f559a13d409b 100644
-> > --- a/drivers/media/platform/verisilicon/hantro_postproc.c
-> > +++ b/drivers/media/platform/verisilicon/hantro_postproc.c
-> > @@ -250,8 +250,10 @@ int hantro_postproc_init(struct hantro_ctx *ctx)
-> > =20
-> >  	for (i =3D 0; i < num_buffers; i++) {
-> >  		ret =3D hantro_postproc_alloc(ctx, i);
-> > -		if (ret)
-> > +		if (ret) {
-> > +			hantro_postproc_free(ctx);
-> >  			return ret;
-> > +		}
-> >  	}
-> > =20
-> >  	return 0;
+All register addresses/values are based on the OV9281 datasheet v1.53
+(january 2019). This series was tested using an ov9281 VisionComponents
+camera module.
 
+Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+---
+Changes in v3:
+- create separate patch for leds driver changes (thanks Lee)
+- Link to v2: https://lore.kernel.org/r/20250314-ov9282-flash-strobe-v2-0-14d7a281342d@linux.dev
 
+Changes in v2:
+- remove not needed controls in struct ov9282 (thanks Dave)
+- Fix commit message of 3/3 regarding framerate get/set (thanks Dave)
+- Add V4L2_CID_FLASH_STROBE_SOURCE impementation to ov9282
+- Add new V4L2_CID_FLASH_DURATION control (as suggested by Laurent)
+- Use FLASH_DURATION instead of FLASH_TIMEOUT for ov9282
+- Link to v1: https://lore.kernel.org/r/20250303-ov9282-flash-strobe-v1-0-0fd57a1564ba@linux.dev
+
+---
+Richard Leitner (9):
+      media: v4l: ctrls: add a control for flash/strobe duration
+      leds: flash: add support for flash/stobe duration
+      media: v4l2-flash: add support for flash/strobe duration
+      media: v4l2-flash: fix flash_timeout comment
+      Documentation: uAPI: media: add V4L2_CID_FLASH_DURATION
+      media: i2c: ov9282: add output enable register definitions
+      media: i2c: ov9282: add led_mode v4l2 control
+      media: i2c: ov9282: add strobe_duration v4l2 control
+      media: i2c: ov9282: add strobe_source v4l2 control
+
+ .../userspace-api/media/v4l/ext-ctrls-flash.rst    |  5 ++
+ drivers/leds/led-class-flash.c                     | 15 ++++
+ drivers/media/i2c/ov9282.c                         | 92 +++++++++++++++++++++-
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c          |  1 +
+ drivers/media/v4l2-core/v4l2-flash-led-class.c     | 13 +++
+ include/linux/led-class-flash.h                    | 18 ++++-
+ include/uapi/linux/v4l2-controls.h                 |  1 +
+ 7 files changed, 141 insertions(+), 4 deletions(-)
+---
+base-commit: ca91b9500108d4cf083a635c2e11c884d5dd20ea
+change-id: 20250303-ov9282-flash-strobe-ac6bd00c9de6
+prerequisite-change-id: 20250225-b4-ov9282-gain-ef1cdaba5bfd:v1
+prerequisite-patch-id: 86f2582378ff7095ab65ce4bb25a143eb639e840
+prerequisite-patch-id: b06eb6ec697aaf0b3155b4b2370f171d0d304ae2
+prerequisite-patch-id: b123047d71bfb9b93f743bbdd6893d5a98495801
+
+Best regards,
+-- 
+Richard Leitner <richard.leitner@linux.dev>
 
 
 
