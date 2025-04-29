@@ -1,266 +1,76 @@
-Return-Path: <linux-media+bounces-31341-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31342-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C86A4AA1B7F
-	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 21:49:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AF445AA1BD6
+	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 22:10:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B7751986A40
-	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 19:49:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7DBE11B68382
+	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 20:10:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6407B25F79E;
-	Tue, 29 Apr 2025 19:49:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5439D262FD9;
+	Tue, 29 Apr 2025 20:10:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="13u6SNBJ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cl9Z6yTV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3F98208D0
-	for <linux-media@vger.kernel.org>; Tue, 29 Apr 2025 19:49:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B734A25F998
+	for <linux-media@vger.kernel.org>; Tue, 29 Apr 2025 20:10:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745956164; cv=none; b=VW1/rGFjdBYSfvW3avjUSlrymK/IHoMrQaEymwYDcb6bZjVBxM3KDAfkrdBkuEWrA/oIsfQdMnilwoTs9WIenIIljIyU1IQ2rOIvEpTwdN1/a/2NfhXX+cHyaSyfq5hauIhWkA2p9xImG/13bykF9+QY/08mbszwZlKSbjvJS6I=
+	t=1745957417; cv=none; b=dOtbkFdIF0sOreGahP0xeYSDzjRpvDJHr+4/YePV0rwGBOSxr5FmFatJGLohuWczqtLxPyxXSPW1E7FdDhqdUiaXPvTGLp5RyxjhsXDJT0o2CMEjieH1rt/5EYMadieFVIwAwxV/NkSzSZxnN6oKmRXjbC7uBcsqjiIWST3l6QY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745956164; c=relaxed/simple;
-	bh=2EHDMWqXIotZFZATkaTcYHUnyAW55GV0o6mUZkjGoUY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=t+5Di80MDKMPCjRU3FM0eMaU3+xP6uWB14ou99PHLZi8/W0vHNsBMm/Zeow6NS5qHP5yw+rfD2WtHRJ5w+CdvRd0rVNtnbOkt1jPd1Jo7gLYLmSxiqe+kDJp5KFAMADv/RyCxvg4aoHv4hTCS98vjTHv6mbm8Cu3/jnBDkQWIX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=13u6SNBJ; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-43d5f10e1aaso66235e9.0
-        for <linux-media@vger.kernel.org>; Tue, 29 Apr 2025 12:49:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1745956161; x=1746560961; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TzKOWzU43LrPmkFzN5+2z6l0zJFMgpGF/vX9S5W3V2I=;
-        b=13u6SNBJPmtIV3wLM89mzGyIX19AL/6LdxBDLfYD6atoMi5uHc9nQfEr5iw9HY7Slw
-         VJI/wdc3HfVdMgn0wnjTX0CRD37LnDtfHCCJ2SZTKdw7QyV6NPHJ/CP2ZMPK+pXfurFr
-         5NDYD9OYO25q7KqbOKt3Pucouiocfy4IBOlPqtHatXtEuwZ+jp+v730tXplr0q028NY/
-         tvJM9PZNmXZiT7mLmg2i4sGFA6WZAU6K2CqAr1htIl4i+73z0O68PNKNOOYKvdEH4RQU
-         ZIiVraXt/uipvHBgnjZLxrRYaImFbf7lTm8yP/rUu5goXVPD0wnbZ302eRKVl/vlzehs
-         ytSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745956161; x=1746560961;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=TzKOWzU43LrPmkFzN5+2z6l0zJFMgpGF/vX9S5W3V2I=;
-        b=C9Y+FLjQYhM2l/ODcTkEiIhQq+H7bHfhhtrpuaqSTVS1hFVnhcWCoGhF50VshDvYM4
-         cZx74kw+fW09oH9gFfhbBQMVQadCYMmzQT2ucg20tNESwcUWvP2FgCQ1be5d5w5UH4hG
-         KbwAsOsusv3iLMlYPIFOop9PzkOJnx9+LOj/WKNCz5zaIHdk1GrbGpbT3YjTOErKaBsF
-         WXcI/N8YySGEWGtmeni6w110sTQe4Ue9iCoD4giKDMF7NwJWl229gFbdWQByf2zVmSOq
-         vlz8J1gQWMVWWC69mr3gaF8juSB8uQlzP2orLS+lLOr94LwDW8w32SQhzvSKWem+SbMB
-         IkYA==
-X-Forwarded-Encrypted: i=1; AJvYcCXHX5zdj3Q9l9HvO5XpmP2PuFXCi/l04F9/7F+ULgpSa5sL9in3bu1qWJFh+IlSDOHPXxeT1cHfdwU6fw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxa8qtEhZLYMf8igBBUNoJA9B6bVbFrHBJoA8jHXBcdRSHj2lMM
-	VAMd/zMLVjt8Ixkbw8oxdDt1X+4u3Q2LvgDlfN6EpTzh44WXyU2sZEdNf+IzHV0BUADbskcH1+b
-	IxVu9jUDS6hVCsKyBQbgXHPDKN3k2V6rgRglLnTvAMT7enodETlxZ
-X-Gm-Gg: ASbGncutfwFY2HzZPSubJLUCT4ORtK/IU4J3crnwCbbS0VSBUMNfeGdMoqUeM4JuhGt
-	CEU2SK6h/MLwqOsqoZmGbpcXoMkGDTr1drW7UaE+3EQczb/8Gx5XT/1Sv3uF+liYGqkRRl7e+ol
-	gs8mZ1WPdoyKvh/cTaQzsRFBpVIaDx+vKlhWEnUP01U2bidqNb4g==
-X-Google-Smtp-Source: AGHT+IHWvQ/UxjzUUwRECNcfgu+uE4CxuQo4Yg/huZ0f0f8fGXRQAw3hQFkIdxjr0XHLMAHxPwRY62fHbX9JtKGOg54=
-X-Received: by 2002:a05:600c:63cb:b0:43d:5b3a:18cc with SMTP id
- 5b1f17b1804b1-441b200a129mr152725e9.2.1745956161141; Tue, 29 Apr 2025
- 12:49:21 -0700 (PDT)
+	s=arc-20240116; t=1745957417; c=relaxed/simple;
+	bh=51j9wMphOPCIwqEuH0hMrLf4UQuo37NPpSzxZCZX6AY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f4ocDRfc48RP1kPss3/67i7V6ouOpSwRZ121Jsibv/9vwOwT8gwoMDqNhpBK5pSLunqRR7rLJVVP1NphimOhfLY0+WMAqdmIeiFAQ87c2Y7qzeG1A1Ocp8IkvOvjsNqzrK+wl8L838lrnW8Cly1c4Uh9cGhWd1SIJI8iVwb7r2c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cl9Z6yTV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5BCEDC4CEE3;
+	Tue, 29 Apr 2025 20:10:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745957417;
+	bh=51j9wMphOPCIwqEuH0hMrLf4UQuo37NPpSzxZCZX6AY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=cl9Z6yTVPua7RElJM46EmPO5DfX1mGnmo8+rE78IpOQjIzGz3PjFFre/o5OF2LqtS
+	 1UV7swVExlOnxqWEX9oWXC6DnEILcyKJ4cB5QKG+637m+8aFJQSGwFdL7IVEUrBbSj
+	 M4Hd9KChIYnmAn1GFfHURXz4v2skb5f0f1aAH0OC/+5ce1fNu15fw5FKTZzo7DZn1E
+	 d/J7wUcX0k6XPnbuxR4FhECE6jT6AeLqO5CqrlQrfiG6y4SFZDtsQPezN7SVyUeVLM
+	 sOpN52YqNfG/CfNTjZyQVpn6tMlgt0ZQE+2viS889KtcFSfFsIBZIcVyxldtaRUAQm
+	 GkCrhjrLTPkNw==
+From: bod@kernel.org
+To: linux-media@vger.kernel.org
+Cc: Bryan O'Donoghue <bod@kernel.org>
+Subject: [GIT PULL FOR 6.16 Iris updates] Please pull platform-qcom-media-for-6.16-v2
+Date: Tue, 29 Apr 2025 21:10:10 +0100
+Message-ID: <20250429201013.146203-1-bod@kernel.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250417180943.1559755-1-tjmercier@google.com>
- <a4f72149-70a0-4bbe-bdcc-70384c152f83@amd.com> <CABdmKX2-innZC65Fut6wc2MFUNwO2g6w=_iLv9EBkDn+6LQs5w@mail.gmail.com>
-In-Reply-To: <CABdmKX2-innZC65Fut6wc2MFUNwO2g6w=_iLv9EBkDn+6LQs5w@mail.gmail.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Tue, 29 Apr 2025 12:49:09 -0700
-X-Gm-Features: ATxdqUHw3CpDYUbqlneqXa6xD7zi73EGyL_HFvk88E824RQ0483hIO9wIhSzBDw
-Message-ID: <CABdmKX0pjGn85CLFgwauBop8i=WThnpUNkDfFhV3hMe19dDuyA@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: system_heap: No separate allocation for
- attachment sg_tables
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 22, 2025 at 9:17=E2=80=AFAM T.J. Mercier <tjmercier@google.com>=
- wrote:
->
-> On Tue, Apr 22, 2025 at 1:24=E2=80=AFAM Christian K=C3=B6nig
-> <christian.koenig@amd.com> wrote:
-> >
-> > Am 17.04.25 um 20:09 schrieb T.J. Mercier:
-> > > struct dma_heap_attachment is a separate allocation from the struct
-> > > sg_table it contains, but there is no reason for this. Let's use the
-> > > slab allocator just once instead of twice for dma_heap_attachment.
-> > >
-> > > Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> >
-> > I'm not *that* expert for this code, but looks totally reasonable to me=
-.
->
-> I noticed this while reviewing Maxime Ripard's recent carveout heap
-> patches, where I was confused about sg_free_table() until I realized
-> it doesn't free the underlying allocation. Then I started looking at
-> other heaps and found that most of them do it this way (including the
-> cma heap), and figured it was a nice cleanup here.
->
-> > Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
-> >
-> > Let me know if I should push that to drm-misc-next.
-> >
-> > Regards,
-> > Christian.
->
-> Thanks, yes please!
+From: Bryan O'Donoghue <bod@kernel.org>
 
-Hi Christian, could you push this please? I don't have write permissions.
+The following changes since commit 6bc4841c536e18715cf0719f9eb6c47a3d35a63d:
 
-Thanks,
-T.J.
+  media: iris: add qcs8300 platform data (2025-04-27 23:27:03 +0100)
 
->
->
->
-> > > ---
-> > >  drivers/dma-buf/heaps/system_heap.c | 43 ++++++++++++---------------=
---
-> > >  1 file changed, 17 insertions(+), 26 deletions(-)
-> > >
-> > > diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/he=
-aps/system_heap.c
-> > > index 26d5dc89ea16..bee10c400cf0 100644
-> > > --- a/drivers/dma-buf/heaps/system_heap.c
-> > > +++ b/drivers/dma-buf/heaps/system_heap.c
-> > > @@ -35,7 +35,7 @@ struct system_heap_buffer {
-> > >
-> > >  struct dma_heap_attachment {
-> > >       struct device *dev;
-> > > -     struct sg_table *table;
-> > > +     struct sg_table table;
-> > >       struct list_head list;
-> > >       bool mapped;
-> > >  };
-> > > @@ -54,29 +54,22 @@ static gfp_t order_flags[] =3D {HIGH_ORDER_GFP, H=
-IGH_ORDER_GFP, LOW_ORDER_GFP};
-> > >  static const unsigned int orders[] =3D {8, 4, 0};
-> > >  #define NUM_ORDERS ARRAY_SIZE(orders)
-> > >
-> > > -static struct sg_table *dup_sg_table(struct sg_table *table)
-> > > +static int dup_sg_table(struct sg_table *from, struct sg_table *to)
-> > >  {
-> > > -     struct sg_table *new_table;
-> > > -     int ret, i;
-> > >       struct scatterlist *sg, *new_sg;
-> > > +     int ret, i;
-> > >
-> > > -     new_table =3D kzalloc(sizeof(*new_table), GFP_KERNEL);
-> > > -     if (!new_table)
-> > > -             return ERR_PTR(-ENOMEM);
-> > > -
-> > > -     ret =3D sg_alloc_table(new_table, table->orig_nents, GFP_KERNEL=
-);
-> > > -     if (ret) {
-> > > -             kfree(new_table);
-> > > -             return ERR_PTR(-ENOMEM);
-> > > -     }
-> > > +     ret =3D sg_alloc_table(to, from->orig_nents, GFP_KERNEL);
-> > > +     if (ret)
-> > > +             return ret;
-> > >
-> > > -     new_sg =3D new_table->sgl;
-> > > -     for_each_sgtable_sg(table, sg, i) {
-> > > +     new_sg =3D to->sgl;
-> > > +     for_each_sgtable_sg(from, sg, i) {
-> > >               sg_set_page(new_sg, sg_page(sg), sg->length, sg->offset=
-);
-> > >               new_sg =3D sg_next(new_sg);
-> > >       }
-> > >
-> > > -     return new_table;
-> > > +     return 0;
-> > >  }
-> > >
-> > >  static int system_heap_attach(struct dma_buf *dmabuf,
-> > > @@ -84,19 +77,18 @@ static int system_heap_attach(struct dma_buf *dma=
-buf,
-> > >  {
-> > >       struct system_heap_buffer *buffer =3D dmabuf->priv;
-> > >       struct dma_heap_attachment *a;
-> > > -     struct sg_table *table;
-> > > +     int ret;
-> > >
-> > >       a =3D kzalloc(sizeof(*a), GFP_KERNEL);
-> > >       if (!a)
-> > >               return -ENOMEM;
-> > >
-> > > -     table =3D dup_sg_table(&buffer->sg_table);
-> > > -     if (IS_ERR(table)) {
-> > > +     ret =3D dup_sg_table(&buffer->sg_table, &a->table);
-> > > +     if (ret) {
-> > >               kfree(a);
-> > > -             return -ENOMEM;
-> > > +             return ret;
-> > >       }
-> > >
-> > > -     a->table =3D table;
-> > >       a->dev =3D attachment->dev;
-> > >       INIT_LIST_HEAD(&a->list);
-> > >       a->mapped =3D false;
-> > > @@ -120,8 +112,7 @@ static void system_heap_detach(struct dma_buf *dm=
-abuf,
-> > >       list_del(&a->list);
-> > >       mutex_unlock(&buffer->lock);
-> > >
-> > > -     sg_free_table(a->table);
-> > > -     kfree(a->table);
-> > > +     sg_free_table(&a->table);
-> > >       kfree(a);
-> > >  }
-> > >
-> > > @@ -129,7 +120,7 @@ static struct sg_table *system_heap_map_dma_buf(s=
-truct dma_buf_attachment *attac
-> > >                                               enum dma_data_direction=
- direction)
-> > >  {
-> > >       struct dma_heap_attachment *a =3D attachment->priv;
-> > > -     struct sg_table *table =3D a->table;
-> > > +     struct sg_table *table =3D &a->table;
-> > >       int ret;
-> > >
-> > >       ret =3D dma_map_sgtable(attachment->dev, table, direction, 0);
-> > > @@ -164,7 +155,7 @@ static int system_heap_dma_buf_begin_cpu_access(s=
-truct dma_buf *dmabuf,
-> > >       list_for_each_entry(a, &buffer->attachments, list) {
-> > >               if (!a->mapped)
-> > >                       continue;
-> > > -             dma_sync_sgtable_for_cpu(a->dev, a->table, direction);
-> > > +             dma_sync_sgtable_for_cpu(a->dev, &a->table, direction);
-> > >       }
-> > >       mutex_unlock(&buffer->lock);
-> > >
-> > > @@ -185,7 +176,7 @@ static int system_heap_dma_buf_end_cpu_access(str=
-uct dma_buf *dmabuf,
-> > >       list_for_each_entry(a, &buffer->attachments, list) {
-> > >               if (!a->mapped)
-> > >                       continue;
-> > > -             dma_sync_sgtable_for_device(a->dev, a->table, direction=
-);
-> > > +             dma_sync_sgtable_for_device(a->dev, &a->table, directio=
-n);
-> > >       }
-> > >       mutex_unlock(&buffer->lock);
-> > >
-> > >
-> > > base-commit: 8ffd015db85fea3e15a77027fda6c02ced4d2444
-> >
+are available in the Git repository at:
+
+  https://gitlab.freedesktop.org/linux-media/users/bodonoghue.git tags/platform-qcom-media-for-6.16-v2
+
+for you to fetch changes up to 6bc4841c536e18715cf0719f9eb6c47a3d35a63d:
+
+  media: iris: add qcs8300 platform data (2025-04-27 23:27:03 +0100)
+
+----------------------------------------------------------------
+Add in QCS8300 and SM8650 Iris platform enablement
+
+----------------------------------------------------------------
 
