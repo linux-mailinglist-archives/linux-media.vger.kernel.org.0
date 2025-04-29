@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-31346-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31348-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EDFFAA3C29
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 01:29:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C55BAA3C2E
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 01:29:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B4B991889A72
-	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 23:29:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 54C8C3B3DD2
+	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 23:29:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 198CD2DAF98;
-	Tue, 29 Apr 2025 23:29:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCC6D2DCB52;
+	Tue, 29 Apr 2025 23:29:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Rr/a03nl"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IPg6exgw"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E5D1270546;
-	Tue, 29 Apr 2025 23:29:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B40E2DCB42;
+	Tue, 29 Apr 2025 23:29:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745969356; cv=none; b=quOrONtN3RDpU0tupxAcfv4lF77H8w8ZfIuCVQLoZdeOcmNGb8xS4y4wi2SP6i2VHuBvav6jQhpA9vSz9pTs0nF8sAYKrJuYApzdyZyLNl4s8tcLeXg2oD+3sLFB6HAyeNdxW/IMJO7ZmWM25IRXOE7Cu57yA0B+wk15EPUTShU=
+	t=1745969360; cv=none; b=Ze1UoYK9vLyTIPZuk24ByOHtN7SmHZefDH//9jCElUX5+a5Z/3w6fKT7cYct61NwsYRbD5rEeCm153Q2CmgPHaKNbGIXmLDvziR1ZSQRODvR3n1xnIoWrvpFG7vJNCtIndo1cELXkLeO8qsxtUDutb1YobMcxjqkdlzROjvVAkQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745969356; c=relaxed/simple;
-	bh=cIp/o7zOLRKOnvuCc3bIgInB4teOlFigNACPhTxR5AQ=;
+	s=arc-20240116; t=1745969360; c=relaxed/simple;
+	bh=Ubbxx9GRRvc9M5rWBNuyZt4BJC2EZzHPJGyWZKI0m7M=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gXLfsiNw/+itOt11HsHA1nHfBHPyCjCwNadT/GqwkBG0IopuoBVhyq/VgIYoKkdzhjIWOKp4upY116wDmaKq84NaGXRNln39+66OJQeqiPMdhvmyzNd7pfOHuQd0AXz076ufWLHf4VYN6WkkNRk42ogArl3e2BCaP1Nq8HpJm6Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Rr/a03nl; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=T7JcWjH9GFtUMWZINDjBbnjU9xvq7PPGUEz/JOmQTRrQYQv/eCt6KbKtSo4FxLeGIzC2iH4Y8oiCPll0kv+V/MCUBSNHQGXjreH+Km2QaHjXV43ar1tf89lm56XC5vxNB0AUxMj/aMAgRR9zUySHPZ1WkTDt7yxVjAeVWersU8U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=IPg6exgw; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C35BE725;
-	Wed, 30 Apr 2025 01:29:06 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2A925836;
+	Wed, 30 Apr 2025 01:29:08 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1745969347;
-	bh=cIp/o7zOLRKOnvuCc3bIgInB4teOlFigNACPhTxR5AQ=;
+	s=mail; t=1745969348;
+	bh=Ubbxx9GRRvc9M5rWBNuyZt4BJC2EZzHPJGyWZKI0m7M=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Rr/a03nlIny5V43+hNSh1ImF/XhE6y5DyCe5D5yz48Ydau1sWBcXbixgbrg0Krgno
-	 clwve3gUzqA3fsWCDxyu9gYuLLCezQvgdKkiy9mF5/Rgo0YpyrjZkQMO5K9VvmXV4m
-	 hHJCu22P6d7iRXyySVrid5I0ITHOEUhG0onzrqAE=
+	b=IPg6exgwByhyfMbQqIgMZDscVvt3pdSMIAZ1nOgnglUQcY55oNQXYATWJqkLrIEYE
+	 4ojD3oZc82vf3Qpx/Vm9qSufhkH599A2wB63g9eL8bgIclmmDKE52vgy3NyxTJNCEm
+	 gBcLb4IkYYvBh7plWH+jRmfqYNC1QYLi9cbpmSIE=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org,
@@ -48,9 +48,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v2 1/9] media: renesas: vsp1: Implement pixel format enumeration
-Date: Wed, 30 Apr 2025 02:28:56 +0300
-Message-ID: <20250429232904.26413-2-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [PATCH v2 2/9] media: renesas: vsp1: Make HSI and HST modules optional
+Date: Wed, 30 Apr 2025 02:28:57 +0300
+Message-ID: <20250429232904.26413-3-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250429232904.26413-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20250429232904.26413-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -62,239 +62,155 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The VSP1 driver is missing the ability to enumerate pixel formats on its
-video nodes, which is supposed to be supported according to the V4L2
-API. Implement the enumeration to fix this issue.
-
-As the device is media controller-centric, also implement the ability to
-filter pixel formats by media bus code, and report the missing
-V4L2_CAP_IO_MC capability.
+Not all VSP instance incorporate the HSI and HST modules. Add a
+VSP1_HAS_HSIT feature flag, and create the modules only on VSP instances
+that implement them.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 ---
- .../media/platform/renesas/vsp1/vsp1_pipe.c   | 103 ++++++++++++++----
- .../media/platform/renesas/vsp1/vsp1_pipe.h   |   3 +
- .../media/platform/renesas/vsp1/vsp1_video.c  |  24 +++-
- 3 files changed, 105 insertions(+), 25 deletions(-)
+ drivers/media/platform/renesas/vsp1/vsp1.h    |  1 +
+ .../media/platform/renesas/vsp1/vsp1_drv.c    | 59 ++++++++++---------
+ 2 files changed, 33 insertions(+), 27 deletions(-)
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-index bb0739f684f3..16a78a00c6c9 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-@@ -138,14 +138,6 @@ static const struct vsp1_format_info vsp1_video_formats[] = {
- 	  VI6_FMT_ARGB_8888, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
- 	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
- 	  1, { 32, 0, 0 }, false, false, 1, 1, false },
--	{ V4L2_PIX_FMT_HSV24, MEDIA_BUS_FMT_AHSV8888_1X32,
--	  VI6_FMT_RGB_888, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
--	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
--	  1, { 24, 0, 0 }, false, false, 1, 1, false },
--	{ V4L2_PIX_FMT_HSV32, MEDIA_BUS_FMT_AHSV8888_1X32,
--	  VI6_FMT_ARGB_8888, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
--	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
--	  1, { 32, 0, 0 }, false, false, 1, 1, false },
- 	{ V4L2_PIX_FMT_RGBX1010102, MEDIA_BUS_FMT_ARGB8888_1X32,
- 	  VI6_FMT_RGB10_RGB10A2_A2RGB10,
- 	  VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS,
-@@ -162,10 +154,6 @@ static const struct vsp1_format_info vsp1_video_formats[] = {
- 	  VI6_FMT_YUYV_422, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
- 	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
- 	  1, { 16, 0, 0 }, false, false, 2, 1, false },
--	{ V4L2_PIX_FMT_VYUY, MEDIA_BUS_FMT_AYUV8_1X32,
--	  VI6_FMT_YUYV_422, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
--	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
--	  1, { 16, 0, 0 }, false, true, 2, 1, false },
- 	{ V4L2_PIX_FMT_YUYV, MEDIA_BUS_FMT_AYUV8_1X32,
- 	  VI6_FMT_YUYV_422, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
- 	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-@@ -222,6 +210,21 @@ static const struct vsp1_format_info vsp1_video_formats[] = {
- 	  1, { 32, 0, 0 }, false, false, 2, 1, false },
- };
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1.h b/drivers/media/platform/renesas/vsp1/vsp1.h
+index 2f6f0c6ae555..44cb991f094f 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1.h
++++ b/drivers/media/platform/renesas/vsp1/vsp1.h
+@@ -56,6 +56,7 @@ struct vsp1_uif;
+ #define VSP1_HAS_BRS		BIT(9)
+ #define VSP1_HAS_EXT_DL		BIT(10)
+ #define VSP1_HAS_NON_ZERO_LBA	BIT(11)
++#define VSP1_HAS_HSIT		BIT(12)
  
-+static const struct vsp1_format_info vsp1_video_gen2_formats[] = {
-+	{ V4L2_PIX_FMT_VYUY, MEDIA_BUS_FMT_AYUV8_1X32,
-+	  VI6_FMT_YUYV_422, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 16, 0, 0 }, false, true, 2, 1, false },
-+	{ V4L2_PIX_FMT_HSV24, MEDIA_BUS_FMT_AHSV8888_1X32,
-+	  VI6_FMT_RGB_888, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 24, 0, 0 }, false, false, 1, 1, false },
-+	{ V4L2_PIX_FMT_HSV32, MEDIA_BUS_FMT_AHSV8888_1X32,
-+	  VI6_FMT_ARGB_8888, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
-+	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-+	  1, { 32, 0, 0 }, false, false, 1, 1, false },
-+};
-+
- /**
-  * vsp1_get_format_info - Retrieve format information for a 4CC
-  * @vsp1: the VSP1 device
-@@ -235,16 +238,6 @@ const struct vsp1_format_info *vsp1_get_format_info(struct vsp1_device *vsp1,
- {
- 	unsigned int i;
+ struct vsp1_device_info {
+ 	u32 version;
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drv.c b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+index 9fc6bf624a52..4697bf790954 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_drv.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_drv.c
+@@ -302,22 +302,6 @@ static int vsp1_create_entities(struct vsp1_device *vsp1)
+ 		list_add_tail(&vsp1->clu->entity.list_dev, &vsp1->entities);
+ 	}
  
--	/* Special case, the VYUY and HSV formats are supported on Gen2 only. */
--	if (vsp1->info->gen != 2) {
--		switch (fourcc) {
--		case V4L2_PIX_FMT_VYUY:
--		case V4L2_PIX_FMT_HSV24:
--		case V4L2_PIX_FMT_HSV32:
--			return NULL;
--		}
+-	vsp1->hsi = vsp1_hsit_create(vsp1, true);
+-	if (IS_ERR(vsp1->hsi)) {
+-		ret = PTR_ERR(vsp1->hsi);
+-		goto done;
 -	}
 -
- 	for (i = 0; i < ARRAY_SIZE(vsp1_video_formats); ++i) {
- 		const struct vsp1_format_info *info = &vsp1_video_formats[i];
- 
-@@ -252,6 +245,72 @@ const struct vsp1_format_info *vsp1_get_format_info(struct vsp1_device *vsp1,
- 			return info;
+-	list_add_tail(&vsp1->hsi->entity.list_dev, &vsp1->entities);
+-
+-	vsp1->hst = vsp1_hsit_create(vsp1, false);
+-	if (IS_ERR(vsp1->hst)) {
+-		ret = PTR_ERR(vsp1->hst);
+-		goto done;
+-	}
+-
+-	list_add_tail(&vsp1->hst->entity.list_dev, &vsp1->entities);
+-
+ 	if (vsp1_feature(vsp1, VSP1_HAS_HGO) && vsp1->info->uapi) {
+ 		vsp1->hgo = vsp1_hgo_create(vsp1);
+ 		if (IS_ERR(vsp1->hgo)) {
+@@ -340,6 +324,24 @@ static int vsp1_create_entities(struct vsp1_device *vsp1)
+ 			      &vsp1->entities);
  	}
  
-+	if (vsp1->info->gen == 2) {
-+		for (i = 0; i < ARRAY_SIZE(vsp1_video_gen2_formats); ++i) {
-+			const struct vsp1_format_info *info =
-+				&vsp1_video_gen2_formats[i];
-+
-+			if (info->fourcc == fourcc)
-+				return info;
-+		}
-+	}
-+
-+	return NULL;
-+}
-+
-+/**
-+ * vsp1_get_format_info_by_index - Enumerate format information
-+ * @vsp1: the VSP1 device
-+ * @index: the format index
-+ * @code: media bus code to limit enumeration
-+ *
-+ * Return a pointer to the format information structure corresponding to the
-+ * given index, or NULL if the index exceeds the supported formats list. If the
-+ * @code parameter is not zero, only formats compatible with the media bus code
-+ * will be enumerated.
-+ */
-+const struct vsp1_format_info *
-+vsp1_get_format_info_by_index(struct vsp1_device *vsp1, unsigned int index,
-+			      u32 code)
-+{
-+	unsigned int i;
-+
-+	if (!code) {
-+		if (index < ARRAY_SIZE(vsp1_video_formats))
-+			return &vsp1_video_formats[index];
-+
-+		if (vsp1->info->gen == 2) {
-+			index -= ARRAY_SIZE(vsp1_video_formats);
-+			if (index < ARRAY_SIZE(vsp1_video_gen2_formats))
-+				return &vsp1_video_gen2_formats[index];
++	if (vsp1_feature(vsp1, VSP1_HAS_HSIT)) {
++		vsp1->hsi = vsp1_hsit_create(vsp1, true);
++		if (IS_ERR(vsp1->hsi)) {
++			ret = PTR_ERR(vsp1->hsi);
++			goto done;
 +		}
 +
-+		return NULL;
-+	}
++		list_add_tail(&vsp1->hsi->entity.list_dev, &vsp1->entities);
 +
-+	for (i = 0; i < ARRAY_SIZE(vsp1_video_formats); ++i) {
-+		const struct vsp1_format_info *info = &vsp1_video_formats[i];
-+
-+		if (info->mbus == code) {
-+			if (!index)
-+				return info;
-+			index--;
++		vsp1->hst = vsp1_hsit_create(vsp1, false);
++		if (IS_ERR(vsp1->hst)) {
++			ret = PTR_ERR(vsp1->hst);
++			goto done;
 +		}
++
++		list_add_tail(&vsp1->hst->entity.list_dev, &vsp1->entities);
 +	}
 +
-+	if (vsp1->info->gen == 2) {
-+		for (i = 0; i < ARRAY_SIZE(vsp1_video_gen2_formats); ++i) {
-+			const struct vsp1_format_info *info =
-+				&vsp1_video_gen2_formats[i];
-+
-+			if (info->mbus == code) {
-+				if (!index)
-+					return info;
-+				index--;
-+			}
-+		}
-+	}
-+
- 	return NULL;
- }
- 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-index 1ba7bdbad5a8..1d3d033af209 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-@@ -179,5 +179,8 @@ void vsp1_pipeline_calculate_partition(struct vsp1_pipeline *pipe,
- 
- const struct vsp1_format_info *vsp1_get_format_info(struct vsp1_device *vsp1,
- 						    u32 fourcc);
-+const struct vsp1_format_info *
-+vsp1_get_format_info_by_index(struct vsp1_device *vsp1, unsigned int index,
-+			      u32 code);
- 
- #endif /* __VSP1_PIPE_H__ */
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-index 03f4efd6b82b..da578993f472 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-@@ -888,7 +888,7 @@ vsp1_video_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
- 	struct vsp1_video *video = to_vsp1_video(vfh->vdev);
- 
- 	cap->capabilities = V4L2_CAP_DEVICE_CAPS | V4L2_CAP_STREAMING
--			  | V4L2_CAP_VIDEO_CAPTURE_MPLANE
-+			  | V4L2_CAP_IO_MC | V4L2_CAP_VIDEO_CAPTURE_MPLANE
- 			  | V4L2_CAP_VIDEO_OUTPUT_MPLANE;
- 
- 
-@@ -898,6 +898,22 @@ vsp1_video_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
- 	return 0;
- }
- 
-+static int vsp1_video_enum_format(struct file *file, void *fh,
-+				  struct v4l2_fmtdesc *f)
-+{
-+	struct v4l2_fh *vfh = file->private_data;
-+	struct vsp1_video *video = to_vsp1_video(vfh->vdev);
-+	const struct vsp1_format_info *info;
-+
-+	info = vsp1_get_format_info_by_index(video->vsp1, f->index, f->mbus_code);
-+	if (!info)
-+		return -EINVAL;
-+
-+	f->pixelformat = info->fourcc;
-+
-+	return 0;
-+}
-+
- static int
- vsp1_video_get_format(struct file *file, void *fh, struct v4l2_format *format)
- {
-@@ -1013,6 +1029,8 @@ vsp1_video_streamon(struct file *file, void *fh, enum v4l2_buf_type type)
- 
- static const struct v4l2_ioctl_ops vsp1_video_ioctl_ops = {
- 	.vidioc_querycap		= vsp1_video_querycap,
-+	.vidioc_enum_fmt_vid_cap	= vsp1_video_enum_format,
-+	.vidioc_enum_fmt_vid_out	= vsp1_video_enum_format,
- 	.vidioc_g_fmt_vid_cap_mplane	= vsp1_video_get_format,
- 	.vidioc_s_fmt_vid_cap_mplane	= vsp1_video_set_format,
- 	.vidioc_try_fmt_vid_cap_mplane	= vsp1_video_try_format,
-@@ -1207,14 +1225,14 @@ struct vsp1_video *vsp1_video_create(struct vsp1_device *vsp1,
- 		video->pad.flags = MEDIA_PAD_FL_SOURCE;
- 		video->video.vfl_dir = VFL_DIR_TX;
- 		video->video.device_caps = V4L2_CAP_VIDEO_OUTPUT_MPLANE |
--					   V4L2_CAP_STREAMING;
-+					   V4L2_CAP_STREAMING | V4L2_CAP_IO_MC;
- 	} else {
- 		direction = "output";
- 		video->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
- 		video->pad.flags = MEDIA_PAD_FL_SINK;
- 		video->video.vfl_dir = VFL_DIR_RX;
- 		video->video.device_caps = V4L2_CAP_VIDEO_CAPTURE_MPLANE |
--					   V4L2_CAP_STREAMING;
-+					   V4L2_CAP_STREAMING | V4L2_CAP_IO_MC;
- 	}
- 
- 	mutex_init(&video->lock);
+ 	/*
+ 	 * The LIFs are only supported when used in conjunction with the DU, in
+ 	 * which case the userspace API is disabled. If the userspace API is
+@@ -683,8 +685,8 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
+ 		.model = "VSP1-S",
+ 		.gen = 2,
+ 		.features = VSP1_HAS_BRU | VSP1_HAS_CLU | VSP1_HAS_HGO
+-			  | VSP1_HAS_HGT | VSP1_HAS_LUT | VSP1_HAS_SRU
+-			  | VSP1_HAS_WPF_VFLIP,
++			  | VSP1_HAS_HGT | VSP1_HAS_HSIT | VSP1_HAS_LUT
++			  | VSP1_HAS_SRU | VSP1_HAS_WPF_VFLIP,
+ 		.rpf_count = 5,
+ 		.uds_count = 3,
+ 		.wpf_count = 4,
+@@ -694,7 +696,8 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
+ 		.version = VI6_IP_VERSION_MODEL_VSPR_H2,
+ 		.model = "VSP1-R",
+ 		.gen = 2,
+-		.features = VSP1_HAS_BRU | VSP1_HAS_SRU | VSP1_HAS_WPF_VFLIP,
++		.features = VSP1_HAS_BRU | VSP1_HAS_HSIT | VSP1_HAS_SRU
++			   | VSP1_HAS_WPF_VFLIP,
+ 		.rpf_count = 5,
+ 		.uds_count = 3,
+ 		.wpf_count = 4,
+@@ -704,7 +707,8 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
+ 		.version = VI6_IP_VERSION_MODEL_VSPD_GEN2,
+ 		.model = "VSP1-D",
+ 		.gen = 2,
+-		.features = VSP1_HAS_BRU | VSP1_HAS_HGO | VSP1_HAS_LUT,
++		.features = VSP1_HAS_BRU | VSP1_HAS_HGO | VSP1_HAS_HSIT
++			  | VSP1_HAS_LUT,
+ 		.lif_count = 1,
+ 		.rpf_count = 4,
+ 		.uds_count = 1,
+@@ -716,8 +720,8 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
+ 		.model = "VSP1-S",
+ 		.gen = 2,
+ 		.features = VSP1_HAS_BRU | VSP1_HAS_CLU | VSP1_HAS_HGO
+-			  | VSP1_HAS_HGT | VSP1_HAS_LUT | VSP1_HAS_SRU
+-			  | VSP1_HAS_WPF_VFLIP,
++			  | VSP1_HAS_HGT | VSP1_HAS_HSIT | VSP1_HAS_LUT
++			  | VSP1_HAS_SRU | VSP1_HAS_WPF_VFLIP,
+ 		.rpf_count = 5,
+ 		.uds_count = 1,
+ 		.wpf_count = 4,
+@@ -727,8 +731,8 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
+ 		.version = VI6_IP_VERSION_MODEL_VSPS_V2H,
+ 		.model = "VSP1V-S",
+ 		.gen = 2,
+-		.features = VSP1_HAS_BRU | VSP1_HAS_CLU | VSP1_HAS_LUT
+-			  | VSP1_HAS_SRU | VSP1_HAS_WPF_VFLIP,
++		.features = VSP1_HAS_BRU | VSP1_HAS_CLU | VSP1_HAS_HSIT
++			  | VSP1_HAS_LUT | VSP1_HAS_SRU | VSP1_HAS_WPF_VFLIP,
+ 		.rpf_count = 4,
+ 		.uds_count = 1,
+ 		.wpf_count = 4,
+@@ -738,7 +742,8 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
+ 		.version = VI6_IP_VERSION_MODEL_VSPD_V2H,
+ 		.model = "VSP1V-D",
+ 		.gen = 2,
+-		.features = VSP1_HAS_BRU | VSP1_HAS_CLU | VSP1_HAS_LUT,
++		.features = VSP1_HAS_BRU | VSP1_HAS_CLU | VSP1_HAS_HSIT
++			  | VSP1_HAS_LUT,
+ 		.lif_count = 1,
+ 		.rpf_count = 4,
+ 		.uds_count = 1,
+@@ -750,8 +755,8 @@ static const struct vsp1_device_info vsp1_device_infos[] = {
+ 		.model = "VSP2-I",
+ 		.gen = 3,
+ 		.features = VSP1_HAS_CLU | VSP1_HAS_HGO | VSP1_HAS_HGT
+-			  | VSP1_HAS_LUT | VSP1_HAS_SRU | VSP1_HAS_WPF_HFLIP
+-			  | VSP1_HAS_WPF_VFLIP,
++			  | VSP1_HAS_HSIT | VSP1_HAS_LUT | VSP1_HAS_SRU
++			  | VSP1_HAS_WPF_HFLIP | VSP1_HAS_WPF_VFLIP,
+ 		.rpf_count = 1,
+ 		.uds_count = 1,
+ 		.wpf_count = 1,
 -- 
 Regards,
 
