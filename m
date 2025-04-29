@@ -1,158 +1,244 @@
-Return-Path: <linux-media+bounces-31284-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31285-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB855AA07FB
-	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 12:05:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FE4DAA0806
+	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 12:06:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1B13117CB8C
-	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 10:05:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B433B460F55
+	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 10:06:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7169C2BE7BE;
-	Tue, 29 Apr 2025 10:04:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86A1B2BE7DA;
+	Tue, 29 Apr 2025 10:06:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="m7oh/GDk"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="ScUGTsBQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com [136.143.184.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C10F1FE478;
-	Tue, 29 Apr 2025 10:04:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745921093; cv=none; b=SS/246iZq3ppIKmj0QVYgVsRJjJ6iJNRYiCus1UlLPrql0iZk4CukiQoU+7Zh6vXPXVEVssU739DXLfUFDbY9uGbZDAj4hd/gZLp5QHtpOhSBqFeThtYAGw4YS41Kd9uPbpxroMtGCNeoaKMz8DQ86q+RCNpSMnerruopLA2fCs=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745921093; c=relaxed/simple;
-	bh=/KnQ/ehtHge0HHsf7CjOD6B6HH8yui5u1ZQOEk2B7gs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=aq/2rSAuVaoDKVYt49vD+DE88e/PwbfXVwRzuB/Ops0zZBY9NILdLwAY22T2PUFozDuzV20Nai/HVOcyNyGWDlzwmNY424NE/AAz0WOjhs5+bIhtKyZ/RwasMhv/Y+R+vcYFSZyxk0Hl1bBNJMBOcMPpBoovDaPhVS3XJeYzKNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=m7oh/GDk; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53T9x9HC023835;
-	Tue, 29 Apr 2025 10:04:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	lyczv+0W3QWPhe1ugrFU6SlpMrb5cNjiGlBjoSjAgIY=; b=m7oh/GDkjV/Vjlmj
-	nK3lnrCxfuWsSlCai2psenvSfxF55Q/y23i3I8oTLYYdK/lcNxfIlXeAMTJunT4w
-	8543xmodPOLrF9EiJzhi5T264Li/C5ObdOzWZ6q9OZLzjvkw0I9lgRYXgjVC0he0
-	WB+5kEPHZcvYtHmCtecXdlkrhR90zqtAVjzyT0zyP7d9lKNlrcG8IJ7Zu50cCv0a
-	r5trPJXfPFLJuMnoX2GK/vqTvbQ7adTlWt+kL3UjmyHPSztwJiNRO8/7zX3Y2/9R
-	RKLjSgEeibQvlnKNqOeLTL5gjHa04rzjHW74Mou1kPpyB0LtFHoRU+JMhyNDq/Yz
-	E2cTsw==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 468muqmarj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 29 Apr 2025 10:04:47 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53TA4kId015334
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 29 Apr 2025 10:04:46 GMT
-Received: from [10.50.27.172] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 29 Apr
- 2025 03:04:40 -0700
-Message-ID: <fb8845e4-c95d-33dc-96b4-8430464c4ba9@quicinc.com>
-Date: Tue, 29 Apr 2025 15:34:37 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A52E1FE478;
+	Tue, 29 Apr 2025 10:06:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.184.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745921165; cv=pass; b=SJrqCm3h90Btp395k64AbDx9FxSNu9XOOB21BIGQ9H8FNDVERfD5P+g327/GeM6jENU3b2jbPn2pYQ/LBUIqQcvfOPDW2bx3MUuTDRN94NuJpfJS06n1MBc5uEsQAydVrxbsPgicv8UNGaKOFZUvppGZrouD3auSbPivGkU81pM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745921165; c=relaxed/simple;
+	bh=xO1N4nuoRCCxFNHfoe4rs+JshgVbK6a3AQv8MPvyX7Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FyyVKkdITU9fdNZVuy6IMroVQ8U+yspoekir6TFWSg3LgRZqtqw+eR2ilKFStXHslr4J3PQH37Kj6wLveD1Wo0auqYw0TPq/8FF/xuPDQMbesDR9d3cRx6BYHjcfwVfI6XKmx0Rm4KsgEsHenuWb54PiZS6QsQfQ6DLrsVYYjW0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=ScUGTsBQ; arc=pass smtp.client-ip=136.143.184.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1745921137; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=jpSzhwxlzOAiAzYn1qgSNGg8hpGzpfBH9ZSCGDbaaQWaYBf+YTPl5HH5Y2t2me7v9d7Nqt9ShWyU/To8C5dpiQKL2aiNXBunoimO6cOc0f0dvRz6hN2jaAvgLenXRYp4rx0zkLJ8StgkMH3sI7h+Ow2hlEgQezjW5j4OGT9aIVM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1745921137; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=JxbCFy+YVAok7lkWS9hgSHArZDCzdlEOMBm9HS++e8M=; 
+	b=GKpj86eYoSeNFysHu2RMVKHTLtlZZzBLvMvKoBNr7LcpO+Z4Znm7AnG7AuZ9MdQ/qdj2qKDpK/fAs72EzucerpNxuxBl4dFmgoONR6L/FT/KtbHbAadNOUR9IX3AM8qy0kWUq0YhI+kJvAHyoCKKbHcuyuWTBB3vkzeCzRrUEvs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1745921137;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=JxbCFy+YVAok7lkWS9hgSHArZDCzdlEOMBm9HS++e8M=;
+	b=ScUGTsBQeOdzXPal+jTXkQH/TtCHyCJS3xVRpl0+uUm5bDvVOrABlUbBHKOKQNex
+	CpvEWt235HdE+Hb2sFR6N01jaBy52WClbaN3+ye+vb+cQLyL8dRzGH84JXN/SQnxi/3
+	gj/y5VEPmR225Abunl34QxehV4TCifdRWstIpdhI=
+Received: by mx.zohomail.com with SMTPS id 1745921136083931.6736324937333;
+	Tue, 29 Apr 2025 03:05:36 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-rockchip@lists.infradead.org,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Subject: Re: [PATCH v2 6/7] accel/rocket: Add job submission IOCTL
+Date: Tue, 29 Apr 2025 12:05:28 +0200
+Message-ID: <2365360.ElGaqSPkdT@workhorse>
+In-Reply-To: <20250225-6-10-rocket-v2-6-d4dbcfafc141@tomeuvizoso.net>
+References:
+ <20250225-6-10-rocket-v2-0-d4dbcfafc141@tomeuvizoso.net>
+ <20250225-6-10-rocket-v2-6-d4dbcfafc141@tomeuvizoso.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2 06/23] media: iris: Drop port check for session
- property response
-Content-Language: en-US
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Abhinav Kumar
-	<quic_abhinavk@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Stefan Schmidt <stefan.schmidt@linaro.org>,
-        Hans Verkuil
-	<hverkuil@xs4all.nl>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio
-	<konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>
-CC: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@oss.qualcomm.com>,
-        Neil Armstrong
-	<neil.armstrong@linaro.org>,
-        Nicolas Dufresne
-	<nicolas.dufresne@collabora.com>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <20250417-topic-sm8x50-iris-v10-v7-0-f020cb1d0e98@linaro.org>,
-        <20250424-qcs8300_iris-v5-0-f118f505c300@quicinc.com>,
-        <stable@vger.kernel.org>
-References: <20250428-qcom-iris-hevc-vp9-v2-0-3a6013ecb8a5@quicinc.com>
- <20250428-qcom-iris-hevc-vp9-v2-6-3a6013ecb8a5@quicinc.com>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <20250428-qcom-iris-hevc-vp9-v2-6-3a6013ecb8a5@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDI5MDA3NCBTYWx0ZWRfX+Let7w3OmpVx Qe9TGYw9SB7DZn1vhr8Pn8Cr4LtdBdG+DSkjR43BQTEQWQQTqwrnzVa1gsqesklajZ26RcKcOWe CS7HBbDilQ0R2uxUo3eJsEj6jCBxAi9m/G9eD6Cq5KjN+i+Ht0bG/a5w/jIFIv/ECOljATwkA7N
- GSBRjvl9pSrCN5lnzXRAeAjcjR1ID2MrS2tGiqDzKh+qmaI1KORqDuwtg7ht8m+IXrFOok4Cefv vKVHGQ/lG11CXaNKvbJxXyIaiR1c2QhRx257Z+FTO1vIy2mZj9WJ2HP3Hu032EuBvvDTxVguEhY rOL+dG9TRm89LGnLMDDSFasX8M2uVuweqIIOe9A4I/bNoh5SMNP/UJ73YZoxETDBlkkG2VPIqdW
- 7LQzuKsuhZ/AO40spzbA406UdO4BgMES7PvUV1rq7UHJrVjXxvWhvHIvlBcz5xXCVlPZ7QfA
-X-Proofpoint-GUID: DNncuDrjIzk8GtVRTPLw2RaBS6jYbfG4
-X-Proofpoint-ORIG-GUID: DNncuDrjIzk8GtVRTPLw2RaBS6jYbfG4
-X-Authority-Analysis: v=2.4 cv=M/5NKzws c=1 sm=1 tr=0 ts=6810a43f cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=WZtl5l5J05WpO7ha-Y8A:9
- a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-29_03,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- suspectscore=0 mlxscore=0 spamscore=0 malwarescore=0 mlxlogscore=865
- adultscore=0 bulkscore=0 phishscore=0 clxscore=1015 lowpriorityscore=0
- priorityscore=1501 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504290074
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-
-On 4/28/2025 2:58 PM, Dikshita Agarwal wrote:
-> Currently, port check enforces that session property response must
-> arrive only on the BITSTREAM port. However, firmware can send some
-> responses on other port as well.
+On Tuesday, 25 February 2025 08:55:52 Central European Summer Time Tomeu Vizoso wrote:
+> Using the DRM GPU scheduler infrastructure, with a scheduler for each
+> core.
 > 
-> Remove the strict port validation to correctly handle session property
-> responses from the firmware.
+> Userspace can decide for a series of tasks to be executed sequentially
+> in the same core, so SRAM locality can be taken advantage of.
 > 
-> Cc: stable@vger.kernel.org
-> Fixes: 3a19d7b9e08b ("media: iris: implement set properties to firmware during streamon")
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> The job submission code was initially based on Panfrost.
+> 
+> v2:
+> - Remove hardcoded number of cores
+> - Misc. style fixes (Jeffrey Hugo)
+> - Repack IOCTL struct (Jeffrey Hugo)
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 > ---
->  drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c | 3 ---
->  1 file changed, 3 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
-> index 0eb7549da606..5bb20ec0d67f 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_response.c
-> @@ -643,9 +643,6 @@ static int iris_hfi_gen2_handle_session_property(struct iris_inst *inst,
->  {
->  	struct iris_inst_hfi_gen2 *inst_hfi_gen2 = to_iris_inst_hfi_gen2(inst);
->  
-> -	if (pkt->port != HFI_PORT_BITSTREAM)
-> -		return 0;
-> -
->  	if (pkt->flags & HFI_FW_FLAGS_INFORMATION)
->  		return 0;
->  
+>  drivers/accel/rocket/Makefile        |   3 +-
+>  drivers/accel/rocket/rocket_core.c   |   6 +
+>  drivers/accel/rocket/rocket_core.h   |  14 +
+>  drivers/accel/rocket/rocket_device.c |   2 +
+>  drivers/accel/rocket/rocket_device.h |   2 +
+>  drivers/accel/rocket/rocket_drv.c    |  15 +
+>  drivers/accel/rocket/rocket_drv.h    |   4 +
+>  drivers/accel/rocket/rocket_job.c    | 710 +++++++++++++++++++++++++++++++++++
+>  drivers/accel/rocket/rocket_job.h    |  50 +++
+>  include/uapi/drm/rocket_accel.h      |  55 +++
+>  10 files changed, 860 insertions(+), 1 deletion(-)
+
+Hi Tomeu,
+
+some more power management things I've noticed here.
+
+>
+> [...]
+>
+> diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..25b31f28e932aaee86173b9a0962932c9c640c03
+> --- /dev/null
+> +++ b/drivers/accel/rocket/rocket_job.c
+>
+> [...]
+>
+> +static void
+> +rocket_reset(struct rocket_core *core, struct drm_sched_job *bad)
+> +{
+> +	bool cookie;
+> +
+> +	if (!atomic_read(&core->reset.pending))
+> +		return;
+> +
+> +	/*
+> +	 * Stop the scheduler.
+> +	 *
+> +	 * FIXME: We temporarily get out of the dma_fence_signalling section
+> +	 * because the cleanup path generate lockdep splats when taking locks
+> +	 * to release job resources. We should rework the code to follow this
+> +	 * pattern:
+> +	 *
+> +	 *	try_lock
+> +	 *	if (locked)
+> +	 *		release
+> +	 *	else
+> +	 *		schedule_work_to_release_later
+> +	 */
+> +	drm_sched_stop(&core->sched, bad);
+> +
+> +	cookie = dma_fence_begin_signalling();
+> +
+> +	if (bad)
+> +		drm_sched_increase_karma(bad);
+> +
+> +	/*
+> +	 * Mask job interrupts and synchronize to make sure we won't be
+> +	 * interrupted during our reset.
+> +	 */
+> +	rocket_write(core, REG_PC_INTERRUPT_MASK, 0x0);
+> +	synchronize_irq(core->irq);
+> +
+> +	/* Handle the remaining interrupts before we reset. */
+> +	rocket_job_handle_irq(core);
+> +
+> +	/*
+> +	 * Remaining interrupts have been handled, but we might still have
+> +	 * stuck jobs. Let's make sure the PM counters stay balanced by
+> +	 * manually calling pm_runtime_put_noidle() and
+> +	 * rocket_devfreq_record_idle() for each stuck job.
+> +	 * Let's also make sure the cycle counting register's refcnt is
+> +	 * kept balanced to prevent it from running forever
+> +	 */
+> +	spin_lock(&core->job_lock);
+> +	if (core->in_flight_job)
+> +		pm_runtime_put_noidle(core->dev);
+
+This particular line of code caused me issues when I was experimenting with the
+driver on RK3576. My current situation is that every job that gets submitted
+times out because of some IRQs never arriving, which is besides the point, but
+it did expose a power management bug here that I suspect may affect RK3588 as
+well. After like 3 timeouts, we reset again and hang in the interrupt mask write
+just a few lines above. This is because we somehow managed to get into a
+situation where this function is called with pclk disabled, and this manual
+balancing act may be part of it. Not doing the manual balancing at all here
+doesn't fix it, I had to explicitly wrap the reset function in
+pm_runtime_get_sync and pm_runtime_put_noidle to avoid having this function
+execute with disabled clocks. That seems like the "wrong solution" though
+because it means something already powered off our hardware too eagerly before
+we got the reset done.
+
+My gut instinct tells me that there's a bug here with multiple timed out jobs
+being in flight, but I'm not 100% on it. Maybe you'll be able to reproduce it
+on an RK3588 by artificially forcing all your jobs to time out with some very
+low timeout value or by masking the interrupts.
+
+> +
+> +	core->in_flight_job = NULL;
+> +	spin_unlock(&core->job_lock);
+> +
+> +	/* Proceed with reset now. */
+> +	pm_runtime_force_suspend(core->dev);
+> +	pm_runtime_force_resume(core->dev);
+
+Do we need to guarantee some sort of exclusivity here so that nothing tries to
+concurrently use the device while we're forcing it off and back on again? I'm
+unfamiliar with the drm fence stuff, so I may be overthinking this.
+
+> +
+> +	/* GPU has been reset, we can clear the reset pending bit. */
+> +	atomic_set(&core->reset.pending, 0);
+
+Nitpick: should probably be "NPU" ;)
+
+> +
+> +	/*
+> +	 * Now resubmit jobs that were previously queued but didn't have a
+> +	 * chance to finish.
+> +	 * FIXME: We temporarily get out of the DMA fence signalling section
+> +	 * while resubmitting jobs because the job submission logic will
+> +	 * allocate memory with the GFP_KERNEL flag which can trigger memory
+> +	 * reclaim and exposes a lock ordering issue.
+> +	 */
+> +	dma_fence_end_signalling(cookie);
+> +	drm_sched_resubmit_jobs(&core->sched);
+> +	cookie = dma_fence_begin_signalling();
+> +
+> +	/* Restart the scheduler */
+> +	drm_sched_start(&core->sched, 0);
+> +
+> +	dma_fence_end_signalling(cookie);
+> +}
+>
+> [...]
 >
 
-Acked-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+Kind regards,
+Nicolas Frattaroli
+
 
 
