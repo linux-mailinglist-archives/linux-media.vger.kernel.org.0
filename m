@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-31330-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31331-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09647AA0FD7
-	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 17:01:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2989FAA0FEA
+	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 17:03:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 71DE01A8042E
-	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 15:01:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 532933AF771
+	for <lists+linux-media@lfdr.de>; Tue, 29 Apr 2025 15:01:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9198421C19D;
-	Tue, 29 Apr 2025 15:00:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3FD5421C19F;
+	Tue, 29 Apr 2025 15:01:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="l8dGmd+v"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="km2J0Jrd"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE3E321638C;
-	Tue, 29 Apr 2025 15:00:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA7721858D;
+	Tue, 29 Apr 2025 15:01:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745938857; cv=none; b=SyP2dNqMR6yzLhbZU+cuVPVNsY5pUiTgNritzQ5Rif/G3IgWc3g4PO7+x5VpDVl6Zq0xAmyQAFfu2jE2OJO6TvxmrKROF4IiN+U5YNbkxPk97tEMfgNYQwQsBI8GMYVVZvtXz9zWGs+TwAvKyOreT40UJQkvkYM0XM8iJ9RBtsI=
+	t=1745938918; cv=none; b=D21PHyvRT01JN8SZxqauy9ZJ/9VHtzJ8FsUnKr4GfG+oLTQUeAQfwJvIfxGuutt/j4M6sLFbk7f2yAu9w7/rT01mQ1KcOcn8fed+iDFkUS9emkCerKbqBlNocf+Ot9KbWkimvb+kB6ZxY4btveHD8VvxxMhCnqSAc7IqVwpkYPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745938857; c=relaxed/simple;
-	bh=pP6DKrZD9DKU+099KZ/Gv0Q8x5f7TJlixfNLxSWTzjU=;
+	s=arc-20240116; t=1745938918; c=relaxed/simple;
+	bh=OG53Jn8U9NgEyurEOFlUhg0Hk6wxp4hXyJBfM1eFvo8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Z8VAolyc31BTuf/Uid0vhYflcBghD8CQ9VB4KTrXV1E1PA3Ms9NROXPbterUvUek1Sm/m6KKyh4TiColYjGlGCg0SbGPDNfQZcur95vcJbY7xNVTUp/X1ug2XFcVDME/6jOuSdBpgVVaRoknidiyNzLfTcgpANa5i8Hl1dkfXo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=l8dGmd+v; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=ti8EQAaKTSyldSEVUR/8RcET+IhtiEpAN34IVWIFXUtHteMuQnlBsgJCPpGtAkiJtpqCjggiaPPADu6vGav3hCLBEHUtYK/T7wCsKUQHuq7ikBGOmCabViboYAt5Cm5iei0cTIyd+kFiebLz+BR/TlJHotjJfAHvrTt5pokyMp4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=km2J0Jrd; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED7C2FC7;
-	Tue, 29 Apr 2025 17:00:41 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6736F669;
+	Tue, 29 Apr 2025 17:00:57 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1745938842;
-	bh=pP6DKrZD9DKU+099KZ/Gv0Q8x5f7TJlixfNLxSWTzjU=;
+	s=mail; t=1745938857;
+	bh=OG53Jn8U9NgEyurEOFlUhg0Hk6wxp4hXyJBfM1eFvo8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=l8dGmd+vF/UMVPkpXPmXnFJ1ah6Nx5d74KtvaDRXrUNPhPPcfKhRt0D+qRn9WTCNE
-	 7Q4HDcJa+/5SXGeFsdNsBc//A15NoE/3440PVQQ9GfKjFKU02OSMzFMB0lSqBWZ4Yh
-	 uGofzuZnhXMPp4cnB03eVe9fTsXbl0khEvPYN1lk=
-Message-ID: <5ce70750-9d4b-4ecb-b62d-96b1226d21f7@ideasonboard.com>
-Date: Tue, 29 Apr 2025 18:00:44 +0300
+	b=km2J0JrdhVDpfA7v6hsc8Llq4PLXue4DooGJHUrYRcViDBhzu/DTtqnte4y8l4TTv
+	 0X7UfyWfs8jfG2YX3/DC5cGNB1SidYcD46VYQJZPFMhci1gqbGfJEkxiUYLYccS2G7
+	 6k+p6osu6gmAveoN4v9z2ULfDnshJA9DzIxPz/hw=
+Message-ID: <9b5ba209-cb91-48f6-b865-d6a9765d2544@ideasonboard.com>
+Date: Tue, 29 Apr 2025 18:00:59 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,14 +50,15 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/6] media: renesas: vsp1: Fix HSV format enumeration
+Subject: Re: [PATCH 4/6] media: renesas: vsp1: Fix media bus code setup on
+ RWPF source pad
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  linux-media@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 References: <20250409003815.10253-1-laurent.pinchart+renesas@ideasonboard.com>
- <20250409003815.10253-4-laurent.pinchart+renesas@ideasonboard.com>
+ <20250409003815.10253-5-laurent.pinchart+renesas@ideasonboard.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -103,86 +104,51 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20250409003815.10253-4-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20250409003815.10253-5-laurent.pinchart+renesas@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi,
+
 
 On 09/04/2025 03:38, Laurent Pinchart wrote:
-> The HSV formats are not restricted to Gen2 platforms, but to VSP
-> instances that implement the HSI and HST modules. Make it conditional to
-> the VSP1_HAS_HSIT feature flag.
+> The RWPF source pad media bus code can only be different from the sink
+> pad code when enabling color space conversion, which can only convert
+> between RGB and YUV. If the sink pad code is HSV, no conversion is
+> possible. Fix the pad set format handler to reflect this hardware
+> limitation.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->   .../media/platform/renesas/vsp1/vsp1_pipe.c   | 32 +++++++++++++++++++
->   1 file changed, 32 insertions(+)
+>   drivers/media/platform/renesas/vsp1/vsp1_rwpf.c | 13 +++++++++++--
+>   1 file changed, 11 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> index 16a78a00c6c9..f7b133536704 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> @@ -215,6 +215,9 @@ static const struct vsp1_format_info vsp1_video_gen2_formats[] = {
->   	  VI6_FMT_YUYV_422, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
->   	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
->   	  1, { 16, 0, 0 }, false, true, 2, 1, false },
-> +};
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> index 9d38203e73d0..1b4bac7b7cfa 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> @@ -76,11 +76,20 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
+>   	format = v4l2_subdev_state_get_format(state, fmt->pad);
+>   
+>   	if (fmt->pad == RWPF_PAD_SOURCE) {
+> +		const struct v4l2_mbus_framefmt *sink_format =
+> +			v4l2_subdev_state_get_format(state, RWPF_PAD_SINK);
 > +
-> +static const struct vsp1_format_info vsp1_video_hsit_formats[] = {
->   	{ V4L2_PIX_FMT_HSV24, MEDIA_BUS_FMT_AHSV8888_1X32,
->   	  VI6_FMT_RGB_888, VI6_RPF_DSWAP_P_LLS | VI6_RPF_DSWAP_P_LWS |
->   	  VI6_RPF_DSWAP_P_WDS | VI6_RPF_DSWAP_P_BTS,
-> @@ -255,6 +258,16 @@ const struct vsp1_format_info *vsp1_get_format_info(struct vsp1_device *vsp1,
->   		}
+>   		/*
+>   		 * The RWPF performs format conversion but can't scale, only the
+> -		 * format code can be changed on the source pad.
+> +		 * format code can be changed on the source pad when converting
+> +		 * between RGB and YUV.
+>   		 */
+> -		format->code = fmt->format.code;
+> +		if (sink_format->code != MEDIA_BUS_FMT_AHSV8888_1X32 &&
+> +		    fmt->format.code != MEDIA_BUS_FMT_AHSV8888_1X32)
+> +			format->code = fmt->format.code;
+> +		else
+> +			format->code = sink_format->code;
+> +
+>   		fmt->format = *format;
+>   		goto done;
 >   	}
->   
-> +	if (vsp1_feature(vsp1, VSP1_HAS_HSIT)) {
-> +		for (i = 0; i < ARRAY_SIZE(vsp1_video_hsit_formats); ++i) {
-> +			const struct vsp1_format_info *info =
-> +				&vsp1_video_hsit_formats[i];
-> +
-> +			if (info->fourcc == fourcc)
-> +				return info;
-> +		}
-> +	}
-> +
->   	return NULL;
->   }
->   
-> @@ -285,6 +298,12 @@ vsp1_get_format_info_by_index(struct vsp1_device *vsp1, unsigned int index,
->   				return &vsp1_video_gen2_formats[index];
->   		}
->   
-> +		if (vsp1_feature(vsp1, VSP1_HAS_HSIT)) {
-> +			index -= ARRAY_SIZE(vsp1_video_gen2_formats);
-> +			if (index < ARRAY_SIZE(vsp1_video_hsit_formats))
-> +				return &vsp1_video_hsit_formats[index];
-> +		}
-> +
->   		return NULL;
->   	}
->   
-> @@ -311,6 +330,19 @@ vsp1_get_format_info_by_index(struct vsp1_device *vsp1, unsigned int index,
->   		}
->   	}
->   
-> +	if (vsp1_feature(vsp1, VSP1_HAS_HSIT)) {
-> +		for (i = 0; i < ARRAY_SIZE(vsp1_video_hsit_formats); ++i) {
-> +			const struct vsp1_format_info *info =
-> +				&vsp1_video_hsit_formats[i];
-> +
-> +			if (info->mbus == code) {
-> +				if (!index)
-> +					return info;
-> +				index--;
-> +			}
-> +		}
-> +	}
-> +
->   	return NULL;
->   }
->   
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
