@@ -1,114 +1,192 @@
-Return-Path: <linux-media+bounces-31373-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31380-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1B56AA4533
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 10:24:35 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BDE6AA455F
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 10:29:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1723D1BA2E4E
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 08:24:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3C37C7AF597
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 08:28:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F5AF218EBF;
-	Wed, 30 Apr 2025 08:24:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6419621ABB3;
+	Wed, 30 Apr 2025 08:28:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MT6BVCvi"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="bg/pJU9k"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52D8E208AD
-	for <linux-media@vger.kernel.org>; Wed, 30 Apr 2025 08:24:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F511DF98B;
+	Wed, 30 Apr 2025 08:28:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746001459; cv=none; b=hCzl/x95NMNLVzgoBYpMP78mhP4eCufkQVh0rJlfb8WXI5b3gZ3BsCHmuXhCoU8aEApmNjh4xiggVEV70XwbzAjh4LRS3K9ywuWj1PLSRqnWzM3L+yFk9gUv/Mnr9CO19Z4Ry7ZGSd6GnAtYDdbF2Ib23vxn/JqarImT0DRu2+g=
+	t=1746001687; cv=none; b=KdJWEhPaOQ7rc21twWmlU4KsvkvgZ/WNPqX46NMWeSrfjWTKecKNPrx063cC3s0UyPlTQCKehUZFug4JmQraUEoJvW0aXaFarbboJYU4XIf6M5tqyG9w732xkrcDvxk5cnla2jw4nt8PATVj0PyCYKJ1ud0cBXFMlvUCV4D0di8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746001459; c=relaxed/simple;
-	bh=jE4PEp33a5PU1lnBYNlqWTkmTy/oubM5i2hDNHSJbAc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=L1s6uMXjGR8ZQXUUYi7J2fvg0poLVy1KDSm1WmztL1vpPAkZY+u9D1Dora4vu7aEJJny9dHVB3eaVL71obLVQjOZleGkvtK72y9wo5CYo4K8uWBo00Nv1ws1He7FzCvraTpJ//WntedX9QKVjJTyj22QY9QoAPCWSQ8o5qpXU84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MT6BVCvi; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43cf848528aso49687635e9.2
-        for <linux-media@vger.kernel.org>; Wed, 30 Apr 2025 01:24:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746001454; x=1746606254; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ufqPEbOwWYWB18ZCf6Yh3nDmouH/kkXVRtJyRpSOlpU=;
-        b=MT6BVCvi4SjxHWopj6rBSu7AnH/4VuaLDr2PkcC/8L6gpfME+CZDsRgjnx/MDxpX1f
-         p97tH65b5RveQsOu48w1vURisczLNAotr/jt/Q9SfEWk9mgFTORUfzz+MLUa6B9nPkoX
-         ZsrdCC5gPY7/FhCRgZax709889dSGfCo9H+gvyG9z3nr3jwTJgEjJYYHuEAnoYDDTXvu
-         jwDX+832UnaLyL44zHbV6nhpGSfiG7bY5RTCcKCa+mZkr4X60w7F3j5+W9SIn4EzQTdd
-         T606BMMmZc8vcT9+/FoF1Y/1gIcVMsqwotdI2Y3tKrC03I44+/QIzLclNONGF72mKdwF
-         AMoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746001454; x=1746606254;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ufqPEbOwWYWB18ZCf6Yh3nDmouH/kkXVRtJyRpSOlpU=;
-        b=At4mArNwStcvXF1E9UIhqWiyHwaeD04WJM0DVn2n/Mh6KZWV6LZaqanz5DGzotQ4+O
-         fQreeNVUqKZ+zzsyq6ElKakmLVLV8VrHLYEtC2OhaFgqZOmdXAviAzEfM0fexP8fa5nS
-         LESlxhYH6gt7hLm9VpUA/QSQ+vMvWq6rs4w+75rD9nHfSw1RMnD+SOu5Purc352qCVxc
-         7J8U7m77tEZgnUeHLQIJQHy2pCkrV4HvKwz9gqCmC5vdrwF3dBv5hpA/OUrU/MzDNgda
-         JVyqQJh/8yAIwC1A2aFkvJ4eZ/3D+SYr7nZHFfEmREsc+XYCvTFogz0MshdBDVqVGQDu
-         4EKw==
-X-Forwarded-Encrypted: i=1; AJvYcCUkgvvHnZwrd1qouOylnlkVUElHRSzsSlh+kLros2JO8UPqhTQj1D23heJuLC24HDVEDMZr772JxmZHJQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpmABArIh4bIhF9iAdLxnsLSxowg+Xh03MrwbVazVIjdnAZ5PG
-	Wv6JgYUWJF5O2fhER41Eh/LUQZ8wBCYY52v0ytTyYHkEyngstuld3mntTQ5lvKc=
-X-Gm-Gg: ASbGncuRE7BPN6PFOxIWif1+ZlI6Xqr1QOC+4FjjeSlrcTt1FKxk4rHwnk6UIrWGJem
-	r5EutfKbENPmUhUXVPOp1XIsjeNMtr8UPC5Q7E5j6viD1DkfEgF+hlYxqip4et9mqU5Dffi8RVB
-	NmgmFPC6QpUkuZJTihrDKs+LYXKOGSceLP9sX0w+qhcKaVp2J4b6SHcCTkSl/j71HkiGloY3gvW
-	c7D+uTPxqvpEGcNuGAvXI6EFuLUA+xvzD/K0bpB7iMi2g1VWfX8d/9FEl26DwtsDIxs3GTzktM7
-	nXCn2LrL62LXtccafFfY1TJXhtNWF/JlsmF9jngFi8xQ8fBm+WfSOpSZ+3vwvSAGxNF3/rPZnQQ
-	sI1S4Ag==
-X-Google-Smtp-Source: AGHT+IEC343GJFUazvyxQ/kBdVhvDtloUR9+rS6OZvl6aiNt5CYM4RgWteI3bMKGtRqRGwvmyMmn9A==
-X-Received: by 2002:a05:600c:3153:b0:440:6a37:be09 with SMTP id 5b1f17b1804b1-441b1f3865fmr19065115e9.16.1746001454638;
-        Wed, 30 Apr 2025 01:24:14 -0700 (PDT)
-Received: from [192.168.0.35] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-441b2bbf046sm15474325e9.35.2025.04.30.01.24.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Apr 2025 01:24:14 -0700 (PDT)
-Message-ID: <c2ba9738-a383-4a53-a7ad-fc65a97d1c4a@linaro.org>
-Date: Wed, 30 Apr 2025 09:24:12 +0100
+	s=arc-20240116; t=1746001687; c=relaxed/simple;
+	bh=6q9qsUeVrZkFKWD/cX+YQyeHAlagANDwh1NSxGjeCjs=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=FmpbE9oxZ96Puc2+Kn31QmVhHDD30eFwLmTdc23R95x8/QV/R5LVysvz9AVl0dh19VEiPSwhmoGQ3C6t4LjF4zHxfcIIMi/YrKU7tM48br5KWPAKIOk5QSpnhcZIf5H3ORvXI/KYXvPBZEazgfTanzuXSLSGZ7s6+GoBO2mFM5k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=bg/pJU9k; arc=none smtp.client-ip=91.207.212.93
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53U777fV004534;
+	Wed, 30 Apr 2025 10:27:57 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=selector1; bh=gjW9ik0Vdl+i9e3FBAPSXm
+	84CQMS+y93ODapRLzXvIM=; b=bg/pJU9ktsNK6MVGwM8rTwJQI2GnY3fGtmbRJm
+	Te+3VAyjYxidZiyTa8c05M36ZbYOhm0/Yx23RdvYfssD0NGktBgFyf37TQIGEMcH
+	R4kRohT6Dl1EfaW7o5U00AofKsRLnLajPLbGMyOW+pGQk4VnjlXQt6j1OikEdFCg
+	aBbtWcv4I/PzAIQidR8b+42CWSaJisej+91awQ+0i/J9mQpxVeBAOtkqTe7tU8xS
+	RnwxRCGK6nPZLH3a9GxUKaCvQuurzVKvbNaXSnW86twNnsvMegT25bD3sVYKBvqP
+	jXt7eg3FQBTDB3bRlqPJ38kMpsYPCu/NrvCg1XlGF0S10UqA==
+Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 46b6tf1wp7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 30 Apr 2025 10:27:56 +0200 (MEST)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 875034007A;
+	Wed, 30 Apr 2025 10:26:41 +0200 (CEST)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 059029AD323;
+	Wed, 30 Apr 2025 10:24:40 +0200 (CEST)
+Received: from localhost (10.252.1.18) by SHFDAG1NODE1.st.com (10.75.129.69)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 30 Apr
+ 2025 10:24:39 +0200
+From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Subject: [PATCH v7 0/2] media: Add support for ST VD55G1 camera sensor
+Date: Wed, 30 Apr 2025 10:24:37 +0200
+Message-ID: <20250430-b4-vd55g1-v7-0-761b72495ac3@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] media: qcom: camss: vfe: Stop spamming logs with
- version
-To: Johan Hovold <johan@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250429180828.950219-4-krzysztof.kozlowski@linaro.org>
- <aBHQejn_ksLyyUm1@hovoldconsulting.com>
-Content-Language: en-US
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <aBHQejn_ksLyyUm1@hovoldconsulting.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAEXeEWgC/3XQTW7DIBAF4KtErEsEw4wNXfUeVRf8JiwaRyZCr
+ SLfvdibksZdDuJ7bzR3VuKcY2GvhzubY80lT5c2jC8H5s/2coo8hzYzEEACgLhDXgPRSXIXnBH
+ BRWWcYu3/dY4pf21Z7x9tPudym+bvLbrK9XUvpUouuApkhYYkkjVvaSrlWG5HP32usZtRoP8aH
+ eTg0I4mwaNZuyv89qGQvYVmhdfWaYvaEz1b1VvorVp3NcpoQoEj7fTivxbXndHJROiHUfhnS73
+ F3lKzRqd2IIjR7/UOvR17OzQrNYkkdSsHfLTLsvwAcIslLwQCAAA=
+X-Change-ID: 20250225-b4-vd55g1-bdb90dbe39b3
+To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Sylvain Petinot
+	<sylvain.petinot@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Sakari Ailus
+	<sakari.ailus@linux.intel.com>
+CC: <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.14.2
+X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-04-30_02,2025-04-24_02,2025-02-21_01
 
-On 30/04/2025 08:25, Johan Hovold wrote:
-> Unfortunately, it seems Bryan missed that this was a regression that
-> should be fixed in 6.15 and only included them in a pull request for 6.16:
-> 
-> 	https://lore.kernel.org/all/20250410233039.77093-1-bod@kernel.org/
-> 
-> Bryan, has your PR been merged? Can you try to get my fixes into 6.15
-> since this is a regression in 6.15-rc1?
+Hi,
 
-Let me see.. there's a -fixes branch, I think I should be able to PR 
-anything with a Fixes: tag there.
+This serie adds support for the STMicroelectronics VD55G1 camera sensor.
+The VD55G1 is a monochrome global shutter camera with a 804x704 maximum
+resolution with RAW8 and RAW10 bytes per pixel.
+Datasheets and other documentation can be found at st.com [1].
+A lot of inspiration was taken from the imx219 and the vd56g3 serie.
+It is compatible with libcamera. Tested on Raspberry Pi 4 and 5, with and
+without libcamera.
+
+[1] https://www.st.com/en/imaging-and-photonics-solutions/vd55g1.html#documentation
+
+Regards,
+Benjamin
 
 ---
-bod
+Changes in v7:
+- Fix autosuspend
+- Rework active state
+- Fix vd55g1_power_off() call order
+- Merge vd55g1_check_sensor_revision() in vd55g1_detect()
+- Fix mipi_rate semantics
+- Add defines for XCLK and MIPI frequency bounds
+- Fix data_rate not being u32
+- Fix comment case
+- Don't grab hblank_ctrl
+- Rename vd55g1_lock_ctrls() to vd55g1_grab_ctrls()
+- Remove spurious braces in vd55g1_update_expo_cluster()
+- Move get_regulators() above probe()
+- Add missing 'vd55g1_' prefix to some functions
+- Factorize get_*_by_code()
+- Refactor ctrl_to_sd() to ctrl_to_vd55g1()
+- Simplify i2c_client->dev accesses
+- Explicit pattern generator names
+- Fix some registers values being defined as struct instead of macros
+- Properly indent dynamic registers values
+- binding: Split description in 2 paragraphs
+- Link to v6: https://lore.kernel.org/r/20250407-b4-vd55g1-v6-0-1850f18b1f24@foss.st.com
+
+Changes in v6:
+- Use return 0 whenever possible
+- Remove unneeded return values initializations
+- Fix traces format
+- Fix comment typo
+- Link to v5: https://lore.kernel.org/r/20250404-b4-vd55g1-v5-0-98f2f02eec59@foss.st.com
+
+Changes in v5:
+- Include missing proprety.h header
+- Move link_freq to device structure
+- Update get_vblank_limits() prototype
+- Add BUILD_BUG_ON() in vd55g1_update_patgen()
+- Drop hdl->error check
+- Use device_property*() instead of of_property*()
+- Drop OF requirement
+- Improve runtime pm usage
+- Various syntax fixes
+- Link to v4: https://lore.kernel.org/r/20250402-b4-vd55g1-v4-0-84b1f54c670c@foss.st.com
+
+Changes in v4:
+- Fix data-lanes syntax in binding
+- Link to v3: https://lore.kernel.org/r/20250402-b4-vd55g1-v3-0-393985404759@foss.st.com
+
+Changes in v3:
+- Add maxItems to data-lanes in binding
+- Drop redondant 'binding' in binding commit message
+- Link to v2: https://lore.kernel.org/r/20250401-b4-vd55g1-v2-0-0c8ab8a48c55@foss.st.com
+
+Changes in v2:
+- Fix device tree binding mistakes
+- Drop linux media git from MAINTAINERS file
+- Fix coding style mistakes
+- Drop vd55g1_err_probe wrapper
+- Fix 32bits build
+- Fix config symbol help paragraph being too short for checkpatch
+- Link to v1: https://lore.kernel.org/r/20250328-b4-vd55g1-v1-0-8d16b4a79f29@foss.st.com
+
+---
+Benjamin Mugnier (2):
+      media: dt-bindings: Add ST VD55G1 camera sensor
+      media: i2c: Add driver for ST VD55G1 camera sensor
+
+ .../devicetree/bindings/media/i2c/st,vd55g1.yaml   |  133 ++
+ MAINTAINERS                                        |    9 +
+ drivers/media/i2c/Kconfig                          |   11 +
+ drivers/media/i2c/Makefile                         |    1 +
+ drivers/media/i2c/vd55g1.c                         | 1965 ++++++++++++++++++++
+ 5 files changed, 2119 insertions(+)
+---
+base-commit: b2c4bf0c102084e77ed1b12090d77a76469a6814
+change-id: 20250225-b4-vd55g1-bdb90dbe39b3
+
+Best regards,
+-- 
+Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+
 
