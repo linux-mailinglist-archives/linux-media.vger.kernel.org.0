@@ -1,63 +1,65 @@
-Return-Path: <linux-media+bounces-31449-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31450-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF1D9AA4ADE
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 14:17:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13480AA4AE2
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 14:18:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1D177168EB4
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 12:17:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 899E11BA74E4
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 12:18:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3A8725A2D5;
-	Wed, 30 Apr 2025 12:17:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B18F025B1D3;
+	Wed, 30 Apr 2025 12:17:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Fi6ovw3e"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="JGCEzYGs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0142550B3;
-	Wed, 30 Apr 2025 12:17:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78B082550B3;
+	Wed, 30 Apr 2025 12:17:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746015452; cv=none; b=qyK+QP70ZV8wC8kgojoP/LRUYSQbZ59hsHt5v2XiSH3ovMmPigmGBb6DM5mL0gBZ9p/OAslMnHNpOzPuYwI22NMHDxRl/48YqCE0ZSbv9scm0wW+1iKCPtY/5JRFRaa0gWjjL5qtQhUDfQtpfwDBhJCkncV4V+K1jYK5Tq1WGKA=
+	t=1746015458; cv=none; b=MzRcJqW0qB6cVRZHrgKmFw//cmRV9EUP3Phed3ZrIGXVk7uIcbtGJ8CV5E4xLDKA2QBc3clayZ/JLoUajQRKg7uT4dUKuitioWOpPiro2VnVUWoLc9c0p6Jj9oyoPdUBZXsaW84d26w7EhJKqPfgaFqd/6lgAjVG432CApponms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746015452; c=relaxed/simple;
-	bh=E1kEwPsLvdquGJddOJvX2EN9XwDc3z7/1YWDxE570N4=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=cx6FlgdOBbwvJ4/jNR39HhEod1n+NWncMbFR2N2PpEJ1IpG3mUR5dp3CWABwX5OF7tHUltYPRA4ak2YjvnyvpMTXBeBREzrbPy67tbctCMStbmDq7NmmHak4TNLfD5F7tMhCopQz4rIihAVedj/s6+VD0Lai75FtjgFmuPLrBz0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Fi6ovw3e; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1746015458; c=relaxed/simple;
+	bh=mTMLc/grEsMk9tdWZaAjExvtqZMAqAYePZboVGY5WvU=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=Z/KX8P+3IZRsnaMrCEZ/IvxvWyxzJa1G1NbbQh0k9lBG5sayDsEiIgUqbyJXM042rQPE2IveRgpsmd+sO4i/a33SyZwnDkyzkOlsjUsP8NNzJu7pBi6af3Q/qp7fqVl6EO38wRDUOyHlXc/ABWtHsZtvxoqvUfTMb9/prJgWi9Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=JGCEzYGs; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53U9p2fV011715;
-	Wed, 30 Apr 2025 12:17:26 GMT
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53U960io012214;
+	Wed, 30 Apr 2025 12:17:31 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=T2VVxXq80qNYSnlcmC+ZnU
-	KDWd6u2DL1cLhNjntN/vk=; b=Fi6ovw3ezqy32fLqa6GSFgRZLFczbmkWlUM7HX
-	GS456I2EI6HpGHLB/8bj6CVhcndDDI61KfLHuPD2FvrzCzwdrEGXoN8i4oxCW6Zp
-	+tkiFDDTV+lYcd/uZq19e58tvLCq5QFl/qeA4a8XFD2PlFnHk2vZPgz9b2JgKnBK
-	6HAe/YpRo/GjunWPn+1vbVOxhI4gsx3TYoX0lByCLl1Ae4TljgfSR2uKabIKum25
-	0hDHiCmVFDj2NLeDMo4yFGnR4vFeYvEGIm3UPK+oEkJ3Xv0Gmc/cKg49V+2YDY1+
-	IabvdClx33CCqlzQe0bQH0WIQOL3xG/yR/Lr47REdbqAJoGw==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46b6uaa3ex-1
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	dR7JRev4UWJ18b/yknGbjv7JNxutNiQRsQw8n2kq/K0=; b=JGCEzYGsrZmKvrkj
+	N+Jrg6OYbrAkbi3B/eQYD3WqWi0CVS/tAf3XGRUGjTXd9aOnJiggSBmbYfGhPvXh
+	hofOmYL9fAbcE6SlpLdI/LrZd5zG2bLvTlfW7/gXZYVoMS8sp7vD7CLDKMXIeUwv
+	zU3GkujOit2tSGPikBFbrRwSuBiQKr5GlO0bHt75Cxpoqo150zoKLQPiHCjYuDtL
+	nf5Bf4uKZSjQqE3bL55IZ/HCEZUEoMoKKXEakxTP7Efc1zsNfXAd5E7U3M/G5z6N
+	S1HwEDullypbWDcu2Qxg3v/8mWaDBDRx3Rgctu0OB94E07oIq3b5PlO6lhvxIwQd
+	ZTUCgA==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46b6u3t3j4-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 30 Apr 2025 12:17:26 +0000 (GMT)
+	Wed, 30 Apr 2025 12:17:31 +0000 (GMT)
 Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53UCHPDQ024632
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53UCHUin007664
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 30 Apr 2025 12:17:25 GMT
+	Wed, 30 Apr 2025 12:17:30 GMT
 Received: from hu-vgarodia-hyd.qualcomm.com (10.80.80.8) by
  nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Wed, 30 Apr 2025 05:17:21 -0700
+ 15.2.1544.9; Wed, 30 Apr 2025 05:17:25 -0700
 From: Vikash Garodia <quic_vgarodia@quicinc.com>
-Subject: [PATCH v6 0/5] media: qcom: iris: add support for QCS8300
-Date: Wed, 30 Apr 2025 17:47:06 +0530
-Message-ID: <20250430-qcs8300_iris-v6-0-a2fa43688722@quicinc.com>
+Date: Wed, 30 Apr 2025 17:47:07 +0530
+Subject: [PATCH v6 1/5] dt-bindings: media: qcom,sm8550-iris: document
+ QCS8300 IRIS accelerator
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,13 +68,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAMIUEmgC/32Py27CMBBFfyXKuq7G9viVVf+jqirbGRcvIBCnE
- RXKv9eERSkglnc058ydU1tozFTarjm1I8255GFXg35p2rjxuy9iua+5FSAUILfsEIuVAJ95zIU
- Z74g0oOTo24rsR0r5uOrePy55pMN3tU6X4Z+0a1alEIpNwz5HVrb2qICt3pkD84K7YL0NaEw3m
- 7M++EIsDtttnrqGIwqZovRYN1NAqfveW4UKpHQURUjc8SB1ey6yyWUaxp/1zZmvTR5/NHMGTBv
- jRJAuVPNbrR/zLr7Wu6tqFs9wUXFOwKVVwQG5e1xe4ULe4LLivSEHGjShsvc4XuN4g+O5PGlNP
- SYdzIPy6hmuKp44t0mBinX8H1+W5RftgLOBLwIAAA==
-X-Change-ID: 20250418-qcs8300_iris-7a9ee604314a
+Message-ID: <20250430-qcs8300_iris-v6-1-a2fa43688722@quicinc.com>
+References: <20250430-qcs8300_iris-v6-0-a2fa43688722@quicinc.com>
+In-Reply-To: <20250430-qcs8300_iris-v6-0-a2fa43688722@quicinc.com>
 To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
         Abhinav Kumar
 	<quic_abhinavk@quicinc.com>,
@@ -91,96 +89,63 @@ CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         Vikash Garodia
 	<quic_vgarodia@quicinc.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1746015441; l=2755;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1746015441; l=1266;
  i=quic_vgarodia@quicinc.com; s=20241104; h=from:subject:message-id;
- bh=E1kEwPsLvdquGJddOJvX2EN9XwDc3z7/1YWDxE570N4=;
- b=7+1sH/1M4uRskjCxi3yUutLgEPlVe7PI9rTQgtXJnh4edPPJL4N6PYcbZRB6fd8ggjLQLg2pB
- IqWoXNhCXT2CJ3VN/1CziqnsPYYCbUIBHbwa7TyzJ0KClOxSZp43BD3
+ bh=mTMLc/grEsMk9tdWZaAjExvtqZMAqAYePZboVGY5WvU=;
+ b=TM+2zSKolSqY2eqNWFKqMIYD1e5KPbKv0ls0tWMpBPxWr3LB6b/MBbbe37cypfG2+4p+bFF7S
+ p/C4wYXwndDBb7H/L1WRbzrq8EpKQFhyYXPtDMOyLvWf5DDinALZx3o
 X-Developer-Key: i=quic_vgarodia@quicinc.com; a=ed25519;
  pk=LY9Eqp4KiHWxzGNKGHbwRFEJOfRCSzG/rxQNmvZvaKE=
 X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nasanex01a.na.qualcomm.com (10.52.223.231)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=BNizrEQG c=1 sm=1 tr=0 ts=681214d6 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8
- a=h97imd1RtcNJs7uGSNUA:9 a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDMwMDA4NyBTYWx0ZWRfX+N/YT/K4H5Lz a3Rxo2XI2R8pBk+I0EMGVY0H9SrnGqhLkMwcrDU4SwFL5efRxoVs42Anx52F8cbwfq91LWCC7Xy R04TQhgOeFVrS7J7Bje2aaKSUMIzS2YLmGHoGnEZ63GJ4aeYfREDuBTyRC0WsCB/b6czbOjbP19
- NEworwbdD15t98lAmvkQYnacTeNMPEkUN6Ih37inV0GaJKk6Ln/nrmc1kuzUIgg79pNQOL3epBY kXao1WEW6YQpN08H5uGSkYWj07jD8YJ3nqgWAUZSmWdvyZNyhbIND95Q27oI7EedSf7H0wxb2lF OivqCbTMfssSAF6VfYzz6CgeignJuYdRCIXFI/74lTyqIMWaL+FBdedYZrmsSe4vGL04lvWP1NX
- oqJEPk9g6VZ5tgQycZjiF52m9vw0DgV9IjEL2PxDkiNWyg1WRTPIlaKWsQrdb3eVILPacWpm
-X-Proofpoint-GUID: PL-JjaOex6PhQYJ6AiMNUzbJ0xWvgtP1
-X-Proofpoint-ORIG-GUID: PL-JjaOex6PhQYJ6AiMNUzbJ0xWvgtP1
+X-Authority-Analysis: v=2.4 cv=Bv6dwZX5 c=1 sm=1 tr=0 ts=681214db cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8
+ a=vMvmzzE8Xnitjmo8DM4A:9 a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: DSZhNsRxjkmzRZuCUdYi5GuBYITSvNuY
+X-Proofpoint-ORIG-GUID: DSZhNsRxjkmzRZuCUdYi5GuBYITSvNuY
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDMwMDA4NyBTYWx0ZWRfX+ZCqo2H6TRcZ axOxb6O2ZyRTH8qktg+w8qT5oViK7cnv3E+nkXpsf5TL6/kxA4HULrgKvyzkpMLhiF/yOD9pbij fGhyQaIbyvVbqgsLXnXNAqZ1kmOOc3pew/BnxGjSSyMeOzdErNAfifqd1kFy4J17YrUOsLudnAf
+ fqdKVyjjjGgwGyFCr6nVVXh/MBrP/xEGdJz0KbQU0ikDOcfD9+8UKGI9zPSNf2EDIZ21bqYXV1Z 9TniR3YfIyhZwKw8udDWvXKpJER3wxaYWcwk56dhNeESiyBcXp6GwVwqf8icuRTU8ga4zp8+b4P fF3xP55/ulV0itg5OUlsGg+g7h2H5/YsnxXYEl+2rkcphr5W2QXuSGKUiATznftwDFc8hP1+DJz
+ /l4tDzwAlCpo4OPQFdlhgbhkVjIex/qCSz+Y1wQS47xHu1TM7bSUAkW3GflwlOjsJvhe3M9h
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-04-30_04,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- impostorscore=0 bulkscore=0 clxscore=1015 spamscore=0 adultscore=0
- phishscore=0 mlxscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0
- mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 clxscore=1015
+ mlxlogscore=999 phishscore=0 adultscore=0 spamscore=0 lowpriorityscore=0
+ impostorscore=0 malwarescore=0 priorityscore=1501 suspectscore=0
+ bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
  definitions=main-2504300087
 
-add support for video hardware acceleration on QCS8300 platform.
+Document the IRIS video decoder/encoder accelerator found in the QCS8300
+platform. It belongs to same iris v3 family as that of SM8550 but is a
+downscaled version of SM8550. It has 2 frame processing hardware blocks
+while SM8550 has 4. Thereby QCS8300 have fewer capabilities than those
+of SM8550.
 
-This series depends on
-https://lore.kernel.org/all/20250417-topic-sm8x50-iris-v10-v7-1-f020cb1d0e98@linaro.org/
-
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 ---
-Changes in v6:
-- Address a comment related the commit title.
-- Link to v5: https://lore.kernel.org/r/20250424-qcs8300_iris-v5-0-f118f505c300@quicinc.com
-
-Changes in v5:
-- Fix order in dt bindings.
-- Drop an unrelated sentence from commit description.
-- Link to v4: https://lore.kernel.org/r/20250424-qcs8300_iris-v4-0-6e66ed4f6b71@quicinc.com
-
-Changes in v4:
-- Introduce a patch to fix existing order of compat strings.
-- Fix the order of header inclusions.
-- Link to v3: https://lore.kernel.org/r/20250423-qcs8300_iris-v3-0-d7e90606e458@quicinc.com
-
-Changes in v3:
-- Fix commit description to better describe about QCS8300.
-- Fix the order of the patch.
-- Collect the review tags.
-- Link to v2: https://lore.kernel.org/r/20250418-qcs8300_iris-v2-0-1e01385b90e9@quicinc.com
-
-Changes in v2:
-- Added dependent info in binding patch as well.
-- Fix a sparse error.
-- Link to v1: https://lore.kernel.org/r/20250418-qcs8300_iris-v1-0-67792b39ba21@quicinc.com
-
+This patch depends on patch
+https://lore.kernel.org/all/20250417-topic-sm8x50-iris-v10-v7-1-f020cb1d0e98@linaro.org/
 ---
-Vikash Garodia (5):
-      dt-bindings: media: qcom,sm8550-iris: document QCS8300 IRIS accelerator
-      media: iris: fix the order of compat strings
-      media: iris: add qcs8300 platform data
-      arm64: dts: qcom: qcs8300: add video node
-      arm64: dts: qcom: qcs8300-ride: enable video
+ Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml | 1 +
+ 1 file changed, 1 insertion(+)
 
- .../bindings/media/qcom,sm8550-iris.yaml           |   1 +
- arch/arm64/boot/dts/qcom/qcs8300-ride.dts          |   4 +
- arch/arm64/boot/dts/qcom/qcs8300.dtsi              |  71 ++++++++++++
- .../platform/qcom/iris/iris_platform_common.h      |   1 +
- .../media/platform/qcom/iris/iris_platform_gen2.c  |  57 ++++++++++
- .../platform/qcom/iris/iris_platform_qcs8300.h     | 124 +++++++++++++++++++++
- drivers/media/platform/qcom/iris/iris_probe.c      |  16 ++-
- 7 files changed, 268 insertions(+), 6 deletions(-)
----
-base-commit: 14423fc3a4a21fb436dda85450339ec2bf191b36
-change-id: 20250418-qcs8300_iris-7a9ee604314a
-prerequisite-change-id: 20250225-topic-sm8x50-iris-v10-a219b8a8b477:v7
-prerequisite-patch-id: afffe7096c8e110a8da08c987983bc4441d39578
-prerequisite-patch-id: b93c37dc7e09d1631b75387dc1ca90e3066dce17
-prerequisite-patch-id: b7b50aa1657be59fd51c3e53d73382a1ee75a08e
-prerequisite-patch-id: 30960743105a36f20b3ec4a9ff19e7bca04d6add
-prerequisite-patch-id: 2bba98151ca103aa62a513a0fbd0df7ae64d9868
-prerequisite-patch-id: 0e43a6d758b5fa5ab921c6aa3c19859e312b47d0
-prerequisite-patch-id: 35f8dae1416977e88c2db7c767800c01822e266e
+diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+index f567f84bd60d439b151bb1407855ba73582c3b83..c79bf2101812d83b99704f38b7348a9f728dff44 100644
+--- a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
++++ b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+@@ -22,6 +22,7 @@ properties:
+               - qcom,sa8775p-iris
+           - const: qcom,sm8550-iris
+       - enum:
++          - qcom,qcs8300-iris
+           - qcom,sm8550-iris
+           - qcom,sm8650-iris
+ 
 
-Best regards,
 -- 
-Vikash Garodia <quic_vgarodia@quicinc.com>
+2.34.1
 
 
