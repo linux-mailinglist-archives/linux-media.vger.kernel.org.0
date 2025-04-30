@@ -1,184 +1,140 @@
-Return-Path: <linux-media+bounces-31374-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31372-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 288C1AA4539
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 10:25:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F513AA4530
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 10:24:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8A1124A7563
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 08:25:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2B7B51BA21D4
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 08:24:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BB54217659;
-	Wed, 30 Apr 2025 08:25:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0556215F5F;
+	Wed, 30 Apr 2025 08:24:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="L1UTAJqh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ImCt9vrS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20AFB2FB2;
-	Wed, 30 Apr 2025 08:25:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779B71E9B09;
+	Wed, 30 Apr 2025 08:24:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746001523; cv=none; b=Q7gQE+IZpR+vI4Fk01aHZB6L+pI8rnn7zXmEaMR1cvJYKINJ32JmZULh4Dcs4tKuIMNgF+Xi0OoiOq4YBuM7pi8JWB2WIjZLRBW39g1vBYHUsGj8Rk6B519AfMw7iwlTYaqoVSyj4+h4Ugunf21dVGBSMkp7TiyEDUb09rs0yfo=
+	t=1746001449; cv=none; b=AVDZOTo0rWVMGzmQH3TsLPXPDMjerTxN8fWFwIIZx2SDaVl84/BZbsx6B3m33l2AAM3p7xzYd7Bj895LYKJbf0n2YrEGb1rmSa8oUUertyfaUGDvXWrfxMvrp/3Ytyq9nMAKL+Xb8d5fXjV6u3Zhzlh48fE8g0L7pFl/z7OCBjA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746001523; c=relaxed/simple;
-	bh=xl2PC/u/acKBiCM9v6IH+o5HldOBBnBmnBHN3O2JYik=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=C3/gZCHUYjBCTLnyzheeSad/S7TwuSeD1xfnmq6JFpqwR6T4K+Vc4qOI1Ktu3/3OMecYYlkZCjq0D7GjTF1TKtynk6NG+a2U2u7KzHMLttJeEee+J7jtFBAUA5xj/mx1v5PpPClPfHKrCFUtRDsvBBx51T7hBaaDJ38hCQRrEeM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=L1UTAJqh; arc=none smtp.client-ip=185.132.182.106
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53U7CCF5005514;
-	Wed, 30 Apr 2025 10:25:10 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	g96VULOJgTP+rXSvs0fblxCYj+Zob3SZLDsy/ja+mSo=; b=L1UTAJqhDQjAXriu
-	QIYM35A9Zsx4nRUU8b8up4/5WDEt/s5wEG+dLtFTOix1mK11mcRWLNFMoOMhFOLp
-	Kb+gYm8+e1gURB6NA79a+wtPKOlq679CMutcPZeqhO1xEq84Elc69C/0a0A8yvMc
-	LgMpPDYwAxM1nMHaDvHNRj2eqZFhIXtx406/0wOhQvWw/5eWtt6Pc2n6RYetK/DJ
-	IDb2E3GhSBSOhxl6atvQbF0I0DxyVR94rni9bkmUlw1FAmrFnOKHuF9/39a3mp1L
-	903vzHPo6dk4n7aUjm6dugoSWptW6hFN3f3/ORPjkfhnMfSbiz6ygqqfRTpuYGJ5
-	SJ3+BQ==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 46b6tphy93-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 30 Apr 2025 10:25:10 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 02D7940048;
-	Wed, 30 Apr 2025 10:23:56 +0200 (CEST)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5267B922644;
-	Wed, 30 Apr 2025 10:23:24 +0200 (CEST)
-Received: from [10.252.1.18] (10.252.1.18) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 30 Apr
- 2025 10:23:23 +0200
-Message-ID: <622301ae-0973-4cdb-936c-3152afdbfb46@foss.st.com>
-Date: Wed, 30 Apr 2025 10:23:22 +0200
+	s=arc-20240116; t=1746001449; c=relaxed/simple;
+	bh=XkzCV+HlYtWZq8CFLqb3j+QfX63WPGpBO5U9P6v5HbQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rfOlg0ZYg0yKPF53OcaBA/VogFjJknbU6PrBlUDJfs+Xy9QvyYlFoUMY/xc5OvZ46eWnKo58veUYkGeC+BJITdmbi9FIsal10SgA6mgFckYp/uhvvSYznB53/F8YzRvGHBHx9yvlayf6W9pEr+isqJqmIkajs9HAe0Nb6To72AE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ImCt9vrS; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746001448; x=1777537448;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XkzCV+HlYtWZq8CFLqb3j+QfX63WPGpBO5U9P6v5HbQ=;
+  b=ImCt9vrSz3IgmxJL3lyq08BskNYRYfz+GOblvcQ4AofFzEM61aT4upid
+   /cJh/7q9VfFVJOoE/XihmTQAD+sHGGfZhpWOJGHJm2LDhkGXG17xLRpVu
+   yt3DAij9/Yx5aTqiJSdocKe4DKq91uaJHQM7bQX6Wh2iYFMLmvCtAkmU9
+   FQ75clh052wAs7VmK1pJcq41wQtkfXrMOoEZl9o9/5IT81+mADkjB2LMR
+   x69Cy2XjHbzb2e82LcAHbewhwKpAVv8VclUCkwySB0r/5Uwok4f0Tz0ih
+   HPqYx4I1DvOJdkIqec61vunJFt2w3iIgZIbTD88D3s1jiR7orf1e+D6uZ
+   w==;
+X-CSE-ConnectionGUID: fmei6GrlQoa3NgTjUEOwmA==
+X-CSE-MsgGUID: jdrwsVQSRt+J/vrN/7MAeg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="73036895"
+X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
+   d="scan'208";a="73036895"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 01:24:06 -0700
+X-CSE-ConnectionGUID: mRXpYfzTS/eLd4rgTlskdA==
+X-CSE-MsgGUID: am3Q4LEeQ/yfmJ0T5s0Hkg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
+   d="scan'208";a="134570196"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 01:24:03 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 090B711F7E7;
+	Wed, 30 Apr 2025 11:24:00 +0300 (EEST)
+Date: Wed, 30 Apr 2025 08:24:00 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Richard Leitner <richard.leitner@linux.dev>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v3 3/9] media: v4l2-flash: add support for flash/strobe
+ duration
+Message-ID: <aBHeIBbFRkZ4P82E@kekkonen.localdomain>
+References: <20250429-ov9282-flash-strobe-v3-0-2105ce179952@linux.dev>
+ <20250429-ov9282-flash-strobe-v3-3-2105ce179952@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 2/2] media: i2c: Add driver for ST VD55G1 camera sensor
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-CC: Sylvain Petinot <sylvain.petinot@foss.st.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20250407-b4-vd55g1-v6-0-1850f18b1f24@foss.st.com>
- <20250407-b4-vd55g1-v6-2-1850f18b1f24@foss.st.com>
- <aBCxpuppB6L-Ft2c@kekkonen.localdomain>
- <70f7bc9b-4533-4c8e-a792-aad9a0b7a6d4@foss.st.com>
- <aBC_gx8vFNWLacgB@kekkonen.localdomain>
-Content-Language: en-US
-From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-In-Reply-To: <aBC_gx8vFNWLacgB@kekkonen.localdomain>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SHFCAS1NODE1.st.com (10.75.129.72) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-30_02,2025-04-24_02,2025-02-21_01
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250429-ov9282-flash-strobe-v3-3-2105ce179952@linux.dev>
 
-Hi Sakari,
+Hi Richard,
 
-On 4/29/25 14:01, Sakari Ailus wrote:
-> Hi Benjamin,
+On Tue, Apr 29, 2025 at 02:59:08PM +0200, Richard Leitner wrote:
+> Add support for the new V4L2_CID_FLASH_DURATION control to the v4l2
+> flash led class.
 > 
-> On Tue, Apr 29, 2025 at 01:29:39PM +0200, Benjamin Mugnier wrote:
->>>> +static int vd55g1_check_csi_conf(struct vd55g1 *sensor,
->>>> +				 struct fwnode_handle *endpoint)
->>>> +{
->>>> +	struct i2c_client *client = sensor->i2c_client;
->>>> +	struct v4l2_fwnode_endpoint ep = { .bus_type = V4L2_MBUS_CSI2_DPHY };
->>>> +	u8 n_lanes;
->>>> +	int ret;
->>>> +
->>>> +	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &ep);
->>>> +	if (ret)
->>>> +		return -EINVAL;
->>>> +
->>>> +	/* Check lanes number */
->>>> +	n_lanes = ep.bus.mipi_csi2.num_data_lanes;
->>>> +	if (n_lanes != 1) {
->>>> +		dev_err(&client->dev, "Sensor only supports 1 lane, found %d\n",
->>>> +			n_lanes);
->>>> +		ret = -EINVAL;
->>>> +		goto done;
->>>> +	}
->>>> +
->>>> +	/* Clock lane must be first */
->>>> +	if (ep.bus.mipi_csi2.clock_lane != 0) {
->>>> +		dev_err(&client->dev, "Clock lane must be mapped to lane 0\n");
->>>> +		ret = -EINVAL;
->>>> +		goto done;
->>>> +	}
->>>> +
->>>> +	/* Handle polarities in sensor configuration */
->>>> +	sensor->oif_ctrl = (ep.bus.mipi_csi2.lane_polarities[0] << 3) |
->>>> +			   (ep.bus.mipi_csi2.lane_polarities[1] << 6);
->>>> +
->>>> +	/* Check the link frequency set in device tree */
->>>> +	if (!ep.nr_of_link_frequencies) {
->>>> +		dev_err(&client->dev, "link-frequency property not found in DT\n");
->>>> +		ret = -EINVAL;
->>>> +		goto done;
->>>> +	}
->>>> +	if (ep.nr_of_link_frequencies != 1) {
->>>> +		dev_err(&client->dev, "Multiple link frequencies not supported\n");
->>>> +		ret = -EINVAL;
->>>> +		goto done;
->>>
->>> Please check the link frequency matches with what the driver supports,
->>> using e.g. v4l2_link_freq_to_bitmap().
->>>
->>
->> Are you referring to checks performed in in vd55g1_prepare_clock_tree()
->> ? Keep in mind it will change a bit with Laurent's comments though.
->> The sensor supports a range of frequencies therefore I chose to check it
->> manually instead of v4l2_link_freq_to_bitmap().
+> Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+> ---
+>  drivers/media/v4l2-core/v4l2-flash-led-class.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
 > 
-> Ok, that's fine then. But please check this results to the frequency that
-> was requested, currently it may be off AFAIR.
-> 
+> diff --git a/drivers/media/v4l2-core/v4l2-flash-led-class.c b/drivers/media/v4l2-core/v4l2-flash-led-class.c
+> index 355595a0fefac72c2f6941a30fa430d37dbdccfe..963b549480f6eb3b9eb0d80696a764de7ffcc1a2 100644
+> --- a/drivers/media/v4l2-core/v4l2-flash-led-class.c
+> +++ b/drivers/media/v4l2-core/v4l2-flash-led-class.c
+> @@ -298,6 +298,12 @@ static int v4l2_flash_s_ctrl(struct v4l2_ctrl *c)
+>  		 * microamperes for flash intensity units.
+>  		 */
+>  		return led_set_flash_brightness(fled_cdev, c->val);
+> +	case V4L2_CID_FLASH_DURATION:
+> +		/*
+> +		 * No conversion is needed as LED Flash class also uses
+> +		 * microseconds for flash duration units.
+> +		 */
+> +		return led_set_flash_duration(fled_cdev, c->val);
+>  	}
+>  
+>  	return -EINVAL;
+> @@ -424,6 +430,13 @@ static void __fill_ctrl_init_data(struct v4l2_flash *v4l2_flash,
+>  		ctrl_cfg->flags = V4L2_CTRL_FLAG_VOLATILE |
+>  				  V4L2_CTRL_FLAG_EXECUTE_ON_WRITE;
+>  	}
+> +
+> +	/* Init FLASH_DURATION ctrl data */
+> +	if (has_flash_op(fled_cdev, timeout_set)) {
+> +		ctrl_init_data[FLASH_DURATION].cid = V4L2_CID_FLASH_DURATION;
+> +		ctrl_cfg = &ctrl_init_data[FLASH_DURATION].config;
+> +		__lfs_to_v4l2_ctrl_config(&fled_cdev->duration, ctrl_cfg);
+> +		ctrl_cfg->id = V4L2_CID_FLASH_DURATION;
 
-As far as I understand it should be fine in v7, could you have a look
-once sent ?
+Has this been compile tested? :-)
 
->>>> +	ret = v4l2_async_register_subdev(&sensor->sd);
->>>> +	if (ret) {
->>>> +		dev_err(dev, "async subdev register failed %d\n", ret);
->>>> +		goto err_subdev;
->>>> +	}
->>>
->>> Aren't you missing:
->>>
->>> 	pm_runtime_put_autosuspend(dev);
->>>
->>> here?
->>>
->>
->> Thank you. I'll add it to the pm_runtime block above.
->> I also noticed I miss the pm_runtime_dont_use_autosuspend() call in
->> err_power_off. I'll add that too.
-> 
-> Ack, sounds good.
+>  }
+>  
+>  static int v4l2_flash_init_controls(struct v4l2_flash *v4l2_flash,
 > 
 
 -- 
 Regards,
-Benjamin
+
+Sakari Ailus
 
