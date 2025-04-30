@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-31440-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31441-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4047DAA4A58
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 13:54:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 653A4AA4A5A
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 13:54:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1954D9C6637
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 11:53:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 04B531C02B4A
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 11:54:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6823B2586C1;
-	Wed, 30 Apr 2025 11:54:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93862254859;
+	Wed, 30 Apr 2025 11:54:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VETXHV72"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="abRfBZsg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F03B6221557
-	for <linux-media@vger.kernel.org>; Wed, 30 Apr 2025 11:54:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17597253F32
+	for <linux-media@vger.kernel.org>; Wed, 30 Apr 2025 11:54:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746014044; cv=none; b=HH0VlXtViaQpcarNGawmP8G7AWpbftUb5yO8+5i4AQeQMCN4myE5kdSoatFDBnT57HMVDzfqH7Yq3IMrb+sEcuit5EbZ7+56jEv7LbHsZUHTnciRfh7qj2r2qrJpRdW+NLzTpC4ungbkvCTk8VFP5b2z8v83FqbNFGvwXc+LlXg=
+	t=1746014047; cv=none; b=ggPzcv6kMSya2P38O3TKleLnWWtVYC7ThpY3ZICj/O6kU43P9uOC4/ul+DgsbmvaN+VGlI1CeY3JKQg0fZzBPi9Dti7gLlnU2QJbovBr0fmrC5IqjMKgxpPO1Q9hMvvkjm6JGOJDAA6xnHvVVWiRT7ZnPBKCgwrsRb5JDMMdeAk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746014044; c=relaxed/simple;
-	bh=DRUxhlBp8oVdMU+66E3k8oMJwnV8bCvCfN5hDeS6tqs=;
+	s=arc-20240116; t=1746014047; c=relaxed/simple;
+	bh=H8ECYKskylgxEYcdWQEFj2niyiSEn3nWH+xmEdIf+Vg=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=q5ujqJ0kUvakRL7j9wRACLp+vJmVI2xb3q60HBbmeAB/UhcLdQ/0QWYJ2UJKVer9NS1t92Yj13Cic5zIsmrl+xGpJ+8PWUN8O2Yi2WpPPqdTlYBsqytC4+3aQ8NmzJC3Ou3/bycZz6m72gsMFvNoDnMIcJEwnFrbDtmr9FJD/Lo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VETXHV72; arc=none smtp.client-ip=192.198.163.8
+	 MIME-Version; b=tOyuXHYrPP9u2hzpmf0gT47CDv/0ywJg/BLorvELUFd7Z9s1E3DuxdZ1OEDTlWvElEiseYp3RBF8W0D6VYqfmUGCfqVKG+5Vx98pe54YXXRCGGIZnFD9G1mMI74TK6uhZhoLw7EIMv3cFnQB/0ICu8TnudMxTXV1FEQVllk6v0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=abRfBZsg; arc=none smtp.client-ip=192.198.163.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746014043; x=1777550043;
+  t=1746014045; x=1777550045;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=DRUxhlBp8oVdMU+66E3k8oMJwnV8bCvCfN5hDeS6tqs=;
-  b=VETXHV72dC8ViZM/VgHr0z0gJIHJrNBeL2b57GmJVy+zBEeMNjl9nBkr
-   I+O8HIl43A5x0SW0AHBkaWkMT9K7569JpghOzrG7cR9P+GvHGnLMQaxCN
-   sgkL5Awbg+WYn5/8/WuVWaSi+QYFGtIdps1uNKJg9gI96eJRtohI5H/Zf
-   NJtOTpIZ1gn/64W4wkZIjuuPLZgkGrvbLySq6Fa16AnEA9sSwxNHZHiWX
-   eAAEDJiXQ2Z/wBuZ5n/gBAwYxYS+64/Cn7dMFswijjkglIZ2ucTTsS/Yc
-   m1CIIOMnGXX8boLH8YDweZ6dK8O7z6Qypi72rqMrRrnXtz2yOwKUZQdqa
-   g==;
-X-CSE-ConnectionGUID: /GZJIv2BRK6WDROzTjqiQQ==
-X-CSE-MsgGUID: wtDHm8mZT5yaFXF+9Fxr/w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="65205146"
+  bh=H8ECYKskylgxEYcdWQEFj2niyiSEn3nWH+xmEdIf+Vg=;
+  b=abRfBZsgjVXCAkJLDV68xBXrPMbLnT7nQrCc/fgeC3ckSl7857Hr7Ldj
+   v7oPoeNHoCokdcVMbLWYp6aT2ui4qhXGviml0Ixv37BkunySTr+X078Kv
+   ggqL2VNOGy2ry4kjtrH6jy625Qf2mp/F0QvchPY18u/N4ADQ7HxsPHxiQ
+   /yeDVYXLdKSwK+H0OR8IRy5x+9TfZYdxypIy5UwAWiL7Cuszwg24SgfBZ
+   XPPIU5XCHUlY6MYQp9A8YPGBvd4HZ2X6+p2TiL1yBI2KgKxO9EpNTvUHG
+   MYS7xURay781XLMzrXsnQ9bdusRYzbs6eriMum4EfPeuyCG7GxtcZV/GG
+   A==;
+X-CSE-ConnectionGUID: rbc3jUK6QyG3N6iQkCcsVQ==
+X-CSE-MsgGUID: 7oJJq03KTaWJO+/aZzcX+g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="58302629"
 X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="65205146"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 04:54:02 -0700
-X-CSE-ConnectionGUID: SVYDuGFoQueDNeo4k+BBGQ==
-X-CSE-MsgGUID: 9p9IXxpxRnm02aTUkJ1smw==
+   d="scan'208";a="58302629"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 04:54:04 -0700
+X-CSE-ConnectionGUID: BOPYmeYqQ36Ay9/tSFjqVw==
+X-CSE-MsgGUID: 8+CMVTiIQNyjXDp4AA1hDg==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="139279781"
+   d="scan'208";a="165193774"
 Received: from sgruszka-mobl.ger.corp.intel.com (HELO localhost) ([10.245.84.5])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 04:53:59 -0700
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 04:54:03 -0700
 From: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Bingbu Cao <bingbu.cao@intel.com>
-Subject: [PATCH v2 1/5] media: intel/ipu6: Remove pin_ready function pointer
-Date: Wed, 30 Apr 2025 13:53:46 +0200
-Message-Id: <20250430115350.506460-2-stanislaw.gruszka@linux.intel.com>
+Subject: [PATCH v2 2/5] media: intel/ipu6: Remove line_align
+Date: Wed, 30 Apr 2025 13:53:47 +0200
+Message-Id: <20250430115350.506460-3-stanislaw.gruszka@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250430115350.506460-1-stanislaw.gruszka@linux.intel.com>
 References: <20250430115350.506460-1-stanislaw.gruszka@linux.intel.com>
@@ -76,92 +76,70 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-We can call ipu6_isys_queue_buf_ready() directly. The only current
-usage is pin_ready pointer is to check if pin was prepared before
-IPU6_FW_ISYS_RESP_TYPE_PIN_DATA_READY interrupt, we can use queue
-pointer for that purpose.
+isys->line_align value is only used in one place and we can just use
+the proper value directly there.
 
 Signed-off-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 ---
- drivers/media/pci/intel/ipu6/ipu6-isys-queue.c | 2 +-
- drivers/media/pci/intel/ipu6/ipu6-isys-video.c | 3 +--
- drivers/media/pci/intel/ipu6/ipu6-isys-video.h | 8 +-------
- drivers/media/pci/intel/ipu6/ipu6-isys.c       | 7 +++----
- 4 files changed, 6 insertions(+), 14 deletions(-)
+ drivers/media/pci/intel/ipu6/ipu6-isys-video.c | 2 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys.c       | 1 -
+ drivers/media/pci/intel/ipu6/ipu6-isys.h       | 4 ----
+ 3 files changed, 1 insertion(+), 6 deletions(-)
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-index 12b42b46ebab..3998b0087da3 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-@@ -738,7 +738,7 @@ static void
- ipu6_stream_buf_ready(struct ipu6_isys_stream *stream, u8 pin_id, u32 pin_addr,
- 		      u64 time, bool error_check)
- {
--	struct ipu6_isys_queue *aq = stream->output_pins[pin_id].aq;
-+	struct ipu6_isys_queue *aq = stream->output_pins_queue[pin_id];
- 	struct ipu6_isys *isys = stream->isys;
- 	struct device *dev = &isys->adev->auxdev.dev;
- 	struct ipu6_isys_buffer *ib;
 diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-index e9705bb077b6..46b76cdae408 100644
+index 46b76cdae408..44b88b546f68 100644
 --- a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
 +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-@@ -485,8 +485,7 @@ static int ipu6_isys_fw_pin_cfg(struct ipu6_isys_video *av,
+@@ -241,7 +241,7 @@ static void ipu6_isys_try_fmt_cap(struct ipu6_isys_video *av, u32 type,
+ 	else
+ 		*bytesperline = DIV_ROUND_UP(*width * pfmt->bpp, BITS_PER_BYTE);
  
- 	output_pins = cfg->nof_output_pins++;
- 	aq->fw_output = output_pins;
--	stream->output_pins[output_pins].pin_ready = ipu6_isys_queue_buf_ready;
--	stream->output_pins[output_pins].aq = aq;
-+	stream->output_pins_queue[output_pins] = aq;
+-	*bytesperline = ALIGN(*bytesperline, av->isys->line_align);
++	*bytesperline = ALIGN(*bytesperline, 64);
  
- 	output_pin = &cfg->output_pins[output_pins];
- 	output_pin->input_pin_id = input_pins;
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-video.h b/drivers/media/pci/intel/ipu6/ipu6-isys-video.h
-index 78cf6b8d5211..7b347c99d907 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys-video.h
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys-video.h
-@@ -37,12 +37,6 @@ struct sequence_info {
- 	u64 timestamp;
- };
- 
--struct output_pin_data {
--	void (*pin_ready)(struct ipu6_isys_stream *stream,
--			  struct ipu6_fw_isys_resp_info_abi *info);
--	struct ipu6_isys_queue *aq;
--};
--
- /*
-  * Align with firmware stream. Each stream represents a CSI virtual channel.
-  * May map to multiple video devices
-@@ -68,7 +62,7 @@ struct ipu6_isys_stream {
- 	struct completion stream_stop_completion;
- 	struct ipu6_isys *isys;
- 
--	struct output_pin_data output_pins[IPU6_ISYS_OUTPUT_PINS];
-+	struct ipu6_isys_queue *output_pins_queue[IPU6_ISYS_OUTPUT_PINS];
- 	int error;
- 	u8 vc;
- };
+ 	/*
+ 	 * (height + 1) * bytesperline due to a hardware issue: the DMA unit
 diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys.c b/drivers/media/pci/intel/ipu6/ipu6-isys.c
-index 9b7ff5c440de..4d2ca6aae328 100644
+index 4d2ca6aae328..8286dea681fb 100644
 --- a/drivers/media/pci/intel/ipu6/ipu6-isys.c
 +++ b/drivers/media/pci/intel/ipu6/ipu6-isys.c
-@@ -1294,12 +1294,11 @@ static int isys_isr_one(struct ipu6_bus_device *adev)
- 		 */
- 		ipu6_put_fw_msg_buf(ipu6_bus_get_drvdata(adev), resp->buf_id);
- 		if (resp->pin_id < IPU6_ISYS_OUTPUT_PINS &&
--		    stream->output_pins[resp->pin_id].pin_ready)
--			stream->output_pins[resp->pin_id].pin_ready(stream,
--								    resp);
-+		    stream->output_pins_queue[resp->pin_id])
-+			ipu6_isys_queue_buf_ready(stream, resp);
- 		else
- 			dev_warn(&adev->auxdev.dev,
--				 "%d:No data pin ready handler for pin id %d\n",
-+				 "%d:No queue for pin id %d\n",
- 				 resp->stream_handle, resp->pin_id);
- 		if (csi2)
- 			ipu6_isys_csi2_error(csi2);
+@@ -1089,7 +1089,6 @@ static int isys_probe(struct auxiliary_device *auxdev,
+ 	INIT_LIST_HEAD(&isys->framebuflist);
+ 	INIT_LIST_HEAD(&isys->framebuflist_fw);
+ 
+-	isys->line_align = IPU6_ISYS_2600_MEM_LINE_ALIGN;
+ 	isys->icache_prefetch = 0;
+ 
+ 	dev_set_drvdata(&auxdev->dev, isys);
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys.h b/drivers/media/pci/intel/ipu6/ipu6-isys.h
+index 610b60e69152..f488e782c26e 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys.h
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys.h
+@@ -29,8 +29,6 @@ struct ipu6_bus_device;
+ 				 IPU6_ISYS_UNISPART_IRQ_CSI0 |	\
+ 				 IPU6_ISYS_UNISPART_IRQ_CSI1)
+ 
+-#define IPU6_ISYS_2600_MEM_LINE_ALIGN	64
+-
+ /*
+  * Current message queue configuration. These must be big enough
+  * so that they never gets full. Queues are located in system memory
+@@ -118,7 +116,6 @@ struct sensor_async_sd {
+  * @streams: streams per firmware stream ID
+  * @fwcom: fw communication layer private pointer
+  *         or optional external library private pointer
+- * @line_align: line alignment in memory
+  * @phy_termcal_val: the termination calibration value, only used for DWC PHY
+  * @need_reset: Isys requires d0i0->i3 transition
+  * @ref_count: total number of callers fw open
+@@ -140,7 +137,6 @@ struct ipu6_isys {
+ 	struct ipu6_isys_stream streams[IPU6_ISYS_MAX_STREAMS];
+ 	int streams_ref_count[IPU6_ISYS_MAX_STREAMS];
+ 	void *fwcom;
+-	unsigned int line_align;
+ 	u32 phy_termcal_val;
+ 	bool need_reset;
+ 	bool icache_prefetch;
 -- 
 2.34.1
 
