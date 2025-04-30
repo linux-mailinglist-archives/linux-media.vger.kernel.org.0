@@ -1,190 +1,121 @@
-Return-Path: <linux-media+bounces-31378-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31379-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 613E6AA455D
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 10:29:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77754AA455E
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 10:29:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D2249A46D1
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 08:28:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 964429A3FA9
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 08:28:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00D2921C9F3;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59AE821CC56;
 	Wed, 30 Apr 2025 08:27:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZxuCi3Eg"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BpV55Hca"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B27F921C192;
-	Wed, 30 Apr 2025 08:27:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CACA21C19A
+	for <linux-media@vger.kernel.org>; Wed, 30 Apr 2025 08:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746001668; cv=none; b=Qy5YkeIqvkKicdR9e0pTDN5O/TzR8Fxyv3HaZfOtQwWEsDdqB91MrmLhxqjm9vWjb6IACHOGmme1pkt3FQqQwZn/U4ZHnihVVRjGNiTlbdhQgC3wK0mAe45bNycL5qcu9pLo1R8CuIrbVbTBBIU8tepPYx/gJrUL+aWt7bbdU+k=
+	t=1746001668; cv=none; b=dMzo92VgY6oY29YSonVRB7M6hvOFawIpR1oxkqQdc+yyJWY4Io7xJCdtFv2aW+2JL5XYAF4qMkDHdlvaEf+eCtZmA2gAnltgvDbf8TAeMmOMSTvOy7aO0nil5Hmcl0bTvOoZcvl7AJD9jyiB5OL2Qb6pLQM1WAvjP6J7wffyNqg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1746001668; c=relaxed/simple;
-	bh=1ajhych4dIHqm2r+oPn9BP8t6MqW579K9pobXMlt7/0=;
+	bh=pC6366U9Vxi4MCVI0rp1quj2Je4SIGb4/739P9X10sI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=R4rSrOKADM6IFborZ0wpyl/3Vr473t1ubwmNuYZagN6Bo7fs7wc7FTHkxcJ+jOAtRjwH5yyAVR45mwdJpNo/K/Wqt5YD7WWUNqoxsHy1D20vI185n+pLMhmU58E+EaYwYFkAB8FQYUhtT/injAO85gkiqVqzQuFKNMSYpxI+2Ys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZxuCi3Eg; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746001667; x=1777537667;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=1ajhych4dIHqm2r+oPn9BP8t6MqW579K9pobXMlt7/0=;
-  b=ZxuCi3EgP4NgzJU9mD2OuDHbUBkqE39vE7J5kv8QijXj7LpZVbpQs2SL
-   lIRuyfKi/jynQ7boBOWnGQSezjro9XsTk4wi2cflXNx6ZMZgy4QH5VWkX
-   fx+sAhBgGg5xOU91Cl6NCMQ8f7nGmTc0oefBDwxT48ng9pE7ZjSjX5a1Z
-   Gytn8dw0Tq0hiX0v7doj7EXcIA9+95TkGXq45kOXDASBv6PVjdJY86BQP
-   Mi2i1hSdqa/uDZCdSA2QObKSTmqaSZ+C5MkBJ8aAgPQ7zm500cmwf+vso
-   flMz3RwPMmTUSzYxEzSqAyFYn6tDDi6jrIJOS8k1xr8P99T0/CP+HSWwb
-   w==;
-X-CSE-ConnectionGUID: KXTPJBA+SEGo86cMg8+EGw==
-X-CSE-MsgGUID: VgE0Zzl1RMO48n9We3fR/Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="59027743"
-X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="59027743"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 01:27:46 -0700
-X-CSE-ConnectionGUID: ywYNeeGrQsyke34kyLRaBg==
-X-CSE-MsgGUID: KxgODg1PT/e7Ko7+LzMAkA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="133964071"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 01:27:44 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id E9C0A120765;
-	Wed, 30 Apr 2025 11:27:39 +0300 (EEST)
-Date: Wed, 30 Apr 2025 08:27:39 +0000
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Richard Leitner <richard.leitner@linux.dev>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=gVvIlZkn7NT6RSbTNJZ4j3Um0KI0JVGct/BtxR1KMZIzw6GBeWXtTcUZM2pmO+sBgX8ccXIt/SDRpaTsm75ZS4/QVUzxh5uJ5m1aS4Tc25qjMSxJWntxD9zeiK+54ED89Os8IVzydc5q97w25mAzNnHJu11UqE8vpgV0hTXKaWA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BpV55Hca; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-39d83782ef6so475195f8f.0
+        for <linux-media@vger.kernel.org>; Wed, 30 Apr 2025 01:27:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1746001665; x=1746606465; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=LSY65Em9CZe+eeM7wzETHW6baTLUML3bJ9yO/W+LGW4=;
+        b=BpV55Hcao8LJx3USC8dXWGy0jZY0dTNUf1NOyG77FbAJZwFSVYrF6m4t7Sc3nxMOP2
+         gduwBHbW/2CIdoEnPpxOviBUC08AycRD3smxY79htAvGhCls9vg5bYNM02dQ4c+kCyqL
+         YbF9seQjC8WDwilrb0kiB5bPlpfVTxt37UkUH32drVyxhVJTS0hVDg44MVD0Z3NAekAh
+         3ThUhBstwF8QJ5fvZxy8fZ0WJzVtsM8p1kX3v5deaoIfjeNYYpGu0ml9QInH8h/aO6NP
+         AAudKhR7m5zy4UYrlQ03GQOnxHC4+wz7v5Jc1bIME6bm5hqQJOYkcFxLuJxAgt8Ykg9S
+         +fCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746001665; x=1746606465;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LSY65Em9CZe+eeM7wzETHW6baTLUML3bJ9yO/W+LGW4=;
+        b=oM5Qaxdj433ihB6x4AJvSDtrO1/TjQ6we/XrlnWhNYFQpcMqTsymi4403xvE6wIhLh
+         uuibg+cZY7qJYWVzRmaFw1Sov6I4fn7iQuG/DbsdUlR5gbv0XYoUYuwGyrlcM16IIoyS
+         SsctFaWQjoRN/ctGeIoBlY1hFbVDqD3l3eNnpg61mgUbX3I3wgSq6KRwejI46VRF59Sy
+         MUrqlBNfx6QnJsajbvmHr4FN9wO0tkQvjSw7t87p8JzeVsOCLlzJcBlEOazwPuDvOPK2
+         +mOCZiW8NuEnoateA0VNCOrknlGm88NOryErhZgj6ArV8ckU+1b40aPG5oKQHB2plqzu
+         a2yg==
+X-Forwarded-Encrypted: i=1; AJvYcCUE2Q9pLhxObeTJs946FmXC2XDTp+mA4LuKgzuyPS/GBKF8gBNyBCEZeGXig+obV6xkQR1mCQgWOusZUA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YydGwQMI5pMBOn99Pklkkd3D5gQCo1tFYY8ts050tQ10NYBVKZp
+	S9isHtO614tX9HjYJXW0iaGr1QGVzQRtCqNu+2DR/ho4QAr2U88RwpQSg10uUEJ2L8nwNqw2vIo
+	E
+X-Gm-Gg: ASbGncvO0KqgbRM52LJdKPBOyzidUw8OZ5pvSjTeRplGY1Exs+wa2gws20g+JUPS9jj
+	Oj21ClfQ0rKnu/TPEjurhSz6C9I0+8eM4Oy8q5ySWA8TG/WD3sRvqYpMR7HyViWvmhQzY2OeoxE
+	wx7f/cqbUxuUlcRNUulxvtfCna44VyPS9AANkU8BiRqK+waJLXhMGn3ostsuWJYgz0mRl1dZ5dR
+	OdHGD2Q/1/pIuXEuYgl1F3rveZbyEQZO7bUl8S3Z9DcdBFrxaMbtp8U44vCxJQsJHLX+fIguCP0
+	J7asPCCckhq7DQutLt4g87kY3nlQS2n+FMSvQ/wYbvjzOA==
+X-Google-Smtp-Source: AGHT+IHBFA+cH5958bx6/B07wZ/+XLQktMK13x4OjzkahXEnks5zyuH0RW3+E62V7jkfN4hmL/NqQQ==
+X-Received: by 2002:a05:6000:18ad:b0:39f:cfc:d520 with SMTP id ffacd0b85a97d-3a08fb52cf0mr1465639f8f.15.1746001665462;
+        Wed, 30 Apr 2025 01:27:45 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a073c8d67esm16491272f8f.17.2025.04.30.01.27.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Apr 2025 01:27:45 -0700 (PDT)
+Date: Wed, 30 Apr 2025 11:27:42 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v3 8/9] media: i2c: ov9282: add strobe_duration v4l2
- control
-Message-ID: <aBHe-55_U3bYTXyG@kekkonen.localdomain>
-References: <20250429-ov9282-flash-strobe-v3-0-2105ce179952@linux.dev>
- <20250429-ov9282-flash-strobe-v3-8-2105ce179952@linux.dev>
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 3/3] media: i2c: ds90ub960: Fix uninitialized variable in
+ ub960_rxport_bc_ser_config()
+Message-ID: <e9e8df2c7ee2fdcad0d97562e40572073de02d9e.1746001540.git.dan.carpenter@linaro.org>
+References: <cover.1746001540.git.dan.carpenter@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250429-ov9282-flash-strobe-v3-8-2105ce179952@linux.dev>
+In-Reply-To: <cover.1746001540.git.dan.carpenter@linaro.org>
 
-Hi Richard,
+The "ret" variable is not initialized on success.  Set it to zero.
 
-On Tue, Apr 29, 2025 at 02:59:13PM +0200, Richard Leitner wrote:
-> Add V4L2_CID_FLASH_DURATION support using the "strobe_frame_span"
-> feature of the sensor. This is implemented by transforming the given µs
-> value by an interpolated formula to a "span step width" value and
-> writing it to register PWM_CTRL_25, PWM_CTRL_26, PWM_CTRL_27,
-> PWM_CTRL_28 (0x3925, 0x3926, 0x3927, 0x3928).
-> 
-> The maximum control value is set to the period of the current default
-> framerate.
-> 
-> All register values are based on the OV9281 datasheet v1.53 (jan 2019)
-> and tested using an ov9281 VisionComponents module.
-> 
-> Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
-> ---
->  drivers/media/i2c/ov9282.c | 28 ++++++++++++++++++++++++++++
->  1 file changed, 28 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> index 35edbe1e0efb61a0e03da0ed817c4c4ec0ae9c35..5ddbfc51586111fbd2e17b739fb3d28bfb0aee1e 100644
-> --- a/drivers/media/i2c/ov9282.c
-> +++ b/drivers/media/i2c/ov9282.c
-> @@ -97,6 +97,10 @@
->  #define OV9282_REG_MIPI_CTRL00	0x4800
->  #define OV9282_GATED_CLOCK	BIT(5)
->  
-> +/* Flash/Strobe control registers */
-> +#define OV9282_REG_FLASH_DURATION	0x3925
-> +#define OV9282_FLASH_DURATION_DEFAULT	0x0000001A
-> +
->  /* Input clock rate */
->  #define OV9282_INCLK_RATE	24000000
->  
-> @@ -687,6 +691,24 @@ static int ov9282_set_ctrl_flash_led_mode(struct ov9282 *ov9282, int mode)
->  				current_val);
->  }
->  
-> +static int ov9282_set_ctrl_flash_duration(struct ov9282 *ov9282, int value)
-> +{
-> +	/* Calculate "strobe_frame_span" increments from a given value (µs).
+Fixes: e2a3b695bc5f ("media: i2c: ds90ub960: Configure serializer using back-channel")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/media/i2c/ds90ub960.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-/*
- * Multi-line
- * comment.
- */
-
-> +	 * This is quite tricky as "The step width of shift and span is
-> +	 * programmable under system clock domain.", but it's not documented
-> +	 * how to program this step width (at least in the datasheet available
-> +	 * to the author at time of writing).
-> +	 * The formula below is interpolated from different modes/framerates
-> +	 * and should work quite well for most settings.
-> +	 */
-> +	u32 val = value * 192 / (ov9282->cur_mode->width + ov9282->hblank_ctrl->val);
-> +
-> +	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION, 1, (val >> 24) & 0xff);
-> +	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 1, 1, (val >> 16) & 0xff);
-> +	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 2, 1, (val >> 8) & 0xff);
-> +	return ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 3, 1, val & 0xff);
-
-The granularity of the hardware supported values is lower than that of the
-control. Could you add try_ctrl op to provide the actual value back to the
-user space?
-
-> +}
-> +
->  /**
->   * ov9282_set_ctrl() - Set subdevice control
->   * @ctrl: pointer to v4l2_ctrl structure
-> @@ -756,6 +778,9 @@ static int ov9282_set_ctrl(struct v4l2_ctrl *ctrl)
->  	case V4L2_CID_FLASH_LED_MODE:
->  		ret = ov9282_set_ctrl_flash_led_mode(ov9282, ctrl->val);
->  		break;
-> +	case V4L2_CID_FLASH_DURATION:
-> +		ret = ov9282_set_ctrl_flash_duration(ov9282, ctrl->val);
-> +		break;
->  	default:
->  		dev_err(ov9282->dev, "Invalid control %d", ctrl->id);
->  		ret = -EINVAL;
-> @@ -1418,6 +1443,9 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
->  			       (1 << V4L2_FLASH_LED_MODE_TORCH),
->  			       V4L2_FLASH_LED_MODE_NONE);
->  
-> +	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
-
-Should the number of controls in the handler be updated?
-
-> +			  0, 13900, 1, 8);
-> +
->  	ret = v4l2_fwnode_device_parse(ov9282->dev, &props);
->  	if (!ret) {
->  		/* Failure sets ctrl_hdlr->error, which we check afterwards anyway */
-> 
-
+diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
+index cf104461b9a7..ed2cf9d247d1 100644
+--- a/drivers/media/i2c/ds90ub960.c
++++ b/drivers/media/i2c/ds90ub960.c
+@@ -2133,7 +2133,7 @@ static int ub960_rxport_bc_ser_config(struct ub960_rxport *rxport)
+ 	struct ub960_data *priv = rxport->priv;
+ 	struct device *dev = &priv->client->dev;
+ 	u8 nport = rxport->nport;
+-	int ret;
++	int ret = 0;
+ 
+ 	/* Skip port if serializer's address is not known */
+ 	if (rxport->ser.addr < 0) {
 -- 
-Regards,
+2.47.2
 
-Sakari Ailus
 
