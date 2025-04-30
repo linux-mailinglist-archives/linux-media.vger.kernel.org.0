@@ -1,138 +1,186 @@
-Return-Path: <linux-media+bounces-31448-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31449-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E2F9AA4AD3
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 14:15:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF1D9AA4ADE
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 14:17:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF57016968F
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 12:14:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1D177168EB4
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 12:17:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBAEE259C8A;
-	Wed, 30 Apr 2025 12:14:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3A8725A2D5;
+	Wed, 30 Apr 2025 12:17:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Fi6ovw3e"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6936A24728A;
-	Wed, 30 Apr 2025 12:14:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D0142550B3;
+	Wed, 30 Apr 2025 12:17:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746015251; cv=none; b=mAOshULqI3aQTwdgqomxfhzuycHEuM2P88cKxdtTAiGB07KiuuxL1wmallnoMSWsbZSHEeUX7Z0T9+5AC5fvoAuKmYDJFd3ue//Y1u44DIOsgMPV5MAA/+cbRxOHRZaZrPztgMWdIDm51E6I/ok3FhfK9Xpe/cbcph2IjI6HVuU=
+	t=1746015452; cv=none; b=qyK+QP70ZV8wC8kgojoP/LRUYSQbZ59hsHt5v2XiSH3ovMmPigmGBb6DM5mL0gBZ9p/OAslMnHNpOzPuYwI22NMHDxRl/48YqCE0ZSbv9scm0wW+1iKCPtY/5JRFRaa0gWjjL5qtQhUDfQtpfwDBhJCkncV4V+K1jYK5Tq1WGKA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746015251; c=relaxed/simple;
-	bh=LiBOXVSo3YvRCvgf0MEGE0OBC6pt4z+3BeVByew1hq0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CEsmS6S/Yzcsf1iSzrTw+QgJwtHl3H0mSOC/8CHE/VpJmnbp2fYgGr/iPZ2auvsHO54p16wDcJLFPbfvKYO0tFavxqxzNRPcN4Mq7ZLwdm9cpwdio7TtJqjyOMy37h/O/OiCoOpzhwySbMkG/oDY1y7wiNw2itPW8OwQPVUSq1c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC502C4CEE9;
-	Wed, 30 Apr 2025 12:14:08 +0000 (UTC)
-Message-ID: <6fc17824-8442-4b97-8a8a-8a593dfd98cc@xs4all.nl>
-Date: Wed, 30 Apr 2025 14:14:07 +0200
+	s=arc-20240116; t=1746015452; c=relaxed/simple;
+	bh=E1kEwPsLvdquGJddOJvX2EN9XwDc3z7/1YWDxE570N4=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=cx6FlgdOBbwvJ4/jNR39HhEod1n+NWncMbFR2N2PpEJ1IpG3mUR5dp3CWABwX5OF7tHUltYPRA4ak2YjvnyvpMTXBeBREzrbPy67tbctCMStbmDq7NmmHak4TNLfD5F7tMhCopQz4rIihAVedj/s6+VD0Lai75FtjgFmuPLrBz0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Fi6ovw3e; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53U9p2fV011715;
+	Wed, 30 Apr 2025 12:17:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=T2VVxXq80qNYSnlcmC+ZnU
+	KDWd6u2DL1cLhNjntN/vk=; b=Fi6ovw3ezqy32fLqa6GSFgRZLFczbmkWlUM7HX
+	GS456I2EI6HpGHLB/8bj6CVhcndDDI61KfLHuPD2FvrzCzwdrEGXoN8i4oxCW6Zp
+	+tkiFDDTV+lYcd/uZq19e58tvLCq5QFl/qeA4a8XFD2PlFnHk2vZPgz9b2JgKnBK
+	6HAe/YpRo/GjunWPn+1vbVOxhI4gsx3TYoX0lByCLl1Ae4TljgfSR2uKabIKum25
+	0hDHiCmVFDj2NLeDMo4yFGnR4vFeYvEGIm3UPK+oEkJ3Xv0Gmc/cKg49V+2YDY1+
+	IabvdClx33CCqlzQe0bQH0WIQOL3xG/yR/Lr47REdbqAJoGw==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46b6uaa3ex-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 30 Apr 2025 12:17:26 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53UCHPDQ024632
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 30 Apr 2025 12:17:25 GMT
+Received: from hu-vgarodia-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.9; Wed, 30 Apr 2025 05:17:21 -0700
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+Subject: [PATCH v6 0/5] media: qcom: iris: add support for QCS8300
+Date: Wed, 30 Apr 2025 17:47:06 +0530
+Message-ID: <20250430-qcs8300_iris-v6-0-a2fa43688722@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: i2c: lt6911uxe: Fix Kconfig dependencies:
-To: Arnd Bergmann <arnd@arndb.de>, Dongcheng Yan <dongcheng.yan@intel.com>,
- Arnd Bergmann <arnd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- "laurent.pinchart" <laurent.pinchart@ideasonboard.com>,
- Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250314154738.3983798-1-arnd@kernel.org>
- <ecb959fe-69e3-4265-9e4b-326bff421153@intel.com>
- <3bb730a9-5d8a-41c6-8a27-e099561b5890@app.fastmail.com>
- <0eb40ff7-7123-477f-a477-6d537195346b@xs4all.nl>
- <9586ec8a-ea48-4586-89f1-3ff118809223@app.fastmail.com>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <9586ec8a-ea48-4586-89f1-3ff118809223@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMIUEmgC/32Py27CMBBFfyXKuq7G9viVVf+jqirbGRcvIBCnE
+ RXKv9eERSkglnc058ydU1tozFTarjm1I8255GFXg35p2rjxuy9iua+5FSAUILfsEIuVAJ95zIU
+ Z74g0oOTo24rsR0r5uOrePy55pMN3tU6X4Z+0a1alEIpNwz5HVrb2qICt3pkD84K7YL0NaEw3m
+ 7M++EIsDtttnrqGIwqZovRYN1NAqfveW4UKpHQURUjc8SB1ey6yyWUaxp/1zZmvTR5/NHMGTBv
+ jRJAuVPNbrR/zLr7Wu6tqFs9wUXFOwKVVwQG5e1xe4ULe4LLivSEHGjShsvc4XuN4g+O5PGlNP
+ SYdzIPy6hmuKp44t0mBinX8H1+W5RftgLOBLwIAAA==
+X-Change-ID: 20250418-qcs8300_iris-7a9ee604314a
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Abhinav Kumar
+	<quic_abhinavk@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio
+	<konradybcio@kernel.org>,
+        Dmitry Baryshkov
+	<dmitry.baryshkov@oss.qualcomm.com>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Vikash Garodia
+	<quic_vgarodia@quicinc.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1746015441; l=2755;
+ i=quic_vgarodia@quicinc.com; s=20241104; h=from:subject:message-id;
+ bh=E1kEwPsLvdquGJddOJvX2EN9XwDc3z7/1YWDxE570N4=;
+ b=7+1sH/1M4uRskjCxi3yUutLgEPlVe7PI9rTQgtXJnh4edPPJL4N6PYcbZRB6fd8ggjLQLg2pB
+ IqWoXNhCXT2CJ3VN/1CziqnsPYYCbUIBHbwa7TyzJ0KClOxSZp43BD3
+X-Developer-Key: i=quic_vgarodia@quicinc.com; a=ed25519;
+ pk=LY9Eqp4KiHWxzGNKGHbwRFEJOfRCSzG/rxQNmvZvaKE=
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=BNizrEQG c=1 sm=1 tr=0 ts=681214d6 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8
+ a=h97imd1RtcNJs7uGSNUA:9 a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDMwMDA4NyBTYWx0ZWRfX+N/YT/K4H5Lz a3Rxo2XI2R8pBk+I0EMGVY0H9SrnGqhLkMwcrDU4SwFL5efRxoVs42Anx52F8cbwfq91LWCC7Xy R04TQhgOeFVrS7J7Bje2aaKSUMIzS2YLmGHoGnEZ63GJ4aeYfREDuBTyRC0WsCB/b6czbOjbP19
+ NEworwbdD15t98lAmvkQYnacTeNMPEkUN6Ih37inV0GaJKk6Ln/nrmc1kuzUIgg79pNQOL3epBY kXao1WEW6YQpN08H5uGSkYWj07jD8YJ3nqgWAUZSmWdvyZNyhbIND95Q27oI7EedSf7H0wxb2lF OivqCbTMfssSAF6VfYzz6CgeignJuYdRCIXFI/74lTyqIMWaL+FBdedYZrmsSe4vGL04lvWP1NX
+ oqJEPk9g6VZ5tgQycZjiF52m9vw0DgV9IjEL2PxDkiNWyg1WRTPIlaKWsQrdb3eVILPacWpm
+X-Proofpoint-GUID: PL-JjaOex6PhQYJ6AiMNUzbJ0xWvgtP1
+X-Proofpoint-ORIG-GUID: PL-JjaOex6PhQYJ6AiMNUzbJ0xWvgtP1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-04-30_04,2025-04-24_02,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ impostorscore=0 bulkscore=0 clxscore=1015 spamscore=0 adultscore=0
+ phishscore=0 mlxscore=0 suspectscore=0 lowpriorityscore=0 malwarescore=0
+ mlxlogscore=999 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504300087
 
-On 30/04/2025 13:21, Arnd Bergmann wrote:
-> On Tue, Mar 18, 2025, at 14:51, Hans Verkuil wrote:
->> On 3/17/25 11:32, Arnd Bergmann wrote:
->>> On Mon, Mar 17, 2025, at 11:17, Yan, Dongcheng wrote:
->>>
->>>> So I remove this select flag and passed lkp build test in patch v7.
->>>> But now it encounters build error again, I'm curious why...
->>>
->>> I don't currently get any more build errors with my patch
->>> added in, and I think this should be sufficient. Can you forward
->>> me the errors and config you get with my patch?
->>
->> FYI: I plan to take Arnd's patch tomorrow to be in time for the merge window.
->>
->> If more issues are found, then they can be on top later.
-> 
-> Not sure what happened: I see that my patch was in next-20250424
-> and earlier but is now missing again, so the link failure returned.
-> 
-> It was in git://linuxtv.org/media-ci/media-pending.git at the
-> time along with two more patches that are now also missing:
-> 
-> d51adf038ebe media: cec: tda9950: add back i2c dependency
-> 118b34092e37 media: i2c: lt6911uxe: add two selects to Kconfig
-> 0dce5b44bd38 media: platform: synopsys: VIDEO_SYNOPSYS_HDMIRX should depend on ARCH_ROCKCHIP
-> 
->       Arnd
+add support for video hardware acceleration on QCS8300 platform.
 
-I believe Mauro is working on preparing a PR for 6.15 with these patches.
-They are here:
+This series depends on
+https://lore.kernel.org/all/20250417-topic-sm8x50-iris-v10-v7-1-f020cb1d0e98@linaro.org/
 
-https://git.linuxtv.org/media-ci/media-pending.git/log/?h=fixes
+Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+---
+Changes in v6:
+- Address a comment related the commit title.
+- Link to v5: https://lore.kernel.org/r/20250424-qcs8300_iris-v5-0-f118f505c300@quicinc.com
 
-Regards,
+Changes in v5:
+- Fix order in dt bindings.
+- Drop an unrelated sentence from commit description.
+- Link to v4: https://lore.kernel.org/r/20250424-qcs8300_iris-v4-0-6e66ed4f6b71@quicinc.com
 
-	Hans
+Changes in v4:
+- Introduce a patch to fix existing order of compat strings.
+- Fix the order of header inclusions.
+- Link to v3: https://lore.kernel.org/r/20250423-qcs8300_iris-v3-0-d7e90606e458@quicinc.com
+
+Changes in v3:
+- Fix commit description to better describe about QCS8300.
+- Fix the order of the patch.
+- Collect the review tags.
+- Link to v2: https://lore.kernel.org/r/20250418-qcs8300_iris-v2-0-1e01385b90e9@quicinc.com
+
+Changes in v2:
+- Added dependent info in binding patch as well.
+- Fix a sparse error.
+- Link to v1: https://lore.kernel.org/r/20250418-qcs8300_iris-v1-0-67792b39ba21@quicinc.com
+
+---
+Vikash Garodia (5):
+      dt-bindings: media: qcom,sm8550-iris: document QCS8300 IRIS accelerator
+      media: iris: fix the order of compat strings
+      media: iris: add qcs8300 platform data
+      arm64: dts: qcom: qcs8300: add video node
+      arm64: dts: qcom: qcs8300-ride: enable video
+
+ .../bindings/media/qcom,sm8550-iris.yaml           |   1 +
+ arch/arm64/boot/dts/qcom/qcs8300-ride.dts          |   4 +
+ arch/arm64/boot/dts/qcom/qcs8300.dtsi              |  71 ++++++++++++
+ .../platform/qcom/iris/iris_platform_common.h      |   1 +
+ .../media/platform/qcom/iris/iris_platform_gen2.c  |  57 ++++++++++
+ .../platform/qcom/iris/iris_platform_qcs8300.h     | 124 +++++++++++++++++++++
+ drivers/media/platform/qcom/iris/iris_probe.c      |  16 ++-
+ 7 files changed, 268 insertions(+), 6 deletions(-)
+---
+base-commit: 14423fc3a4a21fb436dda85450339ec2bf191b36
+change-id: 20250418-qcs8300_iris-7a9ee604314a
+prerequisite-change-id: 20250225-topic-sm8x50-iris-v10-a219b8a8b477:v7
+prerequisite-patch-id: afffe7096c8e110a8da08c987983bc4441d39578
+prerequisite-patch-id: b93c37dc7e09d1631b75387dc1ca90e3066dce17
+prerequisite-patch-id: b7b50aa1657be59fd51c3e53d73382a1ee75a08e
+prerequisite-patch-id: 30960743105a36f20b3ec4a9ff19e7bca04d6add
+prerequisite-patch-id: 2bba98151ca103aa62a513a0fbd0df7ae64d9868
+prerequisite-patch-id: 0e43a6d758b5fa5ab921c6aa3c19859e312b47d0
+prerequisite-patch-id: 35f8dae1416977e88c2db7c767800c01822e266e
+
+Best regards,
+-- 
+Vikash Garodia <quic_vgarodia@quicinc.com>
+
 
