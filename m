@@ -1,131 +1,167 @@
-Return-Path: <linux-media+bounces-31386-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31387-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 317D4AA458D
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 10:35:46 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CAD58AA4590
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 10:36:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B31AA188FBDF
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 08:35:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 324C4467B55
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 08:36:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E46E20D505;
-	Wed, 30 Apr 2025 08:35:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 948F6219A8A;
+	Wed, 30 Apr 2025 08:35:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wJFnZQzb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mwxz42J3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90A220C472;
-	Wed, 30 Apr 2025 08:35:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5166120C472;
+	Wed, 30 Apr 2025 08:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746002115; cv=none; b=REEkBES66pPpSiybY1sbpaiiKMc1avlMjvvpx1p4MBkgs8dbBps+w2E3Yg/5wMFiVVl9bnW8kOO6TFUqYwD/oT+Skv2keuzdVLUWFPfa7qloYw1KYrEeES1MaUf4DVwHcg8iJWcXXHg7IKE/+Gw7oBZY51I4QgnMyKGlsau5cho=
+	t=1746002135; cv=none; b=noCAz2BiL5lule5sVWvDy/FnajOvk0z+pEuAJlT4RohB2OJZQwYFTTmJQ1u99rxbKCl1sMFX51fGeP1G64G4x/dr9VfumoeTicK194XdjuncW52PkpIfN+7oe94OPSPQHD0DLO4d4/07eQJUvwL21q6SE/OiB0dOVC7SswY+eaU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746002115; c=relaxed/simple;
-	bh=Qj9N6qHL0VhmXBcaQXC580o3iMpVHGdXhn4V47bbPPE=;
+	s=arc-20240116; t=1746002135; c=relaxed/simple;
+	bh=W+FK0k6Y1DqaaIqcm9kwWjYuf7rcTjsiKie9eptYe0g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qXWrwlLPRvU5n47eRIhn9Zvui4sehqA0aCGMHOEWUsqUZbmcR7++c0VF8EFzfvZH08cTqFyKltgq8j5x6VUDd6GxlXghy9NNesaDoWIU9vj7EE7BpXhSLhsvQioxfFh6AV5TJKZr6GiXrzzbWd0KEmT3SseLQrxVcFCU8viiJ2I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wJFnZQzb; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c30:5bed:77da:addd:ba0d:73db])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C6CEFAF;
-	Wed, 30 Apr 2025 10:35:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1746002106;
-	bh=Qj9N6qHL0VhmXBcaQXC580o3iMpVHGdXhn4V47bbPPE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wJFnZQzbrlZXpGi4GpVofexZxsIBvJiasl1UHtjrOmB7DhlQxQBl1Y8cSSuQhTVMA
-	 emVIq1q1hatPsG9BmFlUilfcy1kQGHk0i2ZJdciZCmebXQ3i6+QUzWlBsf+VIRaBvS
-	 WXhif2EtqXgXXbEnpoIhd9KWjy7twboB7d6oEg38=
-Date: Wed, 30 Apr 2025 14:05:07 +0530
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] media: i2c: ds90ub960: Fix uninitialized variable in
- ub960_rxport_bc_ser_config()
-Message-ID: <tumx2kbyzqf2q4ibh3v5mmh7hxsalttpsk36sfcv63pomi5wkq@nrls55uvrmxt>
-References: <cover.1746001540.git.dan.carpenter@linaro.org>
- <e9e8df2c7ee2fdcad0d97562e40572073de02d9e.1746001540.git.dan.carpenter@linaro.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=pXlJtKfuCBB3g68+D0OuOpAzyyhHVxtVWiMAa7PxexjSMMqnic3uEH3oFTyr/GbLBUcA4BPD9lNb4E6aX+N0yR9uD4qxAE0HzmY13Ttk0n27pOCCfvXWI/2jhmXFs5x6+PB4VrTeeqfuZ/AHmEtAMiSUNgzhN8+UCZk+0ISTeL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mwxz42J3; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746002133; x=1777538133;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=W+FK0k6Y1DqaaIqcm9kwWjYuf7rcTjsiKie9eptYe0g=;
+  b=Mwxz42J3QWZ8ViFMmQx3awbE1aa0U+jK8H0iuzQdiDxV4z2ZS+xU4TJN
+   b+IlhIaEd31hj445sT3BJxWfp2l6VCo9kJ1PbzaJlIe90PpVnTAVaYh8M
+   qr+LIWAgROWB9FS9UVAxghiSEjT4/5wRRIXOf89DxYHA3pdwaPRbJTAV7
+   SJDjD7J/Y0yzXRAqzMk072TfXKUH0G/yjk3hDvNJTyLBuGUs8NUJFkXVX
+   LtbdMb+gPs1BXGNN+azDEACxOd0VsCG4ezHXWOY5IT0Vvv9K3POOWMW4r
+   Pep1qVNxzj30AHrUK2ytHDEOuCdv/YBTU34W6Fb+UG9ua66EbmCqCi+Z9
+   w==;
+X-CSE-ConnectionGUID: K3r/oUmUT3uiG7Ovjktk/Q==
+X-CSE-MsgGUID: VjHOKi8VTv+AyYfeIX5kPg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="51471156"
+X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
+   d="scan'208";a="51471156"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 01:35:32 -0700
+X-CSE-ConnectionGUID: OGr1YDR/QwSzSeMXOgFSDQ==
+X-CSE-MsgGUID: FowCmlJ4St6RnoWA0URrdw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
+   d="scan'208";a="138872218"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 01:35:29 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id AF7BF11F7E7;
+	Wed, 30 Apr 2025 11:35:24 +0300 (EEST)
+Date: Wed, 30 Apr 2025 08:35:24 +0000
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+Cc: Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 2/2] media: i2c: Add driver for ST VD55G1 camera sensor
+Message-ID: <aBHgzJ64pv0z2QAX@kekkonen.localdomain>
+References: <20250407-b4-vd55g1-v6-0-1850f18b1f24@foss.st.com>
+ <20250407-b4-vd55g1-v6-2-1850f18b1f24@foss.st.com>
+ <aBCxpuppB6L-Ft2c@kekkonen.localdomain>
+ <70f7bc9b-4533-4c8e-a792-aad9a0b7a6d4@foss.st.com>
+ <aBC_gx8vFNWLacgB@kekkonen.localdomain>
+ <622301ae-0973-4cdb-936c-3152afdbfb46@foss.st.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="mcbykiruzfvuqlko"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <e9e8df2c7ee2fdcad0d97562e40572073de02d9e.1746001540.git.dan.carpenter@linaro.org>
+In-Reply-To: <622301ae-0973-4cdb-936c-3152afdbfb46@foss.st.com>
 
+Hi Benjamin,
 
---mcbykiruzfvuqlko
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH 3/3] media: i2c: ds90ub960: Fix uninitialized variable in
- ub960_rxport_bc_ser_config()
-MIME-Version: 1.0
+On Wed, Apr 30, 2025 at 10:23:22AM +0200, Benjamin Mugnier wrote:
+> Hi Sakari,
+> 
+> On 4/29/25 14:01, Sakari Ailus wrote:
+> > Hi Benjamin,
+> > 
+> > On Tue, Apr 29, 2025 at 01:29:39PM +0200, Benjamin Mugnier wrote:
+> >>>> +static int vd55g1_check_csi_conf(struct vd55g1 *sensor,
+> >>>> +				 struct fwnode_handle *endpoint)
+> >>>> +{
+> >>>> +	struct i2c_client *client = sensor->i2c_client;
+> >>>> +	struct v4l2_fwnode_endpoint ep = { .bus_type = V4L2_MBUS_CSI2_DPHY };
+> >>>> +	u8 n_lanes;
+> >>>> +	int ret;
+> >>>> +
+> >>>> +	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &ep);
+> >>>> +	if (ret)
+> >>>> +		return -EINVAL;
+> >>>> +
+> >>>> +	/* Check lanes number */
+> >>>> +	n_lanes = ep.bus.mipi_csi2.num_data_lanes;
+> >>>> +	if (n_lanes != 1) {
+> >>>> +		dev_err(&client->dev, "Sensor only supports 1 lane, found %d\n",
+> >>>> +			n_lanes);
+> >>>> +		ret = -EINVAL;
+> >>>> +		goto done;
+> >>>> +	}
+> >>>> +
+> >>>> +	/* Clock lane must be first */
+> >>>> +	if (ep.bus.mipi_csi2.clock_lane != 0) {
+> >>>> +		dev_err(&client->dev, "Clock lane must be mapped to lane 0\n");
+> >>>> +		ret = -EINVAL;
+> >>>> +		goto done;
+> >>>> +	}
+> >>>> +
+> >>>> +	/* Handle polarities in sensor configuration */
+> >>>> +	sensor->oif_ctrl = (ep.bus.mipi_csi2.lane_polarities[0] << 3) |
+> >>>> +			   (ep.bus.mipi_csi2.lane_polarities[1] << 6);
+> >>>> +
+> >>>> +	/* Check the link frequency set in device tree */
+> >>>> +	if (!ep.nr_of_link_frequencies) {
+> >>>> +		dev_err(&client->dev, "link-frequency property not found in DT\n");
+> >>>> +		ret = -EINVAL;
+> >>>> +		goto done;
+> >>>> +	}
+> >>>> +	if (ep.nr_of_link_frequencies != 1) {
+> >>>> +		dev_err(&client->dev, "Multiple link frequencies not supported\n");
+> >>>> +		ret = -EINVAL;
+> >>>> +		goto done;
+> >>>
+> >>> Please check the link frequency matches with what the driver supports,
+> >>> using e.g. v4l2_link_freq_to_bitmap().
+> >>>
+> >>
+> >> Are you referring to checks performed in in vd55g1_prepare_clock_tree()
+> >> ? Keep in mind it will change a bit with Laurent's comments though.
+> >> The sensor supports a range of frequencies therefore I chose to check it
+> >> manually instead of v4l2_link_freq_to_bitmap().
+> > 
+> > Ok, that's fine then. But please check this results to the frequency that
+> > was requested, currently it may be off AFAIR.
+> > 
+> 
+> As far as I understand it should be fine in v7, could you have a look
+> once sent ?
 
-On Apr 30, 2025 at 11:27:42 +0300, Dan Carpenter wrote:
-> The "ret" variable is not initialized on success.  Set it to zero.
->=20
-> Fixes: e2a3b695bc5f ("media: i2c: ds90ub960: Configure serializer using b=
-ack-channel")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+There's still no check the PLL configuration produces the requested
+frequency, is there? Or maybe I missed it?
 
-Reviewed-By: Jai Luthra <jai.luthra@ideasonboard.com>
+-- 
+Regards,
 
-> ---
->  drivers/media/i2c/ds90ub960.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
-> index cf104461b9a7..ed2cf9d247d1 100644
-> --- a/drivers/media/i2c/ds90ub960.c
-> +++ b/drivers/media/i2c/ds90ub960.c
-> @@ -2133,7 +2133,7 @@ static int ub960_rxport_bc_ser_config(struct ub960_=
-rxport *rxport)
->  	struct ub960_data *priv =3D rxport->priv;
->  	struct device *dev =3D &priv->client->dev;
->  	u8 nport =3D rxport->nport;
-> -	int ret;
-> +	int ret =3D 0;
-> =20
->  	/* Skip port if serializer's address is not known */
->  	if (rxport->ser.addr < 0) {
-> --=20
-> 2.47.2
->=20
-
---=20
-Thanks,
-Jai
-
---mcbykiruzfvuqlko
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmgR4LsACgkQQ96R+SSa
-cUUlXhAAp2SWCcHqSEWZJc1F5Sy2Gd5TWQcgPyBHGCZtDrUV99jQ1uOaG4BRmi98
-wPt2vMQ/TefOyVCCeSgShckmBOl6DD2TDhwzXJttOuR7SIkMqiLDbi9qwMb5Ct15
-ChS3DepJZiKYTbllslmIWv/ib3VKfdeRmqcZcEJNM+szOarTqznL7pt6tWFPcB0B
-CYxEJORAOiktf2jvJ/puiUDPgLYrGA9op3LYNhJER1gwIKzmGaJH/CPjNX+Pu9JD
-saVg+RKRisO5ZBiDWdryKhrH+CG/qkD+SlNBFwhydwsw9Xq1gnKME8LB3o20QMl8
-UK/AKNiLdG0Avgyj+tsLkKYN4ljo7f4XkTphho2AJV69G/TiOitzPVlKOTpebJ0N
-xh8Oe6ou4TgAm5gpR9wISpywr029d1x42MJnQE/d9Y8vc+d3uTe58C6ypeW120sU
-TiPxkbj4L4sHFuGQG6SQBbQ9lG1jzkyFJpAhDAQociml2ONMK3N+Yizm33HaqQEd
-cmLKANgxmNnhslG4po7yZQ5dY7A9SGZwcAKOUpFki33H8UnXat8ggplbFkiH6018
-JPBrAm0Bn+esOcMpZ0KkKLX3x44y3n4aPq43/14IKESzSDul+qh668QQxxeqEjh/
-b4DR9Hd03N0ptykqzE9Eg53198ZftDvz32MaHnr7bzFXyNEuh2Y=
-=dnK4
------END PGP SIGNATURE-----
-
---mcbykiruzfvuqlko--
+Sakari Ailus
 
