@@ -1,181 +1,211 @@
-Return-Path: <linux-media+bounces-31420-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31421-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC77CAA47C9
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 11:59:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AC48AA4817
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 12:15:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2D285464624
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 09:59:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 625694E4178
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 10:15:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81EE9238145;
-	Wed, 30 Apr 2025 09:59:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42A9E23184F;
+	Wed, 30 Apr 2025 10:15:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DdmQfHzR"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="szXj0saZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB59236445
-	for <linux-media@vger.kernel.org>; Wed, 30 Apr 2025 09:59:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72B1F23BCF1;
+	Wed, 30 Apr 2025 10:15:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746007169; cv=none; b=Y5KA5qH/hzn4BgHEwxE/UgrxRKNHKj5gx8fttGJtDydsRSSmNdteSkt6B7ON/+BaXH0Rfds78obb8pBD4sRG57GIMAE9HXpIDxbvduShh5rG/A1eZu+LEm5iW8P05HBzzm/q/KFnXfxzObNmHKcDdnBJkGN1+cuTzGTwQj31KR0=
+	t=1746008106; cv=none; b=WoRR9SsgoHCkRfTOjekq0B5Jo/M7UOTVzTrmc7D2bHCJ/NGHEliRGE2pbD0Or0OhXN/Pu262NNyJDxnOxzaKVwt0EeO9Ikv83vjWIpvxuoGF9KdUtsNKimnoi9qLc2klJKRm8V3GytPjrEgblhSUC065tsURBNzTzzuNbu71qcw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746007169; c=relaxed/simple;
-	bh=gU0cK+6rYhoCrfmO8Zc168gkmlEzEUm0imiU4BkXnxU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NKcHAQ61y0nqM4BSE2+j3LTS1TMmnbu33N1TFG2R5rqSbho5gFnibg+u7aGlBMiYPHUq93nls5rsTbEPw8Kmfk9D8fQL3s9SS+lyzlW0aitF6BUOBGYBXYqKg5oYErfjCpqd8eU9d/5jQGkTMVOY3jrkQ8QEBonRDjBvzDI4n+4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DdmQfHzR; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43cec5cd73bso34855705e9.3
-        for <linux-media@vger.kernel.org>; Wed, 30 Apr 2025 02:59:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746007165; x=1746611965; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6I143zOtsIb3U6VlapVBXBqNO181vL3QULnfrrsNbrQ=;
-        b=DdmQfHzRHQn+QHmOY/jAwJGVb9U2v6D940luAPQsGcklSA0gIn310szYtwjcTZD3ZJ
-         53c0V6W3pVUvqz6SDoR7AyJLH4ixqX9/A9Cx1ZBTujxw7qpYAIqz3D3TgCeRV+dPxfxT
-         OEH7NUJQoOUvaSjRXmAkncSXOrE84m4j0q94pCp+Hi6IyYYMxh++nb0N1E2JQjpuWKpx
-         O5qfVa3eYZV468Lh+pkywF2YdSunRfAT3eVaO69I01f6r5cJo1pAsLKFBUmAP4WSC+b9
-         sRlm4mvd8doYs9kCdHpUCqgnn7MkBn1iV8g2Id6h9vHaIkddFUhVbrq/F7CyKb3z8/GP
-         4zpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746007165; x=1746611965;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6I143zOtsIb3U6VlapVBXBqNO181vL3QULnfrrsNbrQ=;
-        b=H14kT+D1A0tkEFPzsIAKMul293tbxEIZWmwVq1Ethw+59AaCxJA4XgpXvE7UUKmJUi
-         vD48Bv6l7dx3BbPX4D6mVEJddNLXXOyLnN3RzTNUtbyAgG2dpqVkoRkW1m0msaI+ftI4
-         hYOoDpSdhuh/9DHV0HxjvkatoxRGbEMKYy79Xw25DCQnioGxUTeIorwRkBKHbd9niiCo
-         BIcwhbkT+ncZBgWMONn4D2BDjGvs9oysqCDB7+xFsscqGHO1gfYXFARYvpSjn8Ru53Cl
-         +4EmksIwKaK9b0LvSeKfpWUf3bJpBG1jJajD8AaDt8MuZX8LBwdduUdd8G524r2o7bm2
-         eljQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX4GwJ9YexooMGFnfcYGDikmOC0aqaNF4dwx0wlNAQaV9P5wKeHqKmYan1XNvJ53QHdIQyIgJi4EaMNNQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdivIaU97v/sTuCmZS+2kMIxZDph48j1gzLONu0+qfl5J5rC06
-	Hb+8iuPMr+qJtVSqpA+TGv5ikwoIzqHOGxHloGdZCGv6JQXcJDBVKDDpuZxS9q4=
-X-Gm-Gg: ASbGnctjIeGuNP1Zgp7aTaYhguTRIzDJsLle7RSsOPMAD5+gFm791t664pFJw7B5Ap7
-	HGmZ2sdGwIODbZTqGz6f3C+cd3eNH5T+K7Bc963xraq+jwNlKq38bDtOhwjVeY2jNcViQ3XrWjU
-	E8pVQqSyCgie0JE4QtZ5dOQ4JzEB0vVMn2HpvOu4t4WODXRCsGOPWU+Wo271hF+dFlYuuitng6F
-	t4PLb9bRzimxWypijHLXmt1wWK4w0lgsuUvPer2t4ZCG4x4x/+c/0xQE8t7Hd6Mo1pOYzgl+OTo
-	SVNXaouvN26V3oe6BOP+3u6z/YOyeOB4akAmfxyohKAmyQ==
-X-Google-Smtp-Source: AGHT+IHLLxyeTc1HcEGag1qjfI4wrS/rupaaqDuV0HhYG9K4MQxOD+AmR9eIPJEaGfGvBmIL287Urw==
-X-Received: by 2002:a05:6000:2509:b0:391:3f64:ed00 with SMTP id ffacd0b85a97d-3a08f7793cdmr1998311f8f.26.1746007165306;
-        Wed, 30 Apr 2025 02:59:25 -0700 (PDT)
-Received: from localhost ([196.207.164.177])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a073e5d479sm17012964f8f.92.2025.04.30.02.59.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Apr 2025 02:59:24 -0700 (PDT)
-Date: Wed, 30 Apr 2025 12:59:21 +0300
-From: Dan Carpenter <dan.carpenter@linaro.org>
-To: Tarang Raval <tarang.raval@siliconsignals.io>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Shravan Chippa <Shravan.Chippa@microchip.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 1/3] media: i2c: imx334: uninitialized variable in
- imx334_update_exp_gain()
-Message-ID: <255a8604-5aa9-441a-a4d6-ebc592a00be9@stanley.mountain>
-References: <cover.1746001540.git.dan.carpenter@linaro.org>
- <ee811e7c6eabc390241e0227f7a26d1eaa7818a1.1746001540.git.dan.carpenter@linaro.org>
- <PN3P287MB18296802E1A6C2CD55997BC68B832@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+	s=arc-20240116; t=1746008106; c=relaxed/simple;
+	bh=zgj4Jk9dJcIZTdiYctCDIVxIhwsRNiAh4yFsEZD+SYI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fU3dEGALR3YdKi/5gRAZypwavGX6i5qUC01CADbZTDCh2COPH4G4ZYi0UmzDA02+IDb8vrut7XE1xeyqdpPJNoeUopcTxbHU9JvoqrVu+MeC6JhKQUx1hQvqpJYraYP/hBDNKO/ejXEtD6mxgAW7w09N73KrAH9KBpgmpGHsSyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=szXj0saZ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AA7B3AF;
+	Wed, 30 Apr 2025 12:14:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1746008096;
+	bh=zgj4Jk9dJcIZTdiYctCDIVxIhwsRNiAh4yFsEZD+SYI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=szXj0saZAFZcCPQs6m+AFpDjcOuhJF6RhP++j2QcKcH9A0gqJb1792zZZuYnwyuEb
+	 NGqp4iEQK5DHMmqpaxOQvw4YOACj+5xL6e1L2QG+anPMfu/Zj1Ry/guLopD8ujEiqf
+	 Ny8Qx3sjtSqPAKgDLSEh4Y75YdmCNkED1Zib6LAY=
+Message-ID: <5ecde38e-af23-435e-8890-72dc7d8a51b6@ideasonboard.com>
+Date: Wed, 30 Apr 2025 13:14:59 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <PN3P287MB18296802E1A6C2CD55997BC68B832@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 7/9] media: renesas: vsp1: Name nested structure in
+ vsp1_drm
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-media@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+References: <20250429232904.26413-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20250429232904.26413-8-laurent.pinchart+renesas@ideasonboard.com>
+Content-Language: en-US
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20250429232904.26413-8-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 30, 2025 at 09:47:44AM +0000, Tarang Raval wrote:
-> Hi Dan,
+Hi,
+
+On 30/04/2025 02:29, Laurent Pinchart wrote:
+> The vsp1_drm structure defines an anonymous nested structure to store
+> per-input data. In preparation for extending that structure, give it a
+> name and is it through the driver. This improves code readability.
 > 
-> > The "ret" variable is not initialized on the success path.  Set it to
-> > zero.
-> >
-> > Fixes: 7b19b0fc8ac8 ("media: i2c: imx334: Convert to CCI register access helpers")
-> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> > ---
-> >  drivers/media/i2c/imx334.c | 3 ++-
-> >  1 file changed, 2 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-> > index fc875072f859..846b9928d4e8 100644
-> > --- a/drivers/media/i2c/imx334.c
-> > +++ b/drivers/media/i2c/imx334.c
-> > @@ -536,7 +536,8 @@ static int imx334_update_controls(struct imx334 *imx334,
-> >  static int imx334_update_exp_gain(struct imx334 *imx334, u32 exposure, u32 gain)
-> >  {
-> >         u32 lpfr, shutter;
-> > -       int ret, ret_hold;
-> > +       int ret_hold;
-> > +       int ret = 0;
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>   drivers/media/platform/renesas/vsp1/vsp1_drm.c | 18 +++++++++---------
+>   drivers/media/platform/renesas/vsp1/vsp1_drm.h |  2 +-
+>   2 files changed, 10 insertions(+), 10 deletions(-)
 > 
-> I think this initialization may not really be necessary.
-> 
-> If all of those cci_write are skipped, then yes, using ret uninitialized 
-> would be a problem.
-> 
-> However, I don’t see any case where they would be skipped in the 
-> current implementation.
-> 
-> So, is this initialization really needed?
-> 
-> Best Regards,
-> Tarang
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> index f8a575f6188a..e5339fda5941 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
+> @@ -118,24 +118,22 @@ static int vsp1_du_pipeline_setup_rpf(struct vsp1_device *vsp1,
+>   				      struct vsp1_entity *uif,
+>   				      unsigned int brx_input)
+>   {
+> +	const struct vsp1_drm_input *input = &vsp1->drm->inputs[rpf->entity.index];
+>   	struct v4l2_subdev_selection sel = {
+>   		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+>   	};
+>   	struct v4l2_subdev_format format = {
+>   		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+>   	};
+> -	const struct v4l2_rect *crop;
+>   	int ret;
+>   
+>   	/*
+>   	 * Configure the format on the RPF sink pad and propagate it up to the
+>   	 * BRx sink pad.
+>   	 */
+> -	crop = &vsp1->drm->inputs[rpf->entity.index].crop;
+> -
+>   	format.pad = RWPF_PAD_SINK;
+> -	format.format.width = crop->width + crop->left;
+> -	format.format.height = crop->height + crop->top;
+> +	format.format.width = input->crop.width + input->crop.left;
+> +	format.format.height = input->crop.height + input->crop.top;
+>   	format.format.code = rpf->fmtinfo->mbus;
+>   	format.format.field = V4L2_FIELD_NONE;
+>   
+> @@ -151,7 +149,7 @@ static int vsp1_du_pipeline_setup_rpf(struct vsp1_device *vsp1,
+>   
+>   	sel.pad = RWPF_PAD_SINK;
+>   	sel.target = V4L2_SEL_TGT_CROP;
+> -	sel.r = *crop;
+> +	sel.r = input->crop;
+>   
+>   	ret = v4l2_subdev_call(&rpf->entity.subdev, pad, set_selection, NULL,
+>   			       &sel);
+> @@ -826,12 +824,14 @@ int vsp1_du_atomic_update(struct device *dev, unsigned int pipe_index,
+>   {
+>   	struct vsp1_device *vsp1 = dev_get_drvdata(dev);
+>   	struct vsp1_drm_pipeline *drm_pipe = &vsp1->drm->pipe[pipe_index];
+> +	struct vsp1_drm_input *input;
+>   	struct vsp1_rwpf *rpf;
+>   	int ret;
+>   
+>   	if (rpf_index >= vsp1->info->rpf_count)
+>   		return -EINVAL;
+>   
+> +	input = &vsp1->drm->inputs[rpf_index];
+>   	rpf = vsp1->rpf[rpf_index];
+>   
+>   	if (!cfg) {
+> @@ -873,9 +873,9 @@ int vsp1_du_atomic_update(struct device *dev, unsigned int pipe_index,
+>   
+>   	rpf->format.flags = cfg->premult ? V4L2_PIX_FMT_FLAG_PREMUL_ALPHA : 0;
+>   
+> -	vsp1->drm->inputs[rpf_index].crop = cfg->src;
+> -	vsp1->drm->inputs[rpf_index].compose = cfg->dst;
+> -	vsp1->drm->inputs[rpf_index].zpos = cfg->zpos;
+> +	input->crop = cfg->src;
+> +	input->compose = cfg->dst;
+> +	input->zpos = cfg->zpos;
+>   
+>   	drm_pipe->pipe.inputs[rpf_index] = rpf;
+>   
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.h b/drivers/media/platform/renesas/vsp1/vsp1_drm.h
+> index 3fd95b53f27e..7234737cc464 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.h
+> @@ -59,7 +59,7 @@ struct vsp1_drm {
+>   	struct vsp1_drm_pipeline pipe[VSP1_MAX_LIF];
+>   	struct mutex lock;
+>   
+> -	struct {
+> +	struct vsp1_drm_input {
+>   		struct v4l2_rect crop;
+>   		struct v4l2_rect compose;
+>   		unsigned int zpos;
 
-This is a new bug that was introduced in linux-next...
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
-drivers/media/i2c/imx334.c
-   536  static int imx334_update_exp_gain(struct imx334 *imx334, u32 exposure, u32 gain)
-   537  {
-   538          u32 lpfr, shutter;
-   539          int ret, ret_hold;
-   540  
-   541          lpfr = imx334->vblank + imx334->cur_mode->height;
-   542          shutter = lpfr - exposure;
-   543  
-   544          dev_dbg(imx334->dev, "Set long exp %u analog gain %u sh0 %u lpfr %u\n",
-   545                  exposure, gain, shutter, lpfr);
-   546  
-   547          cci_write(imx334->cci, IMX334_REG_HOLD, 1, &ret);
-
-This first call will do an unitialized read of ret to check if it holds
-an error code.
-
-   548          cci_write(imx334->cci, IMX334_REG_VMAX, lpfr, &ret);
-   549          cci_write(imx334->cci, IMX334_REG_SHUTTER, shutter, &ret);
-   550          cci_write(imx334->cci, IMX334_REG_AGAIN, gain, &ret);
-
-cci_write() is designed to preserve the error codes from previous calls.
-It will only write error codes to "ret", it will not write success.  If
-everything succeeds then "ret" is uninitialized.
-
-   551  
-   552          ret_hold = cci_write(imx334->cci, IMX334_REG_HOLD, 0, NULL);
-   553          if (ret_hold)
-   554                  return ret_hold;
-   555  
-   556          return ret;
-   557  }
-
-In production then everyone should run with INIT_STACK_ALL_ZERO.  In that
-case everything works fine.  However some older distributions do not use
-this option.  Also in testing, I would encourage everyone to run with
-INIT_STACK_ALL_PATTERN.
-
-regards,
-dan carpenter
+  Tomi
 
 
