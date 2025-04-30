@@ -1,123 +1,180 @@
-Return-Path: <linux-media+bounces-31395-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31397-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EA75AA4626
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 11:00:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50B14AA4663
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 11:07:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A35D61C00A3A
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 09:00:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A326C163CF2
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 09:07:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F4AB21D3FD;
-	Wed, 30 Apr 2025 08:59:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A11621B182;
+	Wed, 30 Apr 2025 09:07:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="nieKerRv"
+	dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b="Hq7FSr8E"
 X-Original-To: linux-media@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [117.135.210.2])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0365521C19B;
-	Wed, 30 Apr 2025 08:58:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=117.135.210.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71101158DAC
+	for <linux-media@vger.kernel.org>; Wed, 30 Apr 2025 09:07:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746003541; cv=none; b=IeRk0E+eolP7vM7fZQSgYh3fiquWpl3+FCklFAOJFLunjmxDGVHGiGyVgFhi53v3i9I57iFUQU9WaI5/r22++uBZZ2374XmT1JYWZeFl8vSGF88JU+jYKWI6iWVl0ZNpJRXj0/8HrkbTLtZa+YmkLNSONYjKhXSLQh6iX6mKdVo=
+	t=1746004044; cv=none; b=dsnQBnKzNTBzjuclHpoDlawyYcsap6Jg7nMLRtD+I6JsubsAE+iI4MqGwdtxx7YFZq2O7BMQ4578JSY/FuP/igFJxQOupQ4WbooucgKf4BIzYpKnYvMfoW8WjqIK5/KsX1yu+mwpDwiYgB1nvVCwg3+/e7EqhT9InfLrgXTnJfc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746003541; c=relaxed/simple;
-	bh=zU0+RXXmztKoSwSkuceVsulTWenam3UOqTrV486ysVU=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=XQVSxXG+J6K6W4yn3wYBfpbPhppjLpQXdghjpa7IuCPJd917mRnH8ryGyMiBHn14eI0qY7fmx0qxnwviYSi+f9UnGYCHsQRTxtDp7BEeSJ4A0fViQzgaqGhbstSdGZIPdnjBCP7O0CBy/apNJzXwIIVqMO9W+QeoH+LtkEDEuD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=nieKerRv; arc=none smtp.client-ip=117.135.210.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=VjGK2
-	U//qa5zU2g/W3rDAI5DX37UsbjUdTqEkHSBYQc=; b=nieKerRvp0+jKgnHyLjuJ
-	Ko1DdG3K5qv9HDR7CPQvYPBVTZ4Uz10cevI/Ld+CAdXkYZhoXTgJElXJ0h9hPTvw
-	Nck4vqQA2fwl2eSah+UlyQwojJSSpKcKO19/ADBqm5Cr/+Epqlo8Qxtl2IzbOmrS
-	kUaiv6bD9aYj0F42I+HoyM=
-Received: from localhost.localdomain (unknown [])
-	by gzsmtp1 (Coremail) with SMTP id PCgvCgD351ze5RFo2yEaBg--.45889S4;
-	Wed, 30 Apr 2025 16:58:00 +0800 (CST)
-From: oushixiong1025@163.com
-To: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-kernel@vger.kernel.org,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Dave Airlie <airlied@redhat.com>,
-	Sean Paul <sean@poorly.run>,
-	Shixiong Ou <oushixiong@kylinos.cn>
-Subject: [PATCH 3/3] drm/udl: Use the default gem_prime_import function
-Date: Wed, 30 Apr 2025 16:56:58 +0800
-Message-Id: <20250430085658.540746-3-oushixiong1025@163.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250430085658.540746-1-oushixiong1025@163.com>
-References: <20250430085658.540746-1-oushixiong1025@163.com>
+	s=arc-20240116; t=1746004044; c=relaxed/simple;
+	bh=ADIGeyIn0AXN6Efao813jQKjmokUDmY/Tvwfo5zhrM0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sTs+gI9JCS68O/bxxQwQCdmo7sGVAW5mcgp5hd072dj2rKeyy2+6hfo+qixE8tmZe3+WbpgVIlBrLUbn4t0W2wHZVSMVKQjPvNGK6jo5QpQf5XZc+hEFyrdOLWZXceHS7uiODD/9m44x8CfoyRv/TbZOVov1rZEtHDJt1jlJXd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch; spf=none smtp.mailfrom=ffwll.ch; dkim=pass (1024-bit key) header.d=ffwll.ch header.i=@ffwll.ch header.b=Hq7FSr8E; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ffwll.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=ffwll.ch
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-acbb85ce788so1372534866b.3
+        for <linux-media@vger.kernel.org>; Wed, 30 Apr 2025 02:07:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google; t=1746004041; x=1746608841; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=QWzeqHvzoIOvidos86deilx7bNZ58NmjU0Ulih/C+JI=;
+        b=Hq7FSr8Egf1+c8pKqlWtfgkfimkuHO/ZZdBOpG5h/FgnY2keii9eXoF4Igp+ah+Gvk
+         W4UEHOTNnoz7QxwDLJKiZxr/0LZEKdGwxdOCE1yxOiAjy9s3B497a+/I5NETHxMY2MnU
+         yBRlXWIb1fbrXxOce6oCnvaiV+6N0MRH2lP94=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746004041; x=1746608841;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QWzeqHvzoIOvidos86deilx7bNZ58NmjU0Ulih/C+JI=;
+        b=oQAB++LICwzgWW0F/xETIojLDnfIe5/BNDUTfLcG2lXtgMnz5hiHr12/lT3Vg157zt
+         2H41tZTkfLPzclOpaVUKrvVEOHbIy7wW/mYsoMqPtbnkSNMFry4t6/uJlGy2F5SREmgO
+         mLtXJjaMNjJorCiNiksKOW6NNWw6XEzkr3sItm1OrQZnfeErKLvkki9Mlc92H+IRsdgK
+         LGgIPQdfoMzp7eK6sURpsen8GA4HmGGTX0Bhj6HxyWZpEyDV/6VoxP6AyKX56PQiOGYS
+         thB9OkNROwMnBstjEl5alMoG0RUVQmBzZSbYa2ZLM4NsIrqtOPVa2K8cNboxq/tPlInv
+         QUFw==
+X-Forwarded-Encrypted: i=1; AJvYcCULWUvfpvoPQNNQJrP3lgCNqRFZket6l4mr1o5uHtRHU1jrJudrXLU96YYXuIieYCHMmwdvOMt5Pwo/yg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz3fV0L1qta/TmHLQI3dnZ8f0Ur/5SB1+xTdMbBvicbHeNwvfzv
+	wSXxnK8lixWCv/PgpChQefsCsNJ+l8J234tzvNzrzG4OGkH5dP+ENdyyld+f9UY=
+X-Gm-Gg: ASbGnctBgv4vve/iQrchc9VSUvjNJxOlSmq6MzrQjUZnJ+AtlicdMpsDNaaxx6WFPZH
+	ftxFzCgGqmDI6kn7y1SCFbG0XJt7XN3ZxwjYK9juoAf8EqcL69qfdIjwSxxyEHXjigx2o3aWYfr
+	7E0unTek1JjiH/A5gOSsFjjTmmdCyundhrULE5OA9m3xKtKix51KnQQBDKtSjO8r8Yw1TIHMjZT
+	Qyoq1OMdRvXAOJXgnK+DYN5zVEpLpJ1kV9kW/1fTn9GwXWkKUD4QuGCDNPBfDWP/8RKvNnyKtEJ
+	1dWaEnPuCc3sRH8NE9lFjFmG3DESo0z0Q2Fl7B3TjOHyfB/FlzsBldf/n7SY/Ag=
+X-Google-Smtp-Source: AGHT+IGVf8MxbpkAU9HqqZmA/jVqKf1xEVujvougTjPKVL/Z0oIU+ggvLP+fYJeMXLuFrQNOnmqtyw==
+X-Received: by 2002:a17:907:1b0d:b0:aca:c532:cf07 with SMTP id a640c23a62f3a-acedc65d3famr272653566b.35.1746004040489;
+        Wed, 30 Apr 2025 02:07:20 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:5485:d4b2:c087:b497])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acebe7a4ee8sm313017166b.74.2025.04.30.02.07.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Apr 2025 02:07:19 -0700 (PDT)
+Date: Wed, 30 Apr 2025 11:07:17 +0200
+From: Simona Vetter <simona.vetter@ffwll.ch>
+To: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: simona@ffwll.ch, airlied@gmail.com, asrivats@redhat.com,
+	andyshrk@163.com, christian.koenig@amd.com,
+	boris.brezillon@collabora.com, mripard@kernel.org,
+	maarten.lankhorst@linux.intel.com, dri-devel@lists.freedesktop.org,
+	Sumit Semwal <sumit.semwal@linaro.org>, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v3] drm/gem: Internally test import_attach for imported
+ objects
+Message-ID: <aBHoRTdsdOLFhzfg@phenom.ffwll.local>
+References: <20250416065820.26076-1-tzimmermann@suse.de>
+ <Z_96e7Lv-sEDUS6U@phenom.ffwll.local>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PCgvCgD351ze5RFo2yEaBg--.45889S4
-X-Coremail-Antispam: 1Uf129KBjvJXoW7WFy8tr4DGFWUKw4xZw47Jwb_yoW8GF4kpF
-	43G34IkrWjqF4kKw13Aw4xAa45Ca17GayIgr48Jwna9F4vyr1UJFy5JFyFy3srAr97GF13
-	tF1vyryUAF48KFUanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07jxfHUUUUUU=
-X-CM-SenderInfo: xrxvxxx0lr0wirqskqqrwthudrp/1tbiXRc-D2gR5W4O-wABs4
+In-Reply-To: <Z_96e7Lv-sEDUS6U@phenom.ffwll.local>
+X-Operating-System: Linux phenom 6.12.22-amd64 
 
-From: Shixiong Ou <oushixiong@kylinos.cn>
+On Wed, Apr 16, 2025 at 11:38:03AM +0200, Simona Vetter wrote:
+> On Wed, Apr 16, 2025 at 08:57:45AM +0200, Thomas Zimmermann wrote:
+> > Test struct drm_gem_object.import_attach to detect imported objects.
+> > 
+> > During object clenanup, the dma_buf field might be NULL. Testing it in
+> > an object's free callback then incorrectly does a cleanup as for native
+> > objects. Happens for calls to drm_mode_destroy_dumb_ioctl() that
+> > clears the dma_buf field in drm_gem_object_exported_dma_buf_free().
+> > 
+> > v3:
+> > - only test for import_attach (Boris)
+> > v2:
+> > - use import_attach.dmabuf instead of dma_buf (Christian)
+> > 
+> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> > Fixes: b57aa47d39e9 ("drm/gem: Test for imported GEM buffers with helper")
+> > Reported-by: Andy Yan <andyshrk@163.com>
+> > Closes: https://lore.kernel.org/dri-devel/38d09d34.4354.196379aa560.Coremail.andyshrk@163.com/
+> > Tested-by: Andy Yan <andyshrk@163.com>
+> > Cc: Thomas Zimmermann <tzimmermann@suse.de>
+> > Cc: Anusha Srivatsa <asrivats@redhat.com>
+> > Cc: Christian König <christian.koenig@amd.com>
+> > Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+> > Cc: Maxime Ripard <mripard@kernel.org>
+> > Cc: David Airlie <airlied@gmail.com>
+> > Cc: Simona Vetter <simona@ffwll.ch>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: "Christian König" <christian.koenig@amd.com>
+> > Cc: dri-devel@lists.freedesktop.org
+> > Cc: linux-media@vger.kernel.org
+> > Cc: linaro-mm-sig@lists.linaro.org
+> 
+> Reviewed-by: Simona Vetter <simona.vetter@ffwll.ch>
 
-Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
----
- drivers/gpu/drm/udl/udl_drv.c | 17 -----------------
- 1 file changed, 17 deletions(-)
+Also quick doc request: We do have a bit of overview documentation for
+prime here about specifically this lifetime fun, and why there's a chain
+of references and hence a distinction between imported foreign dma-buf and
+re-imported native dma-buf:
 
-diff --git a/drivers/gpu/drm/udl/udl_drv.c b/drivers/gpu/drm/udl/udl_drv.c
-index c00d8b8834f2..8107549b12e5 100644
---- a/drivers/gpu/drm/udl/udl_drv.c
-+++ b/drivers/gpu/drm/udl/udl_drv.c
-@@ -49,22 +49,6 @@ static int udl_usb_reset_resume(struct usb_interface *interface)
- 	return drm_mode_config_helper_resume(dev);
- }
- 
--/*
-- * FIXME: Dma-buf sharing requires DMA support by the importing device.
-- *        This function is a workaround to make USB devices work as well.
-- *        See todo.rst for how to fix the issue in the dma-buf framework.
-- */
--static struct drm_gem_object *udl_driver_gem_prime_import(struct drm_device *dev,
--							  struct dma_buf *dma_buf)
--{
--	struct udl_device *udl = to_udl(dev);
--
--	if (!udl->dmadev)
--		return ERR_PTR(-ENODEV);
--
--	return drm_gem_prime_import_dev(dev, dma_buf, udl->dmadev);
--}
--
- DEFINE_DRM_GEM_FOPS(udl_driver_fops);
- 
- static const struct drm_driver driver = {
-@@ -73,7 +57,6 @@ static const struct drm_driver driver = {
- 	/* GEM hooks */
- 	.fops = &udl_driver_fops,
- 	DRM_GEM_SHMEM_SIMPLE_DRIVER_OPS,
--	.gem_prime_import = udl_driver_gem_prime_import,
- 	DRM_FBDEV_SHMEM_DRIVER_OPS,
- 
- 	.name = DRIVER_NAME,
+https://dri.freedesktop.org/docs/drm/gpu/drm-mm.html#reference-counting-for-gem-drivers
+
+I think it would be good to augment this with more links to functions
+(like this one recently added and fixed in this patch here) and struct
+members to that overview. And maybe also link from key function and struct
+functions back to that overview doc. Otherwise I think the next person
+will get confused by this rather tricky code again and break a corner
+cases.
+
+Thanks, Sima
+
+> 
+> > ---
+> >  include/drm/drm_gem.h | 3 +--
+> >  1 file changed, 1 insertion(+), 2 deletions(-)
+> > 
+> > diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> > index 9b71f7a9f3f8..a3133a08267c 100644
+> > --- a/include/drm/drm_gem.h
+> > +++ b/include/drm/drm_gem.h
+> > @@ -588,8 +588,7 @@ static inline bool drm_gem_object_is_shared_for_memory_stats(struct drm_gem_obje
+> >   */
+> >  static inline bool drm_gem_is_imported(const struct drm_gem_object *obj)
+> >  {
+> > -	/* The dma-buf's priv field points to the original GEM object. */
+> > -	return obj->dma_buf && (obj->dma_buf->priv != obj);
+> > +	return !!obj->import_attach;
+> >  }
+> >  
+> >  #ifdef CONFIG_LOCKDEP
+> > -- 
+> > 2.49.0
+> > 
+> 
+> -- 
+> Simona Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
+
 -- 
-2.17.1
-
+Simona Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
 
