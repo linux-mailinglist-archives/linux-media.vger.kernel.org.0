@@ -1,151 +1,228 @@
-Return-Path: <linux-media+bounces-31415-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31416-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2EC1AA472A
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 11:30:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A02DAA478C
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 11:44:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A86E94E1310
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 09:29:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 53B0B463120
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 09:44:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF6C623ED5E;
-	Wed, 30 Apr 2025 09:27:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD6FD23CEFF;
+	Wed, 30 Apr 2025 09:43:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XHD1g7mE"
+	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="iH2jCh3n"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03DFD23C4F0;
-	Wed, 30 Apr 2025 09:27:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68818238171;
+	Wed, 30 Apr 2025 09:43:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746005267; cv=none; b=hcoUo5WSkbBBhYgE/igY13HzdLXhc/taGrGMctf1jh26LIDvvuoTio8R/QfmAm47nl2UeTYimPWsN+KZ32zWMbDnFswRpQhyeHLVWY767+xm5VfPN7aQUzdqsYkiEtRK7k9+sIrs5bCyOjCFepCeHjmvuE07Z8eXoRy3OxBg3Ns=
+	t=1746006190; cv=none; b=a50AHRIaBFHrc2kBvNo/uSXpBM0Ykhp8/XxEu3RJirXSIDd5T+3VJI6dGRMpJTTAO3ovlqN0OgY/NBC0iemw9phRrSl/ZjCkAcdOGelH/naMYOeDvPAqMwJQ6ZBgr8jyZHv/mDV+PTP2ZbmX0ODQuNYiVmvSN7BhjvGaeAyVUP0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746005267; c=relaxed/simple;
-	bh=N6fkCiwtMq7cQFfPuTVHOCQOjaRR0eDS9lPzo9y3LvA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rcBoOLTLghRMBnWty+082MiJmvsjCGfYPpW4Um9JcRsbC26lNY9JjAjoREMQLd7Jidp9YnrFWe9gNB9aKxuK0xdeVr4PmqNFImjxVM2Oy0KxIMJ8D9ShRk1JXP28V4NPrM88oWMYdlBBXGpYJxti5sbCiFoo7uEUsGEQspUe+jk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XHD1g7mE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 6E043C4AF0B;
-	Wed, 30 Apr 2025 09:27:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746005266;
-	bh=N6fkCiwtMq7cQFfPuTVHOCQOjaRR0eDS9lPzo9y3LvA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=XHD1g7mEXepkcqFEDjh0IvzjiGvi7eFktGPyg/MFqLn8bHqEDcA3Yb544xJ5wQKXb
-	 JP+sCrSdpDB9i33x5dor2boASRpkQjd7QB3kyRKznEgFDmwjMhYSyr4/xkJ4OYXAa4
-	 exbkgba4Pf9x1L2BI0vIV3/Ycl50dyY0UL96tpKj3jGdVNvNmDxvfZqGqvjUQSoUn0
-	 SFm3Dq4xRRIjP3bOiQAgh9U/nAx/80Ki67wN45M1f8aDWoVSg7EgVXrNRhgk/DtTH9
-	 a67/KMOqOEV7EQ53vtRPgR7nRwGs1B97gEIMFjmr7Sxj57xLy572Dq6yrVzxowB0P6
-	 8Qr9jhsqrmNLQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65511C3ABAD;
-	Wed, 30 Apr 2025 09:27:45 +0000 (UTC)
-From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Date: Wed, 30 Apr 2025 11:16:02 +0200
-Subject: [PATCH v6 13/13] arm64: dts: rockchip: enable vicap dvp on
- wolfvision pf5 io expander
+	s=arc-20240116; t=1746006190; c=relaxed/simple;
+	bh=I8/LM1SYThg3N3Evz4416KieqQ3zGYaZ5j6nFuyyL1Y=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=UAa1YxQkSDj8+W975x9TqAcqa5+dZu7tMZj57efNITVrlbEzkOkryekA6gphKkHLU/Yb4Gp61YwqkyDc7yHzsVvAngvS8xk3FXo9o2SvAB9X7cjq04Su2dk548fjR2TpN3ZiHBcp+dV7XxrhJDWgY5GY1pBl2MAUzAIWuzfsz8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=iH2jCh3n; arc=none smtp.client-ip=185.11.138.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
+	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
+	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=WPJRIRjIVSNpyQoQChOyubUqA46qURdU/3MhDLyhuMA=; b=iH2jCh3nF+5D+w/4JTWbSM4goC
+	lDV6IqfGiig3EW29GLuNMI/wtYevpDoGkmc7pXJAqXOnViyXgnfPvxfXtgHxJ1zl3ToRmZNI4KJAU
+	9YyDvRoFtfrcsmp3oq45MS1YWgbbDFkD/in20lJijdwbny+0LQUbYG+4DIb2rd4CL1QLuEkmZ5Efz
+	8mRi0pY6pHLbfU8GqGt/41ijHDGtSgAw6ll6+ejoJSsOWWFeg3gxoW1YLz1dMFWIJSfUYQovTu62X
+	HxZaVwvNP6dLxhcEzFqccpEHKHWK5N6N87OjzRSO6LMWeVM0CyQiLYOW0XNWCpzU6YXz0JISLmY4H
+	ZgCPZIhw==;
+Received: from i53875ba4.versanet.de ([83.135.91.164] helo=diego.localnet)
+	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <heiko@sntech.de>)
+	id 1uA3xi-0004AU-M6; Wed, 30 Apr 2025 11:42:42 +0200
+From: Heiko =?UTF-8?B?U3TDvGJuZXI=?= <heiko@sntech.de>
+To: Mehdi Djait <mehdi.djait@linux.intel.com>,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ =?UTF-8?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>,
+ Gerald Loacker <gerald.loacker@wolfvision.net>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Kever Yang <kever.yang@rock-chips.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Collabora Kernel Team <kernel@collabora.com>,
+ Paul Kocialkowski <paulk@sys-base.io>,
+ Alexander Shiyan <eagle.alexander923@gmail.com>,
+ Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, michael.riesch@collabora.com
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Michael Riesch <michael.riesch@collabora.com>
+Subject:
+ Re: [PATCH v6 01/13] Documentation: admin-guide: media: add rockchip camera
+ interface
+Date: Wed, 30 Apr 2025 11:42:41 +0200
+Message-ID: <1833589.VLH7GnMWUR@diego>
+In-Reply-To: <20240220-rk3568-vicap-v6-1-d2f5fbee1551@collabora.com>
+References:
+ <20240220-rk3568-vicap-v6-0-d2f5fbee1551@collabora.com>
+ <20240220-rk3568-vicap-v6-1-d2f5fbee1551@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240220-rk3568-vicap-v6-13-d2f5fbee1551@collabora.com>
-References: <20240220-rk3568-vicap-v6-0-d2f5fbee1551@collabora.com>
-In-Reply-To: <20240220-rk3568-vicap-v6-0-d2f5fbee1551@collabora.com>
-To: Mehdi Djait <mehdi.djait@linux.intel.com>, 
- Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
- Gerald Loacker <gerald.loacker@wolfvision.net>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Kever Yang <kever.yang@rock-chips.com>, 
- Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Collabora Kernel Team <kernel@collabora.com>, 
- Paul Kocialkowski <paulk@sys-base.io>, 
- Alexander Shiyan <eagle.alexander923@gmail.com>, 
- Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, 
- Michael Riesch <michael.riesch@wolfvision.net>, 
- Michael Riesch <michael.riesch@collabora.com>
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1746004564; l=1541;
- i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=A46w67oMbroxqAcXCMQ9mjlreHO/teIN06ITNLENh64=;
- b=DNjWNIQuisPD8Z6OqpGmpAqpPC0hDoXzJO04Ec7Kajm4EErb2OOIEfBS83cMC0SVrDN6bR/cX
- OeR7cHJDynmB0Jnmki/i35gIkGyEoVsfqQl26P3BNbj7r8uEp4cHMhU
-X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
- pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
-X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
- with auth_id=371
-X-Original-From: Michael Riesch <michael.riesch@collabora.com>
-Reply-To: michael.riesch@collabora.com
 
-From: Michael Riesch <michael.riesch@wolfvision.net>
+Hey Michael,
 
-The Digital Video Port (DVP, the 16-bit variant) of the RK3568 VICAP
-is broken out to the PF5 mainboard expansion header.
-Enable it in the device tree overlay for the WolfVision PF5 IO
-Expander board.
+Am Mittwoch, 30. April 2025, 11:15:50 Mitteleurop=C3=A4ische Sommerzeit sch=
+rieb Michael Riesch via B4 Relay:
+> From: Michael Riesch <michael.riesch@collabora.com>
+>=20
+> Add a document that describes the different variants of the Rockchip
+> Camera Interface (CIF), their hardware layout, as well as their
+> representation in the media controller centric rkcif device driver,
+> which is located under drivers/media/platform/rockchip/rkcif.
+>=20
+> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
 
-Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
-Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
----
- .../rockchip/rk3568-wolfvision-pf5-io-expander.dtso  | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+> diff --git a/Documentation/admin-guide/media/rkcif.rst b/Documentation/ad=
+min-guide/media/rkcif.rst
+> new file mode 100644
+> index 000000000000..f35f644a54a0
+> --- /dev/null
+> +++ b/Documentation/admin-guide/media/rkcif.rst
+> @@ -0,0 +1,83 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Rockchip Camera Interface (CIF)
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Introduction
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The Rockchip Camera Interface (CIF) is featured in many Rockchip SoCs in
+> +different variants.
+> +The different variants are combinations of common building blocks, such =
+as
+> +
+> +* INTERFACE blocks of different types, namely
+> +
+> +  * the Digital Video Port (DVP, a parallel data interface)
+> +  * the interface block for the MIPI CSI-2 receiver
+> +
+> +* CROP units
+> +
+> +* MIPI CSI-2 receiver (not available on all variants): This unit is refe=
+rred
+> +  to as MIPI CSI HOST in the Rockchip documentation.
+> +  Technically, it is a separate hardware block, but it is strongly coupl=
+ed to
+> +  the CIF and therefore included here.
+> +
+> +* MUX units (not available on all variants) that pass the video data to =
+an
+> +  image signal processor (ISP)
+> +
+> +* SCALE units (not available on all variants)
+> +
+> +* DMA engines that transfer video data into system memory using a
+> +  double-buffering mechanism called ping-pong mode
+> +
+> +* Support for four streams per INTERFACE block (not available on all
+> +  variants), e.g., for MIPI CSI-2 Virtual Channels (VCs)
+> +
+> +This document describes the different variants of the CIF, their hardware
+> +layout, as well as their representation in the media controller centric =
+rkcif
+> +device driver, which is located under drivers/media/platform/rockchip/rk=
+cif.
+> +
+> +Variants
+> +=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Rockchip PX30 Video Input Processor (VIP)
+> +-----------------------------------------
+> +
+> +The PX30 Video Input Processor (VIP) features a digital video port that =
+accepts
+> +parallel video data or BT.656.
+> +Since these protocols do not feature multiple streams, the VIP has one D=
+MA
+> +engine that transfers the input video data into system memory.
+> +
+> +The rkcif driver represents this hardware variant by exposing one V4L2 s=
+ubdevice
+> +(the DVP INTERFACE/CROP block) and one V4L2 device (the DVP DMA engine).
+> +
+> +Rockchip RK3568 Video Capture (VICAP)
+> +-------------------------------------
+> +
+> +The RK3568 Video Capture (VICAP) unit features a digital video port and =
+a MIPI
+> +CSI-2 receiver that can receive video data independently.
+> +The DVP accepts parallel video data, BT.656 and BT.1120.
+> +Since the BT.1120 protocol may feature more than one stream, the RK3568 =
+VICAP
+> +DVP features four DMA engines that can capture different streams.
+> +Similarly, the RK3568 VICAP MIPI CSI-2 receiver features four DMA engine=
+s to
+> +handle different Virtual Channels (VCs).
+> +
+> +The rkcif driver represents this hardware variant by exposing up to thre=
+e V4L2
+> +subdevices:
+> +
+> +* rkcif-dvp0: INTERFACE/CROP block for the DVP
+> +* rockchip-mipi-csi fdfb0000.csi: MIPI CSI-2 receiver
+> +* rkcif-mipi0: INTERFACE/CROP block for the MIPI CSI-2 receiver
+> +
+> +and up to five V4L2 devices:
+> +
+> +* rkcif-dvp0-id0: The support for multiple streams on the DVP is not yet
+> +  implemented, as it is hard to find test hardware. Thus, this video dev=
+ice
+> +  represents the first DMA engine of the RK3568 DVP.
+> +* rkcif-mipi0-id[0...3]: The four DMA engines of the RK3568 MIPI CSI-2
+> +  receiver. Each DMA engine can capture a certain MIPI CSI-2 Virtual Cha=
+nnel.
+> +
+> +.. kernel-figure:: rkcif-rk3568-vicap.dot
+> +    :alt:   Topology of the RK3568 Video Capture (VICAP) unit
+> +    :align: center
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso b/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso
-index 048933de2943..8cfce71dd318 100644
---- a/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso
-+++ b/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso
-@@ -11,6 +11,7 @@
- #include <dt-bindings/clock/rk3568-cru.h>
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/media/video-interfaces.h>
- #include <dt-bindings/pinctrl/rockchip.h>
- 
- &{/} {
-@@ -134,3 +135,22 @@ &usb2phy0_host {
- 	phy-supply = <&usb_host_vbus>;
- 	status = "okay";
- };
-+
-+&vicap {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&cif_clk &cif_dvp_clk &cif_dvp_bus16>;
-+	status = "okay";
-+};
-+
-+&vicap_dvp {
-+	vicap_dvp_input: endpoint {
-+		bus-type = <MEDIA_BUS_TYPE_BT656>;
-+		bus-width = <16>;
-+		pclk-sample = <MEDIA_PCLK_SAMPLE_DUAL_EDGE>;
-+		rockchip,dvp-clk-delay = <10>;
-+	};
-+};
-+
-+&vicap_mmu {
-+	status = "okay";
-+};
+in patch 6 you already have a block stating
 
--- 
-2.39.5
+	Finally, the RK3588 VICAP unit constitutes an essential piece of the
+	camera interface with one DVP, six MIPI CSI-2 receivers, scale/crop
+	units, and a data path multiplexer (to scaler units, to ISP, ...).
+
+so the rk3588 seems to be on the table "soonish" ;-) .
+So maybe also already include it here in the description already, if there
+is a next version, and your investigation is already that far along?
+
+Otherwise a really nice (and concise) read, and made me understand the
+setup somewhat nicely.
+
+Reviewed-by: Heiko Stuebner <heiko@sntech.de>
 
 
 
