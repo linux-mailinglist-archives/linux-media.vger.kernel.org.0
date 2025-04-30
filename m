@@ -1,187 +1,181 @@
-Return-Path: <linux-media+bounces-31419-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31420-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59FD0AA47B1
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 11:54:32 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC77CAA47C9
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 11:59:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 80BC64A5747
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 09:54:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2D285464624
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 09:59:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2280423A994;
-	Wed, 30 Apr 2025 09:54:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81EE9238145;
+	Wed, 30 Apr 2025 09:59:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="DdmQfHzR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazon11020120.outbound.protection.outlook.com [52.101.227.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43293238145;
-	Wed, 30 Apr 2025 09:54:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.227.120
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746006848; cv=fail; b=gMnOhKMPsxADXZKHIv4q6hcumEOtr2jzVP3mEknyBgnmEumB8qHXzXlRpEIRPO+61sXkHYyw7thv8XUIb7Ht86OXHv7i7XZcfg+EbAC+/eKr38ozWrjV5jzoOujRR12p6dlXRB1mDVLJbCyEQQ6XARe3bxGBT1Varnh++97UtEo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746006848; c=relaxed/simple;
-	bh=2VbiFoeV4AIXwsIT0vvcYQ3DFUqLaLCxVxVyqAWRfi8=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=RVPiFDosTAJPs0AieHS5H6L7wRQW5gaMcXaWcGzElIU+t6dg9UCP/XU36m6eunexmxlxfvkGGawCxnmpewra3igt+1CedfDiqOwznhkQ/85PDAPlZxyoiBCc+pZd/SKkBV05WzNfATmlE+EtSNdarvUiwGC8iazsMphaf/ITXwA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=52.101.227.120
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oZcVKtMFeg7yTnKal+z7mASFOMF2PC/6WChzoVWhj0xiV8DiZmgvx7yIvRYtVG96Fh+2yrgupBbR8b1CtW9vXFaWT6Uak1ZS/Cf8OXZgKwSQbKmVUJ4aDguzPSn70y/dhKeu8u3WUi2TYp+A/S64iJGNEyea+5oevv4yjfwug/OPgM0ndbw9qh9PABQgxkmy2TPJo44nVomvn1Mc61t7qJ8Qqubpj1h6O8sI/hfnw4b6lN+HNZY48FqSnV2dM1KbkIxY9qlz4g7TP9iXHJ+fl5BlLNQBHIPz0ypTvNtD8TinLiudjWfRT+mJswm8e0LBtNQMwvX04+1LuJZVhABChA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Y2qH7r/66hq7CkmEm67no2rlWRtj+gCZWiGMJrRyo/0=;
- b=e9O8PrIBPf29eEBwHfq0b1YsXlmky+C0BFljJrafbfNaXC27XGiUztneAWt4hGSPhmNTJVHLB8sZeOFPt0pqV2qIc08rS6tYzAkkQVDW4xaazerndEICFM/3kni0bFtn/WjUXPIcbGgIYbDFgCRsywOvQ7If0ZWs4vmu1Yy8mAaue58nhkrokdXK7c4LYXNezExx5FgwmntJ5qq3ZQbV5aqNgOaqJJWAry/9Wve8gSc88Zrb246uBCPPAjQn51HvQ716LtgUVkwkKcAORwBRaMPeCKaygUBZdEMwRmvzz5+al1pUXAFL7nB+QzTSTFd/niQMXnPCFWwP6uU9kLbEKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
- header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
-Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
- by PN3P287MB0917.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:176::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.21; Wed, 30 Apr
- 2025 09:54:03 +0000
-Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
- ([fe80::58ec:81a0:9454:689f]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
- ([fe80::58ec:81a0:9454:689f%2]) with mapi id 15.20.8699.019; Wed, 30 Apr 2025
- 09:54:03 +0000
-From: Tarang Raval <tarang.raval@siliconsignals.io>
-To: Dan Carpenter <dan.carpenter@linaro.org>
-CC: Hans Verkuil <hverkuil@xs4all.nl>, Jai Luthra
-	<jai.luthra@ideasonboard.com>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Shravan Chippa
-	<Shravan.Chippa@microchip.com>, Tomi Valkeinen
-	<tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH 0/3] media: i2c: Fix some uninitialized return values
-Thread-Topic: [PATCH 0/3] media: i2c: Fix some uninitialized return values
-Thread-Index: AQHbuam3609pgF2cAkiyNDiRZSzOCLO79xvE
-Date: Wed, 30 Apr 2025 09:54:03 +0000
-Message-ID:
- <PN3P287MB18293419D4F8EE72BD2E141C8B832@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB59236445
+	for <linux-media@vger.kernel.org>; Wed, 30 Apr 2025 09:59:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746007169; cv=none; b=Y5KA5qH/hzn4BgHEwxE/UgrxRKNHKj5gx8fttGJtDydsRSSmNdteSkt6B7ON/+BaXH0Rfds78obb8pBD4sRG57GIMAE9HXpIDxbvduShh5rG/A1eZu+LEm5iW8P05HBzzm/q/KFnXfxzObNmHKcDdnBJkGN1+cuTzGTwQj31KR0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746007169; c=relaxed/simple;
+	bh=gU0cK+6rYhoCrfmO8Zc168gkmlEzEUm0imiU4BkXnxU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NKcHAQ61y0nqM4BSE2+j3LTS1TMmnbu33N1TFG2R5rqSbho5gFnibg+u7aGlBMiYPHUq93nls5rsTbEPw8Kmfk9D8fQL3s9SS+lyzlW0aitF6BUOBGYBXYqKg5oYErfjCpqd8eU9d/5jQGkTMVOY3jrkQ8QEBonRDjBvzDI4n+4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=DdmQfHzR; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43cec5cd73bso34855705e9.3
+        for <linux-media@vger.kernel.org>; Wed, 30 Apr 2025 02:59:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1746007165; x=1746611965; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6I143zOtsIb3U6VlapVBXBqNO181vL3QULnfrrsNbrQ=;
+        b=DdmQfHzRHQn+QHmOY/jAwJGVb9U2v6D940luAPQsGcklSA0gIn310szYtwjcTZD3ZJ
+         53c0V6W3pVUvqz6SDoR7AyJLH4ixqX9/A9Cx1ZBTujxw7qpYAIqz3D3TgCeRV+dPxfxT
+         OEH7NUJQoOUvaSjRXmAkncSXOrE84m4j0q94pCp+Hi6IyYYMxh++nb0N1E2JQjpuWKpx
+         O5qfVa3eYZV468Lh+pkywF2YdSunRfAT3eVaO69I01f6r5cJo1pAsLKFBUmAP4WSC+b9
+         sRlm4mvd8doYs9kCdHpUCqgnn7MkBn1iV8g2Id6h9vHaIkddFUhVbrq/F7CyKb3z8/GP
+         4zpg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746007165; x=1746611965;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6I143zOtsIb3U6VlapVBXBqNO181vL3QULnfrrsNbrQ=;
+        b=H14kT+D1A0tkEFPzsIAKMul293tbxEIZWmwVq1Ethw+59AaCxJA4XgpXvE7UUKmJUi
+         vD48Bv6l7dx3BbPX4D6mVEJddNLXXOyLnN3RzTNUtbyAgG2dpqVkoRkW1m0msaI+ftI4
+         hYOoDpSdhuh/9DHV0HxjvkatoxRGbEMKYy79Xw25DCQnioGxUTeIorwRkBKHbd9niiCo
+         BIcwhbkT+ncZBgWMONn4D2BDjGvs9oysqCDB7+xFsscqGHO1gfYXFARYvpSjn8Ru53Cl
+         +4EmksIwKaK9b0LvSeKfpWUf3bJpBG1jJajD8AaDt8MuZX8LBwdduUdd8G524r2o7bm2
+         eljQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX4GwJ9YexooMGFnfcYGDikmOC0aqaNF4dwx0wlNAQaV9P5wKeHqKmYan1XNvJ53QHdIQyIgJi4EaMNNQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxdivIaU97v/sTuCmZS+2kMIxZDph48j1gzLONu0+qfl5J5rC06
+	Hb+8iuPMr+qJtVSqpA+TGv5ikwoIzqHOGxHloGdZCGv6JQXcJDBVKDDpuZxS9q4=
+X-Gm-Gg: ASbGnctjIeGuNP1Zgp7aTaYhguTRIzDJsLle7RSsOPMAD5+gFm791t664pFJw7B5Ap7
+	HGmZ2sdGwIODbZTqGz6f3C+cd3eNH5T+K7Bc963xraq+jwNlKq38bDtOhwjVeY2jNcViQ3XrWjU
+	E8pVQqSyCgie0JE4QtZ5dOQ4JzEB0vVMn2HpvOu4t4WODXRCsGOPWU+Wo271hF+dFlYuuitng6F
+	t4PLb9bRzimxWypijHLXmt1wWK4w0lgsuUvPer2t4ZCG4x4x/+c/0xQE8t7Hd6Mo1pOYzgl+OTo
+	SVNXaouvN26V3oe6BOP+3u6z/YOyeOB4akAmfxyohKAmyQ==
+X-Google-Smtp-Source: AGHT+IHLLxyeTc1HcEGag1qjfI4wrS/rupaaqDuV0HhYG9K4MQxOD+AmR9eIPJEaGfGvBmIL287Urw==
+X-Received: by 2002:a05:6000:2509:b0:391:3f64:ed00 with SMTP id ffacd0b85a97d-3a08f7793cdmr1998311f8f.26.1746007165306;
+        Wed, 30 Apr 2025 02:59:25 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3a073e5d479sm17012964f8f.92.2025.04.30.02.59.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Apr 2025 02:59:24 -0700 (PDT)
+Date: Wed, 30 Apr 2025 12:59:21 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Tarang Raval <tarang.raval@siliconsignals.io>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Shravan Chippa <Shravan.Chippa@microchip.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/3] media: i2c: imx334: uninitialized variable in
+ imx334_update_exp_gain()
+Message-ID: <255a8604-5aa9-441a-a4d6-ebc592a00be9@stanley.mountain>
 References: <cover.1746001540.git.dan.carpenter@linaro.org>
-In-Reply-To: <cover.1746001540.git.dan.carpenter@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-msip_labels:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siliconsignals.io;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PN3P287MB1829:EE_|PN3P287MB0917:EE_
-x-ms-office365-filtering-correlation-id: 632ff4f9-d8c0-4786-12b6-08dd87ccf098
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700018;
-x-microsoft-antispam-message-info:
- =?iso-8859-1?Q?8O2Wa80pwSbn4egWfKdrGW6pfh3WLgywu8yqxJFivLhaPH91mR4/CgHjCS?=
- =?iso-8859-1?Q?DchaLMaznQEVJ/kG5z6TuiVWq0uVqYiFFvOAW5mcn0s1pH8M+R3quIFCdq?=
- =?iso-8859-1?Q?swyYuUpcnIroYmpbIjqiUKzmg60Xw+AjZDcKkPdpKymGe1Nfzl8OAaCaCV?=
- =?iso-8859-1?Q?q+nLeYmSkWLL04ioeq0ofsxyuXTN9tGbScMCKVSTrrHbNC3l99WIYMaODP?=
- =?iso-8859-1?Q?VxqLSXtjwlD0SkzffK8AM/kFKJK43j39U1BHNnHL57G+0DKgQTvmTYVpMF?=
- =?iso-8859-1?Q?U5joDJQiybkO2acjmQIp+HNl8t5HpWZgWavagHmj8MbuB7lpXOZxhwcZrS?=
- =?iso-8859-1?Q?9b7YoBYtiKDmlR6JvpaL28RpnoQCr4obPlKKsKQDA/1rslGGNj8z3C4xb+?=
- =?iso-8859-1?Q?ZVd3qSsIr6iphdXexlCHWYQ51p1MKh0+OKxmh6Ms8qmJXy0fbsjrhXleL1?=
- =?iso-8859-1?Q?q95cTMW8dJPs8HV3pKt9TUk2BRcrJFeDshFUb7xUkoJ6UvdKSEJEo2Y3b9?=
- =?iso-8859-1?Q?VOati/nPR6Abs2DBL5AymjKIoKscovbQhCu6kazdGNLdYfzxKK2uSnd/rN?=
- =?iso-8859-1?Q?Nm+/54OzuuRdHHSQP2ArJPDPkMSMyznlkBNOpg7B5tIN2j0sWy/Z/0fkSj?=
- =?iso-8859-1?Q?/4XCXdSo5xLnzL3lB5kf3UsY7AC/6lwcsV3VCJ4jYr7VDBGNA8E6tPPWHy?=
- =?iso-8859-1?Q?JSKaALDh/SkQ5rNwovnB8oZ/+ru8nJ+fnzdTaIP4KfWpRtNmhK8IOVatdZ?=
- =?iso-8859-1?Q?byNPU0KUBiKCkDo9URCQPr1m2fGLhPrUJEIe6OkH9agEMPcbnjn7h06yLj?=
- =?iso-8859-1?Q?SJnJCSFohRaKt4mLU44InLEvxZKoJSm337SBudEZZMrN3y5ppB1U5H8bh2?=
- =?iso-8859-1?Q?NK04sIh1dRNaSwvRVFEHkMnSBCsov/f3E8xZdHBtoAvuJZJlmj2361N9bE?=
- =?iso-8859-1?Q?RvL+WAqNeV7Rsnce5BPOO7D1W/SoBPpM12PIwRyoh1UrZPwGLbFRtUicn7?=
- =?iso-8859-1?Q?5769KQBxccP7MNf+4AbADtm83T0yZ7PfgPCIZQmfxy2quK+zhZFIopOGMb?=
- =?iso-8859-1?Q?m1q1iC+eiWEyBEk8vQkZc9oFd9TCqMKgIB5SKufTNqvHeNdqGnVuoVcSBW?=
- =?iso-8859-1?Q?sSzAdlhHDdfJJ2C4D3Fl7KG8zvqkuLX2hA/L2HGSzvHpB5zIxi99oFE7cm?=
- =?iso-8859-1?Q?rT2H6qgTuZPuEB+6jmLMAzocjqQietP/cxxl/7Sb+/6z5HMl/HPJWfi3hU?=
- =?iso-8859-1?Q?+i3Mz+x1tr5eLnPCWRde60432tQyS+gSpd9tskT3TUhfi6hK3l/ITlUTaI?=
- =?iso-8859-1?Q?E/vl0kfNd9Ki5k0kef334Peg00v+Zk31kG4GERAqsXfWpNEVieKjNDZ7N7?=
- =?iso-8859-1?Q?dBszhLiyewUZ3s3cghuNASyUifXlYVTUaTOJfqD6iFMK092+rAX2GLSUBj?=
- =?iso-8859-1?Q?I7IqdNKxNfSs3G6cd8BbYqzMKMyrFC4mmqHvVg7KH18rwMvMEfY8kUjKxW?=
- =?iso-8859-1?Q?1SoVh9W7nHnXrNoY5SL3oOJXzSFgbrAbg1sWydbvX8Gw=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?iso-8859-1?Q?KID0TFR+SmmT+eL/jaqCm/dFMjF2dWdybdej18sOCOe9vLINpiUvhLz4Ch?=
- =?iso-8859-1?Q?kPXI1gfSiqxAsnqeJ1uQM7cGSBG0EC4OewjGETij3tfQ4kxmtgOhSWPxxW?=
- =?iso-8859-1?Q?5Oz3C72rEPYKzp8tafvvjOQ4D3qsw88nz7EOKmKQxsfy1QmOrxenW69+2I?=
- =?iso-8859-1?Q?2xFxGOlHgDs+sIWJtMWUxTsimXn1bQPG1ygkRr6ZSaOaY8GfLRczq4Ij4w?=
- =?iso-8859-1?Q?t6bGTvvbNXwmtJTvT67ScHuzgqhVbtWflfs5A7saQaI/gMPq5Kr6/Yqcgf?=
- =?iso-8859-1?Q?/cQ0soUh+ItF8eyomQ/r/Gxh4PErIGh1SBrI0paGOrYGHTTtotkmyT9H3a?=
- =?iso-8859-1?Q?VeZQd2unwwyQToTfyhIhMpWzapFFz+U4bho07AUK+EBRd8ynJwAn6x6Of8?=
- =?iso-8859-1?Q?Fv8R5yCb1Hs5eUN9fo61zeav8Bz3jzKLttoFfO0kEwcq1H8ImNN16xSvzg?=
- =?iso-8859-1?Q?yXgij5YV6pRg0s91Dk+tQdqAvmyR95raNJbrssnBVAqLTywZwrvmbSKO5e?=
- =?iso-8859-1?Q?HDZzhZmzOZaUn1zgU45vHjH2f8hk3j1hDiQVnaqdN7InF27qc7c31K+cNO?=
- =?iso-8859-1?Q?pX6PRsTj20UvDPkhNC26DS8wbjefXTcLpsi17PDnhBMqFANoFADT3Jg+ap?=
- =?iso-8859-1?Q?W8pdZGWm0/DxEAKfsDKUsWW0KS5wWJg17iSqahwk75jNhks5T36cWTHNMv?=
- =?iso-8859-1?Q?JQNeFqdu/2PfIAdcnE9389nkjwdqJuTwdWJKPnPzo03N1kcEQg6wilQKoW?=
- =?iso-8859-1?Q?eSCKNJXwpmgwKfLfzXE4AwmQKd6ZGjETeoD5ciA9eSeCcUa1ZS9tNVCD18?=
- =?iso-8859-1?Q?hx55XaooH3ZvzWDqMBFdRYRUrtk12K3ATlaSCMGmpETlKUVC7uquBfYIfK?=
- =?iso-8859-1?Q?S/FLWETQ/AJKOLLFHfHKwDaT4JAB03Maw10Zubiu9ABN4VTYRxDP6sLYk/?=
- =?iso-8859-1?Q?0RiaBH3UAXgJZeJTS0qESJLzgoXFpVHg5VCJ9bXTBBYv+tWoeqwqSwIE+j?=
- =?iso-8859-1?Q?A6lPdpMPhZlPP4lN7pjvPf32ZfHfvDKoybm3PLH37jtKEGn5JycgDaNqzP?=
- =?iso-8859-1?Q?k0AVb4qNes+UrFWIzrtnqHEnOKtLk9RVg34ylusxfh4d8m79c7Mfm+pLr6?=
- =?iso-8859-1?Q?uLkyNP99YFx+XbR2xnOQfhsUXolxmCxuWQp2FERCIH05OaE9liiqXiYPiZ?=
- =?iso-8859-1?Q?hxaL+gy+Kp0XFI+Pdxrd2SW1p0Bf6vOqL2EQNqwWLOOeP0p66Z7YjzTGTf?=
- =?iso-8859-1?Q?UQcDbg7lwe+V0HTYERvUZgmCi+q2K0/tcWXUlDv0lekJZ4sH1MjphlAUDn?=
- =?iso-8859-1?Q?RnM0HtiRDnPYmCo5mUrMYLMTD/QEWTxv5DamFZFJjL+yvwMaRzLAo9GMeP?=
- =?iso-8859-1?Q?xOS8dAmh3JK9315a2FqgH8Mt6Aw3p2ZDnOxaD0SWYuHWWdRFcVOhdD4X6/?=
- =?iso-8859-1?Q?llTKpSl20NUwV5jGd8uS8RwV70G78IJffnACQBnLB34Shs3rvSBNVosaHb?=
- =?iso-8859-1?Q?aPyn87ZcO4V2hOiKizR10ci4ox4VoEUQNxtOMPaKFkMnrKZ3nXzqDmdaWc?=
- =?iso-8859-1?Q?U7Po4DaYxgHQuE4XhY/pnZnhlinFQ4i7kE+OODLkKhpRHzO2H6nsAESpxt?=
- =?iso-8859-1?Q?MrnNcJqUuT3hnLq6yz0SyfLlO/fwLvy+/SGtV9y0JCcClnSaA6kfk8Xg?=
- =?iso-8859-1?Q?=3D=3D?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+ <ee811e7c6eabc390241e0227f7a26d1eaa7818a1.1746001540.git.dan.carpenter@linaro.org>
+ <PN3P287MB18296802E1A6C2CD55997BC68B832@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 632ff4f9-d8c0-4786-12b6-08dd87ccf098
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2025 09:54:03.5479
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: //nCra/suHiAME+RxSx4u2GU8f1vQkC2Mw1Stqd2ExTunAUBZtWINOJAzbOhvitfUdK+QeWwhiGh+XzjnImvAYxWscImjN6klrosEnjB/Xk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3P287MB0917
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <PN3P287MB18296802E1A6C2CD55997BC68B832@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
 
-Hi Dan,=0A=
-=0A=
-> These were a couple uninitialized variable bugs detected by Smatch.=0A=
->=0A=
-> Dan Carpenter (3):=0A=
-> =A0 media: i2c: imx334: uninitialized variable in imx334_update_exp_gain(=
-)=0A=
-> =A0 media: i2c: ds90ub960: Fix uninitialized variable in=0A=
-> =A0 =A0 ub960_serializer_temp_ramp()=0A=
-> =A0 media: i2c: ds90ub960: Fix uninitialized variable in=0A=
-> =A0 =A0 ub960_rxport_bc_ser_config()=0A=
-=0A=
-Regarding patches 2/3 and 3/3, I believe these are also similar cases.=0A=
-=0A=
-Best Regards,=0A=
-Tarang   =0A=
-=0A=
-> =A0drivers/media/i2c/ds90ub960.c | 4 ++--=0A=
-> =A0drivers/media/i2c/imx334.c =A0 =A0| 3 ++-=0A=
-> =A02 files changed, 4 insertions(+), 3 deletions(-)=0A=
->=0A=
-> -- =A0 =A0=0A=
-> 2.47.2=0A=
-=A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0=
- =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =A0 =
-=A0=A0=0A=
+On Wed, Apr 30, 2025 at 09:47:44AM +0000, Tarang Raval wrote:
+> Hi Dan,
+> 
+> > The "ret" variable is not initialized on the success path.  Set it to
+> > zero.
+> >
+> > Fixes: 7b19b0fc8ac8 ("media: i2c: imx334: Convert to CCI register access helpers")
+> > Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> > ---
+> >  drivers/media/i2c/imx334.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
+> > index fc875072f859..846b9928d4e8 100644
+> > --- a/drivers/media/i2c/imx334.c
+> > +++ b/drivers/media/i2c/imx334.c
+> > @@ -536,7 +536,8 @@ static int imx334_update_controls(struct imx334 *imx334,
+> >  static int imx334_update_exp_gain(struct imx334 *imx334, u32 exposure, u32 gain)
+> >  {
+> >         u32 lpfr, shutter;
+> > -       int ret, ret_hold;
+> > +       int ret_hold;
+> > +       int ret = 0;
+> 
+> I think this initialization may not really be necessary.
+> 
+> If all of those cci_write are skipped, then yes, using ret uninitialized 
+> would be a problem.
+> 
+> However, I don’t see any case where they would be skipped in the 
+> current implementation.
+> 
+> So, is this initialization really needed?
+> 
+> Best Regards,
+> Tarang
+
+This is a new bug that was introduced in linux-next...
+
+drivers/media/i2c/imx334.c
+   536  static int imx334_update_exp_gain(struct imx334 *imx334, u32 exposure, u32 gain)
+   537  {
+   538          u32 lpfr, shutter;
+   539          int ret, ret_hold;
+   540  
+   541          lpfr = imx334->vblank + imx334->cur_mode->height;
+   542          shutter = lpfr - exposure;
+   543  
+   544          dev_dbg(imx334->dev, "Set long exp %u analog gain %u sh0 %u lpfr %u\n",
+   545                  exposure, gain, shutter, lpfr);
+   546  
+   547          cci_write(imx334->cci, IMX334_REG_HOLD, 1, &ret);
+
+This first call will do an unitialized read of ret to check if it holds
+an error code.
+
+   548          cci_write(imx334->cci, IMX334_REG_VMAX, lpfr, &ret);
+   549          cci_write(imx334->cci, IMX334_REG_SHUTTER, shutter, &ret);
+   550          cci_write(imx334->cci, IMX334_REG_AGAIN, gain, &ret);
+
+cci_write() is designed to preserve the error codes from previous calls.
+It will only write error codes to "ret", it will not write success.  If
+everything succeeds then "ret" is uninitialized.
+
+   551  
+   552          ret_hold = cci_write(imx334->cci, IMX334_REG_HOLD, 0, NULL);
+   553          if (ret_hold)
+   554                  return ret_hold;
+   555  
+   556          return ret;
+   557  }
+
+In production then everyone should run with INIT_STACK_ALL_ZERO.  In that
+case everything works fine.  However some older distributions do not use
+this option.  Also in testing, I would encourage everyone to run with
+INIT_STACK_ALL_PATTERN.
+
+regards,
+dan carpenter
+
 
