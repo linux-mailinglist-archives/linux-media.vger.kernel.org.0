@@ -1,492 +1,210 @@
-Return-Path: <linux-media+bounces-31417-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31418-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F1B9AA478F
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 11:45:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id CBEC0AA4799
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 11:48:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D0F864E4BC0
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 09:44:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F79F3B12F0
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 09:47:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15276235067;
-	Wed, 30 Apr 2025 09:44:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bT4LKrpL"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E45723506E;
+	Wed, 30 Apr 2025 09:47:58 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazon11020115.outbound.protection.outlook.com [52.101.227.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7CFB235045;
-	Wed, 30 Apr 2025 09:44:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746006250; cv=none; b=egPMNSx9xqiqeuyE+hsW9Rjcb2R9VyGAHMm4+m7j9gDBwr1w9Y1w9OeDih8m//5kCe+NKYR7goZR7GoLC0oCkGxShjIAKpZJClUS6ro1HbXBBSwirHo7neYJof2k5Herabl80tVvJXX5gQ530VIiWKbOPgYUCKr1g0lWztd/aHM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746006250; c=relaxed/simple;
-	bh=0R7kbd8v7Ndx8uOq1zTNvYS6wblPz94/OWZoUS5EH/M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bFAJeDhItIwo/bumU7tddQs9bH7bsFbGP8cULlaLTEqyuet9vWDiCzMCQ9AfTOUk8oPiGV1cTo7TgkVRVAN8PtqZkLEcRzOPNuF25MPjICRuKH+iXStFWtILVRdDCS2uWwSSXvTWDp9RjHB0RZxn/Vh+bmNRk/hHefVubbhjDac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bT4LKrpL; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E8C2725;
-	Wed, 30 Apr 2025 11:43:59 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1746006239;
-	bh=0R7kbd8v7Ndx8uOq1zTNvYS6wblPz94/OWZoUS5EH/M=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=bT4LKrpLm5AUOCHMjGm0KgR79SxkO2yZKZ08D0OZQwXcgVnn1gPWW/AKDJW/dhMg1
-	 sheZnt3JzbAWmPsAbsixSpQUMTuoqWfJ2ciWCvw/r2k3trGLn0oUrb34AuedhbPpTI
-	 Jpeb+wvEZC+0zGbl+UQk1XuMvT1alZh+ytJdx4MI=
-Message-ID: <ac2578c3-0439-4909-922d-0e1d9c05e8d7@ideasonboard.com>
-Date: Wed, 30 Apr 2025 12:44:02 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F33E01C5489;
+	Wed, 30 Apr 2025 09:47:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.227.115
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746006477; cv=fail; b=sVmUfuD9YgbNOlMAauRfo17snEvt+LtwoknmdLAK4SbaPgkgfmrTAZLmc7G0+dmrQdgEsLpqPIZ9EKRKFX8GQgjCpEjsBxBy1my2VImqcON9oXwt/lA6t3fDNzmfj/QQy+ekIOXY1rN0ximFk8E8fEiUn3znowNyEmC9Gk6Noqs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746006477; c=relaxed/simple;
+	bh=hmPCV4WpyrZftedpjsFQQb+z2MXP6o+WvddEfdjdTAM=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=VQFgy0qjAmLDoUtv2LUsFQLOaYRI4FBL5rqM6F7ktqylgFvKvJs4QISuV6b4j4twL23/hT2me5kYWv3x2zn+KUvQJFQUZ3TS+cdpwvgNBVHgTJ/jSCFepBduN+FWfrUd83W1qmKCOb+WAvYSl1NBl3pLB9EoEEmig3IyrOQFuQ8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=pass smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=52.101.227.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=siliconsignals.io
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=X7nF6UM1UUs/sFdNSS3myGWNraX6vJ2NPAicx+elPy72jsr9XnLLb1pxwaXetZbC8V+iQjIKttc8vQblRLfkmm4q/aB6kxyXfYFRPF37icweHj3t7vhBN4XQeZf5R3s4yIyic1z/JCawcd083UcX32bCIDk7fsF9wiDOTz/qp33ZZUuE2CKueh4wrWxfCrRbVFWYYWgGZ/yvGIbroWYeDwWyCwCZaZ49yddp5LzEXJ8h3I4ndynd7OBfUvI05UzwouFGRbHCaHH6IYTsUWfs7TkfRRrV1tDEV3ZbrpfKzY8WH+yEOlC7ovOrzEl5s74Pw+YJe1CsiEixShHCE78cFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=hmPCV4WpyrZftedpjsFQQb+z2MXP6o+WvddEfdjdTAM=;
+ b=aZAjllIIDgh6r/N09ZFJfC641gDeFX3Q5MqpXNDqpmLjiLAUd27DGqQ2Kg39IMBDotkJioFXhc9g6gnptAdlwBXXGPRA1oEsphIrC8EkiqpL42p2QqB8Eogj1Q0/gyytZfSXFodYAquDblFTk+Chdp8s5RFL+lut39MJfe3IrLsjwn8YOrYaYEKH0YEhad/7/Jw2+F2sT5cTayPFcyb5s7F9oHH42FYLGcqSjGFNXMAGrORW0HUWbyRnykPd+5DunQCrohuxvQJrp7aWxOJ8qjnUayUDftDS/2JY2VSUfay+R7cK2rDskms/WBEy2315e7aBKLydsjg3wJm/N/h/vg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
+ by PN2P287MB2089.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1c6::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.19; Wed, 30 Apr
+ 2025 09:47:45 +0000
+Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+ ([fe80::58ec:81a0:9454:689f]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+ ([fe80::58ec:81a0:9454:689f%2]) with mapi id 15.20.8699.019; Wed, 30 Apr 2025
+ 09:47:45 +0000
+From: Tarang Raval <tarang.raval@siliconsignals.io>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+CC: Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, Shravan Chippa
+	<Shravan.Chippa@microchip.com>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/3] media: i2c: imx334: uninitialized variable in
+ imx334_update_exp_gain()
+Thread-Topic: [PATCH 1/3] media: i2c: imx334: uninitialized variable in
+ imx334_update_exp_gain()
+Thread-Index: AQHbuam9HPWFr4mYWUe6Kuzyvu63PrO78wVF
+Date: Wed, 30 Apr 2025 09:47:44 +0000
+Message-ID:
+ <PN3P287MB18296802E1A6C2CD55997BC68B832@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+References: <cover.1746001540.git.dan.carpenter@linaro.org>
+ <ee811e7c6eabc390241e0227f7a26d1eaa7818a1.1746001540.git.dan.carpenter@linaro.org>
+In-Reply-To:
+ <ee811e7c6eabc390241e0227f7a26d1eaa7818a1.1746001540.git.dan.carpenter@linaro.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+msip_labels:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siliconsignals.io;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PN3P287MB1829:EE_|PN2P287MB2089:EE_
+x-ms-office365-filtering-correlation-id: 62f5087b-a036-4b5b-6d1b-08dd87cc0ef0
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700018;
+x-microsoft-antispam-message-info:
+ =?Windows-1252?Q?1D9YUhf/kLYelcQsGLhq7aSQh3OBQInACJR1rWs1J+7f74XWWMxdqUzE?=
+ =?Windows-1252?Q?AUaZTI4b7Co1Fjx1yCacsA8BqvUlMi2opuCy1moQjW5dzha9hw15VUwg?=
+ =?Windows-1252?Q?WeZiz4eas9UEvbj1S1n0Ajpmray1kglncnLAAU71P3+U+r7RPypFIEwp?=
+ =?Windows-1252?Q?Qfpzudo4cwk0QcFRxa8l5lORIjZwbFSo9sYNJUl1VHEEZCP9Xv5V3yVm?=
+ =?Windows-1252?Q?Th7AdjIsSAha5K3ZcYFZ3AlxdNJSaUYsyGvrnrhq1w69NB2mysjrwnKW?=
+ =?Windows-1252?Q?ikjkrCj1OaUr+GOlyqYIkdLp033AgsE0mcZQihNzY91mWlls2enGMet8?=
+ =?Windows-1252?Q?LsGHT9zXo71w5G/FTHz0vZiWsuHYYGYqaTxVQpPM3i8wHxeq4CiCWWiC?=
+ =?Windows-1252?Q?fuGm9biirGtrthCKwBKRu38EEw8fkJlE+2+fGXp9mFnEhk8zFApvkSk+?=
+ =?Windows-1252?Q?DUVlPqPpoyT0kHxYfvxX3MPucenu5udjPzMbC/xoeGz3NgTIH3vlZwhe?=
+ =?Windows-1252?Q?uV4ZsZYzVCFfW5YwetJ+JKSE0c7RKhHvPmFDAu25QY/3BKYyOr2CkTcp?=
+ =?Windows-1252?Q?P1rZU2GDHNCAzioSGPIlGO0fJQ/Tf761tmnzP/5N3y73v6+gCLHztXbX?=
+ =?Windows-1252?Q?aZ7XLEzmgyuBEuGTUQ6jQu8ynENgmlwVxRpif2wK07sTWTRDbqYKxwO6?=
+ =?Windows-1252?Q?DZ3e+tv3E8fKnSmnKMboooVg5wda9n8H+s3f0yua8q5pD4P//vQT1J/g?=
+ =?Windows-1252?Q?OHESrCGru6UfGDO072+4thjpaFw8Swu8VJB1xfla7Kredm72F38OGMKz?=
+ =?Windows-1252?Q?ESt9wvyPXOVD/2FaVRkKVKD25ldKbWw1Z6p/blrwResgjwOSRyFJkMKn?=
+ =?Windows-1252?Q?jbOQLLhmgbxXRuvUiJojQngxEwOMH5+/XnTjSq3s7Y0Du6bIR2Jvrpj4?=
+ =?Windows-1252?Q?RS9gN9MVRSylTiAt8lBVAFkA9ZlJAai9ZloQHV50THVK0P6VqdqNH69o?=
+ =?Windows-1252?Q?xtp87Z130znSqTeGjeidzGrHeI6jM7QtZj+NsGj4UMQKqS3X/llOK+b9?=
+ =?Windows-1252?Q?HR1clTfO5zE2+NXOMN9FCWPMFDD3kiekLOXSfgc7gz7wikV90slgme9J?=
+ =?Windows-1252?Q?+90t4RqoIPpvMCdYwYEDySgRYcTLz5skVwqhSPbBhnKTVDej26UjTbN/?=
+ =?Windows-1252?Q?ol4x+6PPYHHg2fINamHyUwinLfSFsZHOxc9qnpnET7yexL5Y+H9/MpgK?=
+ =?Windows-1252?Q?UuegrTI4XmCWt++0m/44OqhuTjKu76cqINIPFkJNAGZ5JgttB8rYMNw5?=
+ =?Windows-1252?Q?IsUZ6MJHwyUK62P0jQZiNDY92vu1C+61D5vHP2CZ6wJBXgAtM1HV/qrS?=
+ =?Windows-1252?Q?rouC05iwnmItuvYm5SngyBi0XDhRCIs0iEOlIPXvc5u45MihpOfW6ETg?=
+ =?Windows-1252?Q?6FKOUfRbXtskIfZiPcOyi2sxPYKiAbdPPCcQV5GTwmgl9IyEH68o/h5b?=
+ =?Windows-1252?Q?yYSCgJqHYgIQZQ+0/oSXFM2coAXZ4ZMsMghI2DuUeYWtECCfM4tgCPzu?=
+ =?Windows-1252?Q?FeMQZtUe0jgTORC6X733nUK1dWdF0EV/shCpwA=3D=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?Windows-1252?Q?sOL5Io8V9y5WGV7EfxSJcZ0/0d4dDsTLkX7RbydMq66loluim1Wj63wS?=
+ =?Windows-1252?Q?gMN/pJoAxRYQg8S3pqLyBKyXfE/iBsLNe4X3NzPuP72+c8xtLhoumYyj?=
+ =?Windows-1252?Q?GraAlE5FYhV2g53s6HNhuoBr2Ku7afvl5Xw/VOJk0rbi0uznivgo5Ila?=
+ =?Windows-1252?Q?cn8ZPMUZ8tNKN+YH602cpxRdwIiuRB+FSBdqiTfCCDgrAD5XORflUSpE?=
+ =?Windows-1252?Q?VY977HmiRWuC6o75SxALmiOZTLDy+5bcX3oyVP9Q0E7cHPLHrH6fKzci?=
+ =?Windows-1252?Q?+AL+72zWVKWuQBfRP4DFprYWqS9inszh2HSSOti5msh/MzcVCEPa825r?=
+ =?Windows-1252?Q?2RavJlDyePADi5DBvNZ4iqx74QC0MUrq1HwbxDSabtNvU4hZY2Gjb7UH?=
+ =?Windows-1252?Q?92RFhUnKksCuAVnGgn8xM/7Q8i3qWjHaaweToeeehYxG6GBRDBcPuri6?=
+ =?Windows-1252?Q?JXLsStbSVGCLMJYcaUvyJUCugc5x+XLDfh+WnNq0m5XofmfqWxrFi4G2?=
+ =?Windows-1252?Q?zYnt9DNPvpV5znx2z7lhuxGPqduLlJZwfi0yer/1ALKoxcgV/0gHJu2k?=
+ =?Windows-1252?Q?7MnJBfCPCjOATdkWEnVwsswRrpiumJplBAGh0mQ7iVXUggMUr6nhH0fP?=
+ =?Windows-1252?Q?ptlHcy3OnicjbnYMkTBXyET5A+owEgokTT6hgdWT8Pxz5IOmr7sJzaNb?=
+ =?Windows-1252?Q?3WbBMUH2lzM0zDSbR0GnNLs9URHIEL/iTICcHLnTbj6wG4ccpEy23+4g?=
+ =?Windows-1252?Q?TLW9VE8zGKG0iEOXLXhtmfvz/ZRr47lzXU/u/C4QLnQQT6633QQlYUJb?=
+ =?Windows-1252?Q?GYsXVVj/pV1PHzzEkdlp1p/qv3EQjLhLiO4TR1BKvHggFo+5wkVDJb70?=
+ =?Windows-1252?Q?IXeiVjzbpVtp0Fsq5xTwpC7Le89NSnqq5ujK1t5YdRi2Ld/HlwH8oMUP?=
+ =?Windows-1252?Q?feJwzr7hfKRpdMwZ3OFK8OHzSkJcP1bS6dcO4v4TcqNXltFiShnmncqv?=
+ =?Windows-1252?Q?XlipblP2IhICPZIY0Q+Mz3cTRhKJIqjv8UXgtibPPIiJnUP2Cak+4NMH?=
+ =?Windows-1252?Q?4G5VZefqi7L5Mgll74/v0r6IHBx4Zt9Fiv+M+EEYel2C87GT8yXDtip4?=
+ =?Windows-1252?Q?ktHCaE4hI/gZS1ncjKUM3UjNGwPDvoq1w8g8VEDSZSkuiOvWEbRKgFw4?=
+ =?Windows-1252?Q?EcZcGCbgCK3F30d4j9OajzK9elPv6O5ONhuCkjd9zuDas7RjPbkY2OZE?=
+ =?Windows-1252?Q?baMTSoPB24wk8Wn0nUR2Yzn8YX2RSm88IjSwpLFoL66DxS/FxOasUu+X?=
+ =?Windows-1252?Q?8rNTQKaGV/KjOQ6zTdkKPL6l3PEF9LG/TXYSpmiyWu1/+PA5kHIlQRtg?=
+ =?Windows-1252?Q?Yn0bgH+B0rDU4f3WJcUVnvG99Pi/CFpUZ1Vu8gqJZd9MbCkOpQj+/nWF?=
+ =?Windows-1252?Q?HC6jDxmJS9tlCVRSVEcK2/kVQfNoFsbKypG2u4Z6geX8KcI2OFWVo+T3?=
+ =?Windows-1252?Q?jex3bmAoaAH6ffLzPsigbBJrv8p4alEakuN+TuFx533xgwXOP/EKYWys?=
+ =?Windows-1252?Q?28mSUVetTKS55nVku3QA1fBpy3Wm7lGLkyJqy2oU+M31FWurirbMmgsr?=
+ =?Windows-1252?Q?bLDUUjeocSfhEaorSVenfaOjBxtAaYlo2rs6vDJIgjUe3wXGpmkcFE7u?=
+ =?Windows-1252?Q?Ae+AbH8Jm8r6IW8Q/Y0Oq/24Oyqm7PUSteScfSyILqCGBhBdF6gxKA?=
+ =?Windows-1252?Q?=3D=3D?=
+Content-Type: text/plain; charset="Windows-1252"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/9] media: renesas: vsp1: Report colour space
- information to userspace
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- linux-media@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-References: <20250429232904.26413-1-laurent.pinchart+renesas@ideasonboard.com>
- <20250429232904.26413-6-laurent.pinchart+renesas@ideasonboard.com>
-Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250429232904.26413-6-laurent.pinchart+renesas@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-OriginatorOrg: siliconsignals.io
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 62f5087b-a036-4b5b-6d1b-08dd87cc0ef0
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2025 09:47:44.9994
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: hQ8btRaWVEtSWVH7FFCRIXUE6jV0pufKSxbYLEgVXzjBeT7mbnsSK+RV08sl91sFXFt6srBNmPbcleowH9b9IVL052ftcHpmOuqvBWWiq34=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2P287MB2089
 
-Hi,
-
-On 30/04/2025 02:29, Laurent Pinchart wrote:
-> The vsp1 driver implements very partial colour space support: it
-> hardcodes the colorspace field on all video devices and subdevices to
-> V4L2_COLORSPACE_SRGB, regardless of the configured format. The
-> xfer_func, ycbcr_enc and quantization fields are not set (except for
-> hsv_enc for HSV formats on video devices). This doesn't match the
-> hardware configuration, which handles YUV data as encoding in BT.601
-> with limited range.
-> 
-> As a first step towards colour space configuration, keep the colour
-> space fields hardcoded, but set them based on the selected format type
-> (RGB, YUV or HSV).
-> 
-> While at it, remove an extra blank line.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
-> Changes since v1:
-> 
-> - Drop unneeded colorspace adjustements when propagating RWPF formats
-> ---
->   .../media/platform/renesas/vsp1/vsp1_brx.c    |  9 +++-
->   .../media/platform/renesas/vsp1/vsp1_entity.c | 22 +++++++++-
->   .../media/platform/renesas/vsp1/vsp1_entity.h |  2 +
->   .../media/platform/renesas/vsp1/vsp1_hsit.c   | 11 ++++-
->   .../media/platform/renesas/vsp1/vsp1_pipe.c   | 44 +++++++++++++++++++
->   .../media/platform/renesas/vsp1/vsp1_pipe.h   |  2 +
->   .../media/platform/renesas/vsp1/vsp1_rwpf.c   | 11 ++++-
->   .../media/platform/renesas/vsp1/vsp1_sru.c    |  9 +++-
->   .../media/platform/renesas/vsp1/vsp1_uds.c    |  9 +++-
->   .../media/platform/renesas/vsp1/vsp1_video.c  |  7 +--
->   10 files changed, 115 insertions(+), 11 deletions(-)
-> 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> index 5dee0490c593..5fc2e5a3bb30 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-> @@ -15,6 +15,7 @@
->   #include "vsp1.h"
->   #include "vsp1_brx.h"
->   #include "vsp1_dl.h"
-> +#include "vsp1_entity.h"
->   #include "vsp1_pipe.h"
->   #include "vsp1_rwpf.h"
->   #include "vsp1_video.h"
-> @@ -108,6 +109,8 @@ static void brx_try_format(struct vsp1_brx *brx,
->   		if (fmt->code != MEDIA_BUS_FMT_ARGB8888_1X32 &&
->   		    fmt->code != MEDIA_BUS_FMT_AYUV8_1X32)
->   			fmt->code = MEDIA_BUS_FMT_AYUV8_1X32;
-> +
-> +		vsp1_entity_adjust_color_space(fmt);
->   		break;
->   
->   	default:
-> @@ -115,13 +118,17 @@ static void brx_try_format(struct vsp1_brx *brx,
->   		format = v4l2_subdev_state_get_format(sd_state,
->   						      BRX_PAD_SINK(0));
->   		fmt->code = format->code;
-> +
-> +		fmt->colorspace = format->colorspace;
-> +		fmt->xfer_func = format->xfer_func;
-> +		fmt->ycbcr_enc = format->ycbcr_enc;
-> +		fmt->quantization = format->quantization;
->   		break;
->   	}
->   
->   	fmt->width = clamp(fmt->width, BRX_MIN_SIZE, BRX_MAX_SIZE);
->   	fmt->height = clamp(fmt->height, BRX_MIN_SIZE, BRX_MAX_SIZE);
->   	fmt->field = V4L2_FIELD_NONE;
-> -	fmt->colorspace = V4L2_COLORSPACE_SRGB;
->   }
->   
->   static int brx_set_format(struct v4l2_subdev *subdev,
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.c b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
-> index 8b8945bd8f10..9f93ae86b1da 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_entity.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
-> @@ -99,6 +99,20 @@ void vsp1_entity_configure_partition(struct vsp1_entity *entity,
->   						 dl, dlb);
->   }
->   
-> +void vsp1_entity_adjust_color_space(struct v4l2_mbus_framefmt *format)
-> +{
-> +	u8 xfer_func = format->xfer_func;
-> +	u8 ycbcr_enc = format->ycbcr_enc;
-> +	u8 quantization = format->quantization;
-> +
-> +	vsp1_adjust_color_space(format->code, &format->colorspace, &xfer_func,
-> +				&ycbcr_enc, &quantization);
-> +
-> +	format->xfer_func = xfer_func;
-> +	format->ycbcr_enc = ycbcr_enc;
-> +	format->quantization = quantization;
-> +}
-> +
->   /* -----------------------------------------------------------------------------
->    * V4L2 Subdevice Operations
->    */
-> @@ -329,7 +343,13 @@ int vsp1_subdev_set_pad_format(struct v4l2_subdev *subdev,
->   	format->height = clamp_t(unsigned int, fmt->format.height,
->   				 min_height, max_height);
->   	format->field = V4L2_FIELD_NONE;
-> -	format->colorspace = V4L2_COLORSPACE_SRGB;
-> +
-> +	format->colorspace = fmt->format.colorspace;
-> +	format->xfer_func = fmt->format.xfer_func;
-> +	format->ycbcr_enc = fmt->format.ycbcr_enc;
-> +	format->quantization = fmt->format.quantization;
-> +
-> +	vsp1_entity_adjust_color_space(format);
->   
->   	fmt->format = *format;
->   
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.h b/drivers/media/platform/renesas/vsp1/vsp1_entity.h
-> index 1bcc9e27dfdc..ce4a09610164 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_entity.h
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.h
-> @@ -170,6 +170,8 @@ void vsp1_entity_configure_partition(struct vsp1_entity *entity,
->   				     struct vsp1_dl_list *dl,
->   				     struct vsp1_dl_body *dlb);
->   
-> +void vsp1_entity_adjust_color_space(struct v4l2_mbus_framefmt *format);
-> +
->   struct media_pad *vsp1_entity_remote_pad(struct media_pad *pad);
->   
->   int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_hsit.c b/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
-> index 8ba2a7c7305c..1fcd1967d3b2 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
-> @@ -14,6 +14,7 @@
->   
->   #include "vsp1.h"
->   #include "vsp1_dl.h"
-> +#include "vsp1_entity.h"
->   #include "vsp1_hsit.h"
->   
->   #define HSIT_MIN_SIZE				4U
-> @@ -96,7 +97,13 @@ static int hsit_set_format(struct v4l2_subdev *subdev,
->   	format->height = clamp_t(unsigned int, fmt->format.height,
->   				 HSIT_MIN_SIZE, HSIT_MAX_SIZE);
->   	format->field = V4L2_FIELD_NONE;
-> -	format->colorspace = V4L2_COLORSPACE_SRGB;
-> +
-> +	format->colorspace = fmt->format.colorspace;
-> +	format->xfer_func = fmt->format.xfer_func;
-> +	format->ycbcr_enc = fmt->format.ycbcr_enc;
-> +	format->quantization = fmt->format.quantization;
-> +
-> +	vsp1_entity_adjust_color_space(format);
->   
->   	fmt->format = *format;
->   
-> @@ -106,6 +113,8 @@ static int hsit_set_format(struct v4l2_subdev *subdev,
->   	format->code = hsit->inverse ? MEDIA_BUS_FMT_ARGB8888_1X32
->   		     : MEDIA_BUS_FMT_AHSV8888_1X32;
->   
-> +	vsp1_entity_adjust_color_space(format);
-> +
->   done:
->   	mutex_unlock(&hsit->entity.lock);
->   	return ret;
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> index f7b133536704..b9ab6c9c96df 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
-> @@ -346,6 +346,50 @@ vsp1_get_format_info_by_index(struct vsp1_device *vsp1, unsigned int index,
->   	return NULL;
->   }
->   
-> +/**
-> + * vsp1_adjust_color_space - Adjust color space fields in a format
-> + * @code: the media bus code
-> + * @colorspace: the colorspace
-> + * @xfer_func: the transfer function
-> + * @encoding: the encoding
-> + * @quantization: the quantization
-> + *
-> + * This function adjusts all color space fields of a video device of subdev
-> + * format structure, taking into account the requested format, requested color
-> + * space and limitations of the VSP1. It should be used in the video device and
-> + * subdev set format handlers.
-> + *
-> + * For now, simply hardcode the color space fields to the VSP1 defaults based
-> + * on the media bus code.
-> + */
-> +void vsp1_adjust_color_space(u32 code, u32 *colorspace, u8 *xfer_func,
-> +			     u8 *encoding, u8 *quantization)
-> +{
-> +	switch (code) {
-> +	case MEDIA_BUS_FMT_ARGB8888_1X32:
-> +	default:
-> +		*colorspace = V4L2_COLORSPACE_SRGB;
-> +		*xfer_func = V4L2_XFER_FUNC_SRGB;
-> +		*encoding = V4L2_YCBCR_ENC_601;
-> +		*quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> +		break;
-> +
-> +	case MEDIA_BUS_FMT_AHSV8888_1X32:
-> +		*colorspace = V4L2_COLORSPACE_SRGB;
-> +		*xfer_func = V4L2_XFER_FUNC_SRGB;
-> +		*encoding = V4L2_HSV_ENC_256;
-> +		*quantization = V4L2_QUANTIZATION_FULL_RANGE;
-> +		break;
-> +
-> +	case MEDIA_BUS_FMT_AYUV8_1X32:
-> +		*colorspace = V4L2_COLORSPACE_SMPTE170M;
-> +		*xfer_func = V4L2_XFER_FUNC_709;
-> +		*encoding = V4L2_YCBCR_ENC_601;
-> +		*quantization = V4L2_QUANTIZATION_LIM_RANGE;
-> +		break;
-> +	}
-> +}
-> +
->   /* -----------------------------------------------------------------------------
->    * Pipeline Management
->    */
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-> index 1d3d033af209..c88a3f0d5b1e 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
-> @@ -182,5 +182,7 @@ const struct vsp1_format_info *vsp1_get_format_info(struct vsp1_device *vsp1,
->   const struct vsp1_format_info *
->   vsp1_get_format_info_by_index(struct vsp1_device *vsp1, unsigned int index,
->   			      u32 code);
-> +void vsp1_adjust_color_space(u32 code, u32 *colorspace, u8 *xfer_func,
-> +			     u8 *encoding, u8 *quantization);
->   
->   #endif /* __VSP1_PIPE_H__ */
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-> index 1b4bac7b7cfa..4e8bcf6a59ad 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
-> @@ -10,6 +10,7 @@
->   #include <media/v4l2-subdev.h>
->   
->   #include "vsp1.h"
-> +#include "vsp1_entity.h"
->   #include "vsp1_rwpf.h"
->   #include "vsp1_video.h"
->   
-> @@ -90,6 +91,8 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
->   		else
->   			format->code = sink_format->code;
->   
-> +		vsp1_entity_adjust_color_space(format);
-> +
->   		fmt->format = *format;
->   		goto done;
->   	}
-> @@ -100,7 +103,13 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
->   	format->height = clamp_t(unsigned int, fmt->format.height,
->   				 RWPF_MIN_HEIGHT, rwpf->max_height);
->   	format->field = V4L2_FIELD_NONE;
-> -	format->colorspace = V4L2_COLORSPACE_SRGB;
-> +
-> +	format->colorspace = fmt->format.colorspace;
-> +	format->xfer_func = fmt->format.xfer_func;
-> +	format->ycbcr_enc = fmt->format.ycbcr_enc;
-> +	format->quantization = fmt->format.quantization;
-> +
-> +	vsp1_entity_adjust_color_space(format);
->   
->   	fmt->format = *format;
->   
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_sru.c b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
-> index 1759ce642e6e..bba2872afaf2 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_sru.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
-> @@ -14,6 +14,7 @@
->   
->   #include "vsp1.h"
->   #include "vsp1_dl.h"
-> +#include "vsp1_entity.h"
->   #include "vsp1_pipe.h"
->   #include "vsp1_sru.h"
->   
-> @@ -178,6 +179,8 @@ static void sru_try_format(struct vsp1_sru *sru,
->   		    fmt->code != MEDIA_BUS_FMT_AYUV8_1X32)
->   			fmt->code = MEDIA_BUS_FMT_AYUV8_1X32;
->   
-> +		vsp1_entity_adjust_color_space(fmt);
-> +
->   		fmt->width = clamp(fmt->width, SRU_MIN_SIZE, SRU_MAX_SIZE);
->   		fmt->height = clamp(fmt->height, SRU_MIN_SIZE, SRU_MAX_SIZE);
->   		break;
-> @@ -187,6 +190,11 @@ static void sru_try_format(struct vsp1_sru *sru,
->   		format = v4l2_subdev_state_get_format(sd_state, SRU_PAD_SINK);
->   		fmt->code = format->code;
->   
-> +		fmt->colorspace = format->colorspace;
-> +		fmt->xfer_func = format->xfer_func;
-> +		fmt->ycbcr_enc = format->ycbcr_enc;
-> +		fmt->quantization = format->quantization;
-> +
->   		/*
->   		 * We can upscale by 2 in both direction, but not independently.
->   		 * Compare the input and output rectangles areas (avoiding
-> @@ -211,7 +219,6 @@ static void sru_try_format(struct vsp1_sru *sru,
->   	}
->   
->   	fmt->field = V4L2_FIELD_NONE;
-> -	fmt->colorspace = V4L2_COLORSPACE_SRGB;
->   }
->   
->   static int sru_set_format(struct v4l2_subdev *subdev,
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_uds.c b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
-> index c5a38478cf8c..2db473b6f83c 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_uds.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
-> @@ -14,6 +14,7 @@
->   
->   #include "vsp1.h"
->   #include "vsp1_dl.h"
-> +#include "vsp1_entity.h"
->   #include "vsp1_pipe.h"
->   #include "vsp1_uds.h"
->   
-> @@ -177,6 +178,8 @@ static void uds_try_format(struct vsp1_uds *uds,
->   		    fmt->code != MEDIA_BUS_FMT_AYUV8_1X32)
->   			fmt->code = MEDIA_BUS_FMT_AYUV8_1X32;
->   
-> +		vsp1_entity_adjust_color_space(fmt);
-> +
->   		fmt->width = clamp(fmt->width, UDS_MIN_SIZE, UDS_MAX_SIZE);
->   		fmt->height = clamp(fmt->height, UDS_MIN_SIZE, UDS_MAX_SIZE);
->   		break;
-> @@ -186,6 +189,11 @@ static void uds_try_format(struct vsp1_uds *uds,
->   		format = v4l2_subdev_state_get_format(sd_state, UDS_PAD_SINK);
->   		fmt->code = format->code;
->   
-> +		fmt->colorspace = format->colorspace;
-> +		fmt->xfer_func = format->xfer_func;
-> +		fmt->ycbcr_enc = format->ycbcr_enc;
-> +		fmt->quantization = format->quantization;
-> +
->   		uds_output_limits(format->width, &minimum, &maximum);
->   		fmt->width = clamp(fmt->width, minimum, maximum);
->   		uds_output_limits(format->height, &minimum, &maximum);
-> @@ -194,7 +202,6 @@ static void uds_try_format(struct vsp1_uds *uds,
->   	}
->   
->   	fmt->field = V4L2_FIELD_NONE;
-> -	fmt->colorspace = V4L2_COLORSPACE_SRGB;
->   }
->   
->   static int uds_set_format(struct v4l2_subdev *subdev,
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> index da578993f472..68d495c20a84 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
-> @@ -127,12 +127,10 @@ static int __vsp1_video_try_format(struct vsp1_video *video,
->   		info = vsp1_get_format_info(video->vsp1, VSP1_VIDEO_DEF_FORMAT);
->   
->   	pix->pixelformat = info->fourcc;
-> -	pix->colorspace = V4L2_COLORSPACE_SRGB;
->   	pix->field = V4L2_FIELD_NONE;
->   
-> -	if (info->fourcc == V4L2_PIX_FMT_HSV24 ||
-> -	    info->fourcc == V4L2_PIX_FMT_HSV32)
-> -		pix->hsv_enc = V4L2_HSV_ENC_256;
-> +	vsp1_adjust_color_space(info->mbus, &pix->colorspace, &pix->xfer_func,
-> +				&pix->ycbcr_enc, &pix->quantization);
->   
->   	memset(pix->reserved, 0, sizeof(pix->reserved));
->   
-> @@ -891,7 +889,6 @@ vsp1_video_querycap(struct file *file, void *fh, struct v4l2_capability *cap)
->   			  | V4L2_CAP_IO_MC | V4L2_CAP_VIDEO_CAPTURE_MPLANE
->   			  | V4L2_CAP_VIDEO_OUTPUT_MPLANE;
->   
-> -
->   	strscpy(cap->driver, "vsp1", sizeof(cap->driver));
->   	strscpy(cap->card, video->video.name, sizeof(cap->card));
->   
-
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
-
-  Tomi
-
+Hi Dan,=0A=
+=0A=
+> The "ret" variable is not initialized on the success path. =A0Set it to=
+=0A=
+> zero.=0A=
+>=0A=
+> Fixes: 7b19b0fc8ac8 ("media: i2c: imx334: Convert to CCI register access =
+helpers")=0A=
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>=0A=
+> ---=0A=
+> =A0drivers/media/i2c/imx334.c | 3 ++-=0A=
+> =A01 file changed, 2 insertions(+), 1 deletion(-)=0A=
+>=0A=
+> diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c=0A=
+> index fc875072f859..846b9928d4e8 100644=0A=
+> --- a/drivers/media/i2c/imx334.c=0A=
+> +++ b/drivers/media/i2c/imx334.c=0A=
+> @@ -536,7 +536,8 @@ static int imx334_update_controls(struct imx334 *imx3=
+34,=0A=
+> =A0static int imx334_update_exp_gain(struct imx334 *imx334, u32 exposure,=
+ u32 gain)=0A=
+> =A0{=0A=
+> =A0 =A0 =A0 =A0 u32 lpfr, shutter;=0A=
+> - =A0 =A0 =A0 int ret, ret_hold;=0A=
+> + =A0 =A0 =A0 int ret_hold;=0A=
+> + =A0 =A0 =A0 int ret =3D 0;=0A=
+=0A=
+I think this initialization may not really be necessary.=0A=
+=0A=
+If all of those cci_write are skipped, then yes, using ret uninitialized =
+=0A=
+would be a problem.=0A=
+=0A=
+However, I don=92t see any case where they would be skipped in the =0A=
+current implementation.=0A=
+=0A=
+So, is this initialization really needed?=0A=
+=0A=
+Best Regards,=0A=
+Tarang=0A=
+=0A=
+> =A0 =A0 =A0 =A0 lpfr =3D imx334->vblank + imx334->cur_mode->height;=0A=
+> =A0 =A0 =A0 =A0 shutter =3D lpfr - exposure;=0A=
+> --=0A=
+> 2.47.2=
 
