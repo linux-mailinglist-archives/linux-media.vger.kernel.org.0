@@ -1,308 +1,278 @@
-Return-Path: <linux-media+bounces-31363-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31364-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33452AA4283
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 07:38:47 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 870B5AA428B
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 07:40:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 49BDD7A411E
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 05:37:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DCDF8175A8E
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 05:40:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 016581E2823;
-	Wed, 30 Apr 2025 05:38:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B0921E47CC;
+	Wed, 30 Apr 2025 05:40:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="m0S6Ujh8"
+	dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b="xI5AgwFk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from AS8PR03CU001.outbound.protection.outlook.com (mail-westeuropeazon11012013.outbound.protection.outlook.com [52.101.71.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818AE801;
-	Wed, 30 Apr 2025 05:38:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745991507; cv=none; b=hnHYPpIVrnoqC/21yxIsxn3ndDsMAuesGn3JPUrsdGL0JHpV/DohO67tsxNgc1MZwgUoBYf4Mne1r8Otbe6jT2WJH2Yb+8GZee8FRrM/DvGRPilha6r/lvRIlFBA0sEjkVA2N6x+lQoMaWncmvHoodopTqCNyc5GjWaCeqD7oJc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745991507; c=relaxed/simple;
-	bh=B2NidxMu4iRLcef9BLgK8PV62E/VhYEy7e5YDJIc8EA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=tMjkXvah4UHWYpHWzbo44GYj6lSywT/ONfwPSf4Hl+QNMTKyLuf1GAnsCL6g+fLww3cXtQmLwJyeg8iFamAbO23VgCOexnLvUmRrsWVsJKl4NmHqKHh43Ysi78YnYNWkuVuJOUEWElc+j4yixGDYYKvJ49B/ydUYEvwbBvy+hJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=m0S6Ujh8; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53TLb32e011095;
-	Wed, 30 Apr 2025 05:38:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	KESzOejqPulb1TPwlFso+th0l+OLtBke9zOk/N/k4to=; b=m0S6Ujh8QffSOfj2
-	W588g10xawwW3TxE0KAnVuavnFN+Xm+VSQ1W5vbmgUYKEyr4ARXYlt4iOMDGkjFp
-	uukREeUbSyoIPEaleJh2W96KVHBKbpnRYiZXAlYMkjUHASQcPWTa7+k3BciEcMHd
-	HtYMuRxKIVzptmdoKJmQ+SMJXeVUv6YbbLDL0qmUcRR5jblVuO2iPQekSfWsI/Ar
-	HAFONZG0jHK+EVw1s441B5e+rKq29rmO0LyxwHKU3CCe3Q2NPlpiGU5lCkIZTuDU
-	LUaslJxGOY7xy5db57I6GSCn+KIizW+R3PKO++TpZOdgda8qLUHiroNC/6y1Yf6c
-	/x4SAg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46b6uarweb-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 30 Apr 2025 05:38:11 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53U5cA89026083
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 30 Apr 2025 05:38:10 GMT
-Received: from [10.50.5.200] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Tue, 29 Apr
- 2025 22:38:03 -0700
-Message-ID: <32379a29-ab58-95b3-77f9-d1ada61e5359@quicinc.com>
-Date: Wed, 30 Apr 2025 11:08:00 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52CB61E1E01;
+	Wed, 30 Apr 2025 05:40:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.71.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745991612; cv=fail; b=rS3DwQe6x2FL2WOgxpjER7wK2VOZrnww/zkB/KjiPcZVtIHhGdfIQWK9/a+TzkdXitT2WKaSH2noTgR6KsFzTBaP9BDkzSaaND9TRamIABO3cXeqbQs0gOUsCvGD47FkkX/cGyxPlJC6zMlyS9VZ+xFP7+59kgp3t1aTBkz9g3o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745991612; c=relaxed/simple;
+	bh=/dFbOa1eBOtEiu5BSc4Ha1ty3k0ina2xIdiMf96g6Gk=;
+	h=From:To:Cc:Subject:Date:Message-ID:Content-Type:MIME-Version; b=j2wln/Xp0GyJIapQmxe//c2TxxG92TvW3d37l5UpfW6SNKC6VxBiccI+yx16TmH1/+6X9f6z1YgBEzyVAUvHnQjnhVEQHboi4zt5CFZE6EPEUsMiDz+rQIPLSzbBAM4rFE+n32f59F0jq/wc6F4XEV66VzL42LKyljWspirtsTo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com; spf=pass smtp.mailfrom=oss.nxp.com; dkim=pass (2048-bit key) header.d=NXP1.onmicrosoft.com header.i=@NXP1.onmicrosoft.com header.b=xI5AgwFk; arc=fail smtp.client-ip=52.101.71.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=oss.nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=S83i1H9AZLvxlJ8+vtO61hqkJbueg35aU8EvmhPuuB01+N14q+dg/c/fS1+nD0oU/BlWWXLHjKa0S+mr2WkL9uV17ExbqEqEVWm/uHQM+0Jx8IkZrZYKdZlTYs28WYJgqA9qjcMWeSiZQHmA5I+r8YVJxUa5f26j9y/ffH7zj2vsc/pU3LDqSxkM0P18zh3aYwGeBqefu9Jt331AViQDg25gj8rFxflayO74Q5HYWOSTFwyGVh1eracb9LHexObUSXpOg2O+z6ZON3dS1wBHkwofG2qb3EQLRjPWdzBk4vA30/SKKS11LYD7aNw2/XuGTYTLMv4IlSQCHKMAh/qgvQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NxYvAGv/5J5LDGAfs0pAOf0IvJfk6ntNN5UN6kj+ZW8=;
+ b=aTowmfLlCJA3LHBXQWe0n+1Smog0vecHBoimTDESs9ZhmCOpOIRnYsfMYa4E1GrdttsQ626U1ejNOhJbHlSLH1Wc1Hp/K4LGPjGSh29l16e6xjFmTjhqwG1KkbA42zctwTAOZIyglI679rkt/bwIIqSuyTh56AMSp9LO0wFa0zrkj2mmb71t1hbhG81Pml8Oi1Ily1XhlOqraM4zzx48ZpOHwt+eWXnWxuSo3RiNsRHeH67tOFzlbrmakoluyGBUaLHGUvDUsfy908y6SK63u+C6J26UOvCY0XVyMVuEDC+4LSzJvwvd6BqZu4zwX6EpO1Q38R/+klNHlsqJL8Hjag==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector1-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NxYvAGv/5J5LDGAfs0pAOf0IvJfk6ntNN5UN6kj+ZW8=;
+ b=xI5AgwFku2bCzk7fm1mGNd9prduEIq+U28Uard+AQeARNYb09Hl095Kmx/JrfVs+MZcAZkfWWKbOMpxkPkOVripJhcwmZhF+i4MJQfQeaIQnhWPEXDfenfjcHTVGnUjN+kYjj2QZvTQIF+dP0slthO7xjtci45P2/rb4jjAR8XMJVRKILuCW2XvR8yRR1GSyiDiIXgBh4kYN0rFpQ1i3Bj9ikEjU45PqNKkorSD3lUPQWvF4FBrpDPNU8GVXRhojweg93leuevXI97JogyJo+vnYSCo9I4nnr1gP5ng1uvG3gR0O4Li90kbCOej8JUfkW+9yz50UkxXxZUg/lq4wSw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from PAXPR04MB8254.eurprd04.prod.outlook.com (2603:10a6:102:1cd::24)
+ by AS5PR04MB9855.eurprd04.prod.outlook.com (2603:10a6:20b:652::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.31; Wed, 30 Apr
+ 2025 05:40:05 +0000
+Received: from PAXPR04MB8254.eurprd04.prod.outlook.com
+ ([fe80::2755:55ac:5d6f:4f87]) by PAXPR04MB8254.eurprd04.prod.outlook.com
+ ([fe80::2755:55ac:5d6f:4f87%3]) with mapi id 15.20.8678.028; Wed, 30 Apr 2025
+ 05:40:05 +0000
+From: ming.qian@oss.nxp.com
+To: mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl,
+	mirela.rabulea@oss.nxp.com
+Cc: nicolas@ndufresne.ca,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	xiahong.bao@nxp.com,
+	eagle.zhou@nxp.com,
+	linux-imx@nxp.com,
+	imx@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] media: imx-jpeg: Account for data_offset when getting image address
+Date: Wed, 30 Apr 2025 13:39:26 +0800
+Message-ID: <20250430053928.214-1-ming.qian@oss.nxp.com>
+X-Mailer: git-send-email 2.48.1.windows.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI1PR02CA0026.apcprd02.prod.outlook.com
+ (2603:1096:4:1f4::11) To PAXPR04MB8254.eurprd04.prod.outlook.com
+ (2603:10a6:102:1cd::24)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 01/23] media: iris: Skip destroying internal buffer if
- not dequeued
-Content-Language: en-US
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Vikash Garodia
-	<quic_vgarodia@quicinc.com>,
-        Abhinav Kumar <quic_abhinavk@quicinc.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Stefan Schmidt
-	<stefan.schmidt@linaro.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        "Bjorn
- Andersson" <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        "Rob Herring" <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        "Conor Dooley" <conor+dt@kernel.org>
-CC: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@oss.qualcomm.com>,
-        Neil Armstrong
-	<neil.armstrong@linaro.org>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <stable@vger.kernel.org>
-References: <20250428-qcom-iris-hevc-vp9-v2-0-3a6013ecb8a5@quicinc.com>
- <20250428-qcom-iris-hevc-vp9-v2-1-3a6013ecb8a5@quicinc.com>
- <dc9b20aecc8740896b2b3e7352b8e0d73d43fed2.camel@collabora.com>
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <dc9b20aecc8740896b2b3e7352b8e0d73d43fed2.camel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: gziX25vrn4uEgWo7AxBvtamTrqNjscOC
-X-Authority-Analysis: v=2.4 cv=KtlN2XWN c=1 sm=1 tr=0 ts=6811b743 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=e6OCQq0veDw7Aj3gnXcA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: gziX25vrn4uEgWo7AxBvtamTrqNjscOC
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDMwMDAzNiBTYWx0ZWRfX3fuVyDZ9vfVi anL3EQ41BDYNk4lQq6xNvM3HiCWFG43S0KFQ8Ktk5hsdnAvB8rXnMFO/444+LLxRIUdY7kuU5cH 0fZTJX1ew+RcKG1gQET4eoiXloCbFmBSo+mRlZqgsjS452JIT33ol4FfSFdSkA0gyMx2tCC9XVN
- KudJ5bqpNbKPDVsBllnOgRVtJ5QPMFwawpnWANCBk1SnsXRidG4+fXhkfsICMzd8umyTSd73wUr OPzOAEXE2vqkHN1pGWqX/mlRsBh1yo52EgSOt62A0ov4cScGNiOYVGJs9CRrfB47OYFZWqyGPiT 5wQB3g8mlzBSgRI0BnBcoWP5kTm+L1JLuOdqlmvUoc5Vx1mHMcZiE0PdLXKRaaYjvg0qc1k89u+
- 8zDSkGdtgE3O5g0qgng1B5YSI6nVxE3fq9Ig/Uwh68SqwxqTsKm10Pf3SfnpqUdcOqokBuG3
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-04-30_01,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
- lowpriorityscore=0 phishscore=0 adultscore=0 priorityscore=1501
- malwarescore=0 mlxscore=0 bulkscore=0 mlxlogscore=999 spamscore=0
- impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504300036
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB8254:EE_|AS5PR04MB9855:EE_
+X-MS-Office365-Filtering-Correlation-Id: ad909514-fb5b-4af8-8d5e-08dd87a97552
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|52116014|1800799024|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?1z+Xjw5JnSGMitt3icUOB4u7Fa1JuZaUCpD9sgB/dOaP+mdpVUjUNUFGGy/3?=
+ =?us-ascii?Q?DUZ/KFQZbvc0ktAgBSYEdiOv7Cw0zIaNe2fwMebHUnB5f6In/bIcXowJCNUk?=
+ =?us-ascii?Q?kM7QeSms0WcPWlLWUmWlBkDosasigT7fhr3LfEY59ctM6Mgc0swtuF/32hMs?=
+ =?us-ascii?Q?HBltDDUzFTvPBQ7WkHa8hOZL7xoRxD/mIU0StNFNzksMV57JrGicf4ckir5T?=
+ =?us-ascii?Q?9fVZVhKFkR+IuVcAcWrlHfqIRgxI2J9o3IG0uESeCpkuh/NIfTcLlEkHLBxr?=
+ =?us-ascii?Q?XwTi+l9wltOCKo+9sASWr76Hd/nkSZ8J8j6ie9CYT604nfh8wOnUwAlVQ6z8?=
+ =?us-ascii?Q?HVJlJS1qxHeRs2KoZIxw3RoHbKew6u0nKtihhIkoJwVmLqoWkO0w0mqFHrEu?=
+ =?us-ascii?Q?2v06WPL2VZAlkRLQ7/GGaItt2PPG4uM6NArn5d7PRyA5jyqMyT8h8RSy5yLA?=
+ =?us-ascii?Q?z+JwQDMgbN4N9jCJyuklxGrCq1luNn11PavzF0OvpLx19qOd7y9pzp0ZJNFj?=
+ =?us-ascii?Q?DimzMYUcnHvJSvL8I3Z4MqDeY7XnD5VSMwxQG8QaqTbdVmTtAX5ZyDCwj8l4?=
+ =?us-ascii?Q?gmLkQ6hfac0M+0p2tdgzXYv2O9GyYkaMT+X+EgRNuUuDKINbXf8uP74TjsxX?=
+ =?us-ascii?Q?8Uu2g80I3WIu9xnQVzFm1fVtJq1pDa2O1TsoCOchXO75O53GFfuMmTyqAQJA?=
+ =?us-ascii?Q?yAWgOszDv+kpoD3ED1k4yflVUPBbiZozR33tG/gdpxQNceecyKUZr8Zj/nqP?=
+ =?us-ascii?Q?MxhI6NnkH19csPMAUGd64x9KvgOUbZAVFOMxP1NQg79oCB+E9FIIs1ZCRGsD?=
+ =?us-ascii?Q?oW7tYiwAOaZuBW+s2psGoFRchhPbDFz1/Pj+x1qutWNnw9SGb8XCAPUyiorn?=
+ =?us-ascii?Q?3PxJSbnb2VNYJ6QaU+qNa6OUppgMrH1Cy70qcYk1AW0RgJtQzVs+oDjoS8IW?=
+ =?us-ascii?Q?md96/09XWb11Fff4C+HT9VxioyRag0D6f49IePC4klZKkfPJ5/sXoTJmtjk8?=
+ =?us-ascii?Q?rWd+ra1XKSZJcDcIyrT9W81ZZRtvPqYETPy2cHs9i8K52Pdk3R8m6zRza6LJ?=
+ =?us-ascii?Q?dXGRe6cDI+ImO/N0rT8PlJ2pDloVtJ0OuWJ9yauYhsDOr7kI4vy8hl0LSnau?=
+ =?us-ascii?Q?K0KLAG7OQTOSTKaMuIJeNA3ebTe7J9owYpwHEuCXISFJyudi5bCQOHWBMUhy?=
+ =?us-ascii?Q?6QkmbNzx/S2ipcFejtUY7pW6C2bT1xMjii6ucb+x5dIPrdtKuoEd2POR0MiM?=
+ =?us-ascii?Q?RD8t8D5ZCz3cGZmGZUR+sb2iJznyNIPaj042vAJgYWBB1ztanLlyglCcUebm?=
+ =?us-ascii?Q?p67pk+ShpYrEvDxei9PK4Np5ok7asiv42YM592eHfHCXXQ6aiYDIiRZGZTqF?=
+ =?us-ascii?Q?2MA9qzok6PDj/1wfFkWpvJbug4vVMlJL0isce3+GSA14jJBuxiH5MS30hJ9+?=
+ =?us-ascii?Q?dmfzaG6PoCQzjpT1Q3HanmsuMuk8CV46yz05vXmo3eYv9U22seJYLQYqhkBz?=
+ =?us-ascii?Q?dXyEKdbw9wEqb3E=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB8254.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?fchtjCnwhQyvj9obsi6AI5i5DQvfUwCxRh4jo31jGul9rVDEX3dKXqmgpcCI?=
+ =?us-ascii?Q?NjKyraF1hc+dnl0SHj6+QVZYqyMqs5GiGLbe/gRB3cluGDXXeN9PqpixACTB?=
+ =?us-ascii?Q?QCG0CD7lKxbo3NK3Jdbz9Ue3BkQ7iDBtkfOO6cfF7Vshhkvh02dW22AbLein?=
+ =?us-ascii?Q?22eosha2NJF53xqCzH4X77TX49eqpDAnpVIwPBNXuMoaZb7/W8WHvcskFOv/?=
+ =?us-ascii?Q?bxbjiHzvfRnrBcONzTOMVZJgM3ZURu8mHU9ePnKnewnN42lknz4lUtdGo+Es?=
+ =?us-ascii?Q?jnZkDTjA5FA8tWTPEP1OCGaaW34Lf5lqve1VUGJNaMAT1PFyO89hUwAPI83F?=
+ =?us-ascii?Q?26BLyFpoJefF3xDtKNLR7WjmUYqoMgcC6jd0TCealusPrJskuQdKIenoAjPH?=
+ =?us-ascii?Q?QCc/TIjUUUivTl36K1L5YERIXiRkD1h4zb0sBqs7CZvwNEY5BDLUctQhTdLp?=
+ =?us-ascii?Q?cSTAyDVsE82UfbC3xB4LU07e6JRNuGy3vyYXsjr//7JZ5x9VULlZ3fRIKb5j?=
+ =?us-ascii?Q?HMea8kylCm39NQGktKxl+kigqDshJ7J7Pz+F7i0KSL/45YSw955u1M9yaZ9I?=
+ =?us-ascii?Q?lLsopm2oRABCXt3mfq6xlR4oNYIpZX/PV7Elp8fQ3hXmZSodhVPSKUKOabQt?=
+ =?us-ascii?Q?w/DZZrAJI2kZwtzG2LCoNhxp8AWl+4NjiFtMUf13lLpZIjB8OcyXH6rQ9R2x?=
+ =?us-ascii?Q?1GLHmYYyWf32J58JDWkIQzICVeR417zfV+jszXbDMjp+7oRxfi+EdBTJZj6t?=
+ =?us-ascii?Q?njgiSeqKjkdFw1zk0uRQd/62C3lwHEtXAVBFa3KJoZ/r/IZYb4N93Es+JFgo?=
+ =?us-ascii?Q?bHZPmVWlDkpJxvwyUfRV/QCc5KTCWw0NLWsJcGR8m+6s21HR7RZJyMfKCSVG?=
+ =?us-ascii?Q?LFSHuqp8Po4mB/HWXs+kv/o5WuKJk9eZb4pjpFF63hKPcVh07iXt0Ayfp4Zu?=
+ =?us-ascii?Q?23JzbioiO4gn8YK7yk1VFNbGY/CyJaIUiW1thn6vQAi+sRu/qCDlnFvpjPRn?=
+ =?us-ascii?Q?xrrxBx1xB4r1DpYeI/lPAu5fjv9dLCty6zMUGsES9aLkNKkO1w2xZYCAaZlo?=
+ =?us-ascii?Q?n2cBxiXQSgT9nZSGk8tE/5fJ+imFBxld4S+M7aEmmpCmDL0jnqame9tB+7qn?=
+ =?us-ascii?Q?InRbnvrCzJ0JxqDePgHTVVtphmIw8BPbkmbFe5tXNz0QxIH16YoehDBJ6K1o?=
+ =?us-ascii?Q?xRUTQTcW3OUmYmX4frBrmI2waZoHMF73SgewDGpXxgK3TTT+mgPq7uqjIw71?=
+ =?us-ascii?Q?zmL3NZtVbektDoSeN3vTv8k6q1XRYQmZB0WaA2qIs+6i1z0Ommr7M4eQr9Jk?=
+ =?us-ascii?Q?tYDd/XeqkLycjbM14ZJgWAtPhjPXBCsUjx/MiTP+be4XgxlQYufYRS+gaJ1r?=
+ =?us-ascii?Q?IiH7wswjBKWYJ8LlZ6ebw0WuuZ1418jr27TXZb5nRYifLevzFdt15o/0xQcM?=
+ =?us-ascii?Q?wqoufi9EfV9gsc/K//kvTCCijQupf36Gq8HvJl987iTDIskFl3ti8GxiWVfQ?=
+ =?us-ascii?Q?l48hFtyjPc6oT8Q/zCYSeMqx/p2LuCCdavc8dluZB6FnvvFYn66jgV9wT0QS?=
+ =?us-ascii?Q?J+/OkkU3UdO0rqTU2mjXKHcqAkb2RY6vnbegym61?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ad909514-fb5b-4af8-8d5e-08dd87a97552
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB8254.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 05:40:05.0561
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: O8YJsQ/7L8i5tuWG9AOJo9rFQ37U+uevqzXoP0WDTpoCpT+3jyi5AelH43KNXBtCJWMGggqr/aUlgO0kOvBcJg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR04MB9855
 
+From: Ming Qian <ming.qian@nxp.com>
 
+Applications may set data_offset when it refers to an output queue. So
+driver need to account for it when getting the start address of input
+image in the plane.
 
-On 4/29/2025 6:17 PM, Nicolas Dufresne wrote:
-> Not mine to review, but wanted to highlight some best practices,
-> 
-> comment below...
-> 
-> Le lundi 28 avril 2025 à 14:58 +0530, Dikshita Agarwal a écrit :
->> Firmware might hold the DPB buffers for reference in case of sequence
->> change, so skip destroying buffers for which QUEUED flag is not removed.
->> Also, make sure that all buffers are released during streamoff.
->>
->> Cc: stable@vger.kernel.org
->> Fixes: 73702f45db81 ("media: iris: allocate, initialize and queue internal buffers")
->> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
->> ---
->>  drivers/media/platform/qcom/iris/iris_buffer.c | 37 +++++++++++++++++++++++++-
->>  drivers/media/platform/qcom/iris/iris_buffer.h |  3 ++-
->>  drivers/media/platform/qcom/iris/iris_vdec.c   |  4 +--
->>  drivers/media/platform/qcom/iris/iris_vidc.c   |  6 +++--
->>  4 files changed, 44 insertions(+), 6 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/iris/iris_buffer.c b/drivers/media/platform/qcom/iris/iris_buffer.c
->> index e5c5a564fcb8..606d76b10be2 100644
->> --- a/drivers/media/platform/qcom/iris/iris_buffer.c
->> +++ b/drivers/media/platform/qcom/iris/iris_buffer.c
->> @@ -376,7 +376,7 @@ int iris_destroy_internal_buffer(struct iris_inst *inst, struct iris_buffer *buf
->>  	return 0;
->>  }
->>  
->> -int iris_destroy_internal_buffers(struct iris_inst *inst, u32 plane)
->> +int iris_destroy_internal_buffers(struct iris_inst *inst, u32 plane, bool force)
-> 
-> Its always tempting to just glue a boolean at the end of a parameter
-> list. But this has huge downside in code readability, see below...
-> 
->>  {
->>  	const struct iris_platform_data *platform_data = inst->core->iris_platform_data;
->>  	struct iris_buffer *buf, *next;
->> @@ -396,6 +396,14 @@ int iris_destroy_internal_buffers(struct iris_inst *inst, u32 plane)
->>  	for (i = 0; i < len; i++) {
->>  		buffers = &inst->buffers[internal_buf_type[i]];
->>  		list_for_each_entry_safe(buf, next, &buffers->list, list) {
->> +			/*
->> +			 * during stream on, skip destroying internal(DPB) buffer
->> +			 * if firmware did not return it.
->> +			 * during close, destroy all buffers irrespectively.
->> +			 */
->> +			if (!force && buf->attr & BUF_ATTR_QUEUED)
->> +				continue;
->> +
->>  			ret = iris_destroy_internal_buffer(inst, buf);
->>  			if (ret)
->>  				return ret;
->> @@ -446,6 +454,33 @@ static int iris_release_input_internal_buffers(struct iris_inst *inst)
->>  	return 0;
->>  }
->>  
->> +void iris_get_num_queued_internal_buffers(struct iris_inst *inst, u32 plane)
->> +{
->> +	const struct iris_platform_data *platform_data = inst->core->iris_platform_data;
->> +	struct iris_buffer *buf, *next;
->> +	struct iris_buffers *buffers;
->> +	const u32 *internal_buf_type;
->> +	u32 internal_buffer_count, i;
->> +	u32 count = 0;
->> +
->> +	if (V4L2_TYPE_IS_OUTPUT(plane)) {
->> +		internal_buf_type = platform_data->dec_ip_int_buf_tbl;
->> +		internal_buffer_count = platform_data->dec_ip_int_buf_tbl_size;
->> +	} else {
->> +		internal_buf_type = platform_data->dec_op_int_buf_tbl;
->> +		internal_buffer_count = platform_data->dec_op_int_buf_tbl_size;
->> +	}
->> +
->> +	for (i = 0; i < internal_buffer_count; i++) {
->> +		buffers = &inst->buffers[internal_buf_type[i]];
->> +		list_for_each_entry_safe(buf, next, &buffers->list, list)
->> +			count++;
->> +		if (count)
->> +			dev_err(inst->core->dev, "%d buffer of type %d not released",
->> +				count, internal_buf_type[i]);
->> +	}
->> +}
->> +
->>  int iris_alloc_and_queue_persist_bufs(struct iris_inst *inst)
->>  {
->>  	struct iris_buffers *buffers = &inst->buffers[BUF_PERSIST];
->> diff --git a/drivers/media/platform/qcom/iris/iris_buffer.h b/drivers/media/platform/qcom/iris/iris_buffer.h
->> index c36b6347b077..03a32b91cf21 100644
->> --- a/drivers/media/platform/qcom/iris/iris_buffer.h
->> +++ b/drivers/media/platform/qcom/iris/iris_buffer.h
->> @@ -106,7 +106,8 @@ void iris_get_internal_buffers(struct iris_inst *inst, u32 plane);
->>  int iris_create_internal_buffers(struct iris_inst *inst, u32 plane);
->>  int iris_queue_internal_buffers(struct iris_inst *inst, u32 plane);
->>  int iris_destroy_internal_buffer(struct iris_inst *inst, struct iris_buffer *buffer);
->> -int iris_destroy_internal_buffers(struct iris_inst *inst, u32 plane);
->> +int iris_destroy_internal_buffers(struct iris_inst *inst, u32 plane, bool force);
->> +void iris_get_num_queued_internal_buffers(struct iris_inst *inst, u32 plane);
->>  int iris_alloc_and_queue_persist_bufs(struct iris_inst *inst);
->>  int iris_alloc_and_queue_input_int_bufs(struct iris_inst *inst);
->>  int iris_queue_buffer(struct iris_inst *inst, struct iris_buffer *buf);
->> diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media/platform/qcom/iris/iris_vdec.c
->> index 4143acedfc57..2c1a7162d2da 100644
->> --- a/drivers/media/platform/qcom/iris/iris_vdec.c
->> +++ b/drivers/media/platform/qcom/iris/iris_vdec.c
->> @@ -408,7 +408,7 @@ int iris_vdec_streamon_input(struct iris_inst *inst)
->>  
->>  	iris_get_internal_buffers(inst, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
->>  
->> -	ret = iris_destroy_internal_buffers(inst, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
->> +	ret = iris_destroy_internal_buffers(inst, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE, false);
->>  	if (ret)
->>  		return ret;
->>  
->> @@ -496,7 +496,7 @@ int iris_vdec_streamon_output(struct iris_inst *inst)
->>  
->>  	iris_get_internal_buffers(inst, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
->>  
->> -	ret = iris_destroy_internal_buffers(inst, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
->> +	ret = iris_destroy_internal_buffers(inst, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE, false);
-> 
-> If I was reviewing some changes (or even debugging) this specific C
-> file, I would not be able to understanding what this "false" means. I
-> would have to spend extra time, opening the declaration, going back and
-> forth, and breaking the flow.
-> 
-> An alternative approach is to keep the boolean parameter in a static
-> function (c local), and then add two function wrappers that have
-> explicit names.
-> 
-Sure, I can implement the alternative approach, if recommended.
+Meanwhile data_offset is included in bytesused. So the data_offset
+should be subtracted from the payload of input image.
 
-If I understand correctly, you are suggesting to have one static helper and
-two wrappers around this. like:
+Signed-off-by: Ming Qian <ming.qian@nxp.com>
+---
+ .../media/platform/nxp/imx-jpeg/mxc-jpeg.c    | 42 ++++++++++++++-----
+ 1 file changed, 31 insertions(+), 11 deletions(-)
 
-static int iris_destroy_internal_buffers(struct iris_inst *inst, u32 plane,
-bool force)
-{
-	...
-	list_for_each_entry_safe(buf, next, &buffers->list, list) {
-       		if (!force && buf->attr & BUF_ATTR_QUEUED)
-			continue;
-		...
-	}
-	...
-}
+diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+index 1221b309a916..035368d65913 100644
+--- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
++++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+@@ -587,6 +587,27 @@ static void _bswap16(u16 *a)
+ 	*a = ((*a & 0x00FF) << 8) | ((*a & 0xFF00) >> 8);
+ }
+ 
++static dma_addr_t mxc_jpeg_get_plane_dma_addr(struct vb2_buffer *buf, unsigned int plane_no)
++{
++	if (plane_no >= buf->num_planes)
++		return 0;
++	return vb2_dma_contig_plane_dma_addr(buf, plane_no) + buf->planes[plane_no].data_offset;
++}
++
++static void *mxc_jpeg_get_plane_vaddr(struct vb2_buffer *buf, unsigned int plane_no)
++{
++	if (plane_no >= buf->num_planes)
++		return NULL;
++	return vb2_plane_vaddr(buf, plane_no) + buf->planes[plane_no].data_offset;
++}
++
++static unsigned long mxc_jpeg_get_plane_payload(struct vb2_buffer *buf, unsigned int plane_no)
++{
++	if (plane_no >= buf->num_planes)
++		return 0;
++	return vb2_get_plane_payload(buf, plane_no) - buf->planes[plane_no].data_offset;
++}
++
+ static void print_mxc_buf(struct mxc_jpeg_dev *jpeg, struct vb2_buffer *buf,
+ 			  unsigned long len)
+ {
+@@ -599,11 +620,11 @@ static void print_mxc_buf(struct mxc_jpeg_dev *jpeg, struct vb2_buffer *buf,
+ 		return;
+ 
+ 	for (plane_no = 0; plane_no < buf->num_planes; plane_no++) {
+-		payload = vb2_get_plane_payload(buf, plane_no);
++		payload = mxc_jpeg_get_plane_payload(buf, plane_no);
+ 		if (len == 0)
+ 			len = payload;
+-		dma_addr = vb2_dma_contig_plane_dma_addr(buf, plane_no);
+-		vaddr = vb2_plane_vaddr(buf, plane_no);
++		dma_addr = mxc_jpeg_get_plane_dma_addr(buf, plane_no);
++		vaddr = mxc_jpeg_get_plane_vaddr(buf, plane_no);
+ 		v4l2_dbg(3, debug, &jpeg->v4l2_dev,
+ 			 "plane %d (vaddr=%p dma_addr=%x payload=%ld):",
+ 			  plane_no, vaddr, dma_addr, payload);
+@@ -701,16 +722,15 @@ static void mxc_jpeg_addrs(struct mxc_jpeg_desc *desc,
+ 	struct mxc_jpeg_q_data *q_data;
+ 
+ 	q_data = mxc_jpeg_get_q_data(ctx, raw_buf->type);
+-	desc->buf_base0 = vb2_dma_contig_plane_dma_addr(raw_buf, 0);
++	desc->buf_base0 = mxc_jpeg_get_plane_dma_addr(raw_buf, 0);
+ 	desc->buf_base1 = 0;
+ 	if (img_fmt == STM_CTRL_IMAGE_FORMAT(MXC_JPEG_YUV420)) {
+ 		if (raw_buf->num_planes == 2)
+-			desc->buf_base1 = vb2_dma_contig_plane_dma_addr(raw_buf, 1);
++			desc->buf_base1 = mxc_jpeg_get_plane_dma_addr(raw_buf, 1);
+ 		else
+ 			desc->buf_base1 = desc->buf_base0 + q_data->sizeimage[0];
+ 	}
+-	desc->stm_bufbase = vb2_dma_contig_plane_dma_addr(jpeg_buf, 0) +
+-		offset;
++	desc->stm_bufbase = mxc_jpeg_get_plane_dma_addr(jpeg_buf, 0) + offset;
+ }
+ 
+ static bool mxc_jpeg_is_extended_sequential(const struct mxc_jpeg_fmt *fmt)
+@@ -967,8 +987,8 @@ static irqreturn_t mxc_jpeg_dec_irq(int irq, void *priv)
+ 			vb2_set_plane_payload(&dst_buf->vb2_buf, 1, payload);
+ 		}
+ 		dev_dbg(dev, "Decoding finished, payload size: %ld + %ld\n",
+-			vb2_get_plane_payload(&dst_buf->vb2_buf, 0),
+-			vb2_get_plane_payload(&dst_buf->vb2_buf, 1));
++			mxc_jpeg_get_plane_payload(&dst_buf->vb2_buf, 0),
++			mxc_jpeg_get_plane_payload(&dst_buf->vb2_buf, 1));
+ 	}
+ 
+ 	/* short preview of the results */
+@@ -1827,8 +1847,8 @@ static int mxc_jpeg_parse(struct mxc_jpeg_ctx *ctx, struct vb2_buffer *vb)
+ 	struct mxc_jpeg_sof *psof = NULL;
+ 	struct mxc_jpeg_sos *psos = NULL;
+ 	struct mxc_jpeg_src_buf *jpeg_src_buf = vb2_to_mxc_buf(vb);
+-	u8 *src_addr = (u8 *)vb2_plane_vaddr(vb, 0);
+-	u32 size = vb2_get_plane_payload(vb, 0);
++	u8 *src_addr = (u8 *)mxc_jpeg_get_plane_vaddr(vb, 0);
++	u32 size = mxc_jpeg_get_plane_payload(vb, 0);
+ 	int ret;
+ 
+ 	memset(&header, 0, sizeof(header));
 
-//called during stream on
-int iris_destroy_dequeued_internal_buffers(struct iris_inst *inst, u32 plane)
-{
-	return iris_destroy_internal_buffers(inst, plane, false)
-}
+base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+prerequisite-patch-id: 0000000000000000000000000000000000000000
+-- 
+2.43.0-rc1
 
-//called during close
-int iris_destroy_all_internal_buffers(struct iris_inst *inst, u32 plane)
-{
-	return iris_destroy_internal_buffers(inst, plane, true)
-}
-
-Thanks,
-Dikshita
-> regards,
-> Nicolas
-> 
->>  	if (ret)
->>  		return ret;
->>  
->> diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
->> index ca0f4e310f77..56531a7f0dfe 100644
->> --- a/drivers/media/platform/qcom/iris/iris_vidc.c
->> +++ b/drivers/media/platform/qcom/iris/iris_vidc.c
->> @@ -233,8 +233,10 @@ int iris_close(struct file *filp)
->>  	iris_session_close(inst);
->>  	iris_inst_change_state(inst, IRIS_INST_DEINIT);
->>  	iris_v4l2_fh_deinit(inst);
->> -	iris_destroy_internal_buffers(inst, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
->> -	iris_destroy_internal_buffers(inst, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
->> +	iris_destroy_internal_buffers(inst, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE, true);
->> +	iris_destroy_internal_buffers(inst, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE, true);
->> +	iris_get_num_queued_internal_buffers(inst, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE);
->> +	iris_get_num_queued_internal_buffers(inst, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE);
->>  	iris_remove_session(inst);
->>  	mutex_unlock(&inst->lock);
->>  	mutex_destroy(&inst->ctx_q_lock);
-> 
 
