@@ -1,64 +1,64 @@
-Return-Path: <linux-media+bounces-31455-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31456-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BD44AA4B2E
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 14:32:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F420FAA4B54
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 14:35:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CFD5C3B6131
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 12:31:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1CDE91BC6A44
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 12:35:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E657E221274;
-	Wed, 30 Apr 2025 12:31:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EEA41B5EB5;
+	Wed, 30 Apr 2025 12:34:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dyQ8sMP7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dCFtQ4tn"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4010E33086;
-	Wed, 30 Apr 2025 12:31:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C067F25A645;
+	Wed, 30 Apr 2025 12:34:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746016282; cv=none; b=a7O9wbY6Bko1ZD8MHx5/+qkBEGzy38vBRoX4wre6ivs5QBEvbRr4jUS7eLDT9tQcq3A5y+RcYhdtSvfTxQP7C/GUJUduYpXc0rOlqlkM2TOnRc1XhZA2KomIDqTwKmE/9RYx+66veyLjHLlU7OZlZf7ZLRvtQhuZmaftXGAUcqU=
+	t=1746016483; cv=none; b=mzeD0o/5ZKdU/2kB+CTuv4DdZ3YV5NfnKRIp/GPLlVEmF1WpFEzv4CpRM2SiWZAuT6rDrYAtUr7F5sytibuPvzuirbp1pYgWSC7jpgm1xE1DF0m7haznVcgfAVkt1oEqshxoWzP9xutd3rtESCFEV36HVE3xqNXWA3wY4VwURE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746016282; c=relaxed/simple;
-	bh=iB2YZOoDjQR1zdB2a6h5tsxFzWaNsDK1iAYW7Qwc+iU=;
+	s=arc-20240116; t=1746016483; c=relaxed/simple;
+	bh=2Y6iaA6xQYMGjjrL5kbDu0B9SMb2jzg27qVw96TWwP8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DhYDpaHgLO4aDuPyow7QaVx/7lIfMUNQeF34WXwhg1JOFACG/9FzoO9ustWoqazQAu8+KNK016d9k2p1DDYJOsJ9GlEfe1HJKgqXinZSPhzBxdlwSUP18Yh0lwS0HsMZuU1II8rvJRSFJGq7xLlZNDJvGC2jHi1GOxPwizTxI+8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dyQ8sMP7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3199C4CEE9;
-	Wed, 30 Apr 2025 12:31:21 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=L19sQiqYx+6Cknf2QmKmtznq0EKPaFj9jRh0UHyPH1C2eJXacPWhFZ8jyyFd/fadjDlWQ9w4suFdr1FKTXdIA9fChDnzgk9tjz9ksavsbjk/oZjrdMn32KoxZgH9PExqFTlMiA90tcO6nsfmTXW/I11il3wE7npWyRT0X50xFzw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dCFtQ4tn; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A9E2C4CEE9;
+	Wed, 30 Apr 2025 12:34:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746016281;
-	bh=iB2YZOoDjQR1zdB2a6h5tsxFzWaNsDK1iAYW7Qwc+iU=;
+	s=k20201202; t=1746016483;
+	bh=2Y6iaA6xQYMGjjrL5kbDu0B9SMb2jzg27qVw96TWwP8=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dyQ8sMP7yqCTzX/KBkqNOs/gAnRMYFtIfVihoc6NLFzNJnJccr0eLMNIX1cxGY7CB
-	 jNY8OHzEjFBO3DH/IWF1AoenUKUMrxzazMFTgcivtSga1QPzfuv23OV4bp8dBZ3JW9
-	 5yp9rINThbwfMjaH9hGSXbj7YTq25JH1SIdH+T9TQ5H90hftROwBZrFfVUjQ7eQEFQ
-	 ws3WtrR3iperDO7z0NtZl69XQLacu4AABFzwGI+5pnQ2v+gBIVS01MOLsg1IoI4/vu
-	 7WO7y8ooVq/UygKwfhKbknFuUvClBHZ0RqGCAI31jsyT8Uw2rj+8CCzpOdrtLouSg+
-	 MBFRrAGCfroXg==
+	b=dCFtQ4tnlkr42GfRkcBc9pZjltQxj2hKhv80O5Y2JVVPrwHzM9m6C7AZjHxjLMZjr
+	 OsMM0Vc405ze/4e7iCqVyS7bS1U1REIlVsjHldr4KaL+1h+9PFNz0+DBUYr8dF0/8h
+	 cKdXOo2iocZ0dp/BqcYnLLkQBVO5cxTtA3r0lMZOpy0uZ/n3T1ExZkeTxdFOOHIsfz
+	 zB/EkJMHsQWlcSGC/nGwestPZiAY2vy3DXUvNOXeJOv2cCoh4HN3aP4EmwG+Yorxt+
+	 2fpwb/lQpClcvHIZgkEqyViUC02viWhnqMCU6La5eLJta21jn0QmAloU+jl/+uZnqa
+	 hxH0VSR6bJa8Q==
 Received: from johan by xi.lan with local (Exim 4.97.1)
 	(envelope-from <johan@kernel.org>)
-	id 1uA6ay-000000005WC-3Sng;
-	Wed, 30 Apr 2025 14:31:24 +0200
-Date: Wed, 30 Apr 2025 14:31:24 +0200
+	id 1uA6eE-000000005a7-33p2;
+	Wed, 30 Apr 2025 14:34:46 +0200
+Date: Wed, 30 Apr 2025 14:34:46 +0200
 From: Johan Hovold <johan@kernel.org>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
 	Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Subject: Re: [PATCH 1/3] media: qcom: camss: vfe: Stop spamming logs with
  version
-Message-ID: <aBIYHD3o3wTfvg_g@hovoldconsulting.com>
+Message-ID: <aBIY5mkYbBvrBKEQ@hovoldconsulting.com>
 References: <20250429180828.950219-4-krzysztof.kozlowski@linaro.org>
  <aBHQejn_ksLyyUm1@hovoldconsulting.com>
- <3e34ce09-1207-4dba-bff8-38c01cad9b78@linaro.org>
+ <c2ba9738-a383-4a53-a7ad-fc65a97d1c4a@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,43 +67,24 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3e34ce09-1207-4dba-bff8-38c01cad9b78@linaro.org>
+In-Reply-To: <c2ba9738-a383-4a53-a7ad-fc65a97d1c4a@linaro.org>
 
-On Wed, Apr 30, 2025 at 10:19:13AM +0200, Krzysztof Kozlowski wrote:
-> On 30/04/2025 09:25, Johan Hovold wrote:
-> > On Tue, Apr 29, 2025 at 08:08:29PM +0200, Krzysztof Kozlowski wrote:
-> >> Camss drivers spam kernel dmesg with 64 useless messages during boot:
-> >>
-> >>   qcom-camss acb7000.isp: VFE:1 HW Version = 3.0.2
-> >>   qcom-camss acb7000.isp: VFE:2 HW Version = 2.4.0
-> >>
-> >> All of these messages are the same, so it makes no sense to print same
-> >> information 32 times.
+On Wed, Apr 30, 2025 at 09:24:12AM +0100, Bryan O'Donoghue wrote:
+> On 30/04/2025 08:25, Johan Hovold wrote:
+> > Unfortunately, it seems Bryan missed that this was a regression that
+> > should be fixed in 6.15 and only included them in a pull request for 6.16:
 > > 
-> > It's even worse then that (several hundred messages during use) and I
-> > sent fixes for these regressions a few weeks ago:
+> > 	https://lore.kernel.org/all/20250410233039.77093-1-bod@kernel.org/
 > > 
-> > 	https://lore.kernel.org/lkml/20250407104828.3833-1-johan+linaro@kernel.org/
-> > 	https://lore.kernel.org/lkml/20250407085125.21325-1-johan+linaro@kernel.org/
+> > Bryan, has your PR been merged? Can you try to get my fixes into 6.15
+> > since this is a regression in 6.15-rc1?
 > 
-> Oh damn...
-> 
-> I developed this on top of next, so already with your fixes included,
-> but - following standard kernel coding practice that drivers should be
-> silent on success - I think even debug messages are not needed here.
+> Let me see.. there's a -fixes branch, I think I should be able to PR 
+> anything with a Fixes: tag there.
 
-Ah, ok, it's based on my fixes and just removing the debug printks.
-
-I think that should be made more clear in the commit message as debug
-printks are not enabled by default and the rules for those are less
-strict.
-
-> There is really no point in printing (even as debug) version of hw block
-> EVERY TIME I boot the hardware. It does not change, does it?
-
-Well, it doesn't hurt to print it once on probe if this is something
-read out from the hardware, but clearly printing it hundreds of times
-during use make that debug statement pretty useless.
+I see now that you added CC stable tags to my commits so the fixes
+should trickle back to 6.15 eventually, but for issues introduced in
+-rc1 you should try to get them fixed in the same development cycle.
 
 Johan
 
