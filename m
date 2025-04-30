@@ -1,585 +1,940 @@
-Return-Path: <linux-media+bounces-31433-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31434-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCB49AA494A
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 12:57:02 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 12534AA4953
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 13:02:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 39C201BA75DA
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 10:57:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C7BAE7B67A1
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 11:01:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DB01238142;
-	Wed, 30 Apr 2025 10:56:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03404248F67;
+	Wed, 30 Apr 2025 11:02:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="0PMNmCYY"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="BBM8B8wu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2058.outbound.protection.outlook.com [40.107.236.58])
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B5EA218EB1;
-	Wed, 30 Apr 2025 10:56:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.58
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746010613; cv=fail; b=gyWdwosfHcMl+Y/lgEjFwmL2EeZbkvX2/RGSUkmWuo8zUCi2zcCyY0xz3T8nJOXbNKLxavJkKfHWdyzEAstmTDFC212EkmSvMKcsbO1xlRO+GWXt3Tvd3FwTWKo8MTJEyAMToaMgaDUkNOb1ZJpWyIIgw/keFnywNPTppmwapz8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746010613; c=relaxed/simple;
-	bh=U425A+UOoLhVABXM5ywRrtp9BerP3mhx90SsyM/DRdM=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=MzWKlA0hBnvsqb85bIHXgxPEzXoFgATK56KRlD6d8cDoV6Sl1+GU4DCTxcvekCRnip68wzN6v0K/hmpxgCIjDrD4rW6BkIe5tXUSh3PB8aPfKh8QOR4KEzxyidQgkarj+gww7BxI3HdQj356E7H92NHfrWDSK9myfQSaBCqGtxw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=0PMNmCYY; arc=fail smtp.client-ip=40.107.236.58
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=s1Z4TFy7c2z+EzNFG5pRWmDuLgiI6lw31lsKrq++Uw3kTcoeXhPy9IrKsd7limFGlSWgadJNCcrLuf2cKVirPWHDMIRuOq7kJ0zYKPmX1C1bEnUEqh0mIXEwcRoALckKaQJ5xgIuWL4cslpQcm4urSa57txVRiwXJNvEsyYNQXLV5rHWJDjXFKvP4tS16n9AFSZcVYmNnwhNsTGUfpd8XnkSNQxL6T7/CwVE5wQgmHi7llojptSna1jYF8IeOF57E2fCN/85JXLxmO+bQhJfBzWWMA9mNjM3/aAB/pE6hwy5TN5G+OiHSRhBHFqIU+Et1QX1Ig/eWQzRSYEoxRV4PQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=u3+0uvAilTGUFX349uW9rgVMs6bqT+hIq/+Z/B6LVhU=;
- b=VyLXc5+zPb296f8JBBqapD+D3rpQM+lQ4fDWCvtOyxPyR3+cLRW3D5WB9xjSVV/O2qUOmdn1vxuFP5HTn2tPc95iOIvRzcLiW1wPFNeA7dnYO3mdz/G2Kte9bKCdLJpbVvrgouw7nqPlcUjCazuC6MVg3kcVa4CqBDfhNrZ/hYccpu6K5D3TsNUJ8skU9V8uGbFMzxpjFoo5NgALF1MEYEDzmeSXNLWWKPJZZhY0kYM2Ud1uDvtXVgOiE4q8YjPjqJ7DSasRXn/fDw7hszQlXghjh+OkmxM9/YcBlfQ0/tiAUrmq8ObsVguqPltXxEwJoOEF/Veye3v0jyKkOZEjOg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=u3+0uvAilTGUFX349uW9rgVMs6bqT+hIq/+Z/B6LVhU=;
- b=0PMNmCYYqKUS9zO9qMOH/XoiC4xqbj2WbX9MO6LAyIZO6m/ez2CaqJgVOb3wfSgA3NcdIPbSTh4uptwFAJ9m399/Ct92VdwnFrSm+67mBvug67yGVDqp4hCrkZxTtrH0g4zpeLZGZiZsioY2pPz1nWj7iwvNqWL9KOXOWFlrt6o=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by SJ2PR12MB7823.namprd12.prod.outlook.com (2603:10b6:a03:4c9::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Wed, 30 Apr
- 2025 10:56:48 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%7]) with mapi id 15.20.8678.028; Wed, 30 Apr 2025
- 10:56:48 +0000
-Message-ID: <c9547d90-61cc-42f5-ac48-5a8dcf3c374a@amd.com>
-Date: Wed, 30 Apr 2025 12:56:42 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dma-buf: add flags to skip map_dma_buf() for some
- drivers
-To: oushixiong1025@163.com, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Dave Airlie <airlied@redhat.com>, Sean Paul <sean@poorly.run>,
- Shixiong Ou <oushixiong@kylinos.cn>
-References: <20250430085658.540746-1-oushixiong1025@163.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250430085658.540746-1-oushixiong1025@163.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: MN2PR10CA0022.namprd10.prod.outlook.com
- (2603:10b6:208:120::35) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 847D1548EE;
+	Wed, 30 Apr 2025 11:02:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746010944; cv=none; b=RwGWs7wjjEWEa0F5FhTpv5gGvH1PbVtgho1MFMK1iDsCF837cIr1In1+0s2Und5ATen194HZdK7rqXSonStmZYkctfADmyoBCFBOrQSA0jPsmB75MHSDjAX7R9Cp60wvIe2mnjKmyT48DkiV58Cbr2cqzvwGm/deO4mQStCZr5Q=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746010944; c=relaxed/simple;
+	bh=LaHQKp5EOT3wSugdUGmLwY0ra2VP9QPjLOm79iTTGFs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=HyX3m8/wDM+085ZRoquX61kLnjJa9PlYIYLdkY0otrJH78cdo5PHR0N+f3cFwBkBFrkNeqeVa/4NEVgBZyvtlAken7P+IiJKPlSKw9Rx1mOv1ybclZEuk7Ccw+f9v7Sf53YyVAa3FyLlZl27dZhE5m+yr2W/bHgqji15vw9is5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=BBM8B8wu; arc=none smtp.client-ip=198.47.23.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from fllv0034.itg.ti.com ([10.64.40.246])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 53UB218F3342512
+	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 30 Apr 2025 06:02:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1746010921;
+	bh=zPpAYdiU9rFMrWZB8wGRs6Bz4ulZUeaF90eBK6yHLfg=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=BBM8B8wujdzh9LcHwf4TfhNuW4B3Nd6fFaAPtd/I9Aku2DhVdUt5sqUPTDzu4GrbX
+	 W7BAKPm0hLd8Ty5xWh9rlB5/Ntcnqma2ljIxYkintsSM6eSpeO/2CAzHF6ON52VoYc
+	 U93M2UkFdSZwZRtA/H2PAYgICZj8lhgBEDtIAxc0=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 53UB21A0053013
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Wed, 30 Apr 2025 06:02:01 -0500
+Received: from DLEE113.ent.ti.com (157.170.170.24) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 30
+ Apr 2025 06:02:01 -0500
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE113.ent.ti.com
+ (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
+ Frontend Transport; Wed, 30 Apr 2025 06:02:00 -0500
+Received: from [10.24.69.232] (ws.dhcp.ti.com [10.24.69.232])
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 53UB1siA047868;
+	Wed, 30 Apr 2025 06:01:55 -0500
+Message-ID: <1a3a6556-cdc8-4cf9-9697-684ffda531b7@ti.com>
+Date: Wed, 30 Apr 2025 16:31:54 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|SJ2PR12MB7823:EE_
-X-MS-Office365-Filtering-Correlation-Id: feb944fa-4829-49b0-03e9-08dd87d5b475
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?RGFMUEd2VnpLS1lZR3VIMDZNMW1FU2Z4Yk9MakMzNzZkUTdxQWJIams1YWF0?=
- =?utf-8?B?ekl1RkJiNHFVWnBQdlV2eTgzYjdWeGtlS3JkOFY5MDVHNjZseUtLcXlERXcz?=
- =?utf-8?B?SFNROWtDZUdBUmFOeEMvdjBRNTA0WXFSelJKMzZxTkVHMHgvSW9SUVhlcWVY?=
- =?utf-8?B?a1I4K1hKWUpOVkw4UU0zVEdEcWtPclhrdTRlTzdpMS9nZllWVTBFcWl0NkxY?=
- =?utf-8?B?eEQ3VzVyQmNxbDErMHVlUjV3MmlXV2xvSXM2S1J2RkR2bzR3dXhJT0EvdGFZ?=
- =?utf-8?B?eWFFUGkrT3NtTjBCNkxLczdVS2pKRVgvNjd6OVZUeW9LMmdyNXhJeDYzK3RD?=
- =?utf-8?B?WmxyTjhOdUhCclNCMVdacUhMaWlVOHByUmpiSm9pSnArWWhNT1BIWkFBeHVv?=
- =?utf-8?B?dkRWa2gvMmFuZHNCS0cxMll2TU4xTFpST3phb0YxQ25ITk9zQkVjSEJzeG5K?=
- =?utf-8?B?cjAxbDN4TTNZU1RBOThBUXNPQ2QyL3JqcEFRdXBKa3hyQjFERlEwMFFrbGNV?=
- =?utf-8?B?alhmeUxoMEhURnBUaFZRbm9jYWRVSlltSnBkWW4rbmZNRndYUVc0WjdZVE5n?=
- =?utf-8?B?aGRrSEJPS0tjS1BSUUx4SU54Q3k3OTJiTjMzTHJRTnl0NDcvd1JrclhYczBL?=
- =?utf-8?B?RjNTaGhKakRUdW5kQ1V0dEpoaURxbFBmcHBleHFmdUltcHJITEdGWXRNbEFL?=
- =?utf-8?B?NFN2OEF4SFZvVThldEt3aHNlUXdGVEpNZXEzQlRjbXhvRFZCVzFyT0ROVGs1?=
- =?utf-8?B?ZHNlTTJ0U082b0dreU1jWUFBNXBEMWVmOE1zY0VvLy9VMU1ONm44dzRjMFpI?=
- =?utf-8?B?b1BWU2ttcTJvMHJjR1JoWUdTQzJnaFFlbnorYkRYQjdhdEhVVTd0TDBtN29E?=
- =?utf-8?B?Y1JlaHl3b01vK3FDTHRPN0I1TzJDd1VicTY5NFhGNlJwaFRONVk1LzkwM0Zv?=
- =?utf-8?B?WVdsRUZSaUFra1JpNHZ0TkQwZHdEeTMrWm8vaExrR2JWOVBmT01RMFpEMlFC?=
- =?utf-8?B?Zkp1VytjTGphalpLR3YzQVRrU09NUkFRRFN4aXdQZ2ZuWGhxL0JzNWdtMEpE?=
- =?utf-8?B?ckNxQXAxMEcxbTdTbk1tOVJRczV0clkvN3RPTEE4ZlNRdWs0M1Azb1dON21t?=
- =?utf-8?B?U3g4Q1VWUEJwS1AxN1UweFFCcGN6VHU1Z21OKzk2WkxwUTh2UC9nVlUvQkQ1?=
- =?utf-8?B?a2hMOEtkTDFZWVlvY2x3R2ZsMC9CWDYzZjRnVHpYTTNwU1Y1NWpDRkRKejdo?=
- =?utf-8?B?SFcxakFrUXpXRXJaUWJkZ2RWN1RTQzVJUHlNVDVHN1pjclgwSmVTTms2Z2Uw?=
- =?utf-8?B?Ly9maTl0Y1NQNmN3cyszdjN1ekdyd0xMUE42SmV0N21KODhDUlNwNzNCR3pF?=
- =?utf-8?B?RWVuMWFmeTIwVFZMdGhuNUcvMm5XbGhSOVd3aUQ5eU1BYnRNVXJIYStFa28x?=
- =?utf-8?B?R0ZZYlB1T2JKSm9rVnBmNTdkTGFBekdSblQ5ZWp6Vk5qem0xT3YxSXlZenVl?=
- =?utf-8?B?eXJNV2ZiZFJRUTVtNGgraVkyT0M2UFhmQkVJMGFlWUZLMm9pTnVJVEdLcWll?=
- =?utf-8?B?dko1d1JKSk83MUJndExhbTRRMG5kb014V084aUF4NmVoOUYyVlZncGRTeGUv?=
- =?utf-8?B?M3FmZmVoc2w5OGpWV1RzWjFEZVYzMHE4MVFMclBVdVpoSEFnVnMwYjhqOEU5?=
- =?utf-8?B?d1NIRXRCR1gvbmFIclJZMnhpZ0R0WGxGdUlsMXBjWkJkbUF3Y01jUDNqc2Ir?=
- =?utf-8?B?d3NwUHNoUWhSYlNEdkp5MVBwRkhMYzdoYm04bUsyUVZ2N3VGKytIR2dvMk1x?=
- =?utf-8?B?Tk45bGVmK3JNNDJmV1VBMVBJNE1td3VYRGtuMENGM0dwek9WNHNpU0pFaDJp?=
- =?utf-8?B?eExsT29uR1IyeTdkRGpyWnB4cDR5LzlDVGJ6VnF0RkZmbzNHb2VkbzVSQktI?=
- =?utf-8?Q?HyEOO54yTSE=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?R3d0NUJNbzRVR2czc2ZFKzYxUWEzSW5PcWVLVFp4MkNzaEtuRStteVh2Nlhq?=
- =?utf-8?B?cldBYm1vZXFOWjBxLzcwTjJLRjZhZHlDMFlKaVp3OHpJOEZZVmlCWk5BQTBp?=
- =?utf-8?B?NVJML0tpMmxRSTM4ek9aYmxzb1Fib3lpUWtjYWZGbFRtOUxhSWFZNlRUUm8y?=
- =?utf-8?B?NHlOc2JOTEZiY0hoK0pJUUNaaDFlbU5QdE5XSzNOUExQU2RETzRIVmUvQStw?=
- =?utf-8?B?YjFYRFQzZU45M3VZOTM5VGdWRTNQcEN5UG55ejV5ZWdpMktSWjdyMmwvRndG?=
- =?utf-8?B?REovOXk4VStXZUNxenlGOHVtbWUyd3UxczIrMlpSQmV5LzhFWjg4UVd3Qk5H?=
- =?utf-8?B?R0hMV0JDRWFZT0tjNjErb3VyQmpzZVUxZVRPT1c5eUgyZ3JEVlIxTDd0dHQw?=
- =?utf-8?B?TU42MWc2bFhQNnhVRk12WXB2bmlObi9aYXNIb2pDTkY3N2ZvWkprcmRsT1Zl?=
- =?utf-8?B?TUErRkliaUg5QjNFc1lrbW9NR1BCM1JvUWppSzQwbWUyaGFnTkZtTG4xUGE5?=
- =?utf-8?B?N2trUVRNSDBOc3pEVWRVTHhmeE8zMEJSc2loZ01weUdjYnNzU1YzNWFPQWkz?=
- =?utf-8?B?L1ZaVUtITjdvYjhnR0U2NFU4RUppVEtPcFdGUnc0M3o2VFE4VzU2eko3d2tR?=
- =?utf-8?B?OGd4WGxIR1NiSzJOWW52d1NZRGcyaXdOOVp0eUZwWWdXUU1HMzlFaXJiV2Y3?=
- =?utf-8?B?Y3JGNGJManVZRDg3Y0RteUgwVlc5RUdYczFKdXkxNXRVR2FiaW83Wm05ajNr?=
- =?utf-8?B?TUphSXJaRjNpTnFOa1FvcW9UVnF2aWN1US9QVTBVVTAyQjZZeTc2bEpZbEt0?=
- =?utf-8?B?N2dWS3FvbWNGUFlZR3pZVkxTSTNuQm5LcmtzVkFabXFsNnRod0VucVNLWm8y?=
- =?utf-8?B?eVdXYkNYRVVTS3pQZFI1WWZQV2JsSFluWHVlQ1BFOWxKTjloNGF0eGtpb0RY?=
- =?utf-8?B?c0JBUnJ3QWxaQlNoKzlPbmJRU0FReEprWC81OCtuU0NBRGpIL3EzVDFNRmhi?=
- =?utf-8?B?ZldmWGluVFJaZlZtSXhpc1BBaS9qNG5vb1JPSTNaeW1JdWtZWmUrbTh3cE5y?=
- =?utf-8?B?d3Fya3RzVUo2ZlV2UTBCYmtjMDN0NEx5VkUySnhmZEVWY2daTTEwTmZIYlJv?=
- =?utf-8?B?Z1RsYmdsdXk3THR1L0todmh0ZW5CRVJyZ1kxclN4MVRkL2hrM3dQMUZYdjZN?=
- =?utf-8?B?ZEFReE5QaWJaMmkwbFRjV3RZUnVzbmxXeW1ESzc2MTlldEQ1TThrdXpxOXpj?=
- =?utf-8?B?Zy8wblc4SEEzTUZ4Qm1RQUFrVmlFdVcveXY1bTg1U3ArZFlTUGNONzE4aWxx?=
- =?utf-8?B?ZmZjRDhQRWNGUy8rSmFkRzJxT0Q3U0dTNlE0UDVoSThxYTNMV3Z3U005cDNX?=
- =?utf-8?B?TjJLOG1VNU1mZVV3L29EQ21ESlZzazNXWjNQN3pmaGF0RkRJTmJqZERwNEph?=
- =?utf-8?B?OFp3S3JvMzhyTlRVSyt3TWxBL3pJZU9oTTZhamxXOFZpSUxDMzdJR0pGdVhw?=
- =?utf-8?B?T3NWU3R6WHdvWDRySDRscHlMV0xNdUFBcVZXaXlqVnQ4dkw5ZFBTQ2pnakxk?=
- =?utf-8?B?cTA3MElBOEhIU2d2a0sxeG5CVmZPNEZHQ25xZk5TY1lHZWNaV2FDUElRY29X?=
- =?utf-8?B?TFpaUnRnVVExcmtld080VVNZMHBmWG9Lb08xbFA3VkNNSGdrN2Y4eEgrR3Q4?=
- =?utf-8?B?dlpmMVpRT3BTZDJOc08zbnQwUTd2KzZTU295UEYxZG9NVHB0Z0xSc2FBcXJR?=
- =?utf-8?B?YlFIVUtBeFlNdFZ2RytVTHBjN3dkbDlFM2FNUTZ0MTFyNU9SRExLeTZ5bnRR?=
- =?utf-8?B?Nm5YMFBEQnczOU1YR0laYkhJY3N5R1QxRDlMZWUyb2pVRVBNM082SURwR0d5?=
- =?utf-8?B?RlNiL1pNL3YrT2R4cXlnU3NDZ3dPS1V4Vk1KazJwanhKcElnQnJ2b2k1eDFU?=
- =?utf-8?B?aDRIVkloTXl2VEtVU1hlekNja2dYeWI4eGdGT09QVER2aTVGYUNoZDY0Rmhj?=
- =?utf-8?B?UWhNTXNIR21FY2JjdFI2eUEyUDFIa0NJcGpEOFZCNlFTTEwycmlXYWNSYlJE?=
- =?utf-8?B?UDVvTUU5M01EaEdTL05FVzEzT2JMU3BjMGd5VG9hRVAzZzFqZVVycjc1WDlM?=
- =?utf-8?Q?spbVsBpVOnx48miADzdV/D3pf?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: feb944fa-4829-49b0-03e9-08dd87d5b475
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 10:56:48.3509
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /OcZbmYELv0QGEEX3zrePdU5inV7jfjF+rTiXK/glo0xzUedYDn2Evrhk18LjBk3
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB7823
-
-On 4/30/25 10:56, oushixiong1025@163.com wrote:
-> From: Shixiong Ou <oushixiong@kylinos.cn>
-> 
-> [WHY] Some Importer does not need to call dma_buf_map_attachment() to
-> get the scatterlist info, especially those drivers of hardware that do
-> not support DMA, such as the udl, the virtgpu and the ast.
-> 
-> [HOW] skip map_dma_buf() when dma_buf_dynamic_attach() for some drivers.
-
-This patch is based on outdated code. Please see drm-misc-next where the mapping during attach was already dropped.
-
-commit b72f66f22c0e39ae6684c43fead774c13db24e73
-Author: Christian König <christian.koenig@amd.com>
-Date:   Tue Feb 11 17:20:53 2025 +0100
-
-    dma-buf: drop caching of sg_tables
-    
-    That was purely for the transition from static to dynamic dma-buf
-    handling and can be removed again now.
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 02/13] media: ti: j721e-csi2rx: separate out device and
+ context
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC: <jai.luthra@linux.dev>, <mripard@kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <devarsht@ti.com>,
+        <y-abhilashchandra@ti.com>, <mchehab@kernel.org>, <robh@kernel.org>,
+        <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <vaishnav.a@ti.com>,
+        <s-jain1@ti.com>, <vigneshr@ti.com>, <sakari.ailus@linux.intel.com>,
+        <hverkuil-cisco@xs4all.nl>, <tomi.valkeinen@ideasonboard.com>,
+        <jai.luthra@ideasonboard.com>, <changhuang.liang@starfivetech.com>,
+        <jack.zhu@starfivetech.com>
+References: <20250417065554.437541-1-r-donadkar@ti.com>
+ <20250417065554.437541-3-r-donadkar@ti.com>
+ <20250421113236.GB29483@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Rishikesh Donadkar <r-donadkar@ti.com>
+In-Reply-To: <20250421113236.GB29483@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
 
-Regards,
-Christian.
+On 21/04/25 17:02, Laurent Pinchart wrote:
+> On Thu, Apr 17, 2025 at 12:25:43PM +0530, Rishikesh Donadkar wrote:
+>> From: Jai Luthra <j-luthra@ti.com>
+>>
+>> The TI CSI2RX wrapper has two parts: the main device and the DMA
+>> contexts. The driver was originally written with single camera capture
+>> in mind, so only one DMA context was needed. For the sake of simplicity,
+>> the context specific stuff was not modeled different to the main device.
+>>
+>> To enable multiplexed stream capture, the contexts need to be separated
+>> out from the main device. Create a struct ti_csi2rx_ctx that holds the
+>> DMA context specific things. Separate out functions handling the device
+>> and context related functionality.
+>>
+>> Co-developed-by: Pratyush Yadav <p.yadav@ti.com>
+>> Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
+>> Signed-off-by: Jai Luthra <j-luthra@ti.com>
+>> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
+>> ---
+>>   .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 412 ++++++++++--------
+>>   1 file changed, 228 insertions(+), 184 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+>> index 6412a00be8eab..36cde2e87aabb 100644
+>> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+>> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+>> @@ -40,6 +40,8 @@
+>>   #define SHIM_PSI_CFG0_DST_TAG		GENMASK(31, 16)
+>>   
+>>   #define PSIL_WORD_SIZE_BYTES		16
+>> +#define TI_CSI2RX_NUM_CTX		1
+>> +
+>>   /*
+>>    * There are no hard limits on the width or height. The DMA engine can handle
+>>    * all sizes. The max width and height are arbitrary numbers for this driver.
+>> @@ -64,7 +66,7 @@ struct ti_csi2rx_buffer {
+>>   	/* Common v4l2 buffer. Must be first. */
+>>   	struct vb2_v4l2_buffer		vb;
+>>   	struct list_head		list;
+>> -	struct ti_csi2rx_dev		*csi;
+>> +	struct ti_csi2rx_ctx		*ctx;
+>>   };
+>>   
+>>   enum ti_csi2rx_dma_state {
+>> @@ -84,29 +86,37 @@ struct ti_csi2rx_dma {
+>>   	 * Queue of buffers submitted to DMA engine.
+>>   	 */
+>>   	struct list_head		submitted;
+>> -	/* Buffer to drain stale data from PSI-L endpoint */
+>> -	struct {
+>> -		void			*vaddr;
+>> -		dma_addr_t		paddr;
+>> -		size_t			len;
+>> -	} drain;
+>> +};
+>> +
+>> +struct ti_csi2rx_dev;
+>> +
+>> +struct ti_csi2rx_ctx {
+>> +	struct ti_csi2rx_dev		*csi;
+>> +	struct video_device		vdev;
+>> +	struct vb2_queue		vidq;
+>> +	struct mutex			mutex; /* To serialize ioctls. */
+>> +	struct v4l2_format		v_fmt;
+>> +	struct ti_csi2rx_dma		dma;
+>> +	u32				sequence;
+>> +	u32				idx;
+>>   };
+>>   
+>>   struct ti_csi2rx_dev {
+>>   	struct device			*dev;
+>>   	void __iomem			*shim;
+>>   	struct v4l2_device		v4l2_dev;
+>> -	struct video_device		vdev;
+>>   	struct media_device		mdev;
+>>   	struct media_pipeline		pipe;
+>>   	struct media_pad		pad;
+> You need one pad per context, as this models the sink pad of the
+> video_device.
 
+I will fix it in the next revision
 
-> Signed-off-by: Shixiong Ou <oushixiong@kylinos.cn>
-> ---
->  drivers/accel/ivpu/ivpu_gem.c                 |  2 +-
->  drivers/accel/qaic/qaic_data.c                |  2 +-
->  drivers/dma-buf/dma-buf.c                     | 29 ++++++++++---------
->  drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c   |  2 +-
->  drivers/gpu/drm/armada/armada_gem.c           |  2 +-
->  drivers/gpu/drm/drm_prime.c                   |  2 +-
->  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  2 +-
->  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  2 +-
->  drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c     |  2 +-
->  drivers/gpu/drm/tegra/gem.c                   |  4 +--
->  drivers/gpu/drm/virtio/virtgpu_prime.c        |  2 +-
->  drivers/gpu/drm/xe/xe_dma_buf.c               |  2 +-
->  drivers/iio/industrialio-buffer.c             |  2 +-
->  drivers/infiniband/core/umem_dmabuf.c         |  3 +-
->  .../common/videobuf2/videobuf2-dma-contig.c   |  2 +-
->  .../media/common/videobuf2/videobuf2-dma-sg.c |  2 +-
->  .../platform/nvidia/tegra-vde/dmabuf-cache.c  |  2 +-
->  drivers/misc/fastrpc.c                        |  2 +-
->  drivers/usb/gadget/function/f_fs.c            |  2 +-
->  drivers/xen/gntdev-dmabuf.c                   |  2 +-
->  include/linux/dma-buf.h                       |  5 ++--
->  net/core/devmem.c                             |  2 +-
->  22 files changed, 41 insertions(+), 36 deletions(-)
-> 
-> diff --git a/drivers/accel/ivpu/ivpu_gem.c b/drivers/accel/ivpu/ivpu_gem.c
-> index 8741c73b92ce..5258a66ed945 100644
-> --- a/drivers/accel/ivpu/ivpu_gem.c
-> +++ b/drivers/accel/ivpu/ivpu_gem.c
-> @@ -183,7 +183,7 @@ struct drm_gem_object *ivpu_gem_prime_import(struct drm_device *dev,
->  	struct drm_gem_object *obj;
->  	int ret;
->  
-> -	attach = dma_buf_attach(dma_buf, attach_dev);
-> +	attach = dma_buf_attach(dma_buf, attach_dev, false);
->  	if (IS_ERR(attach))
->  		return ERR_CAST(attach);
->  
-> diff --git a/drivers/accel/qaic/qaic_data.c b/drivers/accel/qaic/qaic_data.c
-> index 43aba57b48f0..c13c64d59143 100644
-> --- a/drivers/accel/qaic/qaic_data.c
-> +++ b/drivers/accel/qaic/qaic_data.c
-> @@ -803,7 +803,7 @@ struct drm_gem_object *qaic_gem_prime_import(struct drm_device *dev, struct dma_
->  	obj = &bo->base;
->  	get_dma_buf(dma_buf);
->  
-> -	attach = dma_buf_attach(dma_buf, dev->dev);
-> +	attach = dma_buf_attach(dma_buf, dev->dev, false);
->  	if (IS_ERR(attach)) {
->  		ret = PTR_ERR(attach);
->  		goto attach_fail;
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index 5baa83b85515..dd7fe5fbf197 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -904,7 +904,7 @@ static struct sg_table *__map_dma_buf(struct dma_buf_attachment *attach,
->  struct dma_buf_attachment *
->  dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
->  		       const struct dma_buf_attach_ops *importer_ops,
-> -		       void *importer_priv)
-> +		       void *importer_priv, bool skip_map)
->  {
->  	struct dma_buf_attachment *attach;
->  	int ret;
-> @@ -941,8 +941,6 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
->  	 */
->  	if (dma_buf_attachment_is_dynamic(attach) !=
->  	    dma_buf_is_dynamic(dmabuf)) {
-> -		struct sg_table *sgt;
-> -
->  		dma_resv_lock(attach->dmabuf->resv, NULL);
->  		if (dma_buf_is_dynamic(attach->dmabuf)) {
->  			ret = dmabuf->ops->pin(attach);
-> @@ -950,16 +948,20 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
->  				goto err_unlock;
->  		}
->  
-> -		sgt = __map_dma_buf(attach, DMA_BIDIRECTIONAL);
-> -		if (!sgt)
-> -			sgt = ERR_PTR(-ENOMEM);
-> -		if (IS_ERR(sgt)) {
-> -			ret = PTR_ERR(sgt);
-> -			goto err_unpin;
-> +		if (!skip_map) {
-> +			struct sg_table *sgt;
-> +
-> +			sgt = __map_dma_buf(attach, DMA_BIDIRECTIONAL);
-> +			if (!sgt)
-> +				sgt = ERR_PTR(-ENOMEM);
-> +			if (IS_ERR(sgt)) {
-> +				ret = PTR_ERR(sgt);
-> +				goto err_unpin;
-> +			}
-> +			attach->sgt = sgt;
-> +			attach->dir = DMA_BIDIRECTIONAL;
->  		}
->  		dma_resv_unlock(attach->dmabuf->resv);
-> -		attach->sgt = sgt;
-> -		attach->dir = DMA_BIDIRECTIONAL;
->  	}
->  
->  	return attach;
-> @@ -989,9 +991,10 @@ EXPORT_SYMBOL_NS_GPL(dma_buf_dynamic_attach, "DMA_BUF");
->   * mapping.
->   */
->  struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
-> -					  struct device *dev)
-> +					  struct device *dev,
-> +					  bool skip_map)
->  {
-> -	return dma_buf_dynamic_attach(dmabuf, dev, NULL, NULL);
-> +	return dma_buf_dynamic_attach(dmabuf, dev, NULL, NULL, skip_map);
->  }
->  EXPORT_SYMBOL_NS_GPL(dma_buf_attach, "DMA_BUF");
->  
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> index e6913fcf2c7b..26c94834e6d2 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c
-> @@ -479,7 +479,7 @@ struct drm_gem_object *amdgpu_gem_prime_import(struct drm_device *dev,
->  		return obj;
->  
->  	attach = dma_buf_dynamic_attach(dma_buf, dev->dev,
-> -					&amdgpu_dma_buf_attach_ops, obj);
-> +					&amdgpu_dma_buf_attach_ops, obj, false);
->  	if (IS_ERR(attach)) {
->  		drm_gem_object_put(obj);
->  		return ERR_CAST(attach);
-> diff --git a/drivers/gpu/drm/armada/armada_gem.c b/drivers/gpu/drm/armada/armada_gem.c
-> index 1a1680d71486..7e1a82828b87 100644
-> --- a/drivers/gpu/drm/armada/armada_gem.c
-> +++ b/drivers/gpu/drm/armada/armada_gem.c
-> @@ -514,7 +514,7 @@ armada_gem_prime_import(struct drm_device *dev, struct dma_buf *buf)
->  		}
->  	}
->  
-> -	attach = dma_buf_attach(buf, dev->dev);
-> +	attach = dma_buf_attach(buf, dev->dev, false);
->  	if (IS_ERR(attach))
->  		return ERR_CAST(attach);
->  
-> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> index bdb51c8f262e..8e70abca33b9 100644
-> --- a/drivers/gpu/drm/drm_prime.c
-> +++ b/drivers/gpu/drm/drm_prime.c
-> @@ -949,7 +949,7 @@ struct drm_gem_object *drm_gem_prime_import_dev(struct drm_device *dev,
->  	if (!dev->driver->gem_prime_import_sg_table)
->  		return ERR_PTR(-EINVAL);
->  
-> -	attach = dma_buf_attach(dma_buf, attach_dev);
-> +	attach = dma_buf_attach(dma_buf, attach_dev, false);
->  	if (IS_ERR(attach))
->  		return ERR_CAST(attach);
->  
-> diff --git a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> index 9473050ac842..6015f6beb8e6 100644
-> --- a/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> +++ b/drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c
-> @@ -305,7 +305,7 @@ struct drm_gem_object *i915_gem_prime_import(struct drm_device *dev,
->  		return ERR_PTR(-E2BIG);
->  
->  	/* need to attach */
-> -	attach = dma_buf_attach(dma_buf, dev->dev);
-> +	attach = dma_buf_attach(dma_buf, dev->dev, false);
->  	if (IS_ERR(attach))
->  		return ERR_CAST(attach);
->  
-> diff --git a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-> index 2fda549dd82d..1992241fdf54 100644
-> --- a/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-> +++ b/drivers/gpu/drm/i915/gem/selftests/i915_gem_dmabuf.c
-> @@ -287,7 +287,7 @@ static int igt_dmabuf_import_same_driver(struct drm_i915_private *i915,
->  		goto out_import;
->  
->  	/* Now try a fake an importer */
-> -	import_attach = dma_buf_attach(dmabuf, obj->base.dev->dev);
-> +	import_attach = dma_buf_attach(dmabuf, obj->base.dev->dev, false);
->  	if (IS_ERR(import_attach)) {
->  		err = PTR_ERR(import_attach);
->  		goto out_import;
-> diff --git a/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c b/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
-> index 30cf1cdc1aa3..41fb4149409e 100644
-> --- a/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
-> +++ b/drivers/gpu/drm/omapdrm/omap_gem_dmabuf.c
-> @@ -114,7 +114,7 @@ struct drm_gem_object *omap_gem_prime_import(struct drm_device *dev,
->  		}
->  	}
->  
-> -	attach = dma_buf_attach(dma_buf, dev->dev);
-> +	attach = dma_buf_attach(dma_buf, dev->dev, false);
->  	if (IS_ERR(attach))
->  		return ERR_CAST(attach);
->  
-> diff --git a/drivers/gpu/drm/tegra/gem.c b/drivers/gpu/drm/tegra/gem.c
-> index ace3e5a805cf..e5527c9d10bb 100644
-> --- a/drivers/gpu/drm/tegra/gem.c
-> +++ b/drivers/gpu/drm/tegra/gem.c
-> @@ -79,7 +79,7 @@ static struct host1x_bo_mapping *tegra_bo_pin(struct device *dev, struct host1x_
->  	if (obj->dma_buf) {
->  		struct dma_buf *buf = obj->dma_buf;
->  
-> -		map->attach = dma_buf_attach(buf, dev);
-> +		map->attach = dma_buf_attach(buf, dev, false);
->  		if (IS_ERR(map->attach)) {
->  			err = PTR_ERR(map->attach);
->  			goto free;
-> @@ -470,7 +470,7 @@ static struct tegra_bo *tegra_bo_import(struct drm_device *drm,
->  	 * domain, map it first to the DRM device to get an sgt.
->  	 */
->  	if (tegra->domain) {
-> -		attach = dma_buf_attach(buf, drm->dev);
-> +		attach = dma_buf_attach(buf, drm->dev, false);
->  		if (IS_ERR(attach)) {
->  			err = PTR_ERR(attach);
->  			goto free;
-> diff --git a/drivers/gpu/drm/virtio/virtgpu_prime.c b/drivers/gpu/drm/virtio/virtgpu_prime.c
-> index 4de2a63ccd18..6d9d1fe342b6 100644
-> --- a/drivers/gpu/drm/virtio/virtgpu_prime.c
-> +++ b/drivers/gpu/drm/virtio/virtgpu_prime.c
-> @@ -326,7 +326,7 @@ struct drm_gem_object *virtgpu_gem_prime_import(struct drm_device *dev,
->  	drm_gem_private_object_init(dev, obj, buf->size);
->  
->  	attach = dma_buf_dynamic_attach(buf, dev->dev,
-> -					&virtgpu_dma_buf_attach_ops, obj);
-> +					&virtgpu_dma_buf_attach_ops, obj, true);
->  	if (IS_ERR(attach)) {
->  		kfree(bo);
->  		return ERR_CAST(attach);
-> diff --git a/drivers/gpu/drm/xe/xe_dma_buf.c b/drivers/gpu/drm/xe/xe_dma_buf.c
-> index f7a20264ea33..9f524b9ed425 100644
-> --- a/drivers/gpu/drm/xe/xe_dma_buf.c
-> +++ b/drivers/gpu/drm/xe/xe_dma_buf.c
-> @@ -293,7 +293,7 @@ struct drm_gem_object *xe_gem_prime_import(struct drm_device *dev,
->  		attach_ops = test->attach_ops;
->  #endif
->  
-> -	attach = dma_buf_dynamic_attach(dma_buf, dev->dev, attach_ops, &bo->ttm.base);
-> +	attach = dma_buf_dynamic_attach(dma_buf, dev->dev, attach_ops, &bo->ttm.base, false);
->  	if (IS_ERR(attach)) {
->  		obj = ERR_CAST(attach);
->  		goto out_err;
-> diff --git a/drivers/iio/industrialio-buffer.c b/drivers/iio/industrialio-buffer.c
-> index a80f7cc25a27..1296af4c2f7a 100644
-> --- a/drivers/iio/industrialio-buffer.c
-> +++ b/drivers/iio/industrialio-buffer.c
-> @@ -1679,7 +1679,7 @@ static int iio_buffer_attach_dmabuf(struct iio_dev_buffer_pair *ib,
->  		goto err_free_priv;
->  	}
->  
-> -	attach = dma_buf_attach(dmabuf, indio_dev->dev.parent);
-> +	attach = dma_buf_attach(dmabuf, indio_dev->dev.parent, false);
->  	if (IS_ERR(attach)) {
->  		err = PTR_ERR(attach);
->  		goto err_dmabuf_put;
-> diff --git a/drivers/infiniband/core/umem_dmabuf.c b/drivers/infiniband/core/umem_dmabuf.c
-> index 0ec2e4120cc9..ed635c407cbd 100644
-> --- a/drivers/infiniband/core/umem_dmabuf.c
-> +++ b/drivers/infiniband/core/umem_dmabuf.c
-> @@ -159,7 +159,8 @@ ib_umem_dmabuf_get_with_dma_device(struct ib_device *device,
->  					dmabuf,
->  					dma_device,
->  					ops,
-> -					umem_dmabuf);
-> +					umem_dmabuf,
-> +					false);
->  	if (IS_ERR(umem_dmabuf->attach)) {
->  		ret = ERR_CAST(umem_dmabuf->attach);
->  		goto out_free_umem;
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> index a13ec569c82f..362f5b555ce2 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> @@ -786,7 +786,7 @@ static void *vb2_dc_attach_dmabuf(struct vb2_buffer *vb, struct device *dev,
->  	buf->vb = vb;
->  
->  	/* create attachment for the dmabuf with the user device */
-> -	dba = dma_buf_attach(dbuf, buf->dev);
-> +	dba = dma_buf_attach(dbuf, buf->dev, false);
->  	if (IS_ERR(dba)) {
->  		pr_err("failed to attach dmabuf\n");
->  		kfree(buf);
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> index c6ddf2357c58..4f9a4e9783a1 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> @@ -632,7 +632,7 @@ static void *vb2_dma_sg_attach_dmabuf(struct vb2_buffer *vb, struct device *dev,
->  
->  	buf->dev = dev;
->  	/* create attachment for the dmabuf with the user device */
-> -	dba = dma_buf_attach(dbuf, buf->dev);
-> +	dba = dma_buf_attach(dbuf, buf->dev, false);
->  	if (IS_ERR(dba)) {
->  		pr_err("failed to attach dmabuf\n");
->  		kfree(buf);
-> diff --git a/drivers/media/platform/nvidia/tegra-vde/dmabuf-cache.c b/drivers/media/platform/nvidia/tegra-vde/dmabuf-cache.c
-> index b34244ea14dd..d04da2d3e4da 100644
-> --- a/drivers/media/platform/nvidia/tegra-vde/dmabuf-cache.c
-> +++ b/drivers/media/platform/nvidia/tegra-vde/dmabuf-cache.c
-> @@ -95,7 +95,7 @@ int tegra_vde_dmabuf_cache_map(struct tegra_vde *vde,
->  		goto ref;
->  	}
->  
-> -	attachment = dma_buf_attach(dmabuf, dev);
-> +	attachment = dma_buf_attach(dmabuf, dev, false);
->  	if (IS_ERR(attachment)) {
->  		dev_err(dev, "Failed to attach dmabuf\n");
->  		err = PTR_ERR(attachment);
-> diff --git a/drivers/misc/fastrpc.c b/drivers/misc/fastrpc.c
-> index 7b7a22c91fe4..aee6f4cbd6c6 100644
-> --- a/drivers/misc/fastrpc.c
-> +++ b/drivers/misc/fastrpc.c
-> @@ -778,7 +778,7 @@ static int fastrpc_map_create(struct fastrpc_user *fl, int fd,
->  		goto get_err;
->  	}
->  
-> -	map->attach = dma_buf_attach(map->buf, sess->dev);
-> +	map->attach = dma_buf_attach(map->buf, sess->dev, false);
->  	if (IS_ERR(map->attach)) {
->  		dev_err(sess->dev, "Failed to attach dmabuf\n");
->  		err = PTR_ERR(map->attach);
-> diff --git a/drivers/usb/gadget/function/f_fs.c b/drivers/usb/gadget/function/f_fs.c
-> index 2dea9e42a0f8..51926ffdb843 100644
-> --- a/drivers/usb/gadget/function/f_fs.c
-> +++ b/drivers/usb/gadget/function/f_fs.c
-> @@ -1487,7 +1487,7 @@ static int ffs_dmabuf_attach(struct file *file, int fd)
->  	if (IS_ERR(dmabuf))
->  		return PTR_ERR(dmabuf);
->  
-> -	attach = dma_buf_attach(dmabuf, gadget->dev.parent);
-> +	attach = dma_buf_attach(dmabuf, gadget->dev.parent, false);
->  	if (IS_ERR(attach)) {
->  		err = PTR_ERR(attach);
->  		goto err_dmabuf_put;
-> diff --git a/drivers/xen/gntdev-dmabuf.c b/drivers/xen/gntdev-dmabuf.c
-> index 5453d86324f6..9de191b6d1f7 100644
-> --- a/drivers/xen/gntdev-dmabuf.c
-> +++ b/drivers/xen/gntdev-dmabuf.c
-> @@ -587,7 +587,7 @@ dmabuf_imp_to_refs(struct gntdev_dmabuf_priv *priv, struct device *dev,
->  	gntdev_dmabuf->priv = priv;
->  	gntdev_dmabuf->fd = fd;
->  
-> -	attach = dma_buf_attach(dma_buf, dev);
-> +	attach = dma_buf_attach(dma_buf, dev, false);
->  	if (IS_ERR(attach)) {
->  		ret = ERR_CAST(attach);
->  		goto fail_free_obj;
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index 36216d28d8bd..1ea25089b3ba 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -598,11 +598,12 @@ dma_buf_attachment_is_dynamic(struct dma_buf_attachment *attach)
->  }
->  
->  struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
-> -					  struct device *dev);
-> +					  struct device *dev,
-> +					  bool skip_map);
->  struct dma_buf_attachment *
->  dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
->  		       const struct dma_buf_attach_ops *importer_ops,
-> -		       void *importer_priv);
-> +		       void *importer_priv, bool skip_map);
->  void dma_buf_detach(struct dma_buf *dmabuf,
->  		    struct dma_buf_attachment *attach);
->  int dma_buf_pin(struct dma_buf_attachment *attach);
-> diff --git a/net/core/devmem.c b/net/core/devmem.c
-> index 6e27a47d0493..8137ecff9e39 100644
-> --- a/net/core/devmem.c
-> +++ b/net/core/devmem.c
-> @@ -202,7 +202,7 @@ net_devmem_bind_dmabuf(struct net_device *dev, unsigned int dmabuf_fd,
->  
->  	binding->dmabuf = dmabuf;
->  
-> -	binding->attachment = dma_buf_attach(binding->dmabuf, dev->dev.parent);
-> +	binding->attachment = dma_buf_attach(binding->dmabuf, dev->dev.parent, false);
->  	if (IS_ERR(binding->attachment)) {
->  		err = PTR_ERR(binding->attachment);
->  		NL_SET_ERR_MSG(extack, "Failed to bind dmabuf to device");
-
+>
+>>   	struct v4l2_async_notifier	notifier;
+>>   	struct v4l2_subdev		*source;
+>> -	struct vb2_queue		vidq;
+>> -	struct mutex			mutex; /* To serialize ioctls. */
+>> -	struct v4l2_format		v_fmt;
+>> -	struct ti_csi2rx_dma		dma;
+>> -	u32				sequence;
+>> +	struct ti_csi2rx_ctx		ctx[TI_CSI2RX_NUM_CTX];
+>> +	/* Buffer to drain stale data from PSI-L endpoint */
+>> +	struct {
+>> +		void			*vaddr;
+>> +		dma_addr_t		paddr;
+>> +		size_t			len;
+>> +	} drain;
+>>   };
+>>   
+>>   static const struct ti_csi2rx_fmt ti_csi2rx_formats[] = {
+>> @@ -212,7 +222,7 @@ static const struct ti_csi2rx_fmt ti_csi2rx_formats[] = {
+>>   };
+>>   
+>>   /* Forward declaration needed by ti_csi2rx_dma_callback. */
+>> -static int ti_csi2rx_start_dma(struct ti_csi2rx_dev *csi,
+>> +static int ti_csi2rx_start_dma(struct ti_csi2rx_ctx *ctx,
+>>   			       struct ti_csi2rx_buffer *buf);
+>>   
+>>   static const struct ti_csi2rx_fmt *find_format_by_fourcc(u32 pixelformat)
+>> @@ -302,7 +312,7 @@ static int ti_csi2rx_enum_fmt_vid_cap(struct file *file, void *priv,
+>>   static int ti_csi2rx_g_fmt_vid_cap(struct file *file, void *prov,
+>>   				   struct v4l2_format *f)
+>>   {
+>> -	struct ti_csi2rx_dev *csi = video_drvdata(file);
+>> +	struct ti_csi2rx_ctx *csi = video_drvdata(file);
+>>   
+>>   	*f = csi->v_fmt;
+>>   
+>> @@ -333,7 +343,7 @@ static int ti_csi2rx_try_fmt_vid_cap(struct file *file, void *priv,
+>>   static int ti_csi2rx_s_fmt_vid_cap(struct file *file, void *priv,
+>>   				   struct v4l2_format *f)
+>>   {
+>> -	struct ti_csi2rx_dev *csi = video_drvdata(file);
+>> +	struct ti_csi2rx_ctx *csi = video_drvdata(file);
+>>   	struct vb2_queue *q = &csi->vidq;
+>>   	int ret;
+>>   
+>> @@ -419,25 +429,33 @@ static int csi_async_notifier_bound(struct v4l2_async_notifier *notifier,
+>>   static int csi_async_notifier_complete(struct v4l2_async_notifier *notifier)
+>>   {
+>>   	struct ti_csi2rx_dev *csi = dev_get_drvdata(notifier->v4l2_dev->dev);
+>> -	struct video_device *vdev = &csi->vdev;
+>> -	int ret;
+>> +	int ret, i;
+>>   
+>> -	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+>> -	if (ret)
+>> -		return ret;
+>> -
+>> -	ret = v4l2_create_fwnode_links_to_pad(csi->source, &csi->pad,
+>> -					      MEDIA_LNK_FL_IMMUTABLE | MEDIA_LNK_FL_ENABLED);
+>> +	for (i = 0; i < TI_CSI2RX_NUM_CTX; i++) {
+>> +		struct ti_csi2rx_ctx *ctx = &csi->ctx[i];
+>> +		struct video_device *vdev = &ctx->vdev;
+>>   
+>> -	if (ret) {
+>> -		video_unregister_device(vdev);
+>> -		return ret;
+>> +		ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+>> +		if (ret)
+>> +			goto unregister_dev;
+>>   	}
+>>   
+>> +	ret = v4l2_create_fwnode_links_to_pad(csi->source, &csi->pad,
+>> +					      MEDIA_LNK_FL_IMMUTABLE |
+>> +					      MEDIA_LNK_FL_ENABLED);
+> This will become problematic... It gets fixed in patch 05/13. Could you
+> reorder patches to add the subdev first ?
+Yes
+>
+>> +	if (ret)
+>> +		goto unregister_dev;
+>> +
+>>   	ret = v4l2_device_register_subdev_nodes(&csi->v4l2_dev);
+>>   	if (ret)
+>> -		video_unregister_device(vdev);
+>> +		goto unregister_dev;
+>>   
+>> +	return 0;
+>> +
+>> +unregister_dev:
+>> +	i--;
+>> +	for (; i >= 0; i--)
+>> +		video_unregister_device(&csi->ctx[i].vdev);
+>>   	return ret;
+>>   }
+>>   
+>> @@ -483,12 +501,13 @@ static int ti_csi2rx_notifier_register(struct ti_csi2rx_dev *csi)
+>>   	return 0;
+>>   }
+>>   
+>> -static void ti_csi2rx_setup_shim(struct ti_csi2rx_dev *csi)
+>> +static void ti_csi2rx_setup_shim(struct ti_csi2rx_ctx *ctx)
+>>   {
+>> +	struct ti_csi2rx_dev *csi = ctx->csi;
+>>   	const struct ti_csi2rx_fmt *fmt;
+>>   	unsigned int reg;
+>>   
+>> -	fmt = find_format_by_fourcc(csi->v_fmt.fmt.pix.pixelformat);
+>> +	fmt = find_format_by_fourcc(ctx->v_fmt.fmt.pix.pixelformat);
+>>   
+>>   	/* De-assert the pixel interface reset. */
+>>   	reg = SHIM_CNTL_PIX_RST;
+>> @@ -555,8 +574,9 @@ static void ti_csi2rx_drain_callback(void *param)
+>>    * To prevent that stale data corrupting the subsequent transactions, it is
+>>    * required to issue DMA requests to drain it out.
+>>    */
+>> -static int ti_csi2rx_drain_dma(struct ti_csi2rx_dev *csi)
+>> +static int ti_csi2rx_drain_dma(struct ti_csi2rx_ctx *ctx)
+>>   {
+>> +	struct ti_csi2rx_dev *csi = ctx->csi;
+>>   	struct dma_async_tx_descriptor *desc;
+>>   	struct completion drain_complete;
+>>   	dma_cookie_t cookie;
+>> @@ -564,8 +584,8 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_dev *csi)
+>>   
+>>   	init_completion(&drain_complete);
+>>   
+>> -	desc = dmaengine_prep_slave_single(csi->dma.chan, csi->dma.drain.paddr,
+>> -					   csi->dma.drain.len, DMA_DEV_TO_MEM,
+>> +	desc = dmaengine_prep_slave_single(ctx->dma.chan, csi->drain.paddr,
+>> +					   csi->drain.len, DMA_DEV_TO_MEM,
+>>   					   DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
+>>   	if (!desc) {
+>>   		ret = -EIO;
+>> @@ -580,11 +600,11 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_dev *csi)
+>>   	if (ret)
+>>   		goto out;
+>>   
+>> -	dma_async_issue_pending(csi->dma.chan);
+>> +	dma_async_issue_pending(ctx->dma.chan);
+>>   
+>>   	if (!wait_for_completion_timeout(&drain_complete,
+>>   					 msecs_to_jiffies(DRAIN_TIMEOUT_MS))) {
+>> -		dmaengine_terminate_sync(csi->dma.chan);
+>> +		dmaengine_terminate_sync(ctx->dma.chan);
+>>   		dev_dbg(csi->dev, "DMA transfer timed out for drain buffer\n");
+>>   		ret = -ETIMEDOUT;
+>>   		goto out;
+>> @@ -596,8 +616,8 @@ static int ti_csi2rx_drain_dma(struct ti_csi2rx_dev *csi)
+>>   static void ti_csi2rx_dma_callback(void *param)
+>>   {
+>>   	struct ti_csi2rx_buffer *buf = param;
+>> -	struct ti_csi2rx_dev *csi = buf->csi;
+>> -	struct ti_csi2rx_dma *dma = &csi->dma;
+>> +	struct ti_csi2rx_ctx *ctx = buf->ctx;
+>> +	struct ti_csi2rx_dma *dma = &ctx->dma;
+>>   	unsigned long flags;
+>>   
+>>   	/*
+>> @@ -605,7 +625,7 @@ static void ti_csi2rx_dma_callback(void *param)
+>>   	 * hardware monitor registers.
+>>   	 */
+>>   	buf->vb.vb2_buf.timestamp = ktime_get_ns();
+>> -	buf->vb.sequence = csi->sequence++;
+>> +	buf->vb.sequence = ctx->sequence++;
+>>   
+>>   	spin_lock_irqsave(&dma->lock, flags);
+>>   
+>> @@ -617,8 +637,9 @@ static void ti_csi2rx_dma_callback(void *param)
+>>   	while (!list_empty(&dma->queue)) {
+>>   		buf = list_entry(dma->queue.next, struct ti_csi2rx_buffer, list);
+>>   
+>> -		if (ti_csi2rx_start_dma(csi, buf)) {
+>> -			dev_err(csi->dev, "Failed to queue the next buffer for DMA\n");
+>> +		if (ti_csi2rx_start_dma(ctx, buf)) {
+>> +			dev_err(ctx->csi->dev,
+>> +				"Failed to queue the next buffer for DMA\n");
+> Printing some sort of context identifier would be useful here. Same
+> below where applicable.
+Okay, will add it in next revision
+>
+>>   			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
+>>   		} else {
+>>   			list_move_tail(&buf->list, &dma->submitted);
+>> @@ -631,17 +652,17 @@ static void ti_csi2rx_dma_callback(void *param)
+>>   	spin_unlock_irqrestore(&dma->lock, flags);
+>>   }
+>>   
+>> -static int ti_csi2rx_start_dma(struct ti_csi2rx_dev *csi,
+>> +static int ti_csi2rx_start_dma(struct ti_csi2rx_ctx *ctx,
+>>   			       struct ti_csi2rx_buffer *buf)
+>>   {
+>>   	unsigned long addr;
+>>   	struct dma_async_tx_descriptor *desc;
+>> -	size_t len = csi->v_fmt.fmt.pix.sizeimage;
+>> +	size_t len = ctx->v_fmt.fmt.pix.sizeimage;
+>>   	dma_cookie_t cookie;
+>>   	int ret = 0;
+>>   
+>>   	addr = vb2_dma_contig_plane_dma_addr(&buf->vb.vb2_buf, 0);
+>> -	desc = dmaengine_prep_slave_single(csi->dma.chan, addr, len,
+>> +	desc = dmaengine_prep_slave_single(ctx->dma.chan, addr, len,
+>>   					   DMA_DEV_TO_MEM,
+>>   					   DMA_PREP_INTERRUPT | DMA_CTRL_ACK);
+>>   	if (!desc)
+>> @@ -655,20 +676,20 @@ static int ti_csi2rx_start_dma(struct ti_csi2rx_dev *csi,
+>>   	if (ret)
+>>   		return ret;
+>>   
+>> -	dma_async_issue_pending(csi->dma.chan);
+>> +	dma_async_issue_pending(ctx->dma.chan);
+>>   
+>>   	return 0;
+>>   }
+>>   
+>> -static void ti_csi2rx_stop_dma(struct ti_csi2rx_dev *csi)
+>> +static void ti_csi2rx_stop_dma(struct ti_csi2rx_ctx *ctx)
+>>   {
+>> -	struct ti_csi2rx_dma *dma = &csi->dma;
+>> +	struct ti_csi2rx_dma *dma = &ctx->dma;
+>>   	enum ti_csi2rx_dma_state state;
+>>   	unsigned long flags;
+>>   	int ret;
+>>   
+>>   	spin_lock_irqsave(&dma->lock, flags);
+>> -	state = csi->dma.state;
+>> +	state = ctx->dma.state;
+>>   	dma->state = TI_CSI2RX_DMA_STOPPED;
+>>   	spin_unlock_irqrestore(&dma->lock, flags);
+>>   
+>> @@ -679,30 +700,30 @@ static void ti_csi2rx_stop_dma(struct ti_csi2rx_dev *csi)
+>>   		 * is stopped, as the module-level pixel reset cannot be
+>>   		 * enforced before terminating DMA.
+>>   		 */
+>> -		ret = ti_csi2rx_drain_dma(csi);
+>> +		ret = ti_csi2rx_drain_dma(ctx);
+>>   		if (ret && ret != -ETIMEDOUT)
+>> -			dev_warn(csi->dev,
+>> +			dev_warn(ctx->csi->dev,
+>>   				 "Failed to drain DMA. Next frame might be bogus\n");
+>>   	}
+>>   
+>> -	ret = dmaengine_terminate_sync(csi->dma.chan);
+>> +	ret = dmaengine_terminate_sync(ctx->dma.chan);
+>>   	if (ret)
+>> -		dev_err(csi->dev, "Failed to stop DMA: %d\n", ret);
+>> +		dev_err(ctx->csi->dev, "Failed to stop DMA: %d\n", ret);
+>>   }
+>>   
+>> -static void ti_csi2rx_cleanup_buffers(struct ti_csi2rx_dev *csi,
+>> +static void ti_csi2rx_cleanup_buffers(struct ti_csi2rx_ctx *ctx,
+>>   				      enum vb2_buffer_state state)
+>>   {
+>> -	struct ti_csi2rx_dma *dma = &csi->dma;
+>> +	struct ti_csi2rx_dma *dma = &ctx->dma;
+>>   	struct ti_csi2rx_buffer *buf, *tmp;
+>>   	unsigned long flags;
+>>   
+>>   	spin_lock_irqsave(&dma->lock, flags);
+>> -	list_for_each_entry_safe(buf, tmp, &csi->dma.queue, list) {
+>> +	list_for_each_entry_safe(buf, tmp, &ctx->dma.queue, list) {
+>>   		list_del(&buf->list);
+>>   		vb2_buffer_done(&buf->vb.vb2_buf, state);
+>>   	}
+>> -	list_for_each_entry_safe(buf, tmp, &csi->dma.submitted, list) {
+>> +	list_for_each_entry_safe(buf, tmp, &ctx->dma.submitted, list) {
+>>   		list_del(&buf->list);
+>>   		vb2_buffer_done(&buf->vb.vb2_buf, state);
+>>   	}
+>> @@ -713,8 +734,8 @@ static int ti_csi2rx_queue_setup(struct vb2_queue *q, unsigned int *nbuffers,
+>>   				 unsigned int *nplanes, unsigned int sizes[],
+>>   				 struct device *alloc_devs[])
+>>   {
+>> -	struct ti_csi2rx_dev *csi = vb2_get_drv_priv(q);
+>> -	unsigned int size = csi->v_fmt.fmt.pix.sizeimage;
+>> +	struct ti_csi2rx_ctx *ctx = vb2_get_drv_priv(q);
+>> +	unsigned int size = ctx->v_fmt.fmt.pix.sizeimage;
+>>   
+>>   	if (*nplanes) {
+>>   		if (sizes[0] < size)
+>> @@ -730,11 +751,11 @@ static int ti_csi2rx_queue_setup(struct vb2_queue *q, unsigned int *nbuffers,
+>>   
+>>   static int ti_csi2rx_buffer_prepare(struct vb2_buffer *vb)
+>>   {
+>> -	struct ti_csi2rx_dev *csi = vb2_get_drv_priv(vb->vb2_queue);
+>> -	unsigned long size = csi->v_fmt.fmt.pix.sizeimage;
+>> +	struct ti_csi2rx_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
+>> +	unsigned long size = ctx->v_fmt.fmt.pix.sizeimage;
+>>   
+>>   	if (vb2_plane_size(vb, 0) < size) {
+>> -		dev_err(csi->dev, "Data will not fit into plane\n");
+>> +		dev_err(ctx->csi->dev, "Data will not fit into plane\n");
+>>   		return -EINVAL;
+>>   	}
+>>   
+>> @@ -744,15 +765,15 @@ static int ti_csi2rx_buffer_prepare(struct vb2_buffer *vb)
+>>   
+>>   static void ti_csi2rx_buffer_queue(struct vb2_buffer *vb)
+>>   {
+>> -	struct ti_csi2rx_dev *csi = vb2_get_drv_priv(vb->vb2_queue);
+>> +	struct ti_csi2rx_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
+>>   	struct ti_csi2rx_buffer *buf;
+>> -	struct ti_csi2rx_dma *dma = &csi->dma;
+>> +	struct ti_csi2rx_dma *dma = &ctx->dma;
+>>   	bool restart_dma = false;
+>>   	unsigned long flags = 0;
+>>   	int ret;
+>>   
+>>   	buf = container_of(vb, struct ti_csi2rx_buffer, vb.vb2_buf);
+>> -	buf->csi = csi;
+>> +	buf->ctx = ctx;
+>>   
+>>   	spin_lock_irqsave(&dma->lock, flags);
+>>   	/*
+>> @@ -781,18 +802,18 @@ static void ti_csi2rx_buffer_queue(struct vb2_buffer *vb)
+>>   		 * the application and will only confuse it. Issue a DMA
+>>   		 * transaction to drain that up.
+>>   		 */
+>> -		ret = ti_csi2rx_drain_dma(csi);
+>> +		ret = ti_csi2rx_drain_dma(ctx);
+>>   		if (ret && ret != -ETIMEDOUT)
+>> -			dev_warn(csi->dev,
+>> +			dev_warn(ctx->csi->dev,
+>>   				 "Failed to drain DMA. Next frame might be bogus\n");
+>>   
+>>   		spin_lock_irqsave(&dma->lock, flags);
+>> -		ret = ti_csi2rx_start_dma(csi, buf);
+>> +		ret = ti_csi2rx_start_dma(ctx, buf);
+>>   		if (ret) {
+>>   			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
+>>   			dma->state = TI_CSI2RX_DMA_IDLE;
+>>   			spin_unlock_irqrestore(&dma->lock, flags);
+>> -			dev_err(csi->dev, "Failed to start DMA: %d\n", ret);
+>> +			dev_err(ctx->csi->dev, "Failed to start DMA: %d\n", ret);
+>>   		} else {
+>>   			list_add_tail(&buf->list, &dma->submitted);
+>>   			spin_unlock_irqrestore(&dma->lock, flags);
+>> @@ -802,8 +823,9 @@ static void ti_csi2rx_buffer_queue(struct vb2_buffer *vb)
+>>   
+>>   static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
+>>   {
+>> -	struct ti_csi2rx_dev *csi = vb2_get_drv_priv(vq);
+>> -	struct ti_csi2rx_dma *dma = &csi->dma;
+>> +	struct ti_csi2rx_ctx *ctx = vb2_get_drv_priv(vq);
+>> +	struct ti_csi2rx_dev *csi = ctx->csi;
+>> +	struct ti_csi2rx_dma *dma = &ctx->dma;
+>>   	struct ti_csi2rx_buffer *buf;
+>>   	unsigned long flags;
+>>   	int ret = 0;
+>> @@ -815,18 +837,18 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
+>>   	if (ret)
+>>   		return ret;
+>>   
+>> -	ret = video_device_pipeline_start(&csi->vdev, &csi->pipe);
+>> +	ret = video_device_pipeline_start(&ctx->vdev, &csi->pipe);
+>>   	if (ret)
+>>   		goto err;
+>>   
+>> -	ti_csi2rx_setup_shim(csi);
+>> +	ti_csi2rx_setup_shim(ctx);
+>>   
+>> -	csi->sequence = 0;
+>> +	ctx->sequence = 0;
+>>   
+>>   	spin_lock_irqsave(&dma->lock, flags);
+>>   	buf = list_entry(dma->queue.next, struct ti_csi2rx_buffer, list);
+>>   
+>> -	ret = ti_csi2rx_start_dma(csi, buf);
+>> +	ret = ti_csi2rx_start_dma(ctx, buf);
+>>   	if (ret) {
+>>   		dev_err(csi->dev, "Failed to start DMA: %d\n", ret);
+>>   		spin_unlock_irqrestore(&dma->lock, flags);
+>> @@ -844,22 +866,23 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
+>>   	return 0;
+>>   
+>>   err_dma:
+>> -	ti_csi2rx_stop_dma(csi);
+>> +	ti_csi2rx_stop_dma(ctx);
+>>   err_pipeline:
+>> -	video_device_pipeline_stop(&csi->vdev);
+>> +	video_device_pipeline_stop(&ctx->vdev);
+>>   	writel(0, csi->shim + SHIM_CNTL);
+>>   	writel(0, csi->shim + SHIM_DMACNTX);
+>>   err:
+>> -	ti_csi2rx_cleanup_buffers(csi, VB2_BUF_STATE_QUEUED);
+>> +	ti_csi2rx_cleanup_buffers(ctx, VB2_BUF_STATE_QUEUED);
+>>   	return ret;
+>>   }
+>>   
+>>   static void ti_csi2rx_stop_streaming(struct vb2_queue *vq)
+>>   {
+>> -	struct ti_csi2rx_dev *csi = vb2_get_drv_priv(vq);
+>> +	struct ti_csi2rx_ctx *ctx = vb2_get_drv_priv(vq);
+>> +	struct ti_csi2rx_dev *csi = ctx->csi;
+>>   	int ret;
+>>   
+>> -	video_device_pipeline_stop(&csi->vdev);
+>> +	video_device_pipeline_stop(&ctx->vdev);
+>>   
+>>   	writel(0, csi->shim + SHIM_CNTL);
+>>   	writel(0, csi->shim + SHIM_DMACNTX);
+>> @@ -868,8 +891,8 @@ static void ti_csi2rx_stop_streaming(struct vb2_queue *vq)
+>>   	if (ret)
+>>   		dev_err(csi->dev, "Failed to stop subdev stream\n");
+>>   
+>> -	ti_csi2rx_stop_dma(csi);
+>> -	ti_csi2rx_cleanup_buffers(csi, VB2_BUF_STATE_ERROR);
+>> +	ti_csi2rx_stop_dma(ctx);
+>> +	ti_csi2rx_cleanup_buffers(ctx, VB2_BUF_STATE_ERROR);
+>>   }
+>>   
+>>   static const struct vb2_ops csi_vb2_qops = {
+>> @@ -880,27 +903,50 @@ static const struct vb2_ops csi_vb2_qops = {
+>>   	.stop_streaming = ti_csi2rx_stop_streaming,
+>>   };
+>>   
+>> -static int ti_csi2rx_init_vb2q(struct ti_csi2rx_dev *csi)
+>> +static void ti_csi2rx_cleanup_v4l2(struct ti_csi2rx_dev *csi)
+>>   {
+>> -	struct vb2_queue *q = &csi->vidq;
+>> +	media_device_unregister(&csi->mdev);
+>> +	v4l2_device_unregister(&csi->v4l2_dev);
+>> +	media_device_cleanup(&csi->mdev);
+>> +}
+>> +
+>> +static void ti_csi2rx_cleanup_notifier(struct ti_csi2rx_dev *csi)
+>> +{
+>> +	v4l2_async_nf_unregister(&csi->notifier);
+>> +	v4l2_async_nf_cleanup(&csi->notifier);
+>> +}
+>> +
+>> +static void ti_csi2rx_cleanup_ctx(struct ti_csi2rx_ctx *ctx)
+>> +{
+>> +	dma_release_channel(ctx->dma.chan);
+>> +	vb2_queue_release(&ctx->vidq);
+>> +
+>> +	video_unregister_device(&ctx->vdev);
+>> +
+>> +	mutex_destroy(&ctx->mutex);
+>> +}
+>> +
+>> +static int ti_csi2rx_init_vb2q(struct ti_csi2rx_ctx *ctx)
+>> +{
+>> +	struct vb2_queue *q = &ctx->vidq;
+>>   	int ret;
+>>   
+>>   	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+>>   	q->io_modes = VB2_MMAP | VB2_DMABUF;
+>> -	q->drv_priv = csi;
+>> +	q->drv_priv = ctx;
+>>   	q->buf_struct_size = sizeof(struct ti_csi2rx_buffer);
+>>   	q->ops = &csi_vb2_qops;
+>>   	q->mem_ops = &vb2_dma_contig_memops;
+>>   	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+>> -	q->dev = dmaengine_get_dma_device(csi->dma.chan);
+>> -	q->lock = &csi->mutex;
+>> +	q->dev = dmaengine_get_dma_device(ctx->dma.chan);
+>> +	q->lock = &ctx->mutex;
+>>   	q->min_queued_buffers = 1;
+>>   
+>>   	ret = vb2_queue_init(q);
+>>   	if (ret)
+>>   		return ret;
+>>   
+>> -	csi->vdev.queue = q;
+>> +	ctx->vdev.queue = q;
+>>   
+>>   	return 0;
+>>   }
+>> @@ -909,8 +955,9 @@ static int ti_csi2rx_link_validate(struct media_link *link)
+>>   {
+>>   	struct media_entity *entity = link->sink->entity;
+>>   	struct video_device *vdev = media_entity_to_video_device(entity);
+>> -	struct ti_csi2rx_dev *csi = container_of(vdev, struct ti_csi2rx_dev, vdev);
+>> -	struct v4l2_pix_format *csi_fmt = &csi->v_fmt.fmt.pix;
+>> +	struct ti_csi2rx_ctx *ctx = container_of(vdev, struct ti_csi2rx_ctx, vdev);
+>> +	struct ti_csi2rx_dev *csi = ctx->csi;
+>> +	struct v4l2_pix_format *csi_fmt = &ctx->v_fmt.fmt.pix;
+>>   	struct v4l2_subdev_format source_fmt = {
+>>   		.which	= V4L2_SUBDEV_FORMAT_ACTIVE,
+>>   		.pad	= link->source->index,
+>> @@ -963,47 +1010,69 @@ static const struct media_entity_operations ti_csi2rx_video_entity_ops = {
+>>   	.link_validate = ti_csi2rx_link_validate,
+>>   };
+>>   
+>> -static int ti_csi2rx_init_dma(struct ti_csi2rx_dev *csi)
+>> +static int ti_csi2rx_init_dma(struct ti_csi2rx_ctx *ctx)
+>>   {
+>>   	struct dma_slave_config cfg = {
+>>   		.src_addr_width = DMA_SLAVE_BUSWIDTH_16_BYTES,
+>>   	};
+>>   	int ret;
+>>   
+>> -	INIT_LIST_HEAD(&csi->dma.queue);
+>> -	INIT_LIST_HEAD(&csi->dma.submitted);
+>> -	spin_lock_init(&csi->dma.lock);
+>> +	INIT_LIST_HEAD(&ctx->dma.queue);
+>> +	INIT_LIST_HEAD(&ctx->dma.submitted);
+>> +	spin_lock_init(&ctx->dma.lock);
+>>   
+>> -	csi->dma.state = TI_CSI2RX_DMA_STOPPED;
+>> +	ctx->dma.state = TI_CSI2RX_DMA_STOPPED;
+>>   
+>> -	csi->dma.chan = dma_request_chan(csi->dev, "rx0");
+>> -	if (IS_ERR(csi->dma.chan))
+>> -		return PTR_ERR(csi->dma.chan);
+>> +	ctx->dma.chan = dma_request_chan(ctx->csi->dev, "rx0");
+>> +	if (IS_ERR(ctx->dma.chan))
+>> +		return PTR_ERR(ctx->dma.chan);
+>>   
+>> -	ret = dmaengine_slave_config(csi->dma.chan, &cfg);
+>> +	ret = dmaengine_slave_config(ctx->dma.chan, &cfg);
+>>   	if (ret) {
+>> -		dma_release_channel(csi->dma.chan);
+>> +		dma_release_channel(ctx->dma.chan);
+>>   		return ret;
+>>   	}
+>>   
+>> -	csi->dma.drain.len = DRAIN_BUFFER_SIZE;
+>> -	csi->dma.drain.vaddr = dma_alloc_coherent(csi->dev, csi->dma.drain.len,
+>> -						  &csi->dma.drain.paddr,
+>> -						  GFP_KERNEL);
+>> -	if (!csi->dma.drain.vaddr)
+>> -		return -ENOMEM;
+>> -
+>>   	return 0;
+>>   }
+>>   
+>>   static int ti_csi2rx_v4l2_init(struct ti_csi2rx_dev *csi)
+>>   {
+>>   	struct media_device *mdev = &csi->mdev;
+>> -	struct video_device *vdev = &csi->vdev;
+>> +	int ret;
+>> +
+>> +	mdev->dev = csi->dev;
+>> +	mdev->hw_revision = 1;
+>> +	strscpy(mdev->model, "TI-CSI2RX", sizeof(mdev->model));
+>> +
+>> +	media_device_init(mdev);
+>> +
+>> +	csi->v4l2_dev.mdev = mdev;
+>> +
+>> +	ret = v4l2_device_register(csi->dev, &csi->v4l2_dev);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	ret = media_device_register(mdev);
+>> +	if (ret) {
+>> +		v4l2_device_unregister(&csi->v4l2_dev);
+>> +		media_device_cleanup(mdev);
+>> +		return ret;
+>> +	}
+>> +
+>> +	return 0;
+>> +}
+>> +
+>> +static int ti_csi2rx_init_ctx(struct ti_csi2rx_ctx *ctx)
+>> +{
+>> +	struct ti_csi2rx_dev *csi = ctx->csi;
+>> +	struct video_device *vdev = &ctx->vdev;
+>>   	const struct ti_csi2rx_fmt *fmt;
+>> -	struct v4l2_pix_format *pix_fmt = &csi->v_fmt.fmt.pix;
+>> +	struct v4l2_pix_format *pix_fmt = &ctx->v_fmt.fmt.pix;
+>>   	int ret;
+>>   
+>> +	mutex_init(&ctx->mutex);
+>> +
+>>   	fmt = find_format_by_fourcc(V4L2_PIX_FMT_UYVY);
+>>   	if (!fmt)
+>>   		return -EINVAL;
+>> @@ -1012,19 +1081,20 @@ static int ti_csi2rx_v4l2_init(struct ti_csi2rx_dev *csi)
+>>   	pix_fmt->height = 480;
+>>   	pix_fmt->field = V4L2_FIELD_NONE;
+>>   	pix_fmt->colorspace = V4L2_COLORSPACE_SRGB;
+>> -	pix_fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
+>> -	pix_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE;
+>> -	pix_fmt->xfer_func = V4L2_XFER_FUNC_SRGB;
+>> +	pix_fmt->ycbcr_enc = V4L2_YCBCR_ENC_601,
+>> +	pix_fmt->quantization = V4L2_QUANTIZATION_LIM_RANGE,
+>> +	pix_fmt->xfer_func = V4L2_XFER_FUNC_SRGB,
+>>   
+>> -	ti_csi2rx_fill_fmt(fmt, &csi->v_fmt);
+>> +	ti_csi2rx_fill_fmt(fmt, &ctx->v_fmt);
+>>   
+>> -	mdev->dev = csi->dev;
+>> -	mdev->hw_revision = 1;
+>> -	strscpy(mdev->model, "TI-CSI2RX", sizeof(mdev->model));
+>> -
+>> -	media_device_init(mdev);
+>> +	csi->pad.flags = MEDIA_PAD_FL_SINK;
+>> +	vdev->entity.ops = &ti_csi2rx_video_entity_ops;
+>> +	ret = media_entity_pads_init(&ctx->vdev.entity, 1, &csi->pad);
+>> +	if (ret)
+>> +		return ret;
+>>   
+>> -	strscpy(vdev->name, TI_CSI2RX_MODULE_NAME, sizeof(vdev->name));
+>> +	snprintf(vdev->name, sizeof(vdev->name), "%s context %u",
+>> +		 dev_name(csi->dev), ctx->idx);
+>>   	vdev->v4l2_dev = &csi->v4l2_dev;
+>>   	vdev->vfl_dir = VFL_DIR_RX;
+>>   	vdev->fops = &csi_fops;
+>> @@ -1032,61 +1102,28 @@ static int ti_csi2rx_v4l2_init(struct ti_csi2rx_dev *csi)
+>>   	vdev->release = video_device_release_empty;
+>>   	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING |
+>>   			    V4L2_CAP_IO_MC;
+>> -	vdev->lock = &csi->mutex;
+>> -	video_set_drvdata(vdev, csi);
+>> +	vdev->lock = &ctx->mutex;
+>> +	video_set_drvdata(vdev, ctx);
+>>   
+>> -	csi->pad.flags = MEDIA_PAD_FL_SINK;
+>> -	vdev->entity.ops = &ti_csi2rx_video_entity_ops;
+>> -	ret = media_entity_pads_init(&csi->vdev.entity, 1, &csi->pad);
+>> +	ret = ti_csi2rx_init_dma(ctx);
+>>   	if (ret)
+>>   		return ret;
+>>   
+>> -	csi->v4l2_dev.mdev = mdev;
+>> -
+>> -	ret = v4l2_device_register(csi->dev, &csi->v4l2_dev);
+>> +	ret = ti_csi2rx_init_vb2q(ctx);
+>>   	if (ret)
+>> -		return ret;
+>> -
+>> -	ret = media_device_register(mdev);
+>> -	if (ret) {
+>> -		v4l2_device_unregister(&csi->v4l2_dev);
+>> -		media_device_cleanup(mdev);
+>> -		return ret;
+>> -	}
+>> +		goto cleanup_dma;
+>>   
+>>   	return 0;
+>> -}
+>> -
+>> -static void ti_csi2rx_cleanup_dma(struct ti_csi2rx_dev *csi)
+>> -{
+>> -	dma_free_coherent(csi->dev, csi->dma.drain.len,
+>> -			  csi->dma.drain.vaddr, csi->dma.drain.paddr);
+>> -	csi->dma.drain.vaddr = NULL;
+>> -	dma_release_channel(csi->dma.chan);
+>> -}
+>> -
+>> -static void ti_csi2rx_cleanup_v4l2(struct ti_csi2rx_dev *csi)
+>> -{
+>> -	media_device_unregister(&csi->mdev);
+>> -	v4l2_device_unregister(&csi->v4l2_dev);
+>> -	media_device_cleanup(&csi->mdev);
+>> -}
+>>   
+>> -static void ti_csi2rx_cleanup_subdev(struct ti_csi2rx_dev *csi)
+>> -{
+>> -	v4l2_async_nf_unregister(&csi->notifier);
+>> -	v4l2_async_nf_cleanup(&csi->notifier);
+>> -}
+>> -
+>> -static void ti_csi2rx_cleanup_vb2q(struct ti_csi2rx_dev *csi)
+>> -{
+>> -	vb2_queue_release(&csi->vidq);
+>> +cleanup_dma:
+>> +	dma_release_channel(ctx->dma.chan);
+>> +	return ret;
+>>   }
+>>   
+>>   static int ti_csi2rx_probe(struct platform_device *pdev)
+>>   {
+>>   	struct ti_csi2rx_dev *csi;
+>> -	int ret;
+>> +	int ret, i;
+>>   
+>>   	csi = devm_kzalloc(&pdev->dev, sizeof(*csi), GFP_KERNEL);
+>>   	if (!csi)
+>> @@ -1095,62 +1132,69 @@ static int ti_csi2rx_probe(struct platform_device *pdev)
+>>   	csi->dev = &pdev->dev;
+>>   	platform_set_drvdata(pdev, csi);
+>>   
+>> -	mutex_init(&csi->mutex);
+>>   	csi->shim = devm_platform_ioremap_resource(pdev, 0);
+>>   	if (IS_ERR(csi->shim)) {
+>>   		ret = PTR_ERR(csi->shim);
+>> -		goto err_mutex;
+>> +		return ret;
+>>   	}
+>>   
+>> -	ret = ti_csi2rx_init_dma(csi);
+>> -	if (ret)
+>> -		goto err_mutex;
+>> +	csi->drain.len = DRAIN_BUFFER_SIZE;
+>> +	csi->drain.vaddr = dma_alloc_coherent(csi->dev, csi->drain.len,
+>> +					      &csi->drain.paddr,
+>> +					      GFP_KERNEL);
+>> +	if (!csi->drain.vaddr)
+>> +		return -ENOMEM;
+>>   
+>>   	ret = ti_csi2rx_v4l2_init(csi);
+>> -	if (ret)
+>> -		goto err_dma;
+>> -
+>> -	ret = ti_csi2rx_init_vb2q(csi);
+>>   	if (ret)
+>>   		goto err_v4l2;
+>>   
+>> +	for (i = 0; i < TI_CSI2RX_NUM_CTX; i++) {
+>> +		csi->ctx[i].idx = i;
+>> +		csi->ctx[i].csi = csi;
+>> +		ret = ti_csi2rx_init_ctx(&csi->ctx[i]);
+>> +		if (ret)
+>> +			goto err_ctx;
+>> +	}
+>> +
+>>   	ret = ti_csi2rx_notifier_register(csi);
+>>   	if (ret)
+>> -		goto err_vb2q;
+>> +		goto err_ctx;
+>>   
+>>   	ret = of_platform_populate(csi->dev->of_node, NULL, NULL, csi->dev);
+>>   	if (ret) {
+>>   		dev_err(csi->dev, "Failed to create children: %d\n", ret);
+>> -		goto err_subdev;
+>> +		goto err_notifier;
+>>   	}
+>>   
+>>   	return 0;
+>>   
+>> -err_subdev:
+>> -	ti_csi2rx_cleanup_subdev(csi);
+>> -err_vb2q:
+>> -	ti_csi2rx_cleanup_vb2q(csi);
+>> -err_v4l2:
+>> +err_notifier:
+>> +	ti_csi2rx_cleanup_notifier(csi);
+>> +err_ctx:
+>> +	i--;
+>> +	for (; i >= 0; i--)
+>> +		ti_csi2rx_cleanup_ctx(&csi->ctx[i]);
+>>   	ti_csi2rx_cleanup_v4l2(csi);
+>> -err_dma:
+>> -	ti_csi2rx_cleanup_dma(csi);
+>> -err_mutex:
+>> -	mutex_destroy(&csi->mutex);
+>> +err_v4l2:
+>> +	dma_free_coherent(csi->dev, csi->drain.len, csi->drain.vaddr,
+>> +			  csi->drain.paddr);
+>>   	return ret;
+>>   }
+>>   
+>>   static void ti_csi2rx_remove(struct platform_device *pdev)
+>>   {
+>>   	struct ti_csi2rx_dev *csi = platform_get_drvdata(pdev);
+>> +	unsigned int i;
+>>   
+>> -	video_unregister_device(&csi->vdev);
+>> +	for (i = 0; i < TI_CSI2RX_NUM_CTX; i++)
+>> +		ti_csi2rx_cleanup_ctx(&csi->ctx[i]);
+>>   
+>> -	ti_csi2rx_cleanup_vb2q(csi);
+>> -	ti_csi2rx_cleanup_subdev(csi);
+>> +	ti_csi2rx_cleanup_notifier(csi);
+>>   	ti_csi2rx_cleanup_v4l2(csi);
+>> -	ti_csi2rx_cleanup_dma(csi);
+>>   
+>> -	mutex_destroy(&csi->mutex);
+>> +	dma_free_coherent(csi->dev, csi->drain.len, csi->drain.vaddr,
+>> +			  csi->drain.paddr);
+>>   }
+>>   
+>>   static const struct of_device_id ti_csi2rx_of_match[] = {
 
