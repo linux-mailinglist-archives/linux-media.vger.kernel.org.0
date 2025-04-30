@@ -1,104 +1,120 @@
-Return-Path: <linux-media+bounces-31391-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31392-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1054AAA45D0
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 10:45:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54497AA45D3
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 10:46:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BFEC11894DBA
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 08:44:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE1F89C2A23
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 08:45:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E7EAF21ABAB;
-	Wed, 30 Apr 2025 08:43:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D9EB21ADB7;
+	Wed, 30 Apr 2025 08:45:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b="sDbuyOER"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="pLmvk3hT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.183])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B445218E81
-	for <linux-media@vger.kernel.org>; Wed, 30 Apr 2025 08:43:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.121.94.183
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746002635; cv=none; b=WYnH60+XovlVbywHEgiqDL6SEKHcxrsXxgWwpKCqVXInsXxXTjB53GUcDMu38k+FviLbOOoqirfF7FBQp+p3k0r+wUO/WS9WRL/fwew9AaWanGnKAqXF+vPje/E9WWxKXfFGfqtu0Ne34CfACAckn+ldByWOhMpFp7JtiZSWLh0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746002635; c=relaxed/simple;
-	bh=Mo31dNR6jEoD3EtWHZ2MpA5euDVFCBethrQzQQRSDWI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NVfQU2GPnKGUjkNQcdMV0UPBFjq+95M3isVdL8hsDXieKKXWlcpkK7NSIbSnFGvcTfeNF+0nfkDH6xPcSwmM+QasR7ts/iRJJHcUH5XYHwez+V02555bsB4pxhIwY9+XIzcocb5n4ewT1Y4CXzL2d/7a7g43gRiyvtzOmgWk8hA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl; spf=pass smtp.mailfrom=xs4all.nl; dkim=pass (2048-bit key) header.d=xs4all.nl header.i=@xs4all.nl header.b=sDbuyOER; arc=none smtp.client-ip=195.121.94.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=xs4all.nl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=xs4all.nl
-X-KPN-MessageId: 70593b73-259f-11f0-beb8-005056992ed3
-Received: from smtp.kpnmail.nl (unknown [10.31.155.5])
-	by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-	id 70593b73-259f-11f0-beb8-005056992ed3;
-	Wed, 30 Apr 2025 10:45:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=xs4all.nl; s=xs4all01;
-	h=content-type:from:to:subject:mime-version:date:message-id;
-	bh=SQr3CZDmsWNWgXE+Y5vUNC/ag/3bE6yEElvW0UXkqCU=;
-	b=sDbuyOERauDCMHwWOvYMClItKm2U8t2KGSqgqS+BjNpn/vtUatdEq/rYNwXVjBwbqKgXyMnqVvN1C
-	 MeWpdFAG/2URiHlyvSSpAfYiK6O3Lrci2HKPU4pQ02Nn04kUKkockpYAEKxi9BsnxwSDRihHude01q
-	 HgtrO/xqy+Ai8Idm6BJqxfYfdSY/nymQPTvdRnGMweeNGLUQnU5+vhQ1ufvBknVbqb+Ej9wvD5QLrP
-	 zixuxrW4B/79m3n2e/3MBJXvlURmQ1AQvHWx4VRN1doegSwuM3bRhbbWYDQe/6ZQKj//qUENwSzzOj
-	 /T7FUffd6LoqqclXN+70vJ8V4zuoqiw==
-X-KPN-MID: 33|W4wbe5Z3Wh0LWGEJj7awC6CRXVN2ZB6Jc9rRx69LDCmgw3VEm3snK1U/f+nFWiu
- 1LE6DQCZPxBFs4QcL8NlLVhQyg2ANq0rzxiiveZWdngw=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|yVjOyx/LIlTMnsSDkmQinXcRMwwJ0lqMOTaEF6oK5NpFmUrmrVBcwzfs04X7xMT
- y9ZYQi2o5F6SpH6lkinb0mg==
-Received: from [192.168.2.10] (unknown [178.74.16.2])
-	by smtp.xs4all.nl (Halon) with ESMTPSA
-	id 14ba80e9-259f-11f0-9dba-00505699b758;
-	Wed, 30 Apr 2025 10:42:43 +0200 (CEST)
-Message-ID: <1f62c662-b038-4c61-8835-9e94dbc712fa@xs4all.nl>
-Date: Wed, 30 Apr 2025 10:42:42 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B295C1DF75B;
+	Wed, 30 Apr 2025 08:45:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746002725; cv=pass; b=S65JF6U25jkJtcFiBoKoB/67ARduCvku/d5gEyCsvP+mYkm63d0uOkdrqoMQ+gmTt96miowuNeJMytAn0AAhKD+8q5dw2cVParGh7hp+vCJN8vDJ3+040NvQrU142xJr+e0xAHKzM29YhnyI2/NXETYzlbKPuKFN1KhqR9TJUO8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746002725; c=relaxed/simple;
+	bh=zwv4aRUkhROjLxUyP2QXYbMC+L8yYlnZn9I5vh/u4Gc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hPK0JoLHQOoDlC63WfyF1h6W9e/RDaGsouH/sXGITgrrOZ5IfeKy3SGYAcnVEImFW0YJHYDbd1J959S9LzaCQjiRO53b9T5dHYVaJMEvpsiudKy9VV7N5EOFQQ9zdrFZwW+7ADhZ/0VGOi0lJF2db0p7iDZrwCHDQW3kZTEf2+A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=pLmvk3hT; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-127c-61ff-fee2-b97e.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:127c:61ff:fee2:b97e])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4ZnW3B2pdbz49Pyt;
+	Wed, 30 Apr 2025 11:45:10 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1746002710;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Gxo87qhiPDE/HYyG5N8ospvrvESDKBZQSB5z9WkZIHw=;
+	b=pLmvk3hTwJde5T9JBmFfVRNqz9lTwfeWTql71/gnmsFliPnMlnaPlu7A711fiaXXO+Jh1k
+	qnGg9z6ar/TM2rD39d0662xHMba51Yd0bsD8VEEeFG2OjUDscMVdOnlxcza1xwHedos6LL
+	JyycBkFhSGjwERSIcGiojvZbvEpFXap3w5VPjMV9FBBdGkvYNH1fPiB9qgagXm+Pw90tE0
+	qF2jvBKmZt/u4CyuTVKPUk1rQwKIQI68enE3AHd4dkmmc131oX1dIMSFiuRhwRLRShZGyY
+	VCFyRJ8frdeRQRawllMNoRQhvT8IphlcDHSTJBusRBToxaqA4Qdb/LQ2HxlrFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1746002710;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Gxo87qhiPDE/HYyG5N8ospvrvESDKBZQSB5z9WkZIHw=;
+	b=gHGBHyiJSEdNokfxvw2y0OWsI5UXYDvt30H/Sidy7EzKt3eR6noGx2QehmpLZloqCl7xqU
+	VBIwdh4SsQvv+myal7nhfJehoE1H7lRVIkW4R72/34tV1BF+pYHss32PaPfKNx5prNzpjw
+	hxdMlvV0InThax+qokPmUcinBwP7hObRNlz8DsUxX/rVENw4aUWXJcZxWIARoLLsoKN5Kn
+	rWeWyUOAC2dp0XvDljg4s+V7QBm4KQmvYFE6qSvsBXIqdJwf/ymFzV2CzGakpO2yGSomOV
+	HMOWndNR8Icr2wJ2xZNwPTvv8mPvseUhw2CAxbPUt6ZTg62RgN4veV3g35Uogg==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1746002710; a=rsa-sha256;
+	cv=none;
+	b=LEskwEHNtyE+Xsqee1tm/WG+pnRkomsryvm5n56Ud3Qb3kj6d6aRK9+M0QtRkQYAGpXBFm
+	wDt9cjsUeuwDG64zOkubLmmlR74wtuHlQogq0jAvgXOOQADaYAki9PPc4UG2ZoyEDXtfiF
+	ooyDfvLkh8/SqZSpfOd1DJrvPbVsvPscw4bMEYl21FNfEDrYGO/iSkkueMKZmmQyL/exHs
+	n7K7b7na5aM7waspoNGcHOmu22t2t1v0zCnFJIe83WKVMthlkVjfgH7zbFKd0AZwS7JbN2
+	YL7SCs2obAEbCtKgSADMVb0jgAwPYCBS7zXa4JP3A+jw+PJbkFcLJjWYpvETUQ==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id E898C634C93;
+	Wed, 30 Apr 2025 11:45:09 +0300 (EEST)
+Date: Wed, 30 Apr 2025 08:45:09 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] drivers: media: i2c: imx335: Fix frame size enumeration
+Message-ID: <aBHjFcbjR_oPiINu@valkosipuli.retiisi.eu>
+References: <20250430073649.1986018-1-kieran.bingham@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [v4l-utils] [PATCH] v4l2-compliance: Don't perform blocking DQBUF
- test on MC_IO devices
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-References: <20250429203922.23078-1-laurent.pinchart@ideasonboard.com>
- <aBHd2FUeOCjLlnl-@kekkonen.localdomain>
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-In-Reply-To: <aBHd2FUeOCjLlnl-@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250430073649.1986018-1-kieran.bingham@ideasonboard.com>
 
-On 30/04/2025 10:22, Sakari Ailus wrote:
-> Hi Laurent,
+Hi Kieran,
+
+On Wed, Apr 30, 2025 at 08:36:49AM +0100, Kieran Bingham wrote:
+> In commit cfa49ff0558a ("media: i2c: imx335: Support 2592x1940 10-bit
+> mode") the IMX335 driver was extended to support multiple output
+> bitdepth modes.
 > 
-> On Tue, Apr 29, 2025 at 11:39:22PM +0300, Laurent Pinchart wrote:
->> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->>
->> Streaming on MC_IO devices can't be tested by v4l2-compliance as it
->> requires setting up a valid pipeline first. The blocking DQBUF test
->> therefore fails to start streaming on those devices. Disable it.
->>
->> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> This incorrectly extended the frame size enumeration to check against
+> the supported mbus_codes array instead of the supported mode/frame
+> array. This has the unwanted side effect of reporting the currently
+> supported frame size 2592x1944 three times.
 > 
-> Thanks for the patch.
+> Fix the check accordingly to report a frame size for each supported
+> size, which is presently only a single entry.
 > 
-> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
+> Fixes: cfa49ff0558a ("media: i2c: imx335: Support 2592x1940 10-bit mode")
+> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
-Reviewed-by: Hans Verkuil <hverkuil@xs4all.nl>
+Thanks for the patch.
 
-Feel free to commit yourself.
+Cc: stable is required these days with Fixes: tag, I've added it this time.
 
-Regards,
-
-	Hans
+-- 
+Sakari Ailus
 
