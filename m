@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-31422-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31423-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9E6FAA481E
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 12:17:52 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8352DAA4821
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 12:18:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D7279C5123
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 10:17:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DA71F4A0F98
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 10:18:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93DAD235052;
-	Wed, 30 Apr 2025 10:17:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 200FD235070;
+	Wed, 30 Apr 2025 10:18:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="uoo7dkV4"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BOg7W2XG"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6020C21A458;
-	Wed, 30 Apr 2025 10:17:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F180F1EB1AF;
+	Wed, 30 Apr 2025 10:18:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746008257; cv=none; b=epiEU5hvj0AN7os8QTWywFrsIr+43G/SCgeNAPxgXKruT/+wnCr8/ClQuAySxHCokZdPdO2U2En40VQS0lGaAxlg9/6C22TI2ZeJpryk0RSLNMQEhht6qzg5qhWVPNUTZv+ZoNS/X57q6zdw/e6JRhnsmVUKl18zBTLyIjs6E0c=
+	t=1746008314; cv=none; b=pRYSY8Ld6Y748G7vTPvGpa0EalMRS1vtmr6gkG86uqymjhdjYW/sPmif6P+ZmJHYm52YJ+ZXU8ZhbLsmcqhfpRP+n4P+5Yx9geIgWydALGuFJeP0Ig7fkT6RvR2ua05IEYAJtluQzvp1SSnFRR7Cd/Eo4iK/CdC9Es4F+dGfJkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746008257; c=relaxed/simple;
-	bh=gDZoQOFaUPDT5JFZ3OjWDkvUdTzUEVOLB2ahBwpA/ig=;
+	s=arc-20240116; t=1746008314; c=relaxed/simple;
+	bh=6RLslCfY1xw1wzunEogQ5VF8OjTYar0f0HRPGbnYnVE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ME/mVYcKE8nmwmhzwz0BMwyxgVjjw+G7GyY7OMNsf/kAUdrkoUbFoj/RG9fBpl0pCt/m7f1kd8qs3TpdegErRk9CXG/DO5OIfz9oIj84ZwGSze5kG7gWh6Nax4cHASRA/XYc38N8rE2zxJqS7XgANmgmibzwwaTwwzw+2O7lV0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=uoo7dkV4; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=tnY4+jqgHczvHTzUOUKakQkZsAyrQ7qsvT1Xhnh16YYWJPI+/jjFkH2cEv7SPjP2Bpr7sGsGOE1nWFKun2Ug5KsagsVLpOZb7mhR/LjcH9HHyol9AhVx4LGulx7Wg0+JSt6jMl21dRFebSsYD+52/Bd3XX/V4OdUDmJhyDBHeUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BOg7W2XG; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F34E9AF;
-	Wed, 30 Apr 2025 12:17:26 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 13D94AF;
+	Wed, 30 Apr 2025 12:18:24 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1746008247;
-	bh=gDZoQOFaUPDT5JFZ3OjWDkvUdTzUEVOLB2ahBwpA/ig=;
+	s=mail; t=1746008304;
+	bh=6RLslCfY1xw1wzunEogQ5VF8OjTYar0f0HRPGbnYnVE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=uoo7dkV4JzFGIGWtvt/dO1dm4DFIXsq0coD+zaFUKTt2w3rm2hD/1loCCHgl68xQ/
-	 7Z88C+d+RpH0BoxC2a4TARlgDiqW4Vkzuc+VWjnmoWzk0f++djxflSM9qMjm8Ao26D
-	 ivoDJXN/MFo9yH4OU1iLZC+qYz89kNRxSBC9tXaY=
-Message-ID: <bbb351d5-8e05-4222-badc-aae085aa7024@ideasonboard.com>
-Date: Wed, 30 Apr 2025 13:17:30 +0300
+	b=BOg7W2XGKj1SO8lbQMn14uSO89irXgoFg+ZSeG8s5VLF6HTWa/a4KbQF8exUiHQK4
+	 JjH9D8XqJ9C/+pPH1olNKn8dRj9p30cy1qmQJsMTp1azeb+d5yqvtf8ExIwh4MEpIF
+	 LYYemhaJFrddREvbtLtSvLdH45P+jnImD/WwlYGs=
+Message-ID: <2e50a5bd-cf72-4a85-8a99-d8837acfda00@ideasonboard.com>
+Date: Wed, 30 Apr 2025 13:18:27 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,15 +50,14 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 8/9] media: renesas: vsp1: Expose color space through
- the DRM API
+Subject: Re: [PATCH v2 9/9] drm: rcar-du: Create plane color properties
 To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
  linux-media@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org, dri-devel@lists.freedesktop.org,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
  Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 References: <20250429232904.26413-1-laurent.pinchart+renesas@ideasonboard.com>
- <20250429232904.26413-9-laurent.pinchart+renesas@ideasonboard.com>
+ <20250429232904.26413-10-laurent.pinchart+renesas@ideasonboard.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -104,92 +103,63 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20250429232904.26413-9-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <20250429232904.26413-10-laurent.pinchart+renesas@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
 On 30/04/2025 02:29, Laurent Pinchart wrote:
-> Now that the VSP1 driver supports color spaces, expose them through the
-> API used by the DU driver. This allows configuring the YCbCr encoding
-> and quantization used by each plane, ensuring correct color rendering.
+> Now that the VSP1 driver allows setting per-plance color encoding and
+> color range for its DRM pipeline, create the corresponding DRM
+> properties in the DU driver and wire them to the VSP. This completes
+> support for plane color space.
 > 
 > Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 > ---
->   drivers/media/platform/renesas/vsp1/vsp1_drm.c | 4 ++++
->   drivers/media/platform/renesas/vsp1/vsp1_drm.h | 6 ++++--
->   include/media/vsp1.h                           | 4 ++++
->   3 files changed, 12 insertions(+), 2 deletions(-)
+>   drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c | 15 +++++++++++++++
+>   1 file changed, 15 insertions(+)
 > 
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.c b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> index e5339fda5941..fe55e8747b05 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.c
-> @@ -136,6 +136,8 @@ static int vsp1_du_pipeline_setup_rpf(struct vsp1_device *vsp1,
->   	format.format.height = input->crop.height + input->crop.top;
->   	format.format.code = rpf->fmtinfo->mbus;
->   	format.format.field = V4L2_FIELD_NONE;
-> +	format.format.ycbcr_enc = input->ycbcr_enc;
-> +	format.format.quantization = input->quantization;
+> diff --git a/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c b/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
+> index 7aa0373563a4..09f9ab2111a2 100644
+> --- a/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
+> +++ b/drivers/gpu/drm/renesas/rcar-du/rcar_du_vsp.c
+> @@ -10,6 +10,7 @@
+>   #include <drm/drm_atomic.h>
+>   #include <drm/drm_atomic_helper.h>
+>   #include <drm/drm_blend.h>
+> +#include <drm/drm_color_mgmt.h>
+>   #include <drm/drm_crtc.h>
+>   #include <drm/drm_fb_dma_helper.h>
+>   #include <drm/drm_fourcc.h>
+> @@ -251,6 +252,12 @@ static void rcar_du_vsp_plane_setup(struct rcar_du_vsp_plane *plane)
 >   
->   	ret = v4l2_subdev_call(&rpf->entity.subdev, pad, set_fmt, NULL,
->   			       &format);
-> @@ -876,6 +878,8 @@ int vsp1_du_atomic_update(struct device *dev, unsigned int pipe_index,
->   	input->crop = cfg->src;
->   	input->compose = cfg->dst;
->   	input->zpos = cfg->zpos;
-> +	input->ycbcr_enc = cfg->color_encoding;
-> +	input->quantization = cfg->color_range;
+>   	cfg.premult = state->state.pixel_blend_mode == DRM_MODE_BLEND_PREMULTI;
 >   
->   	drm_pipe->pipe.inputs[rpf_index] = rpf;
+> +	cfg.color_encoding = state->state.color_encoding == DRM_COLOR_YCBCR_BT601
+> +			   ? V4L2_YCBCR_ENC_601 : V4L2_YCBCR_ENC_709;
+> +	cfg.color_range = state->state.color_range == DRM_COLOR_YCBCR_LIMITED_RANGE
+> +			? V4L2_QUANTIZATION_LIM_RANGE
+> +			: V4L2_QUANTIZATION_FULL_RANGE;
+> +
+>   	vsp1_du_atomic_update(plane->vsp->vsp, crtc->vsp_pipe,
+>   			      plane->index, &cfg);
+>   }
+> @@ -530,6 +537,14 @@ int rcar_du_vsp_init(struct rcar_du_vsp *vsp, struct device_node *np,
+>   					BIT(DRM_MODE_BLEND_PREMULTI) |
+>   					BIT(DRM_MODE_BLEND_COVERAGE));
 >   
-> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_drm.h b/drivers/media/platform/renesas/vsp1/vsp1_drm.h
-> index 7234737cc464..07a5d0adbd08 100644
-> --- a/drivers/media/platform/renesas/vsp1/vsp1_drm.h
-> +++ b/drivers/media/platform/renesas/vsp1/vsp1_drm.h
-> @@ -52,8 +52,8 @@ struct vsp1_drm_pipeline {
->    * struct vsp1_drm - State for the API exposed to the DRM driver
->    * @pipe: the VSP1 DRM pipeline used for display
->    * @lock: protects the BRU and BRS allocation
-> - * @inputs: source crop rectangle, destination compose rectangle and z-order
-> - *	position for every input (indexed by RPF index)
-> + * @inputs: source crop rectangle, destination compose rectangle, z-order
-> + *	position and colorspace for every input (indexed by RPF index)
->    */
->   struct vsp1_drm {
->   	struct vsp1_drm_pipeline pipe[VSP1_MAX_LIF];
-> @@ -63,6 +63,8 @@ struct vsp1_drm {
->   		struct v4l2_rect crop;
->   		struct v4l2_rect compose;
->   		unsigned int zpos;
-> +		enum v4l2_ycbcr_encoding ycbcr_enc;
-> +		enum v4l2_quantization quantization;
->   	} inputs[VSP1_MAX_RPF];
->   };
+> +		drm_plane_create_color_properties(&plane->plane,
+> +						  BIT(DRM_COLOR_YCBCR_BT601) |
+> +						  BIT(DRM_COLOR_YCBCR_BT709),
+> +						  BIT(DRM_COLOR_YCBCR_LIMITED_RANGE) |
+> +						  BIT(DRM_COLOR_YCBCR_FULL_RANGE),
+> +						  DRM_COLOR_YCBCR_BT601,
+> +						  DRM_COLOR_YCBCR_LIMITED_RANGE);
+> +
+>   		vsp->num_planes++;
+>   	}
 >   
-> diff --git a/include/media/vsp1.h b/include/media/vsp1.h
-> index 48f4a5023d81..4ea6352fd63f 100644
-> --- a/include/media/vsp1.h
-> +++ b/include/media/vsp1.h
-> @@ -52,6 +52,8 @@ int vsp1_du_setup_lif(struct device *dev, unsigned int pipe_index,
->    * @alpha: alpha value (0: fully transparent, 255: fully opaque)
->    * @zpos: Z position of the plane (from 0 to number of planes minus 1)
->    * @premult: true for premultiplied alpha
-> + * @color_encoding: color encoding (valid for YUV formats only)
-> + * @color_range: color range (valid for YUV formats only)
->    */
->   struct vsp1_du_atomic_config {
->   	u32 pixelformat;
-> @@ -62,6 +64,8 @@ struct vsp1_du_atomic_config {
->   	unsigned int alpha;
->   	unsigned int zpos;
->   	bool premult;
-> +	enum v4l2_ycbcr_encoding color_encoding;
-> +	enum v4l2_quantization color_range;
->   };
->   
->   /**
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>
 
