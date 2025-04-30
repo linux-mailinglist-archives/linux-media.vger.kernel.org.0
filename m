@@ -1,65 +1,66 @@
-Return-Path: <linux-media+bounces-31380-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31381-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BDE6AA455F
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 10:29:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62647AA456D
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 10:31:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3C37C7AF597
-	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 08:28:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1B5961C04122
+	for <lists+linux-media@lfdr.de>; Wed, 30 Apr 2025 08:30:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6419621ABB3;
-	Wed, 30 Apr 2025 08:28:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90E2A22171B;
+	Wed, 30 Apr 2025 08:28:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="bg/pJU9k"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="50bGuMHA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F511DF98B;
-	Wed, 30 Apr 2025 08:28:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8D921A447;
+	Wed, 30 Apr 2025 08:28:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.132.182.106
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746001687; cv=none; b=KdJWEhPaOQ7rc21twWmlU4KsvkvgZ/WNPqX46NMWeSrfjWTKecKNPrx063cC3s0UyPlTQCKehUZFug4JmQraUEoJvW0aXaFarbboJYU4XIf6M5tqyG9w732xkrcDvxk5cnla2jw4nt8PATVj0PyCYKJ1ud0cBXFMlvUCV4D0di8=
+	t=1746001689; cv=none; b=MPTUNmKqzPdodK7AsANrJ9p635BdAqp1b5OVHBTXpBfnQdZ70nVr+9rPW7keDbkKx6kV95ASAfL01etAh5xqCpxJdQa/vYYRvml5pcxYbh5hDxt0Th1J0mQVJxBSn/HVSOF4Q8actmmlIUyskWditQz20sRCrv/Uv+cMTzDpy2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746001687; c=relaxed/simple;
-	bh=6q9qsUeVrZkFKWD/cX+YQyeHAlagANDwh1NSxGjeCjs=;
-	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=FmpbE9oxZ96Puc2+Kn31QmVhHDD30eFwLmTdc23R95x8/QV/R5LVysvz9AVl0dh19VEiPSwhmoGQ3C6t4LjF4zHxfcIIMi/YrKU7tM48br5KWPAKIOk5QSpnhcZIf5H3ORvXI/KYXvPBZEazgfTanzuXSLSGZ7s6+GoBO2mFM5k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=bg/pJU9k; arc=none smtp.client-ip=91.207.212.93
+	s=arc-20240116; t=1746001689; c=relaxed/simple;
+	bh=DFq8mYUtCUE9jgv1G33vM0Wv8i26/Rk7dfC9XoZ1FNI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
+	 In-Reply-To:To:CC; b=D7Q2tDG9HfzzB/T2Tv0da/lx6/vyxPF/lVOzZzNgMuADhzHJ6cbLwivMO34+8MW3pMkq5RFVVl4UedmZJgjM30GfSW0yPRfUQWlxQbMzejalj4l6V82F737d8GYTLseXWIUxZctL+jrkaIT2Uz1UTBVfBgnWDxCnwQxWvymhEZ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=50bGuMHA; arc=none smtp.client-ip=185.132.182.106
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53U777fV004534;
+Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53U7CoAu000828;
 	Wed, 30 Apr 2025 10:27:57 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=selector1; bh=gjW9ik0Vdl+i9e3FBAPSXm
-	84CQMS+y93ODapRLzXvIM=; b=bg/pJU9ktsNK6MVGwM8rTwJQI2GnY3fGtmbRJm
-	Te+3VAyjYxidZiyTa8c05M36ZbYOhm0/Yx23RdvYfssD0NGktBgFyf37TQIGEMcH
-	R4kRohT6Dl1EfaW7o5U00AofKsRLnLajPLbGMyOW+pGQk4VnjlXQt6j1OikEdFCg
-	aBbtWcv4I/PzAIQidR8b+42CWSaJisej+91awQ+0i/J9mQpxVeBAOtkqTe7tU8xS
-	RnwxRCGK6nPZLH3a9GxUKaCvQuurzVKvbNaXSnW86twNnsvMegT25bD3sVYKBvqP
-	jXt7eg3FQBTDB3bRlqPJ38kMpsYPCu/NrvCg1XlGF0S10UqA==
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=selector1; bh=
+	qIwTXEx3EHifRfl1Apy9VdRg11114tUE5KIXmLH69T0=; b=50bGuMHAWshhbr7R
+	9rl1tbpCrh7J+TliJOp7JqEt3y2Lik8hn+FNBglDDLpdKnuq48qfW5ny+HfB32QX
+	+CvVMPeWoGCm9AafwNy/xyoo3Ge5MgDFmUjHLtPi5mb8eqjVI7+w8cj8KECN2aNl
+	xgkXaB+8OoZgQraTECQwAQCqjx/HsysfPDpySIDQYxjxS1I6oUC4BWy3vGCf3mJ7
+	4PSi7da2r98jNetWwssSLRVuQ5qCfmu5cr7o2GmBdrX0yTC/w+yXPMKUIOxtkCJn
+	E2ONkTNVoeyVABchiZNEURWDKGIt1Nj7MO4jBK/4RJxldThJdEJxSDTSTqVFYoAU
+	3wpQsw==
 Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 46b6tf1wp7-1
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 46b6tmsyrf-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 30 Apr 2025 10:27:56 +0200 (MEST)
+	Wed, 30 Apr 2025 10:27:57 +0200 (MEST)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 875034007A;
-	Wed, 30 Apr 2025 10:26:41 +0200 (CEST)
+	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id A5F6E40080;
+	Wed, 30 Apr 2025 10:26:43 +0200 (CEST)
 Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 059029AD323;
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id F10BB9AD321;
 	Wed, 30 Apr 2025 10:24:40 +0200 (CEST)
 Received: from localhost (10.252.1.18) by SHFDAG1NODE1.st.com (10.75.129.69)
  with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 30 Apr
- 2025 10:24:39 +0200
+ 2025 10:24:40 +0200
 From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
-Subject: [PATCH v7 0/2] media: Add support for ST VD55G1 camera sensor
-Date: Wed, 30 Apr 2025 10:24:37 +0200
-Message-ID: <20250430-b4-vd55g1-v7-0-761b72495ac3@foss.st.com>
+Date: Wed, 30 Apr 2025 10:24:38 +0200
+Subject: [PATCH v7 1/2] media: dt-bindings: Add ST VD55G1 camera sensor
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,12 +69,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAEXeEWgC/3XQTW7DIBAF4KtErEsEw4wNXfUeVRf8JiwaRyZCr
- SLfvdibksZdDuJ7bzR3VuKcY2GvhzubY80lT5c2jC8H5s/2coo8hzYzEEACgLhDXgPRSXIXnBH
- BRWWcYu3/dY4pf21Z7x9tPudym+bvLbrK9XUvpUouuApkhYYkkjVvaSrlWG5HP32usZtRoP8aH
- eTg0I4mwaNZuyv89qGQvYVmhdfWaYvaEz1b1VvorVp3NcpoQoEj7fTivxbXndHJROiHUfhnS73
- F3lKzRqd2IIjR7/UOvR17OzQrNYkkdSsHfLTLsvwAcIslLwQCAAA=
-X-Change-ID: 20250225-b4-vd55g1-bdb90dbe39b3
+Message-ID: <20250430-b4-vd55g1-v7-1-761b72495ac3@foss.st.com>
+References: <20250430-b4-vd55g1-v7-0-761b72495ac3@foss.st.com>
+In-Reply-To: <20250430-b4-vd55g1-v7-0-761b72495ac3@foss.st.com>
 To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
         Sylvain Petinot
 	<sylvain.petinot@foss.st.com>,
@@ -94,99 +92,174 @@ X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-04-30_02,2025-04-24_02,2025-02-21_01
 
-Hi,
+Also update MAINTAINERS file accordingly.
 
-This serie adds support for the STMicroelectronics VD55G1 camera sensor.
-The VD55G1 is a monochrome global shutter camera with a 804x704 maximum
-resolution with RAW8 and RAW10 bytes per pixel.
-Datasheets and other documentation can be found at st.com [1].
-A lot of inspiration was taken from the imx219 and the vd56g3 serie.
-It is compatible with libcamera. Tested on Raspberry Pi 4 and 5, with and
-without libcamera.
-
-[1] https://www.st.com/en/imaging-and-photonics-solutions/vd55g1.html#documentation
-
-Regards,
-Benjamin
-
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
 ---
-Changes in v7:
-- Fix autosuspend
-- Rework active state
-- Fix vd55g1_power_off() call order
-- Merge vd55g1_check_sensor_revision() in vd55g1_detect()
-- Fix mipi_rate semantics
-- Add defines for XCLK and MIPI frequency bounds
-- Fix data_rate not being u32
-- Fix comment case
-- Don't grab hblank_ctrl
-- Rename vd55g1_lock_ctrls() to vd55g1_grab_ctrls()
-- Remove spurious braces in vd55g1_update_expo_cluster()
-- Move get_regulators() above probe()
-- Add missing 'vd55g1_' prefix to some functions
-- Factorize get_*_by_code()
-- Refactor ctrl_to_sd() to ctrl_to_vd55g1()
-- Simplify i2c_client->dev accesses
-- Explicit pattern generator names
-- Fix some registers values being defined as struct instead of macros
-- Properly indent dynamic registers values
-- binding: Split description in 2 paragraphs
-- Link to v6: https://lore.kernel.org/r/20250407-b4-vd55g1-v6-0-1850f18b1f24@foss.st.com
+ .../devicetree/bindings/media/i2c/st,vd55g1.yaml   | 133 +++++++++++++++++++++
+ MAINTAINERS                                        |   7 ++
+ 2 files changed, 140 insertions(+)
 
-Changes in v6:
-- Use return 0 whenever possible
-- Remove unneeded return values initializations
-- Fix traces format
-- Fix comment typo
-- Link to v5: https://lore.kernel.org/r/20250404-b4-vd55g1-v5-0-98f2f02eec59@foss.st.com
+diff --git a/Documentation/devicetree/bindings/media/i2c/st,vd55g1.yaml b/Documentation/devicetree/bindings/media/i2c/st,vd55g1.yaml
+new file mode 100644
+index 0000000000000000000000000000000000000000..3c071e6fbea613e560f63d38af579421daee0efb
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/st,vd55g1.yaml
+@@ -0,0 +1,133 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++# Copyright (c) 2025 STMicroelectronics SA.
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/st,vd55g1.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: STMicroelectronics VD55G1 Global Shutter Image Sensor
++
++maintainers:
++  - Benjamin Mugnier <benjamin.mugnier@foss.st.com>
++  - Sylvain Petinot <sylvain.petinot@foss.st.com>
++
++description: |-
++ The STMicroelectronics VD55G1 is a global shutter image sensor with an active
++ array size of 804H x 704V. It is programmable through I2C interface. The I2C
++ address is fixed to 0x10.
++
++ Image data is sent through MIPI CSI-2, which is configured as only 1 data
++ lane. The sensor provides 4 GPIOS that can be used for external LED signal
++ (synchronized with sensor integration periods).
++
++allOf:
++  - $ref: /schemas/media/video-interface-devices.yaml#
++
++properties:
++  compatible:
++    const: st,vd55g1
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  vcore-supply:
++    description: Digital core power supply (1.15V)
++
++  vddio-supply:
++    description: Digital IO power supply (1.8V)
++
++  vana-supply:
++    description: Analog power supply (2.8V)
++
++  reset-gpios:
++    description: Sensor reset active low GPIO (XSHUTDOWN)
++    maxItems: 1
++
++  st,leds:
++    description:
++      List sensor's GPIOs used to control strobe light sources during exposure
++      time. The numbers identify the sensor pin on which the illumination
++      system is connected. GPIOs are active-high.
++    $ref: /schemas/types.yaml#/definitions/uint32-array
++    minItems: 1
++    maxItems: 4
++    items:
++      minimum: 0
++      maximum: 3
++
++  port:
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    additionalProperties: false
++
++    properties:
++      endpoint:
++        $ref: /schemas/media/video-interfaces.yaml#
++        unevaluatedProperties: false
++
++        properties:
++          data-lanes:
++            items:
++              - const: 1
++
++          link-frequencies:
++            maxItems: 1
++            items:
++              minimum: 125000000
++              maximum: 600000000
++
++          lane-polarities:
++            minItems: 1
++            maxItems: 2
++
++        required:
++          - data-lanes
++          - link-frequencies
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - vcore-supply
++  - vddio-supply
++  - vana-supply
++  - reset-gpios
++  - port
++
++unevaluatedProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        camera-sensor@10 {
++            compatible = "st,vd55g1";
++            reg = <0x10>;
++
++            clocks = <&camera_clk_12M>;
++
++            vcore-supply = <&camera_vcore_v1v15>;
++            vddio-supply = <&camera_vddio_v1v8>;
++            vana-supply = <&camera_vana_v2v8>;
++
++            reset-gpios = <&gpio 5 GPIO_ACTIVE_LOW>;
++            st,leds = <2>;
++
++            orientation = <2>;
++            rotation = <0>;
++
++            port {
++                endpoint {
++                    data-lanes = <1>;
++                    link-frequencies = /bits/ 64 <600000000>;
++                    remote-endpoint = <&csiphy0_ep>;
++                };
++            };
++        };
++    };
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 2286200b355bde3604607be916ef09aa88feed0e..4f5e9005063a157de69e81b10f8def9da9e6c04c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -22410,6 +22410,13 @@ S:	Maintained
+ F:	Documentation/hwmon/stpddc60.rst
+ F:	drivers/hwmon/pmbus/stpddc60.c
+ 
++ST VD55G1 DRIVER
++M:	Benjamin Mugnier <benjamin.mugnier@foss.st.com>
++M:	Sylvain Petinot <sylvain.petinot@foss.st.com>
++L:	linux-media@vger.kernel.org
++S:	Maintained
++F:	Documentation/devicetree/bindings/media/i2c/st,vd55g1.yaml
++
+ ST VGXY61 DRIVER
+ M:	Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+ M:	Sylvain Petinot <sylvain.petinot@foss.st.com>
 
-Changes in v5:
-- Include missing proprety.h header
-- Move link_freq to device structure
-- Update get_vblank_limits() prototype
-- Add BUILD_BUG_ON() in vd55g1_update_patgen()
-- Drop hdl->error check
-- Use device_property*() instead of of_property*()
-- Drop OF requirement
-- Improve runtime pm usage
-- Various syntax fixes
-- Link to v4: https://lore.kernel.org/r/20250402-b4-vd55g1-v4-0-84b1f54c670c@foss.st.com
-
-Changes in v4:
-- Fix data-lanes syntax in binding
-- Link to v3: https://lore.kernel.org/r/20250402-b4-vd55g1-v3-0-393985404759@foss.st.com
-
-Changes in v3:
-- Add maxItems to data-lanes in binding
-- Drop redondant 'binding' in binding commit message
-- Link to v2: https://lore.kernel.org/r/20250401-b4-vd55g1-v2-0-0c8ab8a48c55@foss.st.com
-
-Changes in v2:
-- Fix device tree binding mistakes
-- Drop linux media git from MAINTAINERS file
-- Fix coding style mistakes
-- Drop vd55g1_err_probe wrapper
-- Fix 32bits build
-- Fix config symbol help paragraph being too short for checkpatch
-- Link to v1: https://lore.kernel.org/r/20250328-b4-vd55g1-v1-0-8d16b4a79f29@foss.st.com
-
----
-Benjamin Mugnier (2):
-      media: dt-bindings: Add ST VD55G1 camera sensor
-      media: i2c: Add driver for ST VD55G1 camera sensor
-
- .../devicetree/bindings/media/i2c/st,vd55g1.yaml   |  133 ++
- MAINTAINERS                                        |    9 +
- drivers/media/i2c/Kconfig                          |   11 +
- drivers/media/i2c/Makefile                         |    1 +
- drivers/media/i2c/vd55g1.c                         | 1965 ++++++++++++++++++++
- 5 files changed, 2119 insertions(+)
----
-base-commit: b2c4bf0c102084e77ed1b12090d77a76469a6814
-change-id: 20250225-b4-vd55g1-bdb90dbe39b3
-
-Best regards,
 -- 
-Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+2.25.1
 
 
