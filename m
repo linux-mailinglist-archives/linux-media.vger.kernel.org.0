@@ -1,65 +1,57 @@
-Return-Path: <linux-media+bounces-31535-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31536-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34550AA640A
-	for <lists+linux-media@lfdr.de>; Thu,  1 May 2025 21:20:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4657DAA647B
+	for <lists+linux-media@lfdr.de>; Thu,  1 May 2025 21:56:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A9F139A03FE
-	for <lists+linux-media@lfdr.de>; Thu,  1 May 2025 19:20:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9CCC016E6DB
+	for <lists+linux-media@lfdr.de>; Thu,  1 May 2025 19:56:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FF8F248F72;
-	Thu,  1 May 2025 19:16:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DC1CE238141;
+	Thu,  1 May 2025 19:56:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Mj2yzFLl"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="J18CLTCm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 626FE246797;
-	Thu,  1 May 2025 19:16:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E551235076;
+	Thu,  1 May 2025 19:56:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746126980; cv=none; b=V1erhhmwSPCJwKG7IaB/P6iHuA5y2Tfv2h1HOov0Y8Xv896OIZFXs9BLeVXlo/795eGtgSa0VLvc8lyEIADRFpzMbfX1nGUqNRCzxJYYFS3+q7ffXQtUFSiu7GtZFG4UfFpPEjtF/51haMGdisTkH+6mnGpZY65MvXPIoFlPt4E=
+	t=1746129373; cv=none; b=K4etLx3gre9iuP1D6bZoBSawZIq1m/pwdgIuFz5p4RZGBufuX99YAQ1eNGlPtIJKh+wYqqF+etkmq9Gjj0aaApKYvGIVbY7mE0/imdD0Cg2W9WRELWvNamU7Vg1+D6z0kBrORo1KCZGLsauNzu17bwggNk4zIBrSLenIJKz4bSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746126980; c=relaxed/simple;
-	bh=60M44TZIwClnUTUDihi4SshvBo9j85IcEo1nAiBt94c=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=Z8abwCQYSHHLOT8w6JqUYslw6XU+TT1AYPtslw/CiJEnv1IXSQiupy7++xkIDHqMwd7eXvSRC5M/HaH9aCM1ohzAlOus5Rs/hzVfOI7vLxLQeZ+co9D+WXRsTMKVV8yyX/RcvrMUegg9ve1+toSS0sTzlx753naXpt0xHYK1uuQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Mj2yzFLl; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 541D2KpF001325;
-	Thu, 1 May 2025 19:16:16 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	SJVs2XjanrYoZoC1xIZccaCOp4+UbVh7rzOdnjJKaUY=; b=Mj2yzFLlC4dlHH5o
-	SoBYn2tbiGnNrr7eRdRjZDQ/MeqvOBonHe3dH0cXwAMuAZLgD2lfGn15fVWGTKMG
-	VieoLW6bZKkAyHfLzEPMoq6cWpvxa5raB1P1pgRhr9v5pPkF2Fy9ySCzMh30Zprl
-	Xci5ixJLhDiZe7MdRak3lEgYmh5pKjV1mReqYoGKpotpcMb3EbTDQ64/JrzUj6MC
-	63GuEp04d0KUpaWNKso8zjdHL6XbK3i6pVyeEgZs7iMucd2zWQmi8WhpgUBNMFhY
-	/kdwwcwaS6u0LxOGTZOrLJVMI+FrFUBKb0eTQTJTf6vb+CAXH2y4SlnkuiWgO1ge
-	2stAMg==
-Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46b6u768r1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 01 May 2025 19:16:16 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 541JGEOU005620
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 1 May 2025 19:16:14 GMT
-Received: from hu-dikshita-hyd.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 1 May 2025 12:16:09 -0700
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Date: Fri, 2 May 2025 00:43:53 +0530
-Subject: [PATCH v3 23/23] media: iris: Add codec specific check for VP9
- decoder drain handling
+	s=arc-20240116; t=1746129373; c=relaxed/simple;
+	bh=gtk1QnuiSm9DDJRBjqvAuyrPvfx4yN/5r3Y/w5gX+7Y=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=F9vDjr5SQZnrmR3k4K192Zb57O0FN30a+lap9jdhe42k+ApjbtVbN8gZL88tFiweBu4+Pda8R7OlDlE6/6Udz8+UIyqigKmPx1Vo9dOLYjzfKJN5abwsbuSoqPsa6mHejt180XPE1OkB1ibxLYKu7t8rpmoskV2s51xiBfC59LQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=J18CLTCm; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1746129368;
+	bh=gtk1QnuiSm9DDJRBjqvAuyrPvfx4yN/5r3Y/w5gX+7Y=;
+	h=From:Subject:Date:To:Cc:From;
+	b=J18CLTCmB5N+P+Env6t9Ppb/RvvusAmBRn0wX1RpAWc7n+c3zUwwu3TCmhlhakpcW
+	 HIGtnlTkhlkcvqeGg4SGUAAZw/jAtssOyzEUC/O8ViCXZ8/m75SdPgYoIGbZ0LG8JL
+	 uNjAySMsuHpk+wlqLkj//y9DBX5Ox3xhsYobJ/IvfDjTGcyR+dR9ukMspD2rhzer+Q
+	 sjpa7wVNSfYoZCzQUURLhpUSCO4+rRP8Gxrk86AloJO7h0bl2ZPSvMdR+8+Edq0Zre
+	 p2DBj5FSi0UvcaTU4woFJccPADCgMS0+IjhCCqwx166rAq+ushpQ1tvH8jJrPT+o5a
+	 yQYkqobzahHYg==
+Received: from [192.168.13.3] (unknown [IPv6:2606:6d00:17:8242::c73])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 468BE17E02BE;
+	Thu,  1 May 2025 21:56:07 +0200 (CEST)
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: [PATCH v10 0/4] media: rkvdec: Add H.264 High 10 and 4:2:2 profile
+ support
+Date: Thu, 01 May 2025 15:55:46 -0400
+Message-Id: <20250501-b4-rkvdec_h264_high10_and_422_support-v10-0-c380ba452108@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,107 +60,147 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250502-qcom-iris-hevc-vp9-v3-23-552158a10a7d@quicinc.com>
-References: <20250502-qcom-iris-hevc-vp9-v3-0-552158a10a7d@quicinc.com>
-In-Reply-To: <20250502-qcom-iris-hevc-vp9-v3-0-552158a10a7d@quicinc.com>
-To: Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Abhinav Kumar
-	<quic_abhinavk@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Stefan Schmidt <stefan.schmidt@linaro.org>,
-        Hans Verkuil
-	<hverkuil@xs4all.nl>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio
-	<konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>
-CC: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@oss.qualcomm.com>,
-        Neil Armstrong
-	<neil.armstrong@linaro.org>,
-        Nicolas Dufresne
-	<nicolas.dufresne@collabora.com>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        <20250417-topic-sm8x50-iris-v10-v7-0-f020cb1d0e98@linaro.org>,
-        <20250424-qcs8300_iris-v5-0-f118f505c300@quicinc.com>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1746126827; l=2136;
- i=quic_dikshita@quicinc.com; s=20240917; h=from:subject:message-id;
- bh=60M44TZIwClnUTUDihi4SshvBo9j85IcEo1nAiBt94c=;
- b=PZ5N2tPsYKYfRRCInMIWjJrxIMmyDYh+92A4q6WmN/RGCFOpKl/H7oLq0lEJpJXmjy26EVZqz
- 6POtoHosg3nCvNP1/+EjLMa+tY6JlPC5+T95ZZNJEiLZvTnxURkbc8J
-X-Developer-Key: i=quic_dikshita@quicinc.com; a=ed25519;
- pk=EEvKY6Ar1OI5SWf44FJ1Ebo1KuQEVbbf5UNPO+UHVhM=
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTAxMDE0NyBTYWx0ZWRfXzZMGfEHdvQA9 o/b3DbZJWOSEW6/HldcgvJJmbwWdwRleHIFt7C/l1BcUTrkiFhWTUiCuVNNoIRhsEwyXjKbV+k3 GhYNqRwrWbKP8U3oHoG89hUVlAzyRGdjgez+I8fF0ndnn6V9J4Y7J4dzrSp4DgQpDGIjgpIWhHU
- jQZBxOCQFlRUoyuU8le+eZIV8ER+uq72qgNDKopxvpecql8i4BaqvjGJzlEMEvdeQzkNonPU0Dy foS01UdpAlrC3dzTDeXM76GFhh9srQtt6eye6Us3H9Hu3EiMmDuqZgUjXFaiI/G0vc6GjJfnkjV Mf4cGwrIlFYKh4dZAsFSXG1E5YBF0PtHQetXiYcNfm9qb4RyOBrOntvLKtKO3bUvHNs42me+Cbq
- JobvWIY+Zi4F3u3oM6MD1aR5XPOzsys5KomWVqgVCStvHcGXEzrPb9bU7N6CTrOQjrnqflTS
-X-Proofpoint-GUID: Z500UtmgUbI_oVszFJIMcxMuHQHMbKo5
-X-Authority-Analysis: v=2.4 cv=W404VQWk c=1 sm=1 tr=0 ts=6813c880 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8 a=uk1rlkFWm520LKNewhEA:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: Z500UtmgUbI_oVszFJIMcxMuHQHMbKo5
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-01_06,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0
- lowpriorityscore=0 priorityscore=1501 mlxscore=0 bulkscore=0 spamscore=0
- clxscore=1015 phishscore=0 impostorscore=0 mlxlogscore=999 malwarescore=0
- suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505010147
+X-B4-Tracking: v=1; b=H4sIAMLRE2gC/53NQQ+CIBjG8a/iOEcDRMVOfY/WGOKrsEwcGKs5v
+ 3vo1qVT6/g8h/9vQQG8hYBO2YI8RBusG9Og5JAhbdTYA7ZtOhAjrCCclrjh2N9iC1oaVnJpbG8
+ okWpsJWdMhsc0OT/jXFBVcVpQWjKUWpOHzj536HJN29gwO//a3Si29yNUPwpRYII5yzsgigFUc
+ NZuGFTjvDpqd0ebEuu/ynUqExBVLrRueNl8l9d1fQPdbBpKOQEAAA==
+X-Change-ID: 20250416-b4-rkvdec_h264_high10_and_422_support-381a74151162
+To: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org, 
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>, kernel@collabora.com, 
+ Sebastian Fricke <sebastian.fricke@collabora.com>, 
+ Jonas Karlman <jonas@kwiboo.se>, 
+ Christopher Obbard <christopher.obbard@linaro.org>
+X-Mailer: b4 0.14.2
 
-Add a codec specific for the VP9 decoder to ensure that a non-null
-buffer is sent to the firmware during drain. The firmware enforces a
-check for VP9 decoder that the number of buffers queued and dequeued on
-the output plane should match. When a null buffer is sent, the firmware
-does not return a response for it, leading to a count mismatch and an
-assertion failure from the firmware.
+This series add H.264 High 10 and 4:2:2 profile support to the Rockchip
+Video Decoder driver.
 
-Acked-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+Patch 1 limits the minimum profile to constrained baseline due to
+unsupported features in the full baseline profile.
+
+Patch 2 refactors code to support filtering of CAPTURE formats based
+on the image format returned from a new get_image_fmt() ops.
+
+Patch 3 adds final bits to support H.264 High 10 and 4:2:2 profiles.
+
+Tested with Fluster on a Libre Computer Renegade Elite (RK3399).
+
+Decoder:                        GStreamer
+Commit:                         8c7ad20e4e82296ed9916f53c201e110c629f0f5
+JVT-AVC_V1:                     129/135
+JVT-FR-EXT:                     65/69
+JVT-Professional_profiles:      12/38
+JVT-MVC:                        0/20 (not supported)
+JVT-SVC:                        38/185 (temporal only)
+
+In summary, all tests that are 4:2:2 sub-sampled are now passing with
+the exception of the following that display some unexplained artifacts.
+
+ - Hi422FREXT17_SONY_A
+ - Hi422FREXT19_SONY_A
+
+This score also includes 4:2:0 10bit tests, that may have been reported
+as failing due to lack of userspace support for NV15 format. It also
+includes results from test suite that did not exists before (Pro, MVC
+and SVC).
+
+Changes in v10:
+- Renamed rkvdec_fmt_changed() into rkvdec_image_fmt_changed()
+- Link to v9: https://lore.kernel.org/r/20250417-b4-rkvdec_h264_high10_and_422_support-v9-0-0e8738ccb46b@collabora.com
+
+Changes in v9:
+- Moved v4l2_m2m_ctx init before the controls
+- Removed unneeded changes in try_ctrl ops
+- Link to v8: https://lore.kernel.org/r/20250417-b4-rkvdec_h264_high10_and_422_support-v8-0-423fe0a2ee7e@collabora.com
+
+Changes in v8:
+- Removed patches that got applied from v7
+- Move the constrained-baseline fix first
+- Move the format checks into s_ctrl only
+- Simplify the checks
+- Retest against a newer GStreamer version with NV16 and NV20 support.
+- Test against the new fluster suite Professions, SVC and MVC.
+Link to v7: https://lore.kernel.org/linux-media/20250225-rkvdec_h264_high10_and_422_support-v7-0-7992a68a4910@collabora.com/
+
+Changes in v7:
+- Split out the change with the minimum profile
+- s/v4l2_format_plane_width/v4l2_format_plane_stride/
+- Move V4L2_PIX_FMT_NV15/V4L2_PIX_FMT_NV20 documentation as suggested
+- Change return value from int to bool on rkvdec_image_fmt_match
+- Add reviewed-by tags
+Link to v6: https://lore.kernel.org/linux-media/20240909192522.1076704-1-jonas@kwiboo.se/
+
+Changes in v6:
+- Change to use fmt_idx instead of j++ tucked inside a condition (Dan)
+- Add patch to fix enumerated frame sizes returned to userspace (Alex)
+- Fluster test score is same as v4 and v5, see [4] and [5]
+Link to v5: https://lore.kernel.org/linux-media/20240618194647.742037-1-jonas@kwiboo.se/
+
+Changes in v5:
+- Drop Remove SPS validation at streaming start patch
+- Move buffer align from rkvdec_fill_decoded_pixfmt to min/step_width
+- Use correct profiles for V4L2_CID_MPEG_VIDEO_H264_PROFILE
+- Collect r-b and t-b tags
+- Fluster test score is same as v4, see [4] and [5]
+Link to v4: https://lore.kernel.org/linux-media/20231105165521.3592037-1-jonas@kwiboo.se/
+
+Changes in v4:
+- Fix failed v4l2-compliance tests related to CAPTURE queue
+- Rework CAPTURE format filter anv validate to use an image format
+- Run fluster test suite JVT-FR-EXT [4] and JVT-AVC_V1 [5]
+Link to v3: https://lore.kernel.org/linux-media/20231029183427.1781554-1-jonas@kwiboo.se/
+
+Changes in v3:
+- Drop merged patches
+- Use bpp and bpp_div instead of prior misuse of block_w/block_h
+- New patch to use values from SPS/PPS control to configure the HW
+- New patch to remove an unnecessary call to validate sps at streaming start
+- Reworked pixel format validation
+Link to v2: https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.se/
+
+Changes in v2:
+- Collect r-b tags
+- SPS pic width and height in mbs validation moved to rkvdec_try_ctrl
+- New patch to not override output buffer sizeimage
+- Reworked pixel format validation
+- Only align decoded buffer instead of changing frmsize step_width
+Link to v1: https://lore.kernel.org/linux-media/20200701215616.30874-1-jonas@kwiboo.se/
+
+To fully runtime test this series you may need FFmpeg patches from [1]
+and fluster patches from [2], this series is also available at [3].
+
+[1] https://github.com/Kwiboo/FFmpeg/commits/v4l2request-2024-v2-rkvdec/
+[2] https://github.com/Kwiboo/fluster/commits/ffmpeg-v4l2request-rkvdec/
+[3] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-10-v6/
+[4] https://gist.github.com/Kwiboo/f4ac15576b2c72887ae2bc5d58b5c865
+[5] https://gist.github.com/Kwiboo/459a1c8f1dcb56e45dc7a7a29cc28adf
+
+Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 ---
- drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c  | 2 ++
- drivers/media/platform/qcom/iris/iris_hfi_gen1_response.c | 4 ++++
- 2 files changed, 6 insertions(+)
+Jonas Karlman (2):
+      media: rkvdec: Add get_image_fmt ops
+      media: rkvdec: h264: Support High 10 and 4:2:2 profiles
 
-diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-index 2e3f5a6b2ff1..5fc30d54af4d 100644
---- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-+++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-@@ -401,6 +401,8 @@ static int iris_hfi_gen1_session_drain(struct iris_inst *inst, u32 plane)
- 	ip_pkt.shdr.hdr.pkt_type = HFI_CMD_SESSION_EMPTY_BUFFER;
- 	ip_pkt.shdr.session_id = inst->session_id;
- 	ip_pkt.flags = HFI_BUFFERFLAG_EOS;
-+	if (inst->codec == V4L2_PIX_FMT_VP9)
-+		ip_pkt.packet_buffer = 0xdeadb000;
- 
- 	return iris_hfi_queue_cmd_write(inst->core, &ip_pkt, ip_pkt.shdr.hdr.size);
- }
-diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_response.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_response.c
-index 926acee1f48c..8d1ce8a19a45 100644
---- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_response.c
-+++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_response.c
-@@ -348,6 +348,10 @@ static void iris_hfi_gen1_session_etb_done(struct iris_inst *inst, void *packet)
- 	struct iris_buffer *buf = NULL;
- 	bool found = false;
- 
-+	/* EOS buffer sent via drain won't be in v4l2 buffer list */
-+	if (pkt->packet_buffer == 0xdeadb000)
-+		return;
-+
- 	v4l2_m2m_for_each_src_buf_safe(m2m_ctx, m2m_buffer, n) {
- 		buf = to_iris_buffer(&m2m_buffer->vb);
- 		if (buf->index == pkt->input_tag) {
+Nicolas Dufresne (1):
+      media: rkvdec: Initialize the m2m context before the controls
 
+Sebastian Fricke (1):
+      media: rkvdec: h264: Limit minimum profile to constrained baseline
+
+ drivers/staging/media/rkvdec/rkvdec-h264.c | 37 ++++++++++---
+ drivers/staging/media/rkvdec/rkvdec.c      | 89 ++++++++++++++++++++++++------
+ drivers/staging/media/rkvdec/rkvdec.h      |  5 ++
+ 3 files changed, 105 insertions(+), 26 deletions(-)
+---
+base-commit: 2e79181dfc85e1347a8655ea8d8a314158155c52
+change-id: 20250416-b4-rkvdec_h264_high10_and_422_support-381a74151162
+
+Best regards,
 -- 
-2.34.1
+Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
 
