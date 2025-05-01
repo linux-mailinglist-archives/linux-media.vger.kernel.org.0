@@ -1,61 +1,67 @@
-Return-Path: <linux-media+bounces-31494-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31495-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93330AA5DDD
-	for <lists+linux-media@lfdr.de>; Thu,  1 May 2025 13:37:51 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 37EEFAA5E01
+	for <lists+linux-media@lfdr.de>; Thu,  1 May 2025 13:49:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 45D601BA781D
-	for <lists+linux-media@lfdr.de>; Thu,  1 May 2025 11:38:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A1DBD4C29BD
+	for <lists+linux-media@lfdr.de>; Thu,  1 May 2025 11:49:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED0C9224246;
-	Thu,  1 May 2025 11:37:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86E2B224B0E;
+	Thu,  1 May 2025 11:49:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lO45Nz0e"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="u7biSUC9"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4CB8B19A;
-	Thu,  1 May 2025 11:37:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBD8E2DC76D;
+	Thu,  1 May 2025 11:49:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746099460; cv=none; b=fC3Zw5BwSgWhQTEJw6pJTLqfEnXr03BdOtTSNbL6aGI89ziI4yjV317rMMnsBXIAlJMSL6AhrHX3FpUYN2/ZMnL4IJXBiE7f87l2+5Ec9gbQtqBlPu+orbio4GTVAk3DJ7FU9xOhbdUNhrF4DQvVCILA01ZBjZ1kz9pGpIFxvYE=
+	t=1746100178; cv=none; b=QRVes6Ibylj55qLTePCtjmyuKKgFbxBDB95BaIYDxWAdtIzp0qlcjSvVVWXy+XeMdNNBy4RDV8eeBN/JCcQWjErlEKGHgjU9Q35nFBdH/K2cQqtOsbZif/QnAbDZ0emF41s8daptTmIHtLB+K0LBZNIxZRuQEYTlADPvZHnN1sM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746099460; c=relaxed/simple;
-	bh=yf6ch4SVdzLx//7ZbZ17MFN+texP/kjjiZ1NjD/hHgs=;
+	s=arc-20240116; t=1746100178; c=relaxed/simple;
+	bh=FTxRP/NnhPU5ICm8D7Ow5D8WYpEp0BGoUoIw9tq6zRE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FkIud1yTHCjuTciq6ksPPgbZrjD6lSa4Jr9JnGmOjPUdT1ipN1FwHDAhFnMiMAysETrVAEWvIY7Ng3ECvtOtZmDnhc6sjtih3xrd5cEzWpQQCQCAiXyEfrflY9tYtJ7bqFG5CrjfVj2rc/TOHt1dGZQECNjgmoxzQou5G/Ra6P4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lO45Nz0e; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 189E9C4CEE3;
-	Thu,  1 May 2025 11:37:38 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=KVrkb3sc8ex2ZcZ2i9mN5fHdX7So5g5mgs7K7D6G2FjFY8OdduHwNMCo56vdpAg7mOJEiIbIS8ucq/0rg2QmxKliFGlWDp9SOoIcRiMJpeYt/I7fOMhQTwbP0S7JeGUW+dnqPcyGdEGTGw6ght96EoR1EFJscY5Xe2TvYSoDnTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=u7biSUC9; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B567AC4CEE3;
+	Thu,  1 May 2025 11:49:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746099459;
-	bh=yf6ch4SVdzLx//7ZbZ17MFN+texP/kjjiZ1NjD/hHgs=;
+	s=k20201202; t=1746100177;
+	bh=FTxRP/NnhPU5ICm8D7Ow5D8WYpEp0BGoUoIw9tq6zRE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lO45Nz0edje3pqvPF7WTgjmiFAo7pESm74EKg+n061iRLVRwRVp1xhrhIoC+qma9s
-	 7kW6uFgcFtzWYZp5OHPPSvpPBAlgjipueWgHw+OylY4769YgzXqS5WmwwFavbcPne6
-	 EE/T+y3lN0oYWvYLz+kNe3W0EUiBtjwwQnZ9lBGpKEn4DN6OEdzDDyGZCG0Q8eBEgn
-	 YHxVUlFVbw68/Sir2o4h3pd4aolS0Av063VU3smHtan0F40NZ/TIF2tSHdYku7fxxq
-	 fommlxF+tPLGp/v7J2qLS4R/gpHCpLyauCRSykUb9GBp9dTJIzXgxbfvtTpaPH/3f7
-	 eHu+C5xntUSJg==
-Date: Thu, 1 May 2025 13:37:37 +0200
+	b=u7biSUC90d0iurJoQdGw/mhEIxzn2WC1jyuPfbexApRPFHI5LH1eKc+ylGYrFqkVQ
+	 e8NvnwS1/wNGEVkdiz/233X45/rQDBvZRbyE0arJTV0ZcI3Pa+KDgDeZUhfyQVEh4q
+	 HpF1fu9rfIxFwI/VioUSE+ouKAymUZhHrIflRk12fopd8edCxI1WqyzS4v6bKZ2A7+
+	 2FqH21nDu+x1MSqZwzpXoJj1w8l8eyUdAqHO+L3eMVshZpgfGkVN2VJEHbWCa186W+
+	 AxZXKYDAicejeRAsiIKHLS59+H7Rl45JCkGroI0PgEGkmteSIribnilTMYvCZ6RQNp
+	 8nWuKpsJZeA3g==
+Date: Thu, 1 May 2025 13:49:34 +0200
 From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Vikash Garodia <quic_vgarodia@quicinc.com>
-Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>, 
-	Abhinav Kumar <quic_abhinavk@quicinc.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konradybcio@kernel.org>, 
-	Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 1/5] dt-bindings: media: qcom,sm8550-iris: document
- QCS8300 IRIS accelerator
-Message-ID: <20250501-asparagus-hare-of-contentment-aaf3bb@kuoka>
-References: <20250501-qcs8300_iris-v7-0-b229d5347990@quicinc.com>
- <20250501-qcs8300_iris-v7-1-b229d5347990@quicinc.com>
+To: Michael Riesch <michael.riesch@collabora.com>
+Cc: Mehdi Djait <mehdi.djait@linux.intel.com>, 
+	Maxime Chevallier <maxime.chevallier@bootlin.com>, =?utf-8?B?VGjDqW8=?= Lebrun <theo.lebrun@bootlin.com>, 
+	Gerald Loacker <gerald.loacker@wolfvision.net>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+	Kever Yang <kever.yang@rock-chips.com>, Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+	Sebastian Reichel <sebastian.reichel@collabora.com>, Collabora Kernel Team <kernel@collabora.com>, 
+	Paul Kocialkowski <paulk@sys-base.io>, Alexander Shiyan <eagle.alexander923@gmail.com>, 
+	Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>, 
+	Philipp Zabel <p.zabel@pengutronix.de>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
+	Michael Riesch <michael.riesch@wolfvision.net>
+Subject: Re: [PATCH v6 04/13] media: dt-bindings: add rockchip rk3568 vicap
+Message-ID: <20250501-tidy-bittern-of-genius-ed375e@kuoka>
+References: <20240220-rk3568-vicap-v6-0-d2f5fbee1551@collabora.com>
+ <20240220-rk3568-vicap-v6-4-d2f5fbee1551@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,25 +70,21 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250501-qcs8300_iris-v7-1-b229d5347990@quicinc.com>
+In-Reply-To: <20240220-rk3568-vicap-v6-4-d2f5fbee1551@collabora.com>
 
-On Thu, May 01, 2025 at 02:16:47AM GMT, Vikash Garodia wrote:
-> Document the IRIS video decoder/encoder accelerator found in the QCS8300
-> platform. It belongs to same iris v3 family as that of SM8550 but is a
-> downscaled version of SM8550. It has 2 frame processing hardware blocks
-> while SM8550 has 4. Thereby QCS8300 have fewer capabilities than those
-> of SM8550.
+On Wed, Apr 30, 2025 at 11:15:53AM GMT, Michael Riesch wrote:
+> From: Michael Riesch <michael.riesch@wolfvision.net>
 > 
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> Add documentation for the Rockchip RK3568 Video Capture (VICAP) unit.
+> 
+> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
 > ---
-> This patch depends on patch
-> https://lore.kernel.org/all/20250417-topic-sm8x50-iris-v10-v7-1-f020cb1d0e98@linaro.org/
-> ---
->  Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml | 1 +
->  1 file changed, 1 insertion(+)
+>  .../bindings/media/rockchip,rk3568-vicap.yaml      | 170 +++++++++++++++++++++
+>  MAINTAINERS                                        |   1 +
+>  2 files changed, 171 insertions(+)
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
