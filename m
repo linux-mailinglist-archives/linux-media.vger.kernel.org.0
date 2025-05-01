@@ -1,65 +1,65 @@
-Return-Path: <linux-media+bounces-31518-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-31519-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F131AA63BD
-	for <lists+linux-media@lfdr.de>; Thu,  1 May 2025 21:16:07 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 870C1AA63C5
+	for <lists+linux-media@lfdr.de>; Thu,  1 May 2025 21:16:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AEA6A1BA069C
-	for <lists+linux-media@lfdr.de>; Thu,  1 May 2025 19:16:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8984D4A2E96
+	for <lists+linux-media@lfdr.de>; Thu,  1 May 2025 19:16:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8730C22DF9F;
-	Thu,  1 May 2025 19:14:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B36022F176;
+	Thu,  1 May 2025 19:14:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="oo+S0Wgl"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="pCV59j1/"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56979226D18;
-	Thu,  1 May 2025 19:14:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FFF2229B37;
+	Thu,  1 May 2025 19:14:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746126877; cv=none; b=t/cOEB2zSI2l9J/akEUTsrDcT8L7S934bSkZI5u+7MdIsTrI03Rz+TrkCmJBt9yi42YPj67IIszsjZEucNFopTXpRW56bZwt52oyEFZKeQUaOdJSnzUWWGDitMfMFjjk1ec3l+ntZXF+SIbV7pOXdE1pqBqaXQFRQNF21reYoSg=
+	t=1746126883; cv=none; b=YaCY+gQp5pCDwIV33YSrkuZJNJdjJN6F8WnC+NKRIzapcqaTMthmpKLzKQNZyfHxiNys9LbsL6DFkORTD+glZqHpidZxsrdAaMkBoqFosUJIhP2BNFdEnM9g0yl56d+kXksGubrhZqsqNxKiBxTK4Fjlu5o7jUGIGUrU1qdiBRw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746126877; c=relaxed/simple;
-	bh=uUoOt19CgPWb7PcapuQwom5sNVeuOlyaRmuP2VhB1g0=;
+	s=arc-20240116; t=1746126883; c=relaxed/simple;
+	bh=V5TvLDVr+QXCUHuxpLOSP1STdE9U73/GWqIEzvpC1Jg=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=bdG0FEGamSjVZmkmCls7VB2m7GCU8CiFnuANkW3tN/pk0Lh5HEVtIJdCsprQhypFAxT7g+tMVwjEYVcPMjcn8zyHYdAkPIy/tjOQHaQvPda8Vy2m7IcuCH4nN4eD9XUOAsPllGRL/m4Q0b+anmG0Qqr/VtvnReolUjZ2K7JgdQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=oo+S0Wgl; arc=none smtp.client-ip=205.220.168.131
+	 In-Reply-To:To:CC; b=eM8h4VYHHAi7nB8S+IKrr6YQf8eLZ6Qm5cnR0pQdUCTfeZx6IXAFNs4RKwa+prfgpN4hNJGAtCnVgTuijA3VDnv2/4KuKE8xDShceC1+PlAdQPXqMiusID8Lkk+9M2EOqdRRVya7Yd5l7GgIPp0lZwFx1feKjS6ASy8um+7HONI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=pCV59j1/; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 541D22wZ014419;
-	Thu, 1 May 2025 19:14:32 GMT
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 541D27a7022169;
+	Thu, 1 May 2025 19:14:38 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	S4sO1ZCbzRaHpQivN3j4XIWMtpXEiILMegrOCxBBq3k=; b=oo+S0Wgl6ubEstQI
-	D3ukEMApa/54Wy9jeM5a+wSEdLYdN3uucIJObPH09O95GuyplrwRkXoYg1VYLpwo
-	RTKuGqk9LJ4AQ7rMjM6D7zhM9mLXeWA8Ema7tIo40vOlIP0cql2B6/tDQmQU7Y/o
-	rA9GDDKl5FRSQ4gSvT+ACYdtLQbeCGeCZETPJ03PoyN8EjeeJhOc9tQJgK0BrMO4
-	+/jmiQB8zU2IW+yJKWpCQ/5kyRJAa6ByQ1JXk3zGZ8icksYK4m4xwICx5ptOIm2q
-	SO8DXSNrNN7Z8/7KmO/OYsCQdoB3u0d3tr+II0qyVcW4Q/NQRx9SrYAijfF7Fjwf
-	BFCc/A==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46b6u766s2-1
+	H28PoZJ+vidDsFOh5sGN7IDhs3XVkHINzAY814q32Co=; b=pCV59j1/FtAoGUoV
+	GQUWIMYH2qLz4431OGLFp1jBEx7kXeusWDOhi8OHsJAE8JNU19Az9GXAbVzloTJO
+	6lBzR3CqX+5wdrxJYcNsMH3QL6ULKwGpkjDPiQUh0SWQgFH+FIS5QpBqHqknBVC9
+	eMhFe3mq0g8Hfeo2ZPFyW14QXvHsAguBOOn+RCgqtObDbh26Sjlb955olyBg032a
+	ZO7CgVfrfh1GMBttK/rviXR4iKh5dBXgO/n4gdYMT+AI0lUSZ+g3ViLzzXz4bW7m
+	TRJix7YbiwchK0maQvr4pPSqryw2wvU/vCe3FUQN9qpwFKjJyXAHZl7LRMwUsoI6
+	EcTdkg==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46b6u7x7cj-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 01 May 2025 19:14:32 +0000 (GMT)
+	Thu, 01 May 2025 19:14:38 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 541JEVgt029510
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 541JEbx2023041
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 1 May 2025 19:14:31 GMT
+	Thu, 1 May 2025 19:14:37 GMT
 Received: from hu-dikshita-hyd.qualcomm.com (10.80.80.8) by
  nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Thu, 1 May 2025 12:14:25 -0700
+ 15.2.1544.9; Thu, 1 May 2025 12:14:31 -0700
 From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-Date: Fri, 2 May 2025 00:43:36 +0530
-Subject: [PATCH v3 06/23] media: iris: Remove deprecated property setting
- to firmware
+Date: Fri, 2 May 2025 00:43:37 +0530
+Subject: [PATCH v3 07/23] media: iris: Fix missing function pointer
+ initialization
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,7 +68,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250502-qcom-iris-hevc-vp9-v3-6-552158a10a7d@quicinc.com>
+Message-ID: <20250502-qcom-iris-hevc-vp9-v3-7-552158a10a7d@quicinc.com>
 References: <20250502-qcom-iris-hevc-vp9-v3-0-552158a10a7d@quicinc.com>
 In-Reply-To: <20250502-qcom-iris-hevc-vp9-v3-0-552158a10a7d@quicinc.com>
 To: Vikash Garodia <quic_vgarodia@quicinc.com>,
@@ -98,147 +98,63 @@ CC: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         <20250424-qcs8300_iris-v5-0-f118f505c300@quicinc.com>,
         <stable@vger.kernel.org>
 X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1746126827; l=4514;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1746126827; l=1303;
  i=quic_dikshita@quicinc.com; s=20240917; h=from:subject:message-id;
- bh=uUoOt19CgPWb7PcapuQwom5sNVeuOlyaRmuP2VhB1g0=;
- b=ZRqZ66oGXI9oq7W7oNuz37MnTDvinKncuRLuA4MRvXi+9TFvfXv764PRT4vjr/dyuTkCA6v6j
- 1GLzQpdBfzvBnLdaOpkYdYjxXIYEQ9wvuH4aHfrR7DddccQHW1hvfD7
+ bh=V5TvLDVr+QXCUHuxpLOSP1STdE9U73/GWqIEzvpC1Jg=;
+ b=6wGDPYfD+0MMsHqkqcmsIrcxS+TondlGm6UnDUoYX9/SaOKS1t4dfS9BGc1SBN4y7wZEmuZAg
+ jXNHUkKOXELAB3gZWIoXqF0GyoZ+abgWVrlkfNVHk8yxngqUD7iPkif
 X-Developer-Key: i=quic_dikshita@quicinc.com; a=ed25519;
  pk=EEvKY6Ar1OI5SWf44FJ1Ebo1KuQEVbbf5UNPO+UHVhM=
 X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTAxMDE0NyBTYWx0ZWRfX3caba+YJGGjC dFPLPTYBjIzSZDX8yuv6haLTnPbL0w830fBa70x2YV/UoLNyKTs6PXbD8nHd17PnZQIJcuv123l zLPZzWgHo1hUaGc47Or8g7zjHNjy7CPqM7jWTg80RlRQnRV0+TTLo/b39k5xUe5CLVm3RHPhSbu
- dChXwORrrMOKF80RoASLBYmfIicPcVikp0uHE9fmstz3ucctBw2N/TZAWKPP2HwGxDMtMUKB4qh OxDrR4LJUPy72TAY4NsHWOobamPpR4VuXI3OxSR5rYLBNqr7eW1ZgnwTN5JkjFMzaHK+uIBYrnr DbnJF8tmYy5UPiFb5XNhgXFNe+OQp45HdTXt/zOfuEbHna/NW0pkAb2+kDyK6dzwIcy200x1c0O
- fwHevueACLG7XXecV262zzPHYV+RtVhpf4Cpp6wzeZV0Tn6/Jdz0sPpgPgC9Q5e/XfYqALWE
-X-Proofpoint-GUID: ItQYUqfBGk47V-WN2fOPXdeEeD7UNI03
-X-Proofpoint-ORIG-GUID: ItQYUqfBGk47V-WN2fOPXdeEeD7UNI03
-X-Authority-Analysis: v=2.4 cv=b6Wy4sGx c=1 sm=1 tr=0 ts=6813c818 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=WciSHW0qczRDrvBwlocA:9
+X-Authority-Analysis: v=2.4 cv=Ldc86ifi c=1 sm=1 tr=0 ts=6813c81e cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=KBDEKiRkX8NPVKSMWrcA:9
  a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: hwVIULiTnsDU0rDcatRRW2P2PBFuTKGh
+X-Proofpoint-ORIG-GUID: hwVIULiTnsDU0rDcatRRW2P2PBFuTKGh
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTAxMDE0NyBTYWx0ZWRfX6b4gVsEH6J1O i8zdbnlJFBCOt+wIfrzpFp/KZzKtLfJXoIvi9PHJtqa6NR/h5QxURX119VsUwsnf0iPtG5+0Ln8 eCutwCE1bypJcHnp5KyaTJzR8I7KPHGeCrkRizBfluwQ4dVxkBRraTY+J9dnjr6bHQjkKK0Ftp3
+ V5EXdycZicf06RCfPZyNZwKHUGP1kepsJYYA8e8o0fFFPB8rEzP1SndsvLjy/ZL96mxg9qAgW92 ZzQizKPt3Q6/knY28HS1QWNBjaYVMLVd9njt6WiBY8PvFjKUUTBXcrQVDn7UJyAFKPO6zamixsm tNC1gSX9UWNi+0y//M5PAlZHO/0CAx0FePG1+xtoR4LVZRRs4Gdf05u+eK7jXbOtZBengpAhB7x
+ PBzgyg50Zm+QaT/qnNzZp1EMafaCcnS/g/ob8xTXLRxLOTXfHjq04I+N5LxxdFEgWJsQFMJt
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-01_06,2025-04-24_02,2025-02-21_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- mlxlogscore=999 impostorscore=0 bulkscore=0 phishscore=0 spamscore=0
- priorityscore=1501 clxscore=1015 adultscore=0 suspectscore=0 mlxscore=0
- malwarescore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ priorityscore=1501 phishscore=0 impostorscore=0 clxscore=1015 spamscore=0
+ bulkscore=0 mlxlogscore=999 malwarescore=0 mlxscore=0 suspectscore=0
+ adultscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
  definitions=main-2505010147
 
-HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER is deprecated and no longer
-supported on current firmware, remove setting the same to firmware.
+The function pointers responsible for setting firmware properties were
+never initialized in the instance capability structure, causing it to
+remain NULL. As a result, the firmware properties were not being set
+correctly.
 
-At the same time, remove the check for non-zero number of v4l2 controls
-as some SOC might not expose any capability which requires v4l2 control.
+Fix this by properly assigning the function pointers from the core
+capability to the instance capability, ensuring that the properties are
+correctly applied to the firmware.
 
 Cc: stable@vger.kernel.org
-Fixes: 79865252acb6 ("media: iris: enable video driver probe of SM8250 SoC")
+Fixes: 3a19d7b9e08b ("media: iris: implement set properties to firmware during streamon")
 Acked-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 ---
- drivers/media/platform/qcom/iris/iris_ctrls.c            | 6 ------
- drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c | 8 --------
- drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h | 1 -
- drivers/media/platform/qcom/iris/iris_platform_common.h  | 2 +-
- drivers/media/platform/qcom/iris/iris_platform_sm8250.c  | 9 ---------
- 5 files changed, 1 insertion(+), 25 deletions(-)
+ drivers/media/platform/qcom/iris/iris_ctrls.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/media/platform/qcom/iris/iris_ctrls.c b/drivers/media/platform/qcom/iris/iris_ctrls.c
-index b690578256d5..915de101fcba 100644
+index 915de101fcba..13f5cf0d0e8a 100644
 --- a/drivers/media/platform/qcom/iris/iris_ctrls.c
 +++ b/drivers/media/platform/qcom/iris/iris_ctrls.c
-@@ -17,8 +17,6 @@ static inline bool iris_valid_cap_id(enum platform_inst_fw_cap_type cap_id)
- static enum platform_inst_fw_cap_type iris_get_cap_id(u32 id)
- {
- 	switch (id) {
--	case V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER:
--		return DEBLOCK;
- 	case V4L2_CID_MPEG_VIDEO_H264_PROFILE:
- 		return PROFILE;
- 	case V4L2_CID_MPEG_VIDEO_H264_LEVEL:
-@@ -34,8 +32,6 @@ static u32 iris_get_v4l2_id(enum platform_inst_fw_cap_type cap_id)
- 		return 0;
- 
- 	switch (cap_id) {
--	case DEBLOCK:
--		return V4L2_CID_MPEG_VIDEO_DECODER_MPEG4_DEBLOCK_FILTER;
- 	case PROFILE:
- 		return V4L2_CID_MPEG_VIDEO_H264_PROFILE;
- 	case LEVEL:
-@@ -84,8 +80,6 @@ int iris_ctrls_init(struct iris_inst *inst)
- 		if (iris_get_v4l2_id(cap[idx].cap_id))
- 			num_ctrls++;
+@@ -157,6 +157,7 @@ void iris_session_init_caps(struct iris_core *core)
+ 		core->inst_fw_caps[cap_id].value = caps[i].value;
+ 		core->inst_fw_caps[cap_id].flags = caps[i].flags;
+ 		core->inst_fw_caps[cap_id].hfi_id = caps[i].hfi_id;
++		core->inst_fw_caps[cap_id].set = caps[i].set;
  	}
--	if (!num_ctrls)
--		return -EINVAL;
+ }
  
- 	/* Adding 1 to num_ctrls to include V4L2_CID_MIN_BUFFERS_FOR_CAPTURE */
- 
-diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-index 2a86c27443ea..ce855a20ce4b 100644
---- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-+++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-@@ -490,14 +490,6 @@ iris_hfi_gen1_packet_session_set_property(struct hfi_session_set_property_pkt *p
- 		packet->shdr.hdr.size += sizeof(u32) + sizeof(*wm);
- 		break;
- 	}
--	case HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER: {
--		struct hfi_enable *en = prop_data;
--		u32 *in = pdata;
--
--		en->enable = *in;
--		packet->shdr.hdr.size += sizeof(u32) + sizeof(*en);
--		break;
--	}
- 	default:
- 		return -EINVAL;
- 	}
-diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h b/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
-index 9f246816a286..e178604855c1 100644
---- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
-+++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_defines.h
-@@ -65,7 +65,6 @@
- 
- #define HFI_PROPERTY_CONFIG_BUFFER_REQUIREMENTS		0x202001
- 
--#define HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER	0x1200001
- #define HFI_PROPERTY_PARAM_VDEC_DPB_COUNTS		0x120300e
- #define HFI_PROPERTY_CONFIG_VDEC_ENTROPY		0x1204004
- 
-diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
-index ac76d9e1ef9c..1dab276431c7 100644
---- a/drivers/media/platform/qcom/iris/iris_platform_common.h
-+++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
-@@ -89,7 +89,7 @@ enum platform_inst_fw_cap_type {
- 	CODED_FRAMES,
- 	BIT_DEPTH,
- 	RAP_FRAME,
--	DEBLOCK,
-+	TIER,
- 	INST_FW_CAP_MAX,
- };
- 
-diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8250.c b/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
-index 5c86fd7b7b6f..543fa2661539 100644
---- a/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
-+++ b/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
-@@ -30,15 +30,6 @@ static struct platform_inst_fw_cap inst_fw_cap_sm8250[] = {
- 		.hfi_id = HFI_PROPERTY_PARAM_WORK_MODE,
- 		.set = iris_set_stage,
- 	},
--	{
--		.cap_id = DEBLOCK,
--		.min = 0,
--		.max = 1,
--		.step_or_mask = 1,
--		.value = 0,
--		.hfi_id = HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER,
--		.set = iris_set_u32,
--	},
- };
- 
- static struct platform_inst_caps platform_inst_cap_sm8250 = {
 
 -- 
 2.34.1
